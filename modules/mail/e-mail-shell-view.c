@@ -844,7 +844,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	EMailBackend *backend;
 	EMailSession *session;
 	EMailView *mail_view;
-	EAccount *account = NULL;
+	EAccount *account;
 	GtkAction *action;
 	GList *list;
 	const gchar *label;
@@ -902,6 +902,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		(state & E_MAIL_SIDEBAR_STORE_SUPPORTS_SUBSCRIPTIONS);
 
 	uri = em_folder_tree_get_selected_uri (folder_tree);
+	account = em_folder_tree_get_selected_account (folder_tree);
+
 	if (uri != NULL) {
 		GtkTreeRowReference *reference;
 		EMFolderTreeModel *model;
@@ -918,8 +920,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		 *     get right.  So we're punting. */
 		folder_tree_and_message_list_agree =
 			(g_strcmp0 (uri, folder_uri) == 0);
-
-		account = e_get_account_by_source_url (uri);
 
 		/* FIXME This belongs in a GroupWise plugin. */
 		account_is_groupwise =

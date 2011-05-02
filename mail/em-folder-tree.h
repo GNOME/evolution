@@ -123,6 +123,8 @@ CamelFolder *	em_folder_tree_get_selected_folder
 CamelFolderInfo *
 		em_folder_tree_get_selected_folder_info
 						(EMFolderTree *folder_tree);
+EAccount *	em_folder_tree_get_selected_account
+						(EMFolderTree *folder_tree);
 gboolean	em_folder_tree_create_folder	(EMFolderTree *folder_tree,
 						 const gchar *full_name,
 						 const gchar *uri);
