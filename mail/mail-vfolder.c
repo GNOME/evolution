@@ -35,6 +35,7 @@
 
 #include "e-mail-backend.h"
 #include "e-mail-session.h"
+#include "e-mail-folder-utils.h"
 #include "em-folder-tree-model.h"
 #include "em-utils.h"
 #include "em-vfolder-context.h"
@@ -333,10 +334,12 @@ vfolder_adduri (EMailSession *session,
 /* ********************************************************************** */
 
 static GList *
-mv_find_folder (GList *l, CamelStore *store, const gchar *uri)
+mv_find_folder (GList *l, EMailSession *session, const gchar *uri)
 {
+	CamelSession *camel_session = CAMEL_SESSION (session);
+
 	while (l) {
-		if (camel_store_folder_uri_equal (store, l->data, uri))
+		if (e_mail_folder_uri_equal (camel_session, l->data, uri))
 			break;
 		l = l->next;
 	}
@@ -345,11 +348,12 @@ mv_find_folder (GList *l, CamelStore *store, const gchar *uri)
 
 /* uri is a camel uri */
 static gint
-uri_is_ignore (CamelStore *store, const gchar *uri)
+uri_is_ignore (EMailSession *session, const gchar *uri)
 {
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
+	CamelSession *camel_session;
 	const gchar *local_drafts_uri;
 	const gchar *local_outbox_uri;
 	const gchar *local_sent_uri;
@@ -359,17 +363,16 @@ uri_is_ignore (CamelStore *store, const gchar *uri)
 	local_outbox_uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_OUTBOX);
 	local_sent_uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
 
-	d(printf("checking '%s' against:\n  %s\n  %s\n  %s\n", uri,
-		local_outbox_uri,
-		local_sent_uri,
-		local_drafts_uri));
+	camel_session = CAMEL_SESSION (session);
 
-	found = camel_store_folder_uri_equal (store, local_outbox_uri, uri)
-		|| camel_store_folder_uri_equal (store, local_sent_uri, uri)
-		|| camel_store_folder_uri_equal (store, local_drafts_uri, uri);
+	if (e_mail_folder_uri_equal (camel_session, local_outbox_uri, uri))
+		return TRUE;
 
-	if (found)
-		return found;
+	if (e_mail_folder_uri_equal (camel_session, local_sent_uri, uri))
+		return TRUE;
+
+	if (e_mail_folder_uri_equal (camel_session, local_drafts_uri, uri))
+		return TRUE;
 
 	accounts = e_get_account_list ();
 	iter = e_list_get_iterator ((EList *) accounts);
@@ -381,14 +384,16 @@ uri_is_ignore (CamelStore *store, const gchar *uri)
 		d(printf("checking sent_folder_uri '%s' == '%s'\n",
 			 account->sent_folder_uri ? account->sent_folder_uri : "empty", uri));
 
-		if (account->sent_folder_uri) {
+		if (account->sent_folder_uri != NULL) {
 			curi = em_uri_to_camel (account->sent_folder_uri);
-			found = camel_store_folder_uri_equal (store, uri, curi);
+			found = e_mail_folder_uri_equal (
+				camel_session, uri, curi);
 			g_free (curi);
 		}
-		if (!found && account->drafts_folder_uri) {
+		if (!found && account->drafts_folder_uri != NULL) {
 			curi = em_uri_to_camel (account->drafts_folder_uri);
-			found = camel_store_folder_uri_equal (store, uri, curi);
+			found = e_mail_folder_uri_equal (
+				camel_session, uri, curi);
 			g_free (curi);
 		}
 
@@ -481,7 +486,7 @@ mail_vfolder_add_uri (EMailSession *session,
 
 	g_return_if_fail (mail_in_main_thread ());
 
-	is_ignore = uri_is_ignore (store, curi);
+	is_ignore = uri_is_ignore (session, curi);
 
 	G_LOCK (vfolder);
 
@@ -492,12 +497,12 @@ mail_vfolder_add_uri (EMailSession *session,
 		is_ignore = TRUE;
 	} else if (remove) {
 		if (remote) {
-			if ((link = mv_find_folder (source_folders_remote, store, curi)) != NULL) {
+			if ((link = mv_find_folder (source_folders_remote, session, curi)) != NULL) {
 				g_free (link->data);
 				source_folders_remote = g_list_remove_link (source_folders_remote, link);
 			}
 		} else {
-			if ((link = mv_find_folder (source_folders_local, store, curi)) != NULL) {
+			if ((link = mv_find_folder (source_folders_local, session, curi)) != NULL) {
 				g_free (link->data);
 				source_folders_local = g_list_remove_link (source_folders_local, link);
 			}
@@ -505,10 +510,10 @@ mail_vfolder_add_uri (EMailSession *session,
 	} else if (!is_ignore) {
 		/* we ignore drafts/sent/outbox here */
 		if (remote) {
-			if (mv_find_folder (source_folders_remote, store, curi) == NULL)
+			if (mv_find_folder (source_folders_remote, session, curi) == NULL)
 				source_folders_remote = g_list_prepend (source_folders_remote, g_strdup (curi));
 		} else {
-			if (mv_find_folder (source_folders_local, store, curi) == NULL)
+			if (mv_find_folder (source_folders_local, session, curi) == NULL)
 				source_folders_local = g_list_prepend (source_folders_local, g_strdup (curi));
 		}
 	}
@@ -538,8 +543,8 @@ mail_vfolder_add_uri (EMailSession *session,
 				(EMVFolderRule *)rule, source))) {
 			gchar *csource;
 			csource = em_uri_to_camel (source);
-			found = camel_store_folder_uri_equal (store, curi, csource);
-			d(printf(found?" '%s' == '%s'?\n":" '%s' != '%s'\n", curi, csource));
+			found = e_mail_folder_uri_equal (
+				CAMEL_SESSION (session), curi, csource);
 			g_free (csource);
 		}
 
@@ -622,6 +627,7 @@ mail_vfolder_delete_uri (EMailBackend *backend,
                          const gchar *curi)
 {
 	EFilterRule *rule;
+	EMailSession *session;
 	const gchar *source;
 	CamelVeeFolder *vf;
 	GString *changed;
@@ -641,6 +647,8 @@ mail_vfolder_delete_uri (EMailBackend *backend,
 	d(printf ("Deleting uri to check: %s\n", uri));
 
 	g_return_if_fail (mail_in_main_thread ());
+
+	session = e_mail_backend_get_session (backend);
 
 	changed_count = 0;
 	changed = g_string_new ("");
@@ -665,7 +673,7 @@ mail_vfolder_delete_uri (EMailBackend *backend,
 
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
-			if (camel_store_folder_uri_equal (store, curi, csource)) {
+			if (e_mail_folder_uri_equal (CAMEL_SESSION (session), curi, csource)) {
 				vf = g_hash_table_lookup (vfolder_hash, rule->name);
 				if (!vf) {
 					g_warning ("vf is NULL for %s\n", rule->name);
@@ -694,12 +702,12 @@ mail_vfolder_delete_uri (EMailBackend *backend,
 	}
 
 done:
-	if ((link = mv_find_folder (source_folders_remote, store, curi)) != NULL) {
+	if ((link = mv_find_folder (source_folders_remote, session, curi)) != NULL) {
 		g_free (link->data);
 		source_folders_remote = g_list_remove_link (source_folders_remote, link);
 	}
 
-	if ((link = mv_find_folder (source_folders_local, store, curi)) != NULL) {
+	if ((link = mv_find_folder (source_folders_local, session, curi)) != NULL) {
 		g_free (link->data);
 		source_folders_local = g_list_remove_link (source_folders_local, link);
 	}
@@ -743,6 +751,7 @@ mail_vfolder_rename_uri (CamelStore *store, const gchar *cfrom, const gchar *cto
 	EFilterRule *rule;
 	const gchar *source;
 	CamelVeeFolder *vf;
+	CamelSession *session;
 	gint changed = 0;
 	gchar *from, *to;
 
@@ -752,6 +761,8 @@ mail_vfolder_rename_uri (CamelStore *store, const gchar *cfrom, const gchar *cto
 		return;
 
 	g_return_if_fail (mail_in_main_thread ());
+
+	session = camel_service_get_session (CAMEL_SERVICE (store));
 
 	from = em_uri_from_camel (cfrom);
 	to = em_uri_from_camel (cto);
@@ -767,7 +778,7 @@ mail_vfolder_rename_uri (CamelStore *store, const gchar *cfrom, const gchar *cto
 
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
-			if (camel_store_folder_uri_equal (store, cfrom, csource)) {
+			if (e_mail_folder_uri_equal (session, cfrom, csource)) {
 				vf = g_hash_table_lookup (vfolder_hash, rule->name);
 				if (!vf) {
 					g_warning ("vf is NULL for %s\n", rule->name);
