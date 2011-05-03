@@ -104,9 +104,8 @@ struct _MessageList {
 	ETreePath     tree_root;
 	ETableExtras *extras;
 
-	/* The folder & matching uri */
-	CamelFolder  *folder;
-	gchar *folder_uri;
+	/* The folder being shown. */
+	CamelFolder *folder;
 
 	GHashTable *uid_nodemap; /* uid (from info) -> tree node mapping */
 

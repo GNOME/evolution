@@ -771,25 +771,27 @@ em_utils_selection_get_message (GtkSelectionData *selection_data,
 /**
  * em_utils_selection_set_uidlist:
  * @selection_data: selection data
- * @uri:
+ * @folder:
  * @uids:
  *
  * Sets a "x-uid-list" format selection data.
- *
- * FIXME: be nice if this could take a folder argument rather than uri
  **/
 void
 em_utils_selection_set_uidlist (GtkSelectionData *selection_data,
-                                const gchar *uri,
+                                CamelFolder *folder,
                                 GPtrArray *uids)
 {
 	GByteArray *array = g_byte_array_new ();
 	GdkAtom target;
+	gchar *folder_uri;
 	gint i;
 
 	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn\0" */
 
-	g_byte_array_append (array, (guchar *)uri, strlen (uri)+1);
+	folder_uri = e_mail_folder_uri_from_folder (folder);
+
+	g_byte_array_append (
+		array, (guchar *) folder_uri, strlen (folder_uri) + 1);
 
 	for (i=0; i<uids->len; i++)
 		g_byte_array_append (array, uids->pdata[i], strlen (uids->pdata[i])+1);
@@ -798,6 +800,8 @@ em_utils_selection_set_uidlist (GtkSelectionData *selection_data,
 	gtk_selection_data_set (
 		selection_data, target, 8, array->data, array->len);
 	g_byte_array_free (array, TRUE);
+
+	g_free (folder_uri);
 }
 
 /**

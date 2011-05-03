@@ -142,23 +142,28 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 	if (message_list->cursor_uid != NULL)
 		;  /* do nothing */
 
-	else if (message_list->folder_uri == NULL)
+	else if (message_list->folder == NULL)
 		;  /* do nothing */
 
 	else if (e_shell_window_get_safe_mode (shell_window))
 		e_shell_window_set_safe_mode (shell_window, FALSE);
 
 	else {
-		const gchar *folder_uri;
+		CamelFolder *folder;
 		const gchar *key;
+		gchar *folder_uri;
 		gchar *group_name;
 		gchar *uid;
 
+		folder = message_list->folder;
+		folder_uri = e_mail_folder_uri_from_folder (folder);
+
 		key = STATE_KEY_SELECTED_MESSAGE;
-		folder_uri = message_list->folder_uri;
 		group_name = g_strdup_printf ("Folder %s", folder_uri);
 		uid = g_key_file_get_string (key_file, group_name, key, NULL);
 		g_free (group_name);
+
+		g_free (folder_uri);
 
 		/* Use selection fallbacks if UID is not found. */
 		message_list_select_uid (message_list, uid, TRUE);
@@ -173,21 +178,24 @@ mail_paned_view_message_selected_cb (EMailView *view,
                                      MessageList *message_list)
 {
 	EShellView *shell_view;
+	CamelFolder *folder;
 	GKeyFile *key_file;
-	const gchar *folder_uri;
 	const gchar *key;
+	gchar *folder_uri;
 	gchar *group_name;
 
-	folder_uri = message_list->folder_uri;
+	folder = message_list->folder;
 
 	/* This also gets triggered when selecting a store name on
 	 * the sidebar such as "On This Computer", in which case
-	 * 'folder_uri' will be NULL. */
-	if (folder_uri == NULL)
+	 * 'folder' will be NULL. */
+	if (folder == NULL)
 		return;
 
 	shell_view = e_mail_view_get_shell_view (view);
 	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	folder_uri = e_mail_folder_uri_from_folder (folder);
 
 	key = STATE_KEY_SELECTED_MESSAGE;
 	group_name = g_strdup_printf ("Folder %s", folder_uri);
@@ -199,7 +207,7 @@ mail_paned_view_message_selected_cb (EMailView *view,
 	e_shell_view_set_state_dirty (shell_view);
 
 	g_free (group_name);
-
+	g_free (folder_uri);
 }
 
 static void

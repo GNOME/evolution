@@ -99,7 +99,6 @@
 struct _MLSelection {
 	GPtrArray *uids;
 	CamelFolder *folder;
-	gchar *folder_uri;
 };
 
 struct _MessageListPrivate {
@@ -527,8 +526,6 @@ clear_selection (MessageList *ml, struct _MLSelection *selection)
 		g_object_unref (selection->folder);
 		selection->folder = NULL;
 	}
-	g_free (selection->folder_uri);
-	selection->folder_uri = NULL;
 }
 
 static ETreePath
@@ -987,9 +984,7 @@ message_list_copy (MessageList *ml, gboolean cut)
 		}
 
 		p->clipboard.uids = uids;
-		p->clipboard.folder = ml->folder;
-		g_object_ref (p->clipboard.folder);
-		p->clipboard.folder_uri = g_strdup (ml->folder_uri);
+		p->clipboard.folder = g_object_ref (ml->folder);
 		gtk_selection_owner_set (p->invisible, GDK_SELECTION_CLIPBOARD, gtk_get_current_event_time ());
 	} else {
 		em_utils_uids_free (uids);
@@ -2147,7 +2142,7 @@ ml_selection_get (GtkWidget *widget, GtkSelectionData *data, guint info, guint t
 	} else {
 		/* x-uid-list */
 		d(printf("setting x-uid-list selection for uids\n"));
-		em_utils_selection_set_uidlist (data, selection->folder_uri, selection->uids);
+		em_utils_selection_set_uidlist (data, selection->folder, selection->uids);
 	}
 }
 
@@ -2199,7 +2194,7 @@ ml_tree_drag_data_get (ETree *tree, gint row, ETreePath path, gint col,
 	if (uids->len > 0) {
 		switch (info) {
 		case DND_X_UID_LIST:
-			em_utils_selection_set_uidlist (data, ml->folder_uri, uids);
+			em_utils_selection_set_uidlist (data, ml->folder, uids);
 			break;
 		case DND_TEXT_URI_LIST:
 			em_utils_selection_set_urilist (data, ml->folder, uids);
@@ -2647,9 +2642,6 @@ message_list_finalize (GObject *object)
 	g_free (message_list->cursor_uid);
 
 	g_mutex_free (message_list->regen_lock);
-
-	g_free (message_list->folder_uri);
-	message_list->folder_uri = NULL;
 
 	clear_selection (message_list, &priv->clipboard);
 
@@ -3817,17 +3809,6 @@ message_list_set_folder (MessageList *message_list,
 	if (message_list->thread_tree) {
 		camel_folder_thread_messages_unref (message_list->thread_tree);
 		message_list->thread_tree = NULL;
-	}
-
-	g_free (message_list->folder_uri);
-	message_list->folder_uri = NULL;
-
-	/* XXX Not sure if MESSAGE_SELECTED signal handlers rely on
-	 *     folder_uri being set, so avoid temptation to move this
-	 *     logic down until verifying it's safe. */
-	if (CAMEL_IS_FOLDER (folder)) {
-		const gchar *uri = camel_folder_get_uri (folder);
-		message_list->folder_uri = g_strdup (uri);
 	}
 
 	if (message_list->cursor_uid) {

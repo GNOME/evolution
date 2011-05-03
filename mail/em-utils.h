@@ -56,8 +56,7 @@ void em_utils_flag_for_followup_completed (GtkWindow *parent, CamelFolder *folde
 void em_utils_selection_set_mailbox (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
 void em_utils_selection_get_mailbox (GtkSelectionData *data, CamelFolder *folder);
 void em_utils_selection_get_message (GtkSelectionData *data, CamelFolder *folder);
-/* FIXME: be nice if these also worked on CamelFolder's, no easy way to get uri from folder yet tho */
-void em_utils_selection_set_uidlist (GtkSelectionData *data, const gchar *uri, GPtrArray *uids);
+void em_utils_selection_set_uidlist (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
 void em_utils_selection_get_uidlist (GtkSelectionData *data, EMailSession *session, CamelFolder *dest, gint move, GCancellable *cancellable, GError **error);
 void em_utils_selection_set_urilist (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
 void em_utils_selection_get_urilist (GtkSelectionData *data, CamelFolder *folder);
