@@ -78,12 +78,12 @@ struct _EMFolderTreeClass {
 
 	/* signals */
 	void		(*folder_activated)	(EMFolderTree *folder_tree,
-						 const gchar *full_name,
-						 const gchar *uri);
+						 CamelStore *store,
+						 const gchar *folder_name);
 	void		(*folder_selected)	(EMFolderTree *folder_tree,
-						 const gchar *full_name,
-						 const gchar *uri,
-						 guint32 flags);
+						 CamelStore *store,
+						 const gchar *folder_name,
+						 CamelFolderInfoFlags flags);
 	void		(*popup_event)		(EMFolderTree *folder_tree);
 	void		(*hidden_key_event)	(EMFolderTree *emft, GdkEvent *event);
 };

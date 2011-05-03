@@ -26,36 +26,125 @@
 
 #include "e-util/e-util-private.h"
 
+typedef struct _AsyncContext AsyncContext;
+
+struct _AsyncContext {
+	EActivity *activity;
+	EMailReader *reader;
+	EShellView *shell_view;
+};
+
+static void
+async_context_free (AsyncContext *context)
+{
+	if (context->activity != NULL)
+		g_object_unref (context->activity);
+
+	if (context->reader != NULL)
+		g_object_unref (context->reader);
+
+	if (context->shell_view != NULL)
+		g_object_unref (context->shell_view);
+
+	g_slice_free (AsyncContext, context);
+}
+
+static void
+mail_shell_view_got_folder_cb (CamelStore *store,
+                               GAsyncResult *result,
+                               AsyncContext *context)
+{
+	EAlertSink *alert_sink;
+	CamelFolder *folder;
+	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
+
+	folder = camel_store_get_folder_finish (store, result, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (folder == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (folder == NULL);
+		e_alert_submit (
+			alert_sink, "folder-open",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	e_mail_reader_set_folder (context->reader, folder);
+	e_shell_view_update_actions (context->shell_view);
+
+	g_object_unref (folder);
+
+	async_context_free (context);
+}
+
 static void
 mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
-                                         const gchar *full_name,
-                                         const gchar *uri,
-                                         guint32 flags,
+                                         CamelStore *store,
+                                         const gchar *folder_name,
+                                         CamelFolderInfoFlags flags,
                                          EMFolderTree *folder_tree)
 {
 	EMailShellContent *mail_shell_content;
+	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EMailReader *reader;
 	EMailView *mail_view;
-	gboolean folder_selected;
+	GCancellable *cancellable;
+	EAlertSink *alert_sink;
+	AsyncContext *context;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	reader = E_MAIL_READER (mail_view);
 
-	folder_selected =
-		!(flags & CAMEL_FOLDER_NOSELECT) &&
-		full_name != NULL;
+	/* Cancel any unfinished open folder operations. */
+	if (mail_shell_view->priv->opening_folder != NULL) {
+		g_cancellable_cancel (mail_shell_view->priv->opening_folder);
+		mail_shell_view->priv->opening_folder = NULL;
+	}
 
-	if (folder_selected)
-		e_mail_reader_set_folder_uri (reader, uri);
-	else
-		e_mail_reader_set_folder (reader, NULL, NULL);
+	/* If we are to clear the message list, do so immediately. */
+	if ((flags & CAMEL_FOLDER_NOSELECT) || folder_name == NULL) {
+		e_mail_reader_set_folder (reader, NULL);
+		e_shell_view_update_actions (shell_view);
+		return;
+	}
 
-	e_shell_view_update_actions (shell_view);
+	g_warn_if_fail (CAMEL_IS_STORE (store));
+
+	/* Open the selected folder asynchronously. */
+
+	context = g_slice_new0 (AsyncContext);
+	context->activity = e_activity_new ();
+	context->reader = g_object_ref (reader);
+	context->shell_view = g_object_ref (shell_view);
+
+	alert_sink = E_ALERT_SINK (mail_shell_content);
+	e_activity_set_alert_sink (context->activity, alert_sink);
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (context->activity, cancellable);
+	mail_shell_view->priv->opening_folder = cancellable;
+
+	e_shell_backend_add_activity (shell_backend, context->activity);
+
+	camel_store_get_folder (
+		store, folder_name, 0, G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) mail_shell_view_got_folder_cb, context);
 }
 
 static gboolean
@@ -747,6 +836,12 @@ e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 
 	for (ii = 0; ii < MAIL_NUM_SEARCH_RULES; ii++)
 		DISPOSE (priv->search_rules[ii]);
+
+	if (priv->opening_folder != NULL) {
+		g_cancellable_cancel (priv->opening_folder);
+		g_object_unref (priv->opening_folder);
+		priv->opening_folder = NULL;
+	}
 
 	if (priv->search_account_all != NULL) {
 		g_object_unref (priv->search_account_all);

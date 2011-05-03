@@ -361,8 +361,7 @@ mail_shell_content_get_window (EMailReader *reader)
 
 static void
 mail_shell_content_set_folder (EMailReader *reader,
-                               CamelFolder *folder,
-                               const gchar *folder_uri)
+                               CamelFolder *folder)
 {
 	EMailShellContentPrivate *priv;
 
@@ -372,7 +371,7 @@ mail_shell_content_set_folder (EMailReader *reader,
 	 * also implements the EMailReader interface. */
 	reader = E_MAIL_READER (priv->mail_view);
 
-	return e_mail_reader_set_folder (reader, folder, folder_uri);
+	return e_mail_reader_set_folder (reader, folder);
 }
 
 static void

@@ -456,8 +456,7 @@ mail_paned_view_get_window (EMailReader *reader)
 
 static void
 mail_paned_view_set_folder (EMailReader *reader,
-                            CamelFolder *folder,
-                            const gchar *folder_uri)
+                            CamelFolder *folder)
 {
 	EMailPanedViewPrivate *priv;
 	EMailView *view;
@@ -469,6 +468,7 @@ mail_paned_view_set_folder (EMailReader *reader,
 	GtkWidget *message_list;
 	GKeyFile *key_file;
 	gchar *group_name;
+	const gchar *folder_uri;
 	const gchar *key;
 	gboolean value;
 	GError *error = NULL;
@@ -488,7 +488,7 @@ mail_paned_view_set_folder (EMailReader *reader,
 
 	/* Chain up to interface's default set_folder() method. */
 	default_interface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
-	default_interface->set_folder (reader, folder, folder_uri);
+	default_interface->set_folder (reader, folder);
 
 	if (folder == NULL)
 		goto exit;
@@ -507,6 +507,7 @@ mail_paned_view_set_folder (EMailReader *reader,
 
 	/* Restore the folder's preview and threaded state. */
 
+	folder_uri = camel_folder_get_uri (folder);
 	key_file = e_shell_view_get_state_key_file (shell_view);
 	group_name = g_strdup_printf ("Folder %s", folder_uri);
 

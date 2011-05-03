@@ -116,8 +116,7 @@ mail_shell_view_setup_search_results_folder (CamelFolder *folder,
 
 static void
 mail_shell_view_show_search_results_folder (EMailShellView *mail_shell_view,
-                                            CamelFolder *folder,
-                                            const gchar *folder_uri)
+                                            CamelFolder *folder)
 {
 	EMailShellContent *mail_shell_content;
 	GtkWidget *message_list;
@@ -132,7 +131,7 @@ mail_shell_view_show_search_results_folder (EMailShellView *mail_shell_view,
 
 	message_list_freeze (MESSAGE_LIST (message_list));
 
-	e_mail_reader_set_folder (reader, folder, folder_uri);
+	e_mail_reader_set_folder (reader, folder);
 	e_tree_set_state (E_TREE (message_list), SEARCH_RESULTS_STATE);
 
 	message_list_thaw (MESSAGE_LIST (message_list));
@@ -240,7 +239,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	gchar *query;
 	gchar *temp;
 	gchar *tag;
-	gchar *uri;
 	const gchar *use_tag;
 	gint value;
 
@@ -519,9 +517,7 @@ all_accounts:
 		 * folder URI and let the asynchronous callbacks run
 		 * after we've already kicked off the search. */
 		folder = em_folder_tree_get_selected_folder (folder_tree);
-		uri = em_folder_tree_get_selected_uri (folder_tree);
-		e_mail_reader_set_folder (reader, folder, uri);
-		g_free (uri);
+		e_mail_reader_set_folder (reader, folder);
 
 		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), TRUE);
 
@@ -606,11 +602,9 @@ all_accounts:
 		CAMEL_FOLDER (search_folder), list,
 		priv->search_account_cancel);
 
-	folder_uri = camel_folder_get_uri (CAMEL_FOLDER (search_folder));
-
 	mail_shell_view_show_search_results_folder (
 		E_MAIL_SHELL_VIEW (shell_view),
-		CAMEL_FOLDER (search_folder), folder_uri);
+		CAMEL_FOLDER (search_folder));
 
 	goto execute;
 
@@ -639,9 +633,7 @@ current_account:
 		 * folder URI and let the asynchronous callbacks run
 		 * after we've already kicked off the search. */
 		folder = em_folder_tree_get_selected_folder (folder_tree);
-		uri = em_folder_tree_get_selected_uri (folder_tree);
-		e_mail_reader_set_folder (reader, folder, uri);
-		g_free (uri);
+		e_mail_reader_set_folder (reader, folder);
 
 		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), TRUE);
 
@@ -758,11 +750,9 @@ current_account:
 		CAMEL_FOLDER (search_folder), list,
 		priv->search_account_cancel);
 
-	folder_uri = camel_folder_get_uri (CAMEL_FOLDER (search_folder));
-
 	mail_shell_view_show_search_results_folder (
 		E_MAIL_SHELL_VIEW (shell_view),
-		CAMEL_FOLDER (search_folder), folder_uri);
+		CAMEL_FOLDER (search_folder));
 
 execute:
 

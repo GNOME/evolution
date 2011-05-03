@@ -315,7 +315,7 @@ mail_shell_backend_handle_email_uri_cb (gchar *folder_uri,
 		/* FIXME Should pass in the shell module. */
 		browser = e_mail_browser_new (backend);
 		e_mail_reader_set_folder (
-			E_MAIL_READER (browser), folder, folder_uri);
+			E_MAIL_READER (browser), folder);
 		e_mail_reader_set_message (E_MAIL_READER (browser), uid);
 		gtk_widget_show (browser);
 	}
