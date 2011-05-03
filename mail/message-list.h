@@ -181,8 +181,7 @@ GType		message_list_get_type		(void);
 GtkWidget *	message_list_new		(EMailBackend *backend);
 EMailBackend *	message_list_get_backend	(MessageList *message_list);
 void		message_list_set_folder		(MessageList *message_list,
-						 CamelFolder *camel_folder,
-						 const gchar *uri,
+						 CamelFolder *folder,
 						 gboolean outgoing);
 GtkTargetList *	message_list_get_copy_target_list
 						(MessageList *message_list);

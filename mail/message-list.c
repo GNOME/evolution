@@ -3763,7 +3763,6 @@ folder_changed (CamelFolder *folder,
  * message_list_set_folder:
  * @message_list: Message List widget
  * @folder: folder backend to be set
- * @uri: uri of @folder.
  * @outgoing: whether this is an outgoing folder
  *
  * Sets @folder to be the backend folder for @message_list. If
@@ -3771,7 +3770,9 @@ folder_changed (CamelFolder *folder,
  * the "Outgoing folder" column view.
  **/
 void
-message_list_set_folder (MessageList *message_list, CamelFolder *folder, const gchar *uri, gboolean outgoing)
+message_list_set_folder (MessageList *message_list,
+                         CamelFolder *folder,
+                         gboolean outgoing)
 {
 	ETreeModel *etm = message_list->model;
 	gboolean hide_deleted;
@@ -3818,9 +3819,15 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 		message_list->thread_tree = NULL;
 	}
 
-	if (message_list->folder_uri != uri) {
-		g_free (message_list->folder_uri);
-		message_list->folder_uri = uri ? g_strdup (uri):NULL;
+	g_free (message_list->folder_uri);
+	message_list->folder_uri = NULL;
+
+	/* XXX Not sure if MESSAGE_SELECTED signal handlers rely on
+	 *     folder_uri being set, so avoid temptation to move this
+	 *     logic down until verifying it's safe. */
+	if (CAMEL_IS_FOLDER (folder)) {
+		const gchar *uri = camel_folder_get_uri (folder);
+		message_list->folder_uri = g_strdup (uri);
 	}
 
 	if (message_list->cursor_uid) {
