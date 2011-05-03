@@ -3776,7 +3776,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 	ETreeModel *etm = message_list->model;
 	gboolean hide_deleted;
 	GConfClient *client;
-	CamelStore *folder_store;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
@@ -3830,20 +3829,23 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 		g_signal_emit (message_list, message_list_signals[MESSAGE_SELECTED], 0, NULL);
 	}
 
-	if (folder) {
-		gint strikeout_col = -1;
+	if (CAMEL_IS_FOLDER (folder)) {
+		CamelStore *store;
+		gboolean non_trash_folder;
+		gint strikeout_col;
 		ECell *cell;
 
-		g_object_ref (folder);
-		message_list->folder = folder;
+		message_list->folder = g_object_ref (folder);
 		message_list->just_set_folder = TRUE;
 
-		/* hide deleted messages also when the store has a real trash */
-		folder_store = camel_folder_get_parent_store (folder);
+		store = camel_folder_get_parent_store (folder);
+
+		non_trash_folder =
+			((store->flags & CAMEL_STORE_VTRASH) == 0) ||
+			((folder->folder_flags & CAMEL_FOLDER_IS_TRASH) == 0);
 
 		/* Setup the strikeout effect for non-trash folders */
-		if (!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH) || !(folder_store->flags & CAMEL_STORE_VTRASH))
-			strikeout_col = COL_DELETED;
+		strikeout_col = non_trash_folder ? COL_DELETED : -1;
 
 		cell = e_table_extras_get_cell (message_list->extras, "render_date");
 		g_object_set (cell, "strikeout_column", strikeout_col, NULL);
@@ -3872,9 +3874,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 		g_object_unref (client);
 
 		message_list->hidedeleted =
-			hide_deleted &&
-			(!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH) ||
-			 !(folder_store->flags & CAMEL_STORE_VTRASH));
+			hide_deleted && non_trash_folder;
 		message_list->hidejunk =
 			folder_store_supports_vjunk_folder (message_list->folder) &&
 			!(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) &&
