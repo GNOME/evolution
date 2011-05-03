@@ -46,6 +46,7 @@
 #include "em-folder-utils.h"
 #include "em-event.h"
 
+#include "e-mail-folder-utils.h"
 #include "e-mail-local.h"
 #include "e-mail-store.h"
 #include "shell/e-shell.h"
@@ -738,13 +739,15 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	if (si->account && (flags & CAMEL_FOLDER_TYPE_MASK) == 0) {
 		if (!is_drafts && si->account->drafts_folder_uri) {
 			gchar *curi = em_uri_to_camel (si->account->drafts_folder_uri);
-			is_drafts = camel_store_folder_uri_equal (si->store, fi->uri, curi);
+			is_drafts = e_mail_folder_uri_equal (
+				CAMEL_SESSION (session), fi->uri, curi);
 			g_free (curi);
 		}
 
 		if (si->account->sent_folder_uri) {
 			gchar *curi = em_uri_to_camel (si->account->sent_folder_uri);
-			if (camel_store_folder_uri_equal (si->store, fi->uri, curi)) {
+			if (e_mail_folder_uri_equal (
+				CAMEL_SESSION (session), fi->uri, curi)) {
 				add_flags = CAMEL_FOLDER_TYPE_SENT;
 			}
 			g_free (curi);

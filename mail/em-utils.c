@@ -70,6 +70,7 @@
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-format-quote.h"
+#include "e-mail-folder-utils.h"
 #include "e-mail-local.h"
 #include "e-mail-session.h"
 
@@ -230,7 +231,7 @@ em_utils_check_user_can_send_mail (void)
 
 	account_list = e_get_account_list ();
 
-	if (e_list_length ((EList *) account_list) == 0)
+	if (e_list_length (E_LIST (account_list)) == 0)
 		return FALSE;
 
 	if (!(account = e_get_default_account ()))
@@ -1003,11 +1004,12 @@ gboolean
 em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 {
 	CamelFolder *local_templates_folder;
-	CamelStore *parent_store;
+	CamelSession *session;
+	CamelStore *store;
 	EAccountList *account_list;
 	EAccount *account;
 	EIterator *iterator;
-	gint is = FALSE;
+	gint is_templates = FALSE;
 	gchar *templates_uri;
 
 	local_templates_folder =
@@ -1019,21 +1021,20 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 	if (folder == NULL || uri == NULL)
 		return FALSE;
 
-	parent_store = camel_folder_get_parent_store (folder);
+	store = camel_folder_get_parent_store (folder);
+	session = camel_service_get_session (CAMEL_SERVICE (store));
 
 	account_list = e_get_account_list ();
 	iterator = e_list_get_iterator (E_LIST (account_list));
 
-	while (e_iterator_is_valid (iterator)) {
+	while (!is_templates && e_iterator_is_valid (iterator)) {
 		account = (EAccount *)e_iterator_get (iterator);
 
 		if (account->templates_folder_uri) {
-			templates_uri = em_uri_to_camel (account->templates_folder_uri);
-			if (camel_store_folder_uri_equal (parent_store, templates_uri, uri)) {
-				g_free (templates_uri);
-				is = TRUE;
-				break;
-			}
+			templates_uri = em_uri_to_camel (
+				account->templates_folder_uri);
+			is_templates = e_mail_folder_uri_equal (
+				session, templates_uri, uri);
 			g_free (templates_uri);
 		}
 
@@ -1042,7 +1043,7 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 
 	g_object_unref (iterator);
 
-	return is;
+	return is_templates;
 }
 
 /**
@@ -1058,11 +1059,12 @@ gboolean
 em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri)
 {
 	CamelFolder *local_drafts_folder;
-	CamelStore *parent_store;
+	CamelSession *session;
+	CamelStore *store;
 	EAccountList *account_list;
 	EAccount *account;
 	EIterator *iterator;
-	gint is = FALSE;
+	gint is_drafts = FALSE;
 	gchar *drafts_uri;
 
 	local_drafts_folder =
@@ -1074,21 +1076,20 @@ em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri)
 	if (folder == NULL || uri == NULL)
 		return FALSE;
 
-	parent_store = camel_folder_get_parent_store (folder);
+	store = camel_folder_get_parent_store (folder);
+	session = camel_service_get_session (CAMEL_SERVICE (store));
 
 	account_list = e_get_account_list ();
 	iterator = e_list_get_iterator (E_LIST (account_list));
 
-	while (e_iterator_is_valid (iterator)) {
+	while (!is_drafts && e_iterator_is_valid (iterator)) {
 		account = (EAccount *)e_iterator_get (iterator);
 
 		if (account->drafts_folder_uri) {
-			drafts_uri = em_uri_to_camel (account->drafts_folder_uri);
-			if (camel_store_folder_uri_equal (parent_store, drafts_uri, uri)) {
-				g_free (drafts_uri);
-				is = TRUE;
-				break;
-			}
+			drafts_uri = em_uri_to_camel (
+				account->drafts_folder_uri);
+			is_drafts = e_mail_folder_uri_equal (
+				session, drafts_uri, uri);
 			g_free (drafts_uri);
 		}
 
@@ -1097,7 +1098,7 @@ em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri)
 
 	g_object_unref (iterator);
 
-	return is;
+	return is_drafts;
 }
 
 /**
@@ -1113,14 +1114,16 @@ gboolean
 em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri)
 {
 	CamelFolder *local_sent_folder;
-	CamelStore *parent_store;
+	CamelSession *session;
+	CamelStore *store;
 	EAccountList *account_list;
 	EAccount *account;
 	EIterator *iterator;
-	gint is = FALSE;
+	gint is_sent = FALSE;
 	gchar *sent_uri;
 
-	local_sent_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
+	local_sent_folder =
+		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
 
 	if (folder == local_sent_folder)
 		return TRUE;
@@ -1128,21 +1131,20 @@ em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri)
 	if (folder == NULL || uri == NULL)
 		return FALSE;
 
-	parent_store = camel_folder_get_parent_store (folder);
+	store = camel_folder_get_parent_store (folder);
+	session = camel_service_get_session (CAMEL_SERVICE (store));
 
 	account_list = e_get_account_list ();
 	iterator = e_list_get_iterator (E_LIST (account_list));
 
-	while (e_iterator_is_valid (iterator)) {
+	while (!is_sent && e_iterator_is_valid (iterator)) {
 		account = (EAccount *)e_iterator_get (iterator);
 
 		if (account->sent_folder_uri) {
-			sent_uri = em_uri_to_camel (account->sent_folder_uri);
-			if (camel_store_folder_uri_equal (parent_store, sent_uri, uri)) {
-				g_free (sent_uri);
-				is = TRUE;
-				break;
-			}
+			sent_uri = em_uri_to_camel (
+				account->sent_folder_uri);
+			is_sent = e_mail_folder_uri_equal (
+				session, sent_uri, uri);
 			g_free (sent_uri);
 		}
 
@@ -1151,7 +1153,7 @@ em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri)
 
 	g_object_unref (iterator);
 
-	return is;
+	return is_sent;
 }
 
 /**
@@ -1167,6 +1169,8 @@ gboolean
 em_utils_folder_is_outbox (CamelFolder *folder, const gchar *uri)
 {
 	CamelFolder *local_outbox_folder;
+	CamelSession *session;
+	CamelStore *store;
 	const gchar *local_outbox_folder_uri;
 
 	local_outbox_folder =
@@ -1180,9 +1184,11 @@ em_utils_folder_is_outbox (CamelFolder *folder, const gchar *uri)
 	if (uri == NULL)
 		return FALSE;
 
-	return camel_store_folder_uri_equal (
-		camel_folder_get_parent_store (local_outbox_folder),
-		local_outbox_folder_uri, uri);
+	store = camel_folder_get_parent_store (local_outbox_folder);
+	session = camel_service_get_session (CAMEL_SERVICE (store));
+
+	return e_mail_folder_uri_equal (
+		session, local_outbox_folder_uri, uri);
 }
 
 /* ********************************************************************** */
