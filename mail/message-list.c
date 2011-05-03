@@ -1687,38 +1687,31 @@ ml_tree_value_at_ex (ETreeModel *etm,
 	case COL_LOCATION: {
 		/* Fixme : freeing memory stuff (mem leaks) */
 		CamelFolder *folder;
-		CamelURL *curl;
+		CamelStore *store;
 		EAccount *account;
-		gchar *location = NULL;
-		const gchar *uri;
-		gchar *euri;
+		const gchar *store_name;
+		const gchar *folder_name;
+		const gchar *uid;
 
-		if (CAMEL_IS_VEE_FOLDER (message_list->folder)) {
-			folder = camel_vee_folder_get_location ((CamelVeeFolder *)message_list->folder, (CamelVeeMessageInfo *)msg_info, NULL);
-		} else {
-			folder = message_list->folder;
-		}
+		folder = message_list->folder;
 
-		uri = camel_folder_get_uri (folder);
-		euri = em_uri_from_camel (uri);
+		if (CAMEL_IS_VEE_FOLDER (folder))
+			folder = camel_vee_folder_get_location (
+				CAMEL_VEE_FOLDER (folder),
+				(CamelVeeMessageInfo *) msg_info, NULL);
 
-		account = e_get_account_by_source_url (uri);
+		store = camel_folder_get_parent_store (folder);
+		folder_name = camel_folder_get_full_name (folder);
 
-		if (account) {
-			curl = camel_url_new (uri, NULL);
-			location = g_strconcat (account->name, ":", curl->path, NULL);
-		} else {
-			/* Local account */
-			euri = em_uri_from_camel (uri);
-			curl = camel_url_new (euri, NULL);
-			if (curl->host && !strcmp(curl->host, "local") && curl->user && !strcmp(curl->user, "local"))
-				location = g_strconcat (_("On This Computer"), ":",curl->path, NULL);
-		}
+		uid = camel_service_get_uid (CAMEL_SERVICE (store));
+		account = e_get_account_by_uid (uid);
 
-		camel_url_free (curl);
-		g_free (euri);
+		if (account != NULL)
+			store_name = account->name;
+		else
+			store_name = _("On This Computer");
 
-		return location;
+		return g_strdup_printf ("%s : %s", store_name, folder_name);
 	}
 	case COL_MIXED_RECIPIENTS:
 	case COL_RECIPIENTS:{
