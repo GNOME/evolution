@@ -92,7 +92,7 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 	if (em_utils_folder_is_drafts (folder) ||
 		em_utils_folder_is_outbox (folder, folder_uri) ||
-		em_utils_folder_is_templates (folder, folder_uri)) {
+		em_utils_folder_is_templates (folder)) {
 		em_utils_edit_messages (shell, folder, uids, TRUE);
 		return 0;
 	}

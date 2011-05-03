@@ -1117,7 +1117,7 @@ edit_message (EShell *shell,
 	EMsgComposer *composer;
 
 	/* Template specific code follows. */
-	if (em_utils_folder_is_templates (folder, NULL)) {
+	if (em_utils_folder_is_templates (folder)) {
 		GConfClient *gconf;
 		GSList *clue_list = NULL;
 

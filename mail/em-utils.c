@@ -992,23 +992,25 @@ em_utils_selection_get_urilist (GtkSelectionData *selection_data,
 
 /**
  * em_utils_folder_is_templates:
- * @folder: folder
- * @uri: uri for this folder, if known
+ * @folder: a #CamelFolder
  *
  * Decides if @folder is a Templates folder.
  *
- * Returns %TRUE if this is a Drafts folder or %FALSE otherwise.
+ * Returns %TRUE if this is a Templates folder or %FALSE otherwise.
  **/
 
 gboolean
-em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
+em_utils_folder_is_templates (CamelFolder *folder)
 {
 	CamelFolder *local_templates_folder;
 	CamelSession *session;
 	CamelStore *store;
 	EAccountList *account_list;
 	EIterator *iterator;
-	gint is_templates = FALSE;
+	gchar *folder_uri;
+	gboolean is_templates = FALSE;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
 	local_templates_folder =
 		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_TEMPLATES);
@@ -1016,8 +1018,7 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 	if (folder == local_templates_folder)
 		return TRUE;
 
-	if (folder == NULL || uri == NULL)
-		return FALSE;
+	folder_uri = e_mail_folder_uri_from_folder (folder);
 
 	store = camel_folder_get_parent_store (folder);
 	session = camel_service_get_session (CAMEL_SERVICE (store));
@@ -1037,7 +1038,7 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 			templates_uri = em_uri_to_camel (
 				account->templates_folder_uri);
 			is_templates = e_mail_folder_uri_equal (
-				session, templates_uri, uri);
+				session, templates_uri, folder_uri);
 			g_free (templates_uri);
 		}
 
@@ -1045,6 +1046,7 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 	}
 
 	g_object_unref (iterator);
+	g_free (folder_uri);
 
 	return is_templates;
 }
