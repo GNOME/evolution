@@ -1697,11 +1697,9 @@ action_mail_show_source_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWidget *browser;
 	GPtrArray *uids;
-	const gchar *folder_uri;
 
 	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_get_folder (reader);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	g_return_if_fail (uids->len > 0);
@@ -1714,7 +1712,7 @@ action_mail_show_source_cb (GtkAction *action,
 		em_format_set_mode (
 			EM_FORMAT (formatter), EM_FORMAT_MODE_SOURCE);
 
-	e_mail_reader_set_folder (reader, folder, folder_uri);
+	e_mail_reader_set_folder (reader, folder);
 	e_mail_reader_set_message (reader, uids->pdata[0]);
 	gtk_widget_show (browser);
 
@@ -2899,8 +2897,7 @@ mail_reader_get_enable_show_folder (EMailReader *reader)
 
 static void
 mail_reader_set_folder (EMailReader *reader,
-                        CamelFolder *folder,
-                        const gchar *folder_uri)
+                        CamelFolder *folder)
 {
 	EMailReaderPrivate *priv;
 	EMFormatHTML *formatter;
@@ -2908,7 +2905,7 @@ mail_reader_set_folder (EMailReader *reader,
 	GtkWidget *message_list;
 	EMailBackend *backend;
 	EShell *shell;
-	const gchar *previous_folder_uri;
+	const gchar *folder_uri = NULL;
 	gboolean outgoing;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
@@ -2918,7 +2915,6 @@ mail_reader_set_folder (EMailReader *reader,
 	message_list = e_mail_reader_get_message_list (reader);
 
 	previous_folder = e_mail_reader_get_folder (reader);
-	previous_folder_uri = e_mail_reader_get_folder_uri (reader);
 
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
@@ -2927,8 +2923,11 @@ mail_reader_set_folder (EMailReader *reader,
 		mail_sync_folder (previous_folder, NULL, NULL);
 
 	/* Skip the rest if we're already viewing the folder. */
-	if (g_strcmp0 (folder_uri, previous_folder_uri) == 0)
+	if (folder == previous_folder)
 		return;
+
+	if (folder != NULL)
+		folder_uri = camel_folder_get_uri (folder);
 
 	outgoing = folder != NULL && folder_uri != NULL && (
 		em_utils_folder_is_drafts (folder, folder_uri) ||
@@ -4109,8 +4108,7 @@ e_mail_reader_get_folder_uri (EMailReader *reader)
 
 void
 e_mail_reader_set_folder (EMailReader *reader,
-                          CamelFolder *folder,
-                          const gchar *folder_uri)
+                          CamelFolder *folder)
 {
 	EMailReaderInterface *interface;
 
@@ -4119,7 +4117,7 @@ e_mail_reader_set_folder (EMailReader *reader,
 	interface = E_MAIL_READER_GET_INTERFACE (reader);
 	g_return_if_fail (interface->set_folder != NULL);
 
-	interface->set_folder (reader, folder, folder_uri);
+	interface->set_folder (reader, folder);
 }
 
 /* Helper for e_mail_reader_set_folder_uri () */
@@ -4130,7 +4128,7 @@ mail_reader_got_folder_cb (gchar *folder_uri,
 {
 	EMailReader *reader = user_data;
 
-	e_mail_reader_set_folder (reader, folder, folder_uri);
+	e_mail_reader_set_folder (reader, folder);
 }
 
 void

@@ -672,11 +672,11 @@ folder_tree_selection_changed_cb (EMFolderTree *folder_tree,
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GList *list;
-	guint32 flags = 0;
+	CamelStore *store = NULL;
+	CamelFolderInfoFlags flags = 0;
 	guint unread = 0;
 	guint old_unread = 0;
-	gchar *full_name = NULL;
-	gchar *uri = NULL;
+	gchar *folder_name = NULL;
 
 	list = gtk_tree_selection_get_selected_rows (selection, &model);
 
@@ -687,10 +687,11 @@ folder_tree_selection_changed_cb (EMFolderTree *folder_tree,
 
 	gtk_tree_model_get (
 		model, &iter,
-		COL_STRING_FULL_NAME, &full_name,
-		COL_STRING_URI, &uri, COL_UINT_FLAGS, &flags,
-		COL_UINT_UNREAD, &unread, COL_UINT_UNREAD_LAST_SEL,
-		&old_unread, -1);
+		COL_POINTER_CAMEL_STORE, &store,
+		COL_STRING_FULL_NAME, &folder_name,
+		COL_UINT_FLAGS, &flags,
+		COL_UINT_UNREAD, &unread,
+		COL_UINT_UNREAD_LAST_SEL, &old_unread, -1);
 
 	/* Sync unread counts to distinguish new incoming mail. */
 	if (unread != old_unread)
@@ -700,10 +701,10 @@ folder_tree_selection_changed_cb (EMFolderTree *folder_tree,
 
 exit:
 	g_signal_emit (
-		folder_tree, signals[FOLDER_SELECTED], 0, full_name, uri, flags);
+		folder_tree, signals[FOLDER_SELECTED], 0,
+		store, folder_name, flags);
 
-	g_free (full_name);
-	g_free (uri);
+	g_free (folder_name);
 
 	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
 	g_list_free (list);
@@ -972,9 +973,10 @@ folder_tree_row_activated (GtkTreeView *tree_view,
 {
 	EMFolderTreePrivate *priv;
 	GtkTreeModel *model;
-	gchar *full_name, *uri;
+	gchar *folder_name;
 	GtkTreeIter iter;
-	guint32 flags;
+	CamelStore *store;
+	CamelFolderInfoFlags flags;
 
 	priv = EM_FOLDER_TREE (tree_view)->priv;
 
@@ -987,19 +989,22 @@ folder_tree_row_activated (GtkTreeView *tree_view,
 		return;
 
 	gtk_tree_model_get (
-		model, &iter, COL_STRING_FULL_NAME, &full_name,
-		COL_STRING_URI, &uri, COL_UINT_FLAGS, &flags, -1);
+		model, &iter,
+		COL_POINTER_CAMEL_STORE, &store,
+		COL_STRING_FULL_NAME, &folder_name,
+		COL_UINT_FLAGS, &flags, -1);
 
 	folder_tree_clear_selected_list (EM_FOLDER_TREE (tree_view));
 
 	g_signal_emit (
-		tree_view, signals[FOLDER_SELECTED], 0, full_name, uri, flags);
+		tree_view, signals[FOLDER_SELECTED], 0,
+		store, folder_name, flags);
 
 	g_signal_emit (
-		tree_view, signals[FOLDER_ACTIVATED], 0, full_name, uri);
+		tree_view, signals[FOLDER_ACTIVATED], 0,
+		store, folder_name);
 
-	g_free (full_name);
-	g_free (uri);
+	g_free (folder_name);
 }
 
 static gboolean
@@ -1132,9 +1137,9 @@ folder_tree_class_init (EMFolderTreeClass *class)
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (EMFolderTreeClass, folder_selected),
 		NULL, NULL,
-		e_marshal_VOID__STRING_STRING_UINT,
+		e_marshal_VOID__OBJECT_STRING_UINT,
 		G_TYPE_NONE, 3,
-		G_TYPE_STRING,
+		CAMEL_TYPE_STORE,
 		G_TYPE_STRING,
 		G_TYPE_UINT);
 
@@ -1144,9 +1149,9 @@ folder_tree_class_init (EMFolderTreeClass *class)
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (EMFolderTreeClass, folder_activated),
 		NULL, NULL,
-		e_marshal_VOID__STRING_STRING,
+		e_marshal_VOID__OBJECT_STRING,
 		G_TYPE_NONE, 2,
-		G_TYPE_STRING,
+		CAMEL_TYPE_STORE,
 		G_TYPE_STRING);
 
 	signals[POPUP_EVENT] = g_signal_new (

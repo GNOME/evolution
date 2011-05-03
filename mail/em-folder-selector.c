@@ -139,16 +139,24 @@ emfs_create_name_changed (GtkEntry *entry, EMFolderSelector *emfs)
 }
 
 static void
-folder_selected_cb (EMFolderTree *emft, const gchar *path, const gchar *uri, guint32 flags, EMFolderSelector *emfs)
+folder_selected_cb (EMFolderTree *emft,
+                    CamelStore *store,
+                    const gchar *folder_name,
+                    CamelFolderInfoFlags flags,
+                    EMFolderSelector *emfs)
 {
 	if (emfs->name_entry)
 		emfs_create_name_changed (emfs->name_entry, emfs);
 	else
-		gtk_dialog_set_response_sensitive (GTK_DIALOG (emfs), GTK_RESPONSE_OK, TRUE);
+		gtk_dialog_set_response_sensitive (
+			GTK_DIALOG (emfs), GTK_RESPONSE_OK, TRUE);
 }
 
 static void
-folder_activated_cb (EMFolderTree *emft, const gchar *path, const gchar *uri, EMFolderSelector *emfs)
+folder_activated_cb (EMFolderTree *emft,
+                     CamelStore *store,
+                     const gchar *folder_name,
+                     EMFolderSelector *emfs)
 {
 	gtk_dialog_response ((GtkDialog *) emfs, GTK_RESPONSE_OK);
 }

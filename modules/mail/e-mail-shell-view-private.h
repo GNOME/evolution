@@ -149,6 +149,9 @@ struct _EMailShellViewPrivate {
 	/* EShell::prepare-for-quit */
 	gulong prepare_for_quit_handler_id;
 
+	/* For opening the selected folder. */
+	GCancellable *opening_folder;
+
 	/* Search folders for interactive search. */
 	CamelVeeFolder *search_account_all;
 	CamelVeeFolder *search_account_current;
