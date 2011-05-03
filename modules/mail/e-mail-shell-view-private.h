@@ -37,6 +37,7 @@
 #include "widgets/misc/e-popup-action.h"
 #include "widgets/menus/gal-view-instance.h"
 
+#include "e-mail-folder-utils.h"
 #include "e-mail-label-action.h"
 #include "e-mail-label-dialog.h"
 #include "e-mail-label-list-store.h"

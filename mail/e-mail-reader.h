@@ -96,7 +96,6 @@ struct _EMailReaderInterface {
 	GtkWindow *	(*get_window)		(EMailReader *reader);
 
 	CamelFolder *	(*get_folder)		(EMailReader *reader);
-	const gchar *	(*get_folder_uri)	(EMailReader *reader);
 	void		(*set_folder)		(EMailReader *reader,
 						 CamelFolder *folder);
 	void		(*set_message)		(EMailReader *reader,
@@ -133,7 +132,6 @@ GtkMenu *	e_mail_reader_get_popup_menu	(EMailReader *reader);
 GPtrArray *	e_mail_reader_get_selected_uids	(EMailReader *reader);
 GtkWindow *	e_mail_reader_get_window	(EMailReader *reader);
 CamelFolder *	e_mail_reader_get_folder	(EMailReader *reader);
-const gchar *	e_mail_reader_get_folder_uri	(EMailReader *reader);
 void		e_mail_reader_set_folder	(EMailReader *reader,
 						 CamelFolder *folder);
 void		e_mail_reader_set_message	(EMailReader *reader,

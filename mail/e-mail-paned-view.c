@@ -44,6 +44,7 @@
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "message-list.h"
+#include "e-mail-folder-utils.h"
 #include "e-mail-reader-utils.h"
 
 #define E_SHELL_WINDOW_ACTION_GROUP_MAIL(window) \
@@ -95,22 +96,25 @@ mail_paned_view_save_boolean (EMailView *view,
 {
 	EShellView *shell_view;
 	EMailReader *reader;
+	CamelFolder *folder;
 	GKeyFile *key_file;
-	const gchar *folder_uri;
+	gchar *folder_uri;
 	gchar *group_name;
 
 	shell_view = e_mail_view_get_shell_view (view);
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
 	reader = E_MAIL_READER (view);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
+	folder = e_mail_reader_get_folder (reader);
 
-	if (folder_uri == NULL)
+	if (folder == NULL)
 		return;
 
+	folder_uri = e_mail_folder_uri_from_folder (folder);
 	group_name = g_strdup_printf ("Folder %s", folder_uri);
 	g_key_file_set_boolean (key_file, group_name, key, value);
 	g_free (group_name);
+	g_free (folder_uri);
 
 	e_shell_view_set_state_dirty (shell_view);
 }
@@ -749,7 +753,6 @@ mail_paned_view_update_view_instance (EMailView *view)
 	GtkOrientation orientation;
 	gboolean outgoing_folder;
 	gboolean show_vertical_view;
-	const gchar *folder_uri;
 	gchar *view_id;
 
 	priv = E_MAIL_PANED_VIEW (view)->priv;
@@ -764,21 +767,17 @@ mail_paned_view_update_view_instance (EMailView *view)
 
 	reader = E_MAIL_READER (view);
 	folder = e_mail_reader_get_folder (reader);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
 
 	/* If no folder is selected, return silently. */
 	if (folder == NULL)
 		return;
-
-	/* If we have a folder, we should also have a URI. */
-	g_return_if_fail (folder_uri != NULL);
 
 	if (priv->view_instance != NULL) {
 		g_object_unref (priv->view_instance);
 		priv->view_instance = NULL;
 	}
 
-	view_id = g_strdup (folder_uri);
+	view_id = e_mail_folder_uri_from_folder (folder);
 	e_filename_make_safe (view_id);
 
 	outgoing_folder =
