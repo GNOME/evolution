@@ -977,7 +977,7 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
-	if (em_utils_folder_is_sent (folder, folder_uri))
+	if (em_utils_folder_is_sent (folder))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
 	else if (em_utils_folder_is_outbox (folder, folder_uri))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
@@ -1181,7 +1181,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 			num_visible), num_visible);
 
 	/* "Sent" folder */
-	} else if (em_utils_folder_is_sent (folder, folder_uri)) {
+	} else if (em_utils_folder_is_sent (folder)) {
 		g_string_append_printf (
 			buffer, ngettext ("%d sent", "%d sent",
 			num_visible), num_visible);

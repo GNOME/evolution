@@ -390,7 +390,7 @@ filter:
 			break;
 
 		case MAIL_FILTER_RECENT_MESSAGES:
-			if (em_utils_folder_is_sent (folder, folder_uri))
+			if (em_utils_folder_is_sent (folder))
 				temp = g_strdup_printf (
 					"(and %s (match-all "
 					"(> (get-sent-date) "
@@ -407,7 +407,7 @@ filter:
 			break;
 
 		case MAIL_FILTER_LAST_5_DAYS_MESSAGES:
-			if (em_utils_folder_is_sent (folder, folder_uri))
+			if (em_utils_folder_is_sent (folder))
 				temp = g_strdup_printf (
 					"(and %s (match-all "
 					"(> (get-sent-date) "
