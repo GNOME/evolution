@@ -342,15 +342,17 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		allows_children = !(is_junk || is_trash);
 
 		/* Don't allow deletion of special local folders. */
-		if (store == local_store)
+		if (store == local_store) {
 			can_delete =
 				(strcmp (full_name, "Drafts") != 0) &&
 				(strcmp (full_name, "Inbox") != 0) &&
 				(strcmp (full_name, "Outbox") != 0) &&
 				(strcmp (full_name, "Sent") != 0) &&
 				(strcmp (full_name, "Templates") != 0);
+			is_outbox =
+				(strcmp (full_name, "Outbox") == 0);
+		}
 
-		is_outbox = em_utils_folder_is_outbox (NULL, uri);
 		can_delete &= !(folder_flags & CAMEL_FOLDER_SYSTEM);
 	}
 

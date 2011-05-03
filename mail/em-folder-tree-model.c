@@ -696,7 +696,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		folder_cache, fi->uri, &folder) && folder) {
 		is_drafts = em_utils_folder_is_drafts (folder);
 
-		if (is_drafts || em_utils_folder_is_outbox (folder, fi->uri)) {
+		if (is_drafts || em_utils_folder_is_outbox (folder)) {
 			gint total;
 
 			if ((total = camel_folder_get_message_count (folder)) > 0) {

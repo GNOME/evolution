@@ -265,8 +265,7 @@ update_1folder (MailFolderCache *self,
 		d(printf("update 1 folder '%s'\n", folder->full_name));
 		if ((self->priv->count_trash && (CAMEL_IS_VTRASH_FOLDER (folder)))
 		    || (is_drafts = em_utils_folder_is_drafts (folder))
-		    || (is_outbox = em_utils_folder_is_outbox (
-			folder, info ? info->uri : NULL))
+		    || (is_outbox = em_utils_folder_is_outbox (folder))
 		    || (self->priv->count_sent && em_utils_folder_is_sent (folder))) {
 			d(printf(" total count\n"));
 			unread = camel_folder_get_message_count (folder);

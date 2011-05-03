@@ -1173,37 +1173,23 @@ em_utils_folder_is_sent (CamelFolder *folder)
 
 /**
  * em_utils_folder_is_outbox:
- * @folder: folder
- * @uri: uri for this folder, if known
+ * @folder: a #CamelFolder
  *
- * Decides if @folder is an Outbox folder
+ * Decides if @folder is an Outbox folder.
  *
  * Returns %TRUE if this is an Outbox folder or %FALSE otherwise.
  **/
 gboolean
-em_utils_folder_is_outbox (CamelFolder *folder, const gchar *uri)
+em_utils_folder_is_outbox (CamelFolder *folder)
 {
 	CamelFolder *local_outbox_folder;
-	CamelSession *session;
-	CamelStore *store;
-	const gchar *local_outbox_folder_uri;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
 	local_outbox_folder =
 		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
-	local_outbox_folder_uri =
-		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_OUTBOX);
 
-	if (folder == local_outbox_folder)
-		return TRUE;
-
-	if (uri == NULL)
-		return FALSE;
-
-	store = camel_folder_get_parent_store (local_outbox_folder);
-	session = camel_service_get_session (CAMEL_SERVICE (store));
-
-	return e_mail_folder_uri_equal (
-		session, local_outbox_folder_uri, uri);
+	return (folder == local_outbox_folder);
 }
 
 /* ********************************************************************** */

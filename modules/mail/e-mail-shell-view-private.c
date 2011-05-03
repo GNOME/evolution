@@ -979,7 +979,7 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 
 	if (em_utils_folder_is_sent (folder))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
-	else if (em_utils_folder_is_outbox (folder, folder_uri))
+	else if (em_utils_folder_is_outbox (folder))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
 	else
 		filter_source = E_FILTER_SOURCE_INCOMING;
@@ -1175,7 +1175,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 			num_visible), num_visible);
 
 	/* "Outbox" folder */
-	} else if (em_utils_folder_is_outbox (folder, folder_uri)) {
+	} else if (em_utils_folder_is_outbox (folder)) {
 		g_string_append_printf (
 			buffer, ngettext ("%d unsent", "%d unsent",
 			num_visible), num_visible);
