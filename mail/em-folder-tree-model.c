@@ -85,7 +85,6 @@ enum {
 enum {
 	LOADING_ROW,
 	LOADED_ROW,
-	FOLDER_ADDED,
 	LAST_SIGNAL
 };
 
@@ -419,17 +418,6 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *class)
 		G_TYPE_NONE, 2,
 		G_TYPE_POINTER,
 		G_TYPE_POINTER);
-
-	signals[FOLDER_ADDED] = g_signal_new (
-		"folder-added",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_FIRST,
-		G_STRUCT_OFFSET (EMFolderTreeModelClass, folder_added),
-		NULL, NULL,
-		e_marshal_VOID__STRING_STRING,
-		G_TYPE_NONE, 2,
-		G_TYPE_STRING,
-		G_TYPE_STRING);
 }
 
 static void
@@ -893,8 +881,6 @@ folder_subscribed_cb (CamelStore *store,
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, &parent);
 
 	em_folder_tree_model_set_folder_info (model, &iter, si, fi, TRUE);
-
-	g_signal_emit (model, signals[FOLDER_ADDED], 0, fi->full_name, fi->uri);
 }
 
 static void
