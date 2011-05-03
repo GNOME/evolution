@@ -4042,7 +4042,7 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 
 		model = em_folder_tree_model_get_default ();
 		em_folder_tree_model_user_marked_unread (
-			model, list->folder_uri, 1);
+			model, list->folder, 1);
 	}
 
 	if (flag == CAMEL_MESSAGE_SEEN && list->seen_id) {

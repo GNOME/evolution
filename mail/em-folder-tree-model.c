@@ -1290,12 +1290,13 @@ em_folder_tree_model_lookup_uri (EMFolderTreeModel *model,
 
 void
 em_folder_tree_model_user_marked_unread (EMFolderTreeModel *model,
-                                         const gchar *folder_uri,
+                                         CamelFolder *folder,
                                          guint n_marked)
 {
 	GtkTreeRowReference *reference;
 	GtkTreePath *path;
 	GtkTreeIter iter;
+	gchar *folder_uri;
 	guint unread;
 
 	/* The user marked messages in the given folder as unread.
@@ -1303,9 +1304,12 @@ em_folder_tree_model_user_marked_unread (EMFolderTreeModel *model,
 	 * event as new mail arriving. */
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
-	g_return_if_fail (folder_uri != NULL);
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
+	folder_uri = e_mail_folder_uri_from_folder (folder);
 	reference = em_folder_tree_model_lookup_uri (model, folder_uri);
+	g_free (folder_uri);
+
 	g_return_if_fail (gtk_tree_row_reference_valid (reference));
 
 	path = gtk_tree_row_reference_get_path (reference);

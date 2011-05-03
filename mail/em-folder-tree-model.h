@@ -166,7 +166,7 @@ GtkTreeRowReference *
 					 const gchar *folder_uri);
 void		em_folder_tree_model_user_marked_unread
 					(EMFolderTreeModel *model,
-					 const gchar *folder_uri,
+					 CamelFolder *folder,
 					 guint n_marked);
 
 G_END_DECLS
