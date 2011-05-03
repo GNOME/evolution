@@ -3783,7 +3783,7 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean has_undeleted = FALSE;
 	gboolean has_unimportant = FALSE;
 	gboolean has_unread = FALSE;
-	gboolean drafts_or_outbox;
+	gboolean drafts_or_outbox = FALSE;
 	gboolean store_supports_vjunk = FALSE;
 	gboolean is_mailing_list;
 	gboolean is_junk_folder = FALSE;
@@ -3798,12 +3798,12 @@ e_mail_reader_check_state (EMailReader *reader)
 	if (folder != NULL) {
 		store = camel_folder_get_parent_store (folder);
 		store_supports_vjunk = (store->flags & CAMEL_STORE_VJUNK);
-		is_junk_folder = (folder->folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
+		is_junk_folder =
+			(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
+		drafts_or_outbox =
+			em_utils_folder_is_drafts (folder) ||
+			em_utils_folder_is_outbox (folder);
 	}
-
-	drafts_or_outbox =
-		em_utils_folder_is_drafts (folder) ||
-		em_utils_folder_is_outbox (folder);
 
 	/* Initialize this flag based on whether there are any
 	 * messages selected.  We will update it in the loop. */
