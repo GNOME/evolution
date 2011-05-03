@@ -1798,13 +1798,13 @@ action_search_folder_recipient_cb (GtkAction *action,
 	EMailSession *session;
 	EMFormatHTML *formatter;
 	EWebView *web_view;
+	CamelFolder *folder;
 	CamelURL *curl;
-	const gchar *folder_uri;
 	const gchar *uri;
 
 	/* This action is defined in EMailDisplay. */
 
-	folder_uri = e_mail_reader_get_folder_uri (reader);
+	folder = e_mail_reader_get_folder (reader);
 	formatter = e_mail_reader_get_formatter (reader);
 
 	web_view = em_format_html_get_web_view (formatter);
@@ -1824,7 +1824,7 @@ action_search_folder_recipient_cb (GtkAction *action,
 		inet_addr = camel_internet_address_new ();
 		camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);
 		vfolder_gui_add_from_address (
-			session, inet_addr, AUTO_TO, folder_uri);
+			session, inet_addr, AUTO_TO, folder);
 		g_object_unref (inet_addr);
 	}
 
@@ -1839,13 +1839,13 @@ action_search_folder_sender_cb (GtkAction *action,
 	EMailSession *session;
 	EMFormatHTML *formatter;
 	EWebView *web_view;
+	CamelFolder *folder;
 	CamelURL *curl;
-	const gchar *folder_uri;
 	const gchar *uri;
 
 	/* This action is defined in EMailDisplay. */
 
-	folder_uri = e_mail_reader_get_folder_uri (reader);
+	folder = e_mail_reader_get_folder (reader);
 	formatter = e_mail_reader_get_formatter (reader);
 
 	web_view = em_format_html_get_web_view (formatter);
@@ -1865,7 +1865,7 @@ action_search_folder_sender_cb (GtkAction *action,
 		inet_addr = camel_internet_address_new ();
 		camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);
 		vfolder_gui_add_from_address (
-			session, inet_addr, AUTO_FROM, folder_uri);
+			session, inet_addr, AUTO_FROM, folder);
 		g_object_unref (inet_addr);
 	}
 

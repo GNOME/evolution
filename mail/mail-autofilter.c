@@ -30,6 +30,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "e-mail-folder-utils.h"
 #include "e-mail-session.h"
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
@@ -312,17 +313,22 @@ EFilterRule *
 em_vfolder_rule_from_message (EMVFolderContext *context,
                               CamelMimeMessage *msg,
                               gint flags,
-                              const gchar *source)
+                              CamelFolder *folder)
 {
 	EFilterRule *rule;
 	EMailSession *session;
-	gchar *euri = em_uri_from_camel (source);
+	gchar *uri, *euri;
+
+	uri = e_mail_folder_uri_from_folder (folder);
+	euri = em_uri_from_camel (uri);
 
 	session = em_vfolder_context_get_session (context);
 
 	rule = em_vfolder_rule_new (session);
 	em_vfolder_rule_add_source (EM_VFOLDER_RULE (rule), euri);
 	rule_from_message (rule, E_RULE_CONTEXT (context), msg, flags);
+
+	g_free (uri);
 	g_free (euri);
 
 	return rule;
@@ -332,17 +338,22 @@ EFilterRule *
 em_vfolder_rule_from_address (EMVFolderContext *context,
                               CamelInternetAddress *addr,
                               gint flags,
-                              const gchar *source)
+                              CamelFolder *folder)
 {
 	EFilterRule *rule;
 	EMailSession *session;
-	gchar *euri = em_uri_from_camel (source);
+	gchar *uri, *euri;
+
+	uri = e_mail_folder_uri_from_folder (folder);
+	euri = em_uri_from_camel (uri);
 
 	session = em_vfolder_context_get_session (context);
 
 	rule = em_vfolder_rule_new (session);
 	em_vfolder_rule_add_source (EM_VFOLDER_RULE (rule), euri);
 	rule_from_address (rule, E_RULE_CONTEXT (context), addr, flags);
+
+	g_free (uri);
 	g_free (euri);
 
 	return rule;

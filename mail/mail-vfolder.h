@@ -40,13 +40,13 @@ EFilterRule *	vfolder_clone_rule		(EMailSession *session,
 						 EFilterRule *in);
 void		vfolder_gui_add_rule		(EMVFolderRule *rule);
 void		vfolder_gui_add_from_message	(EMailSession *session,
-						 CamelMimeMessage *msg,
+						 CamelMimeMessage *message,
 						 gint flags,
-						 const gchar *source);
+						 CamelFolder *folder);
 void		vfolder_gui_add_from_address	(EMailSession *session,
 						 CamelInternetAddress *addr,
 						 gint flags,
-						 const gchar *source);
+						 CamelFolder *folder);
 
 GList *		mail_vfolder_get_sources_local	(void);
 GList *		mail_vfolder_get_sources_remote	(void);

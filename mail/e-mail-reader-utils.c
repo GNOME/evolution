@@ -578,17 +578,15 @@ mail_reader_create_vfolder_cb (CamelFolder *folder,
 {
 	struct {
 		EMailSession *session;
-		gchar *uri;
 		gint type;
 	} *vfolder_data = user_data;
 
 	if (message != NULL)
 		vfolder_gui_add_from_message (
 			vfolder_data->session, message,
-			vfolder_data->type, vfolder_data->uri);
+			vfolder_data->type, folder);
 
 	g_object_unref (vfolder_data->session);
-	g_free (vfolder_data->uri);
 	g_free (vfolder_data);
 }
 
@@ -599,12 +597,10 @@ e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
 	EMailBackend *backend;
 	EMailSession *session;
 	CamelFolder *folder;
-	const gchar *folder_uri;
 	GPtrArray *uids;
 
 	struct {
 		EMailSession *session;
-		gchar *uri;
 		gint type;
 	} *vfolder_data;
 
@@ -614,13 +610,11 @@ e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
 	session = e_mail_backend_get_session (backend);
 
 	folder = e_mail_reader_get_folder (reader);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (uids->len == 1) {
 		vfolder_data = g_malloc (sizeof (*vfolder_data));
 		vfolder_data->session = g_object_ref (session);
-		vfolder_data->uri = g_strdup (folder_uri);
 		vfolder_data->type = vfolder_type;
 
 		mail_get_message (

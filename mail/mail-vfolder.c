@@ -1448,15 +1448,16 @@ vfolder_gui_add_rule (EMVFolderRule *rule)
 
 void
 vfolder_gui_add_from_message (EMailSession *session,
-                              CamelMimeMessage *msg,
+                              CamelMimeMessage *message,
                               gint flags,
-                              const gchar *source)
+                              CamelFolder *folder)
 {
 	EMVFolderRule *rule;
 
-	g_return_if_fail (msg != NULL);
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	rule = (EMVFolderRule*)em_vfolder_rule_from_message (context, msg, flags, source);
+	rule = (EMVFolderRule*) em_vfolder_rule_from_message (
+		context, message, flags, folder);
 	vfolder_gui_add_rule (rule);
 }
 
@@ -1464,13 +1465,14 @@ void
 vfolder_gui_add_from_address (EMailSession *session,
                               CamelInternetAddress *addr,
                               gint flags,
-                              const gchar *source)
+                              CamelFolder *folder)
 {
 	EMVFolderRule *rule;
 
 	g_return_if_fail (addr != NULL);
 
-	rule = (EMVFolderRule*)em_vfolder_rule_from_address (context, addr, flags, source);
+	rule = (EMVFolderRule*)em_vfolder_rule_from_address (
+		context, addr, flags, folder);
 	vfolder_gui_add_rule (rule);
 }
 
