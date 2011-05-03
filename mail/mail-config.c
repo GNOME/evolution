@@ -38,6 +38,7 @@
 #include <gconf/gconf-client.h>
 
 #include "e-mail-local.h"
+#include "e-mail-folder-utils.h"
 #include "mail-config.h"
 #include "mail-folder-cache.h"
 #include "mail-tools.h"
@@ -338,7 +339,7 @@ mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
 	const gchar *config_dir;
 
 	config_dir = mail_session_get_config_dir ();
-	url = g_strdup (camel_folder_get_uri (folder));
+	url = e_mail_folder_uri_from_folder (folder);
 	e_filename_make_safe (url);
 	basename = g_strdup_printf ("%s%s", prefix, url);
 	filename = g_build_filename (config_dir, "folders", basename, NULL);

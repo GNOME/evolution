@@ -1099,7 +1099,7 @@ mail_notebook_view_set_folder (EMailReader *reader,
 {
 	EMailNotebookViewPrivate *priv;
 	GtkWidget *new_view;
-	const gchar *folder_uri;
+	gchar *folder_uri;
 #if HAVE_CLUTTER
 	EMailTab *tab;
 	ClutterActor *clone;
@@ -1111,8 +1111,10 @@ mail_notebook_view_set_folder (EMailReader *reader,
 
 	priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
 
-	folder_uri = camel_folder_get_uri (folder);
+	folder_uri = e_mail_folder_uri_from_folder (folder);
 	new_view = g_hash_table_lookup (priv->views, folder_uri);
+	g_free (folder_uri);
+
 	if (new_view) {
 		gint curr = emnv_get_page_num (E_MAIL_NOTEBOOK_VIEW (reader), new_view);
 #if HAVE_CLUTTER
@@ -1241,7 +1243,9 @@ mail_notebook_view_set_folder (EMailReader *reader,
 
 #endif
 		e_mail_reader_set_folder (E_MAIL_READER (priv->current_view), folder);
-		g_hash_table_insert (priv->views, g_strdup (folder_uri), priv->current_view);
+
+		folder_uri = e_mail_folder_uri_from_folder (folder);
+		g_hash_table_insert (priv->views, folder_uri, priv->current_view);
 		g_signal_connect (
 			priv->current_view, "changed",
 			G_CALLBACK (reconnect_changed_event), reader);

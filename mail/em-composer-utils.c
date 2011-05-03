@@ -1158,12 +1158,14 @@ edit_message (EShell *shell,
 	composer = e_msg_composer_new_with_message (shell, message, NULL);
 
 	if (message_uid != NULL && em_utils_folder_is_drafts (folder)) {
-		const gchar *folder_uri;
+		gchar *folder_uri;
 
-		folder_uri = camel_folder_get_uri (folder);
+		folder_uri = e_mail_folder_uri_from_folder (folder);
 
 		e_msg_composer_set_draft_headers (
 			composer, folder_uri, message_uid);
+
+		g_free (folder_uri);
 	}
 
 	composer_set_no_change (composer);
@@ -1434,7 +1436,7 @@ forward_non_attached (EShell *shell,
 {
 	CamelMimeMessage *message;
 	EMsgComposer *composer = NULL;
-	const gchar *folder_uri;
+	gchar *folder_uri;
 	gchar *subject, *text, *forward;
 	gint i;
 	guint32 flags;
@@ -1442,7 +1444,7 @@ forward_non_attached (EShell *shell,
 	if (messages->len == 0)
 		return NULL;
 
-	folder_uri = camel_folder_get_uri (folder);
+	folder_uri = e_mail_folder_uri_from_folder (folder);
 
 	flags = EM_FORMAT_QUOTE_HEADERS | EM_FORMAT_QUOTE_KEEP_SIG;
 	if (style == E_MAIL_FORWARD_STYLE_QUOTED)
@@ -1483,6 +1485,8 @@ forward_non_attached (EShell *shell,
 		g_free (forward);
 		g_free (subject);
 	}
+
+	g_free (folder_uri);
 
 	return composer;
 }
@@ -2761,12 +2765,14 @@ em_utils_reply_to_message (EShell *shell,
 	g_object_unref (message);
 
 	if (folder != NULL) {
-		const gchar *folder_uri;
+		gchar *folder_uri;
 
-		folder_uri = camel_folder_get_uri (folder);
+		folder_uri = e_mail_folder_uri_from_folder (folder);
 
 		e_msg_composer_set_source_headers (
 			composer, folder_uri, uid, flags);
+
+		g_free (folder_uri);
 	}
 
 	composer_set_no_change (composer);

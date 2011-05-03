@@ -2885,7 +2885,6 @@ mail_reader_set_folder (EMailReader *reader,
 	GtkWidget *message_list;
 	EMailBackend *backend;
 	EShell *shell;
-	const gchar *folder_uri = NULL;
 	gboolean outgoing;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
@@ -2906,10 +2905,7 @@ mail_reader_set_folder (EMailReader *reader,
 	if (folder == previous_folder)
 		return;
 
-	if (folder != NULL)
-		folder_uri = camel_folder_get_uri (folder);
-
-	outgoing = folder != NULL && folder_uri != NULL && (
+	outgoing = folder != NULL && (
 		em_utils_folder_is_drafts (folder) ||
 		em_utils_folder_is_outbox (folder) ||
 		em_utils_folder_is_sent (folder));
