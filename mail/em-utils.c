@@ -2218,21 +2218,13 @@ em_utils_url_unescape_amp (const gchar *url)
 static EAccount *
 guess_account_from_folder (CamelFolder *folder)
 {
-	CamelService *service;
-	CamelStore *parent_store;
-	EAccount *account;
-	CamelURL *url;
-	gchar *source_url;
+	CamelStore *store;
+	const gchar *uid;
 
-	parent_store = camel_folder_get_parent_store (folder);
-	service = CAMEL_SERVICE (parent_store);
+	store = camel_folder_get_parent_store (folder);
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
 
-	url = camel_service_get_camel_url (service);
-	source_url = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-	account = e_get_account_by_source_url (source_url);
-	g_free (source_url);
-
-	return account;
+	return e_get_account_by_uid (uid);
 }
 
 static EAccount *
