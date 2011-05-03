@@ -214,7 +214,6 @@ static void
 book_shell_content_constructed (GObject *object)
 {
 	EBookShellContentPrivate *priv;
-	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
@@ -231,7 +230,6 @@ book_shell_content_constructed (GObject *object)
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
 
 	container = GTK_WIDGET (object);
 

@@ -233,7 +233,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	GList *list, *iter;
 	GSList *search_strings = NULL;
 	const gchar *folder_uri;
-	const gchar *data_dir;
 	const gchar *text;
 	gboolean valid;
 	gchar *query;
@@ -266,8 +265,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 	message_list = e_mail_reader_get_message_list (reader);
-
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
 
 	/* This returns a new object reference. */
 	model = e_shell_settings_get_object (

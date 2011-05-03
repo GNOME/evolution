@@ -1997,7 +1997,6 @@ emae_check_authtype (GtkWidget *w,
 	EMailSession *session;
 	EAccount *account;
 	GtkWidget *editor;
-	const gchar *uri;
 	gchar *uid;
 
 	account = em_account_editor_get_modified_account (emae);
@@ -2005,8 +2004,6 @@ emae_check_authtype (GtkWidget *w,
 
 	session = em_account_editor_get_session (emae);
 
-	/* TODO: do we need to remove the auth mechanism from the uri? */
-	uri = e_account_get_string (account, emae_service_info[service->type].account_uri_key);
 	g_object_ref (emae);
 
 	service->check_dialog = e_alert_dialog_new_for_args (editor ? (GtkWindow *)gtk_widget_get_toplevel (editor) : (GtkWindow *)gtk_widget_get_toplevel (w),

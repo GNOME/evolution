@@ -890,7 +890,6 @@ mail_netbook_view_open_mail (EMailView *view,
 {
 	EMailNotebookViewPrivate *priv;
 	EShellView *shell_view;
-	const gchar *folder_uri;
 	CamelFolder *folder;
 	EMailView *pane;
 	gint page;
@@ -922,7 +921,6 @@ mail_netbook_view_open_mail (EMailView *view,
 	gtk_widget_show (GTK_WIDGET (pane));
 
 	folder = e_mail_reader_get_folder (E_MAIL_READER (view));
-	folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER (view));
 
 	info = camel_folder_get_message_info (folder, uid);
 

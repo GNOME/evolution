@@ -411,9 +411,7 @@ static void
 memo_shell_content_constructed (GObject *object)
 {
 	EMemoShellContentPrivate *priv;
-	EShell *shell;
 	EShellView *shell_view;
-	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellTaskbar *shell_taskbar;
 	EShellWindow *shell_window;
@@ -431,10 +429,8 @@ memo_shell_content_constructed (GObject *object)
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_backend_get_shell (shell_backend);
 
 	priv->memo_model = e_cal_model_memos_new ();
 

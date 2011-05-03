@@ -222,14 +222,12 @@ e_mail_reader_open_selected (EMailReader *reader)
 	GtkWindow *window;
 	GPtrArray *views;
 	GPtrArray *uids;
-	const gchar *folder_uri;
 	guint ii;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
 
 	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_get_folder (reader);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	window = e_mail_reader_get_window (reader);
 
@@ -255,7 +253,6 @@ e_mail_reader_open_selected (EMailReader *reader)
 		const gchar *uid = uids->pdata[ii];
 		CamelFolder *real_folder;
 		CamelMessageInfo *info;
-		const gchar *real_folder_uri;
 		gchar *real_uid;
 
 		if (!CAMEL_IS_VEE_FOLDER (folder)) {
@@ -270,7 +267,6 @@ e_mail_reader_open_selected (EMailReader *reader)
 		real_folder = camel_vee_folder_get_location (
 			CAMEL_VEE_FOLDER (folder),
 			(CamelVeeMessageInfo *) info, &real_uid);
-		real_folder_uri = camel_folder_get_uri (real_folder);
 
 		if (em_utils_folder_is_drafts (real_folder) ||
 			em_utils_folder_is_outbox (real_folder)) {
@@ -535,7 +531,6 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 	EMailSession *session;
 	CamelFolder *folder;
 	const gchar *filter_source;
-	const gchar *folder_uri;
 	GPtrArray *uids;
 
 	struct {
@@ -546,11 +541,9 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
+	folder = e_mail_reader_get_folder (reader);
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
-
-	folder = e_mail_reader_get_folder (reader);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
 
 	if (em_utils_folder_is_sent (folder))
 		filter_source = E_FILTER_SOURCE_OUTGOING;

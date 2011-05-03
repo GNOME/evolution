@@ -912,13 +912,11 @@ action_mail_message_edit_cb (GtkAction *action,
 	EMailBackend *backend;
 	EShellBackend *shell_backend;
 	CamelFolder *folder;
-	const gchar *folder_uri;
 	GPtrArray *uids;
 	gboolean replace;
 
 	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_get_folder (reader);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	shell_backend = E_SHELL_BACKEND (backend);
@@ -3772,7 +3770,6 @@ e_mail_reader_check_state (EMailReader *reader)
 	GPtrArray *uids;
 	CamelFolder *folder;
 	CamelStore *store = NULL;
-	const gchar *folder_uri;
 	const gchar *tag;
 	gboolean can_clear_flags = FALSE;
 	gboolean can_flag_completed = FALSE;
@@ -3796,7 +3793,6 @@ e_mail_reader_check_state (EMailReader *reader)
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
 
 	folder = e_mail_reader_get_folder (reader);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (folder != NULL) {
