@@ -1007,10 +1007,8 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 	CamelSession *session;
 	CamelStore *store;
 	EAccountList *account_list;
-	EAccount *account;
 	EIterator *iterator;
 	gint is_templates = FALSE;
-	gchar *templates_uri;
 
 	local_templates_folder =
 		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_TEMPLATES);
@@ -1028,9 +1026,14 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 	iterator = e_list_get_iterator (E_LIST (account_list));
 
 	while (!is_templates && e_iterator_is_valid (iterator)) {
-		account = (EAccount *)e_iterator_get (iterator);
+		EAccount *account;
+
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iterator);
 
 		if (account->templates_folder_uri) {
+			gchar *templates_uri;
+
 			templates_uri = em_uri_to_camel (
 				account->templates_folder_uri);
 			is_templates = e_mail_folder_uri_equal (
@@ -1062,10 +1065,8 @@ em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri)
 	CamelSession *session;
 	CamelStore *store;
 	EAccountList *account_list;
-	EAccount *account;
 	EIterator *iterator;
 	gint is_drafts = FALSE;
-	gchar *drafts_uri;
 
 	local_drafts_folder =
 		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_DRAFTS);
@@ -1083,9 +1084,14 @@ em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri)
 	iterator = e_list_get_iterator (E_LIST (account_list));
 
 	while (!is_drafts && e_iterator_is_valid (iterator)) {
-		account = (EAccount *)e_iterator_get (iterator);
+		EAccount *account;
+
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iterator);
 
 		if (account->drafts_folder_uri) {
+			gchar *drafts_uri;
+
 			drafts_uri = em_uri_to_camel (
 				account->drafts_folder_uri);
 			is_drafts = e_mail_folder_uri_equal (
@@ -1117,10 +1123,8 @@ em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri)
 	CamelSession *session;
 	CamelStore *store;
 	EAccountList *account_list;
-	EAccount *account;
 	EIterator *iterator;
 	gint is_sent = FALSE;
-	gchar *sent_uri;
 
 	local_sent_folder =
 		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
@@ -1138,9 +1142,14 @@ em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri)
 	iterator = e_list_get_iterator (E_LIST (account_list));
 
 	while (!is_sent && e_iterator_is_valid (iterator)) {
+		EAccount *account;
+
+		/* XXX EIterator misuses const. */
 		account = (EAccount *)e_iterator_get (iterator);
 
 		if (account->sent_folder_uri) {
+			gchar *sent_uri;
+
 			sent_uri = em_uri_to_camel (
 				account->sent_folder_uri);
 			is_sent = e_mail_folder_uri_equal (
