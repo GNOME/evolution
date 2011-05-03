@@ -242,7 +242,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 	}
 
 	if (em_utils_folder_is_drafts (folder) ||
-		em_utils_folder_is_outbox (folder, folder_uri) ||
+		em_utils_folder_is_outbox (folder) ||
 		em_utils_folder_is_templates (folder)) {
 		em_utils_edit_messages (shell, folder, uids, TRUE);
 		return uids->len;
@@ -273,7 +273,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 		real_folder_uri = camel_folder_get_uri (real_folder);
 
 		if (em_utils_folder_is_drafts (real_folder) ||
-			em_utils_folder_is_outbox (real_folder, real_folder_uri)) {
+			em_utils_folder_is_outbox (real_folder)) {
 			GPtrArray *edits;
 
 			edits = g_ptr_array_new ();
@@ -554,7 +554,7 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 
 	if (em_utils_folder_is_sent (folder))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
-	else if (em_utils_folder_is_outbox (folder, folder_uri))
+	else if (em_utils_folder_is_outbox (folder))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
 	else
 		filter_source = E_FILTER_SOURCE_INCOMING;

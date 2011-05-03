@@ -2931,7 +2931,7 @@ mail_reader_set_folder (EMailReader *reader,
 
 	outgoing = folder != NULL && folder_uri != NULL && (
 		em_utils_folder_is_drafts (folder) ||
-		em_utils_folder_is_outbox (folder, folder_uri) ||
+		em_utils_folder_is_outbox (folder) ||
 		em_utils_folder_is_sent (folder));
 
 	/* FIXME Need to pass a GCancellable. */
@@ -3807,7 +3807,7 @@ e_mail_reader_check_state (EMailReader *reader)
 
 	drafts_or_outbox =
 		em_utils_folder_is_drafts (folder) ||
-		em_utils_folder_is_outbox (folder, folder_uri);
+		em_utils_folder_is_outbox (folder);
 
 	/* Initialize this flag based on whether there are any
 	 * messages selected.  We will update it in the loop. */
