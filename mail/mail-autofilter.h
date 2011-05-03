@@ -41,14 +41,14 @@ enum {
 EFilterRule *	em_vfolder_rule_from_message	(EMVFolderContext *context,
 						 CamelMimeMessage *msg,
 						 gint flags,
-						 const gchar *source);
+						 CamelFolder *folder);
 EFilterRule *	filter_rule_from_message	(EMFilterContext *context,
 						 CamelMimeMessage *msg,
 						 gint flags);
 EFilterRule *	em_vfolder_rule_from_address	(EMVFolderContext *context,
 						 CamelInternetAddress *addr,
 						 gint flags,
-						 const gchar *source);
+						 CamelFolder *folder);
 
 /* easiest place to put this */
 void		filter_gui_add_from_message	(EMailSession *session,
