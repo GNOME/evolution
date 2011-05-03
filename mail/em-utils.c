@@ -1051,22 +1051,24 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 
 /**
  * em_utils_folder_is_drafts:
- * @folder: folder
- * @uri: uri for this folder, if known
+ * @folder: a #CamelFolder
  *
  * Decides if @folder is a Drafts folder.
  *
  * Returns %TRUE if this is a Drafts folder or %FALSE otherwise.
  **/
 gboolean
-em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri)
+em_utils_folder_is_drafts (CamelFolder *folder)
 {
 	CamelFolder *local_drafts_folder;
 	CamelSession *session;
 	CamelStore *store;
 	EAccountList *account_list;
 	EIterator *iterator;
-	gint is_drafts = FALSE;
+	gchar *folder_uri;
+	gboolean is_drafts = FALSE;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
 	local_drafts_folder =
 		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_DRAFTS);
@@ -1074,8 +1076,7 @@ em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri)
 	if (folder == local_drafts_folder)
 		return TRUE;
 
-	if (folder == NULL || uri == NULL)
-		return FALSE;
+	folder_uri = e_mail_folder_uri_from_folder (folder);
 
 	store = camel_folder_get_parent_store (folder);
 	session = camel_service_get_session (CAMEL_SERVICE (store));
@@ -1095,7 +1096,7 @@ em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri)
 			drafts_uri = em_uri_to_camel (
 				account->drafts_folder_uri);
 			is_drafts = e_mail_folder_uri_equal (
-				session, drafts_uri, uri);
+				session, drafts_uri, folder_uri);
 			g_free (drafts_uri);
 		}
 
@@ -1103,6 +1104,7 @@ em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri)
 	}
 
 	g_object_unref (iterator);
+	g_free (folder_uri);
 
 	return is_drafts;
 }

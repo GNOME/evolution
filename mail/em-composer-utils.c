@@ -1138,14 +1138,13 @@ edit_message (EShell *shell,
 
 	composer = e_msg_composer_new_with_message (shell, message, NULL);
 
-	if (message_uid != NULL) {
+	if (message_uid != NULL && em_utils_folder_is_drafts (folder)) {
 		const gchar *folder_uri;
 
 		folder_uri = camel_folder_get_uri (folder);
 
-		if (em_utils_folder_is_drafts (folder, folder_uri))
-			e_msg_composer_set_draft_headers (
-				composer, folder_uri, message_uid);
+		e_msg_composer_set_draft_headers (
+			composer, folder_uri, message_uid);
 	}
 
 	composer_set_no_change (composer);

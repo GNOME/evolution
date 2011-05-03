@@ -694,7 +694,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	unread = fi->unread;
 	if (mail_folder_cache_get_folder_from_uri (
 		folder_cache, fi->uri, &folder) && folder) {
-		is_drafts = em_utils_folder_is_drafts (folder, fi->uri);
+		is_drafts = em_utils_folder_is_drafts (folder);
 
 		if (is_drafts || em_utils_folder_is_outbox (folder, fi->uri)) {
 			gint total;

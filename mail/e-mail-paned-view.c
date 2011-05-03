@@ -782,7 +782,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 	e_filename_make_safe (view_id);
 
 	outgoing_folder =
-		em_utils_folder_is_drafts (folder, folder_uri) ||
+		em_utils_folder_is_drafts (folder) ||
 		em_utils_folder_is_outbox (folder, folder_uri) ||
 		em_utils_folder_is_sent (folder, folder_uri);
 
