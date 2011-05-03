@@ -45,6 +45,16 @@ gboolean	e_mail_folder_append_message_finish
 						 gchar **appended_uid,
 						 GError **error);
 
+gboolean	e_mail_folder_uri_parse		(CamelSession *session,
+						 const gchar *folder_uri,
+						 CamelStore **out_store,
+						 gchar **out_folder_name,
+						 GError **error);
+gboolean	e_mail_folder_uri_equal		(CamelSession *session,
+						 const gchar *folder_uri_a,
+						 const gchar *folder_uri_b);
+gchar *		e_mail_folder_uri_from_folder	(CamelFolder *folder);
+
 G_END_DECLS
 
 #endif /* E_MAIL_FOLDER_UTILS_H */
