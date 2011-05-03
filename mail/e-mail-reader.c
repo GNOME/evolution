@@ -2940,7 +2940,7 @@ mail_reader_set_folder (EMailReader *reader,
 	priv->folder_was_just_selected = (folder != NULL);
 
 	message_list_set_folder (
-		MESSAGE_LIST (message_list), folder, folder_uri, outgoing);
+		MESSAGE_LIST (message_list), folder, outgoing);
 
 	mail_reader_emit_folder_loaded (reader);
 }
