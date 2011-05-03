@@ -109,10 +109,6 @@ struct _EMFolderTreeModelClass {
 	void		(*loaded_row)		(EMFolderTreeModel *model,
 						 GtkTreePath *path,
 						 GtkTreeIter *iter);
-
-	void		(*folder_added)		(EMFolderTreeModel *model,
-						 const gchar *path,
-						 const gchar *uri);
 };
 
 GType		em_folder_tree_model_get_type	(void);
