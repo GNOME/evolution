@@ -1113,22 +1113,24 @@ em_utils_folder_is_drafts (CamelFolder *folder)
 
 /**
  * em_utils_folder_is_sent:
- * @folder: folder
- * @uri: uri for this folder, if known
+ * @folder: a #CamelFolder
  *
- * Decides if @folder is a Sent folder
+ * Decides if @folder is a Sent folder.
  *
  * Returns %TRUE if this is a Sent folder or %FALSE otherwise.
  **/
 gboolean
-em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri)
+em_utils_folder_is_sent (CamelFolder *folder)
 {
 	CamelFolder *local_sent_folder;
 	CamelSession *session;
 	CamelStore *store;
 	EAccountList *account_list;
 	EIterator *iterator;
-	gint is_sent = FALSE;
+	gchar *folder_uri;
+	gboolean is_sent = FALSE;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
 	local_sent_folder =
 		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
@@ -1136,8 +1138,7 @@ em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri)
 	if (folder == local_sent_folder)
 		return TRUE;
 
-	if (folder == NULL || uri == NULL)
-		return FALSE;
+	folder_uri = e_mail_folder_uri_from_folder (folder);
 
 	store = camel_folder_get_parent_store (folder);
 	session = camel_service_get_session (CAMEL_SERVICE (store));
@@ -1157,7 +1158,7 @@ em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri)
 			sent_uri = em_uri_to_camel (
 				account->sent_folder_uri);
 			is_sent = e_mail_folder_uri_equal (
-				session, sent_uri, uri);
+				session, sent_uri, folder_uri);
 			g_free (sent_uri);
 		}
 
@@ -1165,6 +1166,7 @@ em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri)
 	}
 
 	g_object_unref (iterator);
+	g_free (folder_uri);
 
 	return is_sent;
 }

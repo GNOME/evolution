@@ -2932,7 +2932,7 @@ mail_reader_set_folder (EMailReader *reader,
 	outgoing = folder != NULL && folder_uri != NULL && (
 		em_utils_folder_is_drafts (folder) ||
 		em_utils_folder_is_outbox (folder, folder_uri) ||
-		em_utils_folder_is_sent (folder, folder_uri));
+		em_utils_folder_is_sent (folder));
 
 	/* FIXME Need to pass a GCancellable. */
 	em_format_format (EM_FORMAT (formatter), NULL, NULL, NULL, NULL);

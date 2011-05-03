@@ -784,7 +784,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 	outgoing_folder =
 		em_utils_folder_is_drafts (folder) ||
 		em_utils_folder_is_outbox (folder, folder_uri) ||
-		em_utils_folder_is_sent (folder, folder_uri);
+		em_utils_folder_is_sent (folder);
 
 	if (e_shell_settings_get_boolean (shell_settings, "mail-global-view-setting"))
 		view_instance = e_shell_view_new_view_instance (shell_view, outgoing_folder ? "global_view_sent_setting" : "global_view_setting");

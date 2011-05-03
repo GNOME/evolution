@@ -552,7 +552,7 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 
-	if (em_utils_folder_is_sent (folder, folder_uri))
+	if (em_utils_folder_is_sent (folder))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
 	else if (em_utils_folder_is_outbox (folder, folder_uri))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
