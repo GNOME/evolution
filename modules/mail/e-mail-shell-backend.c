@@ -36,6 +36,7 @@
 #include "e-mail-shell-view.h"
 
 #include "e-mail-browser.h"
+#include "e-mail-folder-utils.h"
 #include "e-mail-reader.h"
 #include "e-mail-session.h"
 #include "e-mail-store.h"
@@ -147,12 +148,14 @@ action_mail_message_new_cb (GtkAction *action,
                             EShellWindow *shell_window)
 {
 	EMailShellSidebar *mail_shell_sidebar;
+	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
 	EShell *shell;
 	EMFolderTree *folder_tree;
+	CamelFolder *folder = NULL;
 	const gchar *view_name;
-	gchar *uri = NULL;
+	gchar *folder_uri = NULL;
 
 	shell = e_shell_window_get_shell (shell_window);
 
@@ -165,16 +168,40 @@ action_mail_message_new_cb (GtkAction *action,
 		goto exit;
 
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	uri = em_folder_tree_get_selected_uri (folder_tree);
+	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
+
+	if (folder_uri != NULL) {
+		EMailBackend *backend;
+		EMailSession *session;
+		CamelStore *store;
+		gchar *folder_name;
+		gboolean success;
+
+		backend = E_MAIL_BACKEND (shell_backend);
+		session = e_mail_backend_get_session (backend);
+
+		success = e_mail_folder_uri_parse (
+			CAMEL_SESSION (session), folder_uri,
+			&store, &folder_name, NULL);
+
+		/* FIXME This blocks and is not cancellable. */
+		if (success) {
+			folder = camel_store_get_folder_sync (
+				store, folder_name, 0, NULL, NULL);
+			g_object_unref (store);
+			g_free (folder_name);
+		}
+
+		g_free (folder_uri);
+	}
 
 exit:
-	em_utils_compose_new_message (shell, uri);
-
-	g_free (uri);
+	em_utils_compose_new_message (shell, folder);
 }
 
 static GtkActionEntry item_entries[] = {
@@ -307,7 +334,7 @@ mail_shell_backend_handle_email_uri_cb (gchar *folder_uri,
 				shell_settings, "mail-forward-style");
 
 		em_utils_forward_messages (
-			shell, folder, uids, folder_uri, forward_style);
+			shell, folder, uids, forward_style);
 
 	} else {
 		GtkWidget *browser;

@@ -87,7 +87,6 @@ struct _ForwardData {
 	EShell *shell;
 	CamelFolder *folder;
 	GPtrArray *uids;
-	gchar *from_uri;
 	EMailForwardStyle style;
 };
 
@@ -120,8 +119,6 @@ forward_data_free (ForwardData *data)
 
 	if (data->uids != NULL)
 		em_utils_uids_free (data->uids);
-
-	g_free (data->from_uri);
 
 	g_slice_free (ForwardData, data);
 }
@@ -876,7 +873,7 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 static EMsgComposer *
 create_new_composer (EShell *shell,
                      const gchar *subject,
-                     const gchar *from_uri)
+                     CamelFolder *folder)
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
@@ -886,14 +883,23 @@ create_new_composer (EShell *shell,
 
 	table = e_msg_composer_get_header_table (composer);
 
-	if (from_uri != NULL) {
+	if (folder != NULL) {
+		CamelStore *store;
+		const gchar *uid;
+		gchar *folder_uri;
 		GList *list;
 
-		account = e_get_account_by_source_url (from_uri);
+		store = camel_folder_get_parent_store (folder);
+		uid = camel_service_get_uid (CAMEL_SERVICE (store));
+		account = e_get_account_by_uid (uid);
 
-		list = g_list_prepend (NULL, (gpointer) from_uri);
+		folder_uri = e_mail_folder_uri_from_folder (folder);
+
+		list = g_list_prepend (NULL, folder_uri);
 		e_composer_header_table_set_post_to_list (table, list);
 		g_list_free (list);
+
+		g_free (folder_uri);
 	}
 
 	e_composer_header_table_set_account (table, account);
@@ -905,40 +911,42 @@ create_new_composer (EShell *shell,
 /**
  * em_utils_compose_new_message:
  * @shell: an #EShell
+ * @folder: a #CamelFolder, or %NULL
  *
  * Opens a new composer window as a child window of @parent's toplevel
  * window.
  **/
 void
 em_utils_compose_new_message (EShell *shell,
-                              const gchar *from_uri)
+                              CamelFolder *folder)
 {
-	GtkWidget *composer;
+	EMsgComposer *composer;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 
-	composer = (GtkWidget *) create_new_composer (shell, "", from_uri);
-	if (composer == NULL)
-		return;
+	if (folder != NULL)
+		g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	composer_set_no_change (E_MSG_COMPOSER (composer));
+	composer = create_new_composer (shell, "", folder);
+	composer_set_no_change (composer);
 
-	gtk_widget_show (composer);
+	gtk_widget_show (GTK_WIDGET (composer));
 }
 
 /**
  * em_utils_compose_new_message_with_mailto:
  * @shell: an #EShell
- * @url: mailto url
+ * @mailto: a mailto URL
+ * @folder: a #CamelFolder, or %NULL
  *
  * Opens a new composer window as a child window of @parent's toplevel
- * window. If @url is non-NULL, the composer fields will be filled in
- * according to the values in the mailto url.
+ * window. If @mailto is non-NULL, the composer fields will be filled in
+ * according to the values in the mailto URL.
  **/
 EMsgComposer *
 em_utils_compose_new_message_with_mailto (EShell *shell,
-                                          const gchar *url,
-                                          const gchar *from_uri)
+                                          const gchar *mailto,
+                                          CamelFolder *folder)
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
@@ -946,15 +954,26 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	if (url != NULL)
-		composer = e_msg_composer_new_from_url (shell, url);
+	if (folder != NULL)
+		g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+
+	if (mailto != NULL)
+		composer = e_msg_composer_new_from_url (shell, mailto);
 	else
 		composer = e_msg_composer_new (shell);
 
 	table = e_msg_composer_get_header_table (composer);
 
-	if (from_uri
-	    && (account = e_get_account_by_source_url (from_uri)))
+	if (folder != NULL) {
+		CamelStore *store;
+		const gchar *uid;
+
+		store = camel_folder_get_parent_store (folder);
+		uid = camel_service_get_uid (CAMEL_SERVICE (store));
+		account = e_get_account_by_uid (uid);
+	}
+
+	if (account != NULL)
 		e_composer_header_table_set_account_name (table, account->name);
 
 	composer_set_no_change (composer);
@@ -1371,14 +1390,11 @@ forward_attached (EShell *shell,
                   GPtrArray *uids,
                   GPtrArray *messages,
                   CamelMimePart *part,
-                  gchar *subject,
-                  const gchar *from_uri)
+                  gchar *subject)
 {
 	EMsgComposer *composer;
 
-	composer = create_new_composer (shell, subject, from_uri);
-	if (composer == NULL)
-		return NULL;
+	composer = create_new_composer (shell, subject, folder);
 
 	e_msg_composer_attach (composer, part);
 
@@ -1404,7 +1420,7 @@ forward_attached_cb (CamelFolder *folder,
 	if (part)
 		forward_attached (
 			data->shell, folder, data->uids,
-			messages, part, subject, data->from_uri);
+			messages, part, subject);
 
 	forward_data_free (data);
 }
@@ -1414,8 +1430,7 @@ forward_non_attached (EShell *shell,
                       CamelFolder *folder,
                       GPtrArray *uids,
                       GPtrArray *messages,
-                      EMailForwardStyle style,
-                      const gchar *from_uri)
+                      EMailForwardStyle style)
 {
 	CamelMimeMessage *message;
 	EMsgComposer *composer = NULL;
@@ -1444,7 +1459,7 @@ forward_non_attached (EShell *shell,
 			message, forward, flags, NULL, NULL, &validity_found);
 
 		if (text) {
-			composer = create_new_composer (shell, subject, from_uri);
+			composer = create_new_composer (shell, subject, folder);
 
 			if (composer) {
 				if (CAMEL_IS_MULTIPART (camel_medium_get_content ((CamelMedium *)message)))
@@ -1476,7 +1491,7 @@ forward_non_attached (EShell *shell,
  * em_utils_forward_message:
  * @shell: an #EShell
  * @message: message to be forwarded
- * @from_uri: from folder uri
+ * @folder: a #CamelFolder, or %NULL
  * @style: the forward style to use
  *
  * Forwards a message in the given style.  See em_utils_forward_messages()
@@ -1485,7 +1500,7 @@ forward_non_attached (EShell *shell,
 EMsgComposer *
 em_utils_forward_message (EShell *shell,
                           CamelMimeMessage *message,
-                          const gchar *from_uri,
+                          CamelFolder *folder,
                           EMailForwardStyle style)
 {
 	GPtrArray *messages;
@@ -1506,8 +1521,7 @@ em_utils_forward_message (EShell *shell,
 			subject = mail_tool_generate_forward_subject (message);
 
 			composer = forward_attached (
-				shell, NULL, NULL, messages,
-				part, subject, from_uri);
+				shell, NULL, NULL, messages, part, subject);
 
 			g_object_unref (part);
 			g_free (subject);
@@ -1516,13 +1530,13 @@ em_utils_forward_message (EShell *shell,
 		case E_MAIL_FORWARD_STYLE_INLINE:
 			composer = forward_non_attached (
 				shell, NULL, NULL, messages,
-				E_MAIL_FORWARD_STYLE_INLINE, from_uri);
+				E_MAIL_FORWARD_STYLE_INLINE);
 			break;
 
 		case E_MAIL_FORWARD_STYLE_QUOTED:
 			composer = forward_non_attached (
 				shell, NULL, NULL, messages,
-				E_MAIL_FORWARD_STYLE_QUOTED, from_uri);
+				E_MAIL_FORWARD_STYLE_QUOTED);
 			break;
 	}
 
@@ -1540,8 +1554,7 @@ forward_got_messages_cb (CamelFolder *folder,
 	ForwardData *data = user_data;
 
 	forward_non_attached (
-		data->shell, folder, uids, messages,
-		data->style, data->from_uri);
+		data->shell, folder, uids, messages, data->style);
 
 	forward_data_free (data);
 }
@@ -1573,7 +1586,6 @@ void
 em_utils_forward_messages (EShell *shell,
                            CamelFolder *folder,
                            GPtrArray *uids,
-                           const gchar *from_uri,
                            EMailForwardStyle style)
 {
 	ForwardData *data;
@@ -1583,7 +1595,6 @@ em_utils_forward_messages (EShell *shell,
 	data = g_slice_new0 (ForwardData);
 	data->shell = g_object_ref (shell);
 	data->uids = em_utils_uids_copy (uids);
-	data->from_uri = g_strdup (from_uri);
 	data->style = style;
 
 	switch (style) {

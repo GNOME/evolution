@@ -239,7 +239,6 @@ mail_display_process_mailto (EWebView *web_view, const gchar *mailto_uri)
 		EMailDisplayPrivate *priv;
 		EMFormat *format;
 		CamelFolder *folder = NULL;
-		const gchar *folder_uri = NULL;
 		EShell *shell;
 
 		priv = E_MAIL_DISPLAY (web_view)->priv;
@@ -250,12 +249,9 @@ mail_display_process_mailto (EWebView *web_view, const gchar *mailto_uri)
 		if (format != NULL && format->folder != NULL)
 			folder = format->folder;
 
-		if (folder != NULL)
-			folder_uri = camel_folder_get_uri (folder);
-
 		shell = e_shell_get_default ();
 		em_utils_compose_new_message_with_mailto (
-			shell, mailto_uri, folder_uri);
+			shell, mailto_uri, folder);
 
 		return TRUE;
 	}
