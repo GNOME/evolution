@@ -128,8 +128,9 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	EMailBackend *backend;
 	EMailSession *session;
 	EMailView *mail_view;
-	const gchar *folder_uri;
+	CamelFolder *folder;
 	const gchar *search_text;
+	gchar *folder_uri;
 	gchar *rule_name;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
@@ -150,7 +151,7 @@ action_mail_create_search_folder_cb (GtkAction *action,
 		search_text = "''";
 
 	reader = E_MAIL_READER (mail_view);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
+	folder = e_mail_reader_get_folder (reader);
 
 	search_rule = vfolder_clone_rule (session, search_rule);
 	g_return_if_fail (search_rule != NULL);
@@ -160,9 +161,13 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	e_filter_rule_set_name (search_rule, rule_name);
 	g_free (rule_name);
 
+	folder_uri = e_mail_folder_uri_from_folder (folder);
+
 	vfolder_rule = EM_VFOLDER_RULE (search_rule);
 	em_vfolder_rule_add_source (vfolder_rule, folder_uri);
 	vfolder_gui_add_rule (vfolder_rule);
+
+	g_free (folder_uri);
 }
 
 static void

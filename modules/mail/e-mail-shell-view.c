@@ -232,7 +232,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	GString *string;
 	GList *list, *iter;
 	GSList *search_strings = NULL;
-	const gchar *folder_uri;
 	const gchar *text;
 	gboolean valid;
 	gchar *query;
@@ -263,7 +262,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 
 	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	/* This returns a new object reference. */
@@ -561,7 +559,7 @@ all_accounts:
 	/* Add local folders. */
 	iter = mail_vfolder_get_sources_local ();
 	while (iter != NULL) {
-		folder_uri = iter->data;
+		const gchar *folder_uri = iter->data;
 		/* FIXME Not passing a GCancellable or GError here. */
 		folder = e_mail_session_uri_to_folder_sync (
 			E_MAIL_SESSION (session), folder_uri, 0, NULL, NULL);
@@ -577,7 +575,7 @@ all_accounts:
 	/* Add remote folders. */
 	iter = mail_vfolder_get_sources_remote ();
 	while (iter != NULL) {
-		folder_uri = iter->data;
+		const gchar *folder_uri = iter->data;
 		/* FIXME Not passing a GCancellable or GError here. */
 		folder = e_mail_session_uri_to_folder_sync (
 			E_MAIL_SESSION (session), folder_uri, 0, NULL, NULL);
@@ -894,9 +892,9 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	if (uri != NULL) {
 		GtkTreeRowReference *reference;
 		EMFolderTreeModel *model;
-		const gchar *folder_uri;
+		CamelFolder *folder;
 
-		folder_uri = e_mail_reader_get_folder_uri (reader);
+		folder = e_mail_reader_get_folder (reader);
 
 		/* XXX If the user right-clicks on a folder other than what
 		 *     the message list is showing, disable folder rename.
@@ -905,8 +903,14 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		 *     back to where it was to avoid cancelling the inline
 		 *     folder tree editing, it's just too hairy to try to
 		 *     get right.  So we're punting. */
-		folder_tree_and_message_list_agree =
-			(g_strcmp0 (uri, folder_uri) == 0);
+		if (CAMEL_IS_FOLDER (folder)) {
+			gchar *folder_uri;
+
+			folder_uri = e_mail_folder_uri_from_folder (folder);
+			folder_tree_and_message_list_agree =
+				(g_strcmp0 (uri, folder_uri) == 0);
+			g_free (folder_uri);
+		}
 
 		/* FIXME This belongs in a GroupWise plugin. */
 		account_is_groupwise =

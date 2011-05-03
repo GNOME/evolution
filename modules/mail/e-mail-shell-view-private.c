@@ -205,7 +205,8 @@ mail_shell_view_folder_tree_selection_done_cb (EMailShellView *mail_shell_view,
 	GtkWidget *message_list;
 	EMailReader *reader;
 	EMailView *mail_view;
-	const gchar *list_uri;
+	CamelFolder *folder;
+	gchar *list_uri;
 	gchar *tree_uri;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
@@ -217,11 +218,12 @@ mail_shell_view_folder_tree_selection_done_cb (EMailShellView *mail_shell_view,
 	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	/* Don't use e_mail_reader_get_folder_uri() here.  The fact that
-	 * the method gets the folder URI from the message list is supposed
-	 * to be a hidden implementation detail, and we want to explicitly
-	 * get the folder URI from the message list here. */
-	list_uri = MESSAGE_LIST (message_list)->folder_uri;
+	/* Don't use e_mail_reader_get_folder() here.  The fact that the
+	 * method gets the folder from the message list is supposed to be
+	 * a hidden implementation detail, and we want to explicitly get
+	 * the folder URI from the message list here. */
+	folder = MESSAGE_LIST (message_list)->folder;
+	list_uri = e_mail_folder_uri_from_folder (folder);
 	tree_uri = em_folder_tree_get_selected_uri (folder_tree);
 
 	/* If the folder tree and message list disagree on the current
@@ -229,6 +231,7 @@ mail_shell_view_folder_tree_selection_done_cb (EMailShellView *mail_shell_view,
 	if (g_strcmp0 (tree_uri, list_uri) != 0)
 		em_folder_tree_set_selected (folder_tree, list_uri, FALSE);
 
+	g_free (list_uri);
 	g_free (tree_uri);
 
 	/* Disconnect from the "selection-done" signal. */
@@ -875,7 +878,7 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	CamelFolder *folder;
 	CamelVeeFolder *vee_folder;
 	const gchar *old_state_group;
-	const gchar *folder_uri;
+	gchar *folder_uri;
 	gchar *new_state_group;
 
 	/* XXX Move this to EMailShellContent. */
@@ -888,9 +891,8 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 
 	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
 
-	if (folder_uri == NULL)
+	if (folder == NULL)
 		return;
 
 	/* Do not restore state if we're running a "Current Account"
@@ -905,8 +907,10 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	if (vee_folder != NULL && folder == CAMEL_FOLDER (vee_folder))
 		return;
 
+	folder_uri = e_mail_folder_uri_from_folder (folder);
 	new_state_group = g_strdup_printf ("Folder %s", folder_uri);
 	old_state_group = e_shell_searchbar_get_state_group (searchbar);
+	g_free (folder_uri);
 
 	/* Avoid loading search state unnecessarily. */
 	if (g_strcmp0 (new_state_group, old_state_group) != 0) {
@@ -1006,17 +1010,15 @@ mail_shell_view_create_vfolder_cb (CamelFolder *folder,
 {
 	struct {
 		EMailSession *session;
-		gchar *uri;
 		gint type;
 	} *vfolder_data = user_data;
 
 	if (message != NULL)
 		vfolder_gui_add_from_message (
 			vfolder_data->session, message,
-			vfolder_data->type, vfolder_data->uri);
+			vfolder_data->type, folder);
 
 	g_object_unref (vfolder_data->session);
-	g_free (vfolder_data->uri);
 	g_free (vfolder_data);
 }
 
@@ -1032,12 +1034,10 @@ e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
 	EMailReader *reader;
 	EMailView *mail_view;
 	CamelFolder *folder;
-	const gchar *folder_uri;
 	GPtrArray *uids;
 
 	struct {
 		EMailSession *session;
-		gchar *uri;
 		gint type;
 	} *vfolder_data;
 
@@ -1054,13 +1054,11 @@ e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
 
 	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (uids->len == 1) {
 		vfolder_data = g_malloc (sizeof (*vfolder_data));
 		vfolder_data->session = g_object_ref (session);
-		vfolder_data->uri = g_strdup (folder_uri);
 		vfolder_data->type = vfolder_type;
 
 		mail_get_message (

@@ -32,6 +32,7 @@
 #include "mail/em-folder-tree.h"
 #include "e-mail-notebook-view.h"
 #include "e-mail-folder-pane.h"
+#include "e-mail-folder-utils.h"
 #include "e-mail-message-pane.h"
 
 #include <shell/e-shell-window-actions.h>
@@ -122,7 +123,7 @@ mnv_page_changed (GtkNotebook *book,
 	EShellSidebar *shell_sidebar;
 	EMFolderTree *folder_tree;
 	EMailView *mview;
-	const gchar *uri;
+	CamelFolder *folder;
 
 	priv = E_MAIL_NOTEBOOK_VIEW (view)->priv;
 
@@ -130,13 +131,18 @@ mnv_page_changed (GtkNotebook *book,
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
 	page = gtk_notebook_get_nth_page (book, page_num);
-	uri = e_mail_reader_get_folder_uri (E_MAIL_READER (page));
+	folder = e_mail_reader_get_folder (E_MAIL_READER (page));
 	mview = E_MAIL_VIEW (page);
 
 	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
 
-	if (uri && E_IS_MAIL_FOLDER_PANE (mview))
-		em_folder_tree_set_selected (folder_tree, uri, FALSE);
+	if (folder != NULL && E_IS_MAIL_FOLDER_PANE (mview)) {
+		gchar *folder_uri;
+
+		folder_uri = e_mail_folder_uri_from_folder (folder);
+		em_folder_tree_set_selected (folder_tree, folder_uri, FALSE);
+		g_free (folder_uri);
+	}
 
 	if (mview != priv->current_view) {
 		e_mail_view_set_previous_view (mview, priv->current_view);
@@ -261,12 +267,19 @@ mnv_tab_closed_cb (ClutterTimeline *timeline,
 		struct _tab_data *data)
 {
 	EMailView *page = g_object_get_data ((GObject *)data->tab, "page");
-	const gchar *folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER (page));
 	EMailView *prev;
 	gint num;
 
-	if (E_IS_MAIL_FOLDER_PANE (page))
+	if (E_IS_MAIL_FOLDER_PANE (page)) {
+		CamelFolder *folder;
+		gchar *folder_uri;
+
+		folder = e_mail_reader_get_folder (E_MAIL_READER (page));
+		folder_uri = e_mail_folder_uri_from_folder (folder);
 		g_hash_table_remove (data->view->priv->views, folder_uri);
+		g_free (folder_uri);
+	}
+
 	prev = e_mail_view_get_previous_view (page);
 	if (prev) {
 		num = emnv_get_page_num (data->view, (GtkWidget *)prev);
@@ -332,15 +345,21 @@ tab_remove_gtk_cb (GtkWidget *button,
 		   EMailNotebookView *view)
 {
 	EMailView *page = g_object_get_data ((GObject *)button, "page");
-	const gchar *folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER (page));
 	EMailView *prev;
 	gint num;
 
 	if (gtk_notebook_get_n_pages (view->priv->book) == 1)
 		return;
 
-	if (E_IS_MAIL_FOLDER_PANE (page))
+	if (E_IS_MAIL_FOLDER_PANE (page)) {
+		CamelFolder *folder;
+		gchar *folder_uri;
+
+		folder = e_mail_reader_get_folder (E_MAIL_READER (page));
+		folder_uri = e_mail_folder_uri_from_folder (folder);
 		g_hash_table_remove (view->priv->views, folder_uri);
+		g_free (folder_uri);
+	}
 
 	prev = e_mail_view_get_previous_view (page);
 	if (prev) {

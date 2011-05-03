@@ -2869,16 +2869,6 @@ mail_reader_get_folder (EMailReader *reader)
 	return MESSAGE_LIST (message_list)->folder;
 }
 
-static const gchar *
-mail_reader_get_folder_uri (EMailReader *reader)
-{
-	GtkWidget *message_list;
-
-	message_list = e_mail_reader_get_message_list (reader);
-
-	return MESSAGE_LIST (message_list)->folder_uri;
-}
-
 static gboolean
 mail_reader_get_enable_show_folder (EMailReader *reader)
 {
@@ -3386,7 +3376,6 @@ e_mail_reader_default_init (EMailReaderInterface *interface)
 
 	interface->get_selected_uids = mail_reader_get_selected_uids;
 	interface->get_folder = mail_reader_get_folder;
-	interface->get_folder_uri = mail_reader_get_folder_uri;
 	interface->enable_show_folder = mail_reader_get_enable_show_folder;
 	interface->set_folder = mail_reader_set_folder;
 	interface->set_message = mail_reader_set_message;
@@ -4079,19 +4068,6 @@ e_mail_reader_get_folder (EMailReader *reader)
 	g_return_val_if_fail (interface->get_folder != NULL, NULL);
 
 	return interface->get_folder (reader);
-}
-
-const gchar *
-e_mail_reader_get_folder_uri (EMailReader *reader)
-{
-	EMailReaderInterface *interface;
-
-	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
-
-	interface = E_MAIL_READER_GET_INTERFACE (reader);
-	g_return_val_if_fail (interface->get_folder_uri != NULL, NULL);
-
-	return interface->get_folder_uri (reader);
 }
 
 void
