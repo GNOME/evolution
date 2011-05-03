@@ -989,7 +989,8 @@ em_utils_selection_get_urilist (GtkSelectionData *selection_data,
 	g_strfreev (uris);
 }
 
-/** em_utils_folder_is_templates:
+/**
+ * em_utils_folder_is_templates:
  * @folder: folder
  * @uri: uri for this folder, if known
  *
@@ -1003,9 +1004,9 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 {
 	CamelFolder *local_templates_folder;
 	CamelStore *parent_store;
-	EAccountList *accounts;
+	EAccountList *account_list;
 	EAccount *account;
-	EIterator *iter;
+	EIterator *iterator;
 	gint is = FALSE;
 	gchar *templates_uri;
 
@@ -1020,10 +1021,11 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 
 	parent_store = camel_folder_get_parent_store (folder);
 
-	accounts = e_get_account_list ();
-	iter = e_list_get_iterator ((EList *)accounts);
-	while (e_iterator_is_valid (iter)) {
-		account = (EAccount *)e_iterator_get (iter);
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		account = (EAccount *)e_iterator_get (iterator);
 
 		if (account->templates_folder_uri) {
 			templates_uri = em_uri_to_camel (account->templates_folder_uri);
@@ -1035,10 +1037,10 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 			g_free (templates_uri);
 		}
 
-		e_iterator_next (iter);
+		e_iterator_next (iterator);
 	}
 
-	g_object_unref (iter);
+	g_object_unref (iterator);
 
 	return is;
 }
@@ -1057,9 +1059,9 @@ em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri)
 {
 	CamelFolder *local_drafts_folder;
 	CamelStore *parent_store;
-	EAccountList *accounts;
+	EAccountList *account_list;
 	EAccount *account;
-	EIterator *iter;
+	EIterator *iterator;
 	gint is = FALSE;
 	gchar *drafts_uri;
 
@@ -1074,10 +1076,11 @@ em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri)
 
 	parent_store = camel_folder_get_parent_store (folder);
 
-	accounts = e_get_account_list ();
-	iter = e_list_get_iterator ((EList *)accounts);
-	while (e_iterator_is_valid (iter)) {
-		account = (EAccount *)e_iterator_get (iter);
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		account = (EAccount *)e_iterator_get (iterator);
 
 		if (account->drafts_folder_uri) {
 			drafts_uri = em_uri_to_camel (account->drafts_folder_uri);
@@ -1089,10 +1092,10 @@ em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri)
 			g_free (drafts_uri);
 		}
 
-		e_iterator_next (iter);
+		e_iterator_next (iterator);
 	}
 
-	g_object_unref (iter);
+	g_object_unref (iterator);
 
 	return is;
 }
@@ -1111,9 +1114,9 @@ em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri)
 {
 	CamelFolder *local_sent_folder;
 	CamelStore *parent_store;
-	EAccountList *accounts;
+	EAccountList *account_list;
 	EAccount *account;
-	EIterator *iter;
+	EIterator *iterator;
 	gint is = FALSE;
 	gchar *sent_uri;
 
@@ -1127,10 +1130,11 @@ em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri)
 
 	parent_store = camel_folder_get_parent_store (folder);
 
-	accounts = e_get_account_list ();
-	iter = e_list_get_iterator ((EList *)accounts);
-	while (e_iterator_is_valid (iter)) {
-		account = (EAccount *)e_iterator_get (iter);
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		account = (EAccount *)e_iterator_get (iterator);
 
 		if (account->sent_folder_uri) {
 			sent_uri = em_uri_to_camel (account->sent_folder_uri);
@@ -1142,10 +1146,10 @@ em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri)
 			g_free (sent_uri);
 		}
 
-		e_iterator_next (iter);
+		e_iterator_next (iterator);
 	}
 
-	g_object_unref (iter);
+	g_object_unref (iterator);
 
 	return is;
 }
@@ -1388,9 +1392,9 @@ em_utils_empty_trash (GtkWidget *parent,
                       EMailSession *session)
 {
 	CamelProvider *provider;
-	EAccountList *accounts;
+	EAccountList *account_list;
 	EAccount *account;
-	EIterator *iter;
+	EIterator *iterator;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
@@ -1399,10 +1403,11 @@ em_utils_empty_trash (GtkWidget *parent,
 		"mail:ask-empty-trash", NULL))
 		return;
 
-	accounts = e_get_account_list ();
-	iter = e_list_get_iterator ((EList *) accounts);
-	while (e_iterator_is_valid (iter)) {
-		account = (EAccount *) e_iterator_get (iter);
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		account = (EAccount *) e_iterator_get (iterator);
 
 		/* make sure this is a valid source */
 		if (account->enabled && account->source->url) {
@@ -1415,10 +1420,10 @@ em_utils_empty_trash (GtkWidget *parent,
 			}
 		}
 
-		e_iterator_next (iter);
+		e_iterator_next (iterator);
 	}
 
-	g_object_unref (iter);
+	g_object_unref (iterator);
 
 	/* Now empty the local trash folder */
 	mail_empty_trash (session, NULL, NULL, NULL);
@@ -1506,7 +1511,7 @@ gchar *em_uri_from_camel (const gchar *curi)
 
 gchar *em_uri_to_camel (const gchar *euri)
 {
-	EAccountList *accounts;
+	EAccountList *account_list;
 	const EAccount *account;
 	EAccountService *service;
 	CamelProvider *provider;
@@ -1560,8 +1565,8 @@ gchar *em_uri_to_camel (const gchar *euri)
 		uid = g_strdup (eurl->host);
 	}
 
-	accounts = e_get_account_list ();
-	account = e_account_list_find (accounts, E_ACCOUNT_FIND_UID, uid);
+	account_list = e_get_account_list ();
+	account = e_account_list_find (account_list, E_ACCOUNT_FIND_UID, uid);
 	g_free (uid);
 
 	if (account == NULL) {
@@ -2144,26 +2149,24 @@ emu_free_mail_cache (void)
 void
 em_utils_clear_get_password_canceled_accounts_flag (void)
 {
-	EAccountList *accounts;
+	EAccountList *account_list;
+	EIterator *iterator;
 
-	accounts = e_get_account_list ();
-	if (accounts) {
-		EIterator *iter;
+	account_list = e_get_account_list ();
 
-		for (iter = e_list_get_iterator ((EList *) accounts);
-		     e_iterator_is_valid (iter);
-		     e_iterator_next (iter)) {
-			EAccount *account = (EAccount *) e_iterator_get (iter);
+	for (iterator = e_list_get_iterator (E_LIST (account_list));
+	     e_iterator_is_valid (iterator);
+	     e_iterator_next (iterator)) {
+		EAccount *account = (EAccount *) e_iterator_get (iterator);
 
-			if (account && account->source)
-				account->source->get_password_canceled = FALSE;
+		if (account && account->source)
+			account->source->get_password_canceled = FALSE;
 
-			if (account && account->transport)
-				account->transport->get_password_canceled = FALSE;
-		}
-
-		g_object_unref (iter);
+		if (account && account->transport)
+			account->transport->get_password_canceled = FALSE;
 	}
+
+	g_object_unref (iterator);
 }
 
 gchar *
@@ -2234,17 +2237,18 @@ em_utils_generate_account_hash (void)
 {
 	GHashTable *account_hash;
 	EAccount *account, *def;
-	EAccountList *accounts;
-	EIterator *iter;
+	EAccountList *account_list;
+	EIterator *iterator;
 
-	accounts = e_get_account_list ();
+	account_list = e_get_account_list ();
 	account_hash = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 
 	def = e_get_default_account ();
 
-	iter = e_list_get_iterator ((EList *) accounts);
-	while (e_iterator_is_valid (iter)) {
-		account = (EAccount *) e_iterator_get (iter);
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		account = (EAccount *) e_iterator_get (iterator);
 
 		if (account->id->address) {
 			EAccount *acnt;
@@ -2268,10 +2272,10 @@ em_utils_generate_account_hash (void)
 					(gpointer) account);
 		}
 
-		e_iterator_next (iter);
+		e_iterator_next (iterator);
 	}
 
-	g_object_unref (iter);
+	g_object_unref (iterator);
 
 	/* The default account has to be there if none of the enabled accounts are present */
 	if (g_hash_table_size (account_hash) == 0 && def && def->id->address)
@@ -2314,7 +2318,7 @@ em_utils_guess_account_with_recipients (CamelMimeMessage *message,
 	EAccount *account = NULL;
 	EAccountList *account_list;
 	GHashTable *recipients;
-	EIterator *iter;
+	EIterator *iterator;
 	CamelInternetAddress *addr;
 	const gchar *type;
 	const gchar *key;
@@ -2372,10 +2376,11 @@ second_preference:
 	 * address appears in the list to To: or Cc: recipients. */
 
 	account_list = e_get_account_list ();
-	iter = e_list_get_iterator (E_LIST (account_list));
-	while (e_iterator_is_valid (iter)) {
-		account = (EAccount *) e_iterator_get (iter);
-		e_iterator_next (iter);
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		account = (EAccount *) e_iterator_get (iterator);
+		e_iterator_next (iterator);
 
 		if (account == NULL || !account->enabled)
 			continue;
@@ -2384,11 +2389,11 @@ second_preference:
 			continue;
 
 		if (g_hash_table_lookup (recipients, key) != NULL) {
-			g_object_unref (iter);
+			g_object_unref (iterator);
 			goto exit;
 		}
 	}
-	g_object_unref (iter);
+	g_object_unref (iterator);
 
 	/* Last Preference: Defer to em_utils_guess_account(). */
 	account = em_utils_guess_account (message, folder);
