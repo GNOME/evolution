@@ -32,11 +32,11 @@
 G_BEGIN_DECLS
 
 void		em_utils_compose_new_message	(EShell *shell,
-						 const gchar *from_uri);
+						 CamelFolder *folder);
 EMsgComposer *	em_utils_compose_new_message_with_mailto
 						(EShell *shell,
-						 const gchar *url,
-						 const gchar *from_uri);
+						 const gchar *mailto,
+						 CamelFolder *folder);
 GtkWidget *	em_utils_edit_message		(EShell *shell,
 						 CamelFolder *folder,
 						 CamelMimeMessage *message);
@@ -46,12 +46,11 @@ void		em_utils_edit_messages		(EShell *shell,
 						 gboolean replace);
 EMsgComposer *	em_utils_forward_message	(EShell *shell,
 						 CamelMimeMessage *msg,
-						 const gchar *from_uri,
+						 CamelFolder *folder,
 						 EMailForwardStyle style);
 void		em_utils_forward_messages	(EShell *shell,
 						 CamelFolder *folder,
 						 GPtrArray *uids,
-						 const gchar *from_uri,
 						 EMailForwardStyle style);
 void		em_utils_redirect_message	(EShell *shell,
 						 CamelMimeMessage *message);

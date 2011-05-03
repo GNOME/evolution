@@ -100,12 +100,11 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 typedef struct {
 	EMailReader *reader;
 	EmlaAction action;
-	gchar * uri;
 } emla_action_data;
 
 static void
 emla_list_action_do (CamelFolder *folder,
-                     const gchar *uid,
+                     const gchar *message_uid,
                      CamelMimeMessage *msg,
                      gpointer data)
 {
@@ -121,9 +120,15 @@ emla_list_action_do (CamelFolder *folder,
 	EShellBackend *shell_backend;
 	EAccount *account;
 	GtkWindow *window;
+	CamelStore *store;
+	const gchar *uid;
 
 	if (msg == NULL)
 		return;
+
+	store = camel_folder_get_parent_store (folder);
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	account = e_get_account_by_uid (uid);
 
 	backend = e_mail_reader_get_backend (action_data->reader);
 
@@ -181,14 +186,14 @@ emla_list_action_do (CamelFolder *folder,
 			if (send_message_response == GTK_RESPONSE_YES) {
 				/* directly send message */
 				composer = e_msg_composer_new_from_url (shell, url);
-				if ((account = e_get_account_by_source_url (action_data->uri)))
+				if (account != NULL)
 					e_composer_header_table_set_account (
 						e_msg_composer_get_header_table (composer),
 						account);
 				e_msg_composer_send (composer);
 			} else if (send_message_response == GTK_RESPONSE_NO) {
 				/* show composer */
-				em_utils_compose_new_message_with_mailto (shell, url, action_data->uri);
+				em_utils_compose_new_message_with_mailto (shell, url, folder);
 			}
 
 			goto exit;
@@ -212,7 +217,6 @@ emla_list_action_do (CamelFolder *folder,
 
 exit:
 	g_object_unref (action_data->reader);
-	g_free (action_data->uri);
 	g_free (action_data);
 	g_free (url);
 }
@@ -224,10 +228,8 @@ emla_list_action (EMailReader *reader,
 	CamelFolder *folder;
 	GPtrArray *uids;
 	emla_action_data *data;
-	const gchar *folder_uri;
 
 	folder = e_mail_reader_get_folder (reader);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	g_return_if_fail (uids->len == 1);
@@ -235,7 +237,6 @@ emla_list_action (EMailReader *reader,
 	data = g_malloc (sizeof (emla_action_data));
 	data->reader = g_object_ref (reader);
 	data->action = action;
-	data->uri = g_strdup (folder_uri);
 
 	mail_get_message (
 		folder, uids->pdata[0],
