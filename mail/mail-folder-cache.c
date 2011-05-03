@@ -50,6 +50,7 @@
 #include "mail-tools.h"
 
 #include "em-utils.h"
+#include "e-mail-folder-utils.h"
 #include "e-mail-local.h"
 #include "e-mail-session.h"
 #include "e-mail-store-utils.h"
@@ -879,9 +880,8 @@ store_go_online_cb (CamelStore *store,
 }
 
 struct _find_info {
-	const gchar *uri;
+	const gchar *folder_uri;
 	struct _folder_info *fi;
-	CamelURL *url;
 };
 
 /* look up on each storeinfo using proper hash function for that stores uri's */
@@ -890,23 +890,19 @@ storeinfo_find_folder_info (CamelStore *store,
                             struct _store_info *si,
                             struct _find_info *fi)
 {
-	CamelProvider *provider;
-	CamelService *service;
-	CamelURL *url;
+	gchar *folder_name;
+	gboolean success;
 
-	service = CAMEL_SERVICE (store);
-	url = camel_service_get_camel_url (service);
-	provider = camel_service_get_provider (service);
+	if (fi->fi != NULL)
+		return;
 
-	if (fi->fi == NULL) {
-		if (provider->url_equal (fi->url, url)) {
-			gchar *path = fi->url->fragment ?
-				fi->url->fragment : fi->url->path;
+	success = e_mail_folder_uri_parse (
+		camel_service_get_session (CAMEL_SERVICE (store)),
+		fi->folder_uri, NULL, &folder_name, NULL);
 
-			if (path[0] == '/')
-				path++;
-			fi->fi = g_hash_table_lookup (si->folders, path);
-		}
+	if (success) {
+		fi->fi = g_hash_table_lookup (si->folders, folder_name);
+		g_free (folder_name);
 	}
 }
 
@@ -1295,12 +1291,10 @@ mail_folder_cache_get_folder_from_uri (MailFolderCache *self,
                                        const gchar *uri,
                                        CamelFolder **folderp)
 {
-	struct _find_info fi = { uri, NULL, NULL };
+	struct _find_info fi = { uri, NULL };
 
 	if (self->priv->stores == NULL)
 		return FALSE;
-
-	fi.url = camel_url_new (uri, NULL);
 
 	g_mutex_lock (self->priv->stores_mutex);
 	g_hash_table_foreach (
@@ -1314,8 +1308,6 @@ mail_folder_cache_get_folder_from_uri (MailFolderCache *self,
 	}
 	g_mutex_unlock (self->priv->stores_mutex);
 
-	camel_url_free (fi.url);
-
 	return fi.fi != NULL;
 }
 
@@ -1324,13 +1316,14 @@ mail_folder_cache_get_folder_info_flags (MailFolderCache *self,
                                          CamelFolder *folder,
                                          gint *flags)
 {
-	const gchar *uri = camel_folder_get_uri (folder);
-	struct _find_info fi = { uri, NULL, NULL };
+	struct _find_info fi = { NULL, NULL };
+	gchar *folder_uri;
 
 	if (self->priv->stores == NULL)
 		return FALSE;
 
-	fi.url = camel_url_new (uri, NULL);
+	folder_uri = e_mail_folder_uri_from_folder (folder);
+	fi.folder_uri = folder_uri;
 
 	g_mutex_lock (self->priv->stores_mutex);
 	g_hash_table_foreach (
@@ -1344,7 +1337,7 @@ mail_folder_cache_get_folder_info_flags (MailFolderCache *self,
 	}
 	g_mutex_unlock (self->priv->stores_mutex);
 
-	camel_url_free (fi.url);
+	g_free (folder_uri);
 
 	return fi.fi != NULL;
 }
@@ -1356,8 +1349,8 @@ mail_folder_cache_get_folder_has_children (MailFolderCache *self,
                                            CamelFolder *folder,
                                            gboolean *found)
 {
-	const gchar *uri = camel_folder_get_uri (folder);
-	struct _find_info fi = { uri, NULL, NULL };
+	struct _find_info fi = { NULL, NULL };
+	gchar *folder_uri;
 
 	g_return_val_if_fail (self != NULL, FALSE);
 	g_return_val_if_fail (folder != NULL, FALSE);
@@ -1365,7 +1358,8 @@ mail_folder_cache_get_folder_has_children (MailFolderCache *self,
 	if (self->priv->stores == NULL)
 		return FALSE;
 
-	fi.url = camel_url_new (uri, NULL);
+	folder_uri = e_mail_folder_uri_from_folder (folder);
+	fi.folder_uri = folder_uri;
 
 	g_mutex_lock (self->priv->stores_mutex);
 	g_hash_table_foreach (
@@ -1375,7 +1369,7 @@ mail_folder_cache_get_folder_has_children (MailFolderCache *self,
 		*found = fi.fi != NULL;
 	g_mutex_unlock (self->priv->stores_mutex);
 
-	camel_url_free (fi.url);
+	g_free (folder_uri);
 
 	return fi.fi != NULL && fi.fi->has_children;
 }

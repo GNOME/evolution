@@ -479,8 +479,8 @@ mail_paned_view_set_folder (EMailReader *reader,
 	EMailReaderInterface *default_interface;
 	GtkWidget *message_list;
 	GKeyFile *key_file;
+	gchar *folder_uri;
 	gchar *group_name;
-	const gchar *folder_uri;
 	const gchar *key;
 	gboolean value;
 	GError *error = NULL;
@@ -519,9 +519,10 @@ mail_paned_view_set_folder (EMailReader *reader,
 
 	/* Restore the folder's preview and threaded state. */
 
-	folder_uri = camel_folder_get_uri (folder);
+	folder_uri = e_mail_folder_uri_from_folder (folder);
 	key_file = e_shell_view_get_state_key_file (shell_view);
 	group_name = g_strdup_printf ("Folder %s", folder_uri);
+	g_free (folder_uri);
 
 	key = STATE_KEY_GROUP_BY_THREADS;
 	value = g_key_file_get_boolean (key_file, group_name, key, &error);
