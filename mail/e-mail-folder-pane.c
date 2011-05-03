@@ -90,7 +90,7 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
-	if (em_utils_folder_is_drafts (folder, folder_uri) ||
+	if (em_utils_folder_is_drafts (folder) ||
 		em_utils_folder_is_outbox (folder, folder_uri) ||
 		em_utils_folder_is_templates (folder, folder_uri)) {
 		em_utils_edit_messages (shell, folder, uids, TRUE);
@@ -120,7 +120,7 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 			(CamelVeeMessageInfo *) info, &real_uid);
 		real_folder_uri = camel_folder_get_uri (real_folder);
 
-		if (em_utils_folder_is_drafts (real_folder, real_folder_uri) ||
+		if (em_utils_folder_is_drafts (real_folder) ||
 			em_utils_folder_is_outbox (real_folder, real_folder_uri)) {
 			GPtrArray *edits;
 

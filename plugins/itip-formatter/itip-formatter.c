@@ -2286,7 +2286,7 @@ in_proper_folder (CamelFolder *folder)
 			  /* or anything else except of sent, outbox or drafts folder */
 			  (!em_utils_folder_is_sent (folder, folder_uri) &&
 			   !em_utils_folder_is_outbox (folder, folder_uri) &&
-			   !em_utils_folder_is_drafts (folder, folder_uri))
+			   !em_utils_folder_is_drafts (folder))
 			));
 	} else {
 		/* cannot check for Inbox folder here */
@@ -2294,7 +2294,7 @@ in_proper_folder (CamelFolder *folder)
 		      (CAMEL_IS_VEE_FOLDER (folder)) || (
 		      !em_utils_folder_is_sent (folder, folder_uri) &&
 		      !em_utils_folder_is_outbox (folder, folder_uri) &&
-		      !em_utils_folder_is_drafts (folder, folder_uri)));
+		      !em_utils_folder_is_drafts (folder)));
 	}
 
 	return res;

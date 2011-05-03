@@ -924,7 +924,7 @@ action_mail_message_edit_cb (GtkAction *action,
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	replace = em_utils_folder_is_drafts (folder, folder_uri);
+	replace = em_utils_folder_is_drafts (folder);
 	em_utils_edit_messages (shell, folder, uids, replace);
 }
 
@@ -2930,7 +2930,7 @@ mail_reader_set_folder (EMailReader *reader,
 		folder_uri = camel_folder_get_uri (folder);
 
 	outgoing = folder != NULL && folder_uri != NULL && (
-		em_utils_folder_is_drafts (folder, folder_uri) ||
+		em_utils_folder_is_drafts (folder) ||
 		em_utils_folder_is_outbox (folder, folder_uri) ||
 		em_utils_folder_is_sent (folder, folder_uri));
 
@@ -3806,7 +3806,7 @@ e_mail_reader_check_state (EMailReader *reader)
 	}
 
 	drafts_or_outbox =
-		em_utils_folder_is_drafts (folder, folder_uri) ||
+		em_utils_folder_is_drafts (folder) ||
 		em_utils_folder_is_outbox (folder, folder_uri);
 
 	/* Initialize this flag based on whether there are any

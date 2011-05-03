@@ -1169,7 +1169,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 				num_junked), num_junked);
 
 	/* "Drafts" folder */
-	} else if (em_utils_folder_is_drafts (folder, folder_uri)) {
+	} else if (em_utils_folder_is_drafts (folder)) {
 		g_string_append_printf (
 			buffer, ngettext ("%d draft", "%d drafts",
 			num_visible), num_visible);
