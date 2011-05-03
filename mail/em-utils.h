@@ -63,7 +63,7 @@ void em_utils_selection_set_urilist (GtkSelectionData *data, CamelFolder *folder
 void em_utils_selection_get_urilist (GtkSelectionData *data, CamelFolder *folder);
 
 gboolean em_utils_folder_is_drafts (CamelFolder *folder);
-gboolean em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri);
+gboolean em_utils_folder_is_templates (CamelFolder *folder);
 gboolean em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri);
 gboolean em_utils_folder_is_outbox (CamelFolder *folder, const gchar *uri);
 
