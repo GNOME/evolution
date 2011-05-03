@@ -66,18 +66,16 @@ static void refresh_folder_tree (EMFolderTreeModel *model, CamelStore *store);
 static void
 refresh_folder_tree (EMFolderTreeModel *model, CamelStore *store)
 {
-	gchar *uri;
 	EAccount *account;
 	CamelProvider *provider;
-	CamelURL *url;
+	const gchar *uid;
+	gchar *uri;
 
-	url = camel_service_get_camel_url (CAMEL_SERVICE (store));
-	uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	account = e_get_account_by_uid (uid);
 
-	account = e_get_account_by_source_url (uri);
-	if (!account) {
+	if (account == NULL)
 		return;
-	}
 
 	uri = account->source->url;
 	em_folder_tree_model_remove_store (model, store);
@@ -89,7 +87,6 @@ refresh_folder_tree (EMFolderTreeModel *model, CamelStore *store)
 	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return;
 	em_folder_tree_model_add_store (model, store, account->name);
-	/* g_object_unref (store); */
 }
 
 void

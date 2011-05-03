@@ -110,7 +110,7 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 			container_id = get_container_id (cnc, parent_name);
 
 			if (e_gw_connection_accept_shared_folder (cnc, folder_name, container_id, (gchar *)item_id, NULL) == E_GW_CONNECTION_STATUS_OK) {
-				CamelURL *url;
+				const gchar *uid;
 
 				/* FIXME Not passing a GCancellable or GError here. */
 				folder = camel_store_get_folder_sync (
@@ -126,9 +126,8 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 					CAMEL_MESSAGE_DELETED);
 				camel_folder_summary_touch (folder->summary);
 				/* camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes); */
-				url = camel_service_get_camel_url (service);
-				uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-				account = e_get_account_by_source_url (uri);
+				uid = camel_service_get_uid (service);
+				account = e_get_account_by_uid (uid);
 				uri = account->source->url;
 				em_folder_tree_model_remove_store (
 					model, CAMEL_STORE (service));

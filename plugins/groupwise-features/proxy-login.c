@@ -508,10 +508,12 @@ gw_proxy_login_cb (GtkAction *action, EShellView *shell_view)
 	GtkTreeModel *model = NULL;
 	GtkTreeIter iter;
 	GtkWidget *tbox_account_name;
+	CamelStore *store;
+	EAccount *account;
 	gboolean is_store = FALSE;
-	gchar *uri = NULL;
 	proxyLoginPrivate *priv;
 	EGwConnection *cnc;
+	const gchar *uid;
 
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
@@ -523,15 +525,19 @@ gw_proxy_login_cb (GtkAction *action, EShellView *shell_view)
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 
-	gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, COL_BOOL_IS_STORE, &is_store, -1);
+	gtk_tree_model_get (
+		model, &iter,
+		COL_POINTER_CAMEL_STORE, &store,
+		COL_BOOL_IS_STORE, &is_store, -1);
 
-	if (!is_store || !uri) {
-		g_free (uri);
+	if (!is_store)
 		return;
-	}
+
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	account = e_get_account_by_uid (uid);
 
 	/* This pops-up the password dialog in case the User has forgot-passwords explicitly */
-	cnc = proxy_login_get_cnc (e_get_account_by_source_url (uri), NULL);
+	cnc = proxy_login_get_cnc (account, NULL);
 	if (cnc)
 		g_object_unref (cnc);
 
@@ -542,7 +548,7 @@ gw_proxy_login_cb (GtkAction *action, EShellView *shell_view)
 	e_load_ui_builder_definition (priv->builder, "proxy-login-dialog.ui");
 
 	priv->main = e_builder_get_widget (priv->builder, "proxy_login_dialog");
-	pld->account = e_get_account_by_source_url (uri);
+	pld->account = account;
 	priv->tree = GTK_TREE_VIEW (e_builder_get_widget (priv->builder, "proxy_login_treeview"));
 	priv->store =  gtk_tree_store_new (2,
 					   GDK_TYPE_PIXBUF,
@@ -554,6 +560,4 @@ gw_proxy_login_cb (GtkAction *action, EShellView *shell_view)
 	gtk_widget_grab_focus (tbox_account_name);
 	g_signal_connect (GTK_DIALOG (priv->main), "response", G_CALLBACK(proxy_login_cb), e_shell_view_get_shell_window (shell_view));
 	gtk_widget_show (GTK_WIDGET (priv->main));
-
-	g_free (uri);
 }
