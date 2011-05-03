@@ -345,10 +345,7 @@ e_get_subscribable_accounts (CamelSession *session)
 
 		if (account->enabled) {
 			CamelService *service;
-			const gchar *url;
 
-			url = e_account_get_string (
-				account, E_ACCOUNT_SOURCE_URL);
 			service = camel_session_get_service (
 				session, account->uid);
 			if (CAMEL_IS_STORE (service))

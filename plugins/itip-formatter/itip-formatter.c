@@ -2260,7 +2260,6 @@ in_proper_folder (CamelFolder *folder)
 	EMailBackend *backend;
 	EMailSession *session;
 	MailFolderCache *folder_cache;
-	const gchar *folder_uri;
 	gboolean res = TRUE;
 	gint flags = 0;
 
@@ -2272,8 +2271,6 @@ in_proper_folder (CamelFolder *folder)
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 	folder_cache = e_mail_session_get_folder_cache (session);
-
-	folder_uri = camel_folder_get_uri (folder);
 
 	if (mail_folder_cache_get_folder_info_flags (folder_cache, folder, &flags)) {
 		/* it should be neither trash nor junk folder, */

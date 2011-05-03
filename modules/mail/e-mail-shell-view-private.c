@@ -952,7 +952,6 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 	EMailView *mail_view;
 	CamelFolder *folder;
 	const gchar *filter_source;
-	const gchar *folder_uri;
 	GPtrArray *uids;
 
 	struct {
@@ -974,7 +973,6 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 
 	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (em_utils_folder_is_sent (folder))
@@ -1089,7 +1087,6 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	GString *buffer;
 	const gchar *display_name;
 	const gchar *folder_name;
-	const gchar *folder_uri;
 	gchar *title;
 	guint32 num_deleted;
 	guint32 num_junked;
@@ -1107,7 +1104,6 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 
 	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
-	folder_uri = e_mail_reader_get_folder_uri (reader);
 
 	local_store = e_mail_local_get_store ();
 
