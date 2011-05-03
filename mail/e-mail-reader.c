@@ -4120,36 +4120,6 @@ e_mail_reader_set_folder (EMailReader *reader,
 	interface->set_folder (reader, folder);
 }
 
-/* Helper for e_mail_reader_set_folder_uri () */
-static void
-mail_reader_got_folder_cb (gchar *folder_uri,
-                           CamelFolder *folder,
-                           gpointer user_data)
-{
-	EMailReader *reader = user_data;
-
-	e_mail_reader_set_folder (reader, folder);
-}
-
-void
-e_mail_reader_set_folder_uri (EMailReader *reader,
-                              const gchar *folder_uri)
-{
-	EMailBackend *backend;
-	EMailSession *session;
-
-	g_return_if_fail (E_IS_MAIL_READER (reader));
-	g_return_if_fail (folder_uri != NULL);
-
-	backend = e_mail_reader_get_backend (reader);
-	session = e_mail_backend_get_session (backend);
-
-	/* Fetch the CamelFolder asynchronously. */
-	mail_get_folder (
-		session, folder_uri, 0, mail_reader_got_folder_cb,
-		reader, mail_msg_fast_ordered_push);
-}
-
 void
 e_mail_reader_set_message (EMailReader *reader,
                            const gchar *uid)

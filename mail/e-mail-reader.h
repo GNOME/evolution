@@ -136,8 +136,6 @@ CamelFolder *	e_mail_reader_get_folder	(EMailReader *reader);
 const gchar *	e_mail_reader_get_folder_uri	(EMailReader *reader);
 void		e_mail_reader_set_folder	(EMailReader *reader,
 						 CamelFolder *folder);
-void		e_mail_reader_set_folder_uri	(EMailReader *reader,
-						 const gchar *folder_uri);
 void		e_mail_reader_set_message	(EMailReader *reader,
 						 const gchar *uid);
 EMailForwardStyle
