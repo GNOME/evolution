@@ -29,6 +29,7 @@
 #include <e-util/e-util.h>
 #include <e-util/e-account-utils.h>
 
+#include "e-mail-folder-utils.h"
 #include "em-folder-tree.h"
 #include "em-folder-selector.h"
 #include "em-utils.h"
@@ -81,33 +82,41 @@ folder_selection_button_unselected (EMFolderSelectionButton *button)
 static void
 folder_selection_button_set_contents (EMFolderSelectionButton *button)
 {
+	CamelSession *session;
+	CamelStore *store = NULL;
 	EAccount *account;
 	GtkLabel *label;
-	const gchar *uri;
-	gchar *folder_name;
+	const gchar *uid;
+	gchar *folder_name = NULL;
 
-	uri = button->priv->uri;
 	label = GTK_LABEL (button->priv->label);
-	folder_name = em_utils_folder_name_from_uri (uri);
+	session = CAMEL_SESSION (button->priv->session);
 
-	if (folder_name == NULL) {
+	if (button->priv->uri != NULL)
+		e_mail_folder_uri_parse (
+			session, button->priv->uri,
+			&store, &folder_name, NULL);
+
+	if (store == NULL || folder_name == NULL) {
 		folder_selection_button_unselected (button);
 		return;
 	}
 
-	account = e_get_account_by_source_url (uri);
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	account = e_get_account_by_uid (uid);
 
 	if (account != NULL) {
-		gchar *tmp = folder_name;
+		gchar *text;
 
-		folder_name = g_strdup_printf (
+		text = g_strdup_printf (
 			"%s/%s", e_account_get_string (
 			account, E_ACCOUNT_NAME), _(folder_name));
-		gtk_label_set_text (label, folder_name);
-		g_free (tmp);
+		gtk_label_set_text (label, text);
+		g_free (text);
 	} else
 		gtk_label_set_text (label, _(folder_name));
 
+	g_object_unref (store);
 	g_free (folder_name);
 }
 
