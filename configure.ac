@@ -250,7 +250,6 @@ PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
 	 libecal-1.2 >= eds_minimum_version
 	 libedataserver-1.2 >= eds_minimum_version
 	 libedataserverui-3.0 >= eds_minimum_version
-	 libegroupwise-1.2 >= eds_minimum_version
 	 libebackend-1.2 >= eds_minimum_version])
 
 dnl ******************************
@@ -1175,7 +1174,7 @@ EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-1.2, $MANUAL_NSS_CFLAGS, $MOXILLA_NS
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
 
-EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, camel-provider-1.2 libedataserver-1.2 libegroupwise-1.2)
+EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, camel-provider-1.2 libedataserver-1.2)
 AC_SUBST(CAMEL_GROUPWISE_CFLAGS)
 AC_SUBST(CAMEL_GROUPWISE_LIBS)
 
@@ -1402,7 +1401,7 @@ AC_ARG_ENABLE([plugins],
 	[enable_plugins="$enableval"],[enable_plugins=all])
 
 dnl Add any new plugins here
-plugins_base_always="calendar-file calendar-http itip-formatter default-source addressbook-file mark-all-read groupwise-features publish-calendar caldav imap-features google-account-setup webdav-account-setup"
+plugins_base_always="calendar-file calendar-http itip-formatter default-source addressbook-file mark-all-read publish-calendar caldav imap-features google-account-setup webdav-account-setup"
 
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN"
 dist_plugins_base="$plugins_base_always calendar-weather sa-junk-plugin bogo-junk-plugin"
@@ -1752,7 +1751,6 @@ plugins/email-custom-header/Makefile
 plugins/external-editor/Makefile
 plugins/face/Makefile
 plugins/google-account-setup/Makefile
-plugins/groupwise-features/Makefile
 plugins/image-inline/Makefile
 plugins/imap-features/Makefile
 plugins/itip-formatter/Makefile
