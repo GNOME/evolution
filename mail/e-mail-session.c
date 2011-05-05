@@ -1215,76 +1215,26 @@ e_mail_session_uri_to_folder_sync (EMailSession *session,
                                    GCancellable *cancellable,
                                    GError **error)
 {
-	CamelURL *url;
-	CamelService *service;
-	CamelFolder *folder = NULL;
-	gchar *camel_uri = NULL;
-	gboolean vtrash = FALSE;
-	gboolean vjunk = FALSE;
+	CamelStore *store;
+	CamelFolder *folder;
+	gchar *folder_name;
+	gboolean success;
 
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 	g_return_val_if_fail (folder_uri != NULL, NULL);
 
-	url = camel_url_new (folder_uri, NULL);
-	g_return_val_if_fail (url, NULL);
+	success = e_mail_folder_uri_parse (
+		CAMEL_SESSION (session), folder_uri,
+		&store, &folder_name, error);
 
-	/* url->path[1] skips the leading "/" */
+	if (!success)
+		return NULL;
+
 	camel_operation_push_message (
-		cancellable, _("Opening folder '%s'"), &url->path[1]);
+		cancellable, _("Opening folder '%s'"), folder_name);
 
-	/* FIXME vtrash and vjunk are no longer used for these URI's. */
-	if (g_str_has_prefix (folder_uri, "vtrash:")) {
-		folder_uri += 7;
-		vtrash = TRUE;
-	} else if (g_str_has_prefix (folder_uri, "vjunk:")) {
-		folder_uri += 6;
-		vjunk = TRUE;
-	} else if (g_str_has_prefix (folder_uri, "email:")) {
-		/* FIXME Shouldn't the filter:get_folder
-		 *       callback do this itself? */
-		camel_uri = em_uri_to_camel (folder_uri);
-		if (camel_uri == NULL) {
-			g_set_error (
-				error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
-				_("Invalid folder: %s"), &url->path[1]);
-			goto exit;
-		}
-		folder_uri = camel_uri;
-	}
-	camel_url_free (url);
-
-	url = camel_url_new (folder_uri, error);
-
-	if (url == NULL) {
-		g_free (camel_uri);
-		goto exit;
-	}
-
-	service = camel_session_get_service_by_url (
-		CAMEL_SESSION (session), url, CAMEL_PROVIDER_STORE);
-
-	if (CAMEL_IS_STORE (service)) {
-		const gchar *name = "";
-
-		/* If we have a fragment, then the path is actually
-		 * used by the store, so the fragment is the path to
-		 * the folder instead. */
-		if (url->fragment != NULL)
-			name = url->fragment;
-		else if (url->path != NULL && *url->path != '\0')
-			name = url->path + 1;
-
-		if (vtrash)
-			folder = camel_store_get_trash_folder_sync (
-				CAMEL_STORE (service), cancellable, error);
-		else if (vjunk)
-			folder = camel_store_get_junk_folder_sync (
-				CAMEL_STORE (service), cancellable, error);
-		else
-			folder = camel_store_get_folder_sync (
-				CAMEL_STORE (service), name,
-				flags, cancellable, error);
-	}
+	folder = camel_store_get_folder_sync (
+		store, folder_name, flags, cancellable, error);
 
 	if (folder != NULL) {
 		MailFolderCache *folder_cache;
@@ -1293,10 +1243,6 @@ e_mail_session_uri_to_folder_sync (EMailSession *session,
 		mail_folder_cache_note_folder (folder_cache, folder);
 	}
 
-	camel_url_free (url);
-	g_free (camel_uri);
-
-exit:
 	camel_operation_pop_message (cancellable);
 
 	return folder;
