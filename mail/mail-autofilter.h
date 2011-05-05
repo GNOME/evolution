@@ -58,12 +58,12 @@ void		filter_gui_add_from_message	(EMailSession *session,
 
 /* Also easiest place for these, we should really
  * share a global rule context for this stuff ... */
-void		mail_filter_rename_uri		(EMailBackend *backend,
+void		mail_filter_rename_folder	(EMailBackend *backend,
 						 CamelStore *store,
-						 const gchar *olduri,
-						 const gchar *newuri);
-void		mail_filter_delete_uri		(EMailBackend *backend,
+						 const gchar *old_folder_name,
+						 const gchar *new_folder_name);
+void		mail_filter_delete_folder	(EMailBackend *backend,
 						 CamelStore *store,
-						 const gchar *uri);
+						 const gchar *folder_name);
 
 #endif /* MAIL_AUTOFILTER_H */
