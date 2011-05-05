@@ -23,6 +23,7 @@
 
 #include <mail/mail-tools.h>
 #include <mail/e-mail-local.h>
+#include <mail/e-mail-folder-utils.h>
 #include <e-util/e-account-utils.h>
 #include <filter/e-filter-rule.h>
 
@@ -832,49 +833,35 @@ e_mail_session_unsubscribe_folder_sync (EMailSession *session,
                                         GCancellable *cancellable,
                                         GError **error)
 {
-	CamelURL *url;
-	CamelService *service;
-	CamelProvider *provider;
+	CamelStore *store = NULL;
+	gchar *folder_name = NULL;
 	const gchar *message;
-	const gchar *path = NULL;
 	gboolean success = FALSE;
 
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), FALSE);
 	g_return_val_if_fail (folder_uri != NULL, FALSE);
 
+	success = e_mail_folder_uri_parse (
+		CAMEL_SESSION (session), folder_uri,
+		&store, &folder_name, error);
+
+	if (!success)
+		return FALSE;
+
 	message = _("Unsubscribing from folder '%s'");
-	camel_operation_push_message (cancellable, message, folder_uri);
-
-	url = camel_url_new (folder_uri, error);
-	if (url == NULL)
-		goto exit;
-
-	service = camel_session_get_service_by_url (
-		CAMEL_SESSION (session), url, CAMEL_PROVIDER_STORE);
-
-	if (!CAMEL_IS_STORE (service))
-		goto exit;
+	camel_operation_push_message (cancellable, message, folder_name);
 
 	/* FIXME This should take our GCancellable. */
-	if (!camel_service_connect_sync (service, error))
-		goto exit;
+	success =
+		camel_service_connect_sync (
+			CAMEL_SERVICE (store), error) &&
+		camel_store_unsubscribe_folder_sync (
+			store, folder_name, cancellable, error);
 
-	provider = camel_service_get_provider (service);
-
-	if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
-		path = url->fragment;
-	else if (url->path != NULL && *url->path != '\0')
-		path = url->path + 1;
-
-	g_return_val_if_fail (path != NULL, FALSE);
-
-	success = camel_store_unsubscribe_folder_sync (
-		CAMEL_STORE (service), path, cancellable, error);
-
-	camel_url_free (url);
-
-exit:
 	camel_operation_pop_message (cancellable);
+
+	g_object_unref (store);
+	g_free (folder_name);
 
 	return success;
 }
