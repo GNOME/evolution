@@ -1238,7 +1238,6 @@ e_mail_session_uri_to_folder_sync (EMailSession *session,
 
 	if (folder != NULL) {
 		MailFolderCache *folder_cache;
-
 		folder_cache = e_mail_session_get_folder_cache (session);
 		mail_folder_cache_note_folder (folder_cache, folder);
 	}

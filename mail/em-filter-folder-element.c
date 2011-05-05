@@ -225,7 +225,7 @@ em_filter_folder_element_set_uri (EMFilterFolderElement *element,
 static gboolean
 validate (EFilterElement *fe, EAlert **alert)
 {
-	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
+	EMFilterFolderElement *ff = (EMFilterFolderElement *) fe;
 
 	g_warn_if_fail (alert == NULL || *alert == NULL);
 
@@ -244,25 +244,25 @@ folder_eq (EFilterElement *fe, EFilterElement *cm)
 {
 	return E_FILTER_ELEMENT_CLASS (
 		em_filter_folder_element_parent_class)->eq (fe, cm) &&
-		strcmp (((EMFilterFolderElement *)fe)->priv->uri,
-		((EMFilterFolderElement *)cm)->priv->uri)== 0;
+		strcmp (((EMFilterFolderElement *) fe)->priv->uri,
+		((EMFilterFolderElement *) cm)->priv->uri)== 0;
 }
 
 static xmlNodePtr
 xml_encode (EFilterElement *fe)
 {
 	xmlNodePtr value, work;
-	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
+	EMFilterFolderElement *ff = (EMFilterFolderElement *) fe;
 
-	value = xmlNewNode(NULL, (const guchar *)"value");
-	xmlSetProp(value, (const guchar *)"name", (guchar *)fe->name);
+	value = xmlNewNode(NULL, (xmlChar *) "value");
+	xmlSetProp(value, (xmlChar *) "name", (xmlChar *) fe->name);
 	if (ff->store_camel_uri)
-		xmlSetProp(value, (const guchar *)"type", (const guchar *)"folder-curi");
+		xmlSetProp(value, (xmlChar *) "type", (xmlChar *) "folder-curi");
 	else
-		xmlSetProp(value, (const guchar *)"type", (const guchar *)"folder");
+		xmlSetProp(value, (xmlChar *) "type", (xmlChar *) "folder");
 
-	work = xmlNewChild(value, NULL, (const guchar *)"folder", NULL);
-	xmlSetProp(work, (const guchar *)"uri", (const guchar *)ff->priv->uri);
+	work = xmlNewChild(value, NULL, (xmlChar *) "folder", NULL);
+	xmlSetProp(work, (xmlChar *) "uri", (xmlChar *) ff->priv->uri);
 
 	return value;
 }
@@ -270,16 +270,16 @@ xml_encode (EFilterElement *fe)
 static gint
 xml_decode (EFilterElement *fe, xmlNodePtr node)
 {
-	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
+	EMFilterFolderElement *ff = (EMFilterFolderElement *) fe;
 	xmlNodePtr n;
 	xmlChar *type;
 
 	xmlFree (fe->name);
-	fe->name = (gchar *)xmlGetProp(node, (const guchar *)"name");
+	fe->name = (gchar *) xmlGetProp(node, (xmlChar *) "name");
 
-	type = xmlGetProp (node, (const guchar *)"type");
+	type = xmlGetProp (node, (xmlChar *) "type");
 	if (type) {
-		ff->store_camel_uri = g_str_equal ((const gchar *)type, "folder-curi");
+		ff->store_camel_uri = g_str_equal ((const gchar *) type, "folder-curi");
 		xmlFree (type);
 	} else {
 		ff->store_camel_uri = FALSE;
@@ -287,10 +287,10 @@ xml_decode (EFilterElement *fe, xmlNodePtr node)
 
 	n = node->children;
 	while (n) {
-		if (!strcmp((gchar *)n->name, "folder")) {
+		if (!strcmp((gchar *) n->name, "folder")) {
 			gchar *uri;
 
-			uri = (gchar *)xmlGetProp(n, (const guchar *)"uri");
+			uri = (gchar *) xmlGetProp(n, (xmlChar *) "uri");
 			g_free (ff->priv->uri);
 			ff->priv->uri = g_strdup (uri);
 			xmlFree (uri);
@@ -303,7 +303,8 @@ xml_decode (EFilterElement *fe, xmlNodePtr node)
 }
 
 static void
-folder_selected (EMFolderSelectionButton *button, EMFilterFolderElement *ff)
+folder_selected (EMFolderSelectionButton *button,
+                 EMFilterFolderElement *ff)
 {
 	GtkWidget *toplevel;
 	const gchar *uri;
@@ -323,7 +324,7 @@ folder_selected (EMFolderSelectionButton *button, EMFilterFolderElement *ff)
 static GtkWidget *
 get_widget (EFilterElement *fe)
 {
-	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
+	EMFilterFolderElement *ff = (EMFilterFolderElement *) fe;
 	EMailSession *session;
 	GtkWidget *button;
 	gchar *uri;
@@ -345,7 +346,10 @@ get_widget (EFilterElement *fe)
 		g_free (uri);
 
 	gtk_widget_show (button);
-	g_signal_connect(button, "selected", G_CALLBACK(folder_selected), ff);
+
+	g_signal_connect (
+		button, "selected",
+		G_CALLBACK (folder_selected), ff);
 
 	return button;
 }
@@ -359,7 +363,7 @@ build_code (EFilterElement *fe, GString *out, EFilterPart *ff)
 static void
 format_sexp (EFilterElement *fe, GString *out)
 {
-	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
+	EMFilterFolderElement *ff = (EMFilterFolderElement *) fe;
 
 	e_sexp_encode_string (out, ff->priv->uri);
 }
@@ -368,11 +372,13 @@ static void
 emff_copy_value (EFilterElement *de, EFilterElement *se)
 {
 	if (EM_IS_FILTER_FOLDER_ELEMENT (se)) {
-		((EMFilterFolderElement *)de)->store_camel_uri =
-			((EMFilterFolderElement *)se)->store_camel_uri;
-		em_filter_folder_element_set_uri ((
-			EMFilterFolderElement *) de,
-			((EMFilterFolderElement *) se)->priv->uri);
-	} else
-		E_FILTER_ELEMENT_CLASS (em_filter_folder_element_parent_class)->copy_value (de, se);
+		((EMFilterFolderElement *) de)->store_camel_uri =
+			((EMFilterFolderElement *) se)->store_camel_uri;
+		em_filter_folder_element_set_uri (
+			EM_FILTER_FOLDER_ELEMENT (de),
+			EM_FILTER_FOLDER_ELEMENT (se)->priv->uri);
+	} else {
+		E_FILTER_ELEMENT_CLASS (
+		em_filter_folder_element_parent_class)->copy_value (de, se);
+	}
 }
