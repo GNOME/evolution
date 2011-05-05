@@ -1005,6 +1005,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	GtkTreePath *path;
 	CamelURL *service_url;
 	EAccount *account;
+	const gchar *uid;
 	gchar *uri;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
@@ -1020,7 +1021,8 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	service_url = camel_service_get_camel_url (CAMEL_SERVICE (store));
 	uri = camel_url_to_string (service_url, CAMEL_URL_HIDE_ALL);
 
-	account = e_get_account_by_source_url (uri);
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	account = e_get_account_by_uid (uid);
 
 	/* Add the store to the tree. */
 	gtk_tree_store_append (tree_store, &iter, NULL);
