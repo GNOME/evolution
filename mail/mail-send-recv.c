@@ -35,6 +35,7 @@
 #include "e-util/e-account-utils.h"
 #include "e-util/gconf-bridge.h"
 
+#include "e-mail-folder-utils.h"
 #include "e-mail-local.h"
 #include "e-mail-session.h"
 #include "em-event.h"
@@ -898,15 +899,13 @@ get_folders (CamelStore *store, GPtrArray *folders, CamelFolderInfo *info)
 {
 	while (info) {
 		if (camel_store_can_refresh_folder (store, info, NULL)) {
-			CamelURL *url = camel_url_new (info->uri, NULL);
+			if ((info->flags & CAMEL_FOLDER_NOSELECT) == 0) {
+				gchar *folder_uri;
 
-			if (url && (!camel_url_get_param (url, "noselect") ||
-				!g_str_equal (camel_url_get_param (
-				url, "noselect"), "yes")))
-				g_ptr_array_add (folders, g_strdup (info->uri));
-
-			if (url)
-				camel_url_free (url);
+				folder_uri = e_mail_folder_uri_build (
+					store, info->full_name);
+				g_ptr_array_add (folders, folder_uri);
+			}
 		}
 
 		get_folders (store, folders, info->child);
