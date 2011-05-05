@@ -2443,7 +2443,7 @@ em_utils_is_local_delivery_mbox_file (CamelURL *url)
 {
 	g_return_val_if_fail (url != NULL, FALSE);
 
-	return g_str_has_prefix (url->protocol, "mbox:") &&
+	return g_str_equal (url->protocol, "mbox") &&
 		(url->path != NULL) &&
 		g_file_test (url->path, G_FILE_TEST_EXISTS) &&
 		!g_file_test (url->path, G_FILE_TEST_IS_DIR);
