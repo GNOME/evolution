@@ -783,7 +783,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		gtk_tree_store_set (
 			tree_store, &sub,
 			COL_STRING_DISPLAY_NAME, _("Loading..."),
-			COL_POINTER_CAMEL_STORE, NULL,
+			COL_POINTER_CAMEL_STORE, si->store,
 			COL_STRING_FULL_NAME, NULL,
 			COL_STRING_ICON_NAME, NULL,
 			COL_BOOL_LOAD_SUBDIRS, FALSE,
@@ -1038,8 +1038,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 
 	si = g_new (EMFolderTreeModelStoreInfo, 1);
 	si->display_name = g_strdup (display_name);
-	g_object_ref (store);
-	si->store = store;
+	si->store = g_object_ref (store);
 	si->account = account;
 	si->row = gtk_tree_row_reference_copy (reference);
 	si->full_hash = g_hash_table_new_full (
@@ -1059,7 +1058,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	gtk_tree_store_set (
 		tree_store, &iter,
 		COL_STRING_DISPLAY_NAME, _("Loading..."),
-		COL_POINTER_CAMEL_STORE, NULL,
+		COL_POINTER_CAMEL_STORE, store,
 		COL_STRING_FULL_NAME, NULL,
 		COL_BOOL_LOAD_SUBDIRS, FALSE,
 		COL_BOOL_IS_STORE, FALSE,
