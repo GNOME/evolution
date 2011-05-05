@@ -1109,10 +1109,15 @@ emae_account_folder (EMAccountEditor *emae, const gchar *name, gint item, gint d
 {
 	EAccount *account;
 	EMFolderSelectionButton *folder;
+	EMailSession *session;
 	const gchar *uri;
 
 	account = em_account_editor_get_modified_account (emae);
+	session = em_account_editor_get_session (emae);
+
 	folder = (EMFolderSelectionButton *)e_builder_get_widget (builder, name);
+	em_folder_selection_button_set_session (folder, session);
+
 	uri = e_account_get_string (account, item);
 	if (uri != NULL) {
 		em_folder_selection_button_set_selection (folder, uri);
@@ -3044,14 +3049,12 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 		emae, "drafts_button",
 		E_ACCOUNT_DRAFTS_FOLDER_URI,
 		E_MAIL_LOCAL_FOLDER_DRAFTS, builder);
-	em_folder_selection_button_set_session (button, session);
 	priv->drafts_folder_button = GTK_BUTTON (button);
 
 	button = emae_account_folder (
 		emae, "sent_button",
 		E_ACCOUNT_SENT_FOLDER_URI,
 		E_MAIL_LOCAL_FOLDER_SENT, builder);
-	em_folder_selection_button_set_session (button, session);
 	priv->sent_folder_button = GTK_BUTTON (button);
 
 	widget = e_builder_get_widget (builder, "trash_folder_check");
