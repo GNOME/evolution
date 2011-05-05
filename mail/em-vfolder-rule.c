@@ -526,21 +526,19 @@ select_source_with_changed (GtkWidget *widget, struct _source_data *data)
 }
 
 /* attempt to make a 'nice' folder name out of the raw uri */
-static gchar *format_source (const gchar *euri)
+static gchar *
+format_source (const gchar *uri)
 {
 	CamelURL *url;
 	GString *out;
-	gchar *res, *uri;
+	gchar *res;
 
 	/* This should really probably base it on the account name? */
-	uri = em_uri_to_camel (euri);
 	url = camel_url_new (uri, NULL);
 
 	/* bad uri */
 	if (url == NULL)
-		return uri;
-
-	g_free (uri);
+		return g_strdup (uri);
 
 	out = g_string_new (url->protocol);
 	g_string_append_c (out, ':');
@@ -561,31 +559,34 @@ static gchar *format_source (const gchar *euri)
 }
 
 static void
-vfr_folder_response (GtkWidget *dialog, gint button, struct _source_data *data)
+vfr_folder_response (EMFolderSelector *selector,
+                     gint button,
+                     struct _source_data *data)
 {
-	const gchar *uri = em_folder_selector_get_selected_uri ((EMFolderSelector *)dialog);
+	const gchar *uri;
+
+	uri = em_folder_selector_get_selected_uri (selector);
 
 	if (button == GTK_RESPONSE_OK && uri != NULL) {
-		gchar *urinice, *euri;
+		gchar *urinice;
 		GtkTreeSelection *selection;
 		GtkTreeIter iter;
 
-		euri = em_uri_from_camel (uri);
-
-		data->vr->sources = g_list_append (data->vr->sources, euri);
+		data->vr->sources = g_list_append (
+			data->vr->sources, g_strdup (uri));
 
 		gtk_list_store_append (data->model, &iter);
-		urinice = format_source (euri);
-		gtk_list_store_set (data->model, &iter, 0, urinice, 1, euri, -1);
+		urinice = format_source (uri);
+		gtk_list_store_set (data->model, &iter, 0, urinice, 1, uri, -1);
 		g_free (urinice);
 		selection = gtk_tree_view_get_selection (data->list);
 		gtk_tree_selection_select_iter (selection, &iter);
-		data->current = euri;
+		data->current = uri;
 
 		set_sensitive (data);
 	}
 
-	gtk_widget_destroy (dialog);
+	gtk_widget_destroy (GTK_WIDGET (selector));
 }
 
 static void
