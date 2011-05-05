@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-04-30 23:31+0200\n"
-"PO-Revision-Date: 2011-04-30 23:41+0200\n"
+"PO-Revision-Date: 2011-05-05 19:24+0200\n"
 "Last-Translator: Fran Diéguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
 "Language: gl\n"
@@ -2661,7 +2661,7 @@ msgstr "_Opcións"
 #: ../calendar/gui/dialogs/comp-editor.c:1117 ../mail/e-mail-browser.c:175
 #: ../shell/e-shell-window-actions.c:1629 ../smime/gui/smime-ui.ui.h:46
 msgid "_View"
-msgstr "__Visualización"
+msgstr "_Ver"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1127
 #: ../composer/e-composer-actions.c:285
