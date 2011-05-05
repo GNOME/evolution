@@ -27,6 +27,7 @@
 #include <gal-define-views-dialog.h>
 
 #include <libedataserverui/e-passwords.h>
+#include <libedataserverui/e-categories-editor.h>
 
 #define EVOLUTION_COPYRIGHT \
 	"Copyright \xC2\xA9 1999 - 2008 Novell, Inc. and Others"
@@ -893,6 +894,42 @@ action_page_setup_cb (GtkAction *action,
 }
 
 /**
+ * E_SHELL_WINDOW_ACTION_CATEGORIES
+ * @window: and #EShellWindow
+ *
+ * Activation of this action opens the Categories Editor dialog.
+ *
+ * Main menu item: Edit -> Available categories
+ **/
+static void
+action_categories_cb (GtkAction *action,
+                      EShellWindow *shell_window)
+{
+	GtkWidget *content_area;
+	GtkWidget *dialog;
+	GtkWidget *editor;
+
+	editor = e_categories_editor_new ();
+	e_categories_editor_set_entry_visible (
+		E_CATEGORIES_EDITOR (editor), FALSE);
+
+	dialog = gtk_dialog_new_with_buttons (
+		_("Categories Editor"),
+		GTK_WINDOW (shell_window),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 12);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_box_pack_start (
+		GTK_BOX (content_area), GTK_WIDGET (editor), TRUE, TRUE, 6);
+	gtk_box_set_spacing (GTK_BOX (content_area), 12);
+
+	gtk_dialog_run (GTK_DIALOG (dialog));
+
+	gtk_widget_destroy (dialog);
+}
+
+/**
  * E_SHELL_WINDOW_ACTION_PREFERENCES:
  * @window: an #EShellWindow
  *
@@ -1481,6 +1518,13 @@ static GtkActionEntry shell_entries[] = {
 	  NULL,
 	  N_("Paste the clipboard"),
 	  NULL },  /* Handled by EFocusTracker */
+
+	{ "categories",
+	  NULL,
+	  N_("Available Cate_gories"),
+	  NULL,
+	  N_("Manage available categories"),
+	  G_CALLBACK (action_categories_cb) },
 
 	{ "preferences",
 	  GTK_STOCK_PREFERENCES,
