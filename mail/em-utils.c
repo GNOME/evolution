@@ -1036,15 +1036,10 @@ em_utils_folder_is_templates (CamelFolder *folder)
 		/* XXX EIterator misuses const. */
 		account = (EAccount *) e_iterator_get (iterator);
 
-		if (account->templates_folder_uri) {
-			gchar *templates_uri;
-
-			templates_uri = em_uri_to_camel (
-				account->templates_folder_uri);
+		if (account->templates_folder_uri != NULL)
 			is_templates = e_mail_folder_uri_equal (
-				session, templates_uri, folder_uri);
-			g_free (templates_uri);
-		}
+				session, folder_uri,
+				account->templates_folder_uri);
 
 		e_iterator_next (iterator);
 	}
