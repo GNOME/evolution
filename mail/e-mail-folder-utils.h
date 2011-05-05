@@ -45,6 +45,8 @@ gboolean	e_mail_folder_append_message_finish
 						 gchar **appended_uid,
 						 GError **error);
 
+gchar *		e_mail_folder_uri_build		(CamelStore *store,
+						 const gchar *folder_name);
 gboolean	e_mail_folder_uri_parse		(CamelSession *session,
 						 const gchar *folder_uri,
 						 CamelStore **out_store,
