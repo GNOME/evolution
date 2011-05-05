@@ -339,7 +339,6 @@ mv_find_folder (GList *l, EMailSession *session, const gchar *uri)
 	return l;
 }
 
-/* uri is a camel uri */
 static gint
 uri_is_ignore (EMailSession *session, const gchar *uri)
 {
@@ -352,9 +351,12 @@ uri_is_ignore (EMailSession *session, const gchar *uri)
 	const gchar *local_sent_uri;
 	gint found = FALSE;
 
-	local_drafts_uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
-	local_outbox_uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_OUTBOX);
-	local_sent_uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
+	local_drafts_uri =
+		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
+	local_outbox_uri =
+		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_OUTBOX);
+	local_sent_uri =
+		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
 
 	camel_session = CAMEL_SESSION (session);
 
@@ -368,27 +370,21 @@ uri_is_ignore (EMailSession *session, const gchar *uri)
 		return TRUE;
 
 	accounts = e_get_account_list ();
-	iter = e_list_get_iterator ((EList *) accounts);
-	while (e_iterator_is_valid (iter)) {
-		gchar *curi;
+	iter = e_list_get_iterator (E_LIST (accounts));
 
+	while (!found && e_iterator_is_valid (iter)) {
+		/* XXX EIterator misuses const. */
 		account = (EAccount *) e_iterator_get (iter);
 
-		d(printf("checking sent_folder_uri '%s' == '%s'\n",
-			 account->sent_folder_uri ? account->sent_folder_uri : "empty", uri));
+		if (account->sent_folder_uri != NULL)
+			found = e_mail_folder_uri_equal (
+				camel_session, uri,
+				account->sent_folder_uri);
 
-		if (account->sent_folder_uri != NULL) {
-			curi = em_uri_to_camel (account->sent_folder_uri);
+		if (!found && account->drafts_folder_uri != NULL)
 			found = e_mail_folder_uri_equal (
-				camel_session, uri, curi);
-			g_free (curi);
-		}
-		if (!found && account->drafts_folder_uri != NULL) {
-			curi = em_uri_to_camel (account->drafts_folder_uri);
-			found = e_mail_folder_uri_equal (
-				camel_session, uri, curi);
-			g_free (curi);
-		}
+				camel_session, uri,
+				account->drafts_folder_uri);
 
 		if (found)
 			break;
