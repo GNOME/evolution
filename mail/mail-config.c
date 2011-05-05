@@ -233,118 +233,23 @@ uri_to_evname (const gchar *uri, const gchar *prefix)
 	else
 		tmp = g_strdup_printf ("%s/%s%s", data_dir, prefix, safe);
 	g_free (safe);
+
 	return tmp;
-}
-
-static void
-mail_config_uri_renamed (GCompareFunc uri_cmp, const gchar *old, const gchar *new)
-{
-	EAccountList *account_list;
-	EAccount *account;
-	EIterator *iter;
-	gint i, work = 0;
-	gchar *oldname, *newname;
-	const gchar *cachenames[] = {
-		"config/hidestate-",
-		"config/et-expanded-",
-		"config/et-header-",
-		"*views/current_view-",
-		"*views/custom_view-",
-		NULL };
-
-	account_list = e_get_account_list ();
-	iter = e_list_get_iterator ((EList *) account_list);
-	while (e_iterator_is_valid (iter)) {
-		account = (EAccount *) e_iterator_get (iter);
-
-		if (account->sent_folder_uri && uri_cmp (account->sent_folder_uri, old)) {
-			g_free (account->sent_folder_uri);
-			account->sent_folder_uri = g_strdup (new);
-			work = 1;
-		}
-
-		if (account->drafts_folder_uri && uri_cmp (account->drafts_folder_uri, old)) {
-			g_free (account->drafts_folder_uri);
-			account->drafts_folder_uri = g_strdup (new);
-			work = 1;
-		}
-
-		e_iterator_next (iter);
-	}
-
-	g_object_unref (iter);
-
-	/* ignore return values or if the files exist or
-	 * not, doesn't matter */
-
-	for (i = 0; cachenames[i]; i++) {
-		oldname = uri_to_evname (old, cachenames[i]);
-		newname = uri_to_evname (new, cachenames[i]);
-		/*printf ("** renaming %s to %s\n", oldname, newname);*/
-		g_rename (oldname, newname);
-		g_free (oldname);
-		g_free (newname);
-	}
-
-	/* nasty ... */
-	if (work)
-		mail_config_write ();
-}
-
-static void
-mail_config_uri_deleted (GCompareFunc uri_cmp, const gchar *uri)
-{
-	EAccountList *account_list;
-	EAccount *account;
-	EIterator *iter;
-	gint work = 0;
-	const gchar *local_drafts_folder_uri;
-	const gchar *local_sent_folder_uri;
-
-	/* assumes these can't be removed ... */
-	local_drafts_folder_uri =
-		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
-	local_sent_folder_uri =
-		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
-
-	account_list = e_get_account_list ();
-	iter = e_list_get_iterator ((EList *) account_list);
-	while (e_iterator_is_valid (iter)) {
-		account = (EAccount *) e_iterator_get (iter);
-
-		if (account->sent_folder_uri && uri_cmp (account->sent_folder_uri, uri)) {
-			g_free (account->sent_folder_uri);
-			account->sent_folder_uri = g_strdup (local_sent_folder_uri);
-			work = 1;
-		}
-
-		if (account->drafts_folder_uri && uri_cmp (account->drafts_folder_uri, uri)) {
-			g_free (account->drafts_folder_uri);
-			account->drafts_folder_uri = g_strdup (local_drafts_folder_uri);
-			work = 1;
-		}
-
-		e_iterator_next (iter);
-	}
-
-	/* nasty again */
-	if (work)
-		mail_config_write ();
 }
 
 gchar *
 mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
 {
-	gchar *url, *basename, *filename;
+	gchar *folder_uri, *basename, *filename;
 	const gchar *config_dir;
 
 	config_dir = mail_session_get_config_dir ();
-	url = e_mail_folder_uri_from_folder (folder);
-	e_filename_make_safe (url);
-	basename = g_strdup_printf ("%s%s", prefix, url);
+	folder_uri = e_mail_folder_uri_from_folder (folder);
+	e_filename_make_safe (folder_uri);
+	basename = g_strdup_printf ("%s%s", prefix, folder_uri);
 	filename = g_build_filename (config_dir, "folders", basename, NULL);
 	g_free (basename);
-	g_free (url);
+	g_free (folder_uri);
 
 	return filename;
 }
@@ -389,22 +294,120 @@ folder_deleted_cb (MailFolderCache *cache,
                    gpointer user_data)
 {
 	CamelStoreClass *class;
+	EAccountList *account_list;
+	EIterator *iterator;
+	const gchar *local_drafts_folder_uri;
+	const gchar *local_sent_folder_uri;
+	gboolean write_config = FALSE;
 
 	class = CAMEL_STORE_GET_CLASS (store);
-	mail_config_uri_deleted (class->compare_folder_name, uri);
+
+	/* assumes these can't be removed ... */
+	local_drafts_folder_uri =
+		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
+	local_sent_folder_uri =
+		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
+
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		EAccount *account;
+
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iterator);
+
+		if (account->sent_folder_uri && class->compare_folder_name (
+				account->sent_folder_uri, uri)) {
+			g_free (account->sent_folder_uri);
+			account->sent_folder_uri =
+				g_strdup (local_sent_folder_uri);
+			write_config = TRUE;
+		}
+
+		if (account->drafts_folder_uri && class->compare_folder_name (
+				account->drafts_folder_uri, uri)) {
+			g_free (account->drafts_folder_uri);
+			account->drafts_folder_uri =
+				g_strdup (local_drafts_folder_uri);
+			write_config = TRUE;
+		}
+
+		e_iterator_next (iterator);
+	}
+
+	g_object_unref (iterator);
+
+	/* nasty again */
+	if (write_config)
+		mail_config_write ();
 }
 
 static void
 folder_renamed_cb (MailFolderCache *cache,
                    CamelStore *store,
-                   const gchar *olduri,
-                   const gchar *newuri,
+                   const gchar *old_uri,
+                   const gchar *new_uri,
                    gpointer user_data)
 {
 	CamelStoreClass *class;
+	EAccountList *account_list;
+	EAccount *account;
+	EIterator *iterator;
+	gboolean write_config = FALSE;
+	gchar *oldname;
+	gchar *newname;
+	gint i;
+
+	const gchar *cachenames[] = {
+		"config/hidestate-",
+		"config/et-expanded-",
+		"config/et-header-",
+		"*views/current_view-",
+		"*views/custom_view-",
+		NULL };
 
 	class = CAMEL_STORE_GET_CLASS (store);
-	mail_config_uri_renamed (class->compare_folder_name, olduri, newuri);
+
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		account = (EAccount *) e_iterator_get (iterator);
+
+		if (account->sent_folder_uri && class->compare_folder_name (
+				account->sent_folder_uri, old_uri)) {
+			g_free (account->sent_folder_uri);
+			account->sent_folder_uri = g_strdup (new_uri);
+			write_config = TRUE;
+		}
+
+		if (account->drafts_folder_uri && class->compare_folder_name (
+				account->drafts_folder_uri, old_uri)) {
+			g_free (account->drafts_folder_uri);
+			account->drafts_folder_uri = g_strdup (new_uri);
+			write_config = TRUE;
+		}
+
+		e_iterator_next (iterator);
+	}
+
+	g_object_unref (iterator);
+
+	/* ignore return values or if the files exist or
+	 * not, doesn't matter */
+
+	for (i = 0; cachenames[i]; i++) {
+		oldname = uri_to_evname (old_uri, cachenames[i]);
+		newname = uri_to_evname (new_uri, cachenames[i]);
+		g_rename (oldname, newname);
+		g_free (oldname);
+		g_free (newname);
+	}
+
+	/* nasty ... */
+	if (write_config)
+		mail_config_write ();
 }
 
 /* Config struct routines */
