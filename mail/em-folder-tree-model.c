@@ -650,6 +650,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	const gchar *icon_name;
 	guint32 flags, add_flags = 0;
 	EMEventTargetCustomIcon *target;
+	gchar *uri;
 
 	/* Make sure we don't already know about it. */
 	if (g_hash_table_lookup (si->full_hash, fi->full_name))
@@ -669,8 +670,11 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	path_row = gtk_tree_row_reference_copy (uri_row);
 	gtk_tree_path_free (path);
 
+	uri = e_mail_folder_uri_build (si->store, fi->full_name);
+
+	/* Hash table takes ownership of the URI string. */
 	g_hash_table_insert (
-		model->priv->uri_index, g_strdup (fi->uri), uri_row);
+		model->priv->uri_index, uri, uri_row);
 	g_hash_table_insert (
 		si->full_hash, g_strdup (fi->full_name), path_row);
 
@@ -681,7 +685,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	 *     be functionised. */
 	unread = fi->unread;
 	if (mail_folder_cache_get_folder_from_uri (
-		folder_cache, fi->uri, &folder) && folder) {
+		folder_cache, uri, &folder) && folder) {
 		is_drafts = em_utils_folder_is_drafts (folder);
 
 		if (is_drafts || em_utils_folder_is_outbox (folder)) {
@@ -727,13 +731,13 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	if (si->account && (flags & CAMEL_FOLDER_TYPE_MASK) == 0) {
 		if (!is_drafts && si->account->drafts_folder_uri) {
 			is_drafts = e_mail_folder_uri_equal (
-				CAMEL_SESSION (session), fi->uri,
+				CAMEL_SESSION (session), uri,
 				si->account->drafts_folder_uri);
 		}
 
 		if (si->account->sent_folder_uri) {
 			if (e_mail_folder_uri_equal (
-				CAMEL_SESSION (session), fi->uri,
+				CAMEL_SESSION (session), uri,
 				si->account->sent_folder_uri)) {
 				add_flags = CAMEL_FOLDER_TYPE_SENT;
 			}
@@ -756,7 +760,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		COL_POINTER_CAMEL_STORE, si->store,
 		COL_STRING_FULL_NAME, fi->full_name,
 		COL_STRING_ICON_NAME, icon_name,
-		COL_STRING_URI, fi->uri,
+		COL_STRING_URI, uri,
 		COL_UINT_FLAGS, flags,
 		COL_BOOL_IS_STORE, FALSE,
 		COL_BOOL_IS_FOLDER, TRUE,
