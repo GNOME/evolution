@@ -227,11 +227,7 @@ uri_to_evname (const gchar *uri, const gchar *prefix)
 
 	safe = g_strdup (uri);
 	e_filename_make_safe (safe);
-	/* blah, easiest thing to do */
-	if (prefix[0] == '*')
-		tmp = g_strdup_printf ("%s/%s%s.xml", data_dir, prefix + 1, safe);
-	else
-		tmp = g_strdup_printf ("%s/%s%s", data_dir, prefix, safe);
+	tmp = g_strdup_printf ("%s/%s%s.xml", data_dir, prefix, safe);
 	g_free (safe);
 
 	return tmp;
@@ -364,11 +360,8 @@ folder_renamed_cb (MailFolderCache *cache,
 	gint i;
 
 	const gchar *cachenames[] = {
-		"config/hidestate-",
-		"config/et-expanded-",
-		"config/et-header-",
-		"*views/current_view-",
-		"*views/custom_view-",
+		"views/current_view-",
+		"views/custom_view-",
 		NULL };
 
 	class = CAMEL_STORE_GET_CLASS (store);
