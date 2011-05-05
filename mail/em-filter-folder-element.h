@@ -56,10 +56,6 @@ typedef struct _EMFilterFolderElementPrivate EMFilterFolderElementPrivate;
 struct _EMFilterFolderElement {
 	EFilterElement parent;
 	EMFilterFolderElementPrivate *priv;
-
-	/* TRUE if 'uri' should contain Camel URI, otherwise
-	 * contains Evolution's URI with an Account ID. */
-	gboolean store_camel_uri;
 };
 
 struct _EMFilterFolderElementClass {

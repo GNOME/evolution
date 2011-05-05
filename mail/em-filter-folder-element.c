@@ -256,10 +256,7 @@ xml_encode (EFilterElement *fe)
 
 	value = xmlNewNode(NULL, (xmlChar *) "value");
 	xmlSetProp(value, (xmlChar *) "name", (xmlChar *) fe->name);
-	if (ff->store_camel_uri)
-		xmlSetProp(value, (xmlChar *) "type", (xmlChar *) "folder-curi");
-	else
-		xmlSetProp(value, (xmlChar *) "type", (xmlChar *) "folder");
+	xmlSetProp(value, (xmlChar *) "type", (xmlChar *) "folder");
 
 	work = xmlNewChild(value, NULL, (xmlChar *) "folder", NULL);
 	xmlSetProp(work, (xmlChar *) "uri", (xmlChar *) ff->priv->uri);
@@ -272,18 +269,9 @@ xml_decode (EFilterElement *fe, xmlNodePtr node)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *) fe;
 	xmlNodePtr n;
-	xmlChar *type;
 
 	xmlFree (fe->name);
 	fe->name = (gchar *) xmlGetProp(node, (xmlChar *) "name");
-
-	type = xmlGetProp (node, (xmlChar *) "type");
-	if (type) {
-		ff->store_camel_uri = g_str_equal ((const gchar *) type, "folder-curi");
-		xmlFree (type);
-	} else {
-		ff->store_camel_uri = FALSE;
-	}
 
 	n = node->children;
 	while (n) {
@@ -310,12 +298,9 @@ folder_selected (EMFolderSelectionButton *button,
 	const gchar *uri;
 
 	uri = em_folder_selection_button_get_selection (button);
-	g_free (ff->priv->uri);
 
-	if (ff->store_camel_uri)
-		ff->priv->uri = g_strdup (uri);
-	else
-		ff->priv->uri = uri != NULL ? em_uri_from_camel (uri) : NULL;
+	g_free (ff->priv->uri);
+	ff->priv->uri = g_strdup (uri);
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	gtk_window_present (GTK_WINDOW (toplevel));
@@ -327,24 +312,13 @@ get_widget (EFilterElement *fe)
 	EMFilterFolderElement *ff = (EMFilterFolderElement *) fe;
 	EMailSession *session;
 	GtkWidget *button;
-	gchar *uri;
 
 	session = em_filter_folder_element_get_session (ff);
 
-	if (ff->store_camel_uri)
-		uri = ff->priv->uri;
-	else
-		uri = em_uri_to_camel (ff->priv->uri);
-
 	button = em_folder_selection_button_new (
 		session, _("Select Folder"), NULL);
-
 	em_folder_selection_button_set_selection (
-		EM_FOLDER_SELECTION_BUTTON (button), uri);
-
-	if (!ff->store_camel_uri)
-		g_free (uri);
-
+		EM_FOLDER_SELECTION_BUTTON (button), ff->priv->uri);
 	gtk_widget_show (button);
 
 	g_signal_connect (
@@ -372,8 +346,6 @@ static void
 emff_copy_value (EFilterElement *de, EFilterElement *se)
 {
 	if (EM_IS_FILTER_FOLDER_ELEMENT (se)) {
-		((EMFilterFolderElement *) de)->store_camel_uri =
-			((EMFilterFolderElement *) se)->store_camel_uri;
 		em_filter_folder_element_set_uri (
 			EM_FILTER_FOLDER_ELEMENT (de),
 			EM_FILTER_FOLDER_ELEMENT (se)->priv->uri);

@@ -124,16 +124,11 @@ vfolder_context_new_element (ERuleContext *context,
 	if (strcmp (type, "score") == 0)
 		return e_filter_int_new_type("score", -3, 3);
 
-	if (strcmp (type, "folder-curi") == 0) {
-		EFilterElement *element;
-
-		element = em_filter_folder_element_new (priv->session);
-		((EMFilterFolderElement *) element)->store_camel_uri = TRUE;
-
-		return element;
-	}
-
 	if (strcmp (type, "folder") == 0)
+		return em_filter_folder_element_new (priv->session);
+
+	/* XXX Legacy type name.  Same as "folder" now. */
+	if (strcmp (type, "folder-curi") == 0)
 		return em_filter_folder_element_new (priv->session);
 
 	return E_RULE_CONTEXT_CLASS (em_vfolder_context_parent_class)->
