@@ -229,7 +229,8 @@ mail_display_url_requested (GtkHTML *html,
 }
 
 static gboolean
-mail_display_process_mailto (EWebView *web_view, const gchar *mailto_uri)
+mail_display_process_mailto (EWebView *web_view,
+                             const gchar *mailto_uri)
 {
 	g_return_val_if_fail (web_view != NULL, FALSE);
 	g_return_val_if_fail (mailto_uri != NULL, FALSE);
