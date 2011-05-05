@@ -1091,15 +1091,10 @@ em_utils_folder_is_drafts (CamelFolder *folder)
 		/* XXX EIterator misuses const. */
 		account = (EAccount *) e_iterator_get (iterator);
 
-		if (account->drafts_folder_uri) {
-			gchar *drafts_uri;
-
-			drafts_uri = em_uri_to_camel (
-				account->drafts_folder_uri);
+		if (account->drafts_folder_uri != NULL)
 			is_drafts = e_mail_folder_uri_equal (
-				session, drafts_uri, folder_uri);
-			g_free (drafts_uri);
-		}
+				session, folder_uri,
+				account->drafts_folder_uri);
 
 		e_iterator_next (iterator);
 	}
