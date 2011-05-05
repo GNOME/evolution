@@ -1028,6 +1028,8 @@ fill_in_email (EContactEditor *editor)
 			get_email_location (attr));
 
 		record_n++;
+
+		g_free (email_address);
 	}
 }
 
@@ -1346,6 +1348,8 @@ fill_in_phone (EContactEditor *editor)
 			editor, slot, phone, get_phone_type (attr));
 
 		record_n++;
+
+		g_free (phone);
 	}
 }
 
@@ -1674,6 +1678,8 @@ fill_in_im (EContactEditor *editor)
 				get_im_location (attr));
 
 			record_n++;
+
+			g_free (im_name);
 		}
 	}
 }
@@ -2649,6 +2655,7 @@ fill_in_simple (EContactEditor *editor)
 		title = g_strdup_printf (_("Contact Editor - %s"), filename);
 		gtk_window_set_title (GTK_WINDOW (editor->app), title);
 		g_free (title);
+		g_free (filename);
 	}
 	else
 		gtk_window_set_title (GTK_WINDOW (editor->app), _("Contact Editor"));
