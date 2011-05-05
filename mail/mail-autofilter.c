@@ -340,19 +340,17 @@ em_vfolder_rule_from_address (EMVFolderContext *context,
 {
 	EFilterRule *rule;
 	EMailSession *session;
-	gchar *uri, *euri;
+	gchar *uri;
 
 	uri = e_mail_folder_uri_from_folder (folder);
-	euri = em_uri_from_camel (uri);
 
 	session = em_vfolder_context_get_session (context);
 
 	rule = em_vfolder_rule_new (session);
-	em_vfolder_rule_add_source (EM_VFOLDER_RULE (rule), euri);
+	em_vfolder_rule_add_source (EM_VFOLDER_RULE (rule), uri);
 	rule_from_address (rule, E_RULE_CONTEXT (context), addr, flags);
 
 	g_free (uri);
-	g_free (euri);
 
 	return rule;
 }
