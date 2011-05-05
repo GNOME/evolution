@@ -203,46 +203,39 @@ struct _adduri_msg {
 static gchar *
 vfolder_adduri_desc (struct _adduri_msg *m)
 {
-	gchar *euri, *desc = NULL;
+	EAccount *account;
+	CamelStore *store;
+	CamelSession *session;
+	const gchar *store_name;
+	const gchar *uid;
+	gchar *folder_name;
+	gchar *description;
+	gboolean success;
 
-	/* Yuck yuck.  Lookup the account name and use that to describe the path */
-	/* We really need to normalise this across all of camel and evolution :-/ */
-	euri = em_uri_from_camel (m->uri);
-	if (euri) {
-		CamelURL *url = camel_url_new (euri, NULL);
+	session = CAMEL_SESSION (m->session);
 
-		if (url) {
-			const gchar *loc = NULL;
+	success = e_mail_folder_uri_parse (
+		session, m->uri, &store, &folder_name, NULL);
 
-			if (url->host && !strcmp(url->host, "local")
-			    && url->user && !strcmp(url->user, "local")) {
-				loc = _("On This Computer");
-			} else {
-				gchar *uid;
-				const EAccount *account;
+	if (!success)
+		return NULL;
 
-				if (url->user == NULL)
-					uid = g_strdup (url->host);
-				else
-					uid = g_strdup_printf("%s@%s", url->user, url->host);
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	account = e_get_account_by_uid (uid);
 
-				account = e_get_account_by_uid (uid);
-				g_free (uid);
-				if (account != NULL)
-					loc = account->name;
-			}
+	if (account != NULL)
+		store_name = account->name;
+	else
+		store_name = _("On This Computer");
 
-			if (loc && url->path)
-				desc = g_strdup_printf(_("Updating Search Folders for '%s:%s'"), loc, url->path);
-			camel_url_free (url);
-		}
-		g_free (euri);
-	}
+	description = g_strdup_printf (
+		_("Updating Search Folders for '%s' : %s"),
+		store_name, folder_name);
 
-	if (desc == NULL)
-		desc = g_strdup_printf(_("Updating Search Folders for '%s'"), m->uri);
+	g_object_unref (store);
+	g_free (folder_name);
 
-	return desc;
+	return description;
 }
 
 static void
