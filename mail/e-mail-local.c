@@ -107,8 +107,7 @@ e_mail_local_init (EMailSession *session,
 
 	camel_url_free (url);
 
-	g_object_ref (service);
-	local_store = CAMEL_STORE (service);
+	local_store = g_object_ref (service);
 
 	return;
 

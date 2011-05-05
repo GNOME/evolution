@@ -289,8 +289,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 		GtkWidget *browser;
 
 		browser = e_mail_browser_new (backend);
-		e_mail_reader_set_folder (
-			E_MAIL_READER (browser), folder);
+		e_mail_reader_set_folder (E_MAIL_READER (browser), folder);
 		e_mail_reader_set_message (E_MAIL_READER (browser), uid);
 		copy_tree_state (reader, E_MAIL_READER (browser));
 		e_mail_reader_set_group_by_threads (
