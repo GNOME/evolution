@@ -62,6 +62,7 @@
 #include "em-folder-properties.h"
 #include "em-event.h"
 
+#include "e-mail-folder-utils.h"
 #include "e-mail-local.h"
 #include "e-mail-session.h"
 #include "e-mail-store.h"
@@ -2715,7 +2716,6 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
 {
 	EMFolderTreePrivate *priv = folder_tree->priv;
 	EMailSession *session;
-	gint id = 0;
 
 	session = em_folder_tree_get_session (folder_tree);
 
@@ -2724,72 +2724,51 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
 		folder_tree_clear_selected_list (folder_tree);
 
 	for (;list;list = list->next) {
-		struct _selected_uri *u = g_malloc0 (sizeof (*u));
-		CamelURL *url;
+		CamelStore *store;
+		struct _selected_uri *u;
+		const gchar *folder_uri;
+		const gchar *uid;
+		gchar *folder_name;
+		gchar *expand_key;
+		gchar *end;
+		gboolean success;
 
-		url = camel_url_new (u->uri, NULL);
+		/* This makes sure all our parents up to the root are
+		 * expanded. */
 
-		if (url != NULL) {
-			CamelService *service;
+		folder_uri = list->data;
 
-			service = camel_session_get_service_by_url (
-				CAMEL_SESSION (session),
-				url, CAMEL_PROVIDER_STORE);
-			if (CAMEL_IS_STORE (service))
-				u->service = g_object_ref (service);
+		success = e_mail_folder_uri_parse (
+			CAMEL_SESSION (session), folder_uri,
+			&store, &folder_name, NULL);
+
+		if (!success)
+			continue;
+
+		uid = camel_service_get_uid (CAMEL_SERVICE (store));
+		expand_key = g_strdup_printf ("%s/%s", uid, folder_name);
+		g_free (folder_name);
+
+		u = g_malloc0 (sizeof (*u));
+		u->uri = g_strdup (folder_uri);
+		u->service = CAMEL_SERVICE (store);  /* takes ownership */
+		u->key = g_strdup (expand_key);
+
+		if (!expand_only) {
+			g_hash_table_insert (
+				priv->select_uris_table, u->key, u);
+			priv->select_uris =
+				g_slist_append (priv->select_uris, u);
 		}
 
-		u->uri = g_strdup (list->data);
-
-		if (u->service == NULL || url == NULL) {
-			if (!expand_only) {
-				u->key = g_strdup_printf("dummy-%d:%s", id++, u->uri);
-				g_hash_table_insert (priv->select_uris_table, u->key, u);
-				priv->select_uris = g_slist_append (priv->select_uris, u);
-			}
-		} else {
-			CamelProvider *provider;
-			const gchar *path;
-			gchar *expand_key, *end;
-			EAccount *account;
-
-			provider = camel_service_get_provider (u->service);
-
-			if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
-				path = url->fragment;
-			else
-				path = url->path && url->path[0]=='/' ? url->path+1:url->path;
-			if (path == NULL)
-				path = "";
-
-			/* This makes sure all our parents up to the root are
-			 * expanded.  FIXME: Why does the expanded state store
-			 * this made up path rather than the euri? */
-			if ((account = e_get_account_by_source_url (u->uri)))
-				expand_key = g_strdup_printf ("%s/%s", account->uid, path);
-			else if (CAMEL_IS_VEE_STORE (u->service))
-				expand_key = g_strdup_printf ("vfolder/%s", path);
-			else
-				expand_key = g_strdup_printf ("local/%s", path);
-
-			if (!expand_only) {
-				u->key = g_strdup (expand_key);
-
-				g_hash_table_insert (priv->select_uris_table, u->key, u);
-				priv->select_uris = g_slist_append (priv->select_uris, u);
-			}
-
+		end = strrchr (expand_key, '/');
+		do {
+			folder_tree_expand_node (expand_key, folder_tree);
+			*end = 0;
 			end = strrchr (expand_key, '/');
-			do {
-				folder_tree_expand_node (expand_key, folder_tree);
-				*end = 0;
-				end = strrchr (expand_key, '/');
-			} while (end);
-			g_free (expand_key);
-		}
+		} while (end);
 
-		if (url)
-			camel_url_free (url);
+		g_free (expand_key);
 	}
 }
 
