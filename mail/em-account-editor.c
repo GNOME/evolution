@@ -1114,14 +1114,9 @@ emae_account_folder (EMAccountEditor *emae, const gchar *name, gint item, gint d
 	account = em_account_editor_get_modified_account (emae);
 	folder = (EMFolderSelectionButton *)e_builder_get_widget (builder, name);
 	uri = e_account_get_string (account, item);
-	if (uri) {
-		gchar *tmp = em_uri_to_camel (uri);
-
-		em_folder_selection_button_set_selection (folder, tmp);
-		g_free (tmp);
+	if (uri != NULL) {
+		em_folder_selection_button_set_selection (folder, uri);
 	} else {
-		const gchar *uri;
-
 		uri = e_mail_local_get_folder_uri (deffolder);
 		em_folder_selection_button_set_selection (folder, uri);
 	}
