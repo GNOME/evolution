@@ -290,7 +290,7 @@ mail_config_get_lookup_book_local_only (void)
 static void
 folder_deleted_cb (MailFolderCache *cache,
                    CamelStore *store,
-                   const gchar *uri,
+                   const gchar *folder_name,
                    gpointer user_data)
 {
 	CamelStoreClass *class;
@@ -299,6 +299,7 @@ folder_deleted_cb (MailFolderCache *cache,
 	const gchar *local_drafts_folder_uri;
 	const gchar *local_sent_folder_uri;
 	gboolean write_config = FALSE;
+	gchar *uri;
 
 	class = CAMEL_STORE_GET_CLASS (store);
 
@@ -307,6 +308,8 @@ folder_deleted_cb (MailFolderCache *cache,
 		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
 	local_sent_folder_uri =
 		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
+
+	uri = e_mail_folder_uri_build (store, folder_name);
 
 	account_list = e_get_account_list ();
 	iterator = e_list_get_iterator (E_LIST (account_list));
@@ -337,6 +340,7 @@ folder_deleted_cb (MailFolderCache *cache,
 	}
 
 	g_object_unref (iterator);
+	g_free (uri);
 
 	/* nasty again */
 	if (write_config)
@@ -346,8 +350,8 @@ folder_deleted_cb (MailFolderCache *cache,
 static void
 folder_renamed_cb (MailFolderCache *cache,
                    CamelStore *store,
-                   const gchar *old_uri,
-                   const gchar *new_uri,
+                   const gchar *old_folder_name,
+                   const gchar *new_folder_name,
                    gpointer user_data)
 {
 	CamelStoreClass *class;
@@ -355,8 +359,8 @@ folder_renamed_cb (MailFolderCache *cache,
 	EAccount *account;
 	EIterator *iterator;
 	gboolean write_config = FALSE;
-	gchar *oldname;
-	gchar *newname;
+	gchar *old_uri;
+	gchar *new_uri;
 	gint i;
 
 	const gchar *cachenames[] = {
@@ -368,6 +372,9 @@ folder_renamed_cb (MailFolderCache *cache,
 		NULL };
 
 	class = CAMEL_STORE_GET_CLASS (store);
+
+	old_uri = e_mail_folder_uri_build (store, old_folder_name);
+	new_uri = e_mail_folder_uri_build (store, new_folder_name);
 
 	account_list = e_get_account_list ();
 	iterator = e_list_get_iterator (E_LIST (account_list));
@@ -398,12 +405,18 @@ folder_renamed_cb (MailFolderCache *cache,
 	 * not, doesn't matter */
 
 	for (i = 0; cachenames[i]; i++) {
+		gchar *oldname;
+		gchar *newname;
+
 		oldname = uri_to_evname (old_uri, cachenames[i]);
 		newname = uri_to_evname (new_uri, cachenames[i]);
 		g_rename (oldname, newname);
 		g_free (oldname);
 		g_free (newname);
 	}
+
+	g_free (old_uri);
+	g_free (new_uri);
 
 	/* nasty ... */
 	if (write_config)

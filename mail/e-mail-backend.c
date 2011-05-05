@@ -330,20 +330,21 @@ mail_backend_quit_requested_cb (EShell *shell,
 static void
 mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
                                 CamelStore *store,
-                                const gchar *uri,
+                                const gchar *folder_name,
                                 EMailBackend *backend)
 {
-	mail_filter_delete_uri (backend, store, uri);
+	mail_filter_delete_folder (backend, store, folder_name);
 }
 
 static void
 mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
                                 CamelStore *store,
-                                const gchar *old_uri,
-                                const gchar *new_uri,
+                                const gchar *old_folder_name,
+                                const gchar *new_folder_name,
                                 EMailBackend *backend)
 {
-	mail_filter_rename_uri (backend, store, old_uri, new_uri);
+	mail_filter_rename_folder (
+		backend, store, old_folder_name, new_folder_name);
 }
 
 static void

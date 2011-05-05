@@ -404,20 +404,26 @@ filter_gui_add_from_message (EMailSession *session,
 }
 
 void
-mail_filter_rename_uri (EMailBackend *backend,
-                        CamelStore *store,
-                        const gchar *olduri,
-                        const gchar *newuri)
+mail_filter_rename_folder (EMailBackend *backend,
+                           CamelStore *store,
+                           const gchar *old_folder_name,
+                           const gchar *new_folder_name)
 {
 	EMFilterContext *fc;
 	EMailSession *session;
 	const gchar *config_dir;
 	gchar *user, *system;
 	GList *changed;
-	gchar *eolduri, *enewuri;
+	gchar *old_uri;
+	gchar *new_uri;
 
-	eolduri = em_uri_from_camel (olduri);
-	enewuri = em_uri_from_camel (newuri);
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (old_folder_name != NULL);
+	g_return_if_fail (new_folder_name != NULL);
+
+	old_uri = e_mail_folder_uri_build (store, old_folder_name);
+	new_uri = e_mail_folder_uri_build (store, new_folder_name);
 
 	session = e_mail_backend_get_session (backend);
 
@@ -429,7 +435,7 @@ mail_filter_rename_uri (EMailBackend *backend,
 	g_free (system);
 
 	changed = e_rule_context_rename_uri (
-		(ERuleContext *)fc, eolduri, enewuri, g_str_equal);
+		(ERuleContext *)fc, old_uri, new_uri, g_str_equal);
 	if (changed) {
 		if (e_rule_context_save ((ERuleContext *)fc, user) == -1)
 			g_warning("Could not write out changed filter rules\n");
@@ -439,23 +445,27 @@ mail_filter_rename_uri (EMailBackend *backend,
 	g_free (user);
 	g_object_unref (fc);
 
-	g_free (enewuri);
-	g_free (eolduri);
+	g_free (old_uri);
+	g_free (new_uri);
 }
 
 void
-mail_filter_delete_uri (EMailBackend *backend,
-                        CamelStore *store,
-                        const gchar *uri)
+mail_filter_delete_folder (EMailBackend *backend,
+                           CamelStore *store,
+                           const gchar *folder_name)
 {
 	EMFilterContext *fc;
 	EMailSession *session;
 	const gchar *config_dir;
 	gchar *user, *system;
 	GList *deleted;
-	gchar *euri;
+	gchar *uri;
 
-	euri = em_uri_from_camel (uri);
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (folder_name != NULL);
+
+	uri = e_mail_folder_uri_build (store, folder_name);
 
 	session = e_mail_backend_get_session (backend);
 
@@ -466,7 +476,8 @@ mail_filter_delete_uri (EMailBackend *backend,
 	e_rule_context_load ((ERuleContext *)fc, system, user);
 	g_free (system);
 
-	deleted = e_rule_context_delete_uri ((ERuleContext *) fc, euri, g_str_equal);
+	deleted = e_rule_context_delete_uri (
+		(ERuleContext *) fc, uri, g_str_equal);
 	if (deleted) {
 		GString *s;
 		guint s_count;
@@ -500,13 +511,12 @@ mail_filter_delete_uri (EMailBackend *backend,
 			"for the deleted folder\n\"%s\".",
 			"The following filter rules\n%s have been modified "
 			"to account for the deleted folder\n\"%s\".",
-			s_count), s->str, euri);
+			s_count), s->str, folder_name);
 		e_mail_backend_submit_alert (
 			backend, "mail:filter-updated", info, NULL);
 		g_string_free (s, TRUE);
 		g_free (info);
 
-		d(printf("Folder delete/rename '%s' changed filters, resaving\n", euri));
 		if (e_rule_context_save ((ERuleContext *) fc, user) == -1)
 			g_warning ("Could not write out changed filter rules\n");
 		e_rule_context_free_uri_list ((ERuleContext *) fc, deleted);
@@ -514,5 +524,5 @@ mail_filter_delete_uri (EMailBackend *backend,
 
 	g_free (user);
 	g_object_unref (fc);
-	g_free (euri);
+	g_free (uri);
 }

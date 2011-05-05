@@ -158,16 +158,16 @@ flush_updates_idle_cb (MailFolderCache *self)
 
 		if (up->remove) {
 			if (up->delete) {
-				g_signal_emit (self, signals[FOLDER_DELETED], 0, up->store, up->uri);
+				g_signal_emit (self, signals[FOLDER_DELETED], 0, up->store, up->full_name);
 			} else
-				g_signal_emit (self, signals[FOLDER_UNAVAILABLE], 0, up->store, up->uri);
+				g_signal_emit (self, signals[FOLDER_UNAVAILABLE], 0, up->store, up->full_name);
 		} else {
-			if (up->olduri && up->add) {
-				g_signal_emit (self, signals[FOLDER_RENAMED], 0, up->store, up->olduri, up->uri);
+			if (up->oldfull && up->add) {
+				g_signal_emit (self, signals[FOLDER_RENAMED], 0, up->store, up->oldfull, up->full_name);
 			}
 
-			if (!up->olduri && up->add)
-				g_signal_emit (self, signals[FOLDER_AVAILABLE], 0, up->store, up->uri);
+			if (!up->oldfull && up->add)
+				g_signal_emit (self, signals[FOLDER_AVAILABLE], 0, up->store, up->full_name);
 		}
 
 		/* update unread counts */
@@ -884,7 +884,6 @@ struct _find_info {
 	struct _folder_info *fi;
 };
 
-/* look up on each storeinfo using proper hash function for that stores uri's */
 static void
 storeinfo_find_folder_info (CamelStore *store,
                             struct _store_info *si,
@@ -941,73 +940,78 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 	/**
 	 * MailFolderCache::folder-available
 	 * @store: the #CamelStore containing the folder
-	 * @uri: the uri of the folder
+	 * @folder_name: the name of the folder
 	 *
 	 * Emitted when a folder becomes available
 	 **/
-	signals[FOLDER_AVAILABLE] =
-		g_signal_new ("folder-available",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      0, /* struct offset */
-			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__OBJECT_STRING,
-			      G_TYPE_NONE, 2,
-			      CAMEL_TYPE_OBJECT, G_TYPE_STRING);
+	signals[FOLDER_AVAILABLE] = g_signal_new (
+		"folder-available",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		0, /* struct offset */
+		NULL, NULL, /* accumulator */
+		e_marshal_VOID__OBJECT_STRING,
+		G_TYPE_NONE, 2,
+		CAMEL_TYPE_STORE,
+		G_TYPE_STRING);
 
 	/**
 	 * MailFolderCache::folder-unavailable
 	 * @store: the #CamelStore containing the folder
-	 * @uri: the uri of the folder
+	 * @folder_name: the name of the folder
 	 *
 	 * Emitted when a folder becomes unavailable.  This represents a
 	 * transient condition.  See MailFolderCache::folder-deleted to be
 	 * notified when a folder is permanently removed.
 	 **/
-	signals[FOLDER_UNAVAILABLE] =
-		g_signal_new ("folder-unavailable",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      0, /* struct offset */
-			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__OBJECT_STRING,
-			      G_TYPE_NONE, 2,
-			      CAMEL_TYPE_OBJECT, G_TYPE_STRING);
+	signals[FOLDER_UNAVAILABLE] = g_signal_new (
+		"folder-unavailable",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		0, /* struct offset */
+		NULL, NULL, /* accumulator */
+		e_marshal_VOID__OBJECT_STRING,
+		G_TYPE_NONE, 2,
+		CAMEL_TYPE_STORE,
+		G_TYPE_STRING);
 
 	/**
 	 * MailFolderCache::folder-deleted
 	 * @store: the #CamelStore containing the folder
-	 * @uri: the uri of the folder
+	 * @folder_name: the name of the folder
 	 *
 	 * Emitted when a folder is deleted
 	 **/
-	signals[FOLDER_DELETED] =
-		g_signal_new ("folder-deleted",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      0, /* struct offset */
-			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__OBJECT_STRING,
-			      G_TYPE_NONE, 2,
-			      CAMEL_TYPE_OBJECT, G_TYPE_STRING);
+	signals[FOLDER_DELETED] = g_signal_new (
+		"folder-deleted",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		0, /* struct offset */
+		NULL, NULL, /* accumulator */
+		e_marshal_VOID__OBJECT_STRING,
+		G_TYPE_NONE, 2,
+		CAMEL_TYPE_STORE,
+		G_TYPE_STRING);
 
 	/**
 	 * MailFolderCache::folder-renamed
 	 * @store: the #CamelStore containing the folder
-	 * @old_uri: the old uri of the folder
-	 * @new_uri: the new uri of the folder
+	 * @old_folder_name: the old name of the folder
+	 * @new_folder_name: the new name of the folder
 	 *
 	 * Emitted when a folder is renamed
 	 **/
-	signals[FOLDER_RENAMED] =
-		g_signal_new ("folder-renamed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      0, /* struct offset */
-			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__OBJECT_STRING_STRING,
-			      G_TYPE_NONE, 3,
-			      CAMEL_TYPE_OBJECT, G_TYPE_STRING, G_TYPE_STRING);
+	signals[FOLDER_RENAMED] = g_signal_new (
+		"folder-renamed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		0, /* struct offset */
+		NULL, NULL, /* accumulator */
+		e_marshal_VOID__OBJECT_STRING_STRING,
+		G_TYPE_NONE, 3,
+		CAMEL_TYPE_STORE,
+		G_TYPE_STRING,
+		G_TYPE_STRING);
 
 	/**
 	 * MailFolderCache::folder-unread-updated

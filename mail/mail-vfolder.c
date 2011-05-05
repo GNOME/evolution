@@ -376,7 +376,7 @@ uri_is_ignore (EMailSession *session, const gchar *uri)
 		/* XXX EIterator misuses const. */
 		account = (EAccount *) e_iterator_get (iter);
 
-		if (account->sent_folder_uri != NULL)
+		if (!found && account->sent_folder_uri != NULL)
 			found = e_mail_folder_uri_equal (
 				camel_session, uri,
 				account->sent_folder_uri);
@@ -385,9 +385,6 @@ uri_is_ignore (EMailSession *session, const gchar *uri)
 			found = e_mail_folder_uri_equal (
 				camel_session, uri,
 				account->drafts_folder_uri);
-
-		if (found)
-			break;
 
 		e_iterator_next (iter);
 	}
@@ -399,61 +396,46 @@ uri_is_ignore (EMailSession *session, const gchar *uri)
 
 /* so special we never use it */
 static gint
-uri_is_spethal (CamelStore *store, const gchar *uri)
+folder_is_spethal (CamelStore *store,
+                   const gchar *folder_name)
 {
-	CamelURL *url;
-	gint res;
+	/* This is a bit of a hack, but really the only way it can be done
+	 * at the moment. */
 
-	/* This is a bit of a hack, but really the only way it can be done at the moment. */
+	if (store->flags & CAMEL_STORE_VTRASH)
+		if (g_strcmp0 (folder_name, CAMEL_VTRASH_NAME) == 0)
+			return TRUE;
 
-	if ((store->flags & (CAMEL_STORE_VTRASH|CAMEL_STORE_VJUNK)) == 0)
-		return FALSE;
+	if (store->flags & CAMEL_STORE_VJUNK)
+		if (g_strcmp0 (folder_name, CAMEL_VJUNK_NAME) == 0)
+			return TRUE;
 
-	url = camel_url_new (uri, NULL);
-	if (url == NULL)
-		return TRUE;
-
-	/* don't use strcasecmp here */
-	if (url->fragment) {
-		res = (((store->flags & CAMEL_STORE_VTRASH)
-			&& strcmp (url->fragment, CAMEL_VTRASH_NAME) == 0)
-		       || ((store->flags & CAMEL_STORE_VJUNK)
-			   && strcmp (url->fragment, CAMEL_VJUNK_NAME) == 0));
-	} else {
-		res = url->path
-			&& (((store->flags & CAMEL_STORE_VTRASH)
-			     && strcmp(url->path, "/" CAMEL_VTRASH_NAME) == 0)
-			    || ((store->flags & CAMEL_STORE_VJUNK)
-				&& strcmp(url->path, "/" CAMEL_VJUNK_NAME) == 0));
-	}
-
-	camel_url_free (url);
-
-	return res;
+	return FALSE;
 }
 
 /**
- * mail_vfolder_add_uri:
+ * mail_vfolder_add_folder:
  * @session: an #EMailSession
- * @store: a #CamelStore containing the uri
- * @curi: an email uri to be added/removed
- * @remove: Whether the uri should be removed or added
+ * @store: a #CamelStore
+ * @folder: a folder name
+ * @remove: whether the folder should be removed or added
  *
- * Called when a new uri becomes (un)available.  If @store is not a
- * CamelVeeStore, the uri is added/removed from the list of cached source
- * folders.  Then each vfolder rule is checked to see if the specified uri
+ * Called when a new folder becomes (un)available.  If @store is not a
+ * CamelVeeStore, the folder is added/removed from the list of cached source
+ * folders.  Then each vfolder rule is checked to see if the specified folder
  * matches a source of the rule.  It builds a list of vfolders that use (or
- * would use) the specified uri as a source.  It then adds (or removes) this uri
- * to (from) those vfolders via camel_vee_folder_add/remove_folder() but does
- * not modify the actual filters or write changes to disk.
+ * would use) the specified folder as a source.  It then adds (or removes)
+ * this folder to (from) those vfolders via camel_vee_folder_add/
+ * remove_folder() but does not modify the actual filters or write changes
+ * to disk.
  *
  * NOTE: This function must be called from the main thread.
  */
 static void
-mail_vfolder_add_uri (EMailSession *session,
-                      CamelStore *store,
-                      const gchar *curi,
-                      gint remove)
+mail_vfolder_add_folder (EMailSession *session,
+                         CamelStore *store,
+                         const gchar *folder_name,
+                         gint remove)
 {
 	EFilterRule *rule;
 	const gchar *source;
@@ -467,31 +449,28 @@ mail_vfolder_add_uri (EMailSession *session,
 	provider = camel_service_get_provider (CAMEL_SERVICE (store));
 	remote = (provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
 
-	uri = em_uri_from_camel (curi);
-	if (uri_is_spethal (store, curi)) {
-		g_free (uri);
+	if (folder_is_spethal (store, folder_name))
 		return;
-	}
 
 	g_return_if_fail (mail_in_main_thread ());
 
-	is_ignore = uri_is_ignore (session, curi);
+	uri = e_mail_folder_uri_build (store, folder_name);
+
+	is_ignore = uri_is_ignore (session, uri);
 
 	G_LOCK (vfolder);
-
-/*	d(printf("%s uri to check: %s\n", remove?"Removing":"Adding", uri)); */
 
 	/* maintain the source folders lists for changed rules later on */
 	if (CAMEL_IS_VEE_STORE (store)) {
 		is_ignore = TRUE;
 	} else if (remove) {
 		if (remote) {
-			if ((link = mv_find_folder (source_folders_remote, session, curi)) != NULL) {
+			if ((link = mv_find_folder (source_folders_remote, session, uri)) != NULL) {
 				g_free (link->data);
 				source_folders_remote = g_list_remove_link (source_folders_remote, link);
 			}
 		} else {
-			if ((link = mv_find_folder (source_folders_local, session, curi)) != NULL) {
+			if ((link = mv_find_folder (source_folders_local, session, uri)) != NULL) {
 				g_free (link->data);
 				source_folders_local = g_list_remove_link (source_folders_local, link);
 			}
@@ -499,11 +478,11 @@ mail_vfolder_add_uri (EMailSession *session,
 	} else if (!is_ignore) {
 		/* we ignore drafts/sent/outbox here */
 		if (remote) {
-			if (mv_find_folder (source_folders_remote, session, curi) == NULL)
-				source_folders_remote = g_list_prepend (source_folders_remote, g_strdup (curi));
+			if (mv_find_folder (source_folders_remote, session, uri) == NULL)
+				source_folders_remote = g_list_prepend (source_folders_remote, g_strdup (uri));
 		} else {
-			if (mv_find_folder (source_folders_local, session, curi) == NULL)
-				source_folders_local = g_list_prepend (source_folders_local, g_strdup (curi));
+			if (mv_find_folder (source_folders_local, session, uri) == NULL)
+				source_folders_local = g_list_prepend (source_folders_local, g_strdup (uri));
 		}
 	}
 
@@ -530,11 +509,8 @@ mail_vfolder_add_uri (EMailSession *session,
 		source = NULL;
 		while (!found && (source = em_vfolder_rule_next_source (
 				(EMVFolderRule *)rule, source))) {
-			gchar *csource;
-			csource = em_uri_to_camel (source);
 			found = e_mail_folder_uri_equal (
-				CAMEL_SESSION (session), curi, csource);
-			g_free (csource);
+				CAMEL_SESSION (session), uri, source);
 		}
 
 		if (found) {
@@ -552,68 +528,33 @@ done:
 	G_UNLOCK (vfolder);
 
 	if (folders != NULL)
-		vfolder_adduri (session, curi, folders, remove);
+		vfolder_adduri (session, uri, folders, remove);
 
 	g_free (uri);
 }
 
 /**
- * mail_vfolder_uri_available:
- * @session: an #EMailSession
- * @store: a #CamelStore containing the uri
- * @uri: uri of a folder that became available
- *
- * Adds @uri to the list of folders searched if any vfolder source matches the
- * uri.  This function has a transient effect and does not permanently modify
- * the vfolder filter rules on disk.
- */
-static void
-mail_vfolder_notify_uri_available (EMailSession *session,
-                                   CamelStore *store,
-                                   const gchar *uri)
-{
-	mail_vfolder_add_uri (session, store, uri, FALSE);
-}
-
-/**
- * mail_vfolder_uri_available:
- * @session: an #EMailSession
- * @store: a #CamelStore containing the uri
- * @uri: uri of a folder that became unavailable
- *
- * Removes @uri from the list of folders searched if any vfolder source matches the
- * uri.  This function has a transient effect and does not permanently modify
- * the vfolder filter rules on disk.
- */
-static void
-mail_vfolder_notify_uri_unavailable (EMailSession *session,
-                                     CamelStore *store,
-                                     const gchar *uri)
-{
-	mail_vfolder_add_uri (session, store, uri, TRUE);
-}
-
-/**
- * mail_vfolder_delete_uri:
+ * mail_vfolder_delete_folder:
  * @backend: an #EMailBackend
- * @store: a #CamelStore containing the uri
- * @curi: an email uri that has been deleted
+ * @store: a #CamelStore
+ * @folder_name: a folder name
  *
- * Looks through all vfolder rules to see if @curi is listed as a source for any
- * vfolder rules.  If the uri is found in the source for any rule, it is removed
- * and the user is alerted to the fact that the vfolder rules have been updated.
- * The new vfolder rules are written to disk.
+ * Looks through all vfolder rules to see if @folder_name is listed as a
+ * source for any vfolder rules.  If the folder is found in the source for
+ * any rule, it is removed and the user is alerted to the fact that the
+ * vfolder rules have been updated.  The new vfolder rules are written
+ * to disk.
  *
- * XXX: It doesn't appear that the changes to the vfolder rules are sent down to
- * the camel level, however. So the actual vfolders will not change behavior
- * until evolution is restarted (?)
+ * XXX: It doesn't appear that the changes to the vfolder rules are sent
+ * down to the camel level, however. So the actual vfolders will not change
+ * behavior until evolution is restarted (?)
  *
  * NOTE: This function must be called from the main thread.
  */
 static void
-mail_vfolder_delete_uri (EMailBackend *backend,
-                         CamelStore *store,
-                         const gchar *curi)
+mail_vfolder_delete_folder (EMailBackend *backend,
+                            CamelStore *store,
+                            const gchar *folder_name)
 {
 	EFilterRule *rule;
 	EMailSession *session;
@@ -626,18 +567,17 @@ mail_vfolder_delete_uri (EMailBackend *backend,
 
 	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 	g_return_if_fail (CAMEL_IS_STORE (store));
-	g_return_if_fail (curi != NULL);
+	g_return_if_fail (folder_name != NULL);
 
-	if (uri_is_spethal (store, curi))
+	if (folder_is_spethal (store, folder_name))
 		return;
-
-	uri = em_uri_from_camel (curi);
 
 	d(printf ("Deleting uri to check: %s\n", uri));
 
 	g_return_if_fail (mail_in_main_thread ());
 
 	session = e_mail_backend_get_session (backend);
+	uri = e_mail_folder_uri_build (store, folder_name);
 
 	changed_count = 0;
 	changed = g_string_new ("");
@@ -658,11 +598,9 @@ mail_vfolder_delete_uri (EMailBackend *backend,
 
 		source = NULL;
 		while ((source = em_vfolder_rule_next_source ((EMVFolderRule *) rule, source))) {
-			gchar *csource = em_uri_to_camel (source);
-
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
-			if (e_mail_folder_uri_equal (CAMEL_SESSION (session), curi, csource)) {
+			if (e_mail_folder_uri_equal (CAMEL_SESSION (session), uri, source)) {
 				vf = g_hash_table_lookup (vfolder_hash, rule->name);
 				if (!vf) {
 					g_warning ("vf is NULL for %s\n", rule->name);
@@ -686,17 +624,16 @@ mail_vfolder_delete_uri (EMailBackend *backend,
 				changed_count++;
 				source = NULL;
 			}
-			g_free (csource);
 		}
 	}
 
 done:
-	if ((link = mv_find_folder (source_folders_remote, session, curi)) != NULL) {
+	if ((link = mv_find_folder (source_folders_remote, session, uri)) != NULL) {
 		g_free (link->data);
 		source_folders_remote = g_list_remove_link (source_folders_remote, link);
 	}
 
-	if ((link = mv_find_folder (source_folders_local, session, curi)) != NULL) {
+	if ((link = mv_find_folder (source_folders_local, session, uri)) != NULL) {
 		g_free (link->data);
 		source_folders_local = g_list_remove_link (source_folders_local, link);
 	}
@@ -735,26 +672,35 @@ done:
 
 /* called when a uri is renamed in a store */
 static void
-mail_vfolder_rename_uri (CamelStore *store, const gchar *cfrom, const gchar *cto)
+mail_vfolder_rename_folder (CamelStore *store,
+                            const gchar *old_folder_name,
+                            const gchar *new_folder_name)
 {
 	EFilterRule *rule;
 	const gchar *source;
 	CamelVeeFolder *vf;
 	CamelSession *session;
 	gint changed = 0;
-	gchar *from, *to;
+	gchar *old_uri;
+	gchar *new_uri;
 
 	d(printf("vfolder rename uri: %s to %s\n", cfrom, cto));
 
-	if (context == NULL || uri_is_spethal (store, cfrom) || uri_is_spethal (store, cto))
+	if (context == NULL)
+		return;
+
+	if (folder_is_spethal (store, old_folder_name))
+		return;
+
+	if (folder_is_spethal (store, new_folder_name))
 		return;
 
 	g_return_if_fail (mail_in_main_thread ());
 
 	session = camel_service_get_session (CAMEL_SERVICE (store));
 
-	from = em_uri_from_camel (cfrom);
-	to = em_uri_from_camel (cto);
+	old_uri = e_mail_folder_uri_build (store, old_folder_name);
+	new_uri = e_mail_folder_uri_build (store, new_folder_name);
 
 	G_LOCK (vfolder);
 
@@ -763,11 +709,9 @@ mail_vfolder_rename_uri (CamelStore *store, const gchar *cfrom, const gchar *cto
 	while ((rule = e_rule_context_next_rule ((ERuleContext *)context, rule, NULL))) {
 		source = NULL;
 		while ((source = em_vfolder_rule_next_source ((EMVFolderRule *)rule, source))) {
-			gchar *csource = em_uri_to_camel (source);
-
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
-			if (e_mail_folder_uri_equal (session, cfrom, csource)) {
+			if (e_mail_folder_uri_equal (session, old_uri, source)) {
 				vf = g_hash_table_lookup (vfolder_hash, rule->name);
 				if (!vf) {
 					g_warning ("vf is NULL for %s\n", rule->name);
@@ -778,12 +722,11 @@ mail_vfolder_rename_uri (CamelStore *store, const gchar *cfrom, const gchar *cto
 					G_SIGNAL_MATCH_DATA, 0, 0, NULL,
 					rule_changed, vf);
 				em_vfolder_rule_remove_source ((EMVFolderRule *)rule, source);
-				em_vfolder_rule_add_source ((EMVFolderRule *)rule, to);
+				em_vfolder_rule_add_source ((EMVFolderRule *)rule, new_uri);
 				g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), vf);
 				changed++;
 				source = NULL;
 			}
-			g_free (csource);
 		}
 	}
 
@@ -800,8 +743,8 @@ mail_vfolder_rename_uri (CamelStore *store, const gchar *cfrom, const gchar *cto
 		g_free (user);
 	}
 
-	g_free (from);
-	g_free (to);
+	g_free (old_uri);
+	g_free (new_uri);
 }
 
 GList *
@@ -834,16 +777,17 @@ rule_add_sources (EMailSession *session,
 	folder_cache = e_mail_session_get_folder_cache (session);
 
 	while (l) {
-		gchar *curi = em_uri_to_camel (l->data);
+		const gchar *uri = l->data;
 
 		if (mail_folder_cache_get_folder_from_uri (
-			folder_cache, curi, &newfolder)) {
+			folder_cache, uri, &newfolder)) {
 			if (newfolder)
-				sources_folder = g_list_append (sources_folder, newfolder);
+				sources_folder = g_list_append (
+					sources_folder, newfolder);
 			else
-				sources_uri = g_list_append (sources_uri, g_strdup (curi));
+				sources_uri = g_list_append (
+					sources_uri, g_strdup (uri));
 		}
-		g_free (curi);
 		l = l->next;
 	}
 
@@ -1059,38 +1003,38 @@ store_folder_renamed_cb (CamelStore *store,
 static void
 folder_available_cb (MailFolderCache *cache,
                      CamelStore *store,
-                     const gchar *uri,
+                     const gchar *folder_name,
                      EMailSession *session)
 {
-	mail_vfolder_notify_uri_available (session, store, uri);
+	mail_vfolder_add_folder (session, store, folder_name, FALSE);
 }
 
 static void
 folder_unavailable_cb (MailFolderCache *cache,
                        CamelStore *store,
-                       const gchar *uri,
+                       const gchar *folder_name,
                        EMailSession *session)
 {
-	mail_vfolder_notify_uri_unavailable (session, store, uri);
+	mail_vfolder_add_folder (session, store, folder_name, TRUE);
 }
 
 static void
 folder_deleted_cb (MailFolderCache *cache,
                    CamelStore *store,
-                   const gchar *uri,
+                   const gchar *folder_name,
                    EMailBackend *backend)
 {
-	mail_vfolder_delete_uri (backend, store, uri);
+	mail_vfolder_delete_folder (backend, store, folder_name);
 }
 
 static void
 folder_renamed_cb (MailFolderCache *cache,
                    CamelStore *store,
-                   const gchar *olduri,
-                   const gchar *newuri,
+                   const gchar *old_folder_name,
+                   const gchar *new_folder_name,
                    gpointer user_data)
 {
-	mail_vfolder_rename_uri (store, olduri, newuri);
+	mail_vfolder_rename_folder (store, old_folder_name, new_folder_name);
 }
 
 void
