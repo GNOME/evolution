@@ -201,18 +201,69 @@ e_mail_folder_uri_parse (CamelSession *session,
 	if (url == NULL)
 		return FALSE;
 
-	service = camel_session_get_service_by_url (
-		session, url, CAMEL_PROVIDER_STORE);
+	/* This style was used to reference accounts by UID before
+	 * CamelServices themselves had UIDs.  Some examples are:
+	 *
+	 * Special cases:
+	 *
+	 *   'email://local@local/' FOLDER_PATH
+	 *   'email://vfolder@local/' FOLDER_PATH
+	 *
+	 * General case:
+	 *
+	 *   'email://' ACCOUNT_UID '/' FOLDER_PATH
+	 *
+	 * Note: ACCOUNT_UID is now equivalent to STORE_UID, and
+	 *       the STORE_UIDs for the special cases are 'local'
+	 *       and 'vfolder'.
+	 */
+	if (g_strcmp0 (url->protocol, "email") == 0) {
+		gchar *uid = NULL;
 
-	if (CAMEL_IS_STORE (service)) {
-		CamelProvider *provider;
+		/* Handle the special cases. */
+		if (g_strcmp0 (url->host, "local") == 0) {
+			if (g_strcmp0 (url->user, "local") == 0)
+				uid = g_strdup ("local");
+			if (g_strcmp0 (url->user, "vfolder") == 0)
+				uid = g_strdup ("vfolder");
+		}
 
-		provider = camel_service_get_provider (service);
+		/* Handle the general case. */
+		if (uid == NULL && url->host != NULL) {
+			if (url->user == NULL)
+				uid = g_strdup (url->host);
+			else
+				uid = g_strdup_printf (
+					"%s@%s", url->user, url->host);
+		}
 
-		if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
-			folder_name = url->fragment;
-		else if (url->path != NULL && *url->path == '/')
+		if (uid != NULL) {
+			service = camel_session_get_service (session, uid);
+			g_free (uid);
+		}
+
+		if (url->path != NULL && *url->path == '/')
 			folder_name = url->path + 1;
+
+	/* CamelFolderInfo URIs used to embed the store's URI, so the
+	 * folder name is appended as either a path part or a fragment
+	 * part, depending whether the store's URI used the path part.
+	 * To determine which it is, you have to check the provider
+	 * flags for CAMEL_URL_FRAGMENT_IS_PATH. */
+	} else {
+		service = camel_session_get_service_by_url (
+			session, url, CAMEL_PROVIDER_STORE);
+
+		if (CAMEL_IS_STORE (service)) {
+			CamelProvider *provider;
+
+			provider = camel_service_get_provider (service);
+
+			if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
+				folder_name = url->fragment;
+			else if (url->path != NULL && *url->path == '/')
+				folder_name = url->path + 1;
+		}
 	}
 
 	if (CAMEL_IS_STORE (service) && folder_name != NULL) {
