@@ -23,6 +23,8 @@
 
 #include <glib/gi18n.h>
 
+#include "e-mail-folder-utils.h"
+
 #define CHECK_LOCAL_FOLDER_TYPE(type) \
 	((type) < G_N_ELEMENTS (default_local_folders))
 
@@ -79,16 +81,14 @@ e_mail_local_init (EMailSession *session,
 	/* Populate the rest of the default_local_folders array. */
 	for (ii = 0; ii < G_N_ELEMENTS (default_local_folders); ii++) {
 		const gchar *display_name;
-		gchar *folder_uri;
 
 		display_name = default_local_folders[ii].display_name;
 
-		/* XXX Should this URI be account relative? */
-		camel_url_set_fragment (url, display_name);
-		folder_uri = camel_url_to_string (url, 0);
+		default_local_folders[ii].folder_uri =
+			e_mail_folder_uri_build (
+			CAMEL_STORE (service), display_name);
 
 		/* FIXME camel_store_get_folder() may block. */
-		default_local_folders[ii].folder_uri = folder_uri;
 		if (!strcmp (display_name, "Inbox"))
 			default_local_folders[ii].folder =
 				camel_store_get_inbox_folder_sync (
