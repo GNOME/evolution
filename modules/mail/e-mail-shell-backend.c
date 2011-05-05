@@ -271,122 +271,19 @@ exit:
 	return TRUE;
 }
 
-static void
-mail_shell_backend_handle_email_uri_cb (gchar *folder_uri,
-                                        CamelFolder *folder,
-                                        gpointer user_data)
-{
-	EShellBackend *shell_backend = user_data;
-	EShellSettings *shell_settings;
-	EMailBackend *backend;
-	CamelURL *url = user_data;
-	EShell *shell;
-	const gchar *forward;
-	const gchar *reply;
-	const gchar *uid;
-
-	backend = E_MAIL_BACKEND (shell_backend);
-	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	if (folder == NULL) {
-		g_warning ("Could not open folder '%s'", folder_uri);
-		goto exit;
-	}
-
-	forward = camel_url_get_param (url, "forward");
-	reply = camel_url_get_param (url, "reply");
-	uid = camel_url_get_param (url, "uid");
-
-	if (reply != NULL) {
-		EMailReplyType reply_type;
-		EMailReplyStyle reply_style;
-
-		if (g_strcmp0 (reply, "all") == 0)
-			reply_type = E_MAIL_REPLY_TO_ALL;
-		else if (g_strcmp0 (reply, "list") == 0)
-			reply_type = E_MAIL_REPLY_TO_LIST;
-		else
-			reply_type = E_MAIL_REPLY_TO_SENDER;
-
-		reply_style = e_shell_settings_get_int (
-			shell_settings, "mail-reply-style");
-
-		em_utils_reply_to_message (
-			shell, folder, uid, NULL,
-			reply_type, reply_style, NULL);
-
-	} else if (forward != NULL) {
-		EMailForwardStyle forward_style;
-		GPtrArray *uids;
-
-		uids = g_ptr_array_new ();
-		g_ptr_array_add (uids, g_strdup (uid));
-
-		if (g_strcmp0 (forward, "attached") == 0)
-			forward_style = E_MAIL_FORWARD_STYLE_ATTACHED;
-		else if (g_strcmp0 (forward, "inline") == 0)
-			forward_style = E_MAIL_FORWARD_STYLE_INLINE;
-		else if (g_strcmp0 (forward, "quoted") == 0)
-			forward_style = E_MAIL_FORWARD_STYLE_QUOTED;
-		else
-			forward_style = e_shell_settings_get_int (
-				shell_settings, "mail-forward-style");
-
-		em_utils_forward_messages (
-			shell, folder, uids, forward_style);
-
-	} else {
-		GtkWidget *browser;
-
-		/* FIXME Should pass in the shell module. */
-		browser = e_mail_browser_new (backend);
-		e_mail_reader_set_folder (
-			E_MAIL_READER (browser), folder);
-		e_mail_reader_set_message (E_MAIL_READER (browser), uid);
-		gtk_widget_show (browser);
-	}
-
-exit:
-	camel_url_free (url);
-}
-
 static gboolean
 mail_shell_backend_handle_uri_cb (EShell *shell,
                                   const gchar *uri,
                                   EMailShellBackend *mail_shell_backend)
 {
-	EMailBackend *backend;
-	EMailSession *session;
-	gboolean handled = TRUE;
-
-	backend = E_MAIL_BACKEND (mail_shell_backend);
-	session = e_mail_backend_get_session (backend);
+	gboolean handled = FALSE;
 
 	if (g_str_has_prefix (uri, "mailto:")) {
 		if (em_utils_check_user_can_send_mail ())
 			em_utils_compose_new_message_with_mailto (
 				shell, uri, NULL);
-
-	} else if (g_str_has_prefix (uri, "email:")) {
-		CamelURL *url;
-
-		url = camel_url_new (uri, NULL);
-		if (camel_url_get_param (url, "uid") != NULL) {
-			gchar *curi = em_uri_to_camel (uri);
-
-			mail_get_folder (
-				session, curi, 0,
-				mail_shell_backend_handle_email_uri_cb,
-				mail_shell_backend, mail_msg_unordered_push);
-			g_free (curi);
-
-		} else {
-			g_warning ("Email URI's must include a uid parameter");
-			camel_url_free (url);
-		}
-	} else
-		handled = FALSE;
+		handled = TRUE;
+	}
 
 	return handled;
 }
