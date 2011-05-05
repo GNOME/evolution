@@ -16,6 +16,9 @@
         <separator/>
         <menuitem action='memo-find'/>
       </placeholder>
+      <placeholder name='administrative-actions'>
+        <menuitem action='categories'/>
+      </placeholder>
     </menu>
     <menu action='view-menu'>
       <placeholder name='view-custom-menus'>

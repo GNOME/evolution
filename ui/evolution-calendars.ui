@@ -18,6 +18,9 @@
         <menuitem action='event-delete-occurrence-all'/>
         <menuitem action='calendar-delete'/>
       </placeholder>
+      <placeholder name='administrative-actions'>
+      	<menuitem action='categories'/>
+      </placeholder>
     </menu>
     <menu action='view-menu'>
       <menuitem action='calendar-go-today'/>
