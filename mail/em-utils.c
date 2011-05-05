@@ -1144,17 +1144,12 @@ em_utils_folder_is_sent (CamelFolder *folder)
 		EAccount *account;
 
 		/* XXX EIterator misuses const. */
-		account = (EAccount *)e_iterator_get (iterator);
+		account = (EAccount *) e_iterator_get (iterator);
 
-		if (account->sent_folder_uri) {
-			gchar *sent_uri;
-
-			sent_uri = em_uri_to_camel (
-				account->sent_folder_uri);
+		if (account->sent_folder_uri != NULL)
 			is_sent = e_mail_folder_uri_equal (
-				session, sent_uri, folder_uri);
-			g_free (sent_uri);
-		}
+				session, folder_uri,
+				account->sent_folder_uri);
 
 		e_iterator_next (iterator);
 	}
