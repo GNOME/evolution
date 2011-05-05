@@ -726,19 +726,17 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 
 	if (si->account && (flags & CAMEL_FOLDER_TYPE_MASK) == 0) {
 		if (!is_drafts && si->account->drafts_folder_uri) {
-			gchar *curi = em_uri_to_camel (si->account->drafts_folder_uri);
 			is_drafts = e_mail_folder_uri_equal (
-				CAMEL_SESSION (session), fi->uri, curi);
-			g_free (curi);
+				CAMEL_SESSION (session), fi->uri,
+				si->account->drafts_folder_uri);
 		}
 
 		if (si->account->sent_folder_uri) {
-			gchar *curi = em_uri_to_camel (si->account->sent_folder_uri);
 			if (e_mail_folder_uri_equal (
-				CAMEL_SESSION (session), fi->uri, curi)) {
+				CAMEL_SESSION (session), fi->uri,
+				si->account->sent_folder_uri)) {
 				add_flags = CAMEL_FOLDER_TYPE_SENT;
 			}
-			g_free (curi);
 		}
 	}
 
