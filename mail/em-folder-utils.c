@@ -58,6 +58,7 @@
 #include "em-folder-selector.h"
 #include "em-folder-properties.h"
 
+#include "e-mail-folder-utils.h"
 #include "e-mail-local.h"
 #include "e-mail-session.h"
 #include "e-mail-store.h"
@@ -285,7 +286,8 @@ em_folder_utils_copy_folders (CamelStore *fromstore, const gchar *frombase, Came
 }
 
 struct _copy_folder_data {
-	CamelFolderInfo *fi;
+	CamelStore *source_store;
+	gchar *source_folder_name;
 	gboolean delete;
 };
 
@@ -296,7 +298,7 @@ emfu_copy_folder_selected (EMailBackend *backend,
 {
 	EMailSession *session;
 	struct _copy_folder_data *cfd = data;
-	CamelStore *fromstore = NULL, *tostore = NULL;
+	CamelStore *tostore = NULL;
 	CamelStore *local_store;
 	CamelService *service = NULL;
 	CamelProvider *provider;
@@ -304,42 +306,32 @@ emfu_copy_folder_selected (EMailBackend *backend,
 	CamelURL *url;
 	GError *local_error = NULL;
 
-	if (uri == NULL) {
-		g_free (cfd);
-		return;
-	}
+	if (uri == NULL)
+		goto fail;
 
 	local_store = e_mail_local_get_store ();
 	session = e_mail_backend_get_session (backend);
 
-	url = camel_url_new (cfd->fi->uri, &local_error);
-	if (url != NULL) {
-		service = camel_session_get_service_by_url (
-			CAMEL_SESSION (session), url, CAMEL_PROVIDER_STORE);
-		camel_url_free (url);
-	}
-
-	if (service != NULL)
-		camel_service_connect_sync (service, &local_error);
+	service = CAMEL_SERVICE (cfd->source_store);
+	camel_service_connect_sync (service, &local_error);
 
 	if (local_error != NULL) {
 		e_mail_backend_submit_alert (
 			backend, cfd->delete ?
 				"mail:no-move-folder-notexist" :
 				"mail:no-copy-folder-notexist",
-			cfd->fi->full_name, uri,
+			cfd->source_folder_name, uri,
 			local_error->message, NULL);
 		goto fail;
 	}
 
 	g_return_if_fail (CAMEL_IS_STORE (service));
 
-	fromstore = CAMEL_STORE (service);
-
-	if (cfd->delete && fromstore == local_store && emfu_is_special_local_folder (cfd->fi->full_name)) {
+	if (cfd->delete && cfd->source_store == local_store &&
+		emfu_is_special_local_folder (cfd->source_folder_name)) {
 		e_mail_backend_submit_alert (
 			backend, "mail:no-rename-special-folder",
-			cfd->fi->full_name, NULL);
+			cfd->source_folder_name, NULL);
 		goto fail;
 	}
 
@@ -358,7 +350,7 @@ emfu_copy_folder_selected (EMailBackend *backend,
 			backend, cfd->delete ?
 				"mail:no-move-folder-to-notexist" :
 				"mail:no-copy-folder-to-notexist",
-			cfd->fi->full_name, uri,
+			cfd->source_folder_name, uri,
 			local_error->message, NULL);
 		goto fail;
 	}
@@ -377,20 +369,29 @@ emfu_copy_folder_selected (EMailBackend *backend,
 		tobase = "";
 
 	em_folder_utils_copy_folders (
-		fromstore, cfd->fi->full_name, tostore, tobase, cfd->delete);
+		cfd->source_store, cfd->source_folder_name,
+		tostore, tobase, cfd->delete);
 
 	camel_url_free (url);
+
 fail:
 	g_clear_error (&local_error);
 
+	g_object_unref (cfd->source_store);
+	g_free (cfd->source_folder_name);
 	g_free (cfd);
 }
 
 /* tree here is the 'destination' selector, not 'self' */
 static gboolean
-emfu_copy_folder_exclude (EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
+emfu_copy_folder_exclude (EMFolderTree *tree,
+                          GtkTreeModel *model,
+                          GtkTreeIter *iter,
+                          gpointer data)
 {
 	struct _copy_folder_data *cfd = data;
+	CamelProvider *source_provider;
+	CamelService *source_service;
 	gint fromvfolder, tovfolder;
 	gchar *touri;
 	guint flags;
@@ -398,8 +399,15 @@ emfu_copy_folder_exclude (EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *
 
 	/* handles moving to/from vfolders */
 
-	fromvfolder = strncmp(cfd->fi->uri, "vfolder:", 8) == 0;
-	gtk_tree_model_get (model, iter, COL_STRING_URI, &touri, COL_UINT_FLAGS, &flags, COL_BOOL_IS_STORE, &is_store, -1);
+	source_service = CAMEL_SERVICE (cfd->source_store);
+	source_provider = camel_service_get_provider (source_service);
+	fromvfolder = (g_strcmp0 (source_provider->protocol, "vfolder") == 0);
+
+	gtk_tree_model_get (
+		model, iter,
+		COL_STRING_URI, &touri,
+		COL_UINT_FLAGS, &flags,
+		COL_BOOL_IS_STORE, &is_store, -1);
 	tovfolder = strncmp(touri, "vfolder:", 8) == 0;
 	g_free (touri);
 
@@ -416,12 +424,10 @@ emfu_copy_folder_exclude (EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *
 	return (flags & EMFT_EXCLUDE_NOINFERIORS) == 0;
 }
 
-/* FIXME: this interface references the folderinfo without copying it  */
-/* FIXME: these functions must be documented */
 void
 em_folder_utils_copy_folder (GtkWindow *parent,
                              EMailBackend *backend,
-                             CamelFolderInfo *folderinfo,
+                             const gchar *folder_uri,
                              gint delete)
 {
 	GtkWidget *dialog;
@@ -430,15 +436,26 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 	const gchar *label;
 	const gchar *title;
 	struct _copy_folder_data *cfd;
+	GError *error = NULL;
 
 	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
-	g_return_if_fail (folderinfo != NULL);
+	g_return_if_fail (folder_uri != NULL);
 
 	session = e_mail_backend_get_session (backend);
 
 	cfd = g_malloc (sizeof (*cfd));
-	cfd->fi = folderinfo;
 	cfd->delete = delete;
+
+	e_mail_folder_uri_parse (
+		CAMEL_SESSION (session), folder_uri,
+		&cfd->source_store, &cfd->source_folder_name, &error);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+		g_free (cfd);
+		return;
+	}
 
 	/* XXX Do we leak this reference. */
 	emft = (EMFolderTree *) em_folder_tree_new (session);

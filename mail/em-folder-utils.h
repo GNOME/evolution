@@ -42,7 +42,7 @@ gint		em_folder_utils_copy_folders	(CamelStore *fromstore,
 
 void		em_folder_utils_copy_folder	(GtkWindow *parent,
 						 EMailBackend *backend,
-						 CamelFolderInfo *folderinfo,
+						 const gchar *folder_uri,
 						 gboolean delete);
 void		em_folder_utils_delete_folder	(EMailBackend *backend,
 						 CamelFolder *folder);
