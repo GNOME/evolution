@@ -92,7 +92,6 @@ struct _folder_info {
 	struct _store_info *store_info;	/* 'parent' link */
 
 	gchar *full_name;	/* full name of folder/folderinfo */
-	gchar *uri;		/* uri of folder */
 
 	guint32 flags;
 	gboolean has_children;
@@ -109,9 +108,7 @@ struct _folder_update {
 	guint new;     /* new mail arrived? */
 
 	gchar *full_name;
-	gchar *uri;
 	gchar *oldfull;
-	gchar *olduri;
 
 	gint unread;
 	CamelStore *store;
@@ -136,11 +133,9 @@ static void
 free_update (struct _folder_update *up)
 {
 	g_free (up->full_name);
-	g_free (up->uri);
 	if (up->store)
 		g_object_unref (up->store);
 	g_free (up->oldfull);
-	g_free (up->olduri);
 	g_free (up->msg_uid);
 	g_free (up->msg_sender);
 	g_free (up->msg_subject);
@@ -175,10 +170,10 @@ flush_updates_idle_cb (MailFolderCache *self)
 			       up->store, up->full_name, up->unread);
 
 		/* indicate that the folder has changed (new mail received, etc) */
-		if (up->uri) {
+		if (up->store != NULL && up->full_name != NULL) {
 			g_signal_emit (
 				self, signals[FOLDER_CHANGED], 0, up->store,
-				up->uri, up->full_name, up->new, up->msg_uid,
+				up->full_name, up->new, up->msg_uid,
 				up->msg_sender, up->msg_subject);
 		}
 
@@ -299,7 +294,6 @@ update_1folder (MailFolderCache *self,
 	up->unread = unread;
 	up->new = new;
 	up->store = g_object_ref (mfi->store_info->store);
-	up->uri = g_strdup (mfi->uri);
 	up->msg_uid = g_strdup (msg_uid);
 	up->msg_sender = g_strdup (msg_sender);
 	up->msg_subject = g_strdup (msg_subject);
@@ -424,7 +418,6 @@ unset_folder_info (MailFolderCache *self,
 		up->unsub = unsub;
 		up->store = g_object_ref (mfi->store_info->store);
 		up->full_name = g_strdup (mfi->full_name);
-		up->uri = g_strdup (mfi->uri);
 
 		g_queue_push_tail (&self->priv->updates, up);
 		flush_updates (self);
@@ -435,7 +428,6 @@ static void
 free_folder_info (struct _folder_info *mfi)
 {
 	g_free (mfi->full_name);
-	g_free (mfi->uri);
 	g_free (mfi);
 }
 
@@ -449,10 +441,8 @@ setup_folder (MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *si
 	if (mfi) {
 		update_1folder (self, mfi, 0, NULL, NULL, NULL, fi);
 	} else {
-		d(printf("Adding new folder: %s (%s)\n", fi->full_name, fi->uri));
 		mfi = g_malloc0 (sizeof (*mfi));
 		mfi->full_name = g_strdup (fi->full_name);
-		mfi->uri = g_strdup (fi->uri);
 		mfi->store_info = si;
 		mfi->flags = fi->flags;
 		mfi->has_children = fi->child != NULL;
@@ -461,7 +451,6 @@ setup_folder (MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *si
 
 		up = g_malloc0 (sizeof (*up));
 		up->full_name = g_strdup (mfi->full_name);
-		up->uri = g_strdup (fi->uri);
 		up->unread = fi->unread;
 		up->store = g_object_ref (si->store);
 
@@ -476,8 +465,6 @@ setup_folder (MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *si
 static void
 create_folders (MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *si)
 {
-	d(printf("Setup new folder: %s\n  %s\n", fi->uri, fi->full_name));
-
 	while (fi) {
 		setup_folder (self, fi, si);
 
@@ -604,12 +591,10 @@ rename_folders (MailFolderCache *self,
 		d(printf("Found old folder '%s' renaming to '%s'\n", mfi->full_name, fi->full_name));
 
 		up->oldfull = mfi->full_name;
-		up->olduri = mfi->uri;
 
 		/* Its a rename op */
 		g_hash_table_remove (si->folders, mfi->full_name);
 		mfi->full_name = g_strdup (fi->full_name);
-		mfi->uri = g_strdup (fi->uri);
 		mfi->flags = fi->flags;
 		mfi->has_children = fi->child != NULL;
 
@@ -619,7 +604,6 @@ rename_folders (MailFolderCache *self,
 		/* Its a new op */
 		mfi = g_malloc0 (sizeof (*mfi));
 		mfi->full_name = g_strdup (fi->full_name);
-		mfi->uri = g_strdup (fi->uri);
 		mfi->store_info = si;
 		mfi->flags = fi->flags;
 		mfi->has_children = fi->child != NULL;
@@ -628,7 +612,6 @@ rename_folders (MailFolderCache *self,
 	}
 
 	up->full_name = g_strdup (mfi->full_name);
-	up->uri = g_strdup (mfi->uri);
 	up->unread = fi->unread==-1?0:fi->unread;
 	up->store = g_object_ref (si->store);
 
@@ -1034,26 +1017,29 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 	/**
 	 * MailFolderCache::folder-changed
 	 * @store: the #CamelStore containing the folder
-	 * @folder_uri: the uri of the folder
 	 * @folder_fullname: the full name of the folder
 	 * @new_messages: the number of new messages for the folder
 	 * @msg_uid: uid of the new message, or NULL
 	 * @msg_sender: sender of the new message, or NULL
 	 * @msg_subject: subject of the new message, or NULL
 	 *
-	 * Emitted when a folder has changed.  If @new_messages is not exactly 1,
-	 * @msgt_uid, @msg_sender, and @msg_subject will be NULL.
+	 * Emitted when a folder has changed.  If @new_messages is not
+	 * exactly 1, @msg_uid, @msg_sender, and @msg_subject will be NULL.
 	 **/
-	signals[FOLDER_CHANGED] =
-		g_signal_new ("folder-changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      0, /* struct offset */
-			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__OBJECT_STRING_STRING_INT_STRING_STRING_STRING,
-			      G_TYPE_NONE, 7,
-			      CAMEL_TYPE_OBJECT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT,
-			      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+	signals[FOLDER_CHANGED] = g_signal_new (
+		"folder-changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		0, /* struct offset */
+		NULL, NULL, /* accumulator */
+		e_marshal_VOID__OBJECT_STRING_INT_STRING_STRING_STRING,
+		G_TYPE_NONE, 6,
+		CAMEL_TYPE_STORE,
+		G_TYPE_STRING,
+		G_TYPE_INT,
+		G_TYPE_STRING,
+		G_TYPE_STRING,
+		G_TYPE_STRING);
 }
 
 static void

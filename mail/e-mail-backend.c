@@ -35,6 +35,7 @@
 
 #include "shell/e-shell.h"
 
+#include "mail/e-mail-folder-utils.h"
 #include "mail/e-mail-local.h"
 #include "mail/e-mail-migrate.h"
 #include "mail/e-mail-session.h"
@@ -350,7 +351,6 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 static void
 mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
                                 CamelStore *store,
-                                const gchar *folder_uri,
                                 const gchar *folder_fullname,
                                 gint new_messages,
                                 const gchar *msg_uid,
@@ -364,8 +364,11 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	EMFolderTreeModel *model;
 	EAccount *account;
 	const gchar *uid;
+	gchar *folder_uri;
 	gint folder_type;
 	gint flags = 0;
+
+	folder_uri = e_mail_folder_uri_build (store, folder_fullname);
 
 	if (mail_folder_cache_get_folder_from_uri (
 			folder_cache, folder_uri, &folder))
@@ -403,6 +406,8 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	e_event_emit (
 		(EEvent *) event, "folder.changed",
 		(EEventTarget *) target);
+
+	g_free (folder_uri);
 }
 
 static void
