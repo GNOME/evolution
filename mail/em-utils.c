@@ -2069,13 +2069,11 @@ guess_account_from_folder (CamelFolder *folder)
 static EAccount *
 guess_account_from_message (CamelMimeMessage *message)
 {
-	const gchar *source_url;
+	const gchar *uid;
 
-	source_url = camel_mime_message_get_source (message);
-	if (source_url == NULL)
-		return NULL;
+	uid = camel_mime_message_get_source (message);
 
-	return e_get_account_by_source_url (source_url);
+	return (uid != NULL) ? e_get_account_by_uid (uid) : NULL;
 }
 
 GHashTable *
