@@ -28,16 +28,6 @@
 static EAccountList *global_account_list;
 
 static gboolean
-account_has_source_url (EAccount *account)
-{
-	return (account != NULL) &&
-		(account->enabled) &&
-		(account->source != NULL) &&
-		(account->source->url != NULL) &&
-		(account->source->url[0] != '\0');
-}
-
-static gboolean
 account_has_transport_url (EAccount *account)
 {
 	return (account != NULL) &&
@@ -173,64 +163,6 @@ e_get_account_by_uid (const gchar *uid)
 
 	/* XXX EAccountList misuses const. */
 	return (EAccount *) account;
-}
-
-/**
- * e_get_account_by_source_url:
- * @source_url: a source URL
- *
- * Returns the #EAccount with the given source URL, or %NULL if no such
- * account exists.
- *
- * Returns: an #EAccount having the given source URL, or %NULL
- **/
-EAccount *
-e_get_account_by_source_url (const gchar *source_url)
-{
-	EAccountList *account_list;
-	EAccount *account = NULL;
-	EIterator *iterator;
-	CamelProvider *provider;
-	CamelURL *source_curl;
-
-	g_return_val_if_fail (source_url != NULL, NULL);
-
-	source_curl = camel_url_new (source_url, NULL);
-	g_return_val_if_fail (source_curl != NULL, NULL);
-
-	provider = camel_provider_get (source_url, NULL);
-	g_return_val_if_fail (provider != NULL, NULL);
-	g_return_val_if_fail (provider->url_equal != NULL, NULL);
-
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
-
-	while (account == NULL && e_iterator_is_valid (iterator)) {
-		EAccount *candidate;
-		CamelURL *curl;
-
-		/* XXX EIterator misuses const. */
-		candidate = (EAccount *) e_iterator_get (iterator);
-
-		e_iterator_next (iterator);
-
-		if (!account_has_source_url (candidate))
-			continue;
-
-		curl = camel_url_new (candidate->source->url, NULL);
-		if (curl == NULL)
-			continue;
-
-		if (provider->url_equal (curl, source_curl))
-			account = candidate;
-
-		camel_url_free (curl);
-	}
-
-	g_object_unref (iterator);
-	camel_url_free (source_curl);
-
-	return account;
 }
 
 /**
