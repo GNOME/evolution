@@ -3099,48 +3099,6 @@ em_folder_tree_get_selected_folder (EMFolderTree *folder_tree)
 	return folder;
 }
 
-CamelFolderInfo *
-em_folder_tree_get_selected_folder_info (EMFolderTree *folder_tree)
-{
-	GtkTreeView *tree_view;
-	GtkTreeSelection *selection;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gchar *full_name = NULL, *name = NULL, *uri = NULL;
-	CamelStore *store = NULL;
-	CamelFolderInfo *fi = NULL;
-
-	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
-
-	tree_view = GTK_TREE_VIEW (folder_tree);
-	selection = gtk_tree_view_get_selection (tree_view);
-
-	if (gtk_tree_selection_get_selected (selection, &model, &iter))
-		gtk_tree_model_get (
-			model, &iter,
-			COL_POINTER_CAMEL_STORE, &store,
-			COL_STRING_FULL_NAME, &full_name,
-			COL_STRING_DISPLAY_NAME, &name,
-			COL_STRING_URI, &uri, -1);
-
-	fi = camel_folder_info_new ();
-	fi->full_name = g_strdup (full_name);
-	fi->uri = g_strdup (uri);
-	fi->name = g_strdup (name);
-
-	if (!fi->full_name)
-		goto done;
-
-	g_free (fi->name);
-	if (!g_ascii_strcasecmp (fi->full_name, "INBOX"))
-		fi->name = g_strdup (_("Inbox"));
-	else
-		fi->name = g_strdup (name);
-
-done:
-	return fi;
-}
-
 EAccount *
 em_folder_tree_get_selected_account (EMFolderTree *folder_tree)
 {
