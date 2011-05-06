@@ -198,29 +198,6 @@ mail_filter_folder (EMailSession *session,
 
 /* ********************************************************************** */
 
-/* Temporary workaround for various issues. Gone before 0.11 */
-static gchar *
-uid_cachename_hack (CamelStore *store)
-{
-	CamelURL *url;
-	gchar *encoded_url, *filename;
-	const gchar *data_dir;
-
-	url = camel_service_get_camel_url (CAMEL_SERVICE (store));
-
-	encoded_url = g_strdup_printf ("%s%s%s@%s", url->user,
-				       url->authmech ? ";auth=" : "",
-				       url->authmech ? url->authmech : "",
-				       url->host);
-	e_filename_make_safe (encoded_url);
-
-	data_dir = mail_session_get_data_dir ();
-	filename = g_build_filename (data_dir, "pop", encoded_url, "uid-cache", NULL);
-	g_free (encoded_url);
-
-	return filename;
-}
-
 static gchar *
 fetch_mail_desc (struct _fetch_mail_msg *m)
 {
@@ -255,10 +232,16 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 		 * 'cause of the way fetch_mail_free works. */
 		CamelUIDCache *cache = NULL;
 		CamelStore *parent_store;
+		CamelService *service;
+		const gchar *data_dir;
 		gchar *cachename;
 
 		parent_store = camel_folder_get_parent_store (folder);
-		cachename = uid_cachename_hack (parent_store);
+
+		service = CAMEL_SERVICE (parent_store);
+		data_dir = camel_service_get_user_data_dir (service);
+
+		cachename = g_build_filename (data_dir, "uid-cache", NULL);
 		cache = camel_uid_cache_new (cachename);
 		g_free (cachename);
 
