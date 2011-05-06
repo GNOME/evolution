@@ -140,7 +140,7 @@ action_mail_folder_new_cb (GtkAction *action,
 
 exit:
 	em_folder_utils_create_folder (
-		NULL, folder_tree, mail_session, GTK_WINDOW (shell_window));
+		GTK_WINDOW (shell_window), folder_tree, mail_session, NULL);
 }
 
 static void
