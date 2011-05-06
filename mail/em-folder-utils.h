@@ -46,10 +46,10 @@ void		em_folder_utils_copy_folder	(GtkWindow *parent,
 						 gboolean delete);
 void		em_folder_utils_delete_folder	(EMailBackend *backend,
 						 CamelFolder *folder);
-void		em_folder_utils_create_folder	(CamelFolderInfo *folderinfo,
+void		em_folder_utils_create_folder	(GtkWindow *parent,
 						 EMFolderTree *emft,
 						 EMailSession *session,
-						 GtkWindow *parent);
+						 const gchar *initial_uri);
 
 const gchar *	em_folder_utils_get_icon_name	(guint32 flags);
 

@@ -385,23 +385,23 @@ action_mail_folder_new_cb (GtkAction *action,
 	EShellWindow *shell_window;
 	EMailSession *session;
 	EMailShellSidebar *mail_shell_sidebar;
-	CamelFolderInfo *folder_info;
 	EMFolderTree *folder_tree;
+	gchar *selected_uri;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	folder_info = em_folder_tree_get_selected_folder_info (folder_tree);
+
 	session = em_folder_tree_get_session (folder_tree);
-	g_return_if_fail (folder_info != NULL);
+	selected_uri = em_folder_tree_get_selected_uri (folder_tree);
 
 	em_folder_utils_create_folder (
-		folder_info, folder_tree, session,
-		GTK_WINDOW (shell_window));
+		GTK_WINDOW (shell_window),
+		folder_tree, session, selected_uri);
 
-	camel_folder_info_free (folder_info);
+	g_free (selected_uri);
 }
 
 static void

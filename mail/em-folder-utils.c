@@ -773,10 +773,10 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 
 /* FIXME: these functions must be documented */
 void
-em_folder_utils_create_folder (CamelFolderInfo *folderinfo,
+em_folder_utils_create_folder (GtkWindow *parent,
                                EMFolderTree *emft,
-			       EMailSession *session,
-                               GtkWindow *parent)
+                               EMailSession *session,
+                               const gchar *initial_uri)
 {
 	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
@@ -788,9 +788,13 @@ em_folder_utils_create_folder (CamelFolderInfo *folderinfo,
 		parent, folder_tree, 0,
 		_("Create Folder"),
 		_("Specify where to create the folder:"));
-	if (folderinfo != NULL)
-		em_folder_selector_set_selected ((EMFolderSelector *) dialog, folderinfo->uri);
-	g_signal_connect (dialog, "response", G_CALLBACK (emfu_popup_new_folder_response), emft ? emft : folder_tree);
+	if (initial_uri != NULL)
+		em_folder_selector_set_selected (
+			EM_FOLDER_SELECTOR (dialog), initial_uri);
+	g_signal_connect (
+		dialog, "response",
+		G_CALLBACK (emfu_popup_new_folder_response),
+		emft ? emft : folder_tree);
 
 	if (!parent || !GTK_IS_DIALOG (parent))
 		gtk_widget_show (dialog);
