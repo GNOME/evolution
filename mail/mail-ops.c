@@ -233,113 +233,87 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
                  GError **error)
 {
 	struct _filter_mail_msg *fm = (struct _filter_mail_msg *)m;
-	CamelURL *url;
+	CamelFolder *folder;
+	const gchar *uid;
 	gint i;
 
-	fm->destination = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_LOCAL_INBOX);
+	fm->destination = e_mail_local_get_folder (
+		E_MAIL_LOCAL_FOLDER_LOCAL_INBOX);
 	if (fm->destination == NULL)
 		goto fail;
 	g_object_ref (fm->destination);
 
-	/* FIXME: this should support keep_on_server too, which would then perform a spool
-	   access thingy, right?  problem is matching raw messages to uid's etc. */
-	url = camel_service_get_camel_url (CAMEL_SERVICE (m->store));
-	if (em_utils_is_local_delivery_mbox_file (url)) {
-		gchar *path;
-		gchar *url_string;
+	uid = camel_service_get_uid (CAMEL_SERVICE (m->store));
 
-		path = mail_tool_do_movemail (m->store, error);
-		url_string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+	folder = fm->source_folder =
+		e_mail_session_get_inbox_sync (
+			fm->session, uid, cancellable, error);
 
-		if (path && (!error || !*error)) {
-			camel_folder_freeze (fm->destination);
-			camel_filter_driver_set_default_folder (
-				fm->driver, fm->destination);
-			camel_filter_driver_filter_mbox (
-				fm->driver, path, url_string,
-				cancellable, error);
-			camel_folder_thaw (fm->destination);
+	if (folder != NULL) {
+		/* This handles 'keep on server' stuff, if we have any new
+		 * uid's to copy across, we need to copy them to a new array
+		 * 'cause of the way fetch_mail_free works. */
+		CamelUIDCache *cache = NULL;
+		CamelStore *parent_store;
+		gchar *cachename;
 
-			if (!error || !*error)
-				g_unlink (path);
-		}
+		parent_store = camel_folder_get_parent_store (folder);
+		cachename = uid_cachename_hack (parent_store);
+		cache = camel_uid_cache_new (cachename);
+		g_free (cachename);
 
-		g_free (path);
-		g_free (url_string);
-	} else {
-		CamelFolder *folder;
-		const gchar *uid;
+		if (cache) {
+			GPtrArray *folder_uids, *cache_uids, *uids;
 
-		uid = camel_service_get_uid (CAMEL_SERVICE (m->store));
+			folder_uids = camel_folder_get_uids (folder);
+			cache_uids = camel_uid_cache_get_new_uids (cache, folder_uids);
+			if (cache_uids) {
+				/* need to copy this, sigh */
+				fm->source_uids = uids = g_ptr_array_new ();
+				g_ptr_array_set_size (uids, cache_uids->len);
+				for (i = 0; i < cache_uids->len; i++)
+					uids->pdata[i] = g_strdup (cache_uids->pdata[i]);
+				camel_uid_cache_free_uids (cache_uids);
 
-		folder = fm->source_folder =
-			e_mail_session_get_inbox_sync (
-				fm->session, uid, cancellable, error);
-
-		if (folder) {
-			/* this handles 'keep on server' stuff, if we have any new uid's to copy
-			   across, we need to copy them to a new array 'cause of the way fetch_mail_free works */
-			CamelUIDCache *cache = NULL;
-			CamelStore *parent_store;
-			gchar *cachename;
-
-			parent_store = camel_folder_get_parent_store (folder);
-			cachename = uid_cachename_hack (parent_store);
-			cache = camel_uid_cache_new (cachename);
-			g_free (cachename);
-
-			if (cache) {
-				GPtrArray *folder_uids, *cache_uids, *uids;
-
-				folder_uids = camel_folder_get_uids (folder);
-				cache_uids = camel_uid_cache_get_new_uids (cache, folder_uids);
-				if (cache_uids) {
-					/* need to copy this, sigh */
-					fm->source_uids = uids = g_ptr_array_new ();
-					g_ptr_array_set_size (uids, cache_uids->len);
-					for (i = 0; i < cache_uids->len; i++)
-						uids->pdata[i] = g_strdup (cache_uids->pdata[i]);
-					camel_uid_cache_free_uids (cache_uids);
-
-					fm->cache = cache;
-					em_filter_folder_element_exec (fm, cancellable, error);
-
-					/* need to uncancel so writes/etc. don't fail */
-					if (g_cancellable_is_cancelled (m->cancellable))
-						g_cancellable_reset (m->cancellable);
-
-					/* save the cache of uids that we've just downloaded */
-					camel_uid_cache_save (cache);
-				}
-
-				if (fm->delete && (!error || !*error)) {
-					/* not keep on server - just delete all the actual messages on the server */
-					for (i=0;i<folder_uids->len;i++) {
-						d(printf("force delete uid '%s'\n", (gchar *)folder_uids->pdata[i]));
-						camel_folder_delete_message (folder, folder_uids->pdata[i]);
-					}
-				}
-
-				if ((fm->delete || cache_uids) && (!error || !*error)) {
-					/* expunge messages (downloaded so far) */
-					/* FIXME Not passing a GCancellable or GError here. */
-					camel_folder_synchronize_sync (
-						folder, fm->delete, NULL, NULL);
-				}
-
-				camel_uid_cache_destroy (cache);
-				camel_folder_free_uids (folder, folder_uids);
-			} else {
+				fm->cache = cache;
 				em_filter_folder_element_exec (fm, cancellable, error);
+
+				/* need to uncancel so writes/etc. don't fail */
+				if (g_cancellable_is_cancelled (m->cancellable))
+					g_cancellable_reset (m->cancellable);
+
+				/* save the cache of uids that we've just downloaded */
+				camel_uid_cache_save (cache);
 			}
 
-			/* we unref the source folder here since we
-			   may now block in finalize (we try to
-			   disconnect cleanly) */
-			g_object_unref (fm->source_folder);
-			fm->source_folder = NULL;
+			if (fm->delete && (!error || !*error)) {
+				/* not keep on server - just delete all the actual messages on the server */
+				for (i=0;i<folder_uids->len;i++) {
+					d(printf("force delete uid '%s'\n", (gchar *)folder_uids->pdata[i]));
+					camel_folder_delete_message (folder, folder_uids->pdata[i]);
+				}
+			}
+
+			if ((fm->delete || cache_uids) && (!error || !*error)) {
+				/* expunge messages (downloaded so far) */
+				/* FIXME Not passing a GCancellable or GError here. */
+				camel_folder_synchronize_sync (
+					folder, fm->delete, NULL, NULL);
+			}
+
+			camel_uid_cache_destroy (cache);
+			camel_folder_free_uids (folder, folder_uids);
+		} else {
+			em_filter_folder_element_exec (fm, cancellable, error);
 		}
+
+		/* we unref the source folder here since we
+		   may now block in finalize (we try to
+		   disconnect cleanly) */
+		g_object_unref (fm->source_folder);
+		fm->source_folder = NULL;
 	}
+
 fail:
 	/* we unref this here as it may have more work to do (syncing
 	   folders and whatnot) before we are really done */
