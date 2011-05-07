@@ -945,7 +945,9 @@ store_folder_deleted_cb (CamelStore *store,
 		e_rule_context_save ((ERuleContext *)context, user);
 		g_free (user);
 	} else {
-		g_warning("Cannot find rule for deleted vfolder '%s'", info->name);
+		g_warning (
+			"Cannot find rule for deleted vfolder '%s'",
+			info->display_name);
 	}
 
 	G_UNLOCK (vfolder);

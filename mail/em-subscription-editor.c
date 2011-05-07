@@ -178,7 +178,7 @@ subscription_editor_populate (EMSubscriptionEditor *editor,
 			tree_store, &iter,
 			COL_CASEFOLDED, NULL,  /* not needed */
 			COL_FOLDER_ICON, icon_name,
-			COL_FOLDER_NAME, folder_info->name,
+			COL_FOLDER_NAME, folder_info->display_name,
 			COL_FOLDER_INFO, folder_info, -1);
 
 		if (FOLDER_SUBSCRIBED (folder_info)) {
