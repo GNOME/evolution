@@ -1306,7 +1306,8 @@ ea_calendar_set_focus_object (EaCalendarItem *ea_calitem, AtkObject *item_cell)
 	AtkStateSet *state_set, *old_state_set;
 	AtkObject *old_cell;
 
-	old_cell = (AtkObject *)g_object_get_data (G_OBJECT(ea_calitem), "gail-focus-object");
+	old_cell = (AtkObject *)g_object_get_data (
+		G_OBJECT(ea_calitem), "gail-focus-object");
 	if (old_cell && EA_IS_CALENDAR_CELL (old_cell)) {
 		old_state_set = atk_object_ref_state_set (old_cell);
 		atk_state_set_remove_state (old_state_set, ATK_STATE_FOCUSED);

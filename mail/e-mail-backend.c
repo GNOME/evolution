@@ -125,7 +125,8 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 	window = e_shell_get_active_window (shell);
 	session = e_mail_backend_get_session (backend);
 
-	if (e_shell_get_network_available (shell) && e_shell_backend_is_started (E_SHELL_BACKEND (backend)))
+	if (e_shell_get_network_available (shell) &&
+		e_shell_backend_is_started (E_SHELL_BACKEND (backend)))
 		synchronize = em_utils_prompt_user (
 			window, NULL, "mail:ask-quick-offline", NULL);
 

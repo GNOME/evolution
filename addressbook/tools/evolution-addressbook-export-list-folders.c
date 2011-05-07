@@ -79,7 +79,9 @@ action_list_folders_init (ActionContext * p_actctx)
 			name = e_source_peek_name (s);
 
 			if (outputfile)
-				fprintf (outputfile, "\"%s\",\"%s\",%d\n", uri, name, g_list_length (contacts));
+				fprintf (
+					outputfile, "\"%s\",\"%s\",%d\n",
+					uri, name, g_list_length (contacts));
 			else
 				printf ("\"%s\",\"%s\",%d\n", uri, name, g_list_length (contacts));
 

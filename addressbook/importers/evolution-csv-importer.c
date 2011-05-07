@@ -559,11 +559,17 @@ parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 					break;
 
 				case FLAG_DATE_BDAY:
-					e_contact_set (contact, E_CONTACT_BIRTH_DATE, date_from_string (value->str));
+					e_contact_set (
+						contact,
+						E_CONTACT_BIRTH_DATE,
+						date_from_string (value->str));
 					break;
 
 				case FLAG_DATE_ANNIVERSARY:
-					e_contact_set (contact, E_CONTACT_ANNIVERSARY, date_from_string (value->str));
+					e_contact_set (
+						contact,
+						E_CONTACT_ANNIVERSARY,
+						date_from_string (value->str));
 					break;
 
 				case FLAG_BIRTH_DAY:

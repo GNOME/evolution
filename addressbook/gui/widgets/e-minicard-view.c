@@ -616,7 +616,8 @@ e_minicard_view_get_type (void)
 			(GInstanceInitFunc) e_minicard_view_init,
 		};
 
-		reflow_type = g_type_register_static (PARENT_TYPE, "EMinicardView", &reflow_info, 0);
+		reflow_type = g_type_register_static (
+			PARENT_TYPE, "EMinicardView", &reflow_info, 0);
 	}
 
 	return reflow_type;

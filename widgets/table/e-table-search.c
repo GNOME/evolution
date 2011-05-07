@@ -183,8 +183,10 @@ e_table_search_input_character (ETableSearch *ets, gunichar character)
 	character_utf8[g_unichar_to_utf8 (character, character_utf8)] = 0;
 
 	temp_string = g_strdup_printf ("%s%s", ets->priv->search_string, character_utf8);
-	if (e_table_search_search (ets, temp_string,
-				   ets->priv->last_character != 0 ? E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST : 0)) {
+	if (e_table_search_search (
+			ets, temp_string,
+			ets->priv->last_character != 0 ?
+			E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST : 0)) {
 		g_free (ets->priv->search_string);
 		ets->priv->search_string = temp_string;
 		add_timeout (ets);

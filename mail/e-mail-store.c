@@ -248,7 +248,8 @@ mail_store_load_accounts (EMailSession *session,
 		if (!account->enabled)
 			continue;
 
-		/* Do not add local-delivery files, but make them ready for later use. */
+		/* Do not add local-delivery files,
+		 * but make them ready for later use. */
 		url = camel_url_new (account->source->url, NULL);
 		if (url != NULL) {
 			skip = em_utils_is_local_delivery_mbox_file (url);
@@ -258,10 +259,17 @@ mail_store_load_accounts (EMailSession *session,
 		if (skip) {
 			GError *error = NULL;
 
-			if (!camel_session_add_service (CAMEL_SESSION (session), account->uid, account->source->url, CAMEL_PROVIDER_STORE, &error)) {
-				g_warning ("%s: Failed to add '%s' as store: %s", G_STRFUNC, account->source->url, error ? error->message : "Unknown error");
-				if (error)
-					g_error_free (error);
+			camel_session_add_service (
+				CAMEL_SESSION (session),
+				account->uid, account->source->url,
+				CAMEL_PROVIDER_STORE, &error);
+
+			if (error != NULL) {
+				g_warning (
+					"Failed to add '%s' as store: %s",
+					account->source->url,
+					error->message);
+				g_error_free (error);
 			}
 		} else {
 			e_mail_store_add_by_account (session, account);

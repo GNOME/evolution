@@ -69,7 +69,10 @@ struct _folder_info {
 	gchar *uri;
 	CamelFolder *folder;
 	time_t update;
-	gint count;		/* how many times updated, to slow it down as we go, if we have lots */
+
+	/* How many times updated, to slow it
+	 * down as we go, if we have lots. */
+	gint count;
 };
 
 struct _send_data {
@@ -78,7 +81,9 @@ struct _send_data {
 	GtkDialog *gd;
 	gint cancelled;
 
-	CamelFolder *inbox;	/* since we're never asked to update this one, do it ourselves */
+	/* Since we're never asked to update
+	 * this one, do it ourselves. */
+	CamelFolder *inbox;
 	time_t inbox_update;
 
 	GMutex *lock;
@@ -544,7 +549,8 @@ build_dialog (GtkWindow *parent,
 			info->keep_on_server = source->keep_on_server;
 			info->cancellable = camel_operation_new ();
 			info->state = allow_send ? SEND_ACTIVE : SEND_COMPLETE;
-			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
+			info->timeout_id = g_timeout_add (
+				STATUS_TIMEOUT, operation_status_timeout, info);
 
 			g_signal_connect (
 				info->cancellable, "status",
@@ -558,7 +564,8 @@ build_dialog (GtkWindow *parent,
 			e_iterator_next (iter);
 			continue;
 		} else if (info->timeout_id == 0)
-			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
+			info->timeout_id = g_timeout_add (
+				STATUS_TIMEOUT, operation_status_timeout, info);
 
 		recv_icon = gtk_image_new_from_icon_name (
 			"mail-inbox", GTK_ICON_SIZE_LARGE_TOOLBAR);
@@ -640,7 +647,8 @@ build_dialog (GtkWindow *parent,
 			info->keep_on_server = FALSE;
 			info->cancellable = camel_operation_new ();
 			info->state = SEND_ACTIVE;
-			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
+			info->timeout_id = g_timeout_add (
+				STATUS_TIMEOUT, operation_status_timeout, info);
 
 			g_free (transport_uid);
 
@@ -651,7 +659,8 @@ build_dialog (GtkWindow *parent,
 			g_hash_table_insert (data->active, (gpointer) SEND_URI_KEY, info);
 			list = g_list_prepend (list, info);
 		} else if (info->timeout_id == 0)
-			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
+			info->timeout_id = g_timeout_add (
+				STATUS_TIMEOUT, operation_status_timeout, info);
 
 		send_icon = gtk_image_new_from_icon_name (
 			"mail-outbox", GTK_ICON_SIZE_LARGE_TOOLBAR);

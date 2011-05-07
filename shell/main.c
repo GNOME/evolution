@@ -350,16 +350,16 @@ setup_quit_signal (void)
 
 static GOptionEntry entries[] = {
 #ifdef G_OS_WIN32
-	{ "register-handlers", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &register_handlers,
-	  NULL, NULL },
+	{ "register-handlers", '\0', G_OPTION_FLAG_HIDDEN,
+	  G_OPTION_ARG_NONE, &register_handlers, NULL, NULL },
 	{ "reinstall", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &reinstall,
 	  NULL, NULL },
 	{ "show-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &show_icons,
 	  NULL, NULL },
 	{ "hide-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &hide_icons,
 	  NULL, NULL },
-	{ "unregister-handlers", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &unregister_handlers,
-	  NULL, NULL },
+	{ "unregister-handlers", '\0', G_OPTION_FLAG_HIDDEN,
+	  G_OPTION_ARG_NONE, &unregister_handlers, NULL, NULL },
 #endif /* G_OS_WIN32 */
 	{ "component", 'c', 0, G_OPTION_ARG_STRING, &requested_view,
 	/* Translators: Do NOT translate the five component

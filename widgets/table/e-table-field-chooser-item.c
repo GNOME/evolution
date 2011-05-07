@@ -135,7 +135,8 @@ etfci_rebuild_combined (ETableFieldChooserItem *etfci)
 		ETableCol *ecol = e_table_header_get_column (etfci->full_header, i);
 		if (ecol->disabled)
 			continue;
-		if (!(GPOINTER_TO_INT (g_hash_table_lookup (hash, GINT_TO_POINTER (ecol->col_idx)))))
+		if (!(GPOINTER_TO_INT (g_hash_table_lookup (
+				hash, GINT_TO_POINTER (ecol->col_idx)))))
 			e_table_header_add_column (etfci->combined_header, ecol, -1);
 	}
 

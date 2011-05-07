@@ -873,7 +873,8 @@ ethi_drag_drop (GtkWidget *canvas,
 		ethi->drop_col = col;
 
 		if (col != -1) {
-			gchar *target = g_strdup_printf ("%s-%s", TARGET_ETABLE_COL_TYPE, ethi->dnd_code);
+			gchar *target = g_strdup_printf (
+				"%s-%s", TARGET_ETABLE_COL_TYPE, ethi->dnd_code);
 			d(g_print ("ethi -  %s\n", target));
 			gtk_drag_get_data (canvas, context, gdk_atom_intern (target, FALSE), time);
 			g_free (target);
@@ -986,7 +987,9 @@ ethi_draw (GnomeCanvasItem *item,
 		gint length = e_table_sort_info_grouping_get_count (ethi->sort_info);
 		gint i;
 		for (i = 0; i < length; i++) {
-			ETableSortColumn column = e_table_sort_info_grouping_get_nth (ethi->sort_info, i);
+			ETableSortColumn column =
+				e_table_sort_info_grouping_get_nth (
+				ethi->sort_info, i);
 			g_hash_table_insert (arrows,
 					     GINT_TO_POINTER ((gint) column.column),
 					     GINT_TO_POINTER (column.ascending ?
@@ -1925,7 +1928,8 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			ecol = e_table_header_get_column (ethi->eth, ethi->selected_col);
 			ethi_change_sort_state (ethi, ecol);
-		} else if ((e->key.keyval == GDK_KEY_Right) || (e->key.keyval == GDK_KEY_KP_Right)) {
+		} else if ((e->key.keyval == GDK_KEY_Right) ||
+				(e->key.keyval == GDK_KEY_KP_Right)) {
 			ETableCol *ecol;
 
 			if ((ethi->selected_col < 0) || (ethi->selected_col >= ethi->eth->col_count - 1))

@@ -1396,7 +1396,9 @@ e_addressbook_view_delete_selection (EAddressbookView *view, gboolean is_delete)
 		for (l=list;l;l=g_list_next (l)) {
 			contact = l->data;
 
-			ids = g_list_prepend (ids, (gchar *)e_contact_get_const (contact, E_CONTACT_UID));
+			ids = g_list_prepend (
+				ids, (gchar *) e_contact_get_const (
+				contact, E_CONTACT_UID));
 		}
 
 		/* Remove the cards all at once. */

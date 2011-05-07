@@ -188,7 +188,8 @@ eti_a11y_reset_focus_object (GalA11yETableItem *a11y,
 
 	old_cell = (AtkObject *)g_object_get_data (G_OBJECT (a11y), "gail-focus-object");
 	if (old_cell && GAL_A11Y_IS_E_CELL (old_cell))
-		gal_a11y_e_cell_remove_state (GAL_A11Y_E_CELL (old_cell), ATK_STATE_FOCUSED, FALSE);
+		gal_a11y_e_cell_remove_state (
+			GAL_A11Y_E_CELL (old_cell), ATK_STATE_FOCUSED, FALSE);
 	if (old_cell)
 		g_object_unref (old_cell);
 
@@ -196,7 +197,8 @@ eti_a11y_reset_focus_object (GalA11yETableItem *a11y,
 
 	if (cell != NULL) {
 		g_object_set_data (G_OBJECT (a11y), "gail-focus-object", cell);
-		gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL (cell), ATK_STATE_FOCUSED, FALSE);
+		gal_a11y_e_cell_add_state (
+			GAL_A11Y_E_CELL (cell), ATK_STATE_FOCUSED, FALSE);
 	} else
 		g_object_set_data (G_OBJECT (a11y), "gail-focus-object", NULL);
 

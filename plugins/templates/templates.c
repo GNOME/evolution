@@ -471,7 +471,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
 /* Case insensitive version of strstr */
 static gchar *
-strstr_nocase (const gchar* haystack, const gchar *needle)
+strstr_nocase (const gchar * haystack, const gchar *needle)
 {
 /* When _GNU_SOURCE is available, use the nonstandard extension of libc */
 #ifdef _GNU_SOURCE
@@ -606,7 +606,7 @@ fill_template (CamelMimeMessage *message, CamelMimePart *template)
 			}
 		}
 	 } else
-	 	message_part  = CAMEL_MIME_PART (message);
+		message_part  = CAMEL_MIME_PART (message);
 
 	/* Get content of the template */
 	stream = camel_stream_mem_new ();
@@ -655,7 +655,7 @@ fill_template (CamelMimeMessage *message, CamelMimePart *template)
 		camel_data_wrapper_decode_to_stream_sync (camel_medium_get_content (CAMEL_MEDIUM (message_part)), stream, NULL, NULL);
 		camel_stream_flush (stream, NULL, NULL);
 		byte_array = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (stream));
-		message_body = g_string_new_len ((gchar*)byte_array->data, byte_array->len);
+		message_body = g_string_new_len ((gchar *)byte_array->data, byte_array->len);
 		g_object_unref (stream);
 
 		if (template_html && !message_html) {
@@ -742,7 +742,7 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 
 		if (ct && (camel_content_type_is (ct, "text", "html") ||
 		    camel_content_type_is (ct, "text", "plain"))) {
-		    	template_part = CAMEL_MIME_PART (template);
+			template_part = CAMEL_MIME_PART (template);
 			new_content_type = ct;
 		}
 	}
@@ -1144,8 +1144,8 @@ rebuild_template_menu (EShellWindow *shell_window)
 
 static void
 templates_folder_msg_changed_cb (CamelFolder *folder,
-			      	 CamelFolderChangeInfo *change_info,
-			      	 EShellWindow *shell_window)
+				 CamelFolderChangeInfo *change_info,
+				 EShellWindow *shell_window)
 {
 	rebuild_template_menu (shell_window);
 }

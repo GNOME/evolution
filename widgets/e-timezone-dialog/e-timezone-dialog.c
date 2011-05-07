@@ -772,7 +772,8 @@ on_combo_changed (GtkComboBox *combo_box, ETimezoneDialog *etd)
 
 	priv = etd->priv;
 
-	timezone_combo_get_active_text (GTK_COMBO_BOX (priv->timezone_combo), &new_zone_name);
+	timezone_combo_get_active_text (
+		GTK_COMBO_BOX (priv->timezone_combo), &new_zone_name);
 
 	if (!*new_zone_name)
 		priv->zone = NULL;

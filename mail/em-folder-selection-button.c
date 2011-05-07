@@ -249,7 +249,6 @@ folder_selection_button_clicked (GtkButton *button)
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
 		goto exit;
 
-
 	uri = em_folder_selector_get_selected_uri (
 		EM_FOLDER_SELECTOR (dialog));
 	em_folder_selection_button_set_selection (

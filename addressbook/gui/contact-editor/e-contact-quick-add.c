@@ -225,10 +225,10 @@ ce_have_contact (EBook *book, const GError *error, EContact *contact, gpointer c
 		contact_editor = e_contact_editor_new (
 			shell, book, qa->contact, TRUE, TRUE /* XXX */);
 
-		/* mark it as changed so the Save buttons are enabled when we bring up the dialog. */
-		g_object_set (contact_editor,
-				"changed", contact != NULL,
-				NULL);
+		/* Mark it as changed so the Save buttons are
+		 * enabled when we bring up the dialog. */
+		g_object_set (
+			contact_editor, "changed", contact != NULL, NULL);
 
 		/* We pass this via object data, so that we don't get a
 		 * dangling pointer referenced if both the "contact_added"

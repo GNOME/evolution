@@ -484,9 +484,12 @@ em_format_class_remove_handler (EMFormatClass *emfc,
 	if (current == info) {
 		current = info->old;
 		if (current)
-			g_hash_table_insert (emfc->type_handlers, (gpointer) current->mime_type, current);
+			g_hash_table_insert (
+				emfc->type_handlers,
+				(gpointer) current->mime_type, current);
 		else
-			g_hash_table_remove (emfc->type_handlers, info->mime_type);
+			g_hash_table_remove (
+				emfc->type_handlers, info->mime_type);
 	} else {
 		while (current && current->old != info)
 			current = current->old;
@@ -1417,8 +1420,9 @@ em_format_format_text (EMFormat *emf,
 	camel_stream_reset (mem_stream, NULL);
 
 	if (max == -1 || size == -1 || size < (max * 1024) || emf->composer) {
-		camel_stream_write_to_stream (mem_stream, (CamelStream *)stream, cancellable, NULL);
-		camel_stream_flush ((CamelStream *)stream, cancellable, NULL);
+		camel_stream_write_to_stream (
+			mem_stream, (CamelStream *) stream, cancellable, NULL);
+		camel_stream_flush ((CamelStream *) stream, cancellable, NULL);
 	} else {
 		EM_FORMAT_GET_CLASS (emf)->format_optional (
 			emf, stream, (CamelMimePart *)dw,
@@ -1594,9 +1598,11 @@ emf_multipart_appledouble (EMFormat *emf,
                            GCancellable *cancellable,
                            gboolean is_fallback)
 {
-	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
+	CamelMultipart *mp;
 	CamelMimePart *mime_part;
 	gint len;
+
+	mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
 
 	if (!CAMEL_IS_MULTIPART (mp)) {
 		em_format_format_source (emf, stream, part, cancellable);
@@ -1624,8 +1630,10 @@ emf_multipart_mixed (EMFormat *emf,
                      GCancellable *cancellable,
                      gboolean is_fallback)
 {
-	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
+	CamelMultipart *mp;
 	gint i, nparts, len;
+
+	mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
 
 	if (!CAMEL_IS_MULTIPART (mp)) {
 		em_format_format_source (emf, stream, part, cancellable);
@@ -1651,9 +1659,11 @@ emf_multipart_alternative (EMFormat *emf,
                            GCancellable *cancellable,
                            gboolean is_fallback)
 {
-	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
+	CamelMultipart *mp;
 	gint i, nparts, bestid = 0;
 	CamelMimePart *best = NULL;
+
+	mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
 
 	if (!CAMEL_IS_MULTIPART (mp)) {
 		em_format_format_source (emf, stream, part, cancellable);
@@ -1753,7 +1763,8 @@ emf_multipart_encrypted (EMFormat *emf,
 	}
 
 	/* Currently we only handle RFC2015-style PGP encryption. */
-	protocol = camel_content_type_param(((CamelDataWrapper *)mpe)->mime_type, "protocol");
+	protocol = camel_content_type_param (
+		((CamelDataWrapper *)mpe)->mime_type, "protocol");
 	if (!protocol || g_ascii_strcasecmp (protocol, "application/pgp-encrypted") != 0) {
 		em_format_format_error (
 			emf, stream, _("Unsupported encryption "
@@ -1822,13 +1833,15 @@ emf_multipart_related (EMFormat *emf,
                        GCancellable *cancellable,
                        gboolean is_fallback)
 {
-	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
+	CamelMultipart *mp;
 	CamelMimePart *body_part, *display_part = NULL;
 	CamelContentType *content_type;
 	const gchar *start;
 	gint i, nparts, partidlen, displayid = 0;
 	gchar *oldpartid;
 	GList *link;
+
+	mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
 
 	if (!CAMEL_IS_MULTIPART (mp)) {
 		em_format_format_source (emf, stream, part, cancellable);
@@ -2148,7 +2161,9 @@ emf_inlinepgp_signed (EMFormat *emf,
 		return;
 	}
 
-	emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_SIGNED | EM_FORMAT_VALIDITY_FOUND_PGP;
+	emf->validity_found |=
+		EM_FORMAT_VALIDITY_FOUND_SIGNED |
+		EM_FORMAT_VALIDITY_FOUND_PGP;
 
 	cipher = camel_gpg_context_new (emf->session);
 	/* Verify the signature of the message */

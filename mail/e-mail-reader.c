@@ -627,6 +627,7 @@ static void
 check_close_browser_reader (EMailReader *reader)
 {
 	GConfClient *client;
+	const gchar *key;
 	gchar *value;
 	gboolean close_it = FALSE;
 
@@ -636,8 +637,8 @@ check_close_browser_reader (EMailReader *reader)
 
 	client = gconf_client_get_default ();
 
-	value = gconf_client_get_string (
-		client, "/apps/evolution/mail/prompts/reply_close_browser", NULL);
+	key = "/apps/evolution/mail/prompts/reply_close_browser";
+	value = gconf_client_get_string (client, key, NULL);
 
 	if (value && g_str_equal (value, "always")) {
 		close_it = TRUE;
@@ -665,10 +666,10 @@ check_close_browser_reader (EMailReader *reader)
 
 		close_it = response == GTK_RESPONSE_YES || response == GTK_RESPONSE_OK;
 
-		if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_CANCEL)
-			gconf_client_set_string (
-				client, "/apps/evolution/mail/prompts/reply_close_browser",
-				response == GTK_RESPONSE_OK ? "always" : "never", NULL);
+		if (response == GTK_RESPONSE_OK)
+			gconf_client_set_string (client, key, "always", NULL);
+		else if (response == GTK_RESPONSE_CANCEL)
+			gconf_client_set_string (client, key, "never", NULL);
 	}
 
 	g_free (value);
@@ -1441,7 +1442,8 @@ action_mail_reply_sender_check (CamelFolder *folder,
 			type = E_MAIL_REPLY_TO_ALL;
 		else if (response == GTK_RESPONSE_OK)
 			type = E_MAIL_REPLY_TO_LIST;
-		else if (response == GTK_RESPONSE_CANCEL || response == GTK_RESPONSE_DELETE_EVENT) {
+		else if (response == GTK_RESPONSE_CANCEL ||
+			response == GTK_RESPONSE_DELETE_EVENT) {
 			g_object_unref (message);
 			goto exit;
 		}

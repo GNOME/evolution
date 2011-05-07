@@ -501,9 +501,12 @@ mail_vfolder_add_folder (EMailSession *session,
 		 * they must be explictly listed as a source. */
 		if (rule->source
 		    && !is_ignore
-		    && ((((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL && !remote)
-			|| (((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE && remote)
-			|| (((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)))
+		    && ((((EMVFolderRule *)rule)->with ==
+				EM_VFOLDER_RULE_WITH_LOCAL && !remote)
+			|| (((EMVFolderRule *)rule)->with ==
+				EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE && remote)
+			|| (((EMVFolderRule *)rule)->with ==
+				EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)))
 			found = TRUE;
 
 		source = NULL;
@@ -938,7 +941,9 @@ store_folder_deleted_cb (CamelStore *store,
 			0, 0, NULL, context_rule_removed, context);
 		e_rule_context_remove_rule ((ERuleContext *)context, rule);
 		g_object_unref (rule);
-		g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
+		g_signal_connect (
+			context, "rule_removed",
+			G_CALLBACK (context_rule_removed), context);
 
 		config_dir = mail_session_get_config_dir ();
 		user = g_build_filename (config_dir, "vfolders.xml", NULL);

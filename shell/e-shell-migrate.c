@@ -809,8 +809,9 @@ merge_duplicate_local_sources (GConfClient *client, const gchar *gconf_key)
 		GSList *sources;
 		ESourceGroup *group = iter->data;
 
-		if (!group || !e_source_group_peek_base_uri (group)
-		    || g_ascii_strncasecmp (e_source_group_peek_base_uri (group), "local:", 6) != 0)
+		if (!group || !e_source_group_peek_base_uri (group) ||
+			g_ascii_strncasecmp (
+			e_source_group_peek_base_uri (group), "local:", 6) != 0)
 			continue;
 
 		if (!first_local) {
@@ -819,14 +820,16 @@ merge_duplicate_local_sources (GConfClient *client, const gchar *gconf_key)
 		}
 
 		/* merging respective sources */
-		for (sources = e_source_group_peek_sources (group); sources != NULL; sources = sources->next) {
+		for (sources = e_source_group_peek_sources (group);
+				sources != NULL; sources = sources->next) {
 			GSList *liter;
 			ESource *dupe_source = sources->data;
 
 			if (!dupe_source)
 				continue;
 
-			for (liter = e_source_group_peek_sources (first_local); liter != NULL; liter = liter->next) {
+			for (liter = e_source_group_peek_sources (first_local);
+					liter != NULL; liter = liter->next) {
 				ESource *my_source = liter->data;
 				const gchar *val1, *val2;
 
@@ -862,7 +865,8 @@ merge_duplicate_local_sources (GConfClient *client, const gchar *gconf_key)
 	if (first_local) {
 		GSList *sources;
 
-		for (sources = e_source_group_peek_sources (first_local); sources != NULL; sources = sources->next) {
+		for (sources = e_source_group_peek_sources (first_local);
+				sources != NULL; sources = sources->next) {
 			ESource *source = sources->data;
 			const gchar *relative_uri;
 

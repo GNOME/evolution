@@ -73,7 +73,8 @@ emfq_format_clone (EMFormat *emf,
 
 	gconf = gconf_client_get_default ();
 	camel_stream_reset (emfq->stream, NULL);
-	if (gconf_client_get_bool(gconf, "/apps/evolution/mail/composer/top_signature", NULL))
+	if (gconf_client_get_bool (
+		gconf, "/apps/evolution/mail/composer/top_signature", NULL))
 		camel_stream_printf (emfq->stream, "<br>\n");
 	g_object_unref (gconf);
 	handle = em_format_find_handler(emf, "x-evolution/message/prefix");
@@ -696,14 +697,19 @@ emfq_text_html (EMFormat *emf,
 		filtered_stream = camel_stream_filter_new (stream);
 
 		sig_strip = em_stripsig_filter_new (FALSE);
-		camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered_stream), sig_strip);
+		camel_stream_filter_add (
+			CAMEL_STREAM_FILTER (filtered_stream), sig_strip);
 		g_object_unref (sig_strip);
 
-		em_format_format_text (emf, filtered_stream, (CamelDataWrapper *) part, cancellable);
+		em_format_format_text (
+			emf, filtered_stream,
+			(CamelDataWrapper *) part, cancellable);
 		camel_stream_flush (filtered_stream, cancellable, NULL);
 		g_object_unref (filtered_stream);
 	} else {
-		em_format_format_text (emf, stream, (CamelDataWrapper *)part, cancellable);
+		em_format_format_text (
+			emf, stream,
+			(CamelDataWrapper *) part, cancellable);
 	}
 }
 

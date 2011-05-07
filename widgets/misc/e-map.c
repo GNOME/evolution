@@ -973,7 +973,9 @@ e_map_zoom_out (EMap *map)
 	e_map_set_zoom (map, E_MAP_ZOOMED_OUT);
 	center_at (map, longitude, latitude);
 
-	e_map_tween_new_from (map, E_MAP_TWEEN_DURATION_MSECS, longitude, latitude, prevzoom);
+	e_map_tween_new_from (
+		map, E_MAP_TWEEN_DURATION_MSECS,
+		longitude, latitude, prevzoom);
 }
 
 void

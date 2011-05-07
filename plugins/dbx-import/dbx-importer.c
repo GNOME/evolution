@@ -576,7 +576,8 @@ dbx_import_file (DbxImporter *m)
 	gint i;
 	gint missing = 0;
 	m->status_what = NULL;
-	filename = g_filename_from_uri (((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
+	filename = g_filename_from_uri (
+		((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
 
 	/* Destination folder, was set in our widget */
 	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest);
@@ -600,7 +601,8 @@ dbx_import_file (DbxImporter *m)
 
 	camel_folder_freeze (folder);
 
-	filename = g_filename_from_uri (((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
+	filename = g_filename_from_uri (
+		((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
 	m->dbx_fd = g_open (filename, O_RDONLY, 0);
 	g_free (filename);
 

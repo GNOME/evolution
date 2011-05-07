@@ -287,10 +287,16 @@ parseLine (GHashTable *dn_contact_hash, EContact *contact,
 				}
 				else if (ldif_fields[i].flags & FLAG_BOOLEAN) {
 					if (!g_ascii_strcasecmp (ldif_value->str, "true")) {
-						e_contact_set (contact, ldif_fields[i].contact_field, GINT_TO_POINTER (TRUE));
+						e_contact_set (
+							contact,
+							ldif_fields[i].contact_field,
+							GINT_TO_POINTER (TRUE));
 					}
 					else {
-						e_contact_set (contact, ldif_fields[i].contact_field, GINT_TO_POINTER (FALSE));
+						e_contact_set (
+							contact,
+							ldif_fields[i].contact_field,
+							GINT_TO_POINTER (FALSE));
 					}
 					g_message ("set %s to %s", ptr, ldif_value->str);
 				}

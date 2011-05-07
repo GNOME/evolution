@@ -2817,9 +2817,9 @@ efh_format_headers (EMFormatHTML *efh,
 				g_string_free (tmp, TRUE);
 			} else if (!g_ascii_strcasecmp (header->name, "Subject")) {
 				gchar *buf = NULL;
-			        buf = camel_header_unfold (header->value);
-			        subject = camel_header_decode_string (buf, hdr_charset);
-			        g_free (buf);
+				buf = camel_header_unfold (header->value);
+				subject = camel_header_decode_string (buf, hdr_charset);
+				g_free (buf);
 			}
 			header = header->next;
 		}
@@ -2909,12 +2909,12 @@ efh_format_headers (EMFormatHTML *efh,
 	} else {
 		if (efh->priv->headers_collapsable)
 			camel_stream_printf (stream, "<tr><td valign=\"top\" width=\"20\"><a href=\"##HEADERS##\"><img src=\"%s/minus.png\"></a></td><td><table border=0 cellpadding=\"0\">\n",
- 				evolution_imagesdir);
- 		else
+				evolution_imagesdir);
+		else
  			camel_stream_printf (stream, "<tr><td><table border=0 cellpadding=\"0\">\n");
- 	}
+	}
 
- 	g_free (evolution_imagesdir);
+	g_free (evolution_imagesdir);
 
 	/* dump selected headers */
 	if (emf->mode == EM_FORMAT_MODE_ALLHEADERS) {

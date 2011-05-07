@@ -220,8 +220,12 @@ es_event_hook_get_type (void)
 
 	if (!type) {
 		static const GTypeInfo info = {
-			sizeof (ESEventHookClass), NULL, NULL, (GClassInitFunc) emeh_class_init, NULL, NULL,
-			sizeof (ESEventHook), 0, (GInstanceInitFunc) NULL,
+			sizeof (ESEventHookClass),
+			NULL, NULL,
+			(GClassInitFunc) emeh_class_init,
+			NULL, NULL,
+			sizeof (ESEventHook),
+			0, (GInstanceInitFunc) NULL
 		};
 
 		emeh_parent_class = g_type_class_ref (e_event_hook_get_type ());

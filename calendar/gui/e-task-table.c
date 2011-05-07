@@ -755,10 +755,12 @@ task_table_query_tooltip (GtkWidget *widget,
 
 		if (ptr) {
 			ptr++;
-			/* To Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>" */
+			/* To Translators: It will display
+			 * "Organizer: NameOfTheUser <email@ofuser.com>" */
 			tmp = g_strdup_printf (_("Organizer: %s <%s>"), organizer.cn, ptr);
 		} else {
-			/* With SunOne accounts, there may be no ':' in organiser.value */
+			/* With SunOne accounts, there may be no ':' in
+			 * organizer.value. */
 			tmp = g_strdup_printf (_("Organizer: %s"), organizer.cn);
 		}
 

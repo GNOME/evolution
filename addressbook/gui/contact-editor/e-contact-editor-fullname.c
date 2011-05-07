@@ -58,7 +58,9 @@ e_contact_editor_fullname_set_property (GObject *object,
 		e_contact_name_free (e_contact_editor_fullname->name);
 
 		if (g_value_get_pointer (value) != NULL) {
-			e_contact_editor_fullname->name = e_contact_name_copy (g_value_get_pointer (value));
+			e_contact_editor_fullname->name =
+				e_contact_name_copy (
+				g_value_get_pointer (value));
 			fill_in_info (e_contact_editor_fullname);
 		}
 		else {

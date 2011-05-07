@@ -621,8 +621,11 @@ create_store (ETableConfig *config)
 		if (config->source_spec->columns[i]->disabled)
 			continue;
 
-		text = g_strdup (dgettext (config->domain, config->source_spec->columns[i]->title));
-		e_table_memory_store_insert_adopt (E_TABLE_MEMORY_STORE (store), -1, NULL, text, i);
+		text = g_strdup (dgettext (
+			config->domain,
+			config->source_spec->columns[i]->title));
+		e_table_memory_store_insert_adopt (
+			E_TABLE_MEMORY_STORE (store), -1, NULL, text, i);
 	}
 
 	return store;

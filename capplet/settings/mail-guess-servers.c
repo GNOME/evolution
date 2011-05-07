@@ -215,7 +215,9 @@ parse_message (const gchar *msg, gint length, EmailProvider *provider)
 static gboolean
 parse_soup_message (SoupMessage *msg, EmailProvider *provider)
 {
-	return parse_message (msg->response_body->data, msg->response_body->length, provider);
+	return parse_message (
+		msg->response_body->data,
+		msg->response_body->length, provider);
 }
 
 static gboolean

@@ -775,7 +775,8 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 	time_width = e_week_view_get_time_string_width (week_view);
 
-	one_day_event = e_week_view_is_one_day_event (week_view, event_item->priv->event_num);
+	one_day_event = e_week_view_is_one_day_event (
+		week_view, event_item->priv->event_num);
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 

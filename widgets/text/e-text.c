@@ -360,8 +360,10 @@ reset_layout_attrs (EText *text)
 
 			e_text_model_get_nth_object_bounds (text->model, i, &start_pos, &end_pos);
 
-			attr->start_index = g_utf8_offset_to_pointer (text->text, start_pos) - text->text;
-			attr->end_index = g_utf8_offset_to_pointer (text->text, end_pos) - text->text;
+			attr->start_index = g_utf8_offset_to_pointer (
+				text->text, start_pos) - text->text;
+			attr->end_index = g_utf8_offset_to_pointer (
+				text->text, end_pos) - text->text;
 
 			pango_attr_list_insert (attrs, attr);
 		}
@@ -401,7 +403,8 @@ create_layout (EText *text)
 	if (text->layout)
 		return;
 
-	text->layout = gtk_widget_create_pango_layout (GTK_WIDGET (item->canvas), text->text);
+	text->layout = gtk_widget_create_pango_layout (
+		GTK_WIDGET (item->canvas), text->text);
 	if (text->line_wrap)
 		pango_layout_set_width (
 			text->layout, text->clip_width < 0
@@ -1693,7 +1696,9 @@ _blink_scroll_timeout (gpointer data)
 			e_tep_event.type = GDK_MOTION_NOTIFY;
 			e_tep_event.motion.state = text->last_state;
 			e_tep_event.motion.time = 0;
-			e_tep_event.motion.position = get_position_from_xy (text, text->lastx, text->lasty);
+			e_tep_event.motion.position =
+				get_position_from_xy (
+				text, text->lastx, text->lasty);
 			_get_tep (text);
 			e_text_event_processor_handle_event (text->tep,
 							     &e_tep_event);
@@ -1864,7 +1869,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		    && (event->key.state & GDK_SHIFT_MASK)
 		    && text->handle_popup ) {
 
-			/* Simulate a GdkEventButton here, so that we can call e_text_do_popup directly */
+			/* Simulate a GdkEventButton here, so that we can
+			 * call e_text_do_popup directly */
 
 			GdkEventButton *button = (GdkEventButton *) gdk_event_new (GDK_BUTTON_PRESS);
 			button->time = event->key.time;
@@ -2466,7 +2472,8 @@ _get_updated_position (EText *text, gboolean direction)
 
 		/* if is_cursor_position is set, cursor can appear in front of character.
 		   i.e. this is a grapheme boundary AND make some sanity checks */
-		if ((new_pos >=0) && (new_pos < n_attrs) && (log_attrs[new_pos].is_cursor_position))
+		if ((new_pos >=0) && (new_pos < n_attrs) &&
+			(log_attrs[new_pos].is_cursor_position))
 			break;
 		else if ((new_pos < 0) || (new_pos >= n_attrs))
 		{

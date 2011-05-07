@@ -133,7 +133,10 @@ struct _EMFormatHTMLJob {
 /* Pending object (classid: url) */
 typedef struct _EMFormatHTMLPObject EMFormatHTMLPObject;
 
-typedef gboolean (*EMFormatHTMLPObjectFunc)(EMFormatHTML *md, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
+typedef gboolean
+		(*EMFormatHTMLPObjectFunc)	(EMFormatHTML *md,
+						 GtkHTMLEmbedded *eb,
+						 EMFormatHTMLPObject *pobject);
 
 /**
  * struct _EMFormatHTMLPObject - Pending object.
@@ -162,11 +165,16 @@ struct _EMFormatHTMLPObject {
 };
 
 #define EM_FORMAT_HTML_HEADER_NOCOLUMNS (EM_FORMAT_HEADER_LAST)
-#define EM_FORMAT_HTML_HEADER_HTML (EM_FORMAT_HEADER_LAST<<1) /* header already in html format */
-#define EM_FORMAT_HTML_HEADER_NODEC (EM_FORMAT_HEADER_LAST<<2) /* header already in html format */
+
+/* header already in html format */
+#define EM_FORMAT_HTML_HEADER_HTML (EM_FORMAT_HEADER_LAST<<1)
+#define EM_FORMAT_HTML_HEADER_NODEC (EM_FORMAT_HEADER_LAST<<2)
+
 #define EM_FORMAT_HTML_HEADER_LAST (EM_FORMAT_HEADER_LAST<<8)
 
-#define EM_FORMAT_HTML_VPAD "<table cellspacing=0 cellpadding=3><tr><td><a name=\"padding\"></a></td></tr></table>\n"
+#define EM_FORMAT_HTML_VPAD \
+	"<table cellspacing=0 cellpadding=3><tr><td>" \
+	"<a name=\"padding\"></a></td></tr></table>\n"
 
 /**
  * struct _EMFormatHTML - HTML formatter object.

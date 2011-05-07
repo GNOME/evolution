@@ -328,7 +328,9 @@ e_week_view_layout_get_day_position	(gint		 day,
 			*day_x = col;
 		}
 	} else {
-		#define wk(x) ( ( working_days & (days [ ((x) + display_start_day) % 7 ]) ) ? 1 : 0)
+		#define wk(x) \
+			((working_days & \
+			(days[((x) + display_start_day) % 7])) ? 1 : 0)
 		CalWeekdays days[] = {
 			CAL_MONDAY,
 			CAL_TUESDAY,

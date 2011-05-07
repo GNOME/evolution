@@ -92,7 +92,9 @@ filter_option_get_dynamic_options (EFilterOption *option)
 	if (g_module_symbol (module, option->dynamic_func, (gpointer) &get_func)) {
 		res = get_func ();
 	} else {
-		g_warning ("optionlist dynamic fill function '%s' not found", option->dynamic_func);
+		g_warning (
+			"optionlist dynamic fill function '%s' not found",
+			option->dynamic_func);
 	}
 
 	g_module_close (module);
@@ -186,12 +188,15 @@ filter_option_xml_create (EFilterElement *element,
 					"acceptable in the optionlist '%s'",
 					element->name);
 			} else {
-				/* Expecting only one <dynamic func="cb" /> in the option list,
-				   The 'cb' should be of this prototype:
-				   GSList *cb (void);
-				   returning GSList of struct _filter_option, all newly allocated, because it'll
-				   be freed with g_free and g_slist_free. 'is_dynamic' member is ignored here.
-				*/
+				/* Expecting only one <dynamic func="cb" />
+				 * in the option list,
+				 * The 'cb' should be of this prototype:
+				 * GSList *cb (void);
+				 * returning GSList of struct _filter_option,
+				 * all newly allocated, because it'll be
+				 * freed with g_free and g_slist_free.
+				 * 'is_dynamic' member is ignored here.
+				 */
 				xmlChar *fn;
 
 				fn = xmlGetProp (n, (xmlChar *)"func");
@@ -305,7 +310,8 @@ filter_option_get_widget (EFilterElement *element)
 	gint index = 0, current = 0;
 
 	if (option->dynamic_func) {
-		/* it is dynamically filled, thus remove all dynamics and put there the fresh ones */
+		/* it is dynamically filled, thus remove all dynamics
+		 * and put there the fresh ones */
 		GSList *items, *i;
 		GList *old_ops;
 		struct _filter_option *old_cur;

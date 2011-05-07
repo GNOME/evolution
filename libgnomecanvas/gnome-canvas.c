@@ -2546,7 +2546,8 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 		canvas->in_repick = FALSE;
 	}
 
-	/* new_current_item may have been set to NULL during the call to emit_event() above */
+	/* new_current_item may have been set to NULL during the
+	 * call to emit_event() above */
 
 	if ((canvas->new_current_item != canvas->current_item) && button_down) {
 		canvas->left_grabbed_item = TRUE;
@@ -2907,8 +2908,8 @@ gnome_canvas_set_scroll_region (GnomeCanvas *canvas,
 	vadjustment_value = gtk_adjustment_get_value (vadjustment);
 
 	/*
-	 * Set the new scrolling region.  If possible, do not move the visible contents of the
-	 * canvas.
+	 * Set the new scrolling region.  If possible, do not move the
+	 * visible contents of the canvas.
 	 */
 
 	gnome_canvas_c2w (canvas,

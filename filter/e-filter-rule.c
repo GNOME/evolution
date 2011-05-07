@@ -1117,7 +1117,8 @@ e_filter_rule_find_list (GList * list,
 		EFilterRule *rule = link->data;
 
 		if (strcmp (rule->name, name) == 0)
-			if (source == NULL || (rule->source != NULL && strcmp (rule->source, source) == 0))
+			if (source == NULL || (rule->source != NULL &&
+				strcmp (rule->source, source) == 0))
 				return rule;
 	}
 

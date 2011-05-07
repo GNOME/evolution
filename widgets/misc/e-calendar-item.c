@@ -3211,7 +3211,8 @@ e_calendar_item_ensure_days_visible	(ECalendarItem	*calitem,
 					&current_end_month);
 
 	/* Try to ensure that the end month is shown. */
-	if ((end_year == current_end_year + 1 && current_end_month == 11 && end_month == 0) ||
+	if ((end_year == current_end_year + 1 &&
+		current_end_month == 11 && end_month == 0) ||
 	    (end_year == current_end_year && end_month == current_end_month + 1)) {
 		/* See if the end of the selection will fit in the
 		   leftover days of the month after the last one shown. */

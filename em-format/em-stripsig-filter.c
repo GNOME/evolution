@@ -61,7 +61,9 @@ strip_signature (CamelMimeFilter *filter,
 		if ((inend - inptr) >= 4 && !strncmp (inptr, "-- \n", 4)) {
 			start = inptr;
 			inptr += 4;
-		} else if (!stripsig->text_plain_only && (inend - inptr) >= 7 && !g_ascii_strncasecmp (inptr, "-- <BR>", 7)) {
+		} else if (!stripsig->text_plain_only &&
+				(inend - inptr) >= 7 &&
+				!g_ascii_strncasecmp (inptr, "-- <BR>", 7)) {
 			start = inptr;
 			inptr += 7;
 		} else {

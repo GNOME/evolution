@@ -124,7 +124,9 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 	pheight = gdk_pixbuf_get_height (pixbuf);
 	g_return_val_if_fail (width <= pwidth && height <= pheight, NULL);
 
-	color = ((bg->red & 0xff00) << 8) | (bg->green & 0xff00) | ((bg->blue & 0xff00) >> 8);
+	color = ((bg->red & 0xff00) << 8) |
+		(bg->green & 0xff00) |
+		((bg->blue & 0xff00) >> 8);
 
 	if (width >= pwidth && height >= pheight) {
 		tmp = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, width, height);

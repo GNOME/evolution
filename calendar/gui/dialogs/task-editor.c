@@ -406,7 +406,8 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 			ECalComponentAttendee *ca = l->data;
 			EMeetingAttendee *ia;
 
-			ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_e_cal_component_attendee (ca));
+			ia = E_MEETING_ATTENDEE (
+				e_meeting_attendee_new_from_e_cal_component_attendee (ca));
 			/* If we aren't the organizer or the attendee is just
 			 * delegating, don't allow editing. */
 			if (!comp_editor_get_user_org (editor) ||

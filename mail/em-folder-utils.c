@@ -68,7 +68,11 @@
 static gboolean
 emfu_is_special_local_folder (const gchar *name)
 {
-	return (!strcmp (name, "Drafts") || !strcmp (name, "Inbox") || !strcmp (name, "Outbox") || !strcmp (name, "Sent") || !strcmp (name, "Templates"));
+	return (!strcmp (name, "Drafts") ||
+		!strcmp (name, "Inbox") ||
+		!strcmp (name, "Outbox") ||
+		!strcmp (name, "Sent") ||
+		!strcmp (name, "Templates"));
 }
 
 struct _EMCopyFolders {
@@ -153,8 +157,10 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 
 			d(printf ("Copying from '%s' to '%s'\n", info->full_name, toname->str));
 
-			/* This makes sure we create the same tree, e.g. from a nonselectable source */
-			/* Not sure if this is really the 'right thing', e.g. for spool stores, but it makes the ui work */
+			/* This makes sure we create the same tree,
+			 * e.g. from a nonselectable source. */
+			/* Not sure if this is really the 'right thing',
+			 * e.g. for spool stores, but it makes the ui work. */
 			if ((info->flags & CAMEL_FOLDER_NOSELECT) == 0) {
 				d(printf ("this folder is selectable\n"));
 				if (m->tostore == m->fromstore && m->delete) {
@@ -218,7 +224,8 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 		}
 	}
 
-	/* delete the folders in reverse order from how we copyied them, if we are deleting any */
+	/* Delete the folders in reverse order from how we copied them,
+	 * if we are deleting any. */
 	l = deleting;
 	while (l) {
 		CamelFolderInfo *info = l->data;
@@ -265,7 +272,11 @@ static MailMsgInfo copy_folders_info = {
 };
 
 gint
-em_folder_utils_copy_folders (CamelStore *fromstore, const gchar *frombase, CamelStore *tostore, const gchar *tobase, gint delete)
+em_folder_utils_copy_folders (CamelStore *fromstore,
+                              const gchar *frombase,
+                              CamelStore *tostore,
+                              const gchar *tobase,
+                              gint delete)
 {
 	struct _EMCopyFolders *m;
 	gint seq;
@@ -541,7 +552,9 @@ em_folder_utils_delete_folder (EMailBackend *backend,
 		return;
 	}
 
-	if (mail_folder_cache_get_folder_info_flags (folder_cache, folder, &flags) && (flags & CAMEL_FOLDER_SYSTEM)) {
+	if (mail_folder_cache_get_folder_info_flags (
+			folder_cache, folder, &flags) &&
+			(flags & CAMEL_FOLDER_SYSTEM)) {
 		e_mail_backend_submit_alert (
 			backend, "mail:no-delete-special-folder",
 			camel_folder_get_display_name (folder), NULL);
@@ -550,7 +563,9 @@ em_folder_utils_delete_folder (EMailBackend *backend,
 
 	g_object_ref (folder);
 
-	if (mail_folder_cache_get_folder_info_flags (folder_cache, folder, &flags) && (flags & CAMEL_FOLDER_CHILDREN)) {
+	if (mail_folder_cache_get_folder_info_flags (
+			folder_cache, folder, &flags) &&
+			(flags & CAMEL_FOLDER_CHILDREN)) {
 		if (parent_store && CAMEL_IS_VEE_STORE (parent_store))
 			dialog = e_alert_dialog_new_for_args (
 				parent, "mail:ask-delete-vfolder",
@@ -559,8 +574,7 @@ em_folder_utils_delete_folder (EMailBackend *backend,
 			dialog = e_alert_dialog_new_for_args (
 				parent, "mail:ask-delete-folder",
 				full_name, NULL);
-	}
-	else {
+	} else {
 		if (parent_store && CAMEL_IS_VEE_STORE (parent_store))
 			dialog = e_alert_dialog_new_for_args (
 				parent, "mail:ask-delete-vfolder-nochild",
@@ -658,7 +672,11 @@ static MailMsgInfo create_folder_info = {
 };
 
 static gint
-emfu_create_folder_real (CamelStore *store, const gchar *full_name, void (* done) (CamelFolderInfo *fi, gpointer user_data), gpointer user_data)
+emfu_create_folder_real (CamelStore *store,
+                         const gchar *full_name,
+                         void (*done) (CamelFolderInfo *fi,
+                                       gpointer user_data),
+                         gpointer user_data)
 {
 	gchar *name, *namebuf = NULL;
 	struct _EMCreateFolder *m;
@@ -692,13 +710,18 @@ emfu_create_folder_real (CamelStore *store, const gchar *full_name, void (* done
 }
 
 static void
-new_folder_created_cb (CamelFolderInfo *fi, gpointer user_data)
+new_folder_created_cb (CamelFolderInfo *fi,
+                       gpointer user_data)
 {
 	struct _EMCreateFolderTempData *emcftd=user_data;
 	if (fi) {
 		/* Exapnding newly created folder */
 		if (emcftd->emft)
-			em_folder_tree_set_selected ((EMFolderTree *) emcftd->emft, emcftd->uri, GPOINTER_TO_INT(g_object_get_data ((GObject *)emcftd->emft, "select")) ? FALSE : TRUE);
+			em_folder_tree_set_selected (
+				EM_FOLDER_TREE (emcftd->emft),
+				emcftd->uri, GPOINTER_TO_INT (
+				g_object_get_data (G_OBJECT (emcftd->emft),
+				"select")) ? FALSE : TRUE);
 
 		gtk_widget_destroy ((GtkWidget *) emcftd->emfs);
 	}
@@ -759,7 +782,8 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 		gtk_widget_destroy ((GtkWidget *)emfs);
 	} else {
 		/* Temp data to pass to create_folder_real function */
-		emcftd = (struct _EMCreateFolderTempData *) g_malloc (sizeof (struct _EMCreateFolderTempData));
+		emcftd = (struct _EMCreateFolderTempData *)
+			g_malloc (sizeof (struct _EMCreateFolderTempData));
 		emcftd->emfs = emfs;
 		emcftd->uri = g_strdup (uri);
 		emcftd->emft = folder_tree;
@@ -769,7 +793,6 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 			si->store, path, new_folder_created_cb, emcftd);
 	}
 }
-
 
 /* FIXME: these functions must be documented */
 void
