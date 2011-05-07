@@ -344,7 +344,8 @@ e_asn1_object_get_children (EASN1Object *obj)
 void
 e_asn1_object_append_child (EASN1Object *parent, EASN1Object *child)
 {
-	parent->priv->children = g_list_append (parent->priv->children, g_object_ref (child));
+	parent->priv->children = g_list_append (
+		parent->priv->children, g_object_ref (child));
 }
 
 void

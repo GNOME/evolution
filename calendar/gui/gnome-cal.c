@@ -128,7 +128,8 @@ struct _GnomeCalendarPrivate {
 	 * else it uses the date range set in search bar. */
 	gboolean lview_select_daten_range;
 
-	/* used in update_todo_view, to prevent interleaving when called in separate thread */
+	/* Used in update_todo_view, to prevent interleaving when
+	 * called in separate thread. */
 	GMutex *todo_update_lock;
 };
 
@@ -1633,7 +1634,8 @@ gnome_calendar_update_view_times (GnomeCalendar *gcal,
 		gcal, priv->current_view_type,
 		&real_start_time, &end_time, &select_time);
 
-	if (priv->current_view_type == GNOME_CAL_LIST_VIEW && !priv->lview_select_daten_range)
+	if (priv->current_view_type == GNOME_CAL_LIST_VIEW &&
+		!priv->lview_select_daten_range)
 		return;
 
 	e_cal_model_set_time_range (model, real_start_time, end_time);
@@ -2082,7 +2084,8 @@ gnome_calendar_update_date_navigator (GnomeCalendar *gcal)
 	if (!gtk_widget_get_visible (GTK_WIDGET (priv->date_navigator)))
 		return;
 
-	if (priv->current_view_type == GNOME_CAL_LIST_VIEW && !priv->lview_select_daten_range)
+	if (priv->current_view_type == GNOME_CAL_LIST_VIEW &&
+		!priv->lview_select_daten_range)
 		return;
 
 	model = gnome_calendar_get_model (gcal);

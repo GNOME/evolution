@@ -177,7 +177,8 @@ plugin_mono_invoke (EPlugin *plugin,
 				return NULL;
 			}
 
-			m = mono_method_desc_search_in_image (d, mono_assembly_get_image (priv->assembly));
+			m = mono_method_desc_search_in_image (
+				d, mono_assembly_get_image (priv->assembly));
 			if (m == NULL) {
 				g_warning ("Can't find method callback '%s'", name);
 				return NULL;

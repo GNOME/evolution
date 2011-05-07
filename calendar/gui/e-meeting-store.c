@@ -1592,7 +1592,8 @@ refresh_busy_periods (gpointer data)
 	fbd->qdata = qdata;
 	fbd->fb_uri = priv->fb_uri;
 	fbd->store = store;
-	fbd->email = g_strdup (itip_strip_mailto (e_meeting_attendee_get_address (attendee)));
+	fbd->email = g_strdup (itip_strip_mailto (
+		e_meeting_attendee_get_address (attendee)));
 
 	/* Check the server for free busy data */
 	if (priv->client) {
@@ -1816,7 +1817,9 @@ soup_authenticate (SoupSession *session,
 
 		if (retrying && msg->reason_phrase && *msg->reason_phrase) {
 			g_string_append (description, "\n");
-			g_string_append_printf (description, _("Failure reason: %s"), msg->reason_phrase);
+			g_string_append_printf (
+				description, _("Failure reason: %s"),
+				msg->reason_phrase);
 		}
 
 		password = e_passwords_ask_password (

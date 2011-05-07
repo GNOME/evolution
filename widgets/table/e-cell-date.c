@@ -51,7 +51,9 @@ ecd_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
 		fmt_component = "Default";
 	else
 		fmt_part = "table";
-	return e_datetime_format_format (fmt_component, fmt_part, DTFormatKindDateTime, date);
+
+	return e_datetime_format_format (
+		fmt_component, fmt_part, DTFormatKindDateTime, date);
 }
 
 static void

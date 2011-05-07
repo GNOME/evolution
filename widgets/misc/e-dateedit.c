@@ -1978,7 +1978,8 @@ e_date_edit_update_time_entry		(EDateEdit	*dedit)
 			/* This is a strftime() format. %H = hour (0-23), %M = minute. */
 			e_time_format_time (&tmp_tm, 1, 0, buffer, sizeof (buffer));
 		else
-			/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
+			/* This is a strftime() format. %I = hour (1-12),
+			 * %M = minute, %p = am/pm string. */
 			e_time_format_time (&tmp_tm, 0, 0, buffer, sizeof (buffer));
 
 		/* For 12-hour am/pm format, we want space padding, not zero padding. This

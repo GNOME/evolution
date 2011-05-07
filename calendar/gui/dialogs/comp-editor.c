@@ -458,7 +458,8 @@ save_comp (CompEditor *editor)
 	priv->comp = clone;
 
 	e_cal_component_get_uid (priv->comp, &orig_uid);
-	/* make a copy of it, because call of e_cal_create_object rewrites the internal uid */
+	/* Make a copy of it, because call of e_cal_create_object()
+	 * rewrites the internal uid. */
 	orig_uid_copy = g_strdup (orig_uid);
 
 	/* send timezones */
@@ -467,8 +468,8 @@ save_comp (CompEditor *editor)
 
 	/* Attachments*/
 
-	e_cal_component_set_attachment_list (priv->comp,
-					     get_attachment_list (editor));
+	e_cal_component_set_attachment_list (
+		priv->comp, get_attachment_list (editor));
 	icalcomp = e_cal_component_get_icalcomponent (priv->comp);
 	/* send the component to the server */
 	if (!cal_comp_is_on_server (priv->comp, priv->client)) {
@@ -627,11 +628,15 @@ save_comp_with_send (CompEditor *editor)
 					editor, E_CAL_COMPONENT_METHOD_REQUEST,
 					strip_alarms);
 		} else {
-			if (!comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST, strip_alarms))
+			if (!comp_editor_send_comp (
+				editor, E_CAL_COMPONENT_METHOD_REQUEST,
+				strip_alarms))
 				return FALSE;
 
 			if (delegate)
-				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REPLY, strip_alarms);
+				return comp_editor_send_comp (
+					editor, E_CAL_COMPONENT_METHOD_REPLY,
+					strip_alarms);
 		}
 	}
 
@@ -877,7 +882,8 @@ action_save_cb (GtkAction *action,
 		return;
 
 	if (!text.value)
-		if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
+		if (!send_component_prompt_subject (
+			(GtkWindow *) editor, priv->client, priv->comp))
 			return;
 
 	if (save_comp_with_send (editor)) {
@@ -2091,7 +2097,8 @@ prompt_and_save_changes (CompEditor *editor, gboolean send)
 			return FALSE;
 
 		if (!text.value)
-			if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
+			if (!send_component_prompt_subject (
+				(GtkWindow *) editor, priv->client, priv->comp))
 				return FALSE;
 
 		if (e_cal_component_is_instance (priv->comp))

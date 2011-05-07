@@ -2967,7 +2967,8 @@ scroll_timeout (gpointer data)
 static void
 scroll_on (ETree *et, guint scroll_direction)
 {
-	if (et->priv->scroll_idle_id == 0 || scroll_direction != et->priv->scroll_direction) {
+	if (et->priv->scroll_idle_id == 0 ||
+			scroll_direction != et->priv->scroll_direction) {
 		if (et->priv->scroll_idle_id != 0)
 			g_source_remove (et->priv->scroll_idle_id);
 		et->priv->scroll_direction = scroll_direction;
@@ -3041,7 +3042,8 @@ collapse_drag (ETree *et, ETreePath drop)
 {
 	GList *list;
 
-	/* We only want to leave open parents of the node dropped in.  Not the node itself. */
+	/* We only want to leave open parents of the node dropped in.
+	 * Not the node itself. */
 	if (drop) {
 		drop = e_tree_model_node_get_parent (et->priv->model, drop);
 	}
@@ -3097,7 +3099,9 @@ context_connect (ETree *et, GdkDragContext *context)
 		return;
 
 	if (et->priv->last_drop_context)
-		g_object_weak_unref (G_OBJECT (et->priv->last_drop_context), context_destroyed, et);
+		g_object_weak_unref (
+			G_OBJECT (et->priv->last_drop_context),
+			context_destroyed, et);
 	else
 		g_object_ref (et);
 

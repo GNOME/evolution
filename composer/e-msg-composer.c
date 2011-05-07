@@ -1591,9 +1591,12 @@ get_signature_html (EMsgComposer *composer)
 		 * http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html
 		 */
 		html = g_strdup_printf (
-			"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
-			"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"uid:%s\">-->"
-			"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD>"
+			"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
+			"    key=\"signature\" value=\"1\">-->"
+			"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
+			"    key=\"signature_name\" value=\"uid:%s\">-->"
+			"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\""
+			" CELLPADDING=\"0\"><TR><TD>"
 			"%s%s%s%s"
 			"%s</TD></TR></TABLE>",
 			encoded_uid ? encoded_uid : "",
@@ -3335,7 +3338,8 @@ e_msg_composer_new_with_message (EShell *shell,
 	camel_header_raw_clear (&xev);
 
 	/* Check for receipt request */
-	if (camel_medium_get_header (CAMEL_MEDIUM (message), "Disposition-Notification-To")) {
+	if (camel_medium_get_header (
+		CAMEL_MEDIUM (message), "Disposition-Notification-To")) {
 		action = GTK_TOGGLE_ACTION (ACTION (REQUEST_READ_RECEIPT));
 		gtk_toggle_action_set_active (action, TRUE);
 	}

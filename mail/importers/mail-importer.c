@@ -118,7 +118,9 @@ import_mbox_exec (struct _import_mbox_msg *m,
 	CamelMessageInfo *info;
 
 	if (g_stat (m->path, &st) == -1) {
-		g_warning("cannot find source file to import '%s': %s", m->path, g_strerror(errno));
+		g_warning (
+			"cannot find source file to import '%s': %s",
+			m->path, g_strerror (errno));
 		return;
 	}
 
@@ -135,7 +137,9 @@ import_mbox_exec (struct _import_mbox_msg *m,
 	if (S_ISREG (st.st_mode)) {
 		fd = g_open (m->path, O_RDONLY|O_BINARY, 0);
 		if (fd == -1) {
-			g_warning("cannot find source file to import '%s': %s", m->path, g_strerror(errno));
+			g_warning (
+				"cannot find source file to import '%s': %s",
+				m->path, g_strerror (errno));
 			goto fail1;
 		}
 
@@ -157,7 +161,9 @@ import_mbox_exec (struct _import_mbox_msg *m,
 			guint32 flags = 0;
 
 			if (st.st_size > 0)
-				pc = (gint)(100.0 * ((double)camel_mime_parser_tell (mp) / (double)st.st_size));
+				pc = (gint) (100.0 * ((gdouble)
+					camel_mime_parser_tell (mp) /
+					(gdouble) st.st_size));
 			camel_operation_progress (cancellable, pc);
 
 			msg = camel_mime_message_new ();

@@ -290,10 +290,18 @@ mail_display_link_clicked (GtkHTML *html,
 			else
 				flags &= ~EM_FORMAT_HTML_HEADER_BCC;
 		} else if (strcmp (uri, "##HEADERS##") == 0) {
-			if (em_format_html_get_headers_state (priv->formatter) == EM_FORMAT_HTML_HEADERS_STATE_COLLAPSED)
-				em_format_html_set_headers_state (priv->formatter, EM_FORMAT_HTML_HEADERS_STATE_EXPANDED);
+			EMFormatHTMLHeadersState state;
+
+			state = em_format_html_get_headers_state (
+				priv->formatter);
+
+			if (state == EM_FORMAT_HTML_HEADERS_STATE_COLLAPSED)
+				state = EM_FORMAT_HTML_HEADERS_STATE_EXPANDED;
 			else
-				em_format_html_set_headers_state (priv->formatter, EM_FORMAT_HTML_HEADERS_STATE_COLLAPSED);
+				state = EM_FORMAT_HTML_HEADERS_STATE_COLLAPSED;
+
+			em_format_html_set_headers_state (
+				priv->formatter, state);
 		}
 
 		priv->formatter->header_wrap_flags = flags;

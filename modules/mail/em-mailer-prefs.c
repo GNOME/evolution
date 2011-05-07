@@ -185,7 +185,7 @@ jh_add_cb (GtkWidget *widget, gpointer user_data)
 	GtkWidget *dialog;
 	GtkWidget *entry;
 	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
-	GtkBuilder *builder = gtk_builder_new();
+	GtkBuilder *builder = gtk_builder_new ();
 	gchar *tok;
 	const gchar *name, *value;
 	GSList *list;

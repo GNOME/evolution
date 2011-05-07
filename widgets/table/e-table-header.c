@@ -121,7 +121,9 @@ enqueue (ETableHeader *eth, gint column, gint width)
 		eth->change_queue = eth->change_tail;
 
 	if (!eth->idle) {
-		eth->idle = g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc) dequeue_idle, eth, NULL);
+		eth->idle = g_idle_add_full (
+			G_PRIORITY_LOW, (GSourceFunc)
+			dequeue_idle, eth, NULL);
 	}
 }
 
@@ -714,7 +716,8 @@ eth_set_size (ETableHeader *eth, gint idx, gint size)
 	usable_width = eth->width - left_width - 1;
 
 	if (eth->sort_info)
-		usable_width -= e_table_sort_info_grouping_get_count (eth->sort_info) * GROUP_INDENT;
+		usable_width -= e_table_sort_info_grouping_get_count (
+			eth->sort_info) * GROUP_INDENT;
 
 	/* Calculate minimum_width of stuff on the right as well as
 	 * total usable expansion on the right.

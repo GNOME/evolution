@@ -1962,7 +1962,8 @@ et_build_grouping_spec (ETable *e_table)
 	node = grouping;
 
 	for (i = 0; i < group_count; i++) {
-		ETableSortColumn column = e_table_sort_info_grouping_get_nth (e_table->sort_info, i);
+		ETableSortColumn column =
+			e_table_sort_info_grouping_get_nth (e_table->sort_info, i);
 		xmlNode *new_node = xmlNewChild(node, NULL, "group", NULL);
 
 		e_xml_set_integer_prop_by_name (new_node, "column", column.column);
@@ -1971,7 +1972,8 @@ et_build_grouping_spec (ETable *e_table)
 	}
 
 	for (i = 0; i < sort_count; i++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth (e_table->sort_info, i);
+		ETableSortColumn column =
+			e_table_sort_info_sorting_get_nth (e_table->sort_info, i);
 		xmlNode *new_node = xmlNewChild(node, NULL, "leaf", NULL);
 
 		e_xml_set_integer_prop_by_name (new_node, "column", column.column);

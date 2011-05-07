@@ -1325,7 +1325,8 @@ em_utils_message_to_html (CamelMimeMessage *message,
 		GConfClient *gconf;
 		gchar *charset;
 
-		/* FIXME: we should be getting this from the current view, not the global setting. */
+		/* FIXME We should be getting this from the
+		 *       current view, not the global setting. */
 		gconf = gconf_client_get_default ();
 		charset = gconf_client_get_string (
 			gconf, "/apps/evolution/mail/display/charset", NULL);
@@ -1633,7 +1634,8 @@ search_address_in_addressbooks (const gchar *address,
 
 	query = e_book_query_field_test (E_CONTACT_EMAIL, E_BOOK_QUERY_IS, address);
 
-	for (g = e_source_list_peek_groups (emu_books_source_list); g; g = g_slist_next (g)) {
+	for (g = e_source_list_peek_groups (emu_books_source_list);
+			g; g = g_slist_next (g)) {
 		ESourceGroup *group = g->data;
 
 		if (!group)
@@ -1738,7 +1740,8 @@ search_address_in_addressbooks (const gchar *address,
 				g_list_free (contacts);
 			}
 		} else if (book) {
-			stop = stop || (err && g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED));
+			stop = stop || (err && g_error_matches (
+				err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED));
 			if (err && !stop) {
 				gchar *source_uid = g_strdup (e_source_peek_uid (source));
 
@@ -1760,7 +1763,9 @@ search_address_in_addressbooks (const gchar *address,
 		if (stop && !cached_book && book) {
 			g_object_unref (book);
 		} else if (!stop && book && !cached_book) {
-			g_hash_table_insert (emu_books_hash, g_strdup (e_source_peek_uid (source)), book);
+			g_hash_table_insert (
+				emu_books_hash, g_strdup (
+				e_source_peek_uid (source)), book);
 		}
 	}
 

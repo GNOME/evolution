@@ -208,7 +208,8 @@ e_text_model_real_set_text (ETextModel *model, const gchar *text)
 
 		g_string_set_size (model->priv->text, 0);
 
-	} else if (*model->priv->text->str == '\0' || strcmp (model->priv->text->str, text)) {
+	} else if (*model->priv->text->str == '\0' ||
+		strcmp (model->priv->text->str, text)) {
 
 		g_string_assign (model->priv->text, text);
 

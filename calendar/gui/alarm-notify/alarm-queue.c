@@ -749,8 +749,6 @@ query_objects_changed_async (struct _query_msg *msg)
 
 	day_end = time_day_end_with_zone (time (NULL), zone);
 
-	debug (("Querying for object between %s to %s", e_ctime (&from), e_ctime (&day_end)));
-
 	for (l = objects; l != NULL; l = l->next) {
 		ECalComponentId *id;
 		GSList *sl;

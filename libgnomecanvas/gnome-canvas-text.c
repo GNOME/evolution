@@ -323,7 +323,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		 PROP_RISE,
 		 g_param_spec_int ("rise",
 				   "Rise",
-				   "Offset of text above the baseline (below the baseline if rise is negative)",
+				   "Offset of text above the baseline "
+				   "(below the baseline if rise is negative)",
 				   -G_MAXINT,
 				   G_MAXINT,
 				   0,

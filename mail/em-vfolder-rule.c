@@ -648,7 +648,9 @@ source_remove (GtkWidget *widget, struct _source_data *data)
 				gtk_tree_path_free (path);
 
 				gtk_tree_selection_select_iter (selection, &iter);
-				gtk_tree_model_get (GTK_TREE_MODEL (data->model), &iter, 0, &data->current, -1);
+				gtk_tree_model_get (
+					GTK_TREE_MODEL (data->model), &iter,
+					0, &data->current, -1);
 			} else {
 				data->current = NULL;
 			}
@@ -691,7 +693,8 @@ get_widget (EFilterRule *fr, ERuleContext *rc)
 	g_object_set_data_full((GObject *)frame, "data", data, g_free);
 
 	for (i = 0; i < BUTTON_LAST; i++) {
-		data->buttons[i] =(GtkButton *)e_builder_get_widget (builder, edit_buttons[i].name);
+		data->buttons[i] =(GtkButton *)
+			e_builder_get_widget (builder, edit_buttons[i].name);
 		g_signal_connect(data->buttons[i], "clicked", edit_buttons[i].func, data);
 	}
 

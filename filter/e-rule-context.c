@@ -240,7 +240,9 @@ rule_context_load (ERuleContext *context,
 			rule = set->children;
 			while (rule) {
 				if (!strcmp ((gchar *)rule->name, "part")) {
-					EFilterPart *part = E_FILTER_PART (g_object_new (part_map->type, NULL, NULL));
+					EFilterPart *part =
+						E_FILTER_PART (g_object_new (
+						part_map->type, NULL, NULL));
 
 					if (e_filter_part_xml_create (part, rule, context) == 0) {
 						part_map->append (context, part);
@@ -255,7 +257,9 @@ rule_context_load (ERuleContext *context,
 			rule = set->children;
 			while (rule) {
 				if (!strcmp ((gchar *)rule->name, "rule")) {
-					EFilterRule *part = E_FILTER_RULE (g_object_new (rule_map->type, NULL, NULL));
+					EFilterRule *part =
+						E_FILTER_RULE (g_object_new (
+						rule_map->type, NULL, NULL));
 
 					if (e_filter_rule_xml_decode (part, rule, context) == 0) {
 						part->system = TRUE;
@@ -281,7 +285,9 @@ rule_context_load (ERuleContext *context,
 				rule = set->children;
 				while (rule) {
 					if (!strcmp ((gchar *)rule->name, "rule")) {
-						EFilterRule *part = E_FILTER_RULE (g_object_new (rule_map->type, NULL, NULL));
+						EFilterRule *part =
+							E_FILTER_RULE (g_object_new (
+							rule_map->type, NULL, NULL));
 
 						if (e_filter_rule_xml_decode (part, rule, context) == 0) {
 							rule_map->append (context, part);
@@ -384,7 +390,9 @@ rule_context_revert (ERuleContext *context,
 			rule = set->children;
 			while (rule) {
 				if (!strcmp ((gchar *)rule->name, "rule")) {
-					EFilterRule *part = E_FILTER_RULE (g_object_new (rule_map->type, NULL, NULL));
+					EFilterRule *part =
+						E_FILTER_RULE (g_object_new (
+						rule_map->type, NULL, NULL));
 
 					if (e_filter_rule_xml_decode (part, rule, context) == 0) {
 						/* use the revert data to keep track of the right rank of this rule part */
@@ -400,7 +408,10 @@ rule_context_revert (ERuleContext *context,
 								e_filter_rule_copy (frule, part);
 
 							g_object_unref (part);
-							e_rule_context_rank_rule (context, frule, frule->source, rest_data->rank);
+							e_rule_context_rank_rule (
+								context, frule,
+								frule->source,
+								rest_data->rank);
 							g_hash_table_remove (rest_data->rules, frule->name);
 						} else {
 							e_rule_context_add_rule (context, part);

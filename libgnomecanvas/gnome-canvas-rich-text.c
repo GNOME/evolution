@@ -2072,7 +2072,9 @@ gnome_canvas_rich_text_add_tag (GnomeCanvasRichText *text, gchar *tag_name,
 		GtkTextTagTable *tag_table;
 
 		tag_table = gtk_text_buffer_get_tag_table (get_buffer (text));
-		g_return_val_if_fail (gtk_text_tag_table_lookup (tag_table, tag_name) == NULL, NULL);
+		g_return_val_if_fail (
+			gtk_text_tag_table_lookup (
+			tag_table, tag_name) == NULL, NULL);
 	}
 
 	tag = gtk_text_buffer_create_tag (

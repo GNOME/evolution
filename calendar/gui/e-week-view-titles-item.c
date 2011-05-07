@@ -216,7 +216,9 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 		/* Draw the lines between each column. */
 		if (col != 0) {
 			cairo_set_source_rgb (cr, 0, 0, 0);
-			cairo_rectangle (cr, week_view->col_offsets[col] - x, allocation.height - y, 1, 1);
+			cairo_rectangle (
+				cr, week_view->col_offsets[col] - x,
+				allocation.height - y, 1, 1);
 			cairo_fill (cr);
 		}
 

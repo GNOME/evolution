@@ -638,20 +638,27 @@ mail_session_get_password (CamelSession *session,
 
 			remember = config_service?config_service->save_passwd:FALSE;
 
-			if (!config_service || (config_service && !config_service->get_password_canceled)) {
+			if (!config_service || (config_service &&
+				!config_service->get_password_canceled)) {
 				guint32 eflags;
 				gchar *title;
 
 				if (flags & CAMEL_SESSION_PASSPHRASE) {
 					if (account)
-						title = g_strdup_printf (_("Enter Passphrase for %s"), account->name);
+						title = g_strdup_printf (
+							_("Enter Passphrase for %s"),
+							account->name);
 					else
-						title = g_strdup (_("Enter Passphrase"));
+						title = g_strdup (
+							_("Enter Passphrase"));
 				} else {
 					if (account)
-						title = g_strdup_printf (_("Enter Password for %s"), account->name);
+						title = g_strdup_printf (
+							_("Enter Password for %s"),
+							account->name);
 					else
-						title = g_strdup (_("Enter Password"));
+						title = g_strdup (
+							_("Enter Password"));
 				}
 				if ((flags & CAMEL_SESSION_PASSWORD_STATIC) != 0)
 					eflags = E_PASSWORDS_REMEMBER_NEVER;

@@ -1105,9 +1105,12 @@ gal_a11y_e_text_get_type (void)
 			PARENT_TYPE, "GalA11yEText", &info, 0,
 			sizeof (GalA11yETextPrivate), &priv_offset);
 
-		g_type_add_interface_static (type, ATK_TYPE_COMPONENT, &atk_component_info);
-		g_type_add_interface_static (type, ATK_TYPE_TEXT, &atk_text_info);
-		g_type_add_interface_static (type, ATK_TYPE_EDITABLE_TEXT, &atk_editable_text_info);
+		g_type_add_interface_static (
+			type, ATK_TYPE_COMPONENT, &atk_component_info);
+		g_type_add_interface_static (
+			type, ATK_TYPE_TEXT, &atk_text_info);
+		g_type_add_interface_static (
+			type, ATK_TYPE_EDITABLE_TEXT, &atk_editable_text_info);
 	}
 
 	return type;

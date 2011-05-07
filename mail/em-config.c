@@ -84,7 +84,7 @@ em_config_set_target (EConfig *ep,
 
 			config->priv->account_changed_id = g_signal_connect (
 				s->modified_account, "changed",
-				G_CALLBACK(emp_account_changed), ep);
+				G_CALLBACK (emp_account_changed), ep);
 			break; }
 		}
 	}

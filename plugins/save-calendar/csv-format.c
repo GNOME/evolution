@@ -490,7 +490,8 @@ do_save_calendar_csv (FormatHandler *handler,
 			 * if (temp_time) e_cal_component_free_icaltimetype (temp_time);
 			 *
 			 * Please uncomment and fix documentation if untrue
-			 * http://www.gnome.org/projects/evolution/developer-doc/libecal/ECalComponent.html
+			 * http://www.gnome.org/projects/evolution/
+			 *	developer-doc/libecal/ECalComponent.html
 			 *	#e-cal-component-get-last-modified
 			 */
 			g_output_stream_write_all (stream, line->str, line->len, NULL, NULL, &error);

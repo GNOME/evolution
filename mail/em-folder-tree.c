@@ -1826,7 +1826,8 @@ tree_drag_data_get (GtkWidget *widget,
 	CamelStore *store;
 	GtkTreeIter iter;
 
-	if (!priv->drag_row || !(src_path = gtk_tree_row_reference_get_path (priv->drag_row)))
+	if (!priv->drag_row || !(src_path =
+		gtk_tree_row_reference_get_path (priv->drag_row)))
 		return;
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree));

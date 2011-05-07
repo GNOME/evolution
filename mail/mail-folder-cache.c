@@ -153,16 +153,24 @@ flush_updates_idle_cb (MailFolderCache *self)
 
 		if (up->remove) {
 			if (up->delete) {
-				g_signal_emit (self, signals[FOLDER_DELETED], 0, up->store, up->full_name);
+				g_signal_emit (
+					self, signals[FOLDER_DELETED], 0,
+					up->store, up->full_name);
 			} else
-				g_signal_emit (self, signals[FOLDER_UNAVAILABLE], 0, up->store, up->full_name);
+				g_signal_emit (
+					self, signals[FOLDER_UNAVAILABLE], 0,
+					up->store, up->full_name);
 		} else {
 			if (up->oldfull && up->add) {
-				g_signal_emit (self, signals[FOLDER_RENAMED], 0, up->store, up->oldfull, up->full_name);
+				g_signal_emit (
+					self, signals[FOLDER_RENAMED], 0,
+					up->store, up->oldfull, up->full_name);
 			}
 
 			if (!up->oldfull && up->add)
-				g_signal_emit (self, signals[FOLDER_AVAILABLE], 0, up->store, up->full_name);
+				g_signal_emit (
+					self, signals[FOLDER_AVAILABLE], 0,
+					up->store, up->full_name);
 		}
 
 		/* update unread counts */
@@ -588,8 +596,6 @@ rename_folders (MailFolderCache *self,
 	old = g_strdup_printf("%s%s", oldbase, fi->full_name + strlen(newbase));
 	mfi = g_hash_table_lookup (si->folders, old);
 	if (mfi) {
-		d(printf("Found old folder '%s' renaming to '%s'\n", mfi->full_name, fi->full_name));
-
 		up->oldfull = mfi->full_name;
 
 		/* Its a rename op */
