@@ -1121,7 +1121,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 		return;
 	}
 
-	folder_name = camel_folder_get_name (folder);
+	folder_name = camel_folder_get_display_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
 
 	num_deleted = folder->summary->deleted_count;

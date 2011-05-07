@@ -515,7 +515,7 @@ remove_duplicates_got_messages_cb (CamelFolder *folder,
 	if (dups->len == 0) {
 		em_utils_prompt_user (
 			parent, NULL, "mail:info-no-remove-duplicates",
-			camel_folder_get_name (folder), NULL);
+			camel_folder_get_display_name (folder), NULL);
 	} else {
 		gchar *msg = g_strdup_printf (ngettext (
 			/* Translators: %s is replaced with a folder name
@@ -525,7 +525,7 @@ remove_duplicates_got_messages_cb (CamelFolder *folder,
 			"Folder '%s' contains %d duplicate messages. "
 			"Are you sure you want to delete them?",
 			dups->len),
-			camel_folder_get_name (folder), dups->len);
+			camel_folder_get_display_name (folder), dups->len);
 
 		if (em_utils_prompt_user (
 			parent, NULL, "mail:ask-remove-duplicates", msg, NULL)) {

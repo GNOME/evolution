@@ -544,7 +544,7 @@ em_folder_utils_delete_folder (EMailBackend *backend,
 	if (mail_folder_cache_get_folder_info_flags (folder_cache, folder, &flags) && (flags & CAMEL_FOLDER_SYSTEM)) {
 		e_mail_backend_submit_alert (
 			backend, "mail:no-delete-special-folder",
-			camel_folder_get_name (folder), NULL);
+			camel_folder_get_display_name (folder), NULL);
 		return;
 	}
 

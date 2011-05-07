@@ -1282,7 +1282,9 @@ struct _get_quota_msg {
 static gchar *
 get_quota_desc (struct _get_quota_msg *m)
 {
-	return g_strdup_printf (_("Retrieving quota information for folder '%s'"), camel_folder_get_name (m->folder));
+	return g_strdup_printf (
+		_("Retrieving quota information for folder '%s'"),
+		camel_folder_get_display_name (m->folder));
 }
 
 static void

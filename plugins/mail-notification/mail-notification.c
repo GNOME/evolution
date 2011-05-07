@@ -249,7 +249,7 @@ read_notify_dbus (EMEventTargetMessage *t)
 	if (connection != NULL)
 		send_dbus_message (
 			"MessageReading",
-			camel_folder_get_name (t->folder),
+			camel_folder_get_display_name (t->folder),
 			0, NULL, NULL, NULL);
 }
 

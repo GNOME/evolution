@@ -399,7 +399,7 @@ exit:
 		const gchar *folder_name = data;
 
 		if (folder != NULL)
-			folder_name = camel_folder_get_name (folder);
+			folder_name = camel_folder_get_display_name (folder);
 
 		e_alert_run_dialog_for_args (
 			parent, "mail-composer:attach-nomessages",
