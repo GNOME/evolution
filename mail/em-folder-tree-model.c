@@ -646,8 +646,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	gboolean is_templates = FALSE;
 	CamelFolder *folder;
 	gboolean emitted = FALSE;
-	const gchar *name;
 	const gchar *icon_name;
+	const gchar *display_name;
 	guint32 flags, add_flags = 0;
 	EMEventTargetCustomIcon *target;
 	gchar *uri;
@@ -705,26 +705,27 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	}
 
 	flags = fi->flags;
-	name = fi->name;
+	display_name = fi->display_name;
+
 	if (si->store == e_mail_local_get_store ()) {
-		if (!strcmp(fi->full_name, "Drafts")) {
-			name = _("Drafts");
+		if (strcmp (fi->full_name, "Drafts") == 0) {
 			is_drafts = TRUE;
-		} else if (!strcmp(fi->full_name, "Templates")) {
-			name = _("Templates");
+			display_name = _("Drafts");
+		} else if (strcmp (fi->full_name, "Templates") == 0) {
 			is_templates = TRUE;
-		} else if (!strcmp(fi->full_name, "Inbox")) {
+			display_name = _("Templates");
+		} else if (strcmp (fi->full_name, "Inbox") == 0) {
 			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) |
 				CAMEL_FOLDER_TYPE_INBOX;
-			name = _("Inbox");
-		} else if (!strcmp(fi->full_name, "Outbox")) {
+			display_name = _("Inbox");
+		} else if (strcmp (fi->full_name, "Outbox") == 0) {
 			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) |
 				CAMEL_FOLDER_TYPE_OUTBOX;
-			name = _("Outbox");
-		} else if (!strcmp(fi->full_name, "Sent")) {
-			name = _("Sent");
+			display_name = _("Outbox");
+		} else if (strcmp (fi->full_name, "Sent") == 0) {
 			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) |
 				CAMEL_FOLDER_TYPE_SENT;
+			display_name = _("Sent");
 		}
 	}
 
@@ -756,7 +757,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 
 	gtk_tree_store_set (
 		tree_store, iter,
-		COL_STRING_DISPLAY_NAME, name,
+		COL_STRING_DISPLAY_NAME, display_name,
 		COL_POINTER_CAMEL_STORE, si->store,
 		COL_STRING_FULL_NAME, fi->full_name,
 		COL_STRING_ICON_NAME, icon_name,

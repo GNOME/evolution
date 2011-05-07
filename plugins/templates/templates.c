@@ -862,12 +862,12 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 		GPtrArray *uids;
 		GtkAction *action;
 		const gchar *action_label;
-		const gchar *folder_name;
+		const gchar *display_name;
 		gchar *action_name;
 		gchar *path;
 		guint ii;
 
-		folder_name = folder_info->name;
+		display_name = folder_info->display_name;
 		/* FIXME Not passing a GCancellable or GError here. */
 		folder = camel_store_get_folder_sync (
 			store, folder_info->full_name, 0, NULL, NULL);
@@ -877,10 +877,10 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 		*action_count = *action_count + 1;
 
 		/* To avoid having a Templates dir, we ignore the top level */
-		if (g_str_has_suffix (folder_name, "Templates"))
+		if (g_str_has_suffix (display_name, "Templates"))
 			action_label = _("Templates");
 		else
-			action_label = folder_name;
+			action_label = display_name;
 
 		action = gtk_action_new (
 			action_name, action_label, NULL, NULL);
