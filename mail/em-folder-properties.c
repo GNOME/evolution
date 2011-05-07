@@ -241,7 +241,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 	/* Get number of VISIBLE and DELETED messages, instead of TOTAL
 	 * messages.  VISIBLE+DELETED gives the correct count that matches
 	 * the label below the Send & Receive button. */
-	name = camel_folder_get_name (folder);
+	name = camel_folder_get_display_name (folder);
 	prop_data->total = folder->summary->visible_count;
 	prop_data->unread = folder->summary->unread_count;
 	deleted = folder->summary->deleted_count;

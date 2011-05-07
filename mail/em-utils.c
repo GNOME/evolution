@@ -911,7 +911,7 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 		/* Drop filename for messages from a mailbox */
 		file = g_strdup_printf (
 			_("Messages from %s"),
-			camel_folder_get_name (folder));
+			camel_folder_get_display_name (folder));
 	}
 
 	e_filename_make_safe (file);
