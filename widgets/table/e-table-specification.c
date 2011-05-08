@@ -330,7 +330,7 @@ e_table_specification_save_to_string (ETableSpecification *specification)
 	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
 	xmlDocDumpMemory (doc, &string, &length);
 
-	ret_val = g_strdup ((gchar *)string);
+	ret_val = g_strdup ((gchar *) string);
 	xmlFree (string);
 	return ret_val;
 }

@@ -159,7 +159,7 @@ filter_option_xml_create (EFilterElement *element,
 				if (!strcmp ((gchar *)work->name, "title") ||
 					!strcmp ((gchar *)work->name, "_title")) {
 					if (!title) {
-						if (!(tmp = (gchar *)xmlNodeGetContent (work)))
+						if (!(tmp = (gchar *) xmlNodeGetContent (work)))
 							tmp = (gchar *)xmlStrdup ((xmlChar *)"");
 
 						title = g_strdup (tmp);
@@ -167,7 +167,7 @@ filter_option_xml_create (EFilterElement *element,
 					}
 				} else if (!strcmp ((gchar *)work->name, "code")) {
 					if (!code) {
-						if (!(tmp = (gchar *)xmlNodeGetContent (work)))
+						if (!(tmp = (gchar *) xmlNodeGetContent (work)))
 							tmp = (gchar *)xmlStrdup ((xmlChar *)"");
 
 						code = g_strdup (tmp);
@@ -204,7 +204,7 @@ filter_option_xml_create (EFilterElement *element,
 					GSList *items, *i;
 					struct _filter_option *op;
 
-					option->dynamic_func = g_strdup ((const gchar *)fn);
+					option->dynamic_func = g_strdup ((const gchar *) fn);
 
 					/* get options now, to have them available when reading saved rules */
 					items = filter_option_get_dynamic_options (option);
@@ -357,7 +357,7 @@ filter_option_get_widget (EFilterElement *element)
 			e_filter_option_set_current (option, old_cur->value);
 
 		/* free old list */
-		g_list_foreach (old_ops, (GFunc)free_option, NULL);
+		g_list_foreach (old_ops, (GFunc) free_option, NULL);
 		g_list_free (old_ops);
 	}
 

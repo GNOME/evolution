@@ -308,14 +308,14 @@ e_sens_network_listener_queryinterface (ISensNetwork *This,
 static ULONG WINAPI
 e_sens_network_listener_addref (ISensNetwork *This)
 {
-	ESensNetworkListener *esnl_ptr=(ESensNetworkListener*)This;
+	ESensNetworkListener *esnl_ptr=(ESensNetworkListener*) This;
 	return InterlockedIncrement (&(esnl_ptr->ref));
 }
 
 static ULONG WINAPI
 e_sens_network_listener_release (ISensNetwork *This)
 {
-	ESensNetworkListener *esnl_ptr=(ESensNetworkListener*)This;
+	ESensNetworkListener *esnl_ptr=(ESensNetworkListener*) This;
 	ULONG tmp = InterlockedDecrement (&(esnl_ptr->ref));
 	return tmp;
 }
@@ -368,7 +368,7 @@ e_sens_network_listener_connectionmade (ISensNetwork  *This,
                                         LPSENS_QOCINFO lpQOCInfo)
 {
 	if (ulType) {
-		ESensNetworkListener *esnl_ptr=(ESensNetworkListener*)This;
+		ESensNetworkListener *esnl_ptr=(ESensNetworkListener*) This;
 		EShell *shell = windows_sens_get_shell (esnl_ptr->ews_ptr);
 		/* Wait a second so that the connection stabilizes */
 		g_usleep (G_USEC_PER_SEC);
@@ -392,7 +392,7 @@ e_sens_network_listener_connectionlost (ISensNetwork *This,
                                         ULONG         ulType)
 {
 	if (ulType) {
-		ESensNetworkListener *esnl_ptr=(ESensNetworkListener*)This;
+		ESensNetworkListener *esnl_ptr=(ESensNetworkListener*) This;
 		EShell *shell = windows_sens_get_shell (esnl_ptr->ews_ptr);
 		e_shell_set_network_available (shell, FALSE);
 	}
@@ -407,7 +407,7 @@ e_sens_network_listener_destinationreachable (ISensNetwork  *This,
                                               LPSENS_QOCINFO lpQOCInfo)
 {
 	if (ulType) {
-		ESensNetworkListener *esnl_ptr=(ESensNetworkListener*)This;
+		ESensNetworkListener *esnl_ptr=(ESensNetworkListener*) This;
 		EShell *shell = windows_sens_get_shell (esnl_ptr->ews_ptr);
 		/* Wait a second so that the connection stabilizes */
 		g_usleep (G_USEC_PER_SEC);
@@ -502,7 +502,7 @@ windows_sens_constructed (GObject *object)
 				UUID tmp_uuid;
 				UuidCreate (&tmp_uuid);
 				UuidToString (&tmp_uuid, &subids[i]);
-				res=pEventSubscription->lpVtbl->put_SubscriptionID (pEventSubscription, _mb2wchar (add_curly_braces_to_uuid ((gchar *)subids[i])));
+				res=pEventSubscription->lpVtbl->put_SubscriptionID (pEventSubscription, _mb2wchar (add_curly_braces_to_uuid ((gchar *) subids[i])));
 				if (res) {
 					RpcStringFree (&subids[i]);
 					break;
@@ -517,7 +517,7 @@ windows_sens_constructed (GObject *object)
 				res=pEventSubscription->lpVtbl->put_EventClassID (pEventSubscription, _mb2wchar (eventclassid));
 				if (res)
 					break;
-				res=pEventSubscription->lpVtbl->put_SubscriberInterface (pEventSubscription, (IUnknown*)pESensNetworkListener);
+				res=pEventSubscription->lpVtbl->put_SubscriberInterface (pEventSubscription, (IUnknown*) pESensNetworkListener);
 				if (res)
 					break;
 				/* Make the subscription receive the event only if the owner of the subscription
@@ -528,7 +528,7 @@ windows_sens_constructed (GObject *object)
 				if (res)
 					break;
 
-				res=pEventSystem->lpVtbl->Store (pEventSystem, (BSTR)PROGID_EventSubscription, (IUnknown*)pEventSubscription);
+				res=pEventSystem->lpVtbl->Store (pEventSystem, (BSTR) PROGID_EventSubscription, (IUnknown*) pEventSubscription);
 				if (res)
 					break;
 				pEventSubscription->lpVtbl->Release (pEventSubscription);

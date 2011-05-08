@@ -1858,7 +1858,7 @@ gnome_canvas_class_init (GnomeCanvasClass *klass)
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = (GObjectClass *)klass;
+	object_class = (GObjectClass *) klass;
 	widget_class  = (GtkWidgetClass *) klass;
 
 	canvas_parent_class = g_type_class_peek_parent (klass);

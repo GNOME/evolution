@@ -702,7 +702,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		}
 
 		/* free memory */
-		g_slist_foreach (categories_pixbufs, (GFunc)g_object_unref, NULL);
+		g_slist_foreach (categories_pixbufs, (GFunc) g_object_unref, NULL);
 		g_slist_free (categories_pixbufs);
 	}
 

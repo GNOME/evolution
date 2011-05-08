@@ -84,8 +84,8 @@ typedef struct {
 static gint
 e_sort_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
 {
-	gint row1 = *(gint *)data1;
-	gint row2 = *(gint *)data2;
+	gint row1 = *(gint *) data1;
+	gint row2 = *(gint *) data2;
 	ETableSortClosure *closure = user_data;
 	gint j;
 	gint sort_count = closure->cols;
@@ -257,8 +257,8 @@ etsu_tree_compare (ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *
 static gint
 e_sort_tree_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
 {
-	ETreePath *path1 = *(ETreePath *)data1;
-	ETreePath *path2 = *(ETreePath *)data2;
+	ETreePath *path1 = *(ETreePath *) data1;
+	ETreePath *path2 = *(ETreePath *) data2;
 	ETreeSortClosure *closure = user_data;
 
 	return etsu_tree_compare (closure->tree, closure->sort_info, closure->full_header, path1, path2, closure->cmp_cache);

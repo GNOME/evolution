@@ -365,7 +365,7 @@ can_support_actions (void)
 			}
 		}
 
-		g_list_foreach (caps, (GFunc)g_free, NULL);
+		g_list_foreach (caps, (GFunc) g_free, NULL);
 		g_list_free (caps);
 	}
 

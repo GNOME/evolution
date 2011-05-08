@@ -280,7 +280,7 @@ e_meeting_list_view_remove_attendee_from_name_selector (EMeetingListView *view, 
 		if (e_destination_is_evolution_list (des)) {
 			GList *l, *dl;
 
-			dl = (GList *)e_destination_list_get_dests (des);
+			dl = (GList *) e_destination_list_get_dests (des);
 
 			for (l = dl; l; l = l->next) {
 				attendee = e_destination_get_email (l->data);
@@ -330,7 +330,7 @@ e_meeting_list_view_remove_all_attendees_from_name_selector (EMeetingListView *v
 			if (e_destination_is_evolution_list (des)) {
 				GList *m, *dl;
 
-				dl = (GList *)e_destination_list_get_dests (des);
+				dl = (GList *) e_destination_list_get_dests (des);
 
 				for (m = dl; m; m = m->next) {
 					g_object_unref (m->data);
@@ -381,7 +381,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 				e_meeting_attendee_set_role (attendee, e_meeting_attendee_get_role (existing_attendee));
 				e_meeting_attendee_set_rsvp (attendee, e_meeting_attendee_get_rsvp (existing_attendee));
 				e_meeting_attendee_set_status (attendee, ICAL_PARTSTAT_NEEDSACTION);
-				e_meeting_attendee_set_delfrom (attendee, (gchar *)e_meeting_attendee_get_delfrom (existing_attendee));
+				e_meeting_attendee_set_delfrom (attendee, (gchar *) e_meeting_attendee_get_delfrom (existing_attendee));
 			}
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
 			g_signal_emit_by_name (G_OBJECT (view), "attendee_added", (gpointer) attendee);
@@ -506,7 +506,7 @@ status_edited_cb (GtkCellRenderer *renderer, const gchar *path, const gchar *tex
 static void
 ense_update (GtkWidget *w, gpointer data1, gpointer user_data)
 {
-	gtk_cell_editable_editing_done ((GtkCellEditable *)w);
+	gtk_cell_editable_editing_done ((GtkCellEditable *) w);
 }
 
 static void
@@ -906,7 +906,7 @@ name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpoin
 	attendees = e_meeting_store_get_attendees (store);
 
 	/* get all the email ids of the attendees */
-	g_ptr_array_foreach ((GPtrArray *)attendees, (GFunc) add_to_list, &la);
+	g_ptr_array_foreach ((GPtrArray *) attendees, (GFunc) add_to_list, &la);
 
 	for (i = 0; sections[i] != NULL; i++) {
 		EDestinationStore *destination_store;

@@ -841,12 +841,12 @@ action_save_cb (GtkAction *action,
 		ECalComponentVType vtype = e_cal_component_get_vtype (editor->priv->comp);
 
 		if (vtype == E_CAL_COMPONENT_EVENT)
-			response = em_utils_prompt_user ((GtkWindow *)widget,
+			response = em_utils_prompt_user ((GtkWindow *) widget,
 							 NULL,
 							 "calendar:ask-send-event-pending-download",
 							  NULL);
 		else
-			response = em_utils_prompt_user ((GtkWindow *)widget,
+			response = em_utils_prompt_user ((GtkWindow *) widget,
 							 NULL,
 							 "calendar:ask-send-task-pending-download",
 							  NULL);
@@ -2959,7 +2959,7 @@ fill_widgets (CompEditor *editor)
 		g_signal_handlers_unblock_by_func (
 			store, G_CALLBACK (attachment_store_changed_cb),
 			editor);
-		g_slist_foreach (attachment_list, (GFunc)g_free, NULL);
+		g_slist_foreach (attachment_list, (GFunc) g_free, NULL);
 		g_slist_free (attachment_list);
 	}
 
@@ -3369,7 +3369,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 
 		camel_mime_part_set_content_id (mime_part, NULL);
 
-		cal_mime_attach->encoded_data = (gchar *)buffer;
+		cal_mime_attach->encoded_data = (gchar *) buffer;
 		cal_mime_attach->length = byte_array->len;
 		cal_mime_attach->filename =
 			g_strdup (camel_mime_part_get_filename (mime_part));

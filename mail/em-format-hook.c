@@ -70,7 +70,7 @@ emfh_format_format (EMFormat *md,
                     GCancellable *cancellable,
                     gboolean is_fallback)
 {
-	struct _EMFormatHookItem *item = (EMFormatHookItem *)info;
+	struct _EMFormatHookItem *item = (EMFormatHookItem *) info;
 
 	if (item->hook->hook.plugin->enabled) {
 		EMFormatHookTarget target = {
@@ -97,7 +97,7 @@ emfh_free_item (struct _EMFormatHookItem *item)
 static void
 emfh_free_group (struct _EMFormatHookGroup *group)
 {
-	g_slist_foreach (group->items, (GFunc)emfh_free_item, NULL);
+	g_slist_foreach (group->items, (GFunc) emfh_free_item, NULL);
 	g_slist_free (group->items);
 
 	g_free (group->id);
@@ -169,7 +169,7 @@ emfh_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	d(printf("loading format hook\n"));
 
-	if (((EPluginHookClass *)emfh_parent_class)->construct (eph, ep, root) == -1)
+	if (((EPluginHookClass *) emfh_parent_class)->construct (eph, ep, root) == -1)
 		return -1;
 
 	node = root->children;
@@ -205,7 +205,7 @@ emfh_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 	eph->plugin = ep;
 
 	/* Load the plugin as it does a few thing in the formatter thread. */
-	((EPluginClass *)G_OBJECT_GET_CLASS (ep))->enable (ep, 1);
+	((EPluginClass *) G_OBJECT_GET_CLASS (ep))->enable (ep, 1);
 	return 0;
 }
 
@@ -237,18 +237,18 @@ emfh_enable (EPluginHook *eph, gint state)
 static void
 emfh_finalise (GObject *o)
 {
-	EPluginHook *eph = (EPluginHook *)o;
+	EPluginHook *eph = (EPluginHook *) o;
 
-	g_slist_foreach (emfh->groups, (GFunc)emfh_free_group, NULL);
+	g_slist_foreach (emfh->groups, (GFunc) emfh_free_group, NULL);
 	g_slist_free (emfh->groups);
 
-	((GObjectClass *)emfh_parent_class)->finalize (o);
+	((GObjectClass *) emfh_parent_class)->finalize (o);
 }
 
 static void
 emfh_class_init (EPluginHookClass *klass)
 {
-	((GObjectClass *)klass)->finalize = emfh_finalise;
+	((GObjectClass *) klass)->finalize = emfh_finalise;
 	klass->construct = emfh_construct;
 	klass->enable = emfh_enable;
 	klass->id = "org.gnome.evolution.mail.format:1.0";
@@ -292,5 +292,5 @@ em_format_hook_register_type (GType type)
 	d(printf("registering formatter type '%s'\n", g_type_name(type)));
 
 	klass = g_type_class_ref (type);
-	g_hash_table_insert (emfh_types, (gpointer)g_type_name (type), klass);
+	g_hash_table_insert (emfh_types, (gpointer) g_type_name (type), klass);
 }

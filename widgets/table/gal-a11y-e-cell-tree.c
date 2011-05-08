@@ -211,14 +211,14 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 					    /* Translators: description of an "expand" action */
 					    _("expands the row in the ETree containing this cell"),
 					    NULL,
-					    (ACTION_FUNC)ectr_do_action_expand);
+					    (ACTION_FUNC) ectr_do_action_expand);
 
 		gal_a11y_e_cell_add_action (GAL_A11Y_E_CELL (subcell_a11y),
 					    "collapse",
 					    /* Translators: description of a "collapse" action */
 					    _("collapses the row in the ETree containing this cell"),
 					    NULL,
-					    (ACTION_FUNC)ectr_do_action_collapse);
+					    (ACTION_FUNC) ectr_do_action_collapse);
 
 		/* init AtkStates for the cell's a11y object */
 		node = e_table_model_value_at (item->table_model, -1, row);

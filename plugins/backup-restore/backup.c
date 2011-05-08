@@ -560,8 +560,8 @@ static gboolean
 pbar_update (gpointer data)
 {
 	if (!complete) {
-		gtk_progress_bar_pulse ((GtkProgressBar *)pbar);
-		gtk_progress_bar_set_text ((GtkProgressBar *)pbar, txt);
+		gtk_progress_bar_pulse ((GtkProgressBar *) pbar);
+		gtk_progress_bar_set_text ((GtkProgressBar *) pbar, txt);
 		return TRUE;
 	}
 
@@ -589,7 +589,7 @@ idle_cb (gpointer data)
 {
 	if (gui_arg) {
 		/* Show progress dialog */
-		gtk_progress_bar_pulse ((GtkProgressBar *)pbar);
+		gtk_progress_bar_pulse ((GtkProgressBar *) pbar);
 		g_timeout_add (50, pbar_update, NULL);
 	}
 

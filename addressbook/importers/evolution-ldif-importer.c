@@ -255,7 +255,7 @@ parseLine (GHashTable *dn_contact_hash, EContact *contact,
 		return FALSE;
 	}
 
-	colon = (gchar *)strchr ( ptr, ':' );
+	colon = (gchar *) strchr ( ptr, ':' );
 	if (colon) {
 		gint i;
 
@@ -588,7 +588,7 @@ ldif_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (target->type != E_IMPORT_TARGET_URI)
 		return FALSE;
 
-	s = (EImportTargetURI *)target;
+	s = (EImportTargetURI *) target;
 	if (s->uri_src == NULL)
 		return TRUE;
 
@@ -648,7 +648,7 @@ ldif_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	LDIFImporter *gci;
 	ESource *source;
 	FILE *file = NULL;
-	EImportTargetURI *s = (EImportTargetURI *)target;
+	EImportTargetURI *s = (EImportTargetURI *) target;
 	gchar *filename;
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
@@ -697,7 +697,7 @@ ldif_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 	GtkWidget *preview;
 	GList *contacts = NULL;
 	EContact *contact;
-	EImportTargetURI *s = (EImportTargetURI *)target;
+	EImportTargetURI *s = (EImportTargetURI *) target;
 	gchar *filename;
 	GHashTable *dn_contact_hash;
 	FILE *file;

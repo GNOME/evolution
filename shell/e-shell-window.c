@@ -362,11 +362,11 @@ shell_window_construct_menubar (EShellWindow *shell_window)
 
 		parent = gtk_widget_get_parent (main_menu);
 		g_object_ref (parent);
-		gtk_container_remove ((GtkContainer *)parent, main_menu);
+		gtk_container_remove ((GtkContainer *) parent, main_menu);
 		child = gtk_hbox_new (FALSE, 0);
-		gtk_box_pack_start ((GtkBox *)child, main_menu, TRUE, TRUE, 0);
+		gtk_box_pack_start ((GtkBox *) child, main_menu, TRUE, TRUE, 0);
 		gtk_widget_show (child);
-		gtk_container_add ((GtkContainer *)parent, child);
+		gtk_container_add ((GtkContainer *) parent, child);
 		shell_window->priv->menubar_box = child;
 
 		g_object_bind_property (

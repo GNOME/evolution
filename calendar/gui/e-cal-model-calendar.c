@@ -325,7 +325,7 @@ ecmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
-		set_dtend ((ECalModel *)model, comp_data, value);
+		set_dtend ((ECalModel *) model, comp_data, value);
 		break;
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
 		set_location (comp_data, value);

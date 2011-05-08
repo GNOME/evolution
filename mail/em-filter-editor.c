@@ -44,13 +44,13 @@ filter_editor_create_rule (ERuleEditor *rule_editor)
 	EFilterPart *part;
 
 	/* create a rule with 1 part & 1 action in it */
-	rule = (EFilterRule *)em_filter_rule_new ();
+	rule = (EFilterRule *) em_filter_rule_new ();
 	part = e_rule_context_next_part (rule_editor->context, NULL);
 	e_filter_rule_add_part (rule, e_filter_part_clone (part));
 	part = em_filter_context_next_action (
-		(EMFilterContext *)rule_editor->context, NULL);
+		(EMFilterContext *) rule_editor->context, NULL);
 	em_filter_rule_add_action (
-		(EMFilterRule *)rule, e_filter_part_clone (part));
+		(EMFilterRule *) rule, e_filter_part_clone (part));
 
 	return rule;
 }
@@ -134,7 +134,7 @@ free_sources (gpointer data)
 {
 	GSList *sources = data;
 
-	g_slist_foreach (sources, (GFunc)g_free, NULL);
+	g_slist_foreach (sources, (GFunc) g_free, NULL);
 	g_slist_free (sources);
 }
 
@@ -155,7 +155,7 @@ select_source (GtkComboBox *combobox, EMFilterEditor *fe)
 	source = (gchar *) (g_slist_nth (sources, idx))->data;
 	g_return_if_fail (source);
 
-	e_rule_editor_set_source ((ERuleEditor *)fe, source);
+	e_rule_editor_set_source ((ERuleEditor *) fe, source);
 }
 
 void

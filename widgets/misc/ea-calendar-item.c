@@ -439,7 +439,7 @@ ea_calendar_item_ref_child (AtkObject *accessible, gint index)
 
 #ifdef ACC_DEBUG
 	g_print ("AccDebug: ea_calendar_item children[%d]=%p\n", index,
-		 (gpointer)cell);
+		 (gpointer) cell);
 #endif
 	return g_object_ref (atk_gobject_accessible_for_object (G_OBJECT (cell)));
 }
@@ -1306,7 +1306,7 @@ ea_calendar_set_focus_object (EaCalendarItem *ea_calitem, AtkObject *item_cell)
 	AtkStateSet *state_set, *old_state_set;
 	AtkObject *old_cell;
 
-	old_cell = (AtkObject *)g_object_get_data (
+	old_cell = (AtkObject *) g_object_get_data (
 		G_OBJECT(ea_calitem), "gail-focus-object");
 	if (old_cell && EA_IS_CALENDAR_CELL (old_cell)) {
 		old_state_set = atk_object_ref_state_set (old_cell);

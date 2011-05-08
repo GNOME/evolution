@@ -49,7 +49,7 @@ free_data (gpointer data, GObject *where_the_object_was)
 {
 	CertificateViewerData *cvm = data;
 
-	g_list_foreach (cvm->cert_chain, (GFunc)g_object_unref, NULL);
+	g_list_foreach (cvm->cert_chain, (GFunc) g_object_unref, NULL);
 	g_list_free (cvm->cert_chain);
 
 	g_object_unref (cvm->builder);
@@ -169,7 +169,7 @@ populate_fields_tree (CertificateViewerData *cvm_data, EASN1Object *asn1, GtkTre
 				populate_fields_tree (cvm_data, subasn1, &new_iter);
 			}
 		}
-		g_list_foreach (children, (GFunc)g_object_unref, NULL);
+		g_list_foreach (children, (GFunc) g_object_unref, NULL);
 		g_list_free (children);
 	}
 }

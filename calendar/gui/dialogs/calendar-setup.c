@@ -423,12 +423,12 @@ cs_load_sources (CalendarSourceDialog *sdialog, const gchar *conf_key, ESourceGr
 	gconf = gconf_client_get_default ();
 	sdialog->source_list = e_source_list_new_for_gconf (gconf, conf_key);
 	sdialog->menu_source_groups = g_slist_copy (e_source_list_peek_groups (sdialog->source_list));
-	sdialog->source_group = (ESourceGroup *)sdialog->menu_source_groups->data;
+	sdialog->source_group = (ESourceGroup *) sdialog->menu_source_groups->data;
 
 	g_object_unref (gconf);
 
 	if (group)
-		sdialog->source_group = (ESourceGroup *)group;
+		sdialog->source_group = (ESourceGroup *) group;
 }
 
 /**
@@ -484,7 +484,7 @@ calendar_setup_edit_calendar (GtkWindow *parent, ESource *source, ESourceGroup *
 
 	/* forces initial validation */
 	if (!sdialog->original_source)
-		e_config_target_changed ((EConfig *)ec, E_CONFIG_TARGET_CHANGED_STATE);
+		e_config_target_changed ((EConfig *) ec, E_CONFIG_TARGET_CHANGED_STATE);
 
 	return;
 }
@@ -540,7 +540,7 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 
 	/* forces initial validation */
 	if (!sdialog->original_source)
-		e_config_target_changed ((EConfig *)ec, E_CONFIG_TARGET_CHANGED_STATE);
+		e_config_target_changed ((EConfig *) ec, E_CONFIG_TARGET_CHANGED_STATE);
 
 	return;
 }
@@ -596,7 +596,7 @@ calendar_setup_edit_memo_list (GtkWindow *parent, ESource *source)
 
 	/* forces initial validation */
 	if (!sdialog->original_source)
-		e_config_target_changed ((EConfig *)ec, E_CONFIG_TARGET_CHANGED_STATE);
+		e_config_target_changed ((EConfig *) ec, E_CONFIG_TARGET_CHANGED_STATE);
 
 	return;
 }

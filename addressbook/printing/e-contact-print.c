@@ -507,7 +507,7 @@ e_contact_build_style (EContactPrintStyle *style)
 		xmlNodePtr stylenode = xmlDocGetRootElement (styledoc);
 		xmlNodePtr node;
 		for (node = stylenode->children; node; node = node->next) {
-			gchar *data = (gchar *)xmlNodeGetContent ( node );
+			gchar *data = (gchar *) xmlNodeGetContent ( node );
 			if (!strcmp( (gchar *)node->name, "title" )) {
 				get_string (data, &(style->title));
 			} else if (!strcmp( (gchar *)node->name, "type" )) {

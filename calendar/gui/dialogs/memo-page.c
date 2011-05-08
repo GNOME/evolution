@@ -1188,7 +1188,7 @@ memo_page_construct (MemoPage *mpage)
 
 		priv->name_selector = e_name_selector_new ();
 		priv->to_entry = get_to_entry (priv->name_selector);
-		gtk_container_add ((GtkContainer *)priv->to_hbox, priv->to_entry);
+		gtk_container_add ((GtkContainer *) priv->to_hbox, priv->to_entry);
 		gtk_widget_show (priv->to_hbox);
 		gtk_widget_show (priv->to_entry);
 		gtk_widget_show (priv->to_button);

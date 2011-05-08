@@ -168,7 +168,7 @@ import_mbox_exec (struct _import_mbox_msg *m,
 
 			msg = camel_mime_message_new ();
 			if (!camel_mime_part_construct_from_parser_sync (
-				(CamelMimePart *)msg, mp, NULL, NULL)) {
+				(CamelMimePart *) msg, mp, NULL, NULL)) {
 				/* set exception? */
 				g_object_unref (msg);
 				break;

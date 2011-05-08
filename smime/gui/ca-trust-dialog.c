@@ -102,7 +102,7 @@ ca_trust_dialog_show (ECert *cert, gboolean importing)
 
 	w = e_builder_get_widget(ctd_data->builder, "ca-trust-label");
 	txt = g_strdup_printf(_("Certificate '%s' is a CA certificate.\n\nEdit trust settings:"), e_cert_get_cn(cert));
-	gtk_label_set_text ((GtkLabel *)w, txt);
+	gtk_label_set_text ((GtkLabel *) w, txt);
 	g_free (txt);
 
 	g_signal_connect (ctd_data->dialog, "response", G_CALLBACK (catd_response), ctd_data);

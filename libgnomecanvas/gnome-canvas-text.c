@@ -979,7 +979,7 @@ gnome_canvas_text_get_property (GObject            *object,
 			g_value_set_double (
 				value, ((gdouble)
 				pango_font_description_get_size (text->font_desc)) /
-				(gdouble)PANGO_SCALE);
+				(gdouble) PANGO_SCALE);
 			break;
 		}
 		break;

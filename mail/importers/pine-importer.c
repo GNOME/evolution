@@ -137,7 +137,7 @@ import_contact (EBook *book, gchar *line)
 				g_object_unref (d);
 			}
 			e_contact_set_attributes (card, E_CONTACT_EMAIL, list);
-			g_list_foreach (list, (GFunc)e_vcard_attribute_free, NULL);
+			g_list_foreach (list, (GFunc) e_vcard_attribute_free, NULL);
 			g_list_free (list);
 			g_strfreev (addrs);
 			e_contact_set (card, E_CONTACT_IS_LIST, GINT_TO_POINTER (TRUE));
@@ -274,7 +274,7 @@ pine_import_done (struct _pine_import_msg *m)
 		g_object_unref (gconf);
 	}
 
-	e_import_complete (m->import, (EImportTarget *)m->target);
+	e_import_complete (m->import, (EImportTarget *) m->target);
 }
 
 static void
@@ -413,14 +413,14 @@ pine_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 	box = gtk_vbox_new (FALSE, 2);
 
 	w = gtk_check_button_new_with_label(_("Mail"));
-	gtk_toggle_button_set_active ((GtkToggleButton *)w, !done_mail);
+	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_mail);
 	g_signal_connect(w, "toggled", G_CALLBACK(checkbox_mail_toggle_cb), target);
-	gtk_box_pack_start ((GtkBox *)box, w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 0);
 
 	w = gtk_check_button_new_with_label(_("Address Book"));
-	gtk_toggle_button_set_active ((GtkToggleButton *)w, !done_addr);
+	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_addr);
 	g_signal_connect(w, "toggled", G_CALLBACK(checkbox_addr_toggle_cb), target);
-	gtk_box_pack_start ((GtkBox *)box, w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (box);
 

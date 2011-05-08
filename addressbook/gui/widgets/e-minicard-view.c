@@ -121,7 +121,7 @@ e_minicard_view_drag_data_get (GtkWidget *widget,
 static void
 clear_drag_data (EMinicardView *view)
 {
-	g_list_foreach (view->drag_list, (GFunc)g_object_unref, NULL);
+	g_list_foreach (view->drag_list, (GFunc) g_object_unref, NULL);
 	g_list_free (view->drag_list);
 	view->drag_list = NULL;
 }
@@ -386,7 +386,7 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	switch (event->type) {
 	case GDK_2BUTTON_PRESS:
-		if (((GdkEventButton *)event)->button == 1) {
+		if (((GdkEventButton *) event)->button == 1) {
 			gboolean editable;
 
 			g_object_get(view->adapter, "editable", &editable, NULL);

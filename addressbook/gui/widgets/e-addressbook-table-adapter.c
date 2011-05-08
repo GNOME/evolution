@@ -262,7 +262,7 @@ addressbook_initialize_value (ETableModel *etc, gint col)
 static gboolean
 addressbook_value_is_empty (ETableModel *etc, gint col, gconstpointer value)
 {
-	return !(value && *(gchar *)value);
+	return !(value && *(gchar *) value);
 }
 
 static gchar *

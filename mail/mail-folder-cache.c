@@ -671,8 +671,8 @@ get_folders (CamelFolderInfo *fi, GPtrArray *folders)
 static gint
 folder_cmp (gconstpointer ap, gconstpointer bp)
 {
-	const CamelFolderInfo *a = ((CamelFolderInfo **)ap)[0];
-	const CamelFolderInfo *b = ((CamelFolderInfo **)bp)[0];
+	const CamelFolderInfo *a = ((CamelFolderInfo **) ap)[0];
+	const CamelFolderInfo *b = ((CamelFolderInfo **) bp)[0];
 
 	return strcmp (a->full_name, b->full_name);
 }
@@ -1219,7 +1219,7 @@ mail_folder_cache_note_store_remove (MailFolderCache *self,
 		}
 
 		g_object_unref (si->store);
-		g_hash_table_foreach (si->folders, (GHFunc)free_folder_info_hash, NULL);
+		g_hash_table_foreach (si->folders, (GHFunc) free_folder_info_hash, NULL);
 		g_hash_table_destroy (si->folders);
 		g_free (si);
 	}

@@ -424,7 +424,7 @@ textview_event_after (GtkTextView *textview, GdkEvent  *ev)
 	g_return_val_if_fail (GTK_IS_TEXT_VIEW (textview), FALSE);
 
 	if (ev->type == GDK_KEY_PRESS || ev->type == GDK_KEY_RELEASE) {
-		GdkEventKey *event_key = (GdkEventKey *)ev;
+		GdkEventKey *event_key = (GdkEventKey *) ev;
 
 		switch (event_key->keyval) {
 		case GDK_KEY_Control_L:
@@ -448,7 +448,7 @@ textview_event_after (GtkTextView *textview, GdkEvent  *ev)
 	if (ev->type != GDK_BUTTON_RELEASE)
 		return FALSE;
 
-	event = (GdkEventButton *)ev;
+	event = (GdkEventButton *) ev;
 
 	if (event->button != 1 || (event->state & GDK_CONTROL_MASK) == 0)
 		return FALSE;

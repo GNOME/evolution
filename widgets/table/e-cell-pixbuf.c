@@ -188,8 +188,8 @@ pixbuf_print (ECellView *ecell_view, GtkPrintContext *context,
 
 	scale = gdk_pixbuf_get_height (pixbuf);
 	cairo_save (cr);
-	cairo_translate (cr, 0, (gdouble)(height - scale) / (gdouble)2);
-	gdk_cairo_set_source_pixbuf (cr, pixbuf, (gdouble)scale, (gdouble)scale);
+	cairo_translate (cr, 0, (gdouble)(height - scale) / (gdouble) 2);
+	gdk_cairo_set_source_pixbuf (cr, pixbuf, (gdouble) scale, (gdouble) scale);
 	cairo_paint (cr);
 	cairo_restore (cr);
 }

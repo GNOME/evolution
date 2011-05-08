@@ -64,11 +64,11 @@ rule_match_recipients (ERuleContext *context,
 	/* address types etc should handle multiple values */
 	for (i = 0; camel_internet_address_get (iaddr, i, &real, &addr); i++) {
 		part = e_rule_context_create_part (context, "to");
-		e_filter_rule_add_part ((EFilterRule *)rule, part);
+		e_filter_rule_add_part ((EFilterRule *) rule, part);
 		element = e_filter_part_find_element (part, "recipient-type");
 		e_filter_option_set_current ((EFilterOption *)element, "contains");
 		element = e_filter_part_find_element (part, "recipient");
-		e_filter_input_set_value ((EFilterInput *)element, addr);
+		e_filter_input_set_value ((EFilterInput *) element, addr);
 
 		namestr = g_strdup_printf (_("Mail to %s"), real && real[0] ? real : addr);
 		e_filter_rule_set_name (rule, namestr);
@@ -133,11 +133,11 @@ rule_add_subject (ERuleContext *context, EFilterRule *rule, const gchar *text)
 	if (*text == 0)
 		return;
 	part = e_rule_context_create_part (context, "subject");
-	e_filter_rule_add_part ((EFilterRule *)rule, part);
+	e_filter_rule_add_part ((EFilterRule *) rule, part);
 	element = e_filter_part_find_element (part, "subject-type");
 	e_filter_option_set_current ((EFilterOption *)element, "contains");
 	element = e_filter_part_find_element (part, "subject");
-	e_filter_input_set_value ((EFilterInput *)element, text);
+	e_filter_input_set_value ((EFilterInput *) element, text);
 }
 
 static void
@@ -150,11 +150,11 @@ rule_add_sender (ERuleContext *context, EFilterRule *rule, const gchar *text)
 	if (*text == 0)
 		return;
 	part = e_rule_context_create_part (context, "sender");
-	e_filter_rule_add_part ((EFilterRule *)rule, part);
+	e_filter_rule_add_part ((EFilterRule *) rule, part);
 	element = e_filter_part_find_element (part, "sender-type");
 	e_filter_option_set_current ((EFilterOption *)element, "contains");
 	element = e_filter_part_find_element (part, "sender");
-	e_filter_input_set_value ((EFilterInput *)element, text);
+	e_filter_input_set_value ((EFilterInput *) element, text);
 }
 
 /* do a bunch of things on the subject to try and detect mailing lists, remove
@@ -217,7 +217,7 @@ rule_match_mlist (ERuleContext *context, EFilterRule *rule, const gchar *mlist)
 	e_filter_option_set_current((EFilterOption *)element, "is");
 
 	element = e_filter_part_find_element (part, "mlist");
-	e_filter_input_set_value ((EFilterInput *)element, mlist);
+	e_filter_input_set_value ((EFilterInput *) element, mlist);
 }
 
 static void
@@ -298,7 +298,7 @@ rule_from_message (EFilterRule *rule,
 	if (flags & AUTO_MLIST) {
 		gchar *name, *mlist;
 
-		mlist = camel_header_raw_check_mailing_list (&((CamelMimePart *)msg)->headers);
+		mlist = camel_header_raw_check_mailing_list (&((CamelMimePart *) msg)->headers);
 		if (mlist) {
 			rule_match_mlist (context, rule, mlist);
 			name = g_strdup_printf (_("%s mailing list"), mlist);
@@ -391,7 +391,7 @@ filter_gui_add_from_message (EMailSession *session,
 	config_dir = mail_session_get_config_dir ();
 	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
-	e_rule_context_load ((ERuleContext *)fc, system, user);
+	e_rule_context_load ((ERuleContext *) fc, system, user);
 	g_free (system);
 
 	rule = filter_rule_from_message (fc, msg, flags);
@@ -431,15 +431,15 @@ mail_filter_rename_folder (EMailBackend *backend,
 	config_dir = mail_session_get_config_dir ();
 	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
-	e_rule_context_load ((ERuleContext *)fc, system, user);
+	e_rule_context_load ((ERuleContext *) fc, system, user);
 	g_free (system);
 
 	changed = e_rule_context_rename_uri (
-		(ERuleContext *)fc, old_uri, new_uri, g_str_equal);
+		(ERuleContext *) fc, old_uri, new_uri, g_str_equal);
 	if (changed) {
-		if (e_rule_context_save ((ERuleContext *)fc, user) == -1)
+		if (e_rule_context_save ((ERuleContext *) fc, user) == -1)
 			g_warning("Could not write out changed filter rules\n");
-		e_rule_context_free_uri_list ((ERuleContext *)fc, changed);
+		e_rule_context_free_uri_list ((ERuleContext *) fc, changed);
 	}
 
 	g_free (user);
@@ -473,7 +473,7 @@ mail_filter_delete_folder (EMailBackend *backend,
 	config_dir = mail_session_get_config_dir ();
 	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
-	e_rule_context_load ((ERuleContext *)fc, system, user);
+	e_rule_context_load ((ERuleContext *) fc, system, user);
 	g_free (system);
 
 	deleted = e_rule_context_delete_uri (
@@ -487,7 +487,7 @@ mail_filter_delete_folder (EMailBackend *backend,
 		s = g_string_new("");
 		s_count = 0;
 		for (l = deleted; l; l = l->next) {
-			const gchar *name = (const gchar *)l->data;
+			const gchar *name = (const gchar *) l->data;
 
 			if (s_count == 0) {
 				g_string_append (s, name);

@@ -174,7 +174,7 @@ create_calendar_sources (EShellBackend *shell_backend,
 				shell_settings, "cal-primary-calendar",
 				e_source_peek_uid (source));
 
-			link.data = (gpointer)e_source_peek_uid (source);
+			link.data = (gpointer) e_source_peek_uid (source);
 			link.next = NULL;
 
 			e_cal_shell_backend_set_selected_calendars (

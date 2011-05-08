@@ -91,7 +91,7 @@ init_child_item (GalA11yETable *a11y)
 
 	table = E_TABLE (gtk_accessible_get_widget (GTK_ACCESSIBLE (a11y)));
 	if (table && gtk_widget_get_mapped (GTK_WIDGET (table)) && table->group && E_IS_TABLE_GROUP_CONTAINER (table->group)) {
-		ETableGroupContainer *etgc =  (ETableGroupContainer *)table->group;
+		ETableGroupContainer *etgc =  (ETableGroupContainer *) table->group;
 		GList *list;
 
 		for (list = etgc->children; list; list = g_list_next (list)) {
@@ -133,7 +133,7 @@ et_get_n_children (AtkObject *accessible)
 		if (E_IS_TABLE_GROUP_LEAF (et->group))
 			n = 1;
 		else if (E_IS_TABLE_GROUP_CONTAINER (et->group)) {
-			ETableGroupContainer *etgc = (ETableGroupContainer *)et->group;
+			ETableGroupContainer *etgc = (ETableGroupContainer *) et->group;
 			n = g_list_length (etgc->children);
 		}
 	}
@@ -291,7 +291,7 @@ gal_a11y_e_table_new (GObject *widget)
 		g_object_ref (a11y);
 		g_object_ref (widget);
 
-		g_idle_add ((GSourceFunc)init_child_item, a11y);
+		g_idle_add ((GSourceFunc) init_child_item, a11y);
 	}
 
 	return ATK_OBJECT (a11y);

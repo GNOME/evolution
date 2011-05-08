@@ -509,7 +509,7 @@ e_meeting_store_set_value (EMeetingStore *store, gint row, gint col, const gchar
 
 	switch (col) {
 	case E_MEETING_STORE_ADDRESS_COL:
-		if (val != NULL && *((gchar *)val))
+		if (val != NULL && *((gchar *) val))
 			e_meeting_attendee_set_address (
 				attendee, g_strdup_printf (
 				"MAILTO:%s", (gchar *) val));
@@ -1484,7 +1484,7 @@ freebusy_async (gpointer data)
 		priv->num_queries--;
 		g_static_mutex_unlock (&mutex);
 
-		g_list_foreach (fbd->users, (GFunc)g_free, NULL);
+		g_list_foreach (fbd->users, (GFunc) g_free, NULL);
 		g_list_free (fbd->users);
 
 		if (fbd->fb_data != NULL) {
@@ -1627,7 +1627,7 @@ refresh_busy_periods (gpointer data)
 	thread = g_thread_create ((GThreadFunc) freebusy_async, fbd, FALSE, &error);
 	if (!thread) {
 		/* do clean up stuff here */
-		g_list_foreach (fbd->users, (GFunc)g_free, NULL);
+		g_list_foreach (fbd->users, (GFunc) g_free, NULL);
 		g_list_free (fbd->users);
 		g_free (fbd->email);
 		priv->refresh_idle_id = 0;

@@ -230,7 +230,7 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 {
 	EIterator *it;
 
-	it = e_list_get_iterator ((EList *)pitip->accounts);
+	it = e_list_get_iterator ((EList *) pitip->accounts);
 
 	if (!pitip->to_address && pitip->msg && pitip->folder) {
 		EAccount *account = em_utils_guess_account (pitip->msg, pitip->folder);
@@ -388,7 +388,7 @@ find_from_address (struct _itip_puri *pitip, icalcomponent *ical_comp)
 	if (param)
 		pitip->from_name = g_strdup (icalparameter_get_cn (param));
 
-	it = e_list_get_iterator ((EList *)pitip->accounts);
+	it = e_list_get_iterator ((EList *) pitip->accounts);
 	while (e_iterator_is_valid (it)) {
 		const EAccount *account = e_iterator_get (it);
 
@@ -1011,7 +1011,7 @@ message_foreach_part (CamelMimePart *part, GSList **part_list)
 			message_foreach_part (part, part_list);
 		}
 	} else if (CAMEL_IS_MIME_MESSAGE (containee)) {
-		message_foreach_part ((CamelMimePart *)containee, part_list);
+		message_foreach_part ((CamelMimePart *) containee, part_list);
 	}
 }
 
@@ -1180,7 +1180,7 @@ update_item (struct _itip_puri *pitip, ItipViewResponse response)
 			alarms = e_cal_component_get_alarm_uids (real_comp);
 
 			for (l = alarms; l; l = l->next) {
-				alarm = e_cal_component_get_alarm (real_comp, (const gchar *)l->data);
+				alarm = e_cal_component_get_alarm (real_comp, (const gchar *) l->data);
 
 				if (alarm) {
 					ECalComponentAlarm *aclone = e_cal_component_alarm_clone (alarm);
@@ -2318,7 +2318,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	info = (struct _itip_puri *) em_format_find_puri ((EMFormat *)efh, pobject->classid);
+	info = (struct _itip_puri *) em_format_find_puri ((EMFormat *) efh, pobject->classid);
 
 	/* Accounts */
 	info->accounts = e_get_account_list ();
@@ -2341,7 +2341,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	gtk_container_add (GTK_CONTAINER (eb), info->view);
 	gtk_widget_show (info->view);
 
-	response_enabled = in_proper_folder (((EMFormat*)efh)->folder);
+	response_enabled = in_proper_folder (((EMFormat*) efh)->folder);
 
 	if (!response_enabled) {
 		itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_HIDE_ALL);
@@ -2690,7 +2690,7 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 	    !camel_folder_get_message_user_flag (target->format->folder, target->format->uid, "$has_cal"))
 		camel_folder_set_message_user_flag (target->format->folder, target->format->uid, "$has_cal", TRUE);
 
-	puri = (struct _itip_puri *)em_format_add_puri (target->format, sizeof (struct _itip_puri), classid, target->part, itip_attachment_frame);
+	puri = (struct _itip_puri *) em_format_add_puri (target->format, sizeof (struct _itip_puri), classid, target->part, itip_attachment_frame);
 
 	em_format_html_add_pobject ((EMFormatHTML *) target->format, sizeof (EMFormatHTMLPObject), classid, target->part, format_itip_object);
 
@@ -2891,7 +2891,7 @@ itip_attachment_frame (EMFormat *emf,
                        EMFormatPURI *puri,
                        GCancellable *cancellable)
 {
-	struct _itip_puri *info = (struct _itip_puri *)puri;
+	struct _itip_puri *info = (struct _itip_puri *) puri;
 
 	info->handle->handler (
 		emf, stream, info->puri.part,

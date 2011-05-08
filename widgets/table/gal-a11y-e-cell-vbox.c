@@ -138,7 +138,7 @@ ecv_ref_accessible_at_point (AtkComponent *component,
 			ecvv->subcell_views[i], ecvv->model_cols[i],
 			gaec->view_col, gaec->row);
 		if ( 0 <= y && y <= subcell_height) {
-			return ecv_ref_child ((AtkObject *)component, i);
+			return ecv_ref_child ((AtkObject *) component, i);
 		} else
 			y -= subcell_height;
 	}

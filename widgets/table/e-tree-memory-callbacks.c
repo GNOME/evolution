@@ -138,7 +138,7 @@ etmc_duplicate_value (ETreeModel *etm, gint col, gconstpointer value)
 	if (etmc->duplicate_value)
 		return etmc->duplicate_value (etm, col, value, etmc->model_data);
 	else
-		return (gpointer)value;
+		return (gpointer) value;
 }
 
 static void
@@ -288,6 +288,6 @@ e_tree_memory_callbacks_new  (ETreeMemoryCallbacksIconAtFn icon_at,
 
 	etmc->model_data         = model_data;
 
-	return (ETreeModel*)etmc;
+	return (ETreeModel*) etmc;
 }
 

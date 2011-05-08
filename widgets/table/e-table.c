@@ -733,8 +733,8 @@ table_canvas_reflow_idle (ETable *e_table)
 	g_object_get (
 		e_table->canvas_vbox,
 		"height", &height, "width", &width, NULL);
-	height = MAX ((gint)height, allocation.height);
-	width = MAX ((gint)width, allocation.width);
+	height = MAX ((gint) height, allocation.height);
+	width = MAX ((gint) width, allocation.width);
 	/* I have no idea why this needs to be -1, but it works. */
 	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_table->table_canvas),
 					NULL, NULL, &oldwidth, &oldheight);
@@ -763,7 +763,7 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	g_object_get (e_table->canvas_vbox,
 		      "height", &height,
 		      NULL);
-	height = MAX ((gint)height, alloc->height);
+	height = MAX ((gint) height, alloc->height);
 
 	g_object_set (e_table->canvas_vbox,
 		      "width", width,
@@ -1214,7 +1214,7 @@ table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
 	} else if (!canvas->focused_item && etable->group) {
 		focus_first_etable_item (etable->group);
 	} else if (canvas->focused_item) {
-		ESelectionModel *selection = (ESelectionModel *)etable->selection;
+		ESelectionModel *selection = (ESelectionModel *) etable->selection;
 
 		/* check whether click_to_add already got the focus */
 		if (etable->click_to_add) {
@@ -2030,7 +2030,7 @@ e_table_set_specification (ETable *e_table, const gchar *spec)
 	g_return_val_if_fail (spec != NULL, -1);
 
 	/* doesn't work yet, sigh */
-	xmlSpec = xmlParseMemory ((gchar *)spec, strlen (spec));
+	xmlSpec = xmlParseMemory ((gchar *) spec, strlen (spec));
 	ret = et_real_set_specification (e_table, xmlSpec);
 	xmlFreeDoc (xmlSpec);
 

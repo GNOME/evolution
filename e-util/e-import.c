@@ -355,7 +355,7 @@ e_import_target_free (EImport *ep, gpointer o)
 {
 	EImportTarget *t = o;
 
-	((EImportClass *)G_OBJECT_GET_CLASS (ep))->target_free (ep, t);
+	((EImportClass *) G_OBJECT_GET_CLASS (ep))->target_free (ep, t);
 }
 
 EImportTargetURI *
@@ -428,7 +428,7 @@ eih_supported (EImport *ei,
                EImportTarget *target,
                EImportImporter *im)
 {
-	struct _EImportHookImporter *ihook = (EImportHookImporter *)im;
+	struct _EImportHookImporter *ihook = (EImportHookImporter *) im;
 	EImportHook *hook = im->user_data;
 
 	return e_plugin_invoke (hook->hook.plugin, ihook->supported, target) != NULL;
@@ -439,7 +439,7 @@ eih_get_widget (EImport *ei,
                 EImportTarget *target,
                 EImportImporter *im)
 {
-	struct _EImportHookImporter *ihook = (EImportHookImporter *)im;
+	struct _EImportHookImporter *ihook = (EImportHookImporter *) im;
 	EImportHook *hook = im->user_data;
 
 	return e_plugin_invoke (hook->hook.plugin, ihook->get_widget, target);
@@ -450,7 +450,7 @@ eih_import (EImport *ei,
             EImportTarget *target,
             EImportImporter *im)
 {
-	struct _EImportHookImporter *ihook = (EImportHookImporter *)im;
+	struct _EImportHookImporter *ihook = (EImportHookImporter *) im;
 	EImportHook *hook = im->user_data;
 
 	e_plugin_invoke (hook->hook.plugin, ihook->import, target);
@@ -461,7 +461,7 @@ eih_cancel (EImport *ei,
             EImportTarget *target,
             EImportImporter *im)
 {
-	struct _EImportHookImporter *ihook = (EImportHookImporter *)im;
+	struct _EImportHookImporter *ihook = (EImportHookImporter *) im;
 	EImportHook *hook = im->user_data;
 
 	e_plugin_invoke (hook->hook.plugin, ihook->cancel, target);
@@ -470,7 +470,7 @@ eih_cancel (EImport *ei,
 static void
 eih_free_importer (EImportImporter *im, gpointer data)
 {
-	EImportHookImporter *ihook = (EImportHookImporter *)im;
+	EImportHookImporter *ihook = (EImportHookImporter *) im;
 
 	g_free (ihook->supported);
 	g_free (ihook->get_widget);
@@ -483,7 +483,7 @@ emph_construct_importer (EPluginHook *eph, xmlNodePtr root)
 {
 	struct _EImportHookImporter *item;
 	EImportHookTargetMap *map;
-	EImportHookClass *class = (EImportHookClass *)G_OBJECT_GET_CLASS (eph);
+	EImportHookClass *class = (EImportHookClass *) G_OBJECT_GET_CLASS (eph);
 	gchar *tmp;
 
 	d (printf ("  loading import item\n"));
@@ -521,7 +521,7 @@ emph_construct_importer (EPluginHook *eph, xmlNodePtr root)
 	return item;
 error:
 	d (printf ("error!\n"));
-	eih_free_importer ((EImportImporter *)item, NULL);
+	eih_free_importer ((EImportImporter *) item, NULL);
 	return NULL;
 }
 

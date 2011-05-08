@@ -88,7 +88,7 @@ one_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 	if (one->source)
 		return e_table_model_duplicate_value (one->source, col, value);
 	else
-		return (gpointer)value;
+		return (gpointer) value;
 }
 
 static void

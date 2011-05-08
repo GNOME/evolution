@@ -122,7 +122,7 @@ export_as_attachments (CamelMultipart *mp, EMFormat *format, CamelStream *stream
 		part = camel_multipart_get_part (mp, i);
 
 		if (part != except) {
-			CamelMultipart *multipart = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
+			CamelMultipart *multipart = (CamelMultipart *) camel_medium_get_content ((CamelMedium *) part);
 
 			if (CAMEL_IS_MULTIPART (multipart)) {
 				export_as_attachments (multipart, format, stream, except);
@@ -136,7 +136,7 @@ export_as_attachments (CamelMultipart *mp, EMFormat *format, CamelStream *stream
 void
 org_gnome_prefer_plain_multipart_alternative (gpointer ep, EMFormatHookTarget *t)
 {
-	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)t->part);
+	CamelMultipart *mp = (CamelMultipart *) camel_medium_get_content ((CamelMedium *) t->part);
 	CamelMimePart *part, *display_part = NULL, *calendar_part = NULL;
 	gint i, nparts, partidlen, displayid = 0, calendarid = 0;
 
@@ -292,7 +292,7 @@ org_gnome_prefer_plain_config_mode (struct _EPlugin *epl, struct _EConfigHookIte
 	gtk_widget_show (check);
 	g_signal_connect (check, "toggled", G_CALLBACK (epp_show_suppressed_toggled), NULL);
 
-	dropdown = (GtkComboBox *)gtk_combo_box_new ();
+	dropdown = (GtkComboBox *) gtk_combo_box_new ();
 	cell = gtk_cell_renderer_text_new ();
 	store = gtk_list_store_new (1, G_TYPE_STRING);
 	for (i = 0; i < G_N_ELEMENTS (epp_options); i++) {
@@ -300,16 +300,16 @@ org_gnome_prefer_plain_config_mode (struct _EPlugin *epl, struct _EConfigHookIte
 		gtk_list_store_set (store, &iter, 0, _(epp_options[i].label), -1);
 	}
 
-	gtk_cell_layout_pack_start ((GtkCellLayout *)dropdown, cell, TRUE);
+	gtk_cell_layout_pack_start ((GtkCellLayout *) dropdown, cell, TRUE);
 	gtk_cell_layout_set_attributes((GtkCellLayout *)dropdown, cell, "text", 0, NULL);
-	gtk_combo_box_set_model (dropdown, (GtkTreeModel *)store);
+	gtk_combo_box_set_model (dropdown, (GtkTreeModel *) store);
 	/*gtk_combo_box_set_active(dropdown, -1);*/
 	gtk_combo_box_set_active (dropdown, epp_mode);
-	gtk_widget_show ((GtkWidget *)dropdown);
+	gtk_widget_show ((GtkWidget *) dropdown);
 
 	dropdown_label = gtk_label_new_with_mnemonic (_("HTML _Mode"));
 	gtk_widget_show (dropdown_label);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (dropdown_label), (GtkWidget *)dropdown);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (dropdown_label), (GtkWidget *) dropdown);
 
 	info = gtk_label_new (NULL);
 	gtk_misc_set_alignment (GTK_MISC (info), 0.0, 0.5);
@@ -321,14 +321,14 @@ org_gnome_prefer_plain_config_mode (struct _EPlugin *epl, struct _EConfigHookIte
 	g_signal_connect (dropdown, "changed", G_CALLBACK(epp_mode_changed), info);
 
 	g_object_get (data->parent, "n-rows", &i, NULL);
-	gtk_table_attach ((GtkTable *)data->parent, check, 0, 2, i, i + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	gtk_table_attach ((GtkTable *)data->parent, dropdown_label, 0, 1, i + 1, i + 2, 0, 0, 0, 0);
-	gtk_table_attach ((GtkTable *)data->parent, (GtkWidget *)dropdown, 1, 2, i + 1, i + 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	gtk_table_attach ((GtkTable *)data->parent, info, 1, 2, i + 2, i + 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach ((GtkTable *) data->parent, check, 0, 2, i, i + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach ((GtkTable *) data->parent, dropdown_label, 0, 1, i + 1, i + 2, 0, 0, 0, 0);
+	gtk_table_attach ((GtkTable *) data->parent, (GtkWidget *) dropdown, 1, 2, i + 1, i + 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach ((GtkTable *) data->parent, info, 1, 2, i + 2, i + 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* since this isnt dynamic, we don't need to track each item */
 
-	return (GtkWidget *)dropdown;
+	return (GtkWidget *) dropdown;
 }
 
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);

@@ -125,7 +125,7 @@ mbox_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 	hbox = gtk_hbox_new (FALSE, 0);
 
 	w = gtk_label_new_with_mnemonic (_("_Destination folder:"));
-	gtk_box_pack_start ((GtkBox *)hbox, w, FALSE, TRUE, 6);
+	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, TRUE, 6);
 
 	label = GTK_LABEL (w);
 
@@ -133,13 +133,13 @@ mbox_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 		session, _("Select folder"),
 		_("Select folder to import into"));
 	gtk_label_set_mnemonic_widget (label, w);
-	em_folder_selection_button_set_selection ((EMFolderSelectionButton *)w, select_uri);
-	folder_selected (EM_FOLDER_SELECTION_BUTTON (w), (EImportTargetURI *)target);
+	em_folder_selection_button_set_selection ((EMFolderSelectionButton *) w, select_uri);
+	folder_selected (EM_FOLDER_SELECTION_BUTTON (w), (EImportTargetURI *) target);
 	g_signal_connect (w, "selected", G_CALLBACK(folder_selected), target);
-	gtk_box_pack_start ((GtkBox *)hbox, w, FALSE, TRUE, 6);
+	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, TRUE, 6);
 
 	w = gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)w, hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) w, hbox, FALSE, FALSE, 0);
 	gtk_widget_show_all (w);
 
 	g_free (select_uri);
@@ -159,7 +159,7 @@ mbox_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (target->type != E_IMPORT_TARGET_URI)
 		return FALSE;
 
-	s = (EImportTargetURI *)target;
+	s = (EImportTargetURI *) target;
 	if (s->uri_src == NULL)
 		return TRUE;
 
@@ -204,7 +204,7 @@ mbox_status_timeout (gpointer data)
 		pc = importer->status_pc;
 		g_mutex_unlock (importer->status_lock);
 
-		e_import_status (importer->import, (EImportTarget *)importer->target, what, pc);
+		e_import_status (importer->import, (EImportTarget *) importer->target, what, pc);
 	}
 
 	return TRUE;
@@ -254,9 +254,9 @@ mbox_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 		importer->cancellable, "status",
 		G_CALLBACK (mbox_status), importer);
 
-	filename = g_filename_from_uri (((EImportTargetURI *)target)->uri_src, NULL, NULL);
+	filename = g_filename_from_uri (((EImportTargetURI *) target)->uri_src, NULL, NULL);
 	mail_importer_import_mbox (
-		session, filename, ((EImportTargetURI *)target)->uri_dest,
+		session, filename, ((EImportTargetURI *) target)->uri_dest,
 		importer->cancellable, mbox_import_done, importer);
 	g_free (filename);
 }
@@ -314,7 +314,7 @@ static GtkWidget *
 mbox_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *preview = NULL;
-	EImportTargetURI *s = (EImportTargetURI *)target;
+	EImportTargetURI *s = (EImportTargetURI *) target;
 	gchar *filename;
 	gint fd;
 	CamelMimeParser *mp;
@@ -355,7 +355,7 @@ mbox_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 
 		msg = camel_mime_message_new ();
 		if (!camel_mime_part_construct_from_parser_sync (
-			(CamelMimePart *)msg, mp, NULL, NULL)) {
+			(CamelMimePart *) msg, mp, NULL, NULL)) {
 			g_object_unref (msg);
 			break;
 		}

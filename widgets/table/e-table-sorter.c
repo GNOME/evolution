@@ -276,8 +276,8 @@ static gint
 qsort_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
 {
 	struct qsort_data *qd = (struct qsort_data *) user_data;
-	gint row1 = *(gint *)data1;
-	gint row2 = *(gint *)data2;
+	gint row1 = *(gint *) data1;
+	gint row2 = *(gint *) data2;
 	gint j;
 	gint sort_count = e_table_sort_info_sorting_get_count (qd->ets->sort_info) + e_table_sort_info_grouping_get_count (qd->ets->sort_info);
 	gint comp_val = 0;

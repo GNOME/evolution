@@ -302,8 +302,8 @@ cell_toggle_print (ECellView *ecell_view,
 		cairo_save (cr);
 		cairo_translate (cr, 0 , 0);
 		image = gdk_pixbuf_add_alpha (image, TRUE, 255, 255, 255);
-		image_width = (gdouble)gdk_pixbuf_get_width (image);
-		image_height = (gdouble)gdk_pixbuf_get_height (image);
+		image_width = (gdouble) gdk_pixbuf_get_width (image);
+		image_height = (gdouble) gdk_pixbuf_get_height (image);
 		cairo_rectangle (cr, image_width / 7, image_height / 3,
 				image_width - image_width / 4,
 				image_width - image_height / 7);

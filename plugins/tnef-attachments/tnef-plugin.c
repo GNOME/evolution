@@ -103,7 +103,7 @@ org_gnome_format_tnef (gpointer ep, EMFormatHookTarget *t)
 	out = camel_stream_fs_new_with_name (name, O_RDWR|O_CREAT, 0666, NULL);
 	if (out == NULL)
 	    goto fail;
-	content = camel_medium_get_content ((CamelMedium *)t->part);
+	content = camel_medium_get_content ((CamelMedium *) t->part);
 	if (content == NULL)
 		goto fail;
 	if (camel_data_wrapper_decode_to_stream_sync (content, out, NULL, NULL) == -1
@@ -134,7 +134,7 @@ org_gnome_format_tnef (gpointer ep, EMFormatHookTarget *t)
 	camel_data_wrapper_set_mime_type((CamelDataWrapper *)mp, "multipart/mixed");
 	camel_multipart_set_boundary (mp, NULL);
 
-	camel_medium_set_content ((CamelMedium *)mainpart, (CamelDataWrapper *)mp);
+	camel_medium_set_content ((CamelMedium *) mainpart, (CamelDataWrapper *) mp);
 
 	while ((d = readdir (dir))) {
 		CamelMimePart *part;
@@ -159,12 +159,12 @@ org_gnome_format_tnef (gpointer ep, EMFormatHookTarget *t)
 		part = camel_mime_part_new ();
 		camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BINARY);
 
-		camel_medium_set_content ((CamelMedium *)part, content);
+		camel_medium_set_content ((CamelMedium *) part, content);
 		g_object_unref (content);
 
 		type = em_format_snoop_type (part);
 		if (type)
-		    camel_data_wrapper_set_mime_type ((CamelDataWrapper *)part, type);
+		    camel_data_wrapper_set_mime_type ((CamelDataWrapper *) part, type);
 
 		camel_mime_part_set_filename (part, d->d_name);
 
@@ -930,7 +930,7 @@ void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
         filename = NULL;
         if ((filename=MAPIFindUserProp (&(tnef->MapiProperties),
                         PROP_TAG (PT_LONG, 0x8201))) != MAPI_UNDEFINED) {
-            dword_ptr = (DWORD*)filename->data;
+            dword_ptr = (DWORD*) filename->data;
             fprintf(fptr, "SEQUENCE:%i\n", (gint) *dword_ptr);
         }
         if ((filename=MAPIFindProperty (&(tnef->MapiProperties),
@@ -1092,7 +1092,7 @@ void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
         filename = NULL;
         if ((filename=MAPIFindUserProp (&(tnef->MapiProperties),
                         PROP_TAG (PT_BOOLEAN, 0x8506))) != MAPI_UNDEFINED) {
-            dword_ptr = (DWORD*)filename->data;
+            dword_ptr = (DWORD*) filename->data;
             fprintf(fptr, "CLASS:" );
             if (*dword_ptr == 1) {
                 fprintf(fptr,"PRIVATE\n");
@@ -1226,7 +1226,7 @@ void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
         filename = MAPIFindUserProp (&(tnef->MapiProperties), \
                         PROP_TAG (PT_BOOLEAN, 0x8506));
         if (filename != MAPI_UNDEFINED) {
-            dword_ptr = (DWORD*)filename->data;
+            dword_ptr = (DWORD*) filename->data;
             fprintf(fptr, "CLASS:" );
             if (*dword_ptr == 1) {
                 fprintf(fptr,"PRIVATE\n");

@@ -330,7 +330,7 @@ ea_week_view_ref_child (AtkObject *accessible, gint index)
 
 #ifdef ACC_DEBUG
 	printf ("EvoAcc: ea_week_view_ref_child [%d]=%p\n",
-		index, (gpointer)atk_object);
+		index, (gpointer) atk_object);
 #endif
 	return atk_object;
 }

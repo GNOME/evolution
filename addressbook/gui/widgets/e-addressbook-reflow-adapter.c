@@ -139,7 +139,7 @@ addressbook_height (EReflowModel *erm, gint i, GnomeCanvasGroup *parent)
 	EContactField field;
 	gint count = 0;
 	gchar *string;
-	EContact *contact = (EContact*)e_addressbook_model_contact_at (priv->model, i);
+	EContact *contact = (EContact*) e_addressbook_model_contact_at (priv->model, i);
 	PangoLayout *layout;
 	gint height;
 
@@ -227,8 +227,8 @@ addressbook_compare (EReflowModel *erm, gint n1, gint n2, GHashTable *cmp_cache)
 		return n1-n2;
 	}
 	else {
-		contact1 = (EContact*)e_addressbook_model_contact_at (priv->model, n1);
-		contact2 = (EContact*)e_addressbook_model_contact_at (priv->model, n2);
+		contact1 = (EContact*) e_addressbook_model_contact_at (priv->model, n1);
+		contact2 = (EContact*) e_addressbook_model_contact_at (priv->model, n2);
 
 		if (contact1 && contact2) {
 			const gchar *file_as1, *file_as2;

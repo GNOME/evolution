@@ -140,11 +140,11 @@ cert_trust_dialog_show (ECert *cert)
 
 	icert = e_cert_get_internal_cert (ctd_data->cacert);
 	if (e_cert_trust_has_trusted_ca (icert->trust, FALSE, TRUE, FALSE))
-		gtk_label_set_text ((GtkLabel *)ctd_data->label,
+		gtk_label_set_text ((GtkLabel *) ctd_data->label,
 				   _("Because you trust the certificate authority that issued this certificate, "
 				     "then you trust the authenticity of this certificate unless otherwise indicated here"));
 	else
-		gtk_label_set_text ((GtkLabel *)ctd_data->label,
+		gtk_label_set_text ((GtkLabel *) ctd_data->label,
 				   _("Because you do not trust the certificate authority that issued this certificate, "
 				     "then you do not trust the authenticity of this certificate unless otherwise indicated here"));
 

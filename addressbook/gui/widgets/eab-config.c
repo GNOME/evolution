@@ -47,7 +47,7 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 	if (ec->target == t) {
 		switch (t->type) {
 		case EAB_CONFIG_TARGET_SOURCE: {
-			EABConfigTargetSource *s = (EABConfigTargetSource *)t;
+			EABConfigTargetSource *s = (EABConfigTargetSource *) t;
 
 			if (p->source_changed_id) {
 				g_signal_handler_disconnect (s->source, p->source_changed_id);
@@ -59,7 +59,7 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 
 	switch (t->type) {
 	case EAB_CONFIG_TARGET_SOURCE: {
-		EABConfigTargetSource *s = (EABConfigTargetSource *)t;
+		EABConfigTargetSource *s = (EABConfigTargetSource *) t;
 
 		if (s->source)
 			g_object_unref (s->source);
@@ -80,12 +80,12 @@ ecp_set_target (EConfig *ec, EConfigTarget *t)
 {
 	struct _EABConfigPrivate *p = EAB_CONFIG (ec)->priv;
 
-	((EConfigClass *)ecp_parent_class)->set_target (ec, t);
+	((EConfigClass *) ecp_parent_class)->set_target (ec, t);
 
 	if (t) {
 		switch (t->type) {
 		case EAB_CONFIG_TARGET_SOURCE: {
-			EABConfigTargetSource *s = (EABConfigTargetSource *)t;
+			EABConfigTargetSource *s = (EABConfigTargetSource *) t;
 
 			p->source_changed_id = g_signal_connect (
 				s->source, "changed",
@@ -98,8 +98,8 @@ ecp_set_target (EConfig *ec, EConfigTarget *t)
 static void
 ecp_class_init (GObjectClass *klass)
 {
-	((EConfigClass *)klass)->set_target = ecp_set_target;
-	((EConfigClass *)klass)->target_free = ecp_target_free;
+	((EConfigClass *) klass)->set_target = ecp_set_target;
+	((EConfigClass *) klass)->target_free = ecp_target_free;
 
 	g_type_class_add_private (klass, sizeof (struct _EABConfigPrivate));
 }

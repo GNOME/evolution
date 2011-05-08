@@ -104,7 +104,7 @@ mail_capplet_shell_finalize (GObject *object)
 static void
 ms_ctrl_w_pressed (MailCappletShell *shell)
 {
-	mail_view_close_view ((MailView *)shell->view);
+	mail_view_close_view ((MailView *) shell->view);
 }
 
 static void
@@ -177,7 +177,7 @@ mail_capplet_shell_quit (MailCappletShell *shell)
 	if (priv->main_loop)
 		gtk_main_quit ();
 	else
-		gtk_widget_hide ((GtkWidget *)shell);
+		gtk_widget_hide ((GtkWidget *) shell);
 }
 
 static void
@@ -208,28 +208,28 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 	gtk_window_set_title ((GtkWindow *)shell, _("Evolution account assistant"));
 	ms_init_style (style);
 	g_signal_connect ((GObject *)shell, "delete-event", G_CALLBACK (ms_delete_event), NULL);
-	gtk_window_set_type_hint ((GtkWindow *)shell, GDK_WINDOW_TYPE_HINT_NORMAL);
+	gtk_window_set_type_hint ((GtkWindow *) shell, GDK_WINDOW_TYPE_HINT_NORMAL);
 	if (g_getenv("ANJAL_NO_MAX") == NULL && FALSE) {
-		 GdkScreen *scr = gtk_widget_get_screen ((GtkWidget *)shell);
-		 gtk_window_set_default_size ((GtkWindow *)shell, gdk_screen_get_width (scr), gdk_screen_get_height (scr));
-		 gtk_window_set_decorated ((GtkWindow *)shell, FALSE);
+		 GdkScreen *scr = gtk_widget_get_screen ((GtkWidget *) shell);
+		 gtk_window_set_default_size ((GtkWindow *) shell, gdk_screen_get_width (scr), gdk_screen_get_height (scr));
+		 gtk_window_set_decorated ((GtkWindow *) shell, FALSE);
 	} else  {
-		gtk_window_set_default_size ((GtkWindow *)shell, 1024, 500);
+		gtk_window_set_default_size ((GtkWindow *) shell, 1024, 500);
 	}
 
 	priv->main_loop = main_loop;
 	priv->box = (GtkWidget *) gtk_vbox_new (FALSE, 0);
-	gtk_widget_show ((GtkWidget *)priv->box);
+	gtk_widget_show ((GtkWidget *) priv->box);
 
 	if (!socket_id) {
-		gtk_container_add ((GtkContainer *)shell, priv->box);
+		gtk_container_add ((GtkContainer *) shell, priv->box);
 	} else {
 		GtkWidget *plug = gtk_plug_new (socket_id);
 
-		gtk_container_add ((GtkContainer *)plug, priv->box);
+		gtk_container_add ((GtkContainer *) plug, priv->box);
 		g_signal_connect (plug, "destroy", G_CALLBACK (gtk_main_quit), NULL);
 		gtk_widget_show (plug);
-		gtk_widget_hide ((GtkWidget *)shell);
+		gtk_widget_hide ((GtkWidget *) shell);
 
 	}
 
@@ -242,8 +242,8 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 
 	shell->view = mail_view_new ();
 	shell->view->session = shell->priv->session;
-	gtk_widget_show ((GtkWidget *)shell->view);
-	gtk_box_pack_end ((GtkBox *)priv->box, (GtkWidget *)shell->view, TRUE, TRUE, 2);
+	gtk_widget_show ((GtkWidget *) shell->view);
+	gtk_box_pack_end ((GtkBox *) priv->box, (GtkWidget *) shell->view, TRUE, TRUE, 2);
 
 	mail_config_init (shell->priv->session);
 	mail_msg_init ();
@@ -254,12 +254,12 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 	if (just_druid) {
 		MailViewChild *mc;
 
-		gtk_notebook_set_show_tabs ((GtkNotebook *)shell->view, FALSE);
-		mc = mail_view_add_page ((MailView *)shell->view, MAIL_VIEW_ACCOUNT, NULL);
+		gtk_notebook_set_show_tabs ((GtkNotebook *) shell->view, FALSE);
+		mc = mail_view_add_page ((MailView *) shell->view, MAIL_VIEW_ACCOUNT, NULL);
 		g_signal_connect (mc, "view-close", G_CALLBACK(ms_show_post_druid), shell);
 		setup_abooks ();
 	} else
-		shell->priv->settings_view = mail_view_add_page ((MailView *)shell->view, MAIL_VIEW_SETTINGS, NULL);
+		shell->priv->settings_view = mail_view_add_page ((MailView *) shell->view, MAIL_VIEW_SETTINGS, NULL);
 
 }
 

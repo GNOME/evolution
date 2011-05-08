@@ -441,8 +441,8 @@ setup_fields (ETableConfig *config)
 {
 	gint i;
 
-	e_table_model_freeze ((ETableModel *)config->available_model);
-	e_table_model_freeze ((ETableModel *)config->shown_model);
+	e_table_model_freeze ((ETableModel *) config->available_model);
+	e_table_model_freeze ((ETableModel *) config->shown_model);
 	e_table_without_show_all (config->available_model);
 	e_table_subset_variable_clear (config->shown_model);
 
@@ -457,8 +457,8 @@ setup_fields (ETableConfig *config)
 			e_table_without_hide (config->available_model, GINT_TO_POINTER (idx));
 		}
 	}
-	e_table_model_thaw ((ETableModel *)config->available_model);
-	e_table_model_thaw ((ETableModel *)config->shown_model);
+	e_table_model_thaw ((ETableModel *) config->available_model);
+	e_table_model_thaw ((ETableModel *) config->shown_model);
 }
 
 static void

@@ -791,7 +791,7 @@ mail_session_lookup_addressbook (CamelSession *session,
 		return FALSE;
 
 	addr = camel_internet_address_new ();
-	camel_address_decode ((CamelAddress *)addr, name);
+	camel_address_decode ((CamelAddress *) addr, name);
 	ret = em_utils_in_addressbook (
 		addr, mail_config_get_lookup_book_local_only ());
 	g_object_unref (addr);

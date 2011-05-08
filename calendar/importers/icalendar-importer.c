@@ -206,10 +206,10 @@ static void
 button_toggled_cb (GtkWidget *widget, struct _selector_data *sd)
 {
 	g_datalist_set_data_full(&sd->target->data, "primary-source",
-				 g_object_ref (e_source_selector_get_primary_selection ((ESourceSelector *)sd->selector)),
+				 g_object_ref (e_source_selector_get_primary_selection ((ESourceSelector *) sd->selector)),
 				 g_object_unref);
 	g_datalist_set_data(&sd->target->data, "primary-type", GINT_TO_POINTER(import_type_map[sd->page]));
-	gtk_notebook_set_current_page ((GtkNotebook *)sd->notebook, sd->page);
+	gtk_notebook_set_current_page ((GtkNotebook *) sd->notebook, sd->page);
 }
 
 static void
@@ -252,8 +252,8 @@ ivcal_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 		selector = e_source_selector_new (source_list);
 		e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
 		scrolled = gtk_scrolled_window_new (NULL, NULL);
-		gtk_scrolled_window_set_policy ((GtkScrolledWindow *)scrolled, GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-		gtk_container_add ((GtkContainer *)scrolled, selector);
+		gtk_scrolled_window_set_policy ((GtkScrolledWindow *) scrolled, GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+		gtk_container_add ((GtkContainer *) scrolled, selector);
 		gtk_notebook_append_page (GTK_NOTEBOOK (nb), scrolled, NULL);
 
 		/* FIXME What if no sources? */
@@ -283,7 +283,7 @@ ivcal_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 		g_object_unref (source_list);
 	}
 	if (first)
-		gtk_toggle_button_set_active ((GtkToggleButton *)first, TRUE);
+		gtk_toggle_button_set_active ((GtkToggleButton *) first, TRUE);
 
 	gtk_widget_show_all (vbox);
 
@@ -382,7 +382,7 @@ ical_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (target->type != E_IMPORT_TARGET_URI)
 		return FALSE;
 
-	s = (EImportTargetURI *)target;
+	s = (EImportTargetURI *) target;
 	if (s->uri_src == NULL)
 		return TRUE;
 
@@ -419,7 +419,7 @@ ical_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	gchar *filename;
 	gchar *contents;
 	icalcomponent *icalcomp;
-	EImportTargetURI *s = (EImportTargetURI *)target;
+	EImportTargetURI *s = (EImportTargetURI *) target;
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	if (!filename) {
@@ -447,7 +447,7 @@ static GtkWidget *
 ivcal_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *preview;
-	EImportTargetURI *s = (EImportTargetURI *)target;
+	EImportTargetURI *s = (EImportTargetURI *) target;
 	gchar *filename;
 	icalcomponent *icalcomp;
 	gchar *contents;
@@ -512,7 +512,7 @@ vcal_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (target->type != E_IMPORT_TARGET_URI)
 		return FALSE;
 
-	s = (EImportTargetURI *)target;
+	s = (EImportTargetURI *) target;
 	if (s->uri_src == NULL)
 		return TRUE;
 
@@ -603,7 +603,7 @@ vcal_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	gchar *filename;
 	icalcomponent *icalcomp;
-	EImportTargetURI *s = (EImportTargetURI *)target;
+	EImportTargetURI *s = (EImportTargetURI *) target;
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	if (!filename) {
@@ -623,7 +623,7 @@ static GtkWidget *
 vcal_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *preview;
-	EImportTargetURI *s = (EImportTargetURI *)target;
+	EImportTargetURI *s = (EImportTargetURI *) target;
 	gchar *filename;
 	icalcomponent *icalcomp;
 
@@ -821,12 +821,12 @@ gnome_calendar_getwidget (EImport *ei, EImportTarget *target, EImportImporter *i
 	hbox = gtk_hbox_new (FALSE, 2);
 
 	w = gtk_check_button_new_with_label (_("Calendar Events"));
-	gtk_toggle_button_set_active ((GtkToggleButton *)w, !done_cal);
+	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_cal);
 	g_signal_connect (w, "toggled", G_CALLBACK (calendar_toggle_cb), target);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 
 	w = gtk_check_button_new_with_label (_("Tasks"));
-	gtk_toggle_button_set_active ((GtkToggleButton *)w, !done_tasks);
+	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_tasks);
 	g_signal_connect (w, "toggled", G_CALLBACK (tasks_toggle_cb), target);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 

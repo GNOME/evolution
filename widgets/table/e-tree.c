@@ -775,8 +775,8 @@ tree_canvas_reflow_idle (ETree *e_tree)
 		e_tree->priv->item,
 		"height", &height, "width", &width, NULL);
 
-	height = MAX ((gint)height, allocation.height);
-	width = MAX ((gint)width, allocation.width);
+	height = MAX ((gint) height, allocation.height);
+	width = MAX ((gint) width, allocation.width);
 
 	/* I have no idea why this needs to be -1, but it works. */
 	gnome_canvas_get_scroll_region (
@@ -815,7 +815,7 @@ tree_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	g_object_get (e_tree->priv->item,
 		      "height", &height,
 		      NULL);
-	height = MAX ((gint)height, alloc->height);
+	height = MAX ((gint) height, alloc->height);
 
 	g_object_set (e_tree->priv->item,
 		      "width", width,

@@ -243,7 +243,7 @@ e_table_state_save_to_string    (ETableState *state)
 	xmlDocDumpMemory (doc, &string, &length);
 	xmlFreeDoc (doc);
 
-	ret_val = g_strdup ((gchar *)string);
+	ret_val = g_strdup ((gchar *) string);
 	xmlFree (string);
 	return ret_val;
 }

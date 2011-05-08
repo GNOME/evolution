@@ -130,7 +130,7 @@ email_address_extract (const guchar **cur, gchar **out, const guchar *linestart)
 	if (dot > end)
 		return NULL;
 
-	addr = g_strndup ((gchar *)start, end - start);
+	addr = g_strndup ((gchar *) start, end - start);
 	*out -= *cur - start;
 	*cur = end;
 
@@ -158,7 +158,7 @@ is_citation (const guchar *c, gboolean saw_citation)
 		return TRUE;
 
 	/* Same if the next line is */
-	p = (const guchar *)strchr ((const gchar *)c, '\n');
+	p = (const guchar *) strchr ((const gchar *) c, '\n');
 	if (p && *++p == '>')
 		return TRUE;
 
@@ -233,7 +233,7 @@ e_text_to_html_full (const gchar *input, guint flags, guint32 color)
 
 	col = 0;
 
-	for (cur = linestart = (const guchar *)input; cur && *cur; cur = next) {
+	for (cur = linestart = (const guchar *) input; cur && *cur; cur = next) {
 		gunichar u;
 
 		if (flags & E_TEXT_TO_HTML_MARK_CITATION && col == 0) {
@@ -264,7 +264,7 @@ e_text_to_html_full (const gchar *input, guint flags, guint32 color)
 			out += sprintf (out, "&gt; ");
 		}
 
-		u = g_utf8_get_char ((gchar *)cur);
+		u = g_utf8_get_char ((gchar *) cur);
 		if (g_unichar_isalpha (u) &&
 		    (flags & E_TEXT_TO_HTML_CONVERT_URLS)) {
 			gchar *tmpurl = NULL, *refurl = NULL, *dispurl = NULL;
@@ -310,7 +310,7 @@ e_text_to_html_full (const gchar *input, guint flags, guint32 color)
 
 			if (!*cur)
 				break;
-			u = g_utf8_get_char ((gchar *)cur);
+			u = g_utf8_get_char ((gchar *) cur);
 		}
 
 		if (u == '@' && (flags & E_TEXT_TO_HTML_CONVERT_ADDRESSES)) {
@@ -330,7 +330,7 @@ e_text_to_html_full (const gchar *input, guint flags, guint32 color)
 
 				if (!*cur)
 					break;
-				u = g_utf8_get_char ((gchar *)cur);
+				u = g_utf8_get_char ((gchar *) cur);
 			}
 		}
 
@@ -341,7 +341,7 @@ e_text_to_html_full (const gchar *input, guint flags, guint32 color)
 			u = *cur;
 			next = cur + 1;
 		} else
-			next = (const guchar *)g_utf8_next_char (cur);
+			next = (const guchar *) g_utf8_next_char (cur);
 
 		out = check_size (&buffer, &buffer_size, out, 10);
 
@@ -396,7 +396,7 @@ e_text_to_html_full (const gchar *input, guint flags, guint32 color)
 
 		case ' ':
 			if (flags & E_TEXT_TO_HTML_CONVERT_SPACES) {
-				if (cur == (const guchar *)input ||
+				if (cur == (const guchar *) input ||
 				    *(cur + 1) == ' ' || *(cur + 1) == '\t' ||
 				    *(cur - 1) == '\n') {
 					strcpy (out, "&nbsp;");

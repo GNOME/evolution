@@ -240,7 +240,7 @@ gconf_signatures_changed (GConfClient *client,
 static gpointer
 copy_func (gconstpointer data, gpointer closure)
 {
-	GObject *object = (GObject *)data;
+	GObject *object = (GObject *) data;
 
 	g_object_ref (object);
 

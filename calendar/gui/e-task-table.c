@@ -718,7 +718,7 @@ task_table_query_tooltip (GtkWidget *widget,
 		comp_data->client, comp_data->icalcomp, &free_text);
 	if (!(str && *str)) {
 		if (free_text)
-			g_free ((gchar *)str);
+			g_free ((gchar *) str);
 		free_text = FALSE;
 		str = _("* No Summary *");
 	}
@@ -737,7 +737,7 @@ task_table_query_tooltip (GtkWidget *widget,
 	g_free (tmp);
 
 	if (free_text)
-		g_free ((gchar *)str);
+		g_free ((gchar *) str);
 	free_text = FALSE;
 
 	w = gtk_event_box_new ();

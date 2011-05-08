@@ -96,7 +96,7 @@ org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t)
 
 	/* Set presend_check_status for the composer*/
 	if (check_for_attachment_clues (filtered_str) && !check_for_attachment (t->composer))
-		if (!ask_for_missing_attachment (ep, (GtkWindow *)t->composer))
+		if (!ask_for_missing_attachment (ep, (GtkWindow *) t->composer))
 			g_object_set_data ((GObject *) t->composer, "presend_check_status", GINT_TO_POINTER(1));
 
 	g_free (filtered_str);

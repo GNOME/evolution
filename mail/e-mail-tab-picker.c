@@ -123,12 +123,12 @@ e_mail_tab_picker_drop (MxDroppable *droppable,
 	if (!E_MAIL_IS_TAB (draggable))
 		return;
 
-	if (clutter_actor_get_parent (CLUTTER_ACTOR (draggable)) != (ClutterActor *)picker)
+	if (clutter_actor_get_parent (CLUTTER_ACTOR (draggable)) != (ClutterActor *) picker)
 		return;
 
 	/* Get current position and property data structure */
 	t = g_list_find_custom (priv->tabs, draggable, e_mail_tab_picker_find_tab_cb);
-	tab = (EMailTabPickerProps *)t->data;
+	tab = (EMailTabPickerProps *) t->data;
 	if (!tab) {
 		g_warning ("Tab that's parented to a picker not actually in picker");
 		return;
@@ -715,7 +715,7 @@ e_mail_tab_picker_allocate (ClutterActor *actor,
 			(priv->scroll_offset != old_scroll_offset))
 		mx_adjustment_set_value (
 			priv->scroll_adjustment,
-			(gdouble)priv->scroll_offset);
+			(gdouble) priv->scroll_offset);
 
 	/* Allocate for scroll-bar */
 	clutter_actor_allocate (
@@ -873,7 +873,7 @@ e_mail_tab_picker_scroll_value_cb (MxAdjustment *adjustment,
 
 	if ((gint) value != priv->scroll_offset) {
 		priv->keep_current_visible = FALSE;
-		priv->scroll_offset = (gint)value;
+		priv->scroll_offset = (gint) value;
 		clutter_actor_queue_relayout (CLUTTER_ACTOR (picker));
 	}
 }
@@ -924,8 +924,8 @@ e_mail_tab_picker_init (EMailTabPicker *self)
 static gint
 e_mail_tab_picker_find_tab_cb (gconstpointer a, gconstpointer b)
 {
-	EMailTabPickerProps *props = (EMailTabPickerProps *)a;
-	EMailTab *tab = (EMailTab *)b;
+	EMailTabPickerProps *props = (EMailTabPickerProps *) a;
+	EMailTab *tab = (EMailTab *) b;
 
 	return (props->tab == tab) ? 0 : -1;
 }
@@ -1136,7 +1136,7 @@ e_mail_tab_picker_set_current_tab (EMailTabPicker *picker, gint tab_no)
 	if (tab_no < 0)
 		tab_no = priv->n_tabs + tab_no;
 
-	props = g_list_nth_data (priv->tabs, (guint)tab_no);
+	props = g_list_nth_data (priv->tabs, (guint) tab_no);
 
 	if (props) {
 		e_mail_tab_picker_tab_clicked_cb (props->tab, picker);

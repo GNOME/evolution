@@ -100,7 +100,7 @@ inline_filter_add_part (EMInlineFilter *emif, const gchar *data, gint len)
 	else
 		encoding = emif_types[emif->state].encoding;
 
-	g_byte_array_append (emif->data, (guchar *)data, len);
+	g_byte_array_append (emif->data, (guchar *) data, len);
 	/* check the part will actually have content */
 	if (emif->data->len <= 0) {
 		return;
@@ -165,7 +165,7 @@ inline_filter_add_part (EMInlineFilter *emif, const gchar *data, gint len)
 	dw->encoding = encoding;
 
 	part = camel_mime_part_new ();
-	camel_medium_set_content ((CamelMedium *)part, dw);
+	camel_medium_set_content ((CamelMedium *) part, dw);
 	camel_mime_part_set_encoding (part, encoding);
 	g_object_unref (dw);
 
@@ -191,7 +191,7 @@ inline_filter_add_part (EMInlineFilter *emif, const gchar *data, gint len)
 static gint
 inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 {
-	EMInlineFilter *emif = (EMInlineFilter *)f;
+	EMInlineFilter *emif = (EMInlineFilter *) f;
 	gchar *inptr = in, *inend = in+len;
 	gchar *data_start = in;
 	gchar *start = in;
@@ -297,9 +297,9 @@ inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 	} else if (start > data_start) {
 		/* backup the last line, in case the tag is divided within buffers */
 		camel_mime_filter_backup (f, start, inend - start);
-		g_byte_array_append (emif->data, (guchar *)data_start, start - data_start);
+		g_byte_array_append (emif->data, (guchar *) data_start, start - data_start);
 	} else {
-		g_byte_array_append (emif->data, (guchar *)data_start, inend - data_start);
+		g_byte_array_append (emif->data, (guchar *) data_start, inend - data_start);
 	}
 
 	return 0;
@@ -330,7 +330,7 @@ inline_filter_filter (CamelMimeFilter *filter,
                       gsize *outlen,
                       gsize *outprespace)
 {
-	inline_filter_scan (filter, (gchar *)in, len, FALSE);
+	inline_filter_scan (filter, (gchar *) in, len, FALSE);
 
 	*out = (gchar *)in;
 	*outlen = len;
@@ -346,7 +346,7 @@ inline_filter_complete (CamelMimeFilter *filter,
                         gsize *outlen,
                         gsize *outprespace)
 {
-	inline_filter_scan (filter, (gchar *)in, len, TRUE);
+	inline_filter_scan (filter, (gchar *) in, len, TRUE);
 
 	*out = (gchar *)in;
 	*outlen = len;

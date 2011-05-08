@@ -149,7 +149,7 @@ ea_calendar_helpers_get_cal_view_event_from (GnomeCanvasItem *canvas_item)
 		week_view_event = &g_array_index (week_view->events, EWeekViewEvent,
 						  event_num);
 
-		cal_view_event = (ECalendarViewEvent *)week_view_event;
+		cal_view_event = (ECalendarViewEvent *) week_view_event;
 	}
 	else {
 		g_return_val_if_reached (NULL);

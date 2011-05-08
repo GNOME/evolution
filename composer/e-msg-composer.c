@@ -192,7 +192,7 @@ emcu_part_to_html (CamelMimePart *part,
 	mem = (CamelStreamMem *) camel_stream_mem_new ();
 	camel_stream_mem_set_byte_array (mem, buf);
 
-	emfq = em_format_quote_new (NULL, (CamelStream *)mem, EM_FORMAT_QUOTE_KEEP_SIG);
+	emfq = em_format_quote_new (NULL, (CamelStream *) mem, EM_FORMAT_QUOTE_KEEP_SIG);
 	((EMFormat *) emfq)->composer = TRUE;
 	if (source) {
 		/* Copy over things we can, other things are internal.
@@ -211,7 +211,7 @@ emcu_part_to_html (CamelMimePart *part,
 	camel_stream_write((CamelStream *) mem, "", 1, cancellable, NULL);
 	g_object_unref (mem);
 
-	text = (gchar *)buf->data;
+	text = (gchar *) buf->data;
 	if (len)
 		*len = buf->len-1;
 	g_byte_array_free (buf, FALSE);
@@ -225,12 +225,12 @@ emcu_remove_xevolution_headers (CamelMimeMessage *message)
 {
 	struct _camel_header_raw *scan, *list = NULL;
 
-	for (scan = ((CamelMimePart *)message)->headers;scan;scan=scan->next)
+	for (scan = ((CamelMimePart *) message)->headers;scan;scan=scan->next)
 		if (!strncmp(scan->name, "X-Evolution", 11))
 			camel_header_raw_append (&list, scan->name, scan->value, scan->offset);
 
 	for (scan=list;scan;scan=scan->next)
-		camel_medium_remove_header ((CamelMedium *)message, scan->name);
+		camel_medium_remove_header ((CamelMedium *) message, scan->name);
 
 	return list;
 }
@@ -355,7 +355,7 @@ best_charset (GByteArray *buf,
 		return charset;
 
 	/* Try to find something that will work */
-	if (!(charset = (gchar *) camel_charset_best ((const gchar *)buf->data, buf->len))) {
+	if (!(charset = (gchar *) camel_charset_best ((const gchar *) buf->data, buf->len))) {
 		*encoding = CAMEL_TRANSFER_ENCODING_7BIT;
 		return NULL;
 	}
@@ -3154,7 +3154,7 @@ e_msg_composer_new_with_message (EShell *shell,
 
 	if (postto) {
 		e_composer_header_table_set_post_to_list (table, postto);
-		g_list_foreach (postto, (GFunc)g_free, NULL);
+		g_list_foreach (postto, (GFunc) g_free, NULL);
 		g_list_free (postto);
 		postto = NULL;
 	}

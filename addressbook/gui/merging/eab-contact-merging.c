@@ -247,8 +247,8 @@ mergeit (EContactMergingLookup *lookup)
 	/*we match all the string fields of the already existing contact and the new contact.*/
 	for (field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1); field++) {
 		dropdown_data *data = NULL;
-		string = (gchar *)e_contact_get_const (lookup->contact, field);
-		string1 = (gchar *)e_contact_get_const (lookup->match, field);
+		string = (gchar *) e_contact_get_const (lookup->contact, field);
+		string1 = (gchar *) e_contact_get_const (lookup->match, field);
 
 		/*the field must exist in the new as well as the duplicate contact*/
 		if (string && *string) {
@@ -258,7 +258,7 @@ mergeit (EContactMergingLookup *lookup)
 			    || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email < 4)) {
 				EContactField use_field = field;
 				row++;
-				str = (gchar *)e_contact_get_const (lookup->contact, use_field);
+				str = (gchar *) e_contact_get_const (lookup->contact, use_field);
 				switch (num_of_email)
 				{
 				case 0:
@@ -294,8 +294,8 @@ mergeit (EContactMergingLookup *lookup)
 				}
 				label = gtk_label_new (_("Email"));
 				hbox = gtk_hbox_new (FALSE, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*)label, FALSE, FALSE, 0);
-				gtk_table_attach_defaults (table, (GtkWidget *)hbox, 0, 1, row, row + 1);
+				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*) label, FALSE, FALSE, 0);
+				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, row, row + 1);
 
 				dropdown = gtk_combo_box_text_new ();
 				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), string);
@@ -311,22 +311,22 @@ mergeit (EContactMergingLookup *lookup)
 				g_signal_connect (dropdown, "changed", G_CALLBACK(dropdown_changed), data);
 
 				hbox = gtk_hbox_new (FALSE, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*)dropdown, FALSE, FALSE, 0);
-				gtk_table_attach_defaults (table, (GtkWidget *)hbox, 1, 2, row, row + 1);
-				gtk_widget_show ((GtkWidget *)dropdown);
+				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*) dropdown, FALSE, FALSE, 0);
+				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 1, 2, row, row + 1);
+				gtk_widget_show ((GtkWidget *) dropdown);
 				continue;
 			}
 			if (((field == E_CONTACT_FULL_NAME) && (!g_ascii_strcasecmp (string, string1)))) {
 				row++;
 				label = gtk_label_new (e_contact_pretty_name (field));
 				hbox = gtk_hbox_new (FALSE, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*)label, FALSE, FALSE, 0);
-				gtk_table_attach_defaults (table, (GtkWidget *)hbox, 0, 1, row, row + 1);
+				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*) label, FALSE, FALSE, 0);
+				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, row, row + 1);
 
 				label = gtk_label_new (string);
 				hbox = gtk_hbox_new (FALSE, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*)label, FALSE, FALSE, 0);
-				gtk_table_attach_defaults (table, (GtkWidget*)hbox, 1, 2, row, row + 1);
+				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*) label, FALSE, FALSE, 0);
+				gtk_table_attach_defaults (table, (GtkWidget*) hbox, 1, 2, row, row + 1);
 				continue;
 			}
 
@@ -335,8 +335,8 @@ mergeit (EContactMergingLookup *lookup)
 				row++;
 				label = gtk_label_new (e_contact_pretty_name (field));
 				hbox = gtk_hbox_new (FALSE, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*)label, FALSE, FALSE, 0);
-				gtk_table_attach_defaults (table, (GtkWidget *)hbox, 0, 1, row, row + 1);
+				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*) label, FALSE, FALSE, 0);
+				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, row, row + 1);
 				data = g_new0 (dropdown_data, 1);
 				dropdown = gtk_combo_box_text_new ();
 				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), string);
@@ -352,13 +352,13 @@ mergeit (EContactMergingLookup *lookup)
 				data->match = lookup->match;
 
 				if (field == E_CONTACT_NICKNAME || field == E_CONTACT_GIVEN_NAME)
-					gtk_widget_set_sensitive ((GtkWidget *)dropdown, FALSE);
+					gtk_widget_set_sensitive ((GtkWidget *) dropdown, FALSE);
 
 				g_signal_connect (dropdown, "changed", G_CALLBACK(dropdown_changed), data);
 				hbox = gtk_hbox_new (FALSE, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*)dropdown, FALSE, FALSE, 0);
-				gtk_table_attach_defaults (table, (GtkWidget *)hbox, 1, 2, row, row + 1);
-				gtk_widget_show_all ((GtkWidget *)dropdown);
+				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*) dropdown, FALSE, FALSE, 0);
+				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 1, 2, row, row + 1);
+				gtk_widget_show_all ((GtkWidget *) dropdown);
 			}
 		}
 	}
@@ -368,7 +368,7 @@ mergeit (EContactMergingLookup *lookup)
 	gtk_box_pack_start (GTK_BOX (content_area), GTK_WIDGET (scrolled_window), TRUE, TRUE, 0);
 	gtk_widget_show (scrolled_window);
 	g_signal_connect (dialog, "map-event", G_CALLBACK (dialog_map), table);
-	gtk_widget_show_all ((GtkWidget *)table);
+	gtk_widget_show_all ((GtkWidget *) table);
 	result = gtk_dialog_run (dialog);
 
 	switch (result)
@@ -403,7 +403,7 @@ check_if_same (EContact *contact, EContact *match)
 
 		if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2
 		     || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email<4)) {
-			str = (gchar *)e_contact_get_const (contact, field);
+			str = (gchar *) e_contact_get_const (contact, field);
 			switch (num_of_email)
 			{
 			case 0:
@@ -423,8 +423,8 @@ check_if_same (EContact *contact, EContact *match)
 			}
 		}
 		else {
-			string = (gchar *)e_contact_get_const (contact, field);
-			string1 = (gchar *)e_contact_get_const (match, field);
+			string = (gchar *) e_contact_get_const (contact, field);
+			string1 = (gchar *) e_contact_get_const (match, field);
 			if ((string && *string) && (string1 && *string1) && (g_ascii_strcasecmp (string1,string)))
 				return FALSE;
 			/*if the field entry exist in either of the contacts,we'll have to give the choice and thus merge button should be sensitive*/

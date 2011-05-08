@@ -52,9 +52,9 @@ static void
 emfp_dialog_response (GtkWidget *dialog, gint response, struct _prop_data *prop_data)
 {
 	if (response == GTK_RESPONSE_OK)
-		e_config_commit ((EConfig *)prop_data->config);
+		e_config_commit ((EConfig *) prop_data->config);
 	else
-		e_config_abort ((EConfig *)prop_data->config);
+		e_config_abort ((EConfig *) prop_data->config);
 
 	gtk_widget_destroy (dialog);
 }
@@ -310,11 +310,11 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emfp_items); i++)
 		l = g_slist_prepend (l, &emfp_items[i]);
-	e_config_add_items ((EConfig *)ec, l, NULL, NULL, emfp_free, prop_data);
+	e_config_add_items ((EConfig *) ec, l, NULL, NULL, emfp_free, prop_data);
 
 	target = em_config_target_new_folder (ec, folder, folder_uri);
-	e_config_set_target ((EConfig *)ec, (EConfigTarget *)target);
-	w = e_config_create_widget ((EConfig *)ec);
+	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
+	w = e_config_create_widget ((EConfig *) ec);
 
 	gtk_box_pack_start (GTK_BOX (content_area), w, TRUE, TRUE, 0);
 
@@ -383,5 +383,5 @@ em_folder_properties_show (EShellView *shell_view,
 			session, uri, 0, emfp_dialog_got_folder,
 			shell_view, mail_msg_unordered_push);
 	else
-		emfp_dialog_got_folder ((gchar *)uri, folder, shell_view);
+		emfp_dialog_got_folder ((gchar *) uri, folder, shell_view);
 }

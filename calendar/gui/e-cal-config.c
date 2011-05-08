@@ -48,7 +48,7 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 	if (ec->target == t) {
 		switch (t->type) {
 		case EC_CONFIG_TARGET_SOURCE: {
-			ECalConfigTargetSource *s = (ECalConfigTargetSource *)t;
+			ECalConfigTargetSource *s = (ECalConfigTargetSource *) t;
 
 			if (p->source_changed_id) {
 				g_signal_handler_disconnect (s->source, p->source_changed_id);
@@ -62,12 +62,12 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 
 	switch (t->type) {
 	case EC_CONFIG_TARGET_SOURCE: {
-		ECalConfigTargetSource *s = (ECalConfigTargetSource *)t;
+		ECalConfigTargetSource *s = (ECalConfigTargetSource *) t;
 		if (s->source)
 			g_object_unref (s->source);
 		break; }
 	case EC_CONFIG_TARGET_PREFS: {
-		ECalConfigTargetPrefs *s = (ECalConfigTargetPrefs *)t;
+		ECalConfigTargetPrefs *s = (ECalConfigTargetPrefs *) t;
 		if (s->gconf)
 			g_object_unref (s->gconf);
 		break; }
@@ -87,12 +87,12 @@ ecp_set_target (EConfig *ec, EConfigTarget *t)
 {
 	struct _ECalConfigPrivate *p = E_CAL_CONFIG (ec)->priv;
 
-	((EConfigClass *)ecp_parent_class)->set_target (ec, t);
+	((EConfigClass *) ecp_parent_class)->set_target (ec, t);
 
 	if (t) {
 		switch (t->type) {
 		case EC_CONFIG_TARGET_SOURCE: {
-			ECalConfigTargetSource *s = (ECalConfigTargetSource *)t;
+			ECalConfigTargetSource *s = (ECalConfigTargetSource *) t;
 
 			p->source_changed_id = g_signal_connect (s->source, "changed", G_CALLBACK (ecp_source_changed), ec);
 			break; }
@@ -106,8 +106,8 @@ ecp_set_target (EConfig *ec, EConfigTarget *t)
 static void
 ecp_class_init (GObjectClass *klass)
 {
-	((EConfigClass *)klass)->set_target = ecp_set_target;
-	((EConfigClass *)klass)->target_free = ecp_target_free;
+	((EConfigClass *) klass)->set_target = ecp_set_target;
+	((EConfigClass *) klass)->target_free = ecp_target_free;
 
 	g_type_class_add_private (klass, sizeof (struct _ECalConfigPrivate));
 }

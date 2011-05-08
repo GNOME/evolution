@@ -2398,7 +2398,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 	if (day == -1)
 		return FALSE;
 
-	if (ewv_pass_gdkevent_to_etext (week_view, (GdkEvent *)event))
+	if (ewv_pass_gdkevent_to_etext (week_view, (GdkEvent *) event))
 		return TRUE;
 
 	/* If an event is pressed just return. */
@@ -2472,7 +2472,7 @@ e_week_view_on_button_release (GtkWidget *widget,
 		week_view->selection_drag_pos = E_WEEK_VIEW_DRAG_NONE;
 		gdk_pointer_ungrab (event->time);
 	} else {
-		ewv_pass_gdkevent_to_etext (week_view, (GdkEvent *)event);
+		ewv_pass_gdkevent_to_etext (week_view, (GdkEvent *) event);
 	}
 
 	return FALSE;
@@ -2554,7 +2554,7 @@ e_week_view_on_motion (GtkWidget *widget,
 		return TRUE;
 	}
 
-	ewv_pass_gdkevent_to_etext (week_view, (GdkEvent *)mevent);
+	ewv_pass_gdkevent_to_etext (week_view, (GdkEvent *) mevent);
 
 	return FALSE;
 }
@@ -2980,17 +2980,17 @@ tooltip_event_cb (GnomeCanvasItem *item,
 
 			data = g_malloc (sizeof (ECalendarViewEventData));
 
-			pevent->x = ((GdkEventCrossing *)event)->x_root;
-			pevent->y = ((GdkEventCrossing *)event)->y_root;
+			pevent->x = ((GdkEventCrossing *) event)->x_root;
+			pevent->y = ((GdkEventCrossing *) event)->y_root;
 			pevent->tooltip = NULL;
 
-			data->cal_view = (ECalendarView *)view;
+			data->cal_view = (ECalendarView *) view;
 			data->day = -1;
 			data->event_num = event_num;
 			data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, gint)) tooltip_get_view_event;
 			pevent->timeout = g_timeout_add_full (
 				G_PRIORITY_DEFAULT, 500,
-				(GSourceFunc)e_calendar_view_get_tooltips,
+				(GSourceFunc) e_calendar_view_get_tooltips,
 				data, (GDestroyNotify) g_free);
 			g_object_set_data ((GObject *)view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
 
@@ -2999,8 +2999,8 @@ tooltip_event_cb (GnomeCanvasItem *item,
 			return FALSE;
 		}
 		case GDK_MOTION_NOTIFY:
-			pevent->x = ((GdkEventMotion *)event)->x_root;
-			pevent->y = ((GdkEventMotion *)event)->y_root;
+			pevent->x = ((GdkEventMotion *) event)->x_root;
+			pevent->y = ((GdkEventMotion *) event)->y_root;
 			pevent->tooltip = (GtkWidget *)g_object_get_data (G_OBJECT (view), "tooltip-window");
 
 			if (pevent->tooltip) {
@@ -3152,7 +3152,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		GdkColor color;
 		gboolean free_text = FALSE;
 
-		widget = (GtkWidget *)week_view;
+		widget = (GtkWidget *) week_view;
 
 		color = e_week_view_get_text_color (week_view, event, widget);
 		summary = get_comp_summary (event->comp_data->client, event->comp_data->icalcomp, &free_text);
@@ -3170,7 +3170,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       NULL);
 
 		if (free_text)
-			g_free ((gchar *)summary);
+			g_free ((gchar *) summary);
 
 		if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp)) {
@@ -3630,17 +3630,17 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 		data = g_malloc (sizeof (ECalendarViewEventData));
 
-		pevent->x = ((GdkEventCrossing *)gdkevent)->x_root;
-		pevent->y = ((GdkEventCrossing *)gdkevent)->y_root;
+		pevent->x = ((GdkEventCrossing *) gdkevent)->x_root;
+		pevent->y = ((GdkEventCrossing *) gdkevent)->y_root;
 		pevent->tooltip = NULL;
 
-		data->cal_view = (ECalendarView *)week_view;
+		data->cal_view = (ECalendarView *) week_view;
 		data->day = -1;
 		data->event_num = nevent;
 		data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, gint)) tooltip_get_view_event;
 		pevent->timeout = g_timeout_add_full (
 			G_PRIORITY_DEFAULT, 500,
-			(GSourceFunc)e_calendar_view_get_tooltips,
+			(GSourceFunc) e_calendar_view_get_tooltips,
 			data, (GDestroyNotify) g_free);
 		g_object_set_data ((GObject *)week_view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
 
@@ -3651,8 +3651,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 		return FALSE;
 	case GDK_MOTION_NOTIFY:
-		pevent->x = ((GdkEventMotion *)gdkevent)->x_root;
-		pevent->y = ((GdkEventMotion *)gdkevent)->y_root;
+		pevent->x = ((GdkEventMotion *) gdkevent)->x_root;
+		pevent->y = ((GdkEventMotion *) gdkevent)->y_root;
 		pevent->tooltip = (GtkWidget *)g_object_get_data (G_OBJECT (week_view), "tooltip-window");
 
 		if (pevent->tooltip) {
@@ -4559,7 +4559,7 @@ e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 		}
 	}
 	else if (event->type == GDK_FOCUS_CHANGE) {
-		GdkEventFocus *focus_event = (GdkEventFocus *)event;
+		GdkEventFocus *focus_event = (GdkEventFocus *) event;
 		GdkPixbuf *pixbuf = NULL;
 
 		for (day = 0; day < E_WEEK_VIEW_MAX_WEEKS * 7; day++) {

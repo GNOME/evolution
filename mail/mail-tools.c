@@ -56,7 +56,7 @@ mail_tool_get_local_movemail_path (CamelStore *store,
 	struct stat st;
 
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
-	safe_uid = (guchar *)g_strdup ((const gchar *)uid);
+	safe_uid = (guchar *) g_strdup ((const gchar *) uid);
 	for (c = safe_uid; *c; c++)
 		if (strchr("/:;=|%&#!*^()\\, ", *c) || !isprint((gint) *c))
 			*c = '_';
@@ -179,12 +179,12 @@ mail_tool_remove_xevolution_headers (CamelMimeMessage *message)
 {
 	struct _camel_header_raw *scan, *list = NULL;
 
-	for (scan = ((CamelMimePart *)message)->headers;scan;scan=scan->next)
+	for (scan = ((CamelMimePart *) message)->headers;scan;scan=scan->next)
 		if (!strncmp(scan->name, "X-Evolution", 11))
 			camel_header_raw_append (&list, scan->name, scan->value, scan->offset);
 
 	for (scan=list;scan;scan=scan->next)
-		camel_medium_remove_header ((CamelMedium *)message, scan->name);
+		camel_medium_remove_header ((CamelMedium *) message, scan->name);
 
 	return list;
 }

@@ -75,7 +75,7 @@ e_plugin_lib_enable (EPlugin *epl, gint enable)
 
 	/* Add the categories icons if we don't have them. */
 	for (l = saved_cats; l; l = g_list_next (l)) {
-		if (!strcmp ((const gchar *)l->data, tmp))
+		if (!strcmp ((const gchar *) l->data, tmp))
 			goto exit;
 	}
 

@@ -83,7 +83,7 @@ e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 		gint i;
 		/* iso-8859-1 */
 		ib = (gchar *) string;
-		new = ob = (gchar *)g_new (unsigned char, bytes * 2 + 1);
+		new = ob = (gchar *) g_new (unsigned char, bytes * 2 + 1);
 		for (i = 0; i < (bytes); i++) {
 			ob += e_unichar_to_utf8 (ib[i], ob);
 		}
@@ -135,7 +135,7 @@ e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 		const gchar *u;
 		gunichar uc;
 
-		new = (gchar *)g_new (unsigned char, bytes * 4 + 1);
+		new = (gchar *) g_new (unsigned char, bytes * 4 + 1);
 		u = string;
 		len = 0;
 
@@ -324,15 +324,15 @@ e_xml_get_translated_utf8_string_prop_by_name (const xmlNode *parent,
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {
-		ret_val = g_strdup ((gchar *)prop);
+		ret_val = g_strdup ((gchar *) prop);
 		xmlFree (prop);
 		return ret_val;
 	}
 
 	combined_name = g_strdup_printf("_%s", prop_name);
-	prop = xmlGetProp ((xmlNode *) parent, (guchar *)combined_name);
+	prop = xmlGetProp ((xmlNode *) parent, (guchar *) combined_name);
 	if (prop != NULL) {
-		ret_val = g_strdup (gettext ((gchar *)prop));
+		ret_val = g_strdup (gettext ((gchar *) prop));
 		xmlFree (prop);
 	}
 	g_free (combined_name);

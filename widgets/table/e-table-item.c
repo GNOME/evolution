@@ -2180,7 +2180,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			}
 
 			ecell_view = eti->cell_views[col];
-			button = *(GdkEventButton *)e;
+			button = *(GdkEventButton *) e;
 			button.x = x1;
 			button.y = y1;
 
@@ -2529,7 +2529,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				gint view_col = model_to_view_col (eti, cursor_col);
 
 				if ((view_col >= 0) && (view_col < eti->cols))
-					if (eti_e_cell_event (eti, eti->cell_views[view_col], e, ((GdkEventKey *)e)->time, cursor_col, view_col, model_to_view_row (eti, cursor_row),  E_CELL_CURSOR))
+					if (eti_e_cell_event (eti, eti->cell_views[view_col], e, ((GdkEventKey *) e)->time, cursor_col, view_col, model_to_view_row (eti, cursor_row),  E_CELL_CURSOR))
 						return TRUE;
 			} else
 			return_val = e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
@@ -3273,7 +3273,7 @@ e_table_item_compute_mouse_over (ETableItem        *eti,
 
 	gnome_canvas_item_w2i (GNOME_CANVAS_ITEM (eti), &realx, &realy);
 
-	if (!find_cell (eti, (gint)realx, (gint)realy, col, row, NULL, NULL)) {
+	if (!find_cell (eti, (gint) realx, (gint) realy, col, row, NULL, NULL)) {
 		*row = -1;
 		*col = -1;
 	}

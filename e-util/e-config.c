@@ -93,7 +93,7 @@ G_DEFINE_TYPE (
 static void
 config_finalize (GObject *object)
 {
-	EConfig *emp = (EConfig *)object;
+	EConfig *emp = (EConfig *) object;
 	EConfigPrivate *p = emp->priv;
 	GList *link;
 
@@ -344,8 +344,8 @@ ec_add_static_items (EConfig *config)
 static gint
 ep_cmp (gconstpointer ap, gconstpointer bp)
 {
-	struct _widget_node *a = *((gpointer *)ap);
-	struct _widget_node *b = *((gpointer *)bp);
+	struct _widget_node *a = *((gpointer *) ap);
+	struct _widget_node *b = *((gpointer *) bp);
 
 	return strcmp (a->item->path, b->item->path);
 }
@@ -759,7 +759,7 @@ ec_rebuild (EConfig *emp)
 				} else {
 					wn->frame = page;
 					if (page)
-						gtk_notebook_reorder_child ((GtkNotebook *)book, page, pageno);
+						gtk_notebook_reorder_child ((GtkNotebook *) book, page, pageno);
 				}
 				if (page)
 					sectionno = 1;
@@ -784,9 +784,9 @@ ec_rebuild (EConfig *emp)
 					w = gtk_label_new_with_mnemonic (translated_label);
 					gtk_widget_show (w);
 					page = gtk_vbox_new (FALSE, 12);
-					gtk_container_set_border_width ((GtkContainer *)page, 12);
+					gtk_container_set_border_width ((GtkContainer *) page, 12);
 					gtk_widget_show (page);
-					gtk_notebook_insert_page ((GtkNotebook *)book, page, w, pageno);
+					gtk_notebook_insert_page ((GtkNotebook *) book, page, w, pageno);
 					gtk_container_child_set (GTK_CONTAINER (book), page, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
 					wn->frame = page;
 				}
@@ -879,8 +879,8 @@ ec_rebuild (EConfig *emp)
 					section = gtk_vbox_new (FALSE, 6);
 				else {
 					section = gtk_table_new (1, 1, FALSE);
-					gtk_table_set_col_spacings ((GtkTable *)section, 6);
-					gtk_table_set_row_spacings ((GtkTable *)section, 6);
+					gtk_table_set_col_spacings ((GtkTable *) section, 6);
+					gtk_table_set_row_spacings ((GtkTable *) section, 6);
 				}
 
 				frame = g_object_new (gtk_frame_get_type (),
@@ -892,7 +892,7 @@ ec_rebuild (EConfig *emp)
 									   "child", section, NULL),
 						     NULL);
 				gtk_widget_show_all (frame);
-				gtk_box_pack_start ((GtkBox *)page, frame, FALSE, FALSE, 0);
+				gtk_box_pack_start ((GtkBox *) page, frame, FALSE, FALSE, 0);
 				wn->frame = frame;
 			}
 		nopage:
@@ -986,9 +986,9 @@ ec_rebuild (EConfig *emp)
 
 	if (book) {
 		/* make this depend on flags?? */
-		if (gtk_notebook_get_n_pages ((GtkNotebook *)book) == 1) {
-			gtk_notebook_set_show_tabs ((GtkNotebook *)book, FALSE);
-			gtk_notebook_set_show_border ((GtkNotebook *)book, FALSE);
+		if (gtk_notebook_get_n_pages ((GtkNotebook *) book) == 1) {
+			gtk_notebook_set_show_tabs ((GtkNotebook *) book, FALSE);
+			gtk_notebook_set_show_border ((GtkNotebook *) book, FALSE);
 		}
 	}
 
@@ -1019,7 +1019,7 @@ void
 e_config_set_target (EConfig *emp, EConfigTarget *target)
 {
 	if (emp->target != target)
-		((EConfigClass *)G_OBJECT_GET_CLASS (emp))->set_target (emp, target);
+		((EConfigClass *) G_OBJECT_GET_CLASS (emp))->set_target (emp, target);
 }
 
 static void
@@ -1095,7 +1095,7 @@ e_config_create_widget (EConfig *emp)
 
 	/* FIXME: for some reason ec_rebuild puts the widget on page 1, this is just to override that */
 	if (emp->type == E_CONFIG_BOOK)
-		gtk_notebook_set_current_page ((GtkNotebook *)emp->widget, 0);
+		gtk_notebook_set_current_page ((GtkNotebook *) emp->widget, 0);
 	else {
 		gtk_window_set_position (GTK_WINDOW (emp->widget), GTK_WIN_POS_CENTER);
 		gtk_widget_show (emp->widget);
@@ -1151,11 +1151,11 @@ e_config_create_window (EConfig *emp, GtkWindow *parent, const gchar *title)
 		gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (w))), 0);
 		gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_action_area (GTK_DIALOG (w))), 12);
 
-		gtk_box_pack_start ((GtkBox *)gtk_dialog_get_content_area (((GtkDialog *)w)), emp->widget, TRUE, TRUE, 0);
+		gtk_box_pack_start ((GtkBox *) gtk_dialog_get_content_area (((GtkDialog *) w)), emp->widget, TRUE, TRUE, 0);
 	} else {
 		/* response is handled directly by the assistant stuff */
 		w = emp->widget;
-		gtk_window_set_title ((GtkWindow *)w, title);
+		gtk_window_set_title ((GtkWindow *) w, title);
 	}
 
 	emp->window = w;
@@ -1172,9 +1172,9 @@ ec_call_page_check (EConfig *emp)
 	} else {
 		if (emp->window) {
 			if (e_config_page_check (emp, NULL)) {
-				gtk_dialog_set_response_sensitive ((GtkDialog *)emp->window, GTK_RESPONSE_OK, TRUE);
+				gtk_dialog_set_response_sensitive ((GtkDialog *) emp->window, GTK_RESPONSE_OK, TRUE);
 			} else {
-				gtk_dialog_set_response_sensitive ((GtkDialog *)emp->window, GTK_RESPONSE_OK, FALSE);
+				gtk_dialog_set_response_sensitive ((GtkDialog *) emp->window, GTK_RESPONSE_OK, FALSE);
 			}
 		}
 	}
@@ -1519,7 +1519,7 @@ e_config_target_free (EConfig *ep, gpointer o)
 {
 	EConfigTarget *t = o;
 
-	((EConfigClass *)G_OBJECT_GET_CLASS (ep))->target_free (ep, t);
+	((EConfigClass *) G_OBJECT_GET_CLASS (ep))->target_free (ep, t);
 }
 
 /* ********************************************************************** */
@@ -1634,7 +1634,7 @@ emph_free_item (struct _EConfigItem *item)
 static void
 emph_free_group (struct _EConfigHookGroup *group)
 {
-	g_slist_foreach (group->items, (GFunc)emph_free_item, NULL);
+	g_slist_foreach (group->items, (GFunc) emph_free_item, NULL);
 	g_slist_free (group->items);
 
 	g_free (group->id);
@@ -1774,7 +1774,7 @@ emph_construct_menu (EPluginHook *eph, xmlNodePtr root)
 	struct _EConfigHookGroup *menu;
 	xmlNodePtr node;
 	EConfigHookTargetMap *map;
-	EConfigHookClass *class = (EConfigHookClass *)G_OBJECT_GET_CLASS (eph);
+	EConfigHookClass *class = (EConfigHookClass *) G_OBJECT_GET_CLASS (eph);
 	gchar *tmp;
 
 	d(printf(" loading menu\n"));
@@ -1792,13 +1792,13 @@ emph_construct_menu (EPluginHook *eph, xmlNodePtr root)
 	menu->id = e_plugin_xml_prop(root, "id");
 	if (menu->id == NULL) {
 		g_warning("Plugin '%s' missing 'id' field in group for '%s'\n", eph->plugin->name,
-			  ((EPluginHookClass *)G_OBJECT_GET_CLASS (eph))->id);
+			  ((EPluginHookClass *) G_OBJECT_GET_CLASS (eph))->id);
 		goto error;
 	}
 	menu->check = e_plugin_xml_prop(root, "check");
 	menu->commit = e_plugin_xml_prop(root, "commit");
 	menu->abort = e_plugin_xml_prop(root, "abort");
-	menu->hook = (EConfigHook *)eph;
+	menu->hook = (EConfigHook *) eph;
 	node = root->children;
 	while (node) {
 		if (0 == strcmp((gchar *)node->name, "item")) {
@@ -1825,10 +1825,10 @@ emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	d(printf("loading config hook\n"));
 
-	if (((EPluginHookClass *)e_config_hook_parent_class)->construct (eph, ep, root) == -1)
+	if (((EPluginHookClass *) e_config_hook_parent_class)->construct (eph, ep, root) == -1)
 		return -1;
 
-	class = ((EConfigHookClass *)G_OBJECT_GET_CLASS (eph))->config_class;
+	class = ((EConfigHookClass *) G_OBJECT_GET_CLASS (eph))->config_class;
 
 	node = root->children;
 	while (node) {
@@ -1852,12 +1852,12 @@ emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 static void
 emph_finalize (GObject *o)
 {
-	EPluginHook *eph = (EPluginHook *)o;
+	EPluginHook *eph = (EPluginHook *) o;
 
-	g_slist_foreach (emph->groups, (GFunc)emph_free_group, NULL);
+	g_slist_foreach (emph->groups, (GFunc) emph_free_group, NULL);
 	g_slist_free (emph->groups);
 
-	((GObjectClass *)e_config_hook_parent_class)->finalize (o);
+	((GObjectClass *) e_config_hook_parent_class)->finalize (o);
 }
 
 static void
@@ -1899,5 +1899,5 @@ void
 e_config_hook_class_add_target_map (EConfigHookClass *class,
                                     const EConfigHookTargetMap *map)
 {
-	g_hash_table_insert (class->target_map, (gpointer)map->type, (gpointer)map);
+	g_hash_table_insert (class->target_map, (gpointer) map->type, (gpointer) map);
 }

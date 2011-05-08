@@ -2170,7 +2170,7 @@ e_day_view_update_long_event_label (EDayView *day_view,
 			       NULL);
 
 	if (free_text)
-		g_free ((gchar *)summary);
+		g_free ((gchar *) summary);
 
 	if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp))
@@ -3381,7 +3381,7 @@ e_day_view_on_long_event_click (EDayView *day_view,
 	/* Ignore clicks on the EText while editing. */
 	if (pos == E_CALENDAR_VIEW_POS_EVENT
 	    && E_TEXT (event->canvas_item)->editing) {
-		GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*)bevent);
+		GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*) bevent);
 		return;
 	}
 
@@ -3467,7 +3467,7 @@ e_day_view_on_event_click (EDayView *day_view,
 	/* Ignore clicks on the EText while editing. */
 	if (pos == E_CALENDAR_VIEW_POS_EVENT
 	    && E_TEXT (event->canvas_item)->editing) {
-		GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*)bevent);
+		GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*) bevent);
 		return;
 	}
 
@@ -3553,7 +3553,7 @@ e_day_view_on_event_double_click (EDayView *day_view,
 	if (!is_comp_data_valid (event))
 		return;
 
-	e_calendar_view_edit_appointment ((ECalendarView *)day_view, event->comp_data->client, event->comp_data->icalcomp, EDIT_EVENT_AUTODETECT);
+	e_calendar_view_edit_appointment ((ECalendarView *) day_view, event->comp_data->client, event->comp_data->icalcomp, EDIT_EVENT_AUTODETECT);
 }
 
 static void
@@ -3820,7 +3820,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 			e_target_list_add_calendar_targets (target_list, 0);
 			gtk_drag_begin (widget, target_list,
 					GDK_ACTION_COPY | GDK_ACTION_MOVE,
-					1, (GdkEvent*)mevent);
+					1, (GdkEvent*) mevent);
 			gtk_target_list_unref (target_list);
 		}
 	} else {
@@ -3849,7 +3849,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		}
 
 		if (event && E_IS_TEXT (event->canvas_item) && E_TEXT (event->canvas_item)->editing) {
-			GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*)mevent);
+			GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*) mevent);
 		}
 	}
 
@@ -3932,7 +3932,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 			e_target_list_add_calendar_targets (target_list, 0);
 			gtk_drag_begin (widget, target_list,
 					GDK_ACTION_COPY | GDK_ACTION_MOVE,
-					1, (GdkEvent*)mevent);
+					1, (GdkEvent*) mevent);
 			gtk_target_list_unref (target_list);
 		}
 	} else {
@@ -3966,7 +3966,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		}
 
 		if (event && E_IS_TEXT (event->canvas_item) && E_TEXT (event->canvas_item)->editing) {
-			GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*)mevent);
+			GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*) mevent);
 		}
 	}
 
@@ -4748,7 +4748,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		GtkWidget *widget;
 		GdkColor color;
 
-		widget = (GtkWidget *)day_view;
+		widget = (GtkWidget *) day_view;
 
 		color = e_day_view_get_text_color (day_view, event, widget);
 
@@ -4934,7 +4934,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 			GtkWidget *widget;
 			GdkColor color;
 
-			widget = (GtkWidget *)day_view;
+			widget = (GtkWidget *) day_view;
 
 			color = e_day_view_get_text_color (day_view, event, widget);
 
@@ -6280,17 +6280,17 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			g_object_set_data (G_OBJECT (item), "event-day", GINT_TO_POINTER (day));
 
 			data = g_malloc (sizeof (ECalendarViewEventData));
-			pevent->x = ((GdkEventCrossing *)event)->x_root;
-			pevent->y = ((GdkEventCrossing *)event)->y_root;
+			pevent->x = ((GdkEventCrossing *) event)->x_root;
+			pevent->y = ((GdkEventCrossing *) event)->y_root;
 			pevent->tooltip = NULL;
 
-			data->cal_view = (ECalendarView *)day_view;
+			data->cal_view = (ECalendarView *) day_view;
 			data->day = day;
 			data->event_num = event_num;
 			data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, gint)) tooltip_get_view_event;
 			pevent->timeout = g_timeout_add_full (
 				G_PRIORITY_DEFAULT, 500,
-				(GSourceFunc)e_calendar_view_get_tooltips,
+				(GSourceFunc) e_calendar_view_get_tooltips,
 				data, (GDestroyNotify) g_free);
 
 		return TRUE;
@@ -6306,8 +6306,8 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 
 			pevent = tooltip_get_view_event (day_view, day, event_num);
 
-			pevent->x = ((GdkEventMotion *)event)->x_root;
-			pevent->y = ((GdkEventMotion *)event)->y_root;
+			pevent->x = ((GdkEventMotion *) event)->x_root;
+			pevent->y = ((GdkEventMotion *) event)->y_root;
 			pevent->tooltip = (GtkWidget *)g_object_get_data (G_OBJECT (day_view), "tooltip-window");
 
 			if (pevent->tooltip) {

@@ -150,7 +150,7 @@ add_editor_response (GtkWidget *dialog, gint button, ERuleEditor *editor)
 		}
 
 		if (e_rule_context_find_rule (editor->context, editor->edit->name, editor->edit->source)) {
-			e_alert_run_dialog_for_args ((GtkWindow *)dialog,
+			e_alert_run_dialog_for_args ((GtkWindow *) dialog,
 						     "filter:bad-name-notunique",
 						     editor->edit->name, NULL);
 			return;
@@ -298,7 +298,7 @@ edit_editor_response (GtkWidget *dialog, gint button, ERuleEditor *editor)
 
 		rule = e_rule_context_find_rule (editor->context, editor->edit->name, editor->edit->source);
 		if (rule != NULL && rule != editor->current) {
-			e_alert_run_dialog_for_args ((GtkWindow *)dialog,
+			e_alert_run_dialog_for_args ((GtkWindow *) dialog,
 						     "filter:bad-name-notunique",
 						     rule->name, NULL);
 

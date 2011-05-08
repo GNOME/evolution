@@ -132,8 +132,8 @@ filter_file_xml_encode (EFilterElement *element)
 	xmlSetProp (value, (xmlChar *) "name", (xmlChar *) element->name);
 	xmlSetProp (value, (xmlChar *) "type", (xmlChar *) type);
 
-	cur = xmlNewChild (value, NULL, (xmlChar *)type, NULL);
-	xmlNodeSetContent (cur, (xmlChar *)file->path);
+	cur = xmlNewChild (value, NULL, (xmlChar *) type, NULL);
+	xmlNodeSetContent (cur, (xmlChar *) file->path);
 
 	return value;
 }
@@ -160,8 +160,8 @@ filter_file_xml_decode (EFilterElement *element,
 
 	child = node->children;
 	while (child != NULL) {
-		if (!strcmp ((gchar *)child->name, type)) {
-			str = (gchar *)xmlNodeGetContent (child);
+		if (!strcmp ((gchar *) child->name, type)) {
+			str = (gchar *) xmlNodeGetContent (child);
 			file->path = g_strdup (str ? str : "");
 			xmlFree (str);
 
@@ -246,7 +246,7 @@ e_filter_file_new_type_name (const gchar *type)
 	EFilterFile *file;
 
 	file = e_filter_file_new ();
-	file->type = (gchar *) xmlStrdup ((xmlChar *)type);
+	file->type = (gchar *) xmlStrdup ((xmlChar *) type);
 
 	return file;
 }

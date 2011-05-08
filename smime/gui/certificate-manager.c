@@ -1055,7 +1055,7 @@ load_certs (CertificateManagerData *cfm,
 	for (node = CERT_LIST_HEAD (certList);
 	     !CERT_LIST_END (node, certList);
 	     node = CERT_LIST_NEXT (node)) {
-		ECert *cert = e_cert_new (CERT_DupCertificate ((CERTCertificate*)node->cert));
+		ECert *cert = e_cert_new (CERT_DupCertificate ((CERTCertificate*) node->cert));
 		ECertType ct = e_cert_get_cert_type (cert);
 
 		/* show everything else in a contact tab */

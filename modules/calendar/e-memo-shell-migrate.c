@@ -129,7 +129,7 @@ create_memo_sources (EShellBackend *shell_backend,
 				shell_settings, "cal-primary-memo-list",
 				e_source_peek_uid (source));
 
-			link.data = (gpointer)e_source_peek_uid (source);
+			link.data = (gpointer) e_source_peek_uid (source);
 			link.next = NULL;
 
 			e_memo_shell_backend_set_selected_memo_lists (
@@ -251,7 +251,7 @@ e_memo_shell_backend_migrate (EShellBackend *shell_backend,
 
 		al = e_get_account_list ();
 
-		for (it = e_list_get_iterator ((EList *)al);
+		for (it = e_list_get_iterator ((EList *) al);
 				e_iterator_is_valid (it);
 				e_iterator_next (it)) {
 			a = (EAccount *) e_iterator_get (it);

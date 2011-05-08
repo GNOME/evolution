@@ -601,9 +601,9 @@ etsm_select_single_row (ESelectionModel *selection, gint row)
 			gint *p = rows;
 
 			while (p<rowp)
-				e_selection_model_selection_row_changed ((ESelectionModel *)etsm, *p++);
+				e_selection_model_selection_row_changed ((ESelectionModel *) etsm, *p++);
 		}
-		e_selection_model_selection_row_changed ((ESelectionModel *)etsm, row);
+		e_selection_model_selection_row_changed ((ESelectionModel *) etsm, row);
 	}
 }
 
@@ -622,7 +622,7 @@ etsm_toggle_single_row (ESelectionModel *selection, gint row)
 
 	etsm->priv->start_path = NULL;
 
-	e_selection_model_selection_row_changed ((ESelectionModel *)etsm, row);
+	e_selection_model_selection_row_changed ((ESelectionModel *) etsm, row);
 }
 
 static void

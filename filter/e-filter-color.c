@@ -83,7 +83,7 @@ filter_color_xml_decode (EFilterElement *element,
 
 	prop = xmlGetProp(node, (xmlChar *)"spec");
 	if (prop != NULL) {
-		gdk_color_parse ((gchar *)prop, &fc->color);
+		gdk_color_parse ((gchar *) prop, &fc->color);
 		xmlFree (prop);
 	} else {
 		/* try reading the old RGB properties */

@@ -76,7 +76,7 @@ e_asn1_object_dispose (GObject *object)
 		if (obj->priv->value)
 			g_free (obj->priv->value);
 
-		g_list_foreach (obj->priv->children, (GFunc)g_object_unref, NULL);
+		g_list_foreach (obj->priv->children, (GFunc) g_object_unref, NULL);
 		g_list_free (obj->priv->children);
 
 		g_free (obj->priv);
@@ -238,7 +238,7 @@ build_from_der (EASN1Object *parent, gchar *data, gchar *end)
 			return FALSE;
 		}
 		data++;
-		len = get_der_item_length ((guchar *)data, (guchar *)end, &bytesUsed, &indefinite);
+		len = get_der_item_length ((guchar *) data, (guchar *) end, &bytesUsed, &indefinite);
 		data += bytesUsed;
 		if ((len < 0) || ((data+len) > end))
 			return FALSE;
@@ -336,7 +336,7 @@ e_asn1_object_get_children (EASN1Object *obj)
 {
 	GList *children = g_list_copy (obj->priv->children);
 
-	g_list_foreach (children, (GFunc)g_object_ref, NULL);
+	g_list_foreach (children, (GFunc) g_object_ref, NULL);
 
 	return children;
 }

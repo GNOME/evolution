@@ -321,7 +321,7 @@ collect_certs (gpointer arg, SECItem **certs, gint numcerts)
 	SECItem *cert;
 	SECStatus rv;
 
-	collectArgs = (CERTDERCerts *)arg;
+	collectArgs = (CERTDERCerts *) arg;
 
 	collectArgs->numcerts = numcerts;
 	collectArgs->rawCerts = (SECItem *) PORT_ArenaZAlloc (
@@ -349,7 +349,7 @@ e_cert_db_get_certs_from_package (PRArenaPool *arena,
 {
 	/*nsNSSShutDownPreventionLock locker;*/
 	CERTDERCerts *collectArgs =
-		(CERTDERCerts *)PORT_ArenaZAlloc (arena, sizeof (CERTDERCerts));
+		(CERTDERCerts *) PORT_ArenaZAlloc (arena, sizeof (CERTDERCerts));
 	SECStatus sec_rv;
 
 	if (!collectArgs)
@@ -358,7 +358,7 @@ e_cert_db_get_certs_from_package (PRArenaPool *arena,
 	collectArgs->arena = arena;
 	sec_rv = CERT_DecodeCertPackage (data,
 					length, collect_certs,
-					(gpointer)collectArgs);
+					(gpointer) collectArgs);
 
 	if (sec_rv != SECSuccess)
 		return NULL;
@@ -644,9 +644,9 @@ e_cert_db_find_cert_by_nickname (ECertDB *certdb,
 	CERTCertificate *cert = NULL;
 
 	/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Getting \"%s\"\n", asciiname));*/
-	cert = PK11_FindCertFromNickname ((gchar *)nickname, NULL);
+	cert = PK11_FindCertFromNickname ((gchar *) nickname, NULL);
 	if (!cert) {
-		cert = CERT_FindCertByNickname (CERT_GetDefaultCertDB (), (gchar *)nickname);
+		cert = CERT_FindCertByNickname (CERT_GetDefaultCertDB (), (gchar *) nickname);
 	}
 
 	if (cert) {
@@ -679,7 +679,7 @@ e_cert_db_find_cert_by_key (ECertDB *certdb,
 	}
 
 	dummy = NSSBase64_DecodeBuffer (NULL, &keyItem, db_key,
-				       (PRUint32)PL_strlen (db_key));
+				       (PRUint32) PL_strlen (db_key));
 
 	/* someday maybe we can speed up the search using the moduleID and slotID*/
 	moduleID = NS_NSS_GET_LONG (keyItem.data);
@@ -880,7 +880,7 @@ handle_ca_cert_download (ECertDB *cert_db, GList *certs, GError **error)
 		return FALSE;
 	}
 
-	der.data = (guchar *)raw_der;
+	der.data = (guchar *) raw_der;
 
 	{
 		/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Creating temp cert\n"));*/
@@ -1074,10 +1074,10 @@ e_cert_db_import_certs (ECertDB *certdb,
 		SECItem *currItem = &certCollection->rawCerts[i];
 		ECert *cert;
 
-		cert = e_cert_new_from_der ((gchar *)currItem->data, currItem->len);
+		cert = e_cert_new_from_der ((gchar *) currItem->data, currItem->len);
 		if (!cert) {
 			set_nss_error (error);
-			g_list_foreach (certs, (GFunc)g_object_unref, NULL);
+			g_list_foreach (certs, (GFunc) g_object_unref, NULL);
 			g_list_free (certs);
 			PORT_FreeArena (arena, PR_FALSE);
 			return FALSE;
@@ -1109,7 +1109,7 @@ e_cert_db_import_certs (ECertDB *certdb,
 		rv = FALSE;
 	}
 
-	g_list_foreach (certs, (GFunc)g_object_unref, NULL);
+	g_list_foreach (certs, (GFunc) g_object_unref, NULL);
 	g_list_free (certs);
 	PORT_FreeArena (arena, PR_FALSE);
 	return rv;
@@ -1138,7 +1138,7 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 	}
 
 	cert = CERT_NewTempCertificate (CERT_GetDefaultCertDB (), certCollection->rawCerts,
-				       (gchar *)NULL, PR_FALSE, PR_TRUE);
+				       (gchar *) NULL, PR_FALSE, PR_TRUE);
 	if (!cert) {
 		set_nss_error (error);
 		rv = FALSE;
@@ -1172,7 +1172,7 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 			SECItem *currItem = &certCollection->rawCerts[i];
 			ECert *cert;
 
-			cert = e_cert_new_from_der ((gchar *)currItem->data, currItem->len);
+			cert = e_cert_new_from_der ((gchar *) currItem->data, currItem->len);
 			if (cert)
 				*imported_certs = g_slist_prepend (*imported_certs, cert);
 		}
@@ -1342,7 +1342,7 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 	}
 
 	cert = CERT_NewTempCertificate (CERT_GetDefaultCertDB (), collectArgs->rawCerts,
-				       (gchar *)NULL, PR_FALSE, PR_TRUE);
+				       (gchar *) NULL, PR_FALSE, PR_TRUE);
 	if (!cert) {
 		set_nss_error (error);
 		goto loser;

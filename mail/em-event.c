@@ -41,7 +41,7 @@ eme_target_free (EEvent *ep, EEventTarget *t)
 {
 	switch (t->type) {
 	case EM_EVENT_TARGET_FOLDER: {
-		EMEventTargetFolder *s = (EMEventTargetFolder *)t;
+		EMEventTargetFolder *s = (EMEventTargetFolder *) t;
 		if (s->account != NULL)
 			g_object_unref (s->account);
 		g_free (s->name);
@@ -51,7 +51,7 @@ eme_target_free (EEvent *ep, EEventTarget *t)
 		g_free (s->msg_subject);
 		break; }
 	case EM_EVENT_TARGET_MESSAGE: {
-		EMEventTargetMessage *s = (EMEventTargetMessage *)t;
+		EMEventTargetMessage *s = (EMEventTargetMessage *) t;
 
 		if (s->folder)
 			g_object_unref (s->folder);
@@ -62,7 +62,7 @@ eme_target_free (EEvent *ep, EEventTarget *t)
 			g_object_unref (s->composer);
 		break; }
 	case EM_EVENT_TARGET_COMPOSER : {
-		EMEventTargetComposer *s = (EMEventTargetComposer *)t;
+		EMEventTargetComposer *s = (EMEventTargetComposer *) t;
 
 		if (s->composer)
 			g_object_unref (s->composer);

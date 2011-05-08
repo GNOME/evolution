@@ -2393,7 +2393,7 @@ fill_in_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 		EContactPhoto *photo = e_contact_get (contact, field_id);
 		if (photo && photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
 			e_image_chooser_set_image_data (E_IMAGE_CHOOSER (widget),
-							(gchar *)photo->data.inlined.data,
+							(gchar *) photo->data.inlined.data,
 							photo->data.inlined.length);
 			editor->image_set = TRUE;
 		}
@@ -2494,7 +2494,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 				GdkPixbuf *pixbuf, *new;
 				GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
 
-				photo.data.inlined.data = (guchar *)img_buff;
+				photo.data.inlined.data = (guchar *) img_buff;
 				img_buff = NULL;
 				gdk_pixbuf_loader_write (loader, photo.data.inlined.data, photo.data.inlined.length, NULL);
 				gdk_pixbuf_loader_close (loader, NULL);
@@ -2532,7 +2532,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 								gdk_pixbuf_save_to_buffer (new, &img_buff,
 											   &photo.data.inlined.length,
 											   format_name, NULL, NULL);
-								photo.data.inlined.data = (guchar *)img_buff;
+								photo.data.inlined.data = (guchar *) img_buff;
 								img_buff = NULL;
 								g_free (format_name);
 								g_object_unref (new);
@@ -2563,7 +2563,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 	else if (GTK_IS_TOGGLE_BUTTON (widget)) {
 		gboolean val = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 
-		e_contact_set (contact, field_id, val?(gpointer)1:NULL);
+		e_contact_set (contact, field_id, val?(gpointer) 1:NULL);
 	}
 	else {
 		g_warning (G_STRLOC ": Unhandled widget class in mappings!");
@@ -2927,7 +2927,7 @@ categories_response (GtkDialog *dialog, gint response, EContactEditor *editor)
 		if (entry && GTK_IS_ENTRY (entry))
 			gtk_entry_set_text (GTK_ENTRY (entry), categories);
 		else
-			e_contact_set (editor->contact, E_CONTACT_CATEGORIES, (gchar *)categories);
+			e_contact_set (editor->contact, E_CONTACT_CATEGORIES, (gchar *) categories);
 	}
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 	editor->categories_dialog = NULL;
@@ -3087,7 +3087,7 @@ image_clicked (GtkWidget *button, EContactEditor *editor)
 			no_image, GTK_RESPONSE_NO,
 			NULL);
 		preview = GTK_IMAGE (gtk_image_new ());
-		gtk_file_chooser_set_preview_widget ((GtkFileChooser *)editor->file_selector, GTK_WIDGET (preview));
+		gtk_file_chooser_set_preview_widget ((GtkFileChooser *) editor->file_selector, GTK_WIDGET (preview));
 		g_signal_connect (
 			editor->file_selector, "update-preview",
 			G_CALLBACK (update_preview_cb), preview);
@@ -3798,7 +3798,7 @@ e_contact_editor_new (EShell *shell,
 
 	if (book)
 		e_book_get_supported_fields_async (
-			book, (EBookEListAsyncCallback)supported_fields_cb, editor);
+			book, (EBookEListAsyncCallback) supported_fields_cb, editor);
 
 	return editor;
 }

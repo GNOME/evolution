@@ -783,7 +783,7 @@ action_list_cards_init (ActionContext * p_actctx)
 
 	action_list_cards (contacts, p_actctx);
 
-	g_list_foreach (contacts, (GFunc)g_object_unref, NULL);
+	g_list_foreach (contacts, (GFunc) g_object_unref, NULL);
 	g_list_free (contacts);
 
 	return SUCCESS;

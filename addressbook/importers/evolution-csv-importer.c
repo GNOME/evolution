@@ -787,7 +787,7 @@ csv_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (target->type != E_IMPORT_TARGET_URI)
 		return FALSE;
 
-	s = (EImportTargetURI *)target;
+	s = (EImportTargetURI *) target;
 	if (s->uri_src == NULL)
 		return TRUE;
 
@@ -924,7 +924,7 @@ csv_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 	GtkWidget *preview;
 	GList *contacts = NULL;
 	EContact *contact;
-	EImportTargetURI *s = (EImportTargetURI *)target;
+	EImportTargetURI *s = (EImportTargetURI *) target;
 	gchar *filename;
 	FILE *file;
 	CSVImporter *gci;

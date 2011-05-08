@@ -802,7 +802,7 @@ ethi_drag_data_received (GtkWidget *canvas,
 
 	if (data != NULL) {
 		count = e_table_header_count (ethi->eth);
-		column = atoi ((gchar *)data);
+		column = atoi ((gchar *) data);
 		drop_col = ethi->drop_col;
 		ethi->drop_col = -1;
 
@@ -846,7 +846,7 @@ ethi_drag_data_get (GtkWidget *canvas,
 		gtk_selection_data_set (selection_data,
 				       GDK_SELECTION_TYPE_STRING,
 				       sizeof (string[0]),
-				       (guchar *)string,
+				       (guchar *) string,
 				       strlen (string));
 		g_free (string);
 	}
@@ -1867,7 +1867,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			gint width = 0;
 			g_signal_emit_by_name (ethi->eth,
 					       "request_width",
-					       (gint)ethi->resize_col, &width);
+					       (gint) ethi->resize_col, &width);
 			/* Add 10 to stop it from "..."ing */
 			e_table_header_set_size (ethi->eth, ethi->resize_col, width + 10);
 

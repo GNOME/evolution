@@ -644,7 +644,7 @@ emr_header_from_xmldoc (xmlDocPtr doc)
 		return NULL;
 
 	h = g_malloc0 (sizeof (EMailReaderHeader));
-	h->name = g_strdup ((gchar *)name);
+	h->name = g_strdup ((gchar *) name);
 	xmlFree (name);
 
 	if (xmlHasProp (root, (const guchar *)"enabled"))
@@ -754,7 +754,7 @@ headers_changed_cb (GConfClient *client,
 	em_format_clear_headers (EM_FORMAT (formatter));
 	for (p = header_config_list; p; p = g_slist_next (p)) {
 		EMailReaderHeader *h;
-		gchar *xml = (gchar *)p->data;
+		gchar *xml = (gchar *) p->data;
 
 		h = e_mail_reader_header_from_xml (xml);
 		if (h && h->enabled)

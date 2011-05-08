@@ -273,7 +273,7 @@ static void
 check_toggled (GtkToggleButton *button, GtkAssistant *assistant)
 {
 	GtkWidget *box = g_object_get_data ((GObject *)button, "box");
-	gboolean state = gtk_toggle_button_get_active ((GtkToggleButton *)button);
+	gboolean state = gtk_toggle_button_get_active ((GtkToggleButton *) button);
 
 	gtk_widget_set_sensitive (box, state);
 
@@ -324,27 +324,27 @@ backup_restore_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 
 	hbox = gtk_hbox_new (FALSE, 6);
 	label = gtk_label_new (_("You can restore Evolution from your backup. It can restore all the Mails, Calendars, Tasks, Memos, Contacts. It also restores all your personal settings, mail filters etc."));
-	gtk_label_set_line_wrap ((GtkLabel *)label, TRUE);
-	gtk_label_set_single_line_mode ((GtkLabel *)label, FALSE);
-	gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 6);
-	gtk_box_pack_start ((GtkBox *)page, hbox, FALSE, FALSE, 0);
+	gtk_label_set_line_wrap ((GtkLabel *) label, TRUE);
+	gtk_label_set_single_line_mode ((GtkLabel *) label, FALSE);
+	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 6);
+	gtk_box_pack_start ((GtkBox *) page, hbox, FALSE, FALSE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 6);
 	cbox = gtk_check_button_new_with_mnemonic (_("_Restore Evolution from the backup file"));
 	g_signal_connect (cbox, "toggled", G_CALLBACK (check_toggled), assistant);
-	gtk_box_pack_start ((GtkBox *)hbox, cbox, FALSE, FALSE, 6);
-	gtk_box_pack_start ((GtkBox *)page, hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) hbox, cbox, FALSE, FALSE, 6);
+	gtk_box_pack_start ((GtkBox *) page, hbox, FALSE, FALSE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 6);
 	g_object_set_data ((GObject *)cbox, "box", hbox);
 	label = gtk_label_new (_("Please select an Evolution Archive to restore:"));
-	gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 12);
+	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 12);
 
 	button = gtk_file_chooser_button_new (_("Choose a file to restore"), GTK_FILE_CHOOSER_ACTION_OPEN);
 	g_signal_connect (button, "selection-changed", G_CALLBACK (file_changed), assistant);
-	gtk_file_chooser_button_set_width_chars ((GtkFileChooserButton *)button, 20);
-	gtk_box_pack_start ((GtkBox *)hbox, button, FALSE, FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)page, hbox, FALSE, FALSE, 0);
+	gtk_file_chooser_button_set_width_chars ((GtkFileChooserButton *) button, 20);
+	gtk_box_pack_start ((GtkBox *) hbox, button, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) page, hbox, FALSE, FALSE, 0);
 	gtk_widget_set_sensitive (hbox, FALSE);
 
 	gtk_assistant_append_page (assistant, page);
@@ -367,7 +367,7 @@ backup_restore_commit (EPlugin *ep, EMConfigTargetAccount *target)
 
 	if (state) {
 		if (!file || !sanity_check (file)) {
-			e_alert_run_dialog_for_args ((GtkWindow *)assistant,
+			e_alert_run_dialog_for_args ((GtkWindow *) assistant,
 						     "org.gnome.backup-restore:invalid-backup",
 						     NULL);
 		} else {

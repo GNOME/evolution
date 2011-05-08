@@ -102,7 +102,7 @@ epech_get_widgets_data (CustomHeaderOptionsDialog *mch)
 		index_column < priv->email_custom_header_details->len; index_column++) {
 
 		sub_combo_box_get = &g_array_index (priv->combo_box_header_value, HeaderValueComboBox,index_column);
-		selected_item = gtk_combo_box_get_active ((GtkComboBox *)sub_combo_box_get->header_value_combo_box);
+		selected_item = gtk_combo_box_get_active ((GtkComboBox *) sub_combo_box_get->header_value_combo_box);
 		g_array_append_val (priv->header_index_type, selected_item);
 	}
 }
@@ -142,9 +142,9 @@ epech_fill_widgets_with_data (CustomHeaderOptionsDialog *mch)
 		sub_combo_box_fill = &g_array_index (priv->combo_box_header_value, HeaderValueComboBox,set_index_column);
 
 		if (priv->flag == 0) {
-			gtk_combo_box_set_active ((GtkComboBox *)sub_combo_box_fill->header_value_combo_box,0);
+			gtk_combo_box_set_active ((GtkComboBox *) sub_combo_box_fill->header_value_combo_box,0);
 		} else {
-			gtk_combo_box_set_active ((GtkComboBox *)sub_combo_box_fill->header_value_combo_box,
+			gtk_combo_box_set_active ((GtkComboBox *) sub_combo_box_fill->header_value_combo_box,
 				g_array_index (priv->header_index_type, gint, set_index_column));
 		}
 	}
@@ -425,7 +425,7 @@ epech_dialog_init (GObject *object)
 static void
 epech_dialog_finalize (GObject *object)
 {
-	CustomHeaderOptionsDialog *mch = (CustomHeaderOptionsDialog *)object;
+	CustomHeaderOptionsDialog *mch = (CustomHeaderOptionsDialog *) object;
 	EmailCustomHeaderOptionsDialogPrivate *priv;
 
 	g_return_if_fail (EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG (mch));
@@ -461,7 +461,7 @@ epech_append_to_custom_header (CustomHeaderOptionsDialog *dialog, gint state, gp
 	CustomSubHeader *temp_header_value_ptr;
 	gint index_subtype,sub_type_index;
 
-	composer = (EMsgComposer *)data;
+	composer = (EMsgComposer *) data;
 	priv = dialog->priv;
 
 	if (state == GTK_RESPONSE_OK) {
@@ -515,7 +515,7 @@ static gint
 epech_check_existing_composer_window (gconstpointer compowindow, gconstpointer other_compowindow)
 {
 	if ((compowindow) && (other_compowindow)) {
-		if (((EmailCustomHeaderWindow *)compowindow)->epech_window == (GdkWindow *)other_compowindow) {
+		if (((EmailCustomHeaderWindow *) compowindow)->epech_window == (GdkWindow *) other_compowindow) {
 			return 0;
 		}
 	}

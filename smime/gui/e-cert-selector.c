@@ -91,7 +91,7 @@ e_cert_selector_response (GtkDialog *dialog, gint button)
 
 	switch (button) {
 	case GTK_RESPONSE_OK:
-		node = ecs_find_current ((ECertSelector *)dialog);
+		node = ecs_find_current ((ECertSelector *) dialog);
 		break;
 	default:
 		node = NULL;
@@ -117,7 +117,7 @@ ecs_cert_changed (GtkWidget *w, ECertSelector *ecs)
 		g_string_append_printf(text, _("Issued by:\n  Subject: %s\n"), node->cert->issuerName);
 	}
 
-	buffer = gtk_text_view_get_buffer ((GtkTextView *)p->description);
+	buffer = gtk_text_view_get_buffer ((GtkTextView *) p->description);
 	gtk_text_buffer_set_text (buffer, text->str, text->len);
 	g_string_free (text, TRUE);
 }
@@ -218,7 +218,7 @@ e_cert_selector_new (gint type, const gchar *currentid)
 static void
 e_cert_selector_init (ECertSelector *ecs)
 {
-	gtk_dialog_add_buttons ((GtkDialog *)ecs,
+	gtk_dialog_add_buttons ((GtkDialog *) ecs,
 			       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 			       GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 
@@ -228,21 +228,21 @@ e_cert_selector_init (ECertSelector *ecs)
 static void
 e_cert_selector_finalise (GObject *o)
 {
-	ECertSelector *ecs = (ECertSelector *)o;
+	ECertSelector *ecs = (ECertSelector *) o;
 
 	if (ecs->priv->certlist)
 		CERT_DestroyCertList (ecs->priv->certlist);
 
 	g_free (ecs->priv);
 
-	((GObjectClass *)e_cert_selector_parent_class)->finalize (o);
+	((GObjectClass *) e_cert_selector_parent_class)->finalize (o);
 }
 
 static void
 e_cert_selector_class_init (ECertSelectorClass *klass)
 {
-	((GObjectClass *)klass)->finalize = e_cert_selector_finalise;
-	((GtkDialogClass *)klass)->response = e_cert_selector_response;
+	((GObjectClass *) klass)->finalize = e_cert_selector_finalise;
+	((GtkDialogClass *) klass)->response = e_cert_selector_response;
 
 	ecs_signals[ECS_SELECTED] =
 		g_signal_new("selected",

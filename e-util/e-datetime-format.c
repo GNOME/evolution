@@ -560,7 +560,7 @@ e_datetime_format_add_setup_widget (GtkWidget *table, gint row, const gchar *com
 	g_object_unref (store);
 
 	fill_combo_formats (combo, key, kind);
-	gtk_label_set_mnemonic_widget ((GtkLabel *)label, combo);
+	gtk_label_set_mnemonic_widget ((GtkLabel *) label, combo);
 
 	align = gtk_alignment_new (0.0, 0.5, 0.0, 0.0);
 	gtk_container_add (GTK_CONTAINER (align), combo);

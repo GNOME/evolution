@@ -134,7 +134,7 @@ etss_finalize (GObject *object)
 static gint
 etss_column_count (ETableModel *etm)
 {
-	ETableSubset *etss = (ETableSubset *)etm;
+	ETableSubset *etss = (ETableSubset *) etm;
 
 	return e_table_model_column_count (etss->source);
 }
@@ -142,7 +142,7 @@ etss_column_count (ETableModel *etm)
 static gint
 etss_row_count (ETableModel *etm)
 {
-	ETableSubset *etss = (ETableSubset *)etm;
+	ETableSubset *etss = (ETableSubset *) etm;
 
 	return etss->n_map;
 }
@@ -150,7 +150,7 @@ etss_row_count (ETableModel *etm)
 static gpointer
 etss_value_at (ETableModel *etm, gint col, gint row)
 {
-	ETableSubset *etss = (ETableSubset *)etm;
+	ETableSubset *etss = (ETableSubset *) etm;
 
 	g_return_val_if_fail (VALID_ROW (etss, row), NULL);
 
@@ -162,7 +162,7 @@ etss_value_at (ETableModel *etm, gint col, gint row)
 static void
 etss_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 {
-	ETableSubset *etss = (ETableSubset *)etm;
+	ETableSubset *etss = (ETableSubset *) etm;
 
 	g_return_if_fail (VALID_ROW (etss, row));
 
@@ -174,7 +174,7 @@ etss_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 static gboolean
 etss_is_cell_editable (ETableModel *etm, gint col, gint row)
 {
-	ETableSubset *etss = (ETableSubset *)etm;
+	ETableSubset *etss = (ETableSubset *) etm;
 
 	g_return_val_if_fail (VALID_ROW (etss, row), FALSE);
 
@@ -190,7 +190,7 @@ etss_has_save_id (ETableModel *etm)
 static gchar *
 etss_get_save_id (ETableModel *etm, gint row)
 {
-	ETableSubset *etss = (ETableSubset *)etm;
+	ETableSubset *etss = (ETableSubset *) etm;
 
 	g_return_val_if_fail (VALID_ROW (etss, row), NULL);
 
@@ -203,14 +203,14 @@ etss_get_save_id (ETableModel *etm, gint row)
 static void
 etss_append_row (ETableModel *etm, ETableModel *source, gint row)
 {
-	ETableSubset *etss = (ETableSubset *)etm;
+	ETableSubset *etss = (ETableSubset *) etm;
 	e_table_model_append_row (etss->source, source, row);
 }
 
 static gpointer
 etss_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 {
-	ETableSubset *etss = (ETableSubset *)etm;
+	ETableSubset *etss = (ETableSubset *) etm;
 
 	return e_table_model_duplicate_value (etss->source, col, value);
 }
@@ -218,7 +218,7 @@ etss_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 static void
 etss_free_value (ETableModel *etm, gint col, gpointer value)
 {
-	ETableSubset *etss = (ETableSubset *)etm;
+	ETableSubset *etss = (ETableSubset *) etm;
 
 	e_table_model_free_value (etss->source, col, value);
 }
@@ -226,7 +226,7 @@ etss_free_value (ETableModel *etm, gint col, gpointer value)
 static gpointer
 etss_initialize_value (ETableModel *etm, gint col)
 {
-	ETableSubset *etss = (ETableSubset *)etm;
+	ETableSubset *etss = (ETableSubset *) etm;
 
 	return e_table_model_initialize_value (etss->source, col);
 }
@@ -234,7 +234,7 @@ etss_initialize_value (ETableModel *etm, gint col)
 static gboolean
 etss_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 {
-	ETableSubset *etss = (ETableSubset *)etm;
+	ETableSubset *etss = (ETableSubset *) etm;
 
 	return e_table_model_value_is_empty (etss->source, col, value);
 }
@@ -242,7 +242,7 @@ etss_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 static gchar *
 etss_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 {
-	ETableSubset *etss = (ETableSubset *)etm;
+	ETableSubset *etss = (ETableSubset *) etm;
 
 	return e_table_model_value_to_string (etss->source, col, value);
 }
@@ -399,7 +399,7 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, gint nvals)
 			return NULL;
 	} else
 		buffer = NULL;
-	etss->map_table = (gint *)buffer;
+	etss->map_table = (gint *) buffer;
 	etss->n_map = nvals;
 	etss->source = source;
 	g_object_ref (source);
