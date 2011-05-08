@@ -325,33 +325,6 @@ plugins/face/org-gnome-face.error.xml
 plugins/google-account-setup/google-contacts-source.c
 plugins/google-account-setup/google-source.c
 plugins/google-account-setup/org-gnome-evolution-google.eplug.xml
-plugins/groupwise-features/camel-gw-listener.c
-plugins/groupwise-features/gw-ui.c
-plugins/groupwise-features/install-shared.c
-plugins/groupwise-features/junk-mail-settings.c
-plugins/groupwise-features/junk-settings.c
-[type: gettext/glade]plugins/groupwise-features/junk-settings.ui
-plugins/groupwise-features/mail-retract.c
-plugins/groupwise-features/mail-send-options.c
-[type: gettext/glade]plugins/groupwise-features/notification.ui
-plugins/groupwise-features/org-gnome-compose-send-options.xml
-plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml
-plugins/groupwise-features/org-gnome-mail-retract.error.xml
-plugins/groupwise-features/org-gnome-proxy-login.error.xml
-plugins/groupwise-features/org-gnome-proxy.error.xml
-plugins/groupwise-features/org-gnome-shared-folder.error.xml
-plugins/groupwise-features/org-gnome-process-meeting.error.xml
-plugins/groupwise-features/process-meeting.c
-[type: gettext/glade]plugins/groupwise-features/properties.ui
-[type: gettext/glade]plugins/groupwise-features/proxy-add-dialog.ui
-[type: gettext/glade]plugins/groupwise-features/proxy-listing.ui
-[type: gettext/glade]plugins/groupwise-features/proxy-login-dialog.ui
-plugins/groupwise-features/proxy-login.c
-plugins/groupwise-features/proxy.c
-plugins/groupwise-features/send-options.c
-plugins/groupwise-features/share-folder-common.c
-plugins/groupwise-features/share-folder.c
-plugins/groupwise-features/status-track.c
 plugins/image-inline/org-gnome-image-inline.eplug.xml
 plugins/imap-features/imap-headers.c
 [type: gettext/glade]plugins/imap-features/imap-headers.ui
