@@ -588,7 +588,7 @@ gconf_bridge_block_property_bindings (GConfBridge  *bridge,
 
 	g_hash_table_foreach (
 		bridge->bindings, (GHFunc)
-		prop_binding_block_cb, (gpointer)key);
+		prop_binding_block_cb, (gpointer) key);
 }
 
 void
@@ -600,7 +600,7 @@ gconf_bridge_unblock_property_bindings (GConfBridge  *bridge,
 
 	g_hash_table_foreach (
 		bridge->bindings, (GHFunc)
-		prop_binding_unblock_cb, (gpointer)key);
+		prop_binding_unblock_cb, (gpointer) key);
 }
 
 /* Unbinds a property binding */

@@ -193,7 +193,7 @@ eab_contact_list_from_string (const gchar *str)
 	GList *contacts = NULL;
 	GString *gstr = g_string_new (NULL);
 	gchar *str_stripped;
-	gchar *p = (gchar *)str;
+	gchar *p = (gchar *) str;
 	gchar *q;
 
 	if (!p)

@@ -228,7 +228,7 @@ elm_import_done (struct _elm_import_msg *m)
 		g_object_unref (gconf);
 	}
 
-	e_import_complete (m->import, (EImportTarget *)m->target);
+	e_import_complete (m->import, (EImportTarget *) m->target);
 }
 
 static void
@@ -271,7 +271,7 @@ elm_status_timeout (gpointer data)
 		pc = importer->status_pc;
 		g_mutex_unlock (importer->status_lock);
 
-		e_import_status (importer->import, (EImportTarget *)importer->target, what, pc);
+		e_import_status (importer->import, (EImportTarget *) importer->target, what, pc);
 	}
 
 	return TRUE;
@@ -295,7 +295,7 @@ mail_importer_elm_import (EImport *ei, EImportTarget *target)
 	g_datalist_set_data(&target->data, "elm-msg", m);
 	m->import = ei;
 	g_object_ref (m->import);
-	m->target = (EImportTargetHome *)target;
+	m->target = (EImportTargetHome *) target;
 	m->status_timeout_id = g_timeout_add (100, elm_status_timeout, m);
 	m->status_lock = g_mutex_new ();
 	m->status = camel_operation_new ();
@@ -337,10 +337,10 @@ elm_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 	box = gtk_vbox_new (FALSE, 2);
 
 	w = gtk_check_button_new_with_label(_("Mail"));
-	gtk_toggle_button_set_active ((GtkToggleButton *)w, !done_mail);
+	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_mail);
 	g_signal_connect(w, "toggled", G_CALLBACK(checkbox_toggle_cb), target);
 
-	gtk_box_pack_start ((GtkBox *)box, w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 0);
 	gtk_widget_show_all (box);
 
 	return box;

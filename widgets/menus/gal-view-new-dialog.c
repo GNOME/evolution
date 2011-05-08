@@ -162,7 +162,7 @@ selection_func (GtkTreeSelection  *selection,
 
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (dialog->list_store),
 				 &iter,
-				 (GtkTreePath*)path);
+				 (GtkTreePath*) path);
 
 	gtk_tree_model_get (GTK_TREE_MODEL (dialog->list_store),
 			    &iter,

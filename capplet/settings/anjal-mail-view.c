@@ -48,7 +48,7 @@ anjal_mail_view_init (AnjalMailView  *shell)
 static void
 anjal_mail_view_finalize (GObject *object)
 {
-	AnjalMailView *shell = (AnjalMailView *)object;
+	AnjalMailView *shell = (AnjalMailView *) object;
 	AnjalMailViewPrivate *priv = shell->priv;
 
 	g_free (priv);

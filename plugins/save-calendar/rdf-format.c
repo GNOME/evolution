@@ -101,10 +101,10 @@ add_list_to_rdf (xmlNodePtr node, const gchar *tag, GSList *list_in, gint type)
 
 			switch (type) {
 			case ECALCOMPONENTATTENDEE:
-				str = ((ECalComponentAttendee*)list->data)->value;
+				str = ((ECalComponentAttendee*) list->data)->value;
 				break;
 			case ECALCOMPONENTTEXT:
-				str = ((ECalComponentText*)list->data)->value;
+				str = ((ECalComponentText*) list->data)->value;
 				break;
 			case CONSTCHAR:
 			default:
@@ -124,7 +124,7 @@ add_nummeric_to_rdf (xmlNodePtr node, const gchar *tag, gint *nummeric)
 {
 	if (nummeric) {
 		gchar *value = g_strdup_printf ("%d", *nummeric);
-		xmlNodePtr cur_node = xmlNewChild (node, NULL, (guchar *)tag, (guchar *)value);
+		xmlNodePtr cur_node = xmlNewChild (node, NULL, (guchar *) tag, (guchar *) value);
 		xmlSetProp (cur_node, (const guchar *)"rdf:datatype", (const guchar *)"http://www.w3.org/2001/XMLSchema#integer");
 		g_free (value);
 	}
@@ -146,7 +146,7 @@ add_time_to_rdf (xmlNodePtr node, const gchar *tag, icaltimetype *time)
 		 * */
 		e_utf8_strftime (str, 200, _("%FT%T"), &mytm);
 
-		cur_node = xmlNewChild (node, NULL, (guchar *)tag, (guchar *)str);
+		cur_node = xmlNewChild (node, NULL, (guchar *) tag, (guchar *) str);
 
 		/* Not sure about this property */
 		timezone = calendar_config_get_timezone ();
@@ -163,7 +163,7 @@ add_string_to_rdf (xmlNodePtr node, const gchar *tag, const gchar *value)
 {
 	if (value) {
 		xmlNodePtr cur_node = NULL;
-		cur_node = xmlNewChild (node, NULL, (guchar *)tag, (guchar *)value);
+		cur_node = xmlNewChild (node, NULL, (guchar *) tag, (guchar *) value);
 		xmlSetProp (cur_node, (const guchar *)"rdf:datatype", (const guchar *)"http://www.w3.org/2001/XMLSchema#string");
 	}
 }

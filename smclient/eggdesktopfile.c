@@ -948,11 +948,11 @@ start_startup_notification (GdkDisplay     *display,
     launch_time = gdk_x11_display_get_user_time (display);
   startup_id = g_strdup_printf ("%s-%lu-%s-%s-%d_TIME%lu",
 				g_get_prgname (),
-				(unsigned long)getpid (),
+				(unsigned long) getpid (),
 				g_get_host_name (),
 				argv0,
 				sequence++,
-				(unsigned long)launch_time);
+				(unsigned long) launch_time);
 
   description = g_strdup_printf (_("Starting %s"), desktop_file->name);
   screen_str = g_strdup_printf ("%d", screen);
@@ -1266,7 +1266,7 @@ egg_desktop_file_launchv (EggDesktopFile *desktop_file,
  out:
   if (env)
     {
-      g_ptr_array_foreach (env, (GFunc)g_free, NULL);
+      g_ptr_array_foreach (env, (GFunc) g_free, NULL);
       g_ptr_array_free (env, TRUE);
     }
   free_document_list (translated_documents);

@@ -282,7 +282,7 @@ static void
 _gal_a11y_e_cell_destroy_action_info (gpointer action_info,
 				      gpointer user_data)
 {
-	ActionInfo *info = (ActionInfo *)action_info;
+	ActionInfo *info = (ActionInfo *) action_info;
 
 	g_return_if_fail (info != NULL);
 	g_free (info->name);

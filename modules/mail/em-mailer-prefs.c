@@ -263,7 +263,7 @@ jh_remove_cb (GtkWidget *widget, gpointer user_data)
 
 		gconf_client_set_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, list, NULL);
 
-		g_slist_foreach (list, (GFunc)g_free, NULL);
+		g_slist_foreach (list, (GFunc) g_free, NULL);
 		g_slist_free (list);
 		g_free (name);
 		g_free (value);
@@ -425,7 +425,7 @@ emmp_header_add_header (GtkWidget *widget, EMMailerPrefs *prefs)
 	GtkTreeIter iter;
 	const gchar *text = gtk_entry_get_text (prefs->entry_header);
 
-	g_strstrip ((gchar *)text);
+	g_strstrip ((gchar *) text);
 
 	if (text && (strlen (text)>0)) {
 		gtk_list_store_append (GTK_LIST_STORE (model), &iter);
@@ -692,7 +692,7 @@ junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 			CAMEL_SESSION (prefs->session)->junk_plugin =
 				CAMEL_JUNK_PLUGIN (&iface->camel);
 			status = e_plugin_invoke (iface->hook->plugin, iface->validate_binary, NULL) != NULL;
-			if ((gboolean)status == TRUE) {
+			if ((gboolean) status == TRUE) {
 				gchar *text, *html;
 				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-info", GTK_ICON_SIZE_MENU);
 				text = g_strdup_printf (_("%s plugin is available and the binary is installed."), iface->plugin_name);
@@ -736,7 +736,7 @@ junk_plugin_setup (GtkComboBox *combo_box, EMMailerPrefs *prefs)
 					"text", 0,
 					NULL);
 
-	if (!plugins || !g_list_length ((GList *)plugins)) {
+	if (!plugins || !g_list_length ((GList *) plugins)) {
 		GtkTreeIter iter;
 
 		gtk_list_store_append (store, &iter);
@@ -835,7 +835,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emmp_items); i++)
 		l = g_slist_prepend (l, &emmp_items[i]);
-	e_config_add_items ((EConfig *)ec, l, NULL, NULL, emmp_free, prefs);
+	e_config_add_items ((EConfig *) ec, l, NULL, NULL, emmp_free, prefs);
 
 	/* General tab */
 
@@ -1198,7 +1198,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	junk_book_lookup_button_toggled (prefs->junk_book_lookup, prefs);
 
-	prefs->junk_header_list_store = init_junk_tree ((GtkWidget *)prefs->junk_header_tree, prefs);
+	prefs->junk_header_list_store = init_junk_tree ((GtkWidget *) prefs->junk_header_tree, prefs);
 	toggle_button_init (prefs, prefs->junk_header_check, FALSE,
 			    "/apps/evolution/mail/junk/check_custom_header",
 			    G_CALLBACK (custom_junk_button_toggled));
@@ -1210,8 +1210,8 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs (ec, prefs->gconf);
-	e_config_set_target ((EConfig *)ec, (EConfigTarget *)target);
-	toplevel = e_config_create_widget ((EConfig *)ec);
+	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
+	toplevel = e_config_create_widget ((EConfig *) ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 }
 

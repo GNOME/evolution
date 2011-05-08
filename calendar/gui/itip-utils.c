@@ -317,7 +317,7 @@ itip_get_comp_attendee (ECalComponent *comp,
 		address = NULL;
 	}
 
-	for (it = e_list_get_iterator ((EList *)al);
+	for (it = e_list_get_iterator ((EList *) al);
 			e_iterator_is_valid (it);
 			e_iterator_next (it)) {
 		a = (EAccount *) e_iterator_get (it);
@@ -420,7 +420,7 @@ foreach_tzid_callback (icalparameter *param, gpointer data)
 
 	icalcomponent_add_component (
 		tz_data->icomp, icalcomponent_new_clone (vtimezone_comp));
-	g_hash_table_insert (tz_data->tzids, (gchar *)tzid, (gchar *)tzid);
+	g_hash_table_insert (tz_data->tzids, (gchar *) tzid, (gchar *) tzid);
 }
 
 static icalcomponent *
@@ -1088,10 +1088,10 @@ comp_sentby (ECalComponent *comp, ECal *client)
 
 		e_cal_component_set_organizer (comp, &organizer);
 
-		g_free ((gchar *)organizer.value);
-		g_free ((gchar *)organizer.sentby);
-		g_free ((gchar *)organizer.cn);
-		g_free ((gchar *)organizer.language);
+		g_free ((gchar *) organizer.value);
+		g_free ((gchar *) organizer.sentby);
+		g_free ((gchar *) organizer.cn);
+		g_free ((gchar *) organizer.language);
 	}
 }
 static ECalComponent *
@@ -1277,13 +1277,13 @@ comp_compliant (ECalComponentItipMethod method,
 			ECalComponentAlarm *alarm;
 			ECalComponentAlarmAction action = E_CAL_COMPONENT_ALARM_UNKNOWN;
 
-			alarm = e_cal_component_get_alarm (clone, (const gchar *)l->data);
+			alarm = e_cal_component_get_alarm (clone, (const gchar *) l->data);
 			if (alarm) {
 				e_cal_component_alarm_get_action (alarm, &action);
 				e_cal_component_alarm_free (alarm);
 
 				if (action == E_CAL_COMPONENT_ALARM_PROCEDURE)
-					e_cal_component_remove_alarm (clone, (const gchar *)l->data);
+					e_cal_component_remove_alarm (clone, (const gchar *) l->data);
 			}
 		}
 
@@ -1390,10 +1390,10 @@ find_enabled_account (EAccountList *accounts,
 	if (!id_address)
 		return NULL;
 
-	for (it = e_list_get_iterator ((EList *)accounts);
+	for (it = e_list_get_iterator ((EList *) accounts);
 	     e_iterator_is_valid (it);
 	     e_iterator_next (it)) {
-		account = (EAccount *)e_iterator_get (it);
+		account = (EAccount *) e_iterator_get (it);
 
 		if (account
 		    && account->enabled
@@ -1666,7 +1666,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 		e_cal_component_get_description_list (comp, &text_list);
 
 		if (text_list) {
-			ECalComponentText text = *((ECalComponentText *)text_list->data);
+			ECalComponentText text = *((ECalComponentText *) text_list->data);
 			if (text.value)
 				description = text.value;
 			else

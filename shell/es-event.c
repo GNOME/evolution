@@ -44,7 +44,7 @@ eme_init (GObject *o)
 static void
 eme_finalise (GObject *o)
 {
-	((GObjectClass *)eme_parent)->finalize (o);
+	((GObjectClass *) eme_parent)->finalize (o);
 }
 
 static void
@@ -52,20 +52,20 @@ eme_target_free (EEvent *ep, EEventTarget *t)
 {
 	switch (t->type) {
 	case ES_EVENT_TARGET_STATE: {
-		ESEventTargetState *s = (ESEventTargetState *)t;
+		ESEventTargetState *s = (ESEventTargetState *) t;
 
 		s = s;
 		break; }
 	}
 
-	((EEventClass *)eme_parent)->target_free (ep, t);
+	((EEventClass *) eme_parent)->target_free (ep, t);
 }
 
 static void
 eme_class_init (GObjectClass *klass)
 {
 	klass->finalize = eme_finalise;
-	((EEventClass *)klass)->target_free = eme_target_free;
+	((EEventClass *) klass)->target_free = eme_target_free;
 }
 
 GType
@@ -77,10 +77,10 @@ es_event_get_type (void)
 		static const GTypeInfo info = {
 			sizeof (ESEventClass),
 			NULL, NULL,
-			(GClassInitFunc)eme_class_init,
+			(GClassInitFunc) eme_class_init,
 			NULL, NULL,
 			sizeof (ESEvent), 0,
-			(GInstanceInitFunc)eme_init
+			(GInstanceInitFunc) eme_init
 		};
 		eme_parent = g_type_class_ref (e_event_get_type ());
 		type = g_type_register_static(e_event_get_type(), "ESEvent", &info, 0);
@@ -189,7 +189,7 @@ emeh_finalise (GObject *o)
 {
 	/*EPluginHook *eph = (EPluginHook *)o;*/
 
-	((GObjectClass *)emeh_parent_class)->finalize (o);
+	((GObjectClass *) emeh_parent_class)->finalize (o);
 }
 
 static void
@@ -204,13 +204,13 @@ emeh_class_init (EPluginHookClass *klass)
 	 * A hook for events coming from the shell.
 	 **/
 
-	((GObjectClass *)klass)->finalize = emeh_finalise;
+	((GObjectClass *) klass)->finalize = emeh_finalise;
 	((EPluginHookClass *)klass)->id = "org.gnome.evolution.shell.events:1.0";
 
 	for (i=0;emeh_targets[i].type;i++)
-		e_event_hook_class_add_target_map ((EEventHookClass *)klass, &emeh_targets[i]);
+		e_event_hook_class_add_target_map ((EEventHookClass *) klass, &emeh_targets[i]);
 
-	((EEventHookClass *)klass)->event = (EEvent *)es_event_peek ();
+	((EEventHookClass *) klass)->event = (EEvent *) es_event_peek ();
 }
 
 GType

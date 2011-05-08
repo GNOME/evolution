@@ -161,13 +161,13 @@ get_node (ETreeTableAdapter *etta, ETreePath path)
 	if (!gnode)
 		return NULL;
 
-	return (node_t *)gnode->data;
+	return (node_t *) gnode->data;
 }
 
 static void
 resort_node (ETreeTableAdapter *etta, GNode *gnode, gboolean recurse)
 {
-	node_t *node = (node_t *)gnode->data;
+	node_t *node = (node_t *) gnode->data;
 	ETreePath *paths, path;
 	GNode *prev, *curr;
 	gint i, count;
@@ -242,7 +242,7 @@ get_path (ETreeTableAdapter *etta, gint row)
 static void
 kill_gnode (GNode *node, ETreeTableAdapter *etta)
 {
-	g_hash_table_remove (etta->priv->nodes, ((node_t *)node->data)->path);
+	g_hash_table_remove (etta->priv->nodes, ((node_t *) node->data)->path);
 
 	while (node->children) {
 		GNode *next = node->children->next;
@@ -269,7 +269,7 @@ update_child_counts (GNode *gnode, gint delta)
 static gint
 delete_children (ETreeTableAdapter *etta, GNode *gnode)
 {
-	node_t *node = (node_t *)gnode->data;
+	node_t *node = (node_t *) gnode->data;
 	gint to_remove = node ? node->num_visible_children : 0;
 
 	if (to_remove == 0)
@@ -348,7 +348,7 @@ insert_children (ETreeTableAdapter *etta, GNode *gnode)
 	gint count = 0;
 	gint pos = 0;
 
-	path = ((node_t *)gnode->data)->path;
+	path = ((node_t *) gnode->data)->path;
 	for (tmp = e_tree_model_node_get_first_child (etta->priv->source, path);
 	     tmp;
 	     tmp = e_tree_model_node_get_next (etta->priv->source, tmp), pos++) {
@@ -580,7 +580,7 @@ etta_dispose (GObject *object)
 static gint
 etta_column_count (ETableModel *etm)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
+	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
 	return e_tree_model_column_count (etta->priv->source);
 }
@@ -588,7 +588,7 @@ etta_column_count (ETableModel *etm)
 static gboolean
 etta_has_save_id (ETableModel *etm)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
+	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
 	return e_tree_model_has_save_id (etta->priv->source);
 }
@@ -596,7 +596,7 @@ etta_has_save_id (ETableModel *etm)
 static gchar *
 etta_get_save_id (ETableModel *etm, gint row)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
+	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
 	return e_tree_model_get_save_id (etta->priv->source, get_path (etta, row));
 }
@@ -604,7 +604,7 @@ etta_get_save_id (ETableModel *etm, gint row)
 static gboolean
 etta_has_change_pending (ETableModel *etm)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
+	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
 	return e_tree_model_has_change_pending (etta->priv->source);
 }
@@ -612,7 +612,7 @@ etta_has_change_pending (ETableModel *etm)
 static gint
 etta_row_count (ETableModel *etm)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
+	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
 	return etta->priv->n_map;
 }
@@ -620,7 +620,7 @@ etta_row_count (ETableModel *etm)
 static gpointer
 etta_value_at (ETableModel *etm, gint col, gint row)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
+	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
 	switch (col) {
 	case -1:
@@ -639,7 +639,7 @@ etta_value_at (ETableModel *etm, gint col, gint row)
 static void
 etta_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
+	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
 	e_tree_model_set_value_at (etta->priv->source, get_path (etta, row), col, val);
 }
@@ -647,7 +647,7 @@ etta_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 static gboolean
 etta_is_cell_editable (ETableModel *etm, gint col, gint row)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
+	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
 	return e_tree_model_node_is_editable (etta->priv->source, get_path (etta, row), col);
 }
@@ -660,7 +660,7 @@ etta_append_row (ETableModel *etm, ETableModel *source, gint row)
 static gpointer
 etta_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
+	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
 	return e_tree_model_duplicate_value (etta->priv->source, col, value);
 }
@@ -668,7 +668,7 @@ etta_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 static void
 etta_free_value (ETableModel *etm, gint col, gpointer value)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
+	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
 	e_tree_model_free_value (etta->priv->source, col, value);
 }
@@ -676,7 +676,7 @@ etta_free_value (ETableModel *etm, gint col, gpointer value)
 static gpointer
 etta_initialize_value (ETableModel *etm, gint col)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
+	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
 	return e_tree_model_initialize_value (etta->priv->source, col);
 }
@@ -684,7 +684,7 @@ etta_initialize_value (ETableModel *etm, gint col)
 static gboolean
 etta_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
+	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
 	return e_tree_model_value_is_empty (etta->priv->source, col, value);
 }
@@ -692,7 +692,7 @@ etta_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 static gchar *
 etta_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 {
-	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
+	ETreeTableAdapter *etta = (ETreeTableAdapter *) etm;
 
 	return e_tree_model_value_to_string (etta->priv->source, col, value);
 }
@@ -935,7 +935,7 @@ static void
 save_expanded_state_func (gpointer keyp, gpointer value, gpointer data)
 {
 	ETreePath path = keyp;
-	node_t *node = ((GNode *)value)->data;
+	node_t *node = ((GNode *) value)->data;
 	TreeAndRoot *tar = data;
 	xmlNode *xmlnode;
 
@@ -1136,7 +1136,7 @@ e_tree_table_adapter_root_node_set_visible (ETreeTableAdapter *etta, gboolean vi
 		if (root)
 			e_tree_table_adapter_node_set_expanded (etta, root, TRUE);
 	}
-	size = (visible ? 1 : 0) + (etta->priv->root ? ((node_t *)etta->priv->root->data)->num_visible_children : 0);
+	size = (visible ? 1 : 0) + (etta->priv->root ? ((node_t *) etta->priv->root->data)->num_visible_children : 0);
 	resize_map (etta, size);
 	if (etta->priv->root)
 		fill_map (etta, 0, etta->priv->root);
@@ -1303,7 +1303,7 @@ e_tree_table_adapter_node_get_next (ETreeTableAdapter *etta, ETreePath path)
 	GNode *node = lookup_gnode (etta, path);
 
 	if (node && node->next)
-		return ((node_t *)node->next->data)->path;
+		return ((node_t *) node->next->data)->path;
 
 	return NULL;
 }

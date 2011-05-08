@@ -61,7 +61,7 @@ migrateURI (const gchar *xml, xmlDocPtr doc)
 	frequency = xmlGetProp (root, (const guchar *)"frequency");
 	username = xmlGetProp (root, (const guchar *)"username");
 
-	euri = e_uri_new ((const gchar *)location);
+	euri = e_uri_new ((const gchar *) location);
 
 	if (!euri) {
 		g_warning ("Could not form the uri for %s \n", location);
@@ -71,7 +71,7 @@ migrateURI (const gchar *xml, xmlDocPtr doc)
 	if (euri->user)
 		g_free (euri->user);
 
-	euri->user = g_strdup ((const gchar *)username);
+	euri->user = g_strdup ((const gchar *) username);
 
 	temp = e_uri_to_string (euri, FALSE);
 	uri->location = g_strdup_printf ("dav://%s", strstr (temp, "//") + 2);
@@ -79,9 +79,9 @@ migrateURI (const gchar *xml, xmlDocPtr doc)
 	e_uri_free (euri);
 
 	if (enabled != NULL)
-		uri->enabled = atoi ((gchar *)enabled);
+		uri->enabled = atoi ((gchar *) enabled);
 	if (frequency != NULL)
-		uri->publish_frequency = atoi ((gchar *)frequency);
+		uri->publish_frequency = atoi ((gchar *) frequency);
 	uri->publish_format = URI_PUBLISH_AS_FB;
 
 	password = e_passwords_get_password ("Calendar", (gchar *)location);
@@ -129,7 +129,7 @@ e_publish_uri_from_xml (const gchar *xml)
 	GSList *events = NULL;
 	EPublishUri *uri;
 
-	doc = xmlParseDoc ((const guchar *)xml);
+	doc = xmlParseDoc ((const guchar *) xml);
 	if (doc == NULL)
 		return NULL;
 
@@ -154,18 +154,18 @@ e_publish_uri_from_xml (const gchar *xml)
 	fb_duration_type = xmlGetProp (root, (xmlChar *)"fb_duration_type");
 
 	if (location != NULL)
-		uri->location = (gchar *)location;
+		uri->location = (gchar *) location;
 	if (enabled != NULL)
-		uri->enabled = atoi ((gchar *)enabled);
+		uri->enabled = atoi ((gchar *) enabled);
 	if (frequency != NULL)
-		uri->publish_frequency = atoi ((gchar *)frequency);
+		uri->publish_frequency = atoi ((gchar *) frequency);
 	if (format != NULL)
-		uri->publish_format = atoi ((gchar *)format);
+		uri->publish_format = atoi ((gchar *) format);
 	if (publish_time != NULL)
-		uri->last_pub_time = (gchar *)publish_time;
+		uri->last_pub_time = (gchar *) publish_time;
 
 	if (fb_duration_value)
-		uri->fb_duration_value = atoi ((gchar *)fb_duration_value);
+		uri->fb_duration_value = atoi ((gchar *) fb_duration_value);
 	else
 		uri->fb_duration_value = -1;
 

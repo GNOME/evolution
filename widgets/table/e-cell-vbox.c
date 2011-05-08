@@ -66,7 +66,7 @@ ecv_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view
 		vbox_view->model_cols[i] = ecv->model_cols[i];
 	}
 
-	return (ECellView *)vbox_view;
+	return (ECellView *) vbox_view;
 }
 
 /*
@@ -142,7 +142,7 @@ ecv_draw (ECellView *ecell_view,
           gint x2,
           gint y2)
 {
-	ECellVboxView *vbox_view = (ECellVboxView *)ecell_view;
+	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
 
 	gint subcell_offset = 0;
 	gint i;
@@ -173,7 +173,7 @@ ecv_draw (ECellView *ecell_view,
 static gint
 ecv_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col, gint row, ECellFlags flags, ECellActions *actions)
 {
-	ECellVboxView *vbox_view = (ECellVboxView *)ecell_view;
+	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
 	gint y = 0;
 	gint i;
 	gint subcell_offset = 0;
@@ -208,7 +208,7 @@ ecv_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 static gint
 ecv_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 {
-	ECellVboxView *vbox_view = (ECellVboxView *)ecell_view;
+	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
 	gint height = 0;
 	gint i;
 
@@ -224,7 +224,7 @@ ecv_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 static gint
 ecv_max_width (ECellView *ecell_view, gint model_col, gint view_col)
 {
-	ECellVboxView *vbox_view = (ECellVboxView *)ecell_view;
+	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
 	gint max_width = 0;
 	gint i;
 

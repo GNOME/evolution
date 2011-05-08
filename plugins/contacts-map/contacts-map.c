@@ -112,7 +112,7 @@ show_map_general (ESourceSelector *selector)
 	gdouble *min_lng = NULL;
 	gdouble *max_lng = NULL;
 
-	primary_source = (ESource*)e_source_selector_get_primary_selection (selector);
+	primary_source = (ESource*) e_source_selector_get_primary_selection (selector);
 	uri = e_source_get_uri (primary_source);
 	book = e_book_new_from_uri (uri, NULL);
 

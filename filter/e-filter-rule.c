@@ -476,7 +476,7 @@ filter_rule_xml_encode (EFilterRule *rule)
 		gchar *escaped = g_markup_escape_text (rule->name, -1);
 
 		work = xmlNewNode (NULL, (xmlChar *)"title");
-		xmlNodeSetContent (work, (xmlChar *)escaped);
+		xmlNodeSetContent (work, (xmlChar *) escaped);
 		xmlAddChild (node, work);
 
 		g_free (escaped);
@@ -555,7 +555,7 @@ filter_rule_xml_decode (EFilterRule *rule,
 			if (!rule->name) {
 				gchar *str, *decstr = NULL;
 
-				str = (gchar *)xmlNodeGetContent (work);
+				str = (gchar *) xmlNodeGetContent (work);
 				if (str) {
 					decstr = g_strdup (_(str));
 					xmlFree (str);
@@ -661,7 +661,7 @@ filter_rule_get_widget (EFilterRule *rule,
 
 	label = gtk_label_new_with_mnemonic (_("R_ule name:"));
 	name = gtk_entry_new ();
-	gtk_label_set_mnemonic_widget ((GtkLabel *)label, name);
+	gtk_label_set_mnemonic_widget ((GtkLabel *) label, name);
 
 	if (!rule->name) {
 		rule->name = g_strdup (_("Untitled"));
@@ -727,7 +727,7 @@ filter_rule_get_widget (EFilterRule *rule,
 				_(thread_types[i]));
 		}
 
-		gtk_label_set_mnemonic_widget ((GtkLabel *)label, combobox);
+		gtk_label_set_mnemonic_widget ((GtkLabel *) label, combobox);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), rule->grouping);
 		gtk_widget_show (combobox);
 
@@ -763,7 +763,7 @@ filter_rule_get_widget (EFilterRule *rule,
 				_(thread_types[i]));
 		}
 
-		gtk_label_set_mnemonic_widget ((GtkLabel *)label, combobox);
+		gtk_label_set_mnemonic_widget ((GtkLabel *) label, combobox);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), rule->threading);
 		gtk_widget_show (combobox);
 

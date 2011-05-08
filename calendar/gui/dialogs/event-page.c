@@ -495,7 +495,7 @@ is_custom_alarm_store (EAlarmList *alarm_list_store,
 		return FALSE;
 
 	alarm = e_alarm_list_get_alarm (alarm_list_store, &iter);
-	if (is_custom_alarm ((ECalComponentAlarm *)alarm, old_summary, user_units, user_interval, alarm_type))
+	if (is_custom_alarm ((ECalComponentAlarm *) alarm, old_summary, user_units, user_interval, alarm_type))
 		return TRUE;
 
 	valid_iter = gtk_tree_model_iter_next (model, &iter);
@@ -646,7 +646,7 @@ sensitize_widgets (EventPage *epage)
 
 	if (alarm && !priv->alarm_icon) {
 		priv->alarm_icon = create_alarm_image_button ("stock_bell", _("This event has alarms"), epage);
-		gtk_box_pack_start ((GtkBox *)priv->status_icons, priv->alarm_icon, FALSE, FALSE, 6);
+		gtk_box_pack_start ((GtkBox *) priv->status_icons, priv->alarm_icon, FALSE, FALSE, 6);
 	}
 
 	/* The list of organizers is set to be non-editable. Otherwise any
@@ -2867,7 +2867,7 @@ alarm_changed_cb (GtkWidget *widget,
 		}
 		if (!priv->alarm_icon) {
 			priv->alarm_icon = create_alarm_image_button ("stock_bell", _("This event has alarms"), epage);
-			gtk_box_pack_start ((GtkBox *)priv->status_icons, priv->alarm_icon, FALSE, FALSE, 6);
+			gtk_box_pack_start ((GtkBox *) priv->status_icons, priv->alarm_icon, FALSE, FALSE, 6);
 		}
 	} else {
 		e_alarm_list_clear (priv->alarm_list_store);
@@ -3401,7 +3401,7 @@ event_page_get_alarm_page (EventPage *epage)
 	tmp = GW("dialog-vbox1");
 	alarm_page = GW("vbox2");
 	g_object_ref (alarm_page);
-	gtk_container_remove ((GtkContainer *)tmp, alarm_page);
+	gtk_container_remove ((GtkContainer *) tmp, alarm_page);
 
 	return alarm_page;
 }
@@ -3419,7 +3419,7 @@ event_page_get_attendee_page (EventPage *epage)
 
 	apage = priv->list_box;
 	g_object_ref (apage);
-	gtk_container_remove ((GtkContainer *)gtk_widget_get_parent (apage), apage);
+	gtk_container_remove ((GtkContainer *) gtk_widget_get_parent (apage), apage);
 	gtk_widget_hide (priv->attendee_box);
 
 	return apage;

@@ -205,7 +205,7 @@ filter_context_delete_uri (ERuleContext *context,
 				    EM_FILTER_FOLDER_ELEMENT (element)), uri)) {
 					/* check if last action, if so, remove rule instead? */
 					l = l->next;
-					em_filter_rule_remove_action ((EMFilterRule *)rule, action);
+					em_filter_rule_remove_action ((EMFilterRule *) rule, action);
 					g_object_unref (action);
 					count++;
 					if (!recorded)

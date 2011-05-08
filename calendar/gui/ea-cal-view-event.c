@@ -307,7 +307,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name_string);
 #ifdef ACC_DEBUG
 	printf("EvoAcc:  name for event accobj=%p, is %s\n",
-	       (gpointer)accessible, new_name);
+	       (gpointer) accessible, new_name);
 #endif
 	g_free (name_string);
 	return accessible->name;
@@ -380,7 +380,7 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 		     --event_num) {
 			day_view_event = &g_array_index (day_view->long_events,
 							 EDayViewEvent, event_num);
-			if (cal_view_event == (ECalendarViewEvent*)day_view_event)
+			if (cal_view_event == (ECalendarViewEvent*) day_view_event)
 				return event_num;
 
 		}
@@ -391,7 +391,7 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 			     --event_num) {
 				day_view_event = &g_array_index (day_view->events[day],
 							EDayViewEvent, event_num);
-				if (cal_view_event == (ECalendarViewEvent*)day_view_event)
+				if (cal_view_event == (ECalendarViewEvent*) day_view_event)
 					return num_before + event_num;
 			}
 			num_before += day_view->events[day]->len;
@@ -570,7 +570,7 @@ ea_cal_view_event_do_action (AtkAction *action, gint i)
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (action);
 
 	if (i == 0) {
-		atk_comp = (AtkComponent *)atk_gobj;
+		atk_comp = (AtkComponent *) atk_gobj;
 		return atk_component_grab_focus (atk_comp);
 	}
 

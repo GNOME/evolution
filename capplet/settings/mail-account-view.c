@@ -94,7 +94,7 @@ mail_account_view_init (MailAccountView  *shell)
 static void
 mail_account_view_finalize (GObject *object)
 {
-	MailAccountView *shell = (MailAccountView *)object;
+	MailAccountView *shell = (MailAccountView *) object;
 
 	g_free (shell->priv->username);
 
@@ -160,10 +160,10 @@ save_identity (MailAccountView *view)
 static gint
 validate_identity (MailAccountView *view)
 {
-	gchar *user = (gchar *)e_account_get_string (em_account_editor_get_modified_account (view->edit), E_ACCOUNT_ID_NAME);
-	gchar *email = (gchar *)e_account_get_string (em_account_editor_get_modified_account (view->edit), E_ACCOUNT_ID_ADDRESS);
+	gchar *user = (gchar *) e_account_get_string (em_account_editor_get_modified_account (view->edit), E_ACCOUNT_ID_NAME);
+	gchar *email = (gchar *) e_account_get_string (em_account_editor_get_modified_account (view->edit), E_ACCOUNT_ID_ADDRESS);
 	gchar *tmp;
-	const gchar *pwd = gtk_entry_get_text ((GtkEntry *)view->password);
+	const gchar *pwd = gtk_entry_get_text ((GtkEntry *) view->password);
 
 	if (!user || !*user)
 		return ERROR_NO_FULLNAME;
@@ -242,8 +242,8 @@ setup_yahoo_account (MailAccountView *mav)
 {
 	GConfClient *gconf = gconf_client_get_default ();
 
-	mav->priv->do_gcontacts = gtk_toggle_button_get_active ((GtkToggleButton *)mav->priv->gcontacts);
-	mav->priv->do_calendar = gtk_toggle_button_get_active ((GtkToggleButton *)mav->priv->calendar);
+	mav->priv->do_gcontacts = gtk_toggle_button_get_active ((GtkToggleButton *) mav->priv->gcontacts);
+	mav->priv->do_calendar = gtk_toggle_button_get_active ((GtkToggleButton *) mav->priv->calendar);
 
 	if (mav->priv->do_calendar) {
 		ESourceList *slist;
@@ -277,10 +277,10 @@ setup_yahoo_account (MailAccountView *mav)
 		sanitize_uname = sanitize_user_mail (email);
 
 		abs_uri = g_strdup_printf ("caldav://%s@caldav.calendar.yahoo.com/dav/%s/Calendar/%s/", sanitize_uname, email,  gtk_entry_get_text((GtkEntry *)mav->priv->yahoo_cal_entry));
-		e_passwords_add_password (abs_uri, gtk_entry_get_text ((GtkEntry *)mav->password));
+		e_passwords_add_password (abs_uri, gtk_entry_get_text ((GtkEntry *) mav->password));
 		e_passwords_remember_password ("Calendar", abs_uri);
 
-		rel_uri = g_strdup_printf (YAHOO_CALENDAR_LOCATION, sanitize_uname, email, gtk_entry_get_text ((GtkEntry *)mav->priv->yahoo_cal_entry));
+		rel_uri = g_strdup_printf (YAHOO_CALENDAR_LOCATION, sanitize_uname, email, gtk_entry_get_text ((GtkEntry *) mav->priv->yahoo_cal_entry));
 		e_source_set_relative_uri (calendar, rel_uri);
 
 		e_source_group_add_source (sgrp, calendar, -1);
@@ -327,7 +327,7 @@ setup_yahoo_account (MailAccountView *mav)
 		e_source_set_relative_uri (abook, mav->priv->username);
 
 		rel_uri = g_strdup_printf("google://%s/", mav->priv->username);
-		e_passwords_add_password (rel_uri, gtk_entry_get_text ((GtkEntry *)mav->password));
+		e_passwords_add_password (rel_uri, gtk_entry_get_text ((GtkEntry *) mav->password));
 		e_passwords_remember_password ("Addressbook", rel_uri);
 		e_source_group_add_source (sgrp, abook, -1);
 		e_source_list_sync (slist, NULL);
@@ -347,8 +347,8 @@ setup_google_accounts (MailAccountView *mav)
 {
 	GConfClient *gconf = gconf_client_get_default ();
 
-	mav->priv->do_gcontacts = gtk_toggle_button_get_active ((GtkToggleButton *)mav->priv->gcontacts);
-	mav->priv->do_calendar = gtk_toggle_button_get_active ((GtkToggleButton *)mav->priv->calendar);
+	mav->priv->do_gcontacts = gtk_toggle_button_get_active ((GtkToggleButton *) mav->priv->gcontacts);
+	mav->priv->do_calendar = gtk_toggle_button_get_active ((GtkToggleButton *) mav->priv->calendar);
 
 	if (mav->priv->do_calendar) {
 		ESourceList *slist;
@@ -378,7 +378,7 @@ setup_google_accounts (MailAccountView *mav)
 		abs_uri = g_strdup_printf (CALENDAR_CALDAV_URI, sanitize_uname, mav->priv->username);
 		e_source_set_absolute_uri (calendar, abs_uri);
 
-		e_passwords_add_password (abs_uri, gtk_entry_get_text ((GtkEntry *)mav->password));
+		e_passwords_add_password (abs_uri, gtk_entry_get_text ((GtkEntry *) mav->password));
 		e_passwords_remember_password ("Calendar", abs_uri);
 		rel_uri = g_strconcat ("https", GMAIL_CALENDAR_LOCATION, sanitize_uname, CALENDAR_DEFAULT_PATH, NULL);
 		e_source_set_relative_uri (calendar, rel_uri);
@@ -428,7 +428,7 @@ setup_google_accounts (MailAccountView *mav)
 		e_source_set_relative_uri (abook, mav->priv->username);
 
 		rel_uri = g_strdup_printf("google://%s/", mav->priv->username);
-		e_passwords_add_password (rel_uri, gtk_entry_get_text ((GtkEntry *)mav->password));
+		e_passwords_add_password (rel_uri, gtk_entry_get_text ((GtkEntry *) mav->password));
 		e_passwords_remember_password ("Addressbook", rel_uri);
 		e_source_list_sync (slist, NULL);
 
@@ -452,91 +452,91 @@ create_review (MailAccountView *view)
 	CamelURL *url;
 	gchar *buff;
 
-	uri = (gchar *)e_account_get_string (em_account_editor_get_modified_account (view->edit), E_ACCOUNT_SOURCE_URL);
+	uri = (gchar *) e_account_get_string (em_account_editor_get_modified_account (view->edit), E_ACCOUNT_SOURCE_URL);
 	if (!uri  || (url = camel_url_new (uri, NULL)) == NULL)
 		return NULL;
 
 	table = gtk_table_new (4,2, FALSE);
-	gtk_table_set_row_spacings ((GtkTable *)table, 4);
+	gtk_table_set_row_spacings ((GtkTable *) table, 4);
 
 	label = gtk_label_new (NULL);
 	buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Personal details:"));
-	gtk_label_set_markup ((GtkLabel *)label, buff);
+	gtk_label_set_markup ((GtkLabel *) label, buff);
 	g_free (buff);
 	gtk_widget_show (label);
 	PACK_BOXF (label)
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 0, 1, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 0, 1, 0, 1, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (_("Name:"));
 	gtk_widget_show (label);
 	PACK_BOX (label);
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 1, 2, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 0, 1, 1, 2, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 	entry = gtk_label_new (e_account_get_string (em_account_editor_get_modified_account (view->edit), E_ACCOUNT_ID_NAME));
 	gtk_widget_show (entry);
 	PACK_BOX (entry)
-	gtk_table_attach ((GtkTable *)table, box, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (_("Email address:"));
 	gtk_widget_show (label);
 	PACK_BOX (label)
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 2, 3, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 0, 1, 2, 3, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 	entry = gtk_label_new (e_account_get_string (em_account_editor_get_modified_account (view->edit), E_ACCOUNT_ID_ADDRESS));
 	gtk_widget_show (entry);
 	PACK_BOX (entry)
-	gtk_table_attach ((GtkTable *)table, box, 1, 2, 2, 3, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 1, 2, 2, 3, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (NULL);
 	buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Details:"));
-	gtk_label_set_markup ((GtkLabel *)label, buff);
+	gtk_label_set_markup ((GtkLabel *) label, buff);
 	g_free (buff);
 	gtk_widget_show (label);
 	PACK_BOXF (label);
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 0, 1, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (NULL);
 	buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Receiving"));
-	gtk_label_set_markup ((GtkLabel *)label, buff);
+	gtk_label_set_markup ((GtkLabel *) label, buff);
 	g_free (buff);
 	gtk_widget_show (label);
 	PACK_BOXF (label);
-	gtk_table_attach ((GtkTable *)table, box, 1, 2, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 1, 2, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (_("Server type:"));
 	gtk_widget_show (label);
 	PACK_BOX (label);
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 4, 5, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 0, 1, 4, 5, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 	entry = gtk_label_new (url->protocol);
 	gtk_widget_show (entry);
 	PACK_BOX (entry)
-	gtk_table_attach ((GtkTable *)table, box, 1, 2, 4, 5, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 1, 2, 4, 5, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (_("Server address:"));
 	gtk_widget_show (label);
 	PACK_BOX (label);
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 5, 6, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 0, 1, 5, 6, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 	entry = gtk_label_new (url->host);
 	gtk_widget_show (entry);
 	PACK_BOX (entry);
-	gtk_table_attach ((GtkTable *)table, box, 1, 2, 5, 6, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 1, 2, 5, 6, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (_("Username:"));
 	gtk_widget_show (label);
 	PACK_BOX (label);
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 6, 7, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 0, 1, 6, 7, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 	entry = gtk_label_new (url->user);
 	gtk_widget_show (entry);
 	PACK_BOX (entry);
-	gtk_table_attach ((GtkTable *)table, box, 1, 2, 6, 7, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 1, 2, 6, 7, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (_("Use encryption:"));
 	gtk_widget_show (label);
 	PACK_BOX (label);
-	gtk_table_attach ((GtkTable *)table, box, 0, 1, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 0, 1, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 	enc = (gchar *)camel_url_get_param(url, "use_ssl");
 	entry = gtk_label_new (enc ? enc : _("never"));
 	gtk_widget_show (entry);
 	PACK_BOX (entry);
-	gtk_table_attach ((GtkTable *)table, box, 1, 2, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 1, 2, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	view->priv->username = g_strdup (url->user);
 	camel_url_free (url);
@@ -546,32 +546,32 @@ create_review (MailAccountView *view)
 
 	label = gtk_label_new (NULL);
 	buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Sending"));
-	gtk_label_set_markup ((GtkLabel *)label, buff);
+	gtk_label_set_markup ((GtkLabel *) label, buff);
 	g_free (buff);
 	gtk_widget_show (label);
 	PACK_BOXF (label);
-	gtk_table_attach ((GtkTable *)table, box, 2, 3, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 2, 3, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	entry = gtk_label_new (url->protocol);
 	gtk_widget_show (entry);
 	PACK_BOX (entry)
-	gtk_table_attach ((GtkTable *)table, box, 2, 3, 4, 5, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 2, 3, 4, 5, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	entry = gtk_label_new (url->host);
 	gtk_widget_show (entry);
 	PACK_BOX (entry);
-	gtk_table_attach ((GtkTable *)table, box, 2, 3, 5, 6, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 2, 3, 5, 6, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	entry = gtk_label_new (url->user);
 	gtk_widget_show (entry);
 	PACK_BOX (entry);
-	gtk_table_attach ((GtkTable *)table, box, 2, 3, 6, 7, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 2, 3, 6, 7, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	enc = (gchar *)camel_url_get_param(url, "use_ssl");
 	entry = gtk_label_new (enc ? enc : _("never"));
 	gtk_widget_show (entry);
 	PACK_BOX (entry);
-	gtk_table_attach ((GtkTable *)table, box, 2, 3, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
+	gtk_table_attach ((GtkTable *) table, box, 2, 3, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 /*
 	label = gtk_label_new (_("Organization:"));
@@ -627,7 +627,7 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 		gint ret = (*mail_account_pages[mav->current_page].validate_page) (mav);
 		MAVPage *page = mav->pages[mav->current_page];
 		if (ret) {
-			gtk_label_set_text ((GtkLabel *)page->error_label, _(dialog_errors[ret-1].detail));
+			gtk_label_set_text ((GtkLabel *) page->error_label, _(dialog_errors[ret-1].detail));
 			gtk_widget_show  (page->error);
 			return;
 		}
@@ -639,7 +639,7 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 	}
 
 	if (mav->current_page == MAV_LAST - 1) {
-		gchar *uri = (gchar *)e_account_get_string (em_account_editor_get_modified_account (mav->edit), E_ACCOUNT_SOURCE_URL);
+		gchar *uri = (gchar *) e_account_get_string (em_account_editor_get_modified_account (mav->edit), E_ACCOUNT_SOURCE_URL);
 		CamelURL *url;
 
 		e_account_set_string (em_account_editor_get_modified_account (mav->edit), E_ACCOUNT_NAME, e_account_get_string (em_account_editor_get_modified_account (mav->edit), E_ACCOUNT_ID_ADDRESS));
@@ -667,7 +667,7 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			/* Save the password ahead of time */
 			aurl = camel_url_new (account->source->url, NULL);
 			surl = camel_url_to_string (aurl, CAMEL_URL_HIDE_ALL);
-			e_passwords_add_password (surl, gtk_entry_get_text ((GtkEntry *)mav->password));
+			e_passwords_add_password (surl, gtk_entry_get_text ((GtkEntry *) mav->password));
 			e_passwords_remember_password ("Mail", surl);
 			camel_url_free (aurl);
 			g_free (surl);
@@ -701,9 +701,9 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 		tmp = mail_account_pages[mav->current_page].create_page (mav);
 		page->main = gtk_hbox_new (FALSE, 0);
 		gtk_widget_show (page->main);
-		gtk_box_pack_start ((GtkBox *)page->main, tmp, FALSE, FALSE, 0);
+		gtk_box_pack_start ((GtkBox *) page->main, tmp, FALSE, FALSE, 0);
 		gtk_widget_show (tmp);
-		gtk_box_pack_start ((GtkBox *)page->box, page->main, FALSE, FALSE, 3);
+		gtk_box_pack_start ((GtkBox *) page->box, page->main, FALSE, FALSE, 3);
 
 		if (mav->priv->is_gmail) {
 			gtk_widget_destroy (mav->priv->gcontacts);
@@ -740,11 +740,11 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			mav->priv->gcontacts = gtk_check_button_new_with_label (_("Setup Google contacts with Evolution"));
 			mav->priv->calendar = gtk_check_button_new_with_label (_("Setup Google calendar with Evolution"));
 
-			gtk_toggle_button_set_active ((GtkToggleButton *)mav->priv->gcontacts, TRUE);
-			gtk_toggle_button_set_active ((GtkToggleButton *)mav->priv->calendar, TRUE);
+			gtk_toggle_button_set_active ((GtkToggleButton *) mav->priv->gcontacts, TRUE);
+			gtk_toggle_button_set_active ((GtkToggleButton *) mav->priv->calendar, TRUE);
 
 			mav->priv->gmail_info_label = gtk_label_new (_("You may need to enable IMAP access."));
-			gtk_label_set_selectable ((GtkLabel *)mav->priv->gmail_info_label, TRUE);
+			gtk_label_set_selectable ((GtkLabel *) mav->priv->gmail_info_label, TRUE);
 
 			gtk_widget_show (mav->priv->gcontacts);
 			gtk_widget_show (mav->priv->calendar);
@@ -752,7 +752,7 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 
 			mav->priv->account_label = gtk_label_new (NULL);
 			buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Google account settings:"));
-			gtk_label_set_markup ((GtkLabel *)mav->priv->account_label, buff);
+			gtk_label_set_markup ((GtkLabel *) mav->priv->account_label, buff);
 			g_free (buff);
 			gtk_widget_show (mav->priv->account_label);
 
@@ -779,19 +779,19 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			printf("Google account: %s\n", account->source->url);
 			mav->priv->calendar = gtk_check_button_new_with_label (_("Setup Yahoo calendar with Evolution"));
 
-			gtk_toggle_button_set_active ((GtkToggleButton *)mav->priv->calendar, TRUE);
+			gtk_toggle_button_set_active ((GtkToggleButton *) mav->priv->calendar, TRUE);
 
 			mav->priv->gmail_info_label = gtk_label_new (_("Yahoo calendars are named as firstname_lastname. We have tried to form the calendar name. So please confirm and re-enter the calendar name if it is not correct."));
-			gtk_label_set_line_wrap ((GtkLabel *)mav->priv->gmail_info_label, TRUE);
-			gtk_label_set_line_wrap_mode ((GtkLabel *)mav->priv->gmail_info_label, PANGO_WRAP_WORD);
-			gtk_label_set_selectable ((GtkLabel *)mav->priv->gmail_info_label, TRUE);
+			gtk_label_set_line_wrap ((GtkLabel *) mav->priv->gmail_info_label, TRUE);
+			gtk_label_set_line_wrap_mode ((GtkLabel *) mav->priv->gmail_info_label, PANGO_WRAP_WORD);
+			gtk_label_set_selectable ((GtkLabel *) mav->priv->gmail_info_label, TRUE);
 
 			gtk_widget_show (mav->priv->calendar);
 			gtk_widget_show (mav->priv->gmail_info_label);
 
 			mav->priv->account_label = gtk_label_new (NULL);
 			buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Yahoo account settings:"));
-			gtk_label_set_markup ((GtkLabel *)mav->priv->account_label, buff);
+			gtk_label_set_markup ((GtkLabel *) mav->priv->account_label, buff);
 			g_free (buff);
 			gtk_widget_show (mav->priv->account_label);
 
@@ -808,7 +808,7 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			PACK_IN_BOX (page->box, mav->priv->yahoo_cal_box, 24);
 			cal_name = g_strdup (e_account_get_string (em_account_editor_get_modified_account (mav->edit), E_ACCOUNT_ID_NAME));
 			cal_name = g_strdelimit(cal_name, " ", '_');
-			gtk_entry_set_text ((GtkEntry *)mav->priv->yahoo_cal_entry, cal_name);
+			gtk_entry_set_text ((GtkEntry *) mav->priv->yahoo_cal_entry, cal_name);
 			g_free (cal_name);
 #undef PACK_IN_BOX
 		} else {
@@ -859,8 +859,8 @@ mav_construct_page (MailAccountView *view, MAVPageType type)
 	error_box = gtk_hbox_new (FALSE, 2);
 	page->error_label = gtk_label_new ("");
 	tmp = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_MENU);
-	gtk_box_pack_start ((GtkBox *)error_box, tmp, FALSE, FALSE, 2);
-	gtk_box_pack_start ((GtkBox *)error_box, page->error_label, FALSE, FALSE, 2);
+	gtk_box_pack_start ((GtkBox *) error_box, tmp, FALSE, FALSE, 2);
+	gtk_box_pack_start ((GtkBox *) error_box, page->error_label, FALSE, FALSE, 2);
 	gtk_widget_hide (tmp);
 	gtk_widget_show (page->error_label);
 	page->error = tmp;
@@ -868,31 +868,31 @@ mav_construct_page (MailAccountView *view, MAVPageType type)
 
 	box = gtk_hbox_new (FALSE, 12);
 	gtk_widget_show (box);
-	gtk_box_pack_start ((GtkBox *)page->box, box, FALSE, FALSE, 12);
+	gtk_box_pack_start ((GtkBox *) page->box, box, FALSE, FALSE, 12);
 	tmp = gtk_label_new (NULL);
 	str = g_strdup_printf("<span  size=\"xx-large\" weight=\"heavy\">%s</span>", _(mail_account_pages[type].head));
-	gtk_label_set_markup ((GtkLabel *)tmp, str);
+	gtk_label_set_markup ((GtkLabel *) tmp, str);
 	g_free (str);
 	gtk_widget_show (tmp);
-	gtk_box_pack_start ((GtkBox *)box, tmp, FALSE, FALSE, 12);
+	gtk_box_pack_start ((GtkBox *) box, tmp, FALSE, FALSE, 12);
 
 	box = gtk_hbox_new (FALSE, 12);
 	gtk_widget_show (box);
-	gtk_box_pack_start ((GtkBox *)page->box, box, FALSE, FALSE, 12);
+	gtk_box_pack_start ((GtkBox *) page->box, box, FALSE, FALSE, 12);
 	tmp = gtk_label_new (_(mail_account_pages[type].detail));
 	gtk_widget_set_size_request (tmp, 600, -1);
-	gtk_label_set_line_wrap ((GtkLabel *)tmp, TRUE);
-	gtk_label_set_line_wrap_mode ((GtkLabel *)tmp, PANGO_WRAP_WORD);
+	gtk_label_set_line_wrap ((GtkLabel *) tmp, TRUE);
+	gtk_label_set_line_wrap_mode ((GtkLabel *) tmp, PANGO_WRAP_WORD);
 	gtk_widget_show (tmp);
-	gtk_box_pack_start ((GtkBox *)box, tmp, FALSE, FALSE, 12);
+	gtk_box_pack_start ((GtkBox *) box, tmp, FALSE, FALSE, 12);
 
 	page->main = NULL;
 	if (mail_account_pages[type].create_page && mail_account_pages[type].path) {
 		tmp = (*mail_account_pages[type].create_page) (view);
-		gtk_box_pack_start ((GtkBox *)page->box, tmp, FALSE, FALSE, 3);
+		gtk_box_pack_start ((GtkBox *) page->box, tmp, FALSE, FALSE, 3);
 		page->main = gtk_hbox_new (FALSE, 0);
 		gtk_widget_show (page->main);
-		gtk_box_pack_start ((GtkBox *)page->main, tmp, FALSE, FALSE, 0);
+		gtk_box_pack_start ((GtkBox *) page->main, tmp, FALSE, FALSE, 0);
 	}
 
 	if (mail_account_pages[type].fill_page) {
@@ -903,12 +903,12 @@ mav_construct_page (MailAccountView *view, MAVPageType type)
 		box = gtk_hbox_new (FALSE, 0);
 		if (FALSE) {
 			tmp = gtk_image_new_from_icon_name ("go-previous", GTK_ICON_SIZE_BUTTON);
-			gtk_box_pack_start ((GtkBox *)box, tmp, FALSE, FALSE, 0);
+			gtk_box_pack_start ((GtkBox *) box, tmp, FALSE, FALSE, 0);
 		}
 		tmp = gtk_label_new (_(view->original ? mail_account_pages[type].prev_edit : mail_account_pages[type].prev));
-		gtk_box_pack_start ((GtkBox *)box, tmp, FALSE, FALSE, 3);
+		gtk_box_pack_start ((GtkBox *) box, tmp, FALSE, FALSE, 3);
 		page->prev = gtk_button_new ();
-		gtk_container_add ((GtkContainer *)page->prev, box);
+		gtk_container_add ((GtkContainer *) page->prev, box);
 		gtk_widget_show_all (page->prev);
 		g_signal_connect(page->prev, "clicked", G_CALLBACK(mav_prev_pressed), view);
 	}
@@ -916,30 +916,30 @@ mav_construct_page (MailAccountView *view, MAVPageType type)
 	if ((view->original && mail_account_pages[type].next_edit) || mail_account_pages[type].next) {
 		box = gtk_hbox_new (FALSE, 0);
 		tmp = gtk_label_new (_(view->original ? mail_account_pages[type].next_edit : mail_account_pages[type].next));
-		gtk_box_pack_start ((GtkBox *)box, tmp, FALSE, FALSE, 3);
+		gtk_box_pack_start ((GtkBox *) box, tmp, FALSE, FALSE, 3);
 		if (FALSE) {
 			tmp = gtk_image_new_from_icon_name ("go-next", GTK_ICON_SIZE_BUTTON);
-			gtk_box_pack_start ((GtkBox *)box, tmp, FALSE, FALSE, 0);
+			gtk_box_pack_start ((GtkBox *) box, tmp, FALSE, FALSE, 0);
 		}
 		page->next = gtk_button_new ();
 		gtk_widget_set_can_default (page->next, TRUE);
 		g_signal_connect (page->next, "hierarchy-changed",
 				  G_CALLBACK (gtk_widget_grab_default), NULL);
-		gtk_container_add ((GtkContainer *)page->next, box);
+		gtk_container_add ((GtkContainer *) page->next, box);
 		gtk_widget_show_all (page->next);
 		g_signal_connect(page->next, "clicked", G_CALLBACK(mav_next_pressed), view);
 	}
 
 	box = gtk_hbox_new (FALSE, 0);
 	if (page->prev)
-		gtk_box_pack_start ((GtkBox *)box, page->prev, FALSE, FALSE, 12);
+		gtk_box_pack_start ((GtkBox *) box, page->prev, FALSE, FALSE, 12);
 	if (page->next)
-		gtk_box_pack_end ((GtkBox *)box, page->next, FALSE, FALSE, 12);
+		gtk_box_pack_end ((GtkBox *) box, page->next, FALSE, FALSE, 12);
 	gtk_widget_show (box);
-	gtk_box_pack_end ((GtkBox *)page->box, box, FALSE, FALSE, 6);
+	gtk_box_pack_end ((GtkBox *) page->box, box, FALSE, FALSE, 6);
 	gtk_widget_show (page->box);
-	gtk_box_pack_end ((GtkBox *)page->box, error_box, FALSE, FALSE, 2);
-	return (GtkWidget *)page;
+	gtk_box_pack_end ((GtkBox *) page->box, error_box, FALSE, FALSE, 2);
+	return (GtkWidget *) page;
 }
 
 static ServerData *
@@ -951,13 +951,13 @@ emae_check_servers (const gchar *email)
 	gchar *tmp;
 
 	/* FIXME: Find a way to free the provider once given to account settings. */
-	provider->email = (gchar *)email;
+	provider->email = (gchar *) email;
 	tmp = strchr (email, '@');
 	tmp++;
 	provider->domain = tmp;
 	tmp = strchr (dupe, '@');
 	*tmp = 0;
-	provider->username = (gchar *)g_quark_to_string (g_quark_from_string (dupe));
+	provider->username = (gchar *) g_quark_to_string (g_quark_from_string (dupe));
 	g_free (dupe);
 
 	if (!mail_guess_servers (provider)) {
@@ -1041,22 +1041,22 @@ mail_account_view_construct (MailAccountView *view,
 	EShell *shell;
 
 	view->scroll = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy ((GtkScrolledWindow *)view->scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type ((GtkScrolledWindow *)view->scroll, GTK_SHADOW_NONE);
+	gtk_scrolled_window_set_policy ((GtkScrolledWindow *) view->scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type ((GtkScrolledWindow *) view->scroll, GTK_SHADOW_NONE);
 	view->page_widget = gtk_vbox_new (FALSE, 3);
-	gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *)view->scroll, view->page_widget);
+	gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *) view->scroll, view->page_widget);
 	gtk_widget_show_all (view->scroll);
-	gtk_widget_set_size_request ((GtkWidget *)view, -1, 300);
+	gtk_widget_set_size_request ((GtkWidget *) view, -1, 300);
 	for (i=0; i<MAV_LAST; i++) {
-		view->pages[i] = (MAVPage *)mav_construct_page (view, i);
+		view->pages[i] = (MAVPage *) mav_construct_page (view, i);
 		view->pages[i]->done = FALSE;
 		view->wpages[i] = view->pages[i]->box;
-		gtk_box_pack_start ((GtkBox *)view->page_widget, view->pages[i]->box, TRUE, TRUE, 0);
+		gtk_box_pack_start ((GtkBox *) view->page_widget, view->pages[i]->box, TRUE, TRUE, 0);
 		gtk_widget_hide (view->pages[i]->box);
 	}
 	gtk_widget_show (view->pages[0]->box);
 	view->current_page = 0;
-	gtk_box_pack_start ((GtkBox *)view, view->scroll, TRUE, TRUE, 0);
+	gtk_box_pack_start ((GtkBox *) view, view->scroll, TRUE, TRUE, 0);
 	view->edit = em_account_editor_new_for_pages (
 		view->original, EMAE_PAGES, session,
 		"org.gnome.evolution.mail.config.accountWizard", view->wpages);
@@ -1078,13 +1078,13 @@ mail_account_view_construct (MailAccountView *view,
 		if (!view->original) {
 			label = gtk_label_new (_("Password:"));
 			pwd = gtk_entry_new ();
-			gtk_entry_set_visibility ((GtkEntry *)pwd, FALSE);
+			gtk_entry_set_visibility ((GtkEntry *) pwd, FALSE);
 /*			gtk_entry_set_activates_default ((GtkEntry *)pwd, TRUE); */
 			g_signal_connect (pwd, "activate", G_CALLBACK (next_page), view);
 			gtk_widget_show (label);
 			gtk_widget_show (pwd);
-			gtk_table_attach ((GtkTable *)table, label, 0, 1, 2, 3, GTK_FILL, 0, 0, 0);
-			gtk_table_attach ((GtkTable *)table, pwd, 1, 2, 2, 3, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+			gtk_table_attach ((GtkTable *) table, label, 0, 1, 2, 3, GTK_FILL, 0, 0, 0);
+			gtk_table_attach ((GtkTable *) table, pwd, 1, 2, 2, 3, GTK_FILL|GTK_EXPAND, 0, 0, 0);
 
 			view->password = pwd;
 		}
@@ -1122,25 +1122,25 @@ mail_account_view_get_tab_widget (MailAccountView *mcv)
 	gint w=-1, h=-1;
 	GtkWidget *tab_label;
 
-	img = (GtkWidget *)gtk_image_new_from_pixbuf (pbuf);
+	img = (GtkWidget *) gtk_image_new_from_pixbuf (pbuf);
 
 	tool = gtk_button_new ();
-	gtk_button_set_relief ((GtkButton *)tool, GTK_RELIEF_NONE);
-	gtk_button_set_focus_on_click ((GtkButton *)tool, FALSE);
+	gtk_button_set_relief ((GtkButton *) tool, GTK_RELIEF_NONE);
+	gtk_button_set_focus_on_click ((GtkButton *) tool, FALSE);
 	gtk_widget_set_tooltip_text (tool, _("Close Tab"));
 	g_signal_connect (tool, "clicked", G_CALLBACK(mav_close), mcv);
 
 	box = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)box, img, FALSE, FALSE, 0);
-	gtk_container_add ((GtkContainer *)tool, box);
+	gtk_box_pack_start ((GtkBox *) box, img, FALSE, FALSE, 0);
+	gtk_container_add ((GtkContainer *) tool, box);
 	gtk_widget_show_all (tool);
 	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (tool) , GTK_ICON_SIZE_MENU, &w, &h);
 	gtk_widget_set_size_request (tool, w+2, h+2);
 
 	box = gtk_label_new (_("Account Wizard"));
 	tab_label = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)tab_label, box, FALSE, FALSE, 2);
-	gtk_box_pack_start ((GtkBox *)tab_label, tool, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) tab_label, box, FALSE, FALSE, 2);
+	gtk_box_pack_start ((GtkBox *) tab_label, tool, FALSE, FALSE, 0);
 	gtk_widget_show_all (tab_label);
 
 	return tab_label;

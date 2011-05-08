@@ -158,7 +158,7 @@ org_gnome_evolution_readdbx_supported (EPlugin *epl, EImportTarget *target)
 		return FALSE;
 	}
 
-	s = (EImportTargetURI *)target;
+	s = (EImportTargetURI *) target;
 
 	if (s->uri_src == NULL) {
 		return TRUE;
@@ -240,7 +240,7 @@ org_gnome_evolution_readdbx_getwidget (EImport *ei,
 	hbox = gtk_hbox_new (FALSE, 0);
 
 	w = gtk_label_new_with_mnemonic (_("_Destination folder:"));
-	gtk_box_pack_start ((GtkBox *)hbox, w, FALSE, TRUE, 6);
+	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, TRUE, 6);
 
 	label = GTK_LABEL (w);
 
@@ -253,13 +253,13 @@ org_gnome_evolution_readdbx_getwidget (EImport *ei,
 		_("Select folder to import into"));
 
 	gtk_label_set_mnemonic_widget (label, w);
-	em_folder_selection_button_set_selection ((EMFolderSelectionButton *)w, select_uri);
-	folder_selected ((EMFolderSelectionButton *)w, (EImportTargetURI *)target);
+	em_folder_selection_button_set_selection ((EMFolderSelectionButton *) w, select_uri);
+	folder_selected ((EMFolderSelectionButton *) w, (EImportTargetURI *) target);
 	g_signal_connect (w, "selected", G_CALLBACK(folder_selected), target);
-	gtk_box_pack_start ((GtkBox *)hbox, w, FALSE, TRUE, 6);
+	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, TRUE, 6);
 
 	w = gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)w, hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) w, hbox, FALSE, FALSE, 0);
 	gtk_widget_show_all (w);
 
 	g_free (select_uri);
@@ -577,10 +577,10 @@ dbx_import_file (DbxImporter *m)
 	gint missing = 0;
 	m->status_what = NULL;
 	filename = g_filename_from_uri (
-		((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
+		((EImportTargetURI *) m->target)->uri_src, NULL, NULL);
 
 	/* Destination folder, was set in our widget */
-	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest);
+	m->parent_uri = g_strdup (((EImportTargetURI *) m->target)->uri_dest);
 
 	cancellable = e_activity_get_cancellable (m->base.activity);
 
@@ -602,7 +602,7 @@ dbx_import_file (DbxImporter *m)
 	camel_folder_freeze (folder);
 
 	filename = g_filename_from_uri (
-		((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
+		((EImportTargetURI *) m->target)->uri_src, NULL, NULL);
 	m->dbx_fd = g_open (filename, O_RDONLY, 0);
 	g_free (filename);
 
@@ -657,7 +657,7 @@ dbx_import_file (DbxImporter *m)
 
 		msg = camel_mime_message_new ();
 		if (!camel_mime_part_construct_from_parser_sync (
-			(CamelMimePart *)msg, mp, NULL, NULL)) {
+			(CamelMimePart *) msg, mp, NULL, NULL)) {
 			/* set exception? */
 			g_object_unref (msg);
 			g_object_unref (mp);
@@ -707,7 +707,7 @@ dbx_import_import (DbxImporter *m,
 static void
 dbx_import_imported (DbxImporter *m)
 {
-	e_import_complete (m->target->import, (EImportTarget *)m->target);
+	e_import_complete (m->target->import, (EImportTarget *) m->target);
 }
 
 static void

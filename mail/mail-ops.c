@@ -209,7 +209,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
                  GCancellable *cancellable,
                  GError **error)
 {
-	struct _filter_mail_msg *fm = (struct _filter_mail_msg *)m;
+	struct _filter_mail_msg *fm = (struct _filter_mail_msg *) m;
 	CamelFolder *folder;
 	const gchar *uid;
 	gint i;
@@ -356,7 +356,7 @@ mail_fetch_mail (CamelStore *store,
 	session = camel_service_get_session (CAMEL_SERVICE (store));
 
 	m = mail_msg_new (&fetch_mail_info);
-	fm = (struct _filter_mail_msg *)m;
+	fm = (struct _filter_mail_msg *) m;
 	fm->session = g_object_ref (session);
 	m->store = g_object_ref (store);
 	fm->delete = !keep;
@@ -1048,7 +1048,7 @@ get_folderinfo_desc (struct _get_folderinfo_msg *m)
 {
 	gchar *ret, *name;
 
-	name = camel_service_get_name ((CamelService *)m->store, TRUE);
+	name = camel_service_get_name ((CamelService *) m->store, TRUE);
 	ret = g_strdup_printf (_("Scanning folders in '%s'"), name);
 	g_free (name);
 	return ret;
@@ -1759,7 +1759,7 @@ expunge_pop3_stores (CamelFolder *expunging, EMailSession *session, GCancellable
 	if (!expunging_uids)
 		return;
 
-	for (iter = e_list_get_iterator ((EList *)e_get_account_list ());
+	for (iter = e_list_get_iterator ((EList *) e_get_account_list ());
 	     e_iterator_is_valid (iter) && (!error || !*error);
 	     e_iterator_next (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
@@ -2215,10 +2215,10 @@ save_messages_exec (struct _save_messages_msg *m,
 			stream, cancellable, error) == -1
 		    || camel_data_wrapper_write_to_stream_sync (
 			(CamelDataWrapper *) message,
-			(CamelStream *)filtered_stream,
+			(CamelStream *) filtered_stream,
 			cancellable, error) == -1
 		    || camel_stream_flush (
-			(CamelStream *)filtered_stream,
+			(CamelStream *) filtered_stream,
 			cancellable, error) == -1
 		    || camel_stream_write_string (
 			stream, "\n",
@@ -2229,7 +2229,7 @@ save_messages_exec (struct _save_messages_msg *m,
 				error, _("Error saving messages to: %s:\n"),
 				m->path);
 			g_free (from);
-			g_object_unref ((CamelObject *)message);
+			g_object_unref ((CamelObject *) message);
 			break;
 		}
 		g_free (from);

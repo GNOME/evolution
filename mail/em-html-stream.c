@@ -96,7 +96,7 @@ static gint
 html_stream_sync_flush (CamelStream *stream,
                         GError **error)
 {
-	EMHTMLStream *emhs = (EMHTMLStream *)stream;
+	EMHTMLStream *emhs = (EMHTMLStream *) stream;
 
 	if (emhs->html_stream == NULL) {
 		g_set_error (
@@ -114,7 +114,7 @@ static gint
 html_stream_sync_close (CamelStream *stream,
                         GError **error)
 {
-	EMHTMLStream *emhs = (EMHTMLStream *)stream;
+	EMHTMLStream *emhs = (EMHTMLStream *) stream;
 
 	if (emhs->html_stream == NULL) {
 		g_set_error (

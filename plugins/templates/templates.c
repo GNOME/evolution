@@ -655,7 +655,7 @@ fill_template (CamelMimeMessage *message, CamelMimePart *template)
 		camel_data_wrapper_decode_to_stream_sync (camel_medium_get_content (CAMEL_MEDIUM (message_part)), stream, NULL, NULL);
 		camel_stream_flush (stream, NULL, NULL);
 		byte_array = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (stream));
-		message_body = g_string_new_len ((gchar *)byte_array->data, byte_array->len);
+		message_body = g_string_new_len ((gchar *) byte_array->data, byte_array->len);
 		g_object_unref (stream);
 
 		if (template_html && !message_html) {
@@ -836,7 +836,7 @@ action_reply_with_template_cb (GtkAction *action,
 	template = camel_folder_get_message_sync (template_folder, uid, NULL, NULL);
 
 	mail_get_message (folder, uids->pdata[0], create_new_message,
-		(gpointer)template, mail_msg_unordered_push);
+		(gpointer) template, mail_msg_unordered_push);
 
 	g_object_unref (G_OBJECT (action));
 

@@ -321,7 +321,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		/* Hide the New button on the toolbar. */
 		widget = e_shell_window_get_managed_widget (
 			shell_window, "/main-toolbar");
-		widget = (GtkWidget *)gtk_toolbar_get_nth_item (
+		widget = (GtkWidget *) gtk_toolbar_get_nth_item (
 			GTK_TOOLBAR (widget), 0);
 		gtk_widget_hide (widget);
 

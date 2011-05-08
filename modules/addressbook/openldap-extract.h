@@ -284,7 +284,7 @@ ldap_int_parse_numericoid (const gchar **sp, gint *code, const gint flags)
 		}
 	}
 	if (flags & LDAP_SCHEMA_SKIP) {
-		res = (gchar *)start;
+		res = (gchar *) start;
 	} else {
 		res = LDAP_MALLOC (len+1);
 		if (!res) {
@@ -1125,7 +1125,7 @@ ldap_url_parse_ext ( LDAP_CONST gchar *url_in, LDAPURLDesc **ludpp )
 	}
 
 	/* allocate return struct */
-	ludp = (LDAPURLDesc *)LDAP_CALLOC ( 1, sizeof ( LDAPURLDesc ));
+	ludp = (LDAPURLDesc *) LDAP_CALLOC ( 1, sizeof ( LDAPURLDesc ));
 
 	if (ludp == NULL) {
 		LDAP_FREE ( url );

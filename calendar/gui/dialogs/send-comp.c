@@ -86,7 +86,7 @@ have_nonprocedural_alarm (ECalComponent *comp)
 		ECalComponentAlarm *alarm;
 		ECalComponentAlarmAction action = E_CAL_COMPONENT_ALARM_UNKNOWN;
 
-		alarm = e_cal_component_get_alarm (comp, (const gchar *)l->data);
+		alarm = e_cal_component_get_alarm (comp, (const gchar *) l->data);
 		if (alarm) {
 			e_cal_component_alarm_get_action (alarm, &action);
 			e_cal_component_alarm_free (alarm);

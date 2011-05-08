@@ -213,7 +213,7 @@ e_table_subset_variable_clear (ETableSubsetVariable *etssv)
 	e_table_model_pre_change (etm);
 	etss->n_map = 0;
 	g_free (etss->map_table);
-	etss->map_table = (gint *)g_new (unsigned int, 1);
+	etss->map_table = (gint *) g_new (unsigned int, 1);
 	etssv->n_vals_allocated = 1;
 
 	e_table_model_changed (etm);

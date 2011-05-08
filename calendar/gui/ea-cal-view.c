@@ -205,7 +205,7 @@ ea_cal_view_event_changed_cb (ECalendarView *cal_view, ECalendarViewEvent *event
 	}
 	else if ((E_IS_WEEK_VIEW (cal_view)) && event) {
 		EWeekViewEventSpan *span;
-		EWeekViewEvent *week_view_event = (EWeekViewEvent *)event;
+		EWeekViewEvent *week_view_event = (EWeekViewEvent *) event;
 		EWeekView *week_view = E_WEEK_VIEW (cal_view);
 		/* get the first span of the event */
 		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
@@ -243,7 +243,7 @@ ea_cal_view_event_added_cb (ECalendarView *cal_view, ECalendarViewEvent *event,
 	}
 	else if ((E_IS_WEEK_VIEW (cal_view)) && event) {
 		EWeekViewEventSpan *span;
-		EWeekViewEvent *week_view_event = (EWeekViewEvent *)event;
+		EWeekViewEvent *week_view_event = (EWeekViewEvent *) event;
 		EWeekView *week_view = E_WEEK_VIEW (cal_view);
 		/* get the first span of the event */
 		span = &g_array_index (week_view->spans, EWeekViewEventSpan,

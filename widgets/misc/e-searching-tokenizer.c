@@ -667,7 +667,7 @@ searcher_next_token (struct _searcher *s)
 
 	while (g_queue_is_empty (&s->output)) {
 		/* get next token */
-		tok = (guchar *)s->next_token (s->next_data);
+		tok = (guchar *) s->next_token (s->next_data);
 		if (tok == NULL) {
 			output_subpending (s);
 			output_pending (s);
@@ -675,15 +675,15 @@ searcher_next_token (struct _searcher *s)
 		}
 
 		/* we dont always have to copy each token, e.g. if we dont match anything */
-		token = append_token (&s->input, (gchar *)tok, -1);
+		token = append_token (&s->input, (gchar *) tok, -1);
 		token->offset = s->offset;
-		tok = (guchar *)token->tok;
+		tok = (guchar *) token->tok;
 
 		d (printf("new token %d '%s'\n", token->offset, token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 
 		/* tag test, reset state on unknown tags */
 		if (tok[0] == TAG_ESCAPE) {
-			if (!ignore_tag ((gchar *)tok)) {
+			if (!ignore_tag ((gchar *) tok)) {
 				/* force reset */
 				output_subpending (s);
 				output_pending (s);
@@ -832,7 +832,7 @@ search_info_add_string (struct _search_info *si, const gchar *s)
 		}
 		/* should probably also strip trailing, but i'm lazy today */
 		if (start[0])
-			g_ptr_array_add (si->strv, g_strdup ((gchar *)start));
+			g_ptr_array_add (si->strv, g_strdup ((gchar *) start));
 	}
 }
 
@@ -895,7 +895,7 @@ search_info_to_searcher (struct _search_info *si)
 	tage = g_alloca (20);
 	sprintf(tage, "%c</font>", TAG_ESCAPE);
 
-	return searcher_new (si->flags, si->strv->len, (guchar **)si->strv->pdata, tags, tage);
+	return searcher_new (si->flags, si->strv->len, (guchar **) si->strv->pdata, tags, tage);
 }
 
 /* ********************************************************************** */

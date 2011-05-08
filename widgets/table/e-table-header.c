@@ -779,7 +779,7 @@ eth_set_size (ETableHeader *eth, gint idx, gint size)
 	/* Set the new expansion so that it will generate the desired size. */
 	eth->columns[idx]->expansion =
 		expansion * (((gdouble)(size - (eth->columns[idx]->min_width +
-		eth->width_extras))) / ((gdouble)total_extra));
+		eth->width_extras))) / ((gdouble) total_extra));
 	/* The expansion left for the columns on the right. */
 	expansion -= eth->columns[idx]->expansion;
 

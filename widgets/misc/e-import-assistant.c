@@ -669,7 +669,7 @@ prepare_file_page (GtkAssistant *assistant,
 	}
 
 	page->target = e_import_target_new_uri (priv->import, NULL, NULL);
-	importers = e_import_get_importers (priv->import, (EImportTarget *)page->target);
+	importers = e_import_get_importers (priv->import, (EImportTarget *) page->target);
 
 	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (page->filetype)));
 	gtk_list_store_clear (store);
@@ -777,7 +777,7 @@ prepare_progress_page (GtkAssistant *assistant,
 
 	if (is_simple) {
 		priv->import_importer = priv->simple_page.importer;
-		priv->import_target = (EImportTarget *)priv->simple_page.target;
+		priv->import_target = (EImportTarget *) priv->simple_page.target;
 		done = import_simple_done;
 	} else if (intelligent_import) {
 		page->current = page->importers;
@@ -789,7 +789,7 @@ prepare_progress_page (GtkAssistant *assistant,
 	} else {
 		if (priv->file_page.importer) {
 			priv->import_importer = priv->file_page.importer;
-			priv->import_target = (EImportTarget *)priv->file_page.target;
+			priv->import_target = (EImportTarget *) priv->file_page.target;
 			done = import_done;
 		}
 	}
@@ -868,7 +868,7 @@ prepare_simple_page (GtkAssistant *assistant, GtkWidget *vbox)
 	uri = g_ptr_array_remove_index (priv->fileuris, 0);
 	page->target = e_import_target_new_uri (priv->import, uri, NULL);
 	g_free (uri);
-	importers = e_import_get_importers (priv->import, (EImportTarget *)page->target);
+	importers = e_import_get_importers (priv->import, (EImportTarget *) page->target);
 
 	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (page->filetype)));
 	gtk_list_store_clear (store);
@@ -908,7 +908,7 @@ prepare_simple_page (GtkAssistant *assistant, GtkWidget *vbox)
 
 		title = g_strconcat (
 			_("Import Data"), " - ",
-			((EImportImporter *)importers->data)->name, NULL);
+			((EImportImporter *) importers->data)->name, NULL);
 		gtk_assistant_set_page_title (assistant, vbox, title);
 		g_free (title);
 	} else {

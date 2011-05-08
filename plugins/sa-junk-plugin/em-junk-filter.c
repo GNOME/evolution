@@ -866,7 +866,7 @@ em_junk_sa_init (void)
 		G_UNLOCK (socket_path);
 
 		gconf_client_notify_add(em_junk_sa_gconf, "/apps/evolution/mail/junk/sa",
-					(GConfClientNotifyFunc)em_junk_sa_setting_notify,
+					(GConfClientNotifyFunc) em_junk_sa_setting_notify,
 					NULL, NULL, NULL);
 
 		em_junk_sa_spamc_gconf_binary = gconf_client_get_string (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/spamc_binary", NULL);

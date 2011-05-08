@@ -47,7 +47,7 @@ struct _EMConfigPrivate {
 static void
 emp_account_changed (struct _EAccount *ea, gint id, EMConfig *emc)
 {
-	e_config_target_changed ((EConfig *)emc, E_CONFIG_TARGET_CHANGED_STATE);
+	e_config_target_changed ((EConfig *) emc, E_CONFIG_TARGET_CHANGED_STATE);
 }
 
 static void
@@ -79,7 +79,7 @@ em_config_set_target (EConfig *ep,
 			/*EMConfigTargetPrefs *s = (EMConfigTargetPrefs *)t;*/
 			break; }
 		case EM_CONFIG_TARGET_ACCOUNT: {
-			EMConfigTargetAccount *s = (EMConfigTargetAccount *)t;
+			EMConfigTargetAccount *s = (EMConfigTargetAccount *) t;
 			EMConfig *config = (EMConfig *) ep;
 
 			config->priv->account_changed_id = g_signal_connect (
@@ -101,7 +101,7 @@ em_config_target_free (EConfig *ep,
 		case EM_CONFIG_TARGET_PREFS:
 			break;
 		case EM_CONFIG_TARGET_ACCOUNT: {
-			EMConfigTargetAccount *s = (EMConfigTargetAccount *)t;
+			EMConfigTargetAccount *s = (EMConfigTargetAccount *) t;
 			EMConfig *config = (EMConfig *) ep;
 
 			if (config->priv->account_changed_id > 0) {
@@ -116,19 +116,19 @@ em_config_target_free (EConfig *ep,
 
 	switch (t->type) {
 	case EM_CONFIG_TARGET_FOLDER: {
-		EMConfigTargetFolder *s = (EMConfigTargetFolder *)t;
+		EMConfigTargetFolder *s = (EMConfigTargetFolder *) t;
 
 		g_free (s->uri);
 		g_object_unref (s->folder);
 		break; }
 	case EM_CONFIG_TARGET_PREFS: {
-		EMConfigTargetPrefs *s = (EMConfigTargetPrefs *)t;
+		EMConfigTargetPrefs *s = (EMConfigTargetPrefs *) t;
 
 		if (s->gconf)
 			g_object_unref (s->gconf);
 		break; }
 	case EM_CONFIG_TARGET_ACCOUNT: {
-		EMConfigTargetAccount *s = (EMConfigTargetAccount *)t;
+		EMConfigTargetAccount *s = (EMConfigTargetAccount *) t;
 
 		if (s->original_account != NULL)
 			g_object_unref (s->original_account);

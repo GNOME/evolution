@@ -304,7 +304,7 @@ emfq_format_address (GString *out, struct _camel_header_address *a)
 
 				g_string_append_printf (out, "%s &lt;", name);
 				/* rfc2368 for mailto syntax and url encoding extras */
-				if ((real = camel_header_encode_phrase ((guchar *)a->name))) {
+				if ((real = camel_header_encode_phrase ((guchar *) a->name))) {
 					mailaddr = g_strdup_printf ("%s <%s>", real, a->v.addr);
 					g_free (real);
 					mailto = camel_url_encode (mailaddr, "?=&()");
@@ -514,13 +514,13 @@ emfq_format_message (EMFormat *emf,
 			"key=\"orig\" value=\"1\">-->\n"
 			"<blockquote type=cite>\n");
 
-	if (((CamelMimePart *)emf->message) != part) {
+	if (((CamelMimePart *) emf->message) != part) {
 		camel_stream_printf (
 			stream,  "%s</br>\n",
 			_("-------- Forwarded Message --------"));
-		emfq_format_headers (emfq, stream, (CamelMedium *)part);
+		emfq_format_headers (emfq, stream, (CamelMedium *) part);
 	} else if (emfq->flags & EM_FORMAT_QUOTE_HEADERS)
-		emfq_format_headers (emfq, stream, (CamelMedium *)part);
+		emfq_format_headers (emfq, stream, (CamelMedium *) part);
 
 	em_format_part (emf, stream, part, cancellable);
 

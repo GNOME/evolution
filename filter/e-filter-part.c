@@ -173,14 +173,14 @@ e_filter_part_xml_create (EFilterPart *part,
 		} else if (!strcmp ((gchar *)n->name, "title") ||
 			   !strcmp ((gchar *)n->name, "_title")) {
 			if (!part->title) {
-				str = (gchar *)xmlNodeGetContent (n);
+				str = (gchar *) xmlNodeGetContent (n);
 				part->title = g_strdup (str);
 				if (str)
 					xmlFree (str);
 			}
 		} else if (!strcmp ((gchar *)n->name, "code")) {
 			if (!part->code) {
-				str = (gchar *)xmlNodeGetContent (n);
+				str = (gchar *) xmlNodeGetContent (n);
 				part->code = g_strdup (str);
 				if (str)
 					xmlFree (str);

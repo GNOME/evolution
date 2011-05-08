@@ -470,7 +470,7 @@ em_update_message_notify_settings_2_21 (void)
 			}
 		}
 
-		g_slist_foreach (plugins, (GFunc)g_object_unref, NULL);
+		g_slist_foreach (plugins, (GFunc) g_object_unref, NULL);
 		g_slist_free (plugins);
 	}
 
@@ -674,7 +674,7 @@ migrate_to_db (EShellBackend *shell_backend)
 		  "folders has been moved to SQLite since Evolution 2.24.\n\nPlease be "
 		  "patient while Evolution migrates your folders..."));
 
-	em_migrate_set_progress ( (double)i/(len+1));
+	em_migrate_set_progress ( (double) i/(len+1));
 	store = setup_local_store (shell_backend, session);
 	url = camel_service_get_camel_url (CAMEL_SERVICE (store));
 
@@ -703,14 +703,14 @@ migrate_to_db (EShellBackend *shell_backend)
 			g_main_context_iteration (NULL, TRUE);
 	}
 	i++;
-	em_migrate_set_progress ( (double)i/(len+1));
+	em_migrate_set_progress ( (double) i/(len+1));
 
 	while (e_iterator_is_valid (iter)) {
 		EAccount *account = (EAccount *) e_iterator_get (iter);
 		EAccountService *service;
 
 		service = account->source;
-		em_migrate_set_progress ( (double)i/(len+1));
+		em_migrate_set_progress ( (double) i/(len+1));
 		if (account->enabled
 		    && service->url != NULL && service->url[0]
 		    && strncmp (service->url, "mbox:", 5) != 0) {

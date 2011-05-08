@@ -101,7 +101,7 @@ new_rule_response (GtkWidget *dialog,
 		}
 
 		if (e_rule_context_find_rule (context, rule->name, rule->source)) {
-			e_alert_run_dialog_for_args ((GtkWindow *)dialog,
+			e_alert_run_dialog_for_args ((GtkWindow *) dialog,
 						     "filter:bad-name-notunique",
 						     rule->name, NULL);
 
@@ -169,20 +169,20 @@ rule_context_finalize (GObject *obj)
 {
 	ERuleContext *context =(ERuleContext *) obj;
 
-	g_list_foreach (context->rule_set_list, (GFunc)free_rule_set, NULL);
+	g_list_foreach (context->rule_set_list, (GFunc) free_rule_set, NULL);
 	g_list_free (context->rule_set_list);
 	g_hash_table_destroy (context->rule_set_map);
 
-	g_list_foreach (context->part_set_list, (GFunc)free_part_set, NULL);
+	g_list_foreach (context->part_set_list, (GFunc) free_part_set, NULL);
 	g_list_free (context->part_set_list);
 	g_hash_table_destroy (context->part_set_map);
 
 	g_free (context->error);
 
-	g_list_foreach (context->parts, (GFunc)g_object_unref, NULL);
+	g_list_foreach (context->parts, (GFunc) g_object_unref, NULL);
 	g_list_free (context->parts);
 
-	g_list_foreach (context->rules, (GFunc)g_object_unref, NULL);
+	g_list_foreach (context->rules, (GFunc) g_object_unref, NULL);
 	g_list_free (context->rules);
 
 	G_OBJECT_CLASS (e_rule_context_parent_class)->finalize (obj);
@@ -327,7 +327,7 @@ rule_context_save (ERuleContext *context,
 	l = context->rule_set_list;
 	while (l) {
 		map = l->data;
-		rules = xmlNewDocNode (doc, NULL, (xmlChar *)map->name, NULL);
+		rules = xmlNewDocNode (doc, NULL, (xmlChar *) map->name, NULL);
 		xmlAddChild (root, rules);
 		rule = NULL;
 		while ((rule = map->next (context, rule, NULL))) {
@@ -365,7 +365,7 @@ rule_context_revert (ERuleContext *context,
 		/* clear out anythign we have? */
 		return 0;
 
-	source_hash = g_hash_table_new ((GHashFunc)source_hashf, (GCompareFunc)source_eqf);
+	source_hash = g_hash_table_new ((GHashFunc) source_hashf, (GCompareFunc) source_eqf);
 
 	/* setup stuff we have now */
 	/* Note that we assume there is only 1 set of rules in a given rule context,
@@ -432,7 +432,7 @@ rule_context_revert (ERuleContext *context,
 	xmlFreeDoc (userdoc);
 
 	/* remove any we still have that weren't in the file */
-	g_hash_table_foreach (source_hash, (GHFunc)revert_source_remove, context);
+	g_hash_table_foreach (source_hash, (GHFunc) revert_source_remove, context);
 	g_hash_table_destroy (source_hash);
 
 	return 0;

@@ -258,7 +258,7 @@ table_drag_data_get (ETable *table,
 
 			gtk_selection_data_set (
 				selection_data, target, 8,
-				(guchar *)value, strlen (value));
+				(guchar *) value, strlen (value));
 
 			g_free (value);
 			break;
@@ -269,7 +269,7 @@ table_drag_data_get (ETable *table,
 
 			gtk_selection_data_set (
 				selection_data, target, 8,
-				(guchar *)value, strlen (value));
+				(guchar *) value, strlen (value));
 
 			g_free (value);
 			break;

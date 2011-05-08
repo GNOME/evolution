@@ -1897,22 +1897,22 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 
 	tmp = g_markup_printf_escaped ("<b>%s</b>", str);
 	label = gtk_label_new (NULL);
-	gtk_label_set_line_wrap ((GtkLabel *)label, TRUE);
-	gtk_label_set_markup ((GtkLabel *)label, tmp);
+	gtk_label_set_line_wrap ((GtkLabel *) label, TRUE);
+	gtk_label_set_markup ((GtkLabel *) label, tmp);
 
 	if (free_text) {
-		g_free ((gchar *)str);
+		g_free ((gchar *) str);
 		str = NULL;
 	}
 
 	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 0);
 	ebox = gtk_event_box_new ();
-	gtk_container_add ((GtkContainer *)ebox, hbox);
+	gtk_container_add ((GtkContainer *) ebox, hbox);
 	gtk_widget_modify_bg (ebox, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_SELECTED]));
 	gtk_widget_modify_fg (label, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
 
-	gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) box, ebox, FALSE, FALSE, 0);
 	g_free (tmp);
 
 	e_cal_component_get_organizer (newcomp, &organiser);
@@ -1931,10 +1931,10 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 
 		label = gtk_label_new (tmp);
 		hbox = gtk_hbox_new (FALSE, 0);
-		gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 0);
+		gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 0);
 		ebox = gtk_event_box_new ();
-		gtk_container_add ((GtkContainer *)ebox, hbox);
-		gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
+		gtk_container_add ((GtkContainer *) ebox, hbox);
+		gtk_box_pack_start ((GtkBox *) box, ebox, FALSE, FALSE, 0);
 
 		g_free (tmp);
 	}
@@ -1945,12 +1945,12 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 		/* To Translators: It will display "Location: PlaceOfTheMeeting" */
 		tmp = g_markup_printf_escaped (_("Location: %s"), str);
 		label = gtk_label_new (NULL);
-		gtk_label_set_markup ((GtkLabel *)label, tmp);
+		gtk_label_set_markup ((GtkLabel *) label, tmp);
 		hbox = gtk_hbox_new (FALSE, 0);
-		gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 0);
+		gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 0);
 		ebox = gtk_event_box_new ();
-		gtk_container_add ((GtkContainer *)ebox, hbox);
-		gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
+		gtk_container_add ((GtkContainer *) ebox, hbox);
+		gtk_box_pack_start ((GtkBox *) box, ebox, FALSE, FALSE, 0);
 		g_free (tmp);
 	}
 	e_cal_component_get_dtstart (newcomp, &dtstart);
@@ -1991,10 +1991,10 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	e_cal_component_free_datetime (&dtend);
 
 	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)hbox, gtk_label_new_with_mnemonic (tmp), FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) hbox, gtk_label_new_with_mnemonic (tmp), FALSE, FALSE, 0);
 	ebox = gtk_event_box_new ();
-	gtk_container_add ((GtkContainer *)ebox, hbox);
-	gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
+	gtk_container_add ((GtkContainer *) ebox, hbox);
+	gtk_box_pack_start ((GtkBox *) box, ebox, FALSE, FALSE, 0);
 
 	g_free (tmp);
 	g_free (tmp2);
@@ -2003,22 +2003,22 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	tmp = e_calendar_view_get_attendees_status_info (newcomp, pevent->comp_data->client);
 	if (tmp) {
 		hbox = gtk_hbox_new (FALSE, 0);
-		gtk_box_pack_start ((GtkBox *)hbox, gtk_label_new (tmp), FALSE, FALSE, 0);
+		gtk_box_pack_start ((GtkBox *) hbox, gtk_label_new (tmp), FALSE, FALSE, 0);
 		ebox = gtk_event_box_new ();
-		gtk_container_add ((GtkContainer *)ebox, hbox);
-		gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
+		gtk_container_add ((GtkContainer *) ebox, hbox);
+		gtk_box_pack_start ((GtkBox *) box, ebox, FALSE, FALSE, 0);
 
 		g_free (tmp);
 	}
 
 	pevent->tooltip = gtk_window_new (GTK_WINDOW_POPUP);
 	frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type ((GtkFrame *)frame, GTK_SHADOW_IN);
+	gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
 
 	gtk_window_set_type_hint (GTK_WINDOW (pevent->tooltip), GDK_WINDOW_TYPE_HINT_TOOLTIP);
-	gtk_window_move ((GtkWindow *)pevent->tooltip, pevent->x +16, pevent->y+16);
-	gtk_container_add ((GtkContainer *)frame, box);
-	gtk_container_add ((GtkContainer *)pevent->tooltip, frame);
+	gtk_window_move ((GtkWindow *) pevent->tooltip, pevent->x +16, pevent->y+16);
+	gtk_container_add ((GtkContainer *) frame, box);
+	gtk_container_add ((GtkContainer *) pevent->tooltip, frame);
 
 	gtk_widget_show_all (pevent->tooltip);
 

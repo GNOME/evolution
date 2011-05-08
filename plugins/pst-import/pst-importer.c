@@ -144,7 +144,7 @@ org_credativ_evolution_readpst_supported (EPlugin *epl, EImportTarget *target)
 		return FALSE;
 	}
 
-	s = (EImportTargetURI *)target;
+	s = (EImportTargetURI *) target;
 
 	if (s->uri_src == NULL) {
 		return TRUE;
@@ -338,19 +338,19 @@ org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EI
 	w = gtk_check_button_new_with_mnemonic (_("A_ppointments"));
 	gtk_toggle_button_set_active ((GtkToggleButton *) w, FALSE);
 	g_signal_connect (w, "toggled", G_CALLBACK (checkbox_appt_toggle_cb), target);
-	gtk_box_pack_start ((GtkBox *)framebox, w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) framebox, w, FALSE, FALSE, 0);
 
 	/* Tasks */
 	w = gtk_check_button_new_with_mnemonic (_("_Tasks"));
-	gtk_toggle_button_set_active ((GtkToggleButton *)w, FALSE);
+	gtk_toggle_button_set_active ((GtkToggleButton *) w, FALSE);
 	g_signal_connect (w, "toggled", G_CALLBACK (checkbox_task_toggle_cb), target);
-	gtk_box_pack_start ((GtkBox *)framebox, w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) framebox, w, FALSE, FALSE, 0);
 
 	/* Journal */
 	w = gtk_check_button_new_with_mnemonic (_("_Journal entries"));
-	gtk_toggle_button_set_active ((GtkToggleButton *)w, FALSE);
+	gtk_toggle_button_set_active ((GtkToggleButton *) w, FALSE);
 	g_signal_connect (w, "toggled", G_CALLBACK (checkbox_journal_toggle_cb), target);
-	gtk_box_pack_start ((GtkBox *)framebox, w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) framebox, w, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (framebox);
 
@@ -474,8 +474,8 @@ pst_import_file (PstImporter *m)
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
-	filename = g_filename_from_uri (((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
-	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest); /* Destination folder, was set in our widget */
+	filename = g_filename_from_uri (((EImportTargetURI *) m->target)->uri_src, NULL, NULL);
+	m->parent_uri = g_strdup (((EImportTargetURI *) m->target)->uri_dest); /* Destination folder, was set in our widget */
 
 	camel_operation_push_message (NULL, _("Importing '%s'"), filename);
 
@@ -741,7 +741,7 @@ pst_create_folder (PstImporter *m)
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
-	parent = ((EImportTargetURI *)m->target)->uri_dest;
+	parent = ((EImportTargetURI *) m->target)->uri_dest;
 	dest = g_strdup (m->folder_uri);
 
 	g_assert (g_str_has_prefix (dest, parent));
@@ -891,7 +891,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 		/*g_message ("  Email headers... %s...", item->email->header);*/
 
 		stream = camel_stream_mem_new_with_buffer (item->email->header.str, strlen (item->email->header.str));
-		if (!camel_data_wrapper_construct_from_stream_sync ((CamelDataWrapper *)msg, stream, NULL, NULL))
+		if (!camel_data_wrapper_construct_from_stream_sync ((CamelDataWrapper *) msg, stream, NULL, NULL))
 			g_warning ("Error reading headers, skipped");
 
 	} else {
@@ -1556,7 +1556,7 @@ pst_error_msg (const gchar *fmt, ...)
 static void
 pst_import_imported (PstImporter *m)
 {
-	e_import_complete (m->target->import, (EImportTarget *)m->target);
+	e_import_complete (m->target->import, (EImportTarget *) m->target);
 }
 
 static void
@@ -1600,7 +1600,7 @@ pst_status_timeout (gpointer data)
 		pc = importer->status_pc;
 		g_mutex_unlock (importer->status_lock);
 
-		e_import_status (importer->target->import, (EImportTarget *)importer->target, what, pc);
+		e_import_status (importer->target->import, (EImportTarget *) importer->target, what, pc);
 	}
 
 	return TRUE;

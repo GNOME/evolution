@@ -779,7 +779,7 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 		rule = em_vfolder_rule_new (session);
 		e_filter_rule_set_name (rule, path);
 		vfolder_gui_add_rule (EM_VFOLDER_RULE (rule));
-		gtk_widget_destroy ((GtkWidget *)emfs);
+		gtk_widget_destroy ((GtkWidget *) emfs);
 	} else {
 		/* Temp data to pass to create_folder_real function */
 		emcftd = (struct _EMCreateFolderTempData *)

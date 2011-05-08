@@ -420,10 +420,10 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	*x += x1;
 	/* The ETable positions don't include the grid lines, I think, so we add 1. */
 	*y += y1 + 1
-		- (gint)gtk_adjustment_get_value (
+		- (gint) gtk_adjustment_get_value (
 			gtk_scrollable_get_vadjustment (
-			GTK_SCROLLABLE (&((GnomeCanvas *)canvas)->layout)))
-		+ ((GnomeCanvas *)canvas)->zoom_yofs;
+			GTK_SCROLLABLE (&((GnomeCanvas *) canvas)->layout)))
+		+ ((GnomeCanvas *) canvas)->zoom_yofs;
 
 	widget = gtk_scrolled_window_get_vscrollbar (popup);
 	gtk_widget_get_child_requisition (widget, &requisition);

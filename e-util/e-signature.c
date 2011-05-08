@@ -69,7 +69,7 @@ xml_set_bool (xmlNodePtr node,
 	gboolean v_boolean;
 	gchar *buf;
 
-	if ((buf = (gchar *)xmlGetProp (node, (xmlChar *) name))) {
+	if ((buf = (gchar *) xmlGetProp (node, (xmlChar *) name))) {
 		v_boolean = (!strcmp (buf, "true") || !strcmp (buf, "yes"));
 		xmlFree (buf);
 
@@ -89,7 +89,7 @@ xml_set_prop (xmlNodePtr node,
 {
 	gchar *buf, *new_val;
 
-	buf = (gchar *)xmlGetProp (node, (xmlChar *) name);
+	buf = (gchar *) xmlGetProp (node, (xmlChar *) name);
 	new_val = g_strdup (buf);
 	xmlFree (buf);
 
@@ -112,7 +112,7 @@ xml_set_content (xmlNodePtr node,
 {
 	gchar *buf, *new_val;
 
-	buf = (gchar *)xmlNodeGetContent (node);
+	buf = (gchar *) xmlNodeGetContent (node);
 	new_val = g_strdup (buf);
 	xmlFree (buf);
 

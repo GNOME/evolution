@@ -132,7 +132,7 @@ vcard_import_contact (VCardImporter *gci, EContact *contact)
 
 		if (v && v->data) {
 			if (!strncmp ((gchar *)v->data, "<?xml", 5)) {
-				EDestination *dest = e_destination_import ((gchar *)v->data);
+				EDestination *dest = e_destination_import ((gchar *) v->data);
 
 				e_destination_export_to_vcard_attribute (dest, a);
 
@@ -357,8 +357,8 @@ guess_vcard_encoding (const gchar *filename)
 	}
 	fclose (handle);
 
-	if (has_bom ((gunichar2*)line)) {
-		gunichar2 *utf16 = (gunichar2*)line;
+	if (has_bom ((gunichar2*) line)) {
+		gunichar2 *utf16 = (gunichar2*) line;
 		/* Check for a BOM to try to detect UTF-16 encoded vcards
 		 * (MacOSX address book creates such vcards for example)
 		 */
@@ -442,7 +442,7 @@ vcard_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (target->type != E_IMPORT_TARGET_URI)
 		return FALSE;
 
-	s = (EImportTargetURI *)target;
+	s = (EImportTargetURI *) target;
 	if (s->uri_src == NULL)
 		return TRUE;
 
@@ -517,7 +517,7 @@ vcard_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	VCardImporter *gci;
 	ESource *source;
-	EImportTargetURI *s = (EImportTargetURI *)target;
+	EImportTargetURI *s = (EImportTargetURI *) target;
 	gchar *filename;
 	gchar *contents;
 	VCardEncoding encoding;
@@ -575,7 +575,7 @@ vcard_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 	GList *contacts;
 	gchar *contents;
 	VCardEncoding encoding;
-	EImportTargetURI *s = (EImportTargetURI *)target;
+	EImportTargetURI *s = (EImportTargetURI *) target;
 	gchar *filename;
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);

@@ -458,10 +458,10 @@ eab_contact_compare_email (EContact *contact1, EContact *contact2)
 	contact2_email = e_contact_get (contact2, E_CONTACT_EMAIL);
 
 	if (contact1_email == NULL || contact2_email == NULL) {
-		g_list_foreach (contact1_email, (GFunc)g_free, NULL);
+		g_list_foreach (contact1_email, (GFunc) g_free, NULL);
 		g_list_free (contact1_email);
 
-		g_list_foreach (contact2_email, (GFunc)g_free, NULL);
+		g_list_foreach (contact2_email, (GFunc) g_free, NULL);
 		g_list_free (contact2_email);
 		return EAB_CONTACT_MATCH_NOT_APPLICABLE;
 	}
@@ -486,10 +486,10 @@ eab_contact_compare_email (EContact *contact1, EContact *contact2)
 		i1 = i1->next;
 	}
 
-	g_list_foreach (contact1_email, (GFunc)g_free, NULL);
+	g_list_foreach (contact1_email, (GFunc) g_free, NULL);
 	g_list_free (contact1_email);
 
-	g_list_foreach (contact2_email, (GFunc)g_free, NULL);
+	g_list_foreach (contact2_email, (GFunc) g_free, NULL);
 	g_list_free (contact2_email);
 
 	return match;
@@ -616,7 +616,7 @@ query_cb (EBook *book, const GError *error, GList *contacts, gpointer closure)
 	for (i = remaining_contacts; i != NULL; i = g_list_next (i)) {
 		EContact *this_contact = E_CONTACT (i->data);
 		EABContactMatchType this_match = eab_contact_compare (info->contact, this_contact);
-		if ((gint)this_match > (gint)best_match) {
+		if ((gint) this_match > (gint) best_match) {
 			best_match = this_match;
 			best_contact  = this_contact;
 		}
@@ -688,7 +688,7 @@ use_common_book (EBook *book,
 				}
 			}
 		}
-		g_list_foreach (contact_email, (GFunc)g_free, NULL);
+		g_list_foreach (contact_email, (GFunc) g_free, NULL);
 		g_list_free (contact_email);
 	}
 

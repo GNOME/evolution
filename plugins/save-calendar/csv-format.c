@@ -96,10 +96,10 @@ add_list_to_csv (GString *line, GSList *list_in, CsvConfig *config, gint type)
 				needquotes = TRUE;
 			switch (type) {
 			case ECALCOMPONENTATTENDEE:
-				str = ((ECalComponentAttendee*)list->data)->value;
+				str = ((ECalComponentAttendee*) list->data)->value;
 				break;
 			case ECALCOMPONENTTEXT:
-				str = ((ECalComponentText*)list->data)->value;
+				str = ((ECalComponentText*) list->data)->value;
 				break;
 			case CONSTCHAR:
 			default:
@@ -109,7 +109,7 @@ add_list_to_csv (GString *line, GSList *list_in, CsvConfig *config, gint type)
 			if (!needquotes)
 				needquotes = string_needsquotes (str, config);
 			if (str)
-				tmp = g_string_append (tmp, (const gchar *)str);
+				tmp = g_string_append (tmp, (const gchar *) str);
 			list = g_slist_next (list); cnt++;
 			if (list)
 				tmp = g_string_append (tmp, config->delimiter);
@@ -248,7 +248,7 @@ add_string_to_csv (GString *line, const gchar *value, CsvConfig *config)
 
 		if (needquotes)
 			line = g_string_append (line, config->quote);
-		line = g_string_append (line, (const gchar *)value);
+		line = g_string_append (line, (const gchar *) value);
 		if (needquotes)
 			line = g_string_append (line, config->quote);
 	}

@@ -621,12 +621,12 @@ default_folders_clicked (GtkButton *button, gpointer user_data)
 	const gchar *uri;
 
 	uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
-	em_folder_selection_button_set_selection ((EMFolderSelectionButton *)emae->priv->drafts_folder_button, uri);
-	emae_account_folder_changed ((EMFolderSelectionButton *)emae->priv->drafts_folder_button, emae);
+	em_folder_selection_button_set_selection ((EMFolderSelectionButton *) emae->priv->drafts_folder_button, uri);
+	emae_account_folder_changed ((EMFolderSelectionButton *) emae->priv->drafts_folder_button, emae);
 
 	uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
-	em_folder_selection_button_set_selection ((EMFolderSelectionButton *)emae->priv->sent_folder_button, uri);
-	emae_account_folder_changed ((EMFolderSelectionButton *)emae->priv->sent_folder_button, emae);
+	em_folder_selection_button_set_selection ((EMFolderSelectionButton *) emae->priv->sent_folder_button, uri);
+	emae_account_folder_changed ((EMFolderSelectionButton *) emae->priv->sent_folder_button, emae);
 
 	gtk_toggle_button_set_active (emae->priv->trash_folder_check, FALSE);
 	gtk_toggle_button_set_active (emae->priv->junk_folder_check, FALSE);
@@ -721,8 +721,8 @@ emae_signature_added (ESignatureList *signatures, ESignature *sig, EMAccountEdit
 
 	model = gtk_combo_box_get_model (emae->priv->signatures_dropdown);
 
-	gtk_list_store_append ((GtkListStore *)model, &iter);
-	gtk_list_store_set ((GtkListStore *)model, &iter, 0, name, 1, uid, -1);
+	gtk_list_store_append ((GtkListStore *) model, &iter);
+	gtk_list_store_set ((GtkListStore *) model, &iter, 0, name, 1, uid, -1);
 
 	gtk_combo_box_set_active (emae->priv->signatures_dropdown, gtk_tree_model_iter_n_children (model, NULL)-1);
 }
@@ -760,7 +760,7 @@ emae_signature_removed (ESignatureList *signatures, ESignature *sig, EMAccountEd
 	GtkTreeModel *model;
 
 	if (emae_signature_get_iter (emae, sig, &model, &iter))
-		gtk_list_store_remove ((GtkListStore *)model, &iter);
+		gtk_list_store_remove ((GtkListStore *) model, &iter);
 }
 
 static void
@@ -773,7 +773,7 @@ emae_signature_changed (ESignatureList *signatures, ESignature *sig, EMAccountEd
 	name = e_signature_get_name (sig);
 
 	if (emae_signature_get_iter (emae, sig, &model, &iter))
-		gtk_list_store_set ((GtkListStore *)model, &iter, 0, name, -1);
+		gtk_list_store_set ((GtkListStore *) model, &iter, 0, name, -1);
 }
 
 static void
@@ -830,7 +830,7 @@ emae_setup_signatures (EMAccountEditor *emae, GtkBuilder *builder)
 	current = e_account_get_string (account, E_ACCOUNT_ID_SIGNATURE);
 
 	emae->priv->signatures_dropdown = dropdown;
-	gtk_widget_show ((GtkWidget *)dropdown);
+	gtk_widget_show ((GtkWidget *) dropdown);
 
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 
@@ -850,7 +850,7 @@ emae_setup_signatures (EMAccountEditor *emae, GtkBuilder *builder)
 	i = 1;
 	it = e_list_get_iterator ((EList *) signatures);
 	while (e_iterator_is_valid (it)) {
-		ESignature *sig = (ESignature *)e_iterator_get (it);
+		ESignature *sig = (ESignature *) e_iterator_get (it);
 		const gchar *name;
 		const gchar *uid;
 
@@ -868,19 +868,19 @@ emae_setup_signatures (EMAccountEditor *emae, GtkBuilder *builder)
 	}
 	g_object_unref (it);
 
-	gtk_cell_layout_pack_start ((GtkCellLayout *)dropdown, cell, TRUE);
+	gtk_cell_layout_pack_start ((GtkCellLayout *) dropdown, cell, TRUE);
 	gtk_cell_layout_set_attributes ((GtkCellLayout *)dropdown, cell, "text", 0, NULL);
 
-	gtk_combo_box_set_model (dropdown, (GtkTreeModel *)store);
+	gtk_combo_box_set_model (dropdown, (GtkTreeModel *) store);
 	gtk_combo_box_set_active (dropdown, active);
 
 	g_signal_connect (dropdown, "changed", G_CALLBACK(emae_signaturetype_changed), emae);
-	gtk_widget_set_sensitive ((GtkWidget *)dropdown, e_account_writable (account, E_ACCOUNT_ID_SIGNATURE));
+	gtk_widget_set_sensitive ((GtkWidget *) dropdown, e_account_writable (account, E_ACCOUNT_ID_SIGNATURE));
 
 	button = e_builder_get_widget (builder, "sigAddNew");
 	g_signal_connect (button, "clicked", G_CALLBACK(emae_signature_new), emae);
 
-	return (GtkWidget *)dropdown;
+	return (GtkWidget *) dropdown;
 }
 
 static void
@@ -925,7 +925,7 @@ emae_setup_receipt_policy (EMAccountEditor *emae, GtkBuilder *builder)
 	account = em_account_editor_get_modified_account (emae);
 	current = account->receipt_policy;
 
-	gtk_widget_show ((GtkWidget *)dropdown);
+	gtk_widget_show ((GtkWidget *) dropdown);
 
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
 
@@ -939,7 +939,7 @@ emae_setup_receipt_policy (EMAccountEditor *emae, GtkBuilder *builder)
 			active = i;
 	}
 
-	gtk_combo_box_set_model (dropdown, (GtkTreeModel *)store);
+	gtk_combo_box_set_model (dropdown, (GtkTreeModel *) store);
 
 	cell = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (dropdown), cell, TRUE);
@@ -948,9 +948,9 @@ emae_setup_receipt_policy (EMAccountEditor *emae, GtkBuilder *builder)
 	gtk_combo_box_set_active (dropdown, active);
 
 	g_signal_connect (dropdown, "changed", G_CALLBACK(emae_receipt_policy_changed), emae);
-	gtk_widget_set_sensitive ((GtkWidget *)dropdown, e_account_writable (account, E_ACCOUNT_RECEIPT_POLICY));
+	gtk_widget_set_sensitive ((GtkWidget *) dropdown, e_account_writable (account, E_ACCOUNT_RECEIPT_POLICY));
 
-	return (GtkWidget *)dropdown;
+	return (GtkWidget *) dropdown;
 }
 
 static void
@@ -979,13 +979,13 @@ emae_account_entry (EMAccountEditor *emae, const gchar *name, gint item, GtkBuil
 	const gchar *text;
 
 	account = em_account_editor_get_modified_account (emae);
-	entry = (GtkEntry *)e_builder_get_widget (builder, name);
+	entry = (GtkEntry *) e_builder_get_widget (builder, name);
 	text = e_account_get_string (account, item);
 	if (text)
 		gtk_entry_set_text (entry, text);
 	g_object_set_data ((GObject *)entry, "account-item", GINT_TO_POINTER(item));
 	g_signal_connect (entry, "changed", G_CALLBACK(emae_account_entry_changed), emae);
-	gtk_widget_set_sensitive ((GtkWidget *)entry, e_account_writable (account, item));
+	gtk_widget_set_sensitive ((GtkWidget *) entry, e_account_writable (account, item));
 
 	return entry;
 }
@@ -1033,7 +1033,7 @@ emae_account_toggle (EMAccountEditor *emae, const gchar *name, gint item, GtkBui
 {
 	GtkToggleButton *toggle;
 
-	toggle = (GtkToggleButton *)e_builder_get_widget (builder, name);
+	toggle = (GtkToggleButton *) e_builder_get_widget (builder, name);
 	emae_account_toggle_widget (emae, toggle, item);
 
 	return toggle;
@@ -1083,7 +1083,7 @@ emae_account_spinint (EMAccountEditor *emae, const gchar *name, gint item)
 {
 	GtkSpinButton *spin;
 
-	spin = (GtkSpinButton *)e_builder_get_widget (emae->priv->xml, name);
+	spin = (GtkSpinButton *) e_builder_get_widget (emae->priv->xml, name);
 	emae_account_spinint_widget (emae, spin, item);
 
 	return spin;
@@ -1115,7 +1115,7 @@ emae_account_folder (EMAccountEditor *emae, const gchar *name, gint item, gint d
 	account = em_account_editor_get_modified_account (emae);
 	session = em_account_editor_get_session (emae);
 
-	folder = (EMFolderSelectionButton *)e_builder_get_widget (builder, name);
+	folder = (EMFolderSelectionButton *) e_builder_get_widget (builder, name);
 	em_folder_selection_button_set_session (folder, session);
 
 	uri = e_account_get_string (account, item);
@@ -1129,9 +1129,9 @@ emae_account_folder (EMAccountEditor *emae, const gchar *name, gint item, gint d
 	g_object_set_data ((GObject *)folder, "account-item", GINT_TO_POINTER(item));
 	g_object_set_data ((GObject *)folder, "folder-default", GINT_TO_POINTER(deffolder));
 	g_signal_connect (folder, "selected", G_CALLBACK(emae_account_folder_changed), emae);
-	gtk_widget_show ((GtkWidget *)folder);
+	gtk_widget_show ((GtkWidget *) folder);
 
-	gtk_widget_set_sensitive ((GtkWidget *)folder, e_account_writable (account, item));
+	gtk_widget_set_sensitive ((GtkWidget *) folder, e_account_writable (account, item));
 
 	return folder;
 }
@@ -1146,16 +1146,16 @@ smime_changed (EMAccountEditor *emae)
 
 	tmp = gtk_entry_get_text (priv->smime_sign_key);
 	act = tmp && tmp[0];
-	gtk_widget_set_sensitive ((GtkWidget *)priv->smime_sign_key_clear, act);
-	gtk_widget_set_sensitive ((GtkWidget *)priv->smime_sign_default, act);
+	gtk_widget_set_sensitive ((GtkWidget *) priv->smime_sign_key_clear, act);
+	gtk_widget_set_sensitive ((GtkWidget *) priv->smime_sign_default, act);
 	if (!act)
 		gtk_toggle_button_set_active (priv->smime_sign_default, FALSE);
 
 	tmp = gtk_entry_get_text (priv->smime_encrypt_key);
 	act = tmp && tmp[0];
-	gtk_widget_set_sensitive ((GtkWidget *)priv->smime_encrypt_key_clear, act);
-	gtk_widget_set_sensitive ((GtkWidget *)priv->smime_encrypt_default, act);
-	gtk_widget_set_sensitive ((GtkWidget *)priv->smime_encrypt_to_self, act);
+	gtk_widget_set_sensitive ((GtkWidget *) priv->smime_encrypt_key_clear, act);
+	gtk_widget_set_sensitive ((GtkWidget *) priv->smime_encrypt_default, act);
+	gtk_widget_set_sensitive ((GtkWidget *) priv->smime_encrypt_to_self, act);
 	if (!act) {
 		gtk_toggle_button_set_active (priv->smime_encrypt_default, FALSE);
 	}
@@ -1181,8 +1181,8 @@ smime_sign_key_select (GtkWidget *button, EMAccountEditor *emae)
 	GtkWidget *w;
 
 	w = e_cert_selector_new (E_CERT_SELECTOR_SIGNER, gtk_entry_get_text (priv->smime_sign_key));
-	gtk_window_set_modal ((GtkWindow *)w, TRUE);
-	gtk_window_set_transient_for ((GtkWindow *)w, (GtkWindow *)gtk_widget_get_toplevel (button));
+	gtk_window_set_modal ((GtkWindow *) w, TRUE);
+	gtk_window_set_transient_for ((GtkWindow *) w, (GtkWindow *) gtk_widget_get_toplevel (button));
 	g_signal_connect (w, "selected", G_CALLBACK(smime_sign_key_selected), emae);
 	gtk_widget_show (w);
 }
@@ -1216,8 +1216,8 @@ smime_encrypt_key_select (GtkWidget *button, EMAccountEditor *emae)
 	GtkWidget *w;
 
 	w = e_cert_selector_new (E_CERT_SELECTOR_RECIPIENT, gtk_entry_get_text (priv->smime_encrypt_key));
-	gtk_window_set_modal ((GtkWindow *)w, TRUE);
-	gtk_window_set_transient_for ((GtkWindow *)w, (GtkWindow *)gtk_widget_get_toplevel (button));
+	gtk_window_set_modal ((GtkWindow *) w, TRUE);
+	gtk_window_set_transient_for ((GtkWindow *) w, (GtkWindow *) gtk_widget_get_toplevel (button));
 	g_signal_connect (w, "selected", G_CALLBACK(smime_encrypt_key_selected), emae);
 	gtk_widget_show (w);
 }
@@ -1565,14 +1565,14 @@ emae_service_provider_changed (EMAccountEditorService *service)
 		gtk_widget_show (service->frame);
 
 		enable = e_account_writable_option (account, service->provider->protocol, "auth");
-		gtk_widget_set_sensitive ((GtkWidget *)service->authtype, enable);
-		gtk_widget_set_sensitive ((GtkWidget *)service->check_supported, enable);
+		gtk_widget_set_sensitive ((GtkWidget *) service->authtype, enable);
+		gtk_widget_set_sensitive ((GtkWidget *) service->check_supported, enable);
 
 		enable = e_account_writable_option (account, service->provider->protocol, "use_ssl");
-		gtk_widget_set_sensitive ((GtkWidget *)service->use_ssl, enable);
+		gtk_widget_set_sensitive ((GtkWidget *) service->use_ssl, enable);
 
 		enable = e_account_writable (account, emae_service_info[service->type].save_passwd_key);
-		gtk_widget_set_sensitive ((GtkWidget *)service->remember, enable);
+		gtk_widget_set_sensitive ((GtkWidget *) service->remember, enable);
 
 		if (service->port && service->provider->port_entries)
 			e_port_entry_set_camel_entries (service->port, service->provider->port_entries);
@@ -1595,7 +1595,7 @@ emae_service_provider_changed (EMAccountEditorService *service)
 
 						if (info->setval && !hide) {
 							if (GTK_IS_ENTRY (w))
-								info->setval (url, enable?gtk_entry_get_text ((GtkEntry *)w):NULL);
+								info->setval (url, enable?gtk_entry_get_text ((GtkEntry *) w):NULL);
 							else if (E_IS_PORT_ENTRY (w))
 								info->setval (url, enable?g_strdup_printf("%i",
 											e_port_entry_get_port (E_PORT_ENTRY (w))):NULL);
@@ -1615,7 +1615,7 @@ emae_service_provider_changed (EMAccountEditorService *service)
 			if (url->authmech) {
 				if (service->provider->authtypes) {
 					for (ll = service->provider->authtypes;ll;ll = g_list_next (ll))
-						if (!strcmp (url->authmech, ((CamelServiceAuthType *)ll->data)->authproto))
+						if (!strcmp (url->authmech, ((CamelServiceAuthType *) ll->data)->authproto))
 							break;
 					if (ll == NULL)
 						camel_url_set_authmech (url, NULL);
@@ -1626,10 +1626,10 @@ emae_service_provider_changed (EMAccountEditorService *service)
 
 			emae_refresh_authtype (service->emae, service);
 			if (service->needs_auth && !CAMEL_PROVIDER_NEEDS (service->provider, CAMEL_URL_PART_AUTH))
-				gtk_widget_show ((GtkWidget *)service->needs_auth);
+				gtk_widget_show ((GtkWidget *) service->needs_auth);
 		} else {
 			if (service->needs_auth)
-				gtk_widget_hide ((GtkWidget *)service->needs_auth);
+				gtk_widget_hide ((GtkWidget *) service->needs_auth);
 		}
 #ifdef HAVE_SSL
 		old_port = url->port;
@@ -1691,7 +1691,7 @@ emae_provider_changed (GtkComboBox *dropdown, EMAccountEditorService *service)
 
 	emae_service_provider_changed (service);
 
-	e_config_target_changed ((EConfig *)service->emae->priv->config, E_CONFIG_TARGET_CHANGED_REBUILD);
+	e_config_target_changed ((EConfig *) service->emae->priv->config, E_CONFIG_TARGET_CHANGED_REBUILD);
 }
 
 static void
@@ -1714,7 +1714,7 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 	uri = e_account_get_string (account, info->account_uri_key);
 
 	dropdown = service->providers;
-	gtk_widget_show ((GtkWidget *)dropdown);
+	gtk_widget_show ((GtkWidget *) dropdown);
 
 	if (uri) {
 		const gchar *colon = strchr (uri, ':');
@@ -1779,9 +1779,9 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 		i++;
 	}
 
-	gtk_cell_layout_clear ((GtkCellLayout *)dropdown);
-	gtk_combo_box_set_model (dropdown, (GtkTreeModel *)store);
-	gtk_cell_layout_pack_start ((GtkCellLayout *)dropdown, cell, TRUE);
+	gtk_cell_layout_clear ((GtkCellLayout *) dropdown);
+	gtk_combo_box_set_model (dropdown, (GtkTreeModel *) store);
+	gtk_cell_layout_pack_start ((GtkCellLayout *) dropdown, cell, TRUE);
 	gtk_cell_layout_set_attributes ((GtkCellLayout *)dropdown, cell, "text", 0, NULL);
 
 	g_signal_handlers_disconnect_by_func (dropdown, emae_provider_changed, service);
@@ -1841,7 +1841,7 @@ emae_authtype_changed (GtkComboBox *dropdown, EMAccountEditorService *service)
 	}
 	camel_url_free (url);
 
-	gtk_widget_set_sensitive ((GtkWidget *)service->remember, sensitive);
+	gtk_widget_set_sensitive ((GtkWidget *) service->remember, sensitive);
 }
 
 static void
@@ -1882,7 +1882,7 @@ emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service)
 	uri = e_account_get_string (account, info->account_uri_key);
 
 	dropdown = service->authtype;
-	gtk_widget_show ((GtkWidget *)dropdown);
+	gtk_widget_show ((GtkWidget *) dropdown);
 
 	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN);
 
@@ -1897,7 +1897,7 @@ emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service)
 			/* if we have some already shown */
 			if (service->authtypes) {
 				for (ll = service->authtypes;ll;ll = g_list_next (ll))
-					if (!strcmp (authtype->authproto, ((CamelServiceAuthType *)ll->data)->authproto))
+					if (!strcmp (authtype->authproto, ((CamelServiceAuthType *) ll->data)->authproto))
 						break;
 				avail = ll != NULL;
 			} else {
@@ -1912,13 +1912,13 @@ emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service)
 		}
 	}
 
-	gtk_combo_box_set_model (dropdown, (GtkTreeModel *)store);
+	gtk_combo_box_set_model (dropdown, (GtkTreeModel *) store);
 	gtk_combo_box_set_active (dropdown, -1);
 
 	if (service->auth_changed_id == 0) {
 		GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
 
-		gtk_cell_layout_pack_start ((GtkCellLayout *)dropdown, cell, TRUE);
+		gtk_cell_layout_pack_start ((GtkCellLayout *) dropdown, cell, TRUE);
 		gtk_cell_layout_set_attributes ((GtkCellLayout *)dropdown, cell, "text", 0, "strikethrough", 2, NULL);
 
 		service->auth_changed_id = g_signal_connect (dropdown, "changed", G_CALLBACK(emae_authtype_changed), service);
@@ -2006,7 +2006,7 @@ emae_check_authtype (GtkWidget *w,
 
 	g_object_ref (emae);
 
-	service->check_dialog = e_alert_dialog_new_for_args (editor ? (GtkWindow *)gtk_widget_get_toplevel (editor) : (GtkWindow *)gtk_widget_get_toplevel (w),
+	service->check_dialog = e_alert_dialog_new_for_args (editor ? (GtkWindow *) gtk_widget_get_toplevel (editor) : (GtkWindow *) gtk_widget_get_toplevel (w),
 					    "mail:checking-service", NULL);
 	g_signal_connect (service->check_dialog, "response", G_CALLBACK(emae_check_authtype_response), service);
 	gtk_widget_show (service->check_dialog);
@@ -2048,31 +2048,31 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, GtkB
 	service->container = e_builder_get_widget (builder, info->container);
 	service->description = GTK_LABEL (e_builder_get_widget (builder, info->description));
 	service->hostname = GTK_ENTRY (e_builder_get_widget (builder, info->hostname));
-	service->hostlabel = (GtkLabel *)e_builder_get_widget (builder, info->hostlabel);
+	service->hostlabel = (GtkLabel *) e_builder_get_widget (builder, info->hostlabel);
 	service->port = E_PORT_ENTRY (e_builder_get_widget (builder, info->port));
-	service->portlabel = (GtkLabel *)e_builder_get_widget (builder, info->portlabel);
+	service->portlabel = (GtkLabel *) e_builder_get_widget (builder, info->portlabel);
 	service->username = GTK_ENTRY (e_builder_get_widget (builder, info->username));
-	service->userlabel = (GtkLabel *)e_builder_get_widget (builder, info->userlabel);
+	service->userlabel = (GtkLabel *) e_builder_get_widget (builder, info->userlabel);
 	if (info->pathentry) {
-		service->pathlabel = (GtkLabel *)e_builder_get_widget (builder, info->pathlabel);
+		service->pathlabel = (GtkLabel *) e_builder_get_widget (builder, info->pathlabel);
 		service->pathentry = e_builder_get_widget (builder, info->pathentry);
 	}
 
 	service->ssl_frame = e_builder_get_widget (builder, info->security_frame);
 	gtk_widget_hide (service->ssl_frame);
 	service->ssl_hbox = e_builder_get_widget (builder, info->ssl_hbox);
-	service->use_ssl = (GtkComboBox *)e_builder_get_widget (builder, info->use_ssl);
+	service->use_ssl = (GtkComboBox *) e_builder_get_widget (builder, info->use_ssl);
 	service->no_ssl = e_builder_get_widget (builder, info->ssl_disabled);
 
 	service->auth_frame = e_builder_get_widget (builder, info->auth_frame);
-	service->check_supported = (GtkButton *)e_builder_get_widget (builder, info->authtype_check);
-	service->authtype = (GtkComboBox *)e_builder_get_widget (builder, info->authtype);
-	service->providers = (GtkComboBox *)e_builder_get_widget (builder, info->type_dropdown);
+	service->check_supported = (GtkButton *) e_builder_get_widget (builder, info->authtype_check);
+	service->authtype = (GtkComboBox *) e_builder_get_widget (builder, info->authtype);
+	service->providers = (GtkComboBox *) e_builder_get_widget (builder, info->type_dropdown);
 
 	service->remember = emae_account_toggle (emae, info->remember_password, info->save_passwd_key, builder);
 
 	if (info->needs_auth)
-		service->needs_auth = (GtkToggleButton *)e_builder_get_widget (builder, info->needs_auth);
+		service->needs_auth = (GtkToggleButton *) e_builder_get_widget (builder, info->needs_auth);
 	else
 		service->needs_auth = NULL;
 
@@ -2223,7 +2223,7 @@ emae_queue_widgets (EMAccountEditor *emae, GtkBuilder *builder, const gchar *fir
 
 	va_start (ap, first);
 	while (first) {
-		g_hash_table_insert (emae->priv->widgets, (gchar *)first, e_builder_get_widget (builder, first));
+		g_hash_table_insert (emae->priv->widgets, (gchar *) first, e_builder_get_widget (builder, first));
 		first = va_arg (ap, const gchar *);
 	}
 	va_end (ap);
@@ -2277,8 +2277,8 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 
 	w = e_builder_get_widget (builder, item->label);
 	if (emae->type == EMAE_PAGES) {
-		gtk_box_pack_start ((GtkBox *)emae->pages[0], w, TRUE, TRUE, 0);
-	} else if (((EConfig *)priv->config)->type == E_CONFIG_ASSISTANT) {
+		gtk_box_pack_start ((GtkBox *) emae->pages[0], w, TRUE, TRUE, 0);
+	} else if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT) {
 		GtkWidget *page = emae_create_basic_assistant_page (emae, GTK_ASSISTANT (parent), "identity_page");
 
 		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
@@ -2322,8 +2322,8 @@ emae_receive_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 
 	w = e_builder_get_widget (builder, item->label);
 	if (emae->type == EMAE_PAGES) {
-		gtk_box_pack_start ((GtkBox *)emae->pages[1], w, TRUE, TRUE, 0);
-	} else if (((EConfig *)priv->config)->type == E_CONFIG_ASSISTANT) {
+		gtk_box_pack_start ((GtkBox *) emae->pages[1], w, TRUE, TRUE, 0);
+	} else if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT) {
 		GtkWidget *page = emae_create_basic_assistant_page (emae, GTK_ASSISTANT (parent), "source_page");
 
 		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
@@ -2356,7 +2356,7 @@ emae_option_toggle_changed (GtkToggleButton *toggle, EMAccountEditorService *ser
 	CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
 
 	for (;depl;depl = g_slist_next (depl))
-		gtk_widget_set_sensitive ((GtkWidget *)depl->data, active);
+		gtk_widget_set_sensitive ((GtkWidget *) depl->data, active);
 
 	camel_url_set_param (url, name, active?"":NULL);
 	emae_uri_changed (service, url);
@@ -2429,13 +2429,13 @@ emae_option_checkspin_check_changed (GtkToggleButton *toggle, EMAccountEditorSer
 	GtkSpinButton *spin = g_object_get_data ((GObject *)toggle, "option-target");
 
 	if (gtk_toggle_button_get_active (toggle)) {
-		gtk_widget_set_sensitive ((GtkWidget *)spin, TRUE);
+		gtk_widget_set_sensitive ((GtkWidget *) spin, TRUE);
 		emae_option_checkspin_changed (spin, service);
 	} else {
 		CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
 
 		camel_url_set_param (url, name, NULL);
-		gtk_widget_set_sensitive ((GtkWidget *)spin, FALSE);
+		gtk_widget_set_sensitive ((GtkWidget *) spin, FALSE);
 		emae_uri_changed (service, url);
 		camel_url_free (url);
 	}
@@ -2499,15 +2499,15 @@ emae_option_checkspin (EMAccountEditorService *service, CamelURL *url, const gch
 	hbox = gtk_hbox_new (FALSE, 0);
 	check = g_object_new (gtk_check_button_get_type (), "label", pre, "use_underline", TRUE, "active", on, NULL);
 
-	spin = gtk_spin_button_new ((GtkAdjustment *)gtk_adjustment_new (def, min, max, 1, 1, 0), 1, 0);
+	spin = gtk_spin_button_new ((GtkAdjustment *) gtk_adjustment_new (def, min, max, 1, 1, 0), 1, 0);
 	if (post) {
 		label = gtk_label_new_with_mnemonic (post);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (label), check);
 	}
-	gtk_box_pack_start ((GtkBox *)hbox, check, FALSE, TRUE, 0);
-	gtk_box_pack_start ((GtkBox *)hbox, spin, FALSE, TRUE, 0);
+	gtk_box_pack_start ((GtkBox *) hbox, check, FALSE, TRUE, 0);
+	gtk_box_pack_start ((GtkBox *) hbox, spin, FALSE, TRUE, 0);
 	if (label)
-		gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, TRUE, 4);
+		gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, TRUE, 4);
 
 	g_object_set_data ((GObject *)spin, "option-name", (gpointer)name);
 	g_object_set_data ((GObject *)check, "option-name", (gpointer)name);
@@ -2593,7 +2593,7 @@ emae_option_options (EMAccountEditorService *service, CamelURL *url, const gchar
 		g_free (cp);
 	}
 
-	gtk_combo_box_set_model (w, (GtkTreeModel *)store);
+	gtk_combo_box_set_model (w, (GtkTreeModel *) store);
 	gtk_combo_box_set_active (w, i > 0 ? active : -1);
 
 	cell = gtk_cell_renderer_text_new ();
@@ -2626,8 +2626,8 @@ emae_receive_options_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, Gt
 			GtkWidget *box = gtk_hbox_new (FALSE, 12);
 			gtk_widget_reparent (old, box);
 			gtk_widget_show (box);
-			gtk_box_set_child_packing ((GtkBox *)box, old, TRUE, TRUE, 12, GTK_PACK_START);
-			gtk_box_pack_end ((GtkBox *)emae->pages[2], box, FALSE, FALSE, 0);
+			gtk_box_set_child_packing ((GtkBox *) box, old, TRUE, TRUE, 12, GTK_PACK_START);
+			gtk_box_pack_end ((GtkBox *) emae->pages[2], box, FALSE, FALSE, 0);
 		}
 		return old;
 	}
@@ -2636,8 +2636,8 @@ emae_receive_options_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, Gt
 		GtkWidget *box = gtk_hbox_new (FALSE, 12);
 		gtk_widget_reparent (parent, box);
 		gtk_widget_show (box);
-		gtk_box_set_child_packing ((GtkBox *)box, parent, TRUE, TRUE, 12, GTK_PACK_START);
-		gtk_box_pack_start ((GtkBox *)emae->pages[2], box, FALSE, FALSE, 0);
+		gtk_box_set_child_packing ((GtkBox *) box, parent, TRUE, TRUE, 12, GTK_PACK_START);
+		gtk_box_pack_start ((GtkBox *) emae->pages[2], box, FALSE, FALSE, 0);
 	}
 
 	/* We have to add the automatic mail check item with the rest of the receive options */
@@ -2645,20 +2645,20 @@ emae_receive_options_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, Gt
 
 	box = gtk_hbox_new (FALSE, 4);
 	w = gtk_check_button_new_with_mnemonic (_("Check for _new messages every"));
-	emae_account_toggle_widget (emae, (GtkToggleButton *)w, E_ACCOUNT_SOURCE_AUTO_CHECK);
-	gtk_box_pack_start ((GtkBox *)box, w, FALSE, FALSE, 0);
+	emae_account_toggle_widget (emae, (GtkToggleButton *) w, E_ACCOUNT_SOURCE_AUTO_CHECK);
+	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 0);
 
 	spin = gtk_spin_button_new_with_range (1.0, 1440.0, 1.0);
-	emae_account_spinint_widget (emae, (GtkSpinButton *)spin, E_ACCOUNT_SOURCE_AUTO_CHECK_TIME);
-	gtk_box_pack_start ((GtkBox *)box, spin, FALSE, TRUE, 0);
+	emae_account_spinint_widget (emae, (GtkSpinButton *) spin, E_ACCOUNT_SOURCE_AUTO_CHECK_TIME);
+	gtk_box_pack_start ((GtkBox *) box, spin, FALSE, TRUE, 0);
 
 	w = gtk_label_new_with_mnemonic (_("minu_tes"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), spin);
-	gtk_box_pack_start ((GtkBox *)box, w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (box);
 
-	gtk_table_attach ((GtkTable *)parent, box, 0, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+	gtk_table_attach ((GtkTable *) parent, box, 0, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
 
 	return box;
 }
@@ -2667,7 +2667,7 @@ static GtkWidget *
 emae_receive_options_extra_item (EConfig *ec, EConfigItem *eitem, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
-	struct _receive_options_item *item = (struct _receive_options_item *)eitem;
+	struct _receive_options_item *item = (struct _receive_options_item *) eitem;
 	GtkWidget *w, *l, *h;
 	CamelProviderConfEntry *entries;
 	GtkWidget *depw;
@@ -2685,8 +2685,8 @@ emae_receive_options_extra_item (EConfig *ec, EConfigItem *eitem, GtkWidget *par
 		GtkWidget *box = gtk_hbox_new (FALSE, 12);
 		gtk_widget_reparent (parent, box);
 		gtk_widget_show (box);
-		gtk_box_set_child_packing ((GtkBox *)box, parent, TRUE, TRUE, 12, GTK_PACK_START);
-		gtk_box_pack_start ((GtkBox *)emae->pages[2], box, FALSE, FALSE, 0);
+		gtk_box_set_child_packing ((GtkBox *) box, parent, TRUE, TRUE, 12, GTK_PACK_START);
+		gtk_box_pack_start ((GtkBox *) emae->pages[2], box, FALSE, FALSE, 0);
 	}
 
 	entries = emae->priv->source.provider->extra_conf;
@@ -2720,47 +2720,47 @@ section:
 		case CAMEL_PROVIDER_CONF_LABEL:
 			/* FIXME: This is a hack for exchange connector, labels should be removed from confentry */
 			if (!strcmp (entries[i].name, "hostname"))
-				l = (GtkWidget *)emae->priv->source.hostlabel;
+				l = (GtkWidget *) emae->priv->source.hostlabel;
 			else if (!strcmp (entries[i].name, "username"))
-				l = (GtkWidget *)emae->priv->source.userlabel;
+				l = (GtkWidget *) emae->priv->source.userlabel;
 			else
 				l = NULL;
 
 			if (l) {
-				gtk_label_set_text_with_mnemonic ((GtkLabel *)l, entries[i].text);
+				gtk_label_set_text_with_mnemonic ((GtkLabel *) l, entries[i].text);
 				if (depw)
 					depl = g_slist_prepend (depl, l);
 			}
 			break;
 		case CAMEL_PROVIDER_CONF_CHECKBOX:
 			w = emae_option_toggle (service, url, entries[i].text, entries[i].name);
-			gtk_table_attach ((GtkTable *)parent, w, 0, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-			g_hash_table_insert (extra, (gpointer)entries[i].name, w);
+			gtk_table_attach ((GtkTable *) parent, w, 0, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+			g_hash_table_insert (extra, (gpointer) entries[i].name, w);
 			if (depw)
 				depl = g_slist_prepend (depl, w);
 			row++;
 			/* HACK: keep_on_server is stored in the e-account, but is displayed as a properly on the uri,
 			   make sure they track/match here */
 			if (!strcmp (entries[i].name, "keep_on_server"))
-				emae_account_toggle_widget (emae, (GtkToggleButton *)w, E_ACCOUNT_SOURCE_KEEP_ON_SERVER);
+				emae_account_toggle_widget (emae, (GtkToggleButton *) w, E_ACCOUNT_SOURCE_KEEP_ON_SERVER);
 			break;
 		case CAMEL_PROVIDER_CONF_ENTRY:
 			l = g_object_new (gtk_label_get_type (), "label", entries[i].text, "xalign", 0.0, "use_underline", TRUE, NULL);
 			gtk_widget_show (l);
 			w = emae_option_entry (service, url, entries[i].name, l);
-			gtk_table_attach ((GtkTable *)parent, l, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
-			gtk_table_attach ((GtkTable *)parent, w, 1, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+			gtk_table_attach ((GtkTable *) parent, l, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
+			gtk_table_attach ((GtkTable *) parent, w, 1, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
 			if (depw) {
 				depl = g_slist_prepend (depl, w);
 				depl = g_slist_prepend (depl, l);
 			}
 			row++;
 			/* FIXME: this is another hack for exchange/groupwise connector */
-			g_hash_table_insert (item->extra_table, (gpointer)entries[i].name, w);
+			g_hash_table_insert (item->extra_table, (gpointer) entries[i].name, w);
 			break;
 		case CAMEL_PROVIDER_CONF_CHECKSPIN:
 			w = emae_option_checkspin (service, url, entries[i].name, entries[i].text, entries[i].value);
-			gtk_table_attach ((GtkTable *)parent, w, 0, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+			gtk_table_attach ((GtkTable *) parent, w, 0, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
 			if (depw)
 				depl = g_slist_prepend (depl, w);
 			row++;
@@ -2773,7 +2773,7 @@ section:
 			w = emae_option_options (service, url, entries[i].name, entries[i].value, l);
 			gtk_box_pack_start (GTK_BOX (h), l, FALSE, FALSE, 0);
 			gtk_box_pack_start (GTK_BOX (h), w, FALSE, FALSE, 0);
-			gtk_table_attach ((GtkTable *)parent, h, 0, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			gtk_table_attach ((GtkTable *) parent, h, 0, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 			if (depw) {
 				depl = g_slist_prepend (depl, h);
 			}
@@ -2784,11 +2784,11 @@ section:
 		}
 
 		if (depw && depl) {
-			gint act = gtk_toggle_button_get_active ((GtkToggleButton *)depw);
+			gint act = gtk_toggle_button_get_active ((GtkToggleButton *) depw);
 
 			g_object_set_data_full ((GObject *)depw, "dependent-list", depl, (GDestroyNotify)g_slist_free);
 			for (n=depl;n;n=g_slist_next (n))
-				gtk_widget_set_sensitive ((GtkWidget *)n->data, act);
+				gtk_widget_set_sensitive ((GtkWidget *) n->data, act);
 		}
 	}
 
@@ -2822,8 +2822,8 @@ emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *ol
 
 	w = e_builder_get_widget (builder, item->label);
 	if (emae->type == EMAE_PAGES) {
-		gtk_box_pack_start ((GtkBox *)emae->pages[3], w, TRUE, TRUE, 0);
-	} else if (((EConfig *)priv->config)->type == E_CONFIG_ASSISTANT) {
+		gtk_box_pack_start ((GtkBox *) emae->pages[3], w, TRUE, TRUE, 0);
+	} else if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT) {
 		GtkWidget *page = emae_create_basic_assistant_page (emae, GTK_ASSISTANT (parent), "transport_page");
 
 		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
@@ -3032,7 +3032,7 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 
 	/*if (old)
 	  return old;*/
-	if (((EConfig *)priv->config)->type == E_CONFIG_ASSISTANT && emae->type != EMAE_PAGES)
+	if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT && emae->type != EMAE_PAGES)
 		return NULL;
 
 	account = em_account_editor_get_modified_account (emae);
@@ -3093,15 +3093,15 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	emae_account_toggle (emae, "always_bcc", E_ACCOUNT_BCC_ALWAYS, builder);
 	emae_account_entry (emae, "bcc_addrs", E_ACCOUNT_BCC_ADDRS, builder);
 
-	gtk_widget_set_sensitive ((GtkWidget *)priv->drafts_folder_button, e_account_writable (account, E_ACCOUNT_DRAFTS_FOLDER_URI));
+	gtk_widget_set_sensitive ((GtkWidget *) priv->drafts_folder_button, e_account_writable (account, E_ACCOUNT_DRAFTS_FOLDER_URI));
 
-	gtk_widget_set_sensitive ( (GtkWidget *)priv->sent_folder_button,
+	gtk_widget_set_sensitive ( (GtkWidget *) priv->sent_folder_button,
 				  e_account_writable (account, E_ACCOUNT_SENT_FOLDER_URI)
 				  &&
 				  (emae->priv->source.provider ? !(emae->priv->source.provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER): TRUE)
 				);
 
-	gtk_widget_set_sensitive ((GtkWidget *)priv->restore_folders_button,
+	gtk_widget_set_sensitive ((GtkWidget *) priv->restore_folders_button,
 				 (e_account_writable (account, E_ACCOUNT_SENT_FOLDER_URI)
 				  && ((emae->priv->source.provider  && !( emae->priv->source.provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER))
 				      || e_account_writable (account, E_ACCOUNT_DRAFTS_FOLDER_URI))));
@@ -3111,7 +3111,7 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 
 	widget = e_builder_get_widget (builder, item->label);
 	if (emae->type == EMAE_PAGES) {
-		gtk_box_pack_start ((GtkBox *)emae->pages[4], widget, TRUE, TRUE, 0);
+		gtk_box_pack_start ((GtkBox *) emae->pages[4], widget, TRUE, TRUE, 0);
 		gtk_widget_show  (widget);
 	}else {
 		gtk_notebook_append_page ((GtkNotebook *)parent, widget, gtk_label_new (_("Defaults")));
@@ -3318,7 +3318,7 @@ emae_management_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 	GtkWidget *w;
 
 	w = priv->management_frame;
-	if (((EConfig *)priv->config)->type == E_CONFIG_ASSISTANT) {
+	if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT) {
 		GtkWidget *page = emae_create_basic_assistant_page (emae, GTK_ASSISTANT (parent), "management_page");
 
 		gtk_widget_reparent (w, page);
@@ -3332,7 +3332,7 @@ emae_management_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 static GtkWidget *
 emae_widget_assistant_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
-	EMAccountEditor *emae = (EMAccountEditor *)data;
+	EMAccountEditor *emae = (EMAccountEditor *) data;
 
 	if (emae->type == EMAE_PAGES)
 		return NULL;
@@ -3500,7 +3500,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 	/* We use the page-check of various pages to 'prepare' or
 	   pre-load their values, only in the assistant */
 	if (pageid
-	    && ((EConfig *)emae->priv->config)->type == E_CONFIG_ASSISTANT) {
+	    && ((EConfig *) emae->priv->config)->type == E_CONFIG_ASSISTANT) {
 		if (!strcmp (pageid, "00.identity")) {
 			if (!emae->priv->identity_set) {
 				gchar *uname;
@@ -3524,7 +3524,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 				CamelURL *url;
 
 				emae->priv->receive_set = 1;
-				tmp = (gchar *)e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
+				tmp = (gchar *) e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
 				at = strchr (tmp, '@');
 				user = g_alloca (at-tmp+1);
 				memcpy (user, tmp, at-tmp);
@@ -3570,7 +3570,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 			if (!emae->priv->send_set) {
 				CamelURL *url;
 				gchar *at, *user;
-				gchar *uri = (gchar *)e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
+				gchar *uri = (gchar *) e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
 				ServerData *sdata;
 
 				emae->priv->send_set = 1;
@@ -3608,7 +3608,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 						emae_check_set_authtype (emae->priv->transport.authtype, sdata->send_auth);
 					else
 						emae_authtype_changed (emae->priv->transport.authtype, &emae->priv->transport);
-					uri = (gchar *)e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
+					uri = (gchar *) e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
 				} else
 					gtk_entry_set_text (emae->priv->transport.username, user);
 			}
@@ -3697,7 +3697,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 gboolean
 em_account_editor_check (EMAccountEditor *emae, const gchar *page)
 {
-	return emae_check_complete ((EConfig *)emae->config, page, emae);
+	return emae_check_complete ((EConfig *) emae->config, page, emae);
 }
 
 static void
@@ -3789,7 +3789,7 @@ emae_commit (EConfig *ec, GSList *items, gpointer data)
 void
 em_account_editor_commit (EMAccountEditor *emae)
 {
-	emae_commit ((EConfig *)emae->config, NULL, emae);
+	emae_commit ((EConfig *) emae->config, NULL, emae);
 }
 
 static void
@@ -3898,7 +3898,7 @@ em_account_editor_construct (EMAccountEditor *emae,
 	emae->type = type;
 
 	/* sort the providers, remote first */
-	priv->providers = g_list_sort (camel_provider_list (TRUE), (GCompareFunc)provider_compare);
+	priv->providers = g_list_sort (camel_provider_list (TRUE), (GCompareFunc) provider_compare);
 
 	if (type == EMAE_NOTEBOOK) {
 		ec = em_config_new (E_CONFIG_BOOK, id);
@@ -3926,14 +3926,14 @@ em_account_editor_construct (EMAccountEditor *emae,
 	l = NULL;
 	for (i=0;items[i].path;i++)
 		l = g_slist_prepend (l, &items[i]);
-	e_config_add_items ((EConfig *)ec, l, emae_commit, NULL, emae_free, emae);
+	e_config_add_items ((EConfig *) ec, l, emae_commit, NULL, emae_free, emae);
 
 	/* This is kinda yuck, we're dynamically mapping from the 'old style' extensibility api to the new one */
 	l = NULL;
 	have = g_hash_table_new (g_str_hash, g_str_equal);
 	index = 20;
 	for (prov=priv->providers;prov;prov=g_list_next (prov)) {
-		CamelProviderConfEntry *entries = ((CamelProvider *)prov->data)->extra_conf;
+		CamelProviderConfEntry *entries = ((CamelProvider *) prov->data)->extra_conf;
 
 		for (i=0;entries && entries[i].type != CAMEL_PROVIDER_CONF_END;i++) {
 			struct _receive_options_item *item;
@@ -3965,19 +3965,19 @@ em_account_editor_construct (EMAccountEditor *emae,
 			l = g_slist_prepend (l, item);
 
 			index += 10;
-			g_hash_table_insert (have, (gpointer)entries[i].name, have);
+			g_hash_table_insert (have, (gpointer) entries[i].name, have);
 		}
 	}
 	g_hash_table_destroy (have);
-	e_config_add_items ((EConfig *)ec, l, NULL, NULL, emae_free_auto, emae);
+	e_config_add_items ((EConfig *) ec, l, NULL, NULL, emae_free_auto, emae);
 	priv->extra_items = l;
 
-	e_config_add_page_check ((EConfig *)ec, NULL, emae_check_complete, emae);
+	e_config_add_page_check ((EConfig *) ec, NULL, emae_check_complete, emae);
 
 	original_account = em_account_editor_get_original_account (emae);
 	modified_account = em_account_editor_get_modified_account (emae);
 	target = em_config_target_new_account (
 		ec, original_account, modified_account);
-	e_config_set_target ((EConfig *)ec, (EConfigTarget *)target);
+	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 }
 

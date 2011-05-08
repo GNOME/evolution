@@ -372,7 +372,7 @@ static void launch_editor (GtkAction *action, EMsgComposer *composer)
 
 	disable_composer (composer);
 
-	editor_thread = g_thread_create ((GThreadFunc)async_external_editor, composer, FALSE, NULL);
+	editor_thread = g_thread_create ((GThreadFunc) async_external_editor, composer, FALSE, NULL);
 }
 
 static GtkActionEntry entries[] = {
@@ -427,7 +427,7 @@ editor_running (void)
 {
 	gboolean running = FALSE;
 
-	g_thread_foreach ((GFunc)editor_running_thread_func, &running);
+	g_thread_foreach ((GFunc) editor_running_thread_func, &running);
 
 	return running;
 }

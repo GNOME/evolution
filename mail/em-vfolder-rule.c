@@ -257,7 +257,7 @@ em_vfolder_rule_remove_source (EMVFolderRule *rule,
 
 	g_return_if_fail (EM_IS_VFOLDER_RULE (rule));
 
-	found =(gchar *)em_vfolder_rule_find_source (rule, uri);
+	found =(gchar *) em_vfolder_rule_find_source (rule, uri);
 	if (found) {
 		rule->sources = g_list_remove (rule->sources, found);
 		g_free (found);
@@ -274,7 +274,7 @@ em_vfolder_rule_next_source (EMVFolderRule *rule,
 	if (last == NULL) {
 		node = rule->sources;
 	} else {
-		node = g_list_find (rule->sources, (gchar *)last);
+		node = g_list_find (rule->sources, (gchar *) last);
 		if (node == NULL)
 			node = rule->sources;
 		else
@@ -282,7 +282,7 @@ em_vfolder_rule_next_source (EMVFolderRule *rule,
 	}
 
 	if (node)
-		return (const gchar *)node->data;
+		return (const gchar *) node->data;
 
 	return NULL;
 }
@@ -301,8 +301,8 @@ validate (EFilterRule *fr, EAlert **alert)
 
 	/* We have to have at least one source set in the "specific" case.
 	   Do not translate this string! */
-	if (((EMVFolderRule *)fr)->with == EM_VFOLDER_RULE_WITH_SPECIFIC &&
-		((EMVFolderRule *)fr)->sources == NULL) {
+	if (((EMVFolderRule *) fr)->with == EM_VFOLDER_RULE_WITH_SPECIFIC &&
+		((EMVFolderRule *) fr)->sources == NULL) {
 		if (alert)
 			*alert = e_alert_new ("mail:vfolder-no-source", NULL);
 		return 0;
@@ -331,13 +331,13 @@ static gint
 vfolder_eq (EFilterRule *fr, EFilterRule *cm)
 {
 	return E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->eq (fr, cm)
-		&& list_eq (((EMVFolderRule *)fr)->sources, ((EMVFolderRule *)cm)->sources);
+		&& list_eq (((EMVFolderRule *) fr)->sources, ((EMVFolderRule *) cm)->sources);
 }
 
 static xmlNodePtr
 xml_encode (EFilterRule *fr)
 {
-	EMVFolderRule *vr =(EMVFolderRule *)fr;
+	EMVFolderRule *vr =(EMVFolderRule *) fr;
 	xmlNodePtr node, set, work;
 	GList *l;
 
@@ -379,7 +379,7 @@ xml_decode (EFilterRule *fr, xmlNodePtr node, struct _ERuleContext *f)
 {
 	xmlNodePtr set, work;
 	gint result;
-	EMVFolderRule *vr =(EMVFolderRule *)fr;
+	EMVFolderRule *vr =(EMVFolderRule *) fr;
 	gchar *tmp;
 
 	result = E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->
@@ -425,11 +425,11 @@ rule_copy (EFilterRule *dest, EFilterRule *src)
 	EMVFolderRule *vdest, *vsrc;
 	GList *node;
 
-	vdest =(EMVFolderRule *)dest;
-	vsrc =(EMVFolderRule *)src;
+	vdest =(EMVFolderRule *) dest;
+	vsrc =(EMVFolderRule *) src;
 
 	if (vdest->sources) {
-		g_list_foreach (vdest->sources, (GFunc)g_free, NULL);
+		g_list_foreach (vdest->sources, (GFunc) g_free, NULL);
 		g_list_free (vdest->sources);
 		vdest->sources = NULL;
 	}
@@ -668,7 +668,7 @@ source_remove (GtkWidget *widget, struct _source_data *data)
 static GtkWidget *
 get_widget (EFilterRule *fr, ERuleContext *rc)
 {
-	EMVFolderRule *vr =(EMVFolderRule *)fr;
+	EMVFolderRule *vr =(EMVFolderRule *) fr;
 	GtkWidget *widget, *frame;
 	struct _source_data *data;
 	GtkRadioButton *rb;

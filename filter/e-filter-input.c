@@ -64,7 +64,7 @@ filter_input_finalize (GObject *object)
 
 	xmlFree (input->type);
 
-	g_list_foreach (input->values, (GFunc)g_free, NULL);
+	g_list_foreach (input->values, (GFunc) g_free, NULL);
 	g_list_free (input->values);
 
 	/* Chain up to parent's finalize() method. */
@@ -167,7 +167,7 @@ filter_input_xml_encode (EFilterElement *element)
 		xmlChar *str = link->data;
 		xmlNodePtr cur;
 
-		cur = xmlNewChild (value, NULL, (xmlChar *)type, NULL);
+		cur = xmlNewChild (value, NULL, (xmlChar *) type, NULL);
 
 		str = xmlEncodeEntitiesReentrant (NULL, str);
 		xmlNodeSetContent (cur, str);
@@ -180,7 +180,7 @@ filter_input_xml_encode (EFilterElement *element)
 static gint
 filter_input_xml_decode (EFilterElement *element, xmlNodePtr node)
 {
-	EFilterInput *input = (EFilterInput *)element;
+	EFilterInput *input = (EFilterInput *) element;
 	gchar *name, *str, *type;
 	xmlNodePtr child;
 
@@ -199,8 +199,8 @@ filter_input_xml_decode (EFilterElement *element, xmlNodePtr node)
 
 	child = node->children;
 	while (child != NULL) {
-		if (!strcmp ((gchar *)child->name, type)) {
-			if (!(str = (gchar *)xmlNodeGetContent (child)))
+		if (!strcmp ((gchar *) child->name, type)) {
+			if (!(str = (gchar *) xmlNodeGetContent (child)))
 				str = (gchar *)xmlStrdup ((xmlChar *)"");
 
 			input->values = g_list_append (input->values, g_strdup (str));

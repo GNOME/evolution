@@ -59,7 +59,7 @@ G_DEFINE_TYPE (
 static void
 event_finalize (GObject *object)
 {
-	EEvent *event = (EEvent *)object;
+	EEvent *event = (EEvent *) object;
 	EEventPrivate *p = event->priv;
 
 	if (event->target)
@@ -78,7 +78,7 @@ event_finalize (GObject *object)
 		g_free (node);
 	}
 
-	g_slist_foreach (p->sorted, (GFunc)g_free, NULL);
+	g_slist_foreach (p->sorted, (GFunc) g_free, NULL);
 	g_slist_free (p->sorted);
 
 	/* Chain up to parent's finalize() method. */
@@ -158,12 +158,12 @@ e_event_add_items (EEvent *event,
 	g_queue_push_tail (&event->priv->events, node);
 
 	if (event->priv->sorted) {
-		g_slist_foreach (event->priv->sorted, (GFunc)g_free, NULL);
+		g_slist_foreach (event->priv->sorted, (GFunc) g_free, NULL);
 		g_slist_free (event->priv->sorted);
 		event->priv->sorted = NULL;
 	}
 
-	return (gpointer)node;
+	return (gpointer) node;
 }
 
 /**
@@ -186,7 +186,7 @@ e_event_remove_items (EEvent *event, gpointer handle)
 	g_free (node);
 
 	if (event->priv->sorted) {
-		g_slist_foreach (event->priv->sorted, (GFunc)g_free, NULL);
+		g_slist_foreach (event->priv->sorted, (GFunc) g_free, NULL);
 		g_slist_free (event->priv->sorted);
 		event->priv->sorted = NULL;
 	}
@@ -195,8 +195,8 @@ e_event_remove_items (EEvent *event, gpointer handle)
 static gint
 ee_cmp (gconstpointer ap, gconstpointer bp)
 {
-	gint a = ((struct _event_info **)ap)[0]->item->priority;
-	gint b = ((struct _event_info **)bp)[0]->item->priority;
+	gint a = ((struct _event_info **) ap)[0]->item->priority;
+	gint b = ((struct _event_info **) bp)[0]->item->priority;
 
 	if (a < b)
 		return 1;
@@ -387,13 +387,13 @@ emph_event_handle (EEvent *ee, EEventItem *item, gpointer data)
 		return;
 
 	e_plugin_invoke (
-		hook->hook.plugin, (gchar *)item->user_data, ee->target);
+		hook->hook.plugin, (gchar *) item->user_data, ee->target);
 }
 
 static void
 emph_free_item (EEventItem *item)
 {
-	g_free ((gchar *)item->id);
+	g_free ((gchar *) item->id);
 	g_free (item->user_data);
 	g_free (item);
 }
@@ -403,7 +403,7 @@ emph_free_items (EEvent *ee, GSList *items, gpointer data)
 {
 	/*EPluginHook *eph = data;*/
 
-	g_slist_foreach (items, (GFunc)emph_free_item, NULL);
+	g_slist_foreach (items, (GFunc) emph_free_item, NULL);
 	g_slist_free (items);
 }
 
@@ -452,7 +452,7 @@ emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	d(printf("loading event hook\n"));
 
-	if (((EPluginHookClass *)e_event_hook_parent_class)->
+	if (((EPluginHookClass *) e_event_hook_parent_class)->
 		construct (eph, ep, root) == -1)
 		return -1;
 
@@ -510,5 +510,5 @@ void e_event_hook_class_add_target_map (EEventHookClass *class,
                                         const EEventHookTargetMap *map)
 {
 	g_hash_table_insert (
-		class->target_map, (gpointer)map->type, (gpointer)map);
+		class->target_map, (gpointer) map->type, (gpointer) map);
 }

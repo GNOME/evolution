@@ -1466,12 +1466,12 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 		gint x, y;
 
 		if (!pixbuf) {
-			const gchar **xpm = (const gchar **)jump_xpm;
+			const gchar **xpm = (const gchar **) jump_xpm;
 
 			/* this ugly thing is here only to get rid of compiler warning
 			   about unused 'jump_xpm_focused' */
 			if (pixbuf)
-				xpm = (const gchar **)jump_xpm_focused;
+				xpm = (const gchar **) jump_xpm_focused;
 
 			pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
 		}
@@ -1779,12 +1779,12 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 			}
 
 			if (!pixbuf) {
-				const gchar **xpm = (const gchar **)jump_xpm;
+				const gchar **xpm = (const gchar **) jump_xpm;
 
 				/* this ugly thing is here only to get rid of compiler warning
 				   about unused 'jump_xpm_focused' */
 				if (pixbuf)
-					xpm = (const gchar **)jump_xpm_focused;
+					xpm = (const gchar **) jump_xpm_focused;
 
 				pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
 			}
@@ -2551,12 +2551,12 @@ print_work_week_day_details (GtkPrintContext *context, GnomeCalendar *gcal,
 		gint x, y;
 
 		if (!pixbuf) {
-			const gchar **xpm = (const gchar **)jump_xpm;
+			const gchar **xpm = (const gchar **) jump_xpm;
 
 			/* this ugly thing is here only to get rid of compiler warning
 			   about unused 'jump_xpm_focused' */
 			if (pixbuf)
-				xpm = (const gchar **)jump_xpm_focused;
+				xpm = (const gchar **) jump_xpm_focused;
 
 			pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
 		}
@@ -3104,7 +3104,7 @@ print_calendar (GnomeCalendar *gcal,
 		}
 	}
 
-	pcali.gcal = (GnomeCalendar *)gcal;
+	pcali.gcal = (GnomeCalendar *) gcal;
 	pcali.start = start;
 
 	operation = e_print_operation_new ();

@@ -40,7 +40,7 @@ static gpointer parent_class = NULL;
 static void
 efhp_finalize (GObject *object)
 {
-	EMFormatHTMLPrint *efhp = (EMFormatHTMLPrint *)object;
+	EMFormatHTMLPrint *efhp = (EMFormatHTMLPrint *) object;
 
 	gtk_widget_destroy (efhp->window);
 	if (efhp->source != NULL)
@@ -78,7 +78,7 @@ efhp_class_init (EMFormatHTMLPrintClass *class)
 static void
 efhp_init (GObject *o)
 {
-	EMFormatHTMLPrint *efhp = (EMFormatHTMLPrint *)o;
+	EMFormatHTMLPrint *efhp = (EMFormatHTMLPrint *) o;
 	EWebView *web_view;
 
 	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (efhp));
@@ -89,7 +89,7 @@ efhp_init (GObject *o)
 	gtk_container_add (GTK_CONTAINER (efhp->window), GTK_WIDGET (web_view));
 	gtk_widget_realize (GTK_WIDGET (web_view));
 	efhp->parent.show_icon = FALSE;
-	((EMFormat *)efhp)->print = TRUE;
+	((EMFormat *) efhp)->print = TRUE;
 }
 
 GType

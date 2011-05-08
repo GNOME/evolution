@@ -385,7 +385,7 @@ bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 				return dirty;
 			}
 
-			photo->data.inlined.data = (guchar *)contents;
+			photo->data.inlined.data = (guchar *) contents;
 			e_contact_set (c, E_CONTACT_PHOTO, (gpointer) photo);
 			dirty = TRUE;
 		}
@@ -492,7 +492,7 @@ bbdb_get_gaim_buddy_list (void)
 
 	xmlFreeDoc (buddy_xml);
 
-	g_slist_foreach (blocked, (GFunc)g_free, NULL);
+	g_slist_foreach (blocked, (GFunc) g_free, NULL);
 	g_slist_free (blocked);
 
 	return buddies;
@@ -514,7 +514,7 @@ free_gaim_body (GaimBuddy *gb)
 static void
 free_buddy_list (GList *blist)
 {
-	g_list_foreach (blist, (GFunc)free_gaim_body, NULL);
+	g_list_foreach (blist, (GFunc) free_gaim_body, NULL);
 	g_list_free (blist);
 }
 
@@ -525,7 +525,7 @@ get_node_text (xmlNodePtr node)
 	    strcmp ((gchar *)node->children->name, "text"))
 		return NULL;
 
-	return g_strdup ((gchar *)node->children->content);
+	return g_strdup ((gchar *) node->children->content);
 }
 
 static gchar *

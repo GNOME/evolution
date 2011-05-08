@@ -65,7 +65,7 @@ typedef struct {
 ECellView *
 e_cell_tree_view_get_subcell_view (ECellView *ect)
 {
-	return ((ECellTreeView *)ect)->subcell_view;
+	return ((ECellTreeView *) ect)->subcell_view;
 }
 
 static ETreePath
@@ -134,7 +134,7 @@ ect_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view
 
 	tree_view->canvas = canvas;
 
-	return (ECellView *)tree_view;
+	return (ECellView *) tree_view;
 }
 
 /*
@@ -224,7 +224,7 @@ ect_draw (ECellView *ecell_view,
           gint x2,
           gint y2)
 {
-	ECellTreeView *tree_view = (ECellTreeView *)ecell_view;
+	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
 	ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter (ecell_view->e_table_model, row);
 	ETreePath node;

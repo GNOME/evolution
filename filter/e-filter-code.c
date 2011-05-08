@@ -39,7 +39,7 @@ filter_code_build_code (EFilterElement *element,
                         struct _EFilterPart *part)
 {
 	GList *l;
-	EFilterInput *fi = (EFilterInput *)element;
+	EFilterInput *fi = (EFilterInput *) element;
 	gboolean is_rawcode = fi && fi->type && g_str_equal (fi->type, "rawcode");
 
 	if (!is_rawcode)
@@ -47,7 +47,7 @@ filter_code_build_code (EFilterElement *element,
 
 	l = fi->values;
 	while (l) {
-		g_string_append (out, (gchar *)l->data);
+		g_string_append (out, (gchar *) l->data);
 		l = g_list_next (l);
 	}
 

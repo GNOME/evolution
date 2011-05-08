@@ -80,7 +80,7 @@ imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
 	EAccount *modified_account;
 	gboolean use_imap = g_getenv ("USE_IMAP") != NULL;
 
-	target_account = (EMConfigTargetAccount *)data->config->target;
+	target_account = (EMConfigTargetAccount *) data->config->target;
 	original_account = target_account->original_account;
 	modified_account = target_account->modified_account;
 
@@ -272,7 +272,7 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	ui = g_new0 (EPImapFeaturesData, 1);
 
-	target_account = (EMConfigTargetAccount *)data->config->target;
+	target_account = (EMConfigTargetAccount *) data->config->target;
 	account = target_account->modified_account;
 
 	if (!g_str_has_prefix (account->source->url, "imap://") && !(use_imap && g_str_has_prefix (account->source->url, "groupwise://")))

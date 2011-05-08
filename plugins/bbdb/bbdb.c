@@ -197,7 +197,7 @@ bbdb_do_in_thread (gpointer data)
 	if (!book || !bbdb_open_ebook (book)) {
 		G_LOCK (todo);
 
-		g_slist_foreach (todo, (GFunc)free_todo_struct, NULL);
+		g_slist_foreach (todo, (GFunc) free_todo_struct, NULL);
 		g_slist_free (todo);
 		todo = NULL;
 
@@ -357,7 +357,7 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 		e_book_query_unref (query);
 	if (contacts != NULL || !status) {
 		for (l = contacts; l != NULL; l = l->next)
-			g_object_unref ((GObject *)l->data);
+			g_object_unref ((GObject *) l->data);
 		g_list_free (contacts);
 		g_free (temp_name);
 
@@ -391,7 +391,7 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 		   this. */
 		if (!status || contacts->next != NULL) {
 			for (l = contacts; l != NULL; l = l->next)
-				g_object_unref ((GObject *)l->data);
+				g_object_unref ((GObject *) l->data);
 			g_list_free (contacts);
 			g_free (temp_name);
 			return;
@@ -405,7 +405,7 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 		}
 
 		for (l = contacts; l != NULL; l = l->next)
-			g_object_unref ((GObject *)l->data);
+			g_object_unref ((GObject *) l->data);
 		g_list_free (contacts);
 
 		g_free (temp_name);

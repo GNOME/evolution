@@ -1032,7 +1032,7 @@ process_name (CERTName *name, gchar **value)
 				return FALSE;
 			}
 
-			avavalue = g_string_new_len ((gchar *)decodeItem->data, decodeItem->len);
+			avavalue = g_string_new_len ((gchar *) decodeItem->data, decodeItem->len);
 
 			SECITEM_FreeItem (decodeItem, PR_TRUE);
 

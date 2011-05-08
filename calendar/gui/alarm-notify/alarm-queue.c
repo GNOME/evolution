@@ -1486,7 +1486,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	e_cal_component_get_description_list (comp, &text_list);
 
 	if (text_list) {
-		text = *((ECalComponentText *)text_list->data);
+		text = *((ECalComponentText *) text_list->data);
 		if (text.value)
 			description = text.value;
 		else
@@ -2103,14 +2103,14 @@ remove_cqa (ClientAlarms *ca, ECalComponentId *id, CompQueuedAlarms *cqa)
 static gboolean
 remove_comp_by_id (gpointer key, gpointer value, gpointer userdata) {
 
-	ClientAlarms *ca = (ClientAlarms *)userdata;
+	ClientAlarms *ca = (ClientAlarms *) userdata;
 
 	debug (("..."));
 
 /*	if (!g_hash_table_size (ca->uid_alarms_hash)) */
 /*		return; */
 
-	remove_cqa (ca, (ECalComponentId *)key, (CompQueuedAlarms *) value);
+	remove_cqa (ca, (ECalComponentId *) key, (CompQueuedAlarms *) value);
 
 	return TRUE;
 }
@@ -2121,7 +2121,7 @@ remove_client_alarms (ClientAlarms *ca)
 {
 	debug (("size %d", g_hash_table_size (ca->uid_alarms_hash)));
 
-	g_hash_table_foreach_remove  (ca->uid_alarms_hash, (GHRFunc)remove_comp_by_id, ca);
+	g_hash_table_foreach_remove  (ca->uid_alarms_hash, (GHRFunc) remove_comp_by_id, ca);
 
 	/* The hash table should be empty now */
 	g_return_if_fail (g_hash_table_size (ca->uid_alarms_hash) == 0);

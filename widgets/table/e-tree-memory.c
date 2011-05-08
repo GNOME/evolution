@@ -641,8 +641,8 @@ typedef struct {
 static gint
 sort_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
 {
-	ETreePath path1 = *(ETreePath *)data1;
-	ETreePath path2 = *(ETreePath *)data2;
+	ETreePath path1 = *(ETreePath *) data1;
+	ETreePath path2 = *(ETreePath *) data2;
 	MemoryAndClosure *mac = user_data;
 	return (*mac->callback) (mac->memory, path1, path2, mac->closure);
 }

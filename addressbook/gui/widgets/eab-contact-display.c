@@ -460,7 +460,7 @@ render_contact_block (GString *buffer, EContact *contact)
 
 	for (l = email_list, al=email_attr_list; l && al; l = l->next, al = al->next) {
 		gchar *name = NULL, *mail = NULL;
-		gchar *attr_str = (gchar *)get_email_location ((EVCardAttribute *) al->data);
+		gchar *attr_str = (gchar *) get_email_location ((EVCardAttribute *) al->data);
 
 		if (!eab_parse_qp_email (l->data, &name, &mail))
 			mail = e_text_to_html (l->data, 0);
@@ -479,7 +479,7 @@ render_contact_block (GString *buffer, EContact *contact)
 		g_free (name);
 		g_free (mail);
 	}
-	g_list_foreach (email_list, (GFunc)g_free, NULL);
+	g_list_foreach (email_list, (GFunc) g_free, NULL);
 	g_list_free (email_list);
 
 	if (accum->len) {
@@ -771,8 +771,8 @@ eab_contact_display_render_compact (EABContactDisplay *display,
 					max_dimension = calced_height;
 
 				if (max_dimension > MAX_COMPACT_IMAGE_DIMENSION) {
-					calced_width *= ((gfloat)MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
-					calced_height *= ((gfloat)MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
+					calced_width *= ((gfloat) MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
+					calced_height *= ((gfloat) MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
 				}
 			}
 

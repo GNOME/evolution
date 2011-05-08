@@ -864,8 +864,8 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	/* Hook up and add the toplevel widget */
 
 	target = e_cal_config_target_new_prefs (ec);
-	e_config_set_target ((EConfig *)ec, (EConfigTarget *) target);
-	toplevel = e_config_create_widget ((EConfig *)ec);
+	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
+	toplevel = e_config_create_widget ((EConfig *) ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 
 	show_config (prefs);

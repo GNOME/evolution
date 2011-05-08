@@ -1172,7 +1172,7 @@ edit_message (EShell *shell,
 
 	gtk_widget_show (GTK_WIDGET (composer));
 
-	return (GtkWidget *)composer;
+	return (GtkWidget *) composer;
 }
 
 typedef enum {
@@ -1464,7 +1464,7 @@ forward_non_attached (EShell *shell,
 			composer = create_new_composer (shell, subject, folder);
 
 			if (composer) {
-				if (CAMEL_IS_MULTIPART (camel_medium_get_content ((CamelMedium *)message)))
+				if (CAMEL_IS_MULTIPART (camel_medium_get_content ((CamelMedium *) message)))
 					e_msg_composer_add_message_attachments (composer, message, FALSE);
 
 				e_msg_composer_set_body_text (composer, text, TRUE);
@@ -2055,7 +2055,7 @@ reply_get_composer (EShell *shell,
 	g_free (subject);
 
 	/* add post-to, if nessecary */
-	if (postto && camel_address_length ((CamelAddress *)postto)) {
+	if (postto && camel_address_length ((CamelAddress *) postto)) {
 		gchar *store_url = NULL;
 		gchar *post;
 
@@ -2075,7 +2075,7 @@ reply_get_composer (EShell *shell,
 				store_url[strlen (store_url)-1] = '\0';
 		}
 
-		post = camel_address_encode ((CamelAddress *)postto);
+		post = camel_address_encode ((CamelAddress *) postto);
 		e_composer_header_table_set_post_to_base (
 			table, store_url ? store_url : "", post);
 		g_free (post);
@@ -2215,7 +2215,7 @@ get_reply_sender (CamelMimeMessage *message,
 	if (postto
 	    && ((posthdr = camel_medium_get_header((CamelMedium *)message, "Followup-To"))
 		 || (posthdr = camel_medium_get_header((CamelMedium *)message, "Newsgroups")))) {
-		camel_address_decode ((CamelAddress *)postto, posthdr);
+		camel_address_decode ((CamelAddress *) postto, posthdr);
 		return;
 	}
 
@@ -2248,7 +2248,7 @@ get_reply_from (CamelMimeMessage *message,
 	if (postto
 	    && ((posthdr = camel_medium_get_header((CamelMedium *)message, "Followup-To"))
 		 || (posthdr = camel_medium_get_header((CamelMedium *)message, "Newsgroups")))) {
-		camel_address_decode ((CamelAddress *)postto, posthdr);
+		camel_address_decode ((CamelAddress *) postto, posthdr);
 		return;
 	}
 
@@ -2290,9 +2290,9 @@ get_reply_all (CamelMimeMessage *message,
 	/* check whether there is a 'Newsgroups: ' header in there */
 	if (postto) {
 		if ((posthdr = camel_medium_get_header((CamelMedium *)message, "Followup-To")))
-			camel_address_decode ((CamelAddress *)postto, posthdr);
+			camel_address_decode ((CamelAddress *) postto, posthdr);
 		if ((posthdr = camel_medium_get_header((CamelMedium *)message, "Newsgroups")))
-			camel_address_decode ((CamelAddress *)postto, posthdr);
+			camel_address_decode ((CamelAddress *) postto, posthdr);
 	}
 
 	rcpt_hash = em_utils_generate_account_hash ();
@@ -2320,15 +2320,15 @@ get_reply_all (CamelMimeMessage *message,
 
 	/* Promote the first Cc: address to To: if To: is empty. */
 	if (camel_address_length ((CamelAddress *) to) == 0 &&
-			camel_address_length ((CamelAddress *)cc) > 0) {
+			camel_address_length ((CamelAddress *) cc) > 0) {
 		camel_internet_address_get (cc, 0, &name, &addr);
 		camel_internet_address_add (to, name, addr);
-		camel_address_remove ((CamelAddress *)cc, 0);
+		camel_address_remove ((CamelAddress *) cc, 0);
 	}
 
 	/* If To: is still empty, may we removed duplicates (i.e. ourself),
 	 * so add the original To if it was set. */
-	if (camel_address_length ((CamelAddress *)to) == 0
+	if (camel_address_length ((CamelAddress *) to) == 0
 	    && (camel_internet_address_get (to_addrs, 0, &name, &addr)
 		|| camel_internet_address_get (cc_addrs, 0, &name, &addr))) {
 		camel_internet_address_add (to, name, addr);

@@ -101,7 +101,7 @@ filter_int_xml_encode (EFilterElement *element)
 	xmlSetProp (value, (xmlChar *) "type", (xmlChar *) type);
 
 	sprintf (intval, "%d", filter_int->val);
-	xmlSetProp (value, (xmlChar *)type, (xmlChar *)intval);
+	xmlSetProp (value, (xmlChar *) type, (xmlChar *) intval);
 
 	return value;
 }
@@ -123,7 +123,7 @@ filter_int_xml_decode (EFilterElement *element,
 	filter_int->type = g_strdup (type);
 	xmlFree (type);
 
-	intval = (gchar *)xmlGetProp (
+	intval = (gchar *) xmlGetProp (
 		node, (xmlChar *) (filter_int->type ?
 		filter_int->type : "integer"));
 	if (intval) {

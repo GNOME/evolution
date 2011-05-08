@@ -138,7 +138,7 @@ build_account_button (MailSettingsView *acview, EAccount *account)
 	if (FALSE) {
 		tlabel = (GtkWidget *)gtk_image_new_from_stock (account ? "gtk-edit" : "gtk-new", GTK_ICON_SIZE_BUTTON);
 		gtk_widget_show (tlabel);
-		gtk_box_pack_start ((GtkBox *)tbox, tlabel, FALSE, FALSE, 6);
+		gtk_box_pack_start ((GtkBox *) tbox, tlabel, FALSE, FALSE, 6);
 	}
 
 	if (account)
@@ -149,17 +149,17 @@ build_account_button (MailSettingsView *acview, EAccount *account)
 	if (account)
 		g_free (tmp);
 	gtk_widget_show (tlabel);
-	gtk_box_pack_start ((GtkBox *)tbox, tlabel, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) tbox, tlabel, FALSE, FALSE, 0);
 	gtk_widget_show (tbox);
-	gtk_container_add ((GtkContainer *)label, tbox);
+	gtk_container_add ((GtkContainer *) label, tbox);
 	g_object_set_data ((GObject *)label, "account", account);
 	g_signal_connect(label, "clicked", G_CALLBACK(msv_edit_account), acview);
-	gtk_box_pack_start ((GtkBox *)box1, label, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) box1, label, FALSE, FALSE, 0);
 	gtk_widget_show (label);
 
 	if (account) {
 		tlabel = gtk_button_new_from_stock ("gtk-delete");
-		gtk_box_pack_start ((GtkBox *)box1, tlabel, FALSE, FALSE, 12);
+		gtk_box_pack_start ((GtkBox *) box1, tlabel, FALSE, FALSE, 12);
 		gtk_widget_show (tlabel);
 		g_object_set_data ((GObject *)tlabel, "account", account);
 		g_signal_connect (tlabel, "clicked", G_CALLBACK(msv_delete_account), acview);
@@ -177,11 +177,11 @@ msv_regen_view (MailSettingsView *acview)
 	GtkWidget *box, *label;
 	gchar *buff;
 
-	gtk_container_foreach ((GtkContainer *)acview->priv->box, (GtkCallback)gtk_widget_destroy, NULL);
+	gtk_container_foreach ((GtkContainer *) acview->priv->box, (GtkCallback) gtk_widget_destroy, NULL);
 
 	label = gtk_label_new (NULL);
 	buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Account management"));
-	gtk_label_set_markup ((GtkLabel *)label, buff);
+	gtk_label_set_markup ((GtkLabel *) label, buff);
 	g_free (buff);
 	PACK_BOX (label,12);
 
@@ -200,16 +200,16 @@ mail_settings_view_construct (MailSettingsView *acview)
 {
 	acview->priv->scroll = gtk_scrolled_window_new (NULL, NULL);
 	gtk_widget_show (acview->priv->scroll);
-	gtk_container_add ((GtkContainer *)acview, acview->priv->scroll);
-	gtk_scrolled_window_set_policy ((GtkScrolledWindow *)acview->priv->scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_container_add ((GtkContainer *) acview, acview->priv->scroll);
+	gtk_scrolled_window_set_policy ((GtkScrolledWindow *) acview->priv->scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	acview->priv->box = gtk_vbox_new (FALSE, 0);
 	gtk_widget_show (acview->priv->box);
-	gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *)acview->priv->scroll, acview->priv->box);
+	gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *) acview->priv->scroll, acview->priv->box);
 
 	acview->priv->accounts = e_get_account_list ();
 	g_signal_connect (acview->priv->accounts, "account-added", G_CALLBACK(msv_account_added), acview);
 	msv_regen_view (acview);
-	gtk_widget_show ((GtkWidget *)acview);
+	gtk_widget_show ((GtkWidget *) acview);
 
 }
 
@@ -243,23 +243,23 @@ mail_settings_view_get_tab_widget (MailSettingsView *mcv)
 	img = gtk_image_new_from_pixbuf (pbuf);
 
 	tool = gtk_button_new ();
-	gtk_button_set_relief ((GtkButton *)tool, GTK_RELIEF_NONE);
-	gtk_button_set_focus_on_click ((GtkButton *)tool, FALSE);
+	gtk_button_set_relief ((GtkButton *) tool, GTK_RELIEF_NONE);
+	gtk_button_set_focus_on_click ((GtkButton *) tool, FALSE);
 	gtk_widget_set_tooltip_text (tool, _("Close Tab"));
 	g_signal_connect (tool, "clicked", G_CALLBACK(msv_close), mcv);
 
 	box = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)box, img, FALSE, FALSE, 0);
-	gtk_container_add ((GtkContainer *)tool, box);
+	gtk_box_pack_start ((GtkBox *) box, img, FALSE, FALSE, 0);
+	gtk_container_add ((GtkContainer *) tool, box);
 	gtk_widget_show_all (tool);
 	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (tool) , GTK_ICON_SIZE_MENU, &w, &h);
 	gtk_widget_set_size_request (tool, w+2, h+2);
 
 	box = gtk_label_new (_("Settings"));
 	tab_label = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)tab_label, box, FALSE, FALSE, 2);
+	gtk_box_pack_start ((GtkBox *) tab_label, box, FALSE, FALSE, 2);
 #ifndef ANJAL_SETTINGS
-	gtk_box_pack_start ((GtkBox *)tab_label, tool, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) tab_label, tool, FALSE, FALSE, 0);
 #endif
 	gtk_widget_show_all (tab_label);
 

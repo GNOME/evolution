@@ -253,7 +253,7 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 				ETableGroupContainerChildNode *child_node;
 				ETableGroup                   *child;
 
-				child_node = (ETableGroupContainerChildNode *)list->data;
+				child_node = (ETableGroupContainerChildNode *) list->data;
 				child      = child_node->child;
 
 				if (e_table_group_get_focus (child)) {
@@ -269,7 +269,7 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 						list = list->next;
 
 					if (list) {
-						child_node = (ETableGroupContainerChildNode *)list->data;
+						child_node = (ETableGroupContainerChildNode *) list->data;
 						child = child_node->child;
 						if (use_col)
 							e_table_group_set_focus (child, direction, start_col);
@@ -289,7 +289,7 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 				ETableGroupContainerChildNode *child_node;
 				ETableGroup                   *child;
 
-				child_node = (ETableGroupContainerChildNode *)list->data;
+				child_node = (ETableGroupContainerChildNode *) list->data;
 				child = child_node->child;
 
 				if (start_col == -1)
@@ -620,7 +620,7 @@ etgc_row_count (ETableGroup *etg)
 	GList *list;
 	gint count = 0;
 	for (list = etgc->children; list; list = g_list_next (list)) {
-		ETableGroup *group = ((ETableGroupContainerChildNode *)list->data)->child;
+		ETableGroup *group = ((ETableGroupContainerChildNode *) list->data)->child;
 		gint this_count = e_table_group_row_count (group);
 		count += this_count;
 	}
@@ -634,7 +634,7 @@ etgc_increment (ETableGroup *etg, gint position, gint amount)
 	GList *list;
 
 	for (list = etgc->children; list; list = g_list_next (list))
-		e_table_group_increment (((ETableGroupContainerChildNode *)list->data)->child,
+		e_table_group_increment (((ETableGroupContainerChildNode *) list->data)->child,
 					 position, amount);
 }
 
@@ -645,7 +645,7 @@ etgc_decrement (ETableGroup *etg, gint position, gint amount)
 	GList *list;
 
 	for (list = etgc->children; list; list = g_list_next (list))
-		e_table_group_decrement (((ETableGroupContainerChildNode *)list->data)->child,
+		e_table_group_decrement (((ETableGroupContainerChildNode *) list->data)->child,
 					 position, amount);
 }
 
@@ -655,10 +655,10 @@ etgc_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	if (etgc->children) {
 		if (direction == E_FOCUS_END)
-			e_table_group_set_focus (((ETableGroupContainerChildNode *)g_list_last (etgc->children)->data)->child,
+			e_table_group_set_focus (((ETableGroupContainerChildNode *) g_list_last (etgc->children)->data)->child,
 						 direction, view_col);
 		else
-			e_table_group_set_focus (((ETableGroupContainerChildNode *)etgc->children->data)->child,
+			e_table_group_set_focus (((ETableGroupContainerChildNode *) etgc->children->data)->child,
 						 direction, view_col);
 	}
 }
@@ -670,7 +670,7 @@ etgc_get_focus_column (ETableGroup *etg)
 	if (etgc->children) {
 		GList *list;
 		for (list = etgc->children; list; list = list->next) {
-			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			ETableGroup *child = child_node->child;
 			if (e_table_group_get_focus (child)) {
 				return e_table_group_get_focus_column (child);
@@ -696,7 +696,7 @@ etgc_compute_location (ETableGroup *etg, gint *x, gint *y, gint *row, gint *col)
 	if (*x >= 0 && *y >= 0 && etgc->children) {
 		GList *list;
 		for (list = etgc->children; list; list = list->next) {
-			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			ETableGroup *child = child_node->child;
 
 			e_table_group_compute_location (child, x, y, row, col);
@@ -721,7 +721,7 @@ etgc_get_mouse_over (ETableGroup *etg, gint *row, gint *col)
 		GList *list;
 
 		for (list = etgc->children; list; list = list->next) {
-			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			ETableGroup *child = child_node->child;
 
 			e_table_group_get_mouse_over (child, row, col);
@@ -749,7 +749,7 @@ etgc_get_cell_geometry (ETableGroup *etg, gint *row, gint *col, gint *x, gint *y
 	if (etgc->children) {
 		GList *list;
 		for (list = etgc->children; list; list = list->next) {
-			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			ETableGroup *child = child_node->child;
 			gint thisy;
 
@@ -791,7 +791,7 @@ etgc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 		etgc->minimum_width = g_value_get_double (value);
 
 		for (list = etgc->children; list; list = g_list_next (list)) {
-			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (child_node->child,
 				      "minimum_width", etgc->minimum_width - GROUP_INDENT,
 				      NULL);
@@ -800,7 +800,7 @@ etgc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 	case PROP_LENGTH_THRESHOLD:
 		etgc->length_threshold = g_value_get_int (value);
 		for (list = etgc->children; list; list = g_list_next (list)) {
-			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (child_node->child,
 				      "length_threshold", etgc->length_threshold,
 				      NULL);
@@ -809,7 +809,7 @@ etgc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 	case PROP_UNIFORM_ROW_HEIGHT:
 		etgc->uniform_row_height = g_value_get_boolean (value);
 		for (list = etgc->children; list; list = g_list_next (list)) {
-			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (child_node->child,
 				      "uniform_row_height", etgc->uniform_row_height,
 				      NULL);
@@ -823,7 +823,7 @@ etgc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 		if (etgc->selection_model)
 			g_object_ref (etgc->selection_model);
 		for (list = etgc->children; list; list = g_list_next (list)) {
-			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (child_node->child,
 				      "selection_model", etgc->selection_model,
 				      NULL);
@@ -833,7 +833,7 @@ etgc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 	case PROP_TABLE_ALTERNATING_ROW_COLORS:
 		etgc->alternating_row_colors = g_value_get_boolean (value);
 		for (list = etgc->children; list; list = g_list_next (list)) {
-			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (child_node->child,
 				      "alternating_row_colors", etgc->alternating_row_colors,
 				      NULL);
@@ -843,7 +843,7 @@ etgc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 	case PROP_TABLE_HORIZONTAL_DRAW_GRID:
 		etgc->horizontal_draw_grid = g_value_get_boolean (value);
 		for (list = etgc->children; list; list = g_list_next (list)) {
-			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (child_node->child,
 				      "horizontal_draw_grid", etgc->horizontal_draw_grid,
 				      NULL);
@@ -853,7 +853,7 @@ etgc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 	case PROP_TABLE_VERTICAL_DRAW_GRID:
 		etgc->vertical_draw_grid = g_value_get_boolean (value);
 		for (list = etgc->children; list; list = g_list_next (list)) {
-			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (child_node->child,
 				      "vertical_draw_grid", etgc->vertical_draw_grid,
 				      NULL);
@@ -863,7 +863,7 @@ etgc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 	case PROP_TABLE_DRAW_FOCUS:
 		etgc->draw_focus = g_value_get_boolean (value);
 		for (list = etgc->children; list; list = g_list_next (list)) {
-			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (child_node->child,
 				      "drawfocus", etgc->draw_focus,
 				      NULL);
@@ -873,7 +873,7 @@ etgc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 	case PROP_CURSOR_MODE:
 		etgc->cursor_mode = g_value_get_int (value);
 		for (list = etgc->children; list; list = g_list_next (list)) {
-			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (child_node->child,
 				      "cursor_mode", etgc->cursor_mode,
 				      NULL);

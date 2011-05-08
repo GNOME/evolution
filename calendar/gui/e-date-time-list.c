@@ -529,7 +529,7 @@ e_date_time_list_append (EDateTimeList *date_time_list, GtkTreeIter *iter,
 
 	if (g_list_find_custom (
 			date_time_list->list, datetime,
-			(GCompareFunc)compare_datetime) == NULL) {
+			(GCompareFunc) compare_datetime) == NULL) {
 		date_time_list->list = g_list_append (
 			date_time_list->list, copy_datetime (datetime));
 		row_added (date_time_list, g_list_length (date_time_list->list) - 1);

@@ -576,7 +576,7 @@ e_plugin_load_plugins (void)
 static void
 ep_list_plugin (gpointer key, gpointer val, gpointer dat)
 {
-	GSList **l = (GSList **)dat;
+	GSList **l = (GSList **) dat;
 
 	*l = g_slist_prepend(*l, g_object_ref(val));
 }
@@ -770,7 +770,7 @@ e_plugin_xml_prop_domain (xmlNodePtr node, const gchar *id, const gchar *domain)
 {
 	gchar *p, *out;
 
-	p = (gchar *)xmlGetProp (node, (const guchar *)id);
+	p = (gchar *) xmlGetProp (node, (const guchar *) id);
 	if (p == NULL)
 		return NULL;
 
@@ -796,7 +796,7 @@ e_plugin_xml_prop_domain (xmlNodePtr node, const gchar *id, const gchar *domain)
 gint
 e_plugin_xml_int (xmlNodePtr node, const gchar *id, gint def)
 {
-	gchar *p = (gchar *)xmlGetProp (node, (const guchar *)id);
+	gchar *p = (gchar *) xmlGetProp (node, (const guchar *) id);
 
 	if (p)
 		return atoi (p);
@@ -817,7 +817,7 @@ e_plugin_xml_int (xmlNodePtr node, const gchar *id, gint def)
 gchar *
 e_plugin_xml_content (xmlNodePtr node)
 {
-	gchar *p = (gchar *)xmlNodeGetContent (node);
+	gchar *p = (gchar *) xmlNodeGetContent (node);
 
 	if (g_mem_is_system_malloc ()) {
 		return p;
@@ -846,7 +846,7 @@ e_plugin_xml_content_domain (xmlNodePtr node, const gchar *domain)
 {
 	gchar *p, *out;
 
-	p = (gchar *)xmlNodeGetContent (node);
+	p = (gchar *) xmlNodeGetContent (node);
 	if (p == NULL)
 		return NULL;
 
@@ -935,7 +935,7 @@ e_plugin_hook_mask (xmlNodePtr root,
 	gchar *val, *p, *start, c;
 	guint32 mask = 0;
 
-	val = (gchar *)xmlGetProp (root, (const guchar *)prop);
+	val = (gchar *) xmlGetProp (root, (const guchar *) prop);
 	if (val == NULL)
 		return 0;
 
@@ -988,7 +988,7 @@ e_plugin_hook_id (xmlNodePtr root,
 	gchar *val;
 	gint i;
 
-	val = (gchar *)xmlGetProp (root, (const guchar *)prop);
+	val = (gchar *) xmlGetProp (root, (const guchar *) prop);
 	if (val == NULL)
 		return ~0;
 

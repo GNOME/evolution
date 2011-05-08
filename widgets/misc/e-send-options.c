@@ -656,7 +656,7 @@ e_send_options_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type
 	e_send_options_fill_widgets_with_data (sod);
 	sensitize_widgets (sod);
 	init_widgets (sod);
-	gtk_window_set_modal ((GtkWindow *)priv->main, TRUE);
+	gtk_window_set_modal ((GtkWindow *) priv->main, TRUE);
 
 	gtk_widget_show (priv->main);
 

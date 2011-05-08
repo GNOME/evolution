@@ -820,7 +820,7 @@ get_widgets (Dialog *dialog)
 			N_("Send an email")
 		};
 
-		GtkComboBox *combo = (GtkComboBox*)dialog->action_combo;
+		GtkComboBox *combo = (GtkComboBox*) dialog->action_combo;
 		GtkCellRenderer *cell;
 		GtkListStore *store;
 		gint i;

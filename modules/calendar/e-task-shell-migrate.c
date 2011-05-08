@@ -141,7 +141,7 @@ create_task_sources (EShellBackend *shell_backend,
 				shell_settings, "cal-primary-task-list",
 				e_source_peek_uid (source));
 
-			link.data = (gpointer)e_source_peek_uid (source);
+			link.data = (gpointer) e_source_peek_uid (source);
 			link.next = NULL;
 
 			e_task_shell_backend_set_selected_task_lists (

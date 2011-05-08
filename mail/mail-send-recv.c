@@ -257,13 +257,13 @@ dialog_response (GtkDialog *gd, gint button, struct _send_data *data)
 		d(printf("cancelled whole thing\n"));
 		if (!data->cancelled) {
 			data->cancelled = TRUE;
-			g_hash_table_foreach (data->active, (GHFunc)cancel_send_info, NULL);
+			g_hash_table_foreach (data->active, (GHFunc) cancel_send_info, NULL);
 		}
 		gtk_dialog_set_response_sensitive (gd, GTK_RESPONSE_CANCEL, FALSE);
 		break;
 	default:
 		d(printf("hiding dialog\n"));
-		g_hash_table_foreach (data->active, (GHFunc)hide_send_info, NULL);
+		g_hash_table_foreach (data->active, (GHFunc) hide_send_info, NULL);
 		data->gd = NULL;
 		/*gtk_widget_destroy((GtkWidget *)gd);*/
 		break;
@@ -448,7 +448,7 @@ build_dialog (GtkWindow *parent,
 		gconf_bridge_get (), GCONF_KEY_PREFIX,
 		GTK_WINDOW (send_recv_dialog));
 
-	gtk_widget_ensure_style ((GtkWidget *)gd);
+	gtk_widget_ensure_style ((GtkWidget *) gd);
 
 	container = gtk_dialog_get_action_area (gd);
 	gtk_container_set_border_width (GTK_CONTAINER (container), 6);
@@ -728,7 +728,7 @@ build_dialog (GtkWindow *parent,
 static void
 update_folders (gchar *uri, struct _folder_info *info, gpointer data)
 {
-	time_t now = *((time_t *)data);
+	time_t now = *((time_t *) data);
 
 	d(printf("checking update for folder: %s\n", info->uri));
 
@@ -754,7 +754,7 @@ receive_status (CamelFilterDriver *driver,
 	time_t now = time (NULL);
 
 	/* let it flow through to the folder, every now and then too? */
-	g_hash_table_foreach (info->data->folders, (GHFunc)update_folders, &now);
+	g_hash_table_foreach (info->data->folders, (GHFunc) update_folders, &now);
 
 	if (info->data->inbox && now > info->data->inbox_update+20) {
 		d(printf("updating inbox too\n"));
@@ -843,7 +843,7 @@ receive_done (gpointer data)
 
 	if (g_hash_table_size (info->data->active) == 0) {
 		if (info->data->gd)
-			gtk_widget_destroy ((GtkWidget *)info->data->gd);
+			gtk_widget_destroy ((GtkWidget *) info->data->gd);
 		free_send_data ();
 	}
 
@@ -1242,7 +1242,7 @@ auto_online (EShell *shell)
 			shell_settings, "mail-check-all-on-start");
 
 	accounts = e_get_account_list ();
-	for (iter = e_list_get_iterator ((EList *)accounts);
+	for (iter = e_list_get_iterator ((EList *) accounts);
 	     e_iterator_is_valid (iter);
 	     e_iterator_next (iter)) {
 		EAccount *account = (EAccount *) e_iterator_get (iter);
@@ -1292,7 +1292,7 @@ mail_autoreceive_init (EMailBackend *backend)
 		accounts, "account-changed",
 		G_CALLBACK (auto_account_changed), NULL);
 
-	for (iter = e_list_get_iterator ((EList *)accounts);
+	for (iter = e_list_get_iterator ((EList *) accounts);
 	     e_iterator_is_valid (iter);
 	     e_iterator_next (iter))
 		auto_account_added (

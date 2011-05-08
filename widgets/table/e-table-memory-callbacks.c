@@ -80,7 +80,7 @@ etmc_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 	if (etmc->duplicate_value)
 		return etmc->duplicate_value (etm, col, value, etmc->data);
 	else
-		return (gpointer)value;
+		return (gpointer) value;
 }
 
 static void

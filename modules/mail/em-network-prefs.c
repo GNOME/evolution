@@ -207,11 +207,11 @@ widget_entry_changed_cb (GtkWidget *widget, gpointer data)
 	*/
 	if (GTK_IS_SPIN_BUTTON (widget)) {
 		port = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget));
-		gconf_client_set_int (client, (const gchar *)data, port, NULL);
+		gconf_client_set_int (client, (const gchar *) data, port, NULL);
 		d(g_print ("%s:%s: %s is SpinButton: value = [%d]\n", G_STRLOC, G_STRFUNC, (const gchar *)data, port));
 	} else if (GTK_IS_ENTRY (widget)) {
 		value = gtk_entry_get_text (GTK_ENTRY (widget));
-		gconf_client_set_string (client, (const gchar *)data, value, NULL);
+		gconf_client_set_string (client, (const gchar *) data, value, NULL);
 		d(g_print ("%s:%s: %s is Entry: value = [%s]\n", G_STRLOC, G_STRFUNC, (const gchar *)data, value));
 	}
 
@@ -328,7 +328,7 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emnp_items); i++)
 		l = g_slist_prepend (l, &emnp_items[i]);
-	e_config_add_items ((EConfig *)ec, l, NULL, NULL, emnp_free, prefs);
+	e_config_add_items ((EConfig *) ec, l, NULL, NULL, emnp_free, prefs);
 
 	/* Proxy tab */
 
@@ -480,10 +480,10 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	g_free (buf);
 
 	port = gconf_client_get_int (prefs->gconf, GCONF_E_HTTP_PORT_KEY, NULL);
-	gtk_spin_button_set_value (prefs->http_port, (gdouble)port);
+	gtk_spin_button_set_value (prefs->http_port, (gdouble) port);
 
 	port = gconf_client_get_int (prefs->gconf, GCONF_E_HTTPS_PORT_KEY, NULL);
-	gtk_spin_button_set_value (prefs->https_port, (gdouble)port);
+	gtk_spin_button_set_value (prefs->https_port, (gdouble) port);
 
 #if 0
 	buf = gconf_client_get_string (prefs->gconf, GCONF_E_SOCKS_HOST_KEY, NULL);
@@ -491,7 +491,7 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	g_free (buf);
 
 	port = gconf_client_get_int (prefs->gconf, GCONF_E_SOCKS_PORT_KEY, NULL);
-	gtk_spin_button_set_value (prefs->socks_port, (gdouble)port);
+	gtk_spin_button_set_value (prefs->socks_port, (gdouble) port);
 #endif
 	emnp_set_markups (prefs);
 
@@ -509,8 +509,8 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs (ec, prefs->gconf);
-	e_config_set_target ((EConfig *)ec, (EConfigTarget *)target);
-	toplevel = e_config_create_widget ((EConfig *)ec);
+	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
+	toplevel = e_config_create_widget ((EConfig *) ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 }
 

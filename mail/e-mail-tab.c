@@ -270,7 +270,7 @@ e_mail_tab_get_property (GObject *object, guint property_id,
       break;
 
     case PROP_DRAG_THRESHOLD:
-      g_value_set_uint (value, (guint)priv->drag_threshold);
+      g_value_set_uint (value, (guint) priv->drag_threshold);
       break;
 
     case PROP_DRAG_AXIS:
@@ -429,7 +429,7 @@ e_mail_tab_dispose_old_bg (EMailTab *tab)
 
   if (priv->old_bg)
     {
-      if (clutter_actor_get_parent (priv->old_bg) == (ClutterActor *)tab)
+      if (clutter_actor_get_parent (priv->old_bg) == (ClutterActor *) tab)
 	clutter_actor_unparent (priv->old_bg);
       g_object_unref (priv->old_bg);
       priv->old_bg = NULL;
@@ -645,7 +645,7 @@ e_mail_tab_get_preferred_height (ClutterActor *actor,
       mx_widget_get_padding (MX_WIDGET (actor), &padding);
 
       clutter_actor_get_preferred_height (priv->preview,
-					  (gfloat)priv->width,
+					  (gfloat) priv->width,
 					  &min_height,
 					  &nat_height);
 
@@ -997,7 +997,7 @@ e_mail_tab_leave_event (ClutterActor         *actor,
   EMailTabPrivate *priv = E_MAIL_TAB (actor)->priv;
 
   if ((event->source != actor) ||
-      (event->related == (ClutterActor *)priv->close_button))
+      (event->related == (ClutterActor *) priv->close_button))
     return FALSE;
 
   priv->hover = FALSE;
@@ -1687,8 +1687,8 @@ e_mail_tab_set_preview_mode (EMailTab *tab, gboolean preview)
       g_signal_connect (priv->preview_timeline, "new-frame",
 			G_CALLBACK (preview_new_frame_cb), tab);
 
-      timeline = clutter_timeline_new ((guint)duration1);
-      timeline2 = clutter_timeline_new ((guint)duration2);
+      timeline = clutter_timeline_new ((guint) duration1);
+      timeline2 = clutter_timeline_new ((guint) duration2);
 
       g_signal_connect (timeline, "started",
 			G_CALLBACK (preview_s1_started_cb), tab);
@@ -1878,7 +1878,7 @@ e_mail_tab_alert (EMailTab *tab)
     priv->alert_source =
       g_timeout_add_full (G_PRIORITY_HIGH,
 			  500,
-			  (GSourceFunc)e_mail_tab_alert_cb,
+			  (GSourceFunc) e_mail_tab_alert_cb,
 			  tab,
 			  NULL);
 }

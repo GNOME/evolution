@@ -216,19 +216,19 @@ prompt_retract_dialog (ECalComponent *comp, gchar **retract_text, GtkWidget *par
 	gtk_frame_set_label_widget ((GtkFrame *) frame, label);
 	gtk_frame_set_label_align ((GtkFrame *) frame, 0, 0);
 	gtk_container_add (GTK_CONTAINER (vbox), frame);
-	gtk_frame_set_shadow_type ((GtkFrame *)frame, GTK_SHADOW_NONE);
+	gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_NONE);
 
 	sw = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy ((GtkScrolledWindow *)sw, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_policy ((GtkScrolledWindow *) sw, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	entry = gtk_text_view_new ();
-	gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *)sw, entry);
-	gtk_label_set_mnemonic_widget ((GtkLabel *)label, entry);
+	gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *) sw, entry);
+	gtk_label_set_mnemonic_widget ((GtkLabel *) label, entry);
 	gtk_container_add (GTK_CONTAINER (frame), sw);
 
 	g_signal_connect ((GtkToggleButton *)cb, "toggled", G_CALLBACK (cb_toggled_cb), entry);
 
-	gtk_widget_show_all ((GtkWidget *)dialog);
+	gtk_widget_show_all ((GtkWidget *) dialog);
 
 	ret_val = (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK);
 

@@ -64,7 +64,7 @@ em_filter_rule_get_type (void)
 			NULL, /* class_data */
 			sizeof (EMFilterRule),
 			0,    /* n_preallocs */
-			(GInstanceInitFunc)em_filter_rule_init,
+			(GInstanceInitFunc) em_filter_rule_init,
 		};
 
 		type = g_type_register_static(E_TYPE_FILTER_RULE, "EMFilterRule", &info, 0);
@@ -77,7 +77,7 @@ static void
 em_filter_rule_class_init (EMFilterRuleClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	EFilterRuleClass *fr_class =(EFilterRuleClass *)klass;
+	EFilterRuleClass *fr_class =(EFilterRuleClass *) klass;
 
 	parent_class = g_type_class_ref (E_TYPE_FILTER_RULE);
 
@@ -137,7 +137,7 @@ em_filter_rule_add_action (EMFilterRule *fr, EFilterPart *fp)
 {
 	fr->actions = g_list_append (fr->actions, fp);
 
-	e_filter_rule_emit_changed ((EFilterRule *)fr);
+	e_filter_rule_emit_changed ((EFilterRule *) fr);
 }
 
 void
@@ -145,7 +145,7 @@ em_filter_rule_remove_action (EMFilterRule *fr, EFilterPart *fp)
 {
 	fr->actions = g_list_remove (fr->actions, fp);
 
-	e_filter_rule_emit_changed ((EFilterRule *)fr);
+	e_filter_rule_emit_changed ((EFilterRule *) fr);
 }
 
 void
@@ -160,7 +160,7 @@ em_filter_rule_replace_action (EMFilterRule *fr, EFilterPart *fp, EFilterPart *n
 		fr->actions = g_list_append (fr->actions, new);
 	}
 
-	e_filter_rule_emit_changed ((EFilterRule *)fr);
+	e_filter_rule_emit_changed ((EFilterRule *) fr);
 }
 
 void
@@ -174,7 +174,7 @@ em_filter_rule_build_action (EMFilterRule *fr, GString *out)
 static gint
 validate (EFilterRule *fr, EAlert **alert)
 {
-	EMFilterRule *ff =(EMFilterRule *)fr;
+	EMFilterRule *ff =(EMFilterRule *) fr;
 	GList *parts;
 	gint valid;
 
@@ -183,7 +183,7 @@ validate (EFilterRule *fr, EAlert **alert)
 	/* validate rule actions */
 	parts = ff->actions;
 	while (parts && valid) {
-		valid = e_filter_part_validate ((EFilterPart *)parts->data, alert);
+		valid = e_filter_part_validate ((EFilterPart *) parts->data, alert);
 		parts = parts->next;
 	}
 
@@ -210,13 +210,13 @@ static gint
 filter_eq (EFilterRule *fr, EFilterRule *cm)
 {
 	return E_FILTER_RULE_CLASS (parent_class)->eq (fr, cm)
-		&& list_eq (((EMFilterRule *)fr)->actions,((EMFilterRule *)cm)->actions);
+		&& list_eq (((EMFilterRule *) fr)->actions,((EMFilterRule *) cm)->actions);
 }
 
 static xmlNodePtr
 xml_encode (EFilterRule *fr)
 {
-	EMFilterRule *ff =(EMFilterRule *)fr;
+	EMFilterRule *ff =(EMFilterRule *) fr;
 	xmlNodePtr node, set, work;
 	GList *l;
 
@@ -226,7 +226,7 @@ xml_encode (EFilterRule *fr)
 	xmlAddChild (node, set);
 	l = ff->actions;
 	while (l) {
-		work = e_filter_part_xml_encode ((EFilterPart *)l->data);
+		work = e_filter_part_xml_encode ((EFilterPart *) l->data);
 		xmlAddChild (set, work);
 		l = l->next;
 	}
@@ -246,7 +246,7 @@ load_set (xmlNodePtr node, EMFilterRule *ff, ERuleContext *rc)
 	while (work) {
 		if (!strcmp((gchar *)work->name, "part")) {
 			rulename = (gchar *)xmlGetProp(work, (const guchar *)"name");
-			part = em_filter_context_find_action ((EMFilterContext *)rc, rulename);
+			part = em_filter_context_find_action ((EMFilterContext *) rc, rulename);
 			if (part) {
 				part = e_filter_part_clone (part);
 				e_filter_part_xml_decode (part, work);
@@ -265,7 +265,7 @@ load_set (xmlNodePtr node, EMFilterRule *ff, ERuleContext *rc)
 static gint
 xml_decode (EFilterRule *fr, xmlNodePtr node, ERuleContext *rc)
 {
-	EMFilterRule *ff =(EMFilterRule *)fr;
+	EMFilterRule *ff =(EMFilterRule *) fr;
 	xmlNodePtr work;
 	gint result;
 
@@ -290,11 +290,11 @@ rule_copy (EFilterRule *dest, EFilterRule *src)
 	EMFilterRule *fdest, *fsrc;
 	GList *node;
 
-	fdest =(EMFilterRule *)dest;
-	fsrc =(EMFilterRule *)src;
+	fdest =(EMFilterRule *) dest;
+	fsrc =(EMFilterRule *) src;
 
 	if (fdest->actions) {
-		g_list_foreach (fdest->actions, (GFunc)g_object_unref, NULL);
+		g_list_foreach (fdest->actions, (GFunc) g_object_unref, NULL);
 		g_list_free (fdest->actions);
 		fdest->actions = NULL;
 	}
@@ -351,7 +351,7 @@ part_combobox_changed (GtkComboBox *combobox, struct _part_data *data)
 
 	newpart = e_filter_part_clone (part);
 	e_filter_part_copy_values (newpart, data->part);
-	em_filter_rule_replace_action ((EMFilterRule *)data->fr, data->part, newpart);
+	em_filter_rule_replace_action ((EMFilterRule *) data->fr, data->part, newpart);
 	g_object_unref (data->part);
 	data->part = newpart;
 	data->partwidget = e_filter_part_get_widget (newpart);
@@ -421,7 +421,7 @@ less_parts (GtkWidget *button, struct _rule_data *data)
 	struct _part_data *part_data;
 	GList *l;
 
-	l =((EMFilterRule *)data->fr)->actions;
+	l =((EMFilterRule *) data->fr)->actions;
 	if (g_list_length (l) < 2)
 		return;
 
@@ -433,7 +433,7 @@ less_parts (GtkWidget *button, struct _rule_data *data)
 	part = part_data->part;
 
 	/* remove the part from the list */
-	em_filter_rule_remove_action ((EMFilterRule *)data->fr, part);
+	em_filter_rule_remove_action ((EMFilterRule *) data->fr, part);
 	g_object_unref (part);
 
 	/* and from the display */
@@ -480,13 +480,13 @@ more_parts (GtkWidget *button, struct _rule_data *data)
 	EFilterPart *new;
 
 	/* create a new rule entry, use the first type of rule */
-	new = em_filter_context_next_action ((EMFilterContext *)data->f, NULL);
+	new = em_filter_context_next_action ((EMFilterContext *) data->f, NULL);
 	if (new) {
 		GtkWidget *w;
 		guint rows;
 
 		new = e_filter_part_clone (new);
-		em_filter_rule_add_action ((EMFilterRule *)data->fr, new);
+		em_filter_rule_add_action ((EMFilterRule *) data->fr, new);
 		w = get_rule_part_widget (data->f, new, data->fr);
 
 		g_object_get (data->parts, "n-rows", &rows, NULL);
@@ -526,7 +526,7 @@ get_widget (EFilterRule *fr, ERuleContext *rc)
 	GList *l;
 	EFilterPart *part;
 	struct _rule_data *data;
-	EMFilterRule *ff =(EMFilterRule *)fr;
+	EMFilterRule *ff =(EMFilterRule *) fr;
 	gint rows, i = 0;
 	gchar *msg;
 
@@ -555,7 +555,7 @@ get_widget (EFilterRule *fr, ERuleContext *rc)
 	rows = g_list_length (ff->actions);
 	parts = gtk_table_new (rows, 2, FALSE);
 	data = g_malloc0 (sizeof (*data));
-	data->f =(EMFilterContext *)rc;
+	data->f =(EMFilterContext *) rc;
 	data->fr = fr;
 	data->parts = parts;
 
@@ -577,7 +577,7 @@ get_widget (EFilterRule *fr, ERuleContext *rc)
 	while (l) {
 		part = l->data;
 		d(printf("adding action %s\n", part->title));
-		w = get_rule_part_widget ((EMFilterContext *)rc, part, fr);
+		w = get_rule_part_widget ((EMFilterContext *) rc, part, fr);
 		attach_rule (w, data, part, i++);
 		l = l->next;
 	}

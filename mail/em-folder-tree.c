@@ -194,7 +194,7 @@ folder_tree_get_folder_info__desc (struct _EMFolderTreeGetFolderInfo *m)
 {
 	gchar *ret, *name;
 
-	name = camel_service_get_name ((CamelService *)m->store, TRUE);
+	name = camel_service_get_name ((CamelService *) m->store, TRUE);
 	ret = g_strdup_printf(_("Scanning folders in \"%s\""), name);
 	g_free (name);
 	return ret;
@@ -1386,7 +1386,7 @@ folder_tree_new (EMFolderTree *folder_tree)
 		folder_tree_select_func, NULL, NULL);
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) tree, FALSE);
 
-	gtk_tree_view_set_search_column ((GtkTreeView *)tree, COL_STRING_DISPLAY_NAME);
+	gtk_tree_view_set_search_column ((GtkTreeView *) tree, COL_STRING_DISPLAY_NAME);
 
 	return (GtkTreeView *) tree;
 }
@@ -1937,7 +1937,7 @@ folder_tree_drop_async__desc (struct _DragDataReceivedAsync *m)
 	data = gtk_selection_data_get_data (m->selection);
 
 	if (m->info == DND_DROP_TYPE_FOLDER) {
-		url = camel_url_new ((gchar *)data, NULL);
+		url = camel_url_new ((gchar *) data, NULL);
 
 		if (m->move)
 			buf = g_strdup_printf (
@@ -2661,7 +2661,7 @@ em_folder_tree_get_selected_uris (EMFolderTree *folder_tree)
 
 	/* at first, add lost uris */
 	for (sl = folder_tree->priv->select_uris; sl; sl = g_slist_next (sl))
-		list = g_list_append (list, g_strdup (((struct _selected_uri *)sl->data)->uri));
+		list = g_list_append (list, g_strdup (((struct _selected_uri *) sl->data)->uri));
 
 	rows = gtk_tree_selection_get_selected_rows (selection, &model);
 	for (l=rows; l; l=g_list_next (l)) {
@@ -2803,7 +2803,7 @@ em_folder_tree_set_selected (EMFolderTree *folder_tree,
 	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
 
 	if (uri && uri[0])
-		l = g_list_append (l, (gpointer)uri);
+		l = g_list_append (l, (gpointer) uri);
 
 	em_folder_tree_set_selected_list (folder_tree, l, expand_only);
 	g_list_free (l);

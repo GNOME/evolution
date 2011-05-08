@@ -492,7 +492,7 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 
 	#undef draw_pixbuf
 
-	g_slist_foreach (categories_pixbufs, (GFunc)g_object_unref, NULL);
+	g_slist_foreach (categories_pixbufs, (GFunc) g_object_unref, NULL);
 	g_slist_free (categories_pixbufs);
 
 	g_object_unref (comp);

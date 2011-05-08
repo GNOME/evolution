@@ -433,7 +433,7 @@ report_error_idle (const gchar *format, const gchar *param)
 	err->param = g_strdup (param);
 
 	g_usleep (250);
-	g_idle_add ((GSourceFunc)do_report_error, err);
+	g_idle_add ((GSourceFunc) do_report_error, err);
 }
 
 struct _manage_comp
@@ -869,7 +869,7 @@ do_mail_to_event (AsyncData *data)
 
 		if (mcs) {
 			/* process this in the main thread, as we may ask user too */
-			g_idle_add ((GSourceFunc)do_manage_comp_idle, mcs);
+			g_idle_add ((GSourceFunc) do_manage_comp_idle, mcs);
 		}
 	}
 

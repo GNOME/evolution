@@ -402,8 +402,8 @@ nickname_collision (SECItem *oldNick, PRBool *cancel, gpointer wincx)
 
 	new_nick = PR_Malloc (sizeof (SECItem));
 	new_nick->type = siAsciiString;
-	new_nick->data = (guchar *)nickname;
-	new_nick->len  = strlen ((gchar *)new_nick->data);
+	new_nick->data = (guchar *) nickname;
+	new_nick->len  = strlen ((gchar *) new_nick->data);
 	return new_nick;
 }
 

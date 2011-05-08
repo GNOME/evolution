@@ -162,7 +162,7 @@ edit_clicked_cb (GtkButton *button, gpointer data)
 		return;
 	}
 
-	alarm = (ECalComponentAlarm *)e_alarm_list_get_alarm (dialog->list_store, &iter);
+	alarm = (ECalComponentAlarm *) e_alarm_list_get_alarm (dialog->list_store, &iter);
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (dialog->list_store), &iter);
 
 	if (alarm_dialog_run (dialog->toplevel, dialog->ecal, alarm)) {
@@ -308,7 +308,7 @@ alarm_list_dialog_peek (ECal *ecal, EAlarmList *list_store)
 {
 	Dialog *dialog;
 
-	dialog = (Dialog *)g_new (Dialog, 1);
+	dialog = (Dialog *) g_new (Dialog, 1);
 	dialog->ecal = ecal;
 	dialog->list_store = list_store;
 

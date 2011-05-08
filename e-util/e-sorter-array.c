@@ -59,8 +59,8 @@ esort_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
 	gint ret_val;
 	gint int1, int2;
 
-	int1 = *(gint *)data1;
-	int2 = *(gint *)data2;
+	int1 = *(gint *) data1;
+	int2 = *(gint *) data2;
 
 	ret_val = esa->compare (int1, int2, esa->cmp_cache, esa->closure);
 	if (ret_val != 0)

@@ -313,7 +313,7 @@ em_utils_edit_filters (GtkWidget *parent,
 	if (((ERuleContext *) fc)->error) {
 		e_mail_backend_submit_alert (
 			backend, "mail:filter-load-error",
-			((ERuleContext *)fc)->error, NULL);
+			((ERuleContext *) fc)->error, NULL);
 		return;
 	}
 
@@ -649,7 +649,7 @@ em_utils_read_messages_from_stream (CamelFolder *folder,
 		/* NB: de-from filter, once written */
 		msg = camel_mime_message_new ();
 		if (!camel_mime_part_construct_from_parser_sync (
-			(CamelMimePart *)msg, mp, NULL, NULL)) {
+			(CamelMimePart *) msg, mp, NULL, NULL)) {
 			g_object_unref (msg);
 			break;
 		}
@@ -757,10 +757,10 @@ em_utils_selection_get_message (GtkSelectionData *selection_data,
 		return;
 
 	stream = (CamelStream *)
-		camel_stream_mem_new_with_buffer ((gchar *)data, length);
+		camel_stream_mem_new_with_buffer ((gchar *) data, length);
 	msg = camel_mime_message_new ();
 	if (camel_data_wrapper_construct_from_stream_sync (
-		(CamelDataWrapper *)msg, stream, NULL, NULL))
+		(CamelDataWrapper *) msg, stream, NULL, NULL))
 		/* FIXME camel_folder_append_message_sync() may block. */
 		camel_folder_append_message_sync (
 			folder, msg, NULL, NULL, NULL, NULL);
@@ -936,7 +936,7 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 			GdkAtom target;
 
 			target = gtk_selection_data_get_target (data);
-			gtk_selection_data_set (data, target, 8, (guchar *)uri_crlf, strlen (uri_crlf));
+			gtk_selection_data_set (data, target, 8, (guchar *) uri_crlf, strlen (uri_crlf));
 			g_free (uri_crlf);
 		}
 
@@ -1275,7 +1275,7 @@ em_utils_get_proxy_uri (const gchar *pUri)
 	g_static_mutex_lock (&emu_proxy_lock);
 
 	if (!emu_proxy) {
-		mail_call_main (MAIL_CALL_p_p, (MailMainFunc)emu_proxy_setup, NULL);
+		mail_call_main (MAIL_CALL_p_p, (MailMainFunc) emu_proxy_setup, NULL);
 	}
 
 	if (e_proxy_require_proxy_for_uri (emu_proxy, pUri))
@@ -1500,7 +1500,7 @@ struct TryOpenEBookStruct {
 static void
 try_open_e_book_cb (EBook *book, const GError *error, gpointer closure)
 {
-	struct TryOpenEBookStruct *data = (struct TryOpenEBookStruct *)closure;
+	struct TryOpenEBookStruct *data = (struct TryOpenEBookStruct *) closure;
 
 	if (!data)
 		return;
@@ -1736,7 +1736,7 @@ search_address_in_addressbooks (const gchar *address,
 					found = TRUE;
 				}
 
-				g_list_foreach (contacts, (GFunc)g_object_unref, NULL);
+				g_list_foreach (contacts, (GFunc) g_object_unref, NULL);
 				g_list_free (contacts);
 			}
 		} else if (book) {

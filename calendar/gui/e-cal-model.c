@@ -2816,7 +2816,7 @@ cleanup_content_cb (gpointer user_data)
 
 	e_table_model_rows_deleted (E_TABLE_MODEL (model), 0, len);
 
-	g_slist_foreach (slist, (GFunc)g_object_unref, NULL);
+	g_slist_foreach (slist, (GFunc) g_object_unref, NULL);
 	g_slist_free (slist);
 
 	e_flag_set (data->eflag);

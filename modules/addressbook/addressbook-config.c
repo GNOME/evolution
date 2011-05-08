@@ -415,7 +415,7 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 			gchar *dn;
 
 			gtk_tree_model_get (model, &iter, 0, &dn, -1);
-			gtk_entry_set_text ((GtkEntry *)sdialog->rootdn, dn);
+			gtk_entry_set_text ((GtkEntry *) sdialog->rootdn, dn);
 			g_free (dn);
 		}
 	}
@@ -487,7 +487,7 @@ eabc_type_changed (GtkComboBox *dropdown, AddressbookSourceDialog *sdialog)
 		e_source_set_relative_uri (sdialog->source, e_source_peek_uid (sdialog->source));
 	}
 
-	e_config_target_changed ((EConfig *)sdialog->config, E_CONFIG_TARGET_CHANGED_REBUILD);
+	e_config_target_changed ((EConfig *) sdialog->config, E_CONFIG_TARGET_CHANGED_REBUILD);
 }
 
 static GtkWidget *
@@ -507,9 +507,9 @@ eabc_general_type (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 
 	w = gtk_hbox_new (FALSE, 6);
 	label = gtk_label_new_with_mnemonic(_("_Type:"));
-	gtk_box_pack_start ((GtkBox *)w, label, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) w, label, FALSE, FALSE, 0);
 
-	dropdown = (GtkComboBox *)gtk_combo_box_new ();
+	dropdown = (GtkComboBox *) gtk_combo_box_new ();
 	cell = gtk_cell_renderer_text_new ();
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 	i = 0;
@@ -523,21 +523,21 @@ eabc_general_type (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 		i++;
 	}
 
-	gtk_cell_layout_pack_start ((GtkCellLayout *)dropdown, cell, TRUE);
+	gtk_cell_layout_pack_start ((GtkCellLayout *) dropdown, cell, TRUE);
 	gtk_cell_layout_set_attributes((GtkCellLayout *)dropdown, cell, "text", 0, NULL);
-	gtk_combo_box_set_model (dropdown, (GtkTreeModel *)store);
+	gtk_combo_box_set_model (dropdown, (GtkTreeModel *) store);
 	gtk_combo_box_set_active (dropdown, -1);
 	gtk_combo_box_set_active (dropdown, row);
 	g_signal_connect(dropdown, "changed", G_CALLBACK(eabc_type_changed), sdialog);
-	gtk_widget_show ((GtkWidget *)dropdown);
-	gtk_box_pack_start ((GtkBox *)w, (GtkWidget *)dropdown, TRUE, TRUE, 0);
-	gtk_label_set_mnemonic_widget ((GtkLabel *)label, (GtkWidget *)dropdown);
+	gtk_widget_show ((GtkWidget *) dropdown);
+	gtk_box_pack_start ((GtkBox *) w, (GtkWidget *) dropdown, TRUE, TRUE, 0);
+	gtk_label_set_mnemonic_widget ((GtkLabel *) label, (GtkWidget *) dropdown);
 
-	gtk_box_pack_start ((GtkBox *)parent, (GtkWidget *)w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) parent, (GtkWidget *) w, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (w);
 
-	return (GtkWidget *)w;
+	return (GtkWidget *) w;
 }
 
 static void
@@ -568,11 +568,11 @@ eabc_general_name (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 	e_load_ui_builder_definition (builder, "ldap-config.ui");
 
 	w = e_builder_get_widget (builder, item->label);
-	gtk_box_pack_start ((GtkBox *)parent, w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) parent, w, FALSE, FALSE, 0);
 
 	sdialog->display_name = e_builder_get_widget (builder, "account-editor-display-name-entry");
 	g_signal_connect(sdialog->display_name, "changed", G_CALLBACK(name_changed_cb), sdialog);
-	gtk_entry_set_text ((GtkEntry *)sdialog->display_name, e_source_peek_name (sdialog->source));
+	gtk_entry_set_text ((GtkEntry *) sdialog->display_name, e_source_peek_name (sdialog->source));
 
 	/* Hardcoded: groupwise can't edit the name (or anything else) */
 	if (sdialog->original_source) {
@@ -696,7 +696,7 @@ host_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
 static void
 port_entry_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
 {
-	const gchar *port = gtk_entry_get_text ((GtkEntry *)w);
+	const gchar *port = gtk_entry_get_text ((GtkEntry *) w);
 
 	if (!strcmp (port, LDAPS_PORT_STRING)) {
 		sdialog->ssl = ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
@@ -735,7 +735,7 @@ eabc_general_host (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 	e_load_ui_builder_definition (builder, "ldap-config.ui");
 
 	w = e_builder_get_widget (builder, item->label);
-	gtk_box_pack_start ((GtkBox *)parent, w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) parent, w, FALSE, FALSE, 0);
 
 	uri = e_source_get_uri (sdialog->source);
 	if (ldap_url_parse (uri, &lud) != LDAP_SUCCESS)
@@ -773,7 +773,7 @@ eabc_general_host (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 static void
 auth_entry_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
 {
-	const gchar *principal = gtk_entry_get_text ((GtkEntry *)w);
+	const gchar *principal = gtk_entry_get_text ((GtkEntry *) w);
 
 	/* seems messy ... but the api is */
 	switch (sdialog->auth) {
@@ -818,7 +818,7 @@ eabc_general_auth (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 	e_load_ui_builder_definition (builder, "ldap-config.ui");
 
 	w = e_builder_get_widget (builder, item->label);
-	gtk_box_pack_start ((GtkBox *)parent, w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) parent, w, FALSE, FALSE, 0);
 
 	sdialog->auth_combobox = e_builder_get_widget (builder, "auth-combobox");
 	gtk_widget_set_has_tooltip (sdialog->auth_combobox, TRUE);
@@ -884,7 +884,7 @@ eabc_details_search (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidge
 	e_load_ui_builder_definition (builder, "ldap-config.ui");
 
 	w = e_builder_get_widget (builder, item->label);
-	gtk_box_pack_start ((GtkBox *)parent, w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) parent, w, FALSE, FALSE, 0);
 
 	uri = e_source_get_uri (sdialog->source);
 	if (ldap_url_parse (uri, &lud) != LDAP_SUCCESS)
@@ -979,7 +979,7 @@ eabc_details_limit (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	e_load_ui_builder_definition (builder, "ldap-config.ui");
 
 	w = e_builder_get_widget (builder, item->label);
-	gtk_box_pack_start ((GtkBox *)parent, w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *) parent, w, FALSE, FALSE, 0);
 
 	sdialog->timeout_scale = e_builder_get_widget (builder, "timeout-scale");
 	range = GTK_RANGE (sdialog->timeout_scale);
@@ -992,7 +992,7 @@ eabc_details_limit (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 
 	sdialog->limit_spinbutton = e_builder_get_widget (builder, "download-limit-spinbutton");
 	tmp = e_source_get_property(sdialog->source, "limit");
-	gtk_spin_button_set_value ((GtkSpinButton *)sdialog->limit_spinbutton, tmp?g_strtod (tmp, NULL):100.0);
+	gtk_spin_button_set_value ((GtkSpinButton *) sdialog->limit_spinbutton, tmp?g_strtod (tmp, NULL):100.0);
 	g_signal_connect (sdialog->limit_spinbutton, "value_changed", G_CALLBACK (limit_changed_cb), sdialog);
 
 	sdialog->canbrowsecheck = e_builder_get_widget (builder, "canbrowsecheck");
@@ -1196,7 +1196,7 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 			if (!strncmp("ldap:", e_source_group_peek_base_uri(l->data), 5))
 				sdialog->menu_source_groups = g_slist_remove (sdialog->menu_source_groups, l->data);
 #endif
-		sdialog->source_group = (ESourceGroup *)sdialog->menu_source_groups->data;
+		sdialog->source_group = (ESourceGroup *) sdialog->menu_source_groups->data;
 		for (i=0;eabc_new_items[i].path;i++)
 			items = g_slist_prepend (items, &eabc_new_items[i]);
 		g_object_unref (gconf);
@@ -1220,11 +1220,11 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 		items = g_slist_prepend (items, &eabc_items[i]);
 	}
 
-	e_config_add_items ((EConfig *)ec, items, eabc_commit, NULL, eabc_free, sdialog);
-	e_config_add_page_check ((EConfig *)ec, NULL, eabc_check_complete, sdialog);
+	e_config_add_items ((EConfig *) ec, items, eabc_commit, NULL, eabc_free, sdialog);
+	e_config_add_page_check ((EConfig *) ec, NULL, eabc_check_complete, sdialog);
 
 	target = eab_config_target_new_source (ec, sdialog->source);
-	e_config_set_target ((EConfig *)ec, (EConfigTarget *)target);
+	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 
 	if (source)
 		sdialog->window = e_config_create_window((EConfig *)ec, NULL, _("Address Book Properties"));
@@ -1234,7 +1234,7 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 	/* forces initial validation */
 	if (!sdialog->original_source) {
 		e_source_set_relative_uri (sdialog->source, e_source_peek_uid (sdialog->source));
-		e_config_target_changed ((EConfig *)ec, E_CONFIG_TARGET_CHANGED_STATE);
+		e_config_target_changed ((EConfig *) ec, E_CONFIG_TARGET_CHANGED_STATE);
 	}
 
 	return sdialog->window;

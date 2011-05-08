@@ -123,32 +123,32 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 		GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	maincheck = gtk_check_button_new_with_mnemonic (_("_Customize options"));
-	gtk_box_pack_start ((GtkBox *)mainbox, maincheck, TRUE, TRUE, 2);
+	gtk_box_pack_start ((GtkBox *) mainbox, maincheck, TRUE, TRUE, 2);
 
 	box1 = gtk_hbox_new (FALSE, 2);
-	gtk_box_pack_start ((GtkBox *)mainbox, box1, TRUE, TRUE, 2);
+	gtk_box_pack_start ((GtkBox *) mainbox, box1, TRUE, TRUE, 2);
 
 	g_object_set_data ((GObject*)maincheck, "child", box1);
 
 	/* left-most space, the first one */
 	w1 = gtk_label_new ("");
-	gtk_box_pack_start ((GtkBox *)box1, w1, FALSE, TRUE, 8);
+	gtk_box_pack_start ((GtkBox *) box1, w1, FALSE, TRUE, 8);
 
 	box2 = gtk_vbox_new (FALSE, 2);
-	gtk_box_pack_start ((GtkBox *)box1, box2, TRUE, TRUE, 2);
+	gtk_box_pack_start ((GtkBox *) box1, box2, TRUE, TRUE, 2);
 
 	box1 = box2;
 	box2 = gtk_hbox_new (FALSE, 2);
-	gtk_box_pack_start ((GtkBox *)box1, box2, TRUE, TRUE, 2);
+	gtk_box_pack_start ((GtkBox *) box1, box2, TRUE, TRUE, 2);
 
 	w1 = gtk_label_new_with_mnemonic (_("File _name:"));
 	gtk_misc_set_alignment (GTK_MISC (w1), 0.0, 0.5);
-	gtk_box_pack_start ((GtkBox *)box2, w1, FALSE, TRUE, 2);
+	gtk_box_pack_start ((GtkBox *) box2, w1, FALSE, TRUE, 2);
 
 	w2 = gtk_file_chooser_button_new (_("Choose calendar file"), GTK_FILE_CHOOSER_ACTION_OPEN);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (w2), TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w1), w2);
-	gtk_box_pack_start ((GtkBox *)box2, w2, TRUE, TRUE, 2);
+	gtk_box_pack_start ((GtkBox *) box2, w2, TRUE, TRUE, 2);
 
 	g_object_set_data (G_OBJECT (maincheck), "file-chooser", w2);
 
@@ -186,21 +186,21 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 	g_signal_connect (G_OBJECT (maincheck), "toggled", G_CALLBACK (maincheck_toggled), source);
 
 	box2 = gtk_hbox_new (FALSE, 2);
-	gtk_box_pack_start ((GtkBox *)box1, box2, FALSE, TRUE, 2);
+	gtk_box_pack_start ((GtkBox *) box1, box2, FALSE, TRUE, 2);
 
 	w1 = gtk_label_new_with_mnemonic (_("Re_fresh:"));
 	gtk_misc_set_alignment (GTK_MISC (w1), 0.0, 0.5);
-	gtk_box_pack_start ((GtkBox *)box2, w1, FALSE, TRUE, 2);
+	gtk_box_pack_start ((GtkBox *) box2, w1, FALSE, TRUE, 2);
 
 	w2 = gtk_combo_box_text_new ();
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w2), _("On open"));
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w2), _("On file change"));
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w2), _("Periodically"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w1), w2);
-	gtk_box_pack_start ((GtkBox *)box2, w2, FALSE, TRUE, 2);
+	gtk_box_pack_start ((GtkBox *) box2, w2, FALSE, TRUE, 2);
 
 	value = e_source_get_property (source, "refresh-type");
-	gtk_combo_box_set_active ((GtkComboBox *)w2, (value && *value && !value[1] && value[0] >= '0' && value[0] <= '2') ? value[0] - '0' : 0);
+	gtk_combo_box_set_active ((GtkComboBox *) w2, (value && *value && !value[1] && value[0] >= '0' && value[0] <= '2') ? value[0] - '0' : 0);
 
 	w1 = w2;
 	w2 = e_plugin_util_add_refresh (NULL, NULL, source, "refresh");
@@ -211,7 +211,7 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 	g_signal_connect (G_OBJECT (w1), "changed", G_CALLBACK (refresh_type_changed), source);
 
 	w2 = e_plugin_util_add_check (NULL, _("Force read _only"), source, "custom-file-readonly", "1", NULL);
-	gtk_box_pack_start ((GtkBox *)box1, w2, TRUE, TRUE, 2);
+	gtk_box_pack_start ((GtkBox *) box1, w2, TRUE, TRUE, 2);
 
 	gtk_widget_show_all (mainbox);
 

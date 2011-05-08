@@ -157,7 +157,7 @@ static gpointer parent_class;
 static void
 efhd_xpkcs7mime_free (EMFormatHTMLPObject *o)
 {
-	struct _smime_pobject *po = (struct _smime_pobject *)o;
+	struct _smime_pobject *po = (struct _smime_pobject *) o;
 
 	if (po->widget)
 		gtk_widget_destroy (po->widget);
@@ -192,7 +192,7 @@ efhd_xpkcs7mime_viewcert_clicked (GtkWidget *button,
 		g_signal_connect(w, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 
 		if (w && po->widget)
-			gtk_window_set_transient_for ((GtkWindow *)w, (GtkWindow *)po->widget);
+			gtk_window_set_transient_for ((GtkWindow *) w, (GtkWindow *) po->widget);
 
 		g_object_unref (ec);
 	} else {
@@ -206,8 +206,8 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
                                 CamelDList *certlist,
                                 struct _smime_pobject *po)
 {
-	CamelCipherCertInfo *info = (CamelCipherCertInfo *)certlist->head;
-	GtkTable *table = (GtkTable *)gtk_table_new (camel_dlist_length (certlist), 2, FALSE);
+	CamelCipherCertInfo *info = (CamelCipherCertInfo *) certlist->head;
+	GtkTable *table = (GtkTable *) gtk_table_new (camel_dlist_length (certlist), 2, FALSE);
 	gint n = 0;
 
 	while (info->next) {
@@ -230,7 +230,7 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
 			ECert *ec = NULL;
 #endif
 			w = gtk_label_new (l);
-			gtk_misc_set_alignment ((GtkMisc *)w, 0.0, 0.5);
+			gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
 			g_free (la);
 			gtk_table_attach (table, w, 0, 1, n, n+1, GTK_FILL, GTK_FILL, 3, 3);
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
@@ -256,14 +256,14 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
 		info = info->next;
 	}
 
-	gtk_box_pack_start ((GtkBox *)vbox, (GtkWidget *)table, TRUE, TRUE, 6);
+	gtk_box_pack_start ((GtkBox *) vbox, (GtkWidget *) table, TRUE, TRUE, 6);
 }
 
 static void
 efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
                                   EMFormatHTMLPObject *pobject)
 {
-	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
+	struct _smime_pobject *po = (struct _smime_pobject *) pobject;
 	GtkBuilder *builder;
 	GtkWidget *vbox, *w;
 
@@ -278,9 +278,9 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 
 	vbox = e_builder_get_widget(builder, "signature_vbox");
 	w = gtk_label_new (_(smime_sign_table[po->valid->sign.status].description));
-	gtk_misc_set_alignment ((GtkMisc *)w, 0.0, 0.5);
-	gtk_label_set_line_wrap ((GtkLabel *)w, TRUE);
-	gtk_box_pack_start ((GtkBox *)vbox, w, TRUE, TRUE, 6);
+	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
+	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
+	gtk_box_pack_start ((GtkBox *) vbox, w, TRUE, TRUE, 6);
 	if (po->valid->sign.description) {
 		GtkTextBuffer *buffer;
 
@@ -300,7 +300,7 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 				 NULL);
 		g_object_unref (buffer);
 
-		gtk_box_pack_start ((GtkBox *)vbox, w, TRUE, TRUE, 6);
+		gtk_box_pack_start ((GtkBox *) vbox, w, TRUE, TRUE, 6);
 	}
 
 	if (!camel_dlist_empty (&po->valid->sign.signers))
@@ -310,9 +310,9 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 
 	vbox = e_builder_get_widget(builder, "encryption_vbox");
 	w = gtk_label_new (_(smime_encrypt_table[po->valid->encrypt.status].description));
-	gtk_misc_set_alignment ((GtkMisc *)w, 0.0, 0.5);
-	gtk_label_set_line_wrap ((GtkLabel *)w, TRUE);
-	gtk_box_pack_start ((GtkBox *)vbox, w, TRUE, TRUE, 6);
+	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
+	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
+	gtk_box_pack_start ((GtkBox *) vbox, w, TRUE, TRUE, 6);
 	if (po->valid->encrypt.description) {
 		GtkTextBuffer *buffer;
 
@@ -332,7 +332,7 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 				 NULL);
 		g_object_unref (buffer);
 
-		gtk_box_pack_start ((GtkBox *)vbox, w, TRUE, TRUE, 6);
+		gtk_box_pack_start ((GtkBox *) vbox, w, TRUE, TRUE, 6);
 	}
 
 	if (!camel_dlist_empty (&po->valid->encrypt.encrypters))
@@ -353,7 +353,7 @@ efhd_xpkcs7mime_button (EMFormatHTML *efh,
 {
 	GtkWidget *container;
 	GtkWidget *widget;
-	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
+	struct _smime_pobject *po = (struct _smime_pobject *) pobject;
 	const gchar *icon_name;
 
 	/* FIXME: need to have it based on encryption and signing too */
@@ -607,7 +607,7 @@ efhd_format_secure (EMFormat *emf,
 
 			camel_stream_printf (stream, "%s", gettext (desc));
 
-			signers = em_format_html_format_cert_infos ((CamelCipherCertInfo *)valid->sign.signers.head);
+			signers = em_format_html_format_cert_infos ((CamelCipherCertInfo *) valid->sign.signers.head);
 			if (signers && *signers) {
 				camel_stream_printf (stream, " (%s)", signers);
 			}
@@ -740,7 +740,7 @@ efhd_builtin_init (EMFormatHTMLDisplayClass *efhc)
 	gint i;
 
 	for (i = 0; i < G_N_ELEMENTS (type_builtin_table); i++)
-		em_format_class_add_handler ((EMFormatClass *)efhc, &type_builtin_table[i]);
+		em_format_class_add_handler ((EMFormatClass *) efhc, &type_builtin_table[i]);
 }
 
 static void
@@ -749,7 +749,7 @@ efhd_write_image (EMFormat *emf,
                   EMFormatPURI *puri,
                   GCancellable *cancellable)
 {
-	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *)puri->part);
+	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *) puri->part);
 
 	/* TODO: identical to efh_write_image */
 	d(printf("writing image '%s'\n", puri->cid));
@@ -792,7 +792,7 @@ efhd_message_prefix (EMFormat *emf,
 
 			classid = g_strdup_printf("icon:///em-format-html-display/%s/%s", emf->part_id->str, comp&&comp[0]?"comp":"uncomp");
 			camel_stream_printf(stream, "<td align=\"left\"><img src=\"%s\"></td>", classid);
-			(void)em_format_add_puri (emf, sizeof (EMFormatPURI), classid, iconpart, efhd_write_image);
+			(void) em_format_add_puri (emf, sizeof (EMFormatPURI), classid, iconpart, efhd_write_image);
 			g_free (classid);
 			g_object_unref (iconpart);
 		}
@@ -875,7 +875,7 @@ attachment_button_realized (GtkWidget *widget)
 static gboolean
 efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
-	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
+	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) efh;
 	struct _attach_puri *info;
 	EAttachmentView *view;
 	EAttachmentStore *store;
@@ -907,7 +907,7 @@ efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObj
 		}
 	}
 
-	info = (struct _attach_puri *)em_format_find_puri ((EMFormat *)efh, pobject->classid);
+	info = (struct _attach_puri *) em_format_find_puri ((EMFormat *) efh, pobject->classid);
 
 	if (!info || info->forward) {
 		g_warning ("unable to expand the attachment\n");
@@ -976,7 +976,7 @@ efhd_attachment_frame (EMFormat *emf,
                        EMFormatPURI *puri,
                        GCancellable *cancellable)
 {
-	struct _attach_puri *info = (struct _attach_puri *)puri;
+	struct _attach_puri *info = (struct _attach_puri *) puri;
 
 	if (info->shown)
 		info->handle->handler (
@@ -1112,7 +1112,7 @@ efhd_attachment_optional (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPO
 	/* FIXME: handle default shown case */
 	d(printf("adding attachment button/content for optional rendering\n"));
 
-	info = (struct _attach_puri *)em_format_find_puri ((EMFormat *)efh, pobject->classid);
+	info = (struct _attach_puri *) em_format_find_puri ((EMFormat *) efh, pobject->classid);
 	if (!info || info->forward) {
 		g_warning ("unable to expand the attachment\n");
 		return TRUE;

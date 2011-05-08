@@ -52,14 +52,14 @@ ece_target_free (EEvent *ev, EEventTarget *t)
 		break; }
 	}
 
-	((EEventClass *)ece_parent)->target_free (ev, t);
+	((EEventClass *) ece_parent)->target_free (ev, t);
 }
 
 static void
 ece_class_init (GObjectClass *klass)
 {
 	klass->finalize = ece_finalize;
-	((EEventClass *)klass)->target_free = ece_target_free;
+	((EEventClass *) klass)->target_free = ece_target_free;
 }
 
 GType

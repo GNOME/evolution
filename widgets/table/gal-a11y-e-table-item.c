@@ -756,7 +756,7 @@ eti_rows_deleted (ETableModel * model, gint row, gint count,
 		}
 	}
 	g_signal_emit_by_name (table_item, "visible-data-changed");
-	eti_a11y_reset_focus_object ((GalA11yETableItem *)table_item, item, TRUE);
+	eti_a11y_reset_focus_object ((GalA11yETableItem *) table_item, item, TRUE);
 }
 
 static void

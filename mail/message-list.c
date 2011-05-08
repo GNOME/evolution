@@ -586,7 +586,7 @@ ml_search_path (MessageList *ml, MessageListSelectDirection direction, guint32 f
 	row = e_tree_table_adapter_row_of_node (etta, node);
 	if (row == -1)
 		return NULL;
-	count = e_table_model_row_count ((ETableModel *)etta);
+	count = e_table_model_row_count ((ETableModel *) etta);
 
 	if ((direction & MESSAGE_LIST_SELECT_DIRECTION) == MESSAGE_LIST_SELECT_NEXT)
 		node = ml_search_forward (ml, row + 1, count - 1, flags, mask);
@@ -767,7 +767,7 @@ message_list_select_next_thread (MessageList *ml)
 	row = e_tree_table_adapter_row_of_node (etta, node);
 	if (row == -1)
 		return;
-	count = e_table_model_row_count ((ETableModel *)etta);
+	count = e_table_model_row_count ((ETableModel *) etta);
 
 	/* find the next node which has a root parent (i.e. toplevel node) */
 	for (i=row+1;i<count-1;i++) {
@@ -1198,7 +1198,7 @@ ml_value_is_empty (ETreeModel *etm, gint col, gconstpointer value, gpointer data
 	case COL_MIXED_SENDER:
 	case COL_MIXED_RECIPIENTS:
 	case COL_LABELS:
-		return !(value && *(gchar *)value);
+		return !(value && *(gchar *) value);
 	default:
 		g_warning ("This shouldn't be reached\n");
 		return FALSE;
@@ -1305,9 +1305,9 @@ unread_foreach (ETreeModel *etm, ETreePath node, gpointer data)
 	CamelMessageInfo *info;
 
 	if (!etm)
-		info = (CamelMessageInfo *)node;
+		info = (CamelMessageInfo *) node;
 	else
-		info = e_tree_memory_node_get_data ((ETreeMemory *)etm, node);
+		info = e_tree_memory_node_get_data ((ETreeMemory *) etm, node);
 	g_return_val_if_fail (info != NULL, FALSE);
 
 	if (!(camel_message_info_flags (info) & CAMEL_MESSAGE_SEEN))
@@ -1329,9 +1329,9 @@ latest_foreach (ETreeModel *etm, ETreePath node, gpointer data)
 	time_t date;
 
 	if (!etm)
-		info = (CamelMessageInfo *)node;
+		info = (CamelMessageInfo *) node;
 	else
-		info = e_tree_memory_node_get_data ((ETreeMemory *)etm, node);
+		info = e_tree_memory_node_get_data ((ETreeMemory *) etm, node);
 	g_return_val_if_fail (info != NULL, FALSE);
 
 	date = ld->sent ? camel_message_info_date_sent (info)
@@ -1414,9 +1414,9 @@ add_all_labels_foreach (ETreeModel *etm, ETreePath node, gpointer data)
 	const CamelFlag *flag;
 
 	if (!etm)
-		msg_info = (CamelMessageInfo *)node;
+		msg_info = (CamelMessageInfo *) node;
 	else
-		msg_info = e_tree_memory_node_get_data ((ETreeMemory *)etm, node);
+		msg_info = e_tree_memory_node_get_data ((ETreeMemory *) etm, node);
 	g_return_val_if_fail (msg_info != NULL, FALSE);
 
 	for (flag = camel_message_info_user_flags (msg_info); flag; flag = flag->next)
@@ -2387,7 +2387,7 @@ ml_tree_drag_motion (ETree *tree, GdkDragContext *context, gint x, gint y, guint
 
 		d(printf("atom drop '%s'\n", gdk_atom_name(targets->data)));
 		for (i = 0; i < G_N_ELEMENTS (ml_drag_info); i++)
-			if (targets->data == (gpointer)ml_drag_info[i].atom)
+			if (targets->data == (gpointer) ml_drag_info[i].atom)
 				actions |= ml_drag_info[i].actions;
 
 		targets = g_list_next (targets);
@@ -2573,7 +2573,7 @@ message_list_dispose (GObject *object)
 		mail_regen_cancel (message_list);
 
 		if (message_list->uid_nodemap) {
-			g_hash_table_foreach (message_list->uid_nodemap, (GHFunc)clear_info, message_list);
+			g_hash_table_foreach (message_list->uid_nodemap, (GHFunc) clear_info, message_list);
 			g_hash_table_destroy (message_list->uid_nodemap);
 			message_list->uid_nodemap = NULL;
 		}
@@ -2930,9 +2930,9 @@ clear_info (gchar *key, ETreePath *node, MessageList *ml)
 {
 	CamelMessageInfo *info;
 
-	info = e_tree_memory_node_get_data ((ETreeMemory *)ml->model, node);
+	info = e_tree_memory_node_get_data ((ETreeMemory *) ml->model, node);
 	camel_folder_free_message_info (ml->folder, info);
-	e_tree_memory_node_set_data ((ETreeMemory *)ml->model, node, NULL);
+	e_tree_memory_node_set_data ((ETreeMemory *) ml->model, node, NULL);
 }
 
 static void
@@ -2950,7 +2950,7 @@ clear_tree (MessageList *ml, gboolean tfree)
 
 	/* we also reset the uid_rowmap since it is no longer useful/valid anyway */
 	if (ml->folder)
-		g_hash_table_foreach (ml->uid_nodemap, (GHFunc)clear_info, ml);
+		g_hash_table_foreach (ml->uid_nodemap, (GHFunc) clear_info, ml);
 	g_hash_table_destroy (ml->uid_nodemap);
 	ml->uid_nodemap = g_hash_table_new (g_str_hash, g_str_equal);
 
@@ -3419,7 +3419,7 @@ build_subtree_diff (MessageList *ml, ETreePath parent, ETreePath path, CamelFold
 				gpointer olduid, oldrow;
 				/* if this is a message row, check/update the row id map */
 				if (g_hash_table_lookup_extended (ml->uid_rowmap, camel_message_info_uid (bp->message), &olduid, &oldrow)) {
-					if ((gint)oldrow != (*row)) {
+					if ((gint) oldrow != (*row)) {
 						g_hash_table_insert (ml->uid_rowmap, olduid, (gpointer)(*row));
 					}
 				} else {
@@ -3946,7 +3946,7 @@ on_selection_changed_cmd (ETree *tree, MessageList *ml)
 	if (uids->len == 1)
 		newuid = uids->pdata[0];
 	else if ((cursor = e_tree_get_cursor (tree)))
-		newuid = (gchar *)camel_message_info_uid (e_tree_memory_node_get_data ((ETreeMemory *)tree, cursor));
+		newuid = (gchar *) camel_message_info_uid (e_tree_memory_node_get_data ((ETreeMemory *) tree, cursor));
 	else
 		newuid = NULL;
 
@@ -4211,7 +4211,7 @@ message_list_set_search (MessageList *ml, const gchar *search)
 				texture = clutter_texture_new_from_file (gtk_icon_info_get_filename (info), NULL);
 				gtk_icon_info_free (info);
 			}
-			clutter_container_add_actor ((ClutterContainer *)stage, texture);
+			clutter_container_add_actor ((ClutterContainer *) stage, texture);
 			ml->priv->search_texture = texture;
 
 			ml->priv->timeline = clutter_timeline_new (2 * 1000);
@@ -4917,6 +4917,6 @@ mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, Ca
 		ml_regen_timeout (m);
 	else {
 		ml->regen_timeout_msg = m;
-		ml->regen_timeout_id = g_timeout_add (500, (GSourceFunc)ml_regen_timeout, m);
+		ml->regen_timeout_id = g_timeout_add (500, (GSourceFunc) ml_regen_timeout, m);
 	}
 }

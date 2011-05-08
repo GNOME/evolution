@@ -347,7 +347,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emcp_items); i++)
 		l = g_slist_prepend (l, &emcp_items[i]);
-	e_config_add_items ((EConfig *)ec, l, NULL, NULL, emcp_free, prefs);
+	e_config_add_items ((EConfig *) ec, l, NULL, NULL, emcp_free, prefs);
 
 	/* General tab */
 
@@ -574,8 +574,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	/* get our toplevel widget */
 	client = gconf_client_get_default ();
 	target = em_config_target_new_prefs (ec, client);
-	e_config_set_target ((EConfig *)ec, (EConfigTarget *)target);
-	toplevel = e_config_create_widget ((EConfig *)ec);
+	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
+	toplevel = e_config_create_widget ((EConfig *) ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 	g_object_unref (client);
 }
