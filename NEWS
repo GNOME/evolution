@@ -1,3 +1,255 @@
+Evolution 3.1.1 2011-05-09
+--------------------------
+
+Bug Fixes:
+	Bug 303653 - Make headers collapsable in preview pane (Dan Vrátil)
+	Bug 303862 - Cannot scroll message after clicking image attachment
+	             button (Dan Vrátil)
+	Bug 332497 - Add Edit -> Available Categories (Dan Vrátil)
+	Bug 418954 - Add a separate entry combo for port numbers (Dan Vráti)
+	Bug 502188 - Store 'Remember password' for calendars (Milan Crha)
+	Bug 547954 - Clarify delete-from-search-folder warning (Dan Vrátil)
+	Bug 588891 - Spam settings dialog terribly un-higgy (Dan Vrátil)
+	Bug 597082 - Crash while migrating folder info (Matthew Barnes)
+	Bug 619782 - Characters override in contact editor express mode
+	             (Matthew Barnes)
+	Bug 627952 - 'Local delivery' mbox's aren't read properly (Milan Crha)
+	Bug 641154 - Crash in emae_check_authtype_done (Milan Crha)
+	Bug 641845 - Add default expansion variables to templates plugin
+	             (Dan Vrátil)
+	Bug 644310 - Rework "Set as Background" image option (Matthew Barnes)
+	Bug 645545 - Attachment reminder dialog uses wrong expand
+	             (Matthew Barnes)
+	Bug 645551 - Mailer statusbar jumping in size (Matthew Barnes)
+	Bug 645610 - Editing contact doesn't refresh view (Milan Crha)
+	Bug 645721 - Fix build error when enabling kerberos without specifying
+	             path (Niki Guldbrand)
+	Bug 645825 - Search bar not changing color when showing results
+	             (Dan Vrátil)
+	Bug 646197 - Crash with VALARM without ACTION property (Milan Crha)
+	Bug 646200 - Insufficient requirement on libsoup (Matthew Barnes)
+	Bug 646384 - Updated App Icon (Matthew Barnes)
+	Bug 646817 - Hide View->Preview menu in express mode (Matthew Barnes)
+	Bug 647116 - Crash in g_error_matches,
+	             e_contact_editor_contact_modified (Milan Crha)
+	Bug 647429 - Hide port-entry for providers without port (Dan Vrátil)
+	Bug 647698 - Selected calendar doesnt authenticate after offline/online
+	             (Matthew Barnes)
+	Bug 647708 - e_plugin_xml_prop() can return libxml2 allocated memory
+	             (Matthew Barnes)
+	Bug 647816 - Moving folder hierarchy causes error (David Woodhouse)
+	Bug 648308 - Do not display full folder URI in "Opening folder"
+	             activity (Dan Vrátil)
+	Bug 648317 - MeeGo shell looking for the wrong atom (Abner Silva)
+	Bug 648346 - Add style class to message browser toolbar
+	             (Matthew Barnes)
+	Bug 648756 - Custom imap port forgotten (Dan Vrátil)
+	Bug 649046 - crash on startup with latest CamelURL modifications
+	             (Lucian Langa)
+	Bug 649365 - Creation of new repository evolution-groupwise
+	             (Vibha Yadav)
+	Bug 649381 - Memory leaks in contact editor (Dan Vrátil)
+
+Other Changes:
+	* Remove unique-3.0 dependency from configure.ac. (Matthew Barnes)
+	* Port EShell to GtkApplication. (Matthew Barnes)
+	* Port AlarmNotify to GtkApplication. (Matthew Barnes)
+	* evolution-settings doesn't really need to be unique. (Matthew Barnes)
+	* Fix alignment of extra widgets in EAlertDialogs. (Matthew Barnes)
+	* Fix an EShell reference leak. (Matthew Barnes)
+	* Change the accelerator map file location. (Matthew Barnes)
+	* Reduce EAlertBar height. (Matthew Barnes)
+	* EAlertBar: Make warnings time out after 5 minutes (Matthew Barnes)
+	* Change "mail:async-error" alerts to warnings. (Matthew Barnes)
+	* Restore lockdown integration. (Matthew Barnes)
+	* Rip out Anjal-specific cruft we don't need. (Matthew Barnes)
+	* Remove the profiler plugin. (Matthew Barnes)
+	* Remove no longer existing files from POTFILES.in (Wouter Bolsterlee)
+	* Don't crash on missing EAlert definitions. (Matthew Barnes)
+	* EWebView: Implement the EAlertSink interface (Matthew Barnes)
+	* EWebView: Fix icon retrieval when showing EAlerts. (Matthew Barnes)
+	* Demonstrate EWebView as an EAlertSink. (Matthew Barnes)
+	* Don't try to refresh or sync mail folders when offline.
+	  (Matthew Barnes)
+	* Kill em_composer_prefs_new_signature(). (Matthew Barnes)
+	* Adapt to sealed up CamelService. (Matthew Barnes)
+	* evolution-alarm-notify: replace Moblin by Meego (Alban Crequy)
+	* Adapt to CamelService changes. (Matthew Barnes)
+	* Do not require unique-3.0 in .pc files (Milan Crha)
+	* e_mail_local_init(): Improve error handling. (Matthew Barnes)
+	* Adapt to new CamelSession background job API. (Matthew Barnes)
+	* Bump gladeui-2.0 minimum version to 3.10.0. (Matthew Barnes)
+	* EMailBackend: Ignore cancelled background jobs. (Matthew Barnes)
+	* Some modules missing CFLAGS/LIBS for EShell. (Matthew Barnes)
+	* Remove redundant EAccountList utilities. (Matthew Barnes)
+	* Add e_meeting_store_find_self(). (Matthew Barnes)
+	* Add itip_address_is_user(). (Matthew Barnes)
+	* Refactor CompEditor pages to isolate EAccount usage. (Matthew Barnes)
+	* Add itip_get_user_identities(). (Matthew Barnes)
+	* Fix a memory leak (Milan Crha)
+	* Add itip_get_fallback_identity(). (Matthew Barnes)
+	* Make EAlertBar messages selectable (Milan Crha)
+	* Adapt to extra arg in camel_session_get_service_by_url().
+	  (Matthew Barnes)
+	* EMFolderSelectionButton: Remove unused multiselect functions.
+	  (Matthew Barnes)
+	* groupwise-features: Fix a compiler warning. (Matthew Barnes)
+	* MailFolderCache: Remove 'folders_uri' hash table (Matthew Barnes)
+	* e_get_account_by_uid(): Also handle CamelTransport UIDs.
+	  (Matthew Barnes)
+	* EMEventTargetFolder: Add an EAccount member. (Matthew Barnes)
+	* EMConfigTargetAccount: Add original_account member. (Matthew Barnes)
+	* Simplify mail_session_get_password(). (Matthew Barnes)
+	* Remove e_get_account_by_transport_url(). (Matthew Barnes)
+	* EMailSession: Fix popb4smtp authentication. (Matthew Barnes)
+	* Add em_folder_tree_get_selected_account(). (Matthew Barnes)
+	* EMailShellView: Open the selected folder ourselves. (Matthew Barnes)
+	* Remove e_mail_reader_set_folder_uri(). (Matthew Barnes)
+	* Drop 'folder_uri' param from message_list_set_folder().
+	  (Matthew Barnes)
+	* Add some handy folder URI utility functions. (Matthew Barnes)
+	* Replace camel_store_folder_uri_equal() with
+	  e_mail_folder_uri_equal(). (Matthew Barnes)
+	* em-utils.c: Simplify guess_account_from_folder(). (Matthew Barnes)
+	* Drop 'folder_uri' param from em_utils_folder_is_drafts().
+	  (Matthew Barnes)
+	* Drop 'folder_uri' param from em_utils_folder_is_templates().
+	  (Matthew Barnes)
+	* Drop 'folder_uri' param from em_utils_folder_is_sent().
+	  (Matthew Barnes)
+	* Drop 'folder_uri' param from em_utils_folder_is_outbox().
+	  (Matthew Barnes)
+	* Change em_folder_tree_model_user_marked_unread() params.
+	  (Matthew Barnes)
+	* Remove 'from_uri' params from e-msg-composer-utils.c.
+	  (Matthew Barnes)
+	* Build vfolder rules with CamelFolders instead of folder URIs.
+	  (Matthew Barnes)
+	* Remove e_mail_reader_get_folder_uri(). (Matthew Barnes)
+	* Drop 'folder_uri' member from MessageList. (Matthew Barnes)
+	* groupwise-features: Avoid e_get_account_by_source_url().
+	  (Matthew Barnes)
+	* MessageList: Simplify the "Location" column. (Matthew Barnes)
+	* EMFolderSelectionButton: Avoid e_get_account_by_source_url().
+	  (Matthew Barnes)
+	* Remove EMFolderTreeModel::folder-added signal. (Matthew Barnes)
+	* Use e_mail_folder_uri_from_folder() instead of
+	  camel_folder_get_uri(). (Matthew Barnes)
+	* Simplify em_folder_tree_set_selected_list(). (Matthew Barnes)
+	* Teach e_mail_folder_uri_parse() to parse 'email://' URIs.
+	  (Matthew Barnes)
+	* Simplify e_mail_session_uri_to_folder_sync(). (Matthew Barnes)
+	* Drop support for command-line 'email://' URIs. (Matthew Barnes)
+	* Simplify emae_account_folder(). (Matthew Barnes)
+	* Simplify em_utils_folder_is_templates(). (Matthew Barnes)
+	* Simplify em_utils_folder_is_drafts(). (Matthew Barnes)
+	* Simplify em_utils_folder_is_sent(). (Matthew Barnes)
+	* Simplify em_folder_tree_model_set_folder_info(). (Matthew Barnes)
+	* EMFolderTreeModel: Always populate the CamelStore column.
+	  (Matthew Barnes)
+	* EMFolderTreeModel: Avoid e_get_account_by_source_url().
+	  (Matthew Barnes)
+	* EMAccountEditor: Fix a runtime warning. (Matthew Barnes)
+	* Introduce a new, simpler folder URI format. (Matthew Barnes)
+	* EMFolderTreeModel: Use the new folder URI format. (Matthew Barnes)
+	* EMFilterFolderElement: Use the new folder URI format. (Matthew Barnes)
+	* EMVFolderRule: Use the new folder URI format. (Matthew Barnes)
+	* e_mail_local_init(): Use the new folder URI format. (Matthew Barnes)
+	* Simplify e_mail_session_unsubscribe_folder_sync(). (Matthew Barnes)
+	* Simplify em_vfolder_rule_from_message(). (Matthew Barnes)
+	* Simplify em_vfolder_rule_from_address(). (Matthew Barnes)
+	* Simplify vfolder_adduri_desc(). (Matthew Barnes)
+	* MailFolderCache: Emit folder names instead of URIs in signals.
+	  (Matthew Barnes)
+	* mail-config.c: Don't try to rename obsolete config files.
+	  (Matthew Barnes)
+	* Remove em_uri_from_camel() and em_uri_to_camel(). (Matthew Barnes)
+	* fetch_mail_exec(): Remove hack for local Inbox. (Matthew Barnes)
+	* Remove uid_cachename_hack(). (Matthew Barnes)
+	* Adapt to X-Evolution-Source headers storing UIDs. (Matthew Barnes)
+	* Remove e_get_account_by_source_url(). (Matthew Barnes)
+	* em_folder_utils_copy_folder(): Change function parameter.
+	  (Matthew Barnes)
+	* em_folder_utils_create_folder(): Change function parameters.
+	  (Matthew Barnes)
+	* Remove em_folder_tree_get_selected_folder_info(). (Matthew Barnes)
+	* MailFolderCache: Drop folder URI in "folder-changed" signal.
+	  (Matthew Barnes)
+	* mail-send-recv.c:get_folders(): Adapt to CamelVeeStore change.
+	  (Matthew Barnes)
+	* Adapt to CamelFolderInfo.name -> display_name. (Matthew Barnes)
+	* Adapt to CamelFolder:name -> display-name. (Matthew Barnes)
+
+Translations:
+	Abderrahim Kitouni (ar)
+	Krasimir Chonov (bg)
+	Alexander Shopov (bg)
+	David Planella (ca)
+	Jordi Serratosa (ca)
+	Jiří Eischmann (cs)
+	Kenneth Nielsen (da)
+	Christian Kirbach (de)
+	Daniel Mustieles (es)
+	Ivar Smolin (et)
+	Inaki Larranaga Murgoitio (eu)
+	Fran Diéguez (gl)
+	Gabor Kelemen (hu)
+	Luca Ferretti (it)
+	Takayuki KUSANO (ja)
+	Takayoshi OKANO (ja)
+	Shankar Prasad (kn)
+	Žygimantas Beručka (lt)
+	Kjartan Maraas (nb)
+	Wouter Bolsterlee (nl)
+	Hannie Dumoleyn (nl)
+	Djavan Fagundes (pt_BR)
+	Yuri Myasoedov (ru)
+	Daniel Nylander (sv)
+	Dr.T.Vasudevan (ta)
+	Abduxukur Abdurixit (ug)
+	Daniel Korostil (uk)
+	Aron Xu (zh_CN)
+	Chao-Hsiung Liao (zh_HK)
+
+
+Evolution 3.0.0 2011-04-04
+--------------------------
+
+Bug Fixes:
+	Bug 646200 - Insufficient requirement on libsoup (Matthew Barnes)
+	Bug 646384 - Updated App Icon (Matthew Barnes)
+	Bug 645551 - Mailer statusbar jumping in size (Matthew Barnes)
+
+Other Changes:
+	* Fix translations being broken by removing calls to bindtextdomain()
+	  from plugins. It shouldn't be needed for plugins that live in
+	  the evolution source tree anyway since they should just use the
+	  translation domain they inherit from main(). (Kjartan Maraas)
+
+Translations:
+	Khaled Hosny, Abderrahim Kitouni (ar)
+	David Planella, Jordi Serratosa (ca)
+	Jiří Eischmann (cs)
+	Kenneth Nielsen (da)
+	Wolfgang Stöggl (de)
+	Inaki Larranaga Murgoitio (eu)
+	Bruno Brouard (fr)
+	Rajesh Ranjan (hi)
+	Gabor Kelemen (hu)
+	Luca Ferretti (it)
+	Takayuki KUSANO (ja)
+	Shankar Prasad (kn)
+	Žygimantas Beručka (lt)
+	Sandeep Shedmake (mr)
+	Wouter Bolsterlee, Hannie Dumoleyn (nl)
+	Djavan Fagundes (pt_BR)
+	Daniel Nylander (sv)
+	Dr.T.Vasudevan (ta)
+	Daniel Korostil (uk)
+	Aron Xu (zh_CN)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 2.91.92 2011-03-21
 ----------------------------
 
