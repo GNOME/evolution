@@ -299,7 +299,7 @@ e_mail_folder_uri_parse (CamelSession *session,
 		}
 
 		if (url->path != NULL && *url->path == '/')
-			folder_name = g_strdup (url->path + 1);
+			folder_name = camel_url_decode_path (url->path + 1);
 
 	/* CamelFolderInfo URIs used to embed the store's URI, so the
 	 * folder name is appended as either a path part or a fragment
