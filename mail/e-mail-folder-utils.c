@@ -176,6 +176,7 @@ e_mail_folder_uri_build (CamelStore *store,
                          const gchar *folder_name)
 {
 	const gchar *uid;
+	gchar *encoded_name;
 	gchar *encoded_uid;
 	gchar *uri;
 
@@ -187,11 +188,14 @@ e_mail_folder_uri_build (CamelStore *store,
 		folder_name++;
 
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
-	encoded_uid = camel_url_encode (uid, ":;@/");
 
-	uri = g_strdup_printf ("folder://%s/%s", encoded_uid, folder_name);
+	encoded_uid = camel_url_encode (uid, ":;@/");
+	encoded_name = camel_url_encode (folder_name, "#");
+
+	uri = g_strdup_printf ("folder://%s/%s", encoded_uid, encoded_name);
 
 	g_free (encoded_uid);
+	g_free (encoded_name);
 
 	return uri;
 }
@@ -230,7 +234,7 @@ e_mail_folder_uri_parse (CamelSession *session,
 {
 	CamelURL *url;
 	CamelService *service = NULL;
-	const gchar *folder_name = NULL;
+	gchar *folder_name = NULL;
 	gboolean success = FALSE;
 
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), FALSE);
@@ -251,7 +255,7 @@ e_mail_folder_uri_parse (CamelSession *session,
 		}
 
 		if (url->path != NULL && *url->path == '/')
-			folder_name = url->path + 1;
+			folder_name = camel_url_decode_path (url->path + 1);
 
 	/* This style was used to reference accounts by UID before
 	 * CamelServices themselves had UIDs.  Some examples are:
@@ -295,7 +299,7 @@ e_mail_folder_uri_parse (CamelSession *session,
 		}
 
 		if (url->path != NULL && *url->path == '/')
-			folder_name = url->path + 1;
+			folder_name = g_strdup (url->path + 1);
 
 	/* CamelFolderInfo URIs used to embed the store's URI, so the
 	 * folder name is appended as either a path part or a fragment
@@ -312,9 +316,9 @@ e_mail_folder_uri_parse (CamelSession *session,
 			provider = camel_service_get_provider (service);
 
 			if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
-				folder_name = url->fragment;
+				folder_name = g_strdup (url->fragment);
 			else if (url->path != NULL && *url->path == '/')
-				folder_name = url->path + 1;
+				folder_name = g_strdup (url->path + 1);
 		}
 	}
 
@@ -322,8 +326,10 @@ e_mail_folder_uri_parse (CamelSession *session,
 		if (out_store != NULL)
 			*out_store = g_object_ref (service);
 
-		if (out_folder_name != NULL)
-			*out_folder_name = g_strdup (folder_name);
+		if (out_folder_name != NULL) {
+			*out_folder_name = folder_name;
+			folder_name = NULL;
+		}
 
 		success = TRUE;
 	} else {
@@ -333,6 +339,8 @@ e_mail_folder_uri_parse (CamelSession *session,
 			_("Invalid folder URI '%s'"),
 			folder_uri);
 	}
+
+	g_free (folder_name);
 
 	camel_url_free (url);
 
