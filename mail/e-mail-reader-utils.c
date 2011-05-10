@@ -34,6 +34,7 @@
 
 #include "mail/e-mail-backend.h"
 #include "mail/e-mail-browser.h"
+#include "mail/e-mail-folder-utils.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-format-html-print.h"
 #include "mail/em-utils.h"
@@ -42,6 +43,25 @@
 #include "mail/mail-tools.h"
 #include "mail/mail-vfolder.h"
 #include "mail/message-list.h"
+
+typedef struct _AsyncContext AsyncContext;
+
+struct _AsyncContext {
+	EActivity *activity;
+	EMailReader *reader;
+};
+
+static void
+async_context_free (AsyncContext *context)
+{
+	if (context->activity != NULL)
+		g_object_unref (context->activity);
+
+	if (context->reader != NULL)
+		g_object_unref (context->reader);
+
+	g_slice_free (AsyncContext, context);
+}
 
 void
 e_mail_reader_activate (EMailReader *reader,
@@ -335,6 +355,143 @@ e_mail_reader_print (EMailReader *reader,
 
 exit:
 	em_utils_uids_free (uids);
+}
+
+static void
+mail_reader_remove_duplicates_cb (CamelFolder *folder,
+                                  GAsyncResult *result,
+                                  AsyncContext *context)
+{
+	EAlertSink *alert_sink;
+	GHashTable *duplicates;
+	GtkWindow *parent_window;
+	guint n_duplicates;
+	GError *error = NULL;
+
+	alert_sink = e_mail_reader_get_alert_sink (context->reader);
+	parent_window = e_mail_reader_get_window (context->reader);
+
+	duplicates = e_mail_folder_find_duplicate_messages_finish (
+		folder, result, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (duplicates == NULL);
+		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (duplicates == NULL);
+		e_alert_submit (
+			alert_sink,
+			"mail:find-duplicate-messages",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (duplicates != NULL);
+
+	/* Finalize the activity here so we don't leave a message in
+	 * the task bar while prompting the user for confirmation. */
+	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+	g_object_unref (context->activity);
+	context->activity = NULL;
+
+	n_duplicates = g_hash_table_size (duplicates);
+
+	if (n_duplicates == 0) {
+		em_utils_prompt_user (
+			parent_window, NULL,
+			"mail:info-no-remove-duplicates",
+			camel_folder_get_display_name (folder), NULL);
+	} else {
+		gchar *confirmation;
+		gboolean proceed;
+
+		confirmation = g_strdup_printf (ngettext (
+			/* Translators: %s is replaced with a folder
+			 * name %u with count of duplicate messages. */
+			"Folder '%s' contains %u duplicate message. "
+			"Are you sure you want to delete it?",
+			"Folder '%s' contains %u duplicate messages. "
+			"Are you sure you want to delete them?",
+			n_duplicates),
+			camel_folder_get_display_name (folder),
+			n_duplicates);
+
+		proceed = em_utils_prompt_user (
+			parent_window, NULL,
+			"mail:ask-remove-duplicates",
+			confirmation, NULL);
+
+		if (proceed) {
+			GHashTableIter iter;
+			gpointer key;
+
+			camel_folder_freeze (folder);
+
+			g_hash_table_iter_init (&iter, duplicates);
+
+			/* Mark duplicate messages for deletion. */
+			while (g_hash_table_iter_next (&iter, &key, NULL))
+				camel_folder_delete_message (folder, key);
+
+			camel_folder_thaw (folder);
+		}
+
+		g_free (confirmation);
+	}
+
+	g_hash_table_destroy (duplicates);
+
+	async_context_free (context);
+}
+
+void
+e_mail_reader_remove_duplicates (EMailReader *reader)
+{
+	AsyncContext *context;
+	GCancellable *cancellable;
+	EMailBackend *backend;
+	CamelFolder *folder;
+	GPtrArray *uids;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	folder = e_mail_reader_get_folder (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_if_fail (uids != NULL);
+
+	/* XXX Either e_mail_reader_get_selected_uids()
+	 *     or MessageList should do this itself. */
+	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
+
+	/* Find duplicate messages asynchronously. */
+
+	context = g_slice_new0 (AsyncContext);
+	context->activity = e_activity_new ();
+	context->reader = g_object_ref (reader);
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (context->activity, cancellable);
+
+	backend = e_mail_reader_get_backend (reader);
+	e_shell_backend_add_activity (
+		E_SHELL_BACKEND (backend), context->activity);
+
+	e_mail_folder_find_duplicate_messages (
+		folder, uids, G_PRIORITY_DEFAULT,
+		cancellable, (GAsyncReadyCallback)
+		mail_reader_remove_duplicates_cb,
+		context);
+
+	g_object_unref (cancellable);
+
+	g_ptr_array_unref (uids);
 }
 
 /* Helper for e_mail_reader_reply_to_message()
