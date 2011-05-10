@@ -171,6 +171,206 @@ e_mail_folder_append_message_finish (CamelFolder *folder,
 }
 
 static void
+mail_folder_find_duplicate_messages_thread (GSimpleAsyncResult *simple,
+                                            GObject *object,
+                                            GCancellable *cancellable)
+{
+	AsyncContext *context;
+	GError *error = NULL;
+
+	context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	context->hash_table = e_mail_folder_find_duplicate_messages_sync (
+		CAMEL_FOLDER (object), context->ptr_array,
+		cancellable, &error);
+
+	if (error != NULL) {
+		g_simple_async_result_set_from_error (simple, error);
+		g_error_free (error);
+	}
+}
+
+GHashTable *
+e_mail_folder_find_duplicate_messages_sync (CamelFolder *folder,
+                                            GPtrArray *message_uids,
+                                            GCancellable *cancellable,
+                                            GError **error)
+{
+	GQueue trash = G_QUEUE_INIT;
+	GHashTable *hash_table;
+	GHashTable *unique_ids;
+	GHashTableIter iter;
+	gpointer key, value;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+	g_return_val_if_fail (message_uids != NULL, NULL);
+
+	/* hash_table = { MessageUID : CamelMessage } */
+	hash_table = e_mail_folder_get_multiple_messages_sync (
+		folder, message_uids, cancellable, error);
+
+	if (hash_table == NULL)
+		return NULL;
+
+	camel_operation_push_message (
+		cancellable, _("Scanning messages for duplicates"));
+
+	unique_ids = g_hash_table_new_full (
+		(GHashFunc) g_int64_hash,
+		(GEqualFunc) g_int64_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
+
+	g_hash_table_iter_init (&iter, hash_table);
+
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		const CamelSummaryMessageID *message_id;
+		CamelDataWrapper *content;
+		CamelMessageFlags flags;
+		CamelMessageInfo *info;
+		CamelStream *stream;
+		GByteArray *buffer;
+		gboolean duplicate;
+		gssize n_bytes;
+		gchar *digest;
+
+		info = camel_folder_get_message_info (folder, key);
+		message_id = camel_message_info_message_id (info);
+		flags = camel_message_info_flags (info);
+
+		/* Skip messages marked for deletion. */
+		if (flags & CAMEL_MESSAGE_DELETED) {
+			g_queue_push_tail (&trash, key);
+			camel_message_info_free (info);
+			continue;
+		}
+
+		/* Generate a digest string from the message's content. */
+
+		content = camel_medium_get_content (CAMEL_MEDIUM (value));
+
+		if (content == NULL) {
+			g_queue_push_tail (&trash, key);
+			camel_message_info_free (info);
+			continue;
+		}
+
+		stream = camel_stream_mem_new ();
+
+		n_bytes = camel_data_wrapper_decode_to_stream_sync (
+			content, stream, cancellable, error);
+
+		if (n_bytes < 0) {
+			camel_message_info_free (info);
+			g_object_unref (stream);
+			goto fail;
+		}
+
+		/* The CamelStreamMem owns the buffer. */
+		buffer = camel_stream_mem_get_byte_array (
+			CAMEL_STREAM_MEM (stream));
+		g_return_val_if_fail (buffer != NULL, NULL);
+
+		digest = g_compute_checksum_for_data (
+			G_CHECKSUM_SHA256, buffer->data, buffer->len);
+
+		g_object_unref (stream);
+
+		/* Determine if the message a duplicate. */
+
+		value = g_hash_table_lookup (unique_ids, &message_id->id.id);
+		duplicate = (value != NULL) && g_str_equal (digest, value);
+
+		if (duplicate)
+			g_free (digest);
+		else {
+			gint64 *v_int64;
+
+			/* XXX Might be better to create a GArray
+			 *     of 64-bit integers and have the hash
+			 *     table keys point to array elements. */
+			v_int64 = g_new0 (gint64, 1);
+			*v_int64 = (gint64) message_id->id.id;
+
+			g_hash_table_insert (unique_ids, v_int64, digest);
+			g_queue_push_tail (&trash, key);
+		}
+
+		camel_message_info_free (info);
+	}
+
+	/* Delete all non-duplicate messages from the hash table. */
+	while ((key = g_queue_pop_head (&trash)) != NULL)
+		g_hash_table_remove (hash_table, key);
+
+	goto exit;
+
+fail:
+	g_hash_table_destroy (hash_table);
+	hash_table = NULL;
+
+exit:
+	camel_operation_pop_message (cancellable);
+
+	g_hash_table_destroy (unique_ids);
+
+	return hash_table;
+}
+
+void
+e_mail_folder_find_duplicate_messages (CamelFolder *folder,
+                                       GPtrArray *message_uids,
+                                       gint io_priority,
+                                       GCancellable *cancellable,
+                                       GAsyncReadyCallback callback,
+                                       gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *context;
+
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (message_uids != NULL);
+
+	context = g_slice_new0 (AsyncContext);
+	context->ptr_array = g_ptr_array_ref (message_uids);
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (folder), callback, user_data,
+		e_mail_folder_find_duplicate_messages);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple, context, (GDestroyNotify) async_context_free);
+
+	g_simple_async_result_run_in_thread (
+		simple, mail_folder_find_duplicate_messages_thread,
+		io_priority, cancellable);
+
+	g_object_unref (simple);
+}
+
+GHashTable *
+e_mail_folder_find_duplicate_messages_finish (CamelFolder *folder,
+                                              GAsyncResult *result,
+                                              GError **error)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *context;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (folder),
+		e_mail_folder_find_duplicate_messages), NULL);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	if (g_simple_async_result_propagate_error (simple, error))
+		return NULL;
+
+	return g_hash_table_ref (context->hash_table);
+}
+
+static void
 mail_folder_get_multiple_messages_thread (GSimpleAsyncResult *simple,
                                           GObject *object,
                                           GCancellable *cancellable)
