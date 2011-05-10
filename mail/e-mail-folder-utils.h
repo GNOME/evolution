@@ -44,6 +44,22 @@ gboolean	e_mail_folder_append_message_finish
 						 GAsyncResult *result,
 						 gchar **appended_uid,
 						 GError **error);
+GHashTable *	e_mail_folder_get_multiple_messages_sync
+						(CamelFolder *folder,
+						 GPtrArray *message_uids,
+						 GCancellable *cancellable,
+						 GError **error);
+void		e_mail_folder_get_multiple_messages
+						(CamelFolder *folder,
+						 GPtrArray *message_uids,
+						 gint io_priority,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+GHashTable *	e_mail_folder_get_multiple_messages_finish
+						(CamelFolder *folder,
+						 GAsyncResult *result,
+						 GError **error);
 
 gchar *		e_mail_folder_uri_build		(CamelStore *store,
 						 const gchar *folder_name);
