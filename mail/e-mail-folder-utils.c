@@ -29,6 +29,8 @@ typedef struct _AsyncContext AsyncContext;
 struct _AsyncContext {
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
+	GHashTable *hash_table;
+	GPtrArray *ptr_array;
 	gchar *message_uid;
 };
 
@@ -40,6 +42,12 @@ async_context_free (AsyncContext *context)
 
 	if (context->info != NULL)
 		camel_message_info_free (context->info);
+
+	if (context->hash_table != NULL)
+		g_hash_table_unref (context->hash_table);
+
+	if (context->ptr_array != NULL)
+		g_ptr_array_unref (context->ptr_array);
 
 	g_free (context->message_uid);
 
@@ -160,6 +168,136 @@ e_mail_folder_append_message_finish (CamelFolder *folder,
 
 	/* Assume success unless a GError is set. */
 	return !g_simple_async_result_propagate_error (simple, error);
+}
+
+static void
+mail_folder_get_multiple_messages_thread (GSimpleAsyncResult *simple,
+                                          GObject *object,
+                                          GCancellable *cancellable)
+{
+	AsyncContext *context;
+	GError *error = NULL;
+
+	context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	context->hash_table = e_mail_folder_get_multiple_messages_sync (
+		CAMEL_FOLDER (object), context->ptr_array,
+		cancellable, &error);
+
+	if (error != NULL) {
+		g_simple_async_result_set_from_error (simple, error);
+		g_error_free (error);
+	}
+}
+
+GHashTable *
+e_mail_folder_get_multiple_messages_sync (CamelFolder *folder,
+                                          GPtrArray *message_uids,
+                                          GCancellable *cancellable,
+                                          GError **error)
+{
+	GHashTable *hash_table;
+	CamelMimeMessage *message;
+	guint ii;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+	g_return_val_if_fail (message_uids != NULL, NULL);
+
+	camel_operation_push_message (
+		cancellable,
+		ngettext (
+			"Retrieving %d message",
+			"Retrieving %d messages",
+			message_uids->len),
+		message_uids->len);
+
+	hash_table = g_hash_table_new_full (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_object_unref);
+
+	/* This is an all or nothing operation.  Destroy the
+	 * hash table if we fail to retrieve any message. */
+
+	for (ii = 0; ii < message_uids->len; ii++) {
+		const gchar *uid;
+		gint percent;
+
+		uid = g_ptr_array_index (message_uids, ii);
+		percent = ((ii + 1) * 100) / message_uids->len;
+
+		message = camel_folder_get_message_sync (
+			folder, uid, cancellable, error);
+
+		camel_operation_progress (cancellable, percent);
+
+		if (CAMEL_IS_MIME_MESSAGE (message)) {
+			g_hash_table_insert (
+				hash_table, g_strdup (uid), message);
+		} else {
+			g_hash_table_destroy (hash_table);
+			hash_table = NULL;
+			break;
+		}
+	}
+
+	camel_operation_pop_message (cancellable);
+
+	return hash_table;
+}
+
+void
+e_mail_folder_get_multiple_messages (CamelFolder *folder,
+                                     GPtrArray *message_uids,
+                                     gint io_priority,
+                                     GCancellable *cancellable,
+                                     GAsyncReadyCallback callback,
+                                     gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *context;
+
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (message_uids != NULL);
+
+	context = g_slice_new0 (AsyncContext);
+	context->ptr_array = g_ptr_array_ref (message_uids);
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (folder), callback, user_data,
+		e_mail_folder_get_multiple_messages);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple, context, (GDestroyNotify) async_context_free);
+
+	g_simple_async_result_run_in_thread (
+		simple, mail_folder_get_multiple_messages_thread,
+		io_priority, cancellable);
+
+	g_object_unref (simple);
+}
+
+GHashTable *
+e_mail_folder_get_multiple_messages_finish (CamelFolder *folder,
+                                            GAsyncResult *result,
+                                            GError **error)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *context;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (folder),
+		e_mail_folder_get_multiple_messages), NULL);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	if (g_simple_async_result_propagate_error (simple, error))
+		return NULL;
+
+	return g_hash_table_ref (context->hash_table);
 }
 
 /**
