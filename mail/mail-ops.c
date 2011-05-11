@@ -2408,7 +2408,6 @@ check_service_exec (struct _check_msg *m,
 
 	m->authtypes = camel_service_query_auth_types_sync (
 		service, cancellable, error);
-	g_object_unref (service);
 }
 
 static void
