@@ -235,9 +235,7 @@ copy_tree_state (EMailReader *src_reader, EMailReader *des_reader)
 guint
 e_mail_reader_open_selected (EMailReader *reader)
 {
-	EShell *shell;
 	EMailBackend *backend;
-	EShellBackend *shell_backend;
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *views;
@@ -251,9 +249,6 @@ e_mail_reader_open_selected (EMailReader *reader)
 	uids = e_mail_reader_get_selected_uids (reader);
 	window = e_mail_reader_get_window (reader);
 
-	shell_backend = E_SHELL_BACKEND (backend);
-	shell = e_shell_backend_get_shell (shell_backend);
-
 	if (!em_utils_ask_open_many (window, uids->len)) {
 		em_utils_uids_free (uids);
 		return 0;
@@ -262,7 +257,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 	if (em_utils_folder_is_drafts (folder) ||
 		em_utils_folder_is_outbox (folder) ||
 		em_utils_folder_is_templates (folder)) {
-		em_utils_edit_messages (shell, folder, uids, TRUE);
+		em_utils_edit_messages (reader, folder, uids, TRUE);
 		return uids->len;
 	}
 
@@ -295,7 +290,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 			edits = g_ptr_array_new ();
 			g_ptr_array_add (edits, real_uid);
 			em_utils_edit_messages (
-				shell, real_folder, edits, TRUE);
+				reader, real_folder, edits, TRUE);
 		} else {
 			g_free (real_uid);
 			g_ptr_array_add (views, g_strdup (uid));
