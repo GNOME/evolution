@@ -40,7 +40,8 @@ EMsgComposer *	em_utils_compose_new_message_with_mailto
 						 CamelFolder *folder);
 GtkWidget *	em_utils_edit_message		(EShell *shell,
 						 CamelFolder *folder,
-						 CamelMimeMessage *message);
+						 CamelMimeMessage *message,
+						 const gchar *message_uid);
 void		em_utils_edit_messages		(EShell *shell,
 						 CamelFolder *folder,
 						 GPtrArray *uids,
