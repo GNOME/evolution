@@ -66,12 +66,6 @@ gint mail_get_folder_quota (CamelFolder *folder,
 		 void (*done)(CamelFolder *folder, const gchar *folder_uri, CamelFolderQuotaInfo *quota, gpointer data),
 		 gpointer data, MailMsgDispatchFunc dispatch);
 
-/* build an attachment */
-void mail_build_attachment (CamelFolder *folder, GPtrArray *uids,
-			    void (*done)(CamelFolder *folder, GPtrArray *messages,
-					 CamelMimePart *part, gchar *subject, gpointer data),
-			    gpointer data);
-
 void mail_sync_folder (CamelFolder *folder,
 		       void (*done) (CamelFolder *folder, gpointer data), gpointer data);
 
