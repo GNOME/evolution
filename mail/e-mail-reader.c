@@ -725,22 +725,15 @@ static void
 action_mail_message_edit_cb (GtkAction *action,
                              EMailReader *reader)
 {
-	EShell *shell;
-	EMailBackend *backend;
-	EShellBackend *shell_backend;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	gboolean replace;
 
-	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
-	shell_backend = E_SHELL_BACKEND (backend);
-	shell = e_shell_backend_get_shell (shell_backend);
-
 	replace = em_utils_folder_is_drafts (folder);
-	em_utils_edit_messages (shell, folder, uids, replace);
+	em_utils_edit_messages (reader, folder, uids, replace);
 }
 
 static void

@@ -84,6 +84,7 @@ struct _AsyncContext {
 	EMailForwardStyle style;
 	gchar *folder_uri;
 	gchar *message_uid;
+	gboolean replace;
 };
 
 struct _ForwardData {
@@ -1247,51 +1248,72 @@ em_utils_edit_message (EShell *shell,
 }
 
 static void
-edit_messages_replace (CamelFolder *folder,
-                       GPtrArray *uids,
-                       GPtrArray *msgs,
-                       gpointer user_data)
+edit_messages_cb (CamelFolder *folder,
+                  GAsyncResult *result,
+                  AsyncContext *context)
 {
-	EShell *shell = E_SHELL (user_data);
-	gint ii;
+	EShell *shell;
+	EMailBackend *backend;
+	EAlertSink *alert_sink;
+	GHashTable *hash_table;
+	GHashTableIter iter;
+	gpointer key, value;
+	GError *error = NULL;
 
-	if (msgs == NULL)
+	alert_sink = e_mail_reader_get_alert_sink (context->reader);
+
+	hash_table = e_mail_folder_get_multiple_messages_finish (
+		folder, result, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (hash_table == NULL);
+		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
+		async_context_free (context);
+		g_error_free (error);
 		return;
 
-	for (ii = 0; ii < msgs->len; ii++) {
-		camel_medium_remove_header (
-			CAMEL_MEDIUM (msgs->pdata[ii]), "X-Mailer");
-		em_utils_edit_message (
-			shell, folder, msgs->pdata[ii], uids->pdata[ii]);
-	}
-
-	g_object_unref (shell);
-}
-
-static void
-edit_messages_no_replace (CamelFolder *folder,
-                          GPtrArray *uids,
-                          GPtrArray *msgs,
-                          gpointer user_data)
-{
-	EShell *shell = E_SHELL (user_data);
-	gint ii;
-
-	if (msgs == NULL)
+	} else if (error != NULL) {
+		g_warn_if_fail (hash_table == NULL);
+		e_alert_submit (
+			alert_sink,
+			"mail:get-multiple-messages",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
 		return;
-
-	for (ii = 0; ii < msgs->len; ii++) {
-		camel_medium_remove_header (
-			CAMEL_MEDIUM (msgs->pdata[ii]), "X-Mailer");
-		em_utils_edit_message (shell, folder, msgs->pdata[ii], NULL);
 	}
 
-	g_object_unref (shell);
+	g_return_if_fail (hash_table != NULL);
+
+	backend = e_mail_reader_get_backend (context->reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+
+	/* Open each message in its own composer window. */
+
+	g_hash_table_iter_init (&iter, hash_table);
+
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		CamelMimeMessage *message;
+
+		if (!context->replace)
+			key = NULL;
+
+		message = CAMEL_MIME_MESSAGE (value);
+		camel_medium_remove_header (CAMEL_MEDIUM (value), "X-Mailer");
+		em_utils_edit_message (shell, folder, message, key);
+	}
+
+	g_hash_table_unref (hash_table);
+
+	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+
+	async_context_free (context);
 }
 
 /**
  * em_utils_edit_messages:
- * @shell: an #EShell
+ * @reader: an #EMailReader
  * @folder: folder containing messages to edit
  * @uids: uids of messages to edit
  * @replace: replace the existing message(s) when sent or saved.
@@ -1299,23 +1321,38 @@ edit_messages_no_replace (CamelFolder *folder,
  * Opens a composer for each message to be edited.
  **/
 void
-em_utils_edit_messages (EShell *shell,
+em_utils_edit_messages (EMailReader *reader,
                         CamelFolder *folder,
                         GPtrArray *uids,
                         gboolean replace)
 {
-	g_return_if_fail (E_IS_SHELL (shell));
+	AsyncContext *context;
+	GCancellable *cancellable;
+	EMailBackend *backend;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 
-	if (replace)
-		mail_get_messages (
-			folder, uids, edit_messages_replace,
-			g_object_ref (shell));
-	else
-		mail_get_messages (
-			folder, uids, edit_messages_no_replace,
-			g_object_ref (shell));
+	context = g_slice_new0 (AsyncContext);
+	context->activity = e_activity_new ();
+	context->reader = g_object_ref (reader);
+	context->ptr_array = g_ptr_array_ref (uids);
+	context->replace = replace;
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (context->activity, cancellable);
+
+	backend = e_mail_reader_get_backend (reader);
+	e_shell_backend_add_activity (
+		E_SHELL_BACKEND (backend), context->activity);
+
+	e_mail_folder_get_multiple_messages (
+		folder, uids, G_PRIORITY_DEFAULT,
+		cancellable, (GAsyncReadyCallback)
+		edit_messages_cb, context);
+
+	g_object_unref (cancellable);
 }
 
 static void
