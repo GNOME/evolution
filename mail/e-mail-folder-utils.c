@@ -21,6 +21,8 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
+#include "mail/mail-tools.h"
+
 /* X-Mailer header value */
 #define X_MAILER ("Evolution " VERSION SUB_VERSION " " VERSION_COMMENT)
 
@@ -29,8 +31,10 @@ typedef struct _AsyncContext AsyncContext;
 struct _AsyncContext {
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
+	CamelMimePart *part;
 	GHashTable *hash_table;
 	GPtrArray *ptr_array;
+	gchar *fwd_subject;
 	gchar *message_uid;
 };
 
@@ -43,12 +47,16 @@ async_context_free (AsyncContext *context)
 	if (context->info != NULL)
 		camel_message_info_free (context->info);
 
+	if (context->part != NULL)
+		g_object_unref (context->part);
+
 	if (context->hash_table != NULL)
 		g_hash_table_unref (context->hash_table);
 
 	if (context->ptr_array != NULL)
 		g_ptr_array_unref (context->ptr_array);
 
+	g_free (context->fwd_subject);
 	g_free (context->message_uid);
 
 	g_slice_free (AsyncContext, context);
@@ -168,6 +176,166 @@ e_mail_folder_append_message_finish (CamelFolder *folder,
 
 	/* Assume success unless a GError is set. */
 	return !g_simple_async_result_propagate_error (simple, error);
+}
+
+static void
+mail_folder_build_attachment_thread (GSimpleAsyncResult *simple,
+                                     GObject *object,
+                                     GCancellable *cancellable)
+{
+	AsyncContext *context;
+	GError *error = NULL;
+
+	context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	context->part = e_mail_folder_build_attachment_sync (
+		CAMEL_FOLDER (object), context->ptr_array,
+		&context->fwd_subject, cancellable, &error);
+
+	if (error != NULL) {
+		g_simple_async_result_set_from_error (simple, error);
+		g_error_free (error);
+	}
+}
+
+CamelMimePart *
+e_mail_folder_build_attachment_sync (CamelFolder *folder,
+                                     GPtrArray *message_uids,
+                                     gchar **fwd_subject,
+                                     GCancellable *cancellable,
+                                     GError **error)
+{
+	GHashTable *hash_table;
+	CamelMimeMessage *message;
+	CamelMimePart *part;
+	const gchar *uid;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+	g_return_val_if_fail (message_uids != NULL, NULL);
+
+	/* Need at least one message UID to make an attachment. */
+	g_return_val_if_fail (message_uids->len > 0, NULL);
+
+	hash_table = e_mail_folder_get_multiple_messages_sync (
+		folder, message_uids, cancellable, error);
+
+	if (hash_table == NULL)
+		return NULL;
+
+	/* Create the forward subject from the first message. */
+
+	uid = g_ptr_array_index (message_uids, 0);
+	g_return_val_if_fail (uid != NULL, NULL);
+
+	message = g_hash_table_lookup (hash_table, uid);
+	g_return_val_if_fail (message != NULL, NULL);
+
+	if (fwd_subject != NULL)
+		*fwd_subject = mail_tool_generate_forward_subject (message);
+
+	if (message_uids->len == 1) {
+		part = mail_tool_make_message_attachment (message);
+
+	} else {
+		CamelMultipart *multipart;
+		guint ii;
+
+		multipart = camel_multipart_new ();
+		camel_data_wrapper_set_mime_type (
+			CAMEL_DATA_WRAPPER (multipart), "multipart/digest");
+		camel_multipart_set_boundary (multipart, NULL);
+
+		for (ii = 0; ii < message_uids->len; ii++) {
+			uid = g_ptr_array_index (message_uids, ii);
+			g_return_val_if_fail (uid != NULL, NULL);
+
+			message = g_hash_table_lookup (hash_table, uid);
+			g_return_val_if_fail (message != NULL, NULL);
+
+			part = mail_tool_make_message_attachment (message);
+			camel_multipart_add_part (multipart, part);
+			g_object_unref (part);
+		}
+
+		part = camel_mime_part_new ();
+
+		camel_medium_set_content (
+			CAMEL_MEDIUM (part),
+			CAMEL_DATA_WRAPPER (multipart));
+
+		camel_mime_part_set_description (
+			part, _("Forwarded messages"));
+
+		g_object_unref (multipart);
+	}
+
+	g_hash_table_unref (hash_table);
+
+	return part;
+}
+
+void
+e_mail_folder_build_attachment (CamelFolder *folder,
+                                GPtrArray *message_uids,
+                                gint io_priority,
+                                GCancellable *cancellable,
+                                GAsyncReadyCallback callback,
+                                gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *context;
+
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (message_uids != NULL);
+
+	/* Need at least one message UID to make an attachment. */
+	g_return_if_fail (message_uids->len > 0);
+
+	context = g_slice_new0 (AsyncContext);
+	context->ptr_array = g_ptr_array_ref (message_uids);
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (folder), callback, user_data,
+		e_mail_folder_build_attachment);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple, context, (GDestroyNotify) async_context_free);
+
+	g_simple_async_result_run_in_thread (
+		simple, mail_folder_build_attachment_thread,
+		io_priority, cancellable);
+
+	g_object_unref (simple);
+}
+
+CamelMimePart *
+e_mail_folder_build_attachment_finish (CamelFolder *folder,
+                                       GAsyncResult *result,
+                                       gchar **fwd_subject,
+                                       GError **error)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *context;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (folder),
+		e_mail_folder_build_attachment), NULL);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	if (g_simple_async_result_propagate_error (simple, error))
+		return NULL;
+
+	if (fwd_subject != NULL) {
+		*fwd_subject = context->fwd_subject;
+		context->fwd_subject = NULL;
+	}
+
+	g_return_val_if_fail (CAMEL_IS_MIME_PART (context->part), NULL);
+
+	return g_object_ref (context->part);
 }
 
 static void
