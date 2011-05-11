@@ -208,10 +208,8 @@ mail_msg_check_error (gpointer msg)
 	checkmem (m->priv);
 #endif
 
-	if (g_error_matches (m->error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		e_activity_set_state (m->activity, E_ACTIVITY_CANCELLED);
+	if (e_activity_handle_cancellation (m->activity, m->error))
 		return;
-	}
 
 	e_activity_set_state (m->activity, E_ACTIVITY_COMPLETED);
 

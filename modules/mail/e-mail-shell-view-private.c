@@ -62,8 +62,7 @@ mail_shell_view_got_folder_cb (CamelStore *store,
 
 	folder = camel_store_get_folder_finish (store, result, &error);
 
-	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_warn_if_fail (folder == NULL);
 		async_context_free (context);
 		g_error_free (error);

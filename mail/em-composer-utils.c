@@ -503,9 +503,7 @@ composer_send_completed (EMailSession *session,
 
 	e_mail_session_send_to_finish (session, result, &error);
 
-	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
+	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_error_free (error);
 		goto exit;
 	}
@@ -606,8 +604,7 @@ composer_save_to_drafts_complete (EMailSession *session,
 
 	e_mail_session_handle_draft_headers_finish (session, result, &error);
 
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
+	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_error_free (error);
 
 	} else if (error != NULL) {
@@ -645,15 +642,13 @@ composer_save_to_drafts_cleanup (CamelFolder *drafts_folder,
 	e_mail_folder_append_message_finish (
 		drafts_folder, result, &context->message_uid, &error);
 
-	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_warn_if_fail (context->message_uid == NULL);
 		async_context_free (context);
 		g_error_free (error);
 		return;
-	}
 
-	if (error != NULL) {
+	} else if (error != NULL) {
 		g_warn_if_fail (context->message_uid == NULL);
 		e_alert_submit (
 			alert_sink,
@@ -715,15 +710,13 @@ composer_save_to_drafts_got_folder (EMailSession *session,
 	drafts_folder = e_mail_session_uri_to_folder_finish (
 		session, result, &error);
 
-	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_warn_if_fail (drafts_folder == NULL);
 		async_context_free (context);
 		g_error_free (error);
 		return;
-	}
 
-	if (error != NULL) {
+	} else if (error != NULL) {
 		gint response;
 
 		g_warn_if_fail (drafts_folder == NULL);
@@ -807,14 +800,11 @@ composer_save_to_outbox_completed (CamelFolder *outbox_folder,
 	e_mail_folder_append_message_finish (
 		outbox_folder, result, NULL, &error);
 
-	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
+	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_error_free (error);
 		goto exit;
-	}
 
-	if (error != NULL) {
+	} else if (error != NULL) {
 		e_alert_submit (
 			alert_sink,
 			"mail-composer:append-to-outbox-error",
@@ -1265,10 +1255,8 @@ edit_messages_cb (CamelFolder *folder,
 	hash_table = e_mail_folder_get_multiple_messages_finish (
 		folder, result, &error);
 
-	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_warn_if_fail (hash_table == NULL);
-		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
 		async_context_free (context);
 		g_error_free (error);
 		return;
@@ -1466,11 +1454,9 @@ forward_attached_cb (CamelFolder *folder,
 	part = e_mail_folder_build_attachment_finish (
 		folder, result, &subject, &error);
 
-	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_warn_if_fail (part == NULL);
 		g_warn_if_fail (subject == NULL);
-		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
 		async_context_free (context);
 		g_error_free (error);
 		return;
@@ -1629,10 +1615,8 @@ forward_got_messages_cb (CamelFolder *folder,
 	hash_table = e_mail_folder_get_multiple_messages_finish (
 		folder, result, &error);
 
-	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_warn_if_fail (hash_table == NULL);
-		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
 		async_context_free (context);
 		g_error_free (error);
 		return;

@@ -33,8 +33,7 @@ mail_folder_unsubscribe_done_cb (EMailSession *session,
 
 	e_mail_session_unsubscribe_folder_finish (session, result, &error);
 
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		e_activity_set_state (activity, E_ACTIVITY_CANCELLED);
+	if (e_activity_handle_cancellation (activity, error)) {
 		g_error_free (error);
 
 	} else if (error != NULL) {

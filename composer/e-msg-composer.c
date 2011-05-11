@@ -3548,8 +3548,7 @@ msg_composer_send_cb (EMsgComposer *composer,
 
 	message = e_msg_composer_get_message_finish (composer, result, &error);
 
-	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		g_error_free (error);
@@ -3639,8 +3638,7 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 	message = e_msg_composer_get_message_draft_finish (
 		composer, result, &error);
 
-	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		g_error_free (error);
@@ -3722,8 +3720,7 @@ msg_composer_save_to_outbox_cb (EMsgComposer *composer,
 
 	message = e_msg_composer_get_message_finish (composer, result, &error);
 
-	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		g_error_free (error);
@@ -3812,8 +3809,7 @@ msg_composer_print_cb (EMsgComposer *composer,
 	message = e_msg_composer_get_message_print_finish (
 		composer, result, &error);
 
-	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		g_error_free (error);

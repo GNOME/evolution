@@ -446,8 +446,8 @@ mail_backend_job_finished_cb (CamelSession *session,
 	activity = g_hash_table_lookup (priv->jobs, cancellable);
 	description = e_activity_get_text (activity);
 
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		/* ignore cancellations */
+	if (e_activity_handle_cancellation (activity, error)) {
+		/* nothing to do */
 
 	} else if (error != NULL) {
 		EShell *shell;
