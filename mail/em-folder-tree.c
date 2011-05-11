@@ -478,6 +478,8 @@ folder_tree_expand_node (const gchar *key,
 
 		if (store == NULL)
 			return;
+
+		g_object_ref (store);
 	} else if (!strcmp (uid, "vfolder")) {
 		if (!(store = vfolder_store))
 			return;
