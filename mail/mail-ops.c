@@ -1127,67 +1127,6 @@ mail_get_folderinfo (CamelStore *store,
 	return id;
 }
 
-/* ** ATTACH MESSAGES ****************************************************** */
-
-struct _build_data {
-	void (*done)(CamelFolder *folder, GPtrArray *uids, CamelMimePart *part, gchar *subject, gpointer data);
-	gpointer data;
-};
-
-static void
-do_build_attachment (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, gpointer data)
-{
-	struct _build_data *d = data;
-	CamelMultipart *multipart;
-	CamelMimePart *part;
-	gchar *subject;
-	gint i;
-
-	if (messages->len == 0) {
-		d->done (folder, messages, NULL, NULL, d->data);
-		g_free (d);
-		return;
-	}
-
-	if (messages->len == 1) {
-		part = mail_tool_make_message_attachment (messages->pdata[0]);
-	} else {
-		multipart = camel_multipart_new ();
-		camel_data_wrapper_set_mime_type(CAMEL_DATA_WRAPPER (multipart), "multipart/digest");
-		camel_multipart_set_boundary (multipart, NULL);
-
-		for (i=0;i<messages->len;i++) {
-			part = mail_tool_make_message_attachment (messages->pdata[i]);
-			camel_multipart_add_part (multipart, part);
-			g_object_unref (part);
-		}
-		part = camel_mime_part_new ();
-		camel_medium_set_content (CAMEL_MEDIUM (part), CAMEL_DATA_WRAPPER (multipart));
-		g_object_unref (multipart);
-
-		camel_mime_part_set_description(part, _("Forwarded messages"));
-	}
-
-	subject = mail_tool_generate_forward_subject (messages->pdata[0]);
-	d->done (folder, messages, part, subject, d->data);
-	g_free (subject);
-	g_object_unref (part);
-
-	g_free (d);
-}
-
-void
-mail_build_attachment (CamelFolder *folder, GPtrArray *uids,
-		      void (*done)(CamelFolder *folder, GPtrArray *messages, CamelMimePart *part, gchar *subject, gpointer data), gpointer data)
-{
-	struct _build_data *d;
-
-	d = g_malloc (sizeof (*d));
-	d->done = done;
-	d->data = data;
-	mail_get_messages (folder, uids, do_build_attachment, d);
-}
-
 /* ** LOAD FOLDER ********************************************************* */
 
 /* there should be some way to merge this and create folder, since both can
