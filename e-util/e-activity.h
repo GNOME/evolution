@@ -84,6 +84,8 @@ void		e_activity_set_state		(EActivity *activity,
 const gchar *	e_activity_get_text		(EActivity *activity);
 void		e_activity_set_text		(EActivity *activity,
 						 const gchar *text);
+gboolean	e_activity_handle_cancellation	(EActivity *activity,
+						 const GError *error);
 
 G_END_DECLS
 

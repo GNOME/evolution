@@ -498,3 +498,18 @@ e_activity_set_text (EActivity *activity,
 	g_object_notify (G_OBJECT (activity), "text");
 }
 
+gboolean
+e_activity_handle_cancellation (EActivity *activity,
+                                const GError *error)
+{
+	gboolean handled = FALSE;
+
+	g_return_val_if_fail (E_IS_ACTIVITY (activity), FALSE);
+
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		e_activity_set_state (activity, E_ACTIVITY_CANCELLED);
+		handled = TRUE;
+	}
+
+	return handled;
+}

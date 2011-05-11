@@ -85,9 +85,7 @@ file_replace_contents_cb (GFile *file,
 
 	g_file_replace_contents_finish (file, result, &new_etag, &error);
 
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
-	else
+	if (!e_activity_handle_cancellation (context->activity, error))
 		e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
 
 	if (error == NULL)
