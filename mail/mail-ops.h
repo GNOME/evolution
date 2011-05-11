@@ -47,11 +47,6 @@ gint mail_get_message (CamelFolder *folder, const gchar *uid,
 		       gpointer data,
 		       MailMsgDispatchFunc dispatch);
 
-/* get several messages */
-gint mail_get_messages (CamelFolder *folder, GPtrArray *uids,
-			void (*done) (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, gpointer data),
-			gpointer data);
-
 /* same for a folder */
 gint		mail_get_folder			(EMailSession *session,
 						 const gchar *uri,
