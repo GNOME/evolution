@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-3-0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-23 17:33+0300\n"
-"PO-Revision-Date: 2011-04-23 17:33+0300\n"
+"POT-Creation-Date: 2011-05-11 06:41+0300\n"
+"PO-Revision-Date: 2011-05-11 06:41+0300\n"
 "Last-Translator: Krasimir Chonov <mk2616@abv.bg>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "Language: bg\n"
@@ -292,7 +292,7 @@ msgstr "Контакт"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:8
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:623
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:643
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2654
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2661
 msgid "Contact Editor"
 msgstr "Редактор на контакти"
 
@@ -547,20 +547,20 @@ msgid "Error removing contact"
 msgstr "Грешка при премахване на контакт"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:638
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2649
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2655
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Редактор на контакти — %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3070
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3077
 msgid "Please select an image for this contact"
 msgstr "Изберете изображение за този контакт"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3071
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3078
 msgid "_No image"
 msgstr "_Няма изображение"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3352
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3359
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -568,23 +568,23 @@ msgstr ""
 "Информацията на контакта е неправилна:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3356
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3363
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "„%s“ е с неправилен формат"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3363
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3370
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s„%s“ е с неправилен формат"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3378
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3389
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3385
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3396
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s„%s“ е празен"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3404
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3411
 msgid "Invalid contact."
 msgstr "Неправилен контакт."
 
@@ -3151,7 +3151,7 @@ msgid "Unable to open memos in '%s'."
 msgstr "Не може да се отворят бележките в „%s“."
 
 #: ../calendar/gui/dialogs/memo-page.c:1063 ../em-format/em-format-quote.c:283
-#: ../em-format/em-format.c:1052 ../mail/em-format-html.c:2396
+#: ../em-format/em-format.c:1053 ../mail/em-format-html.c:2396
 #: ../mail/em-format-html.c:2461 ../mail/em-format-html.c:2485
 #: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:72
 msgid "To"
@@ -7363,7 +7363,7 @@ msgid "Evolution account assistant"
 msgstr "Помощник на Evolution за регистрациите"
 
 #. create the local source group
-#: ../capplet/settings/mail-capplet-shell.c:353 ../mail/e-mail-migrate.c:680
+#: ../capplet/settings/mail-capplet-shell.c:353 ../mail/e-mail-migrate.c:694
 #: ../mail/e-mail-store.c:229 ../mail/em-folder-tree-model.c:146
 #: ../mail/em-folder-tree-model.c:149 ../mail/em-folder-tree-model.c:152
 #: ../mail/em-folder-tree-model.c:154 ../mail/em-folder-tree-model.c:161
@@ -7708,30 +7708,30 @@ msgstr "Грешка на GConf: %s"
 msgid "All further errors shown only on terminal."
 msgstr "Всички следващи грешки ще се показват само в терминал."
 
-#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1050
+#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1051
 #: ../mail/e-mail-tag-editor.c:325 ../mail/message-list.etspec.h:7
 #: ../modules/mail/em-mailer-prefs.c:70
 msgid "From"
 msgstr "От"
 
-#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1051
+#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1052
 #: ../modules/mail/em-mailer-prefs.c:71
 msgid "Reply-To"
 msgstr "Отговор до"
 
-#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1053
+#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1054
 #: ../mail/em-format-html.c:2397 ../mail/em-format-html.c:2465
 #: ../mail/em-format-html.c:2488 ../modules/mail/em-mailer-prefs.c:73
 msgid "Cc"
 msgstr "Копие"
 
-#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1054
+#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1055
 #: ../mail/em-format-html.c:2398 ../mail/em-format-html.c:2469
 #: ../mail/em-format-html.c:2491 ../modules/mail/em-mailer-prefs.c:74
 msgid "Bcc"
 msgstr "Скрито копие"
 
-#: ../em-format/em-format-quote.c:427 ../em-format/em-format.c:1055
+#: ../em-format/em-format-quote.c:427 ../em-format/em-format.c:1056
 #: ../mail/e-mail-tag-editor.c:330 ../mail/em-filter-i18n.h:74
 #: ../mail/message-list.etspec.h:18 ../modules/mail/em-mailer-prefs.c:75
 #: ../plugins/groupwise-features/notification.ui.h:2
@@ -7749,67 +7749,67 @@ msgstr "Пощенска програма"
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Препратено писмо --------"
 
-#: ../em-format/em-format.c:1056 ../mail/message-list.etspec.h:2
+#: ../em-format/em-format.c:1057 ../mail/message-list.etspec.h:2
 #: ../modules/mail/em-mailer-prefs.c:76 ../widgets/misc/e-dateedit.c:523
 #: ../widgets/misc/e-dateedit.c:545
 msgid "Date"
 msgstr "Дата"
 
-#: ../em-format/em-format.c:1057 ../modules/mail/em-mailer-prefs.c:77
+#: ../em-format/em-format.c:1058 ../modules/mail/em-mailer-prefs.c:77
 msgid "Newsgroups"
 msgstr "Групи за новини"
 
-#: ../em-format/em-format.c:1058 ../modules/mail/em-mailer-prefs.c:78
+#: ../em-format/em-format.c:1059 ../modules/mail/em-mailer-prefs.c:78
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
 msgid "Face"
 msgstr "Лице"
 
 # „%s“ може да е описание, въведено от потребителя, или тип MIME.
-#: ../em-format/em-format.c:1455
+#: ../em-format/em-format.c:1456
 #, c-format
 msgid "%s attachment"
 msgstr "прикрепен файл, %s"
 
-#: ../em-format/em-format.c:1566
+#: ../em-format/em-format.c:1567
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Неуспешно анализиране на писмото във формат S/MIME: неизвестна грешка"
 
-#: ../em-format/em-format.c:1748 ../em-format/em-format.c:1942
+#: ../em-format/em-format.c:1749 ../em-format/em-format.c:1943
 msgid "Could not parse MIME message. Displaying as source."
 msgstr ""
 "Неуспешно анализиране на писмото във формат MIME. Показва се в изходен код."
 
-#: ../em-format/em-format.c:1758
+#: ../em-format/em-format.c:1759
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Неподдържан метод за шифриране за multipart/encrypted"
 
-#: ../em-format/em-format.c:1778
+#: ../em-format/em-format.c:1779
 msgid "Could not parse PGP/MIME message"
 msgstr "Неуспешно анализиране на писмото във формат PGP/MIME"
 
-#: ../em-format/em-format.c:1779
+#: ../em-format/em-format.c:1780
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr ""
 "Неуспешно анализиране на писмото във формат PGP/MIME: неизвестна грешка"
 
-#: ../em-format/em-format.c:1967
+#: ../em-format/em-format.c:1968
 msgid "Unsupported signature format"
 msgstr "Неподдържан формат на подписа"
 
-#: ../em-format/em-format.c:1980 ../em-format/em-format.c:2159
+#: ../em-format/em-format.c:1981 ../em-format/em-format.c:2160
 msgid "Error verifying signature"
 msgstr "Грешка при проверката на подписа"
 
-#: ../em-format/em-format.c:1981 ../em-format/em-format.c:2146
-#: ../em-format/em-format.c:2160
+#: ../em-format/em-format.c:1982 ../em-format/em-format.c:2147
+#: ../em-format/em-format.c:2161
 msgid "Unknown error verifying signature"
 msgstr "Неизвестна грешка при проверката на подписа"
 
-#: ../em-format/em-format.c:2251
+#: ../em-format/em-format.c:2252
 msgid "Could not parse PGP message: "
 msgstr "Не може да се анализира писмо във формат PGP:"
 
-#: ../em-format/em-format.c:2257 ../mail/em-folder-tree.c:656
+#: ../em-format/em-format.c:2258 ../mail/em-folder-tree.c:656
 #: ../mail/mail-ops.c:624 ../plugins/caldav/caldav-browse-server.c:210
 #: ../plugins/caldav/caldav-browse-server.c:1407 ../plugins/face/face.c:169
 #: ../smime/gui/certificate-manager.c:100
@@ -8256,24 +8256,24 @@ msgstr "Изпратени"
 msgid "Templates"
 msgstr "Шаблони"
 
-#: ../mail/e-mail-migrate.c:131
+#: ../mail/e-mail-migrate.c:133
 msgid "Migrating..."
 msgstr "Мигриране…"
 
-#: ../mail/e-mail-migrate.c:164
+#: ../mail/e-mail-migrate.c:166
 msgid "Migration"
 msgstr "Мигриране"
 
-#: ../mail/e-mail-migrate.c:204
+#: ../mail/e-mail-migrate.c:206
 #, c-format
 msgid "Migrating '%s':"
 msgstr "Мигриране на „%s“:"
 
-#: ../mail/e-mail-migrate.c:660
+#: ../mail/e-mail-migrate.c:674
 msgid "Migrating Folders"
 msgstr "Създаване на папки"
 
-#: ../mail/e-mail-migrate.c:661
+#: ../mail/e-mail-migrate.c:675
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite "
 "since Evolution 2.24.\n"
@@ -8285,10 +8285,10 @@ msgstr ""
 "\n"
 "Изчакайте, докато Evolution мигрира папките ви…"
 
-#: ../mail/e-mail-migrate.c:1126
+#: ../mail/e-mail-migrate.c:1140
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
-msgstr "Неуспех при създаване на локални папки към „%s“: %s"
+msgstr "Неуспешно създаване на локални папки към „%s“: %s"
 
 #: ../mail/e-mail-notebook-view.c:562
 msgid "Please select a folder"
@@ -12287,7 +12287,7 @@ msgstr "Проверка за нови писма"
 #: ../mail/mail-tools.c:69
 #, c-format
 msgid "Could not create spool directory '%s': %s"
-msgstr "Неуспех при създаването на папката на спулера „%s“: %s"
+msgstr "Неуспешно създаването на папката на спулера „%s“: %s"
 
 #: ../mail/mail-tools.c:102
 #, c-format
@@ -15842,7 +15842,7 @@ msgstr "Кошче"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1600
 msgid "Send / Receive"
-msgstr "П_оща"
+msgstr "Поща"
 
 #: ../modules/mail/e-mail-shell-view.c:563
 msgid "All Account Search"
