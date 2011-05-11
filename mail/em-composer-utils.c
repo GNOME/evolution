@@ -1136,54 +1136,6 @@ traverse_parts (GSList *clues, CamelMimeMessage *message, CamelDataWrapper *cont
 
 /* Editing messages... */
 
-static GtkWidget *
-edit_message (EShell *shell,
-              CamelFolder *folder,
-              CamelMimeMessage *message,
-              const gchar *message_uid)
-{
-	EMsgComposer *composer;
-
-	/* Template specific code follows. */
-	if (em_utils_folder_is_templates (folder)) {
-		GConfClient *gconf;
-		GSList *clue_list = NULL;
-
-		gconf = gconf_client_get_default ();
-		/* Get the list from gconf */
-		clue_list = gconf_client_get_list (
-			gconf, GCONF_KEY_TEMPLATE_PLACEHOLDERS,
-			GCONF_VALUE_STRING, NULL );
-		g_object_unref (gconf);
-
-		traverse_parts (
-			clue_list, message,
-			camel_medium_get_content (CAMEL_MEDIUM (message)));
-
-		g_slist_foreach (clue_list, (GFunc) g_free, NULL);
-		g_slist_free (clue_list);
-	}
-
-	composer = e_msg_composer_new_with_message (shell, message, NULL);
-
-	if (message_uid != NULL && em_utils_folder_is_drafts (folder)) {
-		gchar *folder_uri;
-
-		folder_uri = e_mail_folder_uri_from_folder (folder);
-
-		e_msg_composer_set_draft_headers (
-			composer, folder_uri, message_uid);
-
-		g_free (folder_uri);
-	}
-
-	composer_set_no_change (composer);
-
-	gtk_widget_show (GTK_WIDGET (composer));
-
-	return (GtkWidget *) composer;
-}
-
 typedef enum {
 	QUOTING_ATTRIBUTION,
 	QUOTING_FORWARD,
@@ -1237,6 +1189,7 @@ quoting_text (QuotingTextEnum type)
  * @shell: an #EShell
  * @folder: a #CamelFolder
  * @message: a #CamelMimeMessage
+ * @message_uid: UID of @message, or %NULL
  *
  * Opens a composer filled in with the headers/mime-parts/etc of
  * @message.
@@ -1244,13 +1197,53 @@ quoting_text (QuotingTextEnum type)
 GtkWidget *
 em_utils_edit_message (EShell *shell,
                        CamelFolder *folder,
-                       CamelMimeMessage *message)
+                       CamelMimeMessage *message,
+                       const gchar *message_uid)
 {
+	EMsgComposer *composer;
+
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
-	return edit_message (shell, folder, message, NULL);
+	/* Template specific code follows. */
+	if (em_utils_folder_is_templates (folder)) {
+		CamelDataWrapper *content;
+		GConfClient *gconf;
+		GSList *clue_list = NULL;
+
+		gconf = gconf_client_get_default ();
+		/* Get the list from gconf */
+		clue_list = gconf_client_get_list (
+			gconf, GCONF_KEY_TEMPLATE_PLACEHOLDERS,
+			GCONF_VALUE_STRING, NULL );
+		g_object_unref (gconf);
+
+		content = camel_medium_get_content (CAMEL_MEDIUM (message));
+		traverse_parts (clue_list, message, content);
+
+		g_slist_foreach (clue_list, (GFunc) g_free, NULL);
+		g_slist_free (clue_list);
+	}
+
+	composer = e_msg_composer_new_with_message (shell, message, NULL);
+
+	if (message_uid != NULL && em_utils_folder_is_drafts (folder)) {
+		gchar *folder_uri;
+
+		folder_uri = e_mail_folder_uri_from_folder (folder);
+
+		e_msg_composer_set_draft_headers (
+			composer, folder_uri, message_uid);
+
+		g_free (folder_uri);
+	}
+
+	composer_set_no_change (composer);
+
+	gtk_widget_show (GTK_WIDGET (composer));
+
+	return GTK_WIDGET (composer);
 }
 
 static void
@@ -1268,7 +1261,8 @@ edit_messages_replace (CamelFolder *folder,
 	for (ii = 0; ii < msgs->len; ii++) {
 		camel_medium_remove_header (
 			CAMEL_MEDIUM (msgs->pdata[ii]), "X-Mailer");
-		edit_message (shell, folder, msgs->pdata[ii], uids->pdata[ii]);
+		em_utils_edit_message (
+			shell, folder, msgs->pdata[ii], uids->pdata[ii]);
 	}
 
 	g_object_unref (shell);
@@ -1289,7 +1283,7 @@ edit_messages_no_replace (CamelFolder *folder,
 	for (ii = 0; ii < msgs->len; ii++) {
 		camel_medium_remove_header (
 			CAMEL_MEDIUM (msgs->pdata[ii]), "X-Mailer");
-		edit_message (shell, NULL, msgs->pdata[ii], NULL);
+		em_utils_edit_message (shell, folder, msgs->pdata[ii], NULL);
 	}
 
 	g_object_unref (shell);

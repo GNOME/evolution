@@ -803,7 +803,7 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 			camel_mime_message_get_recipients (template, CAMEL_RECIPIENT_TYPE_BCC));
 
 	/* Create the composer */
-	em_utils_edit_message (shell, folder, new);
+	em_utils_edit_message (shell, folder, new, uid);
 
 	g_object_unref (template);
 	g_object_unref (new_multipart);
