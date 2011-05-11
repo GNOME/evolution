@@ -75,9 +75,14 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_val_if_fail (uids != NULL, 0);
+
+	/* XXX Either e_mail_reader_get_selected_uids()
+	 *     or MessageList should do this itself. */
+	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
 	if (!em_utils_ask_open_many (window, uids->len)) {
-		em_utils_uids_free (uids);
+		g_ptr_array_unref (uids);
 		return 0;
 	}
 
@@ -85,10 +90,12 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 		em_utils_folder_is_outbox (folder) ||
 		em_utils_folder_is_templates (folder)) {
 		em_utils_edit_messages (reader, folder, uids, TRUE);
+		g_ptr_array_unref (uids);
 		return 0;
 	}
 
-	views = g_ptr_array_new ();
+	views = g_ptr_array_new_with_free_func ((GDestroyNotify) g_free);
+
 	/* For vfolders we need to edit the original, not the vfolder copy. */
 	for (ii = 0; ii < uids->len; ii++) {
 		const gchar *uid = uids->pdata[ii];
@@ -113,10 +120,12 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 			em_utils_folder_is_outbox (real_folder)) {
 			GPtrArray *edits;
 
-			edits = g_ptr_array_new ();
+			edits = g_ptr_array_new_with_free_func (
+				(GDestroyNotify) g_free);
 			g_ptr_array_add (edits, real_uid);
 			em_utils_edit_messages (
 				reader, real_folder, edits, TRUE);
+			g_ptr_array_unref (edits);
 		} else {
 			g_free (real_uid);
 			g_ptr_array_add (views, g_strdup (uid));
@@ -126,13 +135,12 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 	}
 
 	n_views = views->len;
+
 	for (i = 0; i < n_views; i++)
 		g_signal_emit_by_name (view, "open-mail", views->pdata[i]);
 
-	g_ptr_array_foreach (views, (GFunc) g_free, NULL);
-	g_ptr_array_free (views, TRUE);
-
-	em_utils_uids_free (uids);
+	g_ptr_array_unref (views);
+	g_ptr_array_unref (uids);
 
 	return n_views;
 }

@@ -541,17 +541,20 @@ action_mail_forward_cb (GtkAction *action,
 	GPtrArray *uids;
 
 	folder = e_mail_reader_get_folder (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
 	window = e_mail_reader_get_window (reader);
-
+	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
+
+	/* XXX Either e_mail_reader_get_selected_uids()
+	 *     or MessageList should do this itself. */
+	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
 			e_mail_reader_get_forward_style (reader));
-	else
-		em_utils_uids_free (uids);
+
+	g_ptr_array_unref (uids);
 
 	check_close_browser_reader (reader);
 }
@@ -565,17 +568,20 @@ action_mail_forward_attached_cb (GtkAction *action,
 	GPtrArray *uids;
 
 	folder = e_mail_reader_get_folder (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
 	window = e_mail_reader_get_window (reader);
-
+	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
+
+	/* XXX Either e_mail_reader_get_selected_uids()
+	 *     or MessageList should do this itself. */
+	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
 			E_MAIL_FORWARD_STYLE_ATTACHED);
-	else
-		em_utils_uids_free (uids);
+
+	g_ptr_array_unref (uids);
 
 	check_close_browser_reader (reader);
 }
@@ -589,17 +595,20 @@ action_mail_forward_inline_cb (GtkAction *action,
 	GPtrArray *uids;
 
 	folder = e_mail_reader_get_folder (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
 	window = e_mail_reader_get_window (reader);
-
+	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
+
+	/* XXX Either e_mail_reader_get_selected_uids()
+	 *     or MessageList should do this itself. */
+	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
 			E_MAIL_FORWARD_STYLE_INLINE);
-	else
-		em_utils_uids_free (uids);
+
+	g_ptr_array_unref (uids);
 
 	check_close_browser_reader (reader);
 }
@@ -613,17 +622,20 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	GPtrArray *uids;
 
 	folder = e_mail_reader_get_folder (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
 	window = e_mail_reader_get_window (reader);
-
+	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
+
+	/* XXX Either e_mail_reader_get_selected_uids()
+	 *     or MessageList should do this itself. */
+	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
 			E_MAIL_FORWARD_STYLE_QUOTED);
-	else
-		em_utils_uids_free (uids);
+
+	g_ptr_array_unref (uids);
 
 	check_close_browser_reader (reader);
 }
@@ -731,9 +743,16 @@ action_mail_message_edit_cb (GtkAction *action,
 
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_if_fail (uids != NULL);
+
+	/* XXX Either e_mail_reader_get_selected_uids()
+	 *     or MessageList should do this itself. */
+	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
 	replace = em_utils_folder_is_drafts (folder);
 	em_utils_edit_messages (reader, folder, uids, replace);
+
+	g_ptr_array_unref (uids);
 }
 
 static void
