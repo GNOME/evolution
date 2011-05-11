@@ -723,6 +723,7 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 	const gchar *uri, *path;
 	CamelStore *store = NULL;
 	struct _EMCreateFolderTempData  *emcftd;
+	GError *error = NULL;
 
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy ((GtkWidget *) emfs);
@@ -736,7 +737,10 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 
 	session = em_folder_tree_get_session (folder_tree);
 
-	if (!e_mail_folder_uri_parse (CAMEL_SESSION (session), uri, &store, NULL, NULL)) {
+	if (!e_mail_folder_uri_parse (CAMEL_SESSION (session), uri, &store, NULL, &error)) {
+		g_warning ("%s: Failed to parse folder uri: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
 		return;
 	}
 

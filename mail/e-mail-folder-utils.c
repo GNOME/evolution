@@ -248,8 +248,13 @@ e_mail_folder_uri_parse (CamelSession *session,
 	if (g_strcmp0 (url->protocol, "folder") == 0) {
 
 		if (url->host != NULL) {
-			gchar *uid = g_strdup (url->host);
-			camel_url_decode (uid);
+			gchar *uid;
+
+			if (!url->user || !*url->user)
+				uid = g_strdup (url->host);
+			else
+				uid = g_strconcat (url->user, "@", url->host, NULL);
+
 			service = camel_session_get_service (session, uid);
 			g_free (uid);
 		}
