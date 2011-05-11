@@ -26,6 +26,7 @@
 
 #include <em-format/em-format.h>
 #include <mail/e-mail-enums.h>
+#include <mail/e-mail-reader.h>
 #include <mail/e-mail-session.h>
 #include <composer/e-msg-composer.h>
 
@@ -46,9 +47,10 @@ void		em_utils_edit_messages		(EShell *shell,
 						 gboolean replace);
 EMsgComposer *	em_utils_forward_message	(EShell *shell,
 						 CamelMimeMessage *msg,
+						 EMailForwardStyle style,
 						 CamelFolder *folder,
-						 EMailForwardStyle style);
-void		em_utils_forward_messages	(EShell *shell,
+						 const gchar *uid);
+void		em_utils_forward_messages	(EMailReader *reader,
 						 CamelFolder *folder,
 						 GPtrArray *uids,
 						 EMailForwardStyle style);
