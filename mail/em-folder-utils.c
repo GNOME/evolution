@@ -311,10 +311,8 @@ emfu_copy_folder_selected (EMailBackend *backend,
 	struct _copy_folder_data *cfd = data;
 	CamelStore *tostore = NULL;
 	CamelStore *local_store;
-	CamelService *service = NULL;
-	CamelProvider *provider;
-	const gchar *tobase = NULL;
-	CamelURL *url;
+	CamelService *service;
+	gchar *tobase = NULL;
 	GError *local_error = NULL;
 
 	if (uri == NULL)
@@ -346,15 +344,11 @@ emfu_copy_folder_selected (EMailBackend *backend,
 		goto fail;
 	}
 
-	url = camel_url_new (uri, &local_error);
-	if (url != NULL) {
-		service = camel_session_get_service_by_url (
-			CAMEL_SESSION (session), url, CAMEL_PROVIDER_STORE);
-		camel_url_free (url);
-	}
+	if (!e_mail_folder_uri_parse (CAMEL_SESSION (session), uri, &tostore, &tobase, &local_error))
+		tostore = NULL;
 
-	if (service != NULL)
-		camel_service_connect_sync (service, &local_error);
+	if (tostore != NULL)
+		camel_service_connect_sync (CAMEL_SERVICE (tostore), &local_error);
 
 	if (local_error != NULL) {
 		e_mail_backend_submit_alert (
@@ -366,24 +360,11 @@ emfu_copy_folder_selected (EMailBackend *backend,
 		goto fail;
 	}
 
-	g_return_if_fail (CAMEL_IS_STORE (service));
-
-	tostore = CAMEL_STORE (service);
-	provider = camel_service_get_provider (service);
-
-	url = camel_url_new (uri, NULL);
-	if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
-		tobase = url->fragment;
-	else if (url->path && url->path[0])
-		tobase = url->path+1;
-	if (tobase == NULL)
-		tobase = "";
+	g_return_if_fail (CAMEL_IS_STORE (tostore));
 
 	em_folder_utils_copy_folders (
 		cfd->source_store, cfd->source_folder_name,
-		tostore, tobase, cfd->delete);
-
-	camel_url_free (url);
+		tostore, tobase ? tobase : "", cfd->delete);
 
 fail:
 	g_clear_error (&local_error);
@@ -391,6 +372,7 @@ fail:
 	g_object_unref (cfd->source_store);
 	g_free (cfd->source_folder_name);
 	g_free (cfd);
+	g_free (tobase);
 }
 
 /* tree here is the 'destination' selector, not 'self' */
@@ -739,8 +721,7 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 	EMailSession *session;
 	GtkTreeModel *model;
 	const gchar *uri, *path;
-	CamelService *service = NULL;
-	CamelURL *url;
+	CamelStore *store = NULL;
 	struct _EMCreateFolderTempData  *emcftd;
 
 	if (response != GTK_RESPONSE_OK) {
@@ -753,27 +734,19 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 
 	d(printf ("Creating new folder: %s (%s)\n", path, uri));
 
-	g_print ("DEBUG: %s (%s)\n", path, uri);
-
 	session = em_folder_tree_get_session (folder_tree);
 
-	url = camel_url_new (uri, NULL);
-	if (url != NULL) {
-		service = camel_session_get_service_by_url (
-			CAMEL_SESSION (session), url, CAMEL_PROVIDER_STORE);
-		camel_url_free (url);
-	}
-
-	if (!CAMEL_IS_STORE (service))
+	if (!e_mail_folder_uri_parse (CAMEL_SESSION (session), uri, &store, NULL, NULL)) {
 		return;
+	}
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (emfs->emft));
 	si = em_folder_tree_model_lookup_store_info (
-		EM_FOLDER_TREE_MODEL (model), CAMEL_STORE (service));
+		EM_FOLDER_TREE_MODEL (model), store);
 	g_return_if_fail (si != NULL);
 
 	/* HACK: we need to create vfolders using the vfolder editor */
-	if (CAMEL_IS_VEE_STORE (service)) {
+	if (CAMEL_IS_VEE_STORE (store)) {
 		EFilterRule *rule;
 
 		rule = em_vfolder_rule_new (session);
