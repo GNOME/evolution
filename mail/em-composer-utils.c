@@ -79,6 +79,9 @@ struct _AsyncContext {
 	CamelMimeMessage *message;
 	EMsgComposer *composer;
 	EActivity *activity;
+	EMailReader *reader;
+	GPtrArray *ptr_array;
+	EMailForwardStyle style;
 	gchar *folder_uri;
 	gchar *message_uid;
 };
@@ -101,6 +104,12 @@ async_context_free (AsyncContext *context)
 
 	if (context->activity != NULL)
 		g_object_unref (context->activity);
+
+	if (context->reader != NULL)
+		g_object_unref (context->reader);
+
+	if (context->ptr_array != NULL)
+		g_ptr_array_unref (context->ptr_array);
 
 	g_free (context->folder_uri);
 	g_free (context->message_uid);
@@ -1390,7 +1399,6 @@ static EMsgComposer *
 forward_attached (EShell *shell,
                   CamelFolder *folder,
                   GPtrArray *uids,
-                  GPtrArray *messages,
                   CamelMimePart *part,
                   gchar *subject)
 {
@@ -1412,81 +1420,114 @@ forward_attached (EShell *shell,
 
 static void
 forward_attached_cb (CamelFolder *folder,
-                     GPtrArray *messages,
-                     CamelMimePart *part,
-                     gchar *subject,
-                     gpointer user_data)
+                     GAsyncResult *result,
+                     AsyncContext *context)
 {
-	ForwardData *data = user_data;
+	EShell *shell;
+	EMailBackend *backend;
+	EAlertSink *alert_sink;
+	CamelMimePart *part;
+	gchar *subject = NULL;
+	GError *error = NULL;
 
-	if (part)
-		forward_attached (
-			data->shell, folder, data->uids,
-			messages, part, subject);
+	alert_sink = e_mail_reader_get_alert_sink (context->reader);
 
-	forward_data_free (data);
+	part = e_mail_folder_build_attachment_finish (
+		folder, result, &subject, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (part == NULL);
+		g_warn_if_fail (subject == NULL);
+		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (part == NULL);
+		g_warn_if_fail (subject == NULL);
+		e_alert_submit (
+			alert_sink,
+			"mail:get-multiple-messages",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_PART (part));
+
+	backend = e_mail_reader_get_backend (context->reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+
+	forward_attached (shell, folder, context->ptr_array, part, subject);
+
+	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+
+	g_object_unref (part);
+	g_free (subject);
+
+	async_context_free (context);
 }
 
 static EMsgComposer *
 forward_non_attached (EShell *shell,
                       CamelFolder *folder,
-                      GPtrArray *uids,
-                      GPtrArray *messages,
+                      const gchar *uid,
+                      CamelMimeMessage *message,
                       EMailForwardStyle style)
 {
-	CamelMimeMessage *message;
 	EMsgComposer *composer = NULL;
-	gchar *folder_uri;
-	gchar *subject, *text, *forward;
-	gint i;
+	gchar *text, *forward;
+	guint32 validity_found = 0;
 	guint32 flags;
-
-	if (messages->len == 0)
-		return NULL;
-
-	folder_uri = e_mail_folder_uri_from_folder (folder);
 
 	flags = EM_FORMAT_QUOTE_HEADERS | EM_FORMAT_QUOTE_KEEP_SIG;
 	if (style == E_MAIL_FORWARD_STYLE_QUOTED)
 		flags |= EM_FORMAT_QUOTE_CITE;
 
-	for (i = 0; i < messages->len; i++) {
-		guint32 validity_found = 0;
+	forward = quoting_text (QUOTING_FORWARD);
+	text = em_utils_message_to_html (
+		message, forward, flags, NULL, NULL, &validity_found);
 
-		message = messages->pdata[i];
+	if (text != NULL) {
+		CamelDataWrapper *content;
+		gchar *subject;
+
 		subject = mail_tool_generate_forward_subject (message);
+		composer = create_new_composer (shell, subject, folder);
+		g_free (subject);
 
-		forward = quoting_text (QUOTING_FORWARD);
-		text = em_utils_message_to_html (
-			message, forward, flags, NULL, NULL, &validity_found);
+		content = camel_medium_get_content (CAMEL_MEDIUM (message));
 
-		if (text) {
-			composer = create_new_composer (shell, subject, folder);
+		if (CAMEL_IS_MULTIPART (content))
+			e_msg_composer_add_message_attachments (
+				composer, message, FALSE);
 
-			if (composer) {
-				if (CAMEL_IS_MULTIPART (camel_medium_get_content ((CamelMedium *) message)))
-					e_msg_composer_add_message_attachments (composer, message, FALSE);
+		e_msg_composer_set_body_text (composer, text, TRUE);
 
-				e_msg_composer_set_body_text (composer, text, TRUE);
+		if (uid != NULL) {
+			gchar *folder_uri;
 
-				if (uids && uids->pdata[i])
-					e_msg_composer_set_source_headers (
-						composer, folder_uri,
-						uids->pdata[i],
-						CAMEL_MESSAGE_FORWARDED);
+			folder_uri = e_mail_folder_uri_from_folder (folder);
 
-				emu_update_composers_security (composer, validity_found);
-				composer_set_no_change (composer);
-				gtk_widget_show (GTK_WIDGET (composer));
-			}
-			g_free (text);
+			e_msg_composer_set_source_headers (
+				composer, folder_uri, uid,
+				CAMEL_MESSAGE_FORWARDED);
+
+			g_free (folder_uri);
 		}
 
-		g_free (forward);
-		g_free (subject);
+		emu_update_composers_security (
+			composer, validity_found);
+		composer_set_no_change (composer);
+		gtk_widget_show (GTK_WIDGET (composer));
+
+		g_free (text);
 	}
 
-	g_free (folder_uri);
+	g_free (forward);
 
 	return composer;
 }
@@ -1494,9 +1535,10 @@ forward_non_attached (EShell *shell,
 /**
  * em_utils_forward_message:
  * @shell: an #EShell
- * @message: message to be forwarded
- * @folder: a #CamelFolder, or %NULL
+ * @message: a #CamelMimeMessage to forward
  * @style: the forward style to use
+ * @folder: a #CamelFolder, or %NULL
+ * @uid: the UID of %message, or %NULL
  *
  * Forwards a message in the given style.  See em_utils_forward_messages()
  * for more details about forwarding styles.
@@ -1504,19 +1546,16 @@ forward_non_attached (EShell *shell,
 EMsgComposer *
 em_utils_forward_message (EShell *shell,
                           CamelMimeMessage *message,
+                          EMailForwardStyle style,
                           CamelFolder *folder,
-                          EMailForwardStyle style)
+                          const gchar *uid)
 {
-	GPtrArray *messages;
 	CamelMimePart *part;
 	gchar *subject;
 	EMsgComposer *composer = NULL;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
-
-	messages = g_ptr_array_new ();
-	g_ptr_array_add (messages, message);
 
 	switch (style) {
 		case E_MAIL_FORWARD_STYLE_ATTACHED:
@@ -1525,42 +1564,77 @@ em_utils_forward_message (EShell *shell,
 			subject = mail_tool_generate_forward_subject (message);
 
 			composer = forward_attached (
-				shell, NULL, NULL, messages, part, subject);
+				shell, NULL, NULL, part, subject);
 
 			g_object_unref (part);
 			g_free (subject);
 			break;
 
 		case E_MAIL_FORWARD_STYLE_INLINE:
-			composer = forward_non_attached (
-				shell, NULL, NULL, messages,
-				E_MAIL_FORWARD_STYLE_INLINE);
-			break;
-
 		case E_MAIL_FORWARD_STYLE_QUOTED:
 			composer = forward_non_attached (
-				shell, NULL, NULL, messages,
-				E_MAIL_FORWARD_STYLE_QUOTED);
+				shell, folder, uid, message, style);
 			break;
 	}
-
-	g_ptr_array_free (messages, TRUE);
 
 	return composer;
 }
 
 static void
 forward_got_messages_cb (CamelFolder *folder,
-                         GPtrArray *uids,
-                         GPtrArray *messages,
-                         gpointer user_data)
+                         GAsyncResult *result,
+                         AsyncContext *context)
 {
-	ForwardData *data = user_data;
+	EShell *shell;
+	EMailBackend *backend;
+	EAlertSink *alert_sink;
+	GHashTable *hash_table;
+	GHashTableIter iter;
+	gpointer key, value;
+	GError *error = NULL;
 
-	forward_non_attached (
-		data->shell, folder, uids, messages, data->style);
+	alert_sink = e_mail_reader_get_alert_sink (context->reader);
 
-	forward_data_free (data);
+	hash_table = e_mail_folder_get_multiple_messages_finish (
+		folder, result, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (hash_table == NULL);
+		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (hash_table == NULL);
+		e_alert_submit (
+			alert_sink,
+			"mail:get-multiple-messages",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (hash_table != NULL);
+
+	backend = e_mail_reader_get_backend (context->reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+
+	/* Create a new composer window for each message. */
+
+	g_hash_table_iter_init (&iter, hash_table);
+
+	while (g_hash_table_iter_next (&iter, &key, &value))
+		em_utils_forward_message (
+			shell, value, context->style, folder, key);
+
+	g_hash_table_unref (hash_table);
+
+	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+
+	async_context_free (context);
 }
 
 /**
@@ -1587,35 +1661,53 @@ forward_got_messages_cb (CamelFolder *folder,
  * a "> ").
  **/
 void
-em_utils_forward_messages (EShell *shell,
+em_utils_forward_messages (EMailReader *reader,
                            CamelFolder *folder,
                            GPtrArray *uids,
                            EMailForwardStyle style)
 {
-	ForwardData *data;
+	AsyncContext *context;
+	GCancellable *cancellable;
+	EMailBackend *backend;
 
-	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (uids != NULL);
 
-	data = g_slice_new0 (ForwardData);
-	data->shell = g_object_ref (shell);
-	data->uids = em_utils_uids_copy (uids);
-	data->style = style;
+	context = g_slice_new0 (AsyncContext);
+	context->activity = e_activity_new ();
+	context->reader = g_object_ref (reader);
+	context->ptr_array = g_ptr_array_ref (uids);
+	context->style = style;
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (context->activity, cancellable);
+
+	backend = e_mail_reader_get_backend (reader);
+	e_shell_backend_add_activity (
+		E_SHELL_BACKEND (backend), context->activity);
 
 	switch (style) {
 		case E_MAIL_FORWARD_STYLE_ATTACHED:
-			mail_build_attachment (
-				folder, uids, forward_attached_cb, data);
+			e_mail_folder_build_attachment (
+				folder, uids, G_PRIORITY_DEFAULT,
+				cancellable, (GAsyncReadyCallback)
+				forward_attached_cb, context);
 			break;
 
 		case E_MAIL_FORWARD_STYLE_INLINE:
 		case E_MAIL_FORWARD_STYLE_QUOTED:
-			mail_get_messages (
-				folder, uids, forward_got_messages_cb, data);
+			e_mail_folder_get_multiple_messages (
+				folder, uids, G_PRIORITY_DEFAULT,
+				cancellable, (GAsyncReadyCallback)
+				forward_got_messages_cb, context);
 			break;
 
 		default:
-			g_return_if_reached ();
+			g_warn_if_reached ();
 	}
+
+	g_object_unref (cancellable);
 }
 
 /* Redirecting messages... */

@@ -510,8 +510,13 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
   </error>
 
-  <error id="find-duplicate-messages" type="warning">
+  <error id="find-duplicate-messages" type="error">
     <_primary>Failed to find duplicate messages.</_primary>
+    <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+  </error>
+
+  <error id="get-multiple-messages" type="error">
+    <_primary>Failed to retrieve messages.</_primary>
     <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
   </error>
 
