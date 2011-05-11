@@ -45,6 +45,24 @@ gboolean	e_mail_folder_append_message_finish
 						 gchar **appended_uid,
 						 GError **error);
 
+CamelMimePart *	e_mail_folder_build_attachment_sync
+						(CamelFolder *folder,
+						 GPtrArray *message_uids,
+						 gchar **fwd_subject,
+						 GCancellable *cancellable,
+						 GError **error);
+void		e_mail_folder_build_attachment	(CamelFolder *folder,
+						 GPtrArray *message_uids,
+						 gint io_priority,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+CamelMimePart *	e_mail_folder_build_attachment_finish
+						(CamelFolder *folder,
+						 GAsyncResult *result,
+						 gchar **fwd_subject,
+						 GError **error);
+
 GHashTable *	e_mail_folder_find_duplicate_messages_sync
 						(CamelFolder *folder,
 						 GPtrArray *message_uids,
