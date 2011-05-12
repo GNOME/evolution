@@ -249,7 +249,6 @@ emfp_dialog_run (AsyncContext *context)
 	CamelStore *parent_store;
 	gboolean hide_deleted;
 	GConfClient *client;
-	gchar *folder_uri;
 	const gchar *name;
 	const gchar *key;
 
@@ -334,9 +333,7 @@ emfp_dialog_run (AsyncContext *context)
 		l = g_slist_prepend (l, &emfp_items[i]);
 	e_config_add_items ((EConfig *) ec, l, NULL, NULL, emfp_free, context);
 
-	folder_uri = e_mail_folder_uri_from_folder (context->folder);
-	target = em_config_target_new_folder (ec, context->folder, folder_uri);
-	g_free (folder_uri);
+	target = em_config_target_new_folder (ec, context->folder);
 
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 	w = e_config_create_widget ((EConfig *) ec);

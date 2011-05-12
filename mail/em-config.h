@@ -51,7 +51,6 @@ struct _EMConfigTargetFolder {
 	EConfigTarget target;
 
 	CamelFolder *folder;
-	gchar *uri;
 };
 
 struct _EMConfigTargetPrefs {
@@ -84,8 +83,7 @@ EMConfig *	em_config_new			(gint type,
 						 const gchar *menuid);
 EMConfigTargetFolder *
 		em_config_target_new_folder	(EMConfig *emp,
-						 CamelFolder *folder,
-						 const gchar *uri);
+						 CamelFolder *folder);
 EMConfigTargetPrefs *
 		em_config_target_new_prefs	(EMConfig *emp,
 						 GConfClient *gconf);
