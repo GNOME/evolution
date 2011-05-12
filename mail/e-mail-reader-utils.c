@@ -48,6 +48,7 @@ typedef struct _AsyncContext AsyncContext;
 
 struct _AsyncContext {
 	EActivity *activity;
+	CamelFolder *folder;
 	EMailReader *reader;
 	const gchar *filter_source;
 	gint filter_type;
@@ -58,6 +59,9 @@ async_context_free (AsyncContext *context)
 {
 	if (context->activity != NULL)
 		g_object_unref (context->activity);
+
+	if (context->folder != NULL)
+		g_object_unref (context->folder);
 
 	if (context->reader != NULL)
 		g_object_unref (context->reader);
@@ -760,22 +764,54 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 /* Helper for e_mail_reader_create_vfolder_from_selected() */
 static void
 mail_reader_create_vfolder_cb (CamelFolder *folder,
-                               const gchar *uid,
-                               CamelMimeMessage *message,
-                               gpointer user_data)
+                               GAsyncResult *result,
+                               AsyncContext *context)
 {
-	struct {
-		EMailSession *session;
-		gint type;
-	} *vfolder_data = user_data;
+	EMailBackend *backend;
+	EMailSession *session;
+	EAlertSink *alert_sink;
+	CamelMimeMessage *message;
+	GError *error = NULL;
 
-	if (message != NULL)
-		vfolder_gui_add_from_message (
-			vfolder_data->session, message,
-			vfolder_data->type, folder);
+	alert_sink = e_activity_get_alert_sink (context->activity);
 
-	g_object_unref (vfolder_data->session);
-	g_free (vfolder_data);
+	message = camel_folder_get_message_finish (folder, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_warn_if_fail (message == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (message == NULL);
+		e_alert_submit (
+			alert_sink, "no-retrieve-message",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	/* Finalize the activity here so we don't leave a message
+	 * in the task bar while displaying the vfolder editor. */
+	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+	g_object_unref (context->activity);
+	context->activity = NULL;
+
+	backend = e_mail_reader_get_backend (context->reader);
+	session = e_mail_backend_get_session (backend);
+
+	vfolder_gui_add_from_message (
+		session, message,
+		context->filter_type,
+		context->folder);
+
+	g_object_unref (message);
+
+	async_context_free (context);
 }
 
 void
@@ -783,7 +819,6 @@ e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
                                             gint vfolder_type)
 {
 	EMailBackend *backend;
-	EMailSession *session;
 	CamelFolder *folder;
 	GPtrArray *uids;
 
@@ -794,21 +829,37 @@ e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	backend = e_mail_reader_get_backend (reader);
-	session = e_mail_backend_get_session (backend);
-
 	folder = e_mail_reader_get_folder (reader);
+	backend = e_mail_reader_get_backend (reader);
+
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (uids->len == 1) {
-		vfolder_data = g_malloc (sizeof (*vfolder_data));
-		vfolder_data->session = g_object_ref (session);
-		vfolder_data->type = vfolder_type;
+		AsyncContext *context;
+		EAlertSink *alert_sink;
+		GCancellable *cancellable;
 
-		mail_get_message (
-			folder, uids->pdata[0],
-			mail_reader_create_vfolder_cb,
-			vfolder_data, mail_msg_unordered_push);
+		context = g_slice_new0 (AsyncContext);
+		context->activity = e_activity_new ();
+		context->folder = g_object_ref (folder);
+		context->reader = g_object_ref (reader);
+		context->filter_type = vfolder_type;
+
+		alert_sink = e_mail_reader_get_alert_sink (reader);
+		e_activity_set_alert_sink (context->activity, alert_sink);
+
+		cancellable = camel_operation_new ();
+		e_activity_set_cancellable (context->activity, cancellable);
+
+		e_shell_backend_add_activity (
+			E_SHELL_BACKEND (backend), context->activity);
+
+		camel_folder_get_message (
+			folder, uids->pdata[0], G_PRIORITY_DEFAULT,
+			cancellable, (GAsyncReadyCallback)
+			mail_reader_create_vfolder_cb, context);
+
+		g_object_unref (cancellable);
 	}
 
 	em_utils_uids_free (uids);
