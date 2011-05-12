@@ -1237,9 +1237,6 @@ e_mail_session_uri_to_folder_sync (EMailSession *session,
 	if (!success)
 		return NULL;
 
-	camel_operation_push_message (
-		cancellable, _("Opening folder '%s'"), folder_name);
-
 	folder = camel_store_get_folder_sync (
 		store, folder_name, flags, cancellable, error);
 
@@ -1248,8 +1245,6 @@ e_mail_session_uri_to_folder_sync (EMailSession *session,
 		folder_cache = e_mail_session_get_folder_cache (session);
 		mail_folder_cache_note_folder (folder_cache, folder);
 	}
-
-	camel_operation_pop_message (cancellable);
 
 	return folder;
 }
