@@ -1210,81 +1210,78 @@ vfolder_edit (EShellView *shell_view)
 	gtk_widget_destroy (dialog);
 }
 
-static void
-edit_rule_response (GtkWidget *w, gint button, gpointer data)
+void
+vfolder_edit_rule (EMailBackend *backend,
+                   const gchar *folder_uri)
 {
-	if (button == GTK_RESPONSE_OK) {
+	GtkWidget *dialog;
+	GtkWidget *widget;
+	GtkWidget *container;
+	EFilterRule *rule = NULL;
+	EFilterRule *newrule;
+	EMailSession *session;
+	gchar *folder_name = NULL;
+
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (folder_uri != NULL);
+
+	session = e_mail_backend_get_session (backend);
+
+	e_mail_folder_uri_parse (
+		CAMEL_SESSION (session), folder_uri,
+		NULL, &folder_name, NULL);
+
+	if (folder_name != NULL) {
+		rule = e_rule_context_find_rule (
+			(ERuleContext *) context, folder_name, NULL);
+		g_free (folder_name);
+	}
+
+	if (rule == NULL) {
+		/* TODO: we should probably just create it ... */
+		e_mail_backend_submit_alert (
+			backend, "mail:vfolder-notexist", folder_uri, NULL);
+		return;
+	}
+
+	g_object_ref (rule);
+	newrule = e_filter_rule_clone (rule);
+
+	dialog = gtk_dialog_new_with_buttons (
+		_("Edit Search Folder"), NULL,
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 500, 500);
+	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
+
+	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_box_set_spacing (GTK_BOX (container), 6);
+
+	widget = e_filter_rule_get_widget (
+		(EFilterRule *) newrule, (ERuleContext *) context);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		const gchar *config_dir;
 		gchar *user;
-		EFilterRule *rule = g_object_get_data (G_OBJECT (w), "rule");
-		EFilterRule *orig = g_object_get_data (G_OBJECT (w), "orig");
 
-		e_filter_rule_copy (orig, rule);
+		e_filter_rule_copy (rule, newrule);
 		config_dir = mail_session_get_config_dir ();
 		user = g_build_filename (config_dir, "vfolders.xml", NULL);
 		e_rule_context_save ((ERuleContext *) context, user);
 		g_free (user);
 	}
 
-	gtk_widget_destroy (w);
-}
+	gtk_widget_destroy (dialog);
 
-void
-vfolder_edit_rule (EMailBackend *backend,
-                   const gchar *uri)
-{
-	GtkWidget *w;
-	GtkDialog *gd;
-	GtkWidget *container;
-	EFilterRule *rule, *newrule;
-	CamelURL *url;
-
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
-	g_return_if_fail (uri != NULL);
-
-	url = camel_url_new (uri, NULL);
-	if (url && url->fragment
-	    && (rule = e_rule_context_find_rule (
-	    (ERuleContext *) context, url->fragment, NULL))) {
-		g_object_ref (G_OBJECT (rule));
-		newrule = e_filter_rule_clone (rule);
-
-		w = e_filter_rule_get_widget ((EFilterRule *) newrule, (ERuleContext *) context);
-
-		gd = (GtkDialog *) gtk_dialog_new_with_buttons (
-			_("Edit Search Folder"), NULL,
-			GTK_DIALOG_DESTROY_WITH_PARENT,
-			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
-
-		gtk_container_set_border_width (GTK_CONTAINER (gd), 6);
-
-		container = gtk_dialog_get_content_area (gd);
-		gtk_box_set_spacing (GTK_BOX (container), 6);
-
-		gtk_dialog_set_default_response (gd, GTK_RESPONSE_OK);
-		g_object_set (gd, "resizable", TRUE, NULL);
-		gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
-		gtk_box_pack_start (GTK_BOX (container), w, TRUE, TRUE, 0);
-		gtk_widget_show ((GtkWidget *) gd);
-		g_object_set_data_full (
-			G_OBJECT (gd), "rule", newrule,
-			(GDestroyNotify) g_object_unref);
-		g_object_set_data_full (
-			G_OBJECT (gd), "orig", rule,
-			(GDestroyNotify) g_object_unref);
-		g_signal_connect (
-			gd, "response",
-			G_CALLBACK (edit_rule_response), NULL);
-		gtk_widget_show ((GtkWidget *) gd);
-	} else {
-		/* TODO: we should probably just create it ... */
-		e_mail_backend_submit_alert (
-			backend, "mail:vfolder-notexist", uri, NULL);
-	}
-
-	if (url)
-		camel_url_free (url);
+	g_object_unref (rule);
+	g_object_unref (newrule);
 }
 
 static void
