@@ -118,7 +118,6 @@ em_config_target_free (EConfig *ep,
 	case EM_CONFIG_TARGET_FOLDER: {
 		EMConfigTargetFolder *s = (EMConfigTargetFolder *) t;
 
-		g_free (s->uri);
 		g_object_unref (s->folder);
 		break; }
 	case EM_CONFIG_TARGET_PREFS: {
@@ -175,15 +174,13 @@ em_config_new (gint type,
 
 EMConfigTargetFolder *
 em_config_target_new_folder (EMConfig *emp,
-                             CamelFolder *folder,
-                             const gchar *uri)
+                             CamelFolder *folder)
 {
 	EMConfigTargetFolder *t;
 
 	t = e_config_target_new (
 		&emp->config, EM_CONFIG_TARGET_FOLDER, sizeof (*t));
 
-	t->uri = g_strdup (uri);
 	t->folder = g_object_ref (folder);
 
 	return t;
