@@ -686,6 +686,7 @@ e_mail_folder_uri_build (CamelStore *store,
 	gchar *encoded_uid;
 	gchar *uri;
 
+	g_return_val_if_fail (store != NULL, NULL);
 	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
 	g_return_val_if_fail (folder_name != NULL, NULL);
 
@@ -743,6 +744,7 @@ e_mail_folder_uri_parse (CamelSession *session,
 	gchar *folder_name = NULL;
 	gboolean success = FALSE;
 
+	g_return_val_if_fail (session != NULL, FALSE);
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), FALSE);
 	g_return_val_if_fail (folder_uri != NULL, FALSE);
 
@@ -883,6 +885,7 @@ e_mail_folder_uri_equal (CamelSession *session,
 	gboolean success_b;
 	gboolean equal = FALSE;
 
+	g_return_val_if_fail (session != NULL, FALSE);
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), FALSE);
 	g_return_val_if_fail (folder_uri_a != NULL, FALSE);
 	g_return_val_if_fail (folder_uri_b != NULL, FALSE);
@@ -934,6 +937,7 @@ e_mail_folder_uri_from_folder (CamelFolder *folder)
 	CamelStore *store;
 	const gchar *folder_name;
 
+	g_return_val_if_fail (folder != NULL, NULL);
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
 	store = camel_folder_get_parent_store (folder);
