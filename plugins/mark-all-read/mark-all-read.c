@@ -387,7 +387,7 @@ mar_got_folder (CamelStore *store,
 	} else if (error != NULL) {
 		g_warn_if_fail (folder == NULL);
 		e_alert_submit (
-			alert_sink, "folder-open",
+			alert_sink, "mail:folder-open",
 			error->message, NULL);
 		async_context_free (context);
 		g_error_free (error);
@@ -467,7 +467,7 @@ mar_got_folder_info (CamelStore *store,
 	} else if (error != NULL) {
 		g_warn_if_fail (folder_info == NULL);
 		e_alert_submit (
-			alert_sink, "folder-open",
+			alert_sink, "mail:folder-open",
 			error->message, NULL);
 		async_context_free (context);
 		g_error_free (error);

@@ -374,7 +374,7 @@ emfp_dialog_got_folder (CamelStore *store,
 	} else if (error != NULL) {
 		g_warn_if_fail (context->folder == NULL);
 		e_alert_submit (
-			alert_sink, "folder-open",
+			alert_sink, "mail:folder-open",
 			error->message, NULL);
 		async_context_free (context);
 		g_error_free (error);
