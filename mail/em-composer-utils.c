@@ -2672,13 +2672,6 @@ composer_set_body (EMsgComposer *composer,
 	g_object_unref (client);
 }
 
-struct _reply_data {
-	EShell *shell;
-	EMFormat *source;
-	EMailReplyType reply_type;
-	EMailReplyStyle reply_style;
-};
-
 gchar *
 em_utils_construct_composer_text (CamelMimeMessage *message, EMFormat *source)
 {
@@ -2694,56 +2687,26 @@ em_utils_construct_composer_text (CamelMimeMessage *message, EMFormat *source)
 	return text;
 }
 
-static void
-reply_to_message (CamelFolder *folder,
-                  const gchar *uid,
-                  CamelMimeMessage *message,
-                  gpointer user_data)
-{
-	struct _reply_data *rd = user_data;
-
-	if (message != NULL) {
-		/* get_message_free() will also unref the message, so we need
-		   an extra ref for em_utils_reply_to_message () to drop. */
-		g_object_ref (message);
-		em_utils_reply_to_message (
-			rd->shell, folder, uid, message,
-			rd->reply_type, rd->reply_style, rd->source);
-	}
-
-	if (rd->shell != NULL)
-		g_object_unref (rd->shell);
-
-	if (rd->source != NULL)
-		g_object_unref (rd->source);
-
-	g_free (rd);
-}
-
 /**
  * em_utils_reply_to_message:
  * @shell: an #EShell
- * @folder: optional folder
- * @uid: optional uid
- * @message: message to reply to, optional
+ * @message: a #CamelMimeMessage
+ * @folder: a #CamelFolder, or %NULL
+ * @message_uid: the UID of @message, or %NULL
  * @type: the type of reply to create
  * @style: the reply style to use
  * @source: source to inherit view settings from
  *
  * Creates a new composer ready to reply to @message.
  *
- * If @message is NULL then @folder and @uid must be set to the
- * message to be replied to, it will be loaded asynchronously.
- *
- * If @message is non null, then it is used directly, @folder and @uid
- * may be supplied in order to update the message flags once it has
- * been replied to. Note that @message will be unreferenced on completion.
+ * @folder and @message_uid may be supplied in order to update the message
+ * flags once it has been replied to.
  **/
 EMsgComposer *
 em_utils_reply_to_message (EShell *shell,
-                           CamelFolder *folder,
-                           const gchar *uid,
                            CamelMimeMessage *message,
+                           CamelFolder *folder,
+                           const gchar *message_uid,
                            EMailReplyType type,
                            EMailReplyStyle style,
                            EMFormat *source)
@@ -2755,24 +2718,7 @@ em_utils_reply_to_message (EShell *shell,
 	guint32 flags;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-
-	if (folder && uid && message == NULL) {
-		struct _reply_data *rd = g_malloc0 (sizeof (*rd));
-
-		rd->shell = g_object_ref (shell);
-		rd->reply_type = type;
-		rd->reply_style = style;
-		rd->source = source;
-		if (rd->source)
-			g_object_ref (rd->source);
-		mail_get_message (
-			folder, uid, reply_to_message,
-			rd, mail_msg_unordered_push);
-
-		return NULL;
-	}
-
-	g_return_val_if_fail (message != NULL, NULL);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
 	to = camel_internet_address_new ();
 	cc = camel_internet_address_new ();
@@ -2818,15 +2764,13 @@ em_utils_reply_to_message (EShell *shell,
 
 	composer_set_body (composer, message, style, source);
 
-	g_object_unref (message);
-
 	if (folder != NULL) {
 		gchar *folder_uri;
 
 		folder_uri = e_mail_folder_uri_from_folder (folder);
 
 		e_msg_composer_set_source_headers (
-			composer, folder_uri, uid, flags);
+			composer, folder_uri, message_uid, flags);
 
 		g_free (folder_uri);
 	}
