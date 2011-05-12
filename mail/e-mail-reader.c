@@ -2556,7 +2556,6 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 	GtkWidget *message_list;
 	EWebView *web_view;
 	CamelFolder *folder;
-	EMailBackend *backend;
 	const gchar *cursor_uid;
 	const gchar *format_uid;
 
@@ -2564,7 +2563,6 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 
 	folder = e_mail_reader_get_folder (reader);
 
-	backend = e_mail_reader_get_backend (reader);
 	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -2601,14 +2599,12 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 #endif
 			g_free (string);
 
-			activity = e_activity_new ();
-
-			cancellable = camel_operation_new ();
-			e_activity_set_cancellable (activity, cancellable);
+			activity = e_mail_reader_new_activity (reader);
+			cancellable = e_activity_get_cancellable (activity);
 
 			closure = g_slice_new0 (EMailReaderClosure);
+			closure->activity = activity;
 			closure->reader = g_object_ref (reader);
-			closure->activity = g_object_ref (activity);
 			closure->message_uid = g_strdup (cursor_uid);
 
 			camel_folder_get_message (
@@ -2616,14 +2612,9 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 				cancellable, (GAsyncReadyCallback)
 				mail_reader_message_loaded_cb, closure);
 
-			e_shell_backend_add_activity (
-				E_SHELL_BACKEND (backend), activity);
-
 			if (priv->retrieving_message != NULL)
 				g_object_unref (priv->retrieving_message);
-			priv->retrieving_message = cancellable;
-
-			g_object_unref (activity);
+			priv->retrieving_message = g_object_ref (cancellable);
 		}
 	} else {
 		/* FIXME Need to pass a GCancellable. */
@@ -3742,7 +3733,31 @@ e_mail_reader_check_state (EMailReader *reader)
 	em_utils_uids_free (uids);
 
 	return state;
+}
 
+EActivity *
+e_mail_reader_new_activity (EMailReader *reader)
+{
+	EActivity *activity;
+	EMailBackend *backend;
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
+
+	activity = e_activity_new ();
+
+	alert_sink = e_mail_reader_get_alert_sink (reader);
+	e_activity_set_alert_sink (activity, alert_sink);
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (activity, cancellable);
+	g_object_unref (cancellable);
+
+	backend = e_mail_reader_get_backend (reader);
+	e_shell_backend_add_activity (E_SHELL_BACKEND (backend), activity);
+
+	return activity;
 }
 
 void

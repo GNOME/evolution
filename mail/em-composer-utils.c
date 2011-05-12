@@ -1314,33 +1314,27 @@ em_utils_edit_messages (EMailReader *reader,
                         GPtrArray *uids,
                         gboolean replace)
 {
+	EActivity *activity;
 	AsyncContext *context;
 	GCancellable *cancellable;
-	EMailBackend *backend;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
 	context = g_slice_new0 (AsyncContext);
-	context->activity = e_activity_new ();
+	context->activity = activity;
 	context->reader = g_object_ref (reader);
 	context->ptr_array = g_ptr_array_ref (uids);
 	context->replace = replace;
-
-	cancellable = camel_operation_new ();
-	e_activity_set_cancellable (context->activity, cancellable);
-
-	backend = e_mail_reader_get_backend (reader);
-	e_shell_backend_add_activity (
-		E_SHELL_BACKEND (backend), context->activity);
 
 	e_mail_folder_get_multiple_messages (
 		folder, uids, G_PRIORITY_DEFAULT,
 		cancellable, (GAsyncReadyCallback)
 		edit_messages_cb, context);
-
-	g_object_unref (cancellable);
 }
 
 static void
@@ -1681,26 +1675,22 @@ em_utils_forward_messages (EMailReader *reader,
                            GPtrArray *uids,
                            EMailForwardStyle style)
 {
+	EActivity *activity;
 	AsyncContext *context;
 	GCancellable *cancellable;
-	EMailBackend *backend;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
 	context = g_slice_new0 (AsyncContext);
-	context->activity = e_activity_new ();
+	context->activity = activity;
 	context->reader = g_object_ref (reader);
 	context->ptr_array = g_ptr_array_ref (uids);
 	context->style = style;
-
-	cancellable = camel_operation_new ();
-	e_activity_set_cancellable (context->activity, cancellable);
-
-	backend = e_mail_reader_get_backend (reader);
-	e_shell_backend_add_activity (
-		E_SHELL_BACKEND (backend), context->activity);
 
 	switch (style) {
 		case E_MAIL_FORWARD_STYLE_ATTACHED:
@@ -1721,8 +1711,6 @@ em_utils_forward_messages (EMailReader *reader,
 		default:
 			g_warn_if_reached ();
 	}
-
-	g_object_unref (cancellable);
 }
 
 /* Redirecting messages... */
