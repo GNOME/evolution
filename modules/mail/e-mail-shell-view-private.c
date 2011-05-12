@@ -948,6 +948,7 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 	EMailView *mail_view;
 	CamelFolder *folder;
 	const gchar *filter_source;
+	const gchar *message_uid;
 	GPtrArray *uids;
 
 	struct {
@@ -969,7 +970,10 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 
 	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
+
 	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_if_fail (uids != NULL && uids->len == 1);
+	message_uid = g_ptr_array_index (uids, 0);
 
 	if (em_utils_folder_is_sent (folder))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
@@ -978,17 +982,15 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 	else
 		filter_source = E_FILTER_SOURCE_INCOMING;
 
-	if (uids->len == 1) {
-		filter_data = g_malloc (sizeof (*filter_data));
-		filter_data->session = g_object_ref (session);
-		filter_data->source = filter_source;
-		filter_data->type = filter_type;
+	filter_data = g_malloc (sizeof (*filter_data));
+	filter_data->session = g_object_ref (session);
+	filter_data->source = filter_source;
+	filter_data->type = filter_type;
 
-		mail_get_message (
-			folder, uids->pdata[0],
-			mail_shell_view_create_filter_cb,
-			filter_data, mail_msg_unordered_push);
-	}
+	mail_get_message (
+		folder, message_uid,
+		mail_shell_view_create_filter_cb,
+		filter_data, mail_msg_unordered_push);
 
 	em_utils_uids_free (uids);
 }
@@ -1027,6 +1029,7 @@ e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
 	EMailView *mail_view;
 	CamelFolder *folder;
 	GPtrArray *uids;
+	const gchar *message_uid;
 
 	struct {
 		EMailSession *session;
@@ -1046,18 +1049,19 @@ e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
 
 	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
+
 	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_if_fail (uids != NULL && uids->len == 1);
+	message_uid = g_ptr_array_index (uids, 0);
 
-	if (uids->len == 1) {
-		vfolder_data = g_malloc (sizeof (*vfolder_data));
-		vfolder_data->session = g_object_ref (session);
-		vfolder_data->type = vfolder_type;
+	vfolder_data = g_malloc (sizeof (*vfolder_data));
+	vfolder_data->session = g_object_ref (session);
+	vfolder_data->type = vfolder_type;
 
-		mail_get_message (
-			folder, uids->pdata[0],
-			mail_shell_view_create_vfolder_cb,
-			vfolder_data, mail_msg_unordered_push);
-	}
+	mail_get_message (
+		folder, message_uid,
+		mail_shell_view_create_vfolder_cb,
+		vfolder_data, mail_msg_unordered_push);
 
 	em_utils_uids_free (uids);
 }

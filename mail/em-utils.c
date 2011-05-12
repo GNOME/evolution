@@ -444,8 +444,10 @@ em_utils_flag_for_followup (EMailReader *reader,
 	/* special-case... */
 	if (uids->len == 1) {
 		CamelMessageInfo *info;
+		const gchar *message_uid;
 
-		info = camel_folder_get_message_info (folder, uids->pdata[0]);
+		message_uid = g_ptr_array_index (uids, 0);
+		info = camel_folder_get_message_info (folder, message_uid);
 		if (info) {
 			tags = (CamelTag *) camel_message_info_user_tags (info);
 
@@ -899,7 +901,10 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 
 	/* Try to get the drop filename from the message or folder */
 	if (uids->len == 1) {
-		info = camel_folder_get_message_info (folder, uids->pdata[0]);
+		const gchar *message_uid;
+
+		message_uid = g_ptr_array_index (uids, 0);
+		info = camel_folder_get_message_info (folder, message_uid);
 		if (info) {
 			file = g_strdup (camel_message_info_subject (info));
 			camel_folder_free_message_info (folder, info);

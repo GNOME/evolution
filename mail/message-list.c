@@ -3937,14 +3937,14 @@ static void
 on_selection_changed_cmd (ETree *tree, MessageList *ml)
 {
 	GPtrArray *uids;
-	gchar *newuid;
+	const gchar *newuid;
 	ETreePath cursor;
 
 	/* not sure if we could just ignore this for the cursor, i think sometimes you
 	   only get a selection changed when you should also get a cursor activated? */
 	uids = message_list_get_selected (ml);
 	if (uids->len == 1)
-		newuid = uids->pdata[0];
+		newuid = g_ptr_array_index (uids, 0);
 	else if ((cursor = e_tree_get_cursor (tree)))
 		newuid = (gchar *) camel_message_info_uid (e_tree_memory_node_get_data ((ETreeMemory *) tree, cursor));
 	else
