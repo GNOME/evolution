@@ -29,10 +29,10 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <e-util/e-plugin-ui.h>
+
+#include <mail/e-mail-folder-utils.h>
 #include <mail/em-folder-tree.h>
 #include <mail/em-utils.h>
-#include <mail/mail-ops.h>
-#include <mail/mail-mt.h>
 
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-view.h>
@@ -44,6 +44,13 @@
 	N_("Do you want to mark messages as read in the current folder " \
 	   "only, or in the current folder as well as all subfolders?")
 
+typedef struct _AsyncContext AsyncContext;
+
+struct _AsyncContext {
+	EActivity *activity;
+	GQueue folder_names;
+};
+
 enum {
 	MARK_ALL_READ_CANCEL,
 	MARK_ALL_READ_CURRENT_FOLDER,
@@ -53,6 +60,19 @@ enum {
 gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
 						 EShellView *shell_view);
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+
+static void
+async_context_free (AsyncContext *context)
+{
+	if (context->activity != NULL)
+		g_object_unref (context->activity);
+
+	/* This should be empty already, but just to be sure... */
+	while (!g_queue_is_empty (&context->folder_names))
+		g_free (g_queue_pop_head (&context->folder_names));
+
+	g_slice_free (AsyncContext, context);
+}
 
 gint
 e_plugin_lib_enable (EPlugin *ep, gint enable)
@@ -327,114 +347,235 @@ scan_folder_tree_for_unread (const gchar *folder_uri)
 }
 
 static void
-mark_all_as_read (CamelFolder *folder)
+collect_folder_names (GQueue *folder_names,
+                      CamelFolderInfo *folder_info)
 {
-	GPtrArray *uids;
-	gint i;
+	while (folder_info != NULL) {
+		if (folder_info->child != NULL)
+			collect_folder_names (
+				folder_names, folder_info->child);
 
-	uids =  camel_folder_get_uids (folder);
-	camel_folder_freeze (folder);
-	for (i=0;i<uids->len;i++)
-		camel_folder_set_message_flags (
-			folder, uids->pdata[i],
-			CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-	camel_folder_thaw (folder);
-	camel_folder_free_uids (folder, uids);
-}
+		g_queue_push_tail (
+			folder_names, g_strdup (folder_info->full_name));
 
-static gboolean
-mar_all_sub_folders (CamelStore *store,
-                     CamelFolderInfo *fi,
-                     GCancellable *cancellable,
-                     GError **error)
-{
-	while (fi) {
-		CamelFolder *folder;
-
-		if (fi->child) {
-			if (!mar_all_sub_folders (
-				store, fi->child, cancellable, error))
-				return FALSE;
-		}
-
-		folder = camel_store_get_folder_sync (
-			store, fi->full_name, 0, cancellable, error);
-		if (folder == NULL)
-			return FALSE;
-
-		if (!CAMEL_IS_VEE_FOLDER (folder))
-			mark_all_as_read (folder);
-
-		fi = fi->next;
+		folder_info = folder_info->next;
 	}
-
-	return TRUE;
 }
 
 static void
-mar_got_folder (gchar *folder_uri,
-                CamelFolder *folder,
-                gpointer data)
+mar_got_folder (CamelStore *store,
+                GAsyncResult *result,
+                AsyncContext *context)
 {
-	CamelFolderInfo *folder_info;
-	CamelStore *parent_store;
-	const gchar *full_name;
-	gint response;
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+	CamelFolder *folder;
+	gchar *folder_name;
+	GError *error = NULL;
 
-	/* FIXME we have to disable the menu item */
-	if (!folder)
+	alert_sink = e_activity_get_alert_sink (context->activity);
+	cancellable = e_activity_get_cancellable (context->activity);
+
+	folder = camel_store_get_folder_finish (store, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_warn_if_fail (folder == NULL);
+		async_context_free (context);
+		g_error_free (error);
 		return;
 
-	full_name = camel_folder_get_full_name (folder);
-	parent_store = camel_folder_get_parent_store (folder);
+	} else if (error != NULL) {
+		g_warn_if_fail (folder == NULL);
+		e_alert_submit (
+			alert_sink, "folder-open",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
 
-	/* FIXME Not passing a GCancellable or GError here. */
-	folder_info = camel_store_get_folder_info_sync (
-		parent_store, full_name,
-		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
-		CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	if (folder_info == NULL)
-		goto exit;
+	/* XXX Skip virtual folders.  I guess this is intended for
+	 *     virtual Junk and Trash folders.  But what if I want
+	 *     to mark messages in a Search Folder? */
+	if (!CAMEL_IS_VEE_FOLDER (folder)) {
+		GPtrArray *uids;
+		gint ii;
+
+		camel_folder_freeze (folder);
+
+		uids = camel_folder_get_uids (folder);
+
+		for (ii = 0; ii < uids->len; ii++)
+			camel_folder_set_message_flags (
+				folder, uids->pdata[ii],
+				CAMEL_MESSAGE_SEEN,
+				CAMEL_MESSAGE_SEEN);
+
+		camel_folder_free_uids (folder, uids);
+
+		camel_folder_thaw (folder);
+	}
+
+	g_object_unref (folder);
+
+	/* If the folder name queue is empty, we're done. */
+	if (g_queue_is_empty (&context->folder_names)) {
+		e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+		async_context_free (context);
+		return;
+	}
+
+	folder_name = g_queue_pop_head (&context->folder_names);
+
+	camel_store_get_folder (
+		store, folder_name, 0,
+		G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) mar_got_folder, context);
+
+	g_free (folder_name);
+}
+
+static void
+mar_got_folder_info (CamelStore *store,
+                     GAsyncResult *result,
+                     AsyncContext *context)
+{
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+	CamelFolderInfo *folder_info;
+	gchar *folder_name;
+	gint response;
+	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
+	cancellable = e_activity_get_cancellable (context->activity);
+
+	folder_info = camel_store_get_folder_info_finish (
+		store, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_warn_if_fail (folder_info == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+
+	/* XXX This EAlert primary text isn't technically correct since
+	 *     we're just collecting folder tree info and haven't actually
+	 *     opened any folders yet, but the user doesn't need to know. */
+	} else if (error != NULL) {
+		g_warn_if_fail (folder_info == NULL);
+		e_alert_submit (
+			alert_sink, "folder-open",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (folder_info != NULL);
 
 	response = prompt_user (folder_info->child != NULL);
 
-	if (response == MARK_ALL_READ_CANCEL)
-		return;
-
 	if (response == MARK_ALL_READ_CURRENT_FOLDER)
-		mark_all_as_read (folder);
-	else if (response == MARK_ALL_READ_WITH_SUBFOLDERS)
-		/* FIXME Not passing a GCancellable or GError here. */
-		mar_all_sub_folders (parent_store, folder_info, NULL, NULL);
+		g_queue_push_tail (
+			&context->folder_names,
+			g_strdup (folder_info->full_name));
 
-exit:
-	camel_store_free_folder_info (parent_store, folder_info);
+	if (response == MARK_ALL_READ_WITH_SUBFOLDERS)
+		collect_folder_names (&context->folder_names, folder_info);
+
+	camel_store_free_folder_info (store, folder_info);
+
+	/* If the user cancelled, we're done. */
+	if (g_queue_is_empty (&context->folder_names)) {
+		e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+		async_context_free (context);
+		return;
+	}
+
+	folder_name = g_queue_pop_head (&context->folder_names);
+
+	camel_store_get_folder (
+		store, folder_name, 0,
+		G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) mar_got_folder, context);
+
+	g_free (folder_name);
 }
 
 static void
 action_mail_mark_read_recursive_cb (GtkAction *action,
                                     EShellView *shell_view)
 {
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EMFolderTree *folder_tree;
 	EMailSession *session;
+	AsyncContext *context;
+	CamelStore *store = NULL;
+	CamelStoreGetFolderInfoFlags flags;
+	gchar *folder_name = NULL;
 	gchar *folder_uri;
+	GError *error = NULL;
 
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+
 	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
 
 	session = em_folder_tree_get_session (folder_tree);
-
 	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
 	g_return_if_fail (folder_uri != NULL);
 
-	mail_get_folder (
-		session, folder_uri, 0, mar_got_folder,
-		NULL, mail_msg_unordered_push);
+	e_mail_folder_uri_parse (
+		CAMEL_SESSION (session), folder_uri,
+		&store, &folder_name, &error);
 
 	g_object_unref (folder_tree);
 	g_free (folder_uri);
+
+	/* Failure here is unlikely enough that we don't need an
+	 * EAlert for it, but we should still leave a breadcrumb. */
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (folder_name != NULL);
+
+	/* Open the selected folder asynchronously. */
+
+	context = g_slice_new0 (AsyncContext);
+	context->activity = e_activity_new ();
+	g_queue_init (&context->folder_names);
+
+	alert_sink = E_ALERT_SINK (shell_content);
+	e_activity_set_alert_sink (context->activity, alert_sink);
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (context->activity, cancellable);
+
+	e_shell_backend_add_activity (shell_backend, context->activity);
+
+	flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+		CAMEL_STORE_FOLDER_INFO_FAST;
+
+	camel_store_get_folder_info (
+		store, folder_name, flags,
+		G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) mar_got_folder_info, context);
+
+	g_object_unref (cancellable);
+
+	g_object_unref (store);
+	g_free (folder_name);
 }
 
 static GtkActionEntry entries[] = {
