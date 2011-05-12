@@ -1033,28 +1033,79 @@ action_mail_print_preview_cb (GtkAction *action,
 }
 
 static void
-action_mail_redirect_cb (GtkAction *action,
-                         EMailReader *reader)
+mail_reader_redirect_cb (CamelFolder *folder,
+                         GAsyncResult *result,
+                         EMailReaderClosure *closure)
 {
 	EShell *shell;
 	EMailBackend *backend;
-	EShellBackend *shell_backend;
+	EAlertSink *alert_sink;
+	CamelMimeMessage *message;
+	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (closure->activity);
+
+	message = camel_folder_get_message_finish (folder, result, &error);
+
+	if (e_activity_handle_cancellation (closure->activity, error)) {
+		g_warn_if_fail (message == NULL);
+		mail_reader_closure_free (closure);
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (message == NULL);
+		e_alert_submit (
+			alert_sink, "no-retrieve-message",
+			error->message, NULL);
+		mail_reader_closure_free (closure);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	backend = e_mail_reader_get_backend (closure->reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+
+	em_utils_redirect_message (shell, message);
+	check_close_browser_reader (closure->reader);
+
+	g_object_unref (message);
+
+	mail_reader_closure_free (closure);
+}
+
+static void
+action_mail_redirect_cb (GtkAction *action,
+                         EMailReader *reader)
+{
+	EActivity *activity;
+	GCancellable *cancellable;
+	EMailReaderClosure *closure;
 	GtkWidget *message_list;
 	CamelFolder *folder;
 	const gchar *uid;
 
-	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_get_folder (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	uid = MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (uid != NULL);
 
-	shell_backend = E_SHELL_BACKEND (backend);
-	shell = e_shell_backend_get_shell (shell_backend);
+	/* Open the message asynchronously. */
 
-	em_utils_redirect_message_by_uid (shell, folder, uid);
-	check_close_browser_reader (reader);
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
+	closure = g_slice_new0 (EMailReaderClosure);
+	closure->activity = activity;
+	closure->reader = g_object_ref (reader);
+
+	camel_folder_get_message (
+		folder, uid, G_PRIORITY_DEFAULT,
+		cancellable, (GAsyncReadyCallback)
+		mail_reader_redirect_cb, closure);
 }
 
 static void
