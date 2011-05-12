@@ -47,14 +47,6 @@ gint mail_get_message (CamelFolder *folder, const gchar *uid,
 		       gpointer data,
 		       MailMsgDispatchFunc dispatch);
 
-/* same for a folder */
-gint		mail_get_folder			(EMailSession *session,
-						 const gchar *uri,
-						 guint32 flags,
-						 void (*done) (gchar *uri, CamelFolder *folder, gpointer data),
-						 gpointer data,
-						 MailMsgDispatchFunc dispatch);
-
 /* get quota information for a folder */
 gint mail_get_folder_quota (CamelFolder *folder,
 		 const gchar *folder_uri,
