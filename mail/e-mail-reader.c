@@ -1057,7 +1057,7 @@ mail_reader_redirect_cb (CamelFolder *folder,
 	} else if (error != NULL) {
 		g_warn_if_fail (message == NULL);
 		e_alert_submit (
-			alert_sink, "no-retrieve-message",
+			alert_sink, "mail:no-retrieve-message",
 			error->message, NULL);
 		mail_reader_closure_free (closure);
 		g_error_free (error);

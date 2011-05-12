@@ -357,7 +357,7 @@ mail_reader_print_cb (CamelFolder *folder,
 	} else if (error != NULL) {
 		g_warn_if_fail (message == NULL);
 		e_alert_submit (
-			alert_sink, "no-retrieve-message",
+			alert_sink, "mail:no-retrieve-message",
 			error->message, NULL);
 		async_context_free (context);
 		g_error_free (error);
@@ -738,7 +738,7 @@ mail_reader_create_filter_cb (CamelFolder *folder,
 	} else if (error != NULL) {
 		g_warn_if_fail (message == NULL);
 		e_alert_submit (
-			alert_sink, "no-retrieve-message",
+			alert_sink, "mail:no-retrieve-message",
 			error->message, NULL);
 		async_context_free (context);
 		g_error_free (error);
@@ -836,7 +836,7 @@ mail_reader_create_vfolder_cb (CamelFolder *folder,
 	} else if (error != NULL) {
 		g_warn_if_fail (message == NULL);
 		e_alert_submit (
-			alert_sink, "no-retrieve-message",
+			alert_sink, "mail:no-retrieve-message",
 			error->message, NULL);
 		async_context_free (context);
 		g_error_free (error);
