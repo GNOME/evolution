@@ -180,12 +180,6 @@ void		e_mail_shell_view_actions_init
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_restore_state
 					(EMailShellView *mail_shell_view);
-void		e_mail_shell_view_create_filter_from_selected
-					(EMailShellView *mail_shell_view,
-					 gint filter_type);
-void		e_mail_shell_view_create_vfolder_from_selected
-					(EMailShellView *mail_shell_view,
-					 gint vfolder_type);
 void		e_mail_shell_view_update_popup_labels
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_update_search_filter
