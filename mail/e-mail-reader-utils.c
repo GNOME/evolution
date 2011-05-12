@@ -50,6 +50,9 @@ struct _AsyncContext {
 	EActivity *activity;
 	CamelFolder *folder;
 	EMailReader *reader;
+	gchar *message_uid;
+
+	GtkPrintOperationAction print_action;
 	const gchar *filter_source;
 	gint filter_type;
 };
@@ -65,6 +68,8 @@ async_context_free (AsyncContext *context)
 
 	if (context->reader != NULL)
 		g_object_unref (context->reader);
+
+	g_free (context->message_uid);
 
 	g_slice_free (AsyncContext, context);
 }
@@ -327,12 +332,61 @@ e_mail_reader_open_selected (EMailReader *reader)
 	return ii;
 }
 
+/* Helper for e_mail_reader_print() */
+static void
+mail_reader_print_cb (CamelFolder *folder,
+                      GAsyncResult *result,
+                      AsyncContext *context)
+{
+	EAlertSink *alert_sink;
+	CamelMimeMessage *message;
+	EMFormatHTML *formatter;
+	EMFormatHTMLPrint *html_print;
+	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
+
+	message = camel_folder_get_message_finish (folder, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_warn_if_fail (message == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (message == NULL);
+		e_alert_submit (
+			alert_sink, "no-retrieve-message",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	formatter = e_mail_reader_get_formatter (context->reader);
+
+	html_print = em_format_html_print_new (
+		formatter, context->print_action);
+	em_format_merge_handler (
+		EM_FORMAT (html_print), EM_FORMAT (formatter));
+	em_format_html_print_message (
+		html_print, message, folder, context->message_uid);
+	g_object_unref (html_print);
+
+	g_object_unref (message);
+
+	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+
+	async_context_free (context);
+}
+
 void
 e_mail_reader_print (EMailReader *reader,
                      GtkPrintOperationAction action)
 {
-	EMFormatHTML *formatter;
-	EMFormatHTMLPrint *html_print;
 	CamelFolder *folder;
 	GPtrArray *uids;
 
@@ -343,18 +397,30 @@ e_mail_reader_print (EMailReader *reader,
 
 	/* XXX Learn to handle len > 1. */
 	uids = e_mail_reader_get_selected_uids (reader);
-	if (uids->len != 1)
-		goto exit;
+	g_return_if_fail (uids != NULL);
 
-	formatter = e_mail_reader_get_formatter (reader);
+	if (uids->len == 1) {
+		EActivity *activity;
+		AsyncContext *context;
+		GCancellable *cancellable;
+		const gchar *message_uid;
 
-	html_print = em_format_html_print_new (formatter, action);
-	em_format_merge_handler (
-		EM_FORMAT (html_print), EM_FORMAT (formatter));
-	em_format_html_print_message (html_print, folder, uids->pdata[0]);
-	g_object_unref (html_print);
+		activity = e_mail_reader_new_activity (reader);
+		cancellable = e_activity_get_cancellable (activity);
+		message_uid = uids->pdata[0];
 
-exit:
+		context = g_slice_new0 (AsyncContext);
+		context->activity = activity;
+		context->reader = g_object_ref (reader);
+		context->message_uid = g_strdup (message_uid);
+		context->print_action = action;
+
+		camel_folder_get_message (
+			folder, message_uid, G_PRIORITY_DEFAULT,
+			cancellable, (GAsyncReadyCallback)
+			mail_reader_print_cb, context);
+	}
+
 	em_utils_uids_free (uids);
 }
 

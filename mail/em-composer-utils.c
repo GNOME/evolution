@@ -864,7 +864,7 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 	EMFormatHTMLPrint *efhp;
 
 	efhp = em_format_html_print_new (NULL, action);
-	em_format_html_print_raw_message (efhp, message);
+	em_format_html_print_message (efhp, message, NULL, NULL);
 	g_object_unref (efhp);
 }
 
