@@ -822,11 +822,6 @@ e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
 	CamelFolder *folder;
 	GPtrArray *uids;
 
-	struct {
-		EMailSession *session;
-		gint type;
-	} *vfolder_data;
-
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	folder = e_mail_reader_get_folder (reader);
