@@ -94,16 +94,14 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
                                          EMFolderTree *folder_tree)
 {
 	EMailShellContent *mail_shell_content;
-	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EMailReader *reader;
 	EMailView *mail_view;
 	GCancellable *cancellable;
-	EAlertSink *alert_sink;
 	AsyncContext *context;
+	EActivity *activity;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
@@ -127,19 +125,14 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
 
 	/* Open the selected folder asynchronously. */
 
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+	mail_shell_view->priv->opening_folder = g_object_ref (cancellable);
+
 	context = g_slice_new0 (AsyncContext);
-	context->activity = e_activity_new ();
+	context->activity = activity;
 	context->reader = g_object_ref (reader);
 	context->shell_view = g_object_ref (shell_view);
-
-	alert_sink = E_ALERT_SINK (mail_shell_content);
-	e_activity_set_alert_sink (context->activity, alert_sink);
-
-	cancellable = camel_operation_new ();
-	e_activity_set_cancellable (context->activity, cancellable);
-	mail_shell_view->priv->opening_folder = cancellable;
-
-	e_shell_backend_add_activity (shell_backend, context->activity);
 
 	camel_store_get_folder (
 		store, folder_name, 0, G_PRIORITY_DEFAULT, cancellable,

@@ -453,9 +453,9 @@ mail_reader_remove_duplicates_cb (CamelFolder *folder,
 void
 e_mail_reader_remove_duplicates (EMailReader *reader)
 {
+	EActivity *activity;
 	AsyncContext *context;
 	GCancellable *cancellable;
-	EMailBackend *backend;
 	CamelFolder *folder;
 	GPtrArray *uids;
 
@@ -471,24 +471,18 @@ e_mail_reader_remove_duplicates (EMailReader *reader)
 
 	/* Find duplicate messages asynchronously. */
 
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
 	context = g_slice_new0 (AsyncContext);
-	context->activity = e_activity_new ();
+	context->activity = activity;
 	context->reader = g_object_ref (reader);
-
-	cancellable = camel_operation_new ();
-	e_activity_set_cancellable (context->activity, cancellable);
-
-	backend = e_mail_reader_get_backend (reader);
-	e_shell_backend_add_activity (
-		E_SHELL_BACKEND (backend), context->activity);
 
 	e_mail_folder_find_duplicate_messages (
 		folder, uids, G_PRIORITY_DEFAULT,
 		cancellable, (GAsyncReadyCallback)
 		mail_reader_remove_duplicates_cb,
 		context);
-
-	g_object_unref (cancellable);
 
 	g_ptr_array_unref (uids);
 }
@@ -711,7 +705,6 @@ void
 e_mail_reader_create_filter_from_selected (EMailReader *reader,
                                            gint filter_type)
 {
-	EMailBackend *backend;
 	CamelFolder *folder;
 	const gchar *filter_source;
 	GPtrArray *uids;
@@ -719,7 +712,6 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	folder = e_mail_reader_get_folder (reader);
-	backend = e_mail_reader_get_backend (reader);
 
 	if (em_utils_folder_is_sent (folder))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
@@ -731,31 +723,23 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (uids->len == 1) {
+		EActivity *activity;
 		AsyncContext *context;
-		EAlertSink *alert_sink;
 		GCancellable *cancellable;
 
+		activity = e_mail_reader_new_activity (reader);
+		cancellable = e_activity_get_cancellable (activity);
+
 		context = g_slice_new0 (AsyncContext);
-		context->activity = e_activity_new ();
+		context->activity = activity;
 		context->reader = g_object_ref (reader);
 		context->filter_source = filter_source;
 		context->filter_type = filter_type;
-
-		alert_sink = e_mail_reader_get_alert_sink (reader);
-		e_activity_set_alert_sink (context->activity, alert_sink);
-
-		cancellable = camel_operation_new ();
-		e_activity_set_cancellable (context->activity, cancellable);
-
-		e_shell_backend_add_activity (
-			E_SHELL_BACKEND (backend), context->activity);
 
 		camel_folder_get_message (
 			folder, uids->pdata[0], G_PRIORITY_DEFAULT,
 			cancellable, (GAsyncReadyCallback)
 			mail_reader_create_filter_cb, context);
-
-		g_object_unref (cancellable);
 	}
 
 	em_utils_uids_free (uids);
@@ -818,43 +802,33 @@ void
 e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
                                             gint vfolder_type)
 {
-	EMailBackend *backend;
 	CamelFolder *folder;
 	GPtrArray *uids;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	folder = e_mail_reader_get_folder (reader);
-	backend = e_mail_reader_get_backend (reader);
 
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (uids->len == 1) {
+		EActivity *activity;
 		AsyncContext *context;
-		EAlertSink *alert_sink;
 		GCancellable *cancellable;
 
+		activity = e_mail_reader_new_activity (reader);
+		cancellable = e_activity_get_cancellable (activity);
+
 		context = g_slice_new0 (AsyncContext);
-		context->activity = e_activity_new ();
+		context->activity = activity;
 		context->folder = g_object_ref (folder);
 		context->reader = g_object_ref (reader);
 		context->filter_type = vfolder_type;
-
-		alert_sink = e_mail_reader_get_alert_sink (reader);
-		e_activity_set_alert_sink (context->activity, alert_sink);
-
-		cancellable = camel_operation_new ();
-		e_activity_set_cancellable (context->activity, cancellable);
-
-		e_shell_backend_add_activity (
-			E_SHELL_BACKEND (backend), context->activity);
 
 		camel_folder_get_message (
 			folder, uids->pdata[0], G_PRIORITY_DEFAULT,
 			cancellable, (GAsyncReadyCallback)
 			mail_reader_create_vfolder_cb, context);
-
-		g_object_unref (cancellable);
 	}
 
 	em_utils_uids_free (uids);

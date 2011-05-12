@@ -522,10 +522,13 @@ action_mail_folder_unsubscribe_cb (GtkAction *action,
 	session = e_mail_backend_get_session (backend);
 
 	activity = e_activity_new ();
-	cancellable = camel_operation_new ();
+
 	alert_sink = E_ALERT_SINK (shell_content);
 	e_activity_set_alert_sink (activity, alert_sink);
+
+	cancellable = camel_operation_new ();
 	e_activity_set_cancellable (activity, cancellable);
+
 	e_shell_backend_add_activity (shell_backend, activity);
 
 	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
@@ -536,6 +539,8 @@ action_mail_folder_unsubscribe_cb (GtkAction *action,
 		activity);
 
 	g_free (folder_uri);
+
+	g_object_unref (cancellable);
 }
 
 static void
