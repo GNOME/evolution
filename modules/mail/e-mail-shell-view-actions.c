@@ -426,7 +426,7 @@ action_mail_folder_properties_cb (GtkAction *action,
 		return;
 
 	gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, -1);
-	em_folder_properties_show (shell_view, NULL, uri);
+	em_folder_properties_show (shell_view, uri);
 	g_free (uri);
 }
 
