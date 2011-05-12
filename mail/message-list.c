@@ -217,7 +217,7 @@ static gchar *filter_size (gint size);
 
 /* note: @changes is owned/freed by the caller */
 /*static void mail_do_regenerate_messagelist (MessageList *list, const gchar *search, const gchar *hideexpr, CamelFolderChangeInfo *changes);*/
-static void mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, CamelFolderChangeInfo *changes);
+static void mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, CamelFolderChangeInfo *changes, gboolean scroll_to_cursor);
 static void mail_regen_cancel (MessageList *ml);
 
 static void clear_info (gchar *key, ETreePath *node, MessageList *ml);
@@ -2435,7 +2435,7 @@ ml_tree_sorting_changed (ETreeTableAdapter *adapter, MessageList *ml)
 			ml->thread_tree = NULL;
 		}
 
-		mail_regen_list (ml, ml->search, NULL, NULL);
+		mail_regen_list (ml, ml->search, NULL, NULL, TRUE);
 
 		return TRUE;
 	}
@@ -3757,7 +3757,7 @@ folder_changed (CamelFolder *folder,
 	}
 
 	/* XXX This apparently eats the ChangeFolderChangeInfo. */
-	mail_regen_list (ml, ml->search, NULL, altered_changes);
+	mail_regen_list (ml, ml->search, NULL, altered_changes, FALSE);
 }
 
 /**
@@ -3882,7 +3882,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 			!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
 
 		if (message_list->frozen == 0)
-			mail_regen_list (message_list, message_list->search, NULL, NULL);
+			mail_regen_list (message_list, message_list->search, NULL, NULL, TRUE);
 	}
 }
 
@@ -4157,7 +4157,7 @@ message_list_thaw (MessageList *ml)
 
 	ml->frozen--;
 	if (ml->frozen == 0) {
-		mail_regen_list (ml, ml->frozen_search?ml->frozen_search:ml->search, NULL, NULL);
+		mail_regen_list (ml, ml->frozen_search ? ml->frozen_search : ml->search, NULL, NULL, TRUE);
 		g_free (ml->frozen_search);
 		ml->frozen_search = NULL;
 	}
@@ -4171,7 +4171,7 @@ message_list_set_threaded_expand_all (MessageList *ml)
 		ml->expand_all = 1;
 
 		if (ml->frozen == 0)
-			mail_regen_list (ml, ml->search, NULL, NULL);
+			mail_regen_list (ml, ml->search, NULL, NULL, TRUE);
 	}
 }
 
@@ -4182,7 +4182,7 @@ message_list_set_threaded_collapse_all (MessageList *ml)
 		ml->collapse_all = 1;
 
 		if (ml->frozen == 0)
-			mail_regen_list (ml, ml->search, NULL, NULL);
+			mail_regen_list (ml, ml->search, NULL, NULL, TRUE);
 	}
 }
 
@@ -4193,7 +4193,7 @@ message_list_set_threaded (MessageList *ml, gboolean threaded)
 		ml->threaded = threaded;
 
 		if (ml->frozen == 0)
-			mail_regen_list (ml, ml->search, NULL, NULL);
+			mail_regen_list (ml, ml->search, NULL, NULL, TRUE);
 	}
 }
 
@@ -4204,7 +4204,7 @@ message_list_set_hidedeleted (MessageList *ml, gboolean hidedeleted)
 		ml->hidedeleted = hidedeleted;
 
 		if (ml->frozen == 0)
-			mail_regen_list (ml, ml->search, NULL, NULL);
+			mail_regen_list (ml, ml->search, NULL, NULL, TRUE);
 	}
 }
 
@@ -4281,7 +4281,7 @@ message_list_set_search (MessageList *ml, const gchar *search)
 #endif
 
 	if (ml->frozen == 0)
-		mail_regen_list (ml, search, NULL, NULL);
+		mail_regen_list (ml, search, NULL, NULL, TRUE);
 	else {
 		g_free (ml->frozen_search);
 		ml->frozen_search = g_strdup (search);
@@ -4480,6 +4480,7 @@ struct _regen_list_msg {
 	gboolean hidedel;	/* we want to/dont want to show deleted messages */
 	gboolean hidejunk;	/* we want to/dont want to show junk messages */
 	gboolean thread_subject;
+	gboolean scroll_to_cursor; /* whether ensure scrolling to the cursor after rebuild */
 	CamelFolderThread *tree;
 
 	CamelFolder *folder;
@@ -4665,7 +4666,8 @@ regen_list_done (struct _regen_list_msg *m)
 
 	tree = E_TREE (m->ml);
 
-	e_tree_show_cursor_after_reflow (tree);
+	if (m->scroll_to_cursor)
+		e_tree_show_cursor_after_reflow (tree);
 
 	g_signal_handlers_block_by_func (e_tree_get_table_adapter (tree), ml_tree_sorting_changed, m->ml);
 
@@ -4865,7 +4867,7 @@ mail_regen_cancel (MessageList *ml)
 }
 
 static void
-mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, CamelFolderChangeInfo *changes)
+mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, CamelFolderChangeInfo *changes, gboolean scroll_to_cursor)
 {
 	struct _regen_list_msg *m;
 	GConfClient *client;
@@ -4912,6 +4914,7 @@ mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, Ca
 	m->hidedel = ml->hidedeleted;
 	m->hidejunk = ml->hidejunk;
 	m->thread_subject = thread_subject;
+	m->scroll_to_cursor = scroll_to_cursor;
 	m->folder = g_object_ref (ml->folder);
 	m->last_row = -1;
 	m->expand_state = NULL;
