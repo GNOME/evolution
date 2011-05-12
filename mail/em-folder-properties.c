@@ -35,47 +35,53 @@
 #include "em-config.h"
 
 #include "e-mail-backend.h"
+#include "e-mail-folder-utils.h"
 #include "e-mail-local.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
 #include "mail-vfolder.h"
 
-struct _prop_data {
-	gpointer object;
+typedef struct _AsyncContext AsyncContext;
+
+struct _AsyncContext {
+	EActivity *activity;
+	EShellView *shell_view;
+	CamelFolder *folder;
+	CamelFolderQuotaInfo *quota_info;
 	gint total;
 	gint unread;
-	EMConfig *config;
-	CamelFolderQuotaInfo *quota;
 };
 
 static void
-emfp_dialog_response (GtkWidget *dialog, gint response, struct _prop_data *prop_data)
+async_context_free (AsyncContext *context)
 {
-	if (response == GTK_RESPONSE_OK)
-		e_config_commit ((EConfig *) prop_data->config);
-	else
-		e_config_abort ((EConfig *) prop_data->config);
+	if (context->activity != NULL)
+		g_object_unref (context->activity);
 
-	gtk_widget_destroy (dialog);
+	if (context->shell_view != NULL)
+		g_object_unref (context->shell_view);
+
+	if (context->folder != NULL)
+		g_object_unref (context->folder);
+
+	if (context->quota_info != NULL)
+		camel_folder_quota_info_free (context->quota_info);
+
+	g_slice_free (AsyncContext, context);
 }
 
 static void
 emfp_free (EConfig *ec, GSList *items, gpointer data)
 {
-	struct _prop_data *prop_data = data;
-
 	g_slist_free (items);
-
-	camel_object_state_write (prop_data->object);
-	g_object_unref (prop_data->object);
-
-	camel_folder_quota_info_free (prop_data->quota);
-
-	g_free (prop_data);
 }
 
 static gint
-add_numbered_row (GtkTable *table, gint row, const gchar *description, const gchar *format, gint num)
+add_numbered_row (GtkTable *table,
+                  gint row,
+                  const gchar *description,
+                  const gchar *format,
+                  gint num)
 {
 	gchar *str;
 	GtkWidget *label;
@@ -87,14 +93,18 @@ add_numbered_row (GtkTable *table, gint row, const gchar *description, const gch
 	label = gtk_label_new (description);
 	gtk_widget_show (label);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-	gtk_table_attach (table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (
+		table, label, 0, 1, row, row + 1,
+		GTK_FILL, 0, 0, 0);
 
 	str = g_strdup_printf (format, num);
 
 	label = gtk_label_new (str);
 	gtk_widget_show (label);
 	gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
-	gtk_table_attach (table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach (
+		table, label, 1, 2, row, row+1,
+		GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	g_free (str);
 
@@ -102,12 +112,16 @@ add_numbered_row (GtkTable *table, gint row, const gchar *description, const gch
 }
 
 static GtkWidget *
-emfp_get_folder_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+emfp_get_folder_item (EConfig *ec,
+                      EConfigItem *item,
+                      GtkWidget *parent,
+                      GtkWidget *old,
+                      gpointer data)
 {
 	GObjectClass *class;
 	GParamSpec **properties;
 	GtkWidget *widget, *table;
-	struct _prop_data *prop_data = data;
+	AsyncContext *context = data;
 	guint ii, n_properties;
 	gint row = 0;
 
@@ -120,16 +134,30 @@ emfp_get_folder_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 	gtk_widget_show (table);
 	gtk_box_pack_start ((GtkBox *) parent, table, TRUE, TRUE, 0);
 
-	/* to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567 */
-	row = add_numbered_row (GTK_TABLE (table), row, ngettext ("Unread messages:", "Unread messages:", prop_data->unread), "%d", prop_data->unread);
+	/* To be on the safe side, ngettext is used here,
+	 * see e.g. comment #3 at bug 272567 */
+	row = add_numbered_row (
+		GTK_TABLE (table), row,
+		ngettext (
+			"Unread messages:",
+			"Unread messages:",
+			context->unread),
+		"%d", context->unread);
 
 	/* TODO: can this be done in a loop? */
-	/* to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567 */
-	row = add_numbered_row (GTK_TABLE (table), row, ngettext ("Total messages:", "Total messages:", prop_data->total), "%d", prop_data->total);
+	/* To be on the safe side, ngettext is used here,
+	 * see e.g. comment #3 at bug 272567 */
+	row = add_numbered_row (
+		GTK_TABLE (table), row,
+		ngettext (
+			"Total messages:",
+			"Total messages:",
+			context->total),
+		"%d", context->total);
 
-	if (prop_data->quota) {
+	if (context->quota_info) {
 		CamelFolderQuotaInfo *info;
-		CamelFolderQuotaInfo *quota = prop_data->quota;
+		CamelFolderQuotaInfo *quota = context->quota_info;
 
 		for (info = quota; info; info = info->next) {
 			gchar *descr;
@@ -147,15 +175,18 @@ emfp_get_folder_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 			else
 				descr = g_strdup_printf (_("Quota usage"));
 
-			procs = (gint) ((((double) info->used) / ((double) info->total)) * 100.0 + 0.5);
+			procs = (gint) ((((gdouble) info->used) /
+				((gdouble) info->total)) * 100.0 + 0.5);
 
-			row = add_numbered_row (GTK_TABLE (table), row, descr, "%d%%", procs);
+			row = add_numbered_row (
+				GTK_TABLE (table), row,
+				descr, "%d%%", procs);
 
 			g_free (descr);
 		}
 	}
 
-	class = G_OBJECT_GET_CLASS (prop_data->object);
+	class = G_OBJECT_GET_CLASS (context->folder);
 	properties = g_object_class_list_properties (class, &n_properties);
 
 	for (ii = 0; ii < n_properties; ii++) {
@@ -170,7 +201,7 @@ emfp_get_folder_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 			case G_TYPE_BOOLEAN:
 				widget = gtk_check_button_new_with_label (blurb);
 				g_object_bind_property (
-					prop_data->object,
+					context->folder,
 					properties[ii]->name,
 					widget, "active",
 					G_BINDING_BIDIRECTIONAL |
@@ -204,14 +235,10 @@ static EMConfigItem emfp_items[] = {
 static gboolean emfp_items_translated = FALSE;
 
 static void
-emfp_dialog_got_folder_quota (CamelFolder *folder,
-                              const gchar *folder_uri,
-                              CamelFolderQuotaInfo *quota,
-                              gpointer data)
+emfp_dialog_run (AsyncContext *context)
 {
 	GtkWidget *dialog, *w;
 	GtkWidget *content_area;
-	struct _prop_data *prop_data;
 	GSList *l;
 	gint32 i,deleted;
 	EMConfig *ec;
@@ -222,29 +249,23 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 	CamelStore *parent_store;
 	gboolean hide_deleted;
 	GConfClient *client;
+	gchar *folder_uri;
 	const gchar *name;
 	const gchar *key;
 
-	if (folder == NULL)
-		return;
-
-	shell_view = E_SHELL_VIEW (data);
+	shell_view = context->shell_view;
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	local_store = e_mail_local_get_store ();
-	parent_store = camel_folder_get_parent_store (folder);
-
-	prop_data = g_malloc0 (sizeof (*prop_data));
-	prop_data->object = g_object_ref (folder);
-	prop_data->quota = camel_folder_quota_info_clone (quota);
+	parent_store = camel_folder_get_parent_store (context->folder);
 
 	/* Get number of VISIBLE and DELETED messages, instead of TOTAL
 	 * messages.  VISIBLE+DELETED gives the correct count that matches
 	 * the label below the Send & Receive button. */
-	name = camel_folder_get_display_name (folder);
-	prop_data->total = folder->summary->visible_count;
-	prop_data->unread = folder->summary->unread_count;
-	deleted = folder->summary->deleted_count;
+	name = camel_folder_get_display_name (context->folder);
+	context->total = context->folder->summary->visible_count;
+	context->unread = context->folder->summary->unread_count;
+	deleted = context->folder->summary->deleted_count;
 
 	client = gconf_client_get_default ();
 	key = "/apps/evolution/mail/display/show_deleted";
@@ -255,17 +276,18 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 	   Do the calculation only for those accounts that support VTRASHes
 	 */
 	if (parent_store->flags & CAMEL_STORE_VTRASH) {
-		if (CAMEL_IS_VTRASH_FOLDER (folder))
-			prop_data->total += deleted;
+		if (CAMEL_IS_VTRASH_FOLDER (context->folder))
+			context->total += deleted;
 		else if (!hide_deleted && deleted > 0)
-			prop_data->total += deleted;
+			context->total += deleted;
 	}
 
 	/*
-	 * If the ffolder is junk folder, get total number of mails.
+	 * If the folder is junk folder, get total number of mails.
 	 */
 	if (parent_store->flags & CAMEL_STORE_VJUNK)
-		prop_data->total = camel_folder_summary_count (folder->summary);
+		context->total = camel_folder_summary_count (
+			context->folder->summary);
 
 	if (parent_store == local_store
 	    && (!strcmp (name, "Drafts")
@@ -305,83 +327,158 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 	 *
 	 * The folder properties window.
 	 */
-	ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.folderConfig");
-	prop_data->config = ec;
+	ec = em_config_new (
+		E_CONFIG_BOOK, "org.gnome.evolution.mail.folderConfig");
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emfp_items); i++)
 		l = g_slist_prepend (l, &emfp_items[i]);
-	e_config_add_items ((EConfig *) ec, l, NULL, NULL, emfp_free, prop_data);
+	e_config_add_items ((EConfig *) ec, l, NULL, NULL, emfp_free, context);
 
-	target = em_config_target_new_folder (ec, folder, folder_uri);
+	folder_uri = e_mail_folder_uri_from_folder (context->folder);
+	target = em_config_target_new_folder (ec, context->folder, folder_uri);
+	g_free (folder_uri);
+
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 	w = e_config_create_widget ((EConfig *) ec);
 
 	gtk_box_pack_start (GTK_BOX (content_area), w, TRUE, TRUE, 0);
 
-	/* we do 'apply on ok' ... since instant apply may apply some very long running tasks */
+	/* We do 'apply on ok', since instant apply may start some
+	 * very long running tasks. */
 
-	g_signal_connect (dialog, "response", G_CALLBACK (emfp_dialog_response), prop_data);
-	gtk_widget_show (dialog);
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		e_config_commit ((EConfig *) ec);
+		camel_object_state_write (CAMEL_OBJECT (context->folder));
+	} else
+		e_config_abort ((EConfig *) ec);
+
+	gtk_widget_destroy (dialog);
 }
 
 static void
-emfp_dialog_got_folder (gchar *uri, CamelFolder *folder, gpointer data)
+emfp_dialog_got_folder (CamelStore *store,
+                        GAsyncResult *result,
+                        AsyncContext *context)
 {
-	EShellView *shell_view = data;
+	EAlertSink *alert_sink;
+	GError *error = NULL;
 
-	/* this should be called in a thread too */
-	mail_get_folder_quota (
-		folder, uri, emfp_dialog_got_folder_quota,
-		shell_view, mail_msg_unordered_push);
+	alert_sink = e_activity_get_alert_sink (context->activity);
+
+	context->folder = camel_store_get_folder_finish (
+		store, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_warn_if_fail (context->folder == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (context->folder == NULL);
+		e_alert_submit (
+			alert_sink, "folder-open",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_FOLDER (context->folder));
+
+	/* FIXME This blocks, but Camel does not offer an async function. */
+	context->quota_info = camel_folder_get_quota_info (context->folder);
+
+	/* Finalize the activity here so we don't leave a message
+	 * in the task bar while the properties window is shown. */
+	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+	g_object_unref (context->activity);
+	context->activity = NULL;
+
+	emfp_dialog_run (context);
+
+	async_context_free (context);
 }
 
 /**
  * em_folder_properties_show:
- * @parent: parent window for dialogue (currently unused)
- * @folder:
- * @uri:
+ * @shell_view: an #EShellView
+ * @folder_uri: a folder URI
  *
- * Show folder properties for @folder and @uri.  If @folder is passed
- * as NULL, then the folder @uri will be loaded first.
+ * Show folder properties for @folder_uri.
  **/
 void
 em_folder_properties_show (EShellView *shell_view,
-                           CamelFolder *folder,
-                           const gchar *uri)
+                           const gchar *folder_uri)
 {
 	EShellBackend *shell_backend;
+	EShellContent *shell_content;
 	EMailBackend *backend;
 	EMailSession *session;
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+	AsyncContext *context;
+	CamelStore *store = NULL;
+	gchar *folder_name = NULL;
+	const gchar *uid;
+	GError *error = NULL;
 
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-	g_return_if_fail (uri != NULL);
+	g_return_if_fail (folder_uri != NULL);
 
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 
-	/* HACK: its the old behaviour, not very 'neat' but it works */
-	if (!strncmp (uri, "vfolder:", 8)) {
-		CamelURL *url = camel_url_new (uri, NULL);
+	e_mail_folder_uri_parse (
+		CAMEL_SESSION (session), folder_uri,
+		&store, &folder_name, &error);
 
-		/* MORE HACK: UNMATCHED is a special folder which you can't modify, so check for it here */
-		if (url == NULL
-		    || url->fragment == NULL
-		    || strcmp (url->fragment, CAMEL_UNMATCHED_NAME) != 0) {
-			if (url)
-				camel_url_free (url);
-			vfolder_edit_rule (backend, uri);
-			return;
-		}
-		if (url != NULL)
-			camel_url_free (url);
+	/* XXX This is unlikely to fail since the URI comes straight from
+	 *     EMFolderTreeModel, but leave a breadcrumb if it does fail. */
+	if (error != NULL) {
+		g_warn_if_fail (store == NULL);
+		g_warn_if_fail (folder_name == NULL);
+		g_warning ("%s", error->message);
+		g_error_free (error);
+		return;
 	}
 
-	if (folder == NULL)
-		mail_get_folder (
-			session, uri, 0, emfp_dialog_got_folder,
-			shell_view, mail_msg_unordered_push);
-	else
-		emfp_dialog_got_folder ((gchar *) uri, folder, shell_view);
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+
+	/* Show the Edit Rule dialog for Search Folders, but not "Unmatched".
+	 * "Unmatched" is a special Search Folder which can't be modified. */
+	if (g_strcmp0 (uid, "vfolder") == 0) {
+		if (g_strcmp0 (folder_name, CAMEL_UNMATCHED_NAME) != 0) {
+			vfolder_edit_rule (backend, folder_uri);
+			g_object_unref (store);
+			g_free (folder_name);
+			return;
+		}
+	}
+
+	/* Open the folder asynchronously. */
+
+	context = g_slice_new0 (AsyncContext);
+	context->activity = e_activity_new ();
+	context->shell_view = g_object_ref (shell_view);
+
+	alert_sink = E_ALERT_SINK (shell_content);
+	e_activity_set_alert_sink (context->activity, alert_sink);
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (context->activity, cancellable);
+
+	e_shell_backend_add_activity (shell_backend, context->activity);
+
+	camel_store_get_folder (
+		store, folder_name, 0, G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) emfp_dialog_got_folder, context);
+
+	g_object_unref (cancellable);
+
+	g_object_unref (store);
+	g_free (folder_name);
 }
