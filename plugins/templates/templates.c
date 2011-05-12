@@ -812,45 +812,54 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 
 static void
 action_reply_with_template_cb (GtkAction *action,
-				EShellView *shell_view)
+                               EShellView *shell_view)
 {
 	CamelFolder *folder, *template_folder;
 	EShellContent *shell_content;
+	CamelMimeMessage *template;
 	EMailReader *reader;
 	GPtrArray *uids;
-	const gchar *uid;
-	CamelMimeMessage *template;
+	const gchar *message_uid;
+	const gchar *template_uid;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	reader = E_MAIL_READER (shell_content);
+
 	folder = e_mail_reader_get_folder (reader);
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
 	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_if_fail (uids != NULL && uids->len == 1);
+	message_uid = g_ptr_array_index (uids, 0);
 
-	if (!uids->len || !folder)
-		return;
+	g_object_ref (action);
 
-	g_object_ref (G_OBJECT (action));
+	template_folder = g_object_get_data (
+		G_OBJECT (action), "template-folder");
+	template_uid = g_object_get_data (
+		G_OBJECT (action), "template-uid");
 
-	template_folder = g_object_get_data (G_OBJECT (action), "template-folder");
-	uid = g_object_get_data (G_OBJECT (action), "template-uid");
-	template = camel_folder_get_message_sync (template_folder, uid, NULL, NULL);
+	/* FIXME This blocks. */
+	template = camel_folder_get_message_sync (
+		template_folder, template_uid, NULL, NULL);
 
-	mail_get_message (folder, uids->pdata[0], create_new_message,
+	mail_get_message (
+		folder, message_uid, create_new_message,
 		(gpointer) template, mail_msg_unordered_push);
 
-	g_object_unref (G_OBJECT (action));
+	g_object_unref (action);
 
 	em_utils_uids_free (uids);
 }
 
 static void
 build_template_menus_recurse (GtkUIManager *ui_manager,
-			       GtkActionGroup *action_group,
+                              GtkActionGroup *action_group,
                               const gchar *menu_path,
                               guint *action_count,
                               guint merge_id,
                               CamelFolderInfo *folder_info,
-			       EShellView *shell_view)
+                              EShellView *shell_view)
 {
 	CamelStore *store;
 	EShellWindow *shell_window = e_shell_view_get_shell_window (shell_view);

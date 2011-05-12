@@ -228,18 +228,21 @@ emla_list_action (EMailReader *reader,
 	CamelFolder *folder;
 	GPtrArray *uids;
 	emla_action_data *data;
+	const gchar *message_uid;
 
 	folder = e_mail_reader_get_folder (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	g_return_if_fail (uids->len == 1);
+	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_if_fail (uids != NULL && uids->len == 1);
+	message_uid = g_ptr_array_index (uids, 0);
 
 	data = g_malloc (sizeof (emla_action_data));
 	data->reader = g_object_ref (reader);
 	data->action = action;
 
 	mail_get_message (
-		folder, uids->pdata[0],
+		folder, message_uid,
 		emla_list_action_do, data,
 		mail_msg_unordered_push);
 

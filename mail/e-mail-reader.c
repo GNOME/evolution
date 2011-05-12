@@ -153,15 +153,16 @@ action_mail_add_sender_cb (GtkAction *action,
 	CamelFolder *folder;
 	GPtrArray *uids;
 	const gchar *address;
+	const gchar *message_uid;
 
 	folder = e_mail_reader_get_folder (reader);
 	backend = e_mail_reader_get_backend (reader);
+
 	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_if_fail (uids != NULL && uids->len == 1);
+	message_uid = g_ptr_array_index (uids, 0);
 
-	if (uids->len != 1)
-		goto exit;
-
-	info = camel_folder_get_message_info (folder, uids->pdata[0]);
+	info = camel_folder_get_message_info (folder, message_uid);
 	if (info == NULL)
 		goto exit;
 
@@ -1455,20 +1456,22 @@ action_mail_save_as_cb (GtkAction *action,
 	CamelFolder *folder;
 	GPtrArray *uids;
 	GFile *file;
+	const gchar *message_uid;
 	const gchar *title;
 	gchar *suggestion = NULL;
 	gchar *uri;
 
 	folder = e_mail_reader_get_folder (reader);
 	backend = e_mail_reader_get_backend (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
 
-	g_return_if_fail (uids->len > 0);
+	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_if_fail (uids != NULL && uids->len == 1);
+	message_uid = g_ptr_array_index (uids, 0);
 
 	title = ngettext ("Save Message", "Save Messages", uids->len);
 
 	/* Suggest as a filename the subject of the first message. */
-	info = camel_folder_get_message_info (folder, uids->pdata[0]);
+	info = camel_folder_get_message_info (folder, message_uid);
 	if (info != NULL) {
 		const gchar *subject = camel_message_info_subject (info);
 
@@ -1569,12 +1572,14 @@ action_mail_show_source_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWidget *browser;
 	GPtrArray *uids;
+	const gchar *message_uid;
 
 	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_get_folder (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
 
-	g_return_if_fail (uids->len > 0);
+	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_if_fail (uids != NULL && uids->len == 1);
+	message_uid = g_ptr_array_index (uids, 0);
 
 	browser = e_mail_browser_new (backend);
 	reader = E_MAIL_READER (browser);
@@ -1585,7 +1590,7 @@ action_mail_show_source_cb (GtkAction *action,
 			EM_FORMAT (formatter), EM_FORMAT_MODE_SOURCE);
 
 	e_mail_reader_set_folder (reader, folder);
-	e_mail_reader_set_message (reader, uids->pdata[0]);
+	e_mail_reader_set_message (reader, message_uid);
 	gtk_widget_show (browser);
 
 	em_utils_uids_free (uids);

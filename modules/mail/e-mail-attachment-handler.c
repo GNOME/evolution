@@ -323,9 +323,13 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 
 	/* Handle one message. */
 	if (uids->len == 1) {
+		const gchar *message_uid;
+
+		message_uid = g_ptr_array_index (uids, 0);
+
 		/* FIXME Not passing a GCancellable here. */
 		message = camel_folder_get_message_sync (
-			folder, uids->pdata[0], NULL, &local_error);
+			folder, message_uid, NULL, &local_error);
 		if (message == NULL)
 			goto exit;
 
