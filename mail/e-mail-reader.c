@@ -1122,9 +1122,6 @@ action_mail_reply_all_check (CamelFolder *folder,
 	if (!message)
 		return;
 
-	/* get_message_free () will unref the message, so we need to take an
-	   extra ref for e_mail_reader_reply_to_message () to own. */
-	g_object_ref (message);
 	to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 
@@ -1290,10 +1287,6 @@ action_mail_reply_sender_check (CamelFolder *folder,
 	ask_list_reply_to = gconf_client_get_bool (client, key, NULL);
 
 	munged_list_message = em_utils_is_munged_list_message (message);
-
-	/* get_message_free () will unref the message, so we need to take an
-	   extra ref for e_mail_reader_reply_to_message () to own. */
-	g_object_ref (message);
 
 	/* Don't do the "Are you sure you want to reply in private?" pop-up if
 	   it's a Reply-To: munged list message... unless we're ignoring munging */

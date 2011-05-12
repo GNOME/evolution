@@ -115,12 +115,9 @@ mail_attachment_handler_reply_all (GtkAction *action,
 	shell_settings = e_shell_get_shell_settings (priv->shell);
 	style = e_shell_settings_get_int (shell_settings, property_name);
 
-	/* em_utils_reply_to_message() unrefs 'message', thus ref it here */
-	g_object_ref (wrapper);
-
 	em_utils_reply_to_message (
-		priv->shell, NULL, NULL, CAMEL_MIME_MESSAGE (wrapper),
-		E_MAIL_REPLY_TO_ALL, style, NULL);
+		priv->shell, CAMEL_MIME_MESSAGE (wrapper),
+		NULL, NULL, E_MAIL_REPLY_TO_ALL, style, NULL);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
@@ -154,12 +151,9 @@ mail_attachment_handler_reply_sender (GtkAction *action,
 	shell_settings = e_shell_get_shell_settings (priv->shell);
 	style = e_shell_settings_get_int (shell_settings, property_name);
 
-	/* em_utils_reply_to_message() unrefs 'message', thus ref it here */
-	g_object_ref (wrapper);
-
 	em_utils_reply_to_message (
-		priv->shell, NULL, NULL, CAMEL_MIME_MESSAGE (wrapper),
-		E_MAIL_REPLY_TO_SENDER, style, NULL);
+		priv->shell, CAMEL_MIME_MESSAGE (wrapper),
+		NULL, NULL, E_MAIL_REPLY_TO_SENDER, style, NULL);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);

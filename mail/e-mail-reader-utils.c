@@ -612,8 +612,10 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	g_object_unref (src_message);
 
 	em_utils_reply_to_message (
-		shell, folder, uid, new_message,
+		shell, new_message, folder, uid,
 		reply_type, reply_style, NULL);
+
+	g_object_unref (new_message);
 
 	g_free (selection);
 
@@ -621,7 +623,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 whole_message:
 	em_utils_reply_to_message (
-		shell, folder, uid, src_message,
+		shell, src_message, folder, uid,
 		reply_type, reply_style, EM_FORMAT (formatter));
 }
 

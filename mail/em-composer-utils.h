@@ -76,9 +76,9 @@ void		em_utils_get_reply_all		(CamelMimeMessage *message,
 						 CamelInternetAddress *cc,
 						 CamelNNTPAddress *postto);
 EMsgComposer *	em_utils_reply_to_message	(EShell *shell,
-						 CamelFolder *folder,
-						 const gchar *uid,
 						 CamelMimeMessage *message,
+						 CamelFolder *folder,
+						 const gchar *message_uid,
 						 EMailReplyType type,
 						 EMailReplyStyle style,
 						 EMFormat *source);
