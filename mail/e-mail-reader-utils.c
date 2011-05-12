@@ -49,6 +49,8 @@ typedef struct _AsyncContext AsyncContext;
 struct _AsyncContext {
 	EActivity *activity;
 	EMailReader *reader;
+	const gchar *filter_source;
+	gint filter_type;
 };
 
 static void
@@ -651,25 +653,54 @@ e_mail_reader_select_next_message (EMailReader *reader,
 /* Helper for e_mail_reader_create_filter_from_selected() */
 static void
 mail_reader_create_filter_cb (CamelFolder *folder,
-                              const gchar *uid,
-                              CamelMimeMessage *message,
-                              gpointer user_data)
+                              GAsyncResult *result,
+                              AsyncContext *context)
 {
-	struct {
-		EMailSession *session;
-		const gchar *source;
-		gint type;
-	} *filter_data = user_data;
+	EMailBackend *backend;
+	EMailSession *session;
+	EAlertSink *alert_sink;
+	CamelMimeMessage *message;
+	GError *error = NULL;
 
-	if (message != NULL)
-		filter_gui_add_from_message (
-			filter_data->session,
-			message,
-			filter_data->source,
-			filter_data->type);
+	alert_sink = e_activity_get_alert_sink (context->activity);
 
-	g_object_unref (filter_data->session);
-	g_free (filter_data);
+	message = camel_folder_get_message_finish (folder, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_warn_if_fail (message == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (message == NULL);
+		e_alert_submit (
+			alert_sink, "no-retrieve-message",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	/* Finalize the activity here so we don't leave a message
+	 * in the task bar while displaying the filter editor. */
+	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+	g_object_unref (context->activity);
+	context->activity = NULL;
+
+	backend = e_mail_reader_get_backend (context->reader);
+	session = e_mail_backend_get_session (backend);
+
+	filter_gui_add_from_message (
+		session, message,
+		context->filter_source,
+		context->filter_type);
+
+	g_object_unref (message);
+
+	async_context_free (context);
 }
 
 void
@@ -677,22 +708,14 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
                                            gint filter_type)
 {
 	EMailBackend *backend;
-	EMailSession *session;
 	CamelFolder *folder;
 	const gchar *filter_source;
 	GPtrArray *uids;
-
-	struct {
-		EMailSession *session;
-		const gchar *source;
-		gint type;
-	} *filter_data;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	folder = e_mail_reader_get_folder (reader);
 	backend = e_mail_reader_get_backend (reader);
-	session = e_mail_backend_get_session (backend);
 
 	if (em_utils_folder_is_sent (folder))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
@@ -704,15 +727,31 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (uids->len == 1) {
-		filter_data = g_malloc (sizeof (*filter_data));
-		filter_data->session = g_object_ref (session);
-		filter_data->source = filter_source;
-		filter_data->type = filter_type;
+		AsyncContext *context;
+		EAlertSink *alert_sink;
+		GCancellable *cancellable;
 
-		mail_get_message (
-			folder, uids->pdata[0],
-			mail_reader_create_filter_cb,
-			filter_data, mail_msg_unordered_push);
+		context = g_slice_new0 (AsyncContext);
+		context->activity = e_activity_new ();
+		context->reader = g_object_ref (reader);
+		context->filter_source = filter_source;
+		context->filter_type = filter_type;
+
+		alert_sink = e_mail_reader_get_alert_sink (reader);
+		e_activity_set_alert_sink (context->activity, alert_sink);
+
+		cancellable = camel_operation_new ();
+		e_activity_set_cancellable (context->activity, cancellable);
+
+		e_shell_backend_add_activity (
+			E_SHELL_BACKEND (backend), context->activity);
+
+		camel_folder_get_message (
+			folder, uids->pdata[0], G_PRIORITY_DEFAULT,
+			cancellable, (GAsyncReadyCallback)
+			mail_reader_create_filter_cb, context);
+
+		g_object_unref (cancellable);
 	}
 
 	em_utils_uids_free (uids);
