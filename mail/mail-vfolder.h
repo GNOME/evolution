@@ -34,7 +34,7 @@ void		vfolder_load_storage		(EMailBackend *backend);
 void		vfolder_revert			(void);
 void		vfolder_edit			(EShellView *shell_view);
 void		vfolder_edit_rule		(EMailBackend *backend,
-						 const gchar *name);
+						 const gchar *folder_uri);
 EFilterPart *	vfolder_create_part		(const gchar *name);
 EFilterRule *	vfolder_clone_rule		(EMailSession *session,
 						 EFilterRule *in);
