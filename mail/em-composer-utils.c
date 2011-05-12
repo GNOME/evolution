@@ -1766,45 +1766,6 @@ em_utils_redirect_message (EShell *shell,
 	composer_set_no_change (composer);
 }
 
-static void
-redirect_msg (CamelFolder *folder,
-              const gchar *uid,
-              CamelMimeMessage *message,
-              gpointer user_data)
-{
-	EShell *shell = E_SHELL (user_data);
-
-	if (message == NULL)
-		return;
-
-	em_utils_redirect_message (shell, message);
-
-	g_object_unref (shell);
-}
-
-/**
- * em_utils_redirect_message_by_uid:
- * @shell: an #EShell
- * @folder: folder containing message to be redirected
- * @uid: uid of message to be redirected
- *
- * Opens a composer to redirect the message (Note: only headers will
- * be editable). Adds Resent-From/Resent-To/etc headers.
- **/
-void
-em_utils_redirect_message_by_uid (EShell *shell,
-                                  CamelFolder *folder,
-                                  const gchar *uid)
-{
-	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-	g_return_if_fail (uid != NULL);
-
-	mail_get_message (
-		folder, uid, redirect_msg,
-		g_object_ref (shell), mail_msg_unordered_push);
-}
-
 /* Message disposition notifications, rfc 2298 */
 void
 em_utils_handle_receipt (EMailSession *session,

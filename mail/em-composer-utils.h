@@ -57,9 +57,6 @@ void		em_utils_forward_messages	(EMailReader *reader,
 						 EMailForwardStyle style);
 void		em_utils_redirect_message	(EShell *shell,
 						 CamelMimeMessage *message);
-void		em_utils_redirect_message_by_uid (EShell *shell,
-						 CamelFolder *folder,
-						 const gchar *uid);
 void		em_utils_handle_receipt		(EMailSession *session,
 						 CamelFolder *folder,
 						 const gchar *message_uid,
