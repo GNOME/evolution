@@ -222,18 +222,20 @@ emfhp_complete (EMFormatHTMLPrint *efhp)
 	g_object_unref (operation);
 }
 
-static void
-emfhp_got_message (CamelFolder *folder,
-                   const gchar *uid,
-                   CamelMimeMessage *msg,
-                   gpointer data)
+void
+em_format_html_print_message (EMFormatHTMLPrint *efhp,
+                              CamelMimeMessage *message,
+                              CamelFolder *folder,
+                              const gchar *message_uid)
 {
-	EMFormatHTMLPrint *efhp = data;
+	g_return_if_fail (EM_IS_FORMAT_HTML_PRINT (efhp));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	if (msg == NULL) {
-		g_object_unref (efhp);
-		return;
-	}
+	/* Wrap flags to display all entries by default.*/
+	EM_FORMAT_HTML (efhp)->header_wrap_flags |=
+		EM_FORMAT_HTML_HEADER_TO |
+		EM_FORMAT_HTML_HEADER_CC |
+		EM_FORMAT_HTML_HEADER_BCC;
 
 	em_format_html_load_images (EM_FORMAT_HTML (efhp));
 
@@ -242,32 +244,7 @@ emfhp_got_message (CamelFolder *folder,
 
 	/* FIXME Not passing a GCancellable here. */
 	em_format_format_clone (
-		(EMFormat *) efhp, folder, uid, msg,
-		(EMFormat *) efhp->source, NULL);
-}
-
-void
-em_format_html_print_message (EMFormatHTMLPrint *efhp,
-                              CamelFolder *folder,
-                              const gchar *uid)
-{
-	g_object_ref (efhp);
-
-	/* Wrap flags to display all entries by default.*/
-	EM_FORMAT_HTML (efhp)->header_wrap_flags |=
-		EM_FORMAT_HTML_HEADER_TO |
-		EM_FORMAT_HTML_HEADER_CC |
-		EM_FORMAT_HTML_HEADER_BCC;
-
-	mail_get_message (
-		folder, uid, emfhp_got_message, efhp, mail_msg_unordered_push);
-}
-
-void
-em_format_html_print_raw_message (EMFormatHTMLPrint *efhp,
-                                  CamelMimeMessage *msg)
-{
-	g_object_ref (efhp);
-
-	emfhp_got_message (NULL, NULL, msg, efhp);
+		EM_FORMAT (efhp),
+		folder, message_uid, message,
+		EM_FORMAT (efhp->source), NULL);
 }

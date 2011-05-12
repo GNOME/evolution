@@ -64,10 +64,9 @@ EMFormatHTMLPrint *
 		em_format_html_print_new	(EMFormatHTML *source,
 						 GtkPrintOperationAction action);
 void		em_format_html_print_message	(EMFormatHTMLPrint *efhp,
+						 CamelMimeMessage *message,
 						 CamelFolder *folder,
 						 const gchar *uid);
-void		em_format_html_print_raw_message (EMFormatHTMLPrint *efhp,
-						 CamelMimeMessage *msg);
 
 G_END_DECLS
 
