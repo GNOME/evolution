@@ -97,23 +97,37 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 	return 0;
 }
 
-typedef struct {
+typedef struct _AsyncContext AsyncContext;
+
+struct _AsyncContext {
+	EActivity *activity;
 	EMailReader *reader;
 	EmlaAction action;
-} emla_action_data;
+};
 
 static void
-emla_list_action_do (CamelFolder *folder,
-                     const gchar *message_uid,
-                     CamelMimeMessage *msg,
-                     gpointer data)
+async_context_free (AsyncContext *context)
 {
-	emla_action_data *action_data = (emla_action_data *) data;
-	EmlaAction action = action_data->action;
-	const gchar * header = NULL, *headerpos;
+	if (context->activity != NULL)
+		g_object_unref (context->activity);
+
+	if (context->reader != NULL)
+		g_object_unref (context->reader);
+
+	g_slice_free (AsyncContext, context);
+}
+
+static void
+emla_list_action_cb (CamelFolder *folder,
+                     GAsyncResult *result,
+                     AsyncContext *context)
+{
+	const gchar *header = NULL, *headerpos;
 	gchar *end, *url = NULL;
 	gint t;
 	EMsgComposer *composer;
+	EAlertSink *alert_sink;
+	CamelMimeMessage *message;
 	gint send_message_response;
 	EShell *shell;
 	EMailBackend *backend;
@@ -122,24 +136,50 @@ emla_list_action_do (CamelFolder *folder,
 	GtkWindow *window;
 	CamelStore *store;
 	const gchar *uid;
+	GError *error = NULL;
 
-	if (msg == NULL)
+	alert_sink = e_activity_get_alert_sink (context->activity);
+
+	message = camel_folder_get_message_finish (folder, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_warn_if_fail (message == NULL);
+		async_context_free (context);
+		g_error_free (error);
 		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (message == NULL);
+		e_alert_submit (
+			alert_sink, "mail:no-retrieve-message",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	/* Finalize the activity here so we don't leave a
+	 * message in the task bar while display a dialog. */
+	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+	g_object_unref (context->activity);
+	context->activity = NULL;
 
 	store = camel_folder_get_parent_store (folder);
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
 	account = e_get_account_by_uid (uid);
 
-	backend = e_mail_reader_get_backend (action_data->reader);
+	backend = e_mail_reader_get_backend (context->reader);
 
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	window = e_mail_reader_get_window (action_data->reader);
+	window = e_mail_reader_get_window (context->reader);
 
 	for (t = 0; t < G_N_ELEMENTS (emla_action_headers); t++) {
-		if (emla_action_headers[t].action == action &&
-		    (header = camel_medium_get_header (CAMEL_MEDIUM (msg),
+		if (emla_action_headers[t].action == context->action &&
+		    (header = camel_medium_get_header (CAMEL_MEDIUM (message),
 			emla_action_headers[t].header)) != NULL)
 			break;
 	}
@@ -152,7 +192,7 @@ emla_list_action_do (CamelFolder *folder,
 
 	headerpos = header;
 
-	if (action == EMLA_ACTION_POST) {
+	if (context->action == EMLA_ACTION_POST) {
 		while (*headerpos == ' ') headerpos++;
 		if (g_ascii_strcasecmp (headerpos, "NO") == 0) {
 			e_alert_run_dialog_for_args (
@@ -216,18 +256,21 @@ emla_list_action_do (CamelFolder *folder,
 	e_alert_run_dialog_for_args (window, MESSAGE_NO_ACTION, header, NULL);
 
 exit:
-	g_object_unref (action_data->reader);
-	g_free (action_data);
+	g_object_unref (message);
 	g_free (url);
+
+	async_context_free (context);
 }
 
 static void
 emla_list_action (EMailReader *reader,
                   EmlaAction action)
 {
+	EActivity *activity;
+	AsyncContext *context;
+	GCancellable *cancellable;
 	CamelFolder *folder;
 	GPtrArray *uids;
-	emla_action_data *data;
 	const gchar *message_uid;
 
 	folder = e_mail_reader_get_folder (reader);
@@ -237,14 +280,18 @@ emla_list_action (EMailReader *reader,
 	g_return_if_fail (uids != NULL && uids->len == 1);
 	message_uid = g_ptr_array_index (uids, 0);
 
-	data = g_malloc (sizeof (emla_action_data));
-	data->reader = g_object_ref (reader);
-	data->action = action;
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
 
-	mail_get_message (
-		folder, message_uid,
-		emla_list_action_do, data,
-		mail_msg_unordered_push);
+	context = g_slice_new0 (AsyncContext);
+	context->activity = activity;
+	context->reader = g_object_ref (reader);
+	context->action = action;
+
+	camel_folder_get_message (
+		folder, message_uid, G_PRIORITY_DEFAULT,
+		cancellable, (GAsyncReadyCallback)
+		emla_list_action_cb, context);
 
 	em_utils_uids_free (uids);
 }
