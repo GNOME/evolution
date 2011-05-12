@@ -406,7 +406,12 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 		service = camel_session_get_service (
 			CAMEL_SESSION (session), context->transport_uid);
 
-		g_return_if_fail (CAMEL_IS_TRANSPORT (service));
+		if (!CAMEL_IS_TRANSPORT (service)) {
+			g_simple_async_result_set_error (simple,
+				CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_URL_INVALID,
+				_("Cannot get transport service for account '%s'"), context->transport_uid);
+			return;
+		}
 
 		/* XXX This API does not allow for cancellation. */
 		if (!camel_service_connect_sync (service, &error)) {

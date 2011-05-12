@@ -235,67 +235,15 @@ mail_store_load_accounts (EMailSession *session,
 	account_list = e_get_account_list ();
 
 	for (iter = e_list_get_iterator ((EList *) account_list);
-		e_iterator_is_valid (iter); e_iterator_next (iter)) {
-
+	     e_iterator_is_valid (iter); e_iterator_next (iter)) {
 		EAccount *account;
-		CamelURL *url;
-		gchar *transport_uid;
-		gboolean skip = FALSE;
-		GError *error = NULL;
 
 		account = (EAccount *) e_iterator_get (iter);
 
 		if (!account->enabled)
 			continue;
 
-		/* Do not add local-delivery files,
-		 * but make them ready for later use. */
-		url = camel_url_new (account->source->url, NULL);
-		if (url != NULL) {
-			skip = em_utils_is_local_delivery_mbox_file (url);
-			camel_url_free (url);
-		}
-
-		if (skip) {
-			GError *error = NULL;
-
-			camel_session_add_service (
-				CAMEL_SESSION (session),
-				account->uid, account->source->url,
-				CAMEL_PROVIDER_STORE, &error);
-
-			if (error != NULL) {
-				g_warning (
-					"Failed to add '%s' as store: %s",
-					account->source->url,
-					error->message);
-				g_error_free (error);
-			}
-		} else {
-			e_mail_store_add_by_account (session, account);
-		}
-
-		/* While we're at it, add the account's transport to the
-		 * CamelSession.  The transport's UID is a kludge for now.
-		 * We take the EAccount's UID and tack on "-transport". */
-
-		if (account->transport == NULL)
-			continue;
-
-		transport_uid = g_strconcat (
-			account->uid, "-transport", NULL);
-
-		camel_session_add_service (
-			CAMEL_SESSION (session),
-			transport_uid, account->transport->url,
-			CAMEL_PROVIDER_TRANSPORT, &error);
-
-		g_free (transport_uid);
-
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-		}
+		e_mail_store_add_by_account (session, account);
 	}
 
 	g_object_unref (iter);
@@ -344,6 +292,8 @@ e_mail_store_add_by_account (EMailSession *session,
 {
 	CamelService *service;
 	CamelProvider *provider;
+	CamelURL *url;
+	gboolean skip;
 	GError *error = NULL;
 
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
@@ -361,10 +311,41 @@ e_mail_store_add_by_account (EMailSession *session,
 		account->uid, account->source->url,
 		CAMEL_PROVIDER_STORE, &error);
 
+	if (account->transport) {
+		/* While we're at it, add the account's transport to the
+		 * CamelSession.  The transport's UID is a kludge for now.
+		 * We take the EAccount's UID and tack on "-transport". */
+		gchar *transport_uid;
+		GError *transport_error = NULL;
+
+		transport_uid = g_strconcat (
+			account->uid, "-transport", NULL);
+
+		camel_session_add_service (
+			CAMEL_SESSION (session),
+			transport_uid, account->transport->url,
+			CAMEL_PROVIDER_TRANSPORT, &transport_error);
+
+		g_free (transport_uid);
+
+		if (transport_error) {
+			g_warning ("%s: Failed to add transport service: %s", G_STRFUNC, transport_error->message);
+			g_error_free (transport_error);
+		}
+	}
+
 	if (!CAMEL_IS_STORE (service))
 		goto fail;
 
-	if (provider->flags & CAMEL_PROVIDER_IS_STORAGE)
+	/* Do not add local-delivery files,
+	 * but make them ready for later use. */
+	url = camel_url_new (account->source->url, NULL);
+	if (url != NULL) {
+		skip = em_utils_is_local_delivery_mbox_file (url);
+		camel_url_free (url);
+	}
+
+	if (!skip && (provider->flags & CAMEL_PROVIDER_IS_STORAGE))
 		e_mail_store_add (
 			session, CAMEL_STORE (service), account->name);
 
