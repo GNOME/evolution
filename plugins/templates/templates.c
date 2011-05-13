@@ -48,6 +48,17 @@
 
 #define GCONF_KEY_TEMPLATE_PLACEHOLDERS "/apps/evolution/mail/template_placeholders"
 
+typedef struct _AsyncContext AsyncContext;
+
+struct _AsyncContext {
+	EActivity *activity;
+	EMailReader *reader;
+	CamelMimeMessage *message;
+	CamelFolder *template_folder;
+	gchar *message_uid;
+	gchar *template_message_uid;
+};
+
 typedef struct {
 	GConfClient *gconf;
 	GtkWidget   *treeview;
@@ -89,6 +100,27 @@ static void templates_folder_msg_changed_cb (CamelFolder *folder,
 			      EShellWindow *shell_window);
 
 static gboolean plugin_enabled;
+
+static void
+async_context_free (AsyncContext *context)
+{
+	if (context->activity != NULL)
+		g_object_unref (context->activity);
+
+	if (context->reader != NULL)
+		g_object_unref (context->reader);
+
+	if (context->message != NULL)
+		g_object_unref (context->message);
+
+	if (context->template_folder != NULL)
+		g_object_unref (context->template_folder);
+
+	g_free (context->message_uid);
+	g_free (context->template_message_uid);
+
+	g_slice_free (AsyncContext, context);
+}
 
 static void
 selection_changed (GtkTreeSelection *selection, UIData *ui)
@@ -690,25 +722,54 @@ fill_template (CamelMimeMessage *message, CamelMimePart *template)
 }
 
 static void
-create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *message, gpointer data)
+create_new_message (CamelFolder *folder,
+                    GAsyncResult *result,
+                    AsyncContext *context)
 {
+	EAlertSink *alert_sink;
 	CamelMimeMessage *new;
-	CamelMimeMessage *template = CAMEL_MIME_MESSAGE (data);
+	CamelMimeMessage *message;
+	CamelMimeMessage *template;
 	CamelMultipart *new_multipart;
 	CamelContentType *new_content_type = NULL;
 	CamelDataWrapper *dw;
 	struct _camel_header_raw *header;
+	EMailBackend *backend;
 	EShell *shell;
+	const gchar *message_uid;
 	gint i;
+	GError *error = NULL;
 
 	CamelMimePart *template_part = NULL;
 	CamelMimePart *out_part = NULL;
 
-	g_return_if_fail (template != NULL);
-	g_return_if_fail (message != NULL);
+	alert_sink = e_activity_get_alert_sink (context->activity);
 
-	/* FIXME Pass this in somehow. */
-	shell = e_shell_get_default ();
+	template = camel_folder_get_message_finish (folder, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_warn_if_fail (template == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (template == NULL);
+		e_alert_submit (
+			alert_sink, "mail:no-retrieve-message",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (template));
+
+	message = context->message;
+	message_uid = context->message_uid;
+
+	backend = e_mail_reader_get_backend (context->reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
 	folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_TEMPLATES);
 
@@ -803,24 +864,73 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 			camel_mime_message_get_recipients (template, CAMEL_RECIPIENT_TYPE_BCC));
 
 	/* Create the composer */
-	em_utils_edit_message (shell, folder, new, uid);
+	em_utils_edit_message (shell, folder, new, message_uid);
 
 	g_object_unref (template);
 	g_object_unref (new_multipart);
 	g_object_unref (new);
+
+	async_context_free (context);
+}
+
+static void
+template_got_source_message (CamelFolder *folder,
+                             GAsyncResult *result,
+                             AsyncContext *context)
+{
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+	CamelMimeMessage *message;
+	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
+	cancellable = e_activity_get_cancellable (context->activity);
+
+	message = camel_folder_get_message_finish (folder, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_warn_if_fail (message == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (message == NULL);
+		e_alert_submit (
+			alert_sink, "mail:no-retrieve-message",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	context->message = message;
+
+	/* Now fetch the template message. */
+
+	camel_folder_get_message (
+		context->template_folder,
+		context->template_message_uid,
+		G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) create_new_message,
+		context);
 }
 
 static void
 action_reply_with_template_cb (GtkAction *action,
                                EShellView *shell_view)
 {
+	EActivity *activity;
+	AsyncContext *context;
+	GCancellable *cancellable;
 	CamelFolder *folder, *template_folder;
 	EShellContent *shell_content;
-	CamelMimeMessage *template;
 	EMailReader *reader;
 	GPtrArray *uids;
 	const gchar *message_uid;
-	const gchar *template_uid;
+	const gchar *template_message_uid;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	reader = E_MAIL_READER (shell_content);
@@ -832,22 +942,25 @@ action_reply_with_template_cb (GtkAction *action,
 	g_return_if_fail (uids != NULL && uids->len == 1);
 	message_uid = g_ptr_array_index (uids, 0);
 
-	g_object_ref (action);
-
 	template_folder = g_object_get_data (
 		G_OBJECT (action), "template-folder");
-	template_uid = g_object_get_data (
+	template_message_uid = g_object_get_data (
 		G_OBJECT (action), "template-uid");
 
-	/* FIXME This blocks. */
-	template = camel_folder_get_message_sync (
-		template_folder, template_uid, NULL, NULL);
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
 
-	mail_get_message (
-		folder, message_uid, create_new_message,
-		(gpointer) template, mail_msg_unordered_push);
+	context = g_slice_new0 (AsyncContext);
+	context->activity = activity;
+	context->reader = g_object_ref (reader);
+	context->template_folder = g_object_ref (template_folder);
+	context->message_uid = g_strdup (message_uid);
+	context->template_message_uid = g_strdup (template_message_uid);
 
-	g_object_unref (action);
+	camel_folder_get_message (
+		folder, message_uid, G_PRIORITY_DEFAULT,
+		cancellable, (GAsyncReadyCallback)
+		template_got_source_message, context);
 
 	em_utils_uids_free (uids);
 }
