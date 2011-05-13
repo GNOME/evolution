@@ -888,6 +888,12 @@ get_folders (CamelStore *store, GPtrArray *folders, CamelFolderInfo *info)
 	}
 }
 
+static void
+main_op_cancelled_cb (GCancellable *main_op, GCancellable *refresh_op)
+{
+	g_cancellable_cancel (refresh_op);
+}
+
 struct _refresh_folders_msg {
 	MailMsg base;
 
@@ -911,6 +917,10 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 	CamelFolder *folder;
 	gint i;
 	GError *local_error = NULL;
+	gulong handler_id = 0;
+
+	if (cancellable)
+		handler_id = g_signal_connect (m->info->cancellable, "cancelled", G_CALLBACK (main_op_cancelled_cb), cancellable);
 
 	get_folders (m->store, m->folders, m->finfo);
 
@@ -932,7 +942,13 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 
 		if (g_cancellable_is_cancelled (m->info->cancellable))
 			break;
+
+		if (m->info->state != SEND_CANCELLED)
+			g_signal_emit_by_name (m->info->cancellable, "status", _("Updating..."), 100 * i / m->folders->len);
 	}
+
+	if (cancellable)
+		g_signal_handler_disconnect (m->info->cancellable, handler_id);
 }
 
 static void
