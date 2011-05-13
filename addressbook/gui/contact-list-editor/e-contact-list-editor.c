@@ -316,11 +316,21 @@ contact_list_editor_render_destination (GtkTreeViewColumn *column,
 
 	EDestination *destination;
 	const gchar *textrep;
+	gchar *name = NULL, *email = NULL, *tofree = NULL;
 
 	gtk_tree_model_get (model, iter, 0, &destination, -1);
 	textrep = e_destination_get_textrep (destination, TRUE);
+
+	if (eab_parse_qp_email (textrep, &name, &email)) {
+		tofree = g_strdup_printf ("%s <%s>", name, email);
+		textrep = tofree;
+		g_free (name);
+		g_free (email);
+	}
+
 	g_object_set (renderer, "text", textrep, NULL);
 	g_object_unref (destination);
+	g_free (tofree);
 }
 
 static void
