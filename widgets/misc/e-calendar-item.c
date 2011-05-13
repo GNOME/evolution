@@ -211,6 +211,7 @@ enum {
 	PROP_MAXIMUM_COLUMNS,
 	PROP_WEEK_START_DAY,
 	PROP_SHOW_WEEK_NUMBERS,
+	PROP_KEEP_WDAYS_ON_WEEKNUM_CLICK,
 	PROP_MAXIMUM_DAYS_SELECTED,
 	PROP_DAYS_TO_START_WEEK_SELECTION,
 	PROP_MOVE_SELECTION_WHEN_MOVING,
@@ -446,6 +447,16 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_KEEP_WDAYS_ON_WEEKNUM_CLICK,
+		g_param_spec_boolean (
+			"keep_wdays_on_weeknum_click",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_MAXIMUM_DAYS_SELECTED,
 		g_param_spec_int (
 			"maximum_days_selected",
@@ -549,6 +560,7 @@ e_calendar_item_init (ECalendarItem *calitem)
 	calitem->cols = 0;
 
 	calitem->show_week_numbers = FALSE;
+	calitem->keep_wdays_on_weeknum_click = FALSE;
 	calitem->week_start_day = 0;
 	calitem->expand = TRUE;
 	calitem->max_days_selected = 1;
@@ -677,6 +689,9 @@ e_calendar_item_get_property (GObject *object,
 		return;
 	case PROP_SHOW_WEEK_NUMBERS:
 		g_value_set_boolean (value, calitem->show_week_numbers);
+		return;
+	case PROP_KEEP_WDAYS_ON_WEEKNUM_CLICK:
+		g_value_set_boolean (value, calitem->keep_wdays_on_weeknum_click);
 		return;
 	case PROP_MAXIMUM_DAYS_SELECTED:
 		g_value_set_int (value, e_calendar_item_get_max_days_sel (calitem));
@@ -810,6 +825,9 @@ e_calendar_item_set_property (GObject *object,
 			calitem->show_week_numbers = bvalue;
 			gnome_canvas_item_request_update (item);
 		}
+		return;
+	case PROP_KEEP_WDAYS_ON_WEEKNUM_CLICK:
+		calitem->keep_wdays_on_weeknum_click = g_value_get_boolean (value);
 		return;
 	case PROP_MAXIMUM_DAYS_SELECTED:
 		ivalue = g_value_get_int (value);
@@ -2056,7 +2074,7 @@ static gboolean
 e_calendar_item_button_press	(ECalendarItem	*calitem,
 				 GdkEvent	*event)
 {
-	gint month_offset, day;
+	gint month_offset, day, add_days = 0;
 	gboolean all_week, round_up_end = FALSE, round_down_start = FALSE;
 
 	if (event->button.button == 4)
@@ -2094,11 +2112,29 @@ e_calendar_item_button_press	(ECalendarItem	*calitem,
 				    NULL, event->button.time) != 0)
 		return FALSE;
 
+	if (all_week && calitem->keep_wdays_on_weeknum_click) {
+		gint tmp_start_moff, tmp_start_day;
+
+		tmp_start_moff = calitem->selection_start_month_offset;
+		tmp_start_day = calitem->selection_start_day;
+		e_calendar_item_round_down_selection (calitem, &tmp_start_moff, &tmp_start_day);
+
+		e_calendar_item_round_down_selection (calitem, &month_offset, &day);
+		month_offset += calitem->selection_start_month_offset - tmp_start_moff;
+		day += calitem->selection_start_day - tmp_start_day;
+
+		/* keep same count of days selected */
+		add_days = e_calendar_item_get_inclusive_days (calitem, calitem->selection_start_month_offset, calitem->selection_start_day, calitem->selection_end_month_offset, calitem->selection_end_day) - 1;
+	}
+
 	calitem->selection_set = TRUE;
 	calitem->selection_start_month_offset = month_offset;
 	calitem->selection_start_day = day;
 	calitem->selection_end_month_offset = month_offset;
 	calitem->selection_end_day = day;
+
+	if (add_days > 0)
+		e_calendar_item_add_days_to_selection (calitem, add_days);
 
 	calitem->selection_real_start_month_offset = month_offset;
 	calitem->selection_real_start_day = day;
@@ -2107,7 +2143,7 @@ e_calendar_item_button_press	(ECalendarItem	*calitem,
 	calitem->selecting = TRUE;
 	calitem->selection_dragging_end = TRUE;
 
-	if (all_week) {
+	if (all_week && !calitem->keep_wdays_on_weeknum_click) {
 		calitem->selection_from_full_week = TRUE;
 		round_up_end = TRUE;
 	}
@@ -2117,8 +2153,8 @@ e_calendar_item_button_press	(ECalendarItem	*calitem,
 		round_up_end = TRUE;
 	}
 
-	/* Don't round up or down if we can't select a week or more. */
-	if (calitem->max_days_selected < 7) {
+	/* Don't round up or down if we can't select a week or more. Or when keeping week days */
+	if (calitem->max_days_selected < 7 || (all_week && calitem->keep_wdays_on_weeknum_click)) {
 		round_down_start = FALSE;
 		round_up_end = FALSE;
 	}

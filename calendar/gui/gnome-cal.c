@@ -1843,6 +1843,11 @@ gnome_calendar_display_view (GnomeCalendar *gcal,
 		gcal->priv->date_navigator->calitem,
 		"preserve_day_when_moving", preserve_day, NULL);
 
+	/* keep week days selected as before for a work week view */
+	g_object_set (G_OBJECT (gcal->priv->date_navigator->calitem),
+		      "keep_wdays_on_weeknum_click", view_type == GNOME_CAL_WORK_WEEK_VIEW,
+		      NULL);
+
 	if (!gcal->priv->base_view_time)
 		start_time = time (NULL);
 	else

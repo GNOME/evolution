@@ -161,6 +161,8 @@ struct _ECalendarItem
 
 	/* Whether we show week nubers. */
 	gboolean show_week_numbers;
+	/* whether to keep same week days selected on week number click */
+	gboolean keep_wdays_on_weeknum_click;
 
 	/* The first day of the week, 0 (Monday) to 6 (Sunday). */
 	gint week_start_day;

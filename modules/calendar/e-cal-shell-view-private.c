@@ -92,7 +92,7 @@ cal_shell_view_date_navigator_selection_changed_cb (ECalShellView *cal_shell_vie
 	icaltimezone *timezone;
 	time_t start, end, new_time;
 	gboolean starts_on_week_start_day;
-	gint new_days_shown;
+	gint new_days_shown, old_days_shown;
 	gint week_start_day;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
@@ -136,6 +136,9 @@ cal_shell_view_date_navigator_selection_changed_cb (ECalShellView *cal_shell_vie
 		g_date_compare (&end_date, &new_end_date) == 0)
 		return;
 
+	old_days_shown =
+		g_date_get_julian (&end_date) -
+		g_date_get_julian (&start_date) + 1;
 	new_days_shown =
 		g_date_get_julian (&new_end_date) -
 		g_date_get_julian (&new_start_date) + 1;
@@ -156,7 +159,10 @@ cal_shell_view_date_navigator_selection_changed_cb (ECalShellView *cal_shell_vie
 
 	/* Switch views as appropriate, and change the number of
 	 * days or weeks shown. */
-	if (new_days_shown > 9) {
+	if (view_type == GNOME_CAL_WORK_WEEK_VIEW && old_days_shown == new_days_shown) {
+		/* keep the work week view when has same days shown */
+		switch_to = GNOME_CAL_WORK_WEEK_VIEW;
+	} else if (new_days_shown > 9) {
 		if (view_type != GNOME_CAL_LIST_VIEW) {
 			ECalendarView *calendar_view;
 
