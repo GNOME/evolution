@@ -41,12 +41,6 @@ void		mail_transfer_messages		(EMailSession *session,
 						 void (*done) (gboolean ok, gpointer data),
 						 gpointer data);
 
-/* get a single message, asynchronously */
-gint mail_get_message (CamelFolder *folder, const gchar *uid,
-		       void (*done) (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data),
-		       gpointer data,
-		       MailMsgDispatchFunc dispatch);
-
 /* get quota information for a folder */
 gint mail_get_folder_quota (CamelFolder *folder,
 		 const gchar *folder_uri,
