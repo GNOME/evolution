@@ -1111,20 +1111,42 @@ action_mail_redirect_cb (GtkAction *action,
 
 static void
 action_mail_reply_all_check (CamelFolder *folder,
-                             const gchar *uid,
-                             CamelMimeMessage *message,
-                             gpointer user_data)
+                             GAsyncResult *result,
+                             EMailReaderClosure *closure)
 {
-	EMailReader *reader = user_data;
+	EAlertSink *alert_sink;
+	CamelMimeMessage *message;
 	CamelInternetAddress *to, *cc;
 	gint recip_count = 0;
 	EMailReplyType type = E_MAIL_REPLY_TO_ALL;
+	GError *error = NULL;
 
-	if (!message)
+	alert_sink = e_activity_get_alert_sink (closure->activity);
+
+	message = camel_folder_get_message_finish (folder, result, &error);
+
+	if (e_activity_handle_cancellation (closure->activity, error)) {
+		g_warn_if_fail (message == NULL);
+		mail_reader_closure_free (closure);
+		g_error_free (error);
 		return;
 
-	to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
-	cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+	} else if (error != NULL) {
+		g_warn_if_fail (message == NULL);
+		e_alert_submit (
+			alert_sink, "mail:no-retrieve-message",
+			error->message, NULL);
+		mail_reader_closure_free (closure);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	to = camel_mime_message_get_recipients (
+		message, CAMEL_RECIPIENT_TYPE_TO);
+	cc = camel_mime_message_get_recipients (
+		message, CAMEL_RECIPIENT_TYPE_CC);
 
 	recip_count = camel_address_length (CAMEL_ADDRESS (to));
 	recip_count += camel_address_length (CAMEL_ADDRESS (cc));
@@ -1136,7 +1158,7 @@ action_mail_reply_all_check (CamelFolder *folder,
 		gint response;
 
 		dialog = e_alert_dialog_new_for_args (
-			e_mail_reader_get_window (reader),
+			e_mail_reader_get_window (closure->reader),
 			"mail:ask-reply-many-recips", NULL);
 
 		container = e_alert_dialog_get_content_area (
@@ -1169,15 +1191,19 @@ action_mail_reply_all_check (CamelFolder *folder,
 				break;
 			case GTK_RESPONSE_CANCEL:
 			case GTK_RESPONSE_DELETE_EVENT:
-				g_object_unref (message);
-				return;
+				goto exit;
 			default:
 				break;
 		}
 	}
 
-	e_mail_reader_reply_to_message (reader, message, type);
-	check_close_browser_reader (reader);
+	e_mail_reader_reply_to_message (closure->reader, message, type);
+	check_close_browser_reader (closure->reader);
+
+exit:
+	g_object_unref (message);
+
+	mail_reader_closure_free (closure);
 }
 
 static void
@@ -1197,32 +1223,32 @@ action_mail_reply_all_cb (GtkAction *action,
 	g_object_unref (client);
 
 	if (ask && !(state & E_MAIL_READER_SELECTION_IS_MAILING_LIST)) {
-		CamelMimeMessage *message = NULL;
-		EWebView *web_view;
-		EMFormatHTML *formatter;
+		EActivity *activity;
+		GCancellable *cancellable;
+		EMailReaderClosure *closure;
+		CamelFolder *folder;
+		GtkWidget *message_list;
+		const gchar *message_uid;
 
-		formatter = e_mail_reader_get_formatter (reader);
-		web_view = em_format_html_get_web_view (formatter);
-		if (gtk_widget_get_mapped (GTK_WIDGET (web_view)))
-			message = CAMEL_MIME_MESSAGE (EM_FORMAT (formatter)->message);
+		folder = e_mail_reader_get_folder (reader);
+		g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-		if (!message) {
-			CamelFolder *folder;
-			GtkWidget *message_list;
-			gchar *uid;
+		message_list = e_mail_reader_get_message_list (reader);
+		message_uid = MESSAGE_LIST (message_list)->cursor_uid;
+		g_return_if_fail (message_uid != NULL);
 
-			folder = e_mail_reader_get_folder (reader);
-			message_list = e_mail_reader_get_message_list (reader);
+		activity = e_mail_reader_new_activity (reader);
+		cancellable = e_activity_get_cancellable (activity);
 
-			uid = MESSAGE_LIST (message_list)->cursor_uid;
-			g_return_if_fail (uid != NULL);
+		closure = g_slice_new0 (EMailReaderClosure);
+		closure->activity = activity;
+		closure->reader = g_object_ref (reader);
 
-			mail_get_message (
-				folder, uid, action_mail_reply_all_check,
-				reader, mail_msg_unordered_push);
-			return;
-		}
-		action_mail_reply_all_check (NULL, NULL, message, reader);
+		camel_folder_get_message (
+			folder, message_uid, G_PRIORITY_DEFAULT,
+			cancellable, (GAsyncReadyCallback)
+			action_mail_reply_all_check, closure);
+
 		return;
 	}
 
