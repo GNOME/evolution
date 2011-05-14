@@ -353,14 +353,64 @@ emfp_dialog_run (AsyncContext *context)
 }
 
 static void
-emfp_dialog_got_folder (CamelStore *store,
-                        GAsyncResult *result,
-                        AsyncContext *context)
+emfp_dialog_got_quota_info (CamelFolder *folder,
+                            GAsyncResult *result,
+                            AsyncContext *context)
 {
 	EAlertSink *alert_sink;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
+
+	context->quota_info =
+		camel_folder_get_quota_info_finish (folder, result, &error);
+
+	/* If the folder does not implement quota info, just continue. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED)) {
+		g_warn_if_fail (context->quota_info == NULL);
+		g_error_free (error);
+
+	} else if (e_activity_handle_cancellation (context->activity, error)) {
+		g_warn_if_fail (context->quota_info == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+
+	/* FIXME Add an EAlert for failing to get quota info. */
+	} else if (error != NULL) {
+		g_warn_if_fail (context->folder == NULL);
+		e_alert_submit (
+			alert_sink, "mail:folder-open",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	/* Quota info may still be NULL here if not supported. */
+
+	/* Finalize the activity here so we don't leave a message
+	 * in the task bar while the properties window is shown. */
+	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+	g_object_unref (context->activity);
+	context->activity = NULL;
+
+	emfp_dialog_run (context);
+
+	async_context_free (context);
+}
+
+static void
+emfp_dialog_got_folder (CamelStore *store,
+                        GAsyncResult *result,
+                        AsyncContext *context)
+{
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
+	cancellable = e_activity_get_cancellable (context->activity);
 
 	context->folder = camel_store_get_folder_finish (
 		store, result, &error);
@@ -383,18 +433,9 @@ emfp_dialog_got_folder (CamelStore *store,
 
 	g_return_if_fail (CAMEL_IS_FOLDER (context->folder));
 
-	/* FIXME This blocks, but Camel does not offer an async function. */
-	context->quota_info = camel_folder_get_quota_info (context->folder);
-
-	/* Finalize the activity here so we don't leave a message
-	 * in the task bar while the properties window is shown. */
-	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
-	g_object_unref (context->activity);
-	context->activity = NULL;
-
-	emfp_dialog_run (context);
-
-	async_context_free (context);
+	camel_folder_get_quota_info (
+		context->folder, G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) emfp_dialog_got_quota_info, context);
 }
 
 /**
