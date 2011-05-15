@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N\n"
 "POT-Creation-Date: 2011-05-14 19:22+0000\n"
-"PO-Revision-Date: 2011-05-15 13:27+0100\n"
+"PO-Revision-Date: 2011-05-15 22:16+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -8301,8 +8301,8 @@ msgid "Folder '%s' contains %u duplicate message. Are you sure you want to delet
 msgid_plural "Folder '%s' contains %u duplicate messages. Are you sure you want to delete them?"
 msgstr[0] "Mapa '%s' vsebuje %u podvojenih sporočil. Ali ste prepričani, da želite sporočila izbrisati?"
 msgstr[1] "Mapa '%s' vsebuje %u podvojeno sporočilo. Ali ste prepričani, da želite sporočilo izbrisati?"
-msgstr[2] "Mapa '%s' vsebuje %d podvojeni sporočili. Ali ste prepričani, da želite sporočili izbrisati?"
-msgstr[3] "Mapa '%s' vsebuje %d podvojena sporočila. Ali ste prepričani, da želite sporočila izbrisati?"
+msgstr[2] "Mapa '%s' vsebuje %u podvojeni sporočili. Ali ste prepričani, da želite sporočili izbrisati?"
+msgstr[3] "Mapa '%s' vsebuje %u podvojena sporočila. Ali ste prepričani, da želite sporočila izbrisati?"
 
 #: ../mail/e-mail-reader.c:307
 #: ../mail/em-filter-i18n.h:11
