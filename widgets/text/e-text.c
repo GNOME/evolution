@@ -413,8 +413,6 @@ static void
 reset_layout (EText *text)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (text);
-	cairo_font_options_t *font_options;
-	PangoContext *context;
 
 	if (text->layout == NULL) {
 		create_layout (text);
@@ -423,13 +421,6 @@ reset_layout (EText *text)
 		GtkStyle *style;
 
 		style = gtk_widget_get_style (GTK_WIDGET (item->canvas));
-
-		context = pango_layout_get_context (text->layout);
-
-		font_options = get_font_options ();
-		pango_cairo_context_set_font_options (context, font_options);
-		cairo_font_options_destroy (font_options);
-		pango_layout_context_changed (text->layout);
 
 		if (text->font_desc) {
 			pango_font_description_free (text->font_desc);

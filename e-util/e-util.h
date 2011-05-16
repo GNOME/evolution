@@ -128,9 +128,6 @@ gchar *		e_ascii_dtostr			(gchar *buffer,
 						 const gchar *format,
 						 gdouble d);
 
-cairo_font_options_t *
-		get_font_options		(void);
-
 gboolean	e_file_lock_create		(void);
 void		e_file_lock_destroy		(void);
 gboolean	e_file_lock_exists		(void);
