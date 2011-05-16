@@ -43,6 +43,7 @@ struct _EWebViewPrivate {
 	GList *requests;
 	GtkUIManager *ui_manager;
 	gchar *selected_uri;
+	GdkPixbufAnimation *cursor_image;
 
 	GtkAction *open_proxy;
 	GtkAction *print_proxy;
@@ -80,7 +81,8 @@ enum {
 	PROP_PASTE_TARGET_LIST,
 	PROP_PRINT_PROXY,
 	PROP_SAVE_AS_PROXY,
-	PROP_SELECTED_URI
+	PROP_SELECTED_URI,
+	PROP_CURSOR_IMAGE
 };
 
 enum {
@@ -113,6 +115,7 @@ static const gchar *ui =
 "    <placeholder name='custom-actions-2'>"
 "      <menuitem action='uri-copy'/>"
 "      <menuitem action='mailto-copy'/>"
+"      <menuitem action='image-copy'/>"
 "    </placeholder>"
 "    <placeholder name='custom-actions-3'/>"
 "    <separator/>"
@@ -375,6 +378,26 @@ action_uri_copy_cb (GtkAction *action,
 	gtk_clipboard_store (clipboard);
 }
 
+static void
+action_image_copy_cb (GtkAction *action,
+                    EWebView *web_view)
+{
+	GtkClipboard *clipboard;
+	GdkPixbufAnimation *animation;
+	GdkPixbuf *pixbuf;
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	animation = e_web_view_get_cursor_image (web_view);
+	g_return_if_fail (animation != NULL);
+
+	pixbuf = gdk_pixbuf_animation_get_static_image (animation);
+	if (!pixbuf)
+		return;
+
+	gtk_clipboard_set_image (clipboard, pixbuf);
+	gtk_clipboard_store (clipboard);
+}
+
 static GtkActionEntry uri_entries[] = {
 
 	{ "uri-copy",
@@ -412,6 +435,16 @@ static GtkActionEntry mailto_entries[] = {
 	  G_CALLBACK (action_send_message_cb) }
 };
 
+static GtkActionEntry image_entries[] = {
+
+	{ "image-copy",
+	  GTK_STOCK_COPY,
+	  N_("_Copy Image"),
+	  NULL,
+	  N_("Copy the image to the clipboard"),
+	  G_CALLBACK (action_image_copy_cb) }
+};
+
 static GtkActionEntry selection_entries[] = {
 
 	{ "copy-clipboard",
@@ -439,6 +472,15 @@ web_view_button_press_event_cb (EWebView *web_view,
 {
 	gboolean event_handled = FALSE;
 	gchar *uri = NULL;
+
+	if (event) {
+		GdkPixbufAnimation *anim;
+
+		anim = gtk_html_get_image_at (frame ? frame : GTK_HTML (web_view), event->x, event->y);
+		e_web_view_set_cursor_image (web_view, anim);
+		if (anim)
+			g_object_unref (anim);
+	}
 
 	if (event != NULL && event->button != 3)
 		return FALSE;
@@ -582,6 +624,11 @@ web_view_set_property (GObject *object,
 				E_WEB_VIEW (object),
 				g_value_get_string (value));
 			return;
+		case PROP_CURSOR_IMAGE:
+			e_web_view_set_cursor_image (
+				E_WEB_VIEW (object),
+				g_value_get_object (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -677,6 +724,12 @@ web_view_get_property (GObject *object,
 				value, e_web_view_get_selected_uri (
 				E_WEB_VIEW (object)));
 			return;
+
+		case PROP_CURSOR_IMAGE:
+			g_value_set_object (
+				value, e_web_view_get_cursor_image (
+				E_WEB_VIEW (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -717,6 +770,11 @@ web_view_dispose (GObject *object)
 	if (priv->paste_target_list != NULL) {
 		gtk_target_list_unref (priv->paste_target_list);
 		priv->paste_target_list = NULL;
+	}
+
+	if (priv->cursor_image) {
+		g_object_unref (priv->cursor_image);
+		priv->cursor_image = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -995,12 +1053,14 @@ web_view_update_actions (EWebView *web_view)
 	gboolean scheme_is_http = FALSE;
 	gboolean scheme_is_mailto = FALSE;
 	gboolean uri_is_valid = FALSE;
+	gboolean has_cursor_image;
 	gboolean visible;
 	const gchar *group_name;
 	const gchar *uri;
 
 	uri = e_web_view_get_selected_uri (web_view);
 	have_selection = e_web_view_is_selection_active (web_view);
+	has_cursor_image = e_web_view_get_cursor_image (web_view) != NULL;
 
 	/* Parse the URI early so we know if the actions will work. */
 	if (uri != NULL) {
@@ -1031,6 +1091,11 @@ web_view_update_actions (EWebView *web_view)
 
 	group_name = "mailto";
 	visible = uri_is_valid && scheme_is_mailto;
+	action_group = e_web_view_get_action_group (web_view, group_name);
+	gtk_action_group_set_visible (action_group, visible);
+
+	group_name = "image";
+	visible = has_cursor_image;
 	action_group = e_web_view_get_action_group (web_view, group_name);
 	gtk_action_group_set_visible (action_group, visible);
 
@@ -1419,6 +1484,16 @@ e_web_view_class_init (EWebViewClass *class)
 			NULL,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_CURSOR_IMAGE,
+		g_param_spec_object (
+			"cursor-image",
+			"Image animation at the mouse cursor",
+			NULL,
+			GDK_TYPE_PIXBUF_ANIMATION,
+			G_PARAM_READWRITE));
+
 	signals[COPY_CLIPBOARD] = g_signal_new (
 		"copy-clipboard",
 		G_TYPE_FROM_CLASS (class),
@@ -1564,6 +1639,15 @@ e_web_view_init (EWebView *web_view)
 	gtk_action_group_add_actions (
 		action_group, mailto_entries,
 		G_N_ELEMENTS (mailto_entries), web_view);
+
+	action_group = gtk_action_group_new ("image");
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	g_object_unref (action_group);
+
+	gtk_action_group_add_actions (
+		action_group, image_entries,
+		G_N_ELEMENTS (image_entries), web_view);
 
 	action_group = gtk_action_group_new ("selection");
 	gtk_action_group_set_translation_domain (action_group, domain);
@@ -1887,6 +1971,31 @@ e_web_view_set_selected_uri (EWebView *web_view,
 	web_view->priv->selected_uri = g_strdup (selected_uri);
 
 	g_object_notify (G_OBJECT (web_view), "selected-uri");
+}
+
+GdkPixbufAnimation *
+e_web_view_get_cursor_image (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+
+	return web_view->priv->cursor_image;
+}
+
+void
+e_web_view_set_cursor_image (EWebView *web_view,
+                             GdkPixbufAnimation *image)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (image)
+		g_object_ref (image);
+
+	if (web_view->priv->cursor_image)
+		g_object_unref (web_view->priv->cursor_image);
+
+	web_view->priv->cursor_image = image;
+
+	g_object_notify (G_OBJECT (web_view), "cursor-image");
 }
 
 GtkAction *

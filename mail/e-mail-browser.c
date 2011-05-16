@@ -311,6 +311,7 @@ mail_browser_popup_event_cb (EMailBrowser *browser,
                              GdkEventButton *event,
                              const gchar *uri)
 {
+	EMFormatHTML *html_formatter;
 	EMailReader *reader;
 	GtkMenu *menu;
 	guint32 state;
@@ -319,6 +320,11 @@ mail_browser_popup_event_cb (EMailBrowser *browser,
 		return FALSE;
 
 	reader = E_MAIL_READER (browser);
+	html_formatter = e_mail_reader_get_formatter (reader);
+
+	if (html_formatter && e_web_view_get_cursor_image (em_format_html_get_web_view (html_formatter)) != NULL)
+		return FALSE;
+
 	menu = e_mail_reader_get_popup_menu (reader);
 
 	state = e_mail_reader_check_state (reader);

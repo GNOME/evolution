@@ -326,6 +326,7 @@ mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
                                 const gchar *uri)
 {
 	EMailShellContent *mail_shell_content;
+	EMFormatHTML *html_formatter;
 	EShellView *shell_view;
 	EMailReader *reader;
 	EMailView *mail_view;
@@ -338,8 +339,12 @@ mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	reader = E_MAIL_READER (mail_view);
-	menu = e_mail_reader_get_popup_menu (reader);
+	html_formatter = e_mail_reader_get_formatter (reader);
 
+	if (html_formatter && e_web_view_get_cursor_image (em_format_html_get_web_view (html_formatter)) != NULL)
+		return FALSE;
+
+	menu = e_mail_reader_get_popup_menu (reader);
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	e_shell_view_update_actions (shell_view);
 

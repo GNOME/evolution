@@ -124,6 +124,9 @@ void		e_web_view_set_magic_smileys	(EWebView *web_view,
 const gchar *	e_web_view_get_selected_uri	(EWebView *web_view);
 void		e_web_view_set_selected_uri	(EWebView *web_view,
 						 const gchar *selected_uri);
+GdkPixbufAnimation * e_web_view_get_cursor_image(EWebView *web_view);
+void		e_web_view_set_cursor_image	(EWebView *web_view,
+						 GdkPixbufAnimation *animation);
 GtkAction *	e_web_view_get_open_proxy	(EWebView *web_view);
 void		e_web_view_set_open_proxy	(EWebView *web_view,
 						 GtkAction *open_proxy);
