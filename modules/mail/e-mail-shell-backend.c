@@ -342,6 +342,11 @@ mail_shell_backend_window_created_cb (EShell *shell,
 	}
 
 	if (E_IS_MSG_COMPOSER (window)) {
+		/* Start the mail backend if it isn't already.  This
+		 * may be necessary when opening a new composer window
+		 * from a shell view other than mail. */
+		e_shell_backend_start (shell_backend);
+
 		/* Integrate the new composer into the mail module. */
 		em_configure_new_composer (E_MSG_COMPOSER (window));
 		return;
