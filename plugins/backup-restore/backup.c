@@ -72,7 +72,6 @@ static gint result = 0;
 static GtkWidget *progress_dialog;
 static GtkWidget *pbar;
 static gchar *txt = NULL;
-static gboolean complete = FALSE;
 
 static GOptionEntry options[] = {
 	{ "backup", '\0', 0, G_OPTION_ARG_NONE, &backup_op,
@@ -93,7 +92,6 @@ static GOptionEntry options[] = {
 #define d(x)
 
 #define print_and_run(x) G_STMT_START { g_message ("%s", x); system (x); } G_STMT_END
-#define CANCEL(x) if (x) return;
 
 static gboolean check (const gchar *filename, gboolean *is_new_format);
 
@@ -277,7 +275,8 @@ write_dir_file (void)
 }
 
 static void
-backup (const gchar *filename)
+backup (const gchar *filename,
+        GCancellable *cancellable)
 {
 	gchar *command;
 	gchar *quotedfname;
@@ -285,14 +284,18 @@ backup (const gchar *filename)
 	g_return_if_fail (filename && *filename);
 	quotedfname = g_shell_quote (filename);
 
-	CANCEL (complete);
+	if (g_cancellable_is_cancelled (cancellable))
+		return;
+
 	txt = _("Shutting down Evolution");
 	/* FIXME Will the versioned setting always work? */
 	run_cmd (EVOLUTION " --quit");
 
 	run_cmd ("rm $DATADIR/.running");
 
-	CANCEL (complete);
+	if (g_cancellable_is_cancelled (cancellable))
+		return;
+
 	txt = _("Backing Evolution accounts and settings");
 	run_cmd ("gconftool-2 --dump " GCONF_DIR " > " EVOLUTION_DIR GCONF_DUMP_FILE);
 
@@ -300,7 +303,9 @@ backup (const gchar *filename)
 
 	write_dir_file ();
 
-	CANCEL (complete);
+	if (g_cancellable_is_cancelled (cancellable))
+		return;
+
 	txt = _("Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)");
 
 	/* FIXME stay on this file system ,other options?" */
@@ -318,10 +323,10 @@ backup (const gchar *filename)
 
 	if (restart_arg) {
 
-		CANCEL (complete);
-		txt = _("Restarting Evolution");
-		complete=TRUE;
+		if (g_cancellable_is_cancelled (cancellable))
+			return;
 
+		txt = _("Restarting Evolution");
 		run_cmd (EVOLUTION);
 	}
 
@@ -379,7 +384,8 @@ get_dir_level (const gchar *dir)
 }
 
 static void
-restore (const gchar *filename)
+restore (const gchar *filename,
+         GCancellable *cancellable)
 {
 	gchar *command;
 	gchar *quotedfname;
@@ -394,18 +400,24 @@ restore (const gchar *filename)
 
 	quotedfname = g_shell_quote (filename);
 
+	if (g_cancellable_is_cancelled (cancellable))
+		return;
+
 	/* FIXME Will the versioned setting always work? */
-	CANCEL (complete);
 	txt = _("Shutting down Evolution");
 	run_cmd (EVOLUTION " --quit");
 
-	CANCEL (complete);
+	if (g_cancellable_is_cancelled (cancellable))
+		return;
+
 	txt = _("Back up current Evolution data");
 	run_cmd ("mv $DATADIR $DATADIR_old");
 	run_cmd ("mv $CONFIGDIR $CONFIGDIR_old");
 	run_cmd ("mv $HOME/.camel_certs $HOME/.camel_certs_old");
 
-	CANCEL (complete);
+	if (g_cancellable_is_cancelled (cancellable))
+		return;
+
 	txt = _("Extracting files from back up");
 
 	if (is_new_format) {
@@ -462,7 +474,9 @@ restore (const gchar *filename)
 
 	g_free (quotedfname);
 
-	CANCEL (complete);
+	if (g_cancellable_is_cancelled (cancellable))
+		return;
+
 	txt = _("Loading Evolution settings");
 
 	if (is_new_format) {
@@ -477,7 +491,9 @@ restore (const gchar *filename)
 		run_cmd ("rm " "$HOME/.evolution/" GCONF_DUMP_FILE);
 	}
 
-	CANCEL (complete);
+	if (g_cancellable_is_cancelled (cancellable))
+		return;
+
 	txt = _("Removing temporary back up files");
 	run_cmd ("rm -rf $DATADIR_old");
 	run_cmd ("rm -rf $CONFIGDIR_old");
@@ -487,14 +503,17 @@ restore (const gchar *filename)
 	if (!is_new_format)
 		run_cmd ("rm -rf $HOME/.evolution_old");
 
-	CANCEL (complete);
+	if (g_cancellable_is_cancelled (cancellable))
+		return;
+
 	txt = _("Ensuring local sources");
 
  end:
 	if (restart_arg) {
-		CANCEL (complete);
+		if (g_cancellable_is_cancelled (cancellable))
+			return;
+
 		txt = _("Restarting Evolution");
-		complete=TRUE;
 		run_cmd (EVOLUTION);
 	}
 }
@@ -557,52 +576,48 @@ check (const gchar *filename, gboolean *is_new_format)
 }
 
 static gboolean
-pbar_update (gpointer data)
+pbar_update (GCancellable *cancellable)
 {
-	if (!complete) {
-		gtk_progress_bar_pulse ((GtkProgressBar *) pbar);
-		gtk_progress_bar_set_text ((GtkProgressBar *) pbar, txt);
-		return TRUE;
-	}
+	gtk_progress_bar_pulse ((GtkProgressBar *) pbar);
+	gtk_progress_bar_set_text ((GtkProgressBar *) pbar, txt);
 
-	gtk_main_quit ();
-	return FALSE;
-}
-
-static gpointer
-thread_start (gpointer data)
-{
-	if (backup_op)
-		backup (bk_file);
-	else if (restore_op)
-		restore (res_file);
-	else if (check_op)
-		check (chk_file, NULL);
-
-	complete = TRUE;
-
-	return GINT_TO_POINTER (result);
+	/* Return TRUE to reschedule the timeout. */
+	return !g_cancellable_is_cancelled (cancellable);
 }
 
 static gboolean
-idle_cb (gpointer data)
+finish_job (gpointer user_data)
 {
-	if (gui_arg) {
-		/* Show progress dialog */
-		gtk_progress_bar_pulse ((GtkProgressBar *) pbar);
-		g_timeout_add (50, pbar_update, NULL);
-	}
+	gtk_main_quit ();
 
-	g_thread_create (thread_start, NULL, FALSE, NULL);
+	return FALSE;
+}
+
+static gboolean
+start_job (GIOSchedulerJob *job,
+           GCancellable *cancellable,
+           gpointer user_data)
+{
+	if (backup_op)
+		backup (bk_file, cancellable);
+	else if (restore_op)
+		restore (res_file, cancellable);
+	else if (check_op)
+		check (chk_file, NULL);  /* not cancellable */
+
+	g_io_scheduler_job_send_to_mainloop_async (
+		job, finish_job, NULL, (GDestroyNotify) NULL);
 
 	return FALSE;
 }
 
 static void
-dlg_response (GtkWidget *dlg, gint response, gpointer data)
+dlg_response (GtkWidget *dlg,
+              gint response,
+              GCancellable *cancellable)
 {
 	/* We will cancel only backup/restore operations and not the check operation */
-	complete = TRUE;
+	g_cancellable_cancel (cancellable);
 
 	/* If the response is not of delete_event then destroy the event */
 	if (response != GTK_RESPONSE_NONE)
@@ -632,6 +647,7 @@ dlg_response (GtkWidget *dlg, gint response, gpointer data)
 gint
 main (gint argc, gchar **argv)
 {
+	GCancellable *cancellable;
 	gchar *file = NULL, *oper = NULL;
 	gint i;
 	GError *error = NULL;
@@ -690,6 +706,8 @@ main (gint argc, gchar **argv)
 			}
 		}
 	}
+
+	cancellable = g_cancellable_new ();
 
 	if (gui_arg && !check_op) {
 		GtkWidget *widget, *container;
@@ -789,7 +807,9 @@ main (gint argc, gchar **argv)
 			gtk_table_attach (GTK_TABLE (container), pbar, 1, 2, 2, 3, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
 
 		gtk_window_set_default_size ((GtkWindow *) progress_dialog, 450, 120);
-		g_signal_connect (progress_dialog, "response", G_CALLBACK(dlg_response), NULL);
+		g_signal_connect (
+			progress_dialog, "response",
+			G_CALLBACK (dlg_response), cancellable);
 		gtk_widget_show_all (progress_dialog);
 	} else if (check_op) {
 		/* For sanity we don't need gui */
@@ -797,8 +817,21 @@ main (gint argc, gchar **argv)
 		exit (result == 0 ? 0 : 1);
 	}
 
-	g_idle_add (idle_cb, NULL);
+	if (gui_arg)
+		g_timeout_add_full (
+			G_PRIORITY_DEFAULT, 50,
+			(GSourceFunc) pbar_update,
+			g_object_ref (cancellable),
+			(GDestroyNotify) g_object_unref);
+
+	g_io_scheduler_push_job (
+		start_job, NULL,
+		(GDestroyNotify) NULL,
+		G_PRIORITY_DEFAULT, cancellable);
+
 	gtk_main ();
+
+	g_object_unref (cancellable);
 
 	return result;
 }
