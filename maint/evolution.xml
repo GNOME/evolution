@@ -22,6 +22,8 @@
       <property id="title"/>
     </glade-widget-class>
 
+    <glade-widget-class name="EPortEntry" generic-name="port-entry" title="Port Entry"/>
+
     <glade-widget-class name="ESourceComboBox" generic-name="source-combo-box" title="Source Combo Box">
       <property id="source-list"/>
     </glade-widget-class>
@@ -38,6 +40,7 @@
     <glade-widget-class-ref name="EDateEdit"/>
     <glade-widget-class-ref name="EImageChooser"/>
     <glade-widget-class-ref name="EMFolderSelectionButton"/>
+    <glade-widget-class-ref name="EPortEntry"/>
     <glade-widget-class-ref name="ESourceComboBox"/>
     <glade-widget-class-ref name="ETimezoneEntry"/>
     <glade-widget-class-ref name="EUrlEntry"/>
