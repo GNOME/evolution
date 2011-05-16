@@ -38,7 +38,7 @@ dnl Required Packages
 m4_define([glib_minimum_version], [2.28])
 m4_define([gtk_minimum_version], [3.0.2])
 m4_define([eds_minimum_version], [evo_version])
-m4_define([gtkhtml_minimum_version], [3.91.3])
+m4_define([gtkhtml_minimum_version], [4.1.2])
 m4_define([gnome_desktop_minimum_version], [2.91.3])
 m4_define([gnome_icon_theme_minimum_version], [2.30.2.1])
 m4_define([gsettings_desktop_schemas_minimum_version], [2.91.92])
