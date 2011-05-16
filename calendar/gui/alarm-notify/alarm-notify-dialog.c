@@ -123,7 +123,7 @@ an_update_days_label (GtkSpinButton *sb, gpointer data)
 	an = (AlarmNotify *) data;
 
 	snooze_timeout_days  = gtk_spin_button_get_value_as_int (sb);
-	gtk_label_set_text (GTK_LABEL (an->days_label), ngettext ("days", "days", snooze_timeout_days));
+	gtk_label_set_text (GTK_LABEL (an->days_label), ngettext ("day", "days", snooze_timeout_days));
 }
 
 static void
