@@ -24,13 +24,18 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <gtk/gtk.h>
+
+#include "goto-dialog.h"
+
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
-#include "calendar-config.h"
-#include "tag-calendar.h"
-#include "goto.h"
+#include "calendar/gui/calendar-config.h"
+#include "calendar/gui/tag-calendar.h"
 
 typedef struct
 {
@@ -171,7 +176,7 @@ goto_today (GoToDialog *dlg)
 static gboolean
 get_widgets (GoToDialog *dlg)
 {
-#define GW(name) e_builder_get_widget (dlg->builder, name)
+	#define GW(name) e_builder_get_widget (dlg->builder, name)
 
 	dlg->dialog = GW ("goto-dialog");
 
@@ -179,7 +184,7 @@ get_widgets (GoToDialog *dlg)
 	dlg->year = GW ("year");
 	dlg->vbox = GW ("vbox");
 
-#undef GW
+	#undef GW
 
 	return (dlg->dialog
 		&& dlg->month_combobox

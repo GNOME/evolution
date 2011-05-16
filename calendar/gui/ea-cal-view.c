@@ -24,7 +24,7 @@
 #include "ea-calendar-helpers.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
-#include "goto.h"
+#include "dialogs/goto-dialog.h"
 #include <glib.h>
 #include <glib/gi18n.h>
 

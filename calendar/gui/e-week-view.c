@@ -47,12 +47,12 @@
 #include "dialogs/send-comp.h"
 #include "dialogs/cancel-comp.h"
 #include "dialogs/recur-comp.h"
+#include "dialogs/goto-dialog.h"
 #include "comp-util.h"
 #include "itip-utils.h"
 #include <libecal/e-cal-time-util.h>
 #include "calendar-config.h"
 #include "print.h"
-#include "goto.h"
 #include "e-cal-model-calendar.h"
 #include "e-week-view-event-item.h"
 #include "e-week-view-layout.h"

@@ -16,7 +16,7 @@
  *
  *
  * Authors:
- *		Federico Mena <federico@ximian.com>
+ *	Federico Mena <federico@ximian.com>
  *      JP Rosevear <jpr@ximian.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -27,7 +27,7 @@
 #ifndef GOTO_DIALOG_H
 #define GOTO_DIALOG_H
 
-#include "gnome-cal.h"
+#include "calendar/gui/gnome-cal.h"
 
 void goto_dialog (GtkWindow *parent, GnomeCalendar *gcal);
 

@@ -36,6 +36,7 @@ ecalendarinclude_HEADERS =		\
 	e-send-options-utils.h		\
 	event-editor.h			\
 	event-page.h			\
+	goto-dialog.h			\
 	memo-editor.h			\
 	memo-page.h			\
 	recurrence-page.h		\
@@ -85,6 +86,8 @@ libcal_dialogs_la_SOURCES =		\
 	event-editor.h			\
 	event-page.c			\
 	event-page.h			\
+	goto-dialog.c			\
+	goto-dialog.h			\
 	memo-editor.c			\
 	memo-editor.h			\
 	memo-page.c			\
@@ -113,6 +116,7 @@ ui_DATA =				\
 	alarm-list-dialog.ui		\
 	e-delegate-dialog.ui		\
 	event-page.ui		\
+	goto-dialog.ui			\
 	memo-page.ui			\
 	recurrence-page.ui		\
 	schedule-page.ui		\

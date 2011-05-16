@@ -51,13 +51,13 @@
 #include "e-cell-date-edit-text.h"
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
+#include "dialogs/goto-dialog.h"
 #include "dialogs/send-comp.h"
 #include "dialogs/cancel-comp.h"
 #include "dialogs/recur-comp.h"
 #include "comp-util.h"
 #include "itip-utils.h"
 #include "calendar-config.h"
-#include "goto.h"
 #include "misc.h"
 
 static void      e_cal_list_view_dispose                (GObject *object);

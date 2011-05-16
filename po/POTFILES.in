@@ -62,6 +62,8 @@ calendar/gui/dialogs/delete-error.c
 calendar/gui/dialogs/event-editor.c
 calendar/gui/dialogs/event-page.c
 [type: gettext/glade]calendar/gui/dialogs/event-page.ui
+calendar/gui/dialogs/goto-dialog.c
+[type: gettext/glade]calendar/gui/dialogs/goto-dialog.ui
 calendar/gui/dialogs/memo-editor.c
 calendar/gui/dialogs/memo-page.c
 [type: gettext/glade]calendar/gui/dialogs/memo-page.ui
@@ -111,8 +113,6 @@ calendar/gui/ea-jump-button.c
 calendar/gui/ea-week-view-main-item.c
 calendar/gui/ea-week-view.c
 calendar/gui/gnome-cal.c
-[type: gettext/glade]calendar/gui/goto-dialog.ui
-calendar/gui/goto.c
 calendar/gui/itip-utils.c
 calendar/gui/memotypes.xml
 calendar/gui/misc.c
