@@ -1128,7 +1128,6 @@ EWebViewPrivate
 <SECTION>
 <FILE>e-util</FILE>
 <TITLE>Miscellaneous Utilities</TITLE>
-e_get_gnome2_user_dir
 e_get_accels_filename
 e_show_uri
 e_display_help
