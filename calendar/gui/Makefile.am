@@ -42,7 +42,6 @@ ecalendarinclude_HEADERS =			\
 	e-week-view.h				\
 	e-timezone-entry.h			\
 	gnome-cal.h				\
-	goto.h					\
 	itip-utils.h				\
 	misc.h					\
 	tag-calendar.h				\
@@ -73,9 +72,6 @@ libevolution_calendar_la_CPPFLAGS =			\
 	$(LIBSOUP_CFLAGS)				\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(CAMEL_CFLAGS)
-
-ui_DATA = 					\
-	goto-dialog.ui
 
 etspec_DATA =				\
 	e-calendar-table.etspec		\
@@ -170,8 +166,6 @@ libevolution_calendar_la_SOURCES = \
 	e-week-view.h				\
 	e-timezone-entry.c			\
 	e-timezone-entry.h			\
-	goto.c					\
-	goto.h					\
 	gnome-cal.c				\
 	gnome-cal.h				\
 	itip-utils.c				\

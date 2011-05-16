@@ -57,8 +57,8 @@
 #include "dialogs/cancel-comp.h"
 #include "dialogs/recur-comp.h"
 #include "dialogs/select-source-dialog.h"
+#include "dialogs/goto-dialog.h"
 #include "print.h"
-#include "goto.h"
 #include "misc.h"
 
 struct _ECalendarViewPrivate {

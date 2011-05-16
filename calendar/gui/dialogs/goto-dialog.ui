@@ -66,6 +66,7 @@
     <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
     <property name="focus_on_map">True</property>
     <property name="urgency_hint">False</property>
+    <property name="border_width">12</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
@@ -130,8 +131,8 @@
                   </object>
                   <packing>
                     <property name="padding">0</property>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                   </packing>
                 </child>
                 <child>
@@ -155,7 +156,7 @@
               </object>
               <packing>
                 <property name="padding">0</property>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
               </packing>
             </child>
