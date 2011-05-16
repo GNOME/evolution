@@ -187,7 +187,6 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	gboolean draw_attach_icon;
 	ECalComponentTransparency transparency;
 	cairo_pattern_t *pat;
-	cairo_font_options_t *font_options;
 	guint16 red, green, blue;
 	gint i;
 	gdouble radius, x0, y0, rect_height, rect_width, text_x_offset = 0.0;
@@ -231,8 +230,6 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 	gdk_cairo_set_source_color (cr,
 			&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
-
-	font_options = get_font_options ();
 
 	if (!is_array_index_in_bounds (day_view->events[day], event_num))
 		return;
@@ -553,7 +550,6 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 				cairo_set_source_rgb (cr, 0, 0, 0);
 			else
 				cairo_set_source_rgb (cr, 1, 1, 1);
-			cairo_set_font_options (cr, font_options);
 			cairo_show_text (cr, end_regsizeime);
 			cairo_close_path (cr);
 			cairo_restore (cr);
@@ -789,14 +785,10 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		else
 			cairo_set_source_rgb (cr, 1, 1, 1);
 		cairo_set_font_size (cr, 14.0);
-		cairo_set_font_options (cr, font_options);
 		cairo_show_text (cr, text);
 		cairo_close_path (cr);
 		cairo_restore (cr);
 	}
-
-	if (font_options)
-		cairo_font_options_destroy (font_options);
 
 	g_free (text);
 	g_object_unref (comp);
