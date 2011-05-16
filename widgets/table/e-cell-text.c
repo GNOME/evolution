@@ -499,8 +499,6 @@ build_layout (ECellTextView *text_view, gint row, const gchar *text, gint width)
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	PangoAttrList *attrs;
 	PangoLayout *layout;
-	PangoContext *context;
-	cairo_font_options_t *font_options;
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (((GnomeCanvasItem *) ecell_view->e_table_item_view)->canvas), text);
 
@@ -511,13 +509,6 @@ build_layout (ECellTextView *text_view, gint row, const gchar *text, gint width)
 
 	if (text_view->edit || width <= 0)
 		return layout;
-
-	context = pango_layout_get_context (layout);
-
-	font_options = get_font_options ();
-	pango_cairo_context_set_font_options (context, font_options);
-	cairo_font_options_destroy (font_options);
-	pango_layout_context_changed (layout);
 
 	if (ect->font_name)
 	{
