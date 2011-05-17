@@ -170,17 +170,62 @@ action_mail_create_search_folder_cb (GtkAction *action,
 }
 
 static void
-action_mail_download_foreach_cb (CamelService *service)
+action_mail_download_finished_cb (CamelStore *store,
+                                  GAsyncResult *result,
+                                  EActivity *activity)
 {
-	if (CAMEL_IS_DISCO_STORE (service) || CAMEL_IS_OFFLINE_STORE (service))
-		mail_store_prepare_offline (CAMEL_STORE (service));
+	EAlertSink *alert_sink;
+	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (activity);
+
+	e_mail_store_prepare_for_offline_finish (store, result, &error);
+
+	if (e_activity_handle_cancellation (activity, error)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		e_alert_submit (
+			alert_sink, "mail:prepare-for-offline",
+			error->message, NULL);
+		g_error_free (error);
+	}
+
+	g_object_unref (activity);
+}
+
+static void
+action_mail_download_foreach_cb (CamelStore *store,
+                                 const gchar *display_name,
+                                 EMailReader *reader)
+{
+	EActivity *activity;
+	GCancellable *cancellable;
+
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
+	e_mail_store_prepare_for_offline (
+		store, G_PRIORITY_DEFAULT,
+		cancellable, (GAsyncReadyCallback)
+		action_mail_download_finished_cb, activity);
 }
 
 static void
 action_mail_download_cb (GtkAction *action,
                          EMailShellView *mail_shell_view)
 {
-	e_mail_store_foreach ((GHFunc) action_mail_download_foreach_cb, NULL);
+	EMailShellContent *mail_shell_content;
+	EMailView *mail_view;
+	EMailReader *reader;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
+
+	e_mail_store_foreach (
+		(GHFunc) action_mail_download_foreach_cb, reader);
 }
 
 static void

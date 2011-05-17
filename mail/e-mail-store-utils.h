@@ -41,6 +41,16 @@ void		e_mail_store_go_online		(CamelStore *store,
 gboolean	e_mail_store_go_online_finish	(CamelStore *store,
 						 GAsyncResult *result,
 						 GError **error);
+void		e_mail_store_prepare_for_offline
+						(CamelStore *store,
+						 gint io_priority,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_mail_store_prepare_for_offline_finish
+						(CamelStore *store,
+						 GAsyncResult *result,
+						 GError **error);
 
 G_END_DECLS
 

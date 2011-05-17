@@ -112,14 +112,10 @@ void		mail_filter_folder		(EMailSession *session,
 						 const gchar *type,
 						 gboolean notify);
 
-/* Work Offline */
-gint mail_store_prepare_offline (CamelStore *store);
-
 /* filter driver execute shell command async callback */
 void mail_execute_shell_command (CamelFilterDriver *driver, gint argc, gchar **argv, gpointer data);
 
 gint mail_disconnect_store (CamelStore *store);
-gint mail_remove_attachments (CamelFolder *folder, GPtrArray *uids);
 
 G_END_DECLS
 
