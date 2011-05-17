@@ -77,11 +77,6 @@ void mail_xfer_folder (const gchar *src_uri, const gchar *dest_uri, gboolean rem
 				     CamelFolder *folder, gpointer data),
 		       gpointer data);
 
-/* save messages */
-gint mail_save_messages (CamelFolder *folder, GPtrArray *uids, const gchar *path,
-			void (*done) (CamelFolder *folder, GPtrArray *uids, gchar *path, gpointer data),
-			gpointer data);
-
 /* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
 void		mail_send_queue			(EMailSession *session,
 						 CamelFolder *queue,

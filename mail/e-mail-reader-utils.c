@@ -31,6 +31,7 @@
 #include "e-util/e-alert-dialog.h"
 #include "filter/e-filter-rule.h"
 #include "misc/e-web-view.h"
+#include "shell/e-shell-utils.h"
 
 #include "mail/e-mail-backend.h"
 #include "mail/e-mail-browser.h"
@@ -751,6 +752,116 @@ whole_message:
 	em_utils_reply_to_message (
 		shell, src_message, folder, uid,
 		reply_type, reply_style, EM_FORMAT (formatter));
+}
+
+static void
+mail_reader_save_messages_cb (CamelFolder *folder,
+                              GAsyncResult *result,
+                              AsyncContext *context)
+{
+	EAlertSink *alert_sink;
+	GError *error = NULL;
+
+	alert_sink = e_mail_reader_get_alert_sink (context->reader);
+
+	e_mail_folder_save_messages_finish (folder, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		e_alert_submit (
+			alert_sink,
+			"mail:save-messages",
+			error->message, NULL);
+		g_error_free (error);
+	}
+
+	async_context_free (context);
+}
+
+void
+e_mail_reader_save_messages (EMailReader *reader)
+{
+	EShell *shell;
+	EActivity *activity;
+	AsyncContext *context;
+	EMailBackend *backend;
+	GCancellable *cancellable;
+	EShellBackend *shell_backend;
+	CamelMessageInfo *info;
+	CamelFolder *folder;
+	GFile *destination;
+	GPtrArray *uids;
+	const gchar *message_uid;
+	const gchar *title;
+	gchar *suggestion = NULL;
+
+	folder = e_mail_reader_get_folder (reader);
+	backend = e_mail_reader_get_backend (reader);
+
+	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_if_fail (uids != NULL && uids->len > 0);
+	message_uid = g_ptr_array_index (uids, 0);
+
+	/* XXX Either e_mail_reader_get_selected_uids()
+	 *     or MessageList should do this itself. */
+	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
+
+	title = ngettext ("Save Message", "Save Messages", uids->len);
+
+	/* Suggest as a filename the subject of the first message. */
+	info = camel_folder_get_message_info (folder, message_uid);
+	if (info != NULL) {
+		const gchar *subject;
+
+		subject = camel_message_info_subject (info);
+		if (subject != NULL)
+			suggestion = g_strconcat (subject, ".mbox", NULL);
+		camel_folder_free_message_info (folder, info);
+	}
+
+	if (suggestion == NULL) {
+		const gchar *basename;
+
+		/* Translators: This is part of a suggested file name
+		 * used when saving a message or multiple messages to
+		 * mbox format, when the first message doesn't have a
+		 * subject.  The extension ".mbox" is appended to the
+		 * string; for example "Message.mbox". */
+		basename = ngettext ("Message", "Messages", uids->len);
+		suggestion = g_strconcat (basename, ".mbox", NULL);
+	}
+
+	shell_backend = E_SHELL_BACKEND (backend);
+	shell = e_shell_backend_get_shell (shell_backend);
+
+	destination = e_shell_run_save_dialog (
+		shell, title, suggestion,
+		"*.mbox:application/mbox,message/rfc822", NULL, NULL);
+
+	if (destination == NULL) {
+		g_ptr_array_unref (uids);
+		return;
+	}
+
+	/* Save messages asynchronously. */
+
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
+	context = g_slice_new0 (AsyncContext);
+	context->activity = activity;
+	context->reader = g_object_ref (reader);
+
+	e_mail_folder_save_messages (
+		folder, uids,
+		destination, G_PRIORITY_DEFAULT,
+		cancellable, (GAsyncReadyCallback)
+		mail_reader_save_messages_cb, context);
+
+	g_object_unref (destination);
+	g_ptr_array_unref (uids);
 }
 
 void

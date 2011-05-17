@@ -1502,70 +1502,7 @@ static void
 action_mail_save_as_cb (GtkAction *action,
                         EMailReader *reader)
 {
-	EShell *shell;
-	EMailBackend *backend;
-	EShellBackend *shell_backend;
-	CamelMessageInfo *info;
-	CamelFolder *folder;
-	GPtrArray *uids;
-	GFile *file;
-	const gchar *message_uid;
-	const gchar *title;
-	gchar *suggestion = NULL;
-	gchar *uri;
-
-	folder = e_mail_reader_get_folder (reader);
-	backend = e_mail_reader_get_backend (reader);
-
-	uids = e_mail_reader_get_selected_uids (reader);
-	g_return_if_fail (uids != NULL && uids->len == 1);
-	message_uid = g_ptr_array_index (uids, 0);
-
-	title = ngettext ("Save Message", "Save Messages", uids->len);
-
-	/* Suggest as a filename the subject of the first message. */
-	info = camel_folder_get_message_info (folder, message_uid);
-	if (info != NULL) {
-		const gchar *subject = camel_message_info_subject (info);
-
-		if (subject)
-			suggestion = g_strconcat (subject, ".mbox", NULL);
-		camel_folder_free_message_info (folder, info);
-	}
-
-	if (!suggestion) {
-		const gchar *basename;
-
-		/* Translators: This is a part of a suggested file name
-		 * used when saving a message or multiple messages to an
-		 * mbox format, when the first message doesn't have a
-		 * Subject. The extension ".mbox" is appended to this
-		 * string, thus it will be something like "Message.mbox"
-		 * at the end. */
-		basename = ngettext ("Message", "Messages", uids->len);
-		suggestion = g_strconcat (basename, ".mbox", NULL);
-	}
-
-	shell_backend = E_SHELL_BACKEND (backend);
-	shell = e_shell_backend_get_shell (shell_backend);
-
-	file = e_shell_run_save_dialog (
-		shell, title, suggestion,
-		"*.mbox:application/mbox,message/rfc822", NULL, NULL);
-
-	if (file == NULL) {
-		em_utils_uids_free (uids);
-		return;
-	}
-
-	uri = g_file_get_uri (file);
-
-	/* This eats the UID array, so do not free it. */
-	mail_save_messages (folder, uids, uri, NULL, NULL);
-
-	g_free (uri);
-
-	g_object_unref (file);
+	e_mail_reader_save_messages (reader);
 }
 
 static void

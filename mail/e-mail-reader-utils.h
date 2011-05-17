@@ -53,6 +53,7 @@ void		e_mail_reader_remove_duplicates	(EMailReader *reader);
 void		e_mail_reader_reply_to_message	(EMailReader *reader,
 						 CamelMimeMessage *message,
 						 EMailReplyType reply_type);
+void		e_mail_reader_save_messages	(EMailReader *reader);
 void		e_mail_reader_select_next_message
 						(EMailReader *reader,
 						 gboolean or_else_previous);
