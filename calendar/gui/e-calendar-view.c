@@ -636,7 +636,7 @@ clipboard_get_calendar_data (ECalendarView *cal_view,
 	if (!text || !*text)
 		return;
 
-	icalcomp = icalparser_parse_string ((const gchar *) text);
+	icalcomp = icalparser_parse_string (text);
 	if (!icalcomp)
 		return;
 
@@ -1008,9 +1008,10 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 	case GNOME_CAL_MONTH_VIEW:
 	case GNOME_CAL_LIST_VIEW:
 		if (old_dtstart.is_date && old_dtend.is_date
-			&& memcmp (&ic_dur, &ic_oneday, sizeof (ic_dur)) == 0)
+			&& memcmp (&ic_dur, &ic_oneday, sizeof (ic_dur)) == 0) {
 			all_day_event = TRUE;
-		else {
+			new_dtstart = dtstart;
+		} else {
 			icaltimetype new_time = icaltime_from_timet_with_zone (dtstart, FALSE, default_zone);
 
 			new_time.hour = old_dtstart.hour;
