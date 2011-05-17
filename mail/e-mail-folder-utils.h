@@ -114,6 +114,24 @@ gboolean	e_mail_folder_remove_attachments_finish
 						 GAsyncResult *result,
 						 GError **error);
 
+gboolean	e_mail_folder_save_messages_sync
+						(CamelFolder *folder,
+						 GPtrArray *message_uids,
+						 GFile *destination,
+						 GCancellable *cancellable,
+						 GError **error);
+void		e_mail_folder_save_messages	(CamelFolder *folder,
+						 GPtrArray *message_uids,
+						 GFile *destination,
+						 gint io_priority,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_mail_folder_save_messages_finish
+						(CamelFolder *folder,
+						 GAsyncResult *result,
+						 GError **error);
+
 gchar *		e_mail_folder_uri_build		(CamelStore *store,
 						 const gchar *folder_name);
 gboolean	e_mail_folder_uri_parse		(CamelSession *session,

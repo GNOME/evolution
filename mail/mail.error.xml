@@ -530,5 +530,10 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
   </error>
 
+  <error id="save-messages" type="error">
+    <_primary>Failed to save messages to disk.</_primary>
+    <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+  </error>
+
 </error-list>
 
