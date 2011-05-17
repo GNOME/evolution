@@ -47,6 +47,7 @@
 #include "e-mail-session-utils.h"
 #include "e-mail-sidebar.h"
 #include "e-mail-store.h"
+#include "e-mail-store-utils.h"
 #include "em-composer-utils.h"
 #include "em-folder-properties.h"
 #include "em-folder-selector.h"

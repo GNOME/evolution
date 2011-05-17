@@ -188,3 +188,77 @@ e_mail_store_go_online_finish (CamelStore *store,
 	/* Assume success unless a GError is set. */
 	return !g_simple_async_result_propagate_error (simple, error);
 }
+
+static void
+mail_store_prepare_for_offline_thread (GSimpleAsyncResult *simple,
+                                       CamelStore *store,
+                                       GCancellable *cancellable)
+{
+	CamelService *service;
+	gchar *service_name;
+	GError *error = NULL;
+
+	service = CAMEL_SERVICE (store);
+
+	service_name = camel_service_get_name (service, TRUE);
+	camel_operation_push_message (
+		cancellable, _("Preparing account '%s' for offline"),
+		service_name);
+	g_free (service_name);
+
+	if (CAMEL_IS_DISCO_STORE (store))
+		camel_disco_store_prepare_for_offline (
+			CAMEL_DISCO_STORE (store), cancellable, &error);
+
+	else if (CAMEL_IS_OFFLINE_STORE (store))
+		camel_offline_store_prepare_for_offline_sync (
+			CAMEL_OFFLINE_STORE (store), cancellable, &error);
+
+	if (error != NULL) {
+		g_simple_async_result_set_from_error (simple, error);
+		g_error_free (error);
+	}
+
+	camel_operation_pop_message (cancellable);
+}
+
+void
+e_mail_store_prepare_for_offline (CamelStore *store,
+                                  gint io_priority,
+                                  GCancellable *cancellable,
+                                  GAsyncReadyCallback callback,
+                                  gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+
+	g_return_if_fail (CAMEL_IS_STORE (store));
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (store), callback, user_data,
+		e_mail_store_prepare_for_offline);
+
+	g_simple_async_result_run_in_thread (
+		simple, (GSimpleAsyncThreadFunc)
+		mail_store_prepare_for_offline_thread,
+		io_priority, cancellable);
+
+	g_object_unref (simple);
+}
+
+gboolean
+e_mail_store_prepare_for_offline_finish (CamelStore *store,
+                                         GAsyncResult *result,
+                                         GError **error)
+{
+	GSimpleAsyncResult *simple;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (store),
+		e_mail_store_prepare_for_offline), FALSE);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+
+	/* Assume success unless a GError is set. */
+	return !g_simple_async_result_propagate_error (simple, error);
+}

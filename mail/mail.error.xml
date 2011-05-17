@@ -525,5 +525,10 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
   </error>
 
+  <error id="prepare-for-offline" type="warning">
+    <_primary>Failed to download messages for offline viewing.</_primary>
+    <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+  </error>
+
 </error-list>
 
