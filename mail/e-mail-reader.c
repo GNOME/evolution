@@ -400,20 +400,15 @@ action_mail_filters_apply_cb (GtkAction *action,
 }
 
 static void
-action_mail_remove_attachments_cb (GtkAction *action, EMailReader *reader)
+action_mail_remove_attachments_cb (GtkAction *action,
+                                   EMailReader *reader)
 {
-	CamelFolder *folder;
-	GPtrArray *uids;
-
-	folder = e_mail_reader_get_folder (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
-
-	mail_remove_attachments (folder, uids);
+	e_mail_reader_remove_attachments (reader);
 }
 
 static void
-action_mail_remove_duplicates (GtkAction *action,
-                               EMailReader *reader)
+action_mail_remove_duplicates_cb (GtkAction *action,
+                                  EMailReader *reader)
 {
 	e_mail_reader_remove_duplicates (reader);
 }
@@ -2146,7 +2141,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	   N_("Remove Du_plicate Messages"),
 	   NULL,
 	   N_("Checks selected messages for duplicates"),
-	   G_CALLBACK (action_mail_remove_duplicates) },
+	   G_CALLBACK (action_mail_remove_duplicates_cb) },
 
 	{ "mail-reply-all",
 	  NULL,

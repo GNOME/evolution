@@ -47,6 +47,8 @@ guint		e_mail_reader_mark_selected	(EMailReader *reader,
 guint		e_mail_reader_open_selected	(EMailReader *reader);
 void		e_mail_reader_print		(EMailReader *reader,
 						 GtkPrintOperationAction action);
+void		e_mail_reader_remove_attachments
+						(EMailReader *reader);
 void		e_mail_reader_remove_duplicates	(EMailReader *reader);
 void		e_mail_reader_reply_to_message	(EMailReader *reader,
 						 CamelMimeMessage *message,
