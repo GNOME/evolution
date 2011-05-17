@@ -801,7 +801,7 @@ msgid ""
 "Accounts."
 msgstr ""
 "Aquí pode introducir para información persoal básica. Pode definir varias "
-"identidades máis adiante premendo Editar &gl; Preferencias, despois premendo "
+"identidades máis adiante premendo Editar &gt; Preferencias, despois premendo "
 "en «Contas de correo»."
 
 #: C/evolution.xml:242(para)
