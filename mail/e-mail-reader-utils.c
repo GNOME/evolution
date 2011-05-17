@@ -422,6 +422,69 @@ e_mail_reader_print (EMailReader *reader,
 }
 
 static void
+mail_reader_remove_attachments_cb (CamelFolder *folder,
+                                   GAsyncResult *result,
+                                   AsyncContext *context)
+{
+	EAlertSink *alert_sink;
+	GError *error = NULL;
+
+	alert_sink = e_mail_reader_get_alert_sink (context->reader);
+
+	e_mail_folder_remove_attachments_finish (folder, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		e_alert_submit (
+			alert_sink,
+			"mail:remove-attachments",
+			error->message, NULL);
+		g_error_free (error);
+	}
+
+	async_context_free (context);
+}
+
+void
+e_mail_reader_remove_attachments (EMailReader *reader)
+{
+	EActivity *activity;
+	AsyncContext *context;
+	GCancellable *cancellable;
+	CamelFolder *folder;
+	GPtrArray *uids;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	folder = e_mail_reader_get_folder (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_if_fail (uids != NULL);
+
+	/* XXX Either e_mail_reader_get_selected_uids()
+	 *     or MessageList should do this itself. */
+	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
+
+	/* Remove attachments asynchronously. */
+
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
+	context = g_slice_new0 (AsyncContext);
+	context->activity = activity;
+	context->reader = g_object_ref (reader);
+
+	e_mail_folder_remove_attachments (
+		folder, uids, G_PRIORITY_DEFAULT,
+		cancellable, (GAsyncReadyCallback)
+		mail_reader_remove_attachments_cb,
+		context);
+
+	g_ptr_array_unref (uids);
+}
+
+static void
 mail_reader_remove_duplicates_cb (CamelFolder *folder,
                                   GAsyncResult *result,
                                   AsyncContext *context)

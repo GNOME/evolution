@@ -668,6 +668,222 @@ e_mail_folder_get_multiple_messages_finish (CamelFolder *folder,
 	return g_hash_table_ref (context->hash_table);
 }
 
+static void
+mail_folder_remove_attachments_thread (GSimpleAsyncResult *simple,
+                                       GObject *object,
+                                       GCancellable *cancellable)
+{
+	AsyncContext *context;
+	GError *error = NULL;
+
+	context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	e_mail_folder_remove_attachments_sync (
+		CAMEL_FOLDER (object), context->ptr_array,
+		cancellable, &error);
+
+	if (error != NULL) {
+		g_simple_async_result_set_from_error (simple, error);
+		g_error_free (error);
+	}
+}
+
+/* Helper for e_mail_folder_remove_attachments_sync() */
+static gboolean
+mail_folder_strip_message (CamelFolder *folder,
+                           CamelMimeMessage *message,
+                           const gchar *message_uid,
+                           GCancellable *cancellable,
+                           GError **error)
+{
+	CamelDataWrapper *content;
+	CamelMultipart *multipart;
+	gboolean modified = FALSE;
+	gboolean success = TRUE;
+	guint ii, n_parts;
+
+	content = camel_medium_get_content (CAMEL_MEDIUM (message));
+
+	if (!CAMEL_IS_MULTIPART (content))
+		return TRUE;
+
+	multipart = CAMEL_MULTIPART (content);
+	n_parts = camel_multipart_get_number (multipart);
+
+	/* Replace MIME parts with "attachment" or "inline" dispositions
+	 * with a small "text/plain" part saying the file was removed. */
+	for (ii = 0; ii < n_parts; ii++) {
+		CamelMimePart *mime_part;
+		const gchar *disposition;
+		gboolean is_attachment;
+
+		mime_part = camel_multipart_get_part (multipart, ii);
+		disposition = camel_mime_part_get_disposition (mime_part);
+
+		is_attachment =
+			(g_strcmp0 (disposition, "attachment") == 0) ||
+			(g_strcmp0 (disposition, "inline") == 0);
+
+		if (is_attachment) {
+			const gchar *filename;
+			const gchar *content_type;
+			gchar *content;
+
+			disposition = "inline";
+			content_type = "text/plain";
+			filename = camel_mime_part_get_filename (mime_part);
+
+			if (filename != NULL && *filename != '\0')
+				content = g_strdup_printf (
+					_("File \"%s\" has been removed."),
+					filename);
+			else
+				content = g_strdup (
+					_("File has been removed."));
+
+			camel_mime_part_set_content (
+				mime_part, content,
+				strlen (content), content_type);
+			camel_mime_part_set_content_type (
+				mime_part, content_type);
+			camel_mime_part_set_disposition (
+				mime_part, disposition);
+
+			modified = TRUE;
+		}
+	}
+
+	/* Append the modified message with removed attachments to
+	 * the folder and mark the original message for deletion. */
+	if (modified) {
+		CamelMessageInfo *orig_info;
+		CamelMessageInfo *copy_info;
+		CamelMessageFlags flags;
+
+		orig_info =
+			camel_folder_get_message_info (folder, message_uid);
+		copy_info =
+			camel_message_info_new_from_header (
+			NULL, CAMEL_MIME_PART (message)->headers);
+
+		flags = camel_folder_get_message_flags (folder, message_uid);
+		camel_message_info_set_flags (copy_info, flags, flags);
+
+		success = camel_folder_append_message_sync (
+			folder, message, copy_info, NULL, cancellable, error);
+		if (success)
+			camel_message_info_set_flags (
+				orig_info,
+				CAMEL_MESSAGE_DELETED,
+				CAMEL_MESSAGE_DELETED);
+
+		camel_folder_free_message_info (folder, orig_info);
+		camel_message_info_free (copy_info);
+	}
+
+	return success;
+}
+
+gboolean
+e_mail_folder_remove_attachments_sync (CamelFolder *folder,
+                                       GPtrArray *message_uids,
+                                       GCancellable *cancellable,
+                                       GError **error)
+{
+	gboolean success = TRUE;
+	guint ii;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
+	g_return_val_if_fail (message_uids != NULL, FALSE);
+
+	camel_folder_freeze (folder);
+
+	camel_operation_push_message (cancellable, _("Removing attachments"));
+
+	for (ii = 0; success && ii < message_uids->len; ii++) {
+		CamelMimeMessage *message;
+		const gchar *uid;
+		gint percent;
+
+		uid = g_ptr_array_index (message_uids, ii);
+
+		message = camel_folder_get_message_sync (
+			folder, uid, cancellable, error);
+
+		if (message == NULL) {
+			success = FALSE;
+			break;
+		}
+
+		success = mail_folder_strip_message (
+			folder, message, uid, cancellable, error);
+
+		percent = ((ii + 1) * 100) / message_uids->len;
+		camel_operation_progress (cancellable, percent);
+
+		g_object_unref (message);
+	}
+
+	camel_operation_pop_message (cancellable);
+
+	if (success)
+		camel_folder_synchronize_sync (
+			folder, FALSE, cancellable, error);
+
+	camel_folder_thaw (folder);
+
+	return success;
+}
+
+void
+e_mail_folder_remove_attachments (CamelFolder *folder,
+                                  GPtrArray *message_uids,
+                                  gint io_priority,
+                                  GCancellable *cancellable,
+                                  GAsyncReadyCallback callback,
+                                  gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *context;
+
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (message_uids != NULL);
+
+	context = g_slice_new0 (AsyncContext);
+	context->ptr_array = g_ptr_array_ref (message_uids);
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (folder), callback, user_data,
+		e_mail_folder_remove_attachments);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple, context, (GDestroyNotify) async_context_free);
+
+	g_simple_async_result_run_in_thread (
+		simple, mail_folder_remove_attachments_thread,
+		io_priority, cancellable);
+
+	g_object_unref (simple);
+}
+
+gboolean
+e_mail_folder_remove_attachments_finish (CamelFolder *folder,
+                                         GAsyncResult *result,
+                                         GError **error)
+{
+	GSimpleAsyncResult *simple;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (folder),
+		e_mail_folder_remove_attachments), FALSE);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+
+	/* Assume success unless a GError is set. */
+	return !g_simple_async_result_propagate_error (simple, error);
+}
+
 /**
  * e_mail_folder_uri_build:
  * @store: a #CamelStore

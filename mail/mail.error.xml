@@ -520,5 +520,10 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
   </error>
 
+  <error id="remove-attachments" type="error">
+    <_primary>Failed to remove attachments from messages.</_primary>
+    <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+  </error>
+
 </error-list>
 
