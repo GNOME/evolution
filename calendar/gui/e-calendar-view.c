@@ -1659,6 +1659,7 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 				 gboolean new)
 {
 	gboolean only_new_attendees = FALSE;
+	e_cal_component_commit_sequence (comp);
 
 	if (e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), mod, NULL)) {
 		gboolean strip_alarms = TRUE;
