@@ -128,11 +128,10 @@ typedef struct _EMAccountEditorService {
 	GtkButton *check_supported;
 	GtkToggleButton *needs_auth;
 
+	GCancellable *checking;
 	GtkWidget *check_dialog;
-	gint check_id;
-	struct _EMAccountEditorService **check_data;
 
-	GList *authtypes;	/* if "Check supported" */
+	GList *auth_types;	/* if "Check supported" */
 	CamelProvider *provider;
 	CamelProviderType type;
 
@@ -374,8 +373,8 @@ emae_finalize (GObject *object)
 		g_signal_handler_disconnect (signatures, priv->sig_changed_id);
 	}
 
-	g_list_free (priv->source.authtypes);
-	g_list_free (priv->transport.authtypes);
+	g_list_free (priv->source.auth_types);
+	g_list_free (priv->transport.auth_types);
 
 	g_list_free (priv->providers);
 
@@ -1686,8 +1685,8 @@ emae_provider_changed (GtkComboBox *dropdown, EMAccountEditorService *service)
 
 	gtk_tree_model_get (model, &iter, 1, &service->provider, -1);
 
-	g_list_free (service->authtypes);
-	service->authtypes = NULL;
+	g_list_free (service->auth_types);
+	service->auth_types = NULL;
 
 	emae_service_provider_changed (service);
 
@@ -1895,8 +1894,8 @@ emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service)
 			gint avail;
 
 			/* if we have some already shown */
-			if (service->authtypes) {
-				for (ll = service->authtypes;ll;ll = g_list_next (ll))
+			if (service->auth_types) {
+				for (ll = service->auth_types;ll;ll = g_list_next (ll))
 					if (!strcmp (authtype->authproto, ((CamelServiceAuthType *) ll->data)->authproto))
 						break;
 				avail = ll != NULL;
@@ -1932,99 +1931,110 @@ emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service)
 }
 
 static void
-emae_check_authtype_done (GList *types,
-                          gpointer data)
+emae_check_authtype_done (CamelService *camel_service,
+                          GAsyncResult *result,
+                          EMAccountEditorService *service)
 {
-	EMAccountEditorService **pservice = data;
-	EMAccountEditorService *service;
 	GtkWidget *editor;
+	GList *auth_types;
+	GError *error = NULL;
 
-	g_return_if_fail (pservice != NULL);
+	auth_types = camel_service_query_auth_types_finish (
+		camel_service, result, &error);
 
-	service = *pservice;
-	if (!service) {
-		g_free (pservice);
-		return;
-	}
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (auth_types == NULL);
+		g_error_free (error);
 
-	editor = E_CONFIG (service->emae->config)->window;
+	} else if (error != NULL) {
+		g_warn_if_fail (auth_types == NULL);
+		g_warning ("%s", error->message);
+		g_error_free (error);
 
-	if (service->check_dialog) {
-		if (service->authtypes)
-			g_list_free (service->authtypes);
-
-		service->authtypes = g_list_copy (types);
+	} else {
+		g_list_free (service->auth_types);
+		service->auth_types = auth_types;
 		emae_refresh_authtype (service->emae, service);
-		gtk_widget_destroy (service->check_dialog);
 	}
 
-	if (editor != NULL)
-		gtk_widget_set_sensitive (editor, TRUE);
-
-	service->check_id = -1;
-	service->check_data = NULL;
-	g_object_unref (service->emae);
-	*pservice = NULL;
-	g_free (pservice);
-}
-
-static void
-emae_check_authtype_response (GtkWidget *d,
-                              gint button,
-                              EMAccountEditorService *service)
-{
-	GtkWidget *editor;
-
-	editor = E_CONFIG (service->emae->config)->window;
-
-	if (service->check_data)
-		(*service->check_data) = NULL;
-	service->check_data = NULL;
-	mail_msg_cancel (service->check_id);
 	gtk_widget_destroy (service->check_dialog);
 	service->check_dialog = NULL;
 
+	editor = E_CONFIG (service->emae->config)->window;
+
 	if (editor != NULL)
 		gtk_widget_set_sensitive (editor, TRUE);
+
+	g_object_unref (service->emae);
+}
+
+static void
+emae_check_authtype_response (GtkDialog *dialog,
+                              gint button,
+                              GCancellable *cancellable)
+{
+	g_cancellable_cancel (cancellable);
 }
 
 static void
 emae_check_authtype (GtkWidget *w,
                      EMAccountEditorService *service)
 {
-	EMAccountEditor *emae = service->emae;
-	EMAccountEditorService **pservice;
+	CamelService *camel_service;
 	EMailSession *session;
 	EAccount *account;
 	GtkWidget *editor;
+	gpointer parent;
 	gchar *uid;
 
-	account = em_account_editor_get_modified_account (emae);
+	account = em_account_editor_get_modified_account (service->emae);
 	editor = E_CONFIG (service->emae->config)->window;
 
-	session = em_account_editor_get_session (emae);
-
-	g_object_ref (emae);
-
-	service->check_dialog = e_alert_dialog_new_for_args (editor ? (GtkWindow *) gtk_widget_get_toplevel (editor) : (GtkWindow *) gtk_widget_get_toplevel (w),
-					    "mail:checking-service", NULL);
-	g_signal_connect (service->check_dialog, "response", G_CALLBACK(emae_check_authtype_response), service);
-	gtk_widget_show (service->check_dialog);
-	if (editor != NULL)
-		gtk_widget_set_sensitive (editor, FALSE);
+	session = em_account_editor_get_session (service->emae);
 
 	if (service->type == CAMEL_PROVIDER_TRANSPORT)
 		uid = g_strconcat (account->uid, "-transport", NULL);
 	else
 		uid = g_strdup (account->uid);
 
-	pservice = g_new0 (EMAccountEditorService *, 1);
-	*pservice = service;
-	service->check_data = pservice;
-	service->check_id = mail_check_service (
-		session, uid, emae_check_authtype_done, pservice);
+	camel_service = camel_session_get_service (
+		CAMEL_SESSION (session), uid);
 
 	g_free (uid);
+
+	g_return_if_fail (CAMEL_IS_SERVICE (camel_service));
+
+	if (service->checking != NULL) {
+		g_cancellable_cancel (service->checking);
+		g_object_unref (service->checking);
+	}
+
+	service->checking = g_cancellable_new ();
+
+	if (editor != NULL)
+		parent = gtk_widget_get_toplevel (editor);
+	else
+		parent = gtk_widget_get_toplevel (w);
+
+	service->check_dialog = e_alert_dialog_new_for_args (
+		parent, "mail:checking-service", NULL);
+
+	g_object_ref (service->emae);
+
+	camel_service_query_auth_types (
+		camel_service, G_PRIORITY_DEFAULT,
+		service->checking, (GAsyncReadyCallback)
+		emae_check_authtype_done, service);
+
+	g_signal_connect (
+		service->check_dialog, "response",
+		G_CALLBACK (emae_check_authtype_response),
+		service->checking);
+
+	gtk_widget_show (service->check_dialog);
+
+	if (editor != NULL)
+		gtk_widget_set_sensitive (editor, FALSE);
 }
 
 static void

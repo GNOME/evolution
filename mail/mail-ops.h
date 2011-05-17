@@ -118,11 +118,6 @@ gint mail_store_prepare_offline (CamelStore *store);
 /* filter driver execute shell command async callback */
 void mail_execute_shell_command (CamelFilterDriver *driver, gint argc, gchar **argv, gpointer data);
 
-gint		mail_check_service		(EMailSession *session,
-						 const gchar *service_uid,
-						 void (*done)(GList *authtypes, gpointer data),
-						 gpointer data);
-
 gint mail_disconnect_store (CamelStore *store);
 gint mail_remove_attachments (CamelFolder *folder, GPtrArray *uids);
 
