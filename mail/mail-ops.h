@@ -60,12 +60,6 @@ void		mail_empty_trash		(EMailSession *session,
 						 void (*done) (EAccount *account, gpointer data),
 						 gpointer data);
 
-/* get folder info asynchronously */
-gint		mail_get_folderinfo		(CamelStore *store,
-						 GCancellable *cancellable,
-						 gboolean (*done)(CamelStore *store, CamelFolderInfo *info, gpointer data),
-						 gpointer data);
-
 /* remove an existing folder */
 void mail_remove_folder (CamelFolder *folder,
 			 void (*done) (CamelFolder *folder, gboolean removed, GError **error, gpointer data),

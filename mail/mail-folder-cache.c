@@ -709,12 +709,10 @@ store_folder_renamed_cb (CamelStore *store,
 }
 
 struct _update_data {
-	gint id;			/* id for cancellation */
-	guint cancel:1;		/* also tells us we're cancelled */
-
 	NoteDoneFunc done;
 	gpointer data;
 	MailFolderCache *cache;
+	GCancellable *cancellable;
 };
 
 static void
@@ -730,32 +728,48 @@ free_folder_info_hash (gchar *path, struct _folder_info *mfi, gpointer data)
 	free_folder_info (mfi);
 }
 
-static gboolean
-update_folders (CamelStore *store, CamelFolderInfo *fi, gpointer data)
+static void
+update_folders (CamelStore *store,
+                GAsyncResult *result,
+                struct _update_data *ud)
 {
-	struct _update_data *ud = data;
+	CamelFolderInfo *fi;
 	struct _store_info *si;
-	gboolean res = TRUE;
+	GError *error = NULL;
 
-	d(printf("Got folderinfo for store %s\n", store->parent_object.provider->protocol));
+	fi = camel_store_get_folder_info_finish (store, result, &error);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 
 	g_mutex_lock (ud->cache->priv->stores_mutex);
 	si = g_hash_table_lookup (ud->cache->priv->stores, store);
-	if (si && !ud->cancel) {
-		/* the 'si' is still there, so we can remove ourselves from its list */
-		/* otherwise its not, and we're on our own and free anyway */
+	if (si && !g_cancellable_is_cancelled (ud->cancellable)) {
+		/* The 'si' is still there, so we can remove ourselves from
+		 * its list.  Or else its not, and we're on our own and free
+		 * anyway. */
 		g_queue_remove (&si->folderinfo_updates, ud);
 
-		if (fi)
+		if (fi != NULL)
 			create_folders (ud->cache, fi, si);
 	}
 	g_mutex_unlock (ud->cache->priv->stores_mutex);
 
-	if (ud->done)
-		res = ud->done (ud->cache, store, fi, ud->data);
-	g_free (ud);
+	if (fi != NULL) {
+		gboolean free_fi = TRUE;
 
-	return res;
+		if (ud->done != NULL)
+			free_fi = ud->done (ud->cache, store, fi, ud->data);
+		if (free_fi)
+			camel_store_free_folder_info (store, fi);
+	}
+
+	if (ud->cancellable != NULL)
+		g_object_unref (ud->cancellable);
+
+	g_free (ud);
 }
 
 struct _ping_store_msg {
@@ -856,12 +870,21 @@ store_go_online_cb (CamelStore *store,
 
 	g_mutex_lock (ud->cache->priv->stores_mutex);
 
-	if (g_hash_table_lookup (ud->cache->priv->stores, store) != NULL && !ud->cancel) {
-		/* re-use the cancel id.  we're already in the store update list too */
-		ud->id = mail_get_folderinfo (store, NULL, update_folders, ud);
+	if (g_hash_table_lookup (ud->cache->priv->stores, store) != NULL &&
+		!g_cancellable_is_cancelled (ud->cancellable)) {
+		/* We're already in the store update list. */
+		camel_store_get_folder_info (
+			store, NULL,
+			CAMEL_STORE_FOLDER_INFO_FAST |
+			CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+			CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
+			G_PRIORITY_DEFAULT, ud->cancellable,
+			(GAsyncReadyCallback) update_folders, ud);
 	} else {
-		/* the store vanished, that means we were probably cancelled, or at any rate,
-		   need to clean ourselves up */
+		/* The store vanished, that means we were probably cancelled,
+		 * or at any rate, need to clean ourselves up. */
+		if (ud->cancellable != NULL)
+			g_object_unref (ud->cancellable);
 		g_free (ud);
 	}
 
@@ -1114,8 +1137,10 @@ mail_folder_cache_note_store (MailFolderCache *self,
 	ud = g_malloc (sizeof (*ud));
 	ud->done = done;
 	ud->data = data;
-	ud->cancel = 0;
 	ud->cache = self;
+
+	if (G_IS_CANCELLABLE (cancellable))
+		ud->cancellable = g_object_ref (cancellable);
 
 	/* We might get a race when setting up a store, such that it is
 	 * still left in offline mode, after we've gone online.  This
@@ -1142,8 +1167,13 @@ mail_folder_cache_note_store (MailFolderCache *self,
 		}
 	} else {
 	normal_setup:
-		ud->id = mail_get_folderinfo (
-			store, cancellable, update_folders, ud);
+		camel_store_get_folder_info (
+			store, NULL,
+			CAMEL_STORE_FOLDER_INFO_FAST |
+			CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+			CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
+			G_PRIORITY_DEFAULT, cancellable,
+			(GAsyncReadyCallback) update_folders, ud);
 	}
 
 	g_queue_push_tail (&si->folderinfo_updates, ud);
@@ -1210,11 +1240,7 @@ mail_folder_cache_note_store_remove (MailFolderCache *self,
 
 		while (link != NULL) {
 			struct _update_data *ud = link->data;
-
-			d(printf("Cancelling outstanding folderinfo update %d\n", ud->id));
-			mail_msg_cancel (ud->id);
-			ud->cancel = 1;
-
+			g_cancellable_cancel (ud->cancellable);
 			link = g_list_next (link);
 		}
 
