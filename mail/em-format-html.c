@@ -2797,7 +2797,7 @@ efh_format_headers (EMFormatHTML *efh,
 
 	/* If the header is collapsed, display just subject and sender in one row and leave */
 	if (efh->priv->headers_state == EM_FORMAT_HTML_HEADERS_STATE_COLLAPSED && efh->priv->headers_collapsable) {
-		gchar *subject;
+		gchar *subject = _("(no subject)");
 		struct _camel_header_address *addrs = NULL;
 		GString *from = g_string_new ("");
 
