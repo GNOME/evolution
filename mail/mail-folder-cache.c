@@ -1134,7 +1134,7 @@ mail_folder_cache_note_store (MailFolderCache *self,
 		hook = TRUE;
 	}
 
-	ud = g_malloc (sizeof (*ud));
+	ud = g_malloc0 (sizeof (*ud));
 	ud->done = done;
 	ud->data = data;
 	ud->cache = self;
