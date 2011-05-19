@@ -100,7 +100,7 @@ gboolean	mail_folder_cache_get_folder_from_uri
 gboolean	mail_folder_cache_get_folder_info_flags
 						(MailFolderCache *self,
 						 CamelFolder *folder,
-						 gint *flags);
+						 CamelFolderInfoFlags *flags);
 
 gboolean	mail_folder_cache_get_folder_has_children
 						(MailFolderCache *self,

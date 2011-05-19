@@ -39,6 +39,8 @@ struct _EMailReaderHeader {
 void		e_mail_reader_activate		(EMailReader *reader,
 						 const gchar *action_name);
 gboolean	e_mail_reader_confirm_delete	(EMailReader *reader);
+void		e_mail_reader_delete_folder	(EMailReader *reader,
+						 CamelFolder *folder);
 void		e_mail_reader_mark_as_read	(EMailReader *reader,
 						 const gchar *uid);
 guint		e_mail_reader_mark_selected	(EMailReader *reader,

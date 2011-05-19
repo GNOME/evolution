@@ -673,6 +673,209 @@ e_mail_folder_get_multiple_messages_finish (CamelFolder *folder,
 }
 
 static void
+mail_folder_remove_thread (GSimpleAsyncResult *simple,
+                           GObject *object,
+                           GCancellable *cancellable)
+{
+	GError *error = NULL;
+
+	e_mail_folder_remove_sync (
+		CAMEL_FOLDER (object), cancellable, &error);
+
+	if (error != NULL) {
+		g_simple_async_result_set_from_error (simple, error);
+		g_error_free (error);
+	}
+}
+
+static gboolean
+mail_folder_remove_recursive (CamelStore *store,
+                              CamelFolderInfo *folder_info,
+                              GCancellable *cancellable,
+                              GError **error)
+{
+	gboolean success = TRUE;
+
+	while (folder_info != NULL) {
+		CamelFolder *folder;
+
+		if (folder_info->child != NULL) {
+			success = mail_folder_remove_recursive (
+				store, folder_info->child, cancellable, error);
+			if (!success)
+				break;
+		}
+
+		folder = camel_store_get_folder_sync (
+			store, folder_info->full_name, 0, cancellable, error);
+		if (folder == NULL) {
+			success = FALSE;
+			break;
+		}
+
+		if (!CAMEL_IS_VEE_FOLDER (folder)) {
+			GPtrArray *uids;
+			guint ii;
+
+			/* Delete every message in this folder,
+			 * then expunge it. */
+
+			camel_folder_freeze (folder);
+
+			uids = camel_folder_get_uids (folder);
+
+			for (ii = 0; ii < uids->len; ii++)
+				camel_folder_delete_message (
+					folder, uids->pdata[ii]);
+
+			camel_folder_free_uids (folder, uids);
+
+			success = camel_folder_synchronize_sync (
+				folder, TRUE, cancellable, error);
+
+			camel_folder_thaw (folder);
+		}
+
+		g_object_unref (folder);
+
+		if (!success)
+			break;
+
+		/* If the store supports subscriptions,
+		 * then unsubscribe from this folder. */
+		if (camel_store_supports_subscriptions (store)) {
+			success = camel_store_unsubscribe_folder_sync (
+				store, folder_info->full_name,
+				cancellable, error);
+			if (!success)
+				break;
+		}
+
+		success = camel_store_delete_folder_sync (
+			store, folder_info->full_name, cancellable, error);
+		if (!success)
+			break;
+
+		folder_info = folder_info->next;
+	}
+
+	return success;
+}
+
+gboolean
+e_mail_folder_remove_sync (CamelFolder *folder,
+                           GCancellable *cancellable,
+                           GError **error)
+{
+	CamelFolderInfo *folder_info;
+	CamelFolderInfo *to_remove;
+	CamelFolderInfo *next = NULL;
+	CamelStore *parent_store;
+	const gchar *full_name;
+	gboolean success = TRUE;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
+
+	full_name = camel_folder_get_full_name (folder);
+	parent_store = camel_folder_get_parent_store (folder);
+
+	folder_info = camel_store_get_folder_info_sync (
+		parent_store, full_name,
+		CAMEL_STORE_FOLDER_INFO_FAST |
+		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+		CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
+		cancellable, error);
+
+	if (folder_info == NULL)
+		return FALSE;
+
+	to_remove = folder_info;
+
+	/* For cases when the top-level folder_info contains siblings,
+	 * such as when full_name contains a wildcard letter, compare
+	 * the folder name against folder_info->full_name to avoid
+	 * removing more folders than requested. */
+	if (folder_info->next != NULL) {
+		while (to_remove != NULL) {
+			if (g_strcmp0 (to_remove->full_name, full_name) == 0)
+				break;
+			to_remove = to_remove->next;
+		}
+
+		/* XXX Should we set a GError and return FALSE here? */
+		if (to_remove == NULL) {
+			g_warning (
+				"%s: Failed to find folder '%s'",
+				G_STRFUNC, full_name);
+			camel_store_free_folder_info (
+				parent_store, folder_info);
+			return TRUE;
+		}
+
+		/* Prevent iterating over siblings. */
+		next = to_remove->next;
+		to_remove->next = NULL;
+	}
+
+	camel_operation_push_message (
+		cancellable, _("Removing folder '%s'"),
+		camel_folder_get_full_name (folder));
+
+	success = mail_folder_remove_recursive (
+		parent_store, to_remove, cancellable, error);
+
+	camel_operation_pop_message (cancellable);
+
+	/* Restore the folder_info tree to its original
+	 * state so we don't leak folder_info nodes. */
+	to_remove->next = next;
+
+	camel_store_free_folder_info (parent_store, folder_info);
+
+	return success;
+}
+
+void
+e_mail_folder_remove (CamelFolder *folder,
+                      gint io_priority,
+                      GCancellable *cancellable,
+                      GAsyncReadyCallback callback,
+                      gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (folder), callback,
+		user_data, e_mail_folder_remove);
+
+	g_simple_async_result_run_in_thread (
+		simple, mail_folder_remove_thread,
+		io_priority, cancellable);
+
+	g_object_unref (simple);
+}
+
+gboolean
+e_mail_folder_remove_finish (CamelFolder *folder,
+                             GAsyncResult *result,
+                             GError **error)
+{
+	GSimpleAsyncResult *simple;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (folder),
+		e_mail_folder_remove), FALSE);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+
+	/* Assume success unless a GError is set. */
+	return !g_simple_async_result_propagate_error (simple, error);
+}
+
+static void
 mail_folder_remove_attachments_thread (GSimpleAsyncResult *simple,
                                        GObject *object,
                                        GCancellable *cancellable)

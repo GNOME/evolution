@@ -44,8 +44,6 @@ void		em_folder_utils_copy_folder	(GtkWindow *parent,
 						 EMailBackend *backend,
 						 const gchar *folder_uri,
 						 gboolean delete);
-void		em_folder_utils_delete_folder	(EMailBackend *backend,
-						 CamelFolder *folder);
 void		em_folder_utils_create_folder	(GtkWindow *parent,
 						 EMFolderTree *emft,
 						 EMailSession *session,

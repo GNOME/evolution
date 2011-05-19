@@ -60,11 +60,6 @@ void		mail_empty_trash		(EMailSession *session,
 						 void (*done) (EAccount *account, gpointer data),
 						 gpointer data);
 
-/* remove an existing folder */
-void mail_remove_folder (CamelFolder *folder,
-			 void (*done) (CamelFolder *folder, gboolean removed, GError **error, gpointer data),
-			 gpointer data);
-
 /* transfer (copy/move) a folder */
 void mail_xfer_folder (const gchar *src_uri, const gchar *dest_uri, gboolean remove_source,
 		       void (*done) (gchar *src_uri, gchar *dest_uri, gboolean remove_source,

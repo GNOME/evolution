@@ -2261,7 +2261,7 @@ in_proper_folder (CamelFolder *folder)
 	EMailSession *session;
 	MailFolderCache *folder_cache;
 	gboolean res = TRUE;
-	gint flags = 0;
+	CamelFolderInfoFlags flags = 0;
 
 	if (!folder)
 		return FALSE;
