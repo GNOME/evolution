@@ -43,6 +43,7 @@
 #include "e-mail-label-list-store.h"
 #include "e-mail-local.h"
 #include "e-mail-reader.h"
+#include "e-mail-reader-utils.h"
 #include "e-mail-session.h"
 #include "e-mail-session-utils.h"
 #include "e-mail-sidebar.h"

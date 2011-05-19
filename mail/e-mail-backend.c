@@ -367,7 +367,7 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	const gchar *uid;
 	gchar *folder_uri;
 	gint folder_type;
-	gint flags = 0;
+	CamelFolderInfoFlags flags = 0;
 
 	folder_uri = e_mail_folder_uri_build (store, folder_fullname);
 

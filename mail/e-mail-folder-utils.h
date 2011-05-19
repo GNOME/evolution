@@ -97,6 +97,18 @@ GHashTable *	e_mail_folder_get_multiple_messages_finish
 						 GAsyncResult *result,
 						 GError **error);
 
+gboolean	e_mail_folder_remove_sync	(CamelFolder *folder,
+						 GCancellable *cancellable,
+						 GError **error);
+void		e_mail_folder_remove		(CamelFolder *folder,
+						 gint io_priority,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_mail_folder_remove_finish	(CamelFolder *folder,
+						 GAsyncResult *result,
+						 GError **error);
+
 gboolean	e_mail_folder_remove_attachments_sync
 						(CamelFolder *folder,
 						 GPtrArray *message_uids,

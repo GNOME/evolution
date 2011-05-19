@@ -36,6 +36,7 @@
 #include "mail/e-mail-backend.h"
 #include "mail/e-mail-browser.h"
 #include "mail/e-mail-folder-utils.h"
+#include "mail/e-mail-local.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-format-html-print.h"
 #include "mail/em-utils.h"
@@ -73,6 +74,16 @@ async_context_free (AsyncContext *context)
 	g_free (context->message_uid);
 
 	g_slice_free (AsyncContext, context);
+}
+
+static gboolean
+mail_reader_is_special_local_folder (const gchar *name)
+{
+	return (strcmp (name, "Drafts") == 0 ||
+		strcmp (name, "Inbox") == 0 ||
+		strcmp (name, "Outbox") == 0 ||
+		strcmp (name, "Sent") == 0 ||
+		strcmp (name, "Templates") == 0);
 }
 
 void
@@ -155,6 +166,127 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 	gtk_widget_destroy (dialog);
 
 	return (response == GTK_RESPONSE_OK);
+}
+
+static void
+mail_reader_delete_folder_cb (CamelFolder *folder,
+                              GAsyncResult *result,
+                              AsyncContext *context)
+{
+	EAlertSink *alert_sink;
+	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
+
+	e_mail_folder_remove_finish (folder, result, &error);
+
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		e_alert_submit (
+			alert_sink, "mail:no-delete-folder",
+			camel_folder_get_full_name (folder),
+			error->message, NULL);
+		g_error_free (error);
+	}
+
+	async_context_free (context);
+}
+
+void
+e_mail_reader_delete_folder (EMailReader *reader,
+                             CamelFolder *folder)
+{
+	CamelStore *local_store;
+	CamelStore *parent_store;
+	EMailBackend *backend;
+	EMailSession *session;
+	EAlertSink *alert_sink;
+	MailFolderCache *folder_cache;
+	GtkWindow *parent = e_shell_get_active_window (NULL);
+	GtkWidget *dialog;
+	const gchar *full_name;
+	CamelFolderInfoFlags flags = 0;
+	gboolean have_flags;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
+	full_name = camel_folder_get_full_name (folder);
+	parent_store = camel_folder_get_parent_store (folder);
+
+	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
+
+	local_store = e_mail_local_get_store ();
+	alert_sink = e_mail_reader_get_alert_sink (reader);
+	folder_cache = e_mail_session_get_folder_cache (session);
+
+	if (parent_store == local_store &&
+		mail_reader_is_special_local_folder (full_name)) {
+		e_mail_backend_submit_alert (
+			backend, "mail:no-delete-special-folder",
+			full_name, NULL);
+		return;
+	}
+
+	have_flags = mail_folder_cache_get_folder_info_flags (
+		folder_cache, folder, &flags);
+
+	if (have_flags && (flags & CAMEL_FOLDER_SYSTEM)) {
+		e_alert_submit (
+			alert_sink, "mail:no-delete-special-folder",
+			camel_folder_get_display_name (folder), NULL);
+		return;
+	}
+
+	if (have_flags && (flags & CAMEL_FOLDER_CHILDREN)) {
+		if (CAMEL_IS_VEE_STORE (parent_store))
+			dialog = e_alert_dialog_new_for_args (
+				parent, "mail:ask-delete-vfolder",
+				full_name, NULL);
+		else
+			dialog = e_alert_dialog_new_for_args (
+				parent, "mail:ask-delete-folder",
+				full_name, NULL);
+	} else {
+		if (CAMEL_IS_VEE_STORE (parent_store))
+			dialog = e_alert_dialog_new_for_args (
+				parent, "mail:ask-delete-vfolder-nochild",
+				full_name, NULL);
+		else
+			dialog = e_alert_dialog_new_for_args (
+				parent, "mail:ask-delete-folder-nochild",
+				full_name, NULL);
+	}
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		EActivity *activity;
+		AsyncContext *context;
+		GCancellable *cancellable;
+
+		activity = e_mail_reader_new_activity (reader);
+		cancellable = e_activity_get_cancellable (activity);
+
+		context = g_slice_new0 (AsyncContext);
+		context->activity = activity;
+		context->reader = g_object_ref (reader);
+
+		/* Disable the dialog until the activity finishes. */
+		gtk_widget_set_sensitive (dialog, FALSE);
+
+		/* Destroy the dialog once the activity finishes. */
+		g_object_set_data_full (
+			G_OBJECT (activity), "delete-dialog",
+			dialog, (GDestroyNotify) gtk_widget_destroy);
+
+		e_mail_folder_remove (
+			folder, G_PRIORITY_DEFAULT,
+			cancellable, (GAsyncReadyCallback)
+			mail_reader_delete_folder_cb, context);
+	} else
+		gtk_widget_destroy (dialog);
 }
 
 void
