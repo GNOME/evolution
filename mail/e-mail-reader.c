@@ -74,6 +74,9 @@ struct _EMailReaderClosure {
 
 struct _EMailReaderPrivate {
 
+	EMailForwardStyle forward_style;
+	EMailReplyStyle reply_style;
+
 	/* This timer runs when the user selects a single message. */
 	guint message_selected_timeout_id;
 
@@ -107,8 +110,6 @@ enum {
 static gchar *default_xfer_messages_uri;
 
 static GQuark quark_private;
-static GQuark quark_forward_style;
-static GQuark quark_reply_style;
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_INTERFACE (EMailReader, e_mail_reader, G_TYPE_INITIALLY_UNOWNED)
@@ -3234,16 +3235,6 @@ e_mail_reader_default_init (EMailReaderInterface *interface)
 {
 	quark_private = g_quark_from_static_string ("e-mail-reader-private");
 
-	/* Forward and reply styles are stored outside of the private
-	 * structure as a workaround for EMailShellContent, which loads
-	 * extensions long before the private structure is initialized,
-	 * and one of those extensions binds our "forward-style" and
-	 * "reply-style" properties to EShellSettings properties. */
-	quark_forward_style =
-		g_quark_from_static_string ("e-mail-reader-forward-style");
-	quark_reply_style =
-		g_quark_from_static_string ("e-mail-reader-reply-style");
-
 	interface->get_selected_uids = mail_reader_get_selected_uids;
 	interface->get_folder = mail_reader_get_folder;
 	interface->enable_show_folder = mail_reader_get_enable_show_folder;
@@ -4027,22 +4018,26 @@ e_mail_reader_open_selected_mail (EMailReader *reader)
 EMailForwardStyle
 e_mail_reader_get_forward_style (EMailReader *reader)
 {
+	EMailReaderPrivate *priv;
+
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
 
-	return (EMailForwardStyle)
-		GPOINTER_TO_INT (g_object_get_qdata (
-		G_OBJECT (reader), quark_forward_style));
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	return priv->forward_style;
 }
 
 void
 e_mail_reader_set_forward_style (EMailReader *reader,
                                  EMailForwardStyle style)
 {
+	EMailReaderPrivate *priv;
+
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	g_object_set_qdata (
-		G_OBJECT (reader), quark_forward_style,
-		GINT_TO_POINTER (style));
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	priv->forward_style = style;
 
 	g_object_notify (G_OBJECT (reader), "forward-style");
 }
@@ -4086,22 +4081,26 @@ e_mail_reader_set_group_by_threads (EMailReader *reader,
 EMailReplyStyle
 e_mail_reader_get_reply_style (EMailReader *reader)
 {
+	EMailReaderPrivate *priv;
+
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
 
-	return (EMailReplyStyle)
-		GPOINTER_TO_INT (g_object_get_qdata (
-		G_OBJECT (reader), quark_reply_style));
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	return priv->reply_style;
 }
 
 void
 e_mail_reader_set_reply_style (EMailReader *reader,
                                EMailReplyStyle style)
 {
+	EMailReaderPrivate *priv;
+
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	g_object_set_qdata (
-		G_OBJECT (reader), quark_reply_style,
-		GINT_TO_POINTER (style));
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	priv->reply_style = style;
 
 	g_object_notify (G_OBJECT (reader), "reply-style");
 }
