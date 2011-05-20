@@ -62,6 +62,7 @@ typedef struct _EMailReaderInterface EMailReaderInterface;
 
 typedef enum {
 	E_MAIL_READER_ACTION_GROUP_STANDARD,
+	E_MAIL_READER_ACTION_GROUP_SEARCH_FOLDERS,
 	E_MAIL_READER_NUM_ACTION_GROUPS
 } EMailReaderActionGroup;
 

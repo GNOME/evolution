@@ -1117,13 +1117,6 @@ static GtkActionEntry mail_entries[] = {
 	  N_("Permanently remove all the deleted messages from all folders"),
 	  G_CALLBACK (action_mail_folder_expunge_cb) },
 
-	{ "mail-create-search-folder",
-	  NULL,
-	  N_("C_reate Search Folder From Search..."),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_create_search_folder_cb) },
-
 	{ "mail-download",
 	  NULL,
 	  N_("_Download Messages for Offline Usage"),
@@ -1329,13 +1322,6 @@ static GtkActionEntry mail_entries[] = {
 	  N_("Create or edit rules for filtering new mail"),
 	  G_CALLBACK (action_mail_tools_filters_cb) },
 
-	{ "mail-tools-search-folders",
-	  NULL,
-	  N_("Search F_olders"),
-	  NULL,
-	  N_("Create or edit search folder definitions"),
-	  G_CALLBACK (action_mail_tools_search_folders_cb) },
-
 	{ "mail-tools-subscriptions",
 	  NULL,
 	  N_("_Subscriptions..."),
@@ -1365,6 +1351,23 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,
 	  NULL,
 	  NULL }
+};
+
+static GtkActionEntry search_folder_entries[] = {
+
+	{ "mail-create-search-folder",
+	  NULL,
+	  N_("C_reate Search Folder From Search..."),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_mail_create_search_folder_cb) },
+
+	{ "mail-tools-search-folders",
+	  NULL,
+	  N_("Search F_olders"),
+	  NULL,
+	  N_("Create or edit search folder definitions"),
+	  G_CALLBACK (action_mail_tools_search_folders_cb) },
 };
 
 static EPopupActionEntry mail_popup_entries[] = {
@@ -1665,6 +1668,12 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		action_group, mail_scope_entries,
 		G_N_ELEMENTS (mail_scope_entries),
 		MAIL_SCOPE_CURRENT_FOLDER, NULL, NULL);
+
+	/* Search Folder Actions */
+	action_group = ACTION_GROUP (SEARCH_FOLDERS);
+	gtk_action_group_add_actions (
+		action_group, search_folder_entries,
+		G_N_ELEMENTS (search_folder_entries), mail_shell_view);
 
 	action = ACTION (MAIL_SCOPE_ALL_ACCOUNTS);
 	combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);

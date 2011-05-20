@@ -24,15 +24,14 @@
 
 static gpointer parent_class;
 
-static void
-mail_config_reader_constructed (GObject *object)
+static gboolean
+mail_config_reader_idle_cb (EExtension *extension)
 {
-	EExtension *extension;
 	EExtensible *extensible;
+	GtkActionGroup *action_group;
 	EShellSettings *shell_settings;
 	EShell *shell;
 
-	extension = E_EXTENSION (object);
 	extensible = e_extension_get_extensible (extension);
 
 	shell = e_shell_get_default ();
@@ -47,6 +46,29 @@ mail_config_reader_constructed (GObject *object)
 		shell_settings, "mail-reply-style",
 		extensible, "reply-style",
 		G_BINDING_SYNC_CREATE);
+
+	action_group = e_mail_reader_get_action_group (
+		E_MAIL_READER (extensible),
+		E_MAIL_READER_ACTION_GROUP_SEARCH_FOLDERS);
+
+	g_object_bind_property (
+		shell_settings, "mail-enable-search-folders",
+		action_group, "visible",
+		G_BINDING_SYNC_CREATE);
+
+	return FALSE;
+}
+
+static void
+mail_config_reader_constructed (GObject *object)
+{
+	/* Bind properties to settings from an idle callback so the
+	 * EMailReader interface has a chance to be initialized first. */
+	g_idle_add_full (
+		G_PRIORITY_DEFAULT_IDLE,
+		(GSourceFunc) mail_config_reader_idle_cb,
+		g_object_ref (object),
+		(GDestroyNotify) g_object_unref);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
