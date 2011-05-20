@@ -86,23 +86,6 @@ mail_reader_is_special_local_folder (const gchar *name)
 		strcmp (name, "Templates") == 0);
 }
 
-void
-e_mail_reader_activate (EMailReader *reader,
-                        const gchar *action_name)
-{
-	GtkActionGroup *action_group;
-	GtkAction *action;
-
-	g_return_if_fail (E_IS_MAIL_READER (reader));
-	g_return_if_fail (action_name != NULL);
-
-	action_group = e_mail_reader_get_action_group (reader);
-	action = gtk_action_group_get_action (action_group, action_name);
-	g_return_if_fail (action != NULL);
-
-	gtk_action_activate (action);
-}
-
 gboolean
 e_mail_reader_confirm_delete (EMailReader *reader)
 {
