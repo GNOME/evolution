@@ -259,5 +259,7 @@
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail-filter")
 #define E_SHELL_WINDOW_ACTION_GROUP_MAIL_LABEL(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail-label")
+#define E_SHELL_WINDOW_ACTION_GROUP_SEARCH_FOLDERS(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "search-folders")
 
 #endif /* E_MAIL_SHELL_VIEW_ACTIONS_H */

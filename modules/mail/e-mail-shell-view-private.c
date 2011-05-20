@@ -644,6 +644,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	e_shell_window_add_action_group (shell_window, "mail");
 	e_shell_window_add_action_group (shell_window, "mail-filter");
 	e_shell_window_add_action_group (shell_window, "mail-label");
+	e_shell_window_add_action_group (shell_window, "search-folders");
 
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 	priv->label_merge_id = merge_id;

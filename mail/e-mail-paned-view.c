@@ -382,6 +382,9 @@ mail_paned_view_get_action_group (EMailReader *reader,
 		case E_MAIL_READER_ACTION_GROUP_STANDARD:
 			group_name = "mail";
 			break;
+		case E_MAIL_READER_ACTION_GROUP_SEARCH_FOLDERS:
+			group_name = "search-folders";
+			break;
 		default:
 			g_return_val_if_reached (NULL);
 	}

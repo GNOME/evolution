@@ -2108,34 +2108,6 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Save selected messages as an mbox file"),
 	  G_CALLBACK (action_mail_save_as_cb) },
 
-	{ "mail-search-folder-from-mailing-list",
-	  NULL,
-	  N_("Search Folder from Mailing _List..."),
-	  NULL,
-	  N_("Create a search folder for this mailing list"),
-	  G_CALLBACK (action_mail_search_folder_from_mailing_list_cb) },
-
-	{ "mail-search-folder-from-recipients",
-	  NULL,
-	  N_("Search Folder from Recipien_ts..."),
-	  NULL,
-	  N_("Create a search folder for these recipients"),
-	  G_CALLBACK (action_mail_search_folder_from_recipients_cb) },
-
-	{ "mail-search-folder-from-sender",
-	  NULL,
-	  N_("Search Folder from Sen_der..."),
-	  NULL,
-	  N_("Create a search folder for this sender"),
-	  G_CALLBACK (action_mail_search_folder_from_sender_cb) },
-
-	{ "mail-search-folder-from-subject",
-	  NULL,
-	  N_("Search Folder from S_ubject..."),
-	  NULL,
-	  N_("Create a search folder for this subject"),
-	  G_CALLBACK (action_mail_search_folder_from_subject_cb) },
-
 	{ "mail-show-source",
 	  NULL,
 	  N_("_Message Source"),
@@ -2235,6 +2207,37 @@ static GtkActionEntry mail_reader_entries[] = {
 	  NULL,
 	  NULL,
 	  NULL }
+};
+
+static GtkActionEntry mail_reader_search_folder_entries[] = {
+
+	{ "mail-search-folder-from-mailing-list",
+	  NULL,
+	  N_("Search Folder from Mailing _List..."),
+	  NULL,
+	  N_("Create a search folder for this mailing list"),
+	  G_CALLBACK (action_mail_search_folder_from_mailing_list_cb) },
+
+	{ "mail-search-folder-from-recipients",
+	  NULL,
+	  N_("Search Folder from Recipien_ts..."),
+	  NULL,
+	  N_("Create a search folder for these recipients"),
+	  G_CALLBACK (action_mail_search_folder_from_recipients_cb) },
+
+	{ "mail-search-folder-from-sender",
+	  NULL,
+	  N_("Search Folder from Sen_der..."),
+	  NULL,
+	  N_("Create a search folder for this sender"),
+	  G_CALLBACK (action_mail_search_folder_from_sender_cb) },
+
+	{ "mail-search-folder-from-subject",
+	  NULL,
+	  N_("Search Folder from S_ubject..."),
+	  NULL,
+	  N_("Create a search folder for this subject"),
+	  G_CALLBACK (action_mail_search_folder_from_subject_cb) },
 };
 
 static EPopupActionEntry mail_reader_popup_entries[] = {
@@ -3200,14 +3203,11 @@ mail_reader_update_actions (EMailReader *reader,
 }
 
 static void
-mail_reader_init_charset_actions (EMailReader *reader)
+mail_reader_init_charset_actions (EMailReader *reader,
+                                  GtkActionGroup *action_group)
 {
-	GtkActionGroup *action_group;
 	GtkRadioAction *default_action;
 	GSList *radio_group;
-
-	action_group = e_mail_reader_get_action_group (
-		reader, E_MAIL_READER_ACTION_GROUP_STANDARD);
 
 	radio_group = e_charset_add_radio_actions (
 		action_group, "mail-charset-", NULL,
@@ -3383,6 +3383,8 @@ e_mail_reader_init (EMailReader *reader,
 	if (!init_actions)
 		goto connect_signals;
 
+	/* Add the "standard" EMailReader actions. */
+
 	action_group = e_mail_reader_get_action_group (
 		reader, E_MAIL_READER_ACTION_GROUP_STANDARD);
 
@@ -3403,7 +3405,7 @@ e_mail_reader_init (EMailReader *reader,
 	gtk_action_group_add_action_with_accel (
 		action_group, GTK_ACTION (menu_tool_action), "<Control>f");
 
-	/* Likewise the "mail-reply-group" action */
+	/* Likewise the "mail-reply-group" action. */
 
         /* For Translators: "Group Reply" will reply either to a mailing list
 	   (if possible and if that configuration option is enabled), or else
@@ -3424,8 +3426,6 @@ e_mail_reader_init (EMailReader *reader,
 		action_group, GTK_ACTION (menu_tool_action), "<Control>g");
 
 	/* Add the other actions the normal way. */
-
-	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
 	gtk_action_group_add_actions (
 		action_group, mail_reader_entries,
 		G_N_ELEMENTS (mail_reader_entries), reader);
@@ -3436,7 +3436,17 @@ e_mail_reader_init (EMailReader *reader,
 		action_group, mail_reader_toggle_entries,
 		G_N_ELEMENTS (mail_reader_toggle_entries), reader);
 
-	mail_reader_init_charset_actions (reader);
+	mail_reader_init_charset_actions (reader, action_group);
+
+	/* Add EMailReader actions for Search Folders.  The action group
+	 * should be made invisible if Search Folders are disabled. */
+
+	action_group = e_mail_reader_get_action_group (
+		reader, E_MAIL_READER_ACTION_GROUP_SEARCH_FOLDERS);
+
+	gtk_action_group_add_actions (
+		action_group, mail_reader_search_folder_entries,
+		G_N_ELEMENTS (mail_reader_search_folder_entries), reader);
 
 	/* Bind GObject properties to GConf keys. */
 

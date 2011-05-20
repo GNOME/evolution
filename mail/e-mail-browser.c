@@ -43,11 +43,13 @@
 
 #define MAIL_BROWSER_GCONF_PREFIX "/apps/evolution/mail/mail_browser"
 
+#define ACTION_GROUP_STANDARD		"action-group-standard"
+#define ACTION_GROUP_SEARCH_FOLDERS	"action-group-search-folders"
+
 struct _EMailBrowserPrivate {
 	EMailBackend *backend;
 	GtkUIManager *ui_manager;
 	EFocusTracker *focus_tracker;
-	GtkActionGroup *action_group;
 	EMFormatHTMLDisplay *formatter;
 
 	GtkWidget *main_menu;
@@ -485,11 +487,6 @@ mail_browser_dispose (GObject *object)
 		priv->focus_tracker = NULL;
 	}
 
-	if (priv->action_group != NULL) {
-		g_object_unref (priv->action_group);
-		priv->action_group = NULL;
-	}
-
 	if (priv->formatter != NULL) {
 		g_object_unref (priv->formatter);
 		priv->formatter = NULL;
@@ -598,9 +595,11 @@ mail_browser_constructed (GObject *object)
 		web_view, "status-message",
 		G_CALLBACK (mail_browser_status_message_cb), object);
 
+	/* Add action groups before initializing the reader interface. */
+
 	e_mail_reader_init (reader, TRUE, TRUE);
 
-	action_group = priv->action_group;
+	action_group = gtk_action_group_new (ACTION_GROUP_STANDARD);
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_action_group_add_actions (
 		action_group, mail_browser_entries,
@@ -609,6 +608,20 @@ mail_browser_constructed (GObject *object)
 		action_group, mail_browser_popup_entries,
 		G_N_ELEMENTS (mail_browser_popup_entries));
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	/* For easy access.  Takes ownership of the reference. */
+	g_object_set_data_full (
+		object, ACTION_GROUP_STANDARD,
+		action_group, (GDestroyNotify) g_object_unref);
+
+	action_group = gtk_action_group_new (ACTION_GROUP_SEARCH_FOLDERS);
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	/* For easy access.  Takes ownership of the reference. */
+	g_object_set_data_full (
+		object, ACTION_GROUP_SEARCH_FOLDERS,
+		action_group, (GDestroyNotify) g_object_unref);
 
 	e_ui_manager_add_ui_from_file (
 		E_UI_MANAGER (ui_manager), E_MAIL_READER_UI_DEFINITION);
@@ -628,13 +641,13 @@ mail_browser_constructed (GObject *object)
 	/* Configure an EFocusTracker to manage selection actions. */
 
 	focus_tracker = e_focus_tracker_new (GTK_WINDOW (object));
-	action = gtk_action_group_get_action (action_group, "cut-clipboard");
+	action = e_mail_reader_get_action (reader, "cut-clipboard");
 	e_focus_tracker_set_cut_clipboard_action (focus_tracker, action);
-	action = gtk_action_group_get_action (action_group, "copy-clipboard");
+	action = e_mail_reader_get_action (reader, "copy-clipboard");
 	e_focus_tracker_set_copy_clipboard_action (focus_tracker, action);
-	action = gtk_action_group_get_action (action_group, "paste-clipboard");
+	action = e_mail_reader_get_action (reader, "paste-clipboard");
 	e_focus_tracker_set_paste_clipboard_action (focus_tracker, action);
-	action = gtk_action_group_get_action (action_group, "select-all");
+	action = e_mail_reader_get_action (reader, "select-all");
 	e_focus_tracker_set_select_all_action (focus_tracker, action);
 	priv->focus_tracker = focus_tracker;
 
@@ -745,16 +758,20 @@ static GtkActionGroup *
 mail_browser_get_action_group (EMailReader *reader,
                                EMailReaderActionGroup group)
 {
-	EMailBrowserPrivate *priv;
-
-	priv = E_MAIL_BROWSER (reader)->priv;
+	const gchar *group_name;
 
 	switch (group) {
 		case E_MAIL_READER_ACTION_GROUP_STANDARD:
-			return priv->action_group;
+			group_name = ACTION_GROUP_STANDARD;
+			break;
+		case E_MAIL_READER_ACTION_GROUP_SEARCH_FOLDERS:
+			group_name = ACTION_GROUP_SEARCH_FOLDERS;
+			break;
 		default:
 			g_return_val_if_reached (NULL);
 	}
+
+	return g_object_get_data (G_OBJECT (reader), group_name);
 }
 
 static EAlertSink *
@@ -959,7 +976,6 @@ e_mail_browser_init (EMailBrowser *browser)
 	browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		browser, E_TYPE_MAIL_BROWSER, EMailBrowserPrivate);
 
-	browser->priv->action_group = gtk_action_group_new ("mail-browser");
 	browser->priv->formatter = em_format_html_display_new ();
 
 	bridge = gconf_bridge_get ();
