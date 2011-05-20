@@ -2350,17 +2350,21 @@ mail_reader_double_click_cb (EMailReader *reader,
                              gint col,
                              GdkEvent *event)
 {
+	GtkAction *action;
+
 	/* Ignore double clicks on columns that handle their own state. */
 	if (MESSAGE_LIST_COLUMN_IS_ACTIVE (col))
 		return;
 
-	e_mail_reader_activate (reader, "mail-message-open");
+	action = e_mail_reader_get_action (reader, "mail-message-open");
+	gtk_action_activate (action);
 }
 
 static gboolean
 mail_reader_key_press_event_cb (EMailReader *reader,
                                 GdkEventKey *event)
 {
+	GtkAction *action;
 	const gchar *action_name;
 
 	if ((event->state & GDK_CONTROL_MASK) != 0)
@@ -2426,7 +2430,8 @@ ctrl:
 	}
 
 exit:
-	e_mail_reader_activate (reader, action_name);
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_activate (action);
 
 	return TRUE;
 }
@@ -3201,7 +3206,8 @@ mail_reader_init_charset_actions (EMailReader *reader)
 	GtkRadioAction *default_action;
 	GSList *radio_group;
 
-	action_group = e_mail_reader_get_action_group (reader);
+	action_group = e_mail_reader_get_action_group (
+		reader, E_MAIL_READER_ACTION_GROUP_STANDARD);
 
 	radio_group = e_charset_add_radio_actions (
 		action_group, "mail-charset-", NULL,
@@ -3377,7 +3383,8 @@ e_mail_reader_init (EMailReader *reader,
 	if (!init_actions)
 		goto connect_signals;
 
-	action_group = e_mail_reader_get_action_group (reader);
+	action_group = e_mail_reader_get_action_group (
+		reader, E_MAIL_READER_ACTION_GROUP_STANDARD);
 
 	/* The "mail-forward" action is special: it uses a GtkMenuToolButton
 	 * for its toolbar item type.  So we have to create it separately. */
@@ -3812,14 +3819,21 @@ GtkAction *
 e_mail_reader_get_action (EMailReader *reader,
                           const gchar *action_name)
 {
-	GtkActionGroup *action_group;
-	GtkAction *action;
+	GtkAction *action = NULL;
+	gint ii;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 	g_return_val_if_fail (action_name != NULL, NULL);
 
-	action_group = e_mail_reader_get_action_group (reader);
-	action = gtk_action_group_get_action (action_group, action_name);
+	for (ii = 0; ii < E_MAIL_READER_NUM_ACTION_GROUPS; ii++) {
+		GtkActionGroup *group;
+
+		group = e_mail_reader_get_action_group (reader, ii);
+		action = gtk_action_group_get_action (group, action_name);
+
+		if (action != NULL)
+			break;
+	}
 
 	if (action == NULL)
 		g_critical (
@@ -3829,7 +3843,8 @@ e_mail_reader_get_action (EMailReader *reader,
 }
 
 GtkActionGroup *
-e_mail_reader_get_action_group (EMailReader *reader)
+e_mail_reader_get_action_group (EMailReader *reader,
+                                EMailReaderActionGroup group)
 {
 	EMailReaderInterface *interface;
 
@@ -3838,7 +3853,7 @@ e_mail_reader_get_action_group (EMailReader *reader)
 	interface = E_MAIL_READER_GET_INTERFACE (reader);
 	g_return_val_if_fail (interface->get_action_group != NULL, NULL);
 
-	return interface->get_action_group (reader);
+	return interface->get_action_group (reader, group);
 }
 
 EAlertSink *

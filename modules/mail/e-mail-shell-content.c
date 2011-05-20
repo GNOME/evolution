@@ -248,17 +248,27 @@ mail_shell_content_open_selected_mail (EMailReader *reader)
 }
 
 static GtkActionGroup *
-mail_shell_content_get_action_group (EMailReader *reader)
+mail_shell_content_get_action_group (EMailReader *reader,
+                                     EMailReaderActionGroup group)
 {
-	EShellContent *shell_content;
-	EShellWindow *shell_window;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	const gchar *group_name;
 
 	shell_content = E_SHELL_CONTENT (reader);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	return E_SHELL_WINDOW_ACTION_GROUP_MAIL (shell_window);
+	switch (group) {
+		case E_MAIL_READER_ACTION_GROUP_STANDARD:
+			group_name = "mail";
+			break;
+		default:
+			g_return_val_if_reached (NULL);
+	}
+
+	return e_shell_window_get_action_group (shell_window, group_name);
 }
 
 static EAlertSink *

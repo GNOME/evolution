@@ -60,6 +60,11 @@ G_BEGIN_DECLS
 typedef struct _EMailReader EMailReader;
 typedef struct _EMailReaderInterface EMailReaderInterface;
 
+typedef enum {
+	E_MAIL_READER_ACTION_GROUP_STANDARD,
+	E_MAIL_READER_NUM_ACTION_GROUPS
+} EMailReaderActionGroup;
+
 enum {
 	E_MAIL_READER_HAVE_ENABLED_ACCOUNT		= 1 << 0,
 	E_MAIL_READER_SELECTION_SINGLE			= 1 << 1,
@@ -85,7 +90,8 @@ struct _EMailReaderInterface {
 	GTypeInterface parent_interface;
 
 	GtkActionGroup *
-			(*get_action_group)	(EMailReader *reader);
+			(*get_action_group)	(EMailReader *reader,
+						 EMailReaderActionGroup group);
 	EAlertSink *	(*get_alert_sink)	(EMailReader *reader);
 	EMailBackend *	(*get_backend)		(EMailReader *reader);
 	EMFormatHTML *	(*get_formatter)	(EMailReader *reader);
@@ -121,7 +127,8 @@ void		e_mail_reader_update_actions	(EMailReader *reader,
 GtkAction *	e_mail_reader_get_action	(EMailReader *reader,
 						 const gchar *action_name);
 GtkActionGroup *
-		e_mail_reader_get_action_group	(EMailReader *reader);
+		e_mail_reader_get_action_group	(EMailReader *reader,
+						 EMailReaderActionGroup group);
 EAlertSink *	e_mail_reader_get_alert_sink	(EMailReader *reader);
 EMailBackend *	e_mail_reader_get_backend	(EMailReader *reader);
 EMFormatHTML *	e_mail_reader_get_formatter	(EMailReader *reader);

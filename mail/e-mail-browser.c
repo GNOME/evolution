@@ -742,13 +742,19 @@ mail_browser_submit_alert (EAlertSink *alert_sink,
 }
 
 static GtkActionGroup *
-mail_browser_get_action_group (EMailReader *reader)
+mail_browser_get_action_group (EMailReader *reader,
+                               EMailReaderActionGroup group)
 {
 	EMailBrowserPrivate *priv;
 
 	priv = E_MAIL_BROWSER (reader)->priv;
 
-	return priv->action_group;
+	switch (group) {
+		case E_MAIL_READER_ACTION_GROUP_STANDARD:
+			return priv->action_group;
+		default:
+			g_return_val_if_reached (NULL);
+	}
 }
 
 static EAlertSink *

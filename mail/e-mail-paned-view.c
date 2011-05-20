@@ -366,17 +366,27 @@ mail_paned_view_dispose (GObject *object)
 }
 
 static GtkActionGroup *
-mail_paned_view_get_action_group (EMailReader *reader)
+mail_paned_view_get_action_group (EMailReader *reader,
+                                  EMailReaderActionGroup group)
 {
 	EMailView *view;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	const gchar *group_name;
 
 	view = E_MAIL_VIEW (reader);
 	shell_view = e_mail_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	return E_SHELL_WINDOW_ACTION_GROUP_MAIL (shell_window);
+	switch (group) {
+		case E_MAIL_READER_ACTION_GROUP_STANDARD:
+			group_name = "mail";
+			break;
+		default:
+			g_return_val_if_reached (NULL);
+	}
+
+	return e_shell_window_get_action_group (shell_window, group_name);
 }
 
 static EAlertSink *
