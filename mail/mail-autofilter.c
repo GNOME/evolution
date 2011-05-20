@@ -319,6 +319,10 @@ em_vfolder_rule_from_message (EMVFolderContext *context,
 	EMailSession *session;
 	gchar *uri;
 
+	g_return_val_if_fail (EM_IS_VFOLDER_CONTEXT (context), NULL);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (msg), NULL);
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+
 	uri = e_mail_folder_uri_from_folder (folder);
 
 	session = em_vfolder_context_get_session (context);
@@ -342,6 +346,10 @@ em_vfolder_rule_from_address (EMVFolderContext *context,
 	EMailSession *session;
 	gchar *uri;
 
+	g_return_val_if_fail (EM_IS_VFOLDER_CONTEXT (context), NULL);
+	g_return_val_if_fail (CAMEL_IS_INTERNET_ADDRESS (addr), NULL);
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+
 	uri = e_mail_folder_uri_from_folder (folder);
 
 	session = em_vfolder_context_get_session (context);
@@ -362,6 +370,9 @@ filter_rule_from_message (EMFilterContext *context,
 {
 	EFilterRule *rule;
 	EFilterPart *part;
+
+	g_return_val_if_fail (EM_IS_FILTER_CONTEXT (context), NULL);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (msg), NULL);
 
 	rule = em_filter_rule_new ();
 	rule_from_message (rule, E_RULE_CONTEXT (context), msg, flags);
@@ -385,7 +396,8 @@ filter_gui_add_from_message (EMailSession *session,
 	gchar *user, *system;
 	EFilterRule *rule;
 
-	g_return_if_fail (msg != NULL);
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
 
 	fc = em_filter_context_new (session);
 	config_dir = mail_session_get_config_dir ();
