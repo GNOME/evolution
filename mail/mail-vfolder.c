@@ -1402,6 +1402,8 @@ vfolder_gui_add_rule (EMVFolderRule *rule)
 	GtkDialog *gd;
 	GtkWidget *container;
 
+	g_return_if_fail (EM_IS_VFOLDER_RULE (rule));
+
 	w = e_filter_rule_get_widget ((EFilterRule *)rule, (ERuleContext *)context);
 
 	gd = (GtkDialog *)gtk_dialog_new_with_buttons (
