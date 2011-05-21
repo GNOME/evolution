@@ -73,38 +73,36 @@
 /* The height to make the popup list if there aren't any items in it. */
 #define	E_CELL_COMBO_LIST_EMPTY_HEIGHT	15
 
-static void e_cell_combo_dispose	(GObject	*object);
-
-static gint e_cell_combo_do_popup	(ECellPopup	*ecp,
-					 GdkEvent	*event,
-					 gint             row,
-					 gint             view_col);
-static void e_cell_combo_select_matching_item	(ECellCombo	*ecc);
-static void e_cell_combo_show_popup	(ECellCombo	*ecc,
-					 gint             row,
-					 gint             view_col);
-static void e_cell_combo_get_popup_pos	(ECellCombo	*ecc,
-					 gint             row,
-					 gint             view_col,
-					 gint		*x,
-					 gint		*y,
-					 gint		*height,
-					 gint		*width);
-
-static void e_cell_combo_selection_changed (GtkTreeSelection *selection, ECellCombo *ecc);
-
-static gint e_cell_combo_button_press	(GtkWidget	*popup_window,
-					 GdkEvent	*event,
-					 ECellCombo	*ecc);
-static gint e_cell_combo_button_release	(GtkWidget	*popup_window,
-					 GdkEventButton	*event,
-					 ECellCombo	*ecc);
-static gint e_cell_combo_key_press	(GtkWidget	*popup_window,
-					 GdkEventKey	*event,
-					 ECellCombo	*ecc);
-
-static void e_cell_combo_update_cell	(ECellCombo	*ecc);
-static void e_cell_combo_restart_edit	(ECellCombo	*ecc);
+static void	e_cell_combo_dispose		(GObject *object);
+static gint	e_cell_combo_do_popup		(ECellPopup *ecp,
+						 GdkEvent *event,
+						 gint row,
+						 gint view_col);
+static void	e_cell_combo_select_matching_item
+						(ECellCombo *ecc);
+static void	e_cell_combo_show_popup		(ECellCombo *ecc,
+						 gint row,
+						 gint view_col);
+static void	e_cell_combo_get_popup_pos	(ECellCombo *ecc,
+						 gint row,
+						 gint view_col,
+						 gint *x,
+						 gint *y,
+						 gint *height,
+						 gint *width);
+static void	e_cell_combo_selection_changed	(GtkTreeSelection *selection,
+						 ECellCombo *ecc);
+static gint	e_cell_combo_button_press	(GtkWidget *popup_window,
+						 GdkEvent *event,
+						 ECellCombo *ecc);
+static gint	e_cell_combo_button_release	(GtkWidget *popup_window,
+						 GdkEventButton *event,
+						 ECellCombo *ecc);
+static gint	e_cell_combo_key_press		(GtkWidget *popup_window,
+						 GdkEventKey *event,
+						 ECellCombo *ecc);
+static void	e_cell_combo_update_cell	(ECellCombo *ecc);
+static void	e_cell_combo_restart_edit	(ECellCombo *ecc);
 
 G_DEFINE_TYPE (ECellCombo, e_cell_combo, E_TYPE_CELL_POPUP)
 
@@ -132,7 +130,8 @@ e_cell_combo_init			(ECellCombo	*ecc)
 	   ever be one popup in use at a time. */
 	ecc->popup_window = gtk_window_new (GTK_WINDOW_POPUP);
 
-	gtk_window_set_type_hint (GTK_WINDOW (ecc->popup_window), GDK_WINDOW_TYPE_HINT_COMBO);
+	gtk_window_set_type_hint (
+		GTK_WINDOW (ecc->popup_window), GDK_WINDOW_TYPE_HINT_COMBO);
 	gtk_window_set_resizable (GTK_WINDOW (ecc->popup_window), TRUE);
 
 	frame = gtk_frame_new (NULL);
@@ -143,53 +142,60 @@ e_cell_combo_init			(ECellCombo	*ecc)
 	ecc->popup_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	scrolled_window = GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window);
 
-	gtk_scrolled_window_set_policy (scrolled_window,
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_widget_set_can_focus (gtk_scrolled_window_get_hscrollbar (scrolled_window), FALSE);
-	gtk_widget_set_can_focus (gtk_scrolled_window_get_vscrollbar (scrolled_window), FALSE);
+	gtk_scrolled_window_set_policy (
+		scrolled_window, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_widget_set_can_focus (
+		gtk_scrolled_window_get_hscrollbar (scrolled_window), FALSE);
+	gtk_widget_set_can_focus (
+		gtk_scrolled_window_get_vscrollbar (scrolled_window), FALSE);
 	gtk_container_add (GTK_CONTAINER (frame), ecc->popup_scrolled_window);
 	gtk_widget_show (ecc->popup_scrolled_window);
 
 	store = gtk_list_store_new (1, G_TYPE_STRING);
-	ecc->popup_tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+	ecc->popup_tree_view =
+		gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
 	g_object_unref (store);
 
 	gtk_tree_view_append_column (
 		GTK_TREE_VIEW (ecc->popup_tree_view),
-		gtk_tree_view_column_new_with_attributes ("Text", gtk_cell_renderer_text_new (), "text", 0, NULL));
+		gtk_tree_view_column_new_with_attributes (
+			"Text", gtk_cell_renderer_text_new (),
+			"text", 0, NULL));
 
-	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ecc->popup_tree_view), FALSE);
+	gtk_tree_view_set_headers_visible (
+		GTK_TREE_VIEW (ecc->popup_tree_view), FALSE);
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ecc->popup_tree_view));
+	selection = gtk_tree_view_get_selection (
+		GTK_TREE_VIEW (ecc->popup_tree_view));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window), ecc->popup_tree_view);
-	gtk_container_set_focus_vadjustment (GTK_CONTAINER (ecc->popup_tree_view),
-					     gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)));
-	gtk_container_set_focus_hadjustment (GTK_CONTAINER (ecc->popup_tree_view),
-					     gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)));
+	gtk_scrolled_window_add_with_viewport (
+		GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window),
+		ecc->popup_tree_view);
+	gtk_container_set_focus_vadjustment (
+		GTK_CONTAINER (ecc->popup_tree_view),
+		gtk_scrolled_window_get_vadjustment (
+		GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)));
+	gtk_container_set_focus_hadjustment (
+		GTK_CONTAINER (ecc->popup_tree_view),
+		gtk_scrolled_window_get_hadjustment (
+		GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)));
 	gtk_widget_show (ecc->popup_tree_view);
 
 	a11y = gtk_widget_get_accessible (ecc->popup_tree_view);
 	atk_object_set_name (a11y, _("popup list"));
 
-	g_signal_connect (selection,
-			  "changed",
-			  G_CALLBACK (e_cell_combo_selection_changed),
-			  ecc);
-	g_signal_connect (ecc->popup_window,
-			  "button_press_event",
-			  G_CALLBACK (e_cell_combo_button_press),
-			  ecc);
-	/* We use connect_after here so the list updates the selection before
-	   we hide the popup and update the cell. */
-	g_signal_connect (ecc->popup_window,
-			  "button_release_event",
-			  G_CALLBACK (e_cell_combo_button_release),
-			  ecc);
-	g_signal_connect (ecc->popup_window,
-			  "key_press_event",
-			  G_CALLBACK (e_cell_combo_key_press), ecc);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (e_cell_combo_selection_changed), ecc);
+	g_signal_connect (
+		ecc->popup_window, "button_press_event",
+		G_CALLBACK (e_cell_combo_button_press), ecc);
+	g_signal_connect (
+		ecc->popup_window, "button_release_event",
+		G_CALLBACK (e_cell_combo_button_release), ecc);
+	g_signal_connect (
+		ecc->popup_window, "key_press_event",
+		G_CALLBACK (e_cell_combo_key_press), ecc);
 }
 
 /**
@@ -209,7 +215,7 @@ e_cell_combo_new (void)
  * GObject::dispose method
  */
 static void
-e_cell_combo_dispose			(GObject *object)
+e_cell_combo_dispose (GObject *object)
 {
 	ECellCombo *ecc = E_CELL_COMBO (object);
 
@@ -221,8 +227,8 @@ e_cell_combo_dispose			(GObject *object)
 }
 
 void
-e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
-					 GList		*strings)
+e_cell_combo_set_popdown_strings (ECellCombo *ecc,
+                                  GList *strings)
 {
 	GList *elem;
 	GtkListStore *store;
@@ -230,7 +236,9 @@ e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
 	g_return_if_fail (E_IS_CELL_COMBO (ecc));
 	g_return_if_fail (strings != NULL);
 
-	store = GTK_LIST_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (ecc->popup_tree_view)));
+	store = GTK_LIST_STORE (
+		gtk_tree_view_get_model (
+		GTK_TREE_VIEW (ecc->popup_tree_view)));
 	gtk_list_store_clear (store);
 
 	for (elem = strings; elem; elem = elem->next) {
@@ -243,10 +251,10 @@ e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
 }
 
 static gint
-e_cell_combo_do_popup			(ECellPopup	*ecp,
-					 GdkEvent	*event,
-					 gint             row,
-					 gint             view_col)
+e_cell_combo_do_popup (ECellPopup *ecp,
+                       GdkEvent *event,
+                       gint row,
+                       gint view_col)
 {
 	ECellCombo *ecc = E_CELL_COMBO (ecp);
 	guint32 time;
@@ -311,9 +319,12 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 		gtk_tree_model_get (model, &iter, 0, &str, -1);
 
 		if (str && g_str_equal (str, cell_text)) {
-			GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
+			GtkTreePath *path;
 
-			gtk_tree_view_set_cursor (GTK_TREE_VIEW (ecc->popup_tree_view), path, NULL, FALSE);
+			path = gtk_tree_model_get_path (model, &iter);
+			gtk_tree_view_set_cursor (
+				GTK_TREE_VIEW (ecc->popup_tree_view),
+				path, NULL, FALSE);
 			gtk_tree_path_free (path);
 
 			found = TRUE;
@@ -444,7 +455,9 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 
 	gtk_widget_get_preferred_size (ecc->popup_tree_view, &list_requisition, NULL);
 	min_height = MIN (list_requisition.height, requisition.height);
-	if (!gtk_tree_model_iter_n_children (gtk_tree_view_get_model (GTK_TREE_VIEW (ecc->popup_tree_view)), NULL))
+	if (!gtk_tree_model_iter_n_children (
+			gtk_tree_view_get_model (
+			GTK_TREE_VIEW (ecc->popup_tree_view)), NULL))
 		list_requisition.height += E_CELL_COMBO_LIST_EMPTY_HEIGHT;
 
 	popwin_child = gtk_bin_get_child (popwin);
@@ -530,7 +543,8 @@ e_cell_combo_selection_changed (GtkTreeSelection *selection, ECellCombo *ecc)
 	GtkTreeIter iter;
 	GtkTreeModel *model;
 
-	if (!gtk_widget_get_realized (ecc->popup_window) || !gtk_tree_selection_get_selected (selection, &model, &iter))
+	if (!gtk_widget_get_realized (ecc->popup_window) ||
+	    !gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 
 	e_cell_combo_update_cell (ecc);
@@ -633,7 +647,8 @@ e_cell_combo_key_press			(GtkWidget	*popup_window,
 	    && event->keyval != GDK_KEY_3270_Enter)
 		return FALSE;
 
-	if (event->keyval == GDK_KEY_Escape && (!ecc->popup_window||!gtk_widget_get_visible (ecc->popup_window)))
+	if (event->keyval == GDK_KEY_Escape &&
+	   (!ecc->popup_window || !gtk_widget_get_visible (ecc->popup_window)))
 		return FALSE;
 
 	gtk_grab_remove (ecc->popup_window);
@@ -660,7 +675,8 @@ e_cell_combo_update_cell		(ECellCombo	*ecc)
 	ECellText *ecell_text = E_CELL_TEXT (ecp->child);
 	ETableItem *eti = E_TABLE_ITEM (ecv->e_table_item_view);
 	ETableCol *ecol;
-	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ecc->popup_tree_view));
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (
+		GTK_TREE_VIEW (ecc->popup_tree_view));
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gchar *text = NULL, *old_text;

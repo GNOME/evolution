@@ -658,7 +658,8 @@ e_calendar_set_focusable (ECalendar *cal, gboolean focusable)
 		gtk_widget_set_can_focus (next_widget, TRUE);
 	}
 	else {
-		if (gtk_widget_has_focus (GTK_WIDGET (cal)) || e_calendar_button_has_focus (cal)) {
+		if (gtk_widget_has_focus (GTK_WIDGET (cal)) ||
+		    e_calendar_button_has_focus (cal)) {
 			toplevel = gtk_widget_get_toplevel (widget);
 			if (toplevel)
 				gtk_widget_grab_focus (toplevel);

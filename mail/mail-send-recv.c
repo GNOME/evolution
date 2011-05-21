@@ -954,7 +954,9 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 	gulong handler_id = 0;
 
 	if (cancellable)
-		handler_id = g_signal_connect (m->info->cancellable, "cancelled", G_CALLBACK (main_op_cancelled_cb), cancellable);
+		handler_id = g_signal_connect (
+			m->info->cancellable, "cancelled",
+			G_CALLBACK (main_op_cancelled_cb), cancellable);
 
 	get_folders (m->store, m->folders, m->finfo);
 
@@ -978,7 +980,9 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 			break;
 
 		if (m->info->state != SEND_CANCELLED)
-			g_signal_emit_by_name (m->info->cancellable, "status", _("Updating..."), 100 * i / m->folders->len);
+			g_signal_emit_by_name (
+				m->info->cancellable, "status",
+				_("Updating..."), 100 * i / m->folders->len);
 	}
 
 	if (cancellable)

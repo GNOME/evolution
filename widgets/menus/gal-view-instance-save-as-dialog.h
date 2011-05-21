@@ -77,9 +77,11 @@ struct _GalViewInstanceSaveAsDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GType		gal_view_instance_save_as_dialog_get_type	(void);
-GtkWidget *	gal_view_instance_save_as_dialog_new		(GalViewInstance *instance);
-void		gal_view_instance_save_as_dialog_save		(GalViewInstanceSaveAsDialog *dialog);
+GType		gal_view_instance_save_as_dialog_get_type (void);
+GtkWidget *	gal_view_instance_save_as_dialog_new
+					(GalViewInstance *instance);
+void		gal_view_instance_save_as_dialog_save
+					(GalViewInstanceSaveAsDialog *dialog);
 
 G_END_DECLS
 

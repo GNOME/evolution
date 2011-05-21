@@ -677,7 +677,8 @@ et_get_selection (AtkText *text,
 		if (full_text == NULL)
 			return NULL;
 		len = g_utf8_strlen (full_text, -1);
-		etext = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text)));
+		etext = E_TEXT (atk_gobject_accessible_get_object (
+			ATK_GOBJECT_ACCESSIBLE (text)));
 		start = MIN (etext->selection_start, etext->selection_end);
 		end = MAX (etext->selection_start, etext->selection_end);
 		start = MIN (MAX (0, start), len);

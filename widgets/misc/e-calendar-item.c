@@ -2124,7 +2124,12 @@ e_calendar_item_button_press	(ECalendarItem	*calitem,
 		day += calitem->selection_start_day - tmp_start_day;
 
 		/* keep same count of days selected */
-		add_days = e_calendar_item_get_inclusive_days (calitem, calitem->selection_start_month_offset, calitem->selection_start_day, calitem->selection_end_month_offset, calitem->selection_end_day) - 1;
+		add_days = e_calendar_item_get_inclusive_days (
+			calitem,
+			calitem->selection_start_month_offset,
+			calitem->selection_start_day,
+			calitem->selection_end_month_offset,
+			calitem->selection_end_day) - 1;
 	}
 
 	calitem->selection_set = TRUE;
@@ -2153,8 +2158,10 @@ e_calendar_item_button_press	(ECalendarItem	*calitem,
 		round_up_end = TRUE;
 	}
 
-	/* Don't round up or down if we can't select a week or more. Or when keeping week days */
-	if (calitem->max_days_selected < 7 || (all_week && calitem->keep_wdays_on_weeknum_click)) {
+	/* Don't round up or down if we can't select a week or more,
+	 * or when keeping week days. */
+	if (calitem->max_days_selected < 7 ||
+		(all_week && calitem->keep_wdays_on_weeknum_click)) {
 		round_down_start = FALSE;
 		round_up_end = FALSE;
 	}
@@ -2655,7 +2662,8 @@ e_calendar_item_set_first_month (ECalendarItem	*calitem,
 			/* Make sure the selection will be displayed. */
 			if (calitem->selection_start_month_offset < 0
 			    || calitem->selection_start_month_offset >= num_months) {
-				calitem->selection_end_month_offset -= calitem->selection_start_month_offset;
+				calitem->selection_end_month_offset -=
+					calitem->selection_start_month_offset;
 				calitem->selection_start_month_offset = 0;
 			}
 

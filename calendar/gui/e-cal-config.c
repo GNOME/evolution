@@ -51,7 +51,8 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 			ECalConfigTargetSource *s = (ECalConfigTargetSource *) t;
 
 			if (p->source_changed_id) {
-				g_signal_handler_disconnect (s->source, p->source_changed_id);
+				g_signal_handler_disconnect (
+					s->source, p->source_changed_id);
 				p->source_changed_id = 0;
 			}
 			break; }
@@ -94,7 +95,9 @@ ecp_set_target (EConfig *ec, EConfigTarget *t)
 		case EC_CONFIG_TARGET_SOURCE: {
 			ECalConfigTargetSource *s = (ECalConfigTargetSource *) t;
 
-			p->source_changed_id = g_signal_connect (s->source, "changed", G_CALLBACK (ecp_source_changed), ec);
+			p->source_changed_id = g_signal_connect (
+				s->source, "changed",
+				G_CALLBACK (ecp_source_changed), ec);
 			break; }
 		case EC_CONFIG_TARGET_PREFS: {
 			/* ECalConfigTargetPrefs *s = (ECalConfigTargetPrefs *)t; */
@@ -128,7 +131,8 @@ e_cal_config_get_type (void)
 		};
 
 		ecp_parent_class = g_type_class_ref (e_config_get_type ());
-		type = g_type_register_static (e_config_get_type (), "ECalConfig", &info, 0);
+		type = g_type_register_static (
+			e_config_get_type (), "ECalConfig", &info, 0);
 	}
 
 	return type;
@@ -143,12 +147,14 @@ e_cal_config_new (gint type, const gchar *menuid)
 }
 
 ECalConfigTargetSource *
-e_cal_config_target_new_source (ECalConfig *ecp, struct _ESource *source)
+e_cal_config_target_new_source (ECalConfig *ecp, ESource *source)
 {
-	ECalConfigTargetSource *t = e_config_target_new (&ecp->config, EC_CONFIG_TARGET_SOURCE, sizeof (*t));
+	ECalConfigTargetSource *t;
 
-	t->source = source;
-	g_object_ref (source);
+	t = e_config_target_new (
+		&ecp->config, EC_CONFIG_TARGET_SOURCE, sizeof (*t));
+
+	t->source = g_object_ref (source);
 
 	return t;
 }
@@ -156,7 +162,10 @@ e_cal_config_target_new_source (ECalConfig *ecp, struct _ESource *source)
 ECalConfigTargetPrefs *
 e_cal_config_target_new_prefs (ECalConfig *ecp)
 {
-	ECalConfigTargetPrefs *t = e_config_target_new (&ecp->config, EC_CONFIG_TARGET_PREFS, sizeof (*t));
+	ECalConfigTargetPrefs *t;
+
+	t = e_config_target_new (
+		&ecp->config, EC_CONFIG_TARGET_PREFS, sizeof (*t));
 
 	t->gconf = gconf_client_get_default ();
 

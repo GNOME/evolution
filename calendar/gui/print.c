@@ -1789,7 +1789,8 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 				pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
 			}
 
-			x1 = left + (start_x + 1) * cell_width - 6 - gdk_pixbuf_get_width (pixbuf) * 0.5;
+			x1 = left + (start_x + 1) * cell_width - 6 -
+				gdk_pixbuf_get_width (pixbuf) * 0.5;
 
 			cairo_save (cr);
 			cairo_scale (cr, 0.5, 0.5);

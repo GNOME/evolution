@@ -336,7 +336,7 @@ best_charset (GByteArray *buf,
               const gchar *default_charset,
               CamelTransferEncoding *encoding)
 {
-	gchar *charset;
+	const gchar *charset;
 
 	/* First try US-ASCII */
 	*encoding = best_encoding (buf, "US-ASCII");
@@ -352,10 +352,12 @@ best_charset (GByteArray *buf,
 	charset = e_composer_get_default_charset ();
 	*encoding = best_encoding (buf, charset);
 	if (*encoding != -1)
-		return charset;
+		return g_strdup (charset);
 
 	/* Try to find something that will work */
-	if (!(charset = (gchar *) camel_charset_best ((const gchar *) buf->data, buf->len))) {
+	charset = camel_charset_best (
+		(const gchar *) buf->data, buf->len);
+	if (charset == NULL) {
 		*encoding = CAMEL_TRANSFER_ENCODING_7BIT;
 		return NULL;
 	}
@@ -1502,7 +1504,8 @@ add_signature_delim (EMsgComposer *composer)
 	shell = e_msg_composer_get_shell (composer);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	return !e_shell_settings_get_boolean (shell_settings, "composer-no-signature-delim");
+	return !e_shell_settings_get_boolean (
+		shell_settings, "composer-no-signature-delim");
 }
 
 #define CONVERT_SPACES CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
@@ -1546,20 +1549,24 @@ get_signature_html (EMsgComposer *composer)
 	} else {
 		EAccount *account;
 		EAccountIdentity *id;
-		gchar *organization;
-		gchar *address;
-		gchar *name;
+		gchar *organization = NULL;
+		gchar *address = NULL;
+		gchar *name = NULL;
 
 		account = e_composer_header_table_get_account (table);
 		if (!account)
 			return NULL;
 
 		id = account->id;
-		address = id->address ? camel_text_to_html (id->address, CONVERT_SPACES, 0) : NULL;
-		name = id->name ? camel_text_to_html (id->name, CONVERT_SPACES, 0) : NULL;
-		organization =
-			id->organization ? camel_text_to_html (
-			id->organization, CONVERT_SPACES, 0) : NULL;
+		if (id->address != NULL)
+			address = camel_text_to_html (
+				id->address, CONVERT_SPACES, 0);
+		if (id->name != NULL)
+			name = camel_text_to_html (
+				id->name, CONVERT_SPACES, 0);
+		if (id->organization != NULL)
+			organization = camel_text_to_html (
+				id->organization, CONVERT_SPACES, 0);
 
 		text = g_strdup_printf ("%s%s%s%s%s%s%s%s%s",
 					add_delim ? "-- \n<BR>" : "",
@@ -3201,7 +3208,10 @@ e_msg_composer_new_with_message (EShell *shell,
 						if (!camel_internet_address_get (iaddr, i, &name, &addr))
 							continue;
 
-						g_hash_table_insert (auto_cc, g_strdup (addr), GINT_TO_POINTER (TRUE));
+						g_hash_table_insert (
+							auto_cc,
+							g_strdup (addr),
+							GINT_TO_POINTER (TRUE));
 					}
 				}
 				g_object_unref (iaddr);
@@ -3216,7 +3226,10 @@ e_msg_composer_new_with_message (EShell *shell,
 						if (!camel_internet_address_get (iaddr, i, &name, &addr))
 							continue;
 
-						g_hash_table_insert (auto_bcc, g_strdup (addr), GINT_TO_POINTER (TRUE));
+						g_hash_table_insert (
+							auto_bcc,
+							g_strdup (addr),
+							GINT_TO_POINTER (TRUE));
 					}
 				}
 				g_object_unref (iaddr);
@@ -3301,8 +3314,9 @@ e_msg_composer_new_with_message (EShell *shell,
 	e_destination_freev (Bccv);
 
 	/* Restore the format editing preference */
-	format = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Format");
-	if (format) {
+	format = camel_medium_get_header (
+		CAMEL_MEDIUM (message), "X-Evolution-Format");
+	if (format != NULL) {
 		gchar **flags;
 
 		while (*format && camel_mime_is_lwsp (*format))
@@ -3369,10 +3383,12 @@ e_msg_composer_new_with_message (EShell *shell,
 	/* Restore the attachments and body text */
 	content = camel_medium_get_content (CAMEL_MEDIUM (message));
 	if (CAMEL_IS_MULTIPART (content)) {
+		CamelMimePart *mime_part;
 		CamelMultipart *multipart;
 
 		multipart = CAMEL_MULTIPART (content);
-		content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
+		mime_part = CAMEL_MIME_PART (message);
+		content_type = camel_mime_part_get_content_type (mime_part);
 
 		if (CAMEL_IS_MULTIPART_SIGNED (content)) {
 			/* Handle the signed content and configure the
@@ -3384,10 +3400,10 @@ e_msg_composer_new_with_message (EShell *shell,
 			/* Decrypt the encrypted content and configure the
 			 * composer to encrypt outgoing messages. */
 			handle_multipart_encrypted (
-				composer, CAMEL_MIME_PART (message),
-				cancellable, 0);
+				composer, mime_part, cancellable, 0);
 
-		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
+		} else if (camel_content_type_is (
+			content_type, "multipart", "alternative")) {
 			/* This contains the text/plain and text/html
 			 * versions of the message body. */
 			handle_multipart_alternative (
@@ -3399,18 +3415,25 @@ e_msg_composer_new_with_message (EShell *shell,
 				composer, multipart, cancellable, 0);
 		}
 	} else {
+		CamelMimePart *mime_part;
 		gchar *html;
 		gssize length;
 
-		content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
+		mime_part = CAMEL_MIME_PART (message);
+		content_type = camel_mime_part_get_content_type (mime_part);
 
-		if (content_type && (
-		       camel_content_type_is (content_type, "application", "x-pkcs7-mime")
-		    || camel_content_type_is (content_type, "application", "pkcs7-mime")))
-			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT)), TRUE);
+		if (content_type != NULL && (
+			camel_content_type_is (
+				content_type, "application", "x-pkcs7-mime") ||
+			camel_content_type_is (
+				content_type, "application", "pkcs7-mime")))
+			gtk_toggle_action_set_active (
+				GTK_TOGGLE_ACTION (
+				ACTION (SMIME_ENCRYPT)), TRUE);
 
 		html = emcu_part_to_html (
-			CAMEL_MIME_PART (message), &length, NULL, cancellable);
+			CAMEL_MIME_PART (message),
+			&length, NULL, cancellable);
 		e_msg_composer_set_pending_body (composer, html, length);
 	}
 

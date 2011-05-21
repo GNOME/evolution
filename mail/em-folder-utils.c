@@ -344,11 +344,14 @@ emfu_copy_folder_selected (EMailBackend *backend,
 		goto fail;
 	}
 
-	if (!e_mail_folder_uri_parse (CAMEL_SESSION (session), uri, &tostore, &tobase, &local_error))
+	if (!e_mail_folder_uri_parse (
+		CAMEL_SESSION (session), uri,
+		&tostore, &tobase, &local_error))
 		tostore = NULL;
 
 	if (tostore != NULL)
-		camel_service_connect_sync (CAMEL_SERVICE (tostore), &local_error);
+		camel_service_connect_sync (
+			CAMEL_SERVICE (tostore), &local_error);
 
 	if (local_error != NULL) {
 		e_mail_backend_submit_alert (
@@ -631,10 +634,14 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 
 	session = em_folder_tree_get_session (folder_tree);
 
-	if (!e_mail_folder_uri_parse (CAMEL_SESSION (session), uri, &store, NULL, &error)) {
-		g_warning ("%s: Failed to parse folder uri: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
+	e_mail_folder_uri_parse (
+		CAMEL_SESSION (session), uri, &store, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to parse folder uri: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 		return;
 	}
 

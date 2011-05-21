@@ -941,7 +941,9 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 			GdkAtom target;
 
 			target = gtk_selection_data_get_target (data);
-			gtk_selection_data_set (data, target, 8, (guchar *) uri_crlf, strlen (uri_crlf));
+			gtk_selection_data_set (
+				data, target, 8, (guchar *)
+				uri_crlf, strlen (uri_crlf));
 			g_free (uri_crlf);
 		}
 
@@ -2107,15 +2109,17 @@ em_utils_generate_account_hash (void)
 		if (account->id->address) {
 			EAccount *acnt;
 
-			/* Accounts with identical email addresses that are enabled
-			 * take precedence over the accounts that aren't. If all
-			 * accounts with matching email addresses are disabled, then
-			 * the first one in the list takes precedence. The default
-			 * account always takes precedence no matter what.
-			 */
-			acnt = g_hash_table_lookup (account_hash, account->id->address);
+			/* Accounts with identical email addresses that are
+			 * enabled take precedence over the accounts that
+			 * aren't. If all accounts with matching email
+			 * addresses are disabled, then the first one in
+			 * the list takes precedence. The default account
+			 * always takes precedence no matter what. */
+			acnt = g_hash_table_lookup (
+				account_hash, account->id->address);
 			if (acnt && acnt != def && !acnt->enabled && account->enabled) {
-				g_hash_table_remove (account_hash, acnt->id->address);
+				g_hash_table_remove (
+					account_hash, acnt->id->address);
 				acnt = NULL;
 			}
 
@@ -2131,9 +2135,13 @@ em_utils_generate_account_hash (void)
 
 	g_object_unref (iterator);
 
-	/* The default account has to be there if none of the enabled accounts are present */
+	/* The default account has to be there if none
+	 * of the enabled accounts are present. */
 	if (g_hash_table_size (account_hash) == 0 && def && def->id->address)
-		g_hash_table_insert (account_hash, (gchar *) def->id->address, (gpointer) def);
+		g_hash_table_insert (
+			account_hash, (gchar *)
+			def->id->address,
+			(gpointer) def);
 
 	return account_hash;
 }

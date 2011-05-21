@@ -42,7 +42,10 @@ struct _FormatHandler
 
 	gpointer data;
 
-	void (*save) (FormatHandler *handler, ESourceSelector *selector, ECalSourceType type, gchar *dest_uri);
+	void	(*save)		(FormatHandler *handler,
+				 ESourceSelector *selector,
+				 ECalSourceType type,
+				 gchar *dest_uri);
 };
 
 FormatHandler *csv_format_handler_new (void);

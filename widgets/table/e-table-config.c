@@ -835,7 +835,14 @@ configure_sort_dialog (ETableConfig *config, GtkBuilder *builder)
 {
 	GSList *l;
 	gint i;
-	const gchar *algs[] = {"alignment4", "alignment3", "alignment2", "alignment1", NULL};
+
+	const gchar *algs[] = {
+		"alignment4",
+		"alignment3",
+		"alignment2",
+		"alignment1",
+		NULL
+	};
 
 	for (i = 0; i < 4; i++) {
 		gchar buffer[80];
@@ -1268,7 +1275,9 @@ setup_gui (ETableConfig *config)
 		builder, "e-table-config");
 
 	if (config->header)
-		gtk_window_set_title (GTK_WINDOW (config->dialog_toplevel), config->header);
+		gtk_window_set_title (
+			GTK_WINDOW (config->dialog_toplevel),
+			config->header);
 
 	config->dialog_show_fields = e_builder_get_widget (
 		builder, "dialog-show-fields");
@@ -1284,9 +1293,15 @@ setup_gui (ETableConfig *config)
 	config->fields_label = e_builder_get_widget (
 		builder, "label-fields");
 
-	connect_button (config, builder, "button-sort", G_CALLBACK (config_button_sort));
-	connect_button (config, builder, "button-group", G_CALLBACK (config_button_group));
-	connect_button (config, builder, "button-fields", G_CALLBACK (config_button_fields));
+	connect_button (
+		config, builder, "button-sort",
+		G_CALLBACK (config_button_sort));
+	connect_button (
+		config, builder, "button-group",
+		G_CALLBACK (config_button_group));
+	connect_button (
+		config, builder, "button-fields",
+		G_CALLBACK (config_button_fields));
 
 	if (!can_group) {
 		GtkWidget *w;

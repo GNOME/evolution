@@ -463,7 +463,8 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 					}
 
 					break;
-				} else if ((key.state & GDK_MOD1_MASK) && !(key.state & GDK_CONTROL_MASK)) {
+				} else if ((key.state & GDK_MOD1_MASK) &&
+					  !(key.state & GDK_CONTROL_MASK)) {
 					if ((key.keyval >= 'A') && (key.keyval <= 'Z'))
 						key.keyval -= 'A' - 'a';
 

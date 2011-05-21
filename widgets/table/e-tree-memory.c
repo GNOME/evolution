@@ -338,12 +338,15 @@ etmm_clear_children_computed (ETreeMemoryPath *path)
 static void
 etmm_node_request_collapse (ETreeModel *etm, ETreePath node)
 {
+	ETreeModelClass *parent_class;
+
 	if (node)
 		etmm_clear_children_computed (node);
 
-	if (E_TREE_MODEL_CLASS (e_tree_memory_parent_class)->node_request_collapse) {
-		E_TREE_MODEL_CLASS (e_tree_memory_parent_class)->node_request_collapse (etm, node);
-	}
+	parent_class = E_TREE_MODEL_CLASS (e_tree_memory_parent_class);
+
+	if (parent_class->node_request_collapse != NULL)
+		parent_class->node_request_collapse (etm, node);
 }
 
 

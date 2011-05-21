@@ -158,7 +158,10 @@ em_migrate_setup_progress_dialog (const gchar *title, const gchar *desc)
 
 	w = gtk_label_new (NULL);
 	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.0);
-	markup = g_strconcat ("<big><b>", title ? title : _("Migration"), "</b></big>", NULL);
+	markup = g_strconcat (
+		"<big><b>",
+		title ? title : _("Migration"),
+		"</b></big>", NULL);
 	gtk_label_set_markup (GTK_LABEL (w), markup);
 	gtk_box_pack_start (GTK_BOX (vbox), w, TRUE, TRUE, 0);
 	g_free (markup);
@@ -419,8 +422,8 @@ is_in_plugs_list (GSList *list, const gchar *value)
 
 /*
  * em_update_message_notify_settings_2_21
- * DBus plugin and sound email notification was merged to mail-notification plugin,
- * so move these options to new locations.
+ * DBus plugin and sound email notification was merged to
+ * mail-notification plugin, so move the options to new locations.
  */
 static void
 em_update_message_notify_settings_2_21 (void)
@@ -434,7 +437,9 @@ em_update_message_notify_settings_2_21 (void)
 
 	client = gconf_client_get_default ();
 
-	is_key = gconf_client_get (client, "/apps/evolution/eplugin/mail-notification/dbus-enabled", NULL);
+	is_key = gconf_client_get (
+		client,
+		"/apps/evolution/eplugin/mail-notification/dbus-enabled", NULL);
 	if (is_key) {
 		/* already migrated, so do not migrate again */
 		gconf_value_free (is_key);
@@ -443,20 +448,38 @@ em_update_message_notify_settings_2_21 (void)
 		return;
 	}
 
-	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/status-blink-icon",
-				gconf_client_get_bool (client, "/apps/evolution/mail/notification/blink-status-icon", NULL), NULL);
-	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/status-notification",
-				gconf_client_get_bool (client, "/apps/evolution/mail/notification/notification", NULL), NULL);
+	gconf_client_set_bool (
+		client,
+		"/apps/evolution/eplugin/mail-notification/status-blink-icon",
+		gconf_client_get_bool (
+			client,
+			"/apps/evolution/mail/notification/blink-status-icon",
+			NULL), NULL);
+	gconf_client_set_bool (
+		client,
+		"/apps/evolution/eplugin/mail-notification/status-notification",
+		gconf_client_get_bool (
+			client,
+			"/apps/evolution/mail/notification/notification",
+			NULL), NULL);
 
-	list = gconf_client_get_list (client, "/apps/evolution/eplugin/disabled", GCONF_VALUE_STRING, NULL);
+	list = gconf_client_get_list (
+		client, "/apps/evolution/eplugin/disabled",
+		GCONF_VALUE_STRING, NULL);
 	dbus = !is_in_plugs_list (list, "org.gnome.evolution.new_mail_notify");
-	status = !is_in_plugs_list (list, "org.gnome.evolution.mail_notification");
+	status = !is_in_plugs_list (
+		list, "org.gnome.evolution.mail_notification");
 
-	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/dbus-enabled", dbus, NULL);
-	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/status-enabled", status, NULL);
+	gconf_client_set_bool (
+		client,
+		"/apps/evolution/eplugin/mail-notification/dbus-enabled",
+		dbus, NULL);
+	gconf_client_set_bool (
+		client,
+		"/apps/evolution/eplugin/mail-notification/status-enabled",
+		status, NULL);
 
 	if (!status) {
-		/* enable this plugin, because it holds all those other things */
 		GSList *plugins, *l;
 
 		plugins = e_plugin_list_plugins ();
@@ -464,7 +487,8 @@ em_update_message_notify_settings_2_21 (void)
 		for (l = plugins; l; l = l->next) {
 			EPlugin *p = l->data;
 
-			if (p && p->id && !strcmp (p->id, "org.gnome.evolution.mail_notification")) {
+			if (p && p->id && !strcmp (p->id,
+				"org.gnome.evolution.mail_notification")) {
 				e_plugin_enable (p, 1);
 				break;
 			}
@@ -477,12 +501,23 @@ em_update_message_notify_settings_2_21 (void)
 	g_slist_foreach (list, (GFunc) g_free, NULL);
 	g_slist_free (list);
 
-	val = gconf_client_get_int (client, "/apps/evolution/mail/notify/type", NULL);
-	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/sound-enabled", val == 1 || val == 2, NULL);
-	gconf_client_set_bool (client, "/apps/evolution/eplugin/mail-notification/sound-beep", val == 0 || val == 1, NULL);
+	val = gconf_client_get_int (
+		client, "/apps/evolution/mail/notify/type", NULL);
+	gconf_client_set_bool (
+		client,
+		"/apps/evolution/eplugin/mail-notification/sound-enabled",
+		val == 1 || val == 2, NULL);
+	gconf_client_set_bool (
+		client,
+		"/apps/evolution/eplugin/mail-notification/sound-beep",
+		val == 0 || val == 1, NULL);
 
-	str = gconf_client_get_string (client, "/apps/evolution/mail/notify/sound", NULL);
-	gconf_client_set_string (client, "/apps/evolution/eplugin/mail-notification/sound-file", str ? str : "", NULL);
+	str = gconf_client_get_string (
+		client, "/apps/evolution/mail/notify/sound", NULL);
+	gconf_client_set_string (
+		client,
+		"/apps/evolution/eplugin/mail-notification/sound-file",
+		str ? str : "", NULL);
 	g_free (str);
 
 	g_object_unref (client);
@@ -497,12 +532,16 @@ em_update_sa_junk_setting_2_23 (void)
 
 	client = gconf_client_get_default ();
 
-	key = gconf_client_get (client, "/apps/evolution/mail/junk/default_plugin", NULL);
+	key = gconf_client_get (
+		client, "/apps/evolution/mail/junk/default_plugin", NULL);
 	if (key) {
 		const gchar *str = gconf_value_get_string (key);
 
 		if (str && strcmp (str, "Spamassasin") == 0)
-			gconf_client_set_string (client, "/apps/evolution/mail/junk/default_plugin", "SpamAssassin", NULL);
+			gconf_client_set_string (
+				client,
+				"/apps/evolution/mail/junk/default_plugin",
+				"SpamAssassin", NULL);
 
 		gconf_value_free (key);
 		g_object_unref (client);
@@ -574,7 +613,9 @@ migrate_folders (CamelStore *store,
 
 		if (folder != NULL)
 			camel_folder_summary_migrate_infos (folder->summary);
-		migrate_folders (store, is_local, fi->child, acc, done, nth_folder, total_folders);
+		migrate_folders (
+			store, is_local, fi->child,
+			acc, done, nth_folder, total_folders);
 		fi = fi->next;
 	}
 
@@ -732,7 +773,10 @@ migrate_to_db (EShellBackend *shell_backend)
 				migrate_dbs.store = store;
 				migrate_dbs.done = FALSE;
 
-				g_thread_create ((GThreadFunc) migrate_folders_to_db_thread, &migrate_dbs, TRUE, NULL);
+				g_thread_create (
+					(GThreadFunc)
+					migrate_folders_to_db_thread,
+					&migrate_dbs, TRUE, NULL);
 				while (!migrate_dbs.done)
 					g_main_context_iteration (NULL, TRUE);
 			} else
@@ -794,7 +838,10 @@ sanitize_maildir_folder_name (gchar *folder_name)
 }
 
 static void
-copy_folder (CamelStore *mbox_store, CamelStore *maildir_store, const gchar *mbox_fname, const gchar *maildir_fname)
+copy_folder (CamelStore *mbox_store,
+             CamelStore *maildir_store,
+             const gchar *mbox_fname,
+             const gchar *maildir_fname)
 {
 	CamelFolder *fromfolder, *tofolder;
 	GPtrArray *uids;
@@ -828,7 +875,10 @@ copy_folder (CamelStore *mbox_store, CamelStore *maildir_store, const gchar *mbo
 }
 
 static void
-copy_folders (CamelStore *mbox_store, CamelStore *maildir_store, CamelFolderInfo *fi, EMMigrateSession *session)
+copy_folders (CamelStore *mbox_store,
+              CamelStore *maildir_store,
+              CamelFolderInfo *fi,
+              EMMigrateSession *session)
 {
 	if (fi) {
 		if (!g_str_has_prefix (fi->full_name, ".#evolution")) {
@@ -1070,7 +1120,8 @@ em_ensure_proxy_ignore_hosts_being_list (void)
 	GConfClient *client;
 	GConfValue  *key_value;
 
-	/* makes sure the 'key' is a list of strings, not a string, as set by previous versions */
+	/* Makes sure the 'key' is a list of strings, not a string,
+	 * as set by previous versions. */
 
 	client = gconf_client_get_default ();
 	key_value = gconf_client_get (client, key, NULL);
@@ -1110,7 +1161,9 @@ em_ensure_proxy_ignore_hosts_being_list (void)
 		g_free (value);
 
 		if (error) {
-			fprintf (stderr, "%s: Failed to set a list values with error: %s\n", G_STRFUNC, error->message);
+			fprintf (
+				stderr, "%s: Failed to set a list values "
+				"with error: %s\n", G_STRFUNC, error->message);
 			g_error_free (error);
 		}
 	}
@@ -1160,7 +1213,9 @@ e_mail_migrate (EShellBackend *shell_backend,
 	}
 #else
 	if (major < 2 || (major == 2 && minor < 24))
-		g_debug ("Upgrading from ancient versions %d.%d not supported on Windows", major, minor);
+		g_debug (
+			"Upgrading from ancient versions %d.%d "
+			"not supported on Windows", major, minor);
 #endif
 
 	if (major < 2 || (major == 2 && minor < 32)) {

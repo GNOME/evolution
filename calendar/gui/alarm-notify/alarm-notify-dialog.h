@@ -27,8 +27,6 @@
 #include <gtk/gtk.h>
 #include <libecal/e-cal-component.h>
 
-
-
 typedef enum {
 	ALARM_NOTIFY_CLOSE,
 	ALARM_NOTIFY_SNOOZE,
@@ -37,24 +35,28 @@ typedef enum {
 } AlarmNotifyResult;
 
 typedef struct _AlarmNotificationsDialog AlarmNotificationsDialog;
-struct _AlarmNotificationsDialog
-{
+
+struct _AlarmNotificationsDialog {
 	GtkWidget *dialog;
 	GtkWidget *treeview;
 };
 
-typedef void (* AlarmNotifyFunc) (AlarmNotifyResult result, gint snooze_mins, gpointer data);
+typedef void	(*AlarmNotifyFunc)		(AlarmNotifyResult result,
+						 gint snooze_mins,
+						 gpointer data);
 
 AlarmNotificationsDialog *
-notified_alarms_dialog_new (void);
+		notified_alarms_dialog_new	(void);
+GtkTreeIter	add_alarm_to_notified_alarms_dialog
+						(AlarmNotificationsDialog *na,
+						 time_t trigger,
+						 time_t occur_start,
+						 time_t occur_end,
+						 ECalComponentVType vtype,
+						 const gchar *summary,
+						 const gchar *description,
+						 const gchar *location,
+						 AlarmNotifyFunc func,
+						 gpointer func_data);
 
-GtkTreeIter
-add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigger,
-				time_t occur_start, time_t occur_end,
-				ECalComponentVType vtype, const gchar *summary,
-				const gchar *description, const gchar *location,
-				AlarmNotifyFunc func, gpointer func_data);
-
-
-
-#endif
+#endif /* ALARM_NOTIFY_DIALOG_H */

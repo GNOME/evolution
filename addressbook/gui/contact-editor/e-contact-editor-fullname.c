@@ -121,10 +121,13 @@ e_contact_editor_fullname_get_property (GObject *object,
 	switch (property_id) {
 	case PROP_NAME:
 		extract_info (e_contact_editor_fullname);
-		g_value_set_pointer (value, e_contact_name_copy (e_contact_editor_fullname->name));
+		g_value_set_pointer (
+			value, e_contact_name_copy (
+			e_contact_editor_fullname->name));
 		break;
 	case PROP_EDITABLE:
-		g_value_set_boolean (value, e_contact_editor_fullname->editable ? TRUE : FALSE);
+		g_value_set_boolean (
+			value, e_contact_editor_fullname->editable);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);

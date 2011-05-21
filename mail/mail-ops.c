@@ -128,8 +128,8 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m,
 	if (m->destination)
 		camel_folder_thaw (m->destination);
 
-	/* this may thaw/unref source folders, do it here so we dont do it in the main thread
-	   see also fetch_mail_fetch () below */
+	/* this may thaw/unref source folders, do it here so we dont do
+	 * it in the main thread see also fetch_mail_fetch () below */
 	g_object_unref (m->driver);
 	m->driver = NULL;
 }
@@ -162,7 +162,7 @@ em_filter_folder_element_free (struct _filter_mail_msg *m)
 
 static MailMsgInfo em_filter_folder_element_info = {
 	sizeof (struct _filter_mail_msg),
-	(MailMsgDescFunc) em_filter_folder_element_desc,  /* we do our own progress reporting? */
+	(MailMsgDescFunc) em_filter_folder_element_desc,
 	(MailMsgExecFunc) em_filter_folder_element_exec,
 	(MailMsgDoneFunc) em_filter_folder_element_done,
 	(MailMsgFreeFunc) em_filter_folder_element_free
@@ -270,10 +270,11 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 			}
 
 			if (fm->delete && (!error || !*error)) {
-				/* not keep on server - just delete all the actual messages on the server */
+				/* not keep on server - just delete all
+				 * the actual messages on the server */
 				for (i=0;i<folder_uids->len;i++) {
-					d(printf("force delete uid '%s'\n", (gchar *)folder_uids->pdata[i]));
-					camel_folder_delete_message (folder, folder_uids->pdata[i]);
+					camel_folder_delete_message (
+						folder, folder_uids->pdata[i]);
 				}
 			}
 
@@ -429,7 +430,11 @@ struct _send_queue_msg {
 	gpointer data;
 };
 
-static void report_status (struct _send_queue_msg *m, enum camel_filter_status_t status, gint pc, const gchar *desc, ...);
+static void	report_status		(struct _send_queue_msg *m,
+					 enum camel_filter_status_t status,
+					 gint pc,
+					 const gchar *desc,
+					 ...);
 
 /* send 1 message to a specific transport */
 static void
@@ -612,7 +617,10 @@ mail_send_message (struct _send_queue_msg *m,
 				g_string_append_printf (
 					err, _("Failed to append to %s: %s\n"
 					"Appending to local 'Sent' folder instead."),
-					sent_folder_uri, local_error ? local_error->message : _("Unknown error"));
+					sent_folder_uri,
+					local_error ?
+						local_error->message :
+						_("Unknown error"));
 				if (local_error)
 					g_clear_error (&local_error);
 			}
@@ -709,7 +717,11 @@ exit:
 /* ** SEND MAIL QUEUE ***************************************************** */
 
 static void
-report_status (struct _send_queue_msg *m, enum camel_filter_status_t status, gint pc, const gchar *desc, ...)
+report_status (struct _send_queue_msg *m,
+               enum camel_filter_status_t status,
+               gint pc,
+               const gchar *desc,
+               ...)
 {
 	va_list ap;
 	gchar *str;
@@ -817,8 +829,12 @@ send_queue_exec (struct _send_queue_msg *m,
 	j += (send_uids->len - i);
 
 	if (j > 0)
-		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Failed to send %d of %d messages"), j, send_uids->len);
-	else if (g_error_matches (m->base.error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		report_status (
+			m, CAMEL_FILTER_STATUS_END, 100,
+			_("Failed to send %d of %d messages"),
+			j, send_uids->len);
+	else if (g_error_matches (
+			m->base.error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Canceled."));
 	else
 		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Complete."));
@@ -875,7 +891,8 @@ static MailMsgInfo send_queue_info = {
 	(MailMsgFreeFunc) send_queue_free
 };
 
-/* same interface as fetch_mail, just 'cause i'm lazy today (and we need to run it from the same spot?) */
+/* same interface as fetch_mail, just 'cause i'm lazy today
+ * (and we need to run it from the same spot?) */
 void
 mail_send_queue (EMailSession *session,
                  CamelFolder *queue,
@@ -928,8 +945,11 @@ struct _transfer_msg {
 static gchar *
 transfer_messages_desc (struct _transfer_msg *m)
 {
-	return g_strdup_printf (m->delete ? _("Moving messages to '%s'") : _("Copying messages to '%s'"),
-				m->dest_uri);
+	return g_strdup_printf (
+		m->delete ?
+			_("Moving messages to '%s'") :
+			_("Copying messages to '%s'"),
+		m->dest_uri);
 
 }
 
@@ -1083,7 +1103,9 @@ static MailMsgInfo sync_folder_info = {
 };
 
 void
-mail_sync_folder (CamelFolder *folder, void (*done) (CamelFolder *folder, gpointer data), gpointer data)
+mail_sync_folder (CamelFolder *folder,
+                  void (*done) (CamelFolder *folder, gpointer data),
+                  gpointer data)
 {
 	struct _sync_folder_msg *m;
 
@@ -1157,7 +1179,10 @@ static MailMsgInfo sync_store_info = {
 };
 
 void
-mail_sync_store (CamelStore *store, gint expunge, void (*done) (CamelStore *store, gpointer data), gpointer data)
+mail_sync_store (CamelStore *store,
+                 gint expunge,
+                 void (*done) (CamelStore *store, gpointer data),
+                 gpointer data)
 {
 	struct _sync_store_msg *m;
 
@@ -1176,7 +1201,9 @@ mail_sync_store (CamelStore *store, gint expunge, void (*done) (CamelStore *stor
 static gchar *
 refresh_folder_desc (struct _sync_folder_msg *m)
 {
-	return g_strdup_printf (_("Refreshing folder '%s'"), camel_folder_get_full_name (m->folder));
+	return g_strdup_printf (
+		_("Refreshing folder '%s'"),
+		camel_folder_get_full_name (m->folder));
 }
 
 static void
@@ -1198,7 +1225,9 @@ static MailMsgInfo refresh_folder_info = {
 };
 
 void
-mail_refresh_folder (CamelFolder *folder, void (*done) (CamelFolder *folder, gpointer data), gpointer data)
+mail_refresh_folder (CamelFolder *folder,
+                     void (*done) (CamelFolder *folder, gpointer data),
+                     gpointer data)
 {
 	struct _sync_folder_msg *m;
 
@@ -1226,10 +1255,14 @@ folder_is_from_source_uid (CamelFolder *folder,
 	return (g_strcmp0 (uid, source_uid) == 0);
 }
 
-/* This is because pop3 accounts are hidden under local Inbox, thus whenever an expunge
-   is done on a local trash or Inbox, then also all active pop3 accounts should be expunged. */
+/* This is because pop3 accounts are hidden under local Inbox,
+ * thus whenever an expunge is done on a local trash or Inbox,
+ * then also all active pop3 accounts should be expunged. */
 static void
-expunge_pop3_stores (CamelFolder *expunging, EMailSession *session, GCancellable *cancellable, GError **error)
+expunge_pop3_stores (CamelFolder *expunging,
+                     EMailSession *session,
+                     GCancellable *cancellable,
+                     GError **error)
 {
 	GPtrArray *uids;
 	CamelFolder *folder;
@@ -1243,7 +1276,10 @@ expunge_pop3_stores (CamelFolder *expunging, EMailSession *session, GCancellable
 		return;
 
 	for (i = 0; i < uids->len; i++) {
-		CamelMessageInfo *info = camel_folder_get_message_info (expunging, uids->pdata[i]);
+		CamelMessageInfo *info;
+
+		info = camel_folder_get_message_info (
+			expunging, uids->pdata[i]);
 
 		if (!info)
 			continue;
@@ -1252,19 +1288,31 @@ expunge_pop3_stores (CamelFolder *expunging, EMailSession *session, GCancellable
 			CamelMimeMessage *msg;
 			GError *local_error = NULL;
 
-			/* because the UID in the local store doesn't match with the UID in the pop3 store */
-			msg = camel_folder_get_message_sync (expunging, uids->pdata[i], cancellable, &local_error);
+			/* because the UID in the local store doesn't
+			 * match with the UID in the pop3 store */
+			msg = camel_folder_get_message_sync (
+				expunging, uids->pdata[i],
+				cancellable, &local_error);
 			if (msg) {
 				const gchar *pop3_uid;
 
-				pop3_uid = camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Evolution-POP3-UID");
+				pop3_uid = camel_medium_get_header (
+					CAMEL_MEDIUM (msg),
+					"X-Evolution-POP3-UID");
 				if (pop3_uid) {
-					gchar *duped = g_strstrip (g_strdup (pop3_uid));
+					gchar *duped;
+
+					duped = g_strstrip (g_strdup (pop3_uid));
 
 					if (!expunging_uids)
-						expunging_uids = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+						expunging_uids = g_hash_table_new_full (
+							g_str_hash, g_str_equal,
 
-					g_hash_table_insert (expunging_uids, duped, g_strdup (camel_mime_message_get_source (msg)));
+							g_free, g_free);
+
+					g_hash_table_insert (
+						expunging_uids, duped,
+						g_strdup (camel_mime_message_get_source (msg)));
 				}
 
 				g_object_unref (msg);
@@ -1288,7 +1336,9 @@ expunge_pop3_stores (CamelFolder *expunging, EMailSession *session, GCancellable
 	     e_iterator_next (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 
-		if (account->enabled && account->source && account->source->url && g_str_has_prefix (account->source->url, "pop://")) {
+		if (account->enabled &&
+		    account->source && account->source->url &&
+		    g_str_has_prefix (account->source->url, "pop://")) {
 			gboolean any_found = FALSE;
 
 			folder = e_mail_session_get_inbox_sync (
@@ -1299,7 +1349,8 @@ expunge_pop3_stores (CamelFolder *expunging, EMailSession *session, GCancellable
 			uids = camel_folder_get_uids (folder);
 			if (uids) {
 				for (i = 0; i < uids->len; i++) {
-					/* ensure the ID is from this account, as it's generated by evolution */
+					/* ensure the ID is from this account,
+					 * as it's generated by evolution */
 					const gchar *source_uid;
 
 					source_uid = g_hash_table_lookup (
@@ -1328,7 +1379,9 @@ expunge_pop3_stores (CamelFolder *expunging, EMailSession *session, GCancellable
 static gchar *
 expunge_folder_desc (struct _sync_folder_msg *m)
 {
-	return g_strdup_printf (_("Expunging folder '%s'"), camel_folder_get_full_name (m->folder));
+	return g_strdup_printf (
+		_("Expunging folder '%s'"),
+		camel_folder_get_full_name (m->folder));
 }
 
 static void
@@ -1336,9 +1389,11 @@ expunge_folder_exec (struct _sync_folder_msg *m,
                      GCancellable *cancellable,
                      GError **error)
 {
-	gboolean is_local_inbox_or_trash = m->folder == e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_INBOX);
+	gboolean is_local_inbox_or_trash =
+		m->folder == e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_INBOX);
 
-	if (!is_local_inbox_or_trash && e_mail_local_get_store () == camel_folder_get_parent_store (m->folder)) {
+	if (!is_local_inbox_or_trash && e_mail_local_get_store () ==
+			camel_folder_get_parent_store (m->folder)) {
 		CamelFolder *trash;
 
 		trash = e_mail_session_get_trash_sync (
@@ -1367,7 +1422,10 @@ static MailMsgInfo expunge_folder_info = {
 };
 
 void
-mail_expunge_folder (EMailSession *session, CamelFolder *folder, void (*done) (CamelFolder *folder, gpointer data), gpointer data)
+mail_expunge_folder (EMailSession *session,
+                     CamelFolder *folder,
+                     void (*done) (CamelFolder *folder, gpointer data),
+                     gpointer data)
 {
 	struct _sync_folder_msg *m;
 
@@ -1466,10 +1524,13 @@ mail_empty_trash (EMailSession *session,
 	mail_msg_slow_ordered_push (m);
 }
 
-/* ** Execute Shell Command ***************************************************** */
+/* ** Execute Shell Command ************************************************ */
 
 void
-mail_execute_shell_command (CamelFilterDriver *driver, gint argc, gchar **argv, gpointer data)
+mail_execute_shell_command (CamelFilterDriver *driver,
+                            gint argc,
+                            gchar **argv,
+                            gpointer data)
 {
 	if (argc <= 0)
 		return;
@@ -1477,7 +1538,7 @@ mail_execute_shell_command (CamelFilterDriver *driver, gint argc, gchar **argv, 
 	g_spawn_async (NULL, argv, NULL, 0, NULL, data, NULL, NULL);
 }
 
-/* ---------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 struct _disconnect_msg {
 	MailMsg base;

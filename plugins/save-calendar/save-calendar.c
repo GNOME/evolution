@@ -81,8 +81,10 @@ on_type_combobox_changed (GtkComboBox *combobox, gpointer data)
 	GtkTreeIter iter;
 	GtkTreeModel *model = gtk_combo_box_get_model (combobox);
 
-	gtk_container_foreach (GTK_CONTAINER (extra_widget),
-		extra_widget_foreach_hide, g_object_get_data (G_OBJECT (combobox), "format-box"));
+	gtk_container_foreach (
+		GTK_CONTAINER (extra_widget),
+		extra_widget_foreach_hide,
+		g_object_get_data (G_OBJECT (combobox), "format-box"));
 
 	gtk_combo_box_get_active_iter (combobox, &iter);
 

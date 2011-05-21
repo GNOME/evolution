@@ -268,9 +268,13 @@ pine_import_done (struct _pine_import_msg *m)
 
 		gconf = gconf_client_get_default ();
 		if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-addr")))
-			gconf_client_set_bool(gconf, "/apps/evolution/importer/pine/addr", TRUE, NULL);
+			gconf_client_set_bool (
+				gconf, "/apps/evolution/importer/pine/addr",
+				TRUE, NULL);
 		if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-mail")))
-			gconf_client_set_bool(gconf, "/apps/evolution/importer/pine/mail", TRUE, NULL);
+			gconf_client_set_bool (
+				gconf, "/apps/evolution/importer/pine/mail",
+				TRUE, NULL);
 		g_object_unref (gconf);
 	}
 

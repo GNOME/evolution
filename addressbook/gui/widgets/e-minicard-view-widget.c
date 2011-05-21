@@ -30,16 +30,31 @@
 #include "e-util/e-util.h"
 #include "e-minicard-view-widget.h"
 
-static void e_minicard_view_widget_init		 (EMinicardViewWidget		 *widget);
-static void e_minicard_view_widget_class_init	 (EMinicardViewWidgetClass	 *class);
-static void e_minicard_view_widget_set_property  (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
-static void e_minicard_view_widget_get_property  (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
-static void e_minicard_view_widget_dispose       (GObject *object);
-static void e_minicard_view_widget_reflow        (ECanvas *canvas);
-static void e_minicard_view_widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation);
-static void e_minicard_view_widget_style_set     (GtkWidget *widget, GtkStyle *previous_style);
-static void e_minicard_view_widget_realize       (GtkWidget *widget);
-static gboolean e_minicard_view_widget_real_focus_in_event (GtkWidget *widget, GdkEventFocus *event);
+static void	e_minicard_view_widget_init	(EMinicardViewWidget *widget);
+static void	e_minicard_view_widget_class_init
+						 (EMinicardViewWidgetClass *class);
+static void	e_minicard_view_widget_set_property
+						(GObject *object,
+						 guint prop_id,
+						 const GValue *value,
+						 GParamSpec *pspec);
+static void	e_minicard_view_widget_get_property
+						(GObject *object,
+						 guint prop_id,
+						 GValue *value,
+						 GParamSpec *pspec);
+static void	e_minicard_view_widget_dispose	(GObject *object);
+static void	e_minicard_view_widget_reflow	(ECanvas *canvas);
+static void	e_minicard_view_widget_size_allocate
+						(GtkWidget *widget,
+						 GtkAllocation *allocation);
+static void	e_minicard_view_widget_style_set
+						(GtkWidget *widget,
+						 GtkStyle *previous_style);
+static void	e_minicard_view_widget_realize	(GtkWidget *widget);
+static gboolean	e_minicard_view_widget_real_focus_in_event
+						(GtkWidget *widget,
+						 GdkEventFocus *event);
 
 static gpointer parent_class;
 
@@ -81,7 +96,8 @@ e_minicard_view_widget_get_type (void)
 			(GInstanceInitFunc) e_minicard_view_widget_init,
 		};
 
-		type = g_type_register_static (e_canvas_get_type (), "EMinicardViewWidget", &info, 0);
+		type = g_type_register_static (
+			E_TYPE_CANVAS, "EMinicardViewWidget", &info, 0);
 	}
 
 	return type;
@@ -202,10 +218,11 @@ e_minicard_view_widget_init (EMinicardViewWidget *view)
 GtkWidget *
 e_minicard_view_widget_new (EAddressbookReflowAdapter *adapter)
 {
-	EMinicardViewWidget *widget = E_MINICARD_VIEW_WIDGET (g_object_new (e_minicard_view_widget_get_type (), NULL));
+	EMinicardViewWidget *widget;
 
-	widget->adapter = adapter;
-	g_object_ref (widget->adapter);
+	widget = g_object_new (E_TYPE_MINICARD_VIEW_WIDGET, NULL);
+
+	widget->adapter = g_object_ref (adapter);
 
 	return GTK_WIDGET (widget);
 }
@@ -418,7 +435,8 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 }
 
 static void
-e_minicard_view_widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
+e_minicard_view_widget_size_allocate (GtkWidget *widget,
+                                      GtkAllocation *allocation)
 {
 	if (GTK_WIDGET_CLASS (parent_class)->size_allocate)
 		GTK_WIDGET_CLASS (parent_class)->size_allocate (widget, allocation);
@@ -427,17 +445,17 @@ e_minicard_view_widget_size_allocate (GtkWidget *widget, GtkAllocation *allocati
 		gdouble width;
 		EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET (widget);
 
-		gnome_canvas_item_set ( view->emv,
-				       "height", (double) allocation->height,
-				       NULL );
-		gnome_canvas_item_set ( view->emv,
-				       "minimum_width", (double) allocation->width,
-				       NULL );
-		g_object_get (view->emv,
-			     "width", &width,
-			     NULL);
+		gnome_canvas_item_set (
+			view->emv, "height",
+			(gdouble) allocation->height, NULL);
+		gnome_canvas_item_set (
+			view->emv, "minimum_width",
+			(gdouble) allocation->width, NULL);
+		g_object_get (view->emv, "width", &width, NULL);
 		width = MAX (width, allocation->width);
-		gnome_canvas_set_scroll_region (GNOME_CANVAS (view), 0, 0, width - 1, allocation->height - 1);
+		gnome_canvas_set_scroll_region (
+			GNOME_CANVAS (view), 0, 0,
+			width - 1, allocation->height - 1);
 	}
 }
 

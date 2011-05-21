@@ -395,7 +395,8 @@ e_table_header_add_column (ETableHeader *eth, ETableCol *tc, gint pos)
 
 	if (pos == -1)
 		pos = eth->col_count;
-	eth->columns = g_realloc (eth->columns, sizeof (ETableCol *) * (eth->col_count + 1));
+	eth->columns = g_realloc (
+		eth->columns, sizeof (ETableCol *) * (eth->col_count + 1));
 
 	/*
 	 * We are the primary owners of the column

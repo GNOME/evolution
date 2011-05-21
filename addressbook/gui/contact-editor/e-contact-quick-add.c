@@ -201,14 +201,19 @@ editor_closed_cb (GtkWidget *w, gpointer closure)
 }
 
 static void
-ce_have_contact (EBook *book, const GError *error, EContact *contact, gpointer closure)
+ce_have_contact (EBook *book,
+                 const GError *error,
+                 EContact *contact,
+                 gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) closure;
 
 	if (error) {
 		if (book)
 			g_object_unref (book);
-		g_warning ("Failed to find contact, status %d (%s).", error->code, error->message);
+		g_warning (
+			"Failed to find contact, status %d (%s).",
+			error->code, error->message);
 		quick_add_unref (qa);
 	} else {
 		EShell *shell;
@@ -304,20 +309,21 @@ clicked_cb (GtkWidget *w, gint button, gpointer closure)
 		gchar *name = NULL;
 		gchar *email = NULL;
 
-		if (qa->name_entry) {
-			gchar *tmp;
-			tmp = gtk_editable_get_chars (GTK_EDITABLE (qa->name_entry), 0, -1);
-			name = tmp;
-		}
+		if (qa->name_entry)
+			name = gtk_editable_get_chars (
+				GTK_EDITABLE (qa->name_entry), 0, -1);
 
-		if (qa->email_entry) {
-			gchar *tmp;
-			tmp = gtk_editable_get_chars (GTK_EDITABLE (qa->email_entry), 0, -1);
-			email = tmp;
-		}
+		if (qa->email_entry)
+			email = gtk_editable_get_chars (
+				GTK_EDITABLE (qa->email_entry), 0, -1);
 
-		e_contact_set (qa->contact, E_CONTACT_FULL_NAME, (gpointer) (name ? name : ""));
-		e_contact_set (qa->contact, E_CONTACT_EMAIL_1,   (gpointer) (email ? email : ""));
+		e_contact_set (
+			qa->contact, E_CONTACT_FULL_NAME,
+			(gpointer) (name != NULL) ? name : "");
+
+		e_contact_set (
+			qa->contact, E_CONTACT_EMAIL_1,
+			(gpointer) (email != NULL) ? email : "");
 
 		g_free (name);
 		g_free (email);

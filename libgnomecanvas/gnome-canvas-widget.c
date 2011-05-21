@@ -100,8 +100,9 @@ gnome_canvas_widget_get_type (void)
 			NULL			/* value_table */
 		};
 
-		widget_type = g_type_register_static (GNOME_TYPE_CANVAS_ITEM, "GnomeCanvasWidget",
-						      &object_info, 0);
+		widget_type = g_type_register_static (
+			GNOME_TYPE_CANVAS_ITEM,
+			"GnomeCanvasWidget", &object_info, 0);
 	}
 
 	return widget_type;

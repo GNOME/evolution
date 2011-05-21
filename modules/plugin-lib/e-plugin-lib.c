@@ -46,6 +46,7 @@ plugin_lib_loadmodule (EPlugin *plugin)
 {
 	EPluginLib *plugin_lib = E_PLUGIN_LIB (plugin);
 	EPluginLibEnableFunc enable;
+	gboolean found_symbol;
 
 	if (plugin_lib->module != NULL)
 		return 0;
@@ -56,9 +57,13 @@ plugin_lib_loadmodule (EPlugin *plugin)
 		return -1;
 	}
 
-	if ((plugin_lib->module = g_module_open (plugin_lib->location, 0)) == NULL) {
+	plugin_lib->module = g_module_open (plugin_lib->location, 0);
+
+	if (plugin_lib->module == NULL) {
 		plugin->enabled = FALSE;
-		g_warning ("can't load plugin '%s': %s", plugin_lib->location, g_module_error ());
+		g_warning (
+			"can't load plugin '%s': %s",
+			plugin_lib->location, g_module_error ());
 		return -1;
 	}
 
@@ -66,7 +71,12 @@ plugin_lib_loadmodule (EPlugin *plugin)
 	if (!plugin->enabled)
 		return 0;
 
-	if (g_module_symbol (plugin_lib->module, "e_plugin_lib_enable", (gpointer)&enable)) {
+	found_symbol = g_module_symbol (
+		plugin_lib->module,
+		"e_plugin_lib_enable",
+		(gpointer) &enable);
+
+	if (found_symbol) {
 		if (enable (plugin, TRUE) != 0) {
 			plugin->enabled = FALSE;
 			g_module_close (plugin_lib->module);

@@ -2183,12 +2183,16 @@ scroll_to (GnomeCanvas *canvas, gint cx, gint cy)
 	} else
 		canvas->zoom_yofs = 0;
 
-	if ((canvas->zoom_xofs != old_zoom_xofs) || (canvas->zoom_yofs != old_zoom_yofs)) {
-		/* This can only occur, if either canvas size or widget size changes */
-		/* So I think we can request full redraw here */
-		/* The reason is, that coverage UTA will be invalidated by offset change */
-		/* fixme: Strictly this is not correct - we have to remove our own idle (Lauris) */
-		/* More stuff - we have to mark root as needing fresh affine (Lauris) */
+	if ((canvas->zoom_xofs != old_zoom_xofs) ||
+	    (canvas->zoom_yofs != old_zoom_yofs)) {
+		/* This can only occur, if either canvas size or widget
+		 * size changes.  So I think we can request full redraw
+		 * here.  The reason is, that coverage UTA will be
+		 * invalidated by offset change. */
+		/* FIXME Strictly this is not correct - we have to remove
+		 *       our own idle (Lauris) */
+		/* More stuff - we have to mark root as needing fresh affine
+		 * (Lauris) */
 		if (!(canvas->root->flags & GNOME_CANVAS_ITEM_NEED_AFFINE)) {
 			canvas->root->flags |= GNOME_CANVAS_ITEM_NEED_AFFINE;
 			gnome_canvas_request_update (canvas);
@@ -2526,7 +2530,8 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 	} else
 		canvas->new_current_item = NULL;
 
-	if ((canvas->new_current_item == canvas->current_item) && !canvas->left_grabbed_item)
+	if ((canvas->new_current_item == canvas->current_item)
+	    && !canvas->left_grabbed_item)
 		return retval; /* current item did not change */
 
 	/* Synthesize events for old and new current items */

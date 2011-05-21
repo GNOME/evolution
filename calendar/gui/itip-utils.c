@@ -615,7 +615,8 @@ comp_to_list (ECalComponentItipMethod method,
 			for (l = attendees; l != NULL; l = l->next) {
 				ECalComponentAttendee *att = l->data;
 
-				if (att->cutype != ICAL_CUTYPE_INDIVIDUAL && att->cutype != ICAL_CUTYPE_GROUP)
+				if (att->cutype != ICAL_CUTYPE_INDIVIDUAL &&
+				    att->cutype != ICAL_CUTYPE_GROUP)
 					continue;
 				else if (only_attendees &&
 					!comp_editor_have_in_new_attendees_lst (
@@ -1426,7 +1427,9 @@ setup_from (ECalComponentItipMethod method,
 
 			e_cal_component_get_organizer (comp, &organizer);
 			if (organizer.value != NULL) {
-				account = find_enabled_account (accounts, itip_strip_mailto (organizer.value));
+				account = find_enabled_account (
+					accounts,
+					itip_strip_mailto (organizer.value));
 			}
 		}
 

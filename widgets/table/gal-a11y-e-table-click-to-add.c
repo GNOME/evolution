@@ -36,7 +36,9 @@
 static AtkObjectClass *parent_class;
 static GType parent_type;
 static gint priv_offset;
-#define GET_PRIVATE(object) ((GalA11yETableClickToAddPrivate *) (((gchar *) object) + priv_offset))
+#define GET_PRIVATE(object) \
+	((GalA11yETableClickToAddPrivate *) \
+	(((gchar *) object) + priv_offset))
 #define PARENT_TYPE (parent_type)
 
 struct _GalA11yETableClickToAddPrivate {
@@ -128,7 +130,9 @@ etcta_get_name (AtkObject *obj)
 
 	g_return_val_if_fail (GAL_A11Y_IS_E_TABLE_CLICK_TO_ADD (obj), NULL);
 
-	etcta = E_TABLE_CLICK_TO_ADD (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (obj)));
+	etcta = E_TABLE_CLICK_TO_ADD (
+		atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (obj)));
 	if (etcta && etcta->message != NULL)
 		return etcta->message;
 
@@ -141,9 +145,9 @@ etcta_get_n_children (AtkObject *accessible)
 	return 1;
 }
 
-static AtkObject*
+static AtkObject *
 etcta_ref_child (AtkObject *accessible,
-		 gint i)
+                 gint i)
 {
 	AtkObject * atk_obj = NULL;
 	ETableClickToAdd * etcta;
@@ -151,14 +155,18 @@ etcta_ref_child (AtkObject *accessible,
 	if (i != 0)
 		return NULL;
 
-	etcta  = E_TABLE_CLICK_TO_ADD (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible)));
+	etcta  = E_TABLE_CLICK_TO_ADD (
+		atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (accessible)));
 
 	g_return_val_if_fail (etcta, NULL);
 
 	if (etcta->rect) {
-		atk_obj = atk_gobject_accessible_for_object (G_OBJECT (etcta->rect));
+		atk_obj = atk_gobject_accessible_for_object (
+			G_OBJECT (etcta->rect));
 	} else if (etcta->row) {
-		atk_obj = atk_gobject_accessible_for_object (G_OBJECT (etcta->row));
+		atk_obj = atk_gobject_accessible_for_object (
+			G_OBJECT (etcta->row));
 	}
 
 	g_object_ref (atk_obj);
@@ -198,15 +206,6 @@ etcta_init (GalA11yETableClickToAdd *a11y)
 {
 }
 
-/**
- * gal_a11y_e_table_click_to_add_get_type:
- * @void:
- *
- * Registers the &GalA11yETableClickToAdd class if necessary, and returns the type ID
- * associated to it.
- *
- * Return value: The type ID of the &GalA11yETableClickToAdd class.
- **/
 GType
 gal_a11y_e_table_click_to_add_get_type (void)
 {
@@ -234,7 +233,9 @@ gal_a11y_e_table_click_to_add_get_type (void)
 			NULL
 		};
 
-		factory = atk_registry_get_factory (atk_get_default_registry (), GNOME_TYPE_CANVAS_ITEM);
+		factory = atk_registry_get_factory (
+			atk_get_default_registry (),
+			GNOME_TYPE_CANVAS_ITEM);
 
 		parent_type = atk_object_factory_get_accessible_type (factory);
 		type = gal_a11y_type_register_static_with_private (PARENT_TYPE,
@@ -288,14 +289,19 @@ etcta_selection_cursor_changed (ESelectionModel *esm, gint row, gint col,
 	ETableClickToAdd *etcta;
 	AtkObject *row_a11y;
 
-	etcta = E_TABLE_CLICK_TO_ADD (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (a11y)));
+	etcta = E_TABLE_CLICK_TO_ADD (
+		atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (a11y)));
 
 	if (etcta == NULL || etcta->row == NULL)
 		return;
 
 	row_a11y = atk_gobject_accessible_for_object (G_OBJECT (etcta->row));
 	if (row_a11y) {
-		AtkObject *cell_a11y = g_object_get_data (G_OBJECT(row_a11y), "gail-focus-object");
+		AtkObject *cell_a11y;
+
+		cell_a11y = g_object_get_data (
+			G_OBJECT (row_a11y), "gail-focus-object");
 		if (cell_a11y) {
 			atk_focus_tracker_notify (cell_a11y);
 		}

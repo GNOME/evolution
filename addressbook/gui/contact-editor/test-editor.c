@@ -76,7 +76,8 @@ editor_closed_cb (EContactEditor *ce, gpointer data)
 		exit (0);
 }
 
-gint main ( gint argc, gchar *argv[] )
+gint
+main (gint argc, gchar *argv[])
 {
 	gchar *cardstr;
 	EContactEditor *ce;
@@ -90,13 +91,19 @@ gint main ( gint argc, gchar *argv[] )
 	if (cardstr == NULL)
 		cardstr = TEST_VCARD;
 
-	ce = e_contact_editor_new (NULL, e_card_new_with_default_charset (cardstr, "ISO-8859-1"), TRUE, FALSE);
-	g_signal_connect (ce, "editor_closed",
-			  G_CALLBACK (editor_closed_cb), NULL);
+	ce = e_contact_editor_new (
+		NULL, e_card_new_with_default_charset (
+		cardstr, "ISO-8859-1"), TRUE, FALSE);
+	g_signal_connect (
+		ce, "editor_closed",
+		G_CALLBACK (editor_closed_cb), NULL);
 
-	ce = e_contact_editor_new (NULL, e_card_new_with_default_charset (cardstr, "ISO-8859-1"), TRUE, FALSE);
-	g_signal_connect (ce, "editor_closed",
-			  G_CALLBACK (editor_closed_cb), NULL);
+	ce = e_contact_editor_new (
+		NULL, e_card_new_with_default_charset (
+		cardstr, "ISO-8859-1"), TRUE, FALSE);
+	g_signal_connect (
+		ce, "editor_closed",
+		G_CALLBACK (editor_closed_cb), NULL);
 
 	gtk_main ();
 

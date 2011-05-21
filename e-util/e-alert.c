@@ -235,12 +235,16 @@ e_alert_load (const gchar *path)
 			for (scan = error->children;scan;scan=scan->next) {
 				if (!strcmp((gchar *)scan->name, "primary")) {
 					if ((tmp = (gchar *) xmlNodeGetContent (scan))) {
-						e->primary_text = g_strdup (dgettext (table->translation_domain, tmp));
+						e->primary_text = g_strdup (
+							dgettext (table->
+							translation_domain, tmp));
 						xmlFree (tmp);
 					}
 				} else if (!strcmp((gchar *)scan->name, "secondary")) {
 					if ((tmp = (gchar *) xmlNodeGetContent (scan))) {
-						e->secondary_text = g_strdup (dgettext (table->translation_domain, tmp));
+						e->secondary_text = g_strdup (
+							dgettext (table->
+							translation_domain, tmp));
 						xmlFree (tmp);
 					}
 				} else if (!strcmp((gchar *)scan->name, "button")) {

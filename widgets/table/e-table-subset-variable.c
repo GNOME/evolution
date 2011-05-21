@@ -48,7 +48,9 @@ etssv_add       (ETableSubsetVariable *etssv,
 
 	if (etss->n_map + 1 > etssv->n_vals_allocated) {
 		etssv->n_vals_allocated += INCREMENT_AMOUNT;
-		etss->map_table = g_realloc (etss->map_table, etssv->n_vals_allocated * sizeof (gint));
+		etss->map_table = g_realloc (
+			etss->map_table,
+			etssv->n_vals_allocated * sizeof (gint));
 	}
 
 	etss->map_table[etss->n_map++] = row;
@@ -69,7 +71,9 @@ etssv_add_array (ETableSubsetVariable *etssv,
 
 	if (etss->n_map + count > etssv->n_vals_allocated) {
 		etssv->n_vals_allocated += MAX (INCREMENT_AMOUNT, count);
-		etss->map_table = g_realloc (etss->map_table, etssv->n_vals_allocated * sizeof (gint));
+		etss->map_table = g_realloc (
+			etss->map_table,
+			etssv->n_vals_allocated * sizeof (gint));
 	}
 	for (i = 0; i < count; i++)
 		etss->map_table[etss->n_map++] = array[i];
@@ -90,7 +94,9 @@ etssv_add_all   (ETableSubsetVariable *etssv)
 	rows = e_table_model_row_count (etss->source);
 	if (etss->n_map + rows > etssv->n_vals_allocated) {
 		etssv->n_vals_allocated += MAX (INCREMENT_AMOUNT, rows);
-		etss->map_table = g_realloc (etss->map_table, etssv->n_vals_allocated * sizeof (gint));
+		etss->map_table = g_realloc (
+			etss->map_table,
+			etssv->n_vals_allocated * sizeof (gint));
 	}
 	for (i = 0; i < rows; i++)
 		etss->map_table[etss->n_map++] = i;
@@ -109,7 +115,10 @@ etssv_remove    (ETableSubsetVariable *etssv,
 	for (i = 0; i < etss->n_map; i++) {
 		if (etss->map_table[i] == row) {
 			e_table_model_pre_change (etm);
-			memmove (etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof (gint));
+			memmove (
+				etss->map_table + i,
+				etss->map_table + i + 1,
+				(etss->n_map - i - 1) * sizeof (gint));
 			etss->n_map--;
 
 			e_table_model_row_deleted (etm, i);

@@ -185,7 +185,8 @@ addressbook_set_value_at (ETableModel *etc, gint col, gint row, gconstpointer va
 
 		g_object_unref (contact);
 
-		/* XXX do we need this?  shouldn't the commit_contact generate a changed signal? */
+		/* XXX Do we need this?  Shouldn't the commit_contact
+		 *     generate a changed signal? */
 		e_table_model_cell_changed (etc, col, row);
 	}
 }
@@ -377,7 +378,8 @@ eab_table_adapter_get_type (void)
 			(GInstanceInitFunc) eab_table_adapter_init,
 		};
 
-		type = g_type_register_static (PARENT_TYPE, "EAddressbookTableAdapter", &info, 0);
+		type = g_type_register_static (
+			PARENT_TYPE, "EAddressbookTableAdapter", &info, 0);
 	}
 
 	return type;

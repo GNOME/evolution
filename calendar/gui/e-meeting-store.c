@@ -1474,8 +1474,9 @@ freebusy_async (gpointer data)
 	EMeetingStorePrivate *priv = fbd->store->priv;
 
 	if (fbd->client) {
-		/* FIXME this a work around for getting all th free busy information for the users
-		 we should be able to get free busy asynchronously */
+		/* FIXME This a workaround for getting all the free busy
+		 *       information for the users.  We should be able to
+		 *       get free busy asynchronously. */
 		g_static_mutex_lock (&mutex);
 		priv->num_queries++;
 		e_cal_get_free_busy (

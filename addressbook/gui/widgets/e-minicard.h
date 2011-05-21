@@ -20,34 +20,37 @@
  *
  */
 
-#ifndef __E_MINICARD_H__
-#define __E_MINICARD_H__
+#ifndef E_MINICARD_H
+#define E_MINICARD_H
 
 #include <gtk/gtk.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 #include <libebook/e-contact.h>
 
+/* Standard GObject macros */
+#define E_TYPE_MINICARD \
+	(e_minicard_get_type ())
+#define E_MINICARD(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MINICARD, EMinicard))
+#define E_MINICARD_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MINICARD, EMinicardClass))
+#define E_IS_MINICARD(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MINICARD))
+#define E_IS_MINICARD_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((obj), E_TYPE_MINICARD))
+#define E_MINICARD_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MINICARD, EMinicardClass))
+
 G_BEGIN_DECLS
 
-/* EMinicard - A small card displaying information about a contact.
- *
- * The following arguments are available:
- *
- * name		type		read/write	description
- * --------------------------------------------------------------------------------
- * width        double          RW              width of the card
- * height       double          R               height of the card
- * card		ECard*		RW		Pointer to the ECard
- */
+typedef struct _EMinicard EMinicard;
+typedef struct _EMinicardClass EMinicardClass;
 
-#define E_TYPE_MINICARD			(e_minicard_get_type ())
-#define E_MINICARD(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MINICARD, EMinicard))
-#define E_MINICARD_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_MINICARD, EMinicardClass))
-#define E_IS_MINICARD(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MINICARD))
-#define E_IS_MINICARD_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MINICARD))
-
-typedef struct _EMinicard       EMinicard;
-typedef struct _EMinicardClass  EMinicardClass;
 typedef enum _EMinicardFocusType EMinicardFocusType;
 
 enum _EMinicardFocusType {
@@ -112,15 +115,14 @@ struct _EMinicardField {
 
 #define E_MINICARD_FIELD(field) ((EMinicardField *)(field))
 
-GType       e_minicard_get_type     (void);
-const gchar *e_minicard_get_card_id  (EMinicard *minicard);
-gint         e_minicard_compare      (EMinicard *minicard1,
-				     EMinicard *minicard2);
-
-gint         e_minicard_selected     (EMinicard *minicard,
-				     GdkEvent  *event);
-void        e_minicard_activate_editor	(EMinicard *minicard);
+GType		e_minicard_get_type		(void);
+const gchar *	e_minicard_get_card_id		(EMinicard *minicard);
+gint		e_minicard_compare		(EMinicard *minicard1,
+						 EMinicard *minicard2);
+gint		e_minicard_selected		(EMinicard *minicard,
+						 GdkEvent *event);
+void		e_minicard_activate_editor	(EMinicard *minicard);
 
 G_END_DECLS
 
-#endif /* __E_MINICARD_H__ */
+#endif /* E_MINICARD_H */

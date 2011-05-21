@@ -365,7 +365,9 @@ rule_context_revert (ERuleContext *context,
 		/* clear out anythign we have? */
 		return 0;
 
-	source_hash = g_hash_table_new ((GHashFunc) source_hashf, (GCompareFunc) source_eqf);
+	source_hash = g_hash_table_new (
+		(GHashFunc) source_hashf,
+		(GCompareFunc) source_eqf);
 
 	/* setup stuff we have now */
 	/* Note that we assume there is only 1 set of rules in a given rule context,
@@ -395,7 +397,9 @@ rule_context_revert (ERuleContext *context,
 						rule_map->type, NULL, NULL));
 
 					if (e_filter_rule_xml_decode (part, rule, context) == 0) {
-						/* use the revert data to keep track of the right rank of this rule part */
+						/* Use the revert data to keep
+						 * track of the right rank of
+						 * this rule part. */
 						rest_data = g_hash_table_lookup (source_hash, part->source);
 						if (rest_data == NULL) {
 							rest_data = g_malloc0 (sizeof (*rest_data));
@@ -415,7 +419,11 @@ rule_context_revert (ERuleContext *context,
 							g_hash_table_remove (rest_data->rules, frule->name);
 						} else {
 							e_rule_context_add_rule (context, part);
-							e_rule_context_rank_rule (context, part, part->source, rest_data->rank);
+							e_rule_context_rank_rule (
+								context,
+								part,
+								part->source,
+								rest_data->rank);
 						}
 						rest_data->rank++;
 					} else {

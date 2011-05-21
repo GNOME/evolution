@@ -621,7 +621,8 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	if (!show_dates) {
 		/* Clear the main area background. */
 		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS]);
+		gdk_cairo_set_source_color (
+			cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS]);
 		cairo_rectangle (cr, left_edge - x, - y,
 				 canvas_width - left_edge,
 				 canvas_height);

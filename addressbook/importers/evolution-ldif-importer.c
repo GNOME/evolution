@@ -432,7 +432,8 @@ resolve_list_card (LDIFImporter *gci, EContact *contact)
 			EDestination *dest;
 			EVCardAttribute *attr = e_vcard_attribute_new (NULL, EVC_EMAIL);
 
-			/* Hard-wired for default e-mail, since netscape only exports 1 email address */
+			/* Hard-wired for default e-mail, since
+			 * netscape only exports 1 email address. */
 			dest = e_destination_new ();
 			e_destination_set_contact (dest, dn_contact, 0);
 

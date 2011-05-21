@@ -650,7 +650,8 @@ contact_draw (EContact *contact,
 		if (!ctxt->first_contact) {
 			if (ctxt->style->sections_start_new_page)
 				e_contact_start_new_page (ctxt);
-			else if ((ctxt->y + e_contact_get_contact_height (contact, ctxt)) > page_height)
+			else if ((ctxt->y + e_contact_get_contact_height (
+					contact, ctxt)) > page_height)
 				e_contact_start_new_column (ctxt);
 		}
 		if (ctxt->style->letter_headings)

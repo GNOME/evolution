@@ -69,35 +69,50 @@ struct _EDayViewTimeItemPrivate {
 	icaltimezone *second_zone;
 };
 
-static void e_day_view_time_item_update (GnomeCanvasItem *item,
-					 const cairo_matrix_t *i2c,
-					 gint flags);
-static void e_day_view_time_item_draw (GnomeCanvasItem *item,
-				       cairo_t *cr,
-				       gint x, gint y,
-				       gint width, gint height);
-static GnomeCanvasItem *e_day_view_time_item_point (GnomeCanvasItem *item,
-                                                    double x, double y,
-                                                    gint cx, gint cy);
-static gint e_day_view_time_item_event (GnomeCanvasItem *item,
-					GdkEvent *event);
-static void e_day_view_time_item_increment_time	(gint	*hour,
-						 gint	*minute,
-						 gint	 time_divisions);
-static void e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
-						  GdkEvent *event);
-static void e_day_view_time_item_on_set_divisions (GtkWidget *item,
-						   EDayViewTimeItem *time_item);
-static void e_day_view_time_item_on_button_press (EDayViewTimeItem *time_item,
-						  GdkEvent *event);
-static void e_day_view_time_item_on_button_release (EDayViewTimeItem *time_item,
-						    GdkEvent *event);
-static void e_day_view_time_item_on_motion_notify (EDayViewTimeItem *time_item,
-						   GdkEvent *event);
-static gint e_day_view_time_item_convert_position_to_row (EDayViewTimeItem *time_item,
-							  gint y);
+static void	e_day_view_time_item_update	(GnomeCanvasItem *item,
+						 const cairo_matrix_t *i2c,
+						 gint flags);
+static void	e_day_view_time_item_draw	(GnomeCanvasItem *item,
+						 cairo_t *cr,
+						 gint x,
+						 gint y,
+						 gint width,
+						 gint height);
+static GnomeCanvasItem *
+		e_day_view_time_item_point	(GnomeCanvasItem *item,
+						 gdouble x,
+						 gdouble y,
+						 gint cx,
+						 gint cy);
+static gint	e_day_view_time_item_event	(GnomeCanvasItem *item,
+						 GdkEvent *event);
+static void	e_day_view_time_item_increment_time
+						(gint *hour,
+						 gint *minute,
+						 gint time_divisions);
+static void	e_day_view_time_item_show_popup_menu
+						(EDayViewTimeItem *time_item,
+						 GdkEvent *event);
+static void	e_day_view_time_item_on_set_divisions
+						(GtkWidget *item,
+						 EDayViewTimeItem *time_item);
+static void	e_day_view_time_item_on_button_press
+						(EDayViewTimeItem *time_item,
+						 GdkEvent *event);
+static void	e_day_view_time_item_on_button_release
+						(EDayViewTimeItem *time_item,
+						 GdkEvent *event);
+static void	e_day_view_time_item_on_motion_notify
+						(EDayViewTimeItem *time_item,
+						 GdkEvent *event);
+static gint	e_day_view_time_item_convert_position_to_row
+						(EDayViewTimeItem *time_item,
+						 gint y);
 
-static void  edvti_second_zone_changed_cb (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data);
+static void	edvti_second_zone_changed_cb	(GConfClient *client,
+						 guint cnxn_id,
+						 GConfEntry *entry,
+						 gpointer user_data);
 
 enum {
 	PROP_0,
@@ -218,11 +233,14 @@ day_view_time_item_init (EDayViewTimeItem *time_item)
 
 	if (last) {
 		if (*last)
-			time_item->priv->second_zone = icaltimezone_get_builtin_timezone (last);
+			time_item->priv->second_zone =
+				icaltimezone_get_builtin_timezone (last);
 		g_free (last);
 	}
 
-	time_item->priv->second_zone_changed_id = calendar_config_add_notification_day_second_zone (edvti_second_zone_changed_cb, time_item);
+	time_item->priv->second_zone_changed_id =
+		calendar_config_add_notification_day_second_zone (
+		edvti_second_zone_changed_cb, time_item);
 }
 
 GType
@@ -323,7 +341,10 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 
 	/* The start and end of the long horizontal line between hours. */
 	long_line_x1 = (use_zone ? 0 : E_DVTMI_TIME_GRID_X_PAD) - x + x_offset;
-	long_line_x2 = time_item->priv->column_width - E_DVTMI_TIME_GRID_X_PAD - x - (use_zone ? E_DVTMI_TIME_GRID_X_PAD : 0) + x_offset;
+	long_line_x2 =
+		time_item->priv->column_width -
+		E_DVTMI_TIME_GRID_X_PAD - x -
+		(use_zone ? E_DVTMI_TIME_GRID_X_PAD : 0) + x_offset;
 
 	if (time_divisions == 60) {
 		/* The right edge of the complete time string in 60-min
@@ -358,13 +379,17 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 	minute = day_view->first_minute_shown;
 
 	if (use_zone) {
-		/* shift time with a difference between local time and the other timezone */
-		icaltimezone *cal_zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
+		/* shift time with a difference between
+		 * local time and the other timezone */
+		icaltimezone *cal_zone;
 		struct icaltimetype tt;
 		gint diff;
 		struct tm mn;
 
-		tt = icaltime_from_timet_with_zone (day_view->day_starts[0], 0, cal_zone);
+		cal_zone = e_calendar_view_get_timezone (
+			E_CALENDAR_VIEW (day_view));
+		tt = icaltime_from_timet_with_zone (
+			day_view->day_starts[0], 0, cal_zone);
 
 		/* diff is number of minutes */
 		diff = (icaltimezone_get_utc_offset (use_zone, &tt, NULL) -
@@ -422,25 +447,38 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 		gint marcus_bains_y;
 
 		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
+		gdk_cairo_set_source_color (
+			cr, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
 
-		if (day_view->marcus_bains_time_bar_color && gdk_color_parse (day_view->marcus_bains_time_bar_color, &mb_color)) {
-
+		if (day_view->marcus_bains_time_bar_color &&
+			gdk_color_parse (
+				day_view->marcus_bains_time_bar_color,
+				&mb_color)) {
 			gdk_cairo_set_source_color (cr, &mb_color);
 		} else
 			mb_color = day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE];
 
-		time_now = icaltime_current_time_with_zone (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-		marcus_bains_y = (time_now.hour * 60 + time_now.minute) * day_view->row_height / time_divisions - y;
+		time_now = icaltime_current_time_with_zone (
+			e_calendar_view_get_timezone (
+			E_CALENDAR_VIEW (day_view)));
+		marcus_bains_y =
+			(time_now.hour * 60 + time_now.minute) *
+			day_view->row_height / time_divisions - y;
 		cairo_set_line_width (cr, 1.5);
-		cairo_move_to (cr, long_line_x1 - (use_zone ? E_DVTMI_TIME_GRID_X_PAD : 0), marcus_bains_y);
+		cairo_move_to (
+			cr, long_line_x1 -
+			(use_zone ? E_DVTMI_TIME_GRID_X_PAD : 0),
+			marcus_bains_y);
 		cairo_line_to (cr, long_line_x2, marcus_bains_y);
 		cairo_stroke (cr);
 		cairo_restore (cr);
 	} else {
 		mb_color = day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE];
 
-		if (day_view->marcus_bains_time_bar_color && gdk_color_parse (day_view->marcus_bains_time_bar_color, &mb_color)) {
+		if (day_view->marcus_bains_time_bar_color &&
+			gdk_color_parse (
+				day_view->marcus_bains_time_bar_color,
+				&mb_color)) {
 			gdk_cairo_set_source_color (cr, &mb_color);
 		}
 	}
@@ -450,13 +488,18 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 	for (row = 0, row_y = 0 - y;
 	     row < day_view->rows && row_y < height;
 	     row++, row_y += day_view->row_height) {
-		gboolean show_midnight_date = use_zone && hour == 0 && (minute == 0 || time_divisions == 60) && midnight_day && midnight_month;
+		gboolean show_midnight_date;
+
+		show_midnight_date =
+			use_zone && hour == 0 &&
+			(minute == 0 || time_divisions == 60) &&
+			midnight_day && midnight_month;
 
 		/* If the row is above the first row we want to draw just
 		   increment the time and skip to the next row. */
 		if (row_y < start_y) {
-			e_day_view_time_item_increment_time (&hour, &minute,
-							     time_divisions);
+			e_day_view_time_item_increment_time (
+				&hour, &minute, time_divisions);
 			continue;
 		}
 
@@ -536,7 +579,9 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				pango_layout_set_text (layout, buffer, -1);
 				pango_layout_set_font_description (layout, day_view->large_font_desc);
 				pango_layout_get_pixel_size (layout, &hour_width, NULL);
-				cairo_translate (cr, large_hour_x2 - hour_width, row_y + large_hour_y_offset);
+				cairo_translate (
+					cr, large_hour_x2 - hour_width,
+					row_y + large_hour_y_offset);
 				pango_cairo_update_layout (cr, layout);
 				pango_cairo_show_layout (cr, layout);
 				cairo_restore (cr);
@@ -579,7 +624,9 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				pango_layout_set_text (layout, buffer, -1);
 				pango_layout_set_font_description (layout, day_view->small_font_desc);
 				pango_layout_get_pixel_size (layout, &minute_width, NULL);
-				cairo_translate (cr, minute_x2 - minute_width, row_y + small_font_y_offset);
+				cairo_translate (
+					cr, minute_x2 - minute_width,
+					row_y + small_font_y_offset);
 				pango_cairo_update_layout (cr, layout);
 				pango_cairo_show_layout (cr, layout);
 				cairo_restore (cr);
@@ -615,7 +662,10 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	edvti_draw_zone (canvas_item, cr, x, y, width, height, 0, NULL);
 
 	if (time_item->priv->second_zone)
-		edvti_draw_zone (canvas_item, cr, x, y, width, height, time_item->priv->column_width, time_item->priv->second_zone);
+		edvti_draw_zone (
+			canvas_item, cr, x, y, width, height,
+			time_item->priv->column_width,
+			time_item->priv->second_zone);
 }
 
 /* Increment the time by the 5/10/15/30/60 minute interval.
@@ -677,7 +727,10 @@ e_day_view_time_item_event (GnomeCanvasItem *item,
 }
 
 static void
-edvti_second_zone_changed_cb (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
+edvti_second_zone_changed_cb (GConfClient *client,
+                              guint cnxn_id,
+                              GConfEntry *entry,
+                              gpointer user_data)
 {
 	EDayViewTimeItem *time_item = user_data;
 	EDayView *day_view;
@@ -687,32 +740,38 @@ edvti_second_zone_changed_cb (GConfClient *client, guint cnxn_id, GConfEntry *en
 	g_return_if_fail (E_IS_DAY_VIEW_TIME_ITEM (time_item));
 
 	location = calendar_config_get_day_second_zone ();
-	time_item->priv->second_zone = location ? icaltimezone_get_builtin_timezone (location) : NULL;
+	time_item->priv->second_zone =
+		location ? icaltimezone_get_builtin_timezone (location) : NULL;
 	g_free (location);
 
 	day_view = e_day_view_time_item_get_day_view (time_item);
-	gtk_widget_set_size_request (day_view->time_canvas, e_day_view_time_item_get_column_width (time_item), -1);
+	gtk_widget_set_size_request (
+		day_view->time_canvas,
+		e_day_view_time_item_get_column_width (time_item), -1);
 	gtk_widget_queue_draw (day_view->time_canvas);
 }
 
 static void
-edvti_on_select_zone (GtkWidget *item, EDayViewTimeItem *time_item)
+edvti_on_select_zone (GtkWidget *item,
+                      EDayViewTimeItem *time_item)
 {
 	calendar_config_select_day_second_zone ();
 }
 
 static void
-edvti_on_set_zone (GtkWidget *item, EDayViewTimeItem *time_item)
+edvti_on_set_zone (GtkWidget *item,
+                   EDayViewTimeItem *time_item)
 {
 	if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item)))
 		return;
 
-	calendar_config_set_day_second_zone (g_object_get_data (G_OBJECT (item), "timezone"));
+	calendar_config_set_day_second_zone (
+		g_object_get_data (G_OBJECT (item), "timezone"));
 }
 
 static void
 e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
-				      GdkEvent *event)
+                                      GdkEvent *event)
 {
 	static gint divisions[] = { 60, 30, 15, 10, 5 };
 	EDayView *day_view;
@@ -793,7 +852,8 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 		if (!zone)
 			continue;
 
-		item = gtk_radio_menu_item_new_with_label (group, icaltimezone_get_display_name (zone));
+		item = gtk_radio_menu_item_new_with_label (
+			group, icaltimezone_get_display_name (zone));
 		group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
 		/* both comes from builtin, thus no problem to compare pointers */
 		if (zone == time_item->priv->second_zone)

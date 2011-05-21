@@ -575,3 +575,11 @@ e-shell-window.sgml
 @key: 
 @Returns: 
 
+<!-- ##### FUNCTION get_font_options ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+

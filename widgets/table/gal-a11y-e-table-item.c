@@ -654,7 +654,10 @@ table_remove_row_selection (AtkTable *table, gint row)
 
 	if (!atk_table_is_row_selected (table, row))
 		return TRUE;
-	e_selection_model_toggle_single_row (item->selection, view_to_model_row (item, row));
+
+	e_selection_model_toggle_single_row (
+		item->selection, view_to_model_row (item, row));
+
 	return TRUE;
 }
 

@@ -47,9 +47,10 @@ is_past_event (ECalComponent *comp)
 	if (!comp) return TRUE;
 
 	e_cal_component_get_dtend (comp, &end_date);
-	res = icaltime_compare_date_only (*end_date.value,
-					  icaltime_current_time_with_zone (icaltime_get_timezone (*end_date.value))
-					 ) == -1;
+	res = icaltime_compare_date_only (
+		*end_date.value,
+		icaltime_current_time_with_zone (
+		icaltime_get_timezone (*end_date.value))) == -1;
 	e_cal_component_free_datetime (&end_date);
 
 	return res;

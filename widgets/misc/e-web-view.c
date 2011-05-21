@@ -476,9 +476,12 @@ web_view_button_press_event_cb (EWebView *web_view,
 	if (event) {
 		GdkPixbufAnimation *anim;
 
-		anim = gtk_html_get_image_at (frame ? frame : GTK_HTML (web_view), event->x, event->y);
+		if (frame == NULL)
+			frame = GTK_HTML (web_view);
+
+		anim = gtk_html_get_image_at (frame, event->x, event->y);
 		e_web_view_set_cursor_image (web_view, anim);
-		if (anim)
+		if (anim != NULL)
 			g_object_unref (anim);
 	}
 
@@ -772,7 +775,7 @@ web_view_dispose (GObject *object)
 		priv->paste_target_list = NULL;
 	}
 
-	if (priv->cursor_image) {
+	if (priv->cursor_image != NULL) {
 		g_object_unref (priv->cursor_image);
 		priv->cursor_image = NULL;
 	}
@@ -1987,10 +1990,10 @@ e_web_view_set_cursor_image (EWebView *web_view,
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	if (image)
+	if (image != NULL)
 		g_object_ref (image);
 
-	if (web_view->priv->cursor_image)
+	if (web_view->priv->cursor_image != NULL)
 		g_object_unref (web_view->priv->cursor_image);
 
 	web_view->priv->cursor_image = image;

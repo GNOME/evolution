@@ -113,23 +113,30 @@ get_url (SoupSession *session, const gchar *url)
 }
 
 static void
-handle_incoming (xmlNodePtr head, EmailProvider *provider)
+handle_incoming (xmlNodePtr head,
+                 EmailProvider *provider)
 {
 	xmlNodePtr node = head->children;
 
-	provider->recv_type = xml_to_gchar(xmlGetProp(head, (xmlChar *) "type"), provider);
+	provider->recv_type = xml_to_gchar (
+		xmlGetProp (head, (xmlChar *) "type"), provider);
 
-	while (node) {
+	while (node != NULL) {
 		if (strcmp ((gchar *)node->name, "hostname") == 0) {
-			provider->recv_hostname = xml_to_gchar (xmlNodeGetContent (node), provider);
+			provider->recv_hostname = xml_to_gchar (
+				xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "port") == 0) {
-			provider->recv_port = xml_to_gchar (xmlNodeGetContent (node), provider);
+			provider->recv_port = xml_to_gchar (
+				xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "socketType") == 0) {
-			provider->recv_socket_type = xml_to_gchar (xmlNodeGetContent (node), provider);
+			provider->recv_socket_type = xml_to_gchar (
+				xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "username") == 0) {
-			provider->recv_username = xml_to_gchar (xmlNodeGetContent (node), provider);
+			provider->recv_username = xml_to_gchar (
+				xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "authentication") == 0) {
-			provider->recv_auth = xml_to_gchar (xmlNodeGetContent (node), provider);
+			provider->recv_auth = xml_to_gchar (
+				xmlNodeGetContent (node), provider);
 		}
 
 		node = node->next;
@@ -137,23 +144,30 @@ handle_incoming (xmlNodePtr head, EmailProvider *provider)
 }
 
 static void
-handle_outgoing (xmlNodePtr head, EmailProvider *provider)
+handle_outgoing (xmlNodePtr head,
+                 EmailProvider *provider)
 {
 	xmlNodePtr node = head->children;
 
-	provider->send_type = xml_to_gchar(xmlGetProp(head, (xmlChar *) "type"), provider);
+	provider->send_type = xml_to_gchar (
+		xmlGetProp (head, (xmlChar *) "type"), provider);
 
-	while (node) {
+	while (node != NULL) {
 		if (strcmp ((gchar *)node->name, "hostname") == 0) {
-			provider->send_hostname = xml_to_gchar (xmlNodeGetContent (node), provider);
+			provider->send_hostname = xml_to_gchar (
+				xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "port") == 0) {
-			provider->send_port = xml_to_gchar (xmlNodeGetContent (node), provider);
+			provider->send_port = xml_to_gchar (
+				xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "socketType") == 0) {
-			provider->send_socket_type = xml_to_gchar (xmlNodeGetContent (node), provider);
+			provider->send_socket_type = xml_to_gchar (
+				xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "username") == 0) {
-			provider->send_username = xml_to_gchar (xmlNodeGetContent (node), provider);
+			provider->send_username = xml_to_gchar (
+				xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "authentication") == 0) {
-			provider->send_auth = xml_to_gchar (xmlNodeGetContent (node), provider);
+			provider->send_auth = xml_to_gchar (
+				xmlNodeGetContent (node), provider);
 		}
 
 		node = node->next;

@@ -1419,10 +1419,11 @@ e_mail_folder_uri_parse (CamelSession *session,
 		if (url->host != NULL) {
 			gchar *uid;
 
-			if (!url->user || !*url->user)
+			if (url->user == NULL || *url->user == '\0')
 				uid = g_strdup (url->host);
 			else
-				uid = g_strconcat (url->user, "@", url->host, NULL);
+				uid = g_strconcat (
+					url->user, "@", url->host, NULL);
 
 			service = camel_session_get_service (session, uid);
 			g_free (uid);

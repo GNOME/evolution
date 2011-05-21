@@ -49,16 +49,24 @@
 
 #define d(x)
 
-#define EDITOR_GCONF_KEY_COMMAND "/apps/evolution/eplugin/external-editor/editor-command"
-#define EDITOR_GCONF_KEY_IMMEDIATE "/apps/evolution/eplugin/external-editor/launch-on-key-press"
+#define EDITOR_GCONF_KEY_COMMAND \
+	"/apps/evolution/eplugin/external-editor/editor-command"
+#define EDITOR_GCONF_KEY_IMMEDIATE \
+	"/apps/evolution/eplugin/external-editor/launch-on-key-press"
 
-gboolean e_plugin_ui_init (GtkUIManager *manager, EMsgComposer *composer);
-GtkWidget * e_plugin_lib_get_configure_widget (EPlugin *epl);
-static void ee_editor_command_changed (GtkWidget *textbox);
-static void ee_editor_immediate_launch_changed (GtkWidget *checkbox);
-static void async_external_editor (EMsgComposer *composer);
-static gboolean editor_running (void);
-static gboolean key_press_cb (GtkWidget * widget, GdkEventKey * event, EMsgComposer *composer);
+gboolean	e_plugin_ui_init		(GtkUIManager *manager,
+						 EMsgComposer *composer);
+GtkWidget *	e_plugin_lib_get_configure_widget
+						(EPlugin *epl);
+static void	ee_editor_command_changed
+						(GtkWidget *textbox);
+static void	ee_editor_immediate_launch_changed
+						(GtkWidget *checkbox);
+static void	async_external_editor		(EMsgComposer *composer);
+static gboolean	editor_running			(void);
+static gboolean	key_press_cb			(GtkWidget *widget,
+						 GdkEventKey *event,
+						 EMsgComposer *composer);
 
 /* used to track when the external editor is active */
 static GThread *editor_thread;
@@ -133,12 +141,16 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_box_pack_start (GTK_BOX (vbox), help, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), checkbox, FALSE, FALSE, 0);
 
-	g_signal_connect (textbox, "changed", G_CALLBACK(ee_editor_command_changed), textbox);
+	g_signal_connect (
+		textbox, "changed",
+		G_CALLBACK (ee_editor_command_changed), textbox);
 
-	g_signal_connect (checkbox, "toggled",
-			  G_CALLBACK (ee_editor_immediate_launch_changed), checkbox);
+	g_signal_connect (
+		checkbox, "toggled",
+		G_CALLBACK (ee_editor_immediate_launch_changed), checkbox);
 
 	gtk_widget_show_all (vbox);
+
 	return vbox;
 }
 
@@ -277,7 +289,8 @@ async_external_editor (EMsgComposer *composer)
 	}
 
 	gconf = gconf_client_get_default ();
-	editor_cmd = gconf_client_get_string (gconf, EDITOR_GCONF_KEY_COMMAND, NULL);
+	editor_cmd = gconf_client_get_string (
+		gconf, EDITOR_GCONF_KEY_COMMAND, NULL);
 	if (!editor_cmd) {
 		if (!(editor_cmd = g_strdup (g_getenv ("EDITOR"))) )
 			/* Make gedit the default external editor,
@@ -288,21 +301,27 @@ async_external_editor (EMsgComposer *composer)
 	g_object_unref (gconf);
 
 	if (g_strrstr (editor_cmd, "vim") != NULL
-	    && gtk_html_get_cursor_pos (gtkhtml_editor_get_html (GTKHTML_EDITOR (composer)), &position, &offset)
+	    && gtk_html_get_cursor_pos (
+			gtkhtml_editor_get_html (
+			GTKHTML_EDITOR (composer)), &position, &offset)
 	    && position >= 0 && offset >= 0) {
 		gchar *tmp = editor_cmd;
 		gint lineno;
 		gboolean set_nofork;
 
 		set_nofork = g_strrstr (editor_cmd, "gvim") != NULL;
-		/* increment 1 so that entering vim insert mode places you in the same
-		 * entry position you were at in the html  */
+		/* Increment 1 so that entering vim insert mode places you
+		 * in the same entry position you were at in the html. */
 		offset++;
 
 		/* calculate the line number that the cursor is in */
 		lineno = numlines (content, position);
 
-		editor_cmd = g_strdup_printf ("%s \"+call cursor(%d,%d)\"%s%s", tmp, lineno, offset, set_nofork ? " " : "", set_nofork ? "--nofork" : "");
+		editor_cmd = g_strdup_printf (
+			"%s \"+call cursor(%d,%d)\"%s%s",
+			tmp, lineno, offset,
+			set_nofork ? " " : "",
+			set_nofork ? "--nofork" : "");
 
 		g_free (tmp);
 	}
@@ -372,7 +391,8 @@ static void launch_editor (GtkAction *action, EMsgComposer *composer)
 
 	disable_composer (composer);
 
-	editor_thread = g_thread_create ((GThreadFunc) async_external_editor, composer, FALSE, NULL);
+	editor_thread = g_thread_create (
+		(GThreadFunc) async_external_editor, composer, FALSE, NULL);
 }
 
 static GtkActionEntry entries[] = {
@@ -436,7 +456,9 @@ static gboolean
 delete_cb (GtkWidget *widget, EMsgComposer *composer)
 {
 	if (editor_running ()) {
-		e_alert_run_dialog_for_args (NULL, "org.gnome.evolution.plugins.external-editor:editor-still-running", NULL);
+		e_alert_run_dialog_for_args (
+			NULL, "org.gnome.evolution.plugins."
+			"external-editor:editor-still-running", NULL);
 		return TRUE;
 	}
 

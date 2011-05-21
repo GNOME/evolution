@@ -757,7 +757,8 @@ e_addressbook_model_stop (EAddressbookModel *model)
 	g_signal_emit (model, signals[STATUS_MESSAGE], 0, message);
 
 	if (!model->priv->remove_status_id)
-		model->priv->remove_status_id = g_timeout_add_seconds (3, remove_status_cb, model);
+		model->priv->remove_status_id =
+			g_timeout_add_seconds (3, remove_status_cb, model);
 }
 
 gboolean

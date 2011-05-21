@@ -131,7 +131,8 @@ ethi_dispose (GObject *object) {
 	ethi->full_header = NULL;
 
 	if (ethi->etfcd.widget)
-		g_object_remove_weak_pointer (G_OBJECT (ethi->etfcd.widget), &ethi->etfcd.pointer);
+		g_object_remove_weak_pointer (
+			G_OBJECT (ethi->etfcd.widget), &ethi->etfcd.pointer);
 
 	if (ethi->config)
 		g_object_unref (ethi->config);
@@ -586,7 +587,8 @@ do_drag_motion (ETableHeaderItem *ethi,
 		col = ethi_find_col_by_x_nearest (ethi, x);
 		suggested_action = gdk_drag_context_get_suggested_action (context);
 
-		if (ethi->drag_col != -1 && (col == ethi->drag_col || col == ethi->drag_col + 1)) {
+		if (ethi->drag_col != -1 && (col == ethi->drag_col ||
+		    col == ethi->drag_col + 1)) {
 			if (ethi->drag_col != -1)
 				ethi_remove_destroy_marker (ethi);
 
@@ -701,10 +703,10 @@ static void
 context_connect (ETableHeaderItem *ethi,
                  GdkDragContext *context)
 {
-	if (g_dataset_get_data (context, "e-table-header-item") == NULL) {
-		g_object_ref (ethi);
-		g_dataset_set_data_full (context, "e-table-header-item", ethi, context_destroyed);
-	}
+	if (g_dataset_get_data (context, "e-table-header-item") == NULL)
+		g_dataset_set_data_full (
+			context, "e-table-header-item",
+			g_object_ref (ethi), context_destroyed);
 }
 
 static gboolean
@@ -984,26 +986,39 @@ ethi_draw (GnomeCanvasItem *item,
 	style = gtk_widget_get_style (GTK_WIDGET (canvas));
 
 	if (ethi->sort_info) {
-		gint length = e_table_sort_info_grouping_get_count (ethi->sort_info);
+		gint length;
 		gint i;
+
+		length = e_table_sort_info_grouping_get_count (ethi->sort_info);
 		for (i = 0; i < length; i++) {
-			ETableSortColumn column =
-				e_table_sort_info_grouping_get_nth (
+			ETableSortColumn column;
+
+			column = e_table_sort_info_grouping_get_nth (
 				ethi->sort_info, i);
-			g_hash_table_insert (arrows,
-					     GINT_TO_POINTER ((gint) column.column),
-					     GINT_TO_POINTER (column.ascending ?
-							      E_TABLE_COL_ARROW_DOWN :
-							      E_TABLE_COL_ARROW_UP));
+
+			g_hash_table_insert (
+				arrows,
+				GINT_TO_POINTER ((gint) column.column),
+				GINT_TO_POINTER (
+					column.ascending ?
+					E_TABLE_COL_ARROW_DOWN :
+					E_TABLE_COL_ARROW_UP));
 		}
+
 		length = e_table_sort_info_sorting_get_count (ethi->sort_info);
 		for (i = 0; i < length; i++) {
-			ETableSortColumn column = e_table_sort_info_sorting_get_nth (ethi->sort_info, i);
-			g_hash_table_insert (arrows,
-					     GINT_TO_POINTER ((gint) column.column),
-					     GINT_TO_POINTER (column.ascending ?
-							      E_TABLE_COL_ARROW_DOWN :
-							      E_TABLE_COL_ARROW_UP));
+			ETableSortColumn column;
+
+			column = e_table_sort_info_sorting_get_nth (
+				ethi->sort_info, i);
+
+			g_hash_table_insert (
+				arrows,
+				GINT_TO_POINTER ((gint) column.column),
+				GINT_TO_POINTER (
+					column.ascending ?
+					E_TABLE_COL_ARROW_DOWN :
+					E_TABLE_COL_ARROW_UP));
 		}
 	}
 
@@ -1710,7 +1725,11 @@ ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 
 	length = e_table_sort_info_grouping_get_count (ethi->sort_info);
 	for (i = 0; i < length; i++) {
-		ETableSortColumn column = e_table_sort_info_grouping_get_nth (ethi->sort_info, i);
+		ETableSortColumn column;
+
+		column = e_table_sort_info_grouping_get_nth (
+			ethi->sort_info, i);
+
 		if (model_col == column.column || model_col == -1) {
 			gint ascending = column.ascending;
 			ascending = !ascending;
@@ -1725,7 +1744,10 @@ ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 	if (!found) {
 		length = e_table_sort_info_sorting_get_count (ethi->sort_info);
 		for (i = 0; i < length; i++) {
-			ETableSortColumn column = e_table_sort_info_sorting_get_nth (ethi->sort_info, i);
+			ETableSortColumn column;
+
+			column = e_table_sort_info_sorting_get_nth (
+				ethi->sort_info, i);
 
 			if (model_col == column.column || model_col == -1) {
 				gint ascending = column.ascending;
@@ -1909,13 +1931,15 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			info->col = ethi->selected_col;
 			ecol = e_table_header_get_column (ethi->eth, info->col);
 
-			popup = e_popup_menu_create_with_domain (ethi_context_menu,
-								 1 +
-								 (ecol->sortable ? 0 : 2) +
-								 ((ethi->table || ethi->tree) ? 0 : 4) +
-								 ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
-								 ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
-								 128, info, GETTEXT_PACKAGE);
+			popup = e_popup_menu_create_with_domain (
+				ethi_context_menu,
+				1 +
+				(ecol->sortable ? 0 : 2) +
+				((ethi->table || ethi->tree) ? 0 : 4) +
+				((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
+				((e_table_sort_info_get_can_group (
+					ethi->sort_info)) ? 0 : 16) +
+				128, info, GETTEXT_PACKAGE);
 			g_object_ref_sink (popup);
 			g_signal_connect (popup, "selection-done",
 					  G_CALLBACK (free_popup_info), info);
@@ -1932,13 +1956,15 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 				(e->key.keyval == GDK_KEY_KP_Right)) {
 			ETableCol *ecol;
 
-			if ((ethi->selected_col < 0) || (ethi->selected_col >= ethi->eth->col_count - 1))
+			if ((ethi->selected_col < 0) ||
+			    (ethi->selected_col >= ethi->eth->col_count - 1))
 				ethi->selected_col = 0;
 			else
 				ethi->selected_col++;
 			ecol = e_table_header_get_column (ethi->eth, ethi->selected_col);
 			ethi_change_sort_state (ethi, ecol);
-		} else if ((e->key.keyval == GDK_KEY_Left) || (e->key.keyval == GDK_KEY_KP_Left)) {
+		} else if ((e->key.keyval == GDK_KEY_Left) ||
+			   (e->key.keyval == GDK_KEY_KP_Left)) {
 			ETableCol *ecol;
 
 			if ((ethi->selected_col <= 0) || (ethi->selected_col >= ethi->eth->col_count))

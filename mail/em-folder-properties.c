@@ -228,9 +228,12 @@ emfp_get_folder_item (EConfig *ec,
 
 static EMConfigItem emfp_items[] = {
 	{ E_CONFIG_BOOK, (gchar *) "", NULL },
-	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) N_("General") },
-	{ E_CONFIG_SECTION, (gchar *) "00.general/00.folder", NULL /* set by code */ },
-	{ E_CONFIG_ITEM, (gchar *) "00.general/00.folder/00.info", NULL, emfp_get_folder_item },
+	{ E_CONFIG_PAGE, (gchar *) "00.general",
+	  (gchar *) N_("General") },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/00.folder",
+	  NULL /* set by code */ },
+	{ E_CONFIG_ITEM, (gchar *) "00.general/00.folder/00.info",
+	  NULL, emfp_get_folder_item },
 };
 static gboolean emfp_items_translated = FALSE;
 

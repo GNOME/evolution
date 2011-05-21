@@ -744,7 +744,8 @@ e_selection_model_key_press (ESelectionModel *selection,
 			gint cursor_col = e_selection_model_cursor_col (selection);
 
 			row = e_sorter_sorted_to_model (selection->sorter, row);
-			e_selection_model_select_as_key_press (selection, row, cursor_col, key->state);
+			e_selection_model_select_as_key_press (
+				selection, row, cursor_col, key->state);
 			return TRUE;
 		}
 		break;
@@ -755,7 +756,8 @@ e_selection_model_key_press (ESelectionModel *selection,
 			gint cursor_col = e_selection_model_cursor_col (selection);
 
 			row = e_sorter_sorted_to_model (selection->sorter, row);
-			e_selection_model_select_as_key_press (selection, row, cursor_col, key->state);
+			e_selection_model_select_as_key_press (
+				selection, row, cursor_col, key->state);
 			return TRUE;
 		}
 		break;

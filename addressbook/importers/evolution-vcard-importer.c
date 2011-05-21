@@ -816,6 +816,9 @@ preview_contact (EWebViewPreview *preview, EContact *contact)
 			   field == E_CONTACT_EMAIL) {
 			GList *attrs, *a;
 			gboolean have = FALSE;
+			const gchar *pretty_name;
+
+			pretty_name = e_contact_pretty_name (field);
 
 			attrs = e_contact_get_attributes (contact, field);
 			for (a = attrs; a; a = a->next) {
@@ -825,35 +828,50 @@ preview_contact (EWebViewPreview *preview, EContact *contact)
 				if (!attr)
 					continue;
 
-				for (value = e_vcard_attribute_get_values (attr); value; value = value->next) {
+				value = e_vcard_attribute_get_values (attr);
+
+				while (value != NULL) {
 					const gchar *str = value->data;
 
 					if (str && *str) {
 						e_web_view_preview_add_section (
 							preview, have ? NULL :
-							e_contact_pretty_name (field), str);
+							pretty_name, str);
 						have = TRUE;
 						had_value = TRUE;
 					}
+
+					value = value->next;
 				}
+
 				e_vcard_attribute_free (attr);
 			}
 
 			g_list_free (attrs);
-		} else if (field == E_CONTACT_CATEGORIES) {
-			gchar *value = e_contact_get (contact, field);
 
-			if (value && *value) {
-				e_web_view_preview_add_section (preview, e_contact_pretty_name (field), value);
+		} else if (field == E_CONTACT_CATEGORIES) {
+			const gchar *pretty_name;
+			const gchar *value;
+
+			pretty_name = e_contact_pretty_name (field);
+			value = e_contact_get_const (contact, field);
+
+			if (value != NULL && *value != '\0') {
+				e_web_view_preview_add_section (
+					preview, pretty_name, value);
 				had_value = TRUE;
 			}
 
-			g_free (value);
 		} else {
-			const gchar *value = e_contact_get_const (contact, field);
+			const gchar *pretty_name;
+			const gchar *value;
 
-			if (value && *value) {
-				e_web_view_preview_add_section (preview, e_contact_pretty_name (field), value);
+			pretty_name = e_contact_pretty_name (field);
+			value = e_contact_get_const (contact, field);
+
+			if (value != NULL && *value != '\0') {
+				e_web_view_preview_add_section (
+					preview, pretty_name, value);
 				had_value = TRUE;
 			}
 		}

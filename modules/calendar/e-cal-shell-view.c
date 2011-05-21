@@ -252,27 +252,31 @@ is_delegated (icalcomponent *icalcomp, const gchar *user_email)
 
 	prop = get_attendee_prop (icalcomp, user_email);
 
-	if (prop) {
-		param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDTO_PARAMETER);
-		if (param)
+	if (prop != NULL) {
+		param = icalproperty_get_first_parameter (
+			prop, ICAL_DELEGATEDTO_PARAMETER);
+		if (param != NULL)
 			delto = icalparameter_get_delegatedto (param);
 	} else
 		return FALSE;
 
 	prop = get_attendee_prop (icalcomp, itip_strip_mailto (delto));
 
-	if (prop) {
+	if (prop != NULL) {
 		const gchar *delfrom = NULL;
 		icalparameter_partstat status = ICAL_PARTSTAT_NONE;
 
-		param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER);
-		if (param)
+		param = icalproperty_get_first_parameter (
+			prop, ICAL_DELEGATEDFROM_PARAMETER);
+		if (param != NULL)
 			delfrom = icalparameter_get_delegatedfrom (param);
-		param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
-		if (param)
+		param = icalproperty_get_first_parameter (
+			prop, ICAL_PARTSTAT_PARAMETER);
+		if (param != NULL)
 			status = icalparameter_get_partstat (param);
-		if ((delfrom && *delfrom) && g_str_equal (itip_strip_mailto (delfrom), user_email)
-				&& status != ICAL_PARTSTAT_DECLINED)
+		if ((delfrom != NULL && *delfrom != '\0') &&
+			g_str_equal (itip_strip_mailto (delfrom),
+			user_email) && status != ICAL_PARTSTAT_DECLINED)
 			return TRUE;
 	}
 

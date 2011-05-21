@@ -238,7 +238,9 @@ build_from_der (EASN1Object *parent, gchar *data, gchar *end)
 			return FALSE;
 		}
 		data++;
-		len = get_der_item_length ((guchar *) data, (guchar *) end, &bytesUsed, &indefinite);
+		len = get_der_item_length (
+			(guchar *) data, (guchar *) end,
+			&bytesUsed, &indefinite);
 		data += bytesUsed;
 		if ((len < 0) || ((data+len) > end))
 			return FALSE;

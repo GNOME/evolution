@@ -160,9 +160,11 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 		selected = FALSE;
 	if (selected) {
 		if (gtk_widget_has_focus (GTK_WIDGET (week_view))) {
-			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
+			gdk_cairo_set_source_color (
+				cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
 		} else {
-			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
+			gdk_cairo_set_source_color (
+				cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
 		}
 
 		if (week_view->multi_week_view) {

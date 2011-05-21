@@ -1139,9 +1139,10 @@ static struct {
 } conf_messages[] = {
 	[QUOTING_ATTRIBUTION] =
 		{ "/apps/evolution/mail/composer/message_attribution",
-		/* Note to translators: this is the attribution string used when quoting messages.
-		 * each ${Variable} gets replaced with a value. To see a full list of available
-		 * variables, see mail/em-composer-utils.c:attribvars array */
+		/* Note to translators: this is the attribution string used
+		 * when quoting messages.  Each ${Variable} gets replaced
+		 * with a value.  To see a full list of available variables,
+		 * see mail/em-composer-utils.c:attribvars array. */
 		  N_("On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at "
 		     "${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:") 
 		},

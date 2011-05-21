@@ -467,22 +467,26 @@ mail_vfolder_add_folder (EMailSession *session,
 		if (remote) {
 			if ((link = mv_find_folder (source_folders_remote, session, uri)) != NULL) {
 				g_free (link->data);
-				source_folders_remote = g_list_remove_link (source_folders_remote, link);
+				source_folders_remote = g_list_remove_link (
+					source_folders_remote, link);
 			}
 		} else {
 			if ((link = mv_find_folder (source_folders_local, session, uri)) != NULL) {
 				g_free (link->data);
-				source_folders_local = g_list_remove_link (source_folders_local, link);
+				source_folders_local = g_list_remove_link (
+					source_folders_local, link);
 			}
 		}
 	} else if (!is_ignore) {
 		/* we ignore drafts/sent/outbox here */
 		if (remote) {
 			if (mv_find_folder (source_folders_remote, session, uri) == NULL)
-				source_folders_remote = g_list_prepend (source_folders_remote, g_strdup (uri));
+				source_folders_remote = g_list_prepend (
+					source_folders_remote, g_strdup (uri));
 		} else {
 			if (mv_find_folder (source_folders_local, session, uri) == NULL)
-				source_folders_local = g_list_prepend (source_folders_local, g_strdup (uri));
+				source_folders_local = g_list_prepend (
+					source_folders_local, g_strdup (uri));
 		}
 	}
 
@@ -1115,8 +1119,12 @@ vfolder_load_storage (EMailBackend *backend)
 	g_free (xmlfile);
 	g_free (user);
 
-	g_signal_connect(context, "rule_added", G_CALLBACK(context_rule_added), context);
-	g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
+	g_signal_connect (
+		context, "rule_added",
+		G_CALLBACK (context_rule_added), context);
+	g_signal_connect (
+		context, "rule_removed",
+		G_CALLBACK (context_rule_removed), context);
 
 	/* load store to mail component */
 	e_mail_store_add (session, vfolder_store, _("Search Folders"));
@@ -1299,7 +1307,8 @@ new_rule_clicked (GtkWidget *w, gint button, gpointer data)
 			return;
 		}
 
-		if (e_rule_context_find_rule ((ERuleContext *) context, rule->name, rule->source)) {
+		if (e_rule_context_find_rule (
+			(ERuleContext *) context, rule->name, rule->source)) {
 			e_alert_run_dialog_for_args (
 				GTK_WINDOW (w), "mail:vfolder-notunique",
 				rule->name, NULL);
@@ -1323,7 +1332,8 @@ new_rule_changed_cb (EFilterRule *rule, GtkDialog *dialog)
 	g_return_if_fail (rule != NULL);
 	g_return_if_fail (dialog != NULL);
 
-	gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, rule->parts != NULL);
+	gtk_dialog_set_response_sensitive (
+		dialog, GTK_RESPONSE_OK, rule->parts != NULL);
 }
 
 EFilterPart *
