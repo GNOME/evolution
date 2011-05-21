@@ -266,55 +266,6 @@ idle_cb (gchar **uris)
 
 #ifndef G_OS_WIN32
 
-/* SIGSEGV handling.
-
-   The GNOME SEGV handler will lose if it's not run from the main Gtk
-   thread. So if we have to redirect the signal if the crash happens in another
-   thread.  */
-
-static void (*gnome_segv_handler) (gint);
-static GStaticMutex segv_mutex = G_STATIC_MUTEX_INIT;
-static GThread *main_thread = NULL;
-
-static void
-segv_redirect (gint sig)
-{
-	gnome_segv_handler (sig);
-
-	if (g_thread_self () != main_thread) {
-		/* We can't return from the signal handler or the thread may
-		   SEGV again. But we can't g_thread_exit, because then the
-		   thread may get cleaned up before bug-buddy can get a stack
-		   trace. So we block by trying to lock a mutex we know is
-		   already locked.  */
-		g_static_mutex_lock (&segv_mutex);
-	}
-}
-
-static void
-setup_segv_redirect (void)
-{
-	struct sigaction sa, osa;
-
-	sigaction (SIGSEGV, NULL, &osa);
-	if (osa.sa_handler == SIG_DFL)
-		return;
-
-	main_thread = g_thread_self ();
-
-	sa.sa_flags = 0;
-	sigemptyset (&sa.sa_mask);
-	sa.sa_handler = segv_redirect;
-	sigaction (SIGSEGV, &sa, NULL);
-	sigaction (SIGBUS, &sa, NULL);
-	sigaction (SIGFPE, &sa, NULL);
-
-	sa.sa_handler = SIG_IGN;
-	sigaction (SIGXFSZ, &sa, NULL);
-	gnome_segv_handler = osa.sa_handler;
-	g_static_mutex_lock (&segv_mutex);
-}
-
 static void
 quit_signal (gint sig)
 {
@@ -344,7 +295,6 @@ setup_quit_signal (void)
 }
 
 #else
-#define setup_segv_redirect() (void)0
 #define setup_quit_signal() (void)0
 #endif
 
@@ -671,7 +621,6 @@ main (gint argc, gchar **argv)
 		gconf_client_set_bool (client, key, FALSE, NULL);
 	}
 
-	setup_segv_redirect ();
 	setup_quit_signal ();
 
 	if (evolution_debug_log) {
