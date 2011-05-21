@@ -147,10 +147,9 @@ e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter,
 				  target_list, actions, 1/*XXX*/, event);
 
 	if (!view->canvas_drag_data_get_id)
-		view->canvas_drag_data_get_id = g_signal_connect (GNOME_CANVAS_ITEM (view)->canvas,
-								  "drag_data_get",
-								  G_CALLBACK (e_minicard_view_drag_data_get),
-								  view);
+		view->canvas_drag_data_get_id = g_signal_connect (
+			GNOME_CANVAS_ITEM (view)->canvas, "drag_data_get",
+			G_CALLBACK (e_minicard_view_drag_data_get), view);
 
 	gtk_drag_set_icon_default (context);
 

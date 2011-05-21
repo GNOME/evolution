@@ -187,10 +187,11 @@ create_thread_pool (void)
 static void
 message_push (Message *msg)
 {
-	/* This used be pushed through the thread pool. This fix is made to work-around
-	the crashers in dbus due to threading. The threading is not completely removed as
-	its better to have alarm daemon running in a thread rather than blocking main thread.
-	 This is the reason the creation of thread pool is commented out */
+	/* This used be pushed through the thread pool. This fix is made to
+	 * work-around the crashers in dbus due to threading. The threading
+	 * is not completely removed as its better to have alarm daemon
+	 * running in a thread rather than blocking main thread.  This is
+	 * the reason the creation of thread pool is commented out. */
 	msg->func (msg);
 }
 
@@ -784,7 +785,8 @@ query_objects_changed_async (struct _query_msg *msg)
 		 * remove it after updating the cqa structure. */
 		if (alarms == NULL || alarms->alarms == NULL) {
 
-			/* update the cqa and its queued alarms for changes in summary and alarm_uid  */
+			/* Update the cqa and its queued alarms
+			 * for changes in summary and alarm_uid.  */
 			update_cqa (cqa, comp);
 
 			if (alarms)
@@ -805,16 +807,12 @@ query_objects_changed_async (struct _query_msg *msg)
 
 			instance = sl->data;
 
-			if (!has_known_notification (cqa->alarms->comp, instance->auid)) {
-				g_debug ("Could not recognize alarm's notification type, discarding.");
+			if (!has_known_notification (cqa->alarms->comp, instance->auid))
 				continue;
-			}
 
 			alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, NULL);
-			if (!alarm_id) {
-				debug (("Unable to schedule trigger for %s", e_ctime (&(instance->trigger))));
+			if (!alarm_id)
 				continue;
-			}
 
 			qa = g_new (QueuedAlarm, 1);
 			qa->alarm_id = alarm_id;
@@ -1149,7 +1147,9 @@ tray_list_remove_async (Message *msg)
 			gboolean status;
 
 			tray_icons_list = g_list_remove_link (tray_icons_list, list);
-			status = remove_queued_alarm (tray_data->cqa, tray_data->alarm_id, FALSE, TRUE);
+			status = remove_queued_alarm (
+				tray_data->cqa,
+				tray_data->alarm_id, FALSE, TRUE);
 			if (status) {
 				g_hash_table_remove (
 					tray_data->cqa->parent_client->uid_alarms_hash,

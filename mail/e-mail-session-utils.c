@@ -408,8 +408,10 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 
 		if (!CAMEL_IS_TRANSPORT (service)) {
 			g_simple_async_result_set_error (simple,
-				CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_URL_INVALID,
-				_("Cannot get transport service for account '%s'"), context->transport_uid);
+				CAMEL_SERVICE_ERROR,
+				CAMEL_SERVICE_ERROR_URL_INVALID,
+				_("Cannot get transport for account '%s'"),
+				context->transport_uid);
 			return;
 		}
 

@@ -843,7 +843,7 @@ e_cell_date_edit_on_ok_clicked		(GtkWidget	*button,
 }
 
 static void
-e_cell_date_edit_show_time_invalid_warning	(ECellDateEdit	*ecde)
+e_cell_date_edit_show_time_invalid_warning (ECellDateEdit *ecde)
 {
 	GtkWidget *dialog;
 	struct tm date_tm;
@@ -873,46 +873,48 @@ e_cell_date_edit_show_time_invalid_warning	(ECellDateEdit	*ecde)
 }
 
 static void
-e_cell_date_edit_on_now_clicked		(GtkWidget	*button,
-					 ECellDateEdit	*ecde)
+e_cell_date_edit_on_now_clicked (GtkWidget *button,
+                                 ECellDateEdit *ecde)
 {
 	struct tm tmp_tm;
 	time_t t;
 	gchar buffer[64];
 
 	if (ecde->time_callback) {
-		tmp_tm = (*ecde->time_callback) (ecde, ecde->time_callback_data);
+		tmp_tm = ecde->time_callback (
+			ecde, ecde->time_callback_data);
 	} else {
 		t = time (NULL);
 		tmp_tm = *localtime (&t);
 	}
-	e_time_format_date_and_time (&tmp_tm,
-				     ecde->use_24_hour_format,
-				     TRUE, FALSE,
-				     buffer, sizeof (buffer));
+
+	e_time_format_date_and_time (
+		&tmp_tm, ecde->use_24_hour_format,
+		TRUE, FALSE, buffer, sizeof (buffer));
 
 	e_cell_date_edit_update_cell (ecde, buffer);
 	e_cell_date_edit_hide_popup (ecde);
 }
 
 static void
-e_cell_date_edit_on_none_clicked	(GtkWidget	*button,
-					 ECellDateEdit	*ecde)
+e_cell_date_edit_on_none_clicked (GtkWidget *button,
+                                  ECellDateEdit *ecde)
 {
 	e_cell_date_edit_update_cell (ecde, "");
 	e_cell_date_edit_hide_popup (ecde);
 }
 
 static void
-e_cell_date_edit_on_today_clicked	(GtkWidget	*button,
-					 ECellDateEdit	*ecde)
+e_cell_date_edit_on_today_clicked (GtkWidget *button,
+                                   ECellDateEdit *ecde)
 {
 	struct tm tmp_tm;
 	time_t t;
 	gchar buffer[64];
 
 	if (ecde->time_callback) {
-		tmp_tm = (*ecde->time_callback) (ecde, ecde->time_callback_data);
+		tmp_tm = ecde->time_callback (
+			ecde, ecde->time_callback_data);
 	} else {
 		t = time (NULL);
 		tmp_tm = *localtime (&t);
@@ -921,18 +923,18 @@ e_cell_date_edit_on_today_clicked	(GtkWidget	*button,
 	tmp_tm.tm_hour = 0;
 	tmp_tm.tm_min = 0;
 	tmp_tm.tm_sec = 0;
-	e_time_format_date_and_time (&tmp_tm,
-				     ecde->use_24_hour_format,
-				     FALSE, FALSE,
-				     buffer, sizeof (buffer));
+
+	e_time_format_date_and_time (
+		&tmp_tm, ecde->use_24_hour_format,
+		FALSE, FALSE, buffer, sizeof (buffer));
 
 	e_cell_date_edit_update_cell (ecde, buffer);
 	e_cell_date_edit_hide_popup (ecde);
 }
 
 static void
-e_cell_date_edit_update_cell		(ECellDateEdit	*ecde,
-					 const gchar	*text)
+e_cell_date_edit_update_cell (ECellDateEdit *ecde,
+                              const gchar *text)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecde);
 	ECellText *ecell_text = E_CELL_TEXT (ecp->child);
@@ -944,21 +946,26 @@ e_cell_date_edit_update_cell		(ECellDateEdit	*ecde,
 	/* Compare the new text with the existing cell contents. */
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
 
-	old_text = e_cell_text_get_text (ecell_text, ecv->e_table_model,
-					 ecol->col_idx, ecp->popup_row);
+	old_text = e_cell_text_get_text (
+		ecell_text, ecv->e_table_model,
+		ecol->col_idx, ecp->popup_row);
 
 	/* If they are different, update the cell contents. */
 	if (strcmp (old_text, text)) {
-		e_cell_text_set_value (ecell_text, ecv->e_table_model,
-				       ecol->col_idx, ecp->popup_row, text);
-		e_cell_leave_edit (ecv, ecp->popup_view_col, ecol->col_idx, ecp->popup_row, NULL);
+		e_cell_text_set_value (
+			ecell_text, ecv->e_table_model,
+			ecol->col_idx, ecp->popup_row, text);
+		e_cell_leave_edit (
+			ecv, ecp->popup_view_col,
+			ecol->col_idx, ecp->popup_row, NULL);
 	}
 
 	e_cell_text_free_text (ecell_text, old_text);
 }
 
 static void
-e_cell_date_edit_on_time_selected (GtkTreeSelection *selection, ECellDateEdit *ecde)
+e_cell_date_edit_on_time_selected (GtkTreeSelection *selection,
+                                   ECellDateEdit *ecde)
 {
 	gchar *list_item_text = NULL;
 	GtkTreeIter iter;
@@ -977,7 +984,7 @@ e_cell_date_edit_on_time_selected (GtkTreeSelection *selection, ECellDateEdit *e
 }
 
 static void
-e_cell_date_edit_hide_popup		(ECellDateEdit	*ecde)
+e_cell_date_edit_hide_popup (ECellDateEdit *ecde)
 {
 	gtk_grab_remove (ecde->popup_window);
 	gtk_widget_hide (ecde->popup_window);

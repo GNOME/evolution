@@ -404,11 +404,14 @@ task_details_page_fill_timezones (CompEditorPage *page,
 {
 	icaltimezone *zone;
 
-	/* add UTC timezone, which is the one used for the DATE-COMPLETED property */
+	/* Add UTC timezone, which is the one
+	 * used for the DATE-COMPLETED property. */
 	zone = icaltimezone_get_utc_timezone ();
-	if (zone) {
-		if (!g_hash_table_lookup (timezones, icaltimezone_get_tzid (zone)))
-			g_hash_table_insert (timezones, (gpointer) icaltimezone_get_tzid (zone), zone);
+	if (zone != NULL) {
+		gconstpointer tzid = icaltimezone_get_tzid (zone);
+
+		if (!g_hash_table_lookup (timezones, tzid))
+			g_hash_table_insert (timezones, (gpointer) tzid, zone);
 	}
 
 	return TRUE;

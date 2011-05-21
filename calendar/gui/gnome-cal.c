@@ -767,9 +767,9 @@ dn_e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer data)
 
 		ensure_dates_are_in_default_zone (gcal, l->data);
 		comp = e_cal_component_new ();
-		if (!e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (l->data))) {
+		if (!e_cal_component_set_icalcomponent (
+			comp, icalcomponent_new_clone (l->data))) {
 			g_object_unref (comp);
-
 			continue;
 		}
 
@@ -841,6 +841,8 @@ get_times_for_views (GnomeCalendar *gcal,
 {
 	GnomeCalendarPrivate *priv;
 	ECalModel *model;
+	EDayView *day_view;
+	EWeekView *week_view;
 	gint shown, display_start;
 	GDate date;
 	gint week_start_day;
@@ -861,12 +863,14 @@ get_times_for_views (GnomeCalendar *gcal,
 
 	switch (view_type) {
 	case GNOME_CAL_DAY_VIEW:
-		shown  = e_day_view_get_days_shown (E_DAY_VIEW (priv->views[view_type]));
+		day_view = E_DAY_VIEW (priv->views[view_type]);
+		shown  = e_day_view_get_days_shown (day_view);
 		*start_time = time_day_begin_with_zone (*start_time, timezone);
 		*end_time = time_add_day_with_zone (*start_time, shown, timezone);
 		break;
 	case GNOME_CAL_WORK_WEEK_VIEW:
 		/* FIXME Kind of gross, but it works */
+		day_view = E_DAY_VIEW (priv->views[view_type]);
 		time_to_gdate_with_zone (&date, *start_time, timezone);
 
 		/* The start of the work-week is the first working day after the
@@ -878,7 +882,7 @@ get_times_for_views (GnomeCalendar *gcal,
 		/* Find the first working day in the week, 0 (Sun) to 6 (Sat). */
 		first_day = (week_start_day + 1) % 7;
 		for (i = 0; i < 7; i++) {
-			if (E_DAY_VIEW (priv->views[view_type])->working_days & (1 << first_day)) {
+			if (day_view->working_days & (1 << first_day)) {
 				has_working_days = TRUE;
 				break;
 			}
@@ -889,7 +893,7 @@ get_times_for_views (GnomeCalendar *gcal,
 			/* Now find the last working day of the week, backwards. */
 			last_day = week_start_day % 7;
 			for (i = 0; i < 7; i++) {
-				if (E_DAY_VIEW (priv->views[view_type])->working_days & (1 << last_day))
+				if (day_view->working_days & (1 << last_day))
 					break;
 				last_day = (last_day + 6) % 7;
 			}
@@ -917,32 +921,41 @@ get_times_for_views (GnomeCalendar *gcal,
 		*start_time = icaltime_as_timet_with_zone (tt, timezone);
 		*end_time = time_add_day_with_zone (*start_time, days_shown, timezone);
 
-		if (select_time && E_DAY_VIEW (priv->views[view_type])->selection_start_day == -1)
+		if (select_time && day_view->selection_start_day == -1)
 			time (select_time);
 		break;
 	case GNOME_CAL_WEEK_VIEW:
-		/* FIXME We should be using the same day of the week enum every where */
-		display_start = (E_WEEK_VIEW (priv->views[view_type])->display_start_day + 1) % 7;
+		/* FIXME We should be using the same day
+		 *       of the week enum everywhere. */
+		week_view = E_WEEK_VIEW (priv->views[view_type]);
+		display_start = (week_view->display_start_day + 1) % 7;
 
-		*start_time = time_week_begin_with_zone (*start_time, display_start, timezone);
-		*end_time = time_add_week_with_zone (*start_time, 1, timezone);
+		*start_time = time_week_begin_with_zone (
+			*start_time, display_start, timezone);
+		*end_time = time_add_week_with_zone (
+			*start_time, 1, timezone);
 
-		if (select_time && E_WEEK_VIEW (priv->views[view_type])->selection_start_day == -1)
+		if (select_time && week_view->selection_start_day == -1)
 			time (select_time);
 		break;
 	case GNOME_CAL_MONTH_VIEW:
-		shown = e_week_view_get_weeks_shown (E_WEEK_VIEW (priv->views[view_type]));
-		/* FIXME We should be using the same day of the week enum every where */
-		display_start = (E_WEEK_VIEW (priv->views[view_type])->display_start_day + 1) % 7;
+		/* FIXME We should be using the same day
+		 *       of the week enum everywhere. */
+		week_view = E_WEEK_VIEW (priv->views[view_type]);
+		shown = e_week_view_get_weeks_shown (week_view);
+		display_start = (week_view->display_start_day + 1) % 7;
 
 		if (!range_selected && (
-			!E_WEEK_VIEW (priv->views[view_type])->multi_week_view ||
-			!E_WEEK_VIEW (priv->views[view_type])->month_scroll_by_week))
-			*start_time = time_month_begin_with_zone (*start_time, timezone);
-		*start_time = time_week_begin_with_zone (*start_time, display_start, timezone);
-		*end_time = time_add_week_with_zone (*start_time, shown, timezone);
+			!week_view->multi_week_view ||
+			!week_view->month_scroll_by_week))
+			*start_time = time_month_begin_with_zone (
+				*start_time, timezone);
+		*start_time = time_week_begin_with_zone (
+			*start_time, display_start, timezone);
+		*end_time = time_add_week_with_zone (
+			*start_time, shown, timezone);
 
-		if (select_time && E_WEEK_VIEW (priv->views[view_type])->selection_start_day == -1)
+		if (select_time && week_view->selection_start_day == -1)
 			time (select_time);
 		break;
 	case GNOME_CAL_LIST_VIEW:

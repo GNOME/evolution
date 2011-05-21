@@ -117,7 +117,8 @@ bbdb_sync_buddy_list_check (void)
 
 	/* Reprocess the buddy list if it's been updated. */
 	gconf = gconf_client_get_default ();
-	last_sync_str = gconf_client_get_string (gconf, GCONF_KEY_GAIM_LAST_SYNC_TIME, NULL);
+	last_sync_str = gconf_client_get_string (
+		gconf, GCONF_KEY_GAIM_LAST_SYNC_TIME, NULL);
 	if (last_sync_str == NULL || !strcmp ((const gchar *)last_sync_str, ""))
 		last_sync_time = (time_t) 0;
 	else
@@ -162,8 +163,10 @@ store_last_sync_idle_cb (gpointer data)
 	md5 = get_md5_as_string (blist_path);
 
 	gconf = gconf_client_get_default ();
-	gconf_client_set_string (gconf, GCONF_KEY_GAIM_LAST_SYNC_TIME, last_sync_time, NULL);
-	gconf_client_set_string (gconf, GCONF_KEY_GAIM_LAST_SYNC_MD5, md5, NULL);
+	gconf_client_set_string (
+		gconf, GCONF_KEY_GAIM_LAST_SYNC_TIME, last_sync_time, NULL);
+	gconf_client_set_string (
+		gconf, GCONF_KEY_GAIM_LAST_SYNC_MD5, md5, NULL);
 
 	g_object_unref (G_OBJECT (gconf));
 

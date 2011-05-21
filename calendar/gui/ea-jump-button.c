@@ -129,9 +129,8 @@ ea_jump_button_new (GObject *obj)
 		atk_obj->role = event_role;
 	}
 
-	/* the registered factory for GNOME_TYPE_CANVAS_ITEM is cannot create a EaJumpbutton,
-	 * we should save the EaJumpbutton object in it.
-	 */
+	/* The registered factory for GNOME_TYPE_CANVAS_ITEM cannot create
+	 * an EaJumpbutton, we should save the EaJumpbutton object in it. */
 	g_object_set_data (obj, "accessible-object", atk_obj);
 
 	return atk_obj;

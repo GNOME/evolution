@@ -1665,41 +1665,47 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	e_table->horizontal_resize = specification->horizontal_resize;
 	e_table->allow_grouping = specification->allow_grouping;
 
-	e_table->sort_info = state->sort_info;
-	g_object_ref (state->sort_info);
-	e_table_sort_info_set_can_group (e_table->sort_info, e_table->allow_grouping);
+	e_table->sort_info = g_object_ref (state->sort_info);
 
-	e_table->group_info_change_id =
-		g_signal_connect (G_OBJECT (e_table->sort_info), "group_info_changed",
-				  G_CALLBACK (group_info_changed), e_table);
+	e_table_sort_info_set_can_group (
+		e_table->sort_info, e_table->allow_grouping);
 
-	e_table->sort_info_change_id =
-		g_signal_connect (G_OBJECT (e_table->sort_info), "sort_info_changed",
-				  G_CALLBACK (sort_info_changed), e_table);
+	e_table->group_info_change_id = g_signal_connect (
+		e_table->sort_info, "group_info_changed",
+		G_CALLBACK (group_info_changed), e_table);
+
+	e_table->sort_info_change_id = g_signal_connect (
+		e_table->sort_info, "sort_info_changed",
+		G_CALLBACK (sort_info_changed), e_table);
 
 	g_value_set_object (val, e_table->sort_info);
 	g_object_set_property (G_OBJECT(e_table->header), "sort_info", val);
 	g_free (val);
 
-	e_table->sorter = e_table_sorter_new (etm, e_table->full_header, e_table->sort_info);
+	e_table->sorter = e_table_sorter_new (
+		etm, e_table->full_header, e_table->sort_info);
 
-	g_object_set (e_table->selection,
-		      "model", etm,
-		      "selection_mode", specification->selection_mode,
-		      "cursor_mode", specification->cursor_mode,
-		      "sorter", e_table->sorter,
-		      "header", e_table->header,
-		      NULL);
+	g_object_set (
+		e_table->selection,
+		"model", etm,
+		"selection_mode", specification->selection_mode,
+		"cursor_mode", specification->cursor_mode,
+		"sorter", e_table->sorter,
+		"header", e_table->header,
+		NULL);
 
-	g_signal_connect(e_table->selection, "selection_changed",
-			 G_CALLBACK (et_selection_model_selection_changed), e_table);
-	g_signal_connect(e_table->selection, "selection_row_changed",
-			 G_CALLBACK (et_selection_model_selection_row_changed), e_table);
+	g_signal_connect (
+		e_table->selection, "selection_changed",
+		G_CALLBACK (et_selection_model_selection_changed), e_table);
+	g_signal_connect (
+		e_table->selection, "selection_row_changed",
+		G_CALLBACK (et_selection_model_selection_row_changed), e_table);
 
-	if (!specification->no_headers) {
+	if (!specification->no_headers)
 		e_table_setup_header (e_table);
-	}
-	e_table_setup_table (e_table, e_table->full_header, e_table->header, etm);
+
+	e_table_setup_table (
+		e_table, e_table->full_header, e_table->header, etm);
 	e_table_fill_table (e_table, etm);
 
 	scrollable = GTK_SCROLLABLE (e_table->table_canvas);
@@ -2235,7 +2241,8 @@ e_table_commit_click_to_add (ETable *table)
 {
 	et_eti_leave_edit (table);
 	if (table->click_to_add)
-		e_table_click_to_add_commit (E_TABLE_CLICK_TO_ADD (table->click_to_add));
+		e_table_click_to_add_commit (
+			E_TABLE_CLICK_TO_ADD (table->click_to_add));
 }
 
 static void
@@ -2261,25 +2268,33 @@ et_get_property (GObject *object,
 		break;
 	case PROP_HADJUSTMENT:
 		if (etable->table_canvas)
-			g_object_get_property (G_OBJECT (etable->table_canvas), "hadjustment", value);
+			g_object_get_property (
+				G_OBJECT (etable->table_canvas),
+				"hadjustment", value);
 		else
 			g_value_set_object (value, NULL);
 		break;
 	case PROP_VADJUSTMENT:
 		if (etable->table_canvas)
-			g_object_get_property (G_OBJECT (etable->table_canvas), "vadjustment", value);
+			g_object_get_property (
+				G_OBJECT (etable->table_canvas),
+				"vadjustment", value);
 		else
 			g_value_set_object (value, NULL);
 		break;
 	case PROP_HSCROLL_POLICY:
 		if (etable->table_canvas)
-			g_object_get_property (G_OBJECT (etable->table_canvas), "hscroll-policy", value);
+			g_object_get_property (
+				G_OBJECT (etable->table_canvas),
+				"hscroll-policy", value);
 		else
 			g_value_set_enum (value, 0);
 		break;
 	case PROP_VSCROLL_POLICY:
 		if (etable->table_canvas)
-			g_object_get_property (G_OBJECT (etable->table_canvas), "vscroll-policy", value);
+			g_object_get_property (
+				G_OBJECT (etable->table_canvas),
+				"vscroll-policy", value);
 		else
 			g_value_set_enum (value, 0);
 		break;
@@ -2295,9 +2310,9 @@ typedef struct {
 
 static void
 et_set_property (GObject *object,
-		  guint prop_id,
-		  const GValue *value,
-		  GParamSpec *pspec)
+                 guint prop_id,
+                 const GValue *value,
+                 GParamSpec *pspec)
 {
 	ETable *etable = E_TABLE (object);
 
@@ -2305,17 +2320,21 @@ et_set_property (GObject *object,
 	case PROP_LENGTH_THRESHOLD:
 		etable->length_threshold = g_value_get_int (value);
 		if (etable->group) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etable->group),
-					       "length_threshold", etable->length_threshold,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etable->group),
+				"length_threshold",
+				etable->length_threshold,
+				NULL);
 		}
 		break;
 	case PROP_UNIFORM_ROW_HEIGHT:
 		etable->uniform_row_height = g_value_get_boolean (value);
 		if (etable->group) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etable->group),
-					       "uniform_row_height", etable->uniform_row_height,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etable->group),
+				"uniform_row_height",
+				etable->uniform_row_height,
+				NULL);
 		}
 		break;
 	case PROP_ALWAYS_SEARCH:
@@ -2333,23 +2352,27 @@ et_set_property (GObject *object,
 		clear_current_search_col (etable);
 
 		if (etable->use_click_to_add) {
-			etable->click_to_add = gnome_canvas_item_new
-				(GNOME_CANVAS_GROUP (etable->canvas_vbox),
-				 e_table_click_to_add_get_type (),
-				 "header", etable->header,
-				 "model", etable->model,
-				 "message", etable->click_to_add_message,
-				 NULL);
+			etable->click_to_add = gnome_canvas_item_new (
+				GNOME_CANVAS_GROUP (etable->canvas_vbox),
+				e_table_click_to_add_get_type (),
+				"header", etable->header,
+				"model", etable->model,
+				"message", etable->click_to_add_message,
+				NULL);
 
 			if (etable->use_click_to_add_end)
-				e_canvas_vbox_add_item (E_CANVAS_VBOX (etable->canvas_vbox),
-							etable->click_to_add);
+				e_canvas_vbox_add_item (
+					E_CANVAS_VBOX (etable->canvas_vbox),
+					etable->click_to_add);
 			else
-				e_canvas_vbox_add_item_start (E_CANVAS_VBOX (etable->canvas_vbox),
-							      etable->click_to_add);
+				e_canvas_vbox_add_item_start (
+					E_CANVAS_VBOX (etable->canvas_vbox),
+					etable->click_to_add);
 
-			g_signal_connect (G_OBJECT (etable->click_to_add), "cursor_change",
-					  G_CALLBACK (click_to_add_cursor_change), etable);
+			g_signal_connect (
+				etable->click_to_add, "cursor_change",
+				G_CALLBACK (click_to_add_cursor_change),
+				etable);
 		} else {
 			g_object_run_dispose (G_OBJECT (etable->click_to_add));
 			etable->click_to_add = NULL;
@@ -2357,19 +2380,27 @@ et_set_property (GObject *object,
 		break;
 	case PROP_HADJUSTMENT:
 		if (etable->table_canvas)
-			g_object_set_property (G_OBJECT (etable->table_canvas), "hadjustment", value);
+			g_object_set_property (
+				G_OBJECT (etable->table_canvas),
+				"hadjustment", value);
 		break;
 	case PROP_VADJUSTMENT:
 		if (etable->table_canvas)
-			g_object_set_property (G_OBJECT (etable->table_canvas), "vadjustment", value);
+			g_object_set_property (
+				G_OBJECT (etable->table_canvas),
+				"vadjustment", value);
 		break;
 	case PROP_HSCROLL_POLICY:
 		if (etable->table_canvas)
-			g_object_set_property (G_OBJECT (etable->table_canvas), "hscroll-policy", value);
+			g_object_set_property (
+				G_OBJECT (etable->table_canvas),
+				"hscroll-policy", value);
 		break;
 	case PROP_VSCROLL_POLICY:
 		if (etable->table_canvas)
-			g_object_set_property (G_OBJECT (etable->table_canvas), "vscroll-policy", value);
+			g_object_set_property (
+				G_OBJECT (etable->table_canvas),
+				"vscroll-policy", value);
 		break;
 	}
 }

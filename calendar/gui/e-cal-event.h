@@ -62,9 +62,13 @@ struct _ECalEventClass {
 	EEventClass event_class;
 };
 
-GType                     e_cal_event_get_type (void);
-ECalEvent*                e_cal_event_peek (void);
-ECalEventTargetBackend* e_cal_event_target_new_module (ECalEvent *ece, EShellBackend *shell_backend, ESourceList *source_list, guint32 flags);
+GType		e_cal_event_get_type		(void);
+ECalEvent *	e_cal_event_peek		(void);
+ECalEventTargetBackend *
+		e_cal_event_target_new_module	(ECalEvent *ece,
+						 EShellBackend *shell_backend,
+						 ESourceList *source_list,
+						 guint32 flags);
 
 G_END_DECLS
 

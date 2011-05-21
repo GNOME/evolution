@@ -123,7 +123,8 @@ g_utf8_strncasecmp (const gchar *s1,
 			c1 = g_unichar_tolower (g_utf8_get_char (s1));
 			c2 = g_unichar_tolower (g_utf8_get_char (s2));
 
-			/* Collation is locale-dependent, so this totally fails to do the right thing. */
+			/* Collation is locale-dependent, so this
+			 * totally fails to do the right thing. */
 			if (c1 != c2)
 				return c1 < c2 ? -1 : 1;
 

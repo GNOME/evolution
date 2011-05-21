@@ -3461,6 +3461,7 @@ obj_removed_cb (ECal *client,
 {
 	CompEditorPrivate *priv = editor->priv;
 
-	if (changed_component_dialog ((GtkWindow *) editor, priv->comp, TRUE, priv->changed))
+	if (changed_component_dialog (
+		GTK_WINDOW (editor), priv->comp, TRUE, priv->changed))
 		close_dialog (editor);
 }

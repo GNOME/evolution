@@ -228,7 +228,8 @@ weekday_picker_get_preferred_width (GtkWidget *widget,
 	wp = WEEKDAY_PICKER (widget);
 	priv = wp->priv;
 
-	*minimum_width = *natural_width = (priv->max_letter_width + 2 * PADDING + 1) * 7 + 1;
+	*minimum_width = *natural_width =
+		(priv->max_letter_width + 2 * PADDING + 1) * 7 + 1;
 }
 
 static void

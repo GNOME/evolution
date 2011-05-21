@@ -22,9 +22,11 @@
 #include <libgnomecanvas/gnome-canvas-widget.h>
 #include "gailcanvaswidget.h"
 
-static gint       gail_canvas_widget_get_n_children           (AtkObject            *obj);
-static AtkObject* gail_canvas_widget_ref_child                (AtkObject            *obj,
-                                                               gint                 i);
+static gint	gail_canvas_widget_get_n_children
+						(AtkObject *obj);
+static AtkObject *
+		gail_canvas_widget_ref_child	(AtkObject *obj,
+                                                 gint i);
 
 G_DEFINE_TYPE (GailCanvasWidget,
 	       gail_canvas_widget,

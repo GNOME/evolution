@@ -104,7 +104,9 @@ alarm_ready_cb (gpointer data)
 		ar_copy = *ar;
 		ar = &ar_copy;
 
-		pop_alarm (); /* This will free the original AlarmRecord; that's why we copy it */
+		/* This will free the original AlarmRecord;
+		 * that's why we copy it. */
+		pop_alarm ();
 
 		(* ar->alarm_fn) (notify_id, ar->trigger, ar->data);
 
@@ -260,7 +262,10 @@ alarm_remove (gpointer alarm)
 	if (old_head == ar) {
 		ar_copy = *ar;
 		ar = &ar_copy;
-		pop_alarm (); /* This will free the original AlarmRecord; that's why we copy it */
+
+		/* This will free the original AlarmRecord;
+		 * that's why we copy it. */
+		pop_alarm ();
 	} else {
 		alarms = g_list_delete_link (alarms, l);
 	}

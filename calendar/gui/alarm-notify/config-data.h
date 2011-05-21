@@ -32,21 +32,27 @@
 #include <gconf/gconf-client.h>
 #include <libedataserver/e-source-list.h>
 
-GConfClient  *config_data_get_conf_client (void);
+GConfClient *	config_data_get_conf_client	(void);
+icaltimezone *	config_data_get_timezone	(void);
+gboolean	config_data_get_24_hour_format	(void);
+gboolean	config_data_get_notify_with_tray
+						(void);
+void		config_data_set_last_notification_time
+						(ECal *cal,
+						 time_t t);
+time_t		config_data_get_last_notification_time
+						(ECal *cal);
+void		config_data_save_blessed_program
+						(const gchar *program);
+gboolean	config_data_is_blessed_program	(const gchar *program);
+ESourceList *	config_data_get_calendars	(const gchar *);
+void		config_data_replace_string_list	(const gchar *,
+						 const gchar *,
+						 const gchar *);
 
-icaltimezone *config_data_get_timezone (void);
-gboolean      config_data_get_24_hour_format (void);
-gboolean      config_data_get_notify_with_tray (void);
-void          config_data_set_last_notification_time (ECal *cal, time_t t);
-time_t        config_data_get_last_notification_time (ECal *cal);
-void          config_data_save_blessed_program (const gchar *program);
-gboolean      config_data_is_blessed_program (const gchar *program);
-ESourceList  *config_data_get_calendars (const gchar *);
-void	      config_data_replace_string_list (const gchar *, const gchar *, const gchar *);
-
-void config_data_init_debugging (void);
-gboolean config_data_start_debugging (void);
-void config_data_stop_debugging (void);
+void		config_data_init_debugging	(void);
+gboolean	config_data_start_debugging	(void);
+void		config_data_stop_debugging	(void);
 
 #define debug(x) G_STMT_START {					\
 	if (config_data_start_debugging ()) {			\

@@ -272,15 +272,6 @@ Miscellaneous Utilities
 @Returns: 
 
 
-<!-- ##### FUNCTION get_font_options ##### -->
-<para>
-
-</para>
-
-@void: 
-@Returns: 
-
-
 <!-- ##### FUNCTION e_file_lock_create ##### -->
 <para>
 

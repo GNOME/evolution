@@ -185,11 +185,8 @@ cell_toggle_draw (ECellView *ecell_view,
 
 	priv = E_CELL_TOGGLE (ecell_view->ecell)->priv;
 
-	if (value < 0 || value >= priv->pixbufs->len) {
-		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
-			   value, priv->pixbufs->len);
+	if (value < 0 || value >= priv->pixbufs->len)
 		return;
-	}
 
 	image = g_ptr_array_index (priv->pixbufs, value);
 
@@ -238,7 +235,8 @@ cell_toggle_event (ECellView *ecell_view,
                    ECellActions *actions)
 {
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
-	gpointer _value = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
+	gpointer _value = e_table_model_value_at (
+		ecell_view->e_table_model, model_col, row);
 	const gint value = GPOINTER_TO_INT (_value);
 
 	switch (event->type) {
@@ -290,11 +288,8 @@ cell_toggle_print (ECellView *ecell_view,
 
 	priv = E_CELL_TOGGLE (ecell_view->ecell)->priv;
 
-	if (value >= priv->pixbufs->len) {
-		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
-				value, priv->pixbufs->len);
+	if (value >= priv->pixbufs->len)
 		return;
-	}
 
 	image = g_ptr_array_index (priv->pixbufs, value);
 	if (image) {

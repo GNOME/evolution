@@ -329,7 +329,9 @@ e_mail_store_add_by_account (EMailSession *session,
 		g_free (transport_uid);
 
 		if (transport_error) {
-			g_warning ("%s: Failed to add transport service: %s", G_STRFUNC, transport_error->message);
+			g_warning (
+				"%s: Failed to add transport service: %s",
+				G_STRFUNC, transport_error->message);
 			g_error_free (transport_error);
 		}
 	}

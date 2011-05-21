@@ -133,8 +133,10 @@ mbox_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 		session, _("Select folder"),
 		_("Select folder to import into"));
 	gtk_label_set_mnemonic_widget (label, w);
-	em_folder_selection_button_set_selection ((EMFolderSelectionButton *) w, select_uri);
-	folder_selected (EM_FOLDER_SELECTION_BUTTON (w), (EImportTargetURI *) target);
+	em_folder_selection_button_set_selection (
+		EM_FOLDER_SELECTION_BUTTON (w), select_uri);
+	folder_selected (
+		EM_FOLDER_SELECTION_BUTTON (w), (EImportTargetURI *) target);
 	g_signal_connect (w, "selected", G_CALLBACK(folder_selected), target);
 	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, TRUE, 6);
 

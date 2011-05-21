@@ -1036,12 +1036,14 @@ process_name (CERTName *name, gchar **value)
 
 			SECITEM_FreeItem (decodeItem, PR_TRUE);
 
-			/* Translators: This string is used in Certificate details for fields like Issuer
-			   or Subject, which shows the field name on the left and its respective value
-			   on the right, both as stored in the certificate itself. You probably do not
-			   need to change this string, unless changing the order of name and value.
-			   As a result example: "OU = VeriSign Trust Network"
-			*/
+			/* Translators: This string is used in Certificate
+			 * details for fields like Issuer or Subject, which
+			 * shows the field name on the left and its respective
+			 * value on the right, both as stored in the
+			 * certificate itself.  You probably do not need to
+			 * change this string, unless changing the order of
+			 * name and value.  As a result example:
+			 * "OU = VeriSign Trust Network" */
 			temp = g_strdup_printf (_("%s = %s"), type, avavalue->str);
 
 			g_string_append (final_string, temp);

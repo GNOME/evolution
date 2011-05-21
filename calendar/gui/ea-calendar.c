@@ -66,8 +66,10 @@ gnome_calendar_a11y_init (void)
 		pixbuf_type = g_type_class_ref (GNOME_TYPE_CANVAS_PIXBUF);
 		e_day_view_type = g_type_class_ref (e_day_view_get_type ());
 		e_week_view_type = g_type_class_ref (E_TYPE_WEEK_VIEW);
-		e_day_view_main_item_type = g_type_class_ref (e_day_view_main_item_get_type ());
-		e_week_view_main_item_type = g_type_class_ref (e_week_view_main_item_get_type ());
+		e_day_view_main_item_type = g_type_class_ref (
+			e_day_view_main_item_get_type ());
+		e_week_view_main_item_type = g_type_class_ref (
+			e_week_view_main_item_get_type ());
 
 		g_signal_add_emission_hook (g_signal_lookup ("event", E_TYPE_TEXT),
 					    0, ea_calendar_focus_watcher,

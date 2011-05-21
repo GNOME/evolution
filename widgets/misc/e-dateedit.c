@@ -1944,23 +1944,26 @@ e_date_edit_update_date_entry		(EDateEdit	*dedit)
 
 /* This sets the text in the time entry according to the current settings. */
 static void
-e_date_edit_update_time_entry		(EDateEdit	*dedit)
+e_date_edit_update_time_entry (EDateEdit *dedit)
 {
 	EDateEditPrivate *priv;
+	GtkComboBox *combo_box;
 	GtkWidget *child;
 	gchar buffer[40];
 	struct tm tmp_tm = { 0 };
 
 	priv = dedit->priv;
 
+	combo_box = GTK_COMBO_BOX (priv->time_combo);
 	child = gtk_bin_get_child (GTK_BIN (priv->time_combo));
 
 	if (priv->time_set_to_none || !priv->time_is_valid) {
-		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->time_combo), -1);
+		gtk_combo_box_set_active (combo_box, -1);
 		gtk_entry_set_text (GTK_ENTRY (child), "");
 	} else {
 		GtkTreeModel *model;
 		GtkTreeIter iter;
+		gboolean valid;
 		gchar *b;
 
 		/* Set these to reasonable values just in case. */
@@ -1975,15 +1978,19 @@ e_date_edit_update_time_entry		(EDateEdit	*dedit)
 		tmp_tm.tm_isdst = -1;
 
 		if (priv->use_24_hour_format)
-			/* This is a strftime() format. %H = hour (0-23), %M = minute. */
-			e_time_format_time (&tmp_tm, 1, 0, buffer, sizeof (buffer));
+			/* This is a strftime() format.
+			 * %H = hour (0-23), %M = minute. */
+			e_time_format_time (
+				&tmp_tm, 1, 0, buffer, sizeof (buffer));
 		else
-			/* This is a strftime() format. %I = hour (1-12),
-			 * %M = minute, %p = am/pm string. */
-			e_time_format_time (&tmp_tm, 0, 0, buffer, sizeof (buffer));
+			/* This is a strftime() format.
+			 * %I = hour (1-12), %M = minute, %p = am/pm. */
+			e_time_format_time (
+				&tmp_tm, 0, 0, buffer, sizeof (buffer));
 
-		/* For 12-hour am/pm format, we want space padding, not zero padding. This
-		 * can be done with strftime's %l, but it's a potentially unportable extension. */
+		/* For 12-hour am/pm format, we want space padding, not
+		 * zero padding.  This can be done with strftime's %l,
+		 * but it's a potentially unportable extension. */
 		if (!priv->use_24_hour_format && buffer[0] == '0')
 			buffer[0] = ' ';
 
@@ -1994,28 +2001,31 @@ e_date_edit_update_time_entry		(EDateEdit	*dedit)
 		while (*b == ' ')
 			b++;
 
-		model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->time_combo));
-		if (gtk_tree_model_get_iter_first (model, &iter)) {
-			do {
-				gchar *text = NULL;
+		model = gtk_combo_box_get_model (combo_box);
+		valid = gtk_tree_model_get_iter_first (model, &iter);
 
-				gtk_tree_model_get (model, &iter, 0, &text, -1);
-				if (text) {
-					gchar *t = text;
+		while (valid) {
+			gchar *text = NULL;
 
-					/* truncate left spaces */
-					while (*t == ' ')
-						t++;
+			gtk_tree_model_get (model, &iter, 0, &text, -1);
+			if (text) {
+				gchar *t = text;
 
-					if (strcmp (b, t) == 0) {
-						gtk_combo_box_set_active_iter (GTK_COMBO_BOX (priv->time_combo), &iter);
-						g_free (text);
-						break;
-					}
+				/* truncate left spaces */
+				while (*t == ' ')
+					t++;
+
+				if (strcmp (b, t) == 0) {
+					gtk_combo_box_set_active_iter (
+						combo_box, &iter);
+					g_free (text);
+					break;
 				}
+			}
 
-				g_free (text);
-			} while (gtk_tree_model_iter_next (model, &iter));
+			g_free (text);
+
+			valid = gtk_tree_model_iter_next (model, &iter);
 		}
 	}
 

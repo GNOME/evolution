@@ -1827,7 +1827,10 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 				}
 
 				start_editing (text);
-				text->show_cursor = FALSE; /* so we'll redraw and the cursor will be shown */
+
+				/* So we'll redraw and the
+				 * cursor will be shown. */
+				text->show_cursor = FALSE;
 			} else {
 				if (text->im_context) {
 					gtk_im_context_focus_out (text->im_context);
@@ -2190,10 +2193,9 @@ e_text_paste (EText *text, GdkAtom selection)
 {
 	g_object_ref (text);
 	gtk_clipboard_request_text (
-
-				    gtk_widget_get_clipboard (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
-							      selection),
-				    paste_received, text);
+		gtk_widget_get_clipboard (
+		GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
+		selection), paste_received, text);
 }
 
 typedef struct {

@@ -935,9 +935,9 @@ gnome_canvas_text_get_property (GObject            *object,
 		switch (param_id) {
 		case PROP_FONT:
 		{
-			/* FIXME GValue imposes a totally gratuitous string copy
-			 * here, we could just hand off string ownership
-			 */
+			/* FIXME GValue imposes a totally gratuitous string
+			 *       copy here, we could just hand off string
+			 *       ownership. */
 			gchar *str;
 
 			str = pango_font_description_to_string (text->font_desc);
@@ -952,34 +952,52 @@ gnome_canvas_text_get_property (GObject            *object,
 			break;
 
 		case PROP_FAMILY:
-			g_value_set_string (value, pango_font_description_get_family (text->font_desc));
+			g_value_set_string (
+				value,
+				pango_font_description_get_family (
+				text->font_desc));
 			break;
 
 		case PROP_STYLE:
-			g_value_set_enum (value, pango_font_description_get_style (text->font_desc));
+			g_value_set_enum (
+				value,
+				pango_font_description_get_style (
+				text->font_desc));
 			break;
 
 		case PROP_VARIANT:
-			g_value_set_enum (value, pango_font_description_get_variant (text->font_desc));
+			g_value_set_enum (
+				value,
+				pango_font_description_get_variant (
+				text->font_desc));
 			break;
 
 		case PROP_WEIGHT:
-			g_value_set_int (value, pango_font_description_get_weight (text->font_desc));
+			g_value_set_int (
+				value,
+				pango_font_description_get_weight (
+				text->font_desc));
 			break;
 
 		case PROP_STRETCH:
-			g_value_set_enum (value, pango_font_description_get_stretch (text->font_desc));
+			g_value_set_enum (
+				value,
+				pango_font_description_get_stretch (
+				text->font_desc));
 			break;
 
 		case PROP_SIZE:
-			g_value_set_int (value, pango_font_description_get_size (text->font_desc));
+			g_value_set_int (
+				value,
+				pango_font_description_get_size (
+				text->font_desc));
 			break;
 
 		case PROP_SIZE_POINTS:
 			g_value_set_double (
 				value, ((gdouble)
-				pango_font_description_get_size (text->font_desc)) /
-				(gdouble) PANGO_SCALE);
+				pango_font_description_get_size (
+				text->font_desc)) / (gdouble) PANGO_SCALE);
 			break;
 		}
 		break;

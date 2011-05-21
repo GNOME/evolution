@@ -393,7 +393,8 @@ static GOptionEntry entries[] = {
 	  N_("Import URIs or file names given as rest of arguments."), NULL },
 	{ "quit", 'q', 0, G_OPTION_ARG_NONE, &quit,
 	  N_("Request a running Evolution process to quit"), NULL },
-	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &remaining_args, NULL, NULL },
+	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY,
+	  &remaining_args, NULL, NULL },
 	{ NULL }
 };
 

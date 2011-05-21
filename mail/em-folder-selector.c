@@ -164,7 +164,12 @@ folder_activated_cb (EMFolderTree *emft,
 }
 
 void
-em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint32 flags, const gchar *title, const gchar *text, const gchar *oklabel)
+em_folder_selector_construct (EMFolderSelector *emfs,
+                              EMFolderTree *emft,
+                              guint32 flags,
+                              const gchar *title,
+                              const gchar *text,
+                              const gchar *oklabel)
 {
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -179,15 +184,23 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 
 	emfs->flags = flags;
 	if (flags & EM_FOLDER_SELECTOR_CAN_CREATE) {
-		gtk_dialog_add_button (GTK_DIALOG (emfs), GTK_STOCK_NEW, EM_FOLDER_SELECTOR_RESPONSE_NEW);
-		g_signal_connect (emfs, "response", G_CALLBACK (emfs_response), emfs);
+		gtk_dialog_add_button (
+			GTK_DIALOG (emfs), GTK_STOCK_NEW,
+			EM_FOLDER_SELECTOR_RESPONSE_NEW);
+		g_signal_connect (
+			emfs, "response",
+			G_CALLBACK (emfs_response), emfs);
 	}
 
-	gtk_dialog_add_buttons (GTK_DIALOG (emfs), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				oklabel?oklabel:GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+	gtk_dialog_add_buttons (
+		GTK_DIALOG (emfs),
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		oklabel ? oklabel : GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 
-	gtk_dialog_set_response_sensitive (GTK_DIALOG (emfs), GTK_RESPONSE_OK, FALSE);
-	gtk_dialog_set_default_response (GTK_DIALOG (emfs), GTK_RESPONSE_OK);
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (emfs), GTK_RESPONSE_OK, FALSE);
+	gtk_dialog_set_default_response (
+		GTK_DIALOG (emfs), GTK_RESPONSE_OK);
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
@@ -202,8 +215,12 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (emft));
 	gtk_widget_show (GTK_WIDGET (emft));
 
-	g_signal_connect (emfs->emft, "folder-selected", G_CALLBACK (folder_selected_cb), emfs);
-	g_signal_connect (emfs->emft, "folder-activated", G_CALLBACK (folder_activated_cb), emfs);
+	g_signal_connect (
+		emfs->emft, "folder-selected",
+		G_CALLBACK (folder_selected_cb), emfs);
+	g_signal_connect (
+		emfs->emft, "folder-activated",
+		G_CALLBACK (folder_activated_cb), emfs);
 
 	if (text != NULL) {
 		widget = gtk_label_new (text);
@@ -275,10 +292,17 @@ em_folder_selector_create_new (GtkWindow *parent,
 	w = gtk_label_new_with_mnemonic (_("Folder _name:"));
 	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, FALSE, 6);
 	emfs->name_entry = (GtkEntry *) gtk_entry_new ();
-	gtk_label_set_mnemonic_widget (GTK_LABEL (w), (GtkWidget *) emfs->name_entry);
-	g_signal_connect (emfs->name_entry, "changed", G_CALLBACK (emfs_create_name_changed), emfs);
-	g_signal_connect (emfs->name_entry, "activate", G_CALLBACK (emfs_create_name_activate), emfs);
-	gtk_box_pack_start ((GtkBox *) hbox, (GtkWidget *) emfs->name_entry, TRUE, FALSE, 6);
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (w), (GtkWidget *) emfs->name_entry);
+	g_signal_connect (
+		emfs->name_entry, "changed",
+		G_CALLBACK (emfs_create_name_changed), emfs);
+	g_signal_connect (
+		emfs->name_entry, "activate",
+		G_CALLBACK (emfs_create_name_activate), emfs);
+	gtk_box_pack_start (
+		(GtkBox *) hbox, (GtkWidget *) emfs->name_entry,
+		TRUE, FALSE, 6);
 	gtk_widget_show_all (hbox);
 
 	container = gtk_dialog_get_content_area (GTK_DIALOG (emfs));
@@ -332,7 +356,10 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 		} else {
 			gchar *path;
 
-			path = g_strdup_printf("%s/%s", (url->path == NULL || strcmp(url->path, "/") == 0) ? "":url->path, name);
+			path = g_strdup_printf (
+				"%s/%s", (url->path == NULL ||
+				strcmp (url->path, "/") == 0) ? "":
+				url->path, name);
 			camel_url_set_path (url, path);
 			if (path[0] == '/') {
 				newpath = g_strdup (path+1);

@@ -286,7 +286,8 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 	} else
 		canvas->new_current_item = NULL;
 
-	if ((canvas->new_current_item == canvas->current_item) && !canvas->left_grabbed_item)
+	if ((canvas->new_current_item == canvas->current_item) &&
+			!canvas->left_grabbed_item)
 		return retval; /* current item did not change */
 
 	/* Synthesize events for old and new current items */

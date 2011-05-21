@@ -557,7 +557,8 @@ e_addressbook_reflow_adapter_get_type (void)
 			(GInstanceInitFunc) e_addressbook_reflow_adapter_init,
 		};
 
-		type = g_type_register_static (PARENT_TYPE, "EAddressbookReflowAdapter", &info, 0);
+		type = g_type_register_static (
+			PARENT_TYPE, "EAddressbookReflowAdapter", &info, 0);
 	}
 
 	return type;

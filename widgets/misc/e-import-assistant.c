@@ -1027,7 +1027,8 @@ set_import_uris (EImportAssistant *assistant, gchar **uris)
 
 				furi = g_filename_to_uri (filename, NULL, NULL);
 				target = e_import_target_new_uri (priv->import, furi, NULL);
-				importers = e_import_get_importers (priv->import, (EImportTarget *) target);
+				importers = e_import_get_importers (
+					priv->import, (EImportTarget *) target);
 
 				if (importers != NULL) {
 					/* there is at least one importer which can be used,
@@ -1291,38 +1292,48 @@ import_assistant_construct (EImportAssistant *import_assistant)
 		gtk_widget_show (page);
 
 		gtk_assistant_append_page (assistant, page);
-		gtk_assistant_set_page_title (assistant, page, _("Evolution Import Assistant"));
-		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_INTRO);
+		gtk_assistant_set_page_title (
+			assistant, page, _("Evolution Import Assistant"));
+		gtk_assistant_set_page_type (
+			assistant, page, GTK_ASSISTANT_PAGE_INTRO);
 		gtk_assistant_set_page_complete (assistant, page, TRUE);
 
 		/* Intelligent or direct import page */
 		page = import_assistant_type_page_init (import_assistant);
 
 		gtk_assistant_append_page (assistant, page);
-		gtk_assistant_set_page_title (assistant, page, _("Importer Type"));
-		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
+		gtk_assistant_set_page_title (
+			assistant, page, _("Importer Type"));
+		gtk_assistant_set_page_type (
+			assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 		gtk_assistant_set_page_complete (assistant, page, TRUE);
 
 		/* Intelligent importer source page */
 		page = import_assistant_selection_page_init (import_assistant);
 
 		gtk_assistant_append_page (assistant, page);
-		gtk_assistant_set_page_title (assistant, page, _("Select Information to Import"));
-		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
+		gtk_assistant_set_page_title (
+			assistant, page, _("Select Information to Import"));
+		gtk_assistant_set_page_type (
+			assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 
 		/* File selection and file type page */
 		page = import_assistant_file_page_init (import_assistant);
 
 		gtk_assistant_append_page (assistant, page);
-		gtk_assistant_set_page_title (assistant, page, _("Select a File"));
-		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
+		gtk_assistant_set_page_title (
+			assistant, page, _("Select a File"));
+		gtk_assistant_set_page_type (
+			assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 
 		/* File destination page */
 		page = import_assistant_destination_page_init (import_assistant);
 
 		gtk_assistant_append_page (assistant, page);
-		gtk_assistant_set_page_title (assistant, page, _("Import Location"));
-		gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
+		gtk_assistant_set_page_title (
+			assistant, page, _("Import Location"));
+		gtk_assistant_set_page_type (
+			assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 
 		/* Finish page */
 		page = gtk_label_new ("");

@@ -77,7 +77,8 @@ e_cal_event_get_type (void)
 			(GInstanceInitFunc) ece_init
 		};
 		ece_parent = g_type_class_ref (e_event_get_type ());
-		type = g_type_register_static (e_event_get_type (), "ECalEvent", &info, 0);
+		type = g_type_register_static (
+			e_event_get_type (), "ECalEvent", &info, 0);
 	}
 
 	return type;
@@ -89,15 +90,23 @@ e_cal_event_peek (void)
 	static ECalEvent *e_cal_event = NULL;
 	if (!e_cal_event) {
 		e_cal_event = g_object_new (e_cal_event_get_type (), NULL);
-		e_event_construct (&e_cal_event->event, "org.gnome.evolution.calendar.events");
+		e_event_construct (
+			&e_cal_event->event,
+			"org.gnome.evolution.calendar.events");
 	}
 	return e_cal_event;
 }
 
 ECalEventTargetBackend *
-e_cal_event_target_new_module (ECalEvent *ece, EShellBackend *shell_backend, ESourceList *source_list, guint32 flags)
+e_cal_event_target_new_module (ECalEvent *ece,
+                               EShellBackend *shell_backend,
+                               ESourceList *source_list,
+                               guint32 flags)
 {
-	ECalEventTargetBackend *t = e_event_target_new (&ece->event, E_CAL_EVENT_TARGET_BACKEND, sizeof (*t));
+	ECalEventTargetBackend *t;
+
+	t = e_event_target_new (
+		&ece->event, E_CAL_EVENT_TARGET_BACKEND, sizeof (*t));
 
 	t->shell_backend = g_object_ref (shell_backend);
 	t->source_list = g_object_ref (source_list);

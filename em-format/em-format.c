@@ -2068,7 +2068,8 @@ emf_application_mbox (EMFormat *emf,
 		message = camel_mime_message_new ();
 		mime_part = CAMEL_MIME_PART (message);
 
-		if (!camel_mime_part_construct_from_parser_sync (mime_part, parser, NULL, NULL)) {
+		if (!camel_mime_part_construct_from_parser_sync (
+			mime_part, parser, NULL, NULL)) {
 			g_object_unref (message);
 			break;
 		}

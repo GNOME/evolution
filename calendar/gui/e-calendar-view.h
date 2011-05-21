@@ -87,13 +87,20 @@ typedef struct {
 	E_CALENDAR_VIEW_EVENT_FIELDS
 } ECalendarViewEvent;
 
-/* checks if event->comp_data is not NULL, returns FALSE when it is and prints a warning on a console */
-gboolean is_comp_data_valid_func (ECalendarViewEvent *event, const gchar *location);
-#define is_comp_data_valid(_event) is_comp_data_valid_func ((ECalendarViewEvent *) (_event), G_STRFUNC)
+/* checks if event->comp_data is not NULL, returns FALSE
+ * when it is and prints a warning on a console */
+gboolean	is_comp_data_valid_func		(ECalendarViewEvent *event,
+						 const gchar *location);
+#define is_comp_data_valid(_event) \
+	is_comp_data_valid_func ((ECalendarViewEvent *) (_event), G_STRFUNC)
 
-/* checks if index is within bounds for the array; returns FALSE when not, and prints a warning on a console */
-gboolean is_array_index_in_bounds_func (GArray *array, gint index, const gchar *location);
-#define is_array_index_in_bounds(_array, _index) is_array_index_in_bounds_func (_array, _index, G_STRFUNC)
+/* checks if index is within bounds for the array; returns
+ * FALSE when not, and prints a warning on a console */
+gboolean	is_array_index_in_bounds_func	(GArray *array,
+						 gint index,
+						 const gchar *location);
+#define is_array_index_in_bounds(_array, _index) \
+	is_array_index_in_bounds_func (_array, _index, G_STRFUNC)
 
 typedef struct _ECalendarView ECalendarView;
 typedef struct _ECalendarViewClass ECalendarViewClass;

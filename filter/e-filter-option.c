@@ -206,13 +206,20 @@ filter_option_xml_create (EFilterElement *element,
 
 					option->dynamic_func = g_strdup ((const gchar *) fn);
 
-					/* get options now, to have them available when reading saved rules */
+					/* Get options now, to have them
+					 * available when reading saved
+					 * rules. */
 					items = filter_option_get_dynamic_options (option);
 					for (i = items; i; i = i->next) {
 						op = i->data;
 
 						if (op) {
-							e_filter_option_add (option, op->value, op->title, op->code, TRUE);
+							e_filter_option_add (
+								option,
+								op->value,
+								op->title,
+								op->code,
+								TRUE);
 							free_option (op);
 						}
 					}

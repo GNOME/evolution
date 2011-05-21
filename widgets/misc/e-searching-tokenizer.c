@@ -51,7 +51,8 @@ G_DEFINE_TYPE (
 
 /* Utility functions */
 
-/* This is faster and safer than glib2's utf8 abomination, but isn't exported from camel as yet */
+/* This is faster and safer than glib2's utf8 abomination,
+ * but isn't exported from camel as yet */
 static inline guint32
 camel_utf8_getc (const guchar **ptr)
 {
@@ -89,7 +90,8 @@ loop:
 	return v;
 }
 
-/* note: our tags of interest are 7 bit ascii, only, no need to do any fancy utf8 stuff */
+/* note: our tags of interest are 7 bit ascii
+ * only no need to do any fancy utf8 stuff */
 /* tags should be upper case
    if this list gets longer than 10 entries, consider binary search */
 static const gchar *ignored_tags[] = {
@@ -246,7 +248,10 @@ build_trie (gint nocase, gint len, guchar **words)
 				q->final = 0;
 				if (state_depth_max < depth) {
 					state_depth_max += 64;
-					state_depth = g_realloc (state_depth, sizeof (*state_depth[0])*state_depth_max);
+					state_depth = g_realloc (
+						state_depth,
+						sizeof (*state_depth[0]) *
+						state_depth_max);
 				}
 				if (state_depth_size < depth) {
 					state_depth[depth] = NULL;
@@ -369,14 +374,20 @@ struct _searcher {
 };
 
 static void
-searcher_set_tokenfunc (struct _searcher *s, gchar *(*next)(), gpointer data)
+searcher_set_tokenfunc (struct _searcher *s,
+                        gchar *(*next)(),
+                        gpointer data)
 {
 	s->next_token = next;
 	s->next_data = data;
 }
 
 static struct _searcher *
-searcher_new (gint flags, gint argc, guchar **argv, const gchar *tags, const gchar *tage)
+searcher_new (gint flags,
+              gint argc,
+              guchar **argv,
+              const gchar *tags,
+              const gchar *tage)
 {
 	gint i, m;
 	struct _searcher *s;
@@ -457,10 +468,8 @@ output_token (struct _searcher *s, struct _token *token)
 
 	if (token->tok[0] == TAG_ESCAPE) {
 		if (token->offset >= s->offout) {
-			d (printf("moving tag token '%s' from input to output\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 			g_queue_push_tail (&s->output, token);
 		} else {
-			d (printf("discarding tag token '%s' from input\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 			free_token (token);
 		}
 	} else {
@@ -470,11 +479,9 @@ output_token (struct _searcher *s, struct _token *token)
 			pre = s->offout - token->offset;
 			if (pre>0)
 				memmove (token->tok, token->tok+pre, left+1);
-			d (printf("adding partial remaining/failed '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 			s->offout = offend;
 			g_queue_push_tail (&s->output, token);
 		} else {
-			d (printf("discarding whole token '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 			free_token (token);
 		}
 	}
@@ -516,20 +523,18 @@ output_match (struct _searcher *s, guint start, guint end)
 		return;
 	}
 
-	d (printf("start in token '%s'\n", starttoken->tok[0]==TAG_ESCAPE?starttoken->tok+1:starttoken->tok));
-	d (printf("end in token   '%s'\n", endtoken->tok[0]==TAG_ESCAPE?endtoken->tok+1:endtoken->tok));
-
 	/* output pending stuff that didn't match afterall */
 	while ((struct _token *) g_queue_peek_head (&s->input) != starttoken) {
 		token = g_queue_pop_head (&s->input);
-		d (printf("appending failed match '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 		output_token (s, token);
 	}
 
 	/* output any pre-match text */
 	if (s->offout < start) {
-		token = append_token (&s->output, starttoken->tok + (s->offout-starttoken->offset), start-s->offout);
-		d (printf("adding pre-match text '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
+		token = append_token (
+			&s->output, starttoken->tok +
+			(s->offout-starttoken->offset),
+			start-s->offout);
 		s->offout = start;
 	}
 
@@ -545,15 +550,16 @@ output_match (struct _searcher *s, guint start, guint end)
 	if (starttoken != endtoken) {
 		while ((struct _token *) g_queue_peek_head (&s->input) != endtoken) {
 			token = g_queue_pop_head (&s->input);
-			d (printf("appending (partial) match node (head) '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 			output_token (s, token);
 		}
 	}
 
 	/* any remaining partial content */
 	if (s->offout < end) {
-		token = append_token (&s->output, endtoken->tok+(s->offout-endtoken->offset), end-s->offout);
-		d (printf("appending (partial) match node (tail) '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
+		token = append_token (
+			&s->output, endtoken->tok +
+			(s->offout-endtoken->offset),
+			end-s->offout);
 		s->offout = end;
 	}
 
@@ -608,7 +614,8 @@ merge_subpending (struct _searcher *s, gint offstart, gint offend)
 static void
 push_subpending (struct _searcher *s, gint offstart, gint offend)
 {
-	/* This is really an assertion, we just ignore the last pending match instead of crashing though */
+	/* This is really an assertion, we just ignore the
+	 * last pending match instead of crashing though. */
 	if (s->submatchp >= s->words) {
 		d (printf("ERROR: submatch pending stack overflow\n"));
 		s->submatchp = s->words-1;
@@ -619,7 +626,8 @@ push_subpending (struct _searcher *s, gint offstart, gint offend)
 	s->submatchp++;
 }
 
-/* move any (partial) tokens from input to output if they are beyond the current output position */
+/* move any (partial) tokens from input to output
+ * if they are beyond the current output position */
 static void
 output_pending (struct _searcher *s)
 {
@@ -679,8 +687,6 @@ searcher_next_token (struct _searcher *s)
 		token->offset = s->offset;
 		tok = (guchar *) token->tok;
 
-		d (printf("new token %d '%s'\n", token->offset, token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
-
 		/* tag test, reset state on unknown tags */
 		if (tok[0] == TAG_ESCAPE) {
 			if (!ignore_tag ((gchar *) tok)) {
@@ -728,8 +734,10 @@ searcher_next_token (struct _searcher *s)
 							push_subpending (s, offstart, offend);
 							/*output_match(s, offstart, offend);*/
 						} else if (g_queue_get_length (&s->input) > 8) {
-							/* we're continuing to match and merge, but we have a lot of stuff
-							   waiting, so flush it out now since this is a safe point to do it */
+							/* we're continuing to match and merge,
+							 * but we have a lot of stuff waiting,
+							 * so flush it out now since this is a
+							 * safe point to do it */
 							output_subpending (s);
 						}
 					} else {
@@ -895,7 +903,9 @@ search_info_to_searcher (struct _search_info *si)
 	tage = g_alloca (20);
 	sprintf(tage, "%c</font>", TAG_ESCAPE);
 
-	return searcher_new (si->flags, si->strv->len, (guchar **) si->strv->pdata, tags, tage);
+	return searcher_new (
+		si->flags, si->strv->len,
+		(guchar **) si->strv->pdata, tags, tage);
 }
 
 /* ********************************************************************** */

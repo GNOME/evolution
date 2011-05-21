@@ -161,7 +161,9 @@ plugin_mono_invoke (EPlugin *plugin,
 			}*/
 
 			while ((mono_method = mono_class_get_methods (priv->class, &iter))) {
-				g_print ("\n\a Method name is : <%s>\n\a", mono_method_get_name (mono_method));
+				g_print (
+					"\n\a Method name is : <%s>\n\a",
+					mono_method_get_name (mono_method));
 			}
 //mono_class_get_method_from_name
 			m = mono_class_get_method_from_name (priv->class, name, -1);

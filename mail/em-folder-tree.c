@@ -315,7 +315,10 @@ folder_tree_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 			return;
 		}
 	} else {
-		gint fully_loaded = (m->flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) ? TRUE : FALSE;
+		gint fully_loaded;
+
+		fully_loaded =
+			((m->flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) != 0);
 
 		do {
 			if (g_hash_table_lookup (si->full_hash, fi->full_name) == NULL) {
@@ -1787,7 +1790,11 @@ tree_drag_data_delete (GtkWidget *widget,
 	CamelStore *store;
 	GtkTreeIter iter;
 
-	if (!priv->drag_row || (src_path = gtk_tree_row_reference_get_path (priv->drag_row)))
+	if (!priv->drag_row)
+		return;
+
+	src_path = gtk_tree_row_reference_get_path (priv->drag_row);
+	if (src_path == NULL)
 		return;
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree));
@@ -2190,7 +2197,8 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 			if (gtk_tree_path_compare (path, src_path) == 0
 			    || gtk_tree_path_is_descendant (path, src_path)
 			    || (gtk_tree_path_is_ancestor (path, src_path)
-				&& gtk_tree_path_get_depth (path) == gtk_tree_path_get_depth (src_path)-1)) {
+				&& gtk_tree_path_get_depth (path) ==
+				   gtk_tree_path_get_depth (src_path) - 1)) {
 				gtk_tree_path_free (src_path);
 				goto done;
 			}

@@ -49,8 +49,11 @@ typedef struct _EMFormatHTMLPrintClass EMFormatHTMLPrintClass;
 struct _EMFormatHTMLPrint {
 	EMFormatHTML parent;
 
-	GtkWidget *window;	/* used to realise the gtkhtml in a toplevel, i dont know why */
-	EMFormatHTML *source; /* used for print_message */
+	/* Used to realize the gtkhtml in a toplevel. */
+	GtkWidget *window;
+
+	/* Used for print_message. */
+	EMFormatHTML *source;
 
 	GtkPrintOperationAction action;
 };

@@ -177,6 +177,7 @@ delete_clicked_cb (GtkButton *button, gpointer data)
 {
 	Dialog *dialog = data;
 	GtkTreeSelection *selection;
+	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GtkTreePath *path;
 	gboolean valid_iter;
@@ -187,14 +188,15 @@ delete_clicked_cb (GtkButton *button, gpointer data)
 		return;
 	}
 
-	path = gtk_tree_model_get_path (GTK_TREE_MODEL (dialog->list_store), &iter);
+	model = GTK_TREE_MODEL (dialog->list_store);
+	path = gtk_tree_model_get_path (model, &iter);
 	e_alarm_list_remove (dialog->list_store, &iter);
 
 	/* Select closest item after removal */
-	valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (dialog->list_store), &iter, path);
+	valid_iter = gtk_tree_model_get_iter (model, &iter, path);
 	if (!valid_iter) {
 		gtk_tree_path_prev (path);
-		valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (dialog->list_store), &iter, path);
+		valid_iter = gtk_tree_model_get_iter (model, &iter, path);
 	}
 
 	if (valid_iter)
@@ -235,26 +237,33 @@ init_widgets (Dialog *dialog)
 	GtkCellRenderer *cell_renderer;
 
 	/* View */
-	gtk_tree_view_set_model (GTK_TREE_VIEW (dialog->list),
-				 GTK_TREE_MODEL (dialog->list_store));
+	gtk_tree_view_set_model (
+		GTK_TREE_VIEW (dialog->list),
+		GTK_TREE_MODEL (dialog->list_store));
 
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_column_set_title (column, _("Action/Trigger"));
 	cell_renderer = GTK_CELL_RENDERER (gtk_cell_renderer_text_new ());
 	gtk_tree_view_column_pack_start (column, cell_renderer, TRUE);
-	gtk_tree_view_column_add_attribute (column, cell_renderer, "text", E_ALARM_LIST_COLUMN_DESCRIPTION);
+	gtk_tree_view_column_add_attribute (
+		column, cell_renderer,
+		"text", E_ALARM_LIST_COLUMN_DESCRIPTION);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (dialog->list), column);
 
 	/* Reminder buttons */
-	g_signal_connect (dialog->add, "clicked",
-			  G_CALLBACK (add_clicked_cb), dialog);
-	g_signal_connect (dialog->delete, "clicked",
-			  G_CALLBACK (delete_clicked_cb), dialog);
-	g_signal_connect (dialog->edit, "clicked",
-			  G_CALLBACK (edit_clicked_cb), dialog);
+	g_signal_connect (
+		dialog->add, "clicked",
+		G_CALLBACK (add_clicked_cb), dialog);
+	g_signal_connect (
+		dialog->delete, "clicked",
+		G_CALLBACK (delete_clicked_cb), dialog);
+	g_signal_connect (
+		dialog->edit, "clicked",
+		G_CALLBACK (edit_clicked_cb), dialog);
 
-	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (dialog->list)), "changed",
-			  G_CALLBACK (selection_changed_cb), dialog);
+	g_signal_connect (
+		gtk_tree_view_get_selection (GTK_TREE_VIEW (dialog->list)),
+		"changed", G_CALLBACK (selection_changed_cb), dialog);
 }
 
 gboolean
@@ -327,8 +336,13 @@ alarm_list_dialog_peek (ECal *ecal, EAlarmList *list_store)
 	g_object_unref (dialog->builder);
 
 	/* Free the other stuff when the parent really gets destroyed. */
-	g_object_set_data_full (G_OBJECT (dialog->box), "toplevel", dialog->toplevel, (GDestroyNotify) gtk_widget_destroy);
-	g_object_set_data_full (G_OBJECT (dialog->box), "dialog", dialog, g_free);
+	g_object_set_data_full (
+		G_OBJECT (dialog->box),
+		"toplevel", dialog->toplevel,
+		(GDestroyNotify) gtk_widget_destroy);
+	g_object_set_data_full (
+		G_OBJECT (dialog->box), "dialog",
+		dialog, (GDestroyNotify) g_free);
 
 	return dialog->box;
 }
