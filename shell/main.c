@@ -246,7 +246,7 @@ show_development_warning (void)
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
 
 static gboolean
-idle_cb (gchar **uris)
+idle_cb (const gchar * const *uris)
 {
 	EShell *shell;
 
