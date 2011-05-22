@@ -984,7 +984,8 @@ forward_cb (gint current_page,
 }
 
 static gboolean
-set_import_uris (EImportAssistant *assistant, gchar **uris)
+set_import_uris (EImportAssistant *assistant,
+                 const gchar * const *uris)
 {
 	EImportAssistantPrivate *priv;
 	GPtrArray *fileuris = NULL;
@@ -998,12 +999,12 @@ set_import_uris (EImportAssistant *assistant, gchar **uris)
 	priv = E_IMPORT_ASSISTANT (assistant)->priv;
 
 	for (i = 0; uris[i]; i++) {
-		gchar *uri = uris[i];
+		const gchar *uri = uris[i];
 		gchar *filename;
 
 		filename = g_filename_from_uri (uri, NULL, NULL);
 		if (!filename)
-			filename = uri;
+			filename = g_strdup (uri);
 
 		if (filename && *filename && g_file_test (filename, G_FILE_TEST_IS_REGULAR)) {
 			gchar *furi;
@@ -1015,9 +1016,7 @@ set_import_uris (EImportAssistant *assistant, gchar **uris)
 				tmp = g_build_filename (curr, filename, NULL);
 				g_free (curr);
 
-				if (filename != uri)
-					g_free (filename);
-
+				g_free (filename);
 				filename = tmp;
 			}
 
@@ -1041,8 +1040,7 @@ set_import_uris (EImportAssistant *assistant, gchar **uris)
 				g_free (furi);
 
 				if (fileuris == NULL) {
-					if (filename != uri)
-						g_free (filename);
+					g_free (filename);
 					break;
 				}
 			}
@@ -1052,8 +1050,7 @@ set_import_uris (EImportAssistant *assistant, gchar **uris)
 				g_ptr_array_add (fileuris, furi);
 		}
 
-		if (filename != uri)
-			g_free (filename);
+		g_free (filename);
 	}
 
 	if (fileuris != NULL) {
@@ -1394,7 +1391,7 @@ e_import_assistant_new (GtkWindow *parent)
  */
 GtkWidget *
 e_import_assistant_new_simple (GtkWindow *parent,
-                               gchar **uris)
+                               const gchar * const *uris)
 {
 	GtkWidget *assistant;
 

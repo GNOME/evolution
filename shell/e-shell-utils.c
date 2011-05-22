@@ -282,7 +282,7 @@ exit:
  **/
 guint
 e_shell_utils_import_uris (EShell *shell,
-                           gchar **uris)
+                           const gchar * const *uris)
 {
 	GtkWindow *parent;
 	GtkWidget *assistant;
@@ -308,7 +308,7 @@ e_shell_utils_import_uris (EShell *shell,
 	} else
 		g_warning ("Cannot import any of the given URIs");
 
-	return g_strv_length (uris);
+	return g_strv_length ((gchar **) uris);
 }
 
 /**

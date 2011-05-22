@@ -44,7 +44,7 @@ GFile *		e_shell_run_save_dialog		(EShell *shell,
 						 gpointer customize_data);
 
 guint		e_shell_utils_import_uris	(EShell *shell,
-						 gchar **uris);
+						 const gchar * const *uris);
 
 void		e_shell_hide_widgets_for_express_mode
 						(EShell *shell,

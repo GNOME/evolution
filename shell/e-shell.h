@@ -126,7 +126,7 @@ GConfClient *	e_shell_get_gconf_client	(EShell *shell);
 GtkWidget *	e_shell_create_shell_window	(EShell *shell,
 						 const gchar *view_name);
 guint		e_shell_handle_uris		(EShell *shell,
-						 gchar **uris,
+						 const gchar * const *uris,
 						 gboolean do_import);
 void		e_shell_submit_alert		(EShell *shell,
 						 EAlert *alert);

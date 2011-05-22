@@ -61,7 +61,7 @@ struct _EImportAssistantClass {
 GType		e_import_assistant_get_type	(void);
 GtkWidget *	e_import_assistant_new		(GtkWindow *parent);
 GtkWidget *	e_import_assistant_new_simple	(GtkWindow *parent,
-						 gchar **uris);
+						 const gchar * const *uris);
 
 G_END_DECLS
 

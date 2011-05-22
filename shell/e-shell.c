@@ -236,6 +236,19 @@ shell_action_new_window_cb (GSimpleAction *action,
 }
 
 static void
+shell_action_handle_uris_cb (GSimpleAction *action,
+                             GVariant *parameter,
+                             EShell *shell)
+{
+	const gchar **uris;
+
+	/* Do not use g_strfreev() here. */
+	uris = g_variant_get_strv (parameter, NULL);
+	e_shell_handle_uris (shell, uris, FALSE);
+	g_free (uris);
+}
+
+static void
 shell_action_quit_cb (GSimpleAction *action,
                       GVariant *parameter,
                       EShell *shell)
@@ -258,6 +271,14 @@ shell_add_actions (GApplication *application)
 	g_signal_connect (
 		action, "activate",
 		G_CALLBACK (shell_action_new_window_cb), application);
+	g_simple_action_group_insert (action_group, G_ACTION (action));
+	g_object_unref (action);
+
+	action = g_simple_action_new (
+		"handle-uris", G_VARIANT_TYPE_STRING_ARRAY);
+	g_signal_connect (
+		action, "activate",
+		G_CALLBACK (shell_action_handle_uris_cb), application);
 	g_simple_action_group_insert (action_group, G_ACTION (action));
 	g_object_unref (action);
 
@@ -811,29 +832,6 @@ shell_activate (GApplication *application)
 }
 
 static void
-shell_open (GApplication *application,
-            GFile **files,
-            gint n_files,
-            const gchar *hint)
-{
-	EShell *shell;
-	gchar **uris;
-	gint ii;
-
-	/* Do not chain up.  Default method just emits a warning. */
-
-	shell = E_SHELL (application);
-	uris = g_new0 (gchar *, n_files + 1);
-
-	for (ii = 0; ii < n_files; ii++)
-		uris[ii] = g_file_get_uri (files[ii]);
-
-	e_shell_handle_uris (shell, uris, FALSE);
-
-	g_strfreev (uris);
-}
-
-static void
 shell_quit_mainloop (GApplication *application)
 {
 	/* XXX Don't allow GApplication to quit the main loop.
@@ -878,7 +876,6 @@ e_shell_class_init (EShellClass *class)
 	application_class = G_APPLICATION_CLASS (class);
 	application_class->startup = shell_startup;
 	application_class->activate = shell_activate;
-	application_class->open = shell_open;
 	application_class->quit_mainloop =  shell_quit_mainloop;
 
 	class->window_destroyed = shell_window_destroyed;
@@ -1516,7 +1513,7 @@ remote:  /* Send a message to the other Evolution process. */
 
 	if (view_name != NULL) {
 		g_action_group_activate_action (
-			shell->priv->action_group, "new-window",
+			G_ACTION_GROUP (shell), "new-window",
 			g_variant_new_string (view_name));
 	} else
 		g_application_activate (G_APPLICATION (shell));
@@ -1536,12 +1533,11 @@ remote:  /* Send a message to the other Evolution process. */
  **/
 guint
 e_shell_handle_uris (EShell *shell,
-                     gchar **uris,
+                     const gchar * const *uris,
                      gboolean do_import)
 {
-	GFile **files;
 	guint n_handled = 0;
-	guint length, ii;
+	guint ii;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 	g_return_val_if_fail (uris != NULL, FALSE);
@@ -1569,21 +1565,13 @@ e_shell_handle_uris (EShell *shell,
 
 remote:  /* Send a message to the other Evolution process. */
 
-	length = g_strv_length (uris);
-
-	files = g_new0 (GFile *, length + 1);
-	for (ii = 0; ii < length; ii++)
-		files[ii] = g_file_new_for_uri (uris[ii]);
-
-	g_application_open (G_APPLICATION (shell), files, length, "");
-
-	for (ii = 0; ii < length; ii++)
-		g_object_unref (files[ii]);
-	g_free (files);
+	g_action_group_activate_action (
+		G_ACTION_GROUP (shell), "handle-uris",
+		g_variant_new_strv (uris, -1));
 
 	/* As far as we're concerned, all URIs have been handled. */
 
-	return length;
+	return g_strv_length ((gchar **) uris);
 }
 
 /**
@@ -1995,7 +1983,7 @@ e_shell_quit (EShell *shell,
 remote:  /* Send a message to the other Evolution process. */
 
 	g_action_group_activate_action (
-		shell->priv->action_group, "quit", NULL);
+		G_ACTION_GROUP (shell), "quit", NULL);
 
 	return TRUE;
 }
