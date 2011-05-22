@@ -599,8 +599,6 @@ mail_browser_constructed (GObject *object)
 
 	/* Add action groups before initializing the reader interface. */
 
-	e_mail_reader_init (reader, TRUE, TRUE);
-
 	action_group = gtk_action_group_new (ACTION_GROUP_STANDARD);
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_action_group_add_actions (
@@ -624,6 +622,8 @@ mail_browser_constructed (GObject *object)
 	g_object_set_data_full (
 		object, ACTION_GROUP_SEARCH_FOLDERS,
 		action_group, (GDestroyNotify) g_object_unref);
+
+	e_mail_reader_init (reader, TRUE, TRUE);
 
 	e_ui_manager_add_ui_from_file (
 		E_UI_MANAGER (ui_manager), E_MAIL_READER_UI_DEFINITION);
