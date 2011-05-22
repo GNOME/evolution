@@ -1135,33 +1135,40 @@ ec_dialog_response (GtkWidget *d, gint id, EConfig *ec)
 GtkWidget *
 e_config_create_window (EConfig *emp, GtkWindow *parent, const gchar *title)
 {
-	GtkWidget *w;
+	GtkWidget *window;
 
 	e_config_create_widget (emp);
 
 	if (emp->type == E_CONFIG_BOOK) {
-		w = gtk_dialog_new_with_buttons (title, parent,
-						GTK_DIALOG_DESTROY_WITH_PARENT,
-						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-						GTK_STOCK_OK, GTK_RESPONSE_OK,
-						NULL);
-		g_signal_connect(w, "response", G_CALLBACK(ec_dialog_response), emp);
+		GtkWidget *content_area;
 
-		gtk_widget_ensure_style (w);
-		gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (w))), 0);
-		gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_action_area (GTK_DIALOG (w))), 12);
+		window = gtk_dialog_new_with_buttons (
+			title, parent,
+			GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+			GTK_STOCK_APPLY, GTK_RESPONSE_OK,
+			NULL);
+		g_signal_connect (
+			window, "response",
+			G_CALLBACK (ec_dialog_response), emp);
 
-		gtk_box_pack_start ((GtkBox *) gtk_dialog_get_content_area (((GtkDialog *) w)), emp->widget, TRUE, TRUE, 0);
+		gtk_container_set_border_width (GTK_CONTAINER (window), 5);
+		gtk_container_set_border_width (GTK_CONTAINER (emp->widget), 5);
+
+		content_area =
+			gtk_dialog_get_content_area (GTK_DIALOG (window));
+		gtk_box_pack_start (
+			GTK_BOX (content_area), emp->widget, TRUE, TRUE, 0);
 	} else {
 		/* response is handled directly by the assistant stuff */
-		w = emp->widget;
-		gtk_window_set_title ((GtkWindow *) w, title);
+		window = emp->widget;
+		gtk_window_set_title (GTK_WINDOW (window), title);
 	}
 
-	emp->window = w;
-	gtk_widget_show (w);
+	emp->window = window;
+	gtk_widget_show (window);
 
-	return w;
+	return window;
 }
 
 static void
