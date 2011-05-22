@@ -26,6 +26,12 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
+#ifdef G_OS_UNIX
+#if GLIB_CHECK_VERSION(2,29,5)
+#include <glib-unix.h>
+#endif
+#endif
+
 #if HAVE_CLUTTER
 #include <clutter-gtk/clutter-gtk.h>
 #include <mx/mx.h>
@@ -264,14 +270,12 @@ idle_cb (gchar **uris)
 	return FALSE;
 }
 
-#ifndef G_OS_WIN32
-
-static void
-term_signal (gint sig)
+#ifdef G_OS_UNIX
+#if GLIB_CHECK_VERSION(2,29,5)
+static gboolean
+handle_term_signal (gpointer data)
 {
 	EShell *shell;
-
-	g_return_if_fail (sig == SIGTERM);
 
 	g_print ("Received terminate signal...\n");
 
@@ -279,23 +283,10 @@ term_signal (gint sig)
 
 	if (shell != NULL)
 		e_shell_quit (shell, E_SHELL_QUIT_OPTION);
+
+	return FALSE;
 }
-
-static void
-setup_term_signal (void)
-{
-	struct sigaction sa, osa;
-
-	sigaction (SIGTERM, NULL, &osa);
-
-	sa.sa_flags = 0;
-	sigemptyset (&sa.sa_mask);
-	sa.sa_handler = term_signal;
-	sigaction (SIGTERM, &sa, NULL);
-}
-
-#else
-#define setup_term_signal() (void)0
+#endif
 #endif
 
 static GOptionEntry entries[] = {
@@ -621,7 +612,13 @@ main (gint argc, gchar **argv)
 		gconf_client_set_bool (client, key, FALSE, NULL);
 	}
 
-	setup_term_signal ();
+#ifdef G_OS_UNIX
+#if GLIB_CHECK_VERSION(2,29,5)
+	g_unix_signal_add_watch_full (
+		SIGTERM, G_PRIORITY_DEFAULT,
+		handle_term_signal, NULL, NULL);
+#endif
+#endif
 
 	if (evolution_debug_log) {
 		gint fd;
