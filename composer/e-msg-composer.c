@@ -3944,10 +3944,6 @@ handle_mailto (EMsgComposer *composer, const gchar *mailto)
 
 	/* Parse recipients (everything after ':' until '?' or eos). */
 	p = buf + 7;
-	/* skip leading "///" which are added when passing "mailto:user@server.com"
-	   from the outside, after porting EShell to GApplication */
-	if (g_str_has_prefix (p, "///"))
-		p += 3;
 	len = strcspn (p, "?");
 	if (len) {
 		content = g_strndup (p, len);
