@@ -29,6 +29,7 @@
 #include <config.h>
 #endif
 
+#include <errno.h>
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
@@ -108,6 +109,7 @@ struct _EventPagePrivate {
 	GtkWidget *summary_label;
 	GtkWidget *location;
 	GtkWidget *location_label;
+	GtkEntryCompletion *location_completion;
 
 	gchar **address_strings;
 	gchar *fallback_address;
@@ -861,6 +863,11 @@ event_page_dispose (GObject *object)
 
 	priv = EVENT_PAGE_GET_PRIVATE (object);
 
+	if (priv->location_completion != NULL) {
+		g_object_unref (priv->location_completion);
+		priv->location_completion = NULL;
+	}
+
 	if (priv->comp != NULL) {
 		g_object_unref (priv->comp);
 		priv->comp = NULL;
@@ -928,6 +935,135 @@ event_page_focus_main_widget (CompEditorPage *page)
 	gtk_widget_grab_focus (event_page->priv->summary);
 }
 
+static void
+event_page_load_locations_list (CompEditorPage *page,
+				ECalComponent *comp)
+{
+	EShell *shell;
+	EShellBackend *backend;
+	EventPagePrivate *priv;
+	CompEditor *editor;
+	GtkListStore *store;
+	GError *error;
+
+	const gchar *cache_dir;
+	gchar *file_name, *contents;
+	gchar **locations;
+	gint row;
+
+	priv = EVENT_PAGE (page)->priv;
+	editor = comp_editor_page_get_editor (page);
+
+	shell = comp_editor_get_shell (editor);
+	backend = e_shell_get_backend_by_name (shell, "calendar");
+	cache_dir = e_shell_backend_get_config_dir (backend);
+	file_name = g_build_filename (cache_dir, "locations", NULL);
+
+	if (!g_file_test (file_name, G_FILE_TEST_EXISTS)) {
+		g_free (file_name);
+		return;
+	}
+
+	error = NULL;
+	g_file_get_contents (file_name, &contents, NULL, &error);
+	if (error) {
+		g_warning ("%s: Failed to load locations list: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+		g_free (file_name);
+		return;
+	}
+
+	locations = g_strsplit (contents, "\n", 0);
+	if (!locations) {
+		g_free (contents);
+		g_free (file_name);
+		return;
+	}
+
+	row = 0;
+	store = GTK_LIST_STORE (gtk_entry_completion_get_model (priv->location_completion));
+	while (locations[row] && *locations[row]) {
+		GtkTreeIter iter;
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, locations[row], -1);
+		row++;
+	}
+
+	g_strfreev (locations);
+	g_free (contents);
+	g_free (file_name);
+}
+
+static void
+event_page_save_locations_list (CompEditorPage *page,
+				ECalComponent *comp)
+{
+	EShell *shell;
+	EShellBackend *backend;
+	EventPagePrivate *priv;
+	CompEditor *editor;
+	GError *error;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	const gchar *cache_dir;
+	gchar *file_name, *current_location;
+	GString *contents;
+
+	priv = EVENT_PAGE (page)->priv;
+	editor = comp_editor_page_get_editor (page);
+
+	shell = comp_editor_get_shell (editor);
+	backend = e_shell_get_backend_by_name (shell, "calendar");
+	cache_dir = e_shell_backend_get_config_dir (backend);
+	file_name = g_build_filename (cache_dir, "locations", NULL);
+
+	if (!g_file_test (cache_dir, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR)) {
+		gint r = g_mkdir_with_parents (cache_dir, 0700);
+		if (r < 0) {
+			g_warning ("%s: Failed to create %s: %s", G_STRFUNC, cache_dir, g_strerror (errno));
+			g_free (file_name);
+			return;
+		}
+	}
+
+	current_location = e_dialog_editable_get (priv->location);
+
+	/* Put current locatin on the very top of the list */
+	contents = g_string_new (current_location);
+	g_string_append_c (contents, '\n');
+
+	model = gtk_entry_completion_get_model (priv->location_completion);
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		gint i = 0;
+		do {
+			gchar *str;
+
+			gtk_tree_model_get (model, &iter, 0, &str, -1);
+
+			/* Skip the current location */
+			if (str && *str && g_ascii_strcasecmp (str, current_location) != 0)
+				g_string_append_printf (contents, "%s\n", str);
+
+			g_free (str);
+
+			i++;
+
+		} while (gtk_tree_model_iter_next (model, &iter) && (i < 20));
+	}
+
+	error = NULL;
+	g_file_set_contents (file_name, contents->str, -1, &error);
+	if (error) {
+		g_warning ("%s: Failed to save locations: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+
+	g_string_free (contents, TRUE);
+	g_free (file_name);
+	g_free (current_location);
+}
+
 static gboolean
 event_page_fill_widgets (CompEditorPage *page,
                          ECalComponent *comp)
@@ -983,6 +1119,7 @@ event_page_fill_widgets (CompEditorPage *page,
 
 	e_cal_component_get_location (comp, &location);
 	e_dialog_editable_set (priv->location, location);
+	event_page_load_locations_list (page, comp);
 
 	e_cal_component_get_description_list (comp, &l);
 	if (l && l->data) {
@@ -1225,7 +1362,7 @@ event_page_fill_component (CompEditorPage *page,
 	/* Summary */
 
 	str = e_dialog_editable_get (priv->summary);
-	if (!str || strlen (str) == 0)
+	if (!str || !*str)
 		e_cal_component_set_summary (comp, NULL);
 	else {
 		ECalComponentText text;
@@ -1242,10 +1379,12 @@ event_page_fill_component (CompEditorPage *page,
 	/* Location */
 
 	str = e_dialog_editable_get (priv->location);
-	if (!str || strlen (str) == 0)
+	if (!str || !*str)
 		e_cal_component_set_location (comp, NULL);
-	else
+	else {
 		e_cal_component_set_location (comp, str);
+		event_page_save_locations_list (page, comp);
+	}
 
 	if (str)
 		g_free (str);
@@ -1256,7 +1395,7 @@ event_page_fill_component (CompEditorPage *page,
 	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
 	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
 
-	if (!str || strlen (str) == 0)
+	if (!str || !*str)
 		e_cal_component_set_description_list (comp, NULL);
 	else {
 		GSList l;
@@ -1470,6 +1609,7 @@ event_page_fill_component (CompEditorPage *page,
 			e_cal_component_alarm_set_trigger (ca, trigger);
 
 			e_cal_component_add_alarm (comp, ca);
+			e_cal_component_alarm_free (ca);
 		}
 	}
 
@@ -1649,6 +1789,7 @@ event_page_init (EventPage *epage)
 	epage->priv->deleted_attendees = g_ptr_array_new ();
 	epage->priv->alarm_interval = -1;
 	epage->priv->alarm_map = alarm_map_with_user_time;
+	epage->priv->location_completion = gtk_entry_completion_new ();
 }
 
 void
@@ -3246,6 +3387,7 @@ event_page_construct (EventPage *epage,
 {
 	EventPagePrivate *priv;
 	GtkTreeModel *model;
+	GtkListStore *store;
 	gint ii;
 
 	priv = epage->priv;
@@ -3264,6 +3406,17 @@ event_page_construct (EventPage *epage,
 			   "Could not find all widgets in the XML file!");
 		return NULL;
 	}
+
+	/* Create entry completion and attach it to the entry */
+	priv->location_completion = gtk_entry_completion_new ();
+	gtk_entry_set_completion (GTK_ENTRY (priv->location),
+		priv->location_completion);
+
+	/* Initialize completino model */
+	store = gtk_list_store_new (1, G_TYPE_STRING);
+	gtk_entry_completion_set_model (priv->location_completion,
+		GTK_TREE_MODEL (store));
+	gtk_entry_completion_set_text_column (priv->location_completion, 0);
 
 	model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer));
 
