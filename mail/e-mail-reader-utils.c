@@ -1009,7 +1009,6 @@ mail_reader_create_filter_cb (CamelFolder *folder,
                               AsyncContext *context)
 {
 	EMailBackend *backend;
-	EMailSession *session;
 	EAlertSink *alert_sink;
 	CamelMimeMessage *message;
 	GError *error = NULL;
@@ -1043,10 +1042,9 @@ mail_reader_create_filter_cb (CamelFolder *folder,
 	context->activity = NULL;
 
 	backend = e_mail_reader_get_backend (context->reader);
-	session = e_mail_backend_get_session (backend);
 
 	filter_gui_add_from_message (
-		session, message,
+		backend, message,
 		context->filter_source,
 		context->filter_type);
 

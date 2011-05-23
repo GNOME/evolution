@@ -473,12 +473,12 @@ e_mail_sidebar_get_type (void)
 }
 
 GtkWidget *
-e_mail_sidebar_new (EMailSession *session)
+e_mail_sidebar_new (EMailBackend *backend)
 {
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
 	return g_object_new (
-		E_TYPE_MAIL_SIDEBAR, "session", session, NULL);
+		E_TYPE_MAIL_SIDEBAR, "backend", backend, NULL);
 }
 
 GKeyFile *

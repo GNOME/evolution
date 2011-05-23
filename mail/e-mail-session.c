@@ -289,6 +289,8 @@ main_get_filter_driver (CamelSession *session,
                         const gchar *type,
                         GError **error)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
 	EMailSession *ms = E_MAIL_SESSION (session);
 	CamelFilterDriver *driver;
 	EFilterRule *rule = NULL;
@@ -297,12 +299,17 @@ main_get_filter_driver (CamelSession *session,
 	GConfClient *client;
 	ERuleContext *fc;
 
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (shell_backend), NULL);
+
 	client = gconf_client_get_default ();
 
 	config_dir = mail_session_get_config_dir ();
 	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
-	fc = (ERuleContext *) em_filter_context_new (ms);
+	fc = (ERuleContext *) em_filter_context_new (
+		E_MAIL_BACKEND (shell_backend));
 	e_rule_context_load (fc, system, user);
 	g_free (system);
 	g_free (user);

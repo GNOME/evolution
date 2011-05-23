@@ -433,7 +433,7 @@ mail_view_add_account (MailView *mv,
 	MailAccountView *msv;
 	gint position = 0;
 
-	msv = mail_account_view_new (data, mv->session);
+	msv = mail_account_view_new (data, mv->backend);
 	gtk_widget_show ((GtkWidget *) msv);
 	if (!block)
 		mv->priv->current_view = (MailViewChild *) msv;

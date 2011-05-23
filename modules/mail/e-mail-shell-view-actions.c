@@ -125,7 +125,6 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	EFilterRule *search_rule;
 	EMVFolderRule *vfolder_rule;
 	EMailBackend *backend;
-	EMailSession *session;
 	EMailView *mail_view;
 	CamelFolder *folder;
 	const gchar *search_text;
@@ -134,9 +133,6 @@ action_mail_create_search_folder_cb (GtkAction *action,
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
-
-	backend = E_MAIL_BACKEND (shell_backend);
-	session = e_mail_backend_get_session (backend);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
@@ -152,7 +148,8 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
 
-	search_rule = vfolder_clone_rule (session, search_rule);
+	backend = E_MAIL_BACKEND (shell_backend);
+	search_rule = vfolder_clone_rule (backend, search_rule);
 	g_return_if_fail (search_rule != NULL);
 
 	rule_name = g_strdup_printf ("%s %s", search_rule->name, search_text);
@@ -426,7 +423,7 @@ action_mail_folder_new_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EMailSession *session;
+	EMailBackend *backend;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
 	gchar *selected_uri;
@@ -437,12 +434,12 @@ action_mail_folder_new_cb (GtkAction *action,
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
-	session = em_folder_tree_get_session (folder_tree);
+	backend = em_folder_tree_get_backend (folder_tree);
 	selected_uri = em_folder_tree_get_selected_uri (folder_tree);
 
 	em_folder_utils_create_folder (
 		GTK_WINDOW (shell_window),
-		folder_tree, session, selected_uri);
+		backend, folder_tree, selected_uri);
 
 	g_free (selected_uri);
 }

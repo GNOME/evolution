@@ -37,13 +37,13 @@
 #include "em-filter-folder-element.h"
 
 struct _EMFilterContextPrivate {
-	EMailSession *session;
+	EMailBackend *backend;
 	GList *actions;
 };
 
 enum {
 	PROP_0,
-	PROP_SESSION
+	PROP_BACKEND
 };
 
 G_DEFINE_TYPE (
@@ -52,13 +52,13 @@ G_DEFINE_TYPE (
 	E_TYPE_RULE_CONTEXT)
 
 static void
-filter_context_set_session (EMFilterContext *context,
-                            EMailSession *session)
+filter_context_set_backend (EMFilterContext *context,
+                            EMailBackend *backend)
 {
-	g_return_if_fail (E_IS_MAIL_SESSION (session));
-	g_return_if_fail (context->priv->session == NULL);
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (context->priv->backend == NULL);
 
-	context->priv->session = g_object_ref (session);
+	context->priv->backend = g_object_ref (backend);
 }
 
 static void
@@ -68,8 +68,8 @@ filter_context_set_property (GObject *object,
                              GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_SESSION:
-			filter_context_set_session (
+		case PROP_BACKEND:
+			filter_context_set_backend (
 				EM_FILTER_CONTEXT (object),
 				g_value_get_object (value));
 			return;
@@ -85,10 +85,10 @@ filter_context_get_property (GObject *object,
                              GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_SESSION:
+		case PROP_BACKEND:
 			g_value_set_object (
 				value,
-				em_filter_context_get_session (
+				em_filter_context_get_backend (
 				EM_FILTER_CONTEXT (object)));
 			return;
 	}
@@ -103,9 +103,9 @@ filter_context_dispose (GObject *object)
 
 	priv = EM_FILTER_CONTEXT (object)->priv;
 
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
+	if (priv->backend != NULL) {
+		g_object_unref (priv->backend);
+		priv->backend = NULL;
 	}
 
 	g_list_foreach (priv->actions, (GFunc) g_object_unref, NULL);
@@ -232,7 +232,7 @@ filter_context_new_element (ERuleContext *context,
 	priv = EM_FILTER_CONTEXT (context)->priv;
 
 	if (strcmp (type, "folder") == 0)
-		return em_filter_folder_element_new (priv->session);
+		return em_filter_folder_element_new (priv->backend);
 
 	if (strcmp (type, "system-flag") == 0)
 		return e_filter_option_new ();
@@ -267,12 +267,12 @@ em_filter_context_class_init (EMFilterContextClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_SESSION,
+		PROP_BACKEND,
 		g_param_spec_object (
-			"session",
+			"backend",
 			NULL,
 			NULL,
-			E_TYPE_MAIL_SESSION,
+			E_TYPE_MAIL_BACKEND,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 }
@@ -303,20 +303,20 @@ em_filter_context_init (EMFilterContext *context)
 }
 
 EMFilterContext *
-em_filter_context_new (EMailSession *session)
+em_filter_context_new (EMailBackend *backend)
 {
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
 	return g_object_new (
-		EM_TYPE_FILTER_CONTEXT, "session", session, NULL);
+		EM_TYPE_FILTER_CONTEXT, "backend", backend, NULL);
 }
 
-EMailSession *
-em_filter_context_get_session (EMFilterContext *context)
+EMailBackend *
+em_filter_context_get_backend (EMFilterContext *context)
 {
 	g_return_val_if_fail (EM_IS_FILTER_CONTEXT (context), NULL);
 
-	return context->priv->session;
+	return context->priv->backend;
 }
 
 void

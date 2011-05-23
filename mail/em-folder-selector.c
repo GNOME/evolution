@@ -111,14 +111,17 @@ em_folder_selector_get_type (void)
 static void
 emfs_response (GtkWidget *dialog, gint response, EMFolderSelector *emfs)
 {
+	EMailBackend *backend;
+
 	if (response != EM_FOLDER_SELECTOR_RESPONSE_NEW)
 		return;
 
 	g_object_set_data ((GObject *)emfs->emft, "select", GUINT_TO_POINTER (1));
 
+	backend = em_folder_tree_get_backend (emfs->emft);
+
 	em_folder_utils_create_folder (
-		GTK_WINDOW (dialog), emfs->emft,
-		em_folder_tree_get_session (emfs->emft), NULL);
+		GTK_WINDOW (dialog), backend, emfs->emft, NULL);
 
 	g_signal_stop_emission_by_name (emfs, "response");
 }

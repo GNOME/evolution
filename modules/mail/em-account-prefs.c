@@ -43,14 +43,14 @@
 #include "capplet/settings/mail-capplet-shell.h"
 
 struct _EMAccountPrefsPrivate {
-	EMailSession *session;
+	EMailBackend *backend;
 	gpointer assistant; /* weak pointer */
 	gpointer editor;    /* weak pointer */
 };
 
 enum {
 	PROP_0,
-	PROP_SESSION
+	PROP_BACKEND
 };
 
 G_DEFINE_TYPE (
@@ -63,11 +63,13 @@ account_prefs_enable_account_cb (EAccountTreeView *tree_view,
                                  EMAccountPrefs *prefs)
 {
 	EAccount *account;
+	EMailSession *session;
 
 	account = e_account_tree_view_get_selected (tree_view);
 	g_return_if_fail (account != NULL);
 
-	e_mail_store_add_by_account (prefs->priv->session, account);
+	session = e_mail_backend_get_session (prefs->priv->backend);
+	e_mail_store_add_by_account (session, account);
 }
 
 static void
@@ -75,6 +77,7 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view,
                                   EMAccountPrefs *prefs)
 {
 	EAccountList *account_list;
+	EMailSession *session;
 	EAccount *account;
 	gpointer parent;
 	gint response;
@@ -85,8 +88,10 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view,
 	account_list = e_account_tree_view_get_account_list (tree_view);
 	g_return_if_fail (account_list != NULL);
 
+	session = e_mail_backend_get_session (prefs->priv->backend);
+
 	if (!e_account_list_account_has_proxies (account_list, account)) {
-		e_mail_store_remove_by_account (prefs->priv->session, account);
+		e_mail_store_remove_by_account (session, account);
 		return;
 	}
 
@@ -103,17 +108,17 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view,
 
 	e_account_list_remove_account_proxies (account_list, account);
 
-	e_mail_store_remove_by_account (prefs->priv->session, account);
+	e_mail_store_remove_by_account (session, account);
 }
 
 static void
-account_prefs_set_session (EMAccountPrefs *prefs,
-                           EMailSession *session)
+account_prefs_set_backend (EMAccountPrefs *prefs,
+                           EMailBackend *backend)
 {
-	g_return_if_fail (E_IS_MAIL_SESSION (session));
-	g_return_if_fail (prefs->priv->session == NULL);
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (prefs->priv->backend == NULL);
 
-	prefs->priv->session = g_object_ref (session);
+	prefs->priv->backend = g_object_ref (backend);
 }
 
 static void
@@ -123,8 +128,8 @@ account_prefs_set_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_SESSION:
-			account_prefs_set_session (
+		case PROP_BACKEND:
+			account_prefs_set_backend (
 				EM_ACCOUNT_PREFS (object),
 				g_value_get_object (value));
 			return;
@@ -140,10 +145,10 @@ account_prefs_get_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_SESSION:
+		case PROP_BACKEND:
 			g_value_set_object (
 				value,
-				em_account_prefs_get_session (
+				em_account_prefs_get_backend (
 				EM_ACCOUNT_PREFS (object)));
 			return;
 	}
@@ -158,9 +163,9 @@ account_prefs_dispose (GObject *object)
 
 	priv = EM_ACCOUNT_PREFS (object)->priv;
 
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
+	if (priv->backend != NULL) {
+		g_object_unref (priv->backend);
+		priv->backend = NULL;
 	}
 
 	if (priv->assistant != NULL) {
@@ -206,7 +211,7 @@ account_prefs_add_account (EAccountManager *manager)
 		 * The new mail account assistant.
 		 */
 		emae = em_account_editor_new (
-			NULL, EMAE_ASSISTANT, priv->session,
+			NULL, EMAE_ASSISTANT, priv->backend,
 			"org.gnome.evolution.mail.config.accountAssistant");
 		e_config_create_window (
 			E_CONFIG (emae->config), NULL,
@@ -256,7 +261,7 @@ account_prefs_edit_account (EAccountManager *manager)
 	 * The account editor window.
 	 */
 	emae = em_account_editor_new (
-		account, EMAE_NOTEBOOK, priv->session,
+		account, EMAE_NOTEBOOK, priv->backend,
 		"org.gnome.evolution.mail.config.accountEditor");
 	e_config_create_window (
 		E_CONFIG (emae->config), parent, _("Account Editor"));
@@ -275,12 +280,14 @@ account_prefs_delete_account (EAccountManager *manager)
 	EMAccountPrefsPrivate *priv;
 	EAccountTreeView *tree_view;
 	EAccountList *account_list;
+	EMailSession *session;
 	EAccount *account;
 	gboolean has_proxies;
 	gpointer parent;
 	gint response;
 
 	priv = EM_ACCOUNT_PREFS (manager)->priv;
+	session = e_mail_backend_get_session (priv->backend);
 
 	account_list = e_account_manager_get_account_list (manager);
 	tree_view = e_account_manager_get_tree_view (manager);
@@ -309,7 +316,7 @@ account_prefs_delete_account (EAccountManager *manager)
 
 	/* Remove the account from the folder tree. */
 	if (account->enabled)
-		e_mail_store_remove_by_account (priv->session, account);
+		e_mail_store_remove_by_account (session, account);
 
 	/* Remove all the proxies the account has created. */
 	if (has_proxies)
@@ -341,12 +348,12 @@ em_account_prefs_class_init (EMAccountPrefsClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_SESSION,
+		PROP_BACKEND,
 		g_param_spec_object (
-			"session",
+			"backend",
 			NULL,
 			NULL,
-			E_TYPE_MAIL_SESSION,
+			E_TYPE_MAIL_BACKEND,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 }
@@ -377,30 +384,25 @@ em_account_prefs_new (EPreferencesWindow *window)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
-	EMailBackend *backend;
-	EMailSession *session;
 	EAccountList *account_list;
 
 	account_list = e_get_account_list ();
 	g_return_val_if_fail (E_IS_ACCOUNT_LIST (account_list), NULL);
 
-	/* XXX Figure out a better way to get the EMailSession. */
+	/* XXX Figure out a better way to get the mail backend. */
 	shell = e_preferences_window_get_shell (window);
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
-
-	backend = E_MAIL_BACKEND (shell_backend);
-	session = e_mail_backend_get_session (backend);
 
 	return g_object_new (
 		EM_TYPE_ACCOUNT_PREFS,
 		"account-list", account_list,
-		"session", session, NULL);
+		"backend", shell_backend, NULL);
 }
 
-EMailSession *
-em_account_prefs_get_session (EMAccountPrefs *prefs)
+EMailBackend *
+em_account_prefs_get_backend (EMAccountPrefs *prefs)
 {
 	g_return_val_if_fail (EM_IS_ACCOUNT_PREFS (prefs), NULL);
 
-	return prefs->priv->session;
+	return prefs->priv->backend;
 }

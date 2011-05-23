@@ -203,7 +203,6 @@ org_gnome_evolution_readdbx_getwidget (EImport *ei,
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
-	EMailSession *session;
 	GtkWidget *hbox, *w;
 	GtkLabel *label;
 	gchar *select_uri = NULL;
@@ -246,10 +245,10 @@ org_gnome_evolution_readdbx_getwidget (EImport *ei,
 
 	shell = e_shell_get_default ();
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
-	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
 	w = em_folder_selection_button_new (
-		session, _("Select folder"),
+		E_MAIL_BACKEND (shell_backend),
+		_("Select folder"),
 		_("Select folder to import into"));
 
 	gtk_label_set_mnemonic_widget (label, w);

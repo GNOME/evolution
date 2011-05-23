@@ -291,7 +291,6 @@ em_utils_edit_filters (GtkWidget *parent,
 	const gchar *config_dir;
 	gchar *user, *system;
 	EMFilterContext *fc;
-	EMailSession *session;
 
 	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 
@@ -301,9 +300,8 @@ em_utils_edit_filters (GtkWidget *parent,
 	}
 
 	config_dir = mail_session_get_config_dir ();
-	session = e_mail_backend_get_session (backend);
 
-	fc = em_filter_context_new (session);
+	fc = em_filter_context_new (backend);
 	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	e_rule_context_load ((ERuleContext *) fc, system, user);

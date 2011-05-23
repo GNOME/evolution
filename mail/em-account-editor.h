@@ -26,7 +26,7 @@
 
 #include <gtk/gtk.h>
 #include <mail/em-config.h>
-#include <mail/e-mail-session.h>
+#include <mail/e-mail-backend.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_ACCOUNT_EDITOR \
@@ -99,19 +99,19 @@ GType		em_account_editor_get_type	(void);
 EMAccountEditor *
 		em_account_editor_new		(EAccount *account,
 						 EMAccountEditorType type,
-						 EMailSession *session,
+						 EMailBackend *backend,
 						 const gchar *id);
 EMAccountEditor *
 		em_account_editor_new_for_pages	(EAccount *account,
 						 EMAccountEditorType type,
-						 EMailSession *session,
+						 EMailBackend *backend,
 						 const gchar *id,
 						 GtkWidget **pages);
+EMailBackend *	em_account_editor_get_backend	(EMAccountEditor *emae);
 EAccount *	em_account_editor_get_modified_account
 						(EMAccountEditor *emae);
 EAccount *	em_account_editor_get_original_account
 						(EMAccountEditor *emae);
-EMailSession *	em_account_editor_get_session	(EMAccountEditor *emae);
 void		em_account_editor_commit	(EMAccountEditor *emae);
 gboolean	em_account_editor_check		(EMAccountEditor *emae,
 						 const gchar *page);

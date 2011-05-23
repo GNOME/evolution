@@ -51,7 +51,7 @@ EFilterRule *	em_vfolder_rule_from_address	(EMVFolderContext *context,
 						 CamelFolder *folder);
 
 /* easiest place to put this */
-void		filter_gui_add_from_message	(EMailSession *session,
+void		filter_gui_add_from_message	(EMailBackend *backend,
 						 CamelMimeMessage *msg,
 						 const gchar *source,
 						 gint flags);

@@ -25,7 +25,7 @@
 #ifndef EM_VFOLDER_CONTEXT_H
 #define EM_VFOLDER_CONTEXT_H
 
-#include <mail/e-mail-session.h>
+#include <mail/e-mail-backend.h>
 #include <filter/e-rule-context.h>
 
 /* Standard GObject macros */
@@ -64,8 +64,8 @@ struct _EMVFolderContextClass {
 
 GType		em_vfolder_context_get_type	(void);
 EMVFolderContext *
-		em_vfolder_context_new		(EMailSession *session);
-EMailSession *	em_vfolder_context_get_session	(EMVFolderContext *context);
+		em_vfolder_context_new		(EMailBackend *backend);
+EMailBackend *	em_vfolder_context_get_backend	(EMVFolderContext *context);
 
 G_END_DECLS
 

@@ -77,7 +77,7 @@ struct _selected_uri {
 };
 
 struct _EMFolderTreePrivate {
-	EMailSession *session;
+	EMailBackend *backend;
 
 	/* selected_uri structures of each path pending selection. */
 	GSList *select_uris;
@@ -119,10 +119,10 @@ struct _EMFolderTreePrivate {
 
 enum {
 	PROP_0,
+	PROP_BACKEND,
 	PROP_COPY_TARGET_LIST,
 	PROP_ELLIPSIZE,
-	PROP_PASTE_TARGET_LIST,
-	PROP_SESSION
+	PROP_PASTE_TARGET_LIST
 };
 
 enum {
@@ -454,6 +454,7 @@ folder_tree_expand_node (const gchar *key,
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	EAccount *account;
+	EMailBackend *backend;
 	EMailSession *session;
 	CamelStore *store;
 	const gchar *p;
@@ -473,7 +474,8 @@ folder_tree_expand_node (const gchar *key,
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	model = gtk_tree_view_get_model (tree_view);
 
-	session = em_folder_tree_get_session (folder_tree);
+	backend = em_folder_tree_get_backend (folder_tree);
+	session = e_mail_backend_get_session (backend);
 
 	if ((account = e_get_account_by_uid (uid)) && account->enabled) {
 		store = (CamelStore *) camel_session_get_service (
@@ -717,13 +719,13 @@ exit:
 }
 
 static void
-folder_tree_set_session (EMFolderTree *folder_tree,
-                         EMailSession *session)
+folder_tree_set_backend (EMFolderTree *folder_tree,
+                         EMailBackend *backend)
 {
-	g_return_if_fail (CAMEL_IS_SESSION (session));
-	g_return_if_fail (folder_tree->priv->session == NULL);
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (folder_tree->priv->backend == NULL);
 
-	folder_tree->priv->session = g_object_ref (session);
+	folder_tree->priv->backend = g_object_ref (backend);
 }
 
 static GtkTargetList *
@@ -763,16 +765,16 @@ folder_tree_set_property (GObject *object,
                           GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_BACKEND:
+			folder_tree_set_backend (
+				EM_FOLDER_TREE (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_ELLIPSIZE:
 			em_folder_tree_set_ellipsize (
 				EM_FOLDER_TREE (object),
 				g_value_get_enum (value));
-			return;
-
-		case PROP_SESSION:
-			folder_tree_set_session (
-				EM_FOLDER_TREE (object),
-				g_value_get_object (value));
 			return;
 	}
 
@@ -786,6 +788,13 @@ folder_tree_get_property (GObject *object,
                           GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_BACKEND:
+			g_value_set_object (
+				value,
+				em_folder_tree_get_backend (
+				EM_FOLDER_TREE (object)));
+			return;
+
 		case PROP_COPY_TARGET_LIST:
 			g_value_set_boxed (
 				value,
@@ -804,13 +813,6 @@ folder_tree_get_property (GObject *object,
 			g_value_set_boxed (
 				value,
 				folder_tree_get_paste_target_list (
-				EM_FOLDER_TREE (object)));
-			return;
-
-		case PROP_SESSION:
-			g_value_set_object (
-				value,
-				em_folder_tree_get_session (
 				EM_FOLDER_TREE (object)));
 			return;
 	}
@@ -845,9 +847,9 @@ folder_tree_dispose (GObject *object)
 		priv->autoexpand_id = 0;
 	}
 
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
+	if (priv->backend != NULL) {
+		g_object_unref (priv->backend);
+		priv->backend = NULL;
 	}
 
 	if (priv->text_renderer != NULL) {
@@ -1103,6 +1105,17 @@ folder_tree_class_init (EMFolderTreeClass *class)
 	tree_view_class->test_collapse_row = folder_tree_test_collapse_row;
 	tree_view_class->row_expanded = folder_tree_row_expanded;
 
+	g_object_class_install_property (
+		object_class,
+		PROP_BACKEND,
+		g_param_spec_object (
+			"backend",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_BACKEND,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (
 		object_class,
@@ -1125,17 +1138,6 @@ folder_tree_class_init (EMFolderTreeClass *class)
 		object_class,
 		PROP_PASTE_TARGET_LIST,
 		"paste-target-list");
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
-		g_param_spec_object (
-			"session",
-			NULL,
-			NULL,
-			E_TYPE_MAIL_SESSION,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
 
 	signals[FOLDER_SELECTED] = g_signal_new (
 		"folder-selected",
@@ -1702,22 +1704,20 @@ em_folder_tree_get_type (void)
 }
 
 GtkWidget *
-em_folder_tree_new (EMailSession *session)
+em_folder_tree_new (EMailBackend *backend)
 {
+	EMailSession *session;
 	const gchar *data_dir;
-	EShell *default_shell;
-	EShellBackend *mail_backend;
 
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
-	default_shell = e_shell_get_default ();
-	mail_backend = e_shell_get_backend_by_name (default_shell, "mail");
-	data_dir = e_shell_backend_get_data_dir (mail_backend);
+	session = e_mail_backend_get_session (backend);
+	data_dir = e_shell_backend_get_data_dir (E_SHELL_BACKEND (backend));
 
 	e_mail_store_init (session, data_dir);
 
 	return g_object_new (
-		EM_TYPE_FOLDER_TREE, "session", session, NULL);
+		EM_TYPE_FOLDER_TREE, "backend", backend, NULL);
 }
 
 PangoEllipsizeMode
@@ -1742,12 +1742,12 @@ em_folder_tree_set_ellipsize (EMFolderTree *folder_tree,
 	g_object_notify (G_OBJECT (folder_tree), "ellipsize");
 }
 
-EMailSession *
-em_folder_tree_get_session (EMFolderTree *folder_tree)
+EMailBackend *
+em_folder_tree_get_backend (EMFolderTree *folder_tree)
 {
 	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
 
-	return folder_tree->priv->session;
+	return folder_tree->priv->backend;
 }
 
 static void
@@ -2052,6 +2052,7 @@ tree_drag_data_received (GtkWidget *widget,
 	GtkTreeModel *model;
 	GtkTreeView *tree_view;
 	GtkTreePath *dest_path = NULL;
+	EMailBackend *backend;
 	EMailSession *session;
 	struct _DragDataReceivedAsync *m;
 	gboolean is_store;
@@ -2062,7 +2063,8 @@ tree_drag_data_received (GtkWidget *widget,
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	model = gtk_tree_view_get_model (tree_view);
 
-	session = em_folder_tree_get_session (folder_tree);
+	backend = em_folder_tree_get_backend (folder_tree);
+	session = e_mail_backend_get_session (backend);
 
 	if (!gtk_tree_view_get_dest_row_at_pos (tree_view, x, y, &dest_path, &pos))
 		return;
@@ -2726,9 +2728,11 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
                                   gboolean expand_only)
 {
 	EMFolderTreePrivate *priv = folder_tree->priv;
+	EMailBackend *backend;
 	EMailSession *session;
 
-	session = em_folder_tree_get_session (folder_tree);
+	backend = em_folder_tree_get_backend (folder_tree);
+	session = e_mail_backend_get_session (backend);
 
 	/* FIXME: need to remove any currently selected stuff? */
 	if (!expand_only)

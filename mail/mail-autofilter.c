@@ -316,7 +316,7 @@ em_vfolder_rule_from_message (EMVFolderContext *context,
                               CamelFolder *folder)
 {
 	EFilterRule *rule;
-	EMailSession *session;
+	EMailBackend *backend;
 	gchar *uri;
 
 	g_return_val_if_fail (EM_IS_VFOLDER_CONTEXT (context), NULL);
@@ -325,9 +325,9 @@ em_vfolder_rule_from_message (EMVFolderContext *context,
 
 	uri = e_mail_folder_uri_from_folder (folder);
 
-	session = em_vfolder_context_get_session (context);
+	backend = em_vfolder_context_get_backend (context);
 
-	rule = em_vfolder_rule_new (session);
+	rule = em_vfolder_rule_new (backend);
 	em_vfolder_rule_add_source (EM_VFOLDER_RULE (rule), uri);
 	rule_from_message (rule, E_RULE_CONTEXT (context), msg, flags);
 
@@ -343,7 +343,7 @@ em_vfolder_rule_from_address (EMVFolderContext *context,
                               CamelFolder *folder)
 {
 	EFilterRule *rule;
-	EMailSession *session;
+	EMailBackend *backend;
 	gchar *uri;
 
 	g_return_val_if_fail (EM_IS_VFOLDER_CONTEXT (context), NULL);
@@ -352,9 +352,9 @@ em_vfolder_rule_from_address (EMVFolderContext *context,
 
 	uri = e_mail_folder_uri_from_folder (folder);
 
-	session = em_vfolder_context_get_session (context);
+	backend = em_vfolder_context_get_backend (context);
 
-	rule = em_vfolder_rule_new (session);
+	rule = em_vfolder_rule_new (backend);
 	em_vfolder_rule_add_source (EM_VFOLDER_RULE (rule), uri);
 	rule_from_address (rule, E_RULE_CONTEXT (context), addr, flags);
 
@@ -386,7 +386,7 @@ filter_rule_from_message (EMFilterContext *context,
 }
 
 void
-filter_gui_add_from_message (EMailSession *session,
+filter_gui_add_from_message (EMailBackend *backend,
                              CamelMimeMessage *msg,
                              const gchar *source,
                              gint flags)
@@ -396,10 +396,10 @@ filter_gui_add_from_message (EMailSession *session,
 	gchar *user, *system;
 	EFilterRule *rule;
 
-	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
 
-	fc = em_filter_context_new (session);
+	fc = em_filter_context_new (backend);
 	config_dir = mail_session_get_config_dir ();
 	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
@@ -422,7 +422,6 @@ mail_filter_rename_folder (EMailBackend *backend,
                            const gchar *new_folder_name)
 {
 	EMFilterContext *fc;
-	EMailSession *session;
 	const gchar *config_dir;
 	gchar *user, *system;
 	GList *changed;
@@ -437,9 +436,7 @@ mail_filter_rename_folder (EMailBackend *backend,
 	old_uri = e_mail_folder_uri_build (store, old_folder_name);
 	new_uri = e_mail_folder_uri_build (store, new_folder_name);
 
-	session = e_mail_backend_get_session (backend);
-
-	fc = em_filter_context_new (session);
+	fc = em_filter_context_new (backend);
 	config_dir = mail_session_get_config_dir ();
 	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
@@ -467,7 +464,6 @@ mail_filter_delete_folder (EMailBackend *backend,
                            const gchar *folder_name)
 {
 	EMFilterContext *fc;
-	EMailSession *session;
 	const gchar *config_dir;
 	gchar *user, *system;
 	GList *deleted;
@@ -479,9 +475,7 @@ mail_filter_delete_folder (EMailBackend *backend,
 
 	uri = e_mail_folder_uri_build (store, folder_name);
 
-	session = e_mail_backend_get_session (backend);
-
-	fc = em_filter_context_new (session);
+	fc = em_filter_context_new (backend);
 	config_dir = mail_session_get_config_dir ();
 	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);

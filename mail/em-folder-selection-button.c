@@ -41,7 +41,7 @@
 	((obj), EM_TYPE_FOLDER_SELECTION_BUTTON, EMFolderSelectionButtonPrivate))
 
 struct _EMFolderSelectionButtonPrivate {
-	EMailSession *session;
+	EMailBackend *backend;
 	GtkWidget *icon;
 	GtkWidget *label;
 
@@ -52,8 +52,8 @@ struct _EMFolderSelectionButtonPrivate {
 
 enum {
 	PROP_0,
+	PROP_BACKEND,
 	PROP_CAPTION,
-	PROP_SESSION,
 	PROP_TITLE
 };
 
@@ -82,7 +82,7 @@ folder_selection_button_unselected (EMFolderSelectionButton *button)
 static void
 folder_selection_button_set_contents (EMFolderSelectionButton *button)
 {
-	CamelSession *session;
+	EMailBackend *backend;
 	CamelStore *store = NULL;
 	EAccount *account;
 	GtkLabel *label;
@@ -90,12 +90,16 @@ folder_selection_button_set_contents (EMFolderSelectionButton *button)
 	gchar *folder_name = NULL;
 
 	label = GTK_LABEL (button->priv->label);
-	session = CAMEL_SESSION (button->priv->session);
+	backend = em_folder_selection_button_get_backend (button);
 
-	if (button->priv->uri != NULL)
+	if (backend != NULL && button->priv->uri != NULL) {
+		EMailSession *session;
+
+		session = e_mail_backend_get_session (backend);
 		e_mail_folder_uri_parse (
-			session, button->priv->uri,
+			CAMEL_SESSION (session), button->priv->uri,
 			&store, &folder_name, NULL);
+	}
 
 	if (store == NULL || folder_name == NULL) {
 		folder_selection_button_unselected (button);
@@ -127,16 +131,16 @@ folder_selection_button_set_property (GObject *object,
                                       GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_BACKEND:
+			em_folder_selection_button_set_backend (
+				EM_FOLDER_SELECTION_BUTTON (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_CAPTION:
 			em_folder_selection_button_set_caption (
 				EM_FOLDER_SELECTION_BUTTON (object),
 				g_value_get_string (value));
-			return;
-
-		case PROP_SESSION:
-			em_folder_selection_button_set_session (
-				EM_FOLDER_SELECTION_BUTTON (object),
-				g_value_get_object (value));
 			return;
 
 		case PROP_TITLE:
@@ -156,17 +160,17 @@ folder_selection_button_get_property (GObject *object,
                                       GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_BACKEND:
+			g_value_set_object (
+				value,
+				em_folder_selection_button_get_backend (
+				EM_FOLDER_SELECTION_BUTTON (object)));
+			return;
+
 		case PROP_CAPTION:
 			g_value_set_string (
 				value,
 				em_folder_selection_button_get_caption (
-				EM_FOLDER_SELECTION_BUTTON (object)));
-			return;
-
-		case PROP_SESSION:
-			g_value_set_object (
-				value,
-				em_folder_selection_button_get_session (
 				EM_FOLDER_SELECTION_BUTTON (object)));
 			return;
 
@@ -188,9 +192,9 @@ folder_selection_button_dispose (GObject *object)
 
 	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (object);
 
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
+	if (priv->backend != NULL) {
+		g_object_unref (priv->backend);
+		priv->backend = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -229,7 +233,7 @@ folder_selection_button_clicked (GtkButton *button)
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	emft = (EMFolderTree *) em_folder_tree_new (priv->session);
+	emft = (EMFolderTree *) em_folder_tree_new (priv->backend);
 	emu_restore_folder_tree_state (emft);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (emft));
@@ -279,23 +283,23 @@ em_folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_BACKEND,
+		g_param_spec_object (
+			"backend",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_BACKEND,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_CAPTION,
 		g_param_spec_string (
 			"caption",
 			NULL,
 			NULL,
 			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
-		g_param_spec_object (
-			"session",
-			NULL,
-			NULL,
-			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -345,15 +349,15 @@ em_folder_selection_button_init (EMFolderSelectionButton *emfsb)
 }
 
 GtkWidget *
-em_folder_selection_button_new (EMailSession *session,
+em_folder_selection_button_new (EMailBackend *backend,
                                 const gchar *title,
                                 const gchar *caption)
 {
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
 	return g_object_new (
 		EM_TYPE_FOLDER_SELECTION_BUTTON,
-		"session", session, "title", title,
+		"backend", backend, "title", title,
 		"caption", caption, NULL);
 }
 
@@ -400,31 +404,31 @@ em_folder_selection_button_set_selection (EMFolderSelectionButton *button,
 	folder_selection_button_set_contents (button);
 }
 
-EMailSession *
-em_folder_selection_button_get_session (EMFolderSelectionButton *button)
+EMailBackend *
+em_folder_selection_button_get_backend (EMFolderSelectionButton *button)
 {
 	g_return_val_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button), NULL);
 
-	return button->priv->session;
+	return button->priv->backend;
 }
 
 void
-em_folder_selection_button_set_session (EMFolderSelectionButton *button,
-                                        EMailSession *session)
+em_folder_selection_button_set_backend (EMFolderSelectionButton *button,
+                                        EMailBackend *backend)
 {
 	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
 
-	if (session != NULL) {
-		g_return_if_fail (E_IS_MAIL_SESSION (session));
-		g_object_ref (session);
+	if (backend != NULL) {
+		g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+		g_object_ref (backend);
 	}
 
-	if (button->priv->session != NULL)
-		g_object_unref (button->priv->session);
+	if (button->priv->backend != NULL)
+		g_object_unref (button->priv->backend);
 
-	button->priv->session = session;
+	button->priv->backend = backend;
 
-	g_object_notify (G_OBJECT (button), "session");
+	g_object_notify (G_OBJECT (button), "backend");
 }
 
 const gchar *

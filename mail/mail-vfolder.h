@@ -36,7 +36,7 @@ void		vfolder_edit			(EShellView *shell_view);
 void		vfolder_edit_rule		(EMailBackend *backend,
 						 const gchar *folder_uri);
 EFilterPart *	vfolder_create_part		(const gchar *name);
-EFilterRule *	vfolder_clone_rule		(EMailSession *session,
+EFilterRule *	vfolder_clone_rule		(EMailBackend *backend,
 						 EFilterRule *in);
 void		vfolder_gui_add_rule		(EMVFolderRule *rule);
 void		vfolder_gui_add_from_message	(EMailSession *session,
