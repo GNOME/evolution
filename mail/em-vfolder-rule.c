@@ -43,12 +43,12 @@
 #include "e-util/e-util-private.h"
 
 struct _EMVFolderRulePrivate {
-	EMailSession *session;
+	EMailBackend *backend;
 };
 
 enum {
 	PROP_0,
-	PROP_SESSION
+	PROP_BACKEND
 };
 
 static gint validate (EFilterRule *, EAlert **alert);
@@ -72,25 +72,22 @@ G_DEFINE_TYPE (
 	E_TYPE_FILTER_RULE)
 
 static void
-vfolder_rule_set_session (EMVFolderRule *rule,
-                          EMailSession *session)
+vfolder_rule_set_backend (EMVFolderRule *rule,
+                          EMailBackend *backend)
 {
-	if (session == NULL) {
+	if (backend == NULL) {
 		EShell *shell;
 		EShellBackend *shell_backend;
-		EMailBackend *backend;
 
 		shell = e_shell_get_default ();
 		shell_backend = e_shell_get_backend_by_name (shell, "mail");
-
 		backend = E_MAIL_BACKEND (shell_backend);
-		session = e_mail_backend_get_session (backend);
 	}
 
-	g_return_if_fail (E_IS_MAIL_SESSION (session));
-	g_return_if_fail (rule->priv->session == NULL);
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (rule->priv->backend == NULL);
 
-	rule->priv->session = g_object_ref (session);
+	rule->priv->backend = g_object_ref (backend);
 }
 
 static void
@@ -100,8 +97,8 @@ vfolder_rule_set_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_SESSION:
-			vfolder_rule_set_session (
+		case PROP_BACKEND:
+			vfolder_rule_set_backend (
 				EM_VFOLDER_RULE (object),
 				g_value_get_object (value));
 			return;
@@ -117,10 +114,10 @@ vfolder_rule_get_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_SESSION:
+		case PROP_BACKEND:
 			g_value_set_object (
 				value,
-				em_vfolder_rule_get_session (
+				em_vfolder_rule_get_backend (
 				EM_VFOLDER_RULE (object)));
 			return;
 	}
@@ -135,9 +132,9 @@ vfolder_rule_dispose (GObject *object)
 
 	priv = EM_VFOLDER_RULE (object)->priv;
 
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
+	if (priv->backend != NULL) {
+		g_object_unref (priv->backend);
+		priv->backend = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -180,12 +177,12 @@ em_vfolder_rule_class_init (EMVFolderRuleClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_SESSION,
+		PROP_BACKEND,
 		g_param_spec_object (
-			"session",
+			"backend",
 			NULL,
 			NULL,
-			E_TYPE_MAIL_SESSION,
+			E_TYPE_MAIL_BACKEND,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 }
@@ -201,20 +198,20 @@ em_vfolder_rule_init (EMVFolderRule *rule)
 }
 
 EFilterRule *
-em_vfolder_rule_new (EMailSession *session)
+em_vfolder_rule_new (EMailBackend *backend)
 {
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
 	return g_object_new (
-		EM_TYPE_VFOLDER_RULE, "session", session, NULL);
+		EM_TYPE_VFOLDER_RULE, "backend", backend, NULL);
 }
 
-EMailSession *
-em_vfolder_rule_get_session (EMVFolderRule *rule)
+EMailBackend *
+em_vfolder_rule_get_backend (EMVFolderRule *rule)
 {
 	g_return_val_if_fail (EM_IS_VFOLDER_RULE (rule), NULL);
 
-	return rule->priv->session;
+	return rule->priv->backend;
 }
 
 void
@@ -593,16 +590,16 @@ static void
 source_add (GtkWidget *widget, struct _source_data *data)
 {
 	EMFolderTree *emft;
-	EMailSession *session;
+	EMailBackend *backend;
 	GtkWidget *dialog;
 	gpointer parent;
 
 	parent = gtk_widget_get_toplevel (widget);
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	session = em_vfolder_rule_get_session (data->vr);
+	backend = em_vfolder_rule_get_backend (data->vr);
 
-	emft = (EMFolderTree *) em_folder_tree_new (session);
+	emft = (EMFolderTree *) em_folder_tree_new (backend);
 	emu_restore_folder_tree_state (emft);
 	em_folder_tree_set_excluded (emft, EMFT_EXCLUDE_NOSELECT);
 

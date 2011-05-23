@@ -2787,15 +2787,18 @@ static void
 post_header_clicked_cb (EComposerPostHeader *header,
                         EMsgComposer *composer)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
 	GtkTreeSelection *selection;
-	CamelSession *session;
 	GtkWidget *folder_tree;
 	GtkWidget *dialog;
 	GList *list;
 
-	session = e_msg_composer_get_session (composer);
+	/* FIXME Figure out a way to pass the mail backend in. */
+	shell = e_msg_composer_get_shell (composer);
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
-	folder_tree = em_folder_tree_new (E_MAIL_SESSION (session));
+	folder_tree = em_folder_tree_new (E_MAIL_BACKEND (shell_backend));
 	emu_restore_folder_tree_state (EM_FOLDER_TREE (folder_tree));
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));

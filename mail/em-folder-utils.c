@@ -473,7 +473,7 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 	}
 
 	/* XXX Do we leak this reference. */
-	emft = (EMFolderTree *) em_folder_tree_new (session);
+	emft = (EMFolderTree *) em_folder_tree_new (backend);
 	emu_restore_folder_tree_state (emft);
 
 	em_folder_tree_set_excluded_func (
@@ -512,7 +512,7 @@ new_folder_created_cb (CamelStore *store,
 		g_warning ("%s", error->message);
 		g_error_free (error);
 
-	} else {
+	} else if (context->folder_tree != NULL) {
 		gpointer data;
 		gboolean expand_only;
 
@@ -531,10 +531,11 @@ new_folder_created_cb (CamelStore *store,
 
 void
 em_folder_utils_create_folder (GtkWindow *parent,
+                               EMailBackend *backend,
                                EMFolderTree *emft,
-                               EMailSession *session,
                                const gchar *initial_uri)
 {
+	EMailSession *session;
 	EMFolderTree *folder_tree;
 	CamelStore *store = NULL;
 	const gchar *folder_uri;
@@ -542,14 +543,12 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	GtkWidget *dialog;
 	GError *error = NULL;
 
-	/* FIXME The EMailSession argument isn't really necessary.
-	 *       We could extract it via em_folder_tree_get_session(). */
-
 	g_return_if_fail (GTK_IS_WINDOW (parent));
-	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
-	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 
-	folder_tree = (EMFolderTree *) em_folder_tree_new (session);
+	session = e_mail_backend_get_session (backend);
+
+	folder_tree = (EMFolderTree *) em_folder_tree_new (backend);
 	emu_restore_folder_tree_state (folder_tree);
 
 	dialog = em_folder_selector_create_new (
@@ -584,15 +583,17 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	if (CAMEL_IS_VEE_STORE (store)) {
 		EFilterRule *rule;
 
-		rule = em_vfolder_rule_new (session);
+		rule = em_vfolder_rule_new (backend);
 		e_filter_rule_set_name (rule, folder_name);
 		vfolder_gui_add_rule (EM_VFOLDER_RULE (rule));
 	} else {
 		AsyncContext *context;
 
 		context = g_slice_new0 (AsyncContext);
-		context->folder_tree = g_object_ref (emft);
 		context->folder_uri = g_strdup (folder_uri);
+
+		if (EM_IS_FOLDER_TREE (emft))
+			context->folder_tree = g_object_ref (emft);
 
 		/* FIXME Not passing a GCancellable. */
 		e_mail_store_create_folder (

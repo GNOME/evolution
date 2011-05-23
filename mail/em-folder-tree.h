@@ -25,7 +25,7 @@
 #define EM_FOLDER_TREE_H
 
 #include <gtk/gtk.h>
-#include <mail/e-mail-session.h>
+#include <mail/e-mail-backend.h>
 #include <mail/em-folder-tree-model.h>
 
 /* Standard GObject macros */
@@ -89,12 +89,12 @@ struct _EMFolderTreeClass {
 };
 
 GType		em_folder_tree_get_type		(void);
-GtkWidget *	em_folder_tree_new		(EMailSession *session);
+GtkWidget *	em_folder_tree_new		(EMailBackend *backend);
 PangoEllipsizeMode
 		em_folder_tree_get_ellipsize	(EMFolderTree *folder_tree);
 void		em_folder_tree_set_ellipsize	(EMFolderTree *folder_tree,
 						 PangoEllipsizeMode ellipsize);
-EMailSession *	em_folder_tree_get_session	(EMFolderTree *folder_tree);
+EMailBackend *	em_folder_tree_get_backend	(EMFolderTree *folder_tree);
 void		em_folder_tree_enable_drag_and_drop
 						(EMFolderTree *folder_tree);
 void		em_folder_tree_set_excluded	(EMFolderTree *folder_tree,

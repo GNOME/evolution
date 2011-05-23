@@ -447,7 +447,7 @@ startup_wizard_new_assistant (EStartupWizard *extension)
 	e_mail_local_init (session, data_dir);
 
 	emae = em_account_editor_new (
-		NULL, EMAE_ASSISTANT, session,
+		NULL, EMAE_ASSISTANT, backend,
 		"org.gnome.evolution.mail.config.accountWizard");
 
 	config = E_CONFIG (emae->config);

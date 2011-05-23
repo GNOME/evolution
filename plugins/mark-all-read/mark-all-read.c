@@ -515,6 +515,7 @@ action_mail_mark_read_recursive_cb (GtkAction *action,
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EMFolderTree *folder_tree;
+	EMailBackend *backend;
 	EMailSession *session;
 	AsyncContext *context;
 	CamelStore *store = NULL;
@@ -529,7 +530,9 @@ action_mail_mark_read_recursive_cb (GtkAction *action,
 
 	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
 
-	session = em_folder_tree_get_session (folder_tree);
+	backend = em_folder_tree_get_backend (folder_tree);
+	session = e_mail_backend_get_session (backend);
+
 	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
 	g_return_if_fail (folder_uri != NULL);
 

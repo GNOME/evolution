@@ -106,7 +106,7 @@ action_mail_folder_new_cb (GtkAction *action,
 {
 	EMFolderTree *folder_tree = NULL;
 	EMailShellSidebar *mail_shell_sidebar;
-	EMailSession *mail_session;
+	EMailBackend *backend;
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
 	const gchar *view_name;
@@ -114,19 +114,16 @@ action_mail_folder_new_cb (GtkAction *action,
 	/* Take care not to unnecessarily load the mail shell view. */
 	view_name = e_shell_window_get_active_view (shell_window);
 	if (g_strcmp0 (view_name, BACKEND_NAME) != 0) {
-		EShellBackend *mail_backend;
+		EShellBackend *shell_backend;
 		EShell *shell;
 
 		shell = e_shell_window_get_shell (shell_window);
 
-		mail_backend =
+		shell_backend =
 			e_shell_get_backend_by_name (shell, BACKEND_NAME);
-		g_return_if_fail (mail_backend != NULL);
+		g_return_if_fail (E_IS_MAIL_BACKEND (shell_backend));
 
-		mail_session =
-			e_mail_backend_get_session (
-			E_MAIL_BACKEND (mail_backend));
-		g_return_if_fail (mail_session != NULL);
+		backend = E_MAIL_BACKEND (shell_backend);
 
 		goto exit;
 	}
@@ -136,11 +133,11 @@ action_mail_folder_new_cb (GtkAction *action,
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	mail_session = em_folder_tree_get_session (folder_tree);
+	backend = em_folder_tree_get_backend (folder_tree);
 
 exit:
 	em_folder_utils_create_folder (
-		GTK_WINDOW (shell_window), folder_tree, mail_session, NULL);
+		GTK_WINDOW (shell_window), backend, folder_tree, NULL);
 }
 
 static void

@@ -45,8 +45,8 @@ void		em_folder_utils_copy_folder	(GtkWindow *parent,
 						 const gchar *folder_uri,
 						 gboolean delete);
 void		em_folder_utils_create_folder	(GtkWindow *parent,
+						 EMailBackend *backend,
 						 EMFolderTree *emft,
-						 EMailSession *session,
 						 const gchar *initial_uri);
 
 const gchar *	em_folder_utils_get_icon_name	(guint32 flags);

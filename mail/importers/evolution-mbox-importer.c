@@ -82,18 +82,16 @@ mbox_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
-	EMailSession *session;
 	GtkWindow *window;
 	GtkWidget *hbox, *w;
 	GtkLabel *label;
 	gchar *select_uri = NULL;
 
-	/* XXX Dig up the EMailSession from the default EShell.
+	/* XXX Dig up the mail backend from the default EShell.
 	 *     Since the EImport framework doesn't allow for user
 	 *     data, I don't see how else to get to it. */
 	shell = e_shell_get_default ();
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
-	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
 	/* preselect the folder selected in a mail view */
 	window = e_shell_get_active_window (shell);
@@ -130,7 +128,8 @@ mbox_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 	label = GTK_LABEL (w);
 
 	w = em_folder_selection_button_new (
-		session, _("Select folder"),
+		E_MAIL_BACKEND (shell_backend),
+		_("Select folder"),
 		_("Select folder to import into"));
 	gtk_label_set_mnemonic_widget (label, w);
 	em_folder_selection_button_set_selection (

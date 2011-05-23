@@ -66,7 +66,7 @@ static guint mail_capplet_shell_signals[LAST_SIGNAL];
 
 struct  _MailCappletShellPrivate {
 
-	EMailSession *session;
+	EMailBackend *backend;
 	GtkWidget *box;
 
 	GtkWidget * top_bar;
@@ -202,6 +202,7 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 {
 	MailCappletShellPrivate *priv = shell->priv;
 	GtkStyle *style = gtk_widget_get_default_style ();
+	EMailSession *session;
 	gchar *custom_dir;
 
 	gtk_window_set_icon_name ((GtkWindow *)shell, "evolution");
@@ -238,17 +239,18 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 
 	camel_provider_init ();
 
-	shell->priv->session = e_mail_session_new ();
+	shell->priv->backend = g_object_new (E_TYPE_MAIL_BACKEND, NULL);
+	session = e_mail_backend_get_session (shell->priv->backend);
 
 	shell->view = mail_view_new ();
-	shell->view->session = shell->priv->session;
+	shell->view->backend = shell->priv->backend;
 	gtk_widget_show ((GtkWidget *) shell->view);
 	gtk_box_pack_end ((GtkBox *) priv->box, (GtkWidget *) shell->view, TRUE, TRUE, 2);
 
-	mail_config_init (shell->priv->session);
+	mail_config_init (session);
 	mail_msg_init ();
 	custom_dir = g_build_filename (e_get_user_data_dir (), "mail", NULL);
-	e_mail_store_init (shell->priv->session, custom_dir);
+	e_mail_store_init (session, custom_dir);
 	g_free (custom_dir);
 
 	if (just_druid) {

@@ -805,13 +805,15 @@ rule_add_sources (EMailSession *session,
 static void
 rule_changed (EFilterRule *rule, CamelFolder *folder)
 {
+	EMailBackend *backend;
 	EMailSession *session;
 	GList *sources_uri = NULL, *sources_folder = NULL;
 	GString *query;
 	const gchar *full_name;
 
 	full_name = camel_folder_get_full_name (folder);
-	session = em_vfolder_rule_get_session (EM_VFOLDER_RULE (rule));
+	backend = em_vfolder_rule_get_backend (EM_VFOLDER_RULE (rule));
+	session = e_mail_backend_get_session (backend);
 
 	/* if the folder has changed name, then add it, then remove the old manually */
 	if (strcmp (full_name, rule->name) != 0) {
@@ -1109,7 +1111,7 @@ vfolder_load_storage (EMailBackend *backend)
 
 	/* load our rules */
 	user = g_build_filename (config_dir, "vfolders.xml", NULL);
-	context = em_vfolder_context_new (session);
+	context = em_vfolder_context_new (backend);
 
 	xmlfile = g_build_filename (EVOLUTION_PRIVDATADIR, "vfoldertypes.xml", NULL);
 	if (e_rule_context_load ((ERuleContext *) context,
@@ -1345,12 +1347,12 @@ vfolder_create_part (const gchar *name)
 /* clones a filter/search rule into a matching vfolder rule
  * (assuming the same system definitions) */
 EFilterRule *
-vfolder_clone_rule (EMailSession *session, EFilterRule *in)
+vfolder_clone_rule (EMailBackend *backend, EFilterRule *in)
 {
 	EFilterRule *rule;
 	xmlNodePtr xml;
 
-	rule = em_vfolder_rule_new (session);
+	rule = em_vfolder_rule_new (backend);
 
 	xml = e_filter_rule_xml_encode (in);
 	e_filter_rule_xml_decode (rule, xml, (ERuleContext *) context);

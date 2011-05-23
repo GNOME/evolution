@@ -58,8 +58,8 @@
 #include "widgets/misc/e-signature-editor.h"
 #include "widgets/misc/e-port-entry.h"
 
+#include "e-mail-backend.h"
 #include "e-mail-local.h"
-#include "e-mail-session.h"
 #include "e-mail-store.h"
 #include "em-config.h"
 #include "em-folder-selection-button.h"
@@ -140,7 +140,7 @@ typedef struct _EMAccountEditorService {
 
 struct _EMAccountEditorPrivate {
 
-	EMailSession *session;
+	EMailBackend *backend;
 	EAccount *modified_account;
 	EAccount *original_account;
 	gboolean new_account;
@@ -211,9 +211,9 @@ struct _EMAccountEditorPrivate {
 
 enum {
 	PROP_0,
+	PROP_BACKEND,
 	PROP_MODIFIED_ACCOUNT,
-	PROP_ORIGINAL_ACCOUNT,
-	PROP_SESSION
+	PROP_ORIGINAL_ACCOUNT
 };
 
 static void emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service);
@@ -268,13 +268,13 @@ emae_set_original_account (EMAccountEditor *emae,
 }
 
 static void
-emae_set_session (EMAccountEditor *emae,
-                  EMailSession *session)
+emae_set_backend (EMAccountEditor *emae,
+                  EMailBackend *backend)
 {
-	g_return_if_fail (E_IS_MAIL_SESSION (session));
-	g_return_if_fail (emae->priv->session == NULL);
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (emae->priv->backend == NULL);
 
-	emae->priv->session = g_object_ref (session);
+	emae->priv->backend = g_object_ref (backend);
 }
 
 static void
@@ -284,14 +284,14 @@ emae_set_property (GObject *object,
                    GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ORIGINAL_ACCOUNT:
-			emae_set_original_account (
+		case PROP_BACKEND:
+			emae_set_backend (
 				EM_ACCOUNT_EDITOR (object),
 				g_value_get_object (value));
 			return;
 
-		case PROP_SESSION:
-			emae_set_session (
+		case PROP_ORIGINAL_ACCOUNT:
+			emae_set_original_account (
 				EM_ACCOUNT_EDITOR (object),
 				g_value_get_object (value));
 			return;
@@ -307,6 +307,13 @@ emae_get_property (GObject *object,
                    GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_BACKEND:
+			g_value_set_object (
+				value,
+				em_account_editor_get_backend (
+				EM_ACCOUNT_EDITOR (object)));
+			return;
+
 		case PROP_MODIFIED_ACCOUNT:
 			g_value_set_object (
 				value,
@@ -318,13 +325,6 @@ emae_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				em_account_editor_get_original_account (
-				EM_ACCOUNT_EDITOR (object)));
-			return;
-
-		case PROP_SESSION:
-			g_value_set_object (
-				value,
-				em_account_editor_get_session (
 				EM_ACCOUNT_EDITOR (object)));
 			return;
 	}
@@ -339,9 +339,9 @@ emae_dispose (GObject *object)
 
 	priv = EM_ACCOUNT_EDITOR (object)->priv;
 
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
+	if (priv->backend != NULL) {
+		g_object_unref (priv->backend);
+		priv->backend = NULL;
 	}
 
 	if (priv->modified_account != NULL) {
@@ -398,6 +398,17 @@ emae_class_init (GObjectClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_BACKEND,
+		g_param_spec_object (
+			"backend",
+			"Mail Backend",
+			NULL,
+			E_TYPE_MAIL_BACKEND,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_MODIFIED_ACCOUNT,
 		g_param_spec_object (
 			"modified-account",
@@ -414,17 +425,6 @@ emae_class_init (GObjectClass *class)
 			"Original Account",
 			NULL,
 			E_TYPE_ACCOUNT,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
-		g_param_spec_object (
-			"session",
-			"Mail Session",
-			NULL,
-			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 }
@@ -482,17 +482,17 @@ em_account_editor_get_type (void)
 EMAccountEditor *
 em_account_editor_new (EAccount *account,
                        EMAccountEditorType type,
-                       EMailSession *session,
+                       EMailBackend *backend,
                        const gchar *id)
 {
 	EMAccountEditor *emae;
 
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
 	emae = g_object_new (
 		EM_TYPE_ACCOUNT_EDITOR,
 		"original-account", account,
-		"session", session, NULL);
+		"backend", backend, NULL);
 
 	em_account_editor_construct (emae, type, id);
 
@@ -513,23 +513,31 @@ em_account_editor_new (EAccount *account,
 EMAccountEditor *
 em_account_editor_new_for_pages (EAccount *account,
                                  EMAccountEditorType type,
-                                 EMailSession *session,
+                                 EMailBackend *backend,
                                  const gchar *id,
                                  GtkWidget **pages)
 {
 	EMAccountEditor *emae;
 
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
 	emae = g_object_new (
 		EM_TYPE_ACCOUNT_EDITOR,
 		"original-account", account,
-		"session", session, NULL);
+		"backend", backend, NULL);
 
 	emae->pages = pages;
 	em_account_editor_construct (emae, type, id);
 
 	return emae;
+}
+
+EMailBackend *
+em_account_editor_get_backend (EMAccountEditor *emae)
+{
+	g_return_val_if_fail (EM_IS_ACCOUNT_EDITOR (emae), NULL);
+
+	return emae->priv->backend;
 }
 
 EAccount *
@@ -546,14 +554,6 @@ em_account_editor_get_original_account (EMAccountEditor *emae)
 	g_return_val_if_fail (EM_IS_ACCOUNT_EDITOR (emae), NULL);
 
 	return emae->priv->original_account;
-}
-
-EMailSession *
-em_account_editor_get_session (EMAccountEditor *emae)
-{
-	g_return_val_if_fail (EM_IS_ACCOUNT_EDITOR (emae), NULL);
-
-	return emae->priv->session;
 }
 
 /* ********************************************************************** */
@@ -1108,14 +1108,14 @@ emae_account_folder (EMAccountEditor *emae, const gchar *name, gint item, gint d
 {
 	EAccount *account;
 	EMFolderSelectionButton *folder;
-	EMailSession *session;
+	EMailBackend *backend;
 	const gchar *uri;
 
 	account = em_account_editor_get_modified_account (emae);
-	session = em_account_editor_get_session (emae);
+	backend = em_account_editor_get_backend (emae);
 
 	folder = (EMFolderSelectionButton *) e_builder_get_widget (builder, name);
-	em_folder_selection_button_set_session (folder, session);
+	em_folder_selection_button_set_backend (folder, backend);
 
 	uri = e_account_get_string (account, item);
 	if (uri != NULL) {
@@ -1981,6 +1981,7 @@ emae_check_authtype (GtkWidget *w,
                      EMAccountEditorService *service)
 {
 	CamelService *camel_service;
+	EMailBackend *backend;
 	EMailSession *session;
 	EAccount *account;
 	GtkWidget *editor;
@@ -1990,7 +1991,8 @@ emae_check_authtype (GtkWidget *w,
 	account = em_account_editor_get_modified_account (service->emae);
 	editor = E_CONFIG (service->emae->config)->window;
 
-	session = em_account_editor_get_session (service->emae);
+	backend = em_account_editor_get_backend (service->emae);
+	session = e_mail_backend_get_session (backend);
 
 	if (service->type == CAMEL_PROVIDER_TRANSPORT)
 		uid = g_strconcat (account->uid, "-transport", NULL);
@@ -3035,7 +3037,7 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *priv = emae->priv;
 	EMFolderSelectionButton *button;
-	EMailSession *session;
+	EMailBackend *backend;
 	EAccount *account;
 	GtkWidget *widget;
 	GtkBuilder *builder;
@@ -3046,10 +3048,10 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 		return NULL;
 
 	account = em_account_editor_get_modified_account (emae);
-	session = em_account_editor_get_session (emae);
+	backend = em_account_editor_get_backend (emae);
 
-	/* Make sure we have a valid EMailSession. */
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+	/* Make sure we have a valid EMailBackend. */
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
 	builder = gtk_builder_new ();
 	e_load_ui_builder_definition (builder, "mail-config.ui");
@@ -3072,7 +3074,7 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 
 	widget = e_builder_get_widget (builder, "trash_folder_butt");
 	button = EM_FOLDER_SELECTION_BUTTON (widget);
-	em_folder_selection_button_set_session (button, session);
+	em_folder_selection_button_set_backend (button, backend);
 	priv->trash_folder_button = GTK_BUTTON (button);
 
 	setup_checkable_folder (
@@ -3085,7 +3087,7 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 
 	widget = e_builder_get_widget (builder, "junk_folder_butt");
 	button = EM_FOLDER_SELECTION_BUTTON (widget);
-	em_folder_selection_button_set_session (button, session);
+	em_folder_selection_button_set_backend (button, backend);
 	priv->junk_folder_button = GTK_BUTTON (button);
 
 	setup_checkable_folder (
@@ -3783,9 +3785,11 @@ emae_commit (EConfig *ec, GSList *items, gpointer data)
 		if (account->enabled
 		    && emae->priv->source.provider
 		    && (emae->priv->source.provider->flags & CAMEL_PROVIDER_IS_STORAGE)) {
+			EMailBackend *backend;
 			EMailSession *session;
 
-			session = em_account_editor_get_session (emae);
+			backend = em_account_editor_get_backend (emae);
+			session = e_mail_backend_get_session (backend);
 			e_mail_store_add_by_account (session, account);
 		}
 	}
