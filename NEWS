@@ -1,3 +1,28 @@
+Evolution 3.0.2 2011-04-23
+--------------------------
+
+Bug Fixes:
+	Bug 647785 - Pasting an 24h event in month and week view doesn't work (Milan Crha)
+	Bug 648612 crash during drag & drop of recurring events (Punit Jain)
+	Bug 650088 - Cannot send message from Contacts view (Matthew Barnes)
+	Bug 649990 - Remove get_font_options() from e-util.c. (Matthew Barnes)
+	Bug 646033 - Update progress in Send/Receive dialog (Milan Crha)
+	Bug 619347 - Decode QP in email in Contact List Editor (Milan Crha)
+	Bug 645476 - Avoid scroll to cursor on folder change in message list (Milan Crha)
+	Bug 649381 - Memory leaks in contact editor (Dan Vrátil)
+	Bug 645825 - Search bar not changing color when showing results (Dan Vrátil)
+	Bug 597082 - Crash while migrating folder info (Matthew Barnes)
+
+Miscellaneous Fixes:
+	mail-autofilter.c: Add argument guards in public functions. (Matthew Barnes)
+	Make EAlertBar messages selectable (Milan Crha)
+	Fix a memory leak (Milan Crha)
+
+Translations:
+	Christian Kirbach (de)
+	Alexander Shopov (bg)
+	Andre Klapper (gl)
+
 Evolution 3.0.1 2011-04-25
 --------------------------
 Bug Fixes:
