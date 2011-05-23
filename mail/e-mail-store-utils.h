@@ -25,6 +25,21 @@
 
 G_BEGIN_DECLS
 
+gboolean	e_mail_store_create_folder_sync	(CamelStore *store,
+						 const gchar *full_name,
+						 GCancellable *cancellable,
+						 GError **error);
+void		e_mail_store_create_folder	(CamelStore *store,
+						 const gchar *full_name,
+						 gint io_priority,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_mail_store_create_folder_finish
+						(CamelStore *store,
+						 GAsyncResult *result,
+						 GError **error);
+
 void		e_mail_store_go_offline		(CamelStore *store,
 						 gint io_priority,
 						 GCancellable *cancellable,
@@ -33,6 +48,7 @@ void		e_mail_store_go_offline		(CamelStore *store,
 gboolean	e_mail_store_go_offline_finish	(CamelStore *store,
 						 GAsyncResult *result,
 						 GError **error);
+
 void		e_mail_store_go_online		(CamelStore *store,
 						 gint io_priority,
 						 GCancellable *cancellable,
@@ -41,6 +57,7 @@ void		e_mail_store_go_online		(CamelStore *store,
 gboolean	e_mail_store_go_online_finish	(CamelStore *store,
 						 GAsyncResult *result,
 						 GError **error);
+
 void		e_mail_store_prepare_for_offline
 						(CamelStore *store,
 						 gint io_priority,

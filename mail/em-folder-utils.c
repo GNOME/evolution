@@ -62,8 +62,27 @@
 #include "e-mail-local.h"
 #include "e-mail-session.h"
 #include "e-mail-store.h"
+#include "e-mail-store-utils.h"
 
 #define d(x)
+
+typedef struct _AsyncContext AsyncContext;
+
+struct _AsyncContext {
+	EMFolderTree *folder_tree;
+	gchar *folder_uri;
+};
+
+static void
+async_context_free (AsyncContext *context)
+{
+	if (context->folder_tree != NULL)
+		g_object_unref (context->folder_tree);
+
+	g_free (context->folder_uri);
+
+	g_slice_free (AsyncContext, context);
+}
 
 static gboolean
 emfu_is_special_local_folder (const gchar *name)
@@ -479,200 +498,37 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 	gtk_widget_destroy (dialog);
 }
 
-struct _EMCreateFolder {
-	MailMsg base;
-
-	/* input data */
-	CamelStore *store;
-	gchar *full_name;
-	gchar *parent;
-	gchar *name;
-
-	/* output data */
-	CamelFolderInfo *fi;
-
-	/* callback data */
-	void (* done) (CamelFolderInfo *fi, gpointer user_data);
-	gpointer user_data;
-};
-
-/* Temporary Structure to hold data to pass across function */
-struct _EMCreateFolderTempData
-{
-	EMFolderTree * emft;
-	EMFolderSelector * emfs;
-	gchar *uri;
-};
-
-static gchar *
-emfu_create_folder__desc (struct _EMCreateFolder *m)
-{
-	return g_strdup_printf (_("Creating folder '%s'"), m->full_name);
-}
-
 static void
-emfu_create_folder__exec (struct _EMCreateFolder *m,
-                          GCancellable *cancellable,
-                          GError **error)
+new_folder_created_cb (CamelStore *store,
+                       GAsyncResult *result,
+                       AsyncContext *context)
 {
-	if ((m->fi = camel_store_create_folder_sync (
-		m->store, m->parent, m->name, cancellable, error))) {
-
-		if (camel_store_supports_subscriptions (m->store))
-			camel_store_subscribe_folder_sync (
-				m->store, m->full_name,
-				cancellable, error);
-	}
-}
-
-static void
-emfu_create_folder__done (struct _EMCreateFolder *m)
-{
-	if (m->done)
-		m->done (m->fi, m->user_data);
-}
-
-static void
-emfu_create_folder__free (struct _EMCreateFolder *m)
-{
-	camel_store_free_folder_info (m->store, m->fi);
-	g_object_unref (m->store);
-	g_free (m->full_name);
-	g_free (m->parent);
-	g_free (m->name);
-}
-
-static MailMsgInfo create_folder_info = {
-	sizeof (struct _EMCreateFolder),
-	(MailMsgDescFunc) emfu_create_folder__desc,
-	(MailMsgExecFunc) emfu_create_folder__exec,
-	(MailMsgDoneFunc) emfu_create_folder__done,
-	(MailMsgFreeFunc) emfu_create_folder__free
-};
-
-static gint
-emfu_create_folder_real (CamelStore *store,
-                         const gchar *full_name,
-                         void (*done) (CamelFolderInfo *fi,
-                                       gpointer user_data),
-                         gpointer user_data)
-{
-	gchar *name, *namebuf = NULL;
-	struct _EMCreateFolder *m;
-	const gchar *parent;
-	gint id;
-
-	namebuf = g_strdup (full_name);
-	if (!(name = strrchr (namebuf, '/'))) {
-		name = namebuf;
-		parent = "";
-	} else {
-		*name++ = '\0';
-		parent = namebuf;
-	}
-
-	m = mail_msg_new (&create_folder_info);
-	g_object_ref (store);
-	m->store = store;
-	m->full_name = g_strdup (full_name);
-	m->parent = g_strdup (parent);
-	m->name = g_strdup (name);
-	m->user_data = user_data;
-	m->done = done;
-
-	g_free (namebuf);
-
-	id = m->base.seq;
-	mail_msg_unordered_push (m);
-
-	return id;
-}
-
-static void
-new_folder_created_cb (CamelFolderInfo *fi,
-                       gpointer user_data)
-{
-	struct _EMCreateFolderTempData *emcftd=user_data;
-	if (fi) {
-		/* Exapnding newly created folder */
-		if (emcftd->emft)
-			em_folder_tree_set_selected (
-				EM_FOLDER_TREE (emcftd->emft),
-				emcftd->uri, GPOINTER_TO_INT (
-				g_object_get_data (G_OBJECT (emcftd->emft),
-				"select")) ? FALSE : TRUE);
-
-		gtk_widget_destroy ((GtkWidget *) emcftd->emfs);
-	}
-	g_object_unref (emcftd->emfs);
-	g_free (emcftd->uri);
-	g_free (emcftd);
-}
-
-static void
-emfu_popup_new_folder_response (EMFolderSelector *emfs,
-                                gint response,
-                                EMFolderTree *folder_tree)
-{
-	EMFolderTreeModelStoreInfo *si;
-	EMailSession *session;
-	GtkTreeModel *model;
-	const gchar *uri, *path;
-	CamelStore *store = NULL;
-	struct _EMCreateFolderTempData  *emcftd;
 	GError *error = NULL;
 
-	if (response != GTK_RESPONSE_OK) {
-		gtk_widget_destroy ((GtkWidget *) emfs);
-		return;
-	}
+	e_mail_store_create_folder_finish (store, result, &error);
 
-	uri = em_folder_selector_get_selected_uri (emfs);
-	path = em_folder_selector_get_selected_path (emfs);
-
-	d(printf ("Creating new folder: %s (%s)\n", path, uri));
-
-	session = em_folder_tree_get_session (folder_tree);
-
-	e_mail_folder_uri_parse (
-		CAMEL_SESSION (session), uri, &store, NULL, &error);
-
+	/* FIXME Use an EActivity here. */
 	if (error != NULL) {
-		g_warning (
-			"%s: Failed to parse folder uri: %s",
-			G_STRFUNC, error->message);
+		g_warning ("%s", error->message);
 		g_error_free (error);
-		return;
-	}
 
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (emfs->emft));
-	si = em_folder_tree_model_lookup_store_info (
-		EM_FOLDER_TREE_MODEL (model), store);
-	g_return_if_fail (si != NULL);
-
-	/* HACK: we need to create vfolders using the vfolder editor */
-	if (CAMEL_IS_VEE_STORE (store)) {
-		EFilterRule *rule;
-
-		rule = em_vfolder_rule_new (session);
-		e_filter_rule_set_name (rule, path);
-		vfolder_gui_add_rule (EM_VFOLDER_RULE (rule));
-		gtk_widget_destroy ((GtkWidget *) emfs);
 	} else {
-		/* Temp data to pass to create_folder_real function */
-		emcftd = (struct _EMCreateFolderTempData *)
-			g_malloc (sizeof (struct _EMCreateFolderTempData));
-		emcftd->emfs = emfs;
-		emcftd->uri = g_strdup (uri);
-		emcftd->emft = folder_tree;
+		gpointer data;
+		gboolean expand_only;
 
-		g_object_ref (emfs);
-		emfu_create_folder_real (
-			si->store, path, new_folder_created_cb, emcftd);
+		/* XXX What in the hell kind of lazy hack is this? */
+		data = g_object_get_data (
+			G_OBJECT (context->folder_tree), "select");
+		expand_only = GPOINTER_TO_INT (data) ? TRUE : FALSE;
+			
+		em_folder_tree_set_selected (
+			context->folder_tree,
+			context->folder_uri, expand_only);
 	}
+
+	async_context_free (context);
 }
 
-/* FIXME: these functions must be documented */
 void
 em_folder_utils_create_folder (GtkWindow *parent,
                                EMFolderTree *emft,
@@ -680,7 +536,18 @@ em_folder_utils_create_folder (GtkWindow *parent,
                                const gchar *initial_uri)
 {
 	EMFolderTree *folder_tree;
+	CamelStore *store = NULL;
+	const gchar *folder_uri;
+	gchar *folder_name = NULL;
 	GtkWidget *dialog;
+	GError *error = NULL;
+
+	/* FIXME The EMailSession argument isn't really necessary.
+	 *       We could extract it via em_folder_tree_get_session(). */
+
+	g_return_if_fail (GTK_IS_WINDOW (parent));
+	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	folder_tree = (EMFolderTree *) em_folder_tree_new (session);
 	emu_restore_folder_tree_state (folder_tree);
@@ -692,15 +559,52 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	if (initial_uri != NULL)
 		em_folder_selector_set_selected (
 			EM_FOLDER_SELECTOR (dialog), initial_uri);
-	g_signal_connect (
-		dialog, "response",
-		G_CALLBACK (emfu_popup_new_folder_response),
-		emft ? emft : folder_tree);
 
-	if (!parent || !GTK_IS_DIALOG (parent))
-		gtk_widget_show (dialog);
-	else
-		gtk_dialog_run (GTK_DIALOG (dialog));
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
+		goto exit;
+
+	folder_uri = em_folder_selector_get_selected_uri (
+		EM_FOLDER_SELECTOR (dialog));
+
+	e_mail_folder_uri_parse (
+		CAMEL_SESSION (session), folder_uri,
+		&store, &folder_name, &error);
+
+	/* XXX This is unlikely to fail since the URI comes straight from
+	 *     EMFolderSelector, but leave a breadcrumb if it does fail. */
+	if (error != NULL) {
+		g_warn_if_fail (store == NULL);
+		g_warn_if_fail (folder_name == NULL);
+		g_warning ("%s", error->message);
+		g_error_free (error);
+		goto exit;
+	}
+
+	/* HACK: we need to create vfolders using the vfolder editor */
+	if (CAMEL_IS_VEE_STORE (store)) {
+		EFilterRule *rule;
+
+		rule = em_vfolder_rule_new (session);
+		e_filter_rule_set_name (rule, folder_name);
+		vfolder_gui_add_rule (EM_VFOLDER_RULE (rule));
+	} else {
+		AsyncContext *context;
+
+		context = g_slice_new0 (AsyncContext);
+		context->folder_tree = g_object_ref (emft);
+		context->folder_uri = g_strdup (folder_uri);
+
+		/* FIXME Not passing a GCancellable. */
+		e_mail_store_create_folder (
+			store, folder_name, G_PRIORITY_DEFAULT, NULL,
+			(GAsyncReadyCallback) new_folder_created_cb,
+			context);
+	}
+
+	g_free (folder_name);
+
+exit:
+	gtk_widget_destroy (dialog);
 }
 
 const gchar *
