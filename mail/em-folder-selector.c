@@ -29,22 +29,72 @@
 #include "em-folder-tree.h"
 #include "em-folder-selector.h"
 #include "em-folder-utils.h"
+#include "em-utils.h"
 
 #define d(x)
 
-static gpointer parent_class;
+#define EM_FOLDER_SELECTOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_FOLDER_SELECTOR, EMFolderSelectorPrivate))
+
+struct _EMFolderSelectorPrivate {
+	EMailBackend *backend;
+	EMFolderTree *folder_tree;  /* not referenced */
+};
+
+enum {
+	PROP_0,
+	PROP_BACKEND
+};
+
+G_DEFINE_TYPE (
+	EMFolderSelector,
+	em_folder_selector,
+	GTK_TYPE_DIALOG)
 
 static void
-folder_selector_finalize (GObject *object)
+folder_selector_set_backend (EMFolderSelector *emfs,
+                             EMailBackend *backend)
 {
-	EMFolderSelector *emfs = EM_FOLDER_SELECTOR (object);
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (emfs->priv->backend == NULL);
 
-	g_free (emfs->selected_path);
-	g_free (emfs->selected_uri);
-	g_free (emfs->created_uri);
+	emfs->priv->backend = g_object_ref (backend);
+}
 
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+static void
+folder_selector_set_property (GObject *object,
+                              guint property_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_BACKEND:
+			folder_selector_set_backend (
+				EM_FOLDER_SELECTOR (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+folder_selector_get_property (GObject *object,
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_BACKEND:
+			g_value_set_object (
+				value,
+				em_folder_tree_get_backend (
+				EM_FOLDER_TREE (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
@@ -53,75 +103,86 @@ folder_selector_dispose (GObject *object)
 	EMFolderSelector *emfs = EM_FOLDER_SELECTOR (object);
 	GtkTreeModel *model;
 
+	if (emfs->priv->backend != NULL) {
+		g_object_unref (emfs->priv->backend);
+		emfs->priv->backend = NULL;
+	}
+
 	if (emfs->created_id != 0) {
-		model = gtk_tree_view_get_model (GTK_TREE_VIEW (emfs->emft));
+		GtkTreeView *tree_view;
+
+		tree_view = GTK_TREE_VIEW (emfs->priv->folder_tree);
+		model = gtk_tree_view_get_model (tree_view);
 		g_signal_handler_disconnect (model, emfs->created_id);
 		emfs->created_id = 0;
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (em_folder_selector_parent_class)->dispose (object);
 }
 
 static void
-folder_selector_class_init (EMFolderSelectorClass *class)
+folder_selector_finalize (GObject *object)
+{
+	EMFolderSelector *emfs = EM_FOLDER_SELECTOR (object);
+
+	g_free (emfs->selected_uri);
+	g_free (emfs->created_uri);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (em_folder_selector_parent_class)->finalize (object);
+}
+
+static void
+em_folder_selector_class_init (EMFolderSelectorClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMFolderSelectorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = folder_selector_finalize;
+	object_class->set_property = folder_selector_set_property;
+	object_class->get_property = folder_selector_get_property;
 	object_class->dispose = folder_selector_dispose;
+	object_class->finalize = folder_selector_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_BACKEND,
+		g_param_spec_object (
+			"backend",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_BACKEND,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
-folder_selector_init (EMFolderSelector *emfs)
+em_folder_selector_init (EMFolderSelector *emfs)
 {
-	emfs->selected_path = NULL;
-	emfs->selected_uri = NULL;
-}
-
-GType
-em_folder_selector_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMFolderSelectorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) folder_selector_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMFolderSelector),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) folder_selector_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_DIALOG, "EMFolderSelector", &type_info, 0);
-	}
-
-	return type;
+	emfs->priv = EM_FOLDER_SELECTOR_GET_PRIVATE (emfs);
 }
 
 static void
 emfs_response (GtkWidget *dialog, gint response, EMFolderSelector *emfs)
 {
+	EMFolderTree *folder_tree;
 	EMailBackend *backend;
 
 	if (response != EM_FOLDER_SELECTOR_RESPONSE_NEW)
 		return;
 
-	g_object_set_data ((GObject *)emfs->emft, "select", GUINT_TO_POINTER (1));
+	folder_tree = em_folder_selector_get_folder_tree (emfs);
 
-	backend = em_folder_tree_get_backend (emfs->emft);
+	g_object_set_data (
+		G_OBJECT (folder_tree), "select", GUINT_TO_POINTER (1));
+
+	backend = em_folder_tree_get_backend (folder_tree);
 
 	em_folder_utils_create_folder (
-		GTK_WINDOW (dialog), backend, emfs->emft, NULL);
+		GTK_WINDOW (dialog), backend, folder_tree, NULL);
 
 	g_signal_stop_emission_by_name (emfs, "response");
 }
@@ -129,6 +190,7 @@ emfs_response (GtkWidget *dialog, gint response, EMFolderSelector *emfs)
 static void
 emfs_create_name_changed (GtkEntry *entry, EMFolderSelector *emfs)
 {
+	EMFolderTree *folder_tree;
 	gchar *path;
 	const gchar *text = NULL;
 	gboolean active;
@@ -136,11 +198,14 @@ emfs_create_name_changed (GtkEntry *entry, EMFolderSelector *emfs)
 	if (gtk_entry_get_text_length (emfs->name_entry) > 0)
 		text = gtk_entry_get_text (emfs->name_entry);
 
-	path = em_folder_tree_get_selected_uri (emfs->emft);
+	folder_tree = em_folder_selector_get_folder_tree (emfs);
+
+	path = em_folder_tree_get_selected_uri (folder_tree);
 	active = text && path && !strchr (text, '/');
 	g_free (path);
 
-	gtk_dialog_set_response_sensitive ((GtkDialog *) emfs, GTK_RESPONSE_OK, active);
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (emfs), GTK_RESPONSE_OK, active);
 }
 
 static void
@@ -166,24 +231,29 @@ folder_activated_cb (EMFolderTree *emft,
 	gtk_dialog_response ((GtkDialog *) emfs, GTK_RESPONSE_OK);
 }
 
-void
-em_folder_selector_construct (EMFolderSelector *emfs,
-                              EMFolderTree *emft,
-                              guint32 flags,
-                              const gchar *title,
-                              const gchar *text,
-                              const gchar *oklabel)
+static void
+folder_selector_construct (EMFolderSelector *emfs,
+                           guint32 flags,
+                           const gchar *title,
+                           const gchar *text,
+                           const gchar *oklabel)
 {
+	EMailBackend *backend;
+	GtkWidget *content_area;
 	GtkWidget *container;
 	GtkWidget *widget;
+
+	backend = em_folder_selector_get_backend (emfs);
 
 	gtk_window_set_default_size (GTK_WINDOW (emfs), 350, 300);
 	gtk_window_set_title (GTK_WINDOW (emfs), title);
 	gtk_container_set_border_width (GTK_CONTAINER (emfs), 6);
 
-	container = gtk_dialog_get_content_area (GTK_DIALOG (emfs));
-	gtk_box_set_spacing (GTK_BOX (container), 6);
-	gtk_container_set_border_width (GTK_CONTAINER (container), 6);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (emfs));
+	gtk_box_set_spacing (GTK_BOX (content_area), 6);
+	gtk_container_set_border_width (GTK_CONTAINER (content_area), 6);
+
+	container = content_area;
 
 	emfs->flags = flags;
 	if (flags & EM_FOLDER_SELECTOR_CAN_CREATE) {
@@ -214,16 +284,22 @@ em_folder_selector_construct (EMFolderSelector *emfs,
 	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 6);
 	gtk_widget_show (widget);
 
-	emfs->emft = emft;
-	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (emft));
-	gtk_widget_show (GTK_WIDGET (emft));
+	container = widget;
+
+	widget = em_folder_tree_new (backend);
+	emu_restore_folder_tree_state (EM_FOLDER_TREE (widget));
+	gtk_container_add (GTK_CONTAINER (widget), widget);
+	emfs->priv->folder_tree = EM_FOLDER_TREE (widget);
+	gtk_widget_show (widget);
 
 	g_signal_connect (
-		emfs->emft, "folder-selected",
+		widget, "folder-selected",
 		G_CALLBACK (folder_selected_cb), emfs);
 	g_signal_connect (
-		emfs->emft, "folder-activated",
+		widget, "folder-activated",
 		G_CALLBACK (folder_activated_cb), emfs);
+
+	container = content_area;
 
 	if (text != NULL) {
 		widget = gtk_label_new (text);
@@ -233,12 +309,12 @@ em_folder_selector_construct (EMFolderSelector *emfs,
 		gtk_box_pack_end (GTK_BOX (container), widget, FALSE, TRUE, 6);
 	}
 
-	gtk_widget_grab_focus ((GtkWidget *) emfs->emft);
+	gtk_widget_grab_focus (GTK_WIDGET (emfs->priv->folder_tree));
 }
 
 GtkWidget *
 em_folder_selector_new (GtkWindow *parent,
-                        EMFolderTree *emft,
+                        EMailBackend *backend,
                         guint32 flags,
                         const gchar *title,
                         const gchar *text,
@@ -246,10 +322,13 @@ em_folder_selector_new (GtkWindow *parent,
 {
 	EMFolderSelector *emfs;
 
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+
 	emfs = g_object_new (
 		EM_TYPE_FOLDER_SELECTOR,
-		"transient-for", parent, NULL);
-	em_folder_selector_construct (emfs, emft, flags, title, text, oklabel);
+		"transient-for", parent,
+		"backend", backend, NULL);
+	folder_selector_construct (emfs, flags, title, text, oklabel);
 
 	return (GtkWidget *) emfs;
 }
@@ -258,11 +337,14 @@ static void
 emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 {
 	if (gtk_entry_get_text_length (emfs->name_entry) > 0) {
+		EMFolderTree *folder_tree;
 		gchar *path;
 		const gchar *text;
 
 		text = gtk_entry_get_text (emfs->name_entry);
-		path = em_folder_tree_get_selected_uri (emfs->emft);
+
+		folder_tree = em_folder_selector_get_folder_tree (emfs);
+		path = em_folder_tree_get_selected_uri (folder_tree);
 
 		if (text && path && !strchr (text, '/'))
 			g_signal_emit_by_name (emfs, "response", GTK_RESPONSE_OK);
@@ -272,14 +354,17 @@ emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 
 GtkWidget *
 em_folder_selector_create_new (GtkWindow *parent,
-                               EMFolderTree *emft,
+                               EMailBackend *backend,
                                guint32 flags,
                                const gchar *title,
                                const gchar *text)
 {
 	EMFolderSelector *emfs;
+	EMFolderTree *folder_tree;
 	GtkWidget *hbox, *w;
 	GtkWidget *container;
+
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
 	/* remove the CREATE flag if it is there since that's the
 	 * whole purpose of this dialog */
@@ -287,9 +372,12 @@ em_folder_selector_create_new (GtkWindow *parent,
 
 	emfs = g_object_new (
 		EM_TYPE_FOLDER_SELECTOR,
-		"transient-for", parent, NULL);
-	em_folder_selector_construct (emfs, emft, flags, title, text, _("C_reate"));
-	em_folder_tree_set_excluded (emft, EMFT_EXCLUDE_NOINFERIORS);
+		"transient-for", parent,
+		"backend", backend, NULL);
+	folder_selector_construct (emfs, flags, title, text, _("C_reate"));
+
+	folder_tree = em_folder_selector_get_folder_tree (emfs);
+	em_folder_tree_set_excluded (folder_tree, EMFT_EXCLUDE_NOINFERIORS);
 
 	hbox = gtk_hbox_new (FALSE, 0);
 	w = gtk_label_new_with_mnemonic (_("Folder _name:"));
@@ -316,33 +404,42 @@ em_folder_selector_create_new (GtkWindow *parent,
 	return (GtkWidget *) emfs;
 }
 
-void
-em_folder_selector_set_selected (EMFolderSelector *emfs, const gchar *uri)
+EMailBackend *
+em_folder_selector_get_backend (EMFolderSelector *emfs)
 {
-	em_folder_tree_set_selected (emfs->emft, uri, FALSE);
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTOR (emfs), NULL);
+
+	return emfs->priv->backend;
 }
 
-void
-em_folder_selector_set_selected_list (EMFolderSelector *emfs, GList *list)
+EMFolderTree *
+em_folder_selector_get_folder_tree (EMFolderSelector *emfs)
 {
-	em_folder_tree_set_selected_list (emfs->emft, list, FALSE);
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTOR (emfs), NULL);
+
+	return emfs->priv->folder_tree;
 }
 
 const gchar *
 em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 {
+	EMFolderTree *folder_tree;
 	gchar *uri;
 	const gchar *name;
 
-	if (!(uri = em_folder_tree_get_selected_uri (emfs->emft))) {
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTOR (emfs), NULL);
+
+	folder_tree = em_folder_selector_get_folder_tree (emfs);
+	uri = em_folder_tree_get_selected_uri (folder_tree);
+
+	if (uri == NULL) {
 		d(printf ("no selected folder?\n"));
 		return NULL;
 	}
 
-	if (uri && emfs->name_entry) {
+	if (emfs->name_entry) {
 		CamelProvider *provider;
 		CamelURL *url;
-		gchar *newpath;
 
 		provider = camel_provider_get (uri, NULL);
 
@@ -350,12 +447,15 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 
 		url = camel_url_new (uri, NULL);
 		if (provider && (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)) {
-			if (url->fragment)
-				newpath = g_strdup_printf ("%s/%s", url->fragment, name);
-			else
-				newpath = g_strdup (name);
+			gchar *path;
 
-			camel_url_set_fragment (url, newpath);
+			if (url->fragment)
+				path = g_strdup_printf ("%s/%s", url->fragment, name);
+			else
+				path = g_strdup (name);
+
+			camel_url_set_fragment (url, path);
+			g_free (path);
 		} else {
 			gchar *path;
 
@@ -364,15 +464,8 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 				strcmp (url->path, "/") == 0) ? "":
 				url->path, name);
 			camel_url_set_path (url, path);
-			if (path[0] == '/') {
-				newpath = g_strdup (path+1);
-				g_free (path);
-			} else
-				newpath = path;
+			g_free (path);
 		}
-
-		g_free (emfs->selected_path);
-		emfs->selected_path = newpath;
 
 		g_free (emfs->selected_uri);
 		emfs->selected_uri = camel_url_to_string (url, 0);
@@ -382,50 +475,4 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 	}
 
 	return uri;
-}
-
-GList *
-em_folder_selector_get_selected_uris (EMFolderSelector *emfs)
-{
-	return em_folder_tree_get_selected_uris (emfs->emft);
-}
-
-GList *
-em_folder_selector_get_selected_paths (EMFolderSelector *emfs)
-{
-	return em_folder_tree_get_selected_paths (emfs->emft);
-}
-
-const gchar *
-em_folder_selector_get_selected_path (EMFolderSelector *emfs)
-{
-	gchar *uri, *path;
-
-	if (emfs->selected_path) {
-		/* already did the work in a previous call */
-		return emfs->selected_path;
-	}
-
-	if ((uri = em_folder_tree_get_selected_uri (emfs->emft)) == NULL) {
-		d(printf ("no selected folder?\n"));
-		return NULL;
-	}
-	g_free (uri);
-
-	path = em_folder_tree_get_selected_path (emfs->emft);
-	if (emfs->name_entry) {
-		const gchar *name;
-		gchar *newpath;
-
-		name = gtk_entry_get_text (emfs->name_entry);
-		newpath = g_strdup_printf ("%s/%s", path?path:"", name);
-
-		g_free (path);
-		emfs->selected_path = g_strdup (newpath);
-	} else {
-		g_free (emfs->selected_path);
-		emfs->selected_path = path?path:g_strdup("");
-	}
-
-	return emfs->selected_path;
 }

@@ -54,12 +54,11 @@ typedef struct _EMFolderSelectorPrivate EMFolderSelectorPrivate;
 
 struct _EMFolderSelector {
 	GtkDialog parent;
+	EMFolderSelectorPrivate *priv;
 
 	guint32 flags;
-	EMFolderTree *emft;
 
 	GtkEntry *name_entry;
-	gchar *selected_path;
 	gchar *selected_uri;
 
 	gchar *created_uri;
@@ -79,35 +78,21 @@ enum {
 };
 
 GType		em_folder_selector_get_type	(void);
-void		em_folder_selector_construct	(EMFolderSelector *emfs,
-						 EMFolderTree *emft,
-						 guint32 flags,
-						 const gchar *title,
-						 const gchar *text,
-						 const gchar *oklabel);
 GtkWidget *	em_folder_selector_new		(GtkWindow *parent,
-						 EMFolderTree *emft,
+						 EMailBackend *backend,
 						 guint32 flags,
 						 const gchar *title,
 						 const gchar *text,
 						 const gchar *oklabel);
 GtkWidget *	em_folder_selector_create_new	(GtkWindow *parent,
-						 EMFolderTree *emft,
+						 EMailBackend *backend,
 						 guint32 flags,
 						 const gchar *title,
 						 const gchar *text);
-void		em_folder_selector_set_selected	(EMFolderSelector *emfs,
-						 const gchar *uri);
-void		em_folder_selector_set_selected_list
-						(EMFolderSelector *emfs,
-						 GList *list);
+EMailBackend *	em_folder_selector_get_backend	(EMFolderSelector *emfs);
+EMFolderTree *	em_folder_selector_get_folder_tree
+						(EMFolderSelector *emfs);
 const gchar *	em_folder_selector_get_selected_uri
-						(EMFolderSelector *emfs);
-const gchar *	em_folder_selector_get_selected_path
-						(EMFolderSelector *emfs);
-GList *		em_folder_selector_get_selected_uris
-						(EMFolderSelector *emfs);
-GList *		em_folder_selector_get_selected_paths
 						(EMFolderSelector *emfs);
 
 G_END_DECLS

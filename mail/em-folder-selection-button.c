@@ -222,10 +222,10 @@ static void
 folder_selection_button_clicked (GtkButton *button)
 {
 	EMFolderSelectionButtonPrivate *priv;
-	EMFolderTree *emft;
+	EMFolderSelector *selector;
+	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
 	GtkTreeSelection *selection;
-	const gchar *uri;
 	gpointer parent;
 
 	priv = EM_FOLDER_SELECTION_BUTTON (button)->priv;
@@ -233,34 +233,34 @@ folder_selection_button_clicked (GtkButton *button)
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	emft = (EMFolderTree *) em_folder_tree_new (priv->backend);
-	emu_restore_folder_tree_state (emft);
+	dialog = em_folder_selector_new (
+		parent, priv->backend, EM_FOLDER_SELECTOR_CAN_CREATE,
+		priv->title, priv->caption, NULL);
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (emft));
+	selector = EM_FOLDER_SELECTOR (dialog);
+	folder_tree = em_folder_selector_get_folder_tree (selector);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 
 	em_folder_tree_set_excluded (
-		emft, EMFT_EXCLUDE_NOSELECT |
-		EMFT_EXCLUDE_VIRTUAL | EMFT_EXCLUDE_VTRASH);
+		folder_tree,
+		EMFT_EXCLUDE_NOSELECT |
+		EMFT_EXCLUDE_VIRTUAL |
+		EMFT_EXCLUDE_VTRASH);
 
-	dialog = em_folder_selector_new (
-		parent, emft, EM_FOLDER_SELECTOR_CAN_CREATE,
-		priv->title, priv->caption, NULL);
+	em_folder_tree_set_selected (folder_tree, priv->uri, FALSE);
 
-	em_folder_selector_set_selected (
-		EM_FOLDER_SELECTOR (dialog), priv->uri);
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		const gchar *uri;
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
-		goto exit;
+		uri = em_folder_selector_get_selected_uri (selector);
+		em_folder_selection_button_set_selection (
+			EM_FOLDER_SELECTION_BUTTON (button), uri);
 
-	uri = em_folder_selector_get_selected_uri (
-		EM_FOLDER_SELECTOR (dialog));
-	em_folder_selection_button_set_selection (
-		EM_FOLDER_SELECTION_BUTTON (button), uri);
+		g_signal_emit (button, signals[SELECTED], 0);
+	}
 
-	g_signal_emit (button, signals[SELECTED], 0);
-
-exit:
 	gtk_widget_destroy (dialog);
 }
 

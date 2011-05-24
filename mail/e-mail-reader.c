@@ -281,7 +281,8 @@ action_mail_copy_cb (GtkAction *action,
 	CamelFolder *folder;
 	EMailBackend *backend;
 	EMailSession *session;
-	GtkWidget *folder_tree;
+	EMFolderSelector *selector;
+	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
 	GtkWindow *window;
 	GPtrArray *uids;
@@ -294,29 +295,27 @@ action_mail_copy_cb (GtkAction *action,
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
-	folder_tree = em_folder_tree_new (backend);
-	emu_restore_folder_tree_state (EM_FOLDER_TREE (folder_tree));
-
-	em_folder_tree_set_excluded (
-		EM_FOLDER_TREE (folder_tree),
-		EMFT_EXCLUDE_NOSELECT | EMFT_EXCLUDE_VIRTUAL |
-		EMFT_EXCLUDE_VTRASH);
-
 	dialog = em_folder_selector_new (
-		window, EM_FOLDER_TREE (folder_tree),
-		EM_FOLDER_SELECTOR_CAN_CREATE,
+		window, backend, EM_FOLDER_SELECTOR_CAN_CREATE,
 		_("Copy to Folder"), NULL, _("C_opy"));
 
+	selector = EM_FOLDER_SELECTOR (dialog);
+	folder_tree = em_folder_selector_get_folder_tree (selector);
+
+	em_folder_tree_set_excluded (
+		folder_tree,
+		EMFT_EXCLUDE_NOSELECT |
+		EMFT_EXCLUDE_VIRTUAL |
+		EMFT_EXCLUDE_VTRASH);
+
 	if (default_xfer_messages_uri != NULL)
-		em_folder_selector_set_selected (
-			EM_FOLDER_SELECTOR (dialog),
-			default_xfer_messages_uri);
+		em_folder_tree_set_selected (
+			folder_tree, default_xfer_messages_uri, FALSE);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
 		goto exit;
 
-	uri = em_folder_selector_get_selected_uri (
-		EM_FOLDER_SELECTOR (dialog));
+	uri = em_folder_selector_get_selected_uri (selector);
 
 	g_free (default_xfer_messages_uri);
 	default_xfer_messages_uri = g_strdup (uri);
@@ -784,7 +783,8 @@ action_mail_move_cb (GtkAction *action,
 	CamelFolder *folder;
 	EMailBackend *backend;
 	EMailSession *session;
-	GtkWidget *folder_tree;
+	EMFolderSelector *selector;
+	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
 	GtkWindow *window;
 	GPtrArray *uids;
@@ -797,29 +797,27 @@ action_mail_move_cb (GtkAction *action,
 
 	session = e_mail_backend_get_session (backend);
 
-	folder_tree = em_folder_tree_new (backend);
-	emu_restore_folder_tree_state (EM_FOLDER_TREE (folder_tree));
-
-	em_folder_tree_set_excluded (
-		EM_FOLDER_TREE (folder_tree),
-		EMFT_EXCLUDE_NOSELECT | EMFT_EXCLUDE_VIRTUAL |
-		EMFT_EXCLUDE_VTRASH);
-
 	dialog = em_folder_selector_new (
-		window, EM_FOLDER_TREE (folder_tree),
-		EM_FOLDER_SELECTOR_CAN_CREATE,
+		window, backend, EM_FOLDER_SELECTOR_CAN_CREATE,
 		_("Move to Folder"), NULL, _("_Move"));
 
+	selector = EM_FOLDER_SELECTOR (dialog);
+	folder_tree = em_folder_selector_get_folder_tree (selector);
+
+	em_folder_tree_set_excluded (
+		folder_tree,
+		EMFT_EXCLUDE_NOSELECT |
+		EMFT_EXCLUDE_VIRTUAL |
+		EMFT_EXCLUDE_VTRASH);
+
 	if (default_xfer_messages_uri != NULL)
-		em_folder_selector_set_selected (
-			EM_FOLDER_SELECTOR (dialog),
-			default_xfer_messages_uri);
+		em_folder_tree_set_selected (
+			folder_tree, default_xfer_messages_uri, FALSE);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
 		goto exit;
 
-	uri = em_folder_selector_get_selected_uri (
-		EM_FOLDER_SELECTOR (dialog));
+	uri = em_folder_selector_get_selected_uri (selector);
 
 	g_free (default_xfer_messages_uri);
 	default_xfer_messages_uri = g_strdup (uri);

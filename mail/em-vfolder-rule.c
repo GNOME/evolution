@@ -589,7 +589,7 @@ vfr_folder_response (EMFolderSelector *selector,
 static void
 source_add (GtkWidget *widget, struct _source_data *data)
 {
-	EMFolderTree *emft;
+	EMFolderTree *folder_tree;
 	EMailBackend *backend;
 	GtkWidget *dialog;
 	gpointer parent;
@@ -599,14 +599,19 @@ source_add (GtkWidget *widget, struct _source_data *data)
 
 	backend = em_vfolder_rule_get_backend (data->vr);
 
-	emft = (EMFolderTree *) em_folder_tree_new (backend);
-	emu_restore_folder_tree_state (emft);
-	em_folder_tree_set_excluded (emft, EMFT_EXCLUDE_NOSELECT);
-
 	dialog = em_folder_selector_new (
-		parent, emft, EM_FOLDER_SELECTOR_CAN_CREATE,
+		parent, backend, EM_FOLDER_SELECTOR_CAN_CREATE,
 		_("Add Folder"), NULL, _("_Add"));
-	g_signal_connect(dialog, "response", G_CALLBACK(vfr_folder_response), data);
+
+	folder_tree = em_folder_selector_get_folder_tree (
+		EM_FOLDER_SELECTOR (dialog));
+
+	em_folder_tree_set_excluded (folder_tree, EMFT_EXCLUDE_NOSELECT);
+
+	g_signal_connect (
+		dialog, "response",
+		G_CALLBACK (vfr_folder_response), data);
+
 	gtk_widget_show (dialog);
 }
 
