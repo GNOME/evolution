@@ -30,7 +30,8 @@
 G_BEGIN_DECLS
 
 void		em_folder_properties_show	(EShellView *shell_view,
-						 const gchar *folder_uri);
+						 CamelStore *store,
+						 const gchar *folder_name);
 
 G_END_DECLS
 

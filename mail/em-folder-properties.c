@@ -444,48 +444,32 @@ emfp_dialog_got_folder (CamelStore *store,
 /**
  * em_folder_properties_show:
  * @shell_view: an #EShellView
- * @folder_uri: a folder URI
+ * @store: a #CamelStore
+ * @folder_name: a folder name
  *
- * Show folder properties for @folder_uri.
+ * Show folder properties for @folder_name.
  **/
 void
 em_folder_properties_show (EShellView *shell_view,
-                           const gchar *folder_uri)
+                           CamelStore *store,
+                           const gchar *folder_name)
 {
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EMailBackend *backend;
-	EMailSession *session;
 	EAlertSink *alert_sink;
 	GCancellable *cancellable;
 	AsyncContext *context;
-	CamelStore *store = NULL;
-	gchar *folder_name = NULL;
 	const gchar *uid;
-	GError *error = NULL;
 
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-	g_return_if_fail (folder_uri != NULL);
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (folder_name != NULL);
 
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	backend = E_MAIL_BACKEND (shell_backend);
-	session = e_mail_backend_get_session (backend);
-
-	e_mail_folder_uri_parse (
-		CAMEL_SESSION (session), folder_uri,
-		&store, &folder_name, &error);
-
-	/* XXX This is unlikely to fail since the URI comes straight from
-	 *     EMFolderTreeModel, but leave a breadcrumb if it does fail. */
-	if (error != NULL) {
-		g_warn_if_fail (store == NULL);
-		g_warn_if_fail (folder_name == NULL);
-		g_warning ("%s", error->message);
-		g_error_free (error);
-		return;
-	}
 
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
 
@@ -493,9 +477,12 @@ em_folder_properties_show (EShellView *shell_view,
 	 * "Unmatched" is a special Search Folder which can't be modified. */
 	if (g_strcmp0 (uid, "vfolder") == 0) {
 		if (g_strcmp0 (folder_name, CAMEL_UNMATCHED_NAME) != 0) {
+			gchar *folder_uri;
+
+			folder_uri = e_mail_folder_uri_build (
+				store, folder_name);
 			vfolder_edit_rule (backend, folder_uri);
-			g_object_unref (store);
-			g_free (folder_name);
+			g_free (folder_uri);
 			return;
 		}
 	}
@@ -519,7 +506,4 @@ em_folder_properties_show (EShellView *shell_view,
 		(GAsyncReadyCallback) emfp_dialog_got_folder, context);
 
 	g_object_unref (cancellable);
-
-	g_object_unref (store);
-	g_free (folder_name);
 }

@@ -660,27 +660,18 @@ current_account:
 
 	/* Create a new search folder. */
 
-	if (folder) {
+	if (folder != NULL) {
 		store = camel_folder_get_parent_store (folder);
+		if (store != NULL)
+			g_object_ref (store);
 	} else {
-		GtkTreeView *tree_view;
-		GtkTreeSelection *selection;
-		GtkTreeModel *model;
-		GtkTreeIter iter;
-
 		store = NULL;
-		tree_view = GTK_TREE_VIEW (folder_tree);
-		selection = gtk_tree_view_get_selection (tree_view);
-
-		if (gtk_tree_selection_get_selected (selection, &model, &iter))
-			gtk_tree_model_get (
-				model, &iter,
-				COL_POINTER_CAMEL_STORE, &store, -1);
+		em_folder_tree_get_selected (folder_tree, &store, NULL);
 	}
 
 	list = NULL;  /* list of CamelFolders */
 
-	if (store) {
+	if (store != NULL) {
 		CamelFolderInfo *root, *fi;
 
 		/* FIXME This call blocks the main loop. */
@@ -722,6 +713,8 @@ current_account:
 
 		if (root)
 			camel_store_free_folder_info_full (store, root);
+
+		g_object_unref (store);
 	}
 
 	list = g_list_reverse (list);

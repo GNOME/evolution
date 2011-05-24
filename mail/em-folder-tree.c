@@ -552,18 +552,16 @@ folder_tree_maybe_expand_row (EMFolderTreeModel *model,
 {
 	EMFolderTreePrivate *priv = folder_tree->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
-	gboolean is_store;
 	CamelStore *store;
 	EAccount *account;
 	gchar *full_name;
 	gchar *key;
 	struct _selected_uri *u;
 
-	gtk_tree_model_get ((GtkTreeModel *) model, iter,
-			    COL_STRING_FULL_NAME, &full_name,
-			    COL_POINTER_CAMEL_STORE, &store,
-			    COL_BOOL_IS_STORE, &is_store,
-			    -1);
+	gtk_tree_model_get (
+		GTK_TREE_MODEL (model), iter,
+		COL_STRING_FULL_NAME, &full_name,
+		COL_POINTER_CAMEL_STORE, &store, -1);
 
 	si = em_folder_tree_model_lookup_store_info (model, store);
 	if ((account = e_get_account_by_name (si->display_name))) {
@@ -3174,6 +3172,18 @@ em_folder_tree_get_selected (EMFolderTree *folder_tree,
 		COL_POINTER_CAMEL_STORE, &store,
 		COL_STRING_FULL_NAME, &folder_name, -1);
 
+	/* We should always get a valid store. */
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+
+	/* If a store is selected, the folder name will be NULL.
+	 * Treat this as though nothing is selected, so that callers
+	 * can assume a TRUE return value means a folder is selected. */
+	if (folder_name == NULL)
+		return FALSE;
+
+	/* FIXME We really should be storing the CamelStore as a GObject
+	 *       so it gets referenced.  The pointer type is a relic of
+	 *       days before Camel used GObject. */
 	if (out_store != NULL)
 		*out_store = g_object_ref (store);
 
@@ -3210,31 +3220,20 @@ em_folder_tree_get_selected_uri (EMFolderTree *folder_tree)
 CamelFolder *
 em_folder_tree_get_selected_folder (EMFolderTree *folder_tree)
 {
-	GtkTreeView *tree_view;
-	GtkTreeSelection *selection;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gchar *full_name = NULL;
-	CamelStore *store = NULL;
-	CamelFolder *folder = NULL;
+	CamelFolder *folder;
+	CamelStore *store;
+	gchar *full_name;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
 
-	tree_view = GTK_TREE_VIEW (folder_tree);
-	selection = gtk_tree_view_get_selection (tree_view);
-
-	if (gtk_tree_selection_get_selected (selection, &model, &iter))
-		gtk_tree_model_get (
-			model, &iter,
-			COL_POINTER_CAMEL_STORE, &store,
-			COL_STRING_FULL_NAME, &full_name, -1);
+	if (!em_folder_tree_get_selected (folder_tree, &store, &full_name))
+		return NULL;
 
 	/* FIXME camel_store_get_folder_sync() may block. */
-	if (store && full_name)
-		folder = camel_store_get_folder_sync (
-			store, full_name,
-			CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
+	folder = camel_store_get_folder_sync (
+		store, full_name, CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
 
+	g_object_unref (store);
 	g_free (full_name);
 
 	return folder;
@@ -3251,6 +3250,9 @@ em_folder_tree_get_selected_account (EMFolderTree *folder_tree)
 	const gchar *uid = NULL;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
+
+	/* Don't use em_folder_tree_get_selected() here because we
+	 * want this to work whether a folder or store is selected. */
 
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);

@@ -300,7 +300,6 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 	GtkTreeIter iter;
 	CamelStore *store;
 	gchar *full_name;
-	gchar *uri;
 	gboolean allows_children = TRUE;
 	gboolean can_delete = TRUE;
 	gboolean is_junk = FALSE;
@@ -321,8 +320,7 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		COL_POINTER_CAMEL_STORE, &store,
 		COL_STRING_FULL_NAME, &full_name,
 		COL_BOOL_IS_STORE, &is_store,
-		COL_UINT_FLAGS, &folder_flags,
-		COL_STRING_URI, &uri, -1);
+		COL_UINT_FLAGS, &folder_flags, -1);
 
 	if (!is_store && full_name != NULL) {
 		CamelStore *local_store;
@@ -372,7 +370,6 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		state |= E_MAIL_SIDEBAR_STORE_SUPPORTS_SUBSCRIPTIONS;
 
 	g_free (full_name);
-	g_free (uri);
 
 	return state;
 }

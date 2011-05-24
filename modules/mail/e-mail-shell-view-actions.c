@@ -451,24 +451,20 @@ action_mail_folder_properties_cb (GtkAction *action,
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
 	EShellView *shell_view;
-	GtkTreeSelection *selection;
-	GtkTreeView *tree_view;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gchar *uri;
+	CamelStore *store;
+	gchar *folder_name;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
-	tree_view = GTK_TREE_VIEW (folder_tree);
-	selection = gtk_tree_view_get_selection (tree_view);
-	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
-		return;
+	if (!em_folder_tree_get_selected (folder_tree, &store, &folder_name))
+		g_return_if_reached ();
 
-	gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, -1);
-	em_folder_properties_show (shell_view, uri);
-	g_free (uri);
+	em_folder_properties_show (shell_view, store, folder_name);
+
+	g_object_unref (store);
+	g_free (folder_name);
 }
 
 static void
