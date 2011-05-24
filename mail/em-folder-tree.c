@@ -1767,6 +1767,31 @@ em_folder_tree_new (EMailBackend *backend,
 		"backend", backend, NULL);
 }
 
+EActivity *
+em_folder_tree_new_activity (EMFolderTree *folder_tree)
+{
+	EActivity *activity;
+	EMailBackend *backend;
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
+
+	activity = e_activity_new ();
+
+	alert_sink = em_folder_tree_get_alert_sink (folder_tree);
+	e_activity_set_alert_sink (activity, alert_sink);
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (activity, cancellable);
+	g_object_unref (cancellable);
+
+	backend = em_folder_tree_get_backend (folder_tree);
+	e_shell_backend_add_activity (E_SHELL_BACKEND (backend), activity);
+
+	return activity;
+}
+
 PangoEllipsizeMode
 em_folder_tree_get_ellipsize (EMFolderTree *folder_tree)
 {
