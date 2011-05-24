@@ -127,8 +127,6 @@ gboolean	em_folder_tree_get_selected	(EMFolderTree *folder_tree,
 						 CamelStore **out_store,
 						 gchar **out_folder_name);
 gchar *		em_folder_tree_get_selected_uri	(EMFolderTree *folder_tree);
-gchar *		em_folder_tree_get_selected_path
-						(EMFolderTree *folder_tree);
 CamelFolder *	em_folder_tree_get_selected_folder
 						(EMFolderTree *folder_tree);
 EAccount *	em_folder_tree_get_selected_account
