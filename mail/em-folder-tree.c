@@ -3149,6 +3149,42 @@ em_folder_tree_edit_selected (EMFolderTree *folder_tree)
 	gtk_tree_path_free (path);
 }
 
+gboolean
+em_folder_tree_get_selected (EMFolderTree *folder_tree,
+                             CamelStore **out_store,
+                             gchar **out_folder_name)
+{
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	CamelStore *store = NULL;
+	gchar *folder_name = NULL;
+
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), FALSE);
+
+	tree_view = GTK_TREE_VIEW (folder_tree);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return FALSE;
+
+	gtk_tree_model_get (
+		model, &iter,
+		COL_POINTER_CAMEL_STORE, &store,
+		COL_STRING_FULL_NAME, &folder_name, -1);
+
+	if (out_store != NULL)
+		*out_store = g_object_ref (store);
+
+	if (out_folder_name != NULL)
+		*out_folder_name = folder_name;
+	else
+		g_free (folder_name);
+
+	return TRUE;
+}
+
 gchar *
 em_folder_tree_get_selected_uri (EMFolderTree *folder_tree)
 {
