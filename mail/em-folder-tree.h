@@ -99,13 +99,16 @@ void		em_folder_tree_enable_drag_and_drop
 						(EMFolderTree *folder_tree);
 void		em_folder_tree_set_excluded	(EMFolderTree *folder_tree,
 						 guint32 flags);
-void		em_folder_tree_set_excluded_func (EMFolderTree *folder_tree,
+void		em_folder_tree_set_excluded_func
+						(EMFolderTree *folder_tree,
 						 EMFTExcludeFunc exclude,
 						 gpointer data);
-void		em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
+void		em_folder_tree_set_selected_list
+						(EMFolderTree *folder_tree,
 						 GList *list,
 						 gboolean expand_only);
-GList *		em_folder_tree_get_selected_uris (EMFolderTree *folder_tree);
+GList *		em_folder_tree_get_selected_uris
+						(EMFolderTree *folder_tree);
 GList *		em_folder_tree_get_selected_paths
 						(EMFolderTree *folder_tree);
 void		em_folder_tree_set_selected	(EMFolderTree *folder_tree,
@@ -117,7 +120,8 @@ void		em_folder_tree_select_prev_path	(EMFolderTree *folder_tree,
 						 gboolean skip_read_folders);
 void		em_folder_tree_edit_selected	(EMFolderTree *folder_tree);
 gchar *		em_folder_tree_get_selected_uri	(EMFolderTree *folder_tree);
-gchar *		em_folder_tree_get_selected_path (EMFolderTree *folder_tree);
+gchar *		em_folder_tree_get_selected_path
+						(EMFolderTree *folder_tree);
 CamelFolder *	em_folder_tree_get_selected_folder
 						(EMFolderTree *folder_tree);
 EAccount *	em_folder_tree_get_selected_account
@@ -128,13 +132,12 @@ gboolean	em_folder_tree_create_folder	(EMFolderTree *folder_tree,
 void		em_folder_tree_set_skip_double_click
 						(EMFolderTree *folder_tree,
 						 gboolean skip);
-
 void		em_folder_tree_restore_state	(EMFolderTree *folder_tree,
 						 GKeyFile *key_file);
-
 void		em_folder_tree_set_selectable_widget
 						(EMFolderTree *folder_tree,
 						 GtkWidget *selectable);
+
 G_END_DECLS
 
 #endif /* EM_FOLDER_TREE_H */
