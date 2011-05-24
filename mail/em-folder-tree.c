@@ -69,6 +69,8 @@
 
 #define d(x)
 
+typedef struct _AsyncContext AsyncContext;
+
 struct _selected_uri {
 	gchar *key;		/* store:path or account/path */
 	gchar *uri;
@@ -116,6 +118,13 @@ struct _EMFolderTreePrivate {
 
 	/* Signal handler IDs */
 	gulong selection_changed_handler_id;
+};
+
+struct _AsyncContext {
+	EActivity *activity;
+	EMFolderTree *folder_tree;
+	GtkTreeRowReference *root;
+	gchar *full_name;
 };
 
 enum {
@@ -177,193 +186,202 @@ struct _folder_tree_selection_data {
 
 static gpointer parent_class = NULL;
 
-struct _EMFolderTreeGetFolderInfo {
-	MailMsg base;
-
-	/* input data */
-	GtkTreeRowReference *root;
-	EMFolderTree *folder_tree;
-	CamelStore *store;
-	guint32 flags;
-	gchar *top;
-
-	/* output data */
-	CamelFolderInfo *fi;
-};
-
-static gchar *
-folder_tree_get_folder_info__desc (struct _EMFolderTreeGetFolderInfo *m)
+static void
+async_context_free (AsyncContext *context)
 {
-	gchar *ret, *name;
+	if (context->activity != NULL)
+		g_object_unref (context->activity);
 
-	name = camel_service_get_name ((CamelService *) m->store, TRUE);
-	ret = g_strdup_printf(_("Scanning folders in \"%s\""), name);
-	g_free (name);
-	return ret;
+	if (context->folder_tree != NULL)
+		g_object_unref (context->folder_tree);
+
+	gtk_tree_row_reference_free (context->root);
+
+	g_free (context->full_name);
+
+	g_slice_free (AsyncContext, context);
 }
 
 static void
-folder_tree_get_folder_info__exec (struct _EMFolderTreeGetFolderInfo *m,
-                                   GCancellable *cancellable,
-                                   GError **error)
-{
-	guint32 flags = m->flags | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
-	GError *local_error = NULL;
-
-	m->fi = camel_store_get_folder_info_sync (
-		m->store, m->top, flags, cancellable, &local_error);
-
-	/* XXX POP3 stores always return an error because they have
-	 *     no folder hierarchy to scan.  Clear that error so the
-	 *     user doesn't see it. */
-	if (g_error_matches (local_error,
-		CAMEL_STORE_ERROR, CAMEL_STORE_ERROR_NO_FOLDER))
-		g_error_free (local_error);
-	else if (local_error != NULL)
-		g_propagate_error (error, local_error);
-}
-
-static void
-folder_tree_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
+folder_tree_get_folder_info_cb (CamelStore *store,
+                                GAsyncResult *result,
+                                AsyncContext *context)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
-	GtkTreeIter root, iter, titer;
-	CamelFolderInfo *fi;
+	CamelFolderInfo *folder_info;
+	CamelFolderInfo *child_info;
+	EAlertSink *alert_sink;
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
 	GtkTreePath *path;
-	gboolean is_store, need_add_node;
+	GtkTreeIter root;
+	GtkTreeIter iter;
+	GtkTreeIter titer;
+	gboolean is_store;
+	gboolean iter_is_placeholder;
+	gboolean valid;
+	GError *error = NULL;
 
-	/* check that we haven't been destroyed */
-	g_return_if_fail (GTK_IS_TREE_VIEW (m->folder_tree));
+	alert_sink = e_activity_get_alert_sink (context->activity);
 
-	/* check that our parent folder hasn't been deleted/unsubscribed */
-	if (!gtk_tree_row_reference_valid (m->root))
-		return;
+	folder_info = camel_store_get_folder_info_finish (
+		store, result, &error);
 
-	tree_view = GTK_TREE_VIEW (m->folder_tree);
+	tree_view = GTK_TREE_VIEW (context->folder_tree);
 	model = gtk_tree_view_get_model (tree_view);
 
-	si = em_folder_tree_model_lookup_store_info (
-		EM_FOLDER_TREE_MODEL (model), m->store);
-	if (si == NULL) {
-		/* store has been removed in the interim - do nothing */
-		return;
+	/* Check if our parent folder has been deleted/unsubscribed. */
+	if (!gtk_tree_row_reference_valid (context->root)) {
+		g_clear_error (&error);
+		goto exit;
 	}
 
-	path = gtk_tree_row_reference_get_path (m->root);
-	gtk_tree_model_get_iter (model, &root, path);
+	path = gtk_tree_row_reference_get_path (context->root);
+	valid = gtk_tree_model_get_iter (model, &root, path);
+	g_return_if_fail (valid);
+
+	gtk_tree_model_get (model, &root, COL_BOOL_IS_STORE, &is_store, -1);
 
 	/* If we had an error, then we need to re-set the
 	 * load subdirs state and collapse the node. */
-	if (!m->fi && m->base.error != NULL) {
+	if (error != NULL) {
 		gtk_tree_store_set (
 			GTK_TREE_STORE (model), &root,
 			COL_BOOL_LOAD_SUBDIRS, TRUE, -1);
 		gtk_tree_view_collapse_row (tree_view, path);
-		gtk_tree_path_free (path);
-		return;
 	}
 
 	gtk_tree_path_free (path);
 
-	/* make sure we still need to load the tree subfolders... */
-	gtk_tree_model_get (model, &root, COL_BOOL_IS_STORE, &is_store, -1);
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_warn_if_fail (folder_info == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
 
-	/* get the first child (which will be a dummy node) */
-	gtk_tree_model_iter_children (model, &iter, &root);
+	/* XXX POP3 stores always return a "no folder" error because they
+	 *     have no folder hierarchy to scan.  Just ignore the error. */
+	} else if (g_error_matches (
+			error, CAMEL_STORE_ERROR,
+			CAMEL_STORE_ERROR_NO_FOLDER)) {
+		g_warn_if_fail (folder_info == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
 
-	need_add_node = TRUE;
+	} else if (error != NULL) {
+		g_warn_if_fail (folder_info == NULL);
+		e_alert_submit (
+			alert_sink, "mail:folder-open",
+			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
 
-	/* Traverse to the last valid iter, or the "Loading..." node */
-	do {
-		gboolean is_store_node = FALSE, is_folder_node = FALSE;
+	g_return_if_fail (folder_info != NULL);
+
+	/* Check if the store has been removed. */
+	si = em_folder_tree_model_lookup_store_info (
+		EM_FOLDER_TREE_MODEL (model), store);
+	if (si == NULL)
+		goto exit;
+
+	/* Make sure we still need to load the tree subfolders. */
+
+	iter_is_placeholder = FALSE;
+
+	/* Get the first child (which will be a placeholder row). */
+	valid = gtk_tree_model_iter_children (model, &iter, &root);
+
+	/* Traverse to the last valid iter, or the placeholder row. */
+	while (valid) {
+		gboolean is_store_node = FALSE;
+		gboolean is_folder_node = FALSE;
 
 		titer = iter; /* Preserve the last valid iter */
 
 		gtk_tree_model_get (
-			model, &iter, COL_BOOL_IS_STORE, &is_store_node,
+			model, &iter,
+			COL_BOOL_IS_STORE, &is_store_node,
 			COL_BOOL_IS_FOLDER, &is_folder_node, -1);
 
-		/* stop on a "Loading..." node */
+		/* Stop on a "Loading..." placeholder row. */
 		if (!is_store_node && !is_folder_node) {
-			/* remember it found a "Loading..." node and overwrite or remove it later */
-			need_add_node = FALSE;
+			iter_is_placeholder = TRUE;
 			break;
 		}
 
-	} while (gtk_tree_model_iter_next (model, &iter));
+		valid = gtk_tree_model_iter_next (model, &iter);
+	}
 
 	iter = titer;
 
-	/* FIXME: camel's IMAP code is totally on crack here, @top's
-	 * folder info should be @fi and fi->child should be what we
-	 * want to fill our tree with... *sigh* */
-	if (m->top && m->fi && !strcmp (m->fi->full_name, m->top)) {
-		if (!(fi = m->fi->child))
-			fi = m->fi->next;
+	/* FIXME Camel's IMAP code is totally on crack here: the
+	 *       folder_info we got back should be for the folder
+	 *       we're expanding, and folder_info->child should be
+	 *       what we want to fill our tree with... *sigh* */
+	if (g_strcmp0 (folder_info->full_name, context->full_name) == 0) {
+		child_info = folder_info->child;
+		if (child_info == NULL)
+			child_info = folder_info->next;
 	} else
-		fi = m->fi;
+		child_info = folder_info;
 
-	if (fi == NULL) {
-		/* no children afterall... remove the "Loading..." placeholder node */
-		if (!need_add_node)
+	/* The folder being expanded has no children after all.  Remove
+	 * the "Loading..." placeholder row and collapse the parent. */
+	if (child_info == NULL) {
+		if (iter_is_placeholder)
 			gtk_tree_store_remove (GTK_TREE_STORE (model), &iter);
 
 		if (is_store) {
 			path = gtk_tree_model_get_path (model, &root);
 			gtk_tree_view_collapse_row (tree_view, path);
 			gtk_tree_path_free (path);
-			return;
+			goto exit;
 		}
+
 	} else {
-		gint fully_loaded;
+		while (child_info != NULL) {
+			GtkTreeRowReference *reference;
 
-		fully_loaded =
-			((m->flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) != 0);
+			/* Check if we already have this row cached. */
+			reference = g_hash_table_lookup (
+				si->full_hash, child_info->full_name);
 
-		do {
-			if (g_hash_table_lookup (si->full_hash, fi->full_name) == NULL) {
-				if (need_add_node)
-					gtk_tree_store_append (GTK_TREE_STORE (model), &iter, &root);
-				need_add_node = TRUE;
+			if (reference == NULL) {
+				/* If we're on a placeholder row, reuse
+				 * the row for the first child folder. */
+				if (iter_is_placeholder)
+					iter_is_placeholder = FALSE;
+				else
+					gtk_tree_store_append (
+						GTK_TREE_STORE (model),
+						&iter, &root);
 
 				em_folder_tree_model_set_folder_info (
 					EM_FOLDER_TREE_MODEL (model),
-					&iter, si, fi, fully_loaded);
+					&iter, si, child_info, TRUE);
 			}
 
-			fi = fi->next;
-		} while (fi != NULL);
+			child_info = child_info->next;
+		}
 
-		/* all children are known, remove the "Loading..." node */
-		if (!need_add_node)
+		/* Remove the "Loading..." placeholder row. */
+		if (iter_is_placeholder)
 			gtk_tree_store_remove (GTK_TREE_STORE (model), &iter);
 	}
 
 	gtk_tree_store_set (
 		GTK_TREE_STORE (model), &root,
 		COL_BOOL_LOAD_SUBDIRS, FALSE, -1);
+
+exit:
+	if (folder_info != NULL)
+		camel_store_free_folder_info (store, folder_info);
+
+	async_context_free (context);
 }
-
-static void
-folder_tree_get_folder_info__free (struct _EMFolderTreeGetFolderInfo *m)
-{
-	camel_store_free_folder_info (m->store, m->fi);
-
-	gtk_tree_row_reference_free (m->root);
-	g_object_unref (m->folder_tree);
-	g_object_unref (m->store);
-	g_free (m->top);
-}
-
-static MailMsgInfo get_folder_info_info = {
-	sizeof (struct _EMFolderTreeGetFolderInfo),
-	(MailMsgDescFunc) folder_tree_get_folder_info__desc,
-	(MailMsgExecFunc) folder_tree_get_folder_info__exec,
-	(MailMsgDoneFunc) folder_tree_get_folder_info__done,
-	(MailMsgFreeFunc) folder_tree_get_folder_info__free
-};
 
 static void
 folder_tree_emit_popup_event (EMFolderTree *folder_tree,
@@ -1073,12 +1091,16 @@ folder_tree_row_expanded (GtkTreeView *tree_view,
                           GtkTreeIter *iter,
                           GtkTreePath *path)
 {
-	struct _EMFolderTreeGetFolderInfo *msg;
+	EActivity *activity;
+	GCancellable *cancellable;
+	EMFolderTree *folder_tree;
+	AsyncContext *context;
 	GtkTreeModel *model;
 	CamelStore *store;
 	gchar *full_name;
 	gboolean load;
 
+	folder_tree = EM_FOLDER_TREE (tree_view);
 	model = gtk_tree_view_get_model (tree_view);
 
 	gtk_tree_model_get (
@@ -1096,17 +1118,27 @@ folder_tree_row_expanded (GtkTreeView *tree_view,
 		GTK_TREE_STORE (model), iter,
 		COL_BOOL_LOAD_SUBDIRS, FALSE, -1);
 
-	msg = mail_msg_new (&get_folder_info_info);
-	msg->root = gtk_tree_row_reference_new (model, path);
-	g_object_ref (store);
-	msg->store = store;
-	msg->folder_tree = g_object_ref (tree_view);
-	msg->top = full_name;
-	msg->flags =
-		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
-		CAMEL_STORE_FOLDER_INFO_FAST;
+	/* Retrieve folder info asynchronously. */
 
-	mail_msg_unordered_push (msg);
+	activity = em_folder_tree_new_activity (folder_tree);
+	cancellable = e_activity_get_cancellable (activity);
+
+	context = g_slice_new0 (AsyncContext);
+	context->activity = activity;
+	context->folder_tree = g_object_ref (folder_tree);
+	context->root = gtk_tree_row_reference_new (model, path);
+	context->full_name = g_strdup (full_name);
+
+	camel_store_get_folder_info (
+		store, full_name,
+		CAMEL_STORE_FOLDER_INFO_FAST |
+		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+		CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
+		G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) folder_tree_get_folder_info_cb,
+		context);
+
+	g_free (full_name);
 }
 
 static void
