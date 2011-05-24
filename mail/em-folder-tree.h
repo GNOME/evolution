@@ -25,6 +25,7 @@
 #define EM_FOLDER_TREE_H
 
 #include <gtk/gtk.h>
+#include <e-util/e-alert-sink.h>
 #include <mail/e-mail-backend.h>
 #include <mail/em-folder-tree-model.h>
 
@@ -89,11 +90,13 @@ struct _EMFolderTreeClass {
 };
 
 GType		em_folder_tree_get_type		(void);
-GtkWidget *	em_folder_tree_new		(EMailBackend *backend);
+GtkWidget *	em_folder_tree_new		(EMailBackend *backend,
+						 EAlertSink *alert_sink);
 PangoEllipsizeMode
 		em_folder_tree_get_ellipsize	(EMFolderTree *folder_tree);
 void		em_folder_tree_set_ellipsize	(EMFolderTree *folder_tree,
 						 PangoEllipsizeMode ellipsize);
+EAlertSink *	em_folder_tree_get_alert_sink	(EMFolderTree *folder_tree);
 EMailBackend *	em_folder_tree_get_backend	(EMFolderTree *folder_tree);
 void		em_folder_tree_enable_drag_and_drop
 						(EMFolderTree *folder_tree);

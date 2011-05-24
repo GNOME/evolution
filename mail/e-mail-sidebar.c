@@ -473,12 +473,16 @@ e_mail_sidebar_get_type (void)
 }
 
 GtkWidget *
-e_mail_sidebar_new (EMailBackend *backend)
+e_mail_sidebar_new (EMailBackend *backend,
+                    EAlertSink *alert_sink)
 {
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+	g_return_val_if_fail (E_IS_ALERT_SINK (alert_sink), NULL);
 
 	return g_object_new (
-		E_TYPE_MAIL_SIDEBAR, "backend", backend, NULL);
+		E_TYPE_MAIL_SIDEBAR,
+		"alert-sink", alert_sink,
+		"backend", backend, NULL);
 }
 
 GKeyFile *

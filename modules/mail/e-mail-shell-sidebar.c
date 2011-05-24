@@ -149,7 +149,9 @@ mail_shell_sidebar_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_mail_sidebar_new (E_MAIL_BACKEND (shell_backend));
+	widget = e_mail_sidebar_new (
+		E_MAIL_BACKEND (shell_backend),
+		E_ALERT_SINK (shell_sidebar));
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	mail_shell_sidebar->priv->folder_tree = g_object_ref (widget);
 	gtk_widget_show (widget);
