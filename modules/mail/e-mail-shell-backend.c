@@ -145,14 +145,14 @@ action_mail_message_new_cb (GtkAction *action,
                             EShellWindow *shell_window)
 {
 	EMailShellSidebar *mail_shell_sidebar;
-	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
 	EShell *shell;
 	EMFolderTree *folder_tree;
 	CamelFolder *folder = NULL;
+	CamelStore *store;
 	const gchar *view_name;
-	gchar *folder_uri = NULL;
+	gchar *folder_name;
 
 	shell = e_shell_window_get_shell (shell_window);
 
@@ -165,36 +165,19 @@ action_mail_message_new_cb (GtkAction *action,
 		goto exit;
 
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
 
-	if (folder_uri != NULL) {
-		EMailBackend *backend;
-		EMailSession *session;
-		CamelStore *store;
-		gchar *folder_name;
-		gboolean success;
-
-		backend = E_MAIL_BACKEND (shell_backend);
-		session = e_mail_backend_get_session (backend);
-
-		success = e_mail_folder_uri_parse (
-			CAMEL_SESSION (session), folder_uri,
-			&store, &folder_name, NULL);
+	if (em_folder_tree_get_selected (folder_tree, &store, &folder_name)) {
 
 		/* FIXME This blocks and is not cancellable. */
-		if (success) {
-			folder = camel_store_get_folder_sync (
-				store, folder_name, 0, NULL, NULL);
-			g_object_unref (store);
-			g_free (folder_name);
-		}
+		folder = camel_store_get_folder_sync (
+			store, folder_name, 0, NULL, NULL);
 
-		g_free (folder_uri);
+		g_object_unref (store);
+		g_free (folder_name);
 	}
 
 exit:

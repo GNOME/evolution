@@ -515,14 +515,9 @@ action_mail_mark_read_recursive_cb (GtkAction *action,
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EMFolderTree *folder_tree;
-	EMailBackend *backend;
-	EMailSession *session;
 	AsyncContext *context;
-	CamelStore *store = NULL;
-	CamelStoreGetFolderInfoFlags flags;
-	gchar *folder_name = NULL;
-	gchar *folder_uri;
-	GError *error = NULL;
+	CamelStore *store;
+	gchar *folder_name;
 
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -530,28 +525,11 @@ action_mail_mark_read_recursive_cb (GtkAction *action,
 
 	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
 
-	backend = em_folder_tree_get_backend (folder_tree);
-	session = e_mail_backend_get_session (backend);
-
-	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
-	g_return_if_fail (folder_uri != NULL);
-
-	e_mail_folder_uri_parse (
-		CAMEL_SESSION (session), folder_uri,
-		&store, &folder_name, &error);
+	/* This action should only be activatable if a folder is selected. */
+	if (!em_folder_tree_get_selected (folder_tree, &store, &folder_name))
+		g_return_if_reached ();
 
 	g_object_unref (folder_tree);
-	g_free (folder_uri);
-
-	/* Failure here is unlikely enough that we don't need an
-	 * EAlert for it, but we should still leave a breadcrumb. */
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		return;
-	}
-
-	g_return_if_fail (CAMEL_IS_STORE (store));
-	g_return_if_fail (folder_name != NULL);
 
 	/* Open the selected folder asynchronously. */
 
@@ -567,11 +545,10 @@ action_mail_mark_read_recursive_cb (GtkAction *action,
 
 	e_shell_backend_add_activity (shell_backend, context->activity);
 
-	flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE |
-		CAMEL_STORE_FOLDER_INFO_FAST;
-
 	camel_store_get_folder_info (
-		store, folder_name, flags,
+		store, folder_name,
+		CAMEL_STORE_FOLDER_INFO_FAST |
+		CAMEL_STORE_FOLDER_INFO_RECURSIVE,
 		G_PRIORITY_DEFAULT, cancellable,
 		(GAsyncReadyCallback) mar_got_folder_info, context);
 
