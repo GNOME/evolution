@@ -3207,28 +3207,6 @@ em_folder_tree_get_selected_uri (EMFolderTree *folder_tree)
 	return uri;
 }
 
-gchar *
-em_folder_tree_get_selected_path (EMFolderTree *folder_tree)
-{
-	GtkTreeView *tree_view;
-	GtkTreeSelection *selection;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gchar *name = NULL;
-
-	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
-
-	tree_view = GTK_TREE_VIEW (folder_tree);
-	selection = gtk_tree_view_get_selection (tree_view);
-
-	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
-		return NULL;
-
-	gtk_tree_model_get (model, &iter, COL_STRING_FULL_NAME, &name, -1);
-
-	return name;
-}
-
 CamelFolder *
 em_folder_tree_get_selected_folder (EMFolderTree *folder_tree)
 {
