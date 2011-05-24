@@ -78,6 +78,7 @@ struct _selected_uri {
 
 struct _EMFolderTreePrivate {
 	EMailBackend *backend;
+	EAlertSink *alert_sink;
 
 	/* selected_uri structures of each path pending selection. */
 	GSList *select_uris;
@@ -119,6 +120,7 @@ struct _EMFolderTreePrivate {
 
 enum {
 	PROP_0,
+	PROP_ALERT_SINK,
 	PROP_BACKEND,
 	PROP_COPY_TARGET_LIST,
 	PROP_ELLIPSIZE,
@@ -719,6 +721,16 @@ exit:
 }
 
 static void
+folder_tree_set_alert_sink (EMFolderTree *folder_tree,
+                            EAlertSink *alert_sink)
+{
+	g_return_if_fail (E_IS_ALERT_SINK (alert_sink));
+	g_return_if_fail (folder_tree->priv->alert_sink == NULL);
+
+	folder_tree->priv->alert_sink = g_object_ref (alert_sink);
+}
+
+static void
 folder_tree_set_backend (EMFolderTree *folder_tree,
                          EMailBackend *backend)
 {
@@ -765,6 +777,12 @@ folder_tree_set_property (GObject *object,
                           GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ALERT_SINK:
+			folder_tree_set_alert_sink (
+				EM_FOLDER_TREE (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_BACKEND:
 			folder_tree_set_backend (
 				EM_FOLDER_TREE (object),
@@ -788,6 +806,13 @@ folder_tree_get_property (GObject *object,
                           GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ALERT_SINK:
+			g_value_set_object (
+				value,
+				em_folder_tree_get_alert_sink (
+				EM_FOLDER_TREE (object)));
+			return;
+
 		case PROP_BACKEND:
 			g_value_set_object (
 				value,
@@ -845,6 +870,11 @@ folder_tree_dispose (GObject *object)
 
 		g_source_remove (priv->autoexpand_id);
 		priv->autoexpand_id = 0;
+	}
+
+	if (priv->alert_sink != NULL) {
+		g_object_unref (priv->alert_sink);
+		priv->alert_sink = NULL;
 	}
 
 	if (priv->backend != NULL) {
@@ -1107,6 +1137,18 @@ folder_tree_class_init (EMFolderTreeClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_ALERT_SINK,
+		g_param_spec_object (
+			"alert-sink",
+			NULL,
+			NULL,
+			E_TYPE_ALERT_SINK,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_BACKEND,
 		g_param_spec_object (
 			"backend",
@@ -1114,7 +1156,8 @@ folder_tree_class_init (EMFolderTreeClass *class)
 			NULL,
 			E_TYPE_MAIL_BACKEND,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (
@@ -1704,12 +1747,14 @@ em_folder_tree_get_type (void)
 }
 
 GtkWidget *
-em_folder_tree_new (EMailBackend *backend)
+em_folder_tree_new (EMailBackend *backend,
+                    EAlertSink *alert_sink)
 {
 	EMailSession *session;
 	const gchar *data_dir;
 
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+	g_return_val_if_fail (E_IS_ALERT_SINK (alert_sink), NULL);
 
 	session = e_mail_backend_get_session (backend);
 	data_dir = e_shell_backend_get_data_dir (E_SHELL_BACKEND (backend));
@@ -1717,7 +1762,9 @@ em_folder_tree_new (EMailBackend *backend)
 	e_mail_store_init (session, data_dir);
 
 	return g_object_new (
-		EM_TYPE_FOLDER_TREE, "backend", backend, NULL);
+		EM_TYPE_FOLDER_TREE,
+		"alert-sink", alert_sink,
+		"backend", backend, NULL);
 }
 
 PangoEllipsizeMode
@@ -1740,6 +1787,14 @@ em_folder_tree_set_ellipsize (EMFolderTree *folder_tree,
 	folder_tree->priv->ellipsize = ellipsize;
 
 	g_object_notify (G_OBJECT (folder_tree), "ellipsize");
+}
+
+EAlertSink *
+em_folder_tree_get_alert_sink (EMFolderTree *folder_tree)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
+
+	return folder_tree->priv->alert_sink;
 }
 
 EMailBackend *

@@ -27,6 +27,7 @@
 
 #include "e-shell-sidebar.h"
 
+#include <e-util/e-alert-sink.h>
 #include <e-util/e-extensible.h>
 #include <e-util/e-unicode.h>
 #include <shell/e-shell-view.h>
@@ -50,10 +51,16 @@ enum {
 	PROP_SHELL_VIEW
 };
 
+/* Forward Declarations */
+static void	e_shell_sidebar_alert_sink_init
+					(EAlertSinkInterface *interface);
+
 G_DEFINE_TYPE_WITH_CODE (
 	EShellSidebar,
 	e_shell_sidebar,
 	GTK_TYPE_BIN,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_ALERT_SINK, e_shell_sidebar_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
 
@@ -300,6 +307,25 @@ shell_sidebar_forall (GtkContainer *container,
 }
 
 static void
+shell_sidebar_submit_alert (EAlertSink *alert_sink,
+                            EAlert *alert)
+{
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+
+	/* EShellSidebar is a proxy alert sink.  Forward the alert
+	 * to the EShellContent widget for display to the user. */
+
+	shell_sidebar = E_SHELL_SIDEBAR (alert_sink);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	alert_sink = E_ALERT_SINK (shell_content);
+	e_alert_sink_submit_alert (alert_sink, alert);
+}
+
+static void
 e_shell_sidebar_class_init (EShellSidebarClass *class)
 {
 	GObjectClass *object_class;
@@ -384,6 +410,12 @@ e_shell_sidebar_class_init (EShellSidebarClass *class)
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+}
+
+static void
+e_shell_sidebar_alert_sink_init (EAlertSinkInterface *interface)
+{
+	interface->submit_alert = shell_sidebar_submit_alert;
 }
 
 static void

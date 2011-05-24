@@ -47,10 +47,14 @@ enum {
 	PROP_BACKEND
 };
 
-G_DEFINE_TYPE (
+/* XXX EMFolderSelector is an EAlertSink, but it just uses the default
+ *     message dialog implementation.  We should do something nicer. */
+
+G_DEFINE_TYPE_WITH_CODE (
 	EMFolderSelector,
 	em_folder_selector,
-	GTK_TYPE_DIALOG)
+	GTK_TYPE_DIALOG,
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, NULL))
 
 static void
 folder_selector_set_backend (EMFolderSelector *emfs,
@@ -286,7 +290,7 @@ folder_selector_construct (EMFolderSelector *emfs,
 
 	container = widget;
 
-	widget = em_folder_tree_new (backend);
+	widget = em_folder_tree_new (backend, E_ALERT_SINK (emfs));
 	emu_restore_folder_tree_state (EM_FOLDER_TREE (widget));
 	gtk_container_add (GTK_CONTAINER (widget), widget);
 	emfs->priv->folder_tree = EM_FOLDER_TREE (widget);
