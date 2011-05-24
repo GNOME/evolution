@@ -303,13 +303,19 @@ e_mail_store_add_by_account (EMailSession *session,
 	 * and if this belongs in the folder tree model, add it. */
 
 	provider = camel_provider_get (account->source->url, &error);
-	if (provider == NULL)
-		goto fail;
+	if (provider == NULL) {
+	/* In case we do not have a provider here, we handle
+	 * the special case of having multiple mail identities
+	 * eg. a dummy account having just SMTP server defined */
+		goto handle_transport;
+	}
 
 	service = camel_session_add_service (
 		CAMEL_SESSION (session),
 		account->uid, account->source->url,
 		CAMEL_PROVIDER_STORE, &error);
+
+handle_transport:
 
 	if (account->transport) {
 		/* While we're at it, add the account's transport to the
