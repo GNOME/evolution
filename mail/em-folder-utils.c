@@ -446,7 +446,8 @@ em_folder_utils_copy_folder (GtkWindow *parent,
                              gint delete)
 {
 	GtkWidget *dialog;
-	EMFolderTree *emft;
+	EMFolderSelector *selector;
+	EMFolderTree *folder_tree;
 	EMailSession *session;
 	const gchar *label;
 	const gchar *title;
@@ -472,26 +473,24 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 		return;
 	}
 
-	/* XXX Do we leak this reference. */
-	emft = (EMFolderTree *) em_folder_tree_new (backend);
-	emu_restore_folder_tree_state (emft);
-
-	em_folder_tree_set_excluded_func (
-		emft, emfu_copy_folder_exclude, cfd);
-
 	label = delete ? _("_Move") : _("C_opy");
 	title = delete ? _("Move Folder To") : _("Copy Folder To");
 
 	dialog = em_folder_selector_new (
-		parent, emft,
+		parent, backend,
 		EM_FOLDER_SELECTOR_CAN_CREATE,
 		title, NULL, label);
+
+	selector = EM_FOLDER_SELECTOR (dialog);
+	folder_tree = em_folder_selector_get_folder_tree (selector);
+
+	em_folder_tree_set_excluded_func (
+		folder_tree, emfu_copy_folder_exclude, cfd);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		const gchar *uri;
 
-		uri = em_folder_selector_get_selected_uri (
-			EM_FOLDER_SELECTOR (dialog));
+		uri = em_folder_selector_get_selected_uri (selector);
 		emfu_copy_folder_selected (backend, uri, cfd);
 	}
 
@@ -536,6 +535,7 @@ em_folder_utils_create_folder (GtkWindow *parent,
                                const gchar *initial_uri)
 {
 	EMailSession *session;
+	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
 	CamelStore *store = NULL;
 	const gchar *folder_uri;
@@ -548,22 +548,21 @@ em_folder_utils_create_folder (GtkWindow *parent,
 
 	session = e_mail_backend_get_session (backend);
 
-	folder_tree = (EMFolderTree *) em_folder_tree_new (backend);
-	emu_restore_folder_tree_state (folder_tree);
-
 	dialog = em_folder_selector_create_new (
-		parent, folder_tree, 0,
+		parent, backend, 0,
 		_("Create Folder"),
 		_("Specify where to create the folder:"));
+
+	selector = EM_FOLDER_SELECTOR (dialog);
+	folder_tree = em_folder_selector_get_folder_tree (selector);
+
 	if (initial_uri != NULL)
-		em_folder_selector_set_selected (
-			EM_FOLDER_SELECTOR (dialog), initial_uri);
+		em_folder_tree_set_selected (folder_tree, initial_uri, FALSE);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
 		goto exit;
 
-	folder_uri = em_folder_selector_get_selected_uri (
-		EM_FOLDER_SELECTOR (dialog));
+	folder_uri = em_folder_selector_get_selected_uri (selector);
 
 	e_mail_folder_uri_parse (
 		CAMEL_SESSION (session), folder_uri,

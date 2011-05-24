@@ -2790,7 +2790,8 @@ post_header_clicked_cb (EComposerPostHeader *header,
 	EShell *shell;
 	EShellBackend *shell_backend;
 	GtkTreeSelection *selection;
-	GtkWidget *folder_tree;
+	EMFolderSelector *selector;
+	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
 	GList *list;
 
@@ -2798,29 +2799,28 @@ post_header_clicked_cb (EComposerPostHeader *header,
 	shell = e_msg_composer_get_shell (composer);
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
-	folder_tree = em_folder_tree_new (E_MAIL_BACKEND (shell_backend));
-	emu_restore_folder_tree_state (EM_FOLDER_TREE (folder_tree));
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
-
-	em_folder_tree_set_excluded (
-		EM_FOLDER_TREE (folder_tree),
-		EMFT_EXCLUDE_NOSELECT |
-		EMFT_EXCLUDE_VIRTUAL |
-		EMFT_EXCLUDE_VTRASH);
-
 	dialog = em_folder_selector_new (
 		GTK_WINDOW (composer),
-		EM_FOLDER_TREE (folder_tree),
+		E_MAIL_BACKEND (shell_backend),
 		EM_FOLDER_SELECTOR_CAN_CREATE,
 		_("Posting destination"),
 		_("Choose folders to post the message to."),
 		NULL);
 
+	selector = EM_FOLDER_SELECTOR (dialog);
+	folder_tree = em_folder_selector_get_folder_tree (selector);
+
+	em_folder_tree_set_excluded (
+		folder_tree,
+		EMFT_EXCLUDE_NOSELECT |
+		EMFT_EXCLUDE_VIRTUAL |
+		EMFT_EXCLUDE_VTRASH);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
+
 	list = e_composer_post_header_get_folders (header);
-	em_folder_selector_set_selected_list (
-		EM_FOLDER_SELECTOR (dialog), list);
+	em_folder_tree_set_selected_list (folder_tree, list, FALSE);
 	g_list_foreach (list, (GFunc) g_free, NULL);
 	g_list_free (list);
 
@@ -2831,8 +2831,7 @@ post_header_clicked_cb (EComposerPostHeader *header,
 		goto exit;
 	}
 
-	list = em_folder_selector_get_selected_uris (
-		EM_FOLDER_SELECTOR (dialog));
+	list = em_folder_tree_get_selected_uris (folder_tree);
 	e_composer_post_header_set_folders (header, list);
 	g_list_foreach (list, (GFunc) g_free, NULL);
 	g_list_free (list);
