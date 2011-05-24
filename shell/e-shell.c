@@ -229,9 +229,31 @@ shell_action_new_window_cb (GSimpleAction *action,
                             GVariant *parameter,
                             EShell *shell)
 {
+	GList *watched_windows;
 	const gchar *view_name;
 
 	view_name = g_variant_get_string (parameter, NULL);
+	watched_windows = e_shell_get_watched_windows (shell);
+
+	/* Present the first EShellWindow showing 'view_name'. */
+	while (watched_windows != NULL) {
+		GtkWindow *window = GTK_WINDOW (watched_windows->data);
+
+		if (E_IS_SHELL_WINDOW (window)) {
+			const gchar *active_view;
+
+			active_view = e_shell_window_get_active_view (
+				E_SHELL_WINDOW (window));
+			if (g_strcmp0 (active_view, view_name) == 0) {
+				gtk_window_present (window);
+				return;
+			}
+		}
+
+		watched_windows = g_list_next (watched_windows);
+	}
+
+	/* No suitable EShellWindow found, so create one. */
 	e_shell_create_shell_window (shell, view_name);
 }
 
