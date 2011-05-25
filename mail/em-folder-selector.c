@@ -34,7 +34,7 @@
 #define d(x)
 
 #define EM_FOLDER_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_CLASS \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), EM_TYPE_FOLDER_SELECTOR, EMFolderSelectorPrivate))
 
 struct _EMFolderSelectorPrivate {
@@ -292,7 +292,7 @@ folder_selector_construct (EMFolderSelector *emfs,
 
 	widget = em_folder_tree_new (backend, E_ALERT_SINK (emfs));
 	emu_restore_folder_tree_state (EM_FOLDER_TREE (widget));
-	gtk_container_add (GTK_CONTAINER (widget), widget);
+	gtk_container_add (GTK_CONTAINER (container), widget);
 	emfs->priv->folder_tree = EM_FOLDER_TREE (widget);
 	gtk_widget_show (widget);
 
