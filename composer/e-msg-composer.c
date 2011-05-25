@@ -1729,6 +1729,7 @@ msg_composer_account_changed_cb (EMsgComposer *composer)
 	uid = account->id->sig_uid;
 	signature = uid ? e_get_signature_by_uid (uid) : NULL;
 	e_composer_header_table_set_signature (table, signature);
+	e_msg_composer_show_sig_file (composer);
 }
 
 static void
