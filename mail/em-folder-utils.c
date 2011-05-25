@@ -405,26 +405,23 @@ emfu_copy_folder_exclude (EMFolderTree *tree,
                           gpointer data)
 {
 	struct _copy_folder_data *cfd = data;
-	CamelProvider *source_provider;
-	CamelService *source_service;
+	CamelStore *store;
+	const gchar *uid;
 	gint fromvfolder, tovfolder;
-	gchar *touri;
 	guint flags;
-	gboolean is_store;
 
 	/* handles moving to/from vfolders */
 
-	source_service = CAMEL_SERVICE (cfd->source_store);
-	source_provider = camel_service_get_provider (source_service);
-	fromvfolder = (g_strcmp0 (source_provider->protocol, "vfolder") == 0);
+	uid = camel_service_get_uid (CAMEL_SERVICE (cfd->source_store));
+	fromvfolder = (g_strcmp0 (uid, "vfolder") == 0);
 
 	gtk_tree_model_get (
 		model, iter,
-		COL_STRING_URI, &touri,
 		COL_UINT_FLAGS, &flags,
-		COL_BOOL_IS_STORE, &is_store, -1);
-	tovfolder = strncmp(touri, "vfolder:", 8) == 0;
-	g_free (touri);
+		COL_POINTER_CAMEL_STORE, &store, -1);
+
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	tovfolder = (g_strcmp0 (uid, "vfolder") == 0);
 
 	/* moving from vfolder to normal- not allowed */
 	if (fromvfolder && !tovfolder && cfd->delete)
