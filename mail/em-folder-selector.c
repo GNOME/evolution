@@ -429,54 +429,28 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 {
 	EMFolderTree *folder_tree;
 	gchar *uri;
-	const gchar *name;
 
 	g_return_val_if_fail (EM_IS_FOLDER_SELECTOR (emfs), NULL);
 
 	folder_tree = em_folder_selector_get_folder_tree (emfs);
 	uri = em_folder_tree_get_selected_uri (folder_tree);
 
-	if (uri == NULL) {
-		d(printf ("no selected folder?\n"));
+	if (uri == NULL)
 		return NULL;
-	}
 
 	if (emfs->name_entry) {
-		CamelProvider *provider;
-		CamelURL *url;
-
-		provider = camel_provider_get (uri, NULL);
+		const gchar *name;
+		gchar *temp_uri;
 
 		name = gtk_entry_get_text (emfs->name_entry);
+		temp_uri = g_strconcat (uri, "/", name, NULL);
 
-		url = camel_url_new (uri, NULL);
-		if (provider && (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)) {
-			gchar *path;
-
-			if (url->fragment)
-				path = g_strdup_printf ("%s/%s", url->fragment, name);
-			else
-				path = g_strdup (name);
-
-			camel_url_set_fragment (url, path);
-			g_free (path);
-		} else {
-			gchar *path;
-
-			path = g_strdup_printf (
-				"%s/%s", (url->path == NULL ||
-				strcmp (url->path, "/") == 0) ? "":
-				url->path, name);
-			camel_url_set_path (url, path);
-			g_free (path);
-		}
-
-		g_free (emfs->selected_uri);
-		emfs->selected_uri = camel_url_to_string (url, 0);
-
-		camel_url_free (url);
-		uri = emfs->selected_uri;
+		g_free (uri);
+		uri = temp_uri;
 	}
+
+	g_free (emfs->selected_uri);
+	emfs->selected_uri = uri;  /* takes ownership */
 
 	return uri;
 }
