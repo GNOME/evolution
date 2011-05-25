@@ -2244,13 +2244,19 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
                          GdkDragAction *suggested_action)
 {
 	EMFolderTreePrivate *p = folder_tree->priv;
-	gchar *full_name = NULL, *uri = NULL, *src_uri = NULL;
-	CamelStore *local, *sstore, *dstore;
+	gchar *dst_full_name = NULL;
+	gchar *src_full_name = NULL;
+	CamelStore *local;
+	CamelStore *dst_store;
+	CamelStore *src_store = NULL;
 	GdkAtom atom = GDK_NONE;
 	gboolean is_store;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GList *targets;
+	const gchar *uid;
+	gboolean src_is_vfolder;
+	gboolean dst_is_vfolder;
 	guint32 flags = 0;
 
 	/* This is a bit of a mess, but should handle all the cases properly */
@@ -2267,29 +2273,34 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 	gtk_tree_model_get (
 		model, &iter,
 		COL_BOOL_IS_STORE, &is_store,
-		COL_STRING_FULL_NAME, &full_name,
-		COL_UINT_FLAGS, &flags,
-		COL_POINTER_CAMEL_STORE, &dstore,
-		COL_STRING_URI, &uri, -1);
+		COL_POINTER_CAMEL_STORE, &dst_store,
+		COL_STRING_FULL_NAME, &dst_full_name,
+		COL_UINT_FLAGS, &flags, -1);
 
 	local = e_mail_local_get_store ();
+
+	uid = camel_service_get_uid (CAMEL_SERVICE (dst_store));
+	dst_is_vfolder = (g_strcmp0 (uid, "vfolder") == 0);
 
 	targets = gdk_drag_context_list_targets (context);
 
 	/* Check for special destinations */
-	if (uri && full_name) {
-		/* don't allow copying/moving into the UNMATCHED vfolder */
-		if (!strncmp (uri, "vfolder:", 8) && !strcmp (full_name, CAMEL_UNMATCHED_NAME))
+
+	/* Don't allow copying/moving into the UNMATCHED vfolder. */
+	if (dst_is_vfolder)
+		if (g_strcmp0 (dst_full_name, CAMEL_UNMATCHED_NAME) == 0)
 			goto done;
 
-		/* don't allow copying/moving into a vTrash/vJunk folder */
-		if (!strcmp (full_name, CAMEL_VTRASH_NAME)
-		    || !strcmp (full_name, CAMEL_VJUNK_NAME))
-			goto done;
+	/* Don't allow copying/moving into a vTrash folder. */
+	if (g_strcmp0 (dst_full_name, CAMEL_VTRASH_NAME) == 0)
+		goto done;
 
-		if (flags & CAMEL_FOLDER_NOSELECT)
-			goto done;
-	}
+	/* Don't allow copying/moving into a vJunk folder. */
+	if (g_strcmp0 (dst_full_name, CAMEL_VJUNK_NAME) == 0)
+		goto done;
+
+	if (flags & CAMEL_FOLDER_NOSELECT)
+		goto done;
 
 	if (p->drag_row) {
 		GtkTreePath *src_path = gtk_tree_row_reference_get_path (p->drag_row);
@@ -2300,8 +2311,8 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 			if (gtk_tree_model_get_iter (model, &iter, src_path))
 				gtk_tree_model_get (
 					model, &iter,
-					COL_POINTER_CAMEL_STORE, &sstore,
-					COL_STRING_URI, &src_uri,
+					COL_POINTER_CAMEL_STORE, &src_store,
+					COL_STRING_FULL_NAME, &src_full_name,
 					COL_UINT_FLAGS, &src_flags, -1);
 
 			/* can't dnd onto itself or below itself - bad things happen,
@@ -2341,62 +2352,58 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 	}
 
 	/* Check for special sources, and vfolder stuff */
-	if (src_uri) {
-		CamelURL *url;
-		gchar *url_path;
+	if (src_store != NULL && src_full_name != NULL) {
+
+		uid = camel_service_get_uid (CAMEL_SERVICE (src_store));
+		src_is_vfolder = (g_strcmp0 (uid, "vfolder") == 0);
 
 		/* FIXME: this is a total hack, but i think all we can do at present */
 		/* Check for dragging from special folders which can't be moved/copied */
-		url = camel_url_new (src_uri, NULL);
-		url_path = url->fragment?url->fragment:url->path;
-		if (url_path && url_path[0]) {
-			/* don't allow moving any of the the local special folders */
-			if (sstore == local && is_special_local_folder (url_path)) {
-				GdkAtom xfolder;
 
-				camel_url_free (url);
+		/* Don't allow moving any of the the special local folders. */
+		if (src_store == local && is_special_local_folder (src_full_name)) {
+			GdkAtom xfolder;
 
-				/* force copy for special local folders */
-				*suggested_action = GDK_ACTION_COPY;
-				*actions = GDK_ACTION_COPY;
-				xfolder = drop_atoms[DND_DROP_TYPE_FOLDER];
-				while (targets != NULL) {
-					if (targets->data == (gpointer) xfolder) {
-						atom = xfolder;
-						goto done;
-					}
-
-					targets = targets->next;
+			/* force copy for special local folders */
+			*suggested_action = GDK_ACTION_COPY;
+			*actions = GDK_ACTION_COPY;
+			xfolder = drop_atoms[DND_DROP_TYPE_FOLDER];
+			while (targets != NULL) {
+				if (targets->data == (gpointer) xfolder) {
+					atom = xfolder;
+					goto done;
 				}
 
-				goto done;
+				targets = targets->next;
 			}
 
-			/* Don't allow copying/moving the UNMATCHED vfolder. */
-			if (!strcmp (url->protocol, "vfolder") &&
-				!strcmp (url_path, CAMEL_UNMATCHED_NAME)) {
-				camel_url_free (url);
-				goto done;
-			}
-
-			/* Don't allow copying/moving any vTrash/vJunk
-			 * folder nor maildir 'inbox'. */
-			if (strcmp (url_path, CAMEL_VTRASH_NAME) == 0
-			    || strcmp (url_path, CAMEL_VJUNK_NAME) == 0
-			    /* Dont allow drag from maildir 'inbox' */
-			    || strcmp(url_path, ".") == 0) {
-				camel_url_free (url);
-				goto done;
-			}
+			goto done;
 		}
-		camel_url_free (url);
 
-		/* Search Folders can only be dropped into other Search Folders */
-		if (strncmp(src_uri, "vfolder:", 8) == 0) {
+		/* Don't allow copying/moving the UNMATCHED vfolder. */
+		if (src_is_vfolder)
+			if (g_strcmp0 (src_full_name, CAMEL_UNMATCHED_NAME) == 0)
+				goto done;
+
+		/* Don't allow copying/moving any vTrash folder. */
+		if (g_strcmp0 (src_full_name, CAMEL_VTRASH_NAME) == 0)
+			goto done;
+
+		/* Don't allow copying/moving any vJunk folder. */
+		if (g_strcmp0 (src_full_name, CAMEL_VJUNK_NAME) == 0)
+			goto done;
+
+		/* Don't allow copying/moving any maildir 'inbox'. */
+		if (g_strcmp0 (src_full_name, ".") == 0)
+			goto done;
+
+		/* Search Folders can only be dropped into other
+		 * Search Folders. */
+		if (src_is_vfolder) {
 			/* force move only for vfolders */
 			*suggested_action = GDK_ACTION_MOVE;
 
-			if (uri && strncmp(uri, "vfolder:", 8) == 0) {
+			if (dst_is_vfolder) {
 				GdkAtom xfolder;
 
 				xfolder = drop_atoms[DND_DROP_TYPE_FOLDER];
@@ -2414,11 +2421,11 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 		}
 	}
 
-	/* can't drag anything but a vfolder into a vfolder */
-	if (uri && strncmp(uri, "vfolder:", 8) == 0)
+	/* Can't drag anything but a Search Folder into a Search Folder. */
+	if (dst_is_vfolder)
 		goto done;
 
-	/* Now we either have a store or a normal folder */
+	/* Now we either have a store or a normal folder. */
 
 	if (is_store) {
 		GdkAtom xfolder;
@@ -2449,8 +2456,8 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 
  done:
 
-	g_free (full_name);
-	g_free (uri);
+	g_free (dst_full_name);
+	g_free (src_full_name);
 
 	return atom;
 }
