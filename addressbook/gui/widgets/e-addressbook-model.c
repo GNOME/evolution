@@ -905,6 +905,9 @@ e_addressbook_model_get_query (EAddressbookModel *model)
 {
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_MODEL (model), NULL);
 
+	if (!model->priv->query)
+		return NULL;
+
 	return e_book_query_to_string (model->priv->query);
 }
 
@@ -920,6 +923,9 @@ e_addressbook_model_set_query (EAddressbookModel *model,
 		book_query = e_book_query_any_field_contains ("");
 	else
 		book_query = e_book_query_from_string (query);
+
+	if (!book_query)
+		return;
 
 	if (model->priv->query != NULL) {
 		gchar *old_query, *new_query;
