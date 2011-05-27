@@ -20,6 +20,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <text/e-text.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 #include "ea-calendar-helpers.h"

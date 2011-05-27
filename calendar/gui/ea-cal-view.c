@@ -20,6 +20,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "ea-cal-view.h"
 #include "ea-calendar-helpers.h"
 #include "e-day-view.h"

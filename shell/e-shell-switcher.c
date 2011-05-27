@@ -25,6 +25,10 @@
  * @include: shell/e-shell-switcher.h
  **/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-shell-switcher.h"
 
 #include <glib/gi18n.h>

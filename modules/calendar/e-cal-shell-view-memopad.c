@@ -19,6 +19,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-cal-shell-view-private.h"
 
 /* Much of this file is based on e-memo-shell-view-actions.c. */

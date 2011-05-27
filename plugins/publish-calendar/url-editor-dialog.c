@@ -20,6 +20,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "url-editor-dialog.h"
 #include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-url.h>

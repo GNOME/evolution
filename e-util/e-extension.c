@@ -39,6 +39,10 @@
  *    registered in the library module's e_module_load() function.
  **/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-extension.h"
 
 struct _EExtensionPrivate {

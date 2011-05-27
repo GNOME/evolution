@@ -19,6 +19,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-util/e-icon-factory.h"
 
 #include "e-picture-gallery.h"

@@ -22,14 +22,16 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <locale.h>
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
-
-#include <config.h>
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>

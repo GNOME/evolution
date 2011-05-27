@@ -20,7 +20,9 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "eab-editor.h"
 #include "e-contact-editor.h"

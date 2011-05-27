@@ -21,9 +21,12 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "gal-view.h"
 
-#include <config.h>
 #include <e-util/e-util.h>
 
 #define d(x)

@@ -25,9 +25,12 @@
  * @include: shell/e-shell-searchbar.h
  **/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-shell-searchbar.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include "e-util/e-util.h"

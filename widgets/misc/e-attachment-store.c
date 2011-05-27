@@ -19,10 +19,13 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-attachment-store.h"
 
 #include <errno.h>
-#include <config.h>
 #include <glib/gi18n.h>
 
 #include "e-util/e-util.h"

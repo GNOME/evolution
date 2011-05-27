@@ -16,9 +16,12 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-mail-folder-utils.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include "mail/mail-tools.h"

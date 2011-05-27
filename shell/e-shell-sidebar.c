@@ -25,6 +25,10 @@
  * @include: shell/e-shell-sidebar.h
  **/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-shell-sidebar.h"
 
 #include <e-util/e-alert-sink.h>

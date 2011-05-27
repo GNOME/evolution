@@ -21,6 +21,10 @@
  *	Chris Lord  <chris@linux.intel.com>
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <glib.h>
 #include <e-shell-meego.h>
 

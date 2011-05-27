@@ -25,6 +25,10 @@
  * which influences the parsing of UI definitions.
  **/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-ui-manager.h"
 #include "e-util-private.h"
 

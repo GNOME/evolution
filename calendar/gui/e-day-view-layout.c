@@ -26,7 +26,9 @@
  * used for printing.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-day-view-layout.h"
 #include "e-util/e-bit-array.h"

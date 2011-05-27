@@ -22,7 +22,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <math.h>
 #include <stdlib.h>
 #include <gdk/gdkkeysyms.h>

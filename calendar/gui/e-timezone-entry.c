@@ -28,7 +28,10 @@
  * timezone.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include <glib/gi18n.h>
 #include "e-timezone-entry.h"

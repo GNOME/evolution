@@ -25,7 +25,9 @@
 
 /* mail-session.c: handles the session information and resource manipulation */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <errno.h>
 #include <stdlib.h>

@@ -25,6 +25,10 @@
  * @include: shell/e-shell-window.h
  **/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-shell-window-private.h"
 
 enum {

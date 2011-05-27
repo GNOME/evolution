@@ -19,6 +19,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-mail-shell-view-private.h"
 
 #include "widgets/menus/gal-view-factory-etable.h"

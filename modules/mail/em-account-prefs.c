@@ -24,11 +24,11 @@
  *     have access to.  The desire is to someday move account management
  *     completely out of the mailer, perhaps to evolution-data-server. */
 
-#include "em-account-prefs.h"
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
+
+#include "em-account-prefs.h"
 
 #include <glib/gi18n.h>
 

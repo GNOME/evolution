@@ -19,6 +19,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-month-view.h"
 
 #include <libecal/e-cal-time-util.h>

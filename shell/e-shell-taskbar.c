@@ -25,6 +25,10 @@
  * @include: shell/e-shell-taskbar.h
  **/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-shell-taskbar.h"
 
 #include <e-shell-view.h>

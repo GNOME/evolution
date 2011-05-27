@@ -19,9 +19,12 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-paned.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #define SYNC_REQUEST_NONE		0

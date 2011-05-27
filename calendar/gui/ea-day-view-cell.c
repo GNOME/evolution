@@ -21,6 +21,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "ea-day-view-cell.h"
 #include "ea-day-view-main-item.h"
 #include "ea-day-view.h"

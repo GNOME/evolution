@@ -25,7 +25,9 @@
 
 /* FIXME: Overall e-tree-sorted.c needs to be made more efficient. */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <stdio.h>
 #include <errno.h>

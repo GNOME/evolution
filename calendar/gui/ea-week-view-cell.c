@@ -22,6 +22,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "ea-week-view-cell.h"
 #include "ea-week-view-main-item.h"
 #include "a11y/ea-factory.h"

@@ -20,6 +20,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <e-util/e-config.h>
 #include <addressbook/gui/widgets/eab-config.h>
 #include <libedataserver/e-source.h>

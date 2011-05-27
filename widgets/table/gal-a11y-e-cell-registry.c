@@ -20,7 +20,9 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "gal-a11y-e-cell.h"
 #include "gal-a11y-e-cell-registry.h"

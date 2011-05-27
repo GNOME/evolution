@@ -21,6 +21,10 @@
 
 /* Much of the popup menu logic here was ripped from GtkMenuToolButton. */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-attachment-button.h"
 
 struct _EAttachmentButtonPrivate {

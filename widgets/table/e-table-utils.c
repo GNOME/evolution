@@ -21,7 +21,9 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <libintl.h>		/* This file uses dgettext() but no _() */
 #include <string.h>

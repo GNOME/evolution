@@ -19,6 +19,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 /* Include <Python.h> first to avoid:
  * warning: "_POSIX_C_SOURCE" redefined */
 #include <Python.h>

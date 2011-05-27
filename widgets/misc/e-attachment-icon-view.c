@@ -19,6 +19,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-attachment-icon-view.h"
 
 #include <glib/gi18n.h>

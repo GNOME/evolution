@@ -16,6 +16,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-cal-config-meeting-time-selector.h"
 
 #include <shell/e-shell.h>

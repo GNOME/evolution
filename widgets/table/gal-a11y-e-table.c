@@ -20,7 +20,9 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "a11y/gal-a11y-util.h"
 #include "table/e-table.h"
