@@ -258,6 +258,76 @@
                               </packing>
                             </child>
                             <child>
+                              <object class="GtkButton" id="top-button">
+                                <property name="visible">True</property>
+                                <property name="is_focus">True</property>
+                                <property name="can_default">True</property>
+                                <property name="has_default">True</property>
+			        <property name="use_underline">True</property>
+				<property name="label">gtk-goto-top</property>
+				<property name="use-stock">True</property>
+				<property name="sensitive">False</property>
+				<signal name="clicked" handler="contact_list_editor_top_button_clicked_cb"/>
+			      </object>
+			      <packing>
+			        <property name="expand">False</property>
+			        <property name="fill">False</property>
+			        <property name="position">3</property>
+			      </packing>
+			    </child>
+			    <child>
+			      <object class="GtkButton" id="up-button">
+			        <property name="visible">True</property>
+			        <property name="is_focus">True</property>
+			        <property name="can_default">True</property>
+			        <property name="has_default">True</property>
+			        <property name="use_underline">True</property>
+			        <property name="label">gtk-go-up</property>
+			        <property name="use-stock">True</property>
+			        <property name="sensitive">False</property>
+			        <signal name="clicked" handler="contact_list_editor_up_button_clicked_cb"/>
+			      </object>
+			      <packing>
+			        <property name="expand">False</property>
+			        <property name="fill">False</property>
+			        <property name="position">4</property>
+			      </packing>
+			    </child>
+			    <child>
+			      <object class="GtkButton" id="down-button">
+			        <property name="visible">True</property>
+			        <property name="is_focus">True</property>
+			        <property name="has_focus">True</property>
+			        <property name="use_underline">True</property>
+			        <property name="label">gtk-go-down</property>
+			        <property name="use-stock">True</property>
+			        <property name="sensitive">False</property>
+			        <signal name="clicked" handler="contact_list_editor_down_button_clicked_cb"/>
+			      </object>
+			      <packing>
+			        <property name="expand">False</property>
+			        <property name="fill">False</property>
+			        <property name="position">5</property>
+			      </packing>
+			    </child>
+			    <child>
+			      <object class="GtkButton" id="bottom-button">
+			        <property name="visible">True</property>
+			        <property name="is_focus">True</property>
+			        <property name="has_focus">True</property>
+			        <property name="use_underline">True</property>
+			        <property name="label">gtk-goto-bottom</property>
+			        <property name="use-stock">True</property>
+			        <property name="sensitive">False</property>
+			        <signal name="clicked" handler="contact_list_editor_bottom_button_clicked_cb"/>
+			      </object>
+			      <packing>
+			        <property name="expand">False</property>
+			        <property name="fill">False</property>
+			        <property name="position">6</property>
+			      </packing>
+			    </child>
+                            <child>
                               <object class="GtkAlignment" id="members-buttons-alignment">
                                 <property name="visible">True</property>
                                 <child>
