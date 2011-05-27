@@ -21,6 +21,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "ea-jump-button.h"
 #include "ea-calendar-helpers.h"
 #include "ea-week-view.h"

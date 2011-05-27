@@ -25,7 +25,7 @@
 /* Convert a mail message into a task */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include <glib/gi18n-lib.h>

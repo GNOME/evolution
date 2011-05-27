@@ -21,7 +21,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <ctype.h>
 #include <string.h>
 #include <libedataserverui/e-book-auth-util.h>

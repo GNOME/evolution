@@ -20,7 +20,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include "text/e-text.h"
 #include "gal-a11y-e-text-factory.h"
 #include "gal-a11y-e-text.h"

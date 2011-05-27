@@ -35,7 +35,10 @@
  * Port to Pango co-done by Gergõ Érdi <cactus@cactus.rulez.org>
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <math.h>
 #include <string.h>
 #include "gnome-canvas-text.h"

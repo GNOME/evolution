@@ -25,6 +25,10 @@
  * @include: shell/e-shell.h
  **/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-shell.h"
 
 #include <glib/gi18n.h>

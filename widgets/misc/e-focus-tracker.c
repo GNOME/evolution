@@ -19,9 +19,12 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-focus-tracker.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include <misc/e-selectable.h>

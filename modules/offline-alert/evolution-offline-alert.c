@@ -16,6 +16,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window-actions.h>
 #include <e-util/e-alert-sink.h>

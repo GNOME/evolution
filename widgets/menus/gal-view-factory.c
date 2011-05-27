@@ -20,9 +20,12 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "gal-view-factory.h"
 
-#include <config.h>
 #include <e-util/e-util.h>
 
 G_DEFINE_TYPE (GalViewFactory, gal_view_factory, G_TYPE_OBJECT)

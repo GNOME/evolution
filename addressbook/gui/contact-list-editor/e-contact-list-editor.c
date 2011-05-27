@@ -20,7 +20,9 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-contact-list-editor.h"
 #include <e-util/e-util-private.h>

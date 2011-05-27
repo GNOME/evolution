@@ -21,6 +21,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "ea-calendar-helpers.h"
 #include "ea-cal-view-event.h"
 #include "ea-jump-button.h"

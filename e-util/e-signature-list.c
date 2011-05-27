@@ -21,9 +21,12 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-signature-list.h"
 
-#include <config.h>
 #include <string.h>
 
 #include <libedataserver/e-uid.h>

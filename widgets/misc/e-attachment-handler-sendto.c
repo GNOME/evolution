@@ -18,9 +18,12 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-attachment-handler-sendto.h"
 
-#include <config.h>
 #include <errno.h>
 
 #include <glib/gi18n-lib.h>

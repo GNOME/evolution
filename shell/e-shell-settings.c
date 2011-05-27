@@ -25,6 +25,10 @@
  * @include: shell/e-shell-settings.h
  **/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-shell-settings.h"
 
 #include "e-util/gconf-bridge.h"

@@ -25,6 +25,10 @@
  * usually by displaying them to the user.
  **/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-alert-sink.h"
 
 #include "e-alert-dialog.h"

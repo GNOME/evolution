@@ -11,9 +11,12 @@
  *	Dan Vratil <dvratil@redhat.com>
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-port-entry.h"
 
-#include <config.h>
 #include <stddef.h>
 #include <string.h>
 #include <glib.h>

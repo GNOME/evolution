@@ -16,6 +16,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-activity-bar.h"
 
 #define FEEDBACK_PERIOD		1 /* seconds */

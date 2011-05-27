@@ -20,6 +20,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "a11y/ea-factory.h"
 #include "ea-calendar-item.h"
 #include "ea-widgets.h"

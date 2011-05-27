@@ -25,6 +25,10 @@
  * @include: e-util/e-selection.h
  **/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-selection.h"
 
 #include <string.h>

@@ -25,6 +25,10 @@
  * @include: e-util/e-module.h
  **/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-module.h"
 
 #include <glib/gi18n.h>

@@ -19,9 +19,11 @@
  *
  */
 
-#include "e-book-shell-backend.h"
-
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include "e-book-shell-backend.h"
 
 #include <string.h>
 #include <glib/gi18n.h>

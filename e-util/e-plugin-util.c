@@ -16,6 +16,10 @@
  * Copyright (C) 1999-2010 Novell, Inc. (www.novell.com)
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>

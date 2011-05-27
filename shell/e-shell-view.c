@@ -25,6 +25,10 @@
  * @include: shell/e-shell-view.h
  **/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-shell-view.h"
 
 #include <string.h>

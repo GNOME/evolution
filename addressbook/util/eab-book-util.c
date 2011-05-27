@@ -21,7 +21,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include "eab-book-util.h"
 
 #include <string.h>

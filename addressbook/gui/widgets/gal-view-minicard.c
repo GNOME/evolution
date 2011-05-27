@@ -23,7 +23,9 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <libxml/parser.h>
 #include <e-util/e-xml-utils.h>

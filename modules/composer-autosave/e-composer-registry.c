@@ -16,6 +16,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <glib/gstdio.h>
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>

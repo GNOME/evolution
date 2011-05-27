@@ -21,6 +21,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "ea-gnome-calendar.h"
 #include "e-calendar-view.h"
 #include <string.h>

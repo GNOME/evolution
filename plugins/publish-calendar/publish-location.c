@@ -21,6 +21,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "publish-location.h"
 #include <libxml/tree.h>
 #include <gconf/gconf-client.h>

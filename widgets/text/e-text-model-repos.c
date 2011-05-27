@@ -21,6 +21,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-text-model-repos.h"
 
 #define MODEL_CLAMP(model, pos) (CLAMP((pos), 0, strlen((model)->text)))

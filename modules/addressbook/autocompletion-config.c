@@ -22,6 +22,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "autocompletion-config.h"
 
 #include <gtk/gtk.h>

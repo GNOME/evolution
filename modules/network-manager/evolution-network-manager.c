@@ -16,6 +16,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <gio/gio.h>
 #include <NetworkManager/NetworkManager.h>
 

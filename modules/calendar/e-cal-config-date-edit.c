@@ -16,6 +16,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-cal-config-date-edit.h"
 
 #include <shell/e-shell.h>

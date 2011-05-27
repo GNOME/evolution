@@ -15,7 +15,9 @@
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <stdio.h>
 #include <string.h>

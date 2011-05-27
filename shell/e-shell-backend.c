@@ -27,6 +27,10 @@
  * @include: shell/e-shell-backend.h
  **/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-shell-backend.h"
 
 #include <errno.h>

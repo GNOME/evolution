@@ -19,6 +19,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-util/e-util-private.h"
 
 #include "e-cal-shell-view-private.h"

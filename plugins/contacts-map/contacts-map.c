@@ -19,6 +19,11 @@
  * Copyright (C) 2009 Cedric Bosdonnat (http://cedric.bosdonnat.free.fr)
  *
  */
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "geo-utils.h"
 
 #include <glib/gi18n.h>

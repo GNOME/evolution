@@ -21,6 +21,10 @@
 
 /* Miscellaneous utility functions used by EMailReader actions. */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-mail-reader-utils.h"
 
 #include <glib/gi18n.h>

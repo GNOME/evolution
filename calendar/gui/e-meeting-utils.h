@@ -24,10 +24,6 @@
 #ifndef _E_MEETING_UTILS_H_
 #define _E_MEETING_UTILS_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <glib.h>
 #include "e-meeting-types.h"
 

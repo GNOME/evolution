@@ -16,9 +16,12 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-alert-bar.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 /* GTK_ICON_SIZE_DIALOG is a tad too big. */

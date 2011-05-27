@@ -53,7 +53,9 @@
  *   close the popup, like the Escape key, or a button press outside the popup.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <string.h>
 
