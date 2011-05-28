@@ -25,7 +25,6 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
 #include <e-shell-meego.h>
 
 #ifndef G_OS_WIN32

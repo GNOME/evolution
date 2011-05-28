@@ -22,7 +22,6 @@
 #ifndef E_MAIL_STORE_H
 #define E_MAIL_STORE_H
 
-#include <glib.h>
 #include <camel/camel.h>
 #include <mail/e-mail-session.h>
 #include <libedataserver/e-account.h>

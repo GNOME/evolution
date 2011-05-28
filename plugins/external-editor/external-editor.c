@@ -33,7 +33,6 @@
 
 #include <glib/gi18n-lib.h>
 #include <glib-object.h>
-#include <glib.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 

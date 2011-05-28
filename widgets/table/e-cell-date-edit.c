@@ -33,7 +33,6 @@
 
 #include <string.h>
 #include <time.h>
-#include <glib.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>

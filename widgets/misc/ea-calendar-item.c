@@ -28,7 +28,6 @@
 #include <time.h>
 #include <string.h>
 #include <libgnomecanvas/gnome-canvas.h>
-#include <glib.h>
 #include <e-util/e-util.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>

@@ -22,7 +22,6 @@
 #ifndef CALDAV_BROWSE_SERVER_H
 #define CALDAV_BROWSE_SERVER_H
 
-#include <glib.h>
 #include <gtk/gtk.h>
 
 /* Opens a window with a list of available calendars for a given server;

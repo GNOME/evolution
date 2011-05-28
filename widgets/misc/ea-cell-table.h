@@ -22,7 +22,6 @@
 
 /* EaCellTable */
 
-#include <glib.h>
 #include <glib-object.h>
 
 struct _EaCellTable {

@@ -24,7 +24,6 @@
 #define __E_DATETIME_FORMAT__
 
 #include <time.h>
-#include <glib.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS

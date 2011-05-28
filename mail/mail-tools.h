@@ -23,7 +23,6 @@
 #ifndef MAIL_TOOLS_H
 #define MAIL_TOOLS_H
 
-#include <glib.h>
 #include <camel/camel.h>
 
 /* Does a camel_movemail into the local movemail folder

@@ -25,7 +25,6 @@
 #ifndef E_BOOK_SHELL_MIGRATE_H
 #define E_BOOK_SHELL_MIGRATE_H
 
-#include <glib.h>
 #include <shell/e-shell-backend.h>
 
 G_BEGIN_DECLS

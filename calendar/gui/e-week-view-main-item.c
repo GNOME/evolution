@@ -26,7 +26,6 @@
 #endif
 
 #include <string.h>
-#include <glib.h>
 #include <glib/gi18n.h>
 
 #include "e-week-view-main-item.h"

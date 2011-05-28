@@ -42,7 +42,6 @@
 #endif
 #include <sys/types.h>
 
-#include <glib.h>
 #include <math.h>
 #include "gnome-canvas.h"
 #include "gnome-canvas-util.h"

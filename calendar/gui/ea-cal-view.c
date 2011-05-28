@@ -29,7 +29,6 @@
 #include "e-day-view.h"
 #include "e-week-view.h"
 #include "dialogs/goto-dialog.h"
-#include <glib.h>
 #include <glib/gi18n.h>
 
 static void ea_cal_view_class_init (EaCalViewClass *klass);

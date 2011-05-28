@@ -24,7 +24,6 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
 #include <glib/gi18n.h>
 #include "e-mail-pane.h"
 

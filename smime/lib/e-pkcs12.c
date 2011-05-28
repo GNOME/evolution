@@ -43,7 +43,6 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
 #include <glib/gstdio.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>

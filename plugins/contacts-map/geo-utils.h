@@ -21,7 +21,6 @@
  */
 
 #include <gtk/gtk.h>
-#include <glib.h>
 
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>

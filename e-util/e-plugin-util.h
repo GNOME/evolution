@@ -22,7 +22,6 @@
 #ifndef _E_PLUGIN_UTIL_H
 #define _E_PLUGIN_UTIL_H
 
-#include <glib.h>
 #include <gtk/gtk.h>
 
 #include <libsoup/soup.h>

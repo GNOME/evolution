@@ -27,7 +27,6 @@
 #endif
 
 #include <string.h> /* strlen() */
-#include <glib.h>
 
 #include <gtk/gtk.h>
 

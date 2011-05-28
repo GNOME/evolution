@@ -31,7 +31,6 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <glib.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>

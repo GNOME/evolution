@@ -27,8 +27,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <glib.h>
-
 #include "em-format-hook.h"
 
 #include <glib/gi18n.h>

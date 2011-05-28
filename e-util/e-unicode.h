@@ -26,7 +26,6 @@
 #define _E_UNICODE_H_
 
 #include <sys/types.h>
-#include <glib.h>
 #include <gtk/gtk.h>
 #include <libxml/tree.h>
 #include <iconv.h>

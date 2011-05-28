@@ -28,7 +28,6 @@
 #ifndef _CALENDAR_CONFIG_H_
 #define _CALENDAR_CONFIG_H_
 
-#include <glib.h>
 #include <gdk/gdk.h>
 #include <libecal/e-cal.h>
 #include <gconf/gconf-client.h>

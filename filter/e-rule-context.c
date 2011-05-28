@@ -33,7 +33,6 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#include <glib.h>
 #include <glib/gstdio.h>
 
 #include <gtk/gtk.h>
