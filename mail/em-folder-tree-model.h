@@ -82,7 +82,6 @@ struct _EMFolderTreeModelStoreInfo {
 
 	/* CamelFolderInfo::full_name -> GtkTreeRowReference */
 	GHashTable *full_hash;
-	EAccount *account;
 
 	guint created_id;
 	guint deleted_id;

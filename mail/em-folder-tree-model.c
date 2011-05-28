@@ -632,6 +632,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	GtkTreeStore *tree_store;
 	MailFolderCache *folder_cache;
 	EMailSession *session;
+	EAccount *account;
 	guint unread;
 	GtkTreePath *path;
 	GtkTreeIter sub;
@@ -640,6 +641,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	gboolean is_templates = FALSE;
 	CamelFolder *folder;
 	gboolean emitted = FALSE;
+	const gchar *uid;
 	const gchar *icon_name;
 	const gchar *display_name;
 	guint32 flags, add_flags = 0;
@@ -654,6 +656,9 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 
 	session = em_folder_tree_model_get_session (model);
 	folder_cache = e_mail_session_get_folder_cache (session);
+
+	uid = camel_service_get_uid (CAMEL_SERVICE (si->store));
+	account = e_get_account_by_uid (uid);
 
 	if (!fully_loaded)
 		load = (fi->child == NULL) && !(fi->flags &
@@ -723,17 +728,17 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		}
 	}
 
-	if (si->account && (flags & CAMEL_FOLDER_TYPE_MASK) == 0) {
-		if (!is_drafts && si->account->drafts_folder_uri) {
+	if (account != NULL && (flags & CAMEL_FOLDER_TYPE_MASK) == 0) {
+		if (!is_drafts && account->drafts_folder_uri != NULL) {
 			is_drafts = e_mail_folder_uri_equal (
 				CAMEL_SESSION (session), uri,
-				si->account->drafts_folder_uri);
+				account->drafts_folder_uri);
 		}
 
-		if (si->account->sent_folder_uri) {
+		if (account->sent_folder_uri != NULL) {
 			if (e_mail_folder_uri_equal (
 				CAMEL_SESSION (session), uri,
-				si->account->sent_folder_uri)) {
+				account->sent_folder_uri)) {
 				add_flags = CAMEL_FOLDER_TYPE_SENT;
 			}
 		}
@@ -1039,7 +1044,6 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 
 	si = g_new (EMFolderTreeModelStoreInfo, 1);
 	si->store = g_object_ref (store);
-	si->account = account;
 	si->row = gtk_tree_row_reference_copy (reference);
 	si->full_hash = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
