@@ -818,17 +818,15 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	EMailShellView *mail_shell_view;
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
-	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	EMFolderTree *folder_tree;
+	EMFolderTreeModel *model;
 	EMailReader *reader;
-	EMailBackend *backend;
-	EMailSession *session;
 	EMailView *mail_view;
 	EAccount *account;
 	GtkAction *action;
-	GList *list;
+	GList *list, *link;
 	const gchar *label;
 	gchar *uri;
 	gboolean sensitive;
@@ -844,21 +842,16 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_has_unread_rec = FALSE;
 	gboolean folder_tree_and_message_list_agree = TRUE;
 	gboolean store_supports_subscriptions;
-	gboolean any_account_supports_subscriptions;
+	gboolean any_store_supports_subscriptions = FALSE;
 
 	/* Chain up to parent's update_actions() method. */
 	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
 
-	mail_shell_view = E_MAIL_SHELL_VIEW (shell_view);
-
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
+	mail_shell_view = E_MAIL_SHELL_VIEW (shell_view);
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
-
-	backend = E_MAIL_BACKEND (shell_backend);
-	session = e_mail_backend_get_session (backend);
 
 	reader = E_MAIL_READER (mail_view);
 	state = e_mail_reader_check_state (reader);
@@ -869,6 +862,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	state = e_shell_sidebar_check_state (shell_sidebar);
+
+	model = em_folder_tree_model_get_default ();
 
 	folder_allows_children =
 		(state & E_MAIL_SIDEBAR_FOLDER_ALLOWS_CHILDREN);
@@ -888,7 +883,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 	if (uri != NULL) {
 		GtkTreeRowReference *reference;
-		EMFolderTreeModel *model;
 		CamelFolder *folder;
 
 		folder = e_mail_reader_get_folder (reader);
@@ -914,7 +908,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 			(g_strrstr (uri, "groupwise://") != NULL) &&
 			account != NULL && account->parent_uid != NULL;
 
-		model = em_folder_tree_model_get_default ();
 		reference = em_folder_tree_model_lookup_uri (model, uri);
 		if (reference != NULL) {
 			GtkTreePath *path;
@@ -932,8 +925,16 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		g_free (uri);
 	}
 
-	list = e_get_subscribable_accounts (CAMEL_SESSION (session));
-	any_account_supports_subscriptions = (g_list_length (list) > 0);
+	/* Look for a CamelStore that supports subscriptions. */
+	list = em_folder_tree_model_list_stores (model);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		CamelStore *store = CAMEL_STORE (link->data);
+
+		if (camel_store_supports_subscriptions (store)) {
+			any_store_supports_subscriptions = TRUE;
+			break;
+		}
+	}
 	g_list_free (list);
 
 	action = ACTION (MAIL_ACCOUNT_DISABLE);
@@ -1010,7 +1011,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_TOOLS_SUBSCRIPTIONS);
-	sensitive = any_account_supports_subscriptions;
+	sensitive = any_store_supports_subscriptions;
 	gtk_action_set_sensitive (action, sensitive);
 
 	e_mail_shell_view_update_popup_labels (mail_shell_view);
