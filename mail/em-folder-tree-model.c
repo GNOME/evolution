@@ -108,7 +108,6 @@ store_info_free (EMFolderTreeModelStoreInfo *si)
 	g_signal_handler_disconnect (si->store, si->subscribed_id);
 	g_signal_handler_disconnect (si->store, si->unsubscribed_id);
 
-	g_free (si->display_name);
 	g_object_unref (si->store);
 	gtk_tree_row_reference_free (si->row);
 	g_hash_table_destroy (si->full_hash);
@@ -1048,7 +1047,6 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	reference = gtk_tree_row_reference_new (GTK_TREE_MODEL (model), path);
 
 	si = g_new (EMFolderTreeModelStoreInfo, 1);
-	si->display_name = g_strdup (display_name);
 	si->store = g_object_ref (store);
 	si->account = account;
 	si->row = gtk_tree_row_reference_copy (reference);
