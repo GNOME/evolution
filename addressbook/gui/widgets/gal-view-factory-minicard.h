@@ -26,7 +26,6 @@
 #ifndef GAL_VIEW_FACTORY_MINICARD_H
 #define GAL_VIEW_FACTORY_MINICARD_H
 
-#include <glib-object.h>
 #include <widgets/menus/gal-view-factory.h>
 
 /* Standard GObject macros */

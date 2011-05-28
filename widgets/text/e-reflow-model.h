@@ -24,7 +24,6 @@
 #ifndef _E_REFLOW_MODEL_H_
 #define _E_REFLOW_MODEL_H_
 
-#include <glib-object.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 
 G_BEGIN_DECLS

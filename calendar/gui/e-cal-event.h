@@ -24,7 +24,6 @@
 #ifndef __E_CAL_EVENT_H__
 #define __E_CAL_EVENT_H__
 
-#include <glib-object.h>
 #include <libedataserver/e-source-list.h>
 
 #include "e-util/e-event.h"

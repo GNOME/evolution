@@ -23,7 +23,6 @@
 #ifndef _GAL_VIEW_SET_H_
 #define _GAL_VIEW_SET_H_
 
-#include <glib-object.h>
 #include <menus/gal-view-factory.h>
 
 G_BEGIN_DECLS

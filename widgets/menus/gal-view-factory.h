@@ -24,7 +24,6 @@
 #ifndef GAL_VIEW_FACTORY_H
 #define GAL_VIEW_FACTORY_H
 
-#include <glib-object.h>
 #include <menus/gal-view.h>
 
 /* Standard GObject macros */

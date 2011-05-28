@@ -19,7 +19,6 @@
 #ifndef E_EXTENSION_H
 #define E_EXTENSION_H
 
-#include <glib-object.h>
 #include <e-util/e-extensible.h>
 
 /* Standard GObject macros */

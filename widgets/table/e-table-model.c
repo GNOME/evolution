@@ -25,8 +25,6 @@
 #include <config.h>
 #endif
 
-#include <glib-object.h>
-
 #include "e-util/e-util.h"
 
 #include "e-table-model.h"

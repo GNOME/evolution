@@ -27,7 +27,6 @@
 
 #include <string.h>
 
-#include <glib-object.h>
 #include <gtk/gtk.h>
 
 #include "e-util/e-util.h"
