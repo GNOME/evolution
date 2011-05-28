@@ -1111,6 +1111,14 @@ em_folder_tree_model_remove_store (EMFolderTreeModel *model,
 	em_folder_tree_model_remove_folders (model, si, &iter);
 }
 
+GList *
+em_folder_tree_model_list_stores (EMFolderTreeModel *model)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
+
+	return g_hash_table_get_keys (model->priv->store_index);
+}
+
 void
 em_folder_tree_model_remove_folders (EMFolderTreeModel *model,
                                      EMFolderTreeModelStoreInfo *si,
