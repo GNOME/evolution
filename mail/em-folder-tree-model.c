@@ -1008,8 +1008,6 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	GtkTreeIter root, iter;
 	GtkTreePath *path;
 	CamelURL *service_url;
-	EAccount *account;
-	const gchar *uid;
 	gchar *uri;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
@@ -1024,9 +1022,6 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 
 	service_url = camel_service_get_camel_url (CAMEL_SERVICE (store));
 	uri = camel_url_to_string (service_url, CAMEL_URL_HIDE_ALL);
-
-	uid = camel_service_get_uid (CAMEL_SERVICE (store));
-	account = e_get_account_by_uid (uid);
 
 	/* Add the store to the tree. */
 	gtk_tree_store_append (tree_store, &iter, NULL);
@@ -1093,20 +1088,13 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	gtk_tree_path_free (path);
 }
 
-static void
-em_folder_tree_model_remove_uri (EMFolderTreeModel *model, const gchar *uri)
-{
-	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
-	g_return_if_fail (uri != NULL);
-
-	g_hash_table_remove (model->priv->uri_index, uri);
-}
-
-static void
-em_folder_tree_model_remove_store_info (EMFolderTreeModel *model,
-                                        CamelStore *store)
+void
+em_folder_tree_model_remove_store (EMFolderTreeModel *model,
+                                   CamelStore *store)
 {
 	EMFolderTreeModelStoreInfo *si;
+	GtkTreePath *path;
+	GtkTreeIter iter;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (CAMEL_IS_STORE (store));
@@ -1115,7 +1103,12 @@ em_folder_tree_model_remove_store_info (EMFolderTreeModel *model,
 	if (si == NULL)
 		return;
 
-	g_hash_table_remove (model->priv->store_index, si->store);
+	path = gtk_tree_row_reference_get_path (si->row);
+	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
+	gtk_tree_path_free (path);
+
+	/* recursively remove subfolders and finally the toplevel store */
+	em_folder_tree_model_remove_folders (model, si, &iter);
 }
 
 void
@@ -1147,38 +1140,15 @@ em_folder_tree_model_remove_folders (EMFolderTreeModel *model,
 		g_hash_table_remove (si->full_hash, full_name);
 
 	if (uri != NULL)
-		em_folder_tree_model_remove_uri (model, uri);
+		g_hash_table_remove (model->priv->uri_index, uri);
 
 	gtk_tree_store_remove ((GtkTreeStore *) model, toplevel);
 
 	if (is_store)
-		em_folder_tree_model_remove_store_info (model, si->store);
+		g_hash_table_remove (model->priv->store_index, si->store);
 
 	g_free (full_name);
 	g_free (uri);
-}
-
-void
-em_folder_tree_model_remove_store (EMFolderTreeModel *model,
-                                   CamelStore *store)
-{
-	EMFolderTreeModelStoreInfo *si;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-
-	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
-	g_return_if_fail (CAMEL_IS_STORE (store));
-
-	si = em_folder_tree_model_lookup_store_info (model, store);
-	if (si == NULL)
-		return;
-
-	path = gtk_tree_row_reference_get_path (si->row);
-	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
-	gtk_tree_path_free (path);
-
-	/* recursively remove subfolders and finally the toplevel store */
-	em_folder_tree_model_remove_folders (model, si, &iter);
 }
 
 gboolean
