@@ -551,11 +551,10 @@ folder_tree_maybe_expand_row (EMFolderTreeModel *model,
                               EMFolderTree *folder_tree)
 {
 	EMFolderTreePrivate *priv = folder_tree->priv;
-	struct _EMFolderTreeModelStoreInfo *si;
 	CamelStore *store;
-	EAccount *account;
 	gchar *full_name;
 	gchar *key;
+	const gchar *uid;
 	struct _selected_uri *u;
 
 	gtk_tree_model_get (
@@ -563,16 +562,8 @@ folder_tree_maybe_expand_row (EMFolderTreeModel *model,
 		COL_STRING_FULL_NAME, &full_name,
 		COL_POINTER_CAMEL_STORE, &store, -1);
 
-	si = em_folder_tree_model_lookup_store_info (model, store);
-	if ((account = e_get_account_by_name (si->display_name))) {
-		key = g_strdup_printf ("%s/%s", account->uid, full_name ? full_name : "");
-	} else if (CAMEL_IS_VEE_STORE (store)) {
-		/* vfolder store */
-		key = g_strdup_printf ("vfolder/%s", full_name ? full_name : "");
-	} else {
-		/* local store */
-		key = g_strdup_printf ("local/%s", full_name ? full_name : "");
-	}
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	key = g_strdup_printf ("%s/%s", uid, full_name ? full_name : "");
 
 	u = g_hash_table_lookup (priv->select_uris_table, key);
 	if (u) {

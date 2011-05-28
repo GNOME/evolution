@@ -84,8 +84,6 @@ struct _EMFolderTreeModelStoreInfo {
 	GHashTable *full_hash;
 	EAccount *account;
 
-	gchar *display_name;
-
 	guint created_id;
 	guint deleted_id;
 	guint renamed_id;
