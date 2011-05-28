@@ -24,8 +24,6 @@
 #ifndef __E_CAL_CONFIG_H__
 #define __E_CAL_CONFIG_H__
 
-#include <glib-object.h>
-
 #include <libecal/e-cal.h>
 #include "e-util/e-config.h"
 

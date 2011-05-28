@@ -25,7 +25,6 @@
 #ifndef E_RULE_CONTEXT_H
 #define E_RULE_CONTEXT_H
 
-#include <glib-object.h>
 #include <libxml/parser.h>
 
 #include "e-filter-part.h"

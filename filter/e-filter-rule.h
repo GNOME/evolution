@@ -24,8 +24,6 @@
 #ifndef E_FILTER_RULE_H
 #define E_FILTER_RULE_H
 
-#include <glib-object.h>
-
 #include "e-filter-part.h"
 
 /* Standard GObject macros */

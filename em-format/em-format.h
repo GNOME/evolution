@@ -28,7 +28,6 @@
 #ifndef EM_FORMAT_H
 #define EM_FORMAT_H
 
-#include <glib-object.h>
 #include <camel/camel.h>
 
 /* Standard GObject macros */

@@ -43,7 +43,6 @@
 #include <ctype.h>
 #include <string.h>
 
-#include <glib-object.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 

@@ -19,7 +19,6 @@
 #ifndef _E_MAIL_TAB_PICKER_H
 #define _E_MAIL_TAB_PICKER_H
 
-#include <glib-object.h>
 #include <clutter/clutter.h>
 #include <mx/mx.h>
 #include "e-mail-tab.h"

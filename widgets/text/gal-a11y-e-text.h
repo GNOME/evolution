@@ -24,7 +24,6 @@
 #ifndef __GAL_A11Y_E_TEXT_H__
 #define __GAL_A11Y_E_TEXT_H__
 
-#include <glib-object.h>
 #include <table/e-table-item.h>
 
 #define GAL_A11Y_TYPE_E_TEXT            (gal_a11y_e_text_get_type ())

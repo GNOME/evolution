@@ -24,8 +24,6 @@
 #ifndef __ES_EVENT_H__
 #define __ES_EVENT_H__
 
-#include <glib-object.h>
-
 #include "e-util/e-event.h"
 
 G_BEGIN_DECLS

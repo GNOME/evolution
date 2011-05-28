@@ -24,8 +24,6 @@
 #ifndef EM_EVENT_H
 #define EM_EVENT_H
 
-#include <glib-object.h>
-
 #include "e-util/e-event.h"
 #include "composer/e-msg-composer.h"
 

@@ -23,7 +23,6 @@
 #ifndef __GAL_A11Y_E_TEXT_FACTORY_H__
 #define __GAL_A11Y_E_TEXT_FACTORY_H__
 
-#include <glib-object.h>
 #include <atk/atkobjectfactory.h>
 
 #define GAL_A11Y_TYPE_E_TEXT_FACTORY            (gal_a11y_e_text_factory_get_type ())

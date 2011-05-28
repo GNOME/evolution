@@ -27,7 +27,6 @@
 #ifndef _EA_FACTORY_H__
 #define _EA_FACTORY_H__
 
-#include <glib-object.h>
 #include <atk/atkobject.h>
 
 #define EA_FACTORY_PARTA_GOBJECT(type, type_as_function, opt_create_accessible)	\

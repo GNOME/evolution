@@ -28,7 +28,6 @@
 #include "eab-book-util.h"
 
 #include <string.h>
-#include <glib-object.h>
 
 /*
  *

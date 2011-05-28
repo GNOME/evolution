@@ -25,7 +25,6 @@
 #ifndef _GAL_A11Y_FACTORY_H__
 #define _GAL_A11Y_FACTORY_H__
 
-#include <glib-object.h>
 #include <atk/atkobject.h>
 #include <atk/atkobjectfactory.h>
 

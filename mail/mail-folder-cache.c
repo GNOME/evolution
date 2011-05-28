@@ -36,7 +36,6 @@
 #include <time.h>
 
 #include <glib/gi18n.h>
-#include <glib-object.h>
 #include <glib/gstdio.h>
 
 #include <libedataserver/e-data-server-util.h>

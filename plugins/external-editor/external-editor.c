@@ -32,7 +32,6 @@
 #include <e-msg-composer.h>
 
 #include <glib/gi18n-lib.h>
-#include <glib-object.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 
