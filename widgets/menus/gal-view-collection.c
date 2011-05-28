@@ -28,7 +28,6 @@
 #include <string.h>
 #include <errno.h>
 
-#include <glib.h>
 #include <libxml/parser.h>
 #include <libedataserver/e-xml-utils.h>
 

@@ -28,7 +28,6 @@
 #endif
 
 #include <time.h>
-#include <glib.h>
 #include <glib/gi18n.h>
 #include "calendar-config.h"
 #include "e-meeting-time-sel-item.h"

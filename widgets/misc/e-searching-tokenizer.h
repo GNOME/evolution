@@ -24,7 +24,6 @@
 #ifndef E_SEARCHING_TOKENIZER_H
 #define E_SEARCHING_TOKENIZER_H
 
-#include <glib.h>
 #include <gtkhtml/htmltokenizer.h>
 
 /* Standard GObject macros */

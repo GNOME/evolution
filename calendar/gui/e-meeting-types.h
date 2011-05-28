@@ -25,7 +25,6 @@
 #define _E_MEETING_TYPES_H_
 
 #include <glib.h>
-#include "e-meeting-types.h"
 
 G_BEGIN_DECLS
 

@@ -32,8 +32,6 @@
 
 #define G_LOG_DOMAIN "bf-junk-filter"
 
-#include <glib.h>
-
 #ifndef G_OS_WIN32
 #  include <sys/wait.h>
 #else

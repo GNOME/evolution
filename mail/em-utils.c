@@ -31,7 +31,6 @@
 #include <errno.h>
 #include <time.h>
 
-#include <glib.h>
 #include <glib/gstdio.h>
 
 #ifdef G_OS_WIN32

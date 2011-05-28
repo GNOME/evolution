@@ -26,7 +26,6 @@
 #ifndef CONFIG_DATA_H
 #define CONFIG_DATA_H
 
-#include <glib.h>
 #include <libical/ical.h>
 #include <libecal/e-cal.h>
 #include <gconf/gconf-client.h>

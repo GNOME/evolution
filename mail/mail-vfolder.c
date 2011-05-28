@@ -26,8 +26,6 @@
 
 #include <string.h>
 
-#include <glib.h>
-
 #include <glib/gi18n.h>
 
 #include <libedataserver/e-account-list.h>

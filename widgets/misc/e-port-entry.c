@@ -19,7 +19,6 @@
 
 #include <stddef.h>
 #include <string.h>
-#include <glib.h>
 
 struct _EPortEntryPrivate {
 	guint port;

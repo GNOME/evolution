@@ -20,7 +20,6 @@
 #ifndef CAL_EDITOR_UTILS_H
 #define CAL_EDITOR_UTILS_H
 
-#include <glib.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-component.h>
 #include <shell/e-shell.h>

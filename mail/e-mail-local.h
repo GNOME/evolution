@@ -22,7 +22,6 @@
 #ifndef E_MAIL_LOCAL_H
 #define E_MAIL_LOCAL_H
 
-#include <glib.h>
 #include <camel/camel.h>
 #include <mail/e-mail-enums.h>
 #include <mail/e-mail-session.h>

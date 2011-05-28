@@ -19,6 +19,8 @@
 #ifndef E_SHELL_MEEGO_H
 #define E_SHELL_MEEGO_H
 
+#include <glib.h>
+
 extern void e_shell_detect_meego (gboolean *is_meego, gboolean *small_screen);
 
 #endif /* E_SHELL_MEEGO_H */

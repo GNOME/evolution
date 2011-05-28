@@ -24,7 +24,6 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include <glib.h>
 #include <gtk/gtk.h>
 
 #include <libedataserver/e-flag.h>

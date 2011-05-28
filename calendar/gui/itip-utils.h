@@ -22,7 +22,6 @@
 
 #include <libical/ical.h>
 #include <string.h>
-#include <glib.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-component.h>
 #include <libedataserver/e-account-list.h>

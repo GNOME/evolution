@@ -24,7 +24,6 @@
 #ifndef _E_MEETING_UTILS_H_
 #define _E_MEETING_UTILS_H_
 
-#include <glib.h>
 #include "e-meeting-types.h"
 
 G_BEGIN_DECLS

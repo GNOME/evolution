@@ -33,7 +33,6 @@
 #include <math.h>
 #include <string.h>
 #include <time.h>
-#include <glib.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-time-utils.h>

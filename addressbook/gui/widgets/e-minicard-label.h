@@ -23,7 +23,6 @@
 #ifndef __E_MINICARD_LABEL_H__
 #define __E_MINICARD_LABEL_H__
 
-#include <glib.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 
 G_BEGIN_DECLS

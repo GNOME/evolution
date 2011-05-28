@@ -26,7 +26,6 @@
 #endif
 
 #include <string.h>
-#include <glib.h>
 
 #include <gtk/gtk.h>
 #include <libgnomecanvas/libgnomecanvas.h>

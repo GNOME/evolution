@@ -26,7 +26,6 @@
 #ifndef CANCEL_COMP_H
 #define CANCEL_COMP_H
 
-#include <glib.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-component.h>
 

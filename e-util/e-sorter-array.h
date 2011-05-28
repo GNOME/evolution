@@ -23,7 +23,6 @@
 #ifndef _E_SORTER_ARRAY_H_
 #define _E_SORTER_ARRAY_H_
 
-#include <glib.h>
 #include <glib-object.h>
 #include <e-util/e-sorter.h>
 

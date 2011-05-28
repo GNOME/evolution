@@ -26,7 +26,6 @@
 #ifndef DELETE_ERROR_H
 #define DELETE_ERROR_H
 
-#include <glib.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-component.h>
 

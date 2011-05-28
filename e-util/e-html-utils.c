@@ -27,7 +27,6 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
-#include <glib.h>
 
 #include "e-html-utils.h"
 

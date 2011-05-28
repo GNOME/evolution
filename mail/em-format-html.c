@@ -31,7 +31,6 @@
 #include <fcntl.h>
 #include <ctype.h>
 
-#include <glib.h>
 #include <gtk/gtk.h>
 #ifdef G_OS_WIN32
 /* Work around 'DATADIR' and 'interface' lossage in <windows.h> */

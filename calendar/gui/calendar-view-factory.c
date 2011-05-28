@@ -26,7 +26,6 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
 #include <glib/gi18n.h>
 #include "calendar-view-factory.h"
 #include "calendar-view.h"

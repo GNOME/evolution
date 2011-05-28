@@ -27,7 +27,6 @@
 #include "url-editor-dialog.h"
 #include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-url.h>
-#include <glib.h>
 #include <glib/gi18n.h>
 #include <string.h>
 #include <e-util/e-util.h>

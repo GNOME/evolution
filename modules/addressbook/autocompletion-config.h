@@ -25,7 +25,6 @@
 #ifndef _AUTOCOMPLETION_CONFIG_H
 #define _AUTOCOMPLETION_CONFIG_H
 
-#include <glib.h>
 #include <shell/e-shell.h>
 #include <widgets/misc/e-preferences-window.h>
 

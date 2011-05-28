@@ -30,7 +30,6 @@ requests are always handled in the main gui thread in the correct order.
 #ifndef EM_SYNC_STREAM_H
 #define EM_SYNC_STREAM_H
 
-#include <glib.h>
 #include <camel/camel.h>
 
 /* Standard GObject macros */
