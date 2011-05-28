@@ -66,9 +66,6 @@ struct _EMFolderTreeModelPrivate {
 	EAccountList *accounts;
 	EMailSession *session;
 
-	/* EAccount -> EMFolderTreeStoreInfo */
-	GHashTable *account_index;
-
 	/* CamelStore -> EMFolderTreeStoreInfo */
 	GHashTable *store_index;
 
@@ -204,35 +201,27 @@ account_changed_cb (EAccountList *accounts,
                     EAccount *account,
                     EMFolderTreeModel *model)
 {
-	EMFolderTreeModelStoreInfo *si;
 	EMailSession *session;
 	CamelProvider *provider;
 	CamelService *service;
 
 	session = em_folder_tree_model_get_session (model);
 
-	si = g_hash_table_lookup (model->priv->account_index, account);
-	if (si == NULL)
+	service = camel_session_get_service (
+		CAMEL_SESSION (session), account->uid);
+
+	if (!CAMEL_IS_STORE (service))
 		return;
 
-	em_folder_tree_model_remove_store (model, si->store);
+	em_folder_tree_model_remove_store (model, CAMEL_STORE (service));
 
 	/* check if store needs to be added at all*/
 	if (!account->enabled)
 		return;
 
-	provider = camel_provider_get (account->source->url, NULL);
-	if (provider == NULL)
-		return;
-
 	/* make sure the new store belongs in the tree */
+	provider = camel_service_get_provider (service);
 	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
-		return;
-
-	service = camel_session_get_service (
-		CAMEL_SESSION (session), account->uid);
-
-	if (!CAMEL_IS_STORE (service))
 		return;
 
 	em_folder_tree_model_add_store (
@@ -244,13 +233,18 @@ account_removed_cb (EAccountList *accounts,
                     EAccount *account,
                     EMFolderTreeModel *model)
 {
-	EMFolderTreeModelStoreInfo *si;
+	EMailSession *session;
+	CamelService *service;
 
-	si = g_hash_table_lookup (model->priv->account_index, account);
-	if (si == NULL)
+	session = em_folder_tree_model_get_session (model);
+
+	service = camel_session_get_service (
+		CAMEL_SESSION (session), account->uid);
+
+	if (!CAMEL_IS_STORE (service))
 		return;
 
-	em_folder_tree_model_remove_store (model, si->store);
+	em_folder_tree_model_remove_store (model, CAMEL_STORE (service));
 }
 
 /* HACK: FIXME: the component should listen to the account object directly */
@@ -351,7 +345,6 @@ folder_tree_model_finalize (GObject *object)
 
 	priv = EM_FOLDER_TREE_MODEL (object)->priv;
 
-	g_hash_table_destroy (priv->account_index);
 	g_hash_table_destroy (priv->store_index);
 	g_hash_table_destroy (priv->uri_index);
 
@@ -525,8 +518,6 @@ em_folder_tree_model_init (EMFolderTreeModel *model)
 		GTK_SORT_ASCENDING);
 
 	model->priv->accounts = e_get_account_list ();
-	model->priv->account_index =
-		g_hash_table_new (g_direct_hash, g_direct_equal);
 	model->priv->account_changed_id = g_signal_connect (
 		model->priv->accounts, "account-changed",
 		G_CALLBACK (account_changed_cb), model);
@@ -1055,7 +1046,6 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 	g_hash_table_insert (model->priv->store_index, store, si);
-	g_hash_table_insert (model->priv->account_index, account, si);
 
 	/* Transfer ownership of the URI and GtkTreeRowReference. */
 	g_hash_table_insert (model->priv->uri_index, uri, reference);
@@ -1121,7 +1111,6 @@ em_folder_tree_model_remove_store_info (EMFolderTreeModel *model,
 	if (si == NULL)
 		return;
 
-	g_hash_table_remove (model->priv->account_index, si->account);
 	g_hash_table_remove (model->priv->store_index, si->store);
 }
 
