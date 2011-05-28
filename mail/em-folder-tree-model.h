@@ -137,6 +137,8 @@ void		em_folder_tree_model_add_store
 void		em_folder_tree_model_remove_store
 					(EMFolderTreeModel *model,
 					 CamelStore *store);
+GList *		em_folder_tree_model_list_stores
+					(EMFolderTreeModel *model);
 void		em_folder_tree_model_remove_folders
 					(EMFolderTreeModel *model,
 					 EMFolderTreeModelStoreInfo *si,
