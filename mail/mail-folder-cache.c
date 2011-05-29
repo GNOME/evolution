@@ -546,34 +546,6 @@ store_folder_deleted_cb (CamelStore *store,
 		store_folder_unsubscribed_cb (store, info, self);
 }
 
-static gchar *
-folder_to_url (CamelStore *store,
-               const gchar *full_name)
-{
-	CamelProvider *provider;
-	CamelService *service;
-	CamelURL *url;
-	gchar *out;
-
-	service = CAMEL_SERVICE (store);
-	provider = camel_service_get_provider (service);
-
-	url = camel_url_copy (camel_service_get_camel_url (service));
-	if (provider->url_flags  & CAMEL_URL_FRAGMENT_IS_PATH) {
-		camel_url_set_fragment (url, full_name);
-	} else {
-		gchar *name = g_alloca (strlen (full_name)+2);
-
-		sprintf(name, "/%s", full_name);
-		camel_url_set_path (url, name);
-	}
-
-	out = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-	camel_url_free (url);
-
-	return out;
-}
-
 static void
 rename_folders (MailFolderCache *self,
                 struct _store_info *si,
@@ -633,9 +605,9 @@ rename_folders (MailFolderCache *self,
 
 	/* rename the meta-data we maintain ourselves */
 	config_dir = mail_session_get_config_dir ();
-	olduri = folder_to_url (si->store, old);
+	olduri = e_mail_folder_uri_build (si->store, old);
 	e_filename_make_safe (olduri);
-	newuri = folder_to_url (si->store, fi->full_name);
+	newuri = e_mail_folder_uri_build (si->store, fi->full_name);
 	e_filename_make_safe (newuri);
 	oldfile = g_strdup_printf("%s/custom_view-%s.xml", config_dir, olduri);
 	newfile = g_strdup_printf("%s/custom_view-%s.xml", config_dir, newuri);

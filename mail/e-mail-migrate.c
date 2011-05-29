@@ -62,8 +62,9 @@
 #include "shell/e-shell.h"
 #include "shell/e-shell-migrate.h"
 
-#include "e-mail-store.h"
 #include "e-mail-backend.h"
+#include "e-mail-folder-utils.h"
+#include "e-mail-store.h"
 #include "em-utils.h"
 
 #define d(x) x
@@ -1009,6 +1010,7 @@ create_mbox_account (EShellBackend *shell_backend,
 {
 	EMailBackend *mail_backend;
 	EMailSession *mail_session;
+	CamelStore *store;
 	CamelURL *url;
 	EAccountList *accounts;
 	EAccount *account;
@@ -1053,20 +1055,19 @@ create_mbox_account (EShellBackend *shell_backend,
 		goto exit;
 	}
 
-	camel_url_set_fragment (url, "Sent");
-	folder_uri = camel_url_to_string (url, 0);
+	e_account_list_add (accounts, account);
+	store = e_mail_store_add_by_account (mail_session, account);
+
+	folder_uri = e_mail_folder_uri_build (store, "Sent");
 	e_account_set_string (
 		account, E_ACCOUNT_SENT_FOLDER_URI, folder_uri);
 	g_free (folder_uri);
 
-	camel_url_set_fragment (url, "Drafts");
-	folder_uri = camel_url_to_string (url, 0);
+	folder_uri = e_mail_folder_uri_build (store, "Drafts");
 	e_account_set_string (
 		account, E_ACCOUNT_DRAFTS_FOLDER_URI, folder_uri);
 	g_free (folder_uri);
 
-	e_account_list_add (accounts, account);
-	e_mail_store_add_by_account (mail_session, account);
 	e_account_list_save (accounts);
 
 exit:

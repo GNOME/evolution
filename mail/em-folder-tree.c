@@ -2040,27 +2040,24 @@ folder_tree_drop_folder (struct _DragDataReceivedAsync *m)
 static gchar *
 folder_tree_drop_async__desc (struct _DragDataReceivedAsync *m)
 {
-	CamelURL *url;
 	const guchar *data;
-	gchar *buf;
 
 	data = gtk_selection_data_get_data (m->selection);
 
 	if (m->info == DND_DROP_TYPE_FOLDER) {
-		url = camel_url_new ((gchar *) data, NULL);
+		gchar *folder_name = NULL;
+
+		e_mail_folder_uri_parse (
+			CAMEL_SESSION (m->session),
+			(gchar *) data, NULL, &folder_name, NULL);
+		g_return_val_if_fail (folder_name != NULL, NULL);
 
 		if (m->move)
-			buf = g_strdup_printf (
-				_("Moving folder %s"), url->fragment ?
-				url->fragment : url->path + 1);
+			return g_strdup_printf (
+				_("Moving folder %s"), folder_name);
 		else
-			buf = g_strdup_printf (
-				_("Copying folder %s"), url->fragment ?
-				url->fragment : url->path + 1);
-
-		camel_url_free (url);
-
-		return buf;
+			return g_strdup_printf (
+				_("Copying folder %s"), folder_name);
 	} else {
 		if (m->move)
 			return g_strdup_printf (
