@@ -294,7 +294,7 @@ CamelStore *
 e_mail_store_add_by_account (EMailSession *session,
                              EAccount *account)
 {
-	CamelService *service;
+	CamelService *service = NULL;
 	CamelProvider *provider;
 	CamelURL *url;
 	gboolean skip;
