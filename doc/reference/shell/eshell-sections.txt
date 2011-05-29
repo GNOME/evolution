@@ -436,7 +436,6 @@ e_get_account_by_name
 e_get_account_by_uid
 e_get_any_enabled_account
 e_get_default_transport
-e_get_subscribable_accounts
 </SECTION>
 
 <SECTION>
