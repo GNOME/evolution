@@ -356,7 +356,7 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 static void
 mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
                                 CamelStore *store,
-                                const gchar *folder_fullname,
+                                const gchar *folder_name,
                                 gint new_messages,
                                 const gchar *msg_uid,
                                 const gchar *msg_sender,
@@ -367,13 +367,11 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	EMEvent *event = em_event_peek ();
 	EMEventTargetFolder *target;
 	EMFolderTreeModel *model;
-	EAccount *account;
-	const gchar *uid;
 	gchar *folder_uri;
 	gint folder_type;
 	CamelFolderInfoFlags flags = 0;
 
-	folder_uri = e_mail_folder_uri_build (store, folder_fullname);
+	folder_uri = e_mail_folder_uri_build (store, folder_name);
 
 	if (mail_folder_cache_get_folder_from_uri (
 			folder_cache, folder_uri, &folder))
@@ -381,19 +379,18 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 				folder_cache, folder, &flags))
 			g_return_if_reached ();
 
-	uid = camel_service_get_uid (CAMEL_SERVICE (store));
-	account = e_get_account_by_uid (uid);
+	g_free (folder_uri);
 
 	target = em_event_target_new_folder (
-		event, account, folder_uri, new_messages,
+		event, store, folder_name, new_messages,
 		msg_uid, msg_sender, msg_subject);
 
 	folder_type = (flags & CAMEL_FOLDER_TYPE_MASK);
 	target->is_inbox = (folder_type == CAMEL_FOLDER_TYPE_INBOX);
 
 	model = em_folder_tree_model_get_default ();
-	target->name = em_folder_tree_model_get_folder_name (
-		model, store, folder_fullname);
+	target->display_name = em_folder_tree_model_get_folder_name (
+		model, store, folder_name);
 
 	if (target->new > 0)
 		e_shell_event (shell, "mail-icon", (gpointer) "mail-unread");
@@ -411,8 +408,6 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	e_event_emit (
 		(EEvent *) event, "folder.changed",
 		(EEventTarget *) target);
-
-	g_free (folder_uri);
 }
 
 static void

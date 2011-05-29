@@ -40,10 +40,10 @@ eme_target_free (EEvent *ep, EEventTarget *t)
 	switch (t->type) {
 	case EM_EVENT_TARGET_FOLDER: {
 		EMEventTargetFolder *s = (EMEventTargetFolder *) t;
-		if (s->account != NULL)
-			g_object_unref (s->account);
-		g_free (s->name);
-		g_free (s->uri);
+		if (s->store != NULL)
+			g_object_unref (s->store);
+		g_free (s->folder_name);
+		g_free (s->display_name);
 		g_free (s->msg_uid);
 		g_free (s->msg_sender);
 		g_free (s->msg_subject);
@@ -108,8 +108,8 @@ em_event_peek (void)
 
 EMEventTargetFolder *
 em_event_target_new_folder (EMEvent *eme,
-                            EAccount *account,
-                            const gchar *uri,
+                            CamelStore *store,
+                            const gchar *folder_name,
                             guint new,
                             const gchar *msg_uid,
                             const gchar *msg_sender,
@@ -118,14 +118,14 @@ em_event_target_new_folder (EMEvent *eme,
 	EMEventTargetFolder *t;
 	guint32 flags = new ? EM_EVENT_FOLDER_NEWMAIL : 0;
 
+	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
+	g_return_val_if_fail (folder_name != NULL, NULL);
+
 	t = e_event_target_new (
 		&eme->popup, EM_EVENT_TARGET_FOLDER, sizeof (*t));
 
-	if (E_IS_ACCOUNT (account))
-		t->account = g_object_ref (account);
-	else
-		t->account = NULL;
-	t->uri = g_strdup (uri);
+	t->store = g_object_ref (store);
+	t->folder_name = g_strdup (folder_name);
 	t->target.mask = ~flags;
 	t->new = new;
 	t->msg_uid = g_strdup (msg_uid);
