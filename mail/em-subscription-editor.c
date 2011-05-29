@@ -43,12 +43,16 @@
 	((folder_info) != NULL && \
 	((folder_info)->flags & CAMEL_FOLDER_SUBSCRIBED) != 0)
 
+#define EM_SUBSCRIPTION_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_SUBSCRIPTION_EDITOR, EMSubscriptionEditorPrivate))
+
 typedef struct _AsyncContext AsyncContext;
 typedef struct _StoreData StoreData;
 
 struct _EMSubscriptionEditorPrivate {
 	CamelSession *session;
-	EAccount *initial_account;
+	CamelStore *initial_store;
 
 	GtkWidget *combo_box;		/* not referenced */
 	GtkWidget *entry;		/* not referenced */
@@ -79,7 +83,6 @@ struct _AsyncContext {
 };
 
 struct _StoreData {
-	EAccount *account;
 	CamelStore *store;
 	GtkTreeView *tree_view;
 	GtkTreeModel *list_store;
@@ -92,8 +95,8 @@ struct _StoreData {
 
 enum {
 	PROP_0,
-	PROP_ACCOUNT,
-	PROP_SESSION
+	PROP_SESSION,
+	PROP_STORE
 };
 
 enum {
@@ -118,9 +121,6 @@ async_context_free (AsyncContext *context)
 static void
 store_data_free (StoreData *data)
 {
-	if (data->account != NULL)
-		g_object_unref (data->account);
-
 	if (data->store != NULL)
 		g_object_unref (data->store);
 
@@ -687,7 +687,7 @@ subscription_editor_combo_box_changed_cb (GtkComboBox *combo_box,
 	subscription_editor_stop (editor);
 	subscription_editor_update_view (editor);
 
-	g_object_notify (G_OBJECT (editor), "account");
+	g_object_notify (G_OBJECT (editor), "store");
 
 	if (data->needs_refresh) {
 		subscription_editor_refresh (editor);
@@ -793,12 +793,11 @@ subscription_editor_selection_changed_cb (GtkTreeSelection *selection,
 }
 
 static void
-subscription_editor_add_account (EMSubscriptionEditor *editor,
-                                 EAccount *account)
+subscription_editor_add_store (EMSubscriptionEditor *editor,
+                               CamelStore *store)
 {
 	StoreData *data;
-	CamelService *service;
-	CamelSession *session;
+	EAccount *account;
 	GtkListStore *list_store;
 	GtkTreeStore *tree_store;
 	GtkTreeViewColumn *column;
@@ -807,14 +806,17 @@ subscription_editor_add_account (EMSubscriptionEditor *editor,
 	GtkComboBoxText *combo_box;
 	GtkWidget *container;
 	GtkWidget *widget;
+	const gchar *uid;
+
+	/* Neither of the built-in stores ("local" or "vfolder") support
+	 * folder subscriptions.  Therefore there should be a corresponding
+	 * EAccount for the store from which we can grab a display name. */
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	account = e_get_account_by_uid (uid);
+	g_return_if_fail (account != NULL);
 
 	combo_box = GTK_COMBO_BOX_TEXT (editor->priv->combo_box);
 	gtk_combo_box_text_append_text (combo_box, account->name);
-
-	session = em_subscription_editor_get_session (editor);
-	service = camel_session_get_service (session, account->uid);
-
-	g_return_if_fail (CAMEL_IS_STORE (service));
 
 	tree_store = gtk_tree_store_new (
 		N_COLUMNS,
@@ -891,8 +893,7 @@ subscription_editor_add_account (EMSubscriptionEditor *editor,
 		G_CALLBACK (subscription_editor_selection_changed_cb), editor);
 
 	data = g_slice_new0 (StoreData);
-	data->account = g_object_ref (account);
-	data->store = g_object_ref (service);
+	data->store = g_object_ref (store);
 	data->tree_view = g_object_ref (widget);
 	data->list_store = GTK_TREE_MODEL (list_store);
 	data->tree_store = GTK_TREE_MODEL (tree_store);
@@ -902,16 +903,13 @@ subscription_editor_add_account (EMSubscriptionEditor *editor,
 }
 
 static void
-subscription_editor_set_account (EMSubscriptionEditor *editor,
-                                 EAccount *account)
+subscription_editor_set_store (EMSubscriptionEditor *editor,
+                               CamelStore *store)
 {
-	g_return_if_fail (editor->priv->initial_account == NULL);
+	g_return_if_fail (editor->priv->initial_store == NULL);
 
-	if (account == NULL)
-		account = e_get_default_account ();
-
-	if (E_IS_ACCOUNT (account))
-		editor->priv->initial_account = g_object_ref (account);
+	if (CAMEL_IS_STORE (store))
+		editor->priv->initial_store = g_object_ref (store);
 }
 
 static void
@@ -931,14 +929,14 @@ subscription_editor_set_property (GObject *object,
                                   GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ACCOUNT:
-			subscription_editor_set_account (
+		case PROP_SESSION:
+			subscription_editor_set_session (
 				EM_SUBSCRIPTION_EDITOR (object),
 				g_value_get_object (value));
 			return;
 
-		case PROP_SESSION:
-			subscription_editor_set_session (
+		case PROP_STORE:
+			subscription_editor_set_store (
 				EM_SUBSCRIPTION_EDITOR (object),
 				g_value_get_object (value));
 			return;
@@ -954,17 +952,17 @@ subscription_editor_get_property (GObject *object,
                                   GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ACCOUNT:
-			g_value_set_object (
-				value,
-				em_subscription_editor_get_account (
-				EM_SUBSCRIPTION_EDITOR (object)));
-			return;
-
 		case PROP_SESSION:
 			g_value_set_object (
 				value,
 				em_subscription_editor_get_session (
+				EM_SUBSCRIPTION_EDITOR (object)));
+			return;
+
+		case PROP_STORE:
+			g_value_set_object (
+				value,
+				em_subscription_editor_get_store (
 				EM_SUBSCRIPTION_EDITOR (object)));
 			return;
 	}
@@ -977,16 +975,16 @@ subscription_editor_dispose (GObject *object)
 {
 	EMSubscriptionEditorPrivate *priv;
 
-	priv = EM_SUBSCRIPTION_EDITOR (object)->priv;
+	priv = EM_SUBSCRIPTION_EDITOR_GET_PRIVATE (object);
 
 	if (priv->session != NULL) {
 		g_object_unref (priv->session);
 		priv->session = NULL;
 	}
 
-	if (priv->initial_account != NULL) {
-		g_object_unref (priv->initial_account);
-		priv->initial_account = NULL;
+	if (priv->initial_store != NULL) {
+		g_object_unref (priv->initial_store);
+		priv->initial_store = NULL;
 	}
 
 	if (priv->timeout_id > 0) {
@@ -1005,7 +1003,7 @@ subscription_editor_finalize (GObject *object)
 {
 	EMSubscriptionEditorPrivate *priv;
 
-	priv = EM_SUBSCRIPTION_EDITOR (object)->priv;
+	priv = EM_SUBSCRIPTION_EDITOR_GET_PRIVATE (object);
 
 	g_ptr_array_free (priv->stores, TRUE);
 
@@ -1016,32 +1014,64 @@ subscription_editor_finalize (GObject *object)
 }
 
 static void
+subscription_editor_constructed (GObject *object)
+{
+	EMSubscriptionEditor *editor;
+
+	editor = EM_SUBSCRIPTION_EDITOR (object);
+
+	if (editor->priv->initial_store == NULL) {
+		EAccount *account;
+		CamelService *service;
+		CamelSession *session;
+
+		account = e_get_default_account ();
+		session = em_subscription_editor_get_session (editor);
+		service = camel_session_get_service (session, account->uid);
+
+		if (CAMEL_IS_STORE (service))
+			editor->priv->initial_store = g_object_ref (service);
+	}
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (em_subscription_editor_parent_class)->constructed (object);
+}
+
+static void
 subscription_editor_realize (GtkWidget *widget)
 {
 	EMSubscriptionEditor *editor;
+	EMFolderTreeModel *model;
 	GtkComboBox *combo_box;
-	CamelSession *session;
-	GList *list, *iter;
+	GList *list, *link;
 	gint initial_index = 0;
 
 	editor = EM_SUBSCRIPTION_EDITOR (widget);
-	session = em_subscription_editor_get_session (editor);
 
 	/* Chain up to parent's realize() method. */
 	GTK_WIDGET_CLASS (em_subscription_editor_parent_class)->realize (widget);
 
-	/* Find accounts to display, and watch for the default account. */
-	list = e_get_subscribable_accounts (session);
-	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
-		EAccount *account = E_ACCOUNT (iter->data);
-		if (account == editor->priv->initial_account)
+	/* Find stores to display, and watch for the initial store. */
+
+	model = em_folder_tree_model_get_default ();
+	list = em_folder_tree_model_list_stores (model);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		CamelStore *store = CAMEL_STORE (link->data);
+
+		if (!camel_store_supports_subscriptions (store))
+			continue;
+
+		if (store == editor->priv->initial_store)
 			initial_index = editor->priv->stores->len;
-		subscription_editor_add_account (editor, account);
+
+		subscription_editor_add_store (editor, store);
 	}
+
 	g_list_free (list);
 
 	/* The subscription editor should only be accessible if
-	 * at least one enabled account supports subscriptions. */
+	 * at least one enabled store supports subscriptions. */
 	g_return_if_fail (editor->priv->stores->len > 0);
 
 	combo_box = GTK_COMBO_BOX (editor->priv->combo_box);
@@ -1061,20 +1091,10 @@ em_subscription_editor_class_init (EMSubscriptionEditorClass *class)
 	object_class->get_property = subscription_editor_get_property;
 	object_class->dispose = subscription_editor_dispose;
 	object_class->finalize = subscription_editor_finalize;
+	object_class->constructed = subscription_editor_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = subscription_editor_realize;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_ACCOUNT,
-		g_param_spec_object (
-			"account",
-			NULL,
-			NULL,
-			E_TYPE_ACCOUNT,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_install_property (
 		object_class,
@@ -1085,7 +1105,20 @@ em_subscription_editor_class_init (EMSubscriptionEditorClass *class)
 			NULL,
 			CAMEL_TYPE_SESSION,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_STORE,
+		g_param_spec_object (
+			"store",
+			NULL,
+			NULL,
+			CAMEL_TYPE_STORE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -1096,9 +1129,8 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	GtkWidget *box;
 	const gchar *tooltip;
 
-	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		editor, EM_TYPE_SUBSCRIPTION_EDITOR,
-		EMSubscriptionEditorPrivate);
+	editor->priv = EM_SUBSCRIPTION_EDITOR_GET_PRIVATE (editor);
+
 	editor->priv->stores = g_ptr_array_new_with_free_func (
 		(GDestroyNotify) store_data_free);
 
@@ -1288,28 +1320,17 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 GtkWidget *
 em_subscription_editor_new (GtkWindow *parent,
                             CamelSession *session,
-                            EAccount *account)
+                            CamelStore *initial_store)
 {
 	g_return_val_if_fail (GTK_IS_WINDOW (parent), NULL);
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 
 	return g_object_new (
 		EM_TYPE_SUBSCRIPTION_EDITOR,
-		"account", account,
 		"session", session,
+		"store", initial_store,
 		"transient-for", parent,
 		NULL);
-}
-
-EAccount *
-em_subscription_editor_get_account (EMSubscriptionEditor *editor)
-{
-	g_return_val_if_fail (EM_IS_SUBSCRIPTION_EDITOR (editor), NULL);
-
-	if (editor->priv->active == NULL)
-		return NULL;
-
-	return editor->priv->active->account;
 }
 
 CamelSession *
@@ -1318,4 +1339,15 @@ em_subscription_editor_get_session (EMSubscriptionEditor *editor)
 	g_return_val_if_fail (EM_IS_SUBSCRIPTION_EDITOR (editor), NULL);
 
 	return editor->priv->session;
+}
+
+CamelStore *
+em_subscription_editor_get_store (EMSubscriptionEditor *editor)
+{
+	g_return_val_if_fail (EM_IS_SUBSCRIPTION_EDITOR (editor), NULL);
+
+	if (editor->priv->active == NULL)
+		return NULL;
+
+	return editor->priv->active->store;
 }
