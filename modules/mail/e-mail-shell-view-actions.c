@@ -1053,6 +1053,7 @@ action_mail_tools_subscriptions_cb (GtkAction *action,
 	EMFolderTree *folder_tree;
 	EAccount *account;
 	GtkWidget *dialog;
+	CamelStore *store = NULL;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -1065,9 +1066,18 @@ action_mail_tools_subscriptions_cb (GtkAction *action,
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 
+	if (account != NULL) {
+		CamelService *service;
+
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), account->uid);
+		if (service != NULL)
+			store = CAMEL_STORE (service);
+	}
+
 	dialog = em_subscription_editor_new (
 		GTK_WINDOW (shell_window),
-		CAMEL_SESSION (session), account);
+		CAMEL_SESSION (session), store);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }

@@ -21,7 +21,6 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
-#include <libedataserver/e-account.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_SUBSCRIPTION_EDITOR \
@@ -60,10 +59,10 @@ struct _EMSubscriptionEditorClass {
 GType		em_subscription_editor_get_type	(void);
 GtkWidget *	em_subscription_editor_new	(GtkWindow *parent,
 						 CamelSession *session,
-						 EAccount *account);
-EAccount *	em_subscription_editor_get_account
-						(EMSubscriptionEditor *editor);
+						 CamelStore *initial_store);
 CamelSession *	em_subscription_editor_get_session
+						(EMSubscriptionEditor *editor);
+CamelStore *	em_subscription_editor_get_store
 						(EMSubscriptionEditor *editor);
 
 G_END_DECLS
