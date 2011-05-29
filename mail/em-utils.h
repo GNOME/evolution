@@ -74,9 +74,6 @@ gchar *em_utils_message_to_html (CamelMimeMessage *msg, const gchar *credits, gu
 void em_utils_expunge_folder (GtkWidget *parent, EMailSession *session, CamelFolder *folder);
 void em_utils_empty_trash (GtkWidget *parent, EMailSession *session);
 
-/* returns the folder name portion of an URI */
-gchar *em_utils_folder_name_from_uri (const gchar *uri);
-
 /* is this address in the addressbook?  caches results */
 gboolean em_utils_in_addressbook (CamelInternetAddress *addr, gboolean local_only);
 CamelMimePart *em_utils_contact_photo (CamelInternetAddress *addr, gboolean local);

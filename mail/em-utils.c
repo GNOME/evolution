@@ -1430,31 +1430,6 @@ em_utils_empty_trash (GtkWidget *parent,
 	mail_empty_trash (session, NULL, NULL, NULL);
 }
 
-gchar *
-em_utils_folder_name_from_uri (const gchar *uri)
-{
-	CamelURL *url;
-	gchar *folder_name = NULL;
-
-	if (uri == NULL || (url = camel_url_new (uri, NULL)) == NULL)
-		return NULL;
-
-	if (url->fragment)
-		folder_name = url->fragment;
-	else if (url->path)
-		folder_name = url->path + 1;
-
-	if (folder_name == NULL) {
-		camel_url_free (url);
-		return NULL;
-	}
-
-	folder_name = g_strdup (folder_name);
-	camel_url_free (url);
-
-	return folder_name;
-}
-
 /* ********************************************************************** */
 
 /* runs sync, in main thread */
