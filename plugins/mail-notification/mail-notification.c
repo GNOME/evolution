@@ -39,6 +39,7 @@
 #include <e-util/e-config.h>
 #include <e-util/e-account-utils.h>
 #include <e-util/gconf-bridge.h>
+#include <mail/e-mail-folder-utils.h>
 #include <mail/em-utils.h>
 #include <mail/em-event.h>
 #include <mail/em-folder-tree.h>
@@ -115,7 +116,7 @@ static gboolean init_gdbus (void);
 
 static void
 send_dbus_message (const gchar *name,
-                   const gchar *data,
+                   const gchar *display_name,
                    guint new_count,
                    const gchar *msg_uid,
                    const gchar *msg_sender,
@@ -126,9 +127,9 @@ send_dbus_message (const gchar *name,
 	GError *error = NULL;
 
 	g_return_if_fail (name != NULL);
-	g_return_if_fail (data != NULL);
+	g_return_if_fail (display_name != NULL);
 	g_return_if_fail (g_utf8_validate (name, -1, NULL));
-	g_return_if_fail (g_utf8_validate (data, -1, NULL));
+	g_return_if_fail (g_utf8_validate (display_name, -1, NULL));
 	g_return_if_fail (msg_uid == NULL || g_utf8_validate (msg_uid, -1, NULL));
 	g_return_if_fail (msg_sender == NULL || g_utf8_validate (msg_sender, -1, NULL));
 	g_return_if_fail (msg_subject == NULL || g_utf8_validate (msg_subject, -1, NULL));
@@ -140,15 +141,11 @@ send_dbus_message (const gchar *name,
 	builder = g_variant_builder_new (G_VARIANT_TYPE_TUPLE);
 
 	/* Appends the data as an argument to the message */
-	g_variant_builder_add (builder, "(s)", data);
+	g_variant_builder_add (builder, "(s)", display_name);
 
 	if (new_count) {
-		gchar *display_name = em_utils_folder_name_from_uri (data);
-
 		g_variant_builder_add (builder, "(s)", display_name);
 		g_variant_builder_add (builder, "(u)", new_count);
-
-		g_free (display_name);
 	}
 
 	#define add_named_param(name, value)				\
@@ -238,8 +235,8 @@ new_notify_dbus (EMEventTargetFolder *t)
 {
 	if (connection != NULL)
 		send_dbus_message (
-			"Newmail", t->uri, t->new, t->msg_uid,
-			t->msg_sender, t->msg_subject);
+			"Newmail", t->display_name, t->new,
+			t->msg_uid, t->msg_sender, t->msg_subject);
 }
 
 static void
@@ -378,13 +375,18 @@ new_notify_status (EMEventTargetFolder *t)
 	gchar *msg;
 
 	if (!status_count) {
+		EAccount *account;
 		gchar *folder_name;
+		const gchar *uid;
 
-		if (t->account != NULL)
+		uid = camel_service_get_uid (CAMEL_SERVICE (t->store));
+		account = e_get_account_by_uid (uid);
+
+		if (account != NULL)
 			folder_name = g_strdup_printf (
-				"%s/%s", t->account->name, t->name);
+				"%s/%s", account->name, t->folder_name);
 		else
-			folder_name = g_strdup (t->name);
+			folder_name = g_strdup (t->folder_name);
 
 		status_count = t->new;
 
@@ -454,6 +456,12 @@ new_notify_status (EMEventTargetFolder *t)
 
 			/* Check if actions are supported */
 			if (can_support_actions ()) {
+				gchar *folder_uri;
+
+				/* NotifyAction takes ownership. */
+				folder_uri = e_mail_folder_uri_build (
+					t->store, t->folder_name);
+
 				notify_notification_set_urgency (
 					notify, NOTIFY_URGENCY_NORMAL);
 				notify_notification_set_timeout (
@@ -462,7 +470,7 @@ new_notify_status (EMEventTargetFolder *t)
 					notify, "default", "Default",
 					(NotifyActionCallback)
 					notify_default_action_cb,
-					g_strdup (t->uri),
+					folder_uri,
 					(GFreeFunc) g_free);
 				g_timeout_add (
 					500, notification_callback, notify);
