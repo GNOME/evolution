@@ -924,7 +924,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 
 	get_folders (m->store, m->folders, m->finfo);
 
-	camel_operation_push_message (cancellable, _("Updating..."));
+	camel_operation_push_message (m->info->cancellable, _("Updating..."));
 
 	for (i=0;i<m->folders->len;i++) {
 		folder = e_mail_session_uri_to_folder_sync (
@@ -947,10 +947,10 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 
 		if (m->info->state != SEND_CANCELLED)
 			camel_operation_progress (
-				cancellable, 100 * i / m->folders->len);
+				m->info->cancellable, 100 * i / m->folders->len);
 	}
 
-	camel_operation_pop_message (cancellable);
+	camel_operation_pop_message (m->info->cancellable);
 
 	if (cancellable)
 		g_signal_handler_disconnect (m->info->cancellable, handler_id);
