@@ -3193,6 +3193,42 @@ em_folder_tree_get_selected (EMFolderTree *folder_tree,
 	return TRUE;
 }
 
+gboolean
+em_folder_tree_store_root_selected (EMFolderTree *folder_tree, CamelStore **out_store)
+{
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	CamelStore *store = NULL;
+	gboolean is_store = FALSE;
+
+	g_return_val_if_fail (folder_tree != NULL, FALSE);
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), FALSE);
+
+	tree_view = GTK_TREE_VIEW (folder_tree);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return FALSE;
+
+	gtk_tree_model_get (
+		model, &iter,
+		COL_POINTER_CAMEL_STORE, &store,
+		COL_BOOL_IS_STORE, &is_store, -1);
+
+	/* We should always get a valid store. */
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+
+	if (!is_store)
+		return FALSE;
+
+	if (out_store != NULL)
+		*out_store = g_object_ref (store);
+
+	return TRUE;
+}
+
 gchar *
 em_folder_tree_get_selected_uri (EMFolderTree *folder_tree)
 {
