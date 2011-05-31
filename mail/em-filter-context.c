@@ -241,7 +241,7 @@ filter_context_new_element (ERuleContext *context,
 		return e_filter_int_new_type ("score", -3, 3);
 
 	if (strcmp (type, "source") == 0)
-		return em_filter_source_element_new ();
+		return em_filter_source_element_new (priv->backend);
 
 	return E_RULE_CONTEXT_CLASS (em_filter_context_parent_class)->
 		new_element (context, type);
