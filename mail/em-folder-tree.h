@@ -126,6 +126,9 @@ void		em_folder_tree_edit_selected	(EMFolderTree *folder_tree);
 gboolean	em_folder_tree_get_selected	(EMFolderTree *folder_tree,
 						 CamelStore **out_store,
 						 gchar **out_folder_name);
+gboolean	em_folder_tree_store_root_selected
+						(EMFolderTree *folder_tree,
+						 CamelStore **out_store);
 gchar *		em_folder_tree_get_selected_uri	(EMFolderTree *folder_tree);
 CamelFolder *	em_folder_tree_get_selected_folder
 						(EMFolderTree *folder_tree);
