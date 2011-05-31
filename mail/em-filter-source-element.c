@@ -49,6 +49,7 @@ typedef struct _SourceInfo {
 } SourceInfo;
 
 struct _EMFilterSourceElementPrivate {
+	EMailBackend *backend;
 	GList *sources;
 	gchar *current_url;
 };
@@ -57,6 +58,11 @@ G_DEFINE_TYPE (
 	EMFilterSourceElement,
 	em_filter_source_element,
 	E_TYPE_FILTER_ELEMENT)
+
+enum {
+	PROP_0,
+	PROP_BACKEND
+};
 
 static void
 source_info_free (SourceInfo *info)
@@ -145,6 +151,68 @@ filter_source_element_get_sources (EMFilterSourceElement *fs)
 
 	g_object_unref (it);
 }
+
+static void
+filter_source_element_set_backend (EMFilterSourceElement *element,
+                                   EMailBackend *backend)
+{
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (element->priv->backend == NULL);
+
+	element->priv->backend = g_object_ref (backend);
+}
+
+static void
+filter_source_element_set_property (GObject *object,
+                                    guint property_id,
+                                    const GValue *value,
+                                    GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_BACKEND:
+			filter_source_element_set_backend (
+				EM_FILTER_SOURCE_ELEMENT (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+filter_source_element_get_property (GObject *object,
+                                    guint property_id,
+                                    GValue *value,
+                                    GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_BACKEND:
+			g_value_set_object (
+				value,
+				em_filter_source_element_get_backend (
+				EM_FILTER_SOURCE_ELEMENT (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+filter_source_element_dispose (GObject *object)
+{
+	EMFilterSourceElementPrivate *priv;
+
+	priv = EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE (object);
+
+	if (priv->backend != NULL) {
+		g_object_unref (priv->backend);
+		priv->backend = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (em_filter_source_element_parent_class)->dispose (object);
+}
+
 static void
 filter_source_element_finalize (GObject *object)
 {
@@ -224,9 +292,11 @@ filter_source_element_clone (EFilterElement *fe)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *) fe;
 	EMFilterSourceElement *cpy;
+	EMailBackend *backend;
 	GList *i;
 
-	cpy = (EMFilterSourceElement *) em_filter_source_element_new ();
+	backend = em_filter_source_element_get_backend (fs);
+	cpy = (EMFilterSourceElement *) em_filter_source_element_new (backend);
 	((EFilterElement *) cpy)->name = (gchar *) xmlStrdup ((guchar *) fe->name);
 
 	cpy->priv->current_url = g_strdup (fs->priv->current_url);
@@ -332,6 +402,9 @@ em_filter_source_element_class_init (EMFilterSourceElementClass *class)
 	g_type_class_add_private (class, sizeof (EMFilterSourceElementPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = filter_source_element_set_property;
+	object_class->get_property = filter_source_element_get_property;
+	object_class->dispose = filter_source_element_dispose;
 	object_class->finalize = filter_source_element_finalize;
 
 	filter_element_class = E_FILTER_ELEMENT_CLASS (class);
@@ -342,17 +415,40 @@ em_filter_source_element_class_init (EMFilterSourceElementClass *class)
 	filter_element_class->get_widget = filter_source_element_get_widget;
 	filter_element_class->build_code = filter_source_element_build_code;
 	filter_element_class->format_sexp = filter_source_element_format_sexp;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_BACKEND,
+		g_param_spec_object (
+			"backend",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_BACKEND,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
-em_filter_source_element_init (EMFilterSourceElement *fs)
+em_filter_source_element_init (EMFilterSourceElement *element)
 {
-	fs->priv = EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE (fs);
+	element->priv = EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE (element);
 }
 
 EFilterElement *
-em_filter_source_element_new (void)
+em_filter_source_element_new (EMailBackend *backend)
 {
-	return g_object_new (EM_TYPE_FILTER_SOURCE_ELEMENT, NULL);
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+
+	return g_object_new (
+		EM_TYPE_FILTER_SOURCE_ELEMENT,
+		"backend", backend, NULL);
 }
 
+EMailBackend *
+em_filter_source_element_get_backend (EMFilterSourceElement *element)
+{
+	g_return_val_if_fail (EM_IS_FILTER_SOURCE_ELEMENT (element), NULL);
+
+	return element->priv->backend;
+}
