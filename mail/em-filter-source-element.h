@@ -21,32 +21,52 @@
  *
  */
 
-#ifndef _EM_FILTER_SOURCE_ELEMENT_H
-#define _EM_FILTER_SOURCE_ELEMENT_H
+#ifndef EM_FILTER_SOURCE_ELEMENT_H
+#define EM_FILTER_SOURCE_ELEMENT_H
 
-#include "filter/e-filter-element.h"
+#include <filter/e-filter-element.h>
 
-#define EM_FILTER_SOURCE_ELEMENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), em_filter_source_element_get_type(), EMFilterSourceElement))
-#define EM_FILTER_SOURCE_ELEMENT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), em_filter_source_element_get_type(), EMFilterSourceElementClass))
-#define EM_IS_FILTER_SOURCE_ELEMENT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), em_filter_source_element_get_type()))
-#define EM_IS_FILTER_SOURCE_ELEMENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), em_filter_source_element_get_type()))
-#define EM_FILTER_SOURCE_ELEMENT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), em_filter_source_element_get_type(), EMFilterSourceElementClass))
+/* Standard GObject macros */
+#define EM_TYPE_FILTER_SOURCE_ELEMENT \
+	(em_filter_source_element_get_type ())
+#define EM_FILTER_SOURCE_ELEMENT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_FILTER_SOURCE_ELEMENT, EMFilterSourceElement))
+#define EM_FILTER_SOURCE_ELEMENT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_FILTER_SOURCE_ELEMENT, EMFilterSourceElementClass))
+#define EM_IS_FILTER_SOURCE_ELEMENT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_FILTER_SOURCE_ELEMENT))
+#define EM_IS_FILTER_SOURCE_ELEMENT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_FILTER_SOURCE_ELEMENT))
+#define EM_FILTER_SOURCE_ELEMENT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_FILTER_SOURCE_ELEMENT, EMFilterSourceElementClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EMFilterSourceElement EMFilterSourceElement;
 typedef struct _EMFilterSourceElementClass EMFilterSourceElementClass;
+typedef struct _EMFilterSourceElementPrivate EMFilterSourceElementPrivate;
 
 struct _EMFilterSourceElement {
-	EFilterElement parent_object;
-	struct _EMFilterSourceElementPrivate *priv;
+	EFilterElement parent;
+	EMFilterSourceElementPrivate *priv;
 };
 
 struct _EMFilterSourceElementClass {
 	EFilterElementClass parent_class;
 };
 
-GType em_filter_source_element_get_type (void);
-EFilterElement *em_filter_source_element_new (void);
+GType		em_filter_source_element_get_type
+						(void) G_GNUC_CONST;
+EFilterElement *em_filter_source_element_new	(void);
+void		em_filter_source_element_set_current
+						(EMFilterSourceElement *src,
+						 const gchar *url);
 
-void em_filter_source_element_set_current (EMFilterSourceElement *src, const gchar *url);
+G_END_DECLS
 
-#endif /* _EM_FILTER_SOURCE_ELEMENT_H */
+#endif /* EM_FILTER_SOURCE_ELEMENT_H */
