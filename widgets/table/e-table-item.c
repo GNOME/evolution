@@ -44,7 +44,6 @@
 #include "e-util/e-util.h"
 #include "misc/e-canvas.h"
 #include "misc/e-canvas-utils.h"
-#include "misc/e-hsv-utils.h"
 
 #include "e-cell.h"
 #include "e-table-item.h"
@@ -121,6 +120,49 @@ static void e_table_item_redraw_row (ETableItem *eti, gint row);
 #define ETI_SINGLE_ROW_HEIGHT(eti) ((eti)->uniform_row_height_cache != -1 ? (eti)->uniform_row_height_cache : eti_row_height((eti), -1))
 #define ETI_MULTIPLE_ROW_HEIGHT(eti,row) ((eti)->height_cache && (eti)->height_cache[(row)] != -1 ? (eti)->height_cache[(row)] : eti_row_height((eti),(row)))
 #define ETI_ROW_HEIGHT(eti,row) ((eti)->uniform_row_height ? ETI_SINGLE_ROW_HEIGHT ((eti)) : ETI_MULTIPLE_ROW_HEIGHT((eti),(row)))
+
+/* tweak_hsv is a really tweaky function. it modifies its first argument, which
+   should be the color you want tweaked. delta_h, delta_s and delta_v specify
+   how much you want their respective channels modified (and in what direction).
+   if it can't do the specified modification, it does it in the oppositon direction */
+static void
+e_hsv_tweak (GdkColor *color,
+             gdouble delta_h,
+             gdouble delta_s,
+             gdouble delta_v)
+{
+	gdouble h, s, v, r, g, b;
+
+	r = color->red   / 65535.0f;
+	g = color->green / 65535.0f;
+	b = color->blue  / 65535.0f;
+
+	gtk_rgb_to_hsv (r, g, b, &h, &s, &v);
+
+	if (h + delta_h < 0) {
+		h -= delta_h;
+	} else {
+		h += delta_h;
+	}
+
+	if (s + delta_s < 0) {
+		s -= delta_s;
+	} else {
+		s += delta_s;
+	}
+
+	if (v + delta_v < 0) {
+		v -= delta_v;
+	} else {
+		v += delta_v;
+	}
+
+	gtk_hsv_to_rgb (h, s, v, &r, &g, &b);
+
+	color->red   = r * 65535.0f;
+	color->green = g * 65535.0f;
+	color->blue  = b * 65535.0f;
+}
 
 inline static gint
 model_to_view_row (ETableItem *eti, gint row)

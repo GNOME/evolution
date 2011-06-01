@@ -35,7 +35,6 @@
 #include "gal-a11y-e-cell-toggle.h"
 #include "gal-a11y-e-cell-registry.h"
 #include "e-util/e-util.h"
-#include "misc/e-hsv-utils.h"
 
 #include "e-cell-toggle.h"
 #include "e-table-item.h"

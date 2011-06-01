@@ -16,7 +16,6 @@ LGPLv2 only
 LGPLv2+
         e-util/gconf-bridge.[ch]
         widgets/misc/e-icon-entry.[ch]
-        widgets/misc/e-hsv-utils.[ch]
         widgets/text/e-text.[ch]
         widgets/table/e-cell-tree.[ch]
         widgets/misc/e-dateedit.[ch]
