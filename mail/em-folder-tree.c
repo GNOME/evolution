@@ -279,6 +279,12 @@ folder_tree_get_folder_info_cb (CamelStore *store,
 		return;
 	}
 
+	if (!folder_info) {
+		g_warn_if_fail (folder_info != NULL);
+		async_context_free (context);
+		return;
+	}
+
 	g_return_if_fail (folder_info != NULL);
 
 	/* Check if the store has been removed. */
