@@ -115,7 +115,7 @@ store_info_unref (StoreInfo *store_info)
 	g_return_if_fail (store_info != NULL);
 	g_return_if_fail (store_info->ref_count > 0);
 
-	if (g_atomic_int_exchange_and_add (&store_info->ref_count, -1) > 1)
+	if (g_atomic_int_add (&store_info->ref_count, -1) > 1)
 		return;
 
 	g_object_unref (store_info->store);
