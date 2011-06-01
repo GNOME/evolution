@@ -29,6 +29,7 @@ libetable_la_SOURCES = 				\
 	e-cell-tree.c				\
 	e-cell-vbox.c				\
 	e-cell-hbox.c				\
+	e-popup-menu.c				\
 	e-table-click-to-add.c			\
 	e-table-col.c				\
 	e-table-column-specification.c		\
@@ -104,6 +105,7 @@ libetableinclude_HEADERS = 			\
 	e-cell-tree.h				\
 	e-cell-vbox.h				\
 	e-cell-hbox.h				\
+	e-popup-menu.h				\
 	e-table-click-to-add.h			\
 	e-table-col-dnd.h			\
 	e-table-col.h				\

@@ -46,7 +46,6 @@ widgetsinclude_HEADERS =			\
 	e-paned.h				\
 	e-picture-gallery.h			\
 	e-popup-action.h			\
-	e-popup-menu.h				\
 	e-port-entry.h				\
 	e-preferences-window.h			\
 	e-preview-pane.h			\
@@ -126,7 +125,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-paned.c				\
 	e-picture-gallery.c			\
 	e-popup-action.c			\
-	e-popup-menu.c				\
 	e-port-entry.c				\
 	e-preferences-window.c			\
 	e-preview-pane.c			\

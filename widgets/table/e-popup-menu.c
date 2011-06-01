@@ -38,7 +38,7 @@
  * Creates an item with an optional icon
  */
 static void
-make_item (GtkMenu *menu, GtkMenuItem *item, const gchar *name, GtkWidget *pixmap)
+make_item (GtkMenu *menu, GtkMenuItem *item, const gchar *name)
 {
 	GtkWidget *label;
 
@@ -53,24 +53,6 @@ make_item (GtkMenu *menu, GtkMenuItem *item, const gchar *name, GtkWidget *pixma
 	gtk_widget_show (label);
 
 	gtk_container_add (GTK_CONTAINER (item), label);
-
-	if (pixmap && GTK_IS_IMAGE_MENU_ITEM (item)) {
-		gtk_widget_show (pixmap);
-		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), pixmap);
-	}
-}
-
-GtkMenu *
-e_popup_menu_create (EPopupMenu *menu_list,
-		     guint32 disable_mask,
-		     guint32 hide_mask,
-		     gpointer default_closure)
-{
-	return e_popup_menu_create_with_domain (menu_list,
-						disable_mask,
-						hide_mask,
-						default_closure,
-						NULL);
 }
 
 GtkMenu *
@@ -81,7 +63,6 @@ e_popup_menu_create_with_domain (EPopupMenu *menu_list,
 				 const gchar *domain)
 {
 	GtkMenu *menu = GTK_MENU (gtk_menu_new ());
-	GSList *group = NULL;
 	gboolean last_item_separator = TRUE;
 	gint last_non_separator = -1;
 	gint i;
@@ -101,38 +82,19 @@ e_popup_menu_create_with_domain (EPopupMenu *menu_list,
 			GtkWidget *item = NULL;
 
 			if (!separator) {
-				if (menu_list[i].is_toggle)
-					item = gtk_check_menu_item_new ();
-				else if (menu_list[i].is_radio)
-					item = gtk_radio_menu_item_new (group);
-				else
-					item = menu_list[i].pixmap_widget ? gtk_image_menu_item_new () : gtk_menu_item_new ();
-				if (menu_list[i].is_toggle || menu_list[i].is_radio)
-					gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), menu_list[i].is_active);
-				if (menu_list[i].is_radio)
-					group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
+				item = gtk_menu_item_new ();
 
-				make_item (menu, GTK_MENU_ITEM (item), dgettext (domain, menu_list[i].name), menu_list[i].pixmap_widget);
+				make_item (menu, GTK_MENU_ITEM (item), dgettext (domain, menu_list[i].name));
 			} else {
 				item = gtk_menu_item_new ();
 			}
 
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
-			if (!menu_list[i].submenu) {
-				if (menu_list[i].fn)
-					g_signal_connect (item, "activate",
-							  G_CALLBACK (menu_list[i].fn),
-							  menu_list[i].use_custom_closure ? menu_list[i].closure : default_closure);
-			} else {
-				/* submenu */
-				GtkMenu *submenu;
-
-				submenu = e_popup_menu_create (menu_list[i].submenu, disable_mask, hide_mask,
-							       default_closure);
-
-				gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (submenu));
-			}
+			if (menu_list[i].fn)
+				g_signal_connect (item, "activate",
+						  G_CALLBACK (menu_list[i].fn),
+						  default_closure);
 
 			if (menu_list[i].disable_mask & disable_mask)
 				gtk_widget_set_sensitive (item, FALSE);
