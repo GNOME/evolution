@@ -339,6 +339,14 @@ mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
 	const gchar *config_dir;
 
 	config_dir = mail_session_get_config_dir ();
+
+	basename = g_build_filename (config_dir, "folders", NULL);
+	if (!g_file_test (basename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR)) {
+		/* create the folder if does not exist */
+		g_mkdir_with_parents (basename, 0700);
+	}
+	g_free (basename);
+
 	url = g_strdup (camel_folder_get_uri (folder));
 	e_filename_make_safe (url);
 	basename = g_strdup_printf ("%s%s", prefix, url);
