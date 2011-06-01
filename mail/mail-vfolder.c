@@ -199,7 +199,7 @@ vfolder_setup (EMailSession *session,
 struct _adduri_msg {
 	MailMsg base;
 
-	EMailSession *session;
+	EMailBackend *backend;
 	gchar *uri;
 	GList *folders;
 	gint remove;
@@ -210,17 +210,18 @@ vfolder_adduri_desc (struct _adduri_msg *m)
 {
 	EAccount *account;
 	CamelStore *store;
-	CamelSession *session;
-	const gchar *store_name;
+	EMailSession *session;
+	const gchar *display_name;
 	const gchar *uid;
 	gchar *folder_name;
 	gchar *description;
 	gboolean success;
 
-	session = CAMEL_SESSION (m->session);
+	session = e_mail_backend_get_session (m->backend);
 
 	success = e_mail_folder_uri_parse (
-		session, m->uri, &store, &folder_name, NULL);
+		CAMEL_SESSION (session), m->uri,
+		&store, &folder_name, NULL);
 
 	if (!success)
 		return NULL;
@@ -229,13 +230,13 @@ vfolder_adduri_desc (struct _adduri_msg *m)
 	account = e_get_account_by_uid (uid);
 
 	if (account != NULL)
-		store_name = account->name;
+		display_name = account->name;
 	else
-		store_name = _("On This Computer");
+		display_name = _("On This Computer");
 
 	description = g_strdup_printf (
 		_("Updating Search Folders for '%s' : %s"),
-		store_name, folder_name);
+		display_name, folder_name);
 
 	g_object_unref (store);
 	g_free (folder_name);
@@ -249,13 +250,15 @@ vfolder_adduri_exec (struct _adduri_msg *m,
                      GError **error)
 {
 	GList *l;
+	EMailSession *session;
 	CamelFolder *folder = NULL;
 	MailFolderCache *folder_cache;
 
 	if (vfolder_shutdown)
 		return;
 
-	folder_cache = e_mail_session_get_folder_cache (m->session);
+	session = e_mail_backend_get_session (m->backend);
+	folder_cache = e_mail_session_get_folder_cache (session);
 
 	/* we dont try lookup the cache if we are removing it, its no longer there */
 
@@ -269,7 +272,7 @@ vfolder_adduri_exec (struct _adduri_msg *m,
 
 	if (folder == NULL)
 		folder = e_mail_session_uri_to_folder_sync (
-			m->session, m->uri, 0, cancellable, error);
+			session, m->uri, 0, cancellable, error);
 
 	if (folder != NULL) {
 		l = m->folders;
@@ -293,7 +296,7 @@ vfolder_adduri_done (struct _adduri_msg *m)
 static void
 vfolder_adduri_free (struct _adduri_msg *m)
 {
-	g_object_unref (m->session);
+	g_object_unref (m->backend);
 	g_list_foreach (m->folders, (GFunc) g_object_unref, NULL);
 	g_list_free (m->folders);
 	g_free (m->uri);
@@ -309,7 +312,7 @@ static MailMsgInfo vfolder_adduri_info = {
 
 /* uri should be a camel uri */
 static gint
-vfolder_adduri (EMailSession *session,
+vfolder_adduri (EMailBackend *backend,
                 const gchar *uri,
                 GList *folders,
                 gint remove)
@@ -318,7 +321,7 @@ vfolder_adduri (EMailSession *session,
 	gint id;
 
 	m = mail_msg_new (&vfolder_adduri_info);
-	m->session = g_object_ref (session);
+	m->backend = g_object_ref (backend);
 	m->folders = folders;
 	m->uri = g_strdup (uri);
 	m->remove = remove;
@@ -535,7 +538,7 @@ done:
 	G_UNLOCK (vfolder);
 
 	if (folders != NULL)
-		vfolder_adduri (session, uri, folders, remove);
+		vfolder_adduri (backend, uri, folders, remove);
 
 	g_free (uri);
 }
