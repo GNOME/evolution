@@ -221,7 +221,8 @@ account_changed_cb (EAccountList *accounts,
 
 	/* make sure the new store belongs in the tree */
 	provider = camel_service_get_provider (service);
-	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
+	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE) ||
+	    em_utils_is_local_delivery_mbox_file (camel_service_get_camel_url (service)))
 		return;
 
 	em_folder_tree_model_add_store (
