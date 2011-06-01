@@ -211,7 +211,8 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
                  GError **error)
 {
 	struct _filter_mail_msg *fm = (struct _filter_mail_msg *) m;
-	CamelFolder *folder;
+	CamelFolder *folder = NULL;
+	CamelURL *url;
 	const gchar *uid;
 	gint i;
 
@@ -221,11 +222,36 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 		goto fail;
 	g_object_ref (fm->destination);
 
-	uid = camel_service_get_uid (CAMEL_SERVICE (m->store));
+	url = camel_service_get_camel_url (CAMEL_SERVICE (m->store));
+	if (em_utils_is_local_delivery_mbox_file (url)) {
+		gchar *path;
+		gchar *url_string;
 
-	folder = fm->source_folder =
-		e_mail_session_get_inbox_sync (
-			fm->session, uid, cancellable, error);
+		path = mail_tool_do_movemail (m->store, error);
+		url_string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+
+		if (path && (!error || !*error)) {
+			camel_folder_freeze (fm->destination);
+			camel_filter_driver_set_default_folder (
+				fm->driver, fm->destination);
+			camel_filter_driver_filter_mbox (
+				fm->driver, path, url_string,
+				cancellable, error);
+			camel_folder_thaw (fm->destination);
+
+			if (!error || !*error)
+				g_unlink (path);
+		}
+
+		g_free (path);
+		g_free (url_string);
+	} else {
+		uid = camel_service_get_uid (CAMEL_SERVICE (m->store));
+
+		folder = fm->source_folder =
+			e_mail_session_get_inbox_sync (
+				fm->session, uid, cancellable, error);
+	}
 
 	if (folder != NULL) {
 		/* This handles 'keep on server' stuff, if we have any new
