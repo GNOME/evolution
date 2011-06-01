@@ -2051,10 +2051,10 @@ save_tree_state (MessageList *ml)
 {
 	gchar *filename;
 
-	if (ml->folder == NULL)
+	if (ml->folder == NULL || (ml->search && *ml->search))
 		return;
 
-	filename = mail_config_folder_to_cachename(ml->folder, "et-expanded-");
+	filename = mail_config_folder_to_cachename (ml->folder, "et-expanded-");
 	e_tree_save_expanded_state (E_TREE (ml), filename);
 	g_free (filename);
 
@@ -2069,7 +2069,8 @@ load_tree_state (MessageList *ml, xmlDoc *expand_state)
 
 	if (expand_state) {
 		e_tree_load_expanded_state_xml (E_TREE (ml), expand_state);
-	} else {
+	} else if (!ml->search || !*ml->search) {
+		/* only when not searching */
 		gchar *filename;
 
 		filename = mail_config_folder_to_cachename (ml->folder, "et-expanded-");
@@ -2092,31 +2093,16 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 	/* build the spec based on the folder, and possibly from a saved file */
 	/* otherwise, leave default */
 	if (message_list->folder) {
-		CamelStore *parent_store;
-		gchar *path;
-		gchar *name;
 		gint data = 1;
-		struct stat st;
 		ETableItem *item;
 
 		item = e_tree_get_item (E_TREE (message_list));
 
 		g_object_set (message_list, "uniform_row_height", TRUE, NULL);
-
-		parent_store = camel_folder_get_parent_store (message_list->folder);
-		name = camel_service_get_name (CAMEL_SERVICE (parent_store), TRUE);
-		d(printf ("folder name is '%s'\n", name));
-
-		path = mail_config_folder_to_cachename (message_list->folder, "et-expanded-");
 		g_object_set_data (G_OBJECT (((GnomeCanvasItem *) item)->canvas), "freeze-cursor", &data);
 
-		if (path && g_stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
-			/* build based on saved file */
-			e_tree_load_expanded_state (E_TREE (message_list), path);
-		}
-		g_free (path);
-
-		g_free (name);
+		/* build based on saved file */
+		load_tree_state (message_list, NULL);
 	}
 }
 
@@ -4627,6 +4613,7 @@ regen_list_done (struct _regen_list_msg *m)
 {
 	ETree *tree;
 	GCancellable *cancellable;
+	gboolean searching;
 
 	cancellable = e_activity_get_cancellable (m->base.activity);
 
@@ -4649,6 +4636,13 @@ regen_list_done (struct _regen_list_msg *m)
 
 	g_signal_handlers_block_by_func (e_tree_get_table_adapter (tree), ml_tree_sorting_changed, m->ml);
 
+	if (m->ml->search && m->ml->search != m->search)
+		g_free (m->ml->search);
+	m->ml->search = m->search;
+	m->search = NULL;
+
+	searching = m->ml->search && *m->ml->search;
+
 	if (m->dotree) {
 		gboolean forcing_expand_state = m->ml->expand_all || m->ml->collapse_all;
 
@@ -4661,8 +4655,8 @@ regen_list_done (struct _regen_list_msg *m)
 			}
 		}
 
-		if (forcing_expand_state)
-			e_tree_force_expanded_state (tree, m->ml->expand_all ? 1 : -1);
+		if (forcing_expand_state || searching)
+			e_tree_force_expanded_state (tree, (m->ml->expand_all || searching) ? 1 : -1);
 
 		build_tree (m->ml, m->tree, m->changes);
 		if (m->ml->thread_tree)
@@ -4670,8 +4664,8 @@ regen_list_done (struct _regen_list_msg *m)
 		m->ml->thread_tree = m->tree;
 		m->tree = NULL;
 
-		if (forcing_expand_state) {
-			if (m->ml->folder != NULL && tree != NULL)
+		if (forcing_expand_state || searching) {
+			if (m->ml->folder != NULL && tree != NULL && !searching)
 				save_tree_state (m->ml);
 			/* do not forget to set this back to use the default value... */
 			e_tree_force_expanded_state (tree, 0);
@@ -4682,11 +4676,6 @@ regen_list_done (struct _regen_list_msg *m)
 		m->ml->collapse_all = 0;
 	} else
 		build_flat (m->ml, m->summary, m->changes);
-
-	if (m->ml->search && m->ml->search != m->search)
-		g_free (m->ml->search);
-	m->ml->search = m->search;
-	m->search = NULL;
 
 	g_mutex_lock (m->ml->regen_lock);
 	m->ml->regen = g_list_remove (m->ml->regen, m);
