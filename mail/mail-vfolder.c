@@ -60,8 +60,12 @@ CamelStore *vfolder_store; /* the 1 static vfolder store */
 /* lock for accessing shared resources (below) */
 G_LOCK_DEFINE_STATIC (vfolder);
 
-static GList *source_folders_remote;	/* list of source folder uri's - remote ones */
-static GList *source_folders_local;	/* list of source folder uri's - local ones */
+/* list of source folder uri's - remote ones */
+static GQueue source_folders_remote = G_QUEUE_INIT;
+
+/* list of source folder uri's - local ones */
+static GQueue source_folders_local = G_QUEUE_INIT;
+
 static GHashTable *vfolder_hash;
 /* This is a slightly hacky solution to shutting down, we poll this variable in various
    loops, and just quit processing if it is set. */
@@ -328,16 +332,21 @@ vfolder_adduri (EMailSession *session,
 /* ********************************************************************** */
 
 static GList *
-mv_find_folder (GList *l, EMailSession *session, const gchar *uri)
+mv_find_folder (GQueue *queue,
+                EMailSession *session,
+                const gchar *uri)
 {
 	CamelSession *camel_session = CAMEL_SESSION (session);
+	GList *head, *link;
 
-	while (l) {
-		if (e_mail_folder_uri_equal (camel_session, l->data, uri))
+	head = g_queue_peek_head_link (queue);
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		if (e_mail_folder_uri_equal (camel_session, link->data, uri))
 			break;
-		l = l->next;
 	}
-	return l;
+
+	return link;
 }
 
 static gint
@@ -444,6 +453,7 @@ mail_vfolder_add_folder (EMailBackend *backend,
 	CamelVeeFolder *vf;
 	CamelProvider *provider;
 	GList *folders = NULL, *link;
+	GQueue *queue;
 	gint remote;
 	gint is_ignore;
 	gchar *uri;
@@ -452,6 +462,7 @@ mail_vfolder_add_folder (EMailBackend *backend,
 
 	provider = camel_service_get_provider (CAMEL_SERVICE (store));
 	remote = (provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
+	queue = remote ? &source_folders_remote : &source_folders_local;
 
 	if (folder_is_spethal (store, folder_name))
 		return;
@@ -468,30 +479,15 @@ mail_vfolder_add_folder (EMailBackend *backend,
 	if (CAMEL_IS_VEE_STORE (store)) {
 		is_ignore = TRUE;
 	} else if (remove) {
-		if (remote) {
-			if ((link = mv_find_folder (source_folders_remote, session, uri)) != NULL) {
-				g_free (link->data);
-				source_folders_remote = g_list_remove_link (
-					source_folders_remote, link);
-			}
-		} else {
-			if ((link = mv_find_folder (source_folders_local, session, uri)) != NULL) {
-				g_free (link->data);
-				source_folders_local = g_list_remove_link (
-					source_folders_local, link);
-			}
+		link = mv_find_folder (queue, session, uri);
+		if (link != NULL) {
+			g_free (link->data);
+			g_queue_delete_link (queue, link);
 		}
 	} else if (!is_ignore) {
 		/* we ignore drafts/sent/outbox here */
-		if (remote) {
-			if (mv_find_folder (source_folders_remote, session, uri) == NULL)
-				source_folders_remote = g_list_prepend (
-					source_folders_remote, g_strdup (uri));
-		} else {
-			if (mv_find_folder (source_folders_local, session, uri) == NULL)
-				source_folders_local = g_list_prepend (
-					source_folders_local, g_strdup (uri));
-		}
+		if (mv_find_folder (queue, session, uri) == NULL)
+			g_queue_push_tail (queue, g_strdup (uri));
 	}
 
 	if (context == NULL)
@@ -572,6 +568,7 @@ mail_vfolder_delete_folder (EMailBackend *backend,
 	const gchar *source;
 	CamelVeeFolder *vf;
 	GString *changed;
+	GQueue *queue;
 	guint changed_count;
 	gchar *uri;
 	GList *link;
@@ -639,14 +636,18 @@ mail_vfolder_delete_folder (EMailBackend *backend,
 	}
 
 done:
-	if ((link = mv_find_folder (source_folders_remote, session, uri)) != NULL) {
+	queue = &source_folders_remote;
+	link = mv_find_folder (queue, session, uri);
+	if (link != NULL) {
 		g_free (link->data);
-		source_folders_remote = g_list_remove_link (source_folders_remote, link);
+		g_queue_delete_link (queue, link);
 	}
 
-	if ((link = mv_find_folder (source_folders_local, session, uri)) != NULL) {
+	queue = &source_folders_local;
+	link = mv_find_folder (queue, session, uri);
+	if (link != NULL) {
 		g_free (link->data);
-		source_folders_local = g_list_remove_link (source_folders_local, link);
+		g_queue_delete_link (queue, link);
 	}
 
 	G_UNLOCK (vfolder);
@@ -761,13 +762,13 @@ mail_vfolder_rename_folder (CamelStore *store,
 GList *
 mail_vfolder_get_sources_local (void)
 {
-	return source_folders_local;
+	return g_queue_peek_head_link (&source_folders_local);
 }
 
 GList *
 mail_vfolder_get_sources_remote (void)
 {
-	return source_folders_remote;
+	return g_queue_peek_head_link (&source_folders_remote);
 }
 
 /* ********************************************************************** */
@@ -776,7 +777,7 @@ static void context_rule_added (ERuleContext *ctx, EFilterRule *rule);
 
 static void
 rule_add_sources (EMailSession *session,
-                  GList *l,
+                  GQueue *queue,
                   GList **sources_folderp,
                   GList **sources_urip)
 {
@@ -784,11 +785,13 @@ rule_add_sources (EMailSession *session,
 	GList *sources_uri = *sources_urip;
 	MailFolderCache *folder_cache;
 	CamelFolder *newfolder;
+	GList *head, *link;
 
 	folder_cache = e_mail_session_get_folder_cache (session);
 
-	while (l) {
-		const gchar *uri = l->data;
+	head = g_queue_peek_head_link (queue);
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		const gchar *uri = link->data;
 
 		if (mail_folder_cache_get_folder_from_uri (
 			folder_cache, uri, &newfolder)) {
@@ -799,7 +802,6 @@ rule_add_sources (EMailSession *session,
 				sources_uri = g_list_append (
 					sources_uri, g_strdup (uri));
 		}
-		l = l->next;
 	}
 
 	*sources_folderp = sources_folder;
@@ -849,7 +851,7 @@ rule_changed (EFilterRule *rule, CamelFolder *folder)
 
 	/* find any (currently available) folders, and add them to the ones to open */
 	rule_add_sources (
-		session, ((EMVFolderRule *) rule)->sources,
+		session, &((EMVFolderRule *) rule)->sources,
 		&sources_folder, &sources_uri);
 
 	G_LOCK (vfolder);
@@ -858,14 +860,14 @@ rule_changed (EFilterRule *rule, CamelFolder *folder)
 			((EMVFolderRule *) rule)->with ==
 			EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
 		rule_add_sources (
-			session, source_folders_local,
+			session, &source_folders_local,
 			&sources_folder, &sources_uri);
 	if (((EMVFolderRule *) rule)->with ==
 			EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE ||
 			((EMVFolderRule *) rule)->with ==
 			EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
 		rule_add_sources (
-			session, source_folders_remote,
+			session, &source_folders_remote,
 			&sources_folder, &sources_uri);
 	G_UNLOCK (vfolder);
 

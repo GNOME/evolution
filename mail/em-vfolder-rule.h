@@ -67,7 +67,7 @@ struct _EMVFolderRule {
 	EMVFolderRulePrivate *priv;
 
 	em_vfolder_rule_with_t with;
-	GList *sources;		/* uri's of the source folders */
+	GQueue sources;		/* uri's of the source folders */
 };
 
 struct _EMVFolderRuleClass {
