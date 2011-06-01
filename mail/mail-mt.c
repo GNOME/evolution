@@ -153,7 +153,8 @@ mail_msg_ref (gpointer msg)
 	g_return_val_if_fail (mail_msg != NULL, msg);
 	g_return_val_if_fail (mail_msg->ref_count > 0, msg);
 
-	g_atomic_int_add (&mail_msg->ref_count, 1);
+	g_atomic_int_inc (&mail_msg->ref_count);
+
 	return msg;
 }
 
@@ -165,31 +166,31 @@ mail_msg_unref (gpointer msg)
 	g_return_if_fail (mail_msg != NULL);
 	g_return_if_fail (mail_msg->ref_count > 0);
 
-	if (g_atomic_int_add (&mail_msg->ref_count, -1) > 1)
-		return;
+	if (g_atomic_int_dec_and_test (&mail_msg->ref_count)) {
 
 #ifdef MALLOC_CHECK
-	checkmem (mail_msg);
-	checkmem (mail_msg->cancel);
-	checkmem (mail_msg->priv);
+		checkmem (mail_msg);
+		checkmem (mail_msg->cancel);
+		checkmem (mail_msg->priv);
 #endif
-	d(printf("Free message %p\n", msg));
+		d(printf("Free message %p\n", msg));
 
-	if (mail_msg->info->free)
-		mail_msg->info->free (mail_msg);
+		if (mail_msg->info->free)
+			mail_msg->info->free (mail_msg);
 
-	g_mutex_lock (mail_msg_lock);
+		g_mutex_lock (mail_msg_lock);
 
-	g_hash_table_remove (
-		mail_msg_active_table,
-		GINT_TO_POINTER (mail_msg->seq));
-	g_cond_broadcast (mail_msg_cond);
+		g_hash_table_remove (
+			mail_msg_active_table,
+			GINT_TO_POINTER (mail_msg->seq));
+		g_cond_broadcast (mail_msg_cond);
 
-	g_mutex_unlock (mail_msg_lock);
+		g_mutex_unlock (mail_msg_lock);
 
-	/* Destroy the message from an idle callback
-	 * so we know we're in the main loop thread. */
-	g_idle_add ((GSourceFunc) mail_msg_free, mail_msg);
+		/* Destroy the message from an idle callback
+		 * so we know we're in the main loop thread. */
+		g_idle_add ((GSourceFunc) mail_msg_free, mail_msg);
+	}
 }
 
 void

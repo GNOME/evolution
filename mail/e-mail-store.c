@@ -104,7 +104,7 @@ store_info_ref (StoreInfo *store_info)
 	g_return_val_if_fail (store_info != NULL, store_info);
 	g_return_val_if_fail (store_info->ref_count > 0, store_info);
 
-	g_atomic_int_add (&store_info->ref_count, 1);
+	g_atomic_int_inc (&store_info->ref_count);
 
 	return store_info;
 }
@@ -115,19 +115,19 @@ store_info_unref (StoreInfo *store_info)
 	g_return_if_fail (store_info != NULL);
 	g_return_if_fail (store_info->ref_count > 0);
 
-	if (g_atomic_int_add (&store_info->ref_count, -1) > 1)
-		return;
+	if (g_atomic_int_dec_and_test (&store_info->ref_count)) {
 
-	g_object_unref (store_info->store);
-	g_free (store_info->display_name);
+		g_object_unref (store_info->store);
+		g_free (store_info->display_name);
 
-	if (store_info->vtrash != NULL)
-		g_object_unref (store_info->vtrash);
+		if (store_info->vtrash != NULL)
+			g_object_unref (store_info->vtrash);
 
-	if (store_info->vjunk != NULL)
-		g_object_unref (store_info->vjunk);
+		if (store_info->vjunk != NULL)
+			g_object_unref (store_info->vjunk);
 
-	g_slice_free (StoreInfo, store_info);
+		g_slice_free (StoreInfo, store_info);
+	}
 }
 
 static void
