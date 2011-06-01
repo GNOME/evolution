@@ -145,9 +145,10 @@ static void
 vfolder_rule_finalize (GObject *object)
 {
 	EMVFolderRule *rule = EM_VFOLDER_RULE (object);
+	gchar *uri;
 
-	g_list_foreach (rule->sources, (GFunc) g_free, NULL);
-	g_list_free (rule->sources);
+	while ((uri = g_queue_pop_head (&rule->sources)) != NULL)
+		g_free (uri);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_vfolder_rule_parent_class)->finalize (object);
@@ -221,7 +222,7 @@ em_vfolder_rule_add_source (EMVFolderRule *rule,
 	g_return_if_fail (EM_IS_VFOLDER_RULE (rule));
 	g_return_if_fail (uri);
 
-	rule->sources = g_list_append (rule->sources, g_strdup (uri));
+	g_queue_push_tail (&rule->sources, g_strdup (uri));
 
 	e_filter_rule_emit_changed (E_FILTER_RULE (rule));
 }
@@ -230,20 +231,16 @@ const gchar *
 em_vfolder_rule_find_source (EMVFolderRule *rule,
                              const gchar *uri)
 {
-	GList *l;
+	GList *link;
 
 	g_return_val_if_fail (EM_IS_VFOLDER_RULE (rule), NULL);
 
 	/* only does a simple string or address comparison, should
 	   probably do a decoded url comparison */
-	l = rule->sources;
-	while (l) {
-		if (l->data == uri || !strcmp (l->data, uri))
-			return l->data;
-		l = l->next;
-	}
+	link = g_queue_find_custom (
+		&rule->sources, uri, (GCompareFunc) strcmp);
 
-	return NULL;
+	return (link != NULL) ? link->data : NULL;
 }
 
 void
@@ -255,8 +252,8 @@ em_vfolder_rule_remove_source (EMVFolderRule *rule,
 	g_return_if_fail (EM_IS_VFOLDER_RULE (rule));
 
 	found =(gchar *) em_vfolder_rule_find_source (rule, uri);
-	if (found) {
-		rule->sources = g_list_remove (rule->sources, found);
+	if (found != NULL) {
+		g_queue_remove (&rule->sources, found);
 		g_free (found);
 		e_filter_rule_emit_changed (E_FILTER_RULE (rule));
 	}
@@ -266,22 +263,19 @@ const gchar *
 em_vfolder_rule_next_source (EMVFolderRule *rule,
                              const gchar *last)
 {
-	GList *node;
+	GList *link;
 
 	if (last == NULL) {
-		node = rule->sources;
+		link = g_queue_peek_head_link (&rule->sources);
 	} else {
-		node = g_list_find (rule->sources, (gchar *) last);
-		if (node == NULL)
-			node = rule->sources;
+		link = g_queue_find (&rule->sources, last);
+		if (link == NULL)
+			link = g_queue_peek_head_link (&rule->sources);
 		else
-			node = g_list_next (node);
+			link = g_list_next (link);
 	}
 
-	if (node)
-		return (const gchar *) node->data;
-
-	return NULL;
+	return (link != NULL) ? link->data : NULL;
 }
 
 static gint
@@ -299,7 +293,7 @@ validate (EFilterRule *fr, EAlert **alert)
 	/* We have to have at least one source set in the "specific" case.
 	   Do not translate this string! */
 	if (((EMVFolderRule *) fr)->with == EM_VFOLDER_RULE_WITH_SPECIFIC &&
-		((EMVFolderRule *) fr)->sources == NULL) {
+		g_queue_is_empty (&((EMVFolderRule *) fr)->sources)) {
 		if (alert)
 			*alert = e_alert_new ("mail:vfolder-no-source", NULL);
 		return 0;
@@ -309,26 +303,35 @@ validate (EFilterRule *fr, EAlert **alert)
 }
 
 static gint
-list_eq (GList *al, GList *bl)
+queue_eq (GQueue *queue_a, GQueue *queue_b)
 {
+	GList *link_a;
+	GList *link_b;
 	gint truth = TRUE;
 
-	while (truth && al && bl) {
-		gchar *a = al->data, *b = bl->data;
+	link_a = g_queue_peek_head_link (queue_a);
+	link_b = g_queue_peek_head_link (queue_b);
 
-		truth = strcmp (a, b)== 0;
-		al = al->next;
-		bl = bl->next;
+	while (truth && link_a != NULL && link_b != NULL) {
+		gchar *uri_a = link_a->data;
+		gchar *uri_b = link_b->data;
+
+		truth = (strcmp (uri_a, uri_b)== 0);
+
+		link_a = g_list_next (link_a);
+		link_b = g_list_next (link_b);
 	}
 
-	return truth && al == NULL && bl == NULL;
+	return truth && link_a == NULL && link_b == NULL;
 }
 
 static gint
 vfolder_eq (EFilterRule *fr, EFilterRule *cm)
 {
 	return E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->eq (fr, cm)
-		&& list_eq (((EMVFolderRule *) fr)->sources, ((EMVFolderRule *) cm)->sources);
+		&& queue_eq (
+			&((EMVFolderRule *) fr)->sources,
+			&((EMVFolderRule *) cm)->sources);
 }
 
 static xmlNodePtr
@@ -336,7 +339,7 @@ xml_encode (EFilterRule *fr)
 {
 	EMVFolderRule *vr =(EMVFolderRule *) fr;
 	xmlNodePtr node, set, work;
-	GList *l;
+	GList *head, *link;
 
 	node = E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->xml_encode (fr);
 	g_return_val_if_fail (node != NULL, NULL);
@@ -345,12 +348,14 @@ xml_encode (EFilterRule *fr)
 	set = xmlNewNode(NULL, (const guchar *)"sources");
 	xmlAddChild (node, set);
 	xmlSetProp(set, (const guchar *)"with", (guchar *)with_names[vr->with]);
-	l = vr->sources;
-	while (l) {
-		work = xmlNewNode(NULL, (const guchar *)"folder");
-		xmlSetProp(work, (const guchar *)"uri", (guchar *)l->data);
+
+	head = g_queue_peek_head_link (&vr->sources);
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		const gchar *uri = link->data;
+
+		work = xmlNewNode (NULL, (const guchar *) "folder");
+		xmlSetProp (work, (const guchar *) "uri", (guchar *) uri);
 		xmlAddChild (set, work);
-		l = l->next;
 	}
 
 	return node;
@@ -404,7 +409,7 @@ xml_decode (EFilterRule *fr, xmlNodePtr node, struct _ERuleContext *f)
 				if (!strcmp((gchar *)work->name, "folder")) {
 					tmp = (gchar *)xmlGetProp(work, (const guchar *)"uri");
 					if (tmp) {
-						vr->sources = g_list_append (vr->sources, g_strdup (tmp));
+						g_queue_push_tail (&vr->sources, g_strdup (tmp));
 						xmlFree (tmp);
 					}
 				}
@@ -420,23 +425,19 @@ static void
 rule_copy (EFilterRule *dest, EFilterRule *src)
 {
 	EMVFolderRule *vdest, *vsrc;
-	GList *node;
+	GList *head, *link;
+	gchar *uri;
 
 	vdest =(EMVFolderRule *) dest;
 	vsrc =(EMVFolderRule *) src;
 
-	if (vdest->sources) {
-		g_list_foreach (vdest->sources, (GFunc) g_free, NULL);
-		g_list_free (vdest->sources);
-		vdest->sources = NULL;
-	}
+	while ((uri = g_queue_pop_head (&vdest->sources)) != NULL)
+		g_free (uri);
 
-	node = vsrc->sources;
-	while (node) {
-		gchar *uri = node->data;
-
-		vdest->sources = g_list_append (vdest->sources, g_strdup (uri));
-		node = node->next;
+	head = g_queue_peek_head_link (&vsrc->sources);
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		const gchar *uri = link->data;
+		g_queue_push_tail (&vdest->sources, g_strdup (uri));
 	}
 
 	vdest->with = vsrc->with;
@@ -569,8 +570,7 @@ vfr_folder_response (EMFolderSelector *selector,
 		GtkTreeSelection *selection;
 		GtkTreeIter iter;
 
-		data->vr->sources = g_list_append (
-			data->vr->sources, g_strdup (uri));
+		g_queue_push_tail (&data->vr->sources, g_strdup (uri));
 
 		gtk_list_store_append (data->model, &iter);
 		urinice = format_source (uri);
