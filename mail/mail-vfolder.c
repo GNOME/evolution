@@ -416,7 +416,7 @@ folder_is_spethal (CamelStore *store,
 
 /**
  * mail_vfolder_add_folder:
- * @session: an #EMailSession
+ * @backend: an #EMailBackend
  * @store: a #CamelStore
  * @folder: a folder name
  * @remove: whether the folder should be removed or added
@@ -433,11 +433,12 @@ folder_is_spethal (CamelStore *store,
  * NOTE: This function must be called from the main thread.
  */
 static void
-mail_vfolder_add_folder (EMailSession *session,
+mail_vfolder_add_folder (EMailBackend *backend,
                          CamelStore *store,
                          const gchar *folder_name,
                          gint remove)
 {
+	EMailSession *session;
 	EFilterRule *rule;
 	const gchar *source;
 	CamelVeeFolder *vf;
@@ -446,6 +447,8 @@ mail_vfolder_add_folder (EMailSession *session,
 	gint remote;
 	gint is_ignore;
 	gchar *uri;
+
+	session = e_mail_backend_get_session (backend);
 
 	provider = camel_service_get_provider (CAMEL_SERVICE (store));
 	remote = (provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
@@ -1018,18 +1021,18 @@ static void
 folder_available_cb (MailFolderCache *cache,
                      CamelStore *store,
                      const gchar *folder_name,
-                     EMailSession *session)
+                     EMailBackend *backend)
 {
-	mail_vfolder_add_folder (session, store, folder_name, FALSE);
+	mail_vfolder_add_folder (backend, store, folder_name, FALSE);
 }
 
 static void
 folder_unavailable_cb (MailFolderCache *cache,
                        CamelStore *store,
                        const gchar *folder_name,
-                       EMailSession *session)
+                       EMailBackend *backend)
 {
-	mail_vfolder_add_folder (session, store, folder_name, TRUE);
+	mail_vfolder_add_folder (backend, store, folder_name, TRUE);
 }
 
 static void
@@ -1156,10 +1159,10 @@ vfolder_load_storage (EMailBackend *backend)
 
 	g_signal_connect (
 		folder_cache, "folder-available",
-		G_CALLBACK (folder_available_cb), session);
+		G_CALLBACK (folder_available_cb), backend);
 	g_signal_connect (
 		folder_cache, "folder-unavailable",
-		G_CALLBACK (folder_unavailable_cb), session);
+		G_CALLBACK (folder_unavailable_cb), backend);
 	g_signal_connect (
 		folder_cache, "folder-deleted",
 		G_CALLBACK (folder_deleted_cb), backend);
