@@ -40,7 +40,6 @@
 #include <table/e-cell-text.h>
 #include <table/e-cell-combo.h>
 #include <table/e-cell-date.h>
-#include <misc/e-popup-menu.h>
 #include <table/e-cell-date-edit.h>
 #include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>

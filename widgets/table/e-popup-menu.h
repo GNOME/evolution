@@ -29,12 +29,11 @@
 
 G_BEGIN_DECLS
 
-#define E_POPUP_SEPARATOR  { (gchar *) "", NULL, (NULL), NULL, 0 }
-#define E_POPUP_TERMINATOR { NULL, NULL, (NULL), NULL, 0 }
+#define E_POPUP_SEPARATOR  { (gchar *) "", NULL, (NULL), 0 }
+#define E_POPUP_TERMINATOR { NULL, NULL, (NULL), 0 }
 
 #define E_POPUP_ITEM(name,fn,disable_mask) \
-	{ (gchar *) (name), NULL, (fn), NULL, \
-	  (disable_mask), NULL, NULL, 0, 0, 0, 0 }
+	{ (gchar *) (name), NULL, (fn), (disable_mask) }
 
 typedef struct _EPopupMenu EPopupMenu;
 
@@ -42,25 +41,9 @@ struct _EPopupMenu {
 	gchar *name;
 	gchar *pixname;
 	GCallback fn;
-
-	EPopupMenu *submenu;
 	guint32 disable_mask;
-
-	/* Added post 0.19 */
-	GtkWidget *pixmap_widget;
-	gpointer closure;
-
-	guint is_toggle : 1;
-	guint is_radio : 1;
-	guint is_active : 1;
-
-	guint use_custom_closure : 1;
 };
 
-GtkMenu *	e_popup_menu_create		(EPopupMenu *menu_list,
-						 guint32 disable_mask,
-						 guint32 hide_mask,
-						 gpointer default_closure);
 GtkMenu *	e_popup_menu_create_with_domain	(EPopupMenu *menu_list,
 						 guint32 disable_mask,
 						 guint32 hide_mask,

@@ -34,7 +34,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <text/e-text.h>
 #include <misc/e-canvas-utils.h>
-#include <misc/e-popup-menu.h>
 #include <e-util/e-unicode.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 #include <glib/gi18n.h>

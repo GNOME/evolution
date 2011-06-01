@@ -36,8 +36,8 @@
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
 #include "misc/e-canvas.h"
-#include "misc/e-popup-menu.h"
 
+#include "e-popup-menu.h"
 #include "e-table.h"
 #include "e-table-col-dnd.h"
 #include "e-table-config.h"
