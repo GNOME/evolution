@@ -21,7 +21,8 @@ libevolution_module_addressbook_la_CPPFLAGS =			\
 	-DPREFIX=\""$(prefix)"\"				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)				\
-	$(LDAP_CFLAGS)
+	$(LDAP_CFLAGS)						\
+	$(CHAMPLAIN_CFLAGS)
 
 libevolution_module_addressbook_la_SOURCES = \
 	evolution-module-addressbook.c				\

@@ -105,6 +105,11 @@ gboolean	e_book_shell_content_get_preview_visible
 void		e_book_shell_content_set_preview_visible
 					(EBookShellContent *book_shell_content,
 					 gboolean preview_visible);
+gboolean	e_book_shell_content_get_preview_show_maps
+					(EBookShellContent *book_shell_content);
+void		e_book_shell_content_set_preview_show_maps
+					(EBookShellContent *book_shell_content,
+					 gboolean show_maps);
 EShellSearchbar *
 		e_book_shell_content_get_searchbar
 					(EBookShellContent *book_shell_content);

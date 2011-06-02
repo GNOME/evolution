@@ -125,6 +125,18 @@
          <long>Whether to show the preview pane.</long>
       </locale>
     </schema>
+    
+    <schema>
+      <key>/schemas/apps/evolution/addressbook/display/preview_show_maps</key>
+      <applyto>/apps/evolution/addressbook/display/preview_show_maps</applyto>
+      <owner>evolution-addressbook</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+      	<short>Show maps</short>
+      	<long>Whether to show maps in preview pane.</long>
+      </locale>
+    </schema>
 
   </schemalist>
 </gconfschemafile>

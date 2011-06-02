@@ -43,6 +43,10 @@
 	E_SHELL_WINDOW_ACTION ((window), "address-book-save-as")
 #define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_STOP(window) \
 	E_SHELL_WINDOW_ACTION ((window), "address-book-stop")
+#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_MAP(window) \
+	E_SHELL_WINDOW_ACTION ((window), "address-book-map")
+#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_POPUP_MAP(window) \
+	E_SHELL_WINDOW_ACTION ((window), "address-book-popup-map")
 
 /* Contact Actions */
 #define E_SHELL_WINDOW_ACTION_CONTACT_COPY(window) \
@@ -63,6 +67,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "contact-open")
 #define E_SHELL_WINDOW_ACTION_CONTACT_PREVIEW(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-preview")
+#define E_SHELL_WINDOW_ACTION_CONTACT_PREVIEW_SHOW_MAPS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-preview-show-maps")
 #define E_SHELL_WINDOW_ACTION_CONTACT_PRINT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-print")
 #define E_SHELL_WINDOW_ACTION_CONTACT_SAVE_AS(window) \

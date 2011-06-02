@@ -28,6 +28,7 @@
       <placeholder name='view-custom-menus'>
         <menu action='contact-preview-menu'>
           <menuitem action='contact-preview'/>
+          <menuitem action='contact-preview-show-maps'/>
           <separator/>
           <menuitem action='contact-view-classic'/>
           <menuitem action='contact-view-vertical'/>
@@ -45,6 +46,8 @@
         <separator/>
         <menuitem action='address-book-copy'/>
         <menuitem action='address-book-move'/>
+        <separator/>
+        <menuitem action='address-book-map'/>
         <separator/>
         <menuitem action='address-book-properties'/>
       </menu>
@@ -64,6 +67,9 @@
     <separator/>
     <menuitem action='address-book-popup-delete'/>
     <placeholder name='address-book-popup-actions'/>
+    <separator/>
+    <separator/>
+    <menuitem action='address-book-popup-map'/>
     <separator/>
     <menuitem action='address-book-popup-properties'/>
   </popup>

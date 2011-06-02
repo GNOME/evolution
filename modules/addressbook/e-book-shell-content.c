@@ -41,6 +41,7 @@ struct _EBookShellContentPrivate {
 
 	GtkOrientation orientation;
 
+	gboolean preview_show_maps;
 	guint preview_visible	: 1;
 };
 
@@ -49,7 +50,8 @@ enum {
 	PROP_CURRENT_VIEW,
 	PROP_ORIENTATION,
 	PROP_PREVIEW_CONTACT,
-	PROP_PREVIEW_VISIBLE
+	PROP_PREVIEW_VISIBLE,
+	PROP_PREVIEW_SHOW_MAPS
 };
 
 static gpointer parent_class;
@@ -144,6 +146,12 @@ book_shell_content_set_property (GObject *object,
 				E_BOOK_SHELL_CONTENT (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_PREVIEW_SHOW_MAPS:
+			e_book_shell_content_set_preview_show_maps (
+				E_BOOK_SHELL_CONTENT (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -181,6 +189,13 @@ book_shell_content_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_book_shell_content_get_preview_visible (
+				E_BOOK_SHELL_CONTENT (object)));
+			return;
+
+		case PROP_PREVIEW_SHOW_MAPS:
+			g_value_set_boolean (
+				value,
+				e_book_shell_content_get_preview_show_maps (
 				E_BOOK_SHELL_CONTENT (object)));
 			return;
 	}
@@ -265,9 +280,18 @@ book_shell_content_constructed (GObject *object)
 		EAB_CONTACT_DISPLAY (widget),
 		priv->orientation);
 
+	eab_contact_display_set_show_maps (
+		EAB_CONTACT_DISPLAY (widget),
+		priv->preview_show_maps);
+
 	g_object_bind_property (
 		object, "orientation",
 		widget, "orientation",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		object, "preview-show-maps",
+		widget, "show-maps",
 		G_BINDING_SYNC_CREATE);
 
 	gtk_widget_show (widget);
@@ -448,6 +472,16 @@ book_shell_content_class_init (EBookShellContentClass *class)
 
 	g_object_class_override_property (
 		object_class, PROP_ORIENTATION, "orientation");
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PREVIEW_SHOW_MAPS,
+		g_param_spec_boolean (
+			"preview-show-maps",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 }
 
 static void
@@ -684,6 +718,26 @@ e_book_shell_content_set_preview_visible (EBookShellContent *book_shell_content,
 	book_shell_content->priv->preview_visible = preview_visible;
 
 	g_object_notify (G_OBJECT (book_shell_content), "preview-visible");
+}
+
+gboolean
+e_book_shell_content_get_preview_show_maps (EBookShellContent *book_shell_content)
+{
+	g_return_val_if_fail (
+		E_IS_BOOK_SHELL_CONTENT (book_shell_content), FALSE);
+
+	return book_shell_content->priv->preview_show_maps;
+}
+
+void
+e_book_shell_content_set_preview_show_maps (EBookShellContent *book_shell_content,
+                                            gboolean show_maps)
+{
+	g_return_if_fail (E_IS_BOOK_SHELL_CONTENT (book_shell_content));
+
+	book_shell_content->priv->preview_show_maps = show_maps;
+
+	g_object_notify (G_OBJECT (book_shell_content), "preview-show-maps");
 }
 
 EShellSearchbar *
