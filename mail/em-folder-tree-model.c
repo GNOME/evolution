@@ -637,9 +637,6 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	guint unread;
 	GtkTreePath *path;
 	GtkTreeIter sub;
-	gboolean load = FALSE;
-	gboolean is_drafts = FALSE;
-	gboolean is_templates = FALSE;
 	CamelFolder *folder;
 	gboolean emitted = FALSE;
 	const gchar *uid;
@@ -647,6 +644,10 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	const gchar *display_name;
 	guint32 flags, add_flags = 0;
 	EMEventTargetCustomIcon *target;
+	gboolean load = FALSE;
+	gboolean folder_is_drafts = FALSE;
+	gboolean folder_is_outbox = FALSE;
+	gboolean folder_is_templates = FALSE;
 	gchar *uri;
 
 	/* Make sure we don't already know about it. */
@@ -686,9 +687,10 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	unread = fi->unread;
 	if (mail_folder_cache_get_folder_from_uri (
 		folder_cache, uri, &folder) && folder) {
-		is_drafts = em_utils_folder_is_drafts (folder);
+		folder_is_drafts = em_utils_folder_is_drafts (folder);
+		folder_is_outbox = em_utils_folder_is_outbox (folder);
 
-		if (is_drafts || em_utils_folder_is_outbox (folder)) {
+		if (folder_is_drafts || folder_is_outbox) {
 			gint total;
 
 			if ((total = camel_folder_get_message_count (folder)) > 0) {
@@ -709,10 +711,10 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 
 	if (si->store == e_mail_local_get_store ()) {
 		if (strcmp (fi->full_name, "Drafts") == 0) {
-			is_drafts = TRUE;
+			folder_is_drafts = TRUE;
 			display_name = _("Drafts");
 		} else if (strcmp (fi->full_name, "Templates") == 0) {
-			is_templates = TRUE;
+			folder_is_templates = TRUE;
 			display_name = _("Templates");
 		} else if (strcmp (fi->full_name, "Inbox") == 0) {
 			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) |
@@ -730,8 +732,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	}
 
 	if (account != NULL && (flags & CAMEL_FOLDER_TYPE_MASK) == 0) {
-		if (!is_drafts && account->drafts_folder_uri != NULL) {
-			is_drafts = e_mail_folder_uri_equal (
+		if (!folder_is_drafts && account->drafts_folder_uri != NULL) {
+			folder_is_drafts = e_mail_folder_uri_equal (
 				CAMEL_SESSION (session), uri,
 				account->drafts_folder_uri);
 		}
@@ -749,9 +751,9 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	icon_name = em_folder_utils_get_icon_name (flags | add_flags);
 
 	if (g_str_equal (icon_name, "folder")) {
-		if (is_drafts)
+		if (folder_is_drafts)
 			icon_name = "accessories-text-editor";
-		else if (is_templates)
+		else if (folder_is_templates)
 			icon_name = "text-x-generic-template";
 	}
 
@@ -767,7 +769,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		COL_BOOL_IS_FOLDER, TRUE,
 		COL_BOOL_LOAD_SUBDIRS, load,
 		COL_UINT_UNREAD_LAST_SEL, 0,
-		COL_BOOL_IS_DRAFT, is_drafts,
+		COL_BOOL_IS_DRAFT, folder_is_drafts,
 		-1);
 
 	target = em_event_target_new_custom_icon (
