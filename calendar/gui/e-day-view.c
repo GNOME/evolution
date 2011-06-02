@@ -559,7 +559,7 @@ day_view_constructed (GObject *object)
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 
 	g_signal_connect_swapped (
-		model, "notify::time-divisions",
+		day_view, "notify::time-divisions",
 		G_CALLBACK (day_view_notify_time_divisions_cb), day_view);
 
 	g_signal_connect_swapped (
