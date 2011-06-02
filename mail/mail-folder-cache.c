@@ -262,16 +262,26 @@ update_1folder (MailFolderCache *self,
 
 	folder = mfi->folder;
 	if (folder) {
-		gboolean is_drafts = FALSE, is_outbox = FALSE;
+		gboolean folder_is_sent;
+		gboolean folder_is_drafts;
+		gboolean folder_is_outbox;
+		gboolean folder_is_vtrash;
+		gboolean special_case;
 
-		d(printf("update 1 folder '%s'\n", folder->full_name));
-		if ((self->priv->count_trash && (CAMEL_IS_VTRASH_FOLDER (folder)))
-		    || (is_drafts = em_utils_folder_is_drafts (folder))
-		    || (is_outbox = em_utils_folder_is_outbox (folder))
-		    || (self->priv->count_sent && em_utils_folder_is_sent (folder))) {
+		folder_is_sent = em_utils_folder_is_sent (folder);
+		folder_is_drafts = em_utils_folder_is_drafts (folder);
+		folder_is_outbox = em_utils_folder_is_outbox (folder);
+		folder_is_vtrash = CAMEL_IS_VTRASH_FOLDER (folder);
+
+		special_case =
+			(self->priv->count_trash && folder_is_vtrash) ||
+			(self->priv->count_sent && folder_is_sent) ||
+			folder_is_drafts || folder_is_outbox;
+
+		if (special_case) {
 			d(printf(" total count\n"));
 			unread = camel_folder_get_message_count (folder);
-			if (is_drafts || is_outbox) {
+			if (folder_is_drafts || folder_is_outbox) {
 				guint32 junked = 0;
 
 				if ((deleted = camel_folder_get_deleted_message_count (folder)) > 0)

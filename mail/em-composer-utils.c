@@ -1227,13 +1227,20 @@ em_utils_edit_message (EShell *shell,
                        const gchar *message_uid)
 {
 	EMsgComposer *composer;
+	gboolean folder_is_drafts;
+	gboolean folder_is_outbox;
+	gboolean folder_is_templates;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
+	folder_is_drafts = em_utils_folder_is_drafts (folder);
+	folder_is_outbox = em_utils_folder_is_outbox (folder);
+	folder_is_templates = em_utils_folder_is_templates (folder);
+
 	/* Template specific code follows. */
-	if (em_utils_folder_is_templates (folder)) {
+	if (folder_is_templates) {
 		CamelDataWrapper *content;
 		GConfClient *gconf;
 		GSList *clue_list = NULL;
@@ -1254,9 +1261,10 @@ em_utils_edit_message (EShell *shell,
 
 	composer = e_msg_composer_new_with_message (shell, message, NULL);
 
-	e_msg_composer_remove_header (composer, "X-Evolution-Replace-Outbox-UID");
+	e_msg_composer_remove_header (
+		composer, "X-Evolution-Replace-Outbox-UID");
 
-	if (message_uid != NULL && em_utils_folder_is_drafts (folder)) {
+	if (message_uid != NULL && folder_is_drafts) {
 		gchar *folder_uri;
 
 		folder_uri = e_mail_folder_uri_from_folder (folder);
@@ -1265,8 +1273,11 @@ em_utils_edit_message (EShell *shell,
 			composer, folder_uri, message_uid);
 
 		g_free (folder_uri);
-	} else if (message_uid != NULL && em_utils_folder_is_outbox (folder)) {
-		e_msg_composer_set_header (composer, "X-Evolution-Replace-Outbox-UID", message_uid);
+
+	} else if (message_uid != NULL && folder_is_outbox) {
+		e_msg_composer_set_header (
+			composer, "X-Evolution-Replace-Outbox-UID",
+			message_uid);
 	}
 
 	composer_set_no_change (composer);
