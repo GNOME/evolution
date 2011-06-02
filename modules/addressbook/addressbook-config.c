@@ -699,7 +699,7 @@ port_entry_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
 	const gchar *port = gtk_entry_get_text ((GtkEntry *)w);
 
 	if (!strcmp (port, LDAPS_PORT_STRING)) {
-		sdialog->ssl = ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
+		sdialog->ssl = ADDRESSBOOK_LDAP_SSL_ALWAYS;
 		gtk_combo_box_set_active (GTK_COMBO_BOX (sdialog->ssl_combobox), sdialog->ssl);
 		gtk_widget_set_sensitive (sdialog->ssl_combobox, FALSE);
 	} else {
