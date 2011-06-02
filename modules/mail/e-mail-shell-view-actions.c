@@ -626,6 +626,7 @@ action_mail_label_cb (GtkToggleAction *action,
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
+	camel_folder_freeze (folder);
 	for (ii = 0; ii < uids->len; ii++) {
 		if (gtk_toggle_action_get_active (action))
 			camel_folder_set_message_user_flag (
@@ -637,6 +638,7 @@ action_mail_label_cb (GtkToggleAction *action,
 				folder, uids->pdata[ii], "label", NULL);
 		}
 	}
+	camel_folder_thaw (folder);
 
 	em_utils_uids_free (uids);
 }
