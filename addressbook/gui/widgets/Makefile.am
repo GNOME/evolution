@@ -1,5 +1,5 @@
 ruledir = $(privdatadir)
-rule_DATA = addresstypes.xml
+rule_DATA = addresstypes.xml address_formats.dat countrytransl.map
 
 noinst_LTLIBRARIES = libeabwidgets.la
 
