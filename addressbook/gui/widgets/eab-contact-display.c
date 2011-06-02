@@ -32,10 +32,15 @@
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-plugin-ui.h"
 
+#ifdef WITH_CONTACT_MAPS
+#include "widgets/misc/e-contact-map.h"
+#endif
+
 #include <string.h>
 #include <glib/gi18n.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
+#include <gtkhtml/gtkhtml-embedded.h>
 
 #define TEXT_IS_RIGHT_TO_LEFT \
 	(gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
@@ -44,13 +49,15 @@ struct _EABContactDisplayPrivate {
 	EContact *contact;
 	EABContactDisplayMode mode;
 	GtkOrientation orientation;
+	gboolean show_maps;
 };
 
 enum {
 	PROP_0,
 	PROP_CONTACT,
 	PROP_MODE,
-	PROP_ORIENTATION
+	PROP_ORIENTATION,
+	PROP_SHOW_MAPS
 };
 
 enum {
@@ -183,6 +190,34 @@ static GtkActionEntry internal_mailto_entries[] = {
 };
 
 static void
+render_address_link (GString *buffer, EContact *contact, int map_type)
+{
+	EContactAddress *adr;
+	GString *link = g_string_new ("");
+
+	adr = e_contact_get (contact, map_type);
+	if (adr &&
+	    (adr->street || adr->locality || adr->region || adr->country)) {
+
+		if (adr->street && *adr->street) g_string_append_printf (link, "%s, ", adr->street);
+		if (adr->locality && *adr->locality) g_string_append_printf (link, "%s, ", adr->locality);
+		if (adr->region && *adr->region) g_string_append_printf (link, "%s, ", adr->region);
+		if (adr->country && *adr->country) g_string_append_printf (link, "%s", adr->country);
+
+		g_string_assign (link, g_uri_escape_string (link->str, NULL, TRUE));
+
+		g_string_prepend (link, "<a href=\"http://maps.google.com?q=");
+		g_string_append_printf (link, "\">%s</a>", _("Open map"));
+	}
+
+	if (adr)
+		e_contact_address_free (adr);
+
+	g_string_append (buffer, link->str);
+	g_string_free (link, TRUE);
+}
+
+static void
 accum_address (GString *buffer,
                EContact *contact,
                const gchar *html_label,
@@ -191,17 +226,21 @@ accum_address (GString *buffer,
 {
 	EContactAddress *adr;
 	const gchar *label;
+	GString *map_link = g_string_new ("<br>");
+
+	render_address_link (map_link, contact, adr_field);
 
 	label = e_contact_get_const (contact, label_field);
 	if (label) {
 		gchar *html = e_text_to_html (label, E_TEXT_TO_HTML_CONVERT_NL);
 
 		if (TEXT_IS_RIGHT_TO_LEFT)
-			g_string_append_printf (buffer, "<tr><td align=\"right\" valign=\"top\" nowrap>%s</td><td valign=\"top\" width=\"100\" align=\"right\"><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td></tr>", html, html_label);
+			g_string_append_printf (buffer, "<tr><td align=\"right\" valign=\"top\" nowrap>%s</td><td valign=\"top\" width=\"100\" align=\"right\" nowrap><font color=" HEADER_COLOR ">%s:</font>%s</td><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td></tr>", html, html_label, map_link->str);
 		else
-			g_string_append_printf (buffer, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\" nowrap>%s</td></tr>", html_label, html);
+			g_string_append_printf (buffer, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\" nowrap><font color=" HEADER_COLOR ">%s:</font>%s</td><td valign=\"top\" nowrap>%s</td></tr>", html_label, map_link->str, html);
 
 		g_free (html);
+		g_string_free (map_link, TRUE);
 		return;
 	}
 
@@ -211,7 +250,7 @@ accum_address (GString *buffer,
 		if (TEXT_IS_RIGHT_TO_LEFT)
 			g_string_append_printf (buffer, "<tr><td align=\"right\" valign=\"top\" nowrap>");
 		else
-			g_string_append_printf (buffer, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\" nowrap>", html_label);
+			g_string_append_printf (buffer, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font>%s</td><td valign=\"top\" nowrap>", html_label, map_link->str);
 
 		if (adr->po && *adr->po) g_string_append_printf (buffer, "%s<br>", adr->po);
 		if (adr->ext && *adr->ext) g_string_append_printf (buffer, "%s<br>", adr->ext);
@@ -222,12 +261,14 @@ accum_address (GString *buffer,
 		if (adr->country && *adr->country) g_string_append_printf (buffer, "%s<br>", adr->country);
 
 		if (TEXT_IS_RIGHT_TO_LEFT)
-			g_string_append_printf (buffer, "</td><td valign=\"top\" width=\"100\" align=\"right\"><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td></tr>", html_label);
+			g_string_append_printf (buffer, "</td><td valign=\"top\" width=\"100\" align=\"right\"><font color=" HEADER_COLOR ">%s:</font>%s</td><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td></tr>", html_label, map_link->str);
 		else
 			g_string_append_printf (buffer, "</td></tr>");
 	}
 	if (adr)
 		e_contact_address_free (adr);
+
+	g_string_free (map_link, TRUE);
 }
 
 static void
@@ -602,7 +643,19 @@ render_note_block (GString *buffer, EContact *contact)
 }
 
 static void
-render_contact_horizontal (GString *buffer, EContact *contact)
+render_address_map (GString *buffer, EContact *contact, int map_type)
+{
+#ifdef WITH_CONTACT_MAPS
+	if (map_type == E_CONTACT_ADDRESS_WORK) {
+		g_string_append (buffer, "<object classid=\"address-map-work\"></object>");
+ 	 } else {
+ 		g_string_append (buffer, "<object classid=\"address-map-home\"></object>");
+ 	 }
+#endif
+}
+
+static void
+render_contact_horizontal (GString *buffer, EContact *contact, gboolean show_maps)
 {
 	g_string_append (buffer, "<table border=\"0\">");
 	render_title_block (buffer, contact);
@@ -611,7 +664,15 @@ render_contact_horizontal (GString *buffer, EContact *contact)
 	g_string_append (buffer, "<table border=\"0\">");
 	render_contact_block (buffer, contact);
 	render_work_block (buffer, contact);
+	g_string_append (buffer, "<tr><td></td><td colspan=\"2\">");
+	if (show_maps)
+		render_address_map (buffer, contact, E_CONTACT_ADDRESS_WORK);
+	g_string_append (buffer, "<br></td></tr>");
 	render_personal_block (buffer, contact);
+	g_string_append (buffer, "<tr><td></td><td colspan=\"2\">");
+	if (show_maps)
+		render_address_map (buffer, contact, E_CONTACT_ADDRESS_HOME);
+	g_string_append (buffer, "<br></td></tr>");
 	g_string_append (buffer, "</table>");
 
 	g_string_append (buffer, "<table border=\"0\">");
@@ -620,7 +681,7 @@ render_contact_horizontal (GString *buffer, EContact *contact)
 }
 
 static void
-render_contact_vertical (GString *buffer, EContact *contact)
+render_contact_vertical (GString *buffer, EContact *contact, gboolean show_maps)
 {
 	/* First row: photo & name */
 	g_string_append (buffer, "<tr><td colspan=\"3\">");
@@ -640,12 +701,16 @@ render_contact_vertical (GString *buffer, EContact *contact)
 	g_string_append (buffer, "<td width=\"30\"></td><td valign=\"top\"><table border=\"0\">");
 	render_work_block (buffer, contact);
 	g_string_append (buffer, "</table>");
+	if (show_maps)
+		render_address_map (buffer, contact, E_CONTACT_ADDRESS_WORK);
 	g_string_append (buffer, "</td>");
 
 	/* Third column: Personal */
 	g_string_append (buffer, "<td width=\"30\"></td><td valign=\"top\"><table border=\"0\">");
 	render_personal_block (buffer, contact);
 	g_string_append (buffer, "</table>");
+	if (show_maps)
+		render_address_map (buffer, contact, E_CONTACT_ADDRESS_HOME);
 	g_string_append (buffer, "</td>");
 
 	/* Third row: note */
@@ -657,12 +722,12 @@ render_contact_vertical (GString *buffer, EContact *contact)
 }
 
 static void
-render_contact (GString *buffer, EContact *contact, GtkOrientation orientation)
+render_contact (GString *buffer, EContact *contact, GtkOrientation orientation, gboolean show_maps)
 {
 	if (orientation == GTK_ORIENTATION_VERTICAL)
-		render_contact_vertical (buffer, contact);
+		render_contact_vertical (buffer, contact, show_maps);
 	else
-		render_contact_horizontal (buffer, contact);
+		render_contact_horizontal (buffer, contact, show_maps);
 }
 
 static void
@@ -686,7 +751,7 @@ eab_contact_display_render_normal (EABContactDisplay *display,
 		if (e_contact_get (contact, E_CONTACT_IS_LIST))
 			render_contact_list (buffer, contact);
 		else
-			render_contact (buffer, contact, orientation);
+			render_contact (buffer, contact, orientation, display->priv->show_maps);
 
 	}
 
@@ -910,6 +975,12 @@ contact_display_set_property (GObject *object,
 				EAB_CONTACT_DISPLAY (object),
 				g_value_get_int (value));
 			return;
+
+		case PROP_SHOW_MAPS:
+			eab_contact_display_set_show_maps (
+				EAB_CONTACT_DISPLAY (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -933,9 +1004,16 @@ contact_display_get_property (GObject *object,
 				value, eab_contact_display_get_mode (
 				EAB_CONTACT_DISPLAY (object)));
 			return;
+
 		case PROP_ORIENTATION:
 			g_value_set_int (
 				value, eab_contact_display_get_orientation (
+				EAB_CONTACT_DISPLAY (object)));
+			return;
+
+		case PROP_SHOW_MAPS:
+			g_value_set_boolean (
+				value, eab_contact_display_get_show_maps (
 				EAB_CONTACT_DISPLAY (object)));
 			return;
 	}
@@ -1086,6 +1164,55 @@ contact_display_link_clicked (EWebView *web_view,
 	E_WEB_VIEW_CLASS (parent_class)->link_clicked (web_view, uri);
 }
 
+#ifdef WITH_CONTACT_MAPS
+/**
+ * Clutter event handling workaround. Clutter-gtk propagates events down to parent widgets.
+ * In this case it leads to GtkHTML scrolling up and down while user's trying to zoom in the
+ * champlain widget. This workaround stops the propagation from map widget down to GtkHTML
+ */
+static gboolean
+handle_map_scroll_event (GtkWidget *widget, GdkEvent *event)
+{
+	return TRUE;
+}
+
+static void
+contact_display_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, EABContactDisplay *display)
+{
+    	EContact *contact = display->priv->contact;
+    	const gchar *name = e_contact_get_const (contact, E_CONTACT_FILE_AS);
+    	const gchar *contact_uid = e_contact_get_const (contact, E_CONTACT_UID);
+    	gchar *full_name;
+    	EContactAddress *address;
+
+	if (g_ascii_strcasecmp (eb->classid, "address-map-work") == 0) {
+		address = e_contact_get (contact, E_CONTACT_ADDRESS_WORK);
+		full_name = g_strconcat (name, " (", _("Work"), ")", NULL);
+	} else {
+		address = e_contact_get (contact, E_CONTACT_ADDRESS_HOME);
+		full_name = g_strconcat (name, " (", _("Home"), ")", NULL);
+	}
+
+	if (address) {
+	    	GtkWidget *map = e_contact_map_new ();
+		gtk_container_add (GTK_CONTAINER (eb), map);
+		gtk_widget_set_size_request (map, 250, 250);
+		g_signal_connect (E_CONTACT_MAP (map), "contact-added",
+			G_CALLBACK (e_contact_map_zoom_on_marker), NULL);
+		g_signal_connect_swapped (E_CONTACT_MAP (map), "contact-added",
+			G_CALLBACK (gtk_widget_show_all), map);
+		g_signal_connect (GTK_CHAMPLAIN_EMBED (map), "scroll-event",
+			G_CALLBACK (handle_map_scroll_event), NULL);
+
+				/* No need to display photo in contact preview ------------------v */
+		e_contact_map_add_marker (E_CONTACT_MAP (map), full_name, contact_uid, address, NULL);
+	}
+
+	g_free (full_name);
+	e_contact_address_free (address);
+}
+#endif
+
 static void
 contact_display_update_actions (EWebView *web_view)
 {
@@ -1174,6 +1301,16 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 			GTK_ORIENTATION_HORIZONTAL,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property	(
+		object_class,
+		PROP_SHOW_MAPS,
+		g_param_spec_boolean (
+			"show-maps",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
 	signals[SEND_MESSAGE] = g_signal_new (
 		"send-message",
 		G_OBJECT_CLASS_TYPE (class),
@@ -1198,9 +1335,15 @@ eab_contact_display_init (EABContactDisplay *display)
 		display, EAB_TYPE_CONTACT_DISPLAY, EABContactDisplayPrivate);
 	display->priv->mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
 	display->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
+	display->priv->show_maps = FALSE;
 
 	web_view = E_WEB_VIEW (display);
 	ui_manager = e_web_view_get_ui_manager (web_view);
+
+#ifdef WITH_CONTACT_MAPS
+	g_signal_connect (web_view, "object-requested",
+       	G_CALLBACK (contact_display_object_requested), display);
+#endif
 
 	action_group = gtk_action_group_new ("internal-mailto");
 	gtk_action_group_set_translation_domain (action_group, domain);
@@ -1351,4 +1494,37 @@ eab_contact_display_set_orientation (EABContactDisplay *display, GtkOrientation 
 	}
 
 	g_object_notify (G_OBJECT (display), "orientation");
+}
+
+gboolean
+eab_contact_display_get_show_maps (EABContactDisplay *display)
+{
+	g_return_val_if_fail (EAB_IS_CONTACT_DISPLAY (display), FALSE);
+
+	return display->priv->show_maps;
+}
+
+void
+eab_contact_display_set_show_maps (EABContactDisplay *display, gboolean show_maps)
+{
+	EABContactDisplayMode mode;
+	EContact *contact;
+
+	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
+
+	display->priv->show_maps = show_maps;
+	contact = eab_contact_display_get_contact (display);
+	mode = eab_contact_display_get_mode (display);
+
+	switch (mode) {
+		case EAB_CONTACT_DISPLAY_RENDER_NORMAL:
+			eab_contact_display_render_normal (display, contact);
+			break;
+
+		case EAB_CONTACT_DISPLAY_RENDER_COMPACT:
+			eab_contact_display_render_compact (display, contact);
+			break;
+	}
+
+	g_object_notify (G_OBJECT (display), "show-maps");
 }

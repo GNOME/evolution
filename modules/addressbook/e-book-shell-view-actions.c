@@ -29,6 +29,10 @@
 #include <e-util/e-util.h>
 #include <filter/e-filter-rule.h>
 
+#ifdef WITH_CONTACT_MAPS
+#include <widgets/misc/e-contact-map-window.h>
+#endif
+
 #include <addressbook-config.h>
 
 static void
@@ -209,6 +213,118 @@ action_address_book_properties_cb (GtkAction *action,
 	}
 
 	gtk_window_present (GTK_WINDOW (closure->editor));
+}
+
+#ifdef WITH_CONTACT_MAPS
+static void
+contact_editor_contact_modified_cb (EABEditor *editor,
+				    const GError *error,
+				    EContact *contact,
+				    gpointer user_data)
+{
+	EContactMapWindow *window = user_data;
+	EContactMap *map;
+	const gchar *contact_uid;
+
+	if (error) {
+		g_warning ("Error modifying contact: %s", error->message);
+		return;
+	}
+
+	map = e_contact_map_window_get_map (window);
+
+	contact_uid = e_contact_get_const (contact, E_CONTACT_UID);
+
+	e_contact_map_remove_contact (map, contact_uid);
+	e_contact_map_add_contact (map, contact);
+}
+
+static void
+map_window_show_contact_editor_cb (EContactMapWindow *window,
+				   const gchar *contact_uid,
+			  	   gpointer user_data)
+{
+	EShell *shell = e_shell_get_default();
+	EBookShellView *book_shell_view = user_data;
+	EBookShellSidebar *book_shell_sidebar;
+	ESource *source;
+	ESourceSelector *selector;
+	EBook *book;
+	EContact *contact;
+	EABEditor *editor;
+	GError *error = NULL;
+
+	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
+	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
+	source = e_source_selector_get_primary_selection (selector);
+
+	g_return_if_fail (source != NULL);
+	book = e_book_new (source, &error);
+	if (error) {
+		g_warning ("Error loading addressbook: %s", error->message);
+		g_error_free (error);
+		g_object_unref (book);
+		return;
+	}
+
+	e_book_get_contact (book, contact_uid, &contact, &error);
+	if (error) {
+		g_warning ("Error getting contact from addressbook: %s", error->message);
+		g_error_free (error);
+		g_object_unref (book);
+		return;
+	}
+
+	editor = e_contact_editor_new (shell, book, contact, FALSE, TRUE);
+
+	g_signal_connect (editor, "contact-modified",
+		G_CALLBACK (contact_editor_contact_modified_cb), window);
+	g_signal_connect_swapped (editor, "editor-closed",
+		G_CALLBACK (g_object_unref), editor);
+
+	eab_editor_show (editor);
+	g_object_unref (book);
+}
+#endif
+
+/* We need this function to he defined all the time. */
+static void
+action_address_book_map_cb (GtkAction *action,
+			    EBookShellView *book_shell_view)
+{
+#ifdef WITH_CONTACT_MAPS
+	EContactMapWindow *map_window;
+        EBookShellSidebar *book_shell_sidebar;
+        ESource *source;
+        ESourceSelector *selector;
+        EBook *book;
+        GError *error = NULL;
+
+        book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
+        selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
+        source = e_source_selector_get_primary_selection (selector);
+
+        g_return_if_fail (source != NULL);
+        book = e_book_new (source, &error);
+        if (error != NULL) {
+		g_warning ("Error loading addressbook: %s", error->message);
+                g_error_free (error);
+		return;
+	}
+
+	map_window = e_contact_map_window_new ();
+	e_contact_map_window_load_addressbook (map_window, book);
+
+	/* Free the map_window automatically when it is closed */
+	g_signal_connect_swapped (GTK_WIDGET (map_window), "hide",
+		G_CALLBACK (gtk_widget_destroy), GTK_WIDGET (map_window));
+	g_signal_connect (map_window, "show-contact-editor",
+		G_CALLBACK (map_window_show_contact_editor_cb), book_shell_view);
+
+	gtk_widget_show_all (GTK_WIDGET (map_window));
+
+	g_object_unref (book);
+#endif
 }
 
 static void
@@ -503,6 +619,18 @@ action_contact_preview_cb (GtkToggleAction *action,
 }
 
 static void
+action_contact_preview_show_maps_cb (GtkToggleAction *action,
+                                     EBookShellView *book_shell_view)
+{
+	EBookShellContent *book_shell_content;
+	gboolean show_maps;
+
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	show_maps = gtk_toggle_action_get_active (action);
+	e_book_shell_content_set_preview_show_maps (book_shell_content, show_maps);
+}
+
+static void
 action_contact_print_cb (GtkAction *action,
                          EBookShellView *book_shell_view)
 {
@@ -714,6 +842,13 @@ static GtkActionEntry contact_entries[] = {
 	  N_("Show properties of the selected address book"),
 	  G_CALLBACK (action_address_book_properties_cb) },
 
+	{ "address-book-map",
+	  NULL,
+	  N_("Address Book _Map"),
+	  NULL,
+	  N_("Show map with all contacts from selected address book"),
+	  G_CALLBACK (action_address_book_map_cb) },
+
 	{ "address-book-rename",
 	  NULL,
 	  N_("_Rename..."),
@@ -818,6 +953,10 @@ static EPopupActionEntry contact_popup_entries[] = {
 	  N_("_Properties"),
 	  "address-book-properties" },
 
+	{ "address-book-popup-map",
+	  N_("Addressbook Map"),
+	  "address-book-map" },
+
 	{ "address-book-popup-rename",
 	  NULL,
 	  "address-book-rename" },
@@ -851,7 +990,15 @@ static GtkToggleActionEntry contact_toggle_entries[] = {
 	  "<Control>m",
 	  N_("Show contact preview window"),
 	  G_CALLBACK (action_contact_preview_cb),
-	  TRUE }
+	  TRUE },
+
+	{ "contact-preview-show-maps",
+	  NULL,
+	  N_("Show _Maps"),
+	  NULL,
+	  N_("Show maps in contact preview window"),
+	  G_CALLBACK (action_contact_preview_show_maps_cb),
+	  FALSE }
 };
 
 static GtkRadioActionEntry contact_view_entries[] = {
@@ -1071,6 +1218,10 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	key = "/apps/evolution/addressbook/display/layout";
 	gconf_bridge_bind_property (bridge, key, object, "current-value");
 
+	object = G_OBJECT (ACTION (CONTACT_PREVIEW_SHOW_MAPS));
+	key = "/apps/evolution/addressbook/display/preview_show_maps";
+	gconf_bridge_bind_property (bridge, key, object, "active");
+
 	/* Fine tuning. */
 
 	g_signal_connect (
@@ -1087,9 +1238,20 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 		ACTION (CONTACT_VIEW_VERTICAL), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
+	g_object_bind_property (
+		ACTION (CONTACT_PREVIEW), "active",
+		ACTION (CONTACT_PREVIEW_SHOW_MAPS), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
 	e_web_view_set_open_proxy (web_view, ACTION (CONTACT_OPEN));
 	e_web_view_set_print_proxy (web_view, ACTION (CONTACT_PRINT));
 	e_web_view_set_save_as_proxy (web_view, ACTION (CONTACT_SAVE_AS));
+
+#ifndef WITH_CONTACT_MAPS
+	gtk_action_set_visible (ACTION (CONTACT_PREVIEW_SHOW_MAPS), FALSE);
+	gtk_action_set_visible (ACTION (ADDRESS_BOOK_MAP), FALSE);
+	gtk_action_set_visible (ACTION (ADDRESS_BOOK_POPUP_MAP), FALSE);
+#endif
 }
 
 void

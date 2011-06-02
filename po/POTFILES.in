@@ -304,8 +304,6 @@ plugins/calendar-http/calendar-http.c
 plugins/calendar-http/org-gnome-calendar-http.eplug.xml
 plugins/calendar-weather/calendar-weather.c
 plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml
-plugins/contacts-map/contacts-map.c
-plugins/contacts-map/org-gnome-contacts-map.eplug.xml
 plugins/dbx-import/dbx-importer.c
 plugins/dbx-import/org-gnome-dbx-import.eplug.xml
 plugins/default-source/default-source.c
@@ -431,6 +429,8 @@ widgets/misc/e-calendar.c
 widgets/misc/e-canvas-background.c
 widgets/misc/e-canvas-vbox.c
 widgets/misc/e-charset-combo-box.c
+widgets/misc/e-contact-map.c
+widgets/misc/e-contact-map-window.c
 widgets/misc/e-dateedit.c
 widgets/misc/e-focus-tracker.c
 widgets/misc/e-image-chooser.c

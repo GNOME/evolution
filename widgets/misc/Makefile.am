@@ -33,6 +33,9 @@ widgetsinclude_HEADERS =			\
 	e-cell-renderer-combo.h			\
 	e-charset-combo-box.h			\
 	e-combo-cell-editable.h			\
+	e-contact-map.h				\
+	e-contact-map-window.h			\
+	e-contact-marker.h			\
 	e-dateedit.h				\
 	e-focus-tracker.h			\
 	e-hinted-entry.h			\
@@ -79,7 +82,11 @@ libemiscwidgets_la_CPPFLAGS =						\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(EVOLUTION_MAIL_CFLAGS)					\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)					\
+	$(CHAMPLAIN_CFLAGS)						\
+	$(GEOCLUE_CFLAGS)						\
+	$(CLUTTER_CFLAGS)
+	
 
 libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
@@ -111,6 +118,9 @@ libemiscwidgets_la_SOURCES =			\
 	e-cell-renderer-combo.c			\
 	e-charset-combo-box.c			\
 	e-combo-cell-editable.c			\
+	e-contact-map.c				\
+	e-contact-map-window.c			\
+	e-contact-marker.c			\
 	e-dateedit.c				\
 	e-focus-tracker.c			\
 	e-hinted-entry.c			\
@@ -158,7 +168,10 @@ libemiscwidgets_la_LIBADD =					\
 	$(EVOLUTION_MAIL_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(MATH_LIB)						\
-	$(ICONV_LIBS)
+	$(ICONV_LIBS)						\
+	$(CHAMPLAIN_LIBS)					\
+	$(GEOCLUE_LIBS)						\
+	$(CLUTTER_LIBS)
 
 noinst_PROGRAMS = 			\
 	test-calendar			\

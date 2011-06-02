@@ -50,7 +50,7 @@ m4_define([libpst_minimum_version], [0.6.41])
 m4_define([libnotify_minimum_version], [0.5.1])
 
 dnl Optional Packages
-m4_define([champlain_minimum_version], [0.8])
+m4_define([champlain_minimum_version], [0.10])
 m4_define([clutter_gtk_minimum_version], [0.90])
 m4_define([geoclue_minimum_version], [0.11.1])
 m4_define([gladeui_minimum_version], [3.10.0])
@@ -1414,7 +1414,7 @@ dist_plugins_standard="$plugins_standard audio-inline image-inline pst-import"
 plugins_experimental_always="external-editor"
 
 plugins_experimental="$plugins_experimental_always $TNEF_ATTACHMENTS"
-dist_plugins_experimental="$plugins_experimental_always tnef-attachments contacts-map"
+dist_plugins_experimental="$plugins_experimental_always tnef-attachments"
 
 dnl ******************************************************************
 dnl The following plugins have additional library dependencies.
@@ -1462,42 +1462,42 @@ if test "x$enable_weather" = "xyes"; then
 	fi
 fi
 
-dnl ******************************************************
-dnl contacts-map plugin requires champlain-gtk and geoclue
-dnl N.B. The plugin is experimental so only require these
-dnl      packages if we are building experimental plugins.
-dnl ******************************************************
-if test "x$enable_plugins" = "xexperimental"; then
-	AC_ARG_ENABLE([contacts-map],
-		[AS_HELP_STRING([--enable-contacts-map],
-		[Enable contacts-map plugin @<:@default=yes@:>@])],
-		[enable_contacts_map="$enableval"], [enable_contacts_map=yes])
+dnl ********************************************************************
+dnl maps in contacts preview requires champlain-gtk, geoclue and clutter
+dnl ********************************************************************
+AC_ARG_ENABLE([contact-maps],
+	[AS_HELP_STRING([--enable-contact-maps],
+	[Enable contact maps @<:@default=no@:>@])],
+	[enable_contact_maps="$enableval"], [enable_contact_maps="no"])
 
-	if test "x$enable_contacts_map" = "xyes"; then
-		PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.8 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
-		AC_SUBST(CHAMPLAIN_CFLAGS)
-		AC_SUBST(CHAMPLAIN_LIBS)
-
-		if test "x$have_champlain" = "xno"; then
-			AC_MSG_ERROR([champlain-gtk-0.8 >= champlain_minimum_version is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
-		fi
-
-		PKG_CHECK_MODULES([GEOCLUE], [geoclue >= geoclue_minimum_version], [have_geoclue=yes], [have_geoclue=no])
-		AC_SUBST(GEOCLUE_CFLAGS)
-		AC_SUBST(GEOCLUE_LIBS)
-
-		if test "x$have_geoclue" = "xno"; then
-			AC_MSG_ERROR([geoclue is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
-		fi
-
-		PKG_CHECK_MODULES([CLUTTER_GTK], [clutter-gtk-1.0 >= clutter_gtk_minimum_version], [have_clutter_gtk="yes"], [have_clutter_gtk="no"] )
-
-		if test "x$have_clutter_gtk" = "xno"; then
-			AC_MSG_ERROR([clutter-gtk-1.0 is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
-		fi
-
-		plugins_standard="$plugins_standard contacts-map"
+if test "x$enable_contact_maps" = "xyes"; then
+	if test "x$with_clutter" = "xno"; then
+		AC_MSG_ERROR([Clutter is required for maps in contacts. Use --with-clutter=yes to enable clutter.])
 	fi
+
+	PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.10 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
+	AC_SUBST(CHAMPLAIN_CFLAGS)
+	AC_SUBST(CHAMPLAIN_LIBS)
+
+	if test "x$have_champlain" = "xno"; then
+		AC_MSG_ERROR([champlain-gtk-0.10 >= champlain_minimum_version is required for maps in contacts preview.])
+	fi
+
+	PKG_CHECK_MODULES([GEOCLUE], [geoclue >= geoclue_minimum_version], [have_geoclue=yes], [have_geoclue=no])
+	AC_SUBST(GEOCLUE_CFLAGS)
+	AC_SUBST(GEOCLUE_LIBS)
+
+	if test "x$have_geoclue" = "xno"; then
+		AC_MSG_ERROR([geoclue is required for maps in contacts preview.])
+	fi
+
+	PKG_CHECK_MODULES([CLUTTER_GTK], [clutter-gtk-1.0 >= clutter_gtk_minimum_version], [have_clutter_gtk="yes"], [have_clutter_gtk="no"] )
+
+	if test "x$have_clutter_gtk" = "xno"; then
+		AC_MSG_ERROR([clutter-gtk-1.0 is required for maps in contacts preview.])
+	fi
+
+	AC_DEFINE(WITH_CONTACT_MAPS, 1, [When defined contacts preview will contain maps])
 fi
 
 dnl *****************************************
@@ -1767,7 +1767,6 @@ plugins/templates/Makefile
 plugins/tnef-attachments/Makefile
 plugins/vcard-inline/Makefile
 plugins/webdav-account-setup/Makefile
-plugins/contacts-map/Makefile
 smclient/Makefile
 smime/Makefile
 smime/lib/Makefile

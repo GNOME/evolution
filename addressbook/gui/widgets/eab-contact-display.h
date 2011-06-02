@@ -93,6 +93,9 @@ void		eab_contact_display_set_orientation
 						(EABContactDisplay *display,
 						 GtkOrientation orientation);
 
+gboolean eab_contact_display_get_show_maps (EABContactDisplay *display);
+void eab_contact_display_set_show_maps (EABContactDisplay *display, gboolean display_maps);
+
 G_END_DECLS
 
 #endif /* EAB_CONTACT_DISPLAY_H */
