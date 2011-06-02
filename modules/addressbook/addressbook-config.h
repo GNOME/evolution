@@ -42,8 +42,8 @@ typedef enum {
 
 /* the order matches order of items in "ssl-combobox" */
 typedef enum {
-	ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE, /* SSL */
-	ADDRESSBOOK_LDAP_SSL_ALWAYS,		/* TLS */
+	ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE, /* TLS */
+	ADDRESSBOOK_LDAP_SSL_ALWAYS,		/* SSL */
 	ADDRESSBOOK_LDAP_SSL_NEVER		/* No encryption */
 } AddressbookLDAPSSLType;
 
