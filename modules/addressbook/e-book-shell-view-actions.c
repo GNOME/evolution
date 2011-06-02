@@ -954,7 +954,7 @@ static EPopupActionEntry contact_popup_entries[] = {
 	  "address-book-properties" },
 
 	{ "address-book-popup-map",
-	  N_("Addressbook Map"),
+	  N_("Address Book Map"),
 	  "address-book-map" },
 
 	{ "address-book-popup-rename",
