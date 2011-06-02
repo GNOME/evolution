@@ -1,0 +1,214 @@
+[at]
+AddressFormat=%0(%n\n)%0(%m\n)%0(Postfach %p\n)%0(%s\n)%0(%z)%w%l
+BusinessAddressFormat=%0(%m\n)%0(z.Hd. %n\n)%0(Postfach %p\n)%0(%s\n)%0(%z)%w%l
+CountryPosition=below
+
+[au]
+AddressFormat=%0(%n\n)%0(%m\n)%0(%s\n)%0(PO BOX %p\n)%0(%L%w%w%R%w%w)%z
+CountryPosition=BELOW
+
+[ax]
+AddressFormat=%0(%m\n)%0(%n\n)%0(PB %p\n)%0(%s\n)%z%w%L
+CountryPosition=BELOW
+
+[ca]
+AddressFormat=%0(%N\n)%0(%M\n)%0(%S\n)%0(PO BOX %p\n)%0(%L%w%R)%,%z
+CountryPosition=BELOW
+
+[ch]
+AddressFormat=%0(%m\n)%0(%n\n)%0(P.O. Box %p\n)%0(%s\n)%z%w%l
+CountryPosition=BELOW
+
+[ch_de]
+AddressFormat=%0(%m\n)%0(%n\n)%0(Postfach %p\n)%0(%s\n)%z%w%l
+
+[ch_fr]
+AddressFormat=%0(%m\n)%0(%n\n)%0(Case postale %p\n)%0(%s\n)%z%w%l
+
+[ch_it]
+AddressFormat=%0(%m\n)%0(%n\n)%0(Casella postale %p\n)%0(%s\n)%z%w%l
+
+[cz]
+AddressFormat=%0(%m\n)%0(%n\n)%0(p. p. %p\n)%0(%s\n)%z%w%w%l
+CountryPosition=below
+
+[de]
+AddressFormat=%0(%m\n)%0(%n\n)%0(Postfach %p\n)%0(%s\n)%z%w%l
+CountryPosition=BELOW
+
+[de_nds]
+AddressFormat=%0(%n\n)%0(- %m -\n)%0(Postfach %p\n)%0(%s\n)%z%w%l
+
+[dk]
+AddressFormat=%0(%n\n)%0(%m\n)%0(%s\n)%0(Postboks %p\n)%z%w%l
+CountryPosition=below
+
+[fi]
+AddressFormat=%0(%m\n)%0(%n\n)%0(PB %p\n)%0(%s\n)%z%w%L
+CountryPosition=BELOW
+
+[fr]
+AddressFormat=%0(%m\n)%0(%n\n)%0(%s\n)%0(BP %p\n)%z%w%L
+CountryPosition=BELOW
+
+[gl]
+AddressFormat=%0(%n\n)%0(%m\n)%0(%s\n)%0(Postboks %p\n)%z%w%l
+CountryPosition=below
+
+[hu]
+AddressFormat=%0(%n\n)%0(\n%l)%0(\n%s)%0(\nPF. %p)%0(\n%z)%0(\n%r)
+BusinessAddressFormat=%0(%n\n)%m\n%z%w%l%0(\n%s)%0(\nPF. %p)%0(\n%r)
+CountryPosition=below
+
+[il]
+AddressFormat=%0(%n\n)%0(%m\n)%0(ת.ד. %p\n)%0(%s\n)%0(%l%w%z)
+CountryPosition=BELOW
+
+[jp]
+AddressFormat=%0(%z%w%r)%w%l%0(\n%s)%0(\n%m)%0(\n%n)
+CountryPosition=ABOVE
+
+[kh]
+AddressFormat=%0(%m\n)%0(%n\n)%0(%s\n)%0(P.O. Box %p\n)%z%w%L%0(\n%r)
+CountryPosition=BELOW
+
+[me]
+AddressFormat=%0(%m\n)%0(%n\n)%0(%s\n)%0(poštanski fah %p\n)%z%w%l
+CountryPosition=BELOW
+
+[me_sr]
+AddressFormat=%0(%m\n)%0(%n\n)%0(%s\n)%0(поштански фах %p\n)%z%w%l
+
+[na]
+AddressFormat=%0(%m\n)%0(%n\n)%0(P.O. Box %p\n)%l
+
+[nl]
+AddressFormat=%n\n%0(%m\n)%0(Postbus %p\n)%0(%s\n)%z%w%l
+CountryPosition=below
+
+[no]
+AddressFormat=%0(%m\n)%0(%n\n)%0(Postboks %p\n)%0(%s\n)%z%w%w%L
+CountryPosition=BELOW
+
+[rs]
+AddressFormat=%0(%m\n)%0(%n\n)%0(%s\n)%0(поштански фах %p\n)%z%w%l
+CountryPosition=BELOW
+
+[rs_sr]
+AddressFormat=%0(%m\n)%0(%n\n)%0(%s\n)%0(poštanski fah %p\n)%z%w%l
+
+[se]
+AddressFormat=%n\n%0(%m\n)%0(Box %p\n)%0(%s\n)%z%w%w%L
+CountryPosition=below
+
+[us]
+AddressFormat=%0(%n\n)%0(%m\n)%0(%s\n)%0(PO BOX %p\n)%0(%l%,%w%r)%w%z
+CountryPosition=BELOW
+
+[at]
+AddressFormat=%0(%n\n)%0(%m\n)%0(Postfach %p\n)%0(%s\n)%0(%z)%w%l
+BusinessAddressFormat=%0(%m\n)%0(z.Hd. %n\n)%0(Postfach %p\n)%0(%s\n)%0(%z)%w%l
+CountryPosition=below
+
+[au]
+AddressFormat=%0(%n\n)%0(%m\n)%0(%s\n)%0(PO BOX %p\n)%0(%L%w%w%R%w%w)%z
+CountryPosition=BELOW
+
+[ax]
+AddressFormat=%0(%m\n)%0(%n\n)%0(PB %p\n)%0(%s\n)%z%w%L
+CountryPosition=BELOW
+
+[ca]
+AddressFormat=%0(%N\n)%0(%M\n)%0(%S\n)%0(PO BOX %p\n)%0(%L%w%R)%,%z
+CountryPosition=BELOW
+
+[ch]
+AddressFormat=%0(%m\n)%0(%n\n)%0(P.O. Box %p\n)%0(%s\n)%z%w%l
+CountryPosition=BELOW
+
+[ch_de]
+AddressFormat=%0(%m\n)%0(%n\n)%0(Postfach %p\n)%0(%s\n)%z%w%l
+
+[ch_fr]
+AddressFormat=%0(%m\n)%0(%n\n)%0(Case postale %p\n)%0(%s\n)%z%w%l
+
+[ch_it]
+AddressFormat=%0(%m\n)%0(%n\n)%0(Casella postale %p\n)%0(%s\n)%z%w%l
+
+[cz]
+AddressFormat=%0(%m\n)%0(%n\n)%0(p. p. %p\n)%0(%s\n)%z%w%w%l
+CountryPosition=below
+
+[de]
+AddressFormat=%0(%m\n)%0(%n\n)%0(Postfach %p\n)%0(%s\n)%z%w%l
+CountryPosition=BELOW
+
+[de_nds]
+AddressFormat=%0(%n\n)%0(- %m -\n)%0(Postfach %p\n)%0(%s\n)%z%w%l
+
+[dk]
+AddressFormat=%0(%n\n)%0(%m\n)%0(%s\n)%0(Postboks %p\n)%z%w%l
+CountryPosition=below
+
+[fi]
+AddressFormat=%0(%m\n)%0(%n\n)%0(PB %p\n)%0(%s\n)%z%w%L
+CountryPosition=BELOW
+
+[fr]
+AddressFormat=%0(%m\n)%0(%n\n)%0(%s\n)%0(BP %p\n)%z%w%L
+CountryPosition=BELOW
+
+[gl]
+AddressFormat=%0(%n\n)%0(%m\n)%0(%s\n)%0(Postboks %p\n)%z%w%l
+CountryPosition=below
+
+[hu]
+AddressFormat=%0(%n\n)%0(\n%l)%0(\n%s)%0(\nPF. %p)%0(\n%z)%0(\n%r)
+BusinessAddressFormat=%0(%n\n)%m\n%z%w%l%0(\n%s)%0(\nPF. %p)%0(\n%r)
+CountryPosition=below
+
+[il]
+AddressFormat=%0(%n\n)%0(%m\n)%0(ת.ד. %p\n)%0(%s\n)%0(%l%w%z)
+CountryPosition=BELOW
+
+[jp]
+AddressFormat=%0(%z%w%r)%w%l%0(\n%s)%0(\n%m)%0(\n%n)
+CountryPosition=ABOVE
+
+[kh]
+AddressFormat=%0(%m\n)%0(%n\n)%0(%s\n)%0(P.O. Box %p\n)%z%w%L%0(\n%r)
+CountryPosition=BELOW
+
+[me]
+AddressFormat=%0(%m\n)%0(%n\n)%0(%s\n)%0(poštanski fah %p\n)%z%w%l
+CountryPosition=BELOW
+
+[me_sr]
+AddressFormat=%0(%m\n)%0(%n\n)%0(%s\n)%0(поштански фах %p\n)%z%w%l
+
+[na]
+AddressFormat=%0(%m\n)%0(%n\n)%0(P.O. Box %p\n)%l
+
+[nl]
+AddressFormat=%n\n%0(%m\n)%0(Postbus %p\n)%0(%s\n)%z%w%l
+CountryPosition=below
+
+[no]
+AddressFormat=%0(%m\n)%0(%n\n)%0(Postboks %p\n)%0(%s\n)%z%w%w%L
+CountryPosition=BELOW
+
+[rs]
+AddressFormat=%0(%m\n)%0(%n\n)%0(%s\n)%0(поштански фах %p\n)%z%w%l
+CountryPosition=BELOW
+
+[rs_sr]
+AddressFormat=%0(%m\n)%0(%n\n)%0(%s\n)%0(poštanski fah %p\n)%z%w%l
+
+[se]
+AddressFormat=%n\n%0(%m\n)%0(Box %p\n)%0(%s\n)%z%w%w%L
+CountryPosition=below
+
+[us]
+AddressFormat=%0(%n\n)%0(%m\n)%0(%s\n)%0(PO BOX %p\n)%0(%l%,%w%r)%w%z
+CountryPosition=BELOW
+

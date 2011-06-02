@@ -2247,7 +2247,16 @@ set_address_label (EContact *contact,
 {
 	gchar *address_label = NULL;
 
-	if (address) {
+	if (!address) {
+		e_contact_set (contact, field, NULL);
+		return;
+	}
+
+	address_label = eab_format_address (contact,
+				(field == E_CONTACT_ADDRESS_LABEL_WORK) ? E_CONTACT_ADDRESS_WORK :
+									  E_CONTACT_ADDRESS_HOME);
+
+	if (!address_label) {
 		address_label = append_to_address_label (
 			address_label, address->street, TRUE);
 		address_label = append_to_address_label (

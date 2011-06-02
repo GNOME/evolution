@@ -58,6 +58,10 @@ gboolean	eab_parse_qp_email		(const gchar *string,
 						 gchar **email);
 gchar *		eab_parse_qp_email_to_html	(const gchar *string);
 
+
+gchar *		eab_format_address		(EContact *contact,
+						 EContactField address_type);
+
 G_END_DECLS
 
 #endif /* __E_ADDRESSBOOK_UTIL_H__ */

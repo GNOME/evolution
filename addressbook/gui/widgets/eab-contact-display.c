@@ -521,7 +521,9 @@ render_contact_block (GString *buffer, EContact *contact)
 		g_free (mail);
 	}
 	g_list_foreach (email_list, (GFunc) g_free, NULL);
+	g_list_foreach (email_attr_list, (GFunc) e_vcard_attribute_free, NULL);
 	g_list_free (email_list);
+	g_list_free (email_attr_list);
 
 	if (accum->len) {
 
