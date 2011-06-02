@@ -591,6 +591,35 @@ composer_set_no_change (EMsgComposer *composer)
 	gtkhtml_editor_set_changed (editor, FALSE);
 }
 
+/* delete original messages from Outbox folder */
+static void
+manage_x_evolution_replace_outbox (EMsgComposer *composer, CamelMimeMessage *message, GCancellable *cancellable)
+{
+	const gchar *message_uid;
+	CamelFolder *outbox;
+
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (message != NULL);
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	message_uid = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Replace-Outbox-UID");
+	e_msg_composer_remove_header (composer, "X-Evolution-Replace-Outbox-UID");
+
+	if (!message_uid)
+		return;
+
+	outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
+	g_return_if_fail (outbox != NULL);
+
+	camel_folder_set_message_flags (
+		outbox, message_uid,
+		CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
+		CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
+
+	/* ignore errors here */
+	camel_folder_synchronize_message_sync (outbox, message_uid, cancellable, NULL);
+}
+
 static void
 composer_save_to_drafts_complete (EMailSession *session,
                                   GAsyncResult *result,
@@ -687,6 +716,8 @@ composer_save_to_drafts_append_mail (AsyncContext *context,
 
 	camel_message_info_set_flags (
 		info, CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN, ~0);
+
+	camel_medium_remove_header (CAMEL_MEDIUM (context->message), "X-Evolution-Replace-Outbox-UID");
 
 	e_mail_folder_append_message (
 		drafts_folder, context->message,
@@ -812,6 +843,9 @@ composer_save_to_outbox_completed (CamelFolder *outbox_folder,
 		g_error_free (error);
 		goto exit;
 	}
+
+	/* special processing for Outbox folder */
+	manage_x_evolution_replace_outbox (context->composer, context->message, e_activity_get_cancellable (context->activity));
 
 	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
 
@@ -1220,6 +1254,8 @@ em_utils_edit_message (EShell *shell,
 
 	composer = e_msg_composer_new_with_message (shell, message, NULL);
 
+	e_msg_composer_remove_header (composer, "X-Evolution-Replace-Outbox-UID");
+
 	if (message_uid != NULL && em_utils_folder_is_drafts (folder)) {
 		gchar *folder_uri;
 
@@ -1229,6 +1265,8 @@ em_utils_edit_message (EShell *shell,
 			composer, folder_uri, message_uid);
 
 		g_free (folder_uri);
+	} else if (message_uid != NULL && em_utils_folder_is_outbox (folder)) {
+		e_msg_composer_set_header (composer, "X-Evolution-Replace-Outbox-UID", message_uid);
 	}
 
 	composer_set_no_change (composer);
