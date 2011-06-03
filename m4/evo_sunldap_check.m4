@@ -57,7 +57,7 @@ AC_DEFUN([EVO_SUNLDAP_CHECK], [
 		       AC_MSG_ERROR([evolution requires SunLDAP version >= 2])
 		fi
 
-		AC_CHECK_LIB(resolv, res_query, [LDAP_LIBS="-lresolv"])
+		AC_CHECK_LIB(resolv, res_query, [LDAP_LIBS="-lresolv"], [AC_CHECK_LIB(resolv, __res_query, [LDAP_LIBS="-lresolv"])])
 		AC_CHECK_LIB(socket, bind, [LDAP_LIBS="$LDAP_LIBS -lsocket"])
 		AC_CHECK_LIB(nsl, gethostbyaddr, [LDAP_LIBS="$LDAP_LIBS -lnsl"])
 		AC_CHECK_LIB(ldap, ldap_open, [
