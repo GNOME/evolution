@@ -145,6 +145,7 @@
                                   <object class="GtkEntry" id="entry-fullname">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="name">fullname</property>
                                     <accessibility>
                                       <relation type="labelled-by" target="button-fullname"/>
                                     </accessibility>
@@ -221,6 +222,7 @@
                                   <object class="GtkEntry" id="entry-nickname">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="name">nickname</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">3</property>
@@ -260,6 +262,7 @@
                                     <property name="has-entry">True</property>
                                     <property name="entry-text-column">0</property>
                                     <property name="model">model1</property>
+                                    <property name="name">file-as</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -315,6 +318,7 @@
                                       <object class="GtkEntry" id="entry-email-3">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
+                                        <property name="name">email-3</property>
                                       </object>
                                       <packing>
                                         <property name="left_attach">1</property>
@@ -328,6 +332,7 @@
                                       <object class="GtkEntry" id="entry-email-1">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
+                                        <property name="name">email-1</property>
                                       </object>
                                       <packing>
                                         <property name="left_attach">1</property>
@@ -339,6 +344,7 @@
                                       <object class="GtkEntry" id="entry-email-2">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
+                                        <property name="name">email-2</property>
                                       </object>
                                       <packing>
                                         <property name="left_attach">3</property>
@@ -350,6 +356,7 @@
                                       <object class="GtkEntry" id="entry-email-4">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
+                                        <property name="name">email-4</property>
                                       </object>
                                       <packing>
                                         <property name="left_attach">3</property>

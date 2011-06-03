@@ -641,6 +641,8 @@ name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	editor->name = e_contact_name_from_string (string);
 	file_as_set_style (editor, style);
 
+	editor->check_merge = TRUE;
+
 	sensitize_ok (editor);
 	if (string && !*string)
 		gtk_window_set_title (GTK_WINDOW (editor->app), _("Contact Editor"));
@@ -740,6 +742,19 @@ object_changed (GObject *object, EContactEditor *editor)
 	if (!editor->target_editable) {
 		g_warning ("non-editable contact editor has an editable field in it.");
 		return;
+	}
+
+	if (!editor->check_merge && GTK_IS_WIDGET (object)) {
+		const gchar *widget_name;
+
+		widget_name = gtk_widget_get_name (GTK_WIDGET (object));
+
+		if (widget_name &&
+		    ((g_str_equal (widget_name, "fullname")) ||
+		     (g_str_equal (widget_name, "nickname")) ||
+		     (g_str_equal (widget_name, "file-as")) ||
+		     (g_str_has_prefix (widget_name, "email-"))))
+			editor->check_merge = TRUE;
 	}
 
 	if (!editor->changed) {
@@ -3441,9 +3456,12 @@ real_save_contact (EContactEditor *ce, gboolean should_close)
 			eab_merging_book_add_contact (
 				ce->target_book, ce->contact,
 				(EBookIdAsyncCallback) contact_added_cb, ecs);
-		else
+		else if (ce->check_merge)
 			eab_merging_book_commit_contact (
 				ce->target_book, ce->contact,
+				(EBookAsyncCallback) contact_modified_cb, ecs);
+		else
+			e_book_commit_contact_async (ce->target_book, ce->contact,
 				(EBookAsyncCallback) contact_modified_cb, ecs);
 	}
 }
@@ -3814,6 +3832,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	e_contact_editor->contact = NULL;
 	e_contact_editor->changed = FALSE;
+	e_contact_editor->check_merge = FALSE;
 	e_contact_editor->image_set = FALSE;
 	e_contact_editor->image_changed = FALSE;
 	e_contact_editor->in_async_call = FALSE;
