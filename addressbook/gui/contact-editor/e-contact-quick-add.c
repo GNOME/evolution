@@ -322,11 +322,11 @@ clicked_cb (GtkWidget *w, gint button, gpointer closure)
 
 		e_contact_set (
 			qa->contact, E_CONTACT_FULL_NAME,
-			(gpointer) (name != NULL) ? name : "");
+			(name != NULL) ? name : "");
 
 		e_contact_set (
 			qa->contact, E_CONTACT_EMAIL_1,
-			(gpointer) (email != NULL) ? email : "");
+			(email != NULL) ? email : "");
 
 		g_free (name);
 		g_free (email);
