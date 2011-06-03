@@ -75,6 +75,9 @@ struct _EContactEditor
 	/* Whether the contact has been changed since bringing up the contact editor */
 	guint changed : 1;
 
+	/* Wheter should check for contact to merge. Only when name or email are changed */
+	guint check_merge : 1;
+
 	/* Whether the contact editor will accept modifications, save */
 	guint target_editable : 1;
 
