@@ -284,6 +284,7 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 	gtk_window_set_title (GTK_WINDOW (browser), title);
 	gtk_widget_grab_focus (GTK_WIDGET (web_view));
 
+	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	camel_folder_free_message_info (folder, info);
 }
 
