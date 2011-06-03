@@ -771,7 +771,7 @@ e_mail_session_send_to (EMailSession *session,
 	/* Failure here emits a runtime warning but is non-fatal. */
 	context->driver = camel_session_get_filter_driver (
 		CAMEL_SESSION (session), E_FILTER_SOURCE_OUTGOING, &error);
-	if (context->driver != NULL)
+	if (context->driver != NULL && get_folder_func)
 		camel_filter_driver_set_folder_func (
 			context->driver, get_folder_func, get_folder_data);
 	if (error != NULL) {
