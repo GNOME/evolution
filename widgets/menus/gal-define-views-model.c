@@ -142,8 +142,12 @@ gdvm_set_value_at (ETableModel *etc, gint col, gint row, gconstpointer val)
 {
 	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL (etc);
 	if (views->editable) {
+		GalView *view;
+
+		view = gal_view_collection_get_view (views->collection, row);
+
 		e_table_model_pre_change (etc);
-		gal_view_set_title (gal_view_collection_get_view (views->collection, row), val);
+		gal_view_set_title (view, val);
 		e_table_model_cell_changed (etc, col, row);
 	}
 }

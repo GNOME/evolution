@@ -542,7 +542,9 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 			layout = pango_cairo_create_layout (cr);
 			pango_layout_set_text (layout, buffer, -1);
 			pango_layout_get_pixel_size (layout, &minute_width, NULL);
-			cairo_translate (cr, minute_x2 - minute_width, row_y + small_font_y_offset);
+			cairo_translate (
+				cr, minute_x2 - minute_width,
+				row_y + small_font_y_offset);
 			pango_cairo_update_layout (cr, layout);
 			pango_cairo_show_layout (cr, layout);
 			cairo_restore (cr);
@@ -859,8 +861,12 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 		if (zone == time_item->priv->second_zone)
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
 		gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
-		g_object_set_data_full (G_OBJECT (item), "timezone", g_strdup (s->data), g_free);
-		g_signal_connect (item, "toggled", G_CALLBACK (edvti_on_set_zone), time_item);
+		g_object_set_data_full (
+			G_OBJECT (item), "timezone",
+			g_strdup (s->data), g_free);
+		g_signal_connect (
+			item, "toggled",
+			G_CALLBACK (edvti_on_set_zone), time_item);
 	}
 	calendar_config_free_day_second_zones (recent_zones);
 

@@ -90,8 +90,9 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	/* Set up Pango prerequisites */
 	font_desc = pango_font_description_copy (style->font_desc);
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (week_view));
-	font_metrics = pango_context_get_metrics (pango_context, font_desc,
-						  pango_context_get_language (pango_context));
+	font_metrics = pango_context_get_metrics (
+		pango_context, font_desc,
+		pango_context_get_language (pango_context));
 
 	day_of_week = gdate_to_cal_weekdays (g_date_get_weekday (date));
 	month = g_date_get_month (date);
@@ -102,11 +103,16 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 		E_WEEK_VIEW_DATE_LINE_T_PAD;
 
 	if (!today) {
+		ECalendarView *view;
 		struct icaltimetype tt;
+		const icaltimezone *zone;
+
+		view = E_CALENDAR_VIEW (week_view);
+		zone = e_calendar_view_get_timezone (view);
 
 		/* Check if we are drawing today */
-		tt = icaltime_from_timet_with_zone (time (NULL), FALSE,
-						    e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+		tt = icaltime_from_timet_with_zone (
+			time (NULL), FALSE, zone);
 		today = g_date_get_year (date) == tt.year
 			&& g_date_get_month (date) == tt.month
 			&& g_date_get_day (date) == tt.day;

@@ -90,24 +90,30 @@ e_shell_detect_meego (gboolean *is_meego,
 		}
 
 		display = gdk_display_get_default ();
-		screen = gdk_display_get_default_screen (gdk_display_get_default ());
+		screen = gdk_display_get_default_screen (display);
 
 		gdk_error_trap_push ();
 
 		/* get the window manager's supporting window */
-		fns.XGetWindowProperty (gdk_x11_display_get_xdisplay (display),
-					GDK_WINDOW_XID (gdk_screen_get_root_window (screen)),
-					gdk_x11_atom_to_xatom_for_display (display, wm_win),
-					0, 1, False, XA_WINDOW, &dummy_t, &dummy_i,
-					&dummy_l, &dummy_l, (guchar **)(&wm_window_v));
+		fns.XGetWindowProperty (
+			gdk_x11_display_get_xdisplay (display),
+			GDK_WINDOW_XID (gdk_screen_get_root_window (screen)),
+			gdk_x11_atom_to_xatom_for_display (display, wm_win),
+			0, 1, False, XA_WINDOW,
+			&dummy_t, &dummy_i,
+			&dummy_l, &dummy_l,
+			(guchar **) (&wm_window_v));
 
 		/* get the '_Moblin' setting */
 		if (wm_window_v && (*wm_window_v != None))
-			fns.XGetWindowProperty (gdk_x11_display_get_xdisplay (display), *wm_window_v,
-						gdk_x11_atom_to_xatom_for_display (display, mob_atom),
-						0, 8192, False, XA_STRING,
-						&dummy_t, &dummy_i, &dummy_l, &dummy_l,
-						&moblin_string);
+			fns.XGetWindowProperty (
+				gdk_x11_display_get_xdisplay (display),
+				*wm_window_v,
+				gdk_x11_atom_to_xatom_for_display (display, mob_atom),
+				0, 8192, False, XA_STRING,
+				&dummy_t, &dummy_i,
+				&dummy_l, &dummy_l,
+				&moblin_string);
 
 		gdk_error_trap_pop_ignored ();
 	}

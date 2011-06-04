@@ -816,24 +816,31 @@ e_day_view_top_item_get_type (void)
 }
 
 void
-e_day_view_top_item_get_day_label (EDayView *day_view, gint day,
-				   gchar *buffer, gint buffer_len)
+e_day_view_top_item_get_day_label (EDayView *day_view,
+                                   gint day,
+                                   gchar *buffer,
+                                   gint buffer_len)
 {
+	ECalendarView *view;
 	struct icaltimetype day_start_tt;
+	const icaltimezone *zone;
 	struct tm day_start = { 0 };
 	const gchar *format;
 
-	day_start_tt = icaltime_from_timet_with_zone (day_view->day_starts[day],
-						      FALSE,
-						      e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	view = E_CALENDAR_VIEW (day_view);
+	zone = e_calendar_view_get_timezone (view);
+
+	day_start_tt = icaltime_from_timet_with_zone (
+		day_view->day_starts[day], FALSE, zone);
 	day_start.tm_year = day_start_tt.year - 1900;
 	day_start.tm_mon = day_start_tt.month - 1;
 	day_start.tm_mday = day_start_tt.day;
 	day_start.tm_isdst = -1;
 
-	day_start.tm_wday = time_day_of_week (day_start_tt.day,
-					      day_start_tt.month - 1,
-					      day_start_tt.year);
+	day_start.tm_wday = time_day_of_week (
+		day_start_tt.day,
+		day_start_tt.month - 1,
+		day_start_tt.year);
 
 	if (day_view->date_format == E_DAY_VIEW_DATE_FULL)
 		/* strftime format %A = full weekday name, %d = day of month,

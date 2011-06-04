@@ -337,7 +337,11 @@ em_update_accounts_2_11 (void)
 
 		if (g_str_has_prefix (account->source->url, "spool://")) {
 			if (g_file_test (account->source->url + 8, G_FILE_TEST_IS_DIR)) {
-				gchar *str = g_strdup_printf ("spooldir://%s", account->source->url + 8);
+				gchar *str;
+
+				str = g_strdup_printf (
+					"spooldir://%s",
+					account->source->url + 8);
 
 				g_free (account->source->url);
 				account->source->url = str;
@@ -890,7 +894,9 @@ copy_folders (CamelStore *mbox_store,
 
 			/* sanitize folder names and copy folders */
 			maildir_folder_name = sanitize_maildir_folder_name (fi->full_name);
-			copy_folder (mbox_store, maildir_store, fi->full_name, maildir_folder_name);
+			copy_folder (
+				mbox_store, maildir_store,
+				fi->full_name, maildir_folder_name);
 			g_free (maildir_folder_name);
 		}
 

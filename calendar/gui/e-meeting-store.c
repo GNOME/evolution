@@ -1073,11 +1073,17 @@ e_meeting_store_remove_all_attendees (EMeetingStore *store)
 {
 	gint i, j, k;
 
-	for (i = 0, j = e_meeting_store_count_actual_attendees (store), k = 0; i < j; i++) {
-	/* Always try to remove the attendee at index 0 since it is the only one that will
-	 * continue to exist until all attendees are removed. */
-		EMeetingAttendee *attendee = g_ptr_array_index (store->priv->attendees, k);
-		GtkTreePath *path = gtk_tree_path_new ();
+	for (i = 0, j = e_meeting_store_count_actual_attendees (store), k = 0;
+	     i < j; i++) {
+		/* Always try to remove the attendee at index 0 since
+		 * it is the only one that will continue to exist until
+		 * all attendees are removed. */
+		EMeetingAttendee *attendee;
+		GtkTreePath *path;
+
+		attendee = g_ptr_array_index (store->priv->attendees, k);
+
+		path = gtk_tree_path_new ();
 		gtk_tree_path_append_index (path, k);
 		gtk_tree_model_row_deleted (GTK_TREE_MODEL (store), path);
 		gtk_tree_path_free (path);

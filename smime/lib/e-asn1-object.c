@@ -269,7 +269,9 @@ build_from_der (EASN1Object *parent, gchar *data, gchar *end)
 				asn1object->priv->tag = tagnum;
 				asn1object->priv->type = type;
 
-				if (!build_from_der (asn1object, data, (len == 0) ? end : data + len)) {
+				if (!build_from_der (
+					asn1object, data,
+					(len == 0) ? end : data + len)) {
 					g_object_unref (asn1object);
 					return FALSE;
 				}

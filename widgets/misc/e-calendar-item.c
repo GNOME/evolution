@@ -1619,7 +1619,9 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 				}
 
 				/* Draw the 1- or 2-digit day number. */
-				day_x += calitem->cell_width - (calitem->cell_width - min_cell_width) / 2;
+				day_x += calitem->cell_width -
+					(calitem->cell_width -
+					min_cell_width) / 2;
 				day_x -= E_CALENDAR_ITEM_MIN_CELL_XPAD / 2;
 				day_y += (calitem->cell_height - min_cell_height + 1) / 2;
 				day_y += E_CALENDAR_ITEM_MIN_CELL_YPAD / 2;
@@ -1628,7 +1630,9 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 				if (day_num >= 10) {
 					digit = day_num / 10;
 					day_x -= calitem->digit_widths[digit];
-					num_chars += sprintf (&buffer[num_chars], get_digit_fomat (), digit);
+					num_chars += sprintf (
+						&buffer[num_chars],
+						get_digit_fomat (), digit);
 				}
 
 				digit = day_num % 10;
@@ -2117,7 +2121,8 @@ e_calendar_item_button_press	(ECalendarItem	*calitem,
 
 		tmp_start_moff = calitem->selection_start_month_offset;
 		tmp_start_day = calitem->selection_start_day;
-		e_calendar_item_round_down_selection (calitem, &tmp_start_moff, &tmp_start_day);
+		e_calendar_item_round_down_selection (
+			calitem, &tmp_start_moff, &tmp_start_day);
 
 		e_calendar_item_round_down_selection (calitem, &month_offset, &day);
 		month_offset += calitem->selection_start_month_offset - tmp_start_moff;

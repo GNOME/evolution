@@ -533,7 +533,10 @@ sm_client_xsmp_end_session (EggSMClient         *client,
   else
     save_type = SmSaveGlobal;
 
-  g_debug ("Sending SaveYourselfRequest(SmSaveGlobal, Shutdown, SmInteractStyleAny, %sFast)", request_confirmation ? "!" : "");
+  g_debug (
+    "Sending SaveYourselfRequest("
+    "SmSaveGlobal, Shutdown, SmInteractStyleAny, %sFast)",
+    request_confirmation ? "!" : "");
   SmcRequestSaveYourself (xsmp->connection,
 			  save_type,
 			  True, /* shutdown */

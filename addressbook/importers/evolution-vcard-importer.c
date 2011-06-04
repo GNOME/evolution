@@ -936,7 +936,9 @@ evolution_contact_importer_get_preview_widget (const GList *contacts)
 			if (description) {
 				const gchar *at = strchr (description, '@');
 				if (at) {
-					free_description = g_strndup (description, (gsize)(at - description));
+					free_description = g_strndup (
+						description,
+						(gsize) (at - description));
 					description = free_description;
 				}
 			}

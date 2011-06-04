@@ -2783,8 +2783,11 @@ em_folder_tree_get_selected_uris (EMFolderTree *folder_tree)
 	selection = gtk_tree_view_get_selection (tree_view);
 
 	/* at first, add lost uris */
-	for (sl = folder_tree->priv->select_uris; sl; sl = g_slist_next (sl))
-		list = g_list_append (list, g_strdup (((struct _selected_uri *) sl->data)->uri));
+	for (sl = folder_tree->priv->select_uris; sl; sl = g_slist_next (sl)) {
+		const gchar *uri;
+		uri = ((struct _selected_uri *) sl->data)->uri;
+		list = g_list_append (list, g_strdup (uri));
+	}
 
 	rows = gtk_tree_selection_get_selected_rows (selection, &model);
 	for (l=rows; l; l=g_list_next (l)) {
@@ -2960,7 +2963,11 @@ em_folder_tree_select_next_path (EMFolderTree *folder_tree, gboolean skip_read_f
 			iter = child;
 		} else {
 			while (1) {
-				gboolean has_parent = gtk_tree_model_iter_parent (model, &parent, &iter);
+				gboolean has_parent;
+
+				has_parent = gtk_tree_model_iter_parent (
+					model, &parent, &iter);
+
 				if (gtk_tree_model_iter_next (model, &iter)) {
 					path = gtk_tree_model_get_path (model, &iter);
 					break;

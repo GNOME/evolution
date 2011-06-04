@@ -399,13 +399,14 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET (widget);
 	GtkStyle *style = gtk_widget_get_style (widget);
 
-	view->background = gnome_canvas_item_new (gnome_canvas_root ( GNOME_CANVAS (view) ),
-						 e_canvas_background_get_type (),
-						 "fill_color_gdk", &style->base[GTK_STATE_NORMAL],
-						 NULL );
+	view->background = gnome_canvas_item_new (
+		gnome_canvas_root (GNOME_CANVAS (view)),
+		e_canvas_background_get_type (),
+		"fill_color_gdk", &style->base[GTK_STATE_NORMAL],
+		NULL );
 
 	view->emv = gnome_canvas_item_new (
-		gnome_canvas_root ( GNOME_CANVAS (view) ),
+		gnome_canvas_root (GNOME_CANVAS (view)),
 		e_minicard_view_get_type (),
 		"height", (double) 100,
 		"minimum_width", (double) 100,
@@ -413,24 +414,26 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 		"column_width", view->column_width,
 		NULL );
 
-	g_signal_connect (E_REFLOW (view->emv)->selection,
-			  "selection_changed",
-			  G_CALLBACK (selection_change), view);
-	g_signal_connect (E_REFLOW (view->emv)->selection,
-			  "selection_row_changed",
-			  G_CALLBACK (selection_row_change), view);
-	g_signal_connect (view->emv,
-			  "column_width_changed",
-			  G_CALLBACK (column_width_changed), view);
-	g_signal_connect (view->emv,
-			  "create-contact",
-			  G_CALLBACK (create_contact), view);
-	g_signal_connect (view->emv,
-			  "create-contact-list",
-			  G_CALLBACK (create_contact_list), view);
-	g_signal_connect (view->emv,
-			  "right_click",
-			  G_CALLBACK (right_click), view);
+	g_signal_connect (
+		E_REFLOW (view->emv)->selection,
+		"selection_changed",
+		G_CALLBACK (selection_change), view);
+	g_signal_connect (
+		E_REFLOW (view->emv)->selection,
+		"selection_row_changed",
+		G_CALLBACK (selection_row_change), view);
+	g_signal_connect (
+		view->emv, "column_width_changed",
+		G_CALLBACK (column_width_changed), view);
+	g_signal_connect (
+		view->emv, "create-contact",
+		G_CALLBACK (create_contact), view);
+	g_signal_connect (
+		view->emv, "create-contact-list",
+		G_CALLBACK (create_contact_list), view);
+	g_signal_connect (
+		view->emv, "right_click",
+		G_CALLBACK (right_click), view);
 
 	if (GTK_WIDGET_CLASS (parent_class)->realize)
 		GTK_WIDGET_CLASS (parent_class)->realize (widget);

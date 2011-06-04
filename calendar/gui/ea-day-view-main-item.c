@@ -1124,7 +1124,8 @@ table_interface_get_row_description (AtkTable    *table,
 	description = ea_cell_table_get_row_label (cell_data, row);
 	if (!description) {
 		gchar buffer[128];
-		ea_day_view_main_item_get_row_label (ea_main_item, row, buffer, sizeof (buffer));
+		ea_day_view_main_item_get_row_label (
+			ea_main_item, row, buffer, sizeof (buffer));
 		ea_cell_table_set_row_label (cell_data, row, buffer);
 		description = ea_cell_table_get_row_label (cell_data,
 								row);

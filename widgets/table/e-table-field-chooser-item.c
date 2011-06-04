@@ -129,7 +129,9 @@ etfci_rebuild_combined (ETableFieldChooserItem *etfci)
 		ETableCol *ecol = e_table_header_get_column (etfci->header, i);
 		if (ecol->disabled)
 			continue;
-		g_hash_table_insert (hash, GINT_TO_POINTER (ecol->col_idx), GINT_TO_POINTER (1));
+		g_hash_table_insert (
+			hash, GINT_TO_POINTER (ecol->col_idx),
+			GINT_TO_POINTER (1));
 	}
 
 	count = e_table_header_count (etfci->full_header);
@@ -357,13 +359,17 @@ etfci_set_property (GObject *object,
 	case PROP_FULL_HEADER:
 		etfci_drop_full_header (etfci);
 		if (g_value_get_object (value))
-			etfci_add_full_header (etfci, E_TABLE_HEADER (g_value_get_object (value)));
+			etfci_add_full_header (
+				etfci, E_TABLE_HEADER (
+				g_value_get_object (value)));
 		break;
 
 	case PROP_HEADER:
 		etfci_drop_table_header (etfci);
 		if (g_value_get_object (value))
-			etfci_add_table_header (etfci, E_TABLE_HEADER (g_value_get_object (value)));
+			etfci_add_table_header (
+				etfci, E_TABLE_HEADER (
+				g_value_get_object (value)));
 		break;
 
 	case PROP_DND_CODE:

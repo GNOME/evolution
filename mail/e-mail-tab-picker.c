@@ -111,6 +111,7 @@ e_mail_tab_picker_drop (MxDroppable *droppable,
 {
 	GList *t;
 	EMailTabPickerProps *tab;
+	ClutterActor *parent;
 	gint current_position, new_position;
 
 	EMailTabPicker *picker = E_MAIL_TAB_PICKER (droppable);
@@ -123,7 +124,8 @@ e_mail_tab_picker_drop (MxDroppable *droppable,
 	if (!E_MAIL_IS_TAB (draggable))
 		return;
 
-	if (clutter_actor_get_parent (CLUTTER_ACTOR (draggable)) != (ClutterActor *) picker)
+	parent = clutter_actor_get_parent (CLUTTER_ACTOR (draggable));
+	if (parent != (ClutterActor *) picker)
 		return;
 
 	/* Get current position and property data structure */

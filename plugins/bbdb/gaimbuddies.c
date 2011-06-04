@@ -118,8 +118,9 @@ bbdb_sync_buddy_list_check (void)
 		return;
 	}
 
-	/* Reprocess the buddy list if it's been updated. */
 	gconf = gconf_client_get_default ();
+
+	/* Reprocess the buddy list if it's been updated. */
 	last_sync_str = gconf_client_get_string (
 		gconf, GCONF_KEY_GAIM_LAST_SYNC_TIME, NULL);
 	if (last_sync_str == NULL || !strcmp ((const gchar *)last_sync_str, ""))
@@ -135,8 +136,10 @@ bbdb_sync_buddy_list_check (void)
 		return;
 	}
 
-	last_sync_str = gconf_client_get_string (gconf, GCONF_KEY_GAIM_LAST_SYNC_MD5, NULL);
-	g_object_unref (G_OBJECT (gconf));
+	last_sync_str = gconf_client_get_string (
+		gconf, GCONF_KEY_GAIM_LAST_SYNC_MD5, NULL);
+
+	g_object_unref (gconf);
 
 	md5 = get_md5_as_string (blist_path);
 
@@ -224,12 +227,16 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 		}
 
 		/* Look for an exact match full name == buddy alias */
-		query = e_book_query_field_test (E_CONTACT_FULL_NAME, E_BOOK_QUERY_IS, b->alias);
+		query = e_book_query_field_test (
+			E_CONTACT_FULL_NAME, E_BOOK_QUERY_IS, b->alias);
+
 		if (!e_book_get_contacts (std->book, query, &contacts, NULL)) {
 			e_book_query_unref (query);
 			continue;
 		}
+
 		e_book_query_unref (query);
+
 		if (contacts != NULL) {
 
 			/* FIXME: If there's more than one contact with this
@@ -486,7 +493,9 @@ bbdb_get_gaim_buddy_list (void)
 		}
 	}
 	if (blist == NULL) {
-		fprintf (stderr, "bbdb: Could not find 'blist' element in Pidgin buddy list.\n");
+		fprintf (
+			stderr, "bbdb: Could not find 'blist' "
+			"element in Pidgin buddy list.\n");
 		xmlFreeDoc (buddy_xml);
 		return NULL;
 	}
@@ -580,7 +589,9 @@ parse_contact (xmlNodePtr contact, GList **buddies, GSList *blocked)
 	for (child = buddy->children; child != NULL && !is_blocked; child = child->next) {
 		if (!strcmp ((const gchar *)child->name, "setting")) {
 			gchar *setting_type;
-			setting_type = e_xml_get_string_prop_by_name (child, (const guchar *)"name");
+
+			setting_type = e_xml_get_string_prop_by_name (
+				child, (const guchar *)"name");
 
 			if (!strcmp ((const gchar *)setting_type, "buddy_icon"))
 				gb->icon = get_buddy_icon_from_setting (child);

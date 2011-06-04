@@ -395,19 +395,24 @@ addressbook_model_idle_cb (EAddressbookModel *model)
 		remove_book_view (model);
 
 		if (model->priv->first_get_view) {
+			gboolean do_initial_query;
+
 			model->priv->first_get_view = FALSE;
 
-			if (e_book_check_static_capability (model->priv->book, "do-initial-query")) {
+			do_initial_query = e_book_check_static_capability (
+				model->priv->book, "do-initial-query");
+
+			if (do_initial_query) {
 				e_book_get_book_view_async (
 					model->priv->book, model->priv->query,
 					NULL, limit, book_view_loaded, model);
 			} else {
 				free_data (model);
 
-				g_signal_emit (model,
-					       signals[MODEL_CHANGED], 0);
-				g_signal_emit (model,
-					       signals[STOP_STATE_CHANGED], 0);
+				g_signal_emit (
+					model, signals[MODEL_CHANGED], 0);
+				g_signal_emit (
+					model, signals[STOP_STATE_CHANGED], 0);
 			}
 		} else
 			e_book_get_book_view_async (

@@ -71,7 +71,9 @@ e_contact_editor_fullname_set_property (GObject *object,
 		}
 		break;
 	case PROP_EDITABLE: {
+		gboolean editable;
 		gint i;
+
 		const gchar *widget_names[] = {
 			"comboentry-title",
 			"comboentry-suffix",
@@ -85,22 +87,32 @@ e_contact_editor_fullname_set_property (GObject *object,
 			"label-last",
 			NULL
 		};
-		e_contact_editor_fullname->editable = g_value_get_boolean (value) ? TRUE : FALSE;
+
+		editable = g_value_get_boolean (value);
+		e_contact_editor_fullname->editable = editable;
+
 		for (i = 0; widget_names[i] != NULL; i++) {
-			GtkWidget *w = e_builder_get_widget (
+			GtkWidget *widget;
+
+			widget = e_builder_get_widget (
 				e_contact_editor_fullname->builder,
 				widget_names[i]);
-			if (GTK_IS_ENTRY (w)) {
-				gtk_editable_set_editable (GTK_EDITABLE (w),
-							   e_contact_editor_fullname->editable);
-			}
-			else if (GTK_IS_COMBO_BOX (w)) {
-				gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (w))),
-							   e_contact_editor_fullname->editable);
-				gtk_widget_set_sensitive (w, e_contact_editor_fullname->editable);
-			}
-			else if (GTK_IS_LABEL (w)) {
-				gtk_widget_set_sensitive (w, e_contact_editor_fullname->editable);
+
+			if (GTK_IS_ENTRY (widget)) {
+				gtk_editable_set_editable (
+					GTK_EDITABLE (widget), editable);
+
+			} else if (GTK_IS_COMBO_BOX (widget)) {
+				GtkWidget *child;
+
+				child = gtk_bin_get_child (GTK_BIN (widget));
+
+				gtk_editable_set_editable (
+					GTK_EDITABLE (child), editable);
+				gtk_widget_set_sensitive (widget, editable);
+
+			} else if (GTK_IS_LABEL (widget)) {
+				gtk_widget_set_sensitive (widget, editable);
 			}
 		}
 		break;

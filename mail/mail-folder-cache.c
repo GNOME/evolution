@@ -359,7 +359,8 @@ folder_changed_cb (CamelFolder *folder,
 		/* for each added message, check to see that it is
 		   brand new, not junk and not already deleted */
 		for (i = 0; i < changes->uid_added->len; i++) {
-			info = camel_folder_get_message_info (folder, changes->uid_added->pdata[i]);
+			info = camel_folder_get_message_info (
+				folder, changes->uid_added->pdata[i]);
 			if (info) {
 				flags = camel_message_info_flags (info);
 				if (((flags & CAMEL_MESSAGE_SEEN) == 0) &&
@@ -586,7 +587,6 @@ rename_folders (MailFolderCache *self,
 
 		g_hash_table_insert (si->folders, mfi->full_name, mfi);
 	} else {
-		d(printf("Rename found a new folder? old '%s' new '%s'\n", old, fi->full_name));
 		/* Its a new op */
 		mfi = g_malloc0 (sizeof (*mfi));
 		mfi->full_name = g_strdup (fi->full_name);

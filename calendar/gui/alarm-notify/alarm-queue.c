@@ -2120,7 +2120,8 @@ remove_client_alarms (ClientAlarms *ca)
 {
 	debug (("size %d", g_hash_table_size (ca->uid_alarms_hash)));
 
-	g_hash_table_foreach_remove  (ca->uid_alarms_hash, (GHRFunc) remove_comp_by_id, ca);
+	g_hash_table_foreach_remove  (
+		ca->uid_alarms_hash, (GHRFunc) remove_comp_by_id, ca);
 
 	/* The hash table should be empty now */
 	g_return_if_fail (g_hash_table_size (ca->uid_alarms_hash) == 0);

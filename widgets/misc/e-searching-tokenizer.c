@@ -272,9 +272,10 @@ build_trie (gint nocase, gint len, guchar **words)
 
 	/* Step 2: Build failure graph */
 
-	/* This searches for the longest substring which is a prefix of another string and
-	   builds a graph of failure links so you can find multiple substrings concurrently,
-	   using aho-corasick's algorithm */
+	/* This searches for the longest substring which is a prefix of
+	 * another string and builds a graph of failure links so you can
+	 * find multiple substrings concurrently, using aho-corasick's
+	 * algorithm. */
 
 	for (i=0;i<state_depth_size;i++) {
 		q = state_depth[i];
@@ -726,7 +727,8 @@ searcher_next_token (struct _searcher *s)
 
 					if (q->matches == NULL) {
 						if (s->submatchp == 0) {
-							/* nothing pending, always put something in so we can try merge */
+							/* nothing pending, always put
+							 * something in so we can try merge */
 							push_subpending (s, offstart, offend);
 						} else if (!merge_subpending (s, offstart, offend)) {
 							/* can't merge, output what we have, and start againt */

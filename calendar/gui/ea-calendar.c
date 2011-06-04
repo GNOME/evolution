@@ -75,29 +75,30 @@ gnome_calendar_a11y_init (void)
 		e_week_view_main_item_type = g_type_class_ref (
 			e_week_view_main_item_get_type ());
 
-		g_signal_add_emission_hook (g_signal_lookup ("event", E_TYPE_TEXT),
-					    0, ea_calendar_focus_watcher,
-					    NULL, (GDestroyNotify) NULL);
-		g_signal_add_emission_hook (g_signal_lookup ("event", GNOME_TYPE_CANVAS_PIXBUF),
-					    0, ea_calendar_focus_watcher,
-					    NULL, (GDestroyNotify) NULL);
-		g_signal_add_emission_hook (g_signal_lookup ("event-after",
-							     e_day_view_get_type ()),
-					    0, ea_calendar_focus_watcher,
-					    NULL, (GDestroyNotify) NULL);
-		g_signal_add_emission_hook (g_signal_lookup ("event",
-							     e_day_view_main_item_get_type ()),
-					    0, ea_calendar_focus_watcher,
-					    NULL, (GDestroyNotify) NULL);
-		g_signal_add_emission_hook (g_signal_lookup ("event-after",
-							     E_TYPE_WEEK_VIEW),
-					    0, ea_calendar_focus_watcher,
-					    NULL, (GDestroyNotify) NULL);
-		g_signal_add_emission_hook (g_signal_lookup ("event",
-							     e_week_view_main_item_get_type ()),
-					    0, ea_calendar_focus_watcher,
-					    NULL, (GDestroyNotify) NULL);
-
+		g_signal_add_emission_hook (
+			g_signal_lookup ("event", E_TYPE_TEXT),
+			0, ea_calendar_focus_watcher,
+			NULL, (GDestroyNotify) NULL);
+		g_signal_add_emission_hook (
+			g_signal_lookup ("event", GNOME_TYPE_CANVAS_PIXBUF),
+			0, ea_calendar_focus_watcher,
+			NULL, (GDestroyNotify) NULL);
+		g_signal_add_emission_hook (
+			g_signal_lookup ("event-after", E_TYPE_DAY_VIEW),
+			0, ea_calendar_focus_watcher,
+			NULL, (GDestroyNotify) NULL);
+		g_signal_add_emission_hook (
+			g_signal_lookup ("event", E_TYPE_DAY_VIEW_MAIN_ITEM),
+			0, ea_calendar_focus_watcher,
+			NULL, (GDestroyNotify) NULL);
+		g_signal_add_emission_hook (
+			g_signal_lookup ("event-after", E_TYPE_WEEK_VIEW),
+			0, ea_calendar_focus_watcher,
+			NULL, (GDestroyNotify) NULL);
+		g_signal_add_emission_hook (
+			g_signal_lookup ("event", E_TYPE_WEEK_VIEW_MAIN_ITEM),
+			0, ea_calendar_focus_watcher,
+			NULL, (GDestroyNotify) NULL);
 	}
 }
 

@@ -170,9 +170,13 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 				pending = g_list_append (pending, info->child);
 
 			if (m->tobase[0])
-				g_string_printf (toname, "%s/%s", m->tobase, info->full_name + fromlen);
+				g_string_printf (
+					toname, "%s/%s", m->tobase,
+					info->full_name + fromlen);
 			else
-				g_string_printf (toname, "%s", info->full_name + fromlen);
+				g_string_printf (
+					toname, "%s",
+					info->full_name + fromlen);
 
 			d(printf ("Copying from '%s' to '%s'\n", info->full_name, toname->str));
 
@@ -516,7 +520,7 @@ new_folder_created_cb (CamelStore *store,
 		data = g_object_get_data (
 			G_OBJECT (context->folder_tree), "select");
 		expand_only = GPOINTER_TO_INT (data) ? TRUE : FALSE;
-			
+
 		em_folder_tree_set_selected (
 			context->folder_tree,
 			context->folder_uri, expand_only);

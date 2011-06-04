@@ -79,7 +79,6 @@ e_dialog_editable_set (GtkWidget *widget, const gchar *value)
 {
 	gint pos = 0;
 
-	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GTK_IS_EDITABLE (widget));
 
 	gtk_editable_delete_text (GTK_EDITABLE (widget), 0, -1);
@@ -101,7 +100,6 @@ e_dialog_editable_set (GtkWidget *widget, const gchar *value)
 gchar *
 e_dialog_editable_get (GtkWidget *widget)
 {
-	g_return_val_if_fail (widget != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_EDITABLE (widget), NULL);
 
 	return gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
@@ -122,7 +120,6 @@ e_dialog_combo_box_set (GtkWidget *widget, gint value, const gint *value_map)
 {
 	gint i;
 
-	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GTK_IS_COMBO_BOX (widget));
 	g_return_if_fail (value_map != NULL);
 
@@ -131,8 +128,9 @@ e_dialog_combo_box_set (GtkWidget *widget, gint value, const gint *value_map)
 	if (i != -1)
 		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), i);
 	else
-		g_message ("e_dialog_combo_box_set(): could not find value %d in value map!",
-			   value);
+		g_message (
+			"e_dialog_combo_box_set(): could not "
+			"find value %d in value map!", value);
 }
 
 /**
@@ -150,17 +148,22 @@ e_dialog_combo_box_set (GtkWidget *widget, gint value, const gint *value_map)
 gint
 e_dialog_combo_box_get (GtkWidget *widget, const gint *value_map)
 {
+	gint active;
 	gint i;
 
-	g_return_val_if_fail (widget != NULL, -1);
 	g_return_val_if_fail (GTK_IS_COMBO_BOX (widget), -1);
 	g_return_val_if_fail (value_map != NULL, -1);
 
-	i = index_to_value (value_map, gtk_combo_box_get_active (GTK_COMBO_BOX (widget)));
+	active = gtk_combo_box_get_active (GTK_COMBO_BOX (widget));
+	i = index_to_value (value_map, active);
+
 	if (i == -1) {
-		g_message ("e_dialog_combo_box_get(): could not find index %d in value map!", i);
+		g_message (
+			"e_dialog_combo_box_get(): could not "
+			"find index %d in value map!", i);
 		return -1;
 	}
+
 	return i;
 }
 
@@ -178,7 +181,6 @@ e_dialog_append_list_store_text (GtkTreeModel *list_store,
 	GtkTreeIter iter;
 	GtkListStore *store;
 
-	g_return_if_fail (list_store != NULL);
 	g_return_if_fail (GTK_IS_LIST_STORE (list_store));
 	g_return_if_fail (text_column >= 0);
 	g_return_if_fail (text_value != NULL);

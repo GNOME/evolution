@@ -119,9 +119,13 @@ copy_source (CopySourceDialogData *csdd)
 			for (l = obj_list; l != NULL; l = l->next) {
 				/* FIXME: process recurrences */
 				/* FIXME: process errors */
-				if (e_cal_get_object (dest_client, icalcomponent_get_uid (l->data), NULL,
-						      &icalcomp, NULL)) {
-					e_cal_modify_object (dest_client, l->data, CALOBJ_MOD_ALL, NULL);
+				if (e_cal_get_object (
+					dest_client,
+					icalcomponent_get_uid (l->data),
+					NULL, &icalcomp, NULL)) {
+					e_cal_modify_object (
+						dest_client, l->data,
+						CALOBJ_MOD_ALL, NULL);
 					icalcomponent_free (icalcomp);
 				} else {
 					gchar *uid = NULL;
@@ -129,8 +133,11 @@ copy_source (CopySourceDialogData *csdd)
 
 					icalcomp = l->data;
 
-					/* add timezone information from source ECal to the destination ECal */
-					icalcomponent_foreach_tzid (icalcomp, add_timezone_to_cal_cb, &ftd);
+					/* Add timezone information from source
+					 * ECal to the destination ECal. */
+					icalcomponent_foreach_tzid (
+						icalcomp,
+						add_timezone_to_cal_cb, &ftd);
 
 					if (e_cal_create_object (dest_client, icalcomp, &uid, &error)) {
 						g_free (uid);

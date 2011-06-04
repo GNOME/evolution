@@ -37,7 +37,11 @@ G_DEFINE_TYPE (ECellNumber, e_cell_number, E_TYPE_CELL_TEXT)
 static gchar *
 ecn_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
 {
-	return e_format_number (GPOINTER_TO_INT (e_table_model_value_at (model, col, row)));
+	gpointer value;
+
+	value = e_table_model_value_at (model, col, row);
+
+	return e_format_number (GPOINTER_TO_INT (value));
 }
 
 static void

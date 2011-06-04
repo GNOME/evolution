@@ -566,6 +566,7 @@ mail_vfolder_delete_folder (EMailBackend *backend,
                             CamelStore *store,
                             const gchar *folder_name)
 {
+	ERuleContext *rule_context;
 	EFilterRule *rule;
 	EMailSession *session;
 	const gchar *source;
@@ -598,31 +599,40 @@ mail_vfolder_delete_folder (EMailBackend *backend,
 	if (context == NULL)
 		goto done;
 
+	rule_context = E_RULE_CONTEXT (context);
+
 	/* see if any rules directly reference this removed uri */
 	rule = NULL;
-	while ((rule = e_rule_context_next_rule ((ERuleContext *) context, rule, NULL))) {
+	while ((rule = e_rule_context_next_rule (rule_context, rule, NULL))) {
+		EMVFolderRule *vf_rule = EM_VFOLDER_RULE (rule);
 
-		if (!rule->name) {
-			d(printf("invalid rule (%p): rule->name is set to NULL\n", rule));
+		if (!rule->name)
 			continue;
-		}
 
 		source = NULL;
-		while ((source = em_vfolder_rule_next_source ((EMVFolderRule *) rule, source))) {
+		while ((source = em_vfolder_rule_next_source (vf_rule, source))) {
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
 			if (e_mail_folder_uri_equal (CAMEL_SESSION (session), uri, source)) {
-				vf = g_hash_table_lookup (vfolder_hash, rule->name);
+				vf = g_hash_table_lookup (
+					vfolder_hash, rule->name);
+
 				if (!vf) {
 					g_warning ("vf is NULL for %s\n", rule->name);
 					continue;
 				}
+
 				g_signal_handlers_disconnect_matched (
 					rule, G_SIGNAL_MATCH_FUNC |
 					G_SIGNAL_MATCH_DATA, 0, 0, NULL,
 					rule_changed, vf);
-				em_vfolder_rule_remove_source ((EMVFolderRule *) rule, source);
-				g_signal_connect (rule, "changed", G_CALLBACK(rule_changed), vf);
+
+				em_vfolder_rule_remove_source (vf_rule, source);
+
+				g_signal_connect (
+					rule, "changed",
+					G_CALLBACK (rule_changed), vf);
+
 				if (changed_count == 0) {
 					g_string_append (changed, rule->name);
 				} else {
@@ -630,8 +640,11 @@ mail_vfolder_delete_folder (EMailBackend *backend,
 						g_string_prepend (changed, "    ");
 						g_string_append (changed, "\n");
 					}
-					g_string_append_printf (changed, "    %s\n", rule->name);
+					g_string_append_printf (
+						changed, "    %s\n",
+						rule->name);
 				}
+
 				changed_count++;
 				source = NULL;
 			}
@@ -691,6 +704,7 @@ mail_vfolder_rename_folder (CamelStore *store,
                             const gchar *old_folder_name,
                             const gchar *new_folder_name)
 {
+	ERuleContext *rule_context;
 	EFilterRule *rule;
 	const gchar *source;
 	CamelVeeFolder *vf;
@@ -719,11 +733,15 @@ mail_vfolder_rename_folder (CamelStore *store,
 
 	G_LOCK (vfolder);
 
+	rule_context = E_RULE_CONTEXT (context);
+
 	/* see if any rules directly reference this removed uri */
 	rule = NULL;
-	while ((rule = e_rule_context_next_rule ((ERuleContext *) context, rule, NULL))) {
+	while ((rule = e_rule_context_next_rule (rule_context, rule, NULL))) {
+		EMVFolderRule *vf_rule = EM_VFOLDER_RULE (rule);
+
 		source = NULL;
-		while ((source = em_vfolder_rule_next_source ((EMVFolderRule *) rule, source))) {
+		while ((source = em_vfolder_rule_next_source (vf_rule, source))) {
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
 			if (e_mail_folder_uri_equal (session, old_uri, source)) {
@@ -732,13 +750,19 @@ mail_vfolder_rename_folder (CamelStore *store,
 					g_warning ("vf is NULL for %s\n", rule->name);
 					continue;
 				}
+
 				g_signal_handlers_disconnect_matched (
 					rule, G_SIGNAL_MATCH_FUNC |
 					G_SIGNAL_MATCH_DATA, 0, 0, NULL,
 					rule_changed, vf);
-				em_vfolder_rule_remove_source ((EMVFolderRule *) rule, source);
-				em_vfolder_rule_add_source ((EMVFolderRule *) rule, new_uri);
-				g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), vf);
+
+				em_vfolder_rule_remove_source (vf_rule, source);
+				em_vfolder_rule_add_source (vf_rule, new_uri);
+
+				g_signal_connect (
+					vf_rule, "changed",
+					G_CALLBACK (rule_changed), vf);
+
 				changed++;
 				source = NULL;
 			}

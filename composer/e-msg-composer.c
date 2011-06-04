@@ -467,11 +467,16 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 		}
 	}
 
-	header = redirect ? CAMEL_RECIPIENT_TYPE_RESENT_TO : CAMEL_RECIPIENT_TYPE_TO;
+	if (redirect)
+		header = CAMEL_RECIPIENT_TYPE_RESENT_TO;
+	else
+		header = CAMEL_RECIPIENT_TYPE_TO;
+
 	if (camel_address_length (CAMEL_ADDRESS (to_addr)) > 0) {
 		camel_mime_message_set_recipients (msg, header, to_addr);
 	} else if (seen_hidden_list) {
-		camel_medium_set_header (CAMEL_MEDIUM (msg), header, "Undisclosed-Recipient:;");
+		camel_medium_set_header (
+			CAMEL_MEDIUM (msg), header, "Undisclosed-Recipient:;");
 	}
 
 	header = redirect ? CAMEL_RECIPIENT_TYPE_RESENT_CC : CAMEL_RECIPIENT_TYPE_CC;
@@ -3056,7 +3061,8 @@ handle_multipart (EMsgComposer *composer,
 					composer, mime_part,
 					cancellable, depth + 1);
 
-			} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
+			} else if (camel_content_type_is (
+				content_type, "multipart", "alternative")) {
 				handle_multipart_alternative (
 					composer, mp, cancellable, depth + 1);
 
@@ -3079,7 +3085,8 @@ handle_multipart (EMsgComposer *composer,
 		} else if (camel_mime_part_get_content_id (mime_part) ||
 			   camel_mime_part_get_content_location (mime_part)) {
 			/* special in-line attachment */
-			e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
+			e_msg_composer_add_inline_image_from_mime_part (
+				composer, mime_part);
 		} else {
 			/* normal attachment */
 			e_msg_composer_attach (composer, mime_part);
@@ -3151,9 +3158,16 @@ e_msg_composer_new_with_message (EShell *shell,
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	for (headers = CAMEL_MIME_PART (message)->headers;headers;headers = headers->next) {
-		if (!strcmp (headers->name, "X-Evolution-PostTo"))
-			postto = g_list_append (postto, g_strstrip (g_strdup (headers->value)));
+	headers = CAMEL_MIME_PART (message)->headers;
+	while (headers != NULL) {
+		gchar *value;
+
+		if (strcmp (headers->name, "X-Evolution-PostTo") == 0) {
+			value = g_strstrip (g_strdup (headers->value));
+			postto = g_list_append (postto, value);
+		}
+
+		headers = headers->next;
 	}
 
 	composer = e_msg_composer_new (shell);

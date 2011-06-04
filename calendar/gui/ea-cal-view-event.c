@@ -299,9 +299,11 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 
 	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
 	if (summary)
-		summary_string = g_strdup_printf (_("Calendar Event: Summary is %s."), summary);
+		summary_string = g_strdup_printf (
+			_("Calendar Event: Summary is %s."), summary);
 	else
-		summary_string = g_strdup (_("Calendar Event: It has no summary."));
+		summary_string = g_strdup (
+			_("Calendar Event: It has no summary."));
 
 	name_string = g_strdup_printf (
 		"%s %s %s %s", summary_string,

@@ -1661,16 +1661,24 @@ search_address_in_addressbooks (const gchar *address,
 			book = e_book_new (source, &err);
 
 			if (book == NULL) {
-				if (err && g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED)) {
+				if (err && g_error_matches (
+					err, E_BOOK_ERROR,
+					E_BOOK_ERROR_CANCELLED)) {
 					stop = TRUE;
 				} else if (err) {
-					gchar *source_uid = g_strdup (e_source_peek_uid (source));
+					gchar *source_uid;
 
-					g_hash_table_insert (emu_broken_books_hash, source_uid, source_uid);
+					source_uid = g_strdup (
+						e_source_peek_uid (source));
+
+					g_hash_table_insert (
+						emu_broken_books_hash,
+						source_uid, source_uid);
 
 					g_warning (
 						"%s: Unable to create addressbook '%s': %s",
-						G_STRFUNC, e_source_peek_name (source),
+						G_STRFUNC,
+						e_source_peek_name (source),
 						err->message);
 				}
 				g_clear_error (&err);
@@ -1678,16 +1686,24 @@ search_address_in_addressbooks (const gchar *address,
 				g_object_unref (book);
 				book = NULL;
 
-				if (err && g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED)) {
+				if (err && g_error_matches (
+					err, E_BOOK_ERROR,
+					E_BOOK_ERROR_CANCELLED)) {
 					stop = TRUE;
 				} else if (err) {
-					gchar *source_uid = g_strdup (e_source_peek_uid (source));
+					gchar *source_uid;
 
-					g_hash_table_insert (emu_broken_books_hash, source_uid, source_uid);
+					source_uid = g_strdup (
+						e_source_peek_uid (source));
+
+					g_hash_table_insert (
+						emu_broken_books_hash,
+						source_uid, source_uid);
 
 					g_warning (
 						"%s: Unable to open addressbook '%s': %s",
-						G_STRFUNC, e_source_peek_name (source),
+						G_STRFUNC,
+						e_source_peek_name (source),
 						err->message);
 				}
 				g_clear_error (&err);
@@ -1699,7 +1715,10 @@ search_address_in_addressbooks (const gchar *address,
 		if (book && !stop && e_book_get_contacts (book, query, &contacts, &err)) {
 			if (contacts != NULL) {
 				if (!found_any) {
-					g_hash_table_insert (contact_cache, g_strdup (lowercase_addr), book);
+					g_hash_table_insert (
+						contact_cache,
+						g_strdup (lowercase_addr),
+						book);
 				}
 				found_any = TRUE;
 

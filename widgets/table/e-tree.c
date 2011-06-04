@@ -1257,7 +1257,8 @@ e_tree_set_state_object (ETree *e_tree, ETableState *state)
 			     NULL);
 
 	if (e_tree->priv->etta)
-		e_tree_table_adapter_set_sort_info (e_tree->priv->etta, e_tree->priv->sort_info);
+		e_tree_table_adapter_set_sort_info (
+			e_tree->priv->etta, e_tree->priv->sort_info);
 
 	e_tree_state_change (e_tree);
 }
@@ -2065,11 +2066,17 @@ e_tree_get_next_row      (ETree *e_tree,
 			return e_sorter_sorted_to_model (E_SORTER (e_tree->priv->sorter), i);
 		} else
 			return -1;
-	} else
-		if (model_row < e_table_model_row_count (E_TABLE_MODEL (e_tree->priv->etta)) - 1)
+	} else {
+		gint row_count;
+
+		row_count = e_table_model_row_count (
+			E_TABLE_MODEL (e_tree->priv->etta));
+
+		if (model_row < row_count - 1)
 			return model_row + 1;
 		else
 			return -1;
+	}
 }
 
 gint

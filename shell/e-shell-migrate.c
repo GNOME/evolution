@@ -846,7 +846,8 @@ merge_duplicate_local_sources (GConfClient *client, const gchar *gconf_key)
 				if (g_strcmp0 (val1, val2) == 0)
 					break;
 
-				/* relative uri should not be empty (but adressbook can have it empty) */
+				/* relative uri should not be empty
+				 * (but adressbook can have it empty) */
 				val1 = e_source_peek_relative_uri (dupe_source);
 				val2 = e_source_peek_relative_uri (my_source);
 				if (g_strcmp0 (val1, val2) == 0 && val1 && *val1)

@@ -687,12 +687,9 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 	ECalShellViewPrivate *priv = cal_shell_view->priv;
 	gint i;
 
-	/* Calling calendar's save state from here, because it is too late in its dispose */
-	if (priv->cal_shell_content)
-		e_cal_shell_content_save_state (priv->cal_shell_content);
-
-	/* Calling calendar's save state from here, because it is too late in its dispose */
-	if (priv->cal_shell_content)
+	/* Calling calendar's save state from here,
+	 * because it is too late in its dispose. */
+	if (priv->cal_shell_content != NULL)
 		e_cal_shell_content_save_state (priv->cal_shell_content);
 
 	DISPOSE (priv->cal_shell_backend);

@@ -318,7 +318,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 	/* Construct the attachment paned. */
 
 	if (small_screen_mode) {
-		e_attachment_paned_set_default_height (75); /* short attachment bar for Anjal */
+		/* short attachment bar for Anjal */
+		e_attachment_paned_set_default_height (75);
 		e_attachment_icon_view_set_default_icon_size (GTK_ICON_SIZE_BUTTON);
 	}
 

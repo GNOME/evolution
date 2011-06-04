@@ -1060,7 +1060,10 @@ replace_variables (GSList *clues, CamelMimeMessage *message, gchar **pstr)
 			if (!count1) {
 				if (getenv (out+1)) {
 					g_free (str);
-					str = g_strconcat (temp_str[0], getenv (out + 1), temp_str[1], NULL);
+					str = g_strconcat (
+						temp_str[0],
+						getenv (out + 1),
+						temp_str[1], NULL);
 					count1 = TRUE;
 					string_changed = TRUE;
 				} else
@@ -1071,7 +1074,8 @@ replace_variables (GSList *clues, CamelMimeMessage *message, gchar **pstr)
 				CamelInternetAddress *to;
 				const gchar *name, *addr;
 
-				to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+				to = camel_mime_message_get_recipients (
+					message, CAMEL_RECIPIENT_TYPE_TO);
 				if (!camel_internet_address_get (to, 0, &name, &addr))
 					continue;
 
@@ -2314,21 +2318,30 @@ get_reply_sender (CamelMimeMessage *message,
                   CamelNNTPAddress *postto)
 {
 	CamelInternetAddress *reply_to;
-	const gchar *name, *addr, *posthdr;
-	gint i;
+	CamelMedium *medium;
+	const gchar *name, *addr;
+	const gchar *posthdr = NULL;
+
+	medium = CAMEL_MEDIUM (message);
 
 	/* check whether there is a 'Newsgroups: ' header in there */
-	if (postto
-	    && ((posthdr = camel_medium_get_header((CamelMedium *)message, "Followup-To"))
-		 || (posthdr = camel_medium_get_header((CamelMedium *)message, "Newsgroups")))) {
-		camel_address_decode ((CamelAddress *) postto, posthdr);
+	if (postto != NULL && posthdr == NULL)
+		posthdr = camel_medium_get_header (medium, "Followup-To");
+
+	if (postto != NULL && posthdr == NULL)
+		posthdr = camel_medium_get_header (medium, "Newsgroups");
+
+	if (postto != NULL && posthdr != NULL) {
+		camel_address_decode (CAMEL_ADDRESS (postto), posthdr);
 		return;
 	}
 
 	reply_to = get_reply_to (message);
 
-	if (reply_to) {
-		for (i = 0; camel_internet_address_get (reply_to, i, &name, &addr); i++)
+	if (reply_to != NULL) {
+		gint ii;
+
+		while (camel_internet_address_get (reply_to, ii++, &name, &addr))
 			camel_internet_address_add (to, name, addr);
 	}
 }
@@ -2347,21 +2360,30 @@ get_reply_from (CamelMimeMessage *message,
                 CamelNNTPAddress *postto)
 {
 	CamelInternetAddress *from;
-	const gchar *name, *addr, *posthdr;
-	gint i;
+	CamelMedium *medium;
+	const gchar *name, *addr;
+	const gchar *posthdr = NULL;
+
+	medium = CAMEL_MEDIUM (message);
 
 	/* check whether there is a 'Newsgroups: ' header in there */
-	if (postto
-	    && ((posthdr = camel_medium_get_header((CamelMedium *)message, "Followup-To"))
-		 || (posthdr = camel_medium_get_header((CamelMedium *)message, "Newsgroups")))) {
-		camel_address_decode ((CamelAddress *) postto, posthdr);
+	if (postto != NULL && posthdr == NULL)
+		posthdr = camel_medium_get_header (medium, "Followup-To");
+
+	if (postto != NULL && posthdr == NULL)
+		posthdr = camel_medium_get_header (medium, "Newsgroups");
+
+	if (postto != NULL && posthdr != NULL) {
+		camel_address_decode (CAMEL_ADDRESS (postto), posthdr);
 		return;
 	}
 
 	from = camel_mime_message_get_from (message);
 
-	if (from) {
-		for (i = 0; camel_internet_address_get (from, i, &name, &addr); i++)
+	if (from != NULL) {
+		gint ii;
+
+		while (camel_internet_address_get (from, ii++, &name, &addr))
 			camel_internet_address_add (to, name, addr);
 	}
 }
@@ -2594,48 +2616,63 @@ attribution_format (CamelMimeMessage *message)
 
 		switch (type) {
 		case ATTRIB_CUSTOM:
-			attribvars[i].v.formatter (str, attribvars[i].name, message);
+			attribvars[i].v.formatter (
+				str, attribvars[i].name, message);
 			break;
 		case ATTRIB_TIMEZONE:
-			g_string_append_printf (str, attribvars[i].v.format, tzone);
+			g_string_append_printf (
+				str, attribvars[i].v.format, tzone);
 			break;
 		case ATTRIB_STRFTIME:
-			e_utf8_strftime (buf, sizeof (buf), attribvars[i].v.format, &tm);
+			e_utf8_strftime (
+				buf, sizeof (buf), attribvars[i].v.format, &tm);
 			g_string_append (str, buf);
 			break;
 		case ATTRIB_TM_SEC:
-			g_string_append_printf (str, attribvars[i].v.format, tm.tm_sec);
+			g_string_append_printf (
+				str, attribvars[i].v.format, tm.tm_sec);
 			break;
 		case ATTRIB_TM_MIN:
-			g_string_append_printf (str, attribvars[i].v.format, tm.tm_min);
+			g_string_append_printf (
+				str, attribvars[i].v.format, tm.tm_min);
 			break;
 		case ATTRIB_TM_24HOUR:
-			g_string_append_printf (str, attribvars[i].v.format, tm.tm_hour);
+			g_string_append_printf (
+				str, attribvars[i].v.format, tm.tm_hour);
 			break;
 		case ATTRIB_TM_12HOUR:
-			g_string_append_printf (str, attribvars[i].v.format, (tm.tm_hour + 1) % 13);
+			g_string_append_printf (
+				str, attribvars[i].v.format,
+				(tm.tm_hour + 1) % 13);
 			break;
 		case ATTRIB_TM_MDAY:
-			g_string_append_printf (str, attribvars[i].v.format, tm.tm_mday);
+			g_string_append_printf (
+				str, attribvars[i].v.format, tm.tm_mday);
 			break;
 		case ATTRIB_TM_MON:
-			g_string_append_printf (str, attribvars[i].v.format, tm.tm_mon + 1);
+			g_string_append_printf (
+				str, attribvars[i].v.format, tm.tm_mon + 1);
 			break;
 		case ATTRIB_TM_YEAR:
-			g_string_append_printf (str, attribvars[i].v.format, tm.tm_year + 1900);
+			g_string_append_printf (
+				str, attribvars[i].v.format, tm.tm_year + 1900);
 			break;
 		case ATTRIB_TM_2YEAR:
-			g_string_append_printf (str, attribvars[i].v.format, tm.tm_year % 100);
+			g_string_append_printf (
+				str, attribvars[i].v.format, tm.tm_year % 100);
 			break;
 		case ATTRIB_TM_WDAY:
 			/* not actually used */
-			g_string_append_printf (str, attribvars[i].v.format, tm.tm_wday);
+			g_string_append_printf (
+				str, attribvars[i].v.format, tm.tm_wday);
 			break;
 		case ATTRIB_TM_YDAY:
-			g_string_append_printf (str, attribvars[i].v.format, tm.tm_yday + 1);
+			g_string_append_printf (
+				str, attribvars[i].v.format, tm.tm_yday + 1);
 			break;
 		default:
-			/* mis-spelled variable? drop the format argument and continue */
+			/* Misspelled variable?  Drop the
+			 * format argument and continue. */
 			break;
 		}
 	}
@@ -2704,15 +2741,24 @@ composer_set_body (EMsgComposer *composer,
 
 	if (has_body_text && start_bottom) {
 		GtkhtmlEditor *editor = GTKHTML_EDITOR (composer);
+		gboolean move_cursor_to_end;
+		gboolean top_signature;
+		const gchar *key;
 
 		/* If we are placing signature on top, then move cursor to the end,
 		   otherwise try to find the signature place and place cursor just
 		   before the signature. We added there an empty line already. */
 		gtkhtml_editor_run_command (editor, "block-selection");
 		gtkhtml_editor_run_command (editor, "cursor-bod");
-		if (gconf_client_get_bool (
-			client, "/apps/evolution/mail/composer/top_signature", NULL)
-		    || !gtkhtml_editor_search_by_data (editor, 1, "ClueFlow", "signature", "1"))
+
+		key = "/apps/evolution/mail/composer/top_signature";
+		top_signature = gconf_client_get_bool (client, key, NULL);
+
+		move_cursor_to_end = top_signature ||
+			!gtkhtml_editor_search_by_data (
+				editor, 1, "ClueFlow", "signature", "1");
+
+		if (move_cursor_to_end)
 			gtkhtml_editor_run_command (editor, "cursor-eod");
 		else
 			gtkhtml_editor_run_command (editor, "selection-move-left");

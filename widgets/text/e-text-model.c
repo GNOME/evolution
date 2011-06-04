@@ -155,7 +155,6 @@ e_text_model_dispose (GObject *object)
 {
 	ETextModel *model;
 
-	g_return_if_fail (object != NULL);
 	g_return_if_fail (E_IS_TEXT_MODEL (object));
 
 	model = E_TEXT_MODEL (object);
@@ -300,7 +299,6 @@ e_text_model_real_delete (ETextModel *model, gint position, gint length)
 void
 e_text_model_changed (ETextModel *model)
 {
-	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 
 	/*
@@ -326,7 +324,6 @@ e_text_model_cancel_completion (ETextModel *model)
 void
 e_text_model_reposition (ETextModel *model, ETextModelReposFn fn, gpointer repos_data)
 {
-	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 	g_return_if_fail (fn != NULL);
 
@@ -338,7 +335,6 @@ e_text_model_reposition (ETextModel *model, ETextModelReposFn fn, gpointer repos
 gint
 e_text_model_validate_position (ETextModel *model, gint pos)
 {
-	g_return_val_if_fail (model != NULL, 0);
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), 0);
 
 	if (E_TEXT_MODEL_GET_CLASS (model)->validate_pos)
@@ -350,7 +346,6 @@ e_text_model_validate_position (ETextModel *model, gint pos)
 const gchar *
 e_text_model_get_text (ETextModel *model)
 {
-	g_return_val_if_fail (model != NULL, NULL);
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), NULL);
 
 	if (E_TEXT_MODEL_GET_CLASS (model)->get_text)
@@ -362,7 +357,6 @@ e_text_model_get_text (ETextModel *model)
 gint
 e_text_model_get_text_length (ETextModel *model)
 {
-	g_return_val_if_fail (model != NULL, 0);
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), 0);
 
 	if (E_TEXT_MODEL_GET_CLASS (model)->get_text_len (model)) {
@@ -388,7 +382,6 @@ e_text_model_get_text_length (ETextModel *model)
 void
 e_text_model_set_text (ETextModel *model, const gchar *text)
 {
-	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 
 	if (E_TEXT_MODEL_GET_CLASS (model)->set_text)
@@ -398,7 +391,6 @@ e_text_model_set_text (ETextModel *model, const gchar *text)
 void
 e_text_model_insert (ETextModel *model, gint position, const gchar *text)
 {
-	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 
 	if (text == NULL)
@@ -414,7 +406,6 @@ e_text_model_insert_length (ETextModel *model,
                             const gchar *text,
                             gint length)
 {
-	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 	g_return_if_fail (length >= 0);
 
@@ -428,7 +419,6 @@ e_text_model_insert_length (ETextModel *model,
 void
 e_text_model_prepend (ETextModel *model, const gchar *text)
 {
-	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 
 	if (text == NULL)
@@ -440,7 +430,6 @@ e_text_model_prepend (ETextModel *model, const gchar *text)
 void
 e_text_model_append (ETextModel *model, const gchar *text)
 {
-	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 
 	if (text == NULL)
@@ -454,7 +443,6 @@ e_text_model_delete (ETextModel *model, gint position, gint length)
 {
 	gint txt_len;
 
-	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 	g_return_if_fail (length >= 0);
 
@@ -472,7 +460,6 @@ e_text_model_delete (ETextModel *model, gint position, gint length)
 gint
 e_text_model_object_count (ETextModel *model)
 {
-	g_return_val_if_fail (model != NULL, 0);
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), 0);
 
 	if (E_TEXT_MODEL_GET_CLASS (model)->obj_count)
@@ -484,7 +471,6 @@ e_text_model_object_count (ETextModel *model)
 const gchar *
 e_text_model_get_nth_object (ETextModel *model, gint n, gint *len)
 {
-	g_return_val_if_fail (model != NULL, NULL);
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), NULL);
 
 	if (n < 0 || n >= e_text_model_object_count (model))
@@ -502,7 +488,6 @@ e_text_model_strdup_nth_object (ETextModel *model, gint n)
 	const gchar *obj;
 	gint len = 0;
 
-	g_return_val_if_fail (model != NULL, NULL);
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), NULL);
 
 	obj = e_text_model_get_nth_object (model, n, &len);
@@ -523,7 +508,6 @@ e_text_model_get_nth_object_bounds (ETextModel *model, gint n, gint *start, gint
 	const gchar *txt = NULL, *obj = NULL;
 	gint len = 0;
 
-	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 
 	txt = e_text_model_get_text (model);
@@ -540,7 +524,6 @@ e_text_model_get_nth_object_bounds (ETextModel *model, gint n, gint *start, gint
 gint
 e_text_model_get_object_at_offset (ETextModel *model, gint offset)
 {
-	g_return_val_if_fail (model != NULL, -1);
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), -1);
 
 	if (offset < 0 || offset >= e_text_model_get_text_length (model))
@@ -572,11 +555,11 @@ e_text_model_get_object_at_offset (ETextModel *model, gint offset)
 gint
 e_text_model_get_object_at_pointer (ETextModel *model, const gchar *s)
 {
-	g_return_val_if_fail (model != NULL, -1);
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), -1);
 	g_return_val_if_fail (s != NULL, -1);
 
-	return e_text_model_get_object_at_offset (model, s - e_text_model_get_text (model));
+	return e_text_model_get_object_at_offset (
+		model, s - e_text_model_get_text (model));
 }
 
 void

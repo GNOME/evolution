@@ -140,7 +140,8 @@ week_view_event_item_double_click (EWeekViewEventItem *event_item,
 	if (week_view->editing_event_num >= 0) {
 		EWeekViewEvent *editing;
 
-		if (!is_array_index_in_bounds (week_view->events, week_view->editing_event_num))
+		if (!is_array_index_in_bounds (
+			week_view->events, week_view->editing_event_num))
 			return TRUE;
 
 		editing = &g_array_index (
@@ -569,7 +570,8 @@ week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
 	cairo_restore (cr);
 
 	cairo_save (cr);
-	gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER]);
+	gdk_cairo_set_source_color (
+		cr, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER]);
 
 	/* If the height is odd we can use the same central point for both
 	   lines. If it is even we use different end-points. */
@@ -825,11 +827,15 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 		if (can_draw_in_region (draw_region, cx0, cy0, rect_width, rect_height)) {
 			cairo_save (cr);
-			draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
+			draw_curved_rectangle (
+				cr, cx0, cy0, rect_width, rect_height, radius);
 
-			pat = cairo_pattern_create_linear (rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
-			cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
-			cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
+			pat = cairo_pattern_create_linear (
+				rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
+			cairo_pattern_add_color_stop_rgba (
+				pat, 1, red/cc, green/cc, blue/cc, 0.8);
+			cairo_pattern_add_color_stop_rgba (
+				pat, 0, red/cc, green/cc, blue/cc, 0.4);
 			cairo_set_source (cr, pat);
 			cairo_fill_preserve (cr);
 			cairo_pattern_destroy (pat);
@@ -938,11 +944,15 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 		if (can_draw_in_region (draw_region, cx0, cy0, rect_width, rect_height)) {
 			cairo_save (cr);
-			draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
+			draw_curved_rectangle (
+				cr, cx0, cy0, rect_width, rect_height, radius);
 
-			pat = cairo_pattern_create_linear (rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
-			cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
-			cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
+			pat = cairo_pattern_create_linear (
+				rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
+			cairo_pattern_add_color_stop_rgba (
+				pat, 1, red/cc, green/cc, blue/cc, 0.8);
+			cairo_pattern_add_color_stop_rgba (
+				pat, 0, red/cc, green/cc, blue/cc, 0.4);
 			cairo_set_source (cr, pat);
 			cairo_fill_preserve (cr);
 			cairo_pattern_destroy (pat);

@@ -60,21 +60,28 @@ static GoToDialog *dlg = NULL;
 static void
 year_changed (GtkAdjustment *adj, gpointer data)
 {
+	GtkSpinButton *spin_button;
 	GoToDialog *dlg = data;
 
-	dlg->year_val = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (dlg->year));
-	e_calendar_item_set_first_month (dlg->ecal->calitem, dlg->year_val, dlg->month_val);
+	spin_button = GTK_SPIN_BUTTON (dlg->year);
+	dlg->year_val = gtk_spin_button_get_value_as_int (spin_button);
+
+	e_calendar_item_set_first_month (
+		dlg->ecal->calitem, dlg->year_val, dlg->month_val);
 }
 
 /* Callback used when a month button is toggled */
 static void
 month_changed (GtkToggleButton *toggle, gpointer data)
 {
+	GtkComboBox *combo_box;
 	GoToDialog *dlg = data;
 
-	dlg->month_val = gtk_combo_box_get_active (GTK_COMBO_BOX (dlg->month_combobox));
+	combo_box = GTK_COMBO_BOX (dlg->month_combobox);
+	dlg->month_val = gtk_combo_box_get_active (combo_box);
 
-	e_calendar_item_set_first_month (dlg->ecal->calitem, dlg->year_val, dlg->month_val);
+	e_calendar_item_set_first_month (
+		dlg->ecal->calitem, dlg->year_val, dlg->month_val);
 }
 
 static void

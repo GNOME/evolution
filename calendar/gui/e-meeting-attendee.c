@@ -855,7 +855,13 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 			priv->busy_periods_start.hour = period.start.hour;
 			priv->busy_periods_start.minute = period.start.minute;
 		} else {
-			switch (g_date_compare (&period.start.date, &priv->busy_periods_start.date)) {
+			gint compare;
+
+			compare = g_date_compare (
+				&period.start.date,
+				&priv->busy_periods_start.date);
+
+			switch (compare) {
 			case -1:
 				priv->busy_periods_start.date = period.start.date;
 				priv->busy_periods_start.hour = period.start.hour;

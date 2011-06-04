@@ -44,12 +44,11 @@ e_selection_model_simple_init (ESelectionModelSimple *selection)
 }
 
 static void
-e_selection_model_simple_class_init (ESelectionModelSimpleClass *klass)
+e_selection_model_simple_class_init (ESelectionModelSimpleClass *class)
 {
 	ESelectionModelArrayClass *esma_class;
 
-	esma_class                = E_SELECTION_MODEL_ARRAY_CLASS (klass);
-
+	esma_class = E_SELECTION_MODEL_ARRAY_CLASS (class);
 	esma_class->get_row_count = esms_get_row_count;
 }
 
@@ -68,7 +67,7 @@ e_selection_model_simple_new (void)
 
 void
 e_selection_model_simple_set_row_count (ESelectionModelSimple *esms,
-					gint row_count)
+                                        gint row_count)
 {
 	if (esms->row_count != row_count) {
 		ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (esms);
@@ -78,6 +77,7 @@ e_selection_model_simple_set_row_count (ESelectionModelSimple *esms,
 		esma->selected_row = -1;
 		esma->selected_range_end = -1;
 	}
+
 	esms->row_count = row_count;
 }
 
@@ -89,27 +89,31 @@ esms_get_row_count (ESelectionModelArray *esma)
 	return esms->row_count;
 }
 
-void      e_selection_model_simple_insert_rows         (ESelectionModelSimple *esms,
-							gint                    row,
-							gint                    count)
+void
+e_selection_model_simple_insert_rows (ESelectionModelSimple *esms,
+                                      gint row,
+                                      gint count)
 {
 	esms->row_count += count;
-	e_selection_model_array_insert_rows (E_SELECTION_MODEL_ARRAY (esms), row, count);
+	e_selection_model_array_insert_rows (
+		E_SELECTION_MODEL_ARRAY (esms), row, count);
 }
 
 void
-e_selection_model_simple_delete_rows          (ESelectionModelSimple *esms,
-					       gint                    row,
-					       gint                    count)
+e_selection_model_simple_delete_rows (ESelectionModelSimple *esms,
+                                      gint row,
+                                      gint count)
 {
 	esms->row_count -= count;
-	e_selection_model_array_delete_rows (E_SELECTION_MODEL_ARRAY (esms), row, count);
+	e_selection_model_array_delete_rows (
+		E_SELECTION_MODEL_ARRAY (esms), row, count);
 }
 
 void
-e_selection_model_simple_move_row            (ESelectionModelSimple *esms,
-					      gint                    old_row,
-					      gint                    new_row)
+e_selection_model_simple_move_row (ESelectionModelSimple *esms,
+                                   gint old_row,
+                                   gint new_row)
 {
-	e_selection_model_array_move_row (E_SELECTION_MODEL_ARRAY (esms), old_row, new_row);
+	e_selection_model_array_move_row (
+		E_SELECTION_MODEL_ARRAY (esms), old_row, new_row);
 }
