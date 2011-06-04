@@ -1918,8 +1918,8 @@ e_date_edit_update_date_entry		(EDateEdit	*dedit)
 		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), C_("date", "None"));
 	} else {
 		/* This is a strftime() format for a short date.
-		   %x the preferred date representation for the current locale without the time,
-		   but has forced to use 4 digit year */
+		 * %x the preferred date representation for the current locale
+		 * without the time, but is forced to use 4 digit year. */
 		gchar *format = e_time_get_d_fmt_with_4digit_year ();
 		time_t tt;
 

@@ -193,7 +193,8 @@ emfh_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 						em_format_class_add_handler (klass, &item->handler);
 					}
 				}
-				/* We don't actually need to keep this around once its set on the class */
+				/* We don't actually need to keep this
+				 * around once its set on the class. */
 				emfh->groups = g_slist_append (emfh->groups, group);
 			}
 		}

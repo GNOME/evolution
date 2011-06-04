@@ -1058,8 +1058,9 @@ free_dn_queries (GnomeCalendar *gcal)
 	for (l = priv->dn_queries; l != NULL; l = l->next) {
 		if (!l->data)
 			continue;
-		g_signal_handlers_disconnect_matched ((ECalView *) l->data, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, gcal);
+		g_signal_handlers_disconnect_matched (
+			l->data, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, gcal);
 		g_object_unref (l->data);
 	}
 
@@ -2262,12 +2263,16 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 				if (e_cal_util_component_is_instance (m->data) ||
 					e_cal_util_component_has_recurrences (m->data)) {
 					gchar *rid = NULL;
-					struct icaltimetype recur_id = icalcomponent_get_recurrenceid (m->data);
+					struct icaltimetype recur_id;
+
+					recur_id = icalcomponent_get_recurrenceid (m->data);
 
 					if (!icaltime_is_null_time (recur_id) )
 						rid = icaltime_as_ical_string_r (recur_id);
 
-					e_cal_remove_object_with_mod (client, uid, rid, CALOBJ_MOD_ALL, &error);
+					e_cal_remove_object_with_mod (
+						client, uid, rid,
+						CALOBJ_MOD_ALL, &error);
 					g_free (rid);
 				} else {
 					e_cal_remove_object (client, uid, &error);

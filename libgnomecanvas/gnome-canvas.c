@@ -1167,7 +1167,8 @@ gnome_canvas_item_request_update (GnomeCanvasItem *item)
 		/* Recurse up the tree */
 		gnome_canvas_item_request_update (item->parent);
 	} else {
-		/* Have reached the top of the tree, make sure the update call gets scheduled. */
+		/* Have reached the top of the tree, make
+		 * sure the update call gets scheduled. */
 		gnome_canvas_request_update (item->canvas);
 	}
 }
@@ -1536,7 +1537,10 @@ gnome_canvas_group_point (GnomeCanvasItem *item,
 	for (list = g_list_last (group->item_list); list; list = list->prev) {
 		child = list->data;
 
-		if ((child->x1 > cx) || (child->y1 > cy) || (child->x2 < cx) || (child->y2 < cy))
+		if ((child->x1 > cx) || (child->y1 > cy))
+			continue;
+
+		if ((child->x2 < cx) || (child->y2 < cy))
 			continue;
 
 		if (!(child->flags & GNOME_CANVAS_ITEM_VISIBLE))
@@ -2466,7 +2470,8 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 	 * synthesize an enter event.
 	 */
 	if (event != &canvas->pick_event) {
-		if ((event->type == GDK_MOTION_NOTIFY) || (event->type == GDK_BUTTON_RELEASE)) {
+		if ((event->type == GDK_MOTION_NOTIFY) ||
+		    (event->type == GDK_BUTTON_RELEASE)) {
 			/* these fields have the same offsets in both types of events */
 
 			canvas->pick_event.crossing.type       = GDK_ENTER_NOTIFY;

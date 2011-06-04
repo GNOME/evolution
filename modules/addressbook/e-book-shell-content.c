@@ -437,7 +437,8 @@ book_shell_content_class_init (EBookShellContentClass *class)
 
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
 	shell_content_class->check_state = book_shell_content_check_state;
-	shell_content_class->focus_search_results = book_shell_content_focus_search_results;
+	shell_content_class->focus_search_results =
+		book_shell_content_focus_search_results;
 
 	g_object_class_install_property (
 		object_class,

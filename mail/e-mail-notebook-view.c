@@ -971,7 +971,8 @@ mail_netbook_view_open_mail (EMailView *view,
 #endif
 
 #if HAVE_CLUTTER
-	tab = (EMailTab *) e_mail_tab_new_full (camel_message_info_subject (info), NULL, 1);
+	tab = (EMailTab *) e_mail_tab_new_full (
+		camel_message_info_subject (info), NULL, 1);
 	g_object_set_data ((GObject *)tab, "page", pane);
 	g_object_set_data ((GObject *)pane, "tab", tab);
 
@@ -1046,7 +1047,9 @@ build_histogram (GtkWidget *widget, CamelFolder *folder)
 	uids = camel_folder_get_uids (folder);
 	camel_folder_summary_prepare_fetch_all (folder->summary, NULL);
 	for (i = 0; i < uids->len; i++) {
-		CamelMessageInfo *info = camel_folder_get_message_info (folder, uids->pdata[i]);
+		CamelMessageInfo *info;
+
+		info = camel_folder_get_message_info (folder, uids->pdata[i]);
 		if (info) {
 			time_t dreceived = now - camel_message_info_date_received (info);
 			gint week;
@@ -1451,11 +1454,15 @@ emnv_close_tab (EMailNotebookView *view, gpointer not_used)
 	EMailNotebookViewPrivate *priv = view->priv;
 
 #if HAVE_CLUTTER
-	mnv_tab_closed (g_object_get_data((GObject *)priv->current_view, "tab"),
-			view);
+	mnv_tab_closed (
+		g_object_get_data (
+			G_OBJECT (priv->current_view), "tab"),
+		view);
 #else
-	tab_remove_gtk_cb (g_object_get_data((GObject *)priv->current_view, "close-button"),
-				view);
+	tab_remove_gtk_cb (
+		g_object_get_data (
+			G_OBJECT (priv->current_view), "close-button"),
+		view);
 #endif
 
 }

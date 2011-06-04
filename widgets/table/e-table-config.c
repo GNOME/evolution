@@ -1398,19 +1398,19 @@ e_table_config_construct (ETableConfig        *config,
  * Returns: The config object.
  */
 ETableConfig *
-e_table_config_new (const gchar          *header,
-		    ETableSpecification *spec,
-		    ETableState         *state,
-		    GtkWindow           *parent_window)
+e_table_config_new (const gchar *header,
+                    ETableSpecification *spec,
+                    ETableState *state,
+                    GtkWindow *parent_window)
 {
-	ETableConfig *config = g_object_new (E_TYPE_TABLE_CONFIG, NULL);
+	ETableConfig *config;
 	GtkDialog *dialog;
 	GtkWidget *widget;
 
-	if (e_table_config_construct (config, header, spec, state, parent_window) == NULL) {
-		g_object_unref (config);
-		return NULL;
-	}
+	config = g_object_new (E_TYPE_TABLE_CONFIG, NULL);
+
+	e_table_config_construct (
+		config, header, spec, state, parent_window);
 
 	dialog = GTK_DIALOG (config->dialog_toplevel);
 

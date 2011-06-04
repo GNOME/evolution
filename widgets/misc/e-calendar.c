@@ -137,10 +137,11 @@ e_calendar_init (ECalendar *cal)
 
 	/* Create the small font. */
 
-	small_font_desc =
-		pango_font_description_copy (gtk_widget_get_style (GTK_WIDGET (cal))->font_desc);
-	pango_font_description_set_size (small_font_desc,
-					 E_CALENDAR_SMALL_FONT_PTSIZE * PANGO_SCALE);
+	small_font_desc = pango_font_description_copy (
+		gtk_widget_get_style (GTK_WIDGET (cal))->font_desc);
+	pango_font_description_set_size (
+		small_font_desc,
+		E_CALENDAR_SMALL_FONT_PTSIZE * PANGO_SCALE);
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (cal)->root);
 

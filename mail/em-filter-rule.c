@@ -356,7 +356,9 @@ part_combobox_changed (GtkComboBox *combobox, struct _part_data *data)
 	data->part = newpart;
 	data->partwidget = e_filter_part_get_widget (newpart);
 	if (data->partwidget)
-		gtk_box_pack_start (GTK_BOX (data->container), data->partwidget, TRUE, TRUE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (data->container),
+			data->partwidget, TRUE, TRUE, 0);
 }
 
 static GtkWidget *

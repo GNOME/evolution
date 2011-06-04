@@ -1483,16 +1483,21 @@ e_text_draw (GnomeCanvasItem *item, cairo_t *cr,
 			else
 				state = GTK_STATE_ACTIVE;
 
-			indices[0] = MIN (text->selection_start, text->selection_end);
-			indices[1] = MAX (text->selection_start, text->selection_end);
+			indices[0] = MIN (
+				text->selection_start,
+				text->selection_end);
+			indices[1] = MAX (
+				text->selection_start,
+				text->selection_end);
 
 			/* convert these into byte indices */
-			indices[0] = g_utf8_offset_to_pointer (text->text, indices[0]) - text->text;
-			indices[1] = g_utf8_offset_to_pointer (text->text, indices[1]) - text->text;
+			indices[0] = g_utf8_offset_to_pointer (
+				text->text, indices[0]) - text->text;
+			indices[1] = g_utf8_offset_to_pointer (
+				text->text, indices[1]) - text->text;
 
-			clip_region = gdk_pango_layout_get_clip_region (text->layout,
-									xpos, ypos,
-									indices, 1);
+			clip_region = gdk_pango_layout_get_clip_region (
+				text->layout, xpos, ypos, indices, 1);
 			gdk_cairo_region (cr, clip_region);
 			cairo_clip (cr);
 			cairo_region_destroy (clip_region);
@@ -1506,7 +1511,10 @@ e_text_draw (GnomeCanvasItem *item, cairo_t *cr,
 		} else {
 			if (text->show_cursor) {
 				PangoRectangle strong_pos, weak_pos;
-				gchar *offs = g_utf8_offset_to_pointer (text->text, text->selection_start);
+				gchar *offs;
+
+				offs = g_utf8_offset_to_pointer (
+					text->text, text->selection_start);
 
 				pango_layout_get_cursor_pos (
 					text->layout, offs - text->text +
@@ -1867,7 +1875,10 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			/* Simulate a GdkEventButton here, so that we can
 			 * call e_text_do_popup directly */
 
-			GdkEventButton *button = (GdkEventButton *) gdk_event_new (GDK_BUTTON_PRESS);
+			GdkEventButton *button;
+
+			button = (GdkEventButton *)
+				gdk_event_new (GDK_BUTTON_PRESS);
 			button->time = event->key.time;
 			button->button = 0;
 			e_text_do_popup (text, button, 0);
@@ -1883,7 +1894,9 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			gint ret;
 
 			if (text->im_context &&
-				gtk_im_context_filter_keypress (text->im_context, (GdkEventKey*) event)) {
+				gtk_im_context_filter_keypress (
+					text->im_context,
+					(GdkEventKey*) event)) {
 				text->need_im_reset = TRUE;
 				return 1;
 			}
@@ -1935,10 +1948,12 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_tep_event.button.time = button.time;
 			e_tep_event.button.state = button.state;
 			e_tep_event.button.button = button.button;
-			e_tep_event.button.position = get_position_from_xy (text, button.x, button.y);
+			e_tep_event.button.position =
+				get_position_from_xy (
+				text, button.x, button.y);
 			_get_tep (text);
-			return_val = e_text_event_processor_handle_event (text->tep,
-									  &e_tep_event);
+			return_val = e_text_event_processor_handle_event (
+				text->tep, &e_tep_event);
 			e_tep_event.type = GDK_BUTTON_RELEASE;
 		}
 #else
@@ -1954,8 +1969,11 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		/* We follow convention and emit popup events on right-clicks. */
 		if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
 			if (text->handle_popup) {
-				e_text_do_popup (text, &(event->button),
-						 get_position_from_xy (text, event->button.x, event->button.y));
+				e_text_do_popup (
+					text, &(event->button),
+					get_position_from_xy (
+						text, event->button.x,
+						event->button.y));
 				return 1;
 			}
 			else {
@@ -1968,13 +1986,13 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (event->type == GDK_BUTTON_PRESS) {
 			if (text->dbl_timeout == 0 &&
 			    text->tpl_timeout == 0) {
-				text->dbl_timeout = g_timeout_add (200,
-								   _click,
-								   &(text->dbl_timeout));
+				text->dbl_timeout = g_timeout_add (
+					200, _click, &(text->dbl_timeout));
 			} else {
 				if (text->tpl_timeout == 0) {
 					e_tep_event.type = GDK_2BUTTON_PRESS;
-					text->tpl_timeout = g_timeout_add (200, _click, &(text->tpl_timeout));
+					text->tpl_timeout = g_timeout_add (
+						200, _click, &(text->tpl_timeout));
 				} else {
 					e_tep_event.type = GDK_3BUTTON_PRESS;
 				}
@@ -1986,10 +2004,12 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_tep_event.button.time = button.time;
 			e_tep_event.button.state = button.state;
 			e_tep_event.button.button = button.button;
-			e_tep_event.button.position = get_position_from_xy (text, button.x, button.y);
+			e_tep_event.button.position =
+				get_position_from_xy (
+				text, button.x, button.y);
 			_get_tep (text);
-			return_val = e_text_event_processor_handle_event (text->tep,
-									  &e_tep_event);
+			return_val = e_text_event_processor_handle_event (
+				text->tep, &e_tep_event);
 			if (event->button.button == 1) {
 				if (event->type == GDK_BUTTON_PRESS)
 					text->button_down = TRUE;
@@ -2006,10 +2026,12 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			GdkEventMotion motion = event->motion;
 			e_tep_event.motion.time = motion.time;
 			e_tep_event.motion.state = motion.state;
-			e_tep_event.motion.position = get_position_from_xy (text, motion.x, motion.y);
+			e_tep_event.motion.position =
+				get_position_from_xy (
+				text, motion.x, motion.y);
 			_get_tep (text);
-			return_val = e_text_event_processor_handle_event (text->tep,
-								       &e_tep_event);
+			return_val = e_text_event_processor_handle_event (
+				text->tep, &e_tep_event);
 			text->lastx = motion.x;
 			text->lasty = motion.y;
 			text->last_state = motion.state;
@@ -2028,7 +2050,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		text->pointer_in = FALSE;
 		if (text->editing || text->draw_borders) {
 			if (!text->default_cursor_shown) {
-				gdk_window_set_cursor (window, text->default_cursor);
+				gdk_window_set_cursor (
+					window, text->default_cursor);
 				text->default_cursor_shown = TRUE;
 			}
 		}
@@ -2329,18 +2352,17 @@ e_text_do_popup (EText *text, GdkEventButton *button, gint position)
 {
 	PopupClosure *closure = g_new (PopupClosure, 1);
 
-	closure->text = text;
-	g_object_ref (closure->text);
+	closure->text = g_object_ref (text);
 	closure->button = (GdkEventButton *) gdk_event_copy ((GdkEvent *) button);
 	closure->position = position;
 
 	gtk_clipboard_request_contents (
-
-					gtk_widget_get_clipboard (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
-								  GDK_SELECTION_CLIPBOARD),
-					gdk_atom_intern ("TARGETS", FALSE),
-					popup_targets_received,
-					closure);
+		gtk_widget_get_clipboard (
+			GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
+			GDK_SELECTION_CLIPBOARD),
+		gdk_atom_intern ("TARGETS", FALSE),
+		popup_targets_received,
+		closure);
 }
 
 static void
@@ -2430,7 +2452,8 @@ _get_updated_position (EText *text, gboolean direction)
 
 	length = g_utf8_strlen (text->text, -1);
 
-	/* length checks to make sure we are not wandering off into nonexistant memory... */
+	/* length checks to make sure we are not wandering
+	 * off into nonexistant memory... */
 	if ((text->selection_end >= length) && (TRUE == direction))	/* forward */
 		return length;
 	/* checking for -ve value wont hurt! */
@@ -2452,7 +2475,8 @@ _get_updated_position (EText *text, gboolean direction)
 	new_pos = text->selection_end;
 	while (1)
 	{
-		/* check before moving forward/backwards if we have more chars to move or not */
+		/* check before moving forward/backwards
+		 * if we have more chars to move or not */
 		if (TRUE == direction)
 			p = g_utf8_next_char (p);
 		else
@@ -2677,7 +2701,8 @@ _get_position (EText *text, ETextEventProcessorCommand *command)
 		   to activate that object.
 		   (Normally, double click == select word, which is why this is here.) */
 
-		obj_num = e_text_model_get_object_at_offset (text->model, text->selection_start);
+		obj_num = e_text_model_get_object_at_offset (
+			text->model, text->selection_start);
 		if (obj_num != -1) {
 			e_text_model_activate_nth_object (text->model, obj_num);
 			new_pos = text->selection_start;

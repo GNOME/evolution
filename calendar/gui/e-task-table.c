@@ -1615,13 +1615,17 @@ hide_completed_rows (ECalModel *model,
 			ECalComponentId *id;
 			ECalComponent *comp = e_cal_component_new ();
 
-			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (m->data));
+			e_cal_component_set_icalcomponent (
+				comp, icalcomponent_new_clone (m->data));
 			id = e_cal_component_get_id (comp);
 
-			if ((comp_data =  e_cal_model_get_component_for_uid (model, id))) {
+			comp_data = e_cal_model_get_component_for_uid (model, id);
+			if (comp_data != NULL) {
 				e_table_model_pre_change (E_TABLE_MODEL (model));
-				pos = get_position_in_array (comp_objects, comp_data);
-				e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
+				pos = get_position_in_array (
+					comp_objects, comp_data);
+				e_table_model_row_deleted (
+					E_TABLE_MODEL (model), pos);
 				changed = TRUE;
 
 				if (g_ptr_array_remove (comp_objects, comp_data))
@@ -1665,16 +1669,20 @@ show_completed_rows (ECalModel *model,
 			ECalComponentId *id;
 			ECalComponent *comp = e_cal_component_new ();
 
-			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (m->data));
+			e_cal_component_set_icalcomponent (
+				comp, icalcomponent_new_clone (m->data));
 			id = e_cal_component_get_id (comp);
 
 			if (!(e_cal_model_get_component_for_uid (model, id))) {
 				e_table_model_pre_change (E_TABLE_MODEL (model));
-				comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
+				comp_data = g_object_new (
+					E_TYPE_CAL_MODEL_COMPONENT, NULL);
 				comp_data->client = g_object_ref (client);
-				comp_data->icalcomp = icalcomponent_new_clone (m->data);
-				e_cal_model_set_instance_times (comp_data,
-						e_cal_model_get_timezone (model));
+				comp_data->icalcomp =
+					icalcomponent_new_clone (m->data);
+				e_cal_model_set_instance_times (
+					comp_data,
+					e_cal_model_get_timezone (model));
 				comp_data->dtstart = NULL;
 				comp_data->dtend = NULL;
 				comp_data->due = NULL;
@@ -1682,7 +1690,9 @@ show_completed_rows (ECalModel *model,
 				comp_data->color = NULL;
 
 				g_ptr_array_add (comp_objects, comp_data);
-				e_table_model_row_inserted (E_TABLE_MODEL (model), comp_objects->len - 1);
+				e_table_model_row_inserted (
+					E_TABLE_MODEL (model),
+					comp_objects->len - 1);
 			}
 			e_cal_component_free_id (id);
 			g_object_unref (comp);

@@ -153,7 +153,9 @@ import_mbox_exec (struct _import_mbox_msg *m,
 			cancellable, _("Importing '%s'"),
 			camel_folder_get_full_name (folder));
 		camel_folder_freeze (folder);
-		while (camel_mime_parser_step (mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
+		while (camel_mime_parser_step (mp, NULL, NULL) ==
+				CAMEL_MIME_PARSER_STATE_FROM) {
+
 			CamelMimeMessage *msg;
 			const gchar *tmp;
 			gint pc = 0;
@@ -337,9 +339,12 @@ import_folders_rec (struct _import_folders_data *m,
 					break;
 				}
 			/* FIXME: need a better way to get default store location */
-			uri = g_strdup_printf("mbox:%s/local#%s", data_dir, folder);
+			uri = g_strdup_printf (
+				"mbox:%s/local#%s", data_dir, folder);
 		} else {
-			uri = g_strdup_printf("mbox:%s/local#%s/%s", data_dir, folderparent, folder);
+			uri = g_strdup_printf (
+				"mbox:%s/local#%s/%s",
+				data_dir, folderparent, folder);
 		}
 
 		printf("importing to uri %s\n", uri);

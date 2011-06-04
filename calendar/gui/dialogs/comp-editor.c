@@ -477,9 +477,14 @@ save_comp (CompEditor *editor)
 		if (result)
 			g_signal_emit_by_name (editor, "object_created");
 	} else {
+		gboolean has_recurrences;
 
-		if (e_cal_component_has_recurrences (priv->comp) && priv->mod == CALOBJ_MOD_ALL)
-			comp_util_sanitize_recurrence_master (priv->comp, priv->client);
+		has_recurrences =
+			e_cal_component_has_recurrences (priv->comp);
+
+		if (has_recurrences && priv->mod == CALOBJ_MOD_ALL)
+			comp_util_sanitize_recurrence_master (
+				priv->comp, priv->client);
 
 		if (priv->mod == CALOBJ_MOD_THIS) {
 			e_cal_component_set_rdate_list (priv->comp, NULL);
@@ -904,7 +909,9 @@ action_save_cb (GtkAction *action,
 				e_cal_component_has_recurrences (priv->comp)) {
 				gchar *rid;
 				rid = e_cal_component_get_recurid_as_string (priv->comp);
-				e_cal_remove_object_with_mod (priv->client, uid, rid, priv->mod, &error);
+				e_cal_remove_object_with_mod (
+					priv->client, uid, rid,
+					priv->mod, &error);
 				g_free (rid);
 			} else
 				e_cal_remove_object (priv->client, uid, &error);
@@ -3020,8 +3027,8 @@ set_attendees_for_delegation (ECalComponent *comp,
 	icalcomp = e_cal_component_get_icalcomponent (comp);
 
 	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
-			prop;
-			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
+	     prop;
+	     prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
 		const gchar *attendee = icalproperty_get_attendee (prop);
 		const gchar *delfrom = NULL;
 
@@ -3049,14 +3056,17 @@ get_users_from_memo_comp (ECalComponent *comp, GList **users)
 	icalcomp = e_cal_component_get_icalcomponent (comp);
 
 	for (icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
-		icalprop != NULL;
-		icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY)) {
-		if (g_str_equal (icalproperty_get_x_name (icalprop), "X-EVOLUTION-RECIPIENTS")) {
+	     icalprop != NULL;
+	     icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY)) {
+		const gchar *x_name;
+
+		x_name = icalproperty_get_x_name (icalprop);
+
+		if (g_str_equal (x_name, "X-EVOLUTION-RECIPIENTS"))
 			break;
-		}
 	}
 
-	if (icalprop)	 {
+	if (icalprop) {
 		attendees = icalproperty_get_x (icalprop);
 		emails = g_strsplit (attendees, ";", -1);
 

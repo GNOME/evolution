@@ -103,22 +103,32 @@ mbox_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 		view = e_shell_window_get_active_view (shell_window);
 
 		if (view && g_str_equal (view, "mail")) {
-			EShellView *shell_view = e_shell_window_get_shell_view (shell_window, view);
+			EShellView *shell_view;
+			EShellSidebar *shell_sidebar;
+			EMFolderTree *folder_tree = NULL;
 
-			if (shell_view) {
-				EMFolderTree *folder_tree = NULL;
-				EShellSidebar *shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+			shell_view = e_shell_window_get_shell_view (
+				shell_window, view);
 
-				g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+			shell_sidebar =
+				e_shell_view_get_shell_sidebar (shell_view);
 
-				if (folder_tree)
-					select_uri = em_folder_tree_get_selected_uri (folder_tree);
-			}
+			g_object_get (
+				shell_sidebar, "folder-tree",
+				&folder_tree, NULL);
+
+			select_uri =
+				em_folder_tree_get_selected_uri (folder_tree);
+
+			g_object_unref (folder_tree);
 		}
 	}
 
-	if (!select_uri)
-		select_uri = g_strdup (e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_INBOX));
+	if (!select_uri) {
+		const gchar *uri;
+		uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_INBOX);
+		select_uri = g_strdup (uri);
+	}
 
 	hbox = gtk_hbox_new (FALSE, 0);
 
@@ -205,7 +215,9 @@ mbox_status_timeout (gpointer data)
 		pc = importer->status_pc;
 		g_mutex_unlock (importer->status_lock);
 
-		e_import_status (importer->import, (EImportTarget *) importer->target, what, pc);
+		e_import_status (
+			importer->import, (EImportTarget *)
+			importer->target, what, pc);
 	}
 
 	return TRUE;
@@ -255,7 +267,8 @@ mbox_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 		importer->cancellable, "status",
 		G_CALLBACK (mbox_status), importer);
 
-	filename = g_filename_from_uri (((EImportTargetURI *) target)->uri_src, NULL, NULL);
+	filename = g_filename_from_uri (
+		((EImportTargetURI *) target)->uri_src, NULL, NULL);
 	mail_importer_import_mbox (
 		session, filename, ((EImportTargetURI *) target)->uri_dest,
 		importer->cancellable, mbox_import_done, importer);

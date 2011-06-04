@@ -302,7 +302,10 @@ parseLine (GHashTable *dn_contact_hash, EContact *contact,
 				}
 				else {
 					/* FIXME is everything a string? */
-					e_contact_set (contact, ldif_fields[i].contact_field, ldif_value->str);
+					e_contact_set (
+						contact,
+						ldif_fields[i].contact_field,
+						ldif_value->str);
 					g_message ("set %s to %s", ptr, ldif_value->str);
 				}
 				field_handled = TRUE;

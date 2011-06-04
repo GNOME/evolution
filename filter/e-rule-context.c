@@ -254,7 +254,8 @@ rule_context_load (ERuleContext *context,
 				}
 				rule = rule->next;
 			}
-		} else if ((rule_map = g_hash_table_lookup (context->rule_set_map, set->name))) {
+		} else if ((rule_map = g_hash_table_lookup (
+				context->rule_set_map, set->name))) {
 			rule = set->children;
 			while (rule) {
 				if (!strcmp ((gchar *)rule->name, "rule")) {
@@ -404,12 +405,20 @@ rule_context_revert (ERuleContext *context,
 						rest_data = g_hash_table_lookup (source_hash, part->source);
 						if (rest_data == NULL) {
 							rest_data = g_malloc0 (sizeof (*rest_data));
-							rest_data->rules = g_hash_table_new (g_str_hash, g_str_equal);
-							g_hash_table_insert (source_hash, part->source, rest_data);
+							rest_data->rules = g_hash_table_new (
+								g_str_hash,
+								g_str_equal);
+							g_hash_table_insert (
+								source_hash,
+								part->source,
+								rest_data);
 						}
-						frule = g_hash_table_lookup (rest_data->rules, part->name);
+						frule = g_hash_table_lookup (
+							rest_data->rules,
+							part->name);
 						if (frule) {
-							if (context->priv->frozen == 0 && !e_filter_rule_eq (frule, part))
+							if (context->priv->frozen == 0 &&
+							    !e_filter_rule_eq (frule, part))
 								e_filter_rule_copy (frule, part);
 
 							g_object_unref (part);

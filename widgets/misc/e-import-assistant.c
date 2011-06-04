@@ -614,7 +614,8 @@ import_simple_done (EImport *ei, gpointer user_data)
 
 		/* process next file URI */
 		g_free (priv->simple_page.target->uri_src);
-		priv->simple_page.target->uri_src = g_ptr_array_remove_index (priv->fileuris, 0);
+		priv->simple_page.target->uri_src =
+			g_ptr_array_remove_index (priv->fileuris, 0);
 
 		e_import_import (
 			priv->import, priv->import_target,

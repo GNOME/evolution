@@ -316,7 +316,8 @@ date_from_string (const gchar *str)
 		date->day = str[i] - '0' * 1;
 		i = i+2;
 	}
-	date->year = str[i] * 1000 + str[i+1] * 100 + str[i+2] * 10 + str[i+3] - '0' * 1111;
+	date->year = str[i] * 1000 + str[i + 1] * 100 +
+		str[i + 2] * 10 + str[i + 3] - '0' * 1111;
 
 	return date;
 }
@@ -388,7 +389,9 @@ map_fields (const gchar *header_line, gint pimporter)
 	while (value = parseNextValue (&pptr), value != NULL) {
 		for (j = 0; j < n_fields; j++) {
 			if (g_ascii_strcasecmp (fields_array[j].csv_attribute, value->str) == 0) {
-				g_hash_table_insert (fmap, GINT_TO_POINTER (idx), GINT_TO_POINTER (j + 1));
+				g_hash_table_insert (
+					fmap, GINT_TO_POINTER (idx),
+					GINT_TO_POINTER (j + 1));
 				any_found = TRUE;
 				break;
 			}
@@ -445,9 +448,12 @@ parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 
 		idx = ii;
 		if (gci->fields_map) {
-			gpointer found = g_hash_table_lookup (gci->fields_map, GINT_TO_POINTER (idx));
+			gpointer found;
 
-			if (!found) {
+			found = g_hash_table_lookup (
+				gci->fields_map, GINT_TO_POINTER (idx));
+
+			if (found == NULL) {
 				g_warning ("%s: No map for index %d, skipping it", G_STRFUNC, idx);
 				idx = -1;
 			} else {

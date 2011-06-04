@@ -154,10 +154,9 @@ add_time_to_csv (GString *line, icaltimetype *time, CsvConfig *config)
 		struct tm mytm =  icaltimetype_to_tm (time);
 		gchar *str = (gchar *) g_malloc (sizeof (gchar) * 200);
 
-		/*
-		 * Translator: the %F %T is the thirth argument for a strftime function.
-		 * It lets you define the formatting of the date in the csv-file.
-		 * */
+		/* Translators: the %F %T is the third argument for a
+		 * strftime function.  It lets you define the formatting
+		 * of the date in the csv-file. */
 		e_utf8_strftime (str, 200, _("%F %T"), &mytm);
 
 		needquotes = string_needsquotes (str, config);
@@ -332,7 +331,9 @@ do_save_calendar_csv (FormatHandler *handler,
 	/* open source client */
 	source_client = e_auth_new_cal_from_source (primary_source, type);
 	if (!e_cal_open (source_client, TRUE, &error)) {
-		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (selector)), error);
+		display_error_message (
+			gtk_widget_get_toplevel (GTK_WIDGET (selector)),
+			error);
 		g_object_unref (source_client);
 		g_error_free (error);
 		return;
@@ -346,13 +347,15 @@ do_save_calendar_csv (FormatHandler *handler,
 	config->newline = userstring_to_systemstring (tmp?tmp:"\\n");
 	tmp = gtk_entry_get_text (GTK_ENTRY (d->quote_entry));
 	config->quote = userstring_to_systemstring (tmp?tmp:"\"");
-	config->header = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (d->header_check));
+	config->header = gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (d->header_check));
 
 	stream = open_for_writing (
 		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (selector))),
 		dest_uri, &error);
 
-	if (stream && e_cal_get_object_list_as_comp (source_client, "#t", &objects, NULL)) {
+	if (stream && e_cal_get_object_list_as_comp (
+		source_client, "#t", &objects, NULL)) {
 
 		if (config->header) {
 
@@ -381,13 +384,15 @@ do_save_calendar_csv (FormatHandler *handler,
 			line = g_string_new ("");
 			for (i=0;i<G_N_ELEMENTS (labels);i++) {
 				if (i>0)
-					line = g_string_append (line, config->delimiter);
-				line = g_string_append (line, _(labels[i]));
+					g_string_append (line, config->delimiter);
+				g_string_append (line, _(labels[i]));
 			}
 
-			line = g_string_append (line, config->newline);
+			g_string_append (line, config->newline);
 
-			g_output_stream_write_all (stream, line->str, line->len, NULL, NULL, NULL);
+			g_output_stream_write_all (
+				stream, line->str, line->len,
+				NULL, NULL, NULL);
 			g_string_free (line, TRUE);
 		}
 
@@ -408,20 +413,24 @@ do_save_calendar_csv (FormatHandler *handler,
 			line = add_string_to_csv (line, temp_constchar, config);
 
 			e_cal_component_get_summary (comp, &temp_comptext);
-			line = add_string_to_csv (line, temp_comptext.value, config);
+			line = add_string_to_csv (
+				line, temp_comptext.value, config);
 
 			e_cal_component_get_description_list (comp, &temp_list);
-			line = add_list_to_csv (line, temp_list, config, ECALCOMPONENTTEXT);
+			line = add_list_to_csv (
+				line, temp_list, config, ECALCOMPONENTTEXT);
 			if (temp_list)
 				e_cal_component_free_text_list (temp_list);
 
 			e_cal_component_get_categories_list (comp, &temp_list);
-			line = add_list_to_csv (line, temp_list, config, CONSTCHAR);
+			line = add_list_to_csv (
+				line, temp_list, config, CONSTCHAR);
 			if (temp_list)
 				e_cal_component_free_categories_list (temp_list);
 
 			e_cal_component_get_comment_list (comp, &temp_list);
-			line = add_list_to_csv (line, temp_list, config, ECALCOMPONENTTEXT);
+			line = add_list_to_csv (
+				line, temp_list, config, ECALCOMPONENTTEXT);
 			if (temp_list)
 				e_cal_component_free_text_list (temp_list);
 
@@ -436,20 +445,27 @@ do_save_calendar_csv (FormatHandler *handler,
 				e_cal_component_free_icaltimetype (temp_time);
 
 			e_cal_component_get_contact_list (comp, &temp_list);
-			line = add_list_to_csv (line, temp_list, config, ECALCOMPONENTTEXT);
+			line = add_list_to_csv (
+				line, temp_list, config, ECALCOMPONENTTEXT);
 			if (temp_list)
 				e_cal_component_free_text_list (temp_list);
 
 			e_cal_component_get_dtstart (comp, &temp_dt);
-			line = add_time_to_csv (line, temp_dt.value ? temp_dt.value : NULL, config);
+			line = add_time_to_csv (
+				line, temp_dt.value ?
+				temp_dt.value : NULL, config);
 			e_cal_component_free_datetime (&temp_dt);
 
 			e_cal_component_get_dtend (comp, &temp_dt);
-			line = add_time_to_csv (line, temp_dt.value ? temp_dt.value : NULL, config);
+			line = add_time_to_csv (
+				line, temp_dt.value ?
+				temp_dt.value : NULL, config);
 			e_cal_component_free_datetime (&temp_dt);
 
 			e_cal_component_get_due (comp, &temp_dt);
-			line = add_time_to_csv (line, temp_dt.value ? temp_dt.value : NULL, config);
+			line = add_time_to_csv (
+				line, temp_dt.value ?
+				temp_dt.value : NULL, config);
 			e_cal_component_free_datetime (&temp_dt);
 
 			e_cal_component_get_percent (comp, &temp_int);
@@ -463,11 +479,15 @@ do_save_calendar_csv (FormatHandler *handler,
 
 			if (e_cal_component_has_attendees (comp)) {
 				e_cal_component_get_attendee_list (comp, &temp_list);
-				line = add_list_to_csv (line, temp_list, config, ECALCOMPONENTATTENDEE);
+				line = add_list_to_csv (
+					line, temp_list, config,
+					ECALCOMPONENTATTENDEE);
 				if (temp_list)
 					e_cal_component_free_attendee_list (temp_list);
 			} else {
-				line = add_list_to_csv (line, NULL, config, ECALCOMPONENTATTENDEE);
+				line = add_list_to_csv (
+					line, NULL, config,
+					ECALCOMPONENTATTENDEE);
 			}
 
 			e_cal_component_get_location (comp, &temp_constchar);
@@ -487,14 +507,17 @@ do_save_calendar_csv (FormatHandler *handler,
 			/* Important note!
 			 * The documentation is not requiring this!
 			 *
-			 * if (temp_time) e_cal_component_free_icaltimetype (temp_time);
+			 * if (temp_time)
+			 *     e_cal_component_free_icaltimetype (temp_time);
 			 *
 			 * Please uncomment and fix documentation if untrue
 			 * http://www.gnome.org/projects/evolution/
 			 *	developer-doc/libecal/ECalComponent.html
 			 *	#e-cal-component-get-last-modified
 			 */
-			g_output_stream_write_all (stream, line->str, line->len, NULL, NULL, &error);
+			g_output_stream_write_all (
+				stream, line->str, line->len,
+				NULL, NULL, &error);
 
 			/* It's written, so we can free it */
 			g_string_free (line, TRUE);
@@ -516,7 +539,9 @@ do_save_calendar_csv (FormatHandler *handler,
 	g_free (config);
 
 	if (error) {
-		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (selector)), error);
+		display_error_message (
+			gtk_widget_get_toplevel (GTK_WIDGET (selector)),
+			error);
 		g_error_free (error);
 	}
 
@@ -535,7 +560,8 @@ create_options_widget (FormatHandler *handler)
 	d->delimiter_entry = gtk_entry_new ();
 	d->newline_entry = gtk_entry_new ();
 	d->quote_entry = gtk_entry_new ();
-	d->header_check = gtk_check_button_new_with_mnemonic (_("Prepend a _header"));
+	d->header_check = gtk_check_button_new_with_mnemonic (
+		_("Prepend a _header"));
 
 	/* Advanced CSV options */
 	gtk_entry_set_text (GTK_ENTRY(d->delimiter_entry), ", ");
@@ -547,24 +573,36 @@ create_options_widget (FormatHandler *handler)
 	label = gtk_label_new_with_mnemonic (_("_Value delimiter:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), d->delimiter_entry);
-	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 0, 1,
-			  (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), d->delimiter_entry, 1, 2, 0, 1,
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (table), label, 0, 1, 0, 1,
+		(GtkAttachOptions) (GTK_FILL),
+		(GtkAttachOptions) (0), 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (table), d->delimiter_entry, 1, 2, 0, 1,
+		(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+		(GtkAttachOptions) (0), 0, 0);
 	label = gtk_label_new_with_mnemonic (_("_Record delimiter:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), d->newline_entry);
-	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 1, 2,
-			  (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), d->newline_entry, 1, 2, 1, 2,
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (table), label, 0, 1, 1, 2,
+		(GtkAttachOptions) (GTK_FILL),
+		(GtkAttachOptions) (0), 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (table), d->newline_entry, 1, 2, 1, 2,
+		(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+		(GtkAttachOptions) (0), 0, 0);
 	label = gtk_label_new_with_mnemonic (_("_Encapsulate values with:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), d->quote_entry);
-	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 2, 3,
-			  (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), d->quote_entry, 1, 2, 2, 3,
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (table), label, 0, 1, 2, 3,
+		(GtkAttachOptions) (GTK_FILL),
+		(GtkAttachOptions) (0), 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (table), d->quote_entry, 1, 2, 2, 3,
+		(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+		(GtkAttachOptions) (0), 0, 0);
 
 	gtk_box_pack_start (GTK_BOX (vbox), d->header_check, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), table, TRUE, TRUE, 0);

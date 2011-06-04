@@ -235,15 +235,19 @@ get_attendee_prop (icalcomponent *icalcomp, const gchar *address)
 	if (!(address && *address))
 		return NULL;
 
-	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
-			prop;
-			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
+	prop = icalcomponent_get_first_property (
+		icalcomp, ICAL_ATTENDEE_PROPERTY);
+
+	while (prop != NULL) {
 		const gchar *attendee = icalproperty_get_attendee (prop);
 
-		if (g_str_equal (itip_strip_mailto (attendee), address)) {
+		if (g_str_equal (itip_strip_mailto (attendee), address))
 			return prop;
-		}
+
+		prop = icalcomponent_get_next_property (
+			icalcomp, ICAL_ATTENDEE_PROPERTY);
 	}
+
 	return NULL;
 }
 

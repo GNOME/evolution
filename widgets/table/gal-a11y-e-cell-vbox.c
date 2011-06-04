@@ -220,7 +220,8 @@ AtkObject *gal_a11y_e_cell_vbox_new	(ETableItem *item,
 
 	a11y = g_object_new (gal_a11y_e_cell_vbox_get_type (), NULL);
 
-	gal_a11y_e_cell_construct (a11y, item, cell_view, parent, model_col, view_col, row);
+	gal_a11y_e_cell_construct (
+		a11y, item, cell_view, parent, model_col, view_col, row);
 
 	gaec = GAL_A11Y_E_CELL (a11y);
 	gaev = GAL_A11Y_E_CELL_VBOX (a11y);

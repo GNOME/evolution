@@ -273,7 +273,8 @@ rule_from_message (EFilterRule *rule,
 		gchar *namestr;
 
 		from = camel_mime_message_get_from (msg);
-		for (i = 0; from && camel_internet_address_get (from, i, &name, &address); i++) {
+		for (i = 0; from && camel_internet_address_get (
+				from, i, &name, &address); i++) {
 			rule_add_sender (context, rule, address);
 			if (name == NULL || name[0] == '\0')
 				name = address;
@@ -297,7 +298,8 @@ rule_from_message (EFilterRule *rule,
 	if (flags & AUTO_MLIST) {
 		gchar *name, *mlist;
 
-		mlist = camel_header_raw_check_mailing_list (&((CamelMimePart *) msg)->headers);
+		mlist = camel_header_raw_check_mailing_list (
+			&((CamelMimePart *) msg)->headers);
 		if (mlist) {
 			rule_match_mlist (context, rule, mlist);
 			name = g_strdup_printf (_("%s mailing list"), mlist);

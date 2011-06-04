@@ -567,20 +567,26 @@ comp_to_list (ECalComponentItipMethod method,
 		for (l = attendees; l != NULL; l = l->next) {
 			ECalComponentAttendee *att = l->data;
 
-			if (att->cutype != ICAL_CUTYPE_INDIVIDUAL && att->cutype != ICAL_CUTYPE_GROUP)
+			if (att->cutype != ICAL_CUTYPE_INDIVIDUAL &&
+			    att->cutype != ICAL_CUTYPE_GROUP)
 				continue;
 			else if (users_has_attendee (users, att->value))
 				continue;
-			else if (att->sentby && users_has_attendee (users, att->sentby))
+			else if (att->sentby &&
+				users_has_attendee (users, att->sentby))
 				continue;
-			else if (!g_ascii_strcasecmp (att->value, organizer.value))
+			else if (!g_ascii_strcasecmp (
+				att->value, organizer.value))
 				continue;
-			else if (att->sentby && !g_ascii_strcasecmp (att->sentby, organizer.sentby))
+			else if (att->sentby && !g_ascii_strcasecmp (
+				att->sentby, organizer.sentby))
 				continue;
-			else if (!g_ascii_strcasecmp (itip_strip_mailto (att->value), sender))
+			else if (!g_ascii_strcasecmp (
+				itip_strip_mailto (att->value), sender))
 				continue;
-			else if (att->status == ICAL_PARTSTAT_DELEGATED && (att->delto && *att->delto)
-					&& !(att->rsvp) && method == E_CAL_COMPONENT_METHOD_REQUEST)
+			else if (att->status == ICAL_PARTSTAT_DELEGATED &&
+				(att->delto && *att->delto) && !(att->rsvp) &&
+				method == E_CAL_COMPONENT_METHOD_REQUEST)
 				continue;
 			else if (only_attendees &&
 				!comp_editor_have_in_new_attendees_lst (
@@ -673,7 +679,8 @@ comp_to_list (ECalComponentItipMethod method,
 		for (l = attendees; l != NULL; l = l->next) {
 			ECalComponentAttendee *att = l->data;
 
-			if (att->cutype != ICAL_CUTYPE_INDIVIDUAL && att->cutype != ICAL_CUTYPE_GROUP)
+			if (att->cutype != ICAL_CUTYPE_INDIVIDUAL &&
+			    att->cutype != ICAL_CUTYPE_GROUP)
 				continue;
 
 			if (!g_ascii_strcasecmp (
@@ -1079,7 +1086,8 @@ comp_sentby (ECalComponent *comp, ECal *client)
 		}
 	}
 
-	if (!itip_organizer_is_user (comp, client) && !itip_sentby_is_user (comp, client)) {
+	if (!itip_organizer_is_user (comp, client) &&
+	    !itip_sentby_is_user (comp, client)) {
 		EAccount *a = e_get_default_account ();
 
 		organizer.value = g_strdup (organizer.value);

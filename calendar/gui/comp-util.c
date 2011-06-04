@@ -444,11 +444,15 @@ cal_comp_update_time_by_active_window (ECalComponent *comp, EShell *shell)
 	g_return_if_fail (shell != NULL);
 
 	window = e_shell_get_active_window (shell);
-	if (window && E_IS_SHELL_WINDOW (window)) {
-		EShellWindow *shell_window = E_SHELL_WINDOW (window);
 
-		if (e_shell_window_get_active_view (shell_window)
-		    && g_str_equal (e_shell_window_get_active_view (shell_window), "calendar")) {
+	if (E_IS_SHELL_WINDOW (window)) {
+		EShellWindow *shell_window;
+		const gchar *active_view;
+
+		shell_window = E_SHELL_WINDOW (window);
+		active_view = e_shell_window_get_active_view (shell_window);
+
+		if (g_strcmp0 (active_view, "calendar") == 0) {
 			EShellContent *shell_content;
 			EShellView *shell_view;
 			GnomeCalendar *gnome_cal;

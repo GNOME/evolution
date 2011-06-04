@@ -69,7 +69,7 @@ type_as_function ## _factory_get_type (void)					\
     static const GTypeInfo tinfo =						\
     {										\
       sizeof (AtkObjectFactoryClass),					\
-      NULL, NULL, (GClassInitFunc) type_as_function ## _factory_class_init,			\
+      NULL, NULL, (GClassInitFunc) type_as_function ## _factory_class_init,	\
       NULL, NULL, sizeof (AtkObjectFactory), 0, NULL, NULL			\
     };										\
 										\

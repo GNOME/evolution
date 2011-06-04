@@ -79,7 +79,8 @@ ea_addressbook_focus_watcher (GSignalInvocationHint *ihint,
 		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (object);
 		ea_event = atk_gobject_accessible_for_object (object);
 		if (event->type == GDK_FOCUS_CHANGE) {
-			if ((event->focus_change.in) && (E_IS_MINICARD (item->canvas->focused_item)))
+			if ((event->focus_change.in) &&
+			    (E_IS_MINICARD (item->canvas->focused_item)))
 				atk_focus_tracker_notify (ea_event);
 		}
 	}

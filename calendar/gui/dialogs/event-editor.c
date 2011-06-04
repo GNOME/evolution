@@ -363,7 +363,8 @@ event_editor_constructor (GType type,
 
 	if (is_meeting) {
 
-		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
+		if (e_cal_get_static_capability (
+			client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
 			event_page_show_options (priv->event_page);
 
 		comp_editor_set_group_item (editor, TRUE);
@@ -651,8 +652,13 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 			for (l = attendees; l != NULL; l = l->next) {
 				ECalComponentAttendee *ca = l->data;
 				EMeetingAttendee *ia;
+				gboolean addresses_match;
 
-				if (delegate &&	!g_str_equal (itip_strip_mailto (ca->value), user_email))
+				addresses_match =
+					g_str_equal (user_email,
+					itip_strip_mailto (ca->value));
+
+				if (delegate && !addresses_match)
 					continue;
 
 				ia = E_MEETING_ATTENDEE (
@@ -677,13 +683,16 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 
 				ia = e_meeting_store_find_self (priv->model, &row);
 				if (ia != NULL)
-					e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
+					e_meeting_attendee_set_edit_level (
+						ia, E_MEETING_ATTENDEE_EDIT_STATUS);
 			} else if (e_cal_get_organizer_must_attend (client)) {
 				EMeetingAttendee *ia;
 
-				ia = e_meeting_store_find_attendee (priv->model, organizer.value, &row);
+				ia = e_meeting_store_find_attendee (
+					priv->model, organizer.value, &row);
 				if (ia != NULL)
-					e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
+					e_meeting_attendee_set_edit_level (
+						ia, E_MEETING_ATTENDEE_EDIT_NONE);
 			}
 		}
 

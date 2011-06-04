@@ -367,8 +367,11 @@ main_get_filter_driver (CamelSession *session,
 				continue;
 
 			e_filter_rule_build_code (rule, fsearch);
-			em_filter_rule_build_action ((EMFilterRule *) rule, faction);
-			camel_filter_driver_add_rule (driver, rule->name, fsearch->str, faction->str);
+			em_filter_rule_build_action (
+				EM_FILTER_RULE (rule), faction);
+			camel_filter_driver_add_rule (
+				driver, rule->name,
+				fsearch->str, faction->str);
 		}
 
 		g_string_free (fsearch, TRUE);
@@ -442,8 +445,9 @@ set_socks_proxy_from_gconf (CamelSession *session)
 
 	mode = gconf_client_get_string (client, MODE_PROXY, NULL);
 	if (!g_strcmp0(mode, "manual")) {
-		host = gconf_client_get_string (client, KEY_SOCKS_HOST, NULL); /* NULL-GError */
-		port = gconf_client_get_int (client, KEY_SOCKS_PORT, NULL); /* NULL-GError */
+		/* FIXME Pass GErrors */
+		host = gconf_client_get_string (client, KEY_SOCKS_HOST, NULL);
+		port = gconf_client_get_int (client, KEY_SOCKS_PORT, NULL);
 		camel_session_set_socks_proxy (session, host, port);
 		g_free (host);
 	}

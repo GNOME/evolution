@@ -1135,13 +1135,18 @@ em_format_is_attachment (EMFormat *emf,
 
 	/*printf("checking is attachment %s/%s\n", ct->type, ct->subtype);*/
 	return !(camel_content_type_is (dw->mime_type, "multipart", "*")
-		 || camel_content_type_is(dw->mime_type, "application", "x-pkcs7-mime")
-		 || camel_content_type_is(dw->mime_type, "application", "pkcs7-mime")
-		 || camel_content_type_is(dw->mime_type, "application", "x-inlinepgp-signed")
-		 || camel_content_type_is(dw->mime_type, "application", "x-inlinepgp-encrypted")
-		 || camel_content_type_is(dw->mime_type, "x-evolution", "evolution-rss-feed")
-		 || camel_content_type_is(dw->mime_type, "text", "calendar")
-		 || camel_content_type_is(dw->mime_type, "text", "x-calendar")
+		 || camel_content_type_is (
+			dw->mime_type, "application", "x-pkcs7-mime")
+		 || camel_content_type_is (
+			dw->mime_type, "application", "pkcs7-mime")
+		 || camel_content_type_is (
+			dw->mime_type, "application", "x-inlinepgp-signed")
+		 || camel_content_type_is (
+			dw->mime_type, "application", "x-inlinepgp-encrypted")
+		 || camel_content_type_is (
+			dw->mime_type, "x-evolution", "evolution-rss-feed")
+		 || camel_content_type_is (dw->mime_type, "text", "calendar")
+		 || camel_content_type_is (dw->mime_type, "text", "x-calendar")
 		 || (camel_content_type_is (dw->mime_type, "text", "*")
 		     && camel_mime_part_get_filename (part) == NULL));
 }
@@ -2179,7 +2184,8 @@ emf_inlinepgp_signed (EMFormat *emf,
 			em_format_format_error (
 				emf, stream, "%s", local_error->message);
 		em_format_format_source (emf, stream, ipart, cancellable);
-		/* I think this will loop: em_format_part_as(emf, stream, part, "text/plain"); */
+		/* XXX I think this will loop:
+		 * em_format_part_as(emf, stream, part, "text/plain"); */
 		g_clear_error (&local_error);
 		g_object_unref (cipher);
 		return;
@@ -2273,7 +2279,8 @@ emf_inlinepgp_encrypted (EMFormat *emf,
 			em_format_format_error (
 				emf, stream, _("Unknown error"));
 		em_format_format_source (emf, stream, ipart, cancellable);
-		/* I think this will loop: em_format_part_as(emf, stream, part, "text/plain"); */
+		/* XXX I think this will loop:
+		 * em_format_part_as(emf, stream, part, "text/plain"); */
 
 		g_clear_error (&local_error);
 		g_object_unref (cipher);

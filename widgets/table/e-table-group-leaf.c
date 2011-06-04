@@ -151,10 +151,10 @@ e_table_group_leaf_construct (GnomeCanvasGroup *parent,
  */
 ETableGroup *
 e_table_group_leaf_new (GnomeCanvasGroup *parent,
-                        ETableHeader     *full_header,
-                        ETableHeader     *header,
-                        ETableModel      *model,
-                        ETableSortInfo   *sort_info)
+                        ETableHeader *full_header,
+                        ETableHeader *header,
+                        ETableModel *model,
+                        ETableSortInfo *sort_info)
 {
 	ETableGroupLeaf *etgl;
 
@@ -162,32 +162,44 @@ e_table_group_leaf_new (GnomeCanvasGroup *parent,
 
 	etgl = g_object_new (E_TYPE_TABLE_GROUP_LEAF, NULL);
 
-	e_table_group_leaf_construct (parent, etgl, full_header,
-				      header, model, sort_info);
+	e_table_group_leaf_construct (
+		parent, etgl, full_header,
+		header, model, sort_info);
+
 	return E_TABLE_GROUP (etgl);
 }
 
 static void
-etgl_cursor_change (GObject *object, gint row, ETableGroupLeaf *etgl)
+etgl_cursor_change (GObject *object,
+                    gint row,
+                    ETableGroupLeaf *etgl)
 {
 	if (row < E_TABLE_SUBSET (etgl->ets)->n_map)
-		e_table_group_cursor_change (E_TABLE_GROUP (etgl),
-					     E_TABLE_SUBSET (etgl->ets)->map_table[row]);
+		e_table_group_cursor_change (
+			E_TABLE_GROUP (etgl),
+			E_TABLE_SUBSET (etgl->ets)->map_table[row]);
 }
 
 static void
-etgl_cursor_activated (GObject *object, gint view_row, ETableGroupLeaf *etgl)
+etgl_cursor_activated (GObject *object,
+                       gint view_row,
+                       ETableGroupLeaf *etgl)
 {
 	if (view_row < E_TABLE_SUBSET (etgl->ets)->n_map)
-		e_table_group_cursor_activated (E_TABLE_GROUP (etgl),
-						E_TABLE_SUBSET (etgl->ets)->map_table[view_row]);
+		e_table_group_cursor_activated (
+			E_TABLE_GROUP (etgl),
+			E_TABLE_SUBSET (etgl->ets)->map_table[view_row]);
 }
 
 static void
-etgl_double_click (GObject *object, gint model_row, gint model_col, GdkEvent *event,
-		   ETableGroupLeaf *etgl)
+etgl_double_click (GObject *object,
+                   gint model_row,
+                   gint model_col,
+                   GdkEvent *event,
+                   ETableGroupLeaf *etgl)
 {
-	e_table_group_double_click (E_TABLE_GROUP (etgl), model_row, model_col, event);
+	e_table_group_double_click (
+		E_TABLE_GROUP (etgl), model_row, model_col, event);
 }
 
 static gboolean
@@ -207,21 +219,28 @@ etgl_key_press (GObject *object,
 }
 
 static gboolean
-etgl_start_drag (GObject *object, gint model_row, gint model_col, GdkEvent *event,
-		 ETableGroupLeaf *etgl)
+etgl_start_drag (GObject *object,
+                 gint model_row,
+                 gint model_col,
+                 GdkEvent *event,
+                 ETableGroupLeaf *etgl)
 {
-	return e_table_group_start_drag (E_TABLE_GROUP (etgl), model_row, model_col, event);
+	return e_table_group_start_drag (
+		E_TABLE_GROUP (etgl), model_row, model_col, event);
 }
 
 static gboolean
-etgl_right_click (GObject *object, gint view_row, gint model_col, GdkEvent *event,
-		  ETableGroupLeaf *etgl)
+etgl_right_click (GObject *object,
+                  gint view_row,
+                  gint model_col,
+                  GdkEvent *event,
+                  ETableGroupLeaf *etgl)
 {
 	if (view_row < E_TABLE_SUBSET (etgl->ets)->n_map)
-		return e_table_group_right_click (E_TABLE_GROUP (etgl),
-						  E_TABLE_SUBSET (etgl->ets)->map_table[view_row],
-						  model_col,
-						  event);
+		return e_table_group_right_click (
+			E_TABLE_GROUP (etgl),
+			E_TABLE_SUBSET (etgl->ets)->map_table[view_row],
+			model_col, event);
 	else
 		return FALSE;
 }
@@ -234,10 +253,10 @@ etgl_click (GObject *object,
             ETableGroupLeaf *etgl)
 {
 	if (row < E_TABLE_SUBSET (etgl->ets)->n_map)
-		return e_table_group_click (E_TABLE_GROUP (etgl),
-					    E_TABLE_SUBSET (etgl->ets)->map_table[row],
-					    col,
-					    event);
+		return e_table_group_click (
+			E_TABLE_GROUP (etgl),
+			E_TABLE_SUBSET (etgl->ets)->map_table[row],
+			col, event);
 	else
 		return FALSE;
 }
@@ -247,12 +266,8 @@ etgl_reflow (GnomeCanvasItem *item, gint flags)
 {
 	ETableGroupLeaf *leaf = E_TABLE_GROUP_LEAF (item);
 
-	g_object_get (leaf->item,
-		     "height", &leaf->height,
-		     NULL);
-	g_object_get (leaf->item,
-		     "width", &leaf->width,
-		     NULL);
+	g_object_get (leaf->item, "height", &leaf->height, NULL);
+	g_object_get (leaf->item, "width", &leaf->width, NULL);
 
 	e_canvas_item_request_parent_reflow (item);
 }

@@ -193,7 +193,8 @@ etw_proxy_model_rows_deleted (ETableSubset *etss,
 	gboolean shift = FALSE;
 
 	for (i = 0; i < etss->n_map; i++) {
-		if (etss->map_table[i] >= model_row && etss->map_table[i] < model_row + count) {
+		if (etss->map_table[i] >= model_row &&
+		    etss->map_table[i] < model_row + count) {
 			remove_row (etw, i);
 			i--;
 		} else if (etss->map_table[i] >= model_row + count) {

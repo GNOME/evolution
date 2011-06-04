@@ -222,7 +222,8 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 	 * synthesize an enter event.
 	 */
 	if (event != &canvas->pick_event) {
-		if ((event->type == GDK_MOTION_NOTIFY) || (event->type == GDK_BUTTON_RELEASE)) {
+		if ((event->type == GDK_MOTION_NOTIFY) ||
+		    (event->type == GDK_BUTTON_RELEASE)) {
 			/* these fields have the same offsets in both types of events */
 
 			canvas->pick_event.crossing.type       = GDK_ENTER_NOTIFY;

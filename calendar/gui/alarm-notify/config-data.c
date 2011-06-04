@@ -309,8 +309,12 @@ config_data_get_last_notification_time (ECal *cal)
 	if (cal) {
 		ESource *source = e_cal_get_source (cal);
 		if (source) {
-			const gchar *last_notified = e_source_get_property (source, "last-notified");
+			const gchar *last_notified;
+
 			GTimeVal tmval = {0};
+
+			last_notified = e_source_get_property (
+				source, "last-notified");
 
 			if (last_notified && *last_notified &&
 				g_time_val_from_iso8601 (last_notified, &tmval)) {
@@ -326,9 +330,13 @@ config_data_get_last_notification_time (ECal *cal)
 	if (!(client = config_data_get_conf_client ()))
 		return -1;
 
-	value = gconf_client_get_without_default (client, KEY_LAST_NOTIFICATION_TIME, NULL);
+	value = gconf_client_get_without_default (
+		client, KEY_LAST_NOTIFICATION_TIME, NULL);
 	if (value) {
-		time_t val = (time_t) gconf_value_get_int (value), now = time (NULL);
+		time_t val, now;
+
+		val = (time_t) gconf_value_get_int (value);
+		now = time (NULL);
 
 		if (val > now)
 			val = now;

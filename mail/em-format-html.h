@@ -90,6 +90,9 @@ typedef enum {
 
 typedef struct _EMFormatHTMLJob EMFormatHTMLJob;
 
+typedef void	(*EMFormatHTMLJobCallback)	(EMFormatHTMLJob *job,
+						 GCancellable *cancellable);
+
 /**
  * struct _EMFormatHTMLJob - A formatting job.
  *
@@ -120,7 +123,7 @@ struct _EMFormatHTMLJob {
 	GNode *puri_level;
 	CamelURL *base;
 
-	void (*callback)(EMFormatHTMLJob *job, GCancellable *cancellable);
+	EMFormatHTMLJobCallback callback;
 	union {
 		gchar *uri;
 		CamelMedium *msg;
@@ -275,7 +278,8 @@ EMFormatHTMLPObject *
 		em_format_html_find_pobject	(EMFormatHTML *efh,
 						 const gchar *classid);
 EMFormatHTMLPObject *
-		em_format_html_find_pobject_func (EMFormatHTML *efh,
+		em_format_html_find_pobject_func
+						(EMFormatHTML *efh,
 						 CamelMimePart *part,
 						 EMFormatHTMLPObjectFunc func);
 void		em_format_html_remove_pobject	(EMFormatHTML *efh,
@@ -283,22 +287,29 @@ void		em_format_html_remove_pobject	(EMFormatHTML *efh,
 void		em_format_html_clear_pobject	(EMFormatHTML *efh);
 EMFormatHTMLJob *
 		em_format_html_job_new		(EMFormatHTML *efh,
-						 void (*callback)(EMFormatHTMLJob *job, GCancellable *cancellable),
+						 EMFormatHTMLJobCallback callback,
 						 gpointer data);
 void		em_format_html_job_queue	(EMFormatHTML *efh,
 						 EMFormatHTMLJob *job);
-gboolean	em_format_html_get_show_real_date (EMFormatHTML *efh);
-void		em_format_html_set_show_real_date (EMFormatHTML *efh,
+gboolean	em_format_html_get_show_real_date
+						(EMFormatHTML *efh);
+void		em_format_html_set_show_real_date
+						(EMFormatHTML *efh,
 						 gboolean show_real_date);
 EMFormatHTMLHeadersState
-		em_format_html_get_headers_state (EMFormatHTML *efh);
-void		em_format_html_set_headers_state (EMFormatHTML *efh,
-						  EMFormatHTMLHeadersState state);
-gboolean	em_format_html_get_headers_collapsable (EMFormatHTML *efh);
-void		em_format_html_set_headers_collapsable (EMFormatHTML *efh,
-							gboolean collapsable);
+		em_format_html_get_headers_state
+						(EMFormatHTML *efh);
+void		em_format_html_set_headers_state
+						(EMFormatHTML *efh,
+						 EMFormatHTMLHeadersState state);
+gboolean	em_format_html_get_headers_collapsable
+						(EMFormatHTML *efh);
+void		em_format_html_set_headers_collapsable
+						(EMFormatHTML *efh,
+						 gboolean collapsable);
 
-gchar *		em_format_html_format_cert_infos (CamelCipherCertInfo *first_cinfo);
+gchar *		em_format_html_format_cert_infos
+						(CamelCipherCertInfo *first_cinfo);
 
 G_END_DECLS
 

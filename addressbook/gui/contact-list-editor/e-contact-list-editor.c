@@ -386,7 +386,9 @@ contact_list_editor_selection_changed_cb (GtkTreeSelection *selection,
 
 	/* Item before selected item exists => enable Top/Up buttons */
 	selected = gtk_tree_selection_get_selected_rows (selection, &model);
-	first_item = gtk_tree_path_copy (selected->data); /* Don't update path in the list! */
+
+	/* Don't update path in the list! */
+	first_item = gtk_tree_path_copy (selected->data);
 	if (gtk_tree_path_prev (first_item)) {
 		gtk_widget_set_sensitive (WIDGET (TOP_BUTTON), TRUE);
 		gtk_widget_set_sensitive (WIDGET (UP_BUTTON), TRUE);
@@ -934,21 +936,33 @@ contact_list_editor_top_button_clicked_cb (GtkButton *button);
 void
 contact_list_editor_top_button_clicked_cb (GtkButton *button)
 {
-	EContactListEditor *editor = contact_list_editor_extract (GTK_WIDGET (button));
-	GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (WIDGET (TREE_VIEW)));
-	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (WIDGET (TREE_VIEW)));
+	EContactListEditor *editor;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 	GtkTreePath *path;
 	GList *references = NULL;
+	GList *l, *selected;
 
-	GList *l, *selected = gtk_tree_selection_get_selected_rows (selection, &model);
+	editor = contact_list_editor_extract (GTK_WIDGET (button));
+
+	tree_view = GTK_TREE_VIEW (WIDGET (TREE_VIEW));
+	model = gtk_tree_view_get_model (tree_view);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	selected = gtk_tree_selection_get_selected_rows (selection, &model);
+
 	for (l = selected; l; l = l->next)
-		references = g_list_prepend (references, gtk_tree_row_reference_new (model, l->data));
+		references = g_list_prepend (
+			references,
+			gtk_tree_row_reference_new (model, l->data));
 
 	for (l = references; l; l = l->next) {
 		path = gtk_tree_row_reference_get_path (l->data);
 		gtk_tree_model_get_iter (model, &iter, path);
-		gtk_list_store_move_after (GTK_LIST_STORE (model), &iter, NULL);
+		gtk_list_store_move_after (
+			GTK_LIST_STORE (model), &iter, NULL);
 		gtk_tree_path_free (path);
 	}
 
@@ -966,13 +980,21 @@ contact_list_editor_up_button_clicked_cb (GtkButton *button);
 void
 contact_list_editor_up_button_clicked_cb (GtkButton *button)
 {
-	EContactListEditor *editor = contact_list_editor_extract (GTK_WIDGET (button));
-	GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (WIDGET (TREE_VIEW)));
-	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (WIDGET (TREE_VIEW)));
+	EContactListEditor *editor;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeSelection *selection;
 	GtkTreeIter iter, iter2;
 	GtkTreePath *path;
+	GList *selected;
 
-	GList *selected = gtk_tree_selection_get_selected_rows (selection, &model);
+	editor = contact_list_editor_extract (GTK_WIDGET (button));
+
+	tree_view = GTK_TREE_VIEW (WIDGET (TREE_VIEW));
+	model = gtk_tree_view_get_model (tree_view);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	selected = gtk_tree_selection_get_selected_rows (selection, &model);
 
 	/* Get iter of item above the first selected item */
 	path = gtk_tree_path_copy (selected->data);
@@ -997,12 +1019,20 @@ contact_list_editor_down_button_clicked_cb (GtkButton *button);
 void
 contact_list_editor_down_button_clicked_cb (GtkButton *button)
 {
-	EContactListEditor *editor = contact_list_editor_extract (GTK_WIDGET (button));
-	GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (WIDGET (TREE_VIEW)));
-	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (WIDGET (TREE_VIEW)));
+	EContactListEditor *editor;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeSelection *selection;
 	GtkTreeIter iter, iter2;
+	GList *selected;
 
-	GList *selected = gtk_tree_selection_get_selected_rows (selection, &model);
+	editor = contact_list_editor_extract (GTK_WIDGET (button));
+
+	tree_view = GTK_TREE_VIEW (WIDGET (TREE_VIEW));
+	model = gtk_tree_view_get_model (tree_view);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	selected = gtk_tree_selection_get_selected_rows (selection, &model);
 
 	/* Iter of the first selected item */
 	gtk_tree_model_get_iter (model, &iter, selected->data);
@@ -1025,22 +1055,34 @@ contact_list_editor_bottom_button_clicked_cb (GtkButton *button);
 void
 contact_list_editor_bottom_button_clicked_cb (GtkButton *button)
 {
-	EContactListEditor *editor = contact_list_editor_extract (GTK_WIDGET (button));
-	GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (WIDGET (TREE_VIEW)));
-	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (WIDGET (TREE_VIEW)));
+	EContactListEditor *editor;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 	GtkTreePath *path;
 	GList *references = NULL;
 
-	GList *l, *selected = gtk_tree_selection_get_selected_rows (selection, &model);
+	GList *l, *selected;
+
+	editor = contact_list_editor_extract (GTK_WIDGET (button));
+
+	tree_view = GTK_TREE_VIEW (WIDGET (TREE_VIEW));
+	model = gtk_tree_view_get_model (tree_view);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	selected = gtk_tree_selection_get_selected_rows (selection, &model);
 	for (l = selected; l; l = l->next)
-		references = g_list_prepend (references, gtk_tree_row_reference_new (model, l->data));
+		references = g_list_prepend (
+			references,
+			gtk_tree_row_reference_new (model, l->data));
 	references = g_list_reverse (references);
 
 	for (l = references; l; l = l->next) {
 		path = gtk_tree_row_reference_get_path (l->data);
 		gtk_tree_model_get_iter (model, &iter, path);
-		gtk_list_store_move_before (GTK_LIST_STORE (model), &iter, NULL);
+		gtk_list_store_move_before (
+			GTK_LIST_STORE (model), &iter, NULL);
 		gtk_tree_path_free (path);
 	}
 
@@ -1051,7 +1093,6 @@ contact_list_editor_bottom_button_clicked_cb (GtkButton *button)
 
 	contact_list_editor_selection_changed_cb (selection, editor);
 }
-
 
 /******************** GtkBuilder Custom Widgets Functions ********************/
 

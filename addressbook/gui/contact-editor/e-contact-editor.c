@@ -1787,7 +1787,9 @@ fill_in_im (EContactEditor *editor)
 			gint             slot;
 
 			im_name = e_vcard_attribute_get_value (attr);
-			slot = alloc_ui_slot (editor, "entry-im-name", get_ui_slot (attr), IM_SLOTS);
+			slot = alloc_ui_slot (
+				editor, "entry-im-name",
+				get_ui_slot (attr), IM_SLOTS);
 			if (slot < 1)
 				break;
 
@@ -1870,7 +1872,8 @@ extract_im (EContactEditor *editor)
 			e_vcard_attribute_add_value (attr, name);
 			set_ui_slot (attr, i);
 
-			service_attr_list[service] = g_list_append (service_attr_list[service], attr);
+			service_attr_list[service] = g_list_append (
+				service_attr_list[service], attr);
 		}
 
 		g_free (name);
@@ -2795,7 +2798,8 @@ init_simple (EContactEditor *editor)
 	gint       i;
 
 	for (i = 0; i < G_N_ELEMENTS (simple_field_map); i++) {
-		widget = e_builder_get_widget (editor->builder, simple_field_map[i].widget_name);
+		widget = e_builder_get_widget (
+			editor->builder, simple_field_map[i].widget_name);
 		if (!widget)
 			continue;
 
@@ -2829,7 +2833,8 @@ fill_in_simple (EContactEditor *editor)
 		    !simple_field_map[i].process_data)
 			continue;
 
-		widget = e_builder_get_widget (editor->builder, simple_field_map[i].widget_name);
+		widget = e_builder_get_widget (
+			editor->builder, simple_field_map[i].widget_name);
 		if (!widget)
 			continue;
 
@@ -2878,7 +2883,8 @@ extract_simple (EContactEditor *editor)
 		    !simple_field_map[i].process_data)
 			continue;
 
-		widget = e_builder_get_widget (editor->builder, simple_field_map[i].widget_name);
+		widget = e_builder_get_widget (
+			editor->builder, simple_field_map[i].widget_name);
 		if (!widget)
 			continue;
 
@@ -2899,7 +2905,8 @@ sensitize_simple (EContactEditor *editor)
 		GtkWidget *widget;
 		gboolean   enabled = TRUE;
 
-		widget = e_builder_get_widget (editor->builder, simple_field_map[i].widget_name);
+		widget = e_builder_get_widget (
+			editor->builder, simple_field_map[i].widget_name);
 		if (!widget)
 			continue;
 
@@ -3121,15 +3128,23 @@ static void
 categories_response (GtkDialog *dialog, gint response, EContactEditor *editor)
 {
 	const gchar *categories;
-	GtkWidget *entry = e_builder_get_widget(editor->builder, "entry-categories");
+	GtkWidget *entry;
+
+	entry = e_builder_get_widget (editor->builder, "entry-categories");
 
 	if (response == GTK_RESPONSE_OK) {
-		categories = e_categories_dialog_get_categories (E_CATEGORIES_DIALOG (dialog));
-		if (entry && GTK_IS_ENTRY (entry))
-			gtk_entry_set_text (GTK_ENTRY (entry), categories);
+		categories = e_categories_dialog_get_categories (
+			E_CATEGORIES_DIALOG (dialog));
+		if (GTK_IS_ENTRY (entry))
+			gtk_entry_set_text (
+				GTK_ENTRY (entry), categories);
 		else
-			e_contact_set (editor->contact, E_CONTACT_CATEGORIES, (gchar *) categories);
+			e_contact_set (
+				editor->contact,
+				E_CONTACT_CATEGORIES,
+				(gchar *) categories);
 	}
+
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 	editor->categories_dialog = NULL;
 }
@@ -4150,7 +4165,9 @@ e_contact_editor_set_property (GObject *object,
 			break;
 
 		if (editor->target_book) {
-			g_signal_handler_disconnect (editor->target_book, editor->target_editable_id);
+			g_signal_handler_disconnect (
+				editor->target_book,
+				editor->target_editable_id);
 			g_object_unref (editor->target_book);
 		}
 

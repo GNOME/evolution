@@ -246,10 +246,13 @@ cell_toggle_event (ECellView *ecell_view,
 			return FALSE;
 		/* Fall through */
 	case GDK_BUTTON_PRESS:
-		if (!e_table_model_is_cell_editable (ecell_view->e_table_model, model_col, row))
+		if (!e_table_model_is_cell_editable (
+			ecell_view->e_table_model, model_col, row))
 			return FALSE;
 
-		etog_set_value (toggle_view, model_col, view_col, row, value + 1);
+		etog_set_value (
+			toggle_view, model_col, view_col, row, value + 1);
+
 		return TRUE;
 
 	default:

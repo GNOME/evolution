@@ -245,7 +245,8 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		 PROP_FAMILY,
 		 g_param_spec_string ("family",
 				      "Font family",
-				      "Name of the font family, e.g. Sans, Helvetica, Times, Monospace",
+				      "Name of the font family, e.g. "
+				      "Sans, Helvetica, Times, Monospace",
 				      NULL,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
@@ -1174,8 +1175,9 @@ gnome_canvas_text_set_markup (GnomeCanvasText *textitem,
 					   &attr_list, &text, NULL,
 					   &error))
 	{
-		g_warning ("Failed to set cell text from markup due to error parsing markup: %s",
-			   error->message);
+		g_warning (
+			"Failed to set cell text from markup due to "
+			"error parsing markup: %s", error->message);
 		g_error_free (error);
 		return;
 	}

@@ -271,7 +271,9 @@ elm_status_timeout (gpointer data)
 		pc = importer->status_pc;
 		g_mutex_unlock (importer->status_lock);
 
-		e_import_status (importer->import, (EImportTarget *) importer->target, what, pc);
+		e_import_status (
+			importer->import, (EImportTarget *)
+			importer->target, what, pc);
 	}
 
 	return TRUE;

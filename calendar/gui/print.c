@@ -746,20 +746,27 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 			}
 
 			if (day != 0) {
-				time_t week_begin = time_week_begin_with_zone (now, week_start_day, zone);
+				time_t week_begin;
 
-				convert_timet_to_struct_tm (week_begin, zone, &tm);
+				week_begin = time_week_begin_with_zone (
+					now, week_start_day, zone);
 
-				/* month in e_calendar_item_get_week_number is also zero-based */
+				convert_timet_to_struct_tm (
+					week_begin, zone, &tm);
+
+				/* Month in e_calendar_item_get_week_number
+				 * is also zero-based. */
 				sprintf (
 					buf, "%d",
 					e_calendar_item_get_week_number (
 					NULL, tm.tm_mday, tm.tm_mon,
 					tm.tm_year + 1900));
 
-				print_text (context, font_normal, buf, PANGO_ALIGN_RIGHT,
-					    cell_left, text_right,
-					    cell_top, cell_bottom);
+				print_text (
+					context, font_normal,
+					buf, PANGO_ALIGN_RIGHT,
+					cell_left, text_right,
+					cell_top, cell_bottom);
 			}
 		}
 
@@ -1766,7 +1773,9 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 				 + psi->rows_per_cell * (psi->row_height + 2);
 
 			if (span->row >= psi->rows_per_compressed_cell && psi->compress_weekend) {
-				gint end_day_of_week = (psi->display_start_weekday + span->start_day) % 7;
+				gint end_day_of_week =
+					(psi->display_start_weekday +
+					 span->start_day) % 7;
 
 				if (end_day_of_week == 5 || end_day_of_week == 6) {
 					/* Sat or Sun */

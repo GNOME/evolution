@@ -271,7 +271,8 @@ attachment_button_expand_drag_data_get_cb (EAttachmentButton *button,
 	if (button->priv->attachment) {
 		gchar *mime_type;
 
-		mime_type = e_attachment_get_mime_type (button->priv->attachment);
+		mime_type = e_attachment_get_mime_type (
+			button->priv->attachment);
 
 		if (mime_type) {
 			gboolean processed = FALSE;
@@ -284,7 +285,9 @@ attachment_button_expand_drag_data_get_cb (EAttachmentButton *button,
 			if (g_strcmp0 (atom_name, mime_type) == 0) {
 				CamelMimePart *mime_part;
 
-				mime_part = e_attachment_get_mime_part (button->priv->attachment);
+				mime_part = e_attachment_get_mime_part (
+					button->priv->attachment);
+
 				if (CAMEL_IS_MIME_PART (mime_part)) {
 					CamelDataWrapper *wrapper;
 					CamelStream *stream;
@@ -292,12 +295,18 @@ attachment_button_expand_drag_data_get_cb (EAttachmentButton *button,
 
 					buffer = g_byte_array_new ();
 					stream = camel_stream_mem_new ();
-					camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), buffer);
-					wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
-					camel_data_wrapper_decode_to_stream_sync (wrapper, stream, NULL, NULL);
+					camel_stream_mem_set_byte_array (
+						CAMEL_STREAM_MEM (stream),
+						buffer);
+					wrapper = camel_medium_get_content (
+						CAMEL_MEDIUM (mime_part));
+					camel_data_wrapper_decode_to_stream_sync (
+						wrapper, stream, NULL, NULL);
 					g_object_unref (stream);
 
-					gtk_selection_data_set (selection, atom, 8, buffer->data, buffer->len);
+					gtk_selection_data_set (
+						selection, atom, 8,
+						buffer->data, buffer->len);
 					processed = TRUE;
 
 					g_byte_array_free (buffer, TRUE);
@@ -780,7 +789,9 @@ e_attachment_button_set_attachment (EAttachmentButton *button,
 
 			attach_entry[0].target = simple_type;
 
-			gtk_target_list_add_table (list, attach_entry, G_N_ELEMENTS (attach_entry));
+			gtk_target_list_add_table (
+				list, attach_entry,
+				G_N_ELEMENTS (attach_entry));
 
 			g_free (simple_type);
 		}

@@ -945,7 +945,9 @@ e_map_set_zoom (EMap *map, EMapZoomState zoom)
 }
 
 void
-e_map_zoom_to_location (EMap *map, gdouble longitude, gdouble latitude)
+e_map_zoom_to_location (EMap *map,
+                        gdouble longitude,
+                        gdouble latitude)
 {
 	gdouble prevlong, prevlat;
 	gdouble prevzoom;
@@ -959,7 +961,9 @@ e_map_zoom_to_location (EMap *map, gdouble longitude, gdouble latitude)
 	e_map_set_zoom (map, E_MAP_ZOOMED_IN);
 	center_at (map, longitude, latitude);
 
-	e_map_tween_new_from (map, E_MAP_TWEEN_DURATION_MSECS, prevlong, prevlat, prevzoom);
+	e_map_tween_new_from (
+		map, E_MAP_TWEEN_DURATION_MSECS,
+		prevlong, prevlat, prevzoom);
 }
 
 void

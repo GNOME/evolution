@@ -1625,13 +1625,13 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	info->ethi = ethi;
 	info->col = ethi_find_col_by_x (ethi, event->x);
 
-	popup = e_popup_menu_create_with_domain (ethi_context_menu,
-						 1 +
-						 0 +
-						 ((ethi->table || ethi->tree) ? 0 : 4) +
-						 ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
-						 ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
-						 128, info, GETTEXT_PACKAGE);
+	popup = e_popup_menu_create_with_domain (
+		ethi_context_menu,
+		1 +
+		((ethi->table || ethi->tree) ? 0 : 4) +
+		((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
+		((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
+		128, info, GETTEXT_PACKAGE);
 
 	menu_item = gtk_menu_item_new_with_mnemonic (_("_Sort By"));
 	gtk_widget_show (menu_item);
@@ -1761,9 +1761,9 @@ ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 					gint j;
 
 					for (j = i + 1; j < length; j++)
-						e_table_sort_info_sorting_set_nth (ethi->sort_info,
-										j - 1,
-										e_table_sort_info_sorting_get_nth (ethi->sort_info, j));
+						e_table_sort_info_sorting_set_nth (
+							ethi->sort_info, j - 1,
+							e_table_sort_info_sorting_get_nth (ethi->sort_info, j));
 
 					e_table_sort_info_sorting_truncate (ethi->sort_info, length - 1);
 					length--;
@@ -1968,7 +1968,8 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			   (e->key.keyval == GDK_KEY_KP_Left)) {
 			ETableCol *ecol;
 
-			if ((ethi->selected_col <= 0) || (ethi->selected_col >= ethi->eth->col_count))
+			if ((ethi->selected_col <= 0) ||
+			    (ethi->selected_col >= ethi->eth->col_count))
 				ethi->selected_col = ethi->eth->col_count - 1;
 			else
 				ethi->selected_col--;

@@ -408,7 +408,8 @@ ep_load (const gchar *filename, gint load_level)
 					ep = ep_load_plugin (root, pdoc);
 
 					if (ep && load_level == 1)
-						e_plugin_invoke (ep, "load_plugin_type_register_function", NULL);
+						e_plugin_invoke (
+							ep, "load_plugin_type_register_function", NULL);
 				}
 			} else if (load_level == 2) {
 				ep = ep_load_plugin (root, pdoc);

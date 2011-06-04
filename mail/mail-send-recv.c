@@ -882,12 +882,12 @@ receive_get_folder (CamelFilterDriver *d,
 	/* and we assume the newer one is the same, but unref the old one anyway */
 	g_mutex_lock (info->data->lock);
 
-	if (g_hash_table_lookup_extended (info->data->folders, uri, &oldkey, &oldinfoptr)) {
+	if (g_hash_table_lookup_extended (
+			info->data->folders, uri, &oldkey, &oldinfoptr)) {
 		oldinfo = (struct _folder_info *) oldinfoptr;
 		g_object_unref (oldinfo->folder);
 		oldinfo->folder = folder;
 	} else {
-		/*camel_folder_freeze (folder);		*/
 		oldinfo = g_malloc0 (sizeof (*oldinfo));
 		oldinfo->folder = folder;
 		oldinfo->uri = g_strdup (uri);
