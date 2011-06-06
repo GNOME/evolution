@@ -176,8 +176,7 @@ gal_a11y_e_tree_new (GObject *widget)
 
 	a11y = g_object_new (gal_a11y_e_tree_get_type (), NULL);
 
-	/* FIXME No way to do this in GTK 3. */
-	/*GTK_ACCESSIBLE (a11y)->widget = GTK_WIDGET (widget);*/
+	gtk_accessible_set_widget (GTK_ACCESSIBLE (a11y), GTK_WIDGET (widget));
 
 	return ATK_OBJECT (a11y);
 }
