@@ -174,7 +174,6 @@ static AtkObject*
 ea_cal_view_get_parent (AtkObject *accessible)
 {
 	ECalendarView *cal_view;
-	GnomeCalendar *gnomeCalendar;
 	GtkWidget *widget;
 
 	g_return_val_if_fail (EA_IS_CAL_VIEW (accessible), NULL);
@@ -184,9 +183,8 @@ ea_cal_view_get_parent (AtkObject *accessible)
 		return NULL;
 
 	cal_view = E_CALENDAR_VIEW (widget);
-	gnomeCalendar = e_calendar_view_get_calendar (cal_view);
 
-	return gtk_widget_get_accessible (GTK_WIDGET (gnomeCalendar));
+	return gtk_widget_get_accessible (gtk_widget_get_parent (GTK_WIDGET (cal_view)));
 }
 
 static void
