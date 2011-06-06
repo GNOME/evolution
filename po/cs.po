@@ -21479,7 +21479,7 @@ msgstr "Kliknutím zde přejdete na adresu URL"
 
 #: ../widgets/misc/e-web-view.c:375
 msgid "_Copy Link Location"
-msgstr "_Kopírovat umístění odkazu"
+msgstr "_Kopírovat odkazované místo"
 
 #: ../widgets/misc/e-web-view.c:377
 msgid "Copy the link to the clipboard"
