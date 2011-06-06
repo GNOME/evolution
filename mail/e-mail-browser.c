@@ -114,7 +114,9 @@ G_DEFINE_TYPE_WITH_CODE (
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_ALERT_SINK, e_mail_browser_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_READER, e_mail_browser_reader_init))
+		E_TYPE_MAIL_READER, e_mail_browser_reader_init)
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 static void
 action_close_cb (GtkAction *action,
@@ -717,6 +719,8 @@ mail_browser_constructed (GObject *object)
 	e_plugin_ui_enable_manager (ui_manager, id);
 
 	e_mail_reader_connect_headers (E_MAIL_READER (reader));
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
 static gboolean
