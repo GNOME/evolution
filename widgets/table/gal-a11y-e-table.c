@@ -131,7 +131,7 @@ et_get_n_children (AtkObject *accessible)
 
 	et = E_TABLE (gtk_accessible_get_widget (GTK_ACCESSIBLE (a11y)));
 
-	if (et->group) {
+	if (et && et->group) {
 		if (E_IS_TABLE_GROUP_LEAF (et->group))
 			n = 1;
 		else if (E_IS_TABLE_GROUP_CONTAINER (et->group)) {
@@ -155,6 +155,8 @@ et_ref_child (AtkObject *accessible,
 	gint child_no;
 
 	et = E_TABLE (gtk_accessible_get_widget (GTK_ACCESSIBLE (a11y)));
+	if (!et)
+		return NULL;
 
 	child_no = et_get_n_children (accessible);
 	if (i == 0 || i < child_no - 1) {
@@ -283,8 +285,7 @@ gal_a11y_e_table_new (GObject *widget)
 
 	a11y = g_object_new (gal_a11y_e_table_get_type (), NULL);
 
-	/* FIXME No way to do this in GTK 3. */
-	/*GTK_ACCESSIBLE (a11y)->widget = GTK_WIDGET (widget);*/
+	gtk_accessible_set_widget (GTK_ACCESSIBLE (a11y), GTK_WIDGET (widget));
 
 	/* we need to init all the children for multiple table items */
 	if (table && gtk_widget_get_mapped (GTK_WIDGET (table)) && table->group && E_IS_TABLE_GROUP_CONTAINER (table->group)) {
