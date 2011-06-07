@@ -594,9 +594,15 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	/* HACK: we need to create vfolders using the vfolder editor */
 	if (CAMEL_IS_VEE_STORE (store)) {
 		EFilterRule *rule;
+		const gchar *skip_slash;
+
+		if (*folder_name == '/')
+			skip_slash = folder_name + 1;
+		else
+			skip_slash = folder_name;
 
 		rule = em_vfolder_rule_new (backend);
-		e_filter_rule_set_name (rule, folder_name);
+		e_filter_rule_set_name (rule, skip_slash);
 		vfolder_gui_add_rule (EM_VFOLDER_RULE (rule));
 	} else {
 		AsyncContext *context;
