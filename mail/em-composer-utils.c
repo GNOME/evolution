@@ -2339,7 +2339,7 @@ get_reply_sender (CamelMimeMessage *message,
 	reply_to = get_reply_to (message);
 
 	if (reply_to != NULL) {
-		gint ii;
+		gint ii = 0;
 
 		while (camel_internet_address_get (reply_to, ii++, &name, &addr))
 			camel_internet_address_add (to, name, addr);
@@ -2381,7 +2381,7 @@ get_reply_from (CamelMimeMessage *message,
 	from = camel_mime_message_get_from (message);
 
 	if (from != NULL) {
-		gint ii;
+		gint ii = 0;
 
 		while (camel_internet_address_get (from, ii++, &name, &addr))
 			camel_internet_address_add (to, name, addr);
