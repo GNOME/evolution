@@ -54,6 +54,7 @@ m4_define([champlain_minimum_version], [0.10])
 m4_define([clutter_gtk_minimum_version], [0.90])
 m4_define([geoclue_minimum_version], [0.11.1])
 m4_define([gladeui_minimum_version], [3.10.0])
+m4_define([goa_minimum_version], [3.1.1])
 m4_define([gweather_minimum_version], [2.90.0])
 m4_define([libcanberra_gtk_minimum_version], [0.25])
 m4_define([nm_minimum_version], [0.7])
@@ -1085,6 +1086,23 @@ else
 fi
 AC_SUBST(TNEF_CFLAGS)
 
+dnl *******************************
+dnl Check for GNOME Online Accounts
+dnl *******************************
+AC_ARG_ENABLE([goa],
+	[AS_HELP_STRING([--enable-goa],
+	[enable GNOME Online Accounts support (default=yes)])],
+	[enable_goa=$enableval], [enable_goa=yes])
+AC_MSG_CHECKING([if GNOME Online Accounts support is enabled])
+AC_MSG_RESULT([$enable_goa])
+if test "x$enable_goa" = xyes; then
+	PKG_CHECK_MODULES([GOA], [goa-1.0 >= goa_minimum_version],,
+	[AC_MSG_ERROR([goa-1.0 not found (or version < goa_minimum_version),
+	If you want to disable GNOME Online Accounts support,
+	please append --disable-goa to configure.])])
+fi
+AM_CONDITIONAL([ENABLE_ONLINE_ACCOUNTS], [test "x$enable_goa" = xyes])
+
 dnl ******************************
 dnl Check for NetworkManager
 dnl ******************************
@@ -1732,6 +1750,7 @@ modules/composer-autosave/Makefile
 modules/connman/Makefile
 modules/mailto-handler/Makefile
 modules/network-manager/Makefile
+modules/online-accounts/Makefile
 modules/offline-alert/Makefile
 modules/plugin-lib/Makefile
 modules/plugin-manager/Makefile
@@ -1801,8 +1820,9 @@ echo "
 	LDAP support:		$msg_ldap
 	Clutter support:	$with_clutter
 	NetworkManager:		$enable_nm
-	Windows SENS:           $enable_sens
+	Windows SENS:		$enable_sens
 	ConnMan:		$enable_connman
+	GNOME Online Accounts:	$enable_goa
 	Libnotify:		$HAVE_LIBNOTIFY
 	Kerberos 5:		$msg_krb5
 	SSL support:		$msg_ssl
