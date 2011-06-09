@@ -6,6 +6,10 @@ if ENABLE_PYTHON
 PYTHON_DIR = plugin-python
 endif
 
+if ENABLE_ONLINE_ACCOUNTS
+ONLINE_ACCOUNTS_DIR = online-accounts
+endif
+
 if ENABLE_NETWORK_MANAGER
 NETWORK_MANAGER_DIR = network-manager
 endif
@@ -30,6 +34,7 @@ SUBDIRS = \
 	startup-wizard \
 	$(MONO_DIR) \
 	$(PYTHON_DIR) \
+	$(ONLINE_ACCOUNTS_DIR) \
 	$(NETWORK_MANAGER_DIR) \
 	$(WINDOWS_SENS_DIR) \
 	$(CONNMAN_DIR)
