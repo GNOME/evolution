@@ -54,7 +54,7 @@ etcta_get_n_actions (AtkAction *action)
 	return 1;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 etcta_get_description (AtkAction *action,
                              gint      i)
 {
@@ -64,7 +64,7 @@ etcta_get_description (AtkAction *action,
 	return NULL;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 etcta_action_get_name (AtkAction *action, gint      i)
 {
 	if (i == 0)
@@ -125,7 +125,7 @@ atk_action_interface_init (AtkActionIface *iface)
 	iface->get_name = etcta_action_get_name;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 etcta_get_name (AtkObject *obj)
 {
 	ETableClickToAdd * etcta;

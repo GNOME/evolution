@@ -103,7 +103,7 @@ gal_a11y_e_cell_dispose (GObject *object)
 }
 
 /* Static functions */
-static G_CONST_RETURN gchar *
+static const gchar *
 gal_a11y_e_cell_get_name (AtkObject * a11y)
 {
 	GalA11yECell *cell = GAL_A11Y_E_CELL (a11y);
@@ -375,7 +375,7 @@ gal_a11y_e_cell_action_get_n_actions (AtkAction *action)
 		return 0;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 gal_a11y_e_cell_action_get_name (AtkAction *action,
                            gint      index)
 {
@@ -387,7 +387,7 @@ gal_a11y_e_cell_action_get_name (AtkAction *action,
 	return info->name;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 gal_a11y_e_cell_action_get_description (AtkAction *action,
 					gint      index)
 {
@@ -414,7 +414,7 @@ gal_a11y_e_cell_action_set_description (AtkAction   *action,
 	return TRUE;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 gal_a11y_e_cell_action_get_keybinding (AtkAction *action,
 				       gint      index)
 {

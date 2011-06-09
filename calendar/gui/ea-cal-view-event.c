@@ -34,9 +34,9 @@
 static void	ea_cal_view_event_class_init	(EaCalViewEventClass *klass);
 static void	ea_cal_view_event_init		(EaCalViewEvent *a11y);
 static void	ea_cal_view_event_dispose	(GObject *object);
-static G_CONST_RETURN gchar *
+static const gchar *
 		ea_cal_view_event_get_name	(AtkObject *accessible);
-static G_CONST_RETURN gchar *
+static const gchar *
 		ea_cal_view_event_get_description
 						(AtkObject *accessible);
 static AtkObject *
@@ -59,7 +59,7 @@ static void	atk_action_interface_init	(AtkActionIface *iface);
 static gboolean	ea_cal_view_event_do_action	(AtkAction *action,
 						 gint i);
 static gint	ea_cal_view_event_get_n_actions	(AtkAction *action);
-static G_CONST_RETURN gchar *
+static const gchar *
 		ea_cal_view_event_action_get_name
 						(AtkAction *action,
 						 gint i);
@@ -261,7 +261,7 @@ ea_cal_view_event_dispose (GObject *object)
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_cal_view_event_get_name (AtkObject *accessible)
 {
 	AtkGObjectAccessible *atk_gobj;
@@ -319,7 +319,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	return accessible->name;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_cal_view_event_get_description (AtkObject *accessible)
 {
 	if (accessible->description)
@@ -590,7 +590,7 @@ ea_cal_view_event_get_n_actions (AtkAction *action)
 	return CAL_VIEW_EVENT_ACTION_NUM;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_cal_view_event_action_get_name (AtkAction *action, gint i)
 {
 	if (i >= 0 && i < CAL_VIEW_EVENT_ACTION_NUM)

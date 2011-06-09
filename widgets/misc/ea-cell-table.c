@@ -146,7 +146,7 @@ ea_cell_table_set_cell_at_index (EaCellTable * cell_data,
 	return TRUE;
 }
 
-G_CONST_RETURN gchar *
+const gchar *
 ea_cell_table_get_column_label (EaCellTable * cell_data,
 				gint column)
 {
@@ -168,7 +168,7 @@ ea_cell_table_set_column_label (EaCellTable * cell_data,
 	cell_data->column_labels[column] = g_strdup (label);
 }
 
-G_CONST_RETURN gchar *
+const gchar *
 ea_cell_table_get_row_label (EaCellTable * cell_data,
 			     gint row)
 {

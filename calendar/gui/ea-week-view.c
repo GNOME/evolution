@@ -33,8 +33,8 @@
 
 static void ea_week_view_class_init (EaWeekViewClass *klass);
 
-static G_CONST_RETURN gchar * ea_week_view_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar * ea_week_view_get_description (AtkObject *accessible);
+static const gchar * ea_week_view_get_name (AtkObject *accessible);
+static const gchar * ea_week_view_get_description (AtkObject *accessible);
 static gint         ea_week_view_get_n_children      (AtkObject *obj);
 static AtkObject*   ea_week_view_ref_child           (AtkObject *obj,
 						      gint i);
@@ -121,7 +121,7 @@ ea_week_view_new (GtkWidget *widget)
 	return accessible;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_week_view_get_name (AtkObject *accessible)
 {
 	EWeekView *week_view;
@@ -170,7 +170,7 @@ ea_week_view_get_name (AtkObject *accessible)
 	return accessible->name;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_week_view_get_description (AtkObject *accessible)
 {
 	EWeekView *week_view;

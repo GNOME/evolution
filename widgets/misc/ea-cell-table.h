@@ -47,11 +47,11 @@ gpointer ea_cell_table_get_cell_at_index (EaCellTable * cell_data,
 gboolean ea_cell_table_set_cell_at_index (EaCellTable * cell_data,
 					  gint index, gpointer cell);
 
-G_CONST_RETURN gchar *
+const gchar *
 ea_cell_table_get_column_label (EaCellTable * cell_data, gint column);
 void ea_cell_table_set_column_label (EaCellTable * cell_data,
 				     gint column, const gchar *label);
-G_CONST_RETURN gchar *
+const gchar *
 ea_cell_table_get_row_label (EaCellTable * cell_data, gint row);
 void ea_cell_table_set_row_label (EaCellTable * cell_data,
 				  gint row, const gchar *label);

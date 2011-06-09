@@ -33,8 +33,8 @@
 
 static void ea_day_view_class_init (EaDayViewClass *klass);
 
-static G_CONST_RETURN gchar * ea_day_view_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar * ea_day_view_get_description (AtkObject *accessible);
+static const gchar * ea_day_view_get_name (AtkObject *accessible);
+static const gchar * ea_day_view_get_description (AtkObject *accessible);
 static gint         ea_day_view_get_n_children      (AtkObject *obj);
 static AtkObject*   ea_day_view_ref_child           (AtkObject *obj,
                                                      gint i);
@@ -119,7 +119,7 @@ ea_day_view_new (GtkWidget *widget)
 	return accessible;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_day_view_get_name (AtkObject *accessible)
 {
 	EDayView *day_view;
@@ -176,7 +176,7 @@ ea_day_view_get_name (AtkObject *accessible)
 	return accessible->name;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_day_view_get_description (AtkObject *accessible)
 {
 	EDayView *day_view;
