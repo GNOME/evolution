@@ -41,8 +41,8 @@
 static void ea_calendar_item_class_init (EaCalendarItemClass *klass);
 static void ea_calendar_item_finalize (GObject *object);
 
-static G_CONST_RETURN gchar * ea_calendar_item_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar * ea_calendar_item_get_description (AtkObject *accessible);
+static const gchar * ea_calendar_item_get_name (AtkObject *accessible);
+static const gchar * ea_calendar_item_get_description (AtkObject *accessible);
 static gint ea_calendar_item_get_n_children (AtkObject *accessible);
 static AtkObject *ea_calendar_item_ref_child (AtkObject *accessible, gint index);
 static AtkStateSet* ea_calendar_item_ref_state_set (AtkObject *accessible);
@@ -91,10 +91,10 @@ static AtkObject* table_interface_get_column_header (AtkTable *table,
 						     gint in_col);
 static AtkObject* table_interface_get_caption (AtkTable *table);
 
-static G_CONST_RETURN gchar *
+static const gchar *
 table_interface_get_column_description (AtkTable *table, gint in_col);
 
-static G_CONST_RETURN gchar *
+static const gchar *
 table_interface_get_row_description (AtkTable *table, gint row);
 
 static AtkObject* table_interface_get_summary (AtkTable *table);
@@ -266,7 +266,7 @@ ea_calendar_item_finalize (GObject *object)
 #endif
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_calendar_item_get_name (AtkObject *accessible)
 {
 	GObject *g_obj;
@@ -341,7 +341,7 @@ ea_calendar_item_get_name (AtkObject *accessible)
 	return accessible->name;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_calendar_item_get_description (AtkObject *accessible)
 {
 	if (accessible->description)
@@ -795,7 +795,7 @@ table_interface_get_caption (AtkTable	*table)
 	return NULL;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 table_interface_get_column_description (AtkTable *table, gint in_col)
 {
 	AtkGObjectAccessible *atk_gobj;
@@ -829,7 +829,7 @@ table_interface_get_column_description (AtkTable *table, gint in_col)
 	return description;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 table_interface_get_row_description (AtkTable *table, gint row)
 {
 	AtkGObjectAccessible *atk_gobj;

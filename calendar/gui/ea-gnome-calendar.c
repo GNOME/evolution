@@ -42,7 +42,7 @@ static void ea_gcal_dates_change_cb (GnomeCalendar *gcal, gpointer data);
 
 static gpointer parent_class = NULL;
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_gnome_calendar_get_name (AtkObject *accessible)
 {
 	if (accessible->name)
@@ -50,7 +50,7 @@ ea_gnome_calendar_get_name (AtkObject *accessible)
 	return _("Gnome Calendar");
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_gnome_calendar_get_description (AtkObject *accessible)
 {
 	if (accessible->description)

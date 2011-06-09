@@ -511,7 +511,7 @@ eti_get_caption (AtkTable *table)
 	return NULL;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 eti_get_column_description (AtkTable *table,
 			    gint column)
 {
@@ -546,7 +546,7 @@ eti_get_column_header (AtkTable *table, gint column)
 	return atk_obj;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 eti_get_row_description (AtkTable *table,
 			 gint row)
 {

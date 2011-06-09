@@ -146,11 +146,11 @@ gal_a11y_e_table_column_header_get_n_actions (AtkAction *action)
 	return 1;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 gal_a11y_e_table_column_header_action_get_name (AtkAction *action,
 						gint      i)
 {
-	G_CONST_RETURN gchar *return_value;
+	const gchar *return_value;
 
 	switch (i) {
 		case 0:

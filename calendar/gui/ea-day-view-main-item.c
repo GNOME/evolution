@@ -36,9 +36,9 @@
 static void	ea_day_view_main_item_class_init (EaDayViewMainItemClass *klass);
 
 static void	ea_day_view_main_item_finalize	(GObject *object);
-static G_CONST_RETURN gchar *
+static const gchar *
 		ea_day_view_main_item_get_name	(AtkObject *accessible);
-static G_CONST_RETURN gchar *
+static const gchar *
 		ea_day_view_main_item_get_description
 						(AtkObject *accessible);
 
@@ -102,10 +102,10 @@ static AtkObject* table_interface_get_column_header (AtkTable *table,
 						     gint in_col);
 static AtkObject* table_interface_get_caption (AtkTable *table);
 
-static G_CONST_RETURN gchar *
+static const gchar *
 table_interface_get_column_description (AtkTable *table, gint in_col);
 
-static G_CONST_RETURN gchar *
+static const gchar *
 table_interface_get_row_description (AtkTable *table, gint row);
 
 static AtkObject* table_interface_get_summary (AtkTable *table);
@@ -293,7 +293,7 @@ ea_day_view_main_item_finalize (GObject *object)
 #endif
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_day_view_main_item_get_name (AtkObject *accessible)
 {
 	AtkObject *parent;
@@ -306,7 +306,7 @@ ea_day_view_main_item_get_name (AtkObject *accessible)
 	return atk_object_get_name (parent);
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_day_view_main_item_get_description (AtkObject *accessible)
 {
 	return _("a table to view and select the current time range");
@@ -1064,7 +1064,7 @@ table_interface_get_caption (AtkTable	*table)
 	return NULL;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 table_interface_get_column_description (AtkTable	  *table,
 					gint       in_col)
 {
@@ -1100,7 +1100,7 @@ table_interface_get_column_description (AtkTable	  *table,
 	return description;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 table_interface_get_row_description (AtkTable    *table,
 				     gint        row)
 {

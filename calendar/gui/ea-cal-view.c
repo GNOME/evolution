@@ -49,11 +49,11 @@ static void ea_cal_view_dates_change_cb (GnomeCalendar *gcal, gpointer data);
 static void atk_action_interface_init (AtkActionIface *iface);
 static gboolean action_interface_do_action (AtkAction *action, gint i);
 static gint action_interface_get_n_actions (AtkAction *action);
-static G_CONST_RETURN gchar *
+static const gchar *
 action_interface_get_description (AtkAction *action, gint i);
-static G_CONST_RETURN gchar *
+static const gchar *
 action_interface_get_keybinding (AtkAction *action, gint i);
-static G_CONST_RETURN gchar *
+static const gchar *
 action_interface_action_get_name (AtkAction *action, gint i);
 
 static gpointer parent_class = NULL;
@@ -380,13 +380,13 @@ action_interface_get_n_actions (AtkAction *action)
 	return CAL_VIEW_ACTION_NUM;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 action_interface_get_description (AtkAction *action, gint index)
 {
 	return action_interface_action_get_name (action, index);
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 action_interface_get_keybinding (AtkAction *action, gint index)
 {
 	GtkWidget *widget;
@@ -423,7 +423,7 @@ action_interface_get_keybinding (AtkAction *action, gint index)
 	 return NULL;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 action_interface_action_get_name (AtkAction *action, gint i)
 {
 	if (i >= 0 && i < CAL_VIEW_ACTION_NUM)

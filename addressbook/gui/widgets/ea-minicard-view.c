@@ -37,8 +37,8 @@ static const gchar * action_name[] = {
 	N_("New Contact List")
 };
 
-static G_CONST_RETURN gchar * ea_minicard_view_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar * ea_minicard_view_get_description (AtkObject *accessible);
+static const gchar * ea_minicard_view_get_name (AtkObject *accessible);
+static const gchar * ea_minicard_view_get_description (AtkObject *accessible);
 
 static void ea_minicard_view_class_init (EaMinicardViewClass *klass);
 
@@ -60,11 +60,11 @@ static gboolean selection_interface_is_child_selected (AtkSelection *selection,
 static void atk_action_interface_init (AtkActionIface *iface);
 static gboolean atk_action_interface_do_action (AtkAction *iface, gint i);
 static gint atk_action_interface_get_n_action (AtkAction *iface);
-static G_CONST_RETURN gchar *
+static const gchar *
 		atk_action_interface_get_description
 						(AtkAction *iface,
 						 gint i);
-static G_CONST_RETURN gchar *
+static const gchar *
 		atk_action_interface_get_name	(AtkAction *iface,
 						 gint i);
 
@@ -142,7 +142,7 @@ ea_minicard_view_class_init (EaMinicardViewClass *klass)
 	class->ref_child = ea_minicard_view_ref_child;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_minicard_view_get_name (AtkObject *accessible)
 {
 	EReflow *reflow;
@@ -177,7 +177,7 @@ ea_minicard_view_get_name (AtkObject *accessible)
 	return accessible->name;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ea_minicard_view_get_description (AtkObject *accessible)
 {
 	g_return_val_if_fail (EA_IS_MINICARD_VIEW (accessible), NULL);
@@ -406,13 +406,13 @@ static gint atk_action_interface_get_n_action (AtkAction *iface)
 	return G_N_ELEMENTS (action_name);
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 atk_action_interface_get_description (AtkAction *iface, gint i)
 {
 	return atk_action_interface_get_name (iface, i);
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 atk_action_interface_get_name (AtkAction *iface, gint i)
 {
 	if ( i >= G_N_ELEMENTS (action_name) || i < 0)
