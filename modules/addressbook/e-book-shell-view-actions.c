@@ -242,9 +242,9 @@ contact_editor_contact_modified_cb (EABEditor *editor,
 static void
 map_window_show_contact_editor_cb (EContactMapWindow *window,
 				   const gchar *contact_uid,
-			  	   gpointer user_data)
+				   gpointer user_data)
 {
-	EShell *shell = e_shell_get_default();
+	EShell *shell = e_shell_get_default ();
 	EBookShellView *book_shell_view = user_data;
 	EBookShellSidebar *book_shell_sidebar;
 	ESource *source;
@@ -294,21 +294,21 @@ action_address_book_map_cb (GtkAction *action,
 {
 #ifdef WITH_CONTACT_MAPS
 	EContactMapWindow *map_window;
-        EBookShellSidebar *book_shell_sidebar;
-        ESource *source;
-        ESourceSelector *selector;
-        EBook *book;
-        GError *error = NULL;
+	EBookShellSidebar *book_shell_sidebar;
+	ESource *source;
+	ESourceSelector *selector;
+	EBook *book;
+	GError *error = NULL;
 
-        book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
-        selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
-        source = e_source_selector_get_primary_selection (selector);
+	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
+	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
+	source = e_source_selector_get_primary_selection (selector);
 
-        g_return_if_fail (source != NULL);
-        book = e_book_new (source, &error);
-        if (error != NULL) {
+	g_return_if_fail (source != NULL);
+	book = e_book_new (source, &error);
+	if (error != NULL) {
 		g_warning ("Error loading addressbook: %s", error->message);
-                g_error_free (error);
+		g_error_free (error);
 		return;
 	}
 

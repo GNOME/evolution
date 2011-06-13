@@ -82,8 +82,6 @@ typedef enum {
 	ADDRESS_FORMAT_BUSINESS = 1
 } AddressFormat;
 
-
-
 void
 eab_error_dialog (EAlertSink *alert_sink, const gchar *msg, const GError *error)
 {
@@ -584,7 +582,6 @@ eab_parse_qp_email_to_html (const gchar *string)
 	return value;
 }
 
-
 /*
  * eab_format_address helper function
  *
@@ -642,7 +639,6 @@ get_locales_str (void)
 	g_strfreev (loc);
 	return ret;
 }
-
 
 /*
  * Reads countrytransl.map file, which contains map of localized
@@ -705,7 +701,6 @@ country_to_ISO (const gchar *country)
 	g_free (l_country);
 	return res;
 }
-
 
 /*
  * Tries to find given key in "country_LANGUAGE" group. When fails to find
@@ -966,7 +961,7 @@ parse_address_template_section (const gchar *format,
 				bpos1 = pos + 2;
 				bpos2 = find_balanced_bracket (bpos1);
 
-				inner = g_strndup (bpos1 + 1, bpos2 - bpos1 - 2); /* Get inner content of the %0(...) */
+				inner = g_strndup (bpos1 + 1, bpos2 - bpos1 - 2); /* Get inner content of the %0 (...) */
 				replaced = parse_address_template_section (inner, realname, org_name, address, &ires);
 				if (replaced)
 					g_string_append (res, ires);

@@ -110,12 +110,12 @@ contact_map_address_resolved_cb (GeoclueGeocode *geocode,
 
 	if (error ||
 	    (((fields & GEOCLUE_POSITION_FIELDS_LATITUDE) == 0) && ((fields & GEOCLUE_POSITION_FIELDS_LONGITUDE) == 0))) {
-	    	const gchar *name;
-	     	if (error)
-	     		g_error_free (error);
+		const gchar *name;
+		if (error)
+			g_error_free (error);
 		name = champlain_label_get_text (CHAMPLAIN_LABEL (data->marker));
-	     	g_signal_emit (data->map, signals[GEOCODING_FAILED], 0, name);
-	     	goto exit;
+		g_signal_emit (data->map, signals[GEOCODING_FAILED], 0, name);
+		goto exit;
 	}
 
 	priv = data->map->priv;
@@ -140,7 +140,7 @@ contact_map_address_resolved_cb (GeoclueGeocode *geocode,
 	g_signal_emit (data->map, signals[CONTACT_ADDED], 0, data->marker);
 
 exit:
-     	g_object_unref (data->map);
+	g_object_unref (data->map);
 	g_free (data);
 
 	if (geocode)
@@ -369,7 +369,7 @@ e_contact_map_zoom_on_marker (EContactMap *map,
 			      ClutterActor *marker)
 {
 	ChamplainView *view;
-	double lat, lng;
+	gdouble lat, lng;
 
 	g_return_if_fail (map && E_IS_CONTACT_MAP (map));
 	g_return_if_fail (marker && CLUTTER_IS_ACTOR (marker));

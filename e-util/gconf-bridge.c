@@ -863,7 +863,7 @@ gconf_bridge_bind_window (GConfBridge *bridge,
 			if (gconf_value_get_bool (maximized_val)) {
 				/* maximize is not done immediately, but to count with proper
 				   window size, resize it before. The previous size is restored
-				   after the maximization is changed, in window_binding_state_event_cb()
+				   after the maximization is changed, in window_binding_state_event_cb ()
 				*/
 				gint width = 0, height = 0;
 				GdkScreen *screen;

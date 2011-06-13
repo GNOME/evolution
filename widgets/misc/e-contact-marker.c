@@ -44,18 +44,18 @@ struct _EContactMarkerPrivate
 {
 	gchar *contact_uid;
 
-  	ClutterActor *image;
-  	ClutterActor *text_actor;
+	ClutterActor *image;
+	ClutterActor *text_actor;
 
-  	ClutterActor *shadow;
-  	ClutterActor *background;
+	ClutterActor *shadow;
+	ClutterActor *background;
 
-  	guint total_width;
-  	guint total_height;
+	guint total_width;
+	guint total_height;
 
-  	ClutterGroup *content_group;
+	ClutterGroup *content_group;
 
-  	guint redraw_id;
+	guint redraw_id;
 };
 
 enum {
@@ -92,7 +92,7 @@ texture_new_from_pixbuf (GdkPixbuf *pixbuf,
 	ClutterActor *texture = NULL;
 	const guchar *data;
 	gboolean has_alpha, success;
-	int width, height, rowstride;
+	gint width, height, rowstride;
 	ClutterTextureFlags flags = 0;
 
 	data = gdk_pixbuf_get_pixels (pixbuf);
@@ -114,7 +114,6 @@ texture_new_from_pixbuf (GdkPixbuf *pixbuf,
 	return texture;
 }
 
-
 static ClutterActor*
 contact_photo_to_texture (EContactPhoto *photo)
 {
@@ -126,7 +125,7 @@ contact_photo_to_texture (EContactPhoto *photo)
 		GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
 		gdk_pixbuf_loader_write (loader, photo->data.inlined.data, photo->data.inlined.length, NULL);
 		gdk_pixbuf_loader_close (loader, NULL);
-	        pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+		pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 		if (pixbuf)
 			g_object_ref (pixbuf);
 		g_object_unref (loader);
@@ -182,7 +181,6 @@ draw_box (cairo_t *cr,
       cairo_close_path (cr);
 }
 
-
 static void
 draw_shadow (EContactMarker *marker,
 	     gint width,
@@ -201,35 +199,34 @@ draw_shadow (EContactMarker *marker,
 	scaling = 0.65;
 	x = -40 * slope;
 
-  	shadow = clutter_cairo_texture_new (width + x, (height + point));
-  	cr = clutter_cairo_texture_create (CLUTTER_CAIRO_TEXTURE (shadow));
+	shadow = clutter_cairo_texture_new (width + x, (height + point));
+	cr = clutter_cairo_texture_create (CLUTTER_CAIRO_TEXTURE (shadow));
 
-  	cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
-  	cairo_paint (cr);
-  	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+	cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
+	cairo_paint (cr);
+	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
-  	cairo_matrix_init (&matrix, 1, 0, slope, scaling, x, 0);
-  	cairo_set_matrix (cr, &matrix);
+	cairo_matrix_init (&matrix, 1, 0, slope, scaling, x, 0);
+	cairo_set_matrix (cr, &matrix);
 
-  	draw_box (cr, width, height, point);
+	draw_box (cr, width, height, point);
 
-  	cairo_set_source_rgba (cr, 0, 0, 0, 0.15);
-  	cairo_fill (cr);
+	cairo_set_source_rgba (cr, 0, 0, 0, 0.15);
+	cairo_fill (cr);
 
-  	cairo_destroy (cr);
+	cairo_destroy (cr);
 
-  	clutter_actor_set_position (shadow, 0, height / 2.0);
+	clutter_actor_set_position (shadow, 0, height / 2.0);
 
-  	clutter_container_add_actor (CLUTTER_CONTAINER (priv->content_group), shadow);
+	clutter_container_add_actor (CLUTTER_CONTAINER (priv->content_group), shadow);
 
-  	if (priv->shadow != NULL) {
-      		clutter_container_remove_actor (CLUTTER_CONTAINER (priv->content_group),
-          		priv->shadow);
-    	}
+	if (priv->shadow != NULL) {
+		clutter_container_remove_actor (CLUTTER_CONTAINER (priv->content_group),
+			priv->shadow);
+	}
 
-  	priv->shadow = shadow;
+	priv->shadow = shadow;
 }
-
 
 static void
 draw_background (EContactMarker *marker,
@@ -238,69 +235,68 @@ draw_background (EContactMarker *marker,
 		 gint point)
 {
 	EContactMarkerPrivate *priv = marker->priv;
-  	ClutterActor *bg = NULL;
+	ClutterActor *bg = NULL;
 	const ClutterColor *color;
-  	ClutterColor darker_color;
-  	cairo_t *cr;
+	ClutterColor darker_color;
+	cairo_t *cr;
 
-  	bg = clutter_cairo_texture_new (width, height + point);
-  	cr = clutter_cairo_texture_create (CLUTTER_CAIRO_TEXTURE (bg));
+	bg = clutter_cairo_texture_new (width, height + point);
+	cr = clutter_cairo_texture_create (CLUTTER_CAIRO_TEXTURE (bg));
 
-  	cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
-  	cairo_paint (cr);
-  	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+	cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
+	cairo_paint (cr);
+	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
   	/* If selected, add the selection color to the marker's color */
-  	if (champlain_marker_get_selected (CHAMPLAIN_MARKER (marker)))
-    		color = champlain_marker_get_selection_color ();
-  	else
-    		color = &DEFAULT_COLOR;
+	if (champlain_marker_get_selected (CHAMPLAIN_MARKER (marker)))
+		color = champlain_marker_get_selection_color ();
+	else
+		color = &DEFAULT_COLOR;
 
-  	draw_box (cr, width, height, point);
+	draw_box (cr, width, height, point);
 
-  	clutter_color_darken (color, &darker_color);
+	clutter_color_darken (color, &darker_color);
 
-  	cairo_set_source_rgba (cr,
-      		color->red / 255.0,
-      		color->green / 255.0,
-      		color->blue / 255.0,
-      		color->alpha / 255.0);
-  	cairo_fill_preserve (cr);
+	cairo_set_source_rgba (cr,
+		color->red / 255.0,
+		color->green / 255.0,
+		color->blue / 255.0,
+		color->alpha / 255.0);
+	cairo_fill_preserve (cr);
 
-  	cairo_set_line_width (cr, 1.0);
-  	cairo_set_source_rgba (cr,
-      		darker_color.red / 255.0,
-      		darker_color.green / 255.0,
-      		darker_color.blue / 255.0,
-      		darker_color.alpha / 255.0);
-  	cairo_stroke (cr);
-  	cairo_destroy (cr);
+	cairo_set_line_width (cr, 1.0);
+	cairo_set_source_rgba (cr,
+		darker_color.red / 255.0,
+		darker_color.green / 255.0,
+		darker_color.blue / 255.0,
+		darker_color.alpha / 255.0);
+	cairo_stroke (cr);
+	cairo_destroy (cr);
 
-  	clutter_container_add_actor (CLUTTER_CONTAINER (priv->content_group), bg);
+	clutter_container_add_actor (CLUTTER_CONTAINER (priv->content_group), bg);
 
-  	if (priv->background != NULL) {
-      		clutter_container_remove_actor (CLUTTER_CONTAINER (priv->content_group),
-          		priv->background);
-    	}
+	if (priv->background != NULL) {
+		clutter_container_remove_actor (CLUTTER_CONTAINER (priv->content_group),
+			priv->background);
+	}
 
-  	priv->background = bg;
+	priv->background = bg;
 }
-
 
 static void
 draw_marker (EContactMarker *marker)
 {
-  	EContactMarkerPrivate *priv = marker->priv;
+	EContactMarkerPrivate *priv = marker->priv;
 	ChamplainLabel *label = CHAMPLAIN_LABEL (marker);
 	guint height = 0, point = 0;
-  	guint total_width = 0, total_height = 0;
+	guint total_width = 0, total_height = 0;
 	ClutterText *text;
 
 	if (priv->image) {
 		clutter_actor_set_position (priv->image, 2*PADDING, 2*PADDING);
 		if (clutter_actor_get_parent (priv->image) == NULL)
-       			clutter_container_add_actor (CLUTTER_CONTAINER (priv->content_group), priv->image);
-       	}
+			clutter_container_add_actor (CLUTTER_CONTAINER (priv->content_group), priv->image);
+	}
 
 	if (priv->text_actor == NULL) {
 		priv->text_actor = clutter_text_new_with_text ("Serif 8",
@@ -309,8 +305,8 @@ draw_marker (EContactMarker *marker)
 	}
 
 	text = CLUTTER_TEXT (priv->text_actor);
-      	clutter_text_set_text (text,
-      		champlain_label_get_text (label));
+	clutter_text_set_text (text,
+		champlain_label_get_text (label));
 	clutter_text_set_font_name (text,
 		champlain_label_get_font_name (label));
 	clutter_text_set_line_alignment (text, PANGO_ALIGN_CENTER);
@@ -324,48 +320,48 @@ draw_marker (EContactMarker *marker)
 		champlain_label_get_use_markup (label));
 
 	if (priv->image) {
-      		clutter_actor_set_width (priv->text_actor,
-      			clutter_actor_get_width (priv->image));
+		clutter_actor_set_width (priv->text_actor,
+			clutter_actor_get_width (priv->image));
 		total_height = clutter_actor_get_height (priv->image) + 2*PADDING +
 			       clutter_actor_get_height (priv->text_actor) + 2*PADDING;
 		total_width = clutter_actor_get_width (priv->image) + 4*PADDING;
-        	clutter_actor_set_position (priv->text_actor, PADDING,
-        		clutter_actor_get_height (priv->image)+2*PADDING+3);
+		clutter_actor_set_position (priv->text_actor, PADDING,
+			clutter_actor_get_height (priv->image)+2*PADDING+3);
 	} else {
 		total_height = clutter_actor_get_height (priv->text_actor) + 2*PADDING;
 		total_width = clutter_actor_get_width (priv->text_actor) + 4*PADDING;
-        	clutter_actor_set_position (priv->text_actor, 2 * PADDING, PADDING);
+		clutter_actor_set_position (priv->text_actor, 2 * PADDING, PADDING);
 	}
 
-      	height += 2 * PADDING;
-      	if (height > total_height)
-        	total_height = height;
+	height += 2 * PADDING;
+	if (height > total_height)
+		total_height = height;
 
-      	clutter_text_set_color (CLUTTER_TEXT (priv->text_actor),
-        	  (champlain_marker_get_selected (CHAMPLAIN_MARKER (marker)) ?
-        	  	champlain_marker_get_selection_text_color () :
-        	  	champlain_label_get_text_color (CHAMPLAIN_LABEL (marker))));
-      	if (clutter_actor_get_parent (priv->text_actor) == NULL)
-        	clutter_container_add_actor (CLUTTER_CONTAINER (priv->content_group), priv->text_actor);
+	clutter_text_set_color (CLUTTER_TEXT (priv->text_actor),
+		  (champlain_marker_get_selected (CHAMPLAIN_MARKER (marker)) ?
+			champlain_marker_get_selection_text_color () :
+			champlain_label_get_text_color (CHAMPLAIN_LABEL (marker))));
+	if (clutter_actor_get_parent (priv->text_actor) == NULL)
+		clutter_container_add_actor (CLUTTER_CONTAINER (priv->content_group), priv->text_actor);
 
 	if (priv->text_actor == NULL && priv->image == NULL) {
-      		total_width = 6 * PADDING;
-      		total_height = 6 * PADDING;
-    	}
+		total_width = 6 * PADDING;
+		total_height = 6 * PADDING;
+	}
 
-  	point = (total_height + 2 * PADDING) / 4.0;
-  	priv->total_width = total_width;
-  	priv->total_height = total_height;
+	point = (total_height + 2 * PADDING) / 4.0;
+	priv->total_width = total_width;
+	priv->total_height = total_height;
 
-      	draw_shadow (marker, total_width, total_height, point);
-      	draw_background (marker, total_width, total_height, point);
+	draw_shadow (marker, total_width, total_height, point);
+	draw_background (marker, total_width, total_height, point);
 
-  	if (priv->text_actor != NULL && priv->background != NULL)
-    		clutter_actor_raise (priv->text_actor, priv->background);
-  	if (priv->image != NULL && priv->background != NULL)
-    		clutter_actor_raise (priv->image, priv->background);
+	if (priv->text_actor != NULL && priv->background != NULL)
+		clutter_actor_raise (priv->text_actor, priv->background);
+	if (priv->image != NULL && priv->background != NULL)
+		clutter_actor_raise (priv->image, priv->background);
 
-        clutter_actor_set_anchor_point (CLUTTER_ACTOR (marker), 0, total_height + point);
+	clutter_actor_set_anchor_point (CLUTTER_ACTOR (marker), 0, total_height + point);
 }
 
 static gboolean
@@ -375,7 +371,7 @@ redraw_on_idle (gpointer gobject)
 
 	draw_marker (marker);
 	marker->priv->redraw_id = 0;
-        return FALSE;
+	return FALSE;
 }
 
 static void
@@ -402,10 +398,10 @@ allocate (ClutterActor *self,
 	CLUTTER_ACTOR_CLASS (e_contact_marker_parent_class)->allocate (self, box, flags);
 
 	child_box.x1 = 0;
-        child_box.x2 = box->x2 - box->x1;
-        child_box.y1 = 0;
-        child_box.y2 = box->y2 - box->y1;
-        clutter_actor_allocate (CLUTTER_ACTOR (priv->content_group), &child_box, flags);
+	child_box.x2 = box->x2 - box->x1;
+	child_box.y1 = 0;
+	child_box.y2 = box->y2 - box->y1;
+	clutter_actor_allocate (CLUTTER_ACTOR (priv->content_group), &child_box, flags);
 }
 
 static void
@@ -423,7 +419,7 @@ map (ClutterActor *self)
 
 	CLUTTER_ACTOR_CLASS (e_contact_marker_parent_class)->map (self);
 
-    	clutter_actor_map (CLUTTER_ACTOR (priv->content_group));
+	clutter_actor_map (CLUTTER_ACTOR (priv->content_group));
 }
 
 static void
@@ -441,7 +437,7 @@ pick (ClutterActor *self,
       const ClutterColor *color)
 {
 	EContactMarkerPrivate *priv = E_CONTACT_MARKER (self)->priv;
-        gfloat width, height;
+	gfloat width, height;
 
 	if (!clutter_actor_should_pick_paint (self))
 		return;
@@ -451,28 +447,28 @@ pick (ClutterActor *self,
 
 	cogl_path_new ();
 
-        cogl_set_source_color4ub (color->red,
-        	color->green,
-                color->blue,
-                color->alpha);
+	cogl_set_source_color4ub (color->red,
+		color->green,
+		color->blue,
+		color->alpha);
 
 	cogl_path_move_to (RADIUS, 0);
-        cogl_path_line_to (width - RADIUS, 0);
-        cogl_path_arc (width - RADIUS, RADIUS, RADIUS, RADIUS, -90, 0);
-        cogl_path_line_to (width, height - RADIUS);
-        cogl_path_arc (width - RADIUS, height - RADIUS, RADIUS, RADIUS, 0, 90);
-        cogl_path_line_to (RADIUS, height);
-        cogl_path_arc (RADIUS, height - RADIUS, RADIUS, RADIUS, 90, 180);
-        cogl_path_line_to (0, RADIUS);
-        cogl_path_arc (RADIUS, RADIUS, RADIUS, RADIUS, 180, 270);
-        cogl_path_close ();
-        cogl_path_fill ();
+	cogl_path_line_to (width - RADIUS, 0);
+	cogl_path_arc (width - RADIUS, RADIUS, RADIUS, RADIUS, -90, 0);
+	cogl_path_line_to (width, height - RADIUS);
+	cogl_path_arc (width - RADIUS, height - RADIUS, RADIUS, RADIUS, 0, 90);
+	cogl_path_line_to (RADIUS, height);
+	cogl_path_arc (RADIUS, height - RADIUS, RADIUS, RADIUS, 90, 180);
+	cogl_path_line_to (0, RADIUS);
+	cogl_path_arc (RADIUS, RADIUS, RADIUS, RADIUS, 180, 270);
+	cogl_path_close ();
+	cogl_path_fill ();
 }
 
 static void
 notify_selected (GObject *gobject,
-    		 G_GNUC_UNUSED GParamSpec *pspec,
-    		 G_GNUC_UNUSED gpointer user_data)
+		 G_GNUC_UNUSED GParamSpec *pspec,
+		 G_GNUC_UNUSED gpointer user_data)
 {
 	queue_redraw (E_CONTACT_MARKER (gobject));
 }
@@ -505,20 +501,20 @@ e_contact_marker_dispose (GObject *object)
 	priv->text_actor = NULL;
 
 	if (priv->content_group) {
-      		clutter_actor_unparent (CLUTTER_ACTOR (priv->content_group));
-      		priv->content_group = NULL;
-    	}
+		clutter_actor_unparent (CLUTTER_ACTOR (priv->content_group));
+		priv->content_group = NULL;
+	}
 
-  	G_OBJECT_CLASS (e_contact_marker_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_contact_marker_parent_class)->dispose (object);
 }
 
 static void
 e_contact_marker_class_init (EContactMarkerClass *class)
 {
 	ClutterActorClass *actor_class = CLUTTER_ACTOR_CLASS (class);
-  	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-  	g_type_class_add_private (class, sizeof (EContactMarkerPrivate));
+	g_type_class_add_private (class, sizeof (EContactMarkerPrivate));
 
 	object_class->dispose = e_contact_marker_dispose;
 	object_class->finalize = e_contact_marker_finalize;
@@ -545,7 +541,7 @@ e_contact_marker_init (EContactMarker *marker)
 	EContactMarkerPrivate *priv;
 
 	priv =  G_TYPE_INSTANCE_GET_PRIVATE (
-	               	marker, E_TYPE_CONTACT_MARKER, EContactMarkerPrivate);
+			marker, E_TYPE_CONTACT_MARKER, EContactMarkerPrivate);
 
 	marker->priv = priv;
 	priv->contact_uid = NULL;
@@ -556,11 +552,11 @@ e_contact_marker_init (EContactMarker *marker)
 	priv->content_group = CLUTTER_GROUP (clutter_group_new ());
 	priv->redraw_id = 0;
 
-  	clutter_actor_set_parent (CLUTTER_ACTOR (priv->content_group), CLUTTER_ACTOR (marker));
+	clutter_actor_set_parent (CLUTTER_ACTOR (priv->content_group), CLUTTER_ACTOR (marker));
 	clutter_actor_queue_relayout (CLUTTER_ACTOR (marker));
 
-  	priv->total_width = 0;
-  	priv->total_height = 0;
+	priv->total_width = 0;
+	priv->total_height = 0;
 
 	g_signal_connect (marker, "notify::selected",
 		G_CALLBACK (notify_selected), NULL);
@@ -571,7 +567,7 @@ e_contact_marker_init (EContactMarker *marker)
 ClutterActor *
 e_contact_marker_new (const gchar *name,
 		      const gchar *contact_uid,
-     		      EContactPhoto *photo)
+		      EContactPhoto *photo)
 {
 	ClutterActor *marker = CLUTTER_ACTOR (g_object_new (E_TYPE_CONTACT_MARKER, NULL));
 	EContactMarkerPrivate *priv = E_CONTACT_MARKER (marker)->priv;
@@ -589,7 +585,7 @@ e_contact_marker_new (const gchar *name,
 	return marker;
 }
 
-const gchar*
+const gchar *
 e_contact_marker_get_contact_uid (EContactMarker *marker)
 {
 	g_return_val_if_fail (marker && E_IS_CONTACT_MARKER (marker), NULL);

@@ -58,8 +58,8 @@ typedef struct _EContactMarkerClass EContactMarkerClass;
 
 struct _EContactMarker
 {
-  	ChamplainLabel parent;
-  	EContactMarkerPrivate *priv;
+	ChamplainLabel parent;
+	EContactMarkerPrivate *priv;
 };
 
 struct _EContactMarkerClass
@@ -69,14 +69,13 @@ struct _EContactMarkerClass
 	void (*double_clicked)	(ClutterActor *actor);
 };
 
+GType e_contact_marker_get_type		(void);
 
-GType e_contact_marker_get_type 		(void);
+ClutterActor* e_contact_marker_new		(const gchar *name,
+						 const gchar *contact_uid,
+						 EContactPhoto *photo);
 
-ClutterActor* e_contact_marker_new 		(const gchar *name,
-				    		 const gchar *contact_uid,
-				    		 EContactPhoto *photo);
-
-const gchar* e_contact_marker_get_contact_uid 	(EContactMarker *marker);
+const gchar * e_contact_marker_get_contact_uid	(EContactMarker *marker);
 
 G_END_DECLS
 
