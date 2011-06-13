@@ -85,7 +85,7 @@ book_contacts_received_cb (EBook *book,
 
 	for (p = list; p; p = p->next) {
 
-		e_contact_map_add_contact (window->priv->map, (EContact*)p->data);
+		e_contact_map_add_contact (window->priv->map, (EContact*) p->data);
 
 	}
 
@@ -159,15 +159,15 @@ map_contact_added_cb (EContactMap *map,
 
 	priv->tasks_cnt--;
 	if (priv->tasks_cnt == 0) {
-		gtk_spinner_stop(GTK_SPINNER (priv->spinner));
+		gtk_spinner_stop (GTK_SPINNER (priv->spinner));
 		gtk_widget_hide (priv->spinner);
 	}
 }
 
 static void
 map_contact_removed_cb (EContactMap *map,
-		        const gchar *name,
-		        gpointer user_data)
+			const gchar *name,
+			gpointer user_data)
 {
 	EContactMapWindowPrivate *priv = E_CONTACT_MAP_WINDOW (user_data)->priv;
 	GtkTreeIter iter;

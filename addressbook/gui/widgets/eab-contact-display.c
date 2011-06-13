@@ -190,7 +190,7 @@ static GtkActionEntry internal_mailto_entries[] = {
 };
 
 static void
-render_address_link (GString *buffer, EContact *contact, int map_type)
+render_address_link (GString *buffer, EContact *contact, gint map_type)
 {
 	EContactAddress *adr;
 	GString *link = g_string_new ("");
@@ -645,14 +645,14 @@ render_note_block (GString *buffer, EContact *contact)
 }
 
 static void
-render_address_map (GString *buffer, EContact *contact, int map_type)
+render_address_map (GString *buffer, EContact *contact, gint map_type)
 {
 #ifdef WITH_CONTACT_MAPS
 	if (map_type == E_CONTACT_ADDRESS_WORK) {
 		g_string_append (buffer, "<object classid=\"address-map-work\"></object>");
- 	 } else {
+	 } else {
  		g_string_append (buffer, "<object classid=\"address-map-home\"></object>");
- 	 }
+	 }
 #endif
 }
 
@@ -1181,11 +1181,11 @@ handle_map_scroll_event (GtkWidget *widget, GdkEvent *event)
 static void
 contact_display_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, EABContactDisplay *display)
 {
-    	EContact *contact = display->priv->contact;
-    	const gchar *name = e_contact_get_const (contact, E_CONTACT_FILE_AS);
-    	const gchar *contact_uid = e_contact_get_const (contact, E_CONTACT_UID);
-    	gchar *full_name;
-    	EContactAddress *address;
+	EContact *contact = display->priv->contact;
+	const gchar *name = e_contact_get_const (contact, E_CONTACT_FILE_AS);
+	const gchar *contact_uid = e_contact_get_const (contact, E_CONTACT_UID);
+	gchar *full_name;
+	EContactAddress *address;
 
 	if (g_ascii_strcasecmp (eb->classid, "address-map-work") == 0) {
 		address = e_contact_get (contact, E_CONTACT_ADDRESS_WORK);
@@ -1196,7 +1196,7 @@ contact_display_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, EABContact
 	}
 
 	if (address) {
-	    	GtkWidget *map = e_contact_map_new ();
+		GtkWidget *map = e_contact_map_new ();
 		gtk_container_add (GTK_CONTAINER (eb), map);
 		gtk_widget_set_size_request (map, 250, 250);
 		g_signal_connect (E_CONTACT_MAP (map), "contact-added",
@@ -1344,7 +1344,7 @@ eab_contact_display_init (EABContactDisplay *display)
 
 #ifdef WITH_CONTACT_MAPS
 	g_signal_connect (web_view, "object-requested",
-       	G_CALLBACK (contact_display_object_requested), display);
+	G_CALLBACK (contact_display_object_requested), display);
 #endif
 
 	action_group = gtk_action_group_new ("internal-mailto");
