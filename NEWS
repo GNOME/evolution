@@ -1,3 +1,109 @@
+Evolution 3.1.2 2011-06-13
+--------------------------
+
+Bug Fixes:
+	Bug 229244 - Re-ordering email addresses in contact list editor
+	             (Dan Vrátil)
+	Bug 243938 - Clicking on week numbers changes work week to week view
+	             (Milan Crha)
+	Bug 332907 - Contact editor duplication alert misleading (Dan Vrátil)
+	Bug 537691 - Account editor window HIG (Matthew Barnes)
+	Bug 578245 - View settings for threads getting lost (Milan Crha)
+	Bug 601541 - Add 'Copy Image' Option On Inline Email Images (Milan Crha)
+	Bug 608203 - Left pane of mailer window is narrow at startup
+	             (Milan Crha)
+	Bug 614274 - Labeling many messages is very slow (Matt McCutchen)
+	Bug 619347 - Decode QP in email in Contact List Editor (Milan Crha)
+	Bug 633948 - Try harder to use -lresolv in LDAP_LIBS
+	             (Mathieu Trudel-Lapierre)
+	Bug 636809 - Address labels formatting improvements (Dan Vrátil)
+	Bug 640083 - Cannot configure LDAPS on port 636 (Milan Crha)
+	Bug 642557 - Display maps in contact preview (Dan Vrátil)
+	Bug 643526 - Crash in et_get_n_children (Milan Crha)
+	Bug 643819 - Autocomplete the Location field (Dan Vrátil)
+	Bug 645476 - Avoid scroll to cursor on folder change in message list
+	             (Milan Crha)
+	Bug 646033 - Update progress in Send/Receive dialog (Milan Crha)
+	Bug 646109 - Fix use of include <config.h> to make sure translations
+	             work (Milan Crha)
+	Bug 646615 - Bad single form (Milan Crha)
+	Bug 647785 - Pasting an 24h event in month and week view doesn't work
+	             (Milan Crha)
+	Bug 648612 - Crash during drag & drop of recurring events (Punit Jain)
+	Bug 649310 - Calendar only shows midnight to noon (Milan Crha)
+	Bug 649392 - Improve calendar's "Goto" dialog and move it to dialogs
+	             (Dan Vrátil)
+	Bug 649757 - 'Local delivery' accounts stopped working (Milan Crha)
+	Bug 649939 - Cann't create new folder (Milan Crha)
+	Bug 649939 - Cann't create new folder (Milan Crha)
+	Bug 649939 - Cann't create new folder (second shot) (Milan Crha)
+	Bug 649952 - Do not unref result of camel_session_get_service()
+	             (Milan Crha)
+	Bug 649990 - Remove get_font_options() from e-util.c. (Matthew Barnes)
+	Bug 649993 - Change behavior of --component option (Matthew Barnes)
+	Bug 650088 - Cannot send message from Contacts view (Matthew Barnes)
+	Bug 650223 - evolution-backup does not terminate without --gui
+	             (Matthew Barnes)
+	Bug 650491 - Shell handles forwarding uris to existing process wrong
+	             (Matthew Barnes)
+	Bug 650522 - em-format-html: Fix uninitialized variable (Colin Walters)
+	Bug 650524 - Use g_unix_signal_add_watch_full() for SIGTERM
+	             (Colin Walters)
+	Bug 650525 - Don't install a SEGV handler (Colin Walters)
+	Bug 650587 - Hide Search Folder actions when Search Folders are
+	             disabled (Matthew Barnes)
+	Bug 651001 - Cannot send message from accounts not having a provider
+	             (Lucian Langa)
+	Bug 651039 - Always update signature in composer on account change
+	             (Milan Crha)
+	Bug 651062 - refresh_folders_exec() reports progress incorrectly.
+	             (Matthew Barnes)
+	Bug 651135 - Crash using saved search with an empty expression
+	             (Milan Crha)
+	Bug 651316 - Crash with Outgoing mail filters (Milan Crha)
+	Bug 651684 - Creates a copy of message in Outbox instead of replacing
+	             (Milan Crha)
+	Bug 651761 - Message window doesn't mark message seen (Milan Crha)
+	Bug 651976 - Reply/Forward setting isn't respected in message window
+	             (Milan Crha)
+
+Other Changes:
+	* Simplified the format of folder URIs and refactored the
+	  evolution-mail library to use CamelFolder objects as much as
+	  possible instead of folder URIs.
+	* Chip away at the legacy message passing infrastructure for
+	  mail operations.  Prefer GIO-style async ops using EActivity.
+	* Cannot send message with just enabled account (Milan Crha)
+	* Remove unused e_get_gnome2_user_dir(). (Matthew Barnes)
+	* Add EPortEntry to the Glade catalog. (Matthew Barnes)
+	* EMailReader: Support multiple action groups. (Matthew Barnes)
+	* EMailReader: Remove the forward/reply style hack. (Matthew Barnes)
+	* Handle SIGTERM instead of SIGQUIT. (Matthew Barnes)
+	* Fix crash when opening message window. (Matthew Barnes)
+	* Remove emfu_create_folder_real(). (Matthew Barnes)
+	* Updated the help license from GFDL 1.2 to GFDL 1.3 and
+	  CC-BY-SA 3.0 (Chenthill Palanisamy)
+	* Replace deprecated g_atomic_int_exchange_and_add() (Milan Crha)
+	* Move EPopupMenu to /widgets/table. (Matthew Barnes)
+	* Embed e_hsv_tweak() directly in e-table-item.c. (Matthew Barnes)
+	* Do not add 'Local delivery' accounts into folder tree (Milan Crha)
+	* Replace G_CONST_RETURN with 'const'. (Matthew Barnes)
+
+Translations:
+	Alexander Shopov (bg)
+	Carles Ferrando (ca@valencia)
+	Marek Černocký (cs)
+	Jorge González (es)
+	Daniel Mustieles (es)
+	Seán de Búrca (ga)
+	Fran Diéguez (gl)
+	Kjartan Maraas (nb)
+	Yuri Kozlov (ru)
+	Matej Urbančič (sl)
+	Мирослав Николић (sr)
+	Abduxukur Abdurixit (ug)
+
+
 Evolution 3.1.1 2011-05-09
 --------------------------
 
