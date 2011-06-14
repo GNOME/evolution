@@ -27,9 +27,44 @@
 #include <shell/e-shell.h>
 #include <widgets/misc/e-preferences-window.h>
 
+/* Standard GObject macros */
+#define E_TYPE_CERT_MANAGER_CONFIG \
+	(e_cert_manager_config_get_type ())
+#define E_CERT_MANAGER_CONFIG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CERT_MANAGER_CONFIG, ECertManagerConfig))
+#define E_CERT_MANAGER_CONFIG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CERT_MANAGER_CONFIG, ECertManagerConfigClass))
+#define E_IS_CERT_MANAGER_CONFIG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CERT_MANAGER_CONFIG))
+#define E_IS_CERT_MANAGER_CONFIG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CERT_MANAGER_CONFIG))
+#define E_CERT_MANAGER_CONFIG_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CERT_MANAGER_CONFIG, ECertManagerConfigClass))
+
+typedef struct _ECertManagerConfig ECertManagerConfig;
+typedef struct _ECertManagerConfigPrivate ECertManagerConfigPrivate;
+typedef struct _ECertManagerConfigClass ECertManagerConfigClass;
+
+struct _ECertManagerConfig {
+	GtkBox parent;
+	ECertManagerConfigPrivate *priv;
+};
+
+struct _ECertManagerConfigClass {
+	GtkBoxClass parent_class;
+};
+
 G_BEGIN_DECLS
 
-GtkWidget *certificate_manager_config_new (EPreferencesWindow *window);
+GType	  e_cert_manager_config_get_type (void) G_GNUC_CONST;
+
+GtkWidget *e_cert_manager_config_new (EPreferencesWindow *window);
+
 
 G_END_DECLS
 

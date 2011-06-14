@@ -51,77 +51,322 @@
 #include "e-util/e-util-private.h"
 #include "widgets/misc/e-preferences-window.h"
 
+G_DEFINE_TYPE (ECertManagerConfig, e_cert_manager_config, GTK_TYPE_BOX);
+
+enum {
+	PROP_0,
+	PROP_PREFERENCES_WINDOW
+};
+
+#define ECMC_TREE_VIEW(o) ecmc->priv->o->treeview
+#define PAGE_TREE_VIEW(o) o->treeview
+
 typedef struct {
+	GType type;
+	const gchar *column_title;
+	const gchar* (*get_cert_data_func) (ECert *cert);  /* Prototype to e_cert_get_* functions */
+	gboolean visible;			 	   /* Default visibility of column */
+} CertTreeColumn;
+
+static CertTreeColumn yourcerts_columns[] = {
+
+	{ G_TYPE_STRING, N_("Certificate Name"),		e_cert_get_cn,			TRUE },
+	{ G_TYPE_STRING, N_("Issued To Organization"),		e_cert_get_org,			FALSE },
+	{ G_TYPE_STRING, N_("Issued To Organizational Unit"),	e_cert_get_org_unit,		FALSE },
+	{ G_TYPE_STRING, N_("Serial Number"),			e_cert_get_serial_number,	TRUE },
+	{ G_TYPE_STRING, N_("Purposes"),			e_cert_get_usage,		TRUE },
+	{ G_TYPE_STRING, N_("Issued By"),			e_cert_get_issuer_cn,		TRUE },
+	{ G_TYPE_STRING, N_("Issued By Organization"),		e_cert_get_issuer_org,		FALSE },
+	{ G_TYPE_STRING, N_("Issued By Organizational Unit"),	e_cert_get_issuer_org_unit,	FALSE },
+	{ G_TYPE_STRING, N_("Issued"),				e_cert_get_issued_on,		FALSE },
+	{ G_TYPE_STRING, N_("Expires"),				e_cert_get_expires_on,		TRUE },
+	{ G_TYPE_STRING, N_("SHA1 Fingerprint"),		e_cert_get_sha1_fingerprint,	FALSE },
+	{ G_TYPE_STRING, N_("MD5 Fingerprint"),			e_cert_get_md5_fingerprint,	FALSE },
+	{ G_TYPE_OBJECT, NULL,					NULL,				FALSE } /* Hidden column for ECert* object */
+
+};
+static const gchar* yourcerts_mime_types[] = { "application/x-x509-user-cert", "application/x-pkcs12", NULL };
+
+static CertTreeColumn contactcerts_columns[] = {
+
+	{ G_TYPE_STRING, N_("Certificate Name"),		e_cert_get_cn,			TRUE },
+	{ G_TYPE_STRING, N_("E-Mail Address"),			e_cert_get_email,		TRUE },
+	{ G_TYPE_STRING, N_("Issued To Organization"),		e_cert_get_org,			FALSE },
+	{ G_TYPE_STRING, N_("Issued To Organizational Unit"),	e_cert_get_org_unit,		FALSE },
+	{ G_TYPE_STRING, N_("Serial Number"),			e_cert_get_serial_number,	TRUE },
+	{ G_TYPE_STRING, N_("Purposes"),			e_cert_get_usage,		TRUE },
+	{ G_TYPE_STRING, N_("Issued By"),			e_cert_get_issuer_cn,		TRUE },
+	{ G_TYPE_STRING, N_("Issued By Organization"),		e_cert_get_issuer_org,		FALSE },
+	{ G_TYPE_STRING, N_("Issued By Organizational Unit"),	e_cert_get_issuer_org_unit,	FALSE },
+	{ G_TYPE_STRING, N_("Issued"),				e_cert_get_issued_on,		FALSE },
+	{ G_TYPE_STRING, N_("Expires"),				e_cert_get_expires_on,		TRUE },
+	{ G_TYPE_STRING, N_("SHA1 Fingerprint"),		e_cert_get_sha1_fingerprint,	FALSE },
+	{ G_TYPE_STRING, N_("MD5 Fingerprint"),			e_cert_get_md5_fingerprint,	FALSE },
+	{ G_TYPE_OBJECT, NULL,					NULL,				FALSE }
+
+};
+static const gchar* contactcerts_mime_types[] = { "application/x-x509-email-cert", "application/x-x509-ca-cert", NULL };
+
+static CertTreeColumn authoritycerts_columns[] = {
+
+	{ G_TYPE_STRING, N_("Certificate Name"),		e_cert_get_cn,			TRUE },
+	{ G_TYPE_STRING, N_("E-Mail Address"),			e_cert_get_email,		TRUE },
+	{ G_TYPE_STRING, N_("Serial Number"),			e_cert_get_serial_number,	TRUE },
+	{ G_TYPE_STRING, N_("Purposes"),			e_cert_get_usage,		TRUE },
+	{ G_TYPE_STRING, N_("Issued By"),			e_cert_get_issuer_cn,		FALSE },
+	{ G_TYPE_STRING, N_("Issued By Organization"),		e_cert_get_issuer_org,		FALSE },
+	{ G_TYPE_STRING, N_("Issued By Organizational Unit"),	e_cert_get_issuer_org_unit,	FALSE },
+	{ G_TYPE_STRING, N_("Issued"),				e_cert_get_issued_on,		FALSE },
+	{ G_TYPE_STRING, N_("Expires"),				e_cert_get_expires_on,		TRUE },
+	{ G_TYPE_STRING, N_("SHA1 Fingerprint"),		e_cert_get_sha1_fingerprint,	FALSE },
+	{ G_TYPE_STRING, N_("MD5 Fingerprint"),			e_cert_get_md5_fingerprint,	FALSE },
+	{ G_TYPE_OBJECT, NULL,					NULL,				FALSE }
+
+};
+static const gchar* authoritycerts_mime_types[] =  { "application/x-x509-ca-cert", NULL };
+
+typedef struct {
+	GtkTreeView *treeview;
+	GtkTreeStore *treemodel;
+	GtkTreeModel *streemodel;
+	GHashTable *root_hash;
+	GtkMenu *popup_menu;
+	GtkWidget *view_button;
+	GtkWidget *edit_button;
+	GtkWidget *backup_button;
+	GtkWidget *backup_all_button;
+	GtkWidget *import_button;
+	GtkWidget *delete_button;
+
+	CertTreeColumn *columns;
+	gint columns_count;
+
+	ECertType cert_type;
+	const gchar *cert_filter_name;
+	const gchar **cert_mime_types;
+} CertPage;
+
+struct _ECertManagerConfigPrivate {
 	GtkBuilder *builder;
 
-	GtkWidget *yourcerts_treeview;
-	GtkTreeStore *yourcerts_treemodel;
-	GtkTreeModel *yourcerts_streemodel;
-	GHashTable *yourcerts_root_hash;
-	GtkWidget *view_your_button;
-	GtkWidget *backup_your_button;
-	GtkWidget *backup_all_your_button;
-	GtkWidget *import_your_button;
-	GtkWidget *delete_your_button;
+	EPreferencesWindow *pref_window;
 
-	GtkWidget *contactcerts_treeview;
-	GtkTreeModel *contactcerts_streemodel;
-	GHashTable *contactcerts_root_hash;
-	GtkWidget *view_contact_button;
-	GtkWidget *edit_contact_button;
-	GtkWidget *import_contact_button;
-	GtkWidget *delete_contact_button;
+	CertPage *yourcerts_page;
+	CertPage *contactcerts_page;
+	CertPage *authoritycerts_page;
+};
 
-	GtkWidget *authoritycerts_treeview;
-	GtkTreeModel *authoritycerts_streemodel;
-	GHashTable *authoritycerts_root_hash;
-	GtkWidget *view_ca_button;
-	GtkWidget *edit_ca_button;
-	GtkWidget *import_ca_button;
-	GtkWidget *delete_ca_button;
+static void view_cert (GtkWidget *button, CertPage *cp);
+static void edit_cert (GtkWidget *button, CertPage *cp);
+static void delete_cert (GtkWidget *button, CertPage *cp);
+static void import_cert (GtkWidget *button, CertPage *cp);
 
-} CertificateManagerData;
+static void load_certs (CertPage *cp);
+static void unload_certs (CertPage *cp);
 
-typedef void (*AddCertCb)(CertificateManagerData *cfm, ECert *cert);
-
-static void unload_certs (CertificateManagerData *cfm, ECertType type);
-static void load_certs (CertificateManagerData *cfm, ECertType type, AddCertCb add_cert);
-
-static void add_user_cert (CertificateManagerData *cfm, ECert *cert);
-static void add_contact_cert (CertificateManagerData *cfm, ECert *cert);
-static void add_ca_cert (CertificateManagerData *cfm, ECert *cert);
 
 static void
-report_and_free_error (CertificateManagerData *cfm, const gchar *where, GError *error)
+save_treeview_state (GtkTreeView *treeview)
 {
-	g_return_if_fail (cfm != NULL);
+	GKeyFile *keyfile;
+	GtkTreeModel *model;
+	GtkTreeSortable *sortable;
+	GtkSortType sort_type;
+	gint columns_count;
+	gint i = 0;
+	gint *list;
+	gchar *cfg_file, *data;
+	const gchar *tree_name;
 
-	e_notice (gtk_widget_get_toplevel (cfm->yourcerts_treeview),
+	g_return_if_fail (treeview && GTK_IS_TREE_VIEW (treeview));
+
+	model = gtk_tree_view_get_model (treeview);
+	g_return_if_fail (model && GTK_IS_TREE_MODEL_SORT (model));
+
+	keyfile = g_key_file_new ();
+	cfg_file = g_build_filename (e_get_user_config_dir (), "cert_trees.ini", NULL);
+	g_key_file_load_from_file (keyfile, cfg_file, 0, NULL);
+
+	tree_name = gtk_widget_get_name (GTK_WIDGET (treeview));
+	sortable = GTK_TREE_SORTABLE (model);
+
+	columns_count = gtk_tree_model_get_n_columns (model) - 1; /* Ignore the last column - the ECert* holder */
+	list = g_new0 (gint, columns_count);
+
+	for (i = 0; i < columns_count; i++) {
+		GtkTreeViewColumn *column = gtk_tree_view_get_column (treeview, i);
+		if (gtk_tree_view_column_get_visible (column)) {
+			list[gtk_tree_view_column_get_sort_column_id (column)] = gtk_tree_view_column_get_width (column);
+		} else {
+			list[gtk_tree_view_column_get_sort_column_id (column)] = 0;
+		}
+	}
+	g_key_file_set_integer_list (keyfile, tree_name, "columns", list, columns_count);
+	g_free (list);
+
+	list = g_new0 (gint, columns_count);
+	for (i = 0; i < columns_count; i++) {
+		GtkTreeViewColumn *column = gtk_tree_view_get_column (treeview, i);
+		list[i] = gtk_tree_view_column_get_sort_column_id (column);
+	}
+	g_key_file_set_integer_list (keyfile, tree_name, "columns-order", list, columns_count);
+	g_free (list);
+
+	gtk_tree_sortable_get_sort_column_id (sortable, &i, &sort_type);
+	g_key_file_set_integer (keyfile, tree_name, "sort-column", i);
+
+	g_key_file_set_integer (keyfile, tree_name, "sort-order", sort_type);
+
+	data = g_key_file_to_data (keyfile, NULL, NULL);
+	g_file_set_contents (cfg_file, data, -1,  NULL);
+
+	g_free (data);
+	g_free (cfg_file);
+	g_key_file_free (keyfile);
+}
+
+static void
+load_treeview_state (GtkTreeView *treeview)
+{
+	GKeyFile *keyfile;
+	gint i, *list;
+	gsize length;
+	GtkTreeSortable *sortable;
+	GtkTreeModel *model;
+	gchar *cfg_file;
+	const gchar *tree_name;
+
+	g_return_if_fail (treeview && GTK_IS_TREE_VIEW (treeview));
+
+	keyfile = g_key_file_new ();
+	cfg_file = g_build_filename (e_get_user_config_dir (), "cert_trees.ini", NULL);
+
+	if (!g_key_file_load_from_file (keyfile, cfg_file, 0, NULL)) {
+		g_key_file_free (keyfile);
+		g_free (cfg_file);
+		return;
+	}
+
+	model = GTK_TREE_MODEL (gtk_tree_view_get_model (treeview));
+	tree_name = gtk_widget_get_name (GTK_WIDGET (treeview));
+	list = g_key_file_get_integer_list (keyfile, tree_name,	"columns", &length, NULL);
+
+	if (list) {
+		if (length != (gtk_tree_model_get_n_columns (model) - 1)) {
+			g_debug ("%s: Unexpected number of columns in config file", G_STRFUNC);
+			g_free (list);
+			goto exit;
+		}
+
+		for (i = 0; i < length; i++) {
+			GtkTreeViewColumn *column = gtk_tree_view_get_column (treeview, i);
+			if (list[i]) {
+				gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
+				gtk_tree_view_column_set_fixed_width (column, list[i]);
+				gtk_tree_view_column_set_visible (column, TRUE);
+			} else {
+				gtk_tree_view_column_set_visible (column, FALSE);
+			}
+		}
+		g_free (list);
+	}
+
+	list = g_key_file_get_integer_list (keyfile, tree_name, "columns-order", &length, NULL);
+
+	if (list) {
+		GList *columns = gtk_tree_view_get_columns (treeview);
+
+		if (length != g_list_length (columns)) {
+			g_debug ("%s: Unexpected number of columns in config file", G_STRFUNC);
+			g_free (list);
+			goto exit;
+		}
+
+		for (i = (length - 1); i >= 0; i--) {
+			if ((list[i] >= 0) && (list[i] < length)) {
+				GtkTreeViewColumn *column = g_list_nth (columns, list[i])->data;
+				gtk_tree_view_move_column_after (treeview, column, NULL);
+			} else {
+				g_warning ("%s: Invalid column number", G_STRFUNC);
+			}
+		}
+		g_free (list);
+		g_list_free (columns);
+	}
+
+	sortable = GTK_TREE_SORTABLE (gtk_tree_view_get_model (treeview));
+	gtk_tree_sortable_set_sort_column_id (sortable,
+		g_key_file_get_integer (keyfile, tree_name, "sort-column", 0),
+		g_key_file_get_integer (keyfile, tree_name, "sort-order", GTK_SORT_ASCENDING));
+
+ exit:
+	g_free (cfg_file);
+	g_key_file_free (keyfile);
+}
+
+static void
+report_and_free_error (CertPage *cp, const gchar *where, GError *error)
+{
+	g_return_if_fail (cp != NULL);
+
+	e_notice (gtk_widget_get_toplevel (GTK_WIDGET (cp->treeview)),
 		  GTK_MESSAGE_ERROR, "%s: %s", where, error ? error->message : _("Unknown error"));
 
 	if (error)
 		g_error_free (error);
 }
 
+static gboolean
+treeview_header_clicked (GtkWidget *widget,
+			 GdkEventButton *event,
+			 gpointer user_data)
+{
+	GtkMenu *menu = user_data;
+
+	if (event->button != 3)
+		return FALSE;
+
+	gtk_widget_show_all (GTK_WIDGET (menu));
+	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
+
+	return TRUE;
+}
+
 static void
-handle_selection_changed (GtkTreeSelection *selection,
-			  gint cert_column,
-			  GtkWidget *view_button,
-			  GtkWidget *edit_button,
-			  GtkWidget *delete_button)
+header_popup_item_toggled (GtkCheckMenuItem *item,
+			   gpointer user_data)
+{
+	GtkTreeViewColumn *column = user_data;
+
+	gtk_tree_view_column_set_visible (column,
+		gtk_check_menu_item_get_active (item));
+}
+
+static void
+treeview_column_visibility_changed (GtkTreeViewColumn *column,
+				    GParamSpec *pspec,
+		 		    gpointer user_data)
+{
+	GtkCheckMenuItem *menu_item = user_data;
+
+	gtk_check_menu_item_set_active (menu_item,
+		gtk_tree_view_column_get_visible (column));
+
+}
+
+static void
+treeview_selection_changed (GtkTreeSelection *selection,
+			    CertPage *cp)
 {
 	GtkTreeIter iter;
 	gboolean cert_selected = FALSE;
 	GtkTreeModel *model;
 
-	if (gtk_tree_selection_get_selected (selection,
-					     &model,
-					     &iter)) {
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		ECert *cert;
 
-		gtk_tree_model_get (model,
-				    &iter,
-				    cert_column, &cert,
+		gtk_tree_model_get (model, &iter,
+				    cp->columns_count - 1, &cert,
 				    -1);
 
 		if (cert) {
@@ -130,138 +375,61 @@ handle_selection_changed (GtkTreeSelection *selection,
 		}
 	}
 
-	if (delete_button)
-		gtk_widget_set_sensitive (delete_button, cert_selected);
-	if (edit_button)
-		gtk_widget_set_sensitive (edit_button, cert_selected);
-	if (view_button)
-		gtk_widget_set_sensitive (view_button, cert_selected);
+	if (cp->delete_button)
+		gtk_widget_set_sensitive (cp->delete_button, cert_selected);
+	if (cp->edit_button)
+		gtk_widget_set_sensitive (cp->edit_button, cert_selected);
+	if (cp->view_button)
+		gtk_widget_set_sensitive (cp->view_button, cert_selected);
 }
+
 
 static void
-import_your (GtkWidget *widget, CertificateManagerData *cfm)
+treeview_add_column (CertPage *cp,
+	 	     gint column_index)
 {
-	GtkWidget *filesel;
+	GtkCellRenderer *cell;
+	GtkTreeViewColumn *column;
+	GtkWidget *header, *item;
 
-	GtkFileFilter* filter;
+	if (cp->columns[column_index].type != G_TYPE_STRING)
+		return;
 
-	filesel = gtk_file_chooser_dialog_new (_("Select a certificate to import..."),
-					       NULL,
-					       GTK_FILE_CHOOSER_ACTION_OPEN,
-					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					       GTK_STOCK_OPEN, GTK_RESPONSE_OK,
-					       NULL);
-	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
+	cell = gtk_cell_renderer_text_new ();
+	g_object_set (cell, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
+	column = gtk_tree_view_column_new_with_attributes (
+			cp->columns[column_index].column_title, cell,
+			"text", column_index, NULL);
+	gtk_tree_view_column_set_resizable (column, TRUE);
+	gtk_tree_view_column_set_reorderable (column, TRUE);
+	gtk_tree_view_column_set_sort_column_id (column, column_index);
+	gtk_tree_view_column_set_visible (column, cp->columns[column_index].visible);
+	gtk_tree_view_append_column (cp->treeview, column);
 
-	filter = gtk_file_filter_new ();
-	gtk_file_filter_set_name (filter, _("All PKCS12 files"));
-	gtk_file_filter_add_mime_type (filter, "application/x-x509-user-cert");
-	gtk_file_filter_add_mime_type (filter, "application/x-pkcs12");
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
+	header = gtk_tree_view_column_get_button (column);
+	g_signal_connect (header, "button-release-event",
+		G_CALLBACK (treeview_header_clicked), cp->popup_menu);
 
-	filter = gtk_file_filter_new ();
-	gtk_file_filter_set_name (filter, _("All files"));
-	gtk_file_filter_add_pattern (filter, "*");
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
+	/* The first column should not be concealable so there's no point in displaying
+	   it in the popup menu */
+	if (column_index == 0)
+		return;
 
-	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
-		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
-		GError *error = NULL;
-
-		/* destroy dialog to get rid of it in the GUI */
-		gtk_widget_destroy (filesel);
-
-		if (e_cert_db_import_pkcs12_file (e_cert_db_peek (),
-						  filename, &error)) {
-			/* there's no telling how many certificates were added during the import,
-			   so we blow away the contact cert display and regenerate it. */
-			unload_certs (cfm, E_CERT_USER);
-			load_certs (cfm, E_CERT_USER, add_user_cert);
-			gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->yourcerts_treeview));
-		} else {
-			report_and_free_error (cfm, _("Failed to import user's certificate"), error);
-		}
-
-		g_free (filename);
-	} else
-		gtk_widget_destroy (filesel);
+	/* Add item to header popup */
+	item = gtk_check_menu_item_new_with_label (cp->columns[column_index].column_title);
+	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), cp->columns[column_index].visible);
+	gtk_menu_attach (cp->popup_menu, item, 0, 1, column_index - 1, column_index);
+	g_signal_connect (item, "toggled",
+		G_CALLBACK (header_popup_item_toggled), column);
+	g_signal_connect (column, "notify::visible",
+		G_CALLBACK (treeview_column_visibility_changed), item);
 }
 
-static void
-delete_your (GtkWidget *widget, CertificateManagerData *cfm)
-{
-	GtkTreeIter iter;
-
-	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->yourcerts_treeview)),
-					     NULL,
-					     &iter)) {
-		ECert *cert;
-
-		gtk_tree_model_get (GTK_TREE_MODEL (cfm->yourcerts_streemodel),
-				    &iter,
-				    4, &cert,
-				    -1);
-
-		if (cert
-		    && e_cert_db_delete_cert (e_cert_db_peek (), cert)) {
-			GtkTreeIter child_iter;
-			gtk_tree_model_sort_convert_iter_to_child_iter (GTK_TREE_MODEL_SORT (cfm->yourcerts_streemodel),
-									&child_iter,
-									&iter);
-			gtk_tree_store_remove (GTK_TREE_STORE (gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (cfm->yourcerts_streemodel))),
-					       &child_iter);
-
-			/* we need two unrefs here, one to unref the
-			   gtk_tree_model_get above, and one to unref
-			   the initial ref when we created the cert
-			   and added it to the tree */
-			g_object_unref (cert);
-			g_object_unref (cert);
-		}
-	}
-
-}
-
-static void
-view_your (GtkWidget *widget, CertificateManagerData *cfm)
-{
-	GtkTreeIter iter;
-
-	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->yourcerts_treeview)),
-					     NULL,
-					     &iter)) {
-		ECert *cert;
-
-		gtk_tree_model_get (GTK_TREE_MODEL (cfm->yourcerts_streemodel),
-				    &iter,
-				    4, &cert,
-				    -1);
-
-		if (cert) {
-			GtkWidget *dialog = certificate_viewer_show (cert);
-			g_signal_connect (dialog, "response",
-					  G_CALLBACK (gtk_widget_destroy), NULL);
-			gtk_widget_show (dialog);
-		}
-	}
-}
-
-static void
-backup_your (GtkWidget *widget, CertificateManagerData *cfm)
-{
-	/* FIXME: implement */
-}
-
-static void
-backup_all_your (GtkWidget *widget, CertificateManagerData *cfm)
-{
-	/* FIXME: implement */
-}
 
 struct find_cert_data {
 	ECert *cert;
 	GtkTreePath *path;
-	gint cert_index;
+	CertPage *cp;
 };
 
 static gboolean
@@ -274,7 +442,8 @@ find_cert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointe
 	g_return_val_if_fail (iter != NULL, TRUE);
 	g_return_val_if_fail (data != NULL, TRUE);
 
-	gtk_tree_model_get (model, iter, fcd->cert_index, &cert, -1);
+	/* Get the certificate object from model */
+	gtk_tree_model_get (model, iter, (fcd->cp->columns_count - 1), &cert, -1);
 
 	if (cert && g_strcmp0 (e_cert_get_serial_number (cert), e_cert_get_serial_number (fcd->cert)) == 0
 	    && g_strcmp0 (e_cert_get_subject_name (cert), e_cert_get_subject_name (fcd->cert)) == 0
@@ -287,134 +456,48 @@ find_cert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointe
 }
 
 static void
-select_certificate (CertificateManagerData *cfm, GtkTreeView *treeview, ECert *cert)
+select_certificate (CertPage *cp,
+		    ECert *cert)
 {
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
 	struct find_cert_data fcd;
 
-	g_return_if_fail (treeview != NULL);
-	g_return_if_fail (GTK_IS_TREE_VIEW (treeview));
+	g_return_if_fail (cp != NULL);
 	g_return_if_fail (cert != NULL);
 	g_return_if_fail (E_IS_CERT (cert));
 
-	model = gtk_tree_view_get_model (treeview);
+	model = gtk_tree_view_get_model (cp->treeview);
 	g_return_if_fail (model != NULL);
 
+	fcd.cp = cp;
 	fcd.cert = cert;
-	fcd.path = NULL;
-	fcd.cert_index = cfm->yourcerts_treeview == GTK_WIDGET (treeview) ? 4
-		       : cfm->authoritycerts_treeview == GTK_WIDGET (treeview) ? 1
-		       : 3;
 
 	gtk_tree_model_foreach (model, find_cert_cb, &fcd);
 
 	if (fcd.path) {
-		gtk_tree_view_expand_to_path (treeview, fcd.path);
+		gtk_tree_view_expand_to_path (cp->treeview, fcd.path);
 
-		selection = gtk_tree_view_get_selection (treeview);
+		selection = gtk_tree_view_get_selection (cp->treeview);
 		gtk_tree_selection_select_path (selection, fcd.path);
 
-		gtk_tree_view_scroll_to_cell (treeview, fcd.path, NULL, FALSE, 0.0, 0.0);
 
+		gtk_tree_view_scroll_to_cell (cp->treeview, fcd.path, NULL, FALSE, 0.0, 0.0);
 		gtk_tree_path_free (fcd.path);
 	}
 }
 
 static void
-yourcerts_selection_changed (GtkTreeSelection *selection, CertificateManagerData *cfm)
-{
-	handle_selection_changed (selection,
-				  4,
-				  cfm->view_your_button,
-				  NULL,
-				  cfm->delete_your_button);
-}
-
-static GtkTreeModel*
-create_yourcerts_treemodel (void)
-{
-	return GTK_TREE_MODEL (gtk_tree_store_new (5,
-						   G_TYPE_STRING,
-						   G_TYPE_STRING,
-						   G_TYPE_STRING,
-						   G_TYPE_STRING,
-						   G_TYPE_OBJECT));
-}
-
-static void
-initialize_yourcerts_ui (CertificateManagerData *cfm)
-{
-	GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
-	GtkTreeSelection *selection;
-	GtkTreeViewColumn *column;
-
-	column = gtk_tree_view_column_new_with_attributes (_("Certificate Name"),
-							   cell,
-							   "text", 0,
-							   NULL);
-	gtk_tree_view_column_set_resizable (column, TRUE);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (cfm->yourcerts_treeview),
-				     column);
-	gtk_tree_view_column_set_sort_column_id (column, 0);
-
-	column = gtk_tree_view_column_new_with_attributes (_("Purposes"),
-							   cell,
-							   "text", 1,
-							   NULL);
-	gtk_tree_view_column_set_resizable (column, TRUE);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (cfm->yourcerts_treeview),
-				     column);
-	gtk_tree_view_column_set_sort_column_id (column, 1);
-
-	column = gtk_tree_view_column_new_with_attributes (_("Serial Number"),
-							   cell,
-							   "text", 2,
-							   NULL);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (cfm->yourcerts_treeview),
-				     column);
-	gtk_tree_view_column_set_sort_column_id (column, 2);
-
-	column = gtk_tree_view_column_new_with_attributes (_("Expires"),
-							   cell,
-							   "text", 3,
-							   NULL);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (cfm->yourcerts_treeview),
-				     column);
-	gtk_tree_view_column_set_sort_column_id (column, 3);
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->yourcerts_treeview));
-	g_signal_connect (selection, "changed", G_CALLBACK (yourcerts_selection_changed), cfm);
-
-	if (cfm->import_your_button)
-		g_signal_connect (cfm->import_your_button, "clicked", G_CALLBACK (import_your), cfm);
-
-	if (cfm->delete_your_button)
-		g_signal_connect (cfm->delete_your_button, "clicked", G_CALLBACK (delete_your), cfm);
-
-	if (cfm->view_your_button)
-		g_signal_connect (cfm->view_your_button, "clicked", G_CALLBACK (view_your), cfm);
-
-	if (cfm->backup_your_button)
-		g_signal_connect (cfm->backup_your_button, "clicked", G_CALLBACK (backup_your), cfm);
-
-	if (cfm->backup_all_your_button)
-		g_signal_connect (cfm->backup_all_your_button, "clicked", G_CALLBACK (backup_all_your), cfm);
-}
-
-static void
-view_contact (GtkWidget *widget, CertificateManagerData *cfm)
+view_cert (GtkWidget *button,
+	   CertPage *cp)
 {
 	GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->contactcerts_treeview)),
-					     NULL,
-					     &iter)) {
+	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (cp->treeview), NULL, &iter)) {
 		ECert *cert;
 
-		gtk_tree_model_get (GTK_TREE_MODEL (cfm->contactcerts_streemodel),
-				    &iter,
-				    3, &cert,
+		gtk_tree_model_get (GTK_TREE_MODEL (cp->streemodel), &iter,
+				    cp->columns_count - 1, &cert,
 				    -1);
 
 		if (cert) {
@@ -427,257 +510,50 @@ view_contact (GtkWidget *widget, CertificateManagerData *cfm)
 }
 
 static void
-edit_contact (GtkWidget *widget, CertificateManagerData *cfm)
+edit_cert (GtkWidget *button,
+	   CertPage *cp)
 {
 	GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->contactcerts_treeview)),
-					     NULL,
-					     &iter)) {
+	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (cp->treeview), NULL, &iter)) {
 		ECert *cert;
 
-		gtk_tree_model_get (GTK_TREE_MODEL (cfm->contactcerts_streemodel),
-				    &iter,
-				    3, &cert,
+		gtk_tree_model_get (GTK_TREE_MODEL (cp->streemodel), &iter,
+				    cp->columns_count - 1, &cert,
 				    -1);
 
 		if (cert) {
-			GtkWidget *dialog = cert_trust_dialog_show (cert);
-			g_signal_connect (dialog, "response",
-					  G_CALLBACK (gtk_widget_destroy), NULL);
-			gtk_widget_show (dialog);
-		}
-	}
-}
-
-static void
-import_contact (GtkWidget *widget, CertificateManagerData *cfm)
-{
-	GtkWidget *filesel;
-
-	GtkFileFilter *filter;
-
-	filesel = gtk_file_chooser_dialog_new (_("Select a certificate to import..."),
-					       NULL,
-					       GTK_FILE_CHOOSER_ACTION_OPEN,
-					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					       GTK_STOCK_OPEN, GTK_RESPONSE_OK,
-					       NULL);
-	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
-
-	filter = gtk_file_filter_new ();
-	gtk_file_filter_set_name (filter, _("All email certificate files"));
-	gtk_file_filter_add_mime_type (filter, "application/x-x509-email-cert");
-	gtk_file_filter_add_mime_type (filter, "application/x-x509-ca-cert");
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
-
-	filter = gtk_file_filter_new ();
-	gtk_file_filter_set_name (filter, _("All files"));
-	gtk_file_filter_add_pattern (filter, "*");
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
-
-	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
-		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
-		GError *error = NULL;
-		GSList *imported_certs = NULL;
-
-		/* destroy dialog to get rid of it in the GUI */
-		gtk_widget_destroy (filesel);
-
-		if (e_cert_db_import_certs_from_file (e_cert_db_peek (),
-						      filename,
-						      E_CERT_CONTACT,
-						      &imported_certs,
-						      &error)) {
-
-			/* there's no telling how many certificates were added during the import,
-			   so we blow away the contact cert display and regenerate it. */
-			unload_certs (cfm, E_CERT_CONTACT);
-			load_certs (cfm, E_CERT_CONTACT, add_contact_cert);
-			gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->contactcerts_treeview));
-
-			if (imported_certs)
-				select_certificate (cfm, GTK_TREE_VIEW (cfm->contactcerts_treeview), imported_certs->data);
-		} else {
-			report_and_free_error (cfm, _("Failed to import contact's certificate"), error);
-		}
-
-		g_free (filename);
-		g_slist_foreach (imported_certs, (GFunc) g_object_unref, NULL);
-		g_slist_free (imported_certs);
-	} else
-		gtk_widget_destroy (filesel);
-}
-
-static void
-delete_contact (GtkWidget *widget, CertificateManagerData *cfm)
-{
-	GtkTreeIter iter;
-
-	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->contactcerts_treeview)),
-					     NULL,
-					     &iter)) {
-		ECert *cert;
-
-		gtk_tree_model_get (GTK_TREE_MODEL (cfm->contactcerts_streemodel),
-				    &iter,
-				    3, &cert,
-				    -1);
-
-		if (cert
-		    && e_cert_db_delete_cert (e_cert_db_peek (), cert)) {
-			GtkTreeIter child_iter;
-			gtk_tree_model_sort_convert_iter_to_child_iter (GTK_TREE_MODEL_SORT (cfm->contactcerts_streemodel),
-									&child_iter,
-									&iter);
-			gtk_tree_store_remove (GTK_TREE_STORE (gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (cfm->contactcerts_streemodel))),
-					       &child_iter);
-
-			/* we need two unrefs here, one to unref the
-			   gtk_tree_model_get above, and one to unref
-			   the initial ref when we created the cert
-			   and added it to the tree */
-			g_object_unref (cert);
-			g_object_unref (cert);
-		}
-	}
-
-}
-
-static void
-contactcerts_selection_changed (GtkTreeSelection *selection, CertificateManagerData *cfm)
-{
-	handle_selection_changed (selection,
-				  3,
-				  cfm->view_contact_button,
-				  cfm->edit_contact_button,
-				  cfm->delete_contact_button);
-}
-
-static GtkTreeModel*
-create_contactcerts_treemodel (void)
-{
-	return GTK_TREE_MODEL (gtk_tree_store_new (4,
-						   G_TYPE_STRING,
-						   G_TYPE_STRING,
-						   G_TYPE_STRING,
-						   G_TYPE_OBJECT));
-}
-
-static void
-initialize_contactcerts_ui (CertificateManagerData *cfm)
-{
-	GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
-	GtkTreeSelection *selection;
-	GtkTreeViewColumn *column;
-
-	column = gtk_tree_view_column_new_with_attributes (_("Certificate Name"),
-							   cell,
-							   "text", 0,
-							   NULL);
-	gtk_tree_view_column_set_resizable (column, TRUE);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (cfm->contactcerts_treeview),
-				     column);
-	gtk_tree_view_column_set_sort_column_id (column, 0);
-
-	column = gtk_tree_view_column_new_with_attributes (_("E-Mail Address"),
-							   cell,
-							   "text", 1,
-							   NULL);
-	gtk_tree_view_column_set_resizable (column, TRUE);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (cfm->contactcerts_treeview),
-				     column);
-	gtk_tree_view_column_set_sort_column_id (column, 1);
-
-	column = gtk_tree_view_column_new_with_attributes (_("Purposes"),
-							   cell,
-							   "text", 2,
-							   NULL);
-	gtk_tree_view_column_set_resizable (column, TRUE);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (cfm->contactcerts_treeview),
-				     column);
-	gtk_tree_view_column_set_sort_column_id (column, 2);
-
-	cfm->contactcerts_root_hash = g_hash_table_new (g_str_hash, g_str_equal);
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->contactcerts_treeview));
-	g_signal_connect (selection, "changed", G_CALLBACK (contactcerts_selection_changed), cfm);
-
-	if (cfm->view_contact_button)
-		g_signal_connect (cfm->view_contact_button, "clicked", G_CALLBACK (view_contact), cfm);
-
-	if (cfm->edit_contact_button)
-		g_signal_connect (cfm->edit_contact_button, "clicked", G_CALLBACK (edit_contact), cfm);
-
-	if (cfm->import_contact_button)
-		g_signal_connect (cfm->import_contact_button, "clicked", G_CALLBACK (import_contact), cfm);
-
-	if (cfm->delete_contact_button)
-		g_signal_connect (cfm->delete_contact_button, "clicked", G_CALLBACK (delete_contact), cfm);
-
-}
-
-static void
-view_ca (GtkWidget *widget, CertificateManagerData *cfm)
-{
-	GtkTreeIter iter;
-
-	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->authoritycerts_treeview)),
-					     NULL,
-					     &iter)) {
-		ECert *cert;
-
-		gtk_tree_model_get (GTK_TREE_MODEL (cfm->authoritycerts_streemodel),
-				    &iter,
-				    1, &cert,
-				    -1);
-
-		if (cert) {
-			GtkWidget *dialog = certificate_viewer_show (cert);
-			g_signal_connect (dialog, "response",
-					  G_CALLBACK (gtk_widget_destroy), NULL);
-			gtk_widget_show (dialog);
-		}
-	}
-}
-
-static void
-edit_ca (GtkWidget *widget, CertificateManagerData *cfm)
-{
-	GtkTreeIter iter;
-
-	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->authoritycerts_treeview)),
-					     NULL,
-					     &iter)) {
-		ECert *cert;
-
-		gtk_tree_model_get (GTK_TREE_MODEL (cfm->authoritycerts_streemodel),
-				    &iter,
-				    1, &cert,
-				    -1);
-
-		if (cert) {
-			GtkWidget *dialog = ca_trust_dialog_show (cert, FALSE);
+			GtkWidget *dialog;
 			CERTCertificate *icert = e_cert_get_internal_cert (cert);
 
-			ca_trust_dialog_set_trust (dialog,
+			switch (cp->cert_type) {
+				case E_CERT_CA:
+					dialog = ca_trust_dialog_show (cert, FALSE);
+					ca_trust_dialog_set_trust (dialog,
 						   e_cert_trust_has_trusted_ca (icert->trust, TRUE,  FALSE, FALSE),
 						   e_cert_trust_has_trusted_ca (icert->trust, FALSE, TRUE,  FALSE),
 						   e_cert_trust_has_trusted_ca (icert->trust, FALSE, FALSE, TRUE));
+					break;
+				case E_CERT_CONTACT:
+					dialog = cert_trust_dialog_show (cert);
+					break;
+				default:
+					/* Other cert types cannot be edited */
+					return;
+			}
 
-			if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+			if ((gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) &&
+			    (cp->cert_type == E_CERT_CA)) {
 				gboolean trust_ssl, trust_email, trust_objsign;
 				CERTCertTrust trust;
 
 				ca_trust_dialog_get_trust (dialog,
-							   &trust_ssl, &trust_email, &trust_objsign);
+					   &trust_ssl, &trust_email, &trust_objsign);
 
 				e_cert_trust_init (&trust);
 				e_cert_trust_set_valid_ca (&trust);
 				e_cert_trust_add_ca_trust (&trust,
-							   trust_ssl,
-							   trust_email,
-							   trust_objsign);
+					   trust_ssl, trust_email, trust_objsign);
 
 				e_cert_db_change_cert_trust (icert, &trust);
 			}
@@ -688,23 +564,23 @@ edit_ca (GtkWidget *widget, CertificateManagerData *cfm)
 }
 
 static void
-import_ca (GtkWidget *widget, CertificateManagerData *cfm)
+import_cert (GtkWidget *button,
+	     CertPage *cp)
 {
 	GtkWidget *filesel;
-
 	GtkFileFilter *filter;
+	gint i;
 
 	filesel = gtk_file_chooser_dialog_new (_("Select a certificate to import..."),
-					       NULL,
-					       GTK_FILE_CHOOSER_ACTION_OPEN,
-					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					       GTK_STOCK_OPEN, GTK_RESPONSE_OK,
-					       NULL);
+			NULL, GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+			GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
 
 	filter = gtk_file_filter_new ();
-	gtk_file_filter_set_name (filter, _("All CA certificate files"));
-	gtk_file_filter_add_mime_type (filter, "application/x-x509-ca-cert");
+	gtk_file_filter_set_name (filter, cp->cert_filter_name);
+	for (i = 0; cp->cert_mime_types[i] != NULL; i++) {
+		gtk_file_filter_add_mime_type (filter, cp->cert_mime_types[i]);
+	}
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
 
 	filter = gtk_file_filter_new ();
@@ -712,29 +588,38 @@ import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 	gtk_file_filter_add_pattern (filter, "*");
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
 
-	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
+	if (gtk_dialog_run (GTK_DIALOG (filesel)) == GTK_RESPONSE_OK) {
 		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
 		GSList *imported_certs = NULL;
 		GError *error = NULL;
+		gboolean import;
 
 		/* destroy dialog to get rid of it in the GUI */
 		gtk_widget_destroy (filesel);
 
-		if (e_cert_db_import_certs_from_file (e_cert_db_peek (),
-						      filename,
-						      E_CERT_CA,
-						      &imported_certs,
-						      &error)) {
+		switch (cp->cert_type) {
+			case E_CERT_USER:
+				import = e_cert_db_import_pkcs12_file (e_cert_db_peek (), filename, &error);
+				break;
+			case E_CERT_CONTACT:
+			case E_CERT_CA:
+				import = e_cert_db_import_certs_from_file (e_cert_db_peek (), filename,
+						cp->cert_type, &imported_certs, &error);
+				break;
+			default:
+				g_free (filename);
+				return;
+		}
 
-			/* there's no telling how many certificates were added during the import,
-			   so we blow away the CA cert display and regenerate it. */
-			unload_certs (cfm, E_CERT_CA);
-			load_certs (cfm, E_CERT_CA, add_ca_cert);
+		if (import) {
+			unload_certs (cp);
+			load_certs (cp);
 
 			if (imported_certs)
-				select_certificate (cfm, GTK_TREE_VIEW (cfm->authoritycerts_treeview), imported_certs->data);
+				select_certificate (cp, imported_certs->data);
+
 		} else {
-			report_and_free_error (cfm, _("Failed to import certificate authority's certificate"), error);
+			report_and_free_error (cp, _("Failed to import certificate"), error);
 		}
 
 		g_slist_foreach (imported_certs, (GFunc) g_object_unref, NULL);
@@ -745,28 +630,23 @@ import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 }
 
 static void
-delete_ca (GtkWidget *widget, CertificateManagerData *cfm)
+delete_cert (GtkWidget *button,
+	     CertPage *cp)
 {
 	GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->authoritycerts_treeview)),
-					     NULL,
-					     &iter)) {
+	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (cp->treeview), NULL, &iter)) {
 		ECert *cert;
 
-		gtk_tree_model_get (GTK_TREE_MODEL (cfm->authoritycerts_streemodel),
-				    &iter,
-				    1, &cert,
+		gtk_tree_model_get (GTK_TREE_MODEL (cp->streemodel), &iter,
+				    cp->columns_count - 1, &cert,
 				    -1);
 
-		if (cert
-		    && e_cert_db_delete_cert (e_cert_db_peek (), cert)) {
+		if (cert && e_cert_db_delete_cert (e_cert_db_peek (), cert)) {
 			GtkTreeIter child_iter;
-			gtk_tree_model_sort_convert_iter_to_child_iter (GTK_TREE_MODEL_SORT (cfm->authoritycerts_streemodel),
-									&child_iter,
-									&iter);
-			gtk_tree_store_remove (GTK_TREE_STORE (gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (cfm->authoritycerts_streemodel))),
-					       &child_iter);
+
+			gtk_tree_model_sort_convert_iter_to_child_iter (GTK_TREE_MODEL_SORT (cp->streemodel), &child_iter, &iter);
+			gtk_tree_store_remove (cp->treemodel, &child_iter);
 
 			/* we need two unrefs here, one to unref the
 			   gtk_tree_model_get above, and one to unref
@@ -780,65 +660,16 @@ delete_ca (GtkWidget *widget, CertificateManagerData *cfm)
 }
 
 static void
-authoritycerts_selection_changed (GtkTreeSelection *selection, CertificateManagerData *cfm)
-{
-	handle_selection_changed (selection,
-				  1,
-				  cfm->view_ca_button,
-				  cfm->edit_ca_button,
-				  cfm->delete_ca_button);
-}
-
-static GtkTreeModel*
-create_authoritycerts_treemodel (void)
-{
-	return GTK_TREE_MODEL (gtk_tree_store_new (2,
-						   G_TYPE_STRING,
-						   G_TYPE_OBJECT));
-
-}
-
-static void
-initialize_authoritycerts_ui (CertificateManagerData *cfm)
-{
-	GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
-	GtkTreeSelection *selection;
-	GtkTreeViewColumn *column;
-
-	column = gtk_tree_view_column_new_with_attributes (_("Certificate Name"),
-							   cell,
-							   "text", 0,
-							   NULL);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (cfm->authoritycerts_treeview),
-				     column);
-	gtk_tree_view_column_set_sort_column_id (column, 0);
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cfm->authoritycerts_treeview));
-	g_signal_connect (selection, "changed", G_CALLBACK (authoritycerts_selection_changed), cfm);
-
-	if (cfm->view_ca_button)
-		g_signal_connect (cfm->view_ca_button, "clicked", G_CALLBACK (view_ca), cfm);
-
-	if (cfm->edit_ca_button)
-		g_signal_connect (cfm->edit_ca_button, "clicked", G_CALLBACK (edit_ca), cfm);
-
-	if (cfm->import_ca_button)
-		g_signal_connect (cfm->import_ca_button, "clicked", G_CALLBACK (import_ca), cfm);
-
-	if (cfm->delete_ca_button)
-		g_signal_connect (cfm->delete_ca_button, "clicked", G_CALLBACK (delete_ca), cfm);
-}
-
-static void
-add_user_cert (CertificateManagerData *cfm, ECert *cert)
+add_cert (CertPage *cp, ECert *cert)
 {
 	GtkTreeIter iter;
 	GtkTreeIter *parent_iter = NULL;
 	const gchar *organization = e_cert_get_org (cert);
-	GtkTreeModel *model = gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (cfm->yourcerts_streemodel));
+	GtkTreeModel *model = gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (cp->streemodel));
+	gint i;
 
 	if (organization) {
-		parent_iter = g_hash_table_lookup (cfm->yourcerts_root_hash, organization);
+		parent_iter = g_hash_table_lookup (cp->root_hash, organization);
 		if (!parent_iter) {
 			/* create a new toplevel node */
 			gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
@@ -849,206 +680,70 @@ add_user_cert (CertificateManagerData *cfm, ECert *cert)
 			/* now copy it off into parent_iter and insert it into
 			   the hashtable */
 			parent_iter = gtk_tree_iter_copy (&iter);
-			g_hash_table_insert (cfm->yourcerts_root_hash, g_strdup (organization), parent_iter);
+			g_hash_table_insert (cp->root_hash, g_strdup (organization), parent_iter);
 		}
 	}
 
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, parent_iter);
 
-	if (e_cert_get_cn (cert))
-		gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
-				    0, e_cert_get_cn (cert),
-				    1, e_cert_get_usage (cert),
-				    2, e_cert_get_serial_number (cert),
-				    3, e_cert_get_expires_on (cert),
-				    4, cert,
-				    -1);
-	else
-		gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
-				    0, e_cert_get_nickname (cert),
-				    1, e_cert_get_usage (cert),
-				    2, e_cert_get_serial_number (cert),
-				    3, e_cert_get_expires_on (cert),
-				    4, cert,
-				    -1);
-}
+	for (i = 0; i < cp->columns_count; i++) {
+		const gchar* (*get_cert_data_func) (ECert *cert);
 
-static void
-add_contact_cert (CertificateManagerData *cfm, ECert *cert)
-{
-	GtkTreeIter iter;
-	GtkTreeIter *parent_iter = NULL;
-	const gchar *organization = e_cert_get_org (cert);
-	GtkTreeModel *model = gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (cfm->contactcerts_streemodel));
+		/* When e_cert_get_cn() is empty, use _get_nickname() */
+		if ((cp->columns[i].get_cert_data_func == e_cert_get_cn) && (!e_cert_get_cn (cert))) {
+			get_cert_data_func = e_cert_get_nickname;
+		} else {
+			get_cert_data_func = cp->columns[i].get_cert_data_func;
+		}
 
-	if (organization) {
-		parent_iter = g_hash_table_lookup (cfm->contactcerts_root_hash, organization);
-		if (!parent_iter) {
-			/* create a new toplevel node */
-			gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
-
+		if (cp->columns[i].type == G_TYPE_STRING) {
 			gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
-					    0, organization, -1);
-
-			/* now copy it off into parent_iter and insert it into
-			   the hashtable */
-			parent_iter = gtk_tree_iter_copy (&iter);
-			g_hash_table_insert (cfm->contactcerts_root_hash, g_strdup (organization), parent_iter);
-		}
-	}
-
-	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, parent_iter);
-
-	if (e_cert_get_cn (cert))
-		gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
-				    0, e_cert_get_cn (cert),
-				    1, e_cert_get_email (cert),
-				    2, e_cert_get_usage (cert),
-				    3, cert,
-				    -1);
-	else
-		gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
-				    0, e_cert_get_nickname (cert),
-				    1, e_cert_get_email (cert),
-				    2, e_cert_get_usage (cert),
-				    3, cert,
-				    -1);
-}
-
-static void
-add_ca_cert (CertificateManagerData *cfm, ECert *cert)
-{
-	GtkTreeIter iter;
-	GtkTreeIter *parent_iter = NULL;
-	const gchar *organization = e_cert_get_org (cert);
-	GtkTreeModel *model = gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (cfm->authoritycerts_streemodel));
-
-	if (organization) {
-		parent_iter = g_hash_table_lookup (cfm->authoritycerts_root_hash, organization);
-		if (!parent_iter) {
-			/* create a new toplevel node */
-			gtk_tree_store_append (GTK_TREE_STORE (model),
-					       &iter, NULL);
-
+					    i, get_cert_data_func (cert), -1);
+		} else if (cp->columns[i].type == G_TYPE_OBJECT) {
 			gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
-					    0, organization, -1);
-
-			/* now copy it off into parent_iter and insert it into
-			   the hashtable */
-			parent_iter = gtk_tree_iter_copy (&iter);
-			g_hash_table_insert (cfm->authoritycerts_root_hash, g_strdup (organization), parent_iter);
+					    i, cert, -1);
 		}
 	}
-
-	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, parent_iter);
-
-	if (e_cert_get_cn (cert))
-		gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
-				    0, e_cert_get_cn (cert),
-				    1, cert,
-				    -1);
-	else
-		gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
-				    0, e_cert_get_nickname (cert),
-				    1, cert,
-				    -1);
 }
 
 static void
-destroy_key (gpointer data)
+unload_certs (CertPage *cp)
 {
-	g_free (data);
+	GtkTreeStore *treemodel;
+	GType types[cp->columns_count];
+	gint i;
+
+	g_return_if_fail (cp != NULL);
+
+	for (i = 0; i < cp->columns_count; i++)
+		types[i] = cp->columns[i].type;
+	treemodel = gtk_tree_store_newv (cp->columns_count, types);
+
+	if (cp->streemodel)
+		g_object_unref (cp->streemodel);
+
+	cp->streemodel = gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (treemodel));
+
+	g_object_unref (treemodel);
+	gtk_tree_view_set_model (cp->treeview, cp->streemodel);
+
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (cp->streemodel), 0, GTK_SORT_ASCENDING);
+
+	if (cp->root_hash)
+		g_hash_table_destroy (cp->root_hash);
+
+	cp->root_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
+				(GDestroyNotify) g_free,
+				(GDestroyNotify) gtk_tree_iter_free);
 }
 
 static void
-destroy_value (gpointer data)
-{
-	gtk_tree_iter_free (data);
-}
-
-static void
-unload_certs (CertificateManagerData *cfm,
-	      ECertType type)
-{
-	GtkTreeModel *treemodel;
-
-	switch (type) {
-	case E_CERT_USER:
-		treemodel = create_yourcerts_treemodel ();
-
-		cfm->yourcerts_streemodel = gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (treemodel));
-
-		g_object_unref (treemodel);
-
-		gtk_tree_view_set_model (GTK_TREE_VIEW (cfm->yourcerts_treeview),
-					 cfm->yourcerts_streemodel);
-
-		gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (cfm->yourcerts_streemodel),
-						      0,
-						      GTK_SORT_ASCENDING);
-
-		if (cfm->yourcerts_root_hash)
-			g_hash_table_destroy (cfm->yourcerts_root_hash);
-
-		cfm->yourcerts_root_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
-								  destroy_key, destroy_value);
-		break;
-	case E_CERT_CONTACT:
-		treemodel = create_contactcerts_treemodel ();
-
-		cfm->contactcerts_streemodel = gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (treemodel));
-
-		g_object_unref (treemodel);
-
-		gtk_tree_view_set_model (GTK_TREE_VIEW (cfm->contactcerts_treeview),
-					 cfm->contactcerts_streemodel);
-
-		gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (cfm->contactcerts_streemodel),
-						      0,
-						      GTK_SORT_ASCENDING);
-
-		if (cfm->contactcerts_root_hash)
-			g_hash_table_destroy (cfm->contactcerts_root_hash);
-
-		cfm->contactcerts_root_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
-								     destroy_key, destroy_value);
-		break;
-	case E_CERT_SITE:
-		break;
-	case E_CERT_CA:
-		treemodel = create_authoritycerts_treemodel ();
-
-		cfm->authoritycerts_streemodel = gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (treemodel));
-
-		g_object_unref (treemodel);
-
-		gtk_tree_view_set_model (GTK_TREE_VIEW (cfm->authoritycerts_treeview),
-					 cfm->authoritycerts_streemodel);
-
-		gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (cfm->authoritycerts_streemodel),
-						      0,
-						      GTK_SORT_ASCENDING);
-
-		if (cfm->authoritycerts_root_hash)
-			g_hash_table_destroy (cfm->authoritycerts_root_hash);
-
-		cfm->authoritycerts_root_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
-								       destroy_key, destroy_value);
-
-		break;
-	case E_CERT_UNKNOWN:
-		/* nothing to do here */
-		break;
-	}
-}
-
-static void
-load_certs (CertificateManagerData *cfm,
-	    ECertType type,
-	    AddCertCb add_cert)
+load_certs (CertPage *cp)
 {
 	CERTCertList *certList;
 	CERTCertListNode *node;
+
+	g_return_if_fail (cp != NULL);
 
 	certList = PK11_ListCerts (PK11CertListUnique, NULL);
 
@@ -1059,8 +754,8 @@ load_certs (CertificateManagerData *cfm,
 		ECertType ct = e_cert_get_cert_type (cert);
 
 		/* show everything else in a contact tab */
-		if (ct == type || (type == E_CERT_CONTACT && ct != E_CERT_CA && ct != E_CERT_USER)) {
-			add_cert (cfm, cert);
+		if (ct == cp->cert_type || (cp->cert_type == E_CERT_CONTACT && ct != E_CERT_CA && ct != E_CERT_USER)) {
+			add_cert (cp, cert);
 		} else {
 			g_object_unref (cert);
 		}
@@ -1070,85 +765,293 @@ load_certs (CertificateManagerData *cfm,
 }
 
 static gboolean
-populate_ui (CertificateManagerData *cfm)
+populate_ui (ECertManagerConfig *ecmc)
 {
 	/* This is an idle callback. */
 
-	unload_certs (cfm, E_CERT_USER);
-	load_certs (cfm, E_CERT_USER, add_user_cert);
+	ECertManagerConfigPrivate *priv = ecmc->priv;
 
-	unload_certs (cfm, E_CERT_CONTACT);
-	load_certs (cfm, E_CERT_CONTACT, add_contact_cert);
+	unload_certs (priv->yourcerts_page);
+	load_certs (priv->yourcerts_page);
 
-	unload_certs (cfm, E_CERT_CA);
-	load_certs (cfm, E_CERT_CA, add_ca_cert);
+	unload_certs (priv->contactcerts_page);
+	load_certs (priv->contactcerts_page);
+
+	unload_certs (priv->authoritycerts_page);
+	load_certs (priv->authoritycerts_page);
 
 	/* expand all three trees */
-	gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->yourcerts_treeview));
-	gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->contactcerts_treeview));
+	gtk_tree_view_expand_all (ECMC_TREE_VIEW (yourcerts_page));
+	gtk_tree_view_expand_all (ECMC_TREE_VIEW (contactcerts_page));
+	gtk_tree_view_expand_all (ECMC_TREE_VIEW (authoritycerts_page));
+
+	/* Now load settings of each treeview */
+	load_treeview_state (ECMC_TREE_VIEW (yourcerts_page));
+	load_treeview_state (ECMC_TREE_VIEW (contactcerts_page));
+	load_treeview_state (ECMC_TREE_VIEW (authoritycerts_page));
 
 	return FALSE;
 }
 
-GtkWidget *
-certificate_manager_config_new (EPreferencesWindow *window)
+static void
+initialize_ui (CertPage *cp)
 {
-	EShell *shell;
-	GtkWidget *parent;
-	GtkWidget *widget;
-	CertificateManagerData *cfm_data;
+	GtkTreeSelection *selection;
+	gint i;
 
-	shell = e_preferences_window_get_shell (window);
+	cp->popup_menu = GTK_MENU (gtk_menu_new ());
 
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	/* Add columns to treeview */
+	for (i = 0; i < cp->columns_count; i++)
+		treeview_add_column (cp, i);
+
+	selection = gtk_tree_view_get_selection (cp->treeview);
+	g_signal_connect (selection, "changed",
+		G_CALLBACK (treeview_selection_changed), cp);
+
+	if (cp->import_button)
+		g_signal_connect (cp->import_button, "clicked",
+			G_CALLBACK (import_cert), cp);
+
+	if (cp->edit_button)
+		g_signal_connect (cp->edit_button, "clicked",
+			G_CALLBACK (edit_cert), cp);
+
+	if (cp->delete_button)
+		g_signal_connect (cp->delete_button, "clicked",
+			G_CALLBACK (delete_cert), cp);
+
+	if (cp->view_button)
+		g_signal_connect (cp->view_button, "clicked",
+			G_CALLBACK (view_cert), cp);
+}
+
+static void
+cert_manager_config_window_hide (ECertManagerConfig *ecmc,
+				 EPreferencesWindow *epw)
+{
+	g_return_if_fail (ecmc);
+
+	save_treeview_state (ECMC_TREE_VIEW (yourcerts_page));
+	save_treeview_state (ECMC_TREE_VIEW (contactcerts_page));
+	save_treeview_state (ECMC_TREE_VIEW (authoritycerts_page));
+}
+
+static void
+free_cert (GtkTreeModel *model,
+	   GtkTreePath *path,
+	   GtkTreeIter *iter,
+	   gpointer user_data)
+{
+	CertPage *cp = user_data;
+	ECert *cert;
+
+	gtk_tree_model_get (model, iter, cp->columns_count - 1, &cert, -1);
+
+	/* Double unref: one for gtk_tree_model_get() and one for e_cert_new() */
+	g_object_unref (cert);
+	g_object_unref (cert);
+}
+
+static void
+cert_page_free (CertPage *cp)
+{
+	if (!cp)
+		return;
+
+	/* Free all certificates in treeviews */
+	if (cp->treemodel) {
+		gtk_tree_model_foreach (GTK_TREE_MODEL (cp->treemodel),
+			(GtkTreeModelForeachFunc) free_cert, cp);
+	}
+
+	/* Free streemodel */
+	if (cp->streemodel) {
+		g_object_unref (cp->streemodel);
+		cp->streemodel = NULL;
+	}
+
+	if (cp->root_hash) {
+		g_hash_table_unref (cp->root_hash);
+		cp->root_hash = NULL;
+	}
+
+	g_free (cp);
+}
+
+static void
+cert_manager_config_dispose (GObject *object)
+{
+	ECertManagerConfig *ecmc = E_CERT_MANAGER_CONFIG (object);
+
+	if (ecmc->priv->yourcerts_page) {
+		cert_page_free (ecmc->priv->yourcerts_page);
+		ecmc->priv->yourcerts_page = NULL;
+	}
+
+	if (ecmc->priv->contactcerts_page) {
+		cert_page_free (ecmc->priv->contactcerts_page);
+		ecmc->priv->contactcerts_page = NULL;
+	}
+
+	if (ecmc->priv->authoritycerts_page) {
+		cert_page_free (ecmc->priv->authoritycerts_page);
+		ecmc->priv->authoritycerts_page = NULL;
+	}
+
+	if (ecmc->priv->builder) {
+		g_object_unref (ecmc->priv->builder);
+			ecmc->priv->builder = NULL;
+	}
+
+	if (ecmc->priv->pref_window) {
+		g_signal_handlers_disconnect_matched (ecmc->priv->pref_window, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, ecmc);
+		ecmc->priv->pref_window = NULL;
+	}
+
+	G_OBJECT_CLASS (e_cert_manager_config_parent_class)->dispose (object);
+}
+
+
+static void
+cert_manager_config_set_property (GObject *object,
+			 	  guint property_id,
+			 	  const GValue *value,
+			 	  GParamSpec *pspec)
+{
+	ECertManagerConfig *ecmc = E_CERT_MANAGER_CONFIG (object);
+
+	switch (property_id) {
+		case PROP_PREFERENCES_WINDOW:
+			ecmc->priv->pref_window = g_value_get_object (value);
+			/* When the preferences window is "closed" (= hidden), save
+			   state of all treeviews. */
+			g_signal_connect_swapped (ecmc->priv->pref_window, "hide",
+				G_CALLBACK (cert_manager_config_window_hide), ecmc);
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+e_cert_manager_config_class_init (ECertManagerConfigClass *class)
+{
+	GObjectClass *object_class;
+
+	g_type_class_add_private (class, sizeof (ECertManagerConfigPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = cert_manager_config_set_property;
+	object_class->dispose = cert_manager_config_dispose;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PREFERENCES_WINDOW,
+		g_param_spec_object (
+			"preferences-window",
+			NULL,
+			NULL,
+			E_TYPE_PREFERENCES_WINDOW,
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+}
+
+static void
+e_cert_manager_config_init (ECertManagerConfig *ecmc)
+{
+	ECertManagerConfigPrivate *priv;
+	GtkWidget *parent, *widget;
+	CertPage *cp;
+
+	priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		ecmc, E_TYPE_CERT_MANAGER_CONFIG, ECertManagerConfigPrivate);
+	ecmc->priv = priv;
 
 	/* We need to peek the db here to make sure it (and NSS) are fully initialized. */
 	e_cert_db_peek ();
 
-	cfm_data = g_new0 (CertificateManagerData, 1);
+	priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (priv->builder, "smime-ui.ui");
 
-	cfm_data->builder = gtk_builder_new ();
-	e_load_ui_builder_definition (cfm_data->builder, "smime-ui.ui");
+	cp = g_new0 (CertPage, 1);
+	priv->yourcerts_page = cp;
+	cp->treeview = GTK_TREE_VIEW (e_builder_get_widget (priv->builder, "yourcerts-treeview"));
+	cp->streemodel = NULL;
+	cp->treemodel = NULL;
+	cp->view_button = e_builder_get_widget (priv->builder, "your-view-button");
+	cp->backup_button = e_builder_get_widget (priv->builder, "your-backup-button");
+	cp->backup_all_button = e_builder_get_widget (priv->builder, "your-backup-all-button");
+	cp->edit_button = NULL;
+	cp->import_button = e_builder_get_widget (priv->builder, "your-import-button");
+	cp->delete_button = e_builder_get_widget (priv->builder, "your-delete-button");
+	cp->columns = yourcerts_columns;
+	cp->columns_count = G_N_ELEMENTS (yourcerts_columns);
+	cp->cert_type = E_CERT_USER;
+	cp->cert_filter_name = _("All PKCS12 files");
+	cp->cert_mime_types = yourcerts_mime_types;
+	initialize_ui (cp);
 
-	cfm_data->yourcerts_treeview = e_builder_get_widget (cfm_data->builder, "yourcerts-treeview");
-	cfm_data->contactcerts_treeview = e_builder_get_widget (cfm_data->builder, "contactcerts-treeview");
-	cfm_data->authoritycerts_treeview = e_builder_get_widget (cfm_data->builder, "authoritycerts-treeview");
+	cp = g_new0 (CertPage, 1);
+	priv->contactcerts_page = cp;
+	cp->treeview = GTK_TREE_VIEW (e_builder_get_widget (priv->builder, "contactcerts-treeview"));
+	cp->streemodel = NULL;
+	cp->treemodel = NULL;
+	cp->view_button = e_builder_get_widget (priv->builder, "contact-view-button");
+	cp->backup_button = NULL;
+	cp->backup_all_button = NULL;
+	cp->edit_button = e_builder_get_widget (priv->builder, "contact-edit-button");
+	cp->import_button = e_builder_get_widget (priv->builder, "contact-import-button");
+	cp->delete_button = e_builder_get_widget (priv->builder, "contact-delete-button");
+	cp->columns = contactcerts_columns;
+	cp->columns_count = G_N_ELEMENTS (contactcerts_columns);
+	cp->cert_type = E_CERT_CONTACT;
+	cp->cert_filter_name = _("All email certificate files");
+	cp->cert_mime_types = contactcerts_mime_types;
+	initialize_ui (cp);
 
-	cfm_data->view_your_button = e_builder_get_widget (cfm_data->builder, "your-view-button");
-	cfm_data->backup_your_button = e_builder_get_widget (cfm_data->builder, "your-backup-button");
-	cfm_data->backup_all_your_button = e_builder_get_widget (cfm_data->builder, "your-backup-all-button");
-	cfm_data->import_your_button = e_builder_get_widget (cfm_data->builder, "your-import-button");
-	cfm_data->delete_your_button = e_builder_get_widget (cfm_data->builder, "your-delete-button");
-
-	cfm_data->view_contact_button = e_builder_get_widget (cfm_data->builder, "contact-view-button");
-	cfm_data->edit_contact_button = e_builder_get_widget (cfm_data->builder, "contact-edit-button");
-	cfm_data->import_contact_button = e_builder_get_widget (cfm_data->builder, "contact-import-button");
-	cfm_data->delete_contact_button = e_builder_get_widget (cfm_data->builder, "contact-delete-button");
-
-	cfm_data->view_ca_button = e_builder_get_widget (cfm_data->builder, "authority-view-button");
-	cfm_data->edit_ca_button = e_builder_get_widget (cfm_data->builder, "authority-edit-button");
-	cfm_data->import_ca_button = e_builder_get_widget (cfm_data->builder, "authority-import-button");
-	cfm_data->delete_ca_button = e_builder_get_widget (cfm_data->builder, "authority-delete-button");
-
-	initialize_yourcerts_ui (cfm_data);
-	initialize_contactcerts_ui (cfm_data);
-	initialize_authoritycerts_ui (cfm_data);
+	cp = g_new0 (CertPage, 1);
+	priv->authoritycerts_page = cp;
+	cp->treeview = GTK_TREE_VIEW (e_builder_get_widget (priv->builder, "authoritycerts-treeview"));
+	cp->streemodel = NULL;
+	cp->treemodel = NULL;
+	cp->view_button = e_builder_get_widget (priv->builder, "authority-view-button");
+	cp->backup_button = NULL;
+	cp->backup_all_button = NULL;
+	cp->edit_button = e_builder_get_widget (priv->builder, "authority-edit-button");
+	cp->import_button = e_builder_get_widget (priv->builder, "authority-import-button");
+	cp->delete_button = e_builder_get_widget (priv->builder, "authority-delete-button");
+	cp->columns = authoritycerts_columns;
+	cp->columns_count = G_N_ELEMENTS (authoritycerts_columns);
+	cp->cert_type = E_CERT_CA;
+	cp->cert_filter_name = _("All CA certificate files");
+	cp->cert_mime_types = authoritycerts_mime_types;
+	initialize_ui (cp);
 
 	/* Run this in an idle callback so Evolution has a chance to
 	 * fully initialize itself and start its main loop before we
 	 * load certificates, since doing so may trigger a password
 	 * dialog, and dialogs require a main loop. */
-	g_idle_add ((GSourceFunc) populate_ui, cfm_data);
+	g_idle_add ((GSourceFunc) populate_ui, ecmc);
 
-	widget = e_builder_get_widget (cfm_data->builder, "cert-manager-notebook");
-	g_object_ref (widget);
-
+	/* Disconnect cert-manager-notebook from it's window and attach it
+	   to this ECertManagerConfig */
+	widget = e_builder_get_widget (priv->builder, "cert-manager-notebook");
 	parent = gtk_widget_get_parent (widget);
 	gtk_container_remove (GTK_CONTAINER (parent), widget);
+	gtk_box_pack_start (GTK_BOX (ecmc), widget, TRUE, TRUE, 0);
+	gtk_widget_show_all (widget);
 
 	/* FIXME: remove when implemented */
-	gtk_widget_set_sensitive (cfm_data->backup_your_button, FALSE);
-	gtk_widget_set_sensitive (cfm_data->backup_all_your_button, FALSE);
+	gtk_widget_set_sensitive (priv->yourcerts_page->backup_button, FALSE);
+	gtk_widget_set_sensitive (priv->yourcerts_page->backup_all_button, FALSE);
+}
 
-	return widget;
+GtkWidget *
+e_cert_manager_config_new (EPreferencesWindow *window)
+{
+	ECertManagerConfig *ecmc;
+
+	ecmc = g_object_new (E_TYPE_CERT_MANAGER_CONFIG, "preferences-window", window, NULL);
+
+	return GTK_WIDGET (ecmc);
 }
