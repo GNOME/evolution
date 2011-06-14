@@ -48,6 +48,7 @@ static const gchar *ui =
 "  <popup name='context'>"
 "    <placeholder name='custom-actions-1'>"
 "      <menuitem action='add-to-address-book'/>"
+"      <menuitem action='send-reply'/>"
 "    </placeholder>"
 "    <placeholder name='custom-actions-3'>"
 "      <menu action='search-folder-menu'>"
@@ -79,6 +80,13 @@ static GtkActionEntry mailto_entries[] = {
 	  N_("_From This Address"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
+	  NULL   /* Handled by EMailReader */ },
+
+	{ "send-reply",
+	  NULL,
+	  N_("Send _Reply To..."),
+	  NULL,
+	  N_("Send a reply message to this address"),  
 	  NULL   /* Handled by EMailReader */ },
 
 	/*** Menus ***/

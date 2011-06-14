@@ -81,7 +81,8 @@ EMsgComposer *	em_utils_reply_to_message	(EShell *shell,
 						 const gchar *message_uid,
 						 EMailReplyType type,
 						 EMailReplyStyle style,
-						 EMFormat *source);
+						 EMFormat *source,
+						 CamelInternetAddress *address);
 EDestination **	em_utils_camel_address_to_destination
 						(CamelInternetAddress *iaddr);
 void		em_configure_new_composer	(EMsgComposer *composer);

@@ -1502,6 +1502,14 @@ action_mail_reply_sender_cb (GtkAction *action,
 }
 
 static void
+action_mail_reply_recipient_cb (GtkAction *action,
+				EMailReader *reader)
+{
+	e_mail_reader_reply_to_message (reader, NULL, E_MAIL_REPLY_TO_RECIPIENT);
+	check_close_browser_reader (reader);
+}
+
+static void
 action_mail_save_as_cb (GtkAction *action,
                         EMailReader *reader)
 {
@@ -3512,6 +3520,12 @@ e_mail_reader_init (EMailReader *reader,
 	g_signal_connect (
 		action, "activate",
 		G_CALLBACK (action_add_to_address_book_cb), reader);
+
+	action_name = "send-reply";
+	action = e_web_view_get_action (web_view, action_name);
+	g_signal_connect (
+		action, "activate",
+		G_CALLBACK (action_mail_reply_recipient_cb), reader);
 
 	action_name = "search-folder-recipient";
 	action = e_web_view_get_action (web_view, action_name);

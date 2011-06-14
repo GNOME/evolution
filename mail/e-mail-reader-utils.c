@@ -787,6 +787,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	EMFormatHTML *formatter;
 	GtkWidget *message_list;
 	CamelMimeMessage *new_message;
+	CamelInternetAddress *address = NULL;
 	CamelFolder *folder;
 	EMailReplyStyle reply_style;
 	EWebView *web_view;
@@ -811,6 +812,29 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	web_view = em_format_html_get_web_view (formatter);
+
+	if (reply_type == E_MAIL_REPLY_TO_RECIPIENT) {
+		const gchar *uri;
+
+		uri = e_web_view_get_selected_uri (web_view);
+
+		if (uri) {
+			CamelURL *curl;
+
+			curl = camel_url_new (uri, NULL);
+
+			if (curl && curl->path && *curl->path) {
+				address = camel_internet_address_new ();
+				if (camel_address_decode (CAMEL_ADDRESS (address), curl->path) < 0) {
+					g_object_unref (address);
+					address = NULL;
+				}
+			}
+
+			if (curl)
+				camel_url_free (curl);
+		}
+	}
 
 	uid = MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (uid != NULL);
@@ -859,7 +883,10 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 	em_utils_reply_to_message (
 		shell, new_message, folder, uid,
-		reply_type, reply_style, NULL);
+		reply_type, reply_style, NULL, address);
+
+	if (address)
+		g_object_unref (address);
 
 	g_object_unref (new_message);
 
@@ -870,7 +897,10 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 whole_message:
 	em_utils_reply_to_message (
 		shell, src_message, folder, uid,
-		reply_type, reply_style, EM_FORMAT (formatter));
+		reply_type, reply_style, EM_FORMAT (formatter), address);
+
+	if (address)
+		g_object_unref (address);
 }
 
 static void

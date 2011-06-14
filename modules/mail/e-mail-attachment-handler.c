@@ -121,7 +121,7 @@ mail_attachment_handler_reply_all (GtkAction *action,
 
 	em_utils_reply_to_message (
 		priv->shell, CAMEL_MIME_MESSAGE (wrapper),
-		NULL, NULL, E_MAIL_REPLY_TO_ALL, style, NULL);
+		NULL, NULL, E_MAIL_REPLY_TO_ALL, style, NULL, NULL);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
@@ -157,7 +157,7 @@ mail_attachment_handler_reply_sender (GtkAction *action,
 
 	em_utils_reply_to_message (
 		priv->shell, CAMEL_MIME_MESSAGE (wrapper),
-		NULL, NULL, E_MAIL_REPLY_TO_SENDER, style, NULL);
+		NULL, NULL, E_MAIL_REPLY_TO_SENDER, style, NULL, NULL);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
