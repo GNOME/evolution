@@ -26,7 +26,7 @@
 #define COMP_EDITOR_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include "../itip-utils.h"
 #include "comp-editor-page.h"
 #include <shell/e-shell.h>
@@ -165,8 +165,8 @@ void		comp_editor_remove_page		(CompEditor *editor,
 void		comp_editor_show_page		(CompEditor *editor,
 						 CompEditorPage *page);
 void		comp_editor_set_client		(CompEditor *editor,
-						 ECal *client);
-ECal *		comp_editor_get_client		(CompEditor *editor);
+						 ECalClient *cal_client);
+ECalClient *	comp_editor_get_client		(CompEditor *editor);
 void		comp_editor_edit_comp		(CompEditor *ee,
 						 ECalComponent *comp);
 ECalComponent *	comp_editor_get_comp		(CompEditor *editor);

@@ -32,8 +32,8 @@
 #include "comp-util.h"
 #include "dialogs/delete-comp.h"
 #include <libecal/e-cal-component.h>
+#include <libedataserverui/e-client-utils.h>
 #include "e-util/e-categories-config.h"
-#include "common/authentication.h"
 
 #include "gnome-cal.h"
 #include "shell/e-shell-window.h"
@@ -90,7 +90,7 @@ e_cal_component_compare_tzid (const gchar *tzid1, const gchar *tzid2)
 /**
  * cal_comp_util_compare_event_timezones:
  * @comp: A calendar component object.
- * @client: A #ECal.
+ * @client: A #ECalClient.
  *
  * Checks if the component uses the given timezone for both the start and
  * the end time, or if the UTC offsets of the start and end times are the same
@@ -101,7 +101,7 @@ e_cal_component_compare_tzid (const gchar *tzid1, const gchar *tzid2)
  **/
 gboolean
 cal_comp_util_compare_event_timezones (ECalComponent *comp,
-				       ECal *client,
+				       ECalClient *client,
 				       icaltimezone *zone)
 {
 	ECalComponentDateTime start_datetime, end_datetime;
@@ -151,8 +151,8 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 		/* If the TZIDs differ, we have to compare the UTC offsets
 		   of the start and end times, using their own timezones and
 		   the given timezone. */
-		if (!e_cal_get_timezone (client, start_datetime.tzid,
-					      &start_zone, NULL))
+		if (!e_cal_client_get_timezone_sync (client, start_datetime.tzid,
+					      &start_zone, NULL, NULL))
 			goto out;
 
 		if (start_datetime.value) {
@@ -166,8 +166,8 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 				goto out;
 		}
 
-		if (!e_cal_get_timezone (client, end_datetime.tzid,
-					      &end_zone, NULL))
+		if (!e_cal_client_get_timezone_sync (client, end_datetime.tzid,
+					      &end_zone, NULL, NULL))
 			goto out;
 
 		if (end_datetime.value) {
@@ -211,7 +211,7 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
  * user cancelled the deletion.
  **/
 gboolean
-cal_comp_is_on_server (ECalComponent *comp, ECal *client)
+cal_comp_is_on_server (ECalComponent *comp, ECalClient *client)
 {
 	const gchar *uid;
 	gchar *rid = NULL;
@@ -221,7 +221,7 @@ cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 	g_return_val_if_fail (comp != NULL, FALSE);
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
 	g_return_val_if_fail (client != NULL, FALSE);
-	g_return_val_if_fail (E_IS_CAL (client), FALSE);
+	g_return_val_if_fail (E_IS_CAL_CLIENT (client), FALSE);
 
 	/* See if the component is on the server.  If it is not, then it likely
 	 * means that the appointment is new, only in the day view, and we
@@ -234,19 +234,18 @@ cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 	/* TODO We should not be checking for this here. But since
 	 *      e_cal_util_construct_instance does not create the instances
 	 *      of all day events, so we default to old behaviour. */
-	if (e_cal_get_static_capability (
-		client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
+	if (e_cal_client_check_recurrences_no_master (client)) {
 		rid = e_cal_component_get_recurid_as_string (comp);
 	}
 
-	if (e_cal_get_object (client, uid, rid, &icalcomp, &error)) {
+	if (e_cal_client_get_object_sync (client, uid, rid, &icalcomp, NULL, &error)) {
 		icalcomponent_free (icalcomp);
 		g_free (rid);
 
 		return TRUE;
 	}
 
-	if (error->code != E_CALENDAR_STATUS_OBJECT_NOT_FOUND)
+	if (!g_error_matches (error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_NOT_FOUND))
 		g_warning (G_STRLOC ": %s", error->message);
 
 	g_clear_error (&error);
@@ -261,7 +260,7 @@ cal_comp_is_on_server (ECalComponent *comp, ECal *client)
  * icalcomponent, not the ECalComponent.
  **/
 gboolean
-is_icalcomp_on_the_server (icalcomponent *icalcomp, ECal *client)
+is_icalcomp_on_the_server (icalcomponent *icalcomp, ECalClient *client)
 {
 	gboolean on_server;
 	ECalComponent *comp;
@@ -288,7 +287,7 @@ is_icalcomp_on_the_server (icalcomponent *icalcomp, ECal *client)
  * Return value: A newly-created calendar component.
  **/
 ECalComponent *
-cal_comp_event_new_with_defaults (ECal *client,
+cal_comp_event_new_with_defaults (ECalClient *client,
                                   gboolean all_day,
                                   gboolean use_default_reminder,
                                   gint default_reminder_interval,
@@ -300,7 +299,7 @@ cal_comp_event_new_with_defaults (ECal *client,
 	icalproperty *icalprop;
 	ECalComponentAlarmTrigger trigger;
 
-	if (!e_cal_get_default_object (client, &icalcomp, NULL))
+	if (!e_cal_client_get_default_object_sync (client, &icalcomp, NULL, NULL))
 		icalcomp = icalcomponent_new (ICAL_VEVENT_COMPONENT);
 
 	comp = e_cal_component_new ();
@@ -358,7 +357,7 @@ cal_comp_event_new_with_defaults (ECal *client,
 }
 
 ECalComponent *
-cal_comp_event_new_with_current_time (ECal *client,
+cal_comp_event_new_with_current_time (ECalClient *client,
                                       gboolean all_day,
                                       icaltimezone *zone,
                                       gboolean use_default_reminder,
@@ -398,12 +397,12 @@ cal_comp_event_new_with_current_time (ECal *client,
 }
 
 ECalComponent *
-cal_comp_task_new_with_defaults (ECal *client)
+cal_comp_task_new_with_defaults (ECalClient *client)
 {
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
 
-	if (!e_cal_get_default_object (client, &icalcomp, NULL))
+	if (!e_cal_client_get_default_object_sync (client, &icalcomp, NULL, NULL))
 		icalcomp = icalcomponent_new (ICAL_VTODO_COMPONENT);
 
 	comp = e_cal_component_new ();
@@ -417,12 +416,12 @@ cal_comp_task_new_with_defaults (ECal *client)
 }
 
 ECalComponent *
-cal_comp_memo_new_with_defaults (ECal *client)
+cal_comp_memo_new_with_defaults (ECalClient *client)
 {
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
 
-	if (!e_cal_get_default_object (client, &icalcomp, NULL))
+	if (!e_cal_client_get_default_object_sync (client, &icalcomp, NULL, NULL))
 		icalcomp = icalcomponent_new (ICAL_VJOURNAL_COMPONENT);
 
 	comp = e_cal_component_new ();
@@ -613,7 +612,7 @@ cal_comp_selection_get_string_list (GtkSelectionData *selection_data)
 }
 
 static void
-datetime_to_zone (ECal *client, ECalComponentDateTime *date, const gchar *tzid)
+datetime_to_zone (ECalClient *client, ECalComponentDateTime *date, const gchar *tzid)
 {
 	icaltimezone *from, *to;
 
@@ -625,16 +624,21 @@ datetime_to_zone (ECal *client, ECalComponentDateTime *date, const gchar *tzid)
 
 	from = icaltimezone_get_builtin_timezone_from_tzid (date->tzid);
 	if (!from) {
-		if (!e_cal_get_timezone (client, date->tzid, &from, NULL))
+		GError *error = NULL;
+
+		if (!e_cal_client_get_timezone_sync (client, date->tzid, &from, NULL, &error))
 			g_warning (
-				"%s: Could not get timezone from server: %s",
-				G_STRFUNC, date->tzid ? date->tzid : "");
+				"%s: Could not get timezone '%s' from server: %s",
+				G_STRFUNC, date->tzid ? date->tzid : "", error ? error->message : "Unknown error");
+
+		if (error)
+			g_error_free (error);
 	}
 
 	to = icaltimezone_get_builtin_timezone_from_tzid (tzid);
 	if (!to) {
 		/* do not check failure here, maybe the zone is not available there */
-		e_cal_get_timezone (client, tzid, &to, NULL);
+		e_cal_client_get_timezone_sync (client, tzid, &to, NULL, NULL);
 	}
 
 	icaltimezone_convert_time (date->value, from, to);
@@ -643,14 +647,14 @@ datetime_to_zone (ECal *client, ECalComponentDateTime *date, const gchar *tzid)
 
 /**
  * cal_comp_set_dtstart_with_oldzone:
- * @client: ECal structure, to retrieve timezone from, when required.
+ * @client: ECalClient structure, to retrieve timezone from, when required.
  * @comp: Component, where make the change.
  * @pdate: Value, to change to.
  *
  * Changes 'dtstart' of the component, but converts time to the old timezone.
  **/
 void
-cal_comp_set_dtstart_with_oldzone (ECal *client,
+cal_comp_set_dtstart_with_oldzone (ECalClient *client,
                                    ECalComponent *comp,
                                    const ECalComponentDateTime *pdate)
 {
@@ -671,14 +675,14 @@ cal_comp_set_dtstart_with_oldzone (ECal *client,
 
 /**
  * cal_comp_set_dtend_with_oldzone:
- * @client: ECal structure, to retrieve timezone from, when required.
+ * @client: ECalClient structure, to retrieve timezone from, when required.
  * @comp: Component, where make the change.
  * @pdate: Value, to change to.
  *
  * Changes 'dtend' of the component, but converts time to the old timezone.
  **/
 void
-cal_comp_set_dtend_with_oldzone (ECal *client,
+cal_comp_set_dtend_with_oldzone (ECalClient *client,
                                  ECalComponent *comp,
                                  const ECalComponentDateTime *pdate)
 {
@@ -699,18 +703,21 @@ cal_comp_set_dtend_with_oldzone (ECal *client,
 
 void
 comp_util_sanitize_recurrence_master (ECalComponent *comp,
-                                      ECal *client)
+                                      ECalClient *client)
 {
 	ECalComponent *master = NULL;
 	icalcomponent *icalcomp = NULL;
 	ECalComponentRange rid;
 	ECalComponentDateTime sdt;
 	const gchar *uid;
+	GError *error = NULL;
 
 	/* Get the master component */
 	e_cal_component_get_uid (comp, &uid);
-	if (!e_cal_get_object (client, uid, NULL, &icalcomp, NULL)) {
-		g_warning ("Unable to get the master component \n");
+	if (!e_cal_client_get_object_sync (client, uid, NULL, &icalcomp, NULL, &error)) {
+		g_warning ("Unable to get the master component: %s", error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
 		return;
 	}
 

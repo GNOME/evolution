@@ -32,10 +32,10 @@
 #include "eab-gui-util.h"
 
 struct _EAddressbookModelPrivate {
-	EBook *book;
-	EBookQuery *query;
-	EBookView *book_view;
-	guint book_view_idle_id;
+	EBookClient *book_client;
+	gchar *query_str;
+	EBookClientView *client_view;
+	guint client_view_idle_id;
 
 	/* Query Results */
 	GPtrArray *contacts;
@@ -58,7 +58,7 @@ struct _EAddressbookModelPrivate {
 
 enum {
 	PROP_0,
-	PROP_BOOK,
+	PROP_CLIENT,
 	PROP_EDITABLE,
 	PROP_QUERY
 };
@@ -94,25 +94,25 @@ free_data (EAddressbookModel *model)
 static void
 remove_book_view (EAddressbookModel *model)
 {
-	if (model->priv->book_view && model->priv->create_contact_id)
+	if (model->priv->client_view && model->priv->create_contact_id)
 		g_signal_handler_disconnect (
-			model->priv->book_view,
+			model->priv->client_view,
 			model->priv->create_contact_id);
-	if (model->priv->book_view && model->priv->remove_contact_id)
+	if (model->priv->client_view && model->priv->remove_contact_id)
 		g_signal_handler_disconnect (
-			model->priv->book_view,
+			model->priv->client_view,
 			model->priv->remove_contact_id);
-	if (model->priv->book_view && model->priv->modify_contact_id)
+	if (model->priv->client_view && model->priv->modify_contact_id)
 		g_signal_handler_disconnect (
-			model->priv->book_view,
+			model->priv->client_view,
 			model->priv->modify_contact_id);
-	if (model->priv->book_view && model->priv->status_message_id)
+	if (model->priv->client_view && model->priv->status_message_id)
 		g_signal_handler_disconnect (
-			model->priv->book_view,
+			model->priv->client_view,
 			model->priv->status_message_id);
-	if (model->priv->book_view && model->priv->view_complete_id)
+	if (model->priv->client_view && model->priv->view_complete_id)
 		g_signal_handler_disconnect (
-			model->priv->book_view,
+			model->priv->client_view,
 			model->priv->view_complete_id);
 	if (model->priv->remove_status_id)
 		g_source_remove (model->priv->remove_status_id);
@@ -126,12 +126,19 @@ remove_book_view (EAddressbookModel *model)
 
 	model->priv->search_in_progress = FALSE;
 
-	if (model->priv->book_view) {
-		e_book_view_stop (model->priv->book_view);
-		g_object_unref (model->priv->book_view);
-		model->priv->book_view = NULL;
+	if (model->priv->client_view) {
+		GError *error = NULL;
 
-		g_signal_emit (model, signals[STATUS_MESSAGE], 0, NULL);
+		e_book_client_view_stop (model->priv->client_view, &error);
+		if (error) {
+			g_debug ("%s: Failed to stop client view: %s", G_STRFUNC, error->message);
+			g_error_free (error);
+		}
+
+		g_object_unref (model->priv->client_view);
+		model->priv->client_view = NULL;
+
+		g_signal_emit (model, signals[STATUS_MESSAGE], 0, NULL, -1);
 	}
 }
 
@@ -159,9 +166,7 @@ update_folder_bar_message (EAddressbookModel *model)
 }
 
 static void
-create_contact (EBookView *book_view,
-		const GList *contact_list,
-		EAddressbookModel *model)
+view_create_contact_cb (EBookClientView *client_view, const GSList *contact_list, EAddressbookModel *model)
 {
 	GPtrArray *array;
 	guint count;
@@ -193,12 +198,10 @@ sort_descending (gconstpointer ca,
 }
 
 static void
-remove_contact (EBookView *book_view,
-                GList *ids,
-                EAddressbookModel *model)
+view_remove_contact_cb (EBookClientView *client_view, const GSList *ids, EAddressbookModel *model)
 {
 	/* XXX we should keep a hash around instead of this O(n*m) loop */
-	GList *iter;
+	const GSList *iter;
 	GArray *indices;
 	GPtrArray *array;
 	gint ii;
@@ -249,9 +252,7 @@ remove_contact (EBookView *book_view,
 }
 
 static void
-modify_contact (EBookView *book_view,
-                const GList *contact_list,
-                EAddressbookModel *model)
+view_modify_contact_cb (EBookClientView *client_view, const GSList *contact_list, EAddressbookModel *model)
 {
 	GPtrArray *array;
 
@@ -290,122 +291,109 @@ modify_contact (EBookView *book_view,
 }
 
 static void
-status_message (EBookView *book_view,
-		gchar * status,
-		EAddressbookModel *model)
+view_progress_cb (EBookClientView *client_view, guint percent, const gchar *message, EAddressbookModel *model)
 {
 	if (model->priv->remove_status_id)
 		g_source_remove (model->priv->remove_status_id);
 	model->priv->remove_status_id = 0;
 
-	g_signal_emit (model, signals[STATUS_MESSAGE], 0, status);
+	g_signal_emit (model, signals[STATUS_MESSAGE], 0, message, percent);
 }
 
 static void
-view_complete (EBookView *book_view,
-                   EBookViewStatus status,
-		   const gchar *error_msg,
-                   EAddressbookModel *model)
+view_complete_cb (EBookClientView *client_view, const GError *error, EAddressbookModel *model)
 {
 	model->priv->search_in_progress = FALSE;
-	status_message (book_view, NULL, model);
-	g_signal_emit (model, signals[SEARCH_RESULT], 0, status, error_msg);
+	view_progress_cb (client_view, -1, NULL, model);
+	g_signal_emit (model, signals[SEARCH_RESULT], 0, error);
 	g_signal_emit (model, signals[STOP_STATE_CHANGED], 0);
 }
 
 static void
-writable_status (EBook *book,
-		 gboolean writable,
-		 EAddressbookModel *model)
+readonly_cb (EBookClient *book_client, EAddressbookModel *model)
 {
 	if (!model->priv->editable_set) {
-		model->priv->editable = writable;
+		model->priv->editable = !e_client_is_readonly (E_CLIENT (book_client));
 
-		g_signal_emit (model, signals[WRITABLE_STATUS], 0, writable);
+		g_signal_emit (model, signals[WRITABLE_STATUS], 0, model->priv->editable);
 	}
 }
 
 static void
-backend_died (EBook *book,
-	      EAddressbookModel *model)
+backend_died_cb (EBookClient *book_client, EAddressbookModel *model)
 {
 	g_signal_emit (model, signals[BACKEND_DIED], 0);
 }
 
 static void
-book_view_loaded (EBook *book,
-                  const GError *error,
-                  EBookView *book_view,
-                  gpointer closure)
+client_view_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	EAddressbookModel *model = closure;
+	EBookClient *book_client = E_BOOK_CLIENT (source_object);
+	EBookClientView *client_view = NULL;
+	EAddressbookModel *model = user_data;
+	GError *error = NULL;
+
+	if (!e_book_client_get_view_finish (book_client, result, &client_view, &error))
+		client_view = NULL;
 
 	if (error) {
 		eab_error_dialog (NULL, _("Error getting book view"), error);
+		g_error_free (error);
 		return;
 	}
 
 	remove_book_view (model);
 	free_data (model);
 
-	model->priv->book_view = book_view;
-	if (model->priv->book_view)
-		g_object_ref (model->priv->book_view);
+	model->priv->client_view = client_view;
+	if (model->priv->client_view) {
+		model->priv->create_contact_id = g_signal_connect (
+			model->priv->client_view, "objects-added",
+			G_CALLBACK (view_create_contact_cb), model);
+		model->priv->remove_contact_id = g_signal_connect (
+			model->priv->client_view, "objects-removed",
+			G_CALLBACK (view_remove_contact_cb), model);
+		model->priv->modify_contact_id = g_signal_connect (
+			model->priv->client_view, "objects-modified",
+			G_CALLBACK (view_modify_contact_cb), model);
+		model->priv->status_message_id = g_signal_connect (
+			model->priv->client_view, "progress",
+			G_CALLBACK (view_progress_cb), model);
+		model->priv->view_complete_id = g_signal_connect (
+			model->priv->client_view, "complete",
+			G_CALLBACK (view_complete_cb), model);
 
-	model->priv->create_contact_id = g_signal_connect (
-		model->priv->book_view, "contacts-added",
-		G_CALLBACK (create_contact), model);
-	model->priv->remove_contact_id = g_signal_connect (
-		model->priv->book_view, "contacts-removed",
-		G_CALLBACK (remove_contact), model);
-	model->priv->modify_contact_id = g_signal_connect (
-		model->priv->book_view, "contacts-changed",
-		G_CALLBACK (modify_contact), model);
-	model->priv->status_message_id = g_signal_connect (
-		model->priv->book_view, "status-message",
-		G_CALLBACK (status_message), model);
-	model->priv->view_complete_id = g_signal_connect (
-		model->priv->book_view, "view-complete",
-		G_CALLBACK (view_complete), model);
+		model->priv->search_in_progress = TRUE;
+	}
 
-	model->priv->search_in_progress = TRUE;
 	g_signal_emit (model, signals[MODEL_CHANGED], 0);
 	g_signal_emit (model, signals[SEARCH_STARTED], 0);
 	g_signal_emit (model, signals[STOP_STATE_CHANGED], 0);
 
-	e_book_view_start (model->priv->book_view);
+	if (model->priv->client_view) {
+		e_book_client_view_start (model->priv->client_view, &error);
+		if (error) {
+			g_debug ("%s: Failed to start client view: %s", G_STRFUNC, error->message);
+			g_error_free (error);
+		}
+	}
 }
 
 static gboolean
 addressbook_model_idle_cb (EAddressbookModel *model)
 {
-	model->priv->book_view_idle_id = 0;
-
-	if (model->priv->book && model->priv->query) {
-		ESource *source;
-		const gchar *limit_str;
-		gint limit = -1;
-
-		source = e_book_get_source (model->priv->book);
-
-		limit_str = e_source_get_property (source, "limit");
-		if (limit_str && *limit_str)
-			limit = atoi (limit_str);
-
+	model->priv->client_view_idle_id = 0;
+ 
+	if (model->priv->book_client && model->priv->query_str) {
 		remove_book_view (model);
 
 		if (model->priv->first_get_view) {
-			gboolean do_initial_query;
-
 			model->priv->first_get_view = FALSE;
 
-			do_initial_query = e_book_check_static_capability (
-				model->priv->book, "do-initial-query");
-
-			if (do_initial_query) {
-				e_book_get_book_view_async (
-					model->priv->book, model->priv->query,
-					NULL, limit, book_view_loaded, model);
+			if (e_client_check_capability (E_CLIENT (model->priv->book_client), "do-initial-query")) {
+				e_book_client_get_view (
+					model->priv->book_client, model->priv->query_str,
+					NULL, client_view_ready_cb, model);
 			} else {
 				free_data (model);
 
@@ -415,9 +403,9 @@ addressbook_model_idle_cb (EAddressbookModel *model)
 					model, signals[STOP_STATE_CHANGED], 0);
 			}
 		} else
-			e_book_get_book_view_async (
-				model->priv->book, model->priv->query,
-				NULL, limit, book_view_loaded, model);
+			e_book_client_get_view (
+				model->priv->book_client, model->priv->query_str,
+				NULL, client_view_ready_cb, model);
 
 	}
 
@@ -434,7 +422,7 @@ remove_status_cb (gpointer data)
 	g_return_val_if_fail (model != NULL, FALSE);
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_MODEL (model), FALSE);
 
-	g_signal_emit (model, signals[STATUS_MESSAGE], 0, NULL);
+	g_signal_emit (model, signals[STATUS_MESSAGE], 0, NULL, -1);
 	model->priv->remove_status_id = 0;
 
 	return FALSE;
@@ -447,8 +435,8 @@ addressbook_model_set_property (GObject *object,
                                 GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BOOK:
-			e_addressbook_model_set_book (
+		case PROP_CLIENT:
+			e_addressbook_model_set_client (
 				E_ADDRESSBOOK_MODEL (object),
 				g_value_get_object (value));
 			return;
@@ -477,9 +465,9 @@ addressbook_model_get_property (GObject *object,
                                 GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BOOK:
+		case PROP_CLIENT:
 			g_value_set_object (
-				value, e_addressbook_model_get_book (
+				value, e_addressbook_model_get_client (
 				E_ADDRESSBOOK_MODEL (object)));
 			return;
 
@@ -490,7 +478,7 @@ addressbook_model_get_property (GObject *object,
 			return;
 
 		case PROP_QUERY:
-			g_value_take_string (
+			g_value_set_string (
 				value, e_addressbook_model_get_query (
 				E_ADDRESSBOOK_MODEL (object)));
 			return;
@@ -507,26 +495,26 @@ addressbook_model_dispose (GObject *object)
 	remove_book_view (model);
 	free_data (model);
 
-	if (model->priv->book) {
+	if (model->priv->book_client) {
 		if (model->priv->writable_status_id)
 			g_signal_handler_disconnect (
-				model->priv->book,
+				model->priv->book_client,
 				model->priv->writable_status_id);
 		model->priv->writable_status_id = 0;
 
 		if (model->priv->backend_died_id)
 			g_signal_handler_disconnect (
-				model->priv->book,
+				model->priv->book_client,
 				model->priv->backend_died_id);
 		model->priv->backend_died_id = 0;
 
-		g_object_unref (model->priv->book);
-		model->priv->book = NULL;
+		g_object_unref (model->priv->book_client);
+		model->priv->book_client = NULL;
 	}
 
-	if (model->priv->query) {
-		e_book_query_unref (model->priv->query);
-		model->priv->query = NULL;
+	if (model->priv->query_str) {
+		g_free (model->priv->query_str);
+		model->priv->query_str = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -562,12 +550,12 @@ addressbook_model_class_init (EAddressbookModelClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_BOOK,
+		PROP_CLIENT,
 		g_param_spec_object (
-			"book",
-			"Book",
+			"client",
+			"EBookClient",
 			NULL,
-			E_TYPE_BOOK,
+			E_TYPE_BOOK_CLIENT,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -607,9 +595,9 @@ addressbook_model_class_init (EAddressbookModelClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EAddressbookModelClass, status_message),
 			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
+			      e_marshal_VOID__STRING_INT,
 			      G_TYPE_NONE,
-			      1, G_TYPE_POINTER);
+			      2, G_TYPE_STRING, G_TYPE_INT);
 
 	signals[SEARCH_STARTED] =
 		g_signal_new ("search_started",
@@ -626,8 +614,8 @@ addressbook_model_class_init (EAddressbookModelClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EAddressbookModelClass, search_result),
 			      NULL, NULL,
-			      e_marshal_VOID__UINT_STRING,
-			      G_TYPE_NONE, 2, G_TYPE_UINT, G_TYPE_STRING);
+			      g_cclosure_marshal_VOID__BOXED,
+			      G_TYPE_NONE, 1, G_TYPE_ERROR);
 
 	signals[FOLDER_BAR_MESSAGE] =
 		g_signal_new ("folder_bar_message",
@@ -762,7 +750,7 @@ e_addressbook_model_stop (EAddressbookModel *model)
 
 	message = _("Search Interrupted");
 	g_signal_emit (model, signals[STOP_STATE_CHANGED], 0);
-	g_signal_emit (model, signals[STATUS_MESSAGE], 0, message);
+	g_signal_emit (model, signals[STATUS_MESSAGE], 0, message, -1);
 
 	if (!model->priv->remove_status_id)
 		model->priv->remove_status_id =
@@ -828,64 +816,64 @@ e_addressbook_model_find (EAddressbookModel *model,
 	return -1;
 }
 
-EBook *
-e_addressbook_model_get_book (EAddressbookModel *model)
+EBookClient *
+e_addressbook_model_get_client (EAddressbookModel *model)
 {
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_MODEL (model), NULL);
 
-	return model->priv->book;
+	return model->priv->book_client;
 }
 
 void
-e_addressbook_model_set_book (EAddressbookModel *model,
-                              EBook *book)
+e_addressbook_model_set_client (EAddressbookModel *model,
+				EBookClient *book_client)
 {
 	g_return_if_fail (E_IS_ADDRESSBOOK_MODEL (model));
-	g_return_if_fail (E_IS_BOOK (book));
+	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
 
-	if (model->priv->book != NULL) {
-		if (model->priv->book == book)
+	if (model->priv->book_client != NULL) {
+		if (model->priv->book_client == book_client)
 			return;
 
 		if (model->priv->writable_status_id != 0)
 			g_signal_handler_disconnect (
-				model->priv->book,
+				model->priv->book_client,
 				model->priv->writable_status_id);
 		model->priv->writable_status_id = 0;
 
 		if (model->priv->backend_died_id != 0)
 			g_signal_handler_disconnect (
-				model->priv->book,
+				model->priv->book_client,
 				model->priv->backend_died_id);
 		model->priv->backend_died_id = 0;
 
-		g_object_unref (model->priv->book);
+		g_object_unref (model->priv->book_client);
 	}
 
-	model->priv->book = g_object_ref (book);
+	model->priv->book_client = g_object_ref (book_client);
 	model->priv->first_get_view = TRUE;
 
 	model->priv->writable_status_id = g_signal_connect (
-		book, "writable-status",
-		G_CALLBACK (writable_status), model);
+		book_client, "notify::readonly",
+		G_CALLBACK (readonly_cb), model);
 
 	model->priv->backend_died_id = g_signal_connect (
-		book, "backend-died",
-		G_CALLBACK (backend_died), model);
+		book_client, "backend-died",
+		G_CALLBACK (backend_died_cb), model);
 
 	if (!model->priv->editable_set) {
-		model->priv->editable = e_book_is_writable (book);
+		model->priv->editable = !e_client_is_readonly (E_CLIENT (book_client));
 		g_signal_emit (
 			model, signals[WRITABLE_STATUS], 0,
 			model->priv->editable);
 	}
 
-	if (model->priv->book_view_idle_id == 0)
-		model->priv->book_view_idle_id = g_idle_add (
+	if (model->priv->client_view_idle_id == 0)
+		model->priv->client_view_idle_id = g_idle_add (
 			(GSourceFunc) addressbook_model_idle_cb,
 			g_object_ref (model));
 
-	g_object_notify (G_OBJECT (model), "book");
+	g_object_notify (G_OBJECT (model), "client");
 }
 
 gboolean
@@ -913,10 +901,7 @@ e_addressbook_model_get_query (EAddressbookModel *model)
 {
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_MODEL (model), NULL);
 
-	if (!model->priv->query)
-		return NULL;
-
-	return e_book_query_to_string (model->priv->query);
+	return model->priv->query_str;
 }
 
 void
@@ -932,31 +917,30 @@ e_addressbook_model_set_query (EAddressbookModel *model,
 	else
 		book_query = e_book_query_from_string (query);
 
+	/* also checks whether the query is a valid query string */
 	if (!book_query)
 		return;
 
-	if (model->priv->query != NULL) {
-		gchar *old_query, *new_query;
+	if (model->priv->query_str != NULL) {
+		gchar *new_query;
 
-		old_query = e_book_query_to_string (model->priv->query);
 		new_query = e_book_query_to_string (book_query);
 
-		if (old_query && new_query && g_str_equal (old_query, new_query)) {
-			g_free (old_query);
+		if (new_query && g_str_equal (model->priv->query_str, new_query)) {
 			g_free (new_query);
 			e_book_query_unref (book_query);
 			return;
 		}
 
-		g_free (old_query);
 		g_free (new_query);
-		e_book_query_unref (model->priv->query);
 	}
 
-	model->priv->query = book_query;
+	g_free (model->priv->query_str);
+	model->priv->query_str = e_book_query_to_string (book_query);
+	e_book_query_unref (book_query);
 
-	if (model->priv->book_view_idle_id == 0)
-		model->priv->book_view_idle_id = g_idle_add (
+	if (model->priv->client_view_idle_id == 0)
+		model->priv->client_view_idle_id = g_idle_add (
 			(GSourceFunc) addressbook_model_idle_cb,
 			g_object_ref (model));
 

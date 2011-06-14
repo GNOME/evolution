@@ -43,6 +43,9 @@
 #include <e-util/gconf-bridge.h>
 #include <shell/e-shell.h>
 
+#include <libecal/e-cal-client.h>
+#include <libecal/e-cal-client-view.h>
+
 #include "../print.h"
 #include "../comp-util.h"
 #include "save-comp.h"
@@ -75,13 +78,14 @@ struct _CompEditorPrivate {
 	GtkWindowGroup *window_group;
 
 	/* Client to use */
-	ECal *client;
+	ECalClient *cal_client;
 
 	/* Source client (where comp lives currently) */
-	ECal *source_client;
+	ECalClient *source_client;
 
 	/* View to listen for changes */
-	ECalView *view;
+	ECalClientView *view;
+	GCancellable *view_cancellable;
 
 	/* Calendar object/uid we are editing; this is an internal copy */
 	ECalComponent *comp;
@@ -198,8 +202,8 @@ static void	page_dates_changed_cb		(CompEditor *editor,
 						 CompEditorPageDates *dates,
 						 CompEditorPage *page);
 
-static void obj_modified_cb (ECal *client, GList *objs, CompEditor *editor);
-static void obj_removed_cb (ECal *client, GList *uids, CompEditor *editor);
+static void obj_modified_cb (ECalClientView *view, const GSList *objs, CompEditor *editor);
+static void obj_removed_cb (ECalClientView *view, const GSList *uids, CompEditor *editor);
 
 G_DEFINE_TYPE_WITH_CODE (
 	CompEditor, comp_editor, GTK_TYPE_WINDOW,
@@ -303,7 +307,7 @@ get_attachment_list (CompEditor *editor)
 	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
 
-	local_store = e_cal_get_local_attachment_store (editor->priv->client);
+	local_store = e_cal_client_get_local_attachment_store (editor->priv->cal_client);
 	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
 	path = g_build_path ("/", local_store, comp_uid, NULL);
 	destination = g_file_new_for_path (path);
@@ -344,6 +348,40 @@ commit_all_fields (CompEditor *editor)
 }
 
 static void
+changes_view_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	CompEditor *editor = user_data;
+	ECalClientView *view = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (editor != NULL);
+
+	if (!e_cal_client_get_view_finish (E_CAL_CLIENT (source_object), result, &view, &error))
+		view = NULL;
+
+	if (view) {
+		editor->priv->view = view;
+		g_signal_connect (
+			view, "objects_modified",
+			G_CALLBACK (obj_modified_cb), editor);
+		g_signal_connect (
+			view, "objects_removed",
+			G_CALLBACK (obj_removed_cb), editor);
+
+		e_cal_client_view_start (view, &error);
+
+		if (error) {
+			g_debug ("%s: Failed to stat view: %s", G_STRFUNC, error->message);
+			g_error_free (error);
+		}
+	} else if (error) {
+		if (!g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
+			g_debug ("%s: Failed to get view: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+}
+
+static void
 listen_for_changes (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
@@ -352,6 +390,12 @@ listen_for_changes (CompEditor *editor)
 	priv = editor->priv;
 
 	/* Discard change listener */
+	if (priv->view_cancellable) {
+		g_cancellable_cancel (priv->view_cancellable);
+		g_object_unref (priv->view_cancellable);
+		priv->view_cancellable = NULL;
+	}
+
 	if (priv->view) {
 		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
 						      G_SIGNAL_MATCH_DATA,
@@ -369,20 +413,10 @@ listen_for_changes (CompEditor *editor)
 	if (uid) {
 		gchar *query;
 
+		priv->view_cancellable = g_cancellable_new ();
 		query = g_strdup_printf ("(uid? \"%s\")", uid);
-		e_cal_get_query (priv->source_client, query, &priv->view, NULL);
+		e_cal_client_get_view (priv->source_client, query, priv->view_cancellable, changes_view_ready_cb, editor);
 		g_free (query);
-	}
-
-	if (priv->view) {
-		g_signal_connect (
-			priv->view, "objects_modified",
-			G_CALLBACK (obj_modified_cb), editor);
-		g_signal_connect (
-			priv->view, "objects_removed",
-			G_CALLBACK (obj_removed_cb), editor);
-
-		e_cal_view_start (priv->view);
 	}
 }
 
@@ -391,8 +425,14 @@ send_timezone (gpointer key, gpointer value, gpointer user_data)
 {
 	icaltimezone *zone = value;
 	CompEditor *editor = user_data;
+	GError *error = NULL;
 
-	e_cal_add_timezone (editor->priv->client, zone, NULL);
+	e_cal_client_add_timezone_sync (editor->priv->cal_client, zone, NULL, &error);
+
+	if (error) {
+		g_debug ("%s: Failed to add timezone: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 }
 
 static gboolean
@@ -448,8 +488,8 @@ save_comp (CompEditor *editor)
 
 	/* If we are not the organizer, we don't update the sequence number */
 	if (!e_cal_component_has_organizer (clone) ||
-		itip_organizer_is_user (clone, priv->client) ||
-		itip_sentby_is_user (clone, priv->client))
+		itip_organizer_is_user (clone, priv->cal_client) ||
+		itip_sentby_is_user (clone, priv->cal_client))
 		e_cal_component_commit_sequence (clone);
 	else
 		e_cal_component_abort_sequence (clone);
@@ -472,10 +512,14 @@ save_comp (CompEditor *editor)
 		priv->comp, get_attachment_list (editor));
 	icalcomp = e_cal_component_get_icalcomponent (priv->comp);
 	/* send the component to the server */
-	if (!cal_comp_is_on_server (priv->comp, priv->client)) {
-		result = e_cal_create_object (priv->client, icalcomp, NULL, &error);
-		if (result)
+	if (!cal_comp_is_on_server (priv->comp, priv->cal_client)) {
+		gchar *uid = NULL;
+		result = e_cal_client_create_object_sync (priv->cal_client, icalcomp, &uid, NULL, &error);
+		if (result) {
+			icalcomponent_set_uid (icalcomp, uid);
+			g_free (uid);
 			g_signal_emit_by_name (editor, "object_created");
+		}
 	} else {
 		gboolean has_recurrences;
 
@@ -484,7 +528,7 @@ save_comp (CompEditor *editor)
 
 		if (has_recurrences && priv->mod == CALOBJ_MOD_ALL)
 			comp_util_sanitize_recurrence_master (
-				priv->comp, priv->client);
+				priv->comp, priv->cal_client);
 
 		if (priv->mod == CALOBJ_MOD_THIS) {
 			e_cal_component_set_rdate_list (priv->comp, NULL);
@@ -492,13 +536,13 @@ save_comp (CompEditor *editor)
 			e_cal_component_set_exdate_list (priv->comp, NULL);
 			e_cal_component_set_exrule_list (priv->comp, NULL);
 		}
-		result = e_cal_modify_object (priv->client, icalcomp, priv->mod, &error);
+		result = e_cal_client_modify_object_sync (priv->cal_client, icalcomp, priv->mod, NULL, &error);
 
 		if (priv->mod == CALOBJ_MOD_THIS) {
 			if (result && ((flags & COMP_EDITOR_DELEGATE) ||
 				!e_cal_component_has_organizer (clone) ||
-				itip_organizer_is_user (clone, priv->client) ||
-				itip_sentby_is_user (clone, priv->client)))
+				itip_organizer_is_user (clone, priv->cal_client) ||
+				itip_sentby_is_user (clone, priv->cal_client)))
 				e_cal_component_commit_sequence (clone);
 			else
 				e_cal_component_abort_sequence (clone);
@@ -550,25 +594,31 @@ save_comp (CompEditor *editor)
 		return FALSE;
 	} else {
 		if (priv->source_client &&
-		    !e_source_equal (e_cal_get_source (priv->client),
-				     e_cal_get_source (priv->source_client)) &&
+		    !e_source_equal (e_client_get_source (E_CLIENT (priv->cal_client)),
+				     e_client_get_source (E_CLIENT (priv->source_client))) &&
 		    cal_comp_is_on_server (priv->comp, priv->source_client)) {
 			/* Comp found a new home. Remove it from old one. */
+			GError *error = NULL;
 
 			if (e_cal_component_is_instance (priv->comp) ||
 				e_cal_component_has_recurrences (priv->comp))
-				e_cal_remove_object_with_mod (
+				e_cal_client_remove_object_sync (
 					priv->source_client, orig_uid_copy,
-					NULL, CALOBJ_MOD_ALL, NULL);
+					NULL, CALOBJ_MOD_ALL, NULL, &error);
 			else
-				e_cal_remove_object (
+				e_cal_client_remove_object_sync (
 					priv->source_client,
-					orig_uid_copy, NULL);
+					orig_uid_copy, NULL, CALOBJ_MOD_THIS, NULL, &error);
+
+			if (error) {
+				g_debug ("%s: Failed to remove object: %s", G_STRFUNC, error->message);
+				g_error_free (error);
+			}
 
 			/* Let priv->source_client point to new home,
 			 * so we can move it again this session. */
 			g_object_unref (priv->source_client);
-			priv->source_client = g_object_ref (priv->client);
+			priv->source_client = g_object_ref (priv->cal_client);
 
 			listen_for_changes (editor);
 		}
@@ -608,9 +658,9 @@ save_comp_with_send (CompEditor *editor)
 	if (!save_comp (editor))
 		return FALSE;
 
-	delegated = delegate && !e_cal_get_save_schedules (priv->client);
+	delegated = delegate && !e_cal_client_check_save_schedules (priv->cal_client);
 	if (delegated || (send && send_component_dialog (
-		(GtkWindow *) editor, priv->client, priv->comp,
+		(GtkWindow *) editor, priv->cal_client, priv->comp,
 		!priv->existing_org, &strip_alarms, !priv->existing_org ?
 		NULL : &only_new_attendees))) {
 		if (delegated)
@@ -622,8 +672,8 @@ save_comp_with_send (CompEditor *editor)
 			(only_new_attendees ?
 			COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY : 0));
 
-		if ((itip_organizer_is_user (priv->comp, priv->client) ||
-			itip_sentby_is_user (priv->comp, priv->client))) {
+		if ((itip_organizer_is_user (priv->comp, priv->cal_client) ||
+			itip_sentby_is_user (priv->comp, priv->cal_client))) {
 			if (e_cal_component_get_vtype (priv->comp) == E_CAL_COMPONENT_JOURNAL)
 				return comp_editor_send_comp (
 					editor, E_CAL_COMPONENT_METHOD_PUBLISH,
@@ -768,7 +818,7 @@ action_print_cb (GtkAction *action,
 	use_24_hour_format = comp_editor_get_use_24_hour_format (editor);
 
 	print_comp (
-		comp, priv->client, zone, use_24_hour_format,
+		comp, priv->cal_client, zone, use_24_hour_format,
 		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 
 	g_object_unref (comp);
@@ -798,14 +848,14 @@ action_print_preview_cb (GtkAction *action,
 	use_24_hour_format = comp_editor_get_use_24_hour_format (editor);
 
 	print_comp (
-		comp, priv->client, zone, use_24_hour_format,
+		comp, priv->cal_client, zone, use_24_hour_format,
 		GTK_PRINT_OPERATION_ACTION_PREVIEW);
 
 	g_object_unref (comp);
 }
 
 static gboolean
-remove_event_dialog (ECal *client,
+remove_event_dialog (ECalClient *client,
 		     ECalComponent *comp,
 		     GtkWindow *parent)
 {
@@ -833,7 +883,7 @@ action_save_cb (GtkAction *action,
 	EAttachmentView *view;
 	ECalComponentText text;
 	gboolean delegated = FALSE;
-	gboolean read_only, correct = FALSE;
+	gboolean correct = FALSE;
 	ECalComponent *comp;
 
 	view = E_ATTACHMENT_VIEW (priv->attachment_view);
@@ -860,12 +910,12 @@ action_save_cb (GtkAction *action,
 		return;
 	}
 
-	if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only) {
+	if (e_client_is_readonly (E_CLIENT (priv->cal_client))) {
 		e_alert_submit (
 			E_ALERT_SINK (editor),
 			"calendar:prompt-read-only-cal-editor",
 			e_source_peek_name (
-				e_cal_get_source (priv->client)),
+				e_client_get_source (E_CLIENT (priv->cal_client))),
 			NULL);
 		return;
 	}
@@ -873,7 +923,7 @@ action_save_cb (GtkAction *action,
 	commit_all_fields (editor);
 	if (e_cal_component_has_recurrences (priv->comp)) {
 		if (!recur_component_dialog (
-			priv->client, priv->comp, &priv->mod,
+			priv->cal_client, priv->comp, &priv->mod,
 			GTK_WINDOW (editor), delegated))
 			return;
 	} else if (e_cal_component_is_instance (priv->comp))
@@ -888,7 +938,7 @@ action_save_cb (GtkAction *action,
 
 	if (!text.value)
 		if (!send_component_prompt_subject (
-			(GtkWindow *) editor, priv->client, priv->comp))
+			(GtkWindow *) editor, priv->cal_client, priv->comp))
 			return;
 
 	if (save_comp_with_send (editor)) {
@@ -899,7 +949,7 @@ action_save_cb (GtkAction *action,
 		delegate = flags & COMP_EDITOR_DELEGATE;
 
 		if (delegate && !remove_event_dialog (
-			priv->client, priv->comp, GTK_WINDOW (editor))) {
+			priv->cal_client, priv->comp, GTK_WINDOW (editor))) {
 			const gchar *uid = NULL;
 			GError *error = NULL;
 
@@ -909,12 +959,10 @@ action_save_cb (GtkAction *action,
 				e_cal_component_has_recurrences (priv->comp)) {
 				gchar *rid;
 				rid = e_cal_component_get_recurid_as_string (priv->comp);
-				e_cal_remove_object_with_mod (
-					priv->client, uid, rid,
-					priv->mod, &error);
+				e_cal_client_remove_object_sync (priv->cal_client, uid, rid, priv->mod, NULL, &error);
 				g_free (rid);
 			} else
-				e_cal_remove_object (priv->client, uid, &error);
+				e_cal_client_remove_object_sync (priv->cal_client, uid, NULL, CALOBJ_MOD_THIS, NULL, &error);
 
 			g_clear_error (&error);
 		}
@@ -1470,14 +1518,20 @@ comp_editor_dispose (GObject *object)
 		priv->window_group = NULL;
 	}
 
-	if (priv->client) {
-		g_object_unref (priv->client);
-		priv->client = NULL;
+	if (priv->cal_client) {
+		g_object_unref (priv->cal_client);
+		priv->cal_client = NULL;
 	}
 
 	if (priv->source_client) {
 		g_object_unref (priv->source_client);
 		priv->source_client = NULL;
+	}
+
+	if (priv->view_cancellable) {
+		g_cancellable_cancel (priv->view_cancellable);
+		g_object_unref (priv->view_cancellable);
+		priv->view_cancellable = NULL;
 	}
 
 	if (priv->view) {
@@ -1690,7 +1744,7 @@ comp_editor_class_init (CompEditorClass *class)
 			"client",
 			NULL,
 			NULL,
-			E_TYPE_CAL,
+			E_TYPE_CAL_CLIENT,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -2074,7 +2128,7 @@ static gboolean
 prompt_and_save_changes (CompEditor *editor, gboolean send)
 {
 	CompEditorPrivate *priv;
-	gboolean read_only, correct = FALSE;
+	gboolean correct = FALSE;
 	ECalComponent *comp;
 	ECalComponentText text;
 
@@ -2085,12 +2139,12 @@ prompt_and_save_changes (CompEditor *editor, gboolean send)
 
 	switch (save_component_dialog (GTK_WINDOW (editor), priv->comp)) {
 	case GTK_RESPONSE_YES: /* Save */
-		if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only) {
+		if (e_client_is_readonly (E_CLIENT (priv->cal_client))) {
 			e_alert_submit (
 				E_ALERT_SINK (editor),
 				"calendar:prompt-read-only-cal-editor",
 				e_source_peek_name (
-					e_cal_get_source (priv->client)),
+					e_client_get_source (E_CLIENT (priv->cal_client))),
 				NULL);
 			/* don't discard changes when selected readonly calendar */
 			return FALSE;
@@ -2105,12 +2159,12 @@ prompt_and_save_changes (CompEditor *editor, gboolean send)
 
 		if (!text.value)
 			if (!send_component_prompt_subject (
-				(GtkWindow *) editor, priv->client, priv->comp))
+				(GtkWindow *) editor, priv->cal_client, priv->comp))
 				return FALSE;
 
 		if (e_cal_component_is_instance (priv->comp))
 			if (!recur_component_dialog (
-				priv->client, priv->comp, &priv->mod,
+				priv->cal_client, priv->comp, &priv->mod,
 				GTK_WINDOW (editor), FALSE))
 				return FALSE;
 
@@ -2815,27 +2869,27 @@ comp_editor_show_page (CompEditor *editor, CompEditorPage *page)
 /**
  * comp_editor_set_client:
  * @editor: A component editor
- * @client: The calendar client to use
+ * @cal_client: The calendar client to use
  *
  * Sets the calendar client used by the editor to update components
  **/
 void
 comp_editor_set_client (CompEditor *editor,
-                        ECal *client)
+                        ECalClient *cal_client)
 {
 	g_return_if_fail (IS_COMP_EDITOR (editor));
-	g_return_if_fail (client == NULL || E_IS_CAL (client));
+	g_return_if_fail (cal_client == NULL || E_IS_CAL_CLIENT (cal_client));
 
-	if (client != NULL)
-		g_object_ref (client);
+	if (cal_client != NULL)
+		g_object_ref (cal_client);
 
-	if (editor->priv->client != NULL)
-		g_object_unref (editor->priv->client);
+	if (editor->priv->cal_client != NULL)
+		g_object_unref (editor->priv->cal_client);
 
-	editor->priv->client = client;
+	editor->priv->cal_client = cal_client;
 
-	if (editor->priv->source_client == NULL && client != NULL)
-		editor->priv->source_client = g_object_ref (client);
+	if (editor->priv->source_client == NULL && cal_client != NULL)
+		editor->priv->source_client = g_object_ref (cal_client);
 
 	g_object_notify (G_OBJECT (editor), "client");
 }
@@ -2848,12 +2902,12 @@ comp_editor_set_client (CompEditor *editor,
  *
  * Return value: The calendar client of the editor
  **/
-ECal *
+ECalClient *
 comp_editor_get_client (CompEditor *editor)
 {
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
 
-	return editor->priv->client;
+	return editor->priv->cal_client;
 }
 
 static void
@@ -3046,7 +3100,7 @@ set_attendees_for_delegation (ECalComponent *comp,
 }
 
 static void
-get_users_from_memo_comp (ECalComponent *comp, GList **users)
+get_users_from_memo_comp (ECalComponent *comp, GSList **users)
 {
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
@@ -3072,7 +3126,7 @@ get_users_from_memo_comp (ECalComponent *comp, GList **users)
 
 		iter = emails;
 		while (*iter) {
-			*users = g_list_append (*users, g_strdup (*iter));
+			*users = g_slist_append (*users, g_strdup (*iter));
 			iter++;
 		}
 		g_strfreev (emails);
@@ -3088,7 +3142,7 @@ real_send_comp (CompEditor *editor,
 	CompEditorFlags flags;
 	ECalComponent *send_comp = NULL;
 	gchar *address = NULL;
-	GList *users = NULL;
+	GSList *users = NULL;
 
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
@@ -3101,7 +3155,7 @@ real_send_comp (CompEditor *editor,
 		const gchar *uid = NULL;
 
 		e_cal_component_get_uid (priv->comp, &uid);
-		if (e_cal_get_object (priv->client, uid, NULL, &icalcomp, NULL) && icalcomp) {
+		if (e_cal_client_get_object_sync (priv->cal_client, uid, NULL, &icalcomp, NULL, NULL) && icalcomp) {
 			send_comp = e_cal_component_new ();
 			if (!e_cal_component_set_icalcomponent (send_comp, icalcomp)) {
 				icalcomponent_free (icalcomp);
@@ -3122,17 +3176,17 @@ real_send_comp (CompEditor *editor,
 	/* The user updates the delegated status to the Organizer,
 	 * so remove all other attendees. */
 	if (flags & COMP_EDITOR_DELEGATE) {
-		address = itip_get_comp_attendee (send_comp, priv->client);
+		address = itip_get_comp_attendee (send_comp, priv->cal_client);
 
 		if (address)
 			set_attendees_for_delegation (send_comp, address, method);
 	}
 
 	if (!e_cal_component_has_attachments (priv->comp) ||
-		e_cal_get_static_capability (priv->client,
+		e_client_check_capability (E_CLIENT (priv->cal_client),
 		CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		if (itip_send_comp (
-			method, send_comp, priv->client,
+			method, send_comp, priv->cal_client,
 			NULL, NULL, users, strip_alarms,
 			priv->flags & COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY)) {
 			g_object_unref (send_comp);
@@ -3162,7 +3216,7 @@ real_send_comp (CompEditor *editor,
 		}
 
 		if (itip_send_comp (
-			method, send_comp, priv->client,
+			method, send_comp, priv->cal_client,
 			NULL, mime_attach_list, users, strip_alarms,
 			priv->flags & COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY)) {
 			gboolean saved = save_comp (editor);
@@ -3279,10 +3333,10 @@ comp_editor_delete_comp (CompEditor *editor)
 	e_cal_component_get_uid (priv->comp, &uid);
 	if (e_cal_component_is_instance (priv->comp) ||
 		e_cal_component_has_recurrences (priv->comp))
-		e_cal_remove_object_with_mod (priv->client, uid, NULL,
-				CALOBJ_MOD_ALL, NULL);
+		e_cal_client_remove_object_sync (priv->cal_client, uid, NULL,
+				CALOBJ_MOD_ALL, NULL, NULL);
 	else
-		e_cal_remove_object (priv->client, uid, NULL);
+		e_cal_client_remove_object_sync (priv->cal_client, uid, NULL, CALOBJ_MOD_THIS, NULL, NULL);
 	close_dialog (editor);
 }
 
@@ -3428,8 +3482,8 @@ page_dates_changed_cb (CompEditor *editor,
 }
 
 static void
-obj_modified_cb (ECal *client,
-                 GList *objects,
+obj_modified_cb (ECalClientView *view,
+                 const GSList *objects,
                  CompEditor *editor)
 {
 	CompEditorPrivate *priv;
@@ -3465,8 +3519,8 @@ obj_modified_cb (ECal *client,
 }
 
 static void
-obj_removed_cb (ECal *client,
-                GList *uids,
+obj_removed_cb (ECalClientView *view,
+                const GSList *uids,
                 CompEditor *editor)
 {
 	CompEditorPrivate *priv = editor->priv;

@@ -48,7 +48,7 @@ typedef struct {
 	GtkBuilder *builder;
 
 	/* The client */
-	ECal *ecal;
+	ECalClient *cal_client;
 
 	/* The list store */
 	EAlarmList *list_store;
@@ -94,18 +94,13 @@ sensitize_buttons (Dialog *dialog)
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 	gboolean have_selected, read_only = FALSE;
-	GError *error = NULL;
 
-	if (!e_cal_is_read_only (dialog->ecal, &read_only, &error)) {
-		if (error->code != E_CALENDAR_STATUS_BUSY)
-			read_only = TRUE;
-		g_error_free (error);
-	}
+	read_only = e_client_is_readonly (E_CLIENT (dialog->cal_client));
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (dialog->list));
 	have_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
-	if ((e_cal_get_one_alarm_only (dialog->ecal) && have_selected) || read_only)
+	if ((e_cal_client_check_one_alarm_only (dialog->cal_client) && have_selected) || read_only)
 		gtk_widget_set_sensitive (dialog->add, FALSE);
 	else
 		gtk_widget_set_sensitive (dialog->add, TRUE);
@@ -133,7 +128,7 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	icalproperty_set_x_name (icalprop, "X-EVOLUTION-NEEDS-DESCRIPTION");
 	icalcomponent_add_property (icalcomp, icalprop);
 
-	if (alarm_dialog_run (dialog->toplevel, dialog->ecal, alarm)) {
+	if (alarm_dialog_run (dialog->toplevel, dialog->cal_client, alarm)) {
 		e_alarm_list_append (dialog->list_store, &iter, alarm);
 		gtk_tree_selection_select_iter (gtk_tree_view_get_selection (view), &iter);
 	} else {
@@ -165,7 +160,7 @@ edit_clicked_cb (GtkButton *button, gpointer data)
 	alarm = (ECalComponentAlarm *) e_alarm_list_get_alarm (dialog->list_store, &iter);
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (dialog->list_store), &iter);
 
-	if (alarm_dialog_run (dialog->toplevel, dialog->ecal, alarm)) {
+	if (alarm_dialog_run (dialog->toplevel, dialog->cal_client, alarm)) {
 		gtk_tree_selection_select_iter (gtk_tree_view_get_selection (view), &iter);
 		gtk_tree_model_row_changed (GTK_TREE_MODEL (dialog->list_store), path, &iter);
 	}
@@ -216,7 +211,7 @@ selection_changed_cb (GtkTreeSelection *selection, gpointer data)
 }
 
 void
-alarm_list_dialog_set_client (GtkWidget *dlg_box, ECal *client)
+alarm_list_dialog_set_client (GtkWidget *dlg_box, ECalClient *cal_client)
 {
 	Dialog *dialog;
 
@@ -224,7 +219,7 @@ alarm_list_dialog_set_client (GtkWidget *dlg_box, ECal *client)
 
 	dialog = g_object_get_data (G_OBJECT (dlg_box), "dialog");
 	if (dialog) {
-		dialog->ecal = client;
+		dialog->cal_client = cal_client;
 		sensitize_buttons (dialog);
 	}
 }
@@ -267,13 +262,13 @@ init_widgets (Dialog *dialog)
 }
 
 gboolean
-alarm_list_dialog_run (GtkWidget *parent, ECal *ecal, EAlarmList *list_store)
+alarm_list_dialog_run (GtkWidget *parent, ECalClient *cal_client, EAlarmList *list_store)
 {
 	Dialog dialog;
 	GtkWidget *container;
 	gint response_id;
 
-	dialog.ecal = ecal;
+	dialog.cal_client = cal_client;
 	dialog.list_store = list_store;
 
 	dialog.builder = gtk_builder_new ();
@@ -313,12 +308,12 @@ alarm_list_dialog_run (GtkWidget *parent, ECal *ecal, EAlarmList *list_store)
 }
 
 GtkWidget *
-alarm_list_dialog_peek (ECal *ecal, EAlarmList *list_store)
+alarm_list_dialog_peek (ECalClient *cal_client, EAlarmList *list_store)
 {
 	Dialog *dialog;
 
 	dialog = (Dialog *) g_new (Dialog, 1);
-	dialog->ecal = ecal;
+	dialog->cal_client = cal_client;
 	dialog->list_store = list_store;
 
 	dialog->builder = gtk_builder_new ();

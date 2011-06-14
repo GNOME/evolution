@@ -35,8 +35,8 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <libebook/e-book.h>
-#include <libedataserverui/e-book-auth-util.h>
+#include <libebook/e-book-client.h>
+#include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-selector.h>
 
 #include <util/eab-book-util.h>
@@ -69,9 +69,9 @@ typedef struct {
 
 	ESource *primary;
 
-	GList *contactlist;
-	GList *iterator;
-	EBook *book;
+	GSList *contactlist;
+	GSList *iterator;
+	EBookClient *book_client;
 
 	/* when opening book */
 	gchar *contents;
@@ -109,6 +109,7 @@ vcard_import_contact (VCardImporter *gci, EContact *contact)
 {
 	EContactPhoto *photo;
 	GList *attrs, *attr;
+	gchar *uid = NULL;
 
 	/* Apple's addressbook.app exports PHOTO's without a TYPE
 	   param, so let's figure out the format here if there's a
@@ -249,7 +250,10 @@ vcard_import_contact (VCardImporter *gci, EContact *contact)
 	add_to_notes (contact, E_CONTACT_BLOG_URL);
 
 	/* FIXME Error checking */
-	e_book_add_contact (gci->book, contact, NULL);
+	if (e_book_client_add_contact_sync (gci->book_client, contact, &uid, NULL, NULL) && uid) {
+		e_contact_set (contact, E_CONTACT_UID, uid);
+		g_free (uid);
+	}
 }
 
 static gboolean
@@ -257,7 +261,7 @@ vcard_import_contacts (gpointer data)
 {
 	VCardImporter *gci = data;
 	gint count = 0;
-	GList *iterator = gci->iterator;
+	GSList *iterator = gci->iterator;
 
 	if (gci->state == 0) {
 		while (count < 50 && iterator) {
@@ -402,7 +406,7 @@ vcard_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 	ESourceList *source_list;
 
 	/* FIXME Better error handling */
-	if (!e_book_get_addressbooks (&source_list, NULL))
+	if (!e_book_client_get_sources (&source_list, NULL))
 		return NULL;
 
 	vbox = gtk_vbox_new (FALSE, FALSE);
@@ -465,9 +469,8 @@ vcard_import_done (VCardImporter *gci)
 		g_source_remove (gci->idle_id);
 
 	g_free (gci->contents);
-	g_object_unref (gci->book);
-	g_list_foreach (gci->contactlist, (GFunc) g_object_unref, NULL);
-	g_list_free (gci->contactlist);
+	g_object_unref (gci->book_client);
+	e_client_util_free_object_slist (gci->contactlist);
 
 	e_import_complete (gci->import, gci->target);
 	g_object_unref (gci->import);
@@ -475,13 +478,20 @@ vcard_import_done (VCardImporter *gci)
 }
 
 static void
-book_loaded_cb (ESource *source,
+book_loaded_cb (GObject *source_object,
                 GAsyncResult *result,
-                VCardImporter *gci)
+                gpointer user_data)
 {
-	gci->book = e_load_book_source_finish (source, result, NULL);
+	ESource *source = E_SOURCE (source_object);
+	VCardImporter *gci = user_data;
+	EClient *client = NULL;
 
-	if (gci->book == NULL) {
+	if (!e_client_utils_open_new_finish (source, result, &client, NULL))
+		client = NULL;
+
+	gci->book_client = client ? E_BOOK_CLIENT (client) : NULL;
+
+	if (gci->book_client == NULL) {
 		vcard_import_done (gci);
 		return;
 	}
@@ -504,7 +514,7 @@ book_loaded_cb (ESource *source,
 	g_free (gci->contents);
 	gci->contents = NULL;
 	gci->iterator = gci->contactlist;
-	gci->total = g_list_length (gci->contactlist);
+	gci->total = g_slist_length (gci->contactlist);
 
 	if (gci->iterator)
 		gci->idle_id = g_idle_add (vcard_import_contacts, gci);
@@ -554,8 +564,8 @@ vcard_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	source = g_datalist_get_data (&target->data, "vcard-source");
 
-	e_load_book_source_async (
-		source, NULL, NULL, (GAsyncReadyCallback)
+	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+		e_client_utils_authenticate_handler, NULL,
 		book_loaded_cb, gci);
 }
 
@@ -572,7 +582,7 @@ static GtkWidget *
 vcard_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *preview;
-	GList *contacts;
+	GSList *contacts;
 	gchar *contents;
 	VCardEncoding encoding;
 	EImportTargetURI *s = (EImportTargetURI *) target;
@@ -617,8 +627,7 @@ vcard_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	preview = evolution_contact_importer_get_preview_widget (contacts);
 
-	g_list_foreach (contacts, (GFunc) g_object_unref, NULL);
-	g_list_free (contacts);
+	e_client_util_free_object_slist (contacts);
 
 	return preview;
 }
@@ -904,14 +913,14 @@ preview_selection_changed_cb (GtkTreeSelection *selection, EWebViewPreview *prev
 }
 
 GtkWidget *
-evolution_contact_importer_get_preview_widget (const GList *contacts)
+evolution_contact_importer_get_preview_widget (const GSList *contacts)
 {
 	GtkWidget *preview;
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
 	GtkListStore *store;
 	GtkTreeIter iter;
-	const GList *c;
+	const GSList *c;
 
 	if (!contacts)
 		return NULL;

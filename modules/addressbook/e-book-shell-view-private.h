@@ -27,10 +27,10 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-sexp.h>
-#include <libedataserverui/e-book-auth-util.h>
+#include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-selector.h>
 
 #include "e-util/e-util.h"

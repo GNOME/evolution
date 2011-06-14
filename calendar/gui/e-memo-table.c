@@ -155,7 +155,7 @@ static void
 memo_table_model_cal_view_progress_cb (EMemoTable *memo_table,
                                        const gchar *message,
                                        gint progress,
-                                       ECalSourceType type)
+                                       ECalClientSourceType type)
 {
 	gdouble percent = (gdouble) progress;
 
@@ -164,9 +164,8 @@ memo_table_model_cal_view_progress_cb (EMemoTable *memo_table,
 
 static void
 memo_table_model_cal_view_complete_cb ( EMemoTable *memo_table,
-					ECalendarStatus status,
-					const gchar *error_msg,
-					ECalSourceType type)
+					const GError *error,
+					ECalClientSourceType type)
 {
 	memo_table_emit_status_message (memo_table, NULL, -1.0);
 }
@@ -187,8 +186,8 @@ delete_selected_components (EMemoTable *memo_table)
 		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
 		GError *error = NULL;
 
-		e_cal_remove_object (comp_data->client,
-				     icalcomponent_get_uid (comp_data->icalcomp), &error);
+		e_cal_client_remove_object_sync (comp_data->client,
+				     icalcomponent_get_uid (comp_data->icalcomp), NULL, CALOBJ_MOD_THIS, NULL, &error);
 		delete_error_dialog (error, E_CAL_COMPONENT_JOURNAL);
 		g_clear_error (&error);
 	}
@@ -560,8 +559,8 @@ memo_table_query_tooltip (GtkWidget *widget,
 			e_cal_component_get_icalcomponent (new_comp),
 			dtstart.tzid);
 		if (!zone)
-			e_cal_get_timezone (
-				comp_data->client, dtstart.tzid, &zone, NULL);
+			e_cal_client_get_timezone_sync (
+				comp_data->client, dtstart.tzid, &zone, NULL, NULL);
 		if (!zone)
 			zone = default_zone;
 	} else {
@@ -701,12 +700,10 @@ memo_table_update_actions (ESelectable *selectable,
 	n_selected = e_table_selected_count (E_TABLE (memo_table));
 
 	list = e_memo_table_get_selected (memo_table);
-	for (iter = list; iter != NULL; iter = iter->next) {
+	for (iter = list; iter != NULL && sources_are_editable; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
-		gboolean read_only;
 
-		e_cal_is_read_only (comp_data->client, &read_only, NULL);
-		sources_are_editable &= !read_only;
+		sources_are_editable = sources_are_editable && !e_client_is_readonly (E_CLIENT (comp_data->client));
 	}
 	g_slist_free (list);
 
@@ -826,7 +823,7 @@ clipboard_get_calendar_data (EMemoTable *memo_table,
 	icalcomponent *icalcomp;
 	gchar *uid;
 	ECalComponent *comp;
-	ECal *client;
+	ECalClient *client;
 	ECalModel *model;
 	icalcomponent_kind kind;
 	const gchar *status_message;
@@ -869,6 +866,7 @@ clipboard_get_calendar_data (EMemoTable *memo_table,
 			    child_kind == ICAL_VTODO_COMPONENT ||
 			    child_kind == ICAL_VJOURNAL_COMPONENT) {
 				ECalComponent *tmp_comp;
+				GError *error = NULL;
 
 				uid = e_cal_component_gen_uid ();
 				tmp_comp = e_cal_component_new ();
@@ -876,31 +874,45 @@ clipboard_get_calendar_data (EMemoTable *memo_table,
 					tmp_comp,
 					icalcomponent_new_clone (subcomp));
 				e_cal_component_set_uid (tmp_comp, uid);
-				free (uid);
+				g_free (uid);
+				uid = NULL;
 
 				/* FIXME Should we convert start/due/complete
 				 *       times?  Also, need error handling.*/
-				e_cal_create_object (
-					client, e_cal_component_get_icalcomponent (tmp_comp),
-					NULL, NULL);
+				if (!e_cal_client_create_object_sync (client, e_cal_component_get_icalcomponent (tmp_comp), &uid, NULL, &error))
+					uid = NULL;
 
+				g_free (uid);
 				g_object_unref (tmp_comp);
+
+				if (error) {
+					g_debug ("%s: Failed to create object: %s", G_STRFUNC, error->message);
+					g_error_free (error);
+				}
 			}
 			subcomp = icalcomponent_get_next_component (
 				vcal_comp, ICAL_ANY_COMPONENT);
 		}
 	} else {
+		GError *error = NULL;
+
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomp);
 		uid = e_cal_component_gen_uid ();
 		e_cal_component_set_uid (comp, (const gchar *) uid);
-		free (uid);
+		g_free (uid);
 
-		e_cal_create_object (
-			client, e_cal_component_get_icalcomponent (comp),
-			NULL, NULL);
+		uid = NULL;
+		if (!e_cal_client_create_object_sync (client, e_cal_component_get_icalcomponent (comp), &uid, NULL, &error))
+			uid = NULL;
 
+		g_free (uid);
 		g_object_unref (comp);
+
+		if (error) {
+			g_debug ("%s: Failed to create object: %s", G_STRFUNC, error->message);
+			g_error_free (error);
+		}
 	}
 
 	memo_table_emit_status_message (memo_table, NULL, -1.0);

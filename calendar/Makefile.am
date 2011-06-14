@@ -1,4 +1,4 @@
-SUBDIRS = common importers gui
+SUBDIRS = importers gui
 
 error_DATA = calendar.error
 errordir = $(privdatadir)/errors

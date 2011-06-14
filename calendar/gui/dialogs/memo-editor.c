@@ -158,7 +158,7 @@ memo_editor_init (MemoEditor *me)
 
 /**
  * memo_editor_new:
- * @client: an ECal
+ * @client: an #ECalClient
  *
  * Creates a new event editor dialog.
  *
@@ -166,11 +166,11 @@ memo_editor_init (MemoEditor *me)
  * editor could not be created.
  **/
 CompEditor *
-memo_editor_new (ECal *client,
+memo_editor_new (ECalClient *client,
                  EShell *shell,
                  CompEditorFlags flags)
 {
-	g_return_val_if_fail (E_IS_CAL (client), NULL);
+	g_return_val_if_fail (E_IS_CAL_CLIENT (client), NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return g_object_new (

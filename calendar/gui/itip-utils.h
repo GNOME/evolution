@@ -22,7 +22,7 @@
 
 #include <libical/ical.h>
 #include <string.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libecal/e-cal-component.h>
 #include <libedataserver/e-account-list.h>
 
@@ -53,35 +53,35 @@ gchar **	itip_get_user_identities	(void);
 gchar *		itip_get_fallback_identity	(void);
 gboolean	itip_address_is_user		(const gchar *address);
 gboolean	itip_organizer_is_user		(ECalComponent *comp,
-						 ECal *client);
+						 ECalClient *cal_client);
 gboolean	itip_organizer_is_user_ex	(ECalComponent *comp,
-						 ECal *client,
+						 ECalClient *cal_client,
 						 gboolean skip_cap_test);
 gboolean	itip_sentby_is_user		(ECalComponent *comp,
-						 ECal *client);
+						 ECalClient *cal_client);
 const gchar *	itip_strip_mailto		(const gchar *address);
 gchar *		itip_get_comp_attendee		(ECalComponent *comp,
-						 ECal *client);
+						 ECalClient *cal_client);
 gboolean	itip_send_comp			(ECalComponentItipMethod method,
 						 ECalComponent *comp,
-						 ECal *client,
+						 ECalClient *cal_client,
 						 icalcomponent *zones,
 						 GSList *attachments_list,
-						 GList *users,
+						 GSList *users,
 						 gboolean strip_alarms,
 						 gboolean only_new_attendees);
-gboolean	itip_publish_comp		(ECal *client,
+gboolean	itip_publish_comp		(ECalClient *cal_client,
 						 gchar *uri,
 						 gchar *username,
 						 gchar *password,
 						 ECalComponent **pub_comp);
 gboolean	itip_publish_begin		(ECalComponent *pub_comp,
-						 ECal *client,
+						 ECalClient *cal_client,
 						 gboolean cloned,
 						 ECalComponent **clone);
 gboolean	reply_to_calendar_comp		(ECalComponentItipMethod method,
 						 ECalComponent *send_comp,
-						 ECal *client,
+						 ECalClient *cal_client,
 						 gboolean reply_all,
 						 icalcomponent *zones,
 						 GSList *attachments_list);

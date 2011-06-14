@@ -40,7 +40,7 @@ void		print_calendar			(GnomeCalendar *gcal,
 						 GtkPrintOperationAction action,
 						 time_t start);
 void		print_comp			(ECalComponent *comp,
-						 ECal *client,
+						 ECalClient *cal_client,
 						 icaltimezone *zone,
 						 gboolean use_24_hour_format,
 						 GtkPrintOperationAction action);

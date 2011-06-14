@@ -21,42 +21,22 @@
  *
  */
 
-#ifndef __EAB_UTIL_H__
-#define __EAB_UTIL_H__
+#ifndef EAB_BOOK_UTIL_H
+#define EAB_BOOK_UTIL_H
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 
 G_BEGIN_DECLS
 
-typedef void (*EABHaveAddressCallback) (EBook *book, const gchar *addr, EContact *contact, gpointer closure);
+GSList *	eab_contact_list_from_string		(const gchar *str);
+gchar *		eab_contact_list_to_string		(const GSList *contacts);
 
-/* Specialized Name/Email Queries */
-guint                  eab_name_and_email_query      (EBook                    *book,
-						      const gchar              *name,
-						      const gchar              *email,
-						      EBookListAsyncCallback    cb,
-						      gpointer                  closure);
-guint                  eab_nickname_query            (EBook                    *book,
-						      const gchar              *nickname,
-						      EBookListAsyncCallback     cb,
-						      gpointer                  closure);
+gboolean	eab_book_and_contact_list_from_string	(const gchar *str, EBookClient **book_client, GSList **contacts);
+gchar *		eab_book_and_contact_list_to_string	(EBookClient *book_client, const GSList *contacts);
 
-GList                 *eab_contact_list_from_string (const gchar *str);
-gchar                  *eab_contact_list_to_string    (GList *contacts);
-
-gboolean               eab_book_and_contact_list_from_string (const gchar *str, EBook **book, GList **contacts);
-gchar                  *eab_book_and_contact_list_to_string   (EBook *book, GList *contacts);
-
-/* Returns the EContact associated to email in the callback,
-   or NULL if no match is found in the default address book. */
-void                   eab_query_address_default     (const gchar              *email,
-						      EABHaveAddressCallback  cb,
-						      gpointer                  closure);
-
-gint                    e_utf8_casefold_collate_len (const gchar *str1, const gchar *str2, gint len);
-gint                    e_utf8_casefold_collate (const gchar *str1, const gchar *str2);
+gint		e_utf8_casefold_collate_len		(const gchar *str1, const gchar *str2, gint len);
+gint		e_utf8_casefold_collate			(const gchar *str1, const gchar *str2);
 
 G_END_DECLS
 
-#endif /* __EAB_UTIL_H__ */
-
+#endif /* EAB_BOOK_UTIL_H */

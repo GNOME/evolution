@@ -24,7 +24,7 @@
 #define __E_MINICARD_VIEW_WIDGET_H__
 
 #include <misc/e-canvas.h>
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 #include "e-minicard-view.h"
 
 G_BEGIN_DECLS
@@ -47,7 +47,7 @@ struct _EMinicardViewWidget
 
 	EAddressbookReflowAdapter *adapter;
 
-	EBook *book;
+	EBookClient *book_client;
 	gchar *query;
 	guint editable : 1;
 

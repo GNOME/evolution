@@ -64,10 +64,9 @@
 #define d(x)
 
 static void	status_message			(EAddressbookView *view,
-						 const gchar *status);
+						 const gchar *status, gint percent);
 static void	search_result			(EAddressbookView *view,
-						 EBookViewStatus status,
-						 const gchar *error_msg);
+						 const GError *error);
 static void	folder_bar_message		(EAddressbookView *view,
 						 const gchar *status);
 static void	stop_state_changed		(GObject *object,
@@ -240,8 +239,8 @@ table_drag_data_get (ETable *table,
 {
 	EAddressbookView *view = user_data;
 	EAddressbookModel *model;
-	EBook *book;
-	GList *contact_list;
+	EBookClient *book_client;
+	GSList *contact_list;
 	GdkAtom target;
 	gchar *value;
 
@@ -249,7 +248,7 @@ table_drag_data_get (ETable *table,
 		return;
 
 	model = e_addressbook_view_get_model (view);
-	book = e_addressbook_model_get_book (model);
+	book_client = e_addressbook_model_get_client (model);
 
 	contact_list = e_addressbook_view_get_selected (view);
 	target = gtk_selection_data_get_target (selection_data);
@@ -267,7 +266,7 @@ table_drag_data_get (ETable *table,
 
 		case DND_TARGET_TYPE_SOURCE_VCARD:
 			value = eab_book_and_contact_list_to_string (
-				book, contact_list);
+				book_client, contact_list);
 
 			gtk_selection_data_set (
 				selection_data, target, 8,
@@ -277,8 +276,7 @@ table_drag_data_get (ETable *table,
 			break;
 	}
 
-	g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
-	g_list_free (contact_list);
+	e_client_util_free_object_slist (contact_list);
 }
 
 static void
@@ -668,7 +666,7 @@ addressbook_view_copy_clipboard (ESelectable *selectable)
 {
 	EAddressbookView *view;
 	GtkClipboard *clipboard;
-	GList *contact_list;
+	GSList *contact_list;
 	gchar *string;
 
 	view = E_ADDRESSBOOK_VIEW (selectable);
@@ -680,18 +678,17 @@ addressbook_view_copy_clipboard (ESelectable *selectable)
 	e_clipboard_set_directory (clipboard, string, -1);
 	g_free (string);
 
-	g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
-	g_list_free (contact_list);
+	e_client_util_free_object_slist (contact_list);
 }
 
 static void
 addressbook_view_paste_clipboard (ESelectable *selectable)
 {
-	EBook *book;
+	EBookClient *book_client;
 	EAddressbookView *view;
 	EAddressbookModel *model;
 	GtkClipboard *clipboard;
-	GList *contact_list, *iter;
+	GSList *contact_list, *iter;
 	gchar *string;
 
 	view = E_ADDRESSBOOK_VIEW (selectable);
@@ -701,7 +698,7 @@ addressbook_view_paste_clipboard (ESelectable *selectable)
 		return;
 
 	model = e_addressbook_view_get_model (view);
-	book = e_addressbook_model_get_book (model);
+	book_client = e_addressbook_model_get_client (model);
 
 	string = e_clipboard_wait_for_directory (clipboard);
 	contact_list = eab_contact_list_from_string (string);
@@ -710,11 +707,10 @@ addressbook_view_paste_clipboard (ESelectable *selectable)
 	for (iter = contact_list; iter != NULL; iter = iter->next) {
 		EContact *contact = iter->data;
 
-		eab_merging_book_add_contact (book, contact, NULL, NULL);
+		eab_merging_book_add_contact (book_client, contact, NULL, NULL);
 	}
 
-	g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
-	g_list_free (contact_list);
+	e_client_util_free_object_slist (contact_list);
 }
 
 static void
@@ -979,14 +975,14 @@ e_addressbook_view_get_view_object (EAddressbookView *view)
 static void
 add_to_list (gint model_row, gpointer closure)
 {
-	GList **list = closure;
-	*list = g_list_prepend (*list, GINT_TO_POINTER (model_row));
+	GSList **list = closure;
+	*list = g_slist_prepend (*list, GINT_TO_POINTER (model_row));
 }
 
-GList *
+GSList *
 e_addressbook_view_get_selected (EAddressbookView *view)
 {
-	GList *list, *iter;
+	GSList *list, *iter;
 	ESelectionModel *selection;
 
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (view), NULL);
@@ -998,9 +994,7 @@ e_addressbook_view_get_selected (EAddressbookView *view)
 	for (iter = list; iter != NULL; iter = iter->next)
 		iter->data = e_addressbook_model_get_contact (
 			view->priv->model, GPOINTER_TO_INT (iter->data));
-	list = g_list_reverse (list);
-
-	return list;
+	return g_slist_reverse (list);
 }
 
 ESelectionModel *
@@ -1064,8 +1058,7 @@ e_addressbook_view_get_paste_target_list (EAddressbookView *view)
 }
 
 static void
-status_message (EAddressbookView *view,
-                const gchar *status)
+status_message (EAddressbookView *view, const gchar *status, gint percent)
 {
 	EActivity *activity;
 	EShellView *shell_view;
@@ -1086,16 +1079,19 @@ status_message (EAddressbookView *view,
 		activity = e_activity_new ();
 		view->priv->activity = activity;
 		e_activity_set_text (activity, status);
+		if (percent >= 0)
+			e_activity_set_percent (activity, percent);
 		e_shell_backend_add_activity (shell_backend, activity);
-
-	} else
+	} else {
 		e_activity_set_text (activity, status);
+		if (percent >= 0)
+			e_activity_set_percent (activity, percent);
+	}
 }
 
 static void
 search_result (EAddressbookView *view,
-               EBookViewStatus status,
-	       const gchar *error_msg)
+               const GError *error)
 {
 	EShellView *shell_view;
 	EAlertSink *alert_sink;
@@ -1103,7 +1099,7 @@ search_result (EAddressbookView *view,
 	shell_view = e_addressbook_view_get_shell_view (view);
 	alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
 
-	eab_search_result_dialog (alert_sink, status, error_msg);
+	eab_search_result_dialog (alert_sink, error);
 }
 
 static void
@@ -1143,17 +1139,17 @@ backend_died (EAddressbookView *view)
 	EShellView *shell_view;
 	EAlertSink *alert_sink;
 	EAddressbookModel *model;
-	EBook *book;
+	EBookClient *book_client;
 
 	shell_view = e_addressbook_view_get_shell_view (view);
 	alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
 
 	model = e_addressbook_view_get_model (view);
-	book = e_addressbook_model_get_book (model);
+	book_client = e_addressbook_model_get_client (model);
 
 	e_alert_submit (alert_sink,
 		"addressbook:backend-died",
-		e_book_get_uri (book), NULL);
+		e_client_get_uri (E_CLIENT (book_client)), NULL);
 }
 
 static void
@@ -1215,31 +1211,29 @@ e_addressbook_view_print (EAddressbookView *view,
 
 	/* Print the selected contacts. */
 	if (GAL_IS_VIEW_MINICARD (gal_view) && selection_only) {
-		GList *contact_list;
+		GSList *contact_list;
 
 		contact_list = e_addressbook_view_get_selected (view);
 		e_contact_print (NULL, NULL, contact_list, action);
-		g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
-		g_list_free (contact_list);
+		e_client_util_free_object_slist (contact_list);
 
 	/* Print the latest query results. */
 	} else if (GAL_IS_VIEW_MINICARD (gal_view)) {
 		EAddressbookModel *model;
-		EBook *book;
+		EBookClient *book_client;
 		EBookQuery *query;
-		gchar *query_string;
+		const gchar *query_string;
 
 		model = e_addressbook_view_get_model (view);
-		book = e_addressbook_model_get_book (model);
+		book_client = e_addressbook_model_get_client (model);
 		query_string = e_addressbook_model_get_query (model);
 
 		if (query_string != NULL)
 			query = e_book_query_from_string (query_string);
 		else
 			query = NULL;
-		g_free (query_string);
 
-		e_contact_print (book, query, NULL, action);
+		e_contact_print (book_client, query, NULL, action);
 
 		if (query != NULL)
 			e_book_query_unref (query);
@@ -1259,26 +1253,51 @@ e_addressbook_view_print (EAddressbookView *view,
 	}
 }
 
+static void
+report_and_free_error_if_any (GError *error)
+{
+	if (!error)
+		return;
+
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+		g_error_free (error);
+		return;
+	}
+
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_PERMISSION_DENIED)) {
+		e_alert_run_dialog_for_args (e_shell_get_active_window (NULL),
+					     "addressbook:contact-delete-error-perm",
+					     NULL);
+	} else {
+		eab_error_dialog (NULL, _("Failed to delete contact"), error);
+	}
+
+	g_error_free (error);
+}
+
 /* callback function to handle removal of contacts for
  * which a user doesnt have write permission
  */
 static void
-delete_contacts_cb (EBook *book, const GError *error, gpointer closure)
+remove_contacts_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	switch (error ? error->code : E_BOOK_ERROR_OK) {
-		case E_BOOK_ERROR_OK :
-		case E_BOOK_ERROR_CANCELLED :
-			break;
-		case E_BOOK_ERROR_PERMISSION_DENIED :
-			e_alert_run_dialog_for_args (e_shell_get_active_window (NULL),
-						     "addressbook:contact-delete-error-perm",
-						     NULL);
-			break;
-		default :
-			/* Unknown error */
-			eab_error_dialog (NULL, _("Failed to delete contact"), error);
-			break;
-	}
+	EBookClient *book_client = E_BOOK_CLIENT (source_object);
+	GError *error = NULL;
+
+	e_book_client_remove_contacts_finish (book_client, result, &error);
+
+	report_and_free_error_if_any (error);
+}
+
+static void
+remove_contact_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	EBookClient *book_client = E_BOOK_CLIENT (source_object);
+	GError *error = NULL;
+
+	e_book_client_remove_contact_finish (book_client, result, &error);
+
+	report_and_free_error_if_any (error);
 }
 
 static gboolean
@@ -1340,12 +1359,12 @@ addressbook_view_confirm_delete (GtkWindow *parent,
 void
 e_addressbook_view_delete_selection (EAddressbookView *view, gboolean is_delete)
 {
-	GList *list, *l;
+	GSList *list, *l;
 	gboolean plural = FALSE, is_list = FALSE;
 	EContact *contact;
 	ETable *etable = NULL;
 	EAddressbookModel *model;
-	EBook *book;
+	EBookClient *book_client;
 	ESelectionModel *selection_model = NULL;
 	GalViewInstance *view_instance;
 	GalView *gal_view;
@@ -1354,7 +1373,7 @@ e_addressbook_view_delete_selection (EAddressbookView *view, gboolean is_delete)
 	gint row = 0, select;
 
 	model = e_addressbook_view_get_model (view);
-	book = e_addressbook_model_get_book (model);
+	book_client = e_addressbook_model_get_client (model);
 
 	view_instance = e_addressbook_view_get_view_instance (view);
 	gal_view = gal_view_instance_get_current_view (view_instance);
@@ -1362,7 +1381,7 @@ e_addressbook_view_delete_selection (EAddressbookView *view, gboolean is_delete)
 	list = e_addressbook_view_get_selected (view);
 	contact = list->data;
 
-	if (g_list_next (list))
+	if (g_slist_next (list))
 		plural = TRUE;
 	else
 		name = e_contact_get (contact, E_CONTACT_FILE_AS);
@@ -1387,38 +1406,29 @@ e_addressbook_view_delete_selection (EAddressbookView *view, gboolean is_delete)
 			GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view))),
 			plural, is_list, name)) {
 		g_free (name);
-		g_list_foreach (list, (GFunc) g_object_unref, NULL);
-		g_list_free (list);
+		e_client_util_free_object_slist (list);
 		return;
 	}
 
-	if (e_book_check_static_capability (book, "bulk-remove")) {
-		GList *ids = NULL;
+	if (e_client_check_capability (E_CLIENT (book_client), "bulk-remove")) {
+		GSList *ids = NULL;
 
-		for (l=list;l;l=g_list_next (l)) {
+		for (l = list; l; l = g_slist_next (l)) {
 			contact = l->data;
 
-			ids = g_list_prepend (
-				ids, (gchar *) e_contact_get_const (
-				contact, E_CONTACT_UID));
+			ids = g_slist_prepend (ids, (gpointer) e_contact_get_const (contact, E_CONTACT_UID));
 		}
 
 		/* Remove the cards all at once. */
-		e_book_remove_contacts_async (book,
-					      ids,
-					      delete_contacts_cb,
-					      NULL);
+		e_book_client_remove_contacts (book_client, ids, NULL, remove_contacts_cb, NULL);
 
-		g_list_free (ids);
-	}
-	else {
-		for (l=list;l;l=g_list_next (l)) {
+		g_slist_free (ids);
+	} else {
+		for (l = list; l; l = g_slist_next (l)) {
 			contact = l->data;
+
 			/* Remove the card. */
-			e_book_remove_contact_async (book,
-						     contact,
-						     delete_contacts_cb,
-						     NULL);
+			e_book_client_remove_contact (book_client, contact, NULL, remove_contact_cb, NULL);
 		}
 	}
 
@@ -1449,21 +1459,20 @@ e_addressbook_view_delete_selection (EAddressbookView *view, gboolean is_delete)
 		row = e_table_view_to_model_row (E_TABLE (etable), select);
 		e_table_set_cursor_row (E_TABLE (etable), row);
 	}
-	g_list_foreach (list, (GFunc) g_object_unref, NULL);
-	g_list_free (list);
+	e_client_util_free_object_slist (list);
 }
 
 void
 e_addressbook_view_view (EAddressbookView *view)
 {
-	GList *list, *iter;
+	GSList *list, *iter;
 	gint response;
 	guint length;
 
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
 
 	list = e_addressbook_view_get_selected (view);
-	length = g_list_length (list);
+	length = g_slist_length (list);
 	response = GTK_RESPONSE_YES;
 
 	if (length > 5) {
@@ -1495,8 +1504,7 @@ e_addressbook_view_view (EAddressbookView *view)
 			addressbook_view_emit_open_contact (
 				view, iter->data, FALSE);
 
-	g_list_foreach (list, (GFunc) g_object_unref, NULL);
-	g_list_free (list);
+	e_client_util_free_object_slist (list);
 }
 
 void
@@ -1515,42 +1523,78 @@ e_addressbook_view_stop (EAddressbookView *view)
 	e_addressbook_model_stop (view->priv->model);
 }
 
+struct TransferContactsData
+{
+	gboolean delete_from_source;
+	EAddressbookView *view;
+};
+
+static void
+all_contacts_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	EBookClient *book_client = E_BOOK_CLIENT (source_object);
+	struct TransferContactsData *tcd = user_data;
+	EShellView *shell_view;
+	EAlertSink *alert_sink;
+	GSList *contacts = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (book_client != NULL);
+	g_return_if_fail (tcd != NULL);
+
+	if (!e_book_client_get_contacts_finish (book_client, result, &contacts, &error))
+		contacts = NULL;
+
+	shell_view = e_addressbook_view_get_shell_view (tcd->view);
+	alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
+
+	if (error) {
+		e_alert_submit (
+			alert_sink, "addressbook:search-error",
+			error->message, NULL);
+		g_error_free (error);
+	} else if (contacts) {
+		eab_transfer_contacts (book_client, contacts, tcd->delete_from_source, alert_sink);
+	}
+
+	g_object_unref (tcd->view);
+	g_free (tcd);
+}
+
 static void
 view_transfer_contacts (EAddressbookView *view,
                         gboolean delete_from_source,
                         gboolean all)
 {
-	EBook *book;
-	GList *contacts = NULL;
-	EShellView *shell_view;
-	EAlertSink *alert_sink;
+	EBookClient *book_client;
 
-	book = e_addressbook_model_get_book (view->priv->model);
-	shell_view = e_addressbook_view_get_shell_view (view);
-	alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
+	book_client = e_addressbook_model_get_client (view->priv->model);
 
 	if (all) {
 		EBookQuery *query;
-		GError *error = NULL;
+		gchar *query_str;
+		struct TransferContactsData *tcd;
 
 		query = e_book_query_any_field_contains ("");
-		e_book_get_contacts (book, query, &contacts, &error);
+		query_str = e_book_query_to_string (query);
 		e_book_query_unref (query);
 
-		if (error) {
-			e_alert_submit (
-				alert_sink, "addressbook:search-error",
-				error->message, NULL);
-			g_error_free (error);
-			return;
-		}
+		tcd = g_new0 (struct TransferContactsData, 1);
+		tcd->delete_from_source = delete_from_source;
+		tcd->view = g_object_ref (view);
+
+		e_book_client_get_contacts (book_client, query_str, NULL, all_contacts_ready_cb, tcd);
 	} else {
+		GSList *contacts = NULL;
+		EShellView *shell_view;
+		EAlertSink *alert_sink;
+
+		shell_view = e_addressbook_view_get_shell_view (view);
+		alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
 		contacts = e_addressbook_view_get_selected (view);
+
+		eab_transfer_contacts (book_client, contacts, delete_from_source, alert_sink);
 	}
-
-	eab_transfer_contacts (book, contacts, delete_from_source, alert_sink);
-
-	g_object_unref (book);
 }
 
 void

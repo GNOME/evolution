@@ -32,7 +32,8 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 #include <glib/gi18n.h>
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
+#include <libebook/e-book-client-view.h>
 #include <libebook/e-contact.h>
 
 #include <libedataserver/e-flag.h>
@@ -49,6 +50,7 @@ typedef struct _ContactPrintItem ContactPrintItem;
 
 struct _EContactPrintContext
 {
+	GtkPrintOperationAction action;
 	GtkPrintContext *context;
 	gdouble x;
 	gdouble y;
@@ -64,10 +66,7 @@ struct _EContactPrintContext
 	gchar *section;
 	gboolean first_contact;
 
-	EBook *book;
-	EBookQuery *query;
-
-	GList *contact_list;
+	GSList *contact_list;
 };
 
 static gdouble
@@ -385,12 +384,12 @@ contact_compare (EContact *contact1,
 }
 
 static void
-contacts_added (EBookView *book_view,
-                const GList *contact_list,
+contacts_added (EBookClientView *book_view,
+                const GSList *contact_list,
                 EContactPrintContext *ctxt)
 {
 	while (contact_list != NULL) {
-		ctxt->contact_list = g_list_insert_sorted (
+		ctxt->contact_list = g_slist_insert_sorted (
 			ctxt->contact_list,
 			g_object_ref (contact_list->data),
 			(GCompareFunc) contact_compare);
@@ -399,12 +398,25 @@ contacts_added (EBookView *book_view,
 }
 
 static void
-view_complete (EBookView *book_view,
-               EBookViewStatus status,
-               const gchar *error_msg,
-               EFlag *book_view_started)
+view_complete (EBookClientView *client_view,
+               const GError *error,
+               GtkPrintOperation *operation)
 {
-	e_flag_set (book_view_started);
+	EContactPrintContext *ctxt;
+
+	g_return_if_fail (operation != NULL);
+
+	ctxt = g_object_get_data (G_OBJECT (operation), "contact-print-ctx");
+	g_return_if_fail (ctxt != NULL);
+
+	e_book_client_view_stop (client_view, NULL);
+	g_signal_handlers_disconnect_by_func (client_view, G_CALLBACK (contacts_added), ctxt);
+	g_signal_handlers_disconnect_by_func (client_view, G_CALLBACK (view_complete), operation);
+
+	g_object_unref (client_view);
+
+	gtk_print_operation_run (operation, ctxt->action, NULL, NULL);
+	g_object_unref (operation);
 }
 
 static gboolean
@@ -584,40 +596,6 @@ e_contact_build_style (EContactPrintStyle *style)
 }
 
 static void
-load_contacts (EContactPrintContext *ctxt)
-{
-	/* Load contacts from the EBook.  This is an asynchronous operation
-	 * but we force it to be synchronous here. */
-
-	EBookView *book_view;
-	EFlag *book_view_started;
-
-	book_view_started = e_flag_new ();
-
-	e_book_get_book_view (
-		ctxt->book, ctxt->query, NULL, -1, &book_view, NULL);
-
-	g_signal_connect (
-		book_view, "contacts_added",
-		G_CALLBACK (contacts_added), ctxt);
-	g_signal_connect (
-		book_view, "view_complete",
-		G_CALLBACK (view_complete), book_view_started);
-
-	e_book_view_start (book_view);
-
-	while (!e_flag_is_set (book_view_started))
-		g_main_context_iteration (NULL, TRUE);
-
-	e_flag_free (book_view_started);
-
-	g_signal_handlers_disconnect_by_func (
-		book_view, G_CALLBACK (contacts_added), ctxt);
-	g_signal_handlers_disconnect_by_func (
-		book_view, G_CALLBACK (view_complete), book_view_started);
-}
-
-static void
 contact_draw (EContact *contact,
               EContactPrintContext *ctxt)
 {
@@ -674,13 +652,6 @@ contact_draw (EContact *contact,
 }
 
 static void
-free_contacts (EContactPrintContext *ctxt)
-{
-	g_list_foreach (ctxt->contact_list, (GFunc) g_object_unref, NULL);
-	g_list_free (ctxt->contact_list);
-}
-
-static void
 contact_begin_print (GtkPrintOperation *operation,
                      GtkPrintContext *context,
                      EContactPrintContext *ctxt)
@@ -714,11 +685,10 @@ contact_begin_print (GtkPrintOperation *operation,
 		pango_font_description_get_size (
 			ctxt->style->headings_font) * 1.5);
 
-	if (ctxt->book != NULL) {
-		load_contacts (ctxt);
+	if (ctxt->contact_list != NULL) {
 		ctxt->page_nr = -1;
 		ctxt->pages = 1;
-		g_list_foreach (ctxt->contact_list, (GFunc) contact_draw, ctxt);
+		g_slist_foreach (ctxt->contact_list, (GFunc) contact_draw, ctxt);
 		gtk_print_operation_set_n_pages (operation, ctxt->pages);
 	}
 }
@@ -788,7 +758,7 @@ contact_draw_page (GtkPrintOperation *operation,
 	ctxt->first_section = TRUE;
 	ctxt->section = NULL;
 
-	g_list_foreach (ctxt->contact_list, (GFunc) contact_draw, ctxt);
+	g_slist_foreach (ctxt->contact_list, (GFunc) contact_draw, ctxt);
 	contact_page_draw_footer (operation, context, page_nr);
 }
 
@@ -803,49 +773,88 @@ contact_end_print (GtkPrintOperation *operation,
 	pango_font_description_free (ctxt->style->footer_font);
 	pango_font_description_free (ctxt->letter_heading_font);
 
-	g_free (ctxt->section);
+	e_client_util_free_object_slist (ctxt->contact_list);
 
-	if (ctxt->book != NULL)
-		free_contacts (ctxt);
+	g_free (ctxt->style);
+	g_free (ctxt->section);
+}
+
+static void
+get_view_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	GtkPrintOperation *operation = user_data;
+	EBookClient *book_client = E_BOOK_CLIENT (source_object);
+	EBookClientView *client_view = NULL;
+	EContactPrintContext *ctxt;
+	GError *error = NULL;
+
+	e_book_client_get_view_finish (book_client, result, &client_view, &error);
+
+	ctxt = g_object_get_data (G_OBJECT (operation), "contact-print-ctx");
+	g_return_if_fail (ctxt != NULL);
+
+	if (error) {
+		g_debug ("%s: Failed to get view: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+
+		gtk_print_operation_run (operation, ctxt->action, NULL, NULL);
+		g_object_unref (operation);
+	} else {
+		g_signal_connect (client_view, "objects-added", G_CALLBACK (contacts_added), ctxt);
+		g_signal_connect (client_view, "complete", G_CALLBACK (view_complete), operation);
+
+		e_book_client_view_start (client_view, &error);
+
+		if (error) {
+			g_debug ("%s: Failed to start view: %s\n", G_STRFUNC, error->message);
+			g_error_free (error);
+
+			gtk_print_operation_run (operation, ctxt->action, NULL, NULL);
+			g_object_unref (operation);
+		}
+	}
 }
 
 void
-e_contact_print (EBook *book,
+e_contact_print (EBookClient *book_client,
                  EBookQuery *query,
-                 GList *contact_list,
+                 const GSList *contact_list,
                  GtkPrintOperationAction action)
 {
 	GtkPrintOperation *operation;
-	EContactPrintContext ctxt;
-	EContactPrintStyle style;
+	EContactPrintContext *ctxt;
 
-	if (book != NULL) {
-		ctxt.book = book;
-		ctxt.query = query;
-		ctxt.contact_list = NULL;
-	} else {
-		ctxt.book = NULL;
-		ctxt.query = NULL;
-		ctxt.contact_list = contact_list;
-	}
-	ctxt.style = &style;
-	ctxt.page_nr = 0;
-	ctxt.pages = 0;
+	ctxt = g_new0 (EContactPrintContext, 1);
+	ctxt->action = action;
+	ctxt->contact_list = e_client_util_copy_object_slist (NULL, contact_list);
+	ctxt->style = g_new0 (EContactPrintStyle, 1);
+	ctxt->page_nr = 0;
+	ctxt->pages = 0;
 
 	operation = e_print_operation_new ();
 	gtk_print_operation_set_n_pages (operation, 1);
 
+	g_object_set_data_full (G_OBJECT (operation), "contact-print-ctx", ctxt, g_free);
+
 	g_signal_connect (
 		operation, "begin-print",
-		G_CALLBACK (contact_begin_print), &ctxt);
+		G_CALLBACK (contact_begin_print), ctxt);
 	g_signal_connect (
 		operation, "draw_page",
-		G_CALLBACK (contact_draw_page), &ctxt);
+		G_CALLBACK (contact_draw_page), ctxt);
 	g_signal_connect (
 		operation, "end-print",
-		G_CALLBACK (contact_end_print), &ctxt);
+		G_CALLBACK (contact_end_print), ctxt);
 
-	gtk_print_operation_run (operation, action, NULL, NULL);
+	if (book_client) {
+		gchar *query_str = e_book_query_to_string (query);
 
-	g_object_unref (operation);
+		e_book_client_get_view (book_client, query_str, NULL, get_view_ready_cb, operation);
+
+		g_free (query_str);
+	} else {
+		gtk_print_operation_run (operation, action, NULL, NULL);
+
+		g_object_unref (operation);
+	}
 }

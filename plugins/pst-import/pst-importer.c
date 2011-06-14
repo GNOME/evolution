@@ -44,9 +44,9 @@
 #include <e-util/e-plugin.h>
 
 #include <libebook/e-contact.h>
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libecal/e-cal-component.h>
 
 #include <libedataserver/e-data-server-util.h>
@@ -125,10 +125,10 @@ struct _PstImporter {
 	gint folder_count;
 	gint current_item;
 
-	EBook *addressbook;
-	ECal *calendar;
-	ECal *tasks;
-	ECal *journal;
+	EBookClient *addressbook;
+	ECalClient *calendar;
+	ECalClient *tasks;
+	ECalClient *journal;
 };
 
 gboolean
@@ -366,29 +366,41 @@ pst_import_describe (PstImporter *m, gint complete)
 	return g_strdup (_("Importing Outlook data"));
 }
 
-static ECal*
-open_ecal (ECalSourceType type, const gchar *name)
+static ECalClient *
+open_ecal (ECalClientSourceType type, const gchar *name)
 {
 	/* Hack - grab the first calendar we can find
 		TODO - add a selection mechanism in get_widget */
 	ESource *primary;
 	ESourceList *source_list;
-	ECal *cal;
+	ECalClient *cal;
+	GError *error = NULL;
 
-	if ((e_cal_get_sources (&source_list, type, NULL)) == 0) {
-		g_warning ("Could not get any sources of type %s.", name);
+	if ((e_cal_client_get_sources (&source_list, type, &error)) == 0) {
+		g_debug ("%s: Could not get any sources of type %s: %s", G_STRFUNC, name, error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
 		return NULL;
 	}
 
 	primary = e_source_list_peek_source_any (source_list);
 
-	if ((cal = e_cal_new (primary, type)) == NULL) {
-		g_warning ("Could not create %s.", name);
+	if ((cal = e_cal_client_new (primary, type, &error)) == NULL) {
+		g_debug ("%s: Could not create %s: %s", G_STRFUNC, name, error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
 		g_object_unref (source_list);
 		return NULL;
 	}
 
-	e_cal_open (cal, TRUE, NULL);
+	if (!e_client_open_sync (E_CLIENT (cal), TRUE, NULL, &error)) {
+		g_debug ("%s: Failed to open %s: %s", G_STRFUNC, name, error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
+		g_object_unref (cal);
+		cal = NULL;
+	}
+
 	g_object_unref (primary);
 	g_object_unref (source_list);
 
@@ -405,32 +417,39 @@ pst_import_import (PstImporter *m,
 		   TODO - add a selection mechanism in get_widget */
 		ESource *primary;
 		ESourceList *source_list;
+		GError *error = NULL;
 
-		if (e_book_get_addressbooks (&source_list, NULL)) {
+		if (e_book_client_get_sources (&source_list, &error)) {
 			primary = e_source_list_peek_source_any (source_list);
 
-			if ((m->addressbook = e_book_new (primary,NULL))) {
-				e_book_open (m->addressbook, TRUE, NULL);
+			if ((m->addressbook = e_book_client_new (primary, &error))) {
+				if (!e_client_open_sync (E_CLIENT (m->addressbook), TRUE, NULL, &error)) {
+					g_debug ("%s: Failed to open book client: %s", G_STRFUNC, error ? error->message : "Unknown error");
+				}
+
 				g_object_unref (primary);
 				g_object_unref (source_list);
 			} else {
-				g_warning ("Could not create EBook.");
+				g_debug ("%s: Could not create book client: %s", G_STRFUNC, error ? error->message : "Unknown error");
 			}
 		} else {
-			g_warning ("Could not get address books.");
+			g_debug ("%s: Could not get address books: %s", G_STRFUNC, error ? error->message : "Unknown error");
 		}
+
+		if (error)
+			g_error_free (error);
 	}
 
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-appt"))) {
-		m->calendar = open_ecal (E_CAL_SOURCE_TYPE_EVENT, "calendar");
+		m->calendar = open_ecal (E_CAL_CLIENT_SOURCE_TYPE_EVENTS, "calendar");
 	}
 
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-task"))) {
-		m->tasks = open_ecal (E_CAL_SOURCE_TYPE_TODO, "task list");
+		m->tasks = open_ecal (E_CAL_CLIENT_SOURCE_TYPE_TASKS, "task list");
 	}
 
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-journal"))) {
-		m->journal = open_ecal (E_CAL_SOURCE_TYPE_JOURNAL, "journal");
+		m->journal = open_ecal (E_CAL_CLIENT_SOURCE_TYPE_MEMOS, "journal");
 	}
 
 	pst_import_file (m);
@@ -1082,6 +1101,8 @@ pst_process_contact (PstImporter *m, pst_item *item)
 	pst_item_contact *c;
 	EContact *ec;
 	GString *notes;
+	gchar *uid = NULL;
+	GError *error = NULL;
 
 	c = item->contact;
 	notes = g_string_sized_new (2048);
@@ -1218,9 +1239,16 @@ pst_process_contact (PstImporter *m, pst_item *item)
 	contact_set_string (ec, E_CONTACT_NOTE, notes->str);
 	g_string_free (notes, TRUE);
 
-	e_book_add_contact (m->addressbook, ec, NULL);
-	g_object_unref (ec);
+	if (!e_book_client_add_contact_sync (m->addressbook, ec, &uid, NULL, &error))
+		uid = NULL;
 
+	g_object_unref (ec);
+	g_free (uid);
+
+	if (error) {
+		g_debug ("%s: Failed to add contact: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 }
 
 /**
@@ -1246,7 +1274,7 @@ get_ical_date (FILETIME *date, gboolean is_date)
 }
 
 static void
-set_cal_attachments (ECal *cal, ECalComponent *ec, PstImporter *m, pst_item_attach *attach)
+set_cal_attachments (ECalClient *cal, ECalComponent *ec, PstImporter *m, pst_item_attach *attach)
 {
 	GSList *list = NULL;
 	const gchar *uid;
@@ -1257,7 +1285,7 @@ set_cal_attachments (ECal *cal, ECalComponent *ec, PstImporter *m, pst_item_atta
 	}
 
 	e_cal_component_get_uid (ec, &uid);
-	store_dir = g_filename_from_uri (e_cal_get_local_attachment_store (cal), NULL, NULL);
+	store_dir = g_filename_from_uri (e_cal_client_get_local_attachment_store (cal), NULL, NULL);
 
 	while (attach != NULL) {
 		const gchar * orig_filename;
@@ -1502,9 +1530,10 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gcha
 }
 
 static void
-pst_process_component (PstImporter *m, pst_item *item, const gchar *comp_type, ECal *cal)
+pst_process_component (PstImporter *m, pst_item *item, const gchar *comp_type, ECalClient *cal)
 {
 	ECalComponent *ec;
+	gchar *uid = NULL;
 	GError *error = NULL;
 
 	g_return_if_fail (item->appointment != NULL);
@@ -1515,12 +1544,13 @@ pst_process_component (PstImporter *m, pst_item *item, const gchar *comp_type, E
 	fill_calcomponent (m, item, ec, comp_type);
 	set_cal_attachments (cal, ec, m, item->attach);
 
-	if (!e_cal_create_object (cal, e_cal_component_get_icalcomponent (ec), NULL, &error)) {
+	if (!e_cal_client_create_object_sync (cal, e_cal_component_get_icalcomponent (ec), &uid, NULL, &error)) {
+		uid = NULL;
 		g_warning ("Creation of %s failed: %s", comp_type, error ? error->message : "Unknown error");
 	}
 
 	g_object_unref (ec);
-
+	g_free (uid);
 	if (error)
 		g_error_free (error);
 }

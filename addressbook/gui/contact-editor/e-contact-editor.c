@@ -35,7 +35,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include <libebook/e-address-western.h>
-#include <libedataserverui/e-book-auth-util.h>
+#include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-categories-dialog.h>
 #include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-source-combo-box.h>
@@ -107,8 +107,8 @@ static EABEditorClass *parent_class = NULL;
 /* The arguments we take */
 enum {
 	PROP_0,
-	PROP_SOURCE_BOOK,
-	PROP_TARGET_BOOK,
+	PROP_SOURCE_CLIENT,
+	PROP_TARGET_CLIENT,
 	PROP_CONTACT,
 	PROP_IS_NEW_CONTACT,
 	PROP_EDITABLE,
@@ -213,7 +213,7 @@ e_contact_editor_contact_added (EABEditor *editor,
 	if (!error)
 		return;
 
-	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
 		return;
 
 	eab_error_dialog (NULL, _("Error adding contact"), error);
@@ -227,7 +227,7 @@ e_contact_editor_contact_modified (EABEditor *editor,
 	if (!error)
 		return;
 
-	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
 		return;
 
 	eab_error_dialog (NULL, _("Error modifying contact"), error);
@@ -241,7 +241,7 @@ e_contact_editor_contact_deleted (EABEditor *editor,
 	if (!error)
 		return;
 
-	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
 		return;
 
 	eab_error_dialog (NULL, _("Error removing contact"), error);
@@ -305,22 +305,22 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_SOURCE_BOOK,
+		PROP_SOURCE_CLIENT,
 		g_param_spec_object (
-			"source_book",
-			"Source Book",
+			"source_client",
+			"Source EBookClient",
 			NULL,
-			E_TYPE_BOOK,
+			E_TYPE_BOOK_CLIENT,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
-		PROP_TARGET_BOOK,
+		PROP_TARGET_CLIENT,
 		g_param_spec_object (
-			"target_book",
-			"Target Book",
+			"target_client",
+			"Target EBookClient",
 			NULL,
-			E_TYPE_BOOK,
+			E_TYPE_BOOK_CLIENT,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -346,21 +346,19 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 	g_object_class_install_property (
 		object_class,
 		PROP_WRITABLE_FIELDS,
-		g_param_spec_object (
+		g_param_spec_pointer (
 			"writable_fields",
 			"Writable Fields",
 			NULL,
-			E_TYPE_LIST,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
 		PROP_REQUIRED_FIELDS,
-		g_param_spec_object (
+		g_param_spec_pointer (
 			"required_fields",
 			"Required Fields",
 			NULL,
-			E_TYPE_LIST,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -394,9 +392,8 @@ entry_activated (EContactEditor *editor)
 static gboolean
 is_field_supported (EContactEditor *editor, EContactField field_id)
 {
-	EList       *fields;
+	GSList      *fields, *iter;
 	const gchar *field;
-	EIterator   *iter;
 
 	fields = editor->writable_fields;
 	if (!fields)
@@ -406,10 +403,8 @@ is_field_supported (EContactEditor *editor, EContactField field_id)
 	if (!field)
 		return FALSE;
 
-	for (iter = e_list_get_iterator (fields);
-	     e_iterator_is_valid (iter);
-	     e_iterator_next (iter)) {
-		const gchar *this_field = e_iterator_get (iter);
+	for (iter = fields; iter; iter = iter->next) {
+		const gchar *this_field = iter->data;
 
 		if (!this_field)
 			continue;
@@ -692,7 +687,7 @@ fill_in_source_field (EContactEditor *editor)
 {
 	GtkWidget *source_menu;
 
-	if (!editor->target_book)
+	if (!editor->target_client)
 		return;
 
 	source_menu = e_builder_get_widget (
@@ -700,7 +695,7 @@ fill_in_source_field (EContactEditor *editor)
 
 	e_source_combo_box_set_active (
 		E_SOURCE_COMBO_BOX (source_menu),
-		e_book_get_source (editor->target_book));
+		e_client_get_source (E_CLIENT (editor->target_client)));
 }
 
 static void
@@ -2976,25 +2971,27 @@ init_all (EContactEditor *editor)
 }
 
 static void
-contact_editor_book_loaded_cb (ESource *source,
+contact_editor_book_loaded_cb (GObject *source_object,
                                GAsyncResult *result,
-                               EContactEditor *editor)
+                               gpointer user_data)
 {
-	EBook *book;
+	ESource *source = E_SOURCE (source_object);
+	EContactEditor *editor = user_data;
+	EClient *client = NULL;
 	GError *error = NULL;
 
-	book = e_load_book_source_finish (source, result, &error);
+	if (!e_client_utils_open_new_finish (source, result, &client, &error))
+		client = NULL;
 
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_warn_if_fail (book == NULL);
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
+	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+		g_warn_if_fail (client == NULL);
 		g_error_free (error);
-		goto exit;
-
 	} else if (error != NULL) {
 		GtkWidget *source_combo_box;
 		GtkWindow *parent;
 
-		g_warn_if_fail (book == NULL);
+		g_warn_if_fail (client == NULL);
 
 		parent = eab_editor_get_window (EAB_EDITOR (editor));
 		eab_load_error_dialog (GTK_WIDGET (parent), NULL, source, error);
@@ -3005,17 +3002,18 @@ contact_editor_book_loaded_cb (ESource *source,
 			E_SOURCE_COMBO_BOX (source_combo_box), source);
 
 		g_error_free (error);
-		goto exit;
+	} else {
+		EBookClient *book_client;
+
+		book_client = E_BOOK_CLIENT (client);
+		g_return_if_fail (book_client != NULL);
+
+		/* FIXME Write a private contact_editor_set_target_client(). */
+		g_object_set (editor, "target_client", book_client, NULL);
+
+		g_object_unref (book_client);
 	}
 
-	g_return_if_fail (E_IS_BOOK (book));
-
-	/* FIXME Write a private contact_editor_set_target_book(). */
-	g_object_set (editor, "target_book", book, NULL);
-
-	g_object_unref (book);
-
-exit:
 	g_object_unref (editor);
 }
 
@@ -3034,20 +3032,19 @@ source_changed (ESourceComboBox *source_combo_box, EContactEditor *editor)
 		editor->cancellable = NULL;
 	}
 
-	if (e_source_equal (e_book_get_source (editor->target_book), source))
+	if (e_source_equal (e_client_get_source (E_CLIENT (editor->target_client)), source))
 		return;
 
-	if (e_source_equal (e_book_get_source (editor->source_book), source)) {
-		g_object_set (editor, "target_book", editor->source_book, NULL);
+	if (e_source_equal (e_client_get_source (E_CLIENT (editor->source_client)), source)) {
+		g_object_set (editor, "target_client", editor->source_client, NULL);
 		return;
 	}
 
 	editor->cancellable = g_cancellable_new ();
 
-	e_load_book_source_async (
-		source, parent, editor->cancellable,
-		(GAsyncReadyCallback) contact_editor_book_loaded_cb,
-		g_object_ref (editor));
+	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, editor->cancellable,
+		e_client_utils_authenticate_handler, parent,
+		contact_editor_book_loaded_cb, g_object_ref (editor));
 }
 
 static void
@@ -3348,10 +3345,15 @@ typedef struct {
 } EditorCloseStruct;
 
 static void
-contact_moved_cb (EBook *book, const GError *error, EditorCloseStruct *ecs)
+contact_removed_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
+	EBookClient *book_client = E_BOOK_CLIENT (source_object);
+	EditorCloseStruct *ecs = user_data;
 	EContactEditor *ce = ecs->ce;
 	gboolean should_close = ecs->should_close;
+	GError *error = NULL;
+
+	e_book_client_remove_contact_finish (book_client, result, &error);
 
 	gtk_widget_set_sensitive (ce->app, TRUE);
 	ce->in_async_call = FALSE;
@@ -3364,16 +3366,18 @@ contact_moved_cb (EBook *book, const GError *error, EditorCloseStruct *ecs)
 
 	if (should_close) {
 		eab_editor_close (EAB_EDITOR (ce));
-	}
-	else {
+	} else {
 		ce->changed = FALSE;
 
-		g_object_ref (ce->target_book);
-		g_object_unref (ce->source_book);
-		ce->source_book = ce->target_book;
+		g_object_ref (ce->target_client);
+		g_object_unref (ce->source_client);
+		ce->source_client = ce->target_client;
 
 		sensitize_all (ce);
 	}
+
+	if (error)
+		g_error_free (error);
 
 	g_object_unref (ce);
 	g_free (ecs->new_id);
@@ -3381,27 +3385,24 @@ contact_moved_cb (EBook *book, const GError *error, EditorCloseStruct *ecs)
 }
 
 static void
-contact_added_cb (EBook *book,
-                  const GError *error,
-                  const gchar *id,
-                  EditorCloseStruct *ecs)
+contact_added_cb (EBookClient *book_client, const GError *error, const gchar *id, gpointer closure)
 {
+	EditorCloseStruct *ecs = closure;
 	EContactEditor *ce = ecs->ce;
 	gboolean should_close = ecs->should_close;
 
-	if (ce->source_book != ce->target_book && e_book_is_writable (ce->source_book) &&
+	if (ce->source_client != ce->target_client && !e_client_is_readonly (E_CLIENT (ce->source_client)) &&
 	    !error && ce->is_new_contact == FALSE) {
 		ecs->new_id = g_strdup (id);
-		e_book_remove_contact_async (
-			ce->source_book, ce->contact,
-			(EBookAsyncCallback) contact_moved_cb, ecs);
+		e_book_client_remove_contact (
+			ce->source_client, ce->contact, NULL, contact_removed_cb, ecs);
 		return;
 	}
 
 	gtk_widget_set_sensitive (ce->app, TRUE);
 	ce->in_async_call = FALSE;
 
-	e_contact_set (ce->contact, E_CONTACT_UID, (gchar *) id);
+	e_contact_set (ce->contact, E_CONTACT_UID, id);
 
 	eab_editor_contact_added (EAB_EDITOR (ce), error, ce->contact);
 
@@ -3410,8 +3411,7 @@ contact_added_cb (EBook *book,
 
 		if (should_close) {
 			eab_editor_close (EAB_EDITOR (ce));
-		}
-		else {
+		} else {
 			ce->changed = FALSE;
 			sensitize_all (ce);
 		}
@@ -3422,8 +3422,9 @@ contact_added_cb (EBook *book,
 }
 
 static void
-contact_modified_cb (EBook *book, const GError *error, EditorCloseStruct *ecs)
+contact_modified_cb (EBookClient *book_client, const GError *error, gpointer closure)
 {
+	EditorCloseStruct *ecs = closure;
 	EContactEditor *ce = ecs->ce;
 	gboolean should_close = ecs->should_close;
 
@@ -3446,6 +3447,20 @@ contact_modified_cb (EBook *book, const GError *error, EditorCloseStruct *ecs)
 	g_free (ecs);
 }
 
+static void
+contact_modified_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	EBookClient *book_client = E_BOOK_CLIENT (source_object);
+	GError *error = NULL;
+
+	e_book_client_modify_contact_finish (book_client, result, &error);
+
+	contact_modified_cb (book_client, error, user_data);
+
+	if (error)
+		g_error_free (error);
+}
+
 /* Emits the signal to request saving a contact */
 static void
 real_save_contact (EContactEditor *ce, gboolean should_close)
@@ -3461,23 +3476,24 @@ real_save_contact (EContactEditor *ce, gboolean should_close)
 	gtk_widget_set_sensitive (ce->app, FALSE);
 	ce->in_async_call = TRUE;
 
-	if (ce->source_book != ce->target_book) {
+	if (ce->source_client != ce->target_client) {
 		/* Two-step move; add to target, then remove from source */
 		eab_merging_book_add_contact (
-			ce->target_book, ce->contact,
-			(EBookIdAsyncCallback) contact_added_cb, ecs);
+			ce->target_client, ce->contact,
+			contact_added_cb, ecs);
 	} else {
 		if (ce->is_new_contact)
 			eab_merging_book_add_contact (
-				ce->target_book, ce->contact,
-				(EBookIdAsyncCallback) contact_added_cb, ecs);
+				ce->target_client, ce->contact,
+				contact_added_cb, ecs);
 		else if (ce->check_merge)
-			eab_merging_book_commit_contact (
-				ce->target_book, ce->contact,
-				(EBookAsyncCallback) contact_modified_cb, ecs);
+			eab_merging_book_modify_contact (
+				ce->target_client, ce->contact,
+				contact_modified_cb, ecs);
 		else
-			e_book_commit_contact_async (ce->target_book, ce->contact,
-				(EBookAsyncCallback) contact_modified_cb, ecs);
+			e_book_client_modify_contact (
+				ce->target_client, ce->contact, NULL,
+				contact_modified_ready_cb, ecs);
 	}
 }
 
@@ -3488,10 +3504,10 @@ save_contact (EContactEditor *ce, gboolean should_close)
 	const gchar *name_entry_string, *file_as_entry_string, *company_name_string;
 	GtkWidget *entry_fullname, *entry_file_as, *company_name;
 
-	if (!ce->target_book)
+	if (!ce->target_client)
 		return;
 
-	if (ce->target_editable && !e_book_is_writable (ce->source_book)) {
+	if (ce->target_editable && e_client_is_readonly (E_CLIENT (ce->source_client))) {
 		if (e_alert_run_dialog_for_args (
 				GTK_WINDOW (ce->app),
 				"addressbook:prompt-move",
@@ -3592,7 +3608,7 @@ e_contact_editor_is_valid (EABEditor *editor)
 	EContactEditor *ce = E_CONTACT_EDITOR (editor);
 	GtkWidget *widget;
 	gboolean validation_error = FALSE;
-	EIterator *iter;
+	GSList *iter;
 	GString *errmsg = g_string_new (_("The contact data is invalid:\n\n"));
 
 	widget = e_builder_get_widget (ce->builder, "dateedit-birthday");
@@ -3610,11 +3626,8 @@ e_contact_editor_is_valid (EABEditor *editor)
 		validation_error = TRUE;
 	}
 
-	iter = e_list_get_iterator (ce->required_fields);
-	for (e_iterator_last (iter);
-	     e_iterator_is_valid (iter);
-	     e_iterator_prev (iter)) {
-		const gchar *field_name = e_iterator_get (iter);
+	for (iter = ce->required_fields; iter; iter = iter->next) {
+		const gchar *field_name = iter->data;
 		EContactField  field_id = e_contact_field_id (field_name);
 
 		if (is_non_string_field (field_id)) {
@@ -3967,11 +3980,11 @@ e_contact_editor_dispose (GObject *object)
 	}
 
 	if (e_contact_editor->writable_fields) {
-		g_object_unref (e_contact_editor->writable_fields);
+		e_client_util_free_string_slist (e_contact_editor->writable_fields);
 		e_contact_editor->writable_fields = NULL;
 	}
 	if (e_contact_editor->required_fields) {
-		g_object_unref (e_contact_editor->required_fields);
+		e_client_util_free_string_slist (e_contact_editor->required_fields);
 		e_contact_editor->required_fields = NULL;
 	}
 	if (e_contact_editor->contact) {
@@ -3979,17 +3992,17 @@ e_contact_editor_dispose (GObject *object)
 		e_contact_editor->contact = NULL;
 	}
 
-	if (e_contact_editor->source_book) {
-		g_object_unref (e_contact_editor->source_book);
-		e_contact_editor->source_book = NULL;
+	if (e_contact_editor->source_client) {
+		g_object_unref (e_contact_editor->source_client);
+		e_contact_editor->source_client = NULL;
 	}
 
-	if (e_contact_editor->target_book) {
+	if (e_contact_editor->target_client) {
 		g_signal_handler_disconnect (
-			e_contact_editor->target_book,
+			e_contact_editor->target_client,
 			e_contact_editor->target_editable_id);
-		g_object_unref (e_contact_editor->target_book);
-		e_contact_editor->target_book = NULL;
+		g_object_unref (e_contact_editor->target_client);
+		e_contact_editor->target_client = NULL;
 	}
 
 	if (e_contact_editor->name) {
@@ -4012,19 +4025,36 @@ e_contact_editor_dispose (GObject *object)
 }
 
 static void
-supported_fields_cb (EBook *book,
-                     const GError *error,
-                     EList *fields,
-                     EContactEditor *ce)
+supported_fields_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
+	EBookClient *book_client = E_BOOK_CLIENT (source_object);
+	EContactEditor *ce = user_data;
+	gchar *prop_value = NULL;
+	GSList *fields;
+	GError *error = NULL;
+
+	if (!e_client_get_backend_property_finish (E_CLIENT (book_client), result, &prop_value, &error))
+		prop_value = NULL;
+
+	if (error) {
+		g_debug ("%s: Failed to get supported fields: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+
 	if (!g_slist_find (eab_editor_get_all_editors (), ce)) {
 		g_warning (
 			"supported_fields_cb called for book that's still "
 			"around, but contact editor that's been destroyed.");
+		g_free (prop_value);
 		return;
 	}
 
+	fields = e_client_util_parse_comma_strings (prop_value);
+
 	g_object_set (ce, "writable_fields", fields, NULL);
+
+	e_client_util_free_string_slist (fields);
+	g_free (prop_value);
 
 	eab_editor_show (EAB_EDITOR (ce));
 
@@ -4032,26 +4062,41 @@ supported_fields_cb (EBook *book,
 }
 
 static void
-required_fields_cb (EBook *book,
-                    const GError *error,
-                    EList *fields,
-                    EContactEditor *ce)
+required_fields_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
+	EBookClient *book_client = E_BOOK_CLIENT (source_object);
+	EContactEditor *ce = user_data;
+	gchar *prop_value = NULL;
+	GSList *fields;
+	GError *error = NULL;
+
+	if (!e_client_get_backend_property_finish (E_CLIENT (book_client), result, &prop_value, &error))
+		prop_value = NULL;
+
+	if (error) {
+		g_debug ("%s: Failed to get supported fields: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 
 	if (!g_slist_find (eab_editor_get_all_editors (), ce)) {
 		g_warning (
 			"supported_fields_cb called for book that's still "
 			"around, but contact editor that's been destroyed.");
+		g_free (prop_value);
 		return;
 	}
 
+	fields = e_client_util_parse_comma_strings (prop_value);
+
 	g_object_set (ce, "required_fields", fields, NULL);
 
+	e_client_util_free_string_slist (fields);
+	g_free (prop_value);
 }
 
 EABEditor *
 e_contact_editor_new (EShell *shell,
-                      EBook *book,
+                      EBookClient *book_client,
                       EContact *contact,
                       gboolean is_new_contact,
                       gboolean editable)
@@ -4059,34 +4104,29 @@ e_contact_editor_new (EShell *shell,
 	EABEditor *editor;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-	g_return_val_if_fail (E_IS_BOOK (book), NULL);
+	g_return_val_if_fail (E_IS_BOOK_CLIENT (book_client), NULL);
 	g_return_val_if_fail (E_IS_CONTACT (contact), NULL);
 
 	editor = g_object_new (E_TYPE_CONTACT_EDITOR, "shell", shell, NULL);
 
 	g_object_set (
 		editor,
-		"source_book", book,
+		"source_client", book_client,
 		"contact", contact,
 		"is_new_contact", is_new_contact,
 		"editable", editable,
 		NULL);
 
-	if (book)
-		e_book_get_supported_fields_async (
-			book, (EBookEListAsyncCallback)
-			supported_fields_cb, editor);
-
 	return editor;
 }
 
 static void
-writable_changed (EBook *book, gboolean writable, EContactEditor *ce)
+notify_readonly_cb (EBookClient *book_client, EContactEditor *ce)
 {
 	gint new_target_editable;
 	gboolean changed = FALSE;
 
-	new_target_editable = e_book_is_writable (ce->target_book);
+	new_target_editable = !e_client_is_readonly (E_CLIENT (ce->target_client));
 
 	if (ce->target_editable != new_target_editable)
 		changed = TRUE;
@@ -4108,41 +4148,35 @@ e_contact_editor_set_property (GObject *object,
 	editor = E_CONTACT_EDITOR (object);
 
 	switch (prop_id) {
-	case PROP_SOURCE_BOOK: {
+	case PROP_SOURCE_CLIENT: {
 		gboolean  writable;
 		gboolean  changed = FALSE;
-		EBook    *source_book;
+		EBookClient *source_client;
 
-		source_book = E_BOOK (g_value_get_object (value));
+		source_client = E_BOOK_CLIENT (g_value_get_object (value));
 
-		if (source_book == editor->source_book)
+		if (source_client == editor->source_client)
 			break;
 
-		if (editor->source_book)
-			g_object_unref (editor->source_book);
+		if (editor->source_client)
+			g_object_unref (editor->source_client);
 
-		editor->source_book = source_book;
-		g_object_ref (editor->source_book);
+		editor->source_client = source_client;
+		g_object_ref (editor->source_client);
 
-		if (!editor->target_book) {
-			editor->target_book = editor->source_book;
-			g_object_ref (editor->target_book);
+		if (!editor->target_client) {
+			editor->target_client = editor->source_client;
+			g_object_ref (editor->target_client);
 
 			editor->target_editable_id = g_signal_connect (
-				editor->target_book, "writable_status",
-				G_CALLBACK (writable_changed), editor);
+				editor->target_client, "notify::readonly",
+				G_CALLBACK (notify_readonly_cb), editor);
 
-			e_book_get_supported_fields_async (
-				editor->target_book,
-				(EBookEListAsyncCallback)
-				supported_fields_cb, editor);
-			e_book_get_required_fields_async (
-				editor->target_book,
-				(EBookEListAsyncCallback)
-				required_fields_cb, editor);
+			e_client_get_backend_property (E_CLIENT (editor->target_client), BOOK_BACKEND_PROPERTY_SUPPORTED_FIELDS, NULL, supported_fields_cb, editor);
+			e_client_get_backend_property (E_CLIENT (editor->target_client), BOOK_BACKEND_PROPERTY_REQUIRED_FIELDS, NULL, required_fields_cb, editor);
 		}
 
-		writable = e_book_is_writable (editor->target_book);
+		writable = !e_client_is_readonly (E_CLIENT (editor->target_client));
 		if (writable != editor->target_editable) {
 			editor->target_editable = writable;
 			changed = TRUE;
@@ -4154,43 +4188,35 @@ e_contact_editor_set_property (GObject *object,
 		break;
 	}
 
-	case PROP_TARGET_BOOK: {
+	case PROP_TARGET_CLIENT: {
 		gboolean  writable;
 		gboolean  changed = FALSE;
-		EBook    *target_book;
+		EBookClient *target_client;
 
-		target_book = E_BOOK (g_value_get_object (value));
+		target_client = E_BOOK_CLIENT (g_value_get_object (value));
 
-		if (target_book == editor->target_book)
+		if (target_client == editor->target_client)
 			break;
 
-		if (editor->target_book) {
-			g_signal_handler_disconnect (
-				editor->target_book,
-				editor->target_editable_id);
-			g_object_unref (editor->target_book);
+		if (editor->target_client) {
+			g_signal_handler_disconnect (editor->target_client, editor->target_editable_id);
+			g_object_unref (editor->target_client);
 		}
 
-		editor->target_book = target_book;
-		g_object_ref (editor->target_book);
+		editor->target_client = target_client;
+		g_object_ref (editor->target_client);
 
 		editor->target_editable_id = g_signal_connect (
-			editor->target_book, "writable_status",
-			G_CALLBACK (writable_changed), editor);
+			editor->target_client, "notify::readonly",
+			G_CALLBACK (notify_readonly_cb), editor);
 
-		e_book_get_supported_fields_async (
-			editor->target_book,
-			(EBookEListAsyncCallback)
-			supported_fields_cb, editor);
+		e_client_get_backend_property (E_CLIENT (editor->target_client), BOOK_BACKEND_PROPERTY_SUPPORTED_FIELDS, NULL, supported_fields_cb, editor);
+		e_client_get_backend_property (E_CLIENT (editor->target_client), BOOK_BACKEND_PROPERTY_REQUIRED_FIELDS, NULL, required_fields_cb, editor);
 
-		e_book_get_required_fields_async (
-			editor->target_book,
-			(EBookEListAsyncCallback)
-			required_fields_cb, editor);
 		if (!editor->is_new_contact)
 			editor->changed = TRUE;
 
-		writable = e_book_is_writable (editor->target_book);
+		writable = !e_client_is_readonly (E_CLIENT (editor->target_client));
 
 		if (writable != editor->target_editable) {
 			editor->target_editable = writable;
@@ -4238,24 +4264,16 @@ e_contact_editor_set_property (GObject *object,
 	}
 	case PROP_WRITABLE_FIELDS:
 		if (editor->writable_fields)
-			g_object_unref (editor->writable_fields);
+			e_client_util_free_string_slist (editor->writable_fields);
 
-		editor->writable_fields = g_value_get_object (value);
-		if (editor->writable_fields)
-			g_object_ref (editor->writable_fields);
-		else
-			editor->writable_fields = e_list_new (NULL, NULL, NULL);
+		editor->writable_fields = e_client_util_copy_string_slist (NULL, g_value_get_pointer (value));
 
 		sensitize_all (editor);
 		break;
 	case PROP_REQUIRED_FIELDS:
 		if (editor->required_fields)
-			g_object_unref (editor->required_fields);
-		editor->required_fields = g_value_get_object (value);
-		if (editor->required_fields)
-			g_object_ref (editor->required_fields);
-		else
-			editor->required_fields = e_list_new (NULL, NULL, NULL);
+			e_client_util_free_string_slist (editor->required_fields);
+		editor->required_fields = e_client_util_copy_string_slist (NULL, g_value_get_pointer (value));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -4274,12 +4292,12 @@ e_contact_editor_get_property (GObject *object,
 	e_contact_editor = E_CONTACT_EDITOR (object);
 
 	switch (prop_id) {
-	case PROP_SOURCE_BOOK:
-		g_value_set_object (value, e_contact_editor->source_book);
+	case PROP_SOURCE_CLIENT:
+		g_value_set_object (value, e_contact_editor->source_client);
 		break;
 
-	case PROP_TARGET_BOOK:
-		g_value_set_object (value, e_contact_editor->target_book);
+	case PROP_TARGET_CLIENT:
+		g_value_set_object (value, e_contact_editor->target_client);
 		break;
 
 	case PROP_CONTACT:
@@ -4303,20 +4321,10 @@ e_contact_editor_get_property (GObject *object,
 		break;
 
 	case PROP_WRITABLE_FIELDS:
-		if (e_contact_editor->writable_fields)
-			g_value_set_object (
-				value, e_list_duplicate (
-				e_contact_editor->writable_fields));
-		else
-			g_value_set_object (value, NULL);
+		g_value_set_pointer (value, e_contact_editor->writable_fields);
 		break;
 	case PROP_REQUIRED_FIELDS:
-		if (e_contact_editor->required_fields)
-			g_value_set_object (
-				value, e_list_duplicate (
-				e_contact_editor->required_fields));
-		else
-			g_value_set_object (value, NULL);
+		g_value_set_pointer (value, e_contact_editor->required_fields);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);

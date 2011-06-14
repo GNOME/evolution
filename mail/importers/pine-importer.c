@@ -38,7 +38,7 @@
 
 #include <gconf/gconf-client.h>
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 #include <libebook/e-destination.h>
 
 #include "mail-importer.h"
@@ -98,7 +98,7 @@ FIXME: we dont handle aliases in lists.
 */
 
 static void
-import_contact (EBook *book, gchar *line)
+import_contact (EBookClient *book_client, gchar *line)
 {
 	gchar **strings, *addr, **addrs;
 	gint i;
@@ -106,10 +106,13 @@ import_contact (EBook *book, gchar *line)
 	/*EContactName *name;*/
 	EContact *card;
 	gsize len;
+	GError *error = NULL;
 
 	card = e_contact_new ();
 	strings = g_strsplit(line, "\t", 5);
 	if (strings[0] && strings[1] && strings[2]) {
+		gchar *new_uid = NULL;
+
 		e_contact_set (card, E_CONTACT_NICKNAME, strings[0]);
 		e_contact_set (card, E_CONTACT_FULL_NAME, strings[1]);
 
@@ -150,8 +153,15 @@ import_contact (EBook *book, gchar *line)
 		if (strings[3] && strings[4])
 			e_contact_set (card, E_CONTACT_NOTE, strings[4]);
 
-		/* FIXME Error checking */
-		e_book_add_contact (book, card, NULL);
+		if (!e_book_client_add_contact_sync (book_client, card, &new_uid, NULL, &error)) {
+			g_debug ("%s: Failed to add contact: %s", G_STRFUNC, error ? error->message : "Unknown error");
+			if (error)
+				g_error_free (error);
+			error = NULL;
+		} else {
+			g_free (new_uid);
+		}
+
 		g_object_unref (card);
 	}
 	g_strfreev (strings);
@@ -162,16 +172,22 @@ import_contacts (void)
 {
 	ESource *primary;
 	ESourceList *source_list;
-	EBook *book;
+	EBookClient *book_client;
 	gchar *name;
 	GString *line;
 	FILE *fp;
 	gsize offset;
+	GError *error = NULL;
 
 	printf("importing pine addressbook\n");
 
-	if (!e_book_get_addressbooks (&source_list, NULL))
+	if (!e_book_client_get_sources (&source_list, &error)) {
+		if (error) {
+			g_debug ("%s: Failed to get book sources: %s", G_STRFUNC, error->message);
+			g_error_free (error);
+		}
 		return;
+	}
 
 	name = g_build_filename(g_get_home_dir(), ".addressbook", NULL);
 	fp = fopen(name, "r");
@@ -181,13 +197,24 @@ import_contacts (void)
 
 	primary = e_source_list_peek_source_any (source_list);
 	/* FIXME Better error handling */
-	if ((book = e_book_new (primary,NULL)) == NULL) {
+	if ((book_client = e_book_client_new (primary, &error)) == NULL) {
 		fclose (fp);
-		g_warning ("Could not create EBook.");
+		g_warning ("Could not create EBook: %s", error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
 		return;
 	}
 
-	e_book_open (book, TRUE, NULL);
+	if (!e_client_open_sync (E_CLIENT (book_client), TRUE, NULL, &error)) {
+		g_object_unref (primary);
+		g_object_unref (source_list);
+		fclose (fp);
+
+		g_warning ("%s: Failed to open book client: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
+		return;
+	}
 	g_object_unref (primary);
 	g_object_unref (source_list);
 
@@ -208,13 +235,13 @@ import_contacts (void)
 			g_string_truncate (line, len);
 		}
 
-		import_contact (book, line->str);
+		import_contact (book_client, line->str);
 		offset = 0;
 	}
 
 	g_string_free (line, TRUE);
 	fclose (fp);
-	g_object_unref (book);
+	g_object_unref (book_client);
 }
 
 static gchar *

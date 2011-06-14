@@ -34,6 +34,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserverui/e-category-completion.h>
+#include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-combo-box.h>
 #include <libedataserverui/e-name-selector.h>
 #include <libedataserverui/e-name-selector-entry.h>
@@ -48,7 +49,6 @@
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
 
-#include "common/authentication.h"
 #include "../calendar-config.h"
 #include "comp-editor.h"
 #include "comp-editor-util.h"
@@ -242,7 +242,7 @@ memo_page_fill_widgets (CompEditorPage *page,
 	MemoPagePrivate *priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
-	ECal *client;
+	ECalClient *client;
 	ECalComponentClassification cl;
 	ECalComponentText text;
 	ECalComponentDateTime d;
@@ -297,7 +297,7 @@ memo_page_fill_widgets (CompEditorPage *page,
 	e_cal_component_get_categories (comp, &categories);
 	e_dialog_editable_set (priv->categories, categories);
 
-	e_cal_get_cal_address (client, &backend_addr, NULL);
+	e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
 	set_subscriber_info_string (mpage, backend_addr);
 
 	if (e_cal_component_has_organizer (comp)) {
@@ -333,7 +333,7 @@ memo_page_fill_widgets (CompEditorPage *page,
 	/* Source */
 	e_source_combo_box_set_active (
 		E_SOURCE_COMBO_BOX (priv->source_selector),
-		e_cal_get_source (client));
+		e_client_get_source (E_CLIENT (client)));
 
 	if (priv->to_entry && (flags & COMP_EDITOR_IS_SHARED) && !(flags & COMP_EDITOR_NEW_ITEM))
 		gtk_entry_set_text (GTK_ENTRY (priv->to_entry), get_recipients (comp));
@@ -403,7 +403,7 @@ sensitize_widgets (MemoPage *mpage)
 	CompEditor *editor;
 	CompEditorFlags flags;
 	MemoPagePrivate *priv;
-	ECal *client;
+	ECalClient *client;
 
 	priv = mpage->priv;
 
@@ -411,8 +411,7 @@ sensitize_widgets (MemoPage *mpage)
 	client = comp_editor_get_client (editor);
 	flags = comp_editor_get_flags (editor);
 
-	if (!e_cal_is_read_only (client, &read_only, NULL))
-		read_only = TRUE;
+	read_only = e_client_is_readonly (E_CLIENT (client));
 
 	if (flags & COMP_EDITOR_IS_SHARED)
 		sens = flags & COMP_EDITOR_USER_ORG;
@@ -511,53 +510,51 @@ fill_comp_with_recipients (ENameSelector *name_selector, ECalComponent *comp)
 			/* check if the contact is contact list which is not expanded yet */
 			/* we expand it by getting the list again from the server forming the query */
 			if (contact && e_contact_get (contact , E_CONTACT_IS_LIST)) {
-				EBook *book = NULL;
+				EBookClient *book_client = NULL;
 				ENameSelectorDialog *dialog;
 				ENameSelectorModel *model;
 				EContactStore *c_store;
-				GList *books, *l;
+				GSList *clients, *l;
 				gchar *uri = e_contact_get (contact, E_CONTACT_BOOK_URI);
 
 				dialog = e_name_selector_peek_dialog (name_selector);
 				model = e_name_selector_dialog_peek_model (dialog);
 				c_store = e_name_selector_model_peek_contact_store (model);
-				books = e_contact_store_get_books (c_store);
+				clients = e_contact_store_get_clients (c_store);
 
-				for (l = books; l; l = l->next) {
-					EBook *b = l->data;
-					if (g_str_equal (uri, e_book_get_uri (b))) {
-						book = b;
+				for (l = clients; l; l = l->next) {
+					EBookClient *b = l->data;
+					if (g_str_equal (uri, e_client_get_uri (E_CLIENT (b)))) {
+						book_client = b;
 						break;
 					}
 				}
 
-				if (book) {
-					GList *contacts = NULL;
+				if (book_client) {
+					GSList *contacts = NULL;
 					EContact *n_con = NULL;
-					gchar *qu;
-					EBookQuery *query;
+					gchar *query;
 
-					qu = g_strdup_printf ("(is \"full_name\" \"%s\")",
+					query = g_strdup_printf ("(is \"full_name\" \"%s\")",
 							(gchar *) e_contact_get (contact, E_CONTACT_FULL_NAME));
-					query = e_book_query_from_string (qu);
 
-					if (!e_book_get_contacts (book, query, &contacts, NULL)) {
+					if (!e_book_client_get_contacts_sync (book_client, query, &contacts, NULL, NULL)) {
 						g_warning ("Could not get contact from the book \n");
 					} else {
 						des = e_destination_new ();
 						n_con = contacts->data;
 
 						e_destination_set_contact (des, n_con, 0);
+						e_destination_set_client (des, book_client);
 						list_dests = e_destination_list_get_dests (des);
 
-						g_list_foreach (contacts, (GFunc) g_object_unref, NULL);
-						g_list_free (contacts);
+						g_slist_foreach (contacts, (GFunc) g_object_unref, NULL);
+						g_slist_free (contacts);
 					}
 
-					e_book_query_unref (query);
-					g_free (qu);
+					g_free (query);
 				}
-				g_list_free (books);
+				g_slist_free (clients);
 			} else {
 				card_dest.next = NULL;
 				card_dest.prev = NULL;
@@ -611,7 +608,7 @@ memo_page_fill_component (CompEditorPage *page,
 	MemoPagePrivate *priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
-	ECal *client;
+	ECalClient *client;
 	ECalComponentClassification classification;
 	ECalComponentDateTime start_date;
 	struct icaltimetype start_tt;
@@ -724,7 +721,7 @@ memo_page_fill_component (CompEditorPage *page,
 		gchar *name;
 		gchar *mailto;
 
-		e_cal_get_cal_address (client, &backend_addr, NULL);
+		e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
 
 		/* Find the identity for the organizer or sentby field */
 		if (!get_current_identity (mpage, &name, &mailto)) {
@@ -888,7 +885,8 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	CompEditor *editor;
 	CompEditorFlags flags;
 	ESource *source;
-	ECal *client;
+	ECalClient *client;
+	GError *error = NULL;
 
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (mpage)))
 		return;
@@ -897,11 +895,14 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	flags = comp_editor_get_flags (editor);
 
 	source = e_source_combo_box_get_active (source_combo_box);
-	client = e_auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_JOURNAL);
+	client = e_cal_client_new (source, E_CAL_CLIENT_SOURCE_TYPE_MEMOS, &error);
 
-	if (!client || !e_cal_open (client, FALSE, NULL)) {
+	if (client)
+		g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+
+	if (!client || !e_client_open_sync (E_CLIENT (client), FALSE, NULL, &error)) {
 		GtkWidget *dialog;
-		ECal *old_client;
+		ECalClient *old_client;
 
 		old_client = comp_editor_get_client (editor);
 
@@ -910,21 +911,25 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (priv->source_selector),
-			e_cal_get_source (old_client));
+			e_client_get_source (E_CLIENT (old_client)));
 
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-						 _("Unable to open memos in '%s'."),
-						 e_source_peek_name (source));
+						 _("Unable to open memos in '%s': %s"),
+						 e_source_peek_name (source),
+						 error ? error->message : _("Unknown error"));
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
+
+		if (error)
+			g_error_free (error);
 	} else {
 		comp_editor_set_client (editor, client);
 
 		if (client) {
 			gchar *backend_addr = NULL;
 
-			e_cal_get_cal_address (client, &backend_addr, NULL);
+			e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
 
 			if (flags & COMP_EDITOR_IS_SHARED)
 				memo_page_select_organizer (mpage, backend_addr);
@@ -942,12 +947,12 @@ set_subscriber_info_string (MemoPage *mpage,
                             const gchar *backend_address)
 {
 	CompEditor *editor;
-	ECal *client;
+	ECalClient *client;
 	ESource *source;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
 	client = comp_editor_get_client (editor);
-	source = e_cal_get_source (client);
+	source = e_client_get_source (E_CLIENT (client));
 
 	if (e_source_get_property (source, "subscriber")) {
 		g_free (mpage->priv->subscriber_info_text);
@@ -1097,7 +1102,7 @@ memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address)
 	MemoPagePrivate *priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
-	ECal *client;
+	ECalClient *client;
 	const gchar *default_address;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
@@ -1110,7 +1115,7 @@ memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address)
 	flags = comp_editor_get_flags (editor);
 
 	if (client)
-		source = e_cal_get_source (client);
+		source = e_client_get_source (E_CLIENT (client));
 	if (source)
 		user_addr = e_source_get_property (source, "subscriber");
 

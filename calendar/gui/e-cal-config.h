@@ -24,7 +24,7 @@
 #ifndef __E_CAL_CONFIG_H__
 #define __E_CAL_CONFIG_H__
 
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include "e-util/e-config.h"
 
 /* Standard GObject macros */
@@ -74,7 +74,7 @@ struct _ECalConfigTargetSource {
 	EConfigTarget target;
 
 	struct _ESource *source;
-        ECalSourceType source_type;
+        ECalClientSourceType source_type;
 };
 
 struct _ECalConfigTargetPrefs {

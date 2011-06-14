@@ -121,7 +121,7 @@ action_memo_list_copy_cb (GtkAction *action,
 
 	copy_source_dialog (
 		GTK_WINDOW (shell_window),
-		source, E_CAL_SOURCE_TYPE_JOURNAL);
+		source, E_CAL_CLIENT_SOURCE_TYPE_MEMOS);
 }
 
 static void
@@ -134,7 +134,7 @@ action_memo_list_delete_cb (GtkAction *action,
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EMemoTable *memo_table;
-	ECal *client;
+	ECalClient *client;
 	ECalModel *model;
 	ESourceSelector *selector;
 	ESourceGroup *source_group;
@@ -170,14 +170,14 @@ action_memo_list_delete_cb (GtkAction *action,
 	uri = e_source_get_uri (source);
 	client = e_cal_model_get_client_for_uri (model, uri);
 	if (client == NULL)
-		client = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_JOURNAL);
+		client = e_cal_client_new_from_uri (uri, E_CAL_CLIENT_SOURCE_TYPE_MEMOS, NULL);
 	g_free (uri);
 
 	g_return_if_fail (client != NULL);
 
-	if (!e_cal_remove (client, &error)) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
+	if (!e_client_remove_sync (E_CLIENT (client), NULL, &error)) {
+		g_debug ("%s: Failed to remove client: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		return;
 	}
 
@@ -191,8 +191,8 @@ action_memo_list_delete_cb (GtkAction *action,
 	e_source_group_remove_source (source_group, source);
 
 	if (!e_source_list_sync (source_list, &error)) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
+		g_debug ("%s: Failed to sync source list: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 	}
 }
 
@@ -266,7 +266,7 @@ action_memo_list_refresh_cb (GtkAction *action,
 	EMemoShellContent *memo_shell_content;
 	EMemoShellSidebar *memo_shell_sidebar;
 	ESourceSelector *selector;
-	ECal *client;
+	ECalClient *client;
 	ECalModel *model;
 	ESource *source;
 	gchar *uri;
@@ -288,14 +288,11 @@ action_memo_list_refresh_cb (GtkAction *action,
 	if (client == NULL)
 		return;
 
-	g_return_if_fail (e_cal_get_refresh_supported (client));
+	g_return_if_fail (e_client_check_refresh_supported (E_CLIENT (client)));
 
-	if (!e_cal_refresh (client, &error) && error) {
-		g_warning (
-			"%s: Failed to refresh '%s', %s\n",
-			G_STRFUNC, e_source_peek_name (source),
-			error->message);
-		g_error_free (error);
+	if (!e_client_refresh_sync (E_CLIENT (client), NULL, &error)) {
+		g_debug ("%s: Failed to refresh '%s', %s", G_STRFUNC, e_source_peek_name (source), error ? error->message : "Unknown error");
+		g_clear_error (&error);
 	}
 }
 
@@ -338,7 +335,7 @@ action_memo_new_cb (GtkAction *action,
 	EShellWindow *shell_window;
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
-	ECal *client;
+	ECalClient *client;
 	ECalComponent *comp;
 	CompEditor *editor;
 	GSList *list;
@@ -518,7 +515,7 @@ action_memo_save_as_cb (GtkAction *action,
 		return;
 
 	/* XXX We only save the first selected memo. */
-	string = e_cal_get_component_as_string (
+	string = e_cal_client_get_component_as_string (
 		comp_data->client, comp_data->icalcomp);
 	if (string == NULL) {
 		g_warning ("Could not convert memo to a string");

@@ -33,7 +33,7 @@
 
 void
 eab_send_as_to (EShell *shell,
-                GList *destinations)
+                GSList *destinations)
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
@@ -68,7 +68,7 @@ eab_send_as_to (EShell *shell,
 		} else
 			g_ptr_array_add (to_array, destination);
 
-		destinations = g_list_next (destinations);
+		destinations = g_slist_next (destinations);
 	}
 
 	/* Add sentinels to each array. */
@@ -115,12 +115,12 @@ get_email (EContact *contact, EContactField field_id, gchar **to_free)
 
 void
 eab_send_as_attachment (EShell *shell,
-                        GList *destinations)
+                        GSList *destinations)
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	CamelMimePart *attachment;
-	GList *contacts, *iter;
+	GSList *contacts, *iter;
 	gchar *data;
 
 	g_return_if_fail (E_IS_SHELL (shell));
@@ -133,11 +133,11 @@ eab_send_as_attachment (EShell *shell,
 
 	attachment = camel_mime_part_new ();
 
-	contacts = g_list_copy (destinations);
+	contacts = g_slist_copy (destinations);
 	for (iter = contacts; iter != NULL; iter = iter->next)
 		iter->data = e_destination_get_contact (iter->data);
 	data = eab_contact_list_to_string (contacts);
-	g_list_free (contacts);
+	g_slist_free (contacts);
 
 	camel_mime_part_set_content (
 		attachment, data, strlen (data), "text/x-vcard");

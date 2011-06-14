@@ -29,9 +29,9 @@
 #include <glib/gi18n.h>
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-source-selector.h>
-#include <libecal/e-cal.h>
+#include <libedataserverui/e-client-utils.h>
+#include <libecal/e-cal-client.h>
 #include <libecal/e-cal-util.h>
-#include <calendar/common/authentication.h>
 #include <string.h>
 
 #include "format-handler.h"
@@ -48,7 +48,7 @@ display_error_message (GtkWidget *parent, const gchar *message)
 
 typedef struct {
 	GHashTable *zones;
-	ECal *ecal;
+	ECalClient *client;
 } CompTzData;
 
 static void
@@ -65,7 +65,7 @@ insert_tz_comps (icalparameter *param, gpointer cb_data)
 	if (g_hash_table_lookup (tdata->zones, tzid))
 		return;
 
-	if (!e_cal_get_timezone (tdata->ecal, tzid, &zone, &error)) {
+	if (!e_cal_client_get_timezone_sync (tdata->client, tzid, &zone, NULL, &error)) {
 		g_warning ("Could not get the timezone information for %s :  %s \n", tzid, error->message);
 		g_error_free (error);
 		return;
@@ -82,12 +82,12 @@ append_tz_to_comp (gpointer key, gpointer value, icalcomponent *toplevel)
 }
 
 static void
-do_save_calendar_ical (FormatHandler *handler, ESourceSelector *selector, ECalSourceType type, gchar *dest_uri)
+do_save_calendar_ical (FormatHandler *handler, ESourceSelector *selector, ECalClientSourceType type, gchar *dest_uri)
 {
 	ESource *primary_source;
-	ECal *source_client;
+	ECalClient *source_client;
 	GError *error = NULL;
-	GList *objects;
+	GSList *objects = NULL;
 	icalcomponent *top_level = NULL;
 
 	primary_source = e_source_selector_get_primary_selection (selector);
@@ -96,10 +96,14 @@ do_save_calendar_ical (FormatHandler *handler, ESourceSelector *selector, ECalSo
 		return;
 
 	/* open source client */
-	source_client = (ECal*) e_auth_new_cal_from_source (primary_source, type);
-	if (!e_cal_open (source_client, TRUE, &error)) {
+	source_client = e_cal_client_new (primary_source, type, &error);
+	if (source_client)
+		g_signal_connect (source_client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+
+	if (!source_client || !e_client_open_sync (E_CLIENT (source_client), TRUE, NULL, &error)) {
 		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (selector)), error->message);
-		g_object_unref (source_client);
+		if (source_client)
+			g_object_unref (source_client);
 		g_error_free (error);
 		return;
 	}
@@ -108,21 +112,19 @@ do_save_calendar_ical (FormatHandler *handler, ESourceSelector *selector, ECalSo
 	top_level = e_cal_util_new_top_level ();
 
 	error = NULL;
-	if (e_cal_get_object_list (source_client, "#t", &objects, &error)) {
+	if (e_cal_client_get_object_list_sync (source_client, "#t", &objects, NULL, &error)) {
 		CompTzData tdata;
 		GOutputStream *stream;
+		GSList *iter;
 
 		tdata.zones = g_hash_table_new (g_str_hash, g_str_equal);
-		tdata.ecal = source_client;
+		tdata.client = source_client;
 
-		while (objects != NULL) {
+		for (iter = objects; iter; iter = iter->next) {
 			icalcomponent *icalcomp = objects->data;
 
 			icalcomponent_foreach_tzid (icalcomp, insert_tz_comps, &tdata);
 			icalcomponent_add_component (top_level, icalcomp);
-
-			/* remove item from the list */
-			objects = g_list_remove (objects, icalcomp);
 		}
 
 		g_hash_table_foreach (tdata.zones, (GHFunc) append_tz_to_comp, top_level);
@@ -142,6 +144,8 @@ do_save_calendar_ical (FormatHandler *handler, ESourceSelector *selector, ECalSo
 			g_object_unref (stream);
 			g_free (ical_str);
 		}
+
+		e_cal_client_free_icalcomp_slist (objects);
 	}
 
 	if (error) {

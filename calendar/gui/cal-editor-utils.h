@@ -20,14 +20,14 @@
 #ifndef CAL_EDITOR_UTILS_H
 #define CAL_EDITOR_UTILS_H
 
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libecal/e-cal-component.h>
 #include <shell/e-shell.h>
 
 G_BEGIN_DECLS
 
 void		open_component_editor		(EShell *shell,
-						 ECal *client,
+						 ECalClient *client,
 						 ECalComponent *comp,
 						 gboolean is_new,
 						 GError **error);

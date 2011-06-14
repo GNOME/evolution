@@ -30,7 +30,7 @@
 #include <time.h>
 #include <gtk/gtk.h>
 #include <misc/e-calendar.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 
 #include "e-cal-model.h"
 

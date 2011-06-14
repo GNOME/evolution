@@ -26,12 +26,12 @@
 #ifndef ALARM_QUEUE_H
 #define ALARM_QUEUE_H
 
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 
 void alarm_queue_init (gpointer);
 void alarm_queue_done (void);
 
-void alarm_queue_add_client (ECal *client);
-void alarm_queue_remove_client (ECal *client, gboolean immediately);
+void alarm_queue_add_client (ECalClient *cal_client);
+void alarm_queue_remove_client (ECalClient *cal_client, gboolean immediately);
 
 #endif

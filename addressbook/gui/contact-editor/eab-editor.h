@@ -25,7 +25,6 @@
 #define __EAB_EDITOR_H__
 
 #include <gtk/gtk.h>
-#include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 #include <shell/e-shell.h>
 

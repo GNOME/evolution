@@ -133,7 +133,7 @@ add_checkbox (GtkBox *where, const gchar *caption)
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gboolean new, gboolean *strip_alarms, gboolean *only_new_attendees)
+send_component_dialog (GtkWindow *parent, ECalClient *client, ECalComponent *comp, gboolean new, gboolean *strip_alarms, gboolean *only_new_attendees)
 {
 	ECalComponentVType vtype;
 	const gchar *id;
@@ -144,7 +144,7 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 	if (strip_alarms)
 		*strip_alarms = TRUE;
 
-	if (e_cal_get_save_schedules (client) || !component_has_recipients (comp))
+	if (e_cal_client_check_save_schedules (client) || !component_has_recipients (comp))
 		return FALSE;
 
 	vtype = e_cal_component_get_vtype (comp);
@@ -206,7 +206,7 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 }
 
 gboolean
-send_component_prompt_subject (GtkWindow *parent, ECal *client, ECalComponent *comp)
+send_component_prompt_subject (GtkWindow *parent, ECalClient *client, ECalComponent *comp)
 {
 	ECalComponentVType vtype;
 	const gchar *id;

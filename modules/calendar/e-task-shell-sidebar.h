@@ -22,7 +22,7 @@
 #ifndef E_TASK_SHELL_SIDEBAR_H
 #define E_TASK_SHELL_SIDEBAR_H
 
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libedataserverui/e-source-selector.h>
 
 #include <shell/e-shell-sidebar.h>
@@ -70,9 +70,9 @@ struct _ETaskShellSidebarClass {
 
 	/* Signals */
 	void	(*client_added)			(ETaskShellSidebar *task_shell_sidebar,
-						 ECal *client);
+						 ECalClient *client);
 	void	(*client_removed)		(ETaskShellSidebar *task_shell_sidebar,
-						 ECal *client);
+						 ECalClient *client);
 	void	(*status_message)		(ETaskShellSidebar *task_shell_sidebar,
 						 const gchar *status_message,
 						 gdouble percent);
@@ -85,7 +85,7 @@ GtkWidget *	e_task_shell_sidebar_new
 					(EShellView *shell_view);
 GList *		e_task_shell_sidebar_get_clients
 					(ETaskShellSidebar *task_shell_sidebar);
-ECal *		e_task_shell_sidebar_get_default_client
+ECalClient *		e_task_shell_sidebar_get_default_client
 					(ETaskShellSidebar *task_shell_sidebar);
 ESourceSelector *
 		e_task_shell_sidebar_get_selector

@@ -28,8 +28,9 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 #include <libedataserverui/e-source-combo-box.h>
+#include <libedataserverui/e-client-utils.h>
 
 #include <e-util/e-config.h>
 #include <mail/em-config.h>
@@ -58,7 +59,7 @@ struct bbdb_stuff {
 
 /* Static forward declarations */
 static gboolean bbdb_timeout (gpointer data);
-static void bbdb_do_it (EBook *book, const gchar *name, const gchar *email);
+static void bbdb_do_it (EBookClient *client, const gchar *name, const gchar *email);
 static void add_email_to_contact (EContact *contact, const gchar *email);
 static void enable_toggled_cb (GtkWidget *widget, gpointer data);
 static void source_changed_cb (ESourceComboBox *source_combo_box, struct bbdb_stuff *stuff);
@@ -191,10 +192,10 @@ G_LOCK_DEFINE_STATIC (todo);
 static gpointer
 bbdb_do_in_thread (gpointer data)
 {
-	EBook *book = data;
+	EBookClient *client = data;
 
 	/* Open the addressbook */
-	if (!book || !bbdb_open_ebook (book)) {
+	if (!client || !bbdb_open_book_client (client)) {
 		G_LOCK (todo);
 
 		g_slist_foreach (todo, (GFunc) free_todo_struct, NULL);
@@ -214,7 +215,7 @@ bbdb_do_in_thread (gpointer data)
 		G_UNLOCK (todo);
 
 		if (td) {
-			bbdb_do_it (book, td->name, td->email);
+			bbdb_do_it (client, td->name, td->email);
 			free_todo_struct (td);
 		}
 
@@ -222,7 +223,7 @@ bbdb_do_in_thread (gpointer data)
 	}
 	G_UNLOCK (todo);
 
-	g_object_unref (book);
+	g_object_unref (client);
 
 	return NULL;
 }
@@ -246,18 +247,18 @@ bbdb_do_thread (const gchar *name, const gchar *email)
 		todo = g_slist_append (todo, td);
 	} else {
 		GError *error = NULL;
-		EBook *book = bbdb_create_ebook (AUTOMATIC_CONTACTS_ADDRESSBOOK);
+		EBookClient *client = bbdb_create_book_client (AUTOMATIC_CONTACTS_ADDRESSBOOK);
 
 		/* list was empty, add item and create a thread */
 		todo = g_slist_append (todo, td);
-		g_thread_create (bbdb_do_in_thread, book, FALSE, &error);
+		g_thread_create (bbdb_do_in_thread, client, FALSE, &error);
 
 		if (error) {
 			g_warning ("%s: Creation of the thread failed with error: %s", G_STRFUNC, error->message);
 			g_error_free (error);
 
 			G_UNLOCK (todo);
-			bbdb_do_in_thread (book);
+			bbdb_do_in_thread (client);
 			G_LOCK (todo);
 		}
 	}
@@ -324,16 +325,15 @@ bbdb_handle_send (EPlugin *ep, EMEventTargetComposer *target)
 }
 
 static void
-bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
+bbdb_do_it (EBookClient *client, const gchar *name, const gchar *email)
 {
-	gchar *query_string, *delim, *temp_name = NULL;
-	EBookQuery *query;
-	GList *contacts = NULL, *l;
+	gchar *query_string, *delim, *temp_name = NULL, *uid;
+	GSList *contacts = NULL;
 	gboolean status;
 	EContact *contact;
 	GError *error = NULL;
 
-	g_return_if_fail (book != NULL);
+	g_return_if_fail (client != NULL);
 
 	if (email == NULL || !strcmp (email, ""))
 		return;
@@ -349,16 +349,10 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 
 	/* If any contacts exists with this email address, don't do anything */
 	query_string = g_strdup_printf ("(contains \"email\" \"%s\")", email);
-	query = e_book_query_from_string (query_string);
+	status = e_book_client_get_contacts_sync (client, query_string, &contacts, NULL, NULL);
 	g_free (query_string);
-
-	status = e_book_get_contacts (book, query, &contacts, NULL);
-	if (query)
-		e_book_query_unref (query);
 	if (contacts != NULL || !status) {
-		for (l = contacts; l != NULL; l = l->next)
-			g_object_unref ((GObject *) l->data);
-		g_list_free (contacts);
+		e_client_util_free_object_slist (contacts);
 		g_free (temp_name);
 
 		return;
@@ -376,39 +370,31 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 		name = temp_name;
 	}
 
+	contacts = NULL;
 	/* If a contact exists with this name, add the email address to it. */
 	query_string = g_strdup_printf ("(is \"full_name\" \"%s\")", name);
-	query = e_book_query_from_string (query_string);
+	status = e_book_client_get_contacts_sync (client, query_string, &contacts, NULL, NULL);
 	g_free (query_string);
-
-	status = e_book_get_contacts (book, query, &contacts, NULL);
-	if (query)
-		e_book_query_unref (query);
 	if (contacts != NULL || !status) {
-
 		/* FIXME: If there's more than one contact with this
 		   name, just give up; we're not smart enough for
 		   this. */
 		if (!status || contacts->next != NULL) {
-			for (l = contacts; l != NULL; l = l->next)
-				g_object_unref ((GObject *) l->data);
-			g_list_free (contacts);
+			e_client_util_free_object_slist (contacts);
 			g_free (temp_name);
 			return;
 		}
 
 		contact = (EContact *) contacts->data;
 		add_email_to_contact (contact, email);
-		if (!e_book_commit_contact (book, contact, &error)) {
+		if (!e_book_client_modify_contact_sync (client, contact, NULL, &error)) {
 			g_warning ("bbdb: Could not modify contact: %s\n", error->message);
 			g_error_free (error);
 		}
 
-		for (l = contacts; l != NULL; l = l->next)
-			g_object_unref ((GObject *) l->data);
-		g_list_free (contacts);
-
+		e_client_util_free_object_slist (contacts);
 		g_free (temp_name);
+		g_free (uid);
 		return;
 	}
 
@@ -418,21 +404,22 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 	add_email_to_contact (contact, email);
 	g_free (temp_name);
 
-	if (!e_book_add_contact (book, contact, &error)) {
-		g_warning ("bbdb: Failed to add new contact: %s\n", error->message);
+	uid = NULL;
+	if (!e_book_client_add_contact_sync (client, contact, &uid, NULL, &error)) {
+		g_warning ("bbdb: Failed to add new contact: %s", error->message);
 		g_error_free (error);
-		return;
 	}
 
 	g_object_unref (G_OBJECT (contact));
+	g_free (uid);
 }
 
-EBook *
-bbdb_create_ebook (gint type)
+EBookClient *
+bbdb_create_book_client (gint type)
 {
 	GConfClient *gconf;
 	gchar        *uri;
-	EBook       *book = NULL;
+	EBookClient  *client = NULL;
 
 	GError      *error = NULL;
 	gboolean     enable = TRUE;
@@ -454,33 +441,36 @@ bbdb_create_ebook (gint type)
 	g_object_unref (G_OBJECT (gconf));
 
 	if (uri == NULL)
-		book = e_book_new_system_addressbook (&error);
+		client = e_book_client_new_system (&error);
 	else {
-		book = e_book_new_from_uri (uri, &error);
+		client = e_book_client_new_from_uri (uri, &error);
 		g_free (uri);
 	}
 
-	if (book == NULL) {
-		g_warning ("bbdb: failed to get addressbook: %s\n", error->message);
-		g_error_free (error);
+	if (client == NULL) {
+		g_warning ("bbdb: failed to get addressbook: %s", error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
 		return NULL;
 	}
 
-	return book;
+	return client;
 }
 
 gboolean
-bbdb_open_ebook (EBook *book)
+bbdb_open_book_client (EBookClient *client)
 {
 	GError *error = NULL;
 
-	if (!book)
+	if (!client)
 		return FALSE;
 
-	if (!e_book_open (book, FALSE, &error)) {
-		g_warning ("bbdb: failed to open addressbook: %s\n", error->message);
-		g_error_free (error);
-		g_object_unref (book);
+	g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+	if (!e_client_open_sync (E_CLIENT (client), FALSE, NULL, &error)) {
+		g_warning ("bbdb: failed to open addressbook: %s", error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
+		g_object_unref (client);
 		return FALSE;
 	}
 

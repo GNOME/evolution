@@ -42,7 +42,8 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
+#include <libebook/e-book-query.h>
 #include <libedataserverui/e-source-combo-box.h>
 
 #include <sys/time.h>
@@ -60,7 +61,7 @@ typedef struct {
 } GaimBuddy;
 
 /* Forward declarations for this file. */
-static gboolean bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c);
+static gboolean bbdb_merge_buddy_to_contact (EBookClient *client, GaimBuddy *b, EContact *c);
 static GList *bbdb_get_gaim_buddy_list (void);
 static gchar *get_node_text (xmlNodePtr node);
 static gchar *get_buddy_icon_from_setting (xmlNodePtr setting);
@@ -189,7 +190,7 @@ G_LOCK_DEFINE_STATIC (syncing);
 struct sync_thread_data
 {
 	GList *blist;
-	EBook *book;
+	EBookClient *client;
 };
 
 static gpointer
@@ -200,8 +201,8 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 
 	g_return_val_if_fail (std != NULL, NULL);
 
-	if (!bbdb_open_ebook (std->book)) {
-		/* book got freed in bbdb_open_ebook on a failure */
+	if (!bbdb_open_book_client (std->client)) {
+		/* client got freed in bbdb_open_book_client on a failure */
 		free_buddy_list (std->blist);
 		g_free (std);
 
@@ -217,7 +218,8 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 	for (l = std->blist; l != NULL; l = l->next) {
 		GaimBuddy *b = l->data;
 		EBookQuery *query;
-		GList *contacts = NULL;
+		gchar *query_string, *uid;
+		GSList *contacts = NULL;
 		GError *error = NULL;
 		EContact *c;
 
@@ -227,52 +229,59 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 		}
 
 		/* Look for an exact match full name == buddy alias */
-		query = e_book_query_field_test (
-			E_CONTACT_FULL_NAME, E_BOOK_QUERY_IS, b->alias);
-
-		if (!e_book_get_contacts (std->book, query, &contacts, NULL)) {
-			e_book_query_unref (query);
+		query = e_book_query_field_test (E_CONTACT_FULL_NAME, E_BOOK_QUERY_IS, b->alias);
+		query_string = e_book_query_to_string (query);
+		e_book_query_unref (query);
+		if (!e_book_client_get_contacts_sync (std->client, query_string, &contacts, NULL, NULL)) {
+			g_free (query_string);
 			continue;
 		}
 
-		e_book_query_unref (query);
+		g_free (query_string);
 
 		if (contacts != NULL) {
 
 			/* FIXME: If there's more than one contact with this
 			   name, just give up; we're not smart enough for
 			   this. */
-			if (contacts->next != NULL)
+			if (contacts->next != NULL) {
+				e_client_util_free_object_slist (contacts);
 				continue;
+			}
 
 			c = E_CONTACT (contacts->data);
 
-			if (!bbdb_merge_buddy_to_contact (std->book, b, c))
+			if (!bbdb_merge_buddy_to_contact (std->client, b, c)) {
+				e_client_util_free_object_slist (contacts);
 				continue;
+			}
 
 			/* Write it out to the addressbook */
-			if (!e_book_commit_contact (std->book, c, &error)) {
-				g_warning ("bbdb: Could not modify contact: %s\n", error->message);
+			if (!e_book_client_modify_contact_sync (std->client, c, NULL, &error)) {
+				g_warning ("bbdb: Could not modify contact: %s", error->message);
 				g_error_free (error);
 			}
+			e_client_util_free_object_slist (contacts);
 			continue;
 		}
 
 		/* Otherwise, create a new contact. */
 		c = e_contact_new ();
 		e_contact_set (c, E_CONTACT_FULL_NAME, (gpointer) b->alias);
-		if (!bbdb_merge_buddy_to_contact (std->book, b, c)) {
-			g_object_unref (G_OBJECT (c));
+		if (!bbdb_merge_buddy_to_contact (std->client, b, c)) {
+			g_object_unref (c);
 			continue;
 		}
 
-		if (!e_book_add_contact (std->book, c, &error)) {
-			g_warning ("bbdb: Failed to add new contact: %s\n", error->message);
+		uid = NULL;
+		if (!e_book_client_add_contact_sync (std->client, c, &uid, NULL, &error)) {
+			g_warning ("bbdb: Failed to add new contact: %s", error->message);
 			g_error_free (error);
 			goto finish;
 		}
-		g_object_unref (G_OBJECT (c));
 
+		g_object_unref (c);
+		g_free (uid);
 	}
 
 	g_idle_add (store_last_sync_idle_cb, NULL);
@@ -280,7 +289,7 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
  finish:
 	printf ("bbdb: Done syncing buddy list to contacts.\n");
 
-	g_object_unref (std->book);
+	g_object_unref (std->client);
 	free_buddy_list (std->blist);
 	g_free (std);
 
@@ -296,7 +305,7 @@ bbdb_sync_buddy_list (void)
 {
 	GList *blist;
 	GError *error = NULL;
-	EBook *book = NULL;
+	EBookClient *client = NULL;
 	struct sync_thread_data *std;
 
 	G_LOCK (syncing);
@@ -314,8 +323,8 @@ bbdb_sync_buddy_list (void)
 	}
 
 	/* Open the addressbook */
-	book = bbdb_create_ebook (GAIM_ADDRESSBOOK);
-	if (book == NULL) {
+	client = bbdb_create_book_client (GAIM_ADDRESSBOOK);
+	if (client == NULL) {
 		free_buddy_list (blist);
 		G_UNLOCK (syncing);
 		return;
@@ -323,7 +332,7 @@ bbdb_sync_buddy_list (void)
 
 	std = g_new0 (struct sync_thread_data, 1);
 	std->blist = blist;
-	std->book = book;
+	std->client = client;
 
 	syncing = TRUE;
 
@@ -358,7 +367,7 @@ im_list_contains_buddy (GList *ims, GaimBuddy *b)
 }
 
 static gboolean
-bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
+bbdb_merge_buddy_to_contact (EBookClient *client, GaimBuddy *b, EContact *c)
 {
 	EContactField field;
 	GList *ims;

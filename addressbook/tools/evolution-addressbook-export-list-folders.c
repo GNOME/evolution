@@ -26,7 +26,8 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
+#include <libebook/e-book-query.h>
 
 #include "evolution-addressbook-export.h"
 
@@ -36,9 +37,14 @@ action_list_folders_init (ActionContext * p_actctx)
 	ESourceList *addressbooks = NULL;
 	GSList *groups, *group;
 	FILE *outputfile = NULL;
+	GError *error = NULL;
+	EBookQuery *query;
+	gchar *query_str;
 
-	if (!e_book_get_addressbooks (&addressbooks, NULL)) {
-		g_warning (_("Couldn't get list of address books"));
+	if (!e_book_client_get_sources (&addressbooks, &error)) {
+		g_warning (_("Couldn't get list of address books: %s"), error ? error->message : _("Unknown error"));
+		if (error)
+			g_error_free (error);
 		exit (-1);
 	}
 
@@ -49,6 +55,10 @@ action_list_folders_init (ActionContext * p_actctx)
 		}
 	}
 
+	query = e_book_query_any_field_contains ("");
+	query_str = e_book_query_to_string (query);
+	e_book_query_unref (query);
+
 	groups = e_source_list_peek_groups (addressbooks);
 	for (group = groups; group; group = group->next) {
 		ESourceGroup *g = group->data;
@@ -57,22 +67,23 @@ action_list_folders_init (ActionContext * p_actctx)
 		sources = e_source_group_peek_sources (g);
 		for (source = sources; source; source = source->next) {
 			ESource *s = source->data;
-			EBook *book;
-			EBookQuery *query;
-			GList *contacts;
+			EBookClient *book_client;
+			GSList *contacts;
 			gchar *uri;
 			const gchar *name;
 
-			book = e_book_new (s, NULL);
-			if (!book
-			    || !e_book_open (book, TRUE, NULL)) {
-				g_warning (_("failed to open book"));
+			error = NULL;
+			book_client = e_book_client_new (s, &error);
+			if (!book_client
+			    || !e_client_open_sync (E_CLIENT (book_client), TRUE, NULL, &error)) {
+				g_warning (_("Failed to open client '%s': %s"), e_source_peek_name (s), error ? error->message : _("Unknown error"));
+				if (error)
+					g_error_free (error);
 				continue;
 			}
 
-			query = e_book_query_any_field_contains ("");
-			e_book_get_contacts (book, query, &contacts, NULL);
-			e_book_query_unref (query);
+			if (!e_book_client_get_contacts_sync (book_client, query_str, &contacts, NULL, &error))
+				contacts = NULL;
 
 			uri = e_source_get_uri (s);
 			name = e_source_peek_name (s);
@@ -80,17 +91,19 @@ action_list_folders_init (ActionContext * p_actctx)
 			if (outputfile)
 				fprintf (
 					outputfile, "\"%s\",\"%s\",%d\n",
-					uri, name, g_list_length (contacts));
+					uri, name, g_slist_length (contacts));
 			else
-				printf ("\"%s\",\"%s\",%d\n", uri, name, g_list_length (contacts));
+				printf ("\"%s\",\"%s\",%d\n", uri, name, g_slist_length (contacts));
 
 			g_free (uri);
-			g_list_foreach (contacts, (GFunc) g_object_unref, NULL);
-			g_list_free (contacts);
+			g_slist_foreach (contacts, (GFunc) g_object_unref, NULL);
+			g_slist_free (contacts);
 
-			g_object_unref (book);
+			g_object_unref (book_client);
 		}
 	}
+
+	g_free (query_str);
 
 	if (outputfile)
 		fclose (outputfile);

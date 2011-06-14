@@ -26,16 +26,16 @@
 
 #include <string.h>
 #include <camel/camel.h>
+#include <libecal/e-cal-client.h>
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-passwords.h>
-#include <libecal/e-cal.h>
+#include <libedataserverui/e-client-utils.h>
 
 #include "alarm.h"
 #include "alarm-notify.h"
 #include "alarm-queue.h"
 #include "config-data.h"
-#include "common/authentication.h"
 
 #define APPLICATION_ID "org.gnome.EvolutionAlarmNotify"
 
@@ -43,8 +43,8 @@ struct _AlarmNotifyPrivate {
 	/* Mapping from EUri's to LoadedClient structures */
 	/* FIXME do we need per source type uri hashes? or perhaps we
 	   just need to hash based on source */
-	GHashTable *uri_client_hash[E_CAL_SOURCE_TYPE_LAST];
-        ESourceList *source_lists[E_CAL_SOURCE_TYPE_LAST];
+	GHashTable *uri_client_hash[E_CAL_CLIENT_SOURCE_TYPE_LAST];
+        ESourceList *source_lists[E_CAL_CLIENT_SOURCE_TYPE_LAST];
 	ESourceList *selected_calendars;
         GMutex *mutex;
 };
@@ -97,7 +97,7 @@ alarm_notify_list_changed_cb (ESourceList *source_list,
                               AlarmNotify *an)
 {
 	GSList *groups, *sources, *p, *q;
-	ECalSourceType source_type = E_CAL_SOURCE_TYPE_LAST;
+	ECalClientSourceType source_type = E_CAL_CLIENT_SOURCE_TYPE_LAST;
 	ProcessRemovalsData prd;
 	GList *l;
 	gint i;
@@ -106,13 +106,13 @@ alarm_notify_list_changed_cb (ESourceList *source_list,
 		source_list, alarm_notify_list_changed_cb, an);
 
 	/* Figure out the source type */
-	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
+	for (i = 0; i < E_CAL_CLIENT_SOURCE_TYPE_LAST; i++) {
 		if (source_list == an->priv->source_lists[i]) {
 			source_type = i;
 			break;
 		}
 	}
-	if (source_type == E_CAL_SOURCE_TYPE_LAST)
+	if (source_type == E_CAL_CLIENT_SOURCE_TYPE_LAST)
 		return;
 
 	/* process the additions */
@@ -156,12 +156,12 @@ alarm_notify_list_changed_cb (ESourceList *source_list,
 
 static void
 alarm_notify_load_calendars (AlarmNotify *an,
-                             ECalSourceType source_type)
+                             ECalClientSourceType source_type)
 {
 	ESourceList *source_list;
 	GSList *groups, *sources, *p, *q;
 
-	if (!e_cal_get_sources (&source_list, source_type, NULL)) {
+	if (!e_cal_client_get_sources (&source_list, source_type, NULL)) {
 		debug (("Cannont get sources"));
 		an->priv->source_lists[source_type] = NULL;
 
@@ -198,7 +198,7 @@ alarm_notify_load_calendars (AlarmNotify *an,
 
 static void
 alarm_notify_dequeue_client (gpointer key,
-                             ECal *client)
+                             ECalClient *client)
 {
 	alarm_queue_remove_client (client, TRUE);
 }
@@ -211,7 +211,7 @@ alarm_notify_finalize (GObject *object)
 
 	priv = ALARM_NOTIFY (object)->priv;
 
-	for (ii = 0; ii < E_CAL_SOURCE_TYPE_LAST; ii++) {
+	for (ii = 0; ii < E_CAL_CLIENT_SOURCE_TYPE_LAST; ii++) {
 		g_hash_table_foreach (
 			priv->uri_client_hash[ii],
 			(GHFunc) alarm_notify_dequeue_client, NULL);
@@ -279,7 +279,7 @@ alarm_notify_init (AlarmNotify *an)
 	an->priv->selected_calendars = config_data_get_calendars (
 		"/apps/evolution/calendar/sources");
 
-	for (ii = 0; ii < E_CAL_SOURCE_TYPE_LAST; ii++)
+	for (ii = 0; ii < E_CAL_CLIENT_SOURCE_TYPE_LAST; ii++)
 		an->priv->uri_client_hash[ii] = g_hash_table_new_full (
 			g_str_hash, g_str_equal,
 			(GDestroyNotify) g_free,
@@ -287,7 +287,7 @@ alarm_notify_init (AlarmNotify *an)
 
 	alarm_queue_init (an);
 
-	for (ii = 0; ii < E_CAL_SOURCE_TYPE_LAST; ii++)
+	for (ii = 0; ii < E_CAL_CLIENT_SOURCE_TYPE_LAST; ii++)
 		alarm_notify_load_calendars (an, ii);
 }
 
@@ -313,22 +313,30 @@ alarm_notify_new (void)
 }
 
 static void
-cal_opened_cb (ECal *client, const GError *error, gpointer user_data)
+client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
 	AlarmNotifyPrivate *priv;
 	AlarmNotify *an = ALARM_NOTIFY (user_data);
+	EClient *client = NULL;
+	GError *error = NULL;
+
+	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
+		client = NULL;
 
 	priv = an->priv;
 
-	debug (("%s - Calendar Status %d%s%s%s", e_cal_get_uri (client), error ? error->code : 0, error ? " (" : "", error ? error->message : "", error ? ")" : ""));
+	debug (("%s - Calendar Status %d%s%s%s", e_client_get_uri (client), error ? error->code : 0, error ? " (" : "", error ? error->message : "", error ? ")" : ""));
 
-	if (!error)
-		alarm_queue_add_client (client);
-	else {
-		g_hash_table_remove (priv->uri_client_hash[e_cal_get_source_type (client)],
-				     e_cal_get_uri (client));
-		g_signal_handlers_disconnect_matched (G_OBJECT (client), G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, an);
+	if (!error) {
+		ECalClient *cal_client = E_CAL_CLIENT (client);
+
+		g_hash_table_insert (priv->uri_client_hash[e_cal_client_get_source_type (cal_client)], g_strdup (e_client_get_uri (client)), cal_client);
+		/* to resolve floating DATE-TIME properly */
+		e_cal_client_set_default_timezone (cal_client, config_data_get_timezone ());
+
+		alarm_queue_add_client (cal_client);
+	} else {
+		g_error_free (error);
 	}
 }
 
@@ -344,10 +352,9 @@ cal_opened_cb (ECal *client, const GError *error, gpointer user_data)
  * that it can be loaded in the future when the alarm daemon starts up.
  **/
 void
-alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource *source, gboolean load_afterwards)
+alarm_notify_add_calendar (AlarmNotify *an, ECalClientSourceType source_type,  ESource *source, gboolean load_afterwards)
 {
 	AlarmNotifyPrivate *priv;
-	ECal *client;
 	EUri *e_uri;
 	gchar *str_uri;
 	gchar *pass_key;
@@ -390,16 +397,16 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 		}
 	}
 
-	client = e_auth_new_cal_from_source (source, source_type);
+	debug (("%s - Calendar Open Async... %p", str_uri, source));
 
-	if (client) {
-		debug (("%s - Calendar Open Async... %p", str_uri, client));
-		g_hash_table_insert (priv->uri_client_hash[source_type], g_strdup (str_uri), client);
-		g_signal_connect (G_OBJECT (client), "cal_opened_ex", G_CALLBACK (cal_opened_cb), an);
-		/* to resolve floating DATE-TIME properly */
-		e_cal_set_default_timezone (client, config_data_get_timezone (), NULL);
-		e_cal_open_async (client, FALSE);
-	}
+	e_client_utils_open_new (source,
+		source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? E_CLIENT_SOURCE_TYPE_EVENTS :
+		source_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ? E_CLIENT_SOURCE_TYPE_TASKS :
+		source_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS ? E_CLIENT_SOURCE_TYPE_MEMOS :
+		E_CLIENT_SOURCE_TYPE_LAST,
+		TRUE, NULL,
+		e_client_utils_authenticate_handler, NULL,
+		client_opened_cb, an);
 
 	g_free (str_uri);
 	g_free (pass_key);
@@ -407,17 +414,17 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 }
 
 void
-alarm_notify_remove_calendar (AlarmNotify *an, ECalSourceType source_type, const gchar *str_uri)
+alarm_notify_remove_calendar (AlarmNotify *an, ECalClientSourceType source_type, const gchar *str_uri)
 {
 	AlarmNotifyPrivate *priv;
-	ECal *client;
+	ECalClient *cal_client;
 
 	priv = an->priv;
 
-	client = g_hash_table_lookup (priv->uri_client_hash[source_type], str_uri);
-	if (client) {
-		debug (("Removing Client %p", client));
-		alarm_queue_remove_client (client, FALSE);
+	cal_client = g_hash_table_lookup (priv->uri_client_hash[source_type], str_uri);
+	if (cal_client) {
+		debug (("Removing Client %p", cal_client));
+		alarm_queue_remove_client (cal_client, FALSE);
 		g_hash_table_remove (priv->uri_client_hash[source_type], str_uri);
 	}
 }

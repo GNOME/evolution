@@ -22,8 +22,6 @@
 #define _EAB_TABLE_ADAPTER_H_
 
 #include <table/e-table-model.h>
-#include <libebook/e-book.h>
-#include <libebook/e-book-view.h>
 
 #define E_TYPE_AB_TABLE_ADAPTER                 (eab_table_adapter_get_type ())
 #define EAB_TABLE_ADAPTER(o)                    (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_AB_TABLE_ADAPTER, EAddressbookTableAdapter))

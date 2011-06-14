@@ -30,8 +30,8 @@
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-source-selector.h>
-#include <libecal/e-cal.h>
-#include "calendar/common/authentication.h"
+#include <libedataserverui/e-client-utils.h>
+#include <libecal/e-cal-client.h>
 #include <string.h>
 
 #include "format-handler.h"
@@ -300,7 +300,7 @@ userstring_to_systemstring (const gchar *userstring)
 static void
 do_save_calendar_csv (FormatHandler *handler,
                       ESourceSelector *selector,
-                      ECalSourceType type,
+                      ECalClientSourceType type,
                       gchar *dest_uri)
 {
 
@@ -314,9 +314,9 @@ do_save_calendar_csv (FormatHandler *handler,
 	 */
 
 	ESource *primary_source;
-	ECal *source_client;
+	ECalClient *source_client;
 	GError *error = NULL;
-	GList *objects=NULL;
+	GSList *objects = NULL;
 	GOutputStream *stream;
 	GString *line = NULL;
 	CsvConfig *config = NULL;
@@ -329,12 +329,16 @@ do_save_calendar_csv (FormatHandler *handler,
 	primary_source = e_source_selector_get_primary_selection (selector);
 
 	/* open source client */
-	source_client = e_auth_new_cal_from_source (primary_source, type);
-	if (!e_cal_open (source_client, TRUE, &error)) {
+	source_client = e_cal_client_new (primary_source, type, &error);
+	if (source_client)
+		g_signal_connect (source_client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+
+	if (!source_client || !e_client_open_sync (E_CLIENT (source_client), TRUE, NULL, &error)) {
 		display_error_message (
 			gtk_widget_get_toplevel (GTK_WIDGET (selector)),
 			error);
-		g_object_unref (source_client);
+		if (source_client)
+			g_object_unref (source_client);
 		g_error_free (error);
 		return;
 	}
@@ -354,8 +358,8 @@ do_save_calendar_csv (FormatHandler *handler,
 		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (selector))),
 		dest_uri, &error);
 
-	if (stream && e_cal_get_object_list_as_comp (
-		source_client, "#t", &objects, NULL)) {
+	if (stream && e_cal_client_get_object_list_as_comps_sync (source_client, "#t", &objects, NULL, NULL)) {
+		GSList *iter;
 
 		if (config->header) {
 
@@ -396,7 +400,7 @@ do_save_calendar_csv (FormatHandler *handler,
 			g_string_free (line, TRUE);
 		}
 
-		while (objects != NULL) {
+		for (iter = objects; iter; iter = iter->next) {
 			ECalComponent *comp = objects->data;
 			gchar *delimiter_temp = NULL;
 			const gchar *temp_constchar;
@@ -521,11 +525,11 @@ do_save_calendar_csv (FormatHandler *handler,
 
 			/* It's written, so we can free it */
 			g_string_free (line, TRUE);
-
-			objects = g_list_next (objects);
 		}
 
 		g_output_stream_close (stream, NULL, NULL);
+
+		e_cal_client_free_ecalcomp_slist (objects);
 	}
 
 	if (stream)

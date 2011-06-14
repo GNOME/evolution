@@ -37,7 +37,6 @@ addressbook/tools/evolution-addressbook-export-list-cards.c
 addressbook/tools/evolution-addressbook-export-list-folders.c
 addressbook/tools/evolution-addressbook-export.c
 calendar/calendar.error.xml
-calendar/common/authentication.c
 calendar/gui/alarm-notify/alarm-notify-dialog.c
 [type: gettext/glade]calendar/gui/alarm-notify/alarm-notify.ui
 calendar/gui/alarm-notify/alarm-queue.c

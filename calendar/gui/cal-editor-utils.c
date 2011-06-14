@@ -32,7 +32,7 @@
 
 /**
  * open_component_editor:
- * @client: Already opened #ECal, where to store the component
+ * @client: Already opened #ECalClient, where to store the component
  * @comp: #ECalComponent component to be stored
  * @is_new: Whether the @comp is a new component or an existing
  * @error: #GError for possible error reporting
@@ -45,7 +45,7 @@
  **/
 void
 open_component_editor (EShell *shell,
-                       ECal *client,
+                       ECalClient *client,
                        ECalComponent *comp,
                        gboolean is_new,
                        GError **error)
@@ -55,7 +55,7 @@ open_component_editor (EShell *shell,
 	CompEditor *editor = NULL;
 
 	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (E_IS_CAL (client));
+	g_return_if_fail (E_IS_CAL_CLIENT (client));
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
 	id = e_cal_component_get_id (comp);
@@ -99,10 +99,7 @@ open_component_editor (EShell *shell,
 			break;
 		default:
 			if (error)
-				*error = g_error_new (
-					E_CALENDAR_ERROR,
-					E_CALENDAR_STATUS_INVALID_OBJECT,
-					"%s", _("Invalid object"));
+				*error = e_client_error_create (E_CLIENT_ERROR_INVALID_ARG, NULL);
 			break;
 		}
 

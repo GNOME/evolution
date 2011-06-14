@@ -35,7 +35,7 @@
  * Implements dialog for allowing user to select a destination source.
  */
 ESource *
-select_source_dialog (GtkWindow *parent, ECalSourceType obj_type, ESource *except_source)
+select_source_dialog (GtkWindow *parent, ECalClientSourceType obj_type, ESource *except_source)
 {
 	GtkWidget *dialog;
 	ESourceList *source_list;
@@ -44,11 +44,11 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type, ESource *excep
 	GConfClient *conf_client;
 	const gchar *icon_name = NULL;
 
-	if (obj_type == E_CAL_SOURCE_TYPE_EVENT)
+	if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS)
 		gconf_key = "/apps/evolution/calendar/sources";
-	else if (obj_type == E_CAL_SOURCE_TYPE_TODO)
+	else if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS)
 		gconf_key = "/apps/evolution/tasks/sources";
-	else if (obj_type == E_CAL_SOURCE_TYPE_JOURNAL)
+	else if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
                 gconf_key = "/apps/evolution/memos/sources";
 	else
 		return NULL;
@@ -59,11 +59,11 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type, ESource *excep
 	/* create the dialog */
 	dialog = e_source_selector_dialog_new (parent, source_list);
 
-	if (obj_type == E_CAL_SOURCE_TYPE_EVENT)
+	if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS)
 		icon_name = "x-office-calendar";
-	else if (obj_type == E_CAL_SOURCE_TYPE_TODO)
+	else if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS)
 		icon_name = "stock_todo";
-	else if (obj_type == E_CAL_SOURCE_TYPE_JOURNAL)
+	else if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
                 icon_name = "stock_journal";
 
 	if (icon_name)

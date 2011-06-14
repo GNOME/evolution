@@ -25,6 +25,9 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+
+#include <libebook/e-book-client.h>
+
 #include "e-addressbook-model.h"
 #include "e-addressbook-table-adapter.h"
 #include "eab-contact-merging.h"
@@ -145,7 +148,7 @@ addressbook_value_at (ETableModel *etc, gint col, gint row)
 
 /* This function sets the value at a particular point in our ETableModel. */
 static void
-contact_modified_cb (EBook* book,
+contact_modified_cb (EBookClient *book_client,
                      const GError *error,
                      gpointer user_data)
 {
@@ -182,8 +185,8 @@ addressbook_set_value_at (ETableModel *etc, gint col, gint row, gconstpointer va
 		}
 
 		e_contact_set (contact, col, (gpointer) val);
-		eab_merging_book_commit_contact (
-			e_addressbook_model_get_book (priv->model),
+		eab_merging_book_modify_contact (
+			e_addressbook_model_get_client (priv->model),
 			contact, contact_modified_cb, etc);
 
 		g_object_unref (contact);
@@ -227,7 +230,7 @@ addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER (etm);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 	EContact *contact;
-	EBook *book;
+	EBookClient *book_client;
 	gint col;
 
 	contact = e_contact_new ();
@@ -237,8 +240,8 @@ addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 		e_contact_set (contact, col, (gpointer) val);
 	}
 
-	book = e_addressbook_model_get_book (priv->model);
-	eab_merging_book_add_contact (book, contact, NULL, NULL);
+	book_client = e_addressbook_model_get_client (priv->model);
+	eab_merging_book_add_contact (book_client, contact, NULL, NULL);
 
 	g_object_unref (contact);
 }

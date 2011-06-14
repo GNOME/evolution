@@ -29,6 +29,7 @@
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-sexp.h>
+#include <libedataserverui/e-client-utils.h>
 
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-file-utils.h"
@@ -38,7 +39,6 @@
 #include "misc/e-popup-action.h"
 #include "misc/e-selectable.h"
 
-#include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-component-preview.h"

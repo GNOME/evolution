@@ -24,7 +24,7 @@
 #include <gio/gio.h>
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-source-selector.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 
 typedef struct _FormatHandler FormatHandler;
 
@@ -39,7 +39,7 @@ struct _FormatHandler
 
 	void	(*save)		(FormatHandler *handler,
 				 ESourceSelector *selector,
-				 ECalSourceType type,
+				 ECalClientSourceType type,
 				 gchar *dest_uri);
 };
 

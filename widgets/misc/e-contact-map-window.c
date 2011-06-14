@@ -30,7 +30,8 @@
 
 #include <champlain/champlain.h>
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
+#include <libebook/e-book-query.h>
 #include <libebook/e-contact.h>
 
 #include <string.h>
@@ -73,25 +74,27 @@ marker_doubleclick_cb (ClutterActor *marker,
 }
 
 static void
-book_contacts_received_cb (EBook *book,
-			   const GError *error,
-			   GList *list,
-			   gpointer closure)
+book_contacts_received_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	EContactMapWindow *window = closure;
-	GList *p;
+	EContactMapWindow *window = user_data;
+	EBookClient *client = E_BOOK_CLIENT (source_object);
+	GSList *contacts = NULL, *p;
+	GError *error = NULL;
 
-	g_return_if_fail (error == NULL);
+	if (!e_book_client_get_contacts_finish (client, result, &contacts, &error))
+		contacts = NULL;
 
-	for (p = list; p; p = p->next) {
-
-		e_contact_map_add_contact (window->priv->map, (EContact*) p->data);
-
+	if (error) {
+		g_debug ("%s: Failed to get contacts: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 	}
 
-	g_list_foreach (list, (GFunc) g_object_unref, NULL);
-	g_list_free (list);
-	g_object_unref (book);
+	for (p = contacts; p; p = p->next) {
+		e_contact_map_add_contact (window->priv->map, (EContact*) p->data);
+	}
+
+	e_client_util_free_object_slist (contacts);
+	g_object_unref (client);
 }
 
 static void
@@ -435,23 +438,26 @@ e_contact_map_window_new (void)
  */
 void
 e_contact_map_window_load_addressbook (EContactMapWindow *map,
-				       EBook *book)
+				       EBookClient *book_client)
 {
 	EBookQuery *book_query;
+	gchar *query_string;
+
+	g_return_if_fail (E_IS_CONTACT_MAP_WINDOW (map));
+	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
+
 
 	/* Reference book, so that it does not get deleted before the callback is
 	   involved. The book is unrefed in the callback */
-	g_object_ref (book);
-
-	g_return_if_fail (E_IS_CONTACT_MAP_WINDOW (map));
-	g_return_if_fail (E_IS_BOOK (book));
+	g_object_ref (book_client);
 
 	book_query = e_book_query_field_exists (E_CONTACT_ADDRESS);
-
-	e_book_get_contacts_async (book, book_query,
-		(EBookListAsyncCallback) book_contacts_received_cb, map);
-
+	query_string = e_book_query_to_string (book_query);
 	e_book_query_unref (book_query);
+
+	e_book_client_get_contacts (book_client, query_string, NULL, book_contacts_received_cb, map);
+
+	g_free (query_string);
 }
 
 EContactMap*

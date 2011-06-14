@@ -149,14 +149,13 @@ sensitize_widgets (TaskDetailsPage *tdpage)
 	TaskDetailsPagePrivate *priv = tdpage->priv;
 	CompEditor *editor;
 	GtkWidget *entry;
-	ECal *client;
+	ECalClient *client;
 	gboolean read_only;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tdpage));
 	client = comp_editor_get_client (editor);
 
-	if (!e_cal_is_read_only (client, &read_only, NULL))
-		read_only = TRUE;
+	read_only = e_client_is_readonly (E_CLIENT (client));
 
 	gtk_widget_set_sensitive (priv->status_combo, !read_only);
 	gtk_widget_set_sensitive (priv->priority_combo, !read_only);

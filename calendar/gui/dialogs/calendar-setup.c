@@ -32,7 +32,7 @@
 #include <libedataserver/e-source-list.h>
 #include <shell/e-shell.h>
 #include <glib/gi18n.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include "calendar-setup.h"
 #include "../e-cal-config.h"
 
@@ -55,7 +55,7 @@ struct _CalendarSourceDialog {
 
 	/* Source group we're creating/editing a source in */
 	ESourceGroup *source_group;
-	ECalSourceType source_type;
+	ECalClientSourceType source_type;
 };
 
 static gboolean
@@ -272,11 +272,11 @@ eccp_general_offline (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 	else {
 		g_object_get (parent, "n-rows", &row, NULL);
 
-		if (sdialog->source_type == E_CAL_SOURCE_TYPE_EVENT)
+		if (sdialog->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS)
 			offline_setting = gtk_check_button_new_with_mnemonic (_("Cop_y calendar contents locally for offline operation"));
-		else if (sdialog->source_type == E_CAL_SOURCE_TYPE_TODO)
+		else if (sdialog->source_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS)
 			offline_setting = gtk_check_button_new_with_mnemonic (_("Cop_y task list contents locally for offline operation"));
-		else if (sdialog->source_type == E_CAL_SOURCE_TYPE_JOURNAL)
+		else if (sdialog->source_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
 			offline_setting = gtk_check_button_new_with_mnemonic (_("Cop_y memo list contents locally for offline operation"));
 
 		gtk_widget_show (offline_setting);
@@ -469,7 +469,7 @@ calendar_setup_edit_calendar (GtkWindow *parent, ESource *source, ESourceGroup *
 	e_source_set_absolute_uri (sdialog->source, NULL);
 	e_source_set_group (sdialog->source, sdialog->source_group);
 
-	sdialog->source_type = E_CAL_SOURCE_TYPE_EVENT;
+	sdialog->source_type = E_CAL_CLIENT_SOURCE_TYPE_EVENTS;
 	sdialog->config = ec = e_cal_config_new (E_CONFIG_BOOK, "org.gnome.evolution.calendar.calendarProperties");
 	for (i = 0; eccp_items[i].path; i++)
 		items = g_slist_prepend (items, &eccp_items[i]);
@@ -477,7 +477,7 @@ calendar_setup_edit_calendar (GtkWindow *parent, ESource *source, ESourceGroup *
 	e_config_add_page_check ((EConfig *) ec, NULL, eccp_check_complete, sdialog);
 
 	target = e_cal_config_target_new_source (ec, sdialog->source);
-	target->source_type = E_CAL_SOURCE_TYPE_EVENT;
+	target->source_type = E_CAL_CLIENT_SOURCE_TYPE_EVENTS;
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 
 	sdialog->window = e_config_create_window ((EConfig *)ec, NULL, source ? _("Calendar Properties") : _("New Calendar"));
@@ -525,7 +525,7 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 	e_source_set_absolute_uri (sdialog->source, NULL);
 	e_source_set_group (sdialog->source, sdialog->source_group);
 
-	sdialog->source_type = E_CAL_SOURCE_TYPE_TODO;
+	sdialog->source_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
 	sdialog->config = ec = e_cal_config_new (E_CONFIG_BOOK, "org.gnome.evolution.calendar.calendarProperties");
 	for (i = 0; ectp_items[i].path; i++)
 		items = g_slist_prepend (items, &ectp_items[i]);
@@ -533,7 +533,7 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 	e_config_add_page_check ((EConfig *) ec, NULL, eccp_check_complete, sdialog);
 
 	target = e_cal_config_target_new_source (ec, sdialog->source);
-	target->source_type = E_CAL_SOURCE_TYPE_TODO;
+	target->source_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 
 	sdialog->window = e_config_create_window ((EConfig *)ec, NULL, source ? _("Task List Properties") : _("New Task List"));
@@ -581,7 +581,7 @@ calendar_setup_edit_memo_list (GtkWindow *parent, ESource *source)
 	e_source_set_absolute_uri (sdialog->source, NULL);
 	e_source_set_group (sdialog->source, sdialog->source_group);
 
-	sdialog->source_type = E_CAL_SOURCE_TYPE_JOURNAL;
+	sdialog->source_type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;
 	sdialog->config = ec = e_cal_config_new (E_CONFIG_BOOK, "org.gnome.evolution.calendar.calendarProperties");
 	for (i = 0; ecmp_items[i].path; i++)
 		items = g_slist_prepend (items, &ecmp_items[i]);
@@ -589,7 +589,7 @@ calendar_setup_edit_memo_list (GtkWindow *parent, ESource *source)
 	e_config_add_page_check ((EConfig *) ec, NULL, eccp_check_complete, sdialog);
 
 	target = e_cal_config_target_new_source (ec, sdialog->source);
-	target->source_type = E_CAL_SOURCE_TYPE_JOURNAL;
+	target->source_type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 
 	sdialog->window = e_config_create_window ((EConfig *)ec, NULL, source ? _("Memo List Properties") : _("New Memo List"));

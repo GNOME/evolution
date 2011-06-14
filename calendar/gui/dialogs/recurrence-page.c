@@ -212,7 +212,7 @@ preview_recur (RecurrencePage *rpage)
 {
 	RecurrencePagePrivate *priv = rpage->priv;
 	CompEditor *editor;
-	ECal *client;
+	ECalClient *client;
 	ECalComponent *comp;
 	ECalComponentDateTime cdt;
 	GSList *l;
@@ -236,8 +236,8 @@ preview_recur (RecurrencePage *rpage)
 
 	e_cal_component_get_dtstart (priv->comp, &cdt);
 	if (cdt.tzid != NULL) {
-		/* FIXME Will e_cal_get_timezone really not return builtin zones? */
-		if (!e_cal_get_timezone (client, cdt.tzid, &zone, NULL))
+		/* FIXME Will e_cal_client_get_timezone_sync really not return builtin zones? */
+		if (!e_cal_client_get_timezone_sync (client, cdt.tzid, &zone, NULL, NULL))
 			zone = icaltimezone_get_builtin_timezone_from_tzid (cdt.tzid);
 	}
 	e_cal_component_set_dtstart (comp, &cdt);
@@ -586,7 +586,7 @@ sensitize_buttons (RecurrencePage *rpage)
 	gboolean read_only, sensitize = TRUE;
 	gint selected_rows;
 	icalcomponent *icalcomp;
-	ECal *client;
+	ECalClient *client;
 	const gchar *uid;
 
 	if (priv->comp == NULL)
@@ -602,27 +602,26 @@ sensitize_buttons (RecurrencePage *rpage)
 	selected_rows = gtk_tree_selection_count_selected_rows (
 		gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list)));
 
-	if (!e_cal_is_read_only (client, &read_only, NULL))
-		read_only = TRUE;
+	read_only = e_client_is_readonly (E_CLIENT (client));
 
 	if (!read_only) {
 		e_cal_component_get_uid (priv->comp, &uid);
 
-		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_CONV_TO_RECUR) && e_cal_get_object (client, uid, NULL, &icalcomp, NULL)) {
+		if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_CONV_TO_RECUR) && e_cal_client_get_object_sync (client, uid, NULL, &icalcomp, NULL, NULL)) {
 			read_only = TRUE;
 			icalcomponent_free (icalcomp);
 		}
 
 		if (!read_only) {
-			GList *list;
+			GSList *list = NULL;
 
 			/* see if we have detached instances */
-			if (e_cal_get_objects_for_uid (client, uid, &list, NULL)) {
-				if (list && g_list_length (list) > 1)
+			if (e_cal_client_get_objects_for_uid_sync (client, uid, &list, NULL, NULL)) {
+				if (list && g_slist_length (list) > 1)
 					read_only = TRUE;
 
-				g_list_foreach (list, (GFunc) g_object_unref, NULL);
-				g_list_free (list);
+				g_slist_foreach (list, (GFunc) g_object_unref, NULL);
+				g_slist_free (list);
 			}
 		}
 	}
@@ -1485,7 +1484,7 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 {
 	RecurrencePagePrivate *priv = rpage->priv;
 	CompEditor *editor;
-	ECal *client;
+	ECalClient *client;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
 	client = comp_editor_get_client (editor);
@@ -1512,9 +1511,16 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 					to_zone = e_meeting_store_get_timezone (priv->meeting_store);
 				else if (dt.tzid == NULL)
 					to_zone = icaltimezone_get_utc_timezone ();
-				else
+				else {
+					GError *error = NULL;
 					/* FIXME Error checking? */
-					e_cal_get_timezone (client, dt.tzid, &to_zone, NULL);
+					e_cal_client_get_timezone_sync (client, dt.tzid, &to_zone, NULL, &error);
+
+					if (error) {
+						g_debug ("%s: Failed to get timezone: %s", G_STRFUNC, error->message);
+						g_error_free (error);
+					}
+				}
 				from_zone = icaltimezone_get_utc_timezone ();
 
 				icaltimezone_convert_time (&r->until, from_zone, to_zone);
@@ -2069,7 +2075,7 @@ type_toggled_cb (GtkToggleButton *toggle,
 {
 	RecurrencePagePrivate *priv = rpage->priv;
 	CompEditor *editor;
-	ECal *client;
+	ECalClient *client;
 	gboolean read_only;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
@@ -2079,8 +2085,7 @@ type_toggled_cb (GtkToggleButton *toggle,
 	sensitize_buttons (rpage);
 
 	/* enable/disable the 'Add' button */
-	if (!e_cal_is_read_only (client, &read_only, NULL))
-		read_only = TRUE;
+	read_only = e_client_is_readonly (E_CLIENT (client));
 
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->recurs)) || read_only)
 		gtk_widget_set_sensitive (priv->exception_add, FALSE);

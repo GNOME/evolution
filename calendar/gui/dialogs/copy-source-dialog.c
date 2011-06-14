@@ -27,33 +27,35 @@
 #endif
 
 #include <glib/gi18n.h>
+#include <libedataserverui/e-client-utils.h>
+
 #include "copy-source-dialog.h"
 #include "select-source-dialog.h"
-#include "common/authentication.h"
 
 typedef struct {
 	GtkWindow *parent;
 	ESource *orig_source;
-	ECalSourceType obj_type;
+	EClientSourceType obj_type;
 	ESource *selected_source;
+	ECalClient *source_client, *dest_client;
 } CopySourceDialogData;
 
 static void
-show_error (CopySourceDialogData *csdd, const gchar *msg)
+show_error (CopySourceDialogData *csdd, const gchar *msg, const GError *error)
 {
 	GtkWidget *dialog;
 
 	dialog = gtk_message_dialog_new (
 		csdd->parent, 0, GTK_MESSAGE_ERROR,
-		GTK_BUTTONS_CLOSE, "%s", msg);
+		GTK_BUTTONS_CLOSE, error ? "%s\n%s" : "%s", msg, error ? error->message : "");
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }
 
 struct ForeachTzidData
 {
-	ECal *source_client;
-	ECal *dest_client;
+	ECalClient *source_client;
+	ECalClient *dest_client;
 };
 
 static void
@@ -71,61 +73,70 @@ add_timezone_to_cal_cb (icalparameter *param, gpointer data)
 	if (!tzid || !*tzid)
 		return;
 
-	if (e_cal_get_timezone (ftd->source_client, tzid, &tz, NULL) && tz)
-		e_cal_add_timezone (ftd->dest_client, tz, NULL);
+	if (e_cal_client_get_timezone_sync (ftd->source_client, tzid, &tz, NULL, NULL) && tz)
+		e_cal_client_add_timezone_sync (ftd->dest_client, tz, NULL, NULL);
 }
 
-static gboolean
-copy_source (CopySourceDialogData *csdd)
+static void
+free_copy_data (CopySourceDialogData *csdd)
 {
-	ECal *source_client, *dest_client;
-	gboolean read_only = TRUE;
-	GList *obj_list = NULL;
-	gboolean result = FALSE;
+	if (!csdd)
+		return;
 
-	if (!csdd->selected_source)
-		return FALSE;
+	if (csdd->orig_source)
+		g_object_unref (csdd->orig_source);
+	if (csdd->selected_source)
+		g_object_unref (csdd->selected_source);
+	if (csdd->source_client)
+		g_object_unref (csdd->source_client);
+	if (csdd->dest_client)
+		g_object_unref (csdd->dest_client);
+	g_free (csdd);
+}
 
-	/* open the source */
-	source_client = e_auth_new_cal_from_source (csdd->orig_source, csdd->obj_type);
-	if (!e_cal_open (source_client, TRUE, NULL)) {
-		show_error (csdd, _("Could not open source"));
-		g_object_unref (source_client);
-		return FALSE;
+static void
+dest_source_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	CopySourceDialogData *csdd = user_data;
+	EClient *client = NULL;
+	GError *error = NULL;
+
+	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
+		client = NULL;
+
+	if (!client) {
+		show_error (csdd, _("Could not open destination"), error);
+		if (error)
+			g_error_free (error);
+		free_copy_data (csdd);
+		return;
 	}
 
-	/* open the destination */
-	dest_client = e_auth_new_cal_from_source (csdd->selected_source, csdd->obj_type);
-	if (!e_cal_open (dest_client, FALSE, NULL)) {
-		show_error (csdd, _("Could not open destination"));
-		g_object_unref (dest_client);
-		g_object_unref (source_client);
-		return FALSE;
-	}
+	csdd->dest_client = E_CAL_CLIENT (client);
+
+	e_client_utils_open_new (csdd->selected_source, csdd->obj_type, FALSE, NULL,
+		e_client_utils_authenticate_handler, csdd->parent,
+		dest_source_opened_cb, csdd);
 
 	/* check if the destination is read only */
-	e_cal_is_read_only (dest_client, &read_only, NULL);
-	if (read_only) {
-		show_error (csdd, _("Destination is read only"));
+	if (e_client_is_readonly (E_CLIENT (csdd->dest_client))) {
+		show_error (csdd, _("Destination is read only"), NULL);
 	} else {
-		if (e_cal_get_object_list (source_client, "#t", &obj_list, NULL)) {
-			GList *l;
+		GSList *obj_list = NULL;
+		if (e_cal_client_get_object_list_sync (csdd->source_client, "#t", &obj_list, NULL, NULL)) {
+			GSList *l;
 			icalcomponent *icalcomp;
 			struct ForeachTzidData ftd;
 
-			ftd.source_client = source_client;
-			ftd.dest_client = dest_client;
+			ftd.source_client = csdd->source_client;
+			ftd.dest_client = csdd->dest_client;
 
 			for (l = obj_list; l != NULL; l = l->next) {
 				/* FIXME: process recurrences */
 				/* FIXME: process errors */
-				if (e_cal_get_object (
-					dest_client,
-					icalcomponent_get_uid (l->data),
-					NULL, &icalcomp, NULL)) {
-					e_cal_modify_object (
-						dest_client, l->data,
-						CALOBJ_MOD_ALL, NULL);
+				if (e_cal_client_get_object_sync (csdd->dest_client, icalcomponent_get_uid (l->data), NULL,
+						      &icalcomp, NULL, NULL)) {
+					e_cal_client_modify_object_sync (csdd->dest_client, l->data, CALOBJ_MOD_ALL, NULL, NULL);
 					icalcomponent_free (icalcomp);
 				} else {
 					gchar *uid = NULL;
@@ -139,11 +150,11 @@ copy_source (CopySourceDialogData *csdd)
 						icalcomp,
 						add_timezone_to_cal_cb, &ftd);
 
-					if (e_cal_create_object (dest_client, icalcomp, &uid, &error)) {
+					if (e_cal_client_create_object_sync (csdd->dest_client, icalcomp, &uid, NULL, &error)) {
 						g_free (uid);
 					} else {
 						if (error) {
-							show_error (csdd, error->message);
+							show_error (csdd, _("Cannot create object"), error);
 							g_error_free (error);
 						}
 						break;
@@ -151,15 +162,57 @@ copy_source (CopySourceDialogData *csdd)
 				}
 			}
 
-			e_cal_free_object_list (obj_list);
+			e_cal_client_free_icalcomp_slist (obj_list);
 		}
 	}
 
-	/* free memory */
-	g_object_unref (dest_client);
-	g_object_unref (source_client);
+	free_copy_data (csdd);
+}
 
-	return result;
+static void
+orig_source_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	CopySourceDialogData *csdd = user_data;
+	EClient *client = NULL;
+	GError *error = NULL;
+
+	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
+		client = NULL;
+
+	if (!client) {
+		show_error (csdd, _("Could not open source"), error);
+		if (error)
+			g_error_free (error);
+		free_copy_data (csdd);
+		return;
+	}
+
+	csdd->source_client = E_CAL_CLIENT (client);
+
+	e_client_utils_open_new (csdd->selected_source, csdd->obj_type, FALSE, NULL,
+		e_client_utils_authenticate_handler, csdd->parent,
+		dest_source_opened_cb, csdd);
+}
+
+static void
+copy_source (const CopySourceDialogData *const_csdd)
+{
+	CopySourceDialogData *csdd;
+
+	if (!const_csdd->selected_source)
+		return;
+
+	g_return_if_fail (const_csdd->obj_type != E_CLIENT_SOURCE_TYPE_LAST);
+
+	csdd = g_new0 (CopySourceDialogData, 1);
+	csdd->parent = const_csdd->parent;
+	csdd->orig_source = g_object_ref (const_csdd->orig_source);
+	csdd->obj_type = const_csdd->obj_type;
+	csdd->selected_source = g_object_ref (const_csdd->selected_source);
+
+	e_client_utils_open_new (csdd->orig_source, csdd->obj_type, FALSE, NULL,
+		e_client_utils_authenticate_handler, csdd->parent,
+		orig_source_opened_cb, csdd);
 }
 
 /**
@@ -168,26 +221,29 @@ copy_source (CopySourceDialogData *csdd)
  * Implements the Copy command for sources, allowing the user to select a target
  * source to copy to.
  */
-gboolean
-copy_source_dialog (GtkWindow *parent, ESource *source, ECalSourceType obj_type)
+void
+copy_source_dialog (GtkWindow *parent, ESource *source, ECalClientSourceType obj_type)
 {
 	CopySourceDialogData csdd;
-	gboolean result = FALSE;
 
-	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
+	g_return_if_fail (E_IS_SOURCE (source));
+	g_return_if_fail (obj_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ||
+			  obj_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ||
+			  obj_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS);
 
 	csdd.parent = parent;
 	csdd.orig_source = source;
 	csdd.selected_source = NULL;
-	csdd.obj_type = obj_type;
+	csdd.obj_type = obj_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? E_CLIENT_SOURCE_TYPE_EVENTS :
+			obj_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ? E_CLIENT_SOURCE_TYPE_TASKS :
+			obj_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS ? E_CLIENT_SOURCE_TYPE_MEMOS :
+			E_CLIENT_SOURCE_TYPE_LAST;
 
 	csdd.selected_source = select_source_dialog (parent, obj_type, source);
 	if (csdd.selected_source) {
-		result = copy_source (&csdd);
+		copy_source (&csdd);
 
 		/* free memory */
 		g_object_unref (csdd.selected_source);
 	}
-
-	return result;
 }

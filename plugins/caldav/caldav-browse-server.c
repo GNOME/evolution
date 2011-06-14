@@ -32,7 +32,7 @@
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
 
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libedataserver/e-proxy.h>
 #include <libedataserverui/e-cell-renderer-color.h>
 #include <libedataserverui/e-passwords.h>
@@ -1369,13 +1369,13 @@ init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, GtkWidget **new_userm
 
 	switch (source_type) {
 	default:
-	case E_CAL_SOURCE_TYPE_EVENT:
+	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 		source_type_str = "VEVENT";
 		break;
-	case E_CAL_SOURCE_TYPE_TODO:
+	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 		source_type_str = "VTODO";
 		break;
-	case E_CAL_SOURCE_TYPE_JOURNAL:
+	case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 		source_type_str = "VJOURNAL";
 		break;
 	}

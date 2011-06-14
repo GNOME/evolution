@@ -27,11 +27,10 @@
 
 #include <glib/gi18n.h>
 #include <libical/ical.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <camel/camel.h>
 #include <libedataserverui/e-source-selector.h>
-
-#include "calendar/common/authentication.h"
+#include <libedataserverui/e-client-utils.h>
 
 typedef struct _ImportContext ImportContext;
 
@@ -40,9 +39,9 @@ struct _ECalAttachmentHandlerPrivate {
 };
 
 struct _ImportContext {
-	ECal *client;
+	ECalClient *client;
 	icalcomponent *component;
-	ECalSourceType source_type;
+	ECalClientSourceType source_type;
 };
 
 static gpointer parent_class;
@@ -110,12 +109,13 @@ attachment_handler_get_component (EAttachment *attachment)
 }
 
 static gboolean
-attachment_handler_update_objects (ECal *client,
+attachment_handler_update_objects (ECalClient *client,
                                    icalcomponent *component)
 {
 	icalcomponent_kind kind;
 	icalcomponent *vcalendar;
 	gboolean success;
+	GError *error = NULL;
 
 	kind = icalcomponent_isa (component);
 
@@ -141,7 +141,10 @@ attachment_handler_update_objects (ECal *client,
 			return FALSE;
 	}
 
-	success = e_cal_receive_objects (client, vcalendar, NULL);
+	success = e_cal_client_receive_objects_sync (client, vcalendar, NULL, &error);
+	if (error)
+		g_debug ("%s: Failed to receive objects: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	g_clear_error (&error);
 
 	icalcomponent_free (vcalendar);
 
@@ -149,16 +152,23 @@ attachment_handler_update_objects (ECal *client,
 }
 
 static void
-attachment_handler_import_event (ECal *client,
-                                 const GError *error,
-                                 EAttachment *attachment)
+attachment_handler_import_event (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
+	EAttachment *attachment = user_data;
+	EClient *client = NULL;
+	GError *error = NULL;
 	icalcomponent *component;
 	icalcomponent *subcomponent;
 	icalcompiter iter;
 
-	/* FIXME Notify the user somehow. */
-	g_return_if_fail (error == NULL);
+	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
+		client = NULL;
+
+	if (!client) {
+		g_debug ("%s: Failed to open '%s': %s", G_STRFUNC, e_source_peek_name (E_SOURCE (source_object)), error ? error->message : "Unknown error");
+		g_object_unref (attachment);
+		return;
+	}
 
 	component = attachment_handler_get_component (attachment);
 	g_return_if_fail (component != NULL);
@@ -182,23 +192,30 @@ attachment_handler_import_event (ECal *client,
 	}
 
 	/* XXX Do something with the return value. */
-	attachment_handler_update_objects (client, component);
+	attachment_handler_update_objects (E_CAL_CLIENT (client), component);
 
 	g_object_unref (attachment);
 	g_object_unref (client);
 }
 
 static void
-attachment_handler_import_todo (ECal *client,
-                                const GError *error,
-                                EAttachment *attachment)
+attachment_handler_import_todo (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
+	EAttachment *attachment = user_data;
+	EClient *client = NULL;
+	GError *error = NULL;
 	icalcomponent *component;
 	icalcomponent *subcomponent;
 	icalcompiter iter;
 
-	/* FIXME Notify the user somehow. */
-	g_return_if_fail (error == NULL);
+	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
+		client = NULL;
+
+	if (!client) {
+		g_debug ("%s: Failed to open '%s': %s", G_STRFUNC, e_source_peek_name (E_SOURCE (source_object)), error ? error->message : "Unknown error");
+		g_object_unref (attachment);
+		return;
+	}
 
 	component = attachment_handler_get_component (attachment);
 	g_return_if_fail (component != NULL);
@@ -222,7 +239,7 @@ attachment_handler_import_todo (ECal *client,
 	}
 
 	/* XXX Do something with the return value. */
-	attachment_handler_update_objects (client, component);
+	attachment_handler_update_objects (E_CAL_CLIENT (client), component);
 
 	g_object_unref (attachment);
 	g_object_unref (client);
@@ -237,27 +254,25 @@ attachment_handler_row_activated_cb (GtkDialog *dialog)
 static void
 attachment_handler_run_dialog (GtkWindow *parent,
                                EAttachment *attachment,
-                               ECalSourceType source_type,
+                               ECalClientSourceType source_type,
                                const gchar *title)
 {
 	GtkWidget *dialog;
 	GtkWidget *container;
 	GtkWidget *widget;
-	GCallback callback;
 	ESourceSelector *selector;
 	ESourceList *source_list;
 	ESource *source;
-	ECal *client;
 	icalcomponent *component;
 	GError *error = NULL;
 
 	component = attachment_handler_get_component (attachment);
 	g_return_if_fail (component != NULL);
 
-	e_cal_get_sources (&source_list, source_type, &error);
+	e_cal_client_get_sources (&source_list, source_type, &error);
 	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
+		g_debug ("%s: Faield to get cal sources: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		return;
 	}
 
@@ -309,22 +324,22 @@ attachment_handler_run_dialog (GtkWindow *parent,
 	if (source == NULL)
 		goto exit;
 
-	client = e_auth_new_cal_from_source (source, source_type);
-	if (client == NULL)
-		goto exit;
+	switch (source_type) {
+	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_EVENTS, FALSE, NULL,
+			e_client_utils_authenticate_handler, NULL,
+			attachment_handler_import_event, g_object_ref (attachment));
+		break;
+	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, NULL,
+			e_client_utils_authenticate_handler, NULL,
+			attachment_handler_import_todo, g_object_ref (attachment));
+		break;
+	default:
+		break;
+	}
 
-	if (source_type == E_CAL_SOURCE_TYPE_EVENT)
-		callback = G_CALLBACK (attachment_handler_import_event);
-	else if (source_type == E_CAL_SOURCE_TYPE_TODO)
-		callback = G_CALLBACK (attachment_handler_import_todo);
-	else
-		goto exit;
-
-	g_object_ref (attachment);
-	g_signal_connect (client, "cal-opened-ex", callback, attachment);
-	e_cal_open_async (client, FALSE);
-
-exit:
+ exit:
 	gtk_widget_destroy (dialog);
 }
 
@@ -348,7 +363,7 @@ attachment_handler_import_to_calendar (GtkAction *action,
 
 	attachment_handler_run_dialog (
 		parent, attachment,
-		E_CAL_SOURCE_TYPE_EVENT,
+		E_CAL_CLIENT_SOURCE_TYPE_EVENTS,
 		_("Select a Calendar"));
 
 	g_object_unref (attachment);
@@ -375,7 +390,7 @@ attachment_handler_import_to_tasks (GtkAction *action,
 
 	attachment_handler_run_dialog (
 		parent, attachment,
-		E_CAL_SOURCE_TYPE_TODO,
+		E_CAL_CLIENT_SOURCE_TYPE_TASKS,
 		_("Select a Task List"));
 
 	g_object_unref (attachment);

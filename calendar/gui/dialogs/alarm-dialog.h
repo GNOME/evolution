@@ -30,12 +30,12 @@
 #ifndef ALARM_DIALOG_H
 #define ALARM_DIALOG_H
 
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libecal/e-cal-component.h>
 
 G_BEGIN_DECLS
 
-gboolean alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm);
+gboolean alarm_dialog_run (GtkWidget *parent, ECalClient *cal_client, ECalComponentAlarm *alarm);
 
 G_END_DECLS
 

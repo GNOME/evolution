@@ -27,11 +27,11 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-group.h>
-#include <libedataserverui/e-book-auth-util.h>
+#include <libedataserverui/e-client-utils.h>
 
 #include "e-util/e-import.h"
 #include "shell/e-shell.h"
@@ -79,14 +79,16 @@ book_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	ESource *personal;
 	GSList *sources, *iter;
 	const gchar *name;
+	GError *error = NULL;
 
 	on_this_computer = NULL;
 	personal = NULL;
 
 	priv = E_BOOK_SHELL_BACKEND (shell_backend)->priv;
 
-	if (!e_book_get_addressbooks (&priv->source_list, NULL)) {
-		g_warning ("Could not get addressbook sources from GConf!");
+	if (!e_book_client_get_sources (&priv->source_list, &error)) {
+		g_warning ("Could not get addressbook sources: %s", error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		return;
 	}
 
@@ -154,60 +156,68 @@ book_shell_backend_init_importers (void)
 }
 
 static void
-book_shell_backend_new_contact_cb (ESource *source,
-                                   GAsyncResult *result,
-                                   EShell *shell)
+book_shell_backend_new_contact_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	EBook *book;
-	EContact *contact;
-	EABEditor *editor;
+	EShell *shell = user_data;
+	EClient *client = NULL;
+	GError *error = NULL;
 
-	book = e_load_book_source_finish (source, result, NULL);
+	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
+		client = NULL;
 
 	/* XXX Handle errors better. */
-	if (book == NULL)
-		goto exit;
+	if (client == NULL) {
+		g_debug ("%s: Failed to open book: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
+	} else {
+		EBookClient *book_client = E_BOOK_CLIENT (client);
+		EContact *contact;
+		EABEditor *editor;
 
-	contact = e_contact_new ();
+		contact = e_contact_new ();
 
-	editor = e_contact_editor_new (
-		shell, book, contact, TRUE, TRUE);
+		editor = e_contact_editor_new (
+			shell, book_client, contact, TRUE, TRUE);
 
-	eab_editor_show (editor);
+		eab_editor_show (editor);
 
-	g_object_unref (contact);
-	g_object_unref (book);
+		g_object_unref (contact);
+		g_object_unref (book_client);
+	}
 
-exit:
 	g_object_unref (shell);
 }
 
 static void
-book_shell_backend_new_contact_list_cb (ESource *source,
-                                        GAsyncResult *result,
-                                        EShell *shell)
+book_shell_backend_new_contact_list_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	EBook *book;
-	EContact *contact;
-	EABEditor *editor;
+	EShell *shell = user_data;
+	EClient *client = NULL;
+	GError *error = NULL;
 
-	book = e_load_book_source_finish (source, result, NULL);
+	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
+		client = NULL;
 
 	/* XXX Handle errors better. */
-	if (book == NULL)
-		goto exit;
+	if (client == NULL) {
+		g_debug ("%s: Failed to open book: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
+	} else {
+		EBookClient *book_client = E_BOOK_CLIENT (client);
+		EContact *contact;
+		EABEditor *editor;
 
-	contact = e_contact_new ();
+		contact = e_contact_new ();
 
-	editor = e_contact_list_editor_new (
-		shell, book, contact, TRUE, TRUE);
+		editor = e_contact_list_editor_new (
+			shell, book_client, contact, TRUE, TRUE);
 
-	eab_editor_show (editor);
+		eab_editor_show (editor);
 
-	g_object_unref (contact);
-	g_object_unref (book);
+		g_object_unref (contact);
+		g_object_unref (book_client);
+	}
 
-exit:
 	g_object_unref (shell);
 }
 
@@ -249,17 +259,13 @@ action_contact_new_cb (GtkAction *action,
 	/* Use a callback function appropriate for the action. */
 	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "contact-new") == 0)
-		e_load_book_source_async (
-			source, GTK_WINDOW (shell_window),
-			NULL, (GAsyncReadyCallback)
-			book_shell_backend_new_contact_cb,
-			g_object_ref (shell));
+		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
+			book_shell_backend_new_contact_cb, g_object_ref (shell));
 	if (strcmp (action_name, "contact-new-list") == 0)
-		e_load_book_source_async (
-			source, GTK_WINDOW (shell_window),
-			NULL, (GAsyncReadyCallback)
-			book_shell_backend_new_contact_list_cb,
-			g_object_ref (shell));
+		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
+			book_shell_backend_new_contact_list_cb, g_object_ref (shell));
 
 	g_object_unref (source_list);
 }

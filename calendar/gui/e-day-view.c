@@ -273,7 +273,7 @@ static ECalendarViewPosition e_day_view_convert_position_in_main_canvas (EDayVie
 								    gint *row_return,
 								    gint *event_num_return);
 static gboolean e_day_view_find_event_from_uid (EDayView *day_view,
-						ECal *client,
+						ECalClient *client,
 						const gchar *uid,
 						const gchar *rid,
 						gint *day_return,
@@ -2137,7 +2137,7 @@ e_day_view_update_event_label (EDayView *day_view,
 			       "text", text,
 			       NULL);
 
-	if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
+	if (e_client_check_capability (E_CLIENT (event->comp_data->client), CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp))
 		set_text_as_bold (event);
 
@@ -2172,7 +2172,7 @@ e_day_view_update_long_event_label (EDayView *day_view,
 	if (free_text)
 		g_free ((gchar *) summary);
 
-	if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
+	if (e_client_check_capability (E_CLIENT (event->comp_data->client), CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp))
 		set_text_as_bold (event);
 }
@@ -2225,7 +2225,7 @@ e_day_view_find_event_from_item (EDayView *day_view,
    see if any events with the uid exist. */
 static gboolean
 e_day_view_find_event_from_uid (EDayView *day_view,
-				ECal *client,
+				ECalClient *client,
 				const gchar *uid,
 				const gchar *rid,
 				gint *day_return,
@@ -3475,9 +3475,7 @@ e_day_view_on_event_click (EDayView *day_view,
 	     !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
 	    && (pos == E_CALENDAR_VIEW_POS_TOP_EDGE
 		|| pos == E_CALENDAR_VIEW_POS_BOTTOM_EDGE)) {
-		gboolean read_only = FALSE;
-
-		if (event && (!event->is_editable || (e_cal_is_read_only (event->comp_data->client, &read_only, NULL) && read_only))) {
+		if (event && (!event->is_editable || e_client_is_readonly (E_CLIENT (event->comp_data->client)))) {
 			return;
 		}
 
@@ -3936,11 +3934,10 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 			gtk_target_list_unref (target_list);
 		}
 	} else {
-		gboolean read_only = FALSE;
 		cursor = day_view->normal_cursor;
 
 		/* Check if the event is editable and client is not readonly while changing the cursor */
-		if (event && event->is_editable && is_comp_data_valid (event) && e_cal_is_read_only (event->comp_data->client, &read_only, NULL) && !read_only) {
+		if (event && event->is_editable && is_comp_data_valid (event) && !e_client_is_readonly (E_CLIENT (event->comp_data->client))) {
 
 			switch (pos) {
 			case E_CALENDAR_VIEW_POS_LEFT_EDGE:
@@ -4119,7 +4116,6 @@ e_day_view_update_resize (EDayView *day_view,
 	EDayViewEvent *event;
 	gint day, event_num;
 	gboolean need_reshape = FALSE;
-	gboolean read_only = FALSE;
 
 #if 0
 	g_print ("Updating resize Row:%i\n", row);
@@ -4137,7 +4133,7 @@ e_day_view_update_resize (EDayView *day_view,
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
 
-	if (event && (!event->is_editable || !is_comp_data_valid (event) || (e_cal_is_read_only (event->comp_data->client, &read_only, NULL) && read_only))) {
+	if (event && (!event->is_editable || !is_comp_data_valid (event) || e_client_is_readonly (E_CLIENT (event->comp_data->client)))) {
 		return;
 	}
 
@@ -4175,7 +4171,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	ECalComponentDateTime date;
 	struct icaltimetype itt;
 	time_t dt;
-	ECal *client;
+	ECalClient *client;
 	CalObjModType mod = CALOBJ_MOD_ALL;
 	GtkWindow *toplevel;
 	gint is_date;
@@ -4290,7 +4286,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	ECalComponentDateTime date;
 	struct icaltimetype itt;
 	time_t dt;
-	ECal *client;
+	ECalClient *client;
 	CalObjModType mod = CALOBJ_MOD_ALL;
 	GtkWindow *toplevel;
 
@@ -5062,7 +5058,7 @@ static gboolean
 e_day_view_add_new_event_in_selected_range (EDayView *day_view, GdkEventKey *key_event)
 {
 	icalcomponent *icalcomp;
-	ECal *ecal;
+	ECalClient *client;
 	ECalModel *model;
 	ECalComponent *comp;
 	gint day, event_num;
@@ -5071,12 +5067,11 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view, GdkEventKey *key
 	struct icaltimetype start_tt, end_tt;
 	const gchar *uid;
 	AddEventData add_event_data;
-	gboolean read_only = TRUE;
 
 	/* Check if the client is read only */
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	ecal = e_cal_model_get_default_client (model);
-	if (!e_cal_is_read_only (ecal, &read_only, NULL) || read_only)
+	client = e_cal_model_get_default_client (model);
+	if (e_client_is_readonly (E_CLIENT (client)))
 		return FALSE;
 
 	icalcomp = e_cal_model_create_component_with_defaults (model, day_view->selection_in_top_canvas);
@@ -5128,7 +5123,7 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view, GdkEventKey *key
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 
-	if (!e_day_view_find_event_from_uid (day_view, ecal, uid, NULL, &day, &event_num)) {
+	if (!e_day_view_find_event_from_uid (day_view, client, uid, NULL, &day, &event_num)) {
 		g_warning ("Couldn't find event to start editing.\n");
 		g_object_unref (comp);
 		return FALSE;
@@ -5980,7 +5975,6 @@ e_day_view_start_editing_event (EDayView *day_view,
 	EDayViewEvent *event;
 	ETextEventProcessor *event_processor = NULL;
 	ETextEventProcessorCommand command;
-	gboolean read_only;
 
 #if 0
 	g_print ("In e_day_view_start_editing_event\n");
@@ -6008,7 +6002,7 @@ e_day_view_start_editing_event (EDayView *day_view,
 	if (!is_comp_data_valid (event))
 		return;
 
-	if (!e_cal_is_read_only (event->comp_data->client, &read_only, NULL) || read_only)
+	if (e_client_is_readonly (E_CLIENT (event->comp_data->client)))
 		return;
 
 	/* If the event is not shown, don't try to edit it. */
@@ -6416,7 +6410,7 @@ e_day_view_change_event_time (EDayView *day_view, time_t start_dt, time_t end_dt
 	ECalComponent *comp;
 	ECalComponentDateTime date;
 	struct icaltimetype itt;
-	ECal *client;
+	ECalClient *client;
 	CalObjModType mod = CALOBJ_MOD_ALL;
 	GtkWindow *toplevel;
 
@@ -6643,7 +6637,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	gchar *text = NULL;
 	ECalComponentText summary;
 	ECalComponent *comp;
-	ECal *client;
+	ECalClient *client;
 	gboolean on_server;
 
 	/* Note: the item we are passed here isn't reliable, so we just stop
@@ -6728,11 +6722,21 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		e_cal_component_commit_sequence (comp);
 
 		if (!on_server) {
-			if (!e_cal_create_object (client, icalcomp, NULL, NULL))
-				g_message (G_STRLOC ": Could not create the object!");
-			else
+			gchar *uid = NULL;
+			GError *error = NULL;
+
+			if (!e_cal_client_create_object_sync (client, icalcomp, &uid, NULL, &error)) {
+				uid = NULL;
+				g_debug (G_STRLOC ": Could not create the object! %s", error ? error->message : "Unknown error");
+				if (error)
+					g_error_free (error);
+			} else {
+				icalcomponent_set_uid (icalcomp, uid);
 				e_calendar_view_emit_user_created (
 					E_CALENDAR_VIEW (day_view));
+			}
+
+			g_free (uid);
 
 			/* we remove the object since we either got the update from the server or failed */
 			e_day_view_remove_event_cb (day_view, day, event_num, NULL);
@@ -7801,7 +7805,7 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 
 	comp_str = icalcomponent_as_ical_string_r (vcal);
 	if (comp_str) {
-		ESource *source = e_cal_get_source (event->comp_data->client);
+		ESource *source = e_client_get_source (E_CLIENT (event->comp_data->client));
 		const gchar *source_uid = e_source_peek_uid (source);
 		GdkAtom target;
 		gchar *tmp;
@@ -7841,7 +7845,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 	struct icaltimetype itt;
 	time_t dt;
 	gboolean all_day_event;
-	ECal *client;
+	ECalClient *client;
 	ECalModel *model;
 	ECalendarView *cal_view;
 	gboolean drag_from_same_window;
@@ -8043,7 +8047,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 
 					zone = icaltimezone_new ();
 					icaltimezone_set_component (zone, subcomp);
-					e_cal_add_timezone (client, zone, NULL);
+					e_cal_client_add_timezone_sync (client, zone, NULL, NULL);
 
 					icaltimezone_free (zone, 1);
 				}
@@ -8087,7 +8091,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 	ECalComponentDateTime date;
 	struct icaltimetype itt;
 	time_t dt;
-	ECal *client;
+	ECalClient *client;
 	gboolean drag_from_same_window;
 	const guchar *data;
 	gint format, length;
@@ -8270,7 +8274,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 
 					zone = icaltimezone_new ();
 					icaltimezone_set_component (zone, subcomp);
-					e_cal_add_timezone (client, zone, NULL);
+					e_cal_client_add_timezone_sync (client, zone, NULL, NULL);
 
 					icaltimezone_free (zone, 1);
 				}

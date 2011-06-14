@@ -259,7 +259,7 @@ config_data_get_notify_with_tray (void)
  * triggered while it was not running.
  **/
 void
-config_data_set_last_notification_time (ECal *cal, time_t t)
+config_data_set_last_notification_time (ECalClient *cal, time_t t)
 {
 	GConfClient *client;
 	time_t current_t, now = time (NULL);
@@ -267,7 +267,7 @@ config_data_set_last_notification_time (ECal *cal, time_t t)
 	g_return_if_fail (t != -1);
 
 	if (cal) {
-		ESource *source = e_cal_get_source (cal);
+		ESource *source = e_client_get_source (E_CLIENT (cal));
 		if (source) {
 			GTimeVal tmval = {0};
 			gchar *as_text;
@@ -301,13 +301,13 @@ config_data_set_last_notification_time (ECal *cal, time_t t)
  * Return value: The last saved value, or -1 if no value had been saved before.
  **/
 time_t
-config_data_get_last_notification_time (ECal *cal)
+config_data_get_last_notification_time (ECalClient *cal)
 {
 	GConfValue *value;
 	GConfClient *client;
 
 	if (cal) {
-		ESource *source = e_cal_get_source (cal);
+		ESource *source = e_client_get_source (E_CLIENT (cal));
 		if (source) {
 			const gchar *last_notified;
 

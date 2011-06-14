@@ -24,7 +24,7 @@
 #define E_CALENDAR_VIEW_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include "e-cal-model.h"
 #include "gnome-cal.h"
 #include "dialogs/comp-editor.h"
@@ -210,7 +210,7 @@ void		e_calendar_view_delete_selected_occurrence
 						(ECalendarView *cal_view);
 CompEditor *	e_calendar_view_open_event_with_flags
 						(ECalendarView *cal_view,
-						 ECal *client,
+						 ECalClient *client,
 						 icalcomponent *icalcomp,
 						 guint32 flags);
 
@@ -218,7 +218,7 @@ void		e_calendar_view_popup_event	(ECalendarView *cal_view,
 						 GdkEventButton *event);
 
 void		e_calendar_view_add_event	(ECalendarView *cal_view,
-						 ECal *client,
+						 ECalClient *client,
 						 time_t dtstart,
 						 icaltimezone *default_zone,
 						 icalcomponent *icalcomp,
@@ -236,12 +236,12 @@ void		e_calendar_view_new_appointment_full
 						 gboolean no_past_date);
 void		e_calendar_view_new_appointment	(ECalendarView *cal_view);
 void		e_calendar_view_edit_appointment (ECalendarView *cal_view,
-						 ECal *client,
+						 ECalClient *client,
 						 icalcomponent *icalcomp,
 						 EEditEventMode mode);
 void		e_calendar_view_open_event	(ECalendarView *cal_view);
 void		e_calendar_view_modify_and_send	(ECalComponent *comp,
-						 ECal *client,
+						 ECalClient *client,
 						 CalObjModType mod,
 						 GtkWindow *toplevel,
 						 gboolean new);
@@ -253,12 +253,12 @@ void		e_calendar_view_move_tip	(GtkWidget *widget,
 						 gint y);
 
 const gchar *	e_calendar_view_get_icalcomponent_summary
-						(ECal *ecal,
+						(ECalClient *ecal,
 						 icalcomponent *icalcomp,
 						 gboolean *free_text);
 gchar *		e_calendar_view_get_attendees_status_info
 						(ECalComponent *comp,
-						 ECal *client);
+						 ECalClient *client);
 
 void		e_calendar_view_emit_user_created
 						(ECalendarView *cal_view);

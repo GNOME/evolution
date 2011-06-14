@@ -26,7 +26,7 @@
 #ifndef __EAB_CONTACT_COMPARE_H__
 #define __EAB_CONTACT_COMPARE_H__
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 #include <libebook/e-contact.h>
 
 typedef enum {
@@ -64,7 +64,7 @@ EABContactMatchType eab_contact_compare_telephone (EContact *contact1, EContact 
 EABContactMatchType eab_contact_compare           (EContact *contact1, EContact *contact2);
 
 void                eab_contact_locate_match      (EContact *contact, EABContactMatchQueryCallback cb, gpointer closure);
-void                eab_contact_locate_match_full (EBook *book, EContact *contact, GList *avoid, EABContactMatchQueryCallback cb, gpointer closure);
+void                eab_contact_locate_match_full (EBookClient *book_client, EContact *contact, GList *avoid, EABContactMatchQueryCallback cb, gpointer closure);
 
 #endif /* __E_CONTACT_COMPARE_H__ */
 

@@ -34,13 +34,13 @@ memo_shell_view_model_row_appended_cb (EMemoShellView *memo_shell_view,
                                        ECalModel *model)
 {
 	EMemoShellSidebar *memo_shell_sidebar;
-	ECal *client;
+	ECalClient *client;
 	ESource *source;
 
 	/* This is the "Click to Add" handler. */
 
 	client = e_cal_model_get_default_client (model);
-	source = e_cal_get_source (client);
+	source = e_client_get_source (E_CLIENT (client));
 
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	e_memo_shell_sidebar_add_source (memo_shell_sidebar, source);
@@ -58,7 +58,7 @@ memo_shell_view_table_popup_event_cb (EShellView *shell_view,
 
 static void
 memo_shell_view_selector_client_added_cb (EMemoShellView *memo_shell_view,
-                                          ECal *client)
+                                          ECalClient *client)
 {
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
@@ -74,7 +74,7 @@ memo_shell_view_selector_client_added_cb (EMemoShellView *memo_shell_view,
 
 static void
 memo_shell_view_selector_client_removed_cb (EMemoShellView *memo_shell_view,
-                                            ECal *client)
+                                            ECalClient *client)
 {
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
@@ -452,10 +452,10 @@ e_memo_shell_view_update_timezone (EMemoShellView *memo_shell_view)
 	clients = e_memo_shell_sidebar_get_clients (memo_shell_sidebar);
 
 	for (iter = clients; iter != NULL; iter = iter->next) {
-		ECal *client = iter->data;
+		ECalClient *client = iter->data;
 
-		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
-			e_cal_set_default_timezone (client, timezone, NULL);
+		if (e_client_is_opened (E_CLIENT (client)))
+			e_cal_client_set_default_timezone (client, timezone);
 	}
 
 	g_list_free (clients);

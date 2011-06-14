@@ -24,9 +24,9 @@
 
 #include "e-calendar-selector.h"
 
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
+#include <libedataserverui/e-client-utils.h>
 #include "e-util/e-selection.h"
-#include "common/authentication.h"
 
 struct _ECalendarSelectorPrivate {
 	gint dummy_value;
@@ -35,7 +35,7 @@ struct _ECalendarSelectorPrivate {
 static gpointer parent_class;
 
 static gboolean
-calendar_selector_update_single_object (ECal *client,
+calendar_selector_update_single_object (ECalClient *client,
                                         icalcomponent *icalcomp)
 {
 	gchar *uid;
@@ -43,15 +43,23 @@ calendar_selector_update_single_object (ECal *client,
 
 	uid = (gchar *) icalcomponent_get_uid (icalcomp);
 
-	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
-		return e_cal_modify_object (
-			client, icalcomp, CALOBJ_MOD_ALL, NULL);
+	if (e_cal_client_get_object_sync (client, uid, NULL, &tmp_icalcomp, NULL, NULL))
+		return e_cal_client_modify_object_sync (
+			client, icalcomp, CALOBJ_MOD_ALL, NULL, NULL);
 
-	return e_cal_create_object (client, icalcomp, &uid, NULL);
+	uid = NULL;
+	if (!e_cal_client_create_object_sync (client, icalcomp, &uid, NULL, NULL))
+		return FALSE;
+
+	if (uid)
+		icalcomponent_set_uid (icalcomp, uid);
+	g_free (uid);
+
+	return TRUE;
 }
 
 static gboolean
-calendar_selector_update_objects (ECal *client,
+calendar_selector_update_objects (ECalClient *client,
                                   icalcomponent *icalcomp)
 {
 	icalcomponent *subcomp;
@@ -72,14 +80,19 @@ calendar_selector_update_objects (ECal *client,
 		kind = icalcomponent_isa (subcomp);
 		if (kind == ICAL_VTIMEZONE_COMPONENT) {
 			icaltimezone *zone;
+			GError *error = NULL;
 
 			zone = icaltimezone_new ();
 			icaltimezone_set_component (zone, subcomp);
 
-			success = e_cal_add_timezone (client, zone, NULL);
+			success = e_cal_client_add_timezone_sync (client, zone, NULL, &error);
 			icaltimezone_free (zone, 1);
-			if (!success)
+			if (!success) {
+				g_debug ("%s: Failed to ass timezone: %s", G_STRFUNC, error ? error->message : "Unknown error");
+				if (error)
+					g_error_free (error);
 				return FALSE;
+			}
 		} else if (kind == ICAL_VTODO_COMPONENT ||
 			kind == ICAL_VEVENT_COMPONENT) {
 			success = calendar_selector_update_single_object (
@@ -95,6 +108,31 @@ calendar_selector_update_objects (ECal *client,
 	return TRUE;
 }
 
+static void
+client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	EClient *client = NULL;
+	icalcomponent *icalcomp = user_data;
+	GError *error = NULL;
+
+	g_return_if_fail (icalcomp != NULL);
+
+	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
+		client = NULL;
+
+	if (client) {
+		calendar_selector_update_objects (E_CAL_CLIENT (client), icalcomp);
+		g_object_unref (client);
+	}
+
+	if (error) {
+		g_debug ("%s: Failed to open client: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+
+	icalcomponent_free (icalcomp);
+}
+
 static gboolean
 calendar_selector_data_dropped (ESourceSelector *selector,
                                 GtkSelectionData *selection_data,
@@ -103,7 +141,6 @@ calendar_selector_data_dropped (ESourceSelector *selector,
                                 guint info)
 {
 	GtkTreePath *path = NULL;
-	ECal *client;
 	icalcomponent *icalcomp;
 	const guchar *data;
 	gboolean success = FALSE;
@@ -123,17 +160,9 @@ calendar_selector_data_dropped (ESourceSelector *selector,
 		icalcomponent_set_uid (icalcomp, uid);
 	}
 
-	client = e_auth_new_cal_from_source (
-		destination, E_CAL_SOURCE_TYPE_EVENT);
-
-	if (client != NULL) {
-		if (e_cal_open (client, TRUE, NULL))
-			calendar_selector_update_objects (client, icalcomp);
-
-		g_object_unref (client);
-	}
-
-	icalcomponent_free (icalcomp);
+	e_client_utils_open_new (destination, E_CLIENT_SOURCE_TYPE_EVENTS, FALSE, NULL,
+		e_client_utils_authenticate_handler, NULL,
+		client_opened_cb, icalcomp);
 
 	success = TRUE;
 

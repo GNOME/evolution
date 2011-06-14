@@ -102,7 +102,6 @@ e_cal_list_view_class_init (ECalListViewClass *class)
 static void
 e_cal_list_view_init (ECalListView *cal_list_view)
 {
-	cal_list_view->query = NULL;
 	cal_list_view->table = NULL;
 	cal_list_view->cursor_event = NULL;
 	cal_list_view->set_table_id = 0;
@@ -329,13 +328,6 @@ e_cal_list_view_dispose (GObject *object)
 	ECalListView *cal_list_view;
 
 	cal_list_view = E_CAL_LIST_VIEW (object);
-
-	if (cal_list_view->query) {
-		g_signal_handlers_disconnect_matched (cal_list_view->query, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, cal_list_view);
-		g_object_unref (cal_list_view->query);
-		cal_list_view->query = NULL;
-	}
 
 	if (cal_list_view->set_table_id) {
 		g_source_remove (cal_list_view->set_table_id);

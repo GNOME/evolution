@@ -286,7 +286,7 @@ event_editor_constructor (GType type,
 	GtkActionGroup *action_group;
 	GtkWidget *content_area;
 	EShell *shell;
-	ECal *client;
+	ECalClient *client;
 	gboolean is_meeting;
 	GtkWidget *alarm_page;
 	GtkWidget *attendee_page;
@@ -363,8 +363,7 @@ event_editor_constructor (GType type,
 
 	if (is_meeting) {
 
-		if (e_cal_get_static_capability (
-			client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
+		if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
 			event_page_show_options (priv->event_page);
 
 		comp_editor_set_group_item (editor, TRUE);
@@ -604,7 +603,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	ECalComponentOrganizer organizer;
 	gboolean delegate;
 	ECalComponentDateTime dtstart, dtend;
-	ECal *client;
+	ECalClient *client;
 	GSList *attendees = NULL;
 
 	priv = EVENT_EDITOR (editor)->priv;
@@ -645,8 +644,8 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 			gtk_action_set_visible (action, TRUE);
 		}
 
-		if (!(delegate && e_cal_get_static_capability (
-			client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY))) {
+		if (!(delegate && e_client_check_capability (
+			E_CLIENT (client), CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY))) {
 			event_page_remove_all_attendees (priv->event_page);
 
 			for (l = attendees; l != NULL; l = l->next) {
@@ -685,7 +684,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 				if (ia != NULL)
 					e_meeting_attendee_set_edit_level (
 						ia, E_MEETING_ATTENDEE_EDIT_STATUS);
-			} else if (e_cal_get_organizer_must_attend (client)) {
+			} else if (e_cal_client_check_organizer_must_attend (client)) {
 				EMeetingAttendee *ia;
 
 				ia = e_meeting_store_find_attendee (
@@ -726,7 +725,7 @@ event_editor_send_comp (CompEditor *editor,
 
 	comp = event_page_get_cancel_comp (priv->event_page);
 	if (comp != NULL) {
-		ECal *client;
+		ECalClient *client;
 		gboolean result;
 
 		client = e_meeting_store_get_client (priv->model);
@@ -748,7 +747,7 @@ event_editor_send_comp (CompEditor *editor,
 
 /**
  * event_editor_new:
- * @client: a ECal
+ * @client: a ECalClient
  *
  * Creates a new event editor dialog.
  *
@@ -756,11 +755,11 @@ event_editor_send_comp (CompEditor *editor,
  * editor could not be created.
  **/
 CompEditor *
-event_editor_new (ECal *client,
+event_editor_new (ECalClient *client,
                   EShell *shell,
                   CompEditorFlags flags)
 {
-	g_return_val_if_fail (E_IS_CAL (client), NULL);
+	g_return_val_if_fail (E_IS_CAL_CLIENT (client), NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return g_object_new (

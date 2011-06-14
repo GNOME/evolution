@@ -35,13 +35,13 @@
 
 #include <gtk/gtk.h>
 
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libecal/e-cal-time-util.h>
+#include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libical/icalvcal.h>
 #include "evolution-calendar-importer.h"
 #include "shell/e-shell.h"
-#include "common/authentication.h"
 #include "gui/calendar-config-keys.h"
 
 #include "e-util/e-import.h"
@@ -58,21 +58,25 @@ typedef struct {
 
 	guint idle_id;
 
-	ECal *client;
-	ECalSourceType source_type;
+	ECalClient *cal_client;
+	EClientSourceType source_type;
 
 	icalcomponent *icalcomp;
 
-	guint cancelled:1;
+	GCancellable *cancellable;
 } ICalImporter;
 
 typedef struct {
-	guint cancelled:1;
+	EImport *ei;
+	EImportTarget *target;
+	GList *tasks;
+	icalcomponent *icalcomp;
+	GCancellable *cancellable;
 } ICalIntelligentImporter;
 
 static const gint import_type_map[] = {
-	E_CAL_SOURCE_TYPE_EVENT,
-	E_CAL_SOURCE_TYPE_TODO,
+	E_CLIENT_SOURCE_TYPE_EVENTS,
+	E_CLIENT_SOURCE_TYPE_TASKS,
 	-1
 };
 
@@ -99,11 +103,13 @@ is_icalcomp_usable (icalcomponent *icalcomp)
 static void
 ivcal_import_done (ICalImporter *ici)
 {
-	g_object_unref (ici->client);
+	if (ici->cal_client)
+		g_object_unref (ici->cal_client);
 	icalcomponent_free (ici->icalcomp);
 
 	e_import_complete (ici->import, ici->target);
 	g_object_unref (ici->import);
+	g_object_unref (ici->cancellable);
 	g_free (ici);
 }
 
@@ -165,12 +171,39 @@ prepare_tasks (icalcomponent *icalcomp, GList *vtodos)
 	g_list_free (vtodos);
 }
 
-static gboolean
-update_objects (ECal *client, icalcomponent *icalcomp)
+struct UpdateObjectsData
+{
+	void (*done_cb) (gpointer user_data);
+	gpointer user_data;
+};
+
+static void
+receive_objects_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	ECalClient *cal_client = E_CAL_CLIENT (source_object);
+	struct UpdateObjectsData *uod = user_data;
+	GError *error = NULL;
+
+	g_return_if_fail (uod != NULL);
+
+	e_cal_client_receive_objects_finish (cal_client, result, &error);
+
+	if (error) {
+		g_debug ("%s: Failed to receive objects: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+
+	if (uod->done_cb)
+		uod->done_cb (uod->user_data);
+	g_free (uod);
+}
+
+static void
+update_objects (ECalClient *cal_client, icalcomponent *icalcomp, GCancellable *cancellable, void (*done_cb)(gpointer user_data), gpointer user_data)
 {
 	icalcomponent_kind kind;
 	icalcomponent *vcal;
-	gboolean success = TRUE;
+	struct UpdateObjectsData *uod;
 
 	kind = icalcomponent_isa (icalcomp);
 	if (kind == ICAL_VTODO_COMPONENT || kind == ICAL_VEVENT_COMPONENT) {
@@ -184,15 +217,21 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 		vcal = icalcomponent_new_clone (icalcomp);
 		if (!icalcomponent_get_first_property (vcal, ICAL_METHOD_PROPERTY))
 			icalcomponent_set_method (vcal, ICAL_METHOD_PUBLISH);
-	} else
-		return FALSE;
+	} else {
+		if (done_cb)
+			done_cb (user_data);
+		return;
+	}
 
-	if (!e_cal_receive_objects (client, vcal, NULL))
-		success = FALSE;
+	uod = g_new0 (struct UpdateObjectsData, 1);
+	uod->done_cb = done_cb;
+	uod->user_data = user_data;
+
+	e_cal_client_receive_objects (cal_client, vcal, cancellable, receive_objects_ready_cb, uod);
 
 	icalcomponent_free (vcal);
 
-	return success;
+	return;
 }
 
 struct _selector_data {
@@ -246,7 +285,7 @@ ivcal_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 		struct _selector_data *sd;
 
 		/* FIXME Better error handling */
-		if (!e_cal_get_sources (&source_list, import_type_map[i], NULL))
+		if (!e_cal_client_get_sources (&source_list, import_type_map[i], NULL))
 			continue;
 
 		selector = e_source_selector_new (source_list);
@@ -290,71 +329,86 @@ ivcal_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 	return vbox;
 }
 
+static void
+ivcal_call_import_done (gpointer user_data)
+{
+	ivcal_import_done (user_data);
+}
+
 static gboolean
 ivcal_import_items (gpointer d)
 {
 	ICalImporter *ici = d;
 
 	switch (ici->source_type) {
-	case E_CAL_SOURCE_TYPE_EVENT:
+	case E_CLIENT_SOURCE_TYPE_EVENTS:
 		prepare_events (ici->icalcomp, NULL);
-		if (!update_objects (ici->client, ici->icalcomp)) {
-			/* FIXME: e_alert ... */;
-		}
+		update_objects (ici->cal_client, ici->icalcomp, ici->cancellable, ivcal_call_import_done, ici);
 		break;
-	case E_CAL_SOURCE_TYPE_TODO:
+	case E_CLIENT_SOURCE_TYPE_TASKS:
 		prepare_tasks (ici->icalcomp, NULL);
-		if (!update_objects (ici->client, ici->icalcomp)) {
-			/* FIXME: e_alert ... */;
-		}
+		update_objects (ici->cal_client, ici->icalcomp, ici->cancellable, ivcal_call_import_done, ici);
 		break;
 	default:
-		g_return_val_if_reached (FALSE);
+		g_warn_if_reached ();
+
+		ici->idle_id = 0;
+		ivcal_import_done (ici);
+		return FALSE;
 	}
 
-	ivcal_import_done (ici);
 	ici->idle_id = 0;
 
 	return FALSE;
 }
 
 static void
-ivcal_opened (ECal *ecal, const GError *error, ICalImporter *ici)
+ivcal_opened (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	if (!ici->cancelled && !error) {
+	EClient *client = NULL;
+	ICalImporter *ici = user_data;
+	GError *error = NULL;
+
+	g_return_if_fail (ici != NULL);
+
+	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
+		client = NULL;
+
+	ici->cal_client = client ? E_CAL_CLIENT (client) : NULL;
+
+	if (!g_cancellable_is_cancelled (ici->cancellable) && !error) {
 		e_import_status(ici->import, ici->target, _("Importing..."), 0);
 		ici->idle_id = g_idle_add (ivcal_import_items, ici);
 	} else
 		ivcal_import_done (ici);
+
+	if (error) {
+		g_debug ("%s: Failed to open calendar: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 }
 
 static void
 ivcal_import (EImport *ei, EImportTarget *target, icalcomponent *icalcomp)
 {
-	ECal *client;
-	ECalSourceType type;
+	EClientSourceType type;
+	ICalImporter *ici = g_malloc0 (sizeof (*ici));
 
 	type = GPOINTER_TO_INT(g_datalist_get_data(&target->data, "primary-type"));
 
-	client = e_auth_new_cal_from_source (g_datalist_get_data(&target->data, "primary-source"), type);
-	if (client) {
-		ICalImporter *ici = g_malloc0 (sizeof (*ici));
+	ici->import = ei;
+	g_datalist_set_data(&target->data, "ivcal-data", ici);
+	g_object_ref (ei);
+	ici->target = target;
+	ici->icalcomp = icalcomp;
+	ici->cal_client = NULL;
+	ici->source_type = type;
+	ici->cancellable = g_cancellable_new ();
+	e_import_status (ei, target, _("Opening calendar"), 0);
 
-		ici->import = ei;
-		g_datalist_set_data(&target->data, "ivcal-data", ici);
-		g_object_ref (ei);
-		ici->target = target;
-		ici->icalcomp = icalcomp;
-		ici->client = client;
-		ici->source_type = type;
-		e_import_status(ei, target, _("Opening calendar"), 0);
-		g_signal_connect(client, "cal-opened-ex", G_CALLBACK(ivcal_opened), ici);
-		e_cal_open_async (client, TRUE);
-		return;
-	} else {
-		icalcomponent_free (icalcomp);
-		e_import_complete (ei, target);
-	}
+	e_client_utils_open_new (g_datalist_get_data(&target->data, "primary-source"), type, FALSE, ici->cancellable,
+		e_client_utils_authenticate_handler, NULL,
+		ivcal_opened, ici);
 }
 
 static void
@@ -363,7 +417,7 @@ ivcal_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
 	ICalImporter *ici = g_datalist_get_data(&target->data, "ivcal-data");
 
 	if (ici)
-		ici->cancelled = 1;
+		g_cancellable_cancel (ici->cancellable);
 }
 
 /* ********************************************************************** */
@@ -684,13 +738,152 @@ gnome_calendar_supported (EImport *ei, EImportTarget *target, EImportImporter *i
 }
 
 static void
+free_ici (gpointer ptr)
+{
+	ICalIntelligentImporter *ici = ptr;
+
+	if (!ici)
+		return;
+
+	if (ici->icalcomp)
+		icalcomponent_free (ici->icalcomp);
+
+	g_object_unref (ici->cancellable);
+	g_free (ici);
+}
+
+struct OpenDefaultSourceData
+{
+	ICalIntelligentImporter *ici;
+	void (* opened_cb) (ECalClient *cal_client, const GError *error, ICalIntelligentImporter *ici);
+};
+
+static void
+default_source_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	EClient *client = NULL;
+	struct OpenDefaultSourceData *odsd = user_data;
+	GError *error = NULL;
+
+	g_return_if_fail (odsd != NULL);
+	g_return_if_fail (odsd->ici != NULL);
+	g_return_if_fail (odsd->opened_cb != NULL);
+
+	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
+		client = NULL;
+
+	odsd->opened_cb (client ? E_CAL_CLIENT (client) : NULL, error, odsd->ici);
+
+	if (client)
+		g_object_unref (client);
+	if (error)
+		g_error_free (error);
+
+	g_free (odsd);
+}
+
+static void
+open_default_source (ICalIntelligentImporter *ici, ECalClientSourceType source_type, void (* opened_cb) (ECalClient *cal_client, const GError *error, ICalIntelligentImporter *ici))
+{
+	ESource *source;
+	ECalClient *cal_client;
+	GError *error = NULL;
+	struct OpenDefaultSourceData *odsd;
+
+	g_return_if_fail (ici != NULL);
+	g_return_if_fail (opened_cb != NULL);
+
+	cal_client = e_cal_client_new_default (source_type, NULL);
+	if (!cal_client)
+		cal_client = e_cal_client_new_system (source_type, &error);
+
+	if (!cal_client) {
+		opened_cb (NULL, error, ici);
+		if (error)
+			g_error_free (error);
+		return;
+	}
+
+	source = e_client_get_source (E_CLIENT (cal_client));
+	g_return_if_fail (source != NULL);
+
+	source = g_object_ref (source);
+	g_object_unref (cal_client);
+
+	odsd = g_new0 (struct OpenDefaultSourceData, 1);
+	odsd->ici = ici;
+	odsd->opened_cb = opened_cb;
+
+	e_import_status (ici->ei, ici->target, _("Opening calendar"), 0);
+
+	e_client_utils_open_new (source, source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? E_CLIENT_SOURCE_TYPE_EVENTS : E_CLIENT_SOURCE_TYPE_TASKS, FALSE, ici->cancellable,
+		e_client_utils_authenticate_handler, NULL,
+		default_source_opened_cb, odsd);
+
+	g_object_unref (source);
+}
+
+static void
+continue_done_cb (gpointer user_data)
+{
+	ICalIntelligentImporter *ici = user_data;
+
+	g_return_if_fail (ici != NULL);
+
+	e_import_complete (ici->ei, ici->target);
+}
+
+static void
+gc_import_tasks (ECalClient *cal_client, const GError *error, ICalIntelligentImporter *ici)
+{
+	g_return_if_fail (ici != NULL);
+
+	if (!cal_client) {
+		g_debug ("%s: Failed to open tasks: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		e_import_complete (ici->ei, ici->target);
+		return;
+	}
+
+	e_import_status (ici->ei, ici->target, _("Importing..."), 0);
+
+	prepare_tasks (ici->icalcomp, ici->tasks);
+	update_objects (cal_client, ici->icalcomp, ici->cancellable, continue_done_cb, ici);
+}
+
+static void
+continue_tasks_cb (gpointer user_data)
+{
+	ICalIntelligentImporter *ici = user_data;
+
+	g_return_if_fail (ici != NULL);
+
+	open_default_source (ici, E_CAL_CLIENT_SOURCE_TYPE_TASKS, gc_import_tasks);
+}
+
+static void
+gc_import_events (ECalClient *cal_client, const GError *error, ICalIntelligentImporter *ici)
+{
+	g_return_if_fail (ici != NULL);
+
+	if (!cal_client) {
+		g_debug ("%s: Failed to open events calendar: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		if (ici->tasks)
+			open_default_source (ici, E_CAL_CLIENT_SOURCE_TYPE_TASKS, gc_import_tasks);
+		else
+			e_import_complete (ici->ei, ici->target);
+		return;
+	}
+
+	e_import_status (ici->ei, ici->target, _("Importing..."), 0);
+
+	update_objects (cal_client, ici->icalcomp, ici->cancellable, ici->tasks ? continue_tasks_cb : continue_done_cb, ici);
+}
+
+static void
 gnome_calendar_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	icalcomponent *icalcomp = NULL;
 	gchar *filename;
-	GList *vtodos;
-	ECal *calendar_client = NULL, *tasks_client = NULL;
-	gint t;
 	gint do_calendar, do_tasks;
 	ICalIntelligentImporter *ici;
 
@@ -704,21 +897,6 @@ gnome_calendar_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (!do_calendar && !do_tasks)
 		return;
 
-	e_import_status(ei, target, _("Opening calendar"), 0);
-
-	/* Try to open the default calendar & tasks folders. */
-	if (do_calendar) {
-		calendar_client = e_auth_new_cal_from_default (E_CAL_SOURCE_TYPE_EVENT);
-		if (!calendar_client)
-			goto out;
-	}
-
-	if (do_tasks) {
-		tasks_client = e_auth_new_cal_from_default (E_CAL_SOURCE_TYPE_TODO);
-		if (!tasks_client)
-			goto out;
-	}
-
 	/* Load the Gnome Calendar file and convert to iCalendar. */
 	filename = g_build_filename(g_get_home_dir (), "user-cal.vcf", NULL);
 	icalcomp = load_vcalendar_file (filename);
@@ -729,64 +907,29 @@ gnome_calendar_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 		goto out;
 
 	ici = g_malloc0 (sizeof (*ici));
-	g_datalist_set_data_full(&target->data, "gnomecal-data", ici, g_free);
+	ici->ei = ei;
+	ici->target = target;
+	ici->cancellable = g_cancellable_new ();
+	ici->icalcomp = icalcomp;
+	icalcomp = NULL;
 
-	/* Wait for client to finish opening the calendar & tasks folders. */
-	for (t = 0; t < IMPORTER_TIMEOUT_SECONDS; t++) {
-		ECalLoadState calendar_state, tasks_state;
+	g_datalist_set_data_full(&target->data, "gnomecal-data", ici, free_ici);
 
-		calendar_state = tasks_state = E_CAL_LOAD_LOADED;
-
-		/* We need this so the ECal gets notified that the
-		   folder is opened, via Corba. */
-		while (gtk_events_pending ())
-			gtk_main_iteration ();
-
-		if (do_calendar)
-			calendar_state = e_cal_get_load_state (calendar_client);
-
-		if (do_tasks)
-			tasks_state = e_cal_get_load_state (tasks_client);
-
-		if (calendar_state == E_CAL_LOAD_LOADED
-		    && tasks_state == E_CAL_LOAD_LOADED)
-			break;
-
-		g_usleep (1000000);
-		if (ici->cancelled)
-			goto out;
+	prepare_events (ici->icalcomp, &ici->tasks);
+	if (do_calendar) {
+		open_default_source (ici, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, gc_import_events);
+		return;
 	}
 
-	/* If we timed out, just return. */
-	if (t == IMPORTER_TIMEOUT_SECONDS)
-		goto out;
-
-	e_import_status(ei, target, _("Importing..."), 0);
-
-	/*
-	 * Import the calendar events into the default calendar folder.
-	 */
-	prepare_events (icalcomp, &vtodos);
-	if (do_calendar)
-		update_objects (calendar_client, icalcomp);
-
-	if (ici->cancelled)
-		goto out;
-
-	/*
-	 * Import the tasks into the default tasks folder.
-	 */
-	prepare_tasks (icalcomp, vtodos);
-	if (do_tasks)
-		update_objects (tasks_client, icalcomp);
+	prepare_tasks (ici->icalcomp, ici->tasks);
+	if (do_tasks) {
+		open_default_source (ici, E_CAL_CLIENT_SOURCE_TYPE_TASKS, gc_import_tasks);
+		return;
+	}
 
  out:
 	if (icalcomp)
 		icalcomponent_free (icalcomp);
-	if (calendar_client)
-		g_object_unref (calendar_client);
-	if (tasks_client)
-		g_object_unref (tasks_client);
 
 	e_import_complete (ei, target);
 }
@@ -841,7 +984,7 @@ gnome_calendar_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
 	ICalIntelligentImporter *ici = g_datalist_get_data(&target->data, "gnomecal-data");
 
 	if (ici)
-		ici->cancelled = 1;
+		g_cancellable_cancel (ici->cancellable);
 }
 
 static EImportImporter gnome_calendar_importer = {

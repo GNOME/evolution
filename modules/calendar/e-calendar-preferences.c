@@ -435,7 +435,7 @@ show_alarms_config (ECalendarPreferences *prefs)
 {
 	GConfClient *gconf;
 
-	if (e_cal_get_sources (&prefs->alarms_list, E_CAL_SOURCE_TYPE_EVENT, NULL)) {
+	if (e_cal_client_get_sources (&prefs->alarms_list, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL)) {
 		prefs->alarm_list_widget = e_source_selector_new (prefs->alarms_list);
 		atk_object_set_name (gtk_widget_get_accessible (prefs->alarm_list_widget), _("Selected Calendars for Alarms"));
 		gtk_container_add (GTK_CONTAINER (prefs->scrolled_window), prefs->alarm_list_widget);

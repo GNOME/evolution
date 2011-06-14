@@ -27,8 +27,9 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-source.h>
+#include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-selector.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libxml/xmlmemory.h>
@@ -38,7 +39,6 @@
 #include <libxml/xpath.h>
 #include <string.h>
 
-#include "calendar/common/authentication.c"
 #include "format-handler.h"
 
 static void
@@ -169,7 +169,7 @@ add_string_to_rdf (xmlNodePtr node, const gchar *tag, const gchar *value)
 }
 
 static void
-do_save_calendar_rdf (FormatHandler *handler, ESourceSelector *selector, ECalSourceType type, gchar *dest_uri)
+do_save_calendar_rdf (FormatHandler *handler, ESourceSelector *selector, ECalClientSourceType type, gchar *dest_uri)
 {
 
 	/*
@@ -182,9 +182,9 @@ do_save_calendar_rdf (FormatHandler *handler, ESourceSelector *selector, ECalSou
 	 */
 
 	ESource *primary_source;
-	ECal *source_client;
+	ECalClient *source_client;
 	GError *error = NULL;
-	GList *objects=NULL;
+	GSList *objects = NULL;
 	gchar *temp = NULL;
 	GOutputStream *stream;
 
@@ -194,17 +194,23 @@ do_save_calendar_rdf (FormatHandler *handler, ESourceSelector *selector, ECalSou
 	primary_source = e_source_selector_get_primary_selection (selector);
 
 	/* open source client */
-	source_client = e_auth_new_cal_from_source (primary_source, type);
-	if (!e_cal_open (source_client, TRUE, &error)) {
+	source_client = e_cal_client_new (primary_source, type, &error);
+	if (source_client)
+		g_signal_connect (source_client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+
+	if (!source_client || !e_client_open_sync (E_CLIENT (source_client), TRUE, NULL, &error)) {
 		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (selector)), error);
-		g_object_unref (source_client);
+		if (source_client)
+			g_object_unref (source_client);
 		g_error_free (error);
 		return;
 	}
 
 	stream = open_for_writing (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (selector))), dest_uri, &error);
 
-	if (stream && e_cal_get_object_list_as_comp (source_client, "#t", &objects, NULL)) {
+	if (stream && e_cal_client_get_object_list_as_comps_sync (source_client, "#t", &objects, NULL, NULL)) {
+		GSList *iter;
+
 		xmlBufferPtr buffer=xmlBufferCreate ();
 		xmlDocPtr doc = xmlNewDoc((xmlChar *) "1.0");
 		xmlNodePtr fnode;
@@ -238,7 +244,7 @@ do_save_calendar_rdf (FormatHandler *handler, ESourceSelector *selector, ECalSou
 		/* Version of this RDF-format */
 		xmlNewChild (fnode, NULL, (const guchar *)"version", (const guchar *)"2.0");
 
-		while (objects != NULL) {
+		for (iter = objects; iter; iter = iter->next) {
 			ECalComponent *comp = objects->data;
 			const gchar *temp_constchar;
 			gchar *tmp_str = NULL;
@@ -334,8 +340,6 @@ do_save_calendar_rdf (FormatHandler *handler, ESourceSelector *selector, ECalSou
 			 * http://www.gnome.org/projects/evolution/developer-doc/libecal/ECalComponent.html
 			 *	#e-cal-component-get-last-modified
 			 */
-
-			objects = g_list_next (objects);
 		}
 
 		/* I used a buffer rather than xmlDocDump: I want gio support */
@@ -343,6 +347,8 @@ do_save_calendar_rdf (FormatHandler *handler, ESourceSelector *selector, ECalSou
 
 		g_output_stream_write_all (stream, xmlBufferContent (buffer), xmlBufferLength (buffer), NULL, NULL, &error);
 		g_output_stream_close (stream, NULL, NULL);
+
+		e_cal_client_free_ecalcomp_slist (objects);
 
 		xmlBufferFree (buffer);
 		xmlFreeDoc (doc);

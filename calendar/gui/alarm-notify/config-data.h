@@ -27,7 +27,7 @@
 #define CONFIG_DATA_H
 
 #include <libical/ical.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <gconf/gconf-client.h>
 #include <libedataserver/e-source-list.h>
 
@@ -37,10 +37,10 @@ gboolean	config_data_get_24_hour_format	(void);
 gboolean	config_data_get_notify_with_tray
 						(void);
 void		config_data_set_last_notification_time
-						(ECal *cal,
+						(ECalClient *cal,
 						 time_t t);
 time_t		config_data_get_last_notification_time
-						(ECal *cal);
+						(ECalClient *cal);
 void		config_data_save_blessed_program
 						(const gchar *program);
 gboolean	config_data_is_blessed_program	(const gchar *program);

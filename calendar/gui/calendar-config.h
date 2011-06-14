@@ -29,7 +29,7 @@
 #define _CALENDAR_CONFIG_H_
 
 #include <gdk/gdk.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <gconf/gconf-client.h>
 #include <e-util/e-util-enums.h>
 

@@ -130,7 +130,7 @@ get_dtend (ECalModelCalendar *model, ECalModelComponent *comp_data)
 		tt_end = icalproperty_get_dtend (prop);
 
 		if (icaltime_get_tzid (tt_end)
-		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_end), &zone, NULL))
+		    && e_cal_client_get_timezone_sync (comp_data->client, icaltime_get_tzid (tt_end), &zone, NULL, NULL))
 			got_zone = TRUE;
 
 		model_zone = e_cal_model_get_timezone (E_CAL_MODEL (model));
@@ -295,6 +295,7 @@ ecmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 	CalObjModType mod = CALOBJ_MOD_ALL;
 	ECalComponent *comp;
 	ECalModelCalendar *model = (ECalModelCalendar *) etm;
+	GError *error = NULL;
 
 	g_return_if_fail (E_IS_CAL_MODEL_CALENDAR (model));
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST);
@@ -335,7 +336,7 @@ ecmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 		break;
 	}
 
-	if (e_cal_modify_object (comp_data->client, comp_data->icalcomp, mod, NULL)) {
+	if (e_cal_client_modify_object_sync (comp_data->client, comp_data->icalcomp, mod, NULL, &error)) {
 		gboolean strip_alarms = TRUE;
 
 		if (itip_organizer_is_user (comp, comp_data->client) &&
@@ -348,7 +349,7 @@ ecmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 				const gchar *uid = NULL;
 
 				e_cal_component_get_uid (comp, &uid);
-				if (e_cal_get_object (comp_data->client, uid, NULL, &icalcomp, NULL) && icalcomp) {
+				if (e_cal_client_get_object_sync (comp_data->client, uid, NULL, &icalcomp, NULL, NULL) && icalcomp) {
 					send_comp = e_cal_component_new ();
 					if (!e_cal_component_set_icalcomponent (send_comp, icalcomp)) {
 						icalcomponent_free (icalcomp);
@@ -365,9 +366,11 @@ ecmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 				g_object_unref (send_comp);
 		}
 	} else {
-		g_warning (G_STRLOC ": Could not modify the object!");
+		g_warning (G_STRLOC ": Could not modify the object! %s", error ? error->message : "Unknown error");
 
 		/* FIXME Show error dialog */
+		if (error)
+			g_error_free (error);
 	}
 
 	g_object_unref (comp);

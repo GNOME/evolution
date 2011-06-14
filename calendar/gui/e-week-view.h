@@ -185,9 +185,6 @@ struct _EWeekView {
 
 	GtkWidget *vscrollbar;
 
-	/* The query object */
-	ECalView *query;
-
 	/* The array of EWeekViewEvent elements. */
 	GArray *events;
 	gboolean events_sorted;
