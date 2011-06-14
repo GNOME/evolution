@@ -760,6 +760,7 @@
                     <property name="shadow_type">in</property>
                     <child>
                       <object class="GtkTreeView" id="yourcerts-treeview">
+			<property name="name">yourcerts</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <child internal-child="accessible">
@@ -912,6 +913,7 @@
                     <property name="shadow_type">in</property>
                     <child>
                       <object class="GtkTreeView" id="contactcerts-treeview">
+			<property name="name">contactcerts</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <child internal-child="accessible">
@@ -1051,6 +1053,7 @@
                     <property name="shadow_type">in</property>
                     <child>
                       <object class="GtkTreeView" id="authoritycerts-treeview">
+			<property name="name">authoritycerts</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>

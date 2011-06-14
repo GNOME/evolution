@@ -328,7 +328,7 @@ book_shell_backend_init_preferences (EShell *shell)
 		"certificates",
 		"preferences-certificates",
 		_("Certificates"),
-		certificate_manager_config_new,
+		e_cert_manager_config_new,
 		700);
 #endif
 
