@@ -2389,6 +2389,30 @@ get_reply_from (CamelMimeMessage *message,
 }
 
 static void
+get_reply_recipient (CamelMimeMessage *message,
+		     CamelInternetAddress *to,
+		     CamelNNTPAddress *postto,
+		     CamelInternetAddress *address)
+{
+	const gchar *name, *addr, *posthdr;
+	gint i;
+	
+	/* check whether there is a 'Newsgroups: ' header in there */
+	if (postto
+	    && ((posthdr = camel_medium_get_header((CamelMedium *)message, "Followup-To"))
+		 || (posthdr = camel_medium_get_header((CamelMedium *)message, "Newsgroups")))) {
+		camel_address_decode ((CamelAddress *)postto, posthdr);
+		return;
+	}
+
+	if (address) {
+		for (i = 0; camel_internet_address_get (address, i, &name, &addr); i++)
+			camel_internet_address_add (to, name, addr);
+	}
+
+}
+
+static void
 concat_unique_addrs (CamelInternetAddress *dest,
                      CamelInternetAddress *src,
                      GHashTable *rcpt_hash)
@@ -2792,6 +2816,7 @@ em_utils_construct_composer_text (CamelMimeMessage *message, EMFormat *source)
  * @type: the type of reply to create
  * @style: the reply style to use
  * @source: source to inherit view settings from
+ * @address: used for E_MAIL_REPLY_TO_RECIPIENT @type
  *
  * Creates a new composer ready to reply to @message.
  *
@@ -2805,7 +2830,8 @@ em_utils_reply_to_message (EShell *shell,
                            const gchar *message_uid,
                            EMailReplyType type,
                            EMailReplyStyle style,
-                           EMFormat *source)
+                           EMFormat *source,
+			   CamelInternetAddress *address)
 {
 	CamelInternetAddress *to, *cc;
 	CamelNNTPAddress *postto = NULL;
@@ -2828,6 +2854,12 @@ em_utils_reply_to_message (EShell *shell,
 			postto = camel_nntp_address_new ();
 
 		get_reply_from (message, to, postto);
+		break;
+	case E_MAIL_REPLY_TO_RECIPIENT:
+		if (folder)
+			postto = camel_nntp_address_new ();
+
+		get_reply_recipient (message, to, postto, address);
 		break;
 	case E_MAIL_REPLY_TO_SENDER:
 		if (folder)
