@@ -89,7 +89,7 @@ ecal_date_range_changed (ECalendarItem *calitem, gpointer user_data)
 {
 	GoToDialog *dlg = user_data;
 	ECalModel *model;
-	ECal *client;
+	ECalClient *client;
 
 	model = gnome_calendar_get_model (dlg->gcal);
 	client = e_cal_model_get_default_client (model);

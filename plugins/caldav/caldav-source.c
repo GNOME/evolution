@@ -33,7 +33,7 @@
 #include <e-util/e-plugin-util.h>
 #include <calendar/gui/e-cal-config.h>
 #include <libedataserver/e-account-list.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 
 #include <string.h>
 
@@ -53,12 +53,15 @@ GtkWidget *      oge_caldav               (EPlugin                    *epl,
 /* plugin intialization */
 
 static void
-ensure_caldav_source_group (ECalSourceType source_type)
+ensure_caldav_source_group (ECalClientSourceType source_type)
 {
-	ESourceList  *slist;
+	ESourceList *slist;
+	GError *error = NULL;
 
-	if (!e_cal_get_sources (&slist, source_type, NULL)) {
-		g_warning ("Could not get calendar source list from GConf!");
+	if (!e_cal_client_get_sources (&slist, source_type, &error)) {
+		g_warning ("Could not get calendar sources: %s", error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
 		return;
 	}
 
@@ -72,9 +75,9 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 
 	if (enable) {
 		d(g_print ("CalDAV Eplugin starting up ...\n"));
-		ensure_caldav_source_group (E_CAL_SOURCE_TYPE_EVENT);
-		ensure_caldav_source_group (E_CAL_SOURCE_TYPE_TODO);
-		ensure_caldav_source_group (E_CAL_SOURCE_TYPE_JOURNAL);
+		ensure_caldav_source_group (E_CAL_CLIENT_SOURCE_TYPE_EVENTS);
+		ensure_caldav_source_group (E_CAL_CLIENT_SOURCE_TYPE_TASKS);
+		ensure_caldav_source_group (E_CAL_CLIENT_SOURCE_TYPE_MEMOS);
 	}
 
 	return 0;

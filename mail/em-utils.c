@@ -41,7 +41,8 @@
 #undef interface
 #endif
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
+#include <libebook/e-book-query.h>
 
 #include "em-filter-editor.h"
 
@@ -1439,25 +1440,10 @@ emu_addr_setup (gpointer user_data)
 	GError *err = NULL;
 	ESourceList **psource_list = user_data;
 
-	if (!e_book_get_addressbooks (psource_list, &err))
+	if (!e_book_client_get_sources (psource_list, &err))
 		g_error_free (err);
 
 	return NULL;
-}
-
-static void
-emu_addr_cancel_book (gpointer data)
-{
-	EBook **pbook = data;
-	GError *err = NULL;
-
-	g_return_if_fail (pbook != NULL);
-
-	if (*pbook) {
-		/* we dunna care if this fails, its just the best we can try */
-		e_book_cancel (*pbook, &err);
-		g_clear_error (&err);
-	}
 }
 
 static void
@@ -1470,6 +1456,16 @@ emu_addr_cancel_stop (gpointer data)
 	*stop = TRUE;
 }
 
+static void
+emu_addr_cancel_cancellable (gpointer data)
+{
+	GCancellable *cancellable = data;
+
+	g_return_if_fail (cancellable != NULL);
+
+	g_cancellable_cancel (cancellable);
+}
+
 struct TryOpenEBookStruct {
 	GError **error;
 	EFlag *flag;
@@ -1477,32 +1473,36 @@ struct TryOpenEBookStruct {
 };
 
 static void
-try_open_e_book_cb (EBook *book, const GError *error, gpointer closure)
+try_open_book_client_cb (GObject *source_object, GAsyncResult *result, gpointer closure)
 {
+	EBookClient *book_client = E_BOOK_CLIENT (source_object);
 	struct TryOpenEBookStruct *data = (struct TryOpenEBookStruct *) closure;
+	GError *error = NULL;
 
 	if (!data)
 		return;
+
+	e_client_open_finish (E_CLIENT (book_client), result, &error);
 
 	data->result = error == NULL;
 
 	if (!data->result) {
 		g_clear_error (data->error);
-		g_propagate_error (data->error, g_error_copy (error));
+		g_propagate_error (data->error, error);
 	}
 
 	e_flag_set (data->flag);
 }
 
-/**
- * try_open_e_book:
+/*
+ * try_open_book_client:
  * Tries to open address book asynchronously, but acts as synchronous.
  * The advantage is it checks periodically whether the camel_operation
  * has been canceled or not, and if so, then stops immediately, with
- * result FALSE. Otherwise returns same as e_book_open
- **/
+ * result FALSE. Otherwise returns same as e_client_open()
+ */
 static gboolean
-try_open_e_book (EBook *book, gboolean only_if_exists, GError **error)
+try_open_book_client (EBookClient *book_client, gboolean only_if_exists, GCancellable *cancellable, GError **error)
 {
 	struct TryOpenEBookStruct data;
 	gboolean canceled = FALSE;
@@ -1512,15 +1512,7 @@ try_open_e_book (EBook *book, gboolean only_if_exists, GError **error)
 	data.flag = flag;
 	data.result = FALSE;
 
-	if (!e_book_open_async (book, only_if_exists, try_open_e_book_cb, &data)) {
-		e_flag_free (flag);
-		g_clear_error (error);
-		g_set_error (
-			error, E_BOOK_ERROR,
-			E_BOOK_ERROR_OTHER_ERROR,
-			"Failed to call e_book_open_async.");
-		return FALSE;
-	}
+	e_client_open (E_CLIENT (book_client), only_if_exists, cancellable, try_open_book_client_cb, &data);
 
 	while (canceled = camel_operation_cancel_check (NULL),
 			!canceled && !e_flag_is_set (flag)) {
@@ -1533,16 +1525,10 @@ try_open_e_book (EBook *book, gboolean only_if_exists, GError **error)
 	}
 
 	if (canceled) {
+		g_cancellable_cancel (cancellable);
+
 		g_clear_error (error);
-		g_set_error (
-			error, E_BOOK_ERROR,
-			E_BOOK_ERROR_CANCELLED,
-			"Operation has been canceled.");
-		/* if the operation is cancelled sucessfully set the flag
-		 * else wait. file, groupwise,.. backend's operations
-		 * are not cancellable */
-		if (e_book_cancel_async_op (book, NULL))
-			e_flag_set (flag);
+		g_propagate_error (error, e_client_error_create (E_CLIENT_ERROR_CANCELLED, NULL));
 	}
 
 	e_flag_wait (flag);
@@ -1578,8 +1564,11 @@ search_address_in_addressbooks (const gchar *address,
 	gboolean found = FALSE, stop = FALSE, found_any = FALSE;
 	gchar *lowercase_addr;
 	gpointer ptr;
-	EBookQuery *query;
+	EBookQuery *book_query;
+	gchar *query;
 	GSList *s, *g, *addr_sources = NULL;
+	GHook *hook_cancellable;
+	GCancellable *cancellable;
 
 	if (!address || !*address)
 		return FALSE;
@@ -1611,7 +1600,9 @@ search_address_in_addressbooks (const gchar *address,
 		return ptr != NOT_FOUND_BOOK;
 	}
 
-	query = e_book_query_field_test (E_CONTACT_EMAIL, E_BOOK_QUERY_IS, address);
+	book_query = e_book_query_field_test (E_CONTACT_EMAIL, E_BOOK_QUERY_IS, address);
+	query = e_book_query_to_string (book_query);
+	e_book_query_unref (book_query);
 
 	for (g = e_source_list_peek_groups (emu_books_source_list);
 			g; g = g_slist_next (g)) {
@@ -1635,11 +1626,14 @@ search_address_in_addressbooks (const gchar *address,
 		}
 	}
 
+	cancellable = g_cancellable_new ();
+	hook_cancellable = mail_cancel_hook_add (emu_addr_cancel_cancellable, cancellable);
+
 	for (s = addr_sources; !stop && !found && s; s = g_slist_next (s)) {
 		ESource *source = s->data;
-		GList *contacts;
-		EBook *book = NULL;
-		GHook *hook_book, *hook_stop;
+		GSList *contacts;
+		EBookClient *book_client = NULL;
+		GHook *hook_stop;
 		gboolean cached_book = FALSE;
 		GError *err = NULL;
 
@@ -1653,17 +1647,14 @@ search_address_in_addressbooks (const gchar *address,
 
 		d(printf(" checking '%s'\n", e_source_get_uri(source)));
 
-		hook_book = mail_cancel_hook_add (emu_addr_cancel_book, &book);
 		hook_stop = mail_cancel_hook_add (emu_addr_cancel_stop, &stop);
 
-		book = g_hash_table_lookup (emu_books_hash, e_source_peek_uid (source));
-		if (!book) {
-			book = e_book_new (source, &err);
+		book_client = g_hash_table_lookup (emu_books_hash, e_source_peek_uid (source));
+		if (!book_client) {
+			book_client = e_book_client_new (source, &err);
 
-			if (book == NULL) {
-				if (err && g_error_matches (
-					err, E_BOOK_ERROR,
-					E_BOOK_ERROR_CANCELLED)) {
+			if (book_client == NULL) {
+				if (err && g_error_matches (err, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
 					stop = TRUE;
 				} else if (err) {
 					gchar *source_uid;
@@ -1682,13 +1673,11 @@ search_address_in_addressbooks (const gchar *address,
 						err->message);
 				}
 				g_clear_error (&err);
-			} else if (!stop && !try_open_e_book (book, TRUE, &err)) {
-				g_object_unref (book);
-				book = NULL;
+			} else if (!stop && !try_open_book_client (book_client, TRUE, cancellable, &err)) {
+				g_object_unref (book_client);
+				book_client = NULL;
 
-				if (err && g_error_matches (
-					err, E_BOOK_ERROR,
-					E_BOOK_ERROR_CANCELLED)) {
+				if (err && g_error_matches (err, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
 					stop = TRUE;
 				} else if (err) {
 					gchar *source_uid;
@@ -1712,18 +1701,15 @@ search_address_in_addressbooks (const gchar *address,
 			cached_book = TRUE;
 		}
 
-		if (book && !stop && e_book_get_contacts (book, query, &contacts, &err)) {
+		if (book_client && !stop && e_book_client_get_contacts_sync (book_client, query, &contacts, cancellable, &err)) {
 			if (contacts != NULL) {
 				if (!found_any) {
-					g_hash_table_insert (
-						contact_cache,
-						g_strdup (lowercase_addr),
-						book);
+					g_hash_table_insert (contact_cache, g_strdup (lowercase_addr), book_client);
 				}
 				found_any = TRUE;
 
 				if (check_contact) {
-					GList *l;
+					GSList *l;
 
 					for (l = contacts; l && !found; l = l->next) {
 						EContact *contact = l->data;
@@ -1734,12 +1720,12 @@ search_address_in_addressbooks (const gchar *address,
 					found = TRUE;
 				}
 
-				g_list_foreach (contacts, (GFunc) g_object_unref, NULL);
-				g_list_free (contacts);
+				g_slist_foreach (contacts, (GFunc) g_object_unref, NULL);
+				g_slist_free (contacts);
 			}
-		} else if (book) {
+		} else if (book_client) {
 			stop = stop || (err && g_error_matches (
-				err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED));
+				err, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED));
 			if (err && !stop) {
 				gchar *source_uid = g_strdup (e_source_peek_uid (source));
 
@@ -1753,24 +1739,26 @@ search_address_in_addressbooks (const gchar *address,
 			g_clear_error (&err);
 		}
 
-		mail_cancel_hook_remove (hook_book);
 		mail_cancel_hook_remove (hook_stop);
 
 		stop = stop || camel_operation_cancel_check (NULL);
 
-		if (stop && !cached_book && book) {
-			g_object_unref (book);
-		} else if (!stop && book && !cached_book) {
+		if (stop && !cached_book && book_client) {
+			g_object_unref (book_client);
+		} else if (!stop && book_client && !cached_book) {
 			g_hash_table_insert (
 				emu_books_hash, g_strdup (
-				e_source_peek_uid (source)), book);
+				e_source_peek_uid (source)), book_client);
 		}
 	}
+
+	mail_cancel_hook_remove (hook_cancellable);
+	g_object_unref (cancellable);
 
 	g_slist_foreach (addr_sources, (GFunc) g_object_unref, NULL);
 	g_slist_free (addr_sources);
 
-	e_book_query_unref (query);
+	g_free (query);
 
 	if (!found_any) {
 		g_hash_table_insert (contact_cache, lowercase_addr, NOT_FOUND_BOOK);

@@ -38,7 +38,7 @@
 #include <gtk/gtk.h>
 
 #include <libebook/e-destination.h>
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 #include <glib/gi18n.h>
 
 #include <libedataserver/e-xml-utils.h>
@@ -169,7 +169,7 @@ migration_context_new (const gchar *data_dir)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_free);
 
-	e_book_get_addressbooks (&context->source_list, NULL);
+	e_book_client_get_sources (&context->source_list, NULL);
 
 	context->data_dir = data_dir;
 

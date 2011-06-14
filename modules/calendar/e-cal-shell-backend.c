@@ -27,11 +27,12 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-group.h>
+#include <libedataserverui/e-client-utils.h>
 
 #include "e-util/e-import.h"
 #include "shell/e-shell.h"
@@ -39,7 +40,6 @@
 #include "shell/e-shell-window.h"
 #include "widgets/misc/e-preferences-window.h"
 
-#include "calendar/common/authentication.h"
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/event-editor.h"
@@ -85,6 +85,7 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	const gchar *name;
 	gchar *property;
 	gboolean save_list = FALSE;
+	GError *error = NULL;
 
 	birthdays = NULL;
 	personal = NULL;
@@ -94,10 +95,11 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	if (!e_cal_get_sources (
+	if (!e_cal_client_get_sources (
 		&cal_shell_backend->priv->source_list,
-		E_CAL_SOURCE_TYPE_EVENT, NULL)) {
-		g_warning ("Could not get calendar sources from GConf!");
+		E_CAL_CLIENT_SOURCE_TYPE_EVENTS, &error)) {
+		g_debug ("%s: Could not get calendar sources: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		return;
 	}
 
@@ -234,20 +236,31 @@ cal_shell_backend_new_event (ESource *source,
                              CompEditorFlags flags,
                              gboolean all_day)
 {
-	ECal *cal;
+	EClient *client = NULL;
+	ECalClient *cal_client;
 	ECalComponent *comp;
 	EShellSettings *shell_settings;
 	CompEditor *editor;
+	GError *error = NULL;
 
 	/* XXX Handle errors better. */
-	cal = e_load_cal_source_finish (source, result, NULL);
-	g_return_if_fail (E_IS_CAL (cal));
+	if (!e_client_utils_open_new_finish (source, result, &client, &error))
+		client = NULL;
 
+	if (!client) {
+		g_debug ("%s: Failed to open '%s': %s", G_STRFUNC, e_source_peek_name (source), error ? error->message : "Unknown error");
+		g_clear_error (&error);
+		return;
+	}
+
+	g_return_if_fail (E_IS_CAL_CLIENT (client));
+
+	cal_client = E_CAL_CLIENT (client);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	editor = event_editor_new (cal, shell, flags);
+	editor = event_editor_new (cal_client, shell, flags);
 	comp = cal_comp_event_new_with_current_time (
-		cal, all_day,
+		cal_client, all_day,
 		e_shell_settings_get_pointer (
 			shell_settings, "cal-timezone"),
 		e_shell_settings_get_boolean (
@@ -262,13 +275,11 @@ cal_shell_backend_new_event (ESource *source,
 	gtk_window_present (GTK_WINDOW (editor));
 
 	g_object_unref (comp);
-	g_object_unref (cal);
+	g_object_unref (client);
 }
 
 static void
-cal_shell_backend_event_new_cb (ESource *source,
-                                GAsyncResult *result,
-                                EShell *shell)
+cal_shell_backend_event_new_cb (GObject *source_object, GAsyncResult *result, gpointer shell)
 {
 	CompEditorFlags flags = 0;
 	gboolean all_day = FALSE;
@@ -276,15 +287,13 @@ cal_shell_backend_event_new_cb (ESource *source,
 	flags |= COMP_EDITOR_NEW_ITEM;
 	flags |= COMP_EDITOR_USER_ORG;
 
-	cal_shell_backend_new_event (source, result, shell, flags, all_day);
+	cal_shell_backend_new_event (E_SOURCE (source_object), result, shell, flags, all_day);
 
 	g_object_unref (shell);
 }
 
 static void
-cal_shell_backend_event_all_day_new_cb (ESource *source,
-                                        GAsyncResult *result,
-                                        EShell *shell)
+cal_shell_backend_event_all_day_new_cb (GObject *source_object, GAsyncResult *result, gpointer shell)
 {
 	CompEditorFlags flags = 0;
 	gboolean all_day = TRUE;
@@ -292,15 +301,13 @@ cal_shell_backend_event_all_day_new_cb (ESource *source,
 	flags |= COMP_EDITOR_NEW_ITEM;
 	flags |= COMP_EDITOR_USER_ORG;
 
-	cal_shell_backend_new_event (source, result, shell, flags, all_day);
+	cal_shell_backend_new_event (E_SOURCE (source_object), result, shell, flags, all_day);
 
 	g_object_unref (shell);
 }
 
 static void
-cal_shell_backend_event_meeting_new_cb (ESource *source,
-                                        GAsyncResult *result,
-                                        EShell *shell)
+cal_shell_backend_event_meeting_new_cb (GObject *source_object, GAsyncResult *result, gpointer shell)
 {
 	CompEditorFlags flags = 0;
 	gboolean all_day = FALSE;
@@ -309,7 +316,7 @@ cal_shell_backend_event_meeting_new_cb (ESource *source,
 	flags |= COMP_EDITOR_USER_ORG;
 	flags |= COMP_EDITOR_MEETING;
 
-	cal_shell_backend_new_event (source, result, shell, flags, all_day);
+	cal_shell_backend_new_event (E_SOURCE (source_object), result, shell, flags, all_day);
 
 	g_object_unref (shell);
 }
@@ -324,7 +331,7 @@ action_event_new_cb (GtkAction *action,
 	EShellSettings *shell_settings;
 	ESource *source = NULL;
 	ESourceList *source_list;
-	ECalSourceType source_type;
+	EClientSourceType source_type;
 	const gchar *action_name;
 	gchar *uid;
 
@@ -361,7 +368,7 @@ action_event_new_cb (GtkAction *action,
 
 	/* This callback is used for both appointments and meetings. */
 
-	source_type = E_CAL_SOURCE_TYPE_EVENT;
+	source_type = E_CLIENT_SOURCE_TYPE_EVENTS;
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -387,26 +394,17 @@ action_event_new_cb (GtkAction *action,
 	 * FIXME Need to obtain a better default time zone. */
 	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "event-all-day-new") == 0)
-		e_load_cal_source_async (
-			source, source_type, NULL,
-			GTK_WINDOW (shell_window),
-			NULL, (GAsyncReadyCallback)
-			cal_shell_backend_event_all_day_new_cb,
-			g_object_ref (shell));
+		e_client_utils_open_new (source, source_type, FALSE, NULL,
+			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
+			cal_shell_backend_event_all_day_new_cb, g_object_ref (shell));
 	else if (strcmp (action_name, "event-meeting-new") == 0)
-		e_load_cal_source_async (
-			source, source_type, NULL,
-			GTK_WINDOW (shell_window),
-			NULL, (GAsyncReadyCallback)
-			cal_shell_backend_event_meeting_new_cb,
-			g_object_ref (shell));
+		e_client_utils_open_new (source, source_type, FALSE, NULL,
+			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
+			cal_shell_backend_event_meeting_new_cb, g_object_ref (shell));
 	else
-		e_load_cal_source_async (
-			source, source_type, NULL,
-			GTK_WINDOW (shell_window),
-			NULL, (GAsyncReadyCallback)
-			cal_shell_backend_event_new_cb,
-			g_object_ref (shell));
+		e_client_utils_open_new (source, source_type, FALSE, NULL,
+			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
+			cal_shell_backend_event_new_cb, g_object_ref (shell));
 
 	g_object_unref (source_list);
 }
@@ -489,11 +487,11 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	EShellSettings *shell_settings;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
-	ECal *client;
+	ECalClient *client;
 	ECalComponent *comp;
 	ESource *source;
 	ESourceList *source_list;
-	ECalSourceType source_type;
+	ECalClientSourceType source_type;
 	EUri *euri;
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
@@ -507,7 +505,7 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	gboolean handled = FALSE;
 	GError *error = NULL;
 
-	source_type = E_CAL_SOURCE_TYPE_EVENT;
+	source_type = E_CAL_CLIENT_SOURCE_TYPE_EVENTS;
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
@@ -589,24 +587,23 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	 * we successfully open it is another matter... */
 	handled = TRUE;
 
-	if (!e_cal_get_sources (&source_list, source_type, NULL)) {
-		g_printerr ("Could not get calendar sources from GConf!\n");
+	if (!e_cal_client_get_sources (&source_list, source_type, &error)) {
+		g_debug ("%s: Could not get calendar sources: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		goto exit;
 	}
 
 	source = e_source_list_peek_source_by_uid (source_list, source_uid);
 	if (source == NULL) {
-		g_printerr ("No source for UID '%s'\n", source_uid);
+		g_debug ("%s: No source for UID '%s'", G_STRFUNC, source_uid);
 		g_object_unref (source_list);
 		goto exit;
 	}
 
-	client = e_auth_new_cal_from_source (source, source_type);
-	if (client == NULL || !e_cal_open (client, TRUE, &error)) {
-		if (error != NULL) {
-			g_printerr ("%s\n", error->message);
-			g_error_free (error);
-		}
+	client = e_cal_client_new (source, source_type, &error);
+	if (client == NULL || !e_client_open_sync (E_CLIENT (client), TRUE, NULL, &error)) {
+		g_debug ("%s: Failed to create/open client '%s': %s", G_STRFUNC, e_source_peek_name (source), error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		g_object_unref (source_list);
 		goto exit;
 	}
@@ -619,10 +616,10 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	if (editor != NULL)
 		goto present;
 
-	if (!e_cal_get_object (client, comp_uid, comp_rid, &icalcomp, &error)) {
-		g_printerr ("%s\n", error->message);
+	if (!e_cal_client_get_object_sync (client, comp_uid, comp_rid, &icalcomp, NULL, &error)) {
+		g_debug ("%s: Failed to get object from client: %s", G_STRFUNC, error ? error->message : "Unknown error");
 		g_object_unref (source_list);
-		g_error_free (error);
+		g_clear_error (&error);
 		goto exit;
 	}
 

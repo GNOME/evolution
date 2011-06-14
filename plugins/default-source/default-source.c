@@ -30,8 +30,8 @@
 #include <calendar/gui/e-cal-config.h>
 #include <libedataserver/e-source.h>
 #include <addressbook/gui/widgets/eab-config.h>
-#include <libebook/e-book.h>
-#include <libecal/e-cal.h>
+#include <libebook/e-book-client.h>
+#include <libecal/e-cal-client.h>
 #include <glib/gi18n.h>
 #include <string.h>
 
@@ -58,7 +58,7 @@ commit_default_calendar (EPlugin *epl, EConfigTarget *target)
 	cal_target = (ECalConfigTargetSource *) target;
 	source = cal_target->source;
 	if (e_source_get_property (source, "default"))
-		e_cal_set_default_source (source, cal_target->source_type, NULL);
+		e_cal_client_set_default_source (source, cal_target->source_type, NULL);
 }
 
 void
@@ -70,7 +70,7 @@ commit_default_book (EPlugin *epl, EConfigTarget *target)
 	book_target = (EABConfigTargetSource *) target;
 	source = book_target->source;
 	if (e_source_get_property (source, "default"))
-		e_book_set_default_source (source, NULL);
+		e_book_client_set_default_source (source, NULL);
 
 }
 
@@ -101,14 +101,14 @@ org_gnome_autocomplete_book (EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 static const gchar *
-get_calendar_option_caption (ECalSourceType source_type)
+get_calendar_option_caption (ECalClientSourceType source_type)
 {
 	const gchar *res = "???";
 
 	switch (source_type) {
-		case E_CAL_SOURCE_TYPE_EVENT:   res = _("Mark as _default calendar"); break;
-		case E_CAL_SOURCE_TYPE_TODO:    res = _("Mark as _default task list"); break;
-		case E_CAL_SOURCE_TYPE_JOURNAL: res = _("Mark as _default memo list"); break;
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS: res = _("Mark as _default calendar"); break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:  res = _("Mark as _default task list"); break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:  res = _("Mark as _default memo list"); break;
 		default: break;
 	}
 

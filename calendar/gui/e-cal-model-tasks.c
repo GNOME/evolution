@@ -325,7 +325,7 @@ get_completed (ECalModelComponent *comp_data)
 		comp_data->completed->tt = tt_completed;
 
 		if (icaltime_get_tzid (tt_completed)
-		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_completed), &zone, NULL))
+		    && e_cal_client_get_timezone_sync (comp_data->client, icaltime_get_tzid (tt_completed), &zone, NULL, NULL))
 			comp_data->completed->zone = zone;
 		else
 			comp_data->completed->zone = NULL;
@@ -355,7 +355,7 @@ get_due (ECalModelComponent *comp_data)
 		comp_data->due->tt = tt_due;
 
 		if (icaltime_get_tzid (tt_due)
-		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_due), &zone, NULL))
+		    && e_cal_client_get_timezone_sync (comp_data->client, icaltime_get_tzid (tt_due), &zone, NULL, NULL))
 			comp_data->due->zone = zone;
 		else
 			comp_data->due->zone = NULL;
@@ -525,7 +525,7 @@ get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)
 
 			/* Get the current time in the same timezone as the DUE date.*/
 			tzid = icalparameter_get_tzid (param);
-			if (!e_cal_get_timezone (comp_data->client, tzid, &zone, NULL))
+			if (!e_cal_client_get_timezone_sync (comp_data->client, tzid, &zone, NULL, NULL))
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
 
 			now_tt = icaltime_current_time_with_zone (zone);
@@ -1252,13 +1252,17 @@ void e_cal_model_tasks_mark_comp_incomplete (ECalModelTasks *model, ECalModelCom
 static void
 commit_component_changes (ECalModelComponent *comp_data)
 {
+	GError *error = NULL;
+
 	g_return_if_fail (comp_data != NULL);
 
 	/* FIXME ask about mod type */
-	if (!e_cal_modify_object (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) {
-		g_warning (G_STRLOC ": Could not modify the object!");
+	if (!e_cal_client_modify_object_sync (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL, &error)) {
+		g_warning (G_STRLOC ": Could not modify the object! %s", error ? error->message : "Unknown error");
 
 		/* FIXME Show error dialog */
+		if (error)
+			g_error_free (error);
 	}
 }
 

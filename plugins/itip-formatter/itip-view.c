@@ -30,7 +30,7 @@
 #include <libedataserver/e-time-utils.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-source-combo-box.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libecal/e-cal-time-util.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <mail/em-format-hook.h>
@@ -54,7 +54,7 @@ typedef struct  {
 
 struct _ItipViewPrivate {
 	ItipViewMode mode;
-	ECalSourceType type;
+	ECalClientSourceType type;
 
 	GtkWidget *sender_label;
 	gchar *organizer;
@@ -585,13 +585,13 @@ set_sender_text (ItipView *view)
 	priv = view->priv;
 
 	switch (priv->type) {
-	case E_CAL_SOURCE_TYPE_EVENT:
+	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 		set_calendar_sender_text (view);
 		break;
-	case E_CAL_SOURCE_TYPE_TODO:
+	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 		set_tasklist_sender_text (view);
 		break;
-	case E_CAL_SOURCE_TYPE_JOURNAL:
+	case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 		set_journal_sender_text (view);
 		break;
 	default:
@@ -855,7 +855,7 @@ set_buttons (ItipView *view)
 		set_one_button (view, is_recur_set ? _("A_ccept all") : _("A_ccept"), GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_ADD:
-		if (priv->type != E_CAL_SOURCE_TYPE_JOURNAL) {
+		if (priv->type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS) {
 			set_one_button (view, _("_Decline"), GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
 			set_one_button (view, _("_Tentative"), GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
 		}
@@ -1232,7 +1232,7 @@ itip_view_get_mode (ItipView *view)
 }
 
 void
-itip_view_set_item_type (ItipView *view, ECalSourceType type)
+itip_view_set_item_type (ItipView *view, ECalClientSourceType type)
 {
 	ItipViewPrivate *priv;
 
@@ -1246,7 +1246,7 @@ itip_view_set_item_type (ItipView *view, ECalSourceType type)
 	set_sender_text (view);
 }
 
-ECalSourceType
+ECalClientSourceType
 itip_view_get_item_type (ItipView *view)
 {
 	ItipViewPrivate *priv;
@@ -1918,11 +1918,11 @@ itip_view_set_source_list (ItipView *view, ESourceList *source_list)
 		G_CALLBACK (source_changed_cb), view);
 
 	if (!priv->escb_header) {
-		if (priv->type == E_CAL_SOURCE_TYPE_EVENT)
+		if (priv->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS)
 			priv->escb_header = gtk_label_new_with_mnemonic (_("_Calendar:"));
-		else if (priv->type == E_CAL_SOURCE_TYPE_TODO)
+		else if (priv->type == E_CAL_CLIENT_SOURCE_TYPE_TASKS)
 			priv->escb_header = gtk_label_new_with_mnemonic (_("_Tasks:"));
-		else if (priv->type == E_CAL_SOURCE_TYPE_JOURNAL)
+		else if (priv->type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
 			priv->escb_header = gtk_label_new_with_mnemonic (_("_Memos:"));
 
 		gtk_label_set_selectable (GTK_LABEL (priv->escb_header), TRUE);

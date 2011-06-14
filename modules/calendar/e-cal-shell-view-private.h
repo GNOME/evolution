@@ -31,6 +31,7 @@
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-sexp.h>
+#include <libedataserverui/e-client-utils.h>
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-selection.h"
@@ -41,7 +42,6 @@
 #include "misc/e-popup-action.h"
 #include "misc/e-selectable.h"
 
-#include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-list-view.h"
@@ -142,7 +142,7 @@ void		e_cal_shell_view_set_status_message
 void		e_cal_shell_view_transfer_item_to
 					(ECalShellView *cal_shell_view,
 					 ECalendarViewEvent *event,
-					 ECal *destination_client,
+					 ECalClient *destination_client,
 					 gboolean remove);
 void		e_cal_shell_view_update_sidebar
 					(ECalShellView *cal_shell_view);

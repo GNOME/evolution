@@ -54,7 +54,7 @@ typedef struct {
 	ECalComponentAlarm *alarm;
 
 	/* The client */
-	ECal *ecal;
+	ECalClient *cal_client;
 
 	/* Toplevel */
 	GtkWidget *toplevel;
@@ -209,16 +209,16 @@ alarm_to_dialog (Dialog *dialog)
 	for (i = 0; valid && action_map[i] != -1; i++) {
 		gtk_list_store_set (
 			GTK_LIST_STORE (model), &iter,
-			1, !e_cal_get_static_capability (dialog->ecal, action_map_cap[i]),
+			1, !e_client_check_capability (E_CLIENT (dialog->cal_client), action_map_cap[i]),
 			-1);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 
 	/* Set a default address if possible */
-	if (!e_cal_get_static_capability (dialog->ecal, CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS)
-		&& !e_cal_component_alarm_has_attendees (dialog->alarm)
-	    && e_cal_get_alarm_email_address (dialog->ecal, &email, NULL)) {
+	if (!e_client_check_capability (E_CLIENT (dialog->cal_client), CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS)
+	    && !e_cal_component_alarm_has_attendees (dialog->alarm)
+	    && e_client_get_backend_property_sync (E_CLIENT (dialog->cal_client), CAL_BACKEND_PROPERTY_ALARM_EMAIL_ADDRESS, &email, NULL, NULL)) {
 		ECalComponentAttendee *a;
 		GSList attendee_list;
 
@@ -235,7 +235,7 @@ alarm_to_dialog (Dialog *dialog)
 	}
 
 	/* If we can repeat */
-	repeat = !e_cal_get_static_capability (dialog->ecal, CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT);
+	repeat = !e_client_check_capability (E_CLIENT (dialog->cal_client), CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT);
 	gtk_widget_set_sensitive (dialog->repeat_toggle, repeat);
 
 	/* if we are editing a exiting alarm */
@@ -880,27 +880,6 @@ get_widgets (Dialog *dialog)
 		&& dialog->palarm_args);
 }
 
-#if 0
-/* Callback used when the alarm options button is clicked */
-static void
-show_options (Dialog *dialog)
-{
-	gboolean repeat;
-	gchar *email;
-
-	e_cal_component_alarm_set_action (dialog->alarm,
-					e_dialog_combo_box_get (dialog->action_combo, action_map));
-
-	repeat = !e_cal_get_static_capability (dialog->ecal, CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT);
-
-	if (e_cal_get_static_capability (dialog->ecal, CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS)
-	    || e_cal_get_alarm_email_address (dialog->ecal, &email, NULL)) {
-		if (!alarm_options_dialog_run (dialog->toplevel, dialog->alarm, email, repeat))
-			g_message (G_STRLOC ": not create the alarm options dialog");
-	}
-}
-#endif
-
 static void
 addressbook_clicked_cb (GtkWidget *widget, Dialog *dialog)
 {
@@ -1202,7 +1181,7 @@ init_widgets (Dialog *dialog)
 }
 
 gboolean
-alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
+alarm_dialog_run (GtkWidget *parent, ECalClient *cal_client, ECalComponentAlarm *alarm)
 {
 	Dialog dialog;
 	GtkWidget *container;
@@ -1211,7 +1190,7 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 	g_return_val_if_fail (alarm != NULL, FALSE);
 
 	dialog.alarm = alarm;
-	dialog.ecal = ecal;
+	dialog.cal_client = cal_client;
 
 	dialog.builder = gtk_builder_new ();
 	e_load_ui_builder_definition (dialog.builder, "alarm-dialog.ui");

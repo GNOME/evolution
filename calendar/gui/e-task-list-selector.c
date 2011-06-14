@@ -25,9 +25,9 @@
 #include "e-task-list-selector.h"
 
 #include <string.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
+#include <libedataserverui/e-client-utils.h>
 #include "e-util/e-selection.h"
-#include "calendar/common/authentication.h"
 #include "calendar/gui/comp-util.h"
 
 struct _ETaskListSelectorPrivate {
@@ -37,23 +37,31 @@ struct _ETaskListSelectorPrivate {
 static gpointer parent_class;
 
 static gboolean
-task_list_selector_update_single_object (ECal *client,
+task_list_selector_update_single_object (ECalClient *client,
                                          icalcomponent *icalcomp)
 {
-	gchar *uid;
+	gchar *uid = NULL;
 	icalcomponent *tmp_icalcomp;
 
 	uid = (gchar *) icalcomponent_get_uid (icalcomp);
 
-	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
-		return e_cal_modify_object (
-			client, icalcomp, CALOBJ_MOD_ALL, NULL);
+	if (e_cal_client_get_object_sync (client, uid, NULL, &tmp_icalcomp, NULL, NULL))
+		return e_cal_client_modify_object_sync (
+			client, icalcomp, CALOBJ_MOD_ALL, NULL, NULL);
 
-	return e_cal_create_object (client, icalcomp, &uid, NULL);
+	if (!e_cal_client_create_object_sync (client, icalcomp, &uid, NULL, NULL))
+		return FALSE;
+
+	if (uid)
+		icalcomponent_set_uid (icalcomp, uid);
+
+	g_free (uid);
+
+	return TRUE;
 }
 
 static gboolean
-task_list_selector_update_objects (ECal *client,
+task_list_selector_update_objects (ECalClient *client,
                                    icalcomponent *icalcomp)
 {
 	icalcomponent *subcomp;
@@ -74,14 +82,19 @@ task_list_selector_update_objects (ECal *client,
 		kind = icalcomponent_isa (subcomp);
 		if (kind == ICAL_VTIMEZONE_COMPONENT) {
 			icaltimezone *zone;
+			GError *error = NULL;
 
 			zone = icaltimezone_new ();
 			icaltimezone_set_component (zone, subcomp);
 
-			success = e_cal_add_timezone (client, zone, NULL);
+			success = e_cal_client_add_timezone_sync (client, zone, NULL, &error);
 			icaltimezone_free (zone, 1);
-			if (!success)
+			if (!success) {
+				g_debug ("%s: Failed to add timezone: %s", G_STRFUNC, error ? error->message : "Unknown error");
+				if (error)
+					g_error_free (error);
 				return FALSE;
+			}
 		} else if (kind == ICAL_VTODO_COMPONENT ||
 			kind == ICAL_VEVENT_COMPONENT) {
 			success = task_list_selector_update_single_object (
@@ -97,9 +110,36 @@ task_list_selector_update_objects (ECal *client,
 	return TRUE;
 }
 
+static void
+client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	gchar *uid = user_data;
+	EClient *client = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (uid != NULL);
+
+	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
+		client = NULL;
+
+	if (error) {
+		g_debug ("%s: Failed to open task list: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+
+	if (client) {
+		if (!e_client_is_readonly (client))
+			e_cal_client_remove_object_sync (E_CAL_CLIENT (client), uid, NULL, CALOBJ_MOD_THIS, NULL, NULL);
+
+		g_object_unref (client);
+	}
+
+	g_free (uid);
+}
+
 static gboolean
 task_list_selector_process_data (ESourceSelector *selector,
-                                 ECal *client,
+                                 ECalClient *client,
                                  const gchar *source_uid,
                                  icalcomponent *icalcomp,
                                  GdkDragAction action)
@@ -110,7 +150,6 @@ task_list_selector_process_data (ESourceSelector *selector,
 	const gchar *uid;
 	gchar *old_uid = NULL;
 	gboolean success = FALSE;
-	gboolean read_only = TRUE;
 	GError *error = NULL;
 
 	/* FIXME Deal with GDK_ACTION_ASK. */
@@ -124,19 +163,23 @@ task_list_selector_process_data (ESourceSelector *selector,
 	if (old_uid == NULL)
 		old_uid = g_strdup (uid);
 
-	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, &error)) {
+	if (e_cal_client_get_object_sync (client, uid, NULL, &tmp_icalcomp, NULL, &error)) {
 		icalcomponent_free (tmp_icalcomp);
 		success = TRUE;
 		goto exit;
 	}
 
-	if (error != NULL && error->code != E_CALENDAR_STATUS_OBJECT_NOT_FOUND) {
+	if (error != NULL && !g_error_matches (error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_NOT_FOUND)) {
 		g_message (
 			"Failed to search the object in destination "
 			"task list: %s", error->message);
 		g_error_free (error);
 		goto exit;
 	}
+
+	if (error)
+		g_error_free (error);
+	error = NULL;
 
 	success = task_list_selector_update_objects (client, icalcomp);
 
@@ -149,24 +192,72 @@ task_list_selector_process_data (ESourceSelector *selector,
 	if (!E_IS_SOURCE (source) || e_source_get_readonly (source))
 		goto exit;
 
-	client = e_auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
-	if (client == NULL) {
-		g_message ("Cannot create source client to remove old task");
-		goto exit;
-	}
+	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_MEMOS, TRUE, NULL,
+		e_client_utils_authenticate_handler, NULL,
+		client_opened_cb, g_strdup (old_uid));
 
-	e_cal_is_read_only (client, &read_only, NULL);
-	if (!read_only && e_cal_open (client, TRUE, NULL))
-		e_cal_remove_object (client, old_uid, NULL);
-	else if (!read_only)
-		g_message ("Cannot open source client to remove old task");
-
-	g_object_unref (client);
-
-exit:
+ exit:
 	g_free (old_uid);
 
 	return success;
+}
+
+struct DropData
+{
+	ESourceSelector *selector;
+	GdkDragAction action;
+	GSList *list;
+};
+
+static void
+client_opened_for_drop_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	struct DropData *dd = user_data;
+	EClient *client = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (dd != NULL);
+
+	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
+		client = NULL;
+
+	if (error) {
+		g_debug ("%s: Failed to open task list: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+
+	if (client) {
+		ECalClient *cal_client = E_CAL_CLIENT (client);
+		GSList *iter;
+
+		for (iter = dd->list; iter != NULL; iter = iter->next) {
+			gchar *source_uid = iter->data;
+			icalcomponent *icalcomp;
+			gchar *component_string;
+
+			/* Each string is "source_uid\ncomponent_string". */
+			component_string = strchr (source_uid, '\n');
+			if (component_string == NULL)
+				continue;
+
+			*component_string++ = '\0';
+			icalcomp = icalparser_parse_string (component_string);
+			if (icalcomp == NULL)
+				continue;
+
+			task_list_selector_process_data (
+				dd->selector, cal_client, source_uid, icalcomp, dd->action);
+
+			icalcomponent_free (icalcomp);
+		}
+
+		g_object_unref (client);
+	}
+
+	g_slist_foreach (dd->list, (GFunc) g_free, NULL);
+	g_slist_free (dd->list);
+	g_object_unref (dd->selector);
+	g_free (dd);
 }
 
 static gboolean
@@ -176,47 +267,18 @@ task_list_selector_data_dropped (ESourceSelector *selector,
                                  GdkDragAction action,
                                  guint info)
 {
-	ECal *client;
-	GSList *list, *iter;
-	gboolean success = FALSE;
+	struct DropData *dd;
 
-	client = e_auth_new_cal_from_source (
-		destination, E_CAL_SOURCE_TYPE_TODO);
+	dd = g_new0 (struct DropData, 1);
+	dd->selector = g_object_ref (selector);
+	dd->action = action;
+	dd->list = cal_comp_selection_get_string_list (selection_data);
 
-	if (client == NULL || !e_cal_open (client, TRUE, NULL))
-		goto exit;
+	e_client_utils_open_new (destination, E_CLIENT_SOURCE_TYPE_TASKS, TRUE, NULL,
+		e_client_utils_authenticate_handler, NULL,
+		client_opened_for_drop_cb, dd);
 
-	list = cal_comp_selection_get_string_list (selection_data);
-
-	for (iter = list; iter != NULL; iter = iter->next) {
-		gchar *source_uid = iter->data;
-		icalcomponent *icalcomp;
-		gchar *component_string;
-
-		/* Each string is "source_uid\ncomponent_string". */
-		component_string = strchr (source_uid, '\n');
-		if (component_string == NULL)
-			continue;
-
-		*component_string++ = '\0';
-		icalcomp = icalparser_parse_string (component_string);
-		if (icalcomp == NULL)
-			continue;
-
-		success = task_list_selector_process_data (
-			selector, client, source_uid, icalcomp, action);
-
-		icalcomponent_free (icalcomp);
-	}
-
-	g_slist_foreach (list, (GFunc) g_free, NULL);
-	g_slist_free (list);
-
-exit:
-	if (client != NULL)
-		g_object_unref (client);
-
-	return success;
+	return TRUE;
 }
 
 static void

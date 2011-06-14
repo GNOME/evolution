@@ -24,7 +24,7 @@
 #define E_MEETING_STORE_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <e-util/e-util-enums.h>
 #include "e-meeting-attendee.h"
 
@@ -86,9 +86,9 @@ void		e_meeting_store_set_value	(EMeetingStore *meeting_store,
 						 gint row,
 						 gint col,
 						 const gchar *val);
-ECal *		e_meeting_store_get_client	(EMeetingStore *meeting_store);
+ECalClient *	e_meeting_store_get_client	(EMeetingStore *meeting_store);
 void		e_meeting_store_set_client	(EMeetingStore *meeting_store,
-						 ECal *client);
+						 ECalClient *client);
 gint		e_meeting_store_get_default_reminder_interval
 						(EMeetingStore *meeting_store);
 void		e_meeting_store_set_default_reminder_interval

@@ -72,7 +72,7 @@ struct _TaskPageClass {
 GType		task_page_get_type		(void);
 TaskPage *	task_page_construct		(TaskPage *epage,
 						 EMeetingStore *model,
-						 ECal *client);
+						 ECalClient *client);
 TaskPage *	task_page_new			(EMeetingStore *model,
 						 CompEditor *editor);
 ECalComponent *	task_page_get_cancel_comp	(TaskPage *page);

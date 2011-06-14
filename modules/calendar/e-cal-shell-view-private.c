@@ -283,7 +283,7 @@ cal_shell_view_selector_popup_event_cb (EShellView *shell_view,
 
 static void
 cal_shell_view_selector_client_added_cb (ECalShellView *cal_shell_view,
-                                         ECal *client)
+                                         ECalClient *client)
 {
 	ECalShellContent *cal_shell_content;
 	GnomeCalendar *calendar;
@@ -300,7 +300,7 @@ cal_shell_view_selector_client_added_cb (ECalShellView *cal_shell_view,
 
 static void
 cal_shell_view_selector_client_removed_cb (ECalShellView *cal_shell_view,
-                                           ECal *client)
+                                           ECalClient *client)
 {
 	ECalShellContent *cal_shell_content;
 	GnomeCalendar *calendar;
@@ -341,12 +341,12 @@ cal_shell_view_user_created_cb (ECalShellView *cal_shell_view,
 {
 	ECalShellSidebar *cal_shell_sidebar;
 	ECalModel *model;
-	ECal *client;
+	ECalClient *client;
 	ESource *source;
 
 	model = e_calendar_view_get_model (calendar_view);
 	client = e_cal_model_get_default_client (model);
-	source = e_cal_get_source (client);
+	source = e_client_get_source (E_CLIENT (client));
 
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
 	e_cal_shell_sidebar_add_source (cal_shell_sidebar, source);
@@ -824,7 +824,7 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 void
 e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
                                    ECalendarViewEvent *event,
-                                   ECal *destination_client,
+                                   ECalClient *destination_client,
                                    gboolean remove)
 {
 	icalcomponent *icalcomp;
@@ -838,7 +838,7 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 
 	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
 	g_return_if_fail (event != NULL);
-	g_return_if_fail (E_IS_CAL (destination_client));
+	g_return_if_fail (E_IS_CAL_CLIENT (destination_client));
 
 	if (!is_comp_data_valid (event))
 		return;
@@ -848,25 +848,26 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 
 	/* Put the new object into the destination calendar. */
 
-	success = e_cal_get_object (
-		destination_client, uid, NULL, &icalcomp, NULL);
+	success = e_cal_client_get_object_sync (
+		destination_client, uid, NULL, &icalcomp, NULL, NULL);
 
 	if (success) {
 		icalcomponent_free (icalcomp);
-		success = e_cal_modify_object (
+		success = e_cal_client_modify_object_sync (
 			destination_client, icalcomp_event,
-			CALOBJ_MOD_ALL, NULL);
+			CALOBJ_MOD_ALL, NULL, NULL);
 
 		/* do not delete the event when it was found in the calendar */
 		return;
 	} else {
 		icalproperty *icalprop;
 		gchar *new_uid;
+		GError *error = NULL;
 
 		if (e_cal_util_component_is_instance (icalcomp_event)) {
-			success = e_cal_get_object (
+			success = e_cal_client_get_object_sync (
 				event->comp_data->client,
-				uid, NULL, &icalcomp, NULL);
+				uid, NULL, &icalcomp, NULL, NULL);
 			if (success) {
 				/* Use master object when working
 				 * with a recurring event ... */
@@ -904,10 +905,11 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 		}
 
 		new_uid = NULL;
-		success = e_cal_create_object (
-			destination_client, icalcomp_clone, &new_uid, NULL);
+		success = e_cal_client_create_object_sync (
+			destination_client, icalcomp_clone, &new_uid, NULL, &error);
 		if (!success) {
 			icalcomponent_free (icalcomp_clone);
+			g_debug ("%s: Failed to create object: %s", G_STRFUNC, error ? error->message : "Unknown error");
 			return;
 		}
 
@@ -916,7 +918,7 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 	}
 
 	if (remove) {
-		ECal *source_client = event->comp_data->client;
+		ECalClient *source_client = event->comp_data->client;
 
 		/* Remove the item from the source calendar. */
 		if (e_cal_util_component_is_instance (icalcomp_event) ||
@@ -930,11 +932,11 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 				rid = icaltime_as_ical_string_r (icaltime);
 			else
 				rid = NULL;
-			e_cal_remove_object_with_mod (
-				source_client, uid, rid, CALOBJ_MOD_ALL, NULL);
+			e_cal_client_remove_object_sync (
+				source_client, uid, rid, CALOBJ_MOD_ALL, NULL, NULL);
 			g_free (rid);
 		} else
-			e_cal_remove_object (source_client, uid, NULL);
+			e_cal_client_remove_object_sync (source_client, uid, NULL, CALOBJ_MOD_THIS, NULL, NULL);
 	}
 }
 
@@ -1091,10 +1093,10 @@ e_cal_shell_view_update_timezone (ECalShellView *cal_shell_view)
 	clients = e_cal_shell_sidebar_get_clients (cal_shell_sidebar);
 
 	for (iter = clients; iter != NULL; iter = iter->next) {
-		ECal *client = iter->data;
+		ECalClient *client = iter->data;
 
-		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
-			e_cal_set_default_timezone (client, timezone, NULL);
+		if (e_client_is_opened (E_CLIENT (client)))
+			e_cal_client_set_default_timezone (client, timezone);
 	}
 
 	g_list_free (clients);

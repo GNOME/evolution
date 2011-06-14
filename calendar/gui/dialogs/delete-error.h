@@ -26,7 +26,7 @@
 #ifndef DELETE_ERROR_H
 #define DELETE_ERROR_H
 
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libecal/e-cal-component.h>
 
 void delete_error_dialog (const GError *error, ECalComponentVType vtype);

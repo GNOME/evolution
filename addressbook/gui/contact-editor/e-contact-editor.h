@@ -25,7 +25,7 @@
 
 #include "addressbook/gui/contact-editor/eab-editor.h"
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 #include <libebook/e-contact.h>
 
 #include <gtk/gtk.h>
@@ -55,8 +55,8 @@ struct _EContactEditor
 	EABEditor object;
 
 	/* item specific fields */
-	EBook *source_book;
-	EBook *target_book;
+	EBookClient *source_client;
+	EBookClient *target_client;
 	EContact *contact;
 
 	GtkBuilder *builder;
@@ -90,9 +90,9 @@ struct _EContactEditor
 	/* Whether to try to reduce space used */
 	guint compress_ui : 1;
 
-	EList *writable_fields;
+	GSList *writable_fields;
 
-	EList *required_fields;
+	GSList *required_fields;
 
 	GCancellable *cancellable;
 
@@ -110,7 +110,7 @@ struct _EContactEditorClass
 
 GType		e_contact_editor_get_type	(void);
 EABEditor	*e_contact_editor_new		(EShell *shell,
-						 EBook *book,
+						 EBookClient *book_client,
 						 EContact *contact,
 						 gboolean is_new_contact,
 						 gboolean editable);

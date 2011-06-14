@@ -66,7 +66,7 @@ action_calendar_memopad_new_cb (GtkAction *action,
 	ECalShellContent *cal_shell_content;
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
-	ECal *client;
+	ECalClient *client;
 	ECalComponent *comp;
 	CompEditor *editor;
 	GSList *list;
@@ -224,7 +224,7 @@ action_calendar_memopad_save_as_cb (GtkAction *action,
 		return;
 
 	/* XXX We only save the first selected memo. */
-	string = e_cal_get_component_as_string (
+	string = e_cal_client_get_component_as_string (
 		comp_data->client, comp_data->icalcomp);
 	if (string == NULL) {
 		g_warning ("Could not convert memo to a string.");
@@ -355,7 +355,7 @@ e_cal_shell_view_memopad_actions_update (ECalShellView *cal_shell_view)
 		icalproperty *prop;
 		gboolean read_only;
 
-		e_cal_is_read_only (comp_data->client, &read_only, NULL);
+		read_only = e_client_is_readonly (E_CLIENT (comp_data->client));
 		editable &= !read_only;
 
 		prop = icalcomponent_get_first_property (

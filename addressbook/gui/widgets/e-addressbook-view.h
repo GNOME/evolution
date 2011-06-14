@@ -23,7 +23,7 @@
 #ifndef E_ADDRESSBOOK_VIEW_H
 #define E_ADDRESSBOOK_VIEW_H
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 #include <libebook/e-contact.h>
 
 #include <menus/gal-view-instance.h>
@@ -73,8 +73,6 @@ struct _EAddressbookViewClass {
 						 gboolean is_new_contact);
 	void	(*popup_event)			(EAddressbookView *view,
 						 GdkEvent *event);
-	void	(*status_message)		(EAddressbookView *view,
-						 const gchar *message);
 	void	(*command_state_change)		(EAddressbookView *view);
 	void	(*selection_change)		(EAddressbookView *view);
 };
@@ -89,7 +87,7 @@ GalViewInstance *
 						(EAddressbookView *view);
 GObject *	e_addressbook_view_get_view_object
 						(EAddressbookView *view);
-GList *		e_addressbook_view_get_selected	(EAddressbookView *view);
+GSList *	e_addressbook_view_get_selected	(EAddressbookView *view);
 ESelectionModel *
 		e_addressbook_view_get_selection_model
 						(EAddressbookView *view);

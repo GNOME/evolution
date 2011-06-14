@@ -34,6 +34,7 @@
 #include <canberra-gtk.h>
 #endif
 
+#include <libecal/e-cal-client-view.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>
 
@@ -69,10 +70,10 @@ static AlarmNotify *an;
 /* Structure that stores a client we are monitoring */
 typedef struct {
 	/* Monitored client */
-	ECal *client;
+	ECalClient *cal_client;
 
-	/* The live query to the calendar */
-	ECalView *query;
+	/* The live view to the calendar */
+	ECalClientView *view;
 
 	/* Hash table of component UID -> CompQueuedAlarms.  If an element is
 	 * present here, then it means its cqa->queued_alarms contains at least
@@ -142,17 +143,17 @@ static void	popup_notification		(time_t trigger,
 						 gpointer alarm_id,
 						 gboolean use_description);
 #endif
-static void	query_objects_changed_cb	(ECal *client,
-						 GList *objects,
+static void	query_objects_modified_cb	(ECalClientView *view,
+						 const GSList *objects,
 						 gpointer data);
-static void	query_objects_removed_cb	(ECal *client,
-						 GList *objects,
+static void	query_objects_removed_cb	(ECalClientView *view,
+						 const GSList *uids,
 						 gpointer data);
 
 static void update_cqa (CompQueuedAlarms *cqa, ECalComponent *comp);
 static void update_qa (ECalComponentAlarms *alarms, QueuedAlarm *qa);
 static void tray_list_remove_cqa (CompQueuedAlarms *cqa);
-static void on_dialog_objs_removed_cb (ECal *client, GList *objects, gpointer data);
+static void on_dialog_objs_removed_cb (ECalClientView *view, const GSList *uids, gpointer data);
 
 /* Alarm queue engine */
 
@@ -299,9 +300,9 @@ midnight_refresh_cb (gpointer alarm_id, time_t trigger, gpointer data)
 
 /* Looks up a client in the client alarms hash table */
 static ClientAlarms *
-lookup_client (ECal *client)
+lookup_client (ECalClient *cal_client)
 {
-	return g_hash_table_lookup (client_alarms_hash, client);
+	return g_hash_table_lookup (client_alarms_hash, cal_client);
 }
 
 /* Looks up a queued alarm based on its alarm ID */
@@ -347,10 +348,21 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 	cqa->queued_alarms = g_slist_delete_link (cqa->queued_alarms, l);
 
 	if (remove_alarm) {
-		cqa->expecting_update = TRUE;
-		e_cal_discard_alarm (cqa->parent_client->client, cqa->alarms->comp,
-				     qa->instance->auid, NULL);
-		cqa->expecting_update = FALSE;
+		GError *error = NULL;
+		ECalComponentId *id = e_cal_component_get_id (cqa->alarms->comp);
+		if (id) {
+			cqa->expecting_update = TRUE;
+			e_cal_client_discard_alarm_sync (cqa->parent_client->cal_client, id->uid, id->rid,
+						qa->instance->auid, NULL, &error);
+			cqa->expecting_update = FALSE;
+
+			if (error) {
+				if (!g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_NOT_SUPPORTED))
+					g_debug ("%s: Failed to discard alarm: %s", G_STRFUNC, error->message);
+				g_error_free (error);
+			}
+			e_cal_component_free_id (id);
+		}
 	}
 
 	g_free (qa);
@@ -425,7 +437,7 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	cqa = data;
 	comp = cqa->alarms->comp;
 
-	config_data_set_last_notification_time (cqa->parent_client->client, trigger);
+	config_data_set_last_notification_time (cqa->parent_client->cal_client, trigger);
 	debug (("Setting Last notification time to %s", e_ctime (&trigger)));
 
 	qa = lookup_queued_alarm (cqa, alarm_id);
@@ -543,6 +555,7 @@ static void
 load_alarms (ClientAlarms *ca, time_t start, time_t end)
 {
 	gchar *str_query, *iso_start, *iso_end;
+	GError *error = NULL;
 
 	debug (("..."));
 
@@ -563,31 +576,36 @@ load_alarms (ClientAlarms *ca, time_t start, time_t end)
 	g_free (iso_end);
 
 	/* create the live query */
-	if (ca->query) {
+	if (ca->view) {
 		debug (("Disconnecting old queries"));
 		g_signal_handlers_disconnect_matched (
-			ca->query, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, ca);
-		g_object_unref (ca->query);
-		ca->query = NULL;
+			ca->view, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, ca);
+		g_object_unref (ca->view);
+		ca->view = NULL;
 	}
 
-	/* FIXME: handle errors */
-	if (!e_cal_get_query (ca->client, str_query, &ca->query, NULL)) {
-		g_warning (G_STRLOC ": Could not get query for client");
+	if (!e_cal_client_get_view_sync (ca->cal_client, str_query, &ca->view, NULL, &error)) {
+		g_debug ("%s: Could not get query for client: %s", error ? error->message : "Unknown error", G_STRFUNC);
+		if (error)
+			g_error_free (error);
 	} else {
 		debug (("Setting Call backs"));
 
 		g_signal_connect (
-			ca->query, "objects_added",
-			G_CALLBACK (query_objects_changed_cb), ca);
+			ca->view, "objects-added",
+			G_CALLBACK (query_objects_modified_cb), ca);
 		g_signal_connect (
-			ca->query, "objects_modified",
-			G_CALLBACK (query_objects_changed_cb), ca);
+			ca->view, "objects-modified",
+			G_CALLBACK (query_objects_modified_cb), ca);
 		g_signal_connect (
-			ca->query, "objects_removed",
+			ca->view, "objects-removed",
 			G_CALLBACK (query_objects_removed_cb), ca);
 
-		e_cal_view_start (ca->query);
+		e_cal_client_view_start (ca->view, &error);
+		if (error) {
+			g_debug ("%s: Failed to start view: %s", G_STRFUNC, error->message);
+			g_error_free (error);
+		}
 	}
 
 	g_free (str_query);
@@ -609,27 +627,13 @@ load_alarms_for_today (ClientAlarms *ca)
 	 * half-open; we do not want to display the "last" displayed alarm
 	 * twice, once when it occurs and once when the alarm daemon restarts.
 	 */
-	from = config_data_get_last_notification_time (ca->client) + 1;
+	from = config_data_get_last_notification_time (ca->cal_client) + 1;
 	if (from <= 0)
 		from = MAX (from, day_start);
 
 	day_end = time_day_end_with_zone (now, zone);
 	debug (("From %s to %s", e_ctime (&from), e_ctime (&day_end)));
 	load_alarms (ca, from, day_end);
-}
-
-/* Called when a calendar client finished loading; we load its alarms */
-static void
-cal_opened_cb (ECal *client, const GError *error, gpointer data)
-{
-	ClientAlarms *ca;
-
-	ca = data;
-
-	if (error)
-		return;
-
-	load_alarms_for_today (ca);
 }
 
 /* Looks up a component's queued alarm structure in a client alarms structure */
@@ -693,35 +697,71 @@ remove_comp (ClientAlarms *ca, ECalComponentId *id)
  */
 struct _query_msg {
 	Message header;
-	GList *objects;
+	GSList *objects;
 	gpointer data;
 };
 
-static GList *
-duplicate_ical (GList *in_list)
+static GSList *
+duplicate_ical (const GSList *in_list)
 {
-	GList *l, *out_list = NULL;
+	const GSList *l;
+	GSList *out_list = NULL;
 	for (l = in_list; l; l = l->next) {
-		out_list = g_list_prepend (out_list, icalcomponent_new_clone (l->data));
+		out_list = g_slist_prepend (out_list, icalcomponent_new_clone (l->data));
 	}
 
-	return g_list_reverse (out_list);
+	return g_slist_reverse (out_list);
 }
 
-static GList *
-duplicate_ecal (GList *in_list)
+static GSList *
+duplicate_ecal (const GSList *in_list)
 {
-	GList *l, *out_list = NULL;
+	const GSList *l;
+	GSList *out_list = NULL;
 	for (l = in_list; l; l = l->next) {
 		ECalComponentId *id, *old;
 		old = l->data;
 		id = g_new0 (ECalComponentId, 1);
 		id->uid = g_strdup (old->uid);
 		id->rid = g_strdup (old->rid);
-		out_list = g_list_prepend (out_list, id);
+		out_list = g_slist_prepend (out_list, id);
 	}
 
-	return g_list_reverse (out_list);
+	return g_slist_reverse (out_list);
+}
+
+static gboolean
+get_alarms_for_object (ECalClient *cal_client, const ECalComponentId *id, time_t start, time_t end, ECalComponentAlarms **alarms)
+{
+	icalcomponent *icalcomp;
+	ECalComponent *comp;
+	ECalComponentAlarmAction omit[] = {-1};
+
+	g_return_val_if_fail (cal_client != NULL, FALSE);
+	g_return_val_if_fail (id != NULL, FALSE);
+	g_return_val_if_fail (alarms != NULL, FALSE);
+	g_return_val_if_fail (start >= 0 && end >= 0, FALSE);
+	g_return_val_if_fail (start <= end, FALSE);
+
+	if (!e_cal_client_get_object_sync (cal_client, id->uid, id->rid, &icalcomp, NULL, NULL))
+		return FALSE;
+
+	if (!icalcomp)
+		return FALSE;
+
+	comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
+		icalcomponent_free (icalcomp);
+		g_object_unref (comp);
+		return FALSE;
+	}
+
+	*alarms = e_cal_util_generate_alarms_for_comp (comp, start, end, omit, e_cal_client_resolve_tzid_cb,
+						       cal_client, e_cal_client_get_default_timezone (cal_client));
+
+	g_object_unref (comp);
+
+	return TRUE;
 }
 
 static void
@@ -733,13 +773,13 @@ query_objects_changed_async (struct _query_msg *msg)
 	gboolean found;
 	icaltimezone *zone;
 	CompQueuedAlarms *cqa;
-	GList *l;
-	GList *objects;
+	GSList *l;
+	GSList *objects;
 
 	ca = msg->data;
 	objects = msg->objects;
 
-	from = config_data_get_last_notification_time (ca->client);
+	from = config_data_get_last_notification_time (ca->cal_client);
 	if (from == -1)
 		from = time (NULL);
 	else
@@ -757,10 +797,10 @@ query_objects_changed_async (struct _query_msg *msg)
 		e_cal_component_set_icalcomponent (comp, l->data);
 
 		id = e_cal_component_get_id (comp);
-		found = e_cal_get_alarms_for_object (ca->client, id, from, day_end, &alarms);
+		found = get_alarms_for_object (ca->cal_client, id, from, day_end, &alarms);
 
 		if (!found) {
-			debug (("No Alarm found for client %p", ca->client));
+			debug (("No Alarm found for client %p", ca->cal_client));
 			tray_list_remove_cqa (lookup_comp_queued_alarms (ca, id));
 			remove_comp (ca, id);
 			g_hash_table_remove (ca->uid_alarms_hash, id);
@@ -826,13 +866,13 @@ query_objects_changed_async (struct _query_msg *msg)
 		g_object_unref (comp);
 		comp = NULL;
 	}
-	g_list_free (objects);
+	g_slist_free (objects);
 
 	g_slice_free (struct _query_msg, msg);
 }
 
 static void
-query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
+query_objects_modified_cb (ECalClientView *view, const GSList *objects, gpointer data)
 {
 	struct _query_msg *msg;
 
@@ -851,13 +891,13 @@ static void
 query_objects_removed_async (struct _query_msg *msg)
 {
 	ClientAlarms *ca;
-	GList *l;
-	GList *objects;
+	GSList *l;
+	GSList *objects;
 
 	ca = msg->data;
 	objects = msg->objects;
 
-	debug (("Removing %d objects", g_list_length (objects)));
+	debug (("Removing %d objects", g_slist_length (objects)));
 
 	for (l = objects; l != NULL; l = l->next) {
 		/* If the alarm is already triggered remove it. */
@@ -867,19 +907,19 @@ query_objects_removed_async (struct _query_msg *msg)
 		e_cal_component_free_id (l->data);
 	}
 
-	g_list_free (objects);
+	g_slist_free (objects);
 
 	g_slice_free (struct _query_msg, msg);
 }
 
 static void
-query_objects_removed_cb (ECal *client, GList *objects, gpointer data)
+query_objects_removed_cb (ECalClientView *view, const GSList *uids, gpointer data)
 {
 	struct _query_msg *msg;
 
 	msg = g_slice_new0 (struct _query_msg);
 	msg->header.func = (MessageFunc) query_objects_removed_async;
-	msg->objects = duplicate_ecal (objects);
+	msg->objects = duplicate_ecal (uids);
 	msg->data = data;
 
 	message_push ((Message *) msg);
@@ -919,7 +959,7 @@ create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, gint snooze_mins)
 
 /* Launches a component editor for a component */
 static void
-edit_component (ECal *client, ECalComponent *comp)
+edit_component (ECalClient *cal_client, ECalComponent *comp)
 {
 	ESource *source;
 	gchar *command_line;
@@ -931,19 +971,19 @@ edit_component (ECal *client, ECalComponent *comp)
 	/* XXX Don't we have a function to construct these URIs?
 	 *     How are other apps expected to know this stuff? */
 
-	source = e_cal_get_source (client);
+	source = e_client_get_source (E_CLIENT (cal_client));
 	source_uid = e_source_peek_uid (source);
 
 	e_cal_component_get_uid (comp, &comp_uid);
 
-	switch (e_cal_get_source_type (client)) {
-		case E_CAL_SOURCE_TYPE_EVENT:
+	switch (e_cal_client_get_source_type (cal_client)) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 			scheme = "calendar:";
 			break;
-		case E_CAL_SOURCE_TYPE_TODO:
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			scheme = "task:";
 			break;
-		case E_CAL_SOURCE_TYPE_JOURNAL:
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			scheme = "memo:";
 			break;
 		default:
@@ -973,8 +1013,8 @@ typedef struct {
 	CompQueuedAlarms *cqa;
 	gpointer alarm_id;
 	ECalComponent *comp;
-	ECal *client;
-	ECalView *query;
+	ECalClient *cal_client;
+	ECalClientView *view;
 	GdkPixbuf *image;
 	GtkTreeIter iter;
 } TrayIconData;
@@ -999,13 +1039,13 @@ free_tray_icon_data (TrayIconData *tray_data)
 		tray_data->location = NULL;
 	}
 
-	g_object_unref (tray_data->client);
-	tray_data->client = NULL;
+	g_object_unref (tray_data->cal_client);
+	tray_data->cal_client = NULL;
 
-	g_signal_handlers_disconnect_matched (tray_data->query, G_SIGNAL_MATCH_FUNC,
+	g_signal_handlers_disconnect_matched (tray_data->view, G_SIGNAL_MATCH_FUNC,
 					      0, 0, NULL, on_dialog_objs_removed_cb, NULL);
-	g_object_unref (tray_data->query);
-	tray_data->query = NULL;
+	g_object_unref (tray_data->view);
+	tray_data->view = NULL;
 
 	g_object_unref (tray_data->comp);
 	tray_data->comp = NULL;
@@ -1020,44 +1060,47 @@ free_tray_icon_data (TrayIconData *tray_data)
 static void
 on_dialog_objs_removed_async (struct _query_msg *msg)
 {
-	const gchar *our_uid;
-	GList *l;
 	TrayIconData *tray_data;
-	GList *objects;
+	GSList *l, *objects;
+	ECalComponentId *our_id;
 
 	debug (("..."));
 
 	tray_data = msg->data;
 	objects = msg->objects;
 
-	e_cal_component_get_uid (tray_data->comp, &our_uid);
-	g_return_if_fail (our_uid && *our_uid);
+	our_id = e_cal_component_get_id (tray_data->comp);
+	g_return_if_fail (our_id);
 
 	for (l = objects; l != NULL; l = l->next) {
-		const gchar *uid = l->data;
+		ECalComponentId *id = l->data;
 
-		if (!uid)
+		if (!id)
 			continue;
 
-		if (!strcmp (uid, our_uid)) {
+		if (g_strcmp0 (id->uid, our_id->uid) == 0&& g_strcmp0 (id->rid, our_id->rid) == 0) {
 			tray_data->cqa = NULL;
 			tray_data->alarm_id = NULL;
 			tray_icons_list = g_list_remove (tray_icons_list, tray_data);
 			tray_data = NULL;
 		}
+
+		e_cal_component_free_id (id);
 	}
 
+	e_cal_component_free_id (our_id);
+	g_slist_free (objects);
 	g_slice_free (struct _query_msg, msg);
 }
 
 static void
-on_dialog_objs_removed_cb (ECal *client, GList *objects, gpointer data)
+on_dialog_objs_removed_cb (ECalClientView *view, const GSList *uids, gpointer data)
 {
 	struct _query_msg *msg;
 
 	msg = g_slice_new0 (struct _query_msg);
 	msg->header.func = (MessageFunc) on_dialog_objs_removed_async;
-	msg->objects = objects;
+	msg->objects = duplicate_ecal (uids);
 	msg->data = data;
 
 	message_push ((Message *) msg);
@@ -1219,7 +1262,7 @@ notify_dialog_cb (AlarmNotifyResult result, gint snooze_mins, gpointer data)
 
 	debug (("Received from dialog"));
 
-	g_signal_handlers_disconnect_matched (tray_data->query, G_SIGNAL_MATCH_FUNC,
+	g_signal_handlers_disconnect_matched (tray_data->view, G_SIGNAL_MATCH_FUNC,
 					      0, 0, NULL, on_dialog_objs_removed_cb, NULL);
 
 	switch (result) {
@@ -1254,7 +1297,7 @@ notify_dialog_cb (AlarmNotifyResult result, gint snooze_mins, gpointer data)
 		break;
 
 	case ALARM_NOTIFY_EDIT:
-		edit_component (tray_data->client, tray_data->comp);
+		edit_component (tray_data->cal_client, tray_data->comp);
 
 		break;
 
@@ -1530,11 +1573,11 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	tray_data->cqa = cqa;
 	tray_data->alarm_id = alarm_id;
 	tray_data->comp = g_object_ref (e_cal_component_clone (comp));
-	tray_data->client = cqa->parent_client->client;
-	tray_data->query = g_object_ref (cqa->parent_client->query);
+	tray_data->cal_client = cqa->parent_client->cal_client;
+	tray_data->view = g_object_ref (cqa->parent_client->view);
 	tray_data->blink_state = FALSE;
 	tray_data->snooze_set = FALSE;
-	g_object_ref (tray_data->client);
+	g_object_ref (tray_data->cal_client);
 
 	/* Task to add tray_data to the global tray_icon_list */
 	tray_list_add_new (tray_data);
@@ -1558,7 +1601,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	g_free (time_str);
 	g_free (str);
 
-	g_signal_connect (G_OBJECT (tray_data->query), "objects_removed",
+	g_signal_connect (G_OBJECT (tray_data->view), "objects_removed",
 			  G_CALLBACK (on_dialog_objs_removed_cb), tray_data);
 
 	/* FIXME: We should remove this check */
@@ -1731,8 +1774,7 @@ mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
 
 	debug (("..."));
 
-	if (!e_cal_get_static_capability (cqa->parent_client->client,
-						CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS))
+	if (!e_client_check_capability (E_CLIENT (cqa->parent_client->cal_client), CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS))
 		return;
 
 	dialog = gtk_dialog_new_with_buttons (_("Warning"),
@@ -1932,20 +1974,20 @@ free_client_alarms_cb (gpointer key, gpointer value, gpointer user_data)
 
 	if (ca) {
 		remove_client_alarms (ca);
-		if (ca->client) {
+		if (ca->cal_client) {
 			debug (("Disconnecting Client"));
 
-			g_signal_handlers_disconnect_matched (ca->client, G_SIGNAL_MATCH_DATA,
+			g_signal_handlers_disconnect_matched (ca->cal_client, G_SIGNAL_MATCH_DATA,
 							      0, 0, NULL, NULL, ca);
-			g_object_unref (ca->client);
+			g_object_unref (ca->cal_client);
 		}
 
-		if (ca->query) {
+		if (ca->view) {
 			debug (("Disconnecting Query"));
 
-			g_signal_handlers_disconnect_matched (ca->query, G_SIGNAL_MATCH_DATA,
+			g_signal_handlers_disconnect_matched (ca->view, G_SIGNAL_MATCH_DATA,
 							      0, 0, NULL, NULL, ca);
-			g_object_unref (ca->query);
+			g_object_unref (ca->view);
 		}
 
 		g_hash_table_destroy (ca->uid_alarms_hash);
@@ -2016,52 +2058,46 @@ hash_ids (gpointer a)
 
 struct _alarm_client_msg {
 	Message header;
-	ECal *client;
+	ECalClient *cal_client;
 };
 
 static void
 alarm_queue_add_async (struct _alarm_client_msg *msg)
 {
 	ClientAlarms *ca;
-	ECal *client = msg->client;
+	ECalClient *cal_client = msg->cal_client;
 
 	g_return_if_fail (alarm_queue_inited);
-	g_return_if_fail (client != NULL);
-	g_return_if_fail (E_IS_CAL (client));
+	g_return_if_fail (cal_client != NULL);
+	g_return_if_fail (E_IS_CAL_CLIENT (cal_client));
 
-	ca = lookup_client (client);
+	ca = lookup_client (cal_client);
 	if (ca) {
 		/* We already have it. Unref the passed one*/
-		g_object_unref (client);
+		g_object_unref (cal_client);
 		return;
 	}
 
-	debug (("client=%p", client));
+	debug (("client=%p", cal_client));
 
 	ca = g_new (ClientAlarms, 1);
 
-	ca->client = client;
-	ca->query = NULL;
+	ca->cal_client = cal_client;
+	ca->view = NULL;
 
-	g_hash_table_insert (client_alarms_hash, client, ca);
+	g_hash_table_insert (client_alarms_hash, cal_client, ca);
 
 	ca->uid_alarms_hash = g_hash_table_new (
 		(GHashFunc) hash_ids, (GEqualFunc) compare_ids);
 
-	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED) {
-		load_alarms_for_today (ca);
-	} else {
-		g_signal_connect (client, "cal_opened_ex",
-				  G_CALLBACK (cal_opened_cb),
-				  ca);
-	}
+	load_alarms_for_today (ca);
 
 	g_slice_free (struct _alarm_client_msg, msg);
 }
 
 /**
  * alarm_queue_add_client:
- * @client: A calendar client.
+ * @cal_client: A calendar client.
  *
  * Adds a calendar client to the alarm queueing system.  Alarm trigger
  * notifications will be presented at the appropriate times.  The client should
@@ -2074,13 +2110,13 @@ alarm_queue_add_async (struct _alarm_client_msg *msg)
  * queueing system when it is no longer wanted.
  **/
 void
-alarm_queue_add_client (ECal *client)
+alarm_queue_add_client (ECalClient *cal_client)
 {
 	struct _alarm_client_msg *msg;
 
 	msg = g_slice_new0 (struct _alarm_client_msg);
 	msg->header.func = (MessageFunc) alarm_queue_add_async;
-	msg->client = g_object_ref (client);
+	msg->cal_client = g_object_ref (cal_client);
 
 	message_push ((Message *) msg);
 }
@@ -2137,35 +2173,35 @@ static void
 alarm_queue_remove_async (struct _alarm_client_msg *msg)
 {
 	ClientAlarms *ca;
-	ECal *client = msg->client;
+	ECalClient *cal_client = msg->cal_client;
 
 	g_return_if_fail (alarm_queue_inited);
-	g_return_if_fail (client != NULL);
-	g_return_if_fail (E_IS_CAL (client));
+	g_return_if_fail (cal_client != NULL);
+	g_return_if_fail (E_IS_CAL_CLIENT (cal_client));
 
-	ca = lookup_client (client);
+	ca = lookup_client (cal_client);
 	g_return_if_fail (ca != NULL);
 
 	debug (("..."));
 	remove_client_alarms (ca);
 
 	/* Clean up */
-	if (ca->client) {
+	if (ca->cal_client) {
 		debug (("Disconnecting Client"));
 
-		g_signal_handlers_disconnect_matched (ca->client, G_SIGNAL_MATCH_DATA,
+		g_signal_handlers_disconnect_matched (ca->cal_client, G_SIGNAL_MATCH_DATA,
 						      0, 0, NULL, NULL, ca);
-		g_object_unref (ca->client);
-		ca->client = NULL;
+		g_object_unref (ca->cal_client);
+		ca->cal_client = NULL;
 	}
 
-	if (ca->query) {
+	if (ca->view) {
 		debug (("Disconnecting Query"));
 
-		g_signal_handlers_disconnect_matched (ca->query, G_SIGNAL_MATCH_DATA,
+		g_signal_handlers_disconnect_matched (ca->view, G_SIGNAL_MATCH_DATA,
 						      0, 0, NULL, NULL, ca);
-		g_object_unref (ca->query);
-		ca->query = NULL;
+		g_object_unref (ca->view);
+		ca->view = NULL;
 	}
 
 	g_hash_table_destroy (ca->uid_alarms_hash);
@@ -2173,7 +2209,7 @@ alarm_queue_remove_async (struct _alarm_client_msg *msg)
 
 	g_free (ca);
 
-	g_hash_table_remove (client_alarms_hash, client);
+	g_hash_table_remove (client_alarms_hash, cal_client);
 
 	g_slice_free (struct _alarm_client_msg, msg);
 }
@@ -2181,18 +2217,18 @@ alarm_queue_remove_async (struct _alarm_client_msg *msg)
 /** alarm_queue_remove_client
  *
  * asynchronously remove client from alarm queue.
- * @client: Client to remove.
+ * @cal_client: Client to remove.
  * @immediately: Indicates whether use thread or do it right now.
  */
 
 void
-alarm_queue_remove_client (ECal *client, gboolean immediately)
+alarm_queue_remove_client (ECalClient *cal_client, gboolean immediately)
 {
 	struct _alarm_client_msg *msg;
 
 	msg = g_slice_new0 (struct _alarm_client_msg);
 	msg->header.func = (MessageFunc) alarm_queue_remove_async;
-	msg->client = client;
+	msg->cal_client = cal_client;
 
 	if (immediately) {
 		alarm_queue_remove_async (msg);
@@ -2220,7 +2256,7 @@ update_cqa (CompQueuedAlarms *cqa, ECalComponent *newcomp)
 
 	debug (("Generating alarms between %s and %s", e_ctime (&from), e_ctime (&to)));
 	alarms = e_cal_util_generate_alarms_for_comp (newcomp, from, to, omit,
-					e_cal_resolve_tzid_cb, cqa->parent_client->client, zone);
+					e_cal_client_resolve_tzid_cb, cqa->parent_client->cal_client, zone);
 
 	/* Update auids in Queued Alarms*/
 	for (qa_list = cqa->queued_alarms; qa_list; qa_list = qa_list->next) {

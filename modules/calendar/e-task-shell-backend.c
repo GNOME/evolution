@@ -27,17 +27,17 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-list.h>
 #include <libedataserver/e-source-group.h>
+#include <libedataserverui/e-client-utils.h>
 
 #include "shell/e-shell.h"
 #include "shell/e-shell-backend.h"
 #include "shell/e-shell-window.h"
 
-#include "calendar/common/authentication.h"
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/task-editor.h"
@@ -74,6 +74,7 @@ task_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	GSList *sources, *iter;
 	const gchar *name;
 	gboolean save_list = FALSE;
+	GError *error = NULL;
 
 	on_this_computer = NULL;
 	personal = NULL;
@@ -83,10 +84,11 @@ task_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	if (!e_cal_get_sources (
+	if (!e_cal_client_get_sources (
 		&task_shell_backend->priv->source_list,
-		E_CAL_SOURCE_TYPE_TODO, NULL)) {
-		g_warning ("Could not get task sources from GConf!");
+		E_CAL_CLIENT_SOURCE_TYPE_TASKS, &error)) {
+		g_debug ("%s: Could not get task sources: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		return;
 	}
 
@@ -164,42 +166,49 @@ task_shell_backend_new_task (ESource *source,
                              EShell *shell,
                              CompEditorFlags flags)
 {
-	ECal *cal;
+	EClient *client = NULL;
+	ECalClient *cal_client;
 	ECalComponent *comp;
 	CompEditor *editor;
+	GError *error = NULL;
+
+	if (!e_client_utils_open_new_finish (source, result, &client, &error))
+		client = NULL;
 
 	/* XXX Handle errors better. */
-	cal = e_load_cal_source_finish (source, result, NULL);
-	g_return_if_fail (E_IS_CAL (cal));
+	if (!client) {
+		g_debug ("%s: Failed to open '%s': %s", G_STRFUNC, e_source_peek_name (source), error ? error->message : "Unknown error");
+		g_clear_error (&error);
+		return;
+	}
 
-	editor = task_editor_new (cal, shell, flags);
-	comp = cal_comp_task_new_with_defaults (cal);
+	g_return_if_fail (E_IS_CAL_CLIENT (client));
+
+	cal_client = E_CAL_CLIENT (client);
+	editor = task_editor_new (cal_client, shell, flags);
+	comp = cal_comp_task_new_with_defaults (cal_client);
 	comp_editor_edit_comp (editor, comp);
 
 	gtk_window_present (GTK_WINDOW (editor));
 
 	g_object_unref (comp);
-	g_object_unref (cal);
+	g_object_unref (client);
 }
 
 static void
-task_shell_backend_task_new_cb (ESource *source,
-                                GAsyncResult *result,
-                                EShell *shell)
+task_shell_backend_task_new_cb (GObject *source_object, GAsyncResult *result, gpointer shell)
 {
 	CompEditorFlags flags = 0;
 
 	flags |= COMP_EDITOR_NEW_ITEM;
 
-	task_shell_backend_new_task (source, result, shell, flags);
+	task_shell_backend_new_task (E_SOURCE (source_object), result, shell, flags);
 
 	g_object_unref (shell);
 }
 
 static void
-task_shell_backend_task_assigned_new_cb (ESource *source,
-                                         GAsyncResult *result,
-                                         EShell *shell)
+task_shell_backend_task_assigned_new_cb (GObject *source_object, GAsyncResult *result, gpointer shell)
 {
 	CompEditorFlags flags = 0;
 
@@ -207,7 +216,7 @@ task_shell_backend_task_assigned_new_cb (ESource *source,
 	flags |= COMP_EDITOR_IS_ASSIGNED;
 	flags |= COMP_EDITOR_USER_ORG;
 
-	task_shell_backend_new_task (source, result, shell, flags);
+	task_shell_backend_new_task (E_SOURCE (source_object), result, shell, flags);
 
 	g_object_unref (shell);
 }
@@ -221,13 +230,10 @@ action_task_new_cb (GtkAction *action,
 	EShellSettings *shell_settings;
 	ESource *source = NULL;
 	ESourceList *source_list;
-	ECalSourceType source_type;
 	const gchar *action_name;
 	gchar *uid;
 
 	/* This callback is used for both tasks and assigned tasks. */
-
-	source_type = E_CAL_SOURCE_TYPE_TODO;
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -253,19 +259,13 @@ action_task_new_cb (GtkAction *action,
 	 * FIXME Need to obtain a better default time zone. */
 	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "task-assigned-new") == 0)
-		e_load_cal_source_async (
-			source, source_type, NULL,
-			GTK_WINDOW (shell_window),
-			NULL, (GAsyncReadyCallback)
-			task_shell_backend_task_assigned_new_cb,
-			g_object_ref (shell));
+		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, NULL,
+			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
+			task_shell_backend_task_assigned_new_cb, g_object_ref (shell));
 	else
-		e_load_cal_source_async (
-			source, source_type, NULL,
-			GTK_WINDOW (shell_window),
-			NULL, (GAsyncReadyCallback)
-			task_shell_backend_task_new_cb,
-			g_object_ref (shell));
+		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, NULL,
+			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
+			task_shell_backend_task_new_cb, g_object_ref (shell));
 
 	g_object_unref (source_list);
 }
@@ -311,11 +311,11 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	EShell *shell;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
-	ECal *client;
+	ECalClient *client;
 	ECalComponent *comp;
 	ESource *source;
 	ESourceList *source_list;
-	ECalSourceType source_type;
+	ECalClientSourceType source_type;
 	EUri *euri;
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
@@ -326,7 +326,7 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	gboolean handled = FALSE;
 	GError *error = NULL;
 
-	source_type = E_CAL_SOURCE_TYPE_TODO;
+	source_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	if (strncmp (uri, "task:", 5) != 0)
@@ -379,8 +379,9 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	 * we successfully open it is another matter... */
 	handled = TRUE;
 
-	if (!e_cal_get_sources (&source_list, source_type, NULL)) {
-		g_printerr ("Could not get task sources from GConf!\n");
+	if (!e_cal_client_get_sources (&source_list, source_type, &error)) {
+		g_debug ("%s: Could not get task sources: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		goto exit;
 	}
 
@@ -391,12 +392,13 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 		goto exit;
 	}
 
-	client = e_auth_new_cal_from_source (source, source_type);
-	if (client == NULL || !e_cal_open (client, TRUE, &error)) {
-		if (error != NULL) {
-			g_printerr ("%s\n", error->message);
-			g_error_free (error);
-		}
+	client = e_cal_client_new (source, source_type, &error);
+	if (client)
+		g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+
+	if (client == NULL || !e_client_open_sync (E_CLIENT (client), TRUE, NULL, &error)) {
+		g_debug ("%s: Failed to create/open client: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		g_object_unref (source_list);
 		goto exit;
 	}
@@ -409,8 +411,8 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	if (editor != NULL)
 		goto present;
 
-	if (!e_cal_get_object (client, comp_uid, comp_rid, &icalcomp, &error)) {
-		g_printerr ("%s\n", error->message);
+	if (!e_cal_client_get_object_sync (client, comp_uid, comp_rid, &icalcomp, NULL, &error)) {
+		g_debug ("%s: Failed to get object: %s", G_STRFUNC, error ? error->message : "Unknown error");
 		g_object_unref (source_list);
 		g_error_free (error);
 		goto exit;

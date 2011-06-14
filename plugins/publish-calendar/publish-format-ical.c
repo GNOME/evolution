@@ -29,14 +29,14 @@
 #include <gconf/gconf-client.h>
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-list.h>
-#include <libecal/e-cal.h>
+#include <libedataserverui/e-client-utils.h>
+#include <libecal/e-cal-client.h>
 #include <libecal/e-cal-util.h>
-#include <calendar/common/authentication.h>
 #include "publish-format-ical.h"
 
 typedef struct {
 	GHashTable *zones;
-	ECal *ecal;
+	ECalClient *client;
 } CompTzData;
 
  static void
@@ -53,7 +53,7 @@ insert_tz_comps (icalparameter *param, gpointer cb_data)
 	if (g_hash_table_lookup (tdata->zones, tzid))
 		return;
 
-	if (!e_cal_get_timezone (tdata->ecal, tzid, &zone, &error)) {
+	if (!e_cal_client_get_timezone_sync (tdata->client, tzid, &zone, NULL, &error)) {
 		g_warning ("Could not get the timezone information for %s :  %s \n", tzid, error->message);
 		g_error_free (error);
 		return;
@@ -70,42 +70,44 @@ append_tz_to_comp (gpointer key, gpointer value, icalcomponent *toplevel)
 }
 
 static gboolean
-write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream, GError **error)
+write_calendar (const gchar *uid, ESourceList *source_list, GOutputStream *stream, GError **error)
 {
 	ESource *source;
-	ECal *client = NULL;
-	GList *objects;
+	ECalClient *client = NULL;
+	GSList *objects;
 	icalcomponent *top_level;
 	gboolean res = FALSE;
 
 	source = e_source_list_peek_source_by_uid (source_list, uid);
 	if (source)
-		client = e_auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
+		client = e_cal_client_new (source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, error);
 	if (!client) {
-		if (error)
-			*error = g_error_new (e_calendar_error_quark (), E_CALENDAR_STATUS_NO_SUCH_CALENDAR, _("Could not publish calendar: Calendar backend no longer exists"));
+		if (error && !error)
+			*error = g_error_new (E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_NO_SUCH_CALENDAR, _("Could not publish calendar: Calendar backend no longer exists"));
 		return FALSE;
 	}
 
-	if (!e_cal_open (client, TRUE, error)) {
+	g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+
+	if (!e_client_open_sync (E_CLIENT (client), TRUE, NULL, error)) {
 		g_object_unref (client);
 		return FALSE;
 	}
 
 	top_level = e_cal_util_new_top_level ();
 
-	if (e_cal_get_object_list (client, "#t", &objects, error)) {
+	if (e_cal_client_get_object_list_sync (client, "#t", &objects, NULL, error)) {
+		GSList *iter;
 		gchar *ical_string;
 		CompTzData tdata;
 
 		tdata.zones = g_hash_table_new (g_str_hash, g_str_equal);
-		tdata.ecal = client;
+		tdata.client = client;
 
-		while (objects) {
+		for (iter = objects; iter; iter = iter->next) {
 			icalcomponent *icalcomp = objects->data;
 			icalcomponent_foreach_tzid (icalcomp, insert_tz_comps, &tdata);
 			icalcomponent_add_component (top_level, icalcomp);
-			objects = g_list_remove (objects, icalcomp);
 		}
 
 		g_hash_table_foreach (tdata.zones, (GHFunc) append_tz_to_comp, top_level);
@@ -116,9 +118,11 @@ write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream, GEr
 		ical_string = icalcomponent_as_ical_string_r (top_level);
 		res = g_output_stream_write_all (stream, ical_string, strlen (ical_string), NULL, NULL, error);
 		g_free (ical_string);
+		e_cal_client_free_icalcomp_slist (objects);
 	}
 
 	g_object_unref (client);
+	icalcomponent_free (top_level);
 
 	return res;
 }
@@ -128,12 +132,11 @@ publish_calendar_as_ical (GOutputStream *stream, EPublishUri *uri, GError **erro
 {
 	GSList *l;
 	ESourceList *source_list;
-	GConfClient *gconf_client;
-
-	gconf_client = gconf_client_get_default ();
 
 	/* events */
-	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/calendar/sources");
+	if (!e_cal_client_get_sources (&source_list, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, error))
+		return;
+
 	l = uri->events;
 	while (l) {
 		gchar *uid = l->data;
@@ -141,7 +144,6 @@ publish_calendar_as_ical (GOutputStream *stream, EPublishUri *uri, GError **erro
 			break;
 		l = g_slist_next (l);
 	}
-	g_object_unref (source_list);
 
-	g_object_unref (gconf_client);
+	g_object_unref (source_list);
 }

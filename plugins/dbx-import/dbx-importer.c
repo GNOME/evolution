@@ -57,9 +57,8 @@
 #include <shell/e-shell-view.h>
 
 #include <libebook/e-contact.h>
-#include <libebook/e-book.h>
 
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libecal/e-cal-component.h>
 
 #include <libedataserver/e-data-server-util.h>

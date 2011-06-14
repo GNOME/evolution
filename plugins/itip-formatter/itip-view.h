@@ -28,7 +28,7 @@
 #include <unistd.h>
 #include <gtk/gtk.h>
 #include <libedataserver/e-source-list.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 
 G_BEGIN_DECLS
 
@@ -96,8 +96,8 @@ GtkWidget *itip_view_new      (void);
 void itip_view_set_mode (ItipView *view, ItipViewMode mode);
 ItipViewMode itip_view_get_mode (ItipView *view);
 
-void itip_view_set_item_type (ItipView *view, ECalSourceType type);
-ECalSourceType itip_view_get_item_type (ItipView *view);
+void itip_view_set_item_type (ItipView *view, ECalClientSourceType type);
+ECalClientSourceType itip_view_get_item_type (ItipView *view);
 
 void itip_view_set_organizer (ItipView *view, const gchar *organizer);
 const gchar *itip_view_get_organizer (ItipView *view);

@@ -25,6 +25,7 @@
 #include "e-addressbook-selector.h"
 
 #include <e-util/e-selection.h>
+#include <libedataserverui/e-client-utils.h>
 
 #include <eab-book-util.h>
 #include <eab-contact-merging.h>
@@ -36,11 +37,11 @@ struct _EAddressbookSelectorPrivate {
 };
 
 struct _MergeContext {
-	EBook *source_book;
-	EBook *target_book;
+	EBookClient *source_client;
+	EBookClient *target_client;
 
 	EContact *current_contact;
-	GList *remaining_contacts;
+	GSList *remaining_contacts;
 	guint pending_removals;
 	gboolean pending_adds;
 
@@ -62,7 +63,7 @@ static gpointer parent_class;
 static void
 merge_context_next (MergeContext *merge_context)
 {
-	GList *list;
+	GSList *list;
 
 	merge_context->current_contact = NULL;
 	if (!merge_context->remaining_contacts)
@@ -70,20 +71,20 @@ merge_context_next (MergeContext *merge_context)
 
 	list = merge_context->remaining_contacts;
 	merge_context->current_contact = list->data;
-	list = g_list_delete_link (list, list);
+	list = g_slist_delete_link (list, list);
 	merge_context->remaining_contacts = list;
 }
 
 static MergeContext *
-merge_context_new (EBook *source_book,
-                   EBook *target_book,
-                   GList *contact_list)
+merge_context_new (EBookClient *source_client,
+                   EBookClient *target_client,
+                   GSList *contact_list)
 {
 	MergeContext *merge_context;
 
 	merge_context = g_slice_new0 (MergeContext);
-	merge_context->source_book = source_book;
-	merge_context->target_book = target_book;
+	merge_context->source_client = source_client;
+	merge_context->target_client = target_client;
 	merge_context->remaining_contacts = contact_list;
 	merge_context_next (merge_context);
 
@@ -93,20 +94,28 @@ merge_context_new (EBook *source_book,
 static void
 merge_context_free (MergeContext *merge_context)
 {
-	if (merge_context->source_book != NULL)
-		g_object_unref (merge_context->source_book);
+	if (merge_context->source_client != NULL)
+		g_object_unref (merge_context->source_client);
 
-	if (merge_context->target_book != NULL)
-		g_object_unref (merge_context->target_book);
+	if (merge_context->target_client != NULL)
+		g_object_unref (merge_context->target_client);
 
 	g_slice_free (MergeContext, merge_context);
 }
 
 static void
-addressbook_selector_removed_cb (EBook *book,
-                                 const GError *error,
-                                 MergeContext *merge_context)
+addressbook_selector_removed_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
+	EBookClient *book_client = E_BOOK_CLIENT (source_object);
+	MergeContext *merge_context = user_data;
+	GError *error = NULL;
+
+	e_book_client_remove_contact_finish (book_client, result, &error);
+	if (error) {
+		g_debug ("%s: Failed to remove contact: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+
 	merge_context->pending_removals--;
 
 	if (merge_context->pending_adds)
@@ -119,18 +128,19 @@ addressbook_selector_removed_cb (EBook *book,
 }
 
 static void
-addressbook_selector_merge_next_cb (EBook *book,
+addressbook_selector_merge_next_cb (EBookClient *book_client,
                                     const GError *error,
                                     const gchar *id,
-                                    MergeContext *merge_context)
+                                    gpointer closure)
 {
+	MergeContext *merge_context = closure;
+
 	if (merge_context->remove_from_source && !error) {
 		/* Remove previous contact from source. */
-		e_book_remove_contact_async (
-			merge_context->source_book,
-			merge_context->current_contact,
-			(EBookAsyncCallback) addressbook_selector_removed_cb,
-			merge_context);
+		e_book_client_remove_contact (
+			merge_context->source_client,
+			merge_context->current_contact, NULL,
+			addressbook_selector_removed_cb, merge_context);
 		merge_context->pending_removals++;
 	}
 
@@ -139,10 +149,9 @@ addressbook_selector_merge_next_cb (EBook *book,
 	if (merge_context->remaining_contacts != NULL) {
 		merge_context_next (merge_context);
 		eab_merging_book_add_contact (
-			merge_context->target_book,
+			merge_context->target_client,
 			merge_context->current_contact,
-			(EBookIdAsyncCallback) addressbook_selector_merge_next_cb,
-			merge_context);
+			addressbook_selector_merge_next_cb, merge_context);
 
 	} else if (merge_context->pending_removals == 0) {
 		merge_context_free (merge_context);
@@ -242,6 +251,39 @@ addressbook_selector_constructed (GObject *object)
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
+static void
+target_client_open_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	ESource *source = E_SOURCE (source_object);
+	MergeContext *merge_context = user_data;
+	EClient *client = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (merge_context != NULL);
+
+	if (!e_client_utils_open_new_finish (source, result, &client, &error))
+		client = NULL;
+
+	if (error) {
+		g_debug ("%s: Failed to open targer client: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+
+	merge_context->target_client = client ? E_BOOK_CLIENT (client) : NULL;
+
+	if (!merge_context->target_client) {
+		g_slist_foreach (merge_context->remaining_contacts, (GFunc) g_object_unref, NULL);
+		g_slist_free (merge_context->remaining_contacts);
+
+		merge_context_free (merge_context);
+		return;
+	}
+
+	eab_merging_book_add_contact (
+		merge_context->target_client, merge_context->current_contact,
+		addressbook_selector_merge_next_cb, merge_context);
+}
+
 static gboolean
 addressbook_selector_data_dropped (ESourceSelector *selector,
                                    GtkSelectionData *selection_data,
@@ -252,9 +294,8 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	EAddressbookSelectorPrivate *priv;
 	MergeContext *merge_context;
 	EAddressbookModel *model;
-	EBook *source_book;
-	EBook *target_book;
-	GList *list;
+	EBookClient *source_client = NULL;
+	GSList *list;
 	const gchar *string;
 	gboolean remove_from_source;
 
@@ -264,30 +305,26 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	string = (const gchar *) gtk_selection_data_get_data (selection_data);
 	remove_from_source = (action == GDK_ACTION_MOVE);
 
-	target_book = e_book_new (destination, NULL);
-	if (target_book == NULL)
-		return FALSE;
-
-	e_book_open (target_book, FALSE, NULL);
-
 	/* XXX Function assumes both out arguments are provided.  All we
-	 *     care about is the contact list; source_book will be NULL. */
-	eab_book_and_contact_list_from_string (string, &source_book, &list);
+	 *     care about is the contact list; source_client will be NULL. */
+	eab_book_and_contact_list_from_string (string, &source_client, &list);
+	if (source_client)
+		g_object_unref (source_client);
+
 	if (list == NULL)
 		return FALSE;
 
 	model = e_addressbook_view_get_model (priv->current_view);
-	source_book = e_addressbook_model_get_book (model);
-	g_return_val_if_fail (E_IS_BOOK (source_book), FALSE);
+	source_client = e_addressbook_model_get_client (model);
+	g_return_val_if_fail (E_IS_BOOK_CLIENT (source_client), FALSE);
 
-	merge_context = merge_context_new (source_book, target_book, list);
+	merge_context = merge_context_new (g_object_ref (source_client), NULL, list);
 	merge_context->remove_from_source = remove_from_source;
 	merge_context->pending_adds = TRUE;
 
-	eab_merging_book_add_contact (
-		target_book, merge_context->current_contact,
-		(EBookIdAsyncCallback) addressbook_selector_merge_next_cb,
-		merge_context);
+	e_client_utils_open_new (destination, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+		e_client_utils_authenticate_handler, NULL,
+		target_client_open_ready_cb, merge_context);
 
 	return TRUE;
 }

@@ -51,7 +51,7 @@ G_DEFINE_TYPE (
 	E_TYPE_COMPOSER_HEADER)
 
 static gpointer
-contact_editor_fudge_new (EBook *book,
+contact_editor_fudge_new (EBookClient *book_client,
                           EContact *contact,
                           gboolean is_new,
                           gboolean editable)
@@ -62,11 +62,11 @@ contact_editor_fudge_new (EBook *book,
 	 *     was a terrible idea.  Now we're stuck with it. */
 
 	return e_contact_editor_new (
-		shell, book, contact, is_new, editable);
+		shell, book_client, contact, is_new, editable);
 }
 
 static gpointer
-contact_list_editor_fudge_new (EBook *book,
+contact_list_editor_fudge_new (EBookClient *book_client,
                                EContact *contact,
                                gboolean is_new,
                                gboolean editable)
@@ -77,7 +77,7 @@ contact_list_editor_fudge_new (EBook *book,
 	 *     was a terrible idea.  Now we're stuck with it. */
 
 	return e_contact_list_editor_new (
-		shell, book, contact, is_new, editable);
+		shell, book_client, contact, is_new, editable);
 }
 
 static void

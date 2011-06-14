@@ -31,7 +31,8 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
+#include <libebook/e-book-query.h>
 #include <libebook/e-contact.h>
 
 #include "evolution-addressbook-export.h"
@@ -243,7 +244,7 @@ gchar *e_contact_get_csv (EContact * contact, GSList * csv_all_fields);
 gchar *delivery_address_get_sub_field (const EContactAddress * delivery_address, DeliveryAddressField sub_field);
 gchar *check_null_pointer (gchar * orig);
 gchar *escape_string (gchar * orig);
-gint output_n_cards_file (FILE * outputfile, GList *contacts, gint size, gint begin_no, CARD_FORMAT format);
+gint output_n_cards_file (FILE * outputfile, GSList *contacts, gint size, gint begin_no, CARD_FORMAT format);
 static void fork_to_background (void);
 void set_pre_defined_field (GSList ** pre_defined_fields);
 
@@ -562,12 +563,12 @@ escape_string (gchar *orig)
 }
 
 gint
-output_n_cards_file (FILE * outputfile, GList *contacts, gint size, gint begin_no, CARD_FORMAT format)
+output_n_cards_file (FILE * outputfile, GSList *contacts, gint size, gint begin_no, CARD_FORMAT format)
 {
 	gint i;
 	if (format == CARD_FORMAT_VCARD) {
 		for (i = begin_no; i < size + begin_no; i++) {
-			EContact *contact = g_list_nth_data (contacts, i);
+			EContact *contact = g_slist_nth_data (contacts, i);
 			gchar *vcard = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
 			fprintf (outputfile, "%s\n", vcard);
 			g_free (vcard);
@@ -583,7 +584,7 @@ output_n_cards_file (FILE * outputfile, GList *contacts, gint size, gint begin_n
 		g_free (csv_fields_name);
 
 		for (i = begin_no; i < size + begin_no; i++) {
-			EContact *contact = g_list_nth_data (contacts, i);
+			EContact *contact = g_slist_nth_data (contacts, i);
 			gchar *csv = e_contact_get_csv (contact, pre_defined_fields);
 			fprintf (outputfile, "%s\n", csv);
 			g_free (csv);
@@ -616,7 +617,7 @@ fork_to_background (void)
 }
 
 static void
-action_list_cards (GList *contacts, ActionContext * p_actctx)
+action_list_cards (GSList *contacts, ActionContext * p_actctx)
 {
 	FILE *outputfile;
 	long length;
@@ -626,7 +627,7 @@ action_list_cards (GList *contacts, ActionContext * p_actctx)
 	CARD_FORMAT format;
 	gint size;
 
-	length = g_list_length (contacts);
+	length = g_slist_length (contacts);
 
 	if (length <= 0) {
 		g_warning ("Couldn't load addressbook correctly!!!! %s####", p_actctx->action_list_cards.addressbook_folder_uri ?
@@ -761,31 +762,47 @@ set_pre_defined_field (GSList ** pre_defined_fields)
 guint
 action_list_cards_init (ActionContext * p_actctx)
 {
-	EBook *book;
+	EBookClient *book_client;
 	EBookQuery *query;
-	GList *contacts;
+	gchar *query_str;
+	GSList *contacts;
+	GError *error = NULL;
 
 	if (p_actctx->action_list_cards.addressbook_folder_uri != NULL) {
-		book = e_book_new_from_uri (p_actctx->action_list_cards.addressbook_folder_uri, NULL);
+		book_client = e_book_client_new_from_uri (p_actctx->action_list_cards.addressbook_folder_uri, &error);
 	} else {
-		book = e_book_new_default_addressbook (NULL);
+		book_client = e_book_client_new_default (&error);
 	}
 
-	if (!book
-	    || !e_book_open (book, TRUE, NULL)) {
-		g_warning ("Couldn't load addressbook %s", p_actctx->action_list_cards.addressbook_folder_uri ?
-					p_actctx->action_list_cards.addressbook_folder_uri : "NULL");
+	if (!book_client
+	    || !e_client_open_sync (E_CLIENT (book_client), TRUE, NULL, &error)) {
+		g_warning ("Couldn't load addressbook %s: %s", p_actctx->action_list_cards.addressbook_folder_uri ?
+				p_actctx->action_list_cards.addressbook_folder_uri : "'default'",
+				error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
+		if (book_client)
+			g_object_unref (book_client);
 		exit (-1);
 	}
 
 	query = e_book_query_any_field_contains ("");
-	e_book_get_contacts (book, query, &contacts, NULL);
+	query_str = e_book_query_to_string (query);
 	e_book_query_unref (query);
+
+	if (!e_book_client_get_contacts_sync (book_client, query_str, &contacts, NULL, &error))
+		contacts = NULL;
 
 	action_list_cards (contacts, p_actctx);
 
-	g_list_foreach (contacts, (GFunc) g_object_unref, NULL);
-	g_list_free (contacts);
+	g_slist_foreach (contacts, (GFunc) g_object_unref, NULL);
+	g_slist_free (contacts);
+	g_object_unref (book_client);
 
-	return SUCCESS;
+	if (error) {
+		g_warning ("Failed to get contacts: %s", error->message);
+		g_error_free (error);
+	}
+
+	return error ? FAILED : SUCCESS;
 }

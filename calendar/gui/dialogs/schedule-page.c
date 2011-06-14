@@ -68,16 +68,12 @@ sensitize_widgets (SchedulePage *spage)
 {
 	SchedulePagePrivate *priv = spage->priv;
 	CompEditor *editor;
-	ECal *client;
-	gboolean read_only;
+	ECalClient *client;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (spage));
 	client = comp_editor_get_client (editor);
 
-	if (!e_cal_is_read_only (client, &read_only, NULL))
-		read_only = TRUE;
-
-	e_meeting_time_selector_set_read_only (priv->sel, read_only);
+	e_meeting_time_selector_set_read_only (priv->sel, e_client_is_readonly (E_CLIENT (client)));
 }
 
 /* Set date/time */
@@ -90,30 +86,43 @@ update_time (SchedulePage *spage,
 	CompEditor *editor;
 	struct icaltimetype start_tt, end_tt;
 	icaltimezone *start_zone = NULL, *end_zone = NULL;
-	ECal *client;
+	ECalClient *client;
 	gboolean all_day;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (spage));
 	client = comp_editor_get_client (editor);
 
-	/* Note that if we are creating a new event, the timezones may not be
-	   on the server, so we try to get the builtin timezone with the TZID
-	   first. */
-	start_zone = icaltimezone_get_builtin_timezone_from_tzid (start_date->tzid);
-	if (!start_zone) {
-		if (!e_cal_get_timezone (client, start_date->tzid, &start_zone, NULL)) {
-			/* FIXME: Handle error better. */
-			g_warning ("Couldn't get timezone from server: %s",
-				   start_date->tzid ? start_date->tzid : "");
+	if (start_date->tzid) {
+		/* Note that if we are creating a new event, the timezones may not be
+		   on the server, so we try to get the builtin timezone with the TZID
+		   first. */
+		start_zone = icaltimezone_get_builtin_timezone_from_tzid (start_date->tzid);
+		if (!start_zone) {
+			GError *error = NULL;
+
+			if (!e_cal_client_get_timezone_sync (client, start_date->tzid, &start_zone, NULL, &error)) {
+				/* FIXME: Handle error better. */
+				g_warning ("Couldn't get timezone '%s' from server: %s",
+					   start_date->tzid ? start_date->tzid : "",
+					   error ? error->message : "Unknown error");
+				if (error)
+					g_error_free (error);
+			}
 		}
 	}
 
-	end_zone = icaltimezone_get_builtin_timezone_from_tzid (end_date->tzid);
-	if (!end_zone) {
-		if (!e_cal_get_timezone (client, end_date->tzid, &end_zone, NULL)) {
-			/* FIXME: Handle error better. */
-			g_warning ("Couldn't get timezone from server: %s",
-				   end_date->tzid ? end_date->tzid : "");
+	if (end_date->tzid) {
+		end_zone = icaltimezone_get_builtin_timezone_from_tzid (end_date->tzid);
+		if (!end_zone) {
+			GError *error = NULL;
+			if (!e_cal_client_get_timezone_sync (client, end_date->tzid, &end_zone, NULL, &error)) {
+				/* FIXME: Handle error better. */
+				g_warning ("Couldn't get timezone '%s' from server: %s",
+					   end_date->tzid ? end_date->tzid : "",
+					   error ? error->message : "Unknown error");
+				if (error)
+					g_error_free (error);
+			}
 		}
 	}
 

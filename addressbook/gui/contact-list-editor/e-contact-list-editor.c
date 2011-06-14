@@ -37,7 +37,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include <camel/camel.h>
-#include <libedataserverui/e-book-auth-util.h>
+#include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-combo-box.h>
 
 #include "e-util/e-util.h"
@@ -90,7 +90,7 @@
 
 enum {
 	PROP_0,
-	PROP_BOOK,
+	PROP_CLIENT,
 	PROP_CONTACT,
 	PROP_IS_NEW_LIST,
 	PROP_EDITABLE
@@ -103,7 +103,7 @@ typedef struct {
 
 struct _EContactListEditorPrivate {
 
-	EBook *book;
+	EBookClient *book_client;
 	EContact *contact;
 
 	GtkBuilder *builder;
@@ -208,17 +208,20 @@ contact_list_editor_add_email (EContactListEditor *editor)
 }
 
 static void
-contact_list_editor_book_loaded_cb (ESource *source,
+contact_list_editor_book_loaded_cb (GObject *source_object,
                                     GAsyncResult *result,
-                                    EContactListEditor *editor)
+                                    gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
+	EContactListEditor *editor = user_data;
 	EContactListEditorPrivate *priv = editor->priv;
 	EContactStore *contact_store;
 	ENameSelectorEntry *entry;
-	EBook *book;
+	EClient *client = NULL;
+	EBookClient *book_client;
 	GError *error = NULL;
 
-	book = e_load_book_source_finish (source, result, &error);
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
 	if (error != NULL) {
 		GtkWindow *parent;
@@ -228,20 +231,21 @@ contact_list_editor_book_loaded_cb (ESource *source,
 
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (WIDGET (SOURCE_MENU)),
-			e_book_get_source (priv->book));
+			e_client_get_source (E_CLIENT (priv->book_client)));
 
 		g_error_free (error);
 		goto exit;
 	}
 
-	g_return_if_fail (E_IS_BOOK (book));
+	book_client = E_BOOK_CLIENT (client);
+	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
 
 	entry = E_NAME_SELECTOR_ENTRY (WIDGET (EMAIL_ENTRY));
 	contact_store = e_name_selector_entry_peek_contact_store (entry);
-	e_contact_store_add_book (contact_store, book);
-	e_contact_list_editor_set_book (editor, book);
+	e_contact_store_add_client (contact_store, book_client);
+	e_contact_list_editor_set_client (editor, book_client);
 
-	g_object_unref (book);
+	g_object_unref (book_client);
 
 exit:
 	g_object_unref (editor);
@@ -261,11 +265,12 @@ contact_list_editor_contact_exists (EContactListModel *model,
 }
 
 static void
-contact_list_editor_list_added_cb (EBook *book,
+contact_list_editor_list_added_cb (EBookClient *book_client,
                                    const GError *error,
                                    const gchar *id,
-                                   EditorCloseStruct *ecs)
+                                   gpointer closure)
 {
+	EditorCloseStruct *ecs = closure;
 	EContactListEditor *editor = ecs->editor;
 	EContactListEditorPrivate *priv = editor->priv;
 	gboolean should_close = ecs->should_close;
@@ -292,10 +297,11 @@ contact_list_editor_list_added_cb (EBook *book,
 }
 
 static void
-contact_list_editor_list_modified_cb (EBook *book,
+contact_list_editor_list_modified_cb (EBookClient *book_client,
                                       const GError *error,
-                                      EditorCloseStruct *ecs)
+                                      gpointer closure)
 {
+	EditorCloseStruct *ecs = closure;	
 	EContactListEditor *editor = ecs->editor;
 	EContactListEditorPrivate *priv = editor->priv;
 	gboolean should_close = ecs->should_close;
@@ -500,7 +506,7 @@ contact_list_editor_drag_data_received_cb (GtkWidget *widget,
 	gboolean changed = FALSE;
 	gboolean handled = FALSE;
 	const guchar *data;
-	GList *list, *iter;
+	GSList *list, *iter;
 	GdkAtom target;
 	gint n_addresses = 0;
 	gchar *text;
@@ -546,8 +552,7 @@ contact_list_editor_drag_data_received_cb (GtkWidget *widget,
 		}
 	}
 
-	g_list_foreach (list, (GFunc) g_object_unref, NULL);
-	g_list_free (list);
+	e_client_util_free_object_slist (list);
 
 	contact_list_editor_scroll_to_end (editor);
 
@@ -894,21 +899,17 @@ void
 contact_list_editor_source_menu_changed_cb (GtkWidget *widget)
 {
 	EContactListEditor *editor;
-	GtkWindow *parent;
 	ESource *source;
 
 	editor = contact_list_editor_extract (widget);
 	source = e_source_combo_box_get_active (E_SOURCE_COMBO_BOX (widget));
 
-	if (e_source_equal (e_book_get_source (editor->priv->book), source))
+	if (e_source_equal (e_client_get_source (E_CLIENT (editor->priv->book_client)), source))
 		return;
 
-	parent = eab_editor_get_window (EAB_EDITOR (editor));
-
-	e_load_book_source_async (
-		source, parent, NULL, (GAsyncReadyCallback)
-		contact_list_editor_book_loaded_cb,
-		g_object_ref (editor));
+	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+		e_client_utils_authenticate_handler, eab_editor_get_window (EAB_EDITOR (editor)),
+		contact_list_editor_book_loaded_cb, g_object_ref (editor));
 }
 
 gboolean
@@ -1097,7 +1098,7 @@ contact_list_editor_bottom_button_clicked_cb (GtkButton *button)
 /******************** GtkBuilder Custom Widgets Functions ********************/
 
 static gpointer
-contact_editor_fudge_new (EBook *book,
+contact_editor_fudge_new (EBookClient *book_client,
                           EContact *contact,
                           gboolean is_new,
                           gboolean editable)
@@ -1108,11 +1109,11 @@ contact_editor_fudge_new (EBook *book,
 	 *     was a terrible idea.  Now we're stuck with it. */
 
 	return e_contact_editor_new (
-		shell, book, contact, is_new, editable);
+		shell, book_client, contact, is_new, editable);
 }
 
 static gpointer
-contact_list_editor_fudge_new (EBook *book,
+contact_list_editor_fudge_new (EBookClient *book_client,
                                EContact *contact,
                                gboolean is_new,
                                gboolean editable)
@@ -1123,20 +1124,19 @@ contact_list_editor_fudge_new (EBook *book,
 	 *     was a terrible idea.  Now we're stuck with it. */
 
 	return e_contact_list_editor_new (
-		shell, book, contact, is_new, editable);
+		shell, book_client, contact, is_new, editable);
 }
 
 static void
 setup_custom_widgets (EContactListEditor *editor)
 {
-	const gchar *key = "/apps/evolution/addressbook/sources";
 	GtkWidget *combo_box;
-	GConfClient *client;
 	ESourceList *source_list;
 	ENameSelectorEntry *name_selector_entry;
 	ENameSelector *name_selector;
 	GtkWidget *old, *parent;
 	EContactListEditorPrivate *priv;
+	GError *error = NULL;
 	guint ba = 0, la = 0, ra = 0, ta = 0, xo = 0, xp = 0, yo = 0, yp = 0;
 
 	g_return_if_fail (editor != NULL);
@@ -1144,11 +1144,16 @@ setup_custom_widgets (EContactListEditor *editor)
 	priv = editor->priv;
 
 	combo_box = WIDGET (SOURCE_MENU);
-	client = gconf_client_get_default ();
-	source_list = e_source_list_new_for_gconf (client, key);
+	if (!e_book_client_get_sources (&source_list, &error))
+		source_list = NULL;
 	g_object_set (G_OBJECT (combo_box), "source-list", source_list, NULL);
-	g_object_unref (source_list);
-	g_object_unref (client);
+	if (source_list)
+		g_object_unref (source_list);
+
+	if (error) {
+		g_debug ("%s: Failed to get sources: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 
 	g_signal_connect (
 		combo_box, "changed", G_CALLBACK (
@@ -1237,8 +1242,8 @@ contact_list_editor_set_property (GObject *object,
                                   GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BOOK:
-			e_contact_list_editor_set_book (
+		case PROP_CLIENT:
+			e_contact_list_editor_set_client (
 				E_CONTACT_LIST_EDITOR (object),
 				g_value_get_object (value));
 			return;
@@ -1272,10 +1277,10 @@ contact_list_editor_get_property (GObject *object,
                                   GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BOOK:
+		case PROP_CLIENT:
 			g_value_set_object (
 				value,
-				e_contact_list_editor_get_book (
+				e_contact_list_editor_get_client (
 				E_CONTACT_LIST_EDITOR (object)));
 			return;
 
@@ -1354,7 +1359,7 @@ contact_list_editor_save_contact (EABEditor *eab_editor,
 
 	contact = e_contact_list_editor_get_contact (editor);
 
-	if (priv->book == NULL)
+	if (priv->book_client == NULL)
 		return;
 
 	ecs = g_new (EditorCloseStruct, 1);
@@ -1366,11 +1371,11 @@ contact_list_editor_save_contact (EABEditor *eab_editor,
 
 	if (priv->is_new_list)
 		eab_merging_book_add_contact (
-			priv->book, contact, (EBookIdAsyncCallback)
+			priv->book_client, contact,
 			contact_list_editor_list_added_cb, ecs);
 	else
-		eab_merging_book_commit_contact (
-			priv->book, contact, (EBookAsyncCallback)
+		eab_merging_book_modify_contact (
+			priv->book_client, contact,
 			contact_list_editor_list_modified_cb, ecs);
 
 	priv->changed = FALSE;
@@ -1411,7 +1416,7 @@ contact_list_editor_contact_added (EABEditor *editor,
 	if (!error)
 		return;
 
-	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
 		return;
 
 	eab_error_dialog (NULL, _("Error adding list"), error);
@@ -1425,7 +1430,7 @@ contact_list_editor_contact_modified (EABEditor *editor,
 	if (!error)
 		return;
 
-	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
 		return;
 
 	eab_error_dialog (NULL, _("Error modifying list"), error);
@@ -1439,7 +1444,7 @@ contact_list_editor_contact_deleted (EABEditor *editor,
 	if (!error)
 		return;
 
-	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
 		return;
 
 	eab_error_dialog (NULL, _("Error removing list"), error);
@@ -1483,12 +1488,12 @@ contact_list_editor_class_init (EContactListEditorClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_BOOK,
+		PROP_CLIENT,
 		g_param_spec_object (
-			"book",
-			"Book",
+			"client",
+			"EBookClient",
 			NULL,
-			E_TYPE_BOOK,
+			E_TYPE_BOOK_CLIENT,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -1615,7 +1620,7 @@ e_contact_list_editor_get_type (void)
 
 EABEditor *
 e_contact_list_editor_new (EShell *shell,
-                           EBook *book,
+                           EBookClient *book_client,
                            EContact *list_contact,
                            gboolean is_new_list,
                            gboolean editable)
@@ -1629,7 +1634,7 @@ e_contact_list_editor_new (EShell *shell,
 		"shell", shell, NULL);
 
 	g_object_set (editor,
-		      "book", book,
+		      "client", book_client,
 		      "contact", list_contact,
 		      "is_new_list", is_new_list,
 		      "editable", editable,
@@ -1638,32 +1643,30 @@ e_contact_list_editor_new (EShell *shell,
 	return editor;
 }
 
-EBook *
-e_contact_list_editor_get_book (EContactListEditor *editor)
+EBookClient *
+e_contact_list_editor_get_client (EContactListEditor *editor)
 {
 	g_return_val_if_fail (E_IS_CONTACT_LIST_EDITOR (editor), NULL);
 
-	return editor->priv->book;
+	return editor->priv->book_client;
 }
 
 void
-e_contact_list_editor_set_book (EContactListEditor *editor,
-                                EBook *book)
+e_contact_list_editor_set_client (EContactListEditor *editor,
+				  EBookClient *book_client)
 {
 	g_return_if_fail (E_IS_CONTACT_LIST_EDITOR (editor));
-	g_return_if_fail (E_IS_BOOK (book));
+	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
 
-	if (editor->priv->book != NULL)
-		g_object_unref (editor->priv->book);
-	editor->priv->book = g_object_ref (book);
+	if (editor->priv->book_client != NULL)
+		g_object_unref (editor->priv->book_client);
+	editor->priv->book_client = g_object_ref (book_client);
 
-	editor->priv->allows_contact_lists =
-		e_book_check_static_capability (
-		editor->priv->book, "contact-lists");
+	editor->priv->allows_contact_lists = e_client_check_capability (E_CLIENT (editor->priv->book_client), "contact-lists");
 
 	contact_list_editor_update (editor);
 
-	g_object_notify (G_OBJECT (editor), "book");
+	g_object_notify (G_OBJECT (editor), "client");
 }
 
 EContact *
@@ -1823,10 +1826,10 @@ e_contact_list_editor_set_contact (EContactListEditor *editor,
 		g_list_free (email_list);
 	}
 
-	if (priv->book != NULL) {
+	if (priv->book_client != NULL) {
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (WIDGET (SOURCE_MENU)),
-			e_book_get_source (priv->book));
+			e_client_get_source (E_CLIENT (priv->book_client)));
 		gtk_widget_set_sensitive (
 			WIDGET (SOURCE_MENU), priv->is_new_list);
 	}

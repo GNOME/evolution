@@ -70,7 +70,7 @@ clear_comp_info (ECalComponentPreview *preview)
    returns whether component in the preview changed */
 static gboolean
 update_comp_info (ECalComponentPreview *preview,
-                  ECal *ecal,
+                  ECalClient *client,
                   ECalComponent *comp)
 {
 	ECalComponentPreviewPrivate *priv;
@@ -81,7 +81,7 @@ update_comp_info (ECalComponentPreview *preview,
 
 	priv = preview->priv;
 
-	if (!E_IS_CAL_COMPONENT (comp) || !E_IS_CAL (ecal)) {
+	if (!E_IS_CAL_COMPONENT (comp) || !E_IS_CAL_CLIENT (client)) {
 		changed = !priv->cal_uid;
 		clear_comp_info (preview);
 	} else {
@@ -92,7 +92,7 @@ update_comp_info (ECalComponentPreview *preview,
 		gint *sequence = NULL;
 		gint comp_sequence;
 
-		cal_uid = g_strdup (e_source_peek_uid (e_cal_get_source (ecal)));
+		cal_uid = g_strdup (e_source_peek_uid (e_client_get_source (E_CLIENT (client))));
 		e_cal_component_get_uid (comp, &uid);
 		comp_uid = g_strdup (uid);
 		e_cal_component_get_last_modified (comp, &itm);
@@ -128,7 +128,7 @@ update_comp_info (ECalComponentPreview *preview,
 /* Converts a time_t to a string, relative to the specified timezone */
 static gchar *
 timet_to_str_with_zone (ECalComponentDateTime *dt,
-                        ECal *ecal,
+                        ECalClient *client,
                         icaltimezone *default_zone,
                         gboolean use_24_hour_format)
 {
@@ -139,7 +139,7 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
 
 	if (dt->tzid) {
 		/* If we can't find the zone, we'll guess its "local" */
-		if (!e_cal_get_timezone (ecal, dt->tzid, &zone, NULL))
+		if (!e_cal_client_get_timezone_sync (client, dt->tzid, &zone, NULL, NULL))
 			zone = NULL;
 	} else if (dt->value->is_utc) {
 		zone = icaltimezone_get_utc_timezone ();
@@ -161,7 +161,7 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
 
 static void
 cal_component_preview_write_html (GString *buffer,
-                                  ECal *ecal,
+                                  ECalClient *client,
                                   ECalComponent *comp,
                                   icaltimezone *default_zone,
                                   gboolean use_24_hour_format)
@@ -240,7 +240,7 @@ cal_component_preview_write_html (GString *buffer,
 	e_cal_component_get_dtstart (comp, &dt);
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (
-			&dt, ecal, default_zone, use_24_hour_format);
+			&dt, client, default_zone, use_24_hour_format);
 		g_string_append_printf (
 			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
 			"<B>%s</B></TD><TD>%s</TD></TR>",
@@ -254,7 +254,7 @@ cal_component_preview_write_html (GString *buffer,
 	e_cal_component_get_dtend (comp, &dt);
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (
-			&dt, ecal, default_zone, use_24_hour_format);
+			&dt, client, default_zone, use_24_hour_format);
 		g_string_append_printf (
 			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
 			"<B>%s</B></TD><TD>%s</TD></TR>",
@@ -268,7 +268,7 @@ cal_component_preview_write_html (GString *buffer,
 	e_cal_component_get_due (comp, &dt);
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (
-			&dt, ecal, default_zone, use_24_hour_format);
+			&dt, client, default_zone, use_24_hour_format);
 		g_string_append_printf (
 			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
 			"<B>%s</B></TD><TD>%s</TD></TR>",
@@ -444,7 +444,7 @@ e_cal_component_preview_new (void)
 
 void
 e_cal_component_preview_display (ECalComponentPreview *preview,
-                                 ECal *ecal,
+                                 ECalClient *client,
                                  ECalComponent *comp,
                                  icaltimezone *zone,
                                  gboolean use_24_hour_format)
@@ -456,14 +456,14 @@ e_cal_component_preview_display (ECalComponentPreview *preview,
 
 	/* do not update preview when setting the same component as last time,
 	   which even didn't change */
-	if (!update_comp_info (preview, ecal, comp))
+	if (!update_comp_info (preview, client, comp))
 		return;
 
 	/* XXX The initial buffer size is arbitrary.  Tune it. */
 
 	buffer = g_string_sized_new (4096);
 	cal_component_preview_write_html (
-		buffer, ecal, comp, zone, use_24_hour_format);
+		buffer, client, comp, zone, use_24_hour_format);
 	e_web_view_load_string (E_WEB_VIEW (preview), buffer->str);
 	g_string_free (buffer, TRUE);
 }

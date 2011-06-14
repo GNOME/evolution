@@ -233,7 +233,7 @@ static void
 task_table_model_cal_view_progress_cb (ETaskTable *task_table,
                                        const gchar *message,
                                        gint progress,
-                                       ECalSourceType type)
+                                       ECalClientSourceType type)
 {
 	gdouble percent = (gdouble) progress;
 
@@ -242,9 +242,8 @@ task_table_model_cal_view_progress_cb (ETaskTable *task_table,
 
 static void
 task_table_model_cal_view_complete_cb ( ETaskTable *task_table,
-					ECalendarStatus status,
-					const gchar *error_msg,
-					ECalSourceType type)
+					const GError *error,
+					ECalClientSourceType type)
 {
 	task_table_emit_status_message (task_table, NULL, -1.0);
 }
@@ -265,8 +264,7 @@ delete_selected_components (ETaskTable *task_table)
 		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
 		GError *error = NULL;
 
-		e_cal_remove_object (comp_data->client,
-				     icalcomponent_get_uid (comp_data->icalcomp), &error);
+		e_cal_client_remove_object_sync (comp_data->client, icalcomponent_get_uid (comp_data->icalcomp), NULL, CALOBJ_MOD_THIS, NULL, &error);
 		delete_error_dialog (error, E_CAL_COMPONENT_TODO);
 		g_clear_error (&error);
 	}
@@ -782,8 +780,8 @@ task_table_query_tooltip (GtkWidget *widget,
 			e_cal_component_get_icalcomponent (new_comp),
 			dtstart.tzid);
 		if (!zone)
-			e_cal_get_timezone (
-				comp_data->client, dtstart.tzid, &zone, NULL);
+			e_cal_client_get_timezone_sync (
+				comp_data->client, dtstart.tzid, &zone, NULL, NULL);
 		if (!zone)
 			zone = default_zone;
 	} else {
@@ -932,12 +930,10 @@ task_table_update_actions (ESelectable *selectable,
 	n_selected = e_table_selected_count (E_TABLE (task_table));
 
 	list = e_task_table_get_selected (task_table);
-	for (iter = list; iter != NULL; iter = iter->next) {
+	for (iter = list; iter != NULL && sources_are_editable; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
-		gboolean read_only;
 
-		e_cal_is_read_only (comp_data->client, &read_only, NULL);
-		sources_are_editable &= !read_only;
+		sources_are_editable = sources_are_editable && !e_client_is_readonly (E_CLIENT (comp_data->client));
 	}
 	g_slist_free (list);
 
@@ -1058,7 +1054,7 @@ clipboard_get_calendar_data (ETaskTable *task_table,
 	gchar *uid;
 	ECalComponent *comp;
 	ECalModel *model;
-	ECal *client;
+	ECalClient *client;
 	icalcomponent_kind kind;
 	const gchar *status_message;
 
@@ -1100,6 +1096,7 @@ clipboard_get_calendar_data (ETaskTable *task_table,
 			    child_kind == ICAL_VTODO_COMPONENT ||
 			    child_kind == ICAL_VJOURNAL_COMPONENT) {
 				ECalComponent *tmp_comp;
+				GError *error = NULL;
 
 				uid = e_cal_component_gen_uid ();
 				tmp_comp = e_cal_component_new ();
@@ -1107,31 +1104,45 @@ clipboard_get_calendar_data (ETaskTable *task_table,
 					tmp_comp,
 					icalcomponent_new_clone (subcomp));
 				e_cal_component_set_uid (tmp_comp, uid);
-				free (uid);
+				g_free (uid);
+				uid = NULL;
 
 				/* FIXME should we convert start/due/complete
 				 * times?  Also, need error handling. */
-				e_cal_create_object (
-					client, e_cal_component_get_icalcomponent (tmp_comp),
-					NULL, NULL);
+				if (!e_cal_client_create_object_sync (client, e_cal_component_get_icalcomponent (tmp_comp), &uid, NULL, &error))
+					uid = NULL;
+
+				if (error) {
+					g_debug ("%s: Failed to create object: %s", G_STRFUNC, error->message);
+					g_error_free (error);
+				}
 
 				g_object_unref (tmp_comp);
+				g_free (uid);
 			}
 			subcomp = icalcomponent_get_next_component (
 				vcal_comp, ICAL_ANY_COMPONENT);
 		}
 	} else {
+		GError *error = NULL;
+
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomp);
 		uid = e_cal_component_gen_uid ();
 		e_cal_component_set_uid (comp, (const gchar *) uid);
-		free (uid);
+		g_free (uid);
+		uid = NULL;
 
-		e_cal_create_object (
-			client, e_cal_component_get_icalcomponent (comp),
-			NULL, NULL);
+		if (!e_cal_client_create_object_sync (client, e_cal_component_get_icalcomponent (comp), &uid, NULL, &error))
+			uid = NULL;
+
+		if (error) {
+			g_debug ("%s: Failed to create object: %s", G_STRFUNC, error->message);
+			g_error_free (error);
+		}
 
 		g_object_unref (comp);
+		g_free (uid);
 	}
 
 	task_table_emit_status_message (task_table, NULL, -1.0);
@@ -1228,7 +1239,7 @@ add_retract_data (ECalComponent *comp, const gchar *retract_comment)
 }
 
 static gboolean
-check_for_retract (ECalComponent *comp, ECal *client)
+check_for_retract (ECalComponent *comp, ECalClient *client)
 {
 	ECalComponentOrganizer org;
 	gchar *email = NULL;
@@ -1238,15 +1249,15 @@ check_for_retract (ECalComponent *comp, ECal *client)
 	if (!e_cal_component_has_attendees (comp))
 		return FALSE;
 
-	if (!e_cal_get_save_schedules (client))
+	if (!e_cal_client_check_save_schedules (client))
 		return FALSE;
 
 	e_cal_component_get_organizer (comp, &org);
 	strip = itip_strip_mailto (org.value);
 
 	ret_val =
-		e_cal_get_cal_address (client, &email, NULL) &&
-		g_ascii_strcasecmp (email, strip) == 0;
+		e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &email, NULL, NULL) &&
+		email && g_ascii_strcasecmp (email, strip) == 0;
 
 	g_free (email);
 
@@ -1292,14 +1303,13 @@ task_table_delete_selection (ESelectable *selectable)
 			comp, &retract_comment,
 			GTK_WIDGET (task_table), &retract);
 		if (retract) {
-			GList *users = NULL;
+			GSList *users = NULL;
 			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
 
 			add_retract_data (comp, retract_comment);
 			icalcomp = e_cal_component_get_icalcomponent (comp);
 			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
-			if (!e_cal_send_objects (comp_data->client, icalcomp, &users,
-						&mod_comp, &error))	{
+			if (!e_cal_client_send_objects_sync (comp_data->client, icalcomp, &users, &mod_comp, NULL, &error)) {
 				delete_error_dialog (error, E_CAL_COMPONENT_TODO);
 				g_clear_error (&error);
 				error = NULL;
@@ -1309,8 +1319,8 @@ task_table_delete_selection (ESelectable *selectable)
 					icalcomponent_free (mod_comp);
 
 				if (users) {
-					g_list_foreach (users, (GFunc) g_free, NULL);
-					g_list_free (users);
+					g_slist_foreach (users, (GFunc) g_free, NULL);
+					g_slist_free (users);
 				}
 			}
 
@@ -1596,17 +1606,21 @@ hide_completed_rows (ECalModel *model,
                      gchar *hide_sexp,
                      GPtrArray *comp_objects)
 {
-	GList *l, *m, *objects;
-	ECal *client;
+	GList *l;
+	GSList *m, *objects;
+	ECalClient *client;
 	gint pos;
 	gboolean changed = FALSE;
 
 	for (l = clients_list; l != NULL; l = l->next) {
+		GError *error = NULL;
+
 		client = l->data;
 
-		if (!e_cal_get_object_list (client, hide_sexp, &objects, NULL)) {
-			g_warning (G_STRLOC ": Could not get the objects");
-
+		if (!e_cal_client_get_object_list_sync (client, hide_sexp, &objects, NULL, &error)) {
+			g_debug ("%s: Could not get the objects: %s", G_STRFUNC, error ? error->message : "Unknown error");
+			if (error)
+				g_error_free (error);
 			continue;
 		}
 
@@ -1635,8 +1649,8 @@ hide_completed_rows (ECalModel *model,
 			g_object_unref (comp);
 		}
 
-		g_list_foreach (objects, (GFunc) icalcomponent_free, NULL);
-		g_list_free (objects);
+		g_slist_foreach (objects, (GFunc) icalcomponent_free, NULL);
+		g_slist_free (objects);
 	}
 
 	if (changed) {
@@ -1652,15 +1666,19 @@ show_completed_rows (ECalModel *model,
                      gchar *show_sexp,
                      GPtrArray *comp_objects)
 {
-	GList *l, *m, *objects;
-	ECal *client;
+	GList *l;
+	GSList *m, *objects;
+	ECalClient *client;
 
 	for (l = clients_list; l != NULL; l = l->next) {
+		GError *error = NULL;
+
 		client = l->data;
 
-		if (!e_cal_get_object_list (client, show_sexp, &objects, NULL)) {
-			g_warning (G_STRLOC ": Could not get the objects");
-
+		if (!e_cal_client_get_object_list_sync (client, show_sexp, &objects, NULL, &error)) {
+			g_debug ("%s: Could not get the objects: %s", G_STRFUNC, error ? error->message : "Unknown error");
+			if (error)
+				g_error_free (error);
 			continue;
 		}
 
@@ -1697,6 +1715,9 @@ show_completed_rows (ECalModel *model,
 			e_cal_component_free_id (id);
 			g_object_unref (comp);
 		}
+
+		g_slist_foreach (objects, (GFunc) icalcomponent_free, NULL);
+		g_slist_free (objects);
 	}
 }
 

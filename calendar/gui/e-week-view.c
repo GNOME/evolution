@@ -148,7 +148,7 @@ static void e_week_view_on_editing_started (EWeekView *week_view,
 static void e_week_view_on_editing_stopped (EWeekView *week_view,
 					    GnomeCanvasItem *item);
 static gboolean e_week_view_find_event_from_uid (EWeekView	  *week_view,
-						 ECal             *client,
+						 ECalClient             *client,
 						 const gchar	  *uid,
 						 const gchar      *rid,
 						 gint		  *event_num_return);
@@ -708,7 +708,6 @@ e_week_view_init (EWeekView *week_view)
 
 	gtk_widget_set_can_focus (GTK_WIDGET (week_view), TRUE);
 
-	week_view->query = NULL;
 	week_view->event_destroyed = FALSE;
 	week_view->events = g_array_new (FALSE, FALSE,
 					 sizeof (EWeekViewEvent));
@@ -873,13 +872,6 @@ e_week_view_dispose (GObject *object)
 		e_week_view_free_events (week_view);
 		g_array_free (week_view->events, TRUE);
 		week_view->events = NULL;
-	}
-
-	if (week_view->query) {
-		g_signal_handlers_disconnect_matched (week_view->query, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, week_view);
-		g_object_unref (week_view->query);
-		week_view->query = NULL;
 	}
 
 	if (week_view->small_font_desc) {
@@ -3018,7 +3010,7 @@ tooltip_event_cb (GnomeCanvasItem *item,
 }
 
 static const gchar *
-get_comp_summary (ECal *ecal, icalcomponent *icalcomp, gboolean *free_text)
+get_comp_summary (ECalClient *client, icalcomponent *icalcomp, gboolean *free_text)
 {
 	const gchar *my_summary, *location;
 	const gchar *summary;
@@ -3026,7 +3018,7 @@ get_comp_summary (ECal *ecal, icalcomponent *icalcomp, gboolean *free_text)
 
 	g_return_val_if_fail (icalcomp != NULL && free_text != NULL, NULL);
 
-	my_summary = e_calendar_view_get_icalcomponent_summary (ecal, icalcomp, &my_free_text);
+	my_summary = e_calendar_view_get_icalcomponent_summary (client, icalcomp, &my_free_text);
 
 	location = icalcomponent_get_location (icalcomp);
 	if (location && *location) {
@@ -3172,7 +3164,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		if (free_text)
 			g_free ((gchar *) summary);
 
-		if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
+		if (e_client_check_capability (E_CLIENT (event->comp_data->client), CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp)) {
 			set_text_as_bold (event, span);
 		}
@@ -3335,7 +3327,6 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	ETextEventProcessor *event_processor = NULL;
 	ETextEventProcessorCommand command;
 	ECalModelComponent *comp_data;
-	gboolean read_only;
 
 	/* If we are already editing the event, just return. */
 	if (event_num == week_view->editing_event_num
@@ -3356,7 +3347,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + span_num);
 
-	if (!e_cal_is_read_only (event->comp_data->client, &read_only, NULL) || read_only)
+	if (e_client_is_readonly (E_CLIENT (event->comp_data->client)))
 		return FALSE;
 
 	/* If the event is not shown, don't try to edit it. */
@@ -3814,7 +3805,7 @@ e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end
 	ECalComponent *comp;
 	ECalComponentDateTime date;
 	struct icaltimetype itt;
-	ECal *client;
+	ECalClient *client;
 	CalObjModType mod = CALOBJ_MOD_ALL;
 	GtkWindow *toplevel;
 
@@ -3924,7 +3915,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	gchar *text = NULL;
 	ECalComponent *comp;
 	ECalComponentText summary;
-	ECal *client;
+	ECalClient *client;
 	const gchar *uid;
 	gboolean on_server;
 
@@ -4003,11 +3994,24 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		e_cal_component_commit_sequence (comp);
 
 		if (!on_server) {
-			if (!e_cal_create_object (client, icalcomp, NULL, NULL))
-				g_message (G_STRLOC ": Could not create the object!");
-			else
+			gchar *uid = NULL;
+			GError *error = NULL;
+
+			if (!e_cal_client_create_object_sync (client, icalcomp, &uid, NULL, &error)) {
+				g_message (G_STRLOC ": Could not create the object! %s", error ? error->message : "Unknown error");
+				uid = NULL;
+			} else {
+				if (uid)
+					icalcomponent_set_uid (icalcomp, uid);
+
 				e_calendar_view_emit_user_created (
 					E_CALENDAR_VIEW (week_view));
+			}
+
+			if (uid)
+				g_free (uid);
+			if (error)
+				g_error_free (error);
 
 			/* we remove the object since we either got the update from the server or failed */
 			e_week_view_remove_event_cb (week_view, event_num, NULL);
@@ -4130,7 +4134,7 @@ e_week_view_find_event_from_item (EWeekView	  *week_view,
    see if any events with the uid exist. */
 static gboolean
 e_week_view_find_event_from_uid (EWeekView	  *week_view,
-				 ECal             *client,
+				 ECalClient       *client,
 				 const gchar	  *uid,
 				 const gchar      *rid,
 				 gint		  *event_num_return)
@@ -4256,7 +4260,7 @@ e_week_view_cursor_key_right (EWeekView *week_view)
 static gboolean
 e_week_view_add_new_event_in_selected_range (EWeekView *week_view, const gchar *initial_text)
 {
-	ECal *ecal;
+	ECalClient *client;
 	ECalModel *model;
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
@@ -4266,14 +4270,13 @@ e_week_view_add_new_event_in_selected_range (EWeekView *week_view, const gchar *
 	time_t dtstart, dtend;
 	const gchar *uid;
 	AddEventData add_event_data;
-	gboolean read_only = TRUE;
 	EWeekViewEvent *wvevent;
 	EWeekViewEventSpan *span;
 
 	/* Check if the client is read only */
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
-	ecal = e_cal_model_get_default_client (model);
-	if (!e_cal_is_read_only (ecal, &read_only, NULL) || read_only)
+	client = e_cal_model_get_default_client (model);
+	if (e_client_is_readonly (E_CLIENT (client)))
 		return FALSE;
 
 	/* Add a new event covering the selected range. */
@@ -4316,7 +4319,7 @@ e_week_view_add_new_event_in_selected_range (EWeekView *week_view, const gchar *
 	e_week_view_check_layout (week_view);
 	gtk_widget_queue_draw (week_view->main_canvas);
 
-	if (!e_week_view_find_event_from_uid (week_view, ecal, uid, NULL, &event_num)) {
+	if (!e_week_view_find_event_from_uid (week_view, client, uid, NULL, &event_num)) {
 		g_warning ("Couldn't find event to start editing.\n");
 		g_object_unref (comp);
 		return FALSE;

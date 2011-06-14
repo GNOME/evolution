@@ -135,7 +135,7 @@ action_calendar_taskpad_new_cb (GtkAction *action,
 	ECalShellContent *cal_shell_content;
 	ECalModelComponent *comp_data;
 	ETaskTable *task_table;
-	ECal *client;
+	ECalClient *client;
 	ECalComponent *comp;
 	CompEditor *editor;
 	GSList *list;
@@ -290,7 +290,7 @@ action_calendar_taskpad_save_as_cb (GtkAction *action,
 	if (file == NULL)
 		return;
 
-	string = e_cal_get_component_as_string (
+	string = e_cal_client_get_component_as_string (
 		comp_data->client, comp_data->icalcomp);
 	if (string == NULL) {
 		g_warning ("Could not convert task to a string");
@@ -446,15 +446,15 @@ e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 		const gchar *cap;
 		gboolean read_only;
 
-		e_cal_is_read_only (comp_data->client, &read_only, NULL);
+		read_only = e_client_is_readonly (E_CLIENT (comp_data->client));
 		editable &= !read_only;
 
 		cap = CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT;
-		if (e_cal_get_static_capability (comp_data->client, cap))
+		if (e_client_check_capability (E_CLIENT (comp_data->client), cap))
 			assignable = FALSE;
 
 		cap = CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK;
-		if (e_cal_get_static_capability (comp_data->client, cap))
+		if (e_client_check_capability (E_CLIENT (comp_data->client), cap))
 			assignable = FALSE;
 
 		prop = icalcomponent_get_first_property (

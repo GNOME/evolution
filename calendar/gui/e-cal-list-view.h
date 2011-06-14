@@ -67,9 +67,6 @@ struct _ECalListView {
 	/* The main display table */
 	ETable *table;
 
-	/* S-expression for query and the query object */
-	ECalView *query;
-
 	/* The default category for new events */
 	gchar *default_category;
 

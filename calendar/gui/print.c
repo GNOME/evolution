@@ -57,7 +57,7 @@ typedef struct PrintCompItem PrintCompItem;
 typedef struct PrintCalItem PrintCalItem;
 
 struct PrintCompItem {
-	ECal *client;
+	ECalClient *client;
 	ECalComponent *comp;
 	icaltimezone *zone;
 	gboolean use_24_hour_format;
@@ -2924,18 +2924,22 @@ write_label_piece (time_t t,
 }
 
 static icaltimezone*
-get_zone_from_tzid (ECal *client, const gchar *tzid)
+get_zone_from_tzid (ECalClient *client, const gchar *tzid)
 {
 	icaltimezone *zone;
 
 	/* Note that the timezones may not be on the server, so we try to get
 	   the builtin timezone with the TZID first. */
 	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
-	if (!zone) {
-		if (!e_cal_get_timezone (client, tzid, &zone, NULL))
-			/* FIXME: Handle error better. */
-			g_warning ("Couldn't get timezone from server: %s",
-				   tzid ? tzid : "");
+	if (!zone && tzid) {
+		GError *error = NULL;
+
+		if (!e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, &error)) {
+			g_warning ("Couldn't get timezone '%s' from server: %s",
+				   tzid ? tzid : "", error ? error->message : "Unknown error");
+			if (error)
+				g_error_free (error);
+		}
 	}
 
 	return zone;
@@ -2944,7 +2948,7 @@ get_zone_from_tzid (ECal *client, const gchar *tzid)
 static void
 print_date_label (GtkPrintContext *context,
                   ECalComponent *comp,
-                  ECal *client,
+                  ECalClient *client,
                   icaltimezone *zone,
                   gboolean use_24_hour_format,
                   gdouble left,
@@ -3137,7 +3141,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 {
 	GtkPageSetup *setup;
 	PangoFontDescription *font;
-	ECal *client;
+	ECalClient *client;
 	ECalComponent *comp;
 	ECalComponentVType vtype;
 	ECalComponentText text;
@@ -3413,7 +3417,7 @@ print_comp_begin_print (GtkPrintOperation *operation,
 
 void
 print_comp (ECalComponent *comp,
-            ECal *client,
+            ECalClient *cal_client,
             icaltimezone *zone,
             gboolean use_24_hour_format,
             GtkPrintOperationAction action)
@@ -3424,7 +3428,7 @@ print_comp (ECalComponent *comp,
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
 	pci.comp = comp;
-	pci.client = client;
+	pci.client = cal_client;
 	pci.zone = zone;
 	pci.use_24_hour_format = use_24_hour_format;
 

@@ -66,7 +66,7 @@ book_shell_content_send_message_cb (EBookShellContent *book_shell_content,
 	EShellContent *shell_content;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
-	GList node = { destination, NULL, NULL };
+	GSList node = { destination, NULL };
 
 	shell_content = E_SHELL_CONTENT (book_shell_content);
 	shell_view = e_shell_content_get_shell_view (shell_content);

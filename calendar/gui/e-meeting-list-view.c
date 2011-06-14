@@ -28,7 +28,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 #include <libebook/e-vcard.h>
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-util.h>
@@ -762,54 +762,54 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 			/* check if the contact is contact list which is not expanded yet */
 			/* we expand it by getting the list again from the server forming the query */
 			if (contact && e_contact_get (contact , E_CONTACT_IS_LIST)) {
-				EBook *book = NULL;
+				EBookClient *book_client = NULL;
 				ENameSelectorDialog *dialog;
 				ENameSelectorModel *model;
 				EContactStore *c_store;
-				GList *books, *l;
+				GSList *clients, *l;
 				gchar *uri = e_contact_get (contact, E_CONTACT_BOOK_URI);
 
 				dialog = e_name_selector_peek_dialog (view->priv->name_selector);
 				model = e_name_selector_dialog_peek_model (dialog);
 				c_store = e_name_selector_model_peek_contact_store (model);
-				books = e_contact_store_get_books (c_store);
+				clients = e_contact_store_get_clients (c_store);
 
-				for (l = books; l; l = l->next) {
-					EBook *b = l->data;
-					if (g_str_equal (uri, e_book_get_uri (b))) {
-						book = b;
+				for (l = clients; l; l = l->next) {
+					EBookClient *b = l->data;
+					if (g_str_equal (uri, e_client_get_uri (E_CLIENT (b)))) {
+						book_client = b;
 						break;
 					}
 				}
 
-				if (book) {
-					GList *contacts;
+				if (book_client) {
+					GSList *contacts;
 					EContact *n_con = NULL;
-					gchar *qu;
-					EBookQuery *query;
+					gchar *query;
 
-					qu = g_strdup_printf ("(is \"full_name\" \"%s\")",
+					query = g_strdup_printf ("(is \"full_name\" \"%s\")",
 							(gchar *) e_contact_get (contact, E_CONTACT_FULL_NAME));
-					query = e_book_query_from_string (qu);
 
-					if (!e_book_get_contacts (book, query, &contacts, NULL)) {
+					if (!e_book_client_get_contacts_sync (book_client, query, &contacts, NULL, NULL)) {
 						g_warning ("Could not get contact from the book \n");
+						g_free (query);
+						g_slist_free (clients);
 						return;
 					} else {
 						des = e_destination_new ();
 						n_con = contacts->data;
 
 						e_destination_set_contact (des, n_con, 0);
+						e_destination_set_client (des, book_client);
 						list_dests = e_destination_list_get_dests (des);
 
-						g_list_foreach (contacts, (GFunc) g_object_unref, NULL);
-						g_list_free (contacts);
+						g_slist_foreach (contacts, (GFunc) g_object_unref, NULL);
+						g_slist_free (contacts);
 					}
 
-					e_book_query_unref (query);
-					g_free (qu);
+					g_free (query);
 				}
-				g_list_free (books);
+				g_slist_free (clients);
 			} else {
 				card_dest.next = NULL;
 				card_dest.prev = NULL;
@@ -822,31 +822,10 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 			EDestination *dest = l->data;
 			EContact *contact;
 			const gchar *name, *attendee = NULL;
-			gchar *attr = NULL, *fburi = NULL;
+			gchar *fburi = NULL;
 
 			name = e_destination_get_name (dest);
-
-			/* Get the field as attendee from the backend */
-			if (e_cal_get_ldap_attribute (e_meeting_store_get_client (priv->store),
-						      &attr, NULL)) {
-				/* FIXME this should be more general */
-				if (!g_ascii_strcasecmp (attr, "icscalendar")) {
-
-					/* FIXME: this does not work, have to use first
-					   e_destination_use_contact () */
-					contact = e_destination_get_contact (dest);
-					if (contact) {
-						attendee = e_contact_get (contact, E_CONTACT_FREEBUSY_URL);
-						if (!attendee)
-							attendee = e_contact_get (contact, E_CONTACT_CALENDAR_URI);
-					}
-				}
-			}
-
-			/* If we couldn't get the attendee prior, get the email address as the default */
-			if (attendee == NULL || *attendee == '\0') {
-				attendee = e_destination_get_email (dest);
-			}
+			attendee = e_destination_get_email (dest);
 
 			if (attendee == NULL || *attendee == '\0')
 				continue;

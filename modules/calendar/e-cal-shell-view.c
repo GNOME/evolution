@@ -353,7 +353,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalendarViewEvent *event = iter->data;
-		ECal *client;
+		ECalClient *client;
 		ECalComponent *comp;
 		icalcomponent *icalcomp;
 		gchar *user_email = NULL;
@@ -366,7 +366,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		client = event->comp_data->client;
 		icalcomp = event->comp_data->icalcomp;
 
-		e_cal_is_read_only (client, &read_only, NULL);
+		read_only = e_client_is_readonly (E_CLIENT (client));
 		editable = editable && !read_only;
 
 		is_instance |= e_cal_util_component_is_instance (icalcomp);
@@ -391,11 +391,9 @@ cal_shell_view_update_actions (EShellView *shell_view)
 			itip_organizer_is_user (comp, client);
 
 		is_delegatable =
-			e_cal_get_static_capability (
-				client, CAL_STATIC_CAPABILITY_DELEGATE_SUPPORTED) &&
-			((e_cal_get_static_capability (
-				client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) ||
-			(!user_org && !is_delegated (icalcomp, user_email)));
+			e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_DELEGATE_SUPPORTED) &&
+			     (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY) ||
+			      (!user_org && !is_delegated (icalcomp, user_email)));
 
 		g_free (user_email);
 		g_object_unref (comp);

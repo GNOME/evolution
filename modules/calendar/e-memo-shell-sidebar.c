@@ -27,11 +27,11 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
+#include <libedataserverui/e-client-utils.h>
 
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util.h"
-#include "calendar/common/authentication.h"
 #include "calendar/gui/e-memo-list-selector.h"
 #include "calendar/gui/misc.h"
 
@@ -52,7 +52,7 @@ struct _EMemoShellSidebarPrivate {
 	 * opened.  So the user first highlights a source, then
 	 * sometime later we update our default-client property
 	 * which is bound by an EBinding to ECalModel. */
-	ECal *default_client;
+	ECalClient *default_client;
 
 	GCancellable *loading_default_client;
 };
@@ -76,7 +76,7 @@ static GType memo_shell_sidebar_type;
 
 static void
 memo_shell_sidebar_emit_client_added (EMemoShellSidebar *memo_shell_sidebar,
-                                      ECal *client)
+                                      ECalClient *client)
 {
 	guint signal_id = signals[CLIENT_ADDED];
 
@@ -85,7 +85,7 @@ memo_shell_sidebar_emit_client_added (EMemoShellSidebar *memo_shell_sidebar,
 
 static void
 memo_shell_sidebar_emit_client_removed (EMemoShellSidebar *memo_shell_sidebar,
-                                        ECal *client)
+                                        ECalClient *client)
 {
 	guint signal_id = signals[CLIENT_REMOVED];
 
@@ -103,7 +103,7 @@ memo_shell_sidebar_emit_status_message (EMemoShellSidebar *memo_shell_sidebar,
 
 static void
 memo_shell_sidebar_backend_died_cb (EMemoShellSidebar *memo_shell_sidebar,
-                                    ECal *client)
+                                    ECalClient *client)
 {
 	EShellView *shell_view;
 	EShellContent *shell_content;
@@ -118,7 +118,7 @@ memo_shell_sidebar_backend_died_cb (EMemoShellSidebar *memo_shell_sidebar,
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
-	source = e_cal_get_source (client);
+	source = e_client_get_source (E_CLIENT (client));
 	uid = e_source_peek_uid (source);
 
 	g_object_ref (source);
@@ -136,7 +136,7 @@ memo_shell_sidebar_backend_died_cb (EMemoShellSidebar *memo_shell_sidebar,
 static void
 memo_shell_sidebar_backend_error_cb (EMemoShellSidebar *memo_shell_sidebar,
                                      const gchar *message,
-                                     ECal *client)
+                                     ECalClient *client)
 {
 	EShellView *shell_view;
 	EShellContent *shell_content;
@@ -148,7 +148,7 @@ memo_shell_sidebar_backend_error_cb (EMemoShellSidebar *memo_shell_sidebar,
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
-	source = e_cal_get_source (client);
+	source = e_client_get_source (E_CLIENT (client));
 	source_group = e_source_peek_group (source);
 
 	e_alert_submit (
@@ -159,38 +159,43 @@ memo_shell_sidebar_backend_error_cb (EMemoShellSidebar *memo_shell_sidebar,
 }
 
 static void
-memo_shell_sidebar_client_opened_cb (EMemoShellSidebar *memo_shell_sidebar,
-                                     const GError *error,
-                                     ECal *client)
+memo_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
+	ECalClient *client = E_CAL_CLIENT (source_object);
+	EMemoShellSidebar *memo_shell_sidebar = user_data;
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	const gchar *message;
+	GError *error = NULL;
 
 	shell_sidebar = E_SHELL_SIDEBAR (memo_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
-	if (g_error_matches (error, E_CALENDAR_ERROR,
-		E_CALENDAR_STATUS_AUTHENTICATION_FAILED) ||
-	    g_error_matches (error, E_CALENDAR_ERROR,
-		E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED))
-		e_auth_cal_forget_password (client);
+	e_client_open_finish (E_CLIENT (client), result, &error);
+
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_FAILED) ||
+	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_REQUIRED))
+		e_client_utils_forget_password (E_CLIENT (client));
+
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_FAILED)) {
+		e_client_open (E_CLIENT (client), FALSE, NULL, memo_shell_sidebar_client_opened_cb, user_data);
+		g_clear_error (&error);
+		return;
+	}
 
 	/* Handle errors. */
-	switch (error ? error->code : E_CALENDAR_STATUS_OK) {
-		case E_CALENDAR_STATUS_OK:
+	switch ((error && error->domain == E_CLIENT_ERROR) ? error->code : -1) {
+		case -1:
 			break;
 
-		case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
-			e_cal_open_async (client, FALSE);
+		case E_CLIENT_ERROR_BUSY:
+			g_debug ("%s: Cannot open '%s', it's busy (%s)", G_STRFUNC, e_source_peek_name (e_client_get_source (E_CLIENT (client))), error->message);
+			g_clear_error (&error);
 			return;
 
-		case E_CALENDAR_STATUS_BUSY:
-			return;
-
-		case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
+		case E_CLIENT_ERROR_REPOSITORY_OFFLINE:
 			e_alert_submit (
 				E_ALERT_SINK (shell_content),
 				"calendar:prompt-no-contents-offline-memos",
@@ -198,7 +203,7 @@ memo_shell_sidebar_client_opened_cb (EMemoShellSidebar *memo_shell_sidebar,
 			/* fall through */
 
 		default:
-			if (error->code != E_CALENDAR_STATUS_REPOSITORY_OFFLINE) {
+			if (error->code != E_CLIENT_ERROR_REPOSITORY_OFFLINE) {
 				e_alert_submit (
 					E_ALERT_SINK (shell_content),
 					"calendar:failed-open-memos",
@@ -207,15 +212,12 @@ memo_shell_sidebar_client_opened_cb (EMemoShellSidebar *memo_shell_sidebar,
 
 			e_memo_shell_sidebar_remove_source (
 				memo_shell_sidebar,
-				e_cal_get_source (client));
+				e_client_get_source (E_CLIENT (client)));
+			g_clear_error (&error);
 			return;
 	}
 
-	g_assert (error == NULL);
-
-	g_signal_handlers_disconnect_matched (
-		client, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
-		memo_shell_sidebar_client_opened_cb, NULL);
+	g_clear_error (&error);
 
 	message = _("Loading memos");
 	memo_shell_sidebar_emit_status_message (memo_shell_sidebar, message);
@@ -224,27 +226,31 @@ memo_shell_sidebar_client_opened_cb (EMemoShellSidebar *memo_shell_sidebar,
 }
 
 static void
-memo_shell_sidebar_default_loaded_cb (ESource *source,
-                                      GAsyncResult *result,
-                                      EShellSidebar *shell_sidebar)
+memo_shell_sidebar_default_loaded_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
+	EShellSidebar *shell_sidebar = user_data;
 	EMemoShellSidebarPrivate *priv;
 	EShellContent *shell_content;
 	EShellView *shell_view;
-	ECal *client;
+	EMemoShellContent *memo_shell_content;
+	ECalModel *model;
+	EClient *client = NULL;
 	GError *error = NULL;
 
 	priv = E_MEMO_SHELL_SIDEBAR (shell_sidebar)->priv;
 
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
+	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
+	model = e_memo_shell_content_get_memo_model (memo_shell_content);
 
-	client = e_load_cal_source_finish (source, result, &error);
+	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
+		client = NULL;
 
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
+	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
 		g_error_free (error);
 		goto exit;
-
 	} else if (error != NULL) {
 		e_alert_submit (
 			E_ALERT_SINK (shell_content),
@@ -254,16 +260,18 @@ memo_shell_sidebar_default_loaded_cb (ESource *source,
 		goto exit;
 	}
 
-	g_return_if_fail (E_IS_CAL (client));
+	g_return_if_fail (E_IS_CAL_CLIENT (client));
 
 	if (priv->default_client != NULL)
 		g_object_unref (priv->default_client);
 
-	priv->default_client = client;
+	priv->default_client = E_CAL_CLIENT (client);
+
+	e_cal_client_set_default_timezone (priv->default_client, e_cal_model_get_timezone (model));
 
 	g_object_notify (G_OBJECT (shell_sidebar), "default-client");
 
-exit:
+ exit:
 	g_object_unref (shell_sidebar);
 }
 
@@ -274,28 +282,17 @@ memo_shell_sidebar_set_default (EMemoShellSidebar *memo_shell_sidebar,
 	EMemoShellSidebarPrivate *priv;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	EMemoShellContent *memo_shell_content;
-	ECalSourceType source_type;
-	ECalModel *model;
-	ECal *client;
-	icaltimezone *timezone;
+	ECalClient *client;
 	const gchar *uid;
 
 	priv = memo_shell_sidebar->priv;
-	source_type = E_CAL_SOURCE_TYPE_JOURNAL;
 
 	/* FIXME Sidebar should not be accessing the EShellContent.
 	 *       This probably needs to be moved to EMemoShellView. */
 	shell_sidebar = E_SHELL_SIDEBAR (memo_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
-	model = e_memo_shell_content_get_memo_model (memo_shell_content);
-	timezone = e_cal_model_get_timezone (model);
 
 	/* Cancel any unfinished previous request. */
 	if (priv->loading_default_client != NULL) {
@@ -319,11 +316,9 @@ memo_shell_sidebar_set_default (EMemoShellSidebar *memo_shell_sidebar,
 
 	priv->loading_default_client = g_cancellable_new ();
 
-	e_load_cal_source_async (
-		source, source_type, timezone,
-		GTK_WINDOW (shell_window), priv->loading_default_client,
-		(GAsyncReadyCallback) memo_shell_sidebar_default_loaded_cb,
-		g_object_ref (shell_sidebar));
+	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_MEMOS, FALSE, priv->loading_default_client,
+		e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
+		memo_shell_sidebar_default_loaded_cb, g_object_ref (shell_sidebar));
 }
 
 static void
@@ -607,7 +602,7 @@ memo_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	source = e_source_selector_get_primary_selection (selector);
 
 	if (source != NULL) {
-		ECal *client;
+		ECalClient *client;
 		const gchar *uri;
 		const gchar *delete;
 
@@ -622,7 +617,7 @@ memo_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 			memo_shell_sidebar->priv->client_table,
 			e_source_peek_uid (source));
 		refresh_supported =
-			client && e_cal_get_refresh_supported (client);
+			client && e_client_check_refresh_supported (E_CLIENT (client));
 	}
 
 	if (source != NULL)
@@ -639,7 +634,7 @@ memo_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 
 static void
 memo_shell_sidebar_client_removed (EMemoShellSidebar *memo_shell_sidebar,
-                                   ECal *client)
+                                   ECalClient *client)
 {
 	ESourceSelector *selector;
 	GHashTable *client_table;
@@ -653,7 +648,7 @@ memo_shell_sidebar_client_removed (EMemoShellSidebar *memo_shell_sidebar,
 		client, G_SIGNAL_MATCH_DATA, 0, 0,
 		NULL, NULL, memo_shell_sidebar);
 
-	source = e_cal_get_source (client);
+	source = e_client_get_source (E_CLIENT (client));
 	uid = e_source_peek_uid (source);
 	g_return_if_fail (uid != NULL);
 
@@ -688,9 +683,9 @@ memo_shell_sidebar_class_init (EMemoShellSidebarClass *class)
 		PROP_DEFAULT_CLIENT,
 		g_param_spec_object (
 			"default-client",
-			"Default Memo Client",
+			"Default Memo ECalClient",
 			"Default client for memo operations",
-			E_TYPE_CAL,
+			E_TYPE_CAL_CLIENT,
 			G_PARAM_READABLE));
 
 	g_object_class_install_property (
@@ -711,7 +706,7 @@ memo_shell_sidebar_class_init (EMemoShellSidebarClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
-		E_TYPE_CAL);
+		E_TYPE_CAL_CLIENT);
 
 	signals[CLIENT_REMOVED] = g_signal_new (
 		"client-removed",
@@ -721,7 +716,7 @@ memo_shell_sidebar_class_init (EMemoShellSidebarClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
-		E_TYPE_CAL);
+		E_TYPE_CAL_CLIENT);
 
 	signals[STATUS_MESSAGE] = g_signal_new (
 		"status-message",
@@ -804,7 +799,7 @@ e_memo_shell_sidebar_get_clients (EMemoShellSidebar *memo_shell_sidebar)
 	return g_hash_table_get_values (client_table);
 }
 
-ECal *
+ECalClient *
 e_memo_shell_sidebar_get_default_client (EMemoShellSidebar *memo_shell_sidebar)
 {
 	g_return_val_if_fail (
@@ -830,12 +825,12 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EMemoShellContent *memo_shell_content;
-	ECalSourceType source_type;
+	ECalClientSourceType source_type;
 	ESourceSelector *selector;
 	GHashTable *client_table;
 	ECalModel *model;
-	ECal *default_client;
-	ECal *client;
+	ECalClient *default_client;
+	ECalClient *client;
 	icaltimezone *timezone;
 	const gchar *uid;
 	const gchar *uri;
@@ -844,7 +839,7 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
 	g_return_if_fail (E_IS_MEMO_SHELL_SIDEBAR (memo_shell_sidebar));
 	g_return_if_fail (E_IS_SOURCE (source));
 
-	source_type = E_CAL_SOURCE_TYPE_JOURNAL;
+	source_type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;
 	client_table = memo_shell_sidebar->priv->client_table;
 	default_client = memo_shell_sidebar->priv->default_client;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
@@ -859,15 +854,18 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
 		ESource *default_source;
 		const gchar *default_uid;
 
-		default_source = e_cal_get_source (default_client);
+		default_source = e_client_get_source (E_CLIENT (default_client));
 		default_uid = e_source_peek_uid (default_source);
 
 		if (g_strcmp0 (uid, default_uid) == 0)
 			client = g_object_ref (default_client);
 	}
 
-	if (client == NULL)
-		client = e_auth_new_cal_from_source (source, source_type);
+	if (client == NULL) {
+		client = e_cal_client_new (source, source_type, NULL);
+		if (client)
+			g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+	}
 
 	g_return_if_fail (client != NULL);
 
@@ -884,16 +882,11 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
 	g_hash_table_insert (client_table, g_strdup (uid), client);
 	e_source_selector_select_source (selector, source);
 
-	uri = e_cal_get_uri (client);
+	uri = e_client_get_uri (E_CLIENT (client));
 	/* Translators: The string field is a URI. */
 	message = g_strdup_printf (_("Opening memos at %s"), uri);
 	memo_shell_sidebar_emit_status_message (memo_shell_sidebar, message);
 	g_free (message);
-
-	g_signal_connect_swapped (
-		client, "cal-opened-ex",
-		G_CALLBACK (memo_shell_sidebar_client_opened_cb),
-		memo_shell_sidebar);
 
 	/* FIXME Sidebar should not be accessing the EShellContent.
 	 *       This probably needs to be moved to EMemoShellView. */
@@ -905,8 +898,8 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
 	model = e_memo_shell_content_get_memo_model (memo_shell_content);
 	timezone = e_cal_model_get_timezone (model);
 
-	e_cal_set_default_timezone (client, timezone, NULL);
-	e_cal_open_async (client, FALSE);
+	e_cal_client_set_default_timezone (client, timezone);
+	e_client_open (E_CLIENT (client), FALSE, NULL, memo_shell_sidebar_client_opened_cb, memo_shell_sidebar);
 }
 
 void
@@ -914,7 +907,7 @@ e_memo_shell_sidebar_remove_source (EMemoShellSidebar *memo_shell_sidebar,
                                     ESource *source)
 {
 	GHashTable *client_table;
-	ECal *client;
+	ECalClient *client;
 	const gchar *uid;
 
 	g_return_if_fail (E_IS_MEMO_SHELL_SIDEBAR (memo_shell_sidebar));

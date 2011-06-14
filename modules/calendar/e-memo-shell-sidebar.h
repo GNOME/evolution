@@ -22,7 +22,7 @@
 #ifndef E_MEMO_SHELL_SIDEBAR_H
 #define E_MEMO_SHELL_SIDEBAR_H
 
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libedataserverui/e-source-selector.h>
 
 #include <shell/e-shell-sidebar.h>
@@ -70,9 +70,9 @@ struct _EMemoShellSidebarClass {
 
 	/* Signals */
 	void	(*client_added)			(EMemoShellSidebar *memo_shell_sidebar,
-						 ECal *client);
+						 ECalClient *client);
 	void	(*client_removed)		(EMemoShellSidebar *memo_shell_sidebar,
-						 ECal *client);
+						 ECalClient *client);
 	void	(*status_message)		(EMemoShellSidebar *memo_shell_sidebar,
 						 const gchar *status_message,
 						 gdouble percent);
@@ -85,7 +85,7 @@ GtkWidget *	e_memo_shell_sidebar_new
 					(EShellView *shell_view);
 GList *		e_memo_shell_sidebar_get_clients
 					(EMemoShellSidebar *memo_shell_sidebar);
-ECal *		e_memo_shell_sidebar_get_default_client
+ECalClient *	e_memo_shell_sidebar_get_default_client
 					(EMemoShellSidebar *memo_shell_sidebar);
 ESourceSelector *
 		e_memo_shell_sidebar_get_selector

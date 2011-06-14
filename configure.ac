@@ -73,6 +73,8 @@ AS_COMPILER_FLAGS(WARNING_FLAGS,
 	-DEDS_DISABLE_DEPRECATED
 	-DG_DISABLE_SINGLE_INCLUDES
 	-DGTK_DISABLE_SINGLE_INCLUDES
+	-DE_BOOK_DISABLE_DEPRECATED
+	-DE_CAL_DISABLE_DEPRECATED
 	-Wall -Wextra
 	-Wno-missing-field-initializers
 	-Wno-sign-compare
@@ -1687,7 +1689,6 @@ widgets/text/Makefile
 widgets/table/Makefile
 calendar/Makefile
 calendar/importers/Makefile
-calendar/common/Makefile
 calendar/gui/Makefile
 calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile

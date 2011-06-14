@@ -41,7 +41,7 @@ open_contact (EBookShellView *book_shell_view,
 	EShellWindow *shell_window;
 	EAddressbookModel *model;
 	EABEditor *editor;
-	EBook *book;
+	EBookClient *book;
 	gboolean editable;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
@@ -49,7 +49,7 @@ open_contact (EBookShellView *book_shell_view,
 	shell = e_shell_window_get_shell (shell_window);
 
 	model = e_addressbook_view_get_model (view);
-	book = e_addressbook_model_get_book (model);
+	book = e_addressbook_model_get_client (model);
 	editable = e_addressbook_model_get_editable (model);
 
 	if (e_contact_get (contact, E_CONTACT_IS_LIST))
@@ -184,21 +184,25 @@ contacts_removed (EBookShellView *book_shell_view,
 }
 
 static void
-book_shell_view_loaded_cb (ESource *source,
-                           GAsyncResult *result,
-                           EAddressbookView *view)
+book_shell_view_loaded_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	EBook *book;
+	ESource *source = E_SOURCE (source_object);
+	EAddressbookView *view = user_data;
+	EClient *client = NULL;
+	EBookClient *book;
 	GError *error = NULL;
 
-	book = e_load_book_source_finish (source, result, &error);
+	if (!e_client_utils_open_new_finish (source, result, &client, &error))
+		client = NULL;
+
+	book = client ? E_BOOK_CLIENT (client) : NULL;
 
 	if (book != NULL) {
 		EAddressbookModel *model;
 
 		g_warn_if_fail (error == NULL);
 		model = e_addressbook_view_get_model (view);
-		e_addressbook_model_set_book (model, book);
+		e_addressbook_model_set_client (model, book);
 		e_addressbook_model_force_folder_bar_message (model);
 
 	} else if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -254,14 +258,11 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 		model = e_addressbook_view_get_model (view);
 		source = e_addressbook_view_get_source (view);
 
-		if (e_addressbook_model_get_book (model) == NULL)
+		if (e_addressbook_model_get_client (model) == NULL)
 			/* XXX No way to cancel this? */
-			e_load_book_source_async (
-				source,
-				GTK_WINDOW (shell_window),
-				NULL, (GAsyncReadyCallback)
-				book_shell_view_loaded_cb,
-				g_object_ref (view));
+			e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+				e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
+				book_shell_view_loaded_cb, g_object_ref (view));
 
 	} else {
 		/* Create a view for this UID. */
@@ -304,10 +305,9 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 		model = e_addressbook_view_get_model (view);
 
 		/* XXX No way to cancel this? */
-		e_load_book_source_async (
-			source, GTK_WINDOW (shell_window), NULL,
-			(GAsyncReadyCallback) book_shell_view_loaded_cb,
-			g_object_ref (view));
+		e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
+			book_shell_view_loaded_cb, g_object_ref (view));
 
 		g_signal_connect_object (
 			model, "contact-changed",

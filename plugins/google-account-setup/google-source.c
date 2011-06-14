@@ -42,7 +42,7 @@
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-account-list.h>
 #include <libedataserver/e-proxy.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libedataserverui/e-cell-renderer-color.h>
 #include <libedataserverui/e-passwords.h>
 
@@ -71,9 +71,12 @@ static void
 ensure_google_source_group (void)
 {
 	ESourceList  *slist;
+	GError *error = NULL;
 
-	if (!e_cal_get_sources (&slist, E_CAL_SOURCE_TYPE_EVENT, NULL)) {
-		g_warning ("Could not get calendar source list from GConf!");
+	if (!e_cal_client_get_sources (&slist, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, &error)) {
+		g_debug ("%s: Could not get calendar source list: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
 		return;
 	}
 

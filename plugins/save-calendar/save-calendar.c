@@ -32,7 +32,7 @@
 #include <glib/gi18n.h>
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-source-selector.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-plugin.h>
 #include <string.h>
@@ -113,7 +113,7 @@ format_handlers_foreach_free (gpointer data, gpointer user_data)
 }
 
 static void
-ask_destination_and_save (ESourceSelector *selector, ECalSourceType type)
+ask_destination_and_save (ESourceSelector *selector, ECalClientSourceType type)
 {
 	FormatHandler *handler = NULL;
 
@@ -284,7 +284,7 @@ open_for_writing (GtkWindow *parent, const gchar *uri, GError **error)
 
 static void
 save_general (EShellView *shell_view,
-              ECalSourceType type)
+              ECalClientSourceType type)
 {
 	EShellSidebar *shell_sidebar;
 	ESourceSelector *selector = NULL;
@@ -302,21 +302,21 @@ static void
 action_calendar_save_as_cb (GtkAction *action,
                             EShellView *shell_view)
 {
-	save_general (shell_view, E_CAL_SOURCE_TYPE_EVENT);
+	save_general (shell_view, E_CAL_CLIENT_SOURCE_TYPE_EVENTS);
 }
 
 static void
 action_memo_list_save_as_cb (GtkAction *action,
                              EShellView *shell_view)
 {
-	save_general (shell_view, E_CAL_SOURCE_TYPE_JOURNAL);
+	save_general (shell_view, E_CAL_CLIENT_SOURCE_TYPE_MEMOS);
 }
 
 static void
 action_task_list_save_as_cb (GtkAction *action,
                              EShellView *shell_view)
 {
-	save_general (shell_view, E_CAL_SOURCE_TYPE_TODO);
+	save_general (shell_view, E_CAL_CLIENT_SOURCE_TYPE_TASKS);
 }
 
 gboolean

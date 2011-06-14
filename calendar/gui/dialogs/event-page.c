@@ -35,8 +35,8 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <libedataserverui/e-category-completion.h>
+#include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-combo-box.h>
-#include "common/authentication.h"
 #include "misc/e-dateedit.h"
 #include "misc/e-send-options.h"
 #include "misc/e-buffer-tagger.h"
@@ -604,7 +604,7 @@ create_alarm_image_button (const gchar *image_text,
 static void
 sensitize_widgets (EventPage *epage)
 {
-	ECal *client;
+	ECalClient *client;
 	EShell *shell;
 	CompEditor *editor;
 	CompEditorFlags flags;
@@ -623,8 +623,7 @@ sensitize_widgets (EventPage *epage)
 	if (flags & COMP_EDITOR_MEETING)
 		sens = flags & COMP_EDITOR_USER_ORG;
 
-	if (!e_cal_is_read_only (client, &read_only, NULL))
-		read_only = TRUE;
+	read_only = e_client_is_readonly (E_CLIENT (client));
 
 	delegate = flags & COMP_EDITOR_DELEGATE;
 
@@ -724,7 +723,7 @@ update_time (EventPage *epage,
              ECalComponentDateTime *end_date)
 {
 	CompEditor *editor;
-	ECal *client;
+	ECalClient *client;
 	GtkAction *action;
 	struct icaltimetype *start_tt, *end_tt, implied_tt;
 	icaltimezone *start_zone = NULL, *def_zone = NULL;
@@ -734,15 +733,20 @@ update_time (EventPage *epage,
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 	client = comp_editor_get_client (editor);
 
-	/* Note that if we are creating a new event, the timezones may not be
-	   on the server, so we try to get the builtin timezone with the TZID
-	   first. */
-	start_zone = icaltimezone_get_builtin_timezone_from_tzid (start_date->tzid);
-	if (!start_zone) {
-		/* FIXME: Handle error better. */
-		if (!e_cal_get_timezone (client, start_date->tzid, &start_zone, NULL)) {
-			g_warning ("Couldn't get timezone from server: %s",
-				   start_date->tzid ? start_date->tzid : "");
+	if (start_date->tzid) {
+		/* Note that if we are creating a new event, the timezones may not be
+		   on the server, so we try to get the builtin timezone with the TZID
+		   first. */
+		start_zone = icaltimezone_get_builtin_timezone_from_tzid (start_date->tzid);
+		if (!start_zone) {
+			/* FIXME: Handle error better. */
+			GError *error = NULL;
+			if (!e_cal_client_get_timezone_sync (client, start_date->tzid, &start_zone, NULL, &error)) {
+				g_warning ("Couldn't get timezone '%s' from server: %s",
+					start_date->tzid ? start_date->tzid : "", error ? error->message : "Unknown error");
+				if (error)
+					g_error_free (error);
+			}
 		}
 	}
 
@@ -1068,7 +1072,7 @@ static gboolean
 event_page_fill_widgets (CompEditorPage *page,
                          ECalComponent *comp)
 {
-	ECal *client;
+	ECalClient *client;
 	CompEditor *editor;
 	CompEditorFlags flags;
 	EventPage *epage;
@@ -1135,7 +1139,7 @@ event_page_fill_widgets (CompEditorPage *page,
 	e_cal_component_free_text_list (l);
 	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (priv->description));
 
-	e_cal_get_cal_address (client, &backend_addr, NULL);
+	e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
 	set_subscriber_info_string (epage, backend_addr);
 
 	if (priv->is_meeting) {
@@ -1156,13 +1160,13 @@ event_page_fill_widgets (CompEditorPage *page,
 				gchar *string;
 
 				if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) {
-					if (e_cal_get_static_capability (
-								client,
+					if (e_client_check_capability (
+								E_CLIENT (client),
 								CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 						priv->user_org = TRUE;
 				} else {
-					if (e_cal_get_static_capability (
-								client,
+					if (e_client_check_capability (
+								E_CLIENT (client),
 								CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 					gtk_widget_set_sensitive (priv->invite, FALSE);
 					gtk_widget_set_sensitive (priv->add, FALSE);
@@ -1171,7 +1175,7 @@ event_page_fill_widgets (CompEditorPage *page,
 					priv->user_org = FALSE;
 				}
 
-				if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER) && (flags & COMP_EDITOR_DELEGATE))
+				if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_ORGANIZER) && (flags & COMP_EDITOR_DELEGATE))
 					string = g_strdup (backend_addr);
 				else if ( organizer.cn != NULL)
 					string = g_strdup_printf ("%s <%s>", organizer.cn, strip);
@@ -1224,7 +1228,7 @@ event_page_fill_widgets (CompEditorPage *page,
 				backend_mailto = mailto = NULL;
 			}
 
-			if (client && e_cal_get_organizer_must_accept (client))
+			if (client && e_cal_client_check_organizer_must_accept (client))
 				e_meeting_attendee_set_status (
 					attendee, ICAL_PARTSTAT_NEEDSACTION);
 			else
@@ -1277,7 +1281,7 @@ event_page_fill_widgets (CompEditorPage *page,
 		break;
 	}
 
-	if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_TRANSPARENCY))
+	if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_TRANSPARENCY))
 		enable_busy_time_menu (epage, FALSE);
 	else
 		enable_busy_time_menu (epage, TRUE);
@@ -1318,7 +1322,7 @@ event_page_fill_widgets (CompEditorPage *page,
 	/* Source */
 	e_source_combo_box_set_active (
 		E_SOURCE_COMBO_BOX (priv->source_selector),
-		e_cal_get_source (client));
+		e_client_get_source (E_CLIENT (client)));
 
 	e_cal_component_get_uid (comp, &uid);
 	if (!(flags & COMP_EDITOR_DELEGATE)
@@ -1337,7 +1341,7 @@ event_page_fill_component (CompEditorPage *page,
 {
 	CompEditor *editor;
 	CompEditorFlags flags;
-	ECal *client;
+	ECalClient *client;
 	EventPage *epage;
 	EventPagePrivate *priv;
 	ECalComponentClassification classification;
@@ -1622,7 +1626,7 @@ event_page_fill_component (CompEditorPage *page,
 			gchar *name;
 			gchar *mailto;
 
-			e_cal_get_cal_address (client, &backend_addr, NULL);
+			e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
 
 			/* Find the identity for the organizer or sentby field */
 			if (!get_current_identity (epage, &name, &mailto)) {
@@ -2172,7 +2176,7 @@ attendee_added_cb (EMeetingListView *emlv,
 	EventPagePrivate *priv = epage->priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
-	ECal *client;
+	ECalClient *client;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 	client = comp_editor_get_client (editor);
@@ -2186,7 +2190,7 @@ attendee_added_cb (EMeetingListView *emlv,
 	/* do not remove here, it did EMeetingListView already */
 	e_meeting_attendee_set_delfrom (ia, g_strdup_printf ("MAILTO:%s", priv->user_add ? priv->user_add : ""));
 
-	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
+	if (!e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
 		EMeetingAttendee *delegator;
 
 		gtk_widget_set_sensitive (priv->invite, FALSE);
@@ -2822,7 +2826,7 @@ event_page_send_options_clicked_cb (EventPage *epage)
 	CompEditor *editor;
 	GtkWidget *toplevel;
 	ESource *source;
-	ECal *client;
+	ECalClient *client;
 
 	priv = epage->priv;
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
@@ -2836,7 +2840,7 @@ event_page_send_options_clicked_cb (EventPage *epage)
 		priv->sod->data->initialized = TRUE;
 	}
 
-	if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS)) {
+	if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS)) {
 		e_send_options_set_need_general_options (priv->sod, FALSE);
 	}
 
@@ -2850,25 +2854,28 @@ source_changed_cb (ESourceComboBox *source_combo_box, EventPage *epage)
 	EventPagePrivate *priv = epage->priv;
 	CompEditor *editor;
 	ESource *source;
-	ECal *client;
+	ECalClient *client;
+	GError *error = NULL;
 
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (epage)))
 		return;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 	source = e_source_combo_box_get_active (source_combo_box);
-	client = e_auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
+	client = e_cal_client_new (source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, &error);
 
 	if (client) {
 		icaltimezone *zone;
 
 		zone = e_meeting_store_get_timezone (epage->priv->meeting_store);
-		e_cal_set_default_timezone (client, zone, NULL);
+		e_cal_client_set_default_timezone (client, zone);
+
+		g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
 	}
 
-	if (!client || !e_cal_open (client, FALSE, NULL)) {
+	if (!client || !e_client_open_sync (E_CLIENT (client), FALSE, NULL, &error)) {
 		GtkWidget *dialog;
-		ECal *old_client;
+		ECalClient *old_client;
 
 		old_client = comp_editor_get_client (editor);
 
@@ -2877,17 +2884,21 @@ source_changed_cb (ESourceComboBox *source_combo_box, EventPage *epage)
 
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (priv->source_selector),
-			e_cal_get_source (old_client));
+			e_client_get_source (E_CLIENT (old_client)));
 
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-						 _("Unable to open the calendar '%s'."),
-						 e_source_peek_name (source));
+						 _("Unable to open the calendar '%s': %s"),
+						 e_source_peek_name (source),
+						 error ? error->message : _("Unknown error"));
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
+
+		if (error)
+			g_error_free (error);
 	} else {
 		comp_editor_set_client (editor, client);
-		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS) && priv->is_meeting)
+		if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS) && priv->is_meeting)
 			event_page_show_options (epage);
 		else
 			event_page_hide_options (epage);
@@ -2895,7 +2906,7 @@ source_changed_cb (ESourceComboBox *source_combo_box, EventPage *epage)
 		if (client) {
 			gchar *backend_addr = NULL;
 
-			e_cal_get_cal_address (client, &backend_addr, NULL);
+			e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
 
 			if (priv->is_meeting)
 				event_page_select_organizer (epage, backend_addr);
@@ -2914,12 +2925,12 @@ static void
 set_subscriber_info_string (EventPage *epage, const gchar *backend_address)
 {
 	CompEditor *editor;
-	ECal *client;
+	ECalClient *client;
 	ESource *source;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 	client = comp_editor_get_client (editor);
-	source = e_cal_get_source (client);
+	source = e_client_get_source (E_CLIENT (client));
 
 	if (e_source_get_property (source, "subscriber")) {
 		g_free (epage->priv->subscriber_info_text);
@@ -3033,7 +3044,7 @@ alarm_custom_clicked_cb (GtkWidget *widget,
 	GtkTreeIter iter;
 	gboolean valid_iter;
 	GtkWidget *toplevel;
-	ECal *client;
+	ECalClient *client;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 	client = comp_editor_get_client (editor);
@@ -3084,7 +3095,7 @@ init_widgets (EventPage *epage)
 	GtkAction *action;
 	GtkTreeSelection *selection;
 	gboolean active;
-	ECal *client;
+	ECalClient *client;
 	GtkTreeIter iter;
 	GtkListStore *store;
 
@@ -3328,7 +3339,7 @@ event_page_select_organizer (EventPage *epage, const gchar *backend_address)
 {
 	EventPagePrivate *priv = epage->priv;
 	CompEditor *editor;
-	ECal *client;
+	ECalClient *client;
 	const gchar *default_address;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
@@ -3339,7 +3350,7 @@ event_page_select_organizer (EventPage *epage, const gchar *backend_address)
 	client = comp_editor_get_client (editor);
 
 	if (client)
-		source = e_cal_get_source (client);
+		source = e_client_get_source (E_CLIENT (client));
 	if (source)
 		user_addr = e_source_get_property (source, "subscriber");
 

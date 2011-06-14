@@ -25,7 +25,7 @@
 #define E_CAL_COMPONENT_PREVIEW_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <misc/e-web-view.h>
 
 /* Standard GObject macros */
@@ -69,7 +69,7 @@ struct _ECalComponentPreviewClass {
 GType		e_cal_component_preview_get_type (void);
 GtkWidget *	e_cal_component_preview_new	(void);
 void		e_cal_component_preview_display	(ECalComponentPreview *preview,
-						 ECal *ecal,
+						 ECalClient *client,
 						 ECalComponent *comp,
 						 icaltimezone *zone,
 						 gboolean use_24_hour_format);

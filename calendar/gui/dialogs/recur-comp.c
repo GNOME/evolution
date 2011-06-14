@@ -32,7 +32,7 @@
 
 
 gboolean
-recur_component_dialog (ECal *client,
+recur_component_dialog (ECalClient *client,
 			ECalComponent *comp,
 			CalObjModType *mod,
 			GtkWindow *parent, gboolean delegated)
@@ -90,13 +90,13 @@ recur_component_dialog (ECal *client,
 	rb_this = gtk_radio_button_new_with_label (NULL, _("This Instance Only"));
 	gtk_container_add (GTK_CONTAINER (vbox), rb_this);
 
-	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_THISANDPRIOR)) {
+	if (!e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_THISANDPRIOR)) {
 		rb_prior = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("This and Prior Instances"));
 		gtk_container_add (GTK_CONTAINER (vbox), rb_prior);
 	} else
 		rb_prior = NULL;
 
-	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_THISANDFUTURE)) {
+	if (!e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_THISANDFUTURE)) {
 		rb_future = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("This and Future Instances"));
 		gtk_container_add (GTK_CONTAINER (vbox), rb_future);
 	} else

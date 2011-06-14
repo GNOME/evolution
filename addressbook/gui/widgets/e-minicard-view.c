@@ -24,6 +24,8 @@
 #include <config.h>
 #endif
 
+#include <libebook/e-book-client.h>
+
 #include "e-minicard-view.h"
 
 #include "eab-gui-util.h"
@@ -52,7 +54,7 @@ static EReflowClass *parent_class = NULL;
 enum {
 	PROP_0,
 	PROP_ADAPTER,
-	PROP_BOOK,
+	PROP_CLIENT,
 	PROP_QUERY,
 	PROP_EDITABLE
 };
@@ -105,15 +107,17 @@ e_minicard_view_drag_data_get (GtkWidget *widget,
 		break;
 	}
 	case DND_TARGET_TYPE_SOURCE_VCARD_LIST: {
-		EBook *book;
+		EBookClient *book_client = NULL;
 		gchar *value;
 
-		g_object_get (view->adapter, "book", &book, NULL);
-		value = eab_book_and_contact_list_to_string (book, view->drag_list);
+		g_object_get (view->adapter, "book_client", &book_client, NULL);
+		value = eab_book_and_contact_list_to_string (book_client, view->drag_list);
 
 		gtk_selection_data_set (
 			selection_data, target, 8,
 			(guchar *) value, strlen (value));
+
+		g_object_unref (book_client);
 		g_free (value);
 		break;
 	}
@@ -123,8 +127,7 @@ e_minicard_view_drag_data_get (GtkWidget *widget,
 static void
 clear_drag_data (EMinicardView *view)
 {
-	g_list_foreach (view->drag_list, (GFunc) g_object_unref, NULL);
-	g_list_free (view->drag_list);
+	e_client_util_free_object_slist (view->drag_list);
 	view->drag_list = NULL;
 }
 
@@ -141,7 +144,7 @@ e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter,
 
 	view->drag_list = e_minicard_view_get_card_list (view);
 
-	g_print ("dragging %d card(s)\n", g_list_length (view->drag_list));
+	g_print ("dragging %d card(s)\n", g_slist_length (view->drag_list));
 
 	target_list = gtk_target_list_new (drag_types, G_N_ELEMENTS (drag_types));
 
@@ -163,21 +166,26 @@ set_empty_message (EMinicardView *view)
 {
 	gchar *empty_message;
 	gboolean editable = FALSE, perform_initial_query = FALSE, searching = FALSE;
-	EBook *book;
 
 	if (view->adapter) {
 		EAddressbookModel *model = NULL;
+		EBookClient *book_client = NULL;
 
 		g_object_get (view->adapter,
 			      "editable", &editable,
 			      "model", &model,
-			      "book", &book,
+			      "client", &book_client,
 			      NULL);
 
-		if (book && !e_book_check_static_capability (book, "do-initial-query"))
+		if (book_client && !e_client_check_capability (E_CLIENT (book_client), "do-initial-query"))
 			perform_initial_query = TRUE;
 
 		searching = model && e_addressbook_model_can_stop (model);
+
+		if (book_client)
+			g_object_unref (book_client);
+		if (model)
+			g_object_unref (model);
 	}
 
 	if (searching) {
@@ -277,9 +285,9 @@ e_minicard_view_set_property (GObject *object,
 
 		}
 		break;
-	case PROP_BOOK:
+	case PROP_CLIENT:
 		g_object_set (view->adapter,
-			      "book", g_value_get_object (value),
+			      "client", g_value_get_object (value),
 			      NULL);
 		set_empty_message (view);
 		break;
@@ -314,9 +322,9 @@ e_minicard_view_get_property (GObject *object,
 	case PROP_ADAPTER:
 		g_value_set_object (value, view->adapter);
 		break;
-	case PROP_BOOK:
+	case PROP_CLIENT:
 		g_object_get_property (G_OBJECT (view->adapter),
-				       "book", value);
+				       "client", value);
 		break;
 	case PROP_QUERY:
 		g_object_get_property (G_OBJECT (view->adapter),
@@ -455,33 +463,6 @@ e_minicard_view_selection_event (EReflow *reflow,
 	return return_val;
 }
 
-typedef struct {
-	EMinicardView *view;
-	EBookAsyncCallback cb;
-	gpointer closure;
-} ViewCbClosure;
-
-static void
-do_remove (gint i, gpointer user_data)
-{
-	EBook *book;
-	EContact *contact;
-	ViewCbClosure *viewcbclosure = user_data;
-	EMinicardView *view = viewcbclosure->view;
-	EBookAsyncCallback cb = viewcbclosure->cb;
-	gpointer closure = viewcbclosure->closure;
-
-	g_object_get (view->adapter,
-		      "book", &book,
-		      NULL);
-
-	contact = e_addressbook_reflow_adapter_get_contact (view->adapter, i);
-
-	e_book_remove_contact_async (book, contact, cb, closure);
-
-	g_object_unref (contact);
-}
-
 #if 0
 static gint
 compare_to_utf_str (EMinicard *card, const gchar *utf_str)
@@ -532,11 +513,11 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 							      E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_BOOK,
-					 g_param_spec_object ("book",
-							      "Book",
+	g_object_class_install_property (object_class, PROP_CLIENT,
+					 g_param_spec_object ("client",
+							      "EBookClient",
 							      NULL,
-							      E_TYPE_BOOK,
+							      E_TYPE_BOOK_CLIENT,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_QUERY,
@@ -625,21 +606,6 @@ e_minicard_view_get_type (void)
 }
 
 void
-e_minicard_view_remove_selection (EMinicardView      *view,
-				 EBookAsyncCallback  cb,
-				 gpointer            closure)
-{
-	ViewCbClosure viewcbclosure;
-	viewcbclosure.view = view;
-	viewcbclosure.cb = cb;
-	viewcbclosure.closure = closure;
-
-	e_selection_model_foreach (E_REFLOW (view)->selection,
-				   do_remove,
-				   &viewcbclosure);
-}
-
-void
 e_minicard_view_jump_to_letter (EMinicardView *view,
                                 gunichar letter)
 {
@@ -654,7 +620,7 @@ e_minicard_view_jump_to_letter (EMinicardView *view,
 }
 
 typedef struct {
-	GList *list;
+	GSList *list;
 	EAddressbookReflowAdapter *adapter;
 } ModelAndList;
 
@@ -662,12 +628,12 @@ static void
 add_to_list (gint index, gpointer closure)
 {
 	ModelAndList *mal = closure;
-	mal->list = g_list_prepend (
+	mal->list = g_slist_prepend (
 		mal->list, e_addressbook_reflow_adapter_get_contact (
 		mal->adapter, index));
 }
 
-GList *
+GSList *
 e_minicard_view_get_card_list (EMinicardView *view)
 {
 	ModelAndList mal;
@@ -677,8 +643,7 @@ e_minicard_view_get_card_list (EMinicardView *view)
 
 	e_selection_model_foreach (E_REFLOW (view)->selection, add_to_list, &mal);
 
-	mal.list = g_list_reverse (mal.list);
-	return mal.list;
+	return g_slist_reverse (mal.list);
 }
 
 void

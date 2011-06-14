@@ -44,7 +44,6 @@ evolution_alarm_notify_SOURCES =	\
 evolution_alarm_notify_LDADD =						\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
-	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
 	$(CAMEL_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)					\
 	$(CANBERRA_LIBS)						\

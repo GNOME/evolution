@@ -285,9 +285,12 @@ setup_abooks (void)
 	ESourceList *list = NULL;
 	ESourceGroup *on_this_computer = NULL;
 	ESource *personal_source = NULL;
+	GError *error = NULL;
 
-	if (!e_book_get_addressbooks (&list, NULL)) {
-		g_warning ("Unable to get books\n");
+	if (!e_book_client_get_sources (&list, &error)) {
+		g_debug ("%s: Unable to get books: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
 		return;
 	}
 

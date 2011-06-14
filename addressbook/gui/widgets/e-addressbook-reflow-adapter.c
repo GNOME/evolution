@@ -47,7 +47,7 @@ static EReflowModel *parent_class;
 
 enum {
 	PROP_0,
-	PROP_BOOK,
+	PROP_CLIENT,
 	PROP_QUERY,
 	PROP_EDITABLE,
 	PROP_MODEL
@@ -382,8 +382,7 @@ search_started (EAddressbookModel *model,
 
 static void
 search_result (EAddressbookModel *model,
-	       EBookViewStatus status,
-	       const gchar *error_msg,
+	       const GError *error,
 	       EAddressbookReflowAdapter *adapter)
 {
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
@@ -403,9 +402,9 @@ addressbook_set_property (GObject *object,
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
 	switch (prop_id) {
-	case PROP_BOOK:
+	case PROP_CLIENT:
 		g_object_set (priv->model,
-			      "book", g_value_get_object (value),
+			      "client", g_value_get_object (value),
 			      NULL);
 		break;
 	case PROP_QUERY:
@@ -434,9 +433,9 @@ addressbook_get_property (GObject *object,
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
 	switch (prop_id) {
-	case PROP_BOOK: {
+	case PROP_CLIENT: {
 		g_object_get_property (G_OBJECT (priv->model),
-				       "book", value);
+				       "client", value);
 		break;
 	}
 	case PROP_QUERY: {
@@ -469,11 +468,11 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 	object_class->get_property = addressbook_get_property;
 	object_class->dispose = addressbook_dispose;
 
-	g_object_class_install_property (object_class, PROP_BOOK,
-					 g_param_spec_object ("book",
-							      "Book",
+	g_object_class_install_property (object_class, PROP_CLIENT,
+					 g_param_spec_object ("client",
+							      "EBookClient",
 							      NULL,
-							      E_TYPE_BOOK,
+							      E_TYPE_BOOK_CLIENT,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_QUERY,

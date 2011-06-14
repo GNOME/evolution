@@ -30,15 +30,15 @@
 #ifndef ALARM_LIST_DIALOG_H
 #define ALARM_LIST_DIALOG_H
 
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libecal/e-cal-component.h>
 #include "../e-alarm-list.h"
 
 G_BEGIN_DECLS
 
-gboolean alarm_list_dialog_run (GtkWidget *parent, ECal *ecal, EAlarmList *list_store);
-GtkWidget *alarm_list_dialog_peek (ECal *ecal, EAlarmList *list_store);
-void alarm_list_dialog_set_client (GtkWidget *dlg_box, ECal *client);
+gboolean alarm_list_dialog_run (GtkWidget *parent, ECalClient *cal_client, EAlarmList *list_store);
+GtkWidget *alarm_list_dialog_peek (ECalClient *cal_client, EAlarmList *list_store);
+void alarm_list_dialog_set_client (GtkWidget *dlg_box, ECalClient *cal_client);
 
 G_END_DECLS
 

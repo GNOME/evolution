@@ -24,12 +24,13 @@
 #define E_CONTACT_PRINT_H
 
 #include <gtk/gtk.h>
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
+#include <libebook/e-book-query.h>
 #include "e-contact-print-types.h"
 
-void            e_contact_print               (EBook *book,
+void            e_contact_print               (EBookClient *book_client,
 					       EBookQuery *query,
-					       GList *contact_list,
+					       const GSList *contact_list,
 					       GtkPrintOperationAction action);
 void		contact_page_draw_footer      (GtkPrintOperation *operation,
 						GtkPrintContext *context,

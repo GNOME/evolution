@@ -37,14 +37,17 @@
 #define GAIM_ADDRESSBOOK 1
 #define AUTOMATIC_CONTACTS_ADDRESSBOOK 0
 
-/* bbdb.c */
-/* creates an EBook for a given type (gaim or contacts), but doesn't open it;
-   this function should be called in a main thread. */
-EBook *bbdb_create_ebook (gint type);
+#include <libebook/e-book-client.h>
+#include <libebook/e-contact.h>
 
-/* opens an EBook. Returns false if it fails, and unrefs the book too;
+/* bbdb.c */
+/* creates an EBookClient for a given type (gaim or contacts), but doesn't open it;
+   this function should be called in a main thread. */
+EBookClient *bbdb_create_book_client (gint type);
+
+/* opens an EBookClient. Returns false if it fails, and unrefs the book too;
    this function can be called in any thread */
-gboolean bbdb_open_ebook (EBook *book);
+gboolean bbdb_open_book_client (EBookClient *client);
 
 gboolean bbdb_check_gaim_enabled (void);
 

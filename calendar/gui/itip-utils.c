@@ -157,14 +157,14 @@ itip_address_is_user (const gchar *address)
 
 gboolean
 itip_organizer_is_user (ECalComponent *comp,
-                        ECal *client)
+                        ECalClient *cal_client)
 {
-	return itip_organizer_is_user_ex (comp, client, FALSE);
+	return itip_organizer_is_user_ex (comp, cal_client, FALSE);
 }
 
 gboolean
 itip_organizer_is_user_ex (ECalComponent *comp,
-                           ECal *client,
+                           ECalClient *cal_client,
                            gboolean skip_cap_test)
 {
 	ECalComponentOrganizer organizer;
@@ -172,8 +172,8 @@ itip_organizer_is_user_ex (ECalComponent *comp,
 	gboolean user_org = FALSE;
 
 	if (!e_cal_component_has_organizer (comp) ||
-		(!skip_cap_test && e_cal_get_static_capability (
-		client, CAL_STATIC_CAPABILITY_NO_ORGANIZER)))
+		(!skip_cap_test && e_client_check_capability (
+		E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_NO_ORGANIZER)))
 		return FALSE;
 
 	e_cal_component_get_organizer (comp, &organizer);
@@ -181,11 +181,10 @@ itip_organizer_is_user_ex (ECalComponent *comp,
 
 		strip = itip_strip_mailto (organizer.value);
 
-		if (e_cal_get_static_capability (
-			client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) {
+		if (e_client_check_capability (E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) {
 			gchar *email = NULL;
 
-			if (e_cal_get_cal_address (client, &email, NULL) &&
+			if (e_client_get_backend_property_sync (E_CLIENT (cal_client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &email, NULL, NULL) &&
 				!g_ascii_strcasecmp (email, strip)) {
 				g_free (email);
 
@@ -204,15 +203,15 @@ itip_organizer_is_user_ex (ECalComponent *comp,
 
 gboolean
 itip_sentby_is_user (ECalComponent *comp,
-                     ECal *client)
+                     ECalClient *cal_client)
 {
 	ECalComponentOrganizer organizer;
 	const gchar *strip;
 	gboolean user_sentby = FALSE;
 
 	if (!e_cal_component_has_organizer (comp) ||
-		e_cal_get_static_capability (
-		client, CAL_STATIC_CAPABILITY_NO_ORGANIZER))
+		e_client_check_capability (
+		E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_NO_ORGANIZER))
 		return FALSE;
 
 	e_cal_component_get_organizer (comp, &organizer);
@@ -277,7 +276,7 @@ html_new_lines_for (const gchar *string)
 
 gchar *
 itip_get_comp_attendee (ECalComponent *comp,
-                        ECal *client)
+                        ECalClient *cal_client)
 {
 	GSList *attendees;
 	EAccountList *al;
@@ -289,8 +288,8 @@ itip_get_comp_attendee (ECalComponent *comp,
 	e_cal_component_get_attendee_list (comp, &attendees);
 	al = e_get_account_list ();
 
-	if (client)
-		e_cal_get_cal_address (client, &address, NULL);
+	if (cal_client)
+		e_client_get_backend_property_sync (E_CLIENT (cal_client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &address, NULL, NULL);
 
 	if (address && *address) {
 		attendee = get_attendee (attendees, address);
@@ -386,7 +385,7 @@ get_label (struct icaltimetype *tt,
 typedef struct {
 	GHashTable *tzids;
 	icalcomponent *icomp;
-	ECal *client;
+	ECalClient *client;
 	icalcomponent *zones;
 } ItipUtilTZData;
 
@@ -409,7 +408,7 @@ foreach_tzid_callback (icalparameter *param, gpointer data)
 	if (zone == NULL)
 		zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
 	if (zone == NULL && tz_data->client != NULL)
-		e_cal_get_timezone (tz_data->client, tzid, &zone, NULL);
+		e_cal_client_get_timezone_sync (tz_data->client, tzid, &zone, NULL, NULL);
 	if (zone == NULL)
 		return;
 
@@ -426,7 +425,7 @@ foreach_tzid_callback (icalparameter *param, gpointer data)
 static icalcomponent *
 comp_toplevel_with_zones (ECalComponentItipMethod method,
                           ECalComponent *comp,
-                          ECal *client,
+                          ECalClient *cal_client,
                           icalcomponent *zones)
 {
 	icalcomponent *top_level, *icomp;
@@ -446,7 +445,7 @@ comp_toplevel_with_zones (ECalComponentItipMethod method,
 
 	tz_data.tzids = g_hash_table_new (g_str_hash, g_str_equal);
 	tz_data.icomp = top_level;
-	tz_data.client = client;
+	tz_data.client = cal_client;
 	tz_data.zones = zones;
 	icalcomponent_foreach_tzid (icomp, foreach_tzid_callback, &tz_data);
 	g_hash_table_destroy (tz_data.tzids);
@@ -457,10 +456,10 @@ comp_toplevel_with_zones (ECalComponentItipMethod method,
 }
 
 static gboolean
-users_has_attendee (GList *users,
+users_has_attendee (const GSList *users,
                     const gchar *address)
 {
-	GList *l;
+	const GSList *l;
 
 	for (l = users; l != NULL; l = l->next) {
 		if (!g_ascii_strcasecmp (address, l->data))
@@ -525,7 +524,7 @@ comp_from (ECalComponentItipMethod method,
 static EDestination **
 comp_to_list (ECalComponentItipMethod method,
               ECalComponent *comp,
-              GList *users,
+              const GSList *users,
               gboolean reply_all,
               const GSList *only_attendees)
 {
@@ -703,7 +702,7 @@ comp_to_list (ECalComponentItipMethod method,
 		break;
 	case E_CAL_COMPONENT_METHOD_PUBLISH:
 		if (users) {
-			GList *list;
+			const GSList *list;
 
 			array = g_ptr_array_new ();
 
@@ -945,19 +944,19 @@ comp_description (ECalComponent *comp,
 static gboolean
 comp_server_send (ECalComponentItipMethod method,
                   ECalComponent *comp,
-                  ECal *client,
+                  ECalClient *cal_client,
                   icalcomponent *zones,
-                  GList **users)
+                  GSList **users)
 {
 	icalcomponent *top_level, *returned_icalcomp = NULL;
 	gboolean retval = TRUE;
 	GError *error = NULL;
 
-	top_level = comp_toplevel_with_zones (method, comp, client, zones);
-	if (!e_cal_send_objects (client, top_level, users, &returned_icalcomp, &error)) {
+	top_level = comp_toplevel_with_zones (method, comp, cal_client, zones);
+	if (!e_cal_client_send_objects_sync (cal_client, top_level, users, &returned_icalcomp, NULL, &error)) {
 		/* FIXME Really need a book problem status code */
-		if (error->code != E_CALENDAR_STATUS_OK) {
-			if (error->code == E_CALENDAR_STATUS_OBJECT_ID_ALREADY_EXISTS) {
+		if (error) {
+			if (g_error_matches (error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_ID_ALREADY_EXISTS)) {
 				e_notice (
 					NULL, GTK_MESSAGE_ERROR,
 					_("Unable to book a resource, the "
@@ -1051,7 +1050,7 @@ comp_limit_attendees (ECalComponent *comp)
 }
 
 static void
-comp_sentby (ECalComponent *comp, ECal *client)
+comp_sentby (ECalComponent *comp, ECalClient *cal_client)
 {
 	ECalComponentOrganizer organizer;
 	GSList * attendees, *l;
@@ -1073,7 +1072,7 @@ comp_sentby (ECalComponent *comp, ECal *client)
 	}
 
 	e_cal_component_get_attendee_list (comp, &attendees);
-	user = itip_get_comp_attendee (comp, client);
+	user = itip_get_comp_attendee (comp, cal_client);
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *a = l->data;
 
@@ -1086,8 +1085,7 @@ comp_sentby (ECalComponent *comp, ECal *client)
 		}
 	}
 
-	if (!itip_organizer_is_user (comp, client) &&
-	    !itip_sentby_is_user (comp, client)) {
+	if (!itip_organizer_is_user (comp, cal_client) && !itip_sentby_is_user (comp, cal_client)) {
 		EAccount *a = e_get_default_account ();
 
 		organizer.value = g_strdup (organizer.value);
@@ -1213,7 +1211,7 @@ strip_x_microsoft_props (ECalComponent *comp)
 static ECalComponent *
 comp_compliant (ECalComponentItipMethod method,
                 ECalComponent *comp,
-                ECal *client,
+                ECalClient *client,
                 icalcomponent *zones,
                 icaltimezone *default_zone,
                 gboolean strip_alarms)
@@ -1252,7 +1250,7 @@ comp_compliant (ECalComponentItipMethod method,
 					from_zone = icaltimezone_get_builtin_timezone_from_tzid (dt.tzid);
 				if (from_zone == NULL && client != NULL)
 					/* FIXME Error checking */
-					e_cal_get_timezone (client, dt.tzid, &from_zone, NULL);
+					e_cal_client_get_timezone_sync (client, dt.tzid, &from_zone, NULL, NULL);
 			}
 
 			to_zone = icaltimezone_get_utc_timezone ();
@@ -1420,7 +1418,7 @@ find_enabled_account (EAccountList *accounts,
 static void
 setup_from (ECalComponentItipMethod method,
             ECalComponent *comp,
-            ECal *client,
+            ECalClient *cal_client,
             EComposerHeaderTable *table)
 {
 	EAccountList *accounts;
@@ -1430,7 +1428,7 @@ setup_from (ECalComponentItipMethod method,
 		EAccount *account = NULL;
 
 		/* always use organizer's email when user is an organizer */
-		if (itip_organizer_is_user (comp, client)) {
+		if (itip_organizer_is_user (comp, cal_client)) {
 			ECalComponentOrganizer organizer = {0};
 
 			e_cal_component_get_organizer (comp, &organizer);
@@ -1458,10 +1456,10 @@ setup_from (ECalComponentItipMethod method,
 gboolean
 itip_send_comp (ECalComponentItipMethod method,
                 ECalComponent *send_comp,
-                ECal *client,
+                ECalClient *cal_client,
                 icalcomponent *zones,
                 GSList *attachments_list,
-                GList *users,
+                GSList *users,
                 gboolean strip_alarms,
                 gboolean only_new_attendees)
 {
@@ -1490,29 +1488,29 @@ itip_send_comp (ECalComponentItipMethod method,
 		shell_settings, "cal-use-24-hour-format");
 
 	/* check whether backend could handle auto-saving requests/updates */
-	if (method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_get_save_schedules (client))
+	if (method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_client_check_save_schedules (cal_client))
 		return TRUE;
 
 	/* Give the server a chance to manipulate the comp */
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
-		if (!comp_server_send (method, send_comp, client, zones, &users))
+		if (!comp_server_send (method, send_comp, cal_client, zones, &users))
 			goto cleanup;
 	}
 
 	/* check whether backend could handle sending requests/updates */
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH &&
-		e_cal_get_static_capability (client,
+		e_client_check_capability (E_CLIENT (cal_client),
 		CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		if (users) {
-			g_list_foreach (users, (GFunc) g_free, NULL);
-			g_list_free (users);
+			g_slist_foreach (users, (GFunc) g_free, NULL);
+			g_slist_free (users);
 		}
 		return TRUE;
 	}
 
 	/* Tidy up the comp */
 	comp = comp_compliant (
-		method, send_comp, client, zones, default_zone, strip_alarms);
+		method, send_comp, cal_client, zones, default_zone, strip_alarms);
 
 	if (comp == NULL)
 		goto cleanup;
@@ -1536,7 +1534,7 @@ itip_send_comp (ECalComponentItipMethod method,
 	composer = e_msg_composer_new (shell);
 	table = e_msg_composer_get_header_table (composer);
 
-	setup_from (method, send_comp, client, table);
+	setup_from (method, send_comp, cal_client, table);
 	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_destinations_to (table, destinations);
 
@@ -1545,7 +1543,7 @@ itip_send_comp (ECalComponentItipMethod method,
 	/* Content type */
 	content_type = comp_content_type (comp, method);
 
-	top_level = comp_toplevel_with_zones (method, comp, client, zones);
+	top_level = comp_toplevel_with_zones (method, comp, cal_client, zones);
 	ical_string = icalcomponent_as_ical_string_r (top_level);
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
@@ -1595,8 +1593,8 @@ cleanup:
 		icalcomponent_free (top_level);
 
 	if (users) {
-		g_list_foreach (users, (GFunc) g_free, NULL);
-		g_list_free (users);
+		g_slist_foreach (users, (GFunc) g_free, NULL);
+		g_slist_free (users);
 	}
 
 	g_free (content_type);
@@ -1609,7 +1607,7 @@ cleanup:
 gboolean
 reply_to_calendar_comp (ECalComponentItipMethod method,
                         ECalComponent *send_comp,
-                        ECal *client,
+                        ECalClient *cal_client,
                         gboolean reply_all,
                         icalcomponent *zones,
                         GSList *attachments_list)
@@ -1622,7 +1620,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
 	icaltimezone *default_zone;
-	GList *users = NULL;
+	GSList *users = NULL;
 	gchar *subject = NULL;
 	gchar *ical_string = NULL;
 	gboolean retval = FALSE;
@@ -1636,7 +1634,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 
 	/* Tidy up the comp */
 	comp = comp_compliant (
-		method, send_comp, client, zones, default_zone, TRUE);
+		method, send_comp, cal_client, zones, default_zone, TRUE);
 	if (comp == NULL)
 		goto cleanup;
 
@@ -1649,13 +1647,13 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	composer = e_msg_composer_new (shell);
 	table = e_msg_composer_get_header_table (composer);
 
-	setup_from (method, send_comp, client, table);
+	setup_from (method, send_comp, cal_client, table);
 	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_destinations_to (table, destinations);
 
 	e_destination_freev (destinations);
 
-	top_level = comp_toplevel_with_zones (method, comp, client, zones);
+	top_level = comp_toplevel_with_zones (method, comp, cal_client, zones);
 	ical_string = icalcomponent_as_ical_string_r (top_level);
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
@@ -1703,12 +1701,15 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 		e_cal_component_get_dtstart (comp, &dtstart);
 		if (dtstart.value) {
 			start_zone = icaltimezone_get_builtin_timezone_from_tzid (dtstart.tzid);
-			if (!start_zone) {
-				if (!e_cal_get_timezone (client, dtstart.tzid, &start_zone, NULL))
-					g_warning (
-						"Couldn't get timezone from "
-						"server: %s", dtstart.tzid ?
-						dtstart.tzid : "");
+			if (!start_zone && dtstart.tzid) {
+				GError *error = NULL;
+
+				if (!e_cal_client_get_timezone_sync (cal_client, dtstart.tzid, &start_zone, NULL, &error))
+					g_debug ("%s: Couldn't get timezone '%s' from server: %s", G_STRFUNC,
+						dtstart.tzid ? dtstart.tzid : "", error ? error->message : "Unknown error");
+
+				if (error)
+					g_error_free (error);
 			}
 
 			if (!start_zone || dtstart.value->is_date)
@@ -1767,8 +1768,8 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 		icalcomponent_free (top_level);
 
 	if (users) {
-		g_list_foreach (users, (GFunc) g_free, NULL);
-		g_list_free (users);
+		g_slist_foreach (users, (GFunc) g_free, NULL);
+		g_slist_free (users);
 	}
 
 	g_free (subject);
@@ -1778,11 +1779,11 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 
 gboolean
 itip_publish_begin (ECalComponent *pub_comp,
-                    ECal *client,
+                    ECalClient *cal_client,
                     gboolean cloned,
                     ECalComponent **clone)
 {
-	icalcomponent *icomp =NULL, *icomp_clone = NULL;
+	icalcomponent *icomp = NULL, *icomp_clone = NULL;
 	icalproperty *prop;
 
 	if (e_cal_component_get_vtype (pub_comp) == E_CAL_COMPONENT_FREEBUSY) {
@@ -1920,7 +1921,7 @@ comp_fb_normalize (icalcomponent *icomp)
 }
 
 gboolean
-itip_publish_comp (ECal *client,
+itip_publish_comp (ECalClient *cal_client,
                    gchar *uri,
                    gchar *username,
                    gchar *password,

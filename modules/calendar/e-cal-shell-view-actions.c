@@ -51,7 +51,7 @@ action_calendar_copy_cb (GtkAction *action,
 
 	copy_source_dialog (
 		GTK_WINDOW (shell_window),
-		source, E_CAL_SOURCE_TYPE_EVENT);
+		source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS);
 }
 
 static void
@@ -67,7 +67,7 @@ action_calendar_delete_cb (GtkAction *action,
 	GnomeCalendarViewType view_type;
 	GnomeCalendar *calendar;
 	ECalModel *model;
-	ECal *client;
+	ECalClient *client;
 	ESourceSelector *selector;
 	ESourceGroup *source_group;
 	ESourceList *source_list;
@@ -102,14 +102,14 @@ action_calendar_delete_cb (GtkAction *action,
 	uri = e_source_get_uri (source);
 	client = e_cal_model_get_client_for_uri (model, uri);
 	if (client == NULL)
-		client = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_EVENT);
+		client = e_cal_client_new_from_uri (uri, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL);
 	g_free (uri);
 
 	g_return_if_fail (client != NULL);
 
-	if (!e_cal_remove (client, &error)) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
+	if (!e_client_remove_sync (E_CLIENT (client), NULL, &error)) {
+		g_debug ("%s: Failed to remove client: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		return;
 	}
 
@@ -125,8 +125,8 @@ action_calendar_delete_cb (GtkAction *action,
 	source_list = e_cal_shell_backend_get_source_list (
 		E_CAL_SHELL_BACKEND (shell_backend));
 	if (!e_source_list_sync (source_list, &error)) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
+		g_debug ("%s: Failed to sync source list: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 	}
 }
 
@@ -362,7 +362,7 @@ action_calendar_refresh_cb (GtkAction *action,
 	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;
 	ESourceSelector *selector;
-	ECal *client;
+	ECalClient *client;
 	ECalModel *model;
 	ESource *source;
 	gchar *uri;
@@ -384,14 +384,11 @@ action_calendar_refresh_cb (GtkAction *action,
 	if (client == NULL)
 		return;
 
-	g_return_if_fail (e_cal_get_refresh_supported (client));
+	g_return_if_fail (e_client_check_refresh_supported (E_CLIENT (client)));
 
-	if (!e_cal_refresh (client, &error) && error) {
-		g_warning (
-			"%s: Failed to refresh '%s', %s\n",
-			G_STRFUNC, e_source_peek_name (source),
-			error->message);
-		g_error_free (error);
+	if (!e_client_refresh_sync (E_CLIENT (client), NULL, &error)) {
+		g_debug ("%s: Failed to refresh '%s', %s\n", G_STRFUNC, e_source_peek_name (source), error ? error->message : "Unknown error");
+		g_clear_error (&error);
 	}
 }
 
@@ -499,8 +496,9 @@ action_event_copy_cb (GtkAction *action,
 	GnomeCalendar *calendar;
 	ECalendarView *calendar_view;
 	ESource *source_source = NULL, *destination_source = NULL;
-	ECal *destination_client = NULL;
+	ECalClient *destination_client = NULL;
 	GList *selected, *iter;
+	GError *error = NULL;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -517,22 +515,27 @@ action_event_copy_cb (GtkAction *action,
 		ECalendarViewEvent *event = selected->data;
 
 		if (is_comp_data_valid (event) && event->comp_data->client)
-			source_source = e_cal_get_source (event->comp_data->client);
+			source_source = e_client_get_source (E_CLIENT (event->comp_data->client));
 	}
 
 	/* Get a destination source from the user. */
 	destination_source = select_source_dialog (
-		GTK_WINDOW (shell_window), E_CAL_SOURCE_TYPE_EVENT, source_source);
+		GTK_WINDOW (shell_window), E_CAL_CLIENT_SOURCE_TYPE_EVENTS, source_source);
 	if (destination_source == NULL)
 		return;
 
 	/* Open the destination calendar. */
-	destination_client = e_auth_new_cal_from_source (
-		destination_source, E_CAL_SOURCE_TYPE_EVENT);
+	destination_client = e_cal_client_new (
+		destination_source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL);
 	if (destination_client == NULL)
 		goto exit;
-	if (!e_cal_open (destination_client, FALSE, NULL))
+	g_signal_connect (destination_client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+
+	if (!e_client_open_sync (E_CLIENT (destination_client), FALSE, NULL, &error)) {
+		g_debug ("%s: Failed to open destination client: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		goto exit;
+	}
 
 	e_cal_shell_view_set_status_message (
 		cal_shell_view, _("Copying Items"), -1.0);
@@ -565,7 +568,7 @@ action_event_delegate_cb (GtkAction *action,
 	ECalendarView *calendar_view;
 	ECalendarViewEvent *event;
 	ECalComponent *component;
-	ECal *client;
+	ECalClient *client;
 	GList *selected;
 	icalcomponent *clone;
 	icalproperty *property;
@@ -702,7 +705,7 @@ action_event_forward_cb (GtkAction *action,
 	GnomeCalendar *calendar;
 	ECalendarViewEvent *event;
 	ECalComponent *component;
-	ECal *client;
+	ECalClient *client;
 	icalcomponent *icalcomp;
 	GList *selected;
 
@@ -769,8 +772,9 @@ action_event_move_cb (GtkAction *action,
 	GnomeCalendar *calendar;
 	ECalendarView *calendar_view;
 	ESource *source_source = NULL, *destination_source = NULL;
-	ECal *destination_client = NULL;
+	ECalClient *destination_client = NULL;
 	GList *selected, *iter;
+	GError *error = NULL;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -787,22 +791,26 @@ action_event_move_cb (GtkAction *action,
 		ECalendarViewEvent *event = selected->data;
 
 		if (is_comp_data_valid (event) && event->comp_data->client)
-			source_source = e_cal_get_source (event->comp_data->client);
+			source_source = e_client_get_source (E_CLIENT (event->comp_data->client));
 	}
 
 	/* Get a destination source from the user. */
 	destination_source = select_source_dialog (
-		GTK_WINDOW (shell_window), E_CAL_SOURCE_TYPE_EVENT, source_source);
+		GTK_WINDOW (shell_window), E_CAL_CLIENT_SOURCE_TYPE_EVENTS, source_source);
 	if (destination_source == NULL)
 		return;
 
 	/* Open the destination calendar. */
-	destination_client = e_auth_new_cal_from_source (
-		destination_source, E_CAL_SOURCE_TYPE_EVENT);
+	destination_client = e_cal_client_new (destination_source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL);
 	if (destination_client == NULL)
 		goto exit;
-	if (!e_cal_open (destination_client, FALSE, NULL))
+	g_signal_connect (destination_client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+
+	if (!e_client_open_sync (E_CLIENT (destination_client), FALSE, NULL, &error)) {
+		g_debug ("%s: Failed to open destination client: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		goto exit;
+	}
 
 	e_cal_shell_view_set_status_message (
 		cal_shell_view, _("Moving Items"), -1.0);
@@ -856,7 +864,7 @@ action_event_occurrence_movable_cb (GtkAction *action,
 	ECalComponent *recurring_component;
 	ECalComponentDateTime date;
 	ECalComponentId *id;
-	ECal *client;
+	ECalClient *client;
 	icalcomponent *icalcomp;
 	icaltimetype itt;
 	icaltimezone *timezone;
@@ -922,14 +930,14 @@ action_event_occurrence_movable_cb (GtkAction *action,
 	*  since at present the updates happend synchronously so our
 	*  event may disappear. */
 
-	e_cal_remove_object_with_mod (
-		client, id->uid, id->rid, CALOBJ_MOD_THIS, NULL);
+	e_cal_client_remove_object_sync (
+		client, id->uid, id->rid, CALOBJ_MOD_THIS, NULL, NULL);
 
 	e_cal_component_free_id (id);
 	g_object_unref (recurring_component);
 
 	icalcomp = e_cal_component_get_icalcomponent (exception_component);
-	if (e_cal_create_object (client, icalcomp, &uid, NULL))
+	if (e_cal_client_create_object_sync (client, icalcomp, &uid, NULL, NULL))
 		g_free (uid);
 
 	g_object_unref (exception_component);
@@ -965,7 +973,7 @@ action_event_print_cb (GtkAction *action,
 	ECalendarViewEvent *event;
 	ECalComponent *component;
 	ECalModel *model;
-	ECal *client;
+	ECalClient *client;
 	icalcomponent *icalcomp;
 	GList *selected;
 
@@ -1011,7 +1019,7 @@ action_event_reply_cb (GtkAction *action,
 	GnomeCalendar *calendar;
 	ECalendarViewEvent *event;
 	ECalComponent *component;
-	ECal *client;
+	ECalClient *client;
 	icalcomponent *icalcomp;
 	GList *selected;
 	gboolean reply_all = FALSE;
@@ -1055,7 +1063,7 @@ action_event_reply_all_cb (GtkAction *action,
 	GnomeCalendar *calendar;
 	ECalendarViewEvent *event;
 	ECalComponent *component;
-	ECal *client;
+	ECalClient *client;
 	icalcomponent *icalcomp;
 	GList *selected;
 	gboolean reply_all = TRUE;
@@ -1102,7 +1110,7 @@ action_event_save_as_cb (GtkAction *action,
 	GnomeCalendar *calendar;
 	ECalendarView *calendar_view;
 	ECalendarViewEvent *event;
-	ECal *client;
+	ECalClient *client;
 	icalcomponent *icalcomp;
 	EActivity *activity;
 	GList *selected;
@@ -1140,7 +1148,7 @@ action_event_save_as_cb (GtkAction *action,
 	if (file == NULL)
 		return;
 
-	string = e_cal_get_component_as_string (client, icalcomp);
+	string = e_cal_client_get_component_as_string (client, icalcomp);
 	if (string == NULL) {
 		g_warning ("Could not convert item to a string");
 		goto exit;
@@ -1172,7 +1180,7 @@ edit_event_as (ECalShellView *cal_shell_view, gboolean as_meeting)
 	GnomeCalendar *calendar;
 	ECalendarView *calendar_view;
 	ECalendarViewEvent *event;
-	ECal *client;
+	ECalClient *client;
 	icalcomponent *icalcomp;
 	GList *selected;
 

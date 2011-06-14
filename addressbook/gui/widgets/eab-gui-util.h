@@ -25,7 +25,7 @@
 #define __E_ADDRESSBOOK_UTIL_H__
 
 #include <gtk/gtk.h>
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 #include "e-util/e-alert-sink.h"
 
 G_BEGIN_DECLS
@@ -38,14 +38,13 @@ void		eab_load_error_dialog		(GtkWidget *parent,
 						 ESource *source,
 						 const GError *error);
 void		eab_search_result_dialog	(EAlertSink *alert_sink,
-						 EBookViewStatus status,
-						 const gchar *error_msg);
+						 const GError *error);
 gint		eab_prompt_save_dialog		(GtkWindow *parent);
-void		eab_transfer_contacts		(EBook *source_book,
-						 GList *contacts, /* adopted */
+void		eab_transfer_contacts		(EBookClient *source_client,
+						 GSList *contacts, /* adopted */
 						 gboolean delete_from_source,
 						 EAlertSink *alert_sink);
-gchar *		eab_suggest_filename		(GList *contact_list);
+gchar *		eab_suggest_filename		(const GSList *contact_list);
 ESource *	eab_select_source		(ESource *except_source,
 						 const gchar *title,
 						 const gchar *message,

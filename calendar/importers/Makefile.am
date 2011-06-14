@@ -19,7 +19,6 @@ libevolution_calendar_importers_la_LDFLAGS = $(NO_UNDEFINED)
 
 libevolution_calendar_importers_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la 				\
-	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(EVOLUTION_CALENDAR_LIBS)					\

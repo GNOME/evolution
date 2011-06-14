@@ -23,7 +23,7 @@
 
 #include <gtk/gtk.h>
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 
 #include <e-contact-map.h>
 
@@ -68,7 +68,7 @@ GType			e_contact_map_window_get_type		(void) G_GNUC_CONST;
 EContactMapWindow*	e_contact_map_window_new		(void);
 
 void			e_contact_map_window_load_addressbook	(EContactMapWindow *window,
-								 EBook *book);
+								 EBookClient *book);
 
 EContactMap*		e_contact_map_window_get_map		(EContactMapWindow *window);
 

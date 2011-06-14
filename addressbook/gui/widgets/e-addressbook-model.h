@@ -21,9 +21,9 @@
 #ifndef E_ADDRESSBOOK_MODEL_H
 #define E_ADDRESSBOOK_MODEL_H
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
+#include <libebook/e-book-client-view.h>
 #include <libebook/e-book-query.h>
-#include <libebook/e-book-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ADDRESSBOOK_MODEL \
@@ -63,10 +63,10 @@ struct _EAddressbookModelClass {
 						 gboolean writable);
 	void		(*search_started)	(EAddressbookModel *model);
 	void		(*search_result)	(EAddressbookModel *model,
-						 EBookViewStatus status,
-						 const gchar *error_msg);
+						 const GError *error);
 	void		(*status_message)	(EAddressbookModel *model,
-						 const gchar *message);
+						 const gchar *message,
+						 gint percent);
 	void		(*folder_bar_message)	(EAddressbookModel *model,
 						 const gchar *message);
 	void		(*contact_added)	(EAddressbookModel *model,
@@ -101,9 +101,9 @@ EContact *	e_addressbook_model_contact_at	(EAddressbookModel *model,
 						 gint index);
 gint		e_addressbook_model_find	(EAddressbookModel *model,
 						 EContact *contact);
-EBook *		e_addressbook_model_get_book	(EAddressbookModel *model);
-void		e_addressbook_model_set_book	(EAddressbookModel *model,
-						 EBook *book);
+EBookClient *	e_addressbook_model_get_client	(EAddressbookModel *model);
+void		e_addressbook_model_set_client	(EAddressbookModel *model,
+						 EBookClient *book_client);
 gboolean	e_addressbook_model_get_editable (EAddressbookModel *model);
 void		e_addressbook_model_set_editable (EAddressbookModel *model,
 						 gboolean editable);

@@ -41,8 +41,8 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <libebook/e-book.h>
-#include <libedataserverui/e-book-auth-util.h>
+#include <libebook/e-book-client.h>
+#include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-selector.h>
 
 #include <libebook/e-destination.h>
@@ -63,7 +63,7 @@ typedef struct {
 	FILE *file;
 	gulong size;
 
-	EBook *book;
+	EBookClient *book_client;
 
 	GSList *contacts;
 	GSList *list_contacts;
@@ -497,10 +497,15 @@ ldif_import_contacts (gpointer d)
 				gci->list_contacts = g_slist_prepend (
 					gci->list_contacts, contact);
 			} else {
+				gchar *uid = NULL;
+
 				add_to_notes (contact, E_CONTACT_OFFICE);
 				add_to_notes (contact, E_CONTACT_SPOUSE);
 				add_to_notes (contact, E_CONTACT_BLOG_URL);
-				e_book_add_contact (gci->book, contact, NULL);
+				if (e_book_client_add_contact_sync (gci->book_client, contact, &uid, NULL, NULL) && uid) {
+					e_contact_set (contact, E_CONTACT_UID, uid);
+					g_free (uid);
+				}
 				gci->contacts = g_slist_prepend (gci->contacts, contact);
 			}
 			count++;
@@ -512,9 +517,14 @@ ldif_import_contacts (gpointer d)
 	}
 	if (gci->state == 1) {
 		for (iter = gci->list_iterator;count < 50 && iter;iter=iter->next) {
+			gchar *uid = NULL;
+
 			contact = iter->data;
 			resolve_list_card (gci, contact);
-			e_book_add_contact (gci->book, contact, NULL);
+			if (e_book_client_add_contact_sync (gci->book_client, contact, &uid, NULL, NULL) && uid) {
+				e_contact_set (contact, E_CONTACT_UID, uid);
+				g_free (uid);
+			}
 			count++;
 		}
 		gci->list_iterator = iter;
@@ -548,7 +558,7 @@ ldif_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 	ESourceList *source_list;
 
 	/* FIXME Better error handling */
-	if (!e_book_get_addressbooks (&source_list, NULL))
+	if (!e_book_client_get_sources (&source_list, NULL))
 		return NULL;
 
 	vbox = gtk_vbox_new (FALSE, FALSE);
@@ -618,7 +628,7 @@ ldif_import_done (LDIFImporter *gci)
 		g_source_remove (gci->idle_id);
 
 	fclose (gci->file);
-	g_object_unref (gci->book);
+	g_object_unref (gci->book_client);
 	g_slist_foreach (gci->contacts, (GFunc) g_object_unref, NULL);
 	g_slist_foreach (gci->list_contacts, (GFunc) g_object_unref, NULL);
 	g_slist_free (gci->contacts);
@@ -632,13 +642,20 @@ ldif_import_done (LDIFImporter *gci)
 }
 
 static void
-book_loaded_cb (ESource *source,
+book_loaded_cb (GObject *source_object,
                 GAsyncResult *result,
-                LDIFImporter *gci)
+                gpointer user_data)
 {
-	gci->book = e_load_book_source_finish (source, result, NULL);
+	ESource *source = E_SOURCE (source_object);
+	LDIFImporter *gci = user_data;
+	EClient *client = NULL;
 
-	if (gci->book == NULL) {
+	if (!e_client_utils_open_new_finish (source, result, &client, NULL))
+		client = NULL;
+
+	gci->book_client = client ? E_BOOK_CLIENT (client) : NULL;
+
+	if (gci->book_client == NULL) {
 		ldif_import_done (gci);
 		return;
 	}
@@ -681,8 +698,8 @@ ldif_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	source = g_datalist_get_data (&target->data, "ldif-source");
 
-	e_load_book_source_async (
-		source, NULL, NULL, (GAsyncReadyCallback)
+	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+		e_client_utils_authenticate_handler, NULL,
 		book_loaded_cb, gci);
 }
 
@@ -699,7 +716,7 @@ static GtkWidget *
 ldif_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *preview;
-	GList *contacts = NULL;
+	GSList *contacts = NULL;
 	EContact *contact;
 	EImportTargetURI *s = (EImportTargetURI *) target;
 	gchar *filename;
@@ -732,16 +749,15 @@ ldif_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 			add_to_notes (contact, E_CONTACT_BLOG_URL);
 		}
 
-		contacts = g_list_prepend (contacts, contact);
+		contacts = g_slist_prepend (contacts, contact);
 	}
 
 	g_hash_table_destroy (dn_contact_hash);
 
-	contacts = g_list_reverse (contacts);
+	contacts = g_slist_reverse (contacts);
 	preview = evolution_contact_importer_get_preview_widget (contacts);
 
-	g_list_foreach (contacts, (GFunc) g_object_unref, NULL);
-	g_list_free (contacts);
+	e_client_util_free_object_slist (contacts);
 	fclose (file);
 
 	return preview;

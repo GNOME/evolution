@@ -151,18 +151,18 @@ get_recur_events_italic (void)
  **/
 void
 tag_calendar_by_client (ECalendar *ecal,
-                        ECal *client)
+                        ECalClient *client)
 {
 	struct calendar_tag_closure c;
 
 	g_return_if_fail (E_IS_CALENDAR (ecal));
-	g_return_if_fail (E_IS_CAL (client));
+	g_return_if_fail (E_IS_CAL_CLIENT (client));
 
 	/* If the ECalendar isn't visible, we just return. */
 	if (!gtk_widget_get_visible (GTK_WIDGET (ecal)))
 		return;
 
-	if (e_cal_get_load_state (client) != E_CAL_LOAD_LOADED)
+	if (!e_client_is_opened (E_CLIENT (client)))
 		return;
 
 	if (!prepare_tag (ecal, &c, NULL, TRUE))
@@ -171,7 +171,7 @@ tag_calendar_by_client (ECalendar *ecal,
 	c.skip_transparent_events = TRUE;
 	c.recur_events_italic = get_recur_events_italic ();
 
-	e_cal_generate_instances (
+	e_cal_client_generate_instances (
 		client, c.start_time, c.end_time, tag_calendar_cb, &c);
 }
 
@@ -182,19 +182,25 @@ static icaltimezone*
 resolve_tzid_cb (const gchar *tzid,
                  gpointer data)
 {
-	ECal *client;
+	ECalClient *client;
 	icaltimezone *zone = NULL;
 
-	g_return_val_if_fail (E_IS_CAL (data), NULL);
+	g_return_val_if_fail (E_IS_CAL_CLIENT (data), NULL);
 
-	client = E_CAL (data);
+	client = E_CAL_CLIENT (data);
 
 	/* Try to find the builtin timezone first. */
 	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
 
-	if (!zone) {
+	if (!zone && tzid) {
 		/* FIXME: Handle errors. */
-		e_cal_get_timezone (client, tzid, &zone, NULL);
+		GError *error = NULL;
+
+		if (!e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, &error)) {
+			g_debug ("%s: Failed to get timezone '%s': %s", G_STRFUNC, tzid, error->message);
+			if (error)
+				g_error_free (error);
+		}
 	}
 
 	return zone;
@@ -217,7 +223,7 @@ resolve_tzid_cb (const gchar *tzid,
 void
 tag_calendar_by_comp (ECalendar *ecal,
                       ECalComponent *comp,
-                      ECal *client,
+                      ECalClient *client,
                       icaltimezone *display_zone,
                       gboolean clear_first,
                       gboolean comp_is_on_server,
@@ -239,7 +245,7 @@ tag_calendar_by_comp (ECalendar *ecal,
 	c.recur_events_italic = can_recur_events_italic && get_recur_events_italic ();
 
 	if (comp_is_on_server)
-		e_cal_generate_instances_for_object (
+		e_cal_client_generate_instances_for_object (
 			client, e_cal_component_get_icalcomponent (comp),
 			c.start_time, c.end_time, tag_calendar_cb, &c);
 	else

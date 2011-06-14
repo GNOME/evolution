@@ -148,7 +148,7 @@ ea_minicard_view_get_name (AtkObject *accessible)
 	EReflow *reflow;
 	gchar *string;
 	EMinicardView *card_view;
-	EBook *book = NULL;
+	EBookClient *book_client = NULL;
 	const gchar *source_name;
 
 	g_return_val_if_fail (EA_IS_MINICARD_VIEW (accessible), NULL);
@@ -161,9 +161,9 @@ ea_minicard_view_get_name (AtkObject *accessible)
 
 	/* Get the current name of minicard view*/
 	card_view = E_MINICARD_VIEW (reflow);
-	g_object_get (card_view->adapter, "book", &book, NULL);
-	g_return_val_if_fail (E_IS_BOOK (book), NULL);
-	source_name = e_source_peek_name (e_book_get_source (book));
+	g_object_get (card_view->adapter, "client", &book_client, NULL);
+	g_return_val_if_fail (E_IS_BOOK_CLIENT (book_client), NULL);
+	source_name = e_source_peek_name (e_client_get_source (E_CLIENT (book_client)));
 	if (!source_name)
 		source_name="";
 
@@ -173,7 +173,7 @@ ea_minicard_view_get_name (AtkObject *accessible)
 
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, string);
 	g_free (string);
-	g_object_unref (book);
+	g_object_unref (book_client);
 	return accessible->name;
 }
 

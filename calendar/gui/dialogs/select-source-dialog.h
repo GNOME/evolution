@@ -28,8 +28,8 @@
 
 #include <gtk/gtk.h>
 #include <libedataserver/e-source.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 
-ESource *select_source_dialog (GtkWindow *parent, ECalSourceType type, ESource *except_source);
+ESource *select_source_dialog (GtkWindow *parent, ECalClientSourceType type, ESource *except_source);
 
 #endif

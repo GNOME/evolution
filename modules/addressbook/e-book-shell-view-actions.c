@@ -61,7 +61,7 @@ action_address_book_delete_cb (GtkAction *action,
 	ESourceSelector *selector;
 	ESourceGroup *source_group;
 	ESourceList *source_list;
-	EBook *book;
+	EBookClient *book;
 	gint response;
 	GError *error = NULL;
 
@@ -84,14 +84,14 @@ action_address_book_delete_cb (GtkAction *action,
 	if (response != GTK_RESPONSE_YES)
 		return;
 
-	book = e_book_new (source, &error);
+	book = e_book_client_new (source, &error);
 	if (error != NULL) {
 		g_warning ("Error removing addressbook: %s", error->message);
 		g_error_free (error);
 		return;
 	}
 
-	if (!e_book_remove (book, NULL)) {
+	if (!e_client_remove_sync (E_CLIENT (book), NULL, NULL)) {
 		e_alert_run_dialog_for_args (
 			GTK_WINDOW (shell_window),
 			"addressbook:remove-addressbook", NULL);
@@ -249,7 +249,7 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 	EBookShellSidebar *book_shell_sidebar;
 	ESource *source;
 	ESourceSelector *selector;
-	EBook *book;
+	EBookClient *book_client;
 	EContact *contact;
 	EABEditor *editor;
 	GError *error = NULL;
@@ -259,23 +259,24 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 	source = e_source_selector_get_primary_selection (selector);
 
 	g_return_if_fail (source != NULL);
-	book = e_book_new (source, &error);
+	book_client = e_book_client_new (source, &error);
 	if (error) {
 		g_warning ("Error loading addressbook: %s", error->message);
 		g_error_free (error);
-		g_object_unref (book);
+		if (book_client)
+			g_object_unref (book_client);
 		return;
 	}
 
-	e_book_get_contact (book, contact_uid, &contact, &error);
+	e_book_client_get_contact_sync (book_client, contact_uid, &contact, NULL, &error);
 	if (error) {
 		g_warning ("Error getting contact from addressbook: %s", error->message);
 		g_error_free (error);
-		g_object_unref (book);
+		g_object_unref (book_client);
 		return;
 	}
 
-	editor = e_contact_editor_new (shell, book, contact, FALSE, TRUE);
+	editor = e_contact_editor_new (shell, book_client, contact, FALSE, TRUE);
 
 	g_signal_connect (editor, "contact-modified",
 		G_CALLBACK (contact_editor_contact_modified_cb), window);
@@ -283,7 +284,7 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 		G_CALLBACK (g_object_unref), editor);
 
 	eab_editor_show (editor);
-	g_object_unref (book);
+	g_object_unref (book_client);
 }
 #endif
 
@@ -297,7 +298,7 @@ action_address_book_map_cb (GtkAction *action,
 	EBookShellSidebar *book_shell_sidebar;
 	ESource *source;
 	ESourceSelector *selector;
-	EBook *book;
+	EBookClient *book_client;
 	GError *error = NULL;
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
@@ -305,7 +306,7 @@ action_address_book_map_cb (GtkAction *action,
 	source = e_source_selector_get_primary_selection (selector);
 
 	g_return_if_fail (source != NULL);
-	book = e_book_new (source, &error);
+	book_client = e_book_client_new (source, &error);
 	if (error != NULL) {
 		g_warning ("Error loading addressbook: %s", error->message);
 		g_error_free (error);
@@ -313,7 +314,7 @@ action_address_book_map_cb (GtkAction *action,
 	}
 
 	map_window = e_contact_map_window_new ();
-	e_contact_map_window_load_addressbook (map_window, book);
+	e_contact_map_window_load_addressbook (map_window, book_client);
 
 	/* Free the map_window automatically when it is closed */
 	g_signal_connect_swapped (GTK_WIDGET (map_window), "hide",
@@ -323,7 +324,7 @@ action_address_book_map_cb (GtkAction *action,
 
 	gtk_widget_show_all (GTK_WIDGET (map_window));
 
-	g_object_unref (book);
+	g_object_unref (book_client);
 #endif
 }
 
@@ -353,8 +354,8 @@ action_address_book_save_as_cb (GtkAction *action,
 	EAddressbookView *view;
 	EActivity *activity;
 	EBookQuery *query;
-	EBook *book;
-	GList *list = NULL;
+	EBookClient *book;
+	GSList *list = NULL;
 	GFile *file;
 	gchar *string;
 
@@ -368,11 +369,14 @@ action_address_book_save_as_cb (GtkAction *action,
 	g_return_if_fail (view != NULL);
 
 	model = e_addressbook_view_get_model (view);
-	book = e_addressbook_model_get_book (model);
+	book = e_addressbook_model_get_client (model);
 
 	query = e_book_query_any_field_contains ("");
-	e_book_get_contacts (book, query, &list, NULL);
+	string = e_book_query_to_string (query);
 	e_book_query_unref (query);
+
+	e_book_client_get_contacts_sync (book, string, &list, NULL, NULL);
+	g_free (string);
 
 	if (list == NULL)
 		goto exit;
@@ -415,8 +419,7 @@ action_address_book_save_as_cb (GtkAction *action,
 	g_object_unref (file);
 
 exit:
-	g_list_foreach (list, (GFunc) g_object_unref, NULL);
-	g_list_free (list);
+	e_client_util_free_object_slist (list);
 }
 
 static void
@@ -483,7 +486,7 @@ action_contact_forward_cb (GtkAction *action,
 	EShellWindow *shell_window;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
-	GList *list, *iter;
+	GSList *list, *iter;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -510,8 +513,7 @@ action_contact_forward_cb (GtkAction *action,
 
 	eab_send_as_attachment (shell, list);
 
-	g_list_foreach (list, (GFunc) g_object_unref, NULL);
-	g_list_free (list);
+	e_client_util_free_object_slist (list);
 }
 
 static void
@@ -540,7 +542,7 @@ action_contact_new_cb (GtkAction *action,
 	EAddressbookModel *model;
 	EContact *contact;
 	EABEditor *editor;
-	EBook *book;
+	EBookClient *book;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -551,7 +553,7 @@ action_contact_new_cb (GtkAction *action,
 	g_return_if_fail (view != NULL);
 
 	model = e_addressbook_view_get_model (view);
-	book = e_addressbook_model_get_book (model);
+	book = e_addressbook_model_get_client (model);
 	g_return_if_fail (book != NULL);
 
 	contact = e_contact_new ();
@@ -572,7 +574,7 @@ action_contact_new_list_cb (GtkAction *action,
 	EAddressbookModel *model;
 	EContact *contact;
 	EABEditor *editor;
-	EBook *book;
+	EBookClient *book;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -583,7 +585,7 @@ action_contact_new_list_cb (GtkAction *action,
 	g_return_if_fail (view != NULL);
 
 	model = e_addressbook_view_get_model (view);
-	book = e_addressbook_model_get_book (model);
+	book = e_addressbook_model_get_client (model);
 	g_return_if_fail (book != NULL);
 
 	contact = e_contact_new ();
@@ -657,7 +659,7 @@ action_contact_save_as_cb (GtkAction *action,
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	EActivity *activity;
-	GList *list;
+	GSList *list;
 	GFile *file;
 	gchar *string;
 
@@ -712,9 +714,8 @@ action_contact_save_as_cb (GtkAction *action,
 
 	g_object_unref (file);
 
-exit:
-	g_list_foreach (list, (GFunc) g_object_unref, NULL);
-	g_list_free (list);
+ exit:
+	e_client_util_free_object_slist (list);
 }
 
 static void
@@ -726,7 +727,7 @@ action_contact_send_message_cb (GtkAction *action,
 	EShellWindow *shell_window;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
-	GList *list, *iter;
+	GSList *list, *iter;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -753,8 +754,7 @@ action_contact_send_message_cb (GtkAction *action,
 
 	eab_send_as_to (shell, list);
 
-	g_list_foreach (list, (GFunc) g_object_unref, NULL);
-	g_list_free (list);
+	e_client_util_free_object_slist (list);
 }
 
 static void

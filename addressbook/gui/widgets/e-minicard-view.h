@@ -28,7 +28,6 @@
 
 #include <text/e-reflow.h>
 #include <misc/e-selection-model-simple.h>
-#include <libebook/e-book.h>
 #include "e-addressbook-reflow-adapter.h"
 
 G_BEGIN_DECLS
@@ -69,7 +68,7 @@ struct _EMinicardView
 
 	/* item specific fields */
 
-	GList *drag_list;
+	GSList *drag_list;
 
 	guint canvas_drag_data_get_id;
 	guint writable_status_id;
@@ -84,12 +83,9 @@ struct _EMinicardViewClass
 };
 
 GType    e_minicard_view_get_type          (void);
-void     e_minicard_view_remove_selection  (EMinicardView *view,
-					    EBookAsyncCallback  cb,
-					    gpointer       closure);
 void     e_minicard_view_jump_to_letter    (EMinicardView *view,
 					    gunichar       letter);
-GList   *e_minicard_view_get_card_list     (EMinicardView *view);
+GSList  *e_minicard_view_get_card_list     (EMinicardView *view);
 void     e_minicard_view_create_contact    (EMinicardView *view);
 void     e_minicard_view_create_contact_list (EMinicardView *view);
 

@@ -45,11 +45,11 @@ delete_error_dialog (const GError *error, ECalComponentVType vtype)
 	const gchar *str;
 	const gchar *icon_name = NULL;
 
-	if (!error)
+	if (!error || error->domain != E_CLIENT_ERROR)
 		return;
 
 	switch (error->code) {
-	case E_CALENDAR_STATUS_DBUS_EXCEPTION:
+	case E_CLIENT_ERROR_DBUS_ERROR:
 		switch (vtype) {
 		case E_CAL_COMPONENT_EVENT:
 			/* Translators: The '%s' is replaced with a detailed error message */
@@ -69,7 +69,7 @@ delete_error_dialog (const GError *error, ECalComponentVType vtype)
 			break;
 		}
 		break;
-	case E_CALENDAR_STATUS_PERMISSION_DENIED:
+	case E_CLIENT_ERROR_PERMISSION_DENIED:
 		switch (vtype) {
 		case E_CAL_COMPONENT_EVENT:
 			str = _("The event could not be deleted because permission was denied");
@@ -85,7 +85,7 @@ delete_error_dialog (const GError *error, ECalComponentVType vtype)
 			break;
 		}
 		break;
-	case E_CALENDAR_STATUS_OTHER_ERROR:
+	case E_CLIENT_ERROR_OTHER_ERROR:
 		switch (vtype) {
 		case E_CAL_COMPONENT_EVENT:
 			/* Translators: The '%s' is replaced with a detailed error message */
@@ -105,8 +105,6 @@ delete_error_dialog (const GError *error, ECalComponentVType vtype)
 			break;
 		}
 		break;
-	case E_CALENDAR_STATUS_OK:
-	case E_CALENDAR_STATUS_OBJECT_NOT_FOUND:
 	default:
 		/* If not found, we don't care - its gone anyhow */
 		return;

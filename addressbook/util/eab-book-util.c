@@ -25,143 +25,9 @@
 #include <config.h>
 #endif
 
-#include "eab-book-util.h"
-
 #include <string.h>
 
-/*
- *
- * Specialized Queries
- *
- */
-
-static gchar *
-escape (const gchar *str)
-{
-	GString *s = g_string_new (NULL);
-	const gchar *p = str;
-
-	while (*p) {
-		if (*p == '\\')
-			g_string_append_len (s, "\\\\", 2);
-		else if (*p == '"')
-			g_string_append_len (s, "\\\"", 2);
-		else
-			g_string_append_c (s, *p);
-
-		p++;
-	}
-
-	return g_string_free (s, FALSE);
-}
-
-guint
-eab_name_and_email_query (EBook                  *book,
-			  const gchar            *name,
-			  const gchar            *email,
-			  EBookListAsyncCallback  cb,
-			  gpointer                closure)
-{
-	gchar *email_query=NULL, *name_query=NULL;
-	EBookQuery *query;
-	guint tag;
-	gchar *escaped_name, *escaped_email;
-
-	g_return_val_if_fail (book && E_IS_BOOK (book), 0);
-	g_return_val_if_fail (cb != NULL, 0);
-
-	if (name && !*name)
-		name = NULL;
-	if (email && !*email)
-		email = NULL;
-
-	if (name == NULL && email == NULL)
-		return 0;
-
-	escaped_name = name ? escape (name) : NULL;
-	escaped_email = email ? escape (email) : NULL;
-
-	/* Build our e-mail query.
-	 * We only query against the username part of the address, to avoid not matching
-	 * fred@foo.com and fred@mail.foo.com.  While their may be namespace collisions
-	 * in the usernames of everyone out there, it shouldn't be that bad.  (Famous last words.)
-	 * But if name is missing we query against complete email id to avoid matching emails like
-	 * users@foo.org with users@bar.org
-	 */
-	if (escaped_email) {
-		const gchar *t = escaped_email;
-		while (*t && *t != '@')
-			++t;
-		if (*t == '@' && escaped_name) {
-			email_query = g_strdup_printf ("(beginswith \"email\" \"%.*s@\")", (gint)(t-escaped_email), escaped_email);
-
-		} else {
-			email_query = g_strdup_printf ("(beginswith \"email\" \"%s\")", escaped_email);
-		}
-	}
-
-	/* Build our name query.*/
-
-	if (escaped_name)
-		name_query = g_strdup_printf ("(or (beginswith \"file_as\" \"%s\") (beginswith \"full_name\" \"%s\"))", escaped_name, escaped_name);
-
-	/* Assemble our e-mail & name queries */
-	if (email_query && name_query) {
-		gchar *full_query = g_strdup_printf ("(and %s %s)", email_query, name_query);
-		query = e_book_query_from_string (full_query);
-		g_free (full_query);
-	}
-	else if (email_query) {
-		query = e_book_query_from_string (email_query);
-	}
-	else if (name_query) {
-		query = e_book_query_from_string (name_query);
-	}
-	else
-		return 0;
-
-	tag = e_book_get_contacts_async (book, query, cb, closure);
-
-	g_free (email_query);
-	g_free (name_query);
-	g_free (escaped_email);
-	g_free (escaped_name);
-	e_book_query_unref (query);
-
-	return tag;
-}
-
-/*
- * Simple nickname query
- */
-guint
-eab_nickname_query (EBook                  *book,
-		    const gchar            *nickname,
-		    EBookListAsyncCallback  cb,
-		    gpointer                closure)
-{
-	EBookQuery *query;
-	gchar *query_string;
-	guint retval;
-
-	g_return_val_if_fail (E_IS_BOOK (book), 0);
-	g_return_val_if_fail (nickname != NULL, 0);
-
-	/* The empty-string case shouldn't generate a warning. */
-	if (!*nickname)
-		return 0;
-
-	query_string = g_strdup_printf ("(is \"nickname\" \"%s\")", nickname);
-
-	query = e_book_query_from_string (query_string);
-
-	retval = e_book_get_contacts_async (book, query, cb, closure);
-
-	g_free (query_string);
-	e_book_query_unref (query);
-
-	return retval;
-}
+#include "eab-book-util.h"
 
 /* Copied from camel_strstrcase */
 static gchar *
@@ -188,10 +54,10 @@ eab_strstrcase (const gchar *haystack, const gchar *needle)
 	return NULL;
 }
 
-GList*
+GSList *
 eab_contact_list_from_string (const gchar *str)
 {
-	GList *contacts = NULL;
+	GSList *contacts = NULL;
 	GString *gstr = g_string_new (NULL);
 	gchar *str_stripped;
 	gchar *p = (gchar *) str;
@@ -249,20 +115,20 @@ eab_contact_list_from_string (const gchar *str)
 			break;
 
 		card_str = g_strndup (p, q - p);
-		contacts = g_list_append (contacts, e_contact_new_from_vcard (card_str));
+		contacts = g_slist_prepend (contacts, e_contact_new_from_vcard (card_str));
 		g_free (card_str);
 	}
 
 	g_free (str_stripped);
 
-	return contacts;
+	return g_slist_reverse (contacts);
 }
 
 gchar *
-eab_contact_list_to_string (GList *contacts)
+eab_contact_list_to_string (const GSList *contacts)
 {
 	GString *str = g_string_new ("");
-	GList *l;
+	const GSList *l;
 
 	for (l = contacts; l; l = l->next) {
 		EContact *contact = l->data;
@@ -277,13 +143,13 @@ eab_contact_list_to_string (GList *contacts)
 }
 
 gboolean
-eab_book_and_contact_list_from_string (const gchar *str, EBook **book, GList **contacts)
+eab_book_and_contact_list_from_string (const gchar *str, EBookClient **book_client, GSList **contacts)
 {
 	const gchar *s0, *s1;
 	gchar *uri;
 
 	g_return_val_if_fail (str != NULL, FALSE);
-	g_return_val_if_fail (book != NULL, FALSE);
+	g_return_val_if_fail (book_client != NULL, FALSE);
 	g_return_val_if_fail (contacts != NULL, FALSE);
 
 	*contacts = eab_contact_list_from_string (str);
@@ -300,19 +166,19 @@ eab_book_and_contact_list_from_string (const gchar *str, EBook **book, GList **c
 	}
 
 	if (!s0 || !s1) {
-		*book = NULL;
+		*book_client = NULL;
 		return FALSE;
 	}
 
 	uri = g_strndup (s0, s1 - s0);
-	*book = e_book_new_from_uri (uri, NULL);
+	*book_client = e_book_client_new_from_uri (uri, NULL);
 	g_free (uri);
 
-	return *book ? TRUE : FALSE;
+	return *book_client ? TRUE : FALSE;
 }
 
 gchar *
-eab_book_and_contact_list_to_string (EBook *book, GList *contacts)
+eab_book_and_contact_list_to_string (EBookClient *book_client, const GSList *contacts)
 {
 	gchar *s0, *s1;
 
@@ -320,78 +186,14 @@ eab_book_and_contact_list_to_string (EBook *book, GList *contacts)
 	if (!s0)
 		s0 = g_strdup ("");
 
-	if (book)
-		s1 = g_strconcat ("Book: ", e_book_get_uri (book), "\r\n", s0, NULL);
+	if (book_client)
+		s1 = g_strconcat ("Book: ", e_client_get_uri (E_CLIENT (book_client)), "\r\n", s0, NULL);
 	else
 		s1 = g_strdup (s0);
 
 	g_free (s0);
 	return s1;
 }
-
-#ifdef notyet
-/*
- *  Convenience routine to check for addresses in the local address book.
- */
-
-typedef struct _HaveAddressInfo HaveAddressInfo;
-struct _HaveAddressInfo {
-	gchar *email;
-	EBookHaveAddressCallback cb;
-	gpointer closure;
-};
-
-static void
-have_address_query_cb (EBook *book, EBookSimpleQueryStatus status, const GList *contacts, gpointer closure)
-{
-	HaveAddressInfo *info = (HaveAddressInfo *) closure;
-
-	info->cb (book,
-		  info->email,
-		  contacts && (status == E_BOOK_ERROR_OK) ? E_CONTACT (contacts->data) : NULL,
-		  info->closure);
-
-	g_free (info->email);
-	g_free (info);
-}
-
-static void
-have_address_book_open_cb (EBook *book, gpointer closure)
-{
-	HaveAddressInfo *info = (HaveAddressInfo *) closure;
-
-	if (book) {
-
-		e_book_name_and_email_query (book, NULL, info->email, have_address_query_cb, info);
-
-	} else {
-
-		info->cb (NULL, info->email, NULL, info->closure);
-
-		g_free (info->email);
-		g_free (info);
-
-	}
-}
-
-void
-eab_query_address_default (const gchar *email,
-			   EABHaveAddressCallback cb,
-			   gpointer closure)
-{
-	HaveAddressInfo *info;
-
-	g_return_if_fail (email != NULL);
-	g_return_if_fail (cb != NULL);
-
-	info = g_new0 (HaveAddressInfo, 1);
-	info->email = g_strdup (email);
-	info->cb = cb;
-	info->closure = closure;
-
-	e_book_use_default_book (have_address_book_open_cb, info);
-}
-#endif
 
 /* bad place for this i know. */
 gint

@@ -27,7 +27,7 @@
 
 #include <gtk/gtk.h>
 #include <libecal/e-cal-component.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <e-util/e-util-enums.h>
 
 struct _EShell;
@@ -38,41 +38,41 @@ void cal_comp_util_add_exdate (ECalComponent *comp, time_t t, icaltimezone *zone
    and DTEND, or if the UTC offsets of the start and end times are the same
    as in the given zone. */
 gboolean cal_comp_util_compare_event_timezones (ECalComponent *comp,
-						ECal *client,
+						ECalClient *client,
 						icaltimezone *zone);
 
 /* Returns the number of icons owned by the ECalComponent */
 gint     cal_comp_util_get_n_icons (ECalComponent *comp, GSList **pixbufs);
 
 gboolean cal_comp_is_on_server (ECalComponent *comp,
-				ECal *client);
-gboolean is_icalcomp_on_the_server (icalcomponent *icalcomp, ECal *client);
+				ECalClient *client);
+gboolean is_icalcomp_on_the_server (icalcomponent *icalcomp, ECalClient *client);
 
 ECalComponent *	cal_comp_event_new_with_defaults
-						(ECal *client,
+						(ECalClient *client,
 						 gboolean all_day,
 						 gboolean use_default_reminder,
 						 gint default_reminder_interval,
 						 EDurationType default_reminder_units);
 ECalComponent *	cal_comp_event_new_with_current_time
-						(ECal *client,
+						(ECalClient *client,
 						 gboolean all_day,
 						 icaltimezone *zone,
 						 gboolean use_default_reminder,
 						 gint default_reminder_interval,
 						 EDurationType default_reminder_units);
-ECalComponent *cal_comp_task_new_with_defaults (ECal *client);
-ECalComponent *cal_comp_memo_new_with_defaults (ECal *client);
+ECalComponent *cal_comp_task_new_with_defaults (ECalClient *client);
+ECalComponent *cal_comp_memo_new_with_defaults (ECalClient *client);
 
 void cal_comp_update_time_by_active_window (ECalComponent *comp, struct _EShell *shell);
 
 void    cal_comp_selection_set_string_list (GtkSelectionData *data, GSList *str_list);
 GSList *cal_comp_selection_get_string_list (GtkSelectionData *data);
 
-void cal_comp_set_dtstart_with_oldzone (ECal *client, ECalComponent *comp, const ECalComponentDateTime *pdate);
-void cal_comp_set_dtend_with_oldzone (ECal *client, ECalComponent *comp, const ECalComponentDateTime *pdate);
+void cal_comp_set_dtstart_with_oldzone (ECalClient *client, ECalComponent *comp, const ECalComponentDateTime *pdate);
+void cal_comp_set_dtend_with_oldzone (ECalClient *client, ECalComponent *comp, const ECalComponentDateTime *pdate);
 
-void comp_util_sanitize_recurrence_master (ECalComponent *comp, ECal *client);
+void comp_util_sanitize_recurrence_master (ECalComponent *comp, ECalClient *client);
 
 gchar *icalcomp_suggest_filename (icalcomponent *icalcomp, const gchar *default_name);
 

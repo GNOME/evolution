@@ -27,7 +27,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 
 #include "evolution-addressbook-export.h"
 

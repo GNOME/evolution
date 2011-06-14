@@ -165,16 +165,16 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 		const gchar *file_name = NULL;
 
 		switch (t->source_type) {
-		case E_CAL_SOURCE_TYPE_EVENT:
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 			file_name = "calendar.ics";
 			break;
-		case E_CAL_SOURCE_TYPE_TODO:
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			file_name = "tasks.ics";
 			break;
-		case E_CAL_SOURCE_TYPE_JOURNAL:
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			file_name = "journal.ics";
 			break;
-		case E_CAL_SOURCE_TYPE_LAST:
+		case E_CAL_CLIENT_SOURCE_TYPE_LAST:
 			break;
 		}
 

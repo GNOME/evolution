@@ -26,11 +26,11 @@
 #define RECUR_COMP_H
 
 #include <gtk/gtk.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-util.h>
 
-gboolean recur_component_dialog (ECal *client,
+gboolean recur_component_dialog (ECalClient *client,
 				 ECalComponent *comp,
 				 CalObjModType *mod,
 				 GtkWindow *parent,

@@ -22,7 +22,7 @@
 #ifndef E_CAL_SHELL_SIDEBAR_H
 #define E_CAL_SHELL_SIDEBAR_H
 
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include <libedataserverui/e-source-selector.h>
 
 #include <shell/e-shell-sidebar.h>
@@ -71,9 +71,9 @@ struct _ECalShellSidebarClass {
 
 	/* Signals */
 	void	(*client_added)			(ECalShellSidebar *cal_shell_sidebar,
-						 ECal *client);
+						 ECalClient *client);
 	void	(*client_removed)		(ECalShellSidebar *cal_shell_sidebar,
-						 ECal *client);
+						 ECalClient *client);
 	void	(*status_message)		(ECalShellSidebar *cal_shell_sidebar,
 						 const gchar *status_message);
 };
@@ -86,7 +86,7 @@ GList *		e_cal_shell_sidebar_get_clients
 					(ECalShellSidebar *cal_shell_sidebar);
 ECalendar *	e_cal_shell_sidebar_get_date_navigator
 					(ECalShellSidebar *cal_shell_sidebar);
-ECal *		e_cal_shell_sidebar_get_default_client
+ECalClient *	e_cal_shell_sidebar_get_default_client
 					(ECalShellSidebar *cal_shell_sidebar);
 ESourceSelector *
 		e_cal_shell_sidebar_get_selector

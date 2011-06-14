@@ -66,14 +66,14 @@ is_past_event (ECalComponent *comp)
  **/
 gboolean
 cancel_component_dialog (GtkWindow *parent,
-                         ECal *client,
+                         ECalClient *cal_client,
                          ECalComponent *comp,
                          gboolean deleting)
 {
 	ECalComponentVType vtype;
 	const gchar *id;
 
-	if (deleting && e_cal_get_save_schedules (client))
+	if (deleting && e_cal_client_check_save_schedules (cal_client))
 		return TRUE;
 
 	vtype = e_cal_component_get_vtype (comp);

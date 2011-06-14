@@ -148,7 +148,7 @@ task_editor_constructor (GType type,
 	CompEditorFlags flags;
 	TaskEditorPrivate *priv;
 	GtkActionGroup *action_group;
-	ECal *client;
+	ECalClient *client;
 	gboolean is_assigned;
 
 	/* Chain up to parent's constructor() method. */
@@ -168,8 +168,7 @@ task_editor_constructor (GType type,
 	gtk_action_group_set_visible (action_group, is_assigned);
 
 	if (is_assigned) {
-		if (e_cal_get_static_capability (
-			client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
+		if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
 			task_page_show_options (priv->task_page);
 		comp_editor_set_group_item (editor, TRUE);
 	}
@@ -380,7 +379,7 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 {
 	TaskEditorPrivate *priv;
 	ECalComponentOrganizer organizer;
-	ECal *client;
+	ECalClient *client;
 	GSList *attendees = NULL;
 
 	priv = TASK_EDITOR_GET_PRIVATE (editor);
@@ -429,7 +428,7 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 
 			if (ia != NULL)
 				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
-		} else if (e_cal_get_organizer_must_attend (client)) {
+		} else if (e_cal_client_check_organizer_must_attend (client)) {
 			EMeetingAttendee *ia;
 
 			ia = e_meeting_store_find_attendee (priv->model, organizer.value, &row);
@@ -466,7 +465,7 @@ task_editor_send_comp (CompEditor *editor,
 
 	comp = task_page_get_cancel_comp (priv->task_page);
 	if (comp != NULL) {
-		ECal *client;
+		ECalClient *client;
 		gboolean result;
 
 		client = e_meeting_store_get_client (priv->model);
@@ -488,7 +487,7 @@ task_editor_send_comp (CompEditor *editor,
 
 /**
  * task_editor_new:
- * @client: a ECal
+ * @client: a ECalClient
  *
  * Creates a new event editor dialog.
  *
@@ -496,11 +495,11 @@ task_editor_send_comp (CompEditor *editor,
  * editor could not be created.
  **/
 CompEditor *
-task_editor_new (ECal *client,
+task_editor_new (ECalClient *client,
                  EShell *shell,
                  CompEditorFlags flags)
 {
-	g_return_val_if_fail (E_IS_CAL (client), NULL);
+	g_return_val_if_fail (E_IS_CAL_CLIENT (client), NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return g_object_new (

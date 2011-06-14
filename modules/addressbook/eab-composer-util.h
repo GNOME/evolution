@@ -24,9 +24,9 @@
 G_BEGIN_DECLS
 
 void		eab_send_as_to			(EShell *shell,
-						 GList *destinations);
+						 GSList *destinations);
 void		eab_send_as_attachment		(EShell *shell,
-						 GList *destinations);
+						 GSList *destinations);
 
 G_END_DECLS
 

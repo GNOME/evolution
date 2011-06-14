@@ -27,7 +27,8 @@
 
 #include <ctype.h>
 #include <string.h>
-#include <libedataserverui/e-book-auth-util.h>
+#include <libebook/e-book-query.h>
+#include <libedataserverui/e-client-utils.h>
 #include "addressbook/util/eab-book-util.h"
 #include "eab-contact-compare.h"
 
@@ -572,24 +573,31 @@ match_search_info_free (MatchSearchInfo *info)
 }
 
 static void
-query_cb (EBook *book, const GError *error, GList *contacts, gpointer closure)
+query_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	/* XXX we need to free contacts */
-	MatchSearchInfo *info = (MatchSearchInfo *) closure;
+	MatchSearchInfo *info = (MatchSearchInfo *) user_data;
 	EABContactMatchType best_match = EAB_CONTACT_MATCH_NONE;
 	EContact *best_contact = NULL;
-	GList *remaining_contacts = NULL;
-	const GList *i;
+	EBookClient *book_client = E_BOOK_CLIENT (source_object);
+	GSList *remaining_contacts = NULL;
+	GSList *contacts = NULL;
+	GError *error = NULL;
+	const GSList *ii;
 
-	if (error) {
+	if (result && !e_book_client_get_contacts_finish (book_client, result, &contacts, &error)) {
+		g_debug ("%s: Failed to get contacts: %s\n", G_STRFUNC, error ? error->message : "Unknown error");
+		if (error)
+			g_error_free (error);
+
 		info->cb (info->contact, NULL, EAB_CONTACT_MATCH_NONE, info->closure);
 		match_search_info_free (info);
+		g_object_unref (book_client);
 		return;
 	}
 
 	/* remove the contacts we're to avoid from the list, if they're present */
-	for (i = contacts; i != NULL; i = g_list_next (i)) {
-		EContact *this_contact = E_CONTACT (i->data);
+	for (ii = contacts; ii != NULL; ii = g_slist_next (ii)) {
+		EContact *this_contact = E_CONTACT (ii->data);
 		const gchar *this_uid;
 		GList *iterator;
 		gboolean avoid = FALSE;
@@ -611,30 +619,36 @@ query_cb (EBook *book, const GError *error, GList *contacts, gpointer closure)
 			}
 		}
 		if (!avoid)
-			remaining_contacts = g_list_prepend (remaining_contacts, this_contact);
+			remaining_contacts = g_slist_prepend (remaining_contacts, g_object_ref (this_contact));
 	}
 
-	remaining_contacts = g_list_reverse (remaining_contacts);
+	remaining_contacts = g_slist_reverse (remaining_contacts);
 
-	for (i = remaining_contacts; i != NULL; i = g_list_next (i)) {
-		EContact *this_contact = E_CONTACT (i->data);
+	for (ii = remaining_contacts; ii != NULL; ii = g_slist_next (ii)) {
+		EContact *this_contact = E_CONTACT (ii->data);
 		EABContactMatchType this_match = eab_contact_compare (info->contact, this_contact);
 		if ((gint) this_match > (gint) best_match) {
 			best_match = this_match;
-			best_contact  = this_contact;
+			best_contact = this_contact;
 		}
 	}
 
-	g_list_free (remaining_contacts);
+	if (best_contact)
+		best_contact = g_object_ref (best_contact);
+
+	e_client_util_free_object_slist (contacts);
+	e_client_util_free_object_slist (remaining_contacts);
 
 	info->cb (info->contact, best_contact, best_match, info->closure);
 	match_search_info_free (info);
+	g_object_unref (book_client);
+	g_object_unref (best_contact);
 }
 
 #define MAX_QUERY_PARTS 10
 static void
-use_common_book (EBook *book,
-                 MatchSearchInfo *info)
+use_common_book_client (EBookClient *book_client,
+			MatchSearchInfo *info)
 {
 	EContact *contact = info->contact;
 	EContactName *contact_name;
@@ -645,7 +659,7 @@ use_common_book (EBook *book,
 	EBookQuery *query = NULL;
 	gint i;
 
-	if (book == NULL) {
+	if (book_client == NULL) {
 		info->cb (info->contact, NULL, EAB_CONTACT_MATCH_NONE, info->closure);
 		match_search_info_free (info);
 		return;
@@ -713,10 +727,14 @@ use_common_book (EBook *book,
 		query = NULL;
 	}
 
-	if (query)
-		e_book_get_contacts_async (book, query, query_cb, info);
-	else
-		query_cb (book, NULL, NULL, info);
+	if (query) {
+		gchar *query_str = e_book_query_to_string (query);
+
+		e_book_client_get_contacts (book_client, query_str, NULL, query_cb, info);
+
+		g_free (query_str);
+	} else
+		query_cb (G_OBJECT (book_client), NULL, info);
 
 	g_free (qj);
 	if (query)
@@ -724,14 +742,18 @@ use_common_book (EBook *book,
 }
 
 static void
-book_loaded_cb (ESource *source,
+book_loaded_cb (GObject *source_object,
                 GAsyncResult *result,
-                MatchSearchInfo *info)
+                gpointer user_data)
 {
-	EBook *book;
+	ESource *source = E_SOURCE (source_object);
+	MatchSearchInfo *info = user_data;
+	EClient *client = NULL;
 
-	book = e_load_book_source_finish (source, result, NULL);
-	use_common_book (book, info);
+	if (!e_client_utils_open_new_finish (source, result, &client, NULL))
+		client = NULL;
+
+	use_common_book_client (client ? E_BOOK_CLIENT (client): NULL, info);
 }
 
 void
@@ -754,7 +776,7 @@ eab_contact_locate_match (EContact *contact,
  * Look for the best match and return it using the EABContactMatchQueryCallback.
  **/
 void
-eab_contact_locate_match_full (EBook *book,
+eab_contact_locate_match_full (EBookClient *book_client,
                                EContact *contact,
                                GList *avoid,
                                EABContactMatchQueryCallback cb,
@@ -773,18 +795,18 @@ eab_contact_locate_match_full (EBook *book,
 	info->avoid = g_list_copy (avoid);
 	g_list_foreach (info->avoid, (GFunc) g_object_ref, NULL);
 
-	if (book) {
-		use_common_book (book, info);
+	if (book_client) {
+		use_common_book_client (g_object_ref (book_client), info);
 		return;
 	}
 
-	if (!e_book_get_addressbooks (&info->source_list, NULL))
+	if (!e_book_client_get_sources (&info->source_list, NULL))
 		return;
 
 	source = e_source_list_peek_default_source (info->source_list);
 
-	e_load_book_source_async (
-		source, NULL, NULL, (GAsyncReadyCallback)
+	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+		e_client_utils_authenticate_handler, NULL,
 		book_loaded_cb, info);
 }
 

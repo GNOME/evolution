@@ -63,7 +63,7 @@ static gpointer parent_class;
 /* The arguments we take */
 enum {
 	PROP_0,
-	PROP_BOOK,
+	PROP_CLIENT,
 	PROP_QUERY,
 	PROP_EDITABLE,
 	PROP_COLUMN_WIDTH
@@ -132,11 +132,11 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)
 	class->column_width_changed = NULL;
 	class->right_click = NULL;
 
-	g_object_class_install_property (object_class, PROP_BOOK,
-					 g_param_spec_object ("book",
-							      "Book",
+	g_object_class_install_property (object_class, PROP_CLIENT,
+					 g_param_spec_object ("client",
+							      "EBookClient",
 							      NULL,
-							      E_TYPE_BOOK,
+							      E_TYPE_BOOK_CLIENT,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_QUERY,
@@ -211,7 +211,7 @@ e_minicard_view_widget_init (EMinicardViewWidget *view)
 {
 	view->emv = NULL;
 
-	view->book = NULL;
+	view->book_client = NULL;
 	view->query = NULL;
 	view->editable = FALSE;
 	view->column_width = 225;
@@ -240,18 +240,18 @@ e_minicard_view_widget_set_property (GObject *object,
 	emvw = E_MINICARD_VIEW_WIDGET (object);
 
 	switch (prop_id) {
-	case PROP_BOOK:
-		if (emvw->book)
-			g_object_unref (emvw->book);
+	case PROP_CLIENT:
+		if (emvw->book_client)
+			g_object_unref (emvw->book_client);
 		if (g_value_get_object (value)) {
-			emvw->book = E_BOOK (g_value_get_object (value));
-			if (emvw->book)
-				g_object_ref (emvw->book);
+			emvw->book_client = E_BOOK_CLIENT (g_value_get_object (value));
+			if (emvw->book_client)
+				g_object_ref (emvw->book_client);
 		} else
-			emvw->book = NULL;
+			emvw->book_client = NULL;
 		if (emvw->emv)
 			g_object_set (emvw->emv,
-				     "book", emvw->book,
+				     "client", emvw->book_client,
 				       NULL);
 		break;
 	case PROP_QUERY:
@@ -293,8 +293,8 @@ e_minicard_view_widget_get_property (GObject *object,
 	emvw = E_MINICARD_VIEW_WIDGET (object);
 
 	switch (prop_id) {
-	case PROP_BOOK:
-		g_value_set_object (value, emvw->book);
+	case PROP_CLIENT:
+		g_value_set_object (value, emvw->book_client);
 		break;
 	case PROP_QUERY:
 		g_value_set_string (value, emvw->query);
@@ -316,9 +316,9 @@ e_minicard_view_widget_dispose (GObject *object)
 {
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET (object);
 
-	if (view->book) {
-		g_object_unref (view->book);
-		view->book = NULL;
+	if (view->book_client) {
+		g_object_unref (view->book_client);
+		view->book_client = NULL;
 	}
 	if (view->query) {
 		g_free (view->query);

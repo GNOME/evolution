@@ -28,7 +28,7 @@
 
 #include <e-util/e-util-enums.h>
 #include <table/e-table-model.h>
-#include <libecal/e-cal.h>
+#include <libecal/e-cal-client.h>
 #include "e-cell-date-edit-text.h"
 
 /* Standard GObject macros */
@@ -105,7 +105,7 @@ typedef struct _ECalModelComponentPrivate ECalModelComponentPrivate;
 struct _ECalModelComponent {
 	GObject object;
 
-	ECal *client;
+	ECalClient *client;
 	icalcomponent *icalcomp;
 	time_t instance_start;
 	time_t instance_end;
@@ -160,16 +160,10 @@ struct _ECalModelClass {
 	void		(*cal_view_progress)	(ECalModel *model,
 						 const gchar *message,
 						 gint progress,
-						 ECalSourceType type);
-	#ifndef E_CAL_DISABLE_DEPRECATED
-	void		(*cal_view_done)	(ECalModel *model,
-						 ECalendarStatus status,
-						 ECalSourceType type);
-	#endif
+						 ECalClientSourceType type);
 	void		(*cal_view_complete)	(ECalModel *model,
-						 ECalendarStatus status,
-						 const gchar *error_msg,
-						 ECalSourceType type);
+						 const GError *error,
+						 ECalClientSourceType type);
 	void		(*status_message)	(ECalModel *model,
 						 const gchar *message,
 						 gdouble percent);
@@ -246,16 +240,16 @@ gint		e_cal_model_get_work_day_start_minute
 void		e_cal_model_set_work_day_start_minute
 						(ECalModel *model,
 						 gint work_day_start_minute);
-ECal *		e_cal_model_get_default_client	(ECalModel *model);
+ECalClient *	e_cal_model_get_default_client	(ECalModel *model);
 void		e_cal_model_set_default_client	(ECalModel *model,
-						 ECal *client);
+						 ECalClient *client);
 GList *		e_cal_model_get_client_list	(ECalModel *model);
-ECal *		e_cal_model_get_client_for_uri	(ECalModel *model,
+ECalClient *	e_cal_model_get_client_for_uri	(ECalModel *model,
 						 const gchar *uri);
 void		e_cal_model_add_client		(ECalModel *model,
-						 ECal *client);
+						 ECalClient *cal_client);
 void		e_cal_model_remove_client	(ECalModel *model,
-						 ECal *client);
+						 ECalClient *cal_client);
 void		e_cal_model_remove_all_clients	(ECalModel *model);
 void		e_cal_model_get_time_range	(ECalModel *model,
 						 time_t *start,

@@ -28,9 +28,9 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 #include <libebook/e-contact.h>
-#include <libedataserverui/e-book-auth-util.h>
+#include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-combo-box.h>
 #include <addressbook/util/eab-book-util.h>
 #include "e-contact-editor.h"
@@ -121,37 +121,42 @@ quick_add_set_vcard (QuickAdd *qa, const gchar *vcard)
 }
 
 static void
-merge_cb (ESource *source,
-          GAsyncResult *result,
-          QuickAdd *qa)
+merge_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	EBook *book;
+	ESource *source = E_SOURCE (source_object);
+	QuickAdd *qa = user_data;
+	EClient *client = NULL;
 	GError *error = NULL;
 
-	book = e_load_book_source_finish (source, result, &error);
+	if (!e_client_utils_open_new_finish (source, result, &client, &error))
+		client = NULL;
 
 	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
+	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+		g_error_free (error);
 		return;
+	}
 
 	if (!error) {
-		if (e_book_is_writable (book))
-			eab_merging_book_add_contact (book, qa->contact, NULL, NULL);
+		if (!e_client_is_readonly (client))
+			eab_merging_book_add_contact (E_BOOK_CLIENT (client), qa->contact, NULL, NULL);
 		else
 			e_alert_run_dialog_for_args (e_shell_get_active_window (NULL),
 						     "addressbook:error-read-only",
-						     e_source_peek_name (e_book_get_source (book)),
+						     e_source_peek_name (e_client_get_source (client)),
 						     NULL);
 
 		if (qa->cb)
 			qa->cb (qa->contact, qa->closure);
-		g_object_unref (book);
+		g_object_unref (client);
 	} else {
 		/* Something went wrong. */
-		if (book)
-			g_object_unref (book);
+		if (client)
+			g_object_unref (client);
 		if (qa->cb)
 			qa->cb (NULL, qa->closure);
+		g_error_free (error);
 	}
 
 	quick_add_unref (qa);
@@ -167,9 +172,9 @@ quick_add_merge_contact (QuickAdd *qa)
 
 	qa->cancellable = g_cancellable_new ();
 
-	e_load_book_source_async (
-		qa->source, NULL, qa->cancellable,
-		(GAsyncReadyCallback) merge_cb, qa);
+	e_client_utils_open_new (qa->source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, qa->cancellable,
+		e_client_utils_authenticate_handler, NULL,
+		merge_cb, qa);
 }
 
 /* Raise a contact editor with all fields editable,
@@ -177,7 +182,7 @@ quick_add_merge_contact (QuickAdd *qa)
 
 static void
 contact_added_cb (EContactEditor *ce,
-                  EBookStatus status,
+                  const GError *error,
                   EContact *contact,
                   gpointer closure)
 {
@@ -204,7 +209,7 @@ editor_closed_cb (GtkWidget *w, gpointer closure)
 }
 
 static void
-ce_have_contact (EBook *book,
+ce_have_contact (EBookClient *book_client,
                  const GError *error,
                  EContact *contact,
                  gpointer closure)
@@ -212,8 +217,8 @@ ce_have_contact (EBook *book,
 	QuickAdd *qa = (QuickAdd *) closure;
 
 	if (error) {
-		if (book)
-			g_object_unref (book);
+		if (book_client)
+			g_object_unref (book_client);
 		g_warning (
 			"Failed to find contact, status %d (%s).",
 			error->code, error->message);
@@ -231,7 +236,7 @@ ce_have_contact (EBook *book,
 
 		shell = e_shell_get_default ();
 		contact_editor = e_contact_editor_new (
-			shell, book, qa->contact, TRUE, TRUE /* XXX */);
+			shell, book_client, qa->contact, TRUE, TRUE /* XXX */);
 
 		/* Mark it as changed so the Save buttons are
 		 * enabled when we bring up the dialog. */
@@ -256,31 +261,36 @@ ce_have_contact (EBook *book,
 				  G_CALLBACK (editor_closed_cb),
 				  NULL);
 
-		g_object_unref (book);
+		g_object_unref (book_client);
 	}
 }
 
 static void
-ce_have_book (ESource *source,
-              GAsyncResult *result,
-              QuickAdd *qa)
+ce_have_book (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	EBook *book;
+	ESource *source = E_SOURCE (source_object);
+	QuickAdd *qa = user_data;
+	EClient *client = NULL;
 	GError *error = NULL;
 
-	book = e_load_book_source_finish (source, result, &error);
+	if (!e_client_utils_open_new_finish (source, result, &client, &error))
+		client = NULL;
 
 	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
+	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+		g_error_free (error);
 		return;
+	}
 
 	if (error) {
-		if (book)
-			g_object_unref (book);
+		if (client)
+			g_object_unref (client);
 		g_warning ("Couldn't open local address book (%s).", error->message);
 		quick_add_unref (qa);
+		g_error_free (error);
 	} else {
-		eab_merging_book_find_contact (book, qa->contact, ce_have_contact, qa);
+		eab_merging_book_find_contact (E_BOOK_CLIENT (client), qa->contact, ce_have_contact, qa);
 	}
 }
 
@@ -294,9 +304,9 @@ edit_contact (QuickAdd *qa)
 
 	qa->cancellable = g_cancellable_new ();
 
-	e_load_book_source_async (
-		qa->source, NULL, qa->cancellable,
-		(GAsyncReadyCallback) ce_have_book, qa);
+	e_client_utils_open_new (qa->source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, qa->cancellable,
+		e_client_utils_authenticate_handler, NULL,
+		ce_have_book, qa);
 }
 
 #define QUICK_ADD_RESPONSE_EDIT_FULL 2

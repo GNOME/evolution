@@ -34,13 +34,13 @@ task_shell_view_model_row_appended_cb (ETaskShellView *task_shell_view,
                                        ECalModel *model)
 {
 	ETaskShellSidebar *task_shell_sidebar;
-	ECal *client;
+	ECalClient *client;
 	ESource *source;
 
 	/* This is the "Click to Add" handler. */
 
 	client = e_cal_model_get_default_client (model);
-	source = e_cal_get_source (client);
+	source = e_client_get_source (E_CLIENT (client));
 
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
 	e_task_shell_sidebar_add_source (task_shell_sidebar, source);
@@ -81,7 +81,7 @@ task_shell_view_table_popup_event_cb (EShellView *shell_view,
 
 static void
 task_shell_view_selector_client_added_cb (ETaskShellView *task_shell_view,
-                                          ECal *client)
+                                          ECalClient *client)
 {
 	ETaskShellContent *task_shell_content;
 	ETaskTable *task_table;
@@ -97,7 +97,7 @@ task_shell_view_selector_client_added_cb (ETaskShellView *task_shell_view,
 
 static void
 task_shell_view_selector_client_removed_cb (ETaskShellView *task_shell_view,
-                                            ECal *client)
+                                            ECalClient *client)
 {
 	ETaskShellContent *task_shell_content;
 	ETaskTable *task_table;
@@ -472,39 +472,33 @@ e_task_shell_view_delete_completed (ETaskShellView *task_shell_view)
 		task_shell_view, _("Expunging"), -1.0);
 
 	for (iter = list; iter != NULL; iter = iter->next) {
-		ECal *client = E_CAL (iter->data);
-		GList *objects;
-		gboolean read_only = TRUE;
+		ECalClient *client = E_CAL_CLIENT (iter->data);
+		GSList *objects, *obj;
 		GError *error = NULL;
 
-		if (!e_cal_is_read_only (client, &read_only, &error)) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
+		if (e_client_is_readonly (E_CLIENT (client)))
+			continue;
+
+		if (!e_cal_client_get_object_list_sync (client, sexp, &objects, NULL, &error)) {
+			g_debug ("%s: Failed to get object list: %s", G_STRFUNC, error ? error->message : "Unknown error");
+			g_clear_error (&error);
 			continue;
 		}
 
-		if (read_only)
-			continue;
-
-		if (!e_cal_get_object_list (client, sexp, &objects, &error)) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-			continue;
-		}
-
-		while (objects != NULL) {
-			icalcomponent *component = objects->data;
+		for (obj = objects; obj != NULL; obj = obj->next) {
+			icalcomponent *component = obj->data;
 			const gchar *uid;
 
 			uid = icalcomponent_get_uid (component);
-			if (!e_cal_remove_object (client, uid, &error)) {
-				g_warning ("%s", error->message);
+			if (!e_cal_client_remove_object_sync (client, uid, NULL, CALOBJ_MOD_THIS, NULL, &error)) {
+				g_debug ("%s: Failed to remove object: %s", G_STRFUNC, error ? error->message : "Unknown error");
 				g_clear_error (&error);
 			}
 
 			icalcomponent_free (component);
-			objects = g_list_delete_link (objects, objects);
 		}
+
+		e_cal_client_free_icalcomp_slist (objects);
 	}
 
 	e_task_shell_view_set_status_message (task_shell_view, NULL, -1.0);
@@ -603,10 +597,10 @@ e_task_shell_view_update_timezone (ETaskShellView *task_shell_view)
 	clients = e_task_shell_sidebar_get_clients (task_shell_sidebar);
 
 	for (iter = clients; iter != NULL; iter = iter->next) {
-		ECal *client = iter->data;
+		ECalClient *client = iter->data;
 
-		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
-			e_cal_set_default_timezone (client, timezone, NULL);
+		if (e_client_is_opened (E_CLIENT (client)))
+			e_cal_client_set_default_timezone (client, timezone);
 	}
 
 	g_list_free (clients);

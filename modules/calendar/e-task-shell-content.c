@@ -115,7 +115,7 @@ task_shell_content_table_foreach_cb (gint model_row,
 		ESource *source;
 		const gchar *source_uid;
 
-		source = e_cal_get_source (comp_data->client);
+		source = e_client_get_source (E_CLIENT (comp_data->client));
 		source_uid = e_source_peek_uid (source);
 
 		foreach_data->list = g_slist_prepend (
@@ -577,15 +577,15 @@ task_shell_content_check_state (EShellContent *shell_content)
 		const gchar *cap;
 		gboolean read_only;
 
-		e_cal_is_read_only (comp_data->client, &read_only, NULL);
+		read_only = e_client_is_readonly (E_CLIENT (comp_data->client));
 		editable &= !read_only;
 
 		cap = CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT;
-		if (e_cal_get_static_capability (comp_data->client, cap))
+		if (e_client_check_capability (E_CLIENT (comp_data->client), cap))
 			assignable = FALSE;
 
 		cap = CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK;
-		if (e_cal_get_static_capability (comp_data->client, cap))
+		if (e_client_check_capability (E_CLIENT (comp_data->client), cap))
 			assignable = FALSE;
 
 		prop = icalcomponent_get_first_property (

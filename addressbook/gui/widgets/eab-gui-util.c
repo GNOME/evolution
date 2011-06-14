@@ -35,7 +35,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>
-#include <libedataserverui/e-book-auth-util.h>
+#include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-selector.h>
 #include <e-util/e-util.h>
 #include "eab-gui-util.h"
@@ -108,7 +108,7 @@ eab_load_error_dialog (GtkWidget *parent, EAlertSink *alert_sink, ESource *sourc
 
 	uri = e_source_get_uri (source);
 
-	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_OFFLINE_UNAVAILABLE)) {
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_OFFLINE_UNAVAILABLE)) {
 		can_detail_error = FALSE;
 		label_string = _("This address book cannot be opened. This either means this "
                                  "book is not marked for offline usage or not yet downloaded "
@@ -166,7 +166,7 @@ eab_load_error_dialog (GtkWidget *parent, EAlertSink *alert_sink, ESource *sourc
 
 	if (can_detail_error) {
 		/* do not show repository offline message, it's kind of generic error */
-		if (error && !g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_REPOSITORY_OFFLINE)) {
+		if (error && !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_REPOSITORY_OFFLINE)) {
 			label = g_strconcat (label_string, "\n\n", _("Detailed error message:"), " ", error->message, NULL);
 			label_string = label;
 		}
@@ -187,46 +187,50 @@ eab_load_error_dialog (GtkWidget *parent, EAlertSink *alert_sink, ESource *sourc
 }
 
 void
-eab_search_result_dialog      (EAlertSink *alert_sink,
-			       EBookViewStatus status,
-			       const gchar *error_msg)
+eab_search_result_dialog (EAlertSink *alert_sink, const GError *error)
 {
 	gchar *str = NULL;
 
-	switch (status) {
-	case E_BOOK_VIEW_STATUS_OK:
+	if (!error)
 		return;
-	case E_BOOK_VIEW_STATUS_SIZE_LIMIT_EXCEEDED:
-		str = _("More cards matched this query than either the server is \n"
-			"configured to return or Evolution is configured to display.\n"
-			"Please make your search more specific or raise the result limit in\n"
-			"the directory server preferences for this address book.");
-		str = g_strdup (str);
-		break;
-	case E_BOOK_VIEW_STATUS_TIME_LIMIT_EXCEEDED:
-		str = _("The time to execute this query exceeded the server limit or the limit\n"
-			"configured for this address book.  Please make your search\n"
-			"more specific or raise the time limit in the directory server\n"
-			"preferences for this address book.");
-		str = g_strdup (str);
-		break;
-	case E_BOOK_VIEW_ERROR_INVALID_QUERY:
-		/* Translators: %s is replaced with a detailed error message, or an empty string, if not provided */
-		str = _("The backend for this address book was unable to parse this query. %s");
-		str = g_strdup_printf (str, error_msg ? error_msg : "");
-		break;
-	case E_BOOK_VIEW_ERROR_QUERY_REFUSED:
-		/* Translators: %s is replaced with a detailed error message, or an empty string, if not provided */
-		str = _("The backend for this address book refused to perform this query. %s");
-		str = g_strdup_printf (str, error_msg ? error_msg : "");
-		break;
-	case E_BOOK_VIEW_ERROR_OTHER_ERROR:
+
+	if (error->domain == E_CLIENT_ERROR) {
+		switch (error->code) {
+		case E_CLIENT_ERROR_SEARCH_SIZE_LIMIT_EXCEEDED:
+			str = _("More cards matched this query than either the server is \n"
+				"configured to return or Evolution is configured to display.\n"
+				"Please make your search more specific or raise the result limit in\n"
+				"the directory server preferences for this address book.");
+			str = g_strdup (str);
+			break;
+		case E_CLIENT_ERROR_SEARCH_TIME_LIMIT_EXCEEDED:
+			str = _("The time to execute this query exceeded the server limit or the limit\n"
+				"configured for this address book.  Please make your search\n"
+				"more specific or raise the time limit in the directory server\n"
+				"preferences for this address book.");
+			str = g_strdup (str);
+			break;
+		case E_CLIENT_ERROR_INVALID_QUERY:
+			/* Translators: %s is replaced with a detailed error message, or an empty string, if not provided */
+			str = _("The backend for this address book was unable to parse this query. %s");
+			str = g_strdup_printf (str, error->message);
+			break;
+		case E_CLIENT_ERROR_QUERY_REFUSED:
+			/* Translators: %s is replaced with a detailed error message, or an empty string, if not provided */
+			str = _("The backend for this address book refused to perform this query. %s");
+			str = g_strdup_printf (str, error->message);
+			break;
+		case E_CLIENT_ERROR_OTHER_ERROR:
+		default:
+			/* Translators: %s is replaced with a detailed error message, or an empty string, if not provided */
+			str = _("This query did not complete successfully. %s");
+			str = g_strdup_printf (str, error->message);
+			break;
+		}
+	} else {
 		/* Translators: %s is replaced with a detailed error message, or an empty string, if not provided */
 		str = _("This query did not complete successfully. %s");
-		str = g_strdup_printf (str, error_msg ? error_msg : "");
-		break;
-	default:
-		g_return_if_reached ();
+		str = g_strdup_printf (str, error->message);
 	}
 
 	e_alert_submit (alert_sink, "addressbook:search-error", str, NULL);
@@ -284,7 +288,7 @@ eab_select_source (ESource *except_source, const gchar *title, const gchar *mess
 	GtkWidget *scrolled_window;
 	gint response;
 
-	if (!e_book_get_addressbooks (&source_list, NULL))
+	if (!e_book_client_get_sources (&source_list, NULL))
 		return NULL;
 
 	dialog = gtk_dialog_new_with_buttons (_("Select Address Book"), parent,
@@ -331,13 +335,13 @@ eab_select_source (ESource *except_source, const gchar *title, const gchar *mess
 }
 
 gchar *
-eab_suggest_filename (GList *contact_list)
+eab_suggest_filename (const GSList *contact_list)
 {
 	gchar *res = NULL;
 
 	g_return_val_if_fail (contact_list != NULL, NULL);
 
-	if (g_list_length (contact_list) == 1) {
+	if (!contact_list->next) {
 		EContact *contact = E_CONTACT (contact_list->data);
 		gchar *string;
 
@@ -357,36 +361,58 @@ eab_suggest_filename (GList *contact_list)
 
 typedef struct ContactCopyProcess_ ContactCopyProcess;
 
-typedef void (*ContactCopyDone) (ContactCopyProcess *process);
-
 struct ContactCopyProcess_ {
 	gint count;
 	gboolean book_status;
-	GList *contacts;
-	EBook *source;
-	EBook *destination;
-	ContactCopyDone done_cb;
+	GSList *contacts;
+	EBookClient *source;
+	EBookClient *destination;
+	gboolean delete_from_source;
 	EAlertSink *alert_sink;
 };
 
+static void process_unref (ContactCopyProcess *process);
+
 static void
-do_delete (gpointer data, gpointer user_data)
+remove_contact_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	EBook *book = user_data;
+	EBookClient *book_client = E_BOOK_CLIENT (source_object);
+	ContactCopyProcess *process = user_data;
+	GError *error = NULL;
+
+	e_book_client_remove_contact_by_uid_finish (book_client, result, &error);
+
+	if (error) {
+		g_debug ("%s: Remove contact by uid failed: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+
+	process_unref (process);
+}
+
+static void
+do_delete_from_source (gpointer data, gpointer user_data)
+{
+	ContactCopyProcess *process = user_data;
 	EContact *contact = data;
 	const gchar *id;
+	EBookClient *book_client = process->source;
 
 	id = e_contact_get_const (contact, E_CONTACT_UID);
-	e_book_remove_contact (book, id, NULL);
+	g_return_if_fail (id != NULL);
+	g_return_if_fail (book_client != NULL);
+
+	process->count++;
+	e_book_client_remove_contact_by_uid (book_client, id, NULL, remove_contact_ready_cb, process);
 }
 
 static void
 delete_contacts (ContactCopyProcess *process)
 {
 	if (process->book_status == TRUE) {
-		g_list_foreach (process->contacts,
-				do_delete,
-				process->source);
+		g_slist_foreach (process->contacts,
+				do_delete_from_source,
+				process);
 	}
 }
 
@@ -395,12 +421,15 @@ process_unref (ContactCopyProcess *process)
 {
 	process->count--;
 	if (process->count == 0) {
-		if (process->done_cb)
-			process->done_cb (process);
-		g_list_foreach (
-			process->contacts,
-			(GFunc) g_object_unref, NULL);
-		g_list_free (process->contacts);
+		if (process->delete_from_source) {
+			delete_contacts (process);
+			/* to not repeate this again */
+			process->delete_from_source = FALSE;
+
+			if (process->count > 0)
+				return;
+		}
+		e_client_util_free_object_slist (process->contacts);
 		g_object_unref (process->source);
 		g_object_unref (process->destination);
 		g_free (process);
@@ -408,58 +437,62 @@ process_unref (ContactCopyProcess *process)
 }
 
 static void
-contact_added_cb (EBook* book, const GError *error, const gchar *id, gpointer user_data)
+contact_added_cb (EBookClient *book_client, const GError *error, const gchar *id, gpointer user_data)
 {
 	ContactCopyProcess *process = user_data;
 
-	if (error && !g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED)) {
+	if (error && !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
 		process->book_status = FALSE;
 		eab_error_dialog (process->alert_sink, _("Error adding contact"), error);
 	}
-	else if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED)) {
+	else if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
 		process->book_status = FALSE;
 	}
 	else {
 		/* success */
 		process->book_status = TRUE;
 	}
+
 	process_unref (process);
 }
 
 static void
 do_copy (gpointer data, gpointer user_data)
 {
-	EBook *book;
+	EBookClient *book_client;
 	EContact *contact;
 	ContactCopyProcess *process;
 
 	process = user_data;
 	contact = data;
 
-	book = process->destination;
+	book_client = process->destination;
 
 	process->count++;
-	eab_merging_book_add_contact (book, contact, contact_added_cb, process);
+	eab_merging_book_add_contact (book_client, contact, contact_added_cb, process);
 }
 
 static void
-book_loaded_cb (ESource *destination,
-                GAsyncResult *result,
-                ContactCopyProcess *process)
+book_loaded_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	EBook *book;
+	ESource *destination = E_SOURCE (source_object);
+	ContactCopyProcess *process = user_data;
+	EClient *client = NULL;
+	EBookClient *book_client;
 	GError *error = NULL;
 
-	book = e_load_book_source_finish (destination, result, &error);
+	if (!e_client_utils_open_new_finish (destination, result, &client, &error))
+		client = NULL;
 
-	if (book != NULL) {
+	book_client = client ? E_BOOK_CLIENT (client) : NULL;
+
+	if (book_client != NULL) {
 		g_warn_if_fail (error == NULL);
-		process->destination = book;
+		process->destination = book_client;
 		process->book_status = TRUE;
-		g_list_foreach (process->contacts, do_copy, process);
-
+		g_slist_foreach (process->contacts, do_copy, process);
 	} else if (error != NULL) {
-		g_warning ("%s", error->message);
+		g_debug ("%s: Failed to open destination client: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 	}
 
@@ -467,8 +500,8 @@ book_loaded_cb (ESource *destination,
 }
 
 void
-eab_transfer_contacts (EBook *source_book,
-                       GList *contacts /* adopted */,
+eab_transfer_contacts (EBookClient *source_client,
+                       GSList *contacts /* adopted */,
                        gboolean delete_from_source,
                        EAlertSink *alert_sink)
 {
@@ -478,7 +511,7 @@ eab_transfer_contacts (EBook *source_book,
 	gchar *desc;
 	GtkWindow *window = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (alert_sink)));
 
-	g_return_if_fail (E_IS_BOOK (source_book));
+	g_return_if_fail (E_IS_BOOK_CLIENT (source_client));
 
 	if (contacts == NULL)
 		return;
@@ -499,7 +532,7 @@ eab_transfer_contacts (EBook *source_book,
 	}
 
 	destination = eab_select_source (
-		e_book_get_source (source_book),
+		e_client_get_source (E_CLIENT (source_client)),
 		desc, NULL, last_uid, window);
 
 	if (!destination)
@@ -513,19 +546,16 @@ eab_transfer_contacts (EBook *source_book,
 	process = g_new (ContactCopyProcess, 1);
 	process->count = 1;
 	process->book_status = FALSE;
-	process->source = g_object_ref (source_book);
+	process->source = g_object_ref (source_client);
 	process->contacts = contacts;
 	process->destination = NULL;
 	process->alert_sink = alert_sink;
+	process->delete_from_source = delete_from_source;
 
-	if (delete_from_source)
-		process->done_cb = delete_contacts;
-	else
-		process->done_cb = NULL;
-
-	e_load_book_source_async (
-		destination, window, NULL,
-		(GAsyncReadyCallback) book_loaded_cb, process);
+	e_client_utils_open_new (
+		destination, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+		e_client_utils_authenticate_handler, window,
+		book_loaded_cb, process);
 }
 
 /* To parse something like...

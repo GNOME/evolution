@@ -235,9 +235,6 @@ struct _EDayView {
 	/* label showing week number in upper-left corner */
 	GtkWidget *week_number_label;
 
-	/* S-expression for query and the query object */
-	ECalView *query;
-
 	/* The start and end of the days shown. */
 	time_t lower;
 	time_t upper;

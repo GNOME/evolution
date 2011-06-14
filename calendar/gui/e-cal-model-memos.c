@@ -140,6 +140,7 @@ ecmm_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 {
 	ECalModelComponent *comp_data;
 	ECalModelMemos *model = (ECalModelMemos *) etm;
+	GError *error = NULL;
 
 	g_return_if_fail (E_IS_CAL_MODEL_MEMOS (model));
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST);
@@ -157,10 +158,12 @@ ecmm_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 	}
 
 	/* TODO ask about mod type */
-	if (!e_cal_modify_object (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) {
-		g_warning (G_STRLOC ": Could not modify the object!");
+	if (!e_cal_client_modify_object_sync (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL, &error)) {
+		g_warning (G_STRLOC ": Could not modify the object! %s", error ? error->message : "Unknown error");
 
 		/* TODO Show error dialog */
+		if (error)
+			g_error_free (error);
 	}
 }
 

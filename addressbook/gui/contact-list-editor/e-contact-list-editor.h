@@ -27,7 +27,7 @@
 
 #include "addressbook/gui/contact-editor/eab-editor.h"
 
-#include <libebook/e-book.h>
+#include <libebook/e-book-client.h>
 #include <libebook/e-contact.h>
 #include <libebook/e-destination.h>
 
@@ -68,13 +68,13 @@ struct _EContactListEditorClass
 
 GType		e_contact_list_editor_get_type	(void);
 EABEditor *	e_contact_list_editor_new	(EShell *shell,
-						 EBook *book,
+						 EBookClient *book_client,
 						 EContact *list_contact,
 						 gboolean is_new_list,
 						 gboolean editable);
-EBook *		e_contact_list_editor_get_book	(EContactListEditor *editor);
-void		e_contact_list_editor_set_book	(EContactListEditor *editor,
-						 EBook *book);
+EBookClient *	e_contact_list_editor_get_client(EContactListEditor *editor);
+void		e_contact_list_editor_set_client(EContactListEditor *editor,
+						 EBookClient *book_client);
 EContact *	e_contact_list_editor_get_contact
 						(EContactListEditor *editor);
 void		e_contact_list_editor_set_contact

@@ -34,11 +34,11 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <libedataserverui/e-category-completion.h>
+#include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-combo-box.h>
 #include <misc/e-dateedit.h>
 #include "misc/e-buffer-tagger.h"
 #include <e-util/e-dialog-utils.h>
-#include "common/authentication.h"
 #include "../e-timezone-entry.h"
 #include "comp-editor.h"
 #include "comp-editor-util.h"
@@ -111,7 +111,7 @@ struct _TaskPagePrivate {
 	GtkWidget *attendees_label;
 
 	/* ListView stuff */
-	ECal *client;
+	ECalClient *client;
 	EMeetingStore *meeting_store;
 	EMeetingListView *list_view;
 	gint row;
@@ -264,7 +264,7 @@ sensitize_widgets (TaskPage *tpage)
 	TaskPagePrivate *priv = tpage->priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
-	ECal *client;
+	ECalClient *client;
 	GtkActionGroup *action_group;
 	GtkAction *action;
 	gboolean read_only, sens = TRUE, sensitize;
@@ -273,8 +273,7 @@ sensitize_widgets (TaskPage *tpage)
 	client = comp_editor_get_client (editor);
 	flags = comp_editor_get_flags (editor);
 
-	if (!e_cal_is_read_only (client, &read_only, NULL))
-		read_only = TRUE;
+	read_only = e_client_is_readonly (E_CLIENT (client));
 
 	if (flags & COMP_EDITOR_IS_ASSIGNED)
 		sens = flags & COMP_EDITOR_USER_ORG;
@@ -473,7 +472,7 @@ task_page_fill_widgets (CompEditorPage *page,
 	CompEditor *editor;
 	CompEditorFlags flags;
 	GtkAction *action;
-	ECal *client;
+	ECalClient *client;
 	GSList *l;
 	icalcomponent *icalcomp;
 	const gchar *categories, *uid;
@@ -555,10 +554,13 @@ task_page_fill_widgets (CompEditorPage *page,
 	   on the server, so we try to get the builtin timezone with the TZID
 	   first. */
 	if (!zone && d.tzid) {
-		if (!e_cal_get_timezone (client, d.tzid, &zone, NULL))
+		GError *error = NULL;
+		if (!e_cal_client_get_timezone_sync (client, d.tzid, &zone, NULL, &error))
 			/* FIXME: Handle error better. */
-			g_warning ("Couldn't get timezone from server: %s",
-				   d.tzid ? d.tzid : "");
+			g_warning ("Couldn't get timezone '%s' from server: %s",
+				   d.tzid ? d.tzid : "", error ? error->message : "Unknown error");
+			if (error)
+				g_error_free (error);
 	}
 
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->timezone),
@@ -611,7 +613,7 @@ task_page_fill_widgets (CompEditorPage *page,
 	comp_editor_set_classification (editor, cl);
 
 	e_cal_component_get_uid (comp, &uid);
-	if (e_cal_get_object (client, uid, NULL, &icalcomp, NULL)) {
+	if (e_cal_client_get_object_sync (client, uid, NULL, &icalcomp, NULL, NULL)) {
 		icalcomponent_free (icalcomp);
 		task_page_hide_options (tpage);
 	}
@@ -623,9 +625,9 @@ task_page_fill_widgets (CompEditorPage *page,
 	/* Source */
 	e_source_combo_box_set_active (
 		E_SOURCE_COMBO_BOX (priv->source_selector),
-		e_cal_get_source (client));
+		e_client_get_source (E_CLIENT (client)));
 
-	e_cal_get_cal_address (client, &backend_addr, NULL);
+	e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
 	set_subscriber_info_string (tpage, backend_addr);
 
 	if (priv->is_assignment) {
@@ -646,14 +648,10 @@ task_page_fill_widgets (CompEditorPage *page,
 				gchar *string;
 
 				if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) {
-					if (e_cal_get_static_capability (
-								client,
-								CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
+					if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 						priv->user_org = TRUE;
 				} else {
-					if (e_cal_get_static_capability (
-								client,
-								CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
+					if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 						gtk_widget_set_sensitive (priv->invite, FALSE);
 					gtk_widget_set_sensitive (priv->add, FALSE);
 					gtk_widget_set_sensitive (priv->edit, FALSE);
@@ -661,7 +659,7 @@ task_page_fill_widgets (CompEditorPage *page,
 					priv->user_org = FALSE;
 				}
 
-				if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER) && (flags & COMP_EDITOR_DELEGATE))
+				if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_ORGANIZER) && (flags & COMP_EDITOR_DELEGATE))
 					string = g_strdup (priv->user_add);
 				else if ( organizer.cn != NULL)
 					string = g_strdup_printf ("%s <%s>", organizer.cn, strip);
@@ -714,7 +712,7 @@ task_page_fill_widgets (CompEditorPage *page,
 				backend_mailto = mailto = NULL;
 			}
 
-			if (client && e_cal_get_organizer_must_accept (client))
+			if (client && e_cal_client_check_organizer_must_accept (client))
 				e_meeting_attendee_set_status (
 					attendee, ICAL_PARTSTAT_NEEDSACTION);
 			else
@@ -748,7 +746,7 @@ task_page_fill_component (CompEditorPage *page,
 	ECalComponentDateTime date;
 	CompEditor *editor;
 	CompEditorFlags flags;
-	ECal *client;
+	ECalClient *client;
 	struct icaltimetype start_tt, due_tt;
 	gchar *cat, *str;
 	gboolean start_date_set, due_date_set, time_set;
@@ -898,7 +896,7 @@ task_page_fill_component (CompEditorPage *page,
 			gchar *name;
 			gchar *mailto;
 
-			e_cal_get_cal_address (client, &backend_addr, NULL);
+			e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
 
 			/* Find the identity for the organizer or sentby field */
 			if (!get_current_identity (tpage, &name, &mailto)) {
@@ -1314,7 +1312,7 @@ attendee_added_cb (EMeetingListView *emlv,
 	TaskPagePrivate *priv = page->priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
-	ECal *client;
+	ECalClient *client;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (page));
 	client = comp_editor_get_client (editor);
@@ -1328,7 +1326,7 @@ attendee_added_cb (EMeetingListView *emlv,
 	/* do not remove here, it did EMeetingListView already */
 	e_meeting_attendee_set_delfrom (ia, g_strdup_printf ("MAILTO:%s", priv->user_add ? priv->user_add : ""));
 
-	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
+	if (!e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
 		EMeetingAttendee *delegator;
 
 		gtk_widget_set_sensitive (priv->invite, FALSE);
@@ -1773,7 +1771,8 @@ source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
 	TaskPagePrivate *priv = tpage->priv;
 	CompEditor *editor;
 	ESource *source;
-	ECal *client;
+	ECalClient *client;
+	GError *error = NULL;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
 	source = e_source_combo_box_get_active (source_combo_box);
@@ -1781,15 +1780,18 @@ source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tpage)))
 		return;
 
-	client = e_auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
+	client = e_cal_client_new (source, E_CAL_CLIENT_SOURCE_TYPE_TASKS, &error);
 	if (client) {
 		icaltimezone *zone;
 
 		zone = comp_editor_get_timezone (editor);
-		e_cal_set_default_timezone (client, zone, NULL);
+		e_cal_client_set_default_timezone (client, zone);
 	}
 
-	if (!client || !e_cal_open (client, FALSE, NULL)) {
+	if (client)
+		g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+
+	if (!client || !e_client_open_sync (E_CLIENT (client), FALSE, NULL, &error)) {
 		GtkWidget *dialog;
 
 		if (client)
@@ -1799,18 +1801,22 @@ source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
 
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (priv->source_selector),
-			e_cal_get_source (client));
+			e_client_get_source (E_CLIENT (client)));
 
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-						 _("Unable to open tasks in '%s'."),
-						 e_source_peek_name (source));
+						 _("Unable to open tasks in '%s': %s"),
+						 e_source_peek_name (source),
+						 error ? error->message : _("Unknown error"));
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
+
+		if (error)
+			g_error_free (error);
 	} else {
 		comp_editor_set_client (editor, client);
 		comp_editor_page_changed (COMP_EDITOR_PAGE (tpage));
-		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS) && priv->is_assignment)
+		if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS) && priv->is_assignment)
 			task_page_show_options (tpage);
 		else
 			task_page_hide_options (tpage);
@@ -1818,7 +1824,7 @@ source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
 		if (client) {
 			gchar *backend_addr = NULL;
 
-			e_cal_get_cal_address (client, &backend_addr, NULL);
+			e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
 
 			if (priv->is_assignment)
 				task_page_select_organizer (tpage, backend_addr);
@@ -1835,12 +1841,12 @@ static void
 set_subscriber_info_string (TaskPage *tpage, const gchar *backend_address)
 {
 	CompEditor *editor;
-	ECal *client;
+	ECalClient *client;
 	ESource *source;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
 	client = comp_editor_get_client (editor);
-	source = e_cal_get_source (client);
+	source = e_client_get_source (E_CLIENT (client));
 
 	if (e_source_get_property (source, "subscriber")) {
 		g_free (tpage->priv->subscriber_info_text);
@@ -1863,7 +1869,7 @@ task_page_send_options_clicked_cb (TaskPage *tpage)
 	CompEditor *editor;
 	GtkWidget *toplevel;
 	ESource *source;
-	ECal *client;
+	ECalClient *client;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
 	client = comp_editor_get_client (editor);
@@ -1876,7 +1882,7 @@ task_page_send_options_clicked_cb (TaskPage *tpage)
 		e_send_options_utils_set_default_data (priv->sod, source, "task");
 	}
 
-	if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS)) {
+	if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS)) {
 		e_send_options_set_need_general_options (priv->sod, FALSE);
 	}
 
@@ -2041,7 +2047,7 @@ task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
 	const gchar *default_address;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
-	ECal *client;
+	ECalClient *client;
 	const gchar *user_addr = NULL;
 	gint ii;
 
@@ -2049,7 +2055,7 @@ task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
 	client = comp_editor_get_client (editor);
 
 	if (client)
-		source = e_cal_get_source (client);
+		source = e_client_get_source (E_CLIENT (client));
 	if (source)
 		user_addr = e_source_get_property (source, "subscriber");
 
@@ -2094,7 +2100,7 @@ task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
 TaskPage *
 task_page_construct (TaskPage *tpage,
                      EMeetingStore *meeting_store,
-                     ECal *client)
+                     ECalClient *client)
 {
 	TaskPagePrivate *priv;
 	GtkTreeModel *model;
@@ -2155,7 +2161,7 @@ TaskPage *
 task_page_new (EMeetingStore *model, CompEditor *editor)
 {
 	TaskPage *tpage;
-	ECal *client;
+	ECalClient *client;
 
 	tpage = g_object_new (TYPE_TASK_PAGE, "editor", editor, NULL);
 	client = comp_editor_get_client (editor);

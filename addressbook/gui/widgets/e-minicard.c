@@ -32,7 +32,6 @@
 #include <e-util/e-util.h>
 #include <misc/e-canvas-utils.h>
 #include <misc/e-canvas.h>
-#include <libebook/e-book.h>
 #include "eab-gui-util.h"
 #include "e-minicard.h"
 #include "e-minicard-label.h"

@@ -49,7 +49,7 @@ struct _EMeetingStorePrivate {
 	GPtrArray *attendees;
 	gint stamp;
 
-	ECal *client;
+	ECalClient *client;
 	icaltimezone *zone;
 
 	gint default_reminder_interval;
@@ -756,9 +756,9 @@ e_meeting_store_class_init (EMeetingStoreClass *class)
 		PROP_CLIENT,
 		g_param_spec_object (
 			"client",
-			"Client",
+			"ECalClient",
 			NULL,
-			E_TYPE_CAL,
+			E_TYPE_CAL_CLIENT,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -840,7 +840,7 @@ e_meeting_store_new (void)
 	return g_object_new (E_TYPE_MEETING_STORE, NULL);
 }
 
-ECal *
+ECalClient *
 e_meeting_store_get_client (EMeetingStore *store)
 {
 	g_return_val_if_fail (E_IS_MEETING_STORE (store), NULL);
@@ -850,12 +850,12 @@ e_meeting_store_get_client (EMeetingStore *store)
 
 void
 e_meeting_store_set_client (EMeetingStore *store,
-                            ECal *client)
+                            ECalClient *client)
 {
 	g_return_if_fail (E_IS_MEETING_STORE (store));
 
 	if (client != NULL) {
-		g_return_if_fail (E_IS_CAL (client));
+		g_return_if_fail (E_IS_CAL_CLIENT (client));
 		g_object_ref (client);
 	}
 
@@ -1454,11 +1454,11 @@ replace_string (gchar *string, const gchar *from_value, gchar *to_value)
 static void start_async_read (const gchar *uri, gpointer data);
 
 typedef struct {
-	ECal *client;
+	ECalClient *client;
 	time_t startt;
 	time_t endt;
-	GList *users;
-	GList *fb_data;
+	GSList *users;
+	GSList *fb_data;
 	gchar *fb_uri;
 	gchar *email;
 	EMeetingAttendee *attendee;
@@ -1468,6 +1468,21 @@ typedef struct {
 
 #define USER_SUB   "%u"
 #define DOMAIN_SUB "%d"
+
+static void
+client_free_busy_data_cb (ECalClient *client, const GSList *ecalcomps, FreeBusyAsyncData *fbd)
+{
+	const GSList *iter;
+
+	g_return_if_fail (fbd != NULL);
+
+	for (iter = ecalcomps; iter != NULL; iter = iter->next) {
+		ECalComponent *comp = iter->data;
+
+		if (comp)
+			fbd->fb_data = g_slist_prepend (fbd->fb_data, g_object_ref (comp));
+	}
+}
 
 static gboolean
 freebusy_async (gpointer data)
@@ -1480,19 +1495,20 @@ freebusy_async (gpointer data)
 	EMeetingStorePrivate *priv = fbd->store->priv;
 
 	if (fbd->client) {
+		guint sigid;
 		/* FIXME This a workaround for getting all the free busy
 		 *       information for the users.  We should be able to
 		 *       get free busy asynchronously. */
 		g_static_mutex_lock (&mutex);
 		priv->num_queries++;
-		e_cal_get_free_busy (
-			fbd->client, fbd->users, fbd->startt,
-			fbd->endt, &(fbd->fb_data), NULL);
+		sigid = g_signal_connect (fbd->client, "free-busy-data", G_CALLBACK (client_free_busy_data_cb), fbd);
+		e_cal_client_get_free_busy_sync (fbd->client, fbd->startt, fbd->endt, fbd->users, NULL, NULL);
+		g_signal_handler_disconnect (fbd->client, sigid);
 		priv->num_queries--;
 		g_static_mutex_unlock (&mutex);
 
-		g_list_foreach (fbd->users, (GFunc) g_free, NULL);
-		g_list_free (fbd->users);
+		g_slist_foreach (fbd->users, (GFunc) g_free, NULL);
+		g_slist_free (fbd->users);
 
 		if (fbd->fb_data != NULL) {
 			ECalComponent *comp = fbd->fb_data->data;
@@ -1623,7 +1639,7 @@ refresh_busy_periods (gpointer data)
 		fbd->endt = icaltime_as_timet_with_zone (itt, priv->zone);
 		fbd->qdata = qdata;
 
-		fbd->users = g_list_append (fbd->users, g_strdup (fbd->email));
+		fbd->users = g_slist_append (fbd->users, g_strdup (fbd->email));
 
 	}
 
@@ -1634,8 +1650,8 @@ refresh_busy_periods (gpointer data)
 	thread = g_thread_create ((GThreadFunc) freebusy_async, fbd, FALSE, &error);
 	if (!thread) {
 		/* do clean up stuff here */
-		g_list_foreach (fbd->users, (GFunc) g_free, NULL);
-		g_list_free (fbd->users);
+		g_slist_foreach (fbd->users, (GFunc) g_free, NULL);
+		g_slist_free (fbd->users);
 		g_free (fbd->email);
 		priv->refresh_idle_id = 0;
 
