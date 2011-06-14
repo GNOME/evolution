@@ -1283,9 +1283,13 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-gnome-2.4 >= libsoup_minimum_version)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(GDATA, libgdata >= 0.4.0)
+EVO_SET_COMPILE_FLAGS(GDATA, libgdata >= 0.7.0)
 AC_SUBST(GDATA_CFLAGS)
 AC_SUBST(GDATA_LIBS)
+
+if `$PKG_CONFIG --atleast-version=0.9 libgdata`; then
+	AC_DEFINE(HAVE_LIBGDATA_0_9,1,[libgdata is 0.9 or higher])
+fi
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-4.0 libebook-1.2 libecal-1.2 libedataserverui-3.0 libebackend-1.2 $libnotify gtkhtml-editor-4.0)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
