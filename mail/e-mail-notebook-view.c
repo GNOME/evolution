@@ -82,12 +82,10 @@ static void
 mnv_set_current_tab (EMailNotebookView *view,
                      gint page)
 {
-	ClutterAnimation *animation;
-
 	clutter_actor_set_opacity (view->priv->actor, 0);
 	gtk_notebook_set_current_page (view->priv->book, page);
 
-	animation = clutter_actor_animate (
+	clutter_actor_animate (
 		(ClutterActor *) view->priv->actor,
 		CLUTTER_EASE_IN_SINE, 500, "opacity", 255, NULL);
 }
@@ -1035,14 +1033,9 @@ build_histogram (GtkWidget *widget, CamelFolder *folder)
 	gfloat ratio;
 	gint x = 0;
 	time_t now = time (NULL);
-	GtkStyle *style;
-	GdkColor *color;
 
 	for (i=0; i<54; i++)
 		weeks[i] = 0;
-
-	style = gtk_widget_get_style (GTK_WIDGET (widget));
-	color = &style->mid[GTK_STATE_NORMAL];
 
 	uids = camel_folder_get_uids (folder);
 	camel_folder_summary_prepare_fetch_all (folder->summary, NULL);
