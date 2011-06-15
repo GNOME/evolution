@@ -141,18 +141,20 @@ dialog_response_cb (GtkDialog *dialog, guint response_id, gpointer user_data)
 
 	if (!funcinfo) {
 		GtkTreeModel *treemodel = gtk_tree_view_get_model (GTK_TREE_VIEW (an->treeview));
-		gtk_tree_model_get_iter_first (treemodel, &iter);
+		if (!gtk_tree_model_get_iter_first (treemodel, &iter))
+			return;
+
 		gtk_tree_model_get (treemodel, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
 	}
+
 	g_return_if_fail (funcinfo);
+
 	switch (response_id) {
 	case GTK_RESPONSE_CLOSE:
 	case GTK_RESPONSE_DELETE_EVENT:
 		(* funcinfo->func) (ALARM_NOTIFY_CLOSE, -1, funcinfo->func_data);
 		break;
 	}
-
-	return;
 }
 
 static void
