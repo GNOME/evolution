@@ -398,6 +398,9 @@ fail:
 	g_object_unref (cfd->source_store);
 	g_free (cfd->source_folder_name);
 	g_free (cfd);
+
+	if (tostore)
+		g_object_unref (tostore);
 	g_free (tobase);
 }
 

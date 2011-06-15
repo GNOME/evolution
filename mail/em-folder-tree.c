@@ -916,8 +916,12 @@ folder_tree_finalize (GObject *object)
 			priv->select_uris,
 			(GFunc) folder_tree_free_select_uri, NULL);
 		g_slist_free (priv->select_uris);
-		g_hash_table_destroy (priv->select_uris_table);
 		priv->select_uris = NULL;
+	}
+
+	if (priv->select_uris_table) {
+		g_hash_table_destroy (priv->select_uris_table);
+		priv->select_uris_table = NULL;
 	}
 
 	/* Chain up to parent's finalize() method. */
@@ -2052,6 +2056,7 @@ folder_tree_drop_async__desc (struct _DragDataReceivedAsync *m)
 
 	if (m->info == DND_DROP_TYPE_FOLDER) {
 		gchar *folder_name = NULL;
+		gchar *res;
 
 		e_mail_folder_uri_parse (
 			CAMEL_SESSION (m->session),
@@ -2059,11 +2064,14 @@ folder_tree_drop_async__desc (struct _DragDataReceivedAsync *m)
 		g_return_val_if_fail (folder_name != NULL, NULL);
 
 		if (m->move)
-			return g_strdup_printf (
+			res = g_strdup_printf (
 				_("Moving folder %s"), folder_name);
 		else
-			return g_strdup_printf (
+			res = g_strdup_printf (
 				_("Copying folder %s"), folder_name);
+		g_free (folder_name);
+
+		return res;
 	} else {
 		if (m->move)
 			return g_strdup_printf (

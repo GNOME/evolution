@@ -1258,6 +1258,9 @@ e_mail_session_uri_to_folder_sync (EMailSession *session,
 		mail_folder_cache_note_folder (folder_cache, folder);
 	}
 
+	g_free (folder_name);
+	g_object_unref (store);
+
 	return folder;
 }
 
