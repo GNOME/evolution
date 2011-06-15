@@ -125,6 +125,7 @@ contact_map_address_resolved_cb (GeoclueGeocode *geocode,
 		latitude, longitude);
 	champlain_marker_layer_add_marker (data->map->priv->marker_layer,
 		CHAMPLAIN_MARKER (data->marker));
+	champlain_marker_set_selected (CHAMPLAIN_MARKER (data->marker), FALSE);
 
 	/* Store the marker in the hash table. Use it's label as key */
 	name = champlain_label_get_text (CHAMPLAIN_LABEL (data->marker));
