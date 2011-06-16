@@ -207,7 +207,7 @@ config_data_get_timezone (void)
 
 	ensure_inited ();
 
-	key = "/apps/evolution/calendar/display/user_system_timezone";
+	key = "/apps/evolution/calendar/display/use_system_timezone";
 	if (gconf_client_get_bool (conf_client, key, NULL))
 		location = e_cal_util_get_system_timezone_location ();
 	else {
