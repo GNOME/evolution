@@ -59,6 +59,7 @@
 #include "shell/e-shell.h"
 #include "shell/e-shell-migrate.h"
 
+#include "e-mail-local.h"
 #include "e-mail-store.h"
 #include "e-mail-backend.h"
 #include "em-utils.h"
@@ -1025,6 +1026,80 @@ exit:
 	return TRUE;
 }
 
+static void
+change_sent_and_drafts_local_folders (EShellBackend *shell_backend)
+{
+	EAccountList *accounts;
+	EIterator *iter;
+	const gchar *data_dir;
+	gboolean changed = FALSE;
+	CamelURL *url;
+	gchar *tmp_uri, *drafts_uri, *sent_uri, *old_drafts_uri, *old_sent_uri;
+
+	accounts = e_get_account_list ();
+	if (!accounts)
+		return;
+
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
+
+	tmp_uri = g_strconcat ("mbox:", data_dir, "/", "local", NULL);
+	url = camel_url_new (tmp_uri, NULL);
+	g_free (tmp_uri);
+
+	g_return_if_fail (url != NULL);
+
+	camel_url_set_fragment (url, "Drafts");
+	drafts_uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+
+	camel_url_set_fragment (url, "Sent");
+	sent_uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+
+	camel_url_free (url);
+
+	tmp_uri = g_strconcat ("mbox:", g_get_home_dir (), "/.evolution/mail/local", NULL);
+	url = camel_url_new (tmp_uri, NULL);
+	g_free (tmp_uri);
+
+	g_return_if_fail (url != NULL);
+
+	camel_url_set_fragment (url, "Drafts");
+	old_drafts_uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+
+	camel_url_set_fragment (url, "Sent");
+	old_sent_uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+
+	camel_url_free (url);
+
+	for (iter = e_list_get_iterator ((EList *) accounts); e_iterator_is_valid (iter); e_iterator_next (iter)) {
+		EAccount *account = (EAccount *) e_iterator_get (iter);
+		const gchar *uri;
+
+		if (!account)
+			continue;
+
+		uri = e_account_get_string (account, E_ACCOUNT_DRAFTS_FOLDER_URI);
+		if (g_strcmp0 (uri, drafts_uri) == 0 || g_strcmp0 (uri, old_drafts_uri) == 0) {
+			changed = TRUE;
+			e_account_set_string (account, E_ACCOUNT_DRAFTS_FOLDER_URI, e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS));
+		}
+
+		uri = e_account_get_string (account, E_ACCOUNT_SENT_FOLDER_URI);
+		if (g_strcmp0 (uri, sent_uri) == 0 || g_strcmp0 (uri, old_sent_uri) == 0 ) {
+			changed = TRUE;
+			e_account_set_string (account, E_ACCOUNT_SENT_FOLDER_URI, e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT));
+		}
+	}
+
+	g_object_unref (iter);
+	g_free (old_drafts_uri);
+	g_free (drafts_uri);
+	g_free (old_sent_uri);
+	g_free (sent_uri);
+
+	if (changed)
+		e_account_list_save (accounts);
+}
+
 static gboolean
 migrate_local_store (EShellBackend *shell_backend)
 {
@@ -1055,6 +1130,7 @@ migrate_local_store (EShellBackend *shell_backend)
 
 	migrate_mbox_to_maildir (shell_backend, session);
 	create_mbox_account (shell_backend, session);
+	change_sent_and_drafts_local_folders (shell_backend);
 
 	g_object_unref (session);
 
