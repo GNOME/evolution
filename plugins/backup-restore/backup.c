@@ -248,6 +248,12 @@ run_cmd (const gchar *cmd)
 }
 
 static void
+run_evolution_no_wait (void)
+{
+	g_spawn_command_line_async (EVOLUTION, NULL);
+}
+
+static void
 write_dir_file (void)
 {
 	GString *content, *filename;
@@ -326,7 +332,7 @@ backup (const gchar *filename,
 			return;
 
 		txt = _("Restarting Evolution");
-		run_cmd (EVOLUTION);
+		run_evolution_no_wait ();
 	}
 
 }
@@ -513,7 +519,7 @@ restore (const gchar *filename,
 			return;
 
 		txt = _("Restarting Evolution");
-		run_cmd (EVOLUTION);
+		run_evolution_no_wait ();
 	}
 }
 
