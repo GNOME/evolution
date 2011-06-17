@@ -59,6 +59,7 @@
 #include "widgets/misc/e-port-entry.h"
 
 #include "e-mail-backend.h"
+#include "e-mail-folder-utils.h"
 #include "e-mail-local.h"
 #include "e-mail-store.h"
 #include "em-config.h"
@@ -2941,18 +2942,28 @@ emae_real_url_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *
 		camel_url_set_param (url, param_key, NULL);
 		changed = TRUE;
 	} else {
-		CamelURL *url_selected = camel_url_new (curi_selected, NULL);
+		gboolean passed;
+		gchar *selected_folder_name = NULL;
+		CamelStore *selected_store = NULL;
+		CamelSession *session = CAMEL_SESSION (e_mail_backend_get_session (em_account_editor_get_backend (emae)));
 
-		if (url_selected && emae->priv->source.provider && emae->priv->source.provider->url_equal (url, url_selected) && url_selected->path) {
-			camel_url_set_param (url, param_key, (*url_selected->path) == '/' ? url_selected->path + 1 : url_selected->path);
+		passed = e_mail_folder_uri_parse (session, curi_selected, &selected_store, &selected_folder_name, NULL);
+		if (passed) {
+			passed = selected_store && emae->priv->modified_account && emae->priv->modified_account->uid
+				&& g_strcmp0 (camel_service_get_uid (CAMEL_SERVICE (selected_store)), emae->priv->modified_account->uid) == 0;
+		}
+
+		if (passed && selected_folder_name && *selected_folder_name) {
+			camel_url_set_param (url, param_key, (*selected_folder_name) == '/' ? selected_folder_name + 1 : selected_folder_name);
 			changed = TRUE;
 		} else {
 			e_notice (NULL, GTK_MESSAGE_ERROR, "%s", _("Please select a folder from the current account."));
 			em_folder_selection_button_set_selection (folder, "");
 		}
 
-		if (url_selected)
-			camel_url_free (url_selected);
+		g_free (selected_folder_name);
+		if (selected_store)
+			g_object_unref (selected_store);
 	}
 
 	if (changed)
