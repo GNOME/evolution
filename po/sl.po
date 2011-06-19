@@ -10,14 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-06-16 09:00+0000\n"
-"PO-Revision-Date: 2011-06-16 15:13+0100\n"
+"POT-Creation-Date: 2011-06-19 15:35+0000\n"
+"PO-Revision-Date: 2011-06-19 21:09+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0)\n"
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-Country: SLOVENIA\n"
@@ -7161,8 +7161,8 @@ msgid "Time to check things over before we try and connect to the server and fet
 msgstr "Zadnji pregled nastavitev pred poskusom povezave s strežnikom in poskusom prejema vaše pošte."
 
 #: ../capplet/settings/mail-account-view.c:613
-#: ../mail/em-account-editor.c:2179
-#: ../mail/em-account-editor.c:2300
+#: ../mail/em-account-editor.c:2180
+#: ../mail/em-account-editor.c:2301
 msgid "Identity"
 msgstr "Istovetnost"
 
@@ -7214,7 +7214,7 @@ msgid "Back - Receiving options"
 msgstr "Nazaj - Možnosti prejemanja"
 
 #: ../capplet/settings/mail-account-view.c:618
-#: ../mail/em-account-editor.c:3129
+#: ../mail/em-account-editor.c:3140
 msgid "Defaults"
 msgstr "Privzeto"
 
@@ -7285,7 +7285,7 @@ msgstr "Pomočnik za račune Evolution"
 
 #. create the local source group
 #: ../capplet/settings/mail-capplet-shell.c:342
-#: ../mail/e-mail-migrate.c:743
+#: ../mail/e-mail-migrate.c:744
 #: ../mail/e-mail-store.c:234
 #: ../mail/em-folder-tree-model.c:146
 #: ../mail/em-folder-tree-model.c:149
@@ -8302,24 +8302,24 @@ msgstr "Poslano"
 msgid "Templates"
 msgstr "Predloge"
 
-#: ../mail/e-mail-migrate.c:132
+#: ../mail/e-mail-migrate.c:133
 msgid "Migrating..."
 msgstr "Preseljevanje ..."
 
-#: ../mail/e-mail-migrate.c:167
+#: ../mail/e-mail-migrate.c:168
 msgid "Migration"
 msgstr "Preseljevanje"
 
-#: ../mail/e-mail-migrate.c:208
+#: ../mail/e-mail-migrate.c:209
 #, c-format
 msgid "Migrating '%s':"
 msgstr "Preseljevanje '%s':"
 
-#: ../mail/e-mail-migrate.c:721
+#: ../mail/e-mail-migrate.c:722
 msgid "Migrating Folders"
 msgstr "Preselitev map"
 
-#: ../mail/e-mail-migrate.c:722
+#: ../mail/e-mail-migrate.c:723
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite since Evolution 2.24.\n"
 "\n"
@@ -8329,7 +8329,7 @@ msgstr ""
 "\n"
 "Počakajte, medtem ko Evolution preseli vaše mape ..."
 
-#: ../mail/e-mail-migrate.c:1203
+#: ../mail/e-mail-migrate.c:1279
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "Ni mogoče ustvariti krajevnih map pošte v '%s': %s"
@@ -9102,7 +9102,7 @@ msgstr "Zastavica za navezavo"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../mail/em-account-editor.c:567
+#: ../mail/em-account-editor.c:568
 #: ../mail/mail-config.ui.h:72
 #: ../modules/addressbook/ldap-config.ui.h:9
 msgid "No encryption"
@@ -9111,7 +9111,7 @@ msgstr "Brez šifriranja"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../mail/em-account-editor.c:571
+#: ../mail/em-account-editor.c:572
 #: ../mail/mail-config.ui.h:130
 #: ../modules/addressbook/ldap-config.ui.h:20
 msgid "TLS encryption"
@@ -9120,43 +9120,43 @@ msgstr "Šifriranje TLS"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../mail/em-account-editor.c:575
+#: ../mail/em-account-editor.c:576
 #: ../mail/mail-config.ui.h:94
 #: ../modules/addressbook/ldap-config.ui.h:12
 msgid "SSL encryption"
 msgstr "Šifriranje SSL"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:838
+#: ../mail/em-account-editor.c:839
 #: ../widgets/misc/e-signature-combo-box.c:75
 msgctxt "mail-signature"
 msgid "None"
 msgstr "Brez"
 
-#: ../mail/em-account-editor.c:919
+#: ../mail/em-account-editor.c:920
 msgid "Never"
 msgstr "Nikoli"
 
-#: ../mail/em-account-editor.c:920
+#: ../mail/em-account-editor.c:921
 msgid "Always"
 msgstr "Vedno"
 
-#: ../mail/em-account-editor.c:921
+#: ../mail/em-account-editor.c:922
 msgid "Ask for each message"
 msgstr "Vprašaj za vsako sporočilo"
 
 #. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1741
+#: ../mail/em-account-editor.c:1742
 #: ../widgets/misc/e-account-tree-view.c:131
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "Brez"
 
-#: ../mail/em-account-editor.c:2176
+#: ../mail/em-account-editor.c:2177
 msgid "Mail Configuration"
 msgstr "Nastavitev pošte"
 
-#: ../mail/em-account-editor.c:2177
+#: ../mail/em-account-editor.c:2178
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -9166,34 +9166,34 @@ msgstr ""
 "\n"
 "Kliknite \"Naprej\" za začetek."
 
-#: ../mail/em-account-editor.c:2180
+#: ../mail/em-account-editor.c:2181
 msgid "Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send."
 msgstr "Spodaj vnesite svoje ime in naslov elektronske pošte. Polj \"dodatno\" ni treba izpolnjevati, razen če želite tudi te podatke vključiti v elektronsko pošto, ki jo boste pošiljali."
 
-#: ../mail/em-account-editor.c:2182
-#: ../mail/em-account-editor.c:2345
+#: ../mail/em-account-editor.c:2183
+#: ../mail/em-account-editor.c:2346
 msgid "Receiving Email"
 msgstr "Prejemanje elektronske pošte"
 
-#: ../mail/em-account-editor.c:2183
+#: ../mail/em-account-editor.c:2184
 msgid "Please configure the following account settings."
 msgstr "Nastavite naslednje nastavitve računa."
 
-#: ../mail/em-account-editor.c:2185
-#: ../mail/em-account-editor.c:2845
+#: ../mail/em-account-editor.c:2186
+#: ../mail/em-account-editor.c:2846
 msgid "Sending Email"
 msgstr "Pošiljanje elektronske pošte"
 
-#: ../mail/em-account-editor.c:2186
+#: ../mail/em-account-editor.c:2187
 msgid "Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider."
 msgstr "Vnesite podatke o načinu pošiljanja pošte. Če niste prepričani, se obrnite na svojega sistemskega skrbnika ali ponudnika dostopa do medmrežja."
 
-#: ../mail/em-account-editor.c:2188
+#: ../mail/em-account-editor.c:2189
 #: ../mail/mail-config.ui.h:1
 msgid "Account Information"
 msgstr "Podrobnosti računa"
 
-#: ../mail/em-account-editor.c:2189
+#: ../mail/em-account-editor.c:2190
 msgid ""
 "Please enter a descriptive name for this account below.\n"
 "This name will be used for display purposes only."
@@ -9201,11 +9201,11 @@ msgstr ""
 "V spodnji prostor vnesite opisno ime tega računa.\n"
 "To ime bo uporabljeno samo za prikaz."
 
-#: ../mail/em-account-editor.c:2193
+#: ../mail/em-account-editor.c:2194
 msgid "Done"
 msgstr "Končano"
 
-#: ../mail/em-account-editor.c:2194
+#: ../mail/em-account-editor.c:2195
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -9219,32 +9219,32 @@ msgstr ""
 "\n"
 "S klikom na gumb \"Uveljavi\" bodo spremembe shranjene."
 
-#: ../mail/em-account-editor.c:2659
+#: ../mail/em-account-editor.c:2660
 msgid "Check for _new messages every"
 msgstr "Samodejno preveri _novo pošto vsakih"
 
-#: ../mail/em-account-editor.c:2667
+#: ../mail/em-account-editor.c:2668
 msgid "minu_tes"
 msgstr "_minut"
 
-#: ../mail/em-account-editor.c:2950
+#: ../mail/em-account-editor.c:2960
 msgid "Please select a folder from the current account."
 msgstr "Izberite mapo trenutnega računa."
 
-#: ../mail/em-account-editor.c:3258
+#: ../mail/em-account-editor.c:3269
 #: ../mail/mail-config.ui.h:101
 msgid "Security"
 msgstr "Varnost"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3304
-#: ../mail/em-account-editor.c:3372
+#: ../mail/em-account-editor.c:3315
+#: ../mail/em-account-editor.c:3383
 msgid "Receiving Options"
 msgstr "Možnosti prejemanja"
 
-#: ../mail/em-account-editor.c:3305
-#: ../mail/em-account-editor.c:3373
+#: ../mail/em-account-editor.c:3316
+#: ../mail/em-account-editor.c:3384
 msgid "Checking for New Messages"
 msgstr "Preverjanje za nova sporočila"
 
@@ -15425,6 +15425,10 @@ msgstr ""
 "\n"
 "Za nadaljevanje kliknite gumb \"Naprej\". "
 
+#: ../modules/startup-wizard/evolution-startup-wizard.c:606
+msgid "Loading accounts..."
+msgstr "Nalaganje računov ..."
+
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
 msgid "Add local address books to Evolution."
 msgstr "Dodaj krajevni imenik v Evolution."
@@ -15551,84 +15555,84 @@ msgid "With Graphical User Interface"
 msgstr "Z grafičnim uporabniškim vmesnikom"
 
 #. FIXME Will the versioned setting always work?
-#: ../plugins/backup-restore/backup.c:289
-#: ../plugins/backup-restore/backup.c:406
+#: ../plugins/backup-restore/backup.c:295
+#: ../plugins/backup-restore/backup.c:412
 msgid "Shutting down Evolution"
 msgstr "Izklapljanje programa Evolution"
 
-#: ../plugins/backup-restore/backup.c:298
+#: ../plugins/backup-restore/backup.c:304
 msgid "Backing Evolution accounts and settings"
 msgstr "Varnostno kopiranje računov in nastavitev"
 
-#: ../plugins/backup-restore/backup.c:308
+#: ../plugins/backup-restore/backup.c:314
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr "Varnostna kopija podatkov Evolution (pošta, imenik, koledar, naloge, zaznamki)"
 
-#: ../plugins/backup-restore/backup.c:321
+#: ../plugins/backup-restore/backup.c:327
 msgid "Back up complete"
 msgstr "Varnostna kopija je uspešno ustvarjena"
 
-#: ../plugins/backup-restore/backup.c:328
-#: ../plugins/backup-restore/backup.c:515
+#: ../plugins/backup-restore/backup.c:334
+#: ../plugins/backup-restore/backup.c:521
 msgid "Restarting Evolution"
 msgstr "Ponovni zagon programa Evolution"
 
-#: ../plugins/backup-restore/backup.c:412
+#: ../plugins/backup-restore/backup.c:418
 msgid "Back up current Evolution data"
 msgstr "Ustvari varnostno kopijo trenutnih podatkov programa Evolution"
 
-#: ../plugins/backup-restore/backup.c:420
+#: ../plugins/backup-restore/backup.c:426
 msgid "Extracting files from back up"
 msgstr "Razširjanje datotek iz varnostne kopije"
 
-#: ../plugins/backup-restore/backup.c:479
+#: ../plugins/backup-restore/backup.c:485
 msgid "Loading Evolution settings"
 msgstr "Nalaganje nastavitev programa Evolution"
 
-#: ../plugins/backup-restore/backup.c:496
+#: ../plugins/backup-restore/backup.c:502
 msgid "Removing temporary back up files"
 msgstr "Odstranjevanje začasnih datotek varnostnih kopij"
 
-#: ../plugins/backup-restore/backup.c:508
+#: ../plugins/backup-restore/backup.c:514
 msgid "Ensuring local sources"
 msgstr "Zagotavljanje krajevnih virov"
 
-#: ../plugins/backup-restore/backup.c:693
+#: ../plugins/backup-restore/backup.c:699
 #, c-format
 msgid "Backing up to the folder %s"
 msgstr "Shranjevanje varnostne kopije v mapo %s"
 
-#: ../plugins/backup-restore/backup.c:698
+#: ../plugins/backup-restore/backup.c:704
 #, c-format
 msgid "Restoring from the folder %s"
 msgstr "Obnavljanje podatkov iz mape %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
-#: ../plugins/backup-restore/backup.c:722
+#: ../plugins/backup-restore/backup.c:728
 msgid "Evolution Back up"
 msgstr "Varnostna kopija programa Evolution"
 
-#: ../plugins/backup-restore/backup.c:722
+#: ../plugins/backup-restore/backup.c:728
 msgid "Evolution Restore"
 msgstr "Obnavljanje Evolutiona"
 
-#: ../plugins/backup-restore/backup.c:760
+#: ../plugins/backup-restore/backup.c:766
 msgid "Backing up Evolution Data"
 msgstr "Varnostna kopija podatkov programa Evolution"
 
-#: ../plugins/backup-restore/backup.c:761
+#: ../plugins/backup-restore/backup.c:767
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Počakajte, dokler program ne naredi varnostne kopije vaših podatkov."
 
-#: ../plugins/backup-restore/backup.c:763
+#: ../plugins/backup-restore/backup.c:769
 msgid "Restoring Evolution Data"
 msgstr "Obnovitev podatkov programa Evolution"
 
-#: ../plugins/backup-restore/backup.c:764
+#: ../plugins/backup-restore/backup.c:770
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Počakajte, dokler program ne obnovi vaših podatkov."
 
-#: ../plugins/backup-restore/backup.c:782
+#: ../plugins/backup-restore/backup.c:788
 msgid "This may take a while depending on the amount of data in your account."
 msgstr "Postopek je lahko dolgotrajen, saj je odvisen od količine podatkov na vašemu računu."
 
