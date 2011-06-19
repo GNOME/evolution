@@ -534,6 +534,9 @@ startup_wizard_run (EStartupWizard *extension)
 	const gchar *startup_view;
 	gboolean express_mode;
 
+	/* Accounts should now be loaded if there were any to load.
+	 * Check, and proceed with the Evolution Setup Assistant. */
+
 	shell = startup_wizard_get_shell (extension);
 	express_mode = e_shell_get_express_mode (shell);
 	startup_view = e_shell_get_startup_view (shell);
@@ -557,6 +560,95 @@ startup_wizard_run (EStartupWizard *extension)
 	gtk_widget_show (window);
 
 	gtk_main ();
+}
+
+static void
+startup_wizard_load_accounts_done (GMainLoop *loop,
+                                   EActivity *activity,
+                                   gboolean is_last_ref)
+{
+	/* All asynchronous account loading operations should
+	 * be complete now, so we can terminate the main loop. */
+	if (is_last_ref)
+		g_main_loop_quit (loop);
+}
+
+static void
+startup_wizard_load_accounts (EStartupWizard *extension)
+{
+	EShell *shell;
+	EActivity *activity;
+	GMainContext *context;
+	GMainLoop *loop;
+	GSource *source;
+
+	/* This works similar to the offline and shutdown procedure in
+	 * EShell.  We broadcast a "load-accounts" EShell event with an
+	 * EActivity.  The EActivity has a toggle reference which we use
+	 * as a counting semaphore.  If another module needs to handle
+	 * the event asynchronously, it should reference the EActivity
+	 * until its async operation completes, then drop the reference.
+	 * Once the signal handlers finish and only the toggle reference
+	 * remains, we then proceed with the Evolution Setup Assistant. */
+
+	shell = startup_wizard_get_shell (extension);
+
+	/* Start a temporary main loop so asynchronous account loading
+	 * operations can signal completion from an idle callback.  We push
+	 * our own GMainContext as the thread-default so we don't trigger
+	 * other GSources that have already been attached to the current
+	 * thread-default context, such as the idle callback in main.c. */
+	context = g_main_context_new ();
+	loop = g_main_loop_new (context, TRUE);
+	g_main_context_push_thread_default (context);
+
+	activity = e_activity_new ();
+	e_activity_set_text (activity, _("Loading accounts..."));
+
+	/* Drop our normal (non-toggle) EActivity reference from an
+	 * idle callback.  If nothing else references the EActivity
+	 * then it will be a very short-lived main loop. */
+	source = g_idle_source_new ();
+	g_source_set_callback (
+		source, (GSourceFunc) gtk_false,
+		activity, (GDestroyNotify) g_object_unref);
+	g_source_attach (source, context);
+	g_source_unref (source);
+
+	/* Add a toggle reference to the EActivity which,
+	 * when triggered, will terminate the main loop. */
+	g_object_add_toggle_ref (
+		G_OBJECT (activity), (GToggleNotify)
+		startup_wizard_load_accounts_done, loop);
+
+	/* Broadcast the "load-accounts" event. */
+	e_shell_event (shell, "load-accounts", activity);
+
+	/* And now we wait... */
+	g_main_loop_run (loop);
+
+	/* Increment the reference count so we can safely emit
+	 * a signal without triggering the toggle reference. */
+	g_object_ref (activity);
+
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+
+	g_object_remove_toggle_ref (
+		G_OBJECT (activity), (GToggleNotify)
+		startup_wizard_load_accounts_done, loop);
+
+	/* Finalize the activity. */
+	g_object_unref (activity);
+
+	/* Finalize the main loop. */
+	g_main_loop_unref (loop);
+
+	/* Pop our GMainContext off the thread-default stack. */
+	g_main_context_pop_thread_default (context);
+	g_main_context_unref (context);
+
+	/* Proceed with the Evolution Setup Assistant. */
+	startup_wizard_run (extension);
 }
 
 static void
@@ -598,7 +690,7 @@ startup_wizard_constructed (GObject *object)
 
 	g_signal_connect_swapped (
 		shell, "event::ready-to-start",
-		G_CALLBACK (startup_wizard_run), extension);
+		G_CALLBACK (startup_wizard_load_accounts), extension);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_startup_wizard_parent_class)->constructed (object);
