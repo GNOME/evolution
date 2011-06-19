@@ -9,8 +9,8 @@
 # Héctor García Álvarez <hector@scouts-es.org>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>,2003 (revisión).
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
 #
 #: ../shell/main.c:569
 msgid ""
@@ -18,14 +18,14 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-06-17 10:24+0000\n"
-"PO-Revision-Date: 2011-06-19 11:40+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2011-06-19 13:38+0000\n"
+"PO-Revision-Date: 2011-06-19 17:29+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Content-Transfer-Encoding: 8bits\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #. For Translators: {0} is the name of the address book source
@@ -1460,7 +1460,6 @@ msgstr "No es posible abrir el archivo"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:45
 #, c-format
-#| msgid "Couldn't get list of address books"
 msgid "Couldn't get list of address books: %s"
 msgstr "No se pudo obtener la lista de libretas de direcciones: %s"
 
@@ -1478,7 +1477,6 @@ msgstr "Error desconocido"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:79
 #, c-format
-#| msgid "Failed to load the calendar '%s' (%s)"
 msgid "Failed to open client '%s': %s"
 msgstr "Falló al abrir el cliente «%s»: %s"
 
@@ -2772,7 +2770,6 @@ msgid "Destination is read only"
 msgstr "El destino es de sólo lectura"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:157
-#| msgid "Could not create object. %s"
 msgid "Cannot create object"
 msgstr "No se puede crear el objeto"
 
@@ -3000,7 +2997,6 @@ msgstr "_Participantes"
 
 #: ../calendar/gui/dialogs/event-page.c:2891
 #, c-format
-#| msgid "Unable to open the calendar '%s'."
 msgid "Unable to open the calendar '%s': %s"
 msgstr "No es posible abrir el calendario «%s»: %s"
 
@@ -3200,7 +3196,6 @@ msgstr "La nota no se puede editar completamente porque no es el organizador"
 
 #: ../calendar/gui/dialogs/memo-page.c:918
 #, c-format
-#| msgid "Unable to open memos in '%s'."
 msgid "Unable to open memos in '%s': %s"
 msgstr "No es posible abrir las notas en «%s»: %s"
 
@@ -3670,7 +3665,6 @@ msgstr "La fecha de vencimiento es errónea"
 
 #: ../calendar/gui/dialogs/task-page.c:1808
 #, c-format
-#| msgid "Unable to open tasks in '%s'."
 msgid "Unable to open tasks in '%s': %s"
 msgstr "No es posible abrir las tareas en «%s»: %s"
 
@@ -7223,7 +7217,7 @@ msgstr ""
 "obtener su correo."
 
 #: ../capplet/settings/mail-account-view.c:613
-#: ../mail/em-account-editor.c:2179 ../mail/em-account-editor.c:2300
+#: ../mail/em-account-editor.c:2180 ../mail/em-account-editor.c:2301
 msgid "Identity"
 msgstr "Identidad"
 
@@ -7275,7 +7269,7 @@ msgid "Back - Receiving options"
 msgstr "Atrás - Opciones de recepción"
 
 #: ../capplet/settings/mail-account-view.c:618
-#: ../mail/em-account-editor.c:3129
+#: ../mail/em-account-editor.c:3140
 msgid "Defaults"
 msgstr "Predeterminados"
 
@@ -8139,12 +8133,10 @@ msgid "_From This Address"
 msgstr "_Desde esta dirección"
 
 #: ../mail/e-mail-display.c:87
-#| msgid "_Send To..."
 msgid "Send _Reply To..."
 msgstr "Enviar _respuesta a…"
 
 #: ../mail/e-mail-display.c:89
-#| msgid "Send a mail message to this address"
 msgid "Send a reply message to this address"
 msgstr "Enviar un mensaje de respuesta a esta dirección"
 
@@ -9080,7 +9072,7 @@ msgstr "Marcar para seguimiento"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../mail/em-account-editor.c:567 ../mail/mail-config.ui.h:72
+#: ../mail/em-account-editor.c:568 ../mail/mail-config.ui.h:72
 #: ../modules/addressbook/ldap-config.ui.h:9
 msgid "No encryption"
 msgstr "Sin cifrado"
@@ -9088,7 +9080,7 @@ msgstr "Sin cifrado"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../mail/em-account-editor.c:571 ../mail/mail-config.ui.h:130
+#: ../mail/em-account-editor.c:572 ../mail/mail-config.ui.h:130
 #: ../modules/addressbook/ldap-config.ui.h:20
 msgid "TLS encryption"
 msgstr "Cifrado TLS"
@@ -9096,40 +9088,40 @@ msgstr "Cifrado TLS"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../mail/em-account-editor.c:575 ../mail/mail-config.ui.h:94
+#: ../mail/em-account-editor.c:576 ../mail/mail-config.ui.h:94
 #: ../modules/addressbook/ldap-config.ui.h:12
 msgid "SSL encryption"
 msgstr "Cifrado SSL"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:838 ../widgets/misc/e-signature-combo-box.c:75
+#: ../mail/em-account-editor.c:839 ../widgets/misc/e-signature-combo-box.c:75
 msgctxt "mail-signature"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../mail/em-account-editor.c:919
+#: ../mail/em-account-editor.c:920
 msgid "Never"
 msgstr "Nunca"
 
-#: ../mail/em-account-editor.c:920
+#: ../mail/em-account-editor.c:921
 msgid "Always"
 msgstr "Siempre"
 
-#: ../mail/em-account-editor.c:921
+#: ../mail/em-account-editor.c:922
 msgid "Ask for each message"
 msgstr "Preguntar por cada mensaje"
 
 #. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1741 ../widgets/misc/e-account-tree-view.c:131
+#: ../mail/em-account-editor.c:1742 ../widgets/misc/e-account-tree-view.c:131
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../mail/em-account-editor.c:2176
+#: ../mail/em-account-editor.c:2177
 msgid "Mail Configuration"
 msgstr "Configuración del correo"
 
-#: ../mail/em-account-editor.c:2177
+#: ../mail/em-account-editor.c:2178
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -9139,7 +9131,7 @@ msgstr ""
 "\n"
 "Pulse «Adelante» para comenzar. "
 
-#: ../mail/em-account-editor.c:2180
+#: ../mail/em-account-editor.c:2181
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -9149,19 +9141,19 @@ msgstr ""
 "hace falta que los rellene, a menos que quiera incluir esta información en "
 "el correo-e que envíe."
 
-#: ../mail/em-account-editor.c:2182 ../mail/em-account-editor.c:2345
+#: ../mail/em-account-editor.c:2183 ../mail/em-account-editor.c:2346
 msgid "Receiving Email"
 msgstr "Recepción de correo"
 
-#: ../mail/em-account-editor.c:2183
+#: ../mail/em-account-editor.c:2184
 msgid "Please configure the following account settings."
 msgstr "Configure las siguientes opciones de la cuenta."
 
-#: ../mail/em-account-editor.c:2185 ../mail/em-account-editor.c:2845
+#: ../mail/em-account-editor.c:2186 ../mail/em-account-editor.c:2846
 msgid "Sending Email"
 msgstr "Envío de correo"
 
-#: ../mail/em-account-editor.c:2186
+#: ../mail/em-account-editor.c:2187
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -9170,11 +9162,11 @@ msgstr ""
 "seguro, pregúntele a su administrador de sistemas o a su Proveedor de "
 "Servicios de Internet."
 
-#: ../mail/em-account-editor.c:2188 ../mail/mail-config.ui.h:1
+#: ../mail/em-account-editor.c:2189 ../mail/mail-config.ui.h:1
 msgid "Account Information"
 msgstr "Información de la cuenta"
 
-#: ../mail/em-account-editor.c:2189
+#: ../mail/em-account-editor.c:2190
 msgid ""
 "Please enter a descriptive name for this account below.\n"
 "This name will be used for display purposes only."
@@ -9182,11 +9174,11 @@ msgstr ""
 "Introduzca un nombre descriptivo para esta cuenta en el espacio de abajo.\n"
 "Este nombre se usará sólo para mostrarlo."
 
-#: ../mail/em-account-editor.c:2193
+#: ../mail/em-account-editor.c:2194
 msgid "Done"
 msgstr "Hecho"
 
-#: ../mail/em-account-editor.c:2194
+#: ../mail/em-account-editor.c:2195
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -9200,29 +9192,29 @@ msgstr ""
 "\n"
 "Pulse «Aplicar» para guardar su configuración."
 
-#: ../mail/em-account-editor.c:2659
+#: ../mail/em-account-editor.c:2660
 msgid "Check for _new messages every"
 msgstr "Comprobar si hay mensajes _nuevos cada"
 
-#: ../mail/em-account-editor.c:2667
+#: ../mail/em-account-editor.c:2668
 msgid "minu_tes"
 msgstr "minuto_s"
 
-#: ../mail/em-account-editor.c:2950
+#: ../mail/em-account-editor.c:2960
 msgid "Please select a folder from the current account."
 msgstr "Seleccionar una carpeta de la cuenta actual."
 
-#: ../mail/em-account-editor.c:3258 ../mail/mail-config.ui.h:101
+#: ../mail/em-account-editor.c:3269 ../mail/mail-config.ui.h:101
 msgid "Security"
 msgstr "Seguridad"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3304 ../mail/em-account-editor.c:3372
+#: ../mail/em-account-editor.c:3315 ../mail/em-account-editor.c:3383
 msgid "Receiving Options"
 msgstr "Opciones de recepción"
 
-#: ../mail/em-account-editor.c:3305 ../mail/em-account-editor.c:3373
+#: ../mail/em-account-editor.c:3316 ../mail/em-account-editor.c:3384
 msgid "Checking for New Messages"
 msgstr "Comprobando si hay mensajes nuevos"
 
@@ -16166,6 +16158,11 @@ msgstr ""
 "\n"
 "Pulse el botón «Adelante» para continuar."
 
+#: ../modules/startup-wizard/evolution-startup-wizard.c:606
+#| msgid "Loading..."
+msgid "Loading accounts..."
+msgstr "Cargando cuentas…"
+
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
 msgid "Add local address books to Evolution."
 msgstr "Añadir las libretas de direcciones locales a Evolution."
@@ -19970,16 +19967,14 @@ msgid "Certificate Name"
 msgstr "Nombre del certificado"
 
 #: ../smime/gui/certificate-manager.c:74 ../smime/gui/certificate-manager.c:94
-#, fuzzy
 #| msgid "Or_ganization:"
 msgid "Issued To Organization"
-msgstr "Organi_zación:"
+msgstr "Expedido a la organización:"
 
 #: ../smime/gui/certificate-manager.c:75 ../smime/gui/certificate-manager.c:95
-#, fuzzy
 #| msgid "Organizational Unit (OU)"
 msgid "Issued To Organizational Unit"
-msgstr "Unidad organizativa (OU)"
+msgstr "Expedido a la unidad organizativa (OU)"
 
 #: ../smime/gui/certificate-manager.c:76 ../smime/gui/certificate-manager.c:96
 #: ../smime/gui/certificate-manager.c:114 ../smime/gui/smime-ui.ui.h:32
@@ -19999,23 +19994,20 @@ msgstr "Emitido por"
 
 #: ../smime/gui/certificate-manager.c:79 ../smime/gui/certificate-manager.c:99
 #: ../smime/gui/certificate-manager.c:117
-#, fuzzy
 #| msgid "Or_ganization:"
 msgid "Issued By Organization"
-msgstr "Organi_zación:"
+msgstr "Expedido por la organización"
 
 #: ../smime/gui/certificate-manager.c:80
 #: ../smime/gui/certificate-manager.c:100
 #: ../smime/gui/certificate-manager.c:118
-#, fuzzy
 #| msgid "Organizational Unit (OU)"
 msgid "Issued By Organizational Unit"
-msgstr "Unidad organizativa (OU)"
+msgstr "Expedido por la unidad organizativa (OU)"
 
 #: ../smime/gui/certificate-manager.c:81
 #: ../smime/gui/certificate-manager.c:101
 #: ../smime/gui/certificate-manager.c:119
-#| msgid "Issuer"
 msgid "Issued"
 msgstr "Emitido"
 
@@ -20051,7 +20043,6 @@ msgid "All files"
 msgstr "Todos los archivos"
 
 #: ../smime/gui/certificate-manager.c:622
-#| msgid "Failed to import user's certificate"
 msgid "Failed to import certificate"
 msgstr "Falló al importar el certificado"
 
