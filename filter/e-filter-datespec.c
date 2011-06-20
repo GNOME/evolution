@@ -432,12 +432,30 @@ filter_datespec_format_sexp (EFilterElement *element,
 		g_string_append_printf (out, "%d", (gint) fds->value);
 		break;
 	case FDST_X_AGO:
-		g_string_append_printf (
-			out, "(- (get-current-date) %d)", (gint) fds->value);
+		switch (get_best_span (fds->value)) {
+		case 5: /* months */
+			g_string_append_printf (out, "(get-relative-months (- 0 %d))", (gint) (fds->value / timespans[5].seconds));
+			break;
+		case 6: /* years */
+			g_string_append_printf (out, "(get-relative-months (- 0 %d))", (gint) (12 * fds->value / timespans[6].seconds));
+			break;
+		default:
+			g_string_append_printf (out, "(- (get-current-date) %d)", (gint) fds->value);
+			break;
+		}
 		break;
 	case FDST_X_FUTURE:
-		g_string_append_printf (
-			out, "(+ (get-current-date) %d)", (gint) fds->value);
+		switch (get_best_span (fds->value)) {
+		case 5: /* months */
+			g_string_append_printf (out, "(get-relative-months %d)", (gint) (fds->value / timespans[5].seconds));
+			break;
+		case 6: /* years */
+			g_string_append_printf (out, "(get-relative-months %d)", (gint) (12 * fds->value / timespans[6].seconds));
+			break;
+		default:
+			g_string_append_printf (out, "(+ (get-current-date) %d)", (gint) fds->value);
+			break;
+		}
 		break;
 	}
 }
