@@ -67,10 +67,13 @@ struct _itip_puri {
 	GtkWidget *view;
 
 	ESourceList *source_lists[E_CAL_CLIENT_SOURCE_TYPE_LAST];
-	GHashTable *ecals[E_CAL_CLIENT_SOURCE_TYPE_LAST];
+	GHashTable *clients[E_CAL_CLIENT_SOURCE_TYPE_LAST];
 
 	ECalClient *current_client;
 	ECalClientSourceType type;
+
+	/* cancelled when freeing the puri */
+	GCancellable *cancellable;
 
 	gchar *vcalendar;
 	ECalComponent *comp;
@@ -137,6 +140,10 @@ gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 typedef struct {
 	struct _itip_puri *puri;
+	GCancellable *cancellable;
+	gboolean keep_alarm_check;
+	GHashTable *conflicts;
+
 	gchar *uid;
 	gchar *rid;
 
@@ -493,37 +500,36 @@ cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 	struct _itip_puri *pitip = user_data;
 	ESource *source;
 	ECalClientSourceType source_type;
-	ECalClient *client = E_CAL_CLIENT (source_object);
+	EClient *client = NULL;
+	ECalClient *cal_client;
 	GError *error = NULL;
 
-	if (!e_client_open_finish (E_CLIENT (client), result, &error)) {
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_FAILED)) {
+	source = E_SOURCE (source_object);
+
+	if (!e_client_utils_open_new_finish (source, result, &client, &error)) {
+		client = NULL;
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
 			g_error_free (error);
-			e_client_open (E_CLIENT (client), TRUE, NULL, cal_opened_cb, user_data);
 			return;
 		}
 	}
-
-	source_type = e_cal_client_get_source_type (client);
-	source = e_client_get_source (E_CLIENT (client));
 
 	if (error) {
 		d(printf ("Failed opening itip formatter calendar '%s' during non-search opening\n", e_source_peek_name (source)));
 
 		add_failed_to_load_msg (ITIP_VIEW (pitip->view), source, error);
 
-		if (pitip->current_client == client) {
-			pitip->current_client = NULL;
-			itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
-		}
-
-		g_hash_table_remove (pitip->ecals[source_type], e_source_peek_uid (source));
-
 		g_error_free (error);
 		return;
 	}
 
-	if (e_cal_client_check_recurrences_no_master (client)) {
+	cal_client = E_CAL_CLIENT (client);
+	g_return_if_fail (cal_client != NULL);
+
+	source_type = e_cal_client_get_source_type (cal_client);
+	g_hash_table_insert (pitip->clients[source_type], g_strdup (e_source_peek_uid (source)), cal_client);
+
+	if (e_cal_client_check_recurrences_no_master (cal_client)) {
 		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
 
 		if (check_is_instance (icalcomp))
@@ -540,25 +546,19 @@ cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_PUBLISH);
 	}
 
-	pitip->current_client = client;
+	pitip->current_client = cal_client;
 
 	set_buttons_sensitive (pitip);
 }
 
-static ECalClient *
+static void
 start_calendar_server (struct _itip_puri *pitip, ESource *source, ECalClientSourceType type, GAsyncReadyCallback func, gpointer data)
 {
 	ECalClient *client;
-	EShell *shell;
-	EShellSettings *shell_settings;
-	icaltimezone *zone = NULL;
 
-	g_return_val_if_fail (source != NULL, NULL);
+	g_return_if_fail (source != NULL);
 
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	client = g_hash_table_lookup (pitip->ecals[type], e_source_peek_uid (source));
+	client = g_hash_table_lookup (pitip->clients[type], e_source_peek_uid (source));
 	if (client) {
 		pitip->current_client = client;
 
@@ -567,25 +567,19 @@ start_calendar_server (struct _itip_puri *pitip, ESource *source, ECalClientSour
 
 		set_buttons_sensitive (pitip);
 
-		return client;
+		return;
 	}
 
-	client = e_cal_client_new (source, type, NULL);
-	if (!client)
-		return NULL;
-
-	g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
-
-	g_hash_table_insert (pitip->ecals[type], g_strdup (e_source_peek_uid (source)), client);
-
-	zone = e_shell_settings_get_pointer (shell_settings, "cal-timezone");
-	e_cal_client_set_default_timezone (client, zone);
-	e_client_open (E_CLIENT (client), TRUE, NULL, func, data);
-
-	return client;
+	e_client_utils_open_new (source,
+		type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? E_CLIENT_SOURCE_TYPE_EVENTS :
+		type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS ? E_CLIENT_SOURCE_TYPE_MEMOS :
+		type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ? E_CLIENT_SOURCE_TYPE_TASKS : E_CLIENT_SOURCE_TYPE_LAST,
+		TRUE, pitip->cancellable,
+		e_client_utils_authenticate_handler, NULL,
+		func, data);
 }
 
-static ECalClient *
+static void
 start_calendar_server_by_uid (struct _itip_puri *pitip, const gchar *uid, ECalClientSourceType type)
 {
 	gint i;
@@ -596,11 +590,11 @@ start_calendar_server_by_uid (struct _itip_puri *pitip, const gchar *uid, ECalCl
 		ESource *source;
 
 		source = e_source_list_peek_source_by_uid (pitip->source_lists[i], uid);
-		if (source)
-			return start_calendar_server (pitip, source, type, cal_opened_cb, pitip);
+		if (source) {
+			start_calendar_server (pitip, source, type, cal_opened_cb, pitip);
+			break;
+		}
 	}
-
-	return NULL;
 }
 
 static void
@@ -616,76 +610,31 @@ source_selected_cb (ItipView *view, ESource *source, gpointer data)
 }
 
 static void
-find_cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+find_cal_update_ui (FormatItipFindData *fd, ECalClient *cal_client)
 {
-	FormatItipFindData *fd = user_data;
-	struct _itip_puri *pitip = fd->puri;
+	struct _itip_puri *pitip;
 	ESource *source;
-	ECalClientSourceType source_type;
-	icalcomponent *icalcomp;
-	GSList *objects = NULL;
-	ECalClient *client = E_CAL_CLIENT (source_object);
-	GError *error = NULL;
 
-	if (!e_client_open_finish (E_CLIENT (client), result, &error)) {
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_FAILED)) {
-			g_error_free (error);
-			e_client_open (E_CLIENT (client), TRUE, NULL, find_cal_opened_cb, user_data);
-			return;
-		}
-	}
+	g_return_if_fail (fd != NULL);
 
-	source_type = e_cal_client_get_source_type (client);
-	source = e_client_get_source (E_CLIENT (client));
+	pitip = fd->puri;
 
-	fd->count--;
+	/* UI part gone */
+	if (g_cancellable_is_cancelled (fd->cancellable))
+		return;
 
-	if (error) {
-		/* FIXME Do we really want to warn here?  If we fail
-		 * to find the item, this won't be cleared but the
-		 * selector might be shown */
-		d(printf ("Failed opening itip formatter calendar '%s' during search opening... ", e_source_peek_name (source)));
-		add_failed_to_load_msg (ITIP_VIEW (pitip->view), source, error);
+	source = cal_client ? e_client_get_source (E_CLIENT (cal_client)) : NULL;
 
-		if (pitip->current_client == client) {
-			pitip->current_client = NULL;
-			itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
-		}
-
-		g_hash_table_remove (pitip->ecals[source_type], e_source_peek_uid (source));
-		g_error_free (error);
-		goto cleanup;
-	}
-
-	/* Check for conflicts */
-	/* If the query fails, we'll just ignore it */
-	/* FIXME What happens for recurring conflicts? */
-	if (pitip->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS
-	    && e_source_get_property (E_SOURCE (source), "conflict")
-	    && !g_ascii_strcasecmp (e_source_get_property (E_SOURCE (source), "conflict"), "true")
-	    && e_cal_client_get_object_list_sync (client, fd->sexp, &objects, NULL, NULL)
-	    && g_slist_length (objects) > 0) {
+	if (cal_client && g_hash_table_lookup (fd->conflicts, cal_client)) {
 		itip_view_add_upper_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 						      _("An appointment in the calendar '%s' conflicts with this meeting"), e_source_peek_name (source));
-
-		e_cal_client_free_icalcomp_slist (objects);
 	}
 
 	/* search for a master object if the detached object doesn't exist in the calendar */
-	if (!pitip->current_client && (e_cal_client_get_object_sync (client, fd->uid, fd->rid, &icalcomp, NULL, NULL) || (fd->rid && e_cal_client_get_object_sync (client, fd->uid, NULL, &icalcomp, NULL, NULL)))) {
-		if ((pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) &&
-		    (icalcomponent_get_first_component (icalcomp, ICAL_VALARM_COMPONENT) ||
-		    icalcomponent_get_first_component (icalcomp, ICAL_XAUDIOALARM_COMPONENT) ||
-		    icalcomponent_get_first_component (icalcomp, ICAL_XDISPLAYALARM_COMPONENT) ||
-		    icalcomponent_get_first_component (icalcomp, ICAL_XPROCEDUREALARM_COMPONENT) ||
-		    icalcomponent_get_first_component (icalcomp, ICAL_XEMAILALARM_COMPONENT)))
-			itip_view_set_show_keep_alarm_check (ITIP_VIEW (pitip->view), TRUE);
-		else
-			itip_view_set_show_keep_alarm_check (ITIP_VIEW (pitip->view), FALSE);
+	if (pitip->current_client && pitip->current_client == cal_client) {
+		itip_view_set_show_keep_alarm_check (ITIP_VIEW (pitip->view), fd->keep_alarm_check);
 
-		icalcomponent_free (icalcomp);
-
-		pitip->current_client = client;
+		pitip->current_client = cal_client;
 
 		/* Provide extra info, since its not in the component */
 		/* FIXME Check sequence number of meeting? */
@@ -708,7 +657,7 @@ find_cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_
 	} else if (!pitip->current_client)
 		itip_view_set_show_keep_alarm_check (ITIP_VIEW (pitip->view), FALSE);
 
-	if (pitip->current_client) {
+	if (pitip->current_client && pitip->current_client == cal_client) {
 		if (e_cal_client_check_recurrences_no_master (pitip->current_client)) {
 			icalcomponent *icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
 
@@ -728,12 +677,19 @@ find_cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_
 			itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_PUBLISH);
 		}
 	}
+}
 
- cleanup:
+static void
+decrease_find_data (FormatItipFindData *fd)
+{
+	g_return_if_fail (fd != NULL);
+
+	fd->count--;
 	d(printf ("Decreasing itip formatter search count to %d\n", fd->count));
 
-	if (fd->count == 0) {
+	if (fd->count == 0 && !g_cancellable_is_cancelled (fd->cancellable)) {
 		gboolean rsvp_enabled = FALSE;
+		struct _itip_puri *pitip = fd->puri;
 
 		itip_view_remove_lower_info_item (ITIP_VIEW (pitip->view), pitip->progress_info_id);
 		pitip->progress_info_id = 0;
@@ -744,7 +700,7 @@ find_cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_
                  * invitiations (REQUEST), but not replies (REPLY).
 		 * Replies only make sense for events with an organizer.
 		 */
-		if (!e_cal_client_check_save_schedules (client) &&
+		if (!e_cal_client_check_save_schedules (pitip->current_client) &&
 		    (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) &&
 		    pitip->has_organizer) {
 			rsvp_enabled = TRUE;
@@ -823,11 +779,177 @@ find_cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_
 				break;
 			}
 		}
+	}
 
+	if (fd->count == 0) {
+		g_hash_table_destroy (fd->conflicts);
+		g_object_unref (fd->cancellable);
 		g_free (fd->uid);
 		g_free (fd->rid);
 		g_free (fd);
 	}
+}
+
+static void
+get_object_without_rid_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	ECalClient *cal_client = E_CAL_CLIENT (source_object);
+	FormatItipFindData *fd = user_data;
+	icalcomponent *icalcomp = NULL;
+	GError *error = NULL;
+
+	if (!e_cal_client_get_object_finish (cal_client, result, &icalcomp, &error))
+		icalcomp = NULL;
+
+	if (icalcomp) {
+		fd->puri->current_client = cal_client;
+		fd->keep_alarm_check = (fd->puri->method == ICAL_METHOD_PUBLISH || fd->puri->method ==  ICAL_METHOD_REQUEST) &&
+			(icalcomponent_get_first_component (icalcomp, ICAL_VALARM_COMPONENT) ||
+			icalcomponent_get_first_component (icalcomp, ICAL_XAUDIOALARM_COMPONENT) ||
+			icalcomponent_get_first_component (icalcomp, ICAL_XDISPLAYALARM_COMPONENT) ||
+			icalcomponent_get_first_component (icalcomp, ICAL_XPROCEDUREALARM_COMPONENT) ||
+			icalcomponent_get_first_component (icalcomp, ICAL_XEMAILALARM_COMPONENT));
+
+		icalcomponent_free (icalcomp);
+		find_cal_update_ui (fd, cal_client);
+		decrease_find_data (fd);
+		return;
+	}
+
+	if (error)
+		g_error_free (error);
+
+	find_cal_update_ui (fd, cal_client);
+	decrease_find_data (fd);
+}
+
+static void
+get_object_with_rid_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	ECalClient *cal_client = E_CAL_CLIENT (source_object);
+	FormatItipFindData *fd = user_data;
+	icalcomponent *icalcomp = NULL;
+	GError *error = NULL;
+
+	if (!e_cal_client_get_object_finish (cal_client, result, &icalcomp, &error))
+		icalcomp = NULL;
+
+	if (icalcomp) {
+		fd->puri->current_client = cal_client;
+		fd->keep_alarm_check = (fd->puri->method == ICAL_METHOD_PUBLISH || fd->puri->method ==  ICAL_METHOD_REQUEST) &&
+			(icalcomponent_get_first_component (icalcomp, ICAL_VALARM_COMPONENT) ||
+			icalcomponent_get_first_component (icalcomp, ICAL_XAUDIOALARM_COMPONENT) ||
+			icalcomponent_get_first_component (icalcomp, ICAL_XDISPLAYALARM_COMPONENT) ||
+			icalcomponent_get_first_component (icalcomp, ICAL_XPROCEDUREALARM_COMPONENT) ||
+			icalcomponent_get_first_component (icalcomp, ICAL_XEMAILALARM_COMPONENT));
+
+		icalcomponent_free (icalcomp);
+		find_cal_update_ui (fd, cal_client);
+		decrease_find_data (fd);
+		return;
+	}
+
+	if (error) {
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+			g_error_free (error);
+			find_cal_update_ui (fd, cal_client);
+			decrease_find_data (fd);
+			return;
+		}
+
+		g_error_free (error);
+	}
+
+	if (fd->rid && *fd->rid) {
+		e_cal_client_get_object (cal_client, fd->uid, NULL, fd->cancellable, get_object_without_rid_ready_cb, fd);
+		return;
+	}
+
+	find_cal_update_ui (fd, cal_client);
+	decrease_find_data (fd);
+}
+
+static void
+get_object_list_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	ECalClient *cal_client = E_CAL_CLIENT (source_object);
+	FormatItipFindData *fd = user_data;
+	GSList *objects = NULL;
+	GError *error = NULL;
+
+	if (!e_cal_client_get_object_list_finish (cal_client, result, &objects, &error))
+		objects = NULL;
+
+	if (error) {
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+			g_error_free (error);
+			decrease_find_data (fd);
+			return;
+		}
+
+		g_error_free (error);
+	} else {
+		g_hash_table_insert (fd->conflicts, cal_client, GINT_TO_POINTER (g_slist_length (objects)));
+		e_cal_client_free_icalcomp_slist (objects);
+	}
+
+	e_cal_client_get_object (cal_client, fd->uid, fd->rid, fd->cancellable, get_object_with_rid_ready_cb, fd);
+}
+
+static void
+find_cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	FormatItipFindData *fd = user_data;
+	struct _itip_puri *pitip = fd->puri;
+	ESource *source;
+	ECalClientSourceType source_type;
+	EClient *client = NULL;
+	ECalClient *cal_client;
+	GError *error = NULL;
+
+	source = E_SOURCE (source_object);
+
+	if (!e_client_utils_open_new_finish (source, result, &client, &error)) {
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+			g_error_free (error);
+			decrease_find_data (fd);
+			return;
+		}
+	}
+
+	if (error) {
+		/* FIXME Do we really want to warn here?  If we fail
+		 * to find the item, this won't be cleared but the
+		 * selector might be shown */
+		d(printf ("Failed opening itip formatter calendar '%s' during search opening... ", e_source_peek_name (source)));
+		add_failed_to_load_msg (ITIP_VIEW (pitip->view), source, error);
+
+		g_error_free (error);
+		decrease_find_data (fd);
+		return;
+	}
+
+	cal_client = E_CAL_CLIENT (client);
+	source_type = e_cal_client_get_source_type (cal_client);
+
+	g_hash_table_insert (pitip->clients[source_type], g_strdup (e_source_peek_uid (source)), cal_client);
+
+	/* Check for conflicts */
+	/* If the query fails, we'll just ignore it */
+	/* FIXME What happens for recurring conflicts? */
+	if (pitip->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS
+	    && e_source_get_property (E_SOURCE (source), "conflict")
+	    && !g_ascii_strcasecmp (e_source_get_property (E_SOURCE (source), "conflict"), "true")) {
+		e_cal_client_get_object_list (cal_client, fd->sexp, fd->cancellable, get_object_list_ready_cb, fd);
+		return;
+	}
+
+	if (!pitip->current_client) {
+		e_cal_client_get_object (cal_client, fd->uid, fd->rid, fd->cancellable, get_object_with_rid_ready_cb, fd);
+		return;
+	}
+
+	decrease_find_data (fd);
 }
 
 static void
@@ -892,7 +1014,7 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 		l = sources_conflict;
 
 		pitip->progress_info_id = itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
-				_("Opening the calendar. Please wait.."));
+				_("Opening the calendar. Please wait..."));
 	} else {
 		pitip->progress_info_id = itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
 				_("Searching for an existing version of this appointment"));
@@ -908,6 +1030,8 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 
 			fd = g_new0 (FormatItipFindData, 1);
 			fd->puri = pitip;
+			fd->cancellable = g_object_ref (pitip->cancellable);
+			fd->conflicts = g_hash_table_new (g_direct_hash, g_direct_equal);
 			fd->uid = g_strdup (uid);
 			fd->rid = rid;
 			/* avoid free this at the end */
@@ -928,7 +1052,7 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 		d(printf ("Increasing itip formatter search count to %d\n", fd->count));
 
 		if (current_source == source)
-			pitip->current_client = start_calendar_server (pitip, source, pitip->type, find_cal_opened_cb, fd);
+			start_calendar_server (pitip, source, pitip->type, find_cal_opened_cb, fd);
 		else
 			start_calendar_server (pitip, source, pitip->type, find_cal_opened_cb, fd);
 
@@ -2331,7 +2455,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 			info->source_lists[i] = NULL;
 
 		/* Initialize the ecal hashes */
-		info->ecals[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+		info->clients[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	}
 
 	/* FIXME Handle multiple VEVENTS with the same UID, ie detached instances */
@@ -2609,9 +2733,9 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 
 		itip_view_set_show_free_time_check (ITIP_VIEW (info->view), info->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS && (info->method == ICAL_METHOD_PUBLISH || info->method ==  ICAL_METHOD_REQUEST));
 
-		if (info->calendar_uid)
-			info->current_client = start_calendar_server_by_uid (info, info->calendar_uid, info->type);
-		else {
+		if (info->calendar_uid) {
+			start_calendar_server_by_uid (info, info->calendar_uid, info->type);
+		} else {
 			find_server (info, info->comp);
 			set_buttons_sensitive (info);
 		}
@@ -2626,13 +2750,16 @@ puri_free (EMFormatPURI *puri)
 	struct _itip_puri *pitip = (struct _itip_puri*) puri;
 	gint i;
 
+	g_cancellable_cancel (pitip->cancellable);
+	g_object_unref (pitip->cancellable);
+
 	for (i = 0; i < E_CAL_CLIENT_SOURCE_TYPE_LAST; i++) {
 		if (pitip->source_lists[i])
 		g_object_unref (pitip->source_lists[i]);
 		pitip->source_lists[i] = NULL;
 
-		g_hash_table_destroy (pitip->ecals[i]);
-		pitip->ecals[i] = NULL;
+		g_hash_table_destroy (pitip->clients[i]);
+		pitip->clients[i] = NULL;
 	}
 
 	g_free (pitip->vcalendar);
@@ -2703,7 +2830,9 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 	puri->uid = g_strdup (((EMFormat *) target->format)->uid);
 	puri->msg = ((EMFormat *) target->format)->message;
 	puri->part = target->part;
+	puri->cancellable = g_cancellable_new ();
 	puri->puri.free = puri_free;
+
 	g_object_unref (gconf);
 
 	/* This is non-gui thread. Download the part for using in the main thread */
