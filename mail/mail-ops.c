@@ -214,6 +214,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	CamelFolder *folder = NULL;
 	CamelURL *url;
 	const gchar *uid;
+	gboolean is_local_delivery;
 	gint i;
 
 	fm->destination = e_mail_local_get_folder (
@@ -223,7 +224,8 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	g_object_ref (fm->destination);
 
 	url = camel_service_get_camel_url (CAMEL_SERVICE (m->store));
-	if (em_utils_is_local_delivery_mbox_file (url)) {
+	is_local_delivery = em_utils_is_local_delivery_mbox_file (url);
+	if (is_local_delivery) {
 		gchar *path;
 		gchar *url_string;
 
@@ -333,6 +335,11 @@ fail:
 		g_object_unref (fm->driver);
 		fm->driver = NULL;
 	}
+
+	/* also disconnect if not a local delivery mbox;
+	   there is no need to keep the connection alive forever */
+	if (!is_local_delivery)
+		camel_service_disconnect_sync (CAMEL_SERVICE (m->store), TRUE, NULL);
 }
 
 static void
