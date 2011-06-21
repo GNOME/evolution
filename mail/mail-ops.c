@@ -322,11 +322,18 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 				em_filter_folder_element_exec (fm, cancellable, error);
 			}
 
+			g_object_ref (parent_store);
+
 			/* we unref the source folder here since we
 			   may now block in finalize (we try to
 			   disconnect cleanly) */
 			g_object_unref (fm->source_folder);
 			fm->source_folder = NULL;
+
+			/* also disconnect if not a local delivery mbox;
+			   there is no need to keep the connection alive forever */
+			camel_service_disconnect_sync (CAMEL_SERVICE (parent_store), TRUE, NULL);
+			g_object_unref (parent_store);
 		}
 	}
 fail:
