@@ -43,7 +43,7 @@ enum {
 
 /* Note: Do not use the info field. */
 static GtkTargetEntry target_table[] = {
-	{ (gchar *) "_NETSCAPE_URL",	0, 0 }
+	{ (gchar *) "_NETSCAPE_URL", 0, 0 }
 };
 
 static const gchar *ui =
@@ -67,6 +67,7 @@ static const gchar *ui =
 "    <menuitem action='add'/>"
 "    <separator/>"
 "    <placeholder name='open-actions'/>"
+"    <menuitem action='open-with'/>"
 "  </popup>"
 "</ui>";
 
@@ -147,8 +148,59 @@ action_hide_all_cb (GtkAction *action,
 }
 
 static void
-action_open_in_cb (GtkAction *action,
-                   EAttachmentView *view)
+action_open_with_cb (GtkAction *action,
+                     EAttachmentView *view)
+{
+	EAttachment *attachment;
+	EAttachmentStore *store;
+	GtkWidget *dialog;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	GAppInfo *app_info = NULL;
+	GFileInfo *file_info;
+	GList *list;
+	gpointer parent;
+	const gchar *content_type;
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+
+	list = e_attachment_view_get_selected_paths (view);
+	g_return_if_fail (g_list_length (list) == 1);
+	path = list->data;
+
+	store = e_attachment_view_get_store (view);
+	gtk_tree_model_get_iter (GTK_TREE_MODEL (store), &iter, path);
+	gtk_tree_model_get (
+		GTK_TREE_MODEL (store), &iter,
+		E_ATTACHMENT_STORE_COLUMN_ATTACHMENT, &attachment, -1);
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	file_info = e_attachment_get_file_info (attachment);
+	g_return_if_fail (file_info != NULL);
+
+	content_type = g_file_info_get_content_type (file_info);
+
+	dialog = gtk_app_chooser_dialog_new_for_content_type (
+		parent, 0, content_type);
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		GtkAppChooser *app_chooser = GTK_APP_CHOOSER (dialog);
+		app_info = gtk_app_chooser_get_app_info (app_chooser);
+	}
+	gtk_widget_destroy (dialog);
+
+	if (app_info != NULL) {
+		e_attachment_view_open_path (view, path, app_info);
+		g_object_unref (app_info);
+	}
+
+	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
+	g_list_free (list);
+}
+
+static void
+action_open_with_app_info_cb (GtkAction *action,
+                              EAttachmentView *view)
 {
 	GAppInfo *app_info;
 	GtkTreePath *path;
@@ -346,6 +398,13 @@ static GtkActionEntry standard_entries[] = {
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_cancel_cb) },
+
+	{ "open-with",
+	  NULL,
+	  N_("Open With Other Application..."),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_open_with_cb) },
 
 	{ "save-all",
 	  GTK_STOCK_SAVE_AS,
@@ -694,6 +753,9 @@ attachment_view_update_actions (EAttachmentView *view)
 	action = e_attachment_view_get_action (view, "hide-all");
 	gtk_action_set_visible (action, visible);
 
+	action = e_attachment_view_get_action (view, "open-with");
+	gtk_action_set_visible (action, !busy && n_selected == 1);
+
 	action = e_attachment_view_get_action (view, "properties");
 	gtk_action_set_visible (action, !busy && n_selected == 1);
 
@@ -737,8 +799,8 @@ attachment_view_update_actions (EAttachmentView *view)
 		app_icon = g_app_info_get_icon (app_info);
 		app_name = g_app_info_get_name (app_info);
 
-		action_name = g_strdup_printf ("open-in-%s", app_executable);
-		action_label = g_strdup_printf (_("Open with \"%s\""), app_name);
+		action_name = g_strdup_printf ("open-with-%s", app_executable);
+		action_label = g_strdup_printf (_("Open With \"%s\""), app_name);
 
 		action_tooltip = g_strdup_printf (
 			_("Open this attachment in %s"), app_name);
@@ -760,7 +822,7 @@ attachment_view_update_actions (EAttachmentView *view)
 
 		g_signal_connect (
 			action, "activate",
-			G_CALLBACK (action_open_in_cb), view);
+			G_CALLBACK (action_open_with_app_info_cb), view);
 
 		gtk_action_group_add_action (action_group, action);
 
