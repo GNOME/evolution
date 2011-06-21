@@ -368,20 +368,61 @@ tab_remove_gtk_cb (GtkWidget *button,
 
 }
 
+static void
+adjust_label_size_request (GtkWidget *view,
+			   GtkAllocation *allocation,
+			   GtkWidget *label)
+{
+	GtkRequisition requisition;
+	int max_width = allocation->width / 2;
+
+	/* We make sure the label is not over-ellipisized, but doesn't
+	 * get too big to cause the tab to not fit either. */
+	gtk_widget_get_preferred_size (label, NULL, &requisition);
+	if (requisition.width < max_width)
+		gtk_widget_set_size_request (label, requisition.width, -1);
+	else
+		gtk_widget_set_size_request (label, max_width, -1);
+}
+
+static void
+disconnect_label_adjusting (EMailNotebookView *view,
+			    GtkWidget *label)
+{
+	g_signal_handlers_disconnect_by_func (
+		view,
+		adjust_label_size_request,
+		label);
+}
+
 static GtkWidget *
 create_tab_label (EMailNotebookView *view,
 		  EMailView *page,
 		  const gchar *str)
 {
 	GtkWidget *container, *widget;
+	GtkAllocation allocation;
 
 	widget = gtk_hbox_new (FALSE, 0);
 	gtk_widget_show (widget);
 	container = widget;
 
 	widget = gtk_label_new (str);
+	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_widget_show (widget);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, FALSE, 0);
+
+	gtk_widget_get_allocation (GTK_WIDGET (view), &allocation);
+	adjust_label_size_request (GTK_WIDGET (view), &allocation, widget);
+
+	g_signal_connect (
+		view, "size-allocate",
+		G_CALLBACK (adjust_label_size_request), widget);
+
+	g_object_weak_ref (
+		G_OBJECT (widget),
+		(GWeakNotify) disconnect_label_adjusting,
+		view);
 
 	widget = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
