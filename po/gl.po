@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-20 16:29+0200\n"
-"PO-Revision-Date: 2011-06-20 16:28+0200\n"
+"POT-Creation-Date: 2011-06-22 11:23+0200\n"
+"PO-Revision-Date: 2011-06-22 11:30+0200\n"
 "Last-Translator: Fran Diéguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
 "Language: gl\n"
@@ -1470,7 +1470,7 @@ msgstr "Non foi posíbel obter unha lista das axendas de enderezos: %s"
 #: ../calendar/gui/dialogs/event-page.c:2893
 #: ../calendar/gui/dialogs/memo-page.c:920
 #: ../calendar/gui/dialogs/task-page.c:1810 ../em-format/em-format.c:2280
-#: ../mail/em-folder-tree.c:678 ../mail/mail-ops.c:650
+#: ../mail/em-folder-tree.c:678 ../mail/mail-ops.c:657
 #: ../plugins/caldav/caldav-browse-server.c:209
 #: ../plugins/caldav/caldav-browse-server.c:1406 ../plugins/face/face.c:169
 #: ../smime/gui/certificate-manager.c:313
@@ -2444,7 +2444,7 @@ msgstr "Co_r:"
 #: ../mail/em-folder-properties.c:232 ../mail/mail-config.ui.h:52
 #: ../modules/addressbook/addressbook-config.c:1012
 #: ../modules/calendar/e-calendar-preferences.ui.h:19
-#: ../plugins/itip-formatter/itip-formatter.c:2817
+#: ../plugins/itip-formatter/itip-formatter.c:2946
 #: ../plugins/publish-calendar/publish-calendar.ui.h:7
 #: ../smime/gui/smime-ui.ui.h:21
 msgid "General"
@@ -3882,8 +3882,8 @@ msgstr "Non"
 #: ../calendar/gui/e-meeting-store.c:234 ../calendar/gui/print.c:1098
 #: ../calendar/gui/print.c:1115 ../e-util/e-charset.c:52
 #: ../modules/plugin-manager/evolution-plugin-manager.c:101
-#: ../plugins/itip-formatter/itip-formatter.c:455
-#: ../plugins/itip-formatter/itip-formatter.c:2484
+#: ../plugins/itip-formatter/itip-formatter.c:462
+#: ../plugins/itip-formatter/itip-formatter.c:2608
 msgid "Unknown"
 msgstr "Descoñecido"
 
@@ -3968,14 +3968,14 @@ msgstr "Actualizando os obxectos"
 #: ../calendar/gui/e-calendar-view.c:1778
 #: ../calendar/gui/e-meeting-list-view.c:199
 #: ../calendar/gui/e-meeting-store.c:198 ../calendar/gui/e-meeting-store.c:221
-#: ../plugins/itip-formatter/itip-formatter.c:2472
+#: ../plugins/itip-formatter/itip-formatter.c:2596
 msgid "Accepted"
 msgstr "Aceptado"
 
 #: ../calendar/gui/e-calendar-view.c:1779
 #: ../calendar/gui/e-meeting-list-view.c:200
 #: ../calendar/gui/e-meeting-store.c:200 ../calendar/gui/e-meeting-store.c:223
-#: ../plugins/itip-formatter/itip-formatter.c:2478
+#: ../plugins/itip-formatter/itip-formatter.c:2602
 msgid "Declined"
 msgstr "Rexeitado"
 
@@ -3989,7 +3989,7 @@ msgstr "Provisional"
 #: ../calendar/gui/e-calendar-view.c:1781
 #: ../calendar/gui/e-meeting-list-view.c:202
 #: ../calendar/gui/e-meeting-store.c:204 ../calendar/gui/e-meeting-store.c:227
-#: ../plugins/itip-formatter/itip-formatter.c:2481
+#: ../plugins/itip-formatter/itip-formatter.c:2605
 msgid "Delegated"
 msgstr "Delegado"
 
@@ -4967,7 +4967,7 @@ msgstr "Citas e reunións"
 
 #: ../calendar/importers/icalendar-importer.c:407
 #: ../calendar/importers/icalendar-importer.c:817
-#: ../plugins/itip-formatter/itip-formatter.c:1961
+#: ../plugins/itip-formatter/itip-formatter.c:2085
 msgid "Opening calendar"
 msgstr "Abrindo o calendario"
 
@@ -6702,7 +6702,7 @@ msgid "Save as..."
 msgstr "Gardar como…"
 
 #: ../composer/e-composer-actions.c:291
-#: ../widgets/misc/e-attachment-view.c:380
+#: ../widgets/misc/e-attachment-view.c:439
 msgid "Attach a file"
 msgstr "Anexar un ficheiro"
 
@@ -9057,13 +9057,13 @@ msgstr "Non se atopou ningunha conta que usar, o reencamiñamento cancelouse."
 msgid "Cannot get transport for account '%s'"
 msgstr "Non é posíbel obter o servizo de transporte para a conta «%s»"
 
-#: ../mail/e-mail-session-utils.c:496 ../mail/mail-ops.c:626
+#: ../mail/e-mail-session-utils.c:496 ../mail/mail-ops.c:633
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Produciuse un fallo ao aplicar os filtros ao correo saínte: %s"
 
 #: ../mail/e-mail-session-utils.c:520 ../mail/e-mail-session-utils.c:554
-#: ../mail/mail-ops.c:645 ../mail/mail-ops.c:679
+#: ../mail/mail-ops.c:652 ../mail/mail-ops.c:686
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -9072,13 +9072,13 @@ msgstr ""
 "Produciuse un fallo ao anexar a %s: %s\n"
 "No seu lugar anexaranse ao cartafol local «Enviados»."
 
-#: ../mail/e-mail-session-utils.c:574 ../mail/mail-ops.c:699
+#: ../mail/e-mail-session-utils.c:574 ../mail/mail-ops.c:706
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Produciuse un fallo ao anexar ao cartafol local «Enviados»: %s"
 
-#: ../mail/e-mail-session-utils.c:785 ../mail/mail-ops.c:802
-#: ../mail/mail-ops.c:898
+#: ../mail/e-mail-session-utils.c:785 ../mail/mail-ops.c:809
+#: ../mail/mail-ops.c:905
 msgid "Sending message"
 msgstr "Enviando a mensaxe"
 
@@ -12220,69 +12220,69 @@ msgstr "Filtrando as mensaxes seleccionadas"
 msgid "Fetching Mail"
 msgstr "Recibindo o correo"
 
-#: ../mail/mail-ops.c:813
+#: ../mail/mail-ops.c:820
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Enviando a mensaxe %d de %d"
 
-#: ../mail/mail-ops.c:861
+#: ../mail/mail-ops.c:868
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "Produciuse un fallo ao enviar %d de %d mensaxes"
 
-#: ../mail/mail-ops.c:865 ../mail/mail-send-recv.c:824
+#: ../mail/mail-ops.c:872 ../mail/mail-send-recv.c:824
 msgid "Canceled."
 msgstr "Cancelado."
 
-#: ../mail/mail-ops.c:867 ../mail/mail-send-recv.c:826
+#: ../mail/mail-ops.c:874 ../mail/mail-send-recv.c:826
 msgid "Complete."
 msgstr "Completado."
 
-#: ../mail/mail-ops.c:977
+#: ../mail/mail-ops.c:984
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Movendo as mensaxes a «%s»"
 
-#: ../mail/mail-ops.c:978
+#: ../mail/mail-ops.c:985
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Copiando as mensaxes a «%s»"
 
-#: ../mail/mail-ops.c:1095
+#: ../mail/mail-ops.c:1102
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Gardando o cartafol «%s»"
 
-#: ../mail/mail-ops.c:1169
+#: ../mail/mail-ops.c:1176
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Expurgando e gardando a conta «%s»"
 
-#: ../mail/mail-ops.c:1170
+#: ../mail/mail-ops.c:1177
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Gardando a conta «%s»"
 
-#: ../mail/mail-ops.c:1232
+#: ../mail/mail-ops.c:1239
 #, c-format
 msgid "Refreshing folder '%s'"
 msgstr "Actualizando o cartafol «%s»"
 
-#: ../mail/mail-ops.c:1410
+#: ../mail/mail-ops.c:1417
 #, c-format
 msgid "Expunging folder '%s'"
 msgstr "Expurgando o cartafol «%s»"
 
-#: ../mail/mail-ops.c:1483
+#: ../mail/mail-ops.c:1490
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Baleirando o lixo de «%s»"
 
-#: ../mail/mail-ops.c:1484
+#: ../mail/mail-ops.c:1491
 msgid "Local Folders"
 msgstr "Cartafoles locais"
 
-#: ../mail/mail-ops.c:1582
+#: ../mail/mail-ops.c:1589
 #, c-format
 msgid "Disconnecting %s"
 msgstr "Desconectando %s"
@@ -14848,7 +14848,7 @@ msgid "Create a new calendar"
 msgstr "Crear un calendario novo"
 
 #: ../modules/calendar/e-cal-shell-backend.c:751
-#: ../plugins/itip-formatter/itip-formatter.c:2808
+#: ../plugins/itip-formatter/itip-formatter.c:2937
 msgid "Calendar and Tasks"
 msgstr "Calendario e tarefas"
 
@@ -17228,148 +17228,148 @@ msgstr "Características IMAP"
 
 #. Translators: The first '%s' is replaced with a calendar name,
 #. the second '%s' with an error message
-#: ../plugins/itip-formatter/itip-formatter.c:483
+#: ../plugins/itip-formatter/itip-formatter.c:490
 #, c-format
 msgid "Failed to load the calendar '%s' (%s)"
 msgstr "Produciuse un fallo ao cargar o calendario «%s» (%s)"
 
-#: ../plugins/itip-formatter/itip-formatter.c:669
+#: ../plugins/itip-formatter/itip-formatter.c:630
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "Unha cita no calendario «%s» entra en conflito con esta reunión"
 
-#: ../plugins/itip-formatter/itip-formatter.c:705
+#: ../plugins/itip-formatter/itip-formatter.c:654
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "Localizouse a cita no calendario «%s»"
 
-#: ../plugins/itip-formatter/itip-formatter.c:804
+#: ../plugins/itip-formatter/itip-formatter.c:760
 msgid "Unable to find any calendars"
 msgstr "Non é posíbel atopar ningún calendario"
 
-#: ../plugins/itip-formatter/itip-formatter.c:811
+#: ../plugins/itip-formatter/itip-formatter.c:767
 msgid "Unable to find this meeting in any calendar"
 msgstr "Non é posíbel atopar esta reunión en ningún calendario"
 
-#: ../plugins/itip-formatter/itip-formatter.c:815
+#: ../plugins/itip-formatter/itip-formatter.c:771
 msgid "Unable to find this task in any task list"
 msgstr "Non é posíbel atopar esta tarefa en ningunha lista de tarefas"
 
-#: ../plugins/itip-formatter/itip-formatter.c:819
+#: ../plugins/itip-formatter/itip-formatter.c:775
 msgid "Unable to find this memo in any memo list"
 msgstr "Non é posíbel atopar esta nota en ningunha lista de notas"
 
-#: ../plugins/itip-formatter/itip-formatter.c:895
-msgid "Opening the calendar. Please wait.."
-msgstr "Abrindo o calendario, agarde…"
+#: ../plugins/itip-formatter/itip-formatter.c:1017
+msgid "Opening the calendar. Please wait..."
+msgstr "Abrindo o calendario. Agarde…"
 
-#: ../plugins/itip-formatter/itip-formatter.c:898
+#: ../plugins/itip-formatter/itip-formatter.c:1020
 msgid "Searching for an existing version of this appointment"
 msgstr "Buscando unha versión existente desta cita"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1169
+#: ../plugins/itip-formatter/itip-formatter.c:1293
 msgid "Unable to parse item"
 msgstr "Non é posíbel analizar o elemento"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1258
+#: ../plugins/itip-formatter/itip-formatter.c:1382
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Non é posíbel enviar o elemento ao calendario «%s». %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1270
+#: ../plugins/itip-formatter/itip-formatter.c:1394
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Enviado ao calendario «%s» como aceptado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1274
+#: ../plugins/itip-formatter/itip-formatter.c:1398
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Enviado ao calendario «%s» como provisional"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1279
+#: ../plugins/itip-formatter/itip-formatter.c:1403
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Enviado ao calendario «%s» como rexeitado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1284
+#: ../plugins/itip-formatter/itip-formatter.c:1408
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "Enviado ao calendario «%s» como cancelado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1378
+#: ../plugins/itip-formatter/itip-formatter.c:1502
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "O organizador eliminou o delegado %s "
 
-#: ../plugins/itip-formatter/itip-formatter.c:1385
+#: ../plugins/itip-formatter/itip-formatter.c:1509
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Enviouse unha notificación de cancelación ao delegado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1387
+#: ../plugins/itip-formatter/itip-formatter.c:1511
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Non foi posíbel enviar unha notificación de cancelación ao delegado"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1498
+#: ../plugins/itip-formatter/itip-formatter.c:1622
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Non foi posíbel actualizar o estado de participante debido a que o estado "
 "non é válido"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1527
+#: ../plugins/itip-formatter/itip-formatter.c:1651
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Non é posíbel actualizar o participante. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1531
+#: ../plugins/itip-formatter/itip-formatter.c:1655
 msgid "Attendee status updated"
 msgstr "Actualizouse o estado de participante"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1535
+#: ../plugins/itip-formatter/itip-formatter.c:1659
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Non foi posíbel actualizar o estado de participante porque xa non existe o "
 "elemento"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1557
+#: ../plugins/itip-formatter/itip-formatter.c:1681
 msgid "Meeting information sent"
 msgstr "Enviouse a información da reunión"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1560
+#: ../plugins/itip-formatter/itip-formatter.c:1684
 msgid "Task information sent"
 msgstr "Enviouse a información da tarefa"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1563
+#: ../plugins/itip-formatter/itip-formatter.c:1687
 msgid "Memo information sent"
 msgstr "Enviouse a información da nota"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1572
+#: ../plugins/itip-formatter/itip-formatter.c:1696
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Non é posíbel enviar a información da reunión, a reunión non existe"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1575
+#: ../plugins/itip-formatter/itip-formatter.c:1699
 msgid "Unable to send task information, the task does not exist"
 msgstr "Non é posíbel enviar a información da tarefa, a tarefa non existe"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1578
+#: ../plugins/itip-formatter/itip-formatter.c:1702
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Non é posíbel enviar a información da nota, a nota non existe"
 
 #. Translators: This is a default filename for a calendar.
-#: ../plugins/itip-formatter/itip-formatter.c:1643
+#: ../plugins/itip-formatter/itip-formatter.c:1767
 msgid "calendar.ics"
 msgstr "calendar.ics"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1648
+#: ../plugins/itip-formatter/itip-formatter.c:1772
 msgid "Save Calendar"
 msgstr "Gardar o calendario"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1706
-#: ../plugins/itip-formatter/itip-formatter.c:1717
+#: ../plugins/itip-formatter/itip-formatter.c:1830
+#: ../plugins/itip-formatter/itip-formatter.c:1841
 msgid "The calendar attached is not valid"
 msgstr "O calendario anexado non é válido"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1707
-#: ../plugins/itip-formatter/itip-formatter.c:1718
+#: ../plugins/itip-formatter/itip-formatter.c:1831
+#: ../plugins/itip-formatter/itip-formatter.c:1842
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -17377,15 +17377,15 @@ msgstr ""
 "A mensaxe di que contén un calendario pero o calendario non é un iCalendar "
 "correcto."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1758
-#: ../plugins/itip-formatter/itip-formatter.c:1786
-#: ../plugins/itip-formatter/itip-formatter.c:1895
+#: ../plugins/itip-formatter/itip-formatter.c:1882
+#: ../plugins/itip-formatter/itip-formatter.c:1910
+#: ../plugins/itip-formatter/itip-formatter.c:2019
 msgid "The item in the calendar is not valid"
 msgstr "O elemento do calendario non é válido"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1759
-#: ../plugins/itip-formatter/itip-formatter.c:1787
-#: ../plugins/itip-formatter/itip-formatter.c:1896
+#: ../plugins/itip-formatter/itip-formatter.c:1883
+#: ../plugins/itip-formatter/itip-formatter.c:1911
+#: ../plugins/itip-formatter/itip-formatter.c:2020
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -17393,11 +17393,11 @@ msgstr ""
 "A mensaxe contén un calendario pero o calendario non contén actividades, "
 "tarefas nin información de dispoñibilidade"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1800
+#: ../plugins/itip-formatter/itip-formatter.c:1924
 msgid "The calendar attached contains multiple items"
 msgstr "O calendario anexado contén múltiples elementos"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1801
+#: ../plugins/itip-formatter/itip-formatter.c:1925
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -17405,40 +17405,40 @@ msgstr ""
 "Para procesar todos estes elementos, debería gardarse o ficheiro e "
 "importarse o calendario"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2459
+#: ../plugins/itip-formatter/itip-formatter.c:2583
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Ningún"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2475
+#: ../plugins/itip-formatter/itip-formatter.c:2599
 msgid "Tentatively Accepted"
 msgstr "Aceptado provisionalmente"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2593
+#: ../plugins/itip-formatter/itip-formatter.c:2717
 msgid "This meeting recurs"
 msgstr "Esta reunión repítese"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2596
+#: ../plugins/itip-formatter/itip-formatter.c:2720
 msgid "This task recurs"
 msgstr "Esta tarefa repítese"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2599
+#: ../plugins/itip-formatter/itip-formatter.c:2723
 msgid "This memo recurs"
 msgstr "Esta nota repítese"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2833
+#: ../plugins/itip-formatter/itip-formatter.c:2962
 msgid "_Delete message after acting"
 msgstr "E_liminar a mensaxe despois da acción"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2843
-#: ../plugins/itip-formatter/itip-formatter.c:2876
+#: ../plugins/itip-formatter/itip-formatter.c:2972
+#: ../plugins/itip-formatter/itip-formatter.c:3005
 msgid "Conflict Search"
 msgstr "Busca de conflitos"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2858
+#: ../plugins/itip-formatter/itip-formatter.c:2987
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Seleccionar os calendarios nos que buscar conflitos entre reunións"
 
@@ -20723,36 +20723,40 @@ msgstr[1] "Gardar os anexos"
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
-#: ../widgets/misc/e-attachment-view.c:352
+#: ../widgets/misc/e-attachment-view.c:404
+msgid "Open With Other Application..."
+msgstr "Abrir con outro aplicativo…"
+
+#: ../widgets/misc/e-attachment-view.c:411
 msgid "S_ave All"
 msgstr "G_ardar todo"
 
-#: ../widgets/misc/e-attachment-view.c:378
+#: ../widgets/misc/e-attachment-view.c:437
 msgid "A_dd Attachment..."
 msgstr "Enga_dir un anexo…"
 
-#: ../widgets/misc/e-attachment-view.c:402
+#: ../widgets/misc/e-attachment-view.c:461
 msgid "_Hide"
 msgstr "_Ocultar"
 
-#: ../widgets/misc/e-attachment-view.c:409
+#: ../widgets/misc/e-attachment-view.c:468
 msgid "Hid_e All"
 msgstr "O_cultar todo"
 
-#: ../widgets/misc/e-attachment-view.c:416
+#: ../widgets/misc/e-attachment-view.c:475
 msgid "_View Inline"
 msgstr "_Ver inserido"
 
-#: ../widgets/misc/e-attachment-view.c:423
+#: ../widgets/misc/e-attachment-view.c:482
 msgid "Vie_w All Inline"
 msgstr "_Ver todo inserido"
 
-#: ../widgets/misc/e-attachment-view.c:741
+#: ../widgets/misc/e-attachment-view.c:803
 #, c-format
-msgid "Open with \"%s\""
+msgid "Open With \"%s\""
 msgstr "Abrir con «%s»"
 
-#: ../widgets/misc/e-attachment-view.c:744
+#: ../widgets/misc/e-attachment-view.c:806
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Abrir este anexo en %s"
