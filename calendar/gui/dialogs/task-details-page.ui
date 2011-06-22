@@ -80,7 +80,6 @@
             <property name="xpad">0</property>
             <property name="ypad">0</property>
             <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-            <property name="width_chars">-1</property>
             <property name="single_line_mode">False</property>
             <property name="angle">0</property>
             <attributes>
@@ -112,7 +111,6 @@
                 <property name="xpad">12</property>
                 <property name="ypad">0</property>
                 <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                <property name="width_chars">-1</property>
                 <property name="single_line_mode">False</property>
                 <property name="angle">0</property>
               </object>
@@ -144,7 +142,6 @@
                     <property name="xpad">0</property>
                     <property name="ypad">0</property>
                     <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                    <property name="width_chars">-1</property>
                     <property name="single_line_mode">False</property>
                     <property name="angle">0</property>
                   </object>
@@ -172,7 +169,6 @@
                     <property name="ypad">0</property>
                     <property name="mnemonic_widget">percent-complete</property>
                     <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                    <property name="width_chars">-1</property>
                     <property name="single_line_mode">False</property>
                     <property name="angle">0</property>
                   </object>
@@ -199,7 +195,6 @@
                     <property name="xpad">0</property>
                     <property name="ypad">0</property>
                     <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                    <property name="width_chars">-1</property>
                     <property name="single_line_mode">False</property>
                     <property name="angle">0</property>
                   </object>
@@ -226,7 +221,6 @@
                     <property name="xpad">0</property>
                     <property name="ypad">0</property>
                     <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                    <property name="width_chars">-1</property>
                     <property name="single_line_mode">False</property>
                     <property name="angle">0</property>
                   </object>
@@ -350,7 +344,6 @@
             <property name="xpad">0</property>
             <property name="ypad">0</property>
             <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-            <property name="width_chars">-1</property>
             <property name="single_line_mode">False</property>
             <property name="angle">0</property>
             <attributes>
@@ -382,7 +375,6 @@
                 <property name="xpad">12</property>
                 <property name="ypad">0</property>
                 <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                <property name="width_chars">-1</property>
                 <property name="single_line_mode">False</property>
                 <property name="angle">0</property>
               </object>
@@ -415,7 +407,6 @@
                     <property name="xpad">0</property>
                     <property name="ypad">0</property>
                     <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                    <property name="width_chars">-1</property>
                     <property name="single_line_mode">False</property>
                     <property name="angle">0</property>
                   </object>

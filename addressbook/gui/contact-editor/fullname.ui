@@ -188,7 +188,6 @@
                 <property name="ypad">0</property>
                 <property name="mnemonic_widget">entry-first</property>
                 <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                <property name="width_chars">-1</property>
                 <property name="single_line_mode">False</property>
                 <property name="angle">0</property>
               </object>
@@ -215,7 +214,6 @@
                 <property name="xpad">0</property>
                 <property name="ypad">0</property>
                 <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                <property name="width_chars">-1</property>
                 <property name="single_line_mode">False</property>
                 <property name="angle">0</property>
               </object>
@@ -243,7 +241,6 @@
                 <property name="ypad">0</property>
                 <property name="mnemonic_widget">entry-middle</property>
                 <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                <property name="width_chars">-1</property>
                 <property name="single_line_mode">False</property>
                 <property name="angle">0</property>
               </object>
@@ -271,7 +268,6 @@
                 <property name="ypad">0</property>
                 <property name="mnemonic_widget">entry-last</property>
                 <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                <property name="width_chars">-1</property>
                 <property name="single_line_mode">False</property>
                 <property name="angle">0</property>
               </object>
@@ -298,7 +294,6 @@
                 <property name="xpad">0</property>
                 <property name="ypad">0</property>
                 <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                <property name="width_chars">-1</property>
                 <property name="single_line_mode">False</property>
                 <property name="angle">0</property>
               </object>
