@@ -45,7 +45,6 @@ The more headers you have the more time it will take to download.</property>
                     <property name="xpad">0</property>
                     <property name="ypad">0</property>
                     <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                    <property name="width_chars">-1</property>
                     <property name="single_line_mode">False</property>
                     <property name="angle">0</property>
                   </object>
@@ -129,7 +128,6 @@ Use this if you do not have filters based on mailing lists</property>
             <property name="xpad">0</property>
             <property name="ypad">0</property>
             <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-            <property name="width_chars">-1</property>
             <property name="single_line_mode">False</property>
             <property name="angle">0</property>
             <attributes>
@@ -184,7 +182,6 @@ You can ignore this if you choose "All Headers".</property>
                     <property name="xpad">0</property>
                     <property name="ypad">0</property>
                     <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-                    <property name="width_chars">1</property>
                     <property name="single_line_mode">False</property>
                     <property name="angle">0</property>
                   </object>
@@ -312,7 +309,6 @@ You can ignore this if you choose "All Headers".</property>
             <property name="xpad">0</property>
             <property name="ypad">0</property>
             <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-            <property name="width_chars">-1</property>
             <property name="single_line_mode">False</property>
             <property name="angle">0</property>
             <attributes>
