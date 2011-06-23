@@ -121,6 +121,8 @@ struct _CompEditorPrivate {
 	gboolean changed;
 	gboolean needs_send;
 
+	gboolean saved;
+
 	CalObjModType mod;
 
 	gboolean existing_org;
@@ -212,6 +214,7 @@ G_DEFINE_TYPE_WITH_CODE (
 
 enum {
 	OBJECT_CREATED,
+	COMP_CLOSED,
 	LAST_SIGNAL
 };
 
@@ -624,6 +627,7 @@ save_comp (CompEditor *editor)
 		}
 
 		priv->changed = FALSE;
+		priv->saved = TRUE;
 	}
 
 	g_free (orig_uid_copy);
@@ -1868,6 +1872,15 @@ comp_editor_class_init (CompEditorClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+
+	signals[COMP_CLOSED] = g_signal_new (
+		"comp_closed",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (CompEditorClass, comp_closed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__BOOLEAN,
+		G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
 }
 
 static void
@@ -1920,6 +1933,7 @@ comp_editor_init (CompEditor *editor)
 	priv->user_org = FALSE;
 	priv->warned = FALSE;
 	priv->is_group_item = FALSE;
+	priv->saved = FALSE;
 
 	priv->ui_manager = e_ui_manager_new ();
 	e_ui_manager_set_express_mode (
@@ -2200,6 +2214,8 @@ static void
 close_dialog (CompEditor *editor)
 {
 	CompEditorPrivate *priv = editor->priv;
+
+	g_signal_emit_by_name (editor, "comp_closed", priv->saved);
 
 	/* FIXME Unfortunately we do this here because otherwise corba
 	   calls happen during destruction and we might get a change

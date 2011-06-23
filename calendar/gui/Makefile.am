@@ -5,7 +5,6 @@ privsolib_LTLIBRARIES = libevolution-calendar.la
 ecalendarincludedir = $(privincludedir)/calendar/gui
 
 ecalendarinclude_HEADERS =			\
-	cal-editor-utils.h			\
 	calendar-config.h			\
 	calendar-config-keys.h			\
 	calendar-view.h				\
@@ -80,8 +79,6 @@ etspec_DATA =				\
 	e-memo-table.etspec
 
 libevolution_calendar_la_SOURCES = \
-	cal-editor-utils.c			\
-	cal-editor-utils.h			\
 	calendar-config.c			\
 	calendar-config.h			\
 	calendar-config-keys.h			\
