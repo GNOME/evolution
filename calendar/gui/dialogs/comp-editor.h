@@ -86,6 +86,8 @@ struct _CompEditorClass {
 						 gboolean visible);
 	void		(*show_type)		(CompEditor *editor,
 						 gboolean visible);
+	void		(*comp_closed)		(CompEditor *editor,
+						 gboolean saved);
 };
 
 typedef enum {

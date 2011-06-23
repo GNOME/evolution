@@ -35,7 +35,9 @@
 #include <gtkhtml/gtkhtml.h>
 #include <gconf/gconf-client.h>
 #include <libecal/e-cal-client.h>
+#include <libecal/e-cal-component.h>
 #include <libedataserver/e-account.h>
+#include <libedataserver/e-flag.h>
 #include <libedataserverui/e-source-selector-dialog.h>
 #include <libedataserverui/e-client-utils.h>
 
@@ -48,7 +50,10 @@
 #include <misc/e-popup-action.h>
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window-actions.h>
-#include <calendar/gui/cal-editor-utils.h>
+#include <calendar/gui/dialogs/comp-editor.h>
+#include <calendar/gui/dialogs/event-editor.h>
+#include <calendar/gui/dialogs/task-editor.h>
+#include <calendar/gui/dialogs/memo-editor.h>
 #include <misc/e-attachment-store.h>
 
 #define E_SHELL_WINDOW_ACTION_CONVERT_TO_EVENT(window) \
@@ -64,6 +69,79 @@ gboolean	mail_browser_init		(GtkUIManager *ui_manager,
 						 EMailBrowser *browser);
 gboolean	mail_shell_view_init		(GtkUIManager *ui_manager,
 						 EShellView *shell_view);
+
+static CompEditor*
+get_component_editor (EShell *shell,
+                      ECalClient *client,
+                      ECalComponent *comp,
+                      gboolean is_new,
+                      GError **error)
+{
+	ECalComponentId *id;
+	CompEditorFlags flags = 0;
+	CompEditor *editor = NULL;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	g_return_val_if_fail (E_IS_CAL_CLIENT (client), NULL);
+	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), NULL);
+
+	id = e_cal_component_get_id (comp);
+	g_return_val_if_fail (id != NULL, NULL);
+	g_return_val_if_fail (id->uid != NULL, NULL);
+
+	if (is_new) {
+		flags |= COMP_EDITOR_NEW_ITEM;
+	} else {
+		editor = comp_editor_find_instance (id->uid);
+	}
+
+	if (!editor) {
+		if (itip_organizer_is_user (comp, client))
+			flags |= COMP_EDITOR_USER_ORG;
+
+		switch (e_cal_component_get_vtype (comp)) {
+		case E_CAL_COMPONENT_EVENT:
+			if (e_cal_component_has_attendees (comp))
+				flags |= COMP_EDITOR_MEETING;
+
+			editor = event_editor_new (client, shell, flags);
+
+			if (flags & COMP_EDITOR_MEETING)
+				event_editor_show_meeting (EVENT_EDITOR (editor));
+			break;
+		case E_CAL_COMPONENT_TODO:
+			if (e_cal_component_has_attendees (comp))
+				flags |= COMP_EDITOR_IS_ASSIGNED;
+
+			editor = task_editor_new (client, shell, flags);
+
+			if (flags & COMP_EDITOR_IS_ASSIGNED)
+				task_editor_show_assignment (TASK_EDITOR (editor));
+			break;
+		case E_CAL_COMPONENT_JOURNAL:
+			if (e_cal_component_has_organizer (comp))
+				flags |= COMP_EDITOR_IS_SHARED;
+
+			editor = memo_editor_new (client, shell, flags);
+			break;
+		default:
+			if (error)
+				*error = e_client_error_create (E_CLIENT_ERROR_INVALID_ARG, NULL);
+			break;
+		}
+
+		if (editor) {
+			comp_editor_edit_comp (editor, comp);
+
+			/* request save for new events */
+			comp_editor_set_changed (editor, is_new);
+		}
+	}
+
+	e_cal_component_free_id (id);
+
+	return editor;
+}
 
 static void
 set_attendees (ECalComponent *comp, CamelMimeMessage *message, const gchar *organizer)
@@ -173,9 +251,9 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 	CamelStream *stream;
 	CamelContentType *type;
 	CamelMimePart *mime_part = CAMEL_MIME_PART (message);
-	ECalComponentText text;
+	ECalComponentText *text = NULL;
 	GByteArray *byte_array;
-	GSList sl;
+	GSList *sl = NULL;
 	gchar *str, *convert_str = NULL;
 	gsize bytes_read, bytes_written;
 	gint count = 2;
@@ -213,19 +291,20 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 					 &bytes_read, &bytes_written, NULL);
 	}
 
+	text = g_new0 (ECalComponentText, 1);
 	if (convert_str)
-		text.value = prepend_from (message, &convert_str);
+		text->value = prepend_from (message, &convert_str);
 	else
-		text.value = prepend_from (message, &str);
-	text.altrep = NULL;
-	sl.next = NULL;
-	sl.data = &text;
+		text->value = prepend_from (message, &str);
+	text->altrep = NULL;
+	sl = g_slist_append (sl, text);
 
-	e_cal_component_set_description_list (comp, &sl);
+	e_cal_component_set_description_list (comp, sl);
 
 	g_free (str);
 	if (convert_str)
 		g_free (convert_str);
+	e_cal_component_free_text_list (sl);
 }
 
 static gchar *
@@ -254,21 +333,23 @@ set_organizer (ECalComponent *comp)
 	return res;
 }
 
+struct _att_async_cb_data {
+	gchar **uris;
+	EFlag *flag;
+};
+
 static void
 attachment_load_finished (EAttachmentStore *store,
                           GAsyncResult *result,
                           gpointer user_data)
 {
-	struct {
-		gchar **uris;
-		gboolean done;
-	} *status = user_data;
+	struct _att_async_cb_data *data = user_data;
 
 	/* XXX Should be no need to check for error here.
 	 *     This is just to reset state in the EAttachment. */
 	e_attachment_store_load_finish (store, result, NULL);
 
-	status->done = TRUE;
+	e_flag_set (data->flag);
 }
 
 static void
@@ -276,18 +357,19 @@ attachment_save_finished (EAttachmentStore *store,
                           GAsyncResult *result,
                           gpointer user_data)
 {
+	struct _att_async_cb_data *data = user_data;
 	gchar **uris;
+	GError *error = NULL;
 
-	struct {
-		gchar **uris;
-		gboolean done;
-	} *status = user_data;
+	uris = e_attachment_store_save_finish (store, result, &error);
+	if (error)
+		data->uris = NULL;
+	else
+		data->uris = uris;
 
-	/* XXX Add some error handling here! */
-	uris = e_attachment_store_save_finish (store, result, NULL);
+	g_clear_error (&error);
 
-	status->uris = uris;
-	status->done = TRUE;
+	e_flag_set (data->flag);
 }
 
 static void
@@ -306,11 +388,10 @@ set_attachments (ECalClient *client, ECalComponent *comp, CamelMimeMessage *mess
 	const gchar *local_store;
 	gint ii, n_parts;
 	gchar *path;
+	struct _att_async_cb_data cb_data;
 
-	struct {
-		gchar **uris;
-		gboolean done;
-	} status;
+	cb_data.flag = e_flag_new ();
+	cb_data.uris = NULL;
 
 	content = camel_medium_get_content ((CamelMedium *) message);
 	if (!content || !CAMEL_IS_MULTIPART (content))
@@ -344,42 +425,44 @@ set_attachments (ECalClient *client, ECalComponent *comp, CamelMimeMessage *mess
 		attachment_list = g_list_append (attachment_list, attachment);
 	}
 
-	status.done = FALSE;
+	e_flag_clear (cb_data.flag);
 
 	e_attachment_store_load_async (
 		store, attachment_list, (GAsyncReadyCallback)
-		attachment_load_finished, &status);
+		attachment_load_finished, &cb_data);
 
 	/* Loading should be instantaneous since we already have
-	 * the full content, but we still have to crank the main
-	 * loop until the callback gets triggered. */
-	while (!status.done)
-		gtk_main_iteration ();
+	 * the full content, but we need to wait for the callback.
+	 */
+	e_flag_wait (cb_data.flag);
 
 	g_list_foreach (attachment_list, (GFunc) g_object_unref, NULL);
 	g_list_free (attachment_list);
 
-	status.uris = NULL;
-	status.done = FALSE;
+	cb_data.uris = NULL;
+	e_flag_clear (cb_data.flag);
 
 	e_attachment_store_save_async (
 		store, destination, (GAsyncReadyCallback)
-		attachment_save_finished, &status);
+		attachment_save_finished, &cb_data);
 
-	/* We can't return until we have results, so crank
-	 * the main loop until the callback gets triggered. */
-	while (!status.done)
-		gtk_main_iteration ();
+	/* We can't return until we have results. */
+	e_flag_wait (cb_data.flag);
 
-	g_return_if_fail (status.uris != NULL);
-
-	/* Transfer the URI strings to the GSList. */
-	for (ii = 0; status.uris[ii] != NULL; ii++) {
-		uri_list = g_slist_prepend (uri_list, status.uris[ii]);
-		status.uris[ii] = NULL;
+	if (cb_data.uris == NULL) {
+		e_flag_free (cb_data.flag);
+		g_warning ("No attachment URIs retrieved.");
+		return;
 	}
 
-	g_free (status.uris);
+	/* Transfer the URI strings to the GSList. */
+	for (ii = 0; cb_data.uris[ii] != NULL; ii++) {
+		uri_list = g_slist_prepend (uri_list, cb_data.uris[ii]);
+		cb_data.uris[ii] = NULL;
+	}
+
+	e_flag_free (cb_data.flag);
+	g_free (cb_data.uris);
 
 	/* XXX Does this take ownership of the list? */
 	e_cal_component_set_attachment_list (comp, uri_list);
@@ -441,6 +524,12 @@ struct _manage_comp
 	ECalClient *client;
 	ECalComponent *comp;
 	icalcomponent *stored_comp; /* the one in client already */
+	GCond *cond;
+	GMutex *mutex;
+	gint mails_count;
+	gint mails_done;
+	gchar *editor_title;
+	gboolean can_continue;
 };
 
 static void
@@ -452,6 +541,13 @@ free_manage_comp_struct (struct _manage_comp *mc)
 	g_object_unref (mc->client);
 	if (mc->stored_comp)
 		icalcomponent_free (mc->stored_comp);
+	if (mc->mutex)
+		g_mutex_free (mc->mutex);
+	if (mc->cond)
+		g_cond_free (mc->cond);
+	if (mc->editor_title)
+		g_free (mc->editor_title);
+
 	g_free (mc);
 }
 
@@ -504,28 +600,19 @@ get_question_edit_old (ECalClientSourceType source_type)
 }
 
 static const gchar *
-get_question_create_new (ECalClientSourceType source_type)
+get_question_add_all_mails (ECalClientSourceType source_type)
 {
 	const gchar *ask = NULL;
 
 	switch (source_type) {
 	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-		/* Translators: Codewise it is impossible to provide separate strings for all
-		   combinations of singular and plural. Please translate it in the way that you
-		   feel is most appropriate for your language. */
-		ask = _("Selected calendar contains some events for the given mails already. Would you like to create new events anyway?");
+		ask = _("You have selected %d mails to be converted to events. Do you really want to add them all?");
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-		/* Translators: Codewise it is impossible to provide separate strings for all
-		   combinations of singular and plural. Please translate it in the way that you
-		   feel is most appropriate for your language. */
-		ask = _("Selected task list contains some tasks for the given mails already. Would you like to create new tasks anyway?");
+		ask = _("You have selected %d mails to be converted to tasks. Do you really want to add them all?");
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-		/* Translators: Codewise it is impossible to provide separate strings for all
-		   combinations of singular and plural. Please translate it in the way that you
-		   feel is most appropriate for your language. */
-		ask = _("Selected memo list contains some memos for the given mails already. Would you like to create new memos anyway?");
+		ask = _("You have selected %d mails to be converted to memos. Do you really want to add them all?");
 		break;
 	default:
 		g_assert_not_reached ();
@@ -535,184 +622,155 @@ get_question_create_new (ECalClientSourceType source_type)
 	return ask;
 }
 
-static const gchar *
-get_question_create_new_n (ECalClientSourceType source_type, gint count)
+static void
+comp_editor_closed (CompEditor *editor,
+		    gboolean accepted,
+		    struct _manage_comp *mc)
 {
-	const gchar *ask = NULL;
+	if (!mc)
+		return;
 
-	switch (source_type) {
-	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-		ask = ngettext (
-			/* Translators: Codewise it is impossible to provide separate strings for all
-			   combinations of singular and plural. Please translate it in the way that you
-			   feel is most appropriate for your language. */
-			"Selected calendar contains an event for the given mail already. Would you like to create new event anyway?",
-			"Selected calendar contains events for the given mails already. Would you like to create new events anyway?",
-			count);
-		break;
-	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-		ask = ngettext (
-			/* Translators: Codewise it is impossible to provide separate strings for all
-			   combinations of singular and plural. Please translate it in the way that you
-			   feel is most appropriate for your language. */
-			"Selected task list contains a task for the given mail already. Would you like to create new task anyway?",
-			"Selected task list contains tasks for the given mails already. Would you like to create new tasks anyway?",
-			count);
-		break;
-	case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-		ask = ngettext (
-			/* Translators: Codewise it is impossible to provide separate strings for all
-			   combinations of singular and plural. Please translate it in the way that you
-			   feel is most appropriate for your language. */
-			"Selected memo list contains a memo for the given mail already. Would you like to create new memo anyway?",
-			"Selected memo list contains memos for the given mails already. Would you like to create new memos anyway?",
-			count);
-		break;
-	default:
-		g_assert_not_reached ();
-		break;
-	}
+	if (!accepted && mc->mails_done < mc->mails_count)
+		mc->can_continue = (do_ask (_("Do you wish to continue converting remaining mails?"), FALSE) == GTK_RESPONSE_YES);
 
-	return ask;
+	/* Signal the do_mail_to_event thread that editor was closed and editor
+	   for next event can be displayed (if any) */
+	g_cond_signal (mc->cond);
+}
+
+/*
+ * This handler takes title of the editor window and
+ * inserts information about number of processed mails and
+ * number of all mails to process, so the window title
+ * will look like "Appointment (3/10) - An appoitment name"
+ */
+static void
+comp_editor_title_changed (GtkWidget *widget,
+			   GParamSpec *pspec,
+			   struct _manage_comp *mc)
+{
+	GtkWindow *editor = GTK_WINDOW (widget);
+	const gchar *title = gtk_window_get_title (editor);
+	gchar *new_title;
+	gchar *splitter;
+	gchar *comp_name, *task_name;
+
+	if (!mc)
+		return;
+
+	/* Recursion prevence */
+	if (mc->editor_title && g_utf8_collate (mc->editor_title, title) == 0)
+		return;
+
+	splitter = strchr (title, '-');
+	if (!splitter)
+		return;
+
+	comp_name = g_strndup (title, splitter - title - 1);
+	task_name = g_strdup (splitter + 2);
+	new_title = g_strdup_printf ("%s (%d/%d) - %s",
+			comp_name, mc->mails_done, mc->mails_count, task_name);
+
+	/* Remember the new title, so that when gtk_window_set_title() causes
+	   this handler to be recursively called, we can recognize that and
+	   prevent endless recursion */
+	if (mc->editor_title)
+		g_free (mc->editor_title);
+	mc->editor_title = new_title;
+
+	gtk_window_set_title (editor, new_title);
+
+	g_free (comp_name);
+	g_free (task_name);
 }
 
 static gboolean
-do_manage_comp_idle (GSList *manage_comp_datas)
+do_manage_comp_idle (struct _manage_comp *mc)
 {
 	GError *error = NULL;
-	guint with_old = 0;
-	gboolean need_editor = FALSE;
 	ECalClientSourceType source_type = E_CAL_CLIENT_SOURCE_TYPE_LAST;
-	GSList *l;
+	ECalComponent *edit_comp = NULL;
 
-	g_return_val_if_fail (manage_comp_datas != NULL, FALSE);
+	g_return_val_if_fail (mc, FALSE);
 
-	if (manage_comp_datas->data) {
-		struct _manage_comp *mc = manage_comp_datas->data;
-
-		if (mc->comp && (e_cal_component_has_attendees (mc->comp) || e_cal_component_has_organizer (mc->comp)))
-			need_editor = TRUE;
-
-		source_type = e_cal_client_get_source_type (mc->client);
-	}
+	source_type = e_cal_client_get_source_type (mc->client);
 
 	if (source_type == E_CAL_CLIENT_SOURCE_TYPE_LAST) {
-		g_slist_foreach (manage_comp_datas, (GFunc) free_manage_comp_struct, NULL);
-		g_slist_free (manage_comp_datas);
+		free_manage_comp_struct (mc);
 
 		g_warning ("mail-to-task: Incorrect call of %s, no data given", G_STRFUNC);
 		return FALSE;
 	}
 
-	for (l = manage_comp_datas; l; l = l->next) {
-		struct _manage_comp *mc = l->data;
+	if (mc->stored_comp) {
+		const gchar *ask = get_question_edit_old (source_type);
 
-		if (mc && mc->stored_comp)
-			with_old++;
-	}
+		if (ask) {
+			gchar *msg = g_strdup_printf (ask, icalcomponent_get_summary (mc->stored_comp) ? icalcomponent_get_summary (mc->stored_comp) : _("[No Summary]"));
+			gint chosen;
 
-	if (need_editor) {
-		for (l = manage_comp_datas; l && !error; l = l->next) {
-			ECalComponent *edit_comp = NULL;
-			struct _manage_comp *mc = l->data;
+			chosen = do_ask (msg, TRUE);
 
-			if (!mc)
-				continue;
-
-			if (mc->stored_comp) {
-				const gchar *ask = get_question_edit_old (source_type);
-
-				if (ask) {
-					gchar *msg = g_strdup_printf (ask, icalcomponent_get_summary (mc->stored_comp) ? icalcomponent_get_summary (mc->stored_comp) : _("[No Summary]"));
-					gint chosen;
-
-					chosen = do_ask (msg, TRUE);
-
-					if (chosen == GTK_RESPONSE_YES) {
-						edit_comp = e_cal_component_new ();
-						if (!e_cal_component_set_icalcomponent (edit_comp, icalcomponent_new_clone (mc->stored_comp))) {
-							g_object_unref (edit_comp);
-							edit_comp = NULL;
-
-							error = g_error_new (E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_INVALID_OBJECT, "%s", _("Invalid object returned from a server"));
-						}
-					} else if (chosen == GTK_RESPONSE_NO) {
-						/* user wants to create a new event, thus generate a new UID */
-						gchar *new_uid = e_cal_component_gen_uid ();
-
-						edit_comp = mc->comp;
-						e_cal_component_set_uid (edit_comp, new_uid);
-						e_cal_component_set_recurid (edit_comp, NULL);
-
-						g_free (new_uid);
-					}
-
-					g_free (msg);
-				}
-			} else {
-				edit_comp = mc->comp;
-			}
-
-			if (edit_comp) {
-				EShell *shell;
-
-				/* FIXME Pass in the EShell instance. */
-				shell = e_shell_get_default ();
-				open_component_editor (
-					shell, mc->client, edit_comp,
-					edit_comp == mc->comp, &error);
-				if (edit_comp != mc->comp)
+			if (chosen == GTK_RESPONSE_YES) {
+				edit_comp = e_cal_component_new ();
+				if (!e_cal_component_set_icalcomponent (edit_comp, icalcomponent_new_clone (mc->stored_comp))) {
 					g_object_unref (edit_comp);
+					edit_comp = NULL;
+					error = g_error_new (E_CAL_CLIENT_ERROR,
+						E_CAL_CLIENT_ERROR_INVALID_OBJECT,
+						"%s", _("Invalid object returned from a server"));
+
+				}
+			} else if (chosen == GTK_RESPONSE_NO) {
+				/* user wants to create a new event, thus generate a new UID */
+				gchar *new_uid = e_cal_component_gen_uid ();
+				edit_comp = mc->comp;
+				e_cal_component_set_uid (edit_comp, new_uid);
+				e_cal_component_set_recurid (edit_comp, NULL);
+				g_free (new_uid);
 			}
+			g_free (msg);
 		}
 	} else {
-		gboolean can = TRUE;
+		edit_comp = mc->comp;
+	}
 
-		if (with_old > 0) {
-			const gchar *ask = NULL;
+	if (edit_comp) {
+		EShell *shell;
+		CompEditor *editor;
 
-			can = FALSE;
+		/* FIXME Pass in the EShell instance. */
+		shell = e_shell_get_default ();
+		editor = get_component_editor (shell, mc->client, edit_comp,
+				edit_comp == mc->comp, &error);
 
-			if (with_old == g_slist_length (manage_comp_datas)) {
-				ask = get_question_create_new_n (source_type, with_old);
-			} else {
-				ask = get_question_create_new (source_type);
-			}
+		if (editor && !error) {
+			/* Force editor's title change */
+			comp_editor_title_changed (GTK_WIDGET (editor), NULL, mc);
 
-			if (ask)
-				can = do_ask (ask, FALSE) == GTK_RESPONSE_YES;
+			g_signal_connect (editor, "notify::title",
+					G_CALLBACK (comp_editor_title_changed), mc);
+			g_signal_connect (editor, "comp_closed",
+					G_CALLBACK (comp_editor_closed), mc);
+
+			gtk_window_present (GTK_WINDOW (editor));
+
+			if (edit_comp != mc->comp)
+				g_object_unref (edit_comp);
+		} else {
+			g_warning ("Failed to create event editor: %s", error ? error->message : "Unknown error");
+			g_cond_signal (mc->cond);
 		}
-
-		if (can) {
-			for (l = manage_comp_datas; l && !error; l = l->next) {
-				struct _manage_comp *mc = l->data;
-				gchar *uid = NULL;
-
-				if (!mc)
-					continue;
-
-				if (mc->stored_comp) {
-					gchar *new_uid = e_cal_component_gen_uid ();
-
-					e_cal_component_set_uid (mc->comp, new_uid);
-					e_cal_component_set_recurid (mc->comp, NULL);
-
-					g_free (new_uid);
-				}
-
-				e_cal_client_create_object_sync (mc->client, e_cal_component_get_icalcomponent (mc->comp), &uid, NULL, &error);
-				g_free (uid);
-			}
-		}
+	} else {
+		/* User canceled editing already existing event, so treat it as if he just closed the editor window */
+		comp_editor_closed (NULL, FALSE, mc);
+		g_cond_signal (mc->cond);
 	}
 
 	if (error) {
 		e_notice (NULL, GTK_MESSAGE_ERROR, _("An error occurred during processing: %s"), error->message);
-		g_error_free (error);
+		g_clear_error (&error);
 	}
-
-	g_slist_foreach (manage_comp_datas, (GFunc) free_manage_comp_struct, NULL);
-	g_slist_free (manage_comp_datas);
 
 	return FALSE;
 }
@@ -756,11 +814,11 @@ do_mail_to_event (AsyncData *data)
 			}
 		}
 	} else {
-		GSList *mcs = NULL;
 		gint i;
 		ECalClientSourceType source_type = e_cal_client_get_source_type (client);
 		ECalComponentDateTime dt, dt2;
 		struct icaltimetype tt, tt2;
+		struct _manage_comp *oldmc = NULL;
 
 		/* set start day of the event as today, without time - easier than looking for a calendar's time zone */
 		tt = icaltime_today ();
@@ -859,24 +917,53 @@ do_mail_to_event (AsyncData *data)
 			mc = g_new0 (struct _manage_comp, 1);
 			mc->client = g_object_ref (client);
 			mc->comp = g_object_ref (comp);
+			mc->mutex = g_mutex_new ();
+			mc->cond = g_cond_new ();
+			mc->mails_count = uids->len;
+			mc->mails_done = i + 1; /* Current task */
+			mc->editor_title = NULL;
+			mc->can_continue = TRUE;
+
+			if (oldmc) {
+				/* Wait for user to quit the editor created in previous iteration
+				 * before displaying next one */
+				gboolean can_continue;
+				g_mutex_lock (oldmc->mutex);
+				g_cond_wait (oldmc->cond, oldmc->mutex);
+				g_mutex_unlock (oldmc->mutex);
+				can_continue = oldmc->can_continue;
+				free_manage_comp_struct (oldmc);
+				oldmc = NULL;
+
+				if (!can_continue)
+					break;
+			}
 
 			if (!e_cal_client_get_object_sync (client, icalcomponent_get_uid (icalcomp), NULL, &(mc->stored_comp), NULL, NULL))
 				mc->stored_comp = NULL;
 
-			mcs = g_slist_append (mcs, mc);
+			g_idle_add ((GSourceFunc) do_manage_comp_idle, mc);
+
+			oldmc = mc;
 
 			g_object_unref (comp);
+			g_object_unref (message);
+
 		}
 
-		if (mcs) {
-			/* process this in the main thread, as we may ask user too */
-			g_idle_add ((GSourceFunc) do_manage_comp_idle, mcs);
+		/* Wait for the last editor and then clean up */
+		if (oldmc) {
+			g_mutex_lock (oldmc->mutex);
+			g_cond_wait (oldmc->cond, oldmc->mutex);
+			g_mutex_unlock (oldmc->mutex);
+			free_manage_comp_struct (oldmc);
 		}
 	}
 
 	/* free memory */
 	g_object_unref (data->client);
-	g_ptr_array_free (data->uids, TRUE);
+	camel_folder_free_uids (folder, uids);
+	g_object_unref (folder);
 	g_free (data->selected_text);
 	g_free (data);
 	data = NULL;
@@ -947,22 +1034,36 @@ mail_to_event (ECalClientSourceType source_type,
 	ESourceList *source_list = NULL;
 	gboolean done = FALSE;
 	GSList *groups, *p;
-	ESource *source = NULL;
+	ESource *source = NULL, *default_source = NULL;
 	GError *error = NULL;
+	gint writable_sources = 0;
 
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (!e_cal_client_get_sources (&source_list, source_type, &error)) {
 		e_notice (NULL, GTK_MESSAGE_ERROR, _("Cannot get source list. %s"), error ? error->message : _("Unknown error."));
-
 		if (error)
 			g_error_free (error);
-
+		camel_folder_free_uids (folder, uids);
+		g_object_unref (folder);
 		return;
 	}
 
-	/* Check if there is only one writeable source, if so do not ask user to pick it */
+	/* Ask before converting 10 or more mails to events */
+	if (uids->len > 10) {
+		gchar *question = g_strdup_printf (get_question_add_all_mails (source_type), uids->len);
+		if (do_ask (question, FALSE) == GTK_RESPONSE_NO) {
+			g_free (question);
+			g_object_unref (source_list);
+			camel_folder_free_uids (folder, uids);
+			g_object_unref (folder);
+			return;
+		}
+		g_free (question);
+	}
+
+	/* Find 'Default' source. When no source is default, ask user to pick one */
 	groups = e_source_list_peek_groups (source_list);
 	for (p = groups; p != NULL && !done; p = p->next) {
 		ESourceGroup *group = E_SOURCE_GROUP (p->data);
@@ -972,19 +1073,20 @@ mail_to_event (ECalClientSourceType source_type,
 		for (q = sources; q != NULL; q = q->next) {
 			ESource *s = E_SOURCE (q->data);
 
-			if (s && !e_source_get_readonly (s)) {
-				if (source) {
-					source = NULL;
-					done = TRUE;
-					break;
-				}
+			if (s && e_source_get_property (s, "default") && !e_source_get_readonly (s)) {
+				default_source = s;
+				done = TRUE;
+				break;
+			}
 
+			if (s && !e_source_get_readonly (s)) {
+				writable_sources++;
 				source = s;
 			}
 		}
 	}
 
-	if (!source) {
+	if (!default_source && writable_sources > 1) {
 		GtkWidget *dialog;
 
 		/* ask the user which tasks list to save to */
@@ -996,6 +1098,17 @@ mail_to_event (ECalClientSourceType source_type,
 			source = e_source_selector_dialog_peek_primary_selection (E_SOURCE_SELECTOR_DIALOG (dialog));
 
 		gtk_widget_destroy (dialog);
+	} else if (!source && default_source) {
+		source = default_source;
+	} else {
+		e_notice (NULL, GTK_MESSAGE_ERROR, _("No writable calendar is available."));
+
+		g_object_unref (source_list);
+		camel_folder_free_uids (folder, uids);
+		g_object_unref (folder);
+		if (error)
+			g_error_free (error);
+		return;
 	}
 
 	if (source) {
@@ -1013,6 +1126,8 @@ mail_to_event (ECalClientSourceType source_type,
 
 			g_free (uri);
 			g_object_unref (source_list);
+			camel_folder_free_uids (folder, uids);
+			g_object_unref (folder);
 			if (error)
 				g_error_free (error);
 			return;
