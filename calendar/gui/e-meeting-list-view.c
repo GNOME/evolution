@@ -82,6 +82,7 @@ e_meeting_list_view_finalize (GObject *obj)
 	EMeetingListViewPrivate *priv = view->priv;
 
 	if (priv->name_selector) {
+		e_name_selector_cancel_loading (priv->name_selector);
 		g_object_unref (priv->name_selector);
 		priv->name_selector = NULL;
 	}
@@ -127,6 +128,17 @@ add_section (ENameSelector *name_selector, const gchar *name)
 }
 
 static void
+meeting_list_view_realize_cb (EMeetingListView *view)
+{
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (view->priv != NULL);
+
+	g_signal_handlers_disconnect_by_func (view, meeting_list_view_realize_cb, NULL);
+
+	e_name_selector_load_books (view->priv->name_selector);
+}
+
+static void
 e_meeting_list_view_init (EMeetingListView *view)
 {
 	EMeetingListViewPrivate *priv;
@@ -149,6 +161,8 @@ e_meeting_list_view_init (EMeetingListView *view)
 	g_signal_connect (name_selector_dialog, "response",
 			  G_CALLBACK (name_selector_dialog_close_cb), view);
 
+	/* postpone name_selector loading, do that only when really needed */
+	g_signal_connect (view, "realize", G_CALLBACK (meeting_list_view_realize_cb), NULL);
 }
 
 static GList *

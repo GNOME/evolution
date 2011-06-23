@@ -1133,7 +1133,6 @@ setup_custom_widgets (EContactListEditor *editor)
 	GtkWidget *combo_box;
 	ESourceList *source_list;
 	ENameSelectorEntry *name_selector_entry;
-	ENameSelector *name_selector;
 	GtkWidget *old, *parent;
 	EContactListEditorPrivate *priv;
 	GError *error = NULL;
@@ -1162,14 +1161,8 @@ setup_custom_widgets (EContactListEditor *editor)
 	old = CONTACT_LIST_EDITOR_WIDGET (editor, "email-entry");
 	g_return_if_fail (old != NULL);
 
-	name_selector = e_name_selector_new ();
-
-	e_name_selector_model_add_section (
-		e_name_selector_peek_model (name_selector),
-		"Members", _("_Members"), NULL);
-
 	name_selector_entry = e_name_selector_peek_section_entry (
-		name_selector, "Members");
+		priv->name_selector, "Members");
 
 	gtk_widget_set_name (
 		GTK_WIDGET (name_selector_entry),
@@ -1316,6 +1309,7 @@ contact_list_editor_dispose (GObject *object)
 	EContactListEditorPrivate *priv = editor->priv;
 
 	if (priv->name_selector) {
+		e_name_selector_cancel_loading (priv->name_selector);
 		g_object_unref (priv->name_selector);
 		priv->name_selector = NULL;
 	}

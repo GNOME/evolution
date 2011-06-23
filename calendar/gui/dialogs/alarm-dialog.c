@@ -903,6 +903,7 @@ setup_select_names (Dialog *dialog)
 	ENameSelectorDialog *name_selector_dialog;
 
 	dialog->name_selector = e_name_selector_new ();
+	e_name_selector_load_books (dialog->name_selector);
 	name_selector_model = e_name_selector_peek_model (dialog->name_selector);
 
 	e_name_selector_model_add_section (name_selector_model, section_name, section_name, NULL);
@@ -1229,6 +1230,10 @@ alarm_dialog_run (GtkWidget *parent, ECalClient *cal_client, ECalComponentAlarm 
 	if (response_id == GTK_RESPONSE_OK)
 		dialog_to_alarm (&dialog);
 
+	if (dialog.name_selector) {
+		e_name_selector_cancel_loading (dialog.name_selector);
+		g_object_unref (dialog.name_selector);
+	}
 	gtk_widget_destroy (dialog.toplevel);
 	g_object_unref (dialog.builder);
 
