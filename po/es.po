@@ -9,8 +9,8 @@
 # Héctor García Álvarez <hector@scouts-es.org>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>,2003 (revisión).
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011.
 #
 #: ../shell/main.c:569
 msgid ""
@@ -18,14 +18,14 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-06-20 15:12+0000\n"
-"PO-Revision-Date: 2011-06-20 19:39+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2011-06-23 07:36+0000\n"
+"PO-Revision-Date: 2011-06-23 18:49+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bits\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #. For Translators: {0} is the name of the address book source
@@ -1468,7 +1468,7 @@ msgstr "No se pudo obtener la lista de libretas de direcciones: %s"
 #: ../calendar/gui/dialogs/event-page.c:2893
 #: ../calendar/gui/dialogs/memo-page.c:920
 #: ../calendar/gui/dialogs/task-page.c:1810 ../em-format/em-format.c:2280
-#: ../mail/em-folder-tree.c:678 ../mail/mail-ops.c:650
+#: ../mail/em-folder-tree.c:678 ../mail/mail-ops.c:657
 #: ../plugins/caldav/caldav-browse-server.c:209
 #: ../plugins/caldav/caldav-browse-server.c:1406 ../plugins/face/face.c:169
 #: ../smime/gui/certificate-manager.c:313
@@ -2525,101 +2525,101 @@ msgstr "%s  No ha realizado cambios, ¿quiere actualizar el editor?"
 msgid "Validation error: %s"
 msgstr "Error de validación: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:264
+#: ../calendar/gui/dialogs/comp-editor.c:267
 msgid "Could not save attachments"
 msgstr "No se pudieron guardar los adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:585
+#: ../calendar/gui/dialogs/comp-editor.c:588
 msgid "Could not update object"
 msgstr "No es posible actualizar el objeto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:710
+#: ../calendar/gui/dialogs/comp-editor.c:714
 msgid "Edit Appointment"
 msgstr "Editar cita"
 
-#: ../calendar/gui/dialogs/comp-editor.c:717
+#: ../calendar/gui/dialogs/comp-editor.c:721
 #, c-format
 msgid "Meeting - %s"
 msgstr "Reunión: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:719
+#: ../calendar/gui/dialogs/comp-editor.c:723
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:725
+#: ../calendar/gui/dialogs/comp-editor.c:729
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tarea asignada: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:727
+#: ../calendar/gui/dialogs/comp-editor.c:731
 #, c-format
 msgid "Task - %s"
 msgstr "Tarea: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:732
+#: ../calendar/gui/dialogs/comp-editor.c:736
 #, c-format
 msgid "Memo - %s"
 msgstr "Nota - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:748
+#: ../calendar/gui/dialogs/comp-editor.c:752
 msgid "No Summary"
 msgstr "Sin resumen"
 
-#: ../calendar/gui/dialogs/comp-editor.c:869
+#: ../calendar/gui/dialogs/comp-editor.c:873
 msgid "Keep original item?"
 msgstr "¿Mantener el elemento original?"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1066
+#: ../calendar/gui/dialogs/comp-editor.c:1070
 msgid "Click here to close the current window"
 msgstr "Pulse aquí para cerrar la ventana actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1073 ../mail/e-mail-browser.c:141
+#: ../calendar/gui/dialogs/comp-editor.c:1077 ../mail/e-mail-browser.c:141
 #: ../shell/e-shell-window-actions.c:1474
 #: ../widgets/misc/e-focus-tracker.c:117 ../widgets/misc/e-focus-tracker.c:555
 #: ../widgets/misc/e-web-view.c:457 ../widgets/misc/e-web-view.c:1280
 msgid "Copy the selection"
 msgstr "Copiar la selección"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1080 ../mail/e-mail-browser.c:148
+#: ../calendar/gui/dialogs/comp-editor.c:1084 ../mail/e-mail-browser.c:148
 #: ../shell/e-shell-window-actions.c:1481
 #: ../widgets/misc/e-focus-tracker.c:110 ../widgets/misc/e-focus-tracker.c:550
 #: ../widgets/misc/e-web-view.c:1274
 msgid "Cut the selection"
 msgstr "Cortar la selección"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1087
+#: ../calendar/gui/dialogs/comp-editor.c:1091
 #: ../shell/e-shell-window-actions.c:1488
 #: ../widgets/misc/e-focus-tracker.c:131 ../widgets/misc/e-focus-tracker.c:565
 msgid "Delete the selection"
 msgstr "Eliminar la selección"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1094
+#: ../calendar/gui/dialogs/comp-editor.c:1098
 msgid "Click here to view help available"
 msgstr "Pulse aquí para ver la ayuda disponible"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1101 ../mail/e-mail-browser.c:155
+#: ../calendar/gui/dialogs/comp-editor.c:1105 ../mail/e-mail-browser.c:155
 #: ../shell/e-shell-window-actions.c:1523
 #: ../widgets/misc/e-focus-tracker.c:124 ../widgets/misc/e-focus-tracker.c:560
 #: ../widgets/misc/e-web-view.c:1286
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1122
+#: ../calendar/gui/dialogs/comp-editor.c:1126
 msgid "Click here to save the current window"
 msgstr "Pulse aquí para guardar la vista actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1129 ../mail/e-mail-browser.c:162
+#: ../calendar/gui/dialogs/comp-editor.c:1133 ../mail/e-mail-browser.c:162
 #: ../shell/e-shell-window-actions.c:1600
 #: ../widgets/misc/e-focus-tracker.c:138 ../widgets/misc/e-focus-tracker.c:570
 msgid "Select all text"
 msgstr "Selecciona todo el texto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1136
+#: ../calendar/gui/dialogs/comp-editor.c:1140
 msgid "_Classification"
 msgstr "_Clasificación"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1143
+#: ../calendar/gui/dialogs/comp-editor.c:1147
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:6 ../filter/filter.ui.h:10
 #: ../mail/e-mail-browser.c:176
 #: ../plugins/publish-calendar/publish-calendar.ui.h:23
@@ -2628,136 +2628,136 @@ msgstr "_Clasificación"
 msgid "_Edit"
 msgstr "_Editar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1150 ../mail/e-mail-browser.c:169
+#: ../calendar/gui/dialogs/comp-editor.c:1154 ../mail/e-mail-browser.c:169
 #: ../shell/e-shell-window-actions.c:1635
 #: ../widgets/misc/e-signature-editor.c:221
 msgid "_File"
 msgstr "_Archivo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1157
+#: ../calendar/gui/dialogs/comp-editor.c:1161
 #: ../shell/e-shell-window-actions.c:1642
 msgid "_Help"
 msgstr "Ay_uda"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1164
+#: ../calendar/gui/dialogs/comp-editor.c:1168
 msgid "_Insert"
 msgstr "_Insertar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1171
+#: ../calendar/gui/dialogs/comp-editor.c:1175
 #: ../composer/e-composer-actions.c:340
 msgid "_Options"
 msgstr "_Opciones"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1178 ../mail/e-mail-browser.c:183
+#: ../calendar/gui/dialogs/comp-editor.c:1182 ../mail/e-mail-browser.c:183
 #: ../shell/e-shell-window-actions.c:1677 ../smime/gui/smime-ui.ui.h:46
 msgid "_View"
 msgstr "_Ver"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1188
+#: ../calendar/gui/dialogs/comp-editor.c:1192
 #: ../composer/e-composer-actions.c:289
 msgid "_Attachment..."
 msgstr "_Adjunto…"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1190
+#: ../calendar/gui/dialogs/comp-editor.c:1194
 msgid "Click here to attach a file"
 msgstr "Pulse aquí para adjuntar un archivo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1198
+#: ../calendar/gui/dialogs/comp-editor.c:1202
 msgid "_Categories"
 msgstr "_Categorías"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1200
+#: ../calendar/gui/dialogs/comp-editor.c:1204
 msgid "Toggles whether to display categories"
 msgstr "Conmuta cuando se muestran las categorías"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1206
+#: ../calendar/gui/dialogs/comp-editor.c:1210
 msgid "Time _Zone"
 msgstr "_Zona horaria"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1208
+#: ../calendar/gui/dialogs/comp-editor.c:1212
 msgid "Toggles whether the time zone is displayed"
 msgstr "Conmuta cuando se muestra la «Zona horaria»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1217
+#: ../calendar/gui/dialogs/comp-editor.c:1221
 msgid "Pu_blic"
 msgstr "Pú_blico"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1219
+#: ../calendar/gui/dialogs/comp-editor.c:1223
 msgid "Classify as public"
 msgstr "Clasificar como público"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1224
+#: ../calendar/gui/dialogs/comp-editor.c:1228
 msgid "_Private"
 msgstr "_Privado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1226
+#: ../calendar/gui/dialogs/comp-editor.c:1230
 msgid "Classify as private"
 msgstr "Clasificar como privado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1231
+#: ../calendar/gui/dialogs/comp-editor.c:1235
 msgid "_Confidential"
 msgstr "_Confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1233
+#: ../calendar/gui/dialogs/comp-editor.c:1237
 msgid "Classify as confidential"
 msgstr "Clasificar como confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1241
+#: ../calendar/gui/dialogs/comp-editor.c:1245
 msgid "R_ole Field"
 msgstr "Campo «_Rol»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1243
+#: ../calendar/gui/dialogs/comp-editor.c:1247
 msgid "Toggles whether the Role field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Rol»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1249
+#: ../calendar/gui/dialogs/comp-editor.c:1253
 msgid "_RSVP"
 msgstr "_Confirmar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1251
+#: ../calendar/gui/dialogs/comp-editor.c:1255
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Confirmar»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1257
+#: ../calendar/gui/dialogs/comp-editor.c:1261
 msgid "_Status Field"
 msgstr "Campo de _estado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1259
+#: ../calendar/gui/dialogs/comp-editor.c:1263
 msgid "Toggles whether the Status field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Estado»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1265
+#: ../calendar/gui/dialogs/comp-editor.c:1269
 msgid "_Type Field"
 msgstr "Campo de _tipo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1267
+#: ../calendar/gui/dialogs/comp-editor.c:1271
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Conmuta indicando si se muestra el campo «Tipo de participante»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1291
+#: ../calendar/gui/dialogs/comp-editor.c:1295
 #: ../composer/e-composer-private.c:77
 msgid "Recent _Documents"
 msgstr "_Documentos recientes"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2003
+#: ../calendar/gui/dialogs/comp-editor.c:2017
 #: ../composer/e-composer-actions.c:508
 msgid "Attach"
 msgstr "Adjuntar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2337
-#: ../calendar/gui/dialogs/comp-editor.c:2500
-#: ../calendar/gui/dialogs/comp-editor.c:3478
+#: ../calendar/gui/dialogs/comp-editor.c:2353
+#: ../calendar/gui/dialogs/comp-editor.c:2516
+#: ../calendar/gui/dialogs/comp-editor.c:3494
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Los cambios efectuados a este elemento pueden descartarse si llega una "
 "actualización por correo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3442
+#: ../calendar/gui/dialogs/comp-editor.c:3458
 #: ../plugins/prefer-plain/prefer-plain.c:64
 msgid "attachment"
 msgstr "adjunto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3510
+#: ../calendar/gui/dialogs/comp-editor.c:3526
 msgid "Unable to use current version!"
 msgstr "Imposible usar la versión actual."
 
@@ -6677,7 +6677,7 @@ msgid "Save as..."
 msgstr "Guardar como…"
 
 #: ../composer/e-composer-actions.c:291
-#: ../widgets/misc/e-attachment-view.c:380
+#: ../widgets/misc/e-attachment-view.c:439
 msgid "Attach a file"
 msgstr "Adjuntar un archivo"
 
@@ -9021,13 +9021,13 @@ msgstr ""
 msgid "Cannot get transport for account '%s'"
 msgstr "No se puede obtener el servicio de transporte para la cuenta «%s»"
 
-#: ../mail/e-mail-session-utils.c:496 ../mail/mail-ops.c:626
+#: ../mail/e-mail-session-utils.c:496 ../mail/mail-ops.c:633
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "No se pudieron aplicar los filtros al correo saliente: %s"
 
 #: ../mail/e-mail-session-utils.c:520 ../mail/e-mail-session-utils.c:554
-#: ../mail/mail-ops.c:645 ../mail/mail-ops.c:679
+#: ../mail/mail-ops.c:652 ../mail/mail-ops.c:686
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -9036,13 +9036,13 @@ msgstr ""
 "Falló al anexar a %s: %s\n"
 "En su lugar se anexará a la carpeta local «Correo enviado»."
 
-#: ../mail/e-mail-session-utils.c:574 ../mail/mail-ops.c:699
+#: ../mail/e-mail-session-utils.c:574 ../mail/mail-ops.c:706
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Falló anexar a la carpeta local «Correo enviado»: %s"
 
-#: ../mail/e-mail-session-utils.c:785 ../mail/mail-ops.c:802
-#: ../mail/mail-ops.c:898
+#: ../mail/e-mail-session-utils.c:785 ../mail/mail-ops.c:809
+#: ../mail/mail-ops.c:905
 msgid "Sending message"
 msgstr "Enviando mensaje"
 
@@ -12191,69 +12191,69 @@ msgstr "Filtrado de mensajes seleccionados"
 msgid "Fetching Mail"
 msgstr "Obteniendo mensajes"
 
-#: ../mail/mail-ops.c:813
+#: ../mail/mail-ops.c:820
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Enviando mensaje %d de %d"
 
-#: ../mail/mail-ops.c:861
+#: ../mail/mail-ops.c:868
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "Falló al enviar %d de %d mensajes"
 
-#: ../mail/mail-ops.c:865 ../mail/mail-send-recv.c:824
+#: ../mail/mail-ops.c:872 ../mail/mail-send-recv.c:824
 msgid "Canceled."
 msgstr "Cancelado."
 
-#: ../mail/mail-ops.c:867 ../mail/mail-send-recv.c:826
+#: ../mail/mail-ops.c:874 ../mail/mail-send-recv.c:826
 msgid "Complete."
 msgstr "Completado."
 
-#: ../mail/mail-ops.c:977
+#: ../mail/mail-ops.c:984
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Moviendo mensajes a «%s»"
 
-#: ../mail/mail-ops.c:978
+#: ../mail/mail-ops.c:985
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Copiando mensajes a «%s»"
 
-#: ../mail/mail-ops.c:1095
+#: ../mail/mail-ops.c:1102
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Guardando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1169
+#: ../mail/mail-ops.c:1176
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Compactando y almacenando cuenta «%s»"
 
-#: ../mail/mail-ops.c:1170
+#: ../mail/mail-ops.c:1177
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Almacenando cuenta «%s»"
 
-#: ../mail/mail-ops.c:1232
+#: ../mail/mail-ops.c:1239
 #, c-format
 msgid "Refreshing folder '%s'"
 msgstr "Actualizando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1410
+#: ../mail/mail-ops.c:1417
 #, c-format
 msgid "Expunging folder '%s'"
 msgstr "Compactando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1483
+#: ../mail/mail-ops.c:1490
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Vaciando papelera en «%s»"
 
-#: ../mail/mail-ops.c:1484
+#: ../mail/mail-ops.c:1491
 msgid "Local Folders"
 msgstr "Carpetas locales"
 
-#: ../mail/mail-ops.c:1582
+#: ../mail/mail-ops.c:1589
 #, c-format
 msgid "Disconnecting %s"
 msgstr "Desconectando de «%s»"
@@ -17122,8 +17122,8 @@ msgstr ""
 "%s"
 
 #: ../plugins/google-account-setup/google-source.c:560
-#: ../plugins/mail-to-task/mail-to-task.c:738
-#: ../plugins/mail-to-task/mail-to-task.c:957
+#: ../plugins/mail-to-task/mail-to-task.c:796
+#: ../plugins/mail-to-task/mail-to-task.c:1045
 msgid "Unknown error."
 msgstr "Error desconocido."
 
@@ -17237,7 +17237,6 @@ msgid "Unable to find this memo in any memo list"
 msgstr "No se puede encontrar esta nota en ninguna lista de notas"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1017
-#| msgid "Opening the calendar. Please wait.."
 msgid "Opening the calendar. Please wait..."
 msgstr "Abriendo el calendario. Espere…"
 
@@ -18084,12 +18083,12 @@ msgid "Notifies you when new mail messages arrive."
 msgstr "Le notifica cuando llega un mensaje de correo nuevo."
 
 #. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
-#: ../plugins/mail-to-task/mail-to-task.c:157
+#: ../plugins/mail-to-task/mail-to-task.c:235
 #, c-format
 msgid "Created from a mail by %s"
 msgstr "Creado desde un correo de %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:490
+#: ../plugins/mail-to-task/mail-to-task.c:586
 #, c-format
 msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
@@ -18098,7 +18097,7 @@ msgstr ""
 "El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere "
 "editar el acontecimiento antiguo?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:493
+#: ../plugins/mail-to-task/mail-to-task.c:589
 #, c-format
 msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
@@ -18107,7 +18106,7 @@ msgstr ""
 "La lista de tareas seleccionada ya contiene la tarea «%s». ¿Quiere editar la "
 "tarea antigua?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:496
+#: ../plugins/mail-to-task/mail-to-task.c:592
 #, c-format
 msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
@@ -18116,109 +18115,57 @@ msgstr ""
 "La lista de notas seleccionada ya contiene la nota «%s». ¿Quiere editar la "
 "nota antigua?"
 
-#. Translators: Codewise it is impossible to provide separate strings for all
-#. combinations of singular and plural. Please translate it in the way that you
-#. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:516
+#: ../plugins/mail-to-task/mail-to-task.c:609
+#, c-format
 msgid ""
-"Selected calendar contains some events for the given mails already. Would "
-"you like to create new events anyway?"
+"You have selected %d mails to be converted to events. Do you really want to "
+"add them all?"
 msgstr ""
-"El calendario seleccionado ya contiene algunos acontecimientos para los "
-"correos proporcionados. ¿Quiere crear acontecimientos nuevos de todas formas?"
+"Ha seleccionado %d correos para convertirlos en eventos. ¿Realmente quiere "
+"añadirlos todos?"
 
-#. Translators: Codewise it is impossible to provide separate strings for all
-#. combinations of singular and plural. Please translate it in the way that you
-#. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:522
+#: ../plugins/mail-to-task/mail-to-task.c:612
+#, c-format
 msgid ""
-"Selected task list contains some tasks for the given mails already. Would "
-"you like to create new tasks anyway?"
+"You have selected %d mails to be converted to tasks. Do you really want to "
+"add them all?"
 msgstr ""
-"La lista de tareas seleccionada ya contiene algunas tareas para los correos "
-"proporcionados. ¿Quiere crear tareas nuevas de todas formas?"
+"Ha seleccionado %d correos para convertirlos en tareas. ¿Realmente quiere "
+"añadirlos todos?"
 
-#. Translators: Codewise it is impossible to provide separate strings for all
-#. combinations of singular and plural. Please translate it in the way that you
-#. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:528
+#: ../plugins/mail-to-task/mail-to-task.c:615
+#, c-format
 msgid ""
-"Selected memo list contains some memos for the given mails already. Would "
-"you like to create new memos anyway?"
+"You have selected %d mails to be converted to memos. Do you really want to "
+"add them all?"
 msgstr ""
-"La lista de notas seleccionada contiene algunas notas para los correos "
-"proporcionados. ¿Quiere crear notas nuevas de todas formas?"
+"Ha seleccionado %d correos para convertirlos en notas. ¿Realmente quiere "
+"añadirlos todos?"
 
-#. Translators: Codewise it is impossible to provide separate strings for all
-#. combinations of singular and plural. Please translate it in the way that you
-#. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:549
-msgid ""
-"Selected calendar contains an event for the given mail already. Would you "
-"like to create new event anyway?"
-msgid_plural ""
-"Selected calendar contains events for the given mails already. Would you "
-"like to create new events anyway?"
-msgstr[0] ""
-"El calendario seleccionado ya contiene un acontecimiento para el correo "
-"proporcionado. ¿Quiere crear el acontecimiento nuevo de todas formas?"
-msgstr[1] ""
-"El calendario seleccionada ya contiene acontecimientos para los correos "
-"proporcionados. ¿Quiere crear los acontecimientos nuevos de todas formas?"
+#: ../plugins/mail-to-task/mail-to-task.c:634
+#| msgid "Do you wish to overwrite it?"
+msgid "Do you wish to continue converting remaining mails?"
+msgstr "¿Quiere continuar convirtiendo los correos restantes?"
 
-#. Translators: Codewise it is impossible to provide separate strings for all
-#. combinations of singular and plural. Please translate it in the way that you
-#. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:558
-msgid ""
-"Selected task list contains a task for the given mail already. Would you "
-"like to create new task anyway?"
-msgid_plural ""
-"Selected task list contains tasks for the given mails already. Would you "
-"like to create new tasks anyway?"
-msgstr[0] ""
-"La lista de tareas seleccionada ya contiene una nota para el correo "
-"proporcionado. ¿Quiere crear la tarea nueva de todas formas?"
-msgstr[1] ""
-"La lista de tareas seleccionada ya contiene notas para los correos "
-"proporcionados. ¿Quiere crear las tareas nuevas de todas formas?"
-
-#. Translators: Codewise it is impossible to provide separate strings for all
-#. combinations of singular and plural. Please translate it in the way that you
-#. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:567
-msgid ""
-"Selected memo list contains a memo for the given mail already. Would you "
-"like to create new memo anyway?"
-msgid_plural ""
-"Selected memo list contains memos for the given mails already. Would you "
-"like to create new memos anyway?"
-msgstr[0] ""
-"La lista de notas seleccionada ya contiene una nota para el correo "
-"proporcionado. ¿Quiere crear la nota nueva de todas formas?"
-msgstr[1] ""
-"La lista de notas seleccionada ya contiene notas para los correos "
-"proporcionados. ¿Quiere crear las notas nuevas de todas formas?"
-
-#: ../plugins/mail-to-task/mail-to-task.c:626
+#: ../plugins/mail-to-task/mail-to-task.c:709
 msgid "[No Summary]"
 msgstr "[Sin resumen]"
 
-#: ../plugins/mail-to-task/mail-to-task.c:637
+#: ../plugins/mail-to-task/mail-to-task.c:721
 msgid "Invalid object returned from a server"
 msgstr "Un servidor devolvió un objeto no válido"
 
-#: ../plugins/mail-to-task/mail-to-task.c:710
+#: ../plugins/mail-to-task/mail-to-task.c:771
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "Ocurrió un error al procesar: %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:738
+#: ../plugins/mail-to-task/mail-to-task.c:796
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "No se puede abrir el calendario. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:745
+#: ../plugins/mail-to-task/mail-to-task.c:803
 msgid ""
 "Selected source is read only, thus cannot create event there. Select other "
 "source, please."
@@ -18226,7 +18173,7 @@ msgstr ""
 "El origen seleccionado es de sólo lectura, por ello no se puede crear un "
 "acontecimiento en él. Seleccione otro origen."
 
-#: ../plugins/mail-to-task/mail-to-task.c:748
+#: ../plugins/mail-to-task/mail-to-task.c:806
 msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
@@ -18234,7 +18181,7 @@ msgstr ""
 "El origen seleccionado es de sólo lectura, por ello no se puede crear una "
 "tarea en él. Seleccione otro origen."
 
-#: ../plugins/mail-to-task/mail-to-task.c:751
+#: ../plugins/mail-to-task/mail-to-task.c:809
 msgid ""
 "Selected source is read only, thus cannot create memo there. Select other "
 "source, please."
@@ -18242,40 +18189,45 @@ msgstr ""
 "El origen seleccionado es de sólo lectura, por ello no se puede crear una "
 "nota en él. Seleccione otro origen."
 
-#: ../plugins/mail-to-task/mail-to-task.c:957
+#: ../plugins/mail-to-task/mail-to-task.c:1045
 #, c-format
 msgid "Cannot get source list. %s"
 msgstr "No se pudo obtener la lista de origen. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1081
+#: ../plugins/mail-to-task/mail-to-task.c:1104
+#| msgid "No description available."
+msgid "No writable calendar is available."
+msgstr "No hay ningún calendario escribible disponible."
+
+#: ../plugins/mail-to-task/mail-to-task.c:1196
 msgid "Create an _Event"
 msgstr "Crear un _acontecimiento"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1083
+#: ../plugins/mail-to-task/mail-to-task.c:1198
 msgid "Create a new event from the selected message"
 msgstr "Crear un acontecimiento nuevo del mensaje seleccionado"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1088
+#: ../plugins/mail-to-task/mail-to-task.c:1203
 msgid "Create a Mem_o"
 msgstr "Crear una _nota"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1090
+#: ../plugins/mail-to-task/mail-to-task.c:1205
 msgid "Create a new memo from the selected message"
 msgstr "Crear una nota nueva del mensaje seleccionado"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1095
+#: ../plugins/mail-to-task/mail-to-task.c:1210
 msgid "Create a _Task"
 msgstr "Crear una _tarea"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1097
+#: ../plugins/mail-to-task/mail-to-task.c:1212
 msgid "Create a new task from the selected message"
 msgstr "Crear una tarea nueva del mensaje seleccionado"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1105
+#: ../plugins/mail-to-task/mail-to-task.c:1220
 msgid "Create a _Meeting"
 msgstr "Crear una _reunión"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1107
+#: ../plugins/mail-to-task/mail-to-task.c:1222
 msgid "Create a new meeting from the selected message"
 msgstr "Crear una reunión nueva del mensaje seleccionado"
 
@@ -20696,36 +20648,41 @@ msgstr[1] "Guardar los adjuntos"
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
-#: ../widgets/misc/e-attachment-view.c:352
+#: ../widgets/misc/e-attachment-view.c:404
+msgid "Open With Other Application..."
+msgstr "Abrir con otra aplicación…"
+
+#: ../widgets/misc/e-attachment-view.c:411
 msgid "S_ave All"
 msgstr "Guardar _todo"
 
-#: ../widgets/misc/e-attachment-view.c:378
+#: ../widgets/misc/e-attachment-view.c:437
 msgid "A_dd Attachment..."
 msgstr "_Añadir adjunto…"
 
-#: ../widgets/misc/e-attachment-view.c:402
+#: ../widgets/misc/e-attachment-view.c:461
 msgid "_Hide"
 msgstr "_Ocultar"
 
-#: ../widgets/misc/e-attachment-view.c:409
+#: ../widgets/misc/e-attachment-view.c:468
 msgid "Hid_e All"
 msgstr "_Ocular todo"
 
-#: ../widgets/misc/e-attachment-view.c:416
+#: ../widgets/misc/e-attachment-view.c:475
 msgid "_View Inline"
 msgstr "_Ver incluido"
 
-#: ../widgets/misc/e-attachment-view.c:423
+#: ../widgets/misc/e-attachment-view.c:482
 msgid "Vie_w All Inline"
 msgstr "_Ver tolo en línea"
 
-#: ../widgets/misc/e-attachment-view.c:741
+#: ../widgets/misc/e-attachment-view.c:803
 #, c-format
-msgid "Open with \"%s\""
+#| msgid "Open with \"%s\""
+msgid "Open With \"%s\""
 msgstr "Abrir con «%s»"
 
-#: ../widgets/misc/e-attachment-view.c:744
+#: ../widgets/misc/e-attachment-view.c:806
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Abrir este adjunto en %s"
@@ -21564,6 +21521,67 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2318
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid ""
+#~ "Selected calendar contains some events for the given mails already. Would "
+#~ "you like to create new events anyway?"
+#~ msgstr ""
+#~ "El calendario seleccionado ya contiene algunos acontecimientos para los "
+#~ "correos proporcionados. ¿Quiere crear acontecimientos nuevos de todas "
+#~ "formas?"
+
+#~ msgid ""
+#~ "Selected task list contains some tasks for the given mails already. Would "
+#~ "you like to create new tasks anyway?"
+#~ msgstr ""
+#~ "La lista de tareas seleccionada ya contiene algunas tareas para los "
+#~ "correos proporcionados. ¿Quiere crear tareas nuevas de todas formas?"
+
+#~ msgid ""
+#~ "Selected memo list contains some memos for the given mails already. Would "
+#~ "you like to create new memos anyway?"
+#~ msgstr ""
+#~ "La lista de notas seleccionada contiene algunas notas para los correos "
+#~ "proporcionados. ¿Quiere crear notas nuevas de todas formas?"
+
+#~ msgid ""
+#~ "Selected calendar contains an event for the given mail already. Would you "
+#~ "like to create new event anyway?"
+#~ msgid_plural ""
+#~ "Selected calendar contains events for the given mails already. Would you "
+#~ "like to create new events anyway?"
+#~ msgstr[0] ""
+#~ "El calendario seleccionado ya contiene un acontecimiento para el correo "
+#~ "proporcionado. ¿Quiere crear el acontecimiento nuevo de todas formas?"
+#~ msgstr[1] ""
+#~ "El calendario seleccionada ya contiene acontecimientos para los correos "
+#~ "proporcionados. ¿Quiere crear los acontecimientos nuevos de todas formas?"
+
+#~ msgid ""
+#~ "Selected task list contains a task for the given mail already. Would you "
+#~ "like to create new task anyway?"
+#~ msgid_plural ""
+#~ "Selected task list contains tasks for the given mails already. Would you "
+#~ "like to create new tasks anyway?"
+#~ msgstr[0] ""
+#~ "La lista de tareas seleccionada ya contiene una nota para el correo "
+#~ "proporcionado. ¿Quiere crear la tarea nueva de todas formas?"
+#~ msgstr[1] ""
+#~ "La lista de tareas seleccionada ya contiene notas para los correos "
+#~ "proporcionados. ¿Quiere crear las tareas nuevas de todas formas?"
+
+#~ msgid ""
+#~ "Selected memo list contains a memo for the given mail already. Would you "
+#~ "like to create new memo anyway?"
+#~ msgid_plural ""
+#~ "Selected memo list contains memos for the given mails already. Would you "
+#~ "like to create new memos anyway?"
+#~ msgstr[0] ""
+#~ "La lista de notas seleccionada ya contiene una nota para el correo "
+#~ "proporcionado. ¿Quiere crear la nota nueva de todas formas?"
+#~ msgstr[1] ""
+#~ "La lista de notas seleccionada ya contiene notas para los correos "
+#~ "proporcionados. ¿Quiere crear las notas nuevas de todas formas?"
 
 #~ msgid "failed to open book"
 #~ msgstr "falló al abrir libreta de direcciones"
