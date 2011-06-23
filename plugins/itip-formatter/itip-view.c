@@ -744,7 +744,8 @@ set_info_items (GtkWidget *info_box, GSList *info_items)
 			image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_SMALL_TOOLBAR);
 			break;
 		case ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS:
-			image = gtk_image_new_from_icon_name ("stock_animation", GTK_ICON_SIZE_BUTTON);
+			image = gtk_spinner_new ();
+			gtk_spinner_start (GTK_SPINNER (image));
 			break;
 		case ITIP_VIEW_INFO_ITEM_TYPE_NONE:
 		default:
