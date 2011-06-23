@@ -825,6 +825,7 @@ composer_header_table_dispose (GObject *object)
 	}
 
 	if (priv->name_selector != NULL) {
+		e_name_selector_cancel_loading (priv->name_selector);
 		g_object_unref (priv->name_selector);
 		priv->name_selector = NULL;
 	}
@@ -991,6 +992,17 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 }
 
 static void
+composer_header_table_realize_cb (EComposerHeaderTable *table)
+{
+	g_return_if_fail (table != NULL);
+	g_return_if_fail (table->priv != NULL);
+
+	g_signal_handlers_disconnect_by_func (table, composer_header_table_realize_cb, NULL);
+
+	e_name_selector_load_books (table->priv->name_selector);
+}
+
+static void
 e_composer_header_table_init (EComposerHeaderTable *table)
 {
 	EComposerHeader *header;
@@ -1064,6 +1076,9 @@ e_composer_header_table_init (EComposerHeaderTable *table)
 			header->input_widget, "visible",
 			G_BINDING_SYNC_CREATE);
 	}
+
+	/* postpone name_selector loading, do that only when really needed */
+	g_signal_connect (table, "realize", G_CALLBACK (composer_header_table_realize_cb), NULL);
 }
 
 GtkWidget *

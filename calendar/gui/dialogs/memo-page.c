@@ -202,6 +202,12 @@ memo_page_finalize (GObject *object)
 
 	priv = MEMO_PAGE (object)->priv;
 
+	if (priv->name_selector) {
+		e_name_selector_cancel_loading (priv->name_selector);
+		g_object_unref (priv->name_selector);
+		priv->name_selector = NULL;
+	}
+
 	if (priv->main != NULL) {
 		g_object_unref (priv->main);
 		priv->main = NULL;

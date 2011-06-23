@@ -96,6 +96,7 @@ e_delegate_dialog_finalize (GObject *object)
 	edd = E_DELEGATE_DIALOG (object);
 	priv = edd->priv;
 
+	e_name_selector_cancel_loading (priv->name_selector);
 	g_object_unref (priv->name_selector);
 
 	/* Destroy the actual dialog. */
@@ -137,6 +138,7 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const gchar *name, const gcha
 	}
 
 	priv->name_selector = e_name_selector_new ();
+	e_name_selector_load_books (priv->name_selector);
 	name_selector_model = e_name_selector_peek_model (priv->name_selector);
 	e_name_selector_model_add_section (name_selector_model, section_name, section_name, NULL);
 
