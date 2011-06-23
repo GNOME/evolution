@@ -688,7 +688,6 @@ For example: "Work" or "Personal"</property>
                 <child>
                   <object class="EPortEntry" type-func="e_port_entry_get_type" id="source_port">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
                     <property name="has-entry">True</property>
                   </object>
                   <packing>
@@ -1128,7 +1127,6 @@ For example: "Work" or "Personal"</property>
                 <child>
                   <object class="EPortEntry" type-func="e_port_entry_get_type" id="transport_port">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
                     <property name="has-entry">True</property>
                   </object>
                   <packing>
