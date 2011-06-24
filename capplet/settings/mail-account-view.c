@@ -405,37 +405,57 @@ setup_google_accounts (MailAccountView *mav)
 	if (mav->priv->do_gcontacts) {
 		ESourceList *slist;
 		ESourceGroup *sgrp;
-		ESource *abook;
-		gchar *rel_uri;;
+		GSList *sources;
+		gboolean source_already_exists = FALSE;
 
 		slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/addressbook/sources" );
 
 		sgrp = e_source_list_ensure_group (slist, _("Google"), "google://", TRUE);
 
-		/* FIXME: Not sure if we should localize 'Contacts' */
-		abook = e_source_new ("Contacts", "");
-		e_source_set_property (abook, "default", "true");
-		e_source_set_property (abook, "offline_sync", "1");
-		e_source_set_property (abook, "auth", "plain/password");
-		e_source_set_property (abook, "use-ssl", "true");
-		e_source_set_property (abook, "remember_password", "true");
-		e_source_set_property (abook, "refresh-interval", "86400");
-		e_source_set_property (abook, "completion", "true");
-		e_source_set_property (abook, "username", mav->priv->username);
+		sources = e_source_group_peek_sources (sgrp);
+		for (; sources; sources = sources->next)
+		{
+			ESource *existing = (ESource*) sources->data;
 
-		e_source_group_add_source (sgrp, abook, -1);
+			if (!g_strcmp0 (e_source_peek_relative_uri (existing),
+					mav->priv->username))
+			{
+				source_already_exists = TRUE;
+				break;
+			}
+		}
 
-		e_source_set_relative_uri (abook, mav->priv->username);
+		if (!source_already_exists)
+                {
+			ESource *abook;
+			gchar *rel_uri;
 
-		rel_uri = g_strdup_printf("google://%s/", mav->priv->username);
-		e_passwords_add_password (rel_uri, gtk_entry_get_text ((GtkEntry *) mav->password));
-		e_passwords_remember_password ("Addressbook", rel_uri);
-		e_source_list_sync (slist, NULL);
+			/* FIXME: Not sure if we should localize 'Contacts' */
+			abook = e_source_new ("Contacts", "");
+			e_source_set_property (abook, "default", "true");
+			e_source_set_property (abook, "offline_sync", "1");
+			e_source_set_property (abook, "auth", "plain/password");
+			e_source_set_property (abook, "use-ssl", "true");
+			e_source_set_property (abook, "remember_password", "true");
+			e_source_set_property (abook, "refresh-interval", "86400");
+			e_source_set_property (abook, "completion", "true");
+			e_source_set_property (abook, "username", mav->priv->username);
 
-		g_free (rel_uri);
+			e_source_group_add_source (sgrp, abook, -1);
+
+			e_source_set_relative_uri (abook, mav->priv->username);
+
+			rel_uri = g_strdup_printf ("google://%s/", mav->priv->username);
+			e_passwords_add_password (rel_uri, gtk_entry_get_text ((GtkEntry *) mav->password));
+			e_passwords_remember_password ("Addressbook", rel_uri);
+			e_source_list_sync (slist, NULL);
+
+			g_free (rel_uri);
+			g_object_unref (abook);
+		}
+
 		g_object_unref (slist);
 		g_object_unref (sgrp);
-		g_object_unref (abook);
 	}
 
 	g_object_unref (gconf);
