@@ -12413,7 +12413,7 @@ msgstr "Suchordner wird eingerichtet: %s"
 #: ../mail/mail-vfolder.c:238
 #, c-format
 msgid "Updating Search Folders for '%s' : %s"
-msgstr "Suchordner für »%s:%s« werden aktualisiert: %s"
+msgstr "Suchordner für »%s« werden aktualisiert: %s"
 
 #. Translators: The first %s is name of the affected
 #. * search folder(s), the second %s is the URI of the
