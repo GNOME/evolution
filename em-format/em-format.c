@@ -1642,6 +1642,8 @@ emf_multipart_mixed (EMFormat *emf,
 	}
 }
 
+static gboolean related_display_part_is_attachment (EMFormat *emf, CamelMimePart *part);
+
 /* RFC 1740 */
 static void
 emf_multipart_alternative (EMFormat *emf,
@@ -1697,6 +1699,8 @@ emf_multipart_alternative (EMFormat *emf,
 		  return part;*/
 
 		if (!em_format_is_attachment (emf, part) &&
+		    (!camel_content_type_is (type, "multipart", "related") ||
+		    !related_display_part_is_attachment (emf, part)) &&
 		    (em_format_find_handler (emf, mime_type)
 		    || (best == NULL && em_format_fallback_handler (emf, mime_type)))) {
 			best = part;
@@ -1803,6 +1807,60 @@ emf_multipart_encrypted (EMFormat *emf,
 	g_object_unref (context);
 }
 
+static CamelMimePart *
+get_related_display_part (CamelMimePart *part, gint *out_displayid)
+{
+	CamelMultipart *mp;
+	CamelMimePart *body_part, *display_part = NULL;
+	CamelContentType *content_type;
+	const gchar *start;
+	gint i, nparts, displayid = 0;
+
+	mp = (CamelMultipart *) camel_medium_get_content ((CamelMedium *) part);
+
+	if (!CAMEL_IS_MULTIPART (mp))
+		return NULL;
+
+	nparts = camel_multipart_get_number (mp);
+	content_type = camel_mime_part_get_content_type (part);
+	start = camel_content_type_param (content_type, "start");
+	if (start && strlen (start) > 2) {
+		gint len;
+		const gchar *cid;
+
+		/* strip <>'s */
+		len = strlen (start) - 2;
+		start++;
+
+		for (i = 0; i < nparts; i++) {
+			body_part = camel_multipart_get_part (mp, i);
+			cid = camel_mime_part_get_content_id (body_part);
+
+			if (cid && !strncmp (cid, start, len) && strlen (cid) == len) {
+				display_part = body_part;
+				displayid = i;
+				break;
+			}
+		}
+	} else {
+		display_part = camel_multipart_get_part (mp, 0);
+	}
+
+	if (out_displayid)
+		*out_displayid = displayid;
+
+	return display_part;
+}
+
+static gboolean
+related_display_part_is_attachment (EMFormat *emf, CamelMimePart *part)
+{
+	CamelMimePart *display_part;
+
+	display_part = get_related_display_part (part, NULL);
+	return display_part && em_format_is_attachment (emf, display_part);
+}
+
 static void
 emf_write_related (EMFormat *emf,
                    CamelStream *stream,
@@ -1824,8 +1882,6 @@ emf_multipart_related (EMFormat *emf,
 {
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
 	CamelMimePart *body_part, *display_part = NULL;
-	CamelContentType *content_type;
-	const gchar *start;
 	gint i, nparts, partidlen, displayid = 0;
 	gchar *oldpartid;
 	GList *link;
@@ -1835,31 +1891,7 @@ emf_multipart_related (EMFormat *emf,
 		return;
 	}
 
-	/* FIXME: put this stuff in a shared function */
-	nparts = camel_multipart_get_number (mp);
-	content_type = camel_mime_part_get_content_type (part);
-	start = camel_content_type_param (content_type, "start");
-	if (start && strlen (start)>2) {
-		gint len;
-		const gchar *cid;
-
-		/* strip <>'s */
-		len = strlen (start) - 2;
-		start++;
-
-		for (i=0; i<nparts; i++) {
-			body_part = camel_multipart_get_part (mp, i);
-			cid = camel_mime_part_get_content_id (body_part);
-
-			if (cid && !strncmp (cid, start, len) && strlen (cid) == len) {
-				display_part = body_part;
-				displayid = i;
-				break;
-			}
-		}
-	} else {
-		display_part = camel_multipart_get_part (mp, 0);
-	}
+	display_part = get_related_display_part (part, &displayid);
 
 	if (display_part == NULL) {
 		emf_multipart_mixed (
@@ -1873,6 +1905,7 @@ emf_multipart_related (EMFormat *emf,
 	partidlen = emf->part_id->len;
 
 	/* queue up the parts for possible inclusion */
+	nparts = camel_multipart_get_number (mp);
 	for (i = 0; i < nparts; i++) {
 		body_part = camel_multipart_get_part (mp, i);
 		if (body_part != display_part) {
