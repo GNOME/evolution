@@ -2796,7 +2796,7 @@ efh_format_headers (EMFormatHTML *efh,
 
 	/* If the header is collapsed, display just subject and sender in one row and leave */
 	if (efh->priv->headers_state == EM_FORMAT_HTML_HEADERS_STATE_COLLAPSED && efh->priv->headers_collapsable) {
-		gchar *subject = _("(no subject)");
+		gchar *subject = NULL;
 		struct _camel_header_address *addrs = NULL;
 		GString *from = g_string_new ("");
 
@@ -2817,6 +2817,7 @@ efh_format_headers (EMFormatHTML *efh,
 			} else if (!g_ascii_strcasecmp (header->name, "Subject")) {
 				gchar *buf = NULL;
 				buf = camel_header_unfold (header->value);
+				g_free (subject);
 				subject = camel_header_decode_string (buf, hdr_charset);
 				g_free (buf);
 			}
@@ -2824,10 +2825,9 @@ efh_format_headers (EMFormatHTML *efh,
 		}
 
 		camel_stream_printf (stream, "<tr><td width=\"20\" valign=\"top\"><a href=\"##HEADERS##\"><img src=\"%s/plus.png\"></a></td><td><strong>%s</strong> %s%s%s</td></tr>",
-				evolution_imagesdir,  subject, from->len ? "(" : "", from->str, from->len ? ")" : "");
+				evolution_imagesdir,  subject ? subject : _("(no subject)"), from->len ? "(" : "", from->str, from->len ? ")" : "");
 
 		g_free (subject);
-		g_free (header);
 		if (addrs)
 			camel_header_address_list_clear (&addrs);
 		g_string_free (from, TRUE);
