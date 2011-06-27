@@ -441,11 +441,12 @@ contact_added_cb (EBookClient *book_client, const GError *error, const gchar *id
 {
 	ContactCopyProcess *process = user_data;
 
-	if (error && !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+	if (error && !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) &&
+	    !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		process->book_status = FALSE;
 		eab_error_dialog (process->alert_sink, _("Error adding contact"), error);
-	}
-	else if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+	} else if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		process->book_status = FALSE;
 	}
 	else {

@@ -1654,7 +1654,8 @@ search_address_in_addressbooks (const gchar *address,
 			book_client = e_book_client_new (source, &err);
 
 			if (book_client == NULL) {
-				if (err && g_error_matches (err, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+				if (err && (g_error_matches (err, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+				    g_error_matches (err, G_IO_ERROR, G_IO_ERROR_CANCELLED))) {
 					stop = TRUE;
 				} else if (err) {
 					gchar *source_uid;
@@ -1677,7 +1678,8 @@ search_address_in_addressbooks (const gchar *address,
 				g_object_unref (book_client);
 				book_client = NULL;
 
-				if (err && g_error_matches (err, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+				if (err && (g_error_matches (err, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+				    g_error_matches (err, G_IO_ERROR, G_IO_ERROR_CANCELLED))) {
 					stop = TRUE;
 				} else if (err) {
 					gchar *source_uid;
@@ -1724,8 +1726,9 @@ search_address_in_addressbooks (const gchar *address,
 				g_slist_free (contacts);
 			}
 		} else if (book_client) {
-			stop = stop || (err && g_error_matches (
-				err, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED));
+			stop = stop || (err &&
+			    (g_error_matches (err, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+			     g_error_matches (err, G_IO_ERROR, G_IO_ERROR_CANCELLED)));
 			if (err && !stop) {
 				gchar *source_uid = g_strdup (e_source_peek_uid (source));
 

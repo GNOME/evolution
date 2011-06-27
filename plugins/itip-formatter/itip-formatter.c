@@ -508,7 +508,8 @@ cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 
 	if (!e_client_utils_open_new_finish (source, result, &client, &error)) {
 		client = NULL;
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			g_error_free (error);
 			return;
 		}
@@ -801,6 +802,16 @@ get_object_without_rid_ready_cb (GObject *source_object, GAsyncResult *result, g
 	if (!e_cal_client_get_object_finish (cal_client, result, &icalcomp, &error))
 		icalcomp = NULL;
 
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
+		find_cal_update_ui (fd, cal_client);
+		decrease_find_data (fd);
+		return;
+	}
+
+	g_clear_error (&error);
+
 	if (icalcomp) {
 		fd->puri->current_client = cal_client;
 		fd->keep_alarm_check = (fd->puri->method == ICAL_METHOD_PUBLISH || fd->puri->method ==  ICAL_METHOD_REQUEST) &&
@@ -815,9 +826,6 @@ get_object_without_rid_ready_cb (GObject *source_object, GAsyncResult *result, g
 		decrease_find_data (fd);
 		return;
 	}
-
-	if (error)
-		g_error_free (error);
 
 	find_cal_update_ui (fd, cal_client);
 	decrease_find_data (fd);
@@ -834,6 +842,16 @@ get_object_with_rid_ready_cb (GObject *source_object, GAsyncResult *result, gpoi
 	if (!e_cal_client_get_object_finish (cal_client, result, &icalcomp, &error))
 		icalcomp = NULL;
 
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
+		find_cal_update_ui (fd, cal_client);
+		decrease_find_data (fd);
+		return;
+	}
+
+	g_clear_error (&error);
+
 	if (icalcomp) {
 		fd->puri->current_client = cal_client;
 		fd->keep_alarm_check = (fd->puri->method == ICAL_METHOD_PUBLISH || fd->puri->method ==  ICAL_METHOD_REQUEST) &&
@@ -847,17 +865,6 @@ get_object_with_rid_ready_cb (GObject *source_object, GAsyncResult *result, gpoi
 		find_cal_update_ui (fd, cal_client);
 		decrease_find_data (fd);
 		return;
-	}
-
-	if (error) {
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
-			g_error_free (error);
-			find_cal_update_ui (fd, cal_client);
-			decrease_find_data (fd);
-			return;
-		}
-
-		g_error_free (error);
 	}
 
 	if (fd->rid && *fd->rid) {
@@ -881,7 +888,8 @@ get_object_list_ready_cb (GObject *source_object, GAsyncResult *result, gpointer
 		objects = NULL;
 
 	if (error) {
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			g_error_free (error);
 			decrease_find_data (fd);
 			return;
@@ -910,7 +918,8 @@ find_cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_
 	source = E_SOURCE (source_object);
 
 	if (!e_client_utils_open_new_finish (source, result, &client, &error)) {
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			g_error_free (error);
 			decrease_find_data (fd);
 			return;
