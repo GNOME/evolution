@@ -1510,12 +1510,6 @@ gnome_calendar_finalize (GObject *object)
 	G_OBJECT_CLASS (gnome_calendar_parent_class)->finalize (object);
 }
 
-void
-gnome_calendar_dispose (GnomeCalendar *gcal)
-{
-	g_object_run_dispose (G_OBJECT (gcal));
-}
-
 static void
 notify_selected_time_changed (GnomeCalendar *gcal)
 {

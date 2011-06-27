@@ -114,6 +114,8 @@ struct _ECalModelPrivate {
 	GSList *notify_removed;
 
 	GMutex *notify_lock;
+
+	GCancellable *loading_clients;
 };
 
 static gint ecm_column_count (ETableModel *etm);
@@ -376,6 +378,12 @@ cal_model_dispose (GObject *object)
 	ECalModelPrivate *priv;
 
 	priv = E_CAL_MODEL (object)->priv;
+
+	if (priv->loading_clients) {
+		g_cancellable_cancel (priv->loading_clients);
+		g_object_unref (priv->loading_clients);
+		priv->loading_clients = NULL;
+	}
 
 	if (priv->clients) {
 		while (priv->clients != NULL) {
@@ -701,6 +709,8 @@ e_cal_model_init (ECalModel *model)
 	model->priv->notify_modified = NULL;
 	model->priv->notify_removed = NULL;
 	model->priv->notify_lock = g_mutex_new ();
+
+	model->priv->loading_clients = g_cancellable_new ();
 }
 
 /* ETableModel methods */
@@ -2582,6 +2592,28 @@ cal_model_retrieve_capabilies_cb (GObject *source_object, GAsyncResult *result, 
 	update_e_cal_view_for_client (model, client_data);
 }
 
+struct RetryOpenData
+{
+	EClient *client;
+	ECalModel *model;
+	GCancellable *cancellable;
+};
+
+static void
+free_retry_open_data (gpointer data)
+{
+	struct RetryOpenData *rod = data;
+
+	if (!rod)
+		return;
+
+	g_object_unref (rod->client);
+	g_object_unref (rod->cancellable);
+	g_free (rod);
+}
+
+static gboolean cal_model_retry_open_timeout_cb (gpointer user_data);
+
 static void
 client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
@@ -2590,6 +2622,28 @@ client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_da
 	GError *error = NULL;
 
 	e_client_open_finish (E_CLIENT (client), result, &error);
+
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
+		return;
+	}
+
+	if (error && g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_BUSY)) {
+		struct RetryOpenData *rod;
+
+		rod = g_new0 (struct RetryOpenData, 1);
+		rod->client = g_object_ref (client);
+		rod->model = model;
+		rod->cancellable = g_object_ref (model->priv->loading_clients);
+
+		/* postpone for 1/2 of a second, backend is busy now */
+		g_timeout_add_full (G_PRIORITY_DEFAULT, 500, cal_model_retry_open_timeout_cb, rod, free_retry_open_data);
+
+		g_error_free (error);
+
+		return;
+	}
 
 	if (error) {
 		e_cal_model_remove_client (model, client);
@@ -2600,7 +2654,21 @@ client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_da
 	}
 
 	/* to have them ready for later use */
-	e_client_retrieve_capabilities (E_CLIENT (client), NULL, cal_model_retrieve_capabilies_cb, model);
+	e_client_retrieve_capabilities (E_CLIENT (client), model->priv->loading_clients, cal_model_retrieve_capabilies_cb, model);
+}
+
+static gboolean
+cal_model_retry_open_timeout_cb (gpointer user_data)
+{
+	struct RetryOpenData *rod = user_data;
+
+	g_return_val_if_fail (rod != NULL, FALSE);
+	g_return_val_if_fail (rod->client != NULL, FALSE);
+	g_return_val_if_fail (rod->model != NULL, FALSE);
+
+	e_client_open (rod->client, TRUE, rod->cancellable, client_opened_cb, rod->model);
+
+	return FALSE;
 }
 
 static ECalModelClient *
@@ -2649,7 +2717,7 @@ add_new_client (ECalModel *model, ECalClient *client, gboolean do_query)
 
 		e_cal_client_set_default_timezone (client, e_cal_model_get_timezone (model));
 
-		e_client_open (E_CLIENT (client), TRUE, NULL, client_opened_cb, model);
+		e_client_open (E_CLIENT (client), TRUE, model->priv->loading_clients, client_opened_cb, model);
 	}
 
 	return client_data;
