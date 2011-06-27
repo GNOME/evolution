@@ -59,6 +59,7 @@ struct _ECalShellSidebarPrivate {
 	ECalClient *default_client;
 
 	GCancellable *loading_default_client;
+	GCancellable *loading_clients;
 };
 
 enum {
@@ -181,6 +182,28 @@ cal_shell_sidebar_retrieve_capabilies_cb (GObject *source_object, GAsyncResult *
 	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, NULL);
 }
 
+static gboolean cal_shell_sidebar_retry_open_timeout_cb (gpointer user_data);
+
+struct RetryOpenData
+{
+	EClient *client;
+	ECalShellSidebar *cal_shell_sidebar;
+	GCancellable *cancellable;
+};
+
+static void
+free_retry_open_data (gpointer data)
+{
+	struct RetryOpenData *rod = data;
+
+	if (!rod)
+		return;
+
+	g_object_unref (rod->client);
+	g_object_unref (rod->cancellable);
+	g_free (rod);
+}
+
 static void
 cal_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
@@ -191,21 +214,43 @@ cal_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *result
 	EShellSidebar *shell_sidebar;
 	GError *error = NULL;
 
-	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
 	e_client_open_finish (E_CLIENT (client), result, &error);
+
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_clear_error (&error);
+		return;
+	}
 
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_FAILED) ||
 	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_REQUIRED))
 		e_client_utils_forget_password (E_CLIENT (client));
 
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_FAILED)) {
-		e_client_open (E_CLIENT (client), FALSE, NULL, cal_shell_sidebar_client_opened_cb, user_data);
+		e_client_open (E_CLIENT (client), FALSE, cal_shell_sidebar->priv->loading_clients, cal_shell_sidebar_client_opened_cb, user_data);
+
 		g_clear_error (&error);
 		return;
 	}
+
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_BUSY)) {
+		struct RetryOpenData *rod;
+
+		rod = g_new0 (struct RetryOpenData, 1);
+		rod->client = g_object_ref (client);
+		rod->cal_shell_sidebar = cal_shell_sidebar;
+		rod->cancellable = g_object_ref (cal_shell_sidebar->priv->loading_clients);
+
+		/* postpone for 1/2 of a second, backend is busy now */
+		g_timeout_add_full (G_PRIORITY_DEFAULT, 500, cal_shell_sidebar_retry_open_timeout_cb, rod, free_retry_open_data);
+
+		g_clear_error (&error);
+		return;
+	}
+
+	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	/* Handle errors. */
 	switch ((error && error->domain == E_CLIENT_ERROR) ? error->code : -1) {
@@ -245,6 +290,24 @@ cal_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *result
 	e_client_retrieve_capabilities (E_CLIENT (client), NULL, cal_shell_sidebar_retrieve_capabilies_cb, cal_shell_sidebar);
 }
 
+static gboolean
+cal_shell_sidebar_retry_open_timeout_cb (gpointer user_data)
+{
+	struct RetryOpenData *rod = user_data;
+
+	g_return_val_if_fail (rod != NULL, FALSE);
+	g_return_val_if_fail (rod->client != NULL, FALSE);
+	g_return_val_if_fail (rod->cal_shell_sidebar != NULL, FALSE);
+	g_return_val_if_fail (rod->cancellable != NULL, FALSE);
+
+	if (g_cancellable_is_cancelled (rod->cancellable))
+		return FALSE;
+
+	e_client_open (rod->client, FALSE, rod->cal_shell_sidebar->priv->loading_clients, cal_shell_sidebar_client_opened_cb, rod->cal_shell_sidebar);
+
+	return FALSE;
+}
+
 static void
 cal_shell_sidebar_default_loaded_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
@@ -259,11 +322,6 @@ cal_shell_sidebar_default_loaded_cb (GObject *source_object, GAsyncResult *resul
 
 	priv = E_CAL_SHELL_SIDEBAR (shell_sidebar)->priv;
 
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
-	model = e_cal_shell_content_get_model (cal_shell_content);
-
 	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
 		client = NULL;
 
@@ -271,7 +329,14 @@ cal_shell_sidebar_default_loaded_cb (GObject *source_object, GAsyncResult *resul
 	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
 		g_error_free (error);
 		goto exit;
-	} else if (error != NULL) {
+	}
+
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
+	model = e_cal_shell_content_get_model (cal_shell_content);
+
+	if (error != NULL) {
 		e_alert_submit (
 			E_ALERT_SINK (shell_content),
 			"calendar:failed-open-calendar",
@@ -558,6 +623,12 @@ cal_shell_sidebar_dispose (GObject *object)
 		g_cancellable_cancel (priv->loading_default_client);
 		g_object_unref (priv->loading_default_client);
 		priv->loading_default_client = NULL;
+	}
+
+	if (priv->loading_clients != NULL) {
+		g_cancellable_cancel (priv->loading_clients);
+		g_object_unref (priv->loading_clients);
+		priv->loading_clients = NULL;
 	}
 
 	g_hash_table_remove_all (priv->client_table);
@@ -864,6 +935,7 @@ cal_shell_sidebar_init (ECalShellSidebar *cal_shell_sidebar)
 		ECalShellSidebarPrivate);
 
 	cal_shell_sidebar->priv->client_table = client_table;
+	cal_shell_sidebar->priv->loading_clients = g_cancellable_new ();
 
 	/* Postpone widget construction until we have a shell view. */
 }
@@ -1027,7 +1099,7 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
 	timezone = e_cal_model_get_timezone (model);
 
 	e_cal_client_set_default_timezone (client, timezone);
-	e_client_open (E_CLIENT (client), FALSE, NULL, cal_shell_sidebar_client_opened_cb, cal_shell_sidebar);
+	e_client_open (E_CLIENT (client), FALSE, cal_shell_sidebar->priv->loading_clients, cal_shell_sidebar_client_opened_cb, cal_shell_sidebar);
 }
 
 void
