@@ -2561,11 +2561,32 @@ backend_died_cb (ECalClient *client, gpointer user_data)
 }
 
 static void
+cal_model_retrieve_capabilies_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	ECalClient *client = E_CAL_CLIENT (source_object);
+	ECalModel *model = user_data;
+	ECalModelClient *client_data;
+	gchar *capabilities = NULL;
+
+	g_return_if_fail (client != NULL);
+	g_return_if_fail (model != NULL);
+
+	e_client_retrieve_capabilities_finish (E_CLIENT (client), result, &capabilities, NULL);
+	g_free (capabilities);
+
+	e_cal_model_update_status_message (model, NULL, -1.0);
+
+	client_data = find_client_data (model, client);
+	g_return_if_fail (client_data);
+
+	update_e_cal_view_for_client (model, client_data);
+}
+
+static void
 client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
 	ECalClient *client = E_CAL_CLIENT (source_object);
 	ECalModel *model = (ECalModel *) user_data;
-	ECalModelClient *client_data;
 	GError *error = NULL;
 
 	e_client_open_finish (E_CLIENT (client), result, &error);
@@ -2578,12 +2599,8 @@ client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_da
 		return;
 	}
 
-	e_cal_model_update_status_message (model, NULL, -1.0);
-
-	client_data = find_client_data (model, client);
-	g_return_if_fail (client_data);
-
-	update_e_cal_view_for_client (model, client_data);
+	/* to have them ready for later use */
+	e_client_retrieve_capabilities (E_CLIENT (client), NULL, cal_model_retrieve_capabilies_cb, model);
 }
 
 static ECalModelClient *
