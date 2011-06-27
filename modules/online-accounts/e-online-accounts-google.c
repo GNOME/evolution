@@ -311,6 +311,9 @@ online_accounts_google_sync_calendar (GoaObject *goa_object,
 	 *     will authenticate itself if it sees a GOA ID. */
 	e_source_set_property (source, "auth", "1");
 
+	string = goa_account_get_id (goa_account);
+	e_source_set_property (source, GOA_KEY, string);
+
 	if (new_source) {
 		e_source_group_add_source (source_group, source, -1);
 		g_object_unref (source);
@@ -367,6 +370,9 @@ online_accounts_google_sync_contacts (GoaObject *goa_object,
 	/* XXX Not sure this needs to be set since the backend
 	 *     will authenticate itself if it sees a GOA ID. */
 	e_source_set_property (source, "auth", "plain/password");
+
+	string = goa_account_get_id (goa_account);
+	e_source_set_property (source, GOA_KEY, string);
 
 	if (new_source) {
 		e_source_group_add_source (source_group, source, -1);
