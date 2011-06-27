@@ -3244,6 +3244,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 				- E_WEEK_VIEW_EVENT_BORDER_WIDTH
 				- E_WEEK_VIEW_EVENT_EDGE_X_PAD - text_x;
 		} else {
+			text = NULL;
 			/* Get the width of the text of the event. This is a
 			   bit of a hack. It would be better if EText could
 			   tell us this. */
@@ -3951,6 +3952,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	if (!uid)
 		return;
 
+	text = NULL;
 	g_object_set (span->text_item, "handle_popup", FALSE, NULL);
 	g_object_get (G_OBJECT (span->text_item), "text", &text, NULL);
 

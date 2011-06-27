@@ -159,6 +159,24 @@ task_shell_sidebar_backend_error_cb (ETaskShellSidebar *task_shell_sidebar,
 }
 
 static void
+task_shell_sidebar_retrieve_capabilies_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	ECalClient *client = E_CAL_CLIENT (source_object);
+	ETaskShellSidebar *task_shell_sidebar = user_data;
+	gchar *capabilities = NULL;
+
+	g_return_if_fail (client != NULL);
+	g_return_if_fail (task_shell_sidebar != NULL);
+
+	e_client_retrieve_capabilities_finish (E_CLIENT (client), result, &capabilities, NULL);
+	g_free (capabilities);
+
+	task_shell_sidebar_emit_status_message (task_shell_sidebar, _("Loading tasks"));
+	task_shell_sidebar_emit_client_added (task_shell_sidebar, client);
+	task_shell_sidebar_emit_status_message (task_shell_sidebar, NULL);
+}
+
+static void
 task_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
 	ECalClient *client = E_CAL_CLIENT (source_object);
@@ -166,7 +184,6 @@ task_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *resul
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	const gchar *message;
 	GError *error = NULL;
 
 	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
@@ -219,10 +236,8 @@ task_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *resul
 
 	g_clear_error (&error);
 
-	message = _("Loading tasks");
-	task_shell_sidebar_emit_status_message (task_shell_sidebar, message);
-	task_shell_sidebar_emit_client_added (task_shell_sidebar, client);
-	task_shell_sidebar_emit_status_message (task_shell_sidebar, NULL);
+	/* to have them ready for later use */
+	e_client_retrieve_capabilities (E_CLIENT (client), NULL, task_shell_sidebar_retrieve_capabilies_cb, task_shell_sidebar);
 }
 
 static void

@@ -164,6 +164,24 @@ cal_shell_sidebar_backend_error_cb (ECalShellSidebar *cal_shell_sidebar,
 }
 
 static void
+cal_shell_sidebar_retrieve_capabilies_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	ECalClient *client = E_CAL_CLIENT (source_object);
+	ECalShellSidebar *cal_shell_sidebar = user_data;
+	gchar *capabilities = NULL;
+
+	g_return_if_fail (client != NULL);
+	g_return_if_fail (cal_shell_sidebar != NULL);
+
+	e_client_retrieve_capabilities_finish (E_CLIENT (client), result, &capabilities, NULL);
+	g_free (capabilities);
+
+	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, _("Loading calendars"));
+	cal_shell_sidebar_emit_client_added (cal_shell_sidebar, client);
+	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, NULL);
+}
+
+static void
 cal_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
 	ECalClient *client = E_CAL_CLIENT (source_object);
@@ -171,7 +189,6 @@ cal_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *result
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	const gchar *message;
 	GError *error = NULL;
 
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
@@ -224,10 +241,8 @@ cal_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *result
 
 	g_clear_error (&error);
 
-	message = _("Loading calendars");
-	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, message);
-	cal_shell_sidebar_emit_client_added (cal_shell_sidebar, client);
-	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, NULL);
+	/* to have them ready for later use */
+	e_client_retrieve_capabilities (E_CLIENT (client), NULL, cal_shell_sidebar_retrieve_capabilies_cb, cal_shell_sidebar);
 }
 
 static void
