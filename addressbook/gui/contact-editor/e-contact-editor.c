@@ -213,7 +213,8 @@ e_contact_editor_contact_added (EABEditor *editor,
 	if (!error)
 		return;
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
 	eab_error_dialog (NULL, _("Error adding contact"), error);
@@ -227,7 +228,8 @@ e_contact_editor_contact_modified (EABEditor *editor,
 	if (!error)
 		return;
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
 	eab_error_dialog (NULL, _("Error modifying contact"), error);
@@ -241,7 +243,8 @@ e_contact_editor_contact_deleted (EABEditor *editor,
 	if (!error)
 		return;
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
 	eab_error_dialog (NULL, _("Error removing contact"), error);
@@ -2983,8 +2986,8 @@ contact_editor_book_loaded_cb (GObject *source_object,
 	if (!e_client_utils_open_new_finish (source, result, &client, &error))
 		client = NULL;
 
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
-	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_warn_if_fail (client == NULL);
 		g_error_free (error);
 	} else if (error != NULL) {

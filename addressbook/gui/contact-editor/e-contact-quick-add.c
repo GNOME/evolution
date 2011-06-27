@@ -132,8 +132,8 @@ merge_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 		client = NULL;
 
 	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
-	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_error_free (error);
 		return;
 	}
@@ -277,8 +277,8 @@ ce_have_book (GObject *source_object, GAsyncResult *result, gpointer user_data)
 		client = NULL;
 
 	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
-	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_error_free (error);
 		return;
 	}

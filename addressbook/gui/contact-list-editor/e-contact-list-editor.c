@@ -1410,7 +1410,8 @@ contact_list_editor_contact_added (EABEditor *editor,
 	if (!error)
 		return;
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
 	eab_error_dialog (NULL, _("Error adding list"), error);
@@ -1424,7 +1425,8 @@ contact_list_editor_contact_modified (EABEditor *editor,
 	if (!error)
 		return;
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
 	eab_error_dialog (NULL, _("Error modifying list"), error);
@@ -1438,7 +1440,8 @@ contact_list_editor_contact_deleted (EABEditor *editor,
 	if (!error)
 		return;
 
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED))
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		return;
 
 	eab_error_dialog (NULL, _("Error removing list"), error);

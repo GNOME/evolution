@@ -319,8 +319,8 @@ task_shell_sidebar_default_loaded_cb (GObject *source_object, GAsyncResult *resu
 	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
 		client = NULL;
 
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
-	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_error_free (error);
 		goto exit;
 	}
