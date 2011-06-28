@@ -43,6 +43,8 @@
 #include <mail/mail-mt.h>
 #include <mail/e-mail-store.h>
 
+#include <shell/e-shell.h>
+
 enum {
 	CTRL_W_PRESSED,
 	CTRL_Q_PRESSED,
@@ -202,6 +204,7 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 {
 	MailCappletShellPrivate *priv = shell->priv;
 	GtkStyle *style = gtk_widget_get_default_style ();
+	EShell *eshell;
 	EMailSession *session;
 	gchar *custom_dir;
 
@@ -239,7 +242,30 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 
 	camel_provider_init ();
 
-	shell->priv->backend = g_object_new (E_TYPE_MAIL_BACKEND, NULL);
+	eshell = e_shell_get_default ();
+
+	if (eshell == NULL) {
+		GError *error = NULL;
+
+		eshell = g_initable_new (
+			E_TYPE_SHELL, NULL, &error,
+			"application-id", "org.gnome.Evolution",
+			"flags", 0,
+			"geometry", NULL,
+			"module-directory", EVOLUTION_MODULEDIR,
+			"meego-mode", FALSE,
+			"express-mode", FALSE,
+			"small-screen-mode", FALSE,
+			"online", FALSE,
+			NULL);
+
+		if (error != NULL)
+			g_error ("%s", error->message);
+
+		e_shell_load_modules (eshell);
+	}
+
+	shell->priv->backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (eshell, "mail"));
 	session = e_mail_backend_get_session (shell->priv->backend);
 
 	shell->view = mail_view_new ();

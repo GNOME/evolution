@@ -25,6 +25,7 @@ libevolution_mail_settings_la_CPPFLAGS =		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"		\
+	-DEVOLUTION_MODULEDIR=\""$(moduledir)"\"	\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"		\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
 	-DEVOLUTION_BUTTONSDIR=\""$(buttonsdir)"\"	\
