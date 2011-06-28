@@ -9,6 +9,7 @@ libeabwidgets_la_CPPFLAGS =				\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\"		\
+	-DEVOLUTION_IMAGESDIR=\"${imagesdir}\"		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/filter				\
 	-I$(top_srcdir)/widgets				\
@@ -69,6 +70,7 @@ libeabwidgets_la_LIBADD =					\
 	$(top_builddir)/widgets/table/libetable.la		\
 	$(top_builddir)/widgets/menus/libmenus.la		\
 	$(top_builddir)/a11y/libevolution-a11y.la		\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(CHAMPLAIN_LIBS)
 

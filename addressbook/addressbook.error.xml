@@ -98,6 +98,13 @@
   <button stock="gtk-ok" _label="_Add" response="GTK_RESPONSE_YES"/>
  </error>
  
+ <error id="ask-list-add-list-exists" type="question" default="GTK_RESPONSE_NO">
+   <_primary>'{0}' is already in this contact list.</_primary>
+   <_secondary>A contact list named '{0}' is already in this contact list. Would you like to add it anyway?</_secondary>
+   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+   <button stock="gtk-ok" _label="_Add" response="GTK_RESPONSE_YES"/>
+ </error>
+ 
  <error id="server-version" type="warning">
   <_primary>Some features may not work properly with your current server</_primary> 
   <_secondary>You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results the server should be upgraded to a supported version</_secondary>
