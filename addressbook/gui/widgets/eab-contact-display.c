@@ -28,6 +28,7 @@
 
 #include "eab-gui-util.h"
 #include "e-util/e-util.h"
+#include "e-util/e-util-private.h"
 #include "e-util/e-html-utils.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-plugin-ui.h"
@@ -50,6 +51,8 @@ struct _EABContactDisplayPrivate {
 	EABContactDisplayMode mode;
 	GtkOrientation orientation;
 	gboolean show_maps;
+
+	GHashTable *closed_lists; /* see render_contact_list_* */
 };
 
 enum {
@@ -409,7 +412,7 @@ render_title_block (GString *buffer, EContact *contact)
 
 	g_string_append_printf (
 			buffer, "<table border=\"0\"><tr>"
-			"<td %s valign=\"top\">", TEXT_IS_RIGHT_TO_LEFT ?
+			"<td %s valign=\"middle\">", TEXT_IS_RIGHT_TO_LEFT ?
 			"align=\"right\"" : "");
 	photo = e_contact_get (contact, E_CONTACT_PHOTO);
 	if (!photo)
@@ -420,6 +423,9 @@ render_title_block (GString *buffer, EContact *contact)
 	}
 	if (photo)
 		e_contact_photo_free (photo);
+
+	if (e_contact_get (contact, E_CONTACT_IS_LIST))
+		g_string_append (buffer, "<img src=\"evo-icon:" CONTACT_LIST_ICON "\">");
 
 	g_string_append_printf (
 		buffer, "</td><td width=\"20\"></td><td %s valign=\"top\">\n",
@@ -443,43 +449,126 @@ render_title_block (GString *buffer, EContact *contact)
 }
 
 static void
-render_contact_list (GString *buffer,
-                     EContact *contact)
+render_contact_list_row (GString *buffer,
+			 EDestination *destination,
+			 EABContactDisplay *display)
+ {
+	gchar *evolution_imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
+	gboolean list_collapsed = FALSE;
+	const gchar *listId = e_destination_get_contact_uid (destination), *textrep;
+	gchar *name = NULL, *email_addr = NULL;
+
+	if (listId)
+		list_collapsed = GPOINTER_TO_INT (g_hash_table_lookup (display->priv->closed_lists, listId));
+
+	textrep = e_destination_get_textrep (destination, TRUE);
+	if (!eab_parse_qp_email (textrep, &name, &email_addr))
+		email_addr = g_strdup (textrep);
+
+	g_string_append (buffer, "<tr>");
+	if (e_destination_is_evolution_list (destination)) {
+		g_string_append_printf (buffer,
+			"<td width=" IMAGE_COL_WIDTH " valign=\"top\"><a href=\"##%s##\"><img src=\"%s/%s.png\"></a></td><td width=\"100%%\">%s",
+			e_destination_get_contact_uid (destination),
+			evolution_imagesdir,
+			(list_collapsed ? "plus" : "minus"),
+			name ? name : email_addr);
+
+		if (!list_collapsed) {
+			const GList *dest, *dests;
+			g_string_append (buffer, "<br><table cellspacing=\"1\">");
+
+			dests = e_destination_list_get_root_dests (destination);
+			for (dest = dests; dest; dest = dest->next) {
+				render_contact_list_row (buffer, dest->data, display);
+			}
+
+			g_string_append (buffer, "</table>");
+		}
+
+		g_string_append (buffer, "</td>");
+
+	} else {
+		if (name && *name) {
+			g_string_append_printf (buffer, "<td colspan=\"2\">%s &lt<a href=\"mailto:%s\">%s</a>&gt;</td>", name, email_addr, email_addr);
+		} else {
+			g_string_append_printf (buffer, "<td colspan=\"2\"><a href=\"mailto:%s\">%s</a></td>", email_addr, email_addr);
+		}
+	}
+
+	g_string_append (buffer, "</tr>");
+
+	g_free (evolution_imagesdir);
+	g_free (name);
+	g_free (email_addr);
+}
+
+static void
+render_contact_list_vertical (GString *buffer,
+		              EContact *contact,
+        		      EABContactDisplay *display)
 {
-	GList *email_list;
-	GList *l;
+	EDestination *destination;
+	const GList *dest, *dests;
+
+	destination = e_destination_new ();
+	e_destination_set_contact (destination, contact, 0);
+	dests = e_destination_list_get_root_dests (destination);
 
 	render_title_block (buffer, contact);
 
-	g_string_append (
-		buffer, "<br><table border=\"0\" cellspacing=\"0\" "
-		"cellpadding=\"0\"><tr>");
-	g_string_append (
-		buffer, "<td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
-	g_string_append (
-		buffer, "<img width=\"16\" height=\"16\" "
-		"src=\"evo-icon:" CONTACT_LIST_ICON "\">");
-	g_string_append_printf (
-		buffer, "</td><td valign=\"top\" width=\"100\" nowrap>"
-		"<font color=" HEADER_COLOR ">%s:</font></td> "
-		"<td valign=\"top\">", _("List Members"));
+	g_string_append_printf (buffer, "<table border=\"0\"><tr><td valign=\"top\"><font color=" HEADER_COLOR ">%s</font></td><td>",
+		_("List Members:"));
+	g_string_append (buffer, "<table border=\"0\" cellspacing=\"1\">");
 
-	email_list = e_contact_get (contact, E_CONTACT_EMAIL);
-	for (l = email_list; l; l = l->next) {
-		gchar *value;
+	for (dest = dests; dest; dest = dest->next) {
+		render_contact_list_row (buffer, dest->data, display);
+ 	}
 
-		value = eab_parse_qp_email_to_html (l->data);
-
-		if (!value)
-			value = e_text_to_html (l->data, E_TEXT_TO_HTML_CONVERT_ADDRESSES);
-
-		g_string_append_printf (buffer, "%s<br>", value);
-
-		g_free (value);
-	}
-
+	g_string_append (buffer, "</table>");
 	g_string_append (buffer, "</td></tr></table>");
-	g_list_free (email_list);
+
+	g_object_unref (destination);
+}
+
+static void
+render_contact_list_horizontal (GString *buffer,
+		                EContact *contact,
+        		        EABContactDisplay *display)
+{
+	EDestination *destination;
+	const GList *dest, *dests;
+
+	destination = e_destination_new ();
+	e_destination_set_contact (destination, contact, 0);
+	dests = e_destination_list_get_root_dests (destination);
+
+	render_title_block (buffer, contact);
+
+	g_string_append_printf (buffer, "<table border=\"0\"><tr><td colspan=\"2\" valign=\"top\"><font color=" HEADER_COLOR ">%s</font></td></tr>"
+		"<tr><td with=" IMAGE_COL_WIDTH "></td><td>", _("List Members:"));
+	g_string_append (buffer, "<table border=\"0\" cellspacing=\"1\">");
+
+	for (dest = dests; dest; dest = dest->next) {
+		render_contact_list_row (buffer, dest->data, display);
+ 	}
+
+	g_string_append (buffer, "</table>");
+	g_string_append (buffer, "</td></tr></table>");
+
+	g_object_unref (destination);
+}
+
+static void
+render_contact_list (GString *buffer,
+                     EContact *contact,
+		     EABContactDisplay *display)
+
+{
+	if (display->priv->orientation == GTK_ORIENTATION_VERTICAL)
+		render_contact_list_vertical (buffer, contact, display);
+	else
+		render_contact_list_horizontal (buffer, contact, display);
 }
 
 static void
@@ -751,7 +840,7 @@ eab_contact_display_render_normal (EABContactDisplay *display,
 		orientation = display->priv->orientation;
 
 		if (e_contact_get (contact, E_CONTACT_IS_LIST))
-			render_contact_list (buffer, contact);
+			render_contact_list (buffer, contact, display);
 		else
 			render_contact (buffer, contact, orientation, display->priv->show_maps);
 
@@ -1035,6 +1124,11 @@ contact_display_dispose (GObject *object)
 		priv->contact = NULL;
 	}
 
+	if (priv->closed_lists != NULL) {
+		g_hash_table_unref (priv->closed_lists);
+		priv->closed_lists = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -1159,6 +1253,19 @@ contact_display_link_clicked (EWebView *web_view,
 
 		index = atoi (uri + length);
 		contact_display_emit_send_message (display, index);
+		return;
+	} else if (g_str_has_prefix (uri, "##") && g_str_has_suffix (uri, "##")) {
+		gchar *list_id = g_strndup (uri+2, strlen (uri) - 4);
+
+		if (g_hash_table_lookup (display->priv->closed_lists, list_id)) {
+			g_hash_table_remove (display->priv->closed_lists, list_id);
+			g_free (list_id);
+		} else {
+			g_hash_table_insert (display->priv->closed_lists, list_id, GINT_TO_POINTER (TRUE));
+		}
+
+		eab_contact_display_render_normal (display, display->priv->contact);
+
 		return;
 	}
 
@@ -1338,6 +1445,8 @@ eab_contact_display_init (EABContactDisplay *display)
 	display->priv->mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
 	display->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
 	display->priv->show_maps = FALSE;
+	display->priv->closed_lists = g_hash_table_new_full (g_str_hash, g_str_equal,
+					(GDestroyNotify) g_free, NULL);
 
 	web_view = E_WEB_VIEW (display);
 	ui_manager = e_web_view_get_ui_manager (web_view);

@@ -46,30 +46,35 @@
 G_BEGIN_DECLS
 
 typedef struct _EContactListModel EContactListModel;
+typedef struct _EContactListModelPrivate EContactListModelPrivate;
 typedef struct _EContactListModelClass EContactListModelClass;
 
 struct _EContactListModel {
-	GtkListStore parent;
+	GtkTreeStore parent;
+	EContactListModelPrivate *priv;
 };
 
 struct _EContactListModelClass {
-	GtkListStoreClass parent_class;
+	GtkTreeStoreClass parent_class;
 };
 
 GType		e_contact_list_model_get_type	(void);
 GtkTreeModel *	e_contact_list_model_new	(void);
 gboolean	e_contact_list_model_has_email	(EContactListModel *model,
 						 const gchar *email);
-void		e_contact_list_model_add_destination
+
+gboolean	e_contact_list_model_has_uid	(EContactListModel *model,
+						 const gchar *uid);
+
+GtkTreePath *	e_contact_list_model_add_destination
 						(EContactListModel *model,
-						 EDestination *dest);
-void		e_contact_list_model_add_email	(EContactListModel *model,
-						 const gchar *email);
+						 EDestination *dest,
+						 GtkTreeIter *parent);
 void		e_contact_list_model_add_contact (EContactListModel *model,
 						 EContact *contact,
 						 gint email_num);
 void		e_contact_list_model_remove_row	(EContactListModel *model,
-						 gint row);
+						 GtkTreeIter *iter);
 void		e_contact_list_model_remove_all	(EContactListModel *model);
 EDestination *	e_contact_list_model_get_destination
 						(EContactListModel *model,
