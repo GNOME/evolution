@@ -405,6 +405,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 	if (camel_address_length (context->recipients) > 0) {
 		CamelProvider *provider;
 		CamelService *service;
+		gboolean did_connect = FALSE;
 
 		service = camel_session_get_service (
 			CAMEL_SESSION (session), context->transport_uid);
@@ -418,11 +419,15 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 			return;
 		}
 
-		/* XXX This API does not allow for cancellation. */
-		if (!camel_service_connect_sync (service, &error)) {
-			g_simple_async_result_set_from_error (simple, error);
-			g_error_free (error);
-			return;
+		if (camel_service_get_connection_status (service) != CAMEL_SERVICE_CONNECTED) {
+			did_connect = TRUE;
+
+			/* XXX This API does not allow for cancellation. */
+			if (!camel_service_connect_sync (service, &error)) {
+				g_simple_async_result_set_from_error (simple, error);
+				g_error_free (error);
+				return;
+			}
 		}
 
 		provider = camel_service_get_provider (service);
@@ -434,6 +439,9 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 			CAMEL_TRANSPORT (service),
 			context->message, context->from,
 			context->recipients, cancellable, &error);
+
+		if (did_connect)
+			camel_service_disconnect_sync (service, error == NULL, error ? NULL : &error);
 
 		if (error != NULL) {
 			g_simple_async_result_set_from_error (simple, error);
