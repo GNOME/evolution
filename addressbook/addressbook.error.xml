@@ -98,8 +98,16 @@
   <button stock="gtk-ok" _label="_Add" response="GTK_RESPONSE_YES"/>
  </error>
  
+ <error id="ask-list-add-some-mails-exist" type="question" default="GTK_RESPONSE_CANCEL">
+  <_primary>Some addresses already exist in this contact list.</_primary>
+  <_secondary>You are trying to add addresses that are part of this list already. Would you like to add them anyway?</_secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button _label="Skip duplicates" response="GTK_RESPONSE_NO"/>
+  <button _label="Add with duplicates" response="GTK_RESPONSE_YES"/>
+ </error>
+ 
  <error id="ask-list-add-list-exists" type="question" default="GTK_RESPONSE_NO">
-   <_primary>'{0}' is already in this contact list.</_primary>
+   <_primary>List '{0}' is already in this contact list.</_primary>
    <_secondary>A contact list named '{0}' is already in this contact list. Would you like to add it anyway?</_secondary>
    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
    <button stock="gtk-ok" _label="_Add" response="GTK_RESPONSE_YES"/>

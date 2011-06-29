@@ -194,15 +194,40 @@ contact_list_editor_add_destination (GtkWidget *widget,
 	EDestinationStore *dest_store;
 	GtkTreeView *treeview = GTK_TREE_VIEW (WIDGET (TREE_VIEW));
 	GtkTreePath *path;
+	gboolean ignore_conflicts = TRUE;
 
 	if (e_destination_is_evolution_list (dest)) {
 		const gchar *id = e_destination_get_contact_uid (dest);
 		const gchar *name = e_destination_get_name (dest);
-		const gchar *tag = "addressbook:ask-list-add-list-exists";
 
-		if (e_contact_list_model_has_uid (model, id) &&
-		    (e_alert_run_dialog_for_args (GTK_WINDOW (WIDGET (DIALOG)), tag, name, NULL) != GTK_RESPONSE_YES))
-			return FALSE;
+		if (e_contact_list_model_has_uid (model, id)) {
+			if (e_alert_run_dialog_for_args (GTK_WINDOW (WIDGET (DIALOG)),
+					"addressbook:ask-list-add-list-exists", name, NULL) != GTK_RESPONSE_YES)
+				return FALSE;
+		} else {
+			const GList *l_dests, *l_dest;
+			gint reply;
+
+			/* Check the new list mail-by-mail for conflicts and eventually ask user what to do
+			   with all conflicts */
+			l_dests = e_destination_list_get_dests (dest);
+			for (l_dest = l_dests; l_dest; l_dest = l_dest->next) {
+				if (e_contact_list_model_has_email (model, e_destination_get_email (l_dest->data))) {
+					reply = e_alert_run_dialog_for_args (GTK_WINDOW (WIDGET (DIALOG)),
+							"addressbook:ask-list-add-some-mails-exist", NULL);
+					if (reply == GTK_RESPONSE_YES) {
+						ignore_conflicts = TRUE;
+						break;
+					} else if (reply == GTK_RESPONSE_NO) {
+						ignore_conflicts = FALSE;
+						break;
+					} else {
+						return FALSE;
+					}
+				}
+			}
+		}
+
 	} else {
 		const gchar *email = e_destination_get_email (dest);
 		const gchar *tag = "addressbook:ask-list-add-exists";
@@ -213,7 +238,7 @@ contact_list_editor_add_destination (GtkWidget *widget,
 	}
 
 	/* always add to the root level */
-	path = e_contact_list_model_add_destination (model, dest, NULL);
+	path = e_contact_list_model_add_destination (model, dest, NULL, ignore_conflicts);
 	if (path) {
 		contact_list_editor_scroll_to_end (editor);
 		gtk_tree_view_expand_to_path (treeview, path);
@@ -363,9 +388,13 @@ contact_list_editor_render_destination (GtkTreeViewColumn *column,
 
 	textrep = e_destination_get_textrep (destination, TRUE);
 	if (eab_parse_qp_email (textrep, &name, &email)) {
-		out = g_strdup_printf ("%s <%s>", name, email);
-		g_object_set (renderer, "text", out, NULL);
-		g_free (out);
+		if (e_destination_is_evolution_list (destination)) {
+			g_object_set (renderer, "text", name, NULL);
+		} else {
+			out = g_strdup_printf ("%s <%s>", name, email);
+			g_object_set (renderer, "text", out, NULL);
+			g_free (out);
+		}
 		g_free (email);
 		g_free (name);
 	} else {
@@ -1771,7 +1800,7 @@ e_contact_list_editor_set_contact (EContactListEditor *editor,
 		dests = e_destination_list_get_root_dests (list_dest);
 		for (dest = dests; dest; dest = dest->next) {
 			GtkTreePath *path;
-			path = e_contact_list_model_add_destination (E_CONTACT_LIST_MODEL (priv->model), dest->data, NULL);
+			path = e_contact_list_model_add_destination (E_CONTACT_LIST_MODEL (priv->model), dest->data, NULL, TRUE);
 			gtk_tree_path_free (path);
 		}
 
