@@ -82,12 +82,12 @@ contact_list_model_dispose (GObject *object)
 	EContactListModelPrivate *priv = E_CONTACT_LIST_MODEL (object)->priv;
 
 	if (priv->uids_table) {
-		g_hash_table_unref (priv->uids_table);
+		g_hash_table_destroy (priv->uids_table);
 		priv->uids_table = NULL;
 	}
 
 	if (priv->emails_table) {
-		g_hash_table_unref (priv->emails_table);
+		g_hash_table_destroy (priv->emails_table);
 		priv->emails_table = NULL;
 	}
 
@@ -140,7 +140,8 @@ e_contact_list_model_has_uid (EContactListModel *model,
 GtkTreePath*
 e_contact_list_model_add_destination (EContactListModel *model,
                                       EDestination *destination,
-                                      GtkTreeIter *parent)
+                                      GtkTreeIter *parent,
+                                      gboolean ignore_conflicts)
 {
 	GtkTreeIter iter;
 	GtkTreePath *path;
@@ -148,25 +149,46 @@ e_contact_list_model_add_destination (EContactListModel *model,
 	g_return_val_if_fail (E_IS_CONTACT_LIST_MODEL (model), NULL);
 	g_return_val_if_fail (E_IS_DESTINATION (destination), NULL);
 
-	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, parent);
-	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, destination, -1);
-
 	if (e_destination_is_evolution_list (destination)) {
 		const GList *dest, *dests = e_destination_list_get_root_dests (destination);
+		/* Get number of instances of this list in the model */
+		gint list_refs = GPOINTER_TO_INT (g_hash_table_lookup (model->priv->uids_table,
+					e_destination_get_contact_uid (destination)));
 
-		g_hash_table_insert (model->priv->uids_table,
-			g_strdup (e_destination_get_contact_uid (destination)),
-			destination);
+		gtk_tree_store_append (GTK_TREE_STORE (model), &iter, parent);
+		gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, destination, -1);
 
 		for (dest = dests; dest; dest = dest->next) {
-			path = e_contact_list_model_add_destination (model, dest->data, &iter);
-			if (dest->next)
+			path = e_contact_list_model_add_destination (model, dest->data, &iter, ignore_conflicts);
+			if (dest->next && path)
 				gtk_tree_path_free (path);
 		}
+
+		/* When the list has no children the remove it. We don't want empty sublists displayed. */
+		if (!gtk_tree_model_iter_has_child (GTK_TREE_MODEL (model), &iter)) {
+			gtk_tree_store_remove (GTK_TREE_STORE (model), &iter);
+		} else {
+			g_hash_table_insert (model->priv->uids_table,
+				g_strdup (e_destination_get_contact_uid (destination)),
+				GINT_TO_POINTER (list_refs + 1));
+		}
 	} else {
+		gint dest_refs;
+
+		if (e_contact_list_model_has_email (model, e_destination_get_email (destination)) &&
+		    ignore_conflicts == FALSE) {
+			return NULL;
+		}
+
+		dest_refs = GPOINTER_TO_INT (g_hash_table_lookup (model->priv->emails_table,
+				e_destination_get_email (destination)));
+
 		g_hash_table_insert (model->priv->emails_table,
 			g_strdup (e_destination_get_email (destination)),
-			destination);
+			GINT_TO_POINTER (dest_refs + 1));
+
+		gtk_tree_store_append (GTK_TREE_STORE (model), &iter, parent);
+		gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, destination, -1);
 
 		path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
 	}
@@ -186,30 +208,82 @@ e_contact_list_model_add_contact (EContactListModel *model,
 
 	destination = e_destination_new ();
 	e_destination_set_contact (destination, contact, email_num);
-	e_contact_list_model_add_destination (model, destination, NULL);
+	e_contact_list_model_add_destination (model, destination, NULL, TRUE);
+}
+
+static void
+contact_list_model_unref_row_dest (EContactListModel *model,
+				   GtkTreeIter *iter)
+{
+	EDestination *dest;
+	GtkTreeModel *tree_model;
+
+	tree_model = GTK_TREE_MODEL (model);
+	gtk_tree_model_get (tree_model, iter, 0, &dest, -1);
+
+	if (gtk_tree_model_iter_has_child (tree_model, iter)) {
+		GtkTreeIter child_iter;
+		gint list_refs = GPOINTER_TO_INT (g_hash_table_lookup (model->priv->uids_table,
+			e_destination_get_contact_uid (dest)));
+
+		/* If the list is only once in the model, then remove it from the hash table,
+		   otherwise decrease the counter by one */
+		if (list_refs <= 1) {
+			g_hash_table_remove (model->priv->uids_table,
+				e_destination_get_contact_uid (dest));
+		} else {
+			g_hash_table_insert (model->priv->uids_table,
+				g_strdup (e_destination_get_contact_uid (dest)),
+				GINT_TO_POINTER (list_refs - 1));
+		}
+
+		if (gtk_tree_model_iter_children (tree_model, &child_iter, iter)) {
+			do {
+				contact_list_model_unref_row_dest (model, &child_iter);
+			} while (gtk_tree_model_iter_next (tree_model, &child_iter));
+		}
+
+	} else {
+		gint dest_refs = GPOINTER_TO_INT (g_hash_table_lookup (model->priv->emails_table,
+			e_destination_get_email (dest)));
+
+		if (dest_refs <= 1) {
+			g_hash_table_remove (model->priv->emails_table,
+				e_destination_get_email (dest));
+		} else {
+			g_hash_table_insert (model->priv->emails_table,
+				g_strdup (e_destination_get_email (dest)),
+				GINT_TO_POINTER (dest_refs - 1));
+		}
+	}
+
+	g_object_unref (dest);
 }
 
 void
 e_contact_list_model_remove_row (EContactListModel *model,
                                  GtkTreeIter *iter)
 {
-	EDestination *dest;
+	GtkTreeIter parent_iter;
 
 	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
 	g_return_if_fail (iter);
 
-	gtk_tree_model_get (GTK_TREE_MODEL (model), iter, 0, &dest, -1);
+	/* Use helper function to update our reference counters in
+	   hash tables but don't remove any row. */
+	contact_list_model_unref_row_dest (model, iter);
 
-	if (e_destination_is_evolution_list (dest)) {
-		const gchar *uid = e_destination_get_contact_uid (dest);
-		g_hash_table_remove (model->priv->uids_table, uid);
+	/* Get iter of parent of the row to be removed. After the row is removed, check if there are
+	   any more children left for the parent_iter, an eventually remove the parent_iter as well */
+	if (gtk_tree_model_iter_parent (GTK_TREE_MODEL (model), &parent_iter, iter)) {
+		gtk_tree_store_remove (GTK_TREE_STORE (model), iter);
+		if (!gtk_tree_model_iter_has_child (GTK_TREE_MODEL (model), &parent_iter)) {
+			contact_list_model_unref_row_dest (model, &parent_iter);
+			gtk_tree_store_remove (GTK_TREE_STORE (model), &parent_iter);
+		}
 	} else {
-		const gchar *email = e_destination_get_email (dest);
-		g_hash_table_remove (model->priv->emails_table, email);
+		gtk_tree_store_remove (GTK_TREE_STORE (model), iter);
 	}
-
-	g_object_unref (dest);
-	gtk_tree_store_remove (GTK_TREE_STORE (model), iter);
 }
 
 void

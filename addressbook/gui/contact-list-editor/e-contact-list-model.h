@@ -69,7 +69,8 @@ gboolean	e_contact_list_model_has_uid	(EContactListModel *model,
 GtkTreePath *	e_contact_list_model_add_destination
 						(EContactListModel *model,
 						 EDestination *dest,
-						 GtkTreeIter *parent);
+						 GtkTreeIter *parent,
+						 gboolean ignore_conflicts);
 void		e_contact_list_model_add_contact (EContactListModel *model,
 						 EContact *contact,
 						 gint email_num);
