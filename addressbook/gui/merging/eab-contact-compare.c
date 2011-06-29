@@ -642,7 +642,8 @@ query_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 	info->cb (info->contact, best_contact, best_match, info->closure);
 	match_search_info_free (info);
 	g_object_unref (book_client);
-	g_object_unref (best_contact);
+	if (best_contact)
+		g_object_unref (best_contact);
 }
 
 #define MAX_QUERY_PARTS 10
