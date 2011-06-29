@@ -191,7 +191,6 @@ contact_list_editor_add_destination (GtkWidget *widget,
 {
 	EContactListEditor *editor = contact_list_editor_extract (widget);
 	EContactListModel *model = E_CONTACT_LIST_MODEL (editor->priv->model);
-	EDestinationStore *dest_store;
 	GtkTreeView *treeview = GTK_TREE_VIEW (WIDGET (TREE_VIEW));
 	GtkTreePath *path;
 	gboolean ignore_conflicts = TRUE;
@@ -244,9 +243,6 @@ contact_list_editor_add_destination (GtkWidget *widget,
 		gtk_tree_view_expand_to_path (treeview, path);
 		gtk_tree_path_free (path);
 
-		dest_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (WIDGET (EMAIL_ENTRY)));
-		e_destination_store_remove_destination (dest_store, dest);
-
 		return TRUE;
 	}
 
@@ -257,10 +253,21 @@ static void
 contact_list_editor_add_email (EContactListEditor *editor,
 			       const gchar *email)
 {
+	CamelInternetAddress *addr;
 	EContactListEditorPrivate *priv = editor->priv;
-
 	EDestination *dest = e_destination_new ();
-	e_destination_set_email (dest, email);
+
+	addr = camel_internet_address_new ();
+	if (camel_address_unformat (CAMEL_ADDRESS (addr), email) == 1) {
+		const gchar *name, *mail;
+		camel_internet_address_get (addr, 0, &name, &mail);
+		e_destination_set_email (dest, mail);
+		e_destination_set_name (dest, name);
+	} else {
+		e_destination_set_email (dest, email);
+	}
+	g_object_unref (addr);
+
 	priv->changed = contact_list_editor_add_destination (WIDGET (DIALOG), dest) || priv->changed;
 
 	contact_list_editor_update (editor);
@@ -872,6 +879,7 @@ contact_list_editor_select_button_clicked_cb (GtkWidget *widget)
 		EDestination *destination = iter->data;
 
 		contact_list_editor_add_destination (widget, destination);
+		e_destination_store_remove_destination (store, destination);
 	}
 
 	g_list_free (list);
