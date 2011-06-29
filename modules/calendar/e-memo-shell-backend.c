@@ -419,7 +419,11 @@ memo_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	}
 
 	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomp);
+	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
+		g_debug ("%s: Failed to set icalcomp to comp\n", G_STRFUNC);
+		icalcomponent_free (icalcomp);
+		icalcomp = NULL;
+	}
 
 	if (e_cal_component_has_organizer (comp))
 		flags |= COMP_EDITOR_IS_SHARED;

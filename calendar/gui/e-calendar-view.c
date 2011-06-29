@@ -2091,6 +2091,8 @@ e_calendar_view_get_icalcomponent_summary (ECalClient *client, icalcomponent *ic
 				summary = g_strdup_printf ("%s (%d)", summary ? summary : "", dtnow.year - dtstart.year);
 				*free_text = summary != NULL;
 			}
+
+			icalcomponent_free (item_icalcomp);
 		}
 	}
 

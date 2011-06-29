@@ -45,9 +45,11 @@ memo_list_selector_update_single_object (ECalClient *client,
 
 	uid = (gchar *) icalcomponent_get_uid (icalcomp);
 
-	if (e_cal_client_get_object_sync (client, uid, NULL, &tmp_icalcomp, NULL, NULL))
-		return e_cal_client_modify_object_sync (
-			client, icalcomp, CALOBJ_MOD_ALL, NULL, NULL);
+	if (e_cal_client_get_object_sync (client, uid, NULL, &tmp_icalcomp, NULL, NULL)) {
+		icalcomponent_free (tmp_icalcomp);
+
+		return e_cal_client_modify_object_sync (client, icalcomp, CALOBJ_MOD_ALL, NULL, NULL);
+	}
 
 	if (!e_cal_client_create_object_sync (client, icalcomp, &uid, NULL, NULL))
 		return FALSE;
