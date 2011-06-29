@@ -871,8 +871,7 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 			if (success) {
 				/* Use master object when working
 				 * with a recurring event ... */
-				icalcomp_clone =
-					icalcomponent_new_clone (icalcomp);
+				icalcomp_clone = icalcomponent_new_clone (icalcomp);
 				icalcomponent_free (icalcomp);
 			} else {
 				/* ... or remove the recurrence ID ... */

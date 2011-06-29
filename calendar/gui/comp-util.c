@@ -722,7 +722,12 @@ comp_util_sanitize_recurrence_master (ECalComponent *comp,
 	}
 
 	master = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (master, icalcomp);
+	if (!e_cal_component_set_icalcomponent (master, icalcomp)) {
+		icalcomponent_free (icalcomp);
+		g_object_unref (master);
+		g_return_if_reached ();
+		return;
+	}
 
 	/* Compare recur id and start date */
 	e_cal_component_get_recurid (comp, &rid);
@@ -738,6 +743,10 @@ comp_util_sanitize_recurrence_master (ECalComponent *comp,
 		e_cal_component_get_dtend (master, &medt);
 
 		e_cal_component_get_dtend (comp, &edt);
+
+		g_return_if_fail (msdt.value != NULL);
+		g_return_if_fail (medt.value != NULL);
+		g_return_if_fail (edt.value != NULL);
 
 		sdt.value->year = msdt.value->year;
 		sdt.value->month = msdt.value->month;
