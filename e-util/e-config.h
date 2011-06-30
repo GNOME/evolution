@@ -57,13 +57,24 @@ typedef struct _EConfigItem EConfigItem;
 typedef struct _EConfigFactory EConfigFactory;
 typedef struct _EConfigTarget EConfigTarget;
 
-typedef void (*EConfigFactoryFunc)(EConfig *ec, gpointer data);
+typedef void	(*EConfigFactoryFunc)		(EConfig *ec,
+						 gpointer data);
 
-typedef gboolean (*EConfigCheckFunc)(EConfig *ec, const gchar *pageid, gpointer data);
+typedef gboolean
+		(*EConfigCheckFunc)		(EConfig *ec,
+						 const gchar *pageid,
+						 gpointer data);
 
-typedef void (*EConfigItemsFunc)(EConfig *ec, GSList *items, gpointer data);
+typedef void	(*EConfigItemsFunc)		(EConfig *ec,
+						 GSList *items,
+						 gpointer data);
 
-typedef GtkWidget * (*EConfigItemFactoryFunc)(EConfig *ec, EConfigItem *, GtkWidget *parent, GtkWidget *old, gpointer data);
+typedef GtkWidget *
+		(*EConfigItemFactoryFunc)	(EConfig *ec,
+						 EConfigItem *item,
+						 GtkWidget *parent,
+						 GtkWidget *old,
+						 gpointer data);
 
 /* ok so this is all a bit bogussy
    we need to map to glade stuff instead */
@@ -290,8 +301,10 @@ typedef struct _EPluginHookTargetKey EConfigHookTargetMask;
 typedef struct _EConfigHookItemFactoryData EConfigHookItemFactoryData;
 typedef struct _EConfigHookPageCheckData EConfigHookPageCheckData;
 
-typedef void (*EConfigHookFunc)(struct _EPlugin *plugin, EConfigTarget *target);
-typedef void (*EConfigHookItemFactoryFunc)(struct _EPlugin *plugin, EConfigHookItemFactoryData *data);
+typedef void	(*EConfigHookFunc)		(EPlugin *plugin,
+						 EConfigTarget *target);
+typedef void	(*EConfigHookItemFactoryFunc)	(EPlugin *plugin,
+						 EConfigHookItemFactoryData *data);
 
 /**
  * struct _EConfigHookItemFactoryData - Factory marshalling structure.
