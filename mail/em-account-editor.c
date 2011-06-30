@@ -2162,7 +2162,8 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, GtkB
 static GtkWidget *
 emae_create_basic_assistant_page (EMAccountEditor *emae,
                                   GtkAssistant *assistant,
-                                  const gchar *page_id)
+                                  const gchar *page_id,
+                                  gint position)
 {
 	const gchar *title = NULL, *label = NULL;
 	GtkAssistantPageType page_type = GTK_ASSISTANT_PAGE_CONTENT;
@@ -2210,7 +2211,7 @@ emae_create_basic_assistant_page (EMAccountEditor *emae,
 	if (g_ascii_strcasecmp (page_id, "start_page") == 0)
 		g_hash_table_insert (emae->priv->widgets, (gchar *)"start_page_label", lbl);
 
-	gtk_assistant_append_page (assistant, vbox);
+	gtk_assistant_insert_page (assistant, vbox, position);
 	gtk_assistant_set_page_title (assistant, vbox, title);
 	gtk_assistant_set_page_type (assistant, vbox, page_type);
 
@@ -2243,7 +2244,12 @@ emae_queue_widgets (EMAccountEditor *emae, GtkBuilder *builder, const gchar *fir
 }
 
 static GtkWidget *
-emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+emae_identity_page (EConfig *ec,
+                    EConfigItem *item,
+                    GtkWidget *parent,
+                    GtkWidget *old,
+                    gint position,
+                    gpointer data)
 {
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *priv = emae->priv;
@@ -2292,14 +2298,23 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	if (emae->type == EMAE_PAGES) {
 		gtk_box_pack_start ((GtkBox *) emae->pages[0], w, TRUE, TRUE, 0);
 	} else if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT) {
-		GtkWidget *page = emae_create_basic_assistant_page (emae, GTK_ASSISTANT (parent), "identity_page");
+		GtkWidget *page;
+
+		page = emae_create_basic_assistant_page (
+			emae, GTK_ASSISTANT (parent),
+			"identity_page", position);
 
 		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
 
 		w = page;
 	} else {
-		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Identity")));
-		gtk_container_child_set (GTK_CONTAINER (parent), w, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+		gtk_notebook_insert_page (
+			GTK_NOTEBOOK (parent), w,
+			gtk_label_new (_("Identity")),
+			position);
+		gtk_container_child_set (
+			GTK_CONTAINER (parent), w,
+			"tab-fill", FALSE, "tab-expand", FALSE, NULL);
 	}
 
 	emae_queue_widgets (
@@ -2317,7 +2332,12 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 }
 
 static GtkWidget *
-emae_receive_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+emae_receive_page (EConfig *ec,
+                   EConfigItem *item,
+                   GtkWidget *parent,
+                   GtkWidget *old,
+                   gint position,
+                   gpointer data)
 {
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *priv = emae->priv;
@@ -2337,14 +2357,23 @@ emae_receive_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 	if (emae->type == EMAE_PAGES) {
 		gtk_box_pack_start ((GtkBox *) emae->pages[1], w, TRUE, TRUE, 0);
 	} else if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT) {
-		GtkWidget *page = emae_create_basic_assistant_page (emae, GTK_ASSISTANT (parent), "source_page");
+		GtkWidget *page;
+
+		page = emae_create_basic_assistant_page (
+			emae, GTK_ASSISTANT (parent),
+			"source_page", position);
 
 		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
 
 		w = page;
 	} else {
-		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Receiving Email")));
-		gtk_container_child_set (GTK_CONTAINER (parent), w, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+		gtk_notebook_insert_page (
+			GTK_NOTEBOOK (parent), w,
+			gtk_label_new (_("Receiving Email")),
+			position);
+		gtk_container_child_set (
+			GTK_CONTAINER (parent), w,
+			"tab-fill", FALSE, "tab-expand", FALSE, NULL);
 	}
 
 	emae_queue_widgets (
@@ -2624,7 +2653,12 @@ emae_option_options (EMAccountEditorService *service, CamelURL *url, const gchar
 }
 
 static GtkWidget *
-emae_receive_options_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+emae_receive_options_item (EConfig *ec,
+                           EConfigItem *item,
+                           GtkWidget *parent,
+                           GtkWidget *old,
+                           gint position,
+                           gpointer data)
 {
 	EMAccountEditor *emae = data;
 	GtkWidget *w, *box, *spin;
@@ -2677,7 +2711,12 @@ emae_receive_options_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, Gt
 }
 
 static GtkWidget *
-emae_receive_options_extra_item (EConfig *ec, EConfigItem *eitem, GtkWidget *parent, GtkWidget *old, gpointer data)
+emae_receive_options_extra_item (EConfig *ec,
+                                 EConfigItem *eitem,
+                                 GtkWidget *parent,
+                                 GtkWidget *old,
+                                 gint position,
+                                 gpointer data)
 {
 	EMAccountEditor *emae = data;
 	struct _receive_options_item *item = (struct _receive_options_item *) eitem;
@@ -2813,7 +2852,12 @@ section:
 }
 
 static GtkWidget *
-emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+emae_send_page (EConfig *ec,
+                EConfigItem *item,
+                GtkWidget *parent,
+                GtkWidget *old,
+                gint position,
+                gpointer data)
 {
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *priv = emae->priv;
@@ -2837,14 +2881,23 @@ emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *ol
 	if (emae->type == EMAE_PAGES) {
 		gtk_box_pack_start ((GtkBox *) emae->pages[3], w, TRUE, TRUE, 0);
 	} else if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT) {
-		GtkWidget *page = emae_create_basic_assistant_page (emae, GTK_ASSISTANT (parent), "transport_page");
+		GtkWidget *page;
+
+		page = emae_create_basic_assistant_page (
+			emae, GTK_ASSISTANT (parent),
+			"transport_page", position);
 
 		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
 
 		w = page;
 	} else {
-		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Sending Email")));
-		gtk_container_child_set (GTK_CONTAINER (parent), w, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+		gtk_notebook_insert_page (
+			GTK_NOTEBOOK (parent), w,
+			gtk_label_new (_("Sending Email")),
+			position);
+		gtk_container_child_set (
+			GTK_CONTAINER (parent), w,
+			"tab-fill", FALSE, "tab-expand", FALSE, NULL);
 	}
 
 	emae_queue_widgets (
@@ -3043,7 +3096,12 @@ setup_checkable_folder (EMAccountEditor *emae,
 }
 
 static GtkWidget *
-emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+emae_defaults_page (EConfig *ec,
+                    EConfigItem *item,
+                    GtkWidget *parent,
+                    GtkWidget *old,
+                    gint position,
+                    gpointer data)
 {
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *priv = emae->priv;
@@ -3136,9 +3194,14 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	if (emae->type == EMAE_PAGES) {
 		gtk_box_pack_start ((GtkBox *) emae->pages[4], widget, TRUE, TRUE, 0);
 		gtk_widget_show  (widget);
-	}else {
-		gtk_notebook_append_page ((GtkNotebook *)parent, widget, gtk_label_new (_("Defaults")));
-		gtk_container_child_set (GTK_CONTAINER (parent), widget, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+	} else {
+		gtk_notebook_insert_page (
+			GTK_NOTEBOOK (parent), widget,
+			gtk_label_new (_("Defaults")),
+			position);
+		gtk_container_child_set (
+			GTK_CONTAINER (parent), widget,
+			"tab-fill", FALSE, "tab-expand", FALSE, NULL);
 	}
 
 	emae_queue_widgets (
@@ -3212,7 +3275,12 @@ emae_account_hash_algo_combo (EMAccountEditor *emae, const gchar *name, gint ite
 }
 
 static GtkWidget *
-emae_security_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+emae_security_page (EConfig *ec,
+                    EConfigItem *item,
+                    GtkWidget *parent,
+                    GtkWidget *old,
+                    gint position,
+                    gpointer data)
 {
 	EMAccountEditor *emae = data;
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
@@ -3266,8 +3334,13 @@ emae_security_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 #endif /* HAVE_NSS */
 
 	w = e_builder_get_widget (builder, item->label);
-	gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Security")));
-	gtk_container_child_set (GTK_CONTAINER (parent), w, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+	gtk_notebook_insert_page (
+		GTK_NOTEBOOK (parent), w,
+		gtk_label_new (_("Security")),
+		position);
+	gtk_container_child_set (
+		GTK_CONTAINER (parent), w,
+		"tab-fill", FALSE, "tab-expand", FALSE, NULL);
 
 	g_object_unref (builder);
 
@@ -3292,7 +3365,12 @@ em_account_editor_get_widget (EMAccountEditor *emae, const gchar *name)
 }
 
 static GtkWidget *
-emae_widget_glade (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+emae_widget_glade (EConfig *ec,
+                   EConfigItem *item,
+                   GtkWidget *parent,
+                   GtkWidget *old,
+                   gint position,
+                   gpointer data)
 {
 	return em_account_editor_get_widget (data, item->label);
 }
@@ -3334,7 +3412,12 @@ static EMConfigItem emae_editor_items[] = {
 static gboolean emae_editor_items_translated = FALSE;
 
 static GtkWidget *
-emae_management_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+emae_management_page (EConfig *ec,
+                      EConfigItem *item,
+                      GtkWidget *parent,
+                      GtkWidget *old,
+                      gint position,
+                      gpointer data)
 {
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *priv = emae->priv;
@@ -3342,7 +3425,11 @@ emae_management_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 
 	w = priv->management_frame;
 	if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT) {
-		GtkWidget *page = emae_create_basic_assistant_page (emae, GTK_ASSISTANT (parent), "management_page");
+		GtkWidget *page;
+
+		page = emae_create_basic_assistant_page (
+			emae, GTK_ASSISTANT (parent),
+			"management_page", position);
 
 		gtk_widget_reparent (w, page);
 
@@ -3353,14 +3440,20 @@ emae_management_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 }
 
 static GtkWidget *
-emae_widget_assistant_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+emae_widget_assistant_page (EConfig *ec,
+                            EConfigItem *item,
+                            GtkWidget *parent,
+                            GtkWidget *old,
+                            gint position,
+                            gpointer data)
 {
 	EMAccountEditor *emae = (EMAccountEditor *) data;
 
 	if (emae->type == EMAE_PAGES)
 		return NULL;
 
-	return emae_create_basic_assistant_page (emae, GTK_ASSISTANT (parent), item->label);
+	return emae_create_basic_assistant_page (
+		emae, GTK_ASSISTANT (parent), item->label, position);
 }
 
 /* plugin meta-data for "org.gnome.evolution.mail.config.accountAssistant" */

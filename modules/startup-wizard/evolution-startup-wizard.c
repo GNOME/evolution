@@ -253,6 +253,7 @@ startup_wizard_importer_page (EConfig *config,
                               EConfigItem *item,
                               GtkAssistant *assistant,
                               GtkWidget *old,
+                              gint position,
                               EStartupWizard *extension)
 {
 	GtkWidget *container;
@@ -321,7 +322,7 @@ startup_wizard_importer_page (EConfig *config,
 	}
 
 	title = _("Importing Files");
-	gtk_assistant_append_page (assistant, page);
+	gtk_assistant_insert_page (assistant, page, position);
 	gtk_assistant_set_page_title (assistant, page, title);
 
 	return page;
@@ -332,6 +333,7 @@ startup_wizard_progress_page (EConfig *config,
                               EConfigItem *item,
                               GtkAssistant *assistant,
                               GtkWidget *old,
+                              gint position,
                               EStartupWizard *extension)
 {
 	GtkSizeGroup *size_group;
@@ -418,7 +420,7 @@ startup_wizard_progress_page (EConfig *config,
 	gtk_widget_show (widget);
 
 	title = _("Importing Files");
-	page_num = gtk_assistant_append_page (assistant, page);
+	page_num = gtk_assistant_insert_page (assistant, page, position);
 	gtk_assistant_set_page_title (assistant, page, title);
 
 	extension->import_progress_page_num = page_num;

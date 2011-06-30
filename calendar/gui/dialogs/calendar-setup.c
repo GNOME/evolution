@@ -140,7 +140,12 @@ eccp_type_changed (GtkComboBox *dropdown, CalendarSourceDialog *sdialog)
 }
 
 static GtkWidget *
-eccp_get_source_type (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+eccp_get_source_type (EConfig *ec,
+                      EConfigItem *item,
+                      GtkWidget *parent,
+                      GtkWidget *old,
+                      gint position,
+                      gpointer data)
 {
 	static GtkWidget *label, *type;
 	guint row;
@@ -217,7 +222,12 @@ name_changed (GtkEntry *entry, ECalConfigTargetSource *t)
 }
 
 static GtkWidget *
-eccp_get_source_name (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+eccp_get_source_name (EConfig *ec,
+                      EConfigItem *item,
+                      GtkWidget *parent,
+                      GtkWidget *old,
+                      gint position,
+                      gpointer data)
 {
 	static GtkWidget *label, *entry;
 	guint row;
@@ -258,7 +268,12 @@ offline_status_changed_cb (GtkWidget *widget, CalendarSourceDialog *sdialog)
 }
 
 static GtkWidget *
-eccp_general_offline (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+eccp_general_offline (EConfig *ec,
+                      EConfigItem *item,
+                      GtkWidget *parent,
+                      GtkWidget *old,
+                      gint position,
+                      gpointer data)
 {
 	CalendarSourceDialog *sdialog = data;
 	GtkWidget *offline_setting = NULL;
@@ -324,7 +339,12 @@ choose_initial_color (void)
 }
 
 static GtkWidget *
-eccp_get_source_color (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+eccp_get_source_color (EConfig *ec,
+                       EConfigItem *item,
+                       GtkWidget *parent,
+                       GtkWidget *old,
+                       gint position,
+                       gpointer data)
 {
 	CalendarSourceDialog *sdialog = data;
 	static GtkWidget *label, *color_button;

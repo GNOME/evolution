@@ -158,6 +158,7 @@ calendar_preferences_get_config_widget (EConfig *ec,
                                         EConfigItem *item,
                                         GtkWidget *parent,
                                         GtkWidget *old,
+                                        gint position,
                                         gpointer data)
 {
 	ECalendarPreferences *preferences = data;
