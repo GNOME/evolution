@@ -74,6 +74,7 @@ typedef GtkWidget *
 						 EConfigItem *item,
 						 GtkWidget *parent,
 						 GtkWidget *old,
+						 gint position,
 						 gpointer data);
 
 /* ok so this is all a bit bogussy
@@ -328,6 +329,7 @@ struct _EConfigHookItemFactoryData {
 	EConfigTarget *target;
 	GtkWidget *parent;
 	GtkWidget *old;
+	gint position;
 };
 
 /**

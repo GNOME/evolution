@@ -116,6 +116,7 @@ emfp_get_folder_item (EConfig *ec,
                       EConfigItem *item,
                       GtkWidget *parent,
                       GtkWidget *old,
+                      gint position,
                       gpointer data)
 {
 	GObjectClass *class;

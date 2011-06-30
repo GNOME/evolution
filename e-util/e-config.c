@@ -36,7 +36,15 @@
 
 #define d(x)
 
-typedef GtkWidget * (*EConfigItemSectionFactoryFunc)(EConfig *ec, EConfigItem *, GtkWidget *parent, GtkWidget *old, gpointer data, GtkWidget **real_frame);
+typedef GtkWidget *
+		(*EConfigItemSectionFactoryFunc)
+						(EConfig *ec,
+						 EConfigItem *item,
+						 GtkWidget *parent,
+						 GtkWidget *old,
+						 gint position,
+						 gpointer data,
+						 GtkWidget **real_frame);
 
 struct _EConfigFactory {
 	gchar *id;
@@ -83,7 +91,14 @@ struct _EConfigPrivate {
 	GList *finish_pages;
 };
 
-static GtkWidget *ech_config_section_factory (EConfig *config, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data, GtkWidget **real_frame);
+static GtkWidget *
+		ech_config_section_factory	(EConfig *config,
+						 EConfigItem *item,
+						 GtkWidget *parent,
+						 GtkWidget *old,
+						 gint position,
+						 gpointer data,
+						 GtkWidget **real_frame);
 
 G_DEFINE_TYPE (
 	EConfig,
@@ -624,7 +639,9 @@ ec_rebuild (EConfig *emp)
 					break;
 				}
 				if (item->factory) {
-					root = item->factory (emp, item, NULL, wn->widget, wn->context->data);
+					root = item->factory (
+						emp, item, NULL, wn->widget,
+						0, wn->context->data);
 				} else if (item->type == E_CONFIG_BOOK) {
 					root = gtk_notebook_new ();
 					gtk_widget_show (root);
@@ -685,7 +702,9 @@ ec_rebuild (EConfig *emp)
 
 			if (wn->widget == NULL) {
 				if (item->factory) {
-					page = item->factory (emp, item, root, wn->frame, wn->context->data);
+					page = item->factory (
+						emp, item, root, wn->frame,
+						pageno, wn->context->data);
 				} else {
 					page = gtk_vbox_new (FALSE, 0);
 					gtk_container_set_border_width (GTK_CONTAINER (page), 12);
@@ -753,7 +772,9 @@ ec_rebuild (EConfig *emp)
 			}
 
 			if (item->factory) {
-				page = item->factory (emp, item, root, wn->frame, wn->context->data);
+				page = item->factory (
+					emp, item, root, wn->frame,
+					pageno, wn->context->data);
 				if (emp->type == E_CONFIG_ASSISTANT) {
 					wn->frame = page;
 				} else {
@@ -832,7 +853,9 @@ ec_rebuild (EConfig *emp)
 				 */
 				EConfigItemSectionFactoryFunc factory = (EConfigItemSectionFactoryFunc) item->factory;
 
-				section = factory (emp, item, page, wn->widget, wn->context->data, &wn->real_frame);
+				section = factory (
+					emp, item, page, wn->widget, 0,
+					wn->context->data, &wn->real_frame);
 				wn->frame = section;
 				if (section)
 					itemno = 1;
@@ -927,7 +950,9 @@ ec_rebuild (EConfig *emp)
 				 || (item->type == E_CONFIG_ITEM_TABLE && !GTK_IS_TABLE (section)))
 				g_warning("EConfig item parent type is incorrect: %s", item->path);
 			else if (item->factory)
-				w = item->factory (emp, item, section, wn->widget, wn->context->data);
+				w = item->factory (
+					emp, item, section, wn->widget,
+					0, wn->context->data);
 
 			d(printf("item %d:%s widget %p\n", itemno, item->path, w));
 
@@ -1653,6 +1678,7 @@ ech_config_widget_factory (EConfig *config,
                            EConfigItem *item,
                            GtkWidget *parent,
                            GtkWidget *old,
+                           gint position,
                            gpointer data)
 {
 	struct _EConfigHookGroup *group = data;
@@ -1664,6 +1690,7 @@ ech_config_widget_factory (EConfig *config,
 	factory_data.target = config->target;
 	factory_data.parent = parent;
 	factory_data.old = old;
+	factory_data.position = position;
 
 	plugin = group->hook->hook.plugin;
 	return e_plugin_invoke (plugin, item->user_data, &factory_data);
@@ -1674,8 +1701,9 @@ ech_config_section_factory (EConfig *config,
                             EConfigItem *item,
                             GtkWidget *parent,
                             GtkWidget *old,
+                            gint position,
                             gpointer data,
-			    GtkWidget **real_frame)
+                            GtkWidget **real_frame)
 {
 	struct _EConfigHookGroup *group = data;
 	GtkWidget *label = NULL;

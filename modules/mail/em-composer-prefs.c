@@ -252,6 +252,7 @@ emcp_widget_glade (EConfig *ec,
                    EConfigItem *item,
                    GtkWidget *parent,
                    GtkWidget *old,
+                   gint position,
                    gpointer data)
 {
 	EMComposerPrefs *prefs = data;
