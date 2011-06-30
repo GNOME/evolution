@@ -531,10 +531,10 @@ ec_rebuild (EConfig *emp)
 	 * duplication */
 
 	/* because rebuild destroys pages, and destroying active page causes crashes */
-	is_assistant = emp->widget && GTK_IS_ASSISTANT (emp->widget);
+	is_assistant = GTK_IS_ASSISTANT (emp->widget);
 	if (is_assistant) {
 		GtkAssistant *assistant;
-		gint page_index = gtk_assistant_get_current_page (GTK_ASSISTANT (emp->widget));
+		gint page_index;
 
 		assistant = GTK_ASSISTANT (emp->widget);
 		page_index = gtk_assistant_get_current_page (assistant);
