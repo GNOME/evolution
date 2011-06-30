@@ -2271,12 +2271,21 @@ efh_image (EMFormat *emf,
 		stream, "<img hspace=10 vspace=10 src=\"%s\">", puri->cid);
 }
 
+/* Notes:
+ *
+ * image/tiff is omitted because it's a multi-page image format, but
+ * gdk-pixbuf unconditionally renders the first page only, and doesn't
+ * even indicate through meta-data whether multiple pages are present
+ * (see bug 335959).  Therefore, make no attempt to render TIFF images
+ * inline and defer to an application that can handle multi-page TIFF
+ * files properly like Evince or Gimp.  Once the referenced bug is
+ * fixed we can reevaluate this policy.
+ */
 static EMFormatHandler type_builtin_table[] = {
 	{ (gchar *) "image/gif", efh_image },
 	{ (gchar *) "image/jpeg", efh_image },
 	{ (gchar *) "image/png", efh_image },
 	{ (gchar *) "image/x-png", efh_image },
-	{ (gchar *) "image/tiff", efh_image },
 	{ (gchar *) "image/x-bmp", efh_image },
 	{ (gchar *) "image/bmp", efh_image },
 	{ (gchar *) "image/svg", efh_image },
