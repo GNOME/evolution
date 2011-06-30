@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-06-28 20:01+0000\n"
-"PO-Revision-Date: 2011-06-28 22:26+0100\n"
+"POT-Creation-Date: 2011-06-29 13:34+0000\n"
+"PO-Revision-Date: 2011-06-29 20:12+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -29,16 +29,16 @@ msgid "'{0}' is a read-only address book and cannot be modified. Please select a
 msgstr "'{0}' je imenik le za branje in ga ni mogoče spreminjati. Izberite drug imenik iz stranske vrstice v pogledu stikov."
 
 #: ../addressbook/addressbook.error.xml.h:3
-msgid "'{0}' is already in this contact list."
-msgstr "Uporabnik '{0}' je že na seznamu stikov."
-
-#: ../addressbook/addressbook.error.xml.h:4
 msgid "A contact already exists with this address. Would you like to add a new card with the same address anyway?"
 msgstr "Stik s tem naslovom že obstaja. Ali želite vseeno dodati novo vizitko z enakim naslovom?"
 
-#: ../addressbook/addressbook.error.xml.h:5
+#: ../addressbook/addressbook.error.xml.h:4
 msgid "A contact list named '{0}' is already in this contact list. Would you like to add it anyway?"
 msgstr "Seznam stikov '{0}' že obstaja na tem seznamu. Ali ga želite vseeno dodati?"
+
+#: ../addressbook/addressbook.error.xml.h:5
+msgid "Add with duplicates"
+msgstr "Dodaj z dvojniki"
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Address '{0}' already exists."
@@ -104,97 +104,113 @@ msgid "LDAP server did not respond with valid schema information."
 msgstr "Strežnik LDAP se ni odzval z veljavnimi podatki sheme."
 
 #: ../addressbook/addressbook.error.xml.h:21
+msgid "List '{0}' is already in this contact list."
+msgstr "Seznam '{0}' je že na seznamu stikov."
+
+#: ../addressbook/addressbook.error.xml.h:22
+msgid "Skip duplicates"
+msgstr "Preskoči dvojnike"
+
+#: ../addressbook/addressbook.error.xml.h:23
+msgid "Some addresses already exist in this contact list."
+msgstr "Nekateri naslovi že obstajajo na tem seznamu stikov."
+
+#: ../addressbook/addressbook.error.xml.h:24
 msgid "Some features may not work properly with your current server"
 msgstr "Nekatere zmožnosti na vašem trenutnem strežniku morda ne bodo delovale pravilno"
 
-#: ../addressbook/addressbook.error.xml.h:22
+#: ../addressbook/addressbook.error.xml.h:25
 msgid "The Evolution address book has quit unexpectedly."
 msgstr "Imenik Evolutiona se je nepričakovano končal."
 
-#: ../addressbook/addressbook.error.xml.h:23
+#: ../addressbook/addressbook.error.xml.h:26
 msgid "The image you have selected is large. Do you want to resize and store it?"
 msgstr "Izbrana slika je velika. Ali jo želite zmanjšati in shraniti?"
 
-#: ../addressbook/addressbook.error.xml.h:24
+#: ../addressbook/addressbook.error.xml.h:27
 msgid "This LDAP server may use an older version of LDAP, which does not support this functionality or it may be misconfigured. Ask your administrator for supported search bases."
 msgstr "Strežnik LDAP morda uporablja starejšo različico LDAP, ki ne podpira te zmožnosti ali pa je napačno nastavljen. Za podprto iskalno zbirko se obrnite na vašega sistemskega skrbnika."
 
-#: ../addressbook/addressbook.error.xml.h:25
+#: ../addressbook/addressbook.error.xml.h:28
 msgid "This address book could not be opened."
 msgstr "Imenika ni mogoče odpreti."
 
-#: ../addressbook/addressbook.error.xml.h:26
+#: ../addressbook/addressbook.error.xml.h:29
 msgid "This address book server does not have any suggested search bases."
 msgstr "Strežnik imenika nima predlogov za iskanje zbirke."
 
-#: ../addressbook/addressbook.error.xml.h:27
+#: ../addressbook/addressbook.error.xml.h:30
 msgid "This address book server might be unreachable or the server name may be misspelled or your network connection could be down."
 msgstr "Strežnik imenika morda ni dosegljiv, morda je ime strežnika napačno črkovano ali pa je povezava z omrežjem prekinjena."
 
-#: ../addressbook/addressbook.error.xml.h:28
+#: ../addressbook/addressbook.error.xml.h:31
 msgid "This address book will be removed permanently."
 msgstr "Imenik bo trajno izbrisan."
 
-#: ../addressbook/addressbook.error.xml.h:29
+#: ../addressbook/addressbook.error.xml.h:32
 msgid "This server does not support LDAPv3 schema information."
 msgstr "Strežnik ne podpira podatkov sheme LDAPv3."
 
-#: ../addressbook/addressbook.error.xml.h:30
+#: ../addressbook/addressbook.error.xml.h:33
 msgid "Unable to open address book"
 msgstr "Ni mogoče odpreti imenika"
 
-#: ../addressbook/addressbook.error.xml.h:31
+#: ../addressbook/addressbook.error.xml.h:34
 msgid "Unable to perform search."
 msgstr "Iskanja ni mogoče izvesti."
 
-#: ../addressbook/addressbook.error.xml.h:32
+#: ../addressbook/addressbook.error.xml.h:35
 msgid "Unable to save {0}."
 msgstr "Ni mogoče shraniti {0}."
 
-#: ../addressbook/addressbook.error.xml.h:33
+#: ../addressbook/addressbook.error.xml.h:36
 msgid "Would you like to save your changes?"
 msgstr "Ali želite shraniti svoje spremembe?"
 
-#: ../addressbook/addressbook.error.xml.h:34
+#: ../addressbook/addressbook.error.xml.h:37
 msgid "You are attempting to move a contact from one address book to another but it cannot be removed from the source. Do you want to save a copy instead?"
 msgstr "Stik poskušate prenesti iz enega imenika v drugega, vendar ga ni mogoče izbrisati iz vira. Ali želite namesto tega shraniti kopijo?"
 
-#: ../addressbook/addressbook.error.xml.h:35
+#: ../addressbook/addressbook.error.xml.h:38
 msgid "You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results the server should be upgraded to a supported version"
 msgstr "Povezujete se na nepodprt strežnik GroupWise, zato lahko pride do težav pri uporabi programa Evolution. Za najboljše rezultate nadgradite strežnik na podprto različico."
 
-#: ../addressbook/addressbook.error.xml.h:36
+#: ../addressbook/addressbook.error.xml.h:39
+msgid "You are trying to add addresses that are part of this list already. Would you like to add them anyway?"
+msgstr "Ti naslovi so že del seznama. Ali želite podatke vseeno dodati?"
+
+#: ../addressbook/addressbook.error.xml.h:40
 msgid "You do not have permission to delete contacts in this address book."
 msgstr "Nimate dovoljenja za izbris stika iz imenika."
 
-#: ../addressbook/addressbook.error.xml.h:37
+#: ../addressbook/addressbook.error.xml.h:41
 msgid "You have made modifications to this contact. Do you want to save these changes?"
 msgstr "Spremenili ste podatke o stiku. Ali želite spremembe shraniti?"
 
 #. Translators: {0} is replaced with an address book name which will not be available
-#: ../addressbook/addressbook.error.xml.h:39
+#: ../addressbook/addressbook.error.xml.h:43
 msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr "Vaši stiki za {0} ne bodo na voljo, dokler Evolutiona ne zaženete ponovno."
 
-#: ../addressbook/addressbook.error.xml.h:40
+#: ../addressbook/addressbook.error.xml.h:44
 #: ../mail/em-vfolder-rule.c:604
 #: ../widgets/table/e-table-config.ui.h:18
 msgid "_Add"
 msgstr "_Dodaj"
 
-#: ../addressbook/addressbook.error.xml.h:41
+#: ../addressbook/addressbook.error.xml.h:45
 msgid "_Discard"
 msgstr "_Zavrzi"
 
-#: ../addressbook/addressbook.error.xml.h:42
+#: ../addressbook/addressbook.error.xml.h:46
 msgid "_Do not save"
 msgstr "_Ne shrani"
 
-#: ../addressbook/addressbook.error.xml.h:43
+#: ../addressbook/addressbook.error.xml.h:47
 msgid "_Resize"
 msgstr "_Spremeni velikost"
 
-#: ../addressbook/addressbook.error.xml.h:44
+#: ../addressbook/addressbook.error.xml.h:48
 msgid "_Use as it is"
 msgstr "_Uporabi kot je"
 
@@ -623,7 +639,7 @@ msgid "_Suffix:"
 msgstr "P_ripona:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:693
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:722
 msgid "Contact List Editor"
 msgstr "Urejevalnik seznama stikov"
 
@@ -648,23 +664,23 @@ msgstr "Izb_eri ..."
 msgid "_Type an email address or drag a contact into the list below:"
 msgstr "_Vnesite naslov elektronske pošte ali potegnite stik na spodnji seznam:"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:816
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:845
 msgid "Contact List Members"
 msgstr "Člani seznama stikov"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1385
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1414
 msgid "Error adding list"
 msgstr "Napaka med dodajanjem seznama"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1400
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1429
 msgid "Error modifying list"
 msgstr "Napaka med spreminjanjem seznama"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1415
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1444
 msgid "Error removing list"
 msgstr "Napaka med odstranjevanjem seznama"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1546
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1575
 msgid "_Members"
 msgstr "_Člani"
 
@@ -9052,19 +9068,19 @@ msgstr "Ciljni naslov ni določen, posredovanje sporočila je preklicano."
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr "Ni mogoče najti računa za uporabo, posredovanje sporočila je preklicano."
 
-#: ../mail/e-mail-session-utils.c:416
+#: ../mail/e-mail-session-utils.c:417
 #, c-format
 msgid "Cannot get transport for account '%s'"
 msgstr "Ni mogoče pridobiti storitve prenosa za račun '%s'"
 
-#: ../mail/e-mail-session-utils.c:496
+#: ../mail/e-mail-session-utils.c:504
 #: ../mail/mail-ops.c:633
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Uveljavljanje izhodnih filtrov ni uspelo: %s"
 
-#: ../mail/e-mail-session-utils.c:520
-#: ../mail/e-mail-session-utils.c:554
+#: ../mail/e-mail-session-utils.c:528
+#: ../mail/e-mail-session-utils.c:562
 #: ../mail/mail-ops.c:652
 #: ../mail/mail-ops.c:686
 #, c-format
@@ -9075,19 +9091,19 @@ msgstr ""
 "Pripenjanje v %s ni uspelo: %s\n"
 "Pripenjanje v krajevno mapo 'Poslano'."
 
-#: ../mail/e-mail-session-utils.c:574
+#: ../mail/e-mail-session-utils.c:582
 #: ../mail/mail-ops.c:706
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Pripenjanje v krajevno mapo 'Poslano' ni uspelo: %s"
 
-#: ../mail/e-mail-session-utils.c:785
+#: ../mail/e-mail-session-utils.c:793
 #: ../mail/mail-ops.c:809
 #: ../mail/mail-ops.c:905
 msgid "Sending message"
 msgstr "Pošiljanje sporočila"
 
-#: ../mail/e-mail-session-utils.c:861
+#: ../mail/e-mail-session-utils.c:869
 #, c-format
 msgid "Unsubscribing from folder '%s'"
 msgstr "Preklicevanje naročnine na mapo '%s'"
