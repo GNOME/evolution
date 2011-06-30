@@ -1592,6 +1592,8 @@ contact_list_editor_init (EContactListEditor *editor)
 	gtk_widget_show_all (WIDGET (DIALOG));
 
 	setup_custom_widgets (editor);
+
+	e_name_selector_load_books (priv->name_selector);
 }
 
 /***************************** Public Interface ******************************/
