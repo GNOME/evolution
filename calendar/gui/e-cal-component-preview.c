@@ -85,6 +85,7 @@ update_comp_info (ECalComponentPreview *preview,
 		changed = !priv->cal_uid;
 		clear_comp_info (preview);
 	} else {
+		ESource *source;
 		const gchar *uid;
 		gchar *cal_uid;
 		gchar *comp_uid;
@@ -92,7 +93,8 @@ update_comp_info (ECalComponentPreview *preview,
 		gint *sequence = NULL;
 		gint comp_sequence;
 
-		cal_uid = g_strdup (e_source_peek_uid (e_client_get_source (E_CLIENT (client))));
+		source = e_client_get_source (E_CLIENT (client));
+		cal_uid = g_strdup (e_source_peek_uid (source));
 		e_cal_component_get_uid (comp, &uid);
 		comp_uid = g_strdup (uid);
 		e_cal_component_get_last_modified (comp, &itm);

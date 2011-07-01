@@ -132,7 +132,7 @@ e_contact_list_model_has_email (EContactListModel *model,
 
 gboolean
 e_contact_list_model_has_uid (EContactListModel *model,
-			      const gchar* uid)
+                              const gchar *uid)
 {
 	return (g_hash_table_lookup (model->priv->uids_table, uid) != NULL);
 }

@@ -313,10 +313,13 @@ setup_abooks (void)
 	ESource *personal_source = NULL;
 	GError *error = NULL;
 
-	if (!e_book_client_get_sources (&list, &error)) {
-		g_debug ("%s: Unable to get books: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
+	e_book_client_get_sources (&list, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Unable to get books: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 		return;
 	}
 
@@ -326,7 +329,8 @@ setup_abooks (void)
 		GSList *g;
 		gchar *base_dir, *base_uri;
 
-		base_dir = g_build_filename (e_get_user_data_dir (), "addressbook", "local", NULL);
+		base_dir = g_build_filename (
+			e_get_user_data_dir (), "addressbook", "local", NULL);
 		base_uri = g_filename_to_uri (base_dir, NULL, NULL);
 
 		for (g = groups; g; g = g->next) {

@@ -386,6 +386,8 @@ em_account_prefs_new (EPreferencesWindow *window)
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EAccountList *account_list;
+	EMailSession *session;
+	const gchar *data_dir;
 
 	account_list = e_get_account_list ();
 	g_return_val_if_fail (E_IS_ACCOUNT_LIST (account_list), NULL);
@@ -394,8 +396,11 @@ em_account_prefs_new (EPreferencesWindow *window)
 	shell = e_preferences_window_get_shell (window);
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
-	/* make sure the e-mail-local is initialized */
-	e_mail_local_init (e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend)), e_shell_backend_get_data_dir (shell_backend));
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
+
+	/* Make sure the e-mail-local is initialized. */
+	e_mail_local_init (session, data_dir);
 
 	return g_object_new (
 		EM_TYPE_ACCOUNT_PREFS,

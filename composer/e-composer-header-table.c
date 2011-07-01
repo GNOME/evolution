@@ -997,7 +997,8 @@ composer_header_table_realize_cb (EComposerHeaderTable *table)
 	g_return_if_fail (table != NULL);
 	g_return_if_fail (table->priv != NULL);
 
-	g_signal_handlers_disconnect_by_func (table, composer_header_table_realize_cb, NULL);
+	g_signal_handlers_disconnect_by_func (
+		table, composer_header_table_realize_cb, NULL);
 
 	e_name_selector_load_books (table->priv->name_selector);
 }
@@ -1078,7 +1079,9 @@ e_composer_header_table_init (EComposerHeaderTable *table)
 	}
 
 	/* postpone name_selector loading, do that only when really needed */
-	g_signal_connect (table, "realize", G_CALLBACK (composer_header_table_realize_cb), NULL);
+	g_signal_connect (
+		table, "realize",
+		G_CALLBACK (composer_header_table_realize_cb), NULL);
 }
 
 GtkWidget *

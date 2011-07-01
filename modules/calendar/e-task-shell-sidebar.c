@@ -160,7 +160,9 @@ task_shell_sidebar_backend_error_cb (ETaskShellSidebar *task_shell_sidebar,
 }
 
 static void
-task_shell_sidebar_retrieve_capabilies_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+task_shell_sidebar_retrieve_capabilies_cb (GObject *source_object,
+                                           GAsyncResult *result,
+                                           gpointer user_data)
 {
 	ECalClient *client = E_CAL_CLIENT (source_object);
 	ETaskShellSidebar *task_shell_sidebar = user_data;
@@ -169,10 +171,12 @@ task_shell_sidebar_retrieve_capabilies_cb (GObject *source_object, GAsyncResult 
 	g_return_if_fail (client != NULL);
 	g_return_if_fail (task_shell_sidebar != NULL);
 
-	e_client_retrieve_capabilities_finish (E_CLIENT (client), result, &capabilities, NULL);
+	e_client_retrieve_capabilities_finish (
+		E_CLIENT (client), result, &capabilities, NULL);
 	g_free (capabilities);
 
-	task_shell_sidebar_emit_status_message (task_shell_sidebar, _("Loading tasks"));
+	task_shell_sidebar_emit_status_message (
+		task_shell_sidebar, _("Loading tasks"));
 	task_shell_sidebar_emit_client_added (task_shell_sidebar, client);
 	task_shell_sidebar_emit_status_message (task_shell_sidebar, NULL);
 }
@@ -200,14 +204,19 @@ free_retry_open_data (gpointer data)
 }
 
 static void
-task_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+task_shell_sidebar_client_opened_cb (GObject *source_object,
+                                     GAsyncResult *result,
+                                     gpointer user_data)
 {
 	ECalClient *client = E_CAL_CLIENT (source_object);
 	ETaskShellSidebar *task_shell_sidebar = user_data;
+	ESource *source;
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	GError *error = NULL;
+
+	source = e_client_get_source (E_CLIENT (client));
 
 	e_client_open_finish (E_CLIENT (client), result, &error);
 
@@ -222,7 +231,10 @@ task_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *resul
 		e_client_utils_forget_password (E_CLIENT (client));
 
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_FAILED)) {
-		e_client_open (E_CLIENT (client), FALSE, task_shell_sidebar->priv->loading_clients, task_shell_sidebar_client_opened_cb, user_data);
+		e_client_open (
+			E_CLIENT (client), FALSE,
+			task_shell_sidebar->priv->loading_clients,
+			task_shell_sidebar_client_opened_cb, user_data);
 		g_clear_error (&error);
 		return;
 	}
@@ -236,7 +248,10 @@ task_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *resul
 		rod->cancellable = g_object_ref (task_shell_sidebar->priv->loading_clients);
 
 		/* postpone for 1/2 of a second, backend is busy now */
-		g_timeout_add_full (G_PRIORITY_DEFAULT, 500, task_shell_sidebar_retry_open_timeout_cb, rod, free_retry_open_data);
+		g_timeout_add_full (
+			G_PRIORITY_DEFAULT, 500,
+			task_shell_sidebar_retry_open_timeout_cb,
+			rod, free_retry_open_data);
 
 		g_clear_error (&error);
 		return;
@@ -252,7 +267,10 @@ task_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *resul
 			break;
 
 		case E_CLIENT_ERROR_BUSY:
-			g_debug ("%s: Cannot open '%s', it's busy (%s)", G_STRFUNC, e_source_peek_name (e_client_get_source (E_CLIENT (client))), error->message);
+			g_warning (
+				"%s: Cannot open '%s', it's busy (%s)",
+				G_STRFUNC, e_source_peek_name (source),
+				error->message);
 			g_clear_error (&error);
 			return;
 
@@ -281,7 +299,10 @@ task_shell_sidebar_client_opened_cb (GObject *source_object, GAsyncResult *resul
 	g_clear_error (&error);
 
 	/* to have them ready for later use */
-	e_client_retrieve_capabilities (E_CLIENT (client), NULL, task_shell_sidebar_retrieve_capabilies_cb, task_shell_sidebar);
+	e_client_retrieve_capabilities (
+		E_CLIENT (client), NULL,
+		task_shell_sidebar_retrieve_capabilies_cb,
+		task_shell_sidebar);
 }
 
 static gboolean
@@ -297,14 +318,21 @@ task_shell_sidebar_retry_open_timeout_cb (gpointer user_data)
 	if (g_cancellable_is_cancelled (rod->cancellable))
 		return FALSE;
 
-	e_client_open (rod->client, FALSE, rod->task_shell_sidebar->priv->loading_clients, task_shell_sidebar_client_opened_cb, rod->task_shell_sidebar);
+	e_client_open (
+		rod->client, FALSE,
+		rod->task_shell_sidebar->priv->loading_clients,
+		task_shell_sidebar_client_opened_cb,
+		rod->task_shell_sidebar);
 
 	return FALSE;
 }
 
 static void
-task_shell_sidebar_default_loaded_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+task_shell_sidebar_default_loaded_cb (GObject *source_object,
+                                      GAsyncResult *result,
+                                      gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
 	EShellSidebar *shell_sidebar = user_data;
 	ETaskShellSidebarPrivate *priv;
 	EShellContent *shell_content;
@@ -316,21 +344,22 @@ task_shell_sidebar_default_loaded_cb (GObject *source_object, GAsyncResult *resu
 
 	priv = E_TASK_SHELL_SIDEBAR (shell_sidebar)->priv;
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
-
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_error_free (error);
-		goto exit;
-	}
-
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
 	model = e_task_shell_content_get_task_model (task_shell_content);
 
-	if (error != NULL) {
+	e_client_utils_open_new_finish (source, result, &client, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (client == NULL);
+		g_error_free (error);
+		goto exit;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (client == NULL);
 		e_alert_submit (
 			E_ALERT_SINK (shell_content),
 			"calendar:failed-open-tasks",
@@ -346,7 +375,8 @@ task_shell_sidebar_default_loaded_cb (GObject *source_object, GAsyncResult *resu
 
 	priv->default_client = E_CAL_CLIENT (client);
 
-	e_cal_client_set_default_timezone (priv->default_client, e_cal_model_get_timezone (model));
+	e_cal_client_set_default_timezone (
+		priv->default_client, e_cal_model_get_timezone (model));
 
 	g_object_notify (G_OBJECT (shell_sidebar), "default-client");
 
@@ -395,9 +425,13 @@ task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
 
 	priv->loading_default_client = g_cancellable_new ();
 
-	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, priv->loading_default_client,
-		e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
-		task_shell_sidebar_default_loaded_cb, g_object_ref (shell_sidebar));
+	e_client_utils_open_new (
+		source, E_CLIENT_SOURCE_TYPE_TASKS,
+		FALSE, priv->loading_default_client,
+		e_client_utils_authenticate_handler,
+		GTK_WINDOW (shell_window),
+		task_shell_sidebar_default_loaded_cb,
+		g_object_ref (shell_sidebar));
 }
 
 static void
@@ -696,13 +730,14 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 
 		can_delete = !is_system;
 		delete_prop = e_source_get_property (source, "delete");
-		can_delete = can_delete && (delete_prop == NULL || strcmp (delete_prop, "no") != 0);
+		can_delete = can_delete &&
+			(delete_prop == NULL || strcmp (delete_prop, "no") != 0);
 
 		client = g_hash_table_lookup (
 			task_shell_sidebar->priv->client_table,
 			e_source_peek_uid (source));
-		refresh_supported =
-			client && e_client_check_refresh_supported (E_CLIENT (client));
+		refresh_supported = client &&
+			e_client_check_refresh_supported (E_CLIENT (client));
 	}
 
 	if (source != NULL)
@@ -950,7 +985,9 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 	if (client == NULL) {
 		client = e_cal_client_new (source, source_type, NULL);
 		if (client)
-			g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+			g_signal_connect (
+				client, "authenticate",
+				G_CALLBACK (e_client_utils_authenticate_handler), NULL);
 	}
 
 	g_return_if_fail (client != NULL);
@@ -985,7 +1022,11 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 	timezone = e_cal_model_get_timezone (model);
 
 	e_cal_client_set_default_timezone (client, timezone);
-	e_client_open (E_CLIENT (client), FALSE, task_shell_sidebar->priv->loading_clients, task_shell_sidebar_client_opened_cb, task_shell_sidebar);
+
+	e_client_open (
+		E_CLIENT (client), FALSE,
+		task_shell_sidebar->priv->loading_clients,
+		task_shell_sidebar_client_opened_cb, task_shell_sidebar);
 }
 
 void

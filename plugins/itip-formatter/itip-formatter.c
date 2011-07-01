@@ -495,56 +495,66 @@ add_failed_to_load_msg (ItipView *view, ESource *source, const GError *error)
 }
 
 static void
-cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+cal_opened_cb (GObject *source_object,
+               GAsyncResult *result,
+               gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
 	struct _itip_puri *pitip = user_data;
-	ESource *source;
 	ECalClientSourceType source_type;
 	EClient *client = NULL;
 	ECalClient *cal_client;
+	const gchar *uid;
 	GError *error = NULL;
 
-	source = E_SOURCE (source_object);
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (!e_client_utils_open_new_finish (source, result, &client, &error)) {
-		client = NULL;
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-			g_error_free (error);
-			return;
-		}
-	}
+	/* Ignore cancellations. */
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (client == NULL);
+		g_error_free (error);
+		return;
 
-	if (error) {
-		d(printf ("Failed opening itip formatter calendar '%s' during non-search opening\n", e_source_peek_name (source)));
-
-		add_failed_to_load_msg (ITIP_VIEW (pitip->view), source, error);
-
+	} else if (error != NULL) {
+		g_warn_if_fail (client == NULL);
+		add_failed_to_load_msg (
+			ITIP_VIEW (pitip->view), source, error);
 		g_error_free (error);
 		return;
 	}
 
+	g_return_if_fail (E_IS_CAL_CLIENT (client));
+
 	cal_client = E_CAL_CLIENT (client);
 	g_return_if_fail (cal_client != NULL);
 
+	uid = e_source_peek_uid (source);
 	source_type = e_cal_client_get_source_type (cal_client);
-	g_hash_table_insert (pitip->clients[source_type], g_strdup (e_source_peek_uid (source)), cal_client);
+	g_hash_table_insert (
+		pitip->clients[source_type], g_strdup (uid), cal_client);
 
 	if (e_cal_client_check_recurrences_no_master (cal_client)) {
-		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
+		icalcomponent *icalcomp;
+		gboolean show_recur_check;
 
-		if (check_is_instance (icalcomp))
-			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), TRUE);
-		else
-			itip_view_set_show_recur_check (ITIP_VIEW (pitip->view), FALSE);
+		icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
+
+		show_recur_check = check_is_instance (icalcomp);
+		itip_view_set_show_recur_check (
+			ITIP_VIEW (pitip->view), show_recur_check);
 	}
 
 	if (pitip->type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS) {
-		if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING))
-			itip_view_set_needs_decline (ITIP_VIEW (pitip->view), TRUE);
-		else
-			itip_view_set_needs_decline (ITIP_VIEW (pitip->view), FALSE);
-		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_PUBLISH);
+		gboolean needs_decline;
+
+		needs_decline = e_client_check_capability (
+			E_CLIENT (client),
+			CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING);
+		itip_view_set_needs_decline (
+			ITIP_VIEW (pitip->view), needs_decline);
+		itip_view_set_mode (
+			ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_PUBLISH);
 	}
 
 	pitip->current_client = cal_client;
@@ -553,7 +563,11 @@ cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 }
 
 static void
-start_calendar_server (struct _itip_puri *pitip, ESource *source, ECalClientSourceType type, GAsyncReadyCallback func, gpointer data)
+start_calendar_server (struct _itip_puri *pitip,
+                       ESource *source,
+                       ECalClientSourceType type,
+                       GAsyncReadyCallback func,
+                       gpointer data)
 {
 	ECalClient *client;
 
@@ -792,7 +806,9 @@ decrease_find_data (FormatItipFindData *fd)
 }
 
 static void
-get_object_without_rid_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+get_object_without_rid_ready_cb (GObject *source_object,
+                                 GAsyncResult *result,
+                                 gpointer user_data)
 {
 	ECalClient *cal_client = E_CAL_CLIENT (source_object);
 	FormatItipFindData *fd = user_data;
@@ -833,7 +849,9 @@ get_object_without_rid_ready_cb (GObject *source_object, GAsyncResult *result, g
 }
 
 static void
-get_object_with_rid_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+get_object_with_rid_ready_cb (GObject *source_object,
+                              GAsyncResult *result,
+                              gpointer user_data)
 {
 	ECalClient *cal_client = E_CAL_CLIENT (source_object);
 	FormatItipFindData *fd = user_data;
@@ -879,7 +897,9 @@ get_object_with_rid_ready_cb (GObject *source_object, GAsyncResult *result, gpoi
 }
 
 static void
-get_object_list_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+get_object_list_ready_cb (GObject *source_object,
+                          GAsyncResult *result,
+                          gpointer user_data)
 {
 	ECalClient *cal_client = E_CAL_CLIENT (source_object);
 	FormatItipFindData *fd = user_data;
@@ -913,25 +933,28 @@ get_object_list_ready_cb (GObject *source_object, GAsyncResult *result, gpointer
 }
 
 static void
-find_cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+find_cal_opened_cb (GObject *source_object,
+                    GAsyncResult *result,
+                    gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
 	FormatItipFindData *fd = user_data;
 	struct _itip_puri *pitip = fd->puri;
-	ESource *source;
 	ECalClientSourceType source_type;
 	EClient *client = NULL;
 	ECalClient *cal_client;
+	const gchar *uid;
 	GError *error = NULL;
 
-	source = E_SOURCE (source_object);
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (!e_client_utils_open_new_finish (source, result, &client, &error)) {
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-			g_error_free (error);
-			decrease_find_data (fd);
-			return;
-		}
+	/* Ignore cancellations. */
+	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (client == NULL);
+		decrease_find_data (fd);
+		g_error_free (error);
+		return;
 	}
 
 	if (g_cancellable_is_cancelled (fd->cancellable)) {
@@ -944,18 +967,22 @@ find_cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_
 		/* FIXME Do we really want to warn here?  If we fail
 		 * to find the item, this won't be cleared but the
 		 * selector might be shown */
-		d(printf ("Failed opening itip formatter calendar '%s' during search opening... ", e_source_peek_name (source)));
-		add_failed_to_load_msg (ITIP_VIEW (pitip->view), source, error);
-
-		g_error_free (error);
+		g_warn_if_fail (client == NULL);
+		add_failed_to_load_msg (
+			ITIP_VIEW (pitip->view), source, error);
 		decrease_find_data (fd);
+		g_error_free (error);
 		return;
 	}
+
+	g_return_if_fail (E_IS_CAL_CLIENT (client));
 
 	cal_client = E_CAL_CLIENT (client);
 	source_type = e_cal_client_get_source_type (cal_client);
 
-	g_hash_table_insert (pitip->clients[source_type], g_strdup (e_source_peek_uid (source)), cal_client);
+	uid = e_source_peek_uid (source);
+	g_hash_table_insert (
+		pitip->clients[source_type], g_strdup (uid), cal_client);
 
 	/* Check for conflicts */
 	/* If the query fails, we'll just ignore it */

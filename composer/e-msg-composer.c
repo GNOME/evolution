@@ -3934,22 +3934,27 @@ add_recipients (GList *list, const gchar *recips)
 }
 
 static gboolean
-list_contains_addr (const GList *lst, EDestination *dest)
+list_contains_addr (const GList *list,
+                    EDestination *dest)
 {
 	g_return_val_if_fail (dest != NULL, FALSE);
 
-	while (lst) {
-		if (e_destination_equal (dest, lst->data))
+	while (list != NULL) {
+		if (e_destination_equal (dest, list->data))
 			return TRUE;
 
-		lst = lst->next;
+		list = list->next;
 	}
 
 	return FALSE;
 }
 
 static void
-merge_cc_bcc (EDestination **addrv, GList **merge_into, const GList *to, const GList *cc, const GList *bcc)
+merge_cc_bcc (EDestination **addrv,
+              GList **merge_into,
+              const GList *to,
+              const GList *cc,
+              const GList *bcc)
 {
 	gint ii;
 
@@ -3957,12 +3962,16 @@ merge_cc_bcc (EDestination **addrv, GList **merge_into, const GList *to, const G
 		if (!list_contains_addr (to, addrv[ii]) &&
 		    !list_contains_addr (cc, addrv[ii]) &&
 		    !list_contains_addr (bcc, addrv[ii]))
-			*merge_into = g_list_append (*merge_into, g_object_ref (addrv[ii]));
+			*merge_into = g_list_append (
+				*merge_into, g_object_ref (addrv[ii]));
 	}
 }
 
 static void
-merge_always_cc_and_bcc (EComposerHeaderTable *table, const GList *to, GList **cc, GList **bcc)
+merge_always_cc_and_bcc (EComposerHeaderTable *table,
+                         const GList *to,
+                         GList **cc,
+                         GList **bcc)
 {
 	EDestination **addrv;
 
@@ -3980,7 +3989,8 @@ merge_always_cc_and_bcc (EComposerHeaderTable *table, const GList *to, GList **c
 }
 
 static void
-handle_mailto (EMsgComposer *composer, const gchar *mailto)
+handle_mailto (EMsgComposer *composer,
+               const gchar *mailto)
 {
 	EAttachmentView *view;
 	EAttachmentStore *store;

@@ -114,11 +114,12 @@ struct _MessageList {
 	/* Current search string, or %NULL */
 	gchar *search;
 
-	/* which message uid should be left in the list even not in a search after rebuild;
-	   rebuild will clear the value to NULL */
+	/* which message uid should be left in the list even not in a
+	 * search after rebuild; rebuild will clear the value to NULL */
 	gchar *ensure_uid;
 
-	/* are we regenerating the message_list because set_folder was just called? */
+	/* are we regenerating the message_list because set_folder
+	 * was just called? */
 	guint just_set_folder : 1;
 
 	/* Are we displaying threaded view? */

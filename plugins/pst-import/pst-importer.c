@@ -682,7 +682,7 @@ pst_import_folders (PstImporter *m, pst_desc_tree *topitem)
 
 	if (topitem)
 		g_hash_table_insert (node_to_folderuri, topitem, g_strdup (m->folder_uri));
-		
+
 	/* Walk through folder tree */
 	while (d_ptr != NULL && (camel_operation_cancel_check (co) == FALSE)) {
 		gchar *previous_folder = NULL;
@@ -1444,8 +1444,10 @@ pst_process_contact (PstImporter *m, pst_item *item)
 	g_object_unref (ec);
 	g_free (uid);
 
-	if (error) {
-		g_debug ("%s: Failed to add contact: %s", G_STRFUNC, error->message);
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to add contact: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
 }

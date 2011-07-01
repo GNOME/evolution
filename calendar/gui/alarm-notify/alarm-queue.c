@@ -150,15 +150,21 @@ static void	query_objects_removed_cb	(ECalClientView *view,
 						 const GSList *uids,
 						 gpointer data);
 
-static void update_cqa (CompQueuedAlarms *cqa, ECalComponent *comp);
-static void update_qa (ECalComponentAlarms *alarms, QueuedAlarm *qa);
-static void tray_list_remove_cqa (CompQueuedAlarms *cqa);
-static void on_dialog_objs_removed_cb (ECalClientView *view, const GSList *uids, gpointer data);
+static void	update_cqa			(CompQueuedAlarms *cqa,
+						 ECalComponent *comp);
+static void	update_qa			(ECalComponentAlarms *alarms,
+						 QueuedAlarm *qa);
+static void	tray_list_remove_cqa		(CompQueuedAlarms *cqa);
+static void	on_dialog_objs_removed_cb	(ECalClientView *view,
+						 const GSList *uids,
+						 gpointer data);
 
 /* Alarm queue engine */
 
-static void load_alarms_for_today (ClientAlarms *ca);
-static void midnight_refresh_cb (gpointer alarm_id, time_t trigger, gpointer data);
+static void	load_alarms_for_today		(ClientAlarms *ca);
+static void	midnight_refresh_cb		(gpointer alarm_id,
+						 time_t trigger,
+						 gpointer data);
 
 /* Simple asynchronous message dispatcher */
 
@@ -224,9 +230,8 @@ e_ctime (const time_t *timep)
 	return ret;
 }
 
-/* Queues an alarm trigger for midnight so that we can load the next day's worth
- * of alarms.
- */
+/* Queues an alarm trigger for midnight so that we can load the next
+ * day's worth of alarms. */
 static void
 queue_midnight_refresh (void)
 {
@@ -242,7 +247,8 @@ queue_midnight_refresh (void)
 
 	debug (("Refresh at %s", e_ctime (&midnight)));
 
-	midnight_refresh_id = alarm_add (midnight, midnight_refresh_cb, NULL, NULL);
+	midnight_refresh_id = alarm_add (
+		midnight, midnight_refresh_cb, NULL, NULL);
 	if (!midnight_refresh_id) {
 		debug (("Could not setup the midnight refresh alarm"));
 		/* FIXME: what to do? */
@@ -251,7 +257,9 @@ queue_midnight_refresh (void)
 
 /* Loads a client's alarms; called from g_hash_table_foreach() */
 static void
-add_client_alarms_cb (gpointer key, gpointer value, gpointer data)
+add_client_alarms_cb (gpointer key,
+                      gpointer value,
+                      gpointer data)
 {
 	ClientAlarms *ca = (ClientAlarms *) value;
 
@@ -287,7 +295,9 @@ midnight_refresh_async (struct _midnight_refresh_msg *msg)
 }
 
 static void
-midnight_refresh_cb (gpointer alarm_id, time_t trigger, gpointer data)
+midnight_refresh_cb (gpointer alarm_id,
+                     time_t trigger,
+                     gpointer data)
 {
 	struct _midnight_refresh_msg *msg;
 
@@ -307,7 +317,8 @@ lookup_client (ECalClient *cal_client)
 
 /* Looks up a queued alarm based on its alarm ID */
 static QueuedAlarm *
-lookup_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id)
+lookup_queued_alarm (CompQueuedAlarms *cqa,
+                     gpointer alarm_id)
 {
 	GSList *l;
 	QueuedAlarm *qa;
@@ -328,8 +339,10 @@ lookup_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id)
  * the last one listed for the component, it removes the component itself.
  */
 static gboolean
-remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
-		     gboolean free_object, gboolean remove_alarm)
+remove_queued_alarm (CompQueuedAlarms *cqa,
+                     gpointer alarm_id,
+                     gboolean free_object,
+                     gboolean remove_alarm)
 {
 	QueuedAlarm *qa=NULL;
 	GSList *l;
@@ -349,16 +362,21 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 
 	if (remove_alarm) {
 		GError *error = NULL;
-		ECalComponentId *id = e_cal_component_get_id (cqa->alarms->comp);
+		ECalComponentId *id;
+
+		id = e_cal_component_get_id (cqa->alarms->comp);
 		if (id) {
 			cqa->expecting_update = TRUE;
-			e_cal_client_discard_alarm_sync (cqa->parent_client->cal_client, id->uid, id->rid,
-						qa->instance->auid, NULL, &error);
+			e_cal_client_discard_alarm_sync (
+				cqa->parent_client->cal_client, id->uid,
+				id->rid, qa->instance->auid, NULL, &error);
 			cqa->expecting_update = FALSE;
 
 			if (error) {
 				if (!g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_NOT_SUPPORTED))
-					g_debug ("%s: Failed to discard alarm: %s", G_STRFUNC, error->message);
+					g_warning (
+						"%s: Failed to discard alarm: %s",
+						G_STRFUNC, error->message);
 				g_error_free (error);
 			}
 			e_cal_component_free_id (id);
@@ -397,7 +415,8 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
  * Returns: %TRUE when we know the notification type, %FALSE otherwise.
  */
 static gboolean
-has_known_notification (ECalComponent *comp, const gchar *alarm_uid)
+has_known_notification (ECalComponent *comp,
+                        const gchar *alarm_uid)
 {
 	ECalComponentAlarm *alarm;
 	ECalComponentAlarmAction action;
@@ -413,20 +432,23 @@ has_known_notification (ECalComponent *comp, const gchar *alarm_uid)
 	e_cal_component_alarm_free (alarm);
 
 	switch (action) {
-	case E_CAL_COMPONENT_ALARM_AUDIO:
-	case E_CAL_COMPONENT_ALARM_DISPLAY:
-	case E_CAL_COMPONENT_ALARM_EMAIL:
-	case E_CAL_COMPONENT_ALARM_PROCEDURE:
-		return TRUE;
-	default:
-		break;
+		case E_CAL_COMPONENT_ALARM_AUDIO:
+		case E_CAL_COMPONENT_ALARM_DISPLAY:
+		case E_CAL_COMPONENT_ALARM_EMAIL:
+		case E_CAL_COMPONENT_ALARM_PROCEDURE:
+			return TRUE;
+		default:
+			break;
 	}
+
 	return FALSE;
 }
 
 /* Callback used when an alarm triggers */
 static void
-alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
+alarm_trigger_cb (gpointer alarm_id,
+                  time_t trigger,
+                  gpointer data)
 {
 	CompQueuedAlarms *cqa;
 	ECalComponent *comp;
@@ -437,7 +459,8 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	cqa = data;
 	comp = cqa->alarms->comp;
 
-	config_data_set_last_notification_time (cqa->parent_client->cal_client, trigger);
+	config_data_set_last_notification_time (
+		cqa->parent_client->cal_client, trigger);
 	debug (("Setting Last notification time to %s", e_ctime (&trigger)));
 
 	qa = lookup_queued_alarm (cqa, alarm_id);
@@ -487,7 +510,8 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
  * particular client.  Also puts the triggers in the alarm timer queue.
  */
 static void
-add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
+add_component_alarms (ClientAlarms *ca,
+                      ECalComponentAlarms *alarms)
 {
 	ECalComponentId *id;
 	CompQueuedAlarms *cqa;
@@ -584,10 +608,14 @@ load_alarms (ClientAlarms *ca, time_t start, time_t end)
 		ca->view = NULL;
 	}
 
-	if (!e_cal_client_get_view_sync (ca->cal_client, str_query, &ca->view, NULL, &error)) {
-		g_debug ("%s: Could not get query for client: %s", error ? error->message : "Unknown error", G_STRFUNC);
-		if (error)
-			g_error_free (error);
+	e_cal_client_get_view_sync (
+		ca->cal_client, str_query, &ca->view, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Could not get query for client: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 	} else {
 		debug (("Setting Call backs"));
 
@@ -602,8 +630,11 @@ load_alarms (ClientAlarms *ca, time_t start, time_t end)
 			G_CALLBACK (query_objects_removed_cb), ca);
 
 		e_cal_client_view_start (ca->view, &error);
-		if (error) {
-			g_debug ("%s: Failed to start view: %s", G_STRFUNC, error->message);
+
+		if (error != NULL) {
+			g_warning (
+				"%s: Failed to start view: %s",
+				G_STRFUNC, error->message);
 			g_error_free (error);
 		}
 	}
@@ -638,13 +669,15 @@ load_alarms_for_today (ClientAlarms *ca)
 
 /* Looks up a component's queued alarm structure in a client alarms structure */
 static CompQueuedAlarms *
-lookup_comp_queued_alarms (ClientAlarms *ca, const ECalComponentId *id)
+lookup_comp_queued_alarms (ClientAlarms *ca,
+                           const ECalComponentId *id)
 {
 	return g_hash_table_lookup (ca->uid_alarms_hash, id);
 }
 
 static void
-remove_alarms (CompQueuedAlarms *cqa, gboolean free_object)
+remove_alarms (CompQueuedAlarms *cqa,
+               gboolean free_object)
 {
 	GSList *l;
 
@@ -663,12 +696,12 @@ remove_alarms (CompQueuedAlarms *cqa, gboolean free_object)
 		alarm_remove (qa->alarm_id);
 		remove_queued_alarm (cqa, qa->alarm_id, free_object, FALSE);
 	}
-
 }
 
 /* Removes a component an its alarms */
 static void
-remove_comp (ClientAlarms *ca, ECalComponentId *id)
+remove_comp (ClientAlarms *ca,
+             ECalComponentId *id)
 {
 	CompQueuedAlarms *cqa;
 
@@ -707,7 +740,8 @@ duplicate_ical (const GSList *in_list)
 	const GSList *l;
 	GSList *out_list = NULL;
 	for (l = in_list; l; l = l->next) {
-		out_list = g_slist_prepend (out_list, icalcomponent_new_clone (l->data));
+		out_list = g_slist_prepend (
+			out_list, icalcomponent_new_clone (l->data));
 	}
 
 	return g_slist_reverse (out_list);
@@ -731,7 +765,11 @@ duplicate_ecal (const GSList *in_list)
 }
 
 static gboolean
-get_alarms_for_object (ECalClient *cal_client, const ECalComponentId *id, time_t start, time_t end, ECalComponentAlarms **alarms)
+get_alarms_for_object (ECalClient *cal_client,
+                       const ECalComponentId *id,
+                       time_t start,
+                       time_t end,
+                       ECalComponentAlarms **alarms)
 {
 	icalcomponent *icalcomp;
 	ECalComponent *comp;
@@ -743,7 +781,8 @@ get_alarms_for_object (ECalClient *cal_client, const ECalComponentId *id, time_t
 	g_return_val_if_fail (start >= 0 && end >= 0, FALSE);
 	g_return_val_if_fail (start <= end, FALSE);
 
-	if (!e_cal_client_get_object_sync (cal_client, id->uid, id->rid, &icalcomp, NULL, NULL))
+	if (!e_cal_client_get_object_sync (
+		cal_client, id->uid, id->rid, &icalcomp, NULL, NULL))
 		return FALSE;
 
 	if (!icalcomp)
@@ -756,8 +795,9 @@ get_alarms_for_object (ECalClient *cal_client, const ECalComponentId *id, time_t
 		return FALSE;
 	}
 
-	*alarms = e_cal_util_generate_alarms_for_comp (comp, start, end, omit, e_cal_client_resolve_tzid_cb,
-						       cal_client, e_cal_client_get_default_timezone (cal_client));
+	*alarms = e_cal_util_generate_alarms_for_comp (
+		comp, start, end, omit, e_cal_client_resolve_tzid_cb,
+		cal_client, e_cal_client_get_default_timezone (cal_client));
 
 	g_object_unref (comp);
 
@@ -872,7 +912,9 @@ query_objects_changed_async (struct _query_msg *msg)
 }
 
 static void
-query_objects_modified_cb (ECalClientView *view, const GSList *objects, gpointer data)
+query_objects_modified_cb (ECalClientView *view,
+                           const GSList *objects,
+                           gpointer data)
 {
 	struct _query_msg *msg;
 
@@ -913,7 +955,9 @@ query_objects_removed_async (struct _query_msg *msg)
 }
 
 static void
-query_objects_removed_cb (ECalClientView *view, const GSList *uids, gpointer data)
+query_objects_removed_cb (ECalClientView *view,
+                          const GSList *uids,
+                          gpointer data)
 {
 	struct _query_msg *msg;
 
@@ -932,7 +976,9 @@ query_objects_removed_cb (ECalClientView *view, const GSList *uids, gpointer dat
  * compued with respect to the current time.
  */
 static void
-create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, gint snooze_mins)
+create_snooze (CompQueuedAlarms *cqa,
+               gpointer alarm_id,
+               gint snooze_mins)
 {
 	QueuedAlarm *orig_qa;
 	time_t t;
@@ -959,7 +1005,8 @@ create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, gint snooze_mins)
 
 /* Launches a component editor for a component */
 static void
-edit_component (ECalClient *cal_client, ECalComponent *comp)
+edit_component (ECalClient *cal_client,
+                ECalComponent *comp)
 {
 	ESource *source;
 	gchar *command_line;
@@ -1042,8 +1089,9 @@ free_tray_icon_data (TrayIconData *tray_data)
 	g_object_unref (tray_data->cal_client);
 	tray_data->cal_client = NULL;
 
-	g_signal_handlers_disconnect_matched (tray_data->view, G_SIGNAL_MATCH_FUNC,
-					      0, 0, NULL, on_dialog_objs_removed_cb, NULL);
+	g_signal_handlers_disconnect_matched (
+		tray_data->view, G_SIGNAL_MATCH_FUNC,
+		0, 0, NULL, on_dialog_objs_removed_cb, NULL);
 	g_object_unref (tray_data->view);
 	tray_data->view = NULL;
 
@@ -1094,7 +1142,9 @@ on_dialog_objs_removed_async (struct _query_msg *msg)
 }
 
 static void
-on_dialog_objs_removed_cb (ECalClientView *view, const GSList *uids, gpointer data)
+on_dialog_objs_removed_cb (ECalClientView *view,
+                           const GSList *uids,
+                           gpointer data)
 {
 	struct _query_msg *msg;
 
@@ -1256,14 +1306,17 @@ tray_list_remove_data (TrayIconData *data)
 }
 
 static void
-notify_dialog_cb (AlarmNotifyResult result, gint snooze_mins, gpointer data)
+notify_dialog_cb (AlarmNotifyResult result,
+                  gint snooze_mins,
+                  gpointer data)
 {
 	TrayIconData *tray_data = data;
 
 	debug (("Received from dialog"));
 
-	g_signal_handlers_disconnect_matched (tray_data->view, G_SIGNAL_MATCH_FUNC,
-					      0, 0, NULL, on_dialog_objs_removed_cb, NULL);
+	g_signal_handlers_disconnect_matched (
+		tray_data->view, G_SIGNAL_MATCH_FUNC,
+		0, 0, NULL, on_dialog_objs_removed_cb, NULL);
 
 	switch (result) {
 	case ALARM_NOTIFY_SNOOZE:
@@ -1378,17 +1431,18 @@ open_alarm_dialog (TrayIconData *tray_data)
 				GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
 
 			tray_data->iter = add_alarm_to_notified_alarms_dialog (
-								   alarm_notifications_dialog,
-								   tray_data->trigger,
-							       qa->instance->occur_start,
-							       qa->instance->occur_end,
-							       e_cal_component_get_vtype (tray_data->comp),
-							       tray_data->summary,
-							       tray_data->description,
-							       tray_data->location,
-							       notify_dialog_cb, tray_data);
+				alarm_notifications_dialog,
+				tray_data->trigger,
+				qa->instance->occur_start,
+				qa->instance->occur_end,
+				e_cal_component_get_vtype (tray_data->comp),
+				tray_data->summary,
+				tray_data->description,
+				tray_data->location,
+				notify_dialog_cb, tray_data);
 
-			gtk_tree_selection_select_iter (selection, &tray_data->iter);
+			gtk_tree_selection_select_iter (
+				selection, &tray_data->iter);
 
 		}
 
@@ -1400,7 +1454,9 @@ open_alarm_dialog (TrayIconData *tray_data)
 }
 
 static gint
-tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
+tray_icon_clicked_cb (GtkWidget *widget,
+                      GdkEventButton *event,
+                      gpointer user_data)
 {
 	if (event->type == GDK_BUTTON_PRESS) {
 		debug (("left click and %d alarms", g_list_length (tray_icons_list)));
@@ -1425,17 +1481,19 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 static void
 icon_activated (GtkStatusIcon *icon)
 {
-  GdkEventButton event;
+	GdkEventButton event;
 
-  event.type = GDK_BUTTON_PRESS;
-  event.button = 1;
-  event.time = gtk_get_current_event_time ();
+	event.type = GDK_BUTTON_PRESS;
+	event.button = 1;
+	event.time = gtk_get_current_event_time ();
 
-  tray_icon_clicked_cb (NULL, &event, NULL);
+	tray_icon_clicked_cb (NULL, &event, NULL);
 }
 
 static void
-popup_menu (GtkStatusIcon *icon, guint button, guint activate_time)
+popup_menu (GtkStatusIcon *icon,
+            guint button,
+            guint activate_time)
 {
 	if (button == 3) {
 		/* right click */
@@ -1496,8 +1554,10 @@ tray_list_add_new (TrayIconData *data)
 
 /* Performs notification of a display alarm */
 static void
-display_notification (time_t trigger, CompQueuedAlarms *cqa,
-		      gpointer alarm_id, gboolean use_description)
+display_notification (time_t trigger,
+                      CompQueuedAlarms *cqa,
+                      gpointer alarm_id,
+                      gboolean use_description)
 {
 	QueuedAlarm *qa;
 	ECalComponent *comp;
@@ -1621,8 +1681,10 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 #ifdef HAVE_LIBNOTIFY
 static void
-popup_notification (time_t trigger, CompQueuedAlarms *cqa,
-		    gpointer alarm_id, gboolean use_description)
+popup_notification (time_t trigger,
+                    CompQueuedAlarms *cqa,
+                    gpointer alarm_id,
+                    gboolean use_description)
 {
 	QueuedAlarm *qa;
 	ECalComponent *comp;
@@ -1706,8 +1768,9 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 /* Performs notification of an audio alarm */
 static void
-audio_notification (time_t trigger, CompQueuedAlarms *cqa,
-		    gpointer alarm_id)
+audio_notification (time_t trigger,
+                    CompQueuedAlarms *cqa,
+                    gpointer alarm_id)
 {
 	QueuedAlarm *qa;
 	ECalComponent *comp;
@@ -1764,7 +1827,9 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 /* Performs notification of a mail alarm */
 static void
-mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
+mail_notification (time_t trigger,
+                   CompQueuedAlarms *cqa,
+                   gpointer alarm_id)
 {
 	GtkWidget *container;
 	GtkWidget *dialog;
@@ -1774,17 +1839,20 @@ mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
 
 	debug (("..."));
 
-	if (!e_client_check_capability (E_CLIENT (cqa->parent_client->cal_client), CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS))
+	if (!e_client_check_capability (
+		E_CLIENT (cqa->parent_client->cal_client),
+		CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS))
 		return;
 
-	dialog = gtk_dialog_new_with_buttons (_("Warning"),
-					      NULL, 0,
-					      GTK_STOCK_OK, GTK_RESPONSE_CANCEL,
-					      NULL);
-	label = gtk_label_new (_("Evolution does not support calendar reminders with\n"
-				 "email notifications yet, but this reminder was\n"
-				 "configured to send an email.  Evolution will display\n"
-				 "a normal reminder dialog box instead."));
+	dialog = gtk_dialog_new_with_buttons (
+		_("Warning"), NULL, 0,
+		GTK_STOCK_OK, GTK_RESPONSE_CANCEL,
+		NULL);
+	label = gtk_label_new (
+		_("Evolution does not support calendar reminders with\n"
+		"email notifications yet, but this reminder was\n"
+		"configured to send an email.  Evolution will display\n"
+		"a normal reminder dialog box instead."));
 	gtk_widget_show (label);
 
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -1810,17 +1878,18 @@ procedure_notification_dialog (const gchar *cmd, const gchar *url)
 	if (config_data_is_blessed_program (url))
 		return TRUE;
 
-	dialog = gtk_dialog_new_with_buttons (_("Warning"),
-					      NULL, 0,
-					      GTK_STOCK_NO, GTK_RESPONSE_CANCEL,
-					      GTK_STOCK_YES, GTK_RESPONSE_OK,
-					      NULL);
+	dialog = gtk_dialog_new_with_buttons (
+		_("Warning"), NULL, 0,
+		GTK_STOCK_NO, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_YES, GTK_RESPONSE_OK,
+		NULL);
 
-	str = g_strdup_printf (_("An Evolution Calendar reminder is about to trigger. "
-				 "This reminder is configured to run the following program:\n\n"
-				 "        %s\n\n"
-				 "Are you sure you want to run this program?"),
-			       cmd);
+	str = g_strdup_printf (
+		_("An Evolution Calendar reminder is about to trigger. "
+		"This reminder is configured to run the following program:\n\n"
+		"        %s\n\n"
+		"Are you sure you want to run this program?"),
+		cmd);
 	label = gtk_label_new (str);
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
@@ -1846,7 +1915,9 @@ procedure_notification_dialog (const gchar *cmd, const gchar *url)
 }
 
 static void
-procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
+procedure_notification (time_t trigger,
+                        CompQueuedAlarms *cqa,
+                        gpointer alarm_id)
 {
 	QueuedAlarm *qa;
 	ECalComponent *comp;
@@ -2123,7 +2194,9 @@ alarm_queue_add_client (ECalClient *cal_client)
 
 /* Removes a component an its alarms */
 static void
-remove_cqa (ClientAlarms *ca, ECalComponentId *id, CompQueuedAlarms *cqa)
+remove_cqa (ClientAlarms *ca,
+            ECalComponentId *id,
+            CompQueuedAlarms *cqa)
 {
 
 	/* If a component is present, then it means we must have alarms queued
@@ -2136,7 +2209,10 @@ remove_cqa (ClientAlarms *ca, ECalComponentId *id, CompQueuedAlarms *cqa)
 }
 
 static gboolean
-remove_comp_by_id (gpointer key, gpointer value, gpointer userdata) {
+remove_comp_by_id (gpointer key,
+                   gpointer value,
+                   gpointer userdata)
+{
 
 	ClientAlarms *ca = (ClientAlarms *) userdata;
 
@@ -2222,7 +2298,8 @@ alarm_queue_remove_async (struct _alarm_client_msg *msg)
  */
 
 void
-alarm_queue_remove_client (ECalClient *cal_client, gboolean immediately)
+alarm_queue_remove_client (ECalClient *cal_client,
+                           gboolean immediately)
 {
 	struct _alarm_client_msg *msg;
 
@@ -2239,7 +2316,8 @@ alarm_queue_remove_client (ECalClient *cal_client, gboolean immediately)
 /* Update non-time related variables for various structures on modification
  * of an existing component to be called only from query_objects_changed_cb */
 static void
-update_cqa (CompQueuedAlarms *cqa, ECalComponent *newcomp)
+update_cqa (CompQueuedAlarms *cqa,
+            ECalComponent *newcomp)
 {
 	ECalComponent *oldcomp;
 	ECalComponentAlarms *alarms = NULL;
@@ -2255,8 +2333,9 @@ update_cqa (CompQueuedAlarms *cqa, ECalComponent *newcomp)
 	to = time_day_end_with_zone (time (NULL), zone);
 
 	debug (("Generating alarms between %s and %s", e_ctime (&from), e_ctime (&to)));
-	alarms = e_cal_util_generate_alarms_for_comp (newcomp, from, to, omit,
-					e_cal_client_resolve_tzid_cb, cqa->parent_client->cal_client, zone);
+	alarms = e_cal_util_generate_alarms_for_comp (
+		newcomp, from, to, omit, e_cal_client_resolve_tzid_cb,
+		cqa->parent_client->cal_client, zone);
 
 	/* Update auids in Queued Alarms*/
 	for (qa_list = cqa->queued_alarms; qa_list; qa_list = qa_list->next) {

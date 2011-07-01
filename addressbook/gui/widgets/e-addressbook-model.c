@@ -130,8 +130,11 @@ remove_book_view (EAddressbookModel *model)
 		GError *error = NULL;
 
 		e_book_client_view_stop (model->priv->client_view, &error);
-		if (error) {
-			g_debug ("%s: Failed to stop client view: %s", G_STRFUNC, error->message);
+
+		if (error != NULL) {
+			g_warning (
+				"%s: Failed to stop client view: %s",
+				G_STRFUNC, error->message);
 			g_error_free (error);
 		}
 
@@ -166,7 +169,9 @@ update_folder_bar_message (EAddressbookModel *model)
 }
 
 static void
-view_create_contact_cb (EBookClientView *client_view, const GSList *contact_list, EAddressbookModel *model)
+view_create_contact_cb (EBookClientView *client_view,
+                        const GSList *contact_list,
+                        EAddressbookModel *model)
 {
 	GPtrArray *array;
 	guint count;
@@ -198,7 +203,9 @@ sort_descending (gconstpointer ca,
 }
 
 static void
-view_remove_contact_cb (EBookClientView *client_view, const GSList *ids, EAddressbookModel *model)
+view_remove_contact_cb (EBookClientView *client_view,
+                        const GSList *ids,
+                        EAddressbookModel *model)
 {
 	/* XXX we should keep a hash around instead of this O(n*m) loop */
 	const GSList *iter;
@@ -252,7 +259,9 @@ view_remove_contact_cb (EBookClientView *client_view, const GSList *ids, EAddres
 }
 
 static void
-view_modify_contact_cb (EBookClientView *client_view, const GSList *contact_list, EAddressbookModel *model)
+view_modify_contact_cb (EBookClientView *client_view,
+                        const GSList *contact_list,
+                        EAddressbookModel *model)
 {
 	GPtrArray *array;
 
@@ -291,7 +300,10 @@ view_modify_contact_cb (EBookClientView *client_view, const GSList *contact_list
 }
 
 static void
-view_progress_cb (EBookClientView *client_view, guint percent, const gchar *message, EAddressbookModel *model)
+view_progress_cb (EBookClientView *client_view,
+                  guint percent,
+                  const gchar *message,
+                  EAddressbookModel *model)
 {
 	if (model->priv->remove_status_id)
 		g_source_remove (model->priv->remove_status_id);
@@ -301,7 +313,9 @@ view_progress_cb (EBookClientView *client_view, guint percent, const gchar *mess
 }
 
 static void
-view_complete_cb (EBookClientView *client_view, const GError *error, EAddressbookModel *model)
+view_complete_cb (EBookClientView *client_view,
+                  const GError *error,
+                  EAddressbookModel *model)
 {
 	model->priv->search_in_progress = FALSE;
 	view_progress_cb (client_view, -1, NULL, model);
@@ -310,23 +324,30 @@ view_complete_cb (EBookClientView *client_view, const GError *error, EAddressboo
 }
 
 static void
-readonly_cb (EBookClient *book_client, EAddressbookModel *model)
+readonly_cb (EBookClient *book_client,
+             EAddressbookModel *model)
 {
 	if (!model->priv->editable_set) {
-		model->priv->editable = !e_client_is_readonly (E_CLIENT (book_client));
+		model->priv->editable =
+			!e_client_is_readonly (E_CLIENT (book_client));
 
-		g_signal_emit (model, signals[WRITABLE_STATUS], 0, model->priv->editable);
+		g_signal_emit (
+			model, signals[WRITABLE_STATUS], 0,
+			model->priv->editable);
 	}
 }
 
 static void
-backend_died_cb (EBookClient *book_client, EAddressbookModel *model)
+backend_died_cb (EBookClient *book_client,
+                 EAddressbookModel *model)
 {
 	g_signal_emit (model, signals[BACKEND_DIED], 0);
 }
 
 static void
-client_view_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+client_view_ready_cb (GObject *source_object,
+                      GAsyncResult *result,
+                      gpointer user_data)
 {
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
 	EBookClientView *client_view = NULL;
@@ -372,8 +393,11 @@ client_view_ready_cb (GObject *source_object, GAsyncResult *result, gpointer use
 
 	if (model->priv->client_view) {
 		e_book_client_view_start (model->priv->client_view, &error);
-		if (error) {
-			g_debug ("%s: Failed to start client view: %s", G_STRFUNC, error->message);
+
+		if (error != NULL) {
+			g_warning (
+				"%s: Failed to start client view: %s",
+				G_STRFUNC, error->message);
 			g_error_free (error);
 		}
 	}
@@ -383,7 +407,7 @@ static gboolean
 addressbook_model_idle_cb (EAddressbookModel *model)
 {
 	model->priv->client_view_idle_id = 0;
- 
+
 	if (model->priv->book_client && model->priv->query_str) {
 		remove_book_view (model);
 
@@ -826,7 +850,7 @@ e_addressbook_model_get_client (EAddressbookModel *model)
 
 void
 e_addressbook_model_set_client (EAddressbookModel *model,
-				EBookClient *book_client)
+                                EBookClient *book_client)
 {
 	g_return_if_fail (E_IS_ADDRESSBOOK_MODEL (model));
 	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
@@ -862,7 +886,8 @@ e_addressbook_model_set_client (EAddressbookModel *model,
 		G_CALLBACK (backend_died_cb), model);
 
 	if (!model->priv->editable_set) {
-		model->priv->editable = !e_client_is_readonly (E_CLIENT (book_client));
+		model->priv->editable =
+			!e_client_is_readonly (E_CLIENT (book_client));
 		g_signal_emit (
 			model, signals[WRITABLE_STATUS], 0,
 			model->priv->editable);

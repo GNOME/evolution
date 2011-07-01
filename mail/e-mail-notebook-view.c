@@ -374,7 +374,7 @@ adjust_label_size_request (GtkWidget *view,
 			   GtkWidget *label)
 {
 	GtkRequisition requisition;
-	int max_width = allocation->width / 2;
+	gint max_width = allocation->width / 2;
 
 	/* We make sure the label is not over-ellipisized, but doesn't
 	 * get too big to cause the tab to not fit either. */

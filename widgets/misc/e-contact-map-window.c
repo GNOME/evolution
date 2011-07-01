@@ -64,17 +64,23 @@ enum {
 static gint signals[LAST_SIGNAL] = {0};
 
 static void
-marker_doubleclick_cb (ClutterActor *marker,
-		       gpointer user_data)
+marker_doubleclick_cb (ClutterActor *actor,
+                       gpointer user_data)
 {
 	EContactMapWindow *window = user_data;
-	const gchar *contact_uid = e_contact_marker_get_contact_uid (E_CONTACT_MARKER (marker));
+	EContactMarker *marker;
+	const gchar *contact_uid;
+
+	marker = E_CONTACT_MARKER (actor);
+	contact_uid = e_contact_marker_get_contact_uid (marker);
 
 	g_signal_emit (window, signals[SHOW_CONTACT_EDITOR], 0, contact_uid);
 }
 
 static void
-book_contacts_received_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+book_contacts_received_cb (GObject *source_object,
+                           GAsyncResult *result,
+                           gpointer user_data)
 {
 	EContactMapWindow *window = user_data;
 	EBookClient *client = E_BOOK_CLIENT (source_object);
@@ -84,14 +90,16 @@ book_contacts_received_cb (GObject *source_object, GAsyncResult *result, gpointe
 	if (!e_book_client_get_contacts_finish (client, result, &contacts, &error))
 		contacts = NULL;
 
-	if (error) {
-		g_debug ("%s: Failed to get contacts: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		g_clear_error (&error);
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to get contacts: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 	}
 
-	for (p = contacts; p; p = p->next) {
-		e_contact_map_add_contact (window->priv->map, (EContact*) p->data);
-	}
+	for (p = contacts; p; p = p->next)
+		e_contact_map_add_contact (
+			window->priv->map, (EContact*) p->data);
 
 	e_client_util_free_object_slist (contacts);
 	g_object_unref (client);
@@ -99,7 +107,7 @@ book_contacts_received_cb (GObject *source_object, GAsyncResult *result, gpointe
 
 static void
 contact_map_window_zoom_in_cb (GtkButton *button,
-			       gpointer user_data)
+                               gpointer user_data)
 {
 	EContactMapWindow *window = user_data;
 	ChamplainView *view;
@@ -111,7 +119,7 @@ contact_map_window_zoom_in_cb (GtkButton *button,
 
 static void
 contact_map_window_zoom_out_cb (GtkButton *button,
-				gpointer user_data)
+                                gpointer user_data)
 {
 	EContactMapWindow *window = user_data;
 	ChamplainView *view;
@@ -122,8 +130,8 @@ contact_map_window_zoom_out_cb (GtkButton *button,
 }
 static void
 zoom_level_changed_cb (ChamplainView *view,
-		       gint bzoom_level,
-		       gpointer user_data)
+                       gint bzoom_level,
+                       gpointer user_data)
 {
 	EContactMapWindow *window = user_data;
 	gint zoom_level = champlain_view_get_zoom_level (view);
@@ -141,8 +149,8 @@ zoom_level_changed_cb (ChamplainView *view,
  */
 static void
 map_contact_added_cb (EContactMap *map,
-		      ClutterActor *marker,
-		      gpointer user_data)
+                      ClutterActor *marker,
+                      gpointer user_data)
 {
 	EContactMapWindowPrivate *priv = E_CONTACT_MAP_WINDOW (user_data)->priv;
 	const gchar *name;
@@ -169,8 +177,8 @@ map_contact_added_cb (EContactMap *map,
 
 static void
 map_contact_removed_cb (EContactMap *map,
-			const gchar *name,
-			gpointer user_data)
+                        const gchar *name,
+                        gpointer user_data)
 {
 	EContactMapWindowPrivate *priv = E_CONTACT_MAP_WINDOW (user_data)->priv;
 	GtkTreeIter iter;
@@ -193,8 +201,8 @@ map_contact_removed_cb (EContactMap *map,
 
 static void
 map_contact_geocoding_started_cb (EContactMap *map,
-				 ClutterActor *marker,
-				 gpointer user_data)
+                                  ClutterActor *marker,
+                                  gpointer user_data)
 {
 	EContactMapWindowPrivate *priv = E_CONTACT_MAP_WINDOW (user_data)->priv;
 
@@ -206,8 +214,8 @@ map_contact_geocoding_started_cb (EContactMap *map,
 
 static void
 map_contact_geocoding_failed_cb (EContactMap *map,
-				 const gchar *name,
-				 gpointer user_data)
+                                 const gchar *name,
+                                 gpointer user_data)
 {
 	EContactMapWindowPrivate *priv = E_CONTACT_MAP_WINDOW (user_data)->priv;
 
@@ -221,7 +229,7 @@ map_contact_geocoding_failed_cb (EContactMap *map,
 
 static void
 contact_map_window_find_contact_cb (GtkButton *button,
-				    gpointer user_data)
+                                    gpointer user_data)
 {
 	EContactMapWindowPrivate *priv = E_CONTACT_MAP_WINDOW (user_data)->priv;
 	ClutterActor *marker;
@@ -235,8 +243,8 @@ contact_map_window_find_contact_cb (GtkButton *button,
 
 static gboolean
 contact_map_window_entry_key_pressed_cb (GtkWidget *entry,
-					 GdkEventKey *event,
-					 gpointer user_data)
+                                         GdkEventKey *event,
+                                         gpointer user_data)
 {
 	if (event->keyval == GDK_KEY_Return)
 		contact_map_window_find_contact_cb (NULL, user_data);
@@ -246,9 +254,9 @@ contact_map_window_entry_key_pressed_cb (GtkWidget *entry,
 
 static gboolean
 entry_completion_match_selected_cb (GtkEntryCompletion *widget,
-				    GtkTreeModel* model,
-				    GtkTreeIter *iter,
-				    gpointer user_data)
+                                    GtkTreeModel* model,
+                                    GtkTreeIter *iter,
+                                    gpointer user_data)
 {
 	GValue name_val = {0};
 	EContactMapWindowPrivate *priv = E_CONTACT_MAP_WINDOW (user_data)->priv;
@@ -393,7 +401,8 @@ e_contact_map_window_init (EContactMapWindow *window)
 
 	/* Entry completion */
 	entry_completion = gtk_entry_completion_new ();
-	gtk_entry_completion_set_model (entry_completion, GTK_TREE_MODEL (completion_model));
+	gtk_entry_completion_set_model (
+		entry_completion, GTK_TREE_MODEL (completion_model));
 	gtk_entry_completion_set_text_column (entry_completion, 0);
 	g_signal_connect (entry_completion, "match-selected",
 		G_CALLBACK (entry_completion_match_selected_cb), window);
@@ -438,14 +447,13 @@ e_contact_map_window_new (void)
  */
 void
 e_contact_map_window_load_addressbook (EContactMapWindow *map,
-				       EBookClient *book_client)
+                                       EBookClient *book_client)
 {
 	EBookQuery *book_query;
 	gchar *query_string;
 
 	g_return_if_fail (E_IS_CONTACT_MAP_WINDOW (map));
 	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
-
 
 	/* Reference book, so that it does not get deleted before the callback is
 	   involved. The book is unrefed in the callback */
@@ -455,7 +463,9 @@ e_contact_map_window_load_addressbook (EContactMapWindow *map,
 	query_string = e_book_query_to_string (book_query);
 	e_book_query_unref (book_query);
 
-	e_book_client_get_contacts (book_client, query_string, NULL, book_contacts_received_cb, map);
+	e_book_client_get_contacts (
+		book_client, query_string, NULL,
+		book_contacts_received_cb, map);
 
 	g_free (query_string);
 }

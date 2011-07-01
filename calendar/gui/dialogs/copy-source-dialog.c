@@ -95,22 +95,26 @@ free_copy_data (CopySourceDialogData *csdd)
 }
 
 static void
-dest_source_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+dest_source_opened_cb (GObject *source_object,
+                       GAsyncResult *result,
+                       gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
 	CopySourceDialogData *csdd = user_data;
 	EClient *client = NULL;
 	GError *error = NULL;
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (!client) {
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
 		show_error (csdd, _("Could not open destination"), error);
-		if (error)
-			g_error_free (error);
+		g_error_free (error);
 		free_copy_data (csdd);
 		return;
 	}
+
+	g_return_if_fail (E_IS_CLIENT (client));
 
 	csdd->dest_client = E_CAL_CLIENT (client);
 
@@ -170,26 +174,31 @@ dest_source_opened_cb (GObject *source_object, GAsyncResult *result, gpointer us
 }
 
 static void
-orig_source_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+orig_source_opened_cb (GObject *source_object,
+                       GAsyncResult *result,
+                       gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
 	CopySourceDialogData *csdd = user_data;
 	EClient *client = NULL;
 	GError *error = NULL;
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (!client) {
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
 		show_error (csdd, _("Could not open source"), error);
-		if (error)
-			g_error_free (error);
+		g_error_free (error);
 		free_copy_data (csdd);
 		return;
 	}
 
+	g_return_if_fail (E_IS_CLIENT (client));
+
 	csdd->source_client = E_CAL_CLIENT (client);
 
-	e_client_utils_open_new (csdd->selected_source, csdd->obj_type, FALSE, NULL,
+	e_client_utils_open_new (
+		csdd->selected_source, csdd->obj_type, FALSE, NULL,
 		e_client_utils_authenticate_handler, csdd->parent,
 		dest_source_opened_cb, csdd);
 }

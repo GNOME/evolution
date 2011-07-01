@@ -734,15 +734,22 @@ window_binding_state_event_cb (GtkWindow           *window,
 		   width and height is the one user stored before maximization */
 		gint width, height;
 
-		width = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (window), "binding-premax-width"));
-		height = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (window), "binding-premax-height"));
+		width = GPOINTER_TO_INT (g_object_get_data (
+			G_OBJECT (window), "binding-premax-width"));
+		height = GPOINTER_TO_INT (g_object_get_data (
+			G_OBJECT (window), "binding-premax-height"));
 
 		if (width && height) {
 			gtk_window_resize (window, width, height);
 
-			/* do this only once, as it is restore after loading maximized state */
-			g_object_set_data (G_OBJECT (window), "binding-premax-width", NULL);
-			g_object_set_data (G_OBJECT (window), "binding-premax-height", NULL);
+			/* Do this only once, as it is restored
+			 * after loading maximized state. */
+			g_object_set_data (
+				G_OBJECT (window),
+				"binding-premax-width", NULL);
+			g_object_set_data (
+				G_OBJECT (window),
+				"binding-premax-height", NULL);
 		}
 	}
 
@@ -861,16 +868,23 @@ gconf_bridge_bind_window (GConfBridge *bridge,
 
 		if (maximized_val) {
 			if (gconf_value_get_bool (maximized_val)) {
-				/* maximize is not done immediately, but to count with proper
-				   window size, resize it before. The previous size is restored
-				   after the maximization is changed, in window_binding_state_event_cb ()
-				*/
+				/* Maximize is not done immediately, but to
+				 * count with proper window size, resize it
+				 * before. The previous size is restored
+				 * after the maximization is changed,
+				 * in window_binding_state_event_cb(). */
 				gint width = 0, height = 0;
 				GdkScreen *screen;
 
 				gtk_window_get_size (window, &width, &height);
-				g_object_set_data (G_OBJECT (window), "binding-premax-width", GINT_TO_POINTER (width));
-				g_object_set_data (G_OBJECT (window), "binding-premax-height", GINT_TO_POINTER (height));
+				g_object_set_data (
+					G_OBJECT (window),
+					"binding-premax-width",
+					GINT_TO_POINTER (width));
+				g_object_set_data (
+					G_OBJECT (window),
+					"binding-premax-height",
+					GINT_TO_POINTER (height));
 
 				screen = gtk_window_get_screen (window);
 				gtk_window_resize (window,

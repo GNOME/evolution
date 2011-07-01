@@ -123,7 +123,9 @@ contact_photo_to_texture (EContactPhoto *photo)
 		GError *error = NULL;
 
 		GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
-		gdk_pixbuf_loader_write (loader, photo->data.inlined.data, photo->data.inlined.length, NULL);
+		gdk_pixbuf_loader_write (
+			loader, photo->data.inlined.data,
+			photo->data.inlined.length, NULL);
 		gdk_pixbuf_loader_close (loader, NULL);
 		pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 		if (pixbuf)
@@ -295,7 +297,9 @@ draw_marker (EContactMarker *marker)
 	if (priv->image) {
 		clutter_actor_set_position (priv->image, 2*PADDING, 2*PADDING);
 		if (clutter_actor_get_parent (priv->image) == NULL)
-			clutter_container_add_actor (CLUTTER_CONTAINER (priv->content_group), priv->image);
+			clutter_container_add_actor (
+				CLUTTER_CONTAINER (priv->content_group),
+				priv->image);
 	}
 
 	if (priv->text_actor == NULL) {
@@ -342,7 +346,9 @@ draw_marker (EContactMarker *marker)
 			champlain_marker_get_selection_text_color () :
 			champlain_label_get_text_color (CHAMPLAIN_LABEL (marker))));
 	if (clutter_actor_get_parent (priv->text_actor) == NULL)
-		clutter_container_add_actor (CLUTTER_CONTAINER (priv->content_group), priv->text_actor);
+		clutter_container_add_actor (
+			CLUTTER_CONTAINER (priv->content_group),
+			priv->text_actor);
 
 	if (priv->text_actor == NULL && priv->image == NULL) {
 		total_width = 6 * PADDING;
@@ -552,7 +558,8 @@ e_contact_marker_init (EContactMarker *marker)
 	priv->content_group = CLUTTER_GROUP (clutter_group_new ());
 	priv->redraw_id = 0;
 
-	clutter_actor_set_parent (CLUTTER_ACTOR (priv->content_group), CLUTTER_ACTOR (marker));
+	clutter_actor_set_parent (
+		CLUTTER_ACTOR (priv->content_group), CLUTTER_ACTOR (marker));
 	clutter_actor_queue_relayout (CLUTTER_ACTOR (marker));
 
 	priv->total_width = 0;

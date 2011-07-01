@@ -413,20 +413,17 @@ setup_google_accounts (MailAccountView *mav)
 		sgrp = e_source_list_ensure_group (slist, _("Google"), "google://", TRUE);
 
 		sources = e_source_group_peek_sources (sgrp);
-		for (; sources; sources = sources->next)
-		{
+		for (; sources; sources = sources->next) {
 			ESource *existing = (ESource*) sources->data;
 
 			if (!g_strcmp0 (e_source_peek_relative_uri (existing),
-					mav->priv->username))
-			{
+					mav->priv->username)) {
 				source_already_exists = TRUE;
 				break;
 			}
 		}
 
-		if (!source_already_exists)
-                {
+		if (!source_already_exists) {
 			ESource *abook;
 			gchar *rel_uri;
 

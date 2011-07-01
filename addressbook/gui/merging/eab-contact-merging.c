@@ -96,7 +96,9 @@ finished_lookup (void)
 		merging_queue = g_list_remove_link (merging_queue, merging_queue);
 
 		running_merge_requests++;
-		eab_contact_locate_match_full (lookup->book_client, lookup->contact, lookup->avoid, match_query_callback, lookup);
+		eab_contact_locate_match_full (
+			lookup->book_client, lookup->contact,
+			lookup->avoid, match_query_callback, lookup);
 	}
 }
 
@@ -112,7 +114,10 @@ free_lookup (EContactMergingLookup *lookup)
 }
 
 static void
-final_id_cb (EBookClient *book_client, const GError *error, const gchar *id, gpointer closure)
+final_id_cb (EBookClient *book_client,
+             const GError *error,
+             const gchar *id,
+             gpointer closure)
 {
 	EContactMergingLookup *lookup = closure;
 
@@ -125,12 +130,19 @@ final_id_cb (EBookClient *book_client, const GError *error, const gchar *id, gpo
 }
 
 static void
-final_cb_as_id (EBookClient *book_client, const GError *error, gpointer closure)
+final_cb_as_id (EBookClient *book_client,
+                const GError *error,
+                gpointer closure)
 {
 	EContactMergingLookup *lookup = closure;
 
 	if (lookup->id_cb)
-		lookup->id_cb (lookup->book_client, error, lookup->contact ? e_contact_get_const (lookup->contact, E_CONTACT_UID) : NULL, lookup->closure);
+		lookup->id_cb (
+			lookup->book_client, error,
+			lookup->contact ?
+				e_contact_get_const (
+				lookup->contact, E_CONTACT_UID) : NULL,
+			lookup->closure);
 
 	free_lookup (lookup);
 
@@ -138,7 +150,9 @@ final_cb_as_id (EBookClient *book_client, const GError *error, gpointer closure)
 }
 
 static void
-final_cb (EBookClient *book_client, const GError *error, gpointer closure)
+final_cb (EBookClient *book_client,
+          const GError *error,
+          gpointer closure)
 {
 	EContactMergingLookup *lookup = closure;
 
@@ -151,7 +165,9 @@ final_cb (EBookClient *book_client, const GError *error, gpointer closure)
 }
 
 static void
-modify_contact_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+modify_contact_ready_cb (GObject *source_object,
+                         GAsyncResult *result,
+                         gpointer user_data)
 {
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
 	EContactMergingLookup *lookup = user_data;
@@ -172,7 +188,9 @@ modify_contact_ready_cb (GObject *source_object, GAsyncResult *result, gpointer 
 }
 
 static void
-add_contact_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+add_contact_ready_cb (GObject *source_object,
+                      GAsyncResult *result,
+                      gpointer user_data)
 {
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
 	EContactMergingLookup *lookup = user_data;
@@ -251,7 +269,9 @@ dropdown_changed (GtkWidget *dropdown, dropdown_data *data)
 }
 
 static void
-remove_contact_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+remove_contact_ready_cb (GObject *source_object,
+                         GAsyncResult *result,
+                         gpointer user_data)
 {
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
 	EContactMergingLookup *lookup = user_data;
@@ -262,12 +282,16 @@ remove_contact_ready_cb (GObject *source_object, GAsyncResult *result, gpointer 
 
 	e_book_client_remove_contact_finish (book_client, result, &error);
 
-	if (error) {
-		g_debug ("%s: Failed to remove contact: %s", G_STRFUNC, error->message);
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to remove contact: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
 
-	e_book_client_add_contact (book_client, lookup->contact, NULL, add_contact_ready_cb, lookup);
+	e_book_client_add_contact (
+		book_client, lookup->contact, NULL,
+		add_contact_ready_cb, lookup);
 }
 
 static gint

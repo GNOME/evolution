@@ -1130,7 +1130,8 @@ change_sent_and_drafts_local_folders (EShellBackend *shell_backend)
 
 	camel_url_free (url);
 
-	for (iter = e_list_get_iterator ((EList *) accounts); e_iterator_is_valid (iter); e_iterator_next (iter)) {
+	for (iter = e_list_get_iterator ((EList *) accounts);
+	     e_iterator_is_valid (iter); e_iterator_next (iter)) {
 		EAccount *account = (EAccount *) e_iterator_get (iter);
 		const gchar *uri;
 
@@ -1140,13 +1141,19 @@ change_sent_and_drafts_local_folders (EShellBackend *shell_backend)
 		uri = e_account_get_string (account, E_ACCOUNT_DRAFTS_FOLDER_URI);
 		if (g_strcmp0 (uri, drafts_uri) == 0 || g_strcmp0 (uri, old_drafts_uri) == 0) {
 			changed = TRUE;
-			e_account_set_string (account, E_ACCOUNT_DRAFTS_FOLDER_URI, e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS));
+			e_account_set_string (
+				account, E_ACCOUNT_DRAFTS_FOLDER_URI,
+				e_mail_local_get_folder_uri (
+				E_MAIL_LOCAL_FOLDER_DRAFTS));
 		}
 
 		uri = e_account_get_string (account, E_ACCOUNT_SENT_FOLDER_URI);
-		if (g_strcmp0 (uri, sent_uri) == 0 || g_strcmp0 (uri, old_sent_uri) == 0 ) {
+		if (g_strcmp0 (uri, sent_uri) == 0 || g_strcmp0 (uri, old_sent_uri) == 0) {
 			changed = TRUE;
-			e_account_set_string (account, E_ACCOUNT_SENT_FOLDER_URI, e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT));
+			e_account_set_string (
+				account, E_ACCOUNT_SENT_FOLDER_URI,
+				e_mail_local_get_folder_uri (
+				E_MAIL_LOCAL_FOLDER_SENT));
 		}
 	}
 
@@ -1299,7 +1306,7 @@ e_mail_migrate (EShellBackend *shell_backend,
 	}
 #else
 	if (major < 2 || (major == 2 && minor < 24))
-		g_debug (
+		g_warning (
 			"Upgrading from ancient versions %d.%d "
 			"not supported on Windows", major, minor);
 #endif

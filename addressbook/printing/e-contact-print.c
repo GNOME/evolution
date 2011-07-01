@@ -410,8 +410,10 @@ view_complete (EBookClientView *client_view,
 	g_return_if_fail (ctxt != NULL);
 
 	e_book_client_view_stop (client_view, NULL);
-	g_signal_handlers_disconnect_by_func (client_view, G_CALLBACK (contacts_added), ctxt);
-	g_signal_handlers_disconnect_by_func (client_view, G_CALLBACK (view_complete), operation);
+	g_signal_handlers_disconnect_by_func (
+		client_view, G_CALLBACK (contacts_added), ctxt);
+	g_signal_handlers_disconnect_by_func (
+		client_view, G_CALLBACK (view_complete), operation);
 
 	g_object_unref (client_view);
 
@@ -780,7 +782,9 @@ contact_end_print (GtkPrintOperation *operation,
 }
 
 static void
-get_view_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+get_view_ready_cb (GObject *source_object,
+                   GAsyncResult *result,
+                   gpointer user_data)
 {
 	GtkPrintOperation *operation = user_data;
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
@@ -793,20 +797,28 @@ get_view_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_d
 	ctxt = g_object_get_data (G_OBJECT (operation), "contact-print-ctx");
 	g_return_if_fail (ctxt != NULL);
 
-	if (error) {
-		g_debug ("%s: Failed to get view: %s", G_STRFUNC, error->message);
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to get view: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
 
 		gtk_print_operation_run (operation, ctxt->action, NULL, NULL);
 		g_object_unref (operation);
 	} else {
-		g_signal_connect (client_view, "objects-added", G_CALLBACK (contacts_added), ctxt);
-		g_signal_connect (client_view, "complete", G_CALLBACK (view_complete), operation);
+		g_signal_connect (
+			client_view, "objects-added",
+			G_CALLBACK (contacts_added), ctxt);
+		g_signal_connect (
+			client_view, "complete",
+			G_CALLBACK (view_complete), operation);
 
 		e_book_client_view_start (client_view, &error);
 
-		if (error) {
-			g_debug ("%s: Failed to start view: %s\n", G_STRFUNC, error->message);
+		if (error != NULL) {
+			g_warning (
+				"%s: Failed to start view: %s",
+				G_STRFUNC, error->message);
 			g_error_free (error);
 
 			gtk_print_operation_run (operation, ctxt->action, NULL, NULL);
@@ -834,7 +846,8 @@ e_contact_print (EBookClient *book_client,
 	operation = e_print_operation_new ();
 	gtk_print_operation_set_n_pages (operation, 1);
 
-	g_object_set_data_full (G_OBJECT (operation), "contact-print-ctx", ctxt, g_free);
+	g_object_set_data_full (
+		G_OBJECT (operation), "contact-print-ctx", ctxt, g_free);
 
 	g_signal_connect (
 		operation, "begin-print",
@@ -849,7 +862,9 @@ e_contact_print (EBookClient *book_client,
 	if (book_client) {
 		gchar *query_str = e_book_query_to_string (query);
 
-		e_book_client_get_view (book_client, query_str, NULL, get_view_ready_cb, operation);
+		e_book_client_get_view (
+			book_client, query_str, NULL,
+			get_view_ready_cb, operation);
 
 		g_free (query_str);
 	} else {

@@ -84,11 +84,15 @@ task_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	if (!e_cal_client_get_sources (
+	e_cal_client_get_sources (
 		&task_shell_backend->priv->source_list,
-		E_CAL_CLIENT_SOURCE_TYPE_TASKS, &error)) {
-		g_debug ("%s: Could not get task sources: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		g_clear_error (&error);
+		E_CAL_CLIENT_SOURCE_TYPE_TASKS, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Could not get task sources: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 		return;
 	}
 
@@ -172,13 +176,16 @@ task_shell_backend_new_task (ESource *source,
 	CompEditor *editor;
 	GError *error = NULL;
 
-	if (!e_client_utils_open_new_finish (source, result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
 	/* XXX Handle errors better. */
-	if (!client) {
-		g_debug ("%s: Failed to open '%s': %s", G_STRFUNC, e_source_peek_name (source), error ? error->message : "Unknown error");
-		g_clear_error (&error);
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
+		g_warning (
+			"%s: Failed to open '%s': %s",
+			G_STRFUNC, e_source_peek_name (source),
+			error->message);
+		g_error_free (error);
 		return;
 	}
 
@@ -196,19 +203,24 @@ task_shell_backend_new_task (ESource *source,
 }
 
 static void
-task_shell_backend_task_new_cb (GObject *source_object, GAsyncResult *result, gpointer shell)
+task_shell_backend_task_new_cb (GObject *source_object,
+                                GAsyncResult *result,
+                                gpointer shell)
 {
 	CompEditorFlags flags = 0;
 
 	flags |= COMP_EDITOR_NEW_ITEM;
 
-	task_shell_backend_new_task (E_SOURCE (source_object), result, shell, flags);
+	task_shell_backend_new_task (
+		E_SOURCE (source_object), result, shell, flags);
 
 	g_object_unref (shell);
 }
 
 static void
-task_shell_backend_task_assigned_new_cb (GObject *source_object, GAsyncResult *result, gpointer shell)
+task_shell_backend_task_assigned_new_cb (GObject *source_object,
+                                         GAsyncResult *result,
+                                         gpointer shell)
 {
 	CompEditorFlags flags = 0;
 
@@ -216,7 +228,8 @@ task_shell_backend_task_assigned_new_cb (GObject *source_object, GAsyncResult *r
 	flags |= COMP_EDITOR_IS_ASSIGNED;
 	flags |= COMP_EDITOR_USER_ORG;
 
-	task_shell_backend_new_task (E_SOURCE (source_object), result, shell, flags);
+	task_shell_backend_new_task (
+		E_SOURCE (source_object), result, shell, flags);
 
 	g_object_unref (shell);
 }
@@ -379,9 +392,13 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	 * we successfully open it is another matter... */
 	handled = TRUE;
 
-	if (!e_cal_client_get_sources (&source_list, source_type, &error)) {
-		g_debug ("%s: Could not get task sources: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		g_clear_error (&error);
+	e_cal_client_get_sources (&source_list, source_type, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Could not get task sources: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 		goto exit;
 	}
 
@@ -393,13 +410,20 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	}
 
 	client = e_cal_client_new (source, source_type, &error);
-	if (client)
-		g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
 
-	if (client == NULL || !e_client_open_sync (E_CLIENT (client), TRUE, NULL, &error)) {
-		g_debug ("%s: Failed to create/open client: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		g_clear_error (&error);
+	if (client != NULL) {
+		g_signal_connect (
+			client, "authenticate",
+			G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+		e_client_open_sync (E_CLIENT (client), TRUE, NULL, &error);
+	}
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to create/open client: %s",
+			G_STRFUNC, error->message);
 		g_object_unref (source_list);
+		g_error_free (error);
 		goto exit;
 	}
 
@@ -411,8 +435,13 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	if (editor != NULL)
 		goto present;
 
-	if (!e_cal_client_get_object_sync (client, comp_uid, comp_rid, &icalcomp, NULL, &error)) {
-		g_debug ("%s: Failed to get object: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	e_cal_client_get_object_sync (
+		client, comp_uid, comp_rid, &icalcomp, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to get object: %s",
+			G_STRFUNC, error->message);
 		g_object_unref (source_list);
 		g_error_free (error);
 		goto exit;
@@ -420,7 +449,7 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 
 	comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
-		g_debug ("%s: Failed to set icalcomp to comp\n", G_STRFUNC);
+		g_warning ("%s: Failed to set icalcomp to comp\n", G_STRFUNC);
 		icalcomponent_free (icalcomp);
 		icalcomp = NULL;
 	}

@@ -73,7 +73,8 @@ sensitize_widgets (SchedulePage *spage)
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (spage));
 	client = comp_editor_get_client (editor);
 
-	e_meeting_time_selector_set_read_only (priv->sel, e_client_is_readonly (E_CLIENT (client)));
+	e_meeting_time_selector_set_read_only (
+		priv->sel, e_client_is_readonly (E_CLIENT (client)));
 }
 
 /* Set date/time */

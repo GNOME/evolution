@@ -178,7 +178,9 @@ struct UpdateObjectsData
 };
 
 static void
-receive_objects_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+receive_objects_ready_cb (GObject *source_object,
+                          GAsyncResult *result,
+                          gpointer user_data)
 {
 	ECalClient *cal_client = E_CAL_CLIENT (source_object);
 	struct UpdateObjectsData *uod = user_data;
@@ -188,8 +190,10 @@ receive_objects_ready_cb (GObject *source_object, GAsyncResult *result, gpointer
 
 	e_cal_client_receive_objects_finish (cal_client, result, &error);
 
-	if (error) {
-		g_debug ("%s: Failed to receive objects: %s", G_STRFUNC, error->message);
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to receive objects: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
 
@@ -367,29 +371,35 @@ ivcal_import_items (gpointer d)
 }
 
 static void
-ivcal_opened (GObject *source_object, GAsyncResult *result, gpointer user_data)
+ivcal_opened (GObject *source_object,
+              GAsyncResult *result,
+              gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
 	EClient *client = NULL;
 	ICalImporter *ici = user_data;
 	GError *error = NULL;
 
 	g_return_if_fail (ici != NULL);
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	ici->cal_client = client ? E_CAL_CLIENT (client) : NULL;
-
-	if (!g_cancellable_is_cancelled (ici->cancellable) && !error) {
-		e_import_status(ici->import, ici->target, _("Importing..."), 0);
-		ici->idle_id = g_idle_add (ivcal_import_items, ici);
-	} else
-		ivcal_import_done (ici);
-
-	if (error) {
-		g_debug ("%s: Failed to open calendar: %s", G_STRFUNC, error->message);
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
+		g_warning (
+			"%s: Failed to open calendar: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
+		ivcal_import_done (ici);
+		return;
 	}
+
+	g_return_if_fail (E_IS_CLIENT (client));
+
+	ici->cal_client = E_CAL_CLIENT (client);
+
+	e_import_status(ici->import, ici->target, _("Importing..."), 0);
+	ici->idle_id = g_idle_add (ivcal_import_items, ici);
 }
 
 static void
@@ -763,8 +773,11 @@ struct OpenDefaultSourceData
 };
 
 static void
-default_source_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+default_source_opened_cb (GObject *source_object,
+                          GAsyncResult *result,
+                          gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
 	EClient *client = NULL;
 	struct OpenDefaultSourceData *odsd = user_data;
 	GError *error = NULL;
@@ -773,10 +786,10 @@ default_source_opened_cb (GObject *source_object, GAsyncResult *result, gpointer
 	g_return_if_fail (odsd->ici != NULL);
 	g_return_if_fail (odsd->opened_cb != NULL);
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	odsd->opened_cb (client ? E_CAL_CLIENT (client) : NULL, error, odsd->ici);
+	/* Client may be NULL; don't use a type cast macro. */
+	odsd->opened_cb ((ECalClient *) client, error, odsd->ici);
 
 	if (client)
 		g_object_unref (client);
@@ -838,12 +851,16 @@ continue_done_cb (gpointer user_data)
 }
 
 static void
-gc_import_tasks (ECalClient *cal_client, const GError *error, ICalIntelligentImporter *ici)
+gc_import_tasks (ECalClient *cal_client,
+                 const GError *error,
+                 ICalIntelligentImporter *ici)
 {
 	g_return_if_fail (ici != NULL);
 
-	if (!cal_client) {
-		g_debug ("%s: Failed to open tasks: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to open tasks: %s",
+			G_STRFUNC, error->message);
 		e_import_complete (ici->ei, ici->target);
 		return;
 	}
@@ -851,7 +868,10 @@ gc_import_tasks (ECalClient *cal_client, const GError *error, ICalIntelligentImp
 	e_import_status (ici->ei, ici->target, _("Importing..."), 0);
 
 	prepare_tasks (ici->icalcomp, ici->tasks);
-	update_objects (cal_client, ici->icalcomp, ici->cancellable, continue_done_cb, ici);
+
+	update_objects (
+		cal_client, ici->icalcomp,
+		ici->cancellable, continue_done_cb, ici);
 }
 
 static void
@@ -865,14 +885,20 @@ continue_tasks_cb (gpointer user_data)
 }
 
 static void
-gc_import_events (ECalClient *cal_client, const GError *error, ICalIntelligentImporter *ici)
+gc_import_events (ECalClient *cal_client,
+                  const GError *error,
+                  ICalIntelligentImporter *ici)
 {
 	g_return_if_fail (ici != NULL);
 
-	if (!cal_client) {
-		g_debug ("%s: Failed to open events calendar: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to open events calendar: %s",
+			G_STRFUNC, error->message);
 		if (ici->tasks)
-			open_default_source (ici, E_CAL_CLIENT_SOURCE_TYPE_TASKS, gc_import_tasks);
+			open_default_source (
+				ici, E_CAL_CLIENT_SOURCE_TYPE_TASKS,
+				gc_import_tasks);
 		else
 			e_import_complete (ici->ei, ici->target);
 		return;
@@ -880,7 +906,9 @@ gc_import_events (ECalClient *cal_client, const GError *error, ICalIntelligentIm
 
 	e_import_status (ici->ei, ici->target, _("Importing..."), 0);
 
-	update_objects (cal_client, ici->icalcomp, ici->cancellable, ici->tasks ? continue_tasks_cb : continue_done_cb, ici);
+	update_objects (
+		cal_client, ici->icalcomp, ici->cancellable,
+		ici->tasks ? continue_tasks_cb : continue_done_cb, ici);
 }
 
 static void

@@ -289,13 +289,18 @@ itip_get_comp_attendee (ECalComponent *comp,
 	al = e_get_account_list ();
 
 	if (cal_client)
-		e_client_get_backend_property_sync (E_CLIENT (cal_client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &address, NULL, NULL);
+		e_client_get_backend_property_sync (
+			E_CLIENT (cal_client),
+			CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS,
+			&address, NULL, NULL);
 
 	if (address && *address) {
 		attendee = get_attendee (attendees, address);
 
 		if (attendee) {
-			gchar *user_email = g_strdup (itip_strip_mailto (attendee->value));
+			gchar *user_email;
+
+			user_email = g_strdup (itip_strip_mailto (attendee->value));
 
 			e_cal_component_free_attendee_list (attendees);
 			g_free (address);
@@ -305,7 +310,9 @@ itip_get_comp_attendee (ECalComponent *comp,
 		attendee = get_attendee_if_attendee_sentby_is_user (attendees, address);
 
 		if (attendee) {
-			gchar *user_email = g_strdup (itip_strip_mailto (attendee->sentby));
+			gchar *user_email;
+
+			user_email = g_strdup (itip_strip_mailto (attendee->sentby));
 
 			e_cal_component_free_attendee_list (attendees);
 			g_free (address);
@@ -1250,7 +1257,9 @@ comp_compliant (ECalComponentItipMethod method,
 					from_zone = icaltimezone_get_builtin_timezone_from_tzid (dt.tzid);
 				if (from_zone == NULL && client != NULL)
 					/* FIXME Error checking */
-					e_cal_client_get_timezone_sync (client, dt.tzid, &from_zone, NULL, NULL);
+					e_cal_client_get_timezone_sync (
+						client, dt.tzid,
+						&from_zone, NULL, NULL);
 			}
 
 			to_zone = icaltimezone_get_utc_timezone ();
@@ -1704,12 +1713,18 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 			if (!start_zone && dtstart.tzid) {
 				GError *error = NULL;
 
-				if (!e_cal_client_get_timezone_sync (cal_client, dtstart.tzid, &start_zone, NULL, &error))
-					g_debug ("%s: Couldn't get timezone '%s' from server: %s", G_STRFUNC,
-						dtstart.tzid ? dtstart.tzid : "", error ? error->message : "Unknown error");
+				e_cal_client_get_timezone_sync (
+					cal_client, dtstart.tzid,
+					&start_zone, NULL, &error);
 
-				if (error)
+				if (error != NULL) {
+					g_warning (
+						"%s: Couldn't get timezone '%s' from server: %s",
+						G_STRFUNC,
+						dtstart.tzid ? dtstart.tzid : "",
+						error->message);
 					g_error_free (error);
+				}
 			}
 
 			if (!start_zone || dtstart.value->is_date)

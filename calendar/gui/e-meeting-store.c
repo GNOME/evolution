@@ -1470,7 +1470,9 @@ typedef struct {
 #define DOMAIN_SUB "%d"
 
 static void
-client_free_busy_data_cb (ECalClient *client, const GSList *ecalcomps, FreeBusyAsyncData *fbd)
+client_free_busy_data_cb (ECalClient *client,
+                          const GSList *ecalcomps,
+                          FreeBusyAsyncData *fbd)
 {
 	const GSList *iter;
 
@@ -1479,8 +1481,9 @@ client_free_busy_data_cb (ECalClient *client, const GSList *ecalcomps, FreeBusyA
 	for (iter = ecalcomps; iter != NULL; iter = iter->next) {
 		ECalComponent *comp = iter->data;
 
-		if (comp)
-			fbd->fb_data = g_slist_prepend (fbd->fb_data, g_object_ref (comp));
+		if (comp != NULL)
+			fbd->fb_data = g_slist_prepend (
+				fbd->fb_data, g_object_ref (comp));
 	}
 }
 
@@ -1501,8 +1504,12 @@ freebusy_async (gpointer data)
 		 *       get free busy asynchronously. */
 		g_static_mutex_lock (&mutex);
 		priv->num_queries++;
-		sigid = g_signal_connect (fbd->client, "free-busy-data", G_CALLBACK (client_free_busy_data_cb), fbd);
-		e_cal_client_get_free_busy_sync (fbd->client, fbd->startt, fbd->endt, fbd->users, NULL, NULL);
+		sigid = g_signal_connect (
+			fbd->client, "free-busy-data",
+			G_CALLBACK (client_free_busy_data_cb), fbd);
+		e_cal_client_get_free_busy_sync (
+			fbd->client, fbd->startt,
+			fbd->endt, fbd->users, NULL, NULL);
 		g_signal_handler_disconnect (fbd->client, sigid);
 		priv->num_queries--;
 		g_static_mutex_unlock (&mutex);

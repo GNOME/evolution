@@ -680,7 +680,8 @@ attachment_load_finish (EAttachment *attachment,
 }
 
 static void
-action_image_save_cb (GtkAction *actions, EMFormatHTMLDisplay *efhd)
+action_image_save_cb (GtkAction *action,
+                      EMFormatHTMLDisplay *efhd)
 {
 	EWebView *web_view;
 	EMFormat *emf;
@@ -701,7 +702,8 @@ action_image_save_cb (GtkAction *actions, EMFormatHTMLDisplay *efhd)
 	g_return_if_fail (emf->message != NULL);
 
 	if (g_str_has_prefix (image_src, "cid:")) {
-		part = camel_mime_message_get_part_by_content_id (emf->message, image_src + 4);
+		part = camel_mime_message_get_part_by_content_id (
+			emf->message, image_src + 4);
 		g_return_if_fail (part != NULL);
 
 		g_object_ref (part);
@@ -710,7 +712,8 @@ action_image_save_cb (GtkAction *actions, EMFormatHTMLDisplay *efhd)
 		CamelDataWrapper *dw;
 		const gchar *filename;
 
-		image_stream = em_format_html_get_cached_image (EM_FORMAT_HTML (efhd), image_src);
+		image_stream = em_format_html_get_cached_image (
+			EM_FORMAT_HTML (efhd), image_src);
 		if (!image_stream)
 			return;
 
@@ -723,14 +726,17 @@ action_image_save_cb (GtkAction *actions, EMFormatHTMLDisplay *efhd)
 		part = camel_mime_part_new ();
 		if (filename)
 			camel_mime_part_set_filename (part, filename);
-		
+
 		dw = camel_data_wrapper_new ();
-		camel_data_wrapper_set_mime_type (dw, "application/octet-stream");
-		camel_data_wrapper_construct_from_stream_sync (dw, image_stream, NULL, NULL);
+		camel_data_wrapper_set_mime_type (
+			dw, "application/octet-stream");
+		camel_data_wrapper_construct_from_stream_sync (
+			dw, image_stream, NULL, NULL);
 		camel_medium_set_content (CAMEL_MEDIUM (part), dw);
 		g_object_unref (dw);
 
-		camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BASE64);
+		camel_mime_part_set_encoding (
+			part, CAMEL_TRANSFER_ENCODING_BASE64);
 
 		g_object_unref (image_stream);
 	}
@@ -755,7 +761,8 @@ action_image_save_cb (GtkAction *actions, EMFormatHTMLDisplay *efhd)
 }
 
 static void
-efhd_web_view_update_actions_cb (EWebView *web_view, EMFormatHTMLDisplay *efhd)
+efhd_web_view_update_actions_cb (EWebView *web_view,
+                                 EMFormatHTMLDisplay *efhd)
 {
 	const gchar *image_src;
 	gboolean visible;
@@ -768,7 +775,8 @@ efhd_web_view_update_actions_cb (EWebView *web_view, EMFormatHTMLDisplay *efhd)
 	if (!visible && image_src) {
 		CamelStream *image_stream;
 
-		image_stream = em_format_html_get_cached_image (EM_FORMAT_HTML (efhd), image_src);
+		image_stream = em_format_html_get_cached_image (
+			EM_FORMAT_HTML (efhd), image_src);
 		visible = image_stream != NULL;
 
 		if (image_stream)
@@ -807,11 +815,14 @@ efhd_finalize (GObject *object)
 	g_return_if_fail (efhd != NULL);
 
 	if (efhd->priv->attachment_views) {
-		g_hash_table_foreach (efhd->priv->attachment_views, weak_unref_attachment_view_cb, efhd);
+		g_hash_table_foreach (
+			efhd->priv->attachment_views,
+			weak_unref_attachment_view_cb, efhd);
 		g_hash_table_destroy (efhd->priv->attachment_views);
 		efhd->priv->attachment_views = NULL;
 	}
 
+	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
@@ -870,14 +881,17 @@ efhd_init (EMFormatHTMLDisplay *efhd)
 		image_actions, image_entries,
 		G_N_ELEMENTS (image_entries), efhd);
 
+	/* Because we are loading from a hard-coded string, there is
+	 * no chance of I/O errors.  Failure here implies a malformed
+	 * UI definition.  Full stop. */
 	ui_manager = e_web_view_get_ui_manager (web_view);
 	gtk_ui_manager_add_ui_from_string (ui_manager, image_ui, -1, &error);
+	if (error != NULL)
+		g_error ("%s", error->message);
 
-	if (error)
-		g_debug ("%s: Failed to add image_ui: %s", G_STRFUNC, error->message);
-	g_clear_error (&error);
-
-	g_signal_connect (web_view, "update-actions", G_CALLBACK (efhd_web_view_update_actions_cb), efhd);
+	g_signal_connect (
+		web_view, "update-actions",
+		G_CALLBACK (efhd_web_view_update_actions_cb), efhd);
 }
 
 GType

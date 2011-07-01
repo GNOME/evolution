@@ -102,14 +102,19 @@ action_calendar_delete_cb (GtkAction *action,
 	uri = e_source_get_uri (source);
 	client = e_cal_model_get_client_for_uri (model, uri);
 	if (client == NULL)
-		client = e_cal_client_new_from_uri (uri, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL);
+		client = e_cal_client_new_from_uri (
+			uri, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL);
 	g_free (uri);
 
 	g_return_if_fail (client != NULL);
 
-	if (!e_client_remove_sync (E_CLIENT (client), NULL, &error)) {
-		g_debug ("%s: Failed to remove client: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		g_clear_error (&error);
+	e_client_remove_sync (E_CLIENT (client), NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to remove client: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 		return;
 	}
 
@@ -124,9 +129,14 @@ action_calendar_delete_cb (GtkAction *action,
 
 	source_list = e_cal_shell_backend_get_source_list (
 		E_CAL_SHELL_BACKEND (shell_backend));
-	if (!e_source_list_sync (source_list, &error)) {
-		g_debug ("%s: Failed to sync source list: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		g_clear_error (&error);
+
+	e_source_list_sync (source_list, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to sync source list: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 	}
 }
 
@@ -386,9 +396,14 @@ action_calendar_refresh_cb (GtkAction *action,
 
 	g_return_if_fail (e_client_check_refresh_supported (E_CLIENT (client)));
 
-	if (!e_client_refresh_sync (E_CLIENT (client), NULL, &error)) {
-		g_debug ("%s: Failed to refresh '%s', %s\n", G_STRFUNC, e_source_peek_name (source), error ? error->message : "Unknown error");
-		g_clear_error (&error);
+	e_client_refresh_sync (E_CLIENT (client), NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to refresh '%s', %s",
+			G_STRFUNC, e_source_peek_name (source),
+			error->message);
+		g_error_free (error);
 	}
 }
 
@@ -515,12 +530,14 @@ action_event_copy_cb (GtkAction *action,
 		ECalendarViewEvent *event = selected->data;
 
 		if (is_comp_data_valid (event) && event->comp_data->client)
-			source_source = e_client_get_source (E_CLIENT (event->comp_data->client));
+			source_source = e_client_get_source (
+				E_CLIENT (event->comp_data->client));
 	}
 
 	/* Get a destination source from the user. */
 	destination_source = select_source_dialog (
-		GTK_WINDOW (shell_window), E_CAL_CLIENT_SOURCE_TYPE_EVENTS, source_source);
+		GTK_WINDOW (shell_window),
+		E_CAL_CLIENT_SOURCE_TYPE_EVENTS, source_source);
 	if (destination_source == NULL)
 		return;
 
@@ -529,11 +546,17 @@ action_event_copy_cb (GtkAction *action,
 		destination_source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL);
 	if (destination_client == NULL)
 		goto exit;
-	g_signal_connect (destination_client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+	g_signal_connect (
+		destination_client, "authenticate",
+		G_CALLBACK (e_client_utils_authenticate_handler), NULL);
 
-	if (!e_client_open_sync (E_CLIENT (destination_client), FALSE, NULL, &error)) {
-		g_debug ("%s: Failed to open destination client: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		g_clear_error (&error);
+	e_client_open_sync (E_CLIENT (destination_client), FALSE, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to open destination client: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 		goto exit;
 	}
 
@@ -791,23 +814,32 @@ action_event_move_cb (GtkAction *action,
 		ECalendarViewEvent *event = selected->data;
 
 		if (is_comp_data_valid (event) && event->comp_data->client)
-			source_source = e_client_get_source (E_CLIENT (event->comp_data->client));
+			source_source = e_client_get_source (
+				E_CLIENT (event->comp_data->client));
 	}
 
 	/* Get a destination source from the user. */
 	destination_source = select_source_dialog (
-		GTK_WINDOW (shell_window), E_CAL_CLIENT_SOURCE_TYPE_EVENTS, source_source);
+		GTK_WINDOW (shell_window),
+		E_CAL_CLIENT_SOURCE_TYPE_EVENTS, source_source);
 	if (destination_source == NULL)
 		return;
 
 	/* Open the destination calendar. */
-	destination_client = e_cal_client_new (destination_source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL);
+	destination_client = e_cal_client_new (
+		destination_source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL);
 	if (destination_client == NULL)
 		goto exit;
-	g_signal_connect (destination_client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+	g_signal_connect (
+		destination_client, "authenticate",
+		G_CALLBACK (e_client_utils_authenticate_handler), NULL);
 
-	if (!e_client_open_sync (E_CLIENT (destination_client), FALSE, NULL, &error)) {
-		g_debug ("%s: Failed to open destination client: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	e_client_open_sync (E_CLIENT (destination_client), FALSE, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to open destination client: %s",
+			G_STRFUNC, error->message);
 		g_clear_error (&error);
 		goto exit;
 	}

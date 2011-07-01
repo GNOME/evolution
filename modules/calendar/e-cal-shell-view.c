@@ -391,9 +391,13 @@ cal_shell_view_update_actions (EShellView *shell_view)
 			itip_organizer_is_user (comp, client);
 
 		is_delegatable =
-			e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_DELEGATE_SUPPORTED) &&
-			     (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY) ||
-			      (!user_org && !is_delegated (icalcomp, user_email)));
+			e_client_check_capability (
+				E_CLIENT (client),
+				CAL_STATIC_CAPABILITY_DELEGATE_SUPPORTED) &&
+			(e_client_check_capability (
+				E_CLIENT (client),
+				CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY) ||
+			(!user_org && !is_delegated (icalcomp, user_email)));
 
 		g_free (user_email);
 		g_object_unref (comp);

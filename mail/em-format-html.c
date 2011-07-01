@@ -3339,5 +3339,6 @@ em_format_html_get_cached_image (EMFormatHTML *efh, const gchar *image_uri)
 	if (!emfh_http_cache)
 		return NULL;
 
-	return camel_data_cache_get (emfh_http_cache, EMFH_HTTP_CACHE_PATH, image_uri, NULL);
+	return camel_data_cache_get (
+		emfh_http_cache, EMFH_HTTP_CACHE_PATH, image_uri, NULL);
 }

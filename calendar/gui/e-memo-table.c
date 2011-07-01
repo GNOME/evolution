@@ -163,9 +163,9 @@ memo_table_model_cal_view_progress_cb (EMemoTable *memo_table,
 }
 
 static void
-memo_table_model_cal_view_complete_cb ( EMemoTable *memo_table,
-					const GError *error,
-					ECalClientSourceType type)
+memo_table_model_cal_view_complete_cb (EMemoTable *memo_table,
+                                       const GError *error,
+                                       ECalClientSourceType type)
 {
 	memo_table_emit_status_message (memo_table, NULL, -1.0);
 }
@@ -186,8 +186,10 @@ delete_selected_components (EMemoTable *memo_table)
 		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
 		GError *error = NULL;
 
-		e_cal_client_remove_object_sync (comp_data->client,
-				     icalcomponent_get_uid (comp_data->icalcomp), NULL, CALOBJ_MOD_THIS, NULL, &error);
+		e_cal_client_remove_object_sync (
+			comp_data->client,
+			icalcomponent_get_uid (comp_data->icalcomp),
+			NULL, CALOBJ_MOD_THIS, NULL, &error);
 		delete_error_dialog (error, E_CAL_COMPONENT_JOURNAL);
 		g_clear_error (&error);
 	}
@@ -703,7 +705,8 @@ memo_table_update_actions (ESelectable *selectable,
 	for (iter = list; iter != NULL && sources_are_editable; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
 
-		sources_are_editable = sources_are_editable && !e_client_is_readonly (E_CLIENT (comp_data->client));
+		sources_are_editable = sources_are_editable &&
+			!e_client_is_readonly (E_CLIENT (comp_data->client));
 	}
 	g_slist_free (list);
 
@@ -885,8 +888,10 @@ clipboard_get_calendar_data (EMemoTable *memo_table,
 				g_free (uid);
 				g_object_unref (tmp_comp);
 
-				if (error) {
-					g_debug ("%s: Failed to create object: %s", G_STRFUNC, error->message);
+				if (error != NULL) {
+					g_warning (
+						"%s: Failed to create object: %s",
+						G_STRFUNC, error->message);
 					g_error_free (error);
 				}
 			}
@@ -909,8 +914,10 @@ clipboard_get_calendar_data (EMemoTable *memo_table,
 		g_free (uid);
 		g_object_unref (comp);
 
-		if (error) {
-			g_debug ("%s: Failed to create object: %s", G_STRFUNC, error->message);
+		if (error != NULL) {
+			g_warning (
+				"%s: Failed to create object: %s",
+				G_STRFUNC, error->message);
 			g_error_free (error);
 		}
 	}

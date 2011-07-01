@@ -88,9 +88,9 @@ migrateURI (const gchar *xml, xmlDocPtr doc)
 		uri->publish_frequency = atoi ((gchar *) frequency);
 	uri->publish_format = URI_PUBLISH_AS_FB;
 
-	password = e_passwords_get_password (NULL, (gchar *)location);
+	password = e_passwords_get_password (NULL, (gchar *) location);
 	if (password) {
-		e_passwords_forget_password (NULL, (gchar *)location);
+		e_passwords_forget_password (NULL, (gchar *) location);
 		e_passwords_add_password (uri->location, password);
 		e_passwords_remember_password (NULL, uri->location);
 	}

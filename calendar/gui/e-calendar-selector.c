@@ -46,7 +46,8 @@ calendar_selector_update_single_object (ECalClient *client,
 	if (e_cal_client_get_object_sync (client, uid, NULL, &tmp_icalcomp, NULL, NULL)) {
 		icalcomponent_free (tmp_icalcomp);
 
-		return e_cal_client_modify_object_sync (client, icalcomp, CALOBJ_MOD_ALL, NULL, NULL);
+		return e_cal_client_modify_object_sync (
+			client, icalcomp, CALOBJ_MOD_ALL, NULL, NULL);
 	}
 
 	uid = NULL;
@@ -87,12 +88,14 @@ calendar_selector_update_objects (ECalClient *client,
 			zone = icaltimezone_new ();
 			icaltimezone_set_component (zone, subcomp);
 
-			success = e_cal_client_add_timezone_sync (client, zone, NULL, &error);
+			e_cal_client_add_timezone_sync (client, zone, NULL, &error);
 			icaltimezone_free (zone, 1);
-			if (!success) {
-				g_debug ("%s: Failed to ass timezone: %s", G_STRFUNC, error ? error->message : "Unknown error");
-				if (error)
-					g_error_free (error);
+
+			if (error != NULL) {
+				g_warning (
+					"%s: Failed to add timezone: %s",
+					G_STRFUNC, error->message);
+				g_error_free (error);
 				return FALSE;
 			}
 		} else if (kind == ICAL_VTODO_COMPONENT ||
@@ -111,26 +114,31 @@ calendar_selector_update_objects (ECalClient *client,
 }
 
 static void
-client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+client_opened_cb (GObject *source_object,
+                  GAsyncResult *result,
+                  gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
 	EClient *client = NULL;
 	icalcomponent *icalcomp = user_data;
 	GError *error = NULL;
 
 	g_return_if_fail (icalcomp != NULL);
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (client) {
-		calendar_selector_update_objects (E_CAL_CLIENT (client), icalcomp);
-		g_object_unref (client);
-	}
-
-	if (error) {
-		g_debug ("%s: Failed to open client: %s", G_STRFUNC, error->message);
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
+		g_warning (
+			"%s: Failed to open client: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
+
+	g_return_if_fail (E_IS_CLIENT (client));
+
+	calendar_selector_update_objects (E_CAL_CLIENT (client), icalcomp);
+	g_object_unref (client);
 
 	icalcomponent_free (icalcomp);
 }

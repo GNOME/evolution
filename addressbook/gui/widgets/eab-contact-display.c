@@ -505,8 +505,8 @@ render_contact_list_row (GString *buffer,
 
 static void
 render_contact_list_vertical (GString *buffer,
-		              EContact *contact,
-        		      EABContactDisplay *display)
+                              EContact *contact,
+                              EABContactDisplay *display)
 {
 	EDestination *destination;
 	const GList *dest, *dests;
@@ -523,7 +523,7 @@ render_contact_list_vertical (GString *buffer,
 
 	for (dest = dests; dest; dest = dest->next) {
 		render_contact_list_row (buffer, dest->data, display);
- 	}
+	}
 
 	g_string_append (buffer, "</table>");
 	g_string_append (buffer, "</td></tr></table>");
@@ -533,8 +533,8 @@ render_contact_list_vertical (GString *buffer,
 
 static void
 render_contact_list_horizontal (GString *buffer,
-		                EContact *contact,
-        		        EABContactDisplay *display)
+                                EContact *contact,
+                                EABContactDisplay *display)
 {
 	EDestination *destination;
 	const GList *dest, *dests;
@@ -549,9 +549,8 @@ render_contact_list_horizontal (GString *buffer,
 		"<tr><td with=" IMAGE_COL_WIDTH "></td><td>", _("List Members:"));
 	g_string_append (buffer, "<table border=\"0\" cellspacing=\"1\">");
 
-	for (dest = dests; dest; dest = dest->next) {
+	for (dest = dests; dest; dest = dest->next)
 		render_contact_list_row (buffer, dest->data, display);
- 	}
 
 	g_string_append (buffer, "</table>");
 	g_string_append (buffer, "</td></tr></table>");
@@ -562,7 +561,7 @@ render_contact_list_horizontal (GString *buffer,
 static void
 render_contact_list (GString *buffer,
                      EContact *contact,
-		     EABContactDisplay *display)
+                     EABContactDisplay *display)
 
 {
 	if (display->priv->orientation == GTK_ORIENTATION_VERTICAL)

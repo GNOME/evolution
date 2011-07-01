@@ -374,7 +374,9 @@ struct ContactCopyProcess_ {
 static void process_unref (ContactCopyProcess *process);
 
 static void
-remove_contact_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+remove_contact_ready_cb (GObject *source_object,
+                         GAsyncResult *result,
+                         gpointer user_data)
 {
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
 	ContactCopyProcess *process = user_data;
@@ -382,8 +384,10 @@ remove_contact_ready_cb (GObject *source_object, GAsyncResult *result, gpointer 
 
 	e_book_client_remove_contact_by_uid_finish (book_client, result, &error);
 
-	if (error) {
-		g_debug ("%s: Remove contact by uid failed: %s", G_STRFUNC, error->message);
+	if (error != NULL) {
+		g_warning (
+			"%s: Remove contact by uid failed: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
 
@@ -474,29 +478,33 @@ do_copy (gpointer data, gpointer user_data)
 }
 
 static void
-book_loaded_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+book_loaded_cb (GObject *source_object,
+                GAsyncResult *result,
+                gpointer user_data)
 {
 	ESource *destination = E_SOURCE (source_object);
 	ContactCopyProcess *process = user_data;
 	EClient *client = NULL;
-	EBookClient *book_client;
 	GError *error = NULL;
 
-	if (!e_client_utils_open_new_finish (destination, result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (destination, result, &client, &error);
 
-	book_client = client ? E_BOOK_CLIENT (client) : NULL;
-
-	if (book_client != NULL) {
-		g_warn_if_fail (error == NULL);
-		process->destination = book_client;
-		process->book_status = TRUE;
-		g_slist_foreach (process->contacts, do_copy, process);
-	} else if (error != NULL) {
-		g_debug ("%s: Failed to open destination client: %s", G_STRFUNC, error->message);
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
+		g_warning (
+			"%s: Failed to open destination client: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
+		goto exit;
 	}
 
+	g_return_if_fail (E_IS_CLIENT (client));
+
+	process->destination = E_BOOK_CLIENT (client);
+	process->book_status = TRUE;
+	g_slist_foreach (process->contacts, do_copy, process);
+
+exit:
 	process_unref (process);
 }
 

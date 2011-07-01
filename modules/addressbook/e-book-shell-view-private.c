@@ -184,40 +184,48 @@ contacts_removed (EBookShellView *book_shell_view,
 }
 
 static void
-book_shell_view_loaded_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+book_shell_view_loaded_cb (GObject *source_object,
+                           GAsyncResult *result,
+                           gpointer user_data)
 {
 	ESource *source = E_SOURCE (source_object);
 	EAddressbookView *view = user_data;
 	EClient *client = NULL;
-	EBookClient *book;
+	EAddressbookModel *model;
 	GError *error = NULL;
 
-	if (!e_client_utils_open_new_finish (source, result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	book = client ? E_BOOK_CLIENT (client) : NULL;
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (client == NULL);
+		g_error_free (error);
+		goto exit;
 
-	if (book != NULL) {
-		EAddressbookModel *model;
-
-		g_warn_if_fail (error == NULL);
-		model = e_addressbook_view_get_model (view);
-		e_addressbook_model_set_client (model, book);
-		e_addressbook_model_force_folder_bar_message (model);
-
-	} else if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	} else if (error != NULL) {
 		EShellView *shell_view;
+		EShellContent *shell_content;
 		EAlertSink *alert_sink;
 
+		g_warn_if_fail (client == NULL);
+
 		shell_view = e_addressbook_view_get_shell_view (view);
-		alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
+		shell_content = e_shell_view_get_shell_content (shell_view);
+		alert_sink = E_ALERT_SINK (shell_content);
 
 		eab_load_error_dialog (NULL, alert_sink, source, error);
+
+		g_error_free (error);
+		goto exit;
 	}
 
-	if (error != NULL)
-		g_error_free (error);
+	g_return_if_fail (E_IS_CLIENT (client));
 
+	model = e_addressbook_view_get_model (view);
+	e_addressbook_model_set_client (model, E_BOOK_CLIENT (client));
+	e_addressbook_model_force_folder_bar_message (model);
+
+exit:
 	g_object_unref (view);
 }
 
@@ -260,9 +268,13 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 
 		if (e_addressbook_model_get_client (model) == NULL)
 			/* XXX No way to cancel this? */
-			e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
-				e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
-				book_shell_view_loaded_cb, g_object_ref (view));
+			e_client_utils_open_new (
+				source, E_CLIENT_SOURCE_TYPE_CONTACTS,
+				FALSE, NULL,
+				e_client_utils_authenticate_handler,
+				GTK_WINDOW (shell_window),
+				book_shell_view_loaded_cb,
+				g_object_ref (view));
 
 	} else {
 		/* Create a view for this UID. */

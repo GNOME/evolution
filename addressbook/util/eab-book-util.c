@@ -31,7 +31,8 @@
 
 /* Copied from camel_strstrcase */
 static gchar *
-eab_strstrcase (const gchar *haystack, const gchar *needle)
+eab_strstrcase (const gchar *haystack,
+                const gchar *needle)
 {
 	/* find the needle in the haystack neglecting case */
 	const gchar *ptr;
@@ -132,7 +133,10 @@ eab_contact_list_to_string (const GSList *contacts)
 
 	for (l = contacts; l; l = l->next) {
 		EContact *contact = l->data;
-		gchar *vcard_str = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
+		gchar *vcard_str;
+
+		vcard_str = e_vcard_to_string (
+			E_VCARD (contact), EVC_FORMAT_VCARD_30);
 
 		g_string_append (str, vcard_str);
 		if (l->next)
@@ -143,7 +147,9 @@ eab_contact_list_to_string (const GSList *contacts)
 }
 
 gboolean
-eab_book_and_contact_list_from_string (const gchar *str, EBookClient **book_client, GSList **contacts)
+eab_book_and_contact_list_from_string (const gchar *str,
+                                       EBookClient **book_client,
+                                       GSList **contacts)
 {
 	const gchar *s0, *s1;
 	gchar *uri;
@@ -178,7 +184,8 @@ eab_book_and_contact_list_from_string (const gchar *str, EBookClient **book_clie
 }
 
 gchar *
-eab_book_and_contact_list_to_string (EBookClient *book_client, const GSList *contacts)
+eab_book_and_contact_list_to_string (EBookClient *book_client,
+                                     const GSList *contacts)
 {
 	gchar *s0, *s1;
 
@@ -187,7 +194,9 @@ eab_book_and_contact_list_to_string (EBookClient *book_client, const GSList *con
 		s0 = g_strdup ("");
 
 	if (book_client)
-		s1 = g_strconcat ("Book: ", e_client_get_uri (E_CLIENT (book_client)), "\r\n", s0, NULL);
+		s1 = g_strconcat (
+			"Book: ", e_client_get_uri (
+			E_CLIENT (book_client)), "\r\n", s0, NULL);
 	else
 		s1 = g_strdup (s0);
 
@@ -197,7 +206,9 @@ eab_book_and_contact_list_to_string (EBookClient *book_client, const GSList *con
 
 /* bad place for this i know. */
 gint
-e_utf8_casefold_collate_len (const gchar *str1, const gchar *str2, gint len)
+e_utf8_casefold_collate_len (const gchar *str1,
+                             const gchar *str2,
+                             gint len)
 {
 	gchar *s1 = g_utf8_casefold (str1, len);
 	gchar *s2 = g_utf8_casefold (str2, len);
@@ -212,7 +223,8 @@ e_utf8_casefold_collate_len (const gchar *str1, const gchar *str2, gint len)
 }
 
 gint
-e_utf8_casefold_collate (const gchar *str1, const gchar *str2)
+e_utf8_casefold_collate (const gchar *str1,
+                         const gchar *str2)
 {
 	return e_utf8_casefold_collate_len (str1, str2, -1);
 }

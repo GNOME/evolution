@@ -104,15 +104,20 @@ merge_context_free (MergeContext *merge_context)
 }
 
 static void
-addressbook_selector_removed_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+addressbook_selector_removed_cb (GObject *source_object,
+                                 GAsyncResult *result,
+                                 gpointer user_data)
 {
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
 	MergeContext *merge_context = user_data;
 	GError *error = NULL;
 
 	e_book_client_remove_contact_finish (book_client, result, &error);
-	if (error) {
-		g_debug ("%s: Failed to remove contact: %s", G_STRFUNC, error->message);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to remove contact: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
 
@@ -252,7 +257,9 @@ addressbook_selector_constructed (GObject *object)
 }
 
 static void
-target_client_open_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+target_client_open_ready_cb (GObject *source_object,
+                             GAsyncResult *result,
+                             gpointer user_data)
 {
 	ESource *source = E_SOURCE (source_object);
 	MergeContext *merge_context = user_data;
@@ -261,18 +268,24 @@ target_client_open_ready_cb (GObject *source_object, GAsyncResult *result, gpoin
 
 	g_return_if_fail (merge_context != NULL);
 
-	if (!e_client_utils_open_new_finish (source, result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (error) {
-		g_debug ("%s: Failed to open targer client: %s", G_STRFUNC, error->message);
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
+		g_warning (
+			"%s: Failed to open targer client: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
+
+	g_return_if_fail (E_IS_CLIENT (client));
 
 	merge_context->target_client = client ? E_BOOK_CLIENT (client) : NULL;
 
 	if (!merge_context->target_client) {
-		g_slist_foreach (merge_context->remaining_contacts, (GFunc) g_object_unref, NULL);
+		g_slist_foreach (
+			merge_context->remaining_contacts,
+			(GFunc) g_object_unref, NULL);
 		g_slist_free (merge_context->remaining_contacts);
 
 		merge_context_free (merge_context);

@@ -118,22 +118,28 @@ org_gnome_vcard_inline_decode (VCardInlinePObject *vcard_object,
 }
 
 static void
-org_gnome_vcard_inline_client_loaded_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+org_gnome_vcard_inline_client_loaded_cb (GObject *source_object,
+                                         GAsyncResult *result,
+                                         gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
 	EClient *client = NULL;
 	EBookClient *book_client;
 	GSList *contact_list = user_data, *iter;
 	GError *error = NULL;
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (client == NULL) {
-		g_debug ("%s: Failed to open book client: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
+		g_warning (
+			"%s: Failed to open book client: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 		goto exit;
 	}
+
+	g_return_if_fail (E_IS_BOOK_CLIENT (client));
 
 	book_client = E_BOOK_CLIENT (client);
 

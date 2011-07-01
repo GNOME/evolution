@@ -1656,7 +1656,9 @@ emf_multipart_mixed (EMFormat *emf,
 	}
 }
 
-static gboolean related_display_part_is_attachment (EMFormat *emf, CamelMimePart *part);
+static gboolean	related_display_part_is_attachment
+						(EMFormat *emf,
+						 CamelMimePart *part);
 
 /* RFC 1740 */
 static void
