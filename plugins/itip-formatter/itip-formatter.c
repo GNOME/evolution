@@ -701,7 +701,7 @@ decrease_find_data (FormatItipFindData *fd)
                  * invitiations (REQUEST), but not replies (REPLY).
 		 * Replies only make sense for events with an organizer.
 		 */
-		if (!e_cal_client_check_save_schedules (pitip->current_client) &&
+		if (pitip->current_client && !e_cal_client_check_save_schedules (pitip->current_client) &&
 		    (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) &&
 		    pitip->has_organizer) {
 			rsvp_enabled = TRUE;
