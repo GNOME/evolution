@@ -345,7 +345,7 @@ emfu_copy_folder_selected (EMailBackend *backend,
 	session = e_mail_backend_get_session (backend);
 
 	service = CAMEL_SERVICE (cfd->source_store);
-	camel_service_connect_sync (service, &local_error);
+	em_utils_connect_service_sync (service, NULL, &local_error);
 
 	if (local_error != NULL) {
 		e_mail_backend_submit_alert (
@@ -373,8 +373,8 @@ emfu_copy_folder_selected (EMailBackend *backend,
 		tostore = NULL;
 
 	if (tostore != NULL)
-		camel_service_connect_sync (
-			CAMEL_SERVICE (tostore), &local_error);
+		em_utils_connect_service_sync (
+			CAMEL_SERVICE (tostore), NULL, &local_error);
 
 	if (local_error != NULL) {
 		e_mail_backend_submit_alert (

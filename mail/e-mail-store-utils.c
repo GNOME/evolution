@@ -20,6 +20,8 @@
 #include <config.h>
 #endif
 
+#include "em-utils.h"
+
 #include "e-mail-store-utils.h"
 
 #include <glib/gi18n-lib.h>
@@ -175,7 +177,7 @@ mail_store_go_offline_thread (GSimpleAsyncResult *simple,
 				disco_store, CAMEL_DISCO_STORE_OFFLINE,
 				cancellable, &error);
 		else
-			camel_service_disconnect_sync (service, TRUE, &error);
+			em_utils_disconnect_service_sync (service, TRUE, cancellable, &error);
 
 	} else if (CAMEL_IS_OFFLINE_STORE (store)) {
 		CamelOfflineStore *offline_store;
@@ -186,7 +188,7 @@ mail_store_go_offline_thread (GSimpleAsyncResult *simple,
 			offline_store, FALSE, cancellable, &error);
 
 	} else
-		camel_service_disconnect_sync (service, TRUE, &error);
+		em_utils_disconnect_service_sync (service, TRUE, cancellable, &error);
 
 	if (error != NULL) {
 		g_simple_async_result_set_from_error (simple, error);

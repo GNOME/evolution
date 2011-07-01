@@ -1045,7 +1045,7 @@ e_mail_session_get_inbox_sync (EMailSession *session,
 	if (!CAMEL_IS_STORE (service))
 		return NULL;
 
-	if (!camel_service_connect_sync (service, error))
+	if (!em_utils_connect_service_sync (service, cancellable, error))
 		return NULL;
 
 	return camel_store_get_inbox_folder_sync (
@@ -1144,7 +1144,7 @@ e_mail_session_get_trash_sync (EMailSession *session,
 	if (!CAMEL_IS_STORE (service))
 		return NULL;
 
-	if (!camel_service_connect_sync (service, error))
+	if (!em_utils_connect_service_sync (service, cancellable, error))
 		return NULL;
 
 	return camel_store_get_trash_folder_sync (

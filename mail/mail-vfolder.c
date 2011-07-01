@@ -1124,7 +1124,7 @@ vfolder_load_storage (EMailBackend *backend)
 		CAMEL_SESSION (session), "vfolder",
 		storeuri, CAMEL_PROVIDER_STORE, NULL);
 	if (service != NULL)
-		camel_service_connect_sync (service, NULL);
+		em_utils_connect_service_sync (service, NULL, NULL);
 	else {
 		g_warning("Cannot open vfolder store - no vfolders available");
 		return;

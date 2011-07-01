@@ -96,6 +96,9 @@ void emu_restore_folder_tree_state (EMFolderTree *folder_tree);
 
 gboolean em_utils_is_local_delivery_mbox_file (CamelURL *url);
 
+gboolean em_utils_connect_service_sync (CamelService *service, GCancellable *cancellable, GError **error);
+gboolean em_utils_disconnect_service_sync (CamelService *service, gboolean clean, GCancellable *cancellable, GError **error);
+
 G_END_DECLS
 
 #endif /* __EM_UTILS_H__ */

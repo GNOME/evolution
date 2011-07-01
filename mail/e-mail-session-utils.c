@@ -22,6 +22,8 @@
 
 #include "e-mail-session-utils.h"
 
+#include "em-utils.h"
+
 #include <glib/gi18n-lib.h>
 
 #include <mail/mail-tools.h>
@@ -423,7 +425,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 			did_connect = TRUE;
 
 			/* XXX This API does not allow for cancellation. */
-			if (!camel_service_connect_sync (service, &error)) {
+			if (!em_utils_connect_service_sync (service, cancellable, &error)) {
 				g_simple_async_result_set_from_error (simple, error);
 				g_error_free (error);
 				return;
@@ -441,7 +443,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 			context->recipients, cancellable, &error);
 
 		if (did_connect)
-			camel_service_disconnect_sync (service, error == NULL, error ? NULL : &error);
+			em_utils_disconnect_service_sync (service, error == NULL, cancellable, error ? NULL : &error);
 
 		if (error != NULL) {
 			g_simple_async_result_set_from_error (simple, error);
@@ -871,8 +873,8 @@ e_mail_session_unsubscribe_folder_sync (EMailSession *session,
 
 	/* FIXME This should take our GCancellable. */
 	success =
-		camel_service_connect_sync (
-			CAMEL_SERVICE (store), error) &&
+		em_utils_connect_service_sync (
+			CAMEL_SERVICE (store), cancellable, error) &&
 		camel_store_unsubscribe_folder_sync (
 			store, folder_name, cancellable, error);
 
