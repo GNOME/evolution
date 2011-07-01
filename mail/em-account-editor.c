@@ -1954,7 +1954,10 @@ emae_check_authtype_done (CamelService *camel_service,
 
 	} else if (error != NULL) {
 		g_warn_if_fail (auth_types == NULL);
-		e_alert_run_dialog_for_args (GTK_WINDOW (service->check_dialog), "mail:checking-service-error", error->message, NULL);
+		e_alert_run_dialog_for_args (
+			GTK_WINDOW (service->check_dialog),
+			"mail:checking-service-error",
+			error->message, NULL);
 		g_error_free (error);
 
 	} else {
@@ -1973,7 +1976,9 @@ emae_check_authtype_done (CamelService *camel_service,
 	session = e_mail_backend_get_session (backend);
 
 	/* drop the temporary CamelService */
-	camel_session_remove_service (CAMEL_SESSION (session), camel_service_get_uid (camel_service));
+	camel_session_remove_service (
+		CAMEL_SESSION (session),
+		camel_service_get_uid (camel_service));
 
 	g_object_unref (service->emae);
 }
@@ -2007,10 +2012,13 @@ emae_check_authtype (GtkWidget *w,
 	session = e_mail_backend_get_session (backend);
 
 	uid = g_strdup_printf ("emae-check-authtype-%p", service);
-	url_string = e_account_get_string (account, emae_service_info[service->type].account_uri_key);
+	url_string = e_account_get_string (
+		account, emae_service_info[service->type].account_uri_key);
 
 	/* to test on actual data, not on previously used */
-	camel_service = camel_session_add_service (CAMEL_SESSION (session), uid, url_string, service->type, &error);
+	camel_service = camel_session_add_service (
+		CAMEL_SESSION (session), uid,
+		url_string, service->type, &error);
 
 	g_free (uid);
 
@@ -2020,7 +2028,9 @@ emae_check_authtype (GtkWidget *w,
 		parent = gtk_widget_get_toplevel (w);
 
 	if (error) {
-		e_alert_run_dialog_for_args (parent, "mail:checking-service-error", error->message, NULL);
+		e_alert_run_dialog_for_args (
+			parent, "mail:checking-service-error",
+			error->message, NULL);
 		g_clear_error (&error);
 		return;
 	}
@@ -2056,7 +2066,9 @@ emae_check_authtype (GtkWidget *w,
 }
 
 static void
-emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, GtkBuilder *builder)
+emae_setup_service (EMAccountEditor *emae,
+                    EMAccountEditorService *service,
+                    GtkBuilder *builder)
 {
 	EAccount *account;
 	struct _service_info *info = &emae_service_info[service->type];

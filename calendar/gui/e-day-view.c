@@ -6725,11 +6725,15 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 			gchar *uid = NULL;
 			GError *error = NULL;
 
-			if (!e_cal_client_create_object_sync (client, icalcomp, &uid, NULL, &error)) {
+			e_cal_client_create_object_sync (
+				client, icalcomp, &uid, NULL, &error);
+
+			if (error != NULL) {
 				uid = NULL;
-				g_debug (G_STRLOC ": Could not create the object! %s", error ? error->message : "Unknown error");
-				if (error)
-					g_error_free (error);
+				g_warning (
+					"%s: Could not create the object! %s",
+					G_STRFUNC, error->message);
+				g_error_free (error);
 			} else {
 				icalcomponent_set_uid (icalcomp, uid);
 				e_calendar_view_emit_user_created (

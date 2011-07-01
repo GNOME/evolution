@@ -202,10 +202,14 @@ resolve_tzid_cb (const gchar *tzid,
 		/* FIXME: Handle errors. */
 		GError *error = NULL;
 
-		if (!e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, &error)) {
-			g_debug ("%s: Failed to get timezone '%s': %s", G_STRFUNC, tzid, error->message);
-			if (error)
-				g_error_free (error);
+		e_cal_client_get_timezone_sync (
+			client, tzid, &zone, NULL, &error);
+
+		if (error != NULL) {
+			g_warning (
+				"%s: Failed to get timezone '%s': %s",
+				G_STRFUNC, tzid, error->message);
+			g_error_free (error);
 		}
 	}
 
@@ -233,8 +237,8 @@ tag_calendar_by_comp (ECalendar *ecal,
                       icaltimezone *display_zone,
                       gboolean clear_first,
                       gboolean comp_is_on_server,
-		      gboolean can_recur_events_italic,
-		      GCancellable *cancellable)
+                      gboolean can_recur_events_italic,
+                      GCancellable *cancellable)
 {
 	struct calendar_tag_closure c;
 

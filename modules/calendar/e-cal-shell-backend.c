@@ -95,11 +95,15 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	if (!e_cal_client_get_sources (
+	e_cal_client_get_sources (
 		&cal_shell_backend->priv->source_list,
-		E_CAL_CLIENT_SOURCE_TYPE_EVENTS, &error)) {
-		g_debug ("%s: Could not get calendar sources: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		g_clear_error (&error);
+		E_CAL_CLIENT_SOURCE_TYPE_EVENTS, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Could not get calendar sources: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 		return;
 	}
 
@@ -244,12 +248,15 @@ cal_shell_backend_new_event (ESource *source,
 	GError *error = NULL;
 
 	/* XXX Handle errors better. */
-	if (!e_client_utils_open_new_finish (source, result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (!client) {
-		g_debug ("%s: Failed to open '%s': %s", G_STRFUNC, e_source_peek_name (source), error ? error->message : "Unknown error");
-		g_clear_error (&error);
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
+		g_warning (
+			"%s: Failed to open '%s': %s",
+			G_STRFUNC, e_source_peek_name (source),
+			error->message);
+		g_error_free (error);
 		return;
 	}
 
@@ -279,7 +286,9 @@ cal_shell_backend_new_event (ESource *source,
 }
 
 static void
-cal_shell_backend_event_new_cb (GObject *source_object, GAsyncResult *result, gpointer shell)
+cal_shell_backend_event_new_cb (GObject *source_object,
+                                GAsyncResult *result,
+                                gpointer shell)
 {
 	CompEditorFlags flags = 0;
 	gboolean all_day = FALSE;
@@ -287,13 +296,16 @@ cal_shell_backend_event_new_cb (GObject *source_object, GAsyncResult *result, gp
 	flags |= COMP_EDITOR_NEW_ITEM;
 	flags |= COMP_EDITOR_USER_ORG;
 
-	cal_shell_backend_new_event (E_SOURCE (source_object), result, shell, flags, all_day);
+	cal_shell_backend_new_event (
+		E_SOURCE (source_object), result, shell, flags, all_day);
 
 	g_object_unref (shell);
 }
 
 static void
-cal_shell_backend_event_all_day_new_cb (GObject *source_object, GAsyncResult *result, gpointer shell)
+cal_shell_backend_event_all_day_new_cb (GObject *source_object,
+                                        GAsyncResult *result,
+                                        gpointer shell)
 {
 	CompEditorFlags flags = 0;
 	gboolean all_day = TRUE;
@@ -301,13 +313,16 @@ cal_shell_backend_event_all_day_new_cb (GObject *source_object, GAsyncResult *re
 	flags |= COMP_EDITOR_NEW_ITEM;
 	flags |= COMP_EDITOR_USER_ORG;
 
-	cal_shell_backend_new_event (E_SOURCE (source_object), result, shell, flags, all_day);
+	cal_shell_backend_new_event (
+		E_SOURCE (source_object), result, shell, flags, all_day);
 
 	g_object_unref (shell);
 }
 
 static void
-cal_shell_backend_event_meeting_new_cb (GObject *source_object, GAsyncResult *result, gpointer shell)
+cal_shell_backend_event_meeting_new_cb (GObject *source_object,
+                                        GAsyncResult *result,
+                                        gpointer shell)
 {
 	CompEditorFlags flags = 0;
 	gboolean all_day = FALSE;
@@ -316,7 +331,8 @@ cal_shell_backend_event_meeting_new_cb (GObject *source_object, GAsyncResult *re
 	flags |= COMP_EDITOR_USER_ORG;
 	flags |= COMP_EDITOR_MEETING;
 
-	cal_shell_backend_new_event (E_SOURCE (source_object), result, shell, flags, all_day);
+	cal_shell_backend_new_event (
+		E_SOURCE (source_object), result, shell, flags, all_day);
 
 	g_object_unref (shell);
 }
@@ -587,24 +603,36 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	 * we successfully open it is another matter... */
 	handled = TRUE;
 
-	if (!e_cal_client_get_sources (&source_list, source_type, &error)) {
-		g_debug ("%s: Could not get calendar sources: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		g_clear_error (&error);
+	e_cal_client_get_sources (&source_list, source_type, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Could not get calendar sources: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 		goto exit;
 	}
 
 	source = e_source_list_peek_source_by_uid (source_list, source_uid);
+
 	if (source == NULL) {
-		g_debug ("%s: No source for UID '%s'", G_STRFUNC, source_uid);
+		g_warning ("%s: No source for UID '%s'", G_STRFUNC, source_uid);
 		g_object_unref (source_list);
 		goto exit;
 	}
 
 	client = e_cal_client_new (source, source_type, &error);
-	if (client == NULL || !e_client_open_sync (E_CLIENT (client), TRUE, NULL, &error)) {
-		g_debug ("%s: Failed to create/open client '%s': %s", G_STRFUNC, e_source_peek_name (source), error ? error->message : "Unknown error");
-		g_clear_error (&error);
+
+	if (client != NULL)
+		e_client_open_sync (E_CLIENT (client), TRUE, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to create/open client '%s': %s",
+			G_STRFUNC, e_source_peek_name (source),
+			error->message);
 		g_object_unref (source_list);
+		g_error_free (error);
 		goto exit;
 	}
 
@@ -616,16 +644,21 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	if (editor != NULL)
 		goto present;
 
-	if (!e_cal_client_get_object_sync (client, comp_uid, comp_rid, &icalcomp, NULL, &error)) {
-		g_debug ("%s: Failed to get object from client: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	e_cal_client_get_object_sync (
+		client, comp_uid, comp_rid, &icalcomp, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to get object from client: %s",
+			G_STRFUNC, error->message);
 		g_object_unref (source_list);
-		g_clear_error (&error);
+		g_error_free (error);
 		goto exit;
 	}
 
 	comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
-		g_debug ("%s: Failed to set icalcomp to comp\n", G_STRFUNC);
+		g_warning ("%s: Failed to set icalcomp to comp\n", G_STRFUNC);
 		icalcomponent_free (icalcomp);
 		icalcomp = NULL;
 	}

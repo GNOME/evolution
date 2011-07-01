@@ -650,16 +650,14 @@ book_loaded_cb (GObject *source_object,
 	LDIFImporter *gci = user_data;
 	EClient *client = NULL;
 
-	if (!e_client_utils_open_new_finish (source, result, &client, NULL))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, NULL);
 
-	gci->book_client = client ? E_BOOK_CLIENT (client) : NULL;
-
-	if (gci->book_client == NULL) {
+	if (client == NULL) {
 		ldif_import_done (gci);
 		return;
 	}
 
+	gci->book_client = E_BOOK_CLIENT (client);
 	gci->idle_id = g_idle_add (ldif_import_contacts, gci);
 }
 

@@ -241,9 +241,9 @@ task_table_model_cal_view_progress_cb (ETaskTable *task_table,
 }
 
 static void
-task_table_model_cal_view_complete_cb ( ETaskTable *task_table,
-					const GError *error,
-					ECalClientSourceType type)
+task_table_model_cal_view_complete_cb (ETaskTable *task_table,
+                                       const GError *error,
+                                       ECalClientSourceType type)
 {
 	task_table_emit_status_message (task_table, NULL, -1.0);
 }
@@ -264,7 +264,10 @@ delete_selected_components (ETaskTable *task_table)
 		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
 		GError *error = NULL;
 
-		e_cal_client_remove_object_sync (comp_data->client, icalcomponent_get_uid (comp_data->icalcomp), NULL, CALOBJ_MOD_THIS, NULL, &error);
+		e_cal_client_remove_object_sync (
+			comp_data->client,
+			icalcomponent_get_uid (comp_data->icalcomp),
+			NULL, CALOBJ_MOD_THIS, NULL, &error);
 		delete_error_dialog (error, E_CAL_COMPONENT_TODO);
 		g_clear_error (&error);
 	}
@@ -933,7 +936,8 @@ task_table_update_actions (ESelectable *selectable,
 	for (iter = list; iter != NULL && sources_are_editable; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
 
-		sources_are_editable = sources_are_editable && !e_client_is_readonly (E_CLIENT (comp_data->client));
+		sources_are_editable = sources_are_editable &&
+			!e_client_is_readonly (E_CLIENT (comp_data->client));
 	}
 	g_slist_free (list);
 
@@ -1112,8 +1116,10 @@ clipboard_get_calendar_data (ETaskTable *task_table,
 				if (!e_cal_client_create_object_sync (client, e_cal_component_get_icalcomponent (tmp_comp), &uid, NULL, &error))
 					uid = NULL;
 
-				if (error) {
-					g_debug ("%s: Failed to create object: %s", G_STRFUNC, error->message);
+				if (error != NULL) {
+					g_warning (
+						"%s: Failed to create object: %s",
+						G_STRFUNC, error->message);
 					g_error_free (error);
 				}
 
@@ -1136,8 +1142,10 @@ clipboard_get_calendar_data (ETaskTable *task_table,
 		if (!e_cal_client_create_object_sync (client, e_cal_component_get_icalcomponent (comp), &uid, NULL, &error))
 			uid = NULL;
 
-		if (error) {
-			g_debug ("%s: Failed to create object: %s", G_STRFUNC, error->message);
+		if (error != NULL) {
+			g_warning (
+				"%s: Failed to create object: %s",
+				G_STRFUNC, error->message);
 			g_error_free (error);
 		}
 
@@ -1255,9 +1263,11 @@ check_for_retract (ECalComponent *comp, ECalClient *client)
 	e_cal_component_get_organizer (comp, &org);
 	strip = itip_strip_mailto (org.value);
 
-	ret_val =
-		e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &email, NULL, NULL) &&
-		email && g_ascii_strcasecmp (email, strip) == 0;
+	ret_val = e_client_get_backend_property_sync (
+		E_CLIENT (client),
+		CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS,
+		&email, NULL, NULL) && email != NULL &&
+		g_ascii_strcasecmp (email, strip) == 0;
 
 	g_free (email);
 
@@ -1617,10 +1627,14 @@ hide_completed_rows (ECalModel *model,
 
 		client = l->data;
 
-		if (!e_cal_client_get_object_list_sync (client, hide_sexp, &objects, NULL, &error)) {
-			g_debug ("%s: Could not get the objects: %s", G_STRFUNC, error ? error->message : "Unknown error");
-			if (error)
-				g_error_free (error);
+		e_cal_client_get_object_list_sync (
+			client, hide_sexp, &objects, NULL, &error);
+
+		if (error != NULL) {
+			g_warning (
+				"%s: Could not get the objects: %s",
+				G_STRFUNC, error->message);
+			g_error_free (error);
 			continue;
 		}
 
@@ -1675,10 +1689,14 @@ show_completed_rows (ECalModel *model,
 
 		client = l->data;
 
-		if (!e_cal_client_get_object_list_sync (client, show_sexp, &objects, NULL, &error)) {
-			g_debug ("%s: Could not get the objects: %s", G_STRFUNC, error ? error->message : "Unknown error");
-			if (error)
-				g_error_free (error);
+		e_cal_client_get_object_list_sync (
+			client, show_sexp, &objects, NULL, &error);
+
+		if (error != NULL) {
+			g_warning (
+				"%s: Could not get the objects: %s",
+				G_STRFUNC, error->message);
+			g_error_free (error);
 			continue;
 		}
 

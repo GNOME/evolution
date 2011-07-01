@@ -73,7 +73,7 @@ hmac_sha1 (const gchar *key,
 	guchar inner[SHA1_LENGTH];
 	guchar digest[SHA1_LENGTH];
 	gsize key_length, inner_length, digest_length;
-	int i;
+	gint i;
 
 	g_return_val_if_fail (key, NULL);
 	g_return_val_if_fail (message, NULL);
@@ -86,7 +86,7 @@ hmac_sha1 (const gchar *key,
 
 		key_length = sizeof (new_key);
 
-		g_checksum_update (checksum, (guchar*)key, strlen (key));
+		g_checksum_update (checksum, (guchar *) key, strlen (key));
 		g_checksum_get_digest (checksum, new_key, &key_length);
 		g_checksum_reset (checksum);
 
@@ -117,7 +117,7 @@ hmac_sha1 (const gchar *key,
 
 	/* Stage 3 and 4 */
 	g_checksum_update (checksum, ipad, sizeof (ipad));
-	g_checksum_update (checksum, (guchar*)message, strlen (message));
+	g_checksum_update (checksum, (guchar *) message, strlen (message));
 	inner_length = sizeof (inner);
 	g_checksum_get_digest (checksum, inner, &inner_length);
 	g_checksum_reset (checksum);
@@ -135,7 +135,7 @@ hmac_sha1 (const gchar *key,
 	return g_base64_encode (digest, digest_length);
 }
 
-static char *
+static gchar *
 sign_plaintext (const gchar *consumer_secret,
                 const gchar *token_secret)
 {
@@ -153,7 +153,7 @@ sign_plaintext (const gchar *consumer_secret,
 	return rv;
 }
 
-static char *
+static gchar *
 sign_hmac (const gchar *consumer_secret,
            const gchar *token_secret,
            const gchar *http_method,

@@ -573,7 +573,9 @@ match_search_info_free (MatchSearchInfo *info)
 }
 
 static void
-query_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+query_cb (GObject *source_object,
+          GAsyncResult *result,
+          gpointer user_data)
 {
 	MatchSearchInfo *info = (MatchSearchInfo *) user_data;
 	EABContactMatchType best_match = EAB_CONTACT_MATCH_NONE;
@@ -584,12 +586,21 @@ query_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 	GError *error = NULL;
 	const GSList *ii;
 
-	if (result && !e_book_client_get_contacts_finish (book_client, result, &contacts, &error)) {
-		g_debug ("%s: Failed to get contacts: %s\n", G_STRFUNC, error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
+	if (result != NULL)
+		e_book_client_get_contacts_finish (
+			book_client, result, &contacts, &error);
 
-		info->cb (info->contact, NULL, EAB_CONTACT_MATCH_NONE, info->closure);
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to get contacts: %s\n",
+			G_STRFUNC, error->message);
+		g_error_free (error);
+
+		info->cb (
+			info->contact, NULL,
+			EAB_CONTACT_MATCH_NONE,
+			info->closure);
+
 		match_search_info_free (info);
 		g_object_unref (book_client);
 		return;
@@ -751,10 +762,10 @@ book_loaded_cb (GObject *source_object,
 	MatchSearchInfo *info = user_data;
 	EClient *client = NULL;
 
-	if (!e_client_utils_open_new_finish (source, result, &client, NULL))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, NULL);
 
-	use_common_book_client (client ? E_BOOK_CLIENT (client): NULL, info);
+	/* Client may be NULL; don't use a type cast macro. */
+	use_common_book_client ((EBookClient *) client, info);
 }
 
 void

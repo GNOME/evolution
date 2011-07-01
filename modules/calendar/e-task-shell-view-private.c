@@ -479,8 +479,13 @@ e_task_shell_view_delete_completed (ETaskShellView *task_shell_view)
 		if (e_client_is_readonly (E_CLIENT (client)))
 			continue;
 
-		if (!e_cal_client_get_object_list_sync (client, sexp, &objects, NULL, &error)) {
-			g_debug ("%s: Failed to get object list: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		e_cal_client_get_object_list_sync (
+			client, sexp, &objects, NULL, &error);
+
+		if (error != NULL) {
+			g_warning (
+				"%s: Failed to get object list: %s",
+				G_STRFUNC, error->message);
 			g_clear_error (&error);
 			continue;
 		}
@@ -490,8 +495,15 @@ e_task_shell_view_delete_completed (ETaskShellView *task_shell_view)
 			const gchar *uid;
 
 			uid = icalcomponent_get_uid (component);
-			if (!e_cal_client_remove_object_sync (client, uid, NULL, CALOBJ_MOD_THIS, NULL, &error)) {
-				g_debug ("%s: Failed to remove object: %s", G_STRFUNC, error ? error->message : "Unknown error");
+
+			e_cal_client_remove_object_sync (
+				client, uid, NULL,
+				CALOBJ_MOD_THIS, NULL, &error);
+
+			if (error != NULL) {
+				g_warning (
+					"%s: Failed to remove object: %s",
+					G_STRFUNC, error->message);
 				g_clear_error (&error);
 			}
 

@@ -933,12 +933,17 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 		}
 
 		new_uid = NULL;
-		icalcomponent_foreach_tzid (icalcomp_clone, add_timezone_to_cal_cb, &ftd);
+		icalcomponent_foreach_tzid (
+			icalcomp_clone, add_timezone_to_cal_cb, &ftd);
 		success = e_cal_client_create_object_sync (
-			destination_client, icalcomp_clone, &new_uid, NULL, &error);
+			destination_client, icalcomp_clone,
+			&new_uid, NULL, &error);
 		if (!success) {
 			icalcomponent_free (icalcomp_clone);
-			g_debug ("%s: Failed to create object: %s", G_STRFUNC, error ? error->message : "Unknown error");
+			g_warning (
+				"%s: Failed to create object: %s",
+				G_STRFUNC, error->message);
+			g_error_free (error);
 			return;
 		}
 
@@ -962,10 +967,13 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 			else
 				rid = NULL;
 			e_cal_client_remove_object_sync (
-				source_client, uid, rid, CALOBJ_MOD_ALL, NULL, NULL);
+				source_client, uid, rid,
+				CALOBJ_MOD_ALL, NULL, NULL);
 			g_free (rid);
 		} else
-			e_cal_client_remove_object_sync (source_client, uid, NULL, CALOBJ_MOD_THIS, NULL, NULL);
+			e_cal_client_remove_object_sync (
+				source_client, uid, NULL,
+				CALOBJ_MOD_THIS, NULL, NULL);
 	}
 }
 

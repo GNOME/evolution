@@ -593,17 +593,20 @@ composer_set_no_change (EMsgComposer *composer)
 
 /* delete original messages from Outbox folder */
 static void
-manage_x_evolution_replace_outbox (EMsgComposer *composer, CamelMimeMessage *message, GCancellable *cancellable)
+manage_x_evolution_replace_outbox (EMsgComposer *composer,
+                                   CamelMimeMessage *message,
+                                   GCancellable *cancellable)
 {
 	const gchar *message_uid;
+	const gchar *header;
 	CamelFolder *outbox;
 
 	g_return_if_fail (composer != NULL);
-	g_return_if_fail (message != NULL);
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	message_uid = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Replace-Outbox-UID");
-	e_msg_composer_remove_header (composer, "X-Evolution-Replace-Outbox-UID");
+	header = "X-Evolution-Replace-Outbox-UID";
+	message_uid = camel_medium_get_header (CAMEL_MEDIUM (message), header);
+	e_msg_composer_remove_header (composer, header);
 
 	if (!message_uid)
 		return;
@@ -617,7 +620,8 @@ manage_x_evolution_replace_outbox (EMsgComposer *composer, CamelMimeMessage *mes
 		CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
 
 	/* ignore errors here */
-	camel_folder_synchronize_message_sync (outbox, message_uid, cancellable, NULL);
+	camel_folder_synchronize_message_sync (
+		outbox, message_uid, cancellable, NULL);
 }
 
 static void
@@ -717,7 +721,9 @@ composer_save_to_drafts_append_mail (AsyncContext *context,
 	camel_message_info_set_flags (
 		info, CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN, ~0);
 
-	camel_medium_remove_header (CAMEL_MEDIUM (context->message), "X-Evolution-Replace-Outbox-UID");
+	camel_medium_remove_header (
+		CAMEL_MEDIUM (context->message),
+		"X-Evolution-Replace-Outbox-UID");
 
 	e_mail_folder_append_message (
 		drafts_folder, context->message,
@@ -845,7 +851,9 @@ composer_save_to_outbox_completed (CamelFolder *outbox_folder,
 	}
 
 	/* special processing for Outbox folder */
-	manage_x_evolution_replace_outbox (context->composer, context->message, e_activity_get_cancellable (context->activity));
+	manage_x_evolution_replace_outbox (
+		context->composer, context->message,
+		e_activity_get_cancellable (context->activity));
 
 	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
 
@@ -2323,7 +2331,6 @@ get_reply_sender (CamelMimeMessage *message,
 {
 	CamelInternetAddress *reply_to;
 	CamelMedium *medium;
-	const gchar *name, *addr;
 	const gchar *posthdr = NULL;
 
 	medium = CAMEL_MEDIUM (message);
@@ -2343,6 +2350,8 @@ get_reply_sender (CamelMimeMessage *message,
 	reply_to = get_reply_to (message);
 
 	if (reply_to != NULL) {
+		const gchar *name;
+		const gchar *addr;
 		gint ii = 0;
 
 		while (camel_internet_address_get (reply_to, ii++, &name, &addr))
@@ -2394,23 +2403,33 @@ get_reply_from (CamelMimeMessage *message,
 
 static void
 get_reply_recipient (CamelMimeMessage *message,
-		     CamelInternetAddress *to,
-		     CamelNNTPAddress *postto,
-		     CamelInternetAddress *address)
+                     CamelInternetAddress *to,
+                     CamelNNTPAddress *postto,
+                     CamelInternetAddress *address)
 {
-	const gchar *name, *addr, *posthdr;
-	gint i;
-	
+	CamelMedium *medium;
+	const gchar *posthdr =  NULL;
+
+	medium = CAMEL_MEDIUM (message);
+
 	/* check whether there is a 'Newsgroups: ' header in there */
-	if (postto
-	    && ((posthdr = camel_medium_get_header((CamelMedium *)message, "Followup-To"))
-		 || (posthdr = camel_medium_get_header((CamelMedium *)message, "Newsgroups")))) {
-		camel_address_decode ((CamelAddress *)postto, posthdr);
+	if (postto != NULL && posthdr == NULL)
+		posthdr = camel_medium_get_header (medium, "Followup-To");
+
+	if (postto != NULL && posthdr == NULL)
+		 posthdr = camel_medium_get_header (medium, "Newsgroups");
+
+	if (postto != NULL && posthdr != NULL) {
+		camel_address_decode (CAMEL_ADDRESS (postto), posthdr);
 		return;
 	}
 
-	if (address) {
-		for (i = 0; camel_internet_address_get (address, i, &name, &addr); i++)
+	if (address != NULL) {
+		const gchar *name;
+		const gchar *addr;
+		gint ii = 0;
+
+		while (camel_internet_address_get (address, ii++, &name, &addr))
 			camel_internet_address_add (to, name, addr);
 	}
 
@@ -2439,17 +2458,22 @@ get_reply_all (CamelMimeMessage *message,
                CamelNNTPAddress *postto)
 {
 	CamelInternetAddress *reply_to, *to_addrs, *cc_addrs;
-	const gchar *name, *addr, *posthdr;
+	CamelMedium *medium;
+	const gchar *name, *addr;
+	const gchar *posthdr = NULL;
 	GHashTable *rcpt_hash;
-	gint i;
+
+	medium = CAMEL_MEDIUM (message);
 
 	/* check whether there is a 'Newsgroups: ' header in there */
-	if (postto) {
-		if ((posthdr = camel_medium_get_header((CamelMedium *)message, "Followup-To")))
-			camel_address_decode ((CamelAddress *) postto, posthdr);
-		if ((posthdr = camel_medium_get_header((CamelMedium *)message, "Newsgroups")))
-			camel_address_decode ((CamelAddress *) postto, posthdr);
-	}
+	if (postto != NULL && posthdr == NULL)
+		posthdr = camel_medium_get_header (medium, "Followup-To");
+
+	if (postto != NULL && posthdr == NULL)
+		posthdr = camel_medium_get_header (medium, "Newsgroups");
+
+	if (postto != NULL && posthdr != NULL)
+		camel_address_decode (CAMEL_ADDRESS (postto), posthdr);
 
 	rcpt_hash = em_utils_generate_account_hash ();
 
@@ -2457,16 +2481,21 @@ get_reply_all (CamelMimeMessage *message,
 	to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 
-	if (reply_to) {
-		for (i = 0; camel_internet_address_get (reply_to, i, &name, &addr); i++) {
-			/* ignore references to the Reply-To address in the To and Cc lists */
-			if (addr && !g_hash_table_lookup (rcpt_hash, addr)) {
-				/* In the case that we are doing a Reply-To-All, we do not want
-				   to include the user's email address because replying to oneself
-				   is kinda silly. */
+	if (reply_to != NULL) {
+		gint ii = 0;
 
+		while (camel_internet_address_get (reply_to, ii++, &name, &addr)) {
+			/* Ignore references to the Reply-To address
+			 * in the To and Cc lists. */
+			if (addr && !g_hash_table_lookup (rcpt_hash, addr)) {
+				/* In the case we are doing a Reply-To-All,
+				 * we do not want to include the user's email
+				 * address because replying to oneself is
+				 * kinda silly. */
 				camel_internet_address_add (to, name, addr);
-				g_hash_table_insert (rcpt_hash, (gchar *) addr, GINT_TO_POINTER (1));
+				g_hash_table_insert (
+					rcpt_hash, (gchar *) addr,
+					GINT_TO_POINTER (1));
 			}
 		}
 	}

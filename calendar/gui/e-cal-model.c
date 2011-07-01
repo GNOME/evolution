@@ -2564,7 +2564,7 @@ get_view_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 		g_signal_connect (gvd->client_data->view, "complete", G_CALLBACK (client_view_complete_cb), gvd->model);
 
 		e_cal_client_view_start (gvd->client_data->view, &error);
-	
+
 		if (error) {
 			g_debug ("%s: Failed to start view: %s", G_STRFUNC, error->message);
 			g_error_free (error);
@@ -2651,7 +2651,9 @@ backend_died_cb (ECalClient *client, gpointer user_data)
 }
 
 static void
-cal_model_retrieve_capabilies_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+cal_model_retrieve_capabilies_cb (GObject *source_object,
+                                  GAsyncResult *result,
+                                  gpointer user_data)
 {
 	ECalClient *client = E_CAL_CLIENT (source_object);
 	ECalModel *model = user_data;
@@ -2661,7 +2663,8 @@ cal_model_retrieve_capabilies_cb (GObject *source_object, GAsyncResult *result, 
 	g_return_if_fail (client != NULL);
 	g_return_if_fail (model != NULL);
 
-	e_client_retrieve_capabilities_finish (E_CLIENT (client), result, &capabilities, NULL);
+	e_client_retrieve_capabilities_finish (
+		E_CLIENT (client), result, &capabilities, NULL);
 	g_free (capabilities);
 
 	e_cal_model_update_status_message (model, NULL, -1.0);
@@ -2695,7 +2698,9 @@ free_retry_open_data (gpointer data)
 static gboolean cal_model_retry_open_timeout_cb (gpointer user_data);
 
 static void
-client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+client_opened_cb (GObject *source_object,
+                  GAsyncResult *result,
+                  gpointer user_data)
 {
 	ECalClient *client = E_CAL_CLIENT (source_object);
 	ECalModel *model = (ECalModel *) user_data;
@@ -2718,23 +2723,33 @@ client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_da
 		rod->cancellable = g_object_ref (model->priv->loading_clients);
 
 		/* postpone for 1/2 of a second, backend is busy now */
-		g_timeout_add_full (G_PRIORITY_DEFAULT, 500, cal_model_retry_open_timeout_cb, rod, free_retry_open_data);
+		g_timeout_add_full (
+			G_PRIORITY_DEFAULT, 500,
+			cal_model_retry_open_timeout_cb,
+			rod, free_retry_open_data);
 
 		g_error_free (error);
 
 		return;
 	}
 
-	if (error) {
+	if (error != NULL) {
+		const gchar *uri;
+
+		uri = e_client_get_uri (E_CLIENT (client));
 		e_cal_model_remove_client (model, client);
-		g_debug ("%s: Failed to open '%s': %s", G_STRFUNC, e_client_get_uri (E_CLIENT (client)), error->message);
+		g_warning (
+			"%s: Failed to open '%s': %s",
+			G_STRFUNC, uri, error->message);
 		g_error_free (error);
 		e_cal_model_update_status_message (model, NULL, -1.0);
 		return;
 	}
 
 	/* to have them ready for later use */
-	e_client_retrieve_capabilities (E_CLIENT (client), model->priv->loading_clients, cal_model_retrieve_capabilies_cb, model);
+	e_client_retrieve_capabilities (
+		E_CLIENT (client), model->priv->loading_clients,
+		cal_model_retrieve_capabilies_cb, model);
 }
 
 static gboolean
@@ -2746,7 +2761,9 @@ cal_model_retry_open_timeout_cb (gpointer user_data)
 	g_return_val_if_fail (rod->client != NULL, FALSE);
 	g_return_val_if_fail (rod->model != NULL, FALSE);
 
-	e_client_open (rod->client, TRUE, rod->cancellable, client_opened_cb, rod->model);
+	e_client_open (
+		rod->client, TRUE, rod->cancellable,
+		client_opened_cb, rod->model);
 
 	return FALSE;
 }

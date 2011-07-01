@@ -1266,9 +1266,9 @@ report_and_free_error_if_any (GError *error)
 	}
 
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_PERMISSION_DENIED)) {
-		e_alert_run_dialog_for_args (e_shell_get_active_window (NULL),
-					     "addressbook:contact-delete-error-perm",
-					     NULL);
+		e_alert_run_dialog_for_args (
+			e_shell_get_active_window (NULL),
+			"addressbook:contact-delete-error-perm", NULL);
 	} else {
 		eab_error_dialog (NULL, _("Failed to delete contact"), error);
 	}
@@ -1280,7 +1280,9 @@ report_and_free_error_if_any (GError *error)
  * which a user doesnt have write permission
  */
 static void
-remove_contacts_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+remove_contacts_cb (GObject *source_object,
+                    GAsyncResult *result,
+                    gpointer user_data)
 {
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
 	GError *error = NULL;
@@ -1291,7 +1293,9 @@ remove_contacts_cb (GObject *source_object, GAsyncResult *result, gpointer user_
 }
 
 static void
-remove_contact_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+remove_contact_cb (GObject *source_object,
+                   GAsyncResult *result,
+                   gpointer user_data)
 {
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
 	GError *error = NULL;
@@ -1415,13 +1419,17 @@ e_addressbook_view_delete_selection (EAddressbookView *view, gboolean is_delete)
 		GSList *ids = NULL;
 
 		for (l = list; l; l = g_slist_next (l)) {
+			const gchar *uid;
+
 			contact = l->data;
 
-			ids = g_slist_prepend (ids, (gpointer) e_contact_get_const (contact, E_CONTACT_UID));
+			uid = e_contact_get_const (contact, E_CONTACT_UID);
+			ids = g_slist_prepend (ids, (gpointer) uid);
 		}
 
 		/* Remove the cards all at once. */
-		e_book_client_remove_contacts (book_client, ids, NULL, remove_contacts_cb, NULL);
+		e_book_client_remove_contacts (
+			book_client, ids, NULL, remove_contacts_cb, NULL);
 
 		g_slist_free (ids);
 	} else {
@@ -1429,7 +1437,9 @@ e_addressbook_view_delete_selection (EAddressbookView *view, gboolean is_delete)
 			contact = l->data;
 
 			/* Remove the card. */
-			e_book_client_remove_contact (book_client, contact, NULL, remove_contact_cb, NULL);
+			e_book_client_remove_contact (
+				book_client, contact, NULL,
+				remove_contact_cb, NULL);
 		}
 	}
 
@@ -1531,11 +1541,14 @@ struct TransferContactsData
 };
 
 static void
-all_contacts_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+all_contacts_ready_cb (GObject *source_object,
+                       GAsyncResult *result,
+                       gpointer user_data)
 {
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
 	struct TransferContactsData *tcd = user_data;
 	EShellView *shell_view;
+	EShellContent *shell_content;
 	EAlertSink *alert_sink;
 	GSList *contacts = NULL;
 	GError *error = NULL;
@@ -1547,7 +1560,8 @@ all_contacts_ready_cb (GObject *source_object, GAsyncResult *result, gpointer us
 		contacts = NULL;
 
 	shell_view = e_addressbook_view_get_shell_view (tcd->view);
-	alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	alert_sink = E_ALERT_SINK (shell_content);
 
 	if (error) {
 		e_alert_submit (
@@ -1555,7 +1569,9 @@ all_contacts_ready_cb (GObject *source_object, GAsyncResult *result, gpointer us
 			error->message, NULL);
 		g_error_free (error);
 	} else if (contacts) {
-		eab_transfer_contacts (book_client, contacts, tcd->delete_from_source, alert_sink);
+		eab_transfer_contacts (
+			book_client, contacts,
+			tcd->delete_from_source, alert_sink);
 	}
 
 	g_object_unref (tcd->view);
@@ -1584,17 +1600,23 @@ view_transfer_contacts (EAddressbookView *view,
 		tcd->delete_from_source = delete_from_source;
 		tcd->view = g_object_ref (view);
 
-		e_book_client_get_contacts (book_client, query_str, NULL, all_contacts_ready_cb, tcd);
+		e_book_client_get_contacts (
+			book_client, query_str, NULL,
+			all_contacts_ready_cb, tcd);
 	} else {
 		GSList *contacts = NULL;
 		EShellView *shell_view;
+		EShellContent *shell_content;
 		EAlertSink *alert_sink;
 
 		shell_view = e_addressbook_view_get_shell_view (view);
-		alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
+		shell_content = e_shell_view_get_shell_content (shell_view);
+		alert_sink = E_ALERT_SINK (shell_content);
+
 		contacts = e_addressbook_view_get_selected (view);
 
-		eab_transfer_contacts (book_client, contacts, delete_from_source, alert_sink);
+		eab_transfer_contacts (
+			book_client, contacts, delete_from_source, alert_sink);
 	}
 }
 

@@ -59,9 +59,8 @@ ensure_caldav_source_group (ECalClientSourceType source_type)
 	GError *error = NULL;
 
 	if (!e_cal_client_get_sources (&slist, source_type, &error)) {
-		g_warning ("Could not get calendar sources: %s", error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
+		g_warning ("Could not get calendar sources: %s", error->message);
+		g_error_free (error);
 		return;
 	}
 

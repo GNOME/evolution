@@ -153,11 +153,14 @@ import_contact (EBookClient *book_client, gchar *line)
 		if (strings[3] && strings[4])
 			e_contact_set (card, E_CONTACT_NOTE, strings[4]);
 
-		if (!e_book_client_add_contact_sync (book_client, card, &new_uid, NULL, &error)) {
-			g_debug ("%s: Failed to add contact: %s", G_STRFUNC, error ? error->message : "Unknown error");
-			if (error)
-				g_error_free (error);
-			error = NULL;
+		e_book_client_add_contact_sync (
+			book_client, card, &new_uid, NULL, &error);
+
+		if (error != NULL) {
+			g_error (
+				"%s: Failed to add contact: %s",
+				G_STRFUNC, error->message);
+			g_error_free (error);
 		} else {
 			g_free (new_uid);
 		}
@@ -181,11 +184,13 @@ import_contacts (void)
 
 	printf("importing pine addressbook\n");
 
-	if (!e_book_client_get_sources (&source_list, &error)) {
-		if (error) {
-			g_debug ("%s: Failed to get book sources: %s", G_STRFUNC, error->message);
-			g_error_free (error);
-		}
+	e_book_client_get_sources (&source_list, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to get book sources: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 		return;
 	}
 
@@ -199,7 +204,7 @@ import_contacts (void)
 	/* FIXME Better error handling */
 	if ((book_client = e_book_client_new (primary, &error)) == NULL) {
 		fclose (fp);
-		g_warning ("Could not create EBook: %s", error ? error->message : "Unknown error");
+		g_warning ("Could not create EBook: %s", error->message);
 		if (error)
 			g_error_free (error);
 		return;
@@ -210,7 +215,9 @@ import_contacts (void)
 		g_object_unref (source_list);
 		fclose (fp);
 
-		g_warning ("%s: Failed to open book client: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_warning (
+			"%s: Failed to open book client: %s",
+			G_STRFUNC, error->message);
 		if (error)
 			g_error_free (error);
 		return;

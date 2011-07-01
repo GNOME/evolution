@@ -73,10 +73,14 @@ ensure_google_source_group (void)
 	ESourceList  *slist;
 	GError *error = NULL;
 
-	if (!e_cal_client_get_sources (&slist, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, &error)) {
-		g_debug ("%s: Could not get calendar source list: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
+	e_cal_client_get_sources (
+		&slist, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Could not get calendar source list: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
 		return;
 	}
 

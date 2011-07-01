@@ -126,7 +126,8 @@ alarm_notify_list_changed_cb (ESourceList *source_list,
 			gchar *uri;
 			const gchar *alarm = e_source_get_property (source, "alarm");
 
-			if (alarm && (!g_ascii_strcasecmp (alarm, "false") || !g_ascii_strcasecmp (alarm, "never")))
+			if (alarm && (!g_ascii_strcasecmp (alarm, "false") ||
+			    !g_ascii_strcasecmp (alarm, "never")))
 				continue;
 
 			uri = e_source_get_uri (source);
@@ -142,7 +143,9 @@ alarm_notify_list_changed_cb (ESourceList *source_list,
 	prd.an = an;
 	prd.source_list = an->priv->source_lists[source_type];
 	prd.removals = NULL;
-	g_hash_table_foreach (an->priv->uri_client_hash[source_type], (GHFunc) process_removal_in_hash, &prd);
+	g_hash_table_foreach (
+		an->priv->uri_client_hash[source_type],
+		(GHFunc) process_removal_in_hash, &prd);
 
 	for (l = prd.removals; l; l = l->next) {
 		debug (("Removing Calendar %s", (gchar *)l->data));
@@ -313,31 +316,35 @@ alarm_notify_new (void)
 }
 
 static void
-client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+client_opened_cb (GObject *source_object,
+                  GAsyncResult *result,
+                  gpointer user_data)
 {
-	AlarmNotifyPrivate *priv;
+	ESource *source = E_SOURCE (source_object);
 	AlarmNotify *an = ALARM_NOTIFY (user_data);
 	EClient *client = NULL;
-	GError *error = NULL;
+	ECalClient *cal_client;
+	ECalClientSourceType source_type;
+	const gchar *uri;
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, NULL);
 
-	priv = an->priv;
+	if (client == NULL)
+		return;
 
-	debug (("%s - Calendar Status %d%s%s%s", e_client_get_uri (client), error ? error->code : 0, error ? " (" : "", error ? error->message : "", error ? ")" : ""));
+	cal_client = E_CAL_CLIENT (client);
+	source_type = e_cal_client_get_source_type (cal_client);
+	uri = e_client_get_uri (client);
 
-	if (!error) {
-		ECalClient *cal_client = E_CAL_CLIENT (client);
+	g_hash_table_insert (
+		an->priv->uri_client_hash[source_type],
+		g_strdup (uri), cal_client);
 
-		g_hash_table_insert (priv->uri_client_hash[e_cal_client_get_source_type (cal_client)], g_strdup (e_client_get_uri (client)), cal_client);
-		/* to resolve floating DATE-TIME properly */
-		e_cal_client_set_default_timezone (cal_client, config_data_get_timezone ());
+	/* to resolve floating DATE-TIME properly */
+	e_cal_client_set_default_timezone (
+		cal_client, config_data_get_timezone ());
 
-		alarm_queue_add_client (cal_client);
-	} else {
-		g_error_free (error);
-	}
+	alarm_queue_add_client (cal_client);
 }
 
 /**
@@ -352,16 +359,21 @@ client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_da
  * that it can be loaded in the future when the alarm daemon starts up.
  **/
 void
-alarm_notify_add_calendar (AlarmNotify *an, ECalClientSourceType source_type,  ESource *source, gboolean load_afterwards)
+alarm_notify_add_calendar (AlarmNotify *an,
+                           ECalClientSourceType source_type,
+                           ESource *source,
+                           gboolean load_afterwards)
 {
 	AlarmNotifyPrivate *priv;
+	EClientSourceType client_source_type;
 	EUri *e_uri;
 	gchar *str_uri;
 	gchar *pass_key;
 	g_return_if_fail (an != NULL);
 	g_return_if_fail (IS_ALARM_NOTIFY (an));
 
-	/* Make sure the key used in for getting password is properly generated for all types of backends */
+	/* Make sure the key used in for getting password is
+	 * properly generated for all types of backends. */
 	priv = an->priv;
 	str_uri = e_source_get_uri (source);
 	e_uri = e_uri_new (str_uri);
@@ -379,8 +391,11 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalClientSourceType source_type,  E
 		g_free (pass_key);
 		return;
 	}
-	/* if loading of this requires password and password is not currently availble in e-password
-	   session skip this source loading. we do not really want to prompt for auth from alarm dameon*/
+
+	/* If loading of this requires password and password is not
+	 * currently availble in e-password session, skip this source
+	 * loading.  We do not really want to prompt for auth from
+	 * the alarm dameon. */
 
 	if (e_source_get_property (source, "auth")) {
 
@@ -395,12 +410,23 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalClientSourceType source_type,  E
 
 	debug (("%s - Calendar Open Async... %p", str_uri, source));
 
-	e_client_utils_open_new (source,
-		source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? E_CLIENT_SOURCE_TYPE_EVENTS :
-		source_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ? E_CLIENT_SOURCE_TYPE_TASKS :
-		source_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS ? E_CLIENT_SOURCE_TYPE_MEMOS :
-		E_CLIENT_SOURCE_TYPE_LAST,
-		TRUE, NULL,
+	switch (source_type) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			client_source_type = E_CLIENT_SOURCE_TYPE_EVENTS;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			client_source_type = E_CLIENT_SOURCE_TYPE_TASKS;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			client_source_type = E_CLIENT_SOURCE_TYPE_MEMOS;
+			break;
+		default:
+			g_warn_if_reached ();
+			client_source_type = E_CLIENT_SOURCE_TYPE_LAST;
+	}
+
+	e_client_utils_open_new (
+		source, client_source_type, TRUE, NULL,
 		e_client_utils_authenticate_handler, NULL,
 		client_opened_cb, an);
 
@@ -410,14 +436,17 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalClientSourceType source_type,  E
 }
 
 void
-alarm_notify_remove_calendar (AlarmNotify *an, ECalClientSourceType source_type, const gchar *str_uri)
+alarm_notify_remove_calendar (AlarmNotify *an,
+                              ECalClientSourceType source_type,
+                              const gchar *str_uri)
 {
 	AlarmNotifyPrivate *priv;
 	ECalClient *cal_client;
 
 	priv = an->priv;
 
-	cal_client = g_hash_table_lookup (priv->uri_client_hash[source_type], str_uri);
+	cal_client = g_hash_table_lookup (
+		priv->uri_client_hash[source_type], str_uri);
 	if (cal_client) {
 		debug (("Removing Client %p", cal_client));
 		alarm_queue_remove_client (cal_client, FALSE);

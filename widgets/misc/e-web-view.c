@@ -75,6 +75,8 @@ enum {
 	PROP_ANIMATE,
 	PROP_CARET_MODE,
 	PROP_COPY_TARGET_LIST,
+	PROP_CURSOR_IMAGE,
+	PROP_CURSOR_IMAGE_SRC,
 	PROP_DISABLE_PRINTING,
 	PROP_DISABLE_SAVE_TO_DISK,
 	PROP_EDITABLE,
@@ -85,9 +87,7 @@ enum {
 	PROP_PASTE_TARGET_LIST,
 	PROP_PRINT_PROXY,
 	PROP_SAVE_AS_PROXY,
-	PROP_SELECTED_URI,
-	PROP_CURSOR_IMAGE,
-	PROP_CURSOR_IMAGE_SRC
+	PROP_SELECTED_URI
 };
 
 enum {
@@ -490,7 +490,8 @@ web_view_button_press_event_cb (EWebView *web_view,
 		if (anim != NULL)
 			g_object_unref (anim);
 
-		image_src = gtk_html_get_image_src_at (frame, event->x, event->y);
+		image_src = gtk_html_get_image_src_at (
+			frame, event->x, event->y);
 		e_web_view_set_cursor_image_src (web_view, image_src);
 		g_free (image_src);
 	}
@@ -578,6 +579,18 @@ web_view_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_CURSOR_IMAGE:
+			e_web_view_set_cursor_image (
+				E_WEB_VIEW (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_CURSOR_IMAGE_SRC:
+			e_web_view_set_cursor_image_src (
+				E_WEB_VIEW (object),
+				g_value_get_string (value));
+			return;
+
 		case PROP_DISABLE_PRINTING:
 			e_web_view_set_disable_printing (
 				E_WEB_VIEW (object),
@@ -637,16 +650,6 @@ web_view_set_property (GObject *object,
 				E_WEB_VIEW (object),
 				g_value_get_string (value));
 			return;
-		case PROP_CURSOR_IMAGE:
-			e_web_view_set_cursor_image (
-				E_WEB_VIEW (object),
-				g_value_get_object (value));
-			return;
-		case PROP_CURSOR_IMAGE_SRC:
-			e_web_view_set_cursor_image_src (
-				E_WEB_VIEW (object),
-				g_value_get_string (value));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -674,6 +677,18 @@ web_view_get_property (GObject *object,
 		case PROP_COPY_TARGET_LIST:
 			g_value_set_boxed (
 				value, e_web_view_get_copy_target_list (
+				E_WEB_VIEW (object)));
+			return;
+
+		case PROP_CURSOR_IMAGE:
+			g_value_set_object (
+				value, e_web_view_get_cursor_image (
+				E_WEB_VIEW (object)));
+			return;
+
+		case PROP_CURSOR_IMAGE_SRC:
+			g_value_set_string (
+				value, e_web_view_get_cursor_image_src (
 				E_WEB_VIEW (object)));
 			return;
 
@@ -740,17 +755,6 @@ web_view_get_property (GObject *object,
 		case PROP_SELECTED_URI:
 			g_value_set_string (
 				value, e_web_view_get_selected_uri (
-				E_WEB_VIEW (object)));
-			return;
-
-		case PROP_CURSOR_IMAGE:
-			g_value_set_object (
-				value, e_web_view_get_cursor_image (
-				E_WEB_VIEW (object)));
-			return;
-		case PROP_CURSOR_IMAGE_SRC:
-			g_value_set_string (
-				value, e_web_view_get_cursor_image_src (
 				E_WEB_VIEW (object)));
 			return;
 	}
@@ -1406,6 +1410,26 @@ e_web_view_class_init (EWebViewClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_CURSOR_IMAGE,
+		g_param_spec_object (
+			"cursor-image",
+			"Image animation at the mouse cursor",
+			NULL,
+			GDK_TYPE_PIXBUF_ANIMATION,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CURSOR_IMAGE_SRC,
+		g_param_spec_string (
+			"cursor-image-src",
+			"Image source uri at the mouse cursor",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_DISABLE_PRINTING,
 		g_param_spec_boolean (
 			"disable-printing",
@@ -1508,26 +1532,6 @@ e_web_view_class_init (EWebViewClass *class)
 		g_param_spec_string (
 			"selected-uri",
 			"Selected URI",
-			NULL,
-			NULL,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_CURSOR_IMAGE,
-		g_param_spec_object (
-			"cursor-image",
-			"Image animation at the mouse cursor",
-			NULL,
-			GDK_TYPE_PIXBUF_ANIMATION,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_CURSOR_IMAGE_SRC,
-		g_param_spec_string (
-			"cursor-image-src",
-			"Image source uri at the mouse cursor",
 			NULL,
 			NULL,
 			G_PARAM_READWRITE));

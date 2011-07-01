@@ -191,21 +191,27 @@ static const gchar *ui =
 "  </toolbar>"
 "</ui>";
 
-static void comp_editor_show_help (CompEditor *editor);
+static void	comp_editor_show_help		(CompEditor *editor);
 
-static void real_edit_comp (CompEditor *editor, ECalComponent *comp);
+static void	real_edit_comp			(CompEditor *editor,
+						 ECalComponent *comp);
 static gboolean	real_send_comp			(CompEditor *editor,
 						 ECalComponentItipMethod method,
 						 gboolean strip_alarms);
-static gboolean prompt_and_save_changes (CompEditor *editor, gboolean send);
-static void close_dialog (CompEditor *editor);
+static gboolean	prompt_and_save_changes		(CompEditor *editor,
+						 gboolean send);
+static void	close_dialog			(CompEditor *editor);
 
 static void	page_dates_changed_cb		(CompEditor *editor,
 						 CompEditorPageDates *dates,
 						 CompEditorPage *page);
 
-static void obj_modified_cb (ECalClientView *view, const GSList *objs, CompEditor *editor);
-static void obj_removed_cb (ECalClientView *view, const GSList *uids, CompEditor *editor);
+static void	obj_modified_cb			(ECalClientView *view,
+						 const GSList *objs,
+						 CompEditor *editor);
+static void	obj_removed_cb			(ECalClientView *view,
+						 const GSList *uids,
+						 CompEditor *editor);
 
 G_DEFINE_TYPE_WITH_CODE (
 	CompEditor, comp_editor, GTK_TYPE_WINDOW,
@@ -351,15 +357,21 @@ commit_all_fields (CompEditor *editor)
 }
 
 static void
-changes_view_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+changes_view_ready_cb (GObject *source_object,
+                       GAsyncResult *result,
+                       gpointer user_data)
 {
 	CompEditor *editor = user_data;
 	ECalClientView *view = NULL;
+	gboolean success;
 	GError *error = NULL;
 
 	g_return_if_fail (editor != NULL);
 
-	if (!e_cal_client_get_view_finish (E_CAL_CLIENT (source_object), result, &view, &error))
+	success = e_cal_client_get_view_finish (
+		E_CAL_CLIENT (source_object), result, &view, &error);
+
+	if (!success)
 		view = NULL;
 
 	if (view) {
@@ -373,14 +385,18 @@ changes_view_ready_cb (GObject *source_object, GAsyncResult *result, gpointer us
 
 		e_cal_client_view_start (view, &error);
 
-		if (error) {
-			g_debug ("%s: Failed to stat view: %s", G_STRFUNC, error->message);
+		if (error != NULL) {
+			g_warning (
+				"%s: Failed to start view: %s",
+				G_STRFUNC, error->message);
 			g_error_free (error);
 		}
 	} else if (error) {
 		if (!g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) &&
 		    !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-			g_debug ("%s: Failed to get view: %s", G_STRFUNC, error->message);
+			g_warning (
+				"%s: Failed to get view: %s",
+				G_STRFUNC, error->message);
 		g_error_free (error);
 	}
 }
@@ -401,10 +417,9 @@ listen_for_changes (CompEditor *editor)
 	}
 
 	if (priv->view) {
-		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
-						      G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL,
-						      editor);
+		g_signal_handlers_disconnect_matched (
+			priv->view, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, editor);
 
 		g_object_unref (priv->view);
 		priv->view = NULL;
@@ -419,7 +434,10 @@ listen_for_changes (CompEditor *editor)
 
 		priv->view_cancellable = g_cancellable_new ();
 		query = g_strdup_printf ("(uid? \"%s\")", uid);
-		e_cal_client_get_view (priv->source_client, query, priv->view_cancellable, changes_view_ready_cb, editor);
+		e_cal_client_get_view (
+			priv->source_client,
+			query, priv->view_cancellable,
+			changes_view_ready_cb, editor);
 		g_free (query);
 	}
 }
@@ -433,8 +451,10 @@ send_timezone (gpointer key, gpointer value, gpointer user_data)
 
 	e_cal_client_add_timezone_sync (editor->priv->cal_client, zone, NULL, &error);
 
-	if (error) {
-		g_debug ("%s: Failed to add timezone: %s", G_STRFUNC, error->message);
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to add timezone: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
 }
@@ -518,7 +538,8 @@ save_comp (CompEditor *editor)
 	/* send the component to the server */
 	if (!cal_comp_is_on_server (priv->comp, priv->cal_client)) {
 		gchar *uid = NULL;
-		result = e_cal_client_create_object_sync (priv->cal_client, icalcomp, &uid, NULL, &error);
+		result = e_cal_client_create_object_sync (
+			priv->cal_client, icalcomp, &uid, NULL, &error);
 		if (result) {
 			icalcomponent_set_uid (icalcomp, uid);
 			g_free (uid);
@@ -540,7 +561,8 @@ save_comp (CompEditor *editor)
 			e_cal_component_set_exdate_list (priv->comp, NULL);
 			e_cal_component_set_exrule_list (priv->comp, NULL);
 		}
-		result = e_cal_client_modify_object_sync (priv->cal_client, icalcomp, priv->mod, NULL, &error);
+		result = e_cal_client_modify_object_sync (
+			priv->cal_client, icalcomp, priv->mod, NULL, &error);
 
 		if (priv->mod == CALOBJ_MOD_THIS) {
 			if (result && ((flags & COMP_EDITOR_DELEGATE) ||
@@ -614,8 +636,10 @@ save_comp (CompEditor *editor)
 					priv->source_client,
 					orig_uid_copy, NULL, CALOBJ_MOD_THIS, NULL, &error);
 
-			if (error) {
-				g_debug ("%s: Failed to remove object: %s", G_STRFUNC, error->message);
+			if (error != NULL) {
+				g_warning (
+					"%s: Failed to remove object: %s",
+					G_STRFUNC, error->message);
 				g_error_free (error);
 			}
 
@@ -964,10 +988,14 @@ action_save_cb (GtkAction *action,
 				e_cal_component_has_recurrences (priv->comp)) {
 				gchar *rid;
 				rid = e_cal_component_get_recurid_as_string (priv->comp);
-				e_cal_client_remove_object_sync (priv->cal_client, uid, rid, priv->mod, NULL, &error);
+				e_cal_client_remove_object_sync (
+					priv->cal_client, uid, rid,
+					priv->mod, NULL, &error);
 				g_free (rid);
 			} else
-				e_cal_client_remove_object_sync (priv->cal_client, uid, NULL, CALOBJ_MOD_THIS, NULL, &error);
+				e_cal_client_remove_object_sync (
+					priv->cal_client, uid, NULL,
+					CALOBJ_MOD_THIS, NULL, &error);
 
 			g_clear_error (&error);
 		}
@@ -3350,10 +3378,13 @@ comp_editor_delete_comp (CompEditor *editor)
 	e_cal_component_get_uid (priv->comp, &uid);
 	if (e_cal_component_is_instance (priv->comp) ||
 		e_cal_component_has_recurrences (priv->comp))
-		e_cal_client_remove_object_sync (priv->cal_client, uid, NULL,
-				CALOBJ_MOD_ALL, NULL, NULL);
+		e_cal_client_remove_object_sync (
+			priv->cal_client, uid, NULL,
+			CALOBJ_MOD_ALL, NULL, NULL);
 	else
-		e_cal_client_remove_object_sync (priv->cal_client, uid, NULL, CALOBJ_MOD_THIS, NULL, NULL);
+		e_cal_client_remove_object_sync (
+			priv->cal_client, uid, NULL,
+			CALOBJ_MOD_THIS, NULL, NULL);
 	close_dialog (editor);
 }
 

@@ -141,10 +141,15 @@ attachment_handler_update_objects (ECalClient *client,
 			return FALSE;
 	}
 
-	success = e_cal_client_receive_objects_sync (client, vcalendar, NULL, &error);
-	if (error)
-		g_debug ("%s: Failed to receive objects: %s", G_STRFUNC, error ? error->message : "Unknown error");
-	g_clear_error (&error);
+	success = e_cal_client_receive_objects_sync (
+		client, vcalendar, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"%s: Failed to receive objects: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
+	}
 
 	icalcomponent_free (vcalendar);
 
@@ -152,8 +157,11 @@ attachment_handler_update_objects (ECalClient *client,
 }
 
 static void
-attachment_handler_import_event (GObject *source_object, GAsyncResult *result, gpointer user_data)
+attachment_handler_import_event (GObject *source_object,
+                                 GAsyncResult *result,
+                                 gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
 	EAttachment *attachment = user_data;
 	EClient *client = NULL;
 	GError *error = NULL;
@@ -161,14 +169,20 @@ attachment_handler_import_event (GObject *source_object, GAsyncResult *result, g
 	icalcomponent *subcomponent;
 	icalcompiter iter;
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (!client) {
-		g_debug ("%s: Failed to open '%s': %s", G_STRFUNC, e_source_peek_name (E_SOURCE (source_object)), error ? error->message : "Unknown error");
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
+		g_warning (
+			"%s: Failed to open '%s': %s",
+			G_STRFUNC, e_source_peek_name (source),
+			error->message);
 		g_object_unref (attachment);
+		g_error_free (error);
 		return;
 	}
+
+	g_return_if_fail (E_IS_CLIENT (client));
 
 	component = attachment_handler_get_component (attachment);
 	g_return_if_fail (component != NULL);
@@ -199,8 +213,11 @@ attachment_handler_import_event (GObject *source_object, GAsyncResult *result, g
 }
 
 static void
-attachment_handler_import_todo (GObject *source_object, GAsyncResult *result, gpointer user_data)
+attachment_handler_import_todo (GObject *source_object,
+                                GAsyncResult *result,
+                                gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
 	EAttachment *attachment = user_data;
 	EClient *client = NULL;
 	GError *error = NULL;
@@ -208,14 +225,20 @@ attachment_handler_import_todo (GObject *source_object, GAsyncResult *result, gp
 	icalcomponent *subcomponent;
 	icalcompiter iter;
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (!client) {
-		g_debug ("%s: Failed to open '%s': %s", G_STRFUNC, e_source_peek_name (E_SOURCE (source_object)), error ? error->message : "Unknown error");
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
+		g_warning (
+			"%s: Failed to open '%s': %s",
+			G_STRFUNC, e_source_peek_name (source),
+			error->message);
 		g_object_unref (attachment);
+		g_error_free (error);
 		return;
 	}
+
+	g_return_if_fail (E_IS_CLIENT (client));
 
 	component = attachment_handler_get_component (attachment);
 	g_return_if_fail (component != NULL);
@@ -270,8 +293,11 @@ attachment_handler_run_dialog (GtkWindow *parent,
 	g_return_if_fail (component != NULL);
 
 	e_cal_client_get_sources (&source_list, source_type, &error);
+
 	if (error != NULL) {
-		g_debug ("%s: Faield to get cal sources: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_warning (
+			"%s: Failed to get cal sources: %s",
+			G_STRFUNC, error->message);
 		g_clear_error (&error);
 		return;
 	}

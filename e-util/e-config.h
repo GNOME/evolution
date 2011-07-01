@@ -57,20 +57,20 @@ typedef struct _EConfigItem EConfigItem;
 typedef struct _EConfigFactory EConfigFactory;
 typedef struct _EConfigTarget EConfigTarget;
 
-typedef void	(*EConfigFactoryFunc)		(EConfig *ec,
+typedef void	(*EConfigFactoryFunc)		(EConfig *config,
 						 gpointer data);
 
 typedef gboolean
-		(*EConfigCheckFunc)		(EConfig *ec,
+		(*EConfigCheckFunc)		(EConfig *config,
 						 const gchar *pageid,
 						 gpointer data);
 
-typedef void	(*EConfigItemsFunc)		(EConfig *ec,
+typedef void	(*EConfigItemsFunc)		(EConfig *config,
 						 GSList *items,
 						 gpointer data);
 
 typedef GtkWidget *
-		(*EConfigItemFactoryFunc)	(EConfig *ec,
+		(*EConfigItemFactoryFunc)	(EConfig *config,
 						 EConfigItem *item,
 						 GtkWidget *parent,
 						 GtkWidget *old,
@@ -170,7 +170,8 @@ enum _e_config_t {
  **/
 struct _EConfigItem {
 	enum _e_config_t type;
-	gchar *path;		/* absolute path, must sort ascii-lexographically into the right spot */
+	gchar *path;		/* absolute path, must sort
+				 * ascii-lexographically into the right spot */
 	gchar *label;
 	EConfigItemFactoryFunc factory;
 	gpointer user_data;
@@ -257,35 +258,60 @@ struct _EConfigClass {
 	void		(*commit)		(EConfig *config);
 };
 
-GType e_config_get_type (void);
+GType		e_config_get_type		(void);
 
 /* Static class methods */
-EConfigFactory *e_config_class_add_factory (EConfigClass *klass, const gchar *id, EConfigFactoryFunc func, gpointer user_data);
-void e_config_class_remove_factory (EConfigClass *klass, EConfigFactory *f);
+EConfigFactory *e_config_class_add_factory	(EConfigClass *klass,
+						 const gchar *id,
+						 EConfigFactoryFunc func,
+						 gpointer user_data);
+void		e_config_class_remove_factory	(EConfigClass *klass,
+						 EConfigFactory *f);
 
-EConfig *e_config_construct (EConfig *, gint type, const gchar *id);
+EConfig *	e_config_construct		(EConfig *config,
+						 gint type,
+						 const gchar *id);
 
-void e_config_add_items (EConfig *, GSList *items, EConfigItemsFunc freefunc, gpointer data);
-void e_config_add_page_check (EConfig *, const gchar *pageid, EConfigCheckFunc, gpointer data);
-void e_config_set_page_is_finish (EConfig *ec, const gchar *pageid, gboolean is_finish);
+void		e_config_add_items		(EConfig *config,
+						 GSList *items,
+						 EConfigItemsFunc freefunc,
+						 gpointer data);
+void		e_config_add_page_check		(EConfig *config,
+						 const gchar *pageid,
+						 EConfigCheckFunc func,
+						 gpointer data);
+void		e_config_set_page_is_finish	(EConfig *config,
+						 const gchar *pageid,
+						 gboolean is_finish);
 
-void e_config_set_target (EConfig *emp, EConfigTarget *target);
-GtkWidget *e_config_create_widget (EConfig *);
-GtkWidget *e_config_create_window (EConfig *emp, GtkWindow *parent, const gchar *title);
+void		e_config_set_target		(EConfig *config,
+						 EConfigTarget *target);
+GtkWidget *	e_config_create_widget		(EConfig *config);
+GtkWidget *	e_config_create_window		(EConfig *config,
+						 GtkWindow *parent,
+						 const gchar *title);
 
-void e_config_target_changed (EConfig *emp, e_config_target_change_t how);
+void		e_config_target_changed		(EConfig *config,
+						 e_config_target_change_t how);
 
-gboolean e_config_page_check (EConfig *, const gchar *);
+gboolean	e_config_page_check		(EConfig *config,
+						 const gchar *pageid);
 
-GtkWidget *e_config_page_get (EConfig *ec, const gchar *pageid);
-const gchar *e_config_page_next (EConfig *ec, const gchar *pageid);
-const gchar *e_config_page_prev (EConfig *ec, const gchar *pageid);
+GtkWidget *	e_config_page_get		(EConfig *config,
+						 const gchar *pageid);
+const gchar *	e_config_page_next		(EConfig *config,
+						 const gchar *pageid);
+const gchar *	e_config_page_prev		(EConfig *config,
+						 const gchar *pageid);
 
-void e_config_abort (EConfig *);
-void e_config_commit (EConfig *);
+void		e_config_abort			(EConfig *config);
+void		e_config_commit			(EConfig *config);
 
-gpointer e_config_target_new (EConfig *, gint type, gsize size);
-void e_config_target_free (EConfig *, gpointer );
+gpointer	e_config_target_new		(EConfig *config,
+						 gint type,
+						 gsize size);
+void		e_config_target_free		(EConfig *config,
+						 gpointer);
 
 /* ********************************************************************** */
 
@@ -416,7 +442,9 @@ struct _EConfigHookClass {
 GType e_config_hook_get_type (void);
 
 /* for implementors */
-void e_config_hook_class_add_target_map (EConfigHookClass *klass, const EConfigHookTargetMap *);
+void		e_config_hook_class_add_target_map
+					(EConfigHookClass *klass,
+					 const EConfigHookTargetMap *map);
 
 G_END_DECLS
 

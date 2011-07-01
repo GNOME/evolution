@@ -61,18 +61,24 @@ typedef struct {
 } GaimBuddy;
 
 /* Forward declarations for this file. */
-static gboolean bbdb_merge_buddy_to_contact (EBookClient *client, GaimBuddy *b, EContact *c);
-static GList *bbdb_get_gaim_buddy_list (void);
-static gchar *get_node_text (xmlNodePtr node);
-static gchar *get_buddy_icon_from_setting (xmlNodePtr setting);
-static void free_buddy_list (GList *blist);
-static void parse_buddy_group (xmlNodePtr group, GList **buddies, GSList *blocked);
-static EContactField proto_to_contact_field (const gchar *proto);
+static gboolean	bbdb_merge_buddy_to_contact	(EBookClient *client,
+						 GaimBuddy *buddy,
+						 EContact *contact);
+static GList *	bbdb_get_gaim_buddy_list	(void);
+static gchar *	get_node_text			(xmlNodePtr node);
+static gchar *	get_buddy_icon_from_setting	(xmlNodePtr setting);
+static void	free_buddy_list			(GList *blist);
+static void	parse_buddy_group		(xmlNodePtr group,
+						 GList **buddies,
+						 GSList *blocked);
+static EContactField
+		proto_to_contact_field		(const gchar *proto);
 
 static gchar *
 get_buddy_filename (void)
 {
-	return g_build_path ("/", g_get_home_dir (), ".purple/blist.xml", NULL);
+	return g_build_filename (
+		g_get_home_dir (), ".purple", "blist.xml", NULL);
 }
 
 static gchar *
@@ -229,10 +235,12 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 		}
 
 		/* Look for an exact match full name == buddy alias */
-		query = e_book_query_field_test (E_CONTACT_FULL_NAME, E_BOOK_QUERY_IS, b->alias);
+		query = e_book_query_field_test (
+			E_CONTACT_FULL_NAME, E_BOOK_QUERY_IS, b->alias);
 		query_string = e_book_query_to_string (query);
 		e_book_query_unref (query);
-		if (!e_book_client_get_contacts_sync (std->client, query_string, &contacts, NULL, NULL)) {
+		if (!e_book_client_get_contacts_sync (
+			std->client, query_string, &contacts, NULL, NULL)) {
 			g_free (query_string);
 			continue;
 		}

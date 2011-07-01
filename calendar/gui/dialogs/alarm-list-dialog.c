@@ -100,7 +100,7 @@ sensitize_buttons (Dialog *dialog)
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (dialog->list));
 	have_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
-	if ((e_cal_client_check_one_alarm_only (dialog->cal_client) && have_selected) || read_only)
+	if ((e_cal_client_check_one_alarm_only (dialog->cal_client) &&have_selected) || read_only)
 		gtk_widget_set_sensitive (dialog->add, FALSE);
 	else
 		gtk_widget_set_sensitive (dialog->add, TRUE);
@@ -262,7 +262,9 @@ init_widgets (Dialog *dialog)
 }
 
 gboolean
-alarm_list_dialog_run (GtkWidget *parent, ECalClient *cal_client, EAlarmList *list_store)
+alarm_list_dialog_run (GtkWidget *parent,
+                       ECalClient *cal_client,
+                       EAlarmList *list_store)
 {
 	Dialog dialog;
 	GtkWidget *container;

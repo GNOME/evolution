@@ -339,7 +339,8 @@ fail:
 	/* also disconnect if not a local delivery mbox;
 	   there is no need to keep the connection alive forever */
 	if (!is_local_delivery)
-		em_utils_disconnect_service_sync (CAMEL_SERVICE (m->store), TRUE, cancellable, NULL);
+		em_utils_disconnect_service_sync (
+			CAMEL_SERVICE (m->store), TRUE, cancellable, NULL);
 }
 
 static void
@@ -1597,7 +1598,8 @@ disconnect_service_exec (struct _disconnect_msg *m,
                     GCancellable *cancellable,
                     GError **error)
 {
-	em_utils_disconnect_service_sync (CAMEL_SERVICE (m->store), TRUE, cancellable, error);
+	em_utils_disconnect_service_sync (
+		CAMEL_SERVICE (m->store), TRUE, cancellable, error);
 }
 
 static void

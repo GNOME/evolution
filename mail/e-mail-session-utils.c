@@ -443,7 +443,9 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 			context->recipients, cancellable, &error);
 
 		if (did_connect)
-			em_utils_disconnect_service_sync (service, error == NULL, cancellable, error ? NULL : &error);
+			em_utils_disconnect_service_sync (
+				service, error == NULL,
+				cancellable, error ? NULL : &error);
 
 		if (error != NULL) {
 			g_simple_async_result_set_from_error (simple, error);

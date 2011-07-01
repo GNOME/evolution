@@ -626,13 +626,16 @@ datetime_to_zone (ECalClient *client, ECalComponentDateTime *date, const gchar *
 	if (!from) {
 		GError *error = NULL;
 
-		if (!e_cal_client_get_timezone_sync (client, date->tzid, &from, NULL, &error))
+		e_cal_client_get_timezone_sync (
+			client, date->tzid, &from, NULL, &error);
+
+		if (error != NULL) {
 			g_warning (
 				"%s: Could not get timezone '%s' from server: %s",
-				G_STRFUNC, date->tzid ? date->tzid : "", error ? error->message : "Unknown error");
-
-		if (error)
+				G_STRFUNC, date->tzid ? date->tzid : "",
+				error->message);
 			g_error_free (error);
+		}
 	}
 
 	to = icaltimezone_get_builtin_timezone_from_tzid (tzid);
@@ -714,10 +717,15 @@ comp_util_sanitize_recurrence_master (ECalComponent *comp,
 
 	/* Get the master component */
 	e_cal_component_get_uid (comp, &uid);
-	if (!e_cal_client_get_object_sync (client, uid, NULL, &icalcomp, NULL, &error)) {
-		g_warning ("Unable to get the master component: %s", error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
+
+	e_cal_client_get_object_sync (
+		client, uid, NULL, &icalcomp, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"Unable to get the master component: %s",
+			error->message);
+		g_error_free (error);
 		return;
 	}
 

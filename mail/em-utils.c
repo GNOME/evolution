@@ -1473,7 +1473,9 @@ struct TryOpenEBookStruct {
 };
 
 static void
-try_open_book_client_cb (GObject *source_object, GAsyncResult *result, gpointer closure)
+try_open_book_client_cb (GObject *source_object,
+                         GAsyncResult *result,
+                         gpointer closure)
 {
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
 	struct TryOpenEBookStruct *data = (struct TryOpenEBookStruct *) closure;
@@ -1502,7 +1504,10 @@ try_open_book_client_cb (GObject *source_object, GAsyncResult *result, gpointer 
  * result FALSE. Otherwise returns same as e_client_open()
  */
 static gboolean
-try_open_book_client (EBookClient *book_client, gboolean only_if_exists, GCancellable *cancellable, GError **error)
+try_open_book_client (EBookClient *book_client,
+                      gboolean only_if_exists,
+                      GCancellable *cancellable,
+                      GError **error)
 {
 	struct TryOpenEBookStruct data;
 	gboolean canceled = FALSE;
@@ -1512,7 +1517,9 @@ try_open_book_client (EBookClient *book_client, gboolean only_if_exists, GCancel
 	data.flag = flag;
 	data.result = FALSE;
 
-	e_client_open (E_CLIENT (book_client), only_if_exists, cancellable, try_open_book_client_cb, &data);
+	e_client_open (
+		E_CLIENT (book_client), only_if_exists,
+		cancellable, try_open_book_client_cb, &data);
 
 	while (canceled = camel_operation_cancel_check (NULL),
 			!canceled && !e_flag_is_set (flag)) {
@@ -1528,7 +1535,9 @@ try_open_book_client (EBookClient *book_client, gboolean only_if_exists, GCancel
 		g_cancellable_cancel (cancellable);
 
 		g_clear_error (error);
-		g_propagate_error (error, e_client_error_create (E_CLIENT_ERROR_CANCELLED, NULL));
+		g_propagate_error (
+			error, e_client_error_create (
+			E_CLIENT_ERROR_CANCELLED, NULL));
 	}
 
 	e_flag_wait (flag);
@@ -2291,25 +2300,29 @@ em_utils_is_local_delivery_mbox_file (CamelURL *url)
 }
 
 static void
-cancel_service_connect_cb (GCancellable *cancellable, CamelService *service)
+cancel_service_connect_cb (GCancellable *cancellable,
+                           CamelService *service)
 {
-	g_return_if_fail (service != NULL);
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
 	camel_service_cancel_connect (service);
 }
 
 gboolean
-em_utils_connect_service_sync (CamelService *service, GCancellable *cancellable, GError **error)
+em_utils_connect_service_sync (CamelService *service,
+                               GCancellable *cancellable,
+                               GError **error)
 {
 	gboolean res;
 	gulong handler_id = 0;
 
-	g_return_val_if_fail (service != NULL, FALSE);
 	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
 
-	if (cancellable)
-		handler_id = g_cancellable_connect (cancellable, G_CALLBACK (cancel_service_connect_cb), service, NULL);
+	if (cancellable != NULL)
+		handler_id = g_cancellable_connect (
+			cancellable,
+			G_CALLBACK (cancel_service_connect_cb),
+			service, NULL);
 
 	res = camel_service_connect_sync (service, error);
 
@@ -2320,16 +2333,21 @@ em_utils_connect_service_sync (CamelService *service, GCancellable *cancellable,
 }
 
 gboolean
-em_utils_disconnect_service_sync (CamelService *service, gboolean clean, GCancellable *cancellable, GError **error)
+em_utils_disconnect_service_sync (CamelService *service,
+                                  gboolean clean,
+                                  GCancellable *cancellable,
+                                  GError **error)
 {
 	gboolean res;
 	gulong handler_id = 0;
 
-	g_return_val_if_fail (service != NULL, FALSE);
 	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
 
-	if (cancellable)
-		handler_id = g_cancellable_connect (cancellable, G_CALLBACK (cancel_service_connect_cb), service, NULL);
+	if (cancellable != NULL)
+		handler_id = g_cancellable_connect (
+			cancellable,
+			G_CALLBACK (cancel_service_connect_cb),
+			service, NULL);
 
 	res = camel_service_disconnect_sync (service, clean, error);
 

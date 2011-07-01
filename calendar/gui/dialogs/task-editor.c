@@ -168,7 +168,9 @@ task_editor_constructor (GType type,
 	gtk_action_group_set_visible (action_group, is_assigned);
 
 	if (is_assigned) {
-		if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
+		if (e_client_check_capability (
+				E_CLIENT (client),
+				CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
 			task_page_show_options (priv->task_page);
 		comp_editor_set_group_item (editor, TRUE);
 	}

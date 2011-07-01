@@ -48,7 +48,8 @@ task_list_selector_update_single_object (ECalClient *client,
 	if (e_cal_client_get_object_sync (client, uid, NULL, &tmp_icalcomp, NULL, NULL)) {
 		icalcomponent_free (tmp_icalcomp);
 
-		return e_cal_client_modify_object_sync (client, icalcomp, CALOBJ_MOD_ALL, NULL, NULL);
+		return e_cal_client_modify_object_sync (
+			client, icalcomp, CALOBJ_MOD_ALL, NULL, NULL);
 	}
 
 	if (!e_cal_client_create_object_sync (client, icalcomp, &uid, NULL, NULL))
@@ -89,12 +90,13 @@ task_list_selector_update_objects (ECalClient *client,
 			zone = icaltimezone_new ();
 			icaltimezone_set_component (zone, subcomp);
 
-			success = e_cal_client_add_timezone_sync (client, zone, NULL, &error);
+			e_cal_client_add_timezone_sync (client, zone, NULL, &error);
 			icaltimezone_free (zone, 1);
-			if (!success) {
-				g_debug ("%s: Failed to add timezone: %s", G_STRFUNC, error ? error->message : "Unknown error");
-				if (error)
-					g_error_free (error);
+			if (error != NULL) {
+				g_warning (
+					"%s: Failed to add timezone: %s",
+					G_STRFUNC, error->message);
+				g_error_free (error);
 				return FALSE;
 			}
 		} else if (kind == ICAL_VTODO_COMPONENT ||
@@ -113,29 +115,38 @@ task_list_selector_update_objects (ECalClient *client,
 }
 
 static void
-client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+client_opened_cb (GObject *source_object,
+                  GAsyncResult *result,
+                  gpointer user_data)
 {
-	gchar *uid = user_data;
+	ESource *source = E_SOURCE (source_object);
 	EClient *client = NULL;
+	gchar *uid = user_data;
 	GError *error = NULL;
 
 	g_return_if_fail (uid != NULL);
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (error) {
-		g_debug ("%s: Failed to open task list: %s", G_STRFUNC, error->message);
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
+		g_warning (
+			"%s: Failed to open task list: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
+		goto exit;
 	}
 
-	if (client) {
-		if (!e_client_is_readonly (client))
-			e_cal_client_remove_object_sync (E_CAL_CLIENT (client), uid, NULL, CALOBJ_MOD_THIS, NULL, NULL);
+	g_return_if_fail (E_IS_CLIENT (client));
 
-		g_object_unref (client);
-	}
+	if (!e_client_is_readonly (client))
+		e_cal_client_remove_object_sync (
+			E_CAL_CLIENT (client), uid, NULL,
+			CALOBJ_MOD_THIS, NULL, NULL);
 
+	g_object_unref (client);
+
+exit:
 	g_free (uid);
 }
 
@@ -212,50 +223,59 @@ struct DropData
 };
 
 static void
-client_opened_for_drop_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+client_opened_for_drop_cb (GObject *source_object,
+                           GAsyncResult *result,
+                           gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
 	struct DropData *dd = user_data;
 	EClient *client = NULL;
+	ECalClient *cal_client;
+	GSList *iter;
 	GError *error = NULL;
 
 	g_return_if_fail (dd != NULL);
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (error) {
-		g_debug ("%s: Failed to open task list: %s", G_STRFUNC, error->message);
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
+		g_warning (
+			"%s: Failed to open task list: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
+		goto exit;
 	}
 
-	if (client) {
-		ECalClient *cal_client = E_CAL_CLIENT (client);
-		GSList *iter;
+	g_return_if_fail (E_IS_CLIENT (client));
 
-		for (iter = dd->list; iter != NULL; iter = iter->next) {
-			gchar *source_uid = iter->data;
-			icalcomponent *icalcomp;
-			gchar *component_string;
+	cal_client = E_CAL_CLIENT (client);
 
-			/* Each string is "source_uid\ncomponent_string". */
-			component_string = strchr (source_uid, '\n');
-			if (component_string == NULL)
-				continue;
+	for (iter = dd->list; iter != NULL; iter = iter->next) {
+		gchar *source_uid = iter->data;
+		icalcomponent *icalcomp;
+		gchar *component_string;
 
-			*component_string++ = '\0';
-			icalcomp = icalparser_parse_string (component_string);
-			if (icalcomp == NULL)
-				continue;
+		/* Each string is "source_uid\ncomponent_string". */
+		component_string = strchr (source_uid, '\n');
+		if (component_string == NULL)
+			continue;
 
-			task_list_selector_process_data (
-				dd->selector, cal_client, source_uid, icalcomp, dd->action);
+		*component_string++ = '\0';
+		icalcomp = icalparser_parse_string (component_string);
+		if (icalcomp == NULL)
+			continue;
 
-			icalcomponent_free (icalcomp);
-		}
+		task_list_selector_process_data (
+			dd->selector, cal_client, source_uid,
+			icalcomp, dd->action);
 
-		g_object_unref (client);
+		icalcomponent_free (icalcomp);
 	}
 
+	g_object_unref (client);
+
+exit:
 	g_slist_foreach (dd->list, (GFunc) g_free, NULL);
 	g_slist_free (dd->list);
 	g_object_unref (dd->selector);

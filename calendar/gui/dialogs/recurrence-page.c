@@ -1526,8 +1526,10 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 					/* FIXME Error checking? */
 					e_cal_client_get_timezone_sync (client, dt.tzid, &to_zone, NULL, &error);
 
-					if (error) {
-						g_debug ("%s: Failed to get timezone: %s", G_STRFUNC, error->message);
+					if (error != NULL) {
+						g_warning (
+							"%s: Failed to get timezone: %s",
+							G_STRFUNC, error->message);
 						g_error_free (error);
 					}
 				}

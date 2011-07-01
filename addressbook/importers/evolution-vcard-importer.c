@@ -486,15 +486,14 @@ book_loaded_cb (GObject *source_object,
 	VCardImporter *gci = user_data;
 	EClient *client = NULL;
 
-	if (!e_client_utils_open_new_finish (source, result, &client, NULL))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, NULL);
 
-	gci->book_client = client ? E_BOOK_CLIENT (client) : NULL;
-
-	if (gci->book_client == NULL) {
+	if (client == NULL) {
 		vcard_import_done (gci);
 		return;
 	}
+
+	gci->book_client = E_BOOK_CLIENT (client);
 
 	if (gci->encoding == VCARD_ENCODING_UTF16) {
 		gchar *tmp;
@@ -503,6 +502,7 @@ book_loaded_cb (GObject *source_object,
 		tmp = utf16_to_utf8 (contents_utf16);
 		g_free (gci->contents);
 		gci->contents = tmp;
+
 	} else if (gci->encoding == VCARD_ENCODING_LOCALE) {
 		gchar *tmp;
 		tmp = g_locale_to_utf8 (gci->contents, -1, NULL, NULL, NULL);

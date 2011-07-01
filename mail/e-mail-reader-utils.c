@@ -56,8 +56,11 @@ struct _AsyncContext {
 	EActivity *activity;
 	CamelFolder *folder;
 	EMailReader *reader;
+	CamelInternetAddress *address;
 	gchar *message_uid;
 
+	EMailReplyType reply_type;
+	EMailReplyStyle reply_style;
 	GtkPrintOperationAction print_action;
 	const gchar *filter_source;
 	gint filter_type;
@@ -74,6 +77,9 @@ async_context_free (AsyncContext *context)
 
 	if (context->reader != NULL)
 		g_object_unref (context->reader);
+
+	if (context->address != NULL)
+		g_object_unref (context->address);
 
 	g_free (context->message_uid);
 
@@ -776,58 +782,56 @@ html_contains_nonwhitespace (const gchar *html,
 	return cp - html < len - 1 && uc != 0;
 }
 
-struct GetSrcMessageData
-{
-	EMailReader *reader;
-	EMailReplyType reply_type;
-	EMailReplyStyle reply_style;
-	CamelFolder *folder;
-	gchar *message_uid;
-	CamelInternetAddress *address;
-};
-
 static void
-get_message_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+mail_reader_get_message_ready_cb (CamelFolder *folder,
+                                  GAsyncResult *result,
+                                  AsyncContext *context)
 {
-	CamelFolder *folder = CAMEL_FOLDER (source_object);
-	struct GetSrcMessageData *data = user_data;
+	EShell *shell;
+	EMailBackend *backend;
+	EAlertSink *alert_sink;
+	EMFormatHTML *formatter;
 	CamelMimeMessage *message;
 	GError *error = NULL;
 
-	g_return_if_fail (folder != NULL);
-	g_return_if_fail (result != NULL);
-	g_return_if_fail (data != NULL);
-	g_return_if_fail (data->folder == folder);
+	alert_sink = e_mail_reader_get_alert_sink (context->reader);
 
 	message = camel_folder_get_message_finish (folder, result, &error);
-	if (message) {
-		EShell *shell;
-		EMailBackend *backend;
 
-		backend = e_mail_reader_get_backend (data->reader);
-		shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+	if (e_activity_handle_cancellation (context->activity, error)) {
+		g_warn_if_fail (message == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
 
-		em_utils_reply_to_message (
-			shell, message, data->folder, data->message_uid,
-			data->reply_type, data->reply_style, EM_FORMAT (e_mail_reader_get_formatter (data->reader)), data->address);
-	} else if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		EAlertSink *alert_sink;
-
-		alert_sink = e_mail_reader_get_alert_sink (data->reader);
-
+	} else if (error != NULL) {
+		g_warn_if_fail (message == NULL);
 		e_alert_submit (
 			alert_sink, "mail:no-retrieve-message",
 			error->message, NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
 	}
 
-	g_clear_error (&error);
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	g_object_unref (data->reader);
-	g_object_unref (data->folder);
-	g_free (data->message_uid);
-	if (data->address)
-		g_object_unref (data->address);
-	g_free (data);
+	backend = e_mail_reader_get_backend (context->reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+
+	formatter = e_mail_reader_get_formatter (context->reader);
+
+	em_utils_reply_to_message (
+		shell, message,
+		context->folder, context->message_uid,
+		context->reply_type, context->reply_style,
+		EM_FORMAT (formatter), context->address);
+
+	g_object_unref (message);
+
+	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+
+	async_context_free (context);
 }
 
 void
@@ -951,20 +955,28 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	return;
 
 whole_message:
-	if (!src_message) {
-		struct GetSrcMessageData *data;
+	if (src_message == NULL) {
+		EActivity *activity;
+		AsyncContext *context;
+		GCancellable *cancellable;
 
-		data = g_new0 (struct GetSrcMessageData, 1);
-		data->reader = g_object_ref (reader);
-		data->reply_type = reply_type;
-		data->reply_style = reply_style;
-		data->folder = g_object_ref (folder);
-		data->message_uid = g_strdup (uid);
-		data->address = address; /* takes ownership of it, if set */
+		activity = e_mail_reader_new_activity (reader);
+		cancellable = e_activity_get_cancellable (activity);
+
+		context = g_slice_new0 (AsyncContext);
+		context->activity = activity;
+		context->folder = g_object_ref (folder);
+		context->reader = g_object_ref (reader);
+		context->address = address; /* takes ownership of it, if set */
+		context->message_uid = g_strdup (uid);
+		context->reply_type = reply_type;
+		context->reply_style = reply_style;
 
 		camel_folder_get_message (
-			data->folder, data->message_uid, G_PRIORITY_DEFAULT,
-			NULL, get_message_ready_cb, data);
+			context->folder, context->message_uid,
+			G_PRIORITY_DEFAULT, cancellable,
+			(GAsyncReadyCallback) mail_reader_get_message_ready_cb,
+			context);
 
 		return;
 	}

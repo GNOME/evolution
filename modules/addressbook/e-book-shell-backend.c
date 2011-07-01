@@ -86,9 +86,13 @@ book_shell_backend_ensure_sources (EShellBackend *shell_backend)
 
 	priv = E_BOOK_SHELL_BACKEND (shell_backend)->priv;
 
-	if (!e_book_client_get_sources (&priv->source_list, &error)) {
-		g_warning ("Could not get addressbook sources: %s", error ? error->message : "Unknown error");
-		g_clear_error (&error);
+	e_book_client_get_sources (&priv->source_list, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"Could not get addressbook sources: %s",
+			error->message);
+		g_error_free (error);
 		return;
 	}
 
@@ -156,68 +160,82 @@ book_shell_backend_init_importers (void)
 }
 
 static void
-book_shell_backend_new_contact_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+book_shell_backend_new_contact_cb (GObject *source_object,
+                                   GAsyncResult *result,
+                                   gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
 	EShell *shell = user_data;
 	EClient *client = NULL;
+	EContact *contact;
+	EABEditor *editor;
 	GError *error = NULL;
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
 	/* XXX Handle errors better. */
-	if (client == NULL) {
-		g_debug ("%s: Failed to open book: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		g_clear_error (&error);
-	} else {
-		EBookClient *book_client = E_BOOK_CLIENT (client);
-		EContact *contact;
-		EABEditor *editor;
-
-		contact = e_contact_new ();
-
-		editor = e_contact_editor_new (
-			shell, book_client, contact, TRUE, TRUE);
-
-		eab_editor_show (editor);
-
-		g_object_unref (contact);
-		g_object_unref (book_client);
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
+		g_warning (
+			"%s: Failed to open book: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
+		goto exit;
 	}
 
+	g_return_if_fail (E_IS_CLIENT (client));
+
+	contact = e_contact_new ();
+
+	editor = e_contact_editor_new (
+		shell, E_BOOK_CLIENT (client), contact, TRUE, TRUE);
+
+	eab_editor_show (editor);
+
+	g_object_unref (contact);
+	g_object_unref (client);
+
+exit:
 	g_object_unref (shell);
 }
 
 static void
-book_shell_backend_new_contact_list_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+book_shell_backend_new_contact_list_cb (GObject *source_object,
+                                        GAsyncResult *result,
+                                        gpointer user_data)
 {
+	ESource *source = E_SOURCE (source_object);
 	EShell *shell = user_data;
 	EClient *client = NULL;
+	EContact *contact;
+	EABEditor *editor;
 	GError *error = NULL;
 
-	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
-		client = NULL;
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
 	/* XXX Handle errors better. */
-	if (client == NULL) {
-		g_debug ("%s: Failed to open book: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		g_clear_error (&error);
-	} else {
-		EBookClient *book_client = E_BOOK_CLIENT (client);
-		EContact *contact;
-		EABEditor *editor;
-
-		contact = e_contact_new ();
-
-		editor = e_contact_list_editor_new (
-			shell, book_client, contact, TRUE, TRUE);
-
-		eab_editor_show (editor);
-
-		g_object_unref (contact);
-		g_object_unref (book_client);
+	if (error != NULL) {
+		g_warn_if_fail (client == NULL);
+		g_warning (
+			"%s: Failed to open book: %s",
+			G_STRFUNC, error->message);
+		g_error_free (error);
+		goto exit;
 	}
 
+	g_return_if_fail (E_IS_CLIENT (client));
+
+	contact = e_contact_new ();
+
+	editor = e_contact_list_editor_new (
+		shell, E_BOOK_CLIENT (client), contact, TRUE, TRUE);
+
+	eab_editor_show (editor);
+
+	g_object_unref (contact);
+	g_object_unref (client);
+
+exit:
 	g_object_unref (shell);
 }
 

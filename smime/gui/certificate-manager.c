@@ -64,8 +64,8 @@ enum {
 typedef struct {
 	GType type;
 	const gchar *column_title;
-	const gchar* (*get_cert_data_func) (ECert *cert);  /* Prototype to e_cert_get_* functions */
-	gboolean visible;			 	   /* Default visibility of column */
+	const gchar * (*get_cert_data_func) (ECert *cert);  /* Prototype to e_cert_get_* functions */
+	gboolean visible;				   /* Default visibility of column */
 } CertTreeColumn;
 
 static CertTreeColumn yourcerts_columns[] = {
@@ -163,7 +163,6 @@ static void import_cert (GtkWidget *button, CertPage *cp);
 
 static void load_certs (CertPage *cp);
 static void unload_certs (CertPage *cp);
-
 
 static void
 save_treeview_state (GtkTreeView *treeview)
@@ -318,8 +317,8 @@ report_and_free_error (CertPage *cp, const gchar *where, GError *error)
 
 static gboolean
 treeview_header_clicked (GtkWidget *widget,
-			 GdkEventButton *event,
-			 gpointer user_data)
+                         GdkEventButton *event,
+                         gpointer user_data)
 {
 	GtkMenu *menu = user_data;
 
@@ -334,7 +333,7 @@ treeview_header_clicked (GtkWidget *widget,
 
 static void
 header_popup_item_toggled (GtkCheckMenuItem *item,
-			   gpointer user_data)
+                           gpointer user_data)
 {
 	GtkTreeViewColumn *column = user_data;
 
@@ -344,8 +343,8 @@ header_popup_item_toggled (GtkCheckMenuItem *item,
 
 static void
 treeview_column_visibility_changed (GtkTreeViewColumn *column,
-				    GParamSpec *pspec,
-		 		    gpointer user_data)
+                                    GParamSpec *pspec,
+                                    gpointer user_data)
 {
 	GtkCheckMenuItem *menu_item = user_data;
 
@@ -356,7 +355,7 @@ treeview_column_visibility_changed (GtkTreeViewColumn *column,
 
 static void
 treeview_selection_changed (GtkTreeSelection *selection,
-			    CertPage *cp)
+                            CertPage *cp)
 {
 	GtkTreeIter iter;
 	gboolean cert_selected = FALSE;
@@ -383,10 +382,9 @@ treeview_selection_changed (GtkTreeSelection *selection,
 		gtk_widget_set_sensitive (cp->view_button, cert_selected);
 }
 
-
 static void
 treeview_add_column (CertPage *cp,
-	 	     gint column_index)
+                     gint column_index)
 {
 	GtkCellRenderer *cell;
 	GtkTreeViewColumn *column;
@@ -425,7 +423,6 @@ treeview_add_column (CertPage *cp,
 		G_CALLBACK (treeview_column_visibility_changed), item);
 }
 
-
 struct find_cert_data {
 	ECert *cert;
 	GtkTreePath *path;
@@ -457,7 +454,7 @@ find_cert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointe
 
 static void
 select_certificate (CertPage *cp,
-		    ECert *cert)
+                    ECert *cert)
 {
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
@@ -481,7 +478,6 @@ select_certificate (CertPage *cp,
 		selection = gtk_tree_view_get_selection (cp->treeview);
 		gtk_tree_selection_select_path (selection, fcd.path);
 
-
 		gtk_tree_view_scroll_to_cell (cp->treeview, fcd.path, NULL, FALSE, 0.0, 0.0);
 		gtk_tree_path_free (fcd.path);
 	}
@@ -489,7 +485,7 @@ select_certificate (CertPage *cp,
 
 static void
 view_cert (GtkWidget *button,
-	   CertPage *cp)
+           CertPage *cp)
 {
 	GtkTreeIter iter;
 
@@ -511,7 +507,7 @@ view_cert (GtkWidget *button,
 
 static void
 edit_cert (GtkWidget *button,
-	   CertPage *cp)
+           CertPage *cp)
 {
 	GtkTreeIter iter;
 
@@ -565,7 +561,7 @@ edit_cert (GtkWidget *button,
 
 static void
 import_cert (GtkWidget *button,
-	     CertPage *cp)
+             CertPage *cp)
 {
 	GtkWidget *filesel;
 	GtkFileFilter *filter;
@@ -631,7 +627,7 @@ import_cert (GtkWidget *button,
 
 static void
 delete_cert (GtkWidget *button,
-	     CertPage *cp)
+             CertPage *cp)
 {
 	GtkTreeIter iter;
 
@@ -687,7 +683,7 @@ add_cert (CertPage *cp, ECert *cert)
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, parent_iter);
 
 	for (i = 0; i < cp->columns_count; i++) {
-		const gchar* (*get_cert_data_func) (ECert *cert);
+		const gchar * (*get_cert_data_func) (ECert *cert);
 
 		/* When e_cert_get_cn() is empty, use _get_nickname() */
 		if ((cp->columns[i].get_cert_data_func == e_cert_get_cn) && (!e_cert_get_cn (cert))) {
@@ -828,7 +824,7 @@ initialize_ui (CertPage *cp)
 
 static void
 cert_manager_config_window_hide (ECertManagerConfig *ecmc,
-				 EPreferencesWindow *epw)
+                                 EPreferencesWindow *epw)
 {
 	g_return_if_fail (ecmc);
 
@@ -839,9 +835,9 @@ cert_manager_config_window_hide (ECertManagerConfig *ecmc,
 
 static void
 free_cert (GtkTreeModel *model,
-	   GtkTreePath *path,
-	   GtkTreeIter *iter,
-	   gpointer user_data)
+           GtkTreePath *path,
+           GtkTreeIter *iter,
+           gpointer user_data)
 {
 	CertPage *cp = user_data;
 	ECert *cert;
@@ -912,12 +908,11 @@ cert_manager_config_dispose (GObject *object)
 	G_OBJECT_CLASS (e_cert_manager_config_parent_class)->dispose (object);
 }
 
-
 static void
 cert_manager_config_set_property (GObject *object,
-			 	  guint property_id,
-			 	  const GValue *value,
-			 	  GParamSpec *pspec)
+                                  guint property_id,
+                                  const GValue *value,
+                                  GParamSpec *pspec)
 {
 	ECertManagerConfig *ecmc = E_CERT_MANAGER_CONFIG (object);
 
