@@ -2289,3 +2289,52 @@ em_utils_is_local_delivery_mbox_file (CamelURL *url)
 		g_file_test (url->path, G_FILE_TEST_EXISTS) &&
 		!g_file_test (url->path, G_FILE_TEST_IS_DIR);
 }
+
+static void
+cancel_service_connect_cb (GCancellable *cancellable, CamelService *service)
+{
+	g_return_if_fail (service != NULL);
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	camel_service_cancel_connect (service);
+}
+
+gboolean
+em_utils_connect_service_sync (CamelService *service, GCancellable *cancellable, GError **error)
+{
+	gboolean res;
+	gulong handler_id = 0;
+
+	g_return_val_if_fail (service != NULL, FALSE);
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
+
+	if (cancellable)
+		handler_id = g_cancellable_connect (cancellable, G_CALLBACK (cancel_service_connect_cb), service, NULL);
+
+	res = camel_service_connect_sync (service, error);
+
+	if (handler_id)
+		g_cancellable_disconnect (cancellable, handler_id);
+
+	return res;
+}
+
+gboolean
+em_utils_disconnect_service_sync (CamelService *service, gboolean clean, GCancellable *cancellable, GError **error)
+{
+	gboolean res;
+	gulong handler_id = 0;
+
+	g_return_val_if_fail (service != NULL, FALSE);
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
+
+	if (cancellable)
+		handler_id = g_cancellable_connect (cancellable, G_CALLBACK (cancel_service_connect_cb), service, NULL);
+
+	res = camel_service_disconnect_sync (service, clean, error);
+
+	if (handler_id)
+		g_cancellable_disconnect (cancellable, handler_id);
+
+	return res;
+}

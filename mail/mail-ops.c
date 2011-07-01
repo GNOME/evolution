@@ -339,7 +339,7 @@ fail:
 	/* also disconnect if not a local delivery mbox;
 	   there is no need to keep the connection alive forever */
 	if (!is_local_delivery)
-		camel_service_disconnect_sync (CAMEL_SERVICE (m->store), TRUE, NULL);
+		em_utils_disconnect_service_sync (CAMEL_SERVICE (m->store), TRUE, cancellable, NULL);
 }
 
 static void
@@ -580,8 +580,8 @@ mail_send_message (struct _send_queue_msg *m,
 	}
 
 	if (camel_address_length (recipients) > 0) {
-		if (!camel_service_connect_sync (
-			CAMEL_SERVICE (transport), error))
+		if (!em_utils_connect_service_sync (
+			CAMEL_SERVICE (transport), cancellable, error))
 			goto exit;
 
 		if (!camel_transport_send_to_sync (
@@ -1597,7 +1597,7 @@ disconnect_service_exec (struct _disconnect_msg *m,
                     GCancellable *cancellable,
                     GError **error)
 {
-	camel_service_disconnect_sync (CAMEL_SERVICE (m->store), TRUE, error);
+	em_utils_disconnect_service_sync (CAMEL_SERVICE (m->store), TRUE, cancellable, error);
 }
 
 static void
