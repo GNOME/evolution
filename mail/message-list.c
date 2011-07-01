@@ -3969,11 +3969,37 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 		flag = CAMEL_MESSAGE_SEEN;
 	else if (col == COL_FLAGGED)
 		flag = CAMEL_MESSAGE_FLAGGED;
-	else
+	else if (col != COL_FOLLOWUP_FLAG_STATUS)
 		return FALSE;
 
 	if (!(info = get_message_info (list, path)))
 		return FALSE;
+
+	if (col == COL_FOLLOWUP_FLAG_STATUS) {
+		const gchar *tag, *cmp;
+
+		tag = camel_message_info_user_tag (info, "follow-up");
+		cmp = camel_message_info_user_tag (info, "completed-on");
+		if (tag && tag[0]) {
+			if (cmp && cmp[0]) {
+				camel_message_info_set_user_tag (info, "follow-up", NULL);
+				camel_message_info_set_user_tag (info, "due-by", NULL);
+				camel_message_info_set_user_tag (info, "completed-on", NULL);
+			} else {
+				gchar *text;
+
+				text = camel_header_format_date (time (NULL), 0);
+				camel_message_info_set_user_tag (info, "completed-on", text);
+				g_free (text);
+			}
+		} else {
+			/* default follow-up flag name to use when clicked in the message list column */
+			camel_message_info_set_user_tag (info, "follow-up", _("Follow-up"));
+			camel_message_info_set_user_tag (info, "completed-on", NULL);
+		}
+
+		return TRUE;
+	}
 
 	flags = camel_message_info_flags (info);
 
