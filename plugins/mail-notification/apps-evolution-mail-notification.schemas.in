@@ -13,18 +13,6 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/eplugin/mail-notification/dbus-enabled</key>
-      <applyto>/apps/evolution/eplugin/mail-notification/dbus-enabled</applyto>
-      <owner>evolution-mail</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-        <short>Enable D-Bus messages.</short>
-        <long>Generates a D-Bus message when new mail messages arrive.</long>
-      </locale>
-    </schema>
-
-    <schema>
       <key>/schemas/apps/evolution/eplugin/mail-notification/status-enabled</key>
       <applyto>/apps/evolution/eplugin/mail-notification/status-enabled</applyto>
       <owner>evolution-mail</owner>
@@ -33,17 +21,6 @@
       <locale name="C">
         <short>Enable icon in notification area.</short>
         <long>Show new mail icon in notification area when new messages arrive.</long>
-      </locale>
-    </schema>
-    <schema>
-      <key>/schemas/apps/evolution/eplugin/mail-notification/status-notification</key>
-      <applyto>/apps/evolution/eplugin/mail-notification/status-notification</applyto>
-      <owner>evolution-mail</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-        <short>Popup message together with the icon.</short>
-        <long>Whether show message over the icon when new messages arrive.</long>
       </locale>
     </schema>
 

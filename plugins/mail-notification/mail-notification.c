@@ -51,8 +51,8 @@
 
 #define GCONF_KEY_ROOT			"/apps/evolution/eplugin/mail-notification/"
 #define GCONF_KEY_NOTIFY_ONLY_INBOX	GCONF_KEY_ROOT "notify-only-inbox"
-#define GCONF_KEY_ENABLED_DBUS		GCONF_KEY_ROOT "dbus-enabled"
 #define GCONF_KEY_ENABLED_STATUS	GCONF_KEY_ROOT "status-enabled"
+#define GCONF_KEY_STATUS_NOTIFICATION	GCONF_KEY_ROOT "status-notification"
 #define GCONF_KEY_ENABLED_SOUND		GCONF_KEY_ROOT "sound-enabled"
 
 static gboolean enabled = FALSE;
@@ -265,38 +265,40 @@ enable_dbus (gint enable)
 /*                     Notification area part                           */
 /* -------------------------------------------------------------------  */
 
-#define GCONF_KEY_STATUS_NOTIFICATION	GCONF_KEY_ROOT "status-notification"
+#ifdef HAVE_LIBNOTIFY
 
 static guint status_count = 0;
 
-#ifdef HAVE_LIBNOTIFY
 static NotifyNotification *notify = NULL;
-#endif
 
 static void
 remove_notification (void)
 {
-#ifdef HAVE_LIBNOTIFY
 	if (notify)
 		notify_notification_close (notify, NULL);
 
 	notify = NULL;
-#endif
 
 	status_count = 0;
 }
 
-#ifdef HAVE_LIBNOTIFY
 static gboolean
-notification_callback (gpointer notify)
+notification_callback (NotifyNotification *notification)
 {
-	return (!notify_notification_show (notify, NULL));
+	GError *error = NULL;
+
+	notify_notification_show (notification, &error);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	return FALSE;
 }
-#endif
 
 /* -------------------------------------------------------------------  */
 
-#ifdef HAVE_LIBNOTIFY
 static void
 notify_default_action_cb (NotifyNotification *notification,
                           const gchar *label,
@@ -347,19 +349,15 @@ can_support_actions (void)
 
 	if (!have_checked) {
 		GList *caps = NULL;
-		GList *c;
+		GList *match;
 
 		have_checked = TRUE;
 
 		caps = notify_get_server_caps ();
-		if (caps != NULL) {
-			for (c = caps; c != NULL; c = c->next) {
-				if (strcmp ((gchar *)c->data, "actions") == 0) {
-					supports_actions = TRUE;
-					break;
-				}
-			}
-		}
+
+		match = g_list_find_custom (
+			caps, "actions", (GCompareFunc) strcmp);
+		supports_actions = (match != NULL);
 
 		g_list_foreach (caps, (GFunc) g_free, NULL);
 		g_list_free (caps);
@@ -367,12 +365,12 @@ can_support_actions (void)
 
 	return supports_actions;
 }
-#endif
 
 static void
 new_notify_status (EMEventTargetFolder *t)
 {
-	gchar *msg;
+	gchar *escaped_text;
+	gchar *text;
 
 	if (!status_count) {
 		EAccount *account;
@@ -392,7 +390,7 @@ new_notify_status (EMEventTargetFolder *t)
 
 		/* Translators: '%d' is the count of mails received
 		 * and '%s' is the name of the folder*/
-		msg = g_strdup_printf (ngettext (
+		text = g_strdup_printf (ngettext (
 			"You have received %d new message\nin %s.",
 			"You have received %d new messages\nin %s.",
 			status_count), status_count, folder_name);
@@ -405,11 +403,12 @@ new_notify_status (EMEventTargetFolder *t)
 			/* Translators: "From:" is preceding a new mail
 			 * sender address, like "From: user@example.com" */
 			str = g_strdup_printf (_("From: %s"), t->msg_sender);
-			tmp = g_strconcat (msg, "\n", str, NULL);
+			tmp = g_strconcat (text, "\n", str, NULL);
 
-			g_free (msg);
+			g_free (text);
 			g_free (str);
-			msg = tmp;
+
+			text = tmp;
 		}
 
 		if (t->msg_subject) {
@@ -418,69 +417,78 @@ new_notify_status (EMEventTargetFolder *t)
 			/* Translators: "Subject:" is preceding a new mail
 			 * subject, like "Subject: It happened again" */
 			str = g_strdup_printf (_("Subject: %s"), t->msg_subject);
-			tmp = g_strconcat (msg, "\n", str, NULL);
+			tmp = g_strconcat (text, "\n", str, NULL);
 
-			g_free (msg);
+			g_free (text);
 			g_free (str);
-			msg = tmp;
+
+			text = tmp;
 		}
 	} else {
 		status_count += t->new;
-		msg = g_strdup_printf (ngettext (
+		text = g_strdup_printf (ngettext (
 			"You have received %d new message.",
 			"You have received %d new messages.",
 			status_count), status_count);
 	}
 
-#ifdef HAVE_LIBNOTIFY
-	/* Now check whether we're supposed to send notifications */
-	if (is_part_enabled (GCONF_KEY_STATUS_NOTIFICATION)) {
-		gchar *safetext;
+	escaped_text = g_markup_escape_text (text, strlen (text));
 
-		safetext = g_markup_escape_text (msg, strlen (msg));
-		if (notify) {
-			notify_notification_update (
-				notify, _("New email"),
-				safetext, "mail-unread");
-		} else {
-			if (!notify_init ("evolution-mail-notification"))
-				fprintf (stderr,"notify init error");
+	if (notify) {
+		notify_notification_update (
+			notify, _("New email"),
+			escaped_text, "mail-unread");
+	} else {
+		if (!notify_init ("evolution-mail-notification"))
+			fprintf (stderr,"notify init error");
 
 #ifdef HAVE_LIBNOTIFY_07
-			notify  = notify_notification_new (
-				_("New email"), safetext, "mail-unread");
+		notify  = notify_notification_new (
+			_("New email"), escaped_text, "mail-unread");
 #else
-			notify  = notify_notification_new (
-				_("New email"), safetext, "mail-unread", NULL);
+		notify  = notify_notification_new (
+			_("New email"), escaped-text, "mail-unread", NULL);
 #endif /* HAVE_LIBNOTIFY_07 */
 
-			/* Check if actions are supported */
-			if (can_support_actions ()) {
-				gchar *folder_uri;
+		notify_notification_set_urgency (
+			notify, NOTIFY_URGENCY_NORMAL);
 
-				/* NotifyAction takes ownership. */
-				folder_uri = e_mail_folder_uri_build (
-					t->store, t->folder_name);
+		notify_notification_set_timeout (
+			notify, NOTIFY_EXPIRES_DEFAULT);
 
-				notify_notification_set_urgency (
-					notify, NOTIFY_URGENCY_NORMAL);
-				notify_notification_set_timeout (
-					notify, NOTIFY_EXPIRES_DEFAULT);
-				notify_notification_add_action (
-					notify, "default", "Default",
-					(NotifyActionCallback)
-					notify_default_action_cb,
-					folder_uri,
-					(GFreeFunc) g_free);
-				g_timeout_add (
-					500, notification_callback, notify);
-			}
+		/* Check if actions are supported */
+		if (can_support_actions ()) {
+			gchar *label;
+			gchar *folder_uri;
+
+			/* NotifyAction takes ownership. */
+			folder_uri = e_mail_folder_uri_build (
+				t->store, t->folder_name);
+
+			label = g_strdup_printf (
+				/* Translators: The '%s' is a mail
+				 * folder name.  (e.g. "Show Inbox") */
+				_("Show %s"), t->display_name);
+
+			notify_notification_add_action (
+				notify, "default", label,
+				(NotifyActionCallback)
+				notify_default_action_cb,
+				folder_uri,
+				(GFreeFunc) g_free);
+
+			g_free (label);
 		}
-		g_free (safetext);
 	}
-#endif
 
-	g_free (msg);
+	g_idle_add_full (
+		G_PRIORITY_DEFAULT_IDLE,
+		(GSourceFunc) notification_callback,
+		g_object_ref (notify),
+		(GDestroyNotify) g_object_unref);
+
+	g_free (escaped_text);
+	g_free (text);
 }
 
 static void
@@ -488,66 +496,7 @@ read_notify_status (EMEventTargetMessage *t)
 {
 	remove_notification ();
 }
-
-static GtkWidget *
-get_config_widget_status (void)
-{
-	GtkWidget *vbox;
-	GtkWidget *master;
-	GtkWidget *container;
-	GtkWidget *widget;
-	GConfBridge *bridge;
-	const gchar *text;
-
-	bridge = gconf_bridge_get ();
-
-	vbox = gtk_vbox_new (FALSE, 6);
-	gtk_widget_show (vbox);
-
-	container = vbox;
-
-	text = _("Show icon in _notification area");
-	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	gconf_bridge_bind_property (
-		bridge, GCONF_KEY_ENABLED_STATUS,
-		G_OBJECT (widget), "active");
-
-	master = widget;
-
-	widget = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (widget), 0, 0, 12, 0);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	g_object_bind_property (
-		master, "active",
-		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	container = widget;
-
-	widget = gtk_vbox_new (FALSE, 6);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-#ifdef HAVE_LIBNOTIFY
-	text = _("Popup _message together with the icon");
-	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	gconf_bridge_bind_property (
-		bridge, GCONF_KEY_STATUS_NOTIFICATION,
-		G_OBJECT (widget), "active");
 #endif
-
-	return vbox;
-}
 
 /* -------------------------------------------------------------------  */
 /*                         Sound part                                   */
@@ -579,53 +528,50 @@ do_play_sound (gboolean beep, gboolean use_theme, const gchar *file)
 			CA_PROP_EVENT_ID,"message-new-email",
 			NULL);
 #endif
-	}
-	else
+	} else
 		gdk_beep ();
 }
 
-struct _SoundConfigureWidgets
-{
-	GtkWidget *enable;
-	GtkWidget *beep;
-	GtkWidget *use_theme;
-	GtkWidget *file;
-	GtkWidget *filechooser;
-	GtkWidget *play;
+struct _SoundConfigureWidgets {
+	GtkToggleButton *enable;
+	GtkToggleButton *beep;
+	GtkToggleButton *use_theme;
+	GtkFileChooser *filechooser;
 };
 
 static void
-sound_file_set_cb (GtkWidget *widget, gpointer data)
+sound_file_set_cb (GtkFileChooser *file_chooser, gpointer data)
 {
 	gchar *file;
 	GConfClient *client;
 
-	g_return_if_fail (widget != NULL);
-
 	client = gconf_client_get_default ();
-	file = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (widget));
+	file = gtk_file_chooser_get_filename (file_chooser);
 
-	gconf_client_set_string (client, GCONF_KEY_SOUND_FILE, file ? file : "", NULL);
+	gconf_client_set_string (
+		client, GCONF_KEY_SOUND_FILE,
+		(file != NULL) ? file : "", NULL);
 
 	g_object_unref (client);
 	g_free (file);
 }
 
 static void
-sound_play_cb (GtkWidget *widget, gpointer data)
+sound_play_cb (GtkWidget *widget,
+               struct _SoundConfigureWidgets *scw)
 {
-	struct _SoundConfigureWidgets *scw = (struct _SoundConfigureWidgets *) data;
 	gchar *file;
 
-	g_return_if_fail (data != NULL);
-
-	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scw->enable)))
+	if (!gtk_toggle_button_get_active (scw->enable))
 		return;
 
-	file = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (scw->filechooser));
-	do_play_sound (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scw->beep)),
-		       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scw->use_theme)),
-		       file);
+	file = gtk_file_chooser_get_filename (scw->filechooser);
+
+	do_play_sound (
+		gtk_toggle_button_get_active (scw->beep),
+		gtk_toggle_button_get_active (scw->use_theme),
+		file);
+
 	g_free (file);
 }
 
@@ -646,9 +592,10 @@ sound_notify_idle_cb (gpointer user_data)
 	client = gconf_client_get_default ();
 	file = gconf_client_get_string (client, GCONF_KEY_SOUND_FILE, NULL);
 
-	do_play_sound (is_part_enabled (GCONF_KEY_SOUND_BEEP),
-		       is_part_enabled (GCONF_KEY_SOUND_USE_THEME),
-		       file);
+	do_play_sound (
+		is_part_enabled (GCONF_KEY_SOUND_BEEP),
+		is_part_enabled (GCONF_KEY_SOUND_USE_THEME),
+		file);
 
 	g_object_unref (client);
 	g_free (file);
@@ -723,7 +670,7 @@ get_config_widget_sound (void)
 
 	container = vbox;
 
-	text = _("_Play sound when new messages arrive");
+	text = _("_Play sound when a new message arrives");
 	widget = gtk_check_button_new_with_mnemonic (text);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
@@ -733,7 +680,7 @@ get_config_widget_sound (void)
 		G_OBJECT (widget), "active");
 
 	master = widget;
-	scw->enable = widget;
+	scw->enable = GTK_TOGGLE_BUTTON (widget);
 
 	widget = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
 	gtk_alignment_set_padding (GTK_ALIGNMENT (widget), 0, 0, 12, 0);
@@ -762,7 +709,7 @@ get_config_widget_sound (void)
 		bridge, GCONF_KEY_SOUND_BEEP,
 		G_OBJECT (widget), "active");
 
-	scw->beep = widget;
+	scw->beep = GTK_TOGGLE_BUTTON (widget);
 
 	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
 
@@ -775,7 +722,7 @@ get_config_widget_sound (void)
 		bridge, GCONF_KEY_SOUND_USE_THEME,
 		G_OBJECT (widget), "active");
 
-	scw->use_theme = widget;
+	scw->use_theme = GTK_TOGGLE_BUTTON (widget);
 
 	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
 
@@ -794,15 +741,13 @@ get_config_widget_sound (void)
 		bridge, GCONF_KEY_SOUND_PLAY_FILE,
 		G_OBJECT (widget), "active");
 
-	scw->file = widget;
-
 	text = _("Select sound file");
 	widget = gtk_file_chooser_button_new (
 		text, GTK_FILE_CHOOSER_ACTION_OPEN);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
-	scw->filechooser = widget;
+	scw->filechooser = GTK_FILE_CHOOSER (widget);
 
 	widget = gtk_button_new ();
 	gtk_button_set_image (
@@ -811,13 +756,15 @@ get_config_widget_sound (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	scw->play = widget;
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (sound_play_cb), scw);
 
 	client = gconf_client_get_default ();
 	file = gconf_client_get_string (client, GCONF_KEY_SOUND_FILE, NULL);
 
 	if (file && *file)
-		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (scw->filechooser), file);
+		gtk_file_chooser_set_filename (scw->filechooser, file);
 
 	g_object_unref (client);
 	g_free (file);
@@ -825,9 +772,6 @@ get_config_widget_sound (void)
 	g_signal_connect (
 		scw->filechooser, "file-set",
 		G_CALLBACK (sound_file_set_cb), scw);
-	g_signal_connect (
-		scw->play, "clicked",
-		G_CALLBACK (sound_play_cb), scw);
 
 	/* to let structure free properly */
 	g_object_set_data_full (G_OBJECT (vbox), "scw-data", scw, g_free);
@@ -863,17 +807,16 @@ get_cfg_widget (void)
 		bridge, GCONF_KEY_NOTIFY_ONLY_INBOX,
 		G_OBJECT (widget), "active");
 
-	text = _("Generate a _D-Bus message");
+#ifdef HAVE_LIBNOTIFY
+	text = _("Show _notification when a new message arrives");
 	widget = gtk_check_button_new_with_mnemonic (text);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	gconf_bridge_bind_property (
-		bridge, GCONF_KEY_ENABLED_DBUS,
+		bridge, GCONF_KEY_ENABLED_STATUS,
 		G_OBJECT (widget), "active");
-
-	widget = get_config_widget_status ();
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+#endif
 
 	widget = get_config_widget_sound ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -898,11 +841,12 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 
 	g_static_mutex_lock (&mlock);
 
-	if (is_part_enabled (GCONF_KEY_ENABLED_DBUS))
-		new_notify_dbus (t);
+	new_notify_dbus (t);
 
+#ifdef HAVE_LIBNOTIFY
 	if (is_part_enabled (GCONF_KEY_ENABLED_STATUS))
 		new_notify_status (t);
+#endif
 
 	if (is_part_enabled (GCONF_KEY_ENABLED_SOUND))
 		new_notify_sound (t);
@@ -920,11 +864,12 @@ org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t)
 
 	g_static_mutex_lock (&mlock);
 
-	if (is_part_enabled (GCONF_KEY_ENABLED_DBUS))
-		read_notify_dbus (t);
+	read_notify_dbus (t);
 
+#ifdef HAVE_LIBNOTIFY
 	if (is_part_enabled (GCONF_KEY_ENABLED_STATUS))
 		read_notify_status (t);
+#endif
 
 	if (is_part_enabled (GCONF_KEY_ENABLED_SOUND))
 		read_notify_sound (t);
@@ -936,8 +881,7 @@ gint
 e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	if (enable) {
-		if (is_part_enabled (GCONF_KEY_ENABLED_DBUS))
-			enable_dbus (enable);
+		enable_dbus (enable);
 
 		if (is_part_enabled (GCONF_KEY_ENABLED_SOUND))
 			enable_sound (enable);
