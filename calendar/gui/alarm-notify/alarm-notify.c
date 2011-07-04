@@ -383,12 +383,8 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalClientSourceType source_type,  E
 	   session skip this source loading. we do not really want to prompt for auth from alarm dameon*/
 
 	if (e_source_get_property (source, "auth")) {
-		const gchar *name = e_source_get_property (source, "auth-domain");
 
-		if (!name)
-			name = "Calendar";
-
-		if (!e_passwords_get_password (name, pass_key)) {
+		if (!e_passwords_get_password (NULL, pass_key)) {
 			g_mutex_unlock (an->priv->mutex);
 			g_free (str_uri);
 			g_free (pass_key);

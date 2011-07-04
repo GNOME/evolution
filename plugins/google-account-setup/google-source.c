@@ -441,7 +441,7 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 
 	user = decode_at_back (username);
 	tmp = g_strdup_printf (_("Enter password for user %s to access list of subscribed calendars."), user);
-	password = e_passwords_ask_password (_("Enter password"), "Calendar", "", tmp,
+	password = e_passwords_ask_password (_("Enter password"), NULL, "", tmp,
 			E_PASSWORDS_REMEMBER_NEVER | E_PASSWORDS_REPROMPT | E_PASSWORDS_SECRET | E_PASSWORDS_DISABLE_REMEMBER,
 			NULL, parent);
 	g_free (tmp);

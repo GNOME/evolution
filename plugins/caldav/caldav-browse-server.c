@@ -891,7 +891,7 @@ soup_authenticate (SoupSession *session, SoupMessage *msg, SoupAuth *auth, gbool
 		return;
 
 	if (!retrying && !password)
-		password = e_passwords_get_password ("Calendar", g_object_get_data (dialog, "caldav-auth-key"));
+		password = e_passwords_get_password (NULL, g_object_get_data (dialog, "caldav-auth-key"));
 
 	if (!password || !*password || retrying) {
 		gchar *pass, *prompt, *add = NULL;
@@ -918,7 +918,7 @@ soup_authenticate (SoupSession *session, SoupMessage *msg, SoupAuth *auth, gbool
 		}
 
 		pass = e_passwords_ask_password (_("Enter password"),
-			"Calendar", g_object_get_data (dialog, "caldav-auth-key"), prompt,
+			NULL, g_object_get_data (dialog, "caldav-auth-key"), prompt,
 			E_PASSWORDS_REMEMBER_NEVER | E_PASSWORDS_DISABLE_REMEMBER | E_PASSWORDS_SECRET,
 			NULL, GTK_WINDOW (dialog));
 

@@ -322,14 +322,14 @@ ask_password (GMountOperation *op, const gchar *message, const gchar *default_us
 
 	euri = e_uri_new (ms->uri->location);
 	username = euri->user;
-	password = e_passwords_get_password ("Calendar", ms->uri->location);
+	password = e_passwords_get_password (NULL, ms->uri->location);
 	req_pass = ((username && *username) && !(ms->uri->service_type == TYPE_ANON_FTP &&
 			!strcmp (username, "anonymous"))) ? TRUE:FALSE;
 
 	if (!password && req_pass) {
 		gboolean remember = FALSE;
 
-		password = e_passwords_ask_password (_("Enter password"), "", ms->uri->location, message,
+		password = e_passwords_ask_password (_("Enter password"), NULL, ms->uri->location, message,
 					     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE,
 					     &remember,
 					     NULL);

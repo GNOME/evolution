@@ -278,7 +278,7 @@ setup_yahoo_account (MailAccountView *mav)
 
 		abs_uri = g_strdup_printf ("caldav://%s@caldav.calendar.yahoo.com/dav/%s/Calendar/%s/", sanitize_uname, email,  gtk_entry_get_text((GtkEntry *)mav->priv->yahoo_cal_entry));
 		e_passwords_add_password (abs_uri, gtk_entry_get_text ((GtkEntry *) mav->password));
-		e_passwords_remember_password ("Calendar", abs_uri);
+		e_passwords_remember_password (NULL, abs_uri);
 
 		rel_uri = g_strdup_printf (YAHOO_CALENDAR_LOCATION, sanitize_uname, email, gtk_entry_get_text ((GtkEntry *) mav->priv->yahoo_cal_entry));
 		e_source_set_relative_uri (calendar, rel_uri);
@@ -328,7 +328,7 @@ setup_yahoo_account (MailAccountView *mav)
 
 		rel_uri = g_strdup_printf("google://%s/", mav->priv->username);
 		e_passwords_add_password (rel_uri, gtk_entry_get_text ((GtkEntry *) mav->password));
-		e_passwords_remember_password ("Addressbook", rel_uri);
+		e_passwords_remember_password (NULL, rel_uri);
 		e_source_group_add_source (sgrp, abook, -1);
 		e_source_list_sync (slist, NULL);
 
@@ -379,7 +379,7 @@ setup_google_accounts (MailAccountView *mav)
 		e_source_set_absolute_uri (calendar, abs_uri);
 
 		e_passwords_add_password (abs_uri, gtk_entry_get_text ((GtkEntry *) mav->password));
-		e_passwords_remember_password ("Calendar", abs_uri);
+		e_passwords_remember_password (NULL, abs_uri);
 		rel_uri = g_strconcat ("https", GMAIL_CALENDAR_LOCATION, sanitize_uname, CALENDAR_DEFAULT_PATH, NULL);
 		e_source_set_relative_uri (calendar, rel_uri);
 
@@ -447,7 +447,7 @@ setup_google_accounts (MailAccountView *mav)
 
 			rel_uri = g_strdup_printf ("google://%s/", mav->priv->username);
 			e_passwords_add_password (rel_uri, gtk_entry_get_text ((GtkEntry *) mav->password));
-			e_passwords_remember_password ("Addressbook", rel_uri);
+			e_passwords_remember_password (NULL, rel_uri);
 			e_source_list_sync (slist, NULL);
 
 			g_free (rel_uri);
@@ -688,7 +688,7 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			aurl = camel_url_new (account->source->url, NULL);
 			surl = camel_url_to_string (aurl, CAMEL_URL_HIDE_ALL);
 			e_passwords_add_password (surl, gtk_entry_get_text ((GtkEntry *) mav->password));
-			e_passwords_remember_password ("Mail", surl);
+			e_passwords_remember_password (NULL, surl);
 			camel_url_free (aurl);
 			g_free (surl);
 		}
