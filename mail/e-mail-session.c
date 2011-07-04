@@ -609,7 +609,6 @@ mail_session_finalize (GObject *object)
 static gchar *
 mail_session_get_password (CamelSession *session,
                            CamelService *service,
-                           const gchar *domain,
                            const gchar *prompt,
                            const gchar *item,
                            guint32 flags,
@@ -631,10 +630,7 @@ mail_session_get_password (CamelSession *session,
 		gchar *key = mail_session_make_key (service, item);
 		EAccountService *config_service = NULL;
 
-		if (domain == NULL)
-			domain = "Mail";
-
-		ret = e_passwords_get_password (domain, key);
+		ret = e_passwords_get_password (NULL, key);
 		if (ret == NULL || (flags & CAMEL_SESSION_PASSWORD_REPROMPT)) {
 			gboolean remember;
 
@@ -696,11 +692,11 @@ mail_session_get_password (CamelSession *session,
 					eflags |= E_PASSWORDS_DISABLE_REMEMBER;
 
 				ret = e_passwords_ask_password (
-					title, domain, key, prompt,
+					title, NULL, key, prompt,
 					eflags, &remember, NULL);
 
 				if (!ret)
-					e_passwords_forget_password (domain, key);
+					e_passwords_forget_password (NULL, key);
 
 				g_free (title);
 
@@ -729,16 +725,14 @@ mail_session_get_password (CamelSession *session,
 static gboolean
 mail_session_forget_password (CamelSession *session,
                               CamelService *service,
-                              const gchar *domain,
                               const gchar *item,
                               GError **error)
 {
 	gchar *key;
 
-	domain = (domain != NULL) ? domain : "Mail";
 	key = mail_session_make_key (service, item);
 
-	e_passwords_forget_password (domain, key);
+	e_passwords_forget_password (NULL, key);
 
 	g_free (key);
 

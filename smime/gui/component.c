@@ -46,7 +46,7 @@ smime_pk11_passwd (ECertDB *db, PK11SlotInfo* slot, gboolean retry, gchar **pass
 	prompt = g_strdup_printf (_("Enter the password for '%s'"), slot_name);
 	g_free (slot_name);
 
-	*passwd = e_passwords_ask_password (_("Enter password"), "SMIME-PKCS11", "",
+	*passwd = e_passwords_ask_password (_("Enter password"), NULL, "",
 					    prompt,
 					    E_PASSWORDS_REMEMBER_NEVER|E_PASSWORDS_SECRET, NULL,
 					    NULL);
@@ -68,7 +68,7 @@ smime_pk11_change_passwd (ECertDB *db, gchar **old_passwd, gchar **passwd, gpoin
 		/* we're setting the password initially */
 		prompt = _("Enter new password for certificate database");
 
-		*passwd = e_passwords_ask_password (_("Enter new password"), "SMIME-PKCS11", "",
+		*passwd = e_passwords_ask_password (_("Enter new password"), NULL, "",
 						    prompt,
 						    E_PASSWORDS_REMEMBER_NEVER|E_PASSWORDS_SECRET, NULL,
 						    NULL);

@@ -3838,19 +3838,14 @@ forget_password_if_needed (EAccount *original_account, EAccount *modified_accoun
 	    (orig_url && !modif_url)) {
 		CamelURL *url;
 		gchar *url_str;
-		const gchar *auth_domain;
 
 		url = camel_url_new (orig_url, NULL);
 		if (!url)
 			return;
 
-		auth_domain = camel_url_get_param (url, "auth-domain");
-		if (!auth_domain)
-			auth_domain = "Mail";
-
 		url_str = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 		if (url_str)
-			e_passwords_forget_password (auth_domain, url_str);
+			e_passwords_forget_password (NULL, url_str);
 
 		g_free (url_str);
 		camel_url_free (url);
