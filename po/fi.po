@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2010-11-10 19:33+0000\n"
-"PO-Revision-Date: 2010-11-15 02:07+0200\n"
+"PO-Revision-Date: 2011-07-04 15:11+0300\n"
 "Last-Translator: Ville-Pekka Vainio <vpivaini@cs.helsinki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -15768,7 +15768,7 @@ msgstr "Lukemattomat viestit"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1313
 msgid "Subject or Addresses contain"
-msgstr "Aihe tai osoiteeet sisältävät"
+msgstr "Aihe tai osoitteet sisältävät"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1323
 msgid "All Accounts"
