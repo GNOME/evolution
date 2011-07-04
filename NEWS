@@ -1,3 +1,62 @@
+Evolution 3.1.3 2011-07-04
+--------------------------
+
+Bug Fixes:
+	Bug 650671 - Service connect/disconnect not cancelled properly (Milan Crha)
+	Bug 499739 - "Flag for follow-up" should be easier to set (Milan Crha)
+	Bug 652958 - Evolution Account Assistant jumps steps (Matthew Barnes)
+	Bug 653247 - Don't show TIFF documents inline (Matthew Barnes)
+	Bug 653644 - Warning when adding plain address into a contact list (Dan Vrátil)
+	Bug 224687 - Various fixes in contact list editor (Dan Vrátil)
+	Bug 652627 - Invalid unref on a NULL pointer from query_cb (Milan Crha)
+	Bug 653618 - Sending email doesn't disconnect from a server (Milan Crha)
+	Bug 224687 - Create lists of lists (Dan Vrátil)
+	Bug 653358 - Do not duplicate google address book (Gustavo Noronha Silva)
+	Bug 653466 - Crash in efh_format_headers (Milan Crha)
+	Bug 653154 - Crash when constructing calendar view (Milan Crha)
+	Bug 637402 - No quoted mail when replying to html email (Milan Crha)
+	Bug 650278 - Tab doesn't exit port field (Milan Crha)
+	Bug 646442 - [mail-to-task] Edit event details before adding to calendar (Dan Vrátil)
+	Bug 653008 - Preference window for imap accounts is too large (Milan Crha)
+	Bug 648468 - Disconnect service after mail fetching is done (Milan Crha)
+	Bug 631954 - itip formatter makes synchronous calls to ecal (Milan Crha)
+	Bug 269413 - Search treats "4 weeks" and "1 month" as synonymous (Milan Crha)
+	Bug 650223 - Do not wait on evolution's exit when done with backup/restore (Milan Crha)
+	Bug 638307 - Error when sending mail after converting to maildir (Milan Crha)
+	Bug 652620 - Can use uninitialized memory in alarm-notification-dialog (Milan Crha)
+	Bug 652626 - Fix initial position of contact maps markers (Dan Vrátil)
+	Bug 252670 - Remember columns settings in Certificates tab (Dan Vrátil)
+	Bug 530335 - Allow Reply to selected address only (Rathin)
+
+Miscellaneous Fixes:
+	Autocompletion in contact list editor didn't work (Milan Crha)
+	online-accounts: Set GoaAccount ID in calendar and contact sources. (Matthew Barnes)
+	Add a bit more error checking and do not leak icalcomponent-s (Milan Crha)
+	Fix crash when adding account in express mode (Gustavo Noronha Silva)
+	Limit the size of tab labels to a reasonable size (Gustavo Noronha Silva)
+	Check for cancelled GIO operation error code too (Milan Crha)
+	Keep opening EClient-s till they report busy error (Milan Crha)
+	Prototype an online-accounts module. (Matthew Barnes)
+	Postpone ENameSelector loading as much as possible (Milan Crha)
+	[itip-formatter] stock_animation is gone, use GtkSpinner instead (Milan Crha)
+	Add "Open With Other Application" to attachment menu. (Matthew Barnes)
+	Allow the startup-wizard to be delayed. (Matthew Barnes)
+	Could not select real Junk/Trash folder (Milan Crha)
+	Fix typo in a GConf key for alarm-notification dialog timezone setting (Milan Crha)
+	Fix few memory leaks (Milan Crha)
+
+Translations:
+	Kristjan SCHMIDT (eo)
+	Kjartan Maraas (nn)
+	Мирослав Николић (sr)
+	Jorge González (es)
+	Mario Blättermann (de)
+	Matej Urbančič (sl)
+	Fran Diéguez (gl)
+	Daniel Mustieles (es)
+	Marek Černocký (cs)
+
+
 Evolution 3.1.2 2011-06-13
 --------------------------
 
