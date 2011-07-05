@@ -34,8 +34,15 @@
 #include "em-stripsig-filter.h"
 #include "em-format-quote.h"
 
+#define EM_FORMAT_QUOTE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FORMAT_QUOTE, EMFormatQuotePrivate))
+
 struct _EMFormatQuotePrivate {
-	gint dummy;
+	gchar *credits;
+	CamelStream *stream;
+	EMFormatQuoteFlags flags;
+	guint32 text_html_flags;
 };
 
 static void emfq_builtin_init (EMFormatQuoteClass *efhc);
@@ -43,13 +50,29 @@ static void emfq_builtin_init (EMFormatQuoteClass *efhc);
 static gpointer parent_class;
 
 static void
+emfq_dispose (GObject *object)
+{
+	EMFormatQuotePrivate *priv;
+
+	priv = EM_FORMAT_QUOTE_GET_PRIVATE (object);
+
+	if (priv->stream != NULL) {
+		g_object_unref (priv->stream);
+		priv->stream = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
 emfq_finalize (GObject *object)
 {
-	EMFormatQuote *emfq =(EMFormatQuote *) object;
+	EMFormatQuotePrivate *priv;
 
-	if (emfq->stream)
-		g_object_unref (emfq->stream);
-	g_free (emfq->credits);
+	priv = EM_FORMAT_QUOTE_GET_PRIVATE (object);
+
+	g_free (priv->credits);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -72,25 +95,25 @@ emfq_format_clone (EMFormat *emf,
 		emf, folder, uid, msg, src, cancellable);
 
 	gconf = gconf_client_get_default ();
-	camel_stream_reset (emfq->stream, NULL);
+	camel_stream_reset (emfq->priv->stream, NULL);
 	if (gconf_client_get_bool (
 		gconf, "/apps/evolution/mail/composer/top_signature", NULL))
-		camel_stream_printf (emfq->stream, "<br>\n");
+		camel_stream_printf (emfq->priv->stream, "<br>\n");
 	g_object_unref (gconf);
 	handle = em_format_find_handler(emf, "x-evolution/message/prefix");
 	if (handle)
 		handle->handler (
-			emf, emfq->stream,
+			emf, emfq->priv->stream,
 			CAMEL_MIME_PART (msg),
 			handle, cancellable, FALSE);
 	handle = em_format_find_handler(emf, "x-evolution/message/rfc822");
 	if (handle)
 		handle->handler (
-			emf, emfq->stream,
+			emf, emfq->priv->stream,
 			CAMEL_MIME_PART (msg),
 			handle, cancellable, FALSE);
 
-	camel_stream_flush (emfq->stream, cancellable, NULL);
+	camel_stream_flush (emfq->priv->stream, cancellable, NULL);
 
 	g_signal_emit_by_name(emf, "complete");
 }
@@ -149,7 +172,7 @@ emfq_format_attachment (EMFormat *emf,
 	/* output some info about it */
 	text = em_format_describe_part (part, mime_type);
 	html = camel_text_to_html (
-		text, emfq->text_html_flags &
+		text, emfq->priv->text_html_flags &
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
 	camel_stream_write_string (stream, html, cancellable, NULL);
 	g_free (html);
@@ -177,6 +200,7 @@ emfq_class_init (EMFormatQuoteClass *class)
 	g_type_class_add_private (class, sizeof (EMFormatQuotePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = emfq_dispose;
 	object_class->finalize = emfq_finalize;
 
 	format_class = EM_FORMAT_CLASS (class);
@@ -189,8 +213,10 @@ emfq_class_init (EMFormatQuoteClass *class)
 static void
 emfq_init (EMFormatQuote *emfq)
 {
+	emfq->priv = EM_FORMAT_QUOTE_GET_PRIVATE (emfq);
+
 	/* we want to convert url's etc */
-	emfq->text_html_flags =
+	emfq->priv->text_html_flags =
 		CAMEL_MIME_FILTER_TOHTML_PRE |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
@@ -233,9 +259,9 @@ em_format_quote_new (const gchar *credits,
 
 	emfq = g_object_new (EM_TYPE_FORMAT_QUOTE, NULL);
 
-	emfq->credits = g_strdup (credits);
-	emfq->stream = g_object_ref (stream);
-	emfq->flags = flags;
+	emfq->priv->credits = g_strdup (credits);
+	emfq->priv->stream = g_object_ref (stream);
+	emfq->priv->flags = flags;
 
 	return emfq;
 }
@@ -494,8 +520,9 @@ emfq_format_message_prefix (EMFormat *emf,
 {
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
 
-	if (emfq->credits)
-		camel_stream_printf(stream, "%s<br>\n", emfq->credits);
+	if (emfq->priv->credits != NULL)
+		camel_stream_printf (
+			stream, "%s<br>\n", emfq->priv->credits);
 }
 
 static void
@@ -508,7 +535,7 @@ emfq_format_message (EMFormat *emf,
 {
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
 
-	if (emfq->flags & EM_FORMAT_QUOTE_CITE)
+	if (emfq->priv->flags & EM_FORMAT_QUOTE_CITE)
 		camel_stream_printf (
 			stream, "<!--+GtkHTML:<DATA class=\"ClueFlow\" "
 			"key=\"orig\" value=\"1\">-->\n"
@@ -519,12 +546,12 @@ emfq_format_message (EMFormat *emf,
 			stream,  "%s</br>\n",
 			_("-------- Forwarded Message --------"));
 		emfq_format_headers (emfq, stream, (CamelMedium *) part);
-	} else if (emfq->flags & EM_FORMAT_QUOTE_HEADERS)
+	} else if (emfq->priv->flags & EM_FORMAT_QUOTE_HEADERS)
 		emfq_format_headers (emfq, stream, (CamelMedium *) part);
 
 	em_format_part (emf, stream, part, cancellable);
 
-	if (emfq->flags & EM_FORMAT_QUOTE_CITE)
+	if (emfq->priv->flags & EM_FORMAT_QUOTE_CITE)
 		camel_stream_write_string (
 			stream, "</blockquote><!--+GtkHTML:"
 			"<DATA class=\"ClueFlow\" clear=\"orig\">-->",
@@ -612,7 +639,7 @@ emfq_text_plain (EMFormat *emf,
 		g_object_unref (mp);
 	}
 
-	flags = emfq->text_html_flags;
+	flags = emfq->priv->text_html_flags;
 
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type (part);
@@ -623,7 +650,7 @@ emfq_text_plain (EMFormat *emf,
 
 	filtered_stream = camel_stream_filter_new (stream);
 
-	if ((emfq->flags & EM_FORMAT_QUOTE_KEEP_SIG) == 0) {
+	if ((emfq->priv->flags & EM_FORMAT_QUOTE_KEEP_SIG) == 0) {
 		sig_strip = em_stripsig_filter_new (TRUE);
 		camel_stream_filter_add (
 			CAMEL_STREAM_FILTER (filtered_stream), sig_strip);
@@ -687,10 +714,14 @@ emfq_text_html (EMFormat *emf,
                 GCancellable *cancellable,
                 gboolean is_fallback)
 {
+	EMFormatQuotePrivate *priv;
+
+	priv = EM_FORMAT_QUOTE_GET_PRIVATE (emf);
+
 	camel_stream_write_string (
 		stream, "\n<!-- text/html -->\n", cancellable, NULL);
 
-	if ((EM_FORMAT_QUOTE (emf)->flags & EM_FORMAT_QUOTE_KEEP_SIG) == 0) {
+	if ((priv->flags & EM_FORMAT_QUOTE_KEEP_SIG) == 0) {
 		CamelMimeFilter *sig_strip;
 		CamelStream *filtered_stream;
 

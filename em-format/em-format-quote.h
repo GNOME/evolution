@@ -59,12 +59,6 @@ typedef enum {
 struct _EMFormatQuote {
 	EMFormat format;
 	EMFormatQuotePrivate *priv;
-
-	gchar *credits;
-	CamelStream *stream;
-	EMFormatQuoteFlags flags;
-
-	guint32 text_html_flags;
 };
 
 struct _EMFormatQuoteClass {
