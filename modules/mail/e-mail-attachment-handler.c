@@ -221,7 +221,7 @@ mail_attachment_handler_message_rfc822 (EAttachmentView *view,
 
 	stream = camel_stream_mem_new ();
 	camel_stream_write (stream, data, length, NULL, NULL);
-	camel_stream_reset (stream, NULL);
+	g_seekable_seek (G_SEEKABLE (stream), 0, G_SEEK_SET, NULL, NULL);
 
 	message = camel_mime_message_new ();
 	wrapper = CAMEL_DATA_WRAPPER (message);

@@ -1422,7 +1422,8 @@ em_format_format_text (EMFormat *emf,
 		(CamelStream *) filter_stream, cancellable, NULL);
 	camel_stream_flush ((CamelStream *) filter_stream, cancellable, NULL);
 	g_object_unref (filter_stream);
-	camel_stream_reset (mem_stream, NULL);
+
+	g_seekable_seek (G_SEEKABLE (mem_stream), 0, G_SEEK_SET, NULL, NULL);
 
 	if (max == -1 || size == -1 || size < (max * 1024) || emf->composer) {
 		camel_stream_write_to_stream (

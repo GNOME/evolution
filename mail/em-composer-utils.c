@@ -1153,7 +1153,6 @@ traverse_parts (GSList *clues, CamelMimeMessage *message, CamelDataWrapper *cont
 
 		if (replace_variables (clues, message, &str)) {
 			stream = camel_stream_mem_new_with_buffer (str, strlen (str));
-			camel_stream_reset (stream, NULL);
 			camel_data_wrapper_construct_from_stream_sync (
 				content, stream, NULL, NULL);
 			g_object_unref (stream);

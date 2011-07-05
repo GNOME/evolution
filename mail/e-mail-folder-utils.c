@@ -1159,9 +1159,7 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
 {
 	GFileOutputStream *file_output_stream;
 	GByteArray *byte_array;
-	CamelMimeFilter *filter;
 	CamelStream *base_stream;
-	CamelStream *stream;
 	gboolean success = TRUE;
 	guint ii;
 
@@ -1192,15 +1190,12 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
 
 	/* CamelStreamMem takes ownership of the GByteArray. */
 	byte_array = g_byte_array_new ();
-	filter = camel_mime_filter_from_new ();
 	base_stream = camel_stream_mem_new_with_byte_array (byte_array);
-	stream = camel_stream_filter_new (base_stream);
-	camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), filter);
-	g_object_unref (base_stream);
-	g_object_unref (filter);
 
 	for (ii = 0; ii < message_uids->len; ii++) {
 		CamelMimeMessage *message;
+		CamelMimeFilter *filter;
+		CamelStream *stream;
 		const gchar *uid;
 		gchar *from_line;
 		gint percent;
@@ -1232,9 +1227,16 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
 			goto exit;
 		}
 
+		filter = camel_mime_filter_from_new ();
+		stream = camel_stream_filter_new (base_stream);
+		camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), filter);
+
 		retval = camel_data_wrapper_write_to_stream_sync (
 			CAMEL_DATA_WRAPPER (message),
 			stream, cancellable, error);
+
+		g_object_unref (filter);
+		g_object_unref (stream);
 
 		if (retval == -1) {
 			g_object_unref (message);
@@ -1258,14 +1260,16 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
 
 		/* Flush the buffer for the next message.
 		 * For memory streams this never fails. */
-		camel_stream_reset (stream, NULL);
+		g_seekable_seek (
+			G_SEEKABLE (base_stream),
+			0, G_SEEK_SET, NULL, NULL);
 
 		g_object_unref (message);
 	}
 
 exit:
 	g_object_unref (file_output_stream);
-	g_object_unref (stream);
+	g_object_unref (base_stream);
 
 	camel_operation_pop_message (cancellable);
 
