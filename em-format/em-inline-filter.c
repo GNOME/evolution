@@ -121,7 +121,7 @@ inline_filter_add_part (EMInlineFilter *emif, const gchar *data, gint len)
 	}
 
 	emif->data = g_byte_array_new ();
-	camel_stream_reset (mem, NULL);
+	g_seekable_seek (G_SEEKABLE (mem), 0, G_SEEK_SET, NULL, NULL);
 
 	dw = camel_data_wrapper_new ();
 	if (encoding == emif->base_encoding && (encoding == CAMEL_TRANSFER_ENCODING_BASE64 || encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE)) {

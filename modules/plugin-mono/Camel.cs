@@ -630,7 +630,6 @@ namespace Camel {
 		[DllImport("camel-1.2")] static extern int camel_stream_eos(IntPtr o);
 		[DllImport("camel-1.2")] static extern int camel_stream_close(IntPtr o);
 		[DllImport("camel-1.2")] static extern int camel_stream_flush(IntPtr o);
-		[DllImport("camel-1.2")] static extern int camel_stream_reset(IntPtr o);
 
 		public int write(byte [] data, int len) {
 			int ret;
@@ -669,11 +668,6 @@ namespace Camel {
 		public void close() {
 			if (camel_stream_close(cobject) == -1)
 				throw new Exception(Exception.Type.SYSTEM, "IO close Error");
-		}
-
-		public void reset() {
-			if (camel_stream_reset(cobject) == -1)
-				throw new Exception(Exception.Type.SYSTEM, "IO reset Error");
 		}
 
 		public void flush() {

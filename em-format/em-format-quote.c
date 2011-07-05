@@ -94,8 +94,11 @@ emfq_format_clone (EMFormat *emf,
 	EM_FORMAT_CLASS (parent_class)->format_clone (
 		emf, folder, uid, msg, src, cancellable);
 
+	g_seekable_seek (
+		G_SEEKABLE (emfq->priv->stream),
+		0, G_SEEK_SET, NULL, NULL);
+
 	gconf = gconf_client_get_default ();
-	camel_stream_reset (emfq->priv->stream, NULL);
 	if (gconf_client_get_bool (
 		gconf, "/apps/evolution/mail/composer/top_signature", NULL))
 		camel_stream_printf (emfq->priv->stream, "<br>\n");
@@ -256,6 +259,9 @@ em_format_quote_new (const gchar *credits,
 	EMFormatQuote *emfq;
 
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), NULL);
+
+	/* Steam must also be seekable so we can reset its position. */
+	g_return_val_if_fail (G_IS_SEEKABLE (stream), NULL);
 
 	emfq = g_object_new (EM_TYPE_FORMAT_QUOTE, NULL);
 
