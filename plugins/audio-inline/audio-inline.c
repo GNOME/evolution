@@ -294,16 +294,22 @@ void
 org_gnome_audio_inline_format (gpointer ep, EMFormatHookTarget *t)
 {
 	struct _org_gnome_audio_inline_pobject *pobj;
-	gchar *classid = g_strdup_printf ("org-gnome-audio-inline-button-panel-%d", org_gnome_audio_class_id_counter);
+	gchar *classid;
+	gchar *content;
+
+	classid = g_strdup_printf (
+		"org-gnome-audio-inline-button-panel-%d",
+		org_gnome_audio_class_id_counter);
 
 	org_gnome_audio_class_id_counter++;
 
 	d(printf ("audio inline formatter: format classid %s\n", classid));
 
-	pobj = (struct _org_gnome_audio_inline_pobject *) em_format_html_add_pobject ((EMFormatHTML *) t->format, sizeof (*pobj), classid,
-										      t->part, org_gnome_audio_inline_button_panel);
-	g_object_ref (t->part);
-	pobj->part = t->part;
+	pobj = (struct _org_gnome_audio_inline_pobject *)
+		em_format_html_add_pobject (
+			(EMFormatHTML *) t->format, sizeof (*pobj), classid,
+			t->part, org_gnome_audio_inline_button_panel);
+	pobj->part = g_object_ref (t->part);
 	pobj->filename = NULL;
 	pobj->playbin = NULL;
 	pobj->play_button = NULL;
@@ -313,5 +319,7 @@ org_gnome_audio_inline_format (gpointer ep, EMFormatHookTarget *t)
 	pobj->object.free = org_gnome_audio_inline_pobject_free;
 	pobj->target_state = GST_STATE_NULL;
 
-	camel_stream_printf (t->stream, "<object classid=%s></object>\n", classid);
+	content = g_strdup_printf ("<object classid=%s></object>\n", classid);
+	camel_stream_write_string (t->stream, content, NULL, NULL);
+	g_free (content);
 }

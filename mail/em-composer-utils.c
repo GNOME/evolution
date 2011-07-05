@@ -1926,6 +1926,7 @@ em_utils_send_receipt (EMailSession *session,
 	gchar *self_address, *receipt_subject;
 	gchar *ua, *recipient;
 	gchar *transport_uid;
+	gchar *content;
 
 	message_id = camel_medium_get_header (
 		CAMEL_MEDIUM (message), "Message-ID");
@@ -1968,15 +1969,17 @@ em_utils_send_receipt (EMailSession *session,
 	camel_content_type_set_param (type, "charset", "UTF-8");
 	camel_data_wrapper_set_mime_type_field (receipt_text, type);
 	camel_content_type_unref (type);
-	stream = camel_stream_mem_new ();
-	camel_stream_printf (stream,
-	/* Translators: First %s is an email address, second %s
-	 * is the subject of the email, third %s is the date. */
+	content = g_strdup_printf (
+		/* Translators: First %s is an email address, second %s
+		 * is the subject of the email, third %s is the date. */
 		_("Your message to %s about \"%s\" on %s has been read."),
 		self_address, message_subject, message_date);
+	stream = camel_stream_mem_new ();
+	camel_stream_write_string (stream, content, NULL, NULL);
 	camel_data_wrapper_construct_from_stream_sync (
 		receipt_text, stream, NULL, NULL);
 	g_object_unref (stream);
+	g_free (content);
 
 	part = camel_mime_part_new ();
 	camel_medium_set_content (CAMEL_MEDIUM (part), receipt_text);
@@ -1999,16 +2002,18 @@ em_utils_send_receipt (EMailSession *session,
 	camel_data_wrapper_set_mime_type_field (receipt_data, type);
 	camel_content_type_unref (type);
 
+	content = g_strdup_printf (
+		"Reporting-UA: %s\n"
+		"Final-Recipient: %s\n"
+		"Original-Message-ID: %s\n"
+		"Disposition: manual-action/MDN-sent-manually; displayed\n",
+		ua, recipient, message_id);
 	stream = camel_stream_mem_new ();
-	camel_stream_printf (stream,
-			     "Reporting-UA: %s\n"
-			     "Final-Recipient: %s\n"
-			     "Original-Message-ID: %s\n"
-			     "Disposition: manual-action/MDN-sent-manually; displayed\n",
-			     ua, recipient, message_id);
+	camel_stream_write_string (stream, content, NULL, NULL);
 	camel_data_wrapper_construct_from_stream_sync (
 		receipt_data, stream, NULL, NULL);
 	g_object_unref (stream);
+	g_free (content);
 
 	g_free (ua);
 	g_free (recipient);

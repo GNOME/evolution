@@ -313,6 +313,7 @@ org_gnome_vcard_inline_format (gpointer ep, EMFormatHookTarget *target)
 {
 	VCardInlinePObject *vcard_object;
 	gchar *classid;
+	gchar *content;
 
 	classid = g_strdup_printf (
 		"org-gnome-vcard-inline-display-%d",
@@ -332,8 +333,9 @@ org_gnome_vcard_inline_format (gpointer ep, EMFormatHookTarget *target)
 
 	e_book_client_get_sources (&vcard_object->source_list, NULL);
 
-	camel_stream_printf (
-		target->stream, "<object classid=%s></object>", classid);
+	content = g_strdup_printf ("<object classid=%s></object>", classid);
+	camel_stream_write_string (target->stream, content, NULL, NULL);
+	g_free (content);
 
 	g_free (classid);
 }

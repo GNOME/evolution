@@ -101,7 +101,8 @@ emfq_format_clone (EMFormat *emf,
 	gconf = gconf_client_get_default ();
 	if (gconf_client_get_bool (
 		gconf, "/apps/evolution/mail/composer/top_signature", NULL))
-		camel_stream_printf (emfq->priv->stream, "<br>\n");
+		camel_stream_write_string (
+			emfq->priv->stream, "<br>\n", cancellable, NULL);
 	g_object_unref (gconf);
 	handle = em_format_find_handler(emf, "x-evolution/message/prefix");
 	if (handle)
@@ -274,7 +275,7 @@ em_format_quote_new (const gchar *credits,
 
 static void
 emfq_format_text_header (EMFormatQuote *emfq,
-                         CamelStream *stream,
+                         GString *buffer,
                          const gchar *label,
                          const gchar *value,
                          guint32 flags,
@@ -295,9 +296,11 @@ emfq_format_text_header (EMFormatQuote *emfq,
 		html = value;
 
 	if (flags & EM_FORMAT_HEADER_BOLD)
-		camel_stream_printf (stream, "<b>%s</b>: %s<br>", label, html);
+		g_string_append_printf (
+			buffer, "<b>%s</b>: %s<br>", label, html);
 	else
-		camel_stream_printf (stream, "%s: %s<br>", label, html);
+		g_string_append_printf (
+			buffer, "%s: %s<br>", label, html);
 
 	g_free (mhtml);
 }
@@ -399,7 +402,7 @@ canon_header_name (gchar *name)
 
 static void
 emfq_format_header (EMFormat *emf,
-                    CamelStream *stream,
+                    GString *buffer,
                     CamelMedium *part,
                     const gchar *namein,
                     guint32 flags,
@@ -482,14 +485,14 @@ emfq_format_header (EMFormat *emf,
 		g_free (buf);
 	}
 
-	emfq_format_text_header (emfq, stream, label, txt, flags, is_html);
+	emfq_format_text_header (emfq, buffer, label, txt, flags, is_html);
 
 	g_free (value);
 }
 
 static void
 emfq_format_headers (EMFormatQuote *emfq,
-                     CamelStream *stream,
+                     GString *buffer,
                      CamelMedium *part)
 {
 	EMFormat *emf = (EMFormat *) emfq;
@@ -509,11 +512,11 @@ emfq_format_headers (EMFormatQuote *emfq,
 	while (link != NULL) {
 		EMFormatHeader *h = link->data;
 		emfq_format_header (
-			emf, stream, part, h->name, h->flags, charset);
+			emf, buffer, part, h->name, h->flags, charset);
 		link = g_list_next (link);
 	}
 
-	camel_stream_printf(stream, "<br>\n");
+	g_string_append (buffer, "<br>\n");
 }
 
 static void
@@ -526,9 +529,12 @@ emfq_format_message_prefix (EMFormat *emf,
 {
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
 
-	if (emfq->priv->credits != NULL)
-		camel_stream_printf (
-			stream, "%s<br>\n", emfq->priv->credits);
+	if (emfq->priv->credits != NULL) {
+		camel_stream_write_string (
+			stream, emfq->priv->credits, NULL, NULL);
+		camel_stream_write_string (
+			stream, "<br>\n", NULL, NULL);
+	}
 }
 
 static void
@@ -540,20 +546,28 @@ emfq_format_message (EMFormat *emf,
                      gboolean is_fallback)
 {
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
+	GString *buffer;
+
+	buffer = g_string_sized_new (1024);
 
 	if (emfq->priv->flags & EM_FORMAT_QUOTE_CITE)
-		camel_stream_printf (
-			stream, "<!--+GtkHTML:<DATA class=\"ClueFlow\" "
+		g_string_append (
+			buffer,
+			"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
 			"key=\"orig\" value=\"1\">-->\n"
 			"<blockquote type=cite>\n");
 
 	if (((CamelMimePart *) emf->message) != part) {
-		camel_stream_printf (
-			stream,  "%s</br>\n",
+		g_string_append_printf (
+			buffer,
+			"%s</br>\n",
 			_("-------- Forwarded Message --------"));
-		emfq_format_headers (emfq, stream, (CamelMedium *) part);
+		emfq_format_headers (emfq, buffer, (CamelMedium *) part);
 	} else if (emfq->priv->flags & EM_FORMAT_QUOTE_HEADERS)
-		emfq_format_headers (emfq, stream, (CamelMedium *) part);
+		emfq_format_headers (emfq, buffer, (CamelMedium *) part);
+
+	camel_stream_write (
+		stream, buffer->str, buffer->len, cancellable, NULL);
 
 	em_format_part (emf, stream, part, cancellable);
 

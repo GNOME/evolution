@@ -435,6 +435,7 @@ efhd_format_attachment (EMFormat *emf,
                         const EMFormatHandler *handle,
                         GCancellable *cancellable)
 {
+	GString *buffer;
 	gchar *classid, *text, *html;
 	struct _attach_puri *info;
 
@@ -458,20 +459,22 @@ efhd_format_attachment (EMFormat *emf,
 		info->encrypt = emf->valid->encrypt.status;
 	}
 
-	camel_stream_write_string (
-		stream, EM_FORMAT_HTML_VPAD
-		"<table cellspacing=0 cellpadding=0><tr><td>"
+	buffer = g_string_sized_new (1024);
+
+	g_string_append_printf (
+		buffer, EM_FORMAT_HTML_VPAD
+		"<table cellspacing=0 cellpadding=0>"
+		"<tr><td>"
 		"<table width=10 cellspacing=0 cellpadding=0>"
-		"<tr><td></td></tr></table></td>",
-		cancellable, NULL);
-
-	camel_stream_printf (
-		stream, "<td><object classid=\"%s\"></object></td>", classid);
-
-	camel_stream_write_string (
-		stream, "<td><table width=3 cellspacing=0 cellpadding=0>"
-		"<tr><td></td></tr></table></td><td><font size=-1>",
-		cancellable, NULL);
+		"<tr><td></td><tr>"
+		"</table>"
+		"</td>"
+		"<td><object classid=\"%s\"></object></td>"
+		"<td><table width=3 cellspacing=0 cellpadding=0>"
+		"<tr><td></td></tr>"
+		"</table></td>"
+		"<td><font size=-1>",
+		classid);
 
 	/* output some info about it */
 	/* FIXME: should we look up mime_type from object again? */
@@ -479,13 +482,20 @@ efhd_format_attachment (EMFormat *emf,
 	html = camel_text_to_html (
 		text, EM_FORMAT_HTML (emf)->text_html_flags &
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	camel_stream_write_string (stream, html, cancellable, NULL);
+	g_string_append (buffer, html);
 	g_free (html);
 	g_free (text);
 
-	camel_stream_write_string (
-		stream, "</font></td></tr><tr></table>\n"
-		EM_FORMAT_HTML_VPAD, cancellable, NULL);
+	g_string_append (
+		buffer,
+		"</font></td>"
+		"</tr><tr></table>\n"
+		EM_FORMAT_HTML_VPAD);
+
+	camel_stream_write (
+		stream, buffer->str, buffer->len, cancellable, NULL);
+
+	g_string_free (buffer, TRUE);
 
 	if (handle && info->shown)
 		handle->handler (
@@ -504,6 +514,7 @@ efhd_format_optional (EMFormat *emf,
 	gchar *classid, *html;
 	struct _attach_puri *info;
 	CamelStream *stream = NULL;
+	GString *buffer;
 
 	if (CAMEL_IS_STREAM_FILTER (fstream))
 		stream = camel_stream_filter_get_source (
@@ -530,10 +541,12 @@ efhd_format_optional (EMFormat *emf,
 		info->encrypt = emf->valid->encrypt.status;
 	}
 
-	camel_stream_write_string (
-		stream, EM_FORMAT_HTML_VPAD
+	buffer = g_string_sized_new (1024);
+
+	g_string_append (
+		buffer, EM_FORMAT_HTML_VPAD
 		"<table cellspacing=0 cellpadding=0><tr><td>"
-		"<h3><font size=-1 color=red>", cancellable, NULL);
+		"<h3><font size=-1 color=red>");
 
 	html = camel_text_to_html (
 		_("Evolution cannot render this email as it is too "
@@ -541,21 +554,21 @@ efhd_format_optional (EMFormat *emf,
 		  "with an external text editor."),
 		EM_FORMAT_HTML (emf)->text_html_flags &
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	camel_stream_write_string (stream, html, cancellable, NULL);
-	camel_stream_write_string (
-		stream, "</font></h3></td></tr></table>\n",
-		cancellable, NULL);
-	camel_stream_write_string (
-		stream, "<table cellspacing=0 cellpadding=0><tr>",
-		cancellable, NULL);
-	camel_stream_printf (
-		stream, "<td><object classid=\"%s\"></object>"
-		"</td></tr></table>", classid);
-
+	g_string_append (buffer, html);
 	g_free (html);
 
-	camel_stream_write_string (
-		stream, EM_FORMAT_HTML_VPAD, cancellable, NULL);
+	g_string_append_printf (
+		buffer,
+		"</font></h3></td></tr></table>\n"
+		"<table cellspacing=0 cellpadding=0><tr>"
+		"<td><object classid=\"%s\"></object>"
+		"</td></tr></table>" EM_FORMAT_HTML_VPAD,
+		classid);
+
+	camel_stream_write (
+		stream, buffer->str, buffer->len, cancellable, NULL);
+
+	g_string_free (buffer, TRUE);
 
 	g_free (classid);
 }
@@ -575,11 +588,15 @@ efhd_format_secure (EMFormat *emf,
 	if (emf->valid == valid
 	    && (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
 		|| valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
+		GString *buffer;
 		gchar *classid;
 		struct _smime_pobject *pobj;
 
-		camel_stream_printf (
-			stream, "<table border=0 width=\"100%%\" "
+		buffer = g_string_sized_new (1024);
+
+		g_string_append_printf (
+			buffer,
+			"<table border=0 width=\"100%%\" "
 			"cellpadding=3 cellspacing=0%s><tr>",
 			smime_sign_colour[valid->sign.status]);
 
@@ -591,8 +608,9 @@ efhd_format_secure (EMFormat *emf,
 			classid, part, efhd_xpkcs7mime_button);
 		pobj->valid = camel_cipher_validity_clone (valid);
 		pobj->object.free = efhd_xpkcs7mime_free;
-		camel_stream_printf (
-			stream, "<td valign=center><object classid=\"%s\">"
+		g_string_append_printf (
+			buffer,
+			"<td valign=center><object classid=\"%s\">"
 			"</object></td><td width=100%% valign=center>",
 			classid);
 		g_free (classid);
@@ -605,11 +623,13 @@ efhd_format_secure (EMFormat *emf,
 			status = valid->sign.status;
 			desc = smime_sign_table[status].shortdesc;
 
-			camel_stream_printf (stream, "%s", gettext (desc));
+			g_string_append (buffer, gettext (desc));
 
-			signers = em_format_html_format_cert_infos ((CamelCipherCertInfo *) valid->sign.signers.head);
+			signers = em_format_html_format_cert_infos (
+				(CamelCipherCertInfo *) valid->sign.signers.head);
 			if (signers && *signers) {
-				camel_stream_printf (stream, " (%s)", signers);
+				g_string_append_printf (
+					buffer, " (%s)", signers);
 			}
 			g_free (signers);
 		}
@@ -618,16 +638,20 @@ efhd_format_secure (EMFormat *emf,
 			const gchar *desc;
 			gint status;
 
-			if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
-				camel_stream_printf (stream, "<br>");
-			}
+			if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
+				g_string_append (buffer, "<br>");
 
 			status = valid->encrypt.status;
 			desc = smime_encrypt_table[status].shortdesc;
-			camel_stream_printf (stream, "%s", gettext (desc));
+			g_string_append (buffer, gettext (desc));
 		}
 
-		camel_stream_printf(stream, "</td></tr></table>");
+		g_string_append (buffer, "</td></tr></table>");
+
+		camel_stream_write (
+			stream, buffer->str, buffer->len, cancellable, NULL);
+
+		g_string_free (buffer, TRUE);
 	}
 }
 
@@ -769,14 +793,20 @@ efhd_message_prefix (EMFormat *emf,
 	const gchar *flag, *comp, *due;
 	time_t date;
 	gchar *iconpath, *due_date_str;
+	GString *buffer;
 
 	if (emf->folder == NULL || emf->uid == NULL
 	    || (flag = camel_folder_get_message_user_tag(emf->folder, emf->uid, "follow-up")) == NULL
 	    || flag[0] == 0)
 		return;
 
+	buffer = g_string_sized_new (1024);
+
 	/* header displayed for message-flags in mail display */
-	camel_stream_printf(stream, "<table border=1 width=\"100%%\" cellspacing=2 cellpadding=2><tr>");
+	g_string_append (
+		buffer,
+		"<table border=1 width=\"100%%\" "
+		"cellspacing=2 cellpadding=2><tr>");
 
 	comp = camel_folder_get_message_user_tag(emf->folder, emf->uid, "completed-on");
 	iconpath = e_icon_factory_get_icon_filename (comp && comp[0] ? "stock_mail-flag-for-followup-done" : "stock_mail-flag-for-followup", GTK_ICON_SIZE_MENU);
@@ -790,20 +820,33 @@ efhd_message_prefix (EMFormat *emf,
 		if (iconpart) {
 			gchar *classid;
 
-			classid = g_strdup_printf("icon:///em-format-html-display/%s/%s", emf->part_id->str, comp&&comp[0]?"comp":"uncomp");
-			camel_stream_printf(stream, "<td align=\"left\"><img src=\"%s\"></td>", classid);
-			(void) em_format_add_puri (emf, sizeof (EMFormatPURI), classid, iconpart, efhd_write_image);
+			classid = g_strdup_printf (
+				"icon:///em-format-html-display/%s/%s",
+				emf->part_id->str,
+				comp && comp[0] ? "comp" : "uncomp");
+			g_string_append_printf (
+				buffer,
+				"<td align=\"left\">"
+				"<img src=\"%s\"></td>",
+				classid);
+			(void) em_format_add_puri (
+				emf, sizeof (EMFormatPURI),
+				classid, iconpart, efhd_write_image);
 			g_free (classid);
 			g_object_unref (iconpart);
 		}
 	}
 
-	camel_stream_printf(stream, "<td align=\"left\" width=\"100%%\">");
+	g_string_append (buffer, "<td align=\"left\" width=\"100%%\">");
 
 	if (comp && comp[0]) {
 		date = camel_header_decode_date (comp, NULL);
-		due_date_str = e_datetime_format_format ("mail", "header", DTFormatKindDateTime, date);
-		camel_stream_printf (stream, "%s, %s %s", flag, _("Completed on"), due_date_str ? due_date_str : "???");
+		due_date_str = e_datetime_format_format (
+			"mail", "header", DTFormatKindDateTime, date);
+		g_string_append_printf (
+			buffer, "%s, %s %s",
+			flag, _("Completed on"),
+			due_date_str ? due_date_str : "???");
 		g_free (due_date_str);
 	} else if ((due = camel_folder_get_message_user_tag(emf->folder, emf->uid, "due-by")) != NULL && due[0]) {
 		time_t now;
@@ -811,16 +854,30 @@ efhd_message_prefix (EMFormat *emf,
 		date = camel_header_decode_date (due, NULL);
 		now = time (NULL);
 		if (now > date)
-			camel_stream_printf(stream, "<b>%s</b>&nbsp;", _("Overdue:"));
+			g_string_append_printf (
+				buffer,
+				"<b>%s</b>&nbsp;",
+				_("Overdue:"));
 
-		due_date_str = e_datetime_format_format ("mail", "header", DTFormatKindDateTime, date);
-		/* To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009" */
-		camel_stream_printf (stream, "%s %s %s", flag, _("by"), due_date_str ? due_date_str : "???");
+		due_date_str = e_datetime_format_format (
+			"mail", "header", DTFormatKindDateTime, date);
+		/* Translators: the "by" is part of the string,
+		 * like "Follow-up by Tuesday, January 13, 2009" */
+		g_string_append_printf (
+			buffer, "%s %s %s",
+			flag, _("by"),
+			due_date_str ? due_date_str : "???");
+		g_free (due_date_str);
 	} else {
-		camel_stream_printf(stream, "%s", flag);
+		g_string_append (buffer, flag);
 	}
 
-	camel_stream_printf(stream, "</td></tr></table>");
+	g_string_append (buffer, "</td></tr></table>");
+
+	camel_stream_write (
+		stream, buffer->str, buffer->len, cancellable, NULL);
+
+	g_string_free (buffer, TRUE);
 }
 
 /* ********************************************************************** */
@@ -1053,8 +1110,10 @@ efhd_message_add_bar (EMFormat *emf,
                       const EMFormatHandler *info)
 {
 	gchar *classid;
+	gchar *content;
 
-	classid = g_strdup_printf ("attachment-bar:%s", emf->current_message_part_id);
+	classid = g_strdup_printf (
+		"attachment-bar:%s", emf->current_message_part_id);
 
 	/* XXX Apparently this installs the callback for -all-
 	 *     EMFormatHTML subclasses, not just this subclass.
@@ -1065,8 +1124,10 @@ efhd_message_add_bar (EMFormat *emf,
 		sizeof (EMFormatHTMLPObject),
 		classid, part, efhd_add_bar);
 
-	camel_stream_printf (
-		stream, "<td><object classid=\"%s\"></object></td>", classid);
+	content = g_strdup_printf (
+		"<td><object classid=\"%s\"></object></td>", classid);
+	camel_stream_write_string (stream, content, NULL, NULL);
+	g_free (content);
 
 	g_free (classid);
 }

@@ -448,6 +448,7 @@ org_gnome_image_inline_format (gpointer ep, EMFormatHookTarget *target)
 {
 	ImageInlinePObject *image_object;
 	gchar *classid;
+	gchar *content;
 
 	classid = g_strdup_printf (
 		"org-gnome-image-inline-display-%d",
@@ -466,8 +467,9 @@ org_gnome_image_inline_format (gpointer ep, EMFormatHookTarget *target)
 	image_object->object.free = org_gnome_image_inline_pobject_free;
 	org_gnome_image_inline_decode (image_object);
 
-	camel_stream_printf (
-		target->stream, "<object classid=%s></object>", classid);
+	content = g_strdup_printf ("<object classid=%s></object>", classid);
+	camel_stream_write_string (target->stream, content, NULL, NULL);
+	g_free (content);
 
 	g_free (classid);
 }
