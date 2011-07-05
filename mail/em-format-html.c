@@ -171,17 +171,19 @@ efh_format_exec (struct _format_msg *m,
                  GError **error)
 {
 	EMFormat *format;
+	CamelStream *stream;
 	struct _EMFormatHTMLJob *job;
 	GNode *puri_level;
 	CamelURL *base;
+	gchar *content;
 
 	if (m->format->priv->web_view == NULL)
 		return;
 
 	format = EM_FORMAT (m->format);
+	stream = CAMEL_STREAM (m->estream);
 
-	camel_stream_printf (
-		(CamelStream *) m->estream,
+	content = g_strdup_printf (
 		"<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n"
 		"<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n"
 		"<body bgcolor =\"#%06x\" text=\"#%06x\" marginwidth=6 marginheight=6>\n",
@@ -191,12 +193,14 @@ efh_format_exec (struct _format_msg *m,
 		e_color_to_value (
 			&m->format->priv->colors[
 			EM_FORMAT_HTML_COLOR_HEADER]));
+	camel_stream_write_string (stream, content, cancellable, NULL);
+	g_free (content);
 
 	/* <insert top-header stuff here> */
 
 	if (format->mode == EM_FORMAT_MODE_SOURCE) {
 		em_format_format_source (
-			format, (CamelStream *) m->estream,
+			format, stream,
 			(CamelMimePart *) m->message, cancellable);
 	} else {
 		const EMFormatHandler *handle;
@@ -207,7 +211,7 @@ efh_format_exec (struct _format_msg *m,
 
 		if (handle != NULL)
 			handle->handler (
-				format, CAMEL_STREAM (m->estream),
+				format, stream,
 				CAMEL_MIME_PART (m->message), handle,
 				cancellable, FALSE);
 
@@ -216,12 +220,12 @@ efh_format_exec (struct _format_msg *m,
 
 		if (handle != NULL)
 			handle->handler (
-				format, CAMEL_STREAM (m->estream),
+				format, stream,
 				CAMEL_MIME_PART (m->message), handle,
 				cancellable, FALSE);
 	}
 
-	camel_stream_flush ((CamelStream *) m->estream, cancellable, NULL);
+	camel_stream_flush (stream, cancellable, NULL);
 
 	puri_level = format->pending_uri_level;
 	base = format->base;
@@ -704,14 +708,22 @@ efh_format_error (EMFormat *emf,
                   CamelStream *stream,
                   const gchar *txt)
 {
+	GString *buffer;
 	gchar *html;
+
+	buffer = g_string_new ("<em><font color=\"red\">");
 
 	html = camel_text_to_html (
 		txt, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	camel_stream_printf (
-		stream, "<em><font color=\"red\">%s</font></em><br>", html);
+	g_string_append (buffer, html);
 	g_free (html);
+
+	g_string_append (buffer, "</font></em><br>");
+
+	camel_stream_write (stream, buffer->str, buffer->len, NULL, NULL);
+
+	g_string_free (buffer, TRUE);
 }
 
 static void
@@ -734,11 +746,13 @@ efh_format_source (EMFormat *emf,
 		CAMEL_STREAM_FILTER (filtered_stream), filter);
 	g_object_unref (filter);
 
-	camel_stream_write_string (stream, "<table><tr><td><tt>", cancellable, NULL);
-	em_format_format_text (emf, (CamelStream *) filtered_stream, dw, cancellable);
-	g_object_unref (filtered_stream);
+	camel_stream_write_string (
+		stream, "<table><tr><td><tt>", cancellable, NULL);
+	em_format_format_text (emf, filtered_stream, dw, cancellable);
+	camel_stream_write_string (
+		stream, "</tt></td></tr></table>", cancellable, NULL);
 
-	camel_stream_write_string(stream, "</tt></td></tr></table>", cancellable, NULL);
+	g_object_unref (filtered_stream);
 }
 
 static void
@@ -1725,12 +1739,23 @@ efh_format_secure (EMFormat *emf,
 		gchar *classid, *iconpath;
 		const gchar *icon;
 		CamelMimePart *iconpart;
+		GString *buffer;
 
-		camel_stream_printf (stream, "<table border=0 width=\"100%%\" cellpadding=3 cellspacing=0%s><tr>",
-				     smime_sign_colour[valid->sign.status]);
+		buffer = g_string_sized_new (1024);
 
-		classid = g_strdup_printf("smime:///em-format-html/%s/icon/signed", emf->part_id->str);
-		camel_stream_printf(stream, "<td valign=\"top\"><img src=\"%s\"></td><td valign=\"top\" width=\"100%%\">", classid);
+		g_string_append_printf (
+			buffer,
+			"<table border=0 width=\"100%%\" "
+			"cellpadding=3 cellspacing=0%s><tr>",
+			smime_sign_colour[valid->sign.status]);
+
+		classid = g_strdup_printf (
+			"smime:///em-format-html/%s/icon/signed",
+			emf->part_id->str);
+		g_string_append_printf (
+			buffer,
+			"<td valign=\"top\"><img src=\"%s\"></td>"
+			"<td valign=\"top\" width=\"100%%\">", classid);
 
 		if (valid->sign.status != 0)
 			icon = smime_sign_table[valid->sign.status].icon;
@@ -1748,24 +1773,33 @@ efh_format_secure (EMFormat *emf,
 		if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
 			gchar *signers;
 
-			camel_stream_printf (stream, "%s", _(smime_sign_table[valid->sign.status].shortdesc));
+			g_string_append (
+				buffer, _(smime_sign_table[valid->sign.status].shortdesc));
 
-			signers = em_format_html_format_cert_infos ((CamelCipherCertInfo *) valid->sign.signers.head);
+			signers = em_format_html_format_cert_infos (
+				(CamelCipherCertInfo *) valid->sign.signers.head);
 			if (signers && *signers) {
-				camel_stream_printf (stream, " (%s)", signers);
+				g_string_append_printf (
+					buffer, " (%s)", signers);
 			}
 			g_free (signers);
 		}
 
 		if (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
-			if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
-				camel_stream_printf (stream, "<br>");
-			}
+			if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
+				g_string_append (buffer, "<br>");
 
-			camel_stream_printf (stream, "%s", _(smime_encrypt_table[valid->encrypt.status].shortdesc));
+			g_string_append (
+				buffer, _(smime_encrypt_table[valid->encrypt.status].shortdesc));
 		}
 
-		camel_stream_printf(stream, "</td></tr></table>");
+		g_string_append (buffer, "</td></tr></table>");
+
+		camel_stream_write (
+			stream, buffer->str,
+			buffer->len, cancellable, NULL);
+
+		g_string_free (buffer, TRUE);
 	}
 }
 
@@ -1878,8 +1912,12 @@ efh_text_plain (EMFormat *emf,
 
 		type = camel_mime_part_get_content_type (newpart);
 		if (camel_content_type_is (type, "text", "*") && (is_fallback || !camel_content_type_is (type, "text", "calendar"))) {
-			camel_stream_printf (
-				stream, "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n",
+			gchar *content;
+
+			content = g_strdup_printf (
+				"<div style=\"border: solid #%06x 1px; "
+				"background-color: #%06x; padding: 10px; "
+				"color: #%06x;\">\n<tt>\n" EFH_MESSAGE_START,
 				e_color_to_value (
 					&efh->priv->colors[
 					EM_FORMAT_HTML_COLOR_FRAME]),
@@ -1890,7 +1928,9 @@ efh_text_plain (EMFormat *emf,
 					&efh->priv->colors[
 					EM_FORMAT_HTML_COLOR_TEXT]));
 			camel_stream_write_string (
-				stream, "<tt>\n" EFH_MESSAGE_START, cancellable, NULL);
+				stream, content, cancellable, NULL);
+			g_free (content);
+
 			em_format_format_text (
 				emf, filtered_stream,
 				(CamelDataWrapper *) newpart,
@@ -1921,6 +1961,7 @@ efh_text_enriched (EMFormat *emf,
 	CamelStream *filtered_stream;
 	CamelMimeFilter *enriched;
 	guint32 flags = 0;
+	gchar *content;
 
 	if (!strcmp(info->mime_type, "text/richtext")) {
 		flags = CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT;
@@ -1939,8 +1980,10 @@ efh_text_enriched (EMFormat *emf,
 		CAMEL_STREAM_FILTER (filtered_stream), enriched);
 	g_object_unref (enriched);
 
-	camel_stream_printf (
-		stream, "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n" EFH_MESSAGE_START,
+	content = g_strdup_printf (
+		"<div style=\"border: solid #%06x 1px; "
+		"background-color: #%06x; padding: 10px; "
+		"color: #%06x;\">\n" EFH_MESSAGE_START,
 		e_color_to_value (
 			&efh->priv->colors[
 			EM_FORMAT_HTML_COLOR_FRAME]),
@@ -1950,6 +1993,8 @@ efh_text_enriched (EMFormat *emf,
 		e_color_to_value (
 			&efh->priv->colors[
 			EM_FORMAT_HTML_COLOR_TEXT]));
+	camel_stream_write_string (stream, content, cancellable, NULL);
+	g_free (content);
 
 	em_format_format_text (
 		emf, (CamelStream *) filtered_stream,
@@ -1993,9 +2038,11 @@ efh_text_html (EMFormat *emf,
 	EMFormatHTML *efh = EM_FORMAT_HTML (emf);
 	const gchar *location;
 	gchar *cid = NULL;
+	gchar *content;
 
-	camel_stream_printf (
-		stream, "<div style=\"border: solid #%06x 1px; background-color: #%06x; color: #%06x;\">\n"
+	content = g_strdup_printf (
+		"<div style=\"border: solid #%06x 1px; "
+		"background-color: #%06x; color: #%06x;\">\n"
 		"<!-- text/html -->\n" EFH_MESSAGE_START,
 		e_color_to_value (
 			&efh->priv->colors[
@@ -2006,6 +2053,8 @@ efh_text_html (EMFormat *emf,
 		e_color_to_value (
 			&efh->priv->colors[
 			EM_FORMAT_HTML_COLOR_TEXT]));
+	camel_stream_write_string (stream, content, cancellable, NULL);
+	g_free (content);
 
 	/* TODO: perhaps we don't need to calculate this anymore now base is handled better */
 	/* calculate our own location string so add_puri doesn't do it
@@ -2034,10 +2083,11 @@ efh_text_html (EMFormat *emf,
 		emf, sizeof (EMFormatPURI), cid,
 		part, efh_write_text_html);
 	d(printf("adding iframe, location %s\n", cid));
-	camel_stream_printf (stream,
-			    "<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>\n"
-			    "</div>\n",
-			    cid, cid);
+	content = g_strdup_printf (
+		"<iframe src=\"%s\" frameborder=0 scrolling=no>"
+		"could not get %s</iframe>\n</div>\n", cid, cid);
+	camel_stream_write_string (stream, content, cancellable, NULL);
+	g_free (content);
 	g_free (cid);
 }
 
@@ -2053,9 +2103,12 @@ efh_message_external (EMFormat *emf,
 	CamelContentType *type;
 	const gchar *access_type;
 	gchar *url = NULL, *desc = NULL;
+	gchar *content;
 
 	if (!part) {
-		camel_stream_printf(stream, _("Unknown external-body part."));
+		camel_stream_write_string (
+			stream, _("Unknown external-body part."),
+			cancellable, NULL);
 		return;
 	}
 
@@ -2063,7 +2116,9 @@ efh_message_external (EMFormat *emf,
 	type = camel_mime_part_get_content_type (part);
 	access_type = camel_content_type_param (type, "access-type");
 	if (!access_type) {
-		camel_stream_printf(stream, _("Malformed external-body part."));
+		camel_stream_write_string (
+			stream, _("Malformed external-body part."),
+			cancellable, NULL);
 		return;
 	}
 
@@ -2131,14 +2186,21 @@ efh_message_external (EMFormat *emf,
 	} else
 		goto fail;
 
-	camel_stream_printf(stream, "<a href=\"%s\">%s</a>", url, desc);
+	content = g_strdup_printf ("<a href=\"%s\">%s</a>", url, desc);
+	camel_stream_write_string (stream, content, cancellable, NULL);
+	g_free (content);
+
 	g_free (url);
 	g_free (desc);
 
 	return;
 
 fail:
-	camel_stream_printf(stream, _("Pointer to unknown external data (\"%s\" type)"), access_type);
+	content = g_strdup_printf (
+		_("Pointer to unknown external data (\"%s\" type)"),
+		access_type);
+	camel_stream_write_string (stream, content, cancellable, NULL);
+	g_free (content);
 }
 
 static void
@@ -2153,10 +2215,13 @@ efh_message_deliverystatus (EMFormat *emf,
 	CamelStream *filtered_stream;
 	CamelMimeFilter *html_filter;
 	guint32 rgb = 0x737373;
+	gchar *content;
 
 	/* Yuck, this is copied from efh_text_plain */
-	camel_stream_printf (
-		stream, "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n",
+	content = g_strdup_printf (
+		"<div style=\"border: solid #%06x 1px; "
+		"background-color: #%06x; padding: 10px; "
+		"color: #%06x;\">\n",
 		e_color_to_value (
 			&efh->priv->colors[
 			EM_FORMAT_HTML_COLOR_FRAME]),
@@ -2166,6 +2231,8 @@ efh_message_deliverystatus (EMFormat *emf,
 		e_color_to_value (
 			&efh->priv->colors[
 			EM_FORMAT_HTML_COLOR_TEXT]));
+	camel_stream_write_string (stream, content, cancellable, NULL);
+	g_free (content);
 
 	filtered_stream = camel_stream_filter_new (stream);
 	html_filter = camel_mime_filter_tohtml_new (efh->text_html_flags, rgb);
@@ -2346,11 +2413,15 @@ efh_image (EMFormat *emf,
            gboolean is_fallback)
 {
 	EMFormatPURI *puri;
+	gchar *content;
 
 	puri = em_format_add_puri (
 		emf, sizeof (EMFormatPURI), NULL, part, efh_write_image);
-	camel_stream_printf (
-		stream, "<img hspace=10 vspace=10 src=\"%s\">", puri->cid);
+
+	content = g_strdup_printf (
+		"<img hspace=10 vspace=10 src=\"%s\">", puri->cid);
+	camel_stream_write_string (stream, content, cancellable, NULL);
+	g_free (content);
 }
 
 /* Notes:
@@ -2415,7 +2486,11 @@ efh_builtin_init (EMFormatHTMLClass *efhc)
 /* ********************************************************************** */
 
 static void
-efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const gchar *label, const gchar *value, guint32 flags)
+efh_format_text_header (EMFormatHTML *emfh,
+                        GString *buffer,
+                        const gchar *label,
+                        const gchar *value,
+                        guint32 flags)
 {
 	const gchar *fmt, *html;
 	gchar *mhtml = NULL;
@@ -2463,7 +2538,8 @@ efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const gchar *la
 		}
 	}
 
-	camel_stream_printf (stream, fmt, label, html);
+	g_string_append_printf (buffer, fmt, label, html);
+
 	g_free (mhtml);
 }
 
@@ -2615,7 +2691,12 @@ canon_header_name (gchar *name)
 }
 
 static void
-efh_format_header (EMFormat *emf, CamelStream *stream, CamelMedium *part, struct _camel_header_raw *header, guint32 flags, const gchar *charset)
+efh_format_header (EMFormat *emf,
+                   GString *buffer,
+                   CamelMedium *part,
+                   struct _camel_header_raw *header,
+                   guint32 flags,
+                   const gchar *charset)
 {
 	EMFormatHTML *efh = (EMFormatHTML *) emf;
 	gchar *name, *buf, *value = NULL;
@@ -2758,7 +2839,7 @@ efh_format_header (EMFormat *emf, CamelStream *stream, CamelMedium *part, struct
 		g_free (buf);
 	}
 
-	efh_format_text_header (efh, stream, label, txt, flags);
+	efh_format_text_header (efh, buffer, label, txt, flags);
 
 	g_free (value);
 	g_free (str_field);
@@ -2766,7 +2847,7 @@ efh_format_header (EMFormat *emf, CamelStream *stream, CamelMedium *part, struct
 
 static void
 efh_format_headers (EMFormatHTML *efh,
-                    CamelStream *stream,
+                    GString *buffer,
                     CamelMedium *part,
                     GCancellable *cancellable)
 {
@@ -2793,8 +2874,8 @@ efh_format_headers (EMFormatHTML *efh,
 	charset = camel_iconv_charset_name (charset);
 
 	if (!efh->simple_headers)
-		camel_stream_printf (
-			stream, "<font color=\"#%06x\">\n"
+		g_string_append_printf (
+			buffer, "<font color=\"#%06x\">\n"
 			"<table cellpadding=\"0\" width=\"100%%\">",
 			e_color_to_value (
 				&efh->priv->colors[
@@ -2833,15 +2914,27 @@ efh_format_headers (EMFormatHTML *efh,
 			header = header->next;
 		}
 
-		camel_stream_printf (stream, "<tr><td width=\"20\" valign=\"top\"><a href=\"##HEADERS##\"><img src=\"%s/plus.png\"></a></td><td><strong>%s</strong> %s%s%s</td></tr>",
-				evolution_imagesdir,  subject ? subject : _("(no subject)"), from->len ? "(" : "", from->str, from->len ? ")" : "");
+		g_string_append_printf (
+			buffer,
+			"<tr>"
+			"<td width=\"20\" valign=\"top\">"
+			"<a href=\"##HEADERS##\">"
+			"<img src=\"%s/plus.png\">"
+			"</a></td>"
+			"<td><strong>%s</strong> %s%s%s</td>"
+			"</tr>",
+			evolution_imagesdir,
+			subject ? subject : _("(no subject)"),
+			from->len ? "(" : "",
+			from->str,
+			from->len ? ")" : "");
 
 		g_free (subject);
 		if (addrs)
 			camel_header_address_list_clear (&addrs);
 		g_string_free (from, TRUE);
 
-		camel_stream_printf (stream, "</table>");
+		g_string_append (buffer, "</table>");
 
 		g_free (evolution_imagesdir);
 
@@ -2889,17 +2982,27 @@ efh_format_headers (EMFormatHTML *efh,
 
 	if (header_sender && header_from && mail_from_delegate) {
 		gchar *bold_sender, *bold_from;
-		camel_stream_printf(stream, "<tr><td><table border=1 width=\"100%%\" cellspacing=2 cellpadding=2><tr>");
+
+		g_string_append (
+			buffer,
+			"<tr><td><table border=1 width=\"100%%\" "
+			"cellspacing=2 cellpadding=2><tr>");
 		if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
-			camel_stream_printf (stream, "<td align=\"right\" width=\"100%%\">");
+			g_string_append (
+				buffer, "<td align=\"right\" width=\"100%%\">");
 		else
-			camel_stream_printf (stream, "<td align=\"left\" width=\"100%%\">");
+			g_string_append (
+				buffer, "<td align=\"left\" width=\"100%%\">");
 		bold_sender = g_strconcat ("<b>", header_sender, "</b>", NULL);
 		bold_from = g_strconcat ("<b>", header_from, "</b>", NULL);
-		/* To translators: This message suggests to the receipients that the sender of the mail is
-		   different from the one listed in From field. */
-		camel_stream_printf(stream, _("This message was sent by %s on behalf of %s"), bold_sender, bold_from);
-		camel_stream_printf(stream, "</td></tr></table></td></tr>");
+		/* Translators: This message suggests to the receipients
+		 * that the sender of the mail is different from the one
+		 * listed in From field. */
+		g_string_append_printf (
+			buffer,
+			_("This message was sent by %s on behalf of %s"),
+			bold_sender, bold_from);
+		g_string_append (buffer, "</td></tr></table></td></tr>");
 		g_free (bold_sender);
 		g_free (bold_from);
 	}
@@ -2909,17 +3012,39 @@ efh_format_headers (EMFormatHTML *efh,
 
 	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL) {
 		if (efh->priv->headers_collapsable)
-			camel_stream_printf (stream, "<tr><td valign=\"top\" width=\"20\"><a href=\"##HEADERS##\"><img src=\"%s/minus.png\"></a></td><td><table width=\"100%%\" border=0 cellpadding=\"0\">\n",
+			g_string_append_printf (
+				buffer,
+				"<tr>"
+				"<td valign=\"top\" width=\"20\">"
+				"<a href=\"##HEADERS##\">"
+				"<img src=\"%s/minus.png\">"
+				"</a></td>"
+				"<td><table width=\"100%%\" border=0 "
+				"cellpadding=\"0\">\n",
 				evolution_imagesdir);
 		else
-			camel_stream_printf (stream, "<tr><td><table width=\"100%%\" border=0 cellpadding=\"0\">\n");
+			g_string_append (
+				buffer,
+				"<tr><td>"
+				"<table width=\"100%%\" border=0 "
+				"cellpadding=\"0\">\n");
 
 	} else {
 		if (efh->priv->headers_collapsable)
-			camel_stream_printf (stream, "<tr><td valign=\"top\" width=\"20\"><a href=\"##HEADERS##\"><img src=\"%s/minus.png\"></a></td><td><table border=0 cellpadding=\"0\">\n",
+			g_string_append_printf (
+				buffer,
+				"<tr>"
+				"<td valign=\"top\" width=\"20\">"
+				"<a href=\"##HEADERS##\">"
+				"<img src=\"%s/minus.png\">"
+				"</a></td>"
+				"<td><table border=0 cellpadding=\"0\">\n",
 				evolution_imagesdir);
 		else
- 			camel_stream_printf (stream, "<tr><td><table border=0 cellpadding=\"0\">\n");
+			g_string_append (
+				buffer,
+ 				"<tr><td>"
+				"<table border=0 cellpadding=\"0\">\n");
 	}
 
 	g_free (evolution_imagesdir);
@@ -2928,7 +3053,9 @@ efh_format_headers (EMFormatHTML *efh,
 	if (emf->mode == EM_FORMAT_MODE_ALLHEADERS) {
 		header = ((CamelMimePart *) part)->headers;
 		while (header) {
-			efh_format_header (emf, stream, part, header, EM_FORMAT_HTML_HEADER_NOCOLUMNS, charset);
+			efh_format_header (
+				emf, buffer, part, header,
+				EM_FORMAT_HTML_HEADER_NOCOLUMNS, charset);
 			header = header->next;
 		}
 	} else {
@@ -2974,7 +3101,9 @@ efh_format_headers (EMFormatHTML *efh,
 					xmailer.value = use_header->value;
 					mailer_shown = TRUE;
 
-					efh_format_header (emf, stream, part, &xmailer, h->flags, charset);
+					efh_format_header (
+						emf, buffer, part,
+						&xmailer, h->flags, charset);
 					if (strstr(use_header->value, "Evolution"))
 						have_icon = TRUE;
 				} else if (!face_decoded && face && !g_ascii_strcasecmp (header->name, "Face")) {
@@ -2990,7 +3119,9 @@ efh_format_headers (EMFormatHTML *efh,
 					face_decoded = TRUE;
 				/* Showing an encoded "Face" header makes little sense */
 				} else if (!g_ascii_strcasecmp (header->name, h->name) && !face) {
-					efh_format_header (emf, stream, part, header, h->flags, charset);
+					efh_format_header (
+						emf, buffer, part,
+						header, h->flags, charset);
 				}
 
 				header = header->next;
@@ -3001,7 +3132,7 @@ efh_format_headers (EMFormatHTML *efh,
 	}
 
 	if (!efh->simple_headers) {
-		camel_stream_printf(stream, "</table></td>");
+		g_string_append (buffer, "</table></td>");
 
 		if (photo_name) {
 			gchar *classid;
@@ -3015,10 +3146,13 @@ efh_format_headers (EMFormatHTML *efh,
 
 			if (photopart) {
 				contact_has_photo = TRUE;
-				classid = g_strdup_printf("icon:///em-format-html/%s/photo/header",
-				emf->part_id->str);
-				camel_stream_printf (stream,
-					"<td align=\"right\" valign=\"top\"><img width=64 src=\"%s\"></td>",
+				classid = g_strdup_printf (
+					"icon:///em-format-html/%s/photo/header",
+					emf->part_id->str);
+				g_string_append_printf (
+					buffer,
+					"<td align=\"right\" valign=\"top\">"
+					"<img width=64 src=\"%s\"></td>",
 					classid);
 				em_format_add_puri (emf, sizeof (EMFormatPURI), classid,
 					photopart, efh_write_image);
@@ -3034,9 +3168,17 @@ efh_format_headers (EMFormatHTML *efh,
 			CamelMimePart *part;
 
 			part = camel_mime_part_new ();
-			camel_mime_part_set_content ((CamelMimePart *) part, (const gchar *) face_header_value, face_header_len, "image/png");
-			classid = g_strdup_printf("icon:///em-format-html/face/photo/header");
-			camel_stream_printf(stream, "<td align=\"right\" valign=\"top\"><img width=48 src=\"%s\"></td>", classid);
+			camel_mime_part_set_content (
+				(CamelMimePart *) part,
+				(const gchar *) face_header_value,
+				face_header_len, "image/png");
+			classid = g_strdup_printf (
+				"icon:///em-format-html/face/photo/header");
+			g_string_append_printf (
+				buffer,
+				"<td align=\"right\" valign=\"top\">"
+				"<img width=48 src=\"%s\"></td>",
+				classid);
 			em_format_add_puri (
 				emf, sizeof (EMFormatPURI),
 				classid, part, efh_write_image);
@@ -3048,8 +3190,14 @@ efh_format_headers (EMFormatHTML *efh,
 			gchar *classid;
 			CamelMimePart *iconpart = NULL;
 
-			classid = g_strdup_printf("icon:///em-format-html/%s/icon/header", emf->part_id->str);
-			camel_stream_printf(stream, "<td align=\"right\" valign=\"top\"><img width=16 height=16 src=\"%s\"></td>", classid);
+			classid = g_strdup_printf (
+				"icon:///em-format-html/%s/icon/header",
+				emf->part_id->str);
+			g_string_append_printf (
+				buffer,
+				"<td align=\"right\" valign=\"top\">"
+				"<img width=16 height=16 src=\"%s\"></td>",
+				classid);
 
 			icon_info = gtk_icon_theme_lookup_icon (
 				gtk_icon_theme_get_default (),
@@ -3070,7 +3218,8 @@ efh_format_headers (EMFormatHTML *efh,
 			}
 			g_free (classid);
 		}
-		camel_stream_printf (stream, "</tr></table>\n</font>\n");
+
+		g_string_append (buffer, "</tr></table>\n</font>\n");
 	}
 }
 
@@ -3083,6 +3232,7 @@ efh_format_message (EMFormat *emf,
                     gboolean is_fallback)
 {
 	const EMFormatHandler *handle;
+	GString *buffer;
 
 	/* TODO: make this validity stuff a method */
 	EMFormatHTML *efh = (EMFormatHTML *) emf;
@@ -3091,23 +3241,32 @@ efh_format_message (EMFormat *emf,
 	emf->valid = NULL;
 	emf->valid_parent = NULL;
 
+	buffer = g_string_sized_new (1024);
+
 	if (emf->message != (CamelMimeMessage *) part)
-		camel_stream_printf(stream, "<blockquote>\n");
+		g_string_append (buffer, "<blockquote>\n");
 
 	if (!efh->hide_headers)
 		efh_format_headers (
-			efh, stream, CAMEL_MEDIUM (part), cancellable);
+			efh, buffer, CAMEL_MEDIUM (part), cancellable);
+
+	camel_stream_write (
+		stream, buffer->str, buffer->len, cancellable, NULL);
+
+	g_string_free (buffer, TRUE);
 
 	handle = em_format_find_handler(emf, "x-evolution/message/post-header");
 	if (handle)
 		handle->handler (
 			emf, stream, part, handle, cancellable, FALSE);
 
-	camel_stream_printf (stream, EM_FORMAT_HTML_VPAD);
+	camel_stream_write_string (
+		stream, EM_FORMAT_HTML_VPAD, cancellable, NULL);
 	em_format_part (emf, stream, part, cancellable);
 
 	if (emf->message != (CamelMimeMessage *) part)
-		camel_stream_printf(stream, "</blockquote>\n");
+		camel_stream_write_string (
+			stream, "</blockquote>\n", cancellable, NULL);
 
 	camel_cipher_validity_free (emf->valid);
 

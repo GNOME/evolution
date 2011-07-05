@@ -2819,6 +2819,7 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 	CamelDataWrapper *content;
 	CamelStream *stream;
 	GByteArray *byte_array;
+	gchar *string;
 
 	classid = g_strdup_printf("itip:///%s", ((EMFormat *) target->format)->part_id->str);
 
@@ -2859,9 +2860,13 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 
 	g_object_unref (stream);
 
-	camel_stream_printf (target->stream, "<table border=0 width=\"100%%\" cellpadding=3><tr>");
-	camel_stream_printf (target->stream, "<td valign=top><object classid=\"%s\"></object></td><td width=100%% valign=top>", classid);
-	camel_stream_printf (target->stream, "</td></tr></table>");
+	string = g_strdup_printf (
+		"<table border=0 width=\"100%%\" cellpadding=3><tr>"
+		"<td valign=top><object classid=\"%s\"></object></td>"
+		"<td width=100%% valign=top></td></tr></table>",
+		classid);
+	camel_stream_write_string (target->stream, string, NULL, NULL);
+	g_free (string);
 
 	g_free (classid);
 }
