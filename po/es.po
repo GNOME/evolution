@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-07-01 12:06+0000\n"
-"PO-Revision-Date: 2011-07-02 07:01+0200\n"
+"POT-Creation-Date: 2011-07-07 02:03+0000\n"
+"PO-Revision-Date: 2011-07-07 06:56+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -47,9 +47,6 @@ msgstr ""
 "con la misma dirección de todas formas?"
 
 #: ../addressbook/addressbook.error.xml.h:4
-#| msgid ""
-#| "The name or email address of this contact already exists\n"
-#| "in this folder.  Would you like to add it anyway?"
 msgid ""
 "A contact list named '{0}' is already in this contact list. Would you like "
 "to add it anyway?"
@@ -138,7 +135,6 @@ msgid "LDAP server did not respond with valid schema information."
 msgstr "El servidor LDAP no respondió con una información del esquema válida."
 
 #: ../addressbook/addressbook.error.xml.h:21
-#| msgid "{0} is already in the list"
 msgid "List '{0}' is already in this contact list."
 msgstr "La lsta «{0}» ya está en esta lista de contactos."
 
@@ -239,9 +235,6 @@ msgstr ""
 "actualizarse a una versión soportada"
 
 #: ../addressbook/addressbook.error.xml.h:39
-#| msgid ""
-#| "The name or email address of this contact already exists\n"
-#| "in this folder.  Would you like to add it anyway?"
 msgid ""
 "You are trying to add addresses that are part of this list already. Would "
 "you like to add them anyway?"
@@ -1220,7 +1213,6 @@ msgstr "Abrir mapa"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:521
 #: ../addressbook/gui/widgets/eab-contact-display.c:549
-#| msgid "List Members"
 msgid "List Members:"
 msgstr "Listar miembros:"
 
@@ -1510,7 +1502,7 @@ msgstr "No se pudo obtener la lista de libretas de direcciones: %s"
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:79
 #: ../calendar/gui/dialogs/event-page.c:2893
 #: ../calendar/gui/dialogs/memo-page.c:926
-#: ../calendar/gui/dialogs/task-page.c:1810 ../em-format/em-format.c:2313
+#: ../calendar/gui/dialogs/task-page.c:1810 ../em-format/em-format.c:2314
 #: ../mail/em-folder-tree.c:678 ../mail/mail-ops.c:657
 #: ../plugins/caldav/caldav-browse-server.c:209
 #: ../plugins/caldav/caldav-browse-server.c:1406 ../plugins/face/face.c:169
@@ -2478,7 +2470,7 @@ msgstr "Colo_r:"
 #: ../mail/em-folder-properties.c:233 ../mail/mail-config.ui.h:52
 #: ../modules/addressbook/addressbook-config.c:1052
 #: ../modules/calendar/e-calendar-preferences.ui.h:19
-#: ../plugins/itip-formatter/itip-formatter.c:2955
+#: ../plugins/itip-formatter/itip-formatter.c:2960
 #: ../plugins/publish-calendar/publish-calendar.ui.h:7
 #: ../smime/gui/smime-ui.ui.h:21
 msgid "General"
@@ -3242,9 +3234,9 @@ msgstr "La nota no se puede editar completamente porque no es el organizador"
 msgid "Unable to open memos in '%s': %s"
 msgstr "No es posible abrir las notas en «%s»: %s"
 
-#: ../calendar/gui/dialogs/memo-page.c:1099 ../em-format/em-format-quote.c:284
-#: ../em-format/em-format.c:1056 ../mail/em-format-html.c:2487
-#: ../mail/em-format-html.c:2552 ../mail/em-format-html.c:2576
+#: ../calendar/gui/dialogs/memo-page.c:1099 ../em-format/em-format-quote.c:319
+#: ../em-format/em-format.c:1056 ../mail/em-format-html.c:2563
+#: ../mail/em-format-html.c:2628 ../mail/em-format-html.c:2652
 #: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:72
 msgid "To"
 msgstr "Para"
@@ -7734,30 +7726,30 @@ msgstr "Error de GConf: %s"
 msgid "All further errors shown only on terminal."
 msgstr "En adelante todos los errores sólo se mostrarán en el terminal."
 
-#: ../em-format/em-format-quote.c:284 ../em-format/em-format.c:1054
+#: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1054
 #: ../mail/e-mail-tag-editor.c:325 ../mail/message-list.etspec.h:7
 #: ../modules/mail/em-mailer-prefs.c:70
 msgid "From"
 msgstr "De"
 
-#: ../em-format/em-format-quote.c:284 ../em-format/em-format.c:1055
+#: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1055
 #: ../modules/mail/em-mailer-prefs.c:71
 msgid "Reply-To"
 msgstr "Responder a"
 
-#: ../em-format/em-format-quote.c:284 ../em-format/em-format.c:1057
-#: ../mail/em-format-html.c:2488 ../mail/em-format-html.c:2556
-#: ../mail/em-format-html.c:2579 ../modules/mail/em-mailer-prefs.c:73
+#: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1057
+#: ../mail/em-format-html.c:2564 ../mail/em-format-html.c:2632
+#: ../mail/em-format-html.c:2655 ../modules/mail/em-mailer-prefs.c:73
 msgid "Cc"
 msgstr "Cc"
 
-#: ../em-format/em-format-quote.c:284 ../em-format/em-format.c:1058
-#: ../mail/em-format-html.c:2489 ../mail/em-format-html.c:2560
-#: ../mail/em-format-html.c:2582 ../modules/mail/em-mailer-prefs.c:74
+#: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1058
+#: ../mail/em-format-html.c:2565 ../mail/em-format-html.c:2636
+#: ../mail/em-format-html.c:2658 ../modules/mail/em-mailer-prefs.c:74
 msgid "Bcc"
 msgstr "Cco"
 
-#: ../em-format/em-format-quote.c:428 ../em-format/em-format.c:1059
+#: ../em-format/em-format-quote.c:463 ../em-format/em-format.c:1059
 #: ../mail/e-mail-tag-editor.c:330 ../mail/em-filter-i18n.h:74
 #: ../mail/message-list.etspec.h:18 ../modules/mail/em-mailer-prefs.c:75
 #: ../smime/lib/e-cert.c:1142
@@ -7765,12 +7757,12 @@ msgid "Subject"
 msgstr "Asunto"
 
 #. pseudo-header
-#: ../em-format/em-format-quote.c:439 ../mail/em-format-html.c:2676
+#: ../em-format/em-format-quote.c:474 ../mail/em-format-html.c:2757
 #: ../modules/mail/em-mailer-prefs.c:1129
 msgid "Mailer"
 msgstr "Transporte"
 
-#: ../em-format/em-format-quote.c:520 ../mail/em-composer-utils.c:1190
+#: ../em-format/em-format-quote.c:564 ../mail/em-composer-utils.c:1189
 msgid "-------- Forwarded Message --------"
 msgstr "--------- Mensaje reenviado --------"
 
@@ -7789,45 +7781,45 @@ msgstr "Grupos de noticias"
 msgid "Face"
 msgstr "Cara"
 
-#: ../em-format/em-format.c:1465
+#: ../em-format/em-format.c:1466
 #, c-format
 msgid "%s attachment"
 msgstr "%s adjunto"
 
-#: ../em-format/em-format.c:1576
+#: ../em-format/em-format.c:1577
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "No es posible interpretar el mensaje S/MIME: Error desconocido"
 
-#: ../em-format/em-format.c:1768 ../em-format/em-format.c:1994
+#: ../em-format/em-format.c:1769 ../em-format/em-format.c:1995
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "No es posible analizar el mensaje MIME. Mostrando la fuente."
 
-#: ../em-format/em-format.c:1779
+#: ../em-format/em-format.c:1780
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Tipo de cifrado no soportado para multipart/encrypted"
 
-#: ../em-format/em-format.c:1799
+#: ../em-format/em-format.c:1800
 msgid "Could not parse PGP/MIME message"
 msgstr "No es posible interpretar el mensaje PGP/MIME"
 
-#: ../em-format/em-format.c:1800
+#: ../em-format/em-format.c:1801
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "No se pudo interpretar el mensaje PGP/MIME: Error desconocido"
 
-#: ../em-format/em-format.c:2019
+#: ../em-format/em-format.c:2020
 msgid "Unsupported signature format"
 msgstr "Formato de firma no soportado"
 
-#: ../em-format/em-format.c:2032 ../em-format/em-format.c:2214
+#: ../em-format/em-format.c:2033 ../em-format/em-format.c:2215
 msgid "Error verifying signature"
 msgstr "Error al verificar la firma"
 
-#: ../em-format/em-format.c:2033 ../em-format/em-format.c:2199
-#: ../em-format/em-format.c:2215
+#: ../em-format/em-format.c:2034 ../em-format/em-format.c:2200
+#: ../em-format/em-format.c:2216
 msgid "Unknown error verifying signature"
 msgstr "Error desconocido al verificar la firma"
 
-#: ../em-format/em-format.c:2307
+#: ../em-format/em-format.c:2308
 msgid "Could not parse PGP message: "
 msgstr "No se pudo analizar el mensaje PGP: "
 
@@ -8135,7 +8127,7 @@ msgid "years"
 msgstr "años"
 
 #: ../mail/e-mail-attachment-bar.c:90 ../mail/e-mail-attachment-bar.c:95
-#: ../mail/em-format-html-display.c:1156 ../mail/mail-config.ui.h:14
+#: ../mail/em-format-html-display.c:1217 ../mail/mail-config.ui.h:14
 #: ../mail/message-list.etspec.h:1 ../widgets/misc/e-attachment-paned.c:128
 #: ../widgets/misc/e-attachment-paned.c:133
 msgid "Attachment"
@@ -8225,14 +8217,14 @@ msgstr "Se quitó el archivo."
 msgid "Removing attachments"
 msgstr "Quitando adjuntos"
 
-#: ../mail/e-mail-folder-utils.c:1177
+#: ../mail/e-mail-folder-utils.c:1175
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "Guardando %d mensaje"
 msgstr[1] "Guardando %d mensajes"
 
-#: ../mail/e-mail-folder-utils.c:1515 ../mail/em-folder-utils.c:577
+#: ../mail/e-mail-folder-utils.c:1519 ../mail/em-folder-utils.c:577
 #, c-format
 msgid "Invalid folder URI '%s'"
 msgstr "URI « %s» de la carpeta no válida"
@@ -9022,30 +9014,30 @@ msgstr "Responder"
 msgid "Folder '%s'"
 msgstr "Carpeta «%s»"
 
-#: ../mail/e-mail-session.c:661
+#: ../mail/e-mail-session.c:657
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Introduzca la contraseña para %s"
 
-#: ../mail/e-mail-session.c:665
+#: ../mail/e-mail-session.c:661
 msgid "Enter Passphrase"
 msgstr "Introduzca la contraseña"
 
-#: ../mail/e-mail-session.c:669
+#: ../mail/e-mail-session.c:665
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Introduzca su contraseña para %s"
 
-#: ../mail/e-mail-session.c:673
+#: ../mail/e-mail-session.c:669
 msgid "Enter Password"
 msgstr "Introduzca contraseña"
 
-#: ../mail/e-mail-session.c:724
+#: ../mail/e-mail-session.c:720
 #, c-format
 msgid "User canceled operation."
 msgstr "El usuario canceló la operación."
 
-#: ../mail/e-mail-session.c:839
+#: ../mail/e-mail-session.c:833
 #, c-format
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
@@ -9053,23 +9045,23 @@ msgstr ""
 "No se proporcionó ninguna dirección de destino, se canceló el reenvío del "
 "mensaje."
 
-#: ../mail/e-mail-session.c:848
+#: ../mail/e-mail-session.c:842
 #, c-format
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr ""
 "No se encontró ninguna cuenta que usar, se canceló el reenvío del mensaje."
 
-#: ../mail/e-mail-session-utils.c:417
+#: ../mail/e-mail-session-utils.c:419
 #, c-format
 msgid "Cannot get transport for account '%s'"
 msgstr "No se puede obtener el servicio de transporte para la cuenta «%s»"
 
-#: ../mail/e-mail-session-utils.c:504 ../mail/mail-ops.c:633
+#: ../mail/e-mail-session-utils.c:506 ../mail/mail-ops.c:633
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "No se pudieron aplicar los filtros al correo saliente: %s"
 
-#: ../mail/e-mail-session-utils.c:528 ../mail/e-mail-session-utils.c:562
+#: ../mail/e-mail-session-utils.c:530 ../mail/e-mail-session-utils.c:564
 #: ../mail/mail-ops.c:652 ../mail/mail-ops.c:686
 #, c-format
 msgid ""
@@ -9079,32 +9071,32 @@ msgstr ""
 "Falló al anexar a %s: %s\n"
 "En su lugar se anexará a la carpeta local «Correo enviado»."
 
-#: ../mail/e-mail-session-utils.c:582 ../mail/mail-ops.c:706
+#: ../mail/e-mail-session-utils.c:584 ../mail/mail-ops.c:706
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Falló anexar a la carpeta local «Correo enviado»: %s"
 
-#: ../mail/e-mail-session-utils.c:793 ../mail/mail-ops.c:809
+#: ../mail/e-mail-session-utils.c:795 ../mail/mail-ops.c:809
 #: ../mail/mail-ops.c:905
 msgid "Sending message"
 msgstr "Enviando mensaje"
 
-#: ../mail/e-mail-session-utils.c:869
+#: ../mail/e-mail-session-utils.c:871
 #, c-format
 msgid "Unsubscribing from folder '%s'"
 msgstr "Desuscribiéndose de la carpeta «%s»"
 
-#: ../mail/e-mail-store-utils.c:165
+#: ../mail/e-mail-store-utils.c:167
 #, c-format
 msgid "Disconnecting from '%s'"
 msgstr "Desconectando de «%s»"
 
-#: ../mail/e-mail-store-utils.c:256
+#: ../mail/e-mail-store-utils.c:258
 #, c-format
 msgid "Reconnecting to '%s'"
 msgstr "Reconectándose con «%s»"
 
-#: ../mail/e-mail-store-utils.c:331
+#: ../mail/e-mail-store-utils.c:333
 #, c-format
 msgid "Preparing account '%s' for offline"
 msgstr "Preparando la cuenta «%s» para desconexión"
@@ -9265,7 +9257,7 @@ msgstr "Comprobando si hay mensajes nuevos"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../mail/em-composer-utils.c:1184
+#: ../mail/em-composer-utils.c:1183
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -9273,31 +9265,31 @@ msgstr ""
 "El ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} a las ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} escribió:"
 
-#: ../mail/em-composer-utils.c:1195
+#: ../mail/em-composer-utils.c:1194
 msgid "-----Original Message-----"
 msgstr "-----Mensaje original-----"
 
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
-#: ../mail/em-composer-utils.c:1976
+#: ../mail/em-composer-utils.c:1975
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "Su mensaje para %s acerca de «%s» se ha leído el «%s»"
 
-#: ../mail/em-composer-utils.c:2030
+#: ../mail/em-composer-utils.c:2034
 #, c-format
 msgid "Delivery Notification for: \"%s\""
 msgstr "Notificación de entrega para: «%s»"
 
-#: ../mail/em-composer-utils.c:2532
+#: ../mail/em-composer-utils.c:2536
 msgid "an unknown sender"
 msgstr "un remitente desconocido"
 
-#: ../mail/em-composer-utils.c:2933
+#: ../mail/em-composer-utils.c:2937
 msgid "Posting destination"
 msgstr "Destino de publicación"
 
-#: ../mail/em-composer-utils.c:2934
+#: ../mail/em-composer-utils.c:2938
 msgid "Choose folders to post the message to."
 msgstr "Elija las carpetas en las que publicar el mensaje."
 
@@ -9666,7 +9658,7 @@ msgstr "Crear carpeta"
 msgid "Specify where to create the folder:"
 msgstr "Especifique donde crear la carpeta:"
 
-#: ../mail/em-format-html-display.c:85 ../mail/em-format-html.c:1683
+#: ../mail/em-format-html-display.c:85 ../mail/em-format-html.c:1697
 msgid "Unsigned"
 msgstr "No firmado"
 
@@ -9678,7 +9670,7 @@ msgstr ""
 "Este mensaje no está firmado. No hay garantía de que el mensaje sea "
 "auténtico."
 
-#: ../mail/em-format-html-display.c:86 ../mail/em-format-html.c:1684
+#: ../mail/em-format-html-display.c:86 ../mail/em-format-html.c:1698
 msgid "Valid signature"
 msgstr "Firma válida"
 
@@ -9690,7 +9682,7 @@ msgstr ""
 "Este mensaje está firmado y es válido, lo que significa que es muy probable "
 "que el mensaje sea auténtico."
 
-#: ../mail/em-format-html-display.c:87 ../mail/em-format-html.c:1685
+#: ../mail/em-format-html-display.c:87 ../mail/em-format-html.c:1699
 msgid "Invalid signature"
 msgstr "Firma no válida"
 
@@ -9702,7 +9694,7 @@ msgstr ""
 "La firma de este mensaje no se puede verificar, pudo haber sido alterada en "
 "tránsito."
 
-#: ../mail/em-format-html-display.c:88 ../mail/em-format-html.c:1686
+#: ../mail/em-format-html-display.c:88 ../mail/em-format-html.c:1700
 msgid "Valid signature, but cannot verify sender"
 msgstr "Firma válida, pero no se puede verificar el remitente"
 
@@ -9714,7 +9706,7 @@ msgstr ""
 "Este mensaje está firmado con una firma válida, pero el remitente del "
 "mensaje no se pudo verificar."
 
-#: ../mail/em-format-html-display.c:89 ../mail/em-format-html.c:1687
+#: ../mail/em-format-html-display.c:89 ../mail/em-format-html.c:1701
 msgid "Signature exists, but need public key"
 msgstr "La firma existe pero se necesita la clave pública"
 
@@ -9726,7 +9718,7 @@ msgstr ""
 "Este mensaje está firmado con una firma pero no existe una clave pública "
 "correspondiente."
 
-#: ../mail/em-format-html-display.c:96 ../mail/em-format-html.c:1693
+#: ../mail/em-format-html-display.c:96 ../mail/em-format-html.c:1707
 msgid "Unencrypted"
 msgstr "Descifrado"
 
@@ -9738,7 +9730,7 @@ msgstr ""
 "Este mensaje no está cifrado. Su contenido puede verse en tránsito a través "
 "de Internet."
 
-#: ../mail/em-format-html-display.c:97 ../mail/em-format-html.c:1694
+#: ../mail/em-format-html-display.c:97 ../mail/em-format-html.c:1708
 msgid "Encrypted, weak"
 msgstr "Cifrado, débil"
 
@@ -9752,7 +9744,7 @@ msgstr ""
 "ser difícil, pero no imposible para un espía ver el contenido de este "
 "mensaje empleando algo de tiempo."
 
-#: ../mail/em-format-html-display.c:98 ../mail/em-format-html.c:1695
+#: ../mail/em-format-html-display.c:98 ../mail/em-format-html.c:1709
 msgid "Encrypted"
 msgstr "Cifrado"
 
@@ -9764,7 +9756,7 @@ msgstr ""
 "Este mensaje está cifrado. Sería difícil para un espía ver el contenido de "
 "este mensaje."
 
-#: ../mail/em-format-html-display.c:99 ../mail/em-format-html.c:1696
+#: ../mail/em-format-html-display.c:99 ../mail/em-format-html.c:1710
 msgid "Encrypted, strong"
 msgstr "Cifrado, fuerte"
 
@@ -9786,7 +9778,7 @@ msgstr "_Ver certificado"
 msgid "This certificate is not viewable"
 msgstr "Certificado no es visible"
 
-#: ../mail/em-format-html-display.c:539
+#: ../mail/em-format-html-display.c:552
 msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
@@ -9794,28 +9786,27 @@ msgstr ""
 "Evolution no puede mostrar este correo debido a que es demasiado grande para "
 "procesarlo. Puede verlo sin formato o con un editor de texto externo."
 
-#: ../mail/em-format-html-display.c:806
+#: ../mail/em-format-html-display.c:848
 msgid "Completed on"
 msgstr "Completado en"
 
-#: ../mail/em-format-html-display.c:814
+#: ../mail/em-format-html-display.c:860
 msgid "Overdue:"
 msgstr "Atrasado:"
 
-#. To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009"
-#: ../mail/em-format-html-display.c:818
+#: ../mail/em-format-html-display.c:868
 msgid "by"
 msgstr "por"
 
-#: ../mail/em-format-html-display.c:1081 ../mail/em-format-html-display.c:1128
+#: ../mail/em-format-html-display.c:1142 ../mail/em-format-html-display.c:1189
 msgid "View _Unformatted"
 msgstr "Ver _sin formato"
 
-#: ../mail/em-format-html-display.c:1083
+#: ../mail/em-format-html-display.c:1144
 msgid "Hide _Unformatted"
 msgstr "Ocultar _sin formato"
 
-#: ../mail/em-format-html-display.c:1148
+#: ../mail/em-format-html-display.c:1209
 msgid "O_pen With"
 msgstr "Abrir c_on"
 
@@ -9828,63 +9819,61 @@ msgstr "Página %d de %d"
 msgid "Formatting message"
 msgstr "Formateando el mensaje"
 
-#: ../mail/em-format-html.c:364
+#: ../mail/em-format-html.c:368
 msgid "Formatting Message..."
 msgstr "Formateando el mensaje…"
 
-#: ../mail/em-format-html.c:1527 ../mail/em-format-html.c:1537
+#: ../mail/em-format-html.c:1541 ../mail/em-format-html.c:1551
 #, c-format
 msgid "Retrieving '%s'"
 msgstr "Obteniendo «%s»"
 
-#: ../mail/em-format-html.c:2058
+#: ../mail/em-format-html.c:2110
 msgid "Unknown external-body part."
 msgstr "Parte externa al cuerpo del mensaje desconocida."
 
-#: ../mail/em-format-html.c:2066
+#: ../mail/em-format-html.c:2120
 msgid "Malformed external-body part."
 msgstr "Parte externa al cuerpo del mensaje mal escrita."
 
-#: ../mail/em-format-html.c:2096
+#: ../mail/em-format-html.c:2151
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Puntero a sitio FTP (%s)"
 
-#: ../mail/em-format-html.c:2107
+#: ../mail/em-format-html.c:2162
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Puntero a archivo local (%s) válido en el sitio «%s»"
 
-#: ../mail/em-format-html.c:2109
+#: ../mail/em-format-html.c:2164
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Puntero a archivo local (%s)"
 
-#: ../mail/em-format-html.c:2130
+#: ../mail/em-format-html.c:2185
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Puntero a datos remotos (%s)"
 
-#: ../mail/em-format-html.c:2141
+#: ../mail/em-format-html.c:2200
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Puntero a datos externos desconocidos (tipo «%s»)"
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../mail/em-format-html.c:2824
-#: ../plugins/mail-notification/mail-notification.c:407
+#: ../mail/em-format-html.c:2905
+#: ../plugins/mail-notification/mail-notification.c:405
 #, c-format
 msgid "From: %s"
 msgstr "De: %s"
 
-#: ../mail/em-format-html.c:2837
+#: ../mail/em-format-html.c:2927
 msgid "(no subject)"
 msgstr "(sin asunto)"
 
-#. To translators: This message suggests to the receipients that the sender of the mail is
-#. different from the one listed in From field.
-#: ../mail/em-format-html.c:2901
+#: ../mail/em-format-html.c:3003
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "%s envió este mensaje en nombre de %s"
@@ -13216,7 +13205,6 @@ msgstr "Mensajes"
 
 #. default follow-up flag name to use when clicked in the message list column
 #: ../mail/message-list.c:3997
-#| msgid "Follow-Up"
 msgid "Follow-up"
 msgstr "Seguimiento"
 
@@ -13774,7 +13762,7 @@ msgstr "No coincidente"
 #: ../modules/calendar/e-memo-shell-view-actions.c:768
 #: ../modules/calendar/e-task-shell-view-actions.c:967
 #: ../modules/mail/e-mail-shell-view-actions.c:1557
-#: ../shell/e-shell-content.c:638
+#: ../shell/e-shell-content.c:665
 msgid "Advanced Search"
 msgstr "Búsqueda avanzada"
 
@@ -14877,7 +14865,7 @@ msgid "Create a new calendar"
 msgstr "Crea un calendario nuevo"
 
 #: ../modules/calendar/e-cal-shell-backend.c:755
-#: ../plugins/itip-formatter/itip-formatter.c:2946
+#: ../plugins/itip-formatter/itip-formatter.c:2951
 msgid "Calendar and Tasks"
 msgstr "Calendario y tareas"
 
@@ -17454,17 +17442,17 @@ msgstr "Esta nota se repite"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2971
+#: ../plugins/itip-formatter/itip-formatter.c:2976
 msgid "_Delete message after acting"
 msgstr "_Eliminar el mensaje después de actuar"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2981
-#: ../plugins/itip-formatter/itip-formatter.c:3014
+#: ../plugins/itip-formatter/itip-formatter.c:2986
+#: ../plugins/itip-formatter/itip-formatter.c:3019
 msgid "Conflict Search"
 msgstr "Búsqueda de conflictos"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2996
+#: ../plugins/itip-formatter/itip-formatter.c:3001
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Seleccione los calendario en los que buscar conflictos entre reuniones"
 
@@ -17978,18 +17966,10 @@ msgid "Beep or play sound file."
 msgstr "Pitar o reproducir un archivo de sonido."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
-msgid "Enable D-Bus messages."
-msgstr "Activar los mensajes D-Bus."
-
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Enable icon in notification area."
 msgstr "Activar el icono en el área de notificación."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
-msgid "Generates a D-Bus message when new mail messages arrive."
-msgstr "Genera un mensaje D-BUS cuando llega un mensaje de correo nuevo."
-
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid ""
 "If \"true\", then beep, otherwise will play sound file when new messages "
 "arrive."
@@ -17997,62 +17977,52 @@ msgstr ""
 "Si está activado pitará, de otra manera reproducirá un archivo de sonido "
 "cuando lleguen mensajes nuevos."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
 msgid "Notify new messages for Inbox only."
 msgstr "Notificar nuevos correos sólo para la bandeja de entrada."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
 msgid "Play sound when new messages arrive."
 msgstr "Reproducir un sonido cuando llegue correo nuevo."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
 msgid "Play themed sound when new messages arrive, if not in beep mode."
 msgstr ""
 "Reproducir el tema de sonido cuando llega un correo nuevo, si no se está en "
 "el modo pitido."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-msgid "Popup message together with the icon."
-msgstr "Mensaje emergente junto con el icono."
-
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Show new mail icon in notification area when new messages arrive."
 msgstr ""
 "Mostrar el icono de correo nuevo en el área de notificación cuando llegan "
 "nuevos mensajes."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
 msgid "Sound file name to be played."
 msgstr "Nombre del archivo de sonido que reproducir."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
 msgstr ""
 "Archivo que reproducir cuando llega un mensaje nuevo, si no se debe "
 "reproducir un pitido."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
 msgid "Use sound theme"
 msgstr "Usar un tema de sonido"
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Whether play sound or beep when new messages arrive."
 msgstr ""
 "Indica si se debe reproducir un sonido o pitar cuando llega un mensaje nuevo."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
-msgid "Whether show message over the icon when new messages arrive."
-msgstr ""
-"Indica si se debe mostrar un mensaje sobre el icono cuando llega un mensaje "
-"nuevo."
-
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
 msgid "Whether to notify new messages in Inbox folder only."
 msgstr ""
 "Indica si se deben notificar sólo los mensajes en la carpeta bandeja de "
 "entrada."
 
-#: ../plugins/mail-notification/mail-notification.c:396
+#: ../plugins/mail-notification/mail-notification.c:394
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -18069,7 +18039,7 @@ msgstr[1] ""
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../plugins/mail-notification/mail-notification.c:420
+#: ../plugins/mail-notification/mail-notification.c:419
 #, c-format
 msgid "Subject: %s"
 msgstr "Asunto: %s"
@@ -18081,47 +18051,49 @@ msgid_plural "You have received %d new messages."
 msgstr[0] "Ha recibido %d mensaje nuevo."
 msgstr[1] "Ha recibido %d mensajes nuevos."
 
-#: ../plugins/mail-notification/mail-notification.c:443
-#: ../plugins/mail-notification/mail-notification.c:451
-#: ../plugins/mail-notification/mail-notification.c:454
+#: ../plugins/mail-notification/mail-notification.c:439
+#: ../plugins/mail-notification/mail-notification.c:447
+#: ../plugins/mail-notification/mail-notification.c:450
 msgid "New email"
 msgstr "Nuevo correo-e"
 
-#: ../plugins/mail-notification/mail-notification.c:509
-msgid "Show icon in _notification area"
-msgstr "Mostrar icono en el área de _notificación"
+#. Translators: The '%s' is a mail
+#. * folder name.  (e.g. "Show Inbox")
+#: ../plugins/mail-notification/mail-notification.c:471
+#, c-format
+#| msgid "Show maps"
+msgid "Show %s"
+msgstr "Mostrar %s"
 
-#: ../plugins/mail-notification/mail-notification.c:539
-msgid "Popup _message together with the icon"
-msgstr "_Mensaje emergente junto con el icono"
+#: ../plugins/mail-notification/mail-notification.c:673
+#| msgid "_Play sound when new messages arrive"
+msgid "_Play sound when a new message arrives"
+msgstr "_Reproducir un sonido cuando llegue correo nuevo"
 
-#: ../plugins/mail-notification/mail-notification.c:726
-msgid "_Play sound when new messages arrive"
-msgstr "Re_producir un sonido cuando llegue correo nuevo"
-
-#: ../plugins/mail-notification/mail-notification.c:756
+#: ../plugins/mail-notification/mail-notification.c:703
 msgid "_Beep"
 msgstr "_Pitar"
 
-#: ../plugins/mail-notification/mail-notification.c:769
+#: ../plugins/mail-notification/mail-notification.c:716
 msgid "Use sound _theme"
 msgstr "Usar un _tema de sonido"
 
-#: ../plugins/mail-notification/mail-notification.c:788
+#: ../plugins/mail-notification/mail-notification.c:735
 msgid "Play _file:"
 msgstr "_Reproducir un archivo:"
 
-#: ../plugins/mail-notification/mail-notification.c:799
+#: ../plugins/mail-notification/mail-notification.c:744
 msgid "Select sound file"
 msgstr "Seleccione un arhivo de sonido"
 
-#: ../plugins/mail-notification/mail-notification.c:857
+#: ../plugins/mail-notification/mail-notification.c:801
 msgid "Notify new messages for _Inbox only"
 msgstr "Notificar nuevos mensajes sólo para la _bandeja de entrada"
 
-#: ../plugins/mail-notification/mail-notification.c:866
-msgid "Generate a _D-Bus message"
-msgstr "Generar un mensaje _D-Bus"
+#: ../plugins/mail-notification/mail-notification.c:811
+#| msgid "Show new mail icon in notification area when new messages arrive."
+msgid "Show _notification when a new message arrives"
+msgstr "Mostrar _notificaciones cuando llegue correo nuevo"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
@@ -19314,11 +19286,11 @@ msgstr "Estilo de los botones de ventana"
 msgid "Window buttons are visible"
 msgstr "Los botones de la ventana son visibles"
 
-#: ../shell/e-shell-content.c:699 ../shell/e-shell-content.c:700
+#: ../shell/e-shell-content.c:726 ../shell/e-shell-content.c:727
 msgid "Searches"
 msgstr "Búsquedas"
 
-#: ../shell/e-shell-content.c:742
+#: ../shell/e-shell-content.c:769
 msgid "Save Search"
 msgstr "Guardar búsqueda"
 
@@ -21567,6 +21539,29 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2318
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "Enable D-Bus messages."
+#~ msgstr "Activar los mensajes D-Bus."
+
+#~ msgid "Generates a D-Bus message when new mail messages arrive."
+#~ msgstr "Genera un mensaje D-BUS cuando llega un mensaje de correo nuevo."
+
+#~ msgid "Popup message together with the icon."
+#~ msgstr "Mensaje emergente junto con el icono."
+
+#~ msgid "Whether show message over the icon when new messages arrive."
+#~ msgstr ""
+#~ "Indica si se debe mostrar un mensaje sobre el icono cuando llega un "
+#~ "mensaje nuevo."
+
+#~ msgid "Show icon in _notification area"
+#~ msgstr "Mostrar icono en el área de _notificación"
+
+#~ msgid "Popup _message together with the icon"
+#~ msgstr "_Mensaje emergente junto con el icono"
+
+#~ msgid "Generate a _D-Bus message"
+#~ msgstr "Generar un mensaje _D-Bus"
 
 #~ msgid ""
 #~ "Selected calendar contains some events for the given mails already. Would "
