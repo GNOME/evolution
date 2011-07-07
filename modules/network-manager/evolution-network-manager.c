@@ -130,6 +130,7 @@ network_manager_check_initial_state (ENetworkManager *extension)
 	EShell *shell;
 	GDBusMessage *message = NULL;
 	GDBusMessage *response = NULL;
+	GVariant *body;
 	guint32 state = -1;
 	GError *error = NULL;
 
@@ -143,26 +144,31 @@ network_manager_check_initial_state (ENetworkManager *extension)
 		extension->connection, message,
 		G_DBUS_SEND_MESSAGE_FLAGS_NONE, 100, NULL, NULL, &error);
 
-	if (response != NULL && !g_dbus_message_to_gerror (response, &error)) {
-		GVariant *body = g_dbus_message_get_body (response);
-
-		g_variant_get (body, "(u)", &state);
-	} else {
-		g_warning ("%s: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
-		if (response)
+	if (response != NULL) {
+		if (g_dbus_message_to_gerror (response, &error)) {
 			g_object_unref (response);
-		g_object_unref (message);
+			response = NULL;
+		}
+	}
+
+	g_object_unref (message);
+
+	if (error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
 		return;
 	}
+
+	g_return_if_fail (G_IS_DBUS_MESSAGE (response));
+
+	body = g_dbus_message_get_body (response);
+	g_variant_get (body, "(u)", &state);
 
 	/* Update the state only in the absence of a network connection,
 	 * otherwise let the old state prevail. */
 	if (state == NM_STATE_ASLEEP || state == NM_STATE_DISCONNECTED)
 		e_shell_set_network_available (shell, FALSE);
 
-	g_object_unref (message);
 	g_object_unref (response);
 }
 
@@ -177,13 +183,17 @@ network_manager_connect (ENetworkManager *extension)
 	if (extension->connection != NULL)
 		return FALSE;
 
-	extension->connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
-	if (extension->connection == NULL) {
-		g_warning ("%s: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		g_error_free (error);
+	extension->connection =
+		g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
 
+	if (error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
 		return TRUE;
 	}
+
+	g_return_val_if_fail (
+		G_IS_DBUS_CONNECTION (extension->connection), FALSE);
 
 	g_dbus_connection_set_exit_on_close (extension->connection, FALSE);
 
