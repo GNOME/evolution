@@ -290,6 +290,11 @@ online_accounts_google_sync_calendar (GoaObject *goa_object,
 		source = g_object_new (E_TYPE_SOURCE, NULL);
 		source->priv->uid = g_strdup (evo_id);
 		e_source_set_name (source, _("Calendar"));
+
+		/* XXX Choose a fixed color from the list in
+		 *     calendar-setup.c.  I like purple. */
+		e_source_set_color_spec (source, "#E2C6E1");
+
 		new_source = TRUE;
 	}
 
