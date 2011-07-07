@@ -48,44 +48,46 @@ void e_module_unload (GTypeModule *type_module);
 
 /* Forward Declarations */
 GType e_connman_get_type (void);
-static gboolean network_manager_connect (EConnMan *extension);
+static gboolean connman_connect (EConnMan *extension);
 
 G_DEFINE_DYNAMIC_TYPE (EConnMan, e_connman, E_TYPE_EXTENSION)
 
 static void
-extension_set_state (EConnMan *extension, const gchar *state)
+extension_set_state (EConnMan *extension,
+                     const gchar *state)
 {
 	EExtensible *extensible;
+	gboolean network_available;
 
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
 	g_return_if_fail (E_IS_SHELL (extensible));
 
-	e_shell_set_network_available (E_SHELL (extensible), !g_strcmp0 (state, "online"));
+	network_available = (g_strcmp0 (state, "online") == 0);
+	e_shell_set_network_available (E_SHELL (extensible), network_available);
 }
 
 static void
-cm_connection_closed_cb (GDBusConnection *pconnection,
-                         gboolean remote_peer_vanished,
-                         GError *error,
-                         gpointer user_data)
+connman_connection_closed_cb (GDBusConnection *pconnection,
+                              gboolean remote_peer_vanished,
+                              GError *error,
+                              gpointer user_data)
 {
 	EConnMan *extension = user_data;
 
 	g_object_unref (extension->connection);
 	extension->connection = NULL;
 
-	g_timeout_add_seconds (
-		3, (GSourceFunc) network_manager_connect, extension);
+	g_timeout_add_seconds (3, (GSourceFunc) connman_connect, extension);
 }
 
 static void
 conn_manager_signal_cb (GDBusConnection *connection,
-	const gchar *sender_name,
-	const gchar *object_path,
-	const gchar *interface_name,
-	const gchar *signal_name,
-	GVariant *parameters,
-	gpointer user_data)
+                        const gchar *sender_name,
+                        const gchar *object_path,
+                        const gchar *interface_name,
+                        const gchar *signal_name,
+                        GVariant *parameters,
+                        gpointer user_data)
 {
 	EConnMan *extension = user_data;
 	gchar *state = NULL;
@@ -105,6 +107,8 @@ connman_check_initial_state (EConnMan *extension)
 {
 	GDBusMessage *message = NULL;
 	GDBusMessage *response = NULL;
+	GVariant *body;
+	gchar *state = NULL;
 	GError *error = NULL;
 
 	message = g_dbus_message_new_method_call (
@@ -115,29 +119,33 @@ connman_check_initial_state (EConnMan *extension)
 		extension->connection, message,
 		G_DBUS_SEND_MESSAGE_FLAGS_NONE, 100, NULL, NULL, &error);
 
-	if (response != NULL && !g_dbus_message_to_gerror (response, &error)) {
-		gchar *state = NULL;
-		GVariant *body = g_dbus_message_get_body (response);
-
-		g_variant_get (body, "(s)", &state);
-		extension_set_state (extension, state);
-		g_free (state);
-	} else {
-		g_warning ("%s: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
-		if (response)
+	if (response != NULL) {
+		if (g_dbus_message_to_gerror (response, &error)) {
 			g_object_unref (response);
-		g_object_unref (message);
-		return;
+			response = NULL;
+		}
 	}
 
 	g_object_unref (message);
+
+	if (error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (G_IS_DBUS_MESSAGE (response));
+
+	body = g_dbus_message_get_body (response);
+	g_variant_get (body, "(s)", &state);
+	extension_set_state (extension, state);
+	g_free (state);
+
 	g_object_unref (response);
 }
 
 static gboolean
-network_manager_connect (EConnMan *extension)
+connman_connect (EConnMan *extension)
 {
 	GError *error = NULL;
 
@@ -147,13 +155,17 @@ network_manager_connect (EConnMan *extension)
 	if (extension->connection != NULL)
 		return FALSE;
 
-	extension->connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
-	if (extension->connection == NULL) {
-		g_warning ("%s: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		g_error_free (error);
+	extension->connection =
+		g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
 
+	if (error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
 		return TRUE;
 	}
+
+	g_return_val_if_fail (
+		G_IS_DBUS_CONNECTION (extension->connection), FALSE);
 
 	g_dbus_connection_set_exit_on_close (extension->connection, FALSE);
 
@@ -174,7 +186,7 @@ network_manager_connect (EConnMan *extension)
 
 	g_signal_connect (
 		extension->connection, "closed",
-		G_CALLBACK (cm_connection_closed_cb), extension);
+		G_CALLBACK (connman_connection_closed_cb), extension);
 
 	connman_check_initial_state (extension);
 
@@ -188,9 +200,9 @@ fail:
 }
 
 static void
-network_manager_constructed (GObject *object)
+connman_constructed (GObject *object)
 {
-	network_manager_connect (E_CONNMAN (object));
+	connman_connect (E_CONNMAN (object));
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_connman_parent_class)->constructed (object);
@@ -203,7 +215,7 @@ e_connman_class_init (EConnManClass *class)
 	EExtensionClass *extension_class;
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = network_manager_constructed;
+	object_class->constructed = connman_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_SHELL;
