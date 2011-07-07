@@ -70,16 +70,24 @@ network_manager_get_shell (ENetworkManager *extension)
 }
 
 static void
-nm_connection_closed_cb (GDBusConnection *pconnection,
+nm_connection_closed_cb (GDBusConnection *connection,
                          gboolean remote_peer_vanished,
                          GError *error,
                          ENetworkManager *extension)
 {
+	gboolean try_again;
+
 	g_object_unref (extension->connection);
 	extension->connection = NULL;
 
-	g_timeout_add_seconds (
-		3, (GSourceFunc) network_manager_connect, extension);
+	/* Try connecting to the session bus immediately, and then
+	 * keep trying at 3 second intervals until we're back on. */
+
+	try_again = network_manager_connect (extension);
+
+	if (try_again)
+		g_timeout_add_seconds (
+			3, (GSourceFunc) network_manager_connect, extension);
 }
 
 static void
