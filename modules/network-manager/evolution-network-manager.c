@@ -91,25 +91,9 @@ nm_connection_closed_cb (GDBusConnection *connection,
 }
 
 static void
-network_manager_signal_cb (GDBusConnection *connection,
-                           const gchar *sender_name,
-                           const gchar *object_path,
-                           const gchar *interface_name,
-                           const gchar *signal_name,
-                           GVariant *parameters,
-                           gpointer user_data)
+network_manager_handle_state (EShell *shell,
+                              guint32 state)
 {
-	ENetworkManager *extension = user_data;
-	EShell *shell;
-	guint32 state;
-
-	shell = network_manager_get_shell (extension);
-
-	if (g_strcmp0 (interface_name, NM_DBUS_INTERFACE) != 0
-	    || g_strcmp0 (signal_name, "StateChanged") != 0)
-		return;
-
-	g_variant_get (parameters, "(u)", &state);
 	switch (state) {
 #if NM_CHECK_VERSION(0,8,992)
 		case NM_STATE_CONNECTED_LOCAL:
@@ -133,7 +117,30 @@ network_manager_signal_cb (GDBusConnection *connection,
 }
 
 static void
-network_manager_check_initial_state (ENetworkManager *extension)
+network_manager_signal_cb (GDBusConnection *connection,
+                           const gchar *sender_name,
+                           const gchar *object_path,
+                           const gchar *interface_name,
+                           const gchar *signal_name,
+                           GVariant *parameters,
+                           gpointer user_data)
+{
+	ENetworkManager *extension = user_data;
+	EShell *shell;
+	guint32 state;
+
+	shell = network_manager_get_shell (extension);
+
+	if (g_strcmp0 (interface_name, NM_DBUS_INTERFACE) != 0
+	    || g_strcmp0 (signal_name, "StateChanged") != 0)
+		return;
+
+	g_variant_get (parameters, "(u)", &state);
+	network_manager_handle_state (shell, state);
+}
+
+static void
+network_manager_query_state (ENetworkManager *extension)
 {
 	EShell *shell;
 	GDBusMessage *message = NULL;
@@ -171,11 +178,7 @@ network_manager_check_initial_state (ENetworkManager *extension)
 
 	body = g_dbus_message_get_body (response);
 	g_variant_get (body, "(u)", &state);
-
-	/* Update the state only in the absence of a network connection,
-	 * otherwise let the old state prevail. */
-	if (state == NM_STATE_ASLEEP || state == NM_STATE_DISCONNECTED)
-		e_shell_set_network_available (shell, FALSE);
+	network_manager_handle_state (shell, state);
 
 	g_object_unref (response);
 }
@@ -224,7 +227,7 @@ network_manager_connect (ENetworkManager *extension)
 		extension->connection, "closed",
 		G_CALLBACK (nm_connection_closed_cb), extension);
 
-	network_manager_check_initial_state (extension);
+	network_manager_query_state (extension);
 
 	return FALSE;
 
