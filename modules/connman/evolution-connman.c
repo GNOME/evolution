@@ -67,17 +67,24 @@ extension_set_state (EConnMan *extension,
 }
 
 static void
-connman_connection_closed_cb (GDBusConnection *pconnection,
+connman_connection_closed_cb (GDBusConnection *connection,
                               gboolean remote_peer_vanished,
                               GError *error,
-                              gpointer user_data)
+                              EConnMan *extension)
 {
-	EConnMan *extension = user_data;
+	gboolean try_again;
 
 	g_object_unref (extension->connection);
 	extension->connection = NULL;
 
-	g_timeout_add_seconds (3, (GSourceFunc) connman_connect, extension);
+	/* Try connecting to the session bus immediately, and then
+	 * keep trying at 3 second intervals until we're back on. */
+
+	try_again = connman_connect (extension);
+
+	if (try_again)
+		g_timeout_add_seconds (
+			3, (GSourceFunc) connman_connect, extension);
 }
 
 static void
