@@ -2723,6 +2723,13 @@ gnome_canvas_crossing (GtkWidget *widget, GdkEventCrossing *event)
 	if (event->window != bin_window)
 		return FALSE;
 
+	/* XXX Detect and disregard synthesized crossing events generated
+	 *     by synth_crossing() in gtkwidget.c.  The pointer coordinates
+	 *     are invalid and pick_current_item() relies on them. */
+	if (event->x == 0 && event->y == 0 &&
+	    event->x_root == 0 && event->y_root == 0)
+		return FALSE;
+
 	canvas->state = event->state;
 	return pick_current_item (canvas, (GdkEvent *) event);
 }
