@@ -496,7 +496,7 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 
 static void
 build_message_headers (EMsgComposer *composer,
-                       CamelMimeMessage *msg,
+                       CamelMimeMessage *message,
                        gboolean redirect)
 {
 	EComposerHeaderTable *table;
@@ -506,34 +506,34 @@ build_message_headers (EMsgComposer *composer,
 	const gchar *reply_to;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	table = e_msg_composer_get_header_table (composer);
 
 	/* Subject: */
 	subject = e_composer_header_table_get_subject (table);
-	camel_mime_message_set_subject (msg, subject);
+	camel_mime_message_set_subject (message, subject);
 
-	/* From: / Resent-From: */
 	account = e_composer_header_table_get_account (table);
 	if (account != NULL) {
+		CamelMedium *medium;
 		CamelInternetAddress *addr;
 		const gchar *name = account->id->name;
 		const gchar *address = account->id->address;
 
+		medium = CAMEL_MEDIUM (message);
+
+		/* From: / Resent-From: */
 		addr = camel_internet_address_new ();
 		camel_internet_address_add (addr, name, address);
-
 		if (redirect) {
 			gchar *value;
 
 			value = camel_address_encode (CAMEL_ADDRESS (addr));
-			camel_medium_set_header (
-				CAMEL_MEDIUM (msg), "Resent-From", value);
+			camel_medium_set_header (medium, "Resent-From", value);
 			g_free (value);
 		} else
-			camel_mime_message_set_from (msg, addr);
-
+			camel_mime_message_set_from (message, addr);
 		g_object_unref (addr);
 	}
 
@@ -545,7 +545,7 @@ build_message_headers (EMsgComposer *composer,
 		addr = camel_internet_address_new ();
 
 		if (camel_address_unformat (CAMEL_ADDRESS (addr), reply_to) > 0)
-			camel_mime_message_set_reply_to (msg, addr);
+			camel_mime_message_set_reply_to (message, addr);
 
 		g_object_unref (addr);
 	}
@@ -560,7 +560,7 @@ build_message_headers (EMsgComposer *composer,
 		cc = e_composer_header_table_get_destinations_cc (table);
 		bcc = e_composer_header_table_get_destinations_bcc (table);
 
-		set_recipients_from_destv (msg, to, cc, bcc, redirect);
+		set_recipients_from_destv (message, to, cc, bcc, redirect);
 
 		e_destination_freev (to);
 		e_destination_freev (cc);
@@ -568,16 +568,17 @@ build_message_headers (EMsgComposer *composer,
 	}
 
 	/* Date: */
-	camel_mime_message_set_date (msg, CAMEL_MESSAGE_DATE_CURRENT, 0);
+	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 
 	/* X-Evolution-PostTo: */
 	header = e_composer_header_table_get_header (
 		table, E_COMPOSER_HEADER_POST_TO);
 	if (e_composer_header_get_visible (header)) {
-		CamelMedium *medium = CAMEL_MEDIUM (msg);
+		CamelMedium *medium;
 		const gchar *name = "X-Evolution-PostTo";
 		GList *list, *iter;
 
+		medium = CAMEL_MEDIUM (message);
 		camel_medium_remove_header (medium, name);
 
 		list = e_composer_header_table_get_post_to (table);
