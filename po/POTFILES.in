@@ -274,6 +274,8 @@ modules/mail/em-mailer-prefs.c
 modules/mailto-handler/apps-evolution-mail-prompts-checkdefault.schemas.in
 modules/mailto-handler/evolution-mailto-handler.c
 modules/offline-alert/evolution-offline-alert.error.xml
+modules/online-accounts/camel-sasl-xoauth.c
+modules/online-accounts/e-online-accounts-google.c
 modules/plugin-manager/evolution-plugin-manager.c
 modules/plugin-python/example/org-gnome-hello-python-ui.xml
 modules/plugin-python/example/org-gnome-hello-python.eplug.xml
