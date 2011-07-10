@@ -610,6 +610,7 @@ e_shell_content_run_advanced_search_dialog (EShellContent *shell_content)
 	EFilterRule *rule;
 	ERuleContext *context;
 	const gchar *user_filename;
+	gulong handler_id;
 	gint response;
 	EAlert *alert = NULL;
 
@@ -644,7 +645,7 @@ e_shell_content_run_advanced_search_dialog (EShellContent *shell_content)
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
 
-	g_signal_connect_swapped (
+	handler_id = g_signal_connect_swapped (
 		rule, "changed", G_CALLBACK (
 		shell_content_dialog_rule_changed), dialog);
 
@@ -673,6 +674,8 @@ run:
 	}
 
 exit:
+	g_signal_handler_disconnect (rule, handler_id);
+
 	g_object_unref (rule);
 	gtk_widget_destroy (dialog);
 }
@@ -713,6 +716,7 @@ e_shell_content_run_save_search_dialog (EShellContent *shell_content)
 	ERuleContext *context;
 	const gchar *user_filename;
 	gchar *search_name;
+	gulong handler_id;
 	gint response;
 	EAlert *alert = NULL;
 
@@ -747,7 +751,7 @@ e_shell_content_run_save_search_dialog (EShellContent *shell_content)
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
 
-	g_signal_connect_swapped (
+	handler_id = g_signal_connect_swapped (
 		rule, "changed", G_CALLBACK (
 		shell_content_dialog_rule_changed), dialog);
 
@@ -773,6 +777,8 @@ run:
 	e_rule_context_save (context, user_filename);
 
 exit:
+	g_signal_handler_disconnect (rule, handler_id);
+
 	g_object_unref (rule);
 	gtk_widget_destroy (dialog);
 }
