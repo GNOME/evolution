@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-07-07 02:03+0000\n"
-"PO-Revision-Date: 2011-07-07 06:56+0200\n"
+"POT-Creation-Date: 2011-07-10 12:07+0000\n"
+"PO-Revision-Date: 2011-07-10 15:38+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1237,6 +1237,7 @@ msgstr "Charla por vídeo"
 #: ../modules/calendar/e-cal-shell-view-actions.c:222
 #: ../modules/calendar/e-cal-shell-view-actions.c:251
 #: ../modules/calendar/e-cal-shell-view.c:507
+#: ../modules/online-accounts/e-online-accounts-google.c:292
 #: ../plugins/publish-calendar/publish-calendar.ui.h:1
 #: ../widgets/misc/e-send-options.c:519
 msgid "Calendar"
@@ -7156,6 +7157,8 @@ msgstr "CalDAV"
 
 #: ../capplet/settings/mail-account-view.c:361
 #: ../capplet/settings/mail-account-view.c:413
+#: ../modules/online-accounts/e-online-accounts-google.c:285
+#: ../modules/online-accounts/e-online-accounts-google.c:357
 #: ../plugins/google-account-setup/google-contacts-source.c:55
 #: ../plugins/google-account-setup/google-source.c:83
 msgid "Google"
@@ -13542,6 +13545,7 @@ msgstr "Crea una libreta de direcciones nueva"
 #: ../modules/addressbook/e-book-shell-view.c:405
 #: ../modules/calendar/e-cal-shell-backend.c:111
 #: ../modules/calendar/e-cal-shell-migrate.c:63
+#: ../modules/online-accounts/e-online-accounts-google.c:364
 msgid "Contacts"
 msgstr "Contactos"
 
@@ -16105,6 +16109,27 @@ msgstr ""
 "Evolution volverá al modo conectado una vez que se establezca la conexión de "
 "red."
 
+#: ../modules/online-accounts/camel-sasl-xoauth.c:374
+msgid ""
+"Cannot find a corresponding account in the org.gnome.OnlineAccounts service "
+"from which to obtain an authentication token."
+msgstr ""
+"No se puede encontrar la correspondiente cuenta en el servicio org.gnome."
+"OnlineAccounts de la que obtener un «token» de autenticación."
+
+#: ../modules/online-accounts/camel-sasl-xoauth.c:461
+#| msgid "Other"
+msgid "OAuth"
+msgstr "OAuth"
+
+#: ../modules/online-accounts/camel-sasl-xoauth.c:463
+msgid ""
+"This option will connect to the server by way of the GNOME Online Accounts "
+"service"
+msgstr ""
+"Esta opción conectará con el servidor a través del servicio de Cuentas en "
+"línea de GNOME («OAuth»)"
+
 #: ../modules/plugin-manager/evolution-plugin-manager.c:70
 msgid "Author(s)"
 msgstr "Autores(s)"
@@ -18061,12 +18086,10 @@ msgstr "Nuevo correo-e"
 #. * folder name.  (e.g. "Show Inbox")
 #: ../plugins/mail-notification/mail-notification.c:471
 #, c-format
-#| msgid "Show maps"
 msgid "Show %s"
 msgstr "Mostrar %s"
 
 #: ../plugins/mail-notification/mail-notification.c:673
-#| msgid "_Play sound when new messages arrive"
 msgid "_Play sound when a new message arrives"
 msgstr "_Reproducir un sonido cuando llegue correo nuevo"
 
@@ -18091,7 +18114,6 @@ msgid "Notify new messages for _Inbox only"
 msgstr "Notificar nuevos mensajes sólo para la _bandeja de entrada"
 
 #: ../plugins/mail-notification/mail-notification.c:811
-#| msgid "Show new mail icon in notification area when new messages arrive."
 msgid "Show _notification when a new message arrives"
 msgstr "Mostrar _notificaciones cuando llegue correo nuevo"
 
