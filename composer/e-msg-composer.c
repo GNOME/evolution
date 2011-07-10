@@ -520,6 +520,7 @@ build_message_headers (EMsgComposer *composer,
 		CamelInternetAddress *addr;
 		const gchar *name = account->id->name;
 		const gchar *address = account->id->address;
+		gchar *transport_uid;
 
 		medium = CAMEL_MEDIUM (message);
 
@@ -535,6 +536,21 @@ build_message_headers (EMsgComposer *composer,
 		} else
 			camel_mime_message_set_from (message, addr);
 		g_object_unref (addr);
+
+		/* X-Evolution-Account */
+		camel_medium_set_header (
+			medium, "X-Evolution-Account", account->uid);
+
+		/* X-Evolution-Fcc */
+		camel_medium_set_header (
+			medium, "X-Evolution-Fcc", account->sent_folder_uri);
+
+		/* X-Evolution-Transport */
+		transport_uid = g_strconcat (
+			account->uid, "-transport", NULL);
+		camel_medium_set_header (
+			medium, "X-Evolution-Transport", transport_uid);
+		g_free (transport_uid);
 	}
 
 	/* Reply-To: */
@@ -1057,6 +1073,7 @@ composer_build_message (EMsgComposer *composer,
 
 	/* If this is a redirected message, just tweak the headers. */
 	if (priv->redirect) {
+		context->skip_content = TRUE;
 		context->message = g_object_ref (priv->redirect);
 		build_message_headers (composer, context->message, TRUE);
 		g_simple_async_result_complete (simple);
@@ -1091,38 +1108,16 @@ composer_build_message (EMsgComposer *composer,
 			CAMEL_MEDIUM (context->message),
 			"X-Priority", "1");
 
-	if (account != NULL) {
-		gchar *transport_uid;
+	/* Organization */
+	if (account != NULL && account->id->organization != NULL) {
+		gchar *organization;
 
-		/* X-Evolution-Account */
+		organization = camel_header_encode_string (
+			(const guchar *) account->id->organization);
 		camel_medium_set_header (
 			CAMEL_MEDIUM (context->message),
-			"X-Evolution-Account", account->uid);
-
-		/* X-Evolution-Fcc */
-		camel_medium_set_header (
-			CAMEL_MEDIUM (context->message),
-			"X-Evolution-Fcc", account->sent_folder_uri);
-
-		/* X-Evolution-Transport */
-		transport_uid = g_strconcat (
-			account->uid, "-transport", NULL);
-		camel_medium_set_header (
-			CAMEL_MEDIUM (context->message),
-			"X-Evolution-Transport", transport_uid);
-		g_free (transport_uid);
-
-		/* Organization */
-		if (account->id->organization != NULL) {
-			gchar *organization;
-
-			organization = camel_header_encode_string (
-				(const guchar *) account->id->organization);
-			camel_medium_set_header (
-				CAMEL_MEDIUM (context->message),
-				"Organization", organization);
-			g_free (organization);
-		}
+			"Organization", organization);
+		g_free (organization);
 	}
 
 	/* X-Evolution-Format */
