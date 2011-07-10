@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-04 19:41+0200\n"
-"PO-Revision-Date: 2011-07-04 21:02+0200\n"
+"POT-Creation-Date: 2011-07-11 00:15+0200\n"
+"PO-Revision-Date: 2011-07-11 00:17+0200\n"
 "Last-Translator: Fran Diéguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
 "Language: gl\n"
@@ -1238,6 +1238,7 @@ msgstr "Videoconferencia"
 #: ../modules/calendar/e-cal-shell-view-actions.c:222
 #: ../modules/calendar/e-cal-shell-view-actions.c:251
 #: ../modules/calendar/e-cal-shell-view.c:507
+#: ../modules/online-accounts/e-online-accounts-google.c:292
 #: ../plugins/publish-calendar/publish-calendar.ui.h:1
 #: ../widgets/misc/e-send-options.c:519
 msgid "Calendar"
@@ -1504,7 +1505,7 @@ msgstr "Non foi posíbel obter unha lista das axendas de enderezos: %s"
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:79
 #: ../calendar/gui/dialogs/event-page.c:2893
 #: ../calendar/gui/dialogs/memo-page.c:926
-#: ../calendar/gui/dialogs/task-page.c:1810 ../em-format/em-format.c:2313
+#: ../calendar/gui/dialogs/task-page.c:1810 ../em-format/em-format.c:2314
 #: ../mail/em-folder-tree.c:678 ../mail/mail-ops.c:657
 #: ../plugins/caldav/caldav-browse-server.c:209
 #: ../plugins/caldav/caldav-browse-server.c:1406 ../plugins/face/face.c:169
@@ -2479,7 +2480,7 @@ msgstr "Co_r:"
 #: ../mail/em-folder-properties.c:233 ../mail/mail-config.ui.h:52
 #: ../modules/addressbook/addressbook-config.c:1052
 #: ../modules/calendar/e-calendar-preferences.ui.h:19
-#: ../plugins/itip-formatter/itip-formatter.c:2955
+#: ../plugins/itip-formatter/itip-formatter.c:2960
 #: ../plugins/publish-calendar/publish-calendar.ui.h:7
 #: ../smime/gui/smime-ui.ui.h:21
 msgid "General"
@@ -3252,9 +3253,9 @@ msgstr ""
 msgid "Unable to open memos in '%s': %s"
 msgstr "Non é posíbel abrir as notas en «%s»: %s"
 
-#: ../calendar/gui/dialogs/memo-page.c:1099 ../em-format/em-format-quote.c:284
-#: ../em-format/em-format.c:1056 ../mail/em-format-html.c:2487
-#: ../mail/em-format-html.c:2552 ../mail/em-format-html.c:2576
+#: ../calendar/gui/dialogs/memo-page.c:1099 ../em-format/em-format-quote.c:319
+#: ../em-format/em-format.c:1056 ../mail/em-format-html.c:2563
+#: ../mail/em-format-html.c:2628 ../mail/em-format-html.c:2652
 #: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:72
 msgid "To"
 msgstr "Para"
@@ -6962,7 +6963,7 @@ msgstr "Buscar e substituír un texto"
 msgid "Save draft"
 msgstr "Gardar o borrador"
 
-#: ../composer/e-msg-composer.c:791
+#: ../composer/e-msg-composer.c:808
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -6970,7 +6971,7 @@ msgstr ""
 "Non é posíbel asinar a mensaxe saínte: non hai un certificado de sinatura "
 "estabelecido para esta conta"
 
-#: ../composer/e-msg-composer.c:800
+#: ../composer/e-msg-composer.c:817
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -6979,17 +6980,17 @@ msgstr ""
 "Non é posíbel cifrar a mensaxe saínte: non hai un certificado de cifrado "
 "estabelecido para esta conta"
 
-#: ../composer/e-msg-composer.c:1695 ../composer/e-msg-composer.c:2079
+#: ../composer/e-msg-composer.c:1691 ../composer/e-msg-composer.c:2075
 msgid "Compose Message"
 msgstr "Escribir unha mensaxe"
 
-#: ../composer/e-msg-composer.c:4159
+#: ../composer/e-msg-composer.c:4155
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "O editor contén un corpo de mensaxe sen texto, polo que non é posíbel a "
 "edición."
 
-#: ../composer/e-msg-composer.c:4864
+#: ../composer/e-msg-composer.c:4860
 msgid "Untitled Message"
 msgstr "Mensaxe sen título"
 
@@ -7183,6 +7184,8 @@ msgstr "CalDAV"
 
 #: ../capplet/settings/mail-account-view.c:361
 #: ../capplet/settings/mail-account-view.c:413
+#: ../modules/online-accounts/e-online-accounts-google.c:285
+#: ../modules/online-accounts/e-online-accounts-google.c:357
 #: ../plugins/google-account-setup/google-contacts-source.c:55
 #: ../plugins/google-account-setup/google-source.c:83
 msgid "Google"
@@ -7751,30 +7754,30 @@ msgstr "Erro do GConf: %s"
 msgid "All further errors shown only on terminal."
 msgstr "Todos os erros posteriores mostraranse só no terminal."
 
-#: ../em-format/em-format-quote.c:284 ../em-format/em-format.c:1054
+#: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1054
 #: ../mail/e-mail-tag-editor.c:325 ../mail/message-list.etspec.h:7
 #: ../modules/mail/em-mailer-prefs.c:70
 msgid "From"
 msgstr "De"
 
-#: ../em-format/em-format-quote.c:284 ../em-format/em-format.c:1055
+#: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1055
 #: ../modules/mail/em-mailer-prefs.c:71
 msgid "Reply-To"
 msgstr "Responder a"
 
-#: ../em-format/em-format-quote.c:284 ../em-format/em-format.c:1057
-#: ../mail/em-format-html.c:2488 ../mail/em-format-html.c:2556
-#: ../mail/em-format-html.c:2579 ../modules/mail/em-mailer-prefs.c:73
+#: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1057
+#: ../mail/em-format-html.c:2564 ../mail/em-format-html.c:2632
+#: ../mail/em-format-html.c:2655 ../modules/mail/em-mailer-prefs.c:73
 msgid "Cc"
 msgstr "Cc"
 
-#: ../em-format/em-format-quote.c:284 ../em-format/em-format.c:1058
-#: ../mail/em-format-html.c:2489 ../mail/em-format-html.c:2560
-#: ../mail/em-format-html.c:2582 ../modules/mail/em-mailer-prefs.c:74
+#: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1058
+#: ../mail/em-format-html.c:2565 ../mail/em-format-html.c:2636
+#: ../mail/em-format-html.c:2658 ../modules/mail/em-mailer-prefs.c:74
 msgid "Bcc"
 msgstr "Cco"
 
-#: ../em-format/em-format-quote.c:428 ../em-format/em-format.c:1059
+#: ../em-format/em-format-quote.c:463 ../em-format/em-format.c:1059
 #: ../mail/e-mail-tag-editor.c:330 ../mail/em-filter-i18n.h:74
 #: ../mail/message-list.etspec.h:18 ../modules/mail/em-mailer-prefs.c:75
 #: ../smime/lib/e-cert.c:1142
@@ -7782,12 +7785,12 @@ msgid "Subject"
 msgstr "Titular"
 
 #. pseudo-header
-#: ../em-format/em-format-quote.c:439 ../mail/em-format-html.c:2676
+#: ../em-format/em-format-quote.c:474 ../mail/em-format-html.c:2757
 #: ../modules/mail/em-mailer-prefs.c:1129
 msgid "Mailer"
 msgstr "Aplicativo de correo"
 
-#: ../em-format/em-format-quote.c:520 ../mail/em-composer-utils.c:1190
+#: ../em-format/em-format-quote.c:564 ../mail/em-composer-utils.c:1189
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Mensaxe reencamiñada --------"
 
@@ -7806,45 +7809,45 @@ msgstr "Grupos de discusión"
 msgid "Face"
 msgstr "Cara"
 
-#: ../em-format/em-format.c:1465
+#: ../em-format/em-format.c:1466
 #, c-format
 msgid "%s attachment"
 msgstr "%s anexo"
 
-#: ../em-format/em-format.c:1576
+#: ../em-format/em-format.c:1577
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Non foi posíbel analizar a mensaxe S/MIME: erro descoñecido"
 
-#: ../em-format/em-format.c:1768 ../em-format/em-format.c:1994
+#: ../em-format/em-format.c:1769 ../em-format/em-format.c:1995
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Non foi posíbel analizar a mensaxe MIME. Mostrándoa como fonte."
 
-#: ../em-format/em-format.c:1779
+#: ../em-format/em-format.c:1780
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Tipo de cifrado non compatíbel para multipart/encrypted"
 
-#: ../em-format/em-format.c:1799
+#: ../em-format/em-format.c:1800
 msgid "Could not parse PGP/MIME message"
 msgstr "Non foi posíbel analizar a mensaxe PGP/MIME"
 
-#: ../em-format/em-format.c:1800
+#: ../em-format/em-format.c:1801
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "Non foi posíbel analizar a mensaxe PGP/MIME: erro descoñecido"
 
-#: ../em-format/em-format.c:2019
+#: ../em-format/em-format.c:2020
 msgid "Unsupported signature format"
 msgstr "O formato da sinatura non é compatíbel"
 
-#: ../em-format/em-format.c:2032 ../em-format/em-format.c:2214
+#: ../em-format/em-format.c:2033 ../em-format/em-format.c:2215
 msgid "Error verifying signature"
 msgstr "Produciuse un erro ao comprobar a sinatura"
 
-#: ../em-format/em-format.c:2033 ../em-format/em-format.c:2199
-#: ../em-format/em-format.c:2215
+#: ../em-format/em-format.c:2034 ../em-format/em-format.c:2200
+#: ../em-format/em-format.c:2216
 msgid "Unknown error verifying signature"
 msgstr "Produciuse un erro descoñecido ao comprobar a sinatura"
 
-#: ../em-format/em-format.c:2307
+#: ../em-format/em-format.c:2308
 msgid "Could not parse PGP message: "
 msgstr "Non foi posíbel analizar a mensaxe PGP: "
 
@@ -8164,7 +8167,7 @@ msgid "years"
 msgstr "anos"
 
 #: ../mail/e-mail-attachment-bar.c:90 ../mail/e-mail-attachment-bar.c:95
-#: ../mail/em-format-html-display.c:1156 ../mail/mail-config.ui.h:14
+#: ../mail/em-format-html-display.c:1217 ../mail/mail-config.ui.h:14
 #: ../mail/message-list.etspec.h:1 ../widgets/misc/e-attachment-paned.c:128
 #: ../widgets/misc/e-attachment-paned.c:133
 msgid "Attachment"
@@ -8254,14 +8257,14 @@ msgstr "Quitouse o ficheiro."
 msgid "Removing attachments"
 msgstr "Eliminando os anexos"
 
-#: ../mail/e-mail-folder-utils.c:1177
+#: ../mail/e-mail-folder-utils.c:1175
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "Gardando %d mensaxe"
 msgstr[1] "Gardando %d mensaxes"
 
-#: ../mail/e-mail-folder-utils.c:1515 ../mail/em-folder-utils.c:577
+#: ../mail/e-mail-folder-utils.c:1519 ../mail/em-folder-utils.c:577
 #, c-format
 msgid "Invalid folder URI '%s'"
 msgstr "O URI do cartafol «%s» non é válido"
@@ -9294,7 +9297,7 @@ msgstr "Comprobando se hai mensaxes novas"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../mail/em-composer-utils.c:1184
+#: ../mail/em-composer-utils.c:1183
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -9302,31 +9305,31 @@ msgstr ""
 "O ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} ás ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} escribiu:"
 
-#: ../mail/em-composer-utils.c:1195
+#: ../mail/em-composer-utils.c:1194
 msgid "-----Original Message-----"
 msgstr "-----Mensaxe orixinal-----"
 
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
-#: ../mail/em-composer-utils.c:1976
+#: ../mail/em-composer-utils.c:1975
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "A mensaxe a %s sobre «%s» o %s leuse."
 
-#: ../mail/em-composer-utils.c:2030
+#: ../mail/em-composer-utils.c:2034
 #, c-format
 msgid "Delivery Notification for: \"%s\""
 msgstr "Notificación de recepción para: «%s»"
 
-#: ../mail/em-composer-utils.c:2532
+#: ../mail/em-composer-utils.c:2536
 msgid "an unknown sender"
 msgstr "un remitente descoñecido"
 
-#: ../mail/em-composer-utils.c:2933
+#: ../mail/em-composer-utils.c:2937
 msgid "Posting destination"
 msgstr "Destino da publicación"
 
-#: ../mail/em-composer-utils.c:2934
+#: ../mail/em-composer-utils.c:2938
 msgid "Choose folders to post the message to."
 msgstr "Escolla os cartafoles nos que publicar a mensaxe."
 
@@ -9695,7 +9698,7 @@ msgstr "Crear un cartafol"
 msgid "Specify where to create the folder:"
 msgstr "Indicar onde crear o cartafol:"
 
-#: ../mail/em-format-html-display.c:85 ../mail/em-format-html.c:1683
+#: ../mail/em-format-html-display.c:85 ../mail/em-format-html.c:1697
 msgid "Unsigned"
 msgstr "Sen asinar"
 
@@ -9707,7 +9710,7 @@ msgstr ""
 "Esta mensaxe non está asinada. Non hai garantía de que a mensaxe sexa "
 "auténtica."
 
-#: ../mail/em-format-html-display.c:86 ../mail/em-format-html.c:1684
+#: ../mail/em-format-html-display.c:86 ../mail/em-format-html.c:1698
 msgid "Valid signature"
 msgstr "A sinatura é correcta"
 
@@ -9719,7 +9722,7 @@ msgstr ""
 "Esta mensaxe está asinada e é correcta, o que significa que é moi probábel "
 "que a mensaxe sexa auténtica."
 
-#: ../mail/em-format-html-display.c:87 ../mail/em-format-html.c:1685
+#: ../mail/em-format-html-display.c:87 ../mail/em-format-html.c:1699
 msgid "Invalid signature"
 msgstr "A sinatura é incorrecta"
 
@@ -9731,7 +9734,7 @@ msgstr ""
 "Non é posíbel comprobar a sinatura desta mensaxe, puido alterarse no "
 "tránsito."
 
-#: ../mail/em-format-html-display.c:88 ../mail/em-format-html.c:1686
+#: ../mail/em-format-html-display.c:88 ../mail/em-format-html.c:1700
 msgid "Valid signature, but cannot verify sender"
 msgstr "A sinatura é correcta, pero non é posíbel comprobar o remitente"
 
@@ -9743,7 +9746,7 @@ msgstr ""
 "Esta mensaxe está asinada cunha sinatura correcta, pero non foi posíbel "
 "comprobar o remitente da mensaxe."
 
-#: ../mail/em-format-html-display.c:89 ../mail/em-format-html.c:1687
+#: ../mail/em-format-html-display.c:89 ../mail/em-format-html.c:1701
 msgid "Signature exists, but need public key"
 msgstr "A sinatura existe, pero precisa unha chave pública"
 
@@ -9754,7 +9757,7 @@ msgid ""
 msgstr ""
 "Esta mensaxe está asinada pero non existe a correspondete chave pública."
 
-#: ../mail/em-format-html-display.c:96 ../mail/em-format-html.c:1693
+#: ../mail/em-format-html-display.c:96 ../mail/em-format-html.c:1707
 msgid "Unencrypted"
 msgstr "Sen cifrar"
 
@@ -9766,7 +9769,7 @@ msgstr ""
 "Esta mensaxe non está cifrada. O seu contido pode verse no seu tránsito a "
 "través de Internet."
 
-#: ../mail/em-format-html-display.c:97 ../mail/em-format-html.c:1694
+#: ../mail/em-format-html-display.c:97 ../mail/em-format-html.c:1708
 msgid "Encrypted, weak"
 msgstr "Cifrada, débil"
 
@@ -9780,7 +9783,7 @@ msgstr ""
 "ser difícil, pero non imposíbel para un intruso ver o contido desta mensaxe "
 "nun tempo razoábel."
 
-#: ../mail/em-format-html-display.c:98 ../mail/em-format-html.c:1695
+#: ../mail/em-format-html-display.c:98 ../mail/em-format-html.c:1709
 msgid "Encrypted"
 msgstr "Cifrada"
 
@@ -9792,7 +9795,7 @@ msgstr ""
 "Esta mensaxe está cifrada. Sería difícil para un intruso ver o contido desta "
 "mensaxe."
 
-#: ../mail/em-format-html-display.c:99 ../mail/em-format-html.c:1696
+#: ../mail/em-format-html-display.c:99 ../mail/em-format-html.c:1710
 msgid "Encrypted, strong"
 msgstr "Cifrada, forte"
 
@@ -9814,7 +9817,7 @@ msgstr "_Visualizar o certificado"
 msgid "This certificate is not viewable"
 msgstr "Este certificado non é visíbel"
 
-#: ../mail/em-format-html-display.c:539
+#: ../mail/em-format-html-display.c:552
 msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
@@ -9823,28 +9826,27 @@ msgstr ""
 "procesamento demora demasiado. Pode visualizalo sen formato ou ben con un "
 "editor de texto externo."
 
-#: ../mail/em-format-html-display.c:806
+#: ../mail/em-format-html-display.c:848
 msgid "Completed on"
 msgstr "Completado o"
 
-#: ../mail/em-format-html-display.c:814
+#: ../mail/em-format-html-display.c:860
 msgid "Overdue:"
 msgstr "Atrasada:"
 
-#. To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009"
-#: ../mail/em-format-html-display.c:818
+#: ../mail/em-format-html-display.c:868
 msgid "by"
 msgstr "por"
 
-#: ../mail/em-format-html-display.c:1081 ../mail/em-format-html-display.c:1128
+#: ../mail/em-format-html-display.c:1142 ../mail/em-format-html-display.c:1189
 msgid "View _Unformatted"
 msgstr "Visualizar sen _formato"
 
-#: ../mail/em-format-html-display.c:1083
+#: ../mail/em-format-html-display.c:1144
 msgid "Hide _Unformatted"
 msgstr "Oc_ultar sen formato"
 
-#: ../mail/em-format-html-display.c:1148
+#: ../mail/em-format-html-display.c:1209
 msgid "O_pen With"
 msgstr "A_brir con"
 
@@ -9857,63 +9859,61 @@ msgstr "Páxina %d de %d"
 msgid "Formatting message"
 msgstr "Formatando a mensaxe"
 
-#: ../mail/em-format-html.c:364
+#: ../mail/em-format-html.c:368
 msgid "Formatting Message..."
 msgstr "Formatando a mensaxe…"
 
-#: ../mail/em-format-html.c:1527 ../mail/em-format-html.c:1537
+#: ../mail/em-format-html.c:1541 ../mail/em-format-html.c:1551
 #, c-format
 msgid "Retrieving '%s'"
 msgstr "Obtendo «%s»"
 
-#: ../mail/em-format-html.c:2058
+#: ../mail/em-format-html.c:2110
 msgid "Unknown external-body part."
 msgstr "Parte do corpo externo descoñecida."
 
-#: ../mail/em-format-html.c:2066
+#: ../mail/em-format-html.c:2120
 msgid "Malformed external-body part."
 msgstr "Parte do corpo externo formada incorrectamente."
 
-#: ../mail/em-format-html.c:2096
+#: ../mail/em-format-html.c:2151
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Punteiro ao sitio FTP (%s)"
 
-#: ../mail/em-format-html.c:2107
+#: ../mail/em-format-html.c:2162
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Punteiro ao ficheiro local (%s) correcto no sitio «%s»"
 
-#: ../mail/em-format-html.c:2109
+#: ../mail/em-format-html.c:2164
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Punteiro ao ficheiro local (%s)"
 
-#: ../mail/em-format-html.c:2130
+#: ../mail/em-format-html.c:2185
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Punteiro aos datos remotos (%s)"
 
-#: ../mail/em-format-html.c:2141
+#: ../mail/em-format-html.c:2200
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Punteiro aos datos externos descoñecidos (tipo «%s»)"
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../mail/em-format-html.c:2824
-#: ../plugins/mail-notification/mail-notification.c:407
+#: ../mail/em-format-html.c:2905
+#: ../plugins/mail-notification/mail-notification.c:405
 #, c-format
 msgid "From: %s"
 msgstr "De: %s:"
 
-#: ../mail/em-format-html.c:2837
+#: ../mail/em-format-html.c:2927
 msgid "(no subject)"
 msgstr "(Sen asunto)"
 
-#. To translators: This message suggests to the receipients that the sender of the mail is
-#. different from the one listed in From field.
-#: ../mail/em-format-html.c:2901
+#: ../mail/em-format-html.c:3003
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Esta mensaxe enviouse por %s no nome de %s"
@@ -13582,6 +13582,7 @@ msgstr "Crear unha axenda de enderezos nova"
 #: ../modules/addressbook/e-book-shell-view.c:405
 #: ../modules/calendar/e-cal-shell-backend.c:111
 #: ../modules/calendar/e-cal-shell-migrate.c:63
+#: ../modules/online-accounts/e-online-accounts-google.c:364
 msgid "Contacts"
 msgstr "Contactos"
 
@@ -13801,7 +13802,7 @@ msgstr "Sen coincidencias"
 #: ../modules/calendar/e-memo-shell-view-actions.c:768
 #: ../modules/calendar/e-task-shell-view-actions.c:967
 #: ../modules/mail/e-mail-shell-view-actions.c:1557
-#: ../shell/e-shell-content.c:638
+#: ../shell/e-shell-content.c:665
 msgid "Advanced Search"
 msgstr "Busca avanzada"
 
@@ -14888,7 +14889,7 @@ msgid "Create a new calendar"
 msgstr "Crear un calendario novo"
 
 #: ../modules/calendar/e-cal-shell-backend.c:755
-#: ../plugins/itip-formatter/itip-formatter.c:2946
+#: ../plugins/itip-formatter/itip-formatter.c:2951
 msgid "Calendar and Tasks"
 msgstr "Calendario e tarefas"
 
@@ -16128,6 +16129,26 @@ msgid ""
 "established."
 msgstr ""
 "O Evolution conectarase de novo cando se estabeleza a conexión coa rede"
+
+#: ../modules/online-accounts/camel-sasl-xoauth.c:374
+msgid ""
+"Cannot find a corresponding account in the org.gnome.OnlineAccounts service "
+"from which to obtain an authentication token."
+msgstr ""
+"Non foi posíbel atopar a conta correspondente no servizo org.gnome."
+"OnlineAccounts desde a que obter un token de autenticación."
+
+#: ../modules/online-accounts/camel-sasl-xoauth.c:461
+msgid "OAuth"
+msgstr "OAuth"
+
+#: ../modules/online-accounts/camel-sasl-xoauth.c:463
+msgid ""
+"This option will connect to the server by way of the GNOME Online Accounts "
+"service"
+msgstr ""
+"Esta opción conectara co servidor a través do servizo de Contas en liña de "
+"GNOME"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:70
 msgid "Author(s)"
@@ -17468,17 +17489,17 @@ msgstr "Esta nota repítese"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2971
+#: ../plugins/itip-formatter/itip-formatter.c:2976
 msgid "_Delete message after acting"
 msgstr "E_liminar a mensaxe despois da acción"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2981
-#: ../plugins/itip-formatter/itip-formatter.c:3014
+#: ../plugins/itip-formatter/itip-formatter.c:2986
+#: ../plugins/itip-formatter/itip-formatter.c:3019
 msgid "Conflict Search"
 msgstr "Busca de conflitos"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2996
+#: ../plugins/itip-formatter/itip-formatter.c:3001
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Seleccionar os calendarios nos que buscar conflitos entre reunións"
 
@@ -17993,18 +18014,10 @@ msgid "Beep or play sound file."
 msgstr "Emitir un ton de aviso ou un ficheiro de son."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
-msgid "Enable D-Bus messages."
-msgstr "Activar as mensaxes D-Bus."
-
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Enable icon in notification area."
 msgstr "Activar a icona na área de notificación."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
-msgid "Generates a D-Bus message when new mail messages arrive."
-msgstr "Xera unha mensaxe D-Bus cando se reciben mensaxes novas."
-
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid ""
 "If \"true\", then beep, otherwise will play sound file when new messages "
 "arrive."
@@ -18012,60 +18025,51 @@ msgstr ""
 "Se é «certo» emitirá un ton de aviso, en caso contrario reproducirá un "
 "ficheiro de son cando cheguen mensaxes novas."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
 msgid "Notify new messages for Inbox only."
 msgstr "Notificar as mensaxes novas só na caixa de entrada."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
 msgid "Play sound when new messages arrive."
 msgstr "Reproducir un son cando cheguen mensaxes novas."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
 msgid "Play themed sound when new messages arrive, if not in beep mode."
 msgstr ""
 "Reproducir un tema sonoro cando chegue unha mensaxe nova, se non está no "
 "modo de ton de aviso."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-msgid "Popup message together with the icon."
-msgstr "Mostrar a mensaxe xunto coa icona."
-
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Show new mail icon in notification area when new messages arrive."
 msgstr ""
 "Mostrar a icona de correo novo na área de notificación cando cheguen "
 "mensaxes novas."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
 msgid "Sound file name to be played."
 msgstr "Nome do ficheiro de son que desexa reproducir."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
 msgstr ""
 "Ficheiro de son que desexa reproducir cando chegue unha mensaxe nova, se non "
 "está no modo de ton de aviso."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
 msgid "Use sound theme"
 msgstr "Usar un tema sonoro"
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Whether play sound or beep when new messages arrive."
 msgstr ""
 "Indica se reproducir un son ou un ton de aviso cando cheguen mensaxes novas."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
-msgid "Whether show message over the icon when new messages arrive."
-msgstr ""
-"Indica se  mostrar a mensaxe sobre a icona cando cheguen mensaxes novas."
-
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
 msgid "Whether to notify new messages in Inbox folder only."
 msgstr ""
 "Indica se avisar das mensaxes novas só no cartafol da caixa de entrada."
 
-#: ../plugins/mail-notification/mail-notification.c:396
+#: ../plugins/mail-notification/mail-notification.c:394
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -18082,7 +18086,7 @@ msgstr[1] ""
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../plugins/mail-notification/mail-notification.c:420
+#: ../plugins/mail-notification/mail-notification.c:419
 #, c-format
 msgid "Subject: %s"
 msgstr "Asunto: %s"
@@ -18094,48 +18098,46 @@ msgid_plural "You have received %d new messages."
 msgstr[0] "Recibiu %d mensaxe nova."
 msgstr[1] "Recibiu %d mensaxes novas."
 
-#: ../plugins/mail-notification/mail-notification.c:443
-#: ../plugins/mail-notification/mail-notification.c:451
-#: ../plugins/mail-notification/mail-notification.c:454
+#: ../plugins/mail-notification/mail-notification.c:439
+#: ../plugins/mail-notification/mail-notification.c:447
+#: ../plugins/mail-notification/mail-notification.c:450
 msgid "New email"
 msgstr "Novo correo"
 
-#: ../plugins/mail-notification/mail-notification.c:509
-msgid "Show icon in _notification area"
-msgstr "Mostrar a icona na área de _notificación"
+#. Translators: The '%s' is a mail
+#. * folder name.  (e.g. "Show Inbox")
+#: ../plugins/mail-notification/mail-notification.c:471
+#, c-format
+msgid "Show %s"
+msgstr "Mostrar %s"
 
-#: ../plugins/mail-notification/mail-notification.c:539
-msgid "Popup _message together with the icon"
-msgstr "Mostrar a _mensaxe xunto coa icona"
+#: ../plugins/mail-notification/mail-notification.c:673
+msgid "_Play sound when a new message arrives"
+msgstr "Re_producir un son cando chegue correo novo"
 
-#: ../plugins/mail-notification/mail-notification.c:726
-msgid "_Play sound when new messages arrive"
-msgstr "Re_producir un son cando cheguen mensaxes novas"
-
-#: ../plugins/mail-notification/mail-notification.c:756
+#: ../plugins/mail-notification/mail-notification.c:703
 msgid "_Beep"
 msgstr "_Ton de aviso"
 
-#: ../plugins/mail-notification/mail-notification.c:769
+#: ../plugins/mail-notification/mail-notification.c:716
 msgid "Use sound _theme"
 msgstr "Usar un _tema sonoro"
 
-#: ../plugins/mail-notification/mail-notification.c:788
+#: ../plugins/mail-notification/mail-notification.c:735
 msgid "Play _file:"
 msgstr "Reproducir o _ficheiro:"
 
-#: ../plugins/mail-notification/mail-notification.c:799
+#: ../plugins/mail-notification/mail-notification.c:744
 msgid "Select sound file"
 msgstr "Seleccionar un ficheiro de son"
 
-#: ../plugins/mail-notification/mail-notification.c:857
+#: ../plugins/mail-notification/mail-notification.c:801
 msgid "Notify new messages for _Inbox only"
 msgstr "Notificar as mensaxes novas só na caixa de _entrada"
 
-# (pofilter) accelerators: accelerator _ is missing from translation
-#: ../plugins/mail-notification/mail-notification.c:866
-msgid "Generate a _D-Bus message"
-msgstr "Xerar unha mensaxe _D-Bus"
+#: ../plugins/mail-notification/mail-notification.c:811
+msgid "Show _notification when a new message arrives"
+msgstr "Mostrar _notificacións cando chegue correo novo"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
@@ -19326,11 +19328,11 @@ msgstr "Estilo dos botóns de xanela"
 msgid "Window buttons are visible"
 msgstr "Os botóns da xanela están visíbeis"
 
-#: ../shell/e-shell-content.c:699 ../shell/e-shell-content.c:700
+#: ../shell/e-shell-content.c:726 ../shell/e-shell-content.c:727
 msgid "Searches"
 msgstr "Buscas"
 
-#: ../shell/e-shell-content.c:742
+#: ../shell/e-shell-content.c:769
 msgid "Save Search"
 msgstr "Gardar a busca"
 
@@ -21583,6 +21585,29 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2318
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "Enable D-Bus messages."
+#~ msgstr "Activar as mensaxes D-Bus."
+
+#~ msgid "Generates a D-Bus message when new mail messages arrive."
+#~ msgstr "Xera unha mensaxe D-Bus cando se reciben mensaxes novas."
+
+#~ msgid "Popup message together with the icon."
+#~ msgstr "Mostrar a mensaxe xunto coa icona."
+
+#~ msgid "Whether show message over the icon when new messages arrive."
+#~ msgstr ""
+#~ "Indica se  mostrar a mensaxe sobre a icona cando cheguen mensaxes novas."
+
+#~ msgid "Show icon in _notification area"
+#~ msgstr "Mostrar a icona na área de _notificación"
+
+#~ msgid "Popup _message together with the icon"
+#~ msgstr "Mostrar a _mensaxe xunto coa icona"
+
+# (pofilter) accelerators: accelerator _ is missing from translation
+#~ msgid "Generate a _D-Bus message"
+#~ msgstr "Xerar unha mensaxe _D-Bus"
 
 #~ msgid ""
 #~ "Selected calendar contains some events for the given mails already. Would "
