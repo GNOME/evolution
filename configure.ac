@@ -198,8 +198,6 @@ case "$host" in
 	os_win32=yes
 	NO_UNDEFINED='-no-undefined'
 	SOEXT='.dll'
-	SA_JUNK_PLUGIN=''
-	BF_JUNK_PLUGIN=''
 	DL_LIB=''
 	SOFTOKN3_LIB=''
 	CHAMPLAIN_REQUIREMENT=''
@@ -218,8 +216,6 @@ case "$host" in
 	os_win32=no
 	NO_UNDEFINED='-no-undefined'
 	SOEXT='.so'
-	SA_JUNK_PLUGIN=sa-junk-plugin
-	BF_JUNK_PLUGIN=bogo-junk-plugin
 	DL_LIB='-ldl'
 	SOFTOKN3_LIB='-lsoftokn3'
 	;;
@@ -1437,8 +1433,8 @@ AC_ARG_ENABLE([plugins],
 dnl Add any new plugins here
 plugins_base_always="calendar-file calendar-http itip-formatter default-source addressbook-file mark-all-read publish-calendar caldav imap-features google-account-setup webdav-account-setup"
 
-plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN"
-dist_plugins_base="$plugins_base_always calendar-weather sa-junk-plugin bogo-junk-plugin"
+plugins_base="$plugins_base_always"
+dist_plugins_base="$plugins_base_always calendar-weather"
 
 plugins_standard_always="bbdb save-calendar mail-to-task mailing-list-actions prefer-plain mail-notification attachment-reminder backup-restore email-custom-header face templates vcard-inline dbx-import"
 
@@ -1754,6 +1750,7 @@ mail/importers/Makefile
 maint/Makefile
 modules/Makefile
 modules/addressbook/Makefile
+modules/bogofilter/Makefile
 modules/calendar/Makefile
 modules/mail/Makefile
 modules/composer-autosave/Makefile
@@ -1766,6 +1763,7 @@ modules/plugin-lib/Makefile
 modules/plugin-manager/Makefile
 modules/plugin-mono/Makefile
 modules/plugin-python/Makefile
+modules/spamassassin/Makefile
 modules/startup-wizard/Makefile
 modules/windows-sens/Makefile
 plugins/Makefile
@@ -1774,7 +1772,6 @@ plugins/attachment-reminder/Makefile
 plugins/audio-inline/Makefile
 plugins/backup-restore/Makefile
 plugins/bbdb/Makefile
-plugins/bogo-junk-plugin/Makefile
 plugins/caldav/Makefile
 plugins/calendar-file/Makefile
 plugins/calendar-http/Makefile
@@ -1795,7 +1792,6 @@ plugins/mark-all-read/Makefile
 plugins/prefer-plain/Makefile
 plugins/pst-import/Makefile
 plugins/publish-calendar/Makefile
-plugins/sa-junk-plugin/Makefile
 plugins/save-calendar/Makefile
 plugins/templates/Makefile
 plugins/tnef-attachments/Makefile

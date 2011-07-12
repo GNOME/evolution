@@ -1434,34 +1434,6 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/junk/sa/local_only</key>
-      <applyto>/apps/evolution/mail/junk/sa/local_only</applyto>
-      <owner>evolution-mail</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-         <short>Use only local spam tests.</short>
-         <long>
-         Use only the local spam tests (no DNS).
-         </long>
-      </locale>        
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/mail/junk/sa/use_daemon</key>
-      <applyto>/apps/evolution/mail/junk/sa/use_daemon</applyto>
-      <owner>evolution-mail</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-         <short>Use SpamAssassin daemon and client</short>
-         <long>
-          Use SpamAssassin daemon and client (spamc/spamd).
-         </long>
-      </locale>
-    </schema>
-
-    <schema>
       <key>/schemas/apps/evolution/mail/junk/lookup_addressbook</key>
       <applyto>/apps/evolution/mail/junk/lookup_addressbook</applyto>
       <owner>evolution-mail</owner>

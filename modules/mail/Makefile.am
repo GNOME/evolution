@@ -27,8 +27,6 @@ libevolution_module_mail_la_SOURCES =					\
 	e-mail-config-web-view.h					\
 	e-mail-event-hook.c						\
 	e-mail-event-hook.h						\
-	e-mail-junk-hook.c						\
-	e-mail-junk-hook.h						\
 	e-mail-shell-backend.c						\
 	e-mail-shell-backend.h						\
 	e-mail-shell-content.c						\

@@ -24,6 +24,7 @@ endif
 
 SUBDIRS = \
 	addressbook \
+	bogofilter \
 	calendar \
 	mail \
 	composer-autosave \
@@ -31,6 +32,7 @@ SUBDIRS = \
 	offline-alert \
 	plugin-lib \
 	plugin-manager \
+	spamassassin \
 	startup-wizard \
 	$(MONO_DIR) \
 	$(PYTHON_DIR) \

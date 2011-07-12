@@ -50,9 +50,12 @@
 #include "e-util/e-util.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
+#include "e-util/e-extensible.h"
 #include "e-util/e-util-private.h"
+#include "e-util/gconf-bridge.h"
 
 #include "e-mail-folder-utils.h"
+#include "e-mail-junk-filter.h"
 #include "e-mail-local.h"
 #include "e-mail-session.h"
 #include "em-composer-utils.h"
@@ -78,7 +81,7 @@ struct _EMailSessionPrivate {
 	MailFolderCache *folder_cache;
 
 	FILE *filter_logfile;
-	GList *junk_plugins;
+	GHashTable *junk_filters;
 };
 
 struct _AsyncContext {
@@ -93,7 +96,8 @@ struct _AsyncContext {
 
 enum {
 	PROP_0,
-	PROP_FOLDER_CACHE
+	PROP_FOLDER_CACHE,
+	PROP_JUNK_FILTER_NAME
 };
 
 static gchar *mail_data_dir;
@@ -103,10 +107,11 @@ static gchar *mail_config_dir;
 static MailMsgInfo ms_thread_info_dummy = { sizeof (MailMsg) };
 #endif
 
-G_DEFINE_TYPE (
+G_DEFINE_TYPE_WITH_CODE (
 	EMailSession,
 	e_mail_session,
-	CAMEL_TYPE_SESSION)
+	CAMEL_TYPE_SESSION,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 /* Support for CamelSession.alert_user() *************************************/
 
@@ -546,6 +551,84 @@ mail_session_check_junk_notify (GConfClient *gconf,
 	}
 }
 
+static const gchar *
+mail_session_get_junk_filter_name (EMailSession *session)
+{
+	CamelJunkFilter *junk_filter;
+	GHashTableIter iter;
+	gpointer key, value;
+
+	/* XXX This property can be removed once Evolution moves to
+	 *     GSettings and can use transform functions when binding
+	 *     properties to settings.  That's why this is private. */
+
+	g_hash_table_iter_init (&iter, session->priv->junk_filters);
+	junk_filter = camel_session_get_junk_filter (CAMEL_SESSION (session));
+
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		if (junk_filter == CAMEL_JUNK_FILTER (value))
+			return (const gchar *) key;
+	}
+
+	if (junk_filter != NULL)
+		g_warning (
+			"Camel is using a junk filter "
+			"unknown to Evolution of type %s",
+			G_OBJECT_TYPE_NAME (junk_filter));
+
+	return "";  /* GConfBridge doesn't like NULL strings */
+}
+
+static void
+mail_session_set_junk_filter_name (EMailSession *session,
+                                   const gchar *junk_filter_name)
+{
+	CamelJunkFilter *junk_filter = NULL;
+
+	/* XXX This property can be removed once Evolution moves to
+	 *     GSettings and can use transform functions when binding
+	 *     properties to settings.  That's why this is private. */
+
+	/* An empty string is equivalent to a NULL string. */
+	if (junk_filter_name != NULL && *junk_filter_name == '\0')
+		junk_filter_name = NULL;
+
+	if (junk_filter_name != NULL) {
+		junk_filter = g_hash_table_lookup (
+			session->priv->junk_filters, junk_filter_name);
+		if (junk_filter != NULL) {
+			if (!e_mail_junk_filter_available (
+				E_MAIL_JUNK_FILTER (junk_filter)))
+				junk_filter = NULL;
+		} else {
+			g_warning (
+				"Unrecognized junk filter name "
+				"'%s' in GConf", junk_filter_name);
+		}
+	}
+
+	camel_session_set_junk_filter (CAMEL_SESSION (session), junk_filter);
+
+	/* XXX We emit the "notify" signal in mail_session_notify(). */
+}
+
+static void
+mail_session_set_property (GObject *object,
+                           guint property_id,
+                           const GValue *value,
+                           GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_JUNK_FILTER_NAME:
+			mail_session_set_junk_filter_name (
+				E_MAIL_SESSION (object),
+				g_value_get_string (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
 static void
 mail_session_get_property (GObject *object,
                            guint property_id,
@@ -557,6 +640,13 @@ mail_session_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				e_mail_session_get_folder_cache (
+				E_MAIL_SESSION (object)));
+			return;
+
+		case PROP_JUNK_FILTER_NAME:
+			g_value_set_string (
+				value,
+				mail_session_get_junk_filter_name (
 				E_MAIL_SESSION (object)));
 			return;
 	}
@@ -583,7 +673,12 @@ mail_session_dispose (GObject *object)
 static void
 mail_session_finalize (GObject *object)
 {
+	EMailSessionPrivate *priv;
 	GConfClient *client;
+
+	priv = E_MAIL_SESSION_GET_PRIVATE (object);
+
+	g_hash_table_destroy (priv->junk_filters);
 
 	client = gconf_client_get_default ();
 
@@ -604,6 +699,87 @@ mail_session_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_session_parent_class)->finalize (object);
+}
+
+static void
+mail_session_notify (GObject *object,
+                     GParamSpec *pspec)
+{
+	/* GObject does not implement this method; do not chain up. */
+
+	/* XXX Delete this once Evolution moves to GSettings and
+	 *     we're able to get rid of PROP_JUNK_FILTER_NAME. */
+	if (g_strcmp0 (pspec->name, "junk-filter") == 0)
+		g_object_notify (object, "junk-filter-name");
+}
+
+static void
+mail_session_constructed (GObject *object)
+{
+	EMailSessionPrivate *priv;
+	EExtensible *extensible;
+	GType extension_type;
+	GList *list, *iter;
+
+	priv = E_MAIL_SESSION_GET_PRIVATE (object);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_mail_session_parent_class)->constructed (object);
+
+	extensible = E_EXTENSIBLE (object);
+	e_extensible_load_extensions (extensible);
+
+	/* Add junk filter extensions to an internal hash table. */
+
+	extension_type = E_TYPE_MAIL_JUNK_FILTER;
+	list = e_extensible_list_extensions (extensible, extension_type);
+
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		EMailJunkFilter *junk_filter;
+		EMailJunkFilterClass *class;
+
+		junk_filter = E_MAIL_JUNK_FILTER (iter->data);
+		class = E_MAIL_JUNK_FILTER_GET_CLASS (junk_filter);
+
+		if (!CAMEL_IS_JUNK_FILTER (junk_filter)) {
+			g_warning (
+				"Skipping %s: Does not implement "
+				"CamelJunkFilterInterface",
+				G_OBJECT_TYPE_NAME (junk_filter));
+			continue;
+		}
+
+		if (class->filter_name == NULL) {
+			g_warning (
+				"Skipping %s: filter_name unset",
+				G_OBJECT_TYPE_NAME (junk_filter));
+			continue;
+		}
+
+		if (class->display_name == NULL) {
+			g_warning (
+				"Skipping %s: display_name unset",
+				G_OBJECT_TYPE_NAME (junk_filter));
+			continue;
+		}
+
+		/* No need to reference the EMailJunkFilter since
+		 * EMailSession owns the reference to it already. */
+		g_hash_table_insert (
+			priv->junk_filters,
+			(gpointer) class->filter_name,
+			junk_filter);
+	}
+
+	g_list_free (list);
+
+	/* Bind the "/apps/evolution/mail/junk/default_plugin"
+	 * GConf key to our "junk-filter-name" property. */
+
+	gconf_bridge_bind_property (
+		gconf_bridge_get (),
+		"/apps/evolution/mail/junk/default_plugin",
+		object, "junk-filter-name");
 }
 
 static gchar *
@@ -928,9 +1104,12 @@ e_mail_session_class_init (EMailSessionClass *class)
 	g_type_class_add_private (class, sizeof (EMailSessionPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = mail_session_set_property;
 	object_class->get_property = mail_session_get_property;
 	object_class->dispose = mail_session_dispose;
 	object_class->finalize = mail_session_finalize;
+	object_class->notify = mail_session_notify;
+	object_class->constructed = mail_session_constructed;
 
 	session_class = CAMEL_SESSION_CLASS (class);
 	session_class->get_password = mail_session_get_password;
@@ -948,7 +1127,22 @@ e_mail_session_class_init (EMailSessionClass *class)
 			NULL,
 			NULL,
 			MAIL_TYPE_FOLDER_CACHE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	/* XXX This property can be removed once Evolution moves to
+	 *     GSettings and can use transform functions when binding
+	 *     properties to settings. */
+	g_object_class_install_property (
+		object_class,
+		PROP_JUNK_FILTER_NAME,
+		g_param_spec_string (
+			"junk-filter-name",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -958,6 +1152,8 @@ e_mail_session_init (EMailSession *session)
 
 	session->priv = E_MAIL_SESSION_GET_PRIVATE (session);
 	session->priv->folder_cache = mail_folder_cache_new ();
+	session->priv->junk_filters = g_hash_table_new (
+		(GHashFunc) g_str_hash, (GEqualFunc) g_str_equal);
 
 	/* Initialize the EAccount setup. */
 	e_account_writable (NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD);
@@ -974,7 +1170,6 @@ e_mail_session_init (EMailSession *session)
 		client, "/apps/evolution/mail/junk",
 		(GConfClientNotifyFunc) mail_session_check_junk_notify,
 		session, NULL, NULL);
-	CAMEL_SESSION (session)->junk_plugin = NULL;
 
 	mail_config_reload_junk_headers (session);
 
@@ -1001,6 +1196,36 @@ e_mail_session_get_folder_cache (EMailSession *session)
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
 	return session->priv->folder_cache;
+}
+
+GList *
+e_mail_session_get_available_junk_filters (EMailSession *session)
+{
+	GList *list, *link;
+	GQueue trash = G_QUEUE_INIT;
+
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	list = g_hash_table_get_values (session->priv->junk_filters);
+
+	/* Discard unavailable junk filters.  (e.g. Junk filter
+	 * requires Bogofilter but Bogofilter is not installed,
+	 * hence the junk filter is unavailable.) */
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		EMailJunkFilter *junk_filter;
+
+		junk_filter = E_MAIL_JUNK_FILTER (link->data);
+		if (!e_mail_junk_filter_available (junk_filter))
+			g_queue_push_tail (&trash, link);
+	}
+
+	while ((link = g_queue_pop_head (&trash)) != NULL)
+		list = g_list_delete_link (list, link);
+
+	/* Sort the remaining junk filters by display name. */
+
+	return g_list_sort (list, (GCompareFunc) e_mail_junk_filter_compare);
 }
 
 static void
@@ -1325,42 +1550,6 @@ mail_session_flush_filter_log (EMailSession *session)
 
 	if (session->priv->filter_logfile)
 		fflush (session->priv->filter_logfile);
-}
-
-void
-mail_session_add_junk_plugin (EMailSession *session,
-                              const gchar *plugin_name,
-                              CamelJunkPlugin *junk_plugin)
-{
-	GConfClient *client;
-	gchar *def_plugin;
-	const gchar *key;
-
-	g_return_if_fail (E_IS_MAIL_SESSION (session));
-
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/mail/junk/default_plugin";
-	def_plugin = gconf_client_get_string (client, key, NULL);
-	g_object_unref (client);
-
-	session->priv->junk_plugins = g_list_append (
-		session->priv->junk_plugins, junk_plugin);
-	if (def_plugin && plugin_name) {
-		if (!strcmp (def_plugin, plugin_name)) {
-			CAMEL_SESSION (session)->junk_plugin = junk_plugin;
-			camel_junk_plugin_init (junk_plugin);
-		}
-	}
-
-	g_free (def_plugin);
-}
-
-const GList *
-mail_session_get_junk_plugins (EMailSession *session)
-{
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
-
-	return session->priv->junk_plugins;
 }
 
 const gchar *
