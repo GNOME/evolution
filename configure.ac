@@ -101,6 +101,10 @@ dnl	-DE_CAL_DISABLE_DEPRECATED
 AM_CPPFLAGS="$WARNING_FLAGS -fno-strict-aliasing"
 AC_SUBST(AM_CPPFLAGS)
 
+AC_CANONICAL_HOST
+AC_DEFINE_UNQUOTED(VERSION_COMMENT, "", [Define if you want a comment appended to the version number])
+
+dnl This must stay after AC_CANONICAL_HOST, which defines $host.
 case "$host" in
 *openbsd*|*freebsd*)
 	dnl Do not set '-Wl,--no-undefined' on freebsd/openbsd
@@ -110,8 +114,6 @@ case "$host" in
 	;;
 esac
 
-AC_CANONICAL_HOST
-AC_DEFINE_UNQUOTED(VERSION_COMMENT, "", [Define if you want a comment appended to the version number])
 
 dnl *************************************
 dnl Put the ACLOCAL flags in the Makefile
@@ -202,6 +204,15 @@ case "$host" in
 	SOFTOKN3_LIB=''
 	CHAMPLAIN_REQUIREMENT=''
 	GEOCLUE_REQUIREMENT=''
+	;;
+*openbsd*|*freebsd*)
+	os_win32=no
+	NO_UNDEFINED=''
+	SOEXT='.so'
+	SA_JUNK_PLUGIN=sa-junk-plugin
+	BF_JUNK_PLUGIN=bogo-junk-plugin
+	DL_LIB=''
+	SOFTOKN3_LIB='-lsoftokn3'
 	;;
 *)
 	os_win32=no
