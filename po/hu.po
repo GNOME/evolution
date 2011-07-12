@@ -13757,9 +13757,10 @@ msgstr "Figyelmeztetések"
 msgid "Day _ends:"
 msgstr "N_ap vége:"
 
+# az Emlékeztető megjelenítése szöveg vége
 #: ../modules/calendar/e-calendar-preferences.ui.h:13
 msgid "Days"
-msgstr "Nap"
+msgstr "nappal"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:14
 msgid "Default Free/Busy Server"
@@ -13773,13 +13774,15 @@ msgstr "Megjelenítés"
 msgid "Display alarms in _notification area only"
 msgstr "Figyelmeztetések megjelenítése _csak az értesítési területen"
 
+# az Emlékeztető megjelenítése szöveg vége
 #: ../modules/calendar/e-calendar-preferences.ui.h:20
 msgid "Hours"
-msgstr "Óra"
+msgstr "órával"
 
+# az Emlékeztető megjelenítése szöveg vége
 #: ../modules/calendar/e-calendar-preferences.ui.h:21
 msgid "Minutes"
-msgstr "Perc"
+msgstr "perccel"
 
 #. Sunday
 #: ../modules/calendar/e-calendar-preferences.ui.h:25
