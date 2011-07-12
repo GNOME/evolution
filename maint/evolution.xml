@@ -17,12 +17,14 @@
       <property id="icon-name"/>
     </glade-widget-class>
 
+    <glade-widget-class name="EMailJunkOptions" generic-name="junk-options" title="Junk Mail Options" get-type-function="e_mail_junk_options_get_type"/>
+
     <glade-widget-class name="EMFolderSelectionButton" generic-name="folder-selection-button" title="Folder Selection Button" get-type-function="em_folder_selection_button_get_type">
       <property id="caption"/>
       <property id="title"/>
     </glade-widget-class>
 
-    <glade-widget-class name="EPortEntry" generic-name="port-entry" title="Port Entry"/>
+    <glade-widget-class name="EPortEntry" generic-name="port-entry" title="Port Entry" get-type-function="e_port_entry_get_type"/>
 
     <glade-widget-class name="ESourceComboBox" generic-name="source-combo-box" title="Source Combo Box">
       <property id="source-list"/>
@@ -39,6 +41,7 @@
   <glade-widget-group name="evolution-widgets" title="Evolution">
     <glade-widget-class-ref name="EDateEdit"/>
     <glade-widget-class-ref name="EImageChooser"/>
+    <glade-widget-class-ref name="EMailJunkOptions"/>
     <glade-widget-class-ref name="EMFolderSelectionButton"/>
     <glade-widget-class-ref name="EPortEntry"/>
     <glade-widget-class-ref name="ESourceComboBox"/>

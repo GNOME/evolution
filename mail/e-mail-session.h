@@ -66,6 +66,8 @@ GType		e_mail_session_get_type		(void);
 EMailSession *	e_mail_session_new		(void);
 MailFolderCache *
 		e_mail_session_get_folder_cache	(EMailSession *session);
+GList *		e_mail_session_get_available_junk_filters
+						(EMailSession *session);
 CamelFolder *	e_mail_session_get_inbox_sync	(EMailSession *session,
 						 const gchar *service_uid,
 						 GCancellable *cancellable,
@@ -113,10 +115,6 @@ CamelFolder *	e_mail_session_uri_to_folder_finish
 /*** Legacy API ***/
 
 void		mail_session_flush_filter_log	(EMailSession *session);
-void		mail_session_add_junk_plugin	(EMailSession *session,
-						 const gchar *plugin_name,
-						 CamelJunkPlugin *junk_plugin);
-const GList *	mail_session_get_junk_plugins	(EMailSession *session);
 const gchar *	mail_session_get_data_dir	(void);
 const gchar *	mail_session_get_config_dir	(void);
 

@@ -37,18 +37,20 @@
 
 #include "libedataserverui/e-cell-renderer-color.h"
 
-#include "e-util/e-util.h"
-#include "e-util/e-datetime-format.h"
-#include "e-util/e-util-private.h"
-#include "widgets/misc/e-charset-combo-box.h"
-#include "shell/e-shell-utils.h"
+#include <e-util/e-util.h>
+#include <e-util/e-datetime-format.h>
+#include <e-util/e-util-private.h>
 
-#include "e-mail-backend.h"
-#include "e-mail-label-manager.h"
-#include "e-mail-reader-utils.h"
-#include "em-folder-selection-button.h"
-#include "em-junk.h"
-#include "em-config.h"
+#include <misc/e-charset-combo-box.h>
+#include <misc/e-port-entry.h>
+#include <shell/e-shell-utils.h>
+
+#include <mail/e-mail-backend.h>
+#include <mail/e-mail-junk-options.h>
+#include <mail/e-mail-label-manager.h>
+#include <mail/e-mail-reader-utils.h>
+#include <mail/em-folder-selection-button.h>
+#include <mail/em-config.h>
 
 enum {
 	HEADER_LIST_NAME_COLUMN, /* displayable name of the header (may be a translation) */
@@ -102,7 +104,6 @@ em_mailer_prefs_finalize (GObject *object)
 {
 	EMMailerPrefs *prefs = (EMMailerPrefs *) object;
 
-	g_object_unref (prefs->session);
 	g_object_unref (prefs->builder);
 
 	if (prefs->labels_change_notify_id) {
@@ -676,131 +677,8 @@ emmp_free (EConfig *ec, GSList *items, gpointer data)
 }
 
 static void
-junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
-{
-	gchar *def_plugin;
-	const GList *plugins = mail_session_get_junk_plugins (prefs->session);
-	GtkTreeIter iter;
-
-	g_return_if_fail (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combo), &iter));
-
-	def_plugin = NULL;
-	gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (combo)), &iter, 0, &def_plugin, -1);
-
-	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/junk/default_plugin", def_plugin, NULL);
-	while (plugins) {
-		EMJunkInterface *iface = plugins->data;
-
-		if (iface->plugin_name && def_plugin && !strcmp (iface->plugin_name, def_plugin)) {
-			gboolean status;
-
-			CAMEL_SESSION (prefs->session)->junk_plugin =
-				CAMEL_JUNK_PLUGIN (&iface->camel);
-			status = e_plugin_invoke (iface->hook->plugin, iface->validate_binary, NULL) != NULL;
-			if ((gboolean) status == TRUE) {
-				gchar *text, *html;
-				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-info", GTK_ICON_SIZE_MENU);
-				text = g_strdup_printf (_("%s plugin is available and the binary is installed."), iface->plugin_name);
-				html = g_strdup_printf ("<i>%s</i>", text);
-				gtk_label_set_markup (prefs->plugin_status, html);
-				g_free (html);
-				g_free (text);
-			} else {
-				gchar *text, *html;
-				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-warning", GTK_ICON_SIZE_MENU);
-				text = g_strdup_printf (_("%s plugin is not available. Please check whether the package is installed."), iface->plugin_name);
-				html = g_strdup_printf ("<i>%s</i>", text);
-				gtk_label_set_markup (prefs->plugin_status, html);
-				g_free (html);
-				g_free (text);
-			}
-			break;
-		}
-		plugins = plugins->next;
-	}
-
-	g_free (def_plugin);
-}
-
-static void
-junk_plugin_setup (GtkComboBox *combo_box, EMMailerPrefs *prefs)
-{
-	GtkListStore *store;
-	GtkCellRenderer *cell;
-	gint index = 0;
-	gboolean def_set = FALSE;
-	const GList *plugins = mail_session_get_junk_plugins (prefs->session);
-	gchar *pdefault = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/junk/default_plugin", NULL);
-
-	store = gtk_list_store_new (1, G_TYPE_STRING);
-	gtk_combo_box_set_model (combo_box, GTK_TREE_MODEL (store));
-
-	cell = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), cell, TRUE);
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), cell,
-					"text", 0,
-					NULL);
-
-	if (!plugins || !g_list_length ((GList *) plugins)) {
-		GtkTreeIter iter;
-
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (
-			store, &iter, 0, _("No junk plugin available"), -1);
-		gtk_combo_box_set_active (combo_box, 0);
-		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), FALSE);
-		gtk_widget_hide (GTK_WIDGET (prefs->plugin_image));
-		gtk_widget_hide (GTK_WIDGET (prefs->plugin_status));
-		gtk_image_set_from_stock (prefs->plugin_image, NULL, 0);
-		g_free (pdefault);
-
-		return;
-	}
-
-	while (plugins) {
-		EMJunkInterface *iface = plugins->data;
-		GtkTreeIter iter;
-
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, iface->plugin_name, -1);
-		if (!def_set && pdefault && iface->plugin_name && !strcmp (pdefault, iface->plugin_name)) {
-			gboolean status;
-
-			def_set = TRUE;
-			gtk_combo_box_set_active (combo_box, index);
-			status = e_plugin_invoke (iface->hook->plugin, iface->validate_binary, NULL) != NULL;
-			if (status) {
-				gchar *text, *html;
-				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-info", GTK_ICON_SIZE_MENU);
-				/* May be a better text */
-				text = g_strdup_printf (_("%s plugin is available and the binary is installed."), iface->plugin_name);
-				html = g_strdup_printf ("<i>%s</i>", text);
-				gtk_label_set_markup (prefs->plugin_status, html);
-				g_free (html);
-				g_free (text);
-			} else {
-				gchar *text, *html;
-				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-warning", GTK_ICON_SIZE_MENU);
-				/* May be a better text */
-				text = g_strdup_printf (_("%s plugin is not available. Please check whether the package is installed."), iface->plugin_name);
-				html = g_strdup_printf ("<i>%s</i>", text);
-				gtk_label_set_markup (prefs->plugin_status, html);
-				g_free (html);
-				g_free (text);
-			}
-		}
-		plugins = plugins->next;
-		index++;
-	}
-
-	g_signal_connect (
-		combo_box, "changed",
-		G_CALLBACK (junk_plugin_changed), prefs);
-	g_free (pdefault);
-}
-
-static void
 em_mailer_prefs_construct (EMMailerPrefs *prefs,
+                           EMailSession *session,
                            EShell *shell)
 {
 	GSList *header_config_list, *header_add_list, *p;
@@ -823,6 +701,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
+	E_TYPE_MAIL_JUNK_OPTIONS;
 	EM_TYPE_FOLDER_SELECTION_BUTTON;
 
 	prefs->builder = gtk_builder_new ();
@@ -1182,10 +1061,8 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_BINDING_SYNC_CREATE);
 	emmp_empty_junk_init (prefs, GTK_COMBO_BOX (widget));
 
-	prefs->default_junk_plugin = GTK_COMBO_BOX (e_builder_get_widget (prefs->builder, "default_junk_plugin"));
-	prefs->plugin_status = GTK_LABEL (e_builder_get_widget (prefs->builder, "plugin_status"));
-	prefs->plugin_image = GTK_IMAGE (e_builder_get_widget (prefs->builder, "plugin_image"));
-	junk_plugin_setup (prefs->default_junk_plugin, prefs);
+	widget = e_builder_get_widget (prefs->builder, "junk-module-options");
+	e_mail_junk_options_set_session (E_MAIL_JUNK_OPTIONS (widget), session);
 
 	prefs->junk_header_check = (GtkToggleButton *)e_builder_get_widget (prefs->builder, "junk_header_check");
 	prefs->junk_header_tree = (GtkTreeView *)e_builder_get_widget (prefs->builder, "junk_header_tree");
@@ -1238,11 +1115,8 @@ em_mailer_prefs_new (EPreferencesWindow *window)
 
 	new = g_object_new (EM_TYPE_MAILER_PREFS, NULL);
 
-	/* FIXME This should be a constructor property. */
-	new->session = g_object_ref (session);
-
 	/* FIXME Kill this function. */
-	em_mailer_prefs_construct (new, shell);
+	em_mailer_prefs_construct (new, session, shell);
 
 	return GTK_WIDGET (new);
 }

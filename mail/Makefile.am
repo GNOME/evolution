@@ -56,6 +56,8 @@ mailinclude_HEADERS =					\
 	e-mail-enums.h					\
 	e-mail-enumtypes.h				\
 	e-mail-folder-utils.h				\
+	e-mail-junk-filter.h				\
+	e-mail-junk-options.h				\
 	e-mail-label-action.h				\
 	e-mail-label-dialog.h				\
 	e-mail-label-list-store.h			\
@@ -91,7 +93,6 @@ mailinclude_HEADERS =					\
 	em-format-html-display.h			\
 	em-format-html-print.h				\
 	em-html-stream.h				\
-	em-junk.h					\
 	em-search-context.h				\
 	em-subscription-editor.h			\
 	em-sync-stream.h				\
@@ -128,6 +129,8 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-display.c				\
 	e-mail-enumtypes.c				\
 	e-mail-folder-utils.c				\
+	e-mail-junk-filter.c				\
+	e-mail-junk-options.c				\
 	e-mail-label-action.c				\
 	e-mail-label-dialog.c				\
 	e-mail-label-list-store.c			\
@@ -163,7 +166,6 @@ libevolution_mail_la_SOURCES =				\
 	em-format-html-display.c			\
 	em-format-html-print.c				\
 	em-html-stream.c				\
-	em-junk.c					\
 	em-search-context.c				\
 	em-subscription-editor.c			\
 	em-sync-stream.c				\

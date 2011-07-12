@@ -1,9 +1,10 @@
 <gconfschemafile>
   <schemalist>
+
     <schema>
       <key>/schemas/apps/evolution/mail/junk/bogofilter/unicode</key>
       <applyto>/apps/evolution/mail/junk/bogofilter/unicode</applyto>
-      <owner>bf-eplugin</owner>
+      <owner>evolution-bogofilter</owner>
       <type>bool</type>
       <default>true</default>
       <locale name="C">
@@ -14,5 +15,6 @@
         </long>
       </locale>
     </schema>
+
   </schemalist>
 </gconfschemafile>
