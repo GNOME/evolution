@@ -8,10 +8,10 @@
 #: ../shell/main.c:569
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 2.91.x\n"
+"Project-Id-Version: evolution 3.1.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-02 01:43+0200\n"
-"PO-Revision-Date: 2011-07-02 01:46+0200\n"
+"POT-Creation-Date: 2011-07-12 13:08+0200\n"
+"PO-Revision-Date: 2011-07-12 13:17+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -39,13 +39,10 @@ msgstr ""
 "kontakt med samme adresse likevel?"
 
 #: ../addressbook/addressbook.error.xml.h:4
-#, fuzzy
 msgid ""
 "A contact list named '{0}' is already in this contact list. Would you like "
 "to add it anyway?"
-msgstr ""
-"Navnet eller e-post adressen for denne kontakten eksisterer allerede\n"
-"i denne mappen. Vil du legge den til likevel?"
+msgstr "En kontaktliste med navn «{0}» eksisterer allerede i denne kontaktlisten. Vil du legge den til likevel?"
 
 #: ../addressbook/addressbook.error.xml.h:5
 msgid "Add with duplicates"
@@ -127,7 +124,7 @@ msgstr "LDAP-tjener svarte ikke med gyldig schema-informasjon."
 
 #: ../addressbook/addressbook.error.xml.h:21
 msgid "List '{0}' is already in this contact list."
-msgstr ""
+msgstr "Liste «{0}» er allerede i kontaktlisten."
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "Skip duplicates"
@@ -135,7 +132,7 @@ msgstr "Hopp over duplikater"
 
 #: ../addressbook/addressbook.error.xml.h:23
 msgid "Some addresses already exist in this contact list."
-msgstr ""
+msgstr "Noen adresser eksisterer allerede i denne kontaktlisten."
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "Some features may not work properly with your current server"
@@ -219,13 +216,10 @@ msgstr ""
 "for best ytelse."
 
 #: ../addressbook/addressbook.error.xml.h:39
-#, fuzzy
 msgid ""
 "You are trying to add addresses that are part of this list already. Would "
 "you like to add them anyway?"
-msgstr ""
-"Navnet eller e-post adressen for denne kontakten eksisterer allerede\n"
-"i denne mappen. Vil du legge den til likevel?"
+msgstr "Du prøver å legge til adresser som allerede er en del av denne listen. Vil du legge dem til likevel?"
 
 #: ../addressbook/addressbook.error.xml.h:40
 msgid "You do not have permission to delete contacts in this address book."
@@ -1221,6 +1215,7 @@ msgstr "Videosamtale"
 #: ../modules/calendar/e-cal-shell-view-actions.c:222
 #: ../modules/calendar/e-cal-shell-view-actions.c:251
 #: ../modules/calendar/e-cal-shell-view.c:507
+#: ../modules/online-accounts/e-online-accounts-google.c:292
 #: ../plugins/publish-calendar/publish-calendar.ui.h:1
 #: ../widgets/misc/e-send-options.c:519
 msgid "Calendar"
@@ -1482,7 +1477,7 @@ msgstr "Kunne ikke hente liste med adressebøker: %s"
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:79
 #: ../calendar/gui/dialogs/event-page.c:2893
 #: ../calendar/gui/dialogs/memo-page.c:926
-#: ../calendar/gui/dialogs/task-page.c:1810 ../em-format/em-format.c:2313
+#: ../calendar/gui/dialogs/task-page.c:1810 ../em-format/em-format.c:2314
 #: ../mail/em-folder-tree.c:678 ../mail/mail-ops.c:657
 #: ../plugins/caldav/caldav-browse-server.c:209
 #: ../plugins/caldav/caldav-browse-server.c:1406 ../plugins/face/face.c:169
@@ -2439,7 +2434,7 @@ msgstr "Fa_rge:"
 #: ../mail/em-folder-properties.c:233 ../mail/mail-config.ui.h:52
 #: ../modules/addressbook/addressbook-config.c:1052
 #: ../modules/calendar/e-calendar-preferences.ui.h:19
-#: ../plugins/itip-formatter/itip-formatter.c:2955
+#: ../plugins/itip-formatter/itip-formatter.c:2960
 #: ../plugins/publish-calendar/publish-calendar.ui.h:7
 #: ../smime/gui/smime-ui.ui.h:21
 msgid "General"
@@ -3201,9 +3196,9 @@ msgstr "Notatet kan ikke redigeres i sin helhet fordi du ikke er organisator"
 msgid "Unable to open memos in '%s': %s"
 msgstr "Kan ikke åpne notater i «%s»: %s"
 
-#: ../calendar/gui/dialogs/memo-page.c:1099 ../em-format/em-format-quote.c:284
-#: ../em-format/em-format.c:1056 ../mail/em-format-html.c:2487
-#: ../mail/em-format-html.c:2552 ../mail/em-format-html.c:2576
+#: ../calendar/gui/dialogs/memo-page.c:1099 ../em-format/em-format-quote.c:319
+#: ../em-format/em-format.c:1056 ../mail/em-format-html.c:2563
+#: ../mail/em-format-html.c:2628 ../mail/em-format-html.c:2652
 #: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:72
 msgid "To"
 msgstr "Til"
@@ -6902,7 +6897,7 @@ msgstr "Søk etter / erstatt tekst"
 msgid "Save draft"
 msgstr "Lagre utkast"
 
-#: ../composer/e-msg-composer.c:791
+#: ../composer/e-msg-composer.c:808
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -6910,7 +6905,7 @@ msgstr ""
 "Kan ikke signere utgående melding: Ingen sertifikat for signering satt for "
 "denne kontoen"
 
-#: ../composer/e-msg-composer.c:800
+#: ../composer/e-msg-composer.c:817
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -6919,17 +6914,17 @@ msgstr ""
 "Kan ikke kryptere utgående melding: Sertifikat for kryptering ikke satt for "
 "denne kontoen"
 
-#: ../composer/e-msg-composer.c:1695 ../composer/e-msg-composer.c:2079
+#: ../composer/e-msg-composer.c:1691 ../composer/e-msg-composer.c:2075
 msgid "Compose Message"
 msgstr "Skriv melding"
 
-#: ../composer/e-msg-composer.c:4159
+#: ../composer/e-msg-composer.c:4155
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Redigering inneholder en meldingskropp som ikke er tekst, og som ikke kan "
 "redigeres."
 
-#: ../composer/e-msg-composer.c:4864
+#: ../composer/e-msg-composer.c:4860
 msgid "Untitled Message"
 msgstr "Melding uten navn"
 
@@ -7122,6 +7117,8 @@ msgstr "CalDAV"
 
 #: ../capplet/settings/mail-account-view.c:361
 #: ../capplet/settings/mail-account-view.c:413
+#: ../modules/online-accounts/e-online-accounts-google.c:285
+#: ../modules/online-accounts/e-online-accounts-google.c:357
 #: ../plugins/google-account-setup/google-contacts-source.c:55
 #: ../plugins/google-account-setup/google-source.c:83
 msgid "Google"
@@ -7688,30 +7685,30 @@ msgstr "GConf-feil: %s"
 msgid "All further errors shown only on terminal."
 msgstr "Alle videre feil blir kun vist på konsollet."
 
-#: ../em-format/em-format-quote.c:284 ../em-format/em-format.c:1054
+#: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1054
 #: ../mail/e-mail-tag-editor.c:325 ../mail/message-list.etspec.h:7
 #: ../modules/mail/em-mailer-prefs.c:70
 msgid "From"
 msgstr "Fra"
 
-#: ../em-format/em-format-quote.c:284 ../em-format/em-format.c:1055
+#: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1055
 #: ../modules/mail/em-mailer-prefs.c:71
 msgid "Reply-To"
 msgstr "Svar-til"
 
-#: ../em-format/em-format-quote.c:284 ../em-format/em-format.c:1057
-#: ../mail/em-format-html.c:2488 ../mail/em-format-html.c:2556
-#: ../mail/em-format-html.c:2579 ../modules/mail/em-mailer-prefs.c:73
+#: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1057
+#: ../mail/em-format-html.c:2564 ../mail/em-format-html.c:2632
+#: ../mail/em-format-html.c:2655 ../modules/mail/em-mailer-prefs.c:73
 msgid "Cc"
 msgstr "Cc"
 
-#: ../em-format/em-format-quote.c:284 ../em-format/em-format.c:1058
-#: ../mail/em-format-html.c:2489 ../mail/em-format-html.c:2560
-#: ../mail/em-format-html.c:2582 ../modules/mail/em-mailer-prefs.c:74
+#: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1058
+#: ../mail/em-format-html.c:2565 ../mail/em-format-html.c:2636
+#: ../mail/em-format-html.c:2658 ../modules/mail/em-mailer-prefs.c:74
 msgid "Bcc"
 msgstr "Bcc"
 
-#: ../em-format/em-format-quote.c:428 ../em-format/em-format.c:1059
+#: ../em-format/em-format-quote.c:463 ../em-format/em-format.c:1059
 #: ../mail/e-mail-tag-editor.c:330 ../mail/em-filter-i18n.h:74
 #: ../mail/message-list.etspec.h:18 ../modules/mail/em-mailer-prefs.c:75
 #: ../smime/lib/e-cert.c:1142
@@ -7719,12 +7716,12 @@ msgid "Subject"
 msgstr "Emne"
 
 #. pseudo-header
-#: ../em-format/em-format-quote.c:439 ../mail/em-format-html.c:2676
+#: ../em-format/em-format-quote.c:474 ../mail/em-format-html.c:2757
 #: ../modules/mail/em-mailer-prefs.c:1129
 msgid "Mailer"
 msgstr "E-postprogram"
 
-#: ../em-format/em-format-quote.c:520 ../mail/em-composer-utils.c:1190
+#: ../em-format/em-format-quote.c:564 ../mail/em-composer-utils.c:1189
 msgid "-------- Forwarded Message --------"
 msgstr "---------Videresendt melding-------"
 
@@ -7743,45 +7740,45 @@ msgstr "Nyhetsgrupper"
 msgid "Face"
 msgstr "Ansikt"
 
-#: ../em-format/em-format.c:1465
+#: ../em-format/em-format.c:1466
 #, c-format
 msgid "%s attachment"
 msgstr "%s-vedlegg"
 
-#: ../em-format/em-format.c:1576
+#: ../em-format/em-format.c:1577
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Kunne ikke lese S/MIME-melding: Ukjent feil"
 
-#: ../em-format/em-format.c:1768 ../em-format/em-format.c:1994
+#: ../em-format/em-format.c:1769 ../em-format/em-format.c:1995
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Kunne ikke lese MIME-melding. Viser ren meldingstekst."
 
-#: ../em-format/em-format.c:1779
+#: ../em-format/em-format.c:1780
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Krypteringstype for multipart/encrypted som ikke er støttet"
 
-#: ../em-format/em-format.c:1799
+#: ../em-format/em-format.c:1800
 msgid "Could not parse PGP/MIME message"
 msgstr "Kunne ikke lese PGP/MIME-melding"
 
-#: ../em-format/em-format.c:1800
+#: ../em-format/em-format.c:1801
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "Kunne ikke lese PGP/MIME-melding: Ukjent feil"
 
-#: ../em-format/em-format.c:2019
+#: ../em-format/em-format.c:2020
 msgid "Unsupported signature format"
 msgstr "Ustøttet signaturformat"
 
-#: ../em-format/em-format.c:2032 ../em-format/em-format.c:2214
+#: ../em-format/em-format.c:2033 ../em-format/em-format.c:2215
 msgid "Error verifying signature"
 msgstr "Feil under verifisering av signatur"
 
-#: ../em-format/em-format.c:2033 ../em-format/em-format.c:2199
-#: ../em-format/em-format.c:2215
+#: ../em-format/em-format.c:2034 ../em-format/em-format.c:2200
+#: ../em-format/em-format.c:2216
 msgid "Unknown error verifying signature"
 msgstr "Ukjent feil under verifisering av signatur"
 
-#: ../em-format/em-format.c:2307
+#: ../em-format/em-format.c:2308
 msgid "Could not parse PGP message: "
 msgstr "Kunne ikke lese PGP-melding:"
 
@@ -8088,7 +8085,7 @@ msgid "years"
 msgstr "år"
 
 #: ../mail/e-mail-attachment-bar.c:90 ../mail/e-mail-attachment-bar.c:95
-#: ../mail/em-format-html-display.c:1156 ../mail/mail-config.ui.h:14
+#: ../mail/em-format-html-display.c:1217 ../mail/mail-config.ui.h:14
 #: ../mail/message-list.etspec.h:1 ../widgets/misc/e-attachment-paned.c:128
 #: ../widgets/misc/e-attachment-paned.c:133
 msgid "Attachment"
@@ -8178,14 +8175,14 @@ msgstr "Filen er fjernet."
 msgid "Removing attachments"
 msgstr "Fjerner vedlegg"
 
-#: ../mail/e-mail-folder-utils.c:1177
+#: ../mail/e-mail-folder-utils.c:1175
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "Lagrer %d melding"
 msgstr[1] "Lagrer %d meldinger"
 
-#: ../mail/e-mail-folder-utils.c:1515 ../mail/em-folder-utils.c:577
+#: ../mail/e-mail-folder-utils.c:1519 ../mail/em-folder-utils.c:577
 #, c-format
 msgid "Invalid folder URI '%s'"
 msgstr "Ugyldig URI for mappe «%s»"
@@ -8974,36 +8971,36 @@ msgstr "Svar"
 msgid "Folder '%s'"
 msgstr "Mappe «%s»"
 
-#: ../mail/e-mail-session.c:661
+#: ../mail/e-mail-session.c:657
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Skriv inn passord for %s"
 
-#: ../mail/e-mail-session.c:665
+#: ../mail/e-mail-session.c:661
 msgid "Enter Passphrase"
 msgstr "Skriv inn passord"
 
-#: ../mail/e-mail-session.c:669
+#: ../mail/e-mail-session.c:665
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Skriv inn passord for %s"
 
-#: ../mail/e-mail-session.c:673
+#: ../mail/e-mail-session.c:669
 msgid "Enter Password"
 msgstr "Skriv inn passord"
 
-#: ../mail/e-mail-session.c:724
+#: ../mail/e-mail-session.c:720
 #, c-format
 msgid "User canceled operation."
 msgstr "Operasjon avbrutt av bruker."
 
-#: ../mail/e-mail-session.c:839
+#: ../mail/e-mail-session.c:833
 #, c-format
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
 msgstr "Ingen måladresse oppgitt. Videresending av meldingen ble avbrutt."
 
-#: ../mail/e-mail-session.c:848
+#: ../mail/e-mail-session.c:842
 #, c-format
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr "Fant ingen konto å bruke. Videresending av meldingen ble avbrutt."
@@ -9213,7 +9210,7 @@ msgstr "Ser etter nye meldinger"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../mail/em-composer-utils.c:1184
+#: ../mail/em-composer-utils.c:1183
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -9221,31 +9218,31 @@ msgstr ""
 "${AbbrevWeekdayName}, ${Day}.${Month}.${Year} kl. ${24Hour}.${Minute} "
 "${TimeZone}, skrev ${Sender}:"
 
-#: ../mail/em-composer-utils.c:1195
+#: ../mail/em-composer-utils.c:1194
 msgid "-----Original Message-----"
 msgstr "-----Opprinnelig melding-----"
 
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
-#: ../mail/em-composer-utils.c:1976
+#: ../mail/em-composer-utils.c:1975
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "Din melding til %s om «%s» den %s er har blitt lest."
 
-#: ../mail/em-composer-utils.c:2030
+#: ../mail/em-composer-utils.c:2034
 #, c-format
 msgid "Delivery Notification for: \"%s\""
 msgstr "Varsling om ny e-post for «%s»"
 
-#: ../mail/em-composer-utils.c:2532
+#: ../mail/em-composer-utils.c:2536
 msgid "an unknown sender"
 msgstr "en ukjent avsender"
 
-#: ../mail/em-composer-utils.c:2933
+#: ../mail/em-composer-utils.c:2937
 msgid "Posting destination"
 msgstr "Destinasjon for post"
 
-#: ../mail/em-composer-utils.c:2934
+#: ../mail/em-composer-utils.c:2938
 msgid "Choose folders to post the message to."
 msgstr "Velg mapper meldingen skal postes til."
 
@@ -9614,7 +9611,7 @@ msgstr "Opprett mappe"
 msgid "Specify where to create the folder:"
 msgstr "Spesifiser hvor mappen skal opprettes:"
 
-#: ../mail/em-format-html-display.c:85 ../mail/em-format-html.c:1683
+#: ../mail/em-format-html-display.c:85 ../mail/em-format-html.c:1697
 msgid "Unsigned"
 msgstr "Usignert"
 
@@ -9626,7 +9623,7 @@ msgstr ""
 "Denne meldingen er ikke signert. Du har ingen garanti for at meldingen er "
 "autentisk."
 
-#: ../mail/em-format-html-display.c:86 ../mail/em-format-html.c:1684
+#: ../mail/em-format-html-display.c:86 ../mail/em-format-html.c:1698
 msgid "Valid signature"
 msgstr "Gyldig signatur"
 
@@ -9638,7 +9635,7 @@ msgstr ""
 "Denne meldingen er signert og gyldig hvilket betyr denne meldingen høyst "
 "sannsynlig er autentisk."
 
-#: ../mail/em-format-html-display.c:87 ../mail/em-format-html.c:1685
+#: ../mail/em-format-html-display.c:87 ../mail/em-format-html.c:1699
 msgid "Invalid signature"
 msgstr "Ugyldig signatur"
 
@@ -9650,7 +9647,7 @@ msgstr ""
 "Signaturen for denne meldingen kan ikke verifiseres. Den kan være endret "
 "under overføring."
 
-#: ../mail/em-format-html-display.c:88 ../mail/em-format-html.c:1686
+#: ../mail/em-format-html-display.c:88 ../mail/em-format-html.c:1700
 msgid "Valid signature, but cannot verify sender"
 msgstr "Gyldig signatur, men kan ikke verifisere avsender"
 
@@ -9662,7 +9659,7 @@ msgstr ""
 "Denne meldingen er signert med en gyldig signatur, men avsender av meldingen "
 "kan ikke verifiseres."
 
-#: ../mail/em-format-html-display.c:89 ../mail/em-format-html.c:1687
+#: ../mail/em-format-html-display.c:89 ../mail/em-format-html.c:1701
 msgid "Signature exists, but need public key"
 msgstr "Signatur eksisterer, men trenger offentlig nøkkel"
 
@@ -9674,7 +9671,7 @@ msgstr ""
 "Denne meldingen er signert med en gyldig signatur, men det finnes ingen "
 "tilhørende offentlig nøkkel."
 
-#: ../mail/em-format-html-display.c:96 ../mail/em-format-html.c:1693
+#: ../mail/em-format-html-display.c:96 ../mail/em-format-html.c:1707
 msgid "Unencrypted"
 msgstr "Ukryptert"
 
@@ -9686,7 +9683,7 @@ msgstr ""
 "Denne meldingen er ikke kryptert. Innholdet kan vises under overføring over "
 "Internett."
 
-#: ../mail/em-format-html-display.c:97 ../mail/em-format-html.c:1694
+#: ../mail/em-format-html-display.c:97 ../mail/em-format-html.c:1708
 msgid "Encrypted, weak"
 msgstr "Kryptert, svak"
 
@@ -9700,7 +9697,7 @@ msgstr ""
 "vanskelig, men ikke umulig for en utenforstående å se innholdet i denne "
 "meldingen på noenlunde kort tid."
 
-#: ../mail/em-format-html-display.c:98 ../mail/em-format-html.c:1695
+#: ../mail/em-format-html-display.c:98 ../mail/em-format-html.c:1709
 msgid "Encrypted"
 msgstr "Kryptert"
 
@@ -9712,7 +9709,7 @@ msgstr ""
 "Denne meldingen er kryptert. Det vil være vanskelig for en utenforstående å "
 "se innholdet i denne meldingen."
 
-#: ../mail/em-format-html-display.c:99 ../mail/em-format-html.c:1696
+#: ../mail/em-format-html-display.c:99 ../mail/em-format-html.c:1710
 msgid "Encrypted, strong"
 msgstr "Kryptert, sterk"
 
@@ -9733,7 +9730,7 @@ msgstr "_Vis sertifikat"
 msgid "This certificate is not viewable"
 msgstr "Dette sertifikatet kan ikke vises"
 
-#: ../mail/em-format-html-display.c:539
+#: ../mail/em-format-html-display.c:552
 msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
@@ -9741,28 +9738,27 @@ msgstr ""
 "Evolution kan ikke rendre denne e-posten da den er for stor. Du kan vise den "
 "uformattert eller åpne den i et eksternt redigeringsprogram."
 
-#: ../mail/em-format-html-display.c:806
+#: ../mail/em-format-html-display.c:848
 msgid "Completed on"
 msgstr "Fullført"
 
-#: ../mail/em-format-html-display.c:814
+#: ../mail/em-format-html-display.c:860
 msgid "Overdue:"
 msgstr "Utgått:"
 
-#. To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009"
-#: ../mail/em-format-html-display.c:818
+#: ../mail/em-format-html-display.c:868
 msgid "by"
 msgstr "innen"
 
-#: ../mail/em-format-html-display.c:1081 ../mail/em-format-html-display.c:1128
+#: ../mail/em-format-html-display.c:1142 ../mail/em-format-html-display.c:1189
 msgid "View _Unformatted"
 msgstr "Vis uformattert"
 
-#: ../mail/em-format-html-display.c:1083
+#: ../mail/em-format-html-display.c:1144
 msgid "Hide _Unformatted"
 msgstr "Skjul _uformatterte"
 
-#: ../mail/em-format-html-display.c:1148
+#: ../mail/em-format-html-display.c:1209
 msgid "O_pen With"
 msgstr "Å_pne med"
 
@@ -9775,63 +9771,61 @@ msgstr "Side %d av %d"
 msgid "Formatting message"
 msgstr "Formatterer melding"
 
-#: ../mail/em-format-html.c:364
+#: ../mail/em-format-html.c:368
 msgid "Formatting Message..."
 msgstr "Formatterer melding …"
 
-#: ../mail/em-format-html.c:1527 ../mail/em-format-html.c:1537
+#: ../mail/em-format-html.c:1541 ../mail/em-format-html.c:1551
 #, c-format
 msgid "Retrieving '%s'"
 msgstr "Henter «%s»"
 
-#: ../mail/em-format-html.c:2058
+#: ../mail/em-format-html.c:2110
 msgid "Unknown external-body part."
 msgstr "Ukjent del av ekstern kropp."
 
-#: ../mail/em-format-html.c:2066
+#: ../mail/em-format-html.c:2120
 msgid "Malformed external-body part."
 msgstr "Feilutformet del for ekstern kropp."
 
-#: ../mail/em-format-html.c:2096
+#: ../mail/em-format-html.c:2151
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Peker til FTP-tjener (%s)"
 
-#: ../mail/em-format-html.c:2107
+#: ../mail/em-format-html.c:2162
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Peker til lokal fil (%s) gyldig på nettsted «%s»"
 
-#: ../mail/em-format-html.c:2109
+#: ../mail/em-format-html.c:2164
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Peker til lokal fil (%s)"
 
-#: ../mail/em-format-html.c:2130
+#: ../mail/em-format-html.c:2185
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Peker til eksterne data (%s)"
 
-#: ../mail/em-format-html.c:2141
+#: ../mail/em-format-html.c:2200
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Peker til ukjente eksterne data («%s»-type)"
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../mail/em-format-html.c:2824
-#: ../plugins/mail-notification/mail-notification.c:407
+#: ../mail/em-format-html.c:2905
+#: ../plugins/mail-notification/mail-notification.c:405
 #, c-format
 msgid "From: %s"
 msgstr "Fra: %s"
 
-#: ../mail/em-format-html.c:2837
+#: ../mail/em-format-html.c:2927
 msgid "(no subject)"
 msgstr "(uten emne)"
 
-#. To translators: This message suggests to the receipients that the sender of the mail is
-#. different from the one listed in From field.
-#: ../mail/em-format-html.c:2901
+#: ../mail/em-format-html.c:3003
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Denne meldingen ble sendt av %s på vegne av %s"
@@ -13354,6 +13348,7 @@ msgstr "Opprett en ny adressebok"
 #: ../modules/addressbook/e-book-shell-view.c:405
 #: ../modules/calendar/e-cal-shell-backend.c:111
 #: ../modules/calendar/e-cal-shell-migrate.c:63
+#: ../modules/online-accounts/e-online-accounts-google.c:364
 msgid "Contacts"
 msgstr "Kontakter"
 
@@ -13572,7 +13567,7 @@ msgstr "Ingen treff"
 #: ../modules/calendar/e-memo-shell-view-actions.c:768
 #: ../modules/calendar/e-task-shell-view-actions.c:967
 #: ../modules/mail/e-mail-shell-view-actions.c:1557
-#: ../shell/e-shell-content.c:638
+#: ../shell/e-shell-content.c:666
 msgid "Advanced Search"
 msgstr "Avansert søk"
 
@@ -14599,7 +14594,7 @@ msgid "Create a new calendar"
 msgstr "Opprett en ny kalender"
 
 #: ../modules/calendar/e-cal-shell-backend.c:755
-#: ../plugins/itip-formatter/itip-formatter.c:2946
+#: ../plugins/itip-formatter/itip-formatter.c:2951
 msgid "Calendar and Tasks"
 msgstr "Kalender og oppgaver"
 
@@ -15831,6 +15826,22 @@ msgid ""
 msgstr ""
 "Evolution vil gå tilbake i tilkoblet modus når en nettverkstilkobling er "
 "tilgjengelig."
+
+#: ../modules/online-accounts/camel-sasl-xoauth.c:374
+msgid ""
+"Cannot find a corresponding account in the org.gnome.OnlineAccounts service "
+"from which to obtain an authentication token."
+msgstr "Kan ikke finne en passende konto å hente autentiseringsinformasjon for fra org.gnome.OnlineAccounts-tjenesten."
+
+#: ../modules/online-accounts/camel-sasl-xoauth.c:461
+msgid "OAuth"
+msgstr "OAuth"
+
+#: ../modules/online-accounts/camel-sasl-xoauth.c:463
+msgid ""
+"This option will connect to the server by way of the GNOME Online Accounts "
+"service"
+msgstr "Dette valget vil koble til tjeneren via GNOME nettkontotjenesten"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:70
 msgid "Author(s)"
@@ -17151,17 +17162,17 @@ msgstr "Dette notatet gjeninntreffer"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2971
+#: ../plugins/itip-formatter/itip-formatter.c:2976
 msgid "_Delete message after acting"
 msgstr "_Slett melding etter utført handling"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2981
-#: ../plugins/itip-formatter/itip-formatter.c:3014
+#: ../plugins/itip-formatter/itip-formatter.c:2986
+#: ../plugins/itip-formatter/itip-formatter.c:3019
 msgid "Conflict Search"
 msgstr "Søk etter konflikter"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2996
+#: ../plugins/itip-formatter/itip-formatter.c:3001
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Velg kalendere som skal gjennomsøkes for å finne møtekonflikter"
 
@@ -17672,72 +17683,56 @@ msgid "Beep or play sound file."
 msgstr "Pip eller spill av en lydfil."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
-msgid "Enable D-Bus messages."
-msgstr "Aktiver D-Bus-meldinger"
-
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Enable icon in notification area."
 msgstr "Aktiver ikon i varslingsområdet."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
-msgid "Generates a D-Bus message when new mail messages arrive."
-msgstr "Genererer en D-BUS-melding når nye meldinger ankommer."
-
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid ""
 "If \"true\", then beep, otherwise will play sound file when new messages "
 "arrive."
 msgstr "Pip hvis «true», eller spill en lydfil når nye meldinger ankommer."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
 msgid "Notify new messages for Inbox only."
 msgstr "Varslingsmelding kun for innboks."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
 msgid "Play sound when new messages arrive."
 msgstr "Spill en lyd når nye meldinger ankommer."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
 msgid "Play themed sound when new messages arrive, if not in beep mode."
 msgstr ""
 "Spill av lyd fra lydtema når nye meldinger ankommer hvis ikke pip-modus er "
 "aktivert."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-msgid "Popup message together with the icon."
-msgstr "Vis melding sammen med ikonet."
-
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Show new mail icon in notification area when new messages arrive."
 msgstr "Vis ikon for ny melding i varslingsområdet når nye meldinger ankommer."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
 msgid "Sound file name to be played."
 msgstr "Navn på lydfil som skal spilles av."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
 msgstr ""
 "Lydfil som skal spilles av når nye meldinger ankommer hvis pip-modus ikke er "
 "aktivert."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
 msgid "Use sound theme"
 msgstr "Bruk lydtema"
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Whether play sound or beep when new messages arrive."
 msgstr "Om en lydfil eller et pip skal spilles av når nye meldinger ankommer."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
-msgid "Whether show message over the icon when new messages arrive."
-msgstr "Om en melding skal vises over ikonet når nye meldinger ankommer."
-
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
 msgid "Whether to notify new messages in Inbox folder only."
 msgstr "Im nye meldinger kun skal varsles i innboksen."
 
-#: ../plugins/mail-notification/mail-notification.c:396
+#: ../plugins/mail-notification/mail-notification.c:394
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -17754,7 +17749,7 @@ msgstr[1] ""
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../plugins/mail-notification/mail-notification.c:420
+#: ../plugins/mail-notification/mail-notification.c:419
 #, c-format
 msgid "Subject: %s"
 msgstr "Emne: %s"
@@ -17766,47 +17761,46 @@ msgid_plural "You have received %d new messages."
 msgstr[0] "Du har mottatt %d ny melding."
 msgstr[1] "Du har mottatt %d nye meldinger."
 
-#: ../plugins/mail-notification/mail-notification.c:443
-#: ../plugins/mail-notification/mail-notification.c:451
-#: ../plugins/mail-notification/mail-notification.c:454
+#: ../plugins/mail-notification/mail-notification.c:439
+#: ../plugins/mail-notification/mail-notification.c:447
+#: ../plugins/mail-notification/mail-notification.c:450
 msgid "New email"
 msgstr "Ny e-post"
 
-#: ../plugins/mail-notification/mail-notification.c:509
-msgid "Show icon in _notification area"
-msgstr "Vis ikon i varslingsområdet"
+#. Translators: The '%s' is a mail
+#. * folder name.  (e.g. "Show Inbox")
+#: ../plugins/mail-notification/mail-notification.c:471
+#, c-format
+msgid "Show %s"
+msgstr "Vis %s"
 
-#: ../plugins/mail-notification/mail-notification.c:539
-msgid "Popup _message together with the icon"
-msgstr "Vis _melding sammen med ikonet"
+#: ../plugins/mail-notification/mail-notification.c:673
+msgid "_Play sound when a new message arrives"
+msgstr "S_pill en lyd når nye meldinger ankommer"
 
-#: ../plugins/mail-notification/mail-notification.c:726
-msgid "_Play sound when new messages arrive"
-msgstr "S_pill en lydfil når nye meldinger ankommer"
-
-#: ../plugins/mail-notification/mail-notification.c:756
+#: ../plugins/mail-notification/mail-notification.c:703
 msgid "_Beep"
 msgstr "_Pip"
 
-#: ../plugins/mail-notification/mail-notification.c:769
+#: ../plugins/mail-notification/mail-notification.c:716
 msgid "Use sound _theme"
 msgstr "Bruk lyd_tema"
 
-#: ../plugins/mail-notification/mail-notification.c:788
+#: ../plugins/mail-notification/mail-notification.c:735
 msgid "Play _file:"
 msgstr "Spill av lyd_fil:"
 
-#: ../plugins/mail-notification/mail-notification.c:799
+#: ../plugins/mail-notification/mail-notification.c:744
 msgid "Select sound file"
 msgstr "Velg en lydfil"
 
-#: ../plugins/mail-notification/mail-notification.c:857
+#: ../plugins/mail-notification/mail-notification.c:801
 msgid "Notify new messages for _Inbox only"
 msgstr "Varslingsmelding kun for _innboks"
 
-#: ../plugins/mail-notification/mail-notification.c:866
-msgid "Generate a _D-Bus message"
-msgstr "Genererer en _D-Bus-melding"
+#: ../plugins/mail-notification/mail-notification.c:811
+msgid "Show _notification when a new message arrives"
+msgstr "Vis varsli_ng når en ny melding ankommer"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
@@ -17854,26 +17848,25 @@ msgstr ""
 msgid ""
 "You have selected %d mails to be converted to events. Do you really want to "
 "add them all?"
-msgstr ""
+msgstr "Du har valgt %d meldinger som skal konverteres til hendelser. Vil du virkelig legge dem til?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:612
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
 "add them all?"
-msgstr ""
+msgstr "Du har valgt %d meldinger som skal konverteres til oppgaver. Vil du virkelig legge dem til?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:615
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
 "add them all?"
-msgstr ""
+msgstr "Du har valgt %d meldinger som skal konverteres til notater. Vil du virkelig legge dem til?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:634
-#, fuzzy
 msgid "Do you wish to continue converting remaining mails?"
-msgstr "Vil du overskrive den?"
+msgstr "Vil du fortsette med konvertering av gjenstående meldinger?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:709
 msgid "[No Summary]"
@@ -17923,9 +17916,8 @@ msgid "Cannot get source list. %s"
 msgstr "Fant ikke kildeliste %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1104
-#, fuzzy
 msgid "No writable calendar is available."
-msgstr "Ingen beskrivelse tilgjengelig."
+msgstr "Ingen skrivbar kalender tilgjengelig."
 
 #: ../plugins/mail-to-task/mail-to-task.c:1196
 msgid "Create an _Event"
@@ -18972,11 +18964,11 @@ msgstr "Knappestil for vindu"
 msgid "Window buttons are visible"
 msgstr "Vindusknapper er synlige"
 
-#: ../shell/e-shell-content.c:699 ../shell/e-shell-content.c:700
+#: ../shell/e-shell-content.c:729 ../shell/e-shell-content.c:730
 msgid "Searches"
 msgstr "Søk"
 
-#: ../shell/e-shell-content.c:742
+#: ../shell/e-shell-content.c:773
 msgid "Save Search"
 msgstr "Lagre søk"
 
@@ -19644,9 +19636,8 @@ msgstr "Utstedt av organisasjon:"
 #: ../smime/gui/certificate-manager.c:80
 #: ../smime/gui/certificate-manager.c:100
 #: ../smime/gui/certificate-manager.c:118
-#, fuzzy
 msgid "Issued By Organizational Unit"
-msgstr "Organisasjonsenhet (OU)"
+msgstr "Utstedt av organisasjonsenhet"
 
 #: ../smime/gui/certificate-manager.c:81
 #: ../smime/gui/certificate-manager.c:101
@@ -20344,7 +20335,7 @@ msgstr "vedlegg.dat"
 
 #: ../widgets/misc/e-attachment-view.c:404
 msgid "Open With Other Application..."
-msgstr ""
+msgstr "Åpne med et annet program …"
 
 #: ../widgets/misc/e-attachment-view.c:411
 msgid "S_ave All"
