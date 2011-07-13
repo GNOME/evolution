@@ -5,6 +5,6 @@ Exec=evolution-settings
 Icon=evolution
 Terminal=false
 Type=Application
-Categories=GNOME;GTK;Settings;X-GNOME-PersonalSettings;
+Categories=GNOME;GTK;Settings;X-GNOME-PersonalSettings;Network;
 OnlyShowIn=GNOME;
 StartupNotify=true
