@@ -145,11 +145,12 @@ spam_assassin_command_full (const gchar **argv,
                             CamelMimeMessage *message,
                             const gchar *input_data,
                             GByteArray *output_buffer,
+                            gboolean wait_for_termination,
                             GCancellable *cancellable,
                             GError **error)
 {
 	GMainContext *context;
-	GSpawnFlags flags;
+	GSpawnFlags flags = 0;
 	GSource *source;
 	GPid child_pid;
 	gint standard_input;
@@ -162,7 +163,8 @@ spam_assassin_command_full (const gchar **argv,
 		gint exit_code;
 	} source_data;
 
-	flags = G_SPAWN_DO_NOT_REAP_CHILD;
+	if (wait_for_termination)
+		flags |= G_SPAWN_DO_NOT_REAP_CHILD;
 	if (output_buffer == NULL)
 		flags |= G_SPAWN_STDOUT_TO_DEV_NULL;
 
@@ -260,6 +262,11 @@ spam_assassin_command_full (const gchar **argv,
 		}
 	}
 
+	/* XXX I'm not sure if we should call g_spawn_close_pid()
+	 *     here or not.  Only really matters on Windows anyway. */
+	if (!wait_for_termination)
+		return 0;
+
 	/* Wait for the SpamAssassin process to terminate
 	 * using GLib's main loop for better portability. */
 
@@ -318,7 +325,7 @@ spam_assassin_command (const gchar **argv,
                        GError **error)
 {
 	return spam_assassin_command_full (
-		argv, message, input_data, NULL, cancellable, error);
+		argv, message, input_data, NULL, TRUE, cancellable, error);
 }
 
 static gboolean
@@ -424,7 +431,7 @@ spam_assassin_get_version (ESpamAssassin *extension,
 	output_buffer = g_byte_array_new ();
 
 	exit_code = spam_assassin_command_full (
-		argv, NULL, NULL, output_buffer, cancellable, error);
+		argv, NULL, NULL, output_buffer, TRUE, cancellable, error);
 
 	if (exit_code != 0) {
 		g_byte_array_free (output_buffer, TRUE);
@@ -535,7 +542,8 @@ spam_assassin_start_our_own_daemon (ESpamAssassin *extension)
 
 	g_assert (ii < G_N_ELEMENTS (argv));
 
-	exit_code = spam_assassin_command (argv, NULL, NULL, NULL, &error);
+	exit_code = spam_assassin_command_full (
+		argv, NULL, NULL, NULL, FALSE, NULL, &error);
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);
@@ -543,7 +551,7 @@ spam_assassin_start_our_own_daemon (ESpamAssassin *extension)
 		goto exit;
 	}
 
-	if (exit_code == 0) {
+	if (exit_code == SPAM_ASSASSIN_EXIT_STATUS_SUCCESS) {
 		/* Wait for the socket path to appear. */
 		for (ii = 0; ii < DAEMON_MAX_RETRIES; ii++) {
 			if (g_file_test (socket_path, G_FILE_TEST_EXISTS)) {
