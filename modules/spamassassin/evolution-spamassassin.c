@@ -23,6 +23,7 @@
 
 #include <camel/camel.h>
 
+#include <shell/e-shell.h>
 #include <e-util/e-mktemp.h>
 #include <e-util/gconf-bridge.h>
 #include <mail/e-mail-junk-filter.h>
@@ -512,6 +513,49 @@ spam_assassin_test_spamd_running (ESpamAssassin *extension,
 	return (exit_code == 0);
 }
 
+static void
+spam_assassin_kill_our_own_daemon (ESpamAssassin *extension)
+{
+	gint pid;
+	gchar *contents = NULL;
+	GError *error = NULL;
+
+	g_mutex_lock (extension->socket_path_mutex);
+
+	g_free (extension->socket_path);
+	extension->socket_path = NULL;
+
+	g_mutex_unlock (extension->socket_path_mutex);
+
+	if (extension->pid_file == NULL)
+		return;
+
+	g_file_get_contents (extension->pid_file, &contents, NULL, &error);
+
+	if (error != NULL) {
+		g_warn_if_fail (contents == NULL);
+		g_warning ("%s", error->message);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (contents != NULL);
+
+	pid = atoi (contents);
+	g_free (contents);
+
+	if (pid > 0 && kill (pid, SIGTERM) == 0)
+		waitpid (pid, NULL, 0);
+}
+
+static void
+spam_assassin_prepare_for_quit (EShell *shell,
+                                EActivity *activity,
+                                ESpamAssassin *extension)
+{
+	spam_assassin_kill_our_own_daemon (extension);
+}
+
 static gboolean
 spam_assassin_start_our_own_daemon (ESpamAssassin *extension)
 {
@@ -571,6 +615,15 @@ spam_assassin_start_our_own_daemon (ESpamAssassin *extension)
 		g_free (extension->socket_path);
 		extension->socket_path = socket_path;
 		socket_path = NULL;
+
+		/* XXX EMailSession is too prone to reference leaks to leave
+		 *     this for our finalize() method.  We want to be sure to
+		 *     kill the spamd process we started when Evolution shuts
+		 *     down, so connect to an EShell signal instead. */
+		g_signal_connect (
+			e_shell_get_default (), "prepare-for-quit",
+			G_CALLBACK (spam_assassin_prepare_for_quit),
+			extension);
 	}
 
 exit:
@@ -580,41 +633,6 @@ exit:
 	g_mutex_unlock (extension->socket_path_mutex);
 
 	return started;
-}
-
-static void
-spam_assassin_kill_our_own_daemon (ESpamAssassin *extension)
-{
-	gint pid;
-	gchar *contents = NULL;
-	GError *error = NULL;
-
-	g_mutex_lock (extension->socket_path_mutex);
-
-	g_free (extension->socket_path);
-	extension->socket_path = NULL;
-
-	g_mutex_unlock (extension->socket_path_mutex);
-
-	if (extension->pid_file == NULL)
-		return;
-
-	g_file_get_contents (extension->pid_file, &contents, NULL, &error);
-
-	if (error != NULL) {
-		g_warn_if_fail (contents == NULL);
-		g_warning ("%s", error->message);
-		g_error_free (error);
-		return;
-	}
-
-	g_return_if_fail (contents != NULL);
-
-	pid = atoi (contents);
-	g_free (contents);
-
-	if (pid > 0 && kill (pid, SIGTERM) == 0)
-		waitpid (pid, NULL, 0);
 }
 
 static void
@@ -763,9 +781,6 @@ static void
 spam_assassin_finalize (GObject *object)
 {
 	ESpamAssassin *extension = E_SPAM_ASSASSIN (object);
-
-	/* If we started our own daemon, kill it. */
-	spam_assassin_kill_our_own_daemon (extension);
 
 	g_mutex_free (extension->socket_path_mutex);
 
