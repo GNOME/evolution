@@ -519,6 +519,8 @@ mail_backend_dispose (GObject *object)
 		g_signal_handlers_disconnect_matched (
 			priv->session, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
+		camel_session_remove_services (
+			CAMEL_SESSION (priv->session));
 		g_object_unref (priv->session);
 		priv->session = NULL;
 	}
