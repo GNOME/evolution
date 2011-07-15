@@ -168,6 +168,7 @@ spam_assassin_command_full (const gchar **argv,
 		flags |= G_SPAWN_DO_NOT_REAP_CHILD;
 	if (output_buffer == NULL)
 		flags |= G_SPAWN_STDOUT_TO_DEV_NULL;
+	flags |= G_SPAWN_STDERR_TO_DEV_NULL;
 
 	/* Spawn SpamAssassin with an open stdin pipe. */
 	success = g_spawn_async_with_pipes (
