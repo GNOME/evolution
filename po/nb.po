@@ -1,7 +1,6 @@
 # Norwegian translation of evolution (bokmål dialect).
 # Copyright (C) 1998-2004, 2005 Free Software Foundation, Inc.
 #
-#
 # Kjartan Maraas <kmaraas@gnome.org>, 1998-2011.
 # Terance Edward Sola <terance@lyse.net>, 2005.
 # Torstein Adolf Winterseth <kvikende@fsfe.org>, 2010.
@@ -10,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.1.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-12 13:08+0200\n"
-"PO-Revision-Date: 2011-07-12 13:17+0200\n"
+"POT-Creation-Date: 2011-07-18 13:25+0200\n"
+"PO-Revision-Date: 2011-07-18 13:30+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -19,7 +18,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.1\n"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:2
@@ -42,7 +40,9 @@ msgstr ""
 msgid ""
 "A contact list named '{0}' is already in this contact list. Would you like "
 "to add it anyway?"
-msgstr "En kontaktliste med navn «{0}» eksisterer allerede i denne kontaktlisten. Vil du legge den til likevel?"
+msgstr ""
+"En kontaktliste med navn «{0}» eksisterer allerede i denne kontaktlisten. "
+"Vil du legge den til likevel?"
 
 #: ../addressbook/addressbook.error.xml.h:5
 msgid "Add with duplicates"
@@ -219,7 +219,9 @@ msgstr ""
 msgid ""
 "You are trying to add addresses that are part of this list already. Would "
 "you like to add them anyway?"
-msgstr "Du prøver å legge til adresser som allerede er en del av denne listen. Vil du legge dem til likevel?"
+msgstr ""
+"Du prøver å legge til adresser som allerede er en del av denne listen. Vil "
+"du legge dem til likevel?"
 
 #: ../addressbook/addressbook.error.xml.h:40
 msgid "You do not have permission to delete contacts in this address book."
@@ -702,7 +704,7 @@ msgid "_List name:"
 msgstr "_Listenavn:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
-#: ../mail/mail-config.ui.h:164
+#: ../mail/mail-config.ui.h:163
 msgid "_Select..."
 msgstr "_Velg …"
 
@@ -2405,7 +2407,7 @@ msgstr "Type:"
 msgid "_Type:"
 msgstr "_Type:"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:242 ../mail/mail-config.ui.h:156
+#: ../calendar/gui/dialogs/calendar-setup.c:242 ../mail/mail-config.ui.h:155
 #: ../modules/addressbook/ldap-config.ui.h:26
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
 #: ../widgets/misc/e-signature-script-dialog.c:284
@@ -3199,7 +3201,7 @@ msgstr "Kan ikke åpne notater i «%s»: %s"
 #: ../calendar/gui/dialogs/memo-page.c:1099 ../em-format/em-format-quote.c:319
 #: ../em-format/em-format.c:1056 ../mail/em-format-html.c:2563
 #: ../mail/em-format-html.c:2628 ../mail/em-format-html.c:2652
-#: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:72
+#: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:74
 msgid "To"
 msgstr "Til"
 
@@ -7687,37 +7689,37 @@ msgstr "Alle videre feil blir kun vist på konsollet."
 
 #: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1054
 #: ../mail/e-mail-tag-editor.c:325 ../mail/message-list.etspec.h:7
-#: ../modules/mail/em-mailer-prefs.c:70
+#: ../modules/mail/em-mailer-prefs.c:72
 msgid "From"
 msgstr "Fra"
 
 #: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1055
-#: ../modules/mail/em-mailer-prefs.c:71
+#: ../modules/mail/em-mailer-prefs.c:73
 msgid "Reply-To"
 msgstr "Svar-til"
 
 #: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1057
 #: ../mail/em-format-html.c:2564 ../mail/em-format-html.c:2632
-#: ../mail/em-format-html.c:2655 ../modules/mail/em-mailer-prefs.c:73
+#: ../mail/em-format-html.c:2655 ../modules/mail/em-mailer-prefs.c:75
 msgid "Cc"
 msgstr "Cc"
 
 #: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1058
 #: ../mail/em-format-html.c:2565 ../mail/em-format-html.c:2636
-#: ../mail/em-format-html.c:2658 ../modules/mail/em-mailer-prefs.c:74
+#: ../mail/em-format-html.c:2658 ../modules/mail/em-mailer-prefs.c:76
 msgid "Bcc"
 msgstr "Bcc"
 
 #: ../em-format/em-format-quote.c:463 ../em-format/em-format.c:1059
 #: ../mail/e-mail-tag-editor.c:330 ../mail/em-filter-i18n.h:74
-#: ../mail/message-list.etspec.h:18 ../modules/mail/em-mailer-prefs.c:75
+#: ../mail/message-list.etspec.h:18 ../modules/mail/em-mailer-prefs.c:77
 #: ../smime/lib/e-cert.c:1142
 msgid "Subject"
 msgstr "Emne"
 
 #. pseudo-header
 #: ../em-format/em-format-quote.c:474 ../mail/em-format-html.c:2757
-#: ../modules/mail/em-mailer-prefs.c:1129
+#: ../modules/mail/em-mailer-prefs.c:1008
 msgid "Mailer"
 msgstr "E-postprogram"
 
@@ -7726,16 +7728,16 @@ msgid "-------- Forwarded Message --------"
 msgstr "---------Videresendt melding-------"
 
 #: ../em-format/em-format.c:1060 ../mail/message-list.etspec.h:2
-#: ../modules/mail/em-mailer-prefs.c:76 ../widgets/misc/e-dateedit.c:523
+#: ../modules/mail/em-mailer-prefs.c:78 ../widgets/misc/e-dateedit.c:523
 #: ../widgets/misc/e-dateedit.c:545
 msgid "Date"
 msgstr "Dato"
 
-#: ../em-format/em-format.c:1061 ../modules/mail/em-mailer-prefs.c:77
+#: ../em-format/em-format.c:1061 ../modules/mail/em-mailer-prefs.c:79
 msgid "Newsgroups"
 msgstr "Nyhetsgrupper"
 
-#: ../em-format/em-format.c:1062 ../modules/mail/em-mailer-prefs.c:78
+#: ../em-format/em-format.c:1062 ../modules/mail/em-mailer-prefs.c:80
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
 msgid "Face"
 msgstr "Ansikt"
@@ -8084,6 +8086,153 @@ msgstr "tiden du oppgir"
 msgid "years"
 msgstr "år"
 
+#. Translators: This string is a "Use secure connection" option for
+#. the Mailer. It will not use an encrypted connection.
+#: ../mail/em-account-editor.c:568 ../mail/mail-config.ui.h:72
+#: ../modules/addressbook/ldap-config.ui.h:9
+msgid "No encryption"
+msgstr "Ingen kryptering"
+
+#. Translators: This string is a "Use secure connection" option for
+#. the Mailer. TLS (Transport Layer Security) is commonly known by
+#. this abbreviation.
+#: ../mail/em-account-editor.c:572 ../mail/mail-config.ui.h:130
+#: ../modules/addressbook/ldap-config.ui.h:20
+msgid "TLS encryption"
+msgstr "TLS-kryptering"
+
+#. Translators: This string is a "Use secure connection" option for
+#. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
+#. abbreviation.
+#: ../mail/em-account-editor.c:576 ../mail/mail-config.ui.h:94
+#: ../modules/addressbook/ldap-config.ui.h:12
+msgid "SSL encryption"
+msgstr "SSL-kryptering"
+
+#. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
+#: ../mail/em-account-editor.c:839 ../widgets/misc/e-signature-combo-box.c:75
+msgctxt "mail-signature"
+msgid "None"
+msgstr "Ingen"
+
+#: ../mail/em-account-editor.c:920
+msgid "Never"
+msgstr "Aldri"
+
+#: ../mail/em-account-editor.c:921
+msgid "Always"
+msgstr "Alltid"
+
+#: ../mail/em-account-editor.c:922
+msgid "Ask for each message"
+msgstr "Spør for hver melding"
+
+#. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
+#: ../mail/em-account-editor.c:1742 ../widgets/misc/e-account-tree-view.c:131
+msgctxt "mail-receiving"
+msgid "None"
+msgstr "Ingen"
+
+#: ../mail/em-account-editor.c:2178
+msgid "Mail Configuration"
+msgstr "E-post-konfigurasjon"
+
+#: ../mail/em-account-editor.c:2179
+msgid ""
+"Welcome to the Evolution Mail Configuration Assistant.\n"
+"\n"
+"Click \"Forward\" to begin."
+msgstr ""
+"Velkommen til assistenten for konfigurasjon av Evolution e-post.\n"
+"\n"
+"Klikk «Framover» for å begynne."
+
+#: ../mail/em-account-editor.c:2182
+msgid ""
+"Please enter your name and email address below. The \"optional\" fields "
+"below do not need to be filled in, unless you wish to include this "
+"information in email you send."
+msgstr ""
+"Vennligst skriv inn navn og e-post adresse under. De «valgfrie» feltene "
+"under må ikke nødvendigvis fylles ut, hvis du ikke ønsker å inkludere denne "
+"informasjonen i meldingene du sender."
+
+#: ../mail/em-account-editor.c:2184 ../mail/em-account-editor.c:2372
+msgid "Receiving Email"
+msgstr "Innkommende e-post"
+
+#: ../mail/em-account-editor.c:2185
+msgid "Please configure the following account settings."
+msgstr "Vennligst konfigurer følgende kontoinnstillinger."
+
+#: ../mail/em-account-editor.c:2187 ../mail/em-account-editor.c:2896
+msgid "Sending Email"
+msgstr "Utgående e-post"
+
+#: ../mail/em-account-editor.c:2188
+msgid ""
+"Please enter information about the way you will send mail. If you are not "
+"sure, ask your system administrator or Internet Service Provider."
+msgstr ""
+"Vennligst skriv inn informasjon om måten du sender e-post. Hvis du ikke er "
+"sikker, kontakt din systemadministrator eller din Internett tjenestetilbyder."
+
+#: ../mail/em-account-editor.c:2190 ../mail/mail-config.ui.h:1
+msgid "Account Information"
+msgstr "Kontoinformasjon"
+
+#: ../mail/em-account-editor.c:2191
+msgid ""
+"Please enter a descriptive name for this account below.\n"
+"This name will be used for display purposes only."
+msgstr ""
+"Vennligst oppgi et beskrivende navn for denne kontoen i feltet under.\n"
+"Dette navnet vil kun bli brukt som et visningsnavn."
+
+#: ../mail/em-account-editor.c:2195
+msgid "Done"
+msgstr "Ferdig"
+
+#: ../mail/em-account-editor.c:2196
+msgid ""
+"Congratulations, your mail configuration is complete.\n"
+"\n"
+"You are now ready to send and receive email using Evolution.\n"
+"\n"
+"Click \"Apply\" to save your settings."
+msgstr ""
+"Gratulerer, din e-post-konfigurasjon er nå fullført.\n"
+"\n"
+"Du kan nå sende og motta e-post med Evolution.\n"
+"\n"
+"Klikk «Bruk» for å lagre dine innstillinger."
+
+#: ../mail/em-account-editor.c:2694
+msgid "Check for _new messages every"
+msgstr "Se etter _nye meldinger hver(t)"
+
+#: ../mail/em-account-editor.c:2702
+msgid "minu_tes"
+msgstr "minu_tter"
+
+#: ../mail/em-account-editor.c:3013
+msgid "Please select a folder from the current account."
+msgstr "Vennligst velg en mappe fra valgt konto."
+
+#: ../mail/em-account-editor.c:3339 ../mail/mail-config.ui.h:101
+msgid "Security"
+msgstr "Sikkerhet"
+
+#. Most sections for this is auto-generated from the camel config
+#. Most sections for this is auto-generated fromt the camel config
+#: ../mail/em-account-editor.c:3393 ../mail/em-account-editor.c:3476
+msgid "Receiving Options"
+msgstr "Alternativer for mottak"
+
+#: ../mail/em-account-editor.c:3394 ../mail/em-account-editor.c:3477
+msgid "Checking for New Messages"
+msgstr "Ser etter nye meldinger"
+
 #: ../mail/e-mail-attachment-bar.c:90 ../mail/e-mail-attachment-bar.c:95
 #: ../mail/em-format-html-display.c:1217 ../mail/mail-config.ui.h:14
 #: ../mail/message-list.etspec.h:1 ../widgets/misc/e-attachment-paned.c:128
@@ -8186,6 +8335,12 @@ msgstr[1] "Lagrer %d meldinger"
 #, c-format
 msgid "Invalid folder URI '%s'"
 msgstr "Ugyldig URI for mappe «%s»"
+
+#. Label + combo box has a 12px left margin so it's
+#. * aligned with the junk mail options above it.
+#: ../mail/e-mail-junk-options.c:252
+msgid "Junk filtering software:"
+msgstr "Programvare for filtrering av uønsket e-post:"
 
 #: ../mail/e-mail-label-dialog.c:223
 msgid "_Label name:"
@@ -8311,44 +8466,6 @@ msgstr "Kunne ikke opprette lokale e-postmapper i «%s»: %s"
 #: ../mail/e-mail-notebook-view.c:619
 msgid "Please select a folder"
 msgstr "Vennligst velg en mappe"
-
-#: ../mail/e-mail-reader-utils.c:139
-msgid "Do not warn me again"
-msgstr "Ikke varsle meg igjen"
-
-#. Translators: %s is replaced with a folder
-#. * name %u with count of duplicate messages.
-#: ../mail/e-mail-reader-utils.c:663
-#, c-format
-msgid ""
-"Folder '%s' contains %u duplicate message. Are you sure you want to delete "
-"it?"
-msgid_plural ""
-"Folder '%s' contains %u duplicate messages. Are you sure you want to delete "
-"them?"
-msgstr[0] ""
-"Mappen «%s» inneholder %u duplikatmelding. Er du sikker på at du vil slette "
-"den?"
-msgstr[1] ""
-"Mappen «%s» inneholder %u duplikatmeldinger. Er du sikker på at du vil "
-"slette dem?"
-
-#: ../mail/e-mail-reader-utils.c:960
-msgid "Save Message"
-msgid_plural "Save Messages"
-msgstr[0] "Lagre melding"
-msgstr[1] "Lagre meldinger"
-
-#. Translators: This is part of a suggested file name
-#. * used when saving a message or multiple messages to
-#. * mbox format, when the first message doesn't have a
-#. * subject.  The extension ".mbox" is appended to the
-#. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:981
-msgid "Message"
-msgid_plural "Messages"
-msgstr[0] "Melding"
-msgstr[1] "Meldinger"
 
 #: ../mail/e-mail-reader.c:304 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
@@ -8971,36 +9088,74 @@ msgstr "Svar"
 msgid "Folder '%s'"
 msgstr "Mappe «%s»"
 
-#: ../mail/e-mail-session.c:657
+#: ../mail/e-mail-reader-utils.c:139
+msgid "Do not warn me again"
+msgstr "Ikke varsle meg igjen"
+
+#. Translators: %s is replaced with a folder
+#. * name %u with count of duplicate messages.
+#: ../mail/e-mail-reader-utils.c:663
+#, c-format
+msgid ""
+"Folder '%s' contains %u duplicate message. Are you sure you want to delete "
+"it?"
+msgid_plural ""
+"Folder '%s' contains %u duplicate messages. Are you sure you want to delete "
+"them?"
+msgstr[0] ""
+"Mappen «%s» inneholder %u duplikatmelding. Er du sikker på at du vil slette "
+"den?"
+msgstr[1] ""
+"Mappen «%s» inneholder %u duplikatmeldinger. Er du sikker på at du vil "
+"slette dem?"
+
+#: ../mail/e-mail-reader-utils.c:960
+msgid "Save Message"
+msgid_plural "Save Messages"
+msgstr[0] "Lagre melding"
+msgstr[1] "Lagre meldinger"
+
+#. Translators: This is part of a suggested file name
+#. * used when saving a message or multiple messages to
+#. * mbox format, when the first message doesn't have a
+#. * subject.  The extension ".mbox" is appended to the
+#. * string; for example "Message.mbox".
+#: ../mail/e-mail-reader-utils.c:981
+msgid "Message"
+msgid_plural "Messages"
+msgstr[0] "Melding"
+msgstr[1] "Meldinger"
+
+#: ../mail/e-mail-session.c:833
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Skriv inn passord for %s"
 
-#: ../mail/e-mail-session.c:661
+#: ../mail/e-mail-session.c:837
 msgid "Enter Passphrase"
 msgstr "Skriv inn passord"
 
-#: ../mail/e-mail-session.c:665
+#: ../mail/e-mail-session.c:841
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Skriv inn passord for %s"
 
-#: ../mail/e-mail-session.c:669
+#: ../mail/e-mail-session.c:845
 msgid "Enter Password"
 msgstr "Skriv inn passord"
 
-#: ../mail/e-mail-session.c:720
+#: ../mail/e-mail-session.c:896
 #, c-format
 msgid "User canceled operation."
 msgstr "Operasjon avbrutt av bruker."
 
-#: ../mail/e-mail-session.c:833
+#: ../mail/e-mail-session.c:1009
 #, c-format
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
 msgstr "Ingen måladresse oppgitt. Videresending av meldingen ble avbrutt."
 
-#: ../mail/e-mail-session.c:842
+#: ../mail/e-mail-session.c:1018
 #, c-format
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr "Fant ingen konto å bruke. Videresending av meldingen ble avbrutt."
@@ -9058,153 +9213,6 @@ msgstr "Forbereder konto «%s» for frakoblet bruk"
 #: ../mail/e-mail-tag-editor.c:291
 msgid "Flag to Follow Up"
 msgstr "Merk for oppfølging"
-
-#. Translators: This string is a "Use secure connection" option for
-#. the Mailer. It will not use an encrypted connection.
-#: ../mail/em-account-editor.c:568 ../mail/mail-config.ui.h:72
-#: ../modules/addressbook/ldap-config.ui.h:9
-msgid "No encryption"
-msgstr "Ingen kryptering"
-
-#. Translators: This string is a "Use secure connection" option for
-#. the Mailer. TLS (Transport Layer Security) is commonly known by
-#. this abbreviation.
-#: ../mail/em-account-editor.c:572 ../mail/mail-config.ui.h:130
-#: ../modules/addressbook/ldap-config.ui.h:20
-msgid "TLS encryption"
-msgstr "TLS-kryptering"
-
-#. Translators: This string is a "Use secure connection" option for
-#. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
-#. abbreviation.
-#: ../mail/em-account-editor.c:576 ../mail/mail-config.ui.h:94
-#: ../modules/addressbook/ldap-config.ui.h:12
-msgid "SSL encryption"
-msgstr "SSL-kryptering"
-
-#. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:839 ../widgets/misc/e-signature-combo-box.c:75
-msgctxt "mail-signature"
-msgid "None"
-msgstr "Ingen"
-
-#: ../mail/em-account-editor.c:920
-msgid "Never"
-msgstr "Aldri"
-
-#: ../mail/em-account-editor.c:921
-msgid "Always"
-msgstr "Alltid"
-
-#: ../mail/em-account-editor.c:922
-msgid "Ask for each message"
-msgstr "Spør for hver melding"
-
-#. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1742 ../widgets/misc/e-account-tree-view.c:131
-msgctxt "mail-receiving"
-msgid "None"
-msgstr "Ingen"
-
-#: ../mail/em-account-editor.c:2178
-msgid "Mail Configuration"
-msgstr "E-post-konfigurasjon"
-
-#: ../mail/em-account-editor.c:2179
-msgid ""
-"Welcome to the Evolution Mail Configuration Assistant.\n"
-"\n"
-"Click \"Forward\" to begin."
-msgstr ""
-"Velkommen til assistenten for konfigurasjon av Evolution e-post.\n"
-"\n"
-"Klikk «Framover» for å begynne."
-
-#: ../mail/em-account-editor.c:2182
-msgid ""
-"Please enter your name and email address below. The \"optional\" fields "
-"below do not need to be filled in, unless you wish to include this "
-"information in email you send."
-msgstr ""
-"Vennligst skriv inn navn og e-post adresse under. De «valgfrie» feltene "
-"under må ikke nødvendigvis fylles ut, hvis du ikke ønsker å inkludere denne "
-"informasjonen i meldingene du sender."
-
-#: ../mail/em-account-editor.c:2184 ../mail/em-account-editor.c:2372
-msgid "Receiving Email"
-msgstr "Innkommende e-post"
-
-#: ../mail/em-account-editor.c:2185
-msgid "Please configure the following account settings."
-msgstr "Vennligst konfigurer følgende kontoinnstillinger."
-
-#: ../mail/em-account-editor.c:2187 ../mail/em-account-editor.c:2896
-msgid "Sending Email"
-msgstr "Utgående e-post"
-
-#: ../mail/em-account-editor.c:2188
-msgid ""
-"Please enter information about the way you will send mail. If you are not "
-"sure, ask your system administrator or Internet Service Provider."
-msgstr ""
-"Vennligst skriv inn informasjon om måten du sender e-post. Hvis du ikke er "
-"sikker, kontakt din systemadministrator eller din Internett tjenestetilbyder."
-
-#: ../mail/em-account-editor.c:2190 ../mail/mail-config.ui.h:1
-msgid "Account Information"
-msgstr "Kontoinformasjon"
-
-#: ../mail/em-account-editor.c:2191
-msgid ""
-"Please enter a descriptive name for this account below.\n"
-"This name will be used for display purposes only."
-msgstr ""
-"Vennligst oppgi et beskrivende navn for denne kontoen i feltet under.\n"
-"Dette navnet vil kun bli brukt som et visningsnavn."
-
-#: ../mail/em-account-editor.c:2195
-msgid "Done"
-msgstr "Ferdig"
-
-#: ../mail/em-account-editor.c:2196
-msgid ""
-"Congratulations, your mail configuration is complete.\n"
-"\n"
-"You are now ready to send and receive email using Evolution.\n"
-"\n"
-"Click \"Apply\" to save your settings."
-msgstr ""
-"Gratulerer, din e-post-konfigurasjon er nå fullført.\n"
-"\n"
-"Du kan nå sende og motta e-post med Evolution.\n"
-"\n"
-"Klikk «Bruk» for å lagre dine innstillinger."
-
-#: ../mail/em-account-editor.c:2694
-msgid "Check for _new messages every"
-msgstr "Se etter _nye meldinger hver(t)"
-
-#: ../mail/em-account-editor.c:2702
-msgid "minu_tes"
-msgstr "minu_tter"
-
-#: ../mail/em-account-editor.c:3013
-msgid "Please select a folder from the current account."
-msgstr "Vennligst velg en mappe fra valgt konto."
-
-#: ../mail/em-account-editor.c:3339 ../mail/mail-config.ui.h:101
-msgid "Security"
-msgstr "Sikkerhet"
-
-#. Most sections for this is auto-generated from the camel config
-#. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3393 ../mail/em-account-editor.c:3476
-msgid "Receiving Options"
-msgstr "Alternativer for mottak"
-
-#: ../mail/em-account-editor.c:3394 ../mail/em-account-editor.c:3477
-msgid "Checking for New Messages"
-msgstr "Ser etter nye meldinger"
 
 #. Note to translators: this is the attribution string used
 #. * when quoting messages.  Each ${Variable} gets replaced
@@ -9539,23 +9547,6 @@ msgstr "Opp_rett"
 msgid "Folder _name:"
 msgstr "Mappe_navn:"
 
-#. load store to mail component
-#: ../mail/em-folder-tree-model.c:147 ../mail/em-folder-tree-model.c:150
-#: ../mail/em-folder-tree-model.c:156 ../mail/em-folder-tree-model.c:158
-#: ../mail/em-folder-tree-model.c:165 ../mail/em-folder-tree-model.c:167
-#: ../mail/mail-vfolder.c:1165 ../mail/mail-vfolder.c:1240
-msgid "Search Folders"
-msgstr "Søkemapper"
-
-#. UNMATCHED is always last.
-#: ../mail/em-folder-tree-model.c:172 ../mail/em-folder-tree-model.c:174
-msgid "UNMATCHED"
-msgstr "UTEN TREFF"
-
-#: ../mail/em-folder-tree-model.c:792 ../mail/em-folder-tree-model.c:1061
-msgid "Loading..."
-msgstr "Laster …"
-
 #: ../mail/em-folder-tree.c:647
 msgid "Folder names cannot contain '/'"
 msgstr "Mappenavn kan ikke inneholde tegnet «/»"
@@ -9595,6 +9586,23 @@ msgstr "Kopierer meldinger til mappe %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Kan ikke slippe melding(er) toppnivå for lageret"
 
+#. load store to mail component
+#: ../mail/em-folder-tree-model.c:147 ../mail/em-folder-tree-model.c:150
+#: ../mail/em-folder-tree-model.c:156 ../mail/em-folder-tree-model.c:158
+#: ../mail/em-folder-tree-model.c:165 ../mail/em-folder-tree-model.c:167
+#: ../mail/mail-vfolder.c:1165 ../mail/mail-vfolder.c:1240
+msgid "Search Folders"
+msgstr "Søkemapper"
+
+#. UNMATCHED is always last.
+#: ../mail/em-folder-tree-model.c:172 ../mail/em-folder-tree-model.c:174
+msgid "UNMATCHED"
+msgstr "UTEN TREFF"
+
+#: ../mail/em-folder-tree-model.c:792 ../mail/em-folder-tree-model.c:1061
+msgid "Loading..."
+msgstr "Laster …"
+
 #: ../mail/em-folder-utils.c:481
 msgid "Move Folder To"
 msgstr "Flytt mappe til"
@@ -9611,9 +9619,104 @@ msgstr "Opprett mappe"
 msgid "Specify where to create the folder:"
 msgstr "Spesifiser hvor mappen skal opprettes:"
 
-#: ../mail/em-format-html-display.c:85 ../mail/em-format-html.c:1697
+#: ../mail/em-format-html.c:165
+msgid "Formatting message"
+msgstr "Formatterer melding"
+
+#: ../mail/em-format-html.c:368
+msgid "Formatting Message..."
+msgstr "Formatterer melding …"
+
+#: ../mail/em-format-html.c:1541 ../mail/em-format-html.c:1551
+#, c-format
+msgid "Retrieving '%s'"
+msgstr "Henter «%s»"
+
+#: ../mail/em-format-html.c:1697 ../mail/em-format-html-display.c:85
 msgid "Unsigned"
 msgstr "Usignert"
+
+#: ../mail/em-format-html.c:1698 ../mail/em-format-html-display.c:86
+msgid "Valid signature"
+msgstr "Gyldig signatur"
+
+#: ../mail/em-format-html.c:1699 ../mail/em-format-html-display.c:87
+msgid "Invalid signature"
+msgstr "Ugyldig signatur"
+
+#: ../mail/em-format-html.c:1700 ../mail/em-format-html-display.c:88
+msgid "Valid signature, but cannot verify sender"
+msgstr "Gyldig signatur, men kan ikke verifisere avsender"
+
+#: ../mail/em-format-html.c:1701 ../mail/em-format-html-display.c:89
+msgid "Signature exists, but need public key"
+msgstr "Signatur eksisterer, men trenger offentlig nøkkel"
+
+#: ../mail/em-format-html.c:1707 ../mail/em-format-html-display.c:96
+msgid "Unencrypted"
+msgstr "Ukryptert"
+
+#: ../mail/em-format-html.c:1708 ../mail/em-format-html-display.c:97
+msgid "Encrypted, weak"
+msgstr "Kryptert, svak"
+
+#: ../mail/em-format-html.c:1709 ../mail/em-format-html-display.c:98
+msgid "Encrypted"
+msgstr "Kryptert"
+
+#: ../mail/em-format-html.c:1710 ../mail/em-format-html-display.c:99
+msgid "Encrypted, strong"
+msgstr "Kryptert, sterk"
+
+#: ../mail/em-format-html.c:2110
+msgid "Unknown external-body part."
+msgstr "Ukjent del av ekstern kropp."
+
+#: ../mail/em-format-html.c:2120
+msgid "Malformed external-body part."
+msgstr "Feilutformet del for ekstern kropp."
+
+#: ../mail/em-format-html.c:2151
+#, c-format
+msgid "Pointer to FTP site (%s)"
+msgstr "Peker til FTP-tjener (%s)"
+
+#: ../mail/em-format-html.c:2162
+#, c-format
+msgid "Pointer to local file (%s) valid at site \"%s\""
+msgstr "Peker til lokal fil (%s) gyldig på nettsted «%s»"
+
+#: ../mail/em-format-html.c:2164
+#, c-format
+msgid "Pointer to local file (%s)"
+msgstr "Peker til lokal fil (%s)"
+
+#: ../mail/em-format-html.c:2185
+#, c-format
+msgid "Pointer to remote data (%s)"
+msgstr "Peker til eksterne data (%s)"
+
+#: ../mail/em-format-html.c:2200
+#, c-format
+msgid "Pointer to unknown external data (\"%s\" type)"
+msgstr "Peker til ukjente eksterne data («%s»-type)"
+
+#. Translators: "From:" is preceding a new mail
+#. * sender address, like "From: user@example.com"
+#: ../mail/em-format-html.c:2905
+#: ../plugins/mail-notification/mail-notification.c:405
+#, c-format
+msgid "From: %s"
+msgstr "Fra: %s"
+
+#: ../mail/em-format-html.c:2927
+msgid "(no subject)"
+msgstr "(uten emne)"
+
+#: ../mail/em-format-html.c:3003
+#, c-format
+msgid "This message was sent by %s on behalf of %s"
+msgstr "Denne meldingen ble sendt av %s på vegne av %s"
 
 #: ../mail/em-format-html-display.c:85
 msgid ""
@@ -9623,10 +9726,6 @@ msgstr ""
 "Denne meldingen er ikke signert. Du har ingen garanti for at meldingen er "
 "autentisk."
 
-#: ../mail/em-format-html-display.c:86 ../mail/em-format-html.c:1698
-msgid "Valid signature"
-msgstr "Gyldig signatur"
-
 #: ../mail/em-format-html-display.c:86
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
@@ -9634,10 +9733,6 @@ msgid ""
 msgstr ""
 "Denne meldingen er signert og gyldig hvilket betyr denne meldingen høyst "
 "sannsynlig er autentisk."
-
-#: ../mail/em-format-html-display.c:87 ../mail/em-format-html.c:1699
-msgid "Invalid signature"
-msgstr "Ugyldig signatur"
 
 #: ../mail/em-format-html-display.c:87
 msgid ""
@@ -9647,10 +9742,6 @@ msgstr ""
 "Signaturen for denne meldingen kan ikke verifiseres. Den kan være endret "
 "under overføring."
 
-#: ../mail/em-format-html-display.c:88 ../mail/em-format-html.c:1700
-msgid "Valid signature, but cannot verify sender"
-msgstr "Gyldig signatur, men kan ikke verifisere avsender"
-
 #: ../mail/em-format-html-display.c:88
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
@@ -9658,10 +9749,6 @@ msgid ""
 msgstr ""
 "Denne meldingen er signert med en gyldig signatur, men avsender av meldingen "
 "kan ikke verifiseres."
-
-#: ../mail/em-format-html-display.c:89 ../mail/em-format-html.c:1701
-msgid "Signature exists, but need public key"
-msgstr "Signatur eksisterer, men trenger offentlig nøkkel"
 
 #: ../mail/em-format-html-display.c:89
 msgid ""
@@ -9671,10 +9758,6 @@ msgstr ""
 "Denne meldingen er signert med en gyldig signatur, men det finnes ingen "
 "tilhørende offentlig nøkkel."
 
-#: ../mail/em-format-html-display.c:96 ../mail/em-format-html.c:1707
-msgid "Unencrypted"
-msgstr "Ukryptert"
-
 #: ../mail/em-format-html-display.c:96
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
@@ -9682,10 +9765,6 @@ msgid ""
 msgstr ""
 "Denne meldingen er ikke kryptert. Innholdet kan vises under overføring over "
 "Internett."
-
-#: ../mail/em-format-html-display.c:97 ../mail/em-format-html.c:1708
-msgid "Encrypted, weak"
-msgstr "Kryptert, svak"
 
 #: ../mail/em-format-html-display.c:97
 msgid ""
@@ -9697,10 +9776,6 @@ msgstr ""
 "vanskelig, men ikke umulig for en utenforstående å se innholdet i denne "
 "meldingen på noenlunde kort tid."
 
-#: ../mail/em-format-html-display.c:98 ../mail/em-format-html.c:1709
-msgid "Encrypted"
-msgstr "Kryptert"
-
 #: ../mail/em-format-html-display.c:98
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
@@ -9708,10 +9783,6 @@ msgid ""
 msgstr ""
 "Denne meldingen er kryptert. Det vil være vanskelig for en utenforstående å "
 "se innholdet i denne meldingen."
-
-#: ../mail/em-format-html-display.c:99 ../mail/em-format-html.c:1710
-msgid "Encrypted, strong"
-msgstr "Kryptert, sterk"
 
 #: ../mail/em-format-html-display.c:99
 msgid ""
@@ -9766,69 +9837,6 @@ msgstr "Å_pne med"
 #, c-format
 msgid "Page %d of %d"
 msgstr "Side %d av %d"
-
-#: ../mail/em-format-html.c:165
-msgid "Formatting message"
-msgstr "Formatterer melding"
-
-#: ../mail/em-format-html.c:368
-msgid "Formatting Message..."
-msgstr "Formatterer melding …"
-
-#: ../mail/em-format-html.c:1541 ../mail/em-format-html.c:1551
-#, c-format
-msgid "Retrieving '%s'"
-msgstr "Henter «%s»"
-
-#: ../mail/em-format-html.c:2110
-msgid "Unknown external-body part."
-msgstr "Ukjent del av ekstern kropp."
-
-#: ../mail/em-format-html.c:2120
-msgid "Malformed external-body part."
-msgstr "Feilutformet del for ekstern kropp."
-
-#: ../mail/em-format-html.c:2151
-#, c-format
-msgid "Pointer to FTP site (%s)"
-msgstr "Peker til FTP-tjener (%s)"
-
-#: ../mail/em-format-html.c:2162
-#, c-format
-msgid "Pointer to local file (%s) valid at site \"%s\""
-msgstr "Peker til lokal fil (%s) gyldig på nettsted «%s»"
-
-#: ../mail/em-format-html.c:2164
-#, c-format
-msgid "Pointer to local file (%s)"
-msgstr "Peker til lokal fil (%s)"
-
-#: ../mail/em-format-html.c:2185
-#, c-format
-msgid "Pointer to remote data (%s)"
-msgstr "Peker til eksterne data (%s)"
-
-#: ../mail/em-format-html.c:2200
-#, c-format
-msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr "Peker til ukjente eksterne data («%s»-type)"
-
-#. Translators: "From:" is preceding a new mail
-#. * sender address, like "From: user@example.com"
-#: ../mail/em-format-html.c:2905
-#: ../plugins/mail-notification/mail-notification.c:405
-#, c-format
-msgid "From: %s"
-msgstr "Fra: %s"
-
-#: ../mail/em-format-html.c:2927
-msgid "(no subject)"
-msgstr "(uten emne)"
-
-#: ../mail/em-format-html.c:3003
-#, c-format
-msgid "This message was sent by %s on behalf of %s"
-msgstr "Denne meldingen ble sendt av %s på vegne av %s"
 
 #: ../mail/em-html-stream.c:82 ../mail/em-html-stream.c:104
 #: ../mail/em-html-stream.c:122
@@ -11073,71 +11081,55 @@ msgid "Underline color for misspelled words when using inline spelling."
 msgstr "Farge for understreking av feilstavede ord ved bruk av stavekontroll."
 
 #: ../mail/evolution-mail.schemas.in.h:219
-msgid "Use SpamAssassin daemon and client"
-msgstr "Bruk SpamAssassin tjener og klient"
-
-#: ../mail/evolution-mail.schemas.in.h:220
-msgid "Use SpamAssassin daemon and client (spamc/spamd)."
-msgstr "Bruk SpamAssassin tjener og klient (spamd/spamc)."
-
-#: ../mail/evolution-mail.schemas.in.h:221
 msgid "Use custom fonts"
 msgstr "Bruk egendefinerte skrifter"
 
-#: ../mail/evolution-mail.schemas.in.h:222
+#: ../mail/evolution-mail.schemas.in.h:220
 msgid "Use custom fonts for displaying mail."
 msgstr "Bruk tilpassede skrifttyper for e-postvisning."
 
-#: ../mail/evolution-mail.schemas.in.h:223
-msgid "Use only local spam tests."
-msgstr "Bruk bare lokale tester for uønsket e-post."
-
-#: ../mail/evolution-mail.schemas.in.h:224
-msgid "Use only the local spam tests (no DNS)."
-msgstr "Bruk bare lokale tester for uønsket e-post (ingen DNS)."
-
-#: ../mail/evolution-mail.schemas.in.h:225
+#: ../mail/evolution-mail.schemas.in.h:221
 msgid ""
 "Users get all up in arms over where the cursor should go when replying to a "
 "message. This determines whether the cursor is placed at the top of the "
 "message or the bottom."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:226
+#: ../mail/evolution-mail.schemas.in.h:222
 msgid ""
 "Users get all up in arms over where their signature should go when replying "
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:227
+#: ../mail/evolution-mail.schemas.in.h:223
 msgid "Variable width font"
 msgstr "Skrift for variabel bredde"
 
-#: ../mail/evolution-mail.schemas.in.h:228
+#: ../mail/evolution-mail.schemas.in.h:224
 msgid "Whether a read receipt request gets added to every message by default."
 msgstr ""
 "Om en forespørsel om lesekvittering skal legges til alle meldinger som "
 "forvalg."
 
-#: ../mail/evolution-mail.schemas.in.h:229
+#: ../mail/evolution-mail.schemas.in.h:225
 msgid ""
 "Whether check for new messages in all active accounts regardless of the "
 "account \"Check for new messages every X minutes\" option when Evolution is "
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:230
+#: ../mail/evolution-mail.schemas.in.h:226
 msgid ""
 "Whether check for new messages when Evolution is started. This includes also "
 "sending messages from Outbox."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:231
+#: ../mail/evolution-mail.schemas.in.h:227
 msgid "Whether disable ellipsizing feature of folder names in side bar."
 msgstr "Slå av eller på bruk av ellipse for mappenavn i sidelinjen."
 
-#: ../mail/evolution-mail.schemas.in.h:232
+#: ../mail/evolution-mail.schemas.in.h:228
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -11145,22 +11137,22 @@ msgstr ""
 "Om e-poster skal sorteres etter emner når de ikke inneholder «In-Reply-To» "
 "eller referansetopptekster."
 
-#: ../mail/evolution-mail.schemas.in.h:233
+#: ../mail/evolution-mail.schemas.in.h:229
 msgid "Whether sort threads based on latest message in that thread"
 msgstr "Om tråder sorteres basert på siste melding i den tråden"
 
-#: ../mail/evolution-mail.schemas.in.h:234
+#: ../mail/evolution-mail.schemas.in.h:230
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any 'Forward to' filter action and approximately "
 "one minute after the last action invocation."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:235
+#: ../mail/evolution-mail.schemas.in.h:231
 msgid "Width of the message-list pane"
 msgstr "Bredde på e-postlistefeltet"
 
-#: ../mail/evolution-mail.schemas.in.h:236
+#: ../mail/evolution-mail.schemas.in.h:232
 msgid "Width of the message-list pane."
 msgstr "Bredde på e-postlistefeltet."
 
@@ -11824,126 +11816,118 @@ msgid "_Authentication Type"
 msgstr "_Autentiseringstype"
 
 #: ../mail/mail-config.ui.h:145
-msgid "_Default junk plugin:"
-msgstr "_Forvalgt tillegg for uønsket e-post:"
-
-#: ../mail/mail-config.ui.h:146
 msgid "_Direct connection to the Internet"
 msgstr "_Direkte tilkobling til internett"
 
-#: ../mail/mail-config.ui.h:147
+#: ../mail/mail-config.ui.h:146
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "Ikke signer _møteforespørsler (for kompatibilitet med Outlook)"
 
-#: ../mail/mail-config.ui.h:148
+#: ../mail/mail-config.ui.h:147
 msgid "_Forward style:"
 msgstr "_Videresendingsstil:"
 
-#: ../mail/mail-config.ui.h:149
+#: ../mail/mail-config.ui.h:148
 msgid "_Junk Folder:"
 msgstr "Mappe for _uønsket e-post:"
 
-#: ../mail/mail-config.ui.h:150
+#: ../mail/mail-config.ui.h:149
 msgid "_Keep signature above the original message on replying"
 msgstr "_Plasser signaturen over opprinnelig melding ved svar"
 
-#: ../mail/mail-config.ui.h:151
+#: ../mail/mail-config.ui.h:150
 msgid "_Languages"
 msgstr "_Språk"
 
-#: ../mail/mail-config.ui.h:152
+#: ../mail/mail-config.ui.h:151
 msgid "_Load images only in messages from contacts"
 msgstr "_Last kun bilder i meldinger fra kontakter"
 
-#: ../mail/mail-config.ui.h:153
+#: ../mail/mail-config.ui.h:152
 msgid "_Lookup in local address book only"
 msgstr "S_lå kun opp i lokale adressebokmapper"
 
-#: ../mail/mail-config.ui.h:154
+#: ../mail/mail-config.ui.h:153
 msgid "_Make this my default account"
 msgstr "_Bruk denne som forvalgt konto"
 
-#: ../mail/mail-config.ui.h:155
+#: ../mail/mail-config.ui.h:154
 msgid "_Manual proxy configuration:"
 msgstr "_Manuell konfigurasjon av proxy:"
 
-#: ../mail/mail-config.ui.h:157
+#: ../mail/mail-config.ui.h:156
 msgid "_Never load images from the Internet"
 msgstr "Aldri last bilder fra Internett"
 
-#: ../mail/mail-config.ui.h:158
+#: ../mail/mail-config.ui.h:157
 msgid "_Path:"
 msgstr "S_ti:"
 
-#: ../mail/mail-config.ui.h:159 ../modules/addressbook/ldap-config.ui.h:27
+#: ../mail/mail-config.ui.h:158 ../modules/addressbook/ldap-config.ui.h:27
 msgid "_Port:"
 msgstr "_Port:"
 
-#: ../mail/mail-config.ui.h:160
+#: ../mail/mail-config.ui.h:159
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr "S_pør ved sending av HTML-meldinger til kontakter som ikke ønsker dem"
 
-#: ../mail/mail-config.ui.h:161
+#: ../mail/mail-config.ui.h:160
 msgid "_Reply style:"
 msgstr "Sva_rstil:"
 
-#: ../mail/mail-config.ui.h:162
+#: ../mail/mail-config.ui.h:161
 msgid "_Script:"
 msgstr "_Skript:"
 
-#: ../mail/mail-config.ui.h:163
+#: ../mail/mail-config.ui.h:162
 msgid "_Secure HTTP Proxy:"
 msgstr "_Sikker HTTP-proxy:"
 
-#: ../mail/mail-config.ui.h:165 ../modules/addressbook/ldap-config.ui.h:29
+#: ../mail/mail-config.ui.h:164 ../modules/addressbook/ldap-config.ui.h:29
 #: ../plugins/publish-calendar/publish-calendar.ui.h:28
 msgid "_Server:"
 msgstr "Tj_ener:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../mail/mail-config.ui.h:167
+#: ../mail/mail-config.ui.h:166
 msgid "_Show animated images"
 msgstr "Vi_s animerte bilder"
 
-#: ../mail/mail-config.ui.h:168
+#: ../mail/mail-config.ui.h:167
 msgid "_Show the photograph of sender in the message preview"
 msgstr "Vi_s bilde av avsender i forhåndsvisning av meldingen"
 
-#: ../mail/mail-config.ui.h:169
+#: ../mail/mail-config.ui.h:168
 msgid "_Trash Folder:"
 msgstr "Mappe for _papirkurv:"
 
-#: ../mail/mail-config.ui.h:170
+#: ../mail/mail-config.ui.h:169
 msgid "_Use Secure Connection:"
 msgstr "Br_uk sikker forbindelse:"
 
-#: ../mail/mail-config.ui.h:171
+#: ../mail/mail-config.ui.h:170
 msgid "_Use system defaults"
 msgstr "Br_uk systemets forvalg"
 
-#: ../mail/mail-config.ui.h:172
+#: ../mail/mail-config.ui.h:171
 msgid "_Use the same fonts as other applications"
 msgstr "Br_uk samme skrifter som andre programmer"
 
-#: ../mail/mail-config.ui.h:173 ../smime/gui/smime-ui.ui.h:48
+#: ../mail/mail-config.ui.h:172 ../smime/gui/smime-ui.ui.h:48
 msgid "a"
 msgstr "a"
 
-#: ../mail/mail-config.ui.h:174 ../smime/gui/smime-ui.ui.h:49
+#: ../mail/mail-config.ui.h:173 ../smime/gui/smime-ui.ui.h:49
 msgid "b"
 msgstr "b"
 
-#: ../mail/mail-config.ui.h:175
+#: ../mail/mail-config.ui.h:174
 msgid "color"
 msgstr "farge"
 
-#: ../mail/mail-config.ui.h:176
+#: ../mail/mail-config.ui.h:175
 msgid "description"
 msgstr "beskrivelse"
-
-#: ../mail/mail-config.ui.h:177
-msgid "gtk-ok"
-msgstr "gtk-ok"
 
 #: ../mail/mail-dialogs.ui.h:1
 msgid "All active remote folders"
@@ -13295,7 +13279,7 @@ msgstr "Om forhåndsvisningsområdet skal vises."
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../modules/addressbook/autocompletion-config.c:165
-#: ../modules/mail/em-mailer-prefs.c:1150
+#: ../modules/mail/em-mailer-prefs.c:1029
 msgid "_Table column:"
 msgstr "Kolonne i _tabell:"
 
@@ -13733,6 +13717,43 @@ msgstr "Br_uk sikker forbindelse:"
 #: ../modules/addressbook/ldap-config.ui.h:32
 msgid "cards"
 msgstr "kort"
+
+#: ../modules/bogofilter/evolution-bogofilter.c:146
+#, c-format
+msgid "Failed to spawn Bogofilter (%s): "
+msgstr "Klarte ikke å starte Bogofilter (%s): "
+
+#: ../modules/bogofilter/evolution-bogofilter.c:164
+msgid "Failed to stream mail message content to Bogofilter: "
+msgstr "Klarte ikke å sende innhold i e-postmelding til Bogofilter: "
+
+#: ../modules/bogofilter/evolution-bogofilter.c:213
+msgid "Bogofilter either crashed or failed to process a mail message"
+msgstr "Bogofilter krasjet eller klarte ikke å prosessere en e-postmelding"
+
+#: ../modules/bogofilter/evolution-bogofilter.c:312
+msgid "Bogofilter Options"
+msgstr "Alternativer for Bogofilter"
+
+#: ../modules/bogofilter/evolution-bogofilter.c:321
+msgid "Convert message text to _Unicode"
+msgstr "Konverter tekst i meldinger til _Unicode"
+
+#: ../modules/bogofilter/evolution-bogofilter.c:477
+msgid "Bogofilter"
+msgstr "Bogofilter"
+
+#: ../modules/bogofilter/evolution-bogofilter.schemas.in.h:1
+msgid "Convert mail messages to Unicode"
+msgstr "Konverter meldinger til Unicode"
+
+#: ../modules/bogofilter/evolution-bogofilter.schemas.in.h:2
+msgid ""
+"Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from "
+"different character sets."
+msgstr ""
+"Konverter meldingstekst til Unicode UTF-8 for å gjøre innsamling av "
+"egenskaper for uønskede meldinger mer enhetlig."
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:2
 #, no-c-format
@@ -14535,6 +14556,18 @@ msgstr "I_mporter til kalenderen"
 msgid "I_mport to Tasks"
 msgstr "I_mporter til oppgaver"
 
+#: ../modules/calendar/e-calendar-preferences.c:441
+msgid "Selected Calendars for Alarms"
+msgstr "Kalendere valgt for varsel"
+
+#: ../modules/calendar/e-calendar-preferences.c:840
+msgid "Ti_me and date:"
+msgstr "T_id og dato:"
+
+#: ../modules/calendar/e-calendar-preferences.c:841
+msgid "_Date only:"
+msgstr "Kun _dato:"
+
 #. Create the Webcal source group
 #: ../modules/calendar/e-cal-shell-backend.c:113
 #: ../modules/calendar/e-cal-shell-migrate.c:198
@@ -15000,18 +15033,6 @@ msgstr "Skriv ut valgt oppgave"
 msgid "_Save as iCalendar..."
 msgstr "_Lagre som iCalendar …"
 
-#: ../modules/calendar/e-calendar-preferences.c:441
-msgid "Selected Calendars for Alarms"
-msgstr "Kalendere valgt for varsel"
-
-#: ../modules/calendar/e-calendar-preferences.c:840
-msgid "Ti_me and date:"
-msgstr "T_id og dato:"
-
-#: ../modules/calendar/e-calendar-preferences.c:841
-msgid "_Date only:"
-msgstr "Kun _dato:"
-
 #: ../modules/calendar/e-memo-shell-backend.c:285
 msgctxt "New"
 msgid "Mem_o"
@@ -15115,6 +15136,14 @@ msgstr "Skriv ut denne listen med notater"
 msgid "Preview the list of memos to be printed"
 msgstr "Forhåndsvis listen med notater som skal skrives ut"
 
+#: ../modules/calendar/e-memo-shell-view.c:227
+msgid "Delete Memos"
+msgstr "Slett notater"
+
+#: ../modules/calendar/e-memo-shell-view.c:229
+msgid "Delete Memo"
+msgstr "Slett notat"
+
 #: ../modules/calendar/e-memo-shell-view-private.c:424
 #, c-format
 msgid "%d memo"
@@ -15127,14 +15156,6 @@ msgstr[1] "%d notater"
 #, c-format
 msgid "%d selected"
 msgstr "%d valgt"
-
-#: ../modules/calendar/e-memo-shell-view.c:227
-msgid "Delete Memos"
-msgstr "Slett notater"
-
-#: ../modules/calendar/e-memo-shell-view.c:229
-msgid "Delete Memo"
-msgstr "Slett notat"
 
 #: ../modules/calendar/e-task-shell-backend.c:284
 msgctxt "New"
@@ -15287,6 +15308,14 @@ msgstr "Skriv ut denne listen over oppgaver"
 msgid "Preview the list of tasks to be printed"
 msgstr "Forhåndsvis listen over oppgaver som skal skrives ut"
 
+#: ../modules/calendar/e-task-shell-view.c:362
+msgid "Delete Tasks"
+msgstr "Slett oppgaver"
+
+#: ../modules/calendar/e-task-shell-view.c:364
+msgid "Delete Task"
+msgstr "Slett oppgave"
+
 #: ../modules/calendar/e-task-shell-view-private.c:472
 msgid "Expunging"
 msgstr "Tømmer"
@@ -15298,26 +15327,19 @@ msgid_plural "%d tasks"
 msgstr[0] "%d oppgave"
 msgstr[1] "%d oppgaver"
 
-#: ../modules/calendar/e-task-shell-view.c:362
-msgid "Delete Tasks"
-msgstr "Slett oppgaver"
+#: ../modules/mail/em-account-prefs.c:218
+msgid "Evolution Account Assistant"
+msgstr "Evolution kontoassistent"
 
-#: ../modules/calendar/e-task-shell-view.c:364
-msgid "Delete Task"
-msgstr "Slett oppgave"
+#: ../modules/mail/em-account-prefs.c:267
+msgid "Account Editor"
+msgstr "Kontoredigering"
 
 #. Translators: This is only for multiple messages.
 #: ../modules/mail/e-mail-attachment-handler.c:384
 #, c-format
 msgid "%d attached messages"
 msgstr "%d vedlagte meldinger"
-
-#. Translators: "None" for a junk hook name,
-#. * when the junk plugin is not enabled.
-#: ../modules/mail/e-mail-junk-hook.c:94
-msgctxt "mail-junk-hook"
-msgid "None"
-msgstr "Ingen"
 
 #: ../modules/mail/e-mail-shell-backend.c:195
 msgctxt "New"
@@ -15646,6 +15668,18 @@ msgstr "Denne kontoen"
 msgid "Current Folder"
 msgstr "Denne mappen"
 
+#: ../modules/mail/e-mail-shell-view.c:559
+msgid "All Account Search"
+msgstr "Søk i alle konti"
+
+#: ../modules/mail/e-mail-shell-view.c:732
+msgid "Account Search"
+msgstr "Søk i konto"
+
+#: ../modules/mail/e-mail-shell-view.c:943
+msgid "Proxy _Logout"
+msgstr "_Logg ut proxy"
+
 #: ../modules/mail/e-mail-shell-view-private.c:996
 #, c-format
 msgid "%d selected, "
@@ -15711,26 +15745,6 @@ msgstr "Papirkurv"
 msgid "Send / Receive"
 msgstr "Send / motta"
 
-#: ../modules/mail/e-mail-shell-view.c:559
-msgid "All Account Search"
-msgstr "Søk i alle konti"
-
-#: ../modules/mail/e-mail-shell-view.c:732
-msgid "Account Search"
-msgstr "Søk i konto"
-
-#: ../modules/mail/e-mail-shell-view.c:943
-msgid "Proxy _Logout"
-msgstr "_Logg ut proxy"
-
-#: ../modules/mail/em-account-prefs.c:218
-msgid "Evolution Account Assistant"
-msgstr "Evolution kontoassistent"
-
-#: ../modules/mail/em-account-prefs.c:267
-msgid "Account Editor"
-msgstr "Kontoredigering"
-
 #: ../modules/mail/em-composer-prefs.c:491
 #: ../modules/plugin-manager/evolution-plugin-manager.c:359
 #: ../plugins/publish-calendar/publish-calendar.c:831
@@ -15742,54 +15756,36 @@ msgstr "Aktivert"
 msgid "Language(s)"
 msgstr "Språk"
 
-#: ../modules/mail/em-mailer-prefs.c:89
+#: ../modules/mail/em-mailer-prefs.c:91
 msgid "Every time"
 msgstr "Hver gang"
 
-#: ../modules/mail/em-mailer-prefs.c:90
+#: ../modules/mail/em-mailer-prefs.c:92
 msgid "Once per day"
 msgstr "En gang om dagen"
 
-#: ../modules/mail/em-mailer-prefs.c:91
+#: ../modules/mail/em-mailer-prefs.c:93
 msgid "Once per week"
 msgstr "En gang i uken"
 
-#: ../modules/mail/em-mailer-prefs.c:92
+#: ../modules/mail/em-mailer-prefs.c:94
 msgid "Once per month"
 msgstr "En gang i måneden"
 
-#: ../modules/mail/em-mailer-prefs.c:288
+#: ../modules/mail/em-mailer-prefs.c:289
 msgid "Header"
 msgstr "Topptekst"
 
-#: ../modules/mail/em-mailer-prefs.c:292
+#: ../modules/mail/em-mailer-prefs.c:293
 msgid "Contains Value"
 msgstr "Inneholder verdi"
 
-#. May be a better text
-#: ../modules/mail/em-mailer-prefs.c:703 ../modules/mail/em-mailer-prefs.c:776
-#, c-format
-msgid "%s plugin is available and the binary is installed."
-msgstr "Tillegg %s er tilgjengelig og filen er installert."
-
-#. May be a better text
-#: ../modules/mail/em-mailer-prefs.c:711 ../modules/mail/em-mailer-prefs.c:785
-#, c-format
-msgid ""
-"%s plugin is not available. Please check whether the package is installed."
-msgstr ""
-"%s-tillegg er ikke tilgjengelig. Vennligst sjekk om pakken er installert."
-
-#: ../modules/mail/em-mailer-prefs.c:749
-msgid "No junk plugin available"
-msgstr "Ingen tillegg for uønsket e-post tilgjengelig"
-
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
-#: ../modules/mail/em-mailer-prefs.c:1152
+#: ../modules/mail/em-mailer-prefs.c:1031
 msgid "_Date header:"
 msgstr "_Datohode:"
 
-#: ../modules/mail/em-mailer-prefs.c:1153
+#: ../modules/mail/em-mailer-prefs.c:1032
 msgid "Show _original header value"
 msgstr "Vis _opprinnelig verdi for hode"
 
@@ -15831,7 +15827,9 @@ msgstr ""
 msgid ""
 "Cannot find a corresponding account in the org.gnome.OnlineAccounts service "
 "from which to obtain an authentication token."
-msgstr "Kan ikke finne en passende konto å hente autentiseringsinformasjon for fra org.gnome.OnlineAccounts-tjenesten."
+msgstr ""
+"Kan ikke finne en passende konto å hente autentiseringsinformasjon for fra "
+"org.gnome.OnlineAccounts-tjenesten."
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:461
 msgid "OAuth"
@@ -15873,6 +15871,14 @@ msgstr "_Tillegg"
 msgid "Enable and disable plugins"
 msgstr "Aktiver og deaktiver tillegg"
 
+#: ../modules/plugin-python/example/org-gnome-hello-python.eplug.xml.h:1
+msgid "Python Test Plugin"
+msgstr "Testtillegg for Python"
+
+#: ../modules/plugin-python/example/org-gnome-hello-python.eplug.xml.h:2
+msgid "Test Plugin for Python EPlugin loader."
+msgstr "Testtillegg for Python EPlugin laster."
+
 #: ../modules/plugin-python/example/org-gnome-hello-python-ui.xml.h:1
 msgid "Hello Python"
 msgstr "Hallo Python"
@@ -15881,13 +15887,59 @@ msgstr "Hallo Python"
 msgid "Python Plugin Loader tests"
 msgstr "Test av tilleggslaster for Python"
 
-#: ../modules/plugin-python/example/org-gnome-hello-python.eplug.xml.h:1
-msgid "Python Test Plugin"
-msgstr "Testtillegg for Python"
+#: ../modules/spamassassin/evolution-spamassassin.c:191
+#, c-format
+msgid "Failed to spawn SpamAssassin (%s): "
+msgstr "Klarte ikke å starte SpamAssassin (%s): "
 
-#: ../modules/plugin-python/example/org-gnome-hello-python.eplug.xml.h:2
-msgid "Test Plugin for Python EPlugin loader."
-msgstr "Testtillegg for Python EPlugin laster."
+#: ../modules/spamassassin/evolution-spamassassin.c:214
+msgid "Failed to stream mail message content to SpamAssassin: "
+msgstr "Klarte ikke å sende innhold i e-postmelding til SpamAssassin: "
+
+#: ../modules/spamassassin/evolution-spamassassin.c:233
+#, c-format
+msgid "Failed to write '%s' to SpamAssassin: "
+msgstr "Klarte ikke å skrive «%s» til SpamAssassin: "
+
+#: ../modules/spamassassin/evolution-spamassassin.c:261
+msgid "Failed to read output from SpamAssassin: "
+msgstr "Klarte ikke å lese utdata fra SpamAssassin: "
+
+#: ../modules/spamassassin/evolution-spamassassin.c:316
+msgid "SpamAssassin either crashed or failed to process a mail message"
+msgstr "SpamAssassin krasjet eller klarte ikke å prosessere en e-postmelding"
+
+#: ../modules/spamassassin/evolution-spamassassin.c:835
+msgid "SpamAssassin Options"
+msgstr "Alternativer for SpamAssassin"
+
+#: ../modules/spamassassin/evolution-spamassassin.c:850
+msgid "I_nclude remote tests"
+msgstr "Inkluder eksterne tester"
+
+#: ../modules/spamassassin/evolution-spamassassin.c:864
+msgid "This will make SpamAssassin more reliable, but slower."
+msgstr "Dette vil gjøre SpamAssassin mer pålitelig, men tregere."
+
+#: ../modules/spamassassin/evolution-spamassassin.c:1073
+msgid "SpamAssassin"
+msgstr "SpamAssassin"
+
+#: ../modules/spamassassin/evolution-spamassassin.schemas.in.h:1
+msgid "Use SpamAssassin daemon and client"
+msgstr "Bruk SpamAssassin tjener og klient"
+
+#: ../modules/spamassassin/evolution-spamassassin.schemas.in.h:2
+msgid "Use SpamAssassin daemon and client (spamc/spamd)."
+msgstr "Bruk SpamAssassin tjener og klient (spamd/spamc)."
+
+#: ../modules/spamassassin/evolution-spamassassin.schemas.in.h:3
+msgid "Use only local spam tests."
+msgstr "Bruk bare lokale tester for uønsket e-post."
+
+#: ../modules/spamassassin/evolution-spamassassin.schemas.in.h:4
+msgid "Use only the local spam tests (no DNS)."
+msgstr "Bruk bare lokale tester for uønsket e-post (ingen DNS)."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:281
 #: ../widgets/misc/e-import-assistant.c:396
@@ -16273,60 +16325,6 @@ msgstr ""
 "Fyller dine adressebøker med navn og e-postadresser automatisk etter hvert "
 "som du svarer på meldinger. Fyller også ut IM-kontaktinformasjon fra dine "
 "vennelister."
-
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:161
-#, c-format
-msgid "Bogofilter is not available. Please install it first."
-msgstr "Bogofilter er ikke tilgjengelig. Vennligst installer programmet først."
-
-#. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:165
-#, c-format
-msgid "Error occurred while spawning %s: %s."
-msgstr "En feil oppsto under start av %s: %s."
-
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:194
-#, c-format
-msgid "Bogofilter child process does not respond, killing..."
-msgstr "Underprosess til Bogofilter svarer ikke. Terminerer …"
-
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:196
-#, c-format
-msgid "Wait for Bogofilter child process interrupted, terminating..."
-msgstr "Venting på underprosess til Bogofilter avbrutt. Terminerer …"
-
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:219
-#, c-format
-msgid "Pipe to Bogofilter failed, error code: %d."
-msgstr "Rør til Bogofilter feilet. Feilkode: %d."
-
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:404
-msgid "Convert message text to _Unicode"
-msgstr "Konverter tekst i meldinger til _Unicode"
-
-#: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:1
-msgid "Convert mail messages to Unicode"
-msgstr "Konverter meldinger til Unicode"
-
-#: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:2
-msgid ""
-"Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from "
-"different character sets."
-msgstr ""
-"Konverter meldingstekst til Unicode UTF-8 for å gjøre innsamling av "
-"egenskaper for uønskede meldinger mer enhetlig."
-
-#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:1
-msgid "Bogofilter Junk Filter"
-msgstr "Bogofilter filter for uønsket e-post"
-
-#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
-msgid "Bogofilter Options"
-msgstr "Alternativer for Bogofilter"
-
-#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
-msgid "Filter junk messages using Bogofilter."
-msgstr "Filtrer uønsket e-post med Bogofilter."
 
 #: ../plugins/caldav/caldav-browse-server.c:203
 msgid "Authentication failed. Server requires correct login."
@@ -17848,21 +17846,27 @@ msgstr ""
 msgid ""
 "You have selected %d mails to be converted to events. Do you really want to "
 "add them all?"
-msgstr "Du har valgt %d meldinger som skal konverteres til hendelser. Vil du virkelig legge dem til?"
+msgstr ""
+"Du har valgt %d meldinger som skal konverteres til hendelser. Vil du "
+"virkelig legge dem til?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:612
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
 "add them all?"
-msgstr "Du har valgt %d meldinger som skal konverteres til oppgaver. Vil du virkelig legge dem til?"
+msgstr ""
+"Du har valgt %d meldinger som skal konverteres til oppgaver. Vil du virkelig "
+"legge dem til?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:615
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
 "add them all?"
-msgstr "Du har valgt %d meldinger som skal konverteres til notater. Vil du virkelig legge dem til?"
+msgstr ""
+"Du har valgt %d meldinger som skal konverteres til notater. Vil du virkelig "
+"legge dem til?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:634
 msgid "Do you wish to continue converting remaining mails?"
@@ -18386,63 +18390,6 @@ msgstr "Ny adresse"
 #: ../plugins/publish-calendar/url-editor-dialog.c:489
 msgid "Edit Location"
 msgstr "Rediger adresse"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:128
-#, c-format
-msgid "SpamAssassin not found, code: %d"
-msgstr "SpamAssassin ble ikke funnet, kode: %d"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:136
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:144
-#, c-format
-msgid "Failed to create pipe: %s"
-msgstr "Klarte ikke å opprette rør: %s"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:183
-#, c-format
-msgid "Error after fork: %s"
-msgstr "Feil etter kjøring av fork(): %s"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:241
-#, c-format
-msgid "SpamAssassin child process does not respond, killing..."
-msgstr "Underprosess til SpamAssassin svarer ikke. Terminerer …"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:243
-#, c-format
-msgid "Wait for SpamAssassin child process interrupted, terminating..."
-msgstr "Venting på underprosess til SpamAssassin avbrutt. Terminerer …"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:252
-#, c-format
-msgid "Pipe to SpamAssassin failed, error code: %d"
-msgstr "Rør til SpamAssassin feilet. Feilkode: %d"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:519
-#, c-format
-msgid "SpamAssassin is not available. Please install it first."
-msgstr ""
-"SpamAssassin er ikke tilgjengelig. Vennligst installer programmet først."
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:936
-msgid "This will make SpamAssassin more reliable, but slower"
-msgstr "Dette vil gjøre SpamAssassin mer pålitelig, men tregere"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:944
-msgid "I_nclude remote tests"
-msgstr "Inkluder eksterne tester"
-
-#: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
-msgid "Filter junk messages using SpamAssassin."
-msgstr "Filtrer uønsket e-post med SpamAssassin."
-
-#: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
-msgid "SpamAssassin Junk Filter"
-msgstr "SpamAssassin filter for uønsket e-post"
-
-#: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:3
-msgid "SpamAssassin Options"
-msgstr "Alternativer for SpamAssassin"
 
 #. Translators: the %F %T is the third argument for a
 #. * strftime function.  It lets you define the formatting
