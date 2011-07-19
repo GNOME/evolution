@@ -13,6 +13,7 @@ libevolution_module_spamassassin_la_SOURCES =			\
 libevolution_module_spamassassin_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/mail/libevolution-mail.la		\
+	$(top_builddir)/shell/libeshell.la			\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(EVOLUTION_MAIL_LIBS)
 
