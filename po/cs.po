@@ -895,7 +895,7 @@ msgstr "Telefon asistenta"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:3
 msgid "Business Fax"
-msgstr "Fax - práce"
+msgstr "Fax do práce"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:4
 msgid "Business Phone"
@@ -952,7 +952,7 @@ msgstr "Křestní jméno"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Fax"
-msgstr "Fax - domů"
+msgstr "Fax domů"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "Home Phone"
@@ -1008,11 +1008,11 @@ msgstr "Pager"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:31
 msgid "Primary Phone"
-msgstr "Primární telefon"
+msgstr "Hlavní telefon"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:32
 msgid "Radio"
-msgstr "Rádio"
+msgstr "Radiostanice"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/e-meeting-list-view.c:571
@@ -1037,7 +1037,7 @@ msgstr "TTYTDD"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Telex"
-msgstr "Telex"
+msgstr "Dálnopis"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 msgid "Title"
