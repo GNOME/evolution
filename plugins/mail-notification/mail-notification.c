@@ -447,7 +447,7 @@ new_notify_status (EMEventTargetFolder *t)
 			_("New email"), escaped_text, "mail-unread");
 #else
 		notify  = notify_notification_new (
-			_("New email"), escaped-text, "mail-unread", NULL);
+			_("New email"), escaped_text, "mail-unread", NULL);
 #endif /* HAVE_LIBNOTIFY_07 */
 
 		notify_notification_set_urgency (
