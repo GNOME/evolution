@@ -65,7 +65,6 @@ GType	  e_cert_manager_config_get_type (void) G_GNUC_CONST;
 
 GtkWidget *e_cert_manager_config_new (EPreferencesWindow *window);
 
-
 G_END_DECLS
 
 #endif /* _CERTIFICATE_MANAGER_H_ */
