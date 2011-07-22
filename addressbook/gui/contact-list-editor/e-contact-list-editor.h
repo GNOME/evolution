@@ -72,8 +72,10 @@ EABEditor *	e_contact_list_editor_new	(EShell *shell,
 						 EContact *list_contact,
 						 gboolean is_new_list,
 						 gboolean editable);
-EBookClient *	e_contact_list_editor_get_client(EContactListEditor *editor);
-void		e_contact_list_editor_set_client(EContactListEditor *editor,
+EBookClient *	e_contact_list_editor_get_client
+						(EContactListEditor *editor);
+void		e_contact_list_editor_set_client
+						(EContactListEditor *editor,
 						 EBookClient *book_client);
 EContact *	e_contact_list_editor_get_contact
 						(EContactListEditor *editor);
