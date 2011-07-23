@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-07-10 12:07+0000\n"
-"PO-Revision-Date: 2011-07-10 15:38+0200\n"
+"POT-Creation-Date: 2011-07-18 06:48+0000\n"
+"PO-Revision-Date: 2011-07-23 14:29+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -723,7 +723,7 @@ msgid "_List name:"
 msgstr "_Nombre de la lista:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
-#: ../mail/mail-config.ui.h:164
+#: ../mail/mail-config.ui.h:163
 msgid "_Select..."
 msgstr "_Seleccionar…"
 
@@ -2437,7 +2437,7 @@ msgstr "Tipo:"
 msgid "_Type:"
 msgstr "_Tipo:"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:242 ../mail/mail-config.ui.h:156
+#: ../calendar/gui/dialogs/calendar-setup.c:242 ../mail/mail-config.ui.h:155
 #: ../modules/addressbook/ldap-config.ui.h:26
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
 #: ../widgets/misc/e-signature-script-dialog.c:284
@@ -3238,7 +3238,7 @@ msgstr "No es posible abrir las notas en «%s»: %s"
 #: ../calendar/gui/dialogs/memo-page.c:1099 ../em-format/em-format-quote.c:319
 #: ../em-format/em-format.c:1056 ../mail/em-format-html.c:2563
 #: ../mail/em-format-html.c:2628 ../mail/em-format-html.c:2652
-#: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:72
+#: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:74
 msgid "To"
 msgstr "Para"
 
@@ -6938,7 +6938,7 @@ msgstr "Buscar y reemplazar texto"
 msgid "Save draft"
 msgstr "Guardar borrador"
 
-#: ../composer/e-msg-composer.c:791
+#: ../composer/e-msg-composer.c:808
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -6946,7 +6946,7 @@ msgstr ""
 "No es posible firmar el mensaje saliente: No hay establecido un certificado "
 "de firma para esta cuenta"
 
-#: ../composer/e-msg-composer.c:800
+#: ../composer/e-msg-composer.c:817
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -6955,17 +6955,17 @@ msgstr ""
 "No es posible cifrar el mensaje saliente: no hay establecido un certificado "
 "de cifrado para esta cuenta"
 
-#: ../composer/e-msg-composer.c:1695 ../composer/e-msg-composer.c:2079
+#: ../composer/e-msg-composer.c:1691 ../composer/e-msg-composer.c:2075
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:4159
+#: ../composer/e-msg-composer.c:4155
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
 "editarse."
 
-#: ../composer/e-msg-composer.c:4864
+#: ../composer/e-msg-composer.c:4860
 msgid "Untitled Message"
 msgstr "Mensaje sin título"
 
@@ -7731,37 +7731,37 @@ msgstr "En adelante todos los errores sólo se mostrarán en el terminal."
 
 #: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1054
 #: ../mail/e-mail-tag-editor.c:325 ../mail/message-list.etspec.h:7
-#: ../modules/mail/em-mailer-prefs.c:70
+#: ../modules/mail/em-mailer-prefs.c:72
 msgid "From"
 msgstr "De"
 
 #: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1055
-#: ../modules/mail/em-mailer-prefs.c:71
+#: ../modules/mail/em-mailer-prefs.c:73
 msgid "Reply-To"
 msgstr "Responder a"
 
 #: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1057
 #: ../mail/em-format-html.c:2564 ../mail/em-format-html.c:2632
-#: ../mail/em-format-html.c:2655 ../modules/mail/em-mailer-prefs.c:73
+#: ../mail/em-format-html.c:2655 ../modules/mail/em-mailer-prefs.c:75
 msgid "Cc"
 msgstr "Cc"
 
 #: ../em-format/em-format-quote.c:319 ../em-format/em-format.c:1058
 #: ../mail/em-format-html.c:2565 ../mail/em-format-html.c:2636
-#: ../mail/em-format-html.c:2658 ../modules/mail/em-mailer-prefs.c:74
+#: ../mail/em-format-html.c:2658 ../modules/mail/em-mailer-prefs.c:76
 msgid "Bcc"
 msgstr "Cco"
 
 #: ../em-format/em-format-quote.c:463 ../em-format/em-format.c:1059
 #: ../mail/e-mail-tag-editor.c:330 ../mail/em-filter-i18n.h:74
-#: ../mail/message-list.etspec.h:18 ../modules/mail/em-mailer-prefs.c:75
+#: ../mail/message-list.etspec.h:18 ../modules/mail/em-mailer-prefs.c:77
 #: ../smime/lib/e-cert.c:1142
 msgid "Subject"
 msgstr "Asunto"
 
 #. pseudo-header
 #: ../em-format/em-format-quote.c:474 ../mail/em-format-html.c:2757
-#: ../modules/mail/em-mailer-prefs.c:1129
+#: ../modules/mail/em-mailer-prefs.c:1008
 msgid "Mailer"
 msgstr "Transporte"
 
@@ -7770,16 +7770,16 @@ msgid "-------- Forwarded Message --------"
 msgstr "--------- Mensaje reenviado --------"
 
 #: ../em-format/em-format.c:1060 ../mail/message-list.etspec.h:2
-#: ../modules/mail/em-mailer-prefs.c:76 ../widgets/misc/e-dateedit.c:523
+#: ../modules/mail/em-mailer-prefs.c:78 ../widgets/misc/e-dateedit.c:523
 #: ../widgets/misc/e-dateedit.c:545
 msgid "Date"
 msgstr "Fecha"
 
-#: ../em-format/em-format.c:1061 ../modules/mail/em-mailer-prefs.c:77
+#: ../em-format/em-format.c:1061 ../modules/mail/em-mailer-prefs.c:79
 msgid "Newsgroups"
 msgstr "Grupos de noticias"
 
-#: ../em-format/em-format.c:1062 ../modules/mail/em-mailer-prefs.c:78
+#: ../em-format/em-format.c:1062 ../modules/mail/em-mailer-prefs.c:80
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
 msgid "Face"
 msgstr "Cara"
@@ -8129,6 +8129,154 @@ msgstr "la fecha que especifique"
 msgid "years"
 msgstr "años"
 
+#. Translators: This string is a "Use secure connection" option for
+#. the Mailer. It will not use an encrypted connection.
+#: ../mail/em-account-editor.c:568 ../mail/mail-config.ui.h:72
+#: ../modules/addressbook/ldap-config.ui.h:9
+msgid "No encryption"
+msgstr "Sin cifrado"
+
+#. Translators: This string is a "Use secure connection" option for
+#. the Mailer. TLS (Transport Layer Security) is commonly known by
+#. this abbreviation.
+#: ../mail/em-account-editor.c:572 ../mail/mail-config.ui.h:130
+#: ../modules/addressbook/ldap-config.ui.h:20
+msgid "TLS encryption"
+msgstr "Cifrado TLS"
+
+#. Translators: This string is a "Use secure connection" option for
+#. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
+#. abbreviation.
+#: ../mail/em-account-editor.c:576 ../mail/mail-config.ui.h:94
+#: ../modules/addressbook/ldap-config.ui.h:12
+msgid "SSL encryption"
+msgstr "Cifrado SSL"
+
+#. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
+#: ../mail/em-account-editor.c:839 ../widgets/misc/e-signature-combo-box.c:75
+msgctxt "mail-signature"
+msgid "None"
+msgstr "Ninguna"
+
+#: ../mail/em-account-editor.c:920
+msgid "Never"
+msgstr "Nunca"
+
+#: ../mail/em-account-editor.c:921
+msgid "Always"
+msgstr "Siempre"
+
+#: ../mail/em-account-editor.c:922
+msgid "Ask for each message"
+msgstr "Preguntar por cada mensaje"
+
+#. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
+#: ../mail/em-account-editor.c:1742 ../widgets/misc/e-account-tree-view.c:131
+msgctxt "mail-receiving"
+msgid "None"
+msgstr "Ninguna"
+
+#: ../mail/em-account-editor.c:2178
+msgid "Mail Configuration"
+msgstr "Configuración del correo"
+
+#: ../mail/em-account-editor.c:2179
+msgid ""
+"Welcome to the Evolution Mail Configuration Assistant.\n"
+"\n"
+"Click \"Forward\" to begin."
+msgstr ""
+"Bienvenido al asistente de configuración de correo de Evolution.\n"
+"\n"
+"Pulse «Adelante» para comenzar. "
+
+#: ../mail/em-account-editor.c:2182
+msgid ""
+"Please enter your name and email address below. The \"optional\" fields "
+"below do not need to be filled in, unless you wish to include this "
+"information in email you send."
+msgstr ""
+"Escriba debajo su nombre y dirección de correo-e. Los campos «opcionales» no "
+"hace falta que los rellene, a menos que quiera incluir esta información en "
+"el correo-e que envíe."
+
+#: ../mail/em-account-editor.c:2184 ../mail/em-account-editor.c:2372
+msgid "Receiving Email"
+msgstr "Recepción de correo"
+
+#: ../mail/em-account-editor.c:2185
+msgid "Please configure the following account settings."
+msgstr "Configure las siguientes opciones de la cuenta."
+
+#: ../mail/em-account-editor.c:2187 ../mail/em-account-editor.c:2896
+msgid "Sending Email"
+msgstr "Envío de correo"
+
+#: ../mail/em-account-editor.c:2188
+msgid ""
+"Please enter information about the way you will send mail. If you are not "
+"sure, ask your system administrator or Internet Service Provider."
+msgstr ""
+"Escriba debajo la información acerca de cómo enviará su correo. Si no está "
+"seguro, pregúntele a su administrador de sistemas o a su Proveedor de "
+"Servicios de Internet."
+
+#: ../mail/em-account-editor.c:2190 ../mail/mail-config.ui.h:1
+msgid "Account Information"
+msgstr "Información de la cuenta"
+
+#: ../mail/em-account-editor.c:2191
+msgid ""
+"Please enter a descriptive name for this account below.\n"
+"This name will be used for display purposes only."
+msgstr ""
+"Introduzca un nombre descriptivo para esta cuenta en el espacio de abajo.\n"
+"Este nombre se usará sólo para mostrarlo."
+
+#: ../mail/em-account-editor.c:2195
+msgid "Done"
+msgstr "Hecho"
+
+#: ../mail/em-account-editor.c:2196
+msgid ""
+"Congratulations, your mail configuration is complete.\n"
+"\n"
+"You are now ready to send and receive email using Evolution.\n"
+"\n"
+"Click \"Apply\" to save your settings."
+msgstr ""
+"Enhorabuena, ha terminado de configurar su correo.\n"
+"\n"
+"Ahora está listo para enviar y recibir correo usando Evolution. \n"
+"\n"
+"Pulse «Aplicar» para guardar su configuración."
+
+#: ../mail/em-account-editor.c:2694
+msgid "Check for _new messages every"
+msgstr "Comprobar si hay mensajes _nuevos cada"
+
+#: ../mail/em-account-editor.c:2702
+msgid "minu_tes"
+msgstr "minuto_s"
+
+#: ../mail/em-account-editor.c:3013
+msgid "Please select a folder from the current account."
+msgstr "Seleccionar una carpeta de la cuenta actual."
+
+#: ../mail/em-account-editor.c:3339 ../mail/mail-config.ui.h:101
+msgid "Security"
+msgstr "Seguridad"
+
+#. Most sections for this is auto-generated from the camel config
+#. Most sections for this is auto-generated fromt the camel config
+#: ../mail/em-account-editor.c:3393 ../mail/em-account-editor.c:3476
+msgid "Receiving Options"
+msgstr "Opciones de recepción"
+
+#: ../mail/em-account-editor.c:3394 ../mail/em-account-editor.c:3477
+msgid "Checking for New Messages"
+msgstr "Comprobando si hay mensajes nuevos"
+
 #: ../mail/e-mail-attachment-bar.c:90 ../mail/e-mail-attachment-bar.c:95
 #: ../mail/em-format-html-display.c:1217 ../mail/mail-config.ui.h:14
 #: ../mail/message-list.etspec.h:1 ../widgets/misc/e-attachment-paned.c:128
@@ -8231,6 +8379,12 @@ msgstr[1] "Guardando %d mensajes"
 #, c-format
 msgid "Invalid folder URI '%s'"
 msgstr "URI « %s» de la carpeta no válida"
+
+#. Label + combo box has a 12px left margin so it's
+#. * aligned with the junk mail options above it.
+#: ../mail/e-mail-junk-options.c:252
+msgid "Junk filtering software:"
+msgstr "Software de filtrado de SPAM:"
 
 #: ../mail/e-mail-label-dialog.c:223
 msgid "_Label name:"
@@ -8356,44 +8510,6 @@ msgstr "No se pueden crear las carpetas de correo local en: «%s»: %s"
 #: ../mail/e-mail-notebook-view.c:619
 msgid "Please select a folder"
 msgstr "Seleccionar una carpeta"
-
-#: ../mail/e-mail-reader-utils.c:139
-msgid "Do not warn me again"
-msgstr "No advertirme de nuevo"
-
-#. Translators: %s is replaced with a folder
-#. * name %u with count of duplicate messages.
-#: ../mail/e-mail-reader-utils.c:663
-#, c-format
-msgid ""
-"Folder '%s' contains %u duplicate message. Are you sure you want to delete "
-"it?"
-msgid_plural ""
-"Folder '%s' contains %u duplicate messages. Are you sure you want to delete "
-"them?"
-msgstr[0] ""
-"La carpeta «%s» contiene %u correo duplicado. ¿Está seguro de que quiere "
-"eliminarlo?"
-msgstr[1] ""
-"La carpeta «%s» contiene %u correos duplicados. ¿Está seguro de que quiere "
-"eliminarlos?"
-
-#: ../mail/e-mail-reader-utils.c:960
-msgid "Save Message"
-msgid_plural "Save Messages"
-msgstr[0] "Guardar mensaje"
-msgstr[1] "Guardar mensajes"
-
-#. Translators: This is part of a suggested file name
-#. * used when saving a message or multiple messages to
-#. * mbox format, when the first message doesn't have a
-#. * subject.  The extension ".mbox" is appended to the
-#. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:981
-msgid "Message"
-msgid_plural "Messages"
-msgstr[0] "Mensaje"
-msgstr[1] "Mensajes"
 
 #: ../mail/e-mail-reader.c:304 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
@@ -9017,30 +9133,68 @@ msgstr "Responder"
 msgid "Folder '%s'"
 msgstr "Carpeta «%s»"
 
-#: ../mail/e-mail-session.c:657
+#: ../mail/e-mail-reader-utils.c:139
+msgid "Do not warn me again"
+msgstr "No advertirme de nuevo"
+
+#. Translators: %s is replaced with a folder
+#. * name %u with count of duplicate messages.
+#: ../mail/e-mail-reader-utils.c:663
+#, c-format
+msgid ""
+"Folder '%s' contains %u duplicate message. Are you sure you want to delete "
+"it?"
+msgid_plural ""
+"Folder '%s' contains %u duplicate messages. Are you sure you want to delete "
+"them?"
+msgstr[0] ""
+"La carpeta «%s» contiene %u correo duplicado. ¿Está seguro de que quiere "
+"eliminarlo?"
+msgstr[1] ""
+"La carpeta «%s» contiene %u correos duplicados. ¿Está seguro de que quiere "
+"eliminarlos?"
+
+#: ../mail/e-mail-reader-utils.c:960
+msgid "Save Message"
+msgid_plural "Save Messages"
+msgstr[0] "Guardar mensaje"
+msgstr[1] "Guardar mensajes"
+
+#. Translators: This is part of a suggested file name
+#. * used when saving a message or multiple messages to
+#. * mbox format, when the first message doesn't have a
+#. * subject.  The extension ".mbox" is appended to the
+#. * string; for example "Message.mbox".
+#: ../mail/e-mail-reader-utils.c:981
+msgid "Message"
+msgid_plural "Messages"
+msgstr[0] "Mensaje"
+msgstr[1] "Mensajes"
+
+#: ../mail/e-mail-session.c:833
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Introduzca la contraseña para %s"
 
-#: ../mail/e-mail-session.c:661
+#: ../mail/e-mail-session.c:837
 msgid "Enter Passphrase"
 msgstr "Introduzca la contraseña"
 
-#: ../mail/e-mail-session.c:665
+#: ../mail/e-mail-session.c:841
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Introduzca su contraseña para %s"
 
-#: ../mail/e-mail-session.c:669
+#: ../mail/e-mail-session.c:845
 msgid "Enter Password"
 msgstr "Introduzca contraseña"
 
-#: ../mail/e-mail-session.c:720
+#: ../mail/e-mail-session.c:896
 #, c-format
 msgid "User canceled operation."
 msgstr "El usuario canceló la operación."
 
-#: ../mail/e-mail-session.c:833
+#: ../mail/e-mail-session.c:1009
 #, c-format
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
@@ -9048,7 +9202,7 @@ msgstr ""
 "No se proporcionó ninguna dirección de destino, se canceló el reenvío del "
 "mensaje."
 
-#: ../mail/e-mail-session.c:842
+#: ../mail/e-mail-session.c:1018
 #, c-format
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr ""
@@ -9107,154 +9261,6 @@ msgstr "Preparando la cuenta «%s» para desconexión"
 #: ../mail/e-mail-tag-editor.c:291
 msgid "Flag to Follow Up"
 msgstr "Marcar para seguimiento"
-
-#. Translators: This string is a "Use secure connection" option for
-#. the Mailer. It will not use an encrypted connection.
-#: ../mail/em-account-editor.c:568 ../mail/mail-config.ui.h:72
-#: ../modules/addressbook/ldap-config.ui.h:9
-msgid "No encryption"
-msgstr "Sin cifrado"
-
-#. Translators: This string is a "Use secure connection" option for
-#. the Mailer. TLS (Transport Layer Security) is commonly known by
-#. this abbreviation.
-#: ../mail/em-account-editor.c:572 ../mail/mail-config.ui.h:130
-#: ../modules/addressbook/ldap-config.ui.h:20
-msgid "TLS encryption"
-msgstr "Cifrado TLS"
-
-#. Translators: This string is a "Use secure connection" option for
-#. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
-#. abbreviation.
-#: ../mail/em-account-editor.c:576 ../mail/mail-config.ui.h:94
-#: ../modules/addressbook/ldap-config.ui.h:12
-msgid "SSL encryption"
-msgstr "Cifrado SSL"
-
-#. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:839 ../widgets/misc/e-signature-combo-box.c:75
-msgctxt "mail-signature"
-msgid "None"
-msgstr "Ninguna"
-
-#: ../mail/em-account-editor.c:920
-msgid "Never"
-msgstr "Nunca"
-
-#: ../mail/em-account-editor.c:921
-msgid "Always"
-msgstr "Siempre"
-
-#: ../mail/em-account-editor.c:922
-msgid "Ask for each message"
-msgstr "Preguntar por cada mensaje"
-
-#. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1742 ../widgets/misc/e-account-tree-view.c:131
-msgctxt "mail-receiving"
-msgid "None"
-msgstr "Ninguna"
-
-#: ../mail/em-account-editor.c:2178
-msgid "Mail Configuration"
-msgstr "Configuración del correo"
-
-#: ../mail/em-account-editor.c:2179
-msgid ""
-"Welcome to the Evolution Mail Configuration Assistant.\n"
-"\n"
-"Click \"Forward\" to begin."
-msgstr ""
-"Bienvenido al asistente de configuración de correo de Evolution.\n"
-"\n"
-"Pulse «Adelante» para comenzar. "
-
-#: ../mail/em-account-editor.c:2182
-msgid ""
-"Please enter your name and email address below. The \"optional\" fields "
-"below do not need to be filled in, unless you wish to include this "
-"information in email you send."
-msgstr ""
-"Escriba debajo su nombre y dirección de correo-e. Los campos «opcionales» no "
-"hace falta que los rellene, a menos que quiera incluir esta información en "
-"el correo-e que envíe."
-
-#: ../mail/em-account-editor.c:2184 ../mail/em-account-editor.c:2372
-msgid "Receiving Email"
-msgstr "Recepción de correo"
-
-#: ../mail/em-account-editor.c:2185
-msgid "Please configure the following account settings."
-msgstr "Configure las siguientes opciones de la cuenta."
-
-#: ../mail/em-account-editor.c:2187 ../mail/em-account-editor.c:2896
-msgid "Sending Email"
-msgstr "Envío de correo"
-
-#: ../mail/em-account-editor.c:2188
-msgid ""
-"Please enter information about the way you will send mail. If you are not "
-"sure, ask your system administrator or Internet Service Provider."
-msgstr ""
-"Escriba debajo la información acerca de cómo enviará su correo. Si no está "
-"seguro, pregúntele a su administrador de sistemas o a su Proveedor de "
-"Servicios de Internet."
-
-#: ../mail/em-account-editor.c:2190 ../mail/mail-config.ui.h:1
-msgid "Account Information"
-msgstr "Información de la cuenta"
-
-#: ../mail/em-account-editor.c:2191
-msgid ""
-"Please enter a descriptive name for this account below.\n"
-"This name will be used for display purposes only."
-msgstr ""
-"Introduzca un nombre descriptivo para esta cuenta en el espacio de abajo.\n"
-"Este nombre se usará sólo para mostrarlo."
-
-#: ../mail/em-account-editor.c:2195
-msgid "Done"
-msgstr "Hecho"
-
-#: ../mail/em-account-editor.c:2196
-msgid ""
-"Congratulations, your mail configuration is complete.\n"
-"\n"
-"You are now ready to send and receive email using Evolution.\n"
-"\n"
-"Click \"Apply\" to save your settings."
-msgstr ""
-"Enhorabuena, ha terminado de configurar su correo.\n"
-"\n"
-"Ahora está listo para enviar y recibir correo usando Evolution. \n"
-"\n"
-"Pulse «Aplicar» para guardar su configuración."
-
-#: ../mail/em-account-editor.c:2694
-msgid "Check for _new messages every"
-msgstr "Comprobar si hay mensajes _nuevos cada"
-
-#: ../mail/em-account-editor.c:2702
-msgid "minu_tes"
-msgstr "minuto_s"
-
-#: ../mail/em-account-editor.c:3013
-msgid "Please select a folder from the current account."
-msgstr "Seleccionar una carpeta de la cuenta actual."
-
-#: ../mail/em-account-editor.c:3339 ../mail/mail-config.ui.h:101
-msgid "Security"
-msgstr "Seguridad"
-
-#. Most sections for this is auto-generated from the camel config
-#. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3393 ../mail/em-account-editor.c:3476
-msgid "Receiving Options"
-msgstr "Opciones de recepción"
-
-#: ../mail/em-account-editor.c:3394 ../mail/em-account-editor.c:3477
-msgid "Checking for New Messages"
-msgstr "Comprobando si hay mensajes nuevos"
 
 #. Note to translators: this is the attribution string used
 #. * when quoting messages.  Each ${Variable} gets replaced
@@ -9589,23 +9595,6 @@ msgstr "C_rear"
 msgid "Folder _name:"
 msgstr "_Nombre de la carpeta:"
 
-#. load store to mail component
-#: ../mail/em-folder-tree-model.c:147 ../mail/em-folder-tree-model.c:150
-#: ../mail/em-folder-tree-model.c:156 ../mail/em-folder-tree-model.c:158
-#: ../mail/em-folder-tree-model.c:165 ../mail/em-folder-tree-model.c:167
-#: ../mail/mail-vfolder.c:1165 ../mail/mail-vfolder.c:1240
-msgid "Search Folders"
-msgstr "Carpetas de búsqueda"
-
-#. UNMATCHED is always last.
-#: ../mail/em-folder-tree-model.c:172 ../mail/em-folder-tree-model.c:174
-msgid "UNMATCHED"
-msgstr "NO COINCIDENTE"
-
-#: ../mail/em-folder-tree-model.c:792 ../mail/em-folder-tree-model.c:1061
-msgid "Loading..."
-msgstr "Cargando…"
-
 #: ../mail/em-folder-tree.c:647
 msgid "Folder names cannot contain '/'"
 msgstr "Los nombres de carpetas no pueden contener el carácter «/»"
@@ -9645,6 +9634,23 @@ msgstr "Copiando los mensajes a la carpeta %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "No se puede dejar el(los) mensaje(s) en el almacén de nivel superior"
 
+#. load store to mail component
+#: ../mail/em-folder-tree-model.c:147 ../mail/em-folder-tree-model.c:150
+#: ../mail/em-folder-tree-model.c:156 ../mail/em-folder-tree-model.c:158
+#: ../mail/em-folder-tree-model.c:165 ../mail/em-folder-tree-model.c:167
+#: ../mail/mail-vfolder.c:1165 ../mail/mail-vfolder.c:1240
+msgid "Search Folders"
+msgstr "Carpetas de búsqueda"
+
+#. UNMATCHED is always last.
+#: ../mail/em-folder-tree-model.c:172 ../mail/em-folder-tree-model.c:174
+msgid "UNMATCHED"
+msgstr "NO COINCIDENTE"
+
+#: ../mail/em-folder-tree-model.c:792 ../mail/em-folder-tree-model.c:1061
+msgid "Loading..."
+msgstr "Cargando…"
+
 #: ../mail/em-folder-utils.c:481
 msgid "Move Folder To"
 msgstr "Mover carpeta a"
@@ -9661,9 +9667,104 @@ msgstr "Crear carpeta"
 msgid "Specify where to create the folder:"
 msgstr "Especifique donde crear la carpeta:"
 
-#: ../mail/em-format-html-display.c:85 ../mail/em-format-html.c:1697
+#: ../mail/em-format-html.c:165
+msgid "Formatting message"
+msgstr "Formateando el mensaje"
+
+#: ../mail/em-format-html.c:368
+msgid "Formatting Message..."
+msgstr "Formateando el mensaje…"
+
+#: ../mail/em-format-html.c:1541 ../mail/em-format-html.c:1551
+#, c-format
+msgid "Retrieving '%s'"
+msgstr "Obteniendo «%s»"
+
+#: ../mail/em-format-html.c:1697 ../mail/em-format-html-display.c:85
 msgid "Unsigned"
 msgstr "No firmado"
+
+#: ../mail/em-format-html.c:1698 ../mail/em-format-html-display.c:86
+msgid "Valid signature"
+msgstr "Firma válida"
+
+#: ../mail/em-format-html.c:1699 ../mail/em-format-html-display.c:87
+msgid "Invalid signature"
+msgstr "Firma no válida"
+
+#: ../mail/em-format-html.c:1700 ../mail/em-format-html-display.c:88
+msgid "Valid signature, but cannot verify sender"
+msgstr "Firma válida, pero no se puede verificar el remitente"
+
+#: ../mail/em-format-html.c:1701 ../mail/em-format-html-display.c:89
+msgid "Signature exists, but need public key"
+msgstr "La firma existe pero se necesita la clave pública"
+
+#: ../mail/em-format-html.c:1707 ../mail/em-format-html-display.c:96
+msgid "Unencrypted"
+msgstr "Descifrado"
+
+#: ../mail/em-format-html.c:1708 ../mail/em-format-html-display.c:97
+msgid "Encrypted, weak"
+msgstr "Cifrado, débil"
+
+#: ../mail/em-format-html.c:1709 ../mail/em-format-html-display.c:98
+msgid "Encrypted"
+msgstr "Cifrado"
+
+#: ../mail/em-format-html.c:1710 ../mail/em-format-html-display.c:99
+msgid "Encrypted, strong"
+msgstr "Cifrado, fuerte"
+
+#: ../mail/em-format-html.c:2110
+msgid "Unknown external-body part."
+msgstr "Parte externa al cuerpo del mensaje desconocida."
+
+#: ../mail/em-format-html.c:2120
+msgid "Malformed external-body part."
+msgstr "Parte externa al cuerpo del mensaje mal escrita."
+
+#: ../mail/em-format-html.c:2151
+#, c-format
+msgid "Pointer to FTP site (%s)"
+msgstr "Puntero a sitio FTP (%s)"
+
+#: ../mail/em-format-html.c:2162
+#, c-format
+msgid "Pointer to local file (%s) valid at site \"%s\""
+msgstr "Puntero a archivo local (%s) válido en el sitio «%s»"
+
+#: ../mail/em-format-html.c:2164
+#, c-format
+msgid "Pointer to local file (%s)"
+msgstr "Puntero a archivo local (%s)"
+
+#: ../mail/em-format-html.c:2185
+#, c-format
+msgid "Pointer to remote data (%s)"
+msgstr "Puntero a datos remotos (%s)"
+
+#: ../mail/em-format-html.c:2200
+#, c-format
+msgid "Pointer to unknown external data (\"%s\" type)"
+msgstr "Puntero a datos externos desconocidos (tipo «%s»)"
+
+#. Translators: "From:" is preceding a new mail
+#. * sender address, like "From: user@example.com"
+#: ../mail/em-format-html.c:2905
+#: ../plugins/mail-notification/mail-notification.c:405
+#, c-format
+msgid "From: %s"
+msgstr "De: %s"
+
+#: ../mail/em-format-html.c:2927
+msgid "(no subject)"
+msgstr "(sin asunto)"
+
+#: ../mail/em-format-html.c:3003
+#, c-format
+msgid "This message was sent by %s on behalf of %s"
+msgstr "%s envió este mensaje en nombre de %s"
 
 #: ../mail/em-format-html-display.c:85
 msgid ""
@@ -9673,10 +9774,6 @@ msgstr ""
 "Este mensaje no está firmado. No hay garantía de que el mensaje sea "
 "auténtico."
 
-#: ../mail/em-format-html-display.c:86 ../mail/em-format-html.c:1698
-msgid "Valid signature"
-msgstr "Firma válida"
-
 #: ../mail/em-format-html-display.c:86
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
@@ -9684,10 +9781,6 @@ msgid ""
 msgstr ""
 "Este mensaje está firmado y es válido, lo que significa que es muy probable "
 "que el mensaje sea auténtico."
-
-#: ../mail/em-format-html-display.c:87 ../mail/em-format-html.c:1699
-msgid "Invalid signature"
-msgstr "Firma no válida"
 
 #: ../mail/em-format-html-display.c:87
 msgid ""
@@ -9697,10 +9790,6 @@ msgstr ""
 "La firma de este mensaje no se puede verificar, pudo haber sido alterada en "
 "tránsito."
 
-#: ../mail/em-format-html-display.c:88 ../mail/em-format-html.c:1700
-msgid "Valid signature, but cannot verify sender"
-msgstr "Firma válida, pero no se puede verificar el remitente"
-
 #: ../mail/em-format-html-display.c:88
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
@@ -9708,10 +9797,6 @@ msgid ""
 msgstr ""
 "Este mensaje está firmado con una firma válida, pero el remitente del "
 "mensaje no se pudo verificar."
-
-#: ../mail/em-format-html-display.c:89 ../mail/em-format-html.c:1701
-msgid "Signature exists, but need public key"
-msgstr "La firma existe pero se necesita la clave pública"
 
 #: ../mail/em-format-html-display.c:89
 msgid ""
@@ -9721,10 +9806,6 @@ msgstr ""
 "Este mensaje está firmado con una firma pero no existe una clave pública "
 "correspondiente."
 
-#: ../mail/em-format-html-display.c:96 ../mail/em-format-html.c:1707
-msgid "Unencrypted"
-msgstr "Descifrado"
-
 #: ../mail/em-format-html-display.c:96
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
@@ -9732,10 +9813,6 @@ msgid ""
 msgstr ""
 "Este mensaje no está cifrado. Su contenido puede verse en tránsito a través "
 "de Internet."
-
-#: ../mail/em-format-html-display.c:97 ../mail/em-format-html.c:1708
-msgid "Encrypted, weak"
-msgstr "Cifrado, débil"
 
 #: ../mail/em-format-html-display.c:97
 msgid ""
@@ -9747,10 +9824,6 @@ msgstr ""
 "ser difícil, pero no imposible para un espía ver el contenido de este "
 "mensaje empleando algo de tiempo."
 
-#: ../mail/em-format-html-display.c:98 ../mail/em-format-html.c:1709
-msgid "Encrypted"
-msgstr "Cifrado"
-
 #: ../mail/em-format-html-display.c:98
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
@@ -9758,10 +9831,6 @@ msgid ""
 msgstr ""
 "Este mensaje está cifrado. Sería difícil para un espía ver el contenido de "
 "este mensaje."
-
-#: ../mail/em-format-html-display.c:99 ../mail/em-format-html.c:1710
-msgid "Encrypted, strong"
-msgstr "Cifrado, fuerte"
 
 #: ../mail/em-format-html-display.c:99
 msgid ""
@@ -9817,69 +9886,6 @@ msgstr "Abrir c_on"
 #, c-format
 msgid "Page %d of %d"
 msgstr "Página %d de %d"
-
-#: ../mail/em-format-html.c:165
-msgid "Formatting message"
-msgstr "Formateando el mensaje"
-
-#: ../mail/em-format-html.c:368
-msgid "Formatting Message..."
-msgstr "Formateando el mensaje…"
-
-#: ../mail/em-format-html.c:1541 ../mail/em-format-html.c:1551
-#, c-format
-msgid "Retrieving '%s'"
-msgstr "Obteniendo «%s»"
-
-#: ../mail/em-format-html.c:2110
-msgid "Unknown external-body part."
-msgstr "Parte externa al cuerpo del mensaje desconocida."
-
-#: ../mail/em-format-html.c:2120
-msgid "Malformed external-body part."
-msgstr "Parte externa al cuerpo del mensaje mal escrita."
-
-#: ../mail/em-format-html.c:2151
-#, c-format
-msgid "Pointer to FTP site (%s)"
-msgstr "Puntero a sitio FTP (%s)"
-
-#: ../mail/em-format-html.c:2162
-#, c-format
-msgid "Pointer to local file (%s) valid at site \"%s\""
-msgstr "Puntero a archivo local (%s) válido en el sitio «%s»"
-
-#: ../mail/em-format-html.c:2164
-#, c-format
-msgid "Pointer to local file (%s)"
-msgstr "Puntero a archivo local (%s)"
-
-#: ../mail/em-format-html.c:2185
-#, c-format
-msgid "Pointer to remote data (%s)"
-msgstr "Puntero a datos remotos (%s)"
-
-#: ../mail/em-format-html.c:2200
-#, c-format
-msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr "Puntero a datos externos desconocidos (tipo «%s»)"
-
-#. Translators: "From:" is preceding a new mail
-#. * sender address, like "From: user@example.com"
-#: ../mail/em-format-html.c:2905
-#: ../plugins/mail-notification/mail-notification.c:405
-#, c-format
-msgid "From: %s"
-msgstr "De: %s"
-
-#: ../mail/em-format-html.c:2927
-msgid "(no subject)"
-msgstr "(sin asunto)"
-
-#: ../mail/em-format-html.c:3003
-#, c-format
-msgid "This message was sent by %s on behalf of %s"
-msgstr "%s envió este mensaje en nombre de %s"
 
 #: ../mail/em-html-stream.c:82 ../mail/em-html-stream.c:104
 #: ../mail/em-html-stream.c:122
@@ -11216,30 +11222,14 @@ msgstr ""
 "en línea."
 
 #: ../mail/evolution-mail.schemas.in.h:219
-msgid "Use SpamAssassin daemon and client"
-msgstr "Usar el demonio y cliente de SpamAssassin"
-
-#: ../mail/evolution-mail.schemas.in.h:220
-msgid "Use SpamAssassin daemon and client (spamc/spamd)."
-msgstr "Usar el demonio y cliente de SpamAssassin (spamc/spamd)."
-
-#: ../mail/evolution-mail.schemas.in.h:221
 msgid "Use custom fonts"
 msgstr "Usar tipografía personalizada"
 
-#: ../mail/evolution-mail.schemas.in.h:222
+#: ../mail/evolution-mail.schemas.in.h:220
 msgid "Use custom fonts for displaying mail."
 msgstr "Usar tipografía personalizada para mostrar el correo."
 
-#: ../mail/evolution-mail.schemas.in.h:223
-msgid "Use only local spam tests."
-msgstr "Usar sólo comprobaciones de SPAM locales."
-
-#: ../mail/evolution-mail.schemas.in.h:224
-msgid "Use only the local spam tests (no DNS)."
-msgstr "Usa sólo comprobaciones de SPAM locales (sin DNS)."
-
-#: ../mail/evolution-mail.schemas.in.h:225
+#: ../mail/evolution-mail.schemas.in.h:221
 msgid ""
 "Users get all up in arms over where the cursor should go when replying to a "
 "message. This determines whether the cursor is placed at the top of the "
@@ -11249,7 +11239,7 @@ msgstr ""
 "mensaje. Esto determina si el cursor se posiciona en la parte superior del "
 "mensaje o en la inferior."
 
-#: ../mail/evolution-mail.schemas.in.h:226
+#: ../mail/evolution-mail.schemas.in.h:222
 msgid ""
 "Users get all up in arms over where their signature should go when replying "
 "to a message. This determines whether the signature is placed at the top of "
@@ -11259,17 +11249,17 @@ msgstr ""
 "mensaje. Esto determina si la firma se ubica en la parte superior del "
 "mensaje o en la inferior."
 
-#: ../mail/evolution-mail.schemas.in.h:227
+#: ../mail/evolution-mail.schemas.in.h:223
 msgid "Variable width font"
 msgstr "Tipografía de anchura variable"
 
-#: ../mail/evolution-mail.schemas.in.h:228
+#: ../mail/evolution-mail.schemas.in.h:224
 msgid "Whether a read receipt request gets added to every message by default."
 msgstr ""
 "Indica si se debe añadir una solicitud de lectura de forma predeterminada a "
 "cada mensaje."
 
-#: ../mail/evolution-mail.schemas.in.h:229
+#: ../mail/evolution-mail.schemas.in.h:225
 msgid ""
 "Whether check for new messages in all active accounts regardless of the "
 "account \"Check for new messages every X minutes\" option when Evolution is "
@@ -11280,7 +11270,7 @@ msgstr ""
 "mensajes nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se "
 "usa junto con la opción «send_recv_on_start»."
 
-#: ../mail/evolution-mail.schemas.in.h:230
+#: ../mail/evolution-mail.schemas.in.h:226
 msgid ""
 "Whether check for new messages when Evolution is started. This includes also "
 "sending messages from Outbox."
@@ -11288,13 +11278,13 @@ msgstr ""
 "Indica si se debe comprobar si hay mensajes nuevos al iniciar Evolution. "
 "Incluye también el envío de mensajes en la bandeja de salida."
 
-#: ../mail/evolution-mail.schemas.in.h:231
+#: ../mail/evolution-mail.schemas.in.h:227
 msgid "Whether disable ellipsizing feature of folder names in side bar."
 msgstr ""
 "Indica si se debe desactivar la característica de elipsis de los nombres de "
 "las carpetas en la barra lateral."
 
-#: ../mail/evolution-mail.schemas.in.h:232
+#: ../mail/evolution-mail.schemas.in.h:228
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -11302,13 +11292,13 @@ msgstr ""
 "Indica si se debe o no volver al agrupado de conversaciones por asuntos "
 "cuando los mensajes no contienen cabeceras «In-Reply-To» o «References»."
 
-#: ../mail/evolution-mail.schemas.in.h:233
+#: ../mail/evolution-mail.schemas.in.h:229
 msgid "Whether sort threads based on latest message in that thread"
 msgstr ""
 "Indica si ordenar las conversaciones basándose en el último mensaje de esa "
 "conversación"
 
-#: ../mail/evolution-mail.schemas.in.h:234
+#: ../mail/evolution-mail.schemas.in.h:230
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any 'Forward to' filter action and approximately "
@@ -11319,11 +11309,11 @@ msgstr ""
 "algún filtro de acción «Reenviar a» y, aproximadamente, un minuto después de "
 "la última invocación a una acción."
 
-#: ../mail/evolution-mail.schemas.in.h:235
+#: ../mail/evolution-mail.schemas.in.h:231
 msgid "Width of the message-list pane"
 msgstr "Anchura del panel de lista de mensajes"
 
-#: ../mail/evolution-mail.schemas.in.h:236
+#: ../mail/evolution-mail.schemas.in.h:232
 msgid "Width of the message-list pane."
 msgstr "Anchura del panel de lista de mensajes."
 
@@ -11994,128 +11984,120 @@ msgid "_Authentication Type"
 msgstr "Tipo de _autenticación"
 
 #: ../mail/mail-config.ui.h:145
-msgid "_Default junk plugin:"
-msgstr "Complemento SPAM pre_determinado:"
-
-#: ../mail/mail-config.ui.h:146
 msgid "_Direct connection to the Internet"
 msgstr "Conexión _directa a Internet"
 
-#: ../mail/mail-config.ui.h:147
+#: ../mail/mail-config.ui.h:146
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr ""
 "No _firmar las solicitudes de reunión (para compatibilidad con Outlook)"
 
-#: ../mail/mail-config.ui.h:148
+#: ../mail/mail-config.ui.h:147
 msgid "_Forward style:"
 msgstr "_Estilo de reenvío:"
 
-#: ../mail/mail-config.ui.h:149
+#: ../mail/mail-config.ui.h:148
 msgid "_Junk Folder:"
 msgstr "Carpeta de _SPAM:"
 
-#: ../mail/mail-config.ui.h:150
+#: ../mail/mail-config.ui.h:149
 msgid "_Keep signature above the original message on replying"
 msgstr "_Mantener la firma por encima del mensaje original al responder"
 
-#: ../mail/mail-config.ui.h:151
+#: ../mail/mail-config.ui.h:150
 msgid "_Languages"
 msgstr "_Idiomas"
 
-#: ../mail/mail-config.ui.h:152
+#: ../mail/mail-config.ui.h:151
 msgid "_Load images only in messages from contacts"
 msgstr "Cargar i_mágenes en los mensajes de mis contactos"
 
-#: ../mail/mail-config.ui.h:153
+#: ../mail/mail-config.ui.h:152
 msgid "_Lookup in local address book only"
 msgstr "_Buscar sólo en la libreta de direcciones local"
 
-#: ../mail/mail-config.ui.h:154
+#: ../mail/mail-config.ui.h:153
 msgid "_Make this my default account"
 msgstr "_Hacer que ésta sea mi cuenta predeterminada"
 
-#: ../mail/mail-config.ui.h:155
+#: ../mail/mail-config.ui.h:154
 msgid "_Manual proxy configuration:"
 msgstr "Configuración _manual del proxy:"
 
-#: ../mail/mail-config.ui.h:157
+#: ../mail/mail-config.ui.h:156
 msgid "_Never load images from the Internet"
 msgstr "_Nunca cargar imágenes desde Internet"
 
-#: ../mail/mail-config.ui.h:158
+#: ../mail/mail-config.ui.h:157
 msgid "_Path:"
 msgstr "R_uta:"
 
-#: ../mail/mail-config.ui.h:159 ../modules/addressbook/ldap-config.ui.h:27
+#: ../mail/mail-config.ui.h:158 ../modules/addressbook/ldap-config.ui.h:27
 msgid "_Port:"
 msgstr "_Puerto:"
 
-#: ../mail/mail-config.ui.h:160
+#: ../mail/mail-config.ui.h:159
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr "_Preguntar al enviar mensajes en HTML a contactos que no los quieren"
 
-#: ../mail/mail-config.ui.h:161
+#: ../mail/mail-config.ui.h:160
 msgid "_Reply style:"
 msgstr "Estilo de _respuesta:"
 
-#: ../mail/mail-config.ui.h:162
+#: ../mail/mail-config.ui.h:161
 msgid "_Script:"
 msgstr "_Script:"
 
-#: ../mail/mail-config.ui.h:163
+#: ../mail/mail-config.ui.h:162
 msgid "_Secure HTTP Proxy:"
 msgstr "Proxy HTTP _seguro:"
 
-#: ../mail/mail-config.ui.h:165 ../modules/addressbook/ldap-config.ui.h:29
+#: ../mail/mail-config.ui.h:164 ../modules/addressbook/ldap-config.ui.h:29
 #: ../plugins/publish-calendar/publish-calendar.ui.h:28
 msgid "_Server:"
 msgstr "_Servidor:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../mail/mail-config.ui.h:167
+#: ../mail/mail-config.ui.h:166
 msgid "_Show animated images"
 msgstr "_Mostrar las imágenes animadas"
 
-#: ../mail/mail-config.ui.h:168
+#: ../mail/mail-config.ui.h:167
 msgid "_Show the photograph of sender in the message preview"
 msgstr "_Mostrar la foto del remitente en la vista previa del mensaje"
 
-#: ../mail/mail-config.ui.h:169
+#: ../mail/mail-config.ui.h:168
 msgid "_Trash Folder:"
 msgstr "Carpeta de p_apelera:"
 
-#: ../mail/mail-config.ui.h:170
+#: ../mail/mail-config.ui.h:169
 msgid "_Use Secure Connection:"
 msgstr "Usar cone_xión segura:"
 
-#: ../mail/mail-config.ui.h:171
+#: ../mail/mail-config.ui.h:170
 msgid "_Use system defaults"
 msgstr "_Usar los valores predeterminados del sistema"
 
-#: ../mail/mail-config.ui.h:172
+#: ../mail/mail-config.ui.h:171
 msgid "_Use the same fonts as other applications"
 msgstr "_Usar las mismas tipografías que en otras aplicaciones"
 
-#: ../mail/mail-config.ui.h:173 ../smime/gui/smime-ui.ui.h:48
+#: ../mail/mail-config.ui.h:172 ../smime/gui/smime-ui.ui.h:48
 msgid "a"
 msgstr "am"
 
-#: ../mail/mail-config.ui.h:174 ../smime/gui/smime-ui.ui.h:49
+#: ../mail/mail-config.ui.h:173 ../smime/gui/smime-ui.ui.h:49
 msgid "b"
 msgstr "por"
 
 # Esta traducción debe mantenerse así
-#: ../mail/mail-config.ui.h:175
+#: ../mail/mail-config.ui.h:174
 msgid "color"
 msgstr "color"
 
-#: ../mail/mail-config.ui.h:176
+#: ../mail/mail-config.ui.h:175
 msgid "description"
 msgstr "descripción"
-
-#: ../mail/mail-config.ui.h:177
-msgid "gtk-ok"
-msgstr "gtk-ok"
 
 #: ../mail/mail-dialogs.ui.h:1
 msgid "All active remote folders"
@@ -13492,7 +13474,7 @@ msgstr "Indica si se muestra el panel de vista previa."
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../modules/addressbook/autocompletion-config.c:165
-#: ../modules/mail/em-mailer-prefs.c:1150
+#: ../modules/mail/em-mailer-prefs.c:1029
 msgid "_Table column:"
 msgstr "Columna de _tabla:"
 
@@ -13766,7 +13748,7 @@ msgstr "No coincidente"
 #: ../modules/calendar/e-memo-shell-view-actions.c:768
 #: ../modules/calendar/e-task-shell-view-actions.c:967
 #: ../modules/mail/e-mail-shell-view-actions.c:1557
-#: ../shell/e-shell-content.c:665
+#: ../shell/e-shell-content.c:666
 msgid "Advanced Search"
 msgstr "Búsqueda avanzada"
 
@@ -13934,6 +13916,45 @@ msgstr "Usar _conexión segura:"
 #: ../modules/addressbook/ldap-config.ui.h:32
 msgid "cards"
 msgstr "tarjetas"
+
+#: ../modules/bogofilter/evolution-bogofilter.c:146
+#, c-format
+#| msgid "Failed to apply outgoing filters: %s"
+msgid "Failed to spawn Bogofilter (%s): "
+msgstr "Falló al iniciar Bogofilter (%s): "
+
+#: ../modules/bogofilter/evolution-bogofilter.c:164
+msgid "Failed to stream mail message content to Bogofilter: "
+msgstr "Falló al enviar el flujo del contenido de los correos a Bogofilter: "
+
+#: ../modules/bogofilter/evolution-bogofilter.c:213
+msgid "Bogofilter either crashed or failed to process a mail message"
+msgstr "Bogofilter se colgó o falló al procesar un mensaje de correo"
+
+#: ../modules/bogofilter/evolution-bogofilter.c:312
+msgid "Bogofilter Options"
+msgstr "Opciones de Bogofilter"
+
+#: ../modules/bogofilter/evolution-bogofilter.c:321
+msgid "Convert message text to _Unicode"
+msgstr "Convertir el texto del correo a _Unicode"
+
+#: ../modules/bogofilter/evolution-bogofilter.c:477
+#| msgid "Bogofilter Options"
+msgid "Bogofilter"
+msgstr "Bogofilter"
+
+#: ../modules/bogofilter/evolution-bogofilter.schemas.in.h:1
+msgid "Convert mail messages to Unicode"
+msgstr "Convertir el texto de los correos a Unicode"
+
+#: ../modules/bogofilter/evolution-bogofilter.schemas.in.h:2
+msgid ""
+"Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from "
+"different character sets."
+msgstr ""
+"Convertir el mensaje de texto a Unicode UTF-8 para unificar los tokens SPAM/"
+"correo normal provenientes de diferentes juegos de caracteres."
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:2
 #, no-c-format
@@ -14810,6 +14831,18 @@ msgstr "I_mportar al calendario"
 msgid "I_mport to Tasks"
 msgstr "I_mportar a las tareas"
 
+#: ../modules/calendar/e-calendar-preferences.c:441
+msgid "Selected Calendars for Alarms"
+msgstr "Calendarios seleccionados para alertas"
+
+#: ../modules/calendar/e-calendar-preferences.c:840
+msgid "Ti_me and date:"
+msgstr "Fecha y _hora:"
+
+#: ../modules/calendar/e-calendar-preferences.c:841
+msgid "_Date only:"
+msgstr "Sólo _fecha:"
+
 #. Create the Webcal source group
 #: ../modules/calendar/e-cal-shell-backend.c:113
 #: ../modules/calendar/e-cal-shell-migrate.c:198
@@ -15276,18 +15309,6 @@ msgstr "Imprimir la tarea seleccionada"
 msgid "_Save as iCalendar..."
 msgstr "G_uardar como iCalendar…"
 
-#: ../modules/calendar/e-calendar-preferences.c:441
-msgid "Selected Calendars for Alarms"
-msgstr "Calendarios seleccionados para alertas"
-
-#: ../modules/calendar/e-calendar-preferences.c:840
-msgid "Ti_me and date:"
-msgstr "Fecha y _hora:"
-
-#: ../modules/calendar/e-calendar-preferences.c:841
-msgid "_Date only:"
-msgstr "Sólo _fecha:"
-
 #: ../modules/calendar/e-memo-shell-backend.c:285
 msgctxt "New"
 msgid "Mem_o"
@@ -15391,6 +15412,14 @@ msgstr "Imprime la lista de notas"
 msgid "Preview the list of memos to be printed"
 msgstr "Vista previa de la lista de notas para imprimir"
 
+#: ../modules/calendar/e-memo-shell-view.c:227
+msgid "Delete Memos"
+msgstr "Eliminar notas"
+
+#: ../modules/calendar/e-memo-shell-view.c:229
+msgid "Delete Memo"
+msgstr "Eliminar nota"
+
 #: ../modules/calendar/e-memo-shell-view-private.c:424
 #, c-format
 msgid "%d memo"
@@ -15403,14 +15432,6 @@ msgstr[1] "%d notas"
 #, c-format
 msgid "%d selected"
 msgstr "%d seleccionada"
-
-#: ../modules/calendar/e-memo-shell-view.c:227
-msgid "Delete Memos"
-msgstr "Eliminar notas"
-
-#: ../modules/calendar/e-memo-shell-view.c:229
-msgid "Delete Memo"
-msgstr "Eliminar nota"
 
 #: ../modules/calendar/e-task-shell-backend.c:284
 msgctxt "New"
@@ -15563,6 +15584,14 @@ msgstr "Imprime la lista de tareas"
 msgid "Preview the list of tasks to be printed"
 msgstr "Vista previa de la lista de tareas para imprimir"
 
+#: ../modules/calendar/e-task-shell-view.c:362
+msgid "Delete Tasks"
+msgstr "Eliminar tareas"
+
+#: ../modules/calendar/e-task-shell-view.c:364
+msgid "Delete Task"
+msgstr "Eliminar tarea"
+
 #: ../modules/calendar/e-task-shell-view-private.c:472
 msgid "Expunging"
 msgstr "Compactando"
@@ -15574,26 +15603,19 @@ msgid_plural "%d tasks"
 msgstr[0] "%d tarea"
 msgstr[1] "%d tareas"
 
-#: ../modules/calendar/e-task-shell-view.c:362
-msgid "Delete Tasks"
-msgstr "Eliminar tareas"
+#: ../modules/mail/em-account-prefs.c:218
+msgid "Evolution Account Assistant"
+msgstr "Asistente de cuentas de Evolution"
 
-#: ../modules/calendar/e-task-shell-view.c:364
-msgid "Delete Task"
-msgstr "Eliminar tarea"
+#: ../modules/mail/em-account-prefs.c:267
+msgid "Account Editor"
+msgstr "Editor de cuentas"
 
 #. Translators: This is only for multiple messages.
 #: ../modules/mail/e-mail-attachment-handler.c:384
 #, c-format
 msgid "%d attached messages"
 msgstr "%d mensajes adjuntos"
-
-#. Translators: "None" for a junk hook name,
-#. * when the junk plugin is not enabled.
-#: ../modules/mail/e-mail-junk-hook.c:94
-msgctxt "mail-junk-hook"
-msgid "None"
-msgstr "Ninguno"
 
 #: ../modules/mail/e-mail-shell-backend.c:195
 msgctxt "New"
@@ -15926,6 +15948,18 @@ msgstr "Cuenta actual"
 msgid "Current Folder"
 msgstr "Carpeta actual"
 
+#: ../modules/mail/e-mail-shell-view.c:559
+msgid "All Account Search"
+msgstr "Búsqueda en todas las cuentas"
+
+#: ../modules/mail/e-mail-shell-view.c:732
+msgid "Account Search"
+msgstr "Búsqueda en la cuenta"
+
+#: ../modules/mail/e-mail-shell-view.c:943
+msgid "Proxy _Logout"
+msgstr "_Cerrar sesión proxy"
+
 #: ../modules/mail/e-mail-shell-view-private.c:996
 #, c-format
 msgid "%d selected, "
@@ -15991,26 +16025,6 @@ msgstr "Papelera"
 msgid "Send / Receive"
 msgstr "Enviar / Recibir"
 
-#: ../modules/mail/e-mail-shell-view.c:559
-msgid "All Account Search"
-msgstr "Búsqueda en todas las cuentas"
-
-#: ../modules/mail/e-mail-shell-view.c:732
-msgid "Account Search"
-msgstr "Búsqueda en la cuenta"
-
-#: ../modules/mail/e-mail-shell-view.c:943
-msgid "Proxy _Logout"
-msgstr "_Cerrar sesión proxy"
-
-#: ../modules/mail/em-account-prefs.c:218
-msgid "Evolution Account Assistant"
-msgstr "Asistente de cuentas de Evolution"
-
-#: ../modules/mail/em-account-prefs.c:267
-msgid "Account Editor"
-msgstr "Editor de cuentas"
-
 #: ../modules/mail/em-composer-prefs.c:491
 #: ../modules/plugin-manager/evolution-plugin-manager.c:359
 #: ../plugins/publish-calendar/publish-calendar.c:831
@@ -16022,54 +16036,36 @@ msgstr "Activado"
 msgid "Language(s)"
 msgstr "Idioma(s)"
 
-#: ../modules/mail/em-mailer-prefs.c:89
+#: ../modules/mail/em-mailer-prefs.c:91
 msgid "Every time"
 msgstr "Cada vez"
 
-#: ../modules/mail/em-mailer-prefs.c:90
+#: ../modules/mail/em-mailer-prefs.c:92
 msgid "Once per day"
 msgstr "Una vez por día"
 
-#: ../modules/mail/em-mailer-prefs.c:91
+#: ../modules/mail/em-mailer-prefs.c:93
 msgid "Once per week"
 msgstr "Una vez por semana"
 
-#: ../modules/mail/em-mailer-prefs.c:92
+#: ../modules/mail/em-mailer-prefs.c:94
 msgid "Once per month"
 msgstr "Una vez por mes"
 
-#: ../modules/mail/em-mailer-prefs.c:288
+#: ../modules/mail/em-mailer-prefs.c:289
 msgid "Header"
 msgstr "Cabecera"
 
-#: ../modules/mail/em-mailer-prefs.c:292
+#: ../modules/mail/em-mailer-prefs.c:293
 msgid "Contains Value"
 msgstr "Contiene el valor"
 
-#. May be a better text
-#: ../modules/mail/em-mailer-prefs.c:703 ../modules/mail/em-mailer-prefs.c:776
-#, c-format
-msgid "%s plugin is available and the binary is installed."
-msgstr "El complemento %s está disponible y el binario está instalado."
-
-#. May be a better text
-#: ../modules/mail/em-mailer-prefs.c:711 ../modules/mail/em-mailer-prefs.c:785
-#, c-format
-msgid ""
-"%s plugin is not available. Please check whether the package is installed."
-msgstr ""
-"El complemento %s no está disponible. Compruebe si el paquete está instalado."
-
-#: ../modules/mail/em-mailer-prefs.c:749
-msgid "No junk plugin available"
-msgstr "No existe un complemento de SPAM disponible"
-
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
-#: ../modules/mail/em-mailer-prefs.c:1152
+#: ../modules/mail/em-mailer-prefs.c:1031
 msgid "_Date header:"
 msgstr "Cabecera de _fecha:"
 
-#: ../modules/mail/em-mailer-prefs.c:1153
+#: ../modules/mail/em-mailer-prefs.c:1032
 msgid "Show _original header value"
 msgstr "Mostrar el valor _original de la cabecera"
 
@@ -16118,7 +16114,6 @@ msgstr ""
 "OnlineAccounts de la que obtener un «token» de autenticación."
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:461
-#| msgid "Other"
 msgid "OAuth"
 msgstr "OAuth"
 
@@ -16159,6 +16154,14 @@ msgstr "Com_plementos"
 msgid "Enable and disable plugins"
 msgstr "Activar y desactivar complementos"
 
+#: ../modules/plugin-python/example/org-gnome-hello-python.eplug.xml.h:1
+msgid "Python Test Plugin"
+msgstr "Complemento de prueba Python"
+
+#: ../modules/plugin-python/example/org-gnome-hello-python.eplug.xml.h:2
+msgid "Test Plugin for Python EPlugin loader."
+msgstr "Probar el complemento para el cargador Python EPlugin."
+
 #: ../modules/plugin-python/example/org-gnome-hello-python-ui.xml.h:1
 msgid "Hello Python"
 msgstr "Hello Python"
@@ -16167,13 +16170,65 @@ msgstr "Hello Python"
 msgid "Python Plugin Loader tests"
 msgstr "Pruebas de carga de los complementos Python"
 
-#: ../modules/plugin-python/example/org-gnome-hello-python.eplug.xml.h:1
-msgid "Python Test Plugin"
-msgstr "Complemento de prueba Python"
+#: ../modules/spamassassin/evolution-spamassassin.c:191
+#, c-format
+#| msgid "Failed to open client '%s': %s"
+msgid "Failed to spawn SpamAssassin (%s): "
+msgstr "Falló al iniciar SpamAssasin (%s): "
 
-#: ../modules/plugin-python/example/org-gnome-hello-python.eplug.xml.h:2
-msgid "Test Plugin for Python EPlugin loader."
-msgstr "Probar el complemento para el cargador Python EPlugin."
+#: ../modules/spamassassin/evolution-spamassassin.c:214
+#| msgid "Filter junk messages using SpamAssassin."
+msgid "Failed to stream mail message content to SpamAssassin: "
+msgstr "Falló al enviar el flujo del contenido de los correos a SpamAssassin: "
+
+#: ../modules/spamassassin/evolution-spamassassin.c:233
+#, c-format
+#| msgid "Failed to send %d of %d messages"
+msgid "Failed to write '%s' to SpamAssassin: "
+msgstr "Falló al escribir «%s» a SpamAssassin: "
+
+#: ../modules/spamassassin/evolution-spamassassin.c:261
+#| msgid "Failed to remove attachments from messages."
+msgid "Failed to read output from SpamAssassin: "
+msgstr "Falló al leer la salida de SpamAssassin: "
+
+#: ../modules/spamassassin/evolution-spamassassin.c:316
+msgid "SpamAssassin either crashed or failed to process a mail message"
+msgstr "SpamAssassin se colgó o falló al procesar un mensaje de correo"
+
+#: ../modules/spamassassin/evolution-spamassassin.c:835
+msgid "SpamAssassin Options"
+msgstr "Opciones de SpamAssasin"
+
+#: ../modules/spamassassin/evolution-spamassassin.c:850
+msgid "I_nclude remote tests"
+msgstr "I_ncluir tests remotos"
+
+#: ../modules/spamassassin/evolution-spamassassin.c:864
+#| msgid "This will make SpamAssassin more reliable, but slower"
+msgid "This will make SpamAssassin more reliable, but slower."
+msgstr "Esto hará que SpamAssasin sea más exacto, pero más lento."
+
+#: ../modules/spamassassin/evolution-spamassassin.c:1073
+#| msgid "SpamAssassin Options"
+msgid "SpamAssassin"
+msgstr "SpamAssassin"
+
+#: ../modules/spamassassin/evolution-spamassassin.schemas.in.h:1
+msgid "Use SpamAssassin daemon and client"
+msgstr "Usar el demonio y cliente de SpamAssassin"
+
+#: ../modules/spamassassin/evolution-spamassassin.schemas.in.h:2
+msgid "Use SpamAssassin daemon and client (spamc/spamd)."
+msgstr "Usar el demonio y cliente de SpamAssassin (spamc/spamd)."
+
+#: ../modules/spamassassin/evolution-spamassassin.schemas.in.h:3
+msgid "Use only local spam tests."
+msgstr "Usar sólo comprobaciones de SPAM locales."
+
+#: ../modules/spamassassin/evolution-spamassassin.schemas.in.h:4
+msgid "Use only the local spam tests (no DNS)."
+msgstr "Usa sólo comprobaciones de SPAM locales (sin DNS)."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:281
 #: ../widgets/misc/e-import-assistant.c:396
@@ -16569,60 +16624,6 @@ msgstr ""
 "Rellena automáticamente su libreta de contactos con los nombres y "
 "direcciones de correo-e cuando contesta a los correos. También rellena la "
 "información de contacto de MI de su lista de amigos."
-
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:161
-#, c-format
-msgid "Bogofilter is not available. Please install it first."
-msgstr "Bogofilter no está disponible. Instálelo primero."
-
-#. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:165
-#, c-format
-msgid "Error occurred while spawning %s: %s."
-msgstr "Ocurrió un error al crear %s: %s."
-
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:194
-#, c-format
-msgid "Bogofilter child process does not respond, killing..."
-msgstr "El proceso hijo de Bogofilter no está respondiendo, matándolo…"
-
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:196
-#, c-format
-msgid "Wait for Bogofilter child process interrupted, terminating..."
-msgstr "Espere a que el proceso hijo de Bogofilter se interrumpa, terminando…"
-
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:219
-#, c-format
-msgid "Pipe to Bogofilter failed, error code: %d."
-msgstr "Falló la tubería hacia Bogofilter, código de error: %d"
-
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:404
-msgid "Convert message text to _Unicode"
-msgstr "Convertir el texto del correo a _Unicode"
-
-#: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:1
-msgid "Convert mail messages to Unicode"
-msgstr "Convertir el texto de los correos a Unicode"
-
-#: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:2
-msgid ""
-"Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from "
-"different character sets."
-msgstr ""
-"Convertir el mensaje de texto a Unicode UTF-8 para unificar los tokens SPAM/"
-"correo normal provenientes de diferentes juegos de caracteres."
-
-#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:1
-msgid "Bogofilter Junk Filter"
-msgstr "Filtro de SPAM Bogofilter"
-
-#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
-msgid "Bogofilter Options"
-msgstr "Opciones de Bogofilter"
-
-#: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
-msgid "Filter junk messages using Bogofilter."
-msgstr "Filtra mensajes SPAM usando Bogofilter."
 
 #: ../plugins/caldav/caldav-browse-server.c:203
 msgid "Authentication failed. Server requires correct login."
@@ -18715,62 +18716,6 @@ msgstr "Ubicación nueva"
 msgid "Edit Location"
 msgstr "Editar ubicación"
 
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:128
-#, c-format
-msgid "SpamAssassin not found, code: %d"
-msgstr "No se encontró SpamAssasin, código: %d"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:136
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:144
-#, c-format
-msgid "Failed to create pipe: %s"
-msgstr "Falló al crear la tubería: %s"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:183
-#, c-format
-msgid "Error after fork: %s"
-msgstr "Error después de bifurcar: %s"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:241
-#, c-format
-msgid "SpamAssassin child process does not respond, killing..."
-msgstr "El proceso hijo de SpamAssasin no está respondiendo, matándolo…"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:243
-#, c-format
-msgid "Wait for SpamAssassin child process interrupted, terminating..."
-msgstr "Espere a que el proceso hijo de SpamAssasin se interrumpa, terminando…"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:252
-#, c-format
-msgid "Pipe to SpamAssassin failed, error code: %d"
-msgstr "Falló la tubería hacia SpamAssasin, código de error: %d"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:519
-#, c-format
-msgid "SpamAssassin is not available. Please install it first."
-msgstr "SpamAssasin no está disponible. Instálelo primero."
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:936
-msgid "This will make SpamAssassin more reliable, but slower"
-msgstr "Esto hará que SpamAssasin sea más exacto, pero más lento"
-
-#: ../plugins/sa-junk-plugin/em-junk-filter.c:944
-msgid "I_nclude remote tests"
-msgstr "I_ncluir tests remotos"
-
-#: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
-msgid "Filter junk messages using SpamAssassin."
-msgstr "Filtrar mensajes SPAM usando SpamAssasin."
-
-#: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
-msgid "SpamAssassin Junk Filter"
-msgstr "Filtro de SPAM SpamAssassin"
-
-#: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:3
-msgid "SpamAssassin Options"
-msgstr "Opciones de SpamAssasin"
-
 #. Translators: the %F %T is the third argument for a
 #. * strftime function.  It lets you define the formatting
 #. * of the date in the csv-file.
@@ -19308,11 +19253,11 @@ msgstr "Estilo de los botones de ventana"
 msgid "Window buttons are visible"
 msgstr "Los botones de la ventana son visibles"
 
-#: ../shell/e-shell-content.c:726 ../shell/e-shell-content.c:727
+#: ../shell/e-shell-content.c:729 ../shell/e-shell-content.c:730
 msgid "Searches"
 msgstr "Búsquedas"
 
-#: ../shell/e-shell-content.c:769
+#: ../shell/e-shell-content.c:773
 msgid "Save Search"
 msgstr "Guardar búsqueda"
 
@@ -21561,6 +21506,75 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2318
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "_Default junk plugin:"
+#~ msgstr "Complemento SPAM pre_determinado:"
+
+#~ msgid "gtk-ok"
+#~ msgstr "gtk-ok"
+
+#~ msgctxt "mail-junk-hook"
+#~ msgid "None"
+#~ msgstr "Ninguno"
+
+#~ msgid "%s plugin is available and the binary is installed."
+#~ msgstr "El complemento %s está disponible y el binario está instalado."
+
+#~ msgid ""
+#~ "%s plugin is not available. Please check whether the package is installed."
+#~ msgstr ""
+#~ "El complemento %s no está disponible. Compruebe si el paquete está "
+#~ "instalado."
+
+#~ msgid "No junk plugin available"
+#~ msgstr "No existe un complemento de SPAM disponible"
+
+#~ msgid "Bogofilter is not available. Please install it first."
+#~ msgstr "Bogofilter no está disponible. Instálelo primero."
+
+#~ msgid "Error occurred while spawning %s: %s."
+#~ msgstr "Ocurrió un error al crear %s: %s."
+
+#~ msgid "Bogofilter child process does not respond, killing..."
+#~ msgstr "El proceso hijo de Bogofilter no está respondiendo, matándolo…"
+
+#~ msgid "Wait for Bogofilter child process interrupted, terminating..."
+#~ msgstr ""
+#~ "Espere a que el proceso hijo de Bogofilter se interrumpa, terminando…"
+
+#~ msgid "Pipe to Bogofilter failed, error code: %d."
+#~ msgstr "Falló la tubería hacia Bogofilter, código de error: %d"
+
+#~ msgid "Bogofilter Junk Filter"
+#~ msgstr "Filtro de SPAM Bogofilter"
+
+#~ msgid "Filter junk messages using Bogofilter."
+#~ msgstr "Filtra mensajes SPAM usando Bogofilter."
+
+#~ msgid "SpamAssassin not found, code: %d"
+#~ msgstr "No se encontró SpamAssasin, código: %d"
+
+#~ msgid "Failed to create pipe: %s"
+#~ msgstr "Falló al crear la tubería: %s"
+
+#~ msgid "Error after fork: %s"
+#~ msgstr "Error después de bifurcar: %s"
+
+#~ msgid "SpamAssassin child process does not respond, killing..."
+#~ msgstr "El proceso hijo de SpamAssasin no está respondiendo, matándolo…"
+
+#~ msgid "Wait for SpamAssassin child process interrupted, terminating..."
+#~ msgstr ""
+#~ "Espere a que el proceso hijo de SpamAssasin se interrumpa, terminando…"
+
+#~ msgid "Pipe to SpamAssassin failed, error code: %d"
+#~ msgstr "Falló la tubería hacia SpamAssasin, código de error: %d"
+
+#~ msgid "SpamAssassin is not available. Please install it first."
+#~ msgstr "SpamAssasin no está disponible. Instálelo primero."
+
+#~ msgid "SpamAssassin Junk Filter"
+#~ msgstr "Filtro de SPAM SpamAssassin"
 
 #~ msgid "Enable D-Bus messages."
 #~ msgstr "Activar los mensajes D-Bus."
