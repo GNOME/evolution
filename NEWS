@@ -1,3 +1,46 @@
+Evolution 3.1.4 2011-07-25
+--------------------------
+
+Bug Fixes:
+	Bug 652629 - GnomeCanvas: Disregard synthesized crossing events
+	             (Matthew Barnes)
+	Bug 652634 - Runtime warning on second search dialog (Matthew Barnes)
+	Bug 653568 - Forward as Redirect doesn't work (Matthew Barnes)
+	Bug 653699 - Improve mail notifications (Matthew Barnes)
+
+Other Changes:
+	* Adapt to CamelSession and e-passwords changes. (Matthew Barnes)
+	* Prefer g_seekable_seek() over camel_stream_reset(). (Matthew Barnes)
+	* Avoid camel_stream_printf(). (Matthew Barnes)
+	* EShellContent: Fix underallocation of EAlertBar. (Matthew Barnes)
+	* online-accounts: Give Google calendars a color. (Matthew Barnes)
+	* connman: Recover from dropped D-Bus connections faster.
+	  (Matthew Barnes)
+	* network-manager: Recover from dropped D-Bus connections faster
+	  (Matthew Barnes)
+	* network-manager: Keep network availablility state accurate.
+	  (Matthew Barnes)
+	* Fix OpenBSD/FreeBSD support (Antoine Jacoutot)
+	* Add more categories to settings desktop file. (Antoine Jacoutot)
+	* Convert junk filtering EPlugins to EExtensions. (Matthew Barnes)
+	* Make "open_calendar" function as expected. (Chenthill Palanisamy)
+	* EMailBackend: Explicitly remove CamelServices during dispose.
+	  (Matthew Barnes)
+	* error in mail notification (Punit Jain)
+
+Translations:
+	Marek Černocký (cs)
+	Jorge González (es)
+	Daniel Mustieles (es)
+	Tommi Vainikainen (fi)
+	Fran Dieguez (gl)
+	Gabor Kelemen (hu)
+	Shushi Kurose (ja)
+	Rudolfs Mazurs (lv)
+	Kjartan Maraas (nb)
+	Abduxukur Abdurixit (ug)
+
+
 Evolution 3.1.3 2011-07-04
 --------------------------
 
