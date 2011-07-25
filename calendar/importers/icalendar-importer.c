@@ -283,10 +283,14 @@ ivcal_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 		ESource *primary;
 		GtkWidget *scrolled;
 		struct _selector_data *sd;
+		GError *error = NULL;
 
 		/* FIXME Better error handling */
-		if (!e_cal_client_get_sources (&source_list, import_type_map[i], NULL))
+		if (!e_client_utils_get_sources (&source_list, import_type_map[i], &error)) {
+			g_debug ("%s: Failed to get source of '%s' (%d): %s", G_STRFUNC, import_type_strings[i], i, error ? error->message : "Unknown error");
+			g_clear_error (&error);
 			continue;
+		}
 
 		selector = e_source_selector_new (source_list);
 		e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
