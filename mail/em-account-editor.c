@@ -2176,7 +2176,7 @@ emae_create_basic_assistant_page (EMAccountEditor *emae,
 		page_type = GTK_ASSISTANT_PAGE_INTRO;
 		fill_space = TRUE;
 		title = _("Mail Configuration");
-		label = _("Welcome to the Evolution Mail Configuration Assistant.\n\nClick \"Forward\" to begin.");
+		label = _("Welcome to the Evolution Mail Configuration Assistant.\n\nClick \"Continue\" to begin.");
 	} else if (g_ascii_strcasecmp (page_id, "identity_page") == 0) {
 		title = _("Identity");
 		label = _("Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send.");
