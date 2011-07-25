@@ -18,13 +18,13 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-07-18 06:48+0000\n"
-"PO-Revision-Date: 2011-07-23 14:29+0200\n"
+"POT-Creation-Date: 2011-07-25 16:28+0000\n"
+"PO-Revision-Date: 2011-07-25 21:30+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bits\n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
@@ -1435,9 +1435,9 @@ msgstr "Vista de la tarjeta"
 #: ../addressbook/importers/evolution-csv-importer.c:740
 #: ../addressbook/importers/evolution-ldif-importer.c:539
 #: ../addressbook/importers/evolution-vcard-importer.c:282
-#: ../calendar/importers/icalendar-importer.c:380
-#: ../calendar/importers/icalendar-importer.c:847
-#: ../calendar/importers/icalendar-importer.c:877 ../shell/shell.error.xml.h:6
+#: ../calendar/importers/icalendar-importer.c:384
+#: ../calendar/importers/icalendar-importer.c:851
+#: ../calendar/importers/icalendar-importer.c:881 ../shell/shell.error.xml.h:6
 msgid "Importing..."
 msgstr "Importando…"
 
@@ -4416,7 +4416,7 @@ msgstr "%d%%"
 
 #: ../calendar/gui/e-task-table.c:640 ../calendar/gui/print.c:2168
 #: ../calendar/importers/icalendar-importer.c:85
-#: ../calendar/importers/icalendar-importer.c:971
+#: ../calendar/importers/icalendar-importer.c:975
 #: ../modules/calendar/e-cal-shell-content.c:433
 #: ../modules/calendar/e-task-shell-view-actions.c:245
 #: ../modules/calendar/e-task-shell-view-actions.c:260
@@ -4550,7 +4550,7 @@ msgstr "vista de calendario para uno o más días"
 
 #: ../calendar/gui/ea-gnome-calendar.c:50
 #: ../calendar/gui/ea-gnome-calendar.c:58
-#: ../calendar/importers/icalendar-importer.c:1003
+#: ../calendar/importers/icalendar-importer.c:1007
 msgid "Gnome Calendar"
 msgstr "Calendario de GNOME"
 
@@ -4980,181 +4980,181 @@ msgstr "es menor que"
 msgid "Appointments and Meetings"
 msgstr "Reuniones y citas"
 
-#: ../calendar/importers/icalendar-importer.c:407
-#: ../calendar/importers/icalendar-importer.c:817
+#: ../calendar/importers/icalendar-importer.c:411
+#: ../calendar/importers/icalendar-importer.c:821
 #: ../plugins/itip-formatter/itip-formatter.c:2094
 msgid "Opening calendar"
 msgstr "Apertura del calendario"
 
-#: ../calendar/importers/icalendar-importer.c:547
+#: ../calendar/importers/icalendar-importer.c:551
 msgid "iCalendar files (.ics)"
 msgstr "Archivos iCalendar (.ics)"
 
-#: ../calendar/importers/icalendar-importer.c:548
+#: ../calendar/importers/icalendar-importer.c:552
 msgid "Evolution iCalendar importer"
 msgstr "Importador de iCalendar de Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:636
+#: ../calendar/importers/icalendar-importer.c:640
 msgid "Reminder!"
 msgstr "¡Recuerde!"
 
-#: ../calendar/importers/icalendar-importer.c:716
+#: ../calendar/importers/icalendar-importer.c:720
 msgid "vCalendar files (.vcs)"
 msgstr "Archivos vCalendar (.vcs)"
 
-#: ../calendar/importers/icalendar-importer.c:717
+#: ../calendar/importers/icalendar-importer.c:721
 msgid "Evolution vCalendar importer"
 msgstr "Importador de vCalendar de Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:966
+#: ../calendar/importers/icalendar-importer.c:970
 msgid "Calendar Events"
 msgstr "Acontecimientos de calendario"
 
-#: ../calendar/importers/icalendar-importer.c:1004
+#: ../calendar/importers/icalendar-importer.c:1008
 msgid "Evolution Calendar intelligent importer"
 msgstr "Importador inteligente del calendario de Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:1069
-#: ../calendar/importers/icalendar-importer.c:1386
+#: ../calendar/importers/icalendar-importer.c:1073
+#: ../calendar/importers/icalendar-importer.c:1390
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Reunión"
 
-#: ../calendar/importers/icalendar-importer.c:1069
-#: ../calendar/importers/icalendar-importer.c:1386
+#: ../calendar/importers/icalendar-importer.c:1073
+#: ../calendar/importers/icalendar-importer.c:1390
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Acontecimiento"
 
-#: ../calendar/importers/icalendar-importer.c:1072
-#: ../calendar/importers/icalendar-importer.c:1387
+#: ../calendar/importers/icalendar-importer.c:1076
+#: ../calendar/importers/icalendar-importer.c:1391
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Tarea"
 
-#: ../calendar/importers/icalendar-importer.c:1075
-#: ../calendar/importers/icalendar-importer.c:1388
+#: ../calendar/importers/icalendar-importer.c:1079
+#: ../calendar/importers/icalendar-importer.c:1392
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Nota"
 
-#: ../calendar/importers/icalendar-importer.c:1084
+#: ../calendar/importers/icalendar-importer.c:1088
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "tiene repeticiones"
 
-#: ../calendar/importers/icalendar-importer.c:1089
+#: ../calendar/importers/icalendar-importer.c:1093
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "es una instancia"
 
-#: ../calendar/importers/icalendar-importer.c:1094
+#: ../calendar/importers/icalendar-importer.c:1098
 msgctxt "iCalImp"
 msgid "has alarms"
 msgstr "tiene alertas"
 
-#: ../calendar/importers/icalendar-importer.c:1099
+#: ../calendar/importers/icalendar-importer.c:1103
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "tiene adjuntos"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1112
+#: ../calendar/importers/icalendar-importer.c:1116
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Pública"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1115
+#: ../calendar/importers/icalendar-importer.c:1119
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Privado"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1118
+#: ../calendar/importers/icalendar-importer.c:1122
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Confidencial"
 
 #. Translators: Appointment's classification section name
-#: ../calendar/importers/icalendar-importer.c:1122
+#: ../calendar/importers/icalendar-importer.c:1126
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Clasificación"
 
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
-#: ../calendar/importers/icalendar-importer.c:1127
-#: ../calendar/importers/icalendar-importer.c:1427
+#: ../calendar/importers/icalendar-importer.c:1131
+#: ../calendar/importers/icalendar-importer.c:1431
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Resumen"
 
 #. Translators: Appointment's location
-#: ../calendar/importers/icalendar-importer.c:1133
+#: ../calendar/importers/icalendar-importer.c:1137
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Lugar"
 
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
-#: ../calendar/importers/icalendar-importer.c:1141
-#: ../calendar/importers/icalendar-importer.c:1423
+#: ../calendar/importers/icalendar-importer.c:1145
+#: ../calendar/importers/icalendar-importer.c:1427
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Empieza"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../calendar/importers/icalendar-importer.c:1152
+#: ../calendar/importers/icalendar-importer.c:1156
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Vence"
 
 #. Translators: Appointment's end time
-#: ../calendar/importers/icalendar-importer.c:1164
+#: ../calendar/importers/icalendar-importer.c:1168
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Termina"
 
 #. Translators: Appointment's categories
-#: ../calendar/importers/icalendar-importer.c:1174
+#: ../calendar/importers/icalendar-importer.c:1178
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Categorías"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../calendar/importers/icalendar-importer.c:1198
+#: ../calendar/importers/icalendar-importer.c:1202
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Completada"
 
 #. Translators: Appointment's URL
-#: ../calendar/importers/icalendar-importer.c:1206
+#: ../calendar/importers/icalendar-importer.c:1210
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../calendar/importers/icalendar-importer.c:1217
-#: ../calendar/importers/icalendar-importer.c:1220
+#: ../calendar/importers/icalendar-importer.c:1221
+#: ../calendar/importers/icalendar-importer.c:1224
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Organizador"
 
 #. Translators: Appointment's attendees
-#: ../calendar/importers/icalendar-importer.c:1240
-#: ../calendar/importers/icalendar-importer.c:1243
+#: ../calendar/importers/icalendar-importer.c:1244
+#: ../calendar/importers/icalendar-importer.c:1247
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Participantes"
 
-#: ../calendar/importers/icalendar-importer.c:1257
+#: ../calendar/importers/icalendar-importer.c:1261
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Descripción"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
-#: ../calendar/importers/icalendar-importer.c:1419
+#: ../calendar/importers/icalendar-importer.c:1423
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Tipo"
@@ -8181,14 +8181,18 @@ msgid "Mail Configuration"
 msgstr "Configuración del correo"
 
 #: ../mail/em-account-editor.c:2179
+#| msgid ""
+#| "Welcome to the Evolution Mail Configuration Assistant.\n"
+#| "\n"
+#| "Click \"Forward\" to begin."
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
-"Click \"Forward\" to begin."
+"Click \"Continue\" to begin."
 msgstr ""
 "Bienvenido al asistente de configuración de correo de Evolution.\n"
 "\n"
-"Pulse «Adelante» para comenzar. "
+"Para comenzar, pulse «Continuar»."
 
 #: ../mail/em-account-editor.c:2182
 msgid ""
@@ -13919,7 +13923,6 @@ msgstr "tarjetas"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:146
 #, c-format
-#| msgid "Failed to apply outgoing filters: %s"
 msgid "Failed to spawn Bogofilter (%s): "
 msgstr "Falló al iniciar Bogofilter (%s): "
 
@@ -13940,7 +13943,6 @@ msgid "Convert message text to _Unicode"
 msgstr "Convertir el texto del correo a _Unicode"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:477
-#| msgid "Bogofilter Options"
 msgid "Bogofilter"
 msgstr "Bogofilter"
 
@@ -16172,23 +16174,19 @@ msgstr "Pruebas de carga de los complementos Python"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:191
 #, c-format
-#| msgid "Failed to open client '%s': %s"
 msgid "Failed to spawn SpamAssassin (%s): "
 msgstr "Falló al iniciar SpamAssasin (%s): "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:214
-#| msgid "Filter junk messages using SpamAssassin."
 msgid "Failed to stream mail message content to SpamAssassin: "
 msgstr "Falló al enviar el flujo del contenido de los correos a SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:233
 #, c-format
-#| msgid "Failed to send %d of %d messages"
 msgid "Failed to write '%s' to SpamAssassin: "
 msgstr "Falló al escribir «%s» a SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:261
-#| msgid "Failed to remove attachments from messages."
 msgid "Failed to read output from SpamAssassin: "
 msgstr "Falló al leer la salida de SpamAssassin: "
 
@@ -16205,12 +16203,10 @@ msgid "I_nclude remote tests"
 msgstr "I_ncluir tests remotos"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:864
-#| msgid "This will make SpamAssassin more reliable, but slower"
 msgid "This will make SpamAssassin more reliable, but slower."
 msgstr "Esto hará que SpamAssasin sea más exacto, pero más lento."
 
 #: ../modules/spamassassin/evolution-spamassassin.c:1073
-#| msgid "SpamAssassin Options"
 msgid "SpamAssassin"
 msgstr "SpamAssassin"
 
