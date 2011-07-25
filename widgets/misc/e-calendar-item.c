@@ -3331,6 +3331,22 @@ e_calendar_item_ensure_days_visible	(ECalendarItem	*calitem,
 	return need_update;
 }
 
+static gboolean
+destroy_menu_idle_cb (gpointer menu)
+{
+	gtk_widget_destroy (menu);
+
+	return FALSE;
+}
+
+static void
+deactivate_menu_cb (GtkWidget *menu)
+{
+	g_signal_handlers_disconnect_by_func (menu, deactivate_menu_cb, NULL);
+
+	g_idle_add (destroy_menu_idle_cb, menu);
+}
+
 static void
 e_calendar_item_show_popup_menu		(ECalendarItem	*calitem,
 					 GdkEventButton	*event,
@@ -3377,16 +3393,10 @@ e_calendar_item_show_popup_menu		(ECalendarItem	*calitem,
 		}
 	}
 
-	/* Run the menu modal so we can destroy it after. */
-	g_signal_connect((menu), "deactivate",
-			    G_CALLBACK (gtk_main_quit), NULL);
+	g_signal_connect (menu, "deactivate", G_CALLBACK (deactivate_menu_cb), NULL);
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL,
 			e_calendar_item_position_menu, calitem,
 			event->button, event->time);
-	gtk_grab_add (menu);
-	gtk_main ();
-	gtk_grab_remove (menu);
-	gtk_widget_destroy (menu);
 }
 
 static void
