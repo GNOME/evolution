@@ -211,7 +211,7 @@ static GtkActionEntry editable_entries[] = {
 	  "appointment-soon",
 	  N_("_Alarms"),
 	  NULL,
-	  N_("Click here to set or unset alarms for this event"),
+	  N_("Set or unset alarms for this event"),
 	  G_CALLBACK (action_alarms_cb) },
 };
 
