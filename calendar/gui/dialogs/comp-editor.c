@@ -1068,7 +1068,7 @@ static GtkActionEntry core_entries[] = {
 	  GTK_STOCK_CLOSE,
 	  NULL,
 	  NULL,
-	  N_("Click here to close the current window"),
+	  N_("Close the current window"),
 	  G_CALLBACK (action_close_cb) },
 
 	{ "copy-clipboard",
@@ -1096,7 +1096,7 @@ static GtkActionEntry core_entries[] = {
 	  GTK_STOCK_HELP,
 	  NULL,
 	  NULL,
-	  N_("Click here to view help available"),
+	  N_("View help"),
 	  G_CALLBACK (action_help_cb) },
 
 	{ "paste-clipboard",
@@ -1124,7 +1124,7 @@ static GtkActionEntry core_entries[] = {
 	  GTK_STOCK_SAVE,
 	  NULL,
 	  NULL,
-	  N_("Click here to save the current window"),
+	  N_("Save current changes"),
 	  G_CALLBACK (action_save_cb) },
 
 	{ "select-all",
@@ -1192,7 +1192,7 @@ static GtkActionEntry individual_entries[] = {
 	  "mail-attachment",
 	  N_("_Attachment..."),
 	  "<Control>m",
-	  N_("Click here to attach a file"),
+	  N_("Attach a file"),
 	  G_CALLBACK (action_attach_cb) }
 };
 
