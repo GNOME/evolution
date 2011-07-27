@@ -314,7 +314,7 @@ Please select a follow up action from the "Flag" menu.</property>
         </child>
         <child>
           <object class="GtkCheckButton" id="completed">
-            <property name="label" translatable="yes">Co_mpleted</property>
+            <property name="label" translatable="yes" comments="Translators: Flag Completed">Co_mpleted</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
