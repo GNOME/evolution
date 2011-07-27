@@ -39,6 +39,7 @@
 
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
+#include "mail/e-mail-junk-options.h"
 
 #include "em-config.h"
 #include "em-folder-selection-button.h"
@@ -316,6 +317,7 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
+	E_TYPE_MAIL_JUNK_OPTIONS;
 	EM_TYPE_FOLDER_SELECTION_BUTTON;
 
 	prefs->builder = gtk_builder_new ();

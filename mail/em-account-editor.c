@@ -60,6 +60,7 @@
 
 #include "e-mail-backend.h"
 #include "e-mail-folder-utils.h"
+#include "e-mail-junk-options.h"
 #include "e-mail-local.h"
 #include "e-mail-store.h"
 #include "em-config.h"
@@ -2265,6 +2266,7 @@ emae_identity_page (EConfig *ec,
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
+	E_TYPE_MAIL_JUNK_OPTIONS;
 	EM_TYPE_FOLDER_SELECTION_BUTTON;
 
 	builder = gtk_builder_new ();
