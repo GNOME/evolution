@@ -2489,7 +2489,11 @@ decode_mozilla_status (const gchar *tmp)
 }
 
 void
-em_utils_import_mbox (EMailSession *mail_session, const gchar *folder_uri, const gchar *mbox_path, GCancellable *cancellable, GError **error)
+em_utils_import_mbox	(EMailSession *mail_session, 
+			 const gchar *folder_uri, 
+			 const gchar *mbox_path, 
+			 GCancellable *cancellable, 
+			 GError **error)
 {
 	CamelFolder *folder;
 	CamelMimeParser *mp = NULL;

@@ -797,7 +797,11 @@ sanitize_maildir_folder_name (gchar *folder_name)
 }
 
 static void
-copy_folder (EShellBackend *shell_backend, CamelStore *mbox_store, CamelStore *maildir_store, const gchar *mbox_fname, const gchar *maildir_fname)
+copy_folder	(EShellBackend *shell_backend, 
+	      	 CamelStore *mbox_store, 
+		 CamelStore *maildir_store, 
+		 const gchar *mbox_fname, 
+		 const gchar *maildir_fname)
 {
 	CamelFolder *fromfolder, *tofolder;
 	EMailSession *mail_session;
@@ -882,7 +886,11 @@ copy_folder (EShellBackend *shell_backend, CamelStore *mbox_store, CamelStore *m
 }
 
 static void
-copy_folders (EShellBackend *shell_backend, CamelStore *mbox_store, CamelStore *maildir_store, CamelFolderInfo *fi, EMMigrateSession *session)
+copy_folders	(EShellBackend *shell_backend,
+		 CamelStore *mbox_store,
+		 CamelStore *maildir_store,
+		 CamelFolderInfo *fi,
+		 EMMigrateSession *session)
 {
 	if (fi) {
 		if (!g_str_has_prefix (fi->full_name, ".#evolution")) {
