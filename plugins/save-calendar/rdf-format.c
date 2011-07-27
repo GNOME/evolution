@@ -372,7 +372,7 @@ FormatHandler *rdf_format_handler_new (void)
 	FormatHandler *handler = g_new (FormatHandler, 1);
 
 	handler->isdefault = FALSE;
-	handler->combo_label = _("RDF format (.rdf)");
+	handler->combo_label = _("RDF (.rdf)");
 	handler->filename_ext = ".rdf";
 	handler->options_widget = NULL;
 	handler->save = do_save_calendar_rdf;
