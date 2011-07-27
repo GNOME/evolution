@@ -76,7 +76,7 @@ The more headers you have the more time it will take to download.</property>
                   <object class="GtkRadioButton" id="basicHeaders">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">_Basic Headers - (Fastest) 
+                    <property name="label" translatable="yes">_Basic Headers (Fastest) 
 Use this if you do not have filters based on mailing lists</property>
                     <property name="use_underline">True</property>
                     <property name="relief">GTK_RELIEF_NORMAL</property>
