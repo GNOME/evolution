@@ -40,13 +40,6 @@ void mbox_importer_set_preview_funcs (MboxImporterCreatePreviewFunc create_func,
 EImportImporter *elm_importer_peek (void);
 EImportImporter *pine_importer_peek (void);
 
-/* Defines copied from nsMsgMessageFlags.h in Mozilla source. */
-/* Evolution only cares about these headers I think */
-#define MSG_FLAG_READ 0x0001
-#define MSG_FLAG_REPLIED 0x0002
-#define MSG_FLAG_MARKED 0x0004
-#define MSG_FLAG_EXPUNGED 0x0008
-
 gint		mail_importer_import_mbox	(EMailSession *session,
 						 const gchar *path,
 						 const gchar *folderuri,

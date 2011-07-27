@@ -35,6 +35,13 @@ G_BEGIN_DECLS
 
 struct _EMFormat;
 
+/* Defines copied from nsMsgMessageFlags.h in Mozilla source. */
+/* Evolution only cares about these headers I think */
+#define MSG_FLAG_READ 0x0001
+#define MSG_FLAG_REPLIED 0x0002
+#define MSG_FLAG_MARKED 0x0004
+#define MSG_FLAG_EXPUNGED 0x0008
+
 gboolean em_utils_ask_open_many (GtkWindow *parent, gint how_many);
 gboolean em_utils_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, ...);
 
@@ -101,6 +108,7 @@ void emu_remove_from_mail_cache_1 (const gchar *address);
 void emu_free_mail_cache (void);
 
 void emu_restore_folder_tree_state (EMFolderTree *folder_tree);
+void em_utils_import_mbox (EMailSession *mail_session, const gchar *folder_uri, const gchar *mbox_path, GCancellable *cancellable, GError **error);
 
 gboolean em_utils_is_local_delivery_mbox_file (const gchar *uri);
 

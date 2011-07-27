@@ -797,10 +797,16 @@ sanitize_maildir_folder_name (gchar *folder_name)
 }
 
 static void
-copy_folder (CamelStore *mbox_store, CamelStore *maildir_store, const gchar *mbox_fname, const gchar *maildir_fname)
+copy_folder (EShellBackend *shell_backend, CamelStore *mbox_store, CamelStore *maildir_store, const gchar *mbox_fname, const gchar *maildir_fname)
 {
 	CamelFolder *fromfolder, *tofolder;
-	GPtrArray *uids;
+	EMailSession *mail_session;
+	GPtrArray *uids, *single_uid;
+	GError *error = NULL;
+	gboolean use_fallback = FALSE;
+	guint i;
+
+	mail_session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
 	fromfolder = camel_store_get_folder_sync (
 		mbox_store, mbox_fname, 0, NULL, NULL);
@@ -820,18 +826,63 @@ copy_folder (CamelStore *mbox_store, CamelStore *maildir_store, const gchar *mbo
 	}
 
 	uids = camel_folder_get_uids (fromfolder);
-	camel_folder_transfer_messages_to_sync (
-			fromfolder, uids, tofolder,
-			FALSE, NULL,
-			NULL, NULL);
+	single_uid = g_ptr_array_new ();
+
+	/* import mails one by one to detect summary-mismatch errors */
+	for (i = 0; i < uids->len; i++) {
+		gpointer uid = g_ptr_array_index (uids, i);
+	
+		g_ptr_array_add (single_uid, uid);
+		camel_folder_transfer_messages_to_sync (
+				fromfolder, single_uid, tofolder,
+				FALSE, NULL,
+				NULL, &error);
+		g_ptr_array_remove_index (single_uid, 0);
+		if (error) {
+			g_warning ("Error migrating folder %s: %s \n", mbox_fname, error->message);
+		
+			g_clear_error (&error);
+			/* delete the maildir folder */
+			camel_store_delete_folder_sync (maildir_store, maildir_fname, NULL, NULL);
+			if (error)
+				g_warning ("Error deleting maildir folder %s: %s \n", maildir_fname, error->message);
+
+			use_fallback = TRUE;
+			break;
+		}
+	}
 	camel_folder_free_uids (fromfolder, uids);
+	g_ptr_array_free (single_uid, TRUE);
+
+	/* fallback, import the mbox file directly. All the flags will be lost in this method */
+	if (use_fallback) {
+		const gchar *to_uri;
+		CamelService *mbox_service;
+		gchar *mbox_file_name;
+		
+		g_message ("Using the fallback method to migrate \n");
+		to_uri = camel_folder_get_uri (tofolder);
+		
+		/* build the filename ourselves as there is no way i see to get the filename from the store */
+		mbox_service = (CamelService *) mbox_store;
+		mbox_file_name = g_build_filename (mbox_service->url->path, mbox_fname, NULL);
+
+		g_clear_error (&error);
+		em_utils_import_mbox (mail_session, to_uri, mbox_file_name, NULL, &error);
+		
+		g_free (mbox_file_name);
+	}
+
+	if (error)
+		g_warning ("Error migrating folder %s: %s \n", mbox_fname, error->message);
 
 	g_object_unref (fromfolder);
 	g_object_unref (tofolder);
+	g_clear_error (&error);
 }
 
 static void
-copy_folders (CamelStore *mbox_store, CamelStore *maildir_store, CamelFolderInfo *fi, EMMigrateSession *session)
+copy_folders (EShellBackend *shell_backend, CamelStore *mbox_store, CamelStore *maildir_store, CamelFolderInfo *fi, EMMigrateSession *session)
 {
 	if (fi) {
 		if (!g_str_has_prefix (fi->full_name, ".#evolution")) {
@@ -839,19 +890,20 @@ copy_folders (CamelStore *mbox_store, CamelStore *maildir_store, CamelFolderInfo
 
 			/* sanitize folder names and copy folders */
 			maildir_folder_name = sanitize_maildir_folder_name (fi->full_name);
-			copy_folder (mbox_store, maildir_store, fi->full_name, maildir_folder_name);
+			copy_folder (shell_backend, mbox_store, maildir_store, fi->full_name, maildir_folder_name);
 			g_free (maildir_folder_name);
 		}
 
 		if (fi->child)
-			copy_folders (mbox_store, maildir_store, fi->child, session);
+			copy_folders (shell_backend, mbox_store, maildir_store, fi->child, session);
 
-		copy_folders (mbox_store, maildir_store, fi->next, session);
+		copy_folders (shell_backend, mbox_store, maildir_store, fi->next, session);
 	}
 }
 
 struct MigrateStore {
 	EMMigrateSession *session;
+	EShellBackend *shell_backend;
 	CamelStore *mbox_store;
 	CamelStore *maildir_store;
 	gboolean complete;
@@ -872,7 +924,7 @@ migrate_stores (struct MigrateStore *ms)
 		NULL, NULL);
 
 	/* FIXME progres dialog */
-	copy_folders (mbox_store, maildir_store, mbox_fi, ms->session);
+	copy_folders (ms->shell_backend, mbox_store, maildir_store, mbox_fi, ms->session);
 	ms->complete = TRUE;
 
 	return;
@@ -920,6 +972,7 @@ migrate_mbox_to_maildir (EShellBackend *shell_backend, EMMigrateSession *session
 	ms.mbox_store = mbox_store;
 	ms.maildir_store = maildir_store;
 	ms.session = session;
+	ms.shell_backend = shell_backend;
 	ms.complete = FALSE;
 
 	g_thread_create ((GThreadFunc) migrate_stores, &ms, TRUE, NULL);
