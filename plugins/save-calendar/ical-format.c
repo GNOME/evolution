@@ -163,7 +163,7 @@ FormatHandler *ical_format_handler_new (void)
 	FormatHandler *handler = g_new (FormatHandler, 1);
 
 	handler->isdefault = TRUE;
-	handler->combo_label = _("iCalendar format (.ics)");
+	handler->combo_label = _("iCalendar (.ics)");
 	handler->filename_ext = ".ics";
 	handler->options_widget = NULL;
 	handler->save = do_save_calendar_ical;

@@ -622,7 +622,7 @@ FormatHandler *csv_format_handler_new (void)
 	FormatHandler *handler = g_new (FormatHandler, 1);
 
 	handler->isdefault = FALSE;
-	handler->combo_label = _("Comma separated value format (.csv)");
+	handler->combo_label = _("Comma separated values (.csv)");
 	handler->filename_ext = ".csv";
 	handler->data = g_new (CsvPluginData, 1);
 	handler->options_widget = create_options_widget (handler);
