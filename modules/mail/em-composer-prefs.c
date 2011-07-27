@@ -45,6 +45,7 @@
 
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
+#include "mail/e-mail-junk-options.h"
 #include "widgets/misc/e-charset-combo-box.h"
 #include "widgets/misc/e-signature-editor.h"
 #include "widgets/misc/e-signature-manager.h"
@@ -331,6 +332,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
+	E_TYPE_MAIL_JUNK_OPTIONS;
 	EM_TYPE_FOLDER_SELECTION_BUTTON;
 
 	prefs->builder = gtk_builder_new ();
