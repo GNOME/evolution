@@ -892,7 +892,7 @@
       <locale name="C">
       	<short>State of message headers in paned view</short>
       	<long>
-      	   Describes wheter message headers in paned view should be collapsed or expanded by default.
+      	   Describes whether message headers in paned view should be collapsed or expanded by default.
       	   "0" = expanded
       	   "1" = collapsed
       	</long>
