@@ -842,14 +842,14 @@ message_list_select_all (MessageList *message_list)
 {
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
-	if (message_list->threaded) {
+	if (message_list->threaded && message_list->regen_timeout_id) {
 		/* XXX The timeout below is added so that the execution
 		 *     thread to expand all conversation threads would
 		 *     have completed.  The timeout 505 is just to ensure
 		 *     that the value is a small delta more than the
 		 *     timeout value in mail_regen_list(). */
 		g_timeout_add (
-			505, (GSourceFunc)
+			55, (GSourceFunc)
 			message_list_select_all_timeout_cb,
 			message_list);
 	} else
@@ -4937,6 +4937,6 @@ mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, Ca
 		ml_regen_timeout (m);
 	else {
 		ml->regen_timeout_msg = m;
-		ml->regen_timeout_id = g_timeout_add (500, (GSourceFunc) ml_regen_timeout, m);
+		ml->regen_timeout_id = g_timeout_add (50, (GSourceFunc) ml_regen_timeout, m);
 	}
 }
