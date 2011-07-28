@@ -351,7 +351,7 @@
       <type>string</type>
       <locale name="C">
         <short>HTTP proxy username</short>
-        <long>User name to pass as authentication when doing HTTP proxying.</long>
+        <long>Username to pass as authentication when doing HTTP proxying.</long>
       </locale>
     </schema>
 
