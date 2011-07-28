@@ -1331,7 +1331,7 @@ init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, GtkWidget **new_userm
 	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_start (content_area, hbox, FALSE, FALSE, 0);
 
-	label = gtk_label_new_with_mnemonic (_("User e-_mail:"));
+	label = gtk_label_new_with_mnemonic (_("User e_mail:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), *new_usermail_combo);
 
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);

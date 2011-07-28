@@ -253,7 +253,7 @@ oge_caldav  (EPlugin                    *epl,
 	g_free (uri);
 	g_free (username);
 
-	mail = e_plugin_util_add_entry (parent, _("User e-_mail:"), source, "usermail");
+	mail = e_plugin_util_add_entry (parent, _("User e_mail:"), source, "usermail");
 	autoschedule = e_plugin_util_add_check (
 		parent, _("Server _handles meeting invitations"),
 		source, "autoschedule", "1", "0");
