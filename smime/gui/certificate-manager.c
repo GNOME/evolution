@@ -90,7 +90,7 @@ static const gchar* yourcerts_mime_types[] = { "application/x-x509-user-cert", "
 static CertTreeColumn contactcerts_columns[] = {
 
 	{ G_TYPE_STRING, N_("Certificate Name"),		e_cert_get_cn,			TRUE },
-	{ G_TYPE_STRING, N_("E-Mail Address"),			e_cert_get_email,		TRUE },
+	{ G_TYPE_STRING, N_("Email Address"),			e_cert_get_email,		TRUE },
 	{ G_TYPE_STRING, N_("Issued To Organization"),		e_cert_get_org,			FALSE },
 	{ G_TYPE_STRING, N_("Issued To Organizational Unit"),	e_cert_get_org_unit,		FALSE },
 	{ G_TYPE_STRING, N_("Serial Number"),			e_cert_get_serial_number,	TRUE },
@@ -110,7 +110,7 @@ static const gchar* contactcerts_mime_types[] = { "application/x-x509-email-cert
 static CertTreeColumn authoritycerts_columns[] = {
 
 	{ G_TYPE_STRING, N_("Certificate Name"),		e_cert_get_cn,			TRUE },
-	{ G_TYPE_STRING, N_("E-Mail Address"),			e_cert_get_email,		TRUE },
+	{ G_TYPE_STRING, N_("Email Address"),			e_cert_get_email,		TRUE },
 	{ G_TYPE_STRING, N_("Serial Number"),			e_cert_get_serial_number,	TRUE },
 	{ G_TYPE_STRING, N_("Purposes"),			e_cert_get_usage,		TRUE },
 	{ G_TYPE_STRING, N_("Issued By"),			e_cert_get_issuer_cn,		FALSE },
