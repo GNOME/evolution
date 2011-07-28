@@ -135,7 +135,7 @@ e_calendar_http_secure (EPlugin *epl, EConfigHookItemFactoryData *data)
 		return NULL;
 	}
 
-	secure_setting = e_plugin_util_add_check (data->parent, _("_Secure connection"), t->source, "use_ssl", "1", "0");
+	secure_setting = e_plugin_util_add_check (data->parent, _("Use _secure connection"), t->source, "use_ssl", "1", "0");
 
 	/* Store pointer to secure checkbox so we can retrieve it in url_changed() */
 	g_object_set_data (G_OBJECT (data->parent), "secure_checkbox", (gpointer)secure_setting);
