@@ -348,7 +348,7 @@ plugin_google_contacts (EPlugin *epl,
 	} else {
 		use_ssl = 0;
 	}
-	ssl_cb = gtk_check_button_new_with_mnemonic (_("Use _SSL"));
+	ssl_cb = gtk_check_button_new_with_mnemonic (_("Use _secure connection"));
 	gtk_box_pack_start (GTK_BOX (hbox), ssl_cb, FALSE, FALSE, 0);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ssl_cb), use_ssl);
 

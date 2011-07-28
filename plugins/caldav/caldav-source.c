@@ -241,7 +241,7 @@ oge_caldav  (EPlugin                    *epl,
 		location, "changed",
 		G_CALLBACK (location_changed_cb), source);
 
-	ssl = e_plugin_util_add_check (parent, _("Use _SSL"), source, "ssl", "1", "0");
+	ssl = e_plugin_util_add_check (parent, _("Use _secure connection"), source, "ssl", "1", "0");
 
 	user = e_plugin_util_add_entry (parent, _("User_name:"), NULL, NULL);
 	gtk_entry_set_text (GTK_ENTRY (user), username ? username : "");
