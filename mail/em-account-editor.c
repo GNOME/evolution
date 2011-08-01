@@ -2392,7 +2392,8 @@ emae_receive_page (EConfig *ec,
 }
 
 static void
-emae_option_toggle_changed (GtkToggleButton *toggle, EMAccountEditorService *service)
+emae_option_toggle_changed (GtkToggleButton *toggle,
+                            EMAccountEditorService *service)
 {
 	const gchar *name = g_object_get_data ((GObject *)toggle, "option-name");
 	GSList *depl = g_object_get_data ((GObject *)toggle, "dependent-list");
@@ -2408,7 +2409,10 @@ emae_option_toggle_changed (GtkToggleButton *toggle, EMAccountEditorService *ser
 }
 
 static GtkWidget *
-emae_option_toggle (EMAccountEditorService *service, CamelURL *url, const gchar *text, const gchar *name)
+emae_option_toggle (EMAccountEditorService *service,
+                    CamelURL *url,
+                    const gchar *text,
+                    const gchar *name)
 {
 	GtkWidget *w;
 
@@ -2422,7 +2426,8 @@ emae_option_toggle (EMAccountEditorService *service, CamelURL *url, const gchar 
 }
 
 static void
-emae_option_entry_changed (GtkEntry *entry, EMAccountEditorService *service)
+emae_option_entry_changed (GtkEntry *entry,
+                           EMAccountEditorService *service)
 {
 	const gchar *name = g_object_get_data ((GObject *)entry, "option-name");
 	const gchar *text = gtk_entry_get_text (entry);
@@ -2434,27 +2439,31 @@ emae_option_entry_changed (GtkEntry *entry, EMAccountEditorService *service)
 }
 
 static GtkWidget *
-emae_option_entry (EMAccountEditorService *service, CamelURL *url, const gchar *name, GtkWidget *label_for_mnemonic)
+emae_option_entry (EMAccountEditorService *service,
+                   CamelURL *url,
+                   const gchar *name,
+                   GtkLabel *label_for_mnemonic)
 {
-	GtkWidget *w;
+	GtkWidget *widget;
 	const gchar *val = camel_url_get_param (url, name);
 
 	if (val == NULL)
 		val = "";
 
-	w = g_object_new (gtk_entry_get_type (),
-			 "text", val,
-			 NULL);
-	gtk_label_set_mnemonic_widget ((GtkLabel*) label_for_mnemonic, w);
-	g_object_set_data ((GObject *)w, "option-name", (gpointer)name);
-	g_signal_connect (w, "changed", G_CALLBACK(emae_option_entry_changed), service);
-	gtk_widget_show (w);
+	widget = g_object_new (GTK_TYPE_ENTRY, "text", val, NULL);
+	gtk_label_set_mnemonic_widget (label_for_mnemonic, widget);
+	g_object_set_data (G_OBJECT (widget), "option-name", (gpointer) name);
+	g_signal_connect (
+		widget, "changed",
+		G_CALLBACK (emae_option_entry_changed), service);
+	gtk_widget_show (widget);
 
-	return w;
+	return widget;
 }
 
 static void
-emae_option_checkspin_changed (GtkSpinButton *spin, EMAccountEditorService *service)
+emae_option_checkspin_changed (GtkSpinButton *spin,
+                               EMAccountEditorService *service)
 {
 	const gchar *name = g_object_get_data ((GObject *)spin, "option-name");
 	gchar value[16];
@@ -2467,7 +2476,8 @@ emae_option_checkspin_changed (GtkSpinButton *spin, EMAccountEditorService *serv
 }
 
 static void
-emae_option_checkspin_check_changed (GtkToggleButton *toggle, EMAccountEditorService *service)
+emae_option_checkspin_check_changed (GtkToggleButton *toggle,
+                                     EMAccountEditorService *service)
 {
 	const gchar *name = g_object_get_data ((GObject *)toggle, "option-name");
 	GtkSpinButton *spin = g_object_get_data ((GObject *)toggle, "option-target");
@@ -2487,10 +2497,10 @@ emae_option_checkspin_check_changed (GtkToggleButton *toggle, EMAccountEditorSer
 
 static void
 parse_checkspin_format (const gchar *str,
-			gboolean *on_ret,
-			gdouble *min_ret,
-			gdouble *def_ret,
-			gdouble *max_ret)
+                        gboolean *on_ret,
+                        gdouble *min_ret,
+                        gdouble *def_ret,
+                        gdouble *max_ret)
 {
 	gchar on;
 
@@ -2508,7 +2518,11 @@ parse_checkspin_format (const gchar *str,
 }
 
 static GtkWidget *
-emae_option_checkspin (EMAccountEditorService *service, CamelURL *url, const gchar *name, const gchar *fmt, const gchar *info)
+emae_option_checkspin (EMAccountEditorService *service,
+                       CamelURL *url,
+                       const gchar *name,
+                       const gchar *fmt,
+                       const gchar *info)
 {
 	GtkWidget *hbox, *check, *spin, *label = NULL;
 	gdouble min, def, max;
@@ -2566,7 +2580,8 @@ emae_option_checkspin (EMAccountEditorService *service, CamelURL *url, const gch
 }
 
 static void
-emae_option_options_changed (GtkComboBox *options, EMAccountEditorService *service)
+emae_option_options_changed (GtkComboBox *options,
+                             EMAccountEditorService *service)
 {
 	const gchar *name = g_object_get_data (G_OBJECT (options), "option-name");
 	gchar *value = NULL;
@@ -2591,7 +2606,11 @@ emae_option_options_changed (GtkComboBox *options, EMAccountEditorService *servi
 
 /* 'values' is in format "value0:caption0:value2:caption2:...valueN:captionN" */
 static GtkWidget *
-emae_option_options (EMAccountEditorService *service, CamelURL *url, const gchar *name, const gchar *values, GtkWidget *l)
+emae_option_options (EMAccountEditorService *service,
+                     CamelURL *url,
+                     const gchar *name,
+                     const gchar *values,
+                     GtkLabel *label)
 {
 	GtkComboBox *w;
 	GtkListStore *store;
@@ -2646,7 +2665,7 @@ emae_option_options (EMAccountEditorService *service, CamelURL *url, const gchar
 
 	gtk_widget_show (GTK_WIDGET (w));
 
-	gtk_label_set_mnemonic_widget (GTK_LABEL (l), GTK_WIDGET (w));
+	gtk_label_set_mnemonic_widget (label, GTK_WIDGET (w));
 
 	g_object_set_data (G_OBJECT (w), "option-name", (gpointer)name);
 	g_signal_connect (w, "changed", G_CALLBACK (emae_option_options_changed), service);
@@ -2721,118 +2740,186 @@ emae_receive_options_extra_item (EConfig *ec,
                                  gpointer data)
 {
 	EMAccountEditor *emae = data;
+	EMAccountEditorService *service;
 	struct _receive_options_item *item = (struct _receive_options_item *) eitem;
-	GtkWidget *w, *l, *h;
+	GtkWidget *widget, *h;
+	GtkLabel *label;
+	GtkTable *table;
 	CamelProviderConfEntry *entries;
 	GtkWidget *depw;
 	GSList *depl = NULL, *n;
-	EMAccountEditorService *service = &emae->priv->source;
-	gint i;
 	guint row;
 	GHashTable *extra;
 	CamelURL *url;
+	const gchar *section_name;
+	gint ii;
 
-	if (emae->priv->source.provider == NULL
-	    || emae->priv->source.provider->extra_conf == NULL)
+	service = &emae->priv->source;
+	section_name = eitem->user_data;
+
+	if (emae->priv->source.provider == NULL)
 		return NULL;
+
+	if (emae->priv->source.provider->extra_conf == NULL)
+		return NULL;
+
 	if (emae->type == EMAE_PAGES) {
-		GtkWidget *box = gtk_hbox_new (FALSE, 12);
+		GtkWidget *box;
+
+		box = gtk_hbox_new (FALSE, 12);
 		gtk_widget_reparent (parent, box);
 		gtk_widget_show (box);
-		gtk_box_set_child_packing ((GtkBox *) box, parent, TRUE, TRUE, 12, GTK_PACK_START);
-		gtk_box_pack_start ((GtkBox *) emae->pages[2], box, FALSE, FALSE, 0);
+		gtk_box_set_child_packing (
+			GTK_BOX (box), parent,
+			TRUE, TRUE, 12, GTK_PACK_START);
+		gtk_box_pack_start (
+			GTK_BOX (emae->pages[2]), box, FALSE, FALSE, 0);
 	}
 
 	entries = emae->priv->source.provider->extra_conf;
-	for (i=0;entries && entries[i].type != CAMEL_PROVIDER_CONF_END;i++)
-		if (entries[i].type == CAMEL_PROVIDER_CONF_SECTION_START
-		    && entries[i].name
-		    && strcmp (entries[i].name, eitem->user_data) == 0)
+	for (ii = 0; entries && entries[ii].type != CAMEL_PROVIDER_CONF_END; ii++)
+		if (entries[ii].type == CAMEL_PROVIDER_CONF_SECTION_START
+		    && g_strcmp0 (entries[ii].name, section_name) == 0)
 			goto section;
 
 	return NULL;
+
 section:
 	d (printf ("Building extra section '%s'\n", eitem->path));
-	w = NULL;
-	url = emae_account_url (emae, emae_service_info[service->type].account_uri_key);
+	widget = NULL;
+	url = emae_account_url (
+		emae, emae_service_info[service->type].account_uri_key);
 	item->extra_table = g_hash_table_new (g_str_hash, g_str_equal);
 	extra = g_hash_table_new (g_str_hash, g_str_equal);
-	g_object_get (parent, "n-rows", &row, NULL);
 
-	for (;entries[i].type != CAMEL_PROVIDER_CONF_END && entries[i].type != CAMEL_PROVIDER_CONF_SECTION_END;i++) {
-		if (entries[i].depname) {
-			depw = g_hash_table_lookup (extra, entries[i].depname);
+	table = GTK_TABLE (parent);
+	g_object_get (table, "n-rows", &row, NULL);
+
+	for (;entries[ii].type != CAMEL_PROVIDER_CONF_END && entries[ii].type != CAMEL_PROVIDER_CONF_SECTION_END; ii++) {
+		if (entries[ii].depname) {
+			depw = g_hash_table_lookup (extra, entries[ii].depname);
 			if (depw)
 				depl = g_object_steal_data ((GObject *)depw, "dependent-list");
 		} else
 			depw = NULL;
 
-		switch (entries[i].type) {
+		switch (entries[ii].type) {
 		case CAMEL_PROVIDER_CONF_SECTION_START:
 		case CAMEL_PROVIDER_CONF_SECTION_END:
 			break;
+
 		case CAMEL_PROVIDER_CONF_LABEL:
 			/* FIXME: This is a hack for exchange connector, labels should be removed from confentry */
-			if (!strcmp (entries[i].name, "hostname"))
-				l = (GtkWidget *) emae->priv->source.hostlabel;
-			else if (!strcmp (entries[i].name, "username"))
-				l = (GtkWidget *) emae->priv->source.userlabel;
+			if (!strcmp (entries[ii].name, "hostname"))
+				label = emae->priv->source.hostlabel;
+			else if (!strcmp (entries[ii].name, "username"))
+				label = emae->priv->source.userlabel;
 			else
-				l = NULL;
+				label = NULL;
 
-			if (l) {
-				gtk_label_set_text_with_mnemonic ((GtkLabel *) l, entries[i].text);
+			if (label != NULL) {
+				gtk_label_set_text_with_mnemonic (
+					label, entries[ii].text);
 				if (depw)
-					depl = g_slist_prepend (depl, l);
+					depl = g_slist_prepend (depl, label);
 			}
 			break;
+
 		case CAMEL_PROVIDER_CONF_CHECKBOX:
-			w = emae_option_toggle (service, url, entries[i].text, entries[i].name);
-			gtk_table_attach ((GtkTable *) parent, w, 0, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-			g_hash_table_insert (extra, (gpointer) entries[i].name, w);
+			widget = emae_option_toggle (
+				service, url, entries[ii].text,
+				entries[ii].name);
+			gtk_table_attach (
+				table, widget, 0, 2,
+				row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			g_hash_table_insert (
+				extra, (gpointer) entries[ii].name, widget);
 			if (depw)
-				depl = g_slist_prepend (depl, w);
+				depl = g_slist_prepend (depl, widget);
 			row++;
-			/* HACK: keep_on_server is stored in the e-account, but is displayed as a properly on the uri,
-			   make sure they track/match here */
-			if (!strcmp (entries[i].name, "keep_on_server"))
-				emae_account_toggle_widget (emae, (GtkToggleButton *) w, E_ACCOUNT_SOURCE_KEEP_ON_SERVER);
+			/* HACK: keep_on_server is stored in the e-account,
+			 * but is displayed as a properly on the uri, make
+			 * sure they track/match here. */
+			if (strcmp (entries[ii].name, "keep_on_server") == 0)
+				emae_account_toggle_widget (
+					emae, (GtkToggleButton *) widget,
+					E_ACCOUNT_SOURCE_KEEP_ON_SERVER);
 			break;
+
 		case CAMEL_PROVIDER_CONF_ENTRY:
-			l = g_object_new (gtk_label_get_type (), "label", entries[i].text, "xalign", 0.0, "use_underline", TRUE, NULL);
-			gtk_widget_show (l);
-			w = emae_option_entry (service, url, entries[i].name, l);
-			gtk_table_attach ((GtkTable *) parent, l, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
-			gtk_table_attach ((GtkTable *) parent, w, 1, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+			widget = g_object_new (
+				GTK_TYPE_LABEL,
+				"label", entries[ii].text,
+				"use_underline", TRUE,
+				"xalign", 0.0,
+				NULL);
+			gtk_table_attach (
+				table, widget, 0, 1,
+				row, row + 1, GTK_FILL, 0, 0, 0);
+			gtk_widget_show (widget);
+
+			label = GTK_LABEL (widget);
+
+			widget = emae_option_entry (
+				service, url, entries[ii].name, label);
+			gtk_table_attach (
+				table, widget, 1, 2,
+				row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+
 			if (depw) {
-				depl = g_slist_prepend (depl, w);
-				depl = g_slist_prepend (depl, l);
+				depl = g_slist_prepend (depl, widget);
+				depl = g_slist_prepend (depl, label);
 			}
 			row++;
-			/* FIXME: this is another hack for exchange/groupwise connector */
-			g_hash_table_insert (item->extra_table, (gpointer) entries[i].name, w);
+			/* FIXME This is another hack for
+			 *       exchange/groupwise connector. */
+			g_hash_table_insert (
+				item->extra_table,
+				(gpointer) entries[ii].name, widget);
 			break;
+
 		case CAMEL_PROVIDER_CONF_CHECKSPIN:
-			w = emae_option_checkspin (service, url, entries[i].name, entries[i].text, entries[i].value);
-			gtk_table_attach ((GtkTable *) parent, w, 0, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+			widget = emae_option_checkspin (
+				service, url, entries[ii].name,
+				entries[ii].text, entries[ii].value);
+			gtk_table_attach (
+				table, widget, 0, 2,
+				row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 			if (depw)
-				depl = g_slist_prepend (depl, w);
+				depl = g_slist_prepend (depl, widget);
 			row++;
 			break;
+
 		case CAMEL_PROVIDER_CONF_OPTIONS:
 			h = gtk_hbox_new (FALSE, 4);
+			gtk_table_attach (
+				table, h, 0, 2,
+				row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 			gtk_widget_show (h);
-			l = g_object_new (gtk_label_get_type (), "label", entries[i].text, "xalign", 0.0, "use_underline", TRUE, NULL);
-			gtk_widget_show (l);
-			w = emae_option_options (service, url, entries[i].name, entries[i].value, l);
-			gtk_box_pack_start (GTK_BOX (h), l, FALSE, FALSE, 0);
-			gtk_box_pack_start (GTK_BOX (h), w, FALSE, FALSE, 0);
-			gtk_table_attach ((GtkTable *) parent, h, 0, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-			if (depw) {
+
+			widget = g_object_new (
+				GTK_TYPE_LABEL,
+				"label", entries[ii].text,
+				"use_underline", TRUE,
+				"xalign", 0.0,
+				NULL);
+			gtk_box_pack_start (
+				GTK_BOX (h), widget,
+				FALSE, FALSE, 0);
+			gtk_widget_show (widget);
+
+			label = GTK_LABEL (widget);
+
+			widget = emae_option_options (
+				service, url, entries[ii].name,
+				entries[ii].value, label);
+			gtk_box_pack_start (
+				GTK_BOX (h), widget, FALSE, FALSE, 0);
+			if (depw)
 				depl = g_slist_prepend (depl, h);
-			}
 			row++;
 			break;
+
 		default:
 			break;
 		}
@@ -2847,10 +2934,11 @@ section:
 	}
 
 	camel_url_free (url);
-	if (w)
-		gtk_widget_show (w);
 
-	return w;
+	if (widget != NULL)
+		gtk_widget_show (widget);
+
+	return widget;
 }
 
 static GtkWidget *
