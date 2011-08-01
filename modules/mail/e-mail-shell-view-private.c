@@ -115,6 +115,7 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
 	/* Cancel any unfinished open folder operations. */
 	if (mail_shell_view->priv->opening_folder != NULL) {
 		g_cancellable_cancel (mail_shell_view->priv->opening_folder);
+		g_object_unref (mail_shell_view->priv->opening_folder);
 		mail_shell_view->priv->opening_folder = NULL;
 	}
 
