@@ -1167,6 +1167,243 @@ change_sent_and_drafts_local_folders (EShellBackend *shell_backend)
 		e_account_list_save (accounts);
 }
 
+static void
+em_rename_camel_url_params (CamelURL *url)
+{
+	/* This list includes known URL parameters from built-in providers
+	 * in Camel, as well as from evolution-exchange, evolution-groupwise,
+	 * and evolution-mapi.  Add more as needed. */
+	static struct {
+		const gchar *url_parameter;
+		const gchar *property_name;
+	} camel_url_conversion[] = {
+		{ "ad_auth",			"gc-auth-method" },
+		{ "ad_browse",			"gc-allow-browse" },
+		{ "ad_expand_groups",		"gc-expand-groups" },
+		{ "ad_limit",			"gc-results-limit" },
+		{ "ad_server",			"gc-server-name" },
+		{ "all_headers",		"fetch-headers" },
+		{ "basic_headers",		"fetch-headers" },
+		{ "cachedconn"			"concurrent-connections" },
+		{ "check_all",			"check-all" },
+		{ "check_lsub",			"check-subscribed" },
+		{ "command",			"shell-command" },
+		{ "delete_after",		"delete-after-days" },
+		{ "delete_expunged",		"delete-expunged" },
+		{ "disable_extensions",		"disable-extensions" },
+		{ "dotfolders",			"use-dot-folders" },
+		{ "filter",			"filter-inbox" },
+		{ "filter_junk",		"filter-junk" },
+		{ "filter_junk_inbox",		"filter-junk-inbox" },
+		{ "folder_hierarchy_relative",	"folder-hierarchy-relative" },
+		{ "imap_custom_headers",	"fetch-headers-extra" },
+		{ "keep_on_server",		"keep-on-server" },
+		{ "offline_sync",		"stay-synchronized" },
+		{ "override_namespace",		"use-namespace" },
+		{ "owa_path",			"owa-path" },
+		{ "owa_url",			"owa-url" },
+		{ "password_exp_warn_period",	"password-exp-warn-period" },
+		{ "real_junk_path",		"real-junk-path" },
+		{ "real_trash_path",		"real-trash-path" },
+		{ "show_short_notation",	"short-folder-names" },
+		{ "soap_port",			"soap-port" },
+		{ "ssl",			"security-method" },
+		{ "sync_offline",		"stay-synchronized" },
+		{ "use_command",		"use-shell-command" },
+		{ "use_idle",			"use-idle" },
+		{ "use_lsub",			"use-subscriptions" },
+		{ "use_qresync",		"use-qresync" },
+		{ "use_ssl",			"security-method" },
+		{ "xstatus",			"use-xstatus-headers" }
+	};
+
+	const gchar *param;
+	const gchar *use_param;
+	gint ii;
+
+	for (ii = 0; ii < G_N_ELEMENTS (camel_url_conversion); ii++) {
+		const gchar *key;
+		gpointer value;
+
+		key = camel_url_conversion[ii].url_parameter;
+		value = g_datalist_get_data (&url->params, key);
+
+		if (value == NULL)
+			continue;
+
+		g_datalist_remove_no_notify (&url->params, key);
+
+		key = camel_url_conversion[ii].property_name;
+
+		/* Deal with a few special enum cases where
+		 * the parameter value also needs renamed. */
+
+		if (strcmp (key, "all_headers") == 0) {
+			GEnumClass *enum_class;
+			GEnumValue *enum_value;
+
+			enum_class = g_type_class_ref (
+				CAMEL_TYPE_FETCH_HEADERS_TYPE);
+			enum_value = g_enum_get_value (
+				enum_class, CAMEL_FETCH_HEADERS_ALL);
+			if (enum_value != NULL) {
+				g_free (value);
+				value = g_strdup (enum_value->value_nick);
+			} else
+				g_warn_if_reached ();
+			g_type_class_unref (enum_class);
+		}
+
+		if (strcmp (key, "basic_headers") == 0) {
+			GEnumClass *enum_class;
+			GEnumValue *enum_value;
+
+			enum_class = g_type_class_ref (
+				CAMEL_TYPE_FETCH_HEADERS_TYPE);
+			enum_value = g_enum_get_value (
+				enum_class, CAMEL_FETCH_HEADERS_BASIC);
+			if (enum_value != NULL) {
+				g_free (value);
+				value = g_strdup (enum_value->value_nick);
+			} else
+				g_warn_if_reached ();
+			g_type_class_unref (enum_class);
+		}
+
+		if (strcmp (key, "imap_custom_headers") == 0)
+			g_strdelimit (value, " ", ',');
+
+		if (strcmp (key, "security-method") == 0) {
+			CamelNetworkSecurityMethod method;
+			GEnumClass *enum_class;
+			GEnumValue *enum_value;
+
+			if (strcmp (value, "always") == 0)
+				method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+			else if (strcmp (value, "1") == 0)
+				method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+			else if (strcmp (value, "when-possible") == 0)
+				method = CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT;
+			else
+				method = CAMEL_NETWORK_SECURITY_METHOD_NONE;
+
+			enum_class = g_type_class_ref (
+				CAMEL_TYPE_NETWORK_SECURITY_METHOD);
+			enum_value = g_enum_get_value (enum_class, method);
+			if (enum_value != NULL) {
+				g_free (value);
+				value = g_strdup (enum_value->value_nick);
+			} else
+				g_warn_if_reached ();
+			g_type_class_unref (enum_class);
+		}
+
+		g_datalist_set_data_full (&url->params, key, value, g_free);
+	}
+
+	/* A few more adjustments...
+	 *
+	 * These are all CAMEL_PROVIDER_CONF_CHECKSPIN settings.  The spin
+	 * button value is bound to "param" and the checkbox state is bound
+	 * to "use-param".  The "use-param" settings are new.  If "param"
+	 * exists but no "use-param", then set "use-param" to "true". */
+
+	param = g_datalist_get_data (&url->params, "gc-results-limit");
+	use_param = g_datalist_get_data (&url->params, "use-gc-results-limit");
+	if (param != NULL && *param != '\0' && use_param == NULL) {
+		g_datalist_set_data_full (
+			&url->params, "use-gc-results-limit",
+			g_strdup ("true"), (GDestroyNotify) g_free);
+	}
+
+	param = g_datalist_get_data (&url->params, "kerberos");
+	if (g_strcmp0 (param, "required") == 0) {
+		g_datalist_set_data_full (
+			&url->params, "kerberos",
+			g_strdup ("true"), (GDestroyNotify) g_free);
+	}
+
+	param = g_datalist_get_data (
+		&url->params, "password-exp-warn-period");
+	use_param = g_datalist_get_data (
+		&url->params, "use-password-exp-warn-period");
+	if (param != NULL && *param != '\0' && use_param == NULL) {
+		g_datalist_set_data_full (
+			&url->params, "use-password-exp-warn-period",
+			g_strdup ("true"), (GDestroyNotify) g_free);
+	}
+
+	param = g_datalist_get_data (&url->params, "real-junk-path");
+	use_param = g_datalist_get_data (&url->params, "use-real-junk-path");
+	if (param != NULL && *param != '\0' && use_param == NULL) {
+		g_datalist_set_data_full (
+			&url->params, "use-real-junk-path",
+			g_strdup ("true"), (GDestroyNotify) g_free);
+	}
+
+	param = g_datalist_get_data (&url->params, "real-trash-path");
+	use_param = g_datalist_get_data (&url->params, "use-real-trash-path");
+	if (param != NULL && *param != '\0' && use_param == NULL) {
+		g_datalist_set_data_full (
+			&url->params, "use-real-trash-path",
+			g_strdup ("true"), (GDestroyNotify) g_free);
+	}
+}
+
+static void
+em_rename_account_params (void)
+{
+	EAccountList *account_list;
+	EIterator *iterator;
+
+	/* XXX As of 3.2, CamelServices store settings in GObject properties,
+	 *     not CamelURL parameters.  CamelURL parameters are still used
+	 *     for storage in GConf until we can move account information to
+	 *     key files, but this is only within Evolution.  Some of the new
+	 *     GObject property names differ from the old CamelURL parameter
+	 *     names.  This routine renames the CamelURL parameter names to
+	 *     the GObject property names for all accounts, both the source
+	 *     and tranport URLs. */
+
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		EAccount *account;
+		CamelURL *url = NULL;
+
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iterator);
+
+		if (account->source->url != NULL)
+			url = camel_url_new (account->source->url, NULL);
+
+		if (url != NULL) {
+			em_rename_camel_url_params (url);
+			g_free (account->source->url);
+			account->source->url = camel_url_to_string (url, 0);
+			camel_url_free (url);
+		}
+
+		url = NULL;
+
+		if (account->transport->url != NULL)
+			url = camel_url_new (account->transport->url, NULL);
+
+		if (url != NULL) {
+			em_rename_camel_url_params (url);
+			g_free (account->transport->url);
+			account->transport->url = camel_url_to_string (url, 0);
+			camel_url_free (url);
+		}
+
+		e_iterator_next (iterator);
+	}
+
+	g_object_unref (iterator);
+	e_account_list_save (account_list);
+}
+
 static gboolean
 migrate_local_store (EShellBackend *shell_backend)
 {
@@ -1314,6 +1551,10 @@ e_mail_migrate (EShellBackend *shell_backend,
 	if (major < 2 || (major == 2 && minor < 32)) {
 		em_ensure_proxy_ignore_hosts_being_list ();
 	}
+
+	/* Rename account URL parameters to
+	 * match CamelSettings property names. */
+	em_rename_account_params ();
 
 	if (!migrate_local_store (shell_backend))
 		return FALSE;
