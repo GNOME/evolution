@@ -30,10 +30,10 @@
 #include <misc/e-calendar.h>
 #include <libecal/e-cal-client.h>
 
-void tag_calendar_by_client (ECalendar *ecal, ECalClient *client);
+void tag_calendar_by_client (ECalendar *ecal, ECalClient *client, GCancellable *cancellable);
 void tag_calendar_by_comp (ECalendar *ecal, ECalComponent *comp,
 			   ECalClient *client, icaltimezone *display_zone,
 			   gboolean clear_first, gboolean comp_is_on_server,
-			   gboolean can_recur_events_italic);
+			   gboolean can_recur_events_italic, GCancellable *cancellable);
 
 #endif

@@ -131,6 +131,8 @@ struct _GnomeCalendarPrivate {
 	/* Used in update_todo_view, to prevent interleaving when
 	 * called in separate thread. */
 	GMutex *todo_update_lock;
+
+	GCancellable *cancellable;
 };
 
 enum {
@@ -775,7 +777,7 @@ dn_client_view_objects_added_cb (ECalClientView *view, const GSList *objects, gp
 		tag_calendar_by_comp (
 			priv->date_navigator, comp,
 			e_cal_client_view_get_client (view),
-			NULL, FALSE, TRUE, TRUE);
+			NULL, FALSE, TRUE, TRUE, priv->cancellable);
 		g_object_unref (comp);
 	}
 }
@@ -1438,6 +1440,8 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	priv->visible_start = -1;
 	priv->visible_end = -1;
 	priv->updating = FALSE;
+
+	priv->cancellable = g_cancellable_new ();
 }
 
 static void
@@ -1490,6 +1494,12 @@ gnome_calendar_do_dispose (GObject *object)
 	if (priv->update_marcus_bains_line_timeout) {
 		g_source_remove (priv->update_marcus_bains_line_timeout);
 		priv->update_marcus_bains_line_timeout = 0;
+	}
+
+	if (priv->cancellable) {
+		g_cancellable_cancel (priv->cancellable);
+		g_object_unref (priv->cancellable);
+		priv->cancellable = NULL;
 	}
 
 	G_OBJECT_CLASS (gnome_calendar_parent_class)->dispose (object);
@@ -2238,7 +2248,7 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 				pd.remove = TRUE;
 				pd.older_than = older_than;
 
-				e_cal_client_generate_instances_for_object (client, m->data,
+				e_cal_client_generate_instances_for_object_sync (client, m->data,
 							     older_than, G_MAXINT32,
 							     check_instance_cb,
 							     &pd);

@@ -52,6 +52,7 @@ typedef struct
 	gint month_val;
 	gint day_val;
 
+	GCancellable *cancellable;
 } GoToDialog;
 
 static GoToDialog *dlg = NULL;
@@ -94,7 +95,7 @@ ecal_date_range_changed (ECalendarItem *calitem, gpointer user_data)
 	model = gnome_calendar_get_model (dlg->gcal);
 	client = e_cal_model_get_default_client (model);
 	if (client)
-		tag_calendar_by_client (dlg->ecal, client);
+		tag_calendar_by_client (dlg->ecal, client, dlg->cancellable);
 }
 
 /* Event handler for day groups in the month item.  A button press makes
@@ -248,6 +249,7 @@ goto_dialog (GtkWindow *parent, GnomeCalendar *gcal)
 		return;
 	}
 	dlg->gcal = gcal;
+	dlg->cancellable = g_cancellable_new ();
 
 	model = gnome_calendar_get_model (gcal);
 	timezone = e_cal_model_get_timezone (model);
@@ -287,6 +289,8 @@ goto_dialog (GtkWindow *parent, GnomeCalendar *gcal)
 		goto_today (dlg);
 
 	g_object_unref (dlg->builder);
+	g_cancellable_cancel (dlg->cancellable);
+	g_object_unref (dlg->cancellable);
 	g_free (dlg);
 	dlg = NULL;
 }

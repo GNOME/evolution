@@ -786,7 +786,7 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 				sprintf (buf, "%d", day);
 
 				/* this is a slow messy way to do this ... but easy ... */
-				e_cal_model_generate_instances (gnome_calendar_get_model (gcal), now,
+				e_cal_model_generate_instances_sync (gnome_calendar_get_model (gcal), now,
 								time_day_end_with_zone (now, zone),
 								instance_cb, &found);
 
@@ -1412,7 +1412,7 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 	pdi.zone = e_cal_model_get_timezone (model);
 
 	/* Get the events from the server. */
-	e_cal_model_generate_instances (model, start, end, print_day_details_cb, &pdi);
+	e_cal_model_generate_instances_sync (model, start, end, print_day_details_cb, &pdi);
 	qsort (pdi.long_events->data, pdi.long_events->len,
 	       sizeof (EDayViewEvent), e_day_view_event_sort_func);
 	qsort (pdi.events[0]->data, pdi.events[0]->len,
@@ -1976,7 +1976,7 @@ print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
 	}
 
 	/* Get the events from the server. */
-	e_cal_model_generate_instances (model,
+	e_cal_model_generate_instances_sync (model,
 					psi.day_starts[0], psi.day_starts[psi.days_shown],
 					print_week_summary_cb, &psi);
 	qsort (psi.events->data, psi.events->len,
@@ -2496,7 +2496,7 @@ print_work_week_day_details (GtkPrintContext *context, GnomeCalendar *gcal,
 	pdi.zone = e_cal_model_get_timezone (model);
 
 	/* Get the events from the server. */
-	e_cal_model_generate_instances (model, start, end, print_day_details_cb, &pdi);
+	e_cal_model_generate_instances_sync (model, start, end, print_day_details_cb, &pdi);
 	qsort (pdi.long_events->data, pdi.long_events->len,
 	       sizeof (EDayViewEvent), e_day_view_event_sort_func);
 	qsort (pdi.events[0]->data, pdi.events[0]->len,
@@ -2689,8 +2689,7 @@ print_work_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date
 	pdi.end_hour = e_cal_model_get_work_day_end_hour (model);
 	pdi.zone = zone;
 
-	e_cal_model_generate_instances (model, start, end,
-					print_work_week_view_cb, &pdi);
+	e_cal_model_generate_instances_sync (model, start, end, print_work_week_view_cb, &pdi);
 
 	print_work_week_background (context, gcal, date, &pdi, 0.0, width,
 				    HEADER_HEIGHT + DAY_VIEW_ROW_HEIGHT + LONG_EVENT_OFFSET,
