@@ -287,7 +287,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	alarm_string = recur_string = meeting_string = "";
 	if (event && event->comp_data) {
 		if (e_cal_util_component_has_alarms (event->comp_data->icalcomp))
-			alarm_string = _("It has alarms.");
+			alarm_string = _("It has reminders.");
 
 		if (e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
 			recur_string = _("It has recurrences.");

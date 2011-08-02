@@ -209,9 +209,9 @@ static GtkActionEntry editable_entries[] = {
 
 	{ "alarms",
 	  "appointment-soon",
-	  N_("_Alarms"),
+	  N_("_Reminders"),
 	  NULL,
-	  N_("Set or unset alarms for this event"),
+	  N_("Set or unset reminders for this event"),
 	  G_CALLBACK (action_alarms_cb) },
 };
 
@@ -357,7 +357,7 @@ event_editor_constructor (GType type,
 
 		/* Alarm page */
 		alarm_page = event_page_get_alarm_page (priv->event_page);
-		comp_editor_append_widget (editor, alarm_page, _("Alarm"), TRUE);
+		comp_editor_append_widget (editor, alarm_page, _("Reminder"), TRUE);
 		g_object_unref (alarm_page);
 	}
 

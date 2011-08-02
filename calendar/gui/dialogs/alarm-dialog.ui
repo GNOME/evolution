@@ -86,7 +86,7 @@
   <object class="GtkDialog" id="alarm-dialog">
     <property name="border_width">6</property>
     <property name="visible">True</property>
-    <property name="title" translatable="yes">Add Alarm</property>
+    <property name="title" translatable="yes">Add Reminder</property>
     <property name="type">GTK_WINDOW_TOPLEVEL</property>
     <property name="window_position">GTK_WIN_POS_NONE</property>
     <property name="modal">True</property>
@@ -147,7 +147,7 @@
             <child>
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Alarm</property>
+                <property name="label" translatable="yes">Reminder</property>
                 <property name="use_underline">False</property>
                 <property name="justify">GTK_JUSTIFY_LEFT</property>
                 <property name="wrap">False</property>
@@ -366,7 +366,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="has_focus">True</property>
-                        <property name="label" translatable="yes">_Repeat the alarm</property>
+                        <property name="label" translatable="yes">_Repeat the reminder</property>
                         <property name="use_underline">True</property>
                         <property name="relief">GTK_RELIEF_NORMAL</property>
                         <property name="focus_on_click">True</property>
@@ -406,7 +406,7 @@
                         <child>
                           <object class="GtkLabel" id="label1">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes" comments="This is part of the sentence: 'Repeat the alarm %d extra times every %d minutes'. Where %d are numbers.">extra times every</property>
+                            <property name="label" translatable="yes" comments="This is part of the sentence: 'Repeat the reminder %d extra times every %d minutes'. Where %d are numbers.">extra times every</property>
                             <property name="use_underline">False</property>
                             <property name="use_markup">False</property>
                             <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -676,7 +676,7 @@
                           <object class="GtkCheckButton" id="aalarm-sound">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Custom alarm sound</property>
+                            <property name="label" translatable="yes">Custom reminder sound</property>
                             <property name="use_underline">True</property>
                             <property name="relief">GTK_RELIEF_NORMAL</property>
                             <property name="focus_on_click">True</property>

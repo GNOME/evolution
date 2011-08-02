@@ -726,8 +726,8 @@
       <type>int</type>
       <default>-1</default>
       <locale name="C">
-        <short>Last alarm time</short>
-        <long>Time the last alarm ran, in time_t.</long>
+        <short>Last reminder time</short>
+        <long>Time the last reminder ran, in time_t.</long>
       </locale>
     </schema>
 
@@ -739,7 +739,7 @@
       <list_type>string</list_type>
       <default>[]</default>
       <locale name="C">
-        <short>Calendars to run alarms for</short>
+        <short>Calendars to run reminders for</short>
       </locale>
     </schema>
 
@@ -751,8 +751,8 @@
       <list_type>string</list_type>
       <default>[]</default>
       <locale name="C">
-        <short>Alarm programs</short>
-        <long>Programs that are allowed to be run by alarms.</long>
+        <short>Reminder programs</short>
+        <long>Programs that are allowed to be run by reminders.</long>
       </locale>
     </schema>
 
@@ -763,8 +763,8 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-        <short>Show display alarms in notification tray</short>
-        <long>Whether or not to use the notification tray for display alarms.</long>
+        <short>Show display reminders in notification tray</short>
+        <long>Whether or not to use the notification tray for display reminders.</long>
       </locale>
     </schema>
     
@@ -798,9 +798,9 @@
       <owner>evolution-calendar</owner>
       <type>string</type>
       <locale name="C">
-        <short>Save directory for alarm audio</short>
+        <short>Save directory for reminder audio</short>
          <long>
-           Directory for saving alarm audio files
+           Directory for saving reminder audio files
          </long>
       </locale>
     </schema>
