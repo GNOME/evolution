@@ -185,6 +185,8 @@ struct _RecurrencePagePrivate {
 
 	/* This just holds some settings we need */
 	EMeetingStore *meeting_store;
+
+	GCancellable *cancellable;
 };
 
 
@@ -266,7 +268,7 @@ preview_recur (RecurrencePage *rpage)
 	fill_component (rpage, comp);
 
 	tag_calendar_by_comp (E_CALENDAR (priv->preview_calendar), comp,
-			      client, zone, TRUE, FALSE, FALSE);
+			      client, zone, TRUE, FALSE, FALSE, priv->cancellable);
 	g_object_unref (comp);
 }
 
@@ -324,6 +326,12 @@ recurrence_page_dispose (GObject *object)
 		priv->meeting_store = NULL;
 	}
 
+	if (priv->cancellable) {
+		g_cancellable_cancel (priv->cancellable);
+		g_object_unref (priv->cancellable);
+		priv->cancellable = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (recurrence_page_parent_class)->dispose (object);
 }
@@ -379,6 +387,8 @@ recurrence_page_init (RecurrencePage *rpage)
 {
 	rpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		rpage, TYPE_RECURRENCE_PAGE, RecurrencePagePrivate);
+
+	rpage->priv->cancellable = g_cancellable_new ();
 }
 
 /* get_widget handler for the recurrence page */

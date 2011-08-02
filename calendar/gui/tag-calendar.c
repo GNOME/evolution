@@ -145,15 +145,17 @@ get_recur_events_italic (void)
  * tag_calendar_by_client:
  * @ecal: Calendar widget to tag.
  * @client: A calendar client object.
+ * @cancellable: A #GCancellable; can be %NULL
  *
  * Tags an #ECalendar widget with the events that occur in its current time
  * range.  The occurrences are extracted from the specified calendar @client.
  **/
 void
 tag_calendar_by_client (ECalendar *ecal,
-                        ECalClient *client)
+                        ECalClient *client,
+			GCancellable *cancellable)
 {
-	struct calendar_tag_closure c;
+	struct calendar_tag_closure *c;
 
 	g_return_if_fail (E_IS_CALENDAR (ecal));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
@@ -165,14 +167,18 @@ tag_calendar_by_client (ECalendar *ecal,
 	if (!e_client_is_opened (E_CLIENT (client)))
 		return;
 
-	if (!prepare_tag (ecal, &c, NULL, TRUE))
-		return;
+	c = g_new0 (struct calendar_tag_closure, 1);
 
-	c.skip_transparent_events = TRUE;
-	c.recur_events_italic = get_recur_events_italic ();
+	if (!prepare_tag (ecal, c, NULL, TRUE)) {
+		g_free (c);
+		return;
+	}
+
+	c->skip_transparent_events = TRUE;
+	c->recur_events_italic = get_recur_events_italic ();
 
 	e_cal_client_generate_instances (
-		client, c.start_time, c.end_time, tag_calendar_cb, &c);
+		client, c->start_time, c->end_time, cancellable, tag_calendar_cb, c, g_free);
 }
 
 /* Resolves TZIDs for the recurrence generator, for when the comp is not on
@@ -227,7 +233,8 @@ tag_calendar_by_comp (ECalendar *ecal,
                       icaltimezone *display_zone,
                       gboolean clear_first,
                       gboolean comp_is_on_server,
-		      gboolean can_recur_events_italic)
+		      gboolean can_recur_events_italic,
+		      GCancellable *cancellable)
 {
 	struct calendar_tag_closure c;
 
@@ -244,11 +251,15 @@ tag_calendar_by_comp (ECalendar *ecal,
 	c.skip_transparent_events = FALSE;
 	c.recur_events_italic = can_recur_events_italic && get_recur_events_italic ();
 
-	if (comp_is_on_server)
+	if (comp_is_on_server) {
+		struct calendar_tag_closure *closure = g_new0 (struct calendar_tag_closure, 1);
+
+		*closure = c;
+
 		e_cal_client_generate_instances_for_object (
 			client, e_cal_component_get_icalcomponent (comp),
-			c.start_time, c.end_time, tag_calendar_cb, &c);
-	else
+			c.start_time, c.end_time, cancellable, tag_calendar_cb, closure, g_free);
+	} else
 		e_cal_recur_generate_instances (
 			comp, c.start_time, c.end_time,
 			tag_calendar_cb, &c, resolve_tzid_cb,

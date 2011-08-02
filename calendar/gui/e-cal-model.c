@@ -46,6 +46,7 @@ typedef struct {
 	ECalClientView *view;
 
 	gboolean do_query;
+	GCancellable *cancellable;
 } ECalModelClient;
 
 struct _ECalModelPrivate {
@@ -398,6 +399,10 @@ cal_model_dispose (GObject *object)
 			priv->clients = g_list_remove (priv->clients, client_data);
 
 			g_object_unref (client_data->client);
+			if (client_data->cancellable) {
+				g_cancellable_cancel (client_data->cancellable);
+				g_object_unref (client_data->cancellable);
+			}
 			if (client_data->view)
 				g_object_unref (client_data->view);
 			g_free (client_data);
@@ -2226,14 +2231,18 @@ process_added (ECalClientView *view, const GSList *objects, ECalModel *model)
 		ensure_dates_are_in_default_zone (model, l->data);
 
 		if (e_cal_util_component_has_recurrences (l->data) && (priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) {
-			RecurrenceExpansionData rdata;
+			ECalModelClient *client_data = find_client_data (model, client);
 
-			rdata.client = client;
-			rdata.view = view;
-			rdata.model = model;
-			rdata.icalcomp = l->data;
-			e_cal_client_generate_instances_for_object (rdata.client, l->data, priv->start, priv->end,
-								    (ECalRecurInstanceFn) add_instance_cb, &rdata);
+			if (client_data) {
+				RecurrenceExpansionData *rdata = g_new0 (RecurrenceExpansionData, 1);
+				rdata->client = client;
+				rdata->view = view;
+				rdata->model = model;
+				rdata->icalcomp = l->data;
+
+				e_cal_client_generate_instances_for_object (rdata->client, l->data, priv->start, priv->end, client_data->cancellable,
+									    (ECalRecurInstanceFn) add_instance_cb, rdata, g_free);
+			}
 		} else {
 			e_table_model_pre_change (E_TABLE_MODEL (model));
 
@@ -2494,12 +2503,97 @@ client_view_complete_cb (ECalClientView *view, const GError *error, gpointer use
 			e_cal_client_get_source_type (client));
 }
 
+struct get_view_data
+{
+	ECalModel *model; /* do not touch this, if cancelled */
+	ECalModelClient *client_data; /* do not touch this, if cancelled */
+	GCancellable *cancellable;
+	guint tries;
+};
+
+static void
+free_get_view_data (struct get_view_data *gvd)
+{
+	if (!gvd)
+		return;
+
+	g_object_unref (gvd->cancellable);
+	g_free (gvd);
+}
+
+static gboolean retry_get_view_timeout_cb (gpointer user_data);
+
+static void
+get_view_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	struct get_view_data *gvd = user_data;
+	GError *error = NULL;
+	ECalClientView *view = NULL;
+
+	g_return_if_fail (source_object != NULL);
+	g_return_if_fail (result != NULL);
+	g_return_if_fail (gvd != NULL);
+	g_return_if_fail (gvd->model != NULL);
+	g_return_if_fail (gvd->client_data != NULL);
+
+	if (!e_cal_client_get_view_finish (E_CAL_CLIENT (source_object), result, &view, &error)) {
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			g_clear_error (&error);
+
+			free_get_view_data (gvd);
+			return;
+		}
+
+		if (gvd->tries < 10) {
+			gvd->tries++;
+			g_timeout_add (500, retry_get_view_timeout_cb, gvd);
+			return;
+		}
+
+		g_debug ("%s: Failed to get view: %s", G_STRFUNC, error ? error->message : "Unknown error");
+
+		g_clear_error (&error);
+	} else {
+		gvd->client_data->view = view;
+
+		g_signal_connect (gvd->client_data->view, "objects-added", G_CALLBACK (client_view_objects_added_cb), gvd->model);
+		g_signal_connect (gvd->client_data->view, "objects-modified", G_CALLBACK (client_view_objects_modified_cb), gvd->model);
+		g_signal_connect (gvd->client_data->view, "objects-removed", G_CALLBACK (client_view_objects_removed_cb), gvd->model);
+		g_signal_connect (gvd->client_data->view, "progress", G_CALLBACK (client_view_progress_cb), gvd->model);
+		g_signal_connect (gvd->client_data->view, "complete", G_CALLBACK (client_view_complete_cb), gvd->model);
+
+		e_cal_client_view_start (gvd->client_data->view, &error);
+	
+		if (error) {
+			g_debug ("%s: Failed to start view: %s", G_STRFUNC, error->message);
+			g_error_free (error);
+		}
+	}
+
+	free_get_view_data (gvd);
+}
+
+static gboolean
+retry_get_view_timeout_cb (gpointer user_data)
+{
+	struct get_view_data *gvd = user_data;
+
+	if (g_cancellable_is_cancelled (gvd->cancellable)) {
+		free_get_view_data (gvd);
+		return FALSE;
+	}
+
+	e_cal_client_get_view (gvd->client_data->client, gvd->model->priv->full_sexp, gvd->cancellable, get_view_cb, gvd);
+
+	return FALSE;
+}
+
 static void
 update_e_cal_view_for_client (ECalModel *model, ECalModelClient *client_data)
 {
 	ECalModelPrivate *priv;
-	GError *error = NULL;
-	gint tries = 0;
+	struct get_view_data *gvd;
 
 	priv = model->priv;
 
@@ -2522,34 +2616,20 @@ update_e_cal_view_for_client (ECalModel *model, ECalModelClient *client_data)
 	if (!client_data->do_query)
 		return;
 
- try_again:
-	if (!e_cal_client_get_view_sync (client_data->client, priv->full_sexp, &client_data->view, NULL, &error)) {
-		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_BUSY) && tries != 10) {
-			tries++;
-			/*TODO chose an optimal value */
-			g_usleep (500);
-			g_clear_error (&error);
-			goto try_again;
-		}
-
-		g_warning (G_STRLOC ": Unable to get query, %s", error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
-
-		return;
+	if (client_data->cancellable) {
+		g_cancellable_cancel (client_data->cancellable);
+		g_object_unref (client_data->cancellable);
 	}
 
-	g_signal_connect (client_data->view, "objects-added", G_CALLBACK (client_view_objects_added_cb), model);
-	g_signal_connect (client_data->view, "objects-modified", G_CALLBACK (client_view_objects_modified_cb), model);
-	g_signal_connect (client_data->view, "objects-removed", G_CALLBACK (client_view_objects_removed_cb), model);
-	g_signal_connect (client_data->view, "progress", G_CALLBACK (client_view_progress_cb), model);
-	g_signal_connect (client_data->view, "complete", G_CALLBACK (client_view_complete_cb), model);
+	client_data->cancellable = g_cancellable_new ();
 
-	e_cal_client_view_start (client_data->view, &error);
-	if (error) {
-		g_debug ("%s: Failed to start view: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
+	gvd = g_new0 (struct get_view_data, 1);
+	gvd->client_data = client_data;
+	gvd->model = model;
+	gvd->tries = 0;
+	gvd->cancellable = g_object_ref (client_data->cancellable);
+
+	e_cal_client_get_view (client_data->client, priv->full_sexp, gvd->cancellable, get_view_cb, gvd);
 }
 
 void
@@ -3353,12 +3433,12 @@ e_cal_model_component_get_type (void)
 }
 
 /**
- * e_cal_model_generate_instances
+ * e_cal_model_generate_instances_sync
  *
  * cb function is not called with cb_data, but with ECalModelGenerateInstancesData which contains cb_data
  */
 void
-e_cal_model_generate_instances (ECalModel *model, time_t start, time_t end,
+e_cal_model_generate_instances_sync (ECalModel *model, time_t start, time_t end,
 				ECalRecurInstanceFn cb, gpointer cb_data)
 {
 	ECalModelGenerateInstancesData mdata;
@@ -3372,7 +3452,7 @@ e_cal_model_generate_instances (ECalModel *model, time_t start, time_t end,
 		mdata.cb_data = cb_data;
 
 		if (comp_data->instance_start < end && comp_data->instance_end > start)
-			e_cal_client_generate_instances_for_object (comp_data->client, comp_data->icalcomp, start, end, cb, &mdata);
+			e_cal_client_generate_instances_for_object_sync (comp_data->client, comp_data->icalcomp, start, end, cb, &mdata);
 	}
 }
 

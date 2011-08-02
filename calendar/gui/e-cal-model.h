@@ -281,7 +281,8 @@ ECalModelComponent *
 						 const ECalComponentId *id);
 gchar *		e_cal_model_date_value_to_string (ECalModel *model,
 						 gconstpointer value);
-void		e_cal_model_generate_instances	(ECalModel *model,
+void		e_cal_model_generate_instances_sync
+						(ECalModel *model,
 						 time_t start,
 						 time_t end,
 						 ECalRecurInstanceFn cb,
