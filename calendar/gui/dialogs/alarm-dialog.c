@@ -623,7 +623,7 @@ populate_widgets_from_alarm (Dialog *dialog)
 	if (*action == E_CAL_COMPONENT_ALARM_NONE)
 		return;
 
-	gtk_window_set_title (GTK_WINDOW (dialog->toplevel),_("Edit Alarm"));
+	gtk_window_set_title (GTK_WINDOW (dialog->toplevel),_("Edit Reminder"));
 
 	/* Alarm Types */
 	switch (trigger->type) {

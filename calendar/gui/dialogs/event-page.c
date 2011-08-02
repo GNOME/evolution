@@ -646,7 +646,7 @@ sensitize_widgets (EventPage *epage)
 		 e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map)  == ALARM_CUSTOM ? TRUE:FALSE;
 
 	if (alarm && !priv->alarm_icon) {
-		priv->alarm_icon = create_alarm_image_button ("stock_bell", _("This event has alarms"), epage);
+		priv->alarm_icon = create_alarm_image_button ("stock_bell", _("This event has reminders"), epage);
 		gtk_box_pack_start ((GtkBox *) priv->status_icons, priv->alarm_icon, FALSE, FALSE, 6);
 	}
 
@@ -3018,7 +3018,7 @@ alarm_changed_cb (GtkWidget *widget,
 			e_alarm_list_append (priv->alarm_list_store, NULL, ca);
 		}
 		if (!priv->alarm_icon) {
-			priv->alarm_icon = create_alarm_image_button ("stock_bell", _("This event has alarms"), epage);
+			priv->alarm_icon = create_alarm_image_button ("stock_bell", _("This event has reminders"), epage);
 			gtk_box_pack_start ((GtkBox *) priv->status_icons, priv->alarm_icon, FALSE, FALSE, 6);
 		}
 	} else {
@@ -3283,8 +3283,8 @@ init_widgets (EventPage *epage)
 
 	gtk_list_store_insert (store, &iter, 0);
 	gtk_list_store_set (store, &iter,
-		/* Translators: "None" for "No alarm set" */
-		0, C_("cal-alarms", "None"),
+		/* Translators: "None" for "No reminder set" */
+		0, C_("cal-reminders", "None"),
 		-1);
 
 	g_signal_connect_swapped (

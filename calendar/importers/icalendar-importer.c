@@ -1095,7 +1095,7 @@ preview_comp (EWebViewPreview *preview, ECalComponent *comp)
 	}
 
 	if (e_cal_component_has_alarms (comp)) {
-		e_web_view_preview_add_section (preview, have ? NULL : str, C_("iCalImp", "has alarms"));
+		e_web_view_preview_add_section (preview, have ? NULL : str, C_("iCalImp", "has reminders"));
 		have = TRUE;
 	}
 

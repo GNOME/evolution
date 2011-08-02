@@ -1586,7 +1586,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 		gchar *tip;
 
 		tip =  g_strdup_printf (ngettext (
-			"You have %d alarm", "You have %d alarms",
+			"You have %d reminder", "You have %d reminders",
 			g_list_length (tray_icons_list)),
 			g_list_length (tray_icons_list));
 		gtk_status_icon_set_tooltip_text (tray_icon, tip);

@@ -1158,7 +1158,7 @@
           <object class="GtkLabel" id="label67">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">Alarms</property>
+            <property name="label" translatable="yes">Reminders</property>
             <attributes>
               <attribute name="weight" value="bold"/>
             </attributes>
@@ -1181,7 +1181,7 @@
                 <property name="spacing">4</property>
                 <child>
                   <object class="GtkCheckButton" id="notify_with_tray">
-                    <property name="label" translatable="yes">Display alarms in _notification area only</property>
+                    <property name="label" translatable="yes">Display reminders in _notification area only</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1341,7 +1341,7 @@
           <object class="GtkLabel" id="label62">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">Select the calendars for alarm notification</property>
+            <property name="label" translatable="yes">Select the calendars for reminder notification</property>
           </object>
           <packing>
             <property name="expand">False</property>
