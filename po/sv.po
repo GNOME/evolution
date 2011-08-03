@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-01 17:54+0200\n"
-"PO-Revision-Date: 2011-08-01 18:29+0100\n"
+"POT-Creation-Date: 2011-08-03 09:08+0200\n"
+"PO-Revision-Date: 2011-08-03 09:13+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -243,7 +243,7 @@ msgid "Blog:"
 msgstr "Blogg:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:5
-#: ../calendar/gui/dialogs/event-page.ui.h:4
+#: ../calendar/gui/dialogs/event-page.ui.h:3
 #: ../calendar/gui/dialogs/memo-page.ui.h:1
 msgid "Ca_tegories..."
 msgstr "Ka_tegorier..."
@@ -384,7 +384,7 @@ msgstr "_Blogg:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:33
 #: ../calendar/gui/dialogs/event-page.c:708
-#: ../calendar/gui/dialogs/event-page.ui.h:11
+#: ../calendar/gui/dialogs/event-page.ui.h:10
 #: ../plugins/itip-formatter/itip-view.c:1923
 msgid "_Calendar:"
 msgstr "_Kalender:"
@@ -877,7 +877,7 @@ msgid "Car Phone"
 msgstr "Biltelefon"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
-#: ../calendar/gui/dialogs/event-page.ui.h:5
+#: ../calendar/gui/dialogs/event-page.ui.h:4
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:1
@@ -1851,7 +1851,7 @@ msgstr[1] "timmar"
 #. (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:129
-#: ../calendar/gui/dialogs/recurrence-page.c:1115
+#: ../calendar/gui/dialogs/recurrence-page.c:1125
 msgid "day"
 msgid_plural "days"
 msgstr[0] "dag"
@@ -1943,10 +1943,10 @@ msgstr "Ingen platsinformation finns tillgänglig."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1589
 #, c-format
-msgid "You have %d alarm"
-msgid_plural "You have %d alarms"
-msgstr[0] "Du har %d alarm"
-msgstr[1] "Du har %d alarm"
+msgid "You have %d reminder"
+msgid_plural "You have %d reminders"
+msgstr[0] "Du har %d påminnelse"
+msgstr[1] "Du har %d påminnelser"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1780
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1813
@@ -2069,7 +2069,7 @@ msgstr "Klassificering"
 
 #: ../calendar/gui/caltypes.xml.h:7
 #: ../calendar/gui/e-cal-list-view.c:240
-#: ../calendar/gui/e-cal-model.c:769
+#: ../calendar/gui/e-cal-model.c:774
 #: ../calendar/gui/e-task-table.c:492
 #: ../calendar/gui/memotypes.xml.h:6
 #: ../widgets/misc/e-send-options.ui.h:2
@@ -2123,7 +2123,7 @@ msgstr "Organisatör"
 
 #: ../calendar/gui/caltypes.xml.h:14
 #: ../calendar/gui/e-cal-list-view.c:239
-#: ../calendar/gui/e-cal-model.c:767
+#: ../calendar/gui/e-cal-model.c:772
 #: ../calendar/gui/e-task-table.c:491
 #: ../calendar/gui/memotypes.xml.h:12
 msgid "Private"
@@ -2131,8 +2131,8 @@ msgstr "Privat"
 
 #: ../calendar/gui/caltypes.xml.h:15
 #: ../calendar/gui/e-cal-list-view.c:238
-#: ../calendar/gui/e-cal-model.c:758
-#: ../calendar/gui/e-cal-model.c:765
+#: ../calendar/gui/e-cal-model.c:763
+#: ../calendar/gui/e-cal-model.c:770
 #: ../calendar/gui/e-task-table.c:490
 #: ../calendar/gui/memotypes.xml.h:13
 msgid "Public"
@@ -2190,8 +2190,8 @@ msgid "is not"
 msgstr "är inte"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:626
-msgid "Edit Alarm"
-msgstr "Redigera alarm"
+msgid "Edit Reminder"
+msgstr "Redigera påminnelse"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:817
 #: ../calendar/gui/e-alarm-list.c:438
@@ -2214,30 +2214,30 @@ msgid "Send an email"
 msgstr "Skicka e-post"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:1
-msgid "Add Alarm"
-msgstr "Lägg till alarm"
+msgid "Add Reminder"
+msgstr "Lägg till påminnelse"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:2
-#: ../calendar/gui/dialogs/event-editor.c:360
-msgid "Alarm"
-msgstr "Alarm"
-
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:3
 msgid "Custom _message"
 msgstr "Anpassat _meddelande"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:4
-msgid "Custom alarm sound"
-msgstr "Anpassat alarmljud"
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:3
+msgid "Custom reminder sound"
+msgstr "Anpassat påminnelseljud"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:5
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:4
 msgid "Mes_sage:"
 msgstr "Me_ddelande:"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:6
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:5
 #: ../mail/mail-config.ui.h:75
 msgid "Options"
 msgstr "Alternativ"
+
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:6
+#: ../calendar/gui/dialogs/event-editor.c:360
+msgid "Reminder"
+msgstr "Påminnelse"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:7
 msgid "Repeat"
@@ -2260,8 +2260,8 @@ msgid "_Program:"
 msgstr "_Program:"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:12
-msgid "_Repeat the alarm"
-msgstr "_Upprepa larmet"
+msgid "_Repeat the reminder"
+msgstr "_Upprepa påminnelsen"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:13
 msgid "_Sound:"
@@ -2283,7 +2283,7 @@ msgstr "dag"
 msgid "end of appointment"
 msgstr "slut på möte"
 
-#. This is part of the sentence: 'Repeat the alarm %d extra times every %d minutes'. Where %d are numbers.
+#. This is part of the sentence: 'Repeat the reminder %d extra times every %d minutes'. Where %d are numbers.
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:20
 msgid "extra times every"
 msgstr "extra gånger var"
@@ -2309,10 +2309,10 @@ msgid "A_dd"
 msgstr "L_ägg till"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
-#: ../calendar/gui/dialogs/event-page.ui.h:1
-#: ../modules/calendar/e-calendar-preferences.ui.h:9
-msgid "Alarms"
-msgstr "Alarm"
+#: ../calendar/gui/dialogs/event-page.ui.h:8
+#: ../modules/calendar/e-calendar-preferences.ui.h:24
+msgid "Reminders"
+msgstr "Påminnelser"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:164
 msgid "Type:"
@@ -2361,7 +2361,7 @@ msgid "General"
 msgstr "Allmänt"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:407
-#: ../modules/calendar/e-calendar-preferences.ui.h:40
+#: ../modules/calendar/e-calendar-preferences.ui.h:41
 msgid "Task List"
 msgstr "Uppgiftslista"
 
@@ -2795,12 +2795,12 @@ msgid "Enter Delegate"
 msgstr "Ange delegat"
 
 #: ../calendar/gui/dialogs/event-editor.c:212
-msgid "_Alarms"
-msgstr "_Alarm"
+msgid "_Reminders"
+msgstr "_Påminnelser"
 
 #: ../calendar/gui/dialogs/event-editor.c:214
-msgid "Set or unset alarms for this event"
-msgstr "Ställ in eller ta bort alarm för detta evenemang"
+msgid "Set or unset reminders for this event"
+msgstr "Ange eller ta bort påminnelser för detta evenemang"
 
 #: ../calendar/gui/dialogs/event-editor.c:222
 msgid "Show Time as _Busy"
@@ -2845,12 +2845,12 @@ msgid "Query free / busy information for the attendees"
 msgstr "Fråga efter ledig-/upptageninformation för deltagarna"
 
 #: ../calendar/gui/dialogs/event-editor.c:314
-#: ../calendar/gui/print.c:3185
+#: ../calendar/gui/print.c:3184
 msgid "Appointment"
 msgstr "Möte"
 
 #: ../calendar/gui/dialogs/event-editor.c:384
-#: ../calendar/gui/dialogs/event-page.ui.h:3
+#: ../calendar/gui/dialogs/event-page.ui.h:2
 #: ../calendar/gui/e-meeting-list-view.c:160
 msgid "Attendees"
 msgstr "Deltagare"
@@ -2873,11 +2873,11 @@ msgstr "Evenemanget kan inte redigeras fullständigt eftersom du inte är organi
 
 #: ../calendar/gui/dialogs/event-page.c:649
 #: ../calendar/gui/dialogs/event-page.c:3021
-msgid "This event has alarms"
-msgstr "Detta evenemang har alarm"
+msgid "This event has reminders"
+msgstr "Detta evenemang har påminnelser"
 
 #: ../calendar/gui/dialogs/event-page.c:716
-#: ../calendar/gui/dialogs/event-page.ui.h:8
+#: ../calendar/gui/dialogs/event-page.ui.h:7
 #: ../calendar/gui/dialogs/memo-page.ui.h:2
 msgid "Or_ganizer:"
 msgstr "Or_ganisatör:"
@@ -2970,46 +2970,46 @@ msgstr[1] "%d minuter före möte"
 msgid "Customize"
 msgstr "Anpassa"
 
-#. Translators: "None" for "No alarm set"
+#. Translators: "None" for "No reminder set"
 #: ../calendar/gui/dialogs/event-page.c:3287
-msgctxt "cal-alarms"
+msgctxt "cal-reminders"
 msgid "None"
-msgstr "Inget"
+msgstr "Ingen"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:2
+#: ../calendar/gui/dialogs/event-page.ui.h:1
 #: ../calendar/gui/dialogs/task-page.ui.h:1
 #: ../calendar/gui/e-meeting-time-sel.c:563
 msgid "Atte_ndees..."
 msgstr "D_eltagare..."
 
-#: ../calendar/gui/dialogs/event-page.ui.h:6
-msgid "Custom Alarm:"
-msgstr "Anpassat alarm:"
+#: ../calendar/gui/dialogs/event-page.ui.h:5
+msgid "Custom Reminder:"
+msgstr "Anpassad påminnelse:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:7
+#: ../calendar/gui/dialogs/event-page.ui.h:6
 msgid "Event Description"
 msgstr "Evenemangsbeskrivning"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:9
-#: ../modules/calendar/e-calendar-preferences.ui.h:44
+#: ../modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Time _zone:"
 msgstr "Tids_zon:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:10
-msgid "_Alarm"
-msgstr "_Alarm"
-
-#: ../calendar/gui/dialogs/event-page.ui.h:12
+#: ../calendar/gui/dialogs/event-page.ui.h:11
 #: ../calendar/gui/dialogs/memo-page.ui.h:6
 #: ../calendar/gui/dialogs/task-page.ui.h:8
 #: ../widgets/misc/e-attachment-dialog.c:347
 msgid "_Description:"
 msgstr "_Beskrivning:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:13
+#: ../calendar/gui/dialogs/event-page.ui.h:12
 #: ../plugins/calendar-weather/calendar-weather.c:366
 msgid "_Location:"
 msgstr "_Plats:"
+
+#: ../calendar/gui/dialogs/event-page.ui.h:13
+msgid "_Reminder"
+msgstr "_Påminnelse"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:14
 msgid "_Summary:"
@@ -3019,19 +3019,19 @@ msgstr "Sa_mmanfattning:"
 msgid "_Time:"
 msgstr "_Tid:"
 
-#. TRANSLATORS: Predefined alarm's description
+#. TRANSLATORS: Predefined reminder's description
 #: ../calendar/gui/dialogs/event-page.ui.h:17
 msgctxt "eventpage"
 msgid "1 day before appointment"
 msgstr "1 dag före mötet"
 
-#. TRANSLATORS: Predefined alarm's description
+#. TRANSLATORS: Predefined reminder's description
 #: ../calendar/gui/dialogs/event-page.ui.h:19
 msgctxt "eventpage"
 msgid "1 hour before appointment"
 msgstr "1 timme före mötet"
 
-#. TRANSLATORS: Predefined alarm's description
+#. TRANSLATORS: Predefined reminder's description
 #: ../calendar/gui/dialogs/event-page.ui.h:21
 msgctxt "eventpage"
 msgid "15 minutes before appointment"
@@ -3107,7 +3107,7 @@ msgid "September"
 msgstr "september"
 
 #: ../calendar/gui/dialogs/memo-editor.c:105
-#: ../calendar/gui/print.c:3189
+#: ../calendar/gui/print.c:3188
 msgid "Memo"
 msgstr "Memo"
 
@@ -3199,21 +3199,21 @@ msgstr "Denna och framtida instanser"
 msgid "All Instances"
 msgstr "Alla instanser"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:563
+#: ../calendar/gui/dialogs/recurrence-page.c:573
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Detta möte har upprepningsregler som inte kan redigeras med Evolution."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:894
+#: ../calendar/gui/dialogs/recurrence-page.c:904
 msgid "Recurrence date is invalid"
 msgstr "Upprepningsdatumet är ogiltigt"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:934
+#: ../calendar/gui/dialogs/recurrence-page.c:944
 msgid "End time of the recurrence was before event's start"
 msgstr "Sluttiden för upprepningen var före evenemangets starttid"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/dialogs/recurrence-page.c:964
+#: ../calendar/gui/dialogs/recurrence-page.c:974
 msgid "on"
 msgstr "på"
 
@@ -3221,7 +3221,7 @@ msgstr "på"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1022
+#: ../calendar/gui/dialogs/recurrence-page.c:1032
 msgid "first"
 msgstr "första"
 
@@ -3231,7 +3231,7 @@ msgstr "första"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1028
+#: ../calendar/gui/dialogs/recurrence-page.c:1038
 msgid "second"
 msgstr "sekund"
 
@@ -3239,7 +3239,7 @@ msgstr "sekund"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1033
+#: ../calendar/gui/dialogs/recurrence-page.c:1043
 msgid "third"
 msgstr "tredje"
 
@@ -3247,7 +3247,7 @@ msgstr "tredje"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1038
+#: ../calendar/gui/dialogs/recurrence-page.c:1048
 msgid "fourth"
 msgstr "fjärde"
 
@@ -3255,7 +3255,7 @@ msgstr "fjärde"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1043
+#: ../calendar/gui/dialogs/recurrence-page.c:1053
 msgid "fifth"
 msgstr "femte"
 
@@ -3263,13 +3263,13 @@ msgstr "femte"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1048
+#: ../calendar/gui/dialogs/recurrence-page.c:1058
 msgid "last"
 msgstr "sista"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/dialogs/recurrence-page.c:1072
+#: ../calendar/gui/dialogs/recurrence-page.c:1082
 msgid "Other Date"
 msgstr "Annat datum"
 
@@ -3277,7 +3277,7 @@ msgstr "Annat datum"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1078
+#: ../calendar/gui/dialogs/recurrence-page.c:1088
 msgid "1st to 10th"
 msgstr "Första till tionde"
 
@@ -3285,7 +3285,7 @@ msgstr "Första till tionde"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1084
+#: ../calendar/gui/dialogs/recurrence-page.c:1094
 msgid "11th to 20th"
 msgstr "elfte till tjugonde"
 
@@ -3293,73 +3293,73 @@ msgstr "elfte till tjugonde"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1090
+#: ../calendar/gui/dialogs/recurrence-page.c:1100
 msgid "21st to 31st"
 msgstr "tjugoförsta till trettiförsta"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1116
+#: ../calendar/gui/dialogs/recurrence-page.c:1126
 #: ../modules/calendar/e-calendar-preferences.ui.h:22
 msgid "Monday"
 msgstr "måndag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1117
-#: ../modules/calendar/e-calendar-preferences.ui.h:46
+#: ../calendar/gui/dialogs/recurrence-page.c:1127
+#: ../modules/calendar/e-calendar-preferences.ui.h:47
 msgid "Tuesday"
 msgstr "tisdag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1118
-#: ../modules/calendar/e-calendar-preferences.ui.h:48
+#: ../calendar/gui/dialogs/recurrence-page.c:1128
+#: ../modules/calendar/e-calendar-preferences.ui.h:49
 msgid "Wednesday"
 msgstr "onsdag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1119
-#: ../modules/calendar/e-calendar-preferences.ui.h:42
+#: ../calendar/gui/dialogs/recurrence-page.c:1129
+#: ../modules/calendar/e-calendar-preferences.ui.h:43
 msgid "Thursday"
 msgstr "torsdag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1120
+#: ../calendar/gui/dialogs/recurrence-page.c:1130
 #: ../modules/calendar/e-calendar-preferences.ui.h:18
 msgid "Friday"
 msgstr "fredag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1121
-#: ../modules/calendar/e-calendar-preferences.ui.h:26
+#: ../calendar/gui/dialogs/recurrence-page.c:1131
+#: ../modules/calendar/e-calendar-preferences.ui.h:27
 msgid "Saturday"
 msgstr "lördag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1122
-#: ../modules/calendar/e-calendar-preferences.ui.h:36
+#: ../calendar/gui/dialogs/recurrence-page.c:1132
+#: ../modules/calendar/e-calendar-preferences.ui.h:37
 msgid "Sunday"
 msgstr "söndag"
 
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1244
+#: ../calendar/gui/dialogs/recurrence-page.c:1254
 msgid "on the"
 msgstr "den"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1418
+#: ../calendar/gui/dialogs/recurrence-page.c:1428
 msgid "occurrences"
 msgstr "förekomster"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2128
+#: ../calendar/gui/dialogs/recurrence-page.c:2138
 msgid "Add exception"
 msgstr "Lägg till undantag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2169
+#: ../calendar/gui/dialogs/recurrence-page.c:2179
 msgid "Could not get a selection to modify."
 msgstr "Kunde inte få ett val att ändra."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2175
+#: ../calendar/gui/dialogs/recurrence-page.c:2185
 msgid "Modify exception"
 msgstr "Ändra undantag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2219
+#: ../calendar/gui/dialogs/recurrence-page.c:2229
 msgid "Could not get a selection to delete."
 msgstr "Kunde inte få ett val att ta bort."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2353
+#: ../calendar/gui/dialogs/recurrence-page.c:2363
 msgid "Date/Time"
 msgstr "Datum/tid"
 
@@ -3423,8 +3423,8 @@ msgid "year(s)"
 msgstr "år"
 
 #: ../calendar/gui/dialogs/send-comp.c:192
-msgid "Send my alarms with this event"
-msgstr "Skicka mina alarm med detta evenemang"
+msgid "Send my reminders with this event"
+msgstr "Skicka mina påminnelser med detta evenemang"
 
 #: ../calendar/gui/dialogs/send-comp.c:194
 msgid "Notify new attendees _only"
@@ -3447,7 +3447,7 @@ msgstr "Webbsida"
 #: ../calendar/gui/e-task-table.c:210
 #: ../calendar/gui/e-task-table.c:225
 #: ../calendar/gui/e-task-table.c:594
-#: ../calendar/gui/print.c:3275
+#: ../calendar/gui/print.c:3274
 #: ../mail/em-sync-stream.c:152
 #: ../mail/em-sync-stream.c:180
 #: ../mail/em-sync-stream.c:202
@@ -3465,7 +3465,7 @@ msgstr "Avbruten"
 #: ../calendar/gui/e-task-table.c:208
 #: ../calendar/gui/e-task-table.c:223
 #: ../calendar/gui/e-task-table.c:593
-#: ../calendar/gui/print.c:3272
+#: ../calendar/gui/print.c:3271
 #: ../calendar/gui/tasktypes.xml.h:9
 #: ../plugins/save-calendar/csv-format.c:374
 msgid "Completed"
@@ -3490,7 +3490,7 @@ msgstr "Hög"
 #: ../calendar/gui/e-task-table.c:206
 #: ../calendar/gui/e-task-table.c:221
 #: ../calendar/gui/e-task-table.c:592
-#: ../calendar/gui/print.c:3269
+#: ../calendar/gui/print.c:3268
 msgid "In Progress"
 msgstr "Pågår"
 
@@ -3507,7 +3507,7 @@ msgstr "Låg"
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-details-page.ui.h:13
 #: ../calendar/gui/e-cal-component-preview.c:319
-#: ../calendar/gui/e-cal-model.c:1528
+#: ../calendar/gui/e-cal-model.c:1533
 #: ../calendar/gui/e-task-table.c:515
 #: ../calendar/gui/tasktypes.xml.h:17
 #: ../mail/message-list.c:1223
@@ -3523,7 +3523,7 @@ msgstr "Normal"
 #: ../calendar/gui/e-task-table.c:204
 #: ../calendar/gui/e-task-table.c:219
 #: ../calendar/gui/e-task-table.c:591
-#: ../calendar/gui/print.c:3266
+#: ../calendar/gui/print.c:3265
 #: ../calendar/gui/tasktypes.xml.h:18
 msgid "Not Started"
 msgstr "Inte påbörjad"
@@ -3584,7 +3584,7 @@ msgid "_Send Options"
 msgstr "Alternativ för _sändning"
 
 #: ../calendar/gui/dialogs/task-editor.c:319
-#: ../calendar/gui/print.c:3187
+#: ../calendar/gui/print.c:3186
 #: ../widgets/misc/e-send-options.c:526
 msgid "Task"
 msgstr "Uppgift"
@@ -3806,7 +3806,7 @@ msgid "None"
 msgstr "Ingen"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1061
-#: ../calendar/gui/e-cal-model.c:1534
+#: ../calendar/gui/e-cal-model.c:1539
 #: ../calendar/gui/e-meeting-list-view.c:201
 #: ../calendar/gui/e-meeting-store.c:178
 #: ../calendar/gui/e-meeting-store.c:188
@@ -3815,13 +3815,13 @@ msgid "Yes"
 msgstr "Ja"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1061
-#: ../calendar/gui/e-cal-model.c:1534
+#: ../calendar/gui/e-cal-model.c:1539
 #: ../calendar/gui/e-meeting-list-view.c:202
 #: ../calendar/gui/e-meeting-store.c:190
 msgid "No"
 msgstr "Nej"
 
-#: ../calendar/gui/e-cal-model.c:771
+#: ../calendar/gui/e-cal-model.c:776
 #: ../calendar/gui/e-meeting-list-view.c:177
 #: ../calendar/gui/e-meeting-list-view.c:191
 #: ../calendar/gui/e-meeting-store.c:136
@@ -3836,15 +3836,15 @@ msgstr "Nej"
 msgid "Unknown"
 msgstr "Okänd"
 
-#: ../calendar/gui/e-cal-model.c:1530
+#: ../calendar/gui/e-cal-model.c:1535
 msgid "Recurring"
 msgstr "Återkommande"
 
-#: ../calendar/gui/e-cal-model.c:1532
+#: ../calendar/gui/e-cal-model.c:1537
 msgid "Assigned"
 msgstr "Tilldelad"
 
-#: ../calendar/gui/e-cal-model.c:2714
+#: ../calendar/gui/e-cal-model.c:2794
 #, c-format
 msgid "Opening %s"
 msgstr "Öppnar %s"
@@ -3974,7 +3974,7 @@ msgstr "Organisatör: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:1946
-#: ../calendar/gui/print.c:3221
+#: ../calendar/gui/print.c:3220
 #, c-format
 msgid "Location: %s"
 msgstr "Plats: %s"
@@ -4019,7 +4019,7 @@ msgstr "Visa sekundära tidszonen"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../calendar/gui/e-day-view-time-item.c:844
-#: ../modules/calendar/e-calendar-preferences.ui.h:76
+#: ../modules/calendar/e-calendar-preferences.ui.h:77
 #: ../modules/calendar/e-calendar-preferences.c:179
 #: ../modules/calendar/e-calendar-preferences.c:228
 msgctxt "cal-second-zone"
@@ -4428,8 +4428,8 @@ msgid "%d %B"
 msgstr "%d %B"
 
 #: ../calendar/gui/ea-cal-view-event.c:290
-msgid "It has alarms."
-msgstr "Det har alarm."
+msgid "It has reminders."
+msgstr "Den innehåller påminnelser."
 
 #: ../calendar/gui/ea-cal-view-event.c:293
 msgid "It has recurrences."
@@ -4577,7 +4577,7 @@ msgstr "kalendervy för en månad"
 msgid "calendar view for one or more weeks"
 msgstr "kalendervy för en eller flera veckor"
 
-#: ../calendar/gui/gnome-cal.c:2209
+#: ../calendar/gui/gnome-cal.c:2219
 msgid "Purging"
 msgstr "Tömmer"
 
@@ -4863,71 +4863,71 @@ msgstr "Lö"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../calendar/gui/print.c:3014
+#: ../calendar/gui/print.c:3013
 msgid " to "
 msgstr " till "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../calendar/gui/print.c:3024
+#: ../calendar/gui/print.c:3023
 msgid " (Completed "
 msgstr " (Färdigt "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../calendar/gui/print.c:3030
+#: ../calendar/gui/print.c:3029
 msgid "Completed "
 msgstr "Färdigt "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../calendar/gui/print.c:3040
+#: ../calendar/gui/print.c:3039
 msgid " (Due "
 msgstr " (Ska genomföras "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../calendar/gui/print.c:3047
+#: ../calendar/gui/print.c:3046
 msgid "Due "
 msgstr "Ska genomföras "
 
-#: ../calendar/gui/print.c:3212
+#: ../calendar/gui/print.c:3211
 #, c-format
 msgid "Summary: %s"
 msgstr "Sammanfattning: %s"
 
-#: ../calendar/gui/print.c:3239
+#: ../calendar/gui/print.c:3238
 msgid "Attendees: "
 msgstr "Deltagare:"
 
-#: ../calendar/gui/print.c:3282
+#: ../calendar/gui/print.c:3281
 #, c-format
 msgid "Status: %s"
 msgstr "Status: %s"
 
-#: ../calendar/gui/print.c:3297
+#: ../calendar/gui/print.c:3296
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioritet: %s"
 
-#: ../calendar/gui/print.c:3315
+#: ../calendar/gui/print.c:3314
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Procent klar: %i"
 
-#: ../calendar/gui/print.c:3326
+#: ../calendar/gui/print.c:3325
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:3339
+#: ../calendar/gui/print.c:3338
 #, c-format
 msgid "Categories: %s"
 msgstr "Kategorier: %s"
 
-#: ../calendar/gui/print.c:3350
+#: ../calendar/gui/print.c:3349
 msgid "Contacts: "
 msgstr "Kontakter: "
 
@@ -5028,8 +5028,8 @@ msgstr "är en instans"
 
 #: ../calendar/importers/icalendar-importer.c:1098
 msgctxt "iCalImp"
-msgid "has alarms"
-msgstr "har larm"
+msgid "has reminders"
+msgstr "har påminnelser"
 
 #: ../calendar/importers/icalendar-importer.c:1103
 msgctxt "iCalImp"
@@ -9984,7 +9984,7 @@ msgid "Always request read receipt"
 msgstr "Begär alltid läskvitto"
 
 #: ../mail/evolution-mail.schemas.in.h:14
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:2
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:1
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr "Den tidsperiod i sekunder som felet ska visas på statusraden."
 
@@ -10354,7 +10354,7 @@ msgid "Layout style"
 msgstr "Layoutstil"
 
 #: ../mail/evolution-mail.schemas.in.h:106
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:31
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:30
 msgid "Level beyond which the message should be logged."
 msgstr "Nivå bortom vilken meddelandet ska loggas."
 
@@ -13319,6 +13319,10 @@ msgstr "30 minuter"
 msgid "60 minutes"
 msgstr "60 minuter"
 
+#: ../modules/calendar/e-calendar-preferences.ui.h:9
+msgid "Alarms"
+msgstr "Alarm"
+
 #: ../modules/calendar/e-calendar-preferences.ui.h:10
 msgid "Alerts"
 msgstr "Alarm"
@@ -13340,8 +13344,8 @@ msgid "Display"
 msgstr "Visning"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:16
-msgid "Display alarms in _notification area only"
-msgstr "Visa endast alarm i _notifieringsytan"
+msgid "Display reminders in _notification area only"
+msgstr "Visa endast påminnelser i _notifieringsytan"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:20
 msgid "Hours"
@@ -13352,402 +13356,402 @@ msgid "Minutes"
 msgstr "minuter"
 
 #. Sunday
-#: ../modules/calendar/e-calendar-preferences.ui.h:25
+#: ../modules/calendar/e-calendar-preferences.ui.h:26
 msgid "S_un"
 msgstr "_sön"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:27
+#: ../modules/calendar/e-calendar-preferences.ui.h:28
 msgid "Sc_roll Month View by a week"
 msgstr "R_ulla månadsvy med en vecka"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:28
+#: ../modules/calendar/e-calendar-preferences.ui.h:29
 msgid "Se_cond zone:"
 msgstr "An_dra tidszon:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:29
-msgid "Select the calendars for alarm notification"
-msgstr "Välj kalendrar för alarmnotifiering"
+#: ../modules/calendar/e-calendar-preferences.ui.h:30
+msgid "Select the calendars for reminder notification"
+msgstr "Välj kalendrar för påminnelsenotifiering"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../modules/calendar/e-calendar-preferences.ui.h:31
+#: ../modules/calendar/e-calendar-preferences.ui.h:32
 msgid "Sh_ow a reminder"
 msgstr "_Visa en påminnelse"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../modules/calendar/e-calendar-preferences.ui.h:33
+#: ../modules/calendar/e-calendar-preferences.ui.h:34
 msgid "Show a _reminder"
 msgstr "Visa en p_åminnelse"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:34
+#: ../modules/calendar/e-calendar-preferences.ui.h:35
 msgid "Show r_ecurring events in italic in bottom left calendar"
 msgstr "Visa åter_kommande evenemang i kursiv text i nedre vänstra kalendern"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:35
+#: ../modules/calendar/e-calendar-preferences.ui.h:36
 msgid "Show week _numbers"
 msgstr "Visa v_eckonummer"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:37
+#: ../modules/calendar/e-calendar-preferences.ui.h:38
 msgid "T_asks due today:"
 msgstr "U_ppgifter som ska genomföras idag:"
 
 #. Thursday
-#: ../modules/calendar/e-calendar-preferences.ui.h:39
+#: ../modules/calendar/e-calendar-preferences.ui.h:40
 msgid "T_hu"
 msgstr "to_r"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:41
+#: ../modules/calendar/e-calendar-preferences.ui.h:42
 msgid "Template:"
 msgstr "Mall:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:43
+#: ../modules/calendar/e-calendar-preferences.ui.h:44
 #: ../widgets/misc/e-dateedit.c:592
 msgid "Time"
 msgstr "Tid"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:45
+#: ../modules/calendar/e-calendar-preferences.ui.h:46
 msgid "Time format:"
 msgstr "Tidsformat:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:47
+#: ../modules/calendar/e-calendar-preferences.ui.h:48
 msgid "Use s_ystem time zone"
 msgstr "Använd s_ystemets tidszon"
 
 #. A weekday like "Monday" follows
-#: ../modules/calendar/e-calendar-preferences.ui.h:50
+#: ../modules/calendar/e-calendar-preferences.ui.h:51
 msgid "Wee_k starts on:"
 msgstr "Vec_kan börjar på:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:51
+#: ../modules/calendar/e-calendar-preferences.ui.h:52
 #: ../modules/calendar/e-cal-shell-view-actions.c:1646
 msgid "Work Week"
 msgstr "Arbetsvecka"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:52
+#: ../modules/calendar/e-calendar-preferences.ui.h:53
 msgid "Work days:"
 msgstr "Arbetsdagar:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:53
+#: ../modules/calendar/e-calendar-preferences.ui.h:54
 msgid "_12 hour (AM/PM)"
 msgstr "_12-timmars (FM/EM)"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:54
+#: ../modules/calendar/e-calendar-preferences.ui.h:55
 msgid "_24 hour"
 msgstr "_24-timmars"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:55
+#: ../modules/calendar/e-calendar-preferences.ui.h:56
 msgid "_Ask for confirmation when deleting items"
 msgstr "_Fråga efter bekräftelse vid borttagning av objekt"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:56
+#: ../modules/calendar/e-calendar-preferences.ui.h:57
 msgid "_Compress weekends in month view"
 msgstr "T_ryck ihop helger i månadsvyn"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:57
+#: ../modules/calendar/e-calendar-preferences.ui.h:58
 msgid "_Day begins:"
 msgstr "_Dagen börjar:"
 
 #. Friday
-#: ../modules/calendar/e-calendar-preferences.ui.h:59
+#: ../modules/calendar/e-calendar-preferences.ui.h:60
 msgid "_Fri"
 msgstr "_fre"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:60
+#: ../modules/calendar/e-calendar-preferences.ui.h:61
 msgid "_Hide completed tasks after"
 msgstr "_Dölj färdiga uppgifter efter"
 
 #. Monday
-#: ../modules/calendar/e-calendar-preferences.ui.h:62
+#: ../modules/calendar/e-calendar-preferences.ui.h:63
 msgid "_Mon"
 msgstr "_mån"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:63
+#: ../modules/calendar/e-calendar-preferences.ui.h:64
 msgid "_Overdue tasks:"
 msgstr "Uppgi_fter som skulle ha genomförts:"
 
 #. Saturday
-#: ../modules/calendar/e-calendar-preferences.ui.h:65
+#: ../modules/calendar/e-calendar-preferences.ui.h:66
 msgid "_Sat"
 msgstr "_lör"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:66
+#: ../modules/calendar/e-calendar-preferences.ui.h:67
 msgid "_Show appointment end times in week and month view"
 msgstr "_Visa sluttiderna på möten i vecko- och månadsvyerna"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:67
+#: ../modules/calendar/e-calendar-preferences.ui.h:68
 msgid "_Time divisions:"
 msgstr "_Tidsuppdelningar:"
 
 #. Tuesday
-#: ../modules/calendar/e-calendar-preferences.ui.h:69
+#: ../modules/calendar/e-calendar-preferences.ui.h:70
 msgid "_Tue"
 msgstr "t_is"
 
 #. Wednesday
-#: ../modules/calendar/e-calendar-preferences.ui.h:71
+#: ../modules/calendar/e-calendar-preferences.ui.h:72
 msgid "_Wed"
 msgstr "_ons"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../modules/calendar/e-calendar-preferences.ui.h:73
+#: ../modules/calendar/e-calendar-preferences.ui.h:74
 msgid "before every anniversary/birthday"
 msgstr "innan varje jubileum/födelsedag"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../modules/calendar/e-calendar-preferences.ui.h:75
+#: ../modules/calendar/e-calendar-preferences.ui.h:76
 msgid "before every appointment"
 msgstr "före varje möte"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:1
-msgid "Alarm programs"
-msgstr "Alarmprogram"
-
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:3
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:2
 msgid "Ask for confirmation when deleting items"
 msgstr "Fråga efter bekräftelse vid borttagning av objekt"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:4
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:3
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
 msgstr "Bakgrundsfärg på uppgifter som ska genomföras idag, i \"#rrggbb\"-format."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:5
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:4
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
 msgstr "Bakgrundsfärg på uppgifter som skulle ha genomförts, i \"#rrggbb\"-format."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:6
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:5
 msgid "Birthday and anniversary reminder"
 msgstr "Påminnelse för födelsedagar och jubileum"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:7
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:6
 msgid "Birthday and anniversary reminder units"
 msgstr "Enheter för påminnelse för födelsedagar och jubileum"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:8
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:7
 msgid "Birthday and anniversary reminder value"
 msgstr "Påminnelsevärde för födelsedagar och jubileum"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:9
-msgid "Calendars to run alarms for"
-msgstr "Kalendrar att köra alarm för"
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:8
+msgid "Calendars to run reminders for"
+msgstr "Kalendrar att köra påminnelser för"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:10
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:9
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgstr "Färg att rita Marcus Bains-linjen med i tidsraden (tomt för standardalternativet)."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:11
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:10
 msgid "Color to draw the Marcus Bains line in the Day View."
 msgstr "Färg att rita Marcus Bains-linjen med i dagsvyn."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:12
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:11
 msgid "Compress weekends in month view"
 msgstr "Komprimera helger i månadsvyn"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:13
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:12
 msgid "Confirm expunge"
 msgstr "Bekräfta tömning"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:14
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:13
 msgid "Days on which the start and end of work hours should be indicated."
 msgstr "Dagar på vilka början och slutet av arbetstiden ska indikeras."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:15
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:14
 msgid "Default appointment reminder"
 msgstr "Standardmötespåminnelse"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:16
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:15
 msgid "Default reminder units"
 msgstr "Standardpåminnelseenheter"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:17
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:16
 msgid "Default reminder value"
 msgstr "Standardpåminnelsevärde"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:18
-msgid "Directory for saving alarm audio files"
-msgstr "Katalog för sparade alarmljudfiler"
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:17
+msgid "Directory for saving reminder audio files"
+msgstr "Katalog för sparade ljudfiler för påminnelser"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:19
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:18
 msgid "Free/busy server URLs"
 msgstr "URL:er för ledig-/upptagenserver"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:20
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:19
 msgid "Free/busy template URL"
 msgstr "URL för ledig-/upptagenmall"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:21
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:20
 msgid "Hide completed tasks"
 msgstr "Dölj färdiga uppgifter"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:22
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:21
 msgid "Hide task units"
 msgstr "Dölj uppgiftsenheter"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:23
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:22
 msgid "Hide task value"
 msgstr "Dölj uppgiftsvärde"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:24
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:23
 msgid "Horizontal pane position"
 msgstr "Horisontell panelposition"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:25
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:24
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
 msgstr "Timme som arbetsdagen slutar, i tjugofyratimmarsformat, 0 till 23."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:26
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:25
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
 msgstr "Timme som arbetsdagen börjar, i tjugofyratimmarsformat, 0 till 23."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:27
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:26
 msgid "If \"true\", show the memo preview pane in the main window."
 msgstr "Om \"true\" så kommer förhandsvisningspanelen för memon att visas i huvudfönstret."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:28
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:27
 msgid "If \"true\", show the task preview pane in the main window."
 msgstr "Om \"true\" så kommer förhandsvisningspanelen för uppgifter att visas i huvudfönstret."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:29
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:28
 msgid "Intervals shown in Day and Work Week views, in minutes."
 msgstr "Intervall som visas i dags- och arbetsveckovyerna, i minuter."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:30
-msgid "Last alarm time"
-msgstr "Senaste alarmtid"
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:29
+msgid "Last reminder time"
+msgstr "Senaste påminnelsetid"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:32
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:31
 msgid "List of recently used second time zones in a Day View."
 msgstr "Lista över tidigare använda sekundära tidszoner i en dagsvy."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:33
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:32
 msgid "List of server URLs for free/busy publishing."
 msgstr "Lista med server-url:er för ledig-/upptagenpublicering."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:34
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:33
 msgid "Marcus Bains Line"
 msgstr "Marcus Bains-linje"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:35
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:34
 msgid "Marcus Bains Line Color - Day View"
 msgstr "Färg på Marcus Bains-linje - Dagsvy"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:36
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:35
 msgid "Marcus Bains Line Color - Time bar"
 msgstr "Färg på Marcus Bains-linje - Tidsrad"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:37
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:36
 msgid "Maximum number of recently used timezones to remember in a 'day_second_zones' list."
 msgstr "Maximalt antal tidigare använda tidszoner att komma ihåg i en \"day_second_zones\"-lista."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:38
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:37
 msgid "Maximum number of recently used timezones to remember."
 msgstr "Maximalt antal tidigare använda tidszoner att komma ihåg."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:39
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:38
 msgid "Memo layout style"
 msgstr "Layoutstil för memo"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:40
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:39
 msgid "Memo preview pane position (horizontal)"
 msgstr "Position för memoförhandsvisningspanelen (horisontellt)"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:41
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:40
 msgid "Memo preview pane position (vertical)"
 msgstr "Position för memoförhandsvisningspanelen (vertikalt)"
 
 # Detta borde bero på lokalen?!
 # http://bugzilla.ximian.com/show_bug.cgi?id=61073
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:42
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:41
 msgid "Minute the workday ends on, 0 to 59."
 msgstr "Minut som arbetsdagen slutar, 0 till 59."
 
 # Detta borde bero på lokalen?!
 # http://bugzilla.ximian.com/show_bug.cgi?id=61073
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:43
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:42
 msgid "Minute the workday starts on, 0 to 59."
 msgstr "Minut som arbetsdagen börjar, 0 till 59."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:44
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:43
 msgid "Month view horizontal pane position"
 msgstr "Horisontell panelposition för månadsvyn"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:45
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:44
 msgid "Month view vertical pane position"
 msgstr "Vertikal panelposition för månadsvyn"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:46
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:45
 msgid "Number of units for determining a birthday or anniversary reminder."
 msgstr "Antal enheter för att bestämma en påminnelse för en födelsedag eller jubileum."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:47
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:46
 msgid "Number of units for determining a default reminder."
 msgstr "Antal enheter för att bestämma en standardpåminnelse."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:48
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:47
 msgid "Number of units for determining when to hide tasks."
 msgstr "Antal enheter för avgörande av när uppgifter ska döljas."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:49
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:48
 msgid "Overdue tasks color"
 msgstr "Färg på uppgifter som skulle ha genomförts"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:50
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:49
 msgid "Position of the horizontal pane, between the date navigator calendar and the task list when not in the month view, in pixels."
 msgstr "Position för den horisontella panelen, mellan datumbläddrarkalendern och uppgiftslistan när månadsvyn inte används, i bildpunkter."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:51
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:50
 msgid "Position of the horizontal pane, between the view and the date navigator calendar and task list in the month view, in pixels."
 msgstr "Position för den horisontella panelen, mellan vyn och datumbläddrarkalendern och uppgiftslistan i månadsvyn, i bildpunkter."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:52
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:51
 msgid "Position of the memo preview pane when oriented vertically."
 msgstr "Position för memoförhandsvisningspanelen när vertikalt orienterad."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:53
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:52
 msgid "Position of the task preview pane when oriented horizontally."
 msgstr "Position för förhandsvisningspanelen för uppgifter när horisontellt orienterad."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:54
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:53
 msgid "Position of the task preview pane when oriented vertically."
 msgstr "Position för förhandsvisningspanelen för uppgifter när vertikalt orienterad."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:55
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:54
 msgid "Position of the vertical pane, between the calendar lists and the date navigator calendar."
 msgstr "Position för den vertikala panelen, mellan kalenderlistorna och datumnavigeringskalendern."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:56
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:55
 msgid "Position of the vertical pane, between the view and the date navigator calendar and task list in the month view, in pixels."
 msgstr "Position för den vertikala panelen, mellan vyn och datumbläddrarkalendern och uppgiftslistan i månadsvyn, i bildpunkter."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:57
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:56
 msgid "Position of the vertical pane, between the view and the date navigator calendar and task list when not in the month view, in pixels."
 msgstr "Position för den vertikala panelen, mellan vyn och datumbläddrarkalendern och uppgiftslistan i månadsvyn när månadsvyn inte används, i bildpunkter."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:58
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:57
 msgid "Primary calendar"
 msgstr "Primär kalender"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:59
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:58
 msgid "Primary memo list"
 msgstr "Primär memolista"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:60
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:59
 msgid "Primary task list"
 msgstr "Primär uppgiftslista"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:61
-msgid "Programs that are allowed to be run by alarms."
-msgstr "Program som tillåts att köra som en del av alarm."
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:60
+msgid "Programs that are allowed to be run by reminders."
+msgstr "Program som tillåts att köras av påminnelser."
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:62
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:61
 msgid "Recently used second time zones in a Day View"
 msgstr "Tidigare använda sekundära tidszoner i en dagsvy"
 
-#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:63
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:62
 msgid "Recurrent Events in Italic"
 msgstr "Återkommande evenemang i kursivt"
 
+#: ../modules/calendar/apps_evolution_calendar.schemas.in.h:63
+msgid "Reminder programs"
+msgstr "Påminnelseprogram"
+
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:64
-msgid "Save directory for alarm audio"
-msgstr "Katalog för sparade alarmljud"
+msgid "Save directory for reminder audio"
+msgstr "Katalog för sparade påminnelseljud"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:65
 msgid "Scroll Month View by a week"
@@ -13774,8 +13778,8 @@ msgid "Show days with recurrent events in italic font in bottom left calendar."
 msgstr "Visa dagar med återkommande evenemang i kursiv text i nedre vänstra kalendern."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:71
-msgid "Show display alarms in notification tray"
-msgstr "Visa visningsalarm i notifieringsytan"
+msgid "Show display reminders in notification tray"
+msgstr "Visa påminnelser i notifieringsytan"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:72
 msgid "Show status field in the event/task/meeting editor"
@@ -13863,8 +13867,8 @@ msgid "Time divisions"
 msgstr "Tidsuppdelningar"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:94
-msgid "Time the last alarm ran, in time_t."
-msgstr "Tid som senaste alarmet körde, i time_t."
+msgid "Time the last reminder ran, in time_t."
+msgstr "Tid som senaste påminnelsen kördes, i time_t."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:95
 msgid "Timezone"
@@ -13908,10 +13912,9 @@ msgstr "Veckan börjar"
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
 msgstr "Veckodag som veckan börjar, från söndag (0) till lördag (6)."
 
-# Osäker
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:105
-msgid "Whether or not to use the notification tray for display alarms."
-msgstr "Huruvida notifieringsytan ska användas för visning av alarm eller inte."
+msgid "Whether or not to use the notification tray for display reminders."
+msgstr "Huruvida notifieringsytan ska användas för visning av påminnelser eller inte."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:106
 msgid "Whether to ask for confirmation when deleting an appointment or task."
@@ -14043,8 +14046,8 @@ msgid "I_mport to Tasks"
 msgstr "I_mportera till uppgifter"
 
 #: ../modules/calendar/e-calendar-preferences.c:441
-msgid "Selected Calendars for Alarms"
-msgstr "Markerade kalendrar för alarm"
+msgid "Selected Calendars for Reminders"
+msgstr "Valda kalendrar för påminnelser"
 
 #: ../modules/calendar/e-calendar-preferences.c:840
 msgid "Ti_me and date:"
@@ -20382,6 +20385,38 @@ msgstr "Markera allt"
 msgid "Input Methods"
 msgstr "Inmatningsmetoder"
 
+#~ msgid "Edit Alarm"
+#~ msgstr "Redigera alarm"
+
+#~ msgid "Add Alarm"
+#~ msgstr "Lägg till alarm"
+
+#~ msgid "Alarm"
+#~ msgstr "Alarm"
+
+#~ msgid "_Alarms"
+#~ msgstr "_Alarm"
+#~ msgctxt "cal-alarms"
+
+#~ msgid "None"
+#~ msgstr "Inget"
+
+#~ msgid "Custom Alarm:"
+#~ msgstr "Anpassat alarm:"
+
+#~ msgid "_Alarm"
+#~ msgstr "_Alarm"
+
+#~ msgid "It has alarms."
+#~ msgstr "Det har alarm."
+#~ msgctxt "iCalImp"
+
+#~ msgid "has alarms"
+#~ msgstr "har larm"
+
+#~ msgid "Alarm programs"
+#~ msgstr "Alarmprogram"
+
 #~ msgid "Invalid object"
 #~ msgstr "Ogiltigt objekt"
 
@@ -20702,9 +20737,6 @@ msgstr "Inmatningsmetoder"
 
 #~ msgid "Read items marked _private"
 #~ msgstr "Läs objekt som markerats som _privata"
-
-#~ msgid "Reminder Notes"
-#~ msgstr "Påminnelseanteckningar"
 
 #~ msgid "Subscribe to my _alarms"
 #~ msgstr "Prenumerera på mina _alarm"
