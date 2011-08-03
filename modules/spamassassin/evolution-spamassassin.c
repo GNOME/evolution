@@ -1086,8 +1086,7 @@ e_spam_assassin_class_init (ESpamAssassinClass *class)
 			"Local Only",
 			"Do not use tests requiring DNS lookups",
 			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -1097,8 +1096,7 @@ e_spam_assassin_class_init (ESpamAssassinClass *class)
 			"spamc Binary",
 			"File path for the spamc binary",
 			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -1108,8 +1106,7 @@ e_spam_assassin_class_init (ESpamAssassinClass *class)
 			"spamd Binary",
 			"File path for the spamd binary",
 			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -1119,8 +1116,7 @@ e_spam_assassin_class_init (ESpamAssassinClass *class)
 			"Socket Path",
 			"Socket path for a SpamAssassin daemon",
 			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -1130,8 +1126,7 @@ e_spam_assassin_class_init (ESpamAssassinClass *class)
 			"Use Daemon",
 			"Whether to use a SpamAssassin daemon",
 			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_READWRITE));
 }
 
 static void
