@@ -59,6 +59,9 @@
 #include <mail/mail-tools.h>
 #include <mail/em-utils.h>
 #include <shell/e-shell.h>
+#include <shell/e-shell-window.h>
+#include <shell/e-shell-view.h>
+#include <shell/e-shell-sidebar.h>
 
 #include <libpst/libpst.h>
 #include <libpst/timeconv.h>
@@ -76,7 +79,7 @@ gint pst_init (pst_file *pst, gchar *filename);
 gchar *get_pst_rootname (pst_file *pst, gchar *filename);
 static void pst_error_msg (const gchar *fmt, ...);
 static void pst_import_folders (PstImporter *m, pst_desc_tree *topitem);
-static void pst_process_item (PstImporter *m, pst_desc_tree *d_ptr);
+static void pst_process_item (PstImporter *m, pst_desc_tree *d_ptr, gchar **previouss_folder);
 static void pst_process_folder (PstImporter *m, pst_item *item);
 static void pst_process_email (PstImporter *m, pst_item *item);
 static void pst_process_contact (PstImporter *m, pst_item *item);
@@ -119,7 +122,6 @@ struct _PstImporter {
 	pst_file pst;
 
 	CamelFolder *folder;
-	gchar *parent_uri;
 	gchar *folder_name;
 	gchar *folder_uri;
 	gint folder_count;
@@ -213,6 +215,7 @@ get_suggested_foldername (EImportTargetURI *target)
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EMailSession *session;
+	GtkWindow *window;
 	const gchar *inbox;
 	gchar *delim, *filename;
 	gchar *rootname = NULL;
@@ -226,18 +229,58 @@ get_suggested_foldername (EImportTargetURI *target)
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
-	/* Suggest a folder that is in the same mail storage as the users' inbox,
-	   with a name derived from the .PST file */
-	inbox = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_INBOX);
+	foldername = NULL;
 
-	delim = g_strrstr (inbox, "#");
-	if (delim != NULL) {
-		foldername = g_string_new_len (inbox, delim-inbox);
-	} else {
-		foldername = g_string_new (inbox);
+	/* preselect the folder selected in a mail view */
+	window = e_shell_get_active_window (shell);
+	if (E_IS_SHELL_WINDOW (window)) {
+		EShellWindow *shell_window;
+		const gchar *view;
+
+		shell_window = E_SHELL_WINDOW (window);
+		view = e_shell_window_get_active_view (shell_window);
+
+		if (view && g_str_equal (view, "mail")) {
+			EShellView *shell_view;
+			EShellSidebar *shell_sidebar;
+			EMFolderTree *folder_tree = NULL;
+			gchar *selected_uri;
+
+			shell_view = e_shell_window_get_shell_view (
+				shell_window, view);
+
+			shell_sidebar =
+				e_shell_view_get_shell_sidebar (shell_view);
+
+			g_object_get (
+				shell_sidebar, "folder-tree",
+				&folder_tree, NULL);
+
+			selected_uri = em_folder_tree_get_selected_uri (folder_tree);
+
+			g_object_unref (folder_tree);
+
+			if (selected_uri && *selected_uri)
+				foldername = g_string_new (selected_uri);
+
+			g_free (selected_uri);
+		}
 	}
 
-	g_string_append_c (foldername, '#');
+	if (!foldername) {
+		/* Suggest a folder that is in the same mail storage as the users' inbox,
+		   with a name derived from the .PST file */
+		inbox = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_INBOX);
+
+		delim = g_strrstr (inbox, "#");
+		if (delim != NULL) {
+			foldername = g_string_new_len (inbox, delim-inbox);
+		} else {
+			foldername = g_string_new (inbox);
+		}
+	}
+
+	g_string_append_c (foldername, '/');
 
 	filename = g_filename_from_uri (target->uri_src, NULL, NULL);
 
@@ -495,13 +538,13 @@ pst_import_file (PstImporter *m)
 	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
 	filename = g_filename_from_uri (((EImportTargetURI *) m->target)->uri_src, NULL, NULL);
-	m->parent_uri = g_strdup (((EImportTargetURI *) m->target)->uri_dest); /* Destination folder, was set in our widget */
+	m->folder_uri = g_strdup (((EImportTargetURI *) m->target)->uri_dest); /* Destination folder, was set in our widget */
 
 	camel_operation_push_message (NULL, _("Importing '%s'"), filename);
 
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-mail"))) {
 		e_mail_session_uri_to_folder_sync (
-			session, m->parent_uri, CAMEL_STORE_FOLDER_CREATE,
+			session, m->folder_uri, CAMEL_STORE_FOLDER_CREATE,
 			cancellable, &m->base.error);
 	}
 
@@ -543,15 +586,20 @@ pst_import_file (PstImporter *m)
 static void
 pst_import_folders (PstImporter *m, pst_desc_tree *topitem)
 {
+	GHashTable *node_to_folderuri; /* pointers of hierarchy nodes, to them associated folder uris */
 	pst_desc_tree *d_ptr;
-	gchar *seperator;
 
+	node_to_folderuri = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
 	d_ptr = topitem->child;
 
+	if (topitem)
+		g_hash_table_insert (node_to_folderuri, topitem, g_strdup (m->folder_uri));
+		
 	/* Walk through folder tree */
 	while (d_ptr != NULL && (camel_operation_cancel_check (NULL) == FALSE)) {
+		gchar *previous_folder = NULL;
 
-		pst_process_item (m, d_ptr);
+		pst_process_item (m, d_ptr, &previous_folder);
 
 		if (d_ptr->child != NULL) {
 			if (m->folder) {
@@ -559,50 +607,53 @@ pst_import_folders (PstImporter *m, pst_desc_tree *topitem)
 				m->folder = NULL;
 			}
 
-			g_free (m->parent_uri);
-			m->parent_uri = g_strdup (m->folder_uri);
+			g_return_if_fail (m->folder_uri != NULL);
+			g_hash_table_insert (node_to_folderuri, d_ptr, g_strdup (m->folder_uri));
+
 			d_ptr = d_ptr->child;
 		} else if (d_ptr->next != NULL) {
+			/* for cases where there is an empty folder node, with no subnodes */
+			if (previous_folder) {
+				g_free (m->folder_uri);
+				m->folder_uri = previous_folder;
+				previous_folder = NULL;
+			}
+
 			d_ptr = d_ptr->next;
 		} else {
 			while (d_ptr != topitem && d_ptr->next == NULL) {
-				if (m->folder_uri && g_str_equal (m->folder_uri, m->parent_uri)) {
-					/* this is for cases where folder has only messages */
-					seperator = g_strrstr (m->parent_uri, "/");
-					if (seperator != NULL)
-						*seperator = '\0';
-				}
-
-				if (m->folder_uri) {
-					g_free (m->folder_uri);
-				}
-
-				m->folder_uri = g_strdup (m->parent_uri);
-				seperator = g_strrstr (m->parent_uri, "/");
-
-				if (seperator != NULL) {
-					*seperator = '\0'; /* Truncate uri */
-				}
-
 				if (m->folder) {
 					g_object_unref (m->folder);
 					m->folder = NULL;
 				}
 
+				g_free (m->folder_uri);
+				m->folder_uri = NULL;
+
 				d_ptr = d_ptr->parent;
 
+				if (d_ptr && d_ptr != topitem) {
+					m->folder_uri = g_strdup (g_hash_table_lookup (node_to_folderuri, d_ptr->parent));
+					g_return_if_fail (m->folder_uri != NULL);
+				}
 			}
+
 			if (d_ptr == topitem) {
-				return;
+				g_free (previous_folder);
+				break;
 			}
 
 			d_ptr = d_ptr->next;
 		}
+
+		g_free (previous_folder);
 	}
+
+	g_hash_table_destroy (node_to_folderuri);
 }
 
 static void
-pst_process_item (PstImporter *m, pst_desc_tree *d_ptr)
+pst_process_item (PstImporter *m, pst_desc_tree *d_ptr, gchar **previous_folder)
 {
 	pst_item *item = NULL;
 
@@ -621,6 +672,8 @@ pst_process_item (PstImporter *m, pst_desc_tree *d_ptr)
 	}
 
 	if (item->folder != NULL) {
+		if (previous_folder)
+			*previous_folder = g_strdup (m->folder_uri);
 		pst_process_folder (m, item);
 		camel_operation_push_message (
 			NULL, _("Importing '%s'"), item->file_as.str);
@@ -723,7 +776,6 @@ pst_process_folder (PstImporter *m, pst_item *item)
 {
 	gchar *uri;
 	g_free (m->folder_name);
-	g_free (m->folder_uri);
 
 	if (item->file_as.str != NULL) {
 		m->folder_name = foldername_to_utf8 (item->file_as.str);
@@ -732,7 +784,8 @@ pst_process_folder (PstImporter *m, pst_item *item)
 		m->folder_name = g_strdup ("unknown_name");
 	}
 
-	uri = g_strjoin ("/", m->parent_uri, m->folder_name, NULL);
+	uri = g_strjoin ("/", m->folder_uri, m->folder_name, NULL);
+	g_free (m->folder_uri);
 	m->folder_uri = uri;
 
 	if (m->folder) {
@@ -774,7 +827,7 @@ pst_create_folder (PstImporter *m)
 	parent = ((EImportTargetURI *) m->target)->uri_dest;
 	dest = g_strdup (m->folder_uri);
 
-	g_assert (g_str_has_prefix (dest, parent));
+	g_return_if_fail (g_str_has_prefix (dest, parent));
 
 	if (m->folder) {
 		g_object_unref (m->folder);
@@ -1059,7 +1112,7 @@ contact_set_address (EContact *contact, EContactField id, gchar *address, gchar 
 		if (po_box) {
 			eaddress->po = g_strdup (po_box);
 		}
-		//eaddress->ext =
+		/* eaddress->ext = */
 
 		if (street) {
 			eaddress->street = g_strdup (street);
@@ -1452,7 +1505,7 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gcha
 			e_cal_component_set_status (ec, ICAL_STATUS_TENTATIVE);
 			break;
 		case PST_FREEBUSY_FREE:
-			// mark as transparent and as confirmed
+			/* mark as transparent and as confirmed */
 			e_cal_component_set_transparency (ec, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
 		case PST_FREEBUSY_BUSY:
 		case PST_FREEBUSY_OUT_OF_OFFICE:
@@ -1603,7 +1656,7 @@ pst_import_imported (PstImporter *m)
 static void
 pst_import_free (PstImporter *m)
 {
-//	pst_close (&m->pst);
+	/* pst_close (&m->pst); */
 	g_object_unref (m->cancellable);
 
 	g_free (m->status_what);
@@ -1614,7 +1667,6 @@ pst_import_free (PstImporter *m)
 
 	g_free (m->folder_name);
 	g_free (m->folder_uri);
-	g_free (m->parent_uri);
 
 	g_object_unref (m->import);
 }
@@ -1671,7 +1723,6 @@ pst_import (EImport *ei, EImportTarget *target)
 	g_object_ref (m->import);
 	m->target = target;
 
-	m->parent_uri = NULL;
 	m->folder_name = NULL;
 	m->folder_uri = NULL;
 
