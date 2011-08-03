@@ -486,8 +486,7 @@ e_bogofilter_class_init (EBogofilterClass *class)
 			"Convert to Unicode",
 			"Convert message text to Unicode",
 			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_READWRITE));
 }
 
 static void
