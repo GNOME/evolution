@@ -803,8 +803,9 @@ get_object_without_rid_ready_cb (GObject *source_object, GAsyncResult *result, g
 		icalcomp = NULL;
 
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_error_free (error);
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
+	    g_cancellable_is_cancelled (fd->cancellable)) {
+		g_clear_error (&error);
 		find_cal_update_ui (fd, cal_client);
 		decrease_find_data (fd);
 		return;
@@ -843,7 +844,8 @@ get_object_with_rid_ready_cb (GObject *source_object, GAsyncResult *result, gpoi
 		icalcomp = NULL;
 
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
-	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
+	    g_cancellable_is_cancelled (fd->cancellable)) {
 		g_error_free (error);
 		find_cal_update_ui (fd, cal_client);
 		decrease_find_data (fd);
@@ -887,6 +889,12 @@ get_object_list_ready_cb (GObject *source_object, GAsyncResult *result, gpointer
 	if (!e_cal_client_get_object_list_finish (cal_client, result, &objects, &error))
 		objects = NULL;
 
+	if (g_cancellable_is_cancelled (fd->cancellable)) {
+		g_clear_error (&error);
+		decrease_find_data (fd);
+		return;
+	}
+
 	if (error) {
 		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -924,6 +932,12 @@ find_cal_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_
 			decrease_find_data (fd);
 			return;
 		}
+	}
+
+	if (g_cancellable_is_cancelled (fd->cancellable)) {
+		g_clear_error (&error);
+		decrease_find_data (fd);
+		return;
 	}
 
 	if (error) {

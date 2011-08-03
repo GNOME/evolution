@@ -978,10 +978,12 @@ efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObj
 	e_attachment_set_can_show (attachment, info->handle != NULL);
 
 	web_view = em_format_html_get_web_view (efh);
+	g_return_val_if_fail (web_view != NULL, TRUE);
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	view = em_format_html_display_get_attachment_view (efhd, info->attachment_view_part_id);
+	g_return_val_if_fail (view != NULL, TRUE);
 	gtk_widget_show (GTK_WIDGET (view));
 
 	store = e_attachment_view_get_store (view);

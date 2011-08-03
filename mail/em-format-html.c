@@ -157,6 +157,7 @@ struct _format_msg {
 	CamelFolder *folder;
 	gchar *uid;
 	CamelMimeMessage *message;
+	gboolean cancelled;
 };
 
 static gchar *
@@ -177,8 +178,10 @@ efh_format_exec (struct _format_msg *m,
 	CamelURL *base;
 	gchar *content;
 
-	if (m->format->priv->web_view == NULL)
+	if (m->format->priv->web_view == NULL) {
+		m->cancelled = TRUE;
 		return;
+	}
 
 	format = EM_FORMAT (m->format);
 	stream = CAMEL_STREAM (m->estream);
@@ -265,6 +268,10 @@ efh_format_exec (struct _format_msg *m,
 				(CamelStream *) m->estream,
 				"</body>\n</html>\n", cancellable, NULL);
 			camel_stream_close ((CamelStream *) m->estream, cancellable, NULL);
+			if (g_cancellable_is_cancelled (cancellable)) {
+				m->cancelled = TRUE;
+				m->estream->sync.cancel = TRUE;
+			}
 			g_object_unref (m->estream);
 			m->estream = NULL;
 		}
@@ -274,6 +281,7 @@ efh_format_exec (struct _format_msg *m,
 	d(printf("out of jobs, done\n"));
 
 	format->pending_uri_level = puri_level;
+	m->cancelled = m->cancelled || g_cancellable_is_cancelled (cancellable);
 }
 
 static void
@@ -294,6 +302,8 @@ efh_format_free (struct _format_msg *m)
 	g_object_unref (m->format);
 	if (m->estream) {
 		camel_stream_close ((CamelStream *) m->estream, NULL, NULL);
+		if (m->cancelled)
+			m->estream->sync.cancel = TRUE;
 		g_object_unref (m->estream);
 	}
 	if (m->folder)
