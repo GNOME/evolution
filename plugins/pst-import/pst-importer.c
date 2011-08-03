@@ -534,6 +534,11 @@ pst_import_folders (PstImporter *m, pst_desc_tree *topitem)
 		pst_process_item (m, d_ptr);
 
 		if (d_ptr->child != NULL) {
+			if (m->folder) {
+				g_object_unref (m->folder);
+				m->folder = NULL;
+			}
+
 			g_free (m->parent_uri);
 			m->parent_uri = g_strdup (m->folder_uri);
 			d_ptr = d_ptr->child;
@@ -541,6 +546,13 @@ pst_import_folders (PstImporter *m, pst_desc_tree *topitem)
 			d_ptr = d_ptr->next;
 		} else {
 			while (d_ptr != topitem && d_ptr->next == NULL) {
+				if (m->folder_uri && g_str_equal (m->folder_uri, m->parent_uri)) {
+					/* this is for cases where folder has only messages */
+					seperator = g_strrstr (m->parent_uri, "/");
+					if (seperator != NULL)
+						*seperator = '\0';
+				}
+
 				if (m->folder_uri) {
 					g_free (m->folder_uri);
 				}
@@ -550,6 +562,11 @@ pst_import_folders (PstImporter *m, pst_desc_tree *topitem)
 
 				if (seperator != NULL) {
 					*seperator = '\0'; /* Truncate uri */
+				}
+
+				if (m->folder) {
+					g_object_unref (m->folder);
+					m->folder = NULL;
 				}
 
 				d_ptr = d_ptr->parent;
@@ -594,36 +611,29 @@ pst_process_item (PstImporter *m, pst_desc_tree *d_ptr)
 			camel_operation_progress (NULL, 100);
 		}
 
-		if (item->email != NULL &&
-			(item->type == PST_TYPE_NOTE || item->type == PST_TYPE_REPORT)) {
-
-			if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-mail")))
-				pst_process_email (m, item);
-
-		} else if (item->contact && item->type == PST_TYPE_CONTACT) {
-
-			if (m->addressbook && GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-addr"))) {
+		switch (item->type) {
+		case PST_TYPE_CONTACT:
+			if (item->contact && m->addressbook && GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-addr")))
 				pst_process_contact (m, item);
-			}
-
-		} else if (item->type == PST_TYPE_APPOINTMENT && item->appointment) {
-
-			if (m->calendar && GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-appt"))) {
+			break;
+		case PST_TYPE_APPOINTMENT:
+			if (item->appointment && m->calendar && GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-appt")))
 				pst_process_appointment (m, item);
-			}
-
-		} else if (item->type == PST_TYPE_TASK && item->appointment) {
-
-			if (m->tasks && GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-task"))) {
+			break;
+		case PST_TYPE_TASK:
+			if (item->appointment && m->tasks && GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-task")))
 				pst_process_task (m, item);
-			}
-
-		} else if (item->type == PST_TYPE_JOURNAL && item->appointment) {
-
-			if (m->journal && GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-journal"))) {
+			break;
+		case PST_TYPE_JOURNAL:
+			if (item->appointment && m->journal && GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-journal")))
 				pst_process_journal (m, item);
-			}
-
+			break;
+		case PST_TYPE_NOTE:
+		case PST_TYPE_SCHEDULE:
+		case PST_TYPE_REPORT:
+			if (item->email && GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-mail")))
+				pst_process_email (m, item);
+			break;
 		}
 
 		m->current_item++;
