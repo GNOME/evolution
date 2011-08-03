@@ -209,7 +209,7 @@ static void obj_removed_cb (ECalClientView *view, const GSList *uids, CompEditor
 
 G_DEFINE_TYPE_WITH_CODE (
 	CompEditor, comp_editor, GTK_TYPE_WINDOW,
-	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, NULL);
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, NULL)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 enum {
