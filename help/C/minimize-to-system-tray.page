@@ -1,0 +1,31 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="minimize-to-system-tray">
+
+  <info>
+    <desc>On minimizing Evolution to the notification area.</desc>
+    
+    <link type="guide" xref="index#common-other-problems" />
+
+    <revision pkgversion="3.0.2" version="0.3" date="2011-07-30" status="final"/>
+    <credit type="author">
+      <name>April Gonzales</name>
+      <email>loonycookie@gmail.com</email>
+    </credit>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+
+  </info>
+
+
+<title>Minimizing Evolution to the system tray</title>
+
+<p>GNOME, by default, has a <link xref="mail-received-notification">notification area</link> which includes an applet that informs users of any system updates, changes, or events. This includes the arrival of email messages on Evolution. You can refer to this built-in feature of GNOME for any email notifications.</p>
+
+<p>In GNOME version 2 you may modify the notification area and set it up to become a system tray by using external software such as <link href="http://alltray.trausch.us/"> Alltray</link> that might be available for installation in the software management tool of your distribution. This is not possible in GNOME 3 anymore.</p>
+</page>
+

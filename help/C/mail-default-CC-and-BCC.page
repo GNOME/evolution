@@ -1,0 +1,32 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-default-CC-and-BCC">
+
+  <info>
+    <desc>Make somebody always receive copies of your sent mail.</desc>
+
+    <link type="guide" xref="mail-account-manage-imap#defaults"/>
+    <link type="guide" xref="mail-account-manage-imap-plus#defaults"/>
+    <link type="guide" xref="mail-account-manage-local-delivery#defaults"/>
+    <link type="guide" xref="mail-account-manage-maildir-format-directories#defaults"/>
+    <link type="guide" xref="mail-account-manage-mh-format-directories#defaults"/>
+    <link type="guide" xref="mail-account-manage-pop#defaults"/>
+    <link type="guide" xref="mail-account-manage-unix-mbox-spool-directory#defaults"/>
+    <link type="guide" xref="mail-account-manage-unix-mbox-spool-file#defaults"/>
+    <link type="guide" xref="mail-account-manage-usenet-news#defaults"/>
+    <revision pkgversion="2.32.1" version="0.1" date="2011-01-06" status="draft"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+
+  </info>
+
+  <title>Default CC and BCC</title>
+
+<p>You can set email addresses that should always receive copies of your sent mail (either as CC visible for all recipients, or BCC not visible for other recipients) in the <gui>Defaults</gui> section of the mail account editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Defaults</gui></guiseq>).</p>
+
+
+</page>

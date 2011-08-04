@@ -1,0 +1,33 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-spam-marking">
+
+  <info>
+    <desc>How to mark unwanted junk and spam mail.</desc>
+
+    <link type="guide" xref="mail-spam" />
+
+    <revision pkgversion="2.32.1" version="0.2" date="2011-01-04" status="draft"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <credit type="author">
+      <name>Barbara Tobias</name>
+      <email>barbtobias09@gmail.com</email>
+    </credit>
+    <credit type="author">
+      <name>Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-mail-organize-spam.html.en -->
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Marking Junk Mail</title>
+<p>Evolution can check for junk mail for you. Evolution uses SpamAssassin and/or Bogofilter with trainable Bayesian filters to perform the spam check. When the software detects mail that appears to be junk mail, it will flag it and hide it from your view. Messages that are flagged as junk mail are displayed only in the Junk folder.</p>
+<p>The junk mail filter can learn which kinds of mail are legitimate and which are not if you train it by marking as junk incoming mail that you determine is spam. When you first start using junk mail blocking, check the Junk folder frequently to be sure that legitimate mail doesn't get flagged as junk mail.</p>
+<p>If legitimate mail is incorrectly flagged, remove it from the Junk folder by right-clicking it and selecting <gui>Mark as Not Junk</gui> or pressing <keyseq><key>Shift</key><key>Ctrl</key><key>J</key></keyseq>. If Evolution misses junk mail, right-click the message, then click Mark as Junk or press <keyseq><key>Ctrl</key><key>J</key></keyseq>. When you correct it, the filter can recognize similar messages in the future, and becomes more accurate as time goes on.</p>
+<p>You can also flag mail as junk by selecting it and clicking the Junk icon in the menu bar; you can flag mail in the junk folder as "Not Junk" by selecting it and clicking the <gui>Not Junk</gui> icon.</p>
+<p>Each time you flag a message as Junk, the sender is added to your Spam List; each time you flag a message as Not Junk, the sender is removed from your Spam List.</p>
+</page>

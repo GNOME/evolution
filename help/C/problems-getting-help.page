@@ -1,0 +1,27 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="problems-getting-help">
+
+  <info>
+    <desc>How to get help for problems.</desc>
+    
+    <link type="guide" xref="index#tracking-down-problems" />
+    <link type="seealso" xref="problems-reporting-bugs" />
+
+    <revision pkgversion="2.32.1" version="0.3" date="2011-07-21" status="draft"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+
+  </info>
+
+
+<title>How to get help</title>
+
+<p>To receive help on problems you can send an email to the <link href="http://mail.gnome.org/mailman/listinfo/evolution-list">Evolution mailing list</link> or ask a message in the IRC chat channel #evolution on the server irc.gimp.net.</p>
+
+</page>
+

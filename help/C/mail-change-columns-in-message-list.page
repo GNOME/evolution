@@ -1,0 +1,25 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-change-columns-in-message-list">
+
+  <info>
+    <desc>Editing the columns displayed in the list of messages.</desc>
+    
+    <link type="guide" xref="mail-layout-changing" />
+
+    <revision pkgversion="2.32.2" version="0.2" date="2011-07-21" status="stub"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+  <title>Changing the message list columns</title>
+
+<p>If you want to change the columns in the mail message list, right-click on the column headers and choose either <gui>Add a Column...</gui> or <gui>Remove This Column</gui>.</p>
+<note style="tip"><p>If you have a small display, you can replace the <gui>Subject</gui> column by the <gui>Subject - Trimmed</gui> which will remove prefixes such as "Re:", or you can replace the <gui>From</gui> column which displays the sender's name and email address by the <gui>Sender</gui> column which will only display the sender's name.</p></note>
+
+</page>

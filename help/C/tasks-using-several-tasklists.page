@@ -1,0 +1,28 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" id="tasks-using-several-tasklists">
+
+  <info>
+    <desc>Adding and using more than one task list or memo list.</desc>
+
+    <link type="guide" xref="tasks-organizing" />
+
+    <revision pkgversion="3.1.5" version="0.2" date="2011-07-28" status="final"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Using several task lists or memo lists</title>
+
+<p>You can have multiple task or memo lists and overlay them one over the next. For example, you might have tasks for work, tasks for home, and tasks for the singing club that you are a member of. The side bar lists those lists, and you can select or deselect the boxes next to them to show and hide the tasks or memos in your view.</p>
+
+<p>Tasks and memos for each task or memo list appear as a different color.</p>
+
+<p>You can also use lists that are not on your computer, such as on the internet.</p>
+
+</page>

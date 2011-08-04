@@ -1,0 +1,47 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="data-storage">
+
+  <info>
+    <desc>Where does Evolution store my data on the harddisk?</desc>
+    
+    <link type="guide" xref="index#common-other-problems" />
+
+    <revision pkgversion="2.32.1" version="0.2" date="2011-07-21" status="draft"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Data storage locations</title>
+
+<note style="tip">
+<p>This is only interesting for advanced users that want to debug problems.</p>
+</note>
+
+<p>If you run Evolution 2.32.0 or later, data will be stored according to the <link href="http://www.freedesktop.org/wiki/Specifications/basedir-spec">XDG Base Directory Specification</link>. By default this means:</p>
+
+<terms>
+<item>
+<title>The user's data files</title>
+<p>$HOME/.local/share/evolution</p>
+</item>
+<item>
+<title>Various configuration and state files</title>
+<p>$HOME/.config/evolution</p>
+</item>
+<item>
+<title>Disposable data caches</title>
+<p>$HOME/.cache/evolution</p>
+</item>
+<item>
+<title>Configuration settings in GConf</title>
+<p>$HOME/.gconf/apps/evolution</p>
+</item>
+</terms>
+
+</page>

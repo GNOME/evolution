@@ -1,0 +1,33 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-composer-html-image">
+
+  <info>
+    <desc>Embed a picture in the mail composer.</desc>
+    <link type="guide" xref="mail-composer-html#formatting-options" />
+
+    <revision pkgversion="3.1.5" version="0.3" date="2011-07-28" status="final"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+ <credit type="author">
+   <name>Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-mail-getnsend-send.html.en#bsait2b -->
+ </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+
+<title>Inserting an Image in HTML</title>
+
+<p>You can insert an image into the email (at the current position of the cursor):</p>
+<steps>
+<item><p>Click <guiseq><gui>Insert</gui><gui>Image...</gui></guiseq> in the menubar.</p></item>
+<item><p>Browse to and select the file.</p></item>
+<item><p>Click <gui>Open</gui>.</p></item>
+</steps>
+
+<note>Alternately, you can also drag an image into the text area of the message composer.</note>
+
+</page>
+

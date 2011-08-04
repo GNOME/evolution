@@ -1,0 +1,24 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-send-and-receive-automatically">
+
+  <info>
+    <desc>Check automatically and regularly for new received mail.</desc>
+
+    <link type="guide" xref="mail-send-and-receive" />
+
+    <revision pkgversion="3.0.2" version="0.2" date="2011-08-01" status="final"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Automatically check for new mail</title>
+<p>If you want Evolution to check automatically for new messages, enable the option <gui>Check for new messages every ... minutes</gui> in the <gui>Receiving Email</gui> page of the mail account settings (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Email</gui></guiseq>) and select the frequency in minutes.</p>
+
+</page>
+

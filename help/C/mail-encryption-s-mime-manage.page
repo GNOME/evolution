@@ -1,0 +1,30 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-encryption-s-mime-manage">
+
+  <info>
+    <desc>Adding, editing, viewing and deleting S/MIME certificates.</desc>
+
+    <link type="guide" xref="mail-encryption#s-mime"/>
+
+    <revision pkgversion="2.32.1" version="0.1" date="2011-01-05" status="draft"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <credit type="author">
+      <name>Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/bshoty0.html.en -->
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+
+  </info>
+
+  <title>Managing S/MIME certificates</title>
+
+<p>Certificates allow you to communicate with others securely over an encrypted connection, or sign a message confirming your identity to the contact. These settings only apply to S/MIME encryption.</p>
+<p>You can import, view, edit (except for your own certificates), and delete your certificates under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Certificates</gui></guiseq>.</p>
+<p><gui>Your Certificates</gui> displays a list of certificates that you own. To add a signing certificate, click <gui style="button">Import</gui>, select the file to import, then click <gui style="button">Open</gui> and enter a password.</p>
+<p><gui>Contact Certificates</gui> displays a list of certificates that you have for contacts. These certificates allow you to decrypt messages as well verify signed messages.</p>
+<p><gui>Authorities</gui> displays a list of trusted certificate authorities who verify that your own certificate is valid.</p>
+</page>

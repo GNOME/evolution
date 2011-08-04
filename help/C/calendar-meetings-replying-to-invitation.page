@@ -1,0 +1,33 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="calendar-meetings-replying-to-invitation">
+
+  <info>
+    <desc>Accepting and replying to a meeting invitation.</desc>
+    
+    <link type="guide" xref="calendar-meetings" />
+
+    <revision pkgversion="3.0.2" version="0.3" date="2011-08-01" status="final"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <credit type="author">
+ <name>Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-calendar-apts.html.en#replying-to-rsvp -->
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>  
+
+<!-- TODO: Check if all these steps are still correct in 3.1 -->
+
+  </info>
+
+<title>Replying to a Meeting Request</title>
+<p>Meeting requests are sent as attachments. To view or respond to one, click the attachment icon and view it in the mail window. All the details about the event are shown, including time and dates. Then you can choose how to reply to the invitation - the options are to <gui>Accept</gui>, <gui>Tentatively Accept</gui>, or <gui>Decline</gui>.</p>
+
+<p>Click <gui style="button">OK</gui> to send your answer per email to the organizer. The event is also added automatically to your calendar if you accept.</p>
+<p>After you have added the meeting to your calendar, you can make changes to the meeting, but if the original organizer sends out an update, your changes might be overwritten.</p>
+
+<note><p>Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Calendar and Tasks</gui><gui>Conflict Search</gui></guiseq> you can define which calendars are used for warning you of meeting conflicts.</p></note>
+<!-- TODO: Recheck once https://bugzilla.gnome.org/show_bug.cgi?id=655494 is fixed -->
+</page>

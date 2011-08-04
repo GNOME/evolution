@@ -1,0 +1,20 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" id="mail-attachments">
+
+  <info>
+    <desc>Handling of file attachments for writing and reading mail</desc>
+
+    <revision pkgversion="2.32.1" version="0.1" date="2011-05-02" status="stub"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Managing attachments</title>
+
+</page>

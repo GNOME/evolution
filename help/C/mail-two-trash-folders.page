@@ -1,0 +1,32 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-two-trash-folders">
+
+  <info>
+    <desc>An explanation for the problem that two trash folders are present in Evolution.</desc>
+    
+    <link type="guide" xref="index#common-mail-problems" />
+
+    <revision pkgversion="2.28.3" version="0.1" date="2010-10-09" status="final"/>
+    <credit type="author">
+      <name>April Gonzales</name>
+      <email>loonycookie@gmail.com</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Two Trash folders shown for the same account</title>
+
+<p>You may have created another Trash folder to hold all your deleted email messages. This can happen when you use another email client together with Evolution.</p>
+
+<p>Evolution's <gui>Trash</gui> folder is a <link xref="mail-search-folders">Search folder</link>. It does not really exist but simply displays all the messages that are marked for deletion in any folders of that account.</p>
+
+<p>You can easily tell the two Trash folders apart by looking at their icons. The Evolution <gui>Trash</gui> folder has a special icon whereas the other physical Trash folder looks like any other folder.</p>
+
+<note>
+<p>Note that the <gui>Junk</gui> folder is also a search folder and may also appear twice.</p>
+</note>
+
+</page>

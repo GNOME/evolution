@@ -1,0 +1,22 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" id="calendar-sharing-information">
+
+  <info>
+    <desc>Make your information (appointments and free/busy times) available to others.</desc>
+
+    <link type="guide" xref="index#calendar-advanced" />
+
+    <revision pkgversion="2.32.2" version="0.1" date="2011-07-21" status="draft"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Sharing your calendar information</title>
+
+</page>

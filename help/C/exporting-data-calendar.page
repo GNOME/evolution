@@ -1,0 +1,25 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="exporting-data-calendar">
+
+  <info>
+    <desc>How to export calendar data from <em>Evolution</em>.</desc>
+
+    <link type="guide" xref="exporting-data" />
+
+    <revision pkgversion="3.1.5" version="0.2" date="2011-07-27" status="final"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Exporting calendar data</title>
+
+<p>To export a complete calendar, right-click on the calendar in the list of calendars and click <gui>Save as</gui>. Available formats are iCalendar format (ICS, recommended), comma seperated values (CSV), and RDF format.</p>
+<p>If you want to export only one appointment, right-click on the appointment and click <gui>Save as iCalendar...</gui>.</p>
+
+</page>

@@ -1,0 +1,23 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-change-time-format">
+
+  <info>
+    <desc>Changing the date and time format in the message list.</desc>
+    <link type="guide" xref="mail-layout-changing" />
+
+    <revision pkgversion="2.32.2" version="0.1" date="2011-07-22" status="draft"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+  <title>Format of dates and time</title>
+<p>You can change the format of the <gui>Date</gui> column by setting your prefered format under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Headers</gui><gui>Date/Time format</gui></guiseq>.</p><p>The placeholders in the format expression are strftime variables.</p>
+<!-- TODO:POST-3-2: Where to get a list of strftime variables? -->
+<!-- TODO: Time formats settings for Calendar (calendar-layout-appointment-display), Contacts (Edit>Prefs>Contacts) are split everywhere, probably introduce a guide page linking to these three pages -->
+</page>

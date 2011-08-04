@@ -1,0 +1,27 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-displaying-character-encodings">
+
+  <info>
+    <desc>When characters in an email are not shown correctly or missing.</desc>
+
+    <link type="guide" xref="mail-displaying-message" />
+
+    <revision pkgversion="3.0.2" version="0.3" date="2011-08-02" status="final"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Character Encodings and Sets</title>
+
+<!-- TODO: Recheck once https://bugzilla.gnome.org/show_bug.cgi?id=655021 is fixed -->
+
+<p>If the email program of the sender is broken or misconfigured, plain text emails might not include information about the character encoding used. If you receive such messages, choose <guiseq><gui>View</gui><gui>Character Encoding</gui></guiseq> from the main menu and change the currently chosen character encoding to an appropriate one that might be the encoding used by the sender. You have to make this change every time you view the message.</p>
+<p>To constantly change this setting, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</gui><gui>Message Display</gui><gui>Default character encoding</gui></guiseq>.</p>
+
+</page>

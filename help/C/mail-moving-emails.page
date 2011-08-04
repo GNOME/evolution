@@ -1,0 +1,33 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-moving-emails">
+
+  <info>
+    <desc>Moving emails from one folder to another.</desc>
+    
+    <link type="guide" xref="index#common-mail-problems" />
+
+    <revision pkgversion="2.28.3" version="0.2" date="2011-08-01" status="draft"/>
+    <credit type="author">
+      <name>April Gonzales</name>
+      <email>loonycookie@gmail.com</email>
+    </credit>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+
+  </info>
+
+<title>Moved emails are still shown in the original folder</title>
+
+<p>IMAP has no "move" feature. Evolution "moves" messages by copying and deleting emails. Deleting means "marking messages for deletion" so all the original messages are retained until you Expunge the emails marked for deletion.</p>
+
+<p>See the topic on <link xref="mail-delete-and-undelete">deleting emails</link> for instructions on how to expunge email messages. Note that this applies to other types of accounts as well.</p>
+
+</page>
+
+
+
