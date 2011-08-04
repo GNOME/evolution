@@ -94,17 +94,19 @@ extensible_load_extension (GType extension_type,
 	extension_class = g_type_class_ref (extension_type);
 
 	/* Only load extensions that extend the given extensible object. */
-	if (!g_type_is_a (extensible_type, extension_class->extensible_type))
-		goto exit;
+	if (g_type_is_a (extensible_type, extension_class->extensible_type)) {
+		extension = g_object_new (
+			extension_type, "extensible", extensible, NULL);
 
-	extension = g_object_new (
-		extension_type, "extensible", extensible, NULL);
+		extensions = extensible_get_extensions (extensible);
+		g_ptr_array_add (extensions, extension);
 
-	extensions = extensible_get_extensions (extensible);
-	g_ptr_array_add (extensions, extension);
-
-exit:
-	g_type_class_unref (extension_class);
+		g_type_class_unref (extension_class);
+	} else {
+		/* keep the class referenced forever, later may anyone need it anyway,
+		   and unref it may mean module unload, which breaks static strings
+		   in GType */
+	}
 }
 
 static void
