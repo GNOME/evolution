@@ -3212,15 +3212,15 @@ for display purposes only. </property>
     <data>
       <row>
         <col id="0" translatable="yes">No encryption</col>
-        <col id="1">never</col>
+        <col id="1">none</col>
       </row>
       <row>
         <col id="0" translatable="yes">TLS encryption</col>
-        <col id="1">when-possible</col>
+        <col id="1">starttls-on-standard-port</col>
       </row>
       <row>
         <col id="0" translatable="yes">SSL encryption</col>
-        <col id="1">always</col>
+        <col id="1">ssl-on-alternate-port</col>
       </row>
     </data>
   </object>
@@ -5063,6 +5063,7 @@ For example: "Work" or "Personal"</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="model">use_ssl_model</property>
+                        <property name="id_column">1</property>
                         <child>
                           <object class="GtkCellRendererText" id="source_use_ssl_renderer"/>
                           <attributes>
@@ -5567,6 +5568,7 @@ For example: "Work" or "Personal"</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="model">use_ssl_model</property>
+                        <property name="id_column">1</property>
                         <child>
                           <object class="GtkCellRendererText" id="transport_use_ssl_renderer"/>
                           <attributes>
