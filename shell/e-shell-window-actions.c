@@ -36,9 +36,6 @@
 #define EVOLUTION_COPYRIGHT \
 	"Copyright \xC2\xA9 1999 - 2008 Novell, Inc. and Others"
 
-#define EVOLUTION_FAQ \
-	"http://live.gnome.org/Evolution/FAQ"
-
 #define EVOLUTION_WEBSITE \
 	"http://www.gnome.org/projects/evolution/"
 
@@ -725,22 +722,6 @@ action_custom_rule_cb (GtkAction *action,
 	g_return_if_fail (E_IS_FILTER_RULE (rule));
 
 	e_shell_view_custom_search (shell_view, rule);
-}
-
-/**
- * E_SHELL_WINDOW_ACTION_FAQ:
- * @window: an #EShellWindow
- *
- * Activation of this action opens a web page with answers to frequently
- * asked questions about this application.
- *
- * Main menu item: Help -> Evolution FAQ
- **/
-static void
-action_faq_cb (GtkAction *action,
-               EShellWindow *shell_window)
-{
-	e_show_uri (GTK_WINDOW (shell_window), EVOLUTION_FAQ);
 }
 
 /**
@@ -1487,13 +1468,6 @@ static GtkActionEntry shell_entries[] = {
 	  NULL,
 	  N_("Delete the selection"),
 	  NULL },  /* Handled by EFocusTracker */
-
-	{ "faq",
-	  "help-faq",
-	  N_("Evolution _FAQ"),
-	  NULL,
-	  N_("Open the Frequently Asked Questions webpage"),
-	  G_CALLBACK (action_faq_cb) },
 
 	{ "forget-passwords",
 	  NULL,
