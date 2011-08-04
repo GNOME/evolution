@@ -322,7 +322,7 @@ get_suggested_foldername (EImportTargetURI *target)
 		}
 
 		if (folder != NULL) {
-			pst_error_msg ("Error searching for an unused folder name. uri=%s", foldername);
+			pst_error_msg ("Error searching for an unused folder name. uri=%s", foldername->str);
 		}
 	}
 
