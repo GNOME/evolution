@@ -1,0 +1,27 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-composer-change-quotation-string">
+
+  <info>
+    <desc>It is not possible to change the quotation introduction added when answering mail.</desc>
+    
+    <link type="guide" xref="index#common-mail-problems" />
+    <link type="seealso" xref="mail-composer-reply" />
+    <link type="seealso" xref="mail-composer-forward" />
+
+    <revision pkgversion="2.32.1" version="0.2" date="2010-12-15" status="draft"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+
+  </info>
+
+<title>Changing the "On <em>date, person</em> wrote:" string when replying</title>
+
+<p>Advanced users can change this string by editing the gconf key <file>/apps/evolution/mail/composer/message_attribution</file> via gconf-editor.<!-- Codebase: evolution/mail/em-composer-utils.c --></p>
+<!-- TODO: Outdated once Evolution switches to GSettings -->
+</page>
+

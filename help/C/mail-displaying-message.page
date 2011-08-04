@@ -1,0 +1,22 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" id="mail-displaying-message">
+
+  <info>
+    <desc>Rendering an email and handling its attachments.</desc>
+
+    <link type="guide" xref="index#mail-basic" />
+
+    <revision pkgversion="2.32.2" version="0.1" date="2011-07-21" status="draft"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Display of a message</title>
+
+</page>

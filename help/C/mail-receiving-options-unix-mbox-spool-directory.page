@@ -1,0 +1,33 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-receiving-options-unix-mbox-spool-directory">
+
+  <info>
+    <desc>Receiving options for standard Unix mbox spool directory accounts.</desc>
+
+    <link type="guide" xref="mail-receiving-options#local-account-server-types"/>
+    <link type="guide" xref="mail-account-manage-unix-mbox-spool-directory#receiving-email"/>
+    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+
+  </info>
+
+  <title>Standard Unix mbox spool directory receiving options</title>
+
+<p>On the <gui>Receiving Email</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Email</gui></guiseq>):</p>
+
+<p>Choose the directory by clicking on the button next to <gui>Path</gui> in the <gui>Configuration</gui> section. Some default folders are available in the list. If the directory is not among those folders, choose the last option <gui>Other...</gui>. This will open a directory chooser window.</p>
+
+<p>On the <gui>Receiving Options</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>):</p>
+
+<p>If you want <link xref="mail-filters">Filters</link> to be automatically used for new messages in your inbox, enable <gui>Apply filters to new messages in INBOX</gui>.</p>
+
+<!-- TODO:XINCLUDE: Maybe later replace this "go back" workaround by doing some content sharing with xinclude and xpointer in intro-first-run.page itself? <include href="foo.xml" xmlns="http://www.w3.org/2001/XInclude"/> See gnome-user-docs module for example usage. -->
+<p>If you came to this page from the first-run wizard help page, click <link xref="intro-first-run#sending">here</link> to continue with the next step.</p>
+
+</page>

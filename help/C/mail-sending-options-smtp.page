@@ -1,0 +1,44 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-sending-options-smtp">
+
+  <info>
+    <desc>Sending options for SMTP.</desc>
+
+    <link type="guide" xref="mail-account-manage-imap#sending-email"/>
+    <link type="guide" xref="mail-account-manage-imap-plus#sending-email"/>
+    <link type="guide" xref="mail-account-manage-local-delivery#sending-email"/>
+    <link type="guide" xref="mail-account-manage-maildir-format-directories#sending-email"/>
+    <link type="guide" xref="mail-account-manage-mh-format-directories#sending-email"/>
+    <link type="guide" xref="mail-account-manage-pop#sending-email"/>
+    <link type="guide" xref="mail-account-manage-unix-mbox-spool-directory#sending-email"/>
+    <link type="guide" xref="mail-account-manage-unix-mbox-spool-file#sending-email"/>
+    <link type="guide" xref="mail-account-manage-usenet-news#sending-email"/>
+    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+
+  </info>
+
+  <title>SMTP sending options</title>
+
+<steps>
+<item><p>Enter the address of your mail server for sending mail in the <gui>Server</gui> field and select if the server requires authentication (entering a username and a password).</p></item>
+<note style="tip"><p>Free webmail providers often supply information about which of these options can be used. If you are in an organizational environment, you may want to contact your system administrator for more information.</p></note>
+<item><p>If the server requires authentication, you need to provide the following information:</p>
+<steps>
+  <item><p>Select the authentication type in the Authentication list, or click <gui>Check for Supported Types</gui> to have Evolution check. Some servers do not support this, so clicking this button is not a guarantee that available mechanisms actually work.</p></item>
+  <item><p>Enter your username.</p></item>
+</steps>
+</item>
+<item><p>Choose <gui>Use secure connection</gui> if you want to connect securely.</p></item>
+</steps>
+
+<!-- TODO:XINCLUDE: Maybe later replace this "go back" workaround by doing some content sharing with xinclude and xpointer in intro-first-run.page itself? <include href="foo.xml" xmlns="http://www.w3.org/2001/XInclude"/> See gnome-user-docs module for example usage. -->
+<p>If you came to this page from the first-run wizard help page, click <link xref="intro-first-run#account-information">here</link> to continue with the next step.</p>
+
+</page>

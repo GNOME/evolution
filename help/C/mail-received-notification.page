@@ -1,0 +1,35 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-received-notification">
+
+  <info>
+    <desc>Options on notifications of newly received mail.</desc>
+
+    <link type="guide" xref="mail-send-and-receive" />
+
+    <revision pkgversion="3.0.2" version="0.2" date="2011-08-01" status="final"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Getting notified of new mail</title>
+
+<p>Evolution always notifies you of new messages by adding a yellow star to the mailer icon in the window <link xref="change-switcher-appearance.page">switcher</link>.</p>
+<media type="image" src="./figures/new-mail-switcher.png" width="256">
+  <p>Switcher layout when a new message has arrived</p>
+</media>
+
+<p>In order to get also notified of new messages in the GNOME Notification area at the bottom of the screen, make sure that <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Mail Notification</gui></guiseq> is enabled and that you have set your prefered options in the <gui>Configuration</gui> tab.</p>
+<media type="image" src="./figures/new-mail-notification.png" width="512">
+  <p>Switcher layout when a new message has arrived</p>
+</media>
+
+<!-- TODO: Quite short; plus recheck once https://bugzilla.gnome.org/show_bug.cgi?id=653699 is fixed -->
+
+</page>
+

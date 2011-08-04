@@ -1,0 +1,28 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" id="mail-organizing">
+
+  <info>
+    <desc>On folders, sorting, searching, filters, search folders, and labels.</desc>
+
+    <link type="guide" xref="index#mail-basic" />
+    <link type="guide" xref="organizing" />
+
+    <revision pkgversion="2.32.1" version="0.1" date="2011-01-05" status="stub"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Sorting and organizing mail</title>
+
+  <section id="advanced" style="2column">
+    <title>Advanced Options</title>
+  </section>
+
+<p>Evolution provides several options to organize your mail according to your needs.</p>
+</page>

@@ -1,0 +1,43 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-duplicates">
+
+  <info>
+    <desc>How to handle duplicated email messages</desc>
+    
+    <link type="guide" xref="index#common-mail-problems" />
+
+    <revision pkgversion="3.0.2" version="0.4" date="2011-08-01" status="final"/>
+    <credit type="author">
+      <name>April Gonzales</name>
+      <email>loonycookie@gmail.com</email>
+    </credit>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Duplicate emails get downloaded</title>
+
+<section id="remove">
+<title>Removing duplicate emails</title>
+<p>To remove duplicate emails in a folder, click <guiseq><gui>Message</gui><gui>Remove Duplicate Messages</gui></guiseq>.</p>
+<!-- available by default since 2.91, as per http://mail.gnome.org/archives/evolution-list/2011-August/msg00000.html -->
+</section>
+
+<section id="reasons">
+<title>Reasons</title>
+<p>Downloading duplicate emails may be due to one of the following reasons:</p>
+<list>
+<item><p>There are several copies of the same message in the mailbox</p></item>
+<item><p>Evolution is having a problem with the UIDL extension.</p></item>
+<item><p>The cache files located at <file>$HOME/.local/share/evolution/mail/pop/</file> are not writable.</p></item>
+</list>
+</section>
+
+</page>
+

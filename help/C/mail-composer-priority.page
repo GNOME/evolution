@@ -1,0 +1,29 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" id="mail-composer-priority">
+
+  <info>
+    <desc>Setting a priority for messages to be sent.</desc>
+
+    <link type="guide" xref="index#mail-composing-advanced" />
+
+    <revision pkgversion="2.32.2" version="0.1" date="2011-07-22" status="draft"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+ <credit type="author">
+   <name>Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-mail-getnsend-send.html.en#BJEHCDFA -->
+ </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Prioritizing outgoing messages</title>
+
+<p>You can prioritize a message to be sent, so that the recipient sees its relative importance. To prioritize a message, click <guiseq><gui>Insert</gui><gui>Prioritize Message</gui></guiseq> in the composer window.</p>
+
+<note style="tip"><p>Evolution will ignore the message priority of incoming messages because the recipient should decide whether the message is important or not. You can set the "Important" flag for any messages.</p></note>
+
+</page>

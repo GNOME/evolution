@@ -1,0 +1,30 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="email-access-gmail-imap-account">
+
+  <info>
+    <desc>How to set up a GMail IMAP Account.</desc>
+    
+    <link type="guide" xref="index#common-mail-problems" />
+    <link type="guide" xref="google-services"/>
+    <link type="seealso" xref="mail-account-manage-imap"/>
+
+    <revision pkgversion="3.1.5" version="0.2" date="2011-07-30" status="final"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+
+  </info>
+
+<!-- Page only exists for the <note>, apart from that nothing special. -->
+
+<title>Access a GMail IMAP Account via Evolution</title>
+
+<p>Please refer to the <link xref="mail-account-manage-imap">IMAP mail account settings</link>.</p>
+
+<note><p>To access GMail via IMAP you must turn on IMAP in your Google account. See the <link href="https://mail.google.com/support/bin/answer.py?answer=77695">GMail Help</link> for more information.</p></note>
+</page>
+

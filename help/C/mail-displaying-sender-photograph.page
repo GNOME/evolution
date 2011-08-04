@@ -1,0 +1,34 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-displaying-sender-photograph">
+
+  <info>
+    <desc>Display a picture of the sender in the message header area.</desc>
+
+    <link type="guide" xref="mail-displaying-message" />
+
+    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+ <credit type="author">
+   <name>Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/config-prefs-mail.html.en#mail-prefs-headers -->
+ </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Photograph Message Headers</title>
+
+<!-- TODO: Check and describe whether this requires enabling <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Face</gui></guiseq>! -->
+ 
+<p>The photograph of the sender of an email can be shown at the right side of the message preview if the sender is in one of your address books and has a photograph.</p>
+
+<p>To enable this functionality, select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Headers</gui><gui>Show the photograph of sender in the message preview</gui></guiseq>.</p>
+
+<p>By default only local address books are used for searching the photograph as accessing remote address books can cause delays. You can disable this by deselecting the option <gui>Search for sender photograph only in local address books</gui>.</p>
+
+<p>If there are multiple matches for a contact, the first one is always used.</p>
+</page>

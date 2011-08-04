@@ -1,0 +1,29 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="memos-usage-edit-memo">
+
+  <info>
+    <desc>Editing a memo in your memo list.</desc>
+    
+    <link type="guide" xref="memos-usage" />
+
+    <revision pkgversion="3.0.2" version="0.1" date="2011-08-01" status="final"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Editing a Memo</title>
+
+<p>If you want to change a memo that already exists in your memo lists,</p>
+
+<steps>
+<item><p>Double-click on the memo that you want to edit in the list of contacts, or right-click on the task and click <key>Open Memo</key>.</p></item>
+<item><p>Edit the memo information.</p></item>
+<item><p>Click the <gui style="button">Save</gui> button, or <guiseq><gui>File</gui><gui>Save</gui></guiseq>.</p></item>
+</steps>
+</page>

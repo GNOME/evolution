@@ -1,0 +1,61 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-spam-settings">
+
+  <info>
+    <desc>How to set up handling unwanted junk and spam mail.</desc>
+
+    <link type="guide" xref="mail-spam" />
+    <link type="seealso" xref="mail-spam-marking"/>
+
+    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <credit type="author">
+      <name>April Gonzales</name>
+      <email>loonycookie@gmail.com</email>
+    </credit>
+    <credit type="author">
+      <name>Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/config-prefs-mail.html.en#mail-prefs-junk -->
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+<title>Junk Mail Settings</title>
+
+<p>Evolution lets you check for unwanted junk or spam emails by using the Bogofilter or SpamAssassin tools. To use these tools, you need to make sure that they are installed via the software management tool of your distribution and you need enable their respective plugins.</p>
+<p><link action="install:bogofilter" href="http://bogofilter.sourceforge.net/">Install bogofilter now.</link></p>
+<p><link action="install:spamassassin" href="http://spamassassin.apache.org/">Install spamassassin now.</link></p>
+
+<p>To enable the plugins:</p>
+<steps>
+<item><p>Click <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>.</p></item>
+<item><p>Select the plugins you wish to enable. You can select either Bogofilter or SpamAssassin, or both.</p></item>
+<item><p>Click <gui>Close</gui>.</p></item>
+</steps>
+
+<section id="preferences">
+<title>Junk Mail Preferences</title>
+<p>You can modify how Evolution handles junk mail by changing the Junk Mail Preferences:</p>
+<steps>
+<item><p>Click <guiseq><gui>Edit</gui><gui>Preferences</gui></guiseq> or press <keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>.</p></item>
+<item><p>Select <gui>Mail Preferences</gui>.</p></item>
+<item><p>Click on the <gui>Junk</gui> tab. Here, you can specify the following:</p>
+<list>
+<item><p>Checking incoming mail for junk messages.</p></item>
+<item><p>Deleting junk messages upon exit, and how often junk messages are to be deleted.</p></item>
+<item><p>Checking custom headers for junk.</p></item>
+<item><p>Marking messages as junk if the sender is in the address book.</p></item>
+<item><p>The default junk filter.</p></item>
+<item><p>Bogofilter and SpamAssassin options. These options are available only if the plugins are enabled.</p></item>
+</list>
+</item>
+</steps>
+</section>
+
+<note style="tip"><p>The junk mail options discussed in this page refer only to POP and Local Delivery. For handling junk mails on IMAP, see the Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>.</p></note>
+</page>

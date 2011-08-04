@@ -1,0 +1,35 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" id="mail-composer-html">
+
+  <info>
+    <desc>Format emails by using HTML instead of plain text.</desc>
+    <link type="guide" xref="index#mail-composing" />
+
+    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+    <credit type="author">
+      <name>Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-mail-getnsend-send.html.en#usage-mail-getnsend-send-html -->
+    </credit>
+  </info>
+
+<title>Using HTML format to enhance emails</title>
+
+<p>Normally, you cannot set text styles or insert pictures in email. However, most newer email programs can display images and text styles in addition to basic alignment and paragraph formatting. They do this with HTML, just like web pages do.</p>
+
+<p>Some people do not have HTML-capable mail clients, or prefer not to receive HTML-enhanced mail because it is slower to download and display. Because of this, Evolution sends plain text unless you explicitly ask for HTML.</p>
+
+<p>You can change the format of an email message from plain text to HTML by choosing <guiseq><gui>Format</gui><gui>HTML</gui></guiseq> from the menu bar.</p>
+<p>To send all your mail as HTML by default, enable <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Default Behavior</gui><gui>Format messages in HTML</gui></guiseq>.</p>
+
+  <section id="formatting-options" style="2column">
+    <title>HTML Formatting Options</title>
+  </section>
+
+</page>
+
