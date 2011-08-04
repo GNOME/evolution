@@ -426,7 +426,7 @@
                         <child>
                           <object class="GtkLabel" id="group-label">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">_Group:</property>
+                            <property name="label" translatable="yes">_List:</property>
                             <property name="use_underline">True</property>
                           </object>
                           <packing>
