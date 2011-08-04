@@ -328,7 +328,7 @@ sensitize_widgets (TaskPage *tpage)
 		gtk_widget_hide (priv->attendee_box);
 		gtk_widget_hide (priv->organizer);
 		gtk_widget_hide (priv->invite);
-		gtk_label_set_text_with_mnemonic (GTK_LABEL (priv->org_cal_label), _("_Group:"));
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (priv->org_cal_label), _("_List:"));
 		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->org_cal_label), priv->source_selector);
 	} else {
 		gtk_widget_show (priv->invite);
