@@ -91,6 +91,7 @@ static void pst_import_file (PstImporter *m);
 gchar *foldername_to_utf8 (const gchar *pstname);
 gchar *string_to_utf8 (const gchar *string);
 void contact_set_date (EContact *contact, EContactField id, FILETIME *date);
+static void fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gchar *type);
 struct icaltimetype get_ical_date (FILETIME *date, gboolean is_date);
 gchar *rfc2445_datetime_format (FILETIME *ft);
 
@@ -918,12 +919,63 @@ pst_process_email (PstImporter *m, pst_item *item)
 	CamelMimePart *part;
 	CamelMessageInfo *info;
 	pst_item_attach *attach;
+	gboolean has_attachments;
+	gchar *comp_str = NULL;
 	gboolean success;
 
 	if (m->folder == NULL) {
 		pst_create_folder (m);
 		if (!m->folder)
 			return;
+	}
+
+	/* stops on the first valid attachment */
+	for (attach = item->attach; attach; attach = attach->next) {
+		if (attach->data.data || attach->i_id)
+			break;
+	}
+
+	has_attachments = attach != NULL;
+
+	if (item->type == PST_TYPE_SCHEDULE && item->appointment) {
+		ECalComponent *comp;
+		icalcomponent *vcal;
+		icalproperty *prop;
+		icalvalue *value;
+		icalproperty_method method;
+
+		comp = e_cal_component_new ();
+		e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_EVENT);
+		fill_calcomponent (m, item, comp, "meeting-request");
+
+		vcal = e_cal_util_new_top_level ();
+
+		method = ICAL_METHOD_PUBLISH;
+		if (item->ascii_type) {
+			if (g_str_has_prefix (item->ascii_type, "IPM.Schedule.Meeting.Request"))
+				method = ICAL_METHOD_REQUEST;
+			else if (g_str_has_prefix (item->ascii_type, "IPM.Schedule.Meeting.Canceled"))
+				method = ICAL_METHOD_CANCEL;
+			else if (g_str_has_prefix (item->ascii_type, "IPM.Schedule.Meeting.Resp."))
+				method = ICAL_METHOD_REPLY;
+		}
+
+		prop = icalproperty_new (ICAL_METHOD_PROPERTY);
+		value = icalvalue_new_method (method);
+		icalproperty_set_value (prop, value);
+		icalcomponent_add_property (vcal, prop);
+
+		icalcomponent_add_component (vcal, icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp)));
+
+		comp_str = icalcomponent_as_ical_string_r (vcal);
+
+		icalcomponent_free (vcal);
+		g_object_unref (comp);
+
+		if (comp_str && !*comp_str) {
+			g_free (comp_str);
+			comp_str = NULL;
+		}
 	}
 
 	camel_folder_freeze (m->folder);
@@ -1000,7 +1052,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 
 	mp = camel_multipart_new ();
 
-	if (item->attach != NULL) {
+	if (has_attachments) {
 
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (mp), "multipart/mixed");
 
@@ -1032,6 +1084,13 @@ pst_process_email (PstImporter *m, pst_item *item)
 		/*g_debug ("  HTML body length=%zd", strlen (item->email->htmlbody));*/
 		part = camel_mime_part_new ();
 		camel_mime_part_set_content (part, item->email->htmlbody.str, strlen (item->email->htmlbody.str), "text/html");
+		camel_multipart_add_part (mp, part);
+		g_object_unref (part);
+	}
+
+	if (comp_str) {
+		part = camel_mime_part_new ();
+		camel_mime_part_set_content (part, comp_str, strlen (comp_str), "text/calendar");
 		camel_multipart_add_part (mp, part);
 		g_object_unref (part);
 	}
@@ -1078,8 +1137,10 @@ pst_process_email (PstImporter *m, pst_item *item)
 	camel_folder_synchronize_sync (m->folder, FALSE, NULL, NULL);
 	camel_folder_thaw (m->folder);
 
+	g_free (comp_str);
+
 	if (!success) {
-		g_critical ("Exception!");
+		g_debug ("%s: Exception!", G_STRFUNC);
 		return;
 	}
 
@@ -1489,14 +1550,14 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gcha
 	if (a->start) {
 		tt_start = get_ical_date (a->start, a->all_day);
 		dt_start.value = &tt_start;
-		dt_start.tzid = NULL;
+		dt_start.tzid = a->timezonestring.str;
 		e_cal_component_set_dtstart (ec, &dt_start);
 	}
 
 	if (a->end) {
 		tt_end = get_ical_date (a->end, a->all_day);
 		dt_end.value = &tt_end;
-		dt_end.tzid = NULL;
+		dt_end.tzid = a->timezonestring.str;
 		e_cal_component_set_dtend (ec, &dt_end);
 	}
 
@@ -1590,6 +1651,48 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gcha
 		e_cal_component_set_rrule_list (ec, &recur_list);
 	}
 
+	if (item->type == PST_TYPE_SCHEDULE && item->email && item->ascii_type) {
+		const gchar *organizer, *organizer_addr, *attendee, *attendee_addr;
+
+		if (g_str_has_prefix (item->ascii_type, "IPM.Schedule.Meeting.Resp.")) {
+			organizer = item->email->outlook_recipient_name.str;
+			organizer_addr = item->email->outlook_recipient.str;
+			attendee = item->email->outlook_sender_name.str;
+			attendee_addr = item->email->outlook_sender.str;
+		} else {
+			organizer = item->email->outlook_sender_name.str;
+			organizer_addr = item->email->outlook_sender.str;
+			attendee = item->email->outlook_recipient_name.str;
+			attendee_addr = item->email->outlook_recipient.str;
+		}
+
+		if (organizer || organizer_addr) {
+			ECalComponentOrganizer org = { 0 };
+
+			org.value = organizer_addr;
+			org.cn = organizer;
+
+			e_cal_component_set_organizer (ec, &org);
+		}
+
+		if (attendee || attendee_addr) {
+			ECalComponentAttendee att = { 0 };
+			GSList *attendees;
+
+			att.value = attendee_addr;
+			att.cn = attendee;
+			att.cutype = ICAL_CUTYPE_INDIVIDUAL;
+			att.status = ICAL_PARTSTAT_NEEDSACTION;
+			att.role = ICAL_ROLE_REQPARTICIPANT;
+			att.rsvp = TRUE;
+
+			attendees = g_slist_append (NULL, &att);
+			e_cal_component_set_attendee_list (ec, attendees);
+			g_slist_free (attendees);
+		}
+	}
+
+	e_cal_component_commit_sequence	 (ec);
 }
 
 static void
