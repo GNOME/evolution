@@ -75,16 +75,28 @@
 #include "smime/gui/e-cert-selector.h"
 #endif
 
+/* Option widgets whose sensitivity depends on another widget, such
+ * as a checkbox being active, are indented to the right slightly for
+ * better visual clarity.  This specifies how far to the right. */
+#define INDENT_MARGIN 24
+
 #define d(x)
 
 static ServerData mail_servers[] = {
-	{"gmail", "imap.gmail.com", "smtp.gmail.com", "imap", "always"},
-	{"googlemail", "imap.gmail.com", "smtp.gmail.com", "imap", "always"},
-	{"yahoo", "pop3.yahoo.com", "smtp.yahoo.com", "pop", "never"},
-	{"aol", "imap.aol.com", "smtp.aol.com", "imap", "never"},
-	{"msn", "pop3.email.msn.com", "smtp.email.msn.com", "pop", "never", "@", "@"},
-	{"hotmail", "pop3.live.com", "smtp.live.com", "pop", "always", "@", "@"},
-	{"live.com", "pop3.live.com", "smtp.live.com", "pop", "always", "@", "@"},
+	{ "gmail", "imap.gmail.com", "smtp.gmail.com", "imap",
+	  CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT },
+	{ "googlemail", "imap.gmail.com", "smtp.gmail.com", "imap",
+	  CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT },
+	{ "yahoo", "pop3.yahoo.com", "smtp.yahoo.com", "pop",
+	  CAMEL_NETWORK_SECURITY_METHOD_NONE },
+	{ "aol", "imap.aol.com", "smtp.aol.com", "imap",
+	  CAMEL_NETWORK_SECURITY_METHOD_NONE },
+	{ "msn", "pop3.email.msn.com", "smtp.email.msn.com", "pop",
+	  CAMEL_NETWORK_SECURITY_METHOD_NONE, "@", "@"},
+	{ "hotmail", "pop3.live.com", "smtp.live.com", "pop",
+	  CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT, "@", "@"},
+	{ "live.com", "pop3.live.com", "smtp.live.com", "pop",
+	  CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT, "@", "@"},
 
 };
 
@@ -136,6 +148,7 @@ typedef struct _EMAccountEditorService {
 	GList *auth_types;	/* if "Check supported" */
 	CamelProvider *provider;
 	CamelProviderType type;
+	CamelSettings *settings;
 
 	gint auth_changed_id;
 } EMAccountEditorService;
@@ -222,7 +235,6 @@ static void emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService
 static void em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, const gchar *id);
 static void emae_account_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *emae);
 static ServerData * emae_check_servers (const gchar *email);
-static void set_provider_defaults_on_url (EMAccountEditor *emae, CamelProvider *provider, CamelURL *url);
 
 static gpointer parent_class;
 
@@ -354,6 +366,16 @@ emae_dispose (GObject *object)
 	if (priv->original_account != NULL) {
 		g_object_unref (priv->original_account);
 		priv->original_account = NULL;
+	}
+
+	if (priv->source.settings != NULL) {
+		g_object_unref (priv->source.settings);
+		priv->source.settings = NULL;
+	}
+
+	if (priv->transport.settings != NULL) {
+		g_object_unref (priv->transport.settings);
+		priv->transport.settings = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -559,23 +581,6 @@ em_account_editor_get_original_account (EMAccountEditor *emae)
 }
 
 /* ********************************************************************** */
-
-static struct {
-	const gchar *label;
-	const gchar *value;
-} ssl_options[] = {
-	/* Translators: This string is a "Use secure connection" option for
-	   the Mailer. It will not use an encrypted connection. */
-	{ N_("No encryption"), "never" },
-	/* Translators: This string is a "Use secure connection" option for
-	   the Mailer. TLS (Transport Layer Security) is commonly known by
-	   this abbreviation. */
-	{ N_("TLS encryption"), "when-possible" },
-	/* Translators: This string is a "Use secure connection" option for
-	   the Mailer. SSL (Secure Sockets Layer) is commonly known by this
-	   abbreviation. */
-	{ N_("SSL encryption"), "always" }
-};
 
 static gboolean
 is_email (const gchar *address)
@@ -1507,41 +1512,87 @@ emae_path_changed (GtkWidget *widget, EMAccountEditorService *service)
 	emae_service_url_path_changed (service, camel_url_set_path, widget);
 }
 
-static gint
-emae_ssl_update (EMAccountEditorService *service, CamelURL *url)
+static void
+emae_ssl_changed (GtkComboBox *dropdown,
+                  EMAccountEditorService *service)
 {
-	gint id = gtk_combo_box_get_active (service->use_ssl);
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gchar *ssl;
+	CamelURL *url;
 
-	if (id == -1)
-		return 0;
-
-	model = gtk_combo_box_get_model (service->use_ssl);
-	if (gtk_tree_model_iter_nth_child (model, &iter, NULL, id)) {
-		gtk_tree_model_get (model, &iter, 1, &ssl, -1);
-		if (!strcmp (ssl, "none"))
-			ssl = NULL;
-
-		e_port_entry_security_port_changed (service->port, ssl);
-
-		camel_url_set_param (url, "use_ssl", ssl);
-		camel_url_set_port (url, e_port_entry_get_port (service->port));
-		return 1;
-	}
-
-	return 0;
+	url = emae_account_url (
+		service->emae,
+		emae_service_info[service->type].account_uri_key);
+	camel_url_set_port (url, e_port_entry_get_port (service->port));
+	emae_uri_changed (service, url);
+	camel_url_free (url);
 }
 
 static void
-emae_ssl_changed (GtkComboBox *dropdown, EMAccountEditorService *service)
+emae_setup_settings (EMAccountEditorService *service)
 {
-	CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
+	EConfig *config;
+	EMConfigTargetAccount *target;
+	CamelServiceClass *class;
+	GType service_type;
 
-	if (emae_ssl_update (service, url))
-		emae_uri_changed (service, url);
-	camel_url_free (url);
+	/* Destroy any old CamelSettings instances.
+	 * Changing CamelProviders invalidates them. */
+
+	if (service->settings != NULL) {
+		g_object_unref (service->settings);
+		service->settings = NULL;
+	}
+
+	g_return_if_fail (service->provider != NULL);
+
+	service_type = service->provider->object_types[service->type];
+	g_return_if_fail (g_type_is_a (service_type, CAMEL_TYPE_SERVICE));
+
+	class = g_type_class_ref (service_type);
+
+	if (g_type_is_a (class->settings_type, CAMEL_TYPE_SETTINGS)) {
+		CamelURL *url;
+
+		url = emae_account_url (
+			service->emae,
+			emae_service_info[service->type].account_uri_key);
+
+		service->settings = g_object_new (class->settings_type, NULL);
+		camel_settings_load_from_url (service->settings, url);
+
+		camel_url_free (url);
+	}
+
+	g_type_class_unref (class);
+
+	/* If settings implements CamelNetworkSettings, bind the
+	 * "security-method" property to the security combo box
+	 * and to the EPortEntry widget. */
+	if (CAMEL_IS_NETWORK_SETTINGS (service->settings)) {
+		g_object_bind_property_full (
+			service->settings, "security-method",
+			service->use_ssl, "active-id",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE,
+			e_binding_transform_enum_value_to_nick,
+			e_binding_transform_enum_nick_to_value,
+			NULL, (GDestroyNotify) NULL);
+
+		g_object_bind_property (
+			service->settings, "security-method",
+			service->port, "security-method",
+			G_BINDING_SYNC_CREATE);
+	}
+
+	/* Update the EConfigTarget so it has the latest CamelSettings. */
+
+	config = E_CONFIG (service->emae->priv->config);
+	target = (EMConfigTargetAccount *) config->target;
+
+	if (target->settings != NULL)
+		g_object_unref (target->settings);
+	target->settings = service->emae->priv->source.settings;
+	if (target->settings != NULL)
+		g_object_ref (target->settings);
 }
 
 static void
@@ -1559,7 +1610,7 @@ emae_service_provider_changed (EMAccountEditorService *service)
 		gint enable;
 		GtkWidget *dwidget = NULL;
 
-		set_provider_defaults_on_url (service->emae, service->provider, url);
+		emae_setup_settings (service);
 
 		camel_url_set_protocol (url, service->provider->protocol);
 		gtk_label_set_text (service->description, service->provider->description);
@@ -1636,10 +1687,9 @@ emae_service_provider_changed (EMAccountEditorService *service)
 		old_port = url->port;
 		gtk_widget_hide (service->no_ssl);
 		if (service->provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL) {
-			emae_ssl_update (service, url);
+			camel_url_set_port (url, e_port_entry_get_port (service->port));
 			show = gtk_widget_show;
 		} else {
-			camel_url_set_param (url, "use_ssl", NULL);
 			show = gtk_widget_hide;
 		}
 		show (service->ssl_frame);
@@ -1647,7 +1697,6 @@ emae_service_provider_changed (EMAccountEditorService *service)
 #else
 		gtk_widget_hide (service->ssl_hbox);
 		gtk_widget_show (service->no_ssl);
-		camel_url_set_param (url, "use_ssl", NULL);
 #endif
 
 		/* This must be done AFTER use_ssl is set; changing use_ssl overwrites
@@ -1708,7 +1757,6 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 	struct _service_info *info = &emae_service_info[service->type];
 	const gchar *uri;
 	gchar *current = NULL;
-	const gchar *tmp;
 	CamelURL *url;
 
 	account = em_account_editor_get_modified_account (emae);
@@ -1764,6 +1812,7 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 			CamelURL *url;
 
 			service->provider = provider;
+			emae_setup_settings (service);
 			active = i;
 
 			url = emae_account_url (emae, info->account_uri_key);
@@ -1772,7 +1821,6 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 				camel_url_set_protocol (url, provider->protocol);
 			}
 
-			set_provider_defaults_on_url (emae, provider, url);
 			emae_uri_changed (service, url);
 			uri = e_account_get_string (account, info->account_uri_key);
 			camel_url_free (url);
@@ -1792,16 +1840,6 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 
 	if (!uri  || (url = camel_url_new (uri, NULL)) == NULL) {
 		return;
-	}
-
-	tmp = camel_url_get_param (url, "use_ssl");
-	if (tmp == NULL)
-		tmp = "never";
-	for (i=0;i<G_N_ELEMENTS (ssl_options);i++) {
-		if (!strcmp (ssl_options[i].value, tmp)) {
-			gtk_combo_box_set_active (service->use_ssl, i);
-			break;
-		}
 	}
 
 	camel_url_free (url);
@@ -2074,8 +2112,6 @@ emae_setup_service (EMAccountEditor *emae,
 	struct _service_info *info = &emae_service_info[service->type];
 	CamelURL *url = emae_account_url (emae, info->account_uri_key);
 	const gchar *uri;
-	const gchar *tmp;
-	gint i;
 
 	account = em_account_editor_get_modified_account (emae);
 	uri = e_account_get_string (account, info->account_uri_key);
@@ -2151,26 +2187,15 @@ emae_setup_service (EMAccountEditor *emae,
 			gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (service->pathentry), url->path);
 	}
 
-	tmp = camel_url_get_param (url, "use_ssl");
-	if (tmp == NULL)
-		tmp = "never";
-
-	for (i=0;i<G_N_ELEMENTS (ssl_options);i++) {
-		if (!strcmp (ssl_options[i].value, tmp)) {
-			gtk_combo_box_set_active (service->use_ssl, i);
-			break;
-		}
-	}
+	/* old authtype will be destroyed when we exit */
+	emae_refresh_providers (emae, service);
+	emae_refresh_authtype (emae, service);
 
 	/* Set the port after SSL is set, because it would overwrite the
 	   port value (through emae_ssl_changed signal) */
 	if (url->port && service->provider->port_entries) {
 		e_port_entry_set_port (service->port, url->port);
 	}
-
-	/* old authtype will be destroyed when we exit */
-	emae_refresh_providers (emae, service);
-	emae_refresh_authtype (emae, service);
 
 	if (service->needs_auth != NULL) {
 		gtk_toggle_button_set_active (service->needs_auth, url->authmech != NULL);
@@ -2417,245 +2442,258 @@ emae_receive_page (EConfig *ec,
 	return w;
 }
 
-static void
-emae_option_toggle_changed (GtkToggleButton *toggle,
-                            EMAccountEditorService *service)
-{
-	const gchar *name = g_object_get_data ((GObject *)toggle, "option-name");
-	GSList *depl = g_object_get_data ((GObject *)toggle, "dependent-list");
-	gint active = gtk_toggle_button_get_active (toggle);
-	CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
-
-	for (;depl;depl = g_slist_next (depl))
-		gtk_widget_set_sensitive ((GtkWidget *) depl->data, active);
-
-	camel_url_set_param (url, name, active?"":NULL);
-	emae_uri_changed (service, url);
-	camel_url_free (url);
-}
-
 static GtkWidget *
 emae_option_toggle (EMAccountEditorService *service,
-                    CamelURL *url,
-                    const gchar *text,
-                    const gchar *name)
-{
-	GtkWidget *w;
-
-	w = gtk_check_button_new_with_mnemonic (text);
-	g_object_set_data ((GObject *)w, "option-name", (gpointer)name);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), camel_url_get_param (url, name) != NULL);
-	g_signal_connect (w, "toggled", G_CALLBACK(emae_option_toggle_changed), service);
-	gtk_widget_show (w);
-
-	return w;
-}
-
-static void
-emae_option_entry_changed (GtkEntry *entry,
-                           EMAccountEditorService *service)
-{
-	const gchar *name = g_object_get_data ((GObject *)entry, "option-name");
-	const gchar *text = gtk_entry_get_text (entry);
-	CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
-
-	camel_url_set_param (url, name, text && text[0]?text:NULL);
-	emae_uri_changed (service, url);
-	camel_url_free (url);
-}
-
-static GtkWidget *
-emae_option_entry (EMAccountEditorService *service,
-                   CamelURL *url,
-                   const gchar *name,
-                   GtkLabel *label_for_mnemonic)
+                    CamelProviderConfEntry *conf)
 {
 	GtkWidget *widget;
-	const gchar *val = camel_url_get_param (url, name);
 
-	if (val == NULL)
-		val = "";
+	widget = gtk_check_button_new_with_mnemonic (conf->text);
 
-	widget = g_object_new (GTK_TYPE_ENTRY, "text", val, NULL);
-	gtk_label_set_mnemonic_widget (label_for_mnemonic, widget);
-	g_object_set_data (G_OBJECT (widget), "option-name", (gpointer) name);
-	g_signal_connect (
-		widget, "changed",
-		G_CALLBACK (emae_option_entry_changed), service);
-	gtk_widget_show (widget);
+	g_object_bind_property (
+		service->settings, conf->name,
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	if (conf->depname != NULL) {
+		g_object_bind_property (
+			service->settings, conf->depname,
+			widget, "sensitive",
+			G_BINDING_SYNC_CREATE);
+		gtk_widget_set_margin_left (widget, INDENT_MARGIN);
+	}
 
 	return widget;
 }
 
-static void
-emae_option_checkspin_changed (GtkSpinButton *spin,
-                               EMAccountEditorService *service)
+static GtkWidget *
+emae_option_entry (EMAccountEditorService *service,
+                   CamelProviderConfEntry *conf,
+                   GtkLabel *label_for_mnemonic)
 {
-	const gchar *name = g_object_get_data ((GObject *)spin, "option-name");
-	gchar value[16];
-	CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
+	GtkWidget *widget;
 
-	sprintf (value, "%d", gtk_spin_button_get_value_as_int (spin));
-	camel_url_set_param (url, name, value);
-	emae_uri_changed (service, url);
-	camel_url_free (url);
-}
+	widget = gtk_entry_new ();
+	gtk_label_set_mnemonic_widget (label_for_mnemonic, widget);
 
-static void
-emae_option_checkspin_check_changed (GtkToggleButton *toggle,
-                                     EMAccountEditorService *service)
-{
-	const gchar *name = g_object_get_data ((GObject *)toggle, "option-name");
-	GtkSpinButton *spin = g_object_get_data ((GObject *)toggle, "option-target");
+	g_object_bind_property (
+		service->settings, conf->name,
+		widget, "text",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-	if (gtk_toggle_button_get_active (toggle)) {
-		gtk_widget_set_sensitive ((GtkWidget *) spin, TRUE);
-		emae_option_checkspin_changed (spin, service);
-	} else {
-		CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
-
-		camel_url_set_param (url, name, NULL);
-		gtk_widget_set_sensitive ((GtkWidget *) spin, FALSE);
-		emae_uri_changed (service, url);
-		camel_url_free (url);
-	}
-}
-
-static void
-parse_checkspin_format (const gchar *str,
-                        gboolean *on_ret,
-                        gdouble *min_ret,
-                        gdouble *def_ret,
-                        gdouble *max_ret)
-{
-	gchar on;
-
-	/* FIXME: this is a fugly api. */
-	if (str == NULL
-	    || sscanf (str, "%c:%lf:%lf:%lf", &on, min_ret, def_ret, max_ret) != 4) {
-		*on_ret = FALSE; /* FIXME: we could do better error handling here... */
-		*min_ret = 0.0;
-		*def_ret = 0.0;
-		*max_ret = 1.0;
-		return;
+	if (conf->depname != NULL) {
+		g_object_bind_property (
+			service->settings, conf->depname,
+			widget, "sensitive",
+			G_BINDING_SYNC_CREATE);
+		gtk_widget_set_margin_left (
+			GTK_WIDGET (label_for_mnemonic), INDENT_MARGIN);
 	}
 
-	*on_ret = (on == 'y');
+	g_object_bind_property (
+		widget, "sensitive",
+		label_for_mnemonic, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	return widget;
 }
 
 static GtkWidget *
 emae_option_checkspin (EMAccountEditorService *service,
-                       CamelURL *url,
-                       const gchar *name,
-                       const gchar *fmt,
-                       const gchar *info)
+                       CamelProviderConfEntry *conf)
 {
-	GtkWidget *hbox, *check, *spin, *label = NULL;
-	gdouble min, def, max;
+	GObjectClass *class;
+	GParamSpec *pspec;
+	GParamSpec *use_pspec;
+	GtkAdjustment *adjustment;
+	GtkWidget *hbox, *spin;
+	GtkWidget *prefix;
+	gchar *use_property_name;
 	gchar *pre, *post;
-	const gchar *val;
-	gboolean on;
 
-	pre = g_alloca (strlen (fmt)+1);
-	strcpy (pre, fmt);
-	post = strstr (pre, "%s");
-	if (post) {
-		*post = 0;
-		post+=2;
-	}
+	/* The conf->name property (e.g. "foo") should be numeric for the
+	 * spin button.  If a "use" boolean property exists (e.g. "use-foo")
+	 * then a checkbox is also shown. */
 
-	/* FIXME: the following sucks.  The CamelURL may contain a default value
-	 * already (or if it doesn't, it means that the option is turned off).
-	 * However, the URL doesn't have information about the range for the
-	 * value (min, max).  So we need to parse that out of the original
-	 * description for the option from the CamelProvider.
-	 */
+	g_return_val_if_fail (conf->name != NULL, NULL);
 
-	parse_checkspin_format (info, &on, &min, &def, &max);
+	class = G_OBJECT_GET_CLASS (service->settings);
+	pspec = g_object_class_find_property (class, conf->name);
+	g_return_val_if_fail (pspec != NULL, NULL);
 
-	val = camel_url_get_param (url, name);
-	if (val != NULL) {
-		on = TRUE;
-		def = strtod (val, NULL);
+	use_property_name = g_strconcat ("use-", conf->name, NULL);
+	use_pspec = g_object_class_find_property (class, use_property_name);
+	if (use_pspec != NULL && use_pspec->value_type != G_TYPE_BOOLEAN)
+		use_pspec = NULL;
+	g_free (use_property_name);
+
+	/* Make sure we can convert to and from doubles. */
+	g_return_val_if_fail (
+		g_value_type_transformable (
+		pspec->value_type, G_TYPE_DOUBLE), NULL);
+	g_return_val_if_fail (
+		g_value_type_transformable (
+		G_TYPE_DOUBLE, pspec->value_type), NULL);
+
+	if (G_IS_PARAM_SPEC_CHAR (pspec)) {
+		GParamSpecChar *pspec_char;
+		pspec_char = G_PARAM_SPEC_CHAR (pspec);
+		adjustment = gtk_adjustment_new (
+			(gdouble) pspec_char->default_value,
+			(gdouble) pspec_char->minimum,
+			(gdouble) pspec_char->maximum,
+			1.0, 1.0, 0.0);
+
+	} else if (G_IS_PARAM_SPEC_UCHAR (pspec)) {
+		GParamSpecUChar *pspec_uchar;
+		pspec_uchar = G_PARAM_SPEC_UCHAR (pspec);
+		adjustment = gtk_adjustment_new (
+			(gdouble) pspec_uchar->default_value,
+			(gdouble) pspec_uchar->minimum,
+			(gdouble) pspec_uchar->maximum,
+			1.0, 1.0, 0.0);
+
+	} else if (G_IS_PARAM_SPEC_INT (pspec)) {
+		GParamSpecInt *pspec_int;
+		pspec_int = G_PARAM_SPEC_INT (pspec);
+		adjustment = gtk_adjustment_new (
+			(gdouble) pspec_int->default_value,
+			(gdouble) pspec_int->minimum,
+			(gdouble) pspec_int->maximum,
+			1.0, 1.0, 0.0);
+
+	} else if (G_IS_PARAM_SPEC_UINT (pspec)) {
+		GParamSpecUInt *pspec_uint;
+		pspec_uint = G_PARAM_SPEC_UINT (pspec);
+		adjustment = gtk_adjustment_new (
+			(gdouble) pspec_uint->default_value,
+			(gdouble) pspec_uint->minimum,
+			(gdouble) pspec_uint->maximum,
+			1.0, 1.0, 0.0);
+
+	} else if (G_IS_PARAM_SPEC_LONG (pspec)) {
+		GParamSpecLong *pspec_long;
+		pspec_long = G_PARAM_SPEC_LONG (pspec);
+		adjustment = gtk_adjustment_new (
+			(gdouble) pspec_long->default_value,
+			(gdouble) pspec_long->minimum,
+			(gdouble) pspec_long->maximum,
+			1.0, 1.0, 0.0);
+
+	} else if (G_IS_PARAM_SPEC_ULONG (pspec)) {
+		GParamSpecULong *pspec_ulong;
+		pspec_ulong = G_PARAM_SPEC_ULONG (pspec);
+		adjustment = gtk_adjustment_new (
+			(gdouble) pspec_ulong->default_value,
+			(gdouble) pspec_ulong->minimum,
+			(gdouble) pspec_ulong->maximum,
+			1.0, 1.0, 0.0);
+
+	} else if (G_IS_PARAM_SPEC_FLOAT (pspec)) {
+		GParamSpecFloat *pspec_float;
+		pspec_float = G_PARAM_SPEC_FLOAT (pspec);
+		adjustment = gtk_adjustment_new (
+			(gdouble) pspec_float->default_value,
+			(gdouble) pspec_float->minimum,
+			(gdouble) pspec_float->maximum,
+			1.0, 1.0, 0.0);
+
+	} else if (G_IS_PARAM_SPEC_DOUBLE (pspec)) {
+		GParamSpecDouble *pspec_double;
+		pspec_double = G_PARAM_SPEC_DOUBLE (pspec);
+		adjustment = gtk_adjustment_new (
+			(gdouble) pspec_double->default_value,
+			(gdouble) pspec_double->minimum,
+			(gdouble) pspec_double->maximum,
+			1.0, 1.0, 0.0);
+
 	} else
-		on = FALSE;
+		g_return_val_if_reached (NULL);
 
-	hbox = gtk_hbox_new (FALSE, 0);
-	check = g_object_new (gtk_check_button_get_type (), "label", pre, "use_underline", TRUE, "active", on, NULL);
-
-	spin = gtk_spin_button_new ((GtkAdjustment *) gtk_adjustment_new (def, min, max, 1, 1, 0), 1, 0);
-	if (post) {
-		label = gtk_label_new_with_mnemonic (post);
-		gtk_label_set_mnemonic_widget (GTK_LABEL (label), check);
+	pre = g_alloca (strlen (conf->text) + 1);
+	strcpy (pre, conf->text);
+	post = strstr (pre, "%s");
+	if (post != NULL) {
+		*post = '\0';
+		post += 2;
 	}
-	gtk_box_pack_start ((GtkBox *) hbox, check, FALSE, TRUE, 0);
-	gtk_box_pack_start ((GtkBox *) hbox, spin, FALSE, TRUE, 0);
-	if (label)
-		gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, TRUE, 4);
 
-	g_object_set_data ((GObject *)spin, "option-name", (gpointer)name);
-	g_object_set_data ((GObject *)check, "option-name", (gpointer)name);
-	g_object_set_data ((GObject *)check, "option-target", (gpointer)spin);
+	hbox = gtk_hbox_new (FALSE, 3);
 
-	g_signal_connect (spin, "value_changed", G_CALLBACK(emae_option_checkspin_changed), service);
-	g_signal_connect (check, "toggled", G_CALLBACK(emae_option_checkspin_check_changed), service);
+	if (use_pspec != NULL) {
+		prefix = gtk_check_button_new_with_mnemonic (pre);
 
-	gtk_widget_show_all (hbox);
+		g_object_bind_property (
+			service->settings, use_pspec->name,
+			prefix, "active",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
+	} else {
+		prefix = gtk_label_new_with_mnemonic (pre);
+	}
+	gtk_box_pack_start (GTK_BOX (hbox), prefix, FALSE, TRUE, 0);
+	gtk_widget_show (prefix);
+
+	spin = gtk_spin_button_new (adjustment, 1.0, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), spin, FALSE, TRUE, 0);
+	gtk_widget_show (spin);
+
+	g_object_bind_property (
+		service->settings, conf->name,
+		spin, "value",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	if (use_pspec != NULL)
+		g_object_bind_property (
+			prefix, "active",
+			spin, "sensitive",
+			G_BINDING_SYNC_CREATE);
+
+	if (post != NULL) {
+		GtkWidget *label = gtk_label_new_with_mnemonic (post);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (label), prefix);
+		gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+		gtk_widget_show (label);
+	}
+
+	if (conf->depname != NULL) {
+		g_object_bind_property (
+			service->settings, conf->depname,
+			hbox, "sensitive",
+			G_BINDING_SYNC_CREATE);
+		gtk_widget_set_margin_left (hbox, INDENT_MARGIN);
+	}
 
 	return hbox;
 }
 
-static void
-emae_option_options_changed (GtkComboBox *options,
-                             EMAccountEditorService *service)
-{
-	const gchar *name = g_object_get_data (G_OBJECT (options), "option-name");
-	gchar *value = NULL;
-	CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
-	gint id = gtk_combo_box_get_active (options);
-
-	if (id != -1) {
-		GtkTreeModel *model;
-		GtkTreeIter iter;
-
-		model = gtk_combo_box_get_model (options);
-		if (gtk_tree_model_iter_nth_child (model, &iter, NULL, id)) {
-			gtk_tree_model_get (model, &iter, 0, &value, -1);
-		}
-	}
-
-	camel_url_set_param (url, name, value);
-	emae_uri_changed (service, url);
-	camel_url_free (url);
-	g_free (value);
-}
-
-/* 'values' is in format "value0:caption0:value2:caption2:...valueN:captionN" */
+/* 'values' is in format "nick0:caption0:nick1:caption1:...nickN:captionN"
+ * where 'nick' is the nickname of a GEnumValue belonging to a GEnumClass
+ * determined by the type of the GObject property named "name". */
 static GtkWidget *
 emae_option_options (EMAccountEditorService *service,
-                     CamelURL *url,
-                     const gchar *name,
-                     const gchar *values,
+                     CamelProviderConfEntry *conf,
                      GtkLabel *label)
 {
-	GtkComboBox *w;
+	GtkWidget *widget;
 	GtkListStore *store;
 	GtkTreeIter iter;
-	const gchar *p, *value, *caption;
-	GtkCellRenderer *cell;
-	gint active = 0; /* the first item entered is always a default item */
-	gint i;
-	const gchar *val = camel_url_get_param (url, name);
+	const gchar *p;
+	GtkCellRenderer *renderer;
 
-	w = GTK_COMBO_BOX (gtk_combo_box_new ());
-
-	/* value and caption */
+	/* nick and caption */
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 
-	for (p = values, i = 0; p; i++) {
+	p = conf->value;
+	while (p != NULL) {
+		const gchar *nick;
+		const gchar *caption;
 		gchar *vl, *cp;
 
-		value = p;
+		nick = p;
 		caption = strchr (p, ':');
 		if (caption) {
 			caption++;
@@ -2665,7 +2703,7 @@ emae_option_options (EMAccountEditorService *service,
 		}
 		p = strchr (caption, ':');
 
-		vl = g_strndup (value, caption - value - 1);
+		vl = g_strndup (nick, caption - nick - 1);
 		if (p) {
 			p++;
 			cp = g_strndup (caption, p - caption - 1);
@@ -2673,30 +2711,35 @@ emae_option_options (EMAccountEditorService *service,
 			cp = g_strdup (caption);
 
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, vl, 1, dgettext (service->provider->translation_domain, cp), -1);
-
-		if (val && g_ascii_strcasecmp (val, vl) == 0)
-			active = i;
+		gtk_list_store_set (
+			store, &iter, 0, vl, 1, dgettext (
+			service->provider->translation_domain, cp), -1);
 
 		g_free (vl);
 		g_free (cp);
 	}
 
-	gtk_combo_box_set_model (w, (GtkTreeModel *) store);
-	gtk_combo_box_set_active (w, i > 0 ? active : -1);
+	widget = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
+	gtk_combo_box_set_id_column (GTK_COMBO_BOX (widget), 0);
+	gtk_widget_show (widget);
 
-	cell = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (w), cell, TRUE);
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (w), cell, "text", 1, NULL);
+	g_object_bind_property_full (
+		service->settings, conf->name,
+		widget, "active-id",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
+		e_binding_transform_enum_value_to_nick,
+		e_binding_transform_enum_nick_to_value,
+		NULL, (GDestroyNotify) NULL);
 
-	gtk_widget_show (GTK_WIDGET (w));
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (widget), renderer, TRUE);
+	gtk_cell_layout_set_attributes (
+		GTK_CELL_LAYOUT (widget), renderer, "text", 1, NULL);
 
-	gtk_label_set_mnemonic_widget (label, GTK_WIDGET (w));
+	gtk_label_set_mnemonic_widget (label, widget);
 
-	g_object_set_data (G_OBJECT (w), "option-name", (gpointer)name);
-	g_signal_connect (w, "changed", G_CALLBACK (emae_option_options_changed), service);
-
-	return GTK_WIDGET (w);
+	return widget;
 }
 
 static GtkWidget *
@@ -2768,12 +2811,11 @@ emae_receive_options_extra_item (EConfig *ec,
 	EMAccountEditor *emae = data;
 	EMAccountEditorService *service;
 	struct _receive_options_item *item = (struct _receive_options_item *) eitem;
-	GtkWidget *widget, *h;
+	GtkWidget *box;
+	GtkWidget *widget;
 	GtkLabel *label;
 	GtkTable *table;
 	CamelProviderConfEntry *entries;
-	GtkWidget *depw;
-	GSList *depl = NULL, *n;
 	guint row;
 	GHashTable *extra;
 	CamelURL *url;
@@ -2822,20 +2864,14 @@ section:
 	g_object_get (table, "n-rows", &row, NULL);
 
 	for (;entries[ii].type != CAMEL_PROVIDER_CONF_END && entries[ii].type != CAMEL_PROVIDER_CONF_SECTION_END; ii++) {
-		if (entries[ii].depname) {
-			depw = g_hash_table_lookup (extra, entries[ii].depname);
-			if (depw)
-				depl = g_object_steal_data ((GObject *)depw, "dependent-list");
-		} else
-			depw = NULL;
-
 		switch (entries[ii].type) {
 		case CAMEL_PROVIDER_CONF_SECTION_START:
 		case CAMEL_PROVIDER_CONF_SECTION_END:
 			break;
 
 		case CAMEL_PROVIDER_CONF_LABEL:
-			/* FIXME: This is a hack for exchange connector, labels should be removed from confentry */
+			/* FIXME This is a hack for exchange connector,
+			 *       labels should be removed from confentry. */
 			if (!strcmp (entries[ii].name, "hostname"))
 				label = emae->priv->source.hostlabel;
 			else if (!strcmp (entries[ii].name, "username"))
@@ -2843,42 +2879,35 @@ section:
 			else
 				label = NULL;
 
-			if (label != NULL) {
+			if (label != NULL)
 				gtk_label_set_text_with_mnemonic (
 					label, entries[ii].text);
-				if (depw)
-					depl = g_slist_prepend (depl, label);
-			}
 			break;
 
 		case CAMEL_PROVIDER_CONF_CHECKBOX:
-			widget = emae_option_toggle (
-				service, url, entries[ii].text,
-				entries[ii].name);
+			widget = emae_option_toggle (service, &entries[ii]);
 			gtk_table_attach (
 				table, widget, 0, 2,
 				row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			gtk_widget_show (widget);
+
 			g_hash_table_insert (
 				extra, (gpointer) entries[ii].name, widget);
-			if (depw)
-				depl = g_slist_prepend (depl, widget);
+
 			row++;
+
 			/* HACK: keep_on_server is stored in the e-account,
 			 * but is displayed as a properly on the uri, make
 			 * sure they track/match here. */
-			if (strcmp (entries[ii].name, "keep_on_server") == 0)
+			if (strcmp (entries[ii].name, "keep-on-server") == 0)
 				emae_account_toggle_widget (
 					emae, (GtkToggleButton *) widget,
 					E_ACCOUNT_SOURCE_KEEP_ON_SERVER);
 			break;
 
 		case CAMEL_PROVIDER_CONF_ENTRY:
-			widget = g_object_new (
-				GTK_TYPE_LABEL,
-				"label", entries[ii].text,
-				"use_underline", TRUE,
-				"xalign", 0.0,
-				NULL);
+			widget = gtk_label_new_with_mnemonic (entries[ii].text);
+			gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 			gtk_table_attach (
 				table, widget, 0, 1,
 				row, row + 1, GTK_FILL, 0, 0, 0);
@@ -2887,16 +2916,14 @@ section:
 			label = GTK_LABEL (widget);
 
 			widget = emae_option_entry (
-				service, url, entries[ii].name, label);
+				service, &entries[ii], label);
 			gtk_table_attach (
 				table, widget, 1, 2,
 				row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			gtk_widget_show (widget);
 
-			if (depw) {
-				depl = g_slist_prepend (depl, widget);
-				depl = g_slist_prepend (depl, label);
-			}
 			row++;
+
 			/* FIXME This is another hack for
 			 *       exchange/groupwise connector. */
 			g_hash_table_insert (
@@ -2905,57 +2932,40 @@ section:
 			break;
 
 		case CAMEL_PROVIDER_CONF_CHECKSPIN:
-			widget = emae_option_checkspin (
-				service, url, entries[ii].name,
-				entries[ii].text, entries[ii].value);
+			widget = emae_option_checkspin (service, &entries[ii]);
 			gtk_table_attach (
 				table, widget, 0, 2,
 				row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-			if (depw)
-				depl = g_slist_prepend (depl, widget);
+			gtk_widget_show (widget);
 			row++;
 			break;
 
 		case CAMEL_PROVIDER_CONF_OPTIONS:
-			h = gtk_hbox_new (FALSE, 4);
+			box = gtk_hbox_new (FALSE, 4);
 			gtk_table_attach (
-				table, h, 0, 2,
+				table, box, 0, 2,
 				row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-			gtk_widget_show (h);
+			gtk_widget_show (box);
 
-			widget = g_object_new (
-				GTK_TYPE_LABEL,
-				"label", entries[ii].text,
-				"use_underline", TRUE,
-				"xalign", 0.0,
-				NULL);
+			widget = gtk_label_new_with_mnemonic (entries[ii].text);
+			gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 			gtk_box_pack_start (
-				GTK_BOX (h), widget,
-				FALSE, FALSE, 0);
+				GTK_BOX (box), widget, FALSE, FALSE, 0);
 			gtk_widget_show (widget);
 
 			label = GTK_LABEL (widget);
 
 			widget = emae_option_options (
-				service, url, entries[ii].name,
-				entries[ii].value, label);
+				service, &entries[ii], label);
 			gtk_box_pack_start (
-				GTK_BOX (h), widget, FALSE, FALSE, 0);
-			if (depw)
-				depl = g_slist_prepend (depl, h);
+				GTK_BOX (box), widget, FALSE, FALSE, 0);
+			gtk_widget_show (widget);
+
 			row++;
 			break;
 
 		default:
 			break;
-		}
-
-		if (depw && depl) {
-			gint act = gtk_toggle_button_get_active ((GtkToggleButton *) depw);
-
-			g_object_set_data_full ((GObject *)depw, "dependent-list", depl, (GDestroyNotify)g_slist_free);
-			for (n=depl;n;n=g_slist_next (n))
-				gtk_widget_set_sensitive ((GtkWidget *) n->data, act);
 		}
 	}
 
@@ -3030,185 +3040,11 @@ emae_send_page (EConfig *ec,
 }
 
 static void
-emae_get_checkable_folder_keys_widgets (EMAccountEditor *emae, guint32 flag, GtkWidget **check, GtkWidget **button, const gchar **param_key)
+emae_real_url_toggled (GtkToggleButton *check,
+                       EMFolderSelectionButton *button)
 {
-	g_return_if_fail (emae != NULL);
-	g_return_if_fail (flag == CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER || flag == CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER);
-
-	if (flag == CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER) {
-		if (check) *check = (GtkWidget *) emae->priv->trash_folder_check;
-		if (button) *button = (GtkWidget *) emae->priv->trash_folder_button;
-		if (param_key) *param_key = "real_trash_path";
-	} else {
-		if (check) *check = (GtkWidget *) emae->priv->junk_folder_check;
-		if (button) *button = (GtkWidget *) emae->priv->junk_folder_button;
-		if (param_key) *param_key = "real_junk_path";
-	}
-}
-
-static void
-emae_real_url_toggled (GtkToggleButton *check, EMAccountEditor *emae)
-{
-	guint32 flag;
-	GtkWidget *butt = NULL;
-	gboolean checked;
-	const gchar *param_key;
-
-	g_return_if_fail (check != NULL);
-	g_return_if_fail (emae != NULL);
-
-	if (!gtk_widget_is_sensitive (GTK_WIDGET (check)) || !gtk_widget_get_visible (GTK_WIDGET (check)))
-		return;
-
-	flag = GPOINTER_TO_INT (g_object_get_data ((GObject *)check, "url-flag"));
-	g_return_if_fail (flag == CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER || flag == CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER);
-
-	emae_get_checkable_folder_keys_widgets (emae, flag, NULL, &butt, &param_key);
-
-	checked = gtk_toggle_button_get_active (check);
-	gtk_widget_set_sensitive (butt, checked);
-
-	if (!checked) {
-		CamelURL *url;
-
-		url = emae_account_url (emae, emae_service_info[emae->priv->source.type].account_uri_key);
-		camel_url_set_param (url, param_key, NULL);
-		emae_uri_changed (&emae->priv->source, url);
-		camel_url_free (url);
-
-		/* clear the previous selection */
-		em_folder_selection_button_set_folder_uri ((EMFolderSelectionButton *)butt, "");
-	}
-}
-
-static void
-emae_real_url_folder_changed (EMFolderSelectionButton *folder,
-                              EMAccountEditor *emae)
-{
-	CamelURL *url;
-	guint32 flag;
-	GtkWidget *check = NULL;
-	const gchar *param_key = NULL, *curi_selected;
-
-	g_return_if_fail (folder != NULL);
-	g_return_if_fail (emae != NULL);
-
-	if (!gtk_widget_is_sensitive (GTK_WIDGET (folder)) || !gtk_widget_get_visible (GTK_WIDGET (folder)))
-		return;
-
-	flag = GPOINTER_TO_INT (g_object_get_data ((GObject *)folder, "url-flag"));
-	g_return_if_fail (flag == CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER || flag == CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER);
-
-	emae_get_checkable_folder_keys_widgets (emae, flag, &check, NULL, &param_key);
-
-	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)))
-		return;
-
-	url = emae_account_url (emae, emae_service_info[emae->priv->source.type].account_uri_key);
-
-	curi_selected = em_folder_selection_button_get_folder_uri (folder);
-	if (!curi_selected || !*curi_selected) {
-		camel_url_set_param (url, param_key, NULL);
-	} else {
-		gchar *selected_folder_name = NULL;
-		CamelStore *selected_store = NULL;
-		EMailBackend *backend;
-		EMailSession *session;
-		gboolean valid;
-
-		backend = em_account_editor_get_backend (emae);
-		session = e_mail_backend_get_session (backend);
-
-		valid = e_mail_folder_uri_parse (
-			CAMEL_SESSION (session), curi_selected,
-			&selected_store, &selected_folder_name, NULL);
-		g_return_if_fail (valid);
-
-		if (*selected_folder_name == '/')
-			camel_url_set_param (
-				url, param_key, selected_folder_name + 1);
-		else
-			camel_url_set_param (
-				url, param_key, selected_folder_name);
-
-		g_free (selected_folder_name);
-		if (selected_store)
-			g_object_unref (selected_store);
-	}
-
-	emae_uri_changed (&emae->priv->source, url);
-	camel_url_free (url);
-}
-
-static void
-setup_checkable_folder (EMAccountEditor *emae,
-                        guint32 flag,
-                        GtkWidget *check,
-                        GtkWidget *button)
-{
-	EAccount *account;
-	gboolean available;
-	EMFolderSelectionButton *folderbutt;
-	CamelURL *url;
-	const gchar *value, *param_key = NULL;
-
-	g_return_if_fail (emae != NULL);
-	g_return_if_fail (check != NULL);
-	g_return_if_fail (button != NULL);
-	g_return_if_fail (flag == CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER || flag == CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER);
-
-	account = em_account_editor_get_modified_account (emae);
-	g_return_if_fail (account != NULL);
-
-	folderbutt = EM_FOLDER_SELECTION_BUTTON (button);
-	url = emae_account_url (emae, emae_service_info[emae->priv->source.type].account_uri_key);
-
-	emae_get_checkable_folder_keys_widgets (emae, flag, NULL, NULL, &param_key);
-
-	value = camel_url_get_param (url, param_key);
-	available = account->enabled;
-	gtk_widget_set_sensitive (check, available);
-
-	if (value && *value) {
-		gchar *url_string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-		if (!url_string) {
-			em_folder_selection_button_set_folder_uri (folderbutt, "");
-		} else {
-			CamelURL *copy = camel_url_new (url_string, NULL);
-
-			if (copy->path)
-				g_free (copy->path);
-			copy->path = g_strconcat ("/", value, NULL);
-			g_free (url_string);
-
-			url_string = camel_url_to_string (copy, CAMEL_URL_HIDE_ALL);
-			em_folder_selection_button_set_folder_uri (folderbutt, url_string ? url_string : "");
-			g_free (url_string);
-		}
-	} else {
-		em_folder_selection_button_set_folder_uri (folderbutt, "");
-	}
-
-	value = em_folder_selection_button_get_folder_uri (folderbutt);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), value && *value);
-	gtk_widget_set_sensitive (button, available && value && *value);
-
-	g_object_set_data ((GObject *)check, "url-flag", GINT_TO_POINTER(flag));
-	g_object_set_data ((GObject *)folderbutt, "url-flag", GINT_TO_POINTER(flag));
-
-	g_signal_connect (check, "toggled", G_CALLBACK (emae_real_url_toggled), emae);
-	g_signal_connect (folderbutt, "selected", G_CALLBACK (emae_real_url_folder_changed), emae);
-
-	available = emae->priv->source.provider && ((emae->priv->source.provider->flags & flag) == flag);
-	if (available) {
-		gtk_widget_show (check);
-		gtk_widget_show (button);
-	} else {
-		gtk_widget_hide (check);
-		gtk_widget_hide (button);
-	}
-
-	camel_url_free (url);
+	if (!gtk_toggle_button_get_active (check))
+		em_folder_selection_button_set_folder_uri (button, "");
 }
 
 static GtkWidget *
@@ -3222,10 +3058,14 @@ emae_defaults_page (EConfig *ec,
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *priv = emae->priv;
 	EMFolderSelectionButton *button;
+	CamelProviderFlags flags;
+	CamelSettings *settings;
 	EMailBackend *backend;
 	EAccount *account;
 	GtkWidget *widget;
 	GtkBuilder *builder;
+	GParamSpec *pspec;
+	gboolean visible;
 
 	/*if (old)
 	  return old;*/
@@ -3234,6 +3074,8 @@ emae_defaults_page (EConfig *ec,
 
 	account = em_account_editor_get_modified_account (emae);
 	backend = em_account_editor_get_backend (emae);
+
+	settings = emae->priv->source.settings;
 
 	/* Make sure we have a valid EMailBackend. */
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
@@ -3263,10 +3105,43 @@ emae_defaults_page (EConfig *ec,
 	em_folder_selection_button_set_backend (button, backend);
 	priv->trash_folder_button = GTK_BUTTON (button);
 
-	setup_checkable_folder (
-		emae, CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER,
-		GTK_WIDGET (priv->trash_folder_check),
-		GTK_WIDGET (priv->trash_folder_button));
+	g_signal_connect (
+		priv->trash_folder_check, "toggled",
+		G_CALLBACK (emae_real_url_toggled),
+		priv->trash_folder_button);
+
+	g_object_bind_property (
+		priv->trash_folder_check, "active",
+		priv->trash_folder_button, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	pspec = g_object_class_find_property (
+		G_OBJECT_GET_CLASS (settings), "use-real-trash-path");
+
+	if (pspec != NULL)
+		g_object_bind_property (
+			settings, "use-real-trash-path",
+			priv->trash_folder_check, "active",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
+
+	pspec = g_object_class_find_property (
+		G_OBJECT_GET_CLASS (settings), "real-trash-path");
+
+	if (pspec != NULL)
+		g_object_bind_property (
+			settings, "real-trash-path",
+			priv->trash_folder_button, "folder-uri",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
+
+	flags = CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER;
+	visible = (emae->priv->source.provider != NULL) &&
+		((emae->priv->source.provider->flags & flags) != 0);
+	widget = GTK_WIDGET (priv->trash_folder_check);
+	gtk_widget_set_visible (widget, visible);
+	widget = GTK_WIDGET (priv->trash_folder_button);
+	gtk_widget_set_visible (widget, visible);
 
 	widget = e_builder_get_widget (builder, "junk_folder_check");
 	priv->junk_folder_check = GTK_TOGGLE_BUTTON (widget);
@@ -3277,10 +3152,43 @@ emae_defaults_page (EConfig *ec,
 	em_folder_selection_button_set_backend (button, backend);
 	priv->junk_folder_button = GTK_BUTTON (button);
 
-	setup_checkable_folder (
-		emae, CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER,
-		GTK_WIDGET (priv->junk_folder_check),
-		GTK_WIDGET (priv->junk_folder_button));
+	g_signal_connect (
+		priv->junk_folder_check, "toggled",
+		G_CALLBACK (emae_real_url_toggled),
+		priv->junk_folder_button);
+
+	g_object_bind_property (
+		priv->junk_folder_check, "active",
+		priv->junk_folder_button, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	pspec = g_object_class_find_property (
+		G_OBJECT_GET_CLASS (settings), "use-real-junk-path");
+
+	if (pspec != NULL)
+		g_object_bind_property (
+			settings, "use-real-junk-path",
+			priv->junk_folder_check, "active",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
+
+	pspec = g_object_class_find_property (
+		G_OBJECT_GET_CLASS (settings), "real-junk-path");
+
+	if (pspec != NULL)
+		g_object_bind_property (
+			settings, "real-junk-path",
+			priv->junk_folder_button, "folder-uri",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
+
+	flags = CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER;
+	visible = (emae->priv->source.provider != NULL) &&
+		((emae->priv->source.provider->flags & flags) != 0);
+	widget = GTK_WIDGET (priv->junk_folder_check);
+	gtk_widget_set_visible (widget, visible);
+	widget = GTK_WIDGET (priv->junk_folder_button);
+	gtk_widget_set_visible (widget, visible);
 
 	/* Special Folders "Reset Defaults" button */
 	priv->restore_folders_button = (GtkButton *)e_builder_get_widget (builder, "default_folders_button");
@@ -3775,11 +3683,14 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 					gtk_entry_set_text (emae->priv->source.username, use_user);
 
 					if (sdata != NULL) {
-						camel_url_set_protocol (url, sdata->proto);
-						if (sdata->recv_sock && *sdata->recv_sock)
-							camel_url_set_param (url, "use_ssl", sdata->recv_sock);
+						CamelNetworkSecurityMethod method;
+						if (sdata->recv_security_method != CAMEL_NETWORK_SECURITY_METHOD_NONE)
+							method = sdata->recv_security_method;
 						else
-							camel_url_set_param (url, "use_ssl", sdata->ssl);
+							method = sdata->security_method;
+						g_object_set (emae->priv->source.settings, "security-method", method, NULL);
+
+						camel_url_set_protocol (url, sdata->proto);
 						camel_url_set_host (url, sdata->recv);
 						if (sdata->recv_port && *sdata->recv_port)
 							camel_url_set_port (url, atoi (sdata->recv_port));
@@ -3817,13 +3728,18 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 
 				sdata = emae->priv->selected_server;
 				if (sdata != NULL && uri && (url = camel_url_new (uri, NULL)) != NULL) {
+					CamelNetworkSecurityMethod method;
 					const gchar *use_user = user;
+
 					refresh = TRUE;
-					camel_url_set_protocol (url, "smtp");
-					if (sdata->send_sock && *sdata->send_sock)
-						camel_url_set_param (url, "use_ssl", sdata->send_sock);
+
+					if (sdata->send_security_method != CAMEL_NETWORK_SECURITY_METHOD_NONE)
+						method = sdata->send_security_method;
 					else
-						camel_url_set_param (url, "use_ssl", sdata->ssl);
+						method = sdata->security_method;
+					g_object_set (emae->priv->transport.settings, "security-method", method, NULL);
+
+					camel_url_set_protocol (url, "smtp");
 					camel_url_set_host (url, sdata->send);
 					if (sdata->send_port && *sdata->send_port)
 						camel_url_set_port (url, atoi (sdata->send_port));
@@ -3978,11 +3894,32 @@ emae_commit (EConfig *ec,
 	EAccount *account;
 	EAccount *modified_account;
 	EAccount *original_account;
+	CamelURL *url;
 
 	/* the mail-config*acconts* api needs a lot of work */
 
 	modified_account = em_account_editor_get_modified_account (emae);
 	original_account = em_account_editor_get_original_account (emae);
+
+	url = camel_url_new (modified_account->source->url, NULL);
+	if (url != NULL) {
+		if (emae->priv->source.settings != NULL)
+			camel_settings_save_to_url (
+				emae->priv->source.settings, url);
+		g_free (modified_account->source->url);
+		modified_account->source->url = camel_url_to_string (url, 0);
+		camel_url_free (url);
+	}
+
+	url = camel_url_new (modified_account->transport->url, NULL);
+	if (url != NULL) {
+		if (emae->priv->transport.settings != NULL)
+			camel_settings_save_to_url (
+				emae->priv->transport.settings, url);
+		g_free (modified_account->transport->url);
+		modified_account->transport->url = camel_url_to_string (url, 0);
+		camel_url_free (url);
+	}
 
 	if (original_account != NULL) {
 		d (printf ("Committing account '%s'\n", e_account_get_string (modified_account, E_ACCOUNT_NAME)));
@@ -4021,93 +3958,6 @@ void
 em_account_editor_commit (EMAccountEditor *emae)
 {
 	emae_commit (E_CONFIG (emae->config), emae);
-}
-
-static void
-set_checkbox_default (CamelProviderConfEntry *entry, CamelURL *url)
-{
-	const gchar *value;
-
-	g_assert (entry->type == CAMEL_PROVIDER_CONF_CHECKBOX);
-
-	if (atoi (entry->value) != 0)
-		value = "";
-	else
-		value = NULL;
-
-	camel_url_set_param (url, entry->name, value);
-
-	/* FIXME: do we need to call emae_uri_changed()? */
-}
-
-static void
-set_entry_default (CamelProviderConfEntry *entry, CamelURL *url)
-{
-	g_assert (entry->type == CAMEL_PROVIDER_CONF_ENTRY);
-
-	camel_url_set_param (url, entry->name, entry->value);
-	/* FIXME: This comes from emae_option_entry().  That function calls
-	 * emae_uri_changed(), but the corresponding emae_option_toggle() does
-	 * not call emae_uri_changed() when it creates the checkbuttons - do
-	 * we need to call that function at all?
-	 */
-}
-
-static void
-set_checkspin_default (CamelProviderConfEntry *entry, CamelURL *url)
-{
-	gboolean on;
-	gdouble min, def, max;
-
-	g_assert (entry->type == CAMEL_PROVIDER_CONF_CHECKSPIN);
-
-	parse_checkspin_format (entry->value, &on, &min, &def, &max);
-
-	if (on) {
-		gchar value[16];
-
-		sprintf (value, "%d", (gint) def);
-		camel_url_set_param (url, entry->name, value);
-	} else
-		camel_url_set_param (url, entry->name, NULL);
-
-	/* FIXME: do we need to call emae_uri_changed()? */
-}
-
-static void
-set_provider_defaults_on_url (EMAccountEditor *emae, CamelProvider *provider, CamelURL *url)
-{
-	CamelProviderConfEntry *entries;
-	gint i;
-
-	if (!emae->priv->new_account)
-		return;
-
-	entries = provider->extra_conf;
-
-	for (i = 0; entries && entries[i].type != CAMEL_PROVIDER_CONF_END; i++) {
-		switch (entries[i].type) {
-		case CAMEL_PROVIDER_CONF_CHECKBOX:
-			set_checkbox_default (entries + i, url);
-			break;
-
-		case CAMEL_PROVIDER_CONF_ENTRY:
-			set_entry_default (entries + i, url);
-			break;
-
-		case CAMEL_PROVIDER_CONF_CHECKSPIN:
-			set_checkspin_default (entries + i, url);
-			break;
-
-		default:
-			/* Other entry types don't have defaults, or so can be
-			 * inferred from emae_option_*().  But see
-			 * emae_option_options() - that *may* need something,
-			 * but that function doesn't actually modify the
-			 * CamelURL. */
-			break;
-		}
-	}
 }
 
 static void
@@ -4213,7 +4063,8 @@ em_account_editor_construct (EMAccountEditor *emae,
 	original_account = em_account_editor_get_original_account (emae);
 	modified_account = em_account_editor_get_modified_account (emae);
 	target = em_config_target_new_account (
-		ec, original_account, modified_account);
+		ec, original_account, modified_account,
+		emae->priv->source.settings);
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 }
 

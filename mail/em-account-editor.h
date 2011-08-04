@@ -59,13 +59,13 @@ struct _server_data {
 	const gchar *recv;
 	const gchar *send;
 	const gchar *proto;
-	const gchar *ssl;
+	CamelNetworkSecurityMethod security_method;
 	const gchar *send_user;
 	const gchar *recv_user;
 	const gchar *send_port;
 	const gchar *recv_port;
-	const gchar *send_sock;
-	const gchar *recv_sock;
+	CamelNetworkSecurityMethod send_security_method;
+	CamelNetworkSecurityMethod recv_security_method;
 	const gchar *send_auth;
 	const gchar *recv_auth;
 };
