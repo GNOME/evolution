@@ -6,7 +6,7 @@
 
     <link type="guide" xref="exchange-placeholder"/>
 
-    <revision pkgversion="3.1.5" version="0.2" date="2011-07-28" status="final"/>
+    <revision pkgversion="3.1.5" version="0.3" date="2011-08-05" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -23,8 +23,8 @@
 
 <p>For Microsoft Exchange 2000 and 2003 (and possibly earlier versions of Exchange that use Outlook Web Access) it is recommended to use the package evolution-exchange. <link action="install:evolution-exchange" href="http://projects.gnome.org/evolution/download">Install evolution-exchange now.</link>
 </p>
-<p>For Microsoft Exchange 2007 (and possibly earlier versions that support MAPI) it is recommended to use the package evolution-mapi. <link action="install:evolution-mapi" href="http://projects.gnome.org/evolution/download">Install evolution-mapi now.</link></p>
-<p>For Microsoft Exchange 2010 it is recommended to use the package evolution-ews which is currently still under development and might not be available yet for your distribution. evolution-ews also supports Microsoft Exchange 2007. <link action="install:evolution-ews" href="http://projects.gnome.org/evolution/download">Install evolution-ews now.</link></p>
+<p>For Microsoft Exchange 2007 and 2010 (and possibly earlier versions that support MAPI) it is recommended to use the package evolution-mapi. <link action="install:evolution-mapi" href="http://projects.gnome.org/evolution/download">Install evolution-mapi now.</link></p>
+<p>For Microsoft Exchange 2007 and 2010 the package evolution-ews is currently under development and will replace evolution-mapi in the future. It might not be available yet for your distribution. <link action="install:evolution-ews" href="http://projects.gnome.org/evolution/download">Install evolution-ews now.</link></p>
 
 <note style="tip"><p>If you are unsure which Microsoft Exchange server version is used, you may want to contact your system administrator for more information.</p></note>
 

@@ -35,7 +35,7 @@
 <item><p>Click <gui>View</gui> in the menu bar to show or hide the <gui>Type</gui>, <gui>Role</gui>, <gui>Status</gui>, and <gui>RSVP</gui> fields.</p></item>
 <item><p>Enter a brief summary in the <gui>Summary</gui> field.</p></item>
 <item><p>(Optional) Type a location in the <gui>Location</gui> field.</p></item>
-<item><p>To select this appointment as an all day event, click <guiseq><gui>Options</gui><gui>All Day Event</gui></guiseq>, or click the <gui>All Day Event</gui> button on the toolbar.</p></item>
+<item><p>To select this event as an all day event, click <guiseq><gui>Options</gui><gui>All Day Event</gui></guiseq>, or click the <gui>All Day Event</gui> button on the toolbar.</p></item>
 <item><p>Select the date and time.</p></item>
 <item><p>If the event is not an all day event, select either <gui>For</gui> to specify the duration, or select <gui>Until</gui> to specify the ending time of the event.</p></item>
 <item><p>(Optional) Enter a description in the <gui>Description</gui> field.</p></item>

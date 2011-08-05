@@ -8,7 +8,7 @@
     <link type="seealso" xref="calendar-layout"/>
     <link type="seealso" xref="mail-layout-changing"/>
 
-    <revision pkgversion="2.32.1" version="0.2" date="2011-01-06" status="draft"/>
+    <revision pkgversion="3.1.5" version="0.3" date="2011-08-05" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -93,7 +93,7 @@
     <td colspan="3"><p><media type="image" src="./figures/color-ce5c00.png" width="10" /> Tool bar</p></td>
   </tr>
   <tr>
-    <td rowspan="2"><p><media type="image" src="./figures/color-8f5902.png" width="10" /> Folder list</p></td>
+    <td rowspan="2"><p><media type="image" src="./figures/color-8f5902.png" width="10" /> Calendar list</p></td>
     <td colspan="2"><p><media type="image" src="./figures/color-4e9a06.png" width="10" /> Search bar</p></td>
   </tr>
   <tr>
@@ -130,7 +130,7 @@
 
 <section id="contacts">
 <title>Contacts</title>
-<p>Elements in the calendar main window:</p>
+<p>Elements in the contacts main window:</p>
 <table frame="all" rules="all">
   <tr>
     <td colspan="2"><p><media type="image" src="./figures/color-c4a000.png" width="10"/> Menu bar</p></td>
@@ -139,7 +139,7 @@
     <td colspan="2"><p><media type="image" src="./figures/color-ce5c00.png" width="10" /> Tool bar</p></td>
   </tr>
   <tr>
-    <td rowspan="2"><p><media type="image" src="./figures/color-8f5902.png" width="10" /> Folder list</p></td>
+    <td rowspan="2"><p><media type="image" src="./figures/color-8f5902.png" width="10" /> Address book list</p></td>
     <td><p><media type="image" src="./figures/color-4e9a06.png" width="10" /> Search bar</p></td>
   </tr>
   <tr>
