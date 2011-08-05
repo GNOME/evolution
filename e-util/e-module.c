@@ -139,6 +139,25 @@ module_load (GTypeModule *type_module)
 
 	priv->load (type_module);
 
+	/* XXX This is a Band-Aid for a design flaw in EExtension.  If the
+	 *     "extensible_type" member of EExtensionClass is set to a GType
+	 *     that hasn't already been registered, then when the extension's
+	 *     module is unloaded the GType registration that was triggered
+	 *     by setting "extensible_type" will be invalidated and cause
+	 *     Evolution to malfunction when the module is loaded again.
+	 *
+	 *     Extension modules get loaded and unloaded repeatedly by
+	 *     e_extensible_load_extensions(), which temporarily references
+	 *     all extension classes and picks out the ones it needs for a
+	 *     given EExtensible instance based on the "extensible_type"
+	 *     class member.
+	 *
+	 *     Making the module resident prevents the aforementioned GType
+	 *     registration from being invalidated when the extension class
+	 *     is unreferenced.
+	 */
+	g_module_make_resident (priv->module);
+
 	return TRUE;
 
 fail:
