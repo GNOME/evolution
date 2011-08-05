@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-03 09:08+0200\n"
-"PO-Revision-Date: 2011-08-03 09:13+0100\n"
+"POT-Creation-Date: 2011-08-05 13:18+0200\n"
+"PO-Revision-Date: 2011-08-05 13:19+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -2354,7 +2354,7 @@ msgstr "F_ärg:"
 #: ../mail/mail-config.ui.h:52
 #: ../modules/addressbook/addressbook-config.c:1052
 #: ../modules/calendar/e-calendar-preferences.ui.h:19
-#: ../plugins/itip-formatter/itip-formatter.c:2960
+#: ../plugins/itip-formatter/itip-formatter.c:2974
 #: ../plugins/publish-calendar/publish-calendar.ui.h:7
 #: ../smime/gui/smime-ui.ui.h:21
 msgid "General"
@@ -2493,7 +2493,7 @@ msgstr "Stäng aktuellt fönster"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1078
 #: ../mail/e-mail-browser.c:141
-#: ../shell/e-shell-window-actions.c:1474
+#: ../shell/e-shell-window-actions.c:1455
 #: ../widgets/misc/e-focus-tracker.c:117
 #: ../widgets/misc/e-focus-tracker.c:555
 #: ../widgets/misc/e-web-view.c:457
@@ -2503,7 +2503,7 @@ msgstr "Kopiera markeringen"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1085
 #: ../mail/e-mail-browser.c:148
-#: ../shell/e-shell-window-actions.c:1481
+#: ../shell/e-shell-window-actions.c:1462
 #: ../widgets/misc/e-focus-tracker.c:110
 #: ../widgets/misc/e-focus-tracker.c:550
 #: ../widgets/misc/e-web-view.c:1274
@@ -2511,7 +2511,7 @@ msgid "Cut the selection"
 msgstr "Klipp ut markeringen"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1092
-#: ../shell/e-shell-window-actions.c:1488
+#: ../shell/e-shell-window-actions.c:1469
 #: ../widgets/misc/e-focus-tracker.c:131
 #: ../widgets/misc/e-focus-tracker.c:565
 msgid "Delete the selection"
@@ -2523,7 +2523,7 @@ msgstr "Visa hjälp"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1106
 #: ../mail/e-mail-browser.c:155
-#: ../shell/e-shell-window-actions.c:1523
+#: ../shell/e-shell-window-actions.c:1497
 #: ../widgets/misc/e-focus-tracker.c:124
 #: ../widgets/misc/e-focus-tracker.c:560
 #: ../widgets/misc/e-web-view.c:1286
@@ -2536,7 +2536,7 @@ msgstr "Spara aktuella ändringar"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1134
 #: ../mail/e-mail-browser.c:162
-#: ../shell/e-shell-window-actions.c:1600
+#: ../shell/e-shell-window-actions.c:1574
 #: ../widgets/misc/e-focus-tracker.c:138
 #: ../widgets/misc/e-focus-tracker.c:570
 msgid "Select all text"
@@ -2551,20 +2551,20 @@ msgstr "_Klassificering"
 #: ../filter/filter.ui.h:10
 #: ../mail/e-mail-browser.c:176
 #: ../plugins/publish-calendar/publish-calendar.ui.h:23
-#: ../shell/e-shell-window-actions.c:1628
+#: ../shell/e-shell-window-actions.c:1602
 #: ../widgets/menus/gal-define-views.ui.h:5
 msgid "_Edit"
 msgstr "_Redigera"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1155
 #: ../mail/e-mail-browser.c:169
-#: ../shell/e-shell-window-actions.c:1635
+#: ../shell/e-shell-window-actions.c:1609
 #: ../widgets/misc/e-signature-editor.c:221
 msgid "_File"
 msgstr "_Arkiv"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1162
-#: ../shell/e-shell-window-actions.c:1642
+#: ../shell/e-shell-window-actions.c:1616
 msgid "_Help"
 msgstr "_Hjälp"
 
@@ -2579,7 +2579,7 @@ msgstr "A_lternativ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1183
 #: ../mail/e-mail-browser.c:183
-#: ../shell/e-shell-window-actions.c:1677
+#: ../shell/e-shell-window-actions.c:1651
 #: ../smime/gui/smime-ui.ui.h:46
 msgid "_View"
 msgstr "_Visa"
@@ -3135,9 +3135,9 @@ msgstr "Kan inte öppna memon i \"%s\": %s"
 #: ../calendar/gui/dialogs/memo-page.c:1099
 #: ../em-format/em-format-quote.c:319
 #: ../em-format/em-format.c:1056
-#: ../mail/em-format-html.c:2563
-#: ../mail/em-format-html.c:2628
-#: ../mail/em-format-html.c:2652
+#: ../mail/em-format-html.c:2573
+#: ../mail/em-format-html.c:2638
+#: ../mail/em-format-html.c:2662
 #: ../mail/message-list.etspec.h:20
 #: ../modules/mail/em-mailer-prefs.c:74
 msgid "To"
@@ -3160,8 +3160,8 @@ msgstr "T_ill:"
 #: ../calendar/gui/dialogs/memo-page.ui.h:7
 #: ../calendar/gui/dialogs/task-page.c:331
 #: ../calendar/gui/dialogs/task-page.ui.h:9
-msgid "_Group:"
-msgstr "_Grupp:"
+msgid "_List:"
+msgstr "_Lista:"
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
 #, c-format
@@ -3832,7 +3832,7 @@ msgstr "Nej"
 #: ../e-util/e-charset.c:52
 #: ../modules/plugin-manager/evolution-plugin-manager.c:101
 #: ../plugins/itip-formatter/itip-formatter.c:462
-#: ../plugins/itip-formatter/itip-formatter.c:2617
+#: ../plugins/itip-formatter/itip-formatter.c:2631
 msgid "Unknown"
 msgstr "Okänd"
 
@@ -3920,7 +3920,7 @@ msgstr "Uppdaterar objekt"
 #: ../calendar/gui/e-meeting-list-view.c:213
 #: ../calendar/gui/e-meeting-store.c:198
 #: ../calendar/gui/e-meeting-store.c:221
-#: ../plugins/itip-formatter/itip-formatter.c:2605
+#: ../plugins/itip-formatter/itip-formatter.c:2619
 msgid "Accepted"
 msgstr "Accepterat"
 
@@ -3928,7 +3928,7 @@ msgstr "Accepterat"
 #: ../calendar/gui/e-meeting-list-view.c:214
 #: ../calendar/gui/e-meeting-store.c:200
 #: ../calendar/gui/e-meeting-store.c:223
-#: ../plugins/itip-formatter/itip-formatter.c:2611
+#: ../plugins/itip-formatter/itip-formatter.c:2625
 msgid "Declined"
 msgstr "Avslaget"
 
@@ -3944,7 +3944,7 @@ msgstr "Preliminärt"
 #: ../calendar/gui/e-meeting-list-view.c:216
 #: ../calendar/gui/e-meeting-store.c:204
 #: ../calendar/gui/e-meeting-store.c:227
-#: ../plugins/itip-formatter/itip-formatter.c:2614
+#: ../plugins/itip-formatter/itip-formatter.c:2628
 msgid "Delegated"
 msgstr "Delegerat"
 
@@ -4960,7 +4960,7 @@ msgstr "Möten och sammanträden"
 
 #: ../calendar/importers/icalendar-importer.c:411
 #: ../calendar/importers/icalendar-importer.c:821
-#: ../plugins/itip-formatter/itip-formatter.c:2094
+#: ../plugins/itip-formatter/itip-formatter.c:2108
 msgid "Opening calendar"
 msgstr "Öppnar kalender"
 
@@ -6708,7 +6708,7 @@ msgid "Open New Message window"
 msgstr "Öppna Nytt meddelande-fönster"
 
 #: ../composer/e-composer-actions.c:312
-#: ../shell/e-shell-window-actions.c:1537
+#: ../shell/e-shell-window-actions.c:1511
 msgid "Configure Evolution"
 msgstr "Konfigurera Evolution"
 
@@ -7226,7 +7226,7 @@ msgid "Back - Receiving options"
 msgstr "Bakåt - Alternativ för mottagning"
 
 #: ../capplet/settings/mail-account-view.c:638
-#: ../mail/em-account-editor.c:3202
+#: ../mail/em-account-editor.c:3290
 msgid "Defaults"
 msgstr "Standardvärden"
 
@@ -7355,7 +7355,7 @@ msgid "Evolution Mail and Calendar"
 msgstr "Evolutions e-post och kalender"
 
 #: ../data/evolution.desktop.in.in.h:3
-#: ../shell/e-shell-window-actions.c:657
+#: ../shell/e-shell-window-actions.c:654
 msgid "Groupware Suite"
 msgstr "Grupprogramvarusvit"
 
@@ -7669,18 +7669,18 @@ msgstr "Svara till"
 
 #: ../em-format/em-format-quote.c:319
 #: ../em-format/em-format.c:1057
-#: ../mail/em-format-html.c:2564
-#: ../mail/em-format-html.c:2632
-#: ../mail/em-format-html.c:2655
+#: ../mail/em-format-html.c:2574
+#: ../mail/em-format-html.c:2642
+#: ../mail/em-format-html.c:2665
 #: ../modules/mail/em-mailer-prefs.c:75
 msgid "Cc"
 msgstr "Kopia"
 
 #: ../em-format/em-format-quote.c:319
 #: ../em-format/em-format.c:1058
-#: ../mail/em-format-html.c:2565
-#: ../mail/em-format-html.c:2636
-#: ../mail/em-format-html.c:2658
+#: ../mail/em-format-html.c:2575
+#: ../mail/em-format-html.c:2646
+#: ../mail/em-format-html.c:2668
 #: ../modules/mail/em-mailer-prefs.c:76
 msgid "Bcc"
 msgstr "Blindkopia"
@@ -7697,7 +7697,7 @@ msgstr "Ämne"
 
 #. pseudo-header
 #: ../em-format/em-format-quote.c:474
-#: ../mail/em-format-html.c:2757
+#: ../mail/em-format-html.c:2767
 #: ../modules/mail/em-mailer-prefs.c:1008
 msgid "Mailer"
 msgstr "E-postprogram"
@@ -8159,7 +8159,7 @@ msgid "Please configure the following account settings."
 msgstr "Konfigurera följande kontoinställningar."
 
 #: ../mail/em-account-editor.c:2188
-#: ../mail/em-account-editor.c:2898
+#: ../mail/em-account-editor.c:2986
 msgid "Sending Email"
 msgstr "Sändning av e-post"
 
@@ -8198,38 +8198,38 @@ msgstr ""
 "\n"
 "Klicka på \"Verkställ\" för att spara dina inställningar."
 
-#: ../mail/em-account-editor.c:2696
+#: ../mail/em-account-editor.c:2715
 msgid "Check for _new messages every"
 msgstr "Leta efter _nya meddelanden var"
 
-#: ../mail/em-account-editor.c:2704
+#: ../mail/em-account-editor.c:2723
 msgid "minu_tes"
 msgstr "minu_ter"
 
-#: ../mail/em-account-editor.c:3015
+#: ../mail/em-account-editor.c:3103
 msgid "Please select a folder from the current account."
 msgstr "Välj en mapp från det aktuella kontot."
 
-#: ../mail/em-account-editor.c:3341
+#: ../mail/em-account-editor.c:3429
 #: ../mail/mail-config.ui.h:101
 msgid "Security"
 msgstr "Säkerhet"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3395
-#: ../mail/em-account-editor.c:3478
+#: ../mail/em-account-editor.c:3483
+#: ../mail/em-account-editor.c:3566
 msgid "Receiving Options"
 msgstr "Alternativ för mottagning"
 
-#: ../mail/em-account-editor.c:3396
-#: ../mail/em-account-editor.c:3479
+#: ../mail/em-account-editor.c:3484
+#: ../mail/em-account-editor.c:3567
 msgid "Checking for New Messages"
 msgstr "Letar efter nya meddelanden"
 
 #: ../mail/e-mail-attachment-bar.c:90
 #: ../mail/e-mail-attachment-bar.c:95
-#: ../mail/em-format-html-display.c:1217
+#: ../mail/em-format-html-display.c:1219
 #: ../mail/mail-config.ui.h:14
 #: ../mail/message-list.etspec.h:1
 #: ../widgets/misc/e-attachment-paned.c:128
@@ -8250,9 +8250,9 @@ msgid "List View"
 msgstr "Listvy"
 
 #: ../mail/e-mail-browser.c:134
-#: ../shell/e-shell-window-actions.c:1446
-#: ../shell/e-shell-window-actions.c:1453
-#: ../shell/e-shell-window-actions.c:1460
+#: ../shell/e-shell-window-actions.c:1427
+#: ../shell/e-shell-window-actions.c:1434
+#: ../shell/e-shell-window-actions.c:1441
 msgid "Close this window"
 msgstr "Stäng detta fönster"
 
@@ -9645,111 +9645,111 @@ msgstr "Skapa mapp"
 msgid "Specify where to create the folder:"
 msgstr "Ange var mappen ska skapas:"
 
-#: ../mail/em-format-html.c:165
+#: ../mail/em-format-html.c:166
 msgid "Formatting message"
 msgstr "Formaterar meddelande"
 
-#: ../mail/em-format-html.c:368
+#: ../mail/em-format-html.c:378
 msgid "Formatting Message..."
 msgstr "Formaterar meddelande..."
 
-#: ../mail/em-format-html.c:1541
 #: ../mail/em-format-html.c:1551
+#: ../mail/em-format-html.c:1561
 #, c-format
 msgid "Retrieving '%s'"
 msgstr "Hämtar \"%s\""
 
-#: ../mail/em-format-html.c:1697
+#: ../mail/em-format-html.c:1707
 #: ../mail/em-format-html-display.c:85
 msgid "Unsigned"
 msgstr "Osignerat"
 
-#: ../mail/em-format-html.c:1698
+#: ../mail/em-format-html.c:1708
 #: ../mail/em-format-html-display.c:86
 msgid "Valid signature"
 msgstr "Giltig signatur"
 
-#: ../mail/em-format-html.c:1699
+#: ../mail/em-format-html.c:1709
 #: ../mail/em-format-html-display.c:87
 msgid "Invalid signature"
 msgstr "Ogiltig signatur"
 
-#: ../mail/em-format-html.c:1700
+#: ../mail/em-format-html.c:1710
 #: ../mail/em-format-html-display.c:88
 msgid "Valid signature, but cannot verify sender"
 msgstr "Giltig signatur men kan inte verifiera avsändaren"
 
-#: ../mail/em-format-html.c:1701
+#: ../mail/em-format-html.c:1711
 #: ../mail/em-format-html-display.c:89
 msgid "Signature exists, but need public key"
 msgstr "Signaturen finns men behöver publik nyckel"
 
-#: ../mail/em-format-html.c:1707
+#: ../mail/em-format-html.c:1717
 #: ../mail/em-format-html-display.c:96
 msgid "Unencrypted"
 msgstr "Okrypterat"
 
-#: ../mail/em-format-html.c:1708
+#: ../mail/em-format-html.c:1718
 #: ../mail/em-format-html-display.c:97
 msgid "Encrypted, weak"
 msgstr "Krypterat, svagt"
 
-#: ../mail/em-format-html.c:1709
+#: ../mail/em-format-html.c:1719
 #: ../mail/em-format-html-display.c:98
 msgid "Encrypted"
 msgstr "Krypterat"
 
-#: ../mail/em-format-html.c:1710
+#: ../mail/em-format-html.c:1720
 #: ../mail/em-format-html-display.c:99
 msgid "Encrypted, strong"
 msgstr "Krypterat, starkt"
 
-#: ../mail/em-format-html.c:2110
+#: ../mail/em-format-html.c:2120
 msgid "Unknown external-body part."
 msgstr "Okänd del med extern meddelandetext."
 
-#: ../mail/em-format-html.c:2120
+#: ../mail/em-format-html.c:2130
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
-#: ../mail/em-format-html.c:2151
+#: ../mail/em-format-html.c:2161
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pekare till FTP-plats (%s)"
 
-#: ../mail/em-format-html.c:2162
+#: ../mail/em-format-html.c:2172
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pekare till lokal fil (%s) giltig på platsen \"%s\""
 
-#: ../mail/em-format-html.c:2164
+#: ../mail/em-format-html.c:2174
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pekare till lokal fil (%s)"
 
-#: ../mail/em-format-html.c:2185
+#: ../mail/em-format-html.c:2195
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Pekare till fjärrdata (%s)"
 
-#: ../mail/em-format-html.c:2200
+#: ../mail/em-format-html.c:2210
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pekare till okänd extern data (typen \"%s\")"
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../mail/em-format-html.c:2905
+#: ../mail/em-format-html.c:2915
 #: ../plugins/mail-notification/mail-notification.c:405
 #, c-format
 msgid "From: %s"
 msgstr "Från: %s"
 
-#: ../mail/em-format-html.c:2927
+#: ../mail/em-format-html.c:2937
 msgid "(no subject)"
 msgstr "(inget ämne)"
 
-#: ../mail/em-format-html.c:3003
+#: ../mail/em-format-html.c:3013
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Det här meddelandet skickades av %s på uppdrag av %s"
@@ -9815,16 +9815,16 @@ msgstr "Skulle ha genomförts:"
 msgid "by"
 msgstr "den"
 
-#: ../mail/em-format-html-display.c:1142
-#: ../mail/em-format-html-display.c:1189
+#: ../mail/em-format-html-display.c:1144
+#: ../mail/em-format-html-display.c:1191
 msgid "View _Unformatted"
 msgstr "Visa _oformaterat"
 
-#: ../mail/em-format-html-display.c:1144
+#: ../mail/em-format-html-display.c:1146
 msgid "Hide _Unformatted"
 msgstr "Dölj o_formaterat"
 
-#: ../mail/em-format-html-display.c:1209
+#: ../mail/em-format-html-display.c:1211
 msgid "O_pen With"
 msgstr "Ö_ppna med"
 
@@ -10889,13 +10889,13 @@ msgstr "_Målmapp:"
 
 #: ../mail/importers/evolution-mbox-importer.c:142
 #: ../plugins/dbx-import/dbx-importer.c:259
-#: ../plugins/pst-import/pst-importer.c:318
+#: ../plugins/pst-import/pst-importer.c:362
 msgid "Select folder"
 msgstr "Välj mapp"
 
 #: ../mail/importers/evolution-mbox-importer.c:143
 #: ../plugins/dbx-import/dbx-importer.c:260
-#: ../plugins/pst-import/pst-importer.c:319
+#: ../plugins/pst-import/pst-importer.c:363
 msgid "Select folder to import into"
 msgstr "Välj mapp att importera till"
 
@@ -10925,8 +10925,8 @@ msgstr "Importerar brevlåda"
 #. Destination folder, was set in our widget
 #: ../mail/importers/mail-importer.c:153
 #: ../plugins/dbx-import/dbx-importer.c:603
-#: ../plugins/pst-import/pst-importer.c:500
-#: ../plugins/pst-import/pst-importer.c:609
+#: ../plugins/pst-import/pst-importer.c:544
+#: ../plugins/pst-import/pst-importer.c:680
 #, c-format
 msgid "Importing '%s'"
 msgstr "Importerar \"%s\""
@@ -14116,7 +14116,7 @@ msgid "Create a new calendar"
 msgstr "Skapa en ny kalender"
 
 #: ../modules/calendar/e-cal-shell-backend.c:755
-#: ../plugins/itip-formatter/itip-formatter.c:2951
+#: ../plugins/itip-formatter/itip-formatter.c:2965
 msgid "Calendar and Tasks"
 msgstr "Kalender och uppgifter"
 
@@ -16396,170 +16396,170 @@ msgstr "Kunde inte hitta denna uppgift i någon uppgiftslista"
 msgid "Unable to find this memo in any memo list"
 msgstr "Kunde inte hitta detta memo i någon memolista"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1026
+#: ../plugins/itip-formatter/itip-formatter.c:1040
 msgid "Opening the calendar. Please wait..."
 msgstr "Öppnar kalendern. Vänta..."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1029
+#: ../plugins/itip-formatter/itip-formatter.c:1043
 msgid "Searching for an existing version of this appointment"
 msgstr "Söker efter en befintlig version av detta möte"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1302
+#: ../plugins/itip-formatter/itip-formatter.c:1316
 msgid "Unable to parse item"
 msgstr "Kan inte tolka objekt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1391
+#: ../plugins/itip-formatter/itip-formatter.c:1405
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Kan inte skicka objekt till kalendern \"%s\". %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1403
+#: ../plugins/itip-formatter/itip-formatter.c:1417
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Skickade till kalendern \"%s\" som accepterat"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1407
+#: ../plugins/itip-formatter/itip-formatter.c:1421
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Skickade till kalendern \"%s\" som preliminärt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1412
+#: ../plugins/itip-formatter/itip-formatter.c:1426
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Skickade till kalendern \"%s\" som avslaget"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1417
+#: ../plugins/itip-formatter/itip-formatter.c:1431
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "Skickade till kalendern \"%s\" som avbrutet"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1511
+#: ../plugins/itip-formatter/itip-formatter.c:1525
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organisatören har tagit bort delegaten %s "
 
-#: ../plugins/itip-formatter/itip-formatter.c:1518
+#: ../plugins/itip-formatter/itip-formatter.c:1532
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Skickade ett avbokningsmeddelande till delegaten"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1520
+#: ../plugins/itip-formatter/itip-formatter.c:1534
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Kunde inte skicka en avbokningsnotering till delegaten"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1631
+#: ../plugins/itip-formatter/itip-formatter.c:1645
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Deltagarstatus kunde inte uppdateras eftersom statusen är ogiltig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1660
+#: ../plugins/itip-formatter/itip-formatter.c:1674
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Kan inte uppdatera deltagare. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1664
+#: ../plugins/itip-formatter/itip-formatter.c:1678
 msgid "Attendee status updated"
 msgstr "Deltagarstatusen är uppdaterad"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1668
+#: ../plugins/itip-formatter/itip-formatter.c:1682
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Deltagarstatusen kan inte uppdateras eftersom objektet inte längre finns"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1690
+#: ../plugins/itip-formatter/itip-formatter.c:1704
 msgid "Meeting information sent"
 msgstr "Sammanträdesinformation skickad"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1693
+#: ../plugins/itip-formatter/itip-formatter.c:1707
 msgid "Task information sent"
 msgstr "Uppgiftsinformation skickad"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1696
+#: ../plugins/itip-formatter/itip-formatter.c:1710
 msgid "Memo information sent"
 msgstr "Memoinformation skickad"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1705
+#: ../plugins/itip-formatter/itip-formatter.c:1719
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Kunde inte skicka sammanträdesinformation, sammanträdet finns inte"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1708
+#: ../plugins/itip-formatter/itip-formatter.c:1722
 msgid "Unable to send task information, the task does not exist"
 msgstr "Kunde inte skicka uppgiftsinformation, uppgiften finns inte"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1711
+#: ../plugins/itip-formatter/itip-formatter.c:1725
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Kunde inte skicka memoinformation, memot finns inte"
 
 #. Translators: This is a default filename for a calendar.
-#: ../plugins/itip-formatter/itip-formatter.c:1776
+#: ../plugins/itip-formatter/itip-formatter.c:1790
 msgid "calendar.ics"
 msgstr "kalender.ics"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1781
+#: ../plugins/itip-formatter/itip-formatter.c:1795
 msgid "Save Calendar"
 msgstr "Spara kalender"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1839
-#: ../plugins/itip-formatter/itip-formatter.c:1850
+#: ../plugins/itip-formatter/itip-formatter.c:1853
+#: ../plugins/itip-formatter/itip-formatter.c:1864
 msgid "The calendar attached is not valid"
 msgstr "Den bifogade kalendern är inte giltig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1840
-#: ../plugins/itip-formatter/itip-formatter.c:1851
+#: ../plugins/itip-formatter/itip-formatter.c:1854
+#: ../plugins/itip-formatter/itip-formatter.c:1865
 msgid "The message claims to contain a calendar, but the calendar is not a valid iCalendar."
 msgstr "Meddelandet påstår sig innehålla en kalender, men kalendern är inte en giltig iCalendar."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1891
-#: ../plugins/itip-formatter/itip-formatter.c:1919
-#: ../plugins/itip-formatter/itip-formatter.c:2028
+#: ../plugins/itip-formatter/itip-formatter.c:1905
+#: ../plugins/itip-formatter/itip-formatter.c:1933
+#: ../plugins/itip-formatter/itip-formatter.c:2042
 msgid "The item in the calendar is not valid"
 msgstr "Objektet i kalendern är inte giltigt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1892
-#: ../plugins/itip-formatter/itip-formatter.c:1920
-#: ../plugins/itip-formatter/itip-formatter.c:2029
+#: ../plugins/itip-formatter/itip-formatter.c:1906
+#: ../plugins/itip-formatter/itip-formatter.c:1934
+#: ../plugins/itip-formatter/itip-formatter.c:2043
 msgid "The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"
 msgstr "Meddelandet innehåller en kalender, men kalendern innehåller inga evenemang, uppgifter eller ledig-/upptageninformation"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1933
+#: ../plugins/itip-formatter/itip-formatter.c:1947
 msgid "The calendar attached contains multiple items"
 msgstr "Den bifogade kalendern innehåller flera objekt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1934
+#: ../plugins/itip-formatter/itip-formatter.c:1948
 msgid "To process all of these items, the file should be saved and the calendar imported"
 msgstr "För att kunna behandla alla dessa objekt bör filen sparas och kalendern importeras"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2592
+#: ../plugins/itip-formatter/itip-formatter.c:2606
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Ingen"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2608
+#: ../plugins/itip-formatter/itip-formatter.c:2622
 msgid "Tentatively Accepted"
 msgstr "Preliminärt accepterat"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2726
+#: ../plugins/itip-formatter/itip-formatter.c:2740
 msgid "This meeting recurs"
 msgstr "Detta möte upprepas"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2729
+#: ../plugins/itip-formatter/itip-formatter.c:2743
 msgid "This task recurs"
 msgstr "Denna uppgift upprepas"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2732
+#: ../plugins/itip-formatter/itip-formatter.c:2746
 msgid "This memo recurs"
 msgstr "Detta memo upprepas"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2976
+#: ../plugins/itip-formatter/itip-formatter.c:2990
 msgid "_Delete message after acting"
 msgstr "_Ta bort meddelande efter åtgärd"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2986
-#: ../plugins/itip-formatter/itip-formatter.c:3019
+#: ../plugins/itip-formatter/itip-formatter.c:3000
+#: ../plugins/itip-formatter/itip-formatter.c:3033
 msgid "Conflict Search"
 msgstr "Konfliktsökning"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:3001
+#: ../plugins/itip-formatter/itip-formatter.c:3015
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Välj de kalendrar som ska genomsökas efter sammanträdeskonflikter"
 
@@ -17507,36 +17507,36 @@ msgstr "Outlooks PST-importör"
 msgid "Outlook personal folders (.pst)"
 msgstr "Personliga Outlook-mappar (.pst)"
 
-#: ../plugins/pst-import/pst-importer.c:308
+#: ../plugins/pst-import/pst-importer.c:352
 msgid "_Mail"
 msgstr "_E-post"
 
-#: ../plugins/pst-import/pst-importer.c:326
+#: ../plugins/pst-import/pst-importer.c:370
 msgid "Destination folder:"
 msgstr "Målmapp:"
 
 #. Address book
-#: ../plugins/pst-import/pst-importer.c:332
+#: ../plugins/pst-import/pst-importer.c:376
 msgid "_Address Book"
 msgstr "_Adressbok"
 
 #. Appointments
-#: ../plugins/pst-import/pst-importer.c:339
+#: ../plugins/pst-import/pst-importer.c:383
 msgid "A_ppointments"
 msgstr "M_öten"
 
 #. Tasks
-#: ../plugins/pst-import/pst-importer.c:345
+#: ../plugins/pst-import/pst-importer.c:389
 #: ../views/tasks/galview.xml.h:3
 msgid "_Tasks"
 msgstr "_Uppgifter"
 
 #. Journal
-#: ../plugins/pst-import/pst-importer.c:351
+#: ../plugins/pst-import/pst-importer.c:395
 msgid "_Journal entries"
 msgstr "_Dagboksposter"
 
-#: ../plugins/pst-import/pst-importer.c:366
+#: ../plugins/pst-import/pst-importer.c:410
 msgid "Importing Outlook data"
 msgstr "Importerar Outlook-data"
 
@@ -18209,7 +18209,7 @@ msgstr "Sparar tillstånd för användargränssnitt"
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-actions.c:648
+#: ../shell/e-shell-window-actions.c:645
 msgid "translator-credits"
 msgstr ""
 "Daniel Nylander <po@danielnylander.se>\n"
@@ -18222,279 +18222,271 @@ msgstr ""
 "Skicka synpunkter på översättningen till\n"
 "<tp-sv@listor.tp-sv.se>."
 
-#: ../shell/e-shell-window-actions.c:659
+#: ../shell/e-shell-window-actions.c:656
 msgid "Evolution Website"
 msgstr "Evolutions webbplats"
 
-#: ../shell/e-shell-window-actions.c:921
+#: ../shell/e-shell-window-actions.c:902
 msgid "Categories Editor"
 msgstr "Kategoriredigerare"
 
-#: ../shell/e-shell-window-actions.c:1256
+#: ../shell/e-shell-window-actions.c:1237
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy är inte installerat."
 
-#: ../shell/e-shell-window-actions.c:1258
+#: ../shell/e-shell-window-actions.c:1239
 msgid "Bug Buddy could not be run."
 msgstr "Bug Buddy kunde inte köras."
 
-#: ../shell/e-shell-window-actions.c:1439
+#: ../shell/e-shell-window-actions.c:1420
 msgid "Show information about Evolution"
 msgstr "Visa information om Evolution"
 
-#: ../shell/e-shell-window-actions.c:1444
-#: ../shell/e-shell-window-actions.c:1458
+#: ../shell/e-shell-window-actions.c:1425
+#: ../shell/e-shell-window-actions.c:1439
 msgid "_Close Window"
 msgstr "S_täng fönster"
 
-#: ../shell/e-shell-window-actions.c:1465
+#: ../shell/e-shell-window-actions.c:1446
 msgid "_Contents"
 msgstr "_Innehåll"
 
-#: ../shell/e-shell-window-actions.c:1467
+#: ../shell/e-shell-window-actions.c:1448
 msgid "Open the Evolution User Guide"
 msgstr "Öppna användarguiden för Evolution"
 
-#: ../shell/e-shell-window-actions.c:1493
-msgid "Evolution _FAQ"
-msgstr "Vanliga fr_ågor om Evolution"
-
-#: ../shell/e-shell-window-actions.c:1495
-msgid "Open the Frequently Asked Questions webpage"
-msgstr "Öppna webbsidan för frågor och svar"
-
-#: ../shell/e-shell-window-actions.c:1500
+#: ../shell/e-shell-window-actions.c:1474
 msgid "_Forget Passwords"
 msgstr "Glöm lös_enord"
 
-#: ../shell/e-shell-window-actions.c:1502
+#: ../shell/e-shell-window-actions.c:1476
 msgid "Forget all remembered passwords"
 msgstr "Glöm alla ihågkomna lösenord"
 
-#: ../shell/e-shell-window-actions.c:1507
+#: ../shell/e-shell-window-actions.c:1481
 msgid "I_mport..."
 msgstr "I_mportera..."
 
-#: ../shell/e-shell-window-actions.c:1509
+#: ../shell/e-shell-window-actions.c:1483
 msgid "Import data from other programs"
 msgstr "Importera data från andra program"
 
-#: ../shell/e-shell-window-actions.c:1514
+#: ../shell/e-shell-window-actions.c:1488
 msgid "New _Window"
 msgstr "Nytt _fönster"
 
-#: ../shell/e-shell-window-actions.c:1516
+#: ../shell/e-shell-window-actions.c:1490
 msgid "Create a new window displaying this view"
 msgstr "Skapa ett nytt fönster som visar denna vy"
 
-#: ../shell/e-shell-window-actions.c:1528
+#: ../shell/e-shell-window-actions.c:1502
 msgid "Available Cate_gories"
 msgstr "Tillgängliga kate_gorier"
 
-#: ../shell/e-shell-window-actions.c:1530
+#: ../shell/e-shell-window-actions.c:1504
 msgid "Manage available categories"
 msgstr "Hantera tillgängliga kategorier"
 
-#: ../shell/e-shell-window-actions.c:1542
+#: ../shell/e-shell-window-actions.c:1516
 msgid "_Quick Reference"
 msgstr "_Snabbreferens"
 
-#: ../shell/e-shell-window-actions.c:1544
+#: ../shell/e-shell-window-actions.c:1518
 msgid "Show Evolution's shortcut keys"
 msgstr "Visa snabbtangenter i Evolution"
 
-#: ../shell/e-shell-window-actions.c:1551
+#: ../shell/e-shell-window-actions.c:1525
 msgid "Exit the program"
 msgstr "Avsluta programmet"
 
-#: ../shell/e-shell-window-actions.c:1556
+#: ../shell/e-shell-window-actions.c:1530
 msgid "_Advanced Search..."
 msgstr "_Avancerad sökning..."
 
-#: ../shell/e-shell-window-actions.c:1558
+#: ../shell/e-shell-window-actions.c:1532
 msgid "Construct a more advanced search"
 msgstr "Skapa en mer avancerad sökning"
 
-#: ../shell/e-shell-window-actions.c:1565
+#: ../shell/e-shell-window-actions.c:1539
 msgid "Clear the current search parameters"
 msgstr "Töm de aktuella sökparametrarna"
 
-#: ../shell/e-shell-window-actions.c:1570
+#: ../shell/e-shell-window-actions.c:1544
 msgid "_Edit Saved Searches..."
 msgstr "_Redigera sparade sökningar..."
 
-#: ../shell/e-shell-window-actions.c:1572
+#: ../shell/e-shell-window-actions.c:1546
 msgid "Manage your saved searches"
 msgstr "Hantera dina sparade sökningar"
 
-#: ../shell/e-shell-window-actions.c:1579
+#: ../shell/e-shell-window-actions.c:1553
 msgid "Click here to change the search type"
 msgstr "Klicka här för att ändra söktypen"
 
-#: ../shell/e-shell-window-actions.c:1584
+#: ../shell/e-shell-window-actions.c:1558
 msgid "_Find Now"
 msgstr "_Sök nu"
 
 #. Block the default Ctrl+F.
-#: ../shell/e-shell-window-actions.c:1586
+#: ../shell/e-shell-window-actions.c:1560
 msgid "Execute the current search parameters"
 msgstr "Kör de aktuella sökparametrarna"
 
-#: ../shell/e-shell-window-actions.c:1591
+#: ../shell/e-shell-window-actions.c:1565
 msgid "_Save Search..."
 msgstr "S_para sökning..."
 
-#: ../shell/e-shell-window-actions.c:1593
+#: ../shell/e-shell-window-actions.c:1567
 msgid "Save the current search parameters"
 msgstr "Spara de aktuella sökparametrarna"
 
-#: ../shell/e-shell-window-actions.c:1605
+#: ../shell/e-shell-window-actions.c:1579
 msgid "Submit _Bug Report..."
 msgstr "Skicka in f_elrapport..."
 
-#: ../shell/e-shell-window-actions.c:1607
+#: ../shell/e-shell-window-actions.c:1581
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Skicka en felrapport med Bug-Buddy"
 
-#: ../shell/e-shell-window-actions.c:1612
+#: ../shell/e-shell-window-actions.c:1586
 msgid "_Work Offline"
 msgstr "A_rbeta frånkopplad"
 
-#: ../shell/e-shell-window-actions.c:1614
+#: ../shell/e-shell-window-actions.c:1588
 msgid "Put Evolution into offline mode"
 msgstr "Försätt Evolution i frånkopplat läge"
 
-#: ../shell/e-shell-window-actions.c:1619
+#: ../shell/e-shell-window-actions.c:1593
 msgid "_Work Online"
 msgstr "A_rbeta ansluten"
 
-#: ../shell/e-shell-window-actions.c:1621
+#: ../shell/e-shell-window-actions.c:1595
 msgid "Put Evolution into online mode"
 msgstr "Försätt Evolution i anslutet läge"
 
-#: ../shell/e-shell-window-actions.c:1649
+#: ../shell/e-shell-window-actions.c:1623
 msgid "Lay_out"
 msgstr "La_yout"
 
-#: ../shell/e-shell-window-actions.c:1656
+#: ../shell/e-shell-window-actions.c:1630
 msgid "_New"
 msgstr "_Nytt"
 
-#: ../shell/e-shell-window-actions.c:1663
+#: ../shell/e-shell-window-actions.c:1637
 msgid "_Search"
 msgstr "_Sök"
 
 # Osäker.
-#: ../shell/e-shell-window-actions.c:1670
+#: ../shell/e-shell-window-actions.c:1644
 msgid "_Switcher Appearance"
 msgstr "_Utseende för växlaren"
 
-#: ../shell/e-shell-window-actions.c:1684
+#: ../shell/e-shell-window-actions.c:1658
 msgid "_Window"
 msgstr "_Fönster"
 
-#: ../shell/e-shell-window-actions.c:1713
+#: ../shell/e-shell-window-actions.c:1687
 msgid "Show Side _Bar"
 msgstr "Visa sido_rad"
 
-#: ../shell/e-shell-window-actions.c:1715
+#: ../shell/e-shell-window-actions.c:1689
 msgid "Show the side bar"
 msgstr "Visa sidoraden"
 
-#: ../shell/e-shell-window-actions.c:1721
+#: ../shell/e-shell-window-actions.c:1695
 msgid "Show _Buttons"
 msgstr "Visa _knappar"
 
-#: ../shell/e-shell-window-actions.c:1723
+#: ../shell/e-shell-window-actions.c:1697
 msgid "Show the switcher buttons"
 msgstr "Visa växlarknapparna"
 
-#: ../shell/e-shell-window-actions.c:1729
+#: ../shell/e-shell-window-actions.c:1703
 msgid "Show _Status Bar"
 msgstr "Visa _statusrad"
 
-#: ../shell/e-shell-window-actions.c:1731
+#: ../shell/e-shell-window-actions.c:1705
 msgid "Show the status bar"
 msgstr "Visa statusraden"
 
-#: ../shell/e-shell-window-actions.c:1737
+#: ../shell/e-shell-window-actions.c:1711
 msgid "Show _Tool Bar"
 msgstr "Visa _verktygsrad"
 
-#: ../shell/e-shell-window-actions.c:1739
+#: ../shell/e-shell-window-actions.c:1713
 msgid "Show the tool bar"
 msgstr "Visa verktygsraden"
 
-#: ../shell/e-shell-window-actions.c:1761
+#: ../shell/e-shell-window-actions.c:1735
 msgid "_Icons Only"
 msgstr "Endast _ikoner"
 
-#: ../shell/e-shell-window-actions.c:1763
+#: ../shell/e-shell-window-actions.c:1737
 msgid "Display window buttons with icons only"
 msgstr "Visa fönsterknappar med endast ikoner"
 
-#: ../shell/e-shell-window-actions.c:1768
+#: ../shell/e-shell-window-actions.c:1742
 msgid "_Text Only"
 msgstr "Endast _text"
 
-#: ../shell/e-shell-window-actions.c:1770
+#: ../shell/e-shell-window-actions.c:1744
 msgid "Display window buttons with text only"
 msgstr "Visa fönsterknappar med endast text"
 
-#: ../shell/e-shell-window-actions.c:1775
+#: ../shell/e-shell-window-actions.c:1749
 msgid "Icons _and Text"
 msgstr "Ikoner _och text"
 
-#: ../shell/e-shell-window-actions.c:1777
+#: ../shell/e-shell-window-actions.c:1751
 msgid "Display window buttons with icons and text"
 msgstr "Visa fönsterknappar med ikoner och text"
 
-#: ../shell/e-shell-window-actions.c:1782
+#: ../shell/e-shell-window-actions.c:1756
 msgid "Tool_bar Style"
 msgstr "Stil på verktygs_rad"
 
-#: ../shell/e-shell-window-actions.c:1784
+#: ../shell/e-shell-window-actions.c:1758
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "Visa fönsterknappar med skrivbordets verktygsradsinställning"
 
-#: ../shell/e-shell-window-actions.c:1792
+#: ../shell/e-shell-window-actions.c:1766
 msgid "Define Views..."
 msgstr "Definiera vyer..."
 
-#: ../shell/e-shell-window-actions.c:1794
+#: ../shell/e-shell-window-actions.c:1768
 msgid "Create or edit views"
 msgstr "Skapa eller redigera vyer"
 
-#: ../shell/e-shell-window-actions.c:1799
+#: ../shell/e-shell-window-actions.c:1773
 msgid "Save Custom View..."
 msgstr "Spara anpassad vy..."
 
-#: ../shell/e-shell-window-actions.c:1801
+#: ../shell/e-shell-window-actions.c:1775
 msgid "Save current custom view"
 msgstr "Spara aktuell anpassad vy"
 
-#: ../shell/e-shell-window-actions.c:1808
+#: ../shell/e-shell-window-actions.c:1782
 msgid "C_urrent View"
 msgstr "Aktu_ell vy"
 
-#: ../shell/e-shell-window-actions.c:1818
+#: ../shell/e-shell-window-actions.c:1792
 msgid "Custom View"
 msgstr "Anpassad vy"
 
-#: ../shell/e-shell-window-actions.c:1820
+#: ../shell/e-shell-window-actions.c:1794
 msgid "Current view is a customized view"
 msgstr "Aktuell vy är en anpassad vy"
 
-#: ../shell/e-shell-window-actions.c:1830
+#: ../shell/e-shell-window-actions.c:1804
 msgid "Change the page settings for your current printer"
 msgstr "Ändra sidinställningarna för din aktuella skrivare"
 
-#: ../shell/e-shell-window-actions.c:2215
+#: ../shell/e-shell-window-actions.c:2189
 #, c-format
 msgid "Switch to %s"
 msgstr "Växla till %s"
 
-#: ../shell/e-shell-window-actions.c:2430
+#: ../shell/e-shell-window-actions.c:2404
 msgid "Execute these search parameters"
 msgstr "Kör dessa sökparametrar"
 
@@ -20046,7 +20038,7 @@ msgstr "Klicka här för att gå till url"
 
 #: ../widgets/misc/e-web-view.c:408
 msgid "_Copy Link Location"
-msgstr "_Kopiera länkplats"
+msgstr "_Kopiera länkadress"
 
 #: ../widgets/misc/e-web-view.c:410
 msgid "Copy the link to the clipboard"
@@ -20384,6 +20376,15 @@ msgstr "Markera allt"
 #: ../widgets/text/e-text.c:2318
 msgid "Input Methods"
 msgstr "Inmatningsmetoder"
+
+#~ msgid "_Group:"
+#~ msgstr "_Grupp:"
+
+#~ msgid "Evolution _FAQ"
+#~ msgstr "Vanliga fr_ågor om Evolution"
+
+#~ msgid "Open the Frequently Asked Questions webpage"
+#~ msgstr "Öppna webbsidan för frågor och svar"
 
 #~ msgid "Edit Alarm"
 #~ msgstr "Redigera alarm"
