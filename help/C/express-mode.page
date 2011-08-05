@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#common-other-problems" />
 
-    <revision pkgversion="3.0.2" version="0.1" date="2011-07-25" status="draft"/>
+    <revision pkgversion="3.0.2" version="0.2" date="2011-08-05" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -21,5 +21,7 @@
 
 <p>This is a known problem and hard to solve for a complex application with many settings such as Evolution.</p>
 <p>You can use the Express version which is targeted for mobile and small-screen devices. This is available from version 2.30 on and can be enabled by starting <code>evolution --express</code> from the terminal window.</p>
+
+<note><p>You can also explicitly open Evolution in a specific component. For the calendar, use <code>evolution --express --component=calendar</code>.</p></note>
 
 </page>
