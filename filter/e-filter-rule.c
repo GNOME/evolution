@@ -756,7 +756,7 @@ filter_rule_get_widget (EFilterRule *rule,
 			N_("No reply or parent")
 		};
 
-		label = gtk_label_new_with_mnemonic (_("I_nclude threads"));
+		label = gtk_label_new_with_mnemonic (_("I_nclude threads:"));
 		combobox = gtk_combo_box_text_new ();
 
 		for (i=0;i<5;i++) {
