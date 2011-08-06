@@ -47,7 +47,7 @@
 <section id="date-time">
 <title>Date/Time Format</title>
 <list>
-<p>You can change the format of the <gui>Date</gui> column by setting your prefered format.</p><p>The placeholders in the format expression are strftime variables.</p>
+<p>You can change the format of the <gui>Date</gui> column by setting your preferred format.</p><p>The placeholders in the format expression are strftime variables.</p>
 </list>
 </section>
 

@@ -20,7 +20,7 @@
 
 <title>Using a Google addressbook</title>
 
-<p>To add such an adress book to Evolution, perform the following steps:</p>
+<p>To add such an address book to Evolution, perform the following steps:</p>
 <steps>
 <item><p>Click <guiseq><gui>File</gui><gui>New</gui><gui>Address Book</gui></guiseq>.</p></item>
 <item><p>Select the type <gui>Google</gui>.</p></item>
