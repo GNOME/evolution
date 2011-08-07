@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-04 15:56+0000\n"
-"PO-Revision-Date: 2011-08-05 17:17+0200\n"
+"PO-Revision-Date: 2011-08-07 18:18+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -972,15 +972,13 @@ msgstr ""
 #: C/tasks-searching.page:34(None) C/memos-searching.page:34(None)
 #: C/mail-searching.page:33(None) C/contacts-searching.page:34(None)
 #: C/calendar-searching.page:34(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/exchng-rec-options.png'; "
 #| "md5=31a2bbe7ef9de1dc79da40949e0dc7ae"
 msgid ""
 "@@image: 'figures/search-icon.png'; md5=cd4b82c84c628bfbbfa39d1e0d1eae89"
 msgstr ""
-"@@image: 'figures/exchng-rec-options.png'; "
-"md5=31a2bbe7ef9de1dc79da40949e0dc7ae"
+"@@image: 'figures/search-icon.png'; md5=cd4b82c84c628bfbbfa39d1e0d1eae89"
 
 #: C/tasks-searching.page:5(desc)
 #, fuzzy
@@ -1528,11 +1526,11 @@ msgstr "Búsqueda"
 
 #: C/problems-reporting-bugs.page:5(desc)
 msgid "How to report bugs."
-msgstr ""
+msgstr "Cómo informar de un error."
 
 #: C/problems-reporting-bugs.page:21(title)
 msgid "How to report bugs"
-msgstr ""
+msgstr "Cómo informar de un error"
 
 #: C/problems-reporting-bugs.page:23(p)
 msgid ""
@@ -1561,7 +1559,7 @@ msgstr ""
 
 #: C/problems-getting-help.page:22(title)
 msgid "How to get help"
-msgstr ""
+msgstr "Cómo obtener ayuda"
 
 #: C/problems-getting-help.page:24(p)
 msgid ""
@@ -2169,11 +2167,11 @@ msgstr ""
 
 #: C/mail-spam-settings.page:31(link)
 msgid "Install bogofilter now."
-msgstr ""
+msgstr "Instalar «bogofilter» ahora."
 
 #: C/mail-spam-settings.page:32(link)
 msgid "Install spamassassin now."
-msgstr ""
+msgstr "Instalar «spamassassin» ahora."
 
 #: C/mail-spam-settings.page:34(p)
 #, fuzzy
@@ -3415,9 +3413,8 @@ msgstr "Ubicación del mensaje"
 
 #: C/mail-search-folders-conditions.page:88(p)
 #: C/mail-filters-conditions.page:95(p)
-#, fuzzy
 msgid "Match All:"
-msgstr "Coincidir con todo"
+msgstr "Coincidir con todo:"
 
 #: C/mail-search-folders-add.page:5(desc)
 #, fuzzy
@@ -3962,7 +3959,6 @@ msgid "Receiving options for IMAP accounts."
 msgstr "Configurar sus cuentas IMAP."
 
 #: C/mail-receiving-options-imap.page:23(title)
-#, fuzzy
 msgid "IMAP receiving options"
 msgstr "Opciones de recepción IMAP"
 
@@ -4046,7 +4042,6 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/mail-received-notification.page:23(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/exchng-rec-mails.png'; "
 #| "md5=b56dfa570c8d1c9b942c6493fd973d68"
@@ -4054,19 +4049,20 @@ msgid ""
 "@@image: './figures/new-mail-switcher.png'; "
 "md5=be4dbdb5f6e3dcbd5111b87169cae268"
 msgstr ""
-"@@image: 'figures/exchng-rec-mails.png'; md5=b56dfa570c8d1c9b942c6493fd973d68"
+"@@image: './figures/new-mail-switcher.png'; "
+"md5=be4dbdb5f6e3dcbd5111b87169cae268"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/mail-received-notification.page:28(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/evo_newmail.png'; md5=426590d03b7b0bc88b16cc61b2ec1000"
 msgid ""
 "@@image: './figures/new-mail-notification.png'; "
 "md5=25a4373da392793406910cd883f0c21c"
 msgstr ""
-"@@image: 'figures/evo_newmail.png'; md5=426590d03b7b0bc88b16cc61b2ec1000"
+"@@image: './figures/new-mail-notification.png'; "
+"md5=25a4373da392793406910cd883f0c21c"
 
 #: C/mail-received-notification.page:5(desc)
 msgid "Options on notifications of newly received mail."
@@ -4425,9 +4421,8 @@ msgid "IMAP folder subscriptions."
 msgstr "Suscripciones de carpetas"
 
 #: C/mail-imap-subscriptions.page:26(title)
-#, fuzzy
 msgid "IMAP Subscriptions"
-msgstr "Gestor de suscripciones IMAP"
+msgstr "Suscripciones IMAP"
 
 #: C/mail-imap-subscriptions.page:28(p)
 msgid ""
@@ -4494,9 +4489,8 @@ msgstr ""
 "descarga. Las cabeceras de correo IMAP son las siguientes:"
 
 #: C/mail-imap-headers.page:31(p)
-#, fuzzy
 msgid "Fetch All Headers:"
-msgstr "Obtener _todas las cabeceras"
+msgstr "Obtener todas las cabeceras:"
 
 #: C/mail-imap-headers.page:31(p)
 msgid ""
@@ -5331,8 +5325,8 @@ msgstr ""
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
-"\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+"id=550414\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
@@ -6066,27 +6060,24 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/mail-displaying-collapsible-headers.page:27(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/filter-new-fig.png'; "
 #| "md5=75a2b8ccfe0f7a4982859827c867d578"
 msgid ""
 "@@image: './figures/plus-icon.png'; md5=57bf83c4ab8585c30897a6cf89c5949c"
 msgstr ""
-"@@image: 'figures/filter-new-fig.png'; md5=75a2b8ccfe0f7a4982859827c867d578"
+"@@image: './figures/plus-icon.png'; md5=57bf83c4ab8585c30897a6cf89c5949c"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/mail-displaying-collapsible-headers.page:29(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/exchng-rec-options.png'; "
 #| "md5=31a2bbe7ef9de1dc79da40949e0dc7ae"
 msgid ""
 "@@image: './figures/minus-icon.png'; md5=7cef9df0f691c8d6ce67cad29ebceac9"
 msgstr ""
-"@@image: 'figures/exchng-rec-options.png'; "
-"md5=31a2bbe7ef9de1dc79da40949e0dc7ae"
+"@@image: './figures/minus-icon.png'; md5=7cef9df0f691c8d6ce67cad29ebceac9"
 
 # index.docbook:458, index.docbook:949
 #: C/mail-displaying-collapsible-headers.page:5(desc)
@@ -6336,11 +6327,11 @@ msgstr ""
 
 #: C/mail-composer-spellcheck.page:27(link)
 msgid "Install hunspell now."
-msgstr ""
+msgstr "Instalar «hunspell» ahora."
 
 #: C/mail-composer-spellcheck.page:28(link)
 msgid "Install enchant now."
-msgstr ""
+msgstr "Instalar «enchant» ahora."
 
 #: C/mail-composer-spellcheck.page:32(title)
 #, fuzzy
@@ -8184,9 +8175,8 @@ msgstr "Configuración de la cuenta de Google:"
 
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:44(title)
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:44(title)
-#, fuzzy
 msgid "Exchange Settings"
-msgstr "Configuración del servidor Exchange"
+msgstr "Configuración de Exchange"
 
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45(p)
 #, fuzzy
@@ -8382,121 +8372,113 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">GMail Help</link> for more information."
 msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:34(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/evo_labels_a.png'; md5=e136d81754f7c859713674c09af56ca3"
 msgid ""
 "@@image: './figures/window-overview-layers.png'; "
 "md5=3156497ff1c51756838f9ddfbce9baee"
 msgstr ""
-"@@image: 'figures/evo_labels_a.png'; md5=e136d81754f7c859713674c09af56ca3"
+"@@image: './figures/window-overview-layers.png'; "
+"md5=3156497ff1c51756838f9ddfbce9baee"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:41(None) C/intro-main-window.page:90(None)
 #: C/intro-main-window.page:136(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/folder_size_mapi.png'; "
 #| "md5=4b20ea9d82999051360f14da27e7c15d"
 msgid ""
 "@@image: './figures/color-c4a000.png'; md5=9db17d2d5e9013501aeab2e165c6a6c9"
 msgstr ""
-"@@image: 'figures/folder_size_mapi.png'; md5=4b20ea9d82999051360f14da27e7c15d"
+"@@image: './figures/color-c4a000.png'; md5=9db17d2d5e9013501aeab2e165c6a6c9"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:44(None) C/intro-main-window.page:93(None)
 #: C/intro-main-window.page:139(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/evo_popreceive_a.png'; "
 #| "md5=a635f0e8d9bb4f0bcda34221c258f273"
 msgid ""
 "@@image: './figures/color-ce5c00.png'; md5=19dae9650e3936312e09198973372a24"
 msgstr ""
-"@@image: 'figures/evo_popreceive_a.png'; md5=a635f0e8d9bb4f0bcda34221c258f273"
+"@@image: './figures/color-ce5c00.png'; md5=19dae9650e3936312e09198973372a24"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:47(None) C/intro-main-window.page:96(None)
 #: C/intro-main-window.page:142(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/folder_plus.png'; md5=61548b886beadeec26ef258f2cb1c2aa"
 msgid ""
 "@@image: './figures/color-8f5902.png'; md5=ff5ccb859fe04a004cd67e1c22621dc6"
 msgstr ""
-"@@image: 'figures/folder_plus.png'; md5=61548b886beadeec26ef258f2cb1c2aa"
+"@@image: './figures/color-8f5902.png'; md5=ff5ccb859fe04a004cd67e1c22621dc6"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:48(None) C/intro-main-window.page:97(None)
 #: C/intro-main-window.page:143(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/exchng-rec-mails.png'; "
 #| "md5=b56dfa570c8d1c9b942c6493fd973d68"
 msgid ""
 "@@image: './figures/color-4e9a06.png'; md5=b2c2e7b66fb470344c804db396b48b98"
 msgstr ""
-"@@image: 'figures/exchng-rec-mails.png'; md5=b56dfa570c8d1c9b942c6493fd973d68"
+"@@image: './figures/color-4e9a06.png'; md5=b2c2e7b66fb470344c804db396b48b98"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:51(None) C/intro-main-window.page:100(None)
 #: C/intro-main-window.page:146(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/evo_Wcal_prop_a.png'; "
 #| "md5=dcd10f32a1ac7cbcb44d67e1a4b71a78"
 msgid ""
 "@@image: './figures/color-204a87.png'; md5=511497260cc4caab69d67814b1ee3b8b"
 msgstr ""
-"@@image: 'figures/evo_Wcal_prop_a.png'; md5=dcd10f32a1ac7cbcb44d67e1a4b71a78"
+"@@image: './figures/color-204a87.png'; md5=511497260cc4caab69d67814b1ee3b8b"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:54(None) C/intro-main-window.page:108(None)
 #: C/intro-main-window.page:149(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
 msgid ""
 "@@image: './figures/color-a40000.png'; md5=19195da020e059dab33aa37788763a97"
 msgstr ""
-"@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
+"@@image: './figures/color-a40000.png'; md5=19195da020e059dab33aa37788763a97"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:55(None) C/intro-main-window.page:150(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/groupwise_resend.png'; "
 #| "md5=697ce252ac6f3f2f4f361039818d1262"
 msgid ""
 "@@image: './figures/color-5c3566.png'; md5=7c001a57237acc2ff61ee61e05ad3168"
 msgstr ""
-"@@image: 'figures/groupwise_resend.png'; md5=697ce252ac6f3f2f4f361039818d1262"
+"@@image: './figures/color-5c3566.png'; md5=7c001a57237acc2ff61ee61e05ad3168"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:58(None) C/intro-main-window.page:111(None)
 #: C/intro-main-window.page:153(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/evo_label_a.png'; md5=bc5d8fe2485b9678a4911ac6e1469dfa"
 msgid ""
 "@@image: './figures/color-2e3436.png'; md5=3c796c7aed3044e59f131bea364e8598"
 msgstr ""
-"@@image: 'figures/evo_label_a.png'; md5=bc5d8fe2485b9678a4911ac6e1469dfa"
+"@@image: './figures/color-2e3436.png'; md5=3c796c7aed3044e59f131bea364e8598"
 
 #: C/intro-main-window.page:5(desc)
 msgid "An explanation of the areas shown in the Evolution window."
@@ -8511,9 +8493,8 @@ msgid "The <em>Evolution</em> main window"
 msgstr ""
 
 #: C/intro-main-window.page:32(title)
-#, fuzzy
 msgid "E-Mail"
-msgstr "Correo"
+msgstr "Correo-e"
 
 #: C/intro-main-window.page:35(p)
 #, fuzzy
@@ -8574,6 +8555,8 @@ msgid ""
 "<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
 "Switcher"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
+"Selector"
 
 #: C/intro-main-window.page:55(p)
 msgid ""
@@ -8593,9 +8576,8 @@ msgstr ""
 "Barra de estado"
 
 #: C/intro-main-window.page:64(title)
-#, fuzzy
 msgid "Folder list"
-msgstr "Lista de carpetas:"
+msgstr "Lista de carpetas"
 
 #: C/intro-main-window.page:65(p)
 #, fuzzy
@@ -8620,9 +8602,8 @@ msgstr ""
 "correo</link>."
 
 #: C/intro-main-window.page:69(title)
-#, fuzzy
 msgid "Message List"
-msgstr "Lista de mensajes:"
+msgstr "Lista de mensajes"
 
 #: C/intro-main-window.page:70(p)
 #, fuzzy
@@ -8636,9 +8617,8 @@ msgstr ""
 "lista de mensajes."
 
 #: C/intro-main-window.page:73(title)
-#, fuzzy
 msgid "Switcher"
-msgstr "Selector:"
+msgstr "Selector"
 
 #: C/intro-main-window.page:74(p)
 #, fuzzy
@@ -8702,6 +8682,8 @@ msgid ""
 "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
 "Appointment list"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
+"Lista de citas"
 
 #: C/intro-main-window.page:101(p)
 #, fuzzy
@@ -9126,13 +9108,12 @@ msgstr "Importa datos de otros programas"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/index.page:22(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/evo_junk_a.png'; md5=635a83cb310a374a041da9e5dad017c9"
 msgid ""
 "@@image: './figures/evolutionlogo.png'; md5=4bf469aaba7c368937309e931ba9bdcc"
 msgstr ""
-"@@image: 'figures/evo_junk_a.png'; md5=635a83cb310a374a041da9e5dad017c9"
+"@@image: './figures/evolutionlogo.png'; md5=4bf469aaba7c368937309e931ba9bdcc"
 
 #: C/index.page:5(desc)
 msgid "Evolution"
@@ -9792,9 +9773,8 @@ msgid "Deleting emails or attachments permanently"
 msgstr ""
 
 #: C/deleting-emails.page:28(title)
-#, fuzzy
 msgid "Emails"
-msgstr "Correo-e"
+msgstr "Correos-e"
 
 #: C/deleting-emails.page:29(p)
 msgid ""
@@ -9897,9 +9877,8 @@ msgid "The user's data files"
 msgstr "Importar los archivos de datos:"
 
 #: C/data-storage.page:31(p)
-#, fuzzy
 msgid "$HOME/.local/share/evolution"
-msgstr ".local/share/evolution"
+msgstr "$HOME/.local/share/evolution"
 
 #: C/data-storage.page:34(title)
 #, fuzzy
@@ -9907,18 +9886,16 @@ msgid "Various configuration and state files"
 msgstr "Modo de configuración del proxy"
 
 #: C/data-storage.page:35(p)
-#, fuzzy
 msgid "$HOME/.config/evolution"
-msgstr "Configurar Evolution"
+msgstr "$HOME/.config/evolution"
 
 #: C/data-storage.page:38(title)
 msgid "Disposable data caches"
 msgstr ""
 
 #: C/data-storage.page:39(p)
-#, fuzzy
 msgid "$HOME/.cache/evolution"
-msgstr "$HOME/.local/share/evolution/mail/pop/"
+msgstr "$HOME/.cache/evolution"
 
 #: C/data-storage.page:42(title)
 #, fuzzy
@@ -9926,9 +9903,8 @@ msgid "Configuration settings in GConf"
 msgstr "Versión de la configuración"
 
 #: C/data-storage.page:43(p)
-#, fuzzy
 msgid "$HOME/.gconf/apps/evolution"
-msgstr "$HOME/.local/share/evolution/mail/pop/"
+msgstr "$HOME/.gconf/apps/evolution"
 
 #: C/credits.page:5(desc)
 msgid "Credits and Acknowledgment."
@@ -9958,7 +9934,7 @@ msgstr "Cambiar a la pestaña anterior"
 
 #: C/credits.page:43(p)
 msgid "Aaron Weber"
-msgstr ""
+msgstr "Aaron Weber"
 
 #: C/credits.page:46(p)
 msgid "Akhil Laddha"
@@ -9966,7 +9942,7 @@ msgstr "Akhil Laddha"
 
 #: C/credits.page:52(p)
 msgid "Duncan Mak"
-msgstr ""
+msgstr "Duncan Mak"
 
 #: C/credits.page:55(p)
 #, fuzzy
@@ -9984,35 +9960,31 @@ msgstr ""
 
 #: C/credits.page:64(p)
 msgid "Kevin Breit"
-msgstr ""
+msgstr "Kevin Breit"
 
 #: C/credits.page:67(p)
-#, fuzzy
 msgid "Mark Moulder"
-msgstr "carpeta de búsqueda"
+msgstr "Mark Moulder"
 
 #: C/credits.page:70(p)
 msgid "Novell, Inc."
 msgstr "Novell, Inc."
 
 #: C/credits.page:73(p)
-#, fuzzy
 msgid "Radhika Nair"
-msgstr "Radhika PC"
+msgstr "Radhika Nair"
 
 #: C/credits.page:76(p)
-#, fuzzy
 msgid "Srinivasa Ragavan"
-msgstr "Srinivasa Ragavan (sragavan@novell.com)"
+msgstr "Srinivasa Ragavan"
 
 #: C/credits.page:83(title)
 msgid "Contact information"
 msgstr "Información de contacto"
 
 #: C/credits.page:84(p)
-#, fuzzy
 msgid "The GNOME Documentation Project:"
-msgstr "Convenciones del documento:"
+msgstr "Proyecto de Documentación GNOME:"
 
 #: C/credits.page:87(link)
 msgid "Website"
@@ -10655,14 +10627,12 @@ msgid "The available options are:"
 msgstr "Las siguientes opciones están disponibles:"
 
 #: C/change-switcher-appearance.page:24(p)
-#, fuzzy
 msgid "Icons and Text"
-msgstr "Iconos y texto:"
+msgstr "Iconos y texto"
 
 #: C/change-switcher-appearance.page:27(p)
-#, fuzzy
 msgid "Icons Only"
-msgstr "Sólo iconos:"
+msgstr "Sólo iconos"
 
 #: C/change-switcher-appearance.page:30(p)
 #, fuzzy
@@ -13918,8 +13888,9 @@ msgstr ""
 #~ "When the First-Run Assistant starts, the Welcome page is displayed. Click "
 #~ "Forward to proceed to the Identity window."
 #~ msgstr ""
-#~ "Cuando se inicia el «Asistente de primera ejecución», se muestra la página "
-#~ "de «Bienvenida». Pulse «Adelante» para proceder a la ventana de «Identidad»."
+#~ "Cuando se inicia el «Asistente de primera ejecución», se muestra la "
+#~ "página de «Bienvenida». Pulse «Adelante» para proceder a la ventana de "
+#~ "«Identidad»."
 
 #~ msgid "Type your full name in the Full Name field."
 #~ msgstr "Teclee su nombre completo en el campo «Nombre completo»."
@@ -13989,8 +13960,8 @@ msgstr ""
 #~ "For configuration instructions, see <link linkend=\"bstfw13\">Remote "
 #~ "Configuration Options</link>."
 #~ msgstr ""
-#~ "Para las opciones de configuración, vea <link linkend=\"bstfw13"
-#~ "\">Opciones de configuración remota</link>."
+#~ "Para las opciones de configuración, vea <link linkend="
+#~ "\"bstfw13\">Opciones de configuración remota</link>."
 
 #~ msgid ""
 #~ "Available only if the evolution-exchange package is installed. Select "
@@ -15381,8 +15352,8 @@ msgstr ""
 #~ msgstr ""
 #~ "Bajo la pestaña Recepción de correo elija el tipo de archivo de correo "
 #~ "que usa su otra aplicación y escriba la ruta de directorios completa a "
-#~ "ese lugar. Una elección habitual son los archivos mbox, con la ruta «/home/"
-#~ "<varname>nombresdelusuario</varname>/Mail»."
+#~ "ese lugar. Una elección habitual son los archivos mbox, con la ruta «/"
+#~ "home/<varname>nombresdelusuario</varname>/Mail»."
 
 #~ msgid ""
 #~ "You can only use one mail client at a time. The mail files are locked by "
@@ -20098,8 +20069,8 @@ msgstr ""
 #~ "Reply for Items You Send</link>."
 #~ msgstr ""
 #~ "Puede recibir una notificación cuando el destinatario abre o borra un "
-#~ "mensaje. Para obtener más información consulte <link linkend=\"Ak05sv1"
-#~ "\">Recibir notificaciones acerca de elementos que envíe</link>."
+#~ "mensaje. Para obtener más información consulte <link linkend="
+#~ "\"Ak05sv1\">Recibir notificaciones acerca de elementos que envíe</link>."
 
 #~ msgid "Request a Reply:"
 #~ msgstr "Pedir una respuesta:"
@@ -20660,8 +20631,8 @@ msgstr ""
 #~ "For more information, see <link linkend=\"bshoty0\">Certificates</link>."
 #~ msgstr ""
 #~ "Use estos ajustes para certificar el manejo para los sistemas de "
-#~ "seguridad S/MIME. Para obtener más información vea <link linkend=\"bshoty0"
-#~ "\">Certificados</link>."
+#~ "seguridad S/MIME. Para obtener más información vea <link linkend="
+#~ "\"bshoty0\">Certificados</link>."
 
 #~ msgid ""
 #~ "Previous versions of Evolution included directory servers, folder "
@@ -22208,10 +22179,10 @@ msgstr ""
 #~ "<command>/root</command>."
 #~ msgstr ""
 #~ "Una descripción imaginaria de los grupos de archivos del sistema. La "
-#~ "parte superior de ese árbol se llama el directorio raíz («root» en inglés) "
-#~ "y se indica con el carácter <command>/</command>. El resto de las ramas "
-#~ "cuelgan de la raíz. No confunda el directorio raíz con la cuenta del "
-#~ "superusuario («root») ni con el directorio de inicio del superusuario "
+#~ "parte superior de ese árbol se llama el directorio raíz («root» en "
+#~ "inglés) y se indica con el carácter <command>/</command>. El resto de las "
+#~ "ramas cuelgan de la raíz. No confunda el directorio raíz con la cuenta "
+#~ "del superusuario («root») ni con el directorio de inicio del superusuario "
 #~ "<command>/root</command>."
 
 #~ msgid ""
