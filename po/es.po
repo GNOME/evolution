@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-08-06 06:53+0000\n"
-"PO-Revision-Date: 2011-08-07 18:33+0200\n"
+"POT-Creation-Date: 2011-08-07 16:34+0000\n"
+"PO-Revision-Date: 2011-08-07 18:35+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2091,13 +2091,13 @@ msgid "No location information available."
 msgstr "No hay información del lugar disponible."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1589
-#, fuzzy, c-format
+#, c-format
 #| msgid "You have %d alarm"
 #| msgid_plural "You have %d alarms"
 msgid "You have %d reminder"
 msgid_plural "You have %d reminders"
-msgstr[0] "Tiene una alerta"
-msgstr[1] "Tiene %d alertas"
+msgstr[0] "Tiene un recordatorio"
+msgstr[1] "Tiene %d recordatorios"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1780
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1813
@@ -2307,10 +2307,9 @@ msgid "is not"
 msgstr "no es"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:626
-#, fuzzy
 #| msgid "Reminder!"
 msgid "Edit Reminder"
-msgstr "¡Recuerde!"
+msgstr "Editar recordatorio"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:817
 #: ../calendar/gui/e-alarm-list.c:438
@@ -2333,20 +2332,18 @@ msgid "Send an email"
 msgstr "Enviar un correo-e"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:1
-#, fuzzy
 #| msgid "Reminder!"
 msgid "Add Reminder"
-msgstr "¡Recuerde!"
+msgstr "añadir recordatorio"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:2
 msgid "Custom _message"
 msgstr "_Mensaje personalizado"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:3
-#, fuzzy
 #| msgid "Custom alarm sound"
 msgid "Custom reminder sound"
-msgstr "Sonido de alerta personalizado"
+msgstr "Sonido de recordatorio personalizado"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:4
 msgid "Mes_sage:"
@@ -2358,10 +2355,9 @@ msgstr "Opciones"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:6
 #: ../calendar/gui/dialogs/event-editor.c:360
-#, fuzzy
 #| msgid "Reminder!"
 msgid "Reminder"
-msgstr "¡Recuerde!"
+msgstr "Recordatorio"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:7
 msgid "Repeat"
@@ -2384,7 +2380,6 @@ msgid "_Program:"
 msgstr "_Programa:"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:12
-#| msgid "_Repeat the alarm"
 msgid "_Repeat the reminder"
 msgstr "_Repetir el recordatorio"
 
@@ -2436,7 +2431,6 @@ msgstr "Aña_dir"
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
 #: ../calendar/gui/dialogs/event-page.ui.h:8
 #: ../modules/calendar/e-calendar-preferences.ui.h:24
-#| msgid "Reminder!"
 msgid "Reminders"
 msgstr "Recordatorios"
 
@@ -2912,12 +2906,10 @@ msgid "Enter Delegate"
 msgstr "Introducir un delegado"
 
 #: ../calendar/gui/dialogs/event-editor.c:212
-#| msgid "Reminder!"
 msgid "_Reminders"
 msgstr "_Recordatorios"
 
 #: ../calendar/gui/dialogs/event-editor.c:214
-#| msgid "Set or unset alarms for this event"
 msgid "Set or unset reminders for this event"
 msgstr "Poner o quitar recordatorios para este acontecimiento"
 
@@ -2993,7 +2985,6 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/event-page.c:649
 #: ../calendar/gui/dialogs/event-page.c:3021
-#| msgid "This event has alarms"
 msgid "This event has reminders"
 msgstr "Este acontecimiento tiene recordatorios."
 
@@ -3093,7 +3084,6 @@ msgstr "Personalizar"
 
 #. Translators: "None" for "No reminder set"
 #: ../calendar/gui/dialogs/event-page.c:3287
-#| msgid "None"
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "Ninguno"
@@ -3105,7 +3095,6 @@ msgid "Atte_ndees..."
 msgstr "_Participantes…"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:5
-#| msgid "Custom Header"
 msgid "Custom Reminder:"
 msgstr "Recordatorio personalizado:"
 
@@ -3131,7 +3120,6 @@ msgid "_Location:"
 msgstr "_Lugar:"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:13
-#| msgid "Reminder!"
 msgid "_Reminder"
 msgstr "_Recordatorio"
 
@@ -3279,7 +3267,6 @@ msgstr "_Para:"
 #: ../calendar/gui/dialogs/memo-page.ui.h:7
 #: ../calendar/gui/dialogs/task-page.c:331
 #: ../calendar/gui/dialogs/task-page.ui.h:9
-#| msgid "_Last:"
 msgid "_List:"
 msgstr "_Lista:"
 
@@ -3544,7 +3531,6 @@ msgid "year(s)"
 msgstr "año(s)"
 
 #: ../calendar/gui/dialogs/send-comp.c:192
-#| msgid "Send my alarms with this event"
 msgid "Send my reminders with this event"
 msgstr "Enviar mis recordatorios con este evento"
 
@@ -4480,7 +4466,6 @@ msgid "%d %B"
 msgstr "%e de %B"
 
 #: ../calendar/gui/ea-cal-view-event.c:290
-#| msgid "It has recurrences."
 msgid "It has reminders."
 msgstr "Tiene recordatorios."
 
@@ -5072,7 +5057,6 @@ msgid "is an instance"
 msgstr "es una instancia"
 
 #: ../calendar/importers/icalendar-importer.c:1098
-#| msgid "Sh_ow a reminder"
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "tiene recordatorios"
@@ -8011,7 +7995,6 @@ msgid "No reply or parent"
 msgstr "Sin respuesta o antecesor"
 
 #: ../filter/e-filter-rule.c:759
-#| msgid "I_nclude threads"
 msgid "I_nclude threads:"
 msgstr "I_ncluir conversaciones:"
 
@@ -14027,7 +14010,6 @@ msgid "Display"
 msgstr "Mostrar"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:16
-#| msgid "Display alarms in _notification area only"
 msgid "Display reminders in _notification area only"
 msgstr "Mostrar recordatorios sólo en el área de _notificación"
 
@@ -14053,7 +14035,6 @@ msgid "Se_cond zone:"
 msgstr "Zona se_cundaria:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:30
-#| msgid "Select the calendars for alarm notification"
 msgid "Select the calendars for reminder notification"
 msgstr "Seleccione los calendarios para los recordatorios de notificación"
 
@@ -14215,7 +14196,6 @@ msgid "Birthday and anniversary reminder value"
 msgstr "Valor del recordatorio de cumpleaños y aniversarios"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:8
-#| msgid "Calendars to run alarms for"
 msgid "Calendars to run reminders for"
 msgstr "Calendarios para los que ejecutar recordatorios"
 
@@ -14256,7 +14236,6 @@ msgid "Default reminder value"
 msgstr "Valor predeterminado del recordatorio"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:17
-#| msgid "Directory for saving alarm audio files"
 msgid "Directory for saving reminder audio files"
 msgstr "Carpeta para guardar los archivos de sonidos de recordatorios"
 
@@ -14315,7 +14294,6 @@ msgstr ""
 "minutos."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:29
-#| msgid "Last alarm time"
 msgid "Last reminder time"
 msgstr "Hora del último recordatorio"
 
@@ -14470,7 +14448,6 @@ msgid "Primary task list"
 msgstr "Lista de tareas primaria"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:60
-#| msgid "Programs that are allowed to be run by alarms."
 msgid "Programs that are allowed to be run by reminders."
 msgstr "Programas que se permite que ejecuten por los recordatorios."
 
@@ -14483,12 +14460,10 @@ msgid "Recurrent Events in Italic"
 msgstr "Los acontecimientos que se repiten en cursiva"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:63
-#| msgid "Reminder Notes"
 msgid "Reminder programs"
 msgstr "Notas de recordatorios"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:64
-#| msgid "Save directory for alarm audio"
 msgid "Save directory for reminder audio"
 msgstr "Carpeta donde guardar los sonidos de los recordatorios"
 
@@ -14525,7 +14500,6 @@ msgstr ""
 "cursiva en la parte inferior izquierda del calendario."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:71
-#| msgid "Show display alarms in notification tray"
 msgid "Show display reminders in notification tray"
 msgstr "Mostrar el visor del recordatorio en la bandeja de notificación"
 
@@ -14664,7 +14638,6 @@ msgid "Time divisions"
 msgstr "Divisiones de hora"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:94
-#| msgid "Time the last alarm ran, in time_t."
 msgid "Time the last reminder ran, in time_t."
 msgstr "La hora en que el último recordatorio sonó, en time_t."
 
@@ -14719,7 +14692,6 @@ msgstr ""
 "El día en que empieza la semana, desde el domingo (0) hasta el sábado (6)."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:105
-#| msgid "Whether or not to use the notification tray for display alarms."
 msgid "Whether or not to use the notification tray for display reminders."
 msgstr ""
 "Indica si se debe usar o no la bandeja de notificación para mostrar "
@@ -14863,7 +14835,6 @@ msgid "I_mport to Tasks"
 msgstr "I_mportar a las tareas"
 
 #: ../modules/calendar/e-calendar-preferences.c:441
-#| msgid "Selected Calendars for Alarms"
 msgid "Selected Calendars for Reminders"
 msgstr "Calendarios seleccionados para recordatorios"
 
