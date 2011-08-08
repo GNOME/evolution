@@ -83,7 +83,6 @@
       <menuitem action='contents'/>
       <menuitem action='quick-reference'/>
       <separator/>
-      <menuitem action='faq'/>
       <menuitem action='submit-bug'/>
       <separator/>
       <menuitem action='about'/>
