@@ -179,6 +179,7 @@
                   <object class="EDateEdit" id="start-date">
                     <property name="visible">True</property>
                     <property name="allow_no_date_set">True</property>
+                    <property name="show_time">False</property>
                     <accessibility>
                       <relation type="labelled-by" target="start-date-label"/>
                     </accessibility>
@@ -197,6 +198,7 @@
                   <object class="EDateEdit" id="due-date">
                     <property name="visible">True</property>
                     <property name="allow_no_date_set">True</property>
+                    <property name="show_time">False</property>
                     <accessibility>
                       <relation type="labelled-by" target="due-date-label"/>
                     </accessibility>
