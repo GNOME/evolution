@@ -203,9 +203,9 @@ clear_widgets (TaskPage *tpage)
 	gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)), "", 0);
 	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (priv->description));
 
-	/* Start, due times */
-	e_date_edit_set_time (E_DATE_EDIT (priv->start_date), 0);
-	e_date_edit_set_time (E_DATE_EDIT (priv->due_date), 0);
+	/* Start, due times - both set to None */
+	e_date_edit_set_time (E_DATE_EDIT (priv->start_date), -1);
+	e_date_edit_set_time (E_DATE_EDIT (priv->due_date), -1);
 
 	/* Classification */
 	comp_editor_set_classification (editor, E_CAL_COMPONENT_CLASS_PUBLIC);
@@ -533,14 +533,7 @@ task_page_fill_widgets (CompEditorPage *page,
 		e_date_edit_set_date (E_DATE_EDIT (priv->due_date),
 				      due_tt->year, due_tt->month,
 				      due_tt->day);
-		if (due_tt->is_date) {
-			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date),
-						     -1, -1);
-		} else {
-			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date),
-						     due_tt->hour,
-						     due_tt->minute);
-		}
+		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date), -1, -1);
 	} else {
 		e_date_edit_set_time (E_DATE_EDIT (priv->due_date), -1);
 
@@ -588,22 +581,9 @@ task_page_fill_widgets (CompEditorPage *page,
 		e_date_edit_set_date (E_DATE_EDIT (priv->start_date),
 				      start_tt->year, start_tt->month,
 				      start_tt->day);
-		if (start_tt->is_date) {
-			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_date),
-						     -1, -1);
-			zone = default_zone;
-		} else {
-			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_date),
-						     start_tt->hour,
-						     start_tt->minute);
-		}
+		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_date), -1, -1);
 	} else {
 		e_date_edit_set_time (E_DATE_EDIT (priv->start_date), -1);
-
-		/* If no time is set, we use the default timezone, so the
-		   user usually doesn't have to set this when they set the
-		   date. */
-		zone = default_zone;
 	}
 
 	e_cal_component_free_datetime (&d);
@@ -749,11 +729,9 @@ task_page_fill_component (CompEditorPage *page,
 	ECalClient *client;
 	struct icaltimetype start_tt, due_tt;
 	gchar *cat, *str;
-	gboolean start_date_set, due_date_set, time_set;
+	gboolean start_date_set, due_date_set;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
-	icaltimezone *start_zone = NULL;
-	icaltimezone *due_zone = NULL;
 
 	tpage = TASK_PAGE (page);
 	priv = tpage->priv;
@@ -811,8 +789,7 @@ task_page_fill_component (CompEditorPage *page,
 	date.tzid = NULL;
 
 	/* Due Date. */
-	if (!e_date_edit_date_is_valid (E_DATE_EDIT (priv->due_date)) ||
-	    !e_date_edit_time_is_valid (E_DATE_EDIT (priv->due_date))) {
+	if (!e_date_edit_date_is_valid (E_DATE_EDIT (priv->due_date))) {
 		comp_editor_page_display_validation_error (page, _("Due date is wrong"), priv->due_date);
 		return FALSE;
 	}
@@ -821,25 +798,16 @@ task_page_fill_component (CompEditorPage *page,
 					 &due_tt.year,
 					 &due_tt.month,
 					 &due_tt.day);
-	time_set = e_date_edit_get_time_of_day (E_DATE_EDIT (priv->due_date),
-						&due_tt.hour,
-						&due_tt.minute);
 	if (due_date_set) {
-		if (time_set) {
-			due_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
-			date.tzid = icaltimezone_get_tzid (due_zone);
-		} else {
-			due_tt.is_date = TRUE;
-			date.tzid = NULL;
-		}
+		due_tt.is_date = TRUE;
+		date.tzid = NULL;
 		e_cal_component_set_due (comp, &date);
 	} else {
 		e_cal_component_set_due (comp, NULL);
 	}
 
 	/* Start Date. */
-	if (!e_date_edit_date_is_valid (E_DATE_EDIT (priv->start_date)) ||
-	    !e_date_edit_time_is_valid (E_DATE_EDIT (priv->start_date))) {
+	if (!e_date_edit_date_is_valid (E_DATE_EDIT (priv->start_date))) {
 		comp_editor_page_display_validation_error (page, _("Start date is wrong"), priv->start_date);
 		return FALSE;
 	}
@@ -850,17 +818,9 @@ task_page_fill_component (CompEditorPage *page,
 					 &start_tt.year,
 					 &start_tt.month,
 					 &start_tt.day);
-	time_set = e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_date),
-						&start_tt.hour,
-						&start_tt.minute);
 	if (start_date_set) {
-		if (time_set) {
-			start_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
-			date.tzid = icaltimezone_get_tzid (start_zone);
-		} else {
-			start_tt.is_date = TRUE;
-			date.tzid = NULL;
-		}
+		start_tt.is_date = TRUE;
+		date.tzid = NULL;
 		e_cal_component_set_dtstart (comp, &date);
 	} else {
 		e_cal_component_set_dtstart (comp, NULL);
@@ -1547,7 +1507,7 @@ date_changed_cb (EDateEdit *dedit,
 {
 	TaskPagePrivate *priv = tpage->priv;
 	CompEditorPageDates dates;
-	gboolean date_set, time_set;
+	gboolean date_set;
 	ECalComponentDateTime start_dt, due_dt;
 	struct icaltimetype start_tt = icaltime_null_time ();
 	struct icaltimetype due_tt = icaltime_null_time ();
@@ -1559,17 +1519,9 @@ date_changed_cb (EDateEdit *dedit,
 					 &start_tt.year,
 					 &start_tt.month,
 					 &start_tt.day);
-	time_set = e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_date),
-						&start_tt.hour,
-						&start_tt.minute);
 	if (date_set) {
-		if (time_set) {
-			icaltimezone *zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
-			start_dt.tzid = icaltimezone_get_tzid (zone);
-		} else {
-			start_tt.is_date = TRUE;
-			start_dt.tzid = NULL;
-		}
+		start_tt.is_date = TRUE;
+		start_dt.tzid = NULL;
 	} else {
 		start_tt = icaltime_null_time ();
 		start_dt.tzid = NULL;
@@ -1579,17 +1531,9 @@ date_changed_cb (EDateEdit *dedit,
 					 &due_tt.year,
 					 &due_tt.month,
 					 &due_tt.day);
-	time_set = e_date_edit_get_time_of_day (E_DATE_EDIT (priv->due_date),
-						&due_tt.hour,
-						&due_tt.minute);
 	if (date_set) {
-		if (time_set) {
-			icaltimezone *zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
-			due_dt.tzid = icaltimezone_get_tzid (zone);
-		} else {
-			due_tt.is_date = TRUE;
-			due_dt.tzid = NULL;
-		}
+		due_tt.is_date = TRUE;
+		due_dt.tzid = NULL;
 	} else {
 		due_tt = icaltime_null_time ();
 		due_dt.tzid = NULL;
@@ -1687,7 +1631,7 @@ times_updated (TaskPage *tpage, gboolean adjust_end_time)
 	struct icaltimetype start_tt = icaltime_null_time ();
 	struct icaltimetype end_tt = icaltime_null_time ();
 	gboolean date_set;
-	gboolean set_start_date = FALSE, set_end_date = FALSE, adjust_by_hour;
+	gboolean set_start_date = FALSE, set_end_date = FALSE;
 	icaltimezone *zone;
 
 	priv = tpage->priv;
@@ -1709,23 +1653,12 @@ times_updated (TaskPage *tpage, gboolean adjust_end_time)
 	if (!date_set)
 		return;
 
-	/* For DATE-TIME events, we have to convert to the same
-	   timezone before comparing. */
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_date),
-				     &start_tt.hour,
-				     &start_tt.minute);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->due_date),
-				     &end_tt.hour,
-				     &end_tt.minute);
-
 	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
-	adjust_by_hour = e_date_edit_have_time (E_DATE_EDIT (priv->due_date)) &&
-			 e_date_edit_have_time (E_DATE_EDIT (priv->start_date));
 
 	if (check_start_before_end (&start_tt, zone,
 				    &end_tt, zone,
 				    adjust_end_time,
-				    adjust_by_hour)) {
+				    FALSE)) {
 		if (adjust_end_time)
 			set_end_date = TRUE;
 		else
@@ -1735,16 +1668,12 @@ times_updated (TaskPage *tpage, gboolean adjust_end_time)
 	if (set_start_date) {
 		g_signal_handlers_block_matched (priv->start_date, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, tpage);
 		e_date_edit_set_date (E_DATE_EDIT (priv->start_date), start_tt.year, start_tt.month, start_tt.day);
-		if (adjust_by_hour)
-			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_date), start_tt.hour, start_tt.minute);
 		g_signal_handlers_unblock_matched (priv->start_date, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, tpage);
 	}
 
 	if (set_end_date) {
 		g_signal_handlers_block_matched (priv->due_date, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, tpage);
 		e_date_edit_set_date (E_DATE_EDIT (priv->due_date), end_tt.year, end_tt.month, end_tt.day);
-		if (adjust_by_hour)
-			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date), end_tt.hour, end_tt.minute);
 		g_signal_handlers_unblock_matched (priv->due_date, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, tpage);
 	}
 
