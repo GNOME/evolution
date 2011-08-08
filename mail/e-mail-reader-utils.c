@@ -776,6 +776,60 @@ html_contains_nonwhitespace (const gchar *html,
 	return cp - html < len - 1 && uc != 0;
 }
 
+struct GetSrcMessageData
+{
+	EMailReader *reader;
+	EMailReplyType reply_type;
+	EMailReplyStyle reply_style;
+	CamelFolder *folder;
+	gchar *message_uid;
+	CamelInternetAddress *address;
+};
+
+static void
+get_message_ready_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	CamelFolder *folder = CAMEL_FOLDER (source_object);
+	struct GetSrcMessageData *data = user_data;
+	CamelMimeMessage *message;
+	GError *error = NULL;
+
+	g_return_if_fail (folder != NULL);
+	g_return_if_fail (result != NULL);
+	g_return_if_fail (data != NULL);
+	g_return_if_fail (data->folder == folder);
+
+	message = camel_folder_get_message_finish (folder, result, &error);
+	if (message) {
+		EShell *shell;
+		EMailBackend *backend;
+
+		backend = e_mail_reader_get_backend (data->reader);
+		shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+
+		em_utils_reply_to_message (
+			shell, message, data->folder, data->message_uid,
+			data->reply_type, data->reply_style, EM_FORMAT (e_mail_reader_get_formatter (data->reader)), data->address);
+	} else if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		EAlertSink *alert_sink;
+
+		alert_sink = e_mail_reader_get_alert_sink (data->reader);
+
+		e_alert_submit (
+			alert_sink, "mail:no-retrieve-message",
+			error->message, NULL);
+	}
+
+	g_clear_error (&error);
+
+	g_object_unref (data->reader);
+	g_object_unref (data->folder);
+	g_free (data->message_uid);
+	if (data->address)
+		g_object_unref (data->address);
+	g_free (data);
+}
+
 void
 e_mail_reader_reply_to_message (EMailReader *reader,
                                 CamelMimeMessage *src_message,
@@ -846,6 +900,8 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 		src_message = EM_FORMAT (formatter)->message;
 		if (src_message != NULL)
 			g_object_ref (src_message);
+
+		g_return_if_fail (src_message != NULL);
 	}
 
 	if (!e_web_view_is_selection_active (web_view))
@@ -895,6 +951,24 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	return;
 
 whole_message:
+	if (!src_message) {
+		struct GetSrcMessageData *data;
+
+		data = g_new0 (struct GetSrcMessageData, 1);
+		data->reader = g_object_ref (reader);
+		data->reply_type = reply_type;
+		data->reply_style = reply_style;
+		data->folder = g_object_ref (folder);
+		data->message_uid = g_strdup (uid);
+		data->address = address; /* takes ownership of it, if set */
+
+		camel_folder_get_message (
+			data->folder, data->message_uid, G_PRIORITY_DEFAULT,
+			NULL, get_message_ready_cb, data);
+
+		return;
+	}
+
 	em_utils_reply_to_message (
 		shell, src_message, folder, uid,
 		reply_type, reply_style, EM_FORMAT (formatter), address);
