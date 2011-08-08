@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-05 13:18+0200\n"
-"PO-Revision-Date: 2011-08-05 13:19+0100\n"
+"POT-Creation-Date: 2011-08-08 08:23+0200\n"
+"PO-Revision-Date: 2011-08-08 08:23+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -7938,8 +7938,8 @@ msgid "No reply or parent"
 msgstr "Inget svar eller förälder"
 
 #: ../filter/e-filter-rule.c:759
-msgid "I_nclude threads"
-msgstr "I_nkludera trådar"
+msgid "I_nclude threads:"
+msgstr "I_nkludera trådar:"
 
 #: ../filter/e-filter-rule.c:784
 msgid "A_dd Condition"
