@@ -31,6 +31,10 @@
 #include "mail/e-mail-local.h"
 #include "mail/em-utils.h"
 
+#define E_MAIL_SIDEBAR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_SIDEBAR, EMailSidebarPrivate))
+
 struct _EMailSidebarPrivate {
 	GKeyFile *key_file;  /* not owned */
 };
@@ -45,8 +49,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	EMailSidebar,
+	e_mail_sidebar,
+	EM_TYPE_FOLDER_TREE)
 
 static void
 mail_sidebar_restore_state (EMailSidebar *sidebar)
@@ -206,7 +214,7 @@ mail_sidebar_row_expanded (GtkTreeView *tree_view,
 
 	/* Chain up to parent's row_expanded() method.  Do this first
 	 * because we stomp on the path argument a few lines down. */
-	tree_view_class = GTK_TREE_VIEW_CLASS (parent_class);
+	tree_view_class = GTK_TREE_VIEW_CLASS (e_mail_sidebar_parent_class);
 	tree_view_class->row_expanded (tree_view, unused, path);
 
 	sidebar = E_MAIL_SIDEBAR (tree_view);
@@ -379,12 +387,11 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 }
 
 static void
-mail_sidebar_class_init (EMailSidebarClass *class)
+e_mail_sidebar_class_init (EMailSidebarClass *class)
 {
 	GObjectClass *object_class;
 	GtkTreeViewClass *tree_view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailSidebarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -417,15 +424,14 @@ mail_sidebar_class_init (EMailSidebarClass *class)
 }
 
 static void
-mail_sidebar_init (EMailSidebar *sidebar)
+e_mail_sidebar_init (EMailSidebar *sidebar)
 {
 	GtkTreeModel *model;
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
 	EMFolderTree *folder_tree;
 
-	sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		sidebar, E_TYPE_MAIL_SIDEBAR, EMailSidebarPrivate);
+	sidebar->priv = E_MAIL_SIDEBAR_GET_PRIVATE (sidebar);
 
 	folder_tree = EM_FOLDER_TREE (sidebar);
 	em_folder_tree_set_excluded (folder_tree, 0);
@@ -445,32 +451,6 @@ mail_sidebar_init (EMailSidebar *sidebar)
 	g_signal_connect (
 		selection, "changed",
 		G_CALLBACK (mail_sidebar_selection_changed_cb), sidebar);
-}
-
-GType
-e_mail_sidebar_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMailSidebarClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_sidebar_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailSidebar),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) mail_sidebar_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			EM_TYPE_FOLDER_TREE, "EMailSidebar", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *
