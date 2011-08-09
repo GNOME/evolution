@@ -50,6 +50,9 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
 
+#include <shell/e-shell.h>
+#include <shell/e-shell-utils.h>
+
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 #include "certificate-viewer.h"
 #include "e-cert-db.h"
@@ -59,6 +62,7 @@
 #include "e-mail-attachment-bar.h"
 #include "em-format-html-display.h"
 #include "em-utils.h"
+#include "widgets/misc/e-attachment.h"
 #include "widgets/misc/e-attachment-button.h"
 #include "widgets/misc/e-attachment-view.h"
 
@@ -656,6 +660,145 @@ efhd_format_secure (EMFormat *emf,
 }
 
 static void
+attachment_load_finish (EAttachment *attachment,
+                        GAsyncResult *result,
+                        GFile *file)
+{
+	EShell *shell;
+	GtkWindow *parent;
+
+	e_attachment_load_finish (attachment, result, NULL);
+
+	shell = e_shell_get_default ();
+	parent = e_shell_get_active_window (shell);
+
+	e_attachment_save_async (
+		attachment, file, (GAsyncReadyCallback)
+		e_attachment_save_handle_error, parent);
+
+	g_object_unref (file);
+}
+
+static void
+action_image_save_cb (GtkAction *actions, EMFormatHTMLDisplay *efhd)
+{
+	EWebView *web_view;
+	EMFormat *emf;
+	const gchar *image_src;
+	CamelMimePart *part;
+	EAttachment *attachment;
+	GFile *file;
+
+	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (efhd));
+	g_return_if_fail (web_view != NULL);
+
+	image_src = e_web_view_get_cursor_image_src (web_view);
+	if (!image_src)
+		return;
+
+	emf = EM_FORMAT (efhd);
+	g_return_if_fail (emf != NULL);
+	g_return_if_fail (emf->message != NULL);
+
+	if (g_str_has_prefix (image_src, "cid:")) {
+		part = camel_mime_message_get_part_by_content_id (emf->message, image_src + 4);
+		g_return_if_fail (part != NULL);
+
+		g_object_ref (part);
+	} else {
+		CamelStream *image_stream;
+		CamelDataWrapper *dw;
+		const gchar *filename;
+
+		image_stream = em_format_html_get_cached_image (EM_FORMAT_HTML (efhd), image_src);
+		if (!image_stream)
+			return;
+
+		filename = strrchr (image_src, '/');
+		if (filename && strchr (filename, '?'))
+			filename = NULL;
+		else if (filename)
+			filename = filename + 1;
+
+		part = camel_mime_part_new ();
+		if (filename)
+			camel_mime_part_set_filename (part, filename);
+		
+		dw = camel_data_wrapper_new ();
+		camel_data_wrapper_set_mime_type (dw, "application/octet-stream");
+		camel_data_wrapper_construct_from_stream_sync (dw, image_stream, NULL, NULL);
+		camel_medium_set_content (CAMEL_MEDIUM (part), dw);
+		g_object_unref (dw);
+
+		camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BASE64);
+
+		g_object_unref (image_stream);
+	}
+
+	file = e_shell_run_save_dialog (
+		e_shell_get_default (),
+		_("Save Image"), camel_mime_part_get_filename (part),
+		NULL, NULL, NULL);
+	if (file == NULL) {
+		g_object_unref (part);
+		return;
+	}
+
+	attachment = e_attachment_new ();
+	e_attachment_set_mime_part (attachment, part);
+
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		attachment_load_finish, file);
+
+	g_object_unref (part);
+}
+
+static void
+efhd_web_view_update_actions_cb (EWebView *web_view, EMFormatHTMLDisplay *efhd)
+{
+	const gchar *image_src;
+	gboolean visible;
+	GtkAction *action;
+
+	g_return_if_fail (web_view != NULL);
+
+	image_src = e_web_view_get_cursor_image_src (web_view);
+	visible = image_src && g_str_has_prefix (image_src, "cid:");
+	if (!visible && image_src) {
+		CamelStream *image_stream;
+
+		image_stream = em_format_html_get_cached_image (EM_FORMAT_HTML (efhd), image_src);
+		visible = image_stream != NULL;
+
+		if (image_stream)
+			g_object_unref (image_stream);
+	}
+
+	action = e_web_view_get_action (web_view, "efhd-image-save");
+	if (action)
+		gtk_action_set_visible (action, visible);
+}
+
+static GtkActionEntry image_entries[] = {
+	{ "efhd-image-save",
+	  GTK_STOCK_SAVE,
+	  N_("Save _Image..."),
+	  NULL,
+	  N_("Save the image to a file"),
+	  G_CALLBACK (action_image_save_cb) }
+};
+
+static const gchar *image_ui =
+	"<ui>"
+	"  <popup name='context'>"
+	"    <placeholder name='custom-actions-2'>"
+	"      <menuitem action='efhd-image-save'/>"
+	"    </placeholder>"
+	"  </popup>"
+	"</ui>";
+
+static void
 efhd_finalize (GObject *object)
 {
 	EMFormatHTMLDisplay *efhd;
@@ -701,6 +844,9 @@ static void
 efhd_init (EMFormatHTMLDisplay *efhd)
 {
 	EWebView *web_view;
+	GtkActionGroup *image_actions;
+	GtkUIManager *ui_manager;
+	GError *error = NULL;
 
 	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (efhd));
 
@@ -716,6 +862,22 @@ efhd_init (EMFormatHTMLDisplay *efhd)
 	EM_FORMAT_HTML (efhd)->text_html_flags |=
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
+
+	image_actions = e_web_view_get_action_group (web_view, "image");
+	g_return_if_fail (image_actions != NULL);
+
+	gtk_action_group_add_actions (
+		image_actions, image_entries,
+		G_N_ELEMENTS (image_entries), efhd);
+
+	ui_manager = e_web_view_get_ui_manager (web_view);
+	gtk_ui_manager_add_ui_from_string (ui_manager, image_ui, -1, &error);
+
+	if (error)
+		g_debug ("%s: Failed to add image_ui: %s", G_STRFUNC, error->message);
+	g_clear_error (&error);
+
+	g_signal_connect (web_view, "update-actions", G_CALLBACK (efhd_web_view_update_actions_cb), efhd);
 }
 
 GType

@@ -3328,3 +3328,16 @@ em_format_html_format_cert_infos (CamelCipherCertInfo *first_cinfo)
 
 	return g_string_free (res, FALSE);
 }
+
+/* unref returned pointer with g_object_unref(), if not NULL */
+CamelStream *
+em_format_html_get_cached_image (EMFormatHTML *efh, const gchar *image_uri)
+{
+	g_return_val_if_fail (efh != NULL, NULL);
+	g_return_val_if_fail (image_uri != NULL, NULL);
+
+	if (!emfh_http_cache)
+		return NULL;
+
+	return camel_data_cache_get (emfh_http_cache, EMFH_HTTP_CACHE_PATH, image_uri, NULL);
+}

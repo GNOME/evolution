@@ -128,6 +128,9 @@ GdkPixbufAnimation *
 		e_web_view_get_cursor_image	(EWebView *web_view);
 void		e_web_view_set_cursor_image	(EWebView *web_view,
 						 GdkPixbufAnimation *animation);
+const gchar *	e_web_view_get_cursor_image_src	(EWebView *web_view);
+void		e_web_view_set_cursor_image_src	(EWebView *web_view,
+						 const gchar *src_uri);
 GtkAction *	e_web_view_get_open_proxy	(EWebView *web_view);
 void		e_web_view_set_open_proxy	(EWebView *web_view,
 						 GtkAction *open_proxy);
