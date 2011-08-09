@@ -47,6 +47,7 @@ struct _EWebViewPrivate {
 	GtkUIManager *ui_manager;
 	gchar *selected_uri;
 	GdkPixbufAnimation *cursor_image;
+	gchar *cursor_image_src;
 
 	GtkAction *open_proxy;
 	GtkAction *print_proxy;
@@ -85,7 +86,8 @@ enum {
 	PROP_PRINT_PROXY,
 	PROP_SAVE_AS_PROXY,
 	PROP_SELECTED_URI,
-	PROP_CURSOR_IMAGE
+	PROP_CURSOR_IMAGE,
+	PROP_CURSOR_IMAGE_SRC
 };
 
 enum {
@@ -478,6 +480,7 @@ web_view_button_press_event_cb (EWebView *web_view,
 
 	if (event) {
 		GdkPixbufAnimation *anim;
+		gchar *image_src;
 
 		if (frame == NULL)
 			frame = GTK_HTML (web_view);
@@ -486,6 +489,10 @@ web_view_button_press_event_cb (EWebView *web_view,
 		e_web_view_set_cursor_image (web_view, anim);
 		if (anim != NULL)
 			g_object_unref (anim);
+
+		image_src = gtk_html_get_image_src_at (frame, event->x, event->y);
+		e_web_view_set_cursor_image_src (web_view, image_src);
+		g_free (image_src);
 	}
 
 	if (event != NULL && event->button != 3)
@@ -635,6 +642,11 @@ web_view_set_property (GObject *object,
 				E_WEB_VIEW (object),
 				g_value_get_object (value));
 			return;
+		case PROP_CURSOR_IMAGE_SRC:
+			e_web_view_set_cursor_image_src (
+				E_WEB_VIEW (object),
+				g_value_get_string (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -736,6 +748,11 @@ web_view_get_property (GObject *object,
 				value, e_web_view_get_cursor_image (
 				E_WEB_VIEW (object)));
 			return;
+		case PROP_CURSOR_IMAGE_SRC:
+			g_value_set_string (
+				value, e_web_view_get_cursor_image_src (
+				E_WEB_VIEW (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -781,6 +798,11 @@ web_view_dispose (GObject *object)
 	if (priv->cursor_image != NULL) {
 		g_object_unref (priv->cursor_image);
 		priv->cursor_image = NULL;
+	}
+
+	if (priv->cursor_image_src != NULL) {
+		g_free (priv->cursor_image_src);
+		priv->cursor_image_src = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -1500,6 +1522,16 @@ e_web_view_class_init (EWebViewClass *class)
 			GDK_TYPE_PIXBUF_ANIMATION,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_CURSOR_IMAGE_SRC,
+		g_param_spec_string (
+			"cursor-image-src",
+			"Image source uri at the mouse cursor",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
+
 	signals[COPY_CLIPBOARD] = g_signal_new (
 		"copy-clipboard",
 		G_TYPE_FROM_CLASS (class),
@@ -2002,6 +2034,25 @@ e_web_view_set_cursor_image (EWebView *web_view,
 	web_view->priv->cursor_image = image;
 
 	g_object_notify (G_OBJECT (web_view), "cursor-image");
+}
+
+const gchar *
+e_web_view_get_cursor_image_src (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+
+	return web_view->priv->cursor_image_src;
+}
+
+void
+e_web_view_set_cursor_image_src (EWebView *web_view, const gchar *src_uri)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	g_free (web_view->priv->cursor_image_src);
+	web_view->priv->cursor_image_src = g_strdup (src_uri);
+
+	g_object_notify (G_OBJECT (web_view), "cursor-image-src");
 }
 
 GtkAction *

@@ -311,6 +311,8 @@ void		em_format_html_set_headers_collapsable
 gchar *		em_format_html_format_cert_infos
 						(CamelCipherCertInfo *first_cinfo);
 
+CamelStream *	em_format_html_get_cached_image (EMFormatHTML *efh,
+						 const gchar *image_uri);
 G_END_DECLS
 
 #endif /* EM_FORMAT_HTML_H */
