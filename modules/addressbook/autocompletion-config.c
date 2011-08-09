@@ -34,7 +34,9 @@
 #include <libedataserverui/e-source-selector.h>
 #include <libedataserverui/e-name-selector-entry.h>
 
+#include "e-util/e-config.h"
 #include "e-util/e-datetime-format.h"
+#include "addressbook/gui/widgets/eab-config.h"
 
 static void
 source_selection_changed_cb (ESourceSelector *source_selector)
@@ -131,8 +133,20 @@ add_section (GtkWidget *container,
 	return widget;
 }
 
-GtkWidget *
-autocompletion_config_new (EPreferencesWindow *window)
+static GtkWidget *
+acc_get_toplevel_notebook (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gint position, gpointer data)
+{
+	if (old)
+		return old;
+
+	old = gtk_notebook_new ();
+	gtk_widget_show (old);
+
+	return old;
+}
+
+static GtkWidget *
+acc_get_general_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gint position, gpointer data)
 {
 	EShellSettings *shell_settings;
 	ESourceList *source_list;
@@ -143,7 +157,12 @@ autocompletion_config_new (EPreferencesWindow *window)
 	GtkWidget *vbox;
 	EShell *shell;
 
-	shell = e_preferences_window_get_shell (window);
+	if (old)
+		return old;
+
+	g_return_val_if_fail (GTK_IS_NOTEBOOK (parent), NULL);
+
+	shell = data;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
@@ -152,7 +171,7 @@ autocompletion_config_new (EPreferencesWindow *window)
 	source_list = e_source_list_new_for_gconf_default (
 		"/apps/evolution/addressbook/sources");
 
-	vbox = gtk_vbox_new (FALSE, 12);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
 	gtk_widget_show (vbox);
 
@@ -194,6 +213,68 @@ autocompletion_config_new (EPreferencesWindow *window)
 	gtk_widget_show (source_selector);
 
 	gtk_box_pack_start (GTK_BOX (itembox), scrolled_window, TRUE, TRUE, 0);
+	gtk_widget_show_all (vbox);
+
+	gtk_notebook_append_page (GTK_NOTEBOOK (parent), vbox, gtk_label_new (_("General")));
+
+	return vbox;
+}
+
+/* plugin meta-data */
+static EConfigItem acc_items[] = {
+	{ E_CONFIG_BOOK, (gchar *) "", (gchar *) "acc_toplevel_notebook", acc_get_toplevel_notebook },
+	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "acc_general", acc_get_general_page }
+};
+
+static void
+acc_free (EConfig *ec, GSList *items, gpointer data)
+{
+	g_slist_free (items);
+}
+
+GtkWidget *
+autocompletion_config_new (EPreferencesWindow *window)
+{
+	GtkWidget *toplevel;
+	GtkWidget *vbox;
+	GSList *l;
+	gint ii;
+	EShell *shell;
+	EABConfig *eab;
+	EABConfigTargetPrefs *target;
+	GConfClient *gconf;
+
+	shell = e_preferences_window_get_shell (window);
+
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 0);
+	gtk_widget_show (vbox);
+
+	/** @HookPoint-EABConfig: Contacts Preferences Page
+	 * @Id: org.gnome.evolution.addressbook.prefs
+	 * @Type: E_CONFIG_BOOK
+	 * @Class: org.gnome.evolution.addressbook.config:1.0
+	 * @Target: EABConfigTargetPrefs
+	 *
+	 * The main contacts preferences page.
+	 */
+	eab = eab_config_new (E_CONFIG_BOOK, "org.gnome.evolution.addressbook.prefs");
+
+	l = NULL;
+	for (ii = 0; ii < G_N_ELEMENTS (acc_items); ii++)
+		l = g_slist_prepend (l, &acc_items[ii]);
+	e_config_add_items ((EConfig *) eab, l, NULL, NULL, acc_free, shell);
+
+	gconf = gconf_client_get_default ();
+
+	target = eab_config_target_new_prefs (eab, gconf);
+	e_config_set_target ((EConfig *) eab, (EConfigTarget *) target);
+	toplevel = e_config_create_widget ((EConfig *) eab);
+	gtk_box_pack_start (GTK_BOX (vbox), toplevel, TRUE, TRUE, 0);
+
+	g_object_unref (gconf);
 
 	return vbox;
 }

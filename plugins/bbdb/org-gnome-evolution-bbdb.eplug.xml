@@ -17,9 +17,9 @@ Automatically fills your address book with names and email addresses as you repl
                            handle="bbdb_handle_send"
                            target="message"
                        />
-		                                                                                                                                                 </hook>
-		<hook class="org.gnome.evolution.mail.config:1.0">
-			<group id="org.gnome.evolution.mail.prefs" target="prefs">
+		</hook>
+		<hook class="org.gnome.evolution.addressbook.config:1.0">
+			<group id="org.gnome.evolution.addressbook.prefs" target="prefs">
 				<item type="page" path="80.bbdb" _label="BBDB" factory="bbdb_page_factory"/>
 			</group>
 		</hook>
