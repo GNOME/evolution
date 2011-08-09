@@ -198,6 +198,32 @@ mail_sidebar_get_property (GObject *object,
 }
 
 static void
+mail_sidebar_constructed (GObject *object)
+{
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+
+	/* Chain up to parent's constructed() property. */
+	G_OBJECT_CLASS (e_mail_sidebar_parent_class)->constructed (object);
+
+	tree_view = GTK_TREE_VIEW (object);
+	model = gtk_tree_view_get_model (tree_view);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	em_folder_tree_model_set_selection (
+		EM_FOLDER_TREE_MODEL (model), selection);
+
+	g_signal_connect (
+		model, "loaded-row",
+		G_CALLBACK (mail_sidebar_model_loaded_row_cb), object);
+
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (mail_sidebar_selection_changed_cb), object);
+}
+
+static void
 mail_sidebar_row_expanded (GtkTreeView *tree_view,
                            GtkTreeIter *unused,
                            GtkTreePath *path)
@@ -397,6 +423,7 @@ e_mail_sidebar_class_init (EMailSidebarClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_sidebar_set_property;
 	object_class->get_property = mail_sidebar_get_property;
+	object_class->constructed = mail_sidebar_constructed;
 
 	tree_view_class = GTK_TREE_VIEW_CLASS (class);
 	tree_view_class->row_expanded = mail_sidebar_row_expanded;
@@ -426,9 +453,6 @@ e_mail_sidebar_class_init (EMailSidebarClass *class)
 static void
 e_mail_sidebar_init (EMailSidebar *sidebar)
 {
-	GtkTreeModel *model;
-	GtkTreeView *tree_view;
-	GtkTreeSelection *selection;
 	EMFolderTree *folder_tree;
 
 	sidebar->priv = E_MAIL_SIDEBAR_GET_PRIVATE (sidebar);
@@ -436,34 +460,24 @@ e_mail_sidebar_init (EMailSidebar *sidebar)
 	folder_tree = EM_FOLDER_TREE (sidebar);
 	em_folder_tree_set_excluded (folder_tree, 0);
 	em_folder_tree_enable_drag_and_drop (folder_tree);
-
-	tree_view = GTK_TREE_VIEW (sidebar);
-	model = gtk_tree_view_get_model (tree_view);
-	selection = gtk_tree_view_get_selection (tree_view);
-
-	em_folder_tree_model_set_selection (
-		EM_FOLDER_TREE_MODEL (model), selection);
-
-	g_signal_connect (
-		model, "loaded-row",
-		G_CALLBACK (mail_sidebar_model_loaded_row_cb), sidebar);
-
-	g_signal_connect (
-		selection, "changed",
-		G_CALLBACK (mail_sidebar_selection_changed_cb), sidebar);
 }
 
 GtkWidget *
 e_mail_sidebar_new (EMailBackend *backend,
                     EAlertSink *alert_sink)
 {
+	EMFolderTreeModel *model;
+
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 	g_return_val_if_fail (E_IS_ALERT_SINK (alert_sink), NULL);
+
+	model = em_folder_tree_model_get_default ();
 
 	return g_object_new (
 		E_TYPE_MAIL_SIDEBAR,
 		"alert-sink", alert_sink,
-		"backend", backend, NULL);
+		"backend", backend,
+		"model", model, NULL);
 }
 
 GKeyFile *

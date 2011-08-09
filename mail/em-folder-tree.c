@@ -137,6 +137,7 @@ enum {
 	PROP_BACKEND,
 	PROP_COPY_TARGET_LIST,
 	PROP_ELLIPSIZE,
+	PROP_MODEL,
 	PROP_PASTE_TARGET_LIST
 };
 
@@ -701,6 +702,172 @@ exit:
 	g_free (new_full_name);
 }
 
+static gboolean
+subdirs_contain_unread (GtkTreeModel *model, GtkTreeIter *root)
+{
+	guint unread;
+	GtkTreeIter iter;
+
+	if (!gtk_tree_model_iter_children (model, &iter, root))
+		return FALSE;
+
+	do {
+		gtk_tree_model_get (model, &iter, COL_UINT_UNREAD, &unread, -1);
+		if (unread)
+			return TRUE;
+
+		if (gtk_tree_model_iter_has_child (model, &iter))
+			if (subdirs_contain_unread (model, &iter))
+				return TRUE;
+	} while (gtk_tree_model_iter_next (model, &iter));
+
+	return FALSE;
+}
+
+static void
+folder_tree_render_display_name (GtkTreeViewColumn *column,
+                                 GtkCellRenderer *renderer,
+                                 GtkTreeModel *model,
+                                 GtkTreeIter *iter)
+{
+	PangoWeight weight;
+	gboolean is_store, bold, subdirs_unread = FALSE;
+	gboolean editable;
+	guint unread;
+	gchar *display;
+	gchar *name;
+
+	gtk_tree_model_get (
+		model, iter, COL_STRING_DISPLAY_NAME, &name,
+		COL_BOOL_IS_STORE, &is_store,
+		COL_UINT_UNREAD, &unread, -1);
+
+	g_object_get (renderer, "editable", &editable, NULL);
+
+	bold = is_store || unread;
+
+	if (gtk_tree_model_iter_has_child (model, iter)) {
+		gboolean expanded = TRUE;
+
+		g_object_get (renderer, "is-expanded", &expanded, NULL);
+
+		if (!bold || !expanded)
+			subdirs_unread = subdirs_contain_unread (model, iter);
+	}
+
+	bold = !editable && (bold || subdirs_unread);
+	weight = bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL;
+
+	if (!is_store && !editable && unread) {
+		/* Translators: This is the string used for displaying the
+		 * folder names in folder trees. The first "%s" will be
+		 * replaced by the folder's name and "%u" will be replaced
+		 * with the number of unread messages in the folder. The
+		 * second %s will be replaced with a "+" letter for collapsed
+		 * folders with unread messages in some subfolder too,
+		 * or with an empty string for other cases.
+		 *
+		 * Most languages should translate this as "%s (%u%s)". The
+		 * languages that use localized digits (like Persian) may
+		 * need to replace "%u" with "%Iu". Right-to-left languages
+		 * (like Arabic and Hebrew) may need to add bidirectional
+		 * formatting codes to take care of the cases the folder
+		 * name appears in either direction.
+		 *
+		 * Do not translate the "folder-display|" part. Remove it
+		 * from your translation.
+		 */
+		display = g_strdup_printf (
+			C_("folder-display", "%s (%u%s)"),
+			name, unread, subdirs_unread ? "+" : "");
+		g_free (name);
+	} else
+		display = name;
+
+	g_object_set (renderer, "text", display, "weight", weight, NULL);
+
+	g_free (display);
+}
+
+static void
+folder_tree_render_icon (GtkTreeViewColumn *column,
+                         GtkCellRenderer *renderer,
+                         GtkTreeModel *model,
+                         GtkTreeIter *iter)
+{
+	GtkTreeSelection *selection;
+	GtkTreePath *drag_dest_row;
+	GtkWidget *tree_view;
+	GIcon *icon;
+	guint unread;
+	guint old_unread;
+	gchar *icon_name;
+	gboolean is_selected;
+	gboolean is_drafts = FALSE;
+	gboolean is_drag_dest = FALSE;
+
+	gtk_tree_model_get (
+		model, iter,
+		COL_STRING_ICON_NAME, &icon_name,
+		COL_UINT_UNREAD_LAST_SEL, &old_unread,
+		COL_UINT_UNREAD, &unread,
+		COL_BOOL_IS_DRAFT, &is_drafts,
+		-1);
+
+	if (icon_name == NULL)
+		return;
+
+	tree_view = gtk_tree_view_column_get_tree_view (column);
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+	is_selected = gtk_tree_selection_iter_is_selected (selection, iter);
+
+	gtk_tree_view_get_drag_dest_row (
+		GTK_TREE_VIEW (tree_view), &drag_dest_row, NULL);
+	if (drag_dest_row != NULL) {
+		GtkTreePath *path;
+
+		path = gtk_tree_model_get_path (model, iter);
+		if (gtk_tree_path_compare (path, drag_dest_row) == 0)
+			is_drag_dest = TRUE;
+		gtk_tree_path_free (path);
+
+		gtk_tree_path_free (drag_dest_row);
+	}
+
+	if (g_strcmp0 (icon_name, "folder") == 0) {
+		if (is_selected) {
+			g_free (icon_name);
+			icon_name = g_strdup ("folder-open");
+		} else if (is_drag_dest) {
+			g_free (icon_name);
+			icon_name = g_strdup ("folder-drag-accept");
+		}
+	}
+
+	icon = g_themed_icon_new (icon_name);
+
+	/* Show an emblem if there's new mail. */
+	if (!is_selected && unread > old_unread && !is_drafts) {
+		GIcon *temp_icon;
+		GEmblem *emblem;
+
+		temp_icon = g_themed_icon_new ("emblem-new");
+		emblem = g_emblem_new (temp_icon);
+		g_object_unref (temp_icon);
+
+		temp_icon = g_emblemed_icon_new (icon, emblem);
+		g_object_unref (emblem);
+		g_object_unref (icon);
+
+		icon = temp_icon;
+	}
+
+	g_object_set (renderer, "gicon", icon, NULL);
+
+	g_object_unref (icon);
+	g_free (icon_name);
+}
+
 static void
 folder_tree_selection_changed_cb (EMFolderTree *folder_tree,
                                   GtkTreeSelection *selection)
@@ -744,6 +911,53 @@ exit:
 
 	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
 	g_list_free (list);
+}
+
+static void
+folder_tree_copy_expanded_cb (GtkTreeView *unused,
+                              GtkTreePath *path,
+                              GtkTreeView *tree_view)
+{
+	gtk_tree_view_expand_row (tree_view, path, FALSE);
+}
+
+static void
+folder_tree_copy_selection_cb (GtkTreeModel *model,
+                               GtkTreePath *path,
+                               GtkTreeIter *iter,
+                               GtkTreeView *tree_view)
+{
+	GtkTreeSelection *selection;
+
+	selection = gtk_tree_view_get_selection (tree_view);
+	gtk_tree_selection_select_path (selection, path);
+
+	/* Center the tree view on the selected path. */
+	gtk_tree_view_scroll_to_cell (tree_view, path, NULL, TRUE, 0.5, 0.0);
+}
+
+static void
+folder_tree_copy_state (EMFolderTree *folder_tree)
+{
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+
+	tree_view = GTK_TREE_VIEW (folder_tree);
+	model = gtk_tree_view_get_model (tree_view);
+
+	selection = em_folder_tree_model_get_selection (
+		EM_FOLDER_TREE_MODEL (model));
+	if (selection == NULL)
+		return;
+
+	gtk_tree_view_map_expanded_rows (
+		tree_view, (GtkTreeViewMappingFunc)
+		folder_tree_copy_expanded_cb, folder_tree);
+
+	gtk_tree_selection_selected_foreach (
+		selection, (GtkTreeSelectionForeachFunc)
+		folder_tree_copy_selection_cb, folder_tree);
 }
 
 static void
@@ -820,6 +1034,12 @@ folder_tree_set_property (GObject *object,
 				EM_FOLDER_TREE (object),
 				g_value_get_enum (value));
 			return;
+
+		case PROP_MODEL:
+			gtk_tree_view_set_model (
+				GTK_TREE_VIEW (object),
+				g_value_get_object (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -858,6 +1078,13 @@ folder_tree_get_property (GObject *object,
 				value,
 				em_folder_tree_get_ellipsize (
 				EM_FOLDER_TREE (object)));
+			return;
+
+		case PROP_MODEL:
+			g_value_set_object (
+				value,
+				gtk_tree_view_get_model (
+				GTK_TREE_VIEW (object)));
 			return;
 
 		case PROP_PASTE_TARGET_LIST:
@@ -939,6 +1166,80 @@ folder_tree_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_tree_parent_class)->finalize (object);
+}
+
+static void
+folder_tree_constructed (GObject *object)
+{
+	EMFolderTreePrivate *priv;
+	GtkTreeSelection *selection;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *renderer;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	gulong handler_id;
+
+	priv = EM_FOLDER_TREE_GET_PRIVATE (object);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (em_folder_tree_parent_class)->constructed (object);
+
+	tree_view = GTK_TREE_VIEW (object);
+	model = gtk_tree_view_get_model (tree_view);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	handler_id = g_signal_connect (
+		model, "loading-row",
+		G_CALLBACK (folder_tree_maybe_expand_row), object);
+	priv->loading_row_id = handler_id;
+
+	handler_id = g_signal_connect (
+		model, "loaded-row",
+		G_CALLBACK (folder_tree_maybe_expand_row), object);
+	priv->loaded_row_id = handler_id;
+
+	handler_id = g_signal_connect_swapped (
+		selection, "changed",
+		G_CALLBACK (folder_tree_selection_changed_cb), object);
+	priv->selection_changed_handler_id = handler_id;
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_append_column (tree_view, column);
+
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "visible", COL_BOOL_IS_FOLDER);
+	gtk_tree_view_column_set_cell_data_func (
+		column, renderer, (GtkTreeCellDataFunc)
+		folder_tree_render_icon, NULL, NULL);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+	gtk_tree_view_column_set_cell_data_func (
+		column, renderer, (GtkTreeCellDataFunc)
+		folder_tree_render_display_name, NULL, NULL);
+	priv->text_renderer = g_object_ref (renderer);
+
+	g_object_bind_property (
+		object, "ellipsize",
+		renderer, "ellipsize",
+		G_BINDING_SYNC_CREATE);
+
+	g_signal_connect_swapped (
+		renderer, "edited",
+		G_CALLBACK (folder_tree_cell_edited_cb), object);
+
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+	gtk_tree_selection_set_select_function (
+		selection, (GtkTreeSelectionFunc)
+		folder_tree_select_func, NULL, NULL);
+
+	gtk_tree_view_set_headers_visible (tree_view, FALSE);
+	gtk_tree_view_set_search_column (tree_view, COL_STRING_DISPLAY_NAME);
+
+	folder_tree_copy_state (EM_FOLDER_TREE (object));
+	gtk_widget_show (GTK_WIDGET (object));
 }
 
 static gboolean
@@ -1167,6 +1468,7 @@ em_folder_tree_class_init (EMFolderTreeClass *class)
 	object_class->get_property = folder_tree_get_property;
 	object_class->dispose = folder_tree_dispose;
 	object_class->finalize = folder_tree_finalize;
+	object_class->constructed = folder_tree_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->button_press_event = folder_tree_button_press_event;
@@ -1219,6 +1521,20 @@ em_folder_tree_class_init (EMFolderTreeClass *class)
 			PANGO_ELLIPSIZE_NONE,
 			G_PARAM_READWRITE));
 
+	/* XXX We override the GtkTreeView:model property to add
+	 *     G_PARAM_CONSTRUCT_ONLY so the model is set by the
+	 *     time we get to folder_tree_constructed(). */
+	g_object_class_install_property (
+		object_class,
+		PROP_MODEL,
+		g_param_spec_object (
+			"model",
+			"TreeView Model",
+			"The model for the tree view",
+			GTK_TYPE_TREE_MODEL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (
 		object_class,
@@ -1269,284 +1585,10 @@ em_folder_tree_class_init (EMFolderTreeClass *class)
 		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 }
 
-static gboolean
-subdirs_contain_unread (GtkTreeModel *model, GtkTreeIter *root)
-{
-	guint unread;
-	GtkTreeIter iter;
-
-	if (!gtk_tree_model_iter_children (model, &iter, root))
-		return FALSE;
-
-	do {
-		gtk_tree_model_get (model, &iter, COL_UINT_UNREAD, &unread, -1);
-		if (unread)
-			return TRUE;
-
-		if (gtk_tree_model_iter_has_child (model, &iter))
-			if (subdirs_contain_unread (model, &iter))
-				return TRUE;
-	} while (gtk_tree_model_iter_next (model, &iter));
-
-	return FALSE;
-}
-
-static void
-render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
-		     GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data)
-{
-	gboolean is_store, bold, subdirs_unread = FALSE;
-	gboolean editable;
-	guint unread;
-	gchar *display;
-	gchar *name;
-
-	gtk_tree_model_get (model, iter, COL_STRING_DISPLAY_NAME, &name,
-			    COL_BOOL_IS_STORE, &is_store,
-			    COL_UINT_UNREAD, &unread, -1);
-
-	g_object_get (renderer, "editable", &editable, NULL);
-
-	bold = is_store || unread;
-
-	if (gtk_tree_model_iter_has_child (model, iter)) {
-		gboolean expanded = TRUE;
-
-		g_object_get (renderer, "is-expanded", &expanded, NULL);
-
-		if (!bold || !expanded)
-			subdirs_unread = subdirs_contain_unread (model, iter);
-	}
-
-	bold = !editable && (bold || subdirs_unread);
-
-	if (!is_store && !editable && unread) {
-		/* Translators: This is the string used for displaying the
-		 * folder names in folder trees. The first "%s" will be
-		 * replaced by the folder's name and "%u" will be replaced
-		 * with the number of unread messages in the folder. The
-		 * second %s will be replaced with a "+" letter for collapsed
-		 * folders with unread messages in some subfolder too,
-		 * or with an empty string for other cases.
-		 *
-		 * Most languages should translate this as "%s (%u%s)". The
-		 * languages that use localized digits (like Persian) may
-		 * need to replace "%u" with "%Iu". Right-to-left languages
-		 * (like Arabic and Hebrew) may need to add bidirectional
-		 * formatting codes to take care of the cases the folder
-		 * name appears in either direction.
-		 *
-		 * Do not translate the "folder-display|" part. Remove it
-		 * from your translation.
-		 */
-		display = g_strdup_printf (
-			C_("folder-display", "%s (%u%s)"),
-			name, unread, subdirs_unread ? "+" : "");
-		g_free (name);
-	} else
-		display = name;
-
-	g_object_set (renderer, "text", display,
-		      "weight", bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL,
-		      NULL);
-
-	g_free (display);
-}
-
-static void
-render_icon (GtkTreeViewColumn *column,
-             GtkCellRenderer *renderer,
-             GtkTreeModel *model,
-             GtkTreeIter *iter)
-{
-	GtkTreeSelection *selection;
-	GtkTreePath *drag_dest_row;
-	GtkWidget *tree_view;
-	GIcon *icon;
-	guint unread;
-	guint old_unread;
-	gchar *icon_name;
-	gboolean is_selected;
-	gboolean is_drafts = FALSE;
-	gboolean is_drag_dest = FALSE;
-
-	gtk_tree_model_get (
-		model, iter,
-		COL_STRING_ICON_NAME, &icon_name,
-		COL_UINT_UNREAD_LAST_SEL, &old_unread,
-		COL_UINT_UNREAD, &unread,
-		COL_BOOL_IS_DRAFT, &is_drafts,
-		-1);
-
-	if (icon_name == NULL)
-		return;
-
-	tree_view = gtk_tree_view_column_get_tree_view (column);
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-	is_selected = gtk_tree_selection_iter_is_selected (selection, iter);
-
-	gtk_tree_view_get_drag_dest_row (
-		GTK_TREE_VIEW (tree_view), &drag_dest_row, NULL);
-	if (drag_dest_row != NULL) {
-		GtkTreePath *path;
-
-		path = gtk_tree_model_get_path (model, iter);
-		if (gtk_tree_path_compare (path, drag_dest_row) == 0)
-			is_drag_dest = TRUE;
-		gtk_tree_path_free (path);
-
-		gtk_tree_path_free (drag_dest_row);
-	}
-
-	if (g_strcmp0 (icon_name, "folder") == 0) {
-		if (is_selected) {
-			g_free (icon_name);
-			icon_name = g_strdup ("folder-open");
-		} else if (is_drag_dest) {
-			g_free (icon_name);
-			icon_name = g_strdup ("folder-drag-accept");
-		}
-	}
-
-	icon = g_themed_icon_new (icon_name);
-
-	/* Show an emblem if there's new mail. */
-	if (!is_selected && unread > old_unread && !is_drafts) {
-		GIcon *temp_icon;
-		GEmblem *emblem;
-
-		temp_icon = g_themed_icon_new ("emblem-new");
-		emblem = g_emblem_new (temp_icon);
-		g_object_unref (temp_icon);
-
-		temp_icon = g_emblemed_icon_new (icon, emblem);
-		g_object_unref (emblem);
-		g_object_unref (icon);
-
-		icon = temp_icon;
-	}
-
-	g_object_set (renderer, "gicon", icon, NULL);
-
-	g_object_unref (icon);
-	g_free (icon_name);
-}
-
-static GtkTreeView *
-folder_tree_new (EMFolderTree *folder_tree)
-{
-	GtkTreeSelection *selection;
-	GtkTreeViewColumn *column;
-	GtkCellRenderer *renderer;
-	GtkWidget *tree;
-
-	/* FIXME Gross hack */
-	tree = GTK_WIDGET (folder_tree);
-	gtk_widget_set_can_focus (tree, TRUE);
-
-	folder_tree->priv->selectable = NULL;
-
-	column = gtk_tree_view_column_new ();
-	gtk_tree_view_append_column ((GtkTreeView *) tree, column);
-
-	renderer = gtk_cell_renderer_pixbuf_new ();
-	gtk_tree_view_column_pack_start (column, renderer, FALSE);
-	gtk_tree_view_column_add_attribute (
-		column, renderer, "visible", COL_BOOL_IS_FOLDER);
-	gtk_tree_view_column_set_cell_data_func (
-		column, renderer, (GtkTreeCellDataFunc)
-		render_icon, NULL, NULL);
-
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_column_pack_start (column, renderer, TRUE);
-	gtk_tree_view_column_set_cell_data_func (
-		column, renderer, render_display_name, NULL, NULL);
-	folder_tree->priv->text_renderer = g_object_ref (renderer);
-
-	g_object_bind_property (
-		folder_tree, "ellipsize",
-		renderer, "ellipsize",
-		G_BINDING_SYNC_CREATE);
-
-	g_signal_connect_swapped (
-		renderer, "edited",
-		G_CALLBACK (folder_tree_cell_edited_cb), folder_tree);
-
-	selection = gtk_tree_view_get_selection ((GtkTreeView *) tree);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	gtk_tree_selection_set_select_function (
-		selection, (GtkTreeSelectionFunc)
-		folder_tree_select_func, NULL, NULL);
-	gtk_tree_view_set_headers_visible ((GtkTreeView *) tree, FALSE);
-
-	gtk_tree_view_set_search_column ((GtkTreeView *) tree, COL_STRING_DISPLAY_NAME);
-
-	return (GtkTreeView *) tree;
-}
-
-static void
-folder_tree_copy_expanded_cb (GtkTreeView *unused,
-                              GtkTreePath *path,
-                              GtkTreeView *tree_view)
-{
-	gtk_tree_view_expand_row (tree_view, path, FALSE);
-}
-
-static void
-folder_tree_copy_selection_cb (GtkTreeModel *model,
-                               GtkTreePath *path,
-                               GtkTreeIter *iter,
-                               GtkTreeView *tree_view)
-{
-	GtkTreeSelection *selection;
-
-	selection = gtk_tree_view_get_selection (tree_view);
-	gtk_tree_selection_select_path (selection, path);
-
-	/* Center the tree view on the selected path. */
-	gtk_tree_view_scroll_to_cell (tree_view, path, NULL, TRUE, 0.5, 0.0);
-}
-
-static void
-folder_tree_copy_state (EMFolderTree *folder_tree)
-{
-	GtkTreeSelection *selection;
-	GtkTreeView *tree_view;
-	GtkTreeModel *model;
-
-	tree_view = GTK_TREE_VIEW (folder_tree);
-	model = gtk_tree_view_get_model (tree_view);
-
-	selection = em_folder_tree_model_get_selection (
-		EM_FOLDER_TREE_MODEL (model));
-	if (selection == NULL)
-		return;
-
-	gtk_tree_view_map_expanded_rows (
-		tree_view, (GtkTreeViewMappingFunc)
-		folder_tree_copy_expanded_cb, folder_tree);
-
-	gtk_tree_selection_selected_foreach (
-		selection, (GtkTreeSelectionForeachFunc)
-		folder_tree_copy_selection_cb, folder_tree);
-}
-
-static void
-em_folder_tree_construct (EMFolderTree *folder_tree)
-{
-	folder_tree_new (folder_tree);
-	folder_tree_copy_state (folder_tree);
-	gtk_widget_show (GTK_WIDGET (folder_tree));
-}
-
 static void
 em_folder_tree_init (EMFolderTree *folder_tree)
 {
-	GtkTreeView *tree_view;
-	GtkTreeSelection *selection;
 	GHashTable *select_uris_table;
-	EMFolderTreeModel *model;
-	gulong handler_id;
 	AtkObject *a11y;
 
 	select_uris_table = g_hash_table_new (g_str_hash, g_str_equal);
@@ -1554,32 +1596,11 @@ em_folder_tree_init (EMFolderTree *folder_tree)
 	folder_tree->priv = EM_FOLDER_TREE_GET_PRIVATE (folder_tree);
 	folder_tree->priv->select_uris_table = select_uris_table;
 
-	tree_view = GTK_TREE_VIEW (folder_tree);
-	model = em_folder_tree_model_get_default ();
-	selection = gtk_tree_view_get_selection (tree_view);
-
-	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (model));
-
-	handler_id = g_signal_connect (
-		model, "loading-row",
-		G_CALLBACK (folder_tree_maybe_expand_row), folder_tree);
-	folder_tree->priv->loading_row_id = handler_id;
-
-	handler_id = g_signal_connect (
-		model, "loaded-row",
-		G_CALLBACK (folder_tree_maybe_expand_row), folder_tree);
-	folder_tree->priv->loaded_row_id = handler_id;
-
-	handler_id = g_signal_connect_swapped (
-		selection, "changed",
-		G_CALLBACK (folder_tree_selection_changed_cb), folder_tree);
-	folder_tree->priv->selection_changed_handler_id = handler_id;
+	/* FIXME Gross hack. */
+	gtk_widget_set_can_focus (GTK_WIDGET (folder_tree), TRUE);
 
 	a11y = gtk_widget_get_accessible (GTK_WIDGET (folder_tree));
 	atk_object_set_name (a11y, _("Mail Folder Tree"));
-
-	/* FIXME Kill this thing. */
-	em_folder_tree_construct (folder_tree);
 }
 
 /* Sets a selectable widget, which will be used for update-actions and
@@ -1757,12 +1778,14 @@ GtkWidget *
 em_folder_tree_new (EMailBackend *backend,
                     EAlertSink *alert_sink)
 {
+	EMFolderTreeModel *model;
 	EMailSession *session;
 	const gchar *data_dir;
 
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 	g_return_val_if_fail (E_IS_ALERT_SINK (alert_sink), NULL);
 
+	model = em_folder_tree_model_get_default ();
 	session = e_mail_backend_get_session (backend);
 	data_dir = e_shell_backend_get_data_dir (E_SHELL_BACKEND (backend));
 
@@ -1771,7 +1794,8 @@ em_folder_tree_new (EMailBackend *backend,
 	return g_object_new (
 		EM_TYPE_FOLDER_TREE,
 		"alert-sink", alert_sink,
-		"backend", backend, NULL);
+		"backend", backend,
+		"model", model, NULL);
 }
 
 EActivity *
