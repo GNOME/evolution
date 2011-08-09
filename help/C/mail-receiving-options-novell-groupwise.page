@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-receiving-options#corporate-server-types"/>
     <link type="guide" xref="mail-account-manage-novell-groupwise#receiving-email"/>
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <revision pkgversion="3.0.2" version="0.3" date="2011-08-09" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -35,8 +35,6 @@
 <p>On the <gui>Receiving Options</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>):</p>
 <list>
 <item><p>If you want Evolution to check automatically for new messages, click the <gui>Check for new messages every ... minutes</gui> option and select the frequency in minutes.</p></item>
-
-<item><p>If you want the messages to remain on the server for a period of time, click the <gui>Leave messages on server</gui> option and the <gui>Delete after ... days</gui> option and select the number of days to allow messages to remain on the server.</p></item>
 
 <item><p>Enter the Post Office Agent SOAP port.</p>
 <p>If you are unsure what your Post Office Agent SOAP port is, contact your system administrator.</p></item>
