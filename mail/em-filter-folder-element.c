@@ -65,7 +65,7 @@ filter_folder_element_selected_cb (EMFolderSelectionButton *button,
 	GtkWidget *toplevel;
 	const gchar *uri;
 
-	uri = em_folder_selection_button_get_selection (button);
+	uri = em_folder_selection_button_get_folder_uri (button);
 
 	g_free (ff->priv->uri);
 	ff->priv->uri = g_strdup (uri);
@@ -239,7 +239,7 @@ filter_folder_element_get_widget (EFilterElement *fe)
 
 	button = em_folder_selection_button_new (
 		backend, _("Select Folder"), NULL);
-	em_folder_selection_button_set_selection (
+	em_folder_selection_button_set_folder_uri (
 		EM_FOLDER_SELECTION_BUTTON (button), ff->priv->uri);
 	gtk_widget_show (button);
 

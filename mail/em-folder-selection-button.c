@@ -45,15 +45,16 @@ struct _EMFolderSelectionButtonPrivate {
 	GtkWidget *icon;
 	GtkWidget *label;
 
-	gchar *uri;
 	gchar *title;
 	gchar *caption;
+	gchar *folder_uri;
 };
 
 enum {
 	PROP_0,
 	PROP_BACKEND,
 	PROP_CAPTION,
+	PROP_FOLDER_URI,
 	PROP_TITLE
 };
 
@@ -92,12 +93,13 @@ folder_selection_button_set_contents (EMFolderSelectionButton *button)
 	label = GTK_LABEL (button->priv->label);
 	backend = em_folder_selection_button_get_backend (button);
 
-	if (backend != NULL && button->priv->uri != NULL) {
+	if (backend != NULL && button->priv->folder_uri != NULL) {
 		EMailSession *session;
 
 		session = e_mail_backend_get_session (backend);
 		e_mail_folder_uri_parse (
-			CAMEL_SESSION (session), button->priv->uri,
+			CAMEL_SESSION (session),
+			button->priv->folder_uri,
 			&store, &folder_name, NULL);
 	}
 
@@ -143,6 +145,12 @@ folder_selection_button_set_property (GObject *object,
 				g_value_get_string (value));
 			return;
 
+		case PROP_FOLDER_URI:
+			em_folder_selection_button_set_folder_uri (
+				EM_FOLDER_SELECTION_BUTTON (object),
+				g_value_get_string (value));
+			return;
+
 		case PROP_TITLE:
 			em_folder_selection_button_set_title (
 				EM_FOLDER_SELECTION_BUTTON (object),
@@ -171,6 +179,13 @@ folder_selection_button_get_property (GObject *object,
 			g_value_set_string (
 				value,
 				em_folder_selection_button_get_caption (
+				EM_FOLDER_SELECTION_BUTTON (object)));
+			return;
+
+		case PROP_FOLDER_URI:
+			g_value_set_string (
+				value,
+				em_folder_selection_button_get_folder_uri (
 				EM_FOLDER_SELECTION_BUTTON (object)));
 			return;
 
@@ -209,9 +224,9 @@ folder_selection_button_finalize (GObject *object)
 
 	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (object);
 
-	g_free (priv->uri);
 	g_free (priv->title);
 	g_free (priv->caption);
+	g_free (priv->folder_uri);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_selection_button_parent_class)->
@@ -249,13 +264,13 @@ folder_selection_button_clicked (GtkButton *button)
 		EMFT_EXCLUDE_VIRTUAL |
 		EMFT_EXCLUDE_VTRASH);
 
-	em_folder_tree_set_selected (folder_tree, priv->uri, FALSE);
+	em_folder_tree_set_selected (folder_tree, priv->folder_uri, FALSE);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		const gchar *uri;
 
 		uri = em_folder_selector_get_selected_uri (selector);
-		em_folder_selection_button_set_selection (
+		em_folder_selection_button_set_folder_uri (
 			EM_FOLDER_SELECTION_BUTTON (button), uri);
 
 		g_signal_emit (button, signals[SELECTED], 0);
@@ -305,6 +320,17 @@ em_folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_FOLDER_URI,
+		g_param_spec_string (
+			"folder-uri",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_TITLE,
 		g_param_spec_string (
 			"title",
@@ -344,8 +370,6 @@ em_folder_selection_button_init (EMFolderSelectionButton *emfsb)
 	gtk_misc_set_alignment (GTK_MISC (emfsb->priv->label), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (box), emfsb->priv->label, TRUE, TRUE, 0);
 	gtk_widget_show (emfsb->priv->label);
-
-	folder_selection_button_set_contents (emfsb);
 }
 
 GtkWidget *
@@ -382,26 +406,29 @@ em_folder_selection_button_set_caption (EMFolderSelectionButton *button,
 }
 
 const gchar *
-em_folder_selection_button_get_selection (EMFolderSelectionButton *button)
+em_folder_selection_button_get_folder_uri (EMFolderSelectionButton *button)
 {
 	g_return_val_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button), NULL);
 
-	return button->priv->uri;
+	return button->priv->folder_uri;
 }
 
 void
-em_folder_selection_button_set_selection (EMFolderSelectionButton *button,
-                                          const gchar *uri)
+em_folder_selection_button_set_folder_uri (EMFolderSelectionButton *button,
+                                           const gchar *folder_uri)
 {
 	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
 
-	if (g_strcmp0 (button->priv->uri, uri) == 0)
-		return;
+	/* An empty string is equivalent to NULL. */
+	if (folder_uri != NULL && *folder_uri == '\0')
+		folder_uri = NULL;
 
-	g_free (button->priv->uri);
-	button->priv->uri = g_strdup (uri);
+	g_free (button->priv->folder_uri);
+	button->priv->folder_uri = g_strdup (folder_uri);
 
 	folder_selection_button_set_contents (button);
+
+	g_object_notify (G_OBJECT (button), "folder-uri");
 }
 
 EMailBackend *
