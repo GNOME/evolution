@@ -33,7 +33,7 @@
 #include <libedataserverui/e-client-utils.h>
 
 #include <e-util/e-config.h>
-#include <mail/em-config.h>
+#include <addressbook/gui/widgets/eab-config.h>
 #include <mail/em-event.h>
 #include <composer/e-msg-composer.h>
 
@@ -48,7 +48,7 @@ GtkWidget *bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 
 /* For internal use */
 struct bbdb_stuff {
-	EMConfigTargetPrefs *target;
+	EABConfigTargetPrefs *target;
 	ESourceList *source_list;
 
 	GtkWidget *combo_box;
@@ -648,7 +648,7 @@ GtkWidget *
 bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 {
 	struct bbdb_stuff *stuff;
-	EMConfigTargetPrefs *target = (EMConfigTargetPrefs *) hook_data->config->target;
+	EABConfigTargetPrefs *target = (EABConfigTargetPrefs *) hook_data->config->target;
 	GtkWidget *page;
 	GtkWidget *tab_label;
 	GtkWidget *frame;

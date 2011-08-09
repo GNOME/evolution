@@ -54,6 +54,8 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 				p->source_changed_id = 0;
 			}
 			break; }
+		case EAB_CONFIG_TARGET_PREFS:
+			break;
 		}
 	}
 
@@ -63,6 +65,12 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 
 		if (s->source)
 			g_object_unref (s->source);
+		break; }
+	case EAB_CONFIG_TARGET_PREFS: {
+		EABConfigTargetPrefs *s = (EABConfigTargetPrefs *) t;
+
+		if (s->gconf)
+			g_object_unref (s->gconf);
 		break; }
 	}
 
@@ -91,6 +99,8 @@ ecp_set_target (EConfig *ec, EConfigTarget *t)
 				s->source, "changed",
 				G_CALLBACK (ecp_source_changed), ec);
 			break; }
+		case EAB_CONFIG_TARGET_PREFS:
+			break;
 		}
 	}
 }
@@ -142,6 +152,20 @@ eab_config_target_new_source (EABConfig *ecp, struct _ESource *source)
 
 	t->source = source;
 	g_object_ref (source);
+
+	return t;
+}
+
+EABConfigTargetPrefs *
+eab_config_target_new_prefs (EABConfig *ecp, GConfClient *gconf)
+{
+	EABConfigTargetPrefs *t = e_config_target_new (
+		&ecp->config, EAB_CONFIG_TARGET_PREFS, sizeof (*t));
+
+	if (gconf)
+		t->gconf = g_object_ref (gconf);
+	else
+		t->gconf = NULL;
 
 	return t;
 }
