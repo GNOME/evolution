@@ -69,6 +69,10 @@
 
 #define d(x)
 
+#define EM_FOLDER_TREE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FOLDER_TREE, EMFolderTreePrivate))
+
 typedef struct _AsyncContext AsyncContext;
 
 struct _selected_uri {
@@ -184,7 +188,16 @@ struct _folder_tree_selection_data {
 	gboolean set;
 };
 
-static gpointer parent_class = NULL;
+/* Forward Declarations */
+static void em_folder_tree_selectable_init (ESelectableInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	EMFolderTree,
+	em_folder_tree,
+	GTK_TYPE_TREE_VIEW,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_SELECTABLE,
+		em_folder_tree_selectable_init))
 
 static void
 async_context_free (AsyncContext *context)
@@ -864,7 +877,7 @@ folder_tree_dispose (GObject *object)
 	EMFolderTreePrivate *priv;
 	GtkTreeModel *model;
 
-	priv = EM_FOLDER_TREE (object)->priv;
+	priv = EM_FOLDER_TREE_GET_PRIVATE (object);
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (object));
 
 	if (priv->loaded_row_id != 0) {
@@ -901,7 +914,7 @@ folder_tree_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (em_folder_tree_parent_class)->dispose (object);
 }
 
 static void
@@ -909,7 +922,7 @@ folder_tree_finalize (GObject *object)
 {
 	EMFolderTreePrivate *priv;
 
-	priv = EM_FOLDER_TREE (object)->priv;
+	priv = EM_FOLDER_TREE_GET_PRIVATE (object);
 
 	if (priv->select_uris != NULL) {
 		g_slist_foreach (
@@ -925,7 +938,7 @@ folder_tree_finalize (GObject *object)
 	}
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (em_folder_tree_parent_class)->finalize (object);
 }
 
 static gboolean
@@ -939,7 +952,7 @@ folder_tree_button_press_event (GtkWidget *widget,
 	GtkTreePath *path;
 	gulong handler_id;
 
-	priv = EM_FOLDER_TREE (widget)->priv;
+	priv = EM_FOLDER_TREE_GET_PRIVATE (widget);
 
 	tree_view = GTK_TREE_VIEW (widget);
 	selection = gtk_tree_view_get_selection (tree_view);
@@ -974,7 +987,7 @@ folder_tree_button_press_event (GtkWidget *widget,
 chainup:
 
 	/* Chain up to parent's button_press_event() method. */
-	widget_class = GTK_WIDGET_CLASS (parent_class);
+	widget_class = GTK_WIDGET_CLASS (em_folder_tree_parent_class);
 	return widget_class->button_press_event (widget, event);
 }
 
@@ -998,7 +1011,7 @@ folder_tree_key_press_event (GtkWidget *widget,
 		return TRUE;
 	}
 
-	priv = EM_FOLDER_TREE (widget)->priv;
+	priv = EM_FOLDER_TREE_GET_PRIVATE (widget);
 
 	tree_view = GTK_TREE_VIEW (widget);
 	selection = gtk_tree_view_get_selection (tree_view);
@@ -1009,7 +1022,7 @@ folder_tree_key_press_event (GtkWidget *widget,
 	priv->cursor_set = TRUE;
 
 	/* Chain up to parent's key_press_event() method. */
-	widget_class = GTK_WIDGET_CLASS (parent_class);
+	widget_class = GTK_WIDGET_CLASS (em_folder_tree_parent_class);
 	return widget_class->key_press_event (widget, event);
 }
 
@@ -1033,7 +1046,7 @@ folder_tree_row_activated (GtkTreeView *tree_view,
 	CamelStore *store;
 	CamelFolderInfoFlags flags;
 
-	priv = EM_FOLDER_TREE (tree_view)->priv;
+	priv = EM_FOLDER_TREE_GET_PRIVATE (tree_view);
 
 	model = gtk_tree_view_get_model (tree_view);
 
@@ -1141,13 +1154,12 @@ folder_tree_row_expanded (GtkTreeView *tree_view,
 }
 
 static void
-folder_tree_class_init (EMFolderTreeClass *class)
+em_folder_tree_class_init (EMFolderTreeClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GtkTreeViewClass *tree_view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMFolderTreePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -1528,7 +1540,7 @@ em_folder_tree_construct (EMFolderTree *folder_tree)
 }
 
 static void
-folder_tree_init (EMFolderTree *folder_tree)
+em_folder_tree_init (EMFolderTree *folder_tree)
 {
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
@@ -1539,8 +1551,7 @@ folder_tree_init (EMFolderTree *folder_tree)
 
 	select_uris_table = g_hash_table_new (g_str_hash, g_str_equal);
 
-	folder_tree->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		folder_tree, EM_TYPE_FOLDER_TREE, EMFolderTreePrivate);
+	folder_tree->priv = EM_FOLDER_TREE_GET_PRIVATE (folder_tree);
 	folder_tree->priv->select_uris_table = select_uris_table;
 
 	tree_view = GTK_TREE_VIEW (folder_tree);
@@ -1732,7 +1743,7 @@ folder_tree_selectable_select_all (ESelectable *selectable)
 }
 
 static void
-folder_tree_selectable_init (ESelectableInterface *interface)
+em_folder_tree_selectable_init (ESelectableInterface *interface)
 {
 	interface->update_actions = folder_tree_selectable_update_actions;
 	interface->cut_clipboard = folder_tree_selectable_cut_clipboard;
@@ -1740,41 +1751,6 @@ folder_tree_selectable_init (ESelectableInterface *interface)
 	interface->paste_clipboard = folder_tree_selectable_paste_clipboard;
 	interface->delete_selection = folder_tree_selectable_delete_selection;
 	interface->select_all = folder_tree_selectable_select_all;
-}
-
-GType
-em_folder_tree_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMFolderTreeClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) folder_tree_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMFolderTree),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) folder_tree_init,
-			NULL   /* value_table */
-		};
-
-		static const GInterfaceInfo selectable_info = {
-			(GInterfaceInitFunc) folder_tree_selectable_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_TREE_VIEW, "EMFolderTree", &type_info, 0);
-
-		g_type_add_interface_static (
-			type, E_TYPE_SELECTABLE, &selectable_info);
-	}
-
-	return type;
 }
 
 GtkWidget *
