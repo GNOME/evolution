@@ -2962,7 +2962,7 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	/* Create a new notebook page */
 	page = gtk_vbox_new (FALSE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
-	tab_label = gtk_label_new (_("Calendar and Tasks"));
+	tab_label = gtk_label_new (_("Meeting invitations"));
 	gtk_notebook_append_page (GTK_NOTEBOOK (hook_data->parent), page, tab_label);
 
 	/* Frame */
