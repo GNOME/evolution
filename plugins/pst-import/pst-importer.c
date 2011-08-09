@@ -50,7 +50,8 @@
 #include <libecal/e-cal-component.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include <libedataserverui/e-source-selector-dialog.h>
+#include <libedataserverui/e-source-combo-box.h>
+#include <libedataserverui/e-client-utils.h>
 
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-local.h>
@@ -114,6 +115,7 @@ struct _PstImporter {
 	EImport *import;
 	EImportTarget *target;
 
+	gint waiting_open;
 	GMutex *status_lock;
 	gchar *status_what;
 	gint status_pc;
@@ -331,28 +333,106 @@ get_suggested_foldername (EImportTargetURI *target)
 
 }
 
+static void
+widget_sanitizer_cb (GtkToggleButton *button, GtkWidget *source_combo)
+{
+	g_return_if_fail (button != NULL);
+	g_return_if_fail (source_combo != NULL);
+
+	gtk_widget_set_sensitive (source_combo, gtk_toggle_button_get_active (button));
+}
+
+static const gchar *
+get_source_combo_key (EClientSourceType source_type)
+{
+	const gchar *key = NULL;
+
+	switch (source_type) {
+	case E_CLIENT_SOURCE_TYPE_CONTACTS:
+		key = "pst-contacts-source-combo";
+		break;
+	case E_CLIENT_SOURCE_TYPE_EVENTS:
+		key = "pst-events-source-combo";
+		break;
+	case E_CLIENT_SOURCE_TYPE_TASKS:
+		key = "pst-tasks-source-combo";
+		break;
+	case E_CLIENT_SOURCE_TYPE_MEMOS:
+		key = "pst-memos-source-combo";
+		break;
+	case E_CLIENT_SOURCE_TYPE_LAST:
+		break;
+	}
+
+	return key;
+}
+
+static void
+add_source_list_with_check (GtkWidget *frame, const gchar *caption, EClientSourceType source_type, GCallback toggle_callback, EImportTarget *target)
+{
+	GtkWidget *check, *hbox;
+	ESourceList *source_list = NULL;
+	GtkWidget *combo = NULL;
+
+	g_return_if_fail (frame != NULL);
+	g_return_if_fail (caption != NULL);
+	g_return_if_fail (toggle_callback != NULL);
+
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+
+	check = gtk_check_button_new_with_mnemonic (caption);
+	gtk_toggle_button_set_active ((GtkToggleButton *) check, FALSE);
+	g_signal_connect (check, "toggled", toggle_callback, target);
+	gtk_box_pack_start ((GtkBox *) hbox, check, FALSE, FALSE, 0);
+
+	if (e_client_utils_get_sources (&source_list, source_type, NULL)) {
+		ESource *source;
+
+		combo = e_source_combo_box_new (source_list);
+		source = e_source_list_peek_default_source (source_list);
+		if (!source)
+			source = e_source_list_peek_source_any (source_list);
+		e_source_combo_box_set_active (E_SOURCE_COMBO_BOX (combo), source);
+
+		gtk_box_pack_end ((GtkBox *) hbox, combo, FALSE, FALSE, 0);
+
+		g_signal_connect (check, "toggled", G_CALLBACK (widget_sanitizer_cb), combo);
+		widget_sanitizer_cb (GTK_TOGGLE_BUTTON (check), combo);
+	}
+
+	gtk_box_pack_start ((GtkBox *) frame, hbox, FALSE, FALSE, 0);
+
+	if (combo) {
+		const gchar *key = get_source_combo_key (source_type);
+
+		g_return_if_fail (key != NULL);
+
+		g_datalist_set_data (&target->data, key, combo);
+	}
+}
+
 GtkWidget *
 org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
-	GtkWidget *hbox, *framebox, *w;
+	GtkWidget *hbox, *framebox, *w, *check;
 	gchar *foldername;
 
 	g_datalist_set_data (&target->data, "pst-do-mail", GINT_TO_POINTER (TRUE));
-	g_datalist_set_data (&target->data, "pst-do-addr", GINT_TO_POINTER (TRUE));
-	g_datalist_set_data (&target->data, "pst-do-appt", GINT_TO_POINTER (TRUE));
-	g_datalist_set_data (&target->data, "pst-do-task", GINT_TO_POINTER (TRUE));
-	g_datalist_set_data (&target->data, "pst-do-journal", GINT_TO_POINTER (TRUE));
+	g_datalist_set_data (&target->data, "pst-do-addr", GINT_TO_POINTER (FALSE));
+	g_datalist_set_data (&target->data, "pst-do-appt", GINT_TO_POINTER (FALSE));
+	g_datalist_set_data (&target->data, "pst-do-task", GINT_TO_POINTER (FALSE));
+	g_datalist_set_data (&target->data, "pst-do-journal", GINT_TO_POINTER (FALSE));
 
 	framebox = gtk_vbox_new (FALSE, 2);
 
 	/* Mail */
 	hbox = gtk_hbox_new (FALSE, 0);
-	w = gtk_check_button_new_with_mnemonic (_("_Mail"));
-	gtk_toggle_button_set_active ((GtkToggleButton *) w, TRUE);
-	g_signal_connect (w, "toggled", G_CALLBACK (checkbox_mail_toggle_cb), target);
-	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, FALSE, 0);
+	check = gtk_check_button_new_with_mnemonic (_("_Mail"));
+	gtk_toggle_button_set_active ((GtkToggleButton *) check, TRUE);
+	g_signal_connect (check, "toggled", G_CALLBACK (checkbox_mail_toggle_cb), target);
+	gtk_box_pack_start ((GtkBox *) hbox, check, FALSE, FALSE, 0);
 
 	shell = e_shell_get_default ();
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
@@ -366,36 +446,18 @@ org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EI
 	em_folder_selection_button_set_selection ((EMFolderSelectionButton *) w, foldername);
 	g_signal_connect (w, "selected", G_CALLBACK (folder_selected), target);
 	gtk_box_pack_end ((GtkBox *) hbox, w, FALSE, FALSE, 0);
+	g_signal_connect (check, "toggled", G_CALLBACK (widget_sanitizer_cb), w);
 
 	w = gtk_label_new (_("Destination folder:"));
 	gtk_box_pack_end ((GtkBox *) hbox, w, FALSE, TRUE, 6);
+	g_signal_connect (check, "toggled", G_CALLBACK (widget_sanitizer_cb), w);
 
 	gtk_box_pack_start ((GtkBox *) framebox, hbox, FALSE, FALSE, 0);
 
-	/* Address book */
-	w = gtk_check_button_new_with_mnemonic (_("_Address Book"));
-	gtk_toggle_button_set_active ((GtkToggleButton *) w, FALSE);
-	/*gtk_widget_set_sensitive ((GtkWidget *)w, FALSE);*/ /* Disable until implemented */
-	g_signal_connect (w, "toggled", G_CALLBACK (checkbox_addr_toggle_cb), target);
-	gtk_box_pack_start ((GtkBox *) framebox, w, FALSE, FALSE, 0);
-
-	/* Appointments */
-	w = gtk_check_button_new_with_mnemonic (_("A_ppointments"));
-	gtk_toggle_button_set_active ((GtkToggleButton *) w, FALSE);
-	g_signal_connect (w, "toggled", G_CALLBACK (checkbox_appt_toggle_cb), target);
-	gtk_box_pack_start ((GtkBox *) framebox, w, FALSE, FALSE, 0);
-
-	/* Tasks */
-	w = gtk_check_button_new_with_mnemonic (_("_Tasks"));
-	gtk_toggle_button_set_active ((GtkToggleButton *) w, FALSE);
-	g_signal_connect (w, "toggled", G_CALLBACK (checkbox_task_toggle_cb), target);
-	gtk_box_pack_start ((GtkBox *) framebox, w, FALSE, FALSE, 0);
-
-	/* Journal */
-	w = gtk_check_button_new_with_mnemonic (_("_Journal entries"));
-	gtk_toggle_button_set_active ((GtkToggleButton *) w, FALSE);
-	g_signal_connect (w, "toggled", G_CALLBACK (checkbox_journal_toggle_cb), target);
-	gtk_box_pack_start ((GtkBox *) framebox, w, FALSE, FALSE, 0);
+	add_source_list_with_check (framebox, _("_Address Book"), E_CLIENT_SOURCE_TYPE_CONTACTS, G_CALLBACK (checkbox_addr_toggle_cb), target);
+	add_source_list_with_check (framebox, _("A_ppointments"), E_CLIENT_SOURCE_TYPE_EVENTS, G_CALLBACK (checkbox_appt_toggle_cb), target);
+	add_source_list_with_check (framebox, _("_Tasks"), E_CLIENT_SOURCE_TYPE_TASKS, G_CALLBACK (checkbox_task_toggle_cb), target);
+	add_source_list_with_check (framebox, _("_Journal entries"), E_CLIENT_SOURCE_TYPE_MEMOS, G_CALLBACK (checkbox_journal_toggle_cb), target);
 
 	gtk_widget_show_all (framebox);
 
@@ -404,51 +466,101 @@ org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EI
 	return framebox;
 }
 
+static void
+client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	PstImporter *m = user_data;
+	GError *error = NULL;
+	EClient *client = NULL;
+
+	g_return_if_fail (result != NULL);
+	g_return_if_fail (m != NULL);
+	g_return_if_fail (m->waiting_open > 0);
+
+	if (!e_client_utils_open_new_finish (E_SOURCE (source_object), result, &client, &error))
+		client = NULL;
+
+	if (error)
+		g_debug ("%s: Failed to open client: %s", G_STRFUNC, error->message);
+	g_clear_error (&error);
+
+	if (client) {
+		if (E_IS_BOOK_CLIENT (client)) {
+			m->addressbook = E_BOOK_CLIENT (client);
+		} else if (E_IS_CAL_CLIENT (client)) {
+			ECalClient *cal_client = E_CAL_CLIENT (client);
+			switch (e_cal_client_get_source_type (cal_client)) {
+			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+				m->calendar = cal_client;
+				break;
+			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+				m->tasks = cal_client;
+				break;
+			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+				m->journal = cal_client;
+				break;
+			default:
+				g_object_unref (client);
+				g_warn_if_reached ();
+				break;
+			}
+		} else {
+			g_object_unref (client);
+			g_warn_if_reached ();
+		}
+	}
+
+	m->waiting_open--;
+	if (!m->waiting_open)
+		mail_msg_unordered_push (m);
+}
+
+static void
+open_client (PstImporter *m, EClientSourceType source_type)
+{
+	ESourceComboBox *combo;
+	ESource *source;
+
+	combo = g_datalist_get_data (&m->target->data, get_source_combo_key (source_type));
+	g_return_if_fail (combo != NULL);
+
+	source = e_source_combo_box_get_active (combo);
+	g_return_if_fail (source != NULL);
+
+	m->waiting_open++;
+
+	e_client_utils_open_new (source, source_type, FALSE, m->cancellable,
+		e_client_utils_authenticate_handler, NULL,
+		client_opened_cb, m);
+}
+
+static void
+pst_prepare_run (PstImporter *m)
+{
+	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-addr"))) {
+		open_client (m, E_CLIENT_SOURCE_TYPE_CONTACTS);
+	}
+
+	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-appt"))) {
+		open_client (m, E_CLIENT_SOURCE_TYPE_EVENTS);
+	}
+
+	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-task"))) {
+		open_client (m, E_CLIENT_SOURCE_TYPE_TASKS);
+	}
+
+	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-journal"))) {
+		open_client (m, E_CLIENT_SOURCE_TYPE_MEMOS);
+	}
+
+	if (!m->waiting_open)
+		mail_msg_unordered_push (m);
+}
+
 static gchar *
 pst_import_describe (PstImporter *m, gint complete)
 {
 	return g_strdup (_("Importing Outlook data"));
-}
-
-static ECalClient *
-open_ecal (ECalClientSourceType type, const gchar *name)
-{
-	/* Hack - grab the first calendar we can find
-		TODO - add a selection mechanism in get_widget */
-	ESource *primary;
-	ESourceList *source_list;
-	ECalClient *cal;
-	GError *error = NULL;
-
-	if ((e_cal_client_get_sources (&source_list, type, &error)) == 0) {
-		g_debug ("%s: Could not get any sources of type %s: %s", G_STRFUNC, name, error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
-		return NULL;
-	}
-
-	primary = e_source_list_peek_source_any (source_list);
-
-	if ((cal = e_cal_client_new (primary, type, &error)) == NULL) {
-		g_debug ("%s: Could not create %s: %s", G_STRFUNC, name, error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
-		g_object_unref (source_list);
-		return NULL;
-	}
-
-	if (!e_client_open_sync (E_CLIENT (cal), TRUE, NULL, &error)) {
-		g_debug ("%s: Failed to open %s: %s", G_STRFUNC, name, error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
-		g_object_unref (cal);
-		cal = NULL;
-	}
-
-	g_object_unref (primary);
-	g_object_unref (source_list);
-
-	return cal;
 }
 
 static void
@@ -456,65 +568,7 @@ pst_import_import (PstImporter *m,
                    GCancellable *cancellable,
                    GError **error)
 {
-	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-addr"))) {
-		/* Hack - grab the first address book we can find
-		   TODO - add a selection mechanism in get_widget */
-		ESource *primary;
-		ESourceList *source_list;
-		GError *error = NULL;
-
-		if (e_book_client_get_sources (&source_list, &error)) {
-			primary = e_source_list_peek_source_any (source_list);
-
-			if ((m->addressbook = e_book_client_new (primary, &error))) {
-				if (!e_client_open_sync (E_CLIENT (m->addressbook), TRUE, NULL, &error)) {
-					g_debug ("%s: Failed to open book client: %s", G_STRFUNC, error ? error->message : "Unknown error");
-				}
-
-				g_object_unref (primary);
-				g_object_unref (source_list);
-			} else {
-				g_debug ("%s: Could not create book client: %s", G_STRFUNC, error ? error->message : "Unknown error");
-			}
-		} else {
-			g_debug ("%s: Could not get address books: %s", G_STRFUNC, error ? error->message : "Unknown error");
-		}
-
-		if (error)
-			g_error_free (error);
-	}
-
-	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-appt"))) {
-		m->calendar = open_ecal (E_CAL_CLIENT_SOURCE_TYPE_EVENTS, "calendar");
-	}
-
-	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-task"))) {
-		m->tasks = open_ecal (E_CAL_CLIENT_SOURCE_TYPE_TASKS, "task list");
-	}
-
-	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-journal"))) {
-		m->journal = open_ecal (E_CAL_CLIENT_SOURCE_TYPE_MEMOS, "journal");
-	}
-
 	pst_import_file (m);
-
-/* FIXME: Crashes often in here.
-	if (m->addressbook) {
-		g_object_unref (m->addressbook);
-	}
-
-	if (m->calendar) {
-		g_object_unref (m->calendar);
-	}
-
-	if (m->tasks) {
-		g_object_unref (m->tasks);
-	}
-
-	if (m->journal) {
-		g_object_unref (m->journal);
-	}
-*/
 }
 
 static void
@@ -1760,6 +1814,15 @@ static void
 pst_import_free (PstImporter *m)
 {
 	/* pst_close (&m->pst); */
+	if (m->addressbook)
+		g_object_unref (m->addressbook);
+	if (m->calendar)
+		g_object_unref (m->calendar);
+	if (m->tasks)
+		g_object_unref (m->tasks);
+	if (m->journal)
+		g_object_unref (m->journal);
+
 	g_object_unref (m->cancellable);
 
 	g_free (m->status_what);
@@ -1814,11 +1877,10 @@ pst_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
 	g_mutex_unlock (importer->status_lock);
 }
 
-static gint
+static void
 pst_import (EImport *ei, EImportTarget *target)
 {
 	PstImporter *m;
-	gint id;
 
 	m = mail_msg_new (&pst_import_info);
 	g_datalist_set_data (&target->data, "pst-msg", m);
@@ -1833,6 +1895,7 @@ pst_import (EImport *ei, EImportTarget *target)
 	m->calendar = NULL;
 	m->tasks = NULL;
 	m->journal = NULL;
+	m->waiting_open = 0;
 
 	m->status_timeout_id = g_timeout_add (100, pst_status_timeout, m);
 	/*m->status_timeout_id = NULL;*/
@@ -1843,11 +1906,7 @@ pst_import (EImport *ei, EImportTarget *target)
 		m->cancellable, "status",
 		G_CALLBACK (pst_status), m);
 
-	id = m->base.seq;
-
-	mail_msg_unordered_push (m);
-
-	return id;
+	pst_prepare_run (m);
 }
 
 /* Start the main import operation */
