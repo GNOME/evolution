@@ -206,7 +206,7 @@ static void
 folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
 {
 	g_free (target->uri_dest);
-	target->uri_dest = g_strdup (em_folder_selection_button_get_selection (button));
+	target->uri_dest = g_strdup (em_folder_selection_button_get_folder_uri (button));
 }
 
 /**
@@ -443,7 +443,7 @@ org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EI
 		_("Select folder to import into"));
 	foldername = get_suggested_foldername ((EImportTargetURI *) target);
 	((EImportTargetURI *) target)->uri_dest = g_strdup (foldername);
-	em_folder_selection_button_set_selection ((EMFolderSelectionButton *) w, foldername);
+	em_folder_selection_button_set_folder_uri ((EMFolderSelectionButton *) w, foldername);
 	g_signal_connect (w, "selected", G_CALLBACK (folder_selected), target);
 	gtk_box_pack_end ((GtkBox *) hbox, w, FALSE, FALSE, 0);
 	g_signal_connect (check, "toggled", G_CALLBACK (widget_sanitizer_cb), w);

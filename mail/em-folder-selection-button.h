@@ -75,11 +75,11 @@ const gchar *	em_folder_selection_button_get_caption
 void		em_folder_selection_button_set_caption
 					(EMFolderSelectionButton *button,
 					 const gchar *caption);
-const gchar *	em_folder_selection_button_get_selection
+const gchar *	em_folder_selection_button_get_folder_uri
 					(EMFolderSelectionButton *button);
-void		em_folder_selection_button_set_selection
+void		em_folder_selection_button_set_folder_uri
 					(EMFolderSelectionButton *button,
-					 const gchar *uri);
+					 const gchar *folder_uri);
 void		em_folder_selection_button_set_backend
 					(EMFolderSelectionButton *button,
 					 EMailBackend *backend);

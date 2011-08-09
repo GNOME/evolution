@@ -622,11 +622,11 @@ default_folders_clicked (GtkButton *button, gpointer user_data)
 	const gchar *uri;
 
 	uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
-	em_folder_selection_button_set_selection ((EMFolderSelectionButton *) emae->priv->drafts_folder_button, uri);
+	em_folder_selection_button_set_folder_uri ((EMFolderSelectionButton *) emae->priv->drafts_folder_button, uri);
 	emae_account_folder_changed ((EMFolderSelectionButton *) emae->priv->drafts_folder_button, emae);
 
 	uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
-	em_folder_selection_button_set_selection ((EMFolderSelectionButton *) emae->priv->sent_folder_button, uri);
+	em_folder_selection_button_set_folder_uri ((EMFolderSelectionButton *) emae->priv->sent_folder_button, uri);
 	emae_account_folder_changed ((EMFolderSelectionButton *) emae->priv->sent_folder_button, emae);
 
 	gtk_toggle_button_set_active (emae->priv->trash_folder_check, FALSE);
@@ -1100,7 +1100,7 @@ emae_account_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *e
 
 	account = em_account_editor_get_modified_account (emae);
 	data = g_object_get_data (G_OBJECT (folder), "account-item");
-	selection = em_folder_selection_button_get_selection (folder);
+	selection = em_folder_selection_button_get_folder_uri (folder);
 
 	e_account_set_string (account, GPOINTER_TO_INT (data), selection);
 }
@@ -1121,10 +1121,10 @@ emae_account_folder (EMAccountEditor *emae, const gchar *name, gint item, gint d
 
 	uri = e_account_get_string (account, item);
 	if (uri != NULL) {
-		em_folder_selection_button_set_selection (folder, uri);
+		em_folder_selection_button_set_folder_uri (folder, uri);
 	} else {
 		uri = e_mail_local_get_folder_uri (deffolder);
-		em_folder_selection_button_set_selection (folder, uri);
+		em_folder_selection_button_set_folder_uri (folder, uri);
 	}
 
 	g_object_set_data ((GObject *)folder, "account-item", GINT_TO_POINTER(item));
@@ -3051,7 +3051,7 @@ emae_real_url_toggled (GtkToggleButton *check, EMAccountEditor *emae)
 		camel_url_free (url);
 
 		/* clear the previous selection */
-		em_folder_selection_button_set_selection ((EMFolderSelectionButton *)butt, "");
+		em_folder_selection_button_set_folder_uri ((EMFolderSelectionButton *)butt, "");
 	}
 }
 
@@ -3080,7 +3080,7 @@ emae_real_url_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *
 
 	url = emae_account_url (emae, emae_service_info[emae->priv->source.type].account_uri_key);
 
-	curi_selected = em_folder_selection_button_get_selection (folder);
+	curi_selected = em_folder_selection_button_get_folder_uri (folder);
 	if (!curi_selected || !*curi_selected) {
 		camel_url_set_param (url, param_key, NULL);
 		changed = TRUE;
@@ -3101,7 +3101,7 @@ emae_real_url_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *
 			changed = TRUE;
 		} else {
 			e_notice (NULL, GTK_MESSAGE_ERROR, "%s", _("Please select a folder from the current account."));
-			em_folder_selection_button_set_selection (folder, "");
+			em_folder_selection_button_set_folder_uri (folder, "");
 		}
 
 		g_free (selected_folder_name);
@@ -3146,7 +3146,7 @@ setup_checkable_folder (EMAccountEditor *emae,
 	if (value && *value) {
 		gchar *url_string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 		if (!url_string) {
-			em_folder_selection_button_set_selection (folderbutt, "");
+			em_folder_selection_button_set_folder_uri (folderbutt, "");
 		} else {
 			CamelURL *copy = camel_url_new (url_string, NULL);
 
@@ -3156,14 +3156,14 @@ setup_checkable_folder (EMAccountEditor *emae,
 			g_free (url_string);
 
 			url_string = camel_url_to_string (copy, CAMEL_URL_HIDE_ALL);
-			em_folder_selection_button_set_selection (folderbutt, url_string ? url_string : "");
+			em_folder_selection_button_set_folder_uri (folderbutt, url_string ? url_string : "");
 			g_free (url_string);
 		}
 	} else {
-		em_folder_selection_button_set_selection (folderbutt, "");
+		em_folder_selection_button_set_folder_uri (folderbutt, "");
 	}
 
-	value = em_folder_selection_button_get_selection (folderbutt);
+	value = em_folder_selection_button_get_folder_uri (folderbutt);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), value && *value);
 	gtk_widget_set_sensitive (button, available && value && *value);
 

@@ -74,7 +74,7 @@ static void
 folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
 {
 	g_free (target->uri_dest);
-	target->uri_dest = g_strdup (em_folder_selection_button_get_selection (button));
+	target->uri_dest = g_strdup (em_folder_selection_button_get_folder_uri (button));
 }
 
 static GtkWidget *
@@ -142,7 +142,7 @@ mbox_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 		_("Select folder"),
 		_("Select folder to import into"));
 	gtk_label_set_mnemonic_widget (label, w);
-	em_folder_selection_button_set_selection (
+	em_folder_selection_button_set_folder_uri (
 		EM_FOLDER_SELECTION_BUTTON (w), select_uri);
 	folder_selected (
 		EM_FOLDER_SELECTION_BUTTON (w), (EImportTargetURI *) target);
