@@ -73,9 +73,9 @@ eccp_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 }
 
 static void
-eccp_commit (EConfig *ec, GSList *items, gpointer data)
+eccp_commit (EConfig *ec,
+             CalendarSourceDialog *sdialog)
 {
-	CalendarSourceDialog *sdialog = data;
 	xmlNodePtr xml;
 	GtkWindow *window;
 
@@ -493,8 +493,11 @@ calendar_setup_edit_calendar (GtkWindow *parent, ESource *source, ESourceGroup *
 	sdialog->config = ec = e_cal_config_new (E_CONFIG_BOOK, "org.gnome.evolution.calendar.calendarProperties");
 	for (i = 0; eccp_items[i].path; i++)
 		items = g_slist_prepend (items, &eccp_items[i]);
-	e_config_add_items ((EConfig *) ec, items, eccp_commit, NULL, eccp_free, sdialog);
+	e_config_add_items ((EConfig *) ec, items, eccp_free, sdialog);
 	e_config_add_page_check ((EConfig *) ec, NULL, eccp_check_complete, sdialog);
+	g_signal_connect (
+		ec, "commit",
+		G_CALLBACK (eccp_commit), sdialog);
 
 	target = e_cal_config_target_new_source (ec, sdialog->source);
 	target->source_type = E_CAL_CLIENT_SOURCE_TYPE_EVENTS;
@@ -549,8 +552,11 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 	sdialog->config = ec = e_cal_config_new (E_CONFIG_BOOK, "org.gnome.evolution.calendar.calendarProperties");
 	for (i = 0; ectp_items[i].path; i++)
 		items = g_slist_prepend (items, &ectp_items[i]);
-	e_config_add_items ((EConfig *) ec, items, eccp_commit, NULL, eccp_free, sdialog);
+	e_config_add_items ((EConfig *) ec, items, eccp_free, sdialog);
 	e_config_add_page_check ((EConfig *) ec, NULL, eccp_check_complete, sdialog);
+	g_signal_connect (
+		ec, "commit",
+		G_CALLBACK (eccp_commit), sdialog);
 
 	target = e_cal_config_target_new_source (ec, sdialog->source);
 	target->source_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
@@ -605,8 +611,11 @@ calendar_setup_edit_memo_list (GtkWindow *parent, ESource *source)
 	sdialog->config = ec = e_cal_config_new (E_CONFIG_BOOK, "org.gnome.evolution.calendar.calendarProperties");
 	for (i = 0; ecmp_items[i].path; i++)
 		items = g_slist_prepend (items, &ecmp_items[i]);
-	e_config_add_items ((EConfig *) ec, items, eccp_commit, NULL, eccp_free, sdialog);
+	e_config_add_items ((EConfig *) ec, items, eccp_free, sdialog);
 	e_config_add_page_check ((EConfig *) ec, NULL, eccp_check_complete, sdialog);
+	g_signal_connect (
+		ec, "commit",
+		G_CALLBACK (eccp_commit), sdialog);
 
 	target = e_cal_config_target_new_source (ec, sdialog->source);
 	target->source_type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;

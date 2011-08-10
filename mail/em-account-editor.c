@@ -3945,9 +3945,9 @@ forget_password_if_needed (EAccount *original_account, EAccount *modified_accoun
 }
 
 static void
-emae_commit (EConfig *ec, GSList *items, gpointer data)
+emae_commit (EConfig *ec,
+             EMAccountEditor *emae)
 {
-	EMAccountEditor *emae = data;
 	EAccountList *accounts = e_get_account_list ();
 	EAccount *account;
 	EAccount *modified_account;
@@ -3994,7 +3994,7 @@ emae_commit (EConfig *ec, GSList *items, gpointer data)
 void
 em_account_editor_commit (EMAccountEditor *emae)
 {
-	emae_commit ((EConfig *) emae->config, NULL, emae);
+	emae_commit (E_CONFIG (emae->config), emae);
 }
 
 static void
@@ -4127,11 +4127,16 @@ em_account_editor_construct (EMAccountEditor *emae,
 		}
 	}
 
+	/* Connect "after" to let plugins go first. */
+	g_signal_connect_after (
+		ec, "commit",
+		G_CALLBACK (emae_commit), emae);
+
 	emae->config = priv->config = ec;
 	l = NULL;
 	for (i=0;items[i].path;i++)
 		l = g_slist_prepend (l, &items[i]);
-	e_config_add_items ((EConfig *) ec, l, emae_commit, NULL, emae_free, emae);
+	e_config_add_items ((EConfig *) ec, l, emae_free, emae);
 
 	/* This is kinda yuck, we're dynamically mapping from the 'old style' extensibility api to the new one */
 	l = NULL;
@@ -4174,7 +4179,7 @@ em_account_editor_construct (EMAccountEditor *emae,
 		}
 	}
 	g_hash_table_destroy (have);
-	e_config_add_items ((EConfig *) ec, l, NULL, NULL, emae_free_auto, emae);
+	e_config_add_items ((EConfig *) ec, l, emae_free_auto, emae);
 	priv->extra_items = l;
 
 	e_config_add_page_check ((EConfig *) ec, NULL, emae_check_complete, emae);

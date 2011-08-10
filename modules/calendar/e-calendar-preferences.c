@@ -545,7 +545,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (eccp_items); i++)
 		l = g_slist_prepend (l, &eccp_items[i]);
-	e_config_add_items ((EConfig *) ec, l, NULL, NULL, eccp_free, prefs);
+	e_config_add_items ((EConfig *) ec, l, eccp_free, prefs);
 
 	widget = e_builder_get_widget (prefs->builder, "use-system-tz-check");
 	g_object_bind_property (

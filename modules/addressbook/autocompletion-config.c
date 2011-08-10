@@ -265,7 +265,7 @@ autocompletion_config_new (EPreferencesWindow *window)
 	l = NULL;
 	for (ii = 0; ii < G_N_ELEMENTS (acc_items); ii++)
 		l = g_slist_prepend (l, &acc_items[ii]);
-	e_config_add_items ((EConfig *) eab, l, NULL, NULL, acc_free, shell);
+	e_config_add_items ((EConfig *) eab, l, acc_free, shell);
 
 	gconf = gconf_client_get_default ();
 

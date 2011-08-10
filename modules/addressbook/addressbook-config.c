@@ -1076,9 +1076,9 @@ static EConfigItem eabc_new_items[] = {
 };
 
 static void
-eabc_commit (EConfig *ec, GSList *items, gpointer data)
+eabc_commit (EConfig *ec,
+             AddressbookSourceDialog *sdialog)
 {
-	AddressbookSourceDialog *sdialog = data;
 	xmlNodePtr xml;
 #if d(!)0
 	gchar *txt;
@@ -1262,8 +1262,11 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 		items = g_slist_prepend (items, &eabc_items[i]);
 	}
 
-	e_config_add_items ((EConfig *) ec, items, eabc_commit, NULL, eabc_free, sdialog);
+	e_config_add_items ((EConfig *) ec, items, eabc_free, sdialog);
 	e_config_add_page_check ((EConfig *) ec, NULL, eabc_check_complete, sdialog);
+	g_signal_connect (
+		ec, "commit",
+		G_CALLBACK (eabc_commit), sdialog);
 
 	target = eab_config_target_new_source (ec, sdialog->source);
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);

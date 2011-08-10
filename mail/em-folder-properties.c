@@ -335,7 +335,7 @@ emfp_dialog_run (AsyncContext *context)
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emfp_items); i++)
 		l = g_slist_prepend (l, &emfp_items[i]);
-	e_config_add_items ((EConfig *) ec, l, NULL, NULL, emfp_free, context);
+	e_config_add_items ((EConfig *) ec, l, emfp_free, context);
 
 	target = em_config_target_new_folder (ec, context->folder);
 

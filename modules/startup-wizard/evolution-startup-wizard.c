@@ -167,7 +167,6 @@ completed:
 
 static void
 startup_wizard_config_abort (EConfig *config,
-                             GSList *items,
                              EStartupWizard *extension)
 {
 	GtkAssistant *assistant;
@@ -209,7 +208,6 @@ startup_wizard_config_abort (EConfig *config,
 
 static void
 startup_wizard_config_commit (EConfig *config,
-                              GSList *items,
                               EStartupWizard *extension)
 {
 	EShell *shell;
@@ -480,14 +478,20 @@ startup_wizard_new_assistant (EStartupWizard *extension)
 
 	e_config_add_items (
 		config, items,
-		(EConfigItemsFunc) startup_wizard_config_commit,
-		(EConfigItemsFunc) startup_wizard_config_abort,
 		(EConfigItemsFunc) startup_wizard_config_free,
 		g_object_ref (extension));
 
 	e_config_add_page_check (
 		config, "70.progress", (EConfigCheckFunc)
 		startup_wizard_check_progress, extension);
+
+	g_signal_connect (
+		config, "abort",
+		G_CALLBACK (startup_wizard_config_abort), extension);
+
+	g_signal_connect (
+		config, "commit",
+		G_CALLBACK (startup_wizard_config_commit), extension);
 
 	e_config_create_window (config, NULL, _("Evolution Setup Assistant"));
 
