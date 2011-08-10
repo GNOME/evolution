@@ -92,6 +92,9 @@ struct _EMFolderTreeClass {
 GType		em_folder_tree_get_type		(void);
 GtkWidget *	em_folder_tree_new		(EMailBackend *backend,
 						 EAlertSink *alert_sink);
+GtkWidget *	em_folder_tree_new_with_model	(EMailBackend *backend,
+						 EAlertSink *alert_sink,
+						 EMFolderTreeModel *model);
 EActivity *	em_folder_tree_new_activity	(EMFolderTree *folder_tree);
 PangoEllipsizeMode
 		em_folder_tree_get_ellipsize	(EMFolderTree *folder_tree);
