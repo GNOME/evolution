@@ -335,7 +335,7 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emnp_items); i++)
 		l = g_slist_prepend (l, &emnp_items[i]);
-	e_config_add_items ((EConfig *) ec, l, NULL, NULL, emnp_free, prefs);
+	e_config_add_items ((EConfig *) ec, l, emnp_free, prefs);
 
 	/* Proxy tab */
 

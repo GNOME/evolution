@@ -251,6 +251,10 @@ struct _EConfigClass {
 						 EConfigTarget *target);
 	void		(*target_free)		(EConfig *config,
 						 EConfigTarget *target);
+
+	/* Signals */
+	void		(*abort)		(EConfig *config);
+	void		(*commit)		(EConfig *config);
 };
 
 GType e_config_get_type (void);
@@ -261,7 +265,7 @@ void e_config_class_remove_factory (EConfigClass *klass, EConfigFactory *f);
 
 EConfig *e_config_construct (EConfig *, gint type, const gchar *id);
 
-void e_config_add_items (EConfig *, GSList *items, EConfigItemsFunc commitfunc, EConfigItemsFunc abortfunc, EConfigItemsFunc freefunc, gpointer data);
+void e_config_add_items (EConfig *, GSList *items, EConfigItemsFunc freefunc, gpointer data);
 void e_config_add_page_check (EConfig *, const gchar *pageid, EConfigCheckFunc, gpointer data);
 void e_config_set_page_is_finish (EConfig *ec, const gchar *pageid, gboolean is_finish);
 

@@ -55,8 +55,6 @@ struct _EConfigFactory {
 struct _menu_node {
 	GSList *menu;
 	EConfigItemsFunc free;
-	EConfigItemsFunc abort;
-	EConfigItemsFunc commit;
 	gpointer data;
 };
 
@@ -99,6 +97,14 @@ static GtkWidget *
 						 gint position,
 						 gpointer data,
 						 GtkWidget **real_frame);
+
+enum {
+	ABORT,
+	COMMIT,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (
 	EConfig,
@@ -197,6 +203,24 @@ e_config_class_init (EConfigClass *class)
 
 	class->set_target = config_set_target;
 	class->target_free = config_target_free;
+
+	signals[ABORT] = g_signal_new (
+		"abort",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EConfigClass, abort),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	signals[COMMIT] = g_signal_new (
+		"commit",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EConfigClass, commit),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
@@ -233,10 +257,6 @@ e_config_construct (EConfig *ep, gint type, const gchar *id)
  * @ec: An initialised implementing instance of EConfig.
  * @items: A list of EConfigItem's to add to the configuration manager
  * @ec.
- * @commitfunc: If supplied, called to commit the configuration items
- * to persistent storage.
- * @abortfunc: If supplied, called to abort/undo the storage of these
- * items permanently.
  * @freefunc: If supplied, called to free the item list (and/or items)
  * once they are no longer needed.
  * @data: Data for the callback methods.
@@ -247,14 +267,15 @@ e_config_construct (EConfig *ep, gint type, const gchar *id)
  * TODO: perhaps commit and abort should just be signals.
  **/
 void
-e_config_add_items (EConfig *ec, GSList *items, EConfigItemsFunc commitfunc, EConfigItemsFunc abortfunc, EConfigItemsFunc freefunc, gpointer data)
+e_config_add_items (EConfig *ec,
+                    GSList *items,
+                    EConfigItemsFunc freefunc,
+                    gpointer data)
 {
 	struct _menu_node *node;
 
 	node = g_malloc (sizeof (*node));
 	node->menu = items;
-	node->commit = commitfunc;
-	node->abort = abortfunc;
 	node->free = freefunc;
 	node->data = data;
 
@@ -1259,22 +1280,9 @@ e_config_target_changed (EConfig *emp, e_config_target_change_t how)
 void
 e_config_abort (EConfig *config)
 {
-	GList *link;
-
 	g_return_if_fail (E_IS_CONFIG (config));
 
-	/* TODO: should these just be signals? */
-
-	link = config->priv->menus;
-
-	while (link != NULL) {
-		struct _menu_node *node = link->data;
-
-		if (node->abort != NULL)
-			node->abort (config, node->menu, node->data);
-
-		link = g_list_next (link);
-	}
+	g_signal_emit (config, signals[ABORT], 0);
 }
 
 /**
@@ -1288,22 +1296,9 @@ e_config_abort (EConfig *config)
 void
 e_config_commit (EConfig *config)
 {
-	GList *link;
-
 	g_return_if_fail (E_IS_CONFIG (config));
 
-	/* TODO: should these just be signals? */
-
-	link = config->priv->menus;
-
-	while (link != NULL) {
-		struct _menu_node *node = link->data;
-
-		if (node->commit != NULL)
-			node->commit (config, node->menu, node->data);
-
-		link = g_list_next (link);
-	}
+	g_signal_emit (config, signals[COMMIT], 0);
 }
 
 /**
@@ -1603,19 +1598,17 @@ G_DEFINE_TYPE (
 	E_TYPE_PLUGIN_HOOK)
 
 static void
-ech_commit (EConfig *ec, GSList *items, gpointer data)
+ech_commit (EConfig *ec,
+            EConfigHookGroup *group)
 {
-	struct _EConfigHookGroup *group = data;
-
 	if (group->commit && group->hook->hook.plugin->enabled)
 		e_plugin_invoke (group->hook->hook.plugin, group->commit, ec->target);
 }
 
 static void
-ech_abort (EConfig *ec, GSList *items, gpointer data)
+ech_abort (EConfig *ec,
+           EConfigHookGroup *group)
 {
-	struct _EConfigHookGroup *group = data;
-
 	if (group->abort && group->hook->hook.plugin->enabled)
 		e_plugin_invoke (group->hook->hook.plugin, group->abort, ec->target);
 }
@@ -1623,7 +1616,7 @@ ech_abort (EConfig *ec, GSList *items, gpointer data)
 static gboolean
 ech_check (EConfig *ec, const gchar *pageid, gpointer data)
 {
-	struct _EConfigHookGroup *group = data;
+	EConfigHookGroup *group = data;
 	EConfigHookPageCheckData hdata;
 
 	if (!group->hook->hook.plugin->enabled)
@@ -1639,7 +1632,7 @@ ech_check (EConfig *ec, const gchar *pageid, gpointer data)
 static void
 ech_config_factory (EConfig *emp, gpointer data)
 {
-	struct _EConfigHookGroup *group = data;
+	EConfigHookGroup *group = data;
 
 	d(printf("config factory called %s\n", group->id?group->id:"all menus"));
 
@@ -1647,8 +1640,15 @@ ech_config_factory (EConfig *emp, gpointer data)
 	    || !group->hook->hook.plugin->enabled)
 		return;
 
-	if (group->items)
-		e_config_add_items (emp, group->items, ech_commit, ech_abort, NULL, group);
+	if (group->items) {
+		e_config_add_items (emp, group->items, NULL, group);
+		g_signal_connect (
+			emp, "abort",
+			G_CALLBACK (ech_abort), group);
+		g_signal_connect (
+			emp, "commit",
+			G_CALLBACK (ech_commit), group);
+	}
 
 	if (group->check)
 		e_config_add_page_check (emp, NULL, ech_check, group);
@@ -1664,7 +1664,7 @@ emph_free_item (struct _EConfigItem *item)
 }
 
 static void
-emph_free_group (struct _EConfigHookGroup *group)
+emph_free_group (EConfigHookGroup *group)
 {
 	g_slist_foreach (group->items, (GFunc) emph_free_item, NULL);
 	g_slist_free (group->items);
@@ -1681,7 +1681,7 @@ ech_config_widget_factory (EConfig *config,
                            gint position,
                            gpointer data)
 {
-	struct _EConfigHookGroup *group = data;
+	EConfigHookGroup *group = data;
 	EConfigHookItemFactoryData factory_data;
 	EPlugin *plugin;
 
@@ -1705,7 +1705,7 @@ ech_config_section_factory (EConfig *config,
                             gpointer data,
                             GtkWidget **real_frame)
 {
-	struct _EConfigHookGroup *group = data;
+	EConfigHookGroup *group = data;
 	GtkWidget *label = NULL;
 	GtkWidget *widget;
 	EPlugin *plugin;
@@ -1803,10 +1803,10 @@ error:
 	return NULL;
 }
 
-static struct _EConfigHookGroup *
+static EConfigHookGroup *
 emph_construct_menu (EPluginHook *eph, xmlNodePtr root)
 {
-	struct _EConfigHookGroup *menu;
+	EConfigHookGroup *menu;
 	xmlNodePtr node;
 	EConfigHookTargetMap *map;
 	EConfigHookClass *class = (EConfigHookClass *) G_OBJECT_GET_CLASS (eph);
@@ -1868,7 +1868,7 @@ emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 	node = root->children;
 	while (node) {
 		if (strcmp((gchar *)node->name, "group") == 0) {
-			struct _EConfigHookGroup *group;
+			EConfigHookGroup *group;
 
 			group = emph_construct_menu (eph, node);
 			if (group) {

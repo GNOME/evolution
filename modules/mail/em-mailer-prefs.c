@@ -719,7 +719,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emmp_items); i++)
 		l = g_slist_prepend (l, &emmp_items[i]);
-	e_config_add_items ((EConfig *) ec, l, NULL, NULL, emmp_free, prefs);
+	e_config_add_items ((EConfig *) ec, l, emmp_free, prefs);
 
 	/* General tab */
 
