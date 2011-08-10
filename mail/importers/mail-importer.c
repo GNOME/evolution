@@ -150,7 +150,7 @@ import_mbox_exec (struct _import_mbox_msg *m,
 		}
 
 		camel_operation_push_message (
-			cancellable, _("Importing '%s'"),
+			m->cancellable, _("Importing '%s'"),
 			camel_folder_get_full_name (folder));
 		camel_folder_freeze (folder);
 		while (camel_mime_parser_step (mp, NULL, NULL) ==
@@ -165,7 +165,7 @@ import_mbox_exec (struct _import_mbox_msg *m,
 				pc = (gint) (100.0 * ((gdouble)
 					camel_mime_parser_tell (mp) /
 					(gdouble) st.st_size));
-			camel_operation_progress (cancellable, pc);
+			camel_operation_progress (m->cancellable, pc);
 
 			msg = camel_mime_message_new ();
 			if (!camel_mime_part_construct_from_parser_sync (
@@ -202,7 +202,7 @@ import_mbox_exec (struct _import_mbox_msg *m,
 		/* FIXME Not passing a GCancellable or GError here. */
 		camel_folder_synchronize_sync (folder, FALSE, NULL, NULL);
 		camel_folder_thaw (folder);
-		camel_operation_pop_message (cancellable);
+		camel_operation_pop_message (m->cancellable);
 	fail2:
 		g_object_unref (mp);
 	}
@@ -312,7 +312,7 @@ import_folders_rec (struct _import_folders_data *m,
 	data_dir = mail_session_get_data_dir ();
 
 	utf8_filename = g_filename_to_utf8 (filepath, -1, NULL, NULL, NULL);
-	camel_operation_push_message (NULL, _("Scanning %s"), utf8_filename);
+	camel_operation_push_message (m->cancellable, _("Scanning %s"), utf8_filename);
 	g_free (utf8_filename);
 
 	while ( (d=g_dir_read_name (dir))) {
@@ -378,7 +378,7 @@ import_folders_rec (struct _import_folders_data *m,
 	}
 	g_dir_close (dir);
 
-	camel_operation_pop_message (NULL);
+	camel_operation_pop_message (m->cancellable);
 }
 
 /**
