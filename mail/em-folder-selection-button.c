@@ -44,6 +44,7 @@ struct _EMFolderSelectionButtonPrivate {
 	EMailBackend *backend;
 	GtkWidget *icon;
 	GtkWidget *label;
+	EAccount *account;
 
 	gchar *title;
 	gchar *caption;
@@ -52,6 +53,7 @@ struct _EMFolderSelectionButtonPrivate {
 
 enum {
 	PROP_0,
+	PROP_ACCOUNT,
 	PROP_BACKEND,
 	PROP_CAPTION,
 	PROP_FOLDER_URI,
@@ -133,6 +135,12 @@ folder_selection_button_set_property (GObject *object,
                                       GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ACCOUNT:
+			em_folder_selection_button_set_account (
+				EM_FOLDER_SELECTION_BUTTON (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_BACKEND:
 			em_folder_selection_button_set_backend (
 				EM_FOLDER_SELECTION_BUTTON (object),
@@ -168,6 +176,13 @@ folder_selection_button_get_property (GObject *object,
                                       GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ACCOUNT:
+			g_value_set_object (
+				value,
+				em_folder_selection_button_get_account (
+				EM_FOLDER_SELECTION_BUTTON (object)));
+			return;
+
 		case PROP_BACKEND:
 			g_value_set_object (
 				value,
@@ -207,6 +222,11 @@ folder_selection_button_dispose (GObject *object)
 
 	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (object);
 
+	if (priv->account != NULL) {
+		g_object_unref (priv->account);
+		priv->account = NULL;
+	}
+
 	if (priv->backend != NULL) {
 		g_object_unref (priv->backend);
 		priv->backend = NULL;
@@ -239,7 +259,7 @@ folder_selection_button_clicked (GtkButton *button)
 	EMFolderSelectionButtonPrivate *priv;
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
-	EMFolderTreeModel *model;
+	EMFolderTreeModel *model = NULL;
 	GtkWidget *dialog;
 	GtkTreeSelection *selection;
 	gpointer parent;
@@ -249,12 +269,33 @@ folder_selection_button_clicked (GtkButton *button)
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	model = em_folder_tree_model_get_default ();
+	if (priv->account != NULL && priv->account->source != NULL) {
+		EMailSession *session;
+		CamelService *service;
+
+		session = e_mail_backend_get_session (priv->backend);
+
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), priv->account->uid);
+
+		if (CAMEL_IS_STORE (service)) {
+			model = em_folder_tree_model_new ();
+			em_folder_tree_model_set_session (model, session);
+			em_folder_tree_model_add_store (
+				model, CAMEL_STORE (service),
+				priv->account->name);
+		}
+	}
+
+	if (model == NULL)
+		model = g_object_ref (em_folder_tree_model_get_default ());
 
 	dialog = em_folder_selector_new (
 		parent, priv->backend, model,
 		EM_FOLDER_SELECTOR_CAN_CREATE,
 		priv->title, priv->caption, NULL);
+
+	g_object_unref (model);
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	folder_tree = em_folder_selector_get_folder_tree (selector);
@@ -299,6 +340,16 @@ em_folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 
 	button_class = GTK_BUTTON_CLASS (class);
 	button_class->clicked = folder_selection_button_clicked;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ACCOUNT,
+		g_param_spec_object (
+			"account",
+			NULL,
+			NULL,
+			E_TYPE_ACCOUNT,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -389,6 +440,60 @@ em_folder_selection_button_new (EMailBackend *backend,
 		"caption", caption, NULL);
 }
 
+EAccount *
+em_folder_selection_button_get_account (EMFolderSelectionButton *button)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button), NULL);
+
+	return button->priv->account;
+}
+
+void
+em_folder_selection_button_set_account (EMFolderSelectionButton *button,
+                                        EAccount *account)
+{
+	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
+
+	if (account != NULL) {
+		g_return_if_fail (E_IS_ACCOUNT (account));
+		g_object_ref (account);
+	}
+
+	if (button->priv->account != NULL)
+		g_object_unref (button->priv->account);
+
+	button->priv->account = account;
+
+	g_object_notify (G_OBJECT (button), "account");
+}
+
+EMailBackend *
+em_folder_selection_button_get_backend (EMFolderSelectionButton *button)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button), NULL);
+
+	return button->priv->backend;
+}
+
+void
+em_folder_selection_button_set_backend (EMFolderSelectionButton *button,
+                                        EMailBackend *backend)
+{
+	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
+
+	if (backend != NULL) {
+		g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+		g_object_ref (backend);
+	}
+
+	if (button->priv->backend != NULL)
+		g_object_unref (button->priv->backend);
+
+	button->priv->backend = backend;
+
+	g_object_notify (G_OBJECT (button), "backend");
+}
+
 const gchar *
 em_folder_selection_button_get_caption (EMFolderSelectionButton *button)
 {
@@ -433,33 +538,6 @@ em_folder_selection_button_set_folder_uri (EMFolderSelectionButton *button,
 	folder_selection_button_set_contents (button);
 
 	g_object_notify (G_OBJECT (button), "folder-uri");
-}
-
-EMailBackend *
-em_folder_selection_button_get_backend (EMFolderSelectionButton *button)
-{
-	g_return_val_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button), NULL);
-
-	return button->priv->backend;
-}
-
-void
-em_folder_selection_button_set_backend (EMFolderSelectionButton *button,
-                                        EMailBackend *backend)
-{
-	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
-
-	if (backend != NULL) {
-		g_return_if_fail (E_IS_MAIL_BACKEND (backend));
-		g_object_ref (backend);
-	}
-
-	if (button->priv->backend != NULL)
-		g_object_unref (button->priv->backend);
-
-	button->priv->backend = backend;
-
-	g_object_notify (G_OBJECT (button), "backend");
 }
 
 const gchar *

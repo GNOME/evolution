@@ -26,6 +26,7 @@
 
 #include <gtk/gtk.h>
 #include <mail/e-mail-backend.h>
+#include <libedataserver/e-account.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_FOLDER_SELECTION_BUTTON \
@@ -70,6 +71,16 @@ GtkWidget *	em_folder_selection_button_new
 					(EMailBackend *backend,
 					 const gchar *title,
 					 const gchar *caption);
+EAccount *	em_folder_selection_button_get_account
+					(EMFolderSelectionButton *button);
+void		em_folder_selection_button_set_account
+					(EMFolderSelectionButton *button,
+					 EAccount *account);
+EMailBackend *	em_folder_selection_button_get_backend
+					(EMFolderSelectionButton *button);
+void		em_folder_selection_button_set_backend
+					(EMFolderSelectionButton *button,
+					 EMailBackend *backend);
 const gchar *	em_folder_selection_button_get_caption
 					(EMFolderSelectionButton *button);
 void		em_folder_selection_button_set_caption
@@ -80,11 +91,6 @@ const gchar *	em_folder_selection_button_get_folder_uri
 void		em_folder_selection_button_set_folder_uri
 					(EMFolderSelectionButton *button,
 					 const gchar *folder_uri);
-void		em_folder_selection_button_set_backend
-					(EMFolderSelectionButton *button,
-					 EMailBackend *backend);
-EMailBackend *	em_folder_selection_button_get_backend
-					(EMFolderSelectionButton *button);
 const gchar *	em_folder_selection_button_get_title
 					(EMFolderSelectionButton *button);
 void		em_folder_selection_button_set_title
