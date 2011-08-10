@@ -287,6 +287,7 @@ action_mail_copy_cb (GtkAction *action,
 	EMailSession *session;
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
+	EMFolderTreeModel *model;
 	GtkWidget *dialog;
 	GtkWindow *window;
 	GPtrArray *uids;
@@ -299,8 +300,11 @@ action_mail_copy_cb (GtkAction *action,
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
+	model = em_folder_tree_model_get_default ();
+
 	dialog = em_folder_selector_new (
-		window, backend, EM_FOLDER_SELECTOR_CAN_CREATE,
+		window, backend, model,
+		EM_FOLDER_SELECTOR_CAN_CREATE,
 		_("Copy to Folder"), NULL, _("C_opy"));
 
 	selector = EM_FOLDER_SELECTOR (dialog);
@@ -789,20 +793,24 @@ action_mail_move_cb (GtkAction *action,
 	EMailSession *session;
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
+	EMFolderTreeModel *model;
 	GtkWidget *dialog;
 	GtkWindow *window;
 	GPtrArray *uids;
 	const gchar *uri;
 
 	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
+
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	window = e_mail_reader_get_window (reader);
 
-	session = e_mail_backend_get_session (backend);
+	model = em_folder_tree_model_get_default ();
 
 	dialog = em_folder_selector_new (
-		window, backend, EM_FOLDER_SELECTOR_CAN_CREATE,
+		window, backend, model,
+		EM_FOLDER_SELECTOR_CAN_CREATE,
 		_("Move to Folder"), NULL, _("_Move"));
 
 	selector = EM_FOLDER_SELECTOR (dialog);

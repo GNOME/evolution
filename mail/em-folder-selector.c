@@ -44,11 +44,13 @@
 struct _EMFolderSelectorPrivate {
 	EMailBackend *backend;
 	EMFolderTree *folder_tree;  /* not referenced */
+	EMFolderTreeModel *model;
 };
 
 enum {
 	PROP_0,
-	PROP_BACKEND
+	PROP_BACKEND,
+	PROP_MODEL
 };
 
 /* XXX EMFolderSelector is an EAlertSink, but it just uses the default
@@ -71,6 +73,16 @@ folder_selector_set_backend (EMFolderSelector *emfs,
 }
 
 static void
+folder_selector_set_model (EMFolderSelector *emfs,
+                           EMFolderTreeModel *model)
+{
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+	g_return_if_fail (emfs->priv->model == NULL);
+
+	emfs->priv->model = g_object_ref (model);
+}
+
+static void
 folder_selector_set_property (GObject *object,
                               guint property_id,
                               const GValue *value,
@@ -79,6 +91,12 @@ folder_selector_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_BACKEND:
 			folder_selector_set_backend (
+				EM_FOLDER_SELECTOR (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_MODEL:
+			folder_selector_set_model (
 				EM_FOLDER_SELECTOR (object),
 				g_value_get_object (value));
 			return;
@@ -97,8 +115,15 @@ folder_selector_get_property (GObject *object,
 		case PROP_BACKEND:
 			g_value_set_object (
 				value,
-				em_folder_tree_get_backend (
-				EM_FOLDER_TREE (object)));
+				em_folder_selector_get_backend (
+				EM_FOLDER_SELECTOR (object)));
+			return;
+
+		case PROP_MODEL:
+			g_value_set_object (
+				value,
+				em_folder_selector_get_model (
+				EM_FOLDER_SELECTOR (object)));
 			return;
 	}
 
@@ -109,20 +134,21 @@ static void
 folder_selector_dispose (GObject *object)
 {
 	EMFolderSelector *emfs = EM_FOLDER_SELECTOR (object);
-	GtkTreeModel *model;
+
+	if (emfs->created_id != 0) {
+		g_signal_handler_disconnect (
+			emfs->priv->model, emfs->created_id);
+		emfs->created_id = 0;
+	}
 
 	if (emfs->priv->backend != NULL) {
 		g_object_unref (emfs->priv->backend);
 		emfs->priv->backend = NULL;
 	}
 
-	if (emfs->created_id != 0) {
-		GtkTreeView *tree_view;
-
-		tree_view = GTK_TREE_VIEW (emfs->priv->folder_tree);
-		model = gtk_tree_view_get_model (tree_view);
-		g_signal_handler_disconnect (model, emfs->created_id);
-		emfs->created_id = 0;
+	if (emfs->priv->model != NULL) {
+		g_object_unref (emfs->priv->model);
+		emfs->priv->model = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -162,6 +188,18 @@ em_folder_selector_class_init (EMFolderSelectorClass *class)
 			NULL,
 			NULL,
 			E_TYPE_MAIL_BACKEND,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MODEL,
+		g_param_spec_object (
+			"model",
+			NULL,
+			NULL,
+			EM_TYPE_FOLDER_TREE_MODEL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
@@ -247,11 +285,13 @@ folder_selector_construct (EMFolderSelector *emfs,
                            const gchar *oklabel)
 {
 	EMailBackend *backend;
+	EMFolderTreeModel *model;
 	GtkWidget *content_area;
 	GtkWidget *container;
 	GtkWidget *widget;
 
 	backend = em_folder_selector_get_backend (emfs);
+	model = em_folder_selector_get_model (emfs);
 
 	gtk_window_set_default_size (GTK_WINDOW (emfs), 350, 300);
 	gtk_window_set_title (GTK_WINDOW (emfs), title);
@@ -294,7 +334,8 @@ folder_selector_construct (EMFolderSelector *emfs,
 
 	container = widget;
 
-	widget = em_folder_tree_new (backend, E_ALERT_SINK (emfs));
+	widget = em_folder_tree_new_with_model (
+		backend, E_ALERT_SINK (emfs), model);
 	emu_restore_folder_tree_state (EM_FOLDER_TREE (widget));
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	emfs->priv->folder_tree = EM_FOLDER_TREE (widget);
@@ -323,6 +364,7 @@ folder_selector_construct (EMFolderSelector *emfs,
 GtkWidget *
 em_folder_selector_new (GtkWindow *parent,
                         EMailBackend *backend,
+                        EMFolderTreeModel *model,
                         guint32 flags,
                         const gchar *title,
                         const gchar *text,
@@ -331,11 +373,13 @@ em_folder_selector_new (GtkWindow *parent,
 	EMFolderSelector *emfs;
 
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
 
 	emfs = g_object_new (
 		EM_TYPE_FOLDER_SELECTOR,
 		"transient-for", parent,
-		"backend", backend, NULL);
+		"backend", backend,
+		"model", model, NULL);
 	folder_selector_construct (emfs, flags, title, text, oklabel);
 
 	return (GtkWidget *) emfs;
@@ -363,6 +407,7 @@ emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 GtkWidget *
 em_folder_selector_create_new (GtkWindow *parent,
                                EMailBackend *backend,
+                               EMFolderTreeModel *model,
                                guint32 flags,
                                const gchar *title,
                                const gchar *text)
@@ -373,6 +418,7 @@ em_folder_selector_create_new (GtkWindow *parent,
 	GtkWidget *container;
 
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
 
 	/* remove the CREATE flag if it is there since that's the
 	 * whole purpose of this dialog */
@@ -381,7 +427,8 @@ em_folder_selector_create_new (GtkWindow *parent,
 	emfs = g_object_new (
 		EM_TYPE_FOLDER_SELECTOR,
 		"transient-for", parent,
-		"backend", backend, NULL);
+		"backend", backend,
+		"model", model, NULL);
 	folder_selector_construct (emfs, flags, title, text, _("C_reate"));
 
 	folder_tree = em_folder_selector_get_folder_tree (emfs);
@@ -418,6 +465,14 @@ em_folder_selector_get_backend (EMFolderSelector *emfs)
 	g_return_val_if_fail (EM_IS_FOLDER_SELECTOR (emfs), NULL);
 
 	return emfs->priv->backend;
+}
+
+EMFolderTreeModel *
+em_folder_selector_get_model (EMFolderSelector *emfs)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTOR (emfs), NULL);
+
+	return emfs->priv->model;
 }
 
 EMFolderTree *

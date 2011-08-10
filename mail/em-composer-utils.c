@@ -2922,6 +2922,7 @@ post_header_clicked_cb (EComposerPostHeader *header,
 	EShellBackend *shell_backend;
 	GtkTreeSelection *selection;
 	EMFolderSelector *selector;
+	EMFolderTreeModel *model;
 	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
 	GList *list;
@@ -2930,10 +2931,13 @@ post_header_clicked_cb (EComposerPostHeader *header,
 	shell = e_msg_composer_get_shell (composer);
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
+	/* FIXME Limit the folder tree to the NNTP account? */
+	model = em_folder_tree_model_get_default ();
+
 	dialog = em_folder_selector_new (
 		GTK_WINDOW (composer),
 		E_MAIL_BACKEND (shell_backend),
-		EM_FOLDER_SELECTOR_CAN_CREATE,
+		model, EM_FOLDER_SELECTOR_CAN_CREATE,
 		_("Posting destination"),
 		_("Choose folders to post the message to."),
 		NULL);
