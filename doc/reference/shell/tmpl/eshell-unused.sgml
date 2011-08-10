@@ -239,6 +239,13 @@ e-shell-window.sgml
 </para>
 
 
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_FAQ ##### -->
+<para>
+
+</para>
+
+@window: 
+
 <!-- ##### MACRO E_SHELL_WINDOW_ACTION_SEND_RECEIVE ##### -->
 <para>
 

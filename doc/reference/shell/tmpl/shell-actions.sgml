@@ -44,14 +44,6 @@ Shell Actions
 @window: 
 
 
-<!-- ##### MACRO E_SHELL_WINDOW_ACTION_FAQ ##### -->
-<para>
-
-</para>
-
-@window: 
-
-
 <!-- ##### MACRO E_SHELL_WINDOW_ACTION_FORGET_PASSWORDS ##### -->
 <para>
 
