@@ -3056,12 +3056,12 @@ emae_real_url_toggled (GtkToggleButton *check, EMAccountEditor *emae)
 }
 
 static void
-emae_real_url_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *emae)
+emae_real_url_folder_changed (EMFolderSelectionButton *folder,
+                              EMAccountEditor *emae)
 {
 	CamelURL *url;
 	guint32 flag;
 	GtkWidget *check = NULL;
-	gboolean changed = FALSE;
 	const gchar *param_key = NULL, *curi_selected;
 
 	g_return_if_fail (folder != NULL);
@@ -3083,34 +3083,34 @@ emae_real_url_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *
 	curi_selected = em_folder_selection_button_get_folder_uri (folder);
 	if (!curi_selected || !*curi_selected) {
 		camel_url_set_param (url, param_key, NULL);
-		changed = TRUE;
 	} else {
-		gboolean passed;
 		gchar *selected_folder_name = NULL;
 		CamelStore *selected_store = NULL;
-		CamelSession *session = CAMEL_SESSION (e_mail_backend_get_session (em_account_editor_get_backend (emae)));
+		EMailBackend *backend;
+		EMailSession *session;
+		gboolean valid;
 
-		passed = e_mail_folder_uri_parse (session, curi_selected, &selected_store, &selected_folder_name, NULL);
-		if (passed) {
-			passed = selected_store && emae->priv->modified_account && emae->priv->modified_account->uid
-				&& g_strcmp0 (camel_service_get_uid (CAMEL_SERVICE (selected_store)), emae->priv->modified_account->uid) == 0;
-		}
+		backend = em_account_editor_get_backend (emae);
+		session = e_mail_backend_get_session (backend);
 
-		if (passed && selected_folder_name && *selected_folder_name) {
-			camel_url_set_param (url, param_key, (*selected_folder_name) == '/' ? selected_folder_name + 1 : selected_folder_name);
-			changed = TRUE;
-		} else {
-			e_notice (NULL, GTK_MESSAGE_ERROR, "%s", _("Please select a folder from the current account."));
-			em_folder_selection_button_set_folder_uri (folder, "");
-		}
+		valid = e_mail_folder_uri_parse (
+			CAMEL_SESSION (session), curi_selected,
+			&selected_store, &selected_folder_name, NULL);
+		g_return_if_fail (valid);
+
+		if (*selected_folder_name == '/')
+			camel_url_set_param (
+				url, param_key, selected_folder_name + 1);
+		else
+			camel_url_set_param (
+				url, param_key, selected_folder_name);
 
 		g_free (selected_folder_name);
 		if (selected_store)
 			g_object_unref (selected_store);
 	}
 
-	if (changed)
-		emae_uri_changed (&emae->priv->source, url);
+	emae_uri_changed (&emae->priv->source, url);
 	camel_url_free (url);
 }
 
@@ -3233,6 +3233,7 @@ emae_defaults_page (EConfig *ec,
 
 	widget = e_builder_get_widget (builder, "trash_folder_butt");
 	button = EM_FOLDER_SELECTION_BUTTON (widget);
+	em_folder_selection_button_set_account (button, account);
 	em_folder_selection_button_set_backend (button, backend);
 	priv->trash_folder_button = GTK_BUTTON (button);
 
@@ -3246,6 +3247,7 @@ emae_defaults_page (EConfig *ec,
 
 	widget = e_builder_get_widget (builder, "junk_folder_butt");
 	button = EM_FOLDER_SELECTION_BUTTON (widget);
+	em_folder_selection_button_set_account (button, account);
 	em_folder_selection_button_set_backend (button, backend);
 	priv->junk_folder_button = GTK_BUTTON (button);
 
