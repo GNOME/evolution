@@ -110,6 +110,15 @@ EShellBackend
 @shell_backend: 
 
 
+<!-- ##### FUNCTION e_shell_backend_is_started ##### -->
+<para>
+
+</para>
+
+@shell_backend: 
+@Returns: 
+
+
 <!-- ##### FUNCTION e_shell_backend_migrate ##### -->
 <para>
 

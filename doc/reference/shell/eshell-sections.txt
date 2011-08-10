@@ -64,6 +64,7 @@ e_shell_backend_add_activity
 e_shell_backend_cancel_all
 e_shell_backend_is_busy
 e_shell_backend_start
+e_shell_backend_is_started
 e_shell_backend_migrate
 <SUBSECTION Standard>
 E_SHELL_BACKEND
@@ -1152,7 +1153,6 @@ e_get_month_name
 e_get_weekday_name
 e_flexible_strtod
 e_ascii_dtostr
-get_font_options
 e_file_lock_create
 e_file_lock_destroy
 e_file_lock_exists
@@ -1222,7 +1222,6 @@ gconf_bridge_unbind
 E_SHELL_WINDOW_ACTION_ABOUT
 E_SHELL_WINDOW_ACTION_CLOSE
 E_SHELL_WINDOW_ACTION_CONTENTS
-E_SHELL_WINDOW_ACTION_FAQ
 E_SHELL_WINDOW_ACTION_FORGET_PASSWORDS
 E_SHELL_WINDOW_ACTION_GAL_CUSTOM_VIEW
 E_SHELL_WINDOW_ACTION_GAL_DEFINE_VIEWS
