@@ -134,6 +134,10 @@ struct _PstImporter {
 	ECalClient *calendar;
 	ECalClient *tasks;
 	ECalClient *journal;
+
+	/* progress indicator */
+	gint position;
+	gint total;
 };
 
 gboolean
@@ -572,18 +576,45 @@ pst_import_import (PstImporter *m,
 }
 
 static void
+count_items (PstImporter *m, pst_desc_tree *topitem)
+{
+	pst_desc_tree *d_ptr;
+
+	m->position = 3;
+	m->total = 5;
+	d_ptr = topitem->child;
+
+	/* Walk through folder tree */
+	while (d_ptr != NULL) {
+		m->total++;
+
+		if (d_ptr->child != NULL) {
+			d_ptr = d_ptr->child;
+		} else if (d_ptr->next != NULL) {
+			d_ptr = d_ptr->next;
+		} else {
+			while (d_ptr != topitem && d_ptr->next == NULL) {
+				d_ptr = d_ptr->parent;
+			}
+
+			if (d_ptr == topitem)
+				break;
+
+			d_ptr = d_ptr->next;
+		}
+	}
+}
+
+static void
 pst_import_file (PstImporter *m)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EMailSession *session;
-	GCancellable *cancellable;
 	gint ret;
 	gchar *filename;
 	pst_item *item = NULL;
 	pst_desc_tree *d_ptr;
-
-	cancellable = e_activity_get_cancellable (m->base.activity);
 
 	/* XXX Dig up the EMailSession from the default EShell.
 	 *     Since the EImport framework doesn't allow for user
@@ -595,44 +626,45 @@ pst_import_file (PstImporter *m)
 	filename = g_filename_from_uri (((EImportTargetURI *) m->target)->uri_src, NULL, NULL);
 	m->folder_uri = g_strdup (((EImportTargetURI *) m->target)->uri_dest); /* Destination folder, was set in our widget */
 
-	camel_operation_push_message (NULL, _("Importing '%s'"), filename);
+	camel_operation_push_message (m->cancellable, _("Importing '%s'"), filename);
 
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-mail"))) {
 		e_mail_session_uri_to_folder_sync (
 			session, m->folder_uri, CAMEL_STORE_FOLDER_CREATE,
-			cancellable, &m->base.error);
+			m->cancellable, &m->base.error);
 	}
 
 	ret = pst_init (&m->pst, filename);
 
 	if (ret < 0) {
 		g_free (filename);
-		camel_operation_pop_message (NULL);
+		camel_operation_pop_message (m->cancellable);
 		return;
 	}
 
 	g_free (filename);
 
-	camel_operation_progress (NULL, 1);
+	camel_operation_progress (m->cancellable, 1);
 
 	if ((item = pst_parse_item (&m->pst, m->pst.d_head, NULL)) == NULL) {
 		pst_error_msg ("Could not get root record");
 		return;
 	}
 
-	camel_operation_progress (NULL, 2);
+	camel_operation_progress (m->cancellable, 2);
 
 	if ((d_ptr = pst_getTopOfFolders (&m->pst, item)) == NULL) {
 		pst_error_msg ("Top of folders record not found. Cannot continue");
 		return;
 	}
 
-	camel_operation_progress (NULL, 3);
+	camel_operation_progress (m->cancellable, 3);
+	count_items (m, d_ptr);
 	pst_import_folders (m, d_ptr);
 
-	camel_operation_progress (NULL, 4);
+	camel_operation_progress (m->cancellable, 100);
 
-	camel_operation_pop_message (NULL);
+	camel_operation_pop_message (m->cancellable);
 
 	pst_freeItem (item);
 
@@ -641,6 +673,7 @@ pst_import_file (PstImporter *m)
 static void
 pst_import_folders (PstImporter *m, pst_desc_tree *topitem)
 {
+	CamelOperation *co = CAMEL_OPERATION (m->cancellable);
 	GHashTable *node_to_folderuri; /* pointers of hierarchy nodes, to them associated folder uris */
 	pst_desc_tree *d_ptr;
 
@@ -651,8 +684,11 @@ pst_import_folders (PstImporter *m, pst_desc_tree *topitem)
 		g_hash_table_insert (node_to_folderuri, topitem, g_strdup (m->folder_uri));
 		
 	/* Walk through folder tree */
-	while (d_ptr != NULL && (camel_operation_cancel_check (NULL) == FALSE)) {
+	while (d_ptr != NULL && (camel_operation_cancel_check (co) == FALSE)) {
 		gchar *previous_folder = NULL;
+
+		m->position++;
+		camel_operation_progress (m->cancellable, 100 * m->position / m->total);
 
 		pst_process_item (m, d_ptr, &previous_folder);
 
@@ -730,15 +766,7 @@ pst_process_item (PstImporter *m, pst_desc_tree *d_ptr, gchar **previous_folder)
 		if (previous_folder)
 			*previous_folder = g_strdup (m->folder_uri);
 		pst_process_folder (m, item);
-		camel_operation_push_message (
-			NULL, _("Importing '%s'"), item->file_as.str);
 	} else {
-		if (m->folder_count && (m->current_item < m->folder_count)) {
-			camel_operation_progress (NULL, (m->current_item * 100) / m->folder_count);
-		} else {
-			camel_operation_progress (NULL, 100);
-		}
-
 		switch (item->type) {
 		case PST_TYPE_CONTACT:
 			if (item->contact && m->addressbook && GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-addr")))
@@ -768,10 +796,6 @@ pst_process_item (PstImporter *m, pst_desc_tree *d_ptr, gchar **previous_folder)
 	}
 
 	pst_freeItem (item);
-
-	if (d_ptr->next == NULL) {
-		camel_operation_pop_message (NULL);
-	}
 }
 
 /**
@@ -865,12 +889,9 @@ pst_create_folder (PstImporter *m)
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EMailSession *session;
-	GCancellable *cancellable;
 	const gchar *parent;
 	gchar *dest, *dest_end, *pos;
 	gint dest_len;
-
-	cancellable = e_activity_get_cancellable (m->base.activity);
 
 	/* XXX Dig up the EMailSession from the default EShell.
 	 *     Since the EImport framework doesn't allow for user
@@ -903,7 +924,7 @@ pst_create_folder (PstImporter *m)
 
 			folder = e_mail_session_uri_to_folder_sync (
 				session, dest, CAMEL_STORE_FOLDER_CREATE,
-				cancellable, &m->base.error);
+				m->cancellable, &m->base.error);
 			if (folder)
 				g_object_unref (folder);
 			else
@@ -917,7 +938,7 @@ pst_create_folder (PstImporter *m)
 	if (!m->base.error)
 		m->folder = e_mail_session_uri_to_folder_sync (
 			session, m->folder_uri, CAMEL_STORE_FOLDER_CREATE,
-			cancellable, &m->base.error);
+			m->cancellable, &m->base.error);
 }
 
 /**
