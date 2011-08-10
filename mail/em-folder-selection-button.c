@@ -239,6 +239,7 @@ folder_selection_button_clicked (GtkButton *button)
 	EMFolderSelectionButtonPrivate *priv;
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
+	EMFolderTreeModel *model;
 	GtkWidget *dialog;
 	GtkTreeSelection *selection;
 	gpointer parent;
@@ -248,8 +249,11 @@ folder_selection_button_clicked (GtkButton *button)
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
+	model = em_folder_tree_model_get_default ();
+
 	dialog = em_folder_selector_new (
-		parent, priv->backend, EM_FOLDER_SELECTOR_CAN_CREATE,
+		parent, priv->backend, model,
+		EM_FOLDER_SELECTOR_CAN_CREATE,
 		priv->title, priv->caption, NULL);
 
 	selector = EM_FOLDER_SELECTOR (dialog);

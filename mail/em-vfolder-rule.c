@@ -590,6 +590,7 @@ static void
 source_add (GtkWidget *widget, struct _source_data *data)
 {
 	EMFolderTree *folder_tree;
+	EMFolderTreeModel *model;
 	EMailBackend *backend;
 	GtkWidget *dialog;
 	gpointer parent;
@@ -599,8 +600,11 @@ source_add (GtkWidget *widget, struct _source_data *data)
 
 	backend = em_vfolder_rule_get_backend (data->vr);
 
+	model = em_folder_tree_model_get_default ();
+
 	dialog = em_folder_selector_new (
-		parent, backend, EM_FOLDER_SELECTOR_CAN_CREATE,
+		parent, backend, model,
+		EM_FOLDER_SELECTOR_CAN_CREATE,
 		_("Add Folder"), NULL, _("_Add"));
 
 	folder_tree = em_folder_selector_get_folder_tree (

@@ -452,6 +452,7 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 	GtkWidget *dialog;
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
+	EMFolderTreeModel *model;
 	EMailSession *session;
 	const gchar *label;
 	const gchar *title;
@@ -480,8 +481,10 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 	label = delete ? _("_Move") : _("C_opy");
 	title = delete ? _("Move Folder To") : _("Copy Folder To");
 
+	model = em_folder_tree_model_get_default ();
+
 	dialog = em_folder_selector_new (
-		parent, backend,
+		parent, backend, model,
 		EM_FOLDER_SELECTOR_CAN_CREATE,
 		title, NULL, label);
 
@@ -541,6 +544,7 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	EMailSession *session;
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
+	EMFolderTreeModel *model;
 	CamelStore *store = NULL;
 	gchar *folder_name = NULL;
 	GtkWidget *dialog;
@@ -551,8 +555,10 @@ em_folder_utils_create_folder (GtkWindow *parent,
 
 	session = e_mail_backend_get_session (backend);
 
+	model = em_folder_tree_model_get_default ();
+
 	dialog = em_folder_selector_create_new (
-		parent, backend, 0,
+		parent, backend, model, 0,
 		_("Create Folder"),
 		_("Specify where to create the folder:"));
 
