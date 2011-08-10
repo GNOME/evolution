@@ -1155,8 +1155,14 @@ em_folder_tree_model_remove_folders (EMFolderTreeModel *model,
 
 	gtk_tree_store_remove ((GtkTreeStore *) model, toplevel);
 
-	if (is_store)
+	/* Freeing the GtkTreeRowReference in the store info may finalize
+	 * the model.  Keep the model alive until the store info is fully
+	 * removed from the hash table. */
+	if (is_store) {
+		g_object_ref (model);
 		g_hash_table_remove (model->priv->store_index, si->store);
+		g_object_unref (model);
+	}
 
 	g_free (full_name);
 	g_free (uri);
