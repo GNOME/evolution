@@ -236,3 +236,5 @@ DOC_PAGES = \
 
 DOC_LINGUAS = cs de el en_GB es eu fr gl oc ru sl sv mk zh_CN
 dist-hook: doc-dist-hook
+
+-include $(top_srcdir)/git.mk
