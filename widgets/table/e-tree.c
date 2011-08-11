@@ -826,7 +826,6 @@ tree_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	if (e_tree->priv->reflow_idle_id)
 		g_source_remove (e_tree->priv->reflow_idle_id);
 	tree_canvas_reflow_idle (e_tree);
-	scroll_to_cursor (e_tree);
 }
 
 static void
