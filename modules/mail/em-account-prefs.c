@@ -36,6 +36,7 @@
 #include "e-util/e-account-utils.h"
 
 #include "e-mail-backend.h"
+#include "e-mail-local.h"
 #include "e-mail-store.h"
 #include "em-config.h"
 #include "em-account-editor.h"
@@ -392,6 +393,9 @@ em_account_prefs_new (EPreferencesWindow *window)
 	/* XXX Figure out a better way to get the mail backend. */
 	shell = e_preferences_window_get_shell (window);
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
+	/* make sure the e-mail-local is initialized */
+	e_mail_local_init (e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend)), e_shell_backend_get_data_dir (shell_backend));
 
 	return g_object_new (
 		EM_TYPE_ACCOUNT_PREFS,
