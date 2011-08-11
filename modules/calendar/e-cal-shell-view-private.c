@@ -821,6 +821,31 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 	cal_shell_view->priv->calendar_activity = activity;
 }
 
+struct ForeachTzidData
+{
+	ECalClient *source_client;
+	ECalClient *dest_client;
+};
+
+static void
+add_timezone_to_cal_cb (icalparameter *param, gpointer data)
+{
+	struct ForeachTzidData *ftd = data;
+	icaltimezone *tz = NULL;
+	const gchar *tzid;
+
+	g_return_if_fail (ftd != NULL);
+	g_return_if_fail (ftd->source_client != NULL);
+	g_return_if_fail (ftd->dest_client != NULL);
+
+	tzid = icalparameter_get_tzid (param);
+	if (!tzid || !*tzid)
+		return;
+
+	if (e_cal_client_get_timezone_sync (ftd->source_client, tzid, &tz, NULL, NULL) && tz)
+		e_cal_client_add_timezone_sync (ftd->dest_client, tz, NULL, NULL);
+}
+
 void
 e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
                                    ECalendarViewEvent *event,
@@ -863,6 +888,10 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 		icalproperty *icalprop;
 		gchar *new_uid;
 		GError *error = NULL;
+		struct ForeachTzidData ftd;
+
+		ftd.source_client = event->comp_data->client;
+		ftd.dest_client = destination_client;
 
 		if (e_cal_util_component_is_instance (icalcomp_event)) {
 			success = e_cal_client_get_object_sync (
@@ -904,6 +933,7 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 		}
 
 		new_uid = NULL;
+		icalcomponent_foreach_tzid (icalcomp_clone, add_timezone_to_cal_cb, &ftd);
 		success = e_cal_client_create_object_sync (
 			destination_client, icalcomp_clone, &new_uid, NULL, &error);
 		if (!success) {
