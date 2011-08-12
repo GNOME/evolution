@@ -126,6 +126,7 @@ mail_shell_view_show_search_results_folder (EMailShellView *mail_shell_view,
 	GtkWidget *message_list;
 	EMailView *mail_view;
 	EMailReader *reader;
+	GalViewInstance *view_instance;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
@@ -136,7 +137,10 @@ mail_shell_view_show_search_results_folder (EMailShellView *mail_shell_view,
 	message_list_freeze (MESSAGE_LIST (message_list));
 
 	e_mail_reader_set_folder (reader, folder);
-	e_tree_set_state (E_TREE (message_list), SEARCH_RESULTS_STATE);
+	view_instance = e_mail_view_get_view_instance (mail_view);
+
+	if (!view_instance || !gal_view_instance_exists (view_instance))
+		e_tree_set_state (E_TREE (message_list), SEARCH_RESULTS_STATE);
 
 	message_list_thaw (MESSAGE_LIST (message_list));
 }
