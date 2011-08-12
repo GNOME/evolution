@@ -3933,6 +3933,52 @@ add_recipients (GList *list, const gchar *recips)
 	return list;
 }
 
+static gboolean
+list_contains_addr (const GList *lst, EDestination *dest)
+{
+	g_return_val_if_fail (dest != NULL, FALSE);
+
+	while (lst) {
+		if (e_destination_equal (dest, lst->data))
+			return TRUE;
+
+		lst = lst->next;
+	}
+
+	return FALSE;
+}
+
+static void
+merge_cc_bcc (EDestination **addrv, GList **merge_into, const GList *to, const GList *cc, const GList *bcc)
+{
+	gint ii;
+
+	for (ii = 0; addrv && addrv[ii]; ii++) {
+		if (!list_contains_addr (to, addrv[ii]) &&
+		    !list_contains_addr (cc, addrv[ii]) &&
+		    !list_contains_addr (bcc, addrv[ii]))
+			*merge_into = g_list_append (*merge_into, g_object_ref (addrv[ii]));
+	}
+}
+
+static void
+merge_always_cc_and_bcc (EComposerHeaderTable *table, const GList *to, GList **cc, GList **bcc)
+{
+	EDestination **addrv;
+
+	g_return_if_fail (table != NULL);
+	g_return_if_fail (cc != NULL);
+	g_return_if_fail (bcc != NULL);
+
+	addrv = e_composer_header_table_get_destinations_cc (table);
+	merge_cc_bcc (addrv, cc, to, *cc, *bcc);
+	e_destination_freev (addrv);
+
+	addrv = e_composer_header_table_get_destinations_bcc (table);
+	merge_cc_bcc (addrv, bcc, to, *cc, *bcc);
+	e_destination_freev (addrv);
+}
+
 static void
 handle_mailto (EMsgComposer *composer, const gchar *mailto)
 {
@@ -4056,6 +4102,8 @@ handle_mailto (EMsgComposer *composer, const gchar *mailto)
 	}
 
 	g_free (buf);
+
+	merge_always_cc_and_bcc (table, to, &cc, &bcc);
 
 	tov  = destination_list_to_vector (to);
 	ccv  = destination_list_to_vector (cc);
