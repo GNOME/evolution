@@ -404,6 +404,11 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   </error>
 
+  <error id="checking-service-error" type="error">
+    <_primary>Failed to query server for a list of supported authentication mechanisms.</_primary>
+    <secondary xml:space="preserve">{0}</secondary>
+  </error>
+
   <error id="gw-accountsetup-error" type="error">
     <_primary>Unable to connect to the GroupWise server.</_primary>
     <_secondary xml:space="preserve">Please check your account settings and try again.</_secondary>

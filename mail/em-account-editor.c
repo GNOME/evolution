@@ -1937,6 +1937,8 @@ emae_check_authtype_done (CamelService *camel_service,
                           GAsyncResult *result,
                           EMAccountEditorService *service)
 {
+	EMailBackend *backend;
+	EMailSession *session;
 	GtkWidget *editor;
 	GList *auth_types;
 	GError *error = NULL;
@@ -1944,13 +1946,15 @@ emae_check_authtype_done (CamelService *camel_service,
 	auth_types = camel_service_query_auth_types_finish (
 		camel_service, result, &error);
 
+	editor = E_CONFIG (service->emae->config)->window;
+
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_warn_if_fail (auth_types == NULL);
 		g_error_free (error);
 
 	} else if (error != NULL) {
 		g_warn_if_fail (auth_types == NULL);
-		g_warning ("%s", error->message);
+		e_alert_run_dialog_for_args (GTK_WINDOW (service->check_dialog), "mail:checking-service-error", error->message, NULL);
 		g_error_free (error);
 
 	} else {
@@ -1962,10 +1966,14 @@ emae_check_authtype_done (CamelService *camel_service,
 	gtk_widget_destroy (service->check_dialog);
 	service->check_dialog = NULL;
 
-	editor = E_CONFIG (service->emae->config)->window;
-
 	if (editor != NULL)
 		gtk_widget_set_sensitive (editor, TRUE);
+
+	backend = em_account_editor_get_backend (service->emae);
+	session = e_mail_backend_get_session (backend);
+
+	/* drop the temporary CamelService */
+	camel_session_remove_service (CAMEL_SESSION (session), camel_service_get_uid (camel_service));
 
 	g_object_unref (service->emae);
 }
@@ -1989,6 +1997,8 @@ emae_check_authtype (GtkWidget *w,
 	GtkWidget *editor;
 	gpointer parent;
 	gchar *uid;
+	const gchar *url_string;
+	GError *error = NULL;
 
 	account = em_account_editor_get_modified_account (service->emae);
 	editor = E_CONFIG (service->emae->config)->window;
@@ -1996,15 +2006,24 @@ emae_check_authtype (GtkWidget *w,
 	backend = em_account_editor_get_backend (service->emae);
 	session = e_mail_backend_get_session (backend);
 
-	if (service->type == CAMEL_PROVIDER_TRANSPORT)
-		uid = g_strconcat (account->uid, "-transport", NULL);
-	else
-		uid = g_strdup (account->uid);
+	uid = g_strdup_printf ("emae-check-authtype-%p", service);
+	url_string = e_account_get_string (account, emae_service_info[service->type].account_uri_key);
 
-	camel_service = camel_session_get_service (
-		CAMEL_SESSION (session), uid);
+	/* to test on actual data, not on previously used */
+	camel_service = camel_session_add_service (CAMEL_SESSION (session), uid, url_string, service->type, &error);
 
 	g_free (uid);
+
+	if (editor != NULL)
+		parent = gtk_widget_get_toplevel (editor);
+	else
+		parent = gtk_widget_get_toplevel (w);
+
+	if (error) {
+		e_alert_run_dialog_for_args (parent, "mail:checking-service-error", error->message, NULL);
+		g_clear_error (&error);
+		return;
+	}
 
 	g_return_if_fail (CAMEL_IS_SERVICE (camel_service));
 
@@ -2014,11 +2033,6 @@ emae_check_authtype (GtkWidget *w,
 	}
 
 	service->checking = g_cancellable_new ();
-
-	if (editor != NULL)
-		parent = gtk_widget_get_toplevel (editor);
-	else
-		parent = gtk_widget_get_toplevel (w);
 
 	service->check_dialog = e_alert_dialog_new_for_args (
 		parent, "mail:checking-service", NULL);
