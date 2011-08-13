@@ -9,8 +9,8 @@
 # Héctor García Álvarez <hector@scouts-es.org>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>,2003 (revisión).
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
 #
 #: ../shell/main.c:569
 msgid ""
@@ -18,14 +18,14 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-08-10 04:15+0000\n"
-"PO-Revision-Date: 2011-08-10 13:24+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"POT-Creation-Date: 2011-08-13 07:34+0000\n"
+"PO-Revision-Date: 2011-08-13 14:43+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #. For Translators: {0} is the name of the address book source
@@ -1581,8 +1581,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar from the side bar in the Calendar view."
 msgstr ""
-"«{0}» es un calendario de sólo lectura y no se puede modificar. Seleccione "
-"un calendario diferente de la barra lateral en la vista del calendario."
+"«{0}» es un calendario de sólo lectura y no se puede modificar. Seleccione un "
+"calendario diferente de la barra lateral en la vista del calendario."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
@@ -1981,7 +1981,7 @@ msgid "_Save Changes"
 msgstr "_Guardar cambios"
 
 #: ../calendar/calendar.error.xml.h:86
-#: ../composer/mail-composer.error.xml.h:34 ../mail/mail.error.xml.h:164
+#: ../composer/mail-composer.error.xml.h:34 ../mail/mail.error.xml.h:165
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Enviar"
@@ -2487,27 +2487,27 @@ msgstr "Lista de tareas"
 msgid "Memo List"
 msgstr "Lista de notas"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:503
+#: ../calendar/gui/dialogs/calendar-setup.c:506
 msgid "Calendar Properties"
 msgstr "Propiedades del calendario"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:503
+#: ../calendar/gui/dialogs/calendar-setup.c:506
 msgid "New Calendar"
 msgstr "Calendario nuevo"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:559
+#: ../calendar/gui/dialogs/calendar-setup.c:565
 msgid "Task List Properties"
 msgstr "Propiedades de lista de tareas"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:559
+#: ../calendar/gui/dialogs/calendar-setup.c:565
 msgid "New Task List"
 msgstr "Lista de tareas nueva"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:615
+#: ../calendar/gui/dialogs/calendar-setup.c:624
 msgid "Memo List Properties"
 msgstr "Propiedades de lista de notas"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:615
+#: ../calendar/gui/dialogs/calendar-setup.c:624
 msgid "New Memo List"
 msgstr "Lista de notas nueva"
 
@@ -4113,7 +4113,7 @@ msgstr "%A %e de %B"
 #: ../calendar/gui/e-day-view-top-item.c:852 ../calendar/gui/e-day-view.c:1810
 #: ../calendar/gui/e-week-view-main-item.c:224
 #: ../calendar/gui/ea-gnome-calendar.c:204
-#: ../modules/calendar/e-cal-shell-view-private.c:1015
+#: ../modules/calendar/e-cal-shell-view-private.c:1045
 msgid "%a %d %b"
 msgstr "%a, %e de %b"
 
@@ -4125,7 +4125,7 @@ msgstr "%a, %e de %b"
 #: ../calendar/gui/e-day-view-top-item.c:856 ../calendar/gui/e-day-view.c:1826
 #: ../calendar/gui/e-week-view-main-item.c:238
 #: ../calendar/gui/ea-gnome-calendar.c:234
-#: ../modules/calendar/e-cal-shell-view-private.c:1051
+#: ../modules/calendar/e-cal-shell-view-private.c:1081
 msgid "%d %b"
 msgstr "%e de %b"
 
@@ -4558,16 +4558,16 @@ msgid "Gnome Calendar"
 msgstr "Calendario de GNOME"
 
 #: ../calendar/gui/ea-gnome-calendar.c:201
-#: ../modules/calendar/e-cal-shell-view-private.c:1011
+#: ../modules/calendar/e-cal-shell-view-private.c:1041
 msgid "%A %d %b %Y"
 msgstr "%A, %e de %b de %Y"
 
 #: ../calendar/gui/ea-gnome-calendar.c:206
 #: ../calendar/gui/ea-gnome-calendar.c:211
 #: ../calendar/gui/ea-gnome-calendar.c:213
-#: ../modules/calendar/e-cal-shell-view-private.c:1018
-#: ../modules/calendar/e-cal-shell-view-private.c:1024
-#: ../modules/calendar/e-cal-shell-view-private.c:1027
+#: ../modules/calendar/e-cal-shell-view-private.c:1048
+#: ../modules/calendar/e-cal-shell-view-private.c:1054
+#: ../modules/calendar/e-cal-shell-view-private.c:1057
 msgid "%a %d %b %Y"
 msgstr "%a, %e de %b de %Y"
 
@@ -4575,10 +4575,10 @@ msgstr "%a, %e de %b de %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:236
 #: ../calendar/gui/ea-gnome-calendar.c:242
 #: ../calendar/gui/ea-gnome-calendar.c:244
-#: ../modules/calendar/e-cal-shell-view-private.c:1044
-#: ../modules/calendar/e-cal-shell-view-private.c:1055
-#: ../modules/calendar/e-cal-shell-view-private.c:1062
-#: ../modules/calendar/e-cal-shell-view-private.c:1065
+#: ../modules/calendar/e-cal-shell-view-private.c:1074
+#: ../modules/calendar/e-cal-shell-view-private.c:1085
+#: ../modules/calendar/e-cal-shell-view-private.c:1092
+#: ../modules/calendar/e-cal-shell-view-private.c:1095
 msgid "%d %b %Y"
 msgstr "%e de %B de %Y"
 
@@ -6957,13 +6957,13 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:4155
+#: ../composer/e-msg-composer.c:4203
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
 "editarse."
 
-#: ../composer/e-msg-composer.c:4860
+#: ../composer/e-msg-composer.c:4908
 msgid "Untitled Message"
 msgstr "Mensaje sin título"
 
@@ -7072,7 +7072,7 @@ msgid "The file '{0}' is not a regular file and cannot be sent in a message."
 msgstr ""
 "El archivo «{0}» no es un archivo regular y no puede enviarse en un mensaje."
 
-#: ../composer/mail-composer.error.xml.h:21 ../mail/mail.error.xml.h:123
+#: ../composer/mail-composer.error.xml.h:21 ../mail/mail.error.xml.h:124
 msgid "The reported error was &quot;{0}&quot;."
 msgstr "El error devuelto fue «{0}»."
 
@@ -7253,7 +7253,7 @@ msgstr ""
 "obtener su correo."
 
 #: ../capplet/settings/mail-account-view.c:633
-#: ../mail/em-account-editor.c:2182 ../mail/em-account-editor.c:2315
+#: ../mail/em-account-editor.c:2196 ../mail/em-account-editor.c:2329
 msgid "Identity"
 msgstr "Identidad"
 
@@ -7305,7 +7305,7 @@ msgid "Back - Receiving options"
 msgstr "Atrás - Opciones de recepción"
 
 #: ../capplet/settings/mail-account-view.c:638
-#: ../mail/em-account-editor.c:3292
+#: ../mail/em-account-editor.c:3306
 msgid "Defaults"
 msgstr "Predeterminados"
 
@@ -7706,7 +7706,7 @@ msgstr "¿Quiere sobreescribirlo?"
 msgid "File exists \"{0}\"."
 msgstr "El archivo existe «{0}»."
 
-#: ../e-util/e-system.error.xml.h:6 ../mail/mail.error.xml.h:163
+#: ../e-util/e-system.error.xml.h:6 ../mail/mail.error.xml.h:164
 msgid "_Overwrite"
 msgstr "_Sobreescribir"
 
@@ -8034,7 +8034,7 @@ msgstr "Falta la fecha."
 msgid "Missing file name."
 msgstr "Falta el nombre de archivo."
 
-#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:89
+#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:90
 msgid "Missing name."
 msgstr "Falta el nombre."
 
@@ -8174,11 +8174,11 @@ msgctxt "mail-receiving"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../mail/em-account-editor.c:2179
+#: ../mail/em-account-editor.c:2193
 msgid "Mail Configuration"
 msgstr "Configuración del correo"
 
-#: ../mail/em-account-editor.c:2180
+#: ../mail/em-account-editor.c:2194
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -8188,7 +8188,7 @@ msgstr ""
 "\n"
 "Para comenzar, pulse «Continuar»."
 
-#: ../mail/em-account-editor.c:2183
+#: ../mail/em-account-editor.c:2197
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -8198,19 +8198,19 @@ msgstr ""
 "hace falta que los rellene, a menos que quiera incluir esta información en "
 "el correo-e que envíe."
 
-#: ../mail/em-account-editor.c:2185 ../mail/em-account-editor.c:2374
+#: ../mail/em-account-editor.c:2199 ../mail/em-account-editor.c:2388
 msgid "Receiving Email"
 msgstr "Recepción de correo"
 
-#: ../mail/em-account-editor.c:2186
+#: ../mail/em-account-editor.c:2200
 msgid "Please configure the following account settings."
 msgstr "Configure las siguientes opciones de la cuenta."
 
-#: ../mail/em-account-editor.c:2188 ../mail/em-account-editor.c:2986
+#: ../mail/em-account-editor.c:2202 ../mail/em-account-editor.c:3000
 msgid "Sending Email"
 msgstr "Envío de correo"
 
-#: ../mail/em-account-editor.c:2189
+#: ../mail/em-account-editor.c:2203
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -8219,11 +8219,11 @@ msgstr ""
 "seguro, pregúntele a su administrador de sistemas o a su Proveedor de "
 "Servicios de Internet."
 
-#: ../mail/em-account-editor.c:2191 ../mail/mail-config.ui.h:1
+#: ../mail/em-account-editor.c:2205 ../mail/mail-config.ui.h:1
 msgid "Account Information"
 msgstr "Información de la cuenta"
 
-#: ../mail/em-account-editor.c:2192
+#: ../mail/em-account-editor.c:2206
 msgid ""
 "Please enter a descriptive name for this account below.\n"
 "This name will be used for display purposes only."
@@ -8231,11 +8231,11 @@ msgstr ""
 "Introduzca un nombre descriptivo para esta cuenta en el espacio de abajo.\n"
 "Este nombre se usará sólo para mostrarlo."
 
-#: ../mail/em-account-editor.c:2196
+#: ../mail/em-account-editor.c:2210
 msgid "Done"
 msgstr "Hecho"
 
-#: ../mail/em-account-editor.c:2197
+#: ../mail/em-account-editor.c:2211
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -8249,25 +8249,25 @@ msgstr ""
 "\n"
 "Pulse «Aplicar» para guardar su configuración."
 
-#: ../mail/em-account-editor.c:2715
+#: ../mail/em-account-editor.c:2729
 msgid "Check for _new messages every"
 msgstr "Comprobar si hay mensajes _nuevos cada"
 
-#: ../mail/em-account-editor.c:2723
+#: ../mail/em-account-editor.c:2737
 msgid "minu_tes"
 msgstr "minuto_s"
 
-#: ../mail/em-account-editor.c:3431 ../mail/mail-config.ui.h:101
+#: ../mail/em-account-editor.c:3445 ../mail/mail-config.ui.h:101
 msgid "Security"
 msgstr "Seguridad"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3485 ../mail/em-account-editor.c:3568
+#: ../mail/em-account-editor.c:3499 ../mail/em-account-editor.c:3582
 msgid "Receiving Options"
 msgstr "Opciones de recepción"
 
-#: ../mail/em-account-editor.c:3486 ../mail/em-account-editor.c:3569
+#: ../mail/em-account-editor.c:3500 ../mail/em-account-editor.c:3583
 msgid "Checking for New Messages"
 msgstr "Comprobando si hay mensajes nuevos"
 
@@ -8887,7 +8887,7 @@ msgstr "Quitar correos _duplicados"
 msgid "Checks selected messages for duplicates"
 msgstr "Comprobar los mensajes seleccionados para buscar duplicados"
 
-#: ../mail/e-mail-reader.c:2104 ../mail/mail.error.xml.h:108
+#: ../mail/e-mail-reader.c:2104 ../mail/mail.error.xml.h:109
 #: ../modules/calendar/e-cal-shell-view-actions.c:1477
 #: ../modules/mail/e-mail-attachment-handler.c:177
 msgid "Reply to _All"
@@ -8897,7 +8897,7 @@ msgstr "Responder a _todos"
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Responder a todos los destinatarios del mensaje seleccionado"
 
-#: ../mail/e-mail-reader.c:2111 ../mail/mail.error.xml.h:109
+#: ../mail/e-mail-reader.c:2111 ../mail/mail.error.xml.h:110
 msgid "Reply to _List"
 msgstr "Responder a la _lista"
 
@@ -9853,18 +9853,14 @@ msgstr ""
 "procesarlo. Puede verlo sin formato o con un editor de texto externo."
 
 #: ../mail/em-format-html-display.c:740
-#| msgid "Save Message"
-#| msgid_plural "Save Messages"
 msgid "Save Image"
 msgstr "Guardar imagen"
 
 #: ../mail/em-format-html-display.c:786
-#| msgid "Save as..."
 msgid "Save _Image..."
 msgstr "Guardar _imagen…"
 
 #: ../mail/em-format-html-display.c:788
-#| msgid "Save the current file"
 msgid "Save the image to a file"
 msgstr "Guardar la imagen en un archivo"
 
@@ -10192,8 +10188,7 @@ msgid ""
 "expanded by default. \"0\" = expanded \"1\" = collapsed"
 msgstr ""
 "Describe si las cabeceras del mensajes en la vista con paneles se deben "
-"contraer o expandir de manera predeterminada. «0» = expandidas «1» = "
-"contraídas"
+"contraer o expandir de manera predeterminada. «0» = expandidas «1» = contraídas"
 
 #: ../mail/evolution-mail.schemas.in.h:45
 msgid ""
@@ -10241,8 +10236,8 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
-"Determina si se debe usar la misma tipografía para las líneas «De» y "
-"«Asunto» en la columna «Mensajes» de la vista vertical."
+"Determina si se debe usar la misma tipografía para las líneas «De» y «Asunto» "
+"en la columna «Mensajes» de la vista vertical."
 
 #: ../mail/evolution-mail.schemas.in.h:51
 msgid "Directory for loading/attaching files to composer."
@@ -10428,8 +10423,8 @@ msgid ""
 "Initial height of the \"Filter Editor\" window. The value updates as the "
 "user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Editor de filtros». El valor se actualiza "
-"según el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Editor de filtros». El valor se actualiza según "
+"el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:86
 msgid ""
@@ -10452,8 +10447,8 @@ msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Enviar y recibir correo». El valor se "
-"actualiza según el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Enviar y recibir correo». El valor se actualiza "
+"según el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:89
 msgid ""
@@ -10474,11 +10469,11 @@ msgid ""
 "particular value is not used by Evolution since the \"Folder Subscriptions\" "
 "window cannot be maximized. This key exists only as an implementation detail."
 msgstr ""
-"Estado inicial maximizado de la ventana «Suscripciones de carpetas». El "
-"valor se actualiza cuando el usuario maximiza o reduce la ventana. Nota: "
-"Evolution no usa este valor en particular ya que la ventana «Suscripciones "
-"de carpetas» no se puede maximizar. Esta clave existe sólo como un detalle "
-"de implementación."
+"Estado inicial maximizado de la ventana «Suscripciones de carpetas». El valor "
+"se actualiza cuando el usuario maximiza o reduce la ventana. Nota: Evolution "
+"no usa este valor en particular ya que la ventana «Suscripciones de carpetas» "
+"no se puede maximizar. Esta clave existe sólo como un detalle de "
+"implementación."
 
 #: ../mail/evolution-mail.schemas.in.h:91
 msgid ""
@@ -10764,9 +10759,9 @@ msgid ""
 "Possible values are: never - to never close browser window always - to "
 "always close browser window ask - (or any other value) will ask user"
 msgstr ""
-"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana "
-"del examinador; «always» (siempre) para cerrar siempre la ventana del "
-"examinador; «ask» (preguntar) o cualquier otro valor, preguntarán al usuario"
+"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana del "
+"examinador; «always» (siempre) para cerrar siempre la ventana del examinador; "
+"«ask» (preguntar) o cualquier otro valor, preguntarán al usuario"
 
 #: ../mail/evolution-mail.schemas.in.h:139
 msgid "Prompt before sending to recipients not entered as mail addresses"
@@ -10948,8 +10943,8 @@ msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
-"Mostrar el campo «Cco» al enviar un mensaje de correo. Esto se controla "
-"desde el menú Ver cuando se elige una cuenta de correo."
+"Mostrar el campo «Cco» al enviar un mensaje de correo. Esto se controla desde "
+"el menú Ver cuando se elige una cuenta de correo."
 
 #: ../mail/evolution-mail.schemas.in.h:181
 msgid ""
@@ -11016,8 +11011,8 @@ msgid ""
 "it will do that. It works by comparing the Reply-To: header with a List-"
 "Post: header, if there is one."
 msgstr ""
-"Algunas listas de correo establecen una cabecera «Responder a:» para forzar "
-"a los usuarios a responder a la lista, incluso cuando los usuarios piden que "
+"Algunas listas de correo establecen una cabecera «Responder a:» para forzar a "
+"los usuarios a responder a la lista, incluso cuando los usuarios piden que "
 "Evolution envíe una respuesta privada. Establecer esta opción a cierta "
 "intentará ignorar tales cabeceras «Responder a:», de tal forma que Evolution "
 "haga lo que se le pide. Si usa la acción de respuesta privada, responderá de "
@@ -11112,8 +11107,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
-"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
-"«2» para mensajes de depuración."
+"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. «2» "
+"para mensajes de depuración."
 
 #: ../mail/evolution-mail.schemas.in.h:204
 msgid ""
@@ -11141,9 +11136,9 @@ msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr ""
-"Esta clave es de una sola lectura y después de leerla se establece a "
-"«false». Esto deselecciona el correo en la lista y elimina la vista previa "
-"para esa carpeta."
+"Esta clave es de una sola lectura y después de leerla se establece a «false». "
+"Esto deselecciona el correo en la lista y elimina la vista previa para esa "
+"carpeta."
 
 #: ../mail/evolution-mail.schemas.in.h:207
 msgid ""
@@ -11276,9 +11271,9 @@ msgid ""
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
 "Indica si se debe comprobar si hay mensajes nuevos en todas las cuentas "
-"activas independientemente del conteo en la opción «Comprobar si hay "
-"mensajes nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se "
-"usa junto con la opción «send_recv_on_start»."
+"activas independientemente del conteo en la opción «Comprobar si hay mensajes "
+"nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se usa junto "
+"con la opción «send_recv_on_start»."
 
 #: ../mail/evolution-mail.schemas.in.h:226
 msgid ""
@@ -11332,7 +11327,7 @@ msgid "Importing Elm data"
 msgstr "Importando datos de Elm"
 
 #: ../mail/importers/elm-importer.c:341 ../mail/importers/pine-importer.c:446
-#: ../modules/mail/e-mail-shell-view.c:1036
+#: ../modules/mail/e-mail-shell-view.c:1040
 #: ../widgets/misc/e-send-options.c:511
 msgid "Mail"
 msgstr "Correo"
@@ -11352,13 +11347,13 @@ msgstr "Carpeta de _destino:"
 
 #: ../mail/importers/evolution-mbox-importer.c:142
 #: ../plugins/dbx-import/dbx-importer.c:259
-#: ../plugins/pst-import/pst-importer.c:442
+#: ../plugins/pst-import/pst-importer.c:446
 msgid "Select folder"
 msgstr "Seleccionar carpeta"
 
 #: ../mail/importers/evolution-mbox-importer.c:143
 #: ../plugins/dbx-import/dbx-importer.c:260
-#: ../plugins/pst-import/pst-importer.c:443
+#: ../plugins/pst-import/pst-importer.c:447
 msgid "Select folder to import into"
 msgstr "Seleccione la carpeta en la que importar"
 
@@ -11388,8 +11383,7 @@ msgstr "Importando buzón de correo"
 #. Destination folder, was set in our widget
 #: ../mail/importers/mail-importer.c:153
 #: ../plugins/dbx-import/dbx-importer.c:603
-#: ../plugins/pst-import/pst-importer.c:598
-#: ../plugins/pst-import/pst-importer.c:734
+#: ../plugins/pst-import/pst-importer.c:629
 #, c-format
 msgid "Importing '%s'"
 msgstr "Importando «%s»"
@@ -12408,8 +12402,8 @@ msgid ""
 "A read receipt notification has been requested for \"{1}\". Send the receipt "
 "notification to {0}?"
 msgstr ""
-"Se ha solicitado una notificación de recepción para «{1}». ¿Quiere enviar "
-"una notificación de recepción a {0}?"
+"Se ha solicitado una notificación de recepción para «{1}». ¿Quiere enviar una "
+"notificación de recepción a {0}?"
 
 #: ../mail/mail.error.xml.h:10
 msgid ""
@@ -12659,39 +12653,46 @@ msgid "Failed to open folder."
 msgstr "Falló al abrir la carpeta."
 
 #: ../mail/mail.error.xml.h:66
+msgid ""
+"Failed to query server for a list of supported authentication mechanisms."
+msgstr ""
+"Falló al consultar al servidor para la lista de mecanismos de autenticación "
+"soportados."
+
+#: ../mail/mail.error.xml.h:67
 msgid "Failed to remove attachments from messages."
 msgstr "Falló al quitar los adjuntos de los mensajes."
 
-#: ../mail/mail.error.xml.h:67
+#: ../mail/mail.error.xml.h:68
 msgid "Failed to retrieve messages."
 msgstr "Falló al obtener los mensajes."
 
-#: ../mail/mail.error.xml.h:68
+#: ../mail/mail.error.xml.h:69
 msgid "Failed to save messages to disk."
 msgstr "Falló al guardar los mensajes al disco."
 
-#: ../mail/mail.error.xml.h:69
+#: ../mail/mail.error.xml.h:70
 msgid "Failed to unsubscribe from folder."
 msgstr "Falló al desuscribirse de la carpeta."
 
-#: ../mail/mail.error.xml.h:70
+#: ../mail/mail.error.xml.h:71
 msgid "File exists but cannot overwrite it."
 msgstr "El archivo existe pero no se puede sobreescribir."
 
-#: ../mail/mail.error.xml.h:71
+#: ../mail/mail.error.xml.h:72
 msgid "File exists but is not a regular file."
 msgstr "El archivo existe pero no es un archivo regular."
 
 #. Translators: {0} is replaced with a folder name
-#: ../mail/mail.error.xml.h:73
+#: ../mail/mail.error.xml.h:74
 msgid "Folder '{0}' doesn't contain any duplicate message."
 msgstr "La carpeta «{0}» no contiene ningún correo duplicado."
 
-#: ../mail/mail.error.xml.h:74
+#: ../mail/mail.error.xml.h:75
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "Si continua, no podrá recuperar estos mensajes."
 
-#: ../mail/mail.error.xml.h:75
+#: ../mail/mail.error.xml.h:76
 msgid ""
 "If you delete the folder, all of its contents and its subfolders' contents "
 "will be deleted permanently."
@@ -12699,16 +12700,16 @@ msgstr ""
 "Si elimina la carpeta, todo su contenido y el de sus subcarpetas se "
 "eliminará permanentemente."
 
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:77
 msgid ""
 "If you delete the folder, all of its contents will be deleted permanently."
 msgstr "Si borra la carpeta, se eliminará permanentemente todo su contenido."
 
-#: ../mail/mail.error.xml.h:77
+#: ../mail/mail.error.xml.h:78
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr "Si continúa, las cuentas proxy se eliminarán permanentemente."
 
-#: ../mail/mail.error.xml.h:78
+#: ../mail/mail.error.xml.h:79
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
@@ -12716,11 +12717,11 @@ msgstr ""
 "Si continúa, la información de la cuenta y toda la\n"
 "información del proxy se eliminará permanentemente."
 
-#: ../mail/mail.error.xml.h:80
+#: ../mail/mail.error.xml.h:81
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "Si continúa, la información de la cuenta se eliminará permanentemente."
 
-#: ../mail/mail.error.xml.h:81
+#: ../mail/mail.error.xml.h:82
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
@@ -12728,23 +12729,23 @@ msgstr ""
 "Si sale, estos mensajes no se enviarán hasta que Evolution sea iniciado de "
 "nuevo."
 
-#: ../mail/mail.error.xml.h:82
+#: ../mail/mail.error.xml.h:83
 msgid "Ignore"
 msgstr "Ignorar"
 
-#: ../mail/mail.error.xml.h:83
+#: ../mail/mail.error.xml.h:84
 msgid "Invalid authentication"
 msgstr "Autenticación inválida"
 
-#: ../mail/mail.error.xml.h:84
+#: ../mail/mail.error.xml.h:85
 msgid "Mail Deletion Failed"
 msgstr "Ha fallado el borrado del correo"
 
-#: ../mail/mail.error.xml.h:85
+#: ../mail/mail.error.xml.h:86
 msgid "Mail filters automatically updated."
 msgstr "Filtros de correo actualizados automáticamente."
 
-#: ../mail/mail.error.xml.h:86
+#: ../mail/mail.error.xml.h:87
 msgid ""
 "Many email systems add an Apparently-To header to messages that only have "
 "BCC recipients. This header, if added, will list all of your recipients to "
@@ -12756,7 +12757,7 @@ msgstr ""
 "listará todos los destinatarios de su mensaje de todas formas. Para evitar "
 "esto debería añadir al menos un destinatario «Para:» o «CC:»."
 
-#: ../mail/mail.error.xml.h:87
+#: ../mail/mail.error.xml.h:88
 msgid ""
 "Messages shown in Search Folders are not copies. Deleting them from a Search "
 "Folder will delete the actual messages from the folder or folders in which "
@@ -12767,35 +12768,35 @@ msgstr ""
 "carpetas en las que están físicamente. ¿Realmente quiere borrar estos "
 "mensajes?"
 
-#: ../mail/mail.error.xml.h:88
+#: ../mail/mail.error.xml.h:89
 msgid "Missing folder."
 msgstr "Falta la carpeta."
 
-#: ../mail/mail.error.xml.h:90
+#: ../mail/mail.error.xml.h:91
 msgid "N_ever"
 msgstr "_Nunca"
 
-#: ../mail/mail.error.xml.h:91
+#: ../mail/mail.error.xml.h:92
 msgid "No duplicate messages found."
 msgstr "No se encontró ningún correo duplicado."
 
-#: ../mail/mail.error.xml.h:92
+#: ../mail/mail.error.xml.h:93
 msgid "No sources selected."
 msgstr "No se ha seleccionado ningún origen."
 
-#: ../mail/mail.error.xml.h:93
+#: ../mail/mail.error.xml.h:94
 msgid "Opening too many messages at once may take a long time."
 msgstr "Abrir demasiados mensajes a la vez puede llevar mucho tiempo."
 
-#: ../mail/mail.error.xml.h:94
+#: ../mail/mail.error.xml.h:95
 msgid "Please check your account settings and try again."
 msgstr "Compruebe su configuración de la cuenta e inténtelo otra vez."
 
-#: ../mail/mail.error.xml.h:95
+#: ../mail/mail.error.xml.h:96
 msgid "Please enable the account or send using another account."
 msgstr "Active la cuenta o envíe usando otra cuenta."
 
-#: ../mail/mail.error.xml.h:96
+#: ../mail/mail.error.xml.h:97
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
@@ -12804,7 +12805,7 @@ msgstr ""
 "direcciones de correo pulsando en el botón «Para:» al lado de la caja de "
 "entrada."
 
-#: ../mail/mail.error.xml.h:97
+#: ../mail/mail.error.xml.h:98
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
@@ -12814,65 +12815,65 @@ msgstr ""
 "recibir correo-e en HTML:\n"
 "{0}"
 
-#: ../mail/mail.error.xml.h:99
+#: ../mail/mail.error.xml.h:100
 msgid "Please provide an unique name to identify this signature."
 msgstr "Introduzca un nombre único para identificar esta firma."
 
-#: ../mail/mail.error.xml.h:100
+#: ../mail/mail.error.xml.h:101
 msgid "Please wait."
 msgstr "Por favor espere."
 
-#: ../mail/mail.error.xml.h:101
+#: ../mail/mail.error.xml.h:102
 msgid "Problem migrating old mail folder \"{0}\"."
 msgstr "Problema al migrar la carpeta antigua de correo «{0}»."
 
-#: ../mail/mail.error.xml.h:102
+#: ../mail/mail.error.xml.h:103
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr ""
 "Se está consultando al servidor por una lista de mecanismos de autenticación "
 "soportados."
 
-#: ../mail/mail.error.xml.h:103
+#: ../mail/mail.error.xml.h:104
 msgid "Read receipt requested."
 msgstr "Se solicitó una notificación de lectura."
 
-#: ../mail/mail.error.xml.h:104
+#: ../mail/mail.error.xml.h:105
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "¿Seguro que quiere eliminar la carpeta «{0}» y todas sus subcarpetas?"
 
-#: ../mail/mail.error.xml.h:105
+#: ../mail/mail.error.xml.h:106
 msgid "Really delete folder \"{0}\"?"
 msgstr "¿Realmente quiere borrar la carpeta «{0}»?"
 
-#: ../mail/mail.error.xml.h:106
+#: ../mail/mail.error.xml.h:107
 msgid "Remove duplicate messages?"
 msgstr "¿Quitar mensajes duplicados?"
 
-#: ../mail/mail.error.xml.h:107
+#: ../mail/mail.error.xml.h:108
 msgid "Reply _Privately"
 msgstr "Responder pri_vadamente"
 
-#: ../mail/mail.error.xml.h:110
+#: ../mail/mail.error.xml.h:111
 msgid "Search Folders automatically updated."
 msgstr "Carpetas de búsqueda autoactualizadas."
 
-#: ../mail/mail.error.xml.h:111
+#: ../mail/mail.error.xml.h:112
 msgid "Send private reply?"
 msgstr "¿Enviar una respuesta privada?"
 
-#: ../mail/mail.error.xml.h:112
+#: ../mail/mail.error.xml.h:113
 msgid "Send reply to all recipients?"
 msgstr "¿Enviar respuesta a todos los destinatarios?"
 
-#: ../mail/mail.error.xml.h:113
+#: ../mail/mail.error.xml.h:114
 msgid "Signature Already Exists"
 msgstr "La firma ya existe"
 
-#: ../mail/mail.error.xml.h:114
+#: ../mail/mail.error.xml.h:115
 msgid "Synchronize folders locally for offline usage?"
 msgstr "¿Sincronizar las carpetas localmente para usarse sin conexión?"
 
-#: ../mail/mail.error.xml.h:115
+#: ../mail/mail.error.xml.h:116
 msgid ""
 "System folders are required for Evolution to function correctly and cannot "
 "be renamed, moved, or deleted."
@@ -12880,7 +12881,7 @@ msgstr ""
 "Evolution requiere las carpetas de sistema para funcionar correctamente y no "
 "pueden renombrarse, moverse o eliminarse."
 
-#: ../mail/mail.error.xml.h:116
+#: ../mail/mail.error.xml.h:117
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -12896,7 +12897,7 @@ msgstr ""
 "destinatarios en su mensaje. Para evitar esto, debería añadir al menos un "
 "destinatario a Para: o Cc: "
 
-#: ../mail/mail.error.xml.h:119
+#: ../mail/mail.error.xml.h:120
 msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
@@ -12904,7 +12905,7 @@ msgstr ""
 "No se reconoció el siguiente destinatario como dirección de correo válida:\n"
 "{0}"
 
-#: ../mail/mail.error.xml.h:121
+#: ../mail/mail.error.xml.h:122
 msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
@@ -12913,15 +12914,15 @@ msgstr ""
 "válidas:\n"
 "{0}"
 
-#: ../mail/mail.error.xml.h:124
+#: ../mail/mail.error.xml.h:125
 msgid "The script file must exist and be executable."
 msgstr "El archivo de script debe existir y ser ejecutable."
 
-#: ../mail/mail.error.xml.h:125
+#: ../mail/mail.error.xml.h:126
 msgid "These messages are not copies."
 msgstr "Estos mensajes no son copias."
 
-#: ../mail/mail.error.xml.h:126
+#: ../mail/mail.error.xml.h:127
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
@@ -12930,7 +12931,7 @@ msgstr ""
 "vaya al editor de carpetas de búsqueda para añadirla explícitamente, si es "
 "necesario."
 
-#: ../mail/mail.error.xml.h:128
+#: ../mail/mail.error.xml.h:129
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
@@ -12938,13 +12939,13 @@ msgstr ""
 "El mensaje no puede enviarse porque la cuenta con la que eligió enviar no "
 "está activada"
 
-#: ../mail/mail.error.xml.h:129
+#: ../mail/mail.error.xml.h:130
 msgid ""
 "This message cannot be sent because you have not specified any recipients"
 msgstr ""
 "Este mensaje no puede enviarse porque no ha especificado ningún destinatario"
 
-#: ../mail/mail.error.xml.h:130
+#: ../mail/mail.error.xml.h:131
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
@@ -12952,11 +12953,11 @@ msgstr ""
 "Este servidor no soporta este tipo de autenticación requerido y quizá no "
 "soporte ningún tipo de autenticación."
 
-#: ../mail/mail.error.xml.h:131
+#: ../mail/mail.error.xml.h:132
 msgid "This signature has been changed, but has not been saved."
 msgstr "Esta firma ha cambiado, pero no ha sido guardada."
 
-#: ../mail/mail.error.xml.h:132
+#: ../mail/mail.error.xml.h:133
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
@@ -12964,16 +12965,16 @@ msgstr ""
 "Esto marcará todos los mensajes como leídos en la carpeta seleccionada y sus "
 "subcarpetas."
 
-#: ../mail/mail.error.xml.h:133
+#: ../mail/mail.error.xml.h:134
 msgid "This will mark all messages as read in the selected folder."
 msgstr ""
 "Esto marcará todos los mensajes como leídos en la carpeta seleccionada."
 
-#: ../mail/mail.error.xml.h:134
+#: ../mail/mail.error.xml.h:135
 msgid "Unable to connect to the GroupWise server."
 msgstr "No es posible conectarse con el servidor GroupWise."
 
-#: ../mail/mail.error.xml.h:135
+#: ../mail/mail.error.xml.h:136
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
@@ -12981,27 +12982,27 @@ msgstr ""
 "No es posible abrir la carpeta de borradores para esta cuenta. ¿Quiere usar "
 "la carpeta de borradores del sistema?"
 
-#: ../mail/mail.error.xml.h:136
+#: ../mail/mail.error.xml.h:137
 msgid "Unable to read license file."
 msgstr "No es posible leer el archivo de licencia."
 
-#: ../mail/mail.error.xml.h:137
+#: ../mail/mail.error.xml.h:138
 msgid "Unable to retrieve message."
 msgstr "No se pudo obtener el mensaje."
 
-#: ../mail/mail.error.xml.h:138
+#: ../mail/mail.error.xml.h:139
 msgid "Use _Default"
 msgstr "Usar _predeterminada"
 
-#: ../mail/mail.error.xml.h:139
+#: ../mail/mail.error.xml.h:140
 msgid "Use default drafts folder?"
 msgstr "¿Desea usar la carpeta de borradores predeterminada?"
 
-#: ../mail/mail.error.xml.h:140
+#: ../mail/mail.error.xml.h:141
 msgid "Would you like to close the message window?"
 msgstr "¿Quiere seleccionar la ventana de mensaje?"
 
-#: ../mail/mail.error.xml.h:141
+#: ../mail/mail.error.xml.h:142
 msgid ""
 "You are replying privately to a message which arrived via a mailing list, "
 "but the list is trying to redirect your reply to go back to the list. Are "
@@ -13011,7 +13012,7 @@ msgstr ""
 "lista de correo, pero la lista está intentando redireccionar su respuesta de "
 "nuevo a la lista. ¿Está seguro de que quiere proceder?"
 
-#: ../mail/mail.error.xml.h:142
+#: ../mail/mail.error.xml.h:143
 msgid ""
 "You are replying to a message which arrived via a mailing list, but you are "
 "replying privately to the sender; not to the list. Are you sure you want to "
@@ -13021,7 +13022,7 @@ msgstr ""
 "pero está respondiendo de forma privada al remitente, no a la lista. ¿Está "
 "seguro de que quiere proceder?"
 
-#: ../mail/mail.error.xml.h:143
+#: ../mail/mail.error.xml.h:144
 msgid ""
 "You are replying to a message which was sent to many recipients. Are you "
 "sure you want to reply to ALL of them?"
@@ -13029,31 +13030,31 @@ msgstr ""
 "Está respondiendo a un correo-e que se envió a muchos destinatarios. ¿Está "
 "seguro de que quiere responder a TODOS ellos?"
 
-#: ../mail/mail.error.xml.h:144
+#: ../mail/mail.error.xml.h:145
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "No tiene suficientes permisos para eliminar este correo."
 
-#: ../mail/mail.error.xml.h:145
+#: ../mail/mail.error.xml.h:146
 msgid "You have not filled in all of the required information."
 msgstr "No ha rellenado toda la información requerida."
 
-#: ../mail/mail.error.xml.h:146
+#: ../mail/mail.error.xml.h:147
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "Tiene mensajes no enviados, ¿quiere salir de todas formas?"
 
-#: ../mail/mail.error.xml.h:147
+#: ../mail/mail.error.xml.h:148
 msgid "You may not create two accounts with the same name."
 msgstr "No puede crear dos cuentas con el mismo nombre."
 
-#: ../mail/mail.error.xml.h:148
+#: ../mail/mail.error.xml.h:149
 msgid "You must name this Search Folder."
 msgstr "Debe dar un nombre a esta carpeta de búsqueda."
 
-#: ../mail/mail.error.xml.h:149
+#: ../mail/mail.error.xml.h:150
 msgid "You must specify a folder."
 msgstr "Debe especificar una carpeta."
 
-#: ../mail/mail.error.xml.h:150
+#: ../mail/mail.error.xml.h:151
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -13063,65 +13064,65 @@ msgstr ""
 "Hágalo seleccionando las carpetas individualmente, y/o seleccionando todas "
 "las carpetas locales, todas las carpetas remotas, o ambas."
 
-#: ../mail/mail.error.xml.h:152
+#: ../mail/mail.error.xml.h:153
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgstr "Su inicio de sesión en su servidor «{0}» como «{0}» falló."
 
-#: ../mail/mail.error.xml.h:153
+#: ../mail/mail.error.xml.h:154
 msgid "_Always"
 msgstr "_Siempre"
 
-#: ../mail/mail.error.xml.h:154
+#: ../mail/mail.error.xml.h:155
 msgid "_Append"
 msgstr "_Agregar"
 
-#: ../mail/mail.error.xml.h:155
+#: ../mail/mail.error.xml.h:156
 #: ../plugins/publish-calendar/publish-calendar.c:600
 msgid "_Disable"
 msgstr "_Desactivar"
 
-#: ../mail/mail.error.xml.h:156
+#: ../mail/mail.error.xml.h:157
 msgid "_Discard changes"
 msgstr "_Descartar los cambios"
 
-#: ../mail/mail.error.xml.h:157
+#: ../mail/mail.error.xml.h:158
 #: ../modules/mail/e-mail-shell-view-actions.c:1124
 msgid "_Empty Trash"
 msgstr "_Vaciar papelera"
 
-#: ../mail/mail.error.xml.h:158
+#: ../mail/mail.error.xml.h:159
 msgid "_Exit Evolution"
 msgstr "_Salir de Evolution"
 
-#: ../mail/mail.error.xml.h:159
+#: ../mail/mail.error.xml.h:160
 msgid "_Expunge"
 msgstr "_Purgar"
 
-#: ../mail/mail.error.xml.h:160
+#: ../mail/mail.error.xml.h:161
 msgid "_Migrate Now"
 msgstr "_Migrar ahora"
 
-#: ../mail/mail.error.xml.h:161
+#: ../mail/mail.error.xml.h:162
 msgid "_No"
 msgstr "_No"
 
-#: ../mail/mail.error.xml.h:162
+#: ../mail/mail.error.xml.h:163
 msgid "_Open Messages"
 msgstr "_Abrir mensajes"
 
-#: ../mail/mail.error.xml.h:165
+#: ../mail/mail.error.xml.h:166
 msgid "_Send Receipt"
 msgstr "_Enviar confirmación"
 
-#: ../mail/mail.error.xml.h:166
+#: ../mail/mail.error.xml.h:167
 msgid "_Synchronize"
 msgstr "_Sincronizar"
 
-#: ../mail/mail.error.xml.h:167
+#: ../mail/mail.error.xml.h:168
 msgid "_Yes"
 msgstr "_Sí"
 
-#: ../mail/mail.error.xml.h:168
+#: ../mail/mail.error.xml.h:169
 msgid "{0}"
 msgstr "{0}"
 
@@ -13367,11 +13368,11 @@ msgstr "Búsqueda"
 msgid "Downloading"
 msgstr "Descargando"
 
-#: ../modules/addressbook/addressbook-config.c:1272
+#: ../modules/addressbook/addressbook-config.c:1275
 msgid "Address Book Properties"
 msgstr "Propiedades de la libreta de direcciones"
 
-#: ../modules/addressbook/addressbook-config.c:1274
+#: ../modules/addressbook/addressbook-config.c:1277
 msgid "New Address Book"
 msgstr "Libreta de direcciones nueva"
 
@@ -14485,8 +14486,7 @@ msgstr ""
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:67
 msgid "Show Role field in the event/task/meeting editor"
-msgstr ""
-"Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
+msgstr "Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:68
 msgid "Show appointment end times in week and month views"
@@ -14576,8 +14576,8 @@ msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view."
 msgstr ""
-"El UID de la nota seleccionada (o «primaria») en la barra lateral de la "
-"vista de «Notas»."
+"El UID de la nota seleccionada (o «primaria») en la barra lateral de la vista "
+"de «Notas»."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:85
 msgid ""
@@ -14614,8 +14614,8 @@ msgid ""
 msgstr ""
 "El estilo de la distribución determina dónde ubicar el panel de vista previa "
 "en relación con la lista de notas. «0» (vista clásica) ubica el panel de "
-"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el "
-"panel de vista previa junto a la lista de notas."
+"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el panel "
+"de vista previa junto a la lista de notas."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:90
 msgid ""
@@ -14637,8 +14637,8 @@ msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
 msgstr ""
-"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
-"«2» para mensajes de depuración."
+"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. «2» "
+"para mensajes de depuración."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:93
 msgid "Time divisions"
@@ -14661,8 +14661,8 @@ msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\"."
 msgstr ""
-"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», "
-"«hours» o «days»."
+"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», «hours» "
+"o «days»."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:98
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
@@ -14791,8 +14791,8 @@ msgstr ""
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:121
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr ""
-"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/"
-"tareas/reuniones"
+"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/tareas/"
+"reuniones"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:122
 msgid "Whether to show week numbers in various places in the Calendar."
@@ -15612,11 +15612,11 @@ msgid_plural "%d tasks"
 msgstr[0] "%d tarea"
 msgstr[1] "%d tareas"
 
-#: ../modules/mail/em-account-prefs.c:218
+#: ../modules/mail/em-account-prefs.c:219
 msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
-#: ../modules/mail/em-account-prefs.c:267
+#: ../modules/mail/em-account-prefs.c:268
 msgid "Account Editor"
 msgstr "Editor de cuentas"
 
@@ -15661,7 +15661,7 @@ msgid "Network Preferences"
 msgstr "Preferencias de red"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1117
-#: ../modules/mail/e-mail-shell-view.c:945
+#: ../modules/mail/e-mail-shell-view.c:949
 msgid "_Disable Account"
 msgstr "_Desactivar cuenta"
 
@@ -15957,15 +15957,15 @@ msgstr "Cuenta actual"
 msgid "Current Folder"
 msgstr "Carpeta actual"
 
-#: ../modules/mail/e-mail-shell-view.c:559
+#: ../modules/mail/e-mail-shell-view.c:563
 msgid "All Account Search"
 msgstr "Búsqueda en todas las cuentas"
 
-#: ../modules/mail/e-mail-shell-view.c:732
+#: ../modules/mail/e-mail-shell-view.c:736
 msgid "Account Search"
 msgstr "Búsqueda en la cuenta"
 
-#: ../modules/mail/e-mail-shell-view.c:943
+#: ../modules/mail/e-mail-shell-view.c:947
 msgid "Proxy _Logout"
 msgstr "_Cerrar sesión proxy"
 
@@ -16233,39 +16233,39 @@ msgstr "Usar sólo comprobaciones de SPAM locales."
 msgid "Use only the local spam tests (no DNS)."
 msgstr "Usa sólo comprobaciones de SPAM locales (sin DNS)."
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:281
+#: ../modules/startup-wizard/evolution-startup-wizard.c:279
 #: ../widgets/misc/e-import-assistant.c:396
 msgid "Please select the information that you would like to import:"
 msgstr "Seleccione la información que quiera importar:"
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:313
+#: ../modules/startup-wizard/evolution-startup-wizard.c:311
 #: ../widgets/misc/e-import-assistant.c:552
 #, c-format
 msgid "From %s:"
 msgstr "De %s:"
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:324
-#: ../modules/startup-wizard/evolution-startup-wizard.c:422
+#: ../modules/startup-wizard/evolution-startup-wizard.c:322
+#: ../modules/startup-wizard/evolution-startup-wizard.c:420
 msgid "Importing Files"
 msgstr "Importando archivos"
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:400
+#: ../modules/startup-wizard/evolution-startup-wizard.c:398
 msgid "Import cancelled. Click \"Forward\" to continue."
 msgstr "Se canceló la importación. Pulse «Adelante» para continuar."
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:418
+#: ../modules/startup-wizard/evolution-startup-wizard.c:416
 msgid "Import complete. Click \"Forward\" to continue."
 msgstr "Finalizó la importación. Pulse «Adelante» para continuar."
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:492
+#: ../modules/startup-wizard/evolution-startup-wizard.c:496
 msgid "Evolution Setup Assistant"
 msgstr "Asistente de configuración de Evolution"
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:498
+#: ../modules/startup-wizard/evolution-startup-wizard.c:502
 msgid "Welcome"
 msgstr "Bienvenido"
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:503
+#: ../modules/startup-wizard/evolution-startup-wizard.c:507
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications. \n"
@@ -16278,7 +16278,7 @@ msgstr ""
 "\n"
 "Pulse el botón «Adelante» para continuar."
 
-#: ../modules/startup-wizard/evolution-startup-wizard.c:608
+#: ../modules/startup-wizard/evolution-startup-wizard.c:612
 msgid "Loading accounts..."
 msgstr "Cargando cuentas…"
 
@@ -17467,7 +17467,6 @@ msgid "This memo recurs"
 msgstr "Esta nota se repite"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2965
-#| msgid "Meeting information sent"
 msgid "Meeting invitations"
 msgstr "Invitaciones a reuniones"
 
@@ -17682,8 +17681,8 @@ msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr ""
-"%s desea recibir la última información de la siguiente reunión a través de "
-"%s:"
+"%s desea recibir la última información de la siguiente reunión a través de %"
+"s:"
 
 #: ../plugins/itip-formatter/itip-view.c:400
 #, c-format
@@ -18143,8 +18142,8 @@ msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
 msgstr ""
-"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere "
-"editar el acontecimiento antiguo?"
+"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere editar "
+"el acontecimiento antiguo?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:589
 #, c-format
@@ -18525,31 +18524,31 @@ msgstr "Importador PST de Outlook"
 msgid "Outlook personal folders (.pst)"
 msgstr "Carpetas personales de Outlook (.pst)"
 
-#: ../plugins/pst-import/pst-importer.c:432
+#: ../plugins/pst-import/pst-importer.c:436
 msgid "_Mail"
 msgstr "Co_rreo"
 
-#: ../plugins/pst-import/pst-importer.c:451
+#: ../plugins/pst-import/pst-importer.c:455
 msgid "Destination folder:"
 msgstr "Carpeta de destino:"
 
-#: ../plugins/pst-import/pst-importer.c:457
+#: ../plugins/pst-import/pst-importer.c:461
 msgid "_Address Book"
 msgstr "Libreta de _direcciones"
 
-#: ../plugins/pst-import/pst-importer.c:458
+#: ../plugins/pst-import/pst-importer.c:462
 msgid "A_ppointments"
 msgstr "Ci_tas"
 
-#: ../plugins/pst-import/pst-importer.c:459 ../views/tasks/galview.xml.h:3
+#: ../plugins/pst-import/pst-importer.c:463 ../views/tasks/galview.xml.h:3
 msgid "_Tasks"
 msgstr "_Tareas"
 
-#: ../plugins/pst-import/pst-importer.c:460
+#: ../plugins/pst-import/pst-importer.c:464
 msgid "_Journal entries"
 msgstr "Entradas del dia_rio"
 
-#: ../plugins/pst-import/pst-importer.c:563
+#: ../plugins/pst-import/pst-importer.c:567
 msgid "Importing Outlook data"
 msgstr "_Importando datos de Outlook"
 
@@ -22144,8 +22143,8 @@ msgstr "Métodos de entrada"
 #~ "Folder '%s' contains %d duplicate messages. Are you sure you want to "
 #~ "delete them?"
 #~ msgstr ""
-#~ "La carpeta «%s» contiene %d correos duplicados. ¿Está seguro de que "
-#~ "quiere eliminarlos?"
+#~ "La carpeta «%s» contiene %d correos duplicados. ¿Está seguro de que quiere "
+#~ "eliminarlos?"
 
 #~ msgid ""
 #~ "Error on %s: %s\n"
@@ -22172,8 +22171,8 @@ msgstr "Métodos de entrada"
 
 #~ msgid "Count of default recurrence for a new event. -1 means forever."
 #~ msgstr ""
-#~ "Conteo de las repeticiones predeterminadas para un acontecimiento nuevo. "
-#~ "-1 significa para siempre."
+#~ "Conteo de las repeticiones predeterminadas para un acontecimiento nuevo. -"
+#~ "1 significa para siempre."
 
 #~ msgid "Default recurrence count"
 #~ msgstr "Conteo de repeticiones predeterminado"
@@ -23521,8 +23520,7 @@ msgstr "Métodos de entrada"
 
 #~ msgid "The content widget appears in a shell window's right pane"
 #~ msgstr ""
-#~ "El widget de contenido aparece en un panel derecho de la ventana de "
-#~ "«shell»"
+#~ "El widget de contenido aparece en un panel derecho de la ventana de «shell»"
 
 #~ msgid "Shell Sidebar Widget"
 #~ msgstr "Widget de barra lateral de «shell»"
@@ -24509,8 +24507,8 @@ msgstr "Métodos de entrada"
 #~ "This is the full name of your LDAP server. For example, \"ldap.mycompany."
 #~ "com\"."
 #~ msgstr ""
-#~ "Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap."
-#~ "miempresa.com»."
+#~ "Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap.miempresa."
+#~ "com»."
 
 #~ msgid ""
 #~ "This is the maximum number of entries to download. Setting this number to "
