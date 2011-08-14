@@ -6,15 +6,15 @@
 # I.R. Maturana <info@in3activa.com>, 2003.
 # Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006.
 # Jorge Gonzalez <jorgegonz@svn.gnome.org>, 2009.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-04 15:56+0000\n"
-"PO-Revision-Date: 2011-08-07 18:18+0200\n"
+"POT-Creation-Date: 2011-08-13 18:23+0000\n"
+"PO-Revision-Date: 2011-08-14 17:24+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr ""
 #: C/using-categories.page:5(desc)
 msgid ""
 "Using and managing categories for appointments, contacts, memos and tasks."
-msgstr ""
+msgstr "Usar y gestionar categorías para citas, contactos, notas y tareas."
 
 #: C/using-categories.page:13(name) C/tasks-webdav.page:11(name)
 #: C/tasks-using-several-tasklists.page:11(name) C/tasks-usage.page:11(name)
@@ -587,12 +587,10 @@ msgid "Creative Commons Share Alike 3.0"
 msgstr "Creative Commons Compartir Igual 3.0"
 
 #: C/using-categories.page:25(title)
-#, fuzzy
 msgid "Using Categories"
-msgstr "Categorías"
+msgstr "Usar categorías"
 
 #: C/using-categories.page:27(p)
-#, fuzzy
 msgid ""
 "Another way to group contacts, appointments, tasks and memos (summarized by "
 "the term \"objects\" in the following text) is to mark them as belonging to "
@@ -601,33 +599,34 @@ msgid ""
 "the \"Business\" category because he works with you and the \"Friends\" "
 "category because he is a friend."
 msgstr ""
-"Otro método para agrupar tarjetas consiste en marcarlas como pertenecientes "
-"a diferentes categorías. Por tanto, puede asociar una tarjeta con numerosas "
-"categorías, o no asociarla. Por ejemplo, asocie la tarjeta de un amigo con "
-"la categoría <guilabel>Trabajo</guilabel> porque trabaja con él y en la "
-"categoría <guilabel>Amigos</guilabel> porque es un amigo."
+"Otro método para agrupar contactos, citas, tareas y notas (agrupando los "
+"términos como «objetos» en el siguiente texto) consiste en marcarlas como "
+"pertenecientes a diferentes categorías. Por tanto, puede asociar un objeto "
+"con numerosas categorías, o no asociarlo. Por ejemplo, asocie el objeto de "
+"un amigo con la categoría «Trabajo» porque trabaja con él y en la categoría "
+"«Amigos» porque es un amigo."
 
 #: C/using-categories.page:30(title)
 msgid "Setting categories for an object"
-msgstr ""
+msgstr "Establecer categorías para un objeto"
 
 #: C/using-categories.page:32(p)
-#, fuzzy
 msgid "To mark an object as belonging to a category,"
-msgstr "Para marcar una tarjeta como perteneciente a una categoría,"
+msgstr "Para marcar un objeto como perteneciente a una categoría,"
 
 #: C/using-categories.page:34(p)
-#, fuzzy
 msgid "Double-click the object to bring up the corresponding editor."
 msgstr ""
-"Pulse dos veces sobre la tarjeta para que aparezca la ventana del Editor de "
-"contactos."
+"Pulse dos veces sobre el objeto para que aparezca la ventana del editor "
+"correspondiente."
 
 #: C/using-categories.page:35(p) C/using-categories.page:47(p)
 msgid ""
 "Click <gui style=\"button\">Categories...</gui>. (If this button is not "
 "available, select <guiseq><gui>View</gui><gui>Categories</gui></guiseq>.)"
 msgstr ""
+"Pulse <gui style=\"button\">Categorías...</gui>. (Si este botón no está "
+"disponible, seleccione <guiseq><gui>Ver</gui><gui>Categorías</gui></guiseq>.)"
 
 #: C/using-categories.page:36(p)
 msgid ""
@@ -638,9 +637,8 @@ msgstr ""
 "como desee."
 
 #: C/using-categories.page:42(title)
-#, fuzzy
 msgid "Adding and managing categories"
-msgstr "Añadir un certificado firmado"
+msgstr "Añadir y gestionar categorías"
 
 #: C/using-categories.page:44(p)
 msgid ""
@@ -648,13 +646,16 @@ msgid ""
 "own categories either directly via <guiseq><gui>Edit</gui><gui>Available "
 "Categories</gui></guiseq>, or indirectly when editing an object:"
 msgstr ""
+"Si la lista predeterminada de categorías no satisface sus necesidades, puede "
+"añadir sus propias categorías directamente a través de <guiseq><gui>Editar</"
+"gui><gui>Categorías disponibles</gui></guiseq>, o indirectamente al editar "
+"un objeto:"
 
 #: C/using-categories.page:46(p)
-#, fuzzy
 msgid "Double-click any object to bring up th corresponding editor."
 msgstr ""
-"Pulse dos veces sobre la tarjeta para que aparezca la ventana del Editor de "
-"contactos."
+"Pulse dos veces sobre cualquier objeto para que aparezca la ventana del "
+"editor correspondiente."
 
 #: C/using-categories.page:48(p)
 msgid "Enter the new category in the entry box at the top."
@@ -678,26 +679,25 @@ msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Pulse <gui style=\"button\">Aceptar</gui>."
 
 #: C/using-categories.page:50(p)
-#, fuzzy
 msgid ""
 "You can now see the category in the <gui>Categories</gui> text field in the "
 "editor."
 msgstr ""
-"Puede ver que el nombre de la categoría aparece en el campo junto al botón "
-"Categorías en el Editor de contactos."
+"Puede ver que el nombre de la categoría aparece en el campo <gui>Categorías</"
+"gui> en el editor."
 
 #: C/using-categories.page:54(p)
-#, fuzzy
 msgid ""
 "In the <gui>Categories Editor</gui> you can edit or set the color and icon "
 "for each category available by clicking <gui style=\"button\">Edit</gui> at "
 "the bottom of the <gui>Categories</gui> window. Press <gui style=\"button"
 "\">Delete</gui> to delete categories from the list."
 msgstr ""
-"Puede editar o establecer el color e icono para cada categoría disponible "
-"bajo la lista de categorías. Para ello pulse el botón Editar en la parte "
-"inferior de la ventana de Categorías. Pulse el botón Borrar para borrar "
-"elementos de la lista."
+"Puede editar o establecer el color y el icono para cada categoría disponible "
+"bajo la lista de categorías usando el <gui>Editor de categorías</gui>. Para "
+"ello pulse el botón <gui style=\"button\">Editar</gui> en la parte inferior "
+"de la ventana de <gui>Categorías</gui>. Pulse el botón <gui style=\"button"
+"\">Eliminar</gui> para eliminar categorías de la lista."
 
 #: C/using-categories.page:57(p)
 msgid ""
@@ -705,24 +705,29 @@ msgid ""
 "corresponding category in the quick <link xref=\"searching-items\">search</"
 "link> bar."
 msgstr ""
+"Para mostrar solo los objetos de una categoría en particular, seleccione la "
+"categoría correspondiente en la barra de <link xref=\"searching-items"
+"\">búsqueda</link> rápida."
 
 #: C/tasks-webdav.page:5(desc)
 msgid "Using an online WebDAV task list or memo list."
-msgstr ""
+msgstr "Usar una lista de tareas o lista de notas en línea WebDAV."
 
 #: C/tasks-webdav.page:20(title)
 msgid "Using a WebDAV task or memo list"
-msgstr ""
+msgstr "Usar una lista de tareas o notas WebDAV"
 
 #: C/tasks-webdav.page:22(p)
 msgid "Lists of this type are read-only."
-msgstr ""
+msgstr "Este tipo de listas son de sólo lectura."
 
 #: C/tasks-webdav.page:24(p) C/tasks-caldav.page:22(p)
 msgid ""
 "To add such a task list or memo list to Evolution, perform the following "
 "steps:"
 msgstr ""
+"Para añadir tal lista de tareas o notas a Evolution, realice los siguientes "
+"pasos:"
 
 #: C/tasks-webdav.page:26(p) C/tasks-local.page:24(p)
 #: C/tasks-caldav.page:24(p)
@@ -730,12 +735,14 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Task List</gui></guiseq> or "
 "<guiseq><gui>File</gui><gui>New</gui><gui>Memo List</gui></guiseq>."
 msgstr ""
+"Pulse <guiseq><gui>Archivo</gui><gui>Nuevo</gui><gui>Lista de tareas</gui></"
+"guiseq> o <guiseq><gui>Archivo</gui><gui>Nuevo</gui><gui>Lista de notas</"
+"gui></guiseq>."
 
 #: C/tasks-webdav.page:27(p) C/tasks-caldav.page:25(p)
 #: C/calendar-webdav.page:27(p)
-#, fuzzy
 msgid "Select the type <gui>On the Web</gui>."
-msgstr "gpg <placeholder-1/>"
+msgstr "Seleccione el tipo <gui>En la red</gui>."
 
 #: C/tasks-webdav.page:28(p) C/tasks-local.page:26(p)
 #: C/tasks-caldav.page:26(p) C/contacts-using-contact-lists.page:33(p)
@@ -744,7 +751,7 @@ msgstr "gpg <placeholder-1/>"
 #: C/calendar-weather.page:28(p) C/calendar-local.page:26(p)
 #: C/calendar-google.page:30(p) C/calendar-caldav.page:29(p)
 msgid "Enter a name that you prefer."
-msgstr ""
+msgstr "Introduzca el nombre que quiera."
 
 #: C/tasks-webdav.page:29(p) C/tasks-local.page:27(p)
 #: C/tasks-caldav.page:27(p) C/calendar-webdav.page:29(p)
@@ -762,9 +769,8 @@ msgid ""
 msgstr ""
 
 #: C/tasks-webdav.page:31(p) C/tasks-caldav.page:29(p)
-#, fuzzy
 msgid "Enter the address of the list in the <gui>URL</gui> field."
-msgstr "Teclee el nombre de la carpeta en el campo «Nombre de la carpeta»."
+msgstr "Introduzca la dirección de la lista en el campo <gui>URL</gui>."
 
 #: C/tasks-webdav.page:32(p) C/tasks-caldav.page:30(p)
 #: C/mail-sending-options-smtp.page:38(p) C/contacts-google.page:30(p)
@@ -776,9 +782,8 @@ msgstr ""
 
 #: C/tasks-webdav.page:33(p) C/mail-sending-options-smtp.page:35(p)
 #: C/calendar-webdav.page:33(p)
-#, fuzzy
 msgid "Enter your username."
-msgstr "Introduzca el nombre de la búsqueda."
+msgstr "Introduzca su nombre de usuario."
 
 #: C/tasks-webdav.page:34(p) C/tasks-local.page:28(p)
 #: C/tasks-caldav.page:32(p) C/contacts-local.page:27(p)
@@ -789,11 +794,9 @@ msgstr "Introduzca el nombre de la búsqueda."
 msgid "Click <gui style=\"button\">Apply</gui>."
 msgstr "Pulse <gui style=\"button\">Aplicar</gui>."
 
-#: C/tasks-webdav.page:37(p) C/calendar-webdav.page:37(p)
-#: C/calendar-weather.page:37(p) C/calendar-local.page:31(p)
-#: C/calendar-google.page:38(p) C/calendar-caldav.page:38(p)
+#: C/tasks-webdav.page:37(p)
 #, fuzzy
-msgid "The calendar will be added to the list of calendars in Evolution."
+msgid "The list will be added in Evolution."
 msgstr "Añadir calendarios meteorológicos a Evolution."
 
 #: C/tasks-using-several-tasklists.page:5(desc)
@@ -857,10 +860,11 @@ msgid "If you want to change a task that already exists in your task lists,"
 msgstr "Si quiere modificar una tarjeta que ya existe,"
 
 #: C/tasks-usage-edit-task.page:25(p)
+#, fuzzy
 msgid ""
-"Double-click on the task that you want to edit in the list of contacts, or "
+"Double-click on the task that you want to edit in the list of tasks, or "
 "right-click on the task and click <key>Open Task</key>."
-msgstr ""
+msgstr "Pulse dos veces en la tarjeta que quiera editar."
 
 #: C/tasks-usage-edit-task.page:26(p)
 #, fuzzy
@@ -972,9 +976,6 @@ msgstr ""
 #: C/tasks-searching.page:34(None) C/memos-searching.page:34(None)
 #: C/mail-searching.page:33(None) C/contacts-searching.page:34(None)
 #: C/calendar-searching.page:34(None)
-#| msgid ""
-#| "@@image: 'figures/exchng-rec-options.png'; "
-#| "md5=31a2bbe7ef9de1dc79da40949e0dc7ae"
 msgid ""
 "@@image: 'figures/search-icon.png'; md5=cd4b82c84c628bfbbfa39d1e0d1eae89"
 msgstr ""
@@ -1211,7 +1212,6 @@ msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo.
 #: C/tasks-searching.page:76(p) C/memos-searching.page:76(p)
 #: C/mail-searching.page:72(p) C/contacts-searching.page:76(p)
 #: C/calendar-searching.page:76(p)
-#| msgid "Click OK."
 msgid "Click <gui>OK</gui>."
 msgstr "Pulse <gui>Aceptar</gui>."
 
@@ -1708,10 +1708,11 @@ msgid "If you want to change a memo that already exists in your memo lists,"
 msgstr "Si quiere modificar una tarjeta que ya existe,"
 
 #: C/memos-usage-edit-memo.page:25(p)
+#, fuzzy
 msgid ""
 "Double-click on the memo that you want to edit in the list of contacts, or "
-"right-click on the task and click <key>Open Memo</key>."
-msgstr ""
+"right-click on the memo and click <key>Open Memo</key>."
+msgstr "Pulse dos veces en la tarjeta que quiera editar."
 
 #: C/memos-usage-edit-memo.page:26(p)
 #, fuzzy
@@ -1731,7 +1732,7 @@ msgstr "Borrar un elemento"
 #: C/memos-usage-delete-memo.page:22(p)
 msgid ""
 "If you want to delete a memo in your memo lists, right-click on the memo and "
-"select <gui>Delete</gui>, or click on the task and click <gui>Delete</gui> "
+"select <gui>Delete</gui>, or click on the memo and click <gui>Delete</gui> "
 "in the tool bar, or click <guiseq><gui>Edit</gui><gui>Delete Memo</gui></"
 "guiseq>."
 msgstr ""
@@ -2092,7 +2093,7 @@ msgstr ""
 "Cuando crea una cuenta de grupo de noticias, no está suscrito a ningún "
 "grupo. Para suscribirse a un grupo de noticias:"
 
-#: C/mail-usenet-subscriptions.page:29(p) C/mail-imap-subscriptions.page:30(p)
+#: C/mail-usenet-subscriptions.page:29(p)
 msgid "Select <guiseq><gui>Folder</gui><gui>Subscriptions</gui></guiseq>."
 msgstr ""
 
@@ -2193,7 +2194,6 @@ msgstr ""
 
 #: C/mail-spam-settings.page:38(p) C/mail-composer-html-table.page:29(p)
 #: C/mail-composer-html-rule.page:28(p) C/mail-composer-html-link.page:29(p)
-#| msgid "Click Close."
 msgid "Click <gui>Close</gui>."
 msgstr "Pulse <gui>Cerrar</gui>."
 
@@ -2908,6 +2908,12 @@ msgid ""
 "To send and receive only for one of your mail accounts, or to only send or "
 "only receive, click the small down-arrow next to the <gui style=\"button"
 "\">Send / Receive</gui> button and choose the corresponding option."
+msgstr ""
+
+#: C/mail-send-and-receive-manual.page:23(p)
+msgid ""
+"If you just want to send messages which are in your Outbox, you can right-"
+"click on the Outbox and click <gui>Flush Outbox</gui>."
 msgstr ""
 
 #: C/mail-send-and-receive-automatically.page:5(desc)
@@ -3728,7 +3734,7 @@ msgstr ""
 #: C/mail-receiving-options-unix-mbox-spool-file.page:33(p)
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:31(p)
 #: C/mail-receiving-options-pop.page:48(p)
-#: C/mail-receiving-options-novell-groupwise.page:45(p)
+#: C/mail-receiving-options-novell-groupwise.page:43(p)
 #: C/mail-receiving-options-mh-format-directories.page:31(p)
 #: C/mail-receiving-options-maildir-format-directories.page:32(p)
 #: C/mail-receiving-options-local-delivery.page:32(p)
@@ -3800,7 +3806,6 @@ msgid "POP receiving options"
 msgstr "Opciones de recepción POP"
 
 #: C/mail-receiving-options-pop.page:43(p)
-#: C/mail-receiving-options-novell-groupwise.page:39(p)
 msgid ""
 "If you want the messages to remain on the server for a period of time, click "
 "the <gui>Leave messages on server</gui> option and the <gui>Delete after ... "
@@ -3862,11 +3867,11 @@ msgstr ""
 "acontecimiento organizado puede que quiera contactar con el administrador de "
 "su sistema para obtener más información."
 
-#: C/mail-receiving-options-novell-groupwise.page:41(p)
+#: C/mail-receiving-options-novell-groupwise.page:39(p)
 msgid "Enter the Post Office Agent SOAP port."
 msgstr ""
 
-#: C/mail-receiving-options-novell-groupwise.page:42(p)
+#: C/mail-receiving-options-novell-groupwise.page:40(p)
 msgid ""
 "If you are unsure what your Post Office Agent SOAP port is, contact your "
 "system administrator."
@@ -4042,9 +4047,6 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/mail-received-notification.page:23(None)
-#| msgid ""
-#| "@@image: 'figures/exchng-rec-mails.png'; "
-#| "md5=b56dfa570c8d1c9b942c6493fd973d68"
 msgid ""
 "@@image: './figures/new-mail-switcher.png'; "
 "md5=be4dbdb5f6e3dcbd5111b87169cae268"
@@ -4055,8 +4057,6 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/mail-received-notification.page:28(None)
-#| msgid ""
-#| "@@image: 'figures/evo_newmail.png'; md5=426590d03b7b0bc88b16cc61b2ec1000"
 msgid ""
 "@@image: './figures/new-mail-notification.png'; "
 "md5=25a4373da392793406910cd883f0c21c"
@@ -4091,7 +4091,7 @@ msgid ""
 "In order to get also notified of new messages in the GNOME Notification area "
 "at the bottom of the screen, make sure that <guiseq><gui>Edit</"
 "gui><gui>Plugins</gui><gui>Mail Notification</gui></guiseq> is enabled and "
-"that you have set your prefered options in the <gui>Configuration</gui> tab."
+"that you have set your preferred options in the <gui>Configuration</gui> tab."
 msgstr ""
 
 #: C/mail-read-receipts.page:5(desc)
@@ -4429,6 +4429,13 @@ msgid ""
 "As opening many IMAP folders on the server takes time you can define which "
 "IMAP folders to check and display in Evolution, and which ones to ignore for "
 "the time being, via the <gui>IMAP Subscriptions Manager</gui>."
+msgstr ""
+
+#: C/mail-imap-subscriptions.page:30(p)
+msgid ""
+"Select <guiseq><gui>Folder</gui><gui>Subscriptions</gui></guiseq>, or right-"
+"click on the top level node of an email account in the folder list and click "
+"<gui>Manage subscriptions</gui>."
 msgstr ""
 
 #: C/mail-imap-subscriptions.page:32(p)
@@ -5388,7 +5395,6 @@ msgstr "Seleccione la cuenta en la que cifrar mensajes."
 
 #: C/mail-encryption-s-mime-signing-encrypting.page:31(p)
 #: C/mail-encryption-gpg-signing-encrypting.page:33(p)
-#| msgid "Click the Security tab."
 msgid "Click <gui>Security</gui>."
 msgstr "Pulse en <gui>Seguridad</gui>."
 
@@ -5852,10 +5858,16 @@ msgid "Removing duplicate emails"
 msgstr "¿Quitar mensajes duplicados?"
 
 #: C/mail-duplicates.page:28(p)
+#, fuzzy
 msgid ""
-"To remove duplicate emails in a folder, click <guiseq><gui>Message</"
-"gui><gui>Remove Duplicate Messages</gui></guiseq>."
+"To remove duplicate emails in a folder, select multiple messages (or select "
+"all messages in a folder by clicking <guiseq><gui>Edit</gui><gui>Select All</"
+"gui></guiseq> or pressing <keyseq><key>Ctrl</key><key>A</key></keyseq>) and "
+"click <guiseq><gui>Message</gui><gui>Remove Duplicate Messages</gui></"
+"guiseq>."
 msgstr ""
+"Para borrar permanentemente todos los mensajes borrados en una carpeta, "
+"pulse Carpeta &gt; Purgar o pulse Ctrl+E."
 
 #: C/mail-duplicates.page:33(title)
 msgid "Reasons"
@@ -6054,15 +6066,13 @@ msgstr "Cargando imágenes"
 
 #: C/mail-displaying-images-in-html.page:51(p)
 msgid ""
-"You currently cannot save images to disk that are embedded in HTML emails."
+"To save an image that is embedded in an HTML email, right-click on the image "
+"and click <gui>Save Image...</gui>."
 msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/mail-displaying-collapsible-headers.page:27(None)
-#| msgid ""
-#| "@@image: 'figures/filter-new-fig.png'; "
-#| "md5=75a2b8ccfe0f7a4982859827c867d578"
 msgid ""
 "@@image: './figures/plus-icon.png'; md5=57bf83c4ab8585c30897a6cf89c5949c"
 msgstr ""
@@ -6071,9 +6081,6 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/mail-displaying-collapsible-headers.page:29(None)
-#| msgid ""
-#| "@@image: 'figures/exchng-rec-options.png'; "
-#| "md5=31a2bbe7ef9de1dc79da40949e0dc7ae"
 msgid ""
 "@@image: './figures/minus-icon.png'; md5=7cef9df0f691c8d6ce67cad29ebceac9"
 msgstr ""
@@ -6379,7 +6386,7 @@ msgstr "Enviando la respuesta sólo a los destinatarios definidos en _Cco"
 #: C/mail-composer-several-recipients.page:28(p)
 msgid ""
 "To send a message to more than one person, enter the addresses in the "
-"composer by seperating them with commas or semicolons."
+"composer by separating them with commas or semicolons."
 msgstr ""
 
 #: C/mail-composer-several-recipients.page:31(title)
@@ -6792,7 +6799,6 @@ msgstr ""
 "quiera en la ventana del editor de mensajes que se abrirá."
 
 #: C/mail-composer-message-templates.page:68(p)
-#| msgid "Click Send."
 msgid "Click <gui>Send</gui>."
 msgstr "Pulse <gui>Enviar</gui>."
 
@@ -7569,11 +7575,21 @@ msgid "Format of dates and time"
 msgstr "Seleccione la fecha y la hora."
 
 #: C/mail-change-time-format.page:20(p)
+#, fuzzy
+#| msgid ""
+#| "To enable this feature, select Edit &gt; Preferences &gt; Mail "
+#| "Preferences &gt; Headers &gt; Show the photograph of sender in the email "
+#| "preview. Deselect this option to disable this feature."
 msgid ""
 "You can change the format of the <gui>Date</gui> column by setting your "
-"prefered format under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
-"Preferences</gui><gui>Headers</gui><gui>Date/Time format</gui></guiseq>."
+"preferred format under <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>Mail Preferences</gui><gui>Headers</gui><gui>Date/Time format</"
+"gui></guiseq>."
 msgstr ""
+"Para activar esta característica, seleccione Editar &gt; Preferencias &gt; "
+"Opciones de correo &gt; Cabeceras &gt; Mostrar la foto del remitente en la "
+"vista preliminar del correo-e. Deseleccione esta opción para desactivar esta "
+"característica."
 
 #: C/mail-change-time-format.page:20(p)
 #: C/calendar-layout-appointment-display.page:50(p)
@@ -8379,8 +8395,6 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:34(None)
-#| msgid ""
-#| "@@image: 'figures/evo_labels_a.png'; md5=e136d81754f7c859713674c09af56ca3"
 msgid ""
 "@@image: './figures/window-overview-layers.png'; "
 "md5=3156497ff1c51756838f9ddfbce9baee"
@@ -8392,9 +8406,6 @@ msgstr ""
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:41(None) C/intro-main-window.page:90(None)
 #: C/intro-main-window.page:136(None)
-#| msgid ""
-#| "@@image: 'figures/folder_size_mapi.png'; "
-#| "md5=4b20ea9d82999051360f14da27e7c15d"
 msgid ""
 "@@image: './figures/color-c4a000.png'; md5=9db17d2d5e9013501aeab2e165c6a6c9"
 msgstr ""
@@ -8404,9 +8415,6 @@ msgstr ""
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:44(None) C/intro-main-window.page:93(None)
 #: C/intro-main-window.page:139(None)
-#| msgid ""
-#| "@@image: 'figures/evo_popreceive_a.png'; "
-#| "md5=a635f0e8d9bb4f0bcda34221c258f273"
 msgid ""
 "@@image: './figures/color-ce5c00.png'; md5=19dae9650e3936312e09198973372a24"
 msgstr ""
@@ -8416,8 +8424,6 @@ msgstr ""
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:47(None) C/intro-main-window.page:96(None)
 #: C/intro-main-window.page:142(None)
-#| msgid ""
-#| "@@image: 'figures/folder_plus.png'; md5=61548b886beadeec26ef258f2cb1c2aa"
 msgid ""
 "@@image: './figures/color-8f5902.png'; md5=ff5ccb859fe04a004cd67e1c22621dc6"
 msgstr ""
@@ -8427,9 +8433,6 @@ msgstr ""
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:48(None) C/intro-main-window.page:97(None)
 #: C/intro-main-window.page:143(None)
-#| msgid ""
-#| "@@image: 'figures/exchng-rec-mails.png'; "
-#| "md5=b56dfa570c8d1c9b942c6493fd973d68"
 msgid ""
 "@@image: './figures/color-4e9a06.png'; md5=b2c2e7b66fb470344c804db396b48b98"
 msgstr ""
@@ -8439,9 +8442,6 @@ msgstr ""
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:51(None) C/intro-main-window.page:100(None)
 #: C/intro-main-window.page:146(None)
-#| msgid ""
-#| "@@image: 'figures/evo_Wcal_prop_a.png'; "
-#| "md5=dcd10f32a1ac7cbcb44d67e1a4b71a78"
 msgid ""
 "@@image: './figures/color-204a87.png'; md5=511497260cc4caab69d67814b1ee3b8b"
 msgstr ""
@@ -8451,8 +8451,6 @@ msgstr ""
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:54(None) C/intro-main-window.page:108(None)
 #: C/intro-main-window.page:149(None)
-#| msgid ""
-#| "@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
 msgid ""
 "@@image: './figures/color-a40000.png'; md5=19195da020e059dab33aa37788763a97"
 msgstr ""
@@ -8461,9 +8459,6 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:55(None) C/intro-main-window.page:150(None)
-#| msgid ""
-#| "@@image: 'figures/groupwise_resend.png'; "
-#| "md5=697ce252ac6f3f2f4f361039818d1262"
 msgid ""
 "@@image: './figures/color-5c3566.png'; md5=7c001a57237acc2ff61ee61e05ad3168"
 msgstr ""
@@ -8473,8 +8468,6 @@ msgstr ""
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/intro-main-window.page:58(None) C/intro-main-window.page:111(None)
 #: C/intro-main-window.page:153(None)
-#| msgid ""
-#| "@@image: 'figures/evo_label_a.png'; md5=bc5d8fe2485b9678a4911ac6e1469dfa"
 msgid ""
 "@@image: './figures/color-2e3436.png'; md5=3c796c7aed3044e59f131bea364e8598"
 msgstr ""
@@ -8523,8 +8516,7 @@ msgstr ""
 "<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
 "Barra de herramientas"
 
-#: C/intro-main-window.page:47(p) C/intro-main-window.page:96(p)
-#: C/intro-main-window.page:142(p)
+#: C/intro-main-window.page:47(p)
 msgid ""
 "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
 "Folder list"
@@ -8672,10 +8664,22 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendario"
 
-#: C/intro-main-window.page:87(p) C/intro-main-window.page:133(p)
+#: C/intro-main-window.page:87(p)
 #, fuzzy
 msgid "Elements in the calendar main window:"
 msgstr "El elemento en el calendario no es válido"
+
+#: C/intro-main-window.page:96(p)
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+#| "Folder list"
+msgid ""
+"<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+"Calendar list"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+"Lista de carpetas"
 
 #: C/intro-main-window.page:100(p)
 msgid ""
@@ -8744,6 +8748,23 @@ msgstr ""
 #: C/import-supported-file-formats.page:60(title)
 msgid "Contacts"
 msgstr "Contactos"
+
+#: C/intro-main-window.page:133(p)
+#, fuzzy
+msgid "Elements in the contacts main window:"
+msgstr "El elemento en el calendario no es válido"
+
+#: C/intro-main-window.page:142(p)
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+#| "Folder list"
+msgid ""
+"<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+"Address book list"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+"Lista de carpetas"
 
 #: C/intro-main-window.page:146(p)
 msgid ""
@@ -9108,8 +9129,6 @@ msgstr "Importa datos de otros programas"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/index.page:22(None)
-#| msgid ""
-#| "@@image: 'figures/evo_junk_a.png'; md5=635a83cb310a374a041da9e5dad017c9"
 msgid ""
 "@@image: './figures/evolutionlogo.png'; md5=4bf469aaba7c368937309e931ba9bdcc"
 msgstr ""
@@ -9317,7 +9336,7 @@ msgstr ""
 
 #: C/import-supported-file-formats.page:74(title)
 #, fuzzy
-msgid "Miscelleanous"
+msgid "Miscellaneous"
 msgstr "Miscelánea"
 
 #: C/import-supported-file-formats.page:76(p)
@@ -9611,6 +9630,12 @@ msgid ""
 "starting <code>evolution --express</code> from the terminal window."
 msgstr ""
 
+#: C/express-mode.page:25(p)
+msgid ""
+"You can also explicitly open Evolution in a specific component. For the "
+"calendar, use <code>evolution --express --component=calendar</code>."
+msgstr ""
+
 #: C/exporting-data.page:5(desc)
 msgid "How to export data from <em>Evolution</em>."
 msgstr ""
@@ -9665,8 +9690,8 @@ msgstr ""
 #: C/exporting-data-contacts.page:27(p)
 msgid ""
 "If you want to export only one contact, click <guiseq><gui>File</"
-"gui><gui>Save Contact as VCard</gui></guiseq> or right-click on the contact "
-"and click <gui>Save as vCard</gui>."
+"gui><gui>Save as vCard</gui></guiseq> or right-click on the contact and "
+"click <gui>Save as vCard</gui>."
 msgstr ""
 
 #: C/exporting-data-calendar.page:5(desc)
@@ -9682,7 +9707,7 @@ msgstr "Abriendo el calendario en «%s»"
 msgid ""
 "To export a complete calendar, right-click on the calendar in the list of "
 "calendars and click <gui>Save as</gui>. Available formats are iCalendar "
-"format (ICS, recommended), comma seperated values (CSV), and RDF format."
+"format (ICS, recommended), comma separated values (CSV), and RDF format."
 msgstr ""
 
 #: C/exporting-data-calendar.page:23(p)
@@ -9730,19 +9755,19 @@ msgstr ""
 
 #: C/exchange-connectors-overview.page:26(p)
 msgid ""
-"For Microsoft Exchange 2007 (and possibly earlier versions that support "
-"MAPI) it is recommended to use the package evolution-mapi. <link action="
-"\"install:evolution-mapi\" href=\"http://projects.gnome.org/evolution/"
+"For Microsoft Exchange 2007 and 2010 (and possibly earlier versions that "
+"support MAPI) it is recommended to use the package evolution-mapi. <link "
+"action=\"install:evolution-mapi\" href=\"http://projects.gnome.org/evolution/"
 "download\">Install evolution-mapi now.</link>"
 msgstr ""
 
 #: C/exchange-connectors-overview.page:27(p)
 msgid ""
-"For Microsoft Exchange 2010 it is recommended to use the package evolution-"
-"ews which is currently still under development and might not be available "
-"yet for your distribution. evolution-ews also supports Microsoft Exchange "
-"2007. <link action=\"install:evolution-ews\" href=\"http://projects.gnome."
-"org/evolution/download\">Install evolution-ews now.</link>"
+"For Microsoft Exchange 2007 and 2010 the package evolution-ews is currently "
+"under development and will replace evolution-mapi in the future. It might "
+"not be available yet for your distribution. <link action=\"install:evolution-"
+"ews\" href=\"http://projects.gnome.org/evolution/download\">Install "
+"evolution-ews now.</link>"
 msgstr ""
 
 #: C/exchange-connectors-overview.page:29(p)
@@ -9838,7 +9863,7 @@ msgstr ""
 
 #: C/default-browser.page:25(p)
 msgid ""
-"If the prefered browser is set as default application but still does not "
+"If the preferred browser is set as default application but still does not "
 "work correctly please contact your distribution via their forum or bug "
 "tracker."
 msgstr ""
@@ -10178,13 +10203,18 @@ msgid "Deleting a Contact"
 msgstr "Borrar un contacto:"
 
 #: C/contacts-usage-delete-contact.page:22(p)
+#, fuzzy
 msgid ""
 "If you want to delete a contact in your address books, right-click on the "
-"contact and select <gui>Delete</gui>, or click on the appointment and click "
+"contact and select <gui>Delete</gui>, or click on the contact and click "
 "<gui>Delete</gui> in the tool bar or press <keyseq><key>Ctrl</key><key>D</"
 "key></keyseq>, or click <guiseq><gui>Edit</gui><gui>Delete Contact</gui></"
 "guiseq>."
 msgstr ""
+"Evolution le permite borrar correos no deseados. Para borrar un correo, "
+"selecciónelo y pulse la tecla Suprimir, o pulse el botón Borrar en la barra "
+"de herramientas, pulse Ctrl+D o pulse con el botón derecho del ratón sobre "
+"el mensaje y después pulse Borrar."
 
 #: C/contacts-usage-add-contact.page:5(desc)
 #, fuzzy
@@ -10510,7 +10540,7 @@ msgid "Using a Google addressbook"
 msgstr "No se pudo abrir la libreta de direcciones"
 
 #: C/contacts-google.page:23(p)
-msgid "To add such an adress book to Evolution, perform the following steps:"
+msgid "To add such an address book to Evolution, perform the following steps:"
 msgstr ""
 
 #: C/contacts-google.page:26(p) C/calendar-google.page:29(p)
@@ -10679,6 +10709,13 @@ msgstr ""
 #, fuzzy
 msgid "Enter the address of the calendar in the <gui>URL</gui> field."
 msgstr "Teclee el nombre de la carpeta en el campo «Nombre de la carpeta»."
+
+#: C/calendar-webdav.page:37(p) C/calendar-weather.page:37(p)
+#: C/calendar-local.page:31(p) C/calendar-google.page:38(p)
+#: C/calendar-caldav.page:38(p)
+#, fuzzy
+msgid "The calendar will be added to the list of calendars in Evolution."
+msgstr "Añadir calendarios meteorológicos a Evolution."
 
 #: C/calendar-weather.page:5(desc)
 #, fuzzy
@@ -10866,7 +10903,7 @@ msgstr "(Opcional) escriba una ubicación en el campo Lugar."
 #| "To select this appointment as an all day event, click Options &gt; All "
 #| "Day Event."
 msgid ""
-"To select this appointment as an all day event, click <guiseq><gui>Options</"
+"To select this event as an all day event, click <guiseq><gui>Options</"
 "gui><gui>All Day Event</gui></guiseq>, or click the <gui>All Day Event</gui> "
 "button on the toolbar."
 msgstr ""
@@ -11005,7 +11042,7 @@ msgstr "Repetición"
 #: C/calendar-recurrence.page:25(p)
 #, fuzzy
 msgid ""
-"If you have an appointment that takes place regurlarly, you can define its "
+"If you have an appointment that takes place regularly, you can define its "
 "recurrence by clicking the <gui>Recurrence</gui> button in the "
 "<gui>Appointment Editor</gui> or by clicking <guiseq><gui>Options</"
 "gui><gui>Recurrence</gui></guiseq>. You can then choose a time and date when "
@@ -11286,7 +11323,6 @@ msgstr ""
 "delegar."
 
 #: C/calendar-meetings-delegating.page:32(p)
-#| msgid "Click Delegate Meeting."
 msgid "Click <gui>Delegate Meeting</gui>."
 msgstr "Pulse<gui>Delegar reunión</gui>."
 
@@ -11582,7 +11618,7 @@ msgstr "Formato de la fecha y hora"
 #: C/calendar-layout-appointment-display.page:50(p)
 msgid ""
 "You can change the format of the <gui>Date</gui> column by setting your "
-"prefered format."
+"preferred format."
 msgstr ""
 
 #: C/calendar-google.page:5(desc)
@@ -11846,10 +11882,11 @@ msgid "Backing up"
 msgstr "Opciones de seguimiento"
 
 #: C/backup-restore.page:28(p)
+#, fuzzy
+#| msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgid ""
-"Select <guiseq><gui>File</gui><gui>Back up Evolution Settings...</gui></"
-"guiseq>."
-msgstr ""
+"Select <guiseq><gui>File</gui><gui>Back up Evolution Data...</gui></guiseq>."
+msgstr "Pulse <guiseq><gui>Archivo</gui><gui>Importar</gui></guiseq>."
 
 #: C/backup-restore.page:29(p)
 msgid ""
@@ -11869,10 +11906,11 @@ msgid "Restoring"
 msgstr "Repetición"
 
 #: C/backup-restore.page:37(p)
+#, fuzzy
+#| msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgid ""
-"Select <guiseq><gui>File</gui><gui>Restore Evolution Settings...</gui></"
-"guiseq>."
-msgstr ""
+"Select <guiseq><gui>File</gui><gui>Restore Evolution Data...</gui></guiseq>."
+msgstr "Pulse <guiseq><gui>Archivo</gui><gui>Importar</gui></guiseq>."
 
 #: C/backup-restore.page:38(p)
 #, fuzzy
