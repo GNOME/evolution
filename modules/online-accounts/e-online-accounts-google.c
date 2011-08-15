@@ -192,9 +192,10 @@ online_accounts_google_sync_mail (GoaObject *goa_object,
 
 	/* Always == SSL (port 993) */
 	if (goa_mail_get_imap_use_tls (goa_mail))
-		camel_url_set_param (url, "use_ssl", "always");
+		string = "ssl-on-alternate-port";
 	else
-		camel_url_set_param (url, "use_ssl", "never");
+		string = "none";
+	camel_url_set_param (url, "security-method", string);
 
 	string = goa_account_get_id (goa_account);
 	camel_url_set_param (url, GOA_KEY, string);
@@ -228,9 +229,10 @@ online_accounts_google_sync_mail (GoaObject *goa_object,
 
 	/* When-Possible == STARTTLS */
 	if (goa_mail_get_smtp_use_tls (goa_mail))
-		camel_url_set_param (url, "use_ssl", "when-possible");
+		string = "starttls-on-standard-port";
 	else
-		camel_url_set_param (url, "use_ssl", "never");
+		string = "none";
+	camel_url_set_param (url, "security-method", string);
 
 	string = goa_account_get_id (goa_account);
 	camel_url_set_param (url, GOA_KEY, string);
