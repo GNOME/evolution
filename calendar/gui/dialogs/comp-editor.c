@@ -1577,6 +1577,13 @@ comp_editor_dispose (GObject *object)
 		priv->view = NULL;
 	}
 
+	if (priv->attachment_view) {
+		g_signal_handlers_disconnect_matched (G_OBJECT (e_attachment_view_get_store (E_ATTACHMENT_VIEW (priv->attachment_view))),
+						      G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL,
+						      object);
+	}
+
 	/* We want to destroy the pages after the widgets get destroyed,
 	   since they have lots of signal handlers connected to the widgets
 	   with the pages as the data. */
