@@ -76,64 +76,55 @@ void
 imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
-	EAccount *original_account;
+	CamelFetchHeadersType fetch_headers;
+	CamelSettings *settings;
 	EAccount *modified_account;
 	gboolean use_imap = g_getenv ("USE_IMAP") != NULL;
 
 	target_account = (EMConfigTargetAccount *) data->config->target;
-	original_account = target_account->original_account;
 	modified_account = target_account->modified_account;
+	settings = target_account->settings;
 
 	if (g_str_has_prefix (modified_account->source->url, "imap://") ||
 			(use_imap && g_str_has_prefix (modified_account->source->url, "groupwise://"))) {
-		EAccountList *accounts = e_get_account_list ();
-		CamelURL *url = NULL;
 		GtkTreeModel *model;
 		GtkTreeIter iter;
-		GString *str;
-		gchar *header = NULL;
-
-		str = g_string_new("");
-
-		url = camel_url_new (
-			e_account_get_string (
-			modified_account, E_ACCOUNT_SOURCE_URL), NULL);
+		gint n_children;
+		gchar **strv = NULL;
+		gboolean valid;
+		gint ii = 0;
 
 		model = gtk_tree_view_get_model (ui->custom_headers_tree);
-		if (gtk_tree_model_get_iter_first (model, &iter)) {
-			do
-			{
-				header = NULL;
-				gtk_tree_model_get (model, &iter, 0, &header, -1);
-				str = g_string_append (str, g_strstrip (header));
-				str = g_string_append (str, " ");
-				g_free (header);
-			} while (gtk_tree_model_iter_next (model, &iter));
+		n_children = gtk_tree_model_iter_n_children (model, NULL);
+
+		if (n_children > 0)
+			strv = g_new0 (gchar *, n_children + 1);
+
+		valid = gtk_tree_model_get_iter_first (model, &iter);
+
+		while (valid) {
+			gchar *header;
+
+			g_warn_if_fail (ii < n_children);
+			gtk_tree_model_get (model, &iter, 0, &header, -1);
+			strv[ii++] = g_strstrip (header);
+
+			valid = gtk_tree_model_iter_next (model, &iter);
 		}
 
-		header = g_strstrip (g_strdup (str->str));
-		camel_url_set_param (url, "imap_custom_headers", header);
-		g_free (header);
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ui->all_headers)))
+			fetch_headers = CAMEL_FETCH_HEADERS_ALL;
+		else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ui->basic_headers)))
+			fetch_headers = CAMEL_FETCH_HEADERS_BASIC;
+		else
+			fetch_headers = CAMEL_FETCH_HEADERS_BASIC_AND_MAILING_LIST;
 
-		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ui->all_headers))) {
-			camel_url_set_param (url, "all_headers", "1");
-			camel_url_set_param (url, "basic_headers", NULL);
-		} else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ui->basic_headers))) {
-			camel_url_set_param (url, "basic_headers", "1");
-			camel_url_set_param (url, "all_headers", NULL);
-		} else {
-			camel_url_set_param (url, "all_headers", NULL);
-			camel_url_set_param (url, "basic_headers", NULL);
-		}
+		g_object_set (
+			settings,
+			"fetch-headers", fetch_headers,
+			"fetch-headers-extra", strv, NULL);
 
-		/* FIXME Leaking URL string? */
-		e_account_set_string (
-			original_account, E_ACCOUNT_SOURCE_URL,
-			camel_url_to_string (url, 0));
-		camel_url_free (url);
-		g_string_free (str, TRUE);
-		e_account_list_change (accounts, original_account);
-		e_account_list_save (accounts);
+		g_strfreev (strv);
 	}
 }
 
@@ -242,15 +233,6 @@ epif_remove_header_clicked (GtkButton *button, EPImapFeaturesData *ui)
 }
 
 static void
-epif_fetch_all_headers_toggled (GtkWidget *all_option, EPImapFeaturesData *ui)
-{
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (all_option)))
-		gtk_widget_set_sensitive (ui->custom_headers_box, FALSE);
-	else
-		gtk_widget_set_sensitive (ui->custom_headers_box, TRUE);
-}
-
-static void
 epif_entry_changed (GtkWidget *entry, EPImapFeaturesData *ui)
 {
 	epif_add_sensitivity (ui);
@@ -260,23 +242,33 @@ GtkWidget *
 org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
+	CamelSettings *settings;
 	EAccount *account;
 	GtkWidget *vbox;
-	CamelURL *url = NULL;
 	GtkBuilder *builder;
+	GtkWidget *button;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
 	GtkTreeIter iter;
 	GtkTreeSelection *selection;
+	CamelFetchHeadersType fetch_headers = 0;
+	gchar **extra_headers = NULL;
 	gboolean use_imap = g_getenv ("USE_IMAP") != NULL;
+	guint ii, length = 0;
 
 	ui = g_new0 (EPImapFeaturesData, 1);
 
 	target_account = (EMConfigTargetAccount *) data->config->target;
 	account = target_account->modified_account;
+	settings = target_account->settings;
 
 	if (!g_str_has_prefix (account->source->url, "imap://") && !(use_imap && g_str_has_prefix (account->source->url, "groupwise://")))
 		return NULL;
+
+	g_object_get (
+		settings,
+		"fetch-headers", &fetch_headers,
+		"fetch-headers-extra", &extra_headers, NULL);
 
 	builder = gtk_builder_new ();
 	e_load_ui_builder_definition (builder, "imap-headers.ui");
@@ -291,44 +283,48 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	ui->remove_header = GTK_BUTTON(e_builder_get_widget (builder, "removeHeader"));
 	ui->entry_header = GTK_ENTRY (e_builder_get_widget (builder, "customHeaderEntry"));
 
-	url = camel_url_new (e_account_get_string (account, E_ACCOUNT_SOURCE_URL), NULL);
+	g_object_bind_property (
+		ui->all_headers, "active",
+		ui->custom_headers_box, "sensitive",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 
 	ui->store = gtk_tree_store_new (1, G_TYPE_STRING);
 	gtk_tree_view_set_model (ui->custom_headers_tree, GTK_TREE_MODEL (ui->store));
 
 	selection = gtk_tree_view_get_selection (ui->custom_headers_tree);
 
-	if (url) {
-		gchar *custom_headers;
+	if (extra_headers != NULL)
+		length = g_strv_length (extra_headers);
 
-		custom_headers = g_strdup(camel_url_get_param (url, "imap_custom_headers"));
-		if (custom_headers) {
-			gint i=0;
+	for (ii = 0; ii < length; ii++) {
 
-			ui->custom_headers_array = g_strsplit (custom_headers, " ", -1);
-			while (ui->custom_headers_array[i] ) {
-				if (strlen (g_strstrip (ui->custom_headers_array[i]))) {
-					gtk_tree_store_append (ui->store, &iter, NULL);
-					gtk_tree_store_set (ui->store, &iter, 0, ui->custom_headers_array[i], -1);
+		/* Skip empty strings. */
+		g_strstrip (extra_headers[ii]);
+		if (*extra_headers[ii] == '\0')
+			continue;
 
-					if (i == 0)
-						gtk_tree_selection_select_iter (selection, &iter);
-				}
-				i++;
-			}
-			g_strfreev (ui->custom_headers_array);
-
-		}
-		g_free (custom_headers);
-
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ui->mailing_list_headers), TRUE);
-		if (camel_url_get_param (url, "all_headers")) {
-				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ui->all_headers), TRUE);
-				gtk_widget_set_sensitive (ui->custom_headers_box, FALSE);
-		} else if (camel_url_get_param (url, "basic_headers"))
-				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ui->basic_headers), TRUE);
-		camel_url_free (url);
+		gtk_tree_store_append (ui->store, &iter, NULL);
+		gtk_tree_store_set (ui->store, &iter, 0, extra_headers[ii], -1);
 	}
+
+	switch (fetch_headers) {
+		case CAMEL_FETCH_HEADERS_ALL:
+			button = ui->all_headers;
+			break;
+		case CAMEL_FETCH_HEADERS_BASIC:
+			button = ui->basic_headers;
+			break;
+		default:
+			button = ui->mailing_list_headers;
+			break;
+	}
+
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (button), TRUE);
+
+	g_strfreev (extra_headers);
+
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (_("Custom Headers"), renderer, "text", 0, NULL);
 	gtk_tree_view_append_column (ui->custom_headers_tree , column);
@@ -336,7 +332,6 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->add_header), FALSE);
 	epif_tv_selection_changed (selection, GTK_WIDGET (ui->remove_header));
 
-	g_signal_connect (ui->all_headers, "toggled", G_CALLBACK (epif_fetch_all_headers_toggled), ui);
 	g_signal_connect (ui->add_header, "clicked", G_CALLBACK (epif_add_header), ui);
 	g_signal_connect (ui->remove_header, "clicked", G_CALLBACK (epif_remove_header_clicked), ui);
 	g_signal_connect (ui->entry_header, "changed", G_CALLBACK (epif_entry_changed), ui);
