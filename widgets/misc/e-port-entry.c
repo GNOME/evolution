@@ -23,6 +23,7 @@
 struct _EPortEntryPrivate {
 	guint port;
 	gboolean is_valid;
+	CamelNetworkSecurityMethod method;
 };
 
 enum {
@@ -34,7 +35,8 @@ enum {
 enum {
 	PROP_0,
 	PROP_IS_VALID,
-	PROP_PORT
+	PROP_PORT,
+	PROP_SECURITY_METHOD
 };
 
 G_DEFINE_TYPE (
@@ -70,50 +72,6 @@ port_entry_get_model_active_port (EPortEntry *port_entry)
 	}
 
 	return atoi (port);
-}
-
-static void
-port_entry_set_property (GObject *object,
-                         guint property_id,
-                         const GValue *value,
-                         GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_IS_VALID:
-			port_entry_set_is_valid (
-				E_PORT_ENTRY (object),
-				g_value_get_boolean (value));
-			return;
-		case PROP_PORT:
-			e_port_entry_set_port (
-				E_PORT_ENTRY (object),
-				g_value_get_uint (value));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-port_entry_get_property (GObject *object,
-                         guint property_id,
-                         GValue *value,
-                         GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_IS_VALID:
-			g_value_set_boolean (
-				value, e_port_entry_is_valid (
-				E_PORT_ENTRY (object)));
-			return;
-		case PROP_PORT:
-			g_value_set_uint (
-				value, e_port_entry_get_port (
-				E_PORT_ENTRY (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
@@ -161,6 +119,81 @@ port_entry_port_changed (EPortEntry *port_entry)
 	}
 
 	g_object_notify (G_OBJECT (port_entry), "port");
+}
+
+static void
+port_entry_method_changed (EPortEntry *port_entry)
+{
+	CamelNetworkSecurityMethod method;
+
+	method = e_port_entry_get_security_method (port_entry);
+
+	switch (method) {
+		case CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT:
+			e_port_entry_activate_secured_port (port_entry, 0);
+			break;
+		default:
+			e_port_entry_activate_nonsecured_port (port_entry, 0);
+			break;
+	}
+}
+
+static void
+port_entry_set_property (GObject *object,
+                         guint property_id,
+                         const GValue *value,
+                         GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_IS_VALID:
+			port_entry_set_is_valid (
+				E_PORT_ENTRY (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_PORT:
+			e_port_entry_set_port (
+				E_PORT_ENTRY (object),
+				g_value_get_uint (value));
+			return;
+
+		case PROP_SECURITY_METHOD:
+			e_port_entry_set_security_method (
+				E_PORT_ENTRY (object),
+				g_value_get_enum (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+port_entry_get_property (GObject *object,
+                         guint property_id,
+                         GValue *value,
+                         GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_IS_VALID:
+			g_value_set_boolean (
+				value, e_port_entry_is_valid (
+				E_PORT_ENTRY (object)));
+			return;
+
+		case PROP_PORT:
+			g_value_set_uint (
+				value, e_port_entry_get_port (
+				E_PORT_ENTRY (object)));
+			return;
+
+		case PROP_SECURITY_METHOD:
+			g_value_set_enum (
+				value, e_port_entry_get_security_method (
+				E_PORT_ENTRY (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
@@ -236,7 +269,8 @@ e_port_entry_class_init (EPortEntryClass *class)
 			NULL,
 			NULL,
 			FALSE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -248,7 +282,20 @@ e_port_entry_class_init (EPortEntryClass *class)
 			0,		/* Min port, 0 = invalid port */
 			G_MAXUINT16,	/* Max port */
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SECURITY_METHOD,
+		g_param_spec_enum (
+			"security-method",
+			"Security Method",
+			"Method used to establish a network connection",
+			CAMEL_TYPE_NETWORK_SECURITY_METHOD,
+			CAMEL_NETWORK_SECURITY_METHOD_NONE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -292,6 +339,10 @@ e_port_entry_init (EPortEntry *port_entry)
 	g_signal_connect (
 		port_entry, "changed",
 		G_CALLBACK (port_entry_port_changed), NULL);
+
+	g_signal_connect (
+		port_entry, "notify::security-method",
+		G_CALLBACK (port_entry_method_changed), NULL);
 }
 
 GtkWidget *
@@ -340,20 +391,6 @@ e_port_entry_set_camel_entries (EPortEntry *port_entry,
 		e_port_entry_set_port (port_entry, entries[0].port);
 }
 
-void
-e_port_entry_security_port_changed (EPortEntry *port_entry,
-                                    gchar *ssl)
-{
-	g_return_if_fail (E_IS_PORT_ENTRY (port_entry));
-	g_return_if_fail (ssl != NULL);
-
-	if (strcmp (ssl, "always") == 0) {
-		e_port_entry_activate_secured_port (port_entry, 0);
-	} else {
-		e_port_entry_activate_nonsecured_port (port_entry, 0);
-	}
-}
-
 gint
 e_port_entry_get_port (EPortEntry *port_entry)
 {
@@ -400,6 +437,27 @@ e_port_entry_is_valid (EPortEntry *port_entry)
 	g_return_val_if_fail (E_IS_PORT_ENTRY (port_entry), FALSE);
 
 	return port_entry->priv->is_valid;
+}
+
+CamelNetworkSecurityMethod
+e_port_entry_get_security_method (EPortEntry *port_entry)
+{
+	g_return_val_if_fail (
+		E_IS_PORT_ENTRY (port_entry),
+		CAMEL_NETWORK_SECURITY_METHOD_NONE);
+
+	return port_entry->priv->method;
+}
+
+void
+e_port_entry_set_security_method (EPortEntry *port_entry,
+                                  CamelNetworkSecurityMethod method)
+{
+	g_return_if_fail (E_IS_PORT_ENTRY (port_entry));
+
+	port_entry->priv->method = method;
+
+	g_object_notify (G_OBJECT (port_entry), "security-method");
 }
 
 /**

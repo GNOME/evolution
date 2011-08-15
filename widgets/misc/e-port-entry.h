@@ -60,22 +60,27 @@ struct _EPortEntryClass {
 	GtkComboBoxClass parent_class;
 };
 
-GType		e_port_entry_get_type		(void) G_GNUC_CONST;
-GtkWidget *	e_port_entry_new		(void);
-void		e_port_entry_set_camel_entries	(EPortEntry *pentry,
-						 CamelProviderPortEntry *entries);
-void		e_port_entry_security_port_changed
-						(EPortEntry *pentry,
-						 gchar *ssl);
-gint		e_port_entry_get_port		(EPortEntry *pentry);
-void		e_port_entry_set_port		(EPortEntry *pentry, gint port);
-gboolean	e_port_entry_is_valid		(EPortEntry *pentry);
+GType		e_port_entry_get_type	(void) G_GNUC_CONST;
+GtkWidget *	e_port_entry_new	(void);
+void		e_port_entry_set_camel_entries
+					(EPortEntry *port_entry,
+					 CamelProviderPortEntry *entries);
+gint		e_port_entry_get_port	(EPortEntry *port_entry);
+void		e_port_entry_set_port	(EPortEntry *port_entry,
+					 gint port);
+gboolean	e_port_entry_is_valid	(EPortEntry *port_entry);
+CamelNetworkSecurityMethod
+		e_port_entry_get_security_method
+					(EPortEntry *port_entry);
+void		e_port_entry_set_security_method
+					(EPortEntry *port_entry,
+					 CamelNetworkSecurityMethod method);
 void		e_port_entry_activate_secured_port
-						(EPortEntry *pentry,
-						 gint index);
+					(EPortEntry *port_entry,
+					 gint index);
 void		e_port_entry_activate_nonsecured_port
-						(EPortEntry *pentry,
-						 gint index);
+					(EPortEntry *port_entry,
+					 gint index);
 
 G_END_DECLS
 
