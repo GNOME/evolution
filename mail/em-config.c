@@ -133,6 +133,8 @@ em_config_target_free (EConfig *ep,
 			g_object_unref (s->original_account);
 		if (s->modified_account != NULL)
 			g_object_unref (s->modified_account);
+		if (s->settings != NULL)
+			g_object_unref (s->settings);
 		break; }
 	}
 
@@ -206,7 +208,8 @@ em_config_target_new_prefs (EMConfig *emp,
 EMConfigTargetAccount *
 em_config_target_new_account (EMConfig *emp,
                               EAccount *original_account,
-                              EAccount *modified_account)
+                              EAccount *modified_account,
+                              CamelSettings *settings)
 {
 	EMConfigTargetAccount *t;
 
@@ -222,6 +225,11 @@ em_config_target_new_account (EMConfig *emp,
 		t->modified_account = g_object_ref (modified_account);
 	else
 		t->modified_account = NULL;
+
+	if (settings != NULL)
+		t->settings = g_object_ref (settings);
+	else
+		t->settings = NULL;
 
 	return t;
 }

@@ -65,6 +65,7 @@ struct _EMConfigTargetAccount {
 
 	EAccount *original_account;
 	EAccount *modified_account;
+	CamelSettings *settings;
 };
 
 typedef struct _EConfigItem EMConfigItem;
@@ -90,7 +91,8 @@ EMConfigTargetPrefs *
 EMConfigTargetAccount *
 		em_config_target_new_account	(EMConfig *emp,
 						 EAccount *original_account,
-						 EAccount *modified_account);
+						 EAccount *modified_account,
+						 CamelSettings *settings);
 
 G_END_DECLS
 
