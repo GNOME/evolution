@@ -549,7 +549,7 @@ create_review (MailAccountView *view)
 	gtk_widget_show (label);
 	PACK_BOX (label);
 	gtk_table_attach ((GtkTable *) table, box, 0, 1, 7, 8, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
-	enc = (gchar *)camel_url_get_param(url, "use_ssl");
+	enc = (gchar *)camel_url_get_param(url, "security-method");
 	entry = gtk_label_new (enc ? enc : _("never"));
 	gtk_widget_show (entry);
 	PACK_BOX (entry);
@@ -584,7 +584,7 @@ create_review (MailAccountView *view)
 	PACK_BOX (entry);
 	gtk_table_attach ((GtkTable *) table, box, 2, 3, 6, 7, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
-	enc = (gchar *)camel_url_get_param(url, "use_ssl");
+	enc = (gchar *)camel_url_get_param(url, "security-method");
 	entry = gtk_label_new (enc ? enc : _("never"));
 	gtk_widget_show (entry);
 	PACK_BOX (entry);
@@ -661,13 +661,13 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 
 		e_account_set_string (em_account_editor_get_modified_account (mav->edit), E_ACCOUNT_NAME, e_account_get_string (em_account_editor_get_modified_account (mav->edit), E_ACCOUNT_ID_ADDRESS));
 		if (uri != NULL && (url = camel_url_new (uri, NULL)) != NULL) {
-			camel_url_set_param(url, "check_all", "1");
-			camel_url_set_param(url, "sync_offline", "1");
+			camel_url_set_param(url, "check-all", "true");
+			camel_url_set_param(url, "stay-synchronized", "true");
 			if (!mav->original) {
 				e_account_set_bool (em_account_editor_get_modified_account (mav->edit), E_ACCOUNT_SOURCE_AUTO_CHECK, TRUE);
 			}
 
-			if (!mav->original && strcmp(url->protocol, "pop") == 0) {
+			if (!mav->original && strcmp (url->protocol, "pop") == 0) {
 				e_account_set_bool (em_account_editor_get_modified_account (mav->edit), E_ACCOUNT_SOURCE_KEEP_ON_SERVER, TRUE);
 			}
 
@@ -991,47 +991,45 @@ emae_check_servers (const gchar *email)
 	sdata->recv_port = provider->recv_port;
 	sdata->send = provider->send_hostname;
 	sdata->send_port = provider->send_port;
-	if (strcmp(provider->recv_type, "pop3") == 0)
-		sdata->proto = g_strdup("pop");
-	else if (strcmp(provider->recv_type, "imap") == 0)
-		sdata->proto = g_strdup("imapx");
+	if (strcmp (provider->recv_type, "pop3") == 0)
+		sdata->proto = g_strdup ("pop");
+	else if (strcmp (provider->recv_type, "imap") == 0)
+		sdata->proto = g_strdup ("imapx");
 	else
 		sdata->proto = provider->recv_type;
 	if (provider->recv_socket_type) {
-		if (g_ascii_strcasecmp(provider->recv_socket_type, "SSL") == 0) {
-			sdata->ssl = g_strdup("always");
-			sdata->recv_sock = g_strdup("always");
-		}
-		else if (g_ascii_strcasecmp(provider->recv_socket_type, "secure") == 0) {
-			sdata->ssl = g_strdup("always");
-			sdata->recv_sock = g_strdup("always");
-		}
-		else if (g_ascii_strcasecmp(provider->recv_socket_type, "STARTTLS") == 0) {
-			sdata->ssl = g_strdup("when-possible");
-			sdata->recv_sock = g_strdup("when-possible");
-		}
-		else if (g_ascii_strcasecmp(provider->recv_socket_type, "TLS") == 0) {
-			sdata->ssl = g_strdup("when-possible");
-			sdata->recv_sock = g_strdup("when-possible");
-		}
-		else {
-			sdata->ssl = g_strdup("never");
-			sdata->recv_sock = g_strdup("never");
-		}
+		CamelNetworkSecurityMethod method;
 
+		if (g_ascii_strcasecmp (provider->recv_socket_type, "SSL") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+		else if (g_ascii_strcasecmp (provider->recv_socket_type, "secure") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+		else if (g_ascii_strcasecmp (provider->recv_socket_type, "STARTTLS") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT;
+		else if (g_ascii_strcasecmp (provider->recv_socket_type, "TLS") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT;
+		else
+			method = CAMEL_NETWORK_SECURITY_METHOD_NONE;
+
+		sdata->security_method = method;
+		sdata->recv_security_method = method;
 	}
 
 	if (provider->send_socket_type) {
-		if (g_ascii_strcasecmp(provider->send_socket_type, "SSL") == 0)
-			sdata->send_sock = g_strdup("always");
-		else if (g_ascii_strcasecmp(provider->send_socket_type, "secure") == 0)
-			sdata->send_sock = g_strdup("always");
-		else if (g_ascii_strcasecmp(provider->send_socket_type, "STARTTLS") == 0)
-			sdata->send_sock = g_strdup("when-possible");
-		else if (g_ascii_strcasecmp(provider->send_socket_type, "TLS") == 0)
-			sdata->send_sock = g_strdup("when-possible");
+		CamelNetworkSecurityMethod method;
+
+		if (g_ascii_strcasecmp (provider->send_socket_type, "SSL") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+		else if (g_ascii_strcasecmp (provider->send_socket_type, "secure") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+		else if (g_ascii_strcasecmp (provider->send_socket_type, "STARTTLS") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT;
+		else if (g_ascii_strcasecmp (provider->send_socket_type, "TLS") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT;
 		else
-			sdata->send_sock = g_strdup("never");
+			method = CAMEL_NETWORK_SECURITY_METHOD_NONE;
+
+		sdata->send_security_method = method;
 	}
 
 	sdata->send_auth = provider->send_auth;
