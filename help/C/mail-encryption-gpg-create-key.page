@@ -22,7 +22,7 @@
 
   <title>Creating a GPG key</title>
 
-<note>These steps are very technical. For average users we nowadays recommend using the Seahorse application for managing GPG keys.</note>
+<note><p>These steps are very technical. For average users we nowadays recommend using the Seahorse application for managing GPG keys.</p></note>
 <!-- TODO:POST-3-2: Update and rewrite using Seahorse. Needs a complete rewrite once https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed. -->
 
 <p>Before you can get or send GPG encrypted mail, you need to generate your public and private keys with GPG.</p>
@@ -44,7 +44,7 @@
 <p>If you want, you can upload your keys to a key server:</p>
 <steps>
 <item><p>Check your public key ID with <code>gpg --list-keys</code>. It is the string after <code>1024D</code> on the line beginning with <code>pub</code>. In the example above, it is <code>32j38dk2</code>.</p></item>
-<item><p>Enter the command <code>gpg --send-keys --keyserver wwwkeys.pgp.net <varname>32j38dk2</varname></code>. Substitute your key ID for <quote>32j38dk2</quote>. You need your password to do this.</p></item>
+<item><p>Enter the command <code>gpg --send-keys --keyserver wwwkeys.pgp.net 32j38dk2</code>. Substitute your key ID for <code>32j38dk2</code>. You need your password to do this.</p></item>
 </steps>
 
 <p>Key servers store your public keys for you so that your friends can decrypt your messages. If you choose not to use a key server, you can manually send your public key, include it in your signature file, or put it on your own Web page. However, it is easier to publish a key once, and then let people download it from a central place when they want.</p>

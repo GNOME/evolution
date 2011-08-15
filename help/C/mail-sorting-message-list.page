@@ -31,7 +31,7 @@
 <note><p>To view the complete headers for a message, click <guiseq><gui>View</gui><gui>All Message Headers</gui></guiseq>. This will display the complete header data on the viewing pane.</p> 
 <p>To view the message data, click on <guiseq><gui>View</gui><gui>Message Source</gui></guiseq> or press <keyseq><key>Ctrl</key><key>U</key></keyseq>. This will display the message data in a pop-up window.</p></note>
 
-<section id="email threads">
+<section id="email-threads">
 <title>Sorting Mail in Email Threads</title>
 <p>You can use a threaded message view to sort emails. To enable this feature, click on <guiseq><gui>View</gui><gui>Group By Threads</gui></guiseq> or press <keyseq><key>Ctrl</key><key>T</key></keyseq>.</p>
 <p>This feature, when enabled, groups replies with the original email and allows you to follow the flow of the conversation from one message to the next.</p>
@@ -40,22 +40,22 @@
 </note>
 </section>
 
-<section id="column headers">
+<section id="column-headers">
 <title>Sorting Mail with Column Headers</title>
 <p>The message list displays columns that indicate whether a message has been read, whether it has attachments, how important the message is, the sender, date, and the subject. To change the columns used in the message list, you can do one of the following:</p>
 <list>
 <item><p>Drag and drop the column header bars</p></item>
-<item><p>Right-click on the header.</p></item>S
+<item><p>Right-click on the header.</p></item>
 <item><p>Select the <gui>Remove This Column</gui> or <gui>Add a Column</gui> option.</p></item>
 </list>
 
 <p>Evolution allows you to sort your messages using these columns. Just click on the column label to sort the emails. The direction of the arrow next to the label indicates the direction of the sort.</p>
 </section>
 
-<section id="sort options">
+<section id="sort-options">
 <title>Using Other Sorting Options</title>
 <p>Evolution provides other ways for sorting email messages. You can use Sort By, Sort Ascending, Sort Descending, or Unsort.</p>
-	<section>
+	<section id="sort-options-by">
 	<title>Sort By</title>
 		<p>You can also sort email messages using the <gui>Sort By</gui> list.</p>
 		<steps>
@@ -86,7 +86,7 @@
 		</steps>
 	</section>
 
-	<section>
+	<section id="sort-options-ascending">
 	<title>Sort Ascending</title>
 		<steps>
 		<item><p>Right-click on the message list column headers.</p></item>
@@ -95,7 +95,7 @@
 		<p>The messages will be displayed with the most recent at the bottom.</p>
 	</section>
 
-	<section>
+	<section id="sort-options-descending">
 	<title>Sort Descending</title>
 		<steps>
 		<item><p>Right-click on the message list column headers.</p></item>
@@ -104,7 +104,7 @@
 		<p>The messages will be displayed with the most recent at the top.</p>
 	</section>
 
-	<section>
+	<section id="sort-options-unsort">
 	<title>Unsort</title>
 		<steps>
 		<item><p>Right-click on the message list column headers.</p></item>

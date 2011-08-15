@@ -27,6 +27,8 @@
 
 <p>To send a message to more than one person, enter the addresses in the composer by separating them with commas or semicolons.</p>
 
+<note><p>If you frequently write email to the same groups of people, you can create <link xref="contacts-using-contact-lists">contact lists</link> to send them mail as though they have a single address.</p></note>
+
 <section id="to-cc-bcc-meaning">
 <title>Recipient types</title>
 <p>Email messages can have three different types of recipients. The simplest way is to put the email address or addresses in the <gui>To:</gui> text field. The <gui>Cc:</gui> text field is used for recipients that are meant to receive a copy of your message but are not the primary recipients.</p>
@@ -44,8 +46,6 @@
 
 <p>Instead of typing the recipients' names you can also click the <gui style="button">To:</gui>, <gui style="button">Cc:</gui>, or <gui style="button">Bcc:</gui> buttons to get a list of the email addresses in your address books. Select the addresses and click the arrow buttons to move them into the appropriate address columns (To:, Cc:, Bcc:).</p>
 </section>
-
-<note><p>If you frequently write email to the same groups of people, you can create <link xref="contacts-using-contact-lists">contact lists</link> to send them mail as though they have a single address.</p></note>
 
 </page>
 

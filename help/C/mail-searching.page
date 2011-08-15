@@ -66,7 +66,7 @@
 <section id="editing-a-saved-search">
 <title>Editing a Saved Search</title>
 <steps>
-<item><p>Select <guiseq><gui>Search</gui><gui>Edit Saved Searches</gui></guiseq> from the menu bar to open the window.</p>.</item>
+<item><p>Select <guiseq><gui>Search</gui><gui>Edit Saved Searches</gui></guiseq> from the menu bar to open the window.</p></item>
 <item><p>Click the <gui style="button">Edit</gui> button to open the <gui>Edit Rule</gui> window.</p></item>
 <item><p>Edit the title or search conditions from the dialog box.</p></item>
 <item><p>Click <gui>OK</gui>.</p></item>
