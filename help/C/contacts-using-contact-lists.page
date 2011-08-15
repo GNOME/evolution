@@ -40,7 +40,7 @@
 <p>The contact list will be added to the chosen address book in Evolution.</p>
 </section>
 
-<section id="create-contact-list">
+<section id="send-to-contact-list">
 <title>Sending messages to a contact list</title>
 <p>To send a message to the contact list, enter the name that you chose for the contact list as the recipient in the mail composer. You can also right-click the contact list in your address book and select <gui>Send Message to List</gui>.</p>
 </section>

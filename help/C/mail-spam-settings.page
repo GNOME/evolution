@@ -38,6 +38,8 @@
 <item><p>Click <gui>Close</gui>.</p></item>
 </steps>
 
+<note style="tip"><p>The junk mail options discussed in this page refer only to POP and Local Delivery. For handling junk mails on IMAP, see the Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>.</p></note>
+
 <section id="preferences">
 <title>Junk Mail Preferences</title>
 <p>You can modify how Evolution handles junk mail by changing the Junk Mail Preferences:</p>
@@ -57,5 +59,4 @@
 </steps>
 </section>
 
-<note style="tip"><p>The junk mail options discussed in this page refer only to POP and Local Delivery. For handling junk mails on IMAP, see the Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>.</p></note>
 </page>

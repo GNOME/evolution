@@ -61,7 +61,7 @@
 
 </section>
 
-<section id="add-ldap-addressbook">
+<section id="ldap-vs-local-addressbooks">
 <title>Differences to local address books</title>
 
 <p>LDAP address books work like local address books on your computer, with the following exceptions:</p>

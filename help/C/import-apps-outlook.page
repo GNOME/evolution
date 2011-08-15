@@ -35,10 +35,10 @@
     <td></td><td><p>Windows 7, Windows Vista</p></td><td><p>Windows XP</p></td>
   </tr>
   <tr>
-    <td>Outlook 2010</td><td><p><file>C:\Users\username\My Documents\Outlook Files</file></p></td><td><p><file>C:\Documents and Settings\username\My Documents\Outlook Files</file></p></td>
+    <td><p>Outlook 2010</p></td><td><p><file>C:\Users\username\My Documents\Outlook Files</file></p></td><td><p><file>C:\Documents and Settings\username\My Documents\Outlook Files</file></p></td>
   </tr>
   <tr>
-    <td>Outlook 2007 and earlier</td><td><p><file>C:\Users\username\AppData\Local\Microsoft\Outlook</file></p></td><td><p><file>C:\Documents and Settings\username\AppData\Local\Microsoft\Outlook</file></p></td>
+    <td><p>Outlook 2007 and earlier</p></td><td><p><file>C:\Users\username\AppData\Local\Microsoft\Outlook</file></p></td><td><p><file>C:\Documents and Settings\username\AppData\Local\Microsoft\Outlook</file></p></td>
   </tr>
 </table>
 <p>(Replace "username" by your username.)</p>
@@ -53,13 +53,14 @@
 </steps>
 </section>
 
-<section id="prerequisites">
+<section id="importing">
 <title>Importing into Evolution</title>
 <steps>
 <item><p>Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>.</p></item>
 <item><p>In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>.</p></item>
-<item><p>Choose the Outlook personal folders (.pst) file that you would like to import.</p><p>The file type will be automatically determined.</p></item>
+<item><p>Choose the Outlook personal folders (.pst) file that you would like to import.</p><p>The file type will be automatically determined.</p>
 <note style="tip"><p>If the option to import Outlook personal folders (.pst files) is not available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import single file</gui><gui>File type</gui></guiseq>, your distribution might have not enabled this functionality.</p></note>
+</item>
 <item><p>Choose the destination (e.g. the folder in Evolution) for the imported data.</p></item>
 <item><p>Repeat the import steps until you have imported all your data.</p></item>
 </steps>

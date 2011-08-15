@@ -29,8 +29,9 @@
 <item><p>Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq>.</p></item>
 <item><p>Select the account you want to use securely, then click <gui style="button">Edit</gui>.</p></item>
 <item><p>Click the <gui>Security</gui> tab.</p></item>
-<item><p>Specify your key ID in the <gui>PGP/GPG Key ID</gui> field.</p></item>
+<item><p>Specify your key ID in the <gui>PGP/GPG Key ID</gui> field.</p>
 <note style="tip"><p>Below the field you can choose whether to always sign outgoing messages when using this account, and other options.</p></note>
+</item>
 <item><p>Click <gui style="button">OK</gui>.</p></item>
 <item><p>Click <gui style="button">Close</gui>.</p></item>
 </steps>
