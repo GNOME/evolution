@@ -404,8 +404,8 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		state |= E_MAIL_SIDEBAR_FOLDER_IS_STORE;
 	if (is_trash)
 		state |= E_MAIL_SIDEBAR_FOLDER_IS_TRASH;
-	if (camel_store_supports_subscriptions (store))
-		state |= E_MAIL_SIDEBAR_STORE_SUPPORTS_SUBSCRIPTIONS;
+	if (CAMEL_IS_SUBSCRIBABLE (store))
+		state |= E_MAIL_SIDEBAR_STORE_IS_SUBSCRIBABLE;
 
 	g_free (full_name);
 

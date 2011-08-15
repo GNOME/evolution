@@ -845,8 +845,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_is_trash;
 	gboolean folder_has_unread_rec = FALSE;
 	gboolean folder_tree_and_message_list_agree = TRUE;
-	gboolean store_supports_subscriptions;
-	gboolean any_store_supports_subscriptions = FALSE;
+	gboolean store_is_subscribable;
+	gboolean any_store_is_subscribable = FALSE;
 
 	/* Chain up to parent's update_actions() method. */
 	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
@@ -879,8 +879,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		(state & E_MAIL_SIDEBAR_FOLDER_IS_STORE);
 	folder_is_trash =
 		(state & E_MAIL_SIDEBAR_FOLDER_IS_TRASH);
-	store_supports_subscriptions =
-		(state & E_MAIL_SIDEBAR_STORE_SUPPORTS_SUBSCRIPTIONS);
+	store_is_subscribable =
+		(state & E_MAIL_SIDEBAR_STORE_IS_SUBSCRIBABLE);
 
 	uri = em_folder_tree_get_selected_uri (folder_tree);
 	account = em_folder_tree_get_selected_account (folder_tree);
@@ -934,8 +934,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		CamelStore *store = CAMEL_STORE (link->data);
 
-		if (camel_store_supports_subscriptions (store)) {
-			any_store_supports_subscriptions = TRUE;
+		if (CAMEL_IS_SUBSCRIBABLE (store)) {
+			any_store_is_subscribable = TRUE;
 			break;
 		}
 	}
@@ -1002,7 +1002,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (MAIL_FOLDER_UNSUBSCRIBE);
 	sensitive =
-		store_supports_subscriptions &&
+		store_is_subscribable &&
 		!folder_is_store && folder_can_be_deleted;
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -1011,11 +1011,11 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_MANAGE_SUBSCRIPTIONS);
-	sensitive = folder_is_store && store_supports_subscriptions;
+	sensitive = folder_is_store && store_is_subscribable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_TOOLS_SUBSCRIPTIONS);
-	sensitive = any_store_supports_subscriptions;
+	sensitive = any_store_is_subscribable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	e_mail_shell_view_update_popup_labels (mail_shell_view);

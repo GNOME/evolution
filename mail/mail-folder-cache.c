@@ -515,7 +515,7 @@ store_folder_created_cb (CamelStore *store,
 {
 	/* We only want created events to do more work
 	 * if we dont support subscriptions. */
-	if (!camel_store_supports_subscriptions (store))
+	if (!CAMEL_IS_SUBSCRIBABLE (store))
 		store_folder_subscribed_cb (store, info, cache);
 }
 
@@ -555,7 +555,7 @@ store_folder_deleted_cb (CamelStore *store,
 {
 	/* We only want deleted events to do more work
 	 * if we dont support subscriptions. */
-	if (!camel_store_supports_subscriptions (store))
+	if (!CAMEL_IS_SUBSCRIBABLE (store))
 		store_folder_unsubscribed_cb (store, info, self);
 }
 
@@ -1177,6 +1177,9 @@ mail_folder_cache_note_store (MailFolderCache *self,
 		g_signal_connect (
 			store, "folder-renamed",
 			G_CALLBACK (store_folder_renamed_cb), self);
+	}
+
+	if (hook && CAMEL_IS_SUBSCRIBABLE (store)) {
 		g_signal_connect (
 			store, "folder-subscribed",
 			G_CALLBACK (store_folder_subscribed_cb), self);

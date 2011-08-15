@@ -102,8 +102,11 @@ store_info_free (EMFolderTreeModelStoreInfo *si)
 	g_signal_handler_disconnect (si->store, si->created_id);
 	g_signal_handler_disconnect (si->store, si->deleted_id);
 	g_signal_handler_disconnect (si->store, si->renamed_id);
-	g_signal_handler_disconnect (si->store, si->subscribed_id);
-	g_signal_handler_disconnect (si->store, si->unsubscribed_id);
+
+	if (si->subscribed_id > 0)
+		g_signal_handler_disconnect (si->store, si->subscribed_id);
+	if (si->unsubscribed_id > 0)
+		g_signal_handler_disconnect (si->store, si->unsubscribed_id);
 
 	g_object_unref (si->store);
 	gtk_tree_row_reference_free (si->row);
@@ -922,7 +925,7 @@ folder_created_cb (CamelStore *store,
 
 	/* We only want created events to do more
 	 * work if we don't support subscriptions. */
-	if (camel_store_supports_subscriptions (store))
+	if (CAMEL_IS_SUBSCRIBABLE (store))
 		return;
 
 	/* process "folder-created" event only when store already loaded */
@@ -940,7 +943,7 @@ folder_deleted_cb (CamelStore *store,
 {
 	/* We only want deleted events to do more
 	 * work if we don't support subscriptions. */
-	if (camel_store_supports_subscriptions (store))
+	if (CAMEL_IS_SUBSCRIBABLE (store))
 		return;
 
 	folder_unsubscribed_cb (store, fi, model);
@@ -1080,12 +1083,14 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	si->renamed_id = g_signal_connect (
 		store, "folder_renamed",
 		G_CALLBACK (folder_renamed_cb), model);
-	si->subscribed_id = g_signal_connect (
-		store, "folder_subscribed",
-		G_CALLBACK (folder_subscribed_cb), model);
-	si->unsubscribed_id = g_signal_connect (
-		store, "folder_unsubscribed",
-		G_CALLBACK (folder_unsubscribed_cb), model);
+	if (CAMEL_IS_SUBSCRIBABLE (store)) {
+		si->subscribed_id = g_signal_connect (
+			store, "folder_subscribed",
+			G_CALLBACK (folder_subscribed_cb), model);
+		si->unsubscribed_id = g_signal_connect (
+			store, "folder_unsubscribed",
+			G_CALLBACK (folder_unsubscribed_cb), model);
+	}
 
 	g_signal_emit (model, signals[LOADED_ROW], 0, path, &root);
 	gtk_tree_path_free (path);
