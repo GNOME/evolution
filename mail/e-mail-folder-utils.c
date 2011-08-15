@@ -746,9 +746,10 @@ mail_folder_remove_recursive (CamelStore *store,
 
 		/* If the store supports subscriptions,
 		 * then unsubscribe from this folder. */
-		if (camel_store_supports_subscriptions (store)) {
-			success = camel_store_unsubscribe_folder_sync (
-				store, folder_info->full_name,
+		if (CAMEL_IS_SUBSCRIBABLE (store)) {
+			success = camel_subscribable_unsubscribe_folder_sync (
+				CAMEL_SUBSCRIBABLE (store),
+				folder_info->full_name,
 				cancellable, error);
 			if (!success)
 				break;

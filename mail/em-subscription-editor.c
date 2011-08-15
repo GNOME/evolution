@@ -267,7 +267,7 @@ exit:
 }
 
 static void
-subscription_editor_subscribe_folder_done (CamelStore *store,
+subscription_editor_subscribe_folder_done (CamelSubscribable *subscribable,
                                            GAsyncResult *result,
                                            AsyncContext *context)
 {
@@ -279,7 +279,8 @@ subscription_editor_subscribe_folder_done (CamelStore *store,
 	GdkWindow *window;
 	GError *error = NULL;
 
-	camel_store_subscribe_folder_finish (store, result, &error);
+	camel_subscribable_subscribe_folder_finish (
+		subscribable, result, &error);
 
 	/* Just return quietly if we were cancelled. */
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -319,7 +320,7 @@ exit:
 }
 
 static void
-subscription_editor_unsubscribe_folder_done (CamelStore *store,
+subscription_editor_unsubscribe_folder_done (CamelSubscribable *subscribable,
                                              GAsyncResult *result,
                                              AsyncContext *context)
 {
@@ -331,7 +332,8 @@ subscription_editor_unsubscribe_folder_done (CamelStore *store,
 	GdkWindow *window;
 	GError *error = NULL;
 
-	camel_store_unsubscribe_folder_finish (store, result, &error);
+	camel_subscribable_unsubscribe_folder_finish (
+		subscribable, result, &error);
 
 	/* Just return quietly if we were cancelled. */
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -373,6 +375,7 @@ exit:
 static void
 subscription_editor_subscribe (EMSubscriptionEditor *editor)
 {
+	CamelStore *active_store;
 	CamelFolderInfo *folder_info;
 	GtkTreeRowReference *reference;
 	GtkTreeSelection *selection;
@@ -421,8 +424,10 @@ subscription_editor_subscribe (EMSubscriptionEditor *editor)
 	context->folder_info = folder_info;
 	context->reference = reference;
 
-	camel_store_subscribe_folder (
-		editor->priv->active->store,
+	active_store = editor->priv->active->store;
+
+	camel_subscribable_subscribe_folder (
+		CAMEL_SUBSCRIBABLE (active_store),
 		folder_info->full_name, G_PRIORITY_DEFAULT,
 		editor->priv->active->cancellable, (GAsyncReadyCallback)
 		subscription_editor_subscribe_folder_done, context);
@@ -431,6 +436,7 @@ subscription_editor_subscribe (EMSubscriptionEditor *editor)
 static void
 subscription_editor_unsubscribe (EMSubscriptionEditor *editor)
 {
+	CamelStore *active_store;
 	CamelFolderInfo *folder_info;
 	GtkTreeRowReference *reference;
 	GtkTreeSelection *selection;
@@ -479,8 +485,10 @@ subscription_editor_unsubscribe (EMSubscriptionEditor *editor)
 	context->folder_info = folder_info;
 	context->reference = reference;
 
-	camel_store_unsubscribe_folder (
-		editor->priv->active->store,
+	active_store = editor->priv->active->store;
+
+	camel_subscribable_unsubscribe_folder (
+		CAMEL_SUBSCRIBABLE (active_store),
 		folder_info->full_name, G_PRIORITY_DEFAULT,
 		editor->priv->active->cancellable, (GAsyncReadyCallback)
 		subscription_editor_unsubscribe_folder_done, context);
@@ -908,7 +916,7 @@ subscription_editor_set_store (EMSubscriptionEditor *editor,
 {
 	g_return_if_fail (editor->priv->initial_store == NULL);
 
-	if (CAMEL_IS_STORE (store))
+	if (CAMEL_IS_SUBSCRIBABLE (store))
 		editor->priv->initial_store = g_object_ref (store);
 }
 
@@ -1029,7 +1037,7 @@ subscription_editor_constructed (GObject *object)
 		session = em_subscription_editor_get_session (editor);
 		service = camel_session_get_service (session, account->uid);
 
-		if (CAMEL_IS_STORE (service))
+		if (CAMEL_IS_SUBSCRIBABLE (service))
 			editor->priv->initial_store = g_object_ref (service);
 	}
 
@@ -1059,7 +1067,7 @@ subscription_editor_realize (GtkWidget *widget)
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		CamelStore *store = CAMEL_STORE (link->data);
 
-		if (!camel_store_supports_subscriptions (store))
+		if (!CAMEL_IS_SUBSCRIBABLE (store))
 			continue;
 
 		if (store == editor->priv->initial_store)

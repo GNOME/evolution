@@ -877,8 +877,9 @@ e_mail_session_unsubscribe_folder_sync (EMailSession *session,
 	success =
 		em_utils_connect_service_sync (
 			CAMEL_SERVICE (store), cancellable, error) &&
-		camel_store_unsubscribe_folder_sync (
-			store, folder_name, cancellable, error);
+		camel_subscribable_unsubscribe_folder_sync (
+			CAMEL_SUBSCRIBABLE (store),
+			folder_name, cancellable, error);
 
 	camel_operation_pop_message (cancellable);
 

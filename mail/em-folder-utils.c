@@ -194,9 +194,10 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 						goto exception;
 
 					/* this folder no longer exists, unsubscribe it */
-					if (camel_store_supports_subscriptions (m->fromstore))
-						camel_store_unsubscribe_folder_sync (
-							m->fromstore, info->full_name, NULL, NULL);
+					if (CAMEL_IS_SUBSCRIBABLE (m->fromstore))
+						camel_subscribable_unsubscribe_folder_sync (
+							CAMEL_SUBSCRIBABLE (m->fromstore),
+							info->full_name, NULL, NULL);
 
 					deleted = 1;
 				} else {
@@ -238,10 +239,13 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 				deleting = g_list_prepend (deleting, info);
 
 			/* subscribe to the new folder if appropriate */
-			if (camel_store_supports_subscriptions (m->tostore)
-			    && !camel_store_folder_is_subscribed (m->tostore, toname->str))
-				camel_store_subscribe_folder_sync (
-					m->tostore, toname->str, NULL, NULL);
+			if (CAMEL_IS_SUBSCRIBABLE (m->tostore)
+			    && !camel_subscribable_folder_is_subscribed (
+					CAMEL_SUBSCRIBABLE (m->tostore),
+					toname->str))
+				camel_subscribable_subscribe_folder_sync (
+					CAMEL_SUBSCRIBABLE (m->tostore),
+					toname->str, NULL, NULL);
 
 			info = info->next;
 		}
@@ -258,9 +262,10 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 		/* FIXME: we need to do something with the exception
 		   since otherwise the users sees a failed operation
 		   with no error message or even any warnings */
-		if (camel_store_supports_subscriptions (m->fromstore))
-			camel_store_unsubscribe_folder_sync (
-				m->fromstore, info->full_name, NULL, NULL);
+		if (CAMEL_IS_SUBSCRIBABLE (m->fromstore))
+			camel_subscribable_unsubscribe_folder_sync (
+				CAMEL_SUBSCRIBABLE (m->fromstore),
+				info->full_name, NULL, NULL);
 
 		camel_store_delete_folder_sync (
 			m->fromstore, info->full_name, NULL, NULL);
