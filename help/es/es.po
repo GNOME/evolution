@@ -6,23 +6,23 @@
 # I.R. Maturana <info@in3activa.com>, 2003.
 # Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006.
 # Jorge Gonzalez <jorgegonz@svn.gnome.org>, 2009.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-14 17:23+0000\n"
-"PO-Revision-Date: 2011-08-14 20:43+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"PO-Revision-Date: 2011-08-15 10:37+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: C/using-categories.page:5(desc)
 msgid ""
@@ -852,21 +852,20 @@ msgid "Editing a Task"
 msgstr "Editar una tarea"
 
 #: C/tasks-usage-edit-task.page:22(p)
-#, fuzzy
 msgid "If you want to change a task that already exists in your task lists,"
-msgstr "Si quiere modificar una tarjeta que ya existe,"
+msgstr "Si quiere modificar una tarjeta que ya existe en su lista de tareas,"
 
 #: C/tasks-usage-edit-task.page:25(p)
-#, fuzzy
 msgid ""
 "Double-click on the task that you want to edit in the list of tasks, or "
 "right-click on the task and click <key>Open Task</key>."
-msgstr "Pulse dos veces en la tarjeta que quiera editar."
+msgstr ""
+"Pulse dos veces en la tarjeta que quiera editar. en la lista de tareas, o "
+"pulse con el botón derecho y elija <key>Abrir tarea</key>."
 
 #: C/tasks-usage-edit-task.page:26(p)
-#, fuzzy
 msgid "Edit the task information."
-msgstr "Rellene la información."
+msgstr "Edite la información de la tarea."
 
 #: C/tasks-usage-edit-task.page:27(p) C/tasks-usage-add-task.page:29(p)
 #: C/memos-usage-edit-memo.page:27(p) C/memos-usage-add-memo.page:29(p)
@@ -876,16 +875,16 @@ msgid ""
 "Click the <gui style=\"button\">Save</gui> button, or <guiseq><gui>File</"
 "gui><gui>Save</gui></guiseq>."
 msgstr ""
+"Pulse el botón <gui style=\"button\">Guardar</gui> o <guiseq><gui>Archivo</"
+"gui><gui>Guardar</gui></guiseq>."
 
 #: C/tasks-usage-delete-task.page:5(desc)
-#, fuzzy
 msgid "Deleting a task from your task list."
-msgstr "No se puede encontrar esta tarea en ninguna lista de tareas"
+msgstr "Eliminar una tarea de la lista de tareas."
 
 #: C/tasks-usage-delete-task.page:20(title)
-#, fuzzy
 msgid "Deleting a Task"
-msgstr "Eliminar tarea"
+msgstr "Eliminar una tarea"
 
 #: C/tasks-usage-delete-task.page:22(p)
 msgid ""
@@ -896,21 +895,21 @@ msgid ""
 msgstr ""
 
 #: C/tasks-usage-add-task.page:5(desc)
-#, fuzzy
 msgid "Adding a task to your task list."
-msgstr "Añadir una dirección de correo electrónico a su lista de correo basura"
+msgstr "Añadir una tarea a su lista de tareas."
 
 # index.docbook:41, index.docbook:293
 #: C/tasks-usage-add-task.page:23(title)
-#, fuzzy
 msgid "Adding a Task"
-msgstr "Crear una tarea nueva"
+msgstr "Añadir una tarea"
 
 #: C/tasks-usage-add-task.page:26(p)
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Task</gui></guiseq>, or "
 "press <keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>."
 msgstr ""
+"Pulse <guiseq><gui>Archivo</gui><gui>Nuevo</gui><gui>Tarea</gui></guiseq>, o "
+"pulse <keyseq><key>Mayús</key><key>Ctrl</key><key>T</key></keyseq>."
 
 #: C/tasks-usage-add-task.page:27(p)
 #, fuzzy
@@ -918,9 +917,8 @@ msgid "Select a task list in the <gui>List</gui> dropdown list."
 msgstr "Seleccione un calendario en la lista desplegable de Calendario."
 
 #: C/tasks-usage-add-task.page:28(p)
-#, fuzzy
 msgid "Enter the task information."
-msgstr "Rellene la información."
+msgstr "Introduzca la información de la tarea."
 
 #: C/tasks-usage-add-task.page:32(p)
 msgid ""
@@ -979,9 +977,8 @@ msgstr ""
 "@@image: 'figures/search-icon.png'; md5=cd4b82c84c628bfbbfa39d1e0d1eae89"
 
 #: C/tasks-searching.page:5(desc)
-#, fuzzy
 msgid "Searching tasks."
-msgstr "Búsqueda"
+msgstr "Buscar tareas"
 
 #: C/tasks-searching.page:12(name) C/memos-searching.page:12(name)
 #: C/mail-searching.page:12(name) C/contacts-searching.page:12(name)
@@ -996,16 +993,14 @@ msgid "vmax0770@gmail.com"
 msgstr "vmax0770@gmail.com"
 
 #: C/tasks-searching.page:28(title)
-#, fuzzy
 msgid "Searching Tasks"
-msgstr "Buscar elementos de las tareas"
+msgstr "Buscar tareas"
 
 #: C/tasks-searching.page:30(title) C/memos-searching.page:30(title)
 #: C/mail-searching.page:30(title) C/contacts-searching.page:30(title)
 #: C/calendar-searching.page:30(title)
-#, fuzzy
 msgid "Quick Search"
-msgstr "Búsqueda rápida:"
+msgstr "Búsqueda rápida"
 
 #: C/tasks-searching.page:31(p)
 msgid ""
@@ -1021,13 +1016,12 @@ msgstr "Búsqueda de mensajes"
 
 #: C/tasks-searching.page:34(p) C/memos-searching.page:34(p)
 #: C/contacts-searching.page:34(p) C/calendar-searching.page:34(p)
-#, fuzzy
 msgid ""
 "Click the search icon <media type=\"image\" mime=\"image/png\" src=\"figures/"
 "search-icon.png\"/> to expand the drop-down list."
 msgstr ""
-"Pulse el botón de búsqueda <inlinegraphic format=\"PNG\" fileref=\"figures/"
-"stock_search.png\"/> para expandir la dista desplegable."
+"Pulse el icono de búsqueda <media type=\"image\" mime=\"image/png\" src="
+"\"figures/search-icon.png\"/> para expandir la dista desplegable."
 
 #: C/tasks-searching.page:35(p) C/memos-searching.page:35(p)
 #: C/mail-searching.page:34(p) C/contacts-searching.page:35(p)
@@ -1055,9 +1049,8 @@ msgstr "Evolution muestra los contactos deseados."
 
 #: C/tasks-searching.page:39(p) C/memos-searching.page:39(p)
 #: C/contacts-searching.page:39(p) C/calendar-searching.page:39(p)
-#, fuzzy
 msgid "Searching by category:"
-msgstr "Cualquier categoría:"
+msgstr "Buscar por categoría:"
 
 #: C/tasks-searching.page:41(p) C/memos-searching.page:41(p)
 #: C/contacts-searching.page:41(p) C/calendar-searching.page:41(p)
@@ -1067,9 +1060,8 @@ msgstr "Pulse Mostrar la lista desplegable."
 
 #: C/tasks-searching.page:42(p) C/memos-searching.page:42(p)
 #: C/contacts-searching.page:42(p) C/calendar-searching.page:42(p)
-#, fuzzy
 msgid "Select the category from the list."
-msgstr "Seleccione el criterio de búsqueda de la lista."
+msgstr "Seleccione la categoría de la lista."
 
 #: C/tasks-searching.page:45(p) C/memos-searching.page:45(p)
 #: C/mail-searching.page:41(p) C/contacts-searching.page:45(p)
@@ -1091,6 +1083,8 @@ msgid ""
 "Select the <guiseq><gui>Search</gui><gui>Advanced Search</gui></guiseq> menu "
 "to open the dialog box."
 msgstr ""
+"Seleccione el menú <guiseq><gui>Buscar</gui><gui>Búsqueda avanzada</gui></"
+"guiseq> para abrir el cuadro de diálogo."
 
 #: C/tasks-searching.page:52(p) C/memos-searching.page:52(p)
 #: C/mail-searching.page:48(p) C/contacts-searching.page:52(p)
@@ -1113,10 +1107,11 @@ msgstr ""
 #: C/tasks-searching.page:54(p) C/memos-searching.page:54(p)
 #: C/mail-searching.page:50(p) C/contacts-searching.page:54(p)
 #: C/calendar-searching.page:54(p)
-#, fuzzy
 msgid ""
 "Click <gui style=\"button\">OK</gui> to get the search results displayed."
-msgstr "Pulse aquí para cambiar el tipo de búsqueda"
+msgstr ""
+"Pulse <gui style=\"button\">Aceptar</gui> para mostrar los resultados de la "
+"búsqueda."
 
 #: C/tasks-searching.page:60(title) C/memos-searching.page:60(title)
 #: C/mail-searching.page:56(title) C/contacts-searching.page:60(title)
@@ -1144,9 +1139,8 @@ msgstr ""
 #: C/tasks-searching.page:65(title) C/memos-searching.page:65(title)
 #: C/mail-searching.page:61(title) C/contacts-searching.page:65(title)
 #: C/calendar-searching.page:65(title)
-#, fuzzy
 msgid "Saved Searches"
-msgstr "Guardar búsqueda"
+msgstr "Búsquedas guardadas"
 
 #: C/tasks-searching.page:66(p) C/memos-searching.page:66(p)
 #: C/mail-searching.page:62(p) C/contacts-searching.page:66(p)
@@ -1185,19 +1179,19 @@ msgstr ""
 #: C/tasks-searching.page:73(item) C/memos-searching.page:73(item)
 #: C/mail-searching.page:69(item) C/contacts-searching.page:73(item)
 #: C/calendar-searching.page:73(item)
-#, fuzzy
 msgid "<placeholder-1/>."
-msgstr "gpg <placeholder-1/>"
+msgstr "<placeholder-1/>."
 
 #: C/tasks-searching.page:74(p) C/memos-searching.page:74(p)
 #: C/mail-searching.page:70(p) C/contacts-searching.page:74(p)
 #: C/calendar-searching.page:74(p)
-#, fuzzy
 #| msgid "Click the Edit button to open the Edit Rule window."
 msgid ""
 "Click the <gui style=\"button\">Edit</gui> button to open the <gui>Edit "
 "Rule</gui> window."
-msgstr "Pulse el botón Editar para abrir la ventana Editar regla."
+msgstr ""
+"Pulse el botón <gui style=\"button\">Editar</gui> para abrir la ventana "
+"<gui>Editar regla</gui>."
 
 #: C/tasks-searching.page:75(p) C/memos-searching.page:75(p)
 #: C/mail-searching.page:71(p) C/contacts-searching.page:75(p)
@@ -1301,21 +1295,22 @@ msgid "Using a CalDAV task or memo list"
 msgstr ""
 
 #: C/tasks-caldav.page:31(p) C/calendar-caldav.page:34(p)
-#, fuzzy
 msgid "Enter your username and your email address."
-msgstr "Introduzca su dirección de correo-e."
+msgstr "Introduzca su nombre de usuario y su dirección de correo-e."
 
 #: C/sync-with-other-devices.page:5(desc)
 msgid "Synchronize Evolution data with handheld devices and mobile phones."
 msgstr ""
+"Sincronizar los datos de Evolution con dispositivo de mano o teléfonos "
+"móviles."
 
 #: C/sync-with-other-devices.page:23(title)
 msgid "Synchronize <em>Evolution</em> with other devices"
-msgstr ""
+msgstr "Sincornizar <em>Evolution</em> con otros dispositivos"
 
 #: C/sync-with-other-devices.page:25(p)
 msgid "There are currently no \"recommended instructions\" for users."
-msgstr ""
+msgstr "Actualmente no hay unas «instrucciones recomendadas» para usuarios."
 
 #: C/sync-with-other-devices.page:27(p)
 msgid ""
@@ -1324,6 +1319,10 @@ msgid ""
 "that support <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
 "SyncML\">SyncML</link>."
 msgstr ""
+"Muchas distribuciones proporcionan la aplicación <link href=\"http://"
+"syncevolution.org/\">SyncEvolution</link>, que se puede usar con "
+"dispositivos que soporten <link href=\"https://secure.wikimedia.org/"
+"wikipedia/en/wiki/SyncML\">SyncML</link>."
 
 #: C/sync-with-other-devices.page:29(p)
 msgid ""
@@ -1344,7 +1343,7 @@ msgstr ""
 
 #: C/sync-with-other-devices.page:34(title)
 msgid "Palm"
-msgstr ""
+msgstr "Palm"
 
 #: C/sync-with-other-devices.page:35(p)
 #, fuzzy
@@ -1517,9 +1516,8 @@ msgid "Searching content and data within <em>Evolution</em>."
 msgstr ""
 
 #: C/searching-items.page:18(title)
-#, fuzzy
 msgid "Searching items"
-msgstr "Búsqueda"
+msgstr "Buscar elementos"
 
 #: C/problems-reporting-bugs.page:5(desc)
 msgid "How to report bugs."
@@ -2019,9 +2017,8 @@ msgid "Changing the mail view for widescreen displays."
 msgstr ""
 
 #: C/mail-vertical-view.page:22(title)
-#, fuzzy
 msgid "Vertical view"
-msgstr "Vista vertical:"
+msgstr "Vista vertical"
 
 #: C/mail-vertical-view.page:24(p)
 msgid ""
@@ -2172,13 +2169,12 @@ msgid "Install spamassassin now."
 msgstr "Instalar «spamassassin» ahora."
 
 #: C/mail-spam-settings.page:34(p)
-#, fuzzy
 msgid "To enable the plugins:"
-msgstr "Activar complementos anti SPAM:"
+msgstr "Para activar los complementos:"
 
 #: C/mail-spam-settings.page:36(p)
 msgid "Click <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
-msgstr ""
+msgstr "Pulse <guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq>."
 
 #: C/mail-spam-settings.page:37(p)
 #, fuzzy
@@ -2209,6 +2205,8 @@ msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Preferences</gui></guiseq> or press "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>."
 msgstr ""
+"Pulse <guiseq><gui>Editar</gui><gui>Preferencias</gui></guiseq> o pulse "
+"<keyseq><key>Mayús</key><key>Ctrl</key><key>S</key></keyseq>."
 
 #: C/mail-spam-settings.page:46(p)
 #, fuzzy
@@ -4282,9 +4280,8 @@ msgid "Sorting and organizing mail"
 msgstr "Enviar y recibir correo"
 
 #: C/mail-organizing.page:24(title)
-#, fuzzy
 msgid "Advanced Options"
-msgstr "Opciones de envío avanzadas"
+msgstr "Opciones avanzadas"
 
 #: C/mail-organizing.page:27(p)
 msgid ""
@@ -4579,9 +4576,8 @@ msgid "Click <gui>Edit</gui>."
 msgstr "Pulse <gui>Editar</gui>."
 
 #: C/mail-imap-headers.page:41(p)
-#, fuzzy
 msgid "Click the <gui>IMAP Headers</gui> tab."
-msgstr "gpg <placeholder-1/>"
+msgstr "Pulse en le pestaña <gui>Cabeceras IMAP</gui>."
 
 #: C/mail-imap-headers.page:42(p)
 msgid ""
@@ -4622,10 +4618,9 @@ msgid "Right-click one of the messages."
 msgstr "Pulse con el botón derecho sobre uno de los mensajes."
 
 #: C/mail-follow-up-flag.page:29(p)
-#, fuzzy
 #| msgid "Click Mark for Follow Up."
 msgid "Click <gui>Mark for Follow Up...</gui>"
-msgstr "Pulse Marca para seguimiento."
+msgstr "Pulse <gui>Marca para seguimiento...</gui>"
 
 #: C/mail-follow-up-flag.page:31(p)
 msgid ""
@@ -4748,10 +4743,9 @@ msgid "Specify the name and the location of the folder."
 msgstr "Seleccione la ubicación de la carpeta nueva."
 
 #: C/mail-folders.page:38(p)
-#, fuzzy
 #| msgid "Click the Categories button at the left."
 msgid "Click on the <gui>Create</gui> button."
-msgstr "Pulse el botón Categorías de la izquierda."
+msgstr "Pulse el botón <gui>Crear</gui>."
 
 #: C/mail-folders.page:40(p)
 msgid ""
@@ -4917,6 +4911,7 @@ msgstr "Editar de filtros"
 #: C/mail-filters.page:51(p) C/mail-filters.page:61(p)
 msgid "Click <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>."
 msgstr ""
+"Pulse <guiseq><gui>Editar</gui><gui>Filtros de mensajes</gui></guiseq>."
 
 #: C/mail-filters.page:52(p) C/mail-filters.page:62(p)
 #, fuzzy
@@ -5329,8 +5324,8 @@ msgstr ""
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
-"\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+"id=550414\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
@@ -5558,10 +5553,9 @@ msgstr ""
 "Seleccione la cuenta que quiere usar de forma segura, después pulse Editar."
 
 #: C/mail-encryption-gpg-set-up.page:31(p)
-#, fuzzy
 #| msgid "Click the Security tab."
 msgid "Click the <gui>Security</gui> tab."
-msgstr "Pulse en la pestaña de Seguridad."
+msgstr "Pulse en la pestaña <gui>Seguridad</gui>."
 
 #: C/mail-encryption-gpg-set-up.page:32(p)
 #, fuzzy
@@ -6819,7 +6813,7 @@ msgstr ""
 
 #: C/mail-composer-message-templates.page:78(p)
 msgid "Click <gui>Templates</gui>."
-msgstr ""
+msgstr "Pulse <gui>Plantilas</gui>."
 
 #: C/mail-composer-message-templates.page:79(p)
 #: C/mail-composer-custom-header-lines.page:33(p)
@@ -8385,8 +8379,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">GMail Help</link> for more information."
 msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
@@ -8702,9 +8696,8 @@ msgid "Memo list"
 msgstr "_Lista de notas"
 
 #: C/intro-main-window.page:116(title)
-#, fuzzy
 msgid "Appointment List"
-msgstr "Lista de citas:"
+msgstr "Lista de citas"
 
 #: C/intro-main-window.page:117(p)
 #, fuzzy
@@ -9391,7 +9384,7 @@ msgstr ""
 #: C/import-single-files.page:26(p)
 #, fuzzy
 msgid "Choose the file."
-msgstr "Elegir un archivo"
+msgstr "Elegir el archivo."
 
 #: C/import-single-files.page:26(p) C/import-apps-outlook.page:61(p)
 #: C/import-apps-mozilla.page:26(p)
@@ -9423,9 +9416,8 @@ msgid "Importing data from another application"
 msgstr "Importa datos de otros programas"
 
 #: C/import-data.page:23(title)
-#, fuzzy
 msgid "Applications"
-msgstr "Clasificaciones"
+msgstr "Aplicaciones"
 
 #: C/import-apps-outlook.page:5(desc)
 #, fuzzy
@@ -9481,6 +9473,7 @@ msgstr ""
 #: C/import-apps-outlook.page:38(file)
 msgid "C:\\Documents and Settings\\username\\My Documents\\Outlook Files"
 msgstr ""
+"C:\\Documents and Settings\\nombre_de_usuario\\My Documents\\Outlook Files"
 
 #: C/import-apps-outlook.page:41(td)
 #, fuzzy
@@ -9495,6 +9488,8 @@ msgstr ""
 msgid ""
 "C:\\Documents and Settings\\username\\AppData\\Local\\Microsoft\\Outlook"
 msgstr ""
+"C:\\Documents and Settings\\nombre_de_usuario\\AppData\\Local\\Microsoft"
+"\\Outlook"
 
 #: C/import-apps-outlook.page:44(p)
 msgid "(Replace \"username\" by your username.)"
@@ -10330,6 +10325,8 @@ msgstr ""
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Address Book</gui></guiseq>."
 msgstr ""
+"Pulse <guiseq><gui>Archivo</gui><gui>Nuevo</gui><gui>Libreta de direcciones</"
+"gui></guiseq>."
 
 #: C/contacts-local.page:30(p) C/contacts-google.page:34(p)
 msgid ""
@@ -11365,9 +11362,8 @@ msgid "Using date ranges (day, week, month) to look at the calendar."
 msgstr ""
 
 #: C/calendar-layout-views.page:23(title)
-#, fuzzy
 msgid "Available views"
-msgstr "Campos disponibles"
+msgstr "Vistas disponibles"
 
 #: C/calendar-layout-views.page:25(p)
 msgid "Evolution offers five different views of your calendar data:"
@@ -13919,8 +13915,9 @@ msgstr ""
 #~ "When the First-Run Assistant starts, the Welcome page is displayed. Click "
 #~ "Forward to proceed to the Identity window."
 #~ msgstr ""
-#~ "Cuando se inicia el «Asistente de primera ejecución», se muestra la página "
-#~ "de «Bienvenida». Pulse «Adelante» para proceder a la ventana de «Identidad»."
+#~ "Cuando se inicia el «Asistente de primera ejecución», se muestra la "
+#~ "página de «Bienvenida». Pulse «Adelante» para proceder a la ventana de "
+#~ "«Identidad»."
 
 #~ msgid "Type your full name in the Full Name field."
 #~ msgstr "Teclee su nombre completo en el campo «Nombre completo»."
@@ -13990,8 +13987,8 @@ msgstr ""
 #~ "For configuration instructions, see <link linkend=\"bstfw13\">Remote "
 #~ "Configuration Options</link>."
 #~ msgstr ""
-#~ "Para las opciones de configuración, vea <link linkend=\"bstfw13"
-#~ "\">Opciones de configuración remota</link>."
+#~ "Para las opciones de configuración, vea <link linkend="
+#~ "\"bstfw13\">Opciones de configuración remota</link>."
 
 #~ msgid ""
 #~ "Available only if the evolution-exchange package is installed. Select "
@@ -15382,8 +15379,8 @@ msgstr ""
 #~ msgstr ""
 #~ "Bajo la pestaña Recepción de correo elija el tipo de archivo de correo "
 #~ "que usa su otra aplicación y escriba la ruta de directorios completa a "
-#~ "ese lugar. Una elección habitual son los archivos mbox, con la ruta «/home/"
-#~ "<varname>nombresdelusuario</varname>/Mail»."
+#~ "ese lugar. Una elección habitual son los archivos mbox, con la ruta «/"
+#~ "home/<varname>nombresdelusuario</varname>/Mail»."
 
 #~ msgid ""
 #~ "You can only use one mail client at a time. The mail files are locked by "
@@ -20099,8 +20096,8 @@ msgstr ""
 #~ "Reply for Items You Send</link>."
 #~ msgstr ""
 #~ "Puede recibir una notificación cuando el destinatario abre o borra un "
-#~ "mensaje. Para obtener más información consulte <link linkend=\"Ak05sv1"
-#~ "\">Recibir notificaciones acerca de elementos que envíe</link>."
+#~ "mensaje. Para obtener más información consulte <link linkend="
+#~ "\"Ak05sv1\">Recibir notificaciones acerca de elementos que envíe</link>."
 
 #~ msgid "Request a Reply:"
 #~ msgstr "Pedir una respuesta:"
@@ -20661,8 +20658,8 @@ msgstr ""
 #~ "For more information, see <link linkend=\"bshoty0\">Certificates</link>."
 #~ msgstr ""
 #~ "Use estos ajustes para certificar el manejo para los sistemas de "
-#~ "seguridad S/MIME. Para obtener más información vea <link linkend=\"bshoty0"
-#~ "\">Certificados</link>."
+#~ "seguridad S/MIME. Para obtener más información vea <link linkend="
+#~ "\"bshoty0\">Certificados</link>."
 
 #~ msgid ""
 #~ "Previous versions of Evolution included directory servers, folder "
@@ -22209,10 +22206,10 @@ msgstr ""
 #~ "<command>/root</command>."
 #~ msgstr ""
 #~ "Una descripción imaginaria de los grupos de archivos del sistema. La "
-#~ "parte superior de ese árbol se llama el directorio raíz («root» en inglés) "
-#~ "y se indica con el carácter <command>/</command>. El resto de las ramas "
-#~ "cuelgan de la raíz. No confunda el directorio raíz con la cuenta del "
-#~ "superusuario («root») ni con el directorio de inicio del superusuario "
+#~ "parte superior de ese árbol se llama el directorio raíz («root» en "
+#~ "inglés) y se indica con el carácter <command>/</command>. El resto de las "
+#~ "ramas cuelgan de la raíz. No confunda el directorio raíz con la cuenta "
+#~ "del superusuario («root») ni con el directorio de inicio del superusuario "
 #~ "<command>/root</command>."
 
 #~ msgid ""
