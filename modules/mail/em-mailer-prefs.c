@@ -1054,12 +1054,11 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "junk_empty_combobox");
+	emmp_empty_junk_init (prefs, GTK_COMBO_BOX (widget));
 	g_object_bind_property (
 		shell_settings, "mail-empty-junk-on-exit",
 		widget, "sensitive",
-		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
-	emmp_empty_junk_init (prefs, GTK_COMBO_BOX (widget));
 
 	widget = e_builder_get_widget (prefs->builder, "junk-module-options");
 	e_mail_junk_options_set_session (E_MAIL_JUNK_OPTIONS (widget), session);
