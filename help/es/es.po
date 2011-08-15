@@ -6,23 +6,23 @@
 # I.R. Maturana <info@in3activa.com>, 2003.
 # Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006.
 # Jorge Gonzalez <jorgegonz@svn.gnome.org>, 2009.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-13 18:23+0000\n"
-"PO-Revision-Date: 2011-08-14 17:24+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"POT-Creation-Date: 2011-08-14 17:23+0000\n"
+"PO-Revision-Date: 2011-08-14 20:43+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: C/using-categories.page:5(desc)
 msgid ""
@@ -795,9 +795,8 @@ msgid "Click <gui style=\"button\">Apply</gui>."
 msgstr "Pulse <gui style=\"button\">Aplicar</gui>."
 
 #: C/tasks-webdav.page:37(p)
-#, fuzzy
 msgid "The list will be added in Evolution."
-msgstr "Añadir calendarios meteorológicos a Evolution."
+msgstr "Se añadirá la lista en Evolution."
 
 #: C/tasks-using-several-tasklists.page:5(desc)
 msgid "Adding and using more than one task list or memo list."
@@ -825,9 +824,10 @@ msgstr ""
 "reduciendo la carga en la vista."
 
 #: C/tasks-using-several-tasklists.page:24(p)
-#, fuzzy
 msgid "Tasks and memos for each task or memo list appear as a different color."
-msgstr "Las citas para cada calendario aparecen con un color diferente."
+msgstr ""
+"Las tareas y notas para cada lista de tareas o notas, aparecen en diferente "
+"color."
 
 #: C/tasks-using-several-tasklists.page:26(p)
 msgid ""
@@ -840,19 +840,16 @@ msgid "On adding, editing, and deleting tasks."
 msgstr ""
 
 #: C/tasks-usage.page:20(title)
-#, fuzzy
 msgid "Add, Edit, and Delete Tasks"
-msgstr "Eliminar tareas"
+msgstr "Añadir, editar y eliminar tareas"
 
 #: C/tasks-usage-edit-task.page:5(desc)
-#, fuzzy
 msgid "Editing a task in your task list."
-msgstr "No se puede encontrar esta tarea en ninguna lista de tareas"
+msgstr "Editar una tarea en su lista de tareas."
 
 #: C/tasks-usage-edit-task.page:20(title)
-#, fuzzy
 msgid "Editing a Task"
-msgstr "Editar un contacto:"
+msgstr "Editar una tarea"
 
 #: C/tasks-usage-edit-task.page:22(p)
 #, fuzzy
@@ -5332,8 +5329,8 @@ msgstr ""
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
-"id=550414\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
+"\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
@@ -8388,8 +8385,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?"
-"answer=77695\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
+"\">GMail Help</link> for more information."
 msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
@@ -11762,9 +11759,8 @@ msgid "Classifying appointments and tasks on groupware servers."
 msgstr ""
 
 #: C/calendar-classifications.page:23(title)
-#, fuzzy
 msgid "Using Classifications"
-msgstr "Clasificaciones"
+msgstr "Usar clasificaciones"
 
 #: C/calendar-classifications.page:25(p)
 msgid ""
@@ -11789,36 +11785,29 @@ msgid ""
 msgstr ""
 
 #: C/calendar-caldav.page:5(desc)
-#, fuzzy
 msgid "Using an online CalDAV calendar."
-msgstr "Examinar para calendarios CalDAV"
+msgstr "Usar un calendario en línea CalDAV."
 
 #: C/calendar-caldav.page:23(title)
-#, fuzzy
 msgid "Using a CalDAV calendar"
-msgstr "Examinar para calendarios CalDAV"
+msgstr "Usar un calendario CalDAV"
 
 #: C/calendar-caldav.page:28(p)
-#, fuzzy
 msgid "Select the type <gui>CalDAV</gui>."
-msgstr "gpg <placeholder-1/>"
+msgstr "Seleccione el tipo <gui>CalDAV</gui>."
 
 #: C/calendar-alarms-and-reminders.page:5(desc)
-#, fuzzy
 msgid "Setting up reminder notifications for appointments."
-msgstr ""
-"Indica si debe establecer un recordatorio predeterminado para las citas."
+msgstr "Establecer notificaciones de recordatorios para citas."
 
 #: C/calendar-alarms-and-reminders.page:23(title)
-#, fuzzy
 msgid "Reminders for appointments"
-msgstr "fin de la cita"
+msgstr "Recordatorios para citas"
 
 # index.docbook:29, index.docbook:30
 #: C/calendar-alarms-and-reminders.page:26(title)
-#, fuzzy
 msgid "General Settings"
-msgstr "Ajustes generales del correo"
+msgstr "Configuración general"
 
 #: C/calendar-alarms-and-reminders.page:28(p)
 msgid ""
@@ -11831,21 +11820,24 @@ msgid ""
 msgstr ""
 
 #: C/calendar-alarms-and-reminders.page:33(title)
-#, fuzzy
 msgid "Manual Reminders"
-msgstr "Recordatorios"
+msgstr "Recordatorios manuales"
 
 #: C/calendar-alarms-and-reminders.page:35(p)
 msgid ""
 "Apart from the general settings you can also set up reminders in the "
 "appointment editor for certain appointments only:"
 msgstr ""
+"Además de la configuración general, también puede establecer recordatorios "
+"manuales en el editor de citas, solo para cierto tipo de citas:"
 
 #: C/calendar-alarms-and-reminders.page:37(p)
 msgid ""
 "Click <guiseq><gui>Options</gui><gui>Reminders</gui></guiseq> or press the "
 "Reminder button in the toolbar."
 msgstr ""
+"Pulse <guiseq><gui>Opciones</gui><gui>Recordatorios</gui></guiseq> o pulse "
+"el botón Recordatorio en la barra de herramientas."
 
 #: C/calendar-alarms-and-reminders.page:38(p)
 msgid ""
@@ -11865,7 +11857,6 @@ msgid "Back up and restore your Evolution data and settings."
 msgstr "Respaldar y restaurar los datos y la configuración de Evolution"
 
 #: C/backup-restore.page:21(title)
-#, fuzzy
 msgid "Back up and restore"
 msgstr "Respaldar y restaurar"
 
@@ -11875,62 +11866,64 @@ msgid ""
 "contacts, tasks, memos and calendars. It will be stored in a gzip-compressed "
 "tar archive file."
 msgstr ""
+"Puede respaldar sus datos de Evolution. El respaldo guarda sus ajustes, "
+"correos, contactos, tareas, notas y calendarios. Se almacenará en formato "
+"comprimido gzip, dentro de un archivador tar."
 
 #: C/backup-restore.page:26(title)
-#, fuzzy
 msgid "Backing up"
-msgstr "Opciones de seguimiento"
+msgstr "Respaldos"
 
 #: C/backup-restore.page:28(p)
-#, fuzzy
-#| msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgid ""
 "Select <guiseq><gui>File</gui><gui>Back up Evolution Data...</gui></guiseq>."
-msgstr "Pulse <guiseq><gui>Archivo</gui><gui>Importar</gui></guiseq>."
+msgstr ""
+"Seleccione <guiseq><gui>Archivo</gui><gui>Respaldar datos de Evolution…</"
+"gui></guiseq>."
 
 #: C/backup-restore.page:29(p)
 msgid ""
 "Choose a filename and the folder where you want to save the backup file, and "
 "click <gui style=\"button\">Save</gui>."
 msgstr ""
+"Elija un nombre de archivo y la carpeta donde quiere guardar el archivo de "
+"respaldo y pulse <gui style=\"button\">Guardar</gui>."
 
 #: C/backup-restore.page:30(p) C/backup-restore.page:39(p)
 msgid ""
 "You will get asked to close Evolution. Answer with <gui style=\"button"
 "\">Yes</gui>."
 msgstr ""
+"Se le pedirá que cierre Evolution. Responda <gui style=\"button\">Sí</gui>."
 
 #: C/backup-restore.page:35(title)
-#, fuzzy
 msgid "Restoring"
-msgstr "Repetición"
+msgstr "Restaurar"
 
 #: C/backup-restore.page:37(p)
-#, fuzzy
-#| msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgid ""
 "Select <guiseq><gui>File</gui><gui>Restore Evolution Data...</gui></guiseq>."
-msgstr "Pulse <guiseq><gui>Archivo</gui><gui>Importar</gui></guiseq>."
+msgstr ""
+"Seleccione <guiseq><gui>Archivo</gui><gui>Restaurar datos de Evolution…</"
+"gui></guiseq>."
 
 #: C/backup-restore.page:38(p)
-#, fuzzy
 msgid "Choose the file, and click <gui style=\"button\">Open</gui>."
-msgstr "Seleccione el archivo y pulse Abrir."
+msgstr "Seleccione el archivo y pulse <gui style=\"button\">Abrir</gui>."
 
 #: C/backup-restore.page:41(p)
-#, fuzzy
 msgid ""
 "In the <link xref=\"intro-first-run\">first-run assistant</link>, you can "
 "restore Evolution data from a backup file."
 msgstr ""
-"¿Está seguro de que quiere restaurar Evolution desde el archivo de respaldo "
-"seleccionado?"
+"En el <link xref=\"intro-first-run\">asistente de primera ejecución</link> "
+"puede restaurar Evolution desde un archivo de respaldo."
 
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2
 #: C/index.page:0(None)
 msgid "translator-credits"
 msgstr ""
-"Jorge González <jorgegonz@svn.gnome.org>, 2007-2010\n"
+"Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
 
 #, fuzzy
@@ -13926,9 +13919,8 @@ msgstr ""
 #~ "When the First-Run Assistant starts, the Welcome page is displayed. Click "
 #~ "Forward to proceed to the Identity window."
 #~ msgstr ""
-#~ "Cuando se inicia el «Asistente de primera ejecución», se muestra la "
-#~ "página de «Bienvenida». Pulse «Adelante» para proceder a la ventana de "
-#~ "«Identidad»."
+#~ "Cuando se inicia el «Asistente de primera ejecución», se muestra la página "
+#~ "de «Bienvenida». Pulse «Adelante» para proceder a la ventana de «Identidad»."
 
 #~ msgid "Type your full name in the Full Name field."
 #~ msgstr "Teclee su nombre completo en el campo «Nombre completo»."
@@ -13998,8 +13990,8 @@ msgstr ""
 #~ "For configuration instructions, see <link linkend=\"bstfw13\">Remote "
 #~ "Configuration Options</link>."
 #~ msgstr ""
-#~ "Para las opciones de configuración, vea <link linkend="
-#~ "\"bstfw13\">Opciones de configuración remota</link>."
+#~ "Para las opciones de configuración, vea <link linkend=\"bstfw13"
+#~ "\">Opciones de configuración remota</link>."
 
 #~ msgid ""
 #~ "Available only if the evolution-exchange package is installed. Select "
@@ -15390,8 +15382,8 @@ msgstr ""
 #~ msgstr ""
 #~ "Bajo la pestaña Recepción de correo elija el tipo de archivo de correo "
 #~ "que usa su otra aplicación y escriba la ruta de directorios completa a "
-#~ "ese lugar. Una elección habitual son los archivos mbox, con la ruta «/"
-#~ "home/<varname>nombresdelusuario</varname>/Mail»."
+#~ "ese lugar. Una elección habitual son los archivos mbox, con la ruta «/home/"
+#~ "<varname>nombresdelusuario</varname>/Mail»."
 
 #~ msgid ""
 #~ "You can only use one mail client at a time. The mail files are locked by "
@@ -20107,8 +20099,8 @@ msgstr ""
 #~ "Reply for Items You Send</link>."
 #~ msgstr ""
 #~ "Puede recibir una notificación cuando el destinatario abre o borra un "
-#~ "mensaje. Para obtener más información consulte <link linkend="
-#~ "\"Ak05sv1\">Recibir notificaciones acerca de elementos que envíe</link>."
+#~ "mensaje. Para obtener más información consulte <link linkend=\"Ak05sv1"
+#~ "\">Recibir notificaciones acerca de elementos que envíe</link>."
 
 #~ msgid "Request a Reply:"
 #~ msgstr "Pedir una respuesta:"
@@ -20669,8 +20661,8 @@ msgstr ""
 #~ "For more information, see <link linkend=\"bshoty0\">Certificates</link>."
 #~ msgstr ""
 #~ "Use estos ajustes para certificar el manejo para los sistemas de "
-#~ "seguridad S/MIME. Para obtener más información vea <link linkend="
-#~ "\"bshoty0\">Certificados</link>."
+#~ "seguridad S/MIME. Para obtener más información vea <link linkend=\"bshoty0"
+#~ "\">Certificados</link>."
 
 #~ msgid ""
 #~ "Previous versions of Evolution included directory servers, folder "
@@ -22217,10 +22209,10 @@ msgstr ""
 #~ "<command>/root</command>."
 #~ msgstr ""
 #~ "Una descripción imaginaria de los grupos de archivos del sistema. La "
-#~ "parte superior de ese árbol se llama el directorio raíz («root» en "
-#~ "inglés) y se indica con el carácter <command>/</command>. El resto de las "
-#~ "ramas cuelgan de la raíz. No confunda el directorio raíz con la cuenta "
-#~ "del superusuario («root») ni con el directorio de inicio del superusuario "
+#~ "parte superior de ese árbol se llama el directorio raíz («root» en inglés) "
+#~ "y se indica con el carácter <command>/</command>. El resto de las ramas "
+#~ "cuelgan de la raíz. No confunda el directorio raíz con la cuenta del "
+#~ "superusuario («root») ni con el directorio de inicio del superusuario "
 #~ "<command>/root</command>."
 
 #~ msgid ""
