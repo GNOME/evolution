@@ -765,6 +765,12 @@ mail_folder_remove_recursive (CamelStore *store,
 	return success;
 }
 
+static void
+follow_cancel_cb (GCancellable *cancellable, GCancellable *transparent_cancellable)
+{
+	g_cancellable_cancel (transparent_cancellable);
+}
+
 gboolean
 e_mail_folder_remove_sync (CamelFolder *folder,
                            GCancellable *cancellable,
@@ -776,6 +782,8 @@ e_mail_folder_remove_sync (CamelFolder *folder,
 	CamelStore *parent_store;
 	const gchar *full_name;
 	gboolean success = TRUE;
+	GCancellable *transparent_cancellable = NULL;
+	gulong cbid = 0;
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
@@ -824,8 +832,18 @@ e_mail_folder_remove_sync (CamelFolder *folder,
 		cancellable, _("Removing folder '%s'"),
 		camel_folder_get_full_name (folder));
 
+	if (cancellable) {
+		transparent_cancellable = g_cancellable_new ();
+		cbid = g_cancellable_connect (cancellable, G_CALLBACK (follow_cancel_cb), transparent_cancellable, NULL);
+	}
+
 	success = mail_folder_remove_recursive (
-		parent_store, to_remove, cancellable, error);
+		parent_store, to_remove, transparent_cancellable, error);
+
+	if (transparent_cancellable) {
+		g_cancellable_disconnect (cancellable, cbid);
+		g_object_unref (transparent_cancellable);
+	}
 
 	camel_operation_pop_message (cancellable);
 
