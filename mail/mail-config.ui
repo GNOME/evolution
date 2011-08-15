@@ -2868,7 +2868,6 @@ for display purposes only. </property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="border_width">12</property>
-            <property name="resize_mode">immediate</property>
             <property name="spacing">12</property>
             <child>
               <object class="GtkVBox" id="junk-general-section">
@@ -2900,7 +2899,7 @@ for display purposes only. </property>
                       <object class="GtkTable" id="junk-general-table">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="n_rows">8</property>
+                        <property name="n_rows">7</property>
                         <property name="row_spacing">3</property>
                         <child>
                           <object class="GtkCheckButton" id="chkCheckIncomingMail">
