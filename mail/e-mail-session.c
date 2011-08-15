@@ -782,6 +782,34 @@ mail_session_constructed (GObject *object)
 		object, "junk-filter-name");
 }
 
+static CamelService *
+mail_session_add_service (CamelSession *session,
+                          const gchar *uid,
+                          const gchar *url_string,
+                          CamelProviderType type,
+                          GError **error)
+{
+	CamelService *service;
+
+	/* Chain up to parents add_service() method. */
+	service = CAMEL_SESSION_CLASS (e_mail_session_parent_class)->
+		add_service (session, uid, url_string, type, error);
+
+	/* Initialize the CamelSettings object from CamelURL parameters.
+	 * This is temporary; soon we'll read settings from key files. */
+
+	if (CAMEL_IS_SERVICE (service)) {
+		CamelSettings *settings;
+		CamelURL *url;
+
+		settings = camel_service_get_settings (service);
+		url = camel_service_get_camel_url (service);
+		camel_settings_load_from_url (settings, url);
+	}
+
+	return service;
+}
+
 static gchar *
 mail_session_get_password (CamelSession *session,
                            CamelService *service,
@@ -1112,6 +1140,7 @@ e_mail_session_class_init (EMailSessionClass *class)
 	object_class->constructed = mail_session_constructed;
 
 	session_class = CAMEL_SESSION_CLASS (class);
+	session_class->add_service = mail_session_add_service;
 	session_class->get_password = mail_session_get_password;
 	session_class->forget_password = mail_session_forget_password;
 	session_class->alert_user = mail_session_alert_user;
