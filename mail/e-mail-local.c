@@ -70,7 +70,6 @@ e_mail_local_init (EMailSession *session,
 	url = camel_url_new ("maildir:", NULL);
 	temp = g_build_filename (data_dir, "local", NULL);
 	camel_url_set_path (url, temp);
-	camel_url_set_param (url, "need-summary-check", "no");
 	g_free (temp);
 
 	temp = camel_url_to_string (url, 0);
@@ -78,6 +77,10 @@ e_mail_local_init (EMailSession *session,
 		CAMEL_SESSION (session), "local", temp,
 		CAMEL_PROVIDER_STORE, &error);
 	g_free (temp);
+
+	/* Shouldn't need to worry about other mail applications
+	 * altering files in our local mail store. */
+	g_object_set (service, "need-summary-check", FALSE, NULL);
 
 	if (error != NULL)
 		goto fail;
