@@ -323,7 +323,7 @@ folder_changed_cb (CamelFolder *folder,
                    MailFolderCache *self)
 {
 	static GHashTable *last_newmail_per_folder = NULL;
-	time_t latest_received;
+	time_t latest_received, new_latest_received;
 	CamelFolder *local_drafts;
 	CamelFolder *local_outbox;
 	CamelFolder *local_sent;
@@ -346,6 +346,7 @@ folder_changed_cb (CamelFolder *folder,
 	/* it's fine to hash them by folder pointer here */
 	latest_received = GPOINTER_TO_INT (
 		g_hash_table_lookup (last_newmail_per_folder, folder));
+	new_latest_received = latest_received;
 
 	local_drafts = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_DRAFTS);
 	local_outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
@@ -367,7 +368,8 @@ folder_changed_cb (CamelFolder *folder,
 				    ((flags & CAMEL_MESSAGE_JUNK) == 0) &&
 				    ((flags & CAMEL_MESSAGE_DELETED) == 0) &&
 				    (camel_message_info_date_received (info) > latest_received)) {
-					latest_received = camel_message_info_date_received (info);
+					if (camel_message_info_date_received (info) > new_latest_received)
+						new_latest_received = camel_message_info_date_received (info);
 					new++;
 					if (new == 1) {
 						uid = g_strdup (camel_message_info_uid (info));
@@ -391,7 +393,7 @@ folder_changed_cb (CamelFolder *folder,
 	if (new > 0)
 		g_hash_table_insert (
 			last_newmail_per_folder, folder,
-			GINT_TO_POINTER (latest_received));
+			GINT_TO_POINTER (new_latest_received));
 
 	g_mutex_lock (self->priv->stores_mutex);
 	if (self->priv->stores != NULL
