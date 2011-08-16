@@ -130,7 +130,7 @@ ldif_fields[] = {
 };
 
 static GString *
-getValue ( gchar **src )
+getValue (gchar **src)
 {
 	GString *dest = g_string_new("");
 	gchar *s = *src;
@@ -166,7 +166,9 @@ getValue ( gchar **src )
 }
 
 static void
-populate_contact_address (EContactAddress *address, gchar *attr, gchar *value)
+populate_contact_address (EContactAddress *address,
+                          gchar *attr,
+                          gchar *value)
 {
 	if (!g_ascii_strcasecmp (attr, "locality") ||
 	    !g_ascii_strcasecmp (attr, "l") ||
@@ -222,9 +224,11 @@ populate_contact_address (EContactAddress *address, gchar *attr, gchar *value)
 }
 
 static gboolean
-parseLine (GHashTable *dn_contact_hash, EContact *contact,
-	   EContactAddress *work_address, EContactAddress *home_address,
-	   gchar **buf)
+parseLine (GHashTable *dn_contact_hash,
+           EContact *contact,
+           EContactAddress *work_address,
+           EContactAddress *home_address,
+           gchar **buf)
 {
 	gchar *ptr;
 	gchar *colon, *value;
@@ -352,7 +356,8 @@ parseLine (GHashTable *dn_contact_hash, EContact *contact,
 }
 
 static EContact *
-getNextLDIFEntry (GHashTable *dn_contact_hash, FILE *f )
+getNextLDIFEntry (GHashTable *dn_contact_hash,
+                  FILE *f)
 {
 	EContact *contact;
 	EContactAddress *work_address, *home_address;
@@ -410,14 +415,15 @@ getNextLDIFEntry (GHashTable *dn_contact_hash, FILE *f )
 }
 
 static void
-resolve_list_card (LDIFImporter *gci, EContact *contact)
+resolve_list_card (LDIFImporter *gci,
+                   EContact *contact)
 {
 	GList *email, *l;
 	GList *email_attrs = NULL;
 	gchar *full_name;
 
 	/* set file_as to full_name so we don't later try and figure
-	   out a first/last name for the list. */
+	 * out a first/last name for the list. */
 	full_name = e_contact_get (contact, E_CONTACT_FULL_NAME);
 	if (full_name)
 		e_contact_set (contact, E_CONTACT_FILE_AS, full_name);
@@ -456,7 +462,8 @@ resolve_list_card (LDIFImporter *gci, EContact *contact)
 }
 
 static void
-add_to_notes (EContact *contact, EContactField field)
+add_to_notes (EContact *contact,
+              EContactField field)
 {
 	const gchar *old_text;
 	const gchar *field_text;
@@ -488,7 +495,7 @@ ldif_import_contacts (gpointer d)
 	gint count = 0;
 
 	/* We process all normal cards immediately and keep the list
-	   ones till the end */
+	 * ones till the end */
 
 	if (gci->state == 0) {
 		while (count < 50 && (contact = getNextLDIFEntry (
@@ -516,7 +523,7 @@ ldif_import_contacts (gpointer d)
 		}
 	}
 	if (gci->state == 1) {
-		for (iter = gci->list_iterator;count < 50 && iter;iter=iter->next) {
+		for (iter = gci->list_iterator; count < 50 && iter; iter = iter->next) {
 			gchar *uid = NULL;
 
 			contact = iter->data;
@@ -543,15 +550,19 @@ ldif_import_contacts (gpointer d)
 }
 
 static void
-primary_selection_changed_cb (ESourceSelector *selector, EImportTarget *target)
+primary_selection_changed_cb (ESourceSelector *selector,
+                              EImportTarget *target)
 {
-	g_datalist_set_data_full(&target->data, "ldif-source",
-				 g_object_ref (e_source_selector_get_primary_selection (selector)),
-				 g_object_unref);
+	g_datalist_set_data_full (
+		&target->data, "ldif-source",
+		g_object_ref (e_source_selector_get_primary_selection (selector)),
+		g_object_unref);
 }
 
 static GtkWidget *
-ldif_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
+ldif_getwidget (EImport *ei,
+                EImportTarget *target,
+                EImportImporter *im)
 {
 	GtkWidget *vbox, *selector;
 	ESource *primary;
@@ -593,7 +604,9 @@ static const gchar *supported_extensions[3] = {
 };
 
 static gboolean
-ldif_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
+ldif_supported (EImport *ei,
+                EImportTarget *target,
+                EImportImporter *im)
 {
 	gchar *ext;
 	gint i;
@@ -662,7 +675,9 @@ book_loaded_cb (GObject *source_object,
 }
 
 static void
-ldif_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+ldif_import (EImport *ei,
+             EImportTarget *target,
+             EImportImporter *im)
 {
 	LDIFImporter *gci;
 	ESource *source;
@@ -702,7 +717,9 @@ ldif_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-ldif_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
+ldif_cancel (EImport *ei,
+             EImportTarget *target,
+             EImportImporter *im)
 {
 	LDIFImporter *gci = g_datalist_get_data(&target->data, "ldif-data");
 
@@ -711,7 +728,9 @@ ldif_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static GtkWidget *
-ldif_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+ldif_get_preview (EImport *ei,
+                  EImportTarget *target,
+                  EImportImporter *im)
 {
 	GtkWidget *preview;
 	GSList *contacts = NULL;

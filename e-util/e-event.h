@@ -21,9 +21,7 @@
  *
  */
 
-/*
-  This a bit 'whipped together', so is likely to change mid-term
-*/
+/* This a bit 'whipped together', so is likely to change mid-term */
 
 #ifndef E_EVENT_H
 #define E_EVENT_H
@@ -194,10 +192,10 @@ void		e_event_target_free		(EEvent *event,
 /* event plugin target, they are closely integrated */
 
 /* To implement a basic event menu plugin, you just need to subclass
-   this and initialise the class target type tables */
+ * this and initialise the class target type tables */
 
 /* For events, the plugin item talks to a specific instance, rather than
-   a set of instances of the hook handler */
+ * a set of instances of the hook handler */
 
 #include "e-util/e-plugin.h"
 

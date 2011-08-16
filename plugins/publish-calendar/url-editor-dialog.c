@@ -151,13 +151,15 @@ fail:
 }
 
 static void
-source_selection_changed (ESourceSelector *selector, UrlEditorDialog *dialog)
+source_selection_changed (ESourceSelector *selector,
+                          UrlEditorDialog *dialog)
 {
 	check_input (dialog);
 }
 
 static void
-publish_service_changed (GtkComboBox *combo, UrlEditorDialog *dialog)
+publish_service_changed (GtkComboBox *combo,
+                         UrlEditorDialog *dialog)
 {
 	gint selected = gtk_combo_box_get_active (combo);
 	EPublishUri *uri;
@@ -226,7 +228,8 @@ publish_service_changed (GtkComboBox *combo, UrlEditorDialog *dialog)
 }
 
 static void
-type_selector_changed (GtkComboBox *combo, UrlEditorDialog *dialog)
+type_selector_changed (GtkComboBox *combo,
+                       UrlEditorDialog *dialog)
 {
 	gint selected = gtk_combo_box_get_active (combo);
 	EPublishUri *uri;
@@ -238,7 +241,8 @@ type_selector_changed (GtkComboBox *combo, UrlEditorDialog *dialog)
 }
 
 static void
-frequency_changed_cb (GtkComboBox *combo, UrlEditorDialog *dialog)
+frequency_changed_cb (GtkComboBox *combo,
+                      UrlEditorDialog *dialog)
 {
 	gint selected = gtk_combo_box_get_active (combo);
 
@@ -249,34 +253,40 @@ frequency_changed_cb (GtkComboBox *combo, UrlEditorDialog *dialog)
 }
 
 static void
-server_entry_changed (GtkEntry *entry, UrlEditorDialog *dialog)
+server_entry_changed (GtkEntry *entry,
+                      UrlEditorDialog *dialog)
 {
 	check_input (dialog);
 }
 
 static void
-file_entry_changed (GtkEntry *entry, UrlEditorDialog *dialog)
+file_entry_changed (GtkEntry *entry,
+                    UrlEditorDialog *dialog)
 {
 	check_input (dialog);
 }
 
 static void
-port_entry_changed (GtkEntry *entry, UrlEditorDialog *dialog)
+port_entry_changed (GtkEntry *entry,
+                    UrlEditorDialog *dialog)
 {
 }
 
 static void
-username_entry_changed (GtkEntry *entry, UrlEditorDialog *dialog)
+username_entry_changed (GtkEntry *entry,
+                        UrlEditorDialog *dialog)
 {
 }
 
 static void
-password_entry_changed (GtkEntry *entry, UrlEditorDialog *dialog)
+password_entry_changed (GtkEntry *entry,
+                        UrlEditorDialog *dialog)
 {
 }
 
 static void
-remember_pw_toggled (GtkToggleButton *toggle, UrlEditorDialog *dialog)
+remember_pw_toggled (GtkToggleButton *toggle,
+                     UrlEditorDialog *dialog)
 {
 }
 
@@ -455,17 +465,37 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 	frequency_changed_cb (GTK_COMBO_BOX (dialog->publish_frequency), dialog);
 	publish_service_changed (GTK_COMBO_BOX (dialog->publish_service), dialog);
 
-	g_signal_connect (G_OBJECT (dialog->publish_service), "changed",           G_CALLBACK (publish_service_changed),  dialog);
-	g_signal_connect (G_OBJECT (dialog->type_selector),   "changed",           G_CALLBACK (type_selector_changed),    dialog);
-	g_signal_connect (G_OBJECT (dialog->publish_frequency),   "changed",           G_CALLBACK (frequency_changed_cb),    dialog);
-	g_signal_connect (G_OBJECT (dialog->events_selector), "selection_changed", G_CALLBACK (source_selection_changed), dialog);
+	g_signal_connect (
+		dialog->publish_service, "changed",
+		G_CALLBACK (publish_service_changed), dialog);
+	g_signal_connect (
+		dialog->type_selector, "changed",
+		G_CALLBACK (type_selector_changed), dialog);
+	g_signal_connect (
+		dialog->publish_frequency, "changed",
+		G_CALLBACK (frequency_changed_cb), dialog);
+	g_signal_connect (
+		dialog->events_selector, "selection_changed",
+		G_CALLBACK (source_selection_changed), dialog);
 
-	g_signal_connect (G_OBJECT (dialog->server_entry),    "changed",           G_CALLBACK (server_entry_changed),     dialog);
-	g_signal_connect (G_OBJECT (dialog->file_entry),      "changed",           G_CALLBACK (file_entry_changed),       dialog);
-	g_signal_connect (G_OBJECT (dialog->port_entry),      "changed",           G_CALLBACK (port_entry_changed),       dialog);
-	g_signal_connect (G_OBJECT (dialog->username_entry),  "changed",           G_CALLBACK (username_entry_changed),   dialog);
-	g_signal_connect (G_OBJECT (dialog->password_entry),  "changed",           G_CALLBACK (password_entry_changed),   dialog);
-	g_signal_connect (G_OBJECT (dialog->remember_pw),     "toggled",           G_CALLBACK (remember_pw_toggled),      dialog);
+	g_signal_connect (
+		dialog->server_entry, "changed",
+		G_CALLBACK (server_entry_changed), dialog);
+	g_signal_connect (
+		dialog->file_entry, "changed",
+		G_CALLBACK (file_entry_changed), dialog);
+	g_signal_connect (
+		dialog->port_entry, "changed",
+		G_CALLBACK (port_entry_changed), dialog);
+	g_signal_connect (
+		dialog->username_entry, "changed",
+		G_CALLBACK (username_entry_changed), dialog);
+	g_signal_connect (
+		dialog->password_entry,"changed",
+		G_CALLBACK (password_entry_changed), dialog);
+	g_signal_connect (
+		dialog->remember_pw, "toggled",
+		G_CALLBACK (remember_pw_toggled), dialog);
 
 	g_object_unref (gconf);
 
@@ -475,7 +505,8 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 }
 
 GtkWidget *
-url_editor_dialog_new (GtkTreeModel *url_list_model, EPublishUri *uri)
+url_editor_dialog_new (GtkTreeModel *url_list_model,
+                       EPublishUri *uri)
 {
 	UrlEditorDialog *dialog;
 

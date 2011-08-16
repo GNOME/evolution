@@ -67,7 +67,8 @@ static GtkWidget *create_addressbook_combo_box (struct bbdb_stuff *stuff, gint t
 static void cleanup_cb (GObject *o, gpointer data);
 
 static ESource *
-find_esource_by_uri (ESourceList *source_list, const gchar *target_uri)
+find_esource_by_uri (ESourceList *source_list,
+                     const gchar *target_uri)
 {
 	GSList *groups;
 
@@ -135,7 +136,8 @@ get_check_interval (void)
 }
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	static guint update_source = 0;
 
@@ -229,7 +231,8 @@ bbdb_do_in_thread (gpointer data)
 }
 
 static void
-bbdb_do_thread (const gchar *name, const gchar *email)
+bbdb_do_thread (const gchar *name,
+                const gchar *email)
 {
 	todo_struct *td;
 
@@ -243,7 +246,7 @@ bbdb_do_thread (const gchar *name, const gchar *email)
 	G_LOCK (todo);
 	if (todo) {
 		/* the list isn't empty, which means there is a thread taking
-		   care of that, thus just add it to the queue */
+		 * care of that, thus just add it to the queue */
 		todo = g_slist_append (todo, td);
 	} else {
 		GError *error = NULL;
@@ -303,7 +306,8 @@ walk_destinations_and_free (EDestination **dests)
 }
 
 void
-bbdb_handle_send (EPlugin *ep, EMEventTargetComposer *target)
+bbdb_handle_send (EPlugin *ep,
+                  EMEventTargetComposer *target)
 {
 	EComposerHeaderTable *table;
 	GConfClient *gconf;
@@ -325,7 +329,9 @@ bbdb_handle_send (EPlugin *ep, EMEventTargetComposer *target)
 }
 
 static void
-bbdb_do_it (EBookClient *client, const gchar *name, const gchar *email)
+bbdb_do_it (EBookClient *client,
+            const gchar *name,
+            const gchar *email)
 {
 	gchar *query_string, *delim, *temp_name = NULL, *uid;
 	GSList *contacts = NULL;
@@ -377,8 +383,8 @@ bbdb_do_it (EBookClient *client, const gchar *name, const gchar *email)
 	g_free (query_string);
 	if (contacts != NULL || !status) {
 		/* FIXME: If there's more than one contact with this
-		   name, just give up; we're not smart enough for
-		   this. */
+		 * name, just give up; we're not smart enough for
+		 * this. */
 		if (!status || contacts->next != NULL) {
 			e_client_util_free_object_slist (contacts);
 			g_free (temp_name);
@@ -492,7 +498,8 @@ bbdb_check_gaim_enabled (void)
 }
 
 static void
-add_email_to_contact (EContact *contact, const gchar *email)
+add_email_to_contact (EContact *contact,
+                      const gchar *email)
 {
 	GList *emails;
 
@@ -504,7 +511,8 @@ add_email_to_contact (EContact *contact, const gchar *email)
 /* Code to implement the configuration user interface follows */
 
 static void
-enable_toggled_cb (GtkWidget *widget, gpointer data)
+enable_toggled_cb (GtkWidget *widget,
+                   gpointer data)
 {
 	struct bbdb_stuff *stuff = (struct bbdb_stuff *) data;
 	gboolean active;
@@ -543,7 +551,8 @@ enable_toggled_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-enable_gaim_toggled_cb (GtkWidget *widget, gpointer data)
+enable_gaim_toggled_cb (GtkWidget *widget,
+                        gpointer data)
 {
 	struct bbdb_stuff *stuff = (struct bbdb_stuff *) data;
 	gboolean active;
@@ -613,7 +622,8 @@ gaim_source_changed_cb (ESourceComboBox *source_combo_box,
 }
 
 static GtkWidget *
-create_addressbook_combo_box (struct bbdb_stuff *stuff, gint type)
+create_addressbook_combo_box (struct bbdb_stuff *stuff,
+                              gint type)
 {
 	GtkWidget   *combo_box;
 	ESourceList *source_list;
@@ -645,7 +655,8 @@ create_addressbook_combo_box (struct bbdb_stuff *stuff, gint type)
 }
 
 GtkWidget *
-bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
+bbdb_page_factory (EPlugin *ep,
+                   EConfigHookItemFactoryData *hook_data)
 {
 	struct bbdb_stuff *stuff;
 	EABConfigTargetPrefs *target = (EABConfigTargetPrefs *) hook_data->config->target;
@@ -762,7 +773,8 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 }
 
 static void
-cleanup_cb (GObject *o, gpointer data)
+cleanup_cb (GObject *o,
+            gpointer data)
 {
 	struct bbdb_stuff *stuff = data;
 

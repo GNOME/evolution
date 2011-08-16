@@ -153,7 +153,7 @@ e_mail_tab_picker_drop (MxDroppable *droppable,
 			}
 
 			/* The same check for dragging left instead of right */
-			if ((event_x < props->position + props->width + priv->scroll_offset)&&
+			if ((event_x < props->position + props->width + priv->scroll_offset) &&
 			   (tab->position >= props->position) &&
 			   !mx_draggable_is_enabled (MX_DRAGGABLE (props->tab)))
 				break;
@@ -802,9 +802,7 @@ e_mail_tab_picker_class_init (EMailTabPickerClass *class)
 			"in preview mode.",
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_NAME |
-			G_PARAM_STATIC_NICK |
-			G_PARAM_STATIC_BLURB));
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_override_property (
 		object_class,
@@ -924,7 +922,8 @@ e_mail_tab_picker_init (EMailTabPicker *self)
 }
 
 static gint
-e_mail_tab_picker_find_tab_cb (gconstpointer a, gconstpointer b)
+e_mail_tab_picker_find_tab_cb (gconstpointer a,
+                               gconstpointer b)
 {
 	EMailTabPickerProps *props = (EMailTabPickerProps *) a;
 	EMailTab *tab = (EMailTab *) b;
@@ -933,7 +932,8 @@ e_mail_tab_picker_find_tab_cb (gconstpointer a, gconstpointer b)
 }
 
 static void
-e_mail_tab_picker_tab_clicked_cb (EMailTab *tab, EMailTabPicker *self)
+e_mail_tab_picker_tab_clicked_cb (EMailTab *tab,
+                                  EMailTabPicker *self)
 {
 	EMailTabPickerPrivate *priv = self->priv;
 	EMailTab *old_tab;
@@ -1037,7 +1037,8 @@ e_mail_tab_picker_add_tab (EMailTabPicker *picker,
 }
 
 void
-e_mail_tab_picker_remove_tab (EMailTabPicker *picker, EMailTab *tab)
+e_mail_tab_picker_remove_tab (EMailTabPicker *picker,
+                              EMailTab *tab)
 {
 	GList *tab_link;
 	EMailTabPickerPrivate *priv = picker->priv;
@@ -1098,14 +1099,16 @@ e_mail_tab_picker_get_tabs (EMailTabPicker *picker)
 }
 
 EMailTab *
-e_mail_tab_picker_get_tab (EMailTabPicker *picker, gint tab)
+e_mail_tab_picker_get_tab (EMailTabPicker *picker,
+                           gint tab)
 {
 	EMailTabPickerProps *props = g_list_nth_data (picker->priv->tabs, tab);
 	return props->tab;
 }
 
 gint
-e_mail_tab_picker_get_tab_no (EMailTabPicker *picker, EMailTab *tab)
+e_mail_tab_picker_get_tab_no (EMailTabPicker *picker,
+                              EMailTab *tab)
 {
 	GList *tab_link;
 
@@ -1123,7 +1126,8 @@ e_mail_tab_picker_get_current_tab (EMailTabPicker *picker)
 }
 
 void
-e_mail_tab_picker_set_current_tab (EMailTabPicker *picker, gint tab_no)
+e_mail_tab_picker_set_current_tab (EMailTabPicker *picker,
+                                   gint tab_no)
 {
 	EMailTabPickerPrivate *priv = picker->priv;
 	EMailTabPickerProps *props;
@@ -1223,7 +1227,8 @@ preview_completed_cb (ClutterTimeline *timeline,
 }
 
 void
-e_mail_tab_picker_set_preview_mode (EMailTabPicker *picker, gboolean preview)
+e_mail_tab_picker_set_preview_mode (EMailTabPicker *picker,
+                                    gboolean preview)
 {
 	GList *t;
 
@@ -1305,7 +1310,8 @@ e_mail_tab_picker_get_preview_mode (EMailTabPicker *picker)
 }
 
 void
-e_mail_tab_picker_enable_drop (EMailTabPicker *picker, gboolean enable)
+e_mail_tab_picker_enable_drop (EMailTabPicker *picker,
+                               gboolean enable)
 {
 	EMailTabPickerPrivate *priv = picker->priv;
 

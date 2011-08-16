@@ -46,7 +46,9 @@ G_DEFINE_TYPE (ECellVbox, e_cell_vbox, E_TYPE_CELL)
  * ECell::new_view method
  */
 static ECellView *
-ecv_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view)
+ecv_new_view (ECell *ecell,
+              ETableModel *table_model,
+              gpointer e_table_item_view)
 {
 	ECellVbox *ecv = E_CELL_VBOX (ecell);
 	ECellVboxView *vbox_view = g_new0 (ECellVboxView, 1);
@@ -151,7 +153,7 @@ ecv_draw (ECellView *ecell_view,
 
 	for (i = 0; i < vbox_view->subcell_view_count; i++) {
 		/* Now cause our subcells to draw their contents,
-		   shifted by subcell_offset pixels */
+		 * shifted by subcell_offset pixels */
 		gint height;
 
 		height = e_cell_height (
@@ -173,7 +175,13 @@ ecv_draw (ECellView *ecell_view,
  * ECell::event method
  */
 static gint
-ecv_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col, gint row, ECellFlags flags, ECellActions *actions)
+ecv_event (ECellView *ecell_view,
+           GdkEvent *event,
+           gint model_col,
+           gint view_col,
+           gint row,
+           ECellFlags flags,
+           ECellActions *actions)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
 	gint y = 0;
@@ -208,7 +216,10 @@ ecv_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
  * ECell::height method
  */
 static gint
-ecv_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
+ecv_height (ECellView *ecell_view,
+            gint model_col,
+            gint view_col,
+            gint row)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
 	gint height = 0;
@@ -224,7 +235,9 @@ ecv_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
  * ECell::max_width method
  */
 static gint
-ecv_max_width (ECellView *ecell_view, gint model_col, gint view_col)
+ecv_max_width (ECellView *ecell_view,
+               gint model_col,
+               gint view_col)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
 	gint max_width = 0;
@@ -312,7 +325,9 @@ e_cell_vbox_new (void)
 }
 
 void
-e_cell_vbox_append (ECellVbox *vbox, ECell *subcell, gint model_col)
+e_cell_vbox_append (ECellVbox *vbox,
+                    ECell *subcell,
+                    gint model_col)
 {
 	vbox->subcell_count++;
 

@@ -37,8 +37,8 @@
 
 static void e_minicard_label_init		(EMinicardLabel		 *card);
 static void e_minicard_label_class_init	(EMinicardLabelClass	 *klass);
-static void e_minicard_label_set_property  (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
-static void e_minicard_label_get_property  (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
+static void e_minicard_label_set_property  (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
+static void e_minicard_label_get_property  (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
 static gboolean e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_minicard_label_realize (GnomeCanvasItem *item);
 static void e_minicard_label_unrealize (GnomeCanvasItem *item);
@@ -199,7 +199,10 @@ e_minicard_label_init (EMinicardLabel *minicard_label)
 }
 
 static void
-e_minicard_label_set_property  (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+e_minicard_label_set_property (GObject *object,
+                               guint property_id,
+                               const GValue *value,
+                               GParamSpec *pspec)
 {
 	EMinicardLabel *e_minicard_label;
 	GnomeCanvasItem *item;
@@ -207,7 +210,7 @@ e_minicard_label_set_property  (GObject *object, guint prop_id, const GValue *va
 	e_minicard_label = E_MINICARD_LABEL (object);
 	item = GNOME_CANVAS_ITEM (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_WIDTH:
 		e_minicard_label->width = g_value_get_double (value);
 		e_minicard_label_resize_children (e_minicard_label);
@@ -234,19 +237,22 @@ e_minicard_label_set_property  (GObject *object, guint prop_id, const GValue *va
 		g_object_set (e_minicard_label->field, "editable", FALSE /* e_minicard_label->editable */, NULL);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
 
 static void
-e_minicard_label_get_property  (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+e_minicard_label_get_property (GObject *object,
+                               guint property_id,
+                               GValue *value,
+                               GParamSpec *pspec)
 {
 	EMinicardLabel *e_minicard_label;
 
 	e_minicard_label = E_MINICARD_LABEL (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_WIDTH:
 		g_value_set_double (value, e_minicard_label->width);
 		break;
@@ -275,7 +281,7 @@ e_minicard_label_get_property  (GObject *object, guint prop_id, GValue *value, G
 		g_value_set_boolean (value, e_minicard_label->editable);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
@@ -341,7 +347,8 @@ e_minicard_label_unrealize (GnomeCanvasItem *item)
 }
 
 static gboolean
-e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
+e_minicard_label_event (GnomeCanvasItem *item,
+                        GdkEvent *event)
 {
 	EMinicardLabel *e_minicard_label;
 
@@ -455,13 +462,15 @@ set_colors (EMinicardLabel *label)
 }
 
 static void
-e_minicard_label_style_set (EMinicardLabel *label, GtkStyle *previous_style)
+e_minicard_label_style_set (EMinicardLabel *label,
+                            GtkStyle *previous_style)
 {
 	set_colors (label);
 }
 
 static void
-e_minicard_label_reflow (GnomeCanvasItem *item, gint flags)
+e_minicard_label_reflow (GnomeCanvasItem *item,
+                         gint flags)
 {
 	EMinicardLabel *e_minicard_label = E_MINICARD_LABEL (item);
 

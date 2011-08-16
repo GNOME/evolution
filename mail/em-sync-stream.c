@@ -234,7 +234,8 @@ em_sync_stream_init (EMSyncStream *emss)
 }
 
 void
-em_sync_stream_set_buffer_size (EMSyncStream *emss, gsize size)
+em_sync_stream_set_buffer_size (EMSyncStream *emss,
+                                gsize size)
 {
 	if (emss->buffer != NULL)
 		g_string_free (emss->buffer, TRUE);

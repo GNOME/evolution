@@ -109,7 +109,7 @@ static void	e_cell_combo_restart_edit	(ECellCombo *ecc);
 G_DEFINE_TYPE (ECellCombo, e_cell_combo, E_TYPE_CELL_POPUP)
 
 static void
-e_cell_combo_class_init			(ECellComboClass	*class)
+e_cell_combo_class_init (ECellComboClass *class)
 {
 	ECellPopupClass *ecpc = E_CELL_POPUP_CLASS (class);
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
@@ -120,7 +120,7 @@ e_cell_combo_class_init			(ECellComboClass	*class)
 }
 
 static void
-e_cell_combo_init			(ECellCombo	*ecc)
+e_cell_combo_init (ECellCombo *ecc)
 {
 	GtkWidget *frame;
 	AtkObject *a11y;
@@ -129,7 +129,7 @@ e_cell_combo_init			(ECellCombo	*ecc)
 	GtkScrolledWindow *scrolled_window;
 
 	/* We create one popup window for the ECell, since there will only
-	   ever be one popup in use at a time. */
+	 * ever be one popup in use at a time. */
 	ecc->popup_window = gtk_window_new (GTK_WINDOW_POPUP);
 
 	gtk_window_set_type_hint (
@@ -292,10 +292,10 @@ e_cell_combo_do_popup (ECellPopup *ecp,
 }
 
 static void
-e_cell_combo_select_matching_item	(ECellCombo	*ecc)
+e_cell_combo_select_matching_item (ECellCombo *ecc)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecc);
-	ECellView *ecv = (ECellView*) ecp->popup_cell_view;
+	ECellView *ecv = (ECellView *) ecp->popup_cell_view;
 	ECellText *ecell_text = E_CELL_TEXT (ecp->child);
 	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
 	ETableCol *ecol;
@@ -342,7 +342,9 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 }
 
 static void
-e_cell_combo_show_popup			(ECellCombo	*ecc, gint row, gint view_col)
+e_cell_combo_show_popup (ECellCombo *ecc,
+                         gint row,
+                         gint view_col)
 {
 	GdkWindow *window;
 	GtkAllocation allocation;
@@ -379,13 +381,13 @@ e_cell_combo_show_popup			(ECellCombo	*ecc, gint row, gint view_col)
 
 /* Calculates the size and position of the popup window (like GtkCombo). */
 static void
-e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
-					 gint             row,
-					 gint             view_col,
-					 gint		*x,
-					 gint		*y,
-					 gint		*height,
-					 gint		*width)
+e_cell_combo_get_popup_pos (ECellCombo *ecc,
+                            gint row,
+                            gint view_col,
+                            gint *x,
+                            gint *y,
+                            gint *height,
+                            gint *width)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecc);
 	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
@@ -448,7 +450,7 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	avail_height = gdk_screen_height () - *y;
 
 	/* We'll use the entire screen width if needed, but we save space for
-	   the vertical scrollbar in case we need to show that. */
+	 * the vertical scrollbar in case we need to show that. */
 	screen_width = gdk_screen_width ();
 	avail_width = screen_width - scrollbar_width;
 
@@ -481,7 +483,7 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 		*width = column_width;
 
 	/* If it is larger than the available width, use that instead and show
-	   the horizontal scrollbar. */
+	 * the horizontal scrollbar. */
 	if (*width > avail_width) {
 		*width = avail_width;
 		show_hscroll = TRUE;
@@ -506,11 +508,11 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	/* Check if it fits in the available height. */
 	if (work_height + list_requisition.height > avail_height) {
 		/* It doesn't fit, so we see if we have the minimum space
-		   needed. */
+		 * needed. */
 		if (work_height + min_height > avail_height
 		    && *y - row_height > avail_height) {
 			/* We don't, so we show the popup above the cell
-			   instead of below it. */
+			 * instead of below it. */
 			avail_height = *y - row_height;
 			*y -= (work_height + list_requisition.height
 			       + row_height);
@@ -526,7 +528,7 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	}
 
 	/* We try to line it up with the right edge of the column, but we don't
-	   want it to go off the edges of the screen. */
+	 * want it to go off the edges of the screen. */
 	if (*x > screen_width)
 		*x = screen_width;
 	*x -= *width;
@@ -540,7 +542,8 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 }
 
 static void
-e_cell_combo_selection_changed (GtkTreeSelection *selection, ECellCombo *ecc)
+e_cell_combo_selection_changed (GtkTreeSelection *selection,
+                                ECellCombo *ecc)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model;
@@ -554,25 +557,25 @@ e_cell_combo_selection_changed (GtkTreeSelection *selection, ECellCombo *ecc)
 }
 
 /* This handles button press events in the popup window.
-   Note that since we have a pointer grab on this window, we also get button
-   press events for windows outside the application here, so we hide the popup
-   window if that happens. We also get propagated events from child widgets
-   which we ignore. */
+ * Note that since we have a pointer grab on this window, we also get button
+ * press events for windows outside the application here, so we hide the popup
+ * window if that happens. We also get propagated events from child widgets
+ * which we ignore. */
 static gint
-e_cell_combo_button_press		(GtkWidget	*popup_window,
-					 GdkEvent	*event,
-					 ECellCombo	*ecc)
+e_cell_combo_button_press (GtkWidget *popup_window,
+                           GdkEvent *event,
+                           ECellCombo *ecc)
 {
 	GtkWidget *event_widget;
 
 	event_widget = gtk_get_event_widget (event);
 
 	/* If the button press was for a widget inside the popup list, but
-	   not the popup window itself, then we ignore the event and return
-	   FALSE. Otherwise we will hide the popup.
-	   Note that since we have a pointer grab on the popup list, button
-	   presses outside the application will be reported to this window,
-	   which is why we hide the popup in this case. */
+	 * not the popup window itself, then we ignore the event and return
+	 * FALSE. Otherwise we will hide the popup.
+	 * Note that since we have a pointer grab on the popup list, button
+	 * presses outside the application will be reported to this window,
+	 * which is why we hide the popup in this case. */
 	while (event_widget) {
 		event_widget = gtk_widget_get_parent (event_widget);
 		if (event_widget == ecc->popup_tree_view)
@@ -588,10 +591,10 @@ e_cell_combo_button_press		(GtkWidget	*popup_window,
 	d(g_print("%s: popup_shown = FALSE\n", __FUNCTION__));
 
 	/* We don't want to update the cell here. Since the list is in browse
-	   mode there will always be one item selected, so when we popup the
-	   list one item is selected even if it doesn't match the current text
-	   in the cell. So if you click outside the popup (which is what has
-	   happened here) it is better to not update the cell. */
+	 * mode there will always be one item selected, so when we popup the
+	 * list one item is selected even if it doesn't match the current text
+	 * in the cell. So if you click outside the popup (which is what has
+	 * happened here) it is better to not update the cell. */
 	/*e_cell_combo_update_cell (ecc);*/
 	e_cell_combo_restart_edit (ecc);
 
@@ -599,16 +602,16 @@ e_cell_combo_button_press		(GtkWidget	*popup_window,
 }
 
 /* This handles button release events in the popup window. If the button is
-   released inside the list, we want to hide the popup window and update the
-   cell with the new selection. */
+ * released inside the list, we want to hide the popup window and update the
+ * cell with the new selection. */
 static gint
-e_cell_combo_button_release		(GtkWidget	*popup_window,
-					 GdkEventButton	*event,
-					 ECellCombo	*ecc)
+e_cell_combo_button_release (GtkWidget *popup_window,
+                             GdkEventButton *event,
+                             ECellCombo *ecc)
 {
 	GtkWidget *event_widget;
 
-	event_widget = gtk_get_event_widget ((GdkEvent*) event);
+	event_widget = gtk_get_event_widget ((GdkEvent *) event);
 
 	/* See if the button was released in the list (or its children). */
 	while (event_widget && event_widget != ecc->popup_tree_view)
@@ -619,7 +622,7 @@ e_cell_combo_button_release		(GtkWidget	*popup_window,
 		return FALSE;
 
 	/* The button was released inside the list, so we hide the popup and
-	   update the cell to reflect the new selection. */
+	 * update the cell to reflect the new selection. */
 	gtk_grab_remove (ecc->popup_window);
 	gdk_pointer_ungrab (event->time);
 	gdk_keyboard_ungrab (event->time);
@@ -635,11 +638,11 @@ e_cell_combo_button_release		(GtkWidget	*popup_window,
 }
 
 /* This handles key press events in the popup window. If the Escape key is
-   pressed we hide the popup, and do not change the cell contents. */
+ * pressed we hide the popup, and do not change the cell contents. */
 static gint
-e_cell_combo_key_press			(GtkWidget	*popup_window,
-					 GdkEventKey	*event,
-					 ECellCombo	*ecc)
+e_cell_combo_key_press (GtkWidget *popup_window,
+                        GdkEventKey *event,
+                        ECellCombo *ecc)
 {
 	/* If the Escape key is pressed we hide the popup. */
 	if (event->keyval != GDK_KEY_Escape
@@ -670,10 +673,10 @@ e_cell_combo_key_press			(GtkWidget	*popup_window,
 }
 
 static void
-e_cell_combo_update_cell		(ECellCombo	*ecc)
+e_cell_combo_update_cell (ECellCombo *ecc)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecc);
-	ECellView *ecv = (ECellView*) ecp->popup_cell_view;
+	ECellView *ecv = (ECellView *) ecp->popup_cell_view;
 	ECellText *ecell_text = E_CELL_TEXT (ecp->child);
 	ETableItem *eti = E_TABLE_ITEM (ecv->e_table_item_view);
 	ETableCol *ecol;
@@ -708,11 +711,11 @@ e_cell_combo_update_cell		(ECellCombo	*ecc)
 }
 
 static void
-e_cell_combo_restart_edit		(ECellCombo	*ecc)
+e_cell_combo_restart_edit (ECellCombo *ecc)
 {
 	/* This doesn't work. ETable stops the edit straight-away again. */
 #if 0
-	ECellView *ecv = (ECellView*) ecc->popup_cell_view;
+	ECellView *ecv = (ECellView *) ecc->popup_cell_view;
 	ETableItem *eti = E_TABLE_ITEM (ecv->e_table_item_view);
 
 	e_table_item_enter_edit (eti, ecc->popup_view_col, ecc->popup_row);

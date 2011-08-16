@@ -46,17 +46,27 @@ static const struct {
 	const gchar *type;
 	const gchar *subtype;
 	CamelTransferEncoding encoding;
-	guint plain:1;
+	guint plain : 1;
 } emif_types[] = {
-	{ "text",        "plain",                 CAMEL_TRANSFER_ENCODING_DEFAULT,  1, },
-	{ "application", "mac-binhex40",          CAMEL_TRANSFER_ENCODING_7BIT,     0, },
-	{ "application", "postscript",            CAMEL_TRANSFER_ENCODING_7BIT,     0, },
-	{ "application", "x-inlinepgp-signed",    CAMEL_TRANSFER_ENCODING_DEFAULT,  0, },
-	{ "application", "x-inlinepgp-encrypted", CAMEL_TRANSFER_ENCODING_DEFAULT,  0, },
+	{ "text", "plain",
+	  CAMEL_TRANSFER_ENCODING_DEFAULT, 1 },
+
+	{ "application", "mac-binhex40",
+	  CAMEL_TRANSFER_ENCODING_7BIT, 0 },
+
+	{ "application", "postscript",
+	  CAMEL_TRANSFER_ENCODING_7BIT, 0 },
+
+	{ "application", "x-inlinepgp-signed",
+	  CAMEL_TRANSFER_ENCODING_DEFAULT, 0 },
+
+	{ "application", "x-inlinepgp-encrypted",
+	  CAMEL_TRANSFER_ENCODING_DEFAULT, 0 }
 };
 
 static CamelMimePart *
-construct_part_from_stream (CamelStream *mem, const GByteArray *data)
+construct_part_from_stream (CamelStream *mem,
+                            const GByteArray *data)
 {
 	CamelMimePart *part = NULL;
 	CamelMimeParser *parser;
@@ -85,7 +95,9 @@ construct_part_from_stream (CamelStream *mem, const GByteArray *data)
 }
 
 static void
-inline_filter_add_part (EMInlineFilter *emif, const gchar *data, gint len)
+inline_filter_add_part (EMInlineFilter *emif,
+                        const gchar *data,
+                        gint len)
 {
 	CamelTransferEncoding encoding;
 	CamelContentType *content_type;
@@ -189,10 +201,13 @@ inline_filter_add_part (EMInlineFilter *emif, const gchar *data, gint len)
 }
 
 static gint
-inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
+inline_filter_scan (CamelMimeFilter *f,
+                    gchar *in,
+                    gsize len,
+                    gint final)
 {
 	EMInlineFilter *emif = (EMInlineFilter *) f;
-	gchar *inptr = in, *inend = in+len;
+	gchar *inptr = in, *inend = in + len;
 	gchar *data_start = in;
 	gchar *start = in;
 
@@ -207,7 +222,7 @@ inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 
 		if (inptr == inend && start == inptr) {
 			if (!final) {
-				camel_mime_filter_backup (f, start, inend-start);
+				camel_mime_filter_backup (f, start, inend - start);
 				inend = start;
 			}
 			break;
@@ -225,31 +240,31 @@ inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 		case EMIF_PLAIN:
 			if (rest_len >= 45 && strncmp (start, "(This file must be converted with BinHex 4.0)", 45) == 0) {
 				restore_inptr ();
-				inline_filter_add_part (emif, data_start, start-data_start);
+				inline_filter_add_part (emif, data_start, start - data_start);
 				data_start = start;
 				emif->state = EMIF_BINHEX;
 			} else if (rest_len >= 11 && strncmp (start, "%!PS-Adobe-", 11) == 0) {
 				restore_inptr ();
-				inline_filter_add_part (emif, data_start, start-data_start);
+				inline_filter_add_part (emif, data_start, start - data_start);
 				data_start = start;
 				emif->state = EMIF_POSTSCRIPT;
 			} else if (rest_len >= 34 && strncmp (start, "-----BEGIN PGP SIGNED MESSAGE-----", 34) == 0) {
 				restore_inptr ();
-				inline_filter_add_part (emif, data_start, start-data_start);
+				inline_filter_add_part (emif, data_start, start - data_start);
 				data_start = start;
 				emif->state = EMIF_PGPSIGNED;
 			} else if (rest_len >= 27 && strncmp (start, "-----BEGIN PGP MESSAGE-----", 27) == 0) {
 				restore_inptr ();
-				inline_filter_add_part (emif, data_start, start-data_start);
+				inline_filter_add_part (emif, data_start, start - data_start);
 				data_start = start;
 				emif->state = EMIF_PGPENCRYPTED;
 			}
 
 			break;
 		case EMIF_BINHEX:
-			if (inptr > (start+1) && inptr[-2] == ':') {
+			if (inptr > (start + 1) && inptr[-2] == ':') {
 				restore_inptr ();
-				inline_filter_add_part (emif, data_start, inptr-data_start);
+				inline_filter_add_part (emif, data_start, inptr - data_start);
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
 				emif->found_any = TRUE;
@@ -258,7 +273,7 @@ inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 		case EMIF_POSTSCRIPT:
 			if (rest_len >= 5 && strncmp (start, "%%EOF", 5) == 0) {
 				restore_inptr ();
-				inline_filter_add_part (emif, data_start, inptr-data_start);
+				inline_filter_add_part (emif, data_start, inptr - data_start);
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
 				emif->found_any = TRUE;
@@ -267,7 +282,7 @@ inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 		case EMIF_PGPSIGNED:
 			if (rest_len >= 27 && strncmp (start, "-----END PGP SIGNATURE-----", 27) == 0) {
 				restore_inptr ();
-				inline_filter_add_part (emif, data_start, inptr-data_start);
+				inline_filter_add_part (emif, data_start, inptr - data_start);
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
 				emif->found_any = TRUE;
@@ -276,7 +291,7 @@ inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 		case EMIF_PGPENCRYPTED:
 			if (rest_len >= 25 && strncmp (start, "-----END PGP MESSAGE-----", 25) == 0) {
 				restore_inptr ();
-				inline_filter_add_part (emif, data_start, inptr-data_start);
+				inline_filter_add_part (emif, data_start, inptr - data_start);
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
 				emif->found_any = TRUE;
@@ -409,7 +424,8 @@ em_inline_filter_init (EMInlineFilter *emif)
  * Return value:
  **/
 EMInlineFilter *
-em_inline_filter_new (CamelTransferEncoding base_encoding, CamelContentType *base_type)
+em_inline_filter_new (CamelTransferEncoding base_encoding,
+                      CamelContentType *base_type)
 {
 	EMInlineFilter *emif;
 

@@ -215,7 +215,12 @@ ldap_get_ssl_tooltip (AddressbookLDAPSSLType ssl_type)
 }
 
 static gboolean
-source_to_uri_parts (ESource *source, gchar **host, gchar **rootdn, AddressbookLDAPScopeType *scope, gchar **search_filter, gint *port)
+source_to_uri_parts (ESource *source,
+                     gchar **host,
+                     gchar **rootdn,
+                     AddressbookLDAPScopeType *scope,
+                     gchar **search_filter,
+                     gint *port)
 {
 	gchar       *uri;
 	LDAPURLDesc *lud;
@@ -256,7 +261,8 @@ source_group_is_remote (ESourceGroup *group)
 
 /* ldap api foo */
 static LDAP *
-addressbook_ldap_init (GtkWidget *window, ESource *source)
+addressbook_ldap_init (GtkWidget *window,
+                       ESource *source)
 {
 	LDAP  *ldap;
 	gchar *host;
@@ -284,7 +290,8 @@ addressbook_ldap_init (GtkWidget *window, ESource *source)
 }
 
 static gint
-addressbook_ldap_auth (GtkWidget *window, LDAP *ldap)
+addressbook_ldap_auth (GtkWidget *window,
+                       LDAP *ldap)
 {
 	gint ldap_error;
 
@@ -297,8 +304,10 @@ addressbook_ldap_auth (GtkWidget *window, LDAP *ldap)
 }
 
 static gint
-addressbook_root_dse_query (AddressbookSourceDialog *dialog, LDAP *ldap,
-			    const gchar **attrs, LDAPMessage **resp)
+addressbook_root_dse_query (AddressbookSourceDialog *dialog,
+                            LDAP *ldap,
+                            const gchar **attrs,
+                            LDAPMessage **resp)
 {
 	GtkAdjustment *adjustment;
 	GtkRange *range;
@@ -322,7 +331,9 @@ addressbook_root_dse_query (AddressbookSourceDialog *dialog, LDAP *ldap,
 }
 
 static gboolean
-do_ldap_root_dse_query (AddressbookSourceDialog *sdialog, GtkListStore *model, ESource *source)
+do_ldap_root_dse_query (AddressbookSourceDialog *sdialog,
+                        GtkListStore *model,
+                        ESource *source)
 {
 	LDAP *ldap;
 	const gchar *attrs[2];
@@ -369,7 +380,8 @@ do_ldap_root_dse_query (AddressbookSourceDialog *sdialog, GtkListStore *model, E
 }
 
 static void
-search_base_selection_model_changed (GtkTreeSelection *selection, GtkWidget *dialog)
+search_base_selection_model_changed (GtkTreeSelection *selection,
+                                     GtkWidget *dialog)
 {
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog),
 					   GTK_RESPONSE_OK,
@@ -377,7 +389,8 @@ search_base_selection_model_changed (GtkTreeSelection *selection, GtkWidget *dia
 }
 
 static void
-query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
+query_for_supported_bases (GtkWidget *button,
+                           AddressbookSourceDialog *sdialog)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -427,7 +440,7 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 
 #endif /* HAVE_LDAP */
 
-GtkWidget*
+GtkWidget *
 addressbook_config_create_new_source (GtkWidget *parent)
 {
 	return addressbook_config_edit_source (parent, NULL);
@@ -436,7 +449,8 @@ addressbook_config_create_new_source (GtkWidget *parent)
 /* ********************************************************************** */
 
 static void
-eabc_type_changed (GtkComboBox *dropdown, AddressbookSourceDialog *sdialog)
+eabc_type_changed (GtkComboBox *dropdown,
+                   AddressbookSourceDialog *sdialog)
 {
 	gint id = gtk_combo_box_get_active (dropdown);
 	GtkTreeModel *model;
@@ -454,7 +468,7 @@ eabc_type_changed (GtkComboBox *dropdown, AddressbookSourceDialog *sdialog)
 	e_source_set_group (sdialog->source, sdialog->source_group);
 
 	/* BIG HACK: We load the defaults for each type here.
-	   I guess plugins will have to use the do it in their factory callbacks */
+	 * I guess plugins will have to use the do it in their factory callbacks */
 	if (!strncmp(e_source_group_peek_base_uri(sdialog->source_group), "groupwise:", 10)) {
 		GSList *l;
 		ESource *source;
@@ -520,7 +534,7 @@ eabc_general_type (EConfig *ec,
 	cell = gtk_cell_renderer_text_new ();
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 	i = 0;
-	for (l=sdialog->menu_source_groups;l;l=g_slist_next (l)) {
+	for (l = sdialog->menu_source_groups; l; l = g_slist_next (l)) {
 		ESourceGroup *group = l->data;
 
 		gtk_list_store_append (store, &iter);
@@ -535,7 +549,7 @@ eabc_general_type (EConfig *ec,
 	gtk_combo_box_set_model (dropdown, (GtkTreeModel *) store);
 	gtk_combo_box_set_active (dropdown, -1);
 	gtk_combo_box_set_active (dropdown, row);
-	g_signal_connect(dropdown, "changed", G_CALLBACK(eabc_type_changed), sdialog);
+	g_signal_connect (dropdown, "changed", G_CALLBACK(eabc_type_changed), sdialog);
 	gtk_widget_show ((GtkWidget *) dropdown);
 	gtk_box_pack_start ((GtkBox *) w, (GtkWidget *) dropdown, TRUE, TRUE, 0);
 	gtk_label_set_mnemonic_widget ((GtkLabel *) label, (GtkWidget *) dropdown);
@@ -548,7 +562,8 @@ eabc_general_type (EConfig *ec,
 }
 
 static void
-name_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
+name_changed_cb (GtkWidget *w,
+                 AddressbookSourceDialog *sdialog)
 {
 	const gchar *text;
 	gchar *stripped_name;
@@ -583,7 +598,7 @@ eabc_general_name (EConfig *ec,
 	gtk_box_pack_start ((GtkBox *) parent, w, FALSE, FALSE, 0);
 
 	sdialog->display_name = e_builder_get_widget (builder, "account-editor-display-name-entry");
-	g_signal_connect(sdialog->display_name, "changed", G_CALLBACK(name_changed_cb), sdialog);
+	g_signal_connect (sdialog->display_name, "changed", G_CALLBACK(name_changed_cb), sdialog);
 	gtk_entry_set_text ((GtkEntry *) sdialog->display_name, e_source_peek_name (sdialog->source));
 
 	/* Hardcoded: groupwise can't edit the name (or anything else) */
@@ -601,7 +616,8 @@ eabc_general_name (EConfig *ec,
 
 /* TODO: This should be moved to plugins if B&A calendar setup is moved there */
 static void
-use_in_cal_changed_cb (GtkWidget *widget, AddressbookSourceDialog *sdialog)
+use_in_cal_changed_cb (GtkWidget *widget,
+                       AddressbookSourceDialog *sdialog)
 {
 	e_source_set_property (sdialog->source, "use-in-contacts-calendar", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)) ? "1" : "0");
 }
@@ -640,7 +656,8 @@ eabc_general_use_in_cal (EConfig *ec,
 }
 
 static void
-offline_status_changed_cb (GtkWidget *widget, AddressbookSourceDialog *sdialog)
+offline_status_changed_cb (GtkWidget *widget,
+                           AddressbookSourceDialog *sdialog)
 {
 	e_source_set_property (sdialog->source, "offline_sync", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)) ? "1" : "0");
 }
@@ -684,7 +701,7 @@ form_ldap_search_filter (GtkWidget *w)
 	const gchar *search_filter = gtk_entry_get_text ((GtkEntry *) w);
 
 	/* this function can be used to format the search filter entered */
-	if ((strlen (search_filter) !=0) && *search_filter != '(' && *(search_filter + (strlen (search_filter-1))) != ')')
+	if ((strlen (search_filter) !=0) && *search_filter != '(' && *(search_filter + (strlen (search_filter - 1))) != ')')
 		filter = g_strdup_printf ("(%s)", search_filter);
 	else
 		filter = g_strdup_printf ("%s", search_filter);
@@ -710,13 +727,15 @@ url_changed (AddressbookSourceDialog *sdialog)
 }
 
 static void
-host_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
+host_changed_cb (GtkWidget *w,
+                 AddressbookSourceDialog *sdialog)
 {
 	url_changed (sdialog);
 }
 
 static void
-port_entry_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
+port_entry_changed_cb (GtkWidget *w,
+                       AddressbookSourceDialog *sdialog)
 {
 	const gchar *port = gtk_entry_get_text ((GtkEntry *) w);
 
@@ -732,7 +751,8 @@ port_entry_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
 }
 
 static void
-ssl_combobox_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
+ssl_combobox_changed_cb (GtkWidget *w,
+                         AddressbookSourceDialog *sdialog)
 {
 	sdialog->ssl = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 	e_source_set_property (sdialog->source, "ssl", ldap_unparse_ssl (sdialog->ssl));
@@ -798,7 +818,8 @@ eabc_general_host (EConfig *ec,
 }
 
 static void
-auth_entry_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
+auth_entry_changed_cb (GtkWidget *w,
+                       AddressbookSourceDialog *sdialog)
 {
 	const gchar *principal = gtk_entry_get_text ((GtkEntry *) w);
 
@@ -821,7 +842,8 @@ auth_entry_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
 }
 
 static void
-auth_combobox_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
+auth_combobox_changed_cb (GtkWidget *w,
+                          AddressbookSourceDialog *sdialog)
 {
 	sdialog->auth = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 	e_source_set_property (sdialog->source, "auth", ldap_unparse_auth (sdialog->auth));
@@ -882,19 +904,22 @@ eabc_general_auth (EConfig *ec,
 }
 
 static void
-rootdn_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
+rootdn_changed_cb (GtkWidget *w,
+                   AddressbookSourceDialog *sdialog)
 {
 	url_changed (sdialog);
 }
 
 static void
-search_filter_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
+search_filter_changed_cb (GtkWidget *w,
+                          AddressbookSourceDialog *sdialog)
 {
 	url_changed (sdialog);
 }
 
 static void
-scope_combobox_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
+scope_combobox_changed_cb (GtkWidget *w,
+                           AddressbookSourceDialog *sdialog)
 {
 	sdialog->scope = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 	url_changed (sdialog);
@@ -968,7 +993,8 @@ eabc_details_search (EConfig *ec,
 }
 
 static void
-timeout_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
+timeout_changed_cb (GtkWidget *w,
+                    AddressbookSourceDialog *sdialog)
 {
 	GtkAdjustment *adjustment;
 	GtkRange *range;
@@ -982,7 +1008,8 @@ timeout_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
 }
 
 static void
-limit_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
+limit_changed_cb (GtkWidget *w,
+                  AddressbookSourceDialog *sdialog)
 {
 	gchar limit[16];
 
@@ -991,7 +1018,8 @@ limit_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
 }
 
 static void
-canbrowse_toggled_cb (GtkWidget *toggle_button, ESource *source)
+canbrowse_toggled_cb (GtkWidget *toggle_button,
+                      ESource *source)
 {
 	if (!source || !toggle_button)
 		return;
@@ -1027,14 +1055,14 @@ eabc_details_limit (EConfig *ec,
 	range = GTK_RANGE (sdialog->timeout_scale);
 	adjustment = gtk_range_get_adjustment (range);
 	tmp = e_source_get_property(sdialog->source, "timeout");
-	gtk_adjustment_set_value (adjustment, tmp?g_strtod (tmp, NULL):3.0);
+	gtk_adjustment_set_value (adjustment, tmp ? g_strtod (tmp, NULL) : 3.0);
 	g_signal_connect (
 		adjustment, "value_changed",
 		G_CALLBACK (timeout_changed_cb), sdialog);
 
 	sdialog->limit_spinbutton = e_builder_get_widget (builder, "download-limit-spinbutton");
 	tmp = e_source_get_property(sdialog->source, "limit");
-	gtk_spin_button_set_value ((GtkSpinButton *) sdialog->limit_spinbutton, tmp?g_strtod (tmp, NULL):100.0);
+	gtk_spin_button_set_value ((GtkSpinButton *) sdialog->limit_spinbutton, tmp ? g_strtod (tmp, NULL) : 100.0);
 	g_signal_connect (sdialog->limit_spinbutton, "value_changed", G_CALLBACK (limit_changed_cb), sdialog);
 
 	sdialog->canbrowsecheck = e_builder_get_widget (builder, "canbrowsecheck");
@@ -1110,7 +1138,9 @@ eabc_commit (EConfig *ec,
 }
 
 static void
-eabc_free (EConfig *ec, GSList *items, gpointer data)
+eabc_free (EConfig *ec,
+           GSList *items,
+           gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 
@@ -1129,7 +1159,9 @@ eabc_free (EConfig *ec, GSList *items, gpointer data)
 }
 
 static gboolean
-eabc_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
+eabc_check_complete (EConfig *ec,
+                     const gchar *pageid,
+                     gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 	gint valid = TRUE;
@@ -1187,7 +1219,8 @@ eabc_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 /* debug only: */
 #if d(!)0
 static void
-source_changed (ESource *source, AddressbookSourceDialog *sdialog)
+source_changed (ESource *source,
+                AddressbookSourceDialog *sdialog)
 {
 	gchar *xml;
 
@@ -1197,8 +1230,9 @@ source_changed (ESource *source, AddressbookSourceDialog *sdialog)
 }
 #endif
 
-GtkWidget*
-addressbook_config_edit_source (GtkWidget *parent, ESource *source)
+GtkWidget *
+addressbook_config_edit_source (GtkWidget *parent,
+                                ESource *source)
 {
 	AddressbookSourceDialog *sdialog = g_new0 (AddressbookSourceDialog, 1);
 	EABConfig *ec;
@@ -1234,12 +1268,12 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 
 		sdialog->menu_source_groups = g_slist_copy (l);
 #ifndef HAVE_LDAP
-		for (;l;l = g_slist_next (l))
+		for (; l; l = g_slist_next (l))
 			if (!strncmp("ldap:", e_source_group_peek_base_uri(l->data), 5))
 				sdialog->menu_source_groups = g_slist_remove (sdialog->menu_source_groups, l->data);
 #endif
 		sdialog->source_group = (ESourceGroup *) sdialog->menu_source_groups->data;
-		for (i=0;eabc_new_items[i].path;i++)
+		for (i = 0; eabc_new_items[i].path; i++)
 			items = g_slist_prepend (items, &eabc_new_items[i]);
 		g_object_unref (gconf);
 	}
@@ -1251,12 +1285,12 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 	xml = e_source_to_standalone_xml (sdialog->source);
 	printf("but working standalone xml: %s\n", xml);
 	g_free (xml);
-	g_signal_connect(sdialog->source, "changed", source_changed, sdialog);
+	g_signal_connect (sdialog->source, "changed", source_changed, sdialog);
 #endif
 
 	sdialog->config = ec = eab_config_new(E_CONFIG_BOOK, "com.novell.evolution.addressbook.config.accountEditor");
 
-	for (i=0;eabc_items[i].path;i++) {
+	for (i = 0; eabc_items[i].path; i++) {
 		if (eabc_items[i].label)
 			eabc_items[i].label = gettext (eabc_items[i].label);
 		items = g_slist_prepend (items, &eabc_items[i]);

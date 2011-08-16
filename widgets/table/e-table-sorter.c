@@ -115,11 +115,14 @@ ets_dispose (GObject *object)
 }
 
 static void
-ets_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+ets_set_property (GObject *object,
+                  guint property_id,
+                  const GValue *value,
+                  GParamSpec *pspec)
 {
 	ETableSorter *ets = E_TABLE_SORTER (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_SORT_INFO:
 		if (ets->sort_info) {
 			if (ets->sort_info_changed_id)
@@ -144,10 +147,13 @@ ets_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpe
 }
 
 static void
-ets_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+ets_get_property (GObject *object,
+                  guint property_id,
+                  GValue *value,
+                  GParamSpec *pspec)
 {
 	ETableSorter *ets = E_TABLE_SORTER (object);
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_SORT_INFO:
 		g_value_set_object (value, ets->sort_info);
 		break;
@@ -197,7 +203,9 @@ ets_init (ETableSorter *ets)
 }
 
 ETableSorter *
-e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
+e_table_sorter_new (ETableModel *source,
+                    ETableHeader *full_header,
+                    ETableSortInfo *sort_info)
 {
 	ETableSorter *ets = g_object_new (E_TYPE_TABLE_SORTER, NULL);
 
@@ -227,37 +235,50 @@ e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortIn
 }
 
 static void
-ets_model_changed (ETableModel *etm, ETableSorter *ets)
+ets_model_changed (ETableModel *etm,
+                   ETableSorter *ets)
 {
 	ets_clean (ets);
 }
 
 static void
-ets_model_row_changed (ETableModel *etm, gint row, ETableSorter *ets)
+ets_model_row_changed (ETableModel *etm,
+                       gint row,
+                       ETableSorter *ets)
 {
 	ets_clean (ets);
 }
 
 static void
-ets_model_cell_changed (ETableModel *etm, gint col, gint row, ETableSorter *ets)
+ets_model_cell_changed (ETableModel *etm,
+                        gint col,
+                        gint row,
+                        ETableSorter *ets)
 {
 	ets_clean (ets);
 }
 
 static void
-ets_model_rows_inserted (ETableModel *etm, gint row, gint count, ETableSorter *ets)
+ets_model_rows_inserted (ETableModel *etm,
+                         gint row,
+                         gint count,
+                         ETableSorter *ets)
 {
 	ets_clean (ets);
 }
 
 static void
-ets_model_rows_deleted (ETableModel *etm, gint row, gint count, ETableSorter *ets)
+ets_model_rows_deleted (ETableModel *etm,
+                        gint row,
+                        gint count,
+                        ETableSorter *ets)
 {
 	ets_clean (ets);
 }
 
 static void
-ets_sort_info_changed (ETableSortInfo *info, ETableSorter *ets)
+ets_sort_info_changed (ETableSortInfo *info,
+                       ETableSorter *ets)
 {
 	d(g_print ("sort info changed\n"));
 	ets_clean (ets);
@@ -275,7 +296,9 @@ struct qsort_data {
 /* FIXME: Make it not cache the second and later columns (as if anyone cares.) */
 
 static gint
-qsort_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
+qsort_callback (gconstpointer data1,
+                gconstpointer data2,
+                gpointer user_data)
 {
 	struct qsort_data *qd = (struct qsort_data *) user_data;
 	gint row1 = *(gint *) data1;
@@ -390,7 +413,8 @@ ets_backsort (ETableSorter *ets)
 }
 
 static gint
-ets_model_to_sorted (ESorter *es, gint row)
+ets_model_to_sorted (ESorter *es,
+                     gint row)
 {
 	ETableSorter *ets = E_TABLE_SORTER (es);
 	gint rows = e_table_model_row_count (ets->source);
@@ -408,7 +432,8 @@ ets_model_to_sorted (ESorter *es, gint row)
 }
 
 static gint
-ets_sorted_to_model (ESorter *es, gint row)
+ets_sorted_to_model (ESorter *es,
+                     gint row)
 {
 	ETableSorter *ets = E_TABLE_SORTER (es);
 	gint rows = e_table_model_row_count (ets->source);
@@ -426,7 +451,9 @@ ets_sorted_to_model (ESorter *es, gint row)
 }
 
 static void
-ets_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
+ets_get_model_to_sorted_array (ESorter *es,
+                               gint **array,
+                               gint *count)
 {
 	ETableSorter *ets = E_TABLE_SORTER (es);
 	if (array || count) {
@@ -440,7 +467,9 @@ ets_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
 }
 
 static void
-ets_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
+ets_get_sorted_to_model_array (ESorter *es,
+                               gint **array,
+                               gint *count)
 {
 	ETableSorter *ets = E_TABLE_SORTER (es);
 	if (array || count) {

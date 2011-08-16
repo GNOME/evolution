@@ -74,7 +74,7 @@ struct _ETableFieldChooserItem {
 	/*
 	 * For dragging columns
 	 */
-	guint            maybe_drag:1;
+	guint            maybe_drag : 1;
 	gint              click_x, click_y;
 	gint              drag_col;
 	guint            drag_data_get_id;

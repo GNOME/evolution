@@ -136,7 +136,9 @@ e_icon_factory_get_icon (const gchar *icon_name,
  * Returns: a scaled #GdkPixbuf
  **/
 GdkPixbuf *
-e_icon_factory_pixbuf_scale (GdkPixbuf *pixbuf, gint width, gint height)
+e_icon_factory_pixbuf_scale (GdkPixbuf *pixbuf,
+                             gint width,
+                             gint height)
 {
 	g_return_val_if_fail (pixbuf != NULL, NULL);
 

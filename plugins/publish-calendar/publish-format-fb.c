@@ -37,7 +37,9 @@
 #include "publish-format-fb.h"
 
 static void
-free_busy_data_cb (ECalClient *client, const GSList *free_busy_ecalcomps, GSList **pobjects)
+free_busy_data_cb (ECalClient *client,
+                   const GSList *free_busy_ecalcomps,
+                   GSList **pobjects)
 {
 	const GSList *iter;
 
@@ -52,7 +54,12 @@ free_busy_data_cb (ECalClient *client, const GSList *free_busy_ecalcomps, GSList
 }
 
 static gboolean
-write_calendar (const gchar *uid, ESourceList *source_list, GOutputStream *stream, gint dur_type, gint dur_value, GError **error)
+write_calendar (const gchar *uid,
+                ESourceList *source_list,
+                GOutputStream *stream,
+                gint dur_type,
+                gint dur_value,
+                GError **error)
 {
 	ESource *source;
 	ECalClient *client = NULL;
@@ -133,7 +140,9 @@ write_calendar (const gchar *uid, ESourceList *source_list, GOutputStream *strea
 }
 
 void
-publish_calendar_as_fb (GOutputStream *stream, EPublishUri *uri, GError **error)
+publish_calendar_as_fb (GOutputStream *stream,
+                        EPublishUri *uri,
+                        GError **error)
 {
 	GSList *l;
 	ESourceList *source_list;

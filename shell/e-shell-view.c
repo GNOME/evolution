@@ -247,7 +247,8 @@ shell_view_save_state_done_cb (GFile *file,
 }
 
 static EActivity *
-shell_view_save_state (EShellView *shell_view, gboolean immediately)
+shell_view_save_state (EShellView *shell_view,
+                       gboolean immediately)
 {
 	EShellBackend *shell_backend;
 	SaveStateData *data;

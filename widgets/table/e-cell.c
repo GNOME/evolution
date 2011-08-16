@@ -36,7 +36,9 @@ G_DEFINE_TYPE (ECell, e_cell, G_TYPE_OBJECT)
 #define ECVIEW_EC_CLASS(v) (E_CELL_GET_CLASS (v->ecell))
 
 static ECellView *
-ec_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view)
+ec_new_view (ECell *ecell,
+             ETableModel *table_model,
+             gpointer e_table_item_view)
 {
 	return NULL;
 }
@@ -57,15 +59,28 @@ ec_unrealize (ECellView *e_cell)
 }
 
 static void
-ec_draw (ECellView *ecell_view, cairo_t *cr,
-	 gint model_col, gint view_col, gint row, ECellFlags flags,
-	 gint x1, gint y1, gint x2, gint y2)
+ec_draw (ECellView *ecell_view,
+         cairo_t *cr,
+         gint model_col,
+         gint view_col,
+         gint row,
+         ECellFlags flags,
+         gint x1,
+         gint y1,
+         gint x2,
+         gint y2)
 {
 	g_critical ("e-cell-draw invoked");
 }
 
 static gint
-ec_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col, gint row, ECellFlags flags, ECellActions *actions)
+ec_event (ECellView *ecell_view,
+          GdkEvent *event,
+          gint model_col,
+          gint view_col,
+          gint row,
+          ECellFlags flags,
+          ECellActions *actions)
 {
 	g_critical ("e-cell-event invoked");
 
@@ -73,7 +88,10 @@ ec_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col,
 }
 
 static gint
-ec_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
+ec_height (ECellView *ecell_view,
+           gint model_col,
+           gint view_col,
+           gint row)
 {
 	g_critical ("e-cell-height invoked");
 
@@ -81,7 +99,14 @@ ec_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 }
 
 static void
-ec_focus (ECellView *ecell_view, gint model_col, gint view_col, gint row, gint x1, gint y1, gint x2, gint y2)
+ec_focus (ECellView *ecell_view,
+          gint model_col,
+          gint view_col,
+          gint row,
+          gint x1,
+          gint y1,
+          gint x2,
+          gint y2)
 {
 	ecell_view->focus_col = view_col;
 	ecell_view->focus_row = row;
@@ -103,29 +128,49 @@ ec_unfocus (ECellView *ecell_view)
 }
 
 static gpointer
-ec_enter_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row)
+ec_enter_edit (ECellView *ecell_view,
+               gint model_col,
+               gint view_col,
+               gint row)
 {
 	return NULL;
 }
 
 static void
-ec_leave_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer context)
+ec_leave_edit (ECellView *ecell_view,
+               gint model_col,
+               gint view_col,
+               gint row,
+               gpointer context)
 {
 }
 
 static gpointer
-ec_save_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer context)
+ec_save_state (ECellView *ecell_view,
+               gint model_col,
+               gint view_col,
+               gint row,
+               gpointer context)
 {
 	return NULL;
 }
 
 static void
-ec_load_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer context, gpointer save_state)
+ec_load_state (ECellView *ecell_view,
+               gint model_col,
+               gint view_col,
+               gint row,
+               gpointer context,
+               gpointer save_state)
 {
 }
 
 static void
-ec_free_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer save_state)
+ec_free_state (ECellView *ecell_view,
+               gint model_col,
+               gint view_col,
+               gint row,
+               gpointer save_state)
 {
 }
 
@@ -172,7 +217,13 @@ e_cell_init (ECell *cell)
  * Returns: processing state from the GdkEvent handling.
  */
 gint
-e_cell_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col, gint row, ECellFlags flags, ECellActions *actions)
+e_cell_event (ECellView *ecell_view,
+              GdkEvent *event,
+              gint model_col,
+              gint view_col,
+              gint row,
+              ECellFlags flags,
+              ECellActions *actions)
 {
 	return ECVIEW_EC_CLASS (ecell_view)->event (
 		ecell_view, event, model_col, view_col, row, flags, actions);
@@ -194,7 +245,9 @@ e_cell_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_
  * Returns: a new ECellView for this @ecell on the @table_model displayed on the @e_table_item_view.
  */
 ECellView *
-e_cell_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view)
+e_cell_new_view (ECell *ecell,
+                 ETableModel *table_model,
+                 gpointer e_table_item_view)
 {
 	return E_CELL_GET_CLASS (ecell)->new_view (
 		ecell, table_model, e_table_item_view);
@@ -260,9 +313,16 @@ e_cell_unrealize (ECellView *ecell_view)
  * flags include alignments and justifications.
  */
 void
-e_cell_draw (ECellView *ecell_view, cairo_t *cr,
-	     gint model_col, gint view_col, gint row, ECellFlags flags,
-	     gint x1, gint y1, gint x2, gint y2)
+e_cell_draw (ECellView *ecell_view,
+             cairo_t *cr,
+             gint model_col,
+             gint view_col,
+             gint row,
+             ECellFlags flags,
+             gint x1,
+             gint y1,
+             gint x2,
+             gint y2)
 {
 	g_return_if_fail (ecell_view != NULL);
 	g_return_if_fail (row >= 0);
@@ -288,9 +348,13 @@ e_cell_draw (ECellView *ecell_view, cairo_t *cr,
  * FIXME:
  */
 void
-e_cell_print (ECellView *ecell_view, GtkPrintContext *context,
-	      gint model_col, gint view_col, gint row,
-	      gdouble width, gdouble height)
+e_cell_print (ECellView *ecell_view,
+              GtkPrintContext *context,
+              gint model_col,
+              gint view_col,
+              gint row,
+              gdouble width,
+              gdouble height)
 {
 	if (ECVIEW_EC_CLASS (ecell_view)->print)
 		ECVIEW_EC_CLASS (ecell_view)->print (ecell_view, context, model_col, view_col, row, width, height);
@@ -302,9 +366,12 @@ e_cell_print (ECellView *ecell_view, GtkPrintContext *context,
  * FIXME:
  */
 gdouble
-e_cell_print_height (ECellView *ecell_view, GtkPrintContext *context,
-		     gint model_col, gint view_col, gint row,
-		     gdouble width)
+e_cell_print_height (ECellView *ecell_view,
+                     GtkPrintContext *context,
+                     gint model_col,
+                     gint view_col,
+                     gint row,
+                     gdouble width)
 {
 	if (ECVIEW_EC_CLASS (ecell_view)->print_height)
 		return ECVIEW_EC_CLASS (ecell_view)->print_height
@@ -324,7 +391,10 @@ e_cell_print_height (ECellView *ecell_view, GtkPrintContext *context,
  * @view_col, @row.
  */
 gint
-e_cell_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
+e_cell_height (ECellView *ecell_view,
+               gint model_col,
+               gint view_col,
+               gint row)
 {
 	return ECVIEW_EC_CLASS (ecell_view)->height (ecell_view, model_col, view_col, row);
 }
@@ -340,7 +410,10 @@ e_cell_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
  * @model_col, @row rendered at @view_col, @row.
  */
 gpointer
-e_cell_enter_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row)
+e_cell_enter_edit (ECellView *ecell_view,
+                   gint model_col,
+                   gint view_col,
+                   gint row)
 {
 	return ECVIEW_EC_CLASS (ecell_view)->enter_edit (ecell_view, model_col, view_col, row);
 }
@@ -357,7 +430,11 @@ e_cell_enter_edit (ECellView *ecell_view, gint model_col, gint view_col, gint ro
  * rendered at @view_col, @row.
  */
 void
-e_cell_leave_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer edit_context)
+e_cell_leave_edit (ECellView *ecell_view,
+                   gint model_col,
+                   gint view_col,
+                   gint row,
+                   gpointer edit_context)
 {
 	ECVIEW_EC_CLASS (ecell_view)->leave_edit (ecell_view, model_col, view_col, row, edit_context);
 }
@@ -377,7 +454,11 @@ e_cell_leave_edit (ECellView *ecell_view, gint model_col, gint view_col, gint ro
  * or scrolling.
  */
 gpointer
-e_cell_save_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer edit_context)
+e_cell_save_state (ECellView *ecell_view,
+                   gint model_col,
+                   gint view_col,
+                   gint row,
+                   gpointer edit_context)
 {
 	if (ECVIEW_EC_CLASS (ecell_view)->save_state)
 		return ECVIEW_EC_CLASS (ecell_view)->save_state (ecell_view, model_col, view_col, row, edit_context);
@@ -397,7 +478,12 @@ e_cell_save_state (ECellView *ecell_view, gint model_col, gint view_col, gint ro
  * Requests that the ECellView load from the given save state.
  */
 void
-e_cell_load_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer edit_context, gpointer save_state)
+e_cell_load_state (ECellView *ecell_view,
+                   gint model_col,
+                   gint view_col,
+                   gint row,
+                   gpointer edit_context,
+                   gpointer save_state)
 {
 	if (ECVIEW_EC_CLASS (ecell_view)->load_state)
 		ECVIEW_EC_CLASS (ecell_view)->load_state (ecell_view, model_col, view_col, row, edit_context, save_state);
@@ -415,7 +501,11 @@ e_cell_load_state (ECellView *ecell_view, gint model_col, gint view_col, gint ro
  * Requests that the ECellView free the given save state.
  */
 void
-e_cell_free_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer save_state)
+e_cell_free_state (ECellView *ecell_view,
+                   gint model_col,
+                   gint view_col,
+                   gint row,
+                   gpointer save_state)
 {
 	if (ECVIEW_EC_CLASS (ecell_view)->free_state)
 		ECVIEW_EC_CLASS (ecell_view)->free_state (ecell_view, model_col, view_col, row, save_state);
@@ -431,7 +521,9 @@ e_cell_free_state (ECellView *ecell_view, gint model_col, gint view_col, gint ro
  * is being rendered as @view_col
  */
 gint
-e_cell_max_width (ECellView *ecell_view, gint model_col, gint view_col)
+e_cell_max_width (ECellView *ecell_view,
+                  gint model_col,
+                  gint view_col)
 {
 	return ECVIEW_EC_CLASS (ecell_view)->max_width
 		(ecell_view, model_col, view_col);
@@ -448,7 +540,10 @@ e_cell_max_width (ECellView *ecell_view, gint model_col, gint view_col)
  * is being rendered as @view_col for the data in @row.
  */
 gint
-e_cell_max_width_by_row (ECellView *ecell_view, gint model_col, gint view_col, gint row)
+e_cell_max_width_by_row (ECellView *ecell_view,
+                         gint model_col,
+                         gint view_col,
+                         gint row)
 {
 	if (ECVIEW_EC_CLASS (ecell_view)->max_width_by_row)
 		return ECVIEW_EC_CLASS (ecell_view)->max_width_by_row
@@ -474,7 +569,8 @@ e_cell_max_width_by_row_implemented (ECellView *ecell_view)
 }
 
 gchar *
-e_cell_get_bg_color (ECellView *ecell_view, gint row)
+e_cell_get_bg_color (ECellView *ecell_view,
+                     gint row)
 {
 	if (ECVIEW_EC_CLASS (ecell_view)->get_bg_color)
 		return ECVIEW_EC_CLASS (ecell_view)->get_bg_color (ecell_view, row);
@@ -483,7 +579,8 @@ e_cell_get_bg_color (ECellView *ecell_view, gint row)
 }
 
 void
-e_cell_style_set (ECellView *ecell_view, GtkStyle *previous_style)
+e_cell_style_set (ECellView *ecell_view,
+                  GtkStyle *previous_style)
 {
 	if (ECVIEW_EC_CLASS (ecell_view)->style_set)
 		ECVIEW_EC_CLASS (ecell_view)->style_set (ecell_view, previous_style);

@@ -114,7 +114,9 @@ e_delegate_dialog_finalize (GObject *object)
 }
 
 EDelegateDialog *
-e_delegate_dialog_construct (EDelegateDialog *edd, const gchar *name, const gchar *address)
+e_delegate_dialog_construct (EDelegateDialog *edd,
+                             const gchar *name,
+                             const gchar *address)
 {
 	EDelegateDialogPrivate *priv;
 	EDestinationStore *destination_store;
@@ -157,7 +159,7 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const gchar *name, const gcha
 	e_destination_store_append_destination (destination_store, dest);
 	g_object_unref (dest);
 
-	g_signal_connect((priv->addressbook), "clicked",
+	g_signal_connect ((priv->addressbook), "clicked",
 			    G_CALLBACK (addressbook_clicked_cb), edd);
 
 	name_selector_dialog = e_name_selector_peek_dialog (priv->name_selector);
@@ -188,7 +190,8 @@ get_widgets (EDelegateDialog *edd)
 }
 
 static void
-addressbook_clicked_cb (GtkWidget *widget, gpointer data)
+addressbook_clicked_cb (GtkWidget *widget,
+                        gpointer data)
 {
 	EDelegateDialog *edd = data;
 
@@ -197,7 +200,9 @@ addressbook_clicked_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-addressbook_response_cb (GtkWidget *widget, gint response, gpointer data)
+addressbook_response_cb (GtkWidget *widget,
+                         gint response,
+                         gpointer data)
 {
 	EDelegateDialog *edd = data;
 	EDelegateDialogPrivate *priv;
@@ -218,7 +223,8 @@ addressbook_response_cb (GtkWidget *widget, gint response, gpointer data)
  * editor could not be created.
  **/
 EDelegateDialog *
-e_delegate_dialog_new (const gchar *name, const gchar *address)
+e_delegate_dialog_new (const gchar *name,
+                       const gchar *address)
 {
 	EDelegateDialog *edd;
 
@@ -227,7 +233,7 @@ e_delegate_dialog_new (const gchar *name, const gchar *address)
 }
 
 gchar *
-e_delegate_dialog_get_delegate		(EDelegateDialog  *edd)
+e_delegate_dialog_get_delegate (EDelegateDialog *edd)
 {
 	EDelegateDialogPrivate *priv;
 	ENameSelectorModel *name_selector_model;
@@ -258,7 +264,7 @@ e_delegate_dialog_get_delegate		(EDelegateDialog  *edd)
 }
 
 gchar *
-e_delegate_dialog_get_delegate_name		(EDelegateDialog  *edd)
+e_delegate_dialog_get_delegate_name (EDelegateDialog *edd)
 {
 	EDelegateDialogPrivate *priv;
 	ENameSelectorModel *name_selector_model;
@@ -288,8 +294,8 @@ e_delegate_dialog_get_delegate_name		(EDelegateDialog  *edd)
 	return g_strdup (priv->name);
 }
 
-GtkWidget*
-e_delegate_dialog_get_toplevel	(EDelegateDialog  *edd)
+GtkWidget *
+e_delegate_dialog_get_toplevel (EDelegateDialog *edd)
 {
 	EDelegateDialogPrivate *priv;
 

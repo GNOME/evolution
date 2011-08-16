@@ -444,7 +444,8 @@ org_gnome_image_inline_embed (EMFormatHTML *format,
 }
 
 void
-org_gnome_image_inline_format (gpointer ep, EMFormatHookTarget *target)
+org_gnome_image_inline_format (gpointer ep,
+                               EMFormatHookTarget *target)
 {
 	ImageInlinePObject *image_object;
 	gchar *classid;

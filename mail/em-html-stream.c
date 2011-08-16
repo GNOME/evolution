@@ -63,7 +63,7 @@ html_stream_dispose (GObject *object)
 	EMHTMLStream *emhs = EM_HTML_STREAM (object);
 
 	if (emhs->html_stream) {
-		/* set 'in finalise' flag */
+		/* set 'in finalize' flag */
 		camel_stream_close (CAMEL_STREAM (emhs), NULL, NULL);
 	}
 }
@@ -150,7 +150,7 @@ em_html_stream_init (EMHTMLStream *emhs)
 }
 
 /* TODO: Could pass NULL for html_stream, and do a gtk_html_begin
-   on first data -> less flashing */
+ * on first data -> less flashing */
 CamelStream *
 em_html_stream_new (GtkHTML *html,
                     GtkHTMLStream *html_stream)
@@ -173,7 +173,8 @@ em_html_stream_new (GtkHTML *html,
 }
 
 void
-em_html_stream_set_flags (EMHTMLStream *emhs, GtkHTMLBeginFlags flags)
+em_html_stream_set_flags (EMHTMLStream *emhs,
+                          GtkHTMLBeginFlags flags)
 {
 	g_return_if_fail (EM_IS_HTML_STREAM (emhs));
 

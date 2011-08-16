@@ -34,13 +34,15 @@
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
 
 static void
-location_changed (GtkFileChooserButton *widget, ESource *source)
+location_changed (GtkFileChooserButton *widget,
+                  ESource *source)
 {
 	gchar *filename;
 
@@ -53,7 +55,8 @@ location_changed (GtkFileChooserButton *widget, ESource *source)
 }
 
 static void
-maincheck_toggled (GtkToggleButton *check, ESource *source)
+maincheck_toggled (GtkToggleButton *check,
+                   ESource *source)
 {
 	GtkWidget *w;
 	gboolean enabled = gtk_toggle_button_get_active (check);
@@ -78,7 +81,8 @@ maincheck_toggled (GtkToggleButton *check, ESource *source)
 }
 
 static void
-refresh_type_changed (GtkComboBox *refresh_type, ESource *source)
+refresh_type_changed (GtkComboBox *refresh_type,
+                      ESource *source)
 {
 	GtkWidget *refresh_hbox;
 	gint active = gtk_combo_box_get_active (refresh_type);
@@ -102,7 +106,8 @@ refresh_type_changed (GtkComboBox *refresh_type, ESource *source)
 GtkWidget *e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 GtkWidget *
-e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
+e_calendar_file_customs (EPlugin *epl,
+                         EConfigHookItemFactoryData *data)
 {
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
@@ -186,8 +191,12 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 	maincheck_toggled (GTK_TOGGLE_BUTTON (maincheck), NULL);
 
-	g_signal_connect (G_OBJECT (w2), "file-set", G_CALLBACK (location_changed), source);
-	g_signal_connect (G_OBJECT (maincheck), "toggled", G_CALLBACK (maincheck_toggled), source);
+	g_signal_connect (
+		w2, "file-set",
+		G_CALLBACK (location_changed), source);
+	g_signal_connect (
+		maincheck, "toggled",
+		G_CALLBACK (maincheck_toggled), source);
 
 	box2 = gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_start ((GtkBox *) box1, box2, FALSE, TRUE, 2);
@@ -212,7 +221,9 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	g_object_set_data (G_OBJECT (w1), "refresh-hbox", w2);
 
-	g_signal_connect (G_OBJECT (w1), "changed", G_CALLBACK (refresh_type_changed), source);
+	g_signal_connect (
+		w1, "changed",
+		G_CALLBACK (refresh_type_changed), source);
 
 	w2 = e_plugin_util_add_check (NULL, _("Force read _only"), source, "custom-file-readonly", "1", NULL);
 	gtk_box_pack_start ((GtkBox *) box1, w2, TRUE, TRUE, 2);
@@ -220,7 +231,7 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_widget_show_all (mainbox);
 
 	/* w1 is a refresh-type combobox, and it hides widgets,
-	   thus should be called after show_all call */
+	 * thus should be called after show_all call */
 	refresh_type_changed (GTK_COMBO_BOX (w1), source);
 
 	return mainbox;

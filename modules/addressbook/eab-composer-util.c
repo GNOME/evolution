@@ -95,7 +95,9 @@ eab_send_as_to (EShell *shell,
 }
 
 static const gchar *
-get_email (EContact *contact, EContactField field_id, gchar **to_free)
+get_email (EContact *contact,
+           EContactField field_id,
+           gchar **to_free)
 {
 	gchar *name = NULL, *mail = NULL;
 	const gchar *value = e_contact_get_const (contact, field_id);

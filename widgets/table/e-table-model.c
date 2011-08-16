@@ -90,7 +90,9 @@ e_table_model_row_count (ETableModel *e_table_model)
  *
  */
 void
-e_table_model_append_row (ETableModel *e_table_model, ETableModel *source, gint row)
+e_table_model_append_row (ETableModel *e_table_model,
+                          ETableModel *source,
+                          gint row)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
@@ -119,7 +121,9 @@ e_table_model_append_row (ETableModel *e_table_model, ETableModel *source, gint 
  * rows_inserted and no_change don't affect any data in this way.
  **/
 gpointer
-e_table_model_value_at (ETableModel *e_table_model, gint col, gint row)
+e_table_model_value_at (ETableModel *e_table_model,
+                        gint col,
+                        gint row)
 {
 	g_return_val_if_fail (e_table_model != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
@@ -143,7 +147,10 @@ e_table_model_value_at (ETableModel *e_table_model, gint col, gint row)
  * be a pointer to a set of data, or a datum that fits inside a gpointer .
  */
 void
-e_table_model_set_value_at (ETableModel *e_table_model, gint col, gint row, gconstpointer value)
+e_table_model_set_value_at (ETableModel *e_table_model,
+                            gint col,
+                            gint row,
+                            gconstpointer value)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
@@ -161,7 +168,9 @@ e_table_model_set_value_at (ETableModel *e_table_model, gint col, gint row, gcon
  * edited, %FALSE otherwise
  */
 gboolean
-e_table_model_is_cell_editable (ETableModel *e_table_model, gint col, gint row)
+e_table_model_is_cell_editable (ETableModel *e_table_model,
+                                gint col,
+                                gint row)
 {
 	g_return_val_if_fail (e_table_model != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), FALSE);
@@ -170,7 +179,9 @@ e_table_model_is_cell_editable (ETableModel *e_table_model, gint col, gint row)
 }
 
 gpointer
-e_table_model_duplicate_value (ETableModel *e_table_model, gint col, gconstpointer value)
+e_table_model_duplicate_value (ETableModel *e_table_model,
+                               gint col,
+                               gconstpointer value)
 {
 	g_return_val_if_fail (e_table_model != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
@@ -182,7 +193,9 @@ e_table_model_duplicate_value (ETableModel *e_table_model, gint col, gconstpoint
 }
 
 void
-e_table_model_free_value (ETableModel *e_table_model, gint col, gpointer value)
+e_table_model_free_value (ETableModel *e_table_model,
+                          gint col,
+                          gpointer value)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
@@ -204,7 +217,8 @@ e_table_model_has_save_id (ETableModel *e_table_model)
 }
 
 gchar *
-e_table_model_get_save_id (ETableModel *e_table_model, gint row)
+e_table_model_get_save_id (ETableModel *e_table_model,
+                           gint row)
 {
 	g_return_val_if_fail (e_table_model != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
@@ -228,7 +242,8 @@ e_table_model_has_change_pending (ETableModel *e_table_model)
 }
 
 gpointer
-e_table_model_initialize_value (ETableModel *e_table_model, gint col)
+e_table_model_initialize_value (ETableModel *e_table_model,
+                                gint col)
 {
 	g_return_val_if_fail (e_table_model != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
@@ -240,7 +255,9 @@ e_table_model_initialize_value (ETableModel *e_table_model, gint col)
 }
 
 gboolean
-e_table_model_value_is_empty (ETableModel *e_table_model, gint col, gconstpointer value)
+e_table_model_value_is_empty (ETableModel *e_table_model,
+                              gint col,
+                              gconstpointer value)
 {
 	g_return_val_if_fail (e_table_model != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), FALSE);
@@ -252,7 +269,9 @@ e_table_model_value_is_empty (ETableModel *e_table_model, gint col, gconstpointe
 }
 
 gchar *
-e_table_model_value_to_string (ETableModel *e_table_model, gint col, gconstpointer value)
+e_table_model_value_to_string (ETableModel *e_table_model,
+                               gint col,
+                               gconstpointer value)
 {
 	g_return_val_if_fail (e_table_model != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
@@ -462,7 +481,8 @@ e_table_model_changed (ETableModel *e_table_model)
  * object
  */
 void
-e_table_model_row_changed (ETableModel *e_table_model, gint row)
+e_table_model_row_changed (ETableModel *e_table_model,
+                           gint row)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
@@ -490,7 +510,9 @@ e_table_model_row_changed (ETableModel *e_table_model, gint row)
  * object
  */
 void
-e_table_model_cell_changed (ETableModel *e_table_model, gint col, gint row)
+e_table_model_cell_changed (ETableModel *e_table_model,
+                            gint col,
+                            gint row)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
@@ -518,7 +540,9 @@ e_table_model_cell_changed (ETableModel *e_table_model, gint col, gint row)
  * @e_table_model object
  */
 void
-e_table_model_rows_inserted (ETableModel *e_table_model, gint row, gint count)
+e_table_model_rows_inserted (ETableModel *e_table_model,
+                             gint row,
+                             gint count)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
@@ -544,7 +568,8 @@ e_table_model_rows_inserted (ETableModel *e_table_model, gint row, gint count)
  * the "model_rows_inserted" signal on the @e_table_model object
  */
 void
-e_table_model_row_inserted (ETableModel *e_table_model, gint row)
+e_table_model_row_inserted (ETableModel *e_table_model,
+                            gint row)
 {
 	e_table_model_rows_inserted (e_table_model, row, 1);
 }
@@ -561,7 +586,9 @@ e_table_model_row_inserted (ETableModel *e_table_model, gint row)
  * @e_table_model object
  */
 void
-e_table_model_rows_deleted (ETableModel *e_table_model, gint row, gint count)
+e_table_model_rows_deleted (ETableModel *e_table_model,
+                            gint row,
+                            gint count)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
@@ -587,7 +614,8 @@ e_table_model_rows_deleted (ETableModel *e_table_model, gint row, gint count)
  * the "model_rows_deleted" signal on the @e_table_model object
  */
 void
-e_table_model_row_deleted (ETableModel *e_table_model, gint row)
+e_table_model_row_deleted (ETableModel *e_table_model,
+                           gint row)
 {
 	e_table_model_rows_deleted (e_table_model, row, 1);
 }

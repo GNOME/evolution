@@ -59,7 +59,9 @@ struct _CalendarSourceDialog {
 };
 
 static gboolean
-eccp_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
+eccp_check_complete (EConfig *ec,
+                     const gchar *pageid,
+                     gpointer data)
 {
 	CalendarSourceDialog *sdialog = data;
 	gboolean valid = TRUE;
@@ -101,7 +103,9 @@ eccp_commit (EConfig *ec,
 }
 
 static void
-eccp_free (EConfig *ec, GSList *items, gpointer data)
+eccp_free (EConfig *ec,
+           GSList *items,
+           gpointer data)
 {
 	CalendarSourceDialog *sdialog = data;
 
@@ -117,7 +121,8 @@ eccp_free (EConfig *ec, GSList *items, gpointer data)
 }
 
 static void
-eccp_type_changed (GtkComboBox *dropdown, CalendarSourceDialog *sdialog)
+eccp_type_changed (GtkComboBox *dropdown,
+                   CalendarSourceDialog *sdialog)
 {
 	gint id = gtk_combo_box_get_active (dropdown);
 	GtkTreeModel *model;
@@ -169,7 +174,7 @@ eccp_get_source_type (EConfig *ec,
 		gtk_label_set_markup (GTK_LABEL (type), markup);
 		gtk_misc_set_alignment (GTK_MISC (type), 0.0, 0.5);
 		g_free (markup);
-		gtk_table_attach (GTK_TABLE (parent), type, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		gtk_table_attach (GTK_TABLE (parent), type, 1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	} else {
 		GtkCellRenderer *cell;
 		GtkListStore *store;
@@ -203,19 +208,20 @@ eccp_get_source_type (EConfig *ec,
 		gtk_combo_box_set_active ((GtkComboBox *) type, active);
 		g_signal_connect (type, "changed", G_CALLBACK (eccp_type_changed), sdialog);
 		gtk_widget_show (type);
-		gtk_table_attach (GTK_TABLE (parent), type, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		gtk_table_attach (GTK_TABLE (parent), type, 1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (label), type);
 	}
 
 	gtk_widget_show (label);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
 
 	return type;
 }
 
 static void
-name_changed (GtkEntry *entry, ECalConfigTargetSource *t)
+name_changed (GtkEntry *entry,
+              ECalConfigTargetSource *t)
 {
 	ESource *source = t->source;
 	e_source_set_name (source, gtk_entry_get_text (GTK_ENTRY (entry)));
@@ -242,13 +248,15 @@ eccp_get_source_name (EConfig *ec,
 	label = gtk_label_new_with_mnemonic (_("_Name:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_widget_show (label);
-	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
 
 	entry = gtk_entry_new ();
 	gtk_widget_show (entry);
-	gtk_table_attach (GTK_TABLE (parent), entry, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (parent), entry, 1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
-	g_signal_connect (G_OBJECT (entry), "changed", G_CALLBACK (name_changed), (gpointer) t);
+	g_signal_connect (
+		entry, "changed",
+		G_CALLBACK (name_changed), (gpointer) t);
 
 	if (source)
 		gtk_entry_set_text (GTK_ENTRY (entry), e_source_peek_name (source));
@@ -257,7 +265,8 @@ eccp_get_source_name (EConfig *ec,
 }
 
 static void
-offline_status_changed_cb (GtkWidget *widget, CalendarSourceDialog *sdialog)
+offline_status_changed_cb (GtkWidget *widget,
+                           CalendarSourceDialog *sdialog)
 {
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
@@ -296,7 +305,7 @@ eccp_general_offline (EConfig *ec,
 
 		gtk_widget_show (offline_setting);
 		g_signal_connect (offline_setting, "toggled", G_CALLBACK (offline_status_changed_cb), sdialog);
-		gtk_table_attach (GTK_TABLE (parent), offline_setting, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+		gtk_table_attach (GTK_TABLE (parent), offline_setting, 1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	}
 
@@ -307,7 +316,8 @@ eccp_general_offline (EConfig *ec,
 }
 
 static void
-alarm_status_changed_cb (GtkWidget *widget, CalendarSourceDialog *sdialog)
+alarm_status_changed_cb (GtkWidget *widget,
+                         CalendarSourceDialog *sdialog)
 {
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
 		e_source_set_property (sdialog->source, "alarm", "true");
@@ -317,11 +327,11 @@ alarm_status_changed_cb (GtkWidget *widget, CalendarSourceDialog *sdialog)
 
 static GtkWidget *
 eccp_notify_reminders (EConfig *ec,
-			EConfigItem *item,
-			GtkWidget *parent,
-			GtkWidget *old,
-			gint position,
-			gpointer data)
+                       EConfigItem *item,
+                       GtkWidget *parent,
+                       GtkWidget *old,
+                       gint position,
+                       gpointer data)
 {
 	CalendarSourceDialog *sdialog = data;
 	GtkWidget *reminder_setting = NULL;
@@ -342,20 +352,22 @@ eccp_notify_reminders (EConfig *ec,
 	gtk_widget_show (reminder_setting);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (reminder_setting), alarm && g_str_equal (alarm, "true"));
 	g_signal_connect (reminder_setting, "toggled", G_CALLBACK (alarm_status_changed_cb), sdialog);
-	gtk_table_attach (GTK_TABLE (parent), reminder_setting, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (parent), reminder_setting, 1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	return reminder_setting;
 }
 
 static void
-color_changed (GtkColorButton *color_button, ECalConfigTargetSource *target)
+color_changed (GtkColorButton *color_button,
+               ECalConfigTargetSource *target)
 {
 	ESource *source = target->source;
 	gchar color_spec[16];
 	GdkColor color;
 
 	gtk_color_button_get_color (color_button, &color);
-	g_snprintf (color_spec, sizeof (color_spec), "#%04x%04x%04x",
+	g_snprintf (
+		color_spec, sizeof (color_spec), "#%04x%04x%04x",
 		color.red, color.green, color.blue);
 	e_source_set_color_spec (source, color_spec);
 }
@@ -475,7 +487,9 @@ static ECalConfigItem ecmp_items[] = {
  */
 
 static void
-cs_load_sources (CalendarSourceDialog *sdialog, const gchar *conf_key, ESourceGroup *group)
+cs_load_sources (CalendarSourceDialog *sdialog,
+                 const gchar *conf_key,
+                 ESourceGroup *group)
 {
 	GConfClient *gconf;
 
@@ -501,7 +515,9 @@ cs_load_sources (CalendarSourceDialog *sdialog, const gchar *conf_key, ESourceGr
  * Show calendar properties for @source.
  **/
 void
-calendar_setup_edit_calendar (GtkWindow *parent, ESource *source, ESourceGroup *group)
+calendar_setup_edit_calendar (GtkWindow *parent,
+                              ESource *source,
+                              ESourceGroup *group)
 {
 	CalendarSourceDialog *sdialog = g_new0 (CalendarSourceDialog, 1);
 	gchar *xml;
@@ -561,7 +577,8 @@ calendar_setup_new_calendar (GtkWindow *parent)
 }
 
 void
-calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
+calendar_setup_edit_task_list (GtkWindow *parent,
+                               ESource *source)
 {
 	CalendarSourceDialog *sdialog = g_new0 (CalendarSourceDialog, 1);
 	gchar *xml;
@@ -620,7 +637,8 @@ calendar_setup_new_task_list (GtkWindow *parent)
 }
 
 void
-calendar_setup_edit_memo_list (GtkWindow *parent, ESource *source)
+calendar_setup_edit_memo_list (GtkWindow *parent,
+                               ESource *source)
 {
 	CalendarSourceDialog *sdialog = g_new0 (CalendarSourceDialog, 1);
 	gchar *xml;

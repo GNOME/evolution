@@ -88,7 +88,10 @@ ESEvent *es_event_peek (void)
 }
 
 ESEventTargetUpgrade *
-es_event_target_new_upgrade (ESEvent *eme, gint major, gint minor, gint revision)
+es_event_target_new_upgrade (ESEvent *eme,
+                             gint major,
+                             gint minor,
+                             gint revision)
 {
 	ESEventTargetUpgrade *t;
 
@@ -112,7 +115,7 @@ static const EEventHookTargetMap emeh_targets[] = {
 };
 
 static void
-emeh_finalise (GObject *o)
+emeh_finalize (GObject *o)
 {
 	/*EPluginHook *eph = (EPluginHook *)o;*/
 
@@ -131,10 +134,10 @@ emeh_class_init (EPluginHookClass *class)
 	 * A hook for events coming from the shell.
 	 **/
 
-	((GObjectClass *) class)->finalize = emeh_finalise;
+	((GObjectClass *) class)->finalize = emeh_finalize;
 	((EPluginHookClass *)class)->id = "org.gnome.evolution.shell.events:1.0";
 
-	for (i=0;emeh_targets[i].type;i++)
+	for (i = 0; emeh_targets[i].type; i++)
 		e_event_hook_class_add_target_map (
 			(EEventHookClass *) class, &emeh_targets[i]);
 

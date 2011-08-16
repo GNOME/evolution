@@ -44,7 +44,8 @@ static gpointer parent_class;
 static GType plugin_python_type;
 
 static gchar *
-get_xml_prop (xmlNodePtr node, const gchar *id)
+get_xml_prop (xmlNodePtr node,
+              const gchar *id)
 {
 	xmlChar *prop;
 	gchar *out = NULL;
@@ -77,7 +78,8 @@ plugin_python_finalize (GObject *object)
 }
 
 static gint
-plugin_python_construct (EPlugin *plugin, xmlNodePtr root)
+plugin_python_construct (EPlugin *plugin,
+                         xmlNodePtr root)
 {
 	EPluginPython *plugin_python;
 
@@ -124,7 +126,7 @@ plugin_python_invoke (EPlugin *plugin,
 
 		priv->pModule = PyImport_Import (pModuleName);
 
-		Py_DECREF (pModuleName); //Free
+		Py_DECREF (pModuleName);
 
 		if (priv->pModule == NULL) {
 			PyErr_Print ();

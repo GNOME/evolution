@@ -56,7 +56,7 @@ G_DEFINE_TYPE (
 static inline guint32
 camel_utf8_getc (const guchar **ptr)
 {
-	register guchar *p = (guchar *)*ptr;
+	register guchar *p = (guchar *) * ptr;
 	register guchar c, r;
 	register guint32 v, m;
 
@@ -75,7 +75,7 @@ loop:
 				r = c;
 				goto loop;
 			}
-			v = (v<<6) | (c & 0x3f);
+			v = (v << 6) | (c & 0x3f);
 			r<<=1;
 			m<<=5;
 		} while (r & 0x40);
@@ -93,22 +93,22 @@ loop:
 /* note: our tags of interest are 7 bit ascii
  * only no need to do any fancy utf8 stuff */
 /* tags should be upper case
-   if this list gets longer than 10 entries, consider binary search */
+ * if this list gets longer than 10 entries, consider binary search */
 static const gchar *ignored_tags[] = {
 	"B", "I", "FONT", "TT", "EM", /* and more? */};
 
 static gint
 ignore_tag (const gchar *tag)
 {
-	gchar *t = g_alloca (strlen (tag)+1), c, *out;
+	gchar *t = g_alloca (strlen (tag) + 1), c, *out;
 	const gchar *in;
 	gint i;
 
 	/* we could use a aho-corasick matcher here too ... but we wont */
 
 	/* normalise tag into 't'.
-	   Note we use the property that the only tags we're interested in
-	   are 7 bit ascii to shortcut and simplify case insensitivity */
+	 * Note we use the property that the only tags we're interested in
+	 * are 7 bit ascii to shortcut and simplify case insensitivity */
 	in = tag+2;		/* skip: TAG_ESCAPE '<' */
 	if (*in == '/')
 		in++;
@@ -163,20 +163,21 @@ struct _trie {
 /* will be enabled only if debug is enabled */
 #if d(1) -1 != -1
 static void
-dump_trie (struct _state *s, gint d)
+dump_trie (struct _state *s,
+           gint d)
 {
-	gchar *p = g_alloca (d*2+1);
+	gchar *p = g_alloca (d *2 + 1);
 	struct _match *m;
 
-	memset (p, ' ', d*2);
-	p[d*2]=0;
+	memset (p, ' ', d *2);
+	p[d *2]=0;
 
 	printf("%s[state] %p: %d  fail->%p\n", p, s, s->final, s->fail);
 	m = s->matches;
 	while (m) {
 		printf(" %s'%c' -> %p\n", p, m->ch, m->match);
 		if (m->match)
-			dump_trie (m->match, d+1);
+			dump_trie (m->match, d + 1);
 		m = m->next;
 	}
 }
@@ -184,11 +185,12 @@ dump_trie (struct _state *s, gint d)
 
 /* This builds an Aho-Corasick search trie for a set of utf8 words */
 /* See
-    http://www-sr.informatik.uni-tuebingen.de/~buehler/AC/AC.html
-   for a neat demo */
+ *  http://www-sr.informatik.uni-tuebingen.de/~buehler/AC/AC.html
+ * for a neat demo */
 
 static inline struct _match *
-g (struct _state *q, guint32 c)
+g (struct _state *q,
+   guint32 c)
 {
 	struct _match *m = q->matches;
 
@@ -199,7 +201,9 @@ g (struct _state *q, guint32 c)
 }
 
 static struct _trie *
-build_trie (gint nocase, gint len, guchar **words)
+build_trie (gint nocase,
+            gint len,
+            guchar **words)
 {
 	struct _state *q, *qt, *r;
 	const guchar *word;
@@ -222,14 +226,14 @@ build_trie (gint nocase, gint len, guchar **words)
 	/* This will correspond to the length of the longest pattern */
 	state_depth_size = 0;
 	state_depth_max = 64;
-	state_depth = g_malloc (sizeof (*state_depth[0])*64);
+	state_depth = g_malloc (sizeof (*state_depth[0]) * 64);
 	state_depth[0] = NULL;
 
 	/* Step 1: Build trie */
 
 	/* This just builds a tree that merges all common prefixes into the same branch */
 
-	for (i=0;i<len;i++) {
+	for (i = 0; i < len; i++) {
 		word = words[i];
 		q = &trie->root;
 		depth = 0;
@@ -277,7 +281,7 @@ build_trie (gint nocase, gint len, guchar **words)
 	 * find multiple substrings concurrently, using aho-corasick's
 	 * algorithm. */
 
-	for (i=0;i<state_depth_size;i++) {
+	for (i = 0; i < state_depth_size; i++) {
 		q = state_depth[i];
 		while (q) {
 			m = q->matches;
@@ -411,17 +415,17 @@ searcher_new (gint flags,
 	s->offout = 0;
 
 	/* rotating queue of previous character positions */
-	m = s->t->max_depth+1;
+	m = s->t->max_depth + 1;
 	i = 2;
-	while (i<m)
+	while (i < m)
 		i<<=2;
-	s->last = g_malloc (sizeof (s->last[0])*i);
-	s->last_mask = i-1;
+	s->last = g_malloc (sizeof (s->last[0]) * i);
+	s->last_mask = i - 1;
 	s->lastp = 0;
 
 	/* a stack of possible submatches */
 	s->submatchp = 0;
-	s->submatches = g_malloc (sizeof (s->submatches[0])*argc+1);
+	s->submatches = g_malloc (sizeof (s->submatches[0]) * argc + 1);
 
 	return s;
 }
@@ -444,13 +448,15 @@ searcher_free (struct _searcher *s)
 }
 
 static struct _token *
-append_token (GQueue *queue, const gchar *tok, gint len)
+append_token (GQueue *queue,
+              const gchar *tok,
+              gint len)
 {
 	struct _token *token;
 
 	if (len == -1)
 		len = strlen (tok);
-	token = g_malloc (sizeof (*token) + len+1);
+	token = g_malloc (sizeof (*token) + len + 1);
 	token->offset = 0;	/* set by caller when required */
 	memcpy (token->tok, tok, len);
 	token->tok[len] = 0;
@@ -462,7 +468,8 @@ append_token (GQueue *queue, const gchar *tok, gint len)
 #define free_token(x) (g_free (x))
 
 static void
-output_token (struct _searcher *s, struct _token *token)
+output_token (struct _searcher *s,
+              struct _token *token)
 {
 	gint offend;
 	gint left, pre;
@@ -475,11 +482,11 @@ output_token (struct _searcher *s, struct _token *token)
 		}
 	} else {
 		offend = token->offset + strlen (token->tok);
-		left = offend-s->offout;
+		left = offend - s->offout;
 		if (left > 0) {
 			pre = s->offout - token->offset;
-			if (pre>0)
-				memmove (token->tok, token->tok+pre, left+1);
+			if (pre > 0)
+				memmove (token->tok, token->tok + pre, left + 1);
 			s->offout = offend;
 			g_queue_push_tail (&s->output, token);
 		} else {
@@ -489,7 +496,8 @@ output_token (struct _searcher *s, struct _token *token)
 }
 
 static struct _token *
-find_token (struct _searcher *s, gint start)
+find_token (struct _searcher *s,
+            gint start)
 {
 	GList *link;
 
@@ -508,7 +516,9 @@ find_token (struct _searcher *s, gint start)
 }
 
 static void
-output_match (struct _searcher *s, guint start, guint end)
+output_match (struct _searcher *s,
+              guint start,
+              guint end)
 {
 	register struct _token *token;
 	struct _token *starttoken, *endtoken;
@@ -534,8 +544,8 @@ output_match (struct _searcher *s, guint start, guint end)
 	if (s->offout < start) {
 		token = append_token (
 			&s->output, starttoken->tok +
-			(s->offout-starttoken->offset),
-			start-s->offout);
+			(s->offout - starttoken->offset),
+			start - s->offout);
 		s->offout = start;
 	}
 
@@ -559,8 +569,8 @@ output_match (struct _searcher *s, guint start, guint end)
 	if (s->offout < end) {
 		token = append_token (
 			&s->output, endtoken->tok +
-			(s->offout-endtoken->offset),
-			end-s->offout);
+			(s->offout - endtoken->offset),
+			end - s->offout);
 		s->offout = end;
 	}
 
@@ -581,29 +591,31 @@ output_subpending (struct _searcher *s)
 {
 	gint i;
 
-	for (i=s->submatchp-1;i>=0;i--)
+	for (i = s->submatchp - 1; i >= 0; i--)
 		output_match (s, s->submatches[i].offstart, s->submatches[i].offend);
 	s->submatchp = 0;
 }
 
 /* returns true if a merge took place */
 static gint
-merge_subpending (struct _searcher *s, gint offstart, gint offend)
+merge_subpending (struct _searcher *s,
+                  gint offstart,
+                  gint offend)
 {
 	gint i;
 
 	/* merges overlapping or abutting match strings */
 	if (s->submatchp &&
-	    s->submatches[s->submatchp-1].offend >= offstart) {
+	    s->submatches[s->submatchp - 1].offend >= offstart) {
 
 		/* go from end, any that match 'invalidate' follow-on ones too */
-		for (i=s->submatchp-1;i>=0;i--) {
+		for (i = s->submatchp - 1; i >= 0; i--) {
 			if (s->submatches[i].offend >= offstart) {
 				if (offstart < s->submatches[i].offstart)
 					s->submatches[i].offstart = offstart;
 				s->submatches[i].offend = offend;
 				if (s->submatchp > i)
-					s->submatchp = i+1;
+					s->submatchp = i + 1;
 			}
 		}
 		return 1;
@@ -613,13 +625,15 @@ merge_subpending (struct _searcher *s, gint offstart, gint offend)
 }
 
 static void
-push_subpending (struct _searcher *s, gint offstart, gint offend)
+push_subpending (struct _searcher *s,
+                 gint offstart,
+                 gint offend)
 {
 	/* This is really an assertion, we just ignore the
 	 * last pending match instead of crashing though. */
 	if (s->submatchp >= s->words) {
 		d (printf("ERROR: submatch pending stack overflow\n"));
-		s->submatchp = s->words-1;
+		s->submatchp = s->words - 1;
 	}
 
 	s->submatches[s->submatchp].offstart = offstart;
@@ -648,7 +662,7 @@ flush_extra (struct _searcher *s)
 
 	/* find earliest gchar that can be in contention */
 	start = s->offset - s->t->max_depth;
-	for (i=0;i<s->submatchp;i++)
+	for (i = 0; i < s->submatchp; i++)
 		if (s->submatches[i].offstart < start)
 			start = s->submatches[i].offstart;
 
@@ -713,8 +727,8 @@ searcher_next_token (struct _searcher *s)
 				q = &t->root;
 			} else if (m != NULL) {
 				/* keep track of previous offsets of utf8 chars, rotating buffer */
-				s->last[s->lastp] = s->offset + (pre_tok-stok);
-				s->lastp = (s->lastp+1)&s->last_mask;
+				s->last[s->lastp] = s->offset + (pre_tok - stok);
+				s->lastp = (s->lastp + 1) &s->last_mask;
 
 				q = m->match;
 				/* we have a match of q->final characters for a matching word */
@@ -722,7 +736,7 @@ searcher_next_token (struct _searcher *s)
 					s->matchcount++;
 
 					/* use the last buffer to find the real offset of this gchar */
-					offstart = s->last[(s->lastp - q->final)&s->last_mask];
+					offstart = s->last[(s->lastp - q->final) &s->last_mask];
 					offend = s->offset + (tok - stok);
 
 					if (q->matches == NULL) {
@@ -752,7 +766,7 @@ searcher_next_token (struct _searcher *s)
 			pre_tok = tok;
 		}
 
-		s->offset += (pre_tok-stok);
+		s->offset += (pre_tok - stok);
 
 		flush_extra (s);
 	}
@@ -794,8 +808,8 @@ searcher_pending (struct _searcher *s)
 struct _search_info {
 	GPtrArray *strv;
 	gchar *color;
-	guint size:8;
-	guint flags:8;
+	guint size : 8;
+	guint flags : 8;
 };
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
@@ -812,20 +826,24 @@ search_info_new (void)
 }
 
 static void
-search_info_set_flags (struct _search_info *si, guint flags, guint mask)
+search_info_set_flags (struct _search_info *si,
+                       guint flags,
+                       guint mask)
 {
 	si->flags = (si->flags & ~mask) | (flags & mask);
 }
 
 static void
-search_info_set_color (struct _search_info *si, const gchar *color)
+search_info_set_color (struct _search_info *si,
+                       const gchar *color)
 {
 	g_free (si->color);
 	si->color = g_strdup (color);
 }
 
 static void
-search_info_add_string (struct _search_info *si, const gchar *s)
+search_info_add_string (struct _search_info *si,
+                        const gchar *s)
 {
 	const guchar *start;
 	guint32 c;
@@ -851,7 +869,7 @@ search_info_clear (struct _search_info *si)
 {
 	gint i;
 
-	for (i=0;i<si->strv->len;i++)
+	for (i = 0; i < si->strv->len; i++)
 		g_free (si->strv->pdata[i]);
 
 	g_ptr_array_set_size (si->strv, 0);
@@ -862,7 +880,7 @@ search_info_free (struct _search_info *si)
 {
 	gint i;
 
-	for (i=0;i<si->strv->len;i++)
+	for (i = 0; i < si->strv->len; i++)
 		g_free (si->strv->pdata[i]);
 
 	g_ptr_array_free (si->strv, TRUE);
@@ -877,7 +895,7 @@ search_info_clone (struct _search_info *si)
 	gint i;
 
 	out = search_info_new ();
-	for (i=0;i<si->strv->len;i++)
+	for (i = 0; i < si->strv->len; i++)
 		g_ptr_array_add (out->strv, g_strdup (si->strv->pdata[i]));
 	out->color = g_strdup (si->color);
 	out->flags = si->flags;
@@ -900,7 +918,7 @@ search_info_to_searcher (struct _search_info *si)
 	else
 		col = si->color;
 
-	tags = g_alloca (20+strlen (col));
+	tags = g_alloca (20 + strlen (col));
 	sprintf(tags, "%c<font color=\"%s\">", TAG_ESCAPE, col);
 	tage = g_alloca (20);
 	sprintf(tage, "%c</font>", TAG_ESCAPE);
@@ -922,7 +940,7 @@ struct _ESearchingTokenizerPrivate {
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
 /* blah blah the htmltokeniser doesn't like being asked
-   for a token if it doens't hvae any! */
+ * for a token if it doens't hvae any! */
 static gchar *
 get_token (HTMLTokenizer *tokenizer)
 {

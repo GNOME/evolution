@@ -32,8 +32,8 @@
 
 #include "e-table-field-chooser-dialog.h"
 
-static void e_table_field_chooser_dialog_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
-static void e_table_field_chooser_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
+static void e_table_field_chooser_dialog_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
+static void e_table_field_chooser_dialog_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
 static void e_table_field_chooser_dialog_dispose (GObject *object);
 static void e_table_field_chooser_dialog_response (GtkDialog *dialog, gint id);
 
@@ -53,7 +53,7 @@ e_table_field_chooser_dialog_class_init (ETableFieldChooserDialogClass *class)
 	GObjectClass *object_class;
 	GtkDialogClass *dialog_class;
 
-	object_class = (GObjectClass*) class;
+	object_class = (GObjectClass *) class;
 	dialog_class = GTK_DIALOG_CLASS (class);
 
 	object_class->dispose      = e_table_field_chooser_dialog_dispose;
@@ -119,7 +119,7 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Add a Column"));
 }
 
-GtkWidget*
+GtkWidget *
 e_table_field_chooser_dialog_new (void)
 {
 	return g_object_new (E_TYPE_TABLE_FIELD_CHOOSER_DIALOG, NULL);
@@ -146,10 +146,13 @@ e_table_field_chooser_dialog_dispose (GObject *object)
 }
 
 static void
-e_table_field_chooser_dialog_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+e_table_field_chooser_dialog_set_property (GObject *object,
+                                           guint property_id,
+                                           const GValue *value,
+                                           GParamSpec *pspec)
 {
 	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG (object);
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_DND_CODE:
 		g_free (etfcd->dnd_code);
 		etfcd->dnd_code = g_strdup (g_value_get_string (value));
@@ -192,10 +195,13 @@ e_table_field_chooser_dialog_set_property (GObject *object, guint prop_id, const
 }
 
 static void
-e_table_field_chooser_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+e_table_field_chooser_dialog_get_property (GObject *object,
+                                           guint property_id,
+                                           GValue *value,
+                                           GParamSpec *pspec)
 {
 	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG (object);
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_DND_CODE:
 		g_value_set_string (value, etfcd->dnd_code);
 		break;
@@ -206,13 +212,14 @@ e_table_field_chooser_dialog_get_property (GObject *object, guint prop_id, GValu
 		g_value_set_object (value, etfcd->header);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
 
 static void
-e_table_field_chooser_dialog_response (GtkDialog *dialog, gint id)
+e_table_field_chooser_dialog_response (GtkDialog *dialog,
+                                       gint id)
 {
 	if (id == GTK_RESPONSE_OK)
 		gtk_widget_destroy (GTK_WIDGET (dialog));

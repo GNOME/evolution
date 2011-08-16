@@ -44,7 +44,8 @@ G_DEFINE_TYPE (
 	G_TYPE_OBJECT)
 
 static void
-e_bit_array_insert_real (EBitArray *eba, gint row)
+e_bit_array_insert_real (EBitArray *eba,
+                         gint row)
 {
 	gint box;
 	gint i;
@@ -73,7 +74,9 @@ e_bit_array_insert_real (EBitArray *eba, gint row)
 }
 
 static void
-e_bit_array_delete_real (EBitArray *eba, gint row, gboolean move_selection_mode)
+e_bit_array_delete_real (EBitArray *eba,
+                         gint row,
+                         gboolean move_selection_mode)
 {
 	gint box;
 	gint i;
@@ -120,7 +123,9 @@ e_bit_array_delete_real (EBitArray *eba, gint row, gboolean move_selection_mode)
 
 /* FIXME : Improve efficiency here. */
 void
-e_bit_array_delete (EBitArray *eba, gint row, gint count)
+e_bit_array_delete (EBitArray *eba,
+                    gint row,
+                    gint count)
 {
 	gint i;
 	for (i = 0; i < count; i++)
@@ -129,7 +134,9 @@ e_bit_array_delete (EBitArray *eba, gint row, gint count)
 
 /* FIXME : Improve efficiency here. */
 void
-e_bit_array_delete_single_mode (EBitArray *eba, gint row, gint count)
+e_bit_array_delete_single_mode (EBitArray *eba,
+                                gint row,
+                                gint count)
 {
 	gint i;
 	for (i = 0; i < count; i++)
@@ -138,7 +145,9 @@ e_bit_array_delete_single_mode (EBitArray *eba, gint row, gint count)
 
 /* FIXME : Improve efficiency here. */
 void
-e_bit_array_insert (EBitArray *eba, gint row, gint count)
+e_bit_array_insert (EBitArray *eba,
+                    gint row,
+                    gint count)
 {
 	gint i;
 	for (i = 0; i < count; i++)
@@ -147,7 +156,9 @@ e_bit_array_insert (EBitArray *eba, gint row, gint count)
 
 /* FIXME: Implement this more efficiently. */
 void
-e_bit_array_move_row (EBitArray *eba, gint old_row, gint new_row)
+e_bit_array_move_row (EBitArray *eba,
+                      gint old_row,
+                      gint new_row)
 {
 	e_bit_array_delete_real (eba, old_row, FALSE);
 	e_bit_array_insert_real (eba, new_row);
@@ -179,7 +190,7 @@ eba_dispose (GObject *object)
  */
 gboolean
 e_bit_array_value_at (EBitArray *eba,
-		      gint             n)
+                      gint n)
 {
 	if (eba->bit_count < n || eba->bit_count == 0)
 		return 0;
@@ -198,8 +209,8 @@ e_bit_array_value_at (EBitArray *eba,
  */
 void
 e_bit_array_foreach (EBitArray *eba,
-		     EForeachFunc     callback,
-		     gpointer         closure)
+                     EForeachFunc callback,
+                     gpointer closure)
 {
 	gint i;
 	gint last = (eba->bit_count + 31) / 32;
@@ -274,7 +285,7 @@ e_bit_array_select_all (EBitArray *eba)
 	}
 
 	/* need to zero out the bits corresponding to the rows not
-	   selected in the last full 32 bit mask */
+	 * selected in the last full 32 bit mask */
 	if (eba->bit_count % 32) {
 		gint unselected_mask = 0;
 		gint num_unselected_in_last_byte = 32 - eba->bit_count % 32;
@@ -317,7 +328,9 @@ e_bit_array_bit_count (EBitArray *eba)
 	(((object)->data[(i)]) &= (mask)))
 
 void
-e_bit_array_change_one_row (EBitArray *eba, gint row, gboolean grow)
+e_bit_array_change_one_row (EBitArray *eba,
+                            gint row,
+                            gboolean grow)
 {
 	gint i;
 	i = BOX (row);
@@ -326,7 +339,10 @@ e_bit_array_change_one_row (EBitArray *eba, gint row, gboolean grow)
 }
 
 void
-e_bit_array_change_range (EBitArray *eba, gint start, gint end, gboolean grow)
+e_bit_array_change_range (EBitArray *eba,
+                          gint start,
+                          gint end,
+                          gboolean grow)
 {
 	gint i, last;
 	if (start != end) {
@@ -351,7 +367,8 @@ e_bit_array_change_range (EBitArray *eba, gint start, gint end, gboolean grow)
 }
 
 void
-e_bit_array_select_single_row (EBitArray *eba, gint row)
+e_bit_array_select_single_row (EBitArray *eba,
+                               gint row)
 {
 	gint i;
 	for (i = 0; i < ((eba->bit_count + 31) / 32); i++) {
@@ -367,7 +384,8 @@ e_bit_array_select_single_row (EBitArray *eba, gint row)
 }
 
 void
-e_bit_array_toggle_single_row (EBitArray *eba, gint row)
+e_bit_array_toggle_single_row (EBitArray *eba,
+                               gint row)
 {
 	if (eba->data[BOX (row)] & BITMASK (row))
 		eba->data[BOX (row)] &= ~BITMASK (row);

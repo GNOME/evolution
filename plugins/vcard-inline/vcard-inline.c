@@ -54,7 +54,8 @@ void org_gnome_vcard_inline_format (gpointer ep, EMFormatHookTarget *target);
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
@@ -161,7 +162,7 @@ org_gnome_vcard_inline_save_cb (VCardInlinePObject *vcard_object)
 {
 	ESource *source;
 	GSList *contact_list;
-	GtkWidget*dialog;
+	GtkWidget *dialog;
 
 	g_return_if_fail (vcard_object->source_list != NULL);
 
@@ -315,7 +316,8 @@ org_gnome_vcard_inline_embed (EMFormatHTML *format,
 }
 
 void
-org_gnome_vcard_inline_format (gpointer ep, EMFormatHookTarget *target)
+org_gnome_vcard_inline_format (gpointer ep,
+                               EMFormatHookTarget *target)
 {
 	VCardInlinePObject *vcard_object;
 	gchar *classid;

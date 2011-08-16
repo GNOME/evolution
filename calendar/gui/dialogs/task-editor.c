@@ -377,7 +377,8 @@ task_editor_init (TaskEditor *te)
 }
 
 static void
-task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
+task_editor_edit_comp (CompEditor *editor,
+                       ECalComponent *comp)
 {
 	TaskEditorPrivate *priv;
 	ECalComponentOrganizer organizer;

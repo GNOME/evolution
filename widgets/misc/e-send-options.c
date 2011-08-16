@@ -259,7 +259,8 @@ sensitize_widgets (ESendOptionsDialog *sod)
 }
 
 static void
-expiration_toggled_cb (GtkToggleButton *toggle, gpointer data)
+expiration_toggled_cb (GtkToggleButton *toggle,
+                       gpointer data)
 {
 	gboolean active;
 	ESendOptionsDialog *sod;
@@ -274,7 +275,8 @@ expiration_toggled_cb (GtkToggleButton *toggle, gpointer data)
 }
 
 static void
-reply_request_toggled_cb (GtkToggleButton *toggle, gpointer data)
+reply_request_toggled_cb (GtkToggleButton *toggle,
+                          gpointer data)
 {
 	gboolean active;
 	ESendOptionsDialog *sod;
@@ -291,7 +293,8 @@ reply_request_toggled_cb (GtkToggleButton *toggle, gpointer data)
 }
 
 static void
-delay_delivery_toggled_cb (GtkToggleButton *toggle, gpointer data)
+delay_delivery_toggled_cb (GtkToggleButton *toggle,
+                           gpointer data)
 {
 	gboolean active;
 	ESendOptionsDialog *sod;
@@ -305,7 +308,8 @@ delay_delivery_toggled_cb (GtkToggleButton *toggle, gpointer data)
 }
 
 static void
-sent_item_toggled_cb (GtkToggleButton *toggle, gpointer data)
+sent_item_toggled_cb (GtkToggleButton *toggle,
+                      gpointer data)
 {
 	gboolean active;
 	ESendOptionsDialog *sod;
@@ -322,7 +326,8 @@ sent_item_toggled_cb (GtkToggleButton *toggle, gpointer data)
 }
 
 static void
-delay_until_date_changed_cb (GtkWidget *dedit, gpointer data)
+delay_until_date_changed_cb (GtkWidget *dedit,
+                             gpointer data)
 {
 	ESendOptionsDialog *sod;
 	ESendOptionsDialogPrivate *priv;
@@ -340,7 +345,10 @@ delay_until_date_changed_cb (GtkWidget *dedit, gpointer data)
 
 }
 static void
-page_changed_cb (GtkNotebook *notebook, GtkWidget *page, gint num, gpointer data)
+page_changed_cb (GtkNotebook *notebook,
+                 GtkWidget *page,
+                 gint num,
+                 gpointer data)
 {
 	ESendOptionsDialog *sod = data;
 	ESendOptionsDialogPrivate *priv = sod->priv;
@@ -484,7 +492,8 @@ get_widgets (ESendOptionsDialog *sod)
 }
 
 static void
-setup_widgets (ESendOptionsDialog *sod, Item_type type)
+setup_widgets (ESendOptionsDialog *sod,
+               Item_type type)
 {
 	ESendOptionsDialogPrivate *priv;
 
@@ -558,7 +567,8 @@ setup_widgets (ESendOptionsDialog *sod, Item_type type)
 }
 
 ESendOptionsDialog *
-e_send_options_dialog_new (void) {
+e_send_options_dialog_new (void)
+{
 	ESendOptionsDialog *sod;
 
 	sod = g_object_new (E_TYPE_SENDOPTIONS_DIALOG, NULL);
@@ -567,7 +577,8 @@ e_send_options_dialog_new (void) {
 }
 
 void
-e_send_options_set_need_general_options (ESendOptionsDialog *sod, gboolean needed)
+e_send_options_set_need_general_options (ESendOptionsDialog *sod,
+                                         gboolean needed)
 {
 	g_return_if_fail (E_IS_SENDOPTIONS_DIALOG (sod));
 
@@ -583,7 +594,8 @@ e_send_options_get_need_general_options (ESendOptionsDialog *sod)
 }
 
 gboolean
-e_send_options_set_global (ESendOptionsDialog *sod, gboolean set)
+e_send_options_set_global (ESendOptionsDialog *sod,
+                           gboolean set)
 {
 	g_return_val_if_fail (E_IS_SENDOPTIONS_DIALOG (sod), FALSE);
 
@@ -592,7 +604,10 @@ e_send_options_set_global (ESendOptionsDialog *sod, gboolean set)
 	return TRUE;
 }
 
-static void e_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data)
+static void
+e_send_options_cb (GtkDialog *dialog,
+                   gint state,
+                   gpointer func_data)
 {
 	ESendOptionsDialogPrivate *priv;
 	ESendOptionsDialog *sod;
@@ -619,7 +634,9 @@ static void e_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data
 }
 
 gboolean
-e_send_options_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type type)
+e_send_options_dialog_run (ESendOptionsDialog *sod,
+                           GtkWidget *parent,
+                           Item_type type)
 {
 	ESendOptionsDialogPrivate *priv;
 	GtkWidget *toplevel;

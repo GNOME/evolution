@@ -55,7 +55,8 @@ e_selection_model_array_confirm_row_count (ESelectionModelArray *esma)
 }
 
 static gint
-es_row_model_to_sorted (ESelectionModelArray *esma, gint model_row)
+es_row_model_to_sorted (ESelectionModelArray *esma,
+                        gint model_row)
 {
 	if (model_row >= 0 && esma && esma->base.sorter && e_sorter_needs_sorting (esma->base.sorter))
 		return e_sorter_model_to_sorted (esma->base.sorter, model_row);
@@ -64,7 +65,8 @@ es_row_model_to_sorted (ESelectionModelArray *esma, gint model_row)
 }
 
 static gint
-es_row_sorted_to_model (ESelectionModelArray *esma, gint sorted_row)
+es_row_sorted_to_model (ESelectionModelArray *esma,
+                        gint sorted_row)
 {
 	if (sorted_row >= 0 && esma && esma->base.sorter && e_sorter_needs_sorting (esma->base.sorter))
 		return e_sorter_sorted_to_model (esma->base.sorter, sorted_row);
@@ -74,7 +76,9 @@ es_row_sorted_to_model (ESelectionModelArray *esma, gint sorted_row)
 
 /* FIXME: Should this deal with moving the selection if it's in single mode? */
 void
-e_selection_model_array_delete_rows (ESelectionModelArray *esma, gint row, gint count)
+e_selection_model_array_delete_rows (ESelectionModelArray *esma,
+                                     gint row,
+                                     gint count)
 {
 	if (esma->eba) {
 		if (E_SELECTION_MODEL (esma)->mode == GTK_SELECTION_SINGLE)
@@ -124,7 +128,9 @@ e_selection_model_array_delete_rows (ESelectionModelArray *esma, gint row, gint 
 }
 
 void
-e_selection_model_array_insert_rows (ESelectionModelArray *esma, gint row, gint count)
+e_selection_model_array_insert_rows (ESelectionModelArray *esma,
+                                     gint row,
+                                     gint count)
 {
 	if (esma->eba) {
 		e_bit_array_insert (esma->eba, row, count);
@@ -140,7 +146,9 @@ e_selection_model_array_insert_rows (ESelectionModelArray *esma, gint row, gint 
 }
 
 void
-e_selection_model_array_move_row (ESelectionModelArray *esma, gint old_row, gint new_row)
+e_selection_model_array_move_row (ESelectionModelArray *esma,
+                                  gint old_row,
+                                  gint new_row)
 {
 	ESelectionModel *esm = E_SELECTION_MODEL (esma);
 
@@ -195,11 +203,14 @@ esma_dispose (GObject *object)
 }
 
 static void
-esma_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+esma_get_property (GObject *object,
+                   guint property_id,
+                   GValue *value,
+                   GParamSpec *pspec)
 {
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_CURSOR_ROW:
 		g_value_set_int (value, esma->cursor_row);
 		break;
@@ -211,12 +222,15 @@ esma_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *ps
 }
 
 static void
-esma_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+esma_set_property (GObject *object,
+                   guint property_id,
+                   const GValue *value,
+                   GParamSpec *pspec)
 {
 	ESelectionModel *esm = E_SELECTION_MODEL (object);
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_CURSOR_ROW:
 		e_selection_model_do_something (esm, g_value_get_int (value), esma->cursor_col, 0);
 		break;
@@ -238,7 +252,7 @@ esma_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
  */
 static gboolean
 esma_is_row_selected (ESelectionModel *selection,
-		      gint             n)
+                      gint n)
 {
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (selection);
 	if (esma->eba)
@@ -258,8 +272,8 @@ esma_is_row_selected (ESelectionModel *selection,
  */
 static void
 esma_foreach (ESelectionModel *selection,
-	      EForeachFunc     callback,
-	      gpointer         closure)
+              EForeachFunc callback,
+              gpointer closure)
 {
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (selection);
 	if (esma->eba)
@@ -371,7 +385,9 @@ esma_row_count (ESelectionModel *selection)
 }
 
 static void
-esma_change_one_row (ESelectionModel *selection, gint row, gboolean grow)
+esma_change_one_row (ESelectionModel *selection,
+                     gint row,
+                     gboolean grow)
 {
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (selection);
 	e_selection_model_array_confirm_row_count (esma);
@@ -379,7 +395,9 @@ esma_change_one_row (ESelectionModel *selection, gint row, gboolean grow)
 }
 
 static void
-esma_change_cursor (ESelectionModel *selection, gint row, gint col)
+esma_change_cursor (ESelectionModel *selection,
+                    gint row,
+                    gint col)
 {
 	ESelectionModelArray *esma;
 
@@ -394,7 +412,10 @@ esma_change_cursor (ESelectionModel *selection, gint row, gint col)
 }
 
 static void
-esma_change_range (ESelectionModel *selection, gint start, gint end, gboolean grow)
+esma_change_range (ESelectionModel *selection,
+                   gint start,
+                   gint end,
+                   gboolean grow)
 {
 	gint i;
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (selection);
@@ -425,7 +446,8 @@ esma_cursor_col (ESelectionModel *selection)
 }
 
 static void
-esma_real_select_single_row (ESelectionModel *selection, gint row)
+esma_real_select_single_row (ESelectionModel *selection,
+                             gint row)
 {
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (selection);
 
@@ -439,7 +461,8 @@ esma_real_select_single_row (ESelectionModel *selection, gint row)
 }
 
 static void
-esma_select_single_row (ESelectionModel *selection, gint row)
+esma_select_single_row (ESelectionModel *selection,
+                        gint row)
 {
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (selection);
 	gint selected_row = esma->selected_row;
@@ -456,7 +479,8 @@ esma_select_single_row (ESelectionModel *selection, gint row)
 }
 
 static void
-esma_toggle_single_row (ESelectionModel *selection, gint row)
+esma_toggle_single_row (ESelectionModel *selection,
+                        gint row)
 {
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (selection);
 
@@ -470,7 +494,8 @@ esma_toggle_single_row (ESelectionModel *selection, gint row)
 }
 
 static void
-esma_real_move_selection_end (ESelectionModel *selection, gint row)
+esma_real_move_selection_end (ESelectionModel *selection,
+                              gint row)
 {
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (selection);
 	gint old_start;
@@ -506,14 +531,16 @@ esma_real_move_selection_end (ESelectionModel *selection, gint row)
 }
 
 static void
-esma_move_selection_end (ESelectionModel *selection, gint row)
+esma_move_selection_end (ESelectionModel *selection,
+                         gint row)
 {
 	esma_real_move_selection_end (selection, row);
 	e_selection_model_selection_changed (selection);
 }
 
 static void
-esma_set_selection_end (ESelectionModel *selection, gint row)
+esma_set_selection_end (ESelectionModel *selection,
+                        gint row)
 {
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (selection);
 	gint selected_range_end = esma->selected_range_end;

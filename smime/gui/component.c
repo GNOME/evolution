@@ -36,7 +36,11 @@
 #include "pk11func.h"
 
 static gboolean
-smime_pk11_passwd (ECertDB *db, PK11SlotInfo* slot, gboolean retry, gchar **passwd, gpointer arg)
+smime_pk11_passwd (ECertDB *db,
+                   PK11SlotInfo *slot,
+                   gboolean retry,
+                   gchar **passwd,
+                   gpointer arg)
 {
 	gchar *prompt;
 	gchar *slot_name = g_strdup (PK11_GetSlotName (slot));
@@ -48,7 +52,7 @@ smime_pk11_passwd (ECertDB *db, PK11SlotInfo* slot, gboolean retry, gchar **pass
 
 	*passwd = e_passwords_ask_password (_("Enter password"), NULL, "",
 					    prompt,
-					    E_PASSWORDS_REMEMBER_NEVER|E_PASSWORDS_SECRET, NULL,
+					    E_PASSWORDS_REMEMBER_NEVER | E_PASSWORDS_SECRET, NULL,
 					    NULL);
 
 	g_free (prompt);
@@ -58,7 +62,10 @@ smime_pk11_passwd (ECertDB *db, PK11SlotInfo* slot, gboolean retry, gchar **pass
 }
 
 static gboolean
-smime_pk11_change_passwd (ECertDB *db, gchar **old_passwd, gchar **passwd, gpointer arg)
+smime_pk11_change_passwd (ECertDB *db,
+                          gchar **old_passwd,
+                          gchar **passwd,
+                          gpointer arg)
 {
 	gchar *prompt;
 
@@ -70,7 +77,7 @@ smime_pk11_change_passwd (ECertDB *db, gchar **old_passwd, gchar **passwd, gpoin
 
 		*passwd = e_passwords_ask_password (_("Enter new password"), NULL, "",
 						    prompt,
-						    E_PASSWORDS_REMEMBER_NEVER|E_PASSWORDS_SECRET, NULL,
+						    E_PASSWORDS_REMEMBER_NEVER | E_PASSWORDS_SECRET, NULL,
 						    NULL);
 	}
 	else {
@@ -83,7 +90,12 @@ smime_pk11_change_passwd (ECertDB *db, gchar **old_passwd, gchar **passwd, gpoin
 }
 
 static gboolean
-smime_confirm_ca_cert_import (ECertDB *db, ECert *cert, gboolean *trust_ssl, gboolean *trust_email, gboolean *trust_objsign, gpointer arg)
+smime_confirm_ca_cert_import (ECertDB *db,
+                              ECert *cert,
+                              gboolean *trust_ssl,
+                              gboolean *trust_email,
+                              gboolean *trust_objsign,
+                              gpointer arg)
 {
 	GtkWidget *dialog = ca_trust_dialog_show (cert, TRUE);
 	gint response;

@@ -51,7 +51,7 @@ struct _EaCalViewClass
 	GtkAccessibleClass parent_class;
 };
 
-AtkObject* ea_cal_view_new (GtkWidget *widget);
+AtkObject * ea_cal_view_new (GtkWidget *widget);
 
 G_END_DECLS
 

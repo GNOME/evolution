@@ -106,7 +106,7 @@ ea_ab_view_get_description (AtkObject *accessible)
 	return _("evolution address book");
 }
 
-AtkObject*
+AtkObject *
 ea_ab_view_new (GObject *obj)
 {
 	GObject *object;

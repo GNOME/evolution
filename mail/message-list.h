@@ -135,7 +135,7 @@ struct _MessageList {
 	guint hidejunk : 1;
 
 	/* frozen count */
-	guint frozen:16;
+	guint frozen : 16;
 
 	/* Where the ETree cursor is. */
 	gchar *cursor_uid;

@@ -101,7 +101,7 @@ create_task_sources (EShellBackend *shell_backend,
 
 	if (*on_this_computer) {
 		/* make sure "Personal" shows up as a source under
-		   this group */
+		 * this group */
 		GSList *sources = e_source_group_peek_sources (*on_this_computer);
 		GSList *s;
 		for (s = sources; s; s = s->next) {
@@ -183,8 +183,8 @@ e_task_shell_backend_migrate (EShellBackend *shell_backend,
 	g_object_get (shell_backend, "source-list", &source_list, NULL);
 
 	/* we call this unconditionally now - create_groups either
-	   creates the groups/sources or it finds the necessary
-	   groups/sources. */
+	 * creates the groups/sources or it finds the necessary
+	 * groups/sources. */
 	create_task_sources (
 		shell_backend, source_list, &on_this_computer,
 		&on_the_web, &personal_source);

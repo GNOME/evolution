@@ -83,16 +83,16 @@ gal_a11y_e_cell_popup_class_init (GalA11yECellPopupClass *class)
 
 AtkObject *
 gal_a11y_e_cell_popup_new (ETableItem *item,
-			  ECellView  *cell_view,
-			  AtkObject  *parent,
-			  gint         model_col,
-			  gint         view_col,
-			  gint         row)
+                           ECellView *cell_view,
+                           AtkObject *parent,
+                           gint model_col,
+                           gint view_col,
+                           gint row)
 {
 	AtkObject *a11y;
 	GalA11yECell *cell;
 	ECellPopup *popupcell;
-	ECellView* child_view = NULL;
+	ECellView * child_view = NULL;
 
 	popupcell=  E_CELL_POPUP (cell_view->ecell);
 

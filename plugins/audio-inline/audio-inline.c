@@ -37,7 +37,8 @@
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
@@ -104,7 +105,8 @@ org_gnome_audio_inline_pobject_free (EMFormatHTMLPObject *o)
 }
 
 static void
-org_gnome_audio_inline_pause_clicked (GtkWidget *button, EMFormatHTMLPObject *pobject)
+org_gnome_audio_inline_pause_clicked (GtkWidget *button,
+                                      EMFormatHTMLPObject *pobject)
 {
 	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) pobject;
 
@@ -115,7 +117,8 @@ org_gnome_audio_inline_pause_clicked (GtkWidget *button, EMFormatHTMLPObject *po
 }
 
 static void
-org_gnome_audio_inline_stop_clicked (GtkWidget *button, EMFormatHTMLPObject *pobject)
+org_gnome_audio_inline_stop_clicked (GtkWidget *button,
+                                     EMFormatHTMLPObject *pobject)
 {
 	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) pobject;
 
@@ -143,7 +146,9 @@ org_gnome_audio_inline_set_audiosink (GstElement *playbin)
 }
 
 static gboolean
-org_gnome_audio_inline_gst_callback (GstBus * bus, GstMessage * message, gpointer data)
+org_gnome_audio_inline_gst_callback (GstBus *bus,
+                                     GstMessage *message,
+                                     gpointer data)
 {
 	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) data;
 	GstMessageType msg_type;
@@ -189,7 +194,8 @@ org_gnome_audio_inline_gst_callback (GstBus * bus, GstMessage * message, gpointe
 }
 
 static void
-org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pobject)
+org_gnome_audio_inline_play_clicked (GtkWidget *button,
+                                     EMFormatHTMLPObject *pobject)
 {
 	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) pobject;
 	GstState cur_state;
@@ -230,7 +236,7 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 			}
 
 			uri = g_filename_to_uri (po->filename, NULL, NULL);
-			g_object_set (G_OBJECT (po->playbin), "uri", uri, NULL);
+			g_object_set (po->playbin, "uri", uri, NULL);
 			g_free (uri);
 			org_gnome_audio_inline_set_audiosink (po->playbin);
 
@@ -257,7 +263,11 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 }
 
 static GtkWidget *
-org_gnome_audio_inline_add_button (GtkWidget *box, const gchar *stock_icon, GCallback cb, gpointer data, gboolean sensitive)
+org_gnome_audio_inline_add_button (GtkWidget *box,
+                                   const gchar *stock_icon,
+                                   GCallback cb,
+                                   gpointer data,
+                                   gboolean sensitive)
 {
 	GtkWidget *button;
 
@@ -272,7 +282,9 @@ org_gnome_audio_inline_add_button (GtkWidget *box, const gchar *stock_icon, GCal
 }
 
 static gboolean
-org_gnome_audio_inline_button_panel (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
+org_gnome_audio_inline_button_panel (EMFormatHTML *efh,
+                                     GtkHTMLEmbedded *eb,
+                                     EMFormatHTMLPObject *pobject)
 {
 	GtkWidget *box;
 	struct _org_gnome_audio_inline_pobject *po = (struct _org_gnome_audio_inline_pobject *) pobject;
@@ -291,7 +303,8 @@ org_gnome_audio_inline_button_panel (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMF
 }
 
 void
-org_gnome_audio_inline_format (gpointer ep, EMFormatHookTarget *t)
+org_gnome_audio_inline_format (gpointer ep,
+                               EMFormatHookTarget *t)
 {
 	struct _org_gnome_audio_inline_pobject *pobj;
 	gchar *classid;

@@ -35,7 +35,9 @@
  * Implements dialog for allowing user to select a destination source.
  */
 ESource *
-select_source_dialog (GtkWindow *parent, ECalClientSourceType obj_type, ESource *except_source)
+select_source_dialog (GtkWindow *parent,
+                      ECalClientSourceType obj_type,
+                      ESource *except_source)
 {
 	GtkWidget *dialog;
 	ESourceList *source_list;
@@ -78,7 +80,7 @@ select_source_dialog (GtkWindow *parent, ECalClientSourceType obj_type, ESource 
 			gchar *absolute_uri;
 
 			/* set the absolute URI on the source we keep around, since the group
-			   will be unrefed */
+			 * will be unrefed */
 			absolute_uri = e_source_build_absolute_uri (selected_source);
 			e_source_set_absolute_uri (selected_source, (const gchar *) absolute_uri);
 

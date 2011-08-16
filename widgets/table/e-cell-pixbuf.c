@@ -66,7 +66,9 @@ e_cell_pixbuf_new (void)
  */
 
 static ECellView *
-pixbuf_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view)
+pixbuf_new_view (ECell *ecell,
+                 ETableModel *table_model,
+                 gpointer e_table_item_view)
 {
     ECellPixbufView *pixbuf_view = g_new0 (ECellPixbufView, 1);
     ETableItem *eti = E_TABLE_ITEM (e_table_item_view);
@@ -99,9 +101,16 @@ pixbuf_kill_view (ECellView *ecell_view)
 }
 
 static void
-pixbuf_draw (ECellView *ecell_view, cairo_t *cr,
-             gint model_col, gint view_col, gint row, ECellFlags flags,
-             gint x1, gint y1, gint x2, gint y2)
+pixbuf_draw (ECellView *ecell_view,
+             cairo_t *cr,
+             gint model_col,
+             gint view_col,
+             gint row,
+             ECellFlags flags,
+             gint x1,
+             gint y1,
+             gint x2,
+             gint y2)
 {
     GdkPixbuf *cell_pixbuf;
     gint real_x, real_y;
@@ -124,14 +133,14 @@ pixbuf_draw (ECellView *ecell_view, cairo_t *cr,
     /* We center the pixbuf within our allocated space */
     if (x2 - x1 > pix_w) {
 	gint diff = (x2 - x1) - pix_w;
-	real_x = x1 + diff/2;
+	real_x = x1 + diff / 2;
     } else {
 	real_x = x1;
     }
 
     if (y2 - y1 > pix_h) {
 	gint diff = (y2 - y1) - pix_h;
-	real_y = y1 + diff/2;
+	real_y = y1 + diff / 2;
     } else {
 	real_y = y1;
     }
@@ -143,9 +152,13 @@ pixbuf_draw (ECellView *ecell_view, cairo_t *cr,
 }
 
 static gint
-pixbuf_event (ECellView *ecell_view, GdkEvent *event,
-              gint model_col, gint view_col, gint row,
-              ECellFlags flags, ECellActions *actions)
+pixbuf_event (ECellView *ecell_view,
+              GdkEvent *event,
+              gint model_col,
+              gint view_col,
+              gint row,
+              ECellFlags flags,
+              ECellActions *actions)
 {
     /* noop */
 
@@ -153,7 +166,10 @@ pixbuf_event (ECellView *ecell_view, GdkEvent *event,
 }
 
 static gint
-pixbuf_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
+pixbuf_height (ECellView *ecell_view,
+               gint model_col,
+               gint view_col,
+               gint row)
 {
     GdkPixbuf *pixbuf;
     if (row == -1) {
@@ -176,9 +192,13 @@ pixbuf_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
  * ECell::print method
  */
 static void
-pixbuf_print (ECellView *ecell_view, GtkPrintContext *context,
-	      gint model_col, gint view_col, gint row,
-	      gdouble width, gdouble height)
+pixbuf_print (ECellView *ecell_view,
+              GtkPrintContext *context,
+              gint model_col,
+              gint view_col,
+              gint row,
+              gdouble width,
+              gdouble height)
 {
 	GdkPixbuf *pixbuf;
 	gint scale;
@@ -197,9 +217,12 @@ pixbuf_print (ECellView *ecell_view, GtkPrintContext *context,
 }
 
 static gdouble
-pixbuf_print_height (ECellView *ecell_view, GtkPrintContext *context,
-		     gint model_col, gint view_col, gint row,
-		     gdouble width)
+pixbuf_print_height (ECellView *ecell_view,
+                     GtkPrintContext *context,
+                     gint model_col,
+                     gint view_col,
+                     gint row,
+                     gdouble width)
 {
 	GdkPixbuf *pixbuf;
 
@@ -220,7 +243,9 @@ pixbuf_print_height (ECellView *ecell_view, GtkPrintContext *context,
 }
 
 static gint
-pixbuf_max_width (ECellView *ecell_view, gint model_col, gint view_col)
+pixbuf_max_width (ECellView *ecell_view,
+                  gint model_col,
+                  gint view_col)
 {
     gint pw;
     gint num_rows, i;
@@ -249,15 +274,15 @@ pixbuf_max_width (ECellView *ecell_view, gint model_col, gint view_col)
 
 static void
 pixbuf_set_property (GObject *object,
-		     guint prop_id,
-		     const GValue *value,
-		     GParamSpec *pspec)
+                     guint property_id,
+                     const GValue *value,
+                     GParamSpec *pspec)
 {
 	ECellPixbuf *pixbuf;
 
 	pixbuf = E_CELL_PIXBUF (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_SELECTED_COLUMN:
 		pixbuf->selected_column = g_value_get_int (value);
 		break;
@@ -278,15 +303,15 @@ pixbuf_set_property (GObject *object,
 /* Get_arg handler for the pixbuf item */
 static void
 pixbuf_get_property (GObject *object,
-		     guint prop_id,
-		     GValue *value,
-		     GParamSpec *pspec)
+                     guint property_id,
+                     GValue *value,
+                     GParamSpec *pspec)
 {
 	ECellPixbuf *pixbuf;
 
 	pixbuf = E_CELL_PIXBUF (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_SELECTED_COLUMN:
 		g_value_set_int (value, pixbuf->selected_column);
 		break;
@@ -300,7 +325,7 @@ pixbuf_get_property (GObject *object,
 		break;
 
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }

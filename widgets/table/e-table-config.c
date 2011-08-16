@@ -94,7 +94,8 @@ config_finalize (GObject *object)
 }
 
 static void
-e_table_config_changed (ETableConfig *config, ETableState *state)
+e_table_config_changed (ETableConfig *config,
+                        ETableState *state)
 {
 	g_return_if_fail (E_IS_TABLE_CONFIG (config));
 
@@ -113,13 +114,13 @@ config_dialog_changed (ETableConfig *config)
 
 static void
 config_get_property (GObject *object,
-		     guint prop_id,
-		     GValue *value,
-		     GParamSpec *pspec)
+                     guint property_id,
+                     GValue *value,
+                     GParamSpec *pspec)
 {
 	ETableConfig *config = E_TABLE_CONFIG (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_STATE:
 		g_value_set_object (value, config->state);
 		break;
@@ -156,7 +157,8 @@ e_table_config_class_init (ETableConfigClass *class)
 }
 
 static void
-configure_combo_box_add (GtkComboBox *combo_box, const gchar *item,
+configure_combo_box_add (GtkComboBox *combo_box,
+                         const gchar *item,
                          const gchar *value)
 {
 	GtkTreeRowReference *reference;
@@ -203,7 +205,8 @@ configure_combo_box_get_active (GtkComboBox *combo_box)
 }
 
 static void
-configure_combo_box_set_active (GtkComboBox *combo_box, const gchar *value)
+configure_combo_box_set_active (GtkComboBox *combo_box,
+                                const gchar *value)
 {
 	GtkTreeRowReference *reference;
 	GHashTable *index;
@@ -231,7 +234,8 @@ configure_combo_box_set_active (GtkComboBox *combo_box, const gchar *value)
 }
 
 static ETableColumnSpecification *
-find_column_in_spec (ETableSpecification *spec, gint model_col)
+find_column_in_spec (ETableSpecification *spec,
+                     gint model_col)
 {
 	ETableColumnSpecification **column;
 
@@ -248,7 +252,8 @@ find_column_in_spec (ETableSpecification *spec, gint model_col)
 }
 
 static gint
-find_model_column_by_name (ETableSpecification *spec, const gchar *s)
+find_model_column_by_name (ETableSpecification *spec,
+                           const gchar *s)
 {
 	ETableColumnSpecification **column;
 
@@ -263,7 +268,8 @@ find_model_column_by_name (ETableSpecification *spec, const gchar *s)
 }
 
 static void
-update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
+update_sort_and_group_config_dialog (ETableConfig *config,
+                                     gboolean is_sort)
 {
 	ETableConfigSortWidgets *widgets;
 	gint count, i;
@@ -328,7 +334,7 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 			d = GTK_TOGGLE_BUTTON (
 				widgets[i].radio_descending);
 
-			gtk_toggle_button_set_active (col.ascending ? a:d, 1);
+			gtk_toggle_button_set_active (col.ascending ? a : d, 1);
 		} else {
 			GtkToggleButton *t;
 
@@ -428,7 +434,7 @@ config_group_info_update (ETableConfig *config)
 			col.ascending ?
 			_("(Ascending)") : _("(Descending)"));
 
-		if ((i+1) != count)
+		if ((i + 1) != count)
 			g_string_append (res, ", ");
 	}
 	if (res->str[0] == 0)
@@ -492,7 +498,8 @@ config_fields_info_update (ETableConfig *config)
 }
 
 static void
-do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
+do_sort_and_group_config_dialog (ETableConfig *config,
+                                 gboolean is_sort)
 {
 	GtkDialog *dialog;
 	gint response, running = 1;
@@ -682,32 +689,38 @@ e_table_proxy_etable_available_new (ETableModel *store)
 }
 
 static void
-config_button_fields (GtkWidget *widget, ETableConfig *config)
+config_button_fields (GtkWidget *widget,
+                      ETableConfig *config)
 {
 	do_fields_config_dialog (config);
 }
 
 static void
-config_button_sort (GtkWidget *widget, ETableConfig *config)
+config_button_sort (GtkWidget *widget,
+                    ETableConfig *config)
 {
 	do_sort_and_group_config_dialog (config, TRUE);
 }
 
 static void
-config_button_group (GtkWidget *widget, ETableConfig *config)
+config_button_group (GtkWidget *widget,
+                     ETableConfig *config)
 {
 	do_sort_and_group_config_dialog (config, FALSE);
 }
 
 static void
-dialog_destroyed (gpointer data, GObject *where_object_was)
+dialog_destroyed (gpointer data,
+                  GObject *where_object_was)
 {
 	ETableConfig *config = data;
 	g_object_unref (config);
 }
 
 static void
-dialog_response (GtkWidget *dialog, gint response_id, ETableConfig *config)
+dialog_response (GtkWidget *dialog,
+                 gint response_id,
+                 ETableConfig *config)
 {
 	if (response_id == GTK_RESPONSE_APPLY
 	    || response_id == GTK_RESPONSE_OK) {
@@ -760,14 +773,13 @@ connect_button (ETableConfig *config,
 {
 	GtkWidget *button = e_builder_get_widget (builder, widget_name);
 
-	if (button) {
-		g_signal_connect (G_OBJECT (button), "clicked",
-				  cback, config);
-	}
+	if (button)
+		g_signal_connect (button, "clicked", cback, config);
 }
 
 static gint
-get_source_model_col_index (ETableConfig *config, gint idx)
+get_source_model_col_index (ETableConfig *config,
+                            gint idx)
 {
 	gint visible_index;
 	ETableModel *src_model;
@@ -781,7 +793,8 @@ get_source_model_col_index (ETableConfig *config, gint idx)
 }
 
 static void
-sort_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *sort)
+sort_combo_changed (GtkComboBox *combo_box,
+                    ETableConfigSortWidgets *sort)
 {
 	ETableConfig *config = sort->e_table_config;
 	ETableSortInfo *sort_info = config->temp_state->sort_info;
@@ -819,7 +832,8 @@ sort_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *sort)
 }
 
 static void
-sort_ascending_toggled (GtkToggleButton *t, ETableConfigSortWidgets *sort)
+sort_ascending_toggled (GtkToggleButton *t,
+                        ETableConfigSortWidgets *sort)
 {
 	ETableConfig *config = sort->e_table_config;
 	ETableSortInfo *si = config->temp_state->sort_info;
@@ -833,7 +847,8 @@ sort_ascending_toggled (GtkToggleButton *t, ETableConfigSortWidgets *sort)
 }
 
 static void
-configure_sort_dialog (ETableConfig *config, GtkBuilder *builder)
+configure_sort_dialog (ETableConfig *config,
+                       GtkBuilder *builder)
 {
 	GSList *l;
 	gint i;
@@ -904,7 +919,8 @@ configure_sort_dialog (ETableConfig *config, GtkBuilder *builder)
 }
 
 static void
-group_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *group)
+group_combo_changed (GtkComboBox *combo_box,
+                     ETableConfigSortWidgets *group)
 {
 	ETableConfig *config = group->e_table_config;
 	ETableSortInfo *sort_info = config->temp_state->sort_info;
@@ -942,7 +958,8 @@ group_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *group)
 }
 
 static void
-group_ascending_toggled (GtkToggleButton *t, ETableConfigSortWidgets *group)
+group_ascending_toggled (GtkToggleButton *t,
+                         ETableConfigSortWidgets *group)
 {
 	ETableConfig *config = group->e_table_config;
 	ETableSortInfo *si = config->temp_state->sort_info;
@@ -956,7 +973,8 @@ group_ascending_toggled (GtkToggleButton *t, ETableConfigSortWidgets *group)
 }
 
 static void
-configure_group_dialog (ETableConfig *config, GtkBuilder *builder)
+configure_group_dialog (ETableConfig *config,
+                        GtkBuilder *builder)
 {
 	GSList *l;
 	gint i;
@@ -1027,14 +1045,16 @@ configure_group_dialog (ETableConfig *config, GtkBuilder *builder)
 }
 
 static void
-add_column (gint model_row, gpointer closure)
+add_column (gint model_row,
+            gpointer closure)
 {
 	GList **columns = closure;
 	*columns = g_list_prepend (*columns, GINT_TO_POINTER (model_row));
 }
 
 static void
-config_button_add (GtkWidget *widget, ETableConfig *config)
+config_button_add (GtkWidget *widget,
+                   ETableConfig *config)
 {
 	GList *columns = NULL;
 	GList *column;
@@ -1070,7 +1090,8 @@ config_button_add (GtkWidget *widget, ETableConfig *config)
 }
 
 static void
-config_button_remove (GtkWidget *widget, ETableConfig *config)
+config_button_remove (GtkWidget *widget,
+                      ETableConfig *config)
 {
 	GList *columns = NULL;
 	GList *column;
@@ -1103,7 +1124,8 @@ config_button_remove (GtkWidget *widget, ETableConfig *config)
 }
 
 static void
-config_button_up (GtkWidget *widget, ETableConfig *config)
+config_button_up (GtkWidget *widget,
+                  ETableConfig *config)
 {
 	GList *columns = NULL;
 	GList *column;
@@ -1158,7 +1180,8 @@ config_button_up (GtkWidget *widget, ETableConfig *config)
 }
 
 static void
-config_button_down (GtkWidget *widget, ETableConfig *config)
+config_button_down (GtkWidget *widget,
+                    ETableConfig *config)
 {
 	GList *columns = NULL;
 	GList *column;
@@ -1211,7 +1234,8 @@ config_button_down (GtkWidget *widget, ETableConfig *config)
 }
 
 static void
-configure_fields_dialog (ETableConfig *config, GtkBuilder *builder)
+configure_fields_dialog (ETableConfig *config,
+                         GtkBuilder *builder)
 {
 	GtkWidget *scrolled;
 	GtkWidget *etable;
@@ -1341,11 +1365,11 @@ e_table_config_init (ETableConfig *config)
 }
 
 ETableConfig *
-e_table_config_construct (ETableConfig        *config,
-			  const gchar          *header,
-			  ETableSpecification *spec,
-			  ETableState         *state,
-			  GtkWindow           *parent_window)
+e_table_config_construct (ETableConfig *config,
+                          const gchar *header,
+                          ETableSpecification *spec,
+                          ETableState *state,
+                          GtkWindow *parent_window)
 {
 	ETableColumnSpecification **column;
 

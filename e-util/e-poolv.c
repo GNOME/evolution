@@ -87,7 +87,10 @@ e_poolv_new (guint size)
  * Returns: @poolv
  **/
 EPoolv *
-e_poolv_set (EPoolv *poolv, gint index, gchar *str, gint freeit)
+e_poolv_set (EPoolv *poolv,
+             gint index,
+             gchar *str,
+             gint freeit)
 {
 	g_return_val_if_fail (poolv != NULL, NULL);
 	g_return_val_if_fail (index >= 0 && index < poolv->length, NULL);
@@ -126,7 +129,8 @@ e_poolv_set (EPoolv *poolv, gint index, gchar *str, gint freeit)
  * Returns: string at that index.
  **/
 const gchar *
-e_poolv_get (EPoolv *poolv, gint index)
+e_poolv_get (EPoolv *poolv,
+             gint index)
 {
 	g_return_val_if_fail (poolv != NULL, NULL);
 	g_return_val_if_fail (index >= 0 && index < poolv->length, NULL);

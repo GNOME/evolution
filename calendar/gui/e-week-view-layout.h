@@ -29,9 +29,9 @@
 G_BEGIN_DECLS
 
 /* I've split these functions away from EWeekView so we can use them for
-   printing. */
+ * printing. */
 
-GArray* e_week_view_layout_events	(GArray		*events,
+GArray * e_week_view_layout_events	(GArray		*events,
 					 GArray		*old_spans,
 					 gboolean	 multi_week_view,
 					 gint		 weeks_shown,
@@ -41,8 +41,8 @@ GArray* e_week_view_layout_events	(GArray		*events,
 					 gint		*rows_per_day);
 
 /* Returns which 'cell' in the table the day appears in. Note that most days
-   have a height of 2 rows, but Sat/Sun are sometimes compressed so they have
-   a height of only 1 row. */
+ * have a height of 2 rows, but Sat/Sun are sometimes compressed so they have
+ * a height of only 1 row. */
 void e_week_view_layout_get_day_position (gint		 day,
 					 gboolean	 multi_week_view,
 					 gint		 weeks_shown,

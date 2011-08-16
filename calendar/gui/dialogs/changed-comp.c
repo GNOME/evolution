@@ -44,7 +44,10 @@
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-changed_component_dialog (GtkWindow *parent, ECalComponent *comp, gboolean deleted, gboolean changed)
+changed_component_dialog (GtkWindow *parent,
+                          ECalComponent *comp,
+                          gboolean deleted,
+                          gboolean changed)
 {
 	GtkWidget *dialog;
 	ECalComponentVType vtype;

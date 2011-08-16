@@ -25,7 +25,7 @@
 #include "gailcanvasitemfactory.h"
 #include "gailcanvasitem.h"
 
-static AtkObject* gail_canvas_item_factory_create_accessible (GObject *obj);
+static AtkObject * gail_canvas_item_factory_create_accessible (GObject *obj);
 
 static GType gail_canvas_item_factory_get_accessible_type (void);
 
@@ -48,8 +48,8 @@ gail_canvas_item_factory_class_init (GailCanvasItemFactoryClass *klass)
   class->get_accessible_type = gail_canvas_item_factory_get_accessible_type;
 }
 
-static AtkObject*
-gail_canvas_item_factory_create_accessible (GObject   *obj)
+static AtkObject *
+gail_canvas_item_factory_create_accessible (GObject *obj)
 {
   return gail_canvas_item_new (obj);
 }

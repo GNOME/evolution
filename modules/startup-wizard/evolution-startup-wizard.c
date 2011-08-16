@@ -82,7 +82,8 @@ GType e_startup_wizard_get_type (void);
 G_DEFINE_DYNAMIC_TYPE (EStartupWizard, e_startup_wizard, E_TYPE_EXTENSION)
 
 G_GNUC_NORETURN static void
-startup_wizard_terminate (void) {
+startup_wizard_terminate (void)
+{
 	gtk_main_quit ();
 	_exit (0);
 }

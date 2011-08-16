@@ -54,9 +54,9 @@ e_shell_detect_meego (gboolean *is_meego,
 	 */
 	struct {
 	  gint (*XFree) (gpointer);
-	  gint (*XGetWindowProperty) (Display*, XID, Atom, long, long, Bool,
-				     Atom, Atom *, gint *, unsigned long*,
-				     unsigned long*, guchar **);
+	  gint (*XGetWindowProperty) (Display *, XID, Atom, long, long, Bool,
+				     Atom, Atom *, gint *, gulong *,
+				     gulong *, guchar **);
 	} fns = { 0, 0 };
 
 	*is_meego = *small_screen = FALSE;
@@ -67,7 +67,7 @@ e_shell_detect_meego (gboolean *is_meego,
 		GdkDisplay *display;
 		GdkAtom wm_win, mob_atom;
 		Atom dummy_t;
-		unsigned long dummy_l;
+		gulong dummy_l;
 		gint dummy_i;
 
 		if (!gdk_display_get_default ())

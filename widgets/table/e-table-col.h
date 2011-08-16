@@ -73,11 +73,11 @@ struct _ETableCol {
 	GCompareDataFunc compare;
 	ETableSearchFunc search;
 
-	guint selected:1;
-	guint resizable:1;
-	guint disabled:1;
-	guint sortable:1;
-	guint groupable:1;
+	guint selected : 1;
+	guint resizable : 1;
+	guint disabled : 1;
+	guint sortable : 1;
+	guint groupable : 1;
 
 	gint col_idx;
 	gint compare_col;

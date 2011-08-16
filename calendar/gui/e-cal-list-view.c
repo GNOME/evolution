@@ -109,7 +109,8 @@ e_cal_list_view_init (ECalListView *cal_list_view)
 
 /* Returns the current time, for the ECellDateEdit items. */
 static struct tm
-get_current_time_cb (ECellDateEdit *ecde, gpointer data)
+get_current_time_cb (ECellDateEdit *ecde,
+                     gpointer data)
 {
 	ECalListView *cal_list_view = data;
 	icaltimezone *zone;
@@ -132,7 +133,8 @@ get_current_time_cb (ECellDateEdit *ecde, gpointer data)
 }
 
 void
-e_cal_list_view_load_state (ECalListView *cal_list_view, gchar *filename)
+e_cal_list_view_load_state (ECalListView *cal_list_view,
+                            gchar *filename)
 {
 	struct stat st;
 
@@ -145,7 +147,8 @@ e_cal_list_view_load_state (ECalListView *cal_list_view, gchar *filename)
 }
 
 void
-e_cal_list_view_save_state (ECalListView *cal_list_view, gchar *filename)
+e_cal_list_view_save_state (ECalListView *cal_list_view,
+                            gchar *filename)
 {
 	g_return_if_fail (cal_list_view != NULL);
 	g_return_if_fail (E_IS_CAL_LIST_VIEW (cal_list_view));
@@ -176,7 +179,7 @@ setup_e_table (ECalListView *cal_list_view)
 	/* Normal string fields */
 
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
+	g_object_set (cell,
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
 		      NULL);
 
@@ -186,7 +189,7 @@ setup_e_table (ECalListView *cal_list_view)
 	/* Date fields */
 
 	cell = e_cell_date_edit_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
+	g_object_set (cell,
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
 		      NULL);
 
@@ -225,7 +228,7 @@ setup_e_table (ECalListView *cal_list_view)
 	/* Combo fields */
 
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
+	g_object_set (cell,
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
 		      "editable", FALSE,
 		      NULL);
@@ -366,8 +369,11 @@ e_cal_list_view_popup_menu (GtkWidget *widget)
 }
 
 static gboolean
-e_cal_list_view_on_table_double_click (GtkWidget *table, gint row, gint col, GdkEvent *event,
-				      gpointer data)
+e_cal_list_view_on_table_double_click (GtkWidget *table,
+                                       gint row,
+                                       gint col,
+                                       GdkEvent *event,
+                                       gpointer data)
 {
 	ECalListView *cal_list_view = E_CAL_LIST_VIEW (data);
 	ECalModelComponent *comp_data;
@@ -379,8 +385,11 @@ e_cal_list_view_on_table_double_click (GtkWidget *table, gint row, gint col, Gdk
 }
 
 static gboolean
-e_cal_list_view_on_table_right_click (GtkWidget *table, gint row, gint col, GdkEvent *event,
-				      gpointer data)
+e_cal_list_view_on_table_right_click (GtkWidget *table,
+                                      gint row,
+                                      gint col,
+                                      GdkEvent *event,
+                                      gpointer data)
 {
 	ECalListView *cal_list_view = E_CAL_LIST_VIEW (data);
 
@@ -389,7 +398,9 @@ e_cal_list_view_on_table_right_click (GtkWidget *table, gint row, gint col, GdkE
 }
 
 static void
-e_cal_list_view_cursor_change_cb (ETable *etable, gint row, gpointer data)
+e_cal_list_view_cursor_change_cb (ETable *etable,
+                                  gint row,
+                                  gpointer data)
 {
 	ECalListView *cal_list_view = E_CAL_LIST_VIEW (data);
 
@@ -397,7 +408,9 @@ e_cal_list_view_cursor_change_cb (ETable *etable, gint row, gpointer data)
 }
 
 static gboolean
-e_cal_list_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time)
+e_cal_list_view_get_selected_time_range (ECalendarView *cal_view,
+                                         time_t *start_time,
+                                         time_t *end_time)
 {
 	GList *selected;
 	icaltimezone *zone;
@@ -471,7 +484,10 @@ e_cal_list_view_get_selected_events (ECalendarView *cal_view)
 }
 
 static void
-adjust_range (icaltimetype icaltime, time_t *earliest, time_t *latest, gboolean *set)
+adjust_range (icaltimetype icaltime,
+              time_t *earliest,
+              time_t *latest,
+              gboolean *set)
 {
 	time_t t;
 
@@ -485,11 +501,13 @@ adjust_range (icaltimetype icaltime, time_t *earliest, time_t *latest, gboolean 
 	*set = TRUE;
 }
 
-/* NOTE: Time use for this function increases linearly with number of events. This is not
- * ideal, since it's used in a couple of places. We could probably be smarter about it,
- * and use do it less frequently... */
+/* NOTE: Time use for this function increases linearly with number of events.
+ * This is not ideal, since it's used in a couple of places. We could probably
+ * be smarter about it, and use do it less frequently... */
 static gboolean
-e_cal_list_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time)
+e_cal_list_view_get_visible_time_range (ECalendarView *cal_view,
+                                        time_t *start_time,
+                                        time_t *end_time)
 {
 	time_t   earliest = G_MAXINT, latest = 0;
 	gboolean set = FALSE;
@@ -532,7 +550,9 @@ e_cal_list_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_t
 }
 
 gboolean
-e_cal_list_view_get_range_shown (ECalListView *cal_list_view, GDate *start_date, gint *days_shown)
+e_cal_list_view_get_range_shown (ECalListView *cal_list_view,
+                                 GDate *start_date,
+                                 gint *days_shown)
 {
 	time_t  first, last;
 	GDate   end_date;

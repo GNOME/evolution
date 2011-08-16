@@ -50,7 +50,9 @@
  * component object.
  **/
 void
-cal_comp_util_add_exdate (ECalComponent *comp, time_t t, icaltimezone *zone)
+cal_comp_util_add_exdate (ECalComponent *comp,
+                          time_t t,
+                          icaltimezone *zone)
 {
 	GSList *list;
 	ECalComponentDateTime *cdt;
@@ -72,7 +74,8 @@ cal_comp_util_add_exdate (ECalComponent *comp, time_t t, icaltimezone *zone)
 
 /* Returns TRUE if the TZIDs are equivalent, i.e. both NULL or the same. */
 static gboolean
-e_cal_component_compare_tzid (const gchar *tzid1, const gchar *tzid2)
+e_cal_component_compare_tzid (const gchar *tzid1,
+                              const gchar *tzid2)
 {
 	gboolean retval = TRUE;
 
@@ -101,8 +104,8 @@ e_cal_component_compare_tzid (const gchar *tzid1, const gchar *tzid2)
  **/
 gboolean
 cal_comp_util_compare_event_timezones (ECalComponent *comp,
-				       ECalClient *client,
-				       icaltimezone *zone)
+                                       ECalClient *client,
+                                       icaltimezone *zone)
 {
 	ECalComponentDateTime start_datetime, end_datetime;
 	const gchar *tzid;
@@ -116,8 +119,8 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 	e_cal_component_get_dtend (comp, &end_datetime);
 
 	/* If either the DTSTART or the DTEND is a DATE value, we return TRUE.
-	   Maybe if one was a DATE-TIME we should check that, but that should
-	   not happen often. */
+	 * Maybe if one was a DATE-TIME we should check that, but that should
+	 * not happen often. */
 	if ((start_datetime.value && start_datetime.value->is_date)
 	    || (end_datetime.value && end_datetime.value->is_date)) {
 		retval = TRUE;
@@ -125,8 +128,8 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 	}
 
 	/* If the event uses UTC for DTSTART & DTEND, return TRUE. Outlook
-	   will send single events as UTC, so we don't want to mark all of
-	   these. */
+	 * will send single events as UTC, so we don't want to mark all of
+	 * these. */
 	if ((!start_datetime.value || start_datetime.value->is_utc)
 	    && (!end_datetime.value || end_datetime.value->is_utc)) {
 		retval = TRUE;
@@ -134,8 +137,8 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 	}
 
 	/* If the event uses floating time for DTSTART & DTEND, return TRUE.
-	   Imported vCalendar files will use floating times, so we don't want
-	   to mark all of these. */
+	 * Imported vCalendar files will use floating times, so we don't want
+	 * to mark all of these. */
 	if (!start_datetime.tzid && !end_datetime.tzid) {
 		retval = TRUE;
 		goto out;
@@ -145,12 +148,12 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 	if (e_cal_component_compare_tzid (tzid, start_datetime.tzid)
 	    && e_cal_component_compare_tzid (tzid, end_datetime.tzid)) {
 		/* If both TZIDs are the same as the given zone's TZID, then
-		   we know the timezones are the same so we return TRUE. */
+		 * we know the timezones are the same so we return TRUE. */
 		retval = TRUE;
 	} else {
 		/* If the TZIDs differ, we have to compare the UTC offsets
-		   of the start and end times, using their own timezones and
-		   the given timezone. */
+		 * of the start and end times, using their own timezones and
+		 * the given timezone. */
 		if (!e_cal_client_get_timezone_sync (client, start_datetime.tzid,
 					      &start_zone, NULL, NULL))
 			goto out;
@@ -211,7 +214,8 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
  * user cancelled the deletion.
  **/
 gboolean
-cal_comp_is_on_server (ECalComponent *comp, ECalClient *client)
+cal_comp_is_on_server (ECalComponent *comp,
+                       ECalClient *client)
 {
 	const gchar *uid;
 	gchar *rid = NULL;
@@ -260,7 +264,8 @@ cal_comp_is_on_server (ECalComponent *comp, ECalClient *client)
  * icalcomponent, not the ECalComponent.
  **/
 gboolean
-is_icalcomp_on_the_server (icalcomponent *icalcomp, ECalClient *client)
+is_icalcomp_on_the_server (icalcomponent *icalcomp,
+                           ECalClient *client)
 {
 	gboolean on_server;
 	ECalComponent *comp;
@@ -435,7 +440,8 @@ cal_comp_memo_new_with_defaults (ECalClient *client)
 }
 
 void
-cal_comp_update_time_by_active_window (ECalComponent *comp, EShell *shell)
+cal_comp_update_time_by_active_window (ECalComponent *comp,
+                                       EShell *shell)
 {
 	GtkWindow *window;
 
@@ -502,7 +508,8 @@ cal_comp_update_time_by_active_window (ECalComponent *comp, EShell *shell)
  * Returns: the number of icons owned by the component.
  **/
 gint
-cal_comp_util_get_n_icons (ECalComponent *comp, GSList **pixbufs)
+cal_comp_util_get_n_icons (ECalComponent *comp,
+                           GSList **pixbufs)
 {
 	GSList *categories_list, *elem;
 	gint num_icons = 0;
@@ -543,7 +550,8 @@ cal_comp_util_get_n_icons (ECalComponent *comp, GSList **pixbufs)
  * cal_comp_selection_get_string_list() to get this list from target data.
  **/
 void
-cal_comp_selection_set_string_list (GtkSelectionData *data, GSList *str_list)
+cal_comp_selection_set_string_list (GtkSelectionData *data,
+                                    GSList *str_list)
 {
 	/* format is "str1\0str2\0...strN\0" */
 	GSList *p;
@@ -612,7 +620,9 @@ cal_comp_selection_get_string_list (GtkSelectionData *selection_data)
 }
 
 static void
-datetime_to_zone (ECalClient *client, ECalComponentDateTime *date, const gchar *tzid)
+datetime_to_zone (ECalClient *client,
+                  ECalComponentDateTime *date,
+                  const gchar *tzid)
 {
 	icaltimezone *from, *to;
 
@@ -783,7 +793,8 @@ comp_util_sanitize_recurrence_master (ECalComponent *comp,
 }
 
 gchar *
-icalcomp_suggest_filename (icalcomponent *icalcomp, const gchar *default_name)
+icalcomp_suggest_filename (icalcomponent *icalcomp,
+                           const gchar *default_name)
 {
 	icalproperty *prop;
 	const gchar *summary = NULL;

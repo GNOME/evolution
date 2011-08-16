@@ -33,10 +33,10 @@
 #include "eab-contact-compare.h"
 
 /* This is an "optimistic" combiner: the best of the two outcomes is
-   selected. */
+ * selected. */
 static EABContactMatchType
 combine_comparisons (EABContactMatchType prev,
-		     EABContactMatchType new_info)
+                     EABContactMatchType new_info)
 {
 	if (new_info == EAB_CONTACT_MATCH_NOT_APPLICABLE)
 		return prev;
@@ -46,7 +46,7 @@ combine_comparisons (EABContactMatchType prev,
 /*** Name comparisons ***/
 
 /* This *so* doesn't belong here... at least not implemented in a
-   sucky way like this.  But it can be fixed later. */
+ * sucky way like this.  But it can be fixed later. */
 
 /* This is very Anglocentric. */
 static const gchar *name_synonyms[][2] = {
@@ -83,7 +83,9 @@ static const gchar *name_synonyms[][2] = {
 };
 
 static gboolean
-name_fragment_match_with_synonyms (const gchar *a, const gchar *b, gboolean strict)
+name_fragment_match_with_synonyms (const gchar *a,
+                                   const gchar *b,
+                                   gboolean strict)
 {
 	gint i;
 
@@ -94,7 +96,7 @@ name_fragment_match_with_synonyms (const gchar *a, const gchar *b, gboolean stri
 		return TRUE;
 
 	/* Check for nicknames.  Yes, the linear search blows. */
-	for (i=0; name_synonyms[i][0]; ++i) {
+	for (i = 0; name_synonyms[i][0]; ++i) {
 
 		if (!e_utf8_casefold_collate (name_synonyms[i][0], a)
 		    && !e_utf8_casefold_collate (name_synonyms[i][1], b))
@@ -109,14 +111,19 @@ name_fragment_match_with_synonyms (const gchar *a, const gchar *b, gboolean stri
 }
 
 EABContactMatchType
-eab_contact_compare_name_to_string (EContact *contact, const gchar *str)
+eab_contact_compare_name_to_string (EContact *contact,
+                                    const gchar *str)
 {
 	return eab_contact_compare_name_to_string_full (contact, str, FALSE, NULL, NULL, NULL);
 }
 
 EABContactMatchType
-eab_contact_compare_name_to_string_full (EContact *contact, const gchar *str, gboolean allow_partial_matches,
-					 gint *matched_parts_out, EABContactMatchPart *first_matched_part_out, gint *matched_character_count_out)
+eab_contact_compare_name_to_string_full (EContact *contact,
+                                         const gchar *str,
+                                         gboolean allow_partial_matches,
+                                         gint *matched_parts_out,
+                                         EABContactMatchPart *first_matched_part_out,
+                                         gint *matched_character_count_out)
 {
 	gchar **namev, **givenv = NULL, **addv = NULL, **familyv = NULL;
 
@@ -172,8 +179,8 @@ eab_contact_compare_name_to_string_full (EContact *contact, const gchar *str, gb
 			this_part_match = EAB_CONTACT_MATCH_PART_NONE;
 
 			/* When we are allowing partials, we are strict about the matches we allow.
-			   Does this make sense?  Not really, but it does the right thing for the purposes
-			   of completion. */
+			 * Does this make sense?  Not really, but it does the right thing for the purposes
+			 * of completion. */
 
 			if (givenv && this_part_match == EAB_CONTACT_MATCH_PART_NONE) {
 				for (j = 0; givenv[j]; ++j) {
@@ -182,7 +189,7 @@ eab_contact_compare_name_to_string_full (EContact *contact, const gchar *str, gb
 						this_part_match = EAB_CONTACT_MATCH_PART_GIVEN_NAME;
 
 						/* We remove a piece of a name once it has been matched against, so
-						   that "john john" won't match "john doe". */
+						 * that "john john" won't match "john doe". */
 						g_free (givenv[j]);
 						givenv[j] = g_strdup ("");
 						break;
@@ -261,7 +268,8 @@ eab_contact_compare_name_to_string_full (EContact *contact, const gchar *str, gb
 }
 
 EABContactMatchType
-eab_contact_compare_file_as (EContact *contact1, EContact *contact2)
+eab_contact_compare_file_as (EContact *contact1,
+                             EContact *contact2)
 {
 	EABContactMatchType match_type;
 	gchar *a, *b;
@@ -292,10 +300,11 @@ eab_contact_compare_file_as (EContact *contact1, EContact *contact2)
 }
 
 EABContactMatchType
-eab_contact_compare_name (EContact *contact1, EContact *contact2)
+eab_contact_compare_name (EContact *contact1,
+                          EContact *contact2)
 {
 	EContactName *a, *b;
-	gint matches=0, possible=0;
+	gint matches = 0, possible = 0;
 	gboolean family_match = FALSE;
 
 	g_return_val_if_fail (E_IS_CONTACT (contact1), EAB_CONTACT_MATCH_NOT_APPLICABLE);
@@ -337,8 +346,8 @@ eab_contact_compare_name (EContact *contact1, EContact *contact2)
 	e_contact_name_free (b);
 
 	/* Now look at the # of matches and try to intelligently map
-	   an EAB_CONTACT_MATCH_* type to it.  Special consideration is given
-	   to family-name matches. */
+	 * an EAB_CONTACT_MATCH_* type to it.  Special consideration is given
+	 * to family-name matches. */
 
 	if (possible == 0)
 		return EAB_CONTACT_MATCH_NOT_APPLICABLE;
@@ -349,7 +358,7 @@ eab_contact_compare_name (EContact *contact1, EContact *contact2)
 	if (possible == matches)
 		return family_match ? EAB_CONTACT_MATCH_EXACT : EAB_CONTACT_MATCH_PARTIAL;
 
-	if (possible == matches+1)
+	if (possible == matches + 1)
 		return family_match ? EAB_CONTACT_MATCH_VAGUE : EAB_CONTACT_MATCH_NONE;
 
 	return EAB_CONTACT_MATCH_NONE;
@@ -358,7 +367,8 @@ eab_contact_compare_name (EContact *contact1, EContact *contact2)
 /*** Nickname Comparisons ***/
 
 EABContactMatchType
-eab_contact_compare_nickname (EContact *contact1, EContact *contact2)
+eab_contact_compare_nickname (EContact *contact1,
+                              EContact *contact2)
 {
 	g_return_val_if_fail (contact1 && E_IS_CONTACT (contact1), EAB_CONTACT_MATCH_NOT_APPLICABLE);
 	g_return_val_if_fail (contact2 && E_IS_CONTACT (contact2), EAB_CONTACT_MATCH_NOT_APPLICABLE);
@@ -369,7 +379,8 @@ eab_contact_compare_nickname (EContact *contact1, EContact *contact2)
 /*** E-mail Comparisons ***/
 
 static gboolean
-match_email_username (const gchar *addr1, const gchar *addr2)
+match_email_username (const gchar *addr1,
+                      const gchar *addr2)
 {
 	gint c1, c2;
 	if (addr1 == NULL || addr2 == NULL)
@@ -388,7 +399,8 @@ match_email_username (const gchar *addr1, const gchar *addr2)
 }
 
 static gboolean
-match_email_hostname (const gchar *addr1, const gchar *addr2)
+match_email_hostname (const gchar *addr1,
+                      const gchar *addr2)
 {
 	gint c1, c2;
 	gboolean seen_at1, seen_at2;
@@ -436,7 +448,8 @@ match_email_hostname (const gchar *addr1, const gchar *addr2)
 }
 
 static EABContactMatchType
-compare_email_addresses (const gchar *addr1, const gchar *addr2)
+compare_email_addresses (const gchar *addr1,
+                         const gchar *addr2)
 {
 	if (addr1 == NULL || *addr1 == 0 ||
 	    addr2 == NULL || *addr2 == 0)
@@ -449,7 +462,8 @@ compare_email_addresses (const gchar *addr1, const gchar *addr2)
 }
 
 EABContactMatchType
-eab_contact_compare_email (EContact *contact1, EContact *contact2)
+eab_contact_compare_email (EContact *contact1,
+                           EContact *contact2)
 {
 	EABContactMatchType match = EAB_CONTACT_MATCH_NOT_APPLICABLE;
 	GList *contact1_email, *contact2_email;
@@ -473,8 +487,8 @@ eab_contact_compare_email (EContact *contact1, EContact *contact2)
 	i1 = contact1_email;
 
 	/* Do pairwise-comparisons on all of the e-mail addresses.  If
-	   we find an exact match, there is no reason to keep
-	   checking. */
+	 * we find an exact match, there is no reason to keep
+	 * checking. */
 	while (i1 && match != EAB_CONTACT_MATCH_EXACT) {
 		gchar *addr1 = (gchar *) i1->data;
 
@@ -500,7 +514,8 @@ eab_contact_compare_email (EContact *contact1, EContact *contact2)
 }
 
 EABContactMatchType
-eab_contact_compare_address (EContact *contact1, EContact *contact2)
+eab_contact_compare_address (EContact *contact1,
+                             EContact *contact2)
 {
 	g_return_val_if_fail (contact1 && E_IS_CONTACT (contact1), EAB_CONTACT_MATCH_NOT_APPLICABLE);
 	g_return_val_if_fail (contact2 && E_IS_CONTACT (contact2), EAB_CONTACT_MATCH_NOT_APPLICABLE);
@@ -511,7 +526,8 @@ eab_contact_compare_address (EContact *contact1, EContact *contact2)
 }
 
 EABContactMatchType
-eab_contact_compare_telephone (EContact *contact1, EContact *contact2)
+eab_contact_compare_telephone (EContact *contact1,
+                               EContact *contact2)
 {
 	g_return_val_if_fail (contact1 && E_IS_CONTACT (contact1), EAB_CONTACT_MATCH_NOT_APPLICABLE);
 	g_return_val_if_fail (contact2 && E_IS_CONTACT (contact2), EAB_CONTACT_MATCH_NOT_APPLICABLE);
@@ -522,7 +538,8 @@ eab_contact_compare_telephone (EContact *contact1, EContact *contact2)
 }
 
 EABContactMatchType
-eab_contact_compare (EContact *contact1, EContact *contact2)
+eab_contact_compare (EContact *contact1,
+                     EContact *contact2)
 {
 	EABContactMatchType result;
 
@@ -660,13 +677,13 @@ query_cb (GObject *source_object,
 #define MAX_QUERY_PARTS 10
 static void
 use_common_book_client (EBookClient *book_client,
-			MatchSearchInfo *info)
+                        MatchSearchInfo *info)
 {
 	EContact *contact = info->contact;
 	EContactName *contact_name;
 	GList *contact_email;
 	gchar *query_parts[MAX_QUERY_PARTS];
-	gint p=0;
+	gint p = 0;
 	gchar *contact_file_as, *qj;
 	EBookQuery *query = NULL;
 	gint i;

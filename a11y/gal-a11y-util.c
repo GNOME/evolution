@@ -28,12 +28,12 @@
 #include "gal-a11y-util.h"
 
 GType
-gal_a11y_type_register_static_with_private  (GType            parent_type,
-					     const gchar     *type_name,
-					     GTypeInfo *info,
-					     GTypeFlags       flags,
-					     gint             priv_size,
-					     gint            *priv_offset)
+gal_a11y_type_register_static_with_private (GType parent_type,
+                                            const gchar *type_name,
+                                            GTypeInfo *info,
+                                            GTypeFlags flags,
+                                            gint priv_size,
+                                            gint *priv_offset)
 {
 	GTypeQuery query;
 

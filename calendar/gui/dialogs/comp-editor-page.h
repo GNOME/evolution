@@ -71,9 +71,9 @@ struct _CompEditorPage {
 	GObject object;
 
 	/* The GtkAccelGroup for the page. We install this when the page is
-	   mapped, and uninstall when it is unmapped. libglade would do this
-	   normally, but we create our pages individually so have to do it
-	   ourselves. */
+	 * mapped, and uninstall when it is unmapped. libglade would do this
+	 * normally, but we create our pages individually so have to do it
+	 * ourselves. */
 	GtkAccelGroup *accel_group;
 
 	CompEditorPagePrivate *priv;

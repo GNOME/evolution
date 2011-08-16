@@ -69,7 +69,8 @@ ensure_caldav_source_group (ECalClientSourceType source_type)
 }
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 
 	if (enable) {
@@ -85,7 +86,8 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 /*****************************************************************************/
 
 static void
-location_changed_cb (GtkEntry *editable, ESource *source)
+location_changed_cb (GtkEntry *editable,
+                     ESource *source)
 {
 	SoupURI     *suri;
 	gchar       *ruri;
@@ -110,7 +112,8 @@ location_changed_cb (GtkEntry *editable, ESource *source)
 }
 
 static void
-user_changed_cb (GtkEntry *editable, ESource *source)
+user_changed_cb (GtkEntry *editable,
+                 ESource *source)
 {
 	SoupURI     *suri;
 	gchar       *uri, *ruri;
@@ -145,7 +148,8 @@ user_changed_cb (GtkEntry *editable, ESource *source)
 }
 
 static void
-browse_cal_clicked_cb (GtkButton *button, gpointer user_data)
+browse_cal_clicked_cb (GtkButton *button,
+                       gpointer user_data)
 {
 	GtkEntry *url, *username, *usermail;
 	GtkToggleButton *ssl, *autoschedule;
@@ -197,8 +201,8 @@ browse_cal_clicked_cb (GtkButton *button, gpointer user_data)
 }
 
 GtkWidget *
-oge_caldav  (EPlugin                    *epl,
-	     EConfigHookItemFactoryData *data)
+oge_caldav (EPlugin *epl,
+            EConfigHookItemFactoryData *data)
 {
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource      *source;

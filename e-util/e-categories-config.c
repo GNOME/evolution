@@ -37,7 +37,8 @@
 static GHashTable *pixbufs_cache = NULL;
 
 static void
-categories_changed_cb (gpointer object, gpointer user_data)
+categories_changed_cb (gpointer object,
+                       gpointer user_data)
 {
 	if (pixbufs_cache)
 		g_hash_table_remove_all (pixbufs_cache);
@@ -62,7 +63,8 @@ free_pixbuf_cb (gpointer ptr)
  * Returns: the icon configured for the given category
  */
 gboolean
-e_categories_config_get_icon_for (const gchar *category, GdkPixbuf **pixbuf)
+e_categories_config_get_icon_for (const gchar *category,
+                                  GdkPixbuf **pixbuf)
 {
 	const gchar *icon_file;
 

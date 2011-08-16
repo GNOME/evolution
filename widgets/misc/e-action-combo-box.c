@@ -253,7 +253,7 @@ action_combo_box_update_model (EActionComboBox *combo_box)
 		g_free (stock_id);
 
 		gtk_list_store_append (list_store, &iter);
-		g_object_get (G_OBJECT (action), "value", &value, NULL);
+		g_object_get (action, "value", &value, NULL);
 		gtk_list_store_set (
 			list_store, &iter, COLUMN_ACTION,
 			list->data, COLUMN_SORT, (gfloat) value, -1);
@@ -395,7 +395,7 @@ action_combo_box_changed (GtkComboBox *combo_box)
 
 	model = gtk_combo_box_get_model (combo_box);
 	gtk_tree_model_get (model, &iter, COLUMN_ACTION, &action, -1);
-	g_object_get (G_OBJECT (action), "value", &value, NULL);
+	g_object_get (action, "value", &value, NULL);
 	gtk_radio_action_set_current_value (action, value);
 }
 

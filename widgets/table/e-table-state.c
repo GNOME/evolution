@@ -116,8 +116,8 @@ e_table_state_vanilla (gint col_count)
 }
 
 gboolean
-e_table_state_load_from_file    (ETableState *state,
-				 const gchar          *filename)
+e_table_state_load_from_file (ETableState *state,
+                              const gchar *filename)
 {
 	xmlDoc *doc;
 
@@ -135,8 +135,8 @@ e_table_state_load_from_file    (ETableState *state,
 }
 
 void
-e_table_state_load_from_string  (ETableState *state,
-				 const gchar          *xml)
+e_table_state_load_from_string (ETableState *state,
+                                const gchar *xml)
 {
 	xmlDoc *doc;
 
@@ -158,7 +158,7 @@ typedef struct {
 
 void
 e_table_state_load_from_node (ETableState *state,
-			      const xmlNode *node)
+                              const xmlNode *node)
 {
 	xmlNode *children;
 	GList *list = NULL, *iterator;
@@ -215,8 +215,8 @@ e_table_state_load_from_node (ETableState *state,
 }
 
 void
-e_table_state_save_to_file      (ETableState *state,
-				 const gchar          *filename)
+e_table_state_save_to_file (ETableState *state,
+                            const gchar *filename)
 {
 	xmlDoc *doc;
 
@@ -231,7 +231,7 @@ e_table_state_save_to_file      (ETableState *state,
 }
 
 gchar *
-e_table_state_save_to_string    (ETableState *state)
+e_table_state_save_to_string (ETableState *state)
 {
 	gchar *ret_val;
 	xmlChar *string;
@@ -251,8 +251,8 @@ e_table_state_save_to_string    (ETableState *state)
 }
 
 xmlNode *
-e_table_state_save_to_node      (ETableState *state,
-				 xmlNode     *parent)
+e_table_state_save_to_node (ETableState *state,
+                            xmlNode *parent)
 {
 	gint i;
 	xmlNode *node;

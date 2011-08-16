@@ -141,7 +141,7 @@ e_table_sort_info_group_info_changed (ETableSortInfo *info)
  * trigger any signals that might have been queued.
  */
 void
-e_table_sort_info_freeze             (ETableSortInfo *info)
+e_table_sort_info_freeze (ETableSortInfo *info)
 {
 	info->frozen++;
 }
@@ -158,7 +158,7 @@ e_table_sort_info_freeze             (ETableSortInfo *info)
  * this object.
  */
 void
-e_table_sort_info_thaw               (ETableSortInfo *info)
+e_table_sort_info_thaw (ETableSortInfo *info)
 {
 	info->frozen--;
 	if (info->frozen != 0)
@@ -190,7 +190,8 @@ e_table_sort_info_grouping_get_count (ETableSortInfo *info)
 }
 
 static void
-e_table_sort_info_grouping_real_truncate  (ETableSortInfo *info, gint length)
+e_table_sort_info_grouping_real_truncate (ETableSortInfo *info,
+                                          gint length)
 {
 	if (length < info->group_count) {
 		info->group_count = length;
@@ -210,7 +211,8 @@ e_table_sort_info_grouping_real_truncate  (ETableSortInfo *info, gint length)
  * criteria in the object.
  */
 void
-e_table_sort_info_grouping_truncate  (ETableSortInfo *info, gint length)
+e_table_sort_info_grouping_truncate (ETableSortInfo *info,
+                                     gint length)
 {
 	e_table_sort_info_grouping_real_truncate (info, length);
 	e_table_sort_info_group_info_changed (info);
@@ -224,7 +226,8 @@ e_table_sort_info_grouping_truncate  (ETableSortInfo *info, gint length)
  * Returns: the description of the @n-th grouping criteria in the @info object.
  */
 ETableSortColumn
-e_table_sort_info_grouping_get_nth   (ETableSortInfo *info, gint n)
+e_table_sort_info_grouping_get_nth (ETableSortInfo *info,
+                                    gint n)
 {
 	if (info->can_group && n < info->group_count) {
 		return info->groupings[n];
@@ -244,7 +247,9 @@ e_table_sort_info_grouping_get_nth   (ETableSortInfo *info, gint n)
  * whether it is ascending or descending).
  */
 void
-e_table_sort_info_grouping_set_nth   (ETableSortInfo *info, gint n, ETableSortColumn column)
+e_table_sort_info_grouping_set_nth (ETableSortInfo *info,
+                                    gint n,
+                                    ETableSortColumn column)
 {
 	if (n >= info->group_count) {
 		e_table_sort_info_grouping_real_truncate (info, n + 1);
@@ -266,7 +271,8 @@ e_table_sort_info_sorting_get_count (ETableSortInfo *info)
 }
 
 static void
-e_table_sort_info_sorting_real_truncate  (ETableSortInfo *info, gint length)
+e_table_sort_info_sorting_real_truncate (ETableSortInfo *info,
+                                         gint length)
 {
 	if (length < info->sort_count) {
 		info->sort_count = length;
@@ -286,7 +292,8 @@ e_table_sort_info_sorting_real_truncate  (ETableSortInfo *info, gint length)
  * criteria in the object.
  */
 void
-e_table_sort_info_sorting_truncate  (ETableSortInfo *info, gint length)
+e_table_sort_info_sorting_truncate (ETableSortInfo *info,
+                                    gint length)
 {
 	e_table_sort_info_sorting_real_truncate  (info, length);
 	e_table_sort_info_sort_info_changed (info);
@@ -300,7 +307,8 @@ e_table_sort_info_sorting_truncate  (ETableSortInfo *info, gint length)
  * Returns: the description of the @n-th grouping criteria in the @info object.
  */
 ETableSortColumn
-e_table_sort_info_sorting_get_nth   (ETableSortInfo *info, gint n)
+e_table_sort_info_sorting_get_nth (ETableSortInfo *info,
+                                   gint n)
 {
 	if (n < info->sort_count) {
 		return info->sortings[n];
@@ -320,7 +328,9 @@ e_table_sort_info_sorting_get_nth   (ETableSortInfo *info, gint n)
  * column number and whether it is ascending or descending).
  */
 void
-e_table_sort_info_sorting_set_nth   (ETableSortInfo *info, gint n, ETableSortColumn column)
+e_table_sort_info_sorting_set_nth (ETableSortInfo *info,
+                                   gint n,
+                                   ETableSortColumn column)
 {
 	if (n >= info->sort_count) {
 		e_table_sort_info_sorting_real_truncate (info, n + 1);
@@ -356,8 +366,8 @@ e_table_sort_info_new (void)
  */
 void
 e_table_sort_info_load_from_node (ETableSortInfo *info,
-				  xmlNode        *node,
-				  gdouble         state_version)
+                                  xmlNode *node,
+                                  gdouble state_version)
 {
 	gint i;
 	xmlNode *grouping;
@@ -412,7 +422,7 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
  */
 xmlNode *
 e_table_sort_info_save_to_node (ETableSortInfo *info,
-				xmlNode        *parent)
+                                xmlNode *parent)
 {
 	xmlNode *grouping;
 	gint i;
@@ -461,14 +471,14 @@ e_table_sort_info_duplicate (ETableSortInfo *info)
 }
 
 void
-e_table_sort_info_set_can_group       (ETableSortInfo   *info,
-				       gboolean          can_group)
+e_table_sort_info_set_can_group (ETableSortInfo *info,
+                                 gboolean can_group)
 {
 	info->can_group = can_group;
 }
 
 gboolean
-e_table_sort_info_get_can_group       (ETableSortInfo   *info)
+e_table_sort_info_get_can_group (ETableSortInfo *info)
 {
 	return info->can_group;
 }

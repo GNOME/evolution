@@ -72,7 +72,7 @@ static MailConvView * mv_switch_message_view (MailView *mv, const gchar *uri);
 void anjal_shell_view_restore_state (EShellView *view, const gchar *uri);
 
 static void
-mail_view_init (MailView  *shell)
+mail_view_init (MailView *shell)
 {
 	shell->priv = g_new0 (MailViewPrivate, 1);
 	shell->priv->children = NULL;
@@ -95,7 +95,8 @@ mail_view_finalize (GObject *object)
 }
 
 static void
-mv_set_folder_uri (AnjalMailView *mv, const gchar *uri)
+mv_set_folder_uri (AnjalMailView *mv,
+                   const gchar *uri)
 {
 #ifndef ANJAL_SETTINGS
 	mail_view_set_folder_uri ((MailView *) mv, uri);
@@ -108,7 +109,8 @@ static void set_folder_tree (AnjalMailView *mv, EMFolderTree *tree)
 }
 
 static void
-set_search (AnjalMailView *mv, const gchar *search)
+set_search (AnjalMailView *mv,
+            const gchar *search)
 {
 #ifndef ANJAL_SETTINGS
 	mail_view_set_search ((MailView *) mv, search);
@@ -138,7 +140,10 @@ mail_view_class_init (MailViewClass *klass)
 };
 
 static void
-mv_switch (GtkNotebook *notebook, GtkWidget *page, guint page_num, gpointer user_data)
+mv_switch (GtkNotebook *notebook,
+           GtkWidget *page,
+           guint page_num,
+           gpointer user_data)
 {
 	MailView *shell = (MailView *) notebook;
 	MailViewPrivate *priv = shell->priv;
@@ -192,21 +197,23 @@ mail_view_new ()
 }
 
 static gint
-mv_get_page_number (GtkNotebook *note, GtkWidget *widget)
+mv_get_page_number (GtkNotebook *note,
+                    GtkWidget *widget)
 {
 	gint i, total;
 
 	total = gtk_notebook_get_n_pages (note);
-	for (i=0; i<total; i++) {
+	for (i = 0; i < total; i++) {
 		if (gtk_notebook_get_nth_page (note, i) == widget)
 			return i;
 	}
 
-	return total-1;
+	return total - 1;
 }
 
 static void
-mv_close_mcv (MailViewChild *mfv, MailView *mv)
+mv_close_mcv (MailViewChild *mfv,
+              MailView *mv)
 {
 	gint n = mv_get_page_number ((GtkNotebook *) mv, (GtkWidget *) mfv);
 	gint pos = gtk_notebook_get_current_page ((GtkNotebook *) mv);
@@ -279,7 +286,10 @@ mv_close_mcv (MailViewChild *mfv, MailView *mv)
 
 #ifndef ANJAL_SETTINGS
 static void
-mv_message_new (MailFolderView *mfv, gpointer data, gchar *umid, MailView *mv)
+mv_message_new (MailFolderView *mfv,
+                gpointer data,
+                gchar *umid,
+                MailView *mv)
 {
 	MailConvView *conv = (MailConvView *) mv_switch_message_view (mv, umid);
 	*(MailConvView **)data = conv;
@@ -291,20 +301,24 @@ mv_message_new (MailFolderView *mfv, gpointer data, gchar *umid, MailView *mv)
 }
 
 static void
-mv_search_set (MailFolderView *mfv, MailView *mv)
+mv_search_set (MailFolderView *mfv,
+               MailView *mv)
 {
 	anjal_shell_view_restore_state (mv->shell_view, ((MailViewChild *) mfv)->uri);
 }
 
 static void
-mv_folder_loaded (MailFolderView *mfv, MailView *mv)
+mv_folder_loaded (MailFolderView *mfv,
+                  MailView *mv)
 {
 	g_signal_handlers_block_by_func (mfv, mv_folder_loaded, mv);
 	g_signal_emit (mv, signals[VIEW_NEW], 0);
 }
 
 static MailViewChild *
-mail_view_add_folder (MailView *mv, gpointer data, gboolean block)
+mail_view_add_folder (MailView *mv,
+                      gpointer data,
+                      gboolean block)
 {
 	MailFolderView *mfv = mail_folder_view_new ();
 	gint position = 0;
@@ -330,7 +344,9 @@ mail_view_add_folder (MailView *mv, gpointer data, gboolean block)
 }
 
 static MailViewChild *
-mail_view_add_composer (MailView *mv, gpointer data, gboolean block)
+mail_view_add_composer (MailView *mv,
+                        gpointer data,
+                        gboolean block)
 {
 	MailComposerView *mcv;
 	gint position = 0;
@@ -338,7 +354,7 @@ mail_view_add_composer (MailView *mv, gpointer data, gboolean block)
 
 	if (!data)
 		mcv = mail_composer_view_new ();
-	else if (data == (gpointer)-1) {
+	else if (data == (gpointer) - 1) {
 		special = TRUE;
 		data = NULL;
 	} else
@@ -351,7 +367,7 @@ mail_view_add_composer (MailView *mv, gpointer data, gboolean block)
 		position = gtk_notebook_append_page ((GtkNotebook *) mv, (GtkWidget *) mcv, mcv->tab_label);
 	else {
 		gint position = gtk_notebook_get_current_page ((GtkNotebook *) mv);
-		gtk_notebook_insert_page ((GtkNotebook *) mv, (GtkWidget *) mcv, mcv->tab_label, position+1);
+		gtk_notebook_insert_page ((GtkNotebook *) mv, (GtkWidget *) mcv, mcv->tab_label, position + 1);
 	}
 
 	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (mv), (GtkWidget *) mcv, TRUE);
@@ -368,7 +384,9 @@ mail_view_add_composer (MailView *mv, gpointer data, gboolean block)
 }
 
 static MailViewChild *
-mail_view_add_message (MailView *mv, gpointer data, gboolean block)
+mail_view_add_message (MailView *mv,
+                       gpointer data,
+                       gboolean block)
 {
 	MailConvView *mcv = mail_conv_view_new ();
 	gint position = 0;
@@ -380,11 +398,11 @@ mail_view_add_message (MailView *mv, gpointer data, gboolean block)
 	mv->priv->children = block ? g_list_append (mv->priv->children,  mcv) :  g_list_prepend (mv->priv->children,  mcv);
 
 	position = gtk_notebook_get_current_page ((GtkNotebook *) mv);
-	gtk_notebook_insert_page ((GtkNotebook *) mv, (GtkWidget *) mcv, mail_conv_view_get_tab_widget (mcv), position+1);
+	gtk_notebook_insert_page ((GtkNotebook *) mv, (GtkWidget *) mcv, mail_conv_view_get_tab_widget (mcv), position + 1);
 	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (mv), (GtkWidget *) mcv, TRUE);
 	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *) mcv, FALSE);
 	if (!block)
-		gtk_notebook_set_current_page ((GtkNotebook *) mv, position+1);
+		gtk_notebook_set_current_page ((GtkNotebook *) mv, position + 1);
 	if (!block)
 		 mail_conv_view_activate (mcv, mv->tree, mv->folder_tree, mv->check_mail, mv->sort_by, FALSE);
 
@@ -397,13 +415,17 @@ mail_view_add_message (MailView *mv, gpointer data, gboolean block)
 #endif
 
 static void
-mv_show_acc_mcv (MailViewChild *mfv, EAccount *account, MailView *mv)
+mv_show_acc_mcv (MailViewChild *mfv,
+                 EAccount *account,
+                 MailView *mv)
 {
 	mail_view_add_page (mv, MAIL_VIEW_ACCOUNT, account);
 }
 
 static MailViewChild *
-mail_view_add_settings (MailView *mv, gpointer data, gboolean block)
+mail_view_add_settings (MailView *mv,
+                        gpointer data,
+                        gboolean block)
 {
 	MailSettingsView *msv  = mail_settings_view_new ();
 	gint position = 0;
@@ -452,7 +474,9 @@ mail_view_add_account (MailView *mv,
 }
 
 MailViewChild *
-mail_view_add_page (MailView *mv, guint16 type, gpointer data)
+mail_view_add_page (MailView *mv,
+                    guint16 type,
+                    gpointer data)
 {
 	MailViewChild *child = NULL, *current_child;
 	gboolean block = FALSE;
@@ -493,11 +517,12 @@ mail_view_add_page (MailView *mv, guint16 type, gpointer data)
 
 #ifndef ANJAL_SETTINGS
 static void
-mv_switch_folder_view (MailView *mv, const gchar *uri)
+mv_switch_folder_view (MailView *mv,
+                       const gchar *uri)
 {
-	 gint i=0, len = g_list_length (mv->priv->children);
+	 gint i = 0, len = g_list_length (mv->priv->children);
 	 GList *tmp = mv->priv->children;
-	 while (i<len) {
+	 while (i < len) {
 		  MailViewChild *child = (MailViewChild *) gtk_notebook_get_nth_page ((GtkNotebook *) mv, i);
 
 		  if (child->type == MAIL_VIEW_FOLDER && !strcmp (uri, child->uri)) {
@@ -515,9 +540,10 @@ mv_switch_folder_view (MailView *mv, const gchar *uri)
 }
 
 static MailConvView *
-mv_switch_message_view (MailView *mv, const gchar *uri)
+mv_switch_message_view (MailView *mv,
+                        const gchar *uri)
 {
-	 gint i=0;
+	 gint i = 0;
 	 GList *tmp = mv->priv->children;
 	 while (tmp) {
 		  MailViewChild *child = tmp->data;
@@ -535,7 +561,8 @@ mv_switch_message_view (MailView *mv, const gchar *uri)
 }
 
 void
-mail_view_set_folder_uri (MailView *mv, const gchar *uri)
+mail_view_set_folder_uri (MailView *mv,
+                          const gchar *uri)
 {
 
 	 mv_switch_folder_view (mv, uri);
@@ -551,21 +578,24 @@ mail_view_close_view (MailView *mv)
 }
 
 void
-mail_view_set_folder_tree (MailView *mv, GtkWidget *tree)
+mail_view_set_folder_tree (MailView *mv,
+                           GtkWidget *tree)
 {
 	mv->tree = tree;
 }
 
 #ifndef ANJAL_SETTINGS
 static void
-mv_spinner_done (CamelFolder *f, gpointer data)
+mv_spinner_done (CamelFolder *f,
+                 gpointer data)
 {
 	MailView *mv = (MailView *) data;
 	 mv_spinner_show (mv, FALSE);
 }
 
 void
-mail_view_set_search (MailView *mv, const gchar *search)
+mail_view_set_search (MailView *mv,
+                      const gchar *search)
 {
 	MailViewChild *child = (MailViewChild *) mv->priv->current_view;
 
@@ -578,7 +608,8 @@ mail_view_set_search (MailView *mv, const gchar *search)
 #endif
 
 void
-mail_view_set_shell_view (MailView *mv, EShellView *shell)
+mail_view_set_shell_view (MailView *mv,
+                          EShellView *shell)
 {
 	mv->shell_view = shell;
 }

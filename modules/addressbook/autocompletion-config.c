@@ -61,7 +61,7 @@ source_selection_changed_cb (ESourceSelector *source_selector)
 	}
 
 	/* then we loop over the selector's selection, setting the
-	   property on those sources */
+	 * property on those sources */
 	selection = e_source_selector_get_selection (source_selector);
 	for (l = selection; l; l = l->next) {
 		ESource *source = E_SOURCE (l->data);
@@ -134,7 +134,12 @@ add_section (GtkWidget *container,
 }
 
 static GtkWidget *
-acc_get_toplevel_notebook (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gint position, gpointer data)
+acc_get_toplevel_notebook (EConfig *ec,
+                           EConfigItem *item,
+                           GtkWidget *parent,
+                           GtkWidget *old,
+                           gint position,
+                           gpointer data)
 {
 	if (old)
 		return old;
@@ -146,7 +151,12 @@ acc_get_toplevel_notebook (EConfig *ec, EConfigItem *item, GtkWidget *parent, Gt
 }
 
 static GtkWidget *
-acc_get_general_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gint position, gpointer data)
+acc_get_general_page (EConfig *ec,
+                      EConfigItem *item,
+                      GtkWidget *parent,
+                      GtkWidget *old,
+                      gint position,
+                      gpointer data)
 {
 	EShellSettings *shell_settings;
 	ESourceList *source_list;
@@ -227,7 +237,9 @@ static EConfigItem acc_items[] = {
 };
 
 static void
-acc_free (EConfig *ec, GSList *items, gpointer data)
+acc_free (EConfig *ec,
+          GSList *items,
+          gpointer data)
 {
 	g_slist_free (items);
 }

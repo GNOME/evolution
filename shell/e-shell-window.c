@@ -190,8 +190,8 @@ shell_window_set_shell (EShellWindow *shell_window,
 static void
 shell_window_set_property (GObject *object,
                            guint property_id,
-			   const GValue *value,
-			   GParamSpec *pspec)
+                           const GValue *value,
+                           GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_ACTIVE_VIEW:
@@ -249,8 +249,8 @@ shell_window_set_property (GObject *object,
 static void
 shell_window_get_property (GObject *object,
                            guint property_id,
-			   GValue *value,
-			   GParamSpec *pspec)
+                           GValue *value,
+                           GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_ACTIVE_VIEW:

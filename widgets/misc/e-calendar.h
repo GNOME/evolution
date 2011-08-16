@@ -74,8 +74,8 @@ struct _ECalendar {
 	gint max_cols;
 
 	/* These are all used when the prev/next buttons are held down.
-	   moving_forward is TRUE if we are moving forward in time, i.e. the
-	   next button is pressed. */
+	 * moving_forward is TRUE if we are moving forward in time, i.e. the
+	 * next button is pressed. */
 	gint timeout_id;
 	gint timeout_delay;
 	gboolean moving_forward;

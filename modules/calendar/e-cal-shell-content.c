@@ -303,7 +303,8 @@ cal_shell_content_dispose (GObject *object)
 }
 
 static time_t
-gc_get_default_time (ECalModel *model, gpointer user_data)
+gc_get_default_time (ECalModel *model,
+                     gpointer user_data)
 {
 	GnomeCalendar *gcal = user_data;
 	time_t res = 0, end;
@@ -321,8 +322,8 @@ cal_shell_content_constructed (GObject *object)
 {
 	ECalShellContentPrivate *priv;
 	ECalendarView *calendar_view;
-	ECalModel *memo_model=NULL;
-	ECalModel *task_model=NULL;
+	ECalModel *memo_model = NULL;
+	ECalModel *task_model = NULL;
 	EShell *shell;
 	EShellContent *shell_content;
 	EShellView *shell_view;

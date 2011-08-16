@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* The following is the mozilla license blurb, as the bodies some of
-   these functions were derived from the mozilla source. */
+ * these functions were derived from the mozilla source. */
 /*
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
@@ -59,7 +59,7 @@ struct _ECertPrivate {
 	CERTCertificate *cert;
 
 	/* pointers we cache since the nss implementation allocs the
-	   string */
+	 * string */
 	gchar *org_name;
 	gchar *org_unit_name;
 	gchar *cn;
@@ -134,8 +134,8 @@ e_cert_dispose (GObject *object)
 			PK11_DeleteTokenCertAndKey (ec->priv->cert, NULL);
 		} else if (!PK11_IsReadOnly (ec->priv->cert->slot)) {
 			/* If the list of built-ins does contain a non-removable
-			   copy of this certificate, our call will not remove
-			   the certificate permanently, but rather remove all trust. */
+			 * copy of this certificate, our call will not remove
+			 * the certificate permanently, but rather remove all trust. */
 			SEC_DeletePermCertificate (ec->priv->cert);
 		}
 	}
@@ -258,7 +258,7 @@ e_cert_populate (ECert *cert)
 	cert->priv->md5_fingerprint = CERT_Hexify (&fpItem, TRUE);
 }
 
-ECert*
+ECert *
 e_cert_new (CERTCertificate *cert)
 {
 	ECert *ecert = E_CERT (g_object_new (E_TYPE_CERT, NULL));
@@ -271,8 +271,9 @@ e_cert_new (CERTCertificate *cert)
 	return ecert;
 }
 
-ECert*
-e_cert_new_from_der (gchar *data, guint32 len)
+ECert *
+e_cert_new_from_der (gchar *data,
+                     guint32 len)
 {
 	CERTCertificate *cert = CERT_DecodeCertFromPackage (data, len);
 
@@ -287,7 +288,7 @@ e_cert_new_from_der (gchar *data, guint32 len)
 
 
 
-CERTCertificate*
+CERTCertificate *
 e_cert_get_internal_cert (ECert *cert)
 {
 	/* XXX should this refcnt it? */
@@ -295,11 +296,13 @@ e_cert_get_internal_cert (ECert *cert)
 }
 
 gboolean
-e_cert_get_raw_der (ECert *cert, gchar **data, guint32 *len)
+e_cert_get_raw_der (ECert *cert,
+                    gchar **data,
+                    guint32 *len)
 {
 	/* XXX do we really need to check if cert->priv->cert is NULL
-	   here?  it should always be non-null if we have the
-	   ECert.. */
+	 * here?  it should always be non - null if we have the
+	 * ECert.. */
 	if (cert->priv->cert) {
 		*data = (gchar *)cert->priv->cert->derCert.data;
 		*len = (guint32)cert->priv->cert->derCert.len;
@@ -312,7 +315,7 @@ e_cert_get_raw_der (ECert *cert, gchar **data, guint32 *len)
 }
 
 const gchar *
-e_cert_get_window_title  (ECert *cert)
+e_cert_get_window_title (ECert *cert)
 {
 	if (cert->priv->cert->nickname)
 		return cert->priv->cert->nickname;
@@ -329,13 +332,13 @@ e_cert_get_nickname (ECert *cert)
 }
 
 const gchar *
-e_cert_get_email    (ECert *cert)
+e_cert_get_email (ECert *cert)
 {
 	return cert->priv->cert->emailAddr;
 }
 
 const gchar *
-e_cert_get_org      (ECert *cert)
+e_cert_get_org (ECert *cert)
 {
 	return cert->priv->org_name;
 }
@@ -347,7 +350,7 @@ e_cert_get_org_unit (ECert *cert)
 }
 
 const gchar *
-e_cert_get_cn       (ECert *cert)
+e_cert_get_cn (ECert *cert)
 {
 	return cert->priv->cn;
 }
@@ -383,7 +386,7 @@ e_cert_get_subject_name (ECert *cert)
 }
 
 PRTime
-e_cert_get_issued_on_time  (ECert *cert)
+e_cert_get_issued_on_time (ECert *cert)
 {
 	return cert->priv->issued_on;
 }
@@ -395,7 +398,7 @@ e_cert_get_issued_on (ECert *cert)
 }
 
 PRTime
-e_cert_get_expires_on_time  (ECert *cert)
+e_cert_get_expires_on_time (ECert *cert)
 {
 	return cert->priv->expires_on;
 }
@@ -451,12 +454,12 @@ e_cert_get_sha1_fingerprint (ECert *cert)
 }
 
 const gchar *
-e_cert_get_md5_fingerprint  (ECert *cert)
+e_cert_get_md5_fingerprint (ECert *cert)
 {
 	return cert->priv->md5_fingerprint;
 }
 
-GList*
+GList *
 e_cert_get_chain (ECert *ecert)
 {
 	GList *l = NULL;
@@ -506,7 +509,7 @@ e_cert_get_ca_cert (ECert *ecert)
 
 static gboolean
 get_int_value (SECItem *versionItem,
-	       unsigned long *version)
+               gulong *version)
 {
 	SECStatus srv;
 	srv = SEC_ASN1DecodeInteger (versionItem,version);
@@ -518,11 +521,11 @@ get_int_value (SECItem *versionItem,
 }
 
 static gboolean
-process_version (SECItem     *versionItem,
-		 EASN1Object **retItem)
+process_version (SECItem *versionItem,
+                 EASN1Object **retItem)
 {
 	EASN1Object *item = e_asn1_object_new ();
-	unsigned long version;
+	gulong version;
 
 	e_asn1_object_set_display_name (item, _("Version"));
 
@@ -533,7 +536,7 @@ process_version (SECItem     *versionItem,
 			return FALSE;
 	} else {
 		/* If there is no version present in the cert, then rfc2459
-		   says we default to v1 (0) */
+		 * says we default to v1 (0) */
 		version = 0;
 	}
 
@@ -557,8 +560,8 @@ process_version (SECItem     *versionItem,
 }
 
 static gboolean
-process_serial_number_der (SECItem      *serialItem,
-			   EASN1Object **retItem)
+process_serial_number_der (SECItem *serialItem,
+                           EASN1Object **retItem)
 {
 	gchar *serialNumber;
 	EASN1Object *item = e_asn1_object_new ();
@@ -576,13 +579,13 @@ process_serial_number_der (SECItem      *serialItem,
 
 static gboolean
 get_default_oid_format (SECItem *oid,
-			gchar **text)
+                        gchar **text)
 {
 	gchar buf[300];
 	guint len;
 	gint written;
 
-	unsigned long val  = oid->data[0];
+	gulong val  = oid->data[0];
 	guint  i    = val % 40;
 	val /= 40;
 	written = PR_snprintf(buf, 300, "%lu %u ", val, i);
@@ -593,13 +596,13 @@ get_default_oid_format (SECItem *oid,
 	val = 0;
 	for (i = 1; i < oid->len; ++i) {
 		/* In this loop, we have to parse a DER formatted
-		   If the first bit is a 1, then the integer is
-		   represented by more than one byte.  If the
-		   first bit is set then we continue on and add
-		   the values of the later bytes until we get
-		   a byte without the first bit set.
+		 * If the first bit is a 1, then the integer is
+		 * represented by more than one byte.  If the
+		 * first bit is set then we continue on and add
+		 * the values of the later bytes until we get
+		 * a byte without the first bit set.
 		*/
-		unsigned long j;
+		gulong j;
 
 		j = oid->data[i];
 		val = (val << 7) | (j & 0x7f);
@@ -620,7 +623,8 @@ get_default_oid_format (SECItem *oid,
 }
 
 static gboolean
-get_oid_text (SECItem *oid, gchar **text)
+get_oid_text (SECItem *oid,
+              gchar **text)
 {
 	SECOidTag oidTag = SECOID_FindOIDTag (oid);
 	gchar *temp;
@@ -699,22 +703,23 @@ get_oid_text (SECItem *oid, gchar **text)
 }
 
 static gboolean
-process_raw_bytes (SECItem *data, gchar **text)
+process_raw_bytes (SECItem *data,
+                   gchar **text)
 {
 	/* This function is used to display some DER bytes
-	   that we have not added support for decoding.
-	   It prints the value of the byte out into a
-	   string that can later be displayed as a byte
-	   string.  We place a new line after 24 bytes
-	   to break up extermaly long sequence of bytes.
+	 * that we have not added support for decoding.
+	 * It prints the value of the byte out into a
+	 * string that can later be displayed as a byte
+	 * string.  We place a new line after 24 bytes
+	 * to break up extermaly long sequence of bytes.
 	*/
 	GString *str = g_string_new ("");
 	PRUint32 i;
 	gchar buffer[5];
-	for (i=0; i<data->len; i++) {
+	for (i = 0; i < data->len; i++) {
 		PR_snprintf(buffer, 5, "%02x ", data->data[i]);
 		g_string_append (str, buffer);
-		if ((i+1)%16 == 0) {
+		if ((i + 1) % 16 == 0) {
 			g_string_append (str, "\n");
 		}
 	}
@@ -723,8 +728,8 @@ process_raw_bytes (SECItem *data, gchar **text)
 }
 
 static gboolean
-process_sec_algorithm_id (SECAlgorithmID  *algID,
-			  EASN1Object    **retSequence)
+process_sec_algorithm_id (SECAlgorithmID *algID,
+                          EASN1Object **retSequence)
 {
 	EASN1Object *sequence = e_asn1_object_new ();
 	gchar *text;
@@ -763,7 +768,7 @@ process_sec_algorithm_id (SECAlgorithmID  *algID,
 
 static gboolean
 process_subject_public_key_info (CERTSubjectPublicKeyInfo *spki,
-				 EASN1Object *parentSequence)
+                                 EASN1Object *parentSequence)
 {
 	EASN1Object *spkiSequence = e_asn1_object_new ();
 	EASN1Object *sequenceItem;
@@ -781,8 +786,8 @@ process_subject_public_key_info (CERTSubjectPublicKeyInfo *spki,
 	e_asn1_object_append_child (spkiSequence, sequenceItem);
 
 	/* The subjectPublicKey field is encoded as a bit string.
-	   ProcessRawBytes expects the lenght to be in bytes, so
-	   let's convert the lenght into a temporary SECItem.
+	 * ProcessRawBytes expects the lenght to be in bytes, so
+	 * let's convert the lenght into a temporary SECItem.
 	*/
 	data.data = spki->subjectPublicKey.data;
 	data.len  = spki->subjectPublicKey.len / 8;
@@ -802,8 +807,8 @@ process_subject_public_key_info (CERTSubjectPublicKeyInfo *spki,
 }
 
 static gboolean
-process_ns_cert_type_extensions (SECItem  *extData,
-				 GString *text)
+process_ns_cert_type_extensions (SECItem *extData,
+                                 GString *text)
 {
 	SECItem decoded;
 	guchar nsCertType;
@@ -852,7 +857,8 @@ process_ns_cert_type_extensions (SECItem  *extData,
 }
 
 static gboolean
-process_key_usage_extensions (SECItem *extData, GString *text)
+process_key_usage_extensions (SECItem *extData,
+                              GString *text)
 {
 	SECItem decoded;
 	guchar keyUsage;
@@ -901,8 +907,9 @@ process_key_usage_extensions (SECItem *extData, GString *text)
 }
 
 static gboolean
-process_extension_data (SECOidTag oidTag, SECItem *extData,
-			GString *str)
+process_extension_data (SECOidTag oidTag,
+                        SECItem *extData,
+                        GString *str)
 {
 	gboolean rv;
 	switch (oidTag) {
@@ -925,7 +932,7 @@ process_extension_data (SECOidTag oidTag, SECItem *extData,
 
 static gboolean
 process_single_extension (CERTCertExtension *extension,
-			  EASN1Object **retExtension)
+                          EASN1Object **retExtension)
 {
 	GString *str = g_string_new ("");
 	gchar *text;
@@ -962,14 +969,14 @@ process_single_extension (CERTCertExtension *extension,
 
 static gboolean
 process_extensions (CERTCertExtension **extensions,
-		    EASN1Object        *parentSequence)
+                    EASN1Object *parentSequence)
 {
 	EASN1Object *extensionSequence = e_asn1_object_new ();
 	PRInt32 i;
 
 	e_asn1_object_set_display_name (extensionSequence, _("Extensions"));
 
-	for (i=0; extensions[i] != NULL; i++) {
+	for (i = 0; extensions[i] != NULL; i++) {
 		EASN1Object *newExtension;
 
 		if (!process_single_extension (extensions[i],
@@ -983,12 +990,13 @@ process_extensions (CERTCertExtension **extensions,
 }
 
 static gboolean
-process_name (CERTName *name, gchar **value)
+process_name (CERTName *name,
+              gchar **value)
 {
-	CERTRDN** rdns;
-	CERTRDN** rdn;
-	CERTAVA** avas;
-	CERTAVA* ava;
+	CERTRDN ** rdns;
+	CERTRDN ** rdn;
+	CERTAVA ** avas;
+	CERTAVA * ava;
 	SECItem *decodeItem = NULL;
 	GString *final_string = g_string_new ("");
 
@@ -1057,7 +1065,8 @@ process_name (CERTName *name, gchar **value)
 }
 
 static gboolean
-create_tbs_certificate_asn1_struct (ECert *cert, EASN1Object **seq)
+create_tbs_certificate_asn1_struct (ECert *cert,
+                                    EASN1Object **seq)
 {
 	/*
 	**   TBSCertificate  ::=  SEQUENCE  {
@@ -1113,14 +1122,14 @@ create_tbs_certificate_asn1_struct (ECert *cert, EASN1Object **seq)
 	g_object_unref (subitem);
 
 #ifdef notyet
-	nsCOMPtr<nsIASN1Sequence> validitySequence = new nsNSSASN1Sequence ();
+	nsCOMPtr < nsIASN1Sequence> validitySequence = new nsNSSASN1Sequence ();
 	nssComponent->GetPIPNSSBundleString(NS_LITERAL_STRING("CertDumpValidity").get(),
 					    text);
 	validitySequence->SetDisplayName (text);
 	asn1Objects->AppendElement (validitySequence, PR_FALSE);
 	nssComponent->GetPIPNSSBundleString(NS_LITERAL_STRING("CertDumpNotBefore").get(),
 					    text);
-	nsCOMPtr<nsIX509CertValidity> validityData;
+	nsCOMPtr < nsIX509CertValidity> validityData;
 	GetValidity (getter_AddRefs (validityData));
 	PRTime notBefore, notAfter;
 
@@ -1154,9 +1163,9 @@ create_tbs_certificate_asn1_struct (ECert *cert, EASN1Object **seq)
 	/* Is there an issuerUniqueID? */
 	if (cert->priv->cert->issuerID.data) {
 		/* The issuerID is encoded as a bit string.
-		   The function ProcessRawBytes expects the
-		   length to be in bytes, so let's convert the
-		   length in a temporary SECItem
+		 * The function ProcessRawBytes expects the
+		 * length to be in bytes, so let's convert the
+		 * length in a temporary SECItem
 		*/
 		data.data = cert->priv->cert->issuerID.data;
 		data.len  = cert->priv->cert->issuerID.len / 8;
@@ -1173,9 +1182,9 @@ create_tbs_certificate_asn1_struct (ECert *cert, EASN1Object **seq)
 
 	if (cert->priv->cert->subjectID.data) {
 		/* The subjectID is encoded as a bit string.
-		   The function ProcessRawBytes expects the
-		   length to be in bytes, so let's convert the
-		   length in a temporary SECItem
+		 * The function ProcessRawBytes expects the
+		 * length to be in bytes, so let's convert the
+		 * length in a temporary SECItem
 		*/
 		data.data = cert->priv->cert->issuerID.data;
 		data.len  = cert->priv->cert->issuerID.len / 8;
@@ -1211,7 +1220,7 @@ create_asn1_struct (ECert *cert)
 	e_asn1_object_set_display_name (cert->priv->asn1, e_cert_get_window_title (cert));
 
 	/* This sequence will be contain the tbsCertificate, signatureAlgorithm,
-	   and signatureValue. */
+	 * and signatureValue. */
 
 	if (!create_tbs_certificate_asn1_struct (cert, &sequence))
 		return FALSE;
@@ -1231,9 +1240,9 @@ create_asn1_struct (ECert *cert)
 		sequence, _("Certificate Signature Value"));
 
 	/* The signatureWrap is encoded as a bit string.
-	   The function ProcessRawBytes expects the
-	   length to be in bytes, so let's convert the
-	   length in a temporary SECItem */
+	 * The function ProcessRawBytes expects the
+	 * length to be in bytes, so let's convert the
+	 * length in a temporary SECItem */
 	temp.data = cert->priv->cert->signatureWrap.signature.data;
 	temp.len  = cert->priv->cert->signatureWrap.signature.len / 8;
 	process_raw_bytes (&temp, &text);
@@ -1244,7 +1253,7 @@ create_asn1_struct (ECert *cert)
 	return TRUE;
 }
 
-EASN1Object*
+EASN1Object *
 e_cert_get_asn1_struct (ECert *cert)
 {
 	if (!cert->priv->asn1)
@@ -1260,7 +1269,7 @@ e_cert_mark_for_deletion (ECert *cert)
 
 #if 0
 	/* make sure user is logged in to the token */
-	nsCOMPtr<nsIInterfaceRequestor> ctx = new PipUIContext ();
+	nsCOMPtr < nsIInterfaceRequestor> ctx = new PipUIContext ();
 #endif
 
 	if (PK11_NeedLogin (cert->priv->cert->slot)

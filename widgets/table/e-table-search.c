@@ -32,8 +32,6 @@
 
 #define d(x)
 
-d (static gint depth = 0)
-
 struct _ETableSearchPrivate {
 	guint timeout_id;
 
@@ -48,6 +46,8 @@ enum {
 	SEARCH_ACCEPT,
 	LAST_SIGNAL
 };
+
+d (static gint depth = 0)
 
 static guint e_table_search_signals[LAST_SIGNAL] = { 0, };
 
@@ -174,7 +174,8 @@ e_table_search_new (void)
  * Returns: the number of columns in the table search.
  */
 void
-e_table_search_input_character (ETableSearch *ets, gunichar character)
+e_table_search_input_character (ETableSearch *ets,
+                                gunichar character)
 {
 	gchar character_utf8[7];
 	gchar *temp_string;

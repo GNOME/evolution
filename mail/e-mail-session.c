@@ -125,9 +125,9 @@ struct _user_message_msg {
 	gchar *prompt;
 	EFlag *done;
 
-	guint allow_cancel:1;
-	guint result:1;
-	guint ismain:1;
+	guint allow_cancel : 1;
+	guint result : 1;
+	guint ismain : 1;
 };
 
 static void user_message_exec (struct _user_message_msg *m,
@@ -462,7 +462,7 @@ set_socks_proxy_from_gconf (CamelSession *session)
 }
 
 static void
-proxy_gconf_notify_cb (GConfClient* client,
+proxy_gconf_notify_cb (GConfClient *client,
                        guint cnxn_id,
                        GConfEntry *entry,
                        gpointer user_data)
@@ -850,7 +850,7 @@ mail_session_get_password (CamelSession *session,
 					config_service = account->transport;
 			}
 
-			remember = config_service?config_service->save_passwd:FALSE;
+			remember = config_service ? config_service->save_passwd : FALSE;
 
 			if (!config_service || (config_service &&
 				!config_service->get_password_canceled)) {

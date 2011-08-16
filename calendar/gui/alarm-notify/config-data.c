@@ -124,7 +124,7 @@ config_data_get_calendars (const gchar *key)
 	state = gconf_client_get_bool (conf_client,
 				      "/apps/evolution/calendar/notify/notify_with_tray",
 				      NULL);
-	if (!state) /* Should be old client*/ {
+	if (!state) /* Should be old client */ {
 		GSList *source;
 		gconf_client_set_bool (conf_client,
 				      "/apps/evolution/calendar/notify/notify_with_tray",
@@ -158,8 +158,8 @@ config_data_get_calendars (const gchar *key)
 
 void
 config_data_replace_string_list (const gchar *key,
-				 const gchar *old,
-				 const gchar *new)
+                                 const gchar *old,
+                                 const gchar *new)
 {
 	GSList *source, *tmp;
 
@@ -259,7 +259,8 @@ config_data_get_notify_with_tray (void)
  * triggered while it was not running.
  **/
 void
-config_data_set_last_notification_time (ECalClient *cal, time_t t)
+config_data_set_last_notification_time (ECalClient *cal,
+                                        time_t t)
 {
 	GConfClient *client;
 	time_t current_t, now = time (NULL);
@@ -287,7 +288,7 @@ config_data_set_last_notification_time (ECalClient *cal, time_t t)
 		return;
 
 	/* we only store the new notification time if it is bigger
-	   than the already stored one */
+	 * than the already stored one */
 	current_t = gconf_client_get_int (client, KEY_LAST_NOTIFICATION_TIME, NULL);
 	if (t > current_t || current_t > now)
 		gconf_client_set_int (client, KEY_LAST_NOTIFICATION_TIME, t, NULL);

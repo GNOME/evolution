@@ -40,7 +40,8 @@ ece_finalize (GObject *o)
 }
 
 static void
-ece_target_free (EEvent *ev, EEventTarget *t)
+ece_target_free (EEvent *ev,
+                 EEventTarget *t)
 {
 	switch (t->type) {
 	case E_CAL_EVENT_TARGET_BACKEND: {

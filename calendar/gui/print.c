@@ -68,10 +68,10 @@ struct PrintCalItem {
 	time_t start;
 };
 
-static double
+static gdouble
 evo_calendar_print_renderer_get_width (GtkPrintContext *context,
-				       PangoFontDescription *font,
-				       const gchar *text)
+                                       PangoFontDescription *font,
+                                       const gchar *text)
 {
 	PangoLayout *layout;
 	gint layout_width, layout_height;
@@ -90,8 +90,8 @@ evo_calendar_print_renderer_get_width (GtkPrintContext *context,
 
 static gdouble
 evo_calendar_print_renderer_get_height (GtkPrintContext *context,
-					PangoFontDescription *font,
-					const gchar *text)
+                                        PangoFontDescription *font,
+                                        const gchar *text)
 {
 	PangoLayout *layout;
 	gint layout_width, layout_height;
@@ -108,7 +108,7 @@ evo_calendar_print_renderer_get_height (GtkPrintContext *context,
 	return pango_units_to_double (layout_height);
 }
 
-static double
+static gdouble
 get_font_size (PangoFontDescription *font)
 {
 	g_return_val_if_fail (font, 0.0);
@@ -139,17 +139,17 @@ get_font_size (PangoFontDescription *font)
 #define MONTH_NORMAL_FONT_SIZE	8
 
 /* The height of the header bar across the top of the Day, Week & Month views,
-   which contains the dates shown and the 2 small calendar months. */
+ * which contains the dates shown and the 2 small calendar months. */
 #define HEADER_HEIGHT		80
 
 /* The width of the small calendar months, the space from the right edge of
-   the header rectangle, and the space between the months. */
+ * the header rectangle, and the space between the months. */
 #define MIN_SMALL_MONTH_WIDTH	100
 #define SMALL_MONTH_PAD		5
 #define SMALL_MONTH_SPACING	20
 
 /* The minimum number of rows we leave space for for the long events in the
-   day view. */
+ * day view. */
 #define DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY	2
 
 /* The row height for long events in the day view. */
@@ -170,7 +170,7 @@ get_font_size (PangoFontDescription *font)
 #define EPSILON			0.01
 
 /* The weird month of September 1752, where 3 Sep through 13 Sep were
-   eliminated due to the Gregorian reformation. */
+ * eliminated due to the Gregorian reformation. */
 static const gint sept_1752[42] = {
 	 0,  0,  1,  2, 14, 15, 16,
 	17, 18, 19, 20, 21, 22, 23,
@@ -222,7 +222,7 @@ struct psinfo
 };
 
 /* Convenience function to help the transition to timezone functions.
-   It converts a time_t to a struct tm. */
+ * It converts a time_t to a struct tm. */
 static void
 convert_timet_to_struct_tm (time_t time,
                             icaltimezone *zone,
@@ -282,7 +282,7 @@ build_month (ECalModel *model,
 	d_week = time_day_of_week (1, month, year);
 
 	/* Get the configuration setting specifying which weekday we put on
-	   the left column, 0=Sun to 6=Sat. */
+	 * the left column, 0=Sun to 6=Sat. */
 	week_start_day = e_cal_model_get_week_start_day (model);
 
 	/* Figure out which square we want to put the 1 in. */
@@ -299,7 +299,8 @@ build_month (ECalModel *model,
 }
 
 static PangoFontDescription *
-get_font_for_size (double height, PangoWeight weight)
+get_font_for_size (gdouble height,
+                   PangoWeight weight)
 {
 	PangoFontDescription *desc;
 	gint size;
@@ -316,19 +317,23 @@ get_font_for_size (double height, PangoWeight weight)
 }
 
 /* Prints a rectangle, with or without a border, filled or outline, and
-   possibly with triangular arrows at one or both horizontal edges.
-   width      = width of border, -ve means no border.
-   red,green,blue = bgcolor to fill,   -ve means no fill.
-   left_triangle_width, right_triangle_width = width from edge of rectangle to
-          point of triangle, or -ve for no triangle. */
+ * possibly with triangular arrows at one or both horizontal edges.
+ * width      = width of border, -ve means no border.
+ * red,green,blue = bgcolor to fill,   -ve means no fill.
+ * left_triangle_width, right_triangle_width = width from edge of rectangle to
+ *        point of triangle, or -ve for no triangle. */
 static void
 print_border_with_triangles (GtkPrintContext *pc,
-			     gdouble x1, gdouble x2,
-			     gdouble y1, gdouble y2,
-			     gdouble line_width,
-			     gdouble red, gdouble green, gdouble blue,
-			     gdouble left_triangle_width,
-			     gdouble right_triangle_width)
+                             gdouble x1,
+                             gdouble x2,
+                             gdouble y1,
+                             gdouble y2,
+                             gdouble line_width,
+                             gdouble red,
+                             gdouble green,
+                             gdouble blue,
+                             gdouble left_triangle_width,
+                             gdouble right_triangle_width)
 {
 	cairo_t *cr = gtk_print_context_get_cairo_context (pc);
 
@@ -385,14 +390,18 @@ print_border_with_triangles (GtkPrintContext *pc,
 }
 
 /* Prints a rectangle, with or without a border, and filled or outline.
-   width      = width of border, -ve means no border.
-   fillcolor = shade of fill,   -ve means no fill. */
+ * width      = width of border, -ve means no border.
+ * fillcolor = shade of fill,   -ve means no fill. */
 static void
 print_border_rgb (GtkPrintContext *pc,
-		  gdouble x1, gdouble x2,
-		  gdouble y1, gdouble y2,
-		  gdouble line_width,
-		  gdouble red, gdouble green, gdouble blue)
+                  gdouble x1,
+                  gdouble x2,
+                  gdouble y1,
+                  gdouble y2,
+                  gdouble line_width,
+                  gdouble red,
+                  gdouble green,
+                  gdouble blue)
 {
 	print_border_with_triangles (
 		pc, x1, x2, y1, y2, line_width,
@@ -401,10 +410,12 @@ print_border_rgb (GtkPrintContext *pc,
 
 static void
 print_border (GtkPrintContext *pc,
-	      gdouble x1, gdouble x2,
-	      gdouble y1, gdouble y2,
-	      gdouble line_width,
-	      gdouble fillcolor)
+              gdouble x1,
+              gdouble x2,
+              gdouble y1,
+              gdouble y2,
+              gdouble line_width,
+              gdouble fillcolor)
 {
 	print_border_rgb (
 		pc, x1, x2, y1, y2, line_width,
@@ -413,9 +424,13 @@ print_border (GtkPrintContext *pc,
 
 static void
 print_rectangle (GtkPrintContext *context,
-		 gdouble x, gdouble y,
-		 gdouble width, gdouble height,
-		 gdouble red, gdouble green, gdouble blue)
+                 gdouble x,
+                 gdouble y,
+                 gdouble width,
+                 gdouble height,
+                 gdouble red,
+                 gdouble green,
+                 gdouble blue)
 {
 	cairo_t *cr = gtk_print_context_get_cairo_context (context);
 
@@ -429,12 +444,17 @@ print_rectangle (GtkPrintContext *context,
 }
 
 /* Prints 1 line of aligned text in a box. It is centered vertically, and
-   the horizontal alignment can be either PANGO_ALIGN_LEFT, PANGO_ALIGN_RIGHT,
-   or PANGO_ALIGN_CENTER. */
-static double
-print_text (GtkPrintContext *context, PangoFontDescription *desc,
-            const gchar *text, PangoAlignment alignment,
-            gdouble x1, gdouble x2, gdouble y1, gdouble y2)
+ * the horizontal alignment can be either PANGO_ALIGN_LEFT, PANGO_ALIGN_RIGHT,
+ * or PANGO_ALIGN_CENTER. */
+static gdouble
+print_text (GtkPrintContext *context,
+            PangoFontDescription *desc,
+            const gchar *text,
+            PangoAlignment alignment,
+            gdouble x1,
+            gdouble x2,
+            gdouble y1,
+            gdouble y2)
 {
 	PangoLayout *layout;
 	gint layout_width, layout_height;
@@ -475,10 +495,14 @@ print_text (GtkPrintContext *context, PangoFontDescription *desc,
 }
 
 /* gets/frees the font for you, as a normal font */
-static double
-print_text_size (GtkPrintContext *context, const gchar *text,
-                 PangoAlignment alignment, gdouble x1, gdouble x2,
-                 gdouble y1, gdouble y2)
+static gdouble
+print_text_size (GtkPrintContext *context,
+                 const gchar *text,
+                 PangoAlignment alignment,
+                 gdouble x1,
+                 gdouble x2,
+                 gdouble y1,
+                 gdouble y2)
 {
 	PangoFontDescription *font;
 	gdouble w;
@@ -491,10 +515,14 @@ print_text_size (GtkPrintContext *context, const gchar *text,
 }
 
 /* gets/frees the font for you, as a bold font */
-static double
-print_text_size_bold (GtkPrintContext *context, const gchar *text,
-                      PangoAlignment alignment, gdouble x1, gdouble x2,
-                      gdouble y1, gdouble y2)
+static gdouble
+print_text_size_bold (GtkPrintContext *context,
+                      const gchar *text,
+                      PangoAlignment alignment,
+                      gdouble x1,
+                      gdouble x2,
+                      gdouble y1,
+                      gdouble y2)
 {
 	PangoFontDescription *font;
 	gdouble w;
@@ -507,10 +535,15 @@ print_text_size_bold (GtkPrintContext *context, const gchar *text,
 }
 
 static void
-titled_box (GtkPrintContext *context, const gchar *text,
-            PangoFontDescription *font, PangoAlignment alignment,
-            gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2,
-	    gdouble linewidth)
+titled_box (GtkPrintContext *context,
+            const gchar *text,
+            PangoFontDescription *font,
+            PangoAlignment alignment,
+            gdouble *x1,
+            gdouble *y1,
+            gdouble *x2,
+            gdouble *y2,
+            gdouble linewidth)
 {
 	gdouble size;
 
@@ -572,17 +605,17 @@ format_date (struct tm *tm,
 	if (flags & DATE_DAY) {
 		if (flags & DATE_DAYNAME)
 			strcat(fmt, " ");
-		strcat (fmt, gettext (days[tm->tm_mday-1]));
+		strcat (fmt, gettext (days[tm->tm_mday - 1]));
 	}
 	if (flags & DATE_MONTH) {
-		if (flags & (DATE_DAY|DATE_DAYNAME))
+		if (flags & (DATE_DAY | DATE_DAYNAME))
 			strcat(fmt, " ");
 		strcat(fmt, "%B");
-		if ((flags & (DATE_DAY|DATE_YEAR)) == (DATE_DAY|DATE_YEAR))
+		if ((flags & (DATE_DAY | DATE_YEAR)) == (DATE_DAY | DATE_YEAR))
 			strcat(fmt, ",");
 	}
 	if (flags & DATE_YEAR) {
-		if (flags & (DATE_DAY|DATE_DAYNAME|DATE_MONTH))
+		if (flags & (DATE_DAY | DATE_DAYNAME | DATE_MONTH))
 			strcat(fmt, " ");
 		strcat(fmt, "%Y");
 	}
@@ -612,7 +645,8 @@ const gchar *daynames[] =
 	  N_("Th"), N_("Fr"), N_("Sa") };
 
 static gdouble
-calc_small_month_width (GtkPrintContext *context, gdouble for_height)
+calc_small_month_width (GtkPrintContext *context,
+                        gdouble for_height)
 {
 
 	PangoFontDescription *font_bold;
@@ -643,10 +677,17 @@ calc_small_month_width (GtkPrintContext *context, gdouble for_height)
   print out the month small, embolden any days with events.
 */
 static void
-print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
-		   gdouble x1, gdouble y1, gdouble x2, gdouble y2,
-		   gint titleflags, time_t greystart, time_t greyend,
-		   gint bordertitle)
+print_month_small (GtkPrintContext *context,
+                   GnomeCalendar *gcal,
+                   time_t month,
+                   gdouble x1,
+                   gdouble y1,
+                   gdouble x2,
+                   gdouble y2,
+                   gint titleflags,
+                   time_t greystart,
+                   time_t greyend,
+                   gint bordertitle)
 {
 	icaltimezone *zone;
 	PangoFontDescription *font, *font_bold, *font_normal;
@@ -685,11 +726,11 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 	col_width = (x2 - x1) / (7 + (week_numbers ? 1 : 0));
 
 	/* The top row with the day abbreviations gets an extra bit of
-	   vertical space around it. */
+	 * vertical space around it. */
 	row_height = ABS (y2 - y1) / 7.4;
 
 	/* First we need to calculate a reasonable font size. We start with a
-	   rough guess of just under the height of each row. */
+	 * rough guess of just under the height of each row. */
 	font_size = row_height;
 
 	/* get month days */
@@ -700,8 +741,8 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 	font_bold = get_font_for_size (font_size, PANGO_WEIGHT_BOLD);
 
 	/* Get a reasonable estimate of the largest number we will need,
-	   and use it to calculate the offset from the right edge of the
-	   cell that we should put the numbers. */
+	 * and use it to calculate the offset from the right edge of the
+	 * cell that we should put the numbers. */
 	w = evo_calendar_print_renderer_get_width (context, font_bold, "23");
 	text_xpad = (col_width - w) / 2;
 
@@ -732,9 +773,9 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 		if (week_numbers) {
 			cell_left = x1;
 			/* We add a 0.05 to make sure the cells meet up with
-			   each other. Otherwise you sometimes get lines
-			   between them which looks bad. Maybe I'm not using
-			   coords in the way gnome-print expects. */
+			 * each other. Otherwise you sometimes get lines
+			 * between them which looks bad. Maybe I'm not using
+			 * coords in the way gnome-print expects. */
 			cell_right = cell_left + col_width + 0.05;
 			text_right = cell_right - text_xpad;
 
@@ -774,9 +815,9 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 
 			cell_left = x1 + (x + (week_numbers ? 1 : 0)) * col_width;
 			/* We add a 0.05 to make sure the cells meet up with
-			   each other. Otherwise you sometimes get lines
-			   between them which looks bad. Maybe I'm not using
-			   coords in the way gnome-print expects. */
+			 * each other. Otherwise you sometimes get lines
+			 * between them which looks bad. Maybe I'm not using
+			 * coords in the way gnome-print expects. */
 			cell_right = cell_left + col_width + 0.05;
 			text_right = cell_right - text_xpad;
 
@@ -813,13 +854,18 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 }
 
 /* wraps text into the print context, not taking up more than its allowed space */
-static double
+static gdouble
 bound_text (GtkPrintContext *context,
             PangoFontDescription *font,
-            const gchar *text, gint len,
-	    gdouble x1, gdouble y1,
-	    gdouble x2, gdouble y2,
-            gboolean can_wrap, gdouble *last_page_start, gint *pages)
+            const gchar *text,
+            gint len,
+            gdouble x1,
+            gdouble y1,
+            gdouble x2,
+            gdouble y2,
+            gboolean can_wrap,
+            gdouble *last_page_start,
+            gint *pages)
 {
 	PangoLayout *layout;
 	gint layout_width, layout_height;
@@ -871,9 +917,14 @@ bound_text (GtkPrintContext *context,
 
 /* Draw the borders, lines, and times down the left of the day view. */
 static void
-print_day_background (GtkPrintContext *context, GnomeCalendar *gcal,
-		      time_t whence, struct pdinfo *pdi,
-		      double left, double right, double top, double bottom)
+print_day_background (GtkPrintContext *context,
+                      GnomeCalendar *gcal,
+                      time_t whence,
+                      struct pdinfo *pdi,
+                      gdouble left,
+                      gdouble right,
+                      gdouble top,
+                      gdouble bottom)
 {
 	ECalModel *model;
 	PangoFontDescription *font_hour, *font_minute;
@@ -969,7 +1020,7 @@ print_day_background (GtkPrintContext *context, GnomeCalendar *gcal,
 		cairo_stroke (cr);
 
 		/* Draw the horizontal line for the 1/2-hours, across the
-		   entire width except for part of the time column. */
+		 * entire width except for part of the time column. */
 		cairo_move_to (cr, left + width * 0.6, y - yinc / 2);
 		cairo_line_to (cr, right, y - yinc / 2);
 		cairo_set_line_width (cr, 1);
@@ -984,13 +1035,13 @@ print_day_background (GtkPrintContext *context, GnomeCalendar *gcal,
 /* This adds one event to the view, adding it to the appropriate array. */
 static gint
 print_day_add_event (ECalModelComponent *comp_data,
-		     time_t	    start,
-		     time_t	    end,
-		     icaltimezone *zone,
-		     gint	    days_shown,
-		     time_t	   *day_starts,
-		     GArray	   *long_events,
-		     GArray	  **events)
+                     time_t start,
+                     time_t end,
+                     icaltimezone *zone,
+                     gint days_shown,
+                     time_t *day_starts,
+                     GArray *long_events,
+                     GArray **events)
 
 {
 	EDayViewEvent event;
@@ -1018,7 +1069,7 @@ print_day_add_event (ECalModelComponent *comp_data,
 	event.canvas_item = NULL;
 
 	/* Calculate the start & end minute, relative to the top of the
-	   display. */
+	 * display. */
 	/*offset = day_view->first_hour_shown * 60
 	  + day_view->first_minute_shown;*/
 	offset = 0;
@@ -1033,12 +1084,12 @@ print_day_add_event (ECalModelComponent *comp_data,
 		if (start >= day_starts[day] && end <= day_starts[day + 1]) {
 
 			/* Special case for when the appointment ends at
-			   midnight, i.e. the start of the next day. */
+			 * midnight, i.e. the start of the next day. */
 			if (end == day_starts[day + 1]) {
 
 				/* If the event last the entire day, then we
-				   skip it here so it gets added to the top
-				   canvas. */
+				 * skip it here so it gets added to the top
+				 * canvas. */
 				if (start == day_starts[day])
 				    break;
 
@@ -1050,14 +1101,16 @@ print_day_add_event (ECalModelComponent *comp_data,
 	}
 
 	/* The event wasn't within one day so it must be a long event,
-	   i.e. shown in the top canvas. */
+	 * i.e. shown in the top canvas. */
 	g_array_append_val (long_events, event);
 	return E_DAY_VIEW_LONG_EVENT;
 }
 
 static gboolean
-print_day_details_cb (ECalComponent *comp, time_t istart, time_t iend,
-		      gpointer data)
+print_day_details_cb (ECalComponent *comp,
+                      time_t istart,
+                      time_t iend,
+                      gpointer data)
 {
 	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) data;
 	struct pdinfo *pdi = (struct pdinfo *) mdata->cb_data;
@@ -1118,10 +1171,17 @@ get_role_as_string (icalparameter_role role)
 	return res;
 }
 
-static double
-print_attendees (GtkPrintContext *context, PangoFontDescription *font, cairo_t *cr,
-		 double left, double right, double top, double bottom,
-		 ECalComponent *comp, gint page_nr, gint *pages)
+static gdouble
+print_attendees (GtkPrintContext *context,
+                 PangoFontDescription *font,
+                 cairo_t *cr,
+                 gdouble left,
+                 gdouble right,
+                 gdouble top,
+                 gdouble bottom,
+                 ECalComponent *comp,
+                 gint page_nr,
+                 gint *pages)
 {
 	GSList *attendees = NULL, *l;
 
@@ -1222,13 +1282,13 @@ print_day_long_event (GtkPrintContext *context,
 		return;
 
 	/* If the event starts before the first day being printed, draw a
-	   triangle. (Note that I am assuming we are just showing 1 day at
-	   the moment.) */
+	 * triangle. (Note that I am assuming we are just showing 1 day at
+	 * the moment.) */
 	if (event->start < pdi->day_starts[0])
 		left_triangle_width = 4;
 
 	/* If the event ends after the last day being printed, draw a
-	   triangle. */
+	 * triangle. */
 	if (event->end > pdi->day_starts[1])
 		right_triangle_width = 4;
 
@@ -1244,7 +1304,7 @@ print_day_long_event (GtkPrintContext *context,
 				     right_triangle_width);
 
 	/* If the event starts after the first day being printed, we need to
-	   print the start time. */
+	 * print the start time. */
 	if (event->start > pdi->day_starts[0]) {
 		date_tm.tm_year = 2001;
 		date_tm.tm_mon = 0;
@@ -1262,7 +1322,7 @@ print_day_long_event (GtkPrintContext *context,
 	}
 
 	/* If the event ends before the end of the last day being printed,
-	   we need to print the end time. */
+	 * we need to print the end time. */
 	if (event->end < pdi->day_starts[1]) {
 		date_tm.tm_year = 2001;
 		date_tm.tm_mon = 0;
@@ -1290,9 +1350,15 @@ print_day_long_event (GtkPrintContext *context,
 }
 
 static void
-print_day_event (GtkPrintContext *context, PangoFontDescription *font,
-		 double left, double right, double top, double bottom,
-		 EDayViewEvent *event, struct pdinfo *pdi, ECalModel *model)
+print_day_event (GtkPrintContext *context,
+                 PangoFontDescription *font,
+                 gdouble left,
+                 gdouble right,
+                 gdouble top,
+                 gdouble bottom,
+                 EDayViewEvent *event,
+                 struct pdinfo *pdi,
+                 ECalModel *model)
 {
 	gdouble x1, x2, y1, y2, col_width, row_height;
 	gint start_offset, end_offset, start_row, end_row;
@@ -1373,8 +1439,13 @@ print_day_event (GtkPrintContext *context, PangoFontDescription *font,
 }
 
 static void
-print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
-		   double left, double right, double top, double bottom)
+print_day_details (GtkPrintContext *context,
+                   GnomeCalendar *gcal,
+                   time_t whence,
+                   gdouble left,
+                   gdouble right,
+                   gdouble top,
+                   gdouble bottom)
 {
 	ECalModel *model;
 	icaltimezone *zone;
@@ -1448,12 +1519,12 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 	font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
 
 	/* We always leave space for DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY in the
-	   top display, but we may have more rows than that, in which case
-	   the main display area will be compressed. */
+	 * top display, but we may have more rows than that, in which case
+	 * the main display area will be compressed. */
 	/* Limit long day event to half the height of the panel */
 	rows_in_top_display = MIN (MAX (rows_in_top_display,
 				   DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY),
-				   (bottom-top)*0.5/DAY_VIEW_ROW_HEIGHT);
+				   (bottom - top) * 0.5 / DAY_VIEW_ROW_HEIGHT);
 
 	if (rows_in_top_display > pdi.long_events->len)
 		rows_in_top_display = pdi.long_events->len;
@@ -1475,7 +1546,7 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 			const gchar **xpm = (const gchar **) jump_xpm;
 
 			/* this ugly thing is here only to get rid of compiler warning
-			   about unused 'jump_xpm_focused' */
+			 * about unused 'jump_xpm_focused' */
 			if (pixbuf)
 				xpm = (const gchar **) jump_xpm_focused;
 
@@ -1485,7 +1556,7 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 		/* Right align - 10 comes from print_day_long_event  too */
 		x = right - gdk_pixbuf_get_width (pixbuf) * 0.5 - 10;
 		/* Placing '...' over the last all day event entry printed. '-1 -1' comes
-			from print_long_day_event (top/bottom spacing in each cell) */
+			from print_long_day_event (top / bottom spacing in each cell) */
 		y = top + LONG_DAY_EVENTS_TOP_SPACING
 			+ DAY_VIEW_ROW_HEIGHT * (i - 1)
 			+ (DAY_VIEW_ROW_HEIGHT - 1 - 1) * 0.5;
@@ -1552,8 +1623,8 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 /* Returns TRUE if the event is a one-day event (i.e. not a long event). */
 static gboolean
 print_is_one_day_week_event (EWeekViewEvent *event,
-			     EWeekViewEventSpan *span,
-			     time_t *day_starts)
+                             EWeekViewEventSpan *span,
+                             time_t *day_starts)
 {
 	if (event->start == day_starts[span->start_day]
 	    && event->end == day_starts[span->start_day + 1])
@@ -1568,23 +1639,31 @@ print_is_one_day_week_event (EWeekViewEvent *event,
 }
 
 static void
-print_week_long_event (GtkPrintContext *context, PangoFontDescription *font,
-		       struct psinfo *psi,
-		       double x1, double x2, double y1, double row_height,
-		       EWeekViewEvent *event, EWeekViewEventSpan *span,
-		       gchar *text, double red, double green, double blue)
+print_week_long_event (GtkPrintContext *context,
+                       PangoFontDescription *font,
+                       struct psinfo *psi,
+                       gdouble x1,
+                       gdouble x2,
+                       gdouble y1,
+                       gdouble row_height,
+                       EWeekViewEvent *event,
+                       EWeekViewEventSpan *span,
+                       gchar *text,
+                       gdouble red,
+                       gdouble green,
+                       gdouble blue)
 {
 	gdouble left_triangle_width = -1.0, right_triangle_width = -1.0;
 	struct tm date_tm;
 	gchar buffer[32];
 
 	/* If the event starts before the first day of the span, draw a
-	   triangle to indicate it continues. */
+	 * triangle to indicate it continues. */
 	if (event->start < psi->day_starts[span->start_day])
 		left_triangle_width = 4;
 
 	/* If the event ends after the last day of the span, draw a
-	   triangle. */
+	 * triangle. */
 	if (event->end > psi->day_starts[span->start_day + span->num_days])
 		right_triangle_width = 4;
 
@@ -1593,7 +1672,7 @@ print_week_long_event (GtkPrintContext *context, PangoFontDescription *font,
 		left_triangle_width, right_triangle_width);
 
 	/* If the event starts after the first day being printed, we need to
-	   print the start time. */
+	 * print the start time. */
 	if (event->start > psi->day_starts[span->start_day]) {
 		date_tm.tm_year = 2001;
 		date_tm.tm_mon = 0;
@@ -1613,7 +1692,7 @@ print_week_long_event (GtkPrintContext *context, PangoFontDescription *font,
 	}
 
 	/* If the event ends before the end of the last day being printed,
-	   we need to print the end time. */
+	 * we need to print the end time. */
 	if (event->end < psi->day_starts[span->start_day + span->num_days]) {
 		date_tm.tm_year = 2001;
 		date_tm.tm_mon = 0;
@@ -1638,11 +1717,19 @@ print_week_long_event (GtkPrintContext *context, PangoFontDescription *font,
 }
 
 static void
-print_week_day_event (GtkPrintContext *context, PangoFontDescription *font,
-		      struct psinfo *psi,
-		      double x1, double x2, double y1, double row_height,
-		      EWeekViewEvent *event, EWeekViewEventSpan *span,
-		      gchar *text, double red, double green, double blue)
+print_week_day_event (GtkPrintContext *context,
+                      PangoFontDescription *font,
+                      struct psinfo *psi,
+                      gdouble x1,
+                      gdouble x2,
+                      gdouble y1,
+                      gdouble row_height,
+                      EWeekViewEvent *event,
+                      EWeekViewEventSpan *span,
+                      gchar *text,
+                      gdouble red,
+                      gdouble green,
+                      gdouble blue)
 {
 	struct tm date_tm;
 	gchar buffer[32];
@@ -1681,12 +1768,16 @@ print_week_day_event (GtkPrintContext *context, PangoFontDescription *font,
 }
 
 static void
-print_week_event (GtkPrintContext *context, PangoFontDescription *font,
-		  struct psinfo *psi,
-		  double left, double top,
-		  double cell_width, double cell_height,
-		  ECalModel *model,
-		  EWeekViewEvent *event, GArray *spans)
+print_week_event (GtkPrintContext *context,
+                  PangoFontDescription *font,
+                  struct psinfo *psi,
+                  gdouble left,
+                  gdouble top,
+                  gdouble cell_width,
+                  gdouble cell_height,
+                  ECalModel *model,
+                  EWeekViewEvent *event,
+                  GArray *spans)
 {
 	EWeekViewEventSpan *span;
 	gint span_num;
@@ -1790,7 +1881,7 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 				const gchar **xpm = (const gchar **) jump_xpm;
 
 				/* this ugly thing is here only to get rid of compiler warning
-				   about unused 'jump_xpm_focused' */
+				 * about unused 'jump_xpm_focused' */
 				if (pixbuf)
 					xpm = (const gchar **) jump_xpm_focused;
 
@@ -1817,9 +1908,11 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 static void
 print_week_view_background (GtkPrintContext *context,
                             PangoFontDescription *font,
-			    struct psinfo *psi,
-			    double left, double top,
-			    double cell_width, double cell_height)
+                            struct psinfo *psi,
+                            gdouble left,
+                            gdouble top,
+                            gdouble cell_width,
+                            gdouble cell_height)
 {
 	struct tm tm;
 	gint day, day_x, day_y, day_h;
@@ -1844,7 +1937,7 @@ print_week_view_background (GtkPrintContext *context,
 		convert_timet_to_struct_tm (psi->day_starts[day], psi->zone, &tm);
 
 		/* In the month view we draw a grey background for the end
-		   of the previous month and the start of the following. */
+		 * of the previous month and the start of the following. */
 		fillcolor = -1.0;
 		if (psi->multi_week_view && (tm.tm_mon != psi->month))
 			fillcolor = 0.9;
@@ -1869,9 +1962,9 @@ print_week_view_background (GtkPrintContext *context,
 			cairo_stroke (cr);
 
 			/* strftime format %A = full weekday name, %d = day of
-			   month, %B = full month name. You can change the
-			   order but don't change the specifiers or add
-			   anything. */
+			 * month, %B = full month name. You can change the
+			 * order but don't change the specifiers or add
+			 * anything. */
 			format_string = _("%A %d %B");
 
 		}
@@ -1886,9 +1979,9 @@ print_week_view_background (GtkPrintContext *context,
 /* This adds one event to the view, adding it to the appropriate array. */
 static gboolean
 print_week_summary_cb (ECalComponent *comp,
-		       time_t	  start,
-		       time_t	  end,
-		       gpointer	  data)
+                       time_t start,
+                       time_t end,
+                       gpointer data)
 
 {
 	EWeekViewEvent event;
@@ -1929,10 +2022,17 @@ print_week_summary_cb (ECalComponent *comp,
 }
 
 static void
-print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
-		    time_t whence, gboolean multi_week_view, gint weeks_shown,
-		    gint month, double font_size,
-		    double left, double right, double top, double bottom)
+print_week_summary (GtkPrintContext *context,
+                    GnomeCalendar *gcal,
+                    time_t whence,
+                    gboolean multi_week_view,
+                    gint weeks_shown,
+                    gint month,
+                    gdouble font_size,
+                    gdouble left,
+                    gdouble right,
+                    gdouble top,
+                    gdouble bottom)
 {
 	icaltimezone *zone;
 	EWeekViewEvent *event;
@@ -2000,7 +2100,7 @@ print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
 	}
 
 	/* Calculate the row height, using the normal font and with room for
-	   space or a rectangle around it. */
+	 * space or a rectangle around it. */
 	psi.row_height = font_size * 1.2;
 	psi.header_row_height = font_size * 1.5;
 
@@ -2081,7 +2181,7 @@ print_month_summary (GtkPrintContext *context,
 	month = tt.month - 1;
 
 	/* Find the start of the month, and then the start of the week on
-	   or before that day. */
+	 * or before that day. */
 	if (!date)
 		date = time_month_begin_with_zone (whence, zone);
 	date = time_week_begin_with_zone (date, weekday, zone);
@@ -2093,9 +2193,9 @@ print_month_summary (GtkPrintContext *context,
 	/* do day names ... */
 
 	/* We are only interested in outputting the weekday here, but we want
-	   to be able to step through the week without worrying about
-	   overflows making strftime choke, so we move near to the start of
-	   the month. */
+	 * to be able to step through the week without worrying about
+	 * overflows making strftime choke, so we move near to the start of
+	 * the month. */
 	convert_timet_to_struct_tm (date, zone, &tm);
 	tm.tm_mday = (tm.tm_mday % 7) + 7;
 
@@ -2137,9 +2237,14 @@ print_month_summary (GtkPrintContext *context,
 }
 
 static void
-print_todo_details (GtkPrintContext *context, GnomeCalendar *gcal,
-		    time_t start, time_t end,
-		    double left, double right, double top, double bottom)
+print_todo_details (GtkPrintContext *context,
+                    GnomeCalendar *gcal,
+                    time_t start,
+                    time_t end,
+                    gdouble left,
+                    gdouble right,
+                    gdouble top,
+                    gdouble bottom)
 {
 	PangoFontDescription *font_summary;
 	gdouble y, yend, x, xend;
@@ -2151,7 +2256,7 @@ print_todo_details (GtkPrintContext *context, GnomeCalendar *gcal,
 	cairo_t *cr;
 
 	/* We get the tasks directly from the TaskPad ETable. This means we
-	   get them filtered & sorted for free. */
+	 * get them filtered & sorted for free. */
 	task_table = gnome_calendar_get_task_table (gcal);
 	table = E_TABLE (task_table);
 	g_return_if_fail (table != NULL);
@@ -2220,7 +2325,7 @@ print_todo_details (GtkPrintContext *context, GnomeCalendar *gcal,
 		y = bound_text (context, font_summary, summary.value, -1,
 				x + 14, y + 4, xend, yend, FALSE, NULL, NULL);
 
-		y += get_font_size (font_summary)-5;
+		y += get_font_size (font_summary) - 5;
 		cr = gtk_print_context_get_cairo_context (context);
 		cairo_move_to (cr, x, y);
 		cairo_line_to (cr, xend, y);
@@ -2234,7 +2339,9 @@ print_todo_details (GtkPrintContext *context, GnomeCalendar *gcal,
 }
 
 static void
-print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
+print_day_view (GtkPrintContext *context,
+                GnomeCalendar *gcal,
+                time_t date)
 {
 	ECalModel *model;
 	GtkPageSetup *setup;
@@ -2309,9 +2416,14 @@ print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 }
 
 static void
-print_work_week_background (GtkPrintContext *context, GnomeCalendar *gcal,
-			    time_t whence, struct pdinfo *pdi, double left,
-			    double right, double top, double bottom)
+print_work_week_background (GtkPrintContext *context,
+                            GnomeCalendar *gcal,
+                            time_t whence,
+                            struct pdinfo *pdi,
+                            gdouble left,
+                            gdouble right,
+                            gdouble top,
+                            gdouble bottom)
 {
 	ECalModel *model;
 	PangoFontDescription *font_hour, *font_minute;
@@ -2424,7 +2536,7 @@ print_work_week_background (GtkPrintContext *context, GnomeCalendar *gcal,
 		cairo_stroke (cr);
 
 		/* Draw the horizontal line for the 1/2-hours, across the
-		   entire width except for part of the time column. */
+		 * entire width except for part of the time column. */
 		cairo_move_to (cr, left + width * 0.6, y - yinc / 2);
 		cairo_line_to (cr, right, y - yinc / 2);
 		cairo_set_line_width (cr, 1);
@@ -2433,7 +2545,7 @@ print_work_week_background (GtkPrintContext *context, GnomeCalendar *gcal,
 	}
 
 	/* Draw the vertical lines for the days */
-	day_width = (right - left - 2*width) / pdi->days_shown;
+	day_width = (right - left - 2 *width) / pdi->days_shown;
 	for (i = 0; i < pdi->days_shown - 1; ++i) {
 	  cr = gtk_print_context_get_cairo_context (context);
 	  cairo_move_to (cr, left + width + day_width * (i + 1), top);
@@ -2456,9 +2568,14 @@ print_work_week_background (GtkPrintContext *context, GnomeCalendar *gcal,
 }
 
 static void
-print_work_week_day_details (GtkPrintContext *context, GnomeCalendar *gcal,
-			     time_t whence, double left, double right,
-			     double top, double bottom, struct pdinfo *_pdi)
+print_work_week_day_details (GtkPrintContext *context,
+                             GnomeCalendar *gcal,
+                             time_t whence,
+                             gdouble left,
+                             gdouble right,
+                             gdouble top,
+                             gdouble bottom,
+                             struct pdinfo *_pdi)
 {
 	ECalModel *model;
 	icaltimezone *zone;
@@ -2536,12 +2653,12 @@ print_work_week_day_details (GtkPrintContext *context, GnomeCalendar *gcal,
 	font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
 
 	/* We always leave space for DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY in the
-	   top display, but we may have more rows than that, in which case
-	   the main display area will be compressed. */
+	 * top display, but we may have more rows than that, in which case
+	 * the main display area will be compressed. */
 	/* Limit long day event to half the height of the panel */
 	rows_in_top_display = MIN (MAX (rows_in_top_display,
 				   DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY),
-				   (bottom-top)*0.5/DAY_VIEW_ROW_HEIGHT);
+				   (bottom - top) * 0.5 / DAY_VIEW_ROW_HEIGHT);
 
 	if (rows_in_top_display > pdi.long_events->len)
 		rows_in_top_display = pdi.long_events->len;
@@ -2563,7 +2680,7 @@ print_work_week_day_details (GtkPrintContext *context, GnomeCalendar *gcal,
 			const gchar **xpm = (const gchar **) jump_xpm;
 
 			/* this ugly thing is here only to get rid of compiler warning
-			   about unused 'jump_xpm_focused' */
+			 * about unused 'jump_xpm_focused' */
 			if (pixbuf)
 				xpm = (const gchar **) jump_xpm_focused;
 
@@ -2573,7 +2690,7 @@ print_work_week_day_details (GtkPrintContext *context, GnomeCalendar *gcal,
 		/* Right align - 10 comes from print_day_long_event  too */
 		x = right - gdk_pixbuf_get_width (pixbuf) * 0.5 - 10;
 		/* Placing '...' over the last all day event entry printed. '-1 -1' comes
-			from print_long_day_event (top/bottom spacing in each cell) */
+			from print_long_day_event (top / bottom spacing in each cell) */
 		y = top + LONG_DAY_EVENTS_TOP_SPACING
 			+ DAY_VIEW_ROW_HEIGHT * (i - 1)
 			+ (DAY_VIEW_ROW_HEIGHT - 1 - 1) * 0.5;
@@ -2653,7 +2770,9 @@ print_work_week_view_cb (ECalComponent *comp,
 }
 
 static void
-print_work_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
+print_work_week_view (GtkPrintContext *context,
+                      GnomeCalendar *gcal,
+                      time_t date)
 {
 	GtkPageSetup *setup;
 	icaltimezone *zone;
@@ -2728,7 +2847,7 @@ print_work_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date
 			      24 + 3, 24 + 3 + 24);
 
 	/* Now print each days' events */
-	day_width = (width - 2*DAY_VIEW_TIME_COLUMN_WIDTH) / days;
+	day_width = (width - 2 *DAY_VIEW_TIME_COLUMN_WIDTH) / days;
 	when = start;
 	for (i = 0; i < days; ++i) {
 		day_x = DAY_VIEW_TIME_COLUMN_WIDTH + day_width * i;
@@ -2749,7 +2868,9 @@ print_work_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date
 }
 
 static void
-print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
+print_week_view (GtkPrintContext *context,
+                 GnomeCalendar *gcal,
+                 time_t date)
 {
 	GtkPageSetup *setup;
 	ECalModel *model;
@@ -2776,7 +2897,7 @@ print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 	when = time_week_begin_with_zone (date, week_start_day, zone);
 
 	/* If the week starts on a Sunday, we have to show the Saturday first,
-	   since the weekend is compressed. */
+	 * since the weekend is compressed. */
 	if (week_start_day == 0) {
 		if (tm.tm_wday == 6)
 			when = time_add_day_with_zone (when, 6, zone);
@@ -2830,7 +2951,9 @@ print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 }
 
 static void
-print_month_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
+print_month_view (GtkPrintContext *context,
+                  GnomeCalendar *gcal,
+                  time_t date)
 {
 	ECalModel *model;
 	GtkPageSetup *setup;
@@ -2879,7 +3002,9 @@ print_month_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 }
 
 static gboolean
-same_date (struct tm tm1, time_t t2, icaltimezone *zone)
+same_date (struct tm tm1,
+           time_t t2,
+           icaltimezone *zone)
 {
 	struct tm tm2;
 
@@ -2922,13 +3047,14 @@ write_label_piece (time_t t,
 		strcat (buffer, etext);
 }
 
-static icaltimezone*
-get_zone_from_tzid (ECalClient *client, const gchar *tzid)
+static icaltimezone *
+get_zone_from_tzid (ECalClient *client,
+                    const gchar *tzid)
 {
 	icaltimezone *zone;
 
 	/* Note that the timezones may not be on the server, so we try to get
-	   the builtin timezone with the TZID first. */
+	 * the builtin timezone with the TZID first. */
 	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
 	if (!zone && tzid) {
 		GError *error = NULL;
@@ -3404,8 +3530,8 @@ print_comp_draw_page (GtkPrintOperation *operation,
 
 static void
 print_comp_begin_print (GtkPrintOperation *operation,
-			GtkPrintContext   *context,
-                        PrintCompItem     *pci)
+                        GtkPrintContext *context,
+                        PrintCompItem *pci)
 {
 	gint pages;
 
@@ -3448,7 +3574,9 @@ print_comp (ECalComponent *comp,
 }
 
 static void
-print_title (GtkPrintContext *context, const gchar *text, gdouble page_width)
+print_title (GtkPrintContext *context,
+             const gchar *text,
+             gdouble page_width)
 {
 	PangoFontDescription *desc;
 	PangoLayout *layout;
@@ -3509,8 +3637,10 @@ print_table_draw_page (GtkPrintOperation *operation,
 }
 
 void
-print_table (ETable *table, const gchar *dialog_title,
-             const gchar *print_header, GtkPrintOperationAction action)
+print_table (ETable *table,
+             const gchar *dialog_title,
+             const gchar *print_header,
+             GtkPrintOperationAction action)
 {
 	GtkPrintOperation *operation;
 	EPrintable *printable;

@@ -709,7 +709,8 @@ e_mail_labels_get_filter_options (void)
 
 /* utility functions for mbox importer */
 static void
-mbox_create_preview_cb (GObject *preview, GtkWidget **preview_widget)
+mbox_create_preview_cb (GObject *preview,
+                        GtkWidget **preview_widget)
 {
 	EMFormatHTMLDisplay *format;
 	EWebView *web_view;
@@ -726,7 +727,8 @@ mbox_create_preview_cb (GObject *preview, GtkWidget **preview_widget)
 }
 
 static void
-mbox_fill_preview_cb (GObject *preview, CamelMimeMessage *msg)
+mbox_fill_preview_cb (GObject *preview,
+                      CamelMimeMessage *msg)
 {
 	EMFormatHTMLDisplay *format;
 

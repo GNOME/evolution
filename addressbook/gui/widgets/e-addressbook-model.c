@@ -324,10 +324,13 @@ view_complete_cb (EBookClientView *client_view,
 
 static void
 readonly_cb (EBookClient *book_client,
-	     GParamSpec *pspec,
+             GParamSpec *pspec,
              EAddressbookModel *model)
 {
-	e_addressbook_model_set_editable (model, !e_client_is_readonly (E_CLIENT (book_client)));
+	gboolean editable;
+
+	editable = !e_client_is_readonly (E_CLIENT (book_client));
+	e_addressbook_model_set_editable (model, editable);
 }
 
 static void
@@ -734,7 +737,7 @@ e_addressbook_model_get_type (void)
 	return type;
 }
 
-EAddressbookModel*
+EAddressbookModel *
 e_addressbook_model_new (void)
 {
 	return g_object_new (E_TYPE_ADDRESSBOOK_MODEL, NULL);
@@ -742,7 +745,7 @@ e_addressbook_model_new (void)
 
 EContact *
 e_addressbook_model_get_contact (EAddressbookModel *model,
-				 gint row)
+                                 gint row)
 {
 	GPtrArray *array;
 
@@ -845,6 +848,8 @@ void
 e_addressbook_model_set_client (EAddressbookModel *model,
                                 EBookClient *book_client)
 {
+	gboolean editable;
+
 	g_return_if_fail (E_IS_ADDRESSBOOK_MODEL (model));
 	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
 
@@ -878,7 +883,8 @@ e_addressbook_model_set_client (EAddressbookModel *model,
 		book_client, "backend-died",
 		G_CALLBACK (backend_died_cb), model);
 
-	e_addressbook_model_set_editable (model, !e_client_is_readonly (E_CLIENT (book_client)));
+	editable = !e_client_is_readonly (E_CLIENT (book_client));
+	e_addressbook_model_set_editable (model, editable);
 
 	if (model->priv->client_view_idle_id == 0)
 		model->priv->client_view_idle_id = g_idle_add (

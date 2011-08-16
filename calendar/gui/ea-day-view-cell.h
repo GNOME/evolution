@@ -78,7 +78,7 @@ struct _EaDayViewCellClass
 	AtkGObjectAccessibleClass parent_class;
 };
 
-AtkObject*     ea_day_view_cell_new         (GObject *gobj);
+AtkObject *     ea_day_view_cell_new         (GObject *gobj);
 
 G_END_DECLS
 

@@ -53,7 +53,8 @@ struct _CsvPluginData
 };
 
 static void
-display_error_message (GtkWidget *parent, GError *error)
+display_error_message (GtkWidget *parent,
+                       GError *error)
 {
 	GtkWidget *dialog;
 
@@ -73,7 +74,10 @@ enum { /* CSV helper enum */
 
 /* Some helpers for the csv stuff */
 static GString *
-add_list_to_csv (GString *line, GSList *list_in, CsvConfig *config, gint type)
+add_list_to_csv (GString *line,
+                 GSList *list_in,
+                 CsvConfig *config,
+                 gint type)
 {
 
 	/*
@@ -87,7 +91,7 @@ add_list_to_csv (GString *line, GSList *list_in, CsvConfig *config, gint type)
 		gboolean needquotes = FALSE;
 		GSList *list = list_in;
 		GString *tmp = NULL;
-		gint cnt=0;
+		gint cnt = 0;
 		while (list) {
 			const gchar *str = NULL;
 			if (cnt == 0)
@@ -96,10 +100,10 @@ add_list_to_csv (GString *line, GSList *list_in, CsvConfig *config, gint type)
 				needquotes = TRUE;
 			switch (type) {
 			case ECALCOMPONENTATTENDEE:
-				str = ((ECalComponentAttendee*) list->data)->value;
+				str = ((ECalComponentAttendee *) list->data)->value;
 				break;
 			case ECALCOMPONENTTEXT:
-				str = ((ECalComponentText*) list->data)->value;
+				str = ((ECalComponentText *) list->data)->value;
 				break;
 			case CONSTCHAR:
 			default:
@@ -128,7 +132,9 @@ add_list_to_csv (GString *line, GSList *list_in, CsvConfig *config, gint type)
 }
 
 static GString *
-add_nummeric_to_csv (GString *line, gint *nummeric, CsvConfig *config)
+add_nummeric_to_csv (GString *line,
+                     gint *nummeric,
+                     CsvConfig *config)
 {
 
 	/*
@@ -146,7 +152,9 @@ add_nummeric_to_csv (GString *line, gint *nummeric, CsvConfig *config)
 }
 
 static GString *
-add_time_to_csv (GString *line, icaltimetype *time, CsvConfig *config)
+add_time_to_csv (GString *line,
+                 icaltimetype *time,
+                 CsvConfig *config)
 {
 
 	if (time) {
@@ -179,7 +187,8 @@ add_time_to_csv (GString *line, icaltimetype *time, CsvConfig *config)
 }
 
 static gboolean
-string_needsquotes (const gchar *value, CsvConfig *config)
+string_needsquotes (const gchar *value,
+                    CsvConfig *config)
 {
 
 	/* This is the actual need for quotes-checker */
@@ -191,12 +200,12 @@ string_needsquotes (const gchar *value, CsvConfig *config)
 	 * Will be written as {"Mom, can you please do that for me?"}
 	 */
 
-	gboolean needquotes = strstr (value, config->delimiter) ? TRUE:FALSE;
+	gboolean needquotes = strstr (value, config->delimiter) ? TRUE : FALSE;
 
 	if (!needquotes) {
-		needquotes = strstr (value, config->newline) ? TRUE:FALSE;
+		needquotes = strstr (value, config->newline) ? TRUE : FALSE;
 		if (!needquotes)
-			needquotes = strstr (value, config->quote) ? TRUE:FALSE;
+			needquotes = strstr (value, config->quote) ? TRUE : FALSE;
 	}
 
 	/*
@@ -217,16 +226,16 @@ string_needsquotes (const gchar *value, CsvConfig *config)
 	if (!needquotes) {
 		gint len = strlen (config->delimiter);
 		if ((len == 2) && (config->delimiter[1] == ' ')) {
-			needquotes = strchr (value, config->delimiter[0])?TRUE:FALSE;
+			needquotes = strchr (value, config->delimiter[0]) ? TRUE : FALSE;
 			if (!needquotes) {
 				len = strlen (config->newline);
 				if ((len == 2) && (config->newline[1] == ' ')) {
-					needquotes = strchr (value, config->newline[0])?TRUE:FALSE;
+					needquotes = strchr (value, config->newline[0]) ? TRUE : FALSE;
 					if (!needquotes) {
 						len = strlen (config->quote);
 						if ((len == 2) && (config->quote[1] == ' ')) {
 							needquotes = strchr
-								(value, config->quote[0])?TRUE:FALSE;
+								(value, config->quote[0]) ? TRUE : FALSE;
 						}
 					}
 				}
@@ -238,11 +247,13 @@ string_needsquotes (const gchar *value, CsvConfig *config)
 }
 
 static GString *
-add_string_to_csv (GString *line, const gchar *value, CsvConfig *config)
+add_string_to_csv (GString *line,
+                   const gchar *value,
+                   CsvConfig *config)
 {
 	/* Will add a string to the record and will check for the need for quotes */
 
-	if ((value) && (strlen (value)>0)) {
+	if ((value) && (strlen (value) > 0)) {
 		gboolean needquotes = string_needsquotes (value, config);
 
 		if (needquotes)
@@ -260,13 +271,13 @@ static gchar *
 userstring_to_systemstring (const gchar *userstring)
 {
 	const gchar *text = userstring;
-	gint i=0, len = strlen (text);
+	gint i = 0, len = strlen (text);
 	GString *str = g_string_new ("");
 	gchar *retval = NULL;
 
 	while (i < len) {
 		if (text[i] == '\\') {
-			switch (text[i+1]) {
+			switch (text[i + 1]) {
 			case 'n':
 				str = g_string_append_c (str, '\n');
 				i++;
@@ -365,7 +376,7 @@ do_save_calendar_csv (FormatHandler *handler,
 
 		if (config->header) {
 
-			gint i=0;
+			gint i = 0;
 
 			static const gchar *labels[] = {
 				 N_("UID"),
@@ -388,8 +399,8 @@ do_save_calendar_csv (FormatHandler *handler,
 			};
 
 			line = g_string_new ("");
-			for (i=0;i<G_N_ELEMENTS (labels);i++) {
-				if (i>0)
+			for (i = 0; i < G_N_ELEMENTS (labels); i++) {
+				if (i > 0)
 					g_string_append (line, config->delimiter);
 				g_string_append (line, _(labels[i]));
 			}

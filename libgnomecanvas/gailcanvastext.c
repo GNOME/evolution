@@ -72,12 +72,12 @@ static void           gail_canvas_text_get_character_extents (AtkText           
                                                               gint              *width,
                                                               gint              *height,
                                                               AtkCoordType      coords);
-static AtkAttributeSet*
+static AtkAttributeSet *
                       gail_canvas_text_get_run_attributes    (AtkText           *text,
                                                               gint              offset,
                                                               gint              *start_offset,
                                                               gint              *end_offset);
-static AtkAttributeSet*
+static AtkAttributeSet *
                       gail_canvas_text_get_default_attributes (AtkText          *text);
 static gint           gail_canvas_text_get_n_selections      (AtkText           *text);
 static gchar *         gail_canvas_text_get_selection         (AtkText           *text,
@@ -112,7 +112,7 @@ gail_canvas_text_init (GailCanvasText *foo)
   ;
 }
 
-AtkObject*
+AtkObject *
 gail_canvas_text_new (GObject *obj)
 {
   gpointer object;
@@ -173,8 +173,8 @@ gail_canvas_text_text_interface_init (AtkTextIface *iface)
 
 static gchar *
 gail_canvas_text_get_text (AtkText *text,
-                           gint    start_offset,
-                           gint    end_offset)
+                           gint start_offset,
+                           gint end_offset)
 {
   GailCanvasText *gail_text;
   GtkTextBuffer *buffer;
@@ -192,11 +192,11 @@ gail_canvas_text_get_text (AtkText *text,
 }
 
 static gchar *
-gail_canvas_text_get_text_after_offset (AtkText         *text,
-                                        gint            offset,
+gail_canvas_text_get_text_after_offset (AtkText *text,
+                                        gint offset,
                                         AtkTextBoundary boundary_type,
-                                        gint            *start_offset,
-                                        gint            *end_offset)
+                                        gint *start_offset,
+                                        gint *end_offset)
 {
   return get_text_near_offset (text, GAIL_AFTER_OFFSET,
 			       boundary_type, offset,
@@ -204,11 +204,11 @@ gail_canvas_text_get_text_after_offset (AtkText         *text,
 }
 
 static gchar *
-gail_canvas_text_get_text_at_offset (AtkText         *text,
-                                     gint            offset,
+gail_canvas_text_get_text_at_offset (AtkText *text,
+                                     gint offset,
                                      AtkTextBoundary boundary_type,
-                                     gint            *start_offset,
-                                     gint            *end_offset)
+                                     gint *start_offset,
+                                     gint *end_offset)
 {
   return get_text_near_offset (text, GAIL_AT_OFFSET,
 			       boundary_type, offset,
@@ -216,11 +216,11 @@ gail_canvas_text_get_text_at_offset (AtkText         *text,
 }
 
 static gchar *
-gail_canvas_text_get_text_before_offset (AtkText         *text,
-                                         gint            offset,
+gail_canvas_text_get_text_before_offset (AtkText *text,
+                                         gint offset,
                                          AtkTextBoundary boundary_type,
-                                         gint            *start_offset,
-                                         gint            *end_offset)
+                                         gint *start_offset,
+                                         gint *end_offset)
 {
   return get_text_near_offset (text, GAIL_BEFORE_OFFSET,
 			       boundary_type, offset,
@@ -229,7 +229,7 @@ gail_canvas_text_get_text_before_offset (AtkText         *text,
 
 static gunichar
 gail_canvas_text_get_character_at_offset (AtkText *text,
-                                          gint    offset)
+                                          gint offset)
 {
   GailCanvasText *gail_item;
   GtkTextIter start, end;
@@ -286,7 +286,7 @@ gail_canvas_text_get_caret_offset (AtkText *text)
 
 static gboolean
 gail_canvas_text_set_caret_offset (AtkText *text,
-                                   gint    offset)
+                                   gint offset)
 {
   GailCanvasText *gail_text;
   GtkTextBuffer *buffer;
@@ -302,31 +302,31 @@ gail_canvas_text_set_caret_offset (AtkText *text,
 }
 
 static gint
-gail_canvas_text_get_offset_at_point (AtkText      *text,
-                                      gint         x,
-                                      gint         y,
+gail_canvas_text_get_offset_at_point (AtkText *text,
+                                      gint x,
+                                      gint y,
                                       AtkCoordType coords)
 {
   return -1;
 }
 
 static void
-gail_canvas_text_get_character_extents (AtkText      *text,
-                                        gint         offset,
-                                        gint         *x,
-                                        gint         *y,
-                                        gint         *width,
-                                        gint         *height,
+gail_canvas_text_get_character_extents (AtkText *text,
+                                        gint offset,
+                                        gint *x,
+                                        gint *y,
+                                        gint *width,
+                                        gint *height,
                                         AtkCoordType coords)
 {
   return;
 }
 
-static AtkAttributeSet*
+static AtkAttributeSet *
 gail_canvas_text_get_run_attributes (AtkText *text,
-                                     gint    offset,
-                                     gint    *start_offset,
-                                     gint    *end_offset)
+                                     gint offset,
+                                     gint *start_offset,
+                                     gint *end_offset)
 {
   GailCanvasText *gail_text;
 
@@ -338,7 +338,7 @@ gail_canvas_text_get_run_attributes (AtkText *text,
 					      offset, start_offset, end_offset);
 }
 
-static AtkAttributeSet*
+static AtkAttributeSet *
 gail_canvas_text_get_default_attributes (AtkText *text)
 {
   return NULL;
@@ -369,9 +369,9 @@ gail_canvas_text_get_n_selections (AtkText *text)
 
 static gchar *
 gail_canvas_text_get_selection (AtkText *text,
-                                gint    selection_num,
-                                gint    *start_pos,
-                                gint    *end_pos)
+                                gint selection_num,
+                                gint *start_pos,
+                                gint *end_pos)
 {
   GailCanvasText *gail_text;
   GtkTextBuffer *buffer;
@@ -400,8 +400,8 @@ gail_canvas_text_get_selection (AtkText *text,
 
 static gboolean
 gail_canvas_text_add_selection (AtkText *text,
-                                gint    start_pos,
-                                gint    end_pos)
+                                gint start_pos,
+                                gint end_pos)
 {
   GailCanvasText *gail_text;
   GtkTextBuffer *buffer;
@@ -435,7 +435,7 @@ gail_canvas_text_add_selection (AtkText *text,
 
 static gboolean
 gail_canvas_text_remove_selection (AtkText *text,
-                                 gint    selection_num)
+                                 gint selection_num)
 {
   GailCanvasText *gail_text;
   GtkTextBuffer *buffer;
@@ -473,9 +473,9 @@ gail_canvas_text_remove_selection (AtkText *text,
 
 static gboolean
 gail_canvas_text_set_selection (AtkText *text,
-                              gint    selection_num,
-                              gint    start_pos,
-                              gint    end_pos)
+                              gint selection_num,
+                              gint start_pos,
+                              gint end_pos)
 {
   GailCanvasText *gail_text;
   GtkTextBuffer *buffer;
@@ -511,12 +511,12 @@ gail_canvas_text_set_selection (AtkText *text,
 }
 
 static gchar *
-get_text_near_offset (AtkText          *text,
-                      GailOffsetType   function,
-                      AtkTextBoundary  boundary_type,
-                      gint             offset,
-                      gint             *start_offset,
-                      gint             *end_offset)
+get_text_near_offset (AtkText *text,
+                      GailOffsetType function,
+                      AtkTextBoundary boundary_type,
+                      gint offset,
+                      gint *start_offset,
+                      gint *end_offset)
 {
   return gail_text_util_get_text (GAIL_CANVAS_TEXT (text)->textutil, NULL,
 				  function, boundary_type, offset,

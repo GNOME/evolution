@@ -33,8 +33,8 @@
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
 
-static void gal_view_new_dialog_set_property	(GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
-static void gal_view_new_dialog_get_property	(GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
+static void gal_view_new_dialog_set_property	(GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
+static void gal_view_new_dialog_get_property	(GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
 static void gal_view_new_dialog_dispose		(GObject *object);
 
 /* The arguments we take */
@@ -51,7 +51,7 @@ gal_view_new_dialog_class_init (GalViewNewDialogClass *klass)
 {
 	GObjectClass *object_class;
 
-	object_class = (GObjectClass*) klass;
+	object_class = (GObjectClass *) klass;
 
 	object_class->set_property = gal_view_new_dialog_set_property;
 	object_class->get_property = gal_view_new_dialog_get_property;
@@ -124,7 +124,7 @@ gal_view_new_dialog_dispose (GObject *object)
 	G_OBJECT_CLASS (gal_view_new_dialog_parent_class)->dispose (object);
 }
 
-GtkWidget*
+GtkWidget *
 gal_view_new_dialog_new (GalViewCollection *collection)
 {
 	GtkWidget *widget =
@@ -150,11 +150,11 @@ sensitize_ok_response (GalViewNewDialog *dialog)
 }
 
 static gboolean
-selection_func (GtkTreeSelection  *selection,
-		GtkTreeModel      *model,
-		GtkTreePath       *path,
-		gboolean           path_currently_selected,
-		gpointer           data)
+selection_func (GtkTreeSelection *selection,
+                GtkTreeModel *model,
+                GtkTreePath *path,
+                gboolean path_currently_selected,
+                gpointer data)
 {
 	GtkTreeIter iter;
 	GalViewNewDialog *dialog = data;
@@ -164,7 +164,7 @@ selection_func (GtkTreeSelection  *selection,
 
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (dialog->list_store),
 				 &iter,
-				 (GtkTreePath*) path);
+				 (GtkTreePath *) path);
 
 	gtk_tree_model_get (GTK_TREE_MODEL (dialog->list_store),
 			    &iter,
@@ -179,16 +179,17 @@ selection_func (GtkTreeSelection  *selection,
 }
 
 static void
-entry_changed (GtkWidget *entry, gpointer data)
+entry_changed (GtkWidget *entry,
+               gpointer data)
 {
 	GalViewNewDialog *dialog = data;
 
 	sensitize_ok_response (dialog);
 }
 
-GtkWidget*
-gal_view_new_dialog_construct (GalViewNewDialog  *dialog,
-			       GalViewCollection *collection)
+GtkWidget *
+gal_view_new_dialog_construct (GalViewNewDialog *dialog,
+                               GalViewCollection *collection)
 {
 	GList *iterator;
 	GtkTreeSelection *selection;
@@ -239,14 +240,17 @@ gal_view_new_dialog_construct (GalViewNewDialog  *dialog,
 }
 
 static void
-gal_view_new_dialog_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+gal_view_new_dialog_set_property (GObject *object,
+                                  guint property_id,
+                                  const GValue *value,
+                                  GParamSpec *pspec)
 {
 	GalViewNewDialog *dialog;
 	GtkWidget *entry;
 
 	dialog = GAL_VIEW_NEW_DIALOG (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_NAME:
 		entry = e_builder_get_widget(dialog->builder, "entry-name");
 		if (entry && GTK_IS_ENTRY (entry)) {
@@ -254,20 +258,23 @@ gal_view_new_dialog_set_property (GObject *object, guint prop_id, const GValue *
 		}
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		return;
 	}
 }
 
 static void
-gal_view_new_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+gal_view_new_dialog_get_property (GObject *object,
+                                  guint property_id,
+                                  GValue *value,
+                                  GParamSpec *pspec)
 {
 	GalViewNewDialog *dialog;
 	GtkWidget *entry;
 
 	dialog = GAL_VIEW_NEW_DIALOG (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_NAME:
 		entry = e_builder_get_widget(dialog->builder, "entry-name");
 		if (entry && GTK_IS_ENTRY (entry)) {
@@ -278,7 +285,7 @@ gal_view_new_dialog_get_property (GObject *object, guint prop_id, GValue *value,
 		g_value_set_object (value, dialog->selected_factory);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }

@@ -397,7 +397,8 @@ typedef struct {
 } ItipUtilTZData;
 
 static void
-foreach_tzid_callback (icalparameter *param, gpointer data)
+foreach_tzid_callback (icalparameter *param,
+                       gpointer data)
 {
 	ItipUtilTZData *tz_data = data;
 	const gchar *tzid;
@@ -1057,7 +1058,8 @@ comp_limit_attendees (ECalComponent *comp)
 }
 
 static void
-comp_sentby (ECalComponent *comp, ECalClient *cal_client)
+comp_sentby (ECalComponent *comp,
+             ECalClient *cal_client)
 {
 	ECalComponentOrganizer organizer;
 	GSList * attendees, *l;
@@ -1109,7 +1111,8 @@ comp_sentby (ECalComponent *comp, ECalClient *cal_client)
 	}
 }
 static ECalComponent *
-comp_minimal (ECalComponent *comp, gboolean attendee)
+comp_minimal (ECalComponent *comp,
+              gboolean attendee)
 {
 	ECalComponent *clone;
 	icalcomponent *icomp, *icomp_clone;
@@ -1827,15 +1830,16 @@ itip_publish_begin (ECalComponent *pub_comp,
 }
 
 static void
-fb_sort (struct icalperiodtype *ipt, gint fb_count)
+fb_sort (struct icalperiodtype *ipt,
+         gint fb_count)
 {
 	gint i,j;
 
 	if (ipt == NULL || fb_count == 0)
 		return;
 
-	for (i = 0; i < fb_count-1; i++) {
-		for (j = i+1; j < fb_count; j++) {
+	for (i = 0; i < fb_count - 1; i++) {
+		for (j = i + 1; j < fb_count; j++) {
 			struct icalperiodtype temp;
 
 			if (icaltime_compare (ipt[i].start, ipt[j].start) < 0)
@@ -1880,7 +1884,7 @@ comp_fb_normalize (icalcomponent *icomp)
 
 	fb_count =  icalcomponent_count_properties (icomp,
 						    ICAL_FREEBUSY_PROPERTY);
-	ipt = g_new0 (struct icalperiodtype, fb_count+1);
+	ipt = g_new0 (struct icalperiodtype, fb_count + 1);
 
 	for (prop = icalcomponent_get_first_property (icomp,
 						      ICAL_FREEBUSY_PROPERTY);
@@ -1894,7 +1898,7 @@ comp_fb_normalize (icalcomponent *icomp)
 
 	fb_sort (ipt, fb_count);
 
-	for (j = 0; j <= fb_count-1; j++) {
+	for (j = 0; j <= fb_count - 1; j++) {
 		icalparameter *param;
 
 		prop = icalproperty_new_freebusy (ipt[j]);

@@ -166,8 +166,8 @@ void		gnome_calendar_new_task		(GnomeCalendar *gcal,
 						 time_t *dtend);
 
 /* Returns the selected time range for the current view. Note that this may be
-   different from the fields in the GnomeCalendar, since the view may clip
-   this or choose a more appropriate time. */
+ * different from the fields in the GnomeCalendar, since the view may clip
+ * this or choose a more appropriate time. */
 void		gnome_calendar_get_current_time_range
 						(GnomeCalendar *gcal,
 						 time_t *start_time,

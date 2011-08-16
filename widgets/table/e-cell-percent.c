@@ -41,7 +41,10 @@
 G_DEFINE_TYPE (ECellPercent, e_cell_percent, E_TYPE_CELL_TEXT)
 
 static gchar *
-ecp_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
+ecp_get_text (ECellText *cell,
+              ETableModel *model,
+              gint col,
+              gint row)
 {
 	gint percent;
 	static gchar buffer[8];
@@ -59,7 +62,8 @@ ecp_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
 }
 
 static void
-ecp_free_text (ECellText *cell, gchar *text)
+ecp_free_text (ECellText *cell,
+               gchar *text)
 {
 	/* Do Nothing. */
 }
@@ -79,8 +83,11 @@ show_percent_warning (void)
 }
 
 static void
-ecp_set_value (ECellText *cell, ETableModel *model, gint col, gint row,
-	       const gchar *text)
+ecp_set_value (ECellText *cell,
+               ETableModel *model,
+               gint col,
+               gint row,
+               const gchar *text)
 {
 	gint matched, percent;
 	gboolean empty = TRUE;
@@ -141,7 +148,8 @@ e_cell_percent_init (ECellPercent *ecp)
  * Returns: an ECell object that can be used to render numbers.
  */
 ECell *
-e_cell_percent_new (const gchar *fontname, GtkJustification justify)
+e_cell_percent_new (const gchar *fontname,
+                    GtkJustification justify)
 {
 	ECellPercent *ecn = g_object_new (E_TYPE_CELL_PERCENT, NULL);
 

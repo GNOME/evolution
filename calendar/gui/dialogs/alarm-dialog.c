@@ -246,7 +246,8 @@ alarm_to_dialog (Dialog *dialog)
 }
 
 static void
-alarm_to_repeat_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
+alarm_to_repeat_widgets (Dialog *dialog,
+                         ECalComponentAlarm *alarm)
 {
 	ECalComponentAlarmRepeat repeat;
 
@@ -284,7 +285,8 @@ alarm_to_repeat_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 }
 
 static void
-repeat_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+repeat_widgets_to_alarm (Dialog *dialog,
+                         ECalComponentAlarm *alarm)
 {
 	ECalComponentAlarmRepeat repeat;
 
@@ -325,7 +327,8 @@ repeat_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 
 /* Fills the audio alarm data with the values from the widgets */
 static void
-aalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+aalarm_widgets_to_alarm (Dialog *dialog,
+                         ECalComponentAlarm *alarm)
 {
 	gchar *url;
 	icalattach *attach;
@@ -344,7 +347,8 @@ aalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 
 /* Fills the widgets with audio alarm data */
 static void
-alarm_to_aalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
+alarm_to_aalarm_widgets (Dialog *dialog,
+                         ECalComponentAlarm *alarm)
 {
 	const gchar *url;
 	icalattach *attach;
@@ -364,7 +368,8 @@ alarm_to_aalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 
 /* Fills the widgets with display alarm data */
 static void
-alarm_to_dalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm )
+alarm_to_dalarm_widgets (Dialog *dialog,
+                         ECalComponentAlarm *alarm)
 {
 	ECalComponentText description;
 	GtkTextBuffer *text_buffer;
@@ -381,7 +386,8 @@ alarm_to_dalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm )
 
 /* Fills the display alarm data with the values from the widgets */
 static void
-dalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+dalarm_widgets_to_alarm (Dialog *dialog,
+                         ECalComponentAlarm *alarm)
 {
 	gchar *str;
 	ECalComponentText description;
@@ -423,7 +429,8 @@ dalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 
 /* Fills the mail alarm data with the values from the widgets */
 static void
-malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+malarm_widgets_to_alarm (Dialog *dialog,
+                         ECalComponentAlarm *alarm)
 {
 	gchar *str;
 	ECalComponentText description;
@@ -497,7 +504,8 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 
 /* Fills the widgets from mail alarm data */
 static void
-alarm_to_malarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm )
+alarm_to_malarm_widgets (Dialog *dialog,
+                         ECalComponentAlarm *alarm)
 {
 	ENameSelectorModel *name_selector_model;
 	EDestinationStore *destination_store;
@@ -543,7 +551,8 @@ alarm_to_malarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm )
 
 /* Fills the widgets from procedure alarm data */
 static void
-alarm_to_palarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
+alarm_to_palarm_widgets (Dialog *dialog,
+                         ECalComponentAlarm *alarm)
 {
 	ECalComponentText description;
 	const gchar *url;
@@ -564,7 +573,8 @@ alarm_to_palarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 
 /* Fills the procedure alarm data with the values from the widgets */
 static void
-palarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+palarm_widgets_to_alarm (Dialog *dialog,
+                         ECalComponentAlarm *alarm)
 {
 	gchar *program;
 	icalattach *attach;
@@ -820,7 +830,7 @@ get_widgets (Dialog *dialog)
 			N_("Send an email")
 		};
 
-		GtkComboBox *combo = (GtkComboBox*) dialog->action_combo;
+		GtkComboBox *combo = (GtkComboBox *) dialog->action_combo;
 		GtkCellRenderer *cell;
 		GtkListStore *store;
 		gint i;
@@ -881,13 +891,16 @@ get_widgets (Dialog *dialog)
 }
 
 static void
-addressbook_clicked_cb (GtkWidget *widget, Dialog *dialog)
+addressbook_clicked_cb (GtkWidget *widget,
+                        Dialog *dialog)
 {
 	e_name_selector_show_dialog (dialog->name_selector, dialog->toplevel);
 }
 
 static void
-addressbook_response_cb (GtkWidget *widget, gint response, gpointer data)
+addressbook_response_cb (GtkWidget *widget,
+                         gint response,
+                         gpointer data)
 {
 	Dialog *dialog = data;
 	ENameSelectorDialog *name_selector_dialog;
@@ -913,8 +926,9 @@ setup_select_names (Dialog *dialog)
 	gtk_widget_show (dialog->malarm_addresses);
 	gtk_box_pack_end (GTK_BOX (dialog->malarm_address_group), dialog->malarm_addresses, TRUE, TRUE, 0);
 
-	g_signal_connect (G_OBJECT (dialog->malarm_addressbook), "clicked",
-			  G_CALLBACK (addressbook_clicked_cb), dialog);
+	g_signal_connect (
+		dialog->malarm_addressbook, "clicked",
+		G_CALLBACK (addressbook_clicked_cb), dialog);
 
 	name_selector_dialog = e_name_selector_peek_dialog (dialog->name_selector);
 	g_signal_connect (name_selector_dialog, "response",
@@ -927,7 +941,8 @@ setup_select_names (Dialog *dialog)
  * repeat group options as appropriate.
  */
 static void
-repeat_toggle_toggled_cb (GtkToggleButton *toggle, gpointer data)
+repeat_toggle_toggled_cb (GtkToggleButton *toggle,
+                          gpointer data)
 {
 	Dialog *dialog = data;
 	gboolean active;
@@ -960,7 +975,8 @@ check_custom_sound (Dialog *dialog)
 }
 
 static void
-aalarm_sound_toggled_cb (GtkToggleButton *toggle, gpointer data)
+aalarm_sound_toggled_cb (GtkToggleButton *toggle,
+                         gpointer data)
 {
 	Dialog *dialog = data;
 	gboolean active;
@@ -972,7 +988,8 @@ aalarm_sound_toggled_cb (GtkToggleButton *toggle, gpointer data)
 }
 
 static void
-aalarm_attach_changed_cb (GtkWidget *widget, gpointer data)
+aalarm_attach_changed_cb (GtkWidget *widget,
+                          gpointer data)
 {
 	Dialog *dialog = data;
 
@@ -999,7 +1016,8 @@ check_custom_message (Dialog *dialog)
 }
 
 static void
-dalarm_message_toggled_cb (GtkToggleButton *toggle, gpointer data)
+dalarm_message_toggled_cb (GtkToggleButton *toggle,
+                           gpointer data)
 {
 	Dialog *dialog = data;
 	gboolean active;
@@ -1011,7 +1029,8 @@ dalarm_message_toggled_cb (GtkToggleButton *toggle, gpointer data)
 }
 
 static void
-dalarm_description_changed_cb (GtkWidget *widget, gpointer data)
+dalarm_description_changed_cb (GtkWidget *widget,
+                               gpointer data)
 {
 	Dialog *dialog = data;
 
@@ -1031,7 +1050,8 @@ check_custom_program (Dialog *dialog)
 }
 
 static void
-palarm_program_changed_cb (GtkWidget *widget, gpointer data)
+palarm_program_changed_cb (GtkWidget *widget,
+                           gpointer data)
 {
 	Dialog *dialog = data;
 
@@ -1074,7 +1094,8 @@ malarm_addresses_changed_cb (GtkWidget *editable,
 }
 
 static void
-malarm_message_toggled_cb (GtkToggleButton *toggle, gpointer data)
+malarm_message_toggled_cb (GtkToggleButton *toggle,
+                           gpointer data)
 {
 	Dialog *dialog = data;
 	gboolean active;
@@ -1086,7 +1107,8 @@ malarm_message_toggled_cb (GtkToggleButton *toggle, gpointer data)
 }
 
 static void
-malarm_description_changed_cb (GtkWidget *widget, gpointer data)
+malarm_description_changed_cb (GtkWidget *widget,
+                               gpointer data)
 {
 	Dialog *dialog = data;
 
@@ -1094,7 +1116,8 @@ malarm_description_changed_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-action_changed_cb (GtkWidget *action_combo, gpointer data)
+action_changed_cb (GtkWidget *action_combo,
+                   gpointer data)
 {
 	Dialog *dialog = data;
 	gchar *dir;
@@ -1146,43 +1169,53 @@ init_widgets (Dialog *dialog)
 {
 	GtkTextBuffer *text_buffer;
 
-	g_signal_connect (dialog->action_combo, "changed",
-			  G_CALLBACK (action_changed_cb),
-			  dialog);
+	g_signal_connect (
+		dialog->action_combo, "changed",
+		G_CALLBACK (action_changed_cb), dialog);
 
-	g_signal_connect (G_OBJECT (dialog->repeat_toggle), "toggled",
-			  G_CALLBACK (repeat_toggle_toggled_cb), dialog);
+	g_signal_connect (
+		dialog->repeat_toggle, "toggled",
+		G_CALLBACK (repeat_toggle_toggled_cb), dialog);
 
 	/* Handle custom sounds */
-	g_signal_connect (G_OBJECT (dialog->aalarm_sound), "toggled",
-			  G_CALLBACK (aalarm_sound_toggled_cb), dialog);
-	g_signal_connect (G_OBJECT (dialog->aalarm_file_chooser), "selection-changed",
-			  G_CALLBACK (aalarm_attach_changed_cb), dialog);
+	g_signal_connect (
+		dialog->aalarm_sound, "toggled",
+		G_CALLBACK (aalarm_sound_toggled_cb), dialog);
+	g_signal_connect (
+		dialog->aalarm_file_chooser, "selection-changed",
+		G_CALLBACK (aalarm_attach_changed_cb), dialog);
 
 	/* Handle custom messages */
-	g_signal_connect (G_OBJECT (dialog->dalarm_message), "toggled",
-			  G_CALLBACK (dalarm_message_toggled_cb), dialog);
+	g_signal_connect (
+		dialog->dalarm_message, "toggled",
+		G_CALLBACK (dalarm_message_toggled_cb), dialog);
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->dalarm_description));
-	g_signal_connect (G_OBJECT (text_buffer), "changed",
-			  G_CALLBACK (dalarm_description_changed_cb), dialog);
+	g_signal_connect (
+		text_buffer, "changed",
+		G_CALLBACK (dalarm_description_changed_cb), dialog);
 
 	/* Handle program */
-	g_signal_connect (G_OBJECT (dialog->palarm_program), "changed",
-			  G_CALLBACK (palarm_program_changed_cb), dialog);
+	g_signal_connect (
+		dialog->palarm_program, "changed",
+		G_CALLBACK (palarm_program_changed_cb), dialog);
 
 	/* Handle custom email */
-	g_signal_connect (G_OBJECT (dialog->malarm_message), "toggled",
-			  G_CALLBACK (malarm_message_toggled_cb), dialog);
+	g_signal_connect (
+		dialog->malarm_message, "toggled",
+		G_CALLBACK (malarm_message_toggled_cb), dialog);
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->malarm_description));
-	g_signal_connect (G_OBJECT (text_buffer), "changed",
-			  G_CALLBACK (malarm_description_changed_cb), dialog);
+	g_signal_connect (
+		text_buffer, "changed",
+		G_CALLBACK (malarm_description_changed_cb), dialog);
 
 	g_signal_connect (dialog->malarm_addresses, "changed",
 			  G_CALLBACK (malarm_addresses_changed_cb), dialog);
 }
 
 gboolean
-alarm_dialog_run (GtkWidget *parent, ECalClient *cal_client, ECalComponentAlarm *alarm)
+alarm_dialog_run (GtkWidget *parent,
+                  ECalClient *cal_client,
+                  ECalComponentAlarm *alarm)
 {
 	Dialog dialog;
 	GtkWidget *container;

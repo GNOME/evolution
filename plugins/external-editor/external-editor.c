@@ -72,7 +72,8 @@ static GThread *editor_thread;
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
@@ -153,7 +154,8 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 }
 
 static void
-enable_disable_composer (EMsgComposer *composer, gboolean enable)
+enable_disable_composer (EMsgComposer *composer,
+                         gboolean enable)
 {
 	GtkhtmlEditor *editor;
 	GtkAction *action;
@@ -233,7 +235,8 @@ run_error_dialog (struct run_error_dialog_data *data)
 }
 
 static gint
-numlines (const gchar *text, gint pos)
+numlines (const gchar *text,
+          gint pos)
 {
 	gint ctr = 0;
 	gint lineno = 0;
@@ -292,8 +295,8 @@ async_external_editor (EMsgComposer *composer)
 	if (!editor_cmd) {
 		if (!(editor_cmd = g_strdup (g_getenv ("EDITOR"))) )
 			/* Make gedit the default external editor,
-			   if the default schemas are not installed
-			   and no $EDITOR is set. */
+			 * if the default schemas are not installed
+			 * and no $EDITOR is set. */
 			editor_cmd = g_strdup ("gedit");
 	}
 	g_object_unref (gconf);
@@ -403,7 +406,9 @@ static GtkActionEntry entries[] = {
 };
 
 static gboolean
-key_press_cb (GtkWidget * widget, GdkEventKey * event, EMsgComposer *composer)
+key_press_cb (GtkWidget *widget,
+              GdkEventKey *event,
+              EMsgComposer *composer)
 {
 	GConfClient *gconf;
 	gboolean immediately;
@@ -433,7 +438,8 @@ key_press_cb (GtkWidget * widget, GdkEventKey * event, EMsgComposer *composer)
 }
 
 static void
-editor_running_thread_func (GThread *thread, gpointer running)
+editor_running_thread_func (GThread *thread,
+                            gpointer running)
 {
 	if (thread == editor_thread)
 		*(gboolean*)running = TRUE;
@@ -451,7 +457,8 @@ editor_running (void)
 }
 
 static gboolean
-delete_cb (GtkWidget *widget, EMsgComposer *composer)
+delete_cb (GtkWidget *widget,
+           EMsgComposer *composer)
 {
 	if (editor_running ()) {
 		e_alert_run_dialog_for_args (
@@ -464,7 +471,8 @@ delete_cb (GtkWidget *widget, EMsgComposer *composer)
 }
 
 gboolean
-e_plugin_ui_init (GtkUIManager *manager, EMsgComposer *composer)
+e_plugin_ui_init (GtkUIManager *manager,
+                  EMsgComposer *composer)
 {
 	GtkhtmlEditor *editor;
 	EWebView *web_view;

@@ -377,7 +377,7 @@ event_editor_constructor (GType type,
 		}
 
 		event_page_set_meeting (priv->event_page, TRUE);
-		priv->meeting_shown=TRUE;
+		priv->meeting_shown = TRUE;
 
 		if (e_shell_get_express_mode (shell)) {
 			attendee_page = event_page_get_attendee_page (priv->event_page);
@@ -597,7 +597,8 @@ event_editor_init (EventEditor *ee)
 }
 
 static void
-event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
+event_editor_edit_comp (CompEditor *editor,
+                        ECalComponent *comp)
 {
 	EventEditorPrivate *priv;
 	ECalComponentOrganizer organizer;

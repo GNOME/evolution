@@ -182,10 +182,10 @@ static gchar *sm_client_id = NULL;
 static gchar *sm_config_prefix = NULL;
 
 static gboolean
-sm_client_post_parse_func (GOptionContext  *context,
-			   GOptionGroup    *group,
-			   gpointer         data,
-			   GError         **error)
+sm_client_post_parse_func (GOptionContext *context,
+                           GOptionGroup *group,
+                           gpointer data,
+                           GError **error)
 {
   EggSMClient *client = egg_sm_client_get ();
 
@@ -435,9 +435,9 @@ egg_sm_client_get_state_file (EggSMClient *client)
  * a list of filenames to open when the application is resumed.)
  **/
 void
-egg_sm_client_set_restart_command (EggSMClient  *client,
-				   gint           argc,
-				   const gchar  **argv)
+egg_sm_client_set_restart_command (EggSMClient *client,
+                                   gint argc,
+                                   const gchar **argv)
 {
   g_return_if_fail (EGG_IS_SM_CLIENT (client));
 
@@ -465,7 +465,7 @@ egg_sm_client_set_restart_command (EggSMClient  *client,
  **/
 void
 egg_sm_client_will_quit (EggSMClient *client,
-			 gboolean     will_quit)
+                         gboolean will_quit)
 {
   g_return_if_fail (EGG_IS_SM_CLIENT (client));
 
@@ -490,8 +490,8 @@ egg_sm_client_will_quit (EggSMClient *client,
  * be (eg, because it could not connect to the session manager).
  **/
 gboolean
-egg_sm_client_end_session (EggSMClientEndStyle  style,
-			   gboolean             request_confirmation)
+egg_sm_client_end_session (EggSMClientEndStyle style,
+                           gboolean request_confirmation)
 {
   EggSMClient *client = egg_sm_client_get ();
 
@@ -576,9 +576,9 @@ egg_sm_client_quit (EggSMClient *client)
 
 static void
 egg_sm_client_debug_handler (const gchar *log_domain,
-			     GLogLevelFlags log_level,
-			     const gchar *message,
-			     gpointer user_data)
+                             GLogLevelFlags log_level,
+                             const gchar *message,
+                             gpointer user_data)
 {
   static gint debug = -1;
 

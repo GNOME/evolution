@@ -45,10 +45,10 @@ struct _EMFormatPrivate {
 };
 
 /* Used to cache various data/info for redraws
-   The validity stuff could be cached at a higher level but this is easier
-   This absolutely relies on the partid being _globally unique_
-   This is still kind of yucky, we should maintian a full tree of all this data,
-   along with/as part of the puri tree */
+ * The validity stuff could be cached at a higher level but this is easier
+ * This absolutely relies on the partid being _globally unique_
+ * This is still kind of yucky, we should maintian a full tree of all this data,
+ * along with/as part of the puri tree */
 struct _EMFormatCache {
 	CamelCipherValidity *valid; /* validity copy */
 	CamelMimePart *secured;	/* encrypted subpart */
@@ -83,11 +83,12 @@ emf_free_cache (EMFormatCache *efc)
 }
 
 static EMFormatCache *
-emf_insert_cache (EMFormat *emf, const gchar *partid)
+emf_insert_cache (EMFormat *emf,
+                  const gchar *partid)
 {
 	EMFormatCache *new;
 
-	new = g_malloc0 (sizeof (*new)+strlen (partid));
+	new = g_malloc0 (sizeof (*new) + strlen (partid));
 	strcpy (new->partid, partid);
 	g_hash_table_insert (emf->inline_table, new->partid, new);
 
@@ -95,7 +96,9 @@ emf_insert_cache (EMFormat *emf, const gchar *partid)
 }
 
 static void
-emf_clone_inlines (gpointer key, gpointer val, gpointer data)
+emf_clone_inlines (gpointer key,
+                   gpointer val,
+                   gpointer data)
 {
 	EMFormatCache *emfc = val, *new;
 
@@ -262,8 +265,8 @@ emf_format_secure (EMFormat *emf,
 	gint len;
 
 	/* Note that this also requires support from higher up in the class chain
-	    - validity needs to be cleared when you start output
-	    - also needs to be cleared (but saved) whenever you start a new message. */
+	 *  - validity needs to be cleared when you start output
+	 *  - also needs to be cleared (but saved) whenever you start a new message. */
 
 	if (emf->valid == NULL) {
 		emf->valid = valid;
@@ -437,7 +440,9 @@ struct _class_handlers {
 };
 
 static void
-merge_missing (gpointer key, gpointer value, gpointer userdata)
+merge_missing (gpointer key,
+               gpointer value,
+               gpointer userdata)
 {
 	struct _class_handlers *classes = (struct _class_handlers *) userdata;
 	EMFormatHandler *info;
@@ -451,7 +456,8 @@ merge_missing (gpointer key, gpointer value, gpointer userdata)
 }
 
 void
-em_format_merge_handler (EMFormat *new, EMFormat *old)
+em_format_merge_handler (EMFormat *new,
+                         EMFormat *old)
 {
 	EMFormatClass *oldc = (EMFormatClass *) G_OBJECT_GET_CLASS (old);
 	EMFormatClass *newc = (EMFormatClass *) G_OBJECT_GET_CLASS (new);
@@ -543,9 +549,9 @@ em_format_fallback_handler (EMFormat *emf,
 	if (s == NULL)
 		mime = (gchar *) mime_type;
 	else {
-		gsize len = (s-mime_type)+1;
+		gsize len = (s - mime_type) + 1;
 
-		mime = g_alloca (len+2);
+		mime = g_alloca (len + 2);
 		strncpy (mime, mime_type, len);
 		strcpy(mime+len, "*");
 	}
@@ -809,7 +815,7 @@ em_format_part_as (EMFormat *emf,
 	emf->snoop_mime_type = NULL;
 
 	/* RFC 2110, we keep track of content-base, and absolute content-location headers
-	   This is actually only required for html, but, *shrug* */
+	 * This is actually only required for html, but, *shrug * */
 	tmp = camel_medium_get_header((CamelMedium *)part, "Content-Base");
 	if (tmp == NULL) {
 		tmp = camel_mime_part_get_content_location (part);
@@ -1211,7 +1217,7 @@ em_format_set_inline (EMFormat *emf,
 	} else if (emfc->state != INLINE_UNSET && (emfc->state & 1) == state)
 		return;
 
-	emfc->state = state?INLINE_ON:INLINE_OFF;
+	emfc->state = state ? INLINE_ON : INLINE_OFF;
 
 	if (emf->message)
 		em_format_queue_redraw (emf);
@@ -1765,7 +1771,7 @@ emf_multipart_encrypted (EMFormat *emf,
 		return;
 	}
 
-	mpe = (CamelMultipartEncrypted*) camel_medium_get_content ((CamelMedium *) part);
+	mpe = (CamelMultipartEncrypted *) camel_medium_get_content ((CamelMedium *) part);
 	if (!CAMEL_IS_MULTIPART_ENCRYPTED (mpe)) {
 		em_format_format_error (
 			emf, stream, _("Could not parse MIME message. "
@@ -1827,7 +1833,8 @@ emf_multipart_encrypted (EMFormat *emf,
 }
 
 static CamelMimePart *
-get_related_display_part (CamelMimePart *part, gint *out_displayid)
+get_related_display_part (CamelMimePart *part,
+                          gint *out_displayid)
 {
 	CamelMultipart *mp;
 	CamelMimePart *body_part, *display_part = NULL;
@@ -1872,7 +1879,8 @@ get_related_display_part (CamelMimePart *part, gint *out_displayid)
 }
 
 static gboolean
-related_display_part_is_attachment (EMFormat *emf, CamelMimePart *part)
+related_display_part_is_attachment (EMFormat *emf,
+                                    CamelMimePart *part)
 {
 	CamelMimePart *display_part;
 
@@ -2480,5 +2488,5 @@ em_format_snoop_type (CamelMimePart *part)
 	return res;
 
 	/* We used to load parts to check their type, we dont anymore,
-	   see bug #11778 for some discussion */
+	 * see bug #11778 for some discussion */
 }

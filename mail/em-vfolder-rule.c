@@ -236,7 +236,7 @@ em_vfolder_rule_find_source (EMVFolderRule *rule,
 	g_return_val_if_fail (EM_IS_VFOLDER_RULE (rule), NULL);
 
 	/* only does a simple string or address comparison, should
-	   probably do a decoded url comparison */
+	 * probably do a decoded url comparison */
 	link = g_queue_find_custom (
 		&rule->sources, uri, (GCompareFunc) strcmp);
 
@@ -279,7 +279,8 @@ em_vfolder_rule_next_source (EMVFolderRule *rule,
 }
 
 static gint
-validate (EFilterRule *fr, EAlert **alert)
+validate (EFilterRule *fr,
+          EAlert **alert)
 {
 	g_return_val_if_fail (fr != NULL, 0);
 	g_warn_if_fail (alert == NULL || *alert == NULL);
@@ -291,7 +292,7 @@ validate (EFilterRule *fr, EAlert **alert)
 	}
 
 	/* We have to have at least one source set in the "specific" case.
-	   Do not translate this string! */
+	 * Do not translate this string! */
 	if (((EMVFolderRule *) fr)->with == EM_VFOLDER_RULE_WITH_SPECIFIC &&
 		g_queue_is_empty (&((EMVFolderRule *) fr)->sources)) {
 		if (alert)
@@ -303,7 +304,8 @@ validate (EFilterRule *fr, EAlert **alert)
 }
 
 static gint
-queue_eq (GQueue *queue_a, GQueue *queue_b)
+queue_eq (GQueue *queue_a,
+          GQueue *queue_b)
 {
 	GList *link_a;
 	GList *link_b;
@@ -326,7 +328,8 @@ queue_eq (GQueue *queue_a, GQueue *queue_b)
 }
 
 static gint
-vfolder_eq (EFilterRule *fr, EFilterRule *cm)
+vfolder_eq (EFilterRule *fr,
+            EFilterRule *cm)
 {
 	return E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->eq (fr, cm)
 		&& queue_eq (
@@ -362,7 +365,8 @@ xml_encode (EFilterRule *fr)
 }
 
 static void
-set_with (EMVFolderRule *vr, const gchar *name)
+set_with (EMVFolderRule *vr,
+          const gchar *name)
 {
 	gint i;
 
@@ -377,7 +381,9 @@ set_with (EMVFolderRule *vr, const gchar *name)
 }
 
 static gint
-xml_decode (EFilterRule *fr, xmlNodePtr node, struct _ERuleContext *f)
+xml_decode (EFilterRule *fr,
+            xmlNodePtr node,
+            ERuleContext *f)
 {
 	xmlNodePtr set, work;
 	gint result;
@@ -422,7 +428,8 @@ xml_decode (EFilterRule *fr, xmlNodePtr node, struct _ERuleContext *f)
 }
 
 static void
-rule_copy (EFilterRule *dest, EFilterRule *src)
+rule_copy (EFilterRule *dest,
+           EFilterRule *src)
 {
 	EMVFolderRule *vdest, *vsrc;
 	GList *head, *link;
@@ -483,7 +490,8 @@ set_sensitive (struct _source_data *data)
 }
 
 static void
-select_source (GtkWidget *list, struct _source_data *data)
+select_source (GtkWidget *list,
+               struct _source_data *data)
 {
 	GtkTreeViewColumn *column;
 	GtkTreePath *path;
@@ -499,7 +507,8 @@ select_source (GtkWidget *list, struct _source_data *data)
 }
 
 static void
-select_source_with_changed (GtkWidget *widget, struct _source_data *data)
+select_source_with_changed (GtkWidget *widget,
+                            struct _source_data *data)
 {
 	em_vfolder_rule_with_t with = 0;
 	GSList *group = NULL;
@@ -510,7 +519,7 @@ select_source_with_changed (GtkWidget *widget, struct _source_data *data)
 
 	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
 
-	for (i=0; i< g_slist_length (group); i++) {
+	for (i = 0; i< g_slist_length (group); i++) {
 		if (g_slist_nth_data (group, with = i) == widget)
 			break;
 	}
@@ -587,7 +596,8 @@ vfr_folder_response (EMFolderSelector *selector,
 }
 
 static void
-source_add (GtkWidget *widget, struct _source_data *data)
+source_add (GtkWidget *widget,
+            struct _source_data *data)
 {
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model;
@@ -620,7 +630,8 @@ source_add (GtkWidget *widget, struct _source_data *data)
 }
 
 static void
-source_remove (GtkWidget *widget, struct _source_data *data)
+source_remove (GtkWidget *widget,
+               struct _source_data *data)
 {
 	GtkTreeSelection *selection;
 	const gchar *source;
@@ -672,7 +683,8 @@ source_remove (GtkWidget *widget, struct _source_data *data)
 }
 
 static GtkWidget *
-get_widget (EFilterRule *fr, ERuleContext *rc)
+get_widget (EFilterRule *fr,
+            ERuleContext *rc)
 {
 	EMVFolderRule *vr =(EMVFolderRule *) fr;
 	GtkWidget *widget, *frame;
@@ -701,7 +713,7 @@ get_widget (EFilterRule *fr, ERuleContext *rc)
 	for (i = 0; i < BUTTON_LAST; i++) {
 		data->buttons[i] =(GtkButton *)
 			e_builder_get_widget (builder, edit_buttons[i].name);
-		g_signal_connect(data->buttons[i], "clicked", edit_buttons[i].func, data);
+		g_signal_connect (data->buttons[i], "clicked", edit_buttons[i].func, data);
 	}
 
 	object = gtk_builder_get_object (builder, "source_list");
@@ -718,7 +730,7 @@ get_widget (EFilterRule *fr, ERuleContext *rc)
 		g_free (nice);
 	}
 
-	g_signal_connect(data->list, "cursor-changed", G_CALLBACK(select_source), data);
+	g_signal_connect (data->list, "cursor-changed", G_CALLBACK(select_source), data);
 
 	rb = (GtkRadioButton *)e_builder_get_widget (builder, "local_rb");
 	g_signal_connect (

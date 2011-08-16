@@ -49,7 +49,8 @@
 #define TEMP_SCAN (60)
 
 static gint
-expire_dir_rec (const gchar *base, time_t now)
+expire_dir_rec (const gchar *base,
+                time_t now)
 {
 	GDir *dir;
 	const gchar *d;
@@ -157,7 +158,7 @@ get_dir (gboolean make)
 	d(printf("temp dir '%s'\n", path ? path->str : "(null)"));
 
 	/* fire off an expiry attempt no more often than TEMP_SCAN seconds */
-	if (path && (last+TEMP_SCAN) < now) {
+	if (path && (last + TEMP_SCAN) < now) {
 		last = now;
 		expire_dir_rec (path->str, now);
 	}

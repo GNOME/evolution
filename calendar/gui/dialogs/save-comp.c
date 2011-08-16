@@ -41,7 +41,8 @@
  **/
 
 GtkResponseType
-save_component_dialog (GtkWindow *parent, ECalComponent *comp)
+save_component_dialog (GtkWindow *parent,
+                       ECalComponent *comp)
 {
 	ECalComponentVType vtype = e_cal_component_get_vtype (comp);
 	CompEditorFlags flags;

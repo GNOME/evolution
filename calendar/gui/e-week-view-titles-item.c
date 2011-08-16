@@ -157,11 +157,11 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 	abbreviated = (week_view->max_day_width + 2 >= col_width);
 
 	/* Shift right one pixel to account for the shadow around the main
-	   canvas. */
+	 * canvas. */
 	x--;
 
 	/* Draw the date. Set a clipping rectangle so we don't draw over the
-	   next day. */
+	 * next day. */
 	weekday = week_view->display_start_day;
 	for (col = 0; col < week_view->columns; col++) {
 		if (weekday == 5 && week_view->compress_weekend)

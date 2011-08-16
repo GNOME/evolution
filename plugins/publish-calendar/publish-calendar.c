@@ -97,7 +97,8 @@ remove_notification (gpointer data)
 }
 
 static void
-update_publish_notification (GtkMessageType msg_type, const gchar *msg_text)
+update_publish_notification (GtkMessageType msg_type,
+                             const gchar *msg_text)
 {
 	static GString *actual_msg = NULL;
 	#ifdef HAVE_LIBNOTIFY
@@ -194,7 +195,10 @@ publish_uri_async (EPublishUri *uri)
 }
 
 static void
-publish_online (EPublishUri *uri, GFile *file, GError **perror, gboolean can_report_success)
+publish_online (EPublishUri *uri,
+                GFile *file,
+                GError **perror,
+                gboolean can_report_success)
 {
 	GOutputStream *stream;
 	GError *error = NULL;
@@ -242,14 +246,16 @@ publish_online (EPublishUri *uri, GFile *file, GError **perror, gboolean can_rep
 }
 
 static void
-unmount_done_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
+unmount_done_cb (GObject *source_object,
+                 GAsyncResult *result,
+                 gpointer user_data)
 {
 	GError *error = NULL;
 
 #if GLIB_CHECK_VERSION(2,21,3)
-	g_mount_unmount_with_operation_finish (G_MOUNT (source_object), res, &error);
+	g_mount_unmount_with_operation_finish (G_MOUNT (source_object), result, &error);
 #else
-	g_mount_unmount_finish (G_MOUNT (source_object), res, &error);
+	g_mount_unmount_finish (G_MOUNT (source_object), result, &error);
 #endif
 
 	if (error) {
@@ -268,13 +274,15 @@ struct mnt_struct {
 };
 
 static void
-mount_ready_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
+mount_ready_cb (GObject *source_object,
+                GAsyncResult *result,
+                gpointer user_data)
 {
 	struct mnt_struct *ms = (struct mnt_struct *) user_data;
 	GError *error = NULL;
 	GMount *mount;
 
-	g_file_mount_enclosing_volume_finish (G_FILE (source_object), res, &error);
+	g_file_mount_enclosing_volume_finish (G_FILE (source_object), result, &error);
 
 	if (error) {
 		error_queue_add (g_strdup_printf (_("Mount of %s failed:"), ms->uri->location), error);
@@ -307,7 +315,12 @@ mount_ready_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
 }
 
 static void
-ask_password (GMountOperation *op, const gchar *message, const gchar *default_user, const gchar *default_domain, GAskPasswordFlags flags, gpointer user_data)
+ask_password (GMountOperation *op,
+              const gchar *message,
+              const gchar *default_user,
+              const gchar *default_domain,
+              GAskPasswordFlags flags,
+              gpointer user_data)
 {
 	struct mnt_struct *ms = (struct mnt_struct *) user_data;
 	gchar *username, *password;
@@ -330,7 +343,7 @@ ask_password (GMountOperation *op, const gchar *message, const gchar *default_us
 		gboolean remember = FALSE;
 
 		password = e_passwords_ask_password (_("Enter password"), NULL, ms->uri->location, message,
-					     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE,
+					     E_PASSWORDS_REMEMBER_FOREVER | E_PASSWORDS_SECRET | E_PASSWORDS_ONLINE,
 					     &remember,
 					     NULL);
 
@@ -357,7 +370,9 @@ ask_password (GMountOperation *op, const gchar *message, const gchar *default_us
 }
 
 static void
-ask_question (GMountOperation *op, const gchar *message, const gchar *choices[])
+ask_question (GMountOperation *op,
+              const gchar *message,
+              const gchar *choices[])
 {
 	/* this has been stolen from file-chooser */
 	GtkWidget *dialog;
@@ -408,7 +423,9 @@ ask_question (GMountOperation *op, const gchar *message, const gchar *choices[])
 }
 
 static void
-mount_first (EPublishUri *uri, GFile *file, gboolean can_report_success)
+mount_first (EPublishUri *uri,
+             GFile *file,
+             gboolean can_report_success)
 {
 	struct mnt_struct *ms = g_malloc (sizeof (struct mnt_struct));
 
@@ -424,7 +441,8 @@ mount_first (EPublishUri *uri, GFile *file, gboolean can_report_success)
 }
 
 static void
-publish (EPublishUri *uri, gboolean can_report_success)
+publish (EPublishUri *uri,
+         gboolean can_report_success)
 {
 	if (online) {
 		GError *error = NULL;
@@ -592,7 +610,8 @@ url_list_changed (PublishUIData *ui)
 }
 
 static void
-update_url_enable_button (EPublishUri *url, GtkWidget *url_enable)
+update_url_enable_button (EPublishUri *url,
+                          GtkWidget *url_enable)
 {
 	g_return_if_fail (url_enable != NULL);
 	g_return_if_fail (GTK_IS_BUTTON (url_enable));
@@ -602,8 +621,8 @@ update_url_enable_button (EPublishUri *url, GtkWidget *url_enable)
 
 static void
 url_list_enable_toggled (GtkCellRendererToggle *renderer,
-                         const gchar            *path_string,
-			 PublishUIData         *ui)
+                         const gchar *path_string,
+                         PublishUIData *ui)
 {
 	EPublishUri *url = NULL;
 	GtkTreeModel *model;
@@ -629,7 +648,8 @@ url_list_enable_toggled (GtkCellRendererToggle *renderer,
 }
 
 static void
-selection_changed (GtkTreeSelection *selection, PublishUIData *ui)
+selection_changed (GtkTreeSelection *selection,
+                   PublishUIData *ui)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -650,7 +670,8 @@ selection_changed (GtkTreeSelection *selection, PublishUIData *ui)
 }
 
 static void
-url_add_clicked (GtkButton *button, PublishUIData *ui)
+url_add_clicked (GtkButton *button,
+                 PublishUIData *ui)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -664,10 +685,11 @@ url_add_clicked (GtkButton *button, PublishUIData *ui)
 		uri = URL_EDITOR_DIALOG (url_editor)->uri;
 		if (uri->location) {
 			gtk_list_store_append (GTK_LIST_STORE (model), &iter);
-			gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-				    URL_LIST_ENABLED_COLUMN, uri->enabled,
-				    URL_LIST_LOCATION_COLUMN, uri->location,
-				    URL_LIST_URL_COLUMN, uri, -1);
+			gtk_list_store_set (
+				GTK_LIST_STORE (model), &iter,
+				URL_LIST_ENABLED_COLUMN, uri->enabled,
+				URL_LIST_LOCATION_COLUMN, uri->location,
+				URL_LIST_URL_COLUMN, uri, -1);
 			url_list_changed (ui);
 			publish_uris = g_slist_prepend (publish_uris, uri);
 			add_timeout (uri);
@@ -680,7 +702,8 @@ url_add_clicked (GtkButton *button, PublishUIData *ui)
 }
 
 static void
-url_edit_clicked (GtkButton *button, PublishUIData *ui)
+url_edit_clicked (GtkButton *button,
+                  PublishUIData *ui)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -714,16 +737,17 @@ url_edit_clicked (GtkButton *button, PublishUIData *ui)
 }
 
 static void
-url_list_double_click (GtkTreeView       *treeview,
-		       GtkTreePath       *path,
-		       GtkTreeViewColumn *column,
-		       PublishUIData     *ui)
+url_list_double_click (GtkTreeView *treeview,
+                       GtkTreePath *path,
+                       GtkTreeViewColumn *column,
+                       PublishUIData *ui)
 {
 	url_edit_clicked (NULL, ui);
 }
 
 static void
-url_remove_clicked (GtkButton *button, PublishUIData *ui)
+url_remove_clicked (GtkButton *button,
+                    PublishUIData *ui)
 {
 	EPublishUri *url = NULL;
 	GtkTreeSelection *selection;
@@ -775,7 +799,8 @@ url_remove_clicked (GtkButton *button, PublishUIData *ui)
 }
 
 static void
-url_enable_clicked (GtkButton *button, PublishUIData *ui)
+url_enable_clicked (GtkButton *button,
+                    PublishUIData *ui)
 {
 	EPublishUri *url = NULL;
 	GtkTreeSelection *selection;
@@ -805,7 +830,8 @@ online_state_changed (EShell *shell)
 }
 
 GtkWidget *
-publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
+publish_calendar_locations (EPlugin *epl,
+                            EConfigHookItemFactoryData *data)
 {
 	GtkBuilder *builder;
 	GtkCellRenderer *renderer;
@@ -827,28 +853,42 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_tree_view_set_model (GTK_TREE_VIEW (ui->treeview), GTK_TREE_MODEL (store));
 
 	renderer = gtk_cell_renderer_toggle_new ();
-	g_object_set (G_OBJECT (renderer), "activatable", TRUE, NULL);
+	g_object_set (renderer, "activatable", TRUE, NULL);
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Enabled"),
 						     renderer, "active", URL_LIST_ENABLED_COLUMN, NULL);
-	g_signal_connect (G_OBJECT (renderer), "toggled", G_CALLBACK (url_list_enable_toggled), ui);
+	g_signal_connect (
+		renderer, "toggled",
+		G_CALLBACK (url_list_enable_toggled), ui);
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Location"),
 						     renderer, "text", URL_LIST_LOCATION_COLUMN, NULL);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	g_signal_connect (G_OBJECT (selection), "changed", G_CALLBACK (selection_changed), ui);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (selection_changed), ui);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ui->treeview), TRUE);
-	g_signal_connect (G_OBJECT (ui->treeview), "row-activated", G_CALLBACK (url_list_double_click), ui);
+	g_signal_connect (
+		ui->treeview, "row-activated",
+		G_CALLBACK (url_list_double_click), ui);
 
 	ui->url_add = e_builder_get_widget (builder, "url add");
 	ui->url_edit = e_builder_get_widget (builder, "url edit");
 	ui->url_remove = e_builder_get_widget (builder, "url remove");
 	ui->url_enable = e_builder_get_widget (builder, "url enable");
 	update_url_enable_button (NULL, ui->url_enable);
-	g_signal_connect (G_OBJECT (ui->url_add), "clicked", G_CALLBACK (url_add_clicked), ui);
-	g_signal_connect (G_OBJECT (ui->url_edit), "clicked", G_CALLBACK (url_edit_clicked), ui);
-	g_signal_connect (G_OBJECT (ui->url_remove), "clicked", G_CALLBACK (url_remove_clicked), ui);
-	g_signal_connect (G_OBJECT (ui->url_enable), "clicked", G_CALLBACK (url_enable_clicked), ui);
+	g_signal_connect (
+		ui->url_add, "clicked",
+		G_CALLBACK (url_add_clicked), ui);
+	g_signal_connect (
+		ui->url_edit, "clicked",
+		G_CALLBACK (url_edit_clicked), ui);
+	g_signal_connect (
+		ui->url_remove, "clicked",
+		G_CALLBACK (url_remove_clicked), ui);
+	g_signal_connect (
+		ui->url_enable, "clicked",
+		G_CALLBACK (url_enable_clicked), ui);
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->url_edit), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->url_remove), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->url_enable), FALSE);
@@ -926,7 +966,8 @@ publish_uris_set_timeout (GSList *uris)
 }
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	GSList *uris;
 	GConfClient *client;
@@ -1024,7 +1065,8 @@ error_queue_show_idle (gpointer user_data)
 }
 
 void
-error_queue_add (gchar *description, GError *error)
+error_queue_add (gchar *description,
+                 GError *error)
 {
 	struct eq_data *data;
 
@@ -1052,8 +1094,8 @@ action_calendar_publish_cb (GtkAction *action,
 	thread = g_thread_create ((GThreadFunc) publish_urls, NULL, FALSE, &error);
 	if (!thread) {
 		/* To Translators: This is shown to a user when creation of a new thread,
-		   where the publishing should be done, fails. Basically, this shouldn't
-		   ever happen, and if so, then something is really wrong. */
+		 * where the publishing should be done, fails. Basically, this shouldn't
+		 * ever happen, and if so, then something is really wrong. */
 		error_queue_add (g_strdup (_("Could not create publish thread.")), error);
 	}
 }

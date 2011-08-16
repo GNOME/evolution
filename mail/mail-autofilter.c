@@ -90,7 +90,7 @@ strip_re (const gchar *subject)
 			break;
 		if ((s[0] == 'r' || s[0] == 'R')
 		    && (s[1] == 'e' || s[1] == 'E')) {
-			p = s+2;
+			p = s + 2;
 			while (isdigit (*p) || (ispunct (*p) && (*p != ':')))
 				p++;
 			if (*p == ':') {
@@ -104,26 +104,10 @@ strip_re (const gchar *subject)
 	return (gchar *) s;
 }
 
-#if 0
-gint
-reg_match (gchar *str, gchar *regstr)
-{
-	regex_t reg;
-	gint error;
-	gint ret;
-
-	error = regcomp (&reg, regstr, REG_EXTENDED|REG_ICASE|REG_NOSUB);
-	if (error != 0) {
-		return 0;
-	}
-	error = regexec (&reg, str, 0, NULL, 0);
-	regfree (&reg);
-	return (error == 0);
-}
-#endif
-
 static void
-rule_add_subject (ERuleContext *context, EFilterRule *rule, const gchar *text)
+rule_add_subject (ERuleContext *context,
+                  EFilterRule *rule,
+                  const gchar *text)
 {
 	EFilterPart *part;
 	EFilterElement *element;
@@ -140,7 +124,9 @@ rule_add_subject (ERuleContext *context, EFilterRule *rule, const gchar *text)
 }
 
 static void
-rule_add_sender (ERuleContext *context, EFilterRule *rule, const gchar *text)
+rule_add_sender (ERuleContext *context,
+                 EFilterRule *rule,
+                 const gchar *text)
 {
 	EFilterPart *part;
 	EFilterElement *element;
@@ -157,9 +143,11 @@ rule_add_sender (ERuleContext *context, EFilterRule *rule, const gchar *text)
 }
 
 /* do a bunch of things on the subject to try and detect mailing lists, remove
-   unneeded stuff, etc */
+ * unneeded stuff, etc */
 static void
-rule_match_subject (ERuleContext *context, EFilterRule *rule, const gchar *subject)
+rule_match_subject (ERuleContext *context,
+                    EFilterRule *rule,
+                    const gchar *subject)
 {
 	const gchar *s;
 	const gchar *s1, *s2;
@@ -186,11 +174,11 @@ rule_match_subject (ERuleContext *context, EFilterRule *rule, const gchar *subje
 	s1 = strchr (s, ':');
 	if (s1) {
 		tmp = g_alloca (s1 - s + 1);
-		memcpy (tmp, s, s1-s);
+		memcpy (tmp, s, s1 - s);
 		tmp[s1 - s] = 0;
 		g_strstrip (tmp);
 		rule_add_subject (context, rule, tmp);
-		s = s1+1;
+		s = s1 + 1;
 	}
 
 	/* just lump the rest together */
@@ -201,7 +189,9 @@ rule_match_subject (ERuleContext *context, EFilterRule *rule, const gchar *subje
 }
 
 static void
-rule_match_mlist (ERuleContext *context, EFilterRule *rule, const gchar *mlist)
+rule_match_mlist (ERuleContext *context,
+                  EFilterRule *rule,
+                  const gchar *mlist)
 {
 	EFilterPart *part;
 	EFilterElement *element;

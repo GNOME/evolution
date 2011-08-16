@@ -183,7 +183,7 @@ new_id (void)
 /* Syncs a value from GConf to an object property */
 static void
 prop_binding_sync_pref_to_prop (PropBinding *binding,
-                                GConfValue  *pref_value)
+                                GConfValue *pref_value)
 {
 	GValue src_value, value;
 
@@ -370,9 +370,9 @@ done:
 /* Called when a GConf value bound to an object property has changed */
 static void
 prop_binding_pref_changed (GConfClient *client,
-                           guint        cnxn_id,
-                           GConfEntry  *entry,
-                           gpointer     user_data)
+                           guint cnxn_id,
+                           GConfEntry *entry,
+                           gpointer user_data)
 {
 	GConfValue *gconf_value;
 	PropBinding *binding;
@@ -419,8 +419,8 @@ prop_binding_perform_scheduled_sync (PropBinding *binding)
 
 /* Called when an object property has changed */
 static void
-prop_binding_prop_changed (GObject     *object,
-                           GParamSpec  *param_spec,
+prop_binding_prop_changed (GObject *object,
+                           GParamSpec *param_spec,
                            PropBinding *binding)
 {
 	if (binding->delayed_mode) {
@@ -482,10 +482,10 @@ prop_binding_object_destroyed (gpointer user_data,
  **/
 guint
 gconf_bridge_bind_property_full (GConfBridge *bridge,
-                                 const gchar  *key,
-                                 GObject     *object,
-                                 const gchar  *prop,
-                                 gboolean     delayed_sync)
+                                 const gchar *key,
+                                 GObject *object,
+                                 const gchar *prop,
+                                 gboolean delayed_sync)
 {
 	GParamSpec *pspec;
 	PropBinding *binding;
@@ -582,7 +582,7 @@ prop_binding_unblock_cb (gpointer hkey,
 }
 
 void
-gconf_bridge_block_property_bindings (GConfBridge  *bridge,
+gconf_bridge_block_property_bindings (GConfBridge *bridge,
                                       const gchar *key)
 {
 	g_return_if_fail (bridge != NULL);
@@ -594,7 +594,7 @@ gconf_bridge_block_property_bindings (GConfBridge  *bridge,
 }
 
 void
-gconf_bridge_unblock_property_bindings (GConfBridge  *bridge,
+gconf_bridge_unblock_property_bindings (GConfBridge *bridge,
                                         const gchar *key)
 {
 	g_return_if_fail (bridge != NULL);
@@ -702,9 +702,9 @@ window_binding_perform_scheduled_sync (WindowBinding *binding)
 
 /* Called when the window han been resized or moved */
 static gboolean
-window_binding_configure_event_cb (GtkWindow         *window,
+window_binding_configure_event_cb (GtkWindow *window,
                                    GdkEventConfigure *event,
-                                   WindowBinding     *binding)
+                                   WindowBinding *binding)
 {
         /* re-postpone by cancel of the previous request */
 	if (binding->sync_timeout_id > 0)
@@ -720,9 +720,9 @@ window_binding_configure_event_cb (GtkWindow         *window,
 
 /* Called when the window state is being changed */
 static gboolean
-window_binding_state_event_cb (GtkWindow           *window,
+window_binding_state_event_cb (GtkWindow *window,
                                GdkEventWindowState *event,
-                               WindowBinding       *binding)
+                               WindowBinding *binding)
 {
 	if (binding->sync_timeout_id > 0)
 		g_source_remove (binding->sync_timeout_id);
@@ -731,7 +731,7 @@ window_binding_state_event_cb (GtkWindow           *window,
 	    && (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED) != 0
 	    && (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED) == 0) {
 		/* the window was restored from a maximized state; make sure its
-		   width and height is the one user stored before maximization */
+		 * width and height is the one user stored before maximization */
 		gint width, height;
 
 		width = GPOINTER_TO_INT (g_object_get_data (
@@ -760,7 +760,7 @@ window_binding_state_event_cb (GtkWindow           *window,
 
 /* Called when the window is being unmapped */
 static gboolean
-window_binding_unmap_cb (GtkWindow     *window,
+window_binding_unmap_cb (GtkWindow *window,
                          WindowBinding *binding)
 {
         /* Force sync */
@@ -814,10 +814,10 @@ window_binding_window_destroyed (gpointer user_data,
  **/
 guint
 gconf_bridge_bind_window (GConfBridge *bridge,
-                          const gchar  *key_prefix,
-                          GtkWindow   *window,
-                          gboolean     bind_size,
-                          gboolean     bind_pos)
+                          const gchar *key_prefix,
+                          GtkWindow *window,
+                          gboolean bind_size,
+                          gboolean bind_pos)
 {
 	WindowBinding *binding;
 
@@ -985,7 +985,7 @@ window_binding_unbind (WindowBinding *binding)
 /* Fills a GtkListStore with the string list from @value */
 static void
 list_store_binding_sync_pref_to_store (ListStoreBinding *binding,
-                                       GConfValue       *value)
+                                       GConfValue *value)
 {
 	GSList *list, *l;
 	GtkTreeIter iter;
@@ -1071,9 +1071,9 @@ list_store_binding_sync_store_to_pref (ListStoreBinding *binding)
 /* Pref changed: sync */
 static void
 list_store_binding_pref_changed (GConfClient *client,
-                                 guint        cnxn_id,
-                                 GConfEntry  *entry,
-                                 gpointer     user_data)
+                                 guint cnxn_id,
+                                 GConfEntry *entry,
+                                 gpointer user_data)
 {
 	GConfValue *gconf_value;
 	ListStoreBinding *binding;
@@ -1144,8 +1144,8 @@ list_store_binding_store_changed_cb (ListStoreBinding *binding)
  * Return value: The ID of the new binding.
  **/
 guint
-gconf_bridge_bind_string_list_store (GConfBridge  *bridge,
-                                     const gchar   *key,
+gconf_bridge_bind_string_list_store (GConfBridge *bridge,
+                                     const gchar *key,
                                      GtkListStore *list_store)
 {
 	GtkTreeModel *tree_model;
@@ -1301,7 +1301,7 @@ unbind (Binding *binding)
  **/
 void
 gconf_bridge_unbind (GConfBridge *bridge,
-                     guint        binding_id)
+                     guint binding_id)
 {
 	g_return_if_fail (bridge != NULL);
 	g_return_if_fail (binding_id > 0);
@@ -1319,7 +1319,7 @@ gconf_bridge_unbind (GConfBridge *bridge,
 /* This is the same dialog as used in eel */
 static void
 error_handler (GConfClient *client,
-               GError      *error)
+               GError *error)
 {
 	static gboolean shown_dialog = FALSE;
 

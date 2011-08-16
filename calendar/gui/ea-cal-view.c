@@ -33,7 +33,7 @@
 
 static void ea_cal_view_class_init (EaCalViewClass *klass);
 
-static AtkObject* ea_cal_view_get_parent (AtkObject *accessible);
+static AtkObject * ea_cal_view_get_parent (AtkObject *accessible);
 static void ea_cal_view_real_initialize (AtkObject *accessible, gpointer data);
 
 static void ea_cal_view_event_changed_cb (ECalendarView *cal_view,
@@ -50,11 +50,17 @@ static void atk_action_interface_init (AtkActionIface *iface);
 static gboolean action_interface_do_action (AtkAction *action, gint i);
 static gint action_interface_get_n_actions (AtkAction *action);
 static const gchar *
-action_interface_get_description (AtkAction *action, gint i);
+		action_interface_get_description
+						(AtkAction *action,
+						 gint i);
 static const gchar *
-action_interface_get_keybinding (AtkAction *action, gint i);
+		action_interface_get_keybinding
+						(AtkAction *action,
+						 gint i);
 static const gchar *
-action_interface_action_get_name (AtkAction *action, gint i);
+		action_interface_action_get_name
+						(AtkAction *action,
+						 gint i);
 
 static gpointer parent_class = NULL;
 
@@ -119,7 +125,7 @@ ea_cal_view_class_init (EaCalViewClass *klass)
 	class->initialize = ea_cal_view_real_initialize;
 }
 
-AtkObject*
+AtkObject *
 ea_cal_view_new (GtkWidget *widget)
 {
 	GObject *object;
@@ -136,7 +142,8 @@ ea_cal_view_new (GtkWidget *widget)
 }
 
 static void
-ea_cal_view_real_initialize (AtkObject *accessible, gpointer data)
+ea_cal_view_real_initialize (AtkObject *accessible,
+                             gpointer data)
 {
 	ECalendarView *cal_view;
 	GnomeCalendar *gcal;
@@ -156,10 +163,12 @@ ea_cal_view_real_initialize (AtkObject *accessible, gpointer data)
 	 * of the event is removed, the cal_view_event will go to the state
 	 * of "defunct" (changed by weak ref callback of atkgobjectaccessible
 	 */
-	g_signal_connect (G_OBJECT(cal_view), "event_changed",
-			  G_CALLBACK (ea_cal_view_event_changed_cb), NULL);
-	g_signal_connect (G_OBJECT(cal_view), "event_added",
-			  G_CALLBACK (ea_cal_view_event_added_cb), NULL);
+	g_signal_connect (
+		cal_view, "event_changed",
+		G_CALLBACK (ea_cal_view_event_changed_cb), NULL);
+	g_signal_connect (
+		cal_view, "event_added",
+		G_CALLBACK (ea_cal_view_event_added_cb), NULL);
 
 	/* listen for date changes of calendar */
 	gcal = e_calendar_view_get_calendar (cal_view);
@@ -170,7 +179,7 @@ ea_cal_view_real_initialize (AtkObject *accessible, gpointer data)
 				  accessible);
 }
 
-static AtkObject*
+static AtkObject *
 ea_cal_view_get_parent (AtkObject *accessible)
 {
 	ECalendarView *cal_view;
@@ -188,7 +197,8 @@ ea_cal_view_get_parent (AtkObject *accessible)
 }
 
 static void
-ea_cal_view_event_changed_cb (ECalendarView *cal_view, ECalendarViewEvent *event,
+ea_cal_view_event_changed_cb (ECalendarView *cal_view,
+                              ECalendarViewEvent *event,
                               gpointer data)
 {
 	AtkObject *atk_obj;
@@ -225,7 +235,8 @@ ea_cal_view_event_changed_cb (ECalendarView *cal_view, ECalendarViewEvent *event
 }
 
 static void
-ea_cal_view_event_added_cb (ECalendarView *cal_view, ECalendarViewEvent *event,
+ea_cal_view_event_added_cb (ECalendarView *cal_view,
+                            ECalendarViewEvent *event,
                             gpointer data)
 {
 	AtkObject *atk_obj;
@@ -290,7 +301,8 @@ idle_dates_changed (gpointer data)
 }
 
 static void
-ea_cal_view_dates_change_cb (GnomeCalendar *gcal, gpointer data)
+ea_cal_view_dates_change_cb (GnomeCalendar *gcal,
+                             gpointer data)
 {
 	g_idle_add (idle_dates_changed, data);
 }
@@ -320,7 +332,8 @@ atk_action_interface_init (AtkActionIface *iface)
 }
 
 static gboolean
-action_interface_do_action (AtkAction *action, gint index)
+action_interface_do_action (AtkAction *action,
+                            gint index)
 {
 	GtkWidget *widget;
 	gboolean return_value = TRUE;
@@ -381,13 +394,15 @@ action_interface_get_n_actions (AtkAction *action)
 }
 
 static const gchar *
-action_interface_get_description (AtkAction *action, gint index)
+action_interface_get_description (AtkAction *action,
+                                  gint index)
 {
 	return action_interface_action_get_name (action, index);
 }
 
 static const gchar *
-action_interface_get_keybinding (AtkAction *action, gint index)
+action_interface_get_keybinding (AtkAction *action,
+                                 gint index)
 {
 	GtkWidget *widget;
 
@@ -424,7 +439,8 @@ action_interface_get_keybinding (AtkAction *action, gint index)
 }
 
 static const gchar *
-action_interface_action_get_name (AtkAction *action, gint i)
+action_interface_action_get_name (AtkAction *action,
+                                  gint i)
 {
 	if (i >= 0 && i < CAL_VIEW_ACTION_NUM)
 		return action_name[i];

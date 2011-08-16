@@ -107,7 +107,7 @@ struct _CompEditorPrivate {
 	guint32 attachment_bar_visible : 1;
 
 	/* TODO use this flags for setting all the boolean variables
-	   below */
+	 * below */
 	CompEditorFlags flags;
 
 	icaltimezone *zone;
@@ -238,7 +238,7 @@ static void
 attachment_store_changed_cb (CompEditor *editor)
 {
 	/* Mark the editor as changed so it prompts about unsaved
-	   changes on close */
+	 * changes on close */
 	comp_editor_set_changed (editor, TRUE);
 }
 
@@ -348,8 +348,8 @@ get_attachment_list (CompEditor *editor)
 }
 
 /* This sets the focus to the toplevel, so any field being edited is committed.
-   FIXME: In future we may also want to check some of the fields are valid,
-   e.g. the EDateEdit fields. */
+ * FIXME: In future we may also want to check some of the fields are valid,
+ * e.g. the EDateEdit fields. */
 static void
 commit_all_fields (CompEditor *editor)
 {
@@ -443,7 +443,9 @@ listen_for_changes (CompEditor *editor)
 }
 
 static void
-send_timezone (gpointer key, gpointer value, gpointer user_data)
+send_timezone (gpointer key,
+               gpointer value,
+               gpointer user_data)
 {
 	icaltimezone *zone = value;
 	CompEditor *editor = user_data;
@@ -885,8 +887,8 @@ action_print_preview_cb (GtkAction *action,
 
 static gboolean
 remove_event_dialog (ECalClient *client,
-		     ECalComponent *comp,
-		     GtkWindow *parent)
+                     ECalComponent *comp,
+                     GtkWindow *parent)
 {
 	GtkWidget *dialog;
 	gboolean ret;
@@ -1508,7 +1510,8 @@ comp_editor_get_property (GObject *object,
 }
 
 static void
-unref_page_cb (gpointer editor_page, gpointer comp_editor)
+unref_page_cb (gpointer editor_page,
+               gpointer comp_editor)
 {
 	if (IS_COMP_EDITOR_PAGE (editor_page)) {
 		GtkWidget *page_widget;
@@ -1568,25 +1571,26 @@ comp_editor_dispose (GObject *object)
 	}
 
 	if (priv->view) {
-		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
-						      G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL,
-						      object);
-
+		g_signal_handlers_disconnect_matched (
+			G_OBJECT (priv->view), G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
 		g_object_unref (priv->view);
 		priv->view = NULL;
 	}
 
 	if (priv->attachment_view) {
-		g_signal_handlers_disconnect_matched (G_OBJECT (e_attachment_view_get_store (E_ATTACHMENT_VIEW (priv->attachment_view))),
-						      G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL,
-						      object);
+		EAttachmentStore *store;
+
+		store = e_attachment_view_get_store (
+			E_ATTACHMENT_VIEW (priv->attachment_view));
+		g_signal_handlers_disconnect_matched (
+			G_OBJECT (store), G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
 	}
 
 	/* We want to destroy the pages after the widgets get destroyed,
-	   since they have lots of signal handlers connected to the widgets
-	   with the pages as the data. */
+	 * since they have lots of signal handlers connected to the widgets
+	 * with the pages as the data. */
 	g_list_foreach (priv->pages, (GFunc) unref_page_cb, object);
 	g_list_free (priv->pages);
 	priv->pages = NULL;
@@ -2050,7 +2054,7 @@ comp_editor_init (CompEditor *editor)
 	/* Fine Tuning */
 
 	action = comp_editor_get_action (editor, "attach");
-	g_object_set (G_OBJECT (action), "short-label", _("Attach"), NULL);
+	g_object_set (action, "short-label", _("Attach"), NULL);
 
 	/* Desensitize the "save" action. */
 	action = comp_editor_get_action (editor, "save");
@@ -2175,7 +2179,8 @@ comp_editor_init (CompEditor *editor)
 }
 
 static gboolean
-prompt_and_save_changes (CompEditor *editor, gboolean send)
+prompt_and_save_changes (CompEditor *editor,
+                         gboolean send)
 {
 	CompEditorPrivate *priv;
 	gboolean correct = FALSE;
@@ -2254,8 +2259,8 @@ close_dialog (CompEditor *editor)
 	g_signal_emit_by_name (editor, "comp_closed", priv->saved);
 
 	/* FIXME Unfortunately we do this here because otherwise corba
-	   calls happen during destruction and we might get a change
-	   notification back when we are in an inconsistent state */
+	 * calls happen during destruction and we might get a change
+	 * notification back when we are in an inconsistent state */
 	if (priv->view)
 		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
 						      G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
@@ -2275,7 +2280,8 @@ comp_editor_compare (CompEditor *editor_a,
 }
 
 void
-comp_editor_set_existing_org (CompEditor *editor, gboolean existing_org)
+comp_editor_set_existing_org (CompEditor *editor,
+                              gboolean existing_org)
 {
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
@@ -2745,9 +2751,9 @@ page_unmapped_cb (GtkWidget *page_widget,
  **/
 void
 comp_editor_append_widget (CompEditor *editor,
-			 GtkWidget *page,
-			 const gchar *label,
-			 gboolean add)
+                         GtkWidget *page,
+                         const gchar *label,
+                         gboolean add)
 {
 	CompEditorPrivate *priv;
 	GtkWidget *label_widget = NULL;
@@ -2771,7 +2777,7 @@ comp_editor_append_widget (CompEditor *editor,
 	}
 
 	/* Listen for when the page is mapped/unmapped so we can
-	   install/uninstall the appropriate GtkAccelGroup.
+	 * install/uninstall the appropriate GtkAccelGroup.
 	g_signal_connect (
 		page, "map",
 		G_CALLBACK (page_mapped_cb), page);
@@ -2794,9 +2800,9 @@ comp_editor_append_widget (CompEditor *editor,
  **/
 void
 comp_editor_append_page (CompEditor *editor,
-			 CompEditorPage *page,
-			 const gchar *label,
-			 gboolean add)
+                         CompEditorPage *page,
+                         const gchar *label,
+                         gboolean add)
 {
 	CompEditorPrivate *priv;
 	GtkWidget *page_widget;
@@ -2843,7 +2849,7 @@ comp_editor_append_page (CompEditor *editor,
 		G_CALLBACK (page_dates_changed_cb), editor);
 
 	/* Listen for when the page is mapped/unmapped so we can
-	   install/uninstall the appropriate GtkAccelGroup. */
+	 * install/uninstall the appropriate GtkAccelGroup. */
 	g_signal_connect (
 		page_widget, "map",
 		G_CALLBACK (page_mapped_cb), page);
@@ -2866,7 +2872,8 @@ comp_editor_append_page (CompEditor *editor,
  * Removes the page from the component editor
  **/
 void
-comp_editor_remove_page (CompEditor *editor, CompEditorPage *page)
+comp_editor_remove_page (CompEditor *editor,
+                         CompEditorPage *page)
 {
 	CompEditorPrivate *priv;
 	GtkWidget *page_widget;
@@ -2902,7 +2909,8 @@ comp_editor_remove_page (CompEditor *editor, CompEditorPage *page)
  *
  **/
 void
-comp_editor_show_page (CompEditor *editor, CompEditorPage *page)
+comp_editor_show_page (CompEditor *editor,
+                       CompEditorPage *page)
 {
 	CompEditorPrivate *priv;
 	GtkWidget *page_widget;
@@ -3009,7 +3017,8 @@ attachment_loaded_cb (EAttachment *attachment,
 }
 
 static void
-set_attachment_list (CompEditor *editor, GSList *uri_list)
+set_attachment_list (CompEditor *editor,
+                     GSList *uri_list)
 {
 	EAttachmentStore *store;
 	EAttachmentView *view;
@@ -3090,7 +3099,8 @@ fill_widgets (CompEditor *editor)
 }
 
 static void
-real_edit_comp (CompEditor *editor, ECalComponent *comp)
+real_edit_comp (CompEditor *editor,
+                ECalComponent *comp)
 {
 	CompEditorPrivate *priv;
 
@@ -3152,7 +3162,8 @@ set_attendees_for_delegation (ECalComponent *comp,
 }
 
 static void
-get_users_from_memo_comp (ECalComponent *comp, GSList **users)
+get_users_from_memo_comp (ECalComponent *comp,
+                          GSList **users)
 {
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
@@ -3298,7 +3309,8 @@ real_send_comp (CompEditor *editor,
  * Starts the editor editing the given component
  **/
 void
-comp_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
+comp_editor_edit_comp (CompEditor *editor,
+                       ECalComponent *comp)
 {
 	CompEditorClass *class;
 
@@ -3328,7 +3340,8 @@ comp_editor_get_comp (CompEditor *editor)
  * Returns: Newly allocated component, should be unref-ed by g_object_unref().
  **/
 ECalComponent *
-comp_editor_get_current_comp (CompEditor *editor, gboolean *correct)
+comp_editor_get_current_comp (CompEditor *editor,
+                              gboolean *correct)
 {
 	CompEditorPrivate *priv;
 	ECalComponent *comp;
@@ -3361,7 +3374,8 @@ comp_editor_get_current_comp (CompEditor *editor, gboolean *correct)
  *
  **/
 gboolean
-comp_editor_save_comp (CompEditor *editor, gboolean send)
+comp_editor_save_comp (CompEditor *editor,
+                       gboolean send)
 {
 	return prompt_and_save_changes (editor, send);
 }
@@ -3516,7 +3530,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 
 static void
 page_dates_changed_cb (CompEditor *editor,
-		       CompEditorPageDates *dates,
+                       CompEditorPageDates *dates,
                        CompEditorPage *page)
 {
 	CompEditorPrivate *priv = editor->priv;

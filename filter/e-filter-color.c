@@ -36,7 +36,8 @@ G_DEFINE_TYPE (
 	E_TYPE_FILTER_ELEMENT)
 
 static void
-set_color (GtkColorButton *color_button, EFilterColor *fc)
+set_color (GtkColorButton *color_button,
+           EFilterColor *fc)
 {
 	gtk_color_button_get_color (color_button, &fc->color);
 }

@@ -38,7 +38,10 @@
  * button.
  **/
 void
-e_notice (gpointer parent, GtkMessageType type, const gchar *format, ...)
+e_notice (gpointer parent,
+          GtkMessageType type,
+          const gchar *format,
+          ...)
 {
 	GtkWidget *dialog;
 	va_list args;

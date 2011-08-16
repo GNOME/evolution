@@ -546,14 +546,14 @@ task_page_fill_widgets (CompEditorPage *page,
 		e_date_edit_set_time (E_DATE_EDIT (priv->due_date), -1);
 
 		/* If no time is set, we use the default timezone, so the
-		   user usually doesn't have to set this when they set the
-		   date. */
+		 * user usually doesn't have to set this when they set the
+		 * date. */
 		zone = NULL;
 	}
 
 	/* Note that if we are creating a new task, the timezones may not be
-	   on the server, so we try to get the builtin timezone with the TZID
-	   first. */
+	 * on the server, so we try to get the builtin timezone with the TZID
+	 * first. */
 	if (!zone && d.tzid) {
 		GError *error = NULL;
 		if (!e_cal_client_get_timezone_sync (client, d.tzid, &zone, NULL, &error))
@@ -1018,7 +1018,8 @@ task_page_init (TaskPage *tpage)
 }
 
 void
-task_page_set_view_role (TaskPage *page, gboolean state)
+task_page_set_view_role (TaskPage *page,
+                         gboolean state)
 {
 	TaskPagePrivate *priv = page->priv;
 
@@ -1026,7 +1027,8 @@ task_page_set_view_role (TaskPage *page, gboolean state)
 }
 
 void
-task_page_set_view_status (TaskPage *page, gboolean state)
+task_page_set_view_status (TaskPage *page,
+                           gboolean state)
 {
 	TaskPagePrivate *priv = page->priv;
 
@@ -1034,7 +1036,8 @@ task_page_set_view_status (TaskPage *page, gboolean state)
 }
 
 void
-task_page_set_view_type (TaskPage *page, gboolean state)
+task_page_set_view_type (TaskPage *page,
+                         gboolean state)
 {
 	TaskPagePrivate *priv = page->priv;
 
@@ -1042,7 +1045,8 @@ task_page_set_view_type (TaskPage *page, gboolean state)
 }
 
 void
-task_page_set_view_rsvp (TaskPage *page, gboolean state)
+task_page_set_view_rsvp (TaskPage *page,
+                         gboolean state)
 {
 	TaskPagePrivate *priv = page->priv;
 
@@ -1076,7 +1080,8 @@ task_page_show_options (TaskPage *page)
 }
 
 void
-task_page_set_assignment (TaskPage *page, gboolean set)
+task_page_set_assignment (TaskPage *page,
+                          gboolean set)
 {
 	g_return_if_fail (IS_TASK_PAGE (page));
 
@@ -1085,7 +1090,8 @@ task_page_set_assignment (TaskPage *page, gboolean set)
 }
 
 static void
-add_clicked_cb (GtkButton *btn, TaskPage *page)
+add_clicked_cb (GtkButton *btn,
+                TaskPage *page)
 {
 	EMeetingAttendee *attendee;
 	CompEditor *editor;
@@ -1120,7 +1126,8 @@ static void edit_clicked_cb (GtkButton *btn, TaskPage *tpage)
 }
 
 static gboolean
-existing_attendee (EMeetingAttendee *ia, ECalComponent *comp)
+existing_attendee (EMeetingAttendee *ia,
+                   ECalComponent *comp)
 {
 	GSList *attendees, *l;
 	const gchar *ia_address;
@@ -1156,7 +1163,8 @@ existing_attendee (EMeetingAttendee *ia, ECalComponent *comp)
 }
 
 static void
-remove_attendee (TaskPage *page, EMeetingAttendee *ia)
+remove_attendee (TaskPage *page,
+                 EMeetingAttendee *ia)
 {
 	TaskPagePrivate *priv = page->priv;
 	CompEditor *editor;
@@ -1167,7 +1175,7 @@ remove_attendee (TaskPage *page, EMeetingAttendee *ia)
 	flags = comp_editor_get_flags (editor);
 
 	/* If the user deletes the organizer attendee explicitly,
-	   assume they no longer want the organizer showing up */
+	 * assume they no longer want the organizer showing up */
 	if (ia == priv->ia) {
 		g_object_unref (priv->ia);
 		priv->ia = NULL;
@@ -1209,7 +1217,8 @@ remove_attendee (TaskPage *page, EMeetingAttendee *ia)
 }
 
 static void
-remove_clicked_cb (GtkButton *btn, TaskPage *page)
+remove_clicked_cb (GtkButton *btn,
+                   TaskPage *page)
 {
 	TaskPagePrivate *priv;
 	EMeetingAttendee *ia;
@@ -1231,7 +1240,7 @@ remove_clicked_cb (GtkButton *btn, TaskPage *page)
 	}
 	paths = g_list_reverse (paths);
 
-	for (tmp = paths; tmp; tmp=tmp->next) {
+	for (tmp = paths; tmp; tmp = tmp->next) {
 		path = tmp->data;
 
 		gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->meeting_store), &iter, path);
@@ -1310,8 +1319,10 @@ attendee_added_cb (EMeetingListView *emlv,
 }
 
 static gboolean
-list_view_event (EMeetingListView *list_view, GdkEvent *event, TaskPage *page) {
-
+list_view_event (EMeetingListView *list_view,
+                 GdkEvent *event,
+                 TaskPage *page)
+{
 	TaskPagePrivate *priv= page->priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
@@ -1336,7 +1347,9 @@ list_view_event (EMeetingListView *list_view, GdkEvent *event, TaskPage *page) {
 }
 
 static gboolean
-list_key_press (EMeetingListView *list_view, GdkEventKey *event, TaskPage *page)
+list_key_press (EMeetingListView *list_view,
+                GdkEventKey *event,
+                TaskPage *page)
 {
 	if (event->keyval == GDK_KEY_Delete) {
 
@@ -1353,7 +1366,8 @@ list_key_press (EMeetingListView *list_view, GdkEventKey *event, TaskPage *page)
 }
 
 void
-task_page_set_show_timezone (TaskPage *page, gboolean state)
+task_page_set_show_timezone (TaskPage *page,
+                             gboolean state)
 {
 	if (state) {
 		gtk_widget_show_all (page->priv->timezone);
@@ -1366,7 +1380,8 @@ task_page_set_show_timezone (TaskPage *page, gboolean state)
 }
 
 void
-task_page_set_show_categories (TaskPage *page, gboolean state)
+task_page_set_show_categories (TaskPage *page,
+                               gboolean state)
 {
 	if (state) {
 		gtk_widget_show (page->priv->categories_btn);
@@ -1379,7 +1394,9 @@ task_page_set_show_categories (TaskPage *page, gboolean state)
 
 /*If the msg has some value set, the icon should always be set */
 void
-task_page_set_info_string (TaskPage *tpage, const gchar *icon, const gchar *msg)
+task_page_set_info_string (TaskPage *tpage,
+                           const gchar *icon,
+                           const gchar *msg)
 {
 	TaskPagePrivate *priv;
 
@@ -1414,7 +1431,7 @@ get_widgets (TaskPage *tpage)
 		return FALSE;
 
 	/* Get the GtkAccelGroup from the toplevel window, so we can install
-	   it when the notebook page is mapped. */
+	 * it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
 	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
 	if (accel_groups)
@@ -1585,11 +1602,11 @@ categories_clicked_cb (GtkWidget *button,
 
 static gboolean
 check_start_before_end (struct icaltimetype *start_tt,
-			icaltimezone *start_zone,
-			struct icaltimetype *end_tt,
-			icaltimezone *end_zone,
-			gboolean adjust_end_time,
-			gboolean adjust_by_hour)
+                        icaltimezone *start_zone,
+                        struct icaltimetype *end_tt,
+                        icaltimezone *end_zone,
+                        gboolean adjust_end_time,
+                        gboolean adjust_by_hour)
 {
 	struct icaltimetype end_tt_copy;
 	gint cmp;
@@ -1599,7 +1616,7 @@ check_start_before_end (struct icaltimetype *start_tt,
 	icaltimezone_convert_time (&end_tt_copy, end_zone, start_zone);
 
 	/* Now check if the start time is after the end time. If it is,
-	   we need to modify one of the times. */
+	 * we need to modify one of the times. */
 	cmp = icaltime_compare (*start_tt, end_tt_copy);
 	if (cmp > 0) {
 		if (adjust_end_time) {
@@ -1634,7 +1651,8 @@ check_start_before_end (struct icaltimetype *start_tt,
  * otherwise times will differ one hour.
  */
 static void
-times_updated (TaskPage *tpage, gboolean adjust_end_time)
+times_updated (TaskPage *tpage,
+               gboolean adjust_end_time)
 {
 	TaskPagePrivate *priv;
 	struct icaltimetype start_tt = icaltime_null_time ();
@@ -1704,7 +1722,9 @@ due_date_changed_cb (TaskPage *tpage)
 }
 
 static void
-tpage_client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+tpage_client_opened_cb (GObject *source_object,
+                        GAsyncResult *result,
+                        gpointer user_data)
 {
 	ESource *source = E_SOURCE (source_object);
 	EClient *client = NULL;
@@ -1775,7 +1795,8 @@ tpage_client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer u
 }
 
 static void
-source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
+source_changed_cb (ESourceComboBox *source_combo_box,
+                   TaskPage *tpage)
 {
 	TaskPagePrivate *priv = tpage->priv;
 	ESource *source;
@@ -1791,13 +1812,16 @@ source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
 	}
 	priv->open_cancellable = g_cancellable_new ();
 
-	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, priv->open_cancellable,
-				 e_client_utils_authenticate_handler, NULL,
-				 tpage_client_opened_cb, tpage);
+	e_client_utils_open_new (
+		source, E_CLIENT_SOURCE_TYPE_TASKS,
+		FALSE, priv->open_cancellable,
+		e_client_utils_authenticate_handler, NULL,
+		tpage_client_opened_cb, tpage);
 }
 
 static void
-set_subscriber_info_string (TaskPage *tpage, const gchar *backend_address)
+set_subscriber_info_string (TaskPage *tpage,
+                            const gchar *backend_address)
 {
 	CompEditor *editor;
 	ECalClient *client;
@@ -1810,7 +1834,7 @@ set_subscriber_info_string (TaskPage *tpage, const gchar *backend_address)
 	if (e_source_get_property (source, "subscriber")) {
 		g_free (tpage->priv->subscriber_info_text);
 		/* Translators: This string is used when we are creating a Task
-		   on behalf of some other user */
+		 * on behalf of some other user */
 		tpage->priv->subscriber_info_text = g_markup_printf_escaped (_("You are acting on behalf of %s"), backend_address);
 	} else {
 		g_free (tpage->priv->subscriber_info_text);
@@ -1865,7 +1889,7 @@ init_widgets (TaskPage *tpage)
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
 
 	/* Make sure the EDateEdit widgets use our timezones to get the
-	   current time. */
+	 * current time. */
 	e_date_edit_set_get_time_callback (
 		E_DATE_EDIT (priv->start_date),
 		(EDateEditGetTimeCallback) comp_editor_get_current_time,
@@ -1881,7 +1905,7 @@ init_widgets (TaskPage *tpage)
 	gtk_widget_hide (priv->info_hbox);
 
 	/* Summary */
-	g_signal_connect((priv->summary), "changed",
+	g_signal_connect ((priv->summary), "changed",
 			    G_CALLBACK (summary_changed_cb), tpage);
 
 	/* Description */
@@ -1892,23 +1916,23 @@ init_widgets (TaskPage *tpage)
 	e_buffer_tagger_connect (GTK_TEXT_VIEW (priv->description));
 
 	/* Dates */
-	g_signal_connect((priv->start_date), "changed",
+	g_signal_connect ((priv->start_date), "changed",
 			    G_CALLBACK (date_changed_cb), tpage);
-	g_signal_connect((priv->due_date), "changed",
+	g_signal_connect ((priv->due_date), "changed",
 			    G_CALLBACK (date_changed_cb), tpage);
 
 	/* time zone changed */
 	g_signal_connect (priv->timezone, "changed", G_CALLBACK(timezone_changed_cb), tpage);
 
 	/* Categories button */
-	g_signal_connect((priv->categories_btn), "clicked",
+	g_signal_connect ((priv->categories_btn), "clicked",
 			    G_CALLBACK (categories_clicked_cb), tpage);
 
 	/* Source selector */
 	g_signal_connect (priv->source_selector, "changed", G_CALLBACK (source_changed_cb), tpage);
 
 	/* Connect the default signal handler to use to make sure the "changed"
-	   field gets set whenever a field is changed. */
+	 * field gets set whenever a field is changed. */
 
 	/* Belongs to priv->description */
 	g_signal_connect_swapped (
@@ -1953,7 +1977,7 @@ init_widgets (TaskPage *tpage)
 	g_signal_connect (priv->remove, "clicked", G_CALLBACK (remove_clicked_cb), tpage);
 
 	/* Contacts button */
-	g_signal_connect(priv->invite, "clicked", G_CALLBACK (invite_cb), tpage);
+	g_signal_connect (priv->invite, "clicked", G_CALLBACK (invite_cb), tpage);
 
 	/* Meeting List View */
 	g_signal_connect (priv->list_view, "attendee_added", G_CALLBACK (attendee_added_cb), tpage);
@@ -1999,7 +2023,8 @@ init_widgets (TaskPage *tpage)
 
 
 static void
-task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
+task_page_select_organizer (TaskPage *tpage,
+                            const gchar *backend_address)
 {
 	TaskPagePrivate *priv = tpage->priv;
 	CompEditor *editor;
@@ -2117,7 +2142,8 @@ task_page_construct (TaskPage *tpage,
  * not be created.
  **/
 TaskPage *
-task_page_new (EMeetingStore *model, CompEditor *editor)
+task_page_new (EMeetingStore *model,
+               CompEditor *editor)
 {
 	TaskPage *tpage;
 	ECalClient *client;

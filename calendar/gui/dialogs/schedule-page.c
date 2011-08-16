@@ -54,8 +54,8 @@ struct _SchedulePagePrivate {
 	EMeetingTimeSelector *sel;
 
 	/* The timezone we use. Note that we use the same timezone for the
-	   start and end date. We convert the end date if it is passed in in
-	   another timezone. */
+	 * start and end date. We convert the end date if it is passed in in
+	 * another timezone. */
 	icaltimezone *zone;
 };
 
@@ -95,8 +95,8 @@ update_time (SchedulePage *spage,
 
 	if (start_date->tzid) {
 		/* Note that if we are creating a new event, the timezones may not be
-		   on the server, so we try to get the builtin timezone with the TZID
-		   first. */
+		 * on the server, so we try to get the builtin timezone with the TZID
+		 * first. */
 		start_zone = icaltimezone_get_builtin_timezone_from_tzid (start_date->tzid);
 		if (!start_zone) {
 			GError *error = NULL;
@@ -145,7 +145,7 @@ update_time (SchedulePage *spage,
 	all_day = (start_tt.is_date && end_tt.is_date) ? TRUE : FALSE;
 
 	/* For All Day Events, if DTEND is after DTSTART, we subtract 1 day
-	   from it. */
+	 * from it. */
 	if (all_day) {
 		if (icaltime_compare_date_only (end_tt, start_tt) > 0) {
 			icaltime_adjust (&end_tt, -1, 0, 0, 0);
@@ -215,7 +215,8 @@ schedule_page_focus_main_widget (CompEditorPage *page)
 }
 
 static gboolean
-schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
+schedule_page_fill_widgets (CompEditorPage *page,
+                            ECalComponent *comp)
 {
 	SchedulePage *spage;
 	ECalComponentDateTime start_date, end_date;
@@ -242,13 +243,15 @@ schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 }
 
 static gboolean
-schedule_page_fill_component (CompEditorPage *page, ECalComponent *comp)
+schedule_page_fill_component (CompEditorPage *page,
+                              ECalComponent *comp)
 {
 	return TRUE;
 }
 
 static void
-schedule_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
+schedule_page_set_dates (CompEditorPage *page,
+                         CompEditorPageDates *dates)
 {
 	SchedulePage *spage;
 
@@ -304,7 +307,7 @@ get_widgets (SchedulePage *spage)
 		return FALSE;
 
 	/* Get the GtkAccelGroup from the toplevel window, so we can install
-	   it when the notebook page is mapped. */
+	 * it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
 	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
 	if (accel_groups)
@@ -368,7 +371,8 @@ schedule_page_set_meeting_time (SchedulePage *spage,
  * be created.
  **/
 SchedulePage *
-schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
+schedule_page_construct (SchedulePage *spage,
+                         EMeetingStore *ems)
 {
 	SchedulePagePrivate *priv = spage->priv;
 	CompEditor *editor;
@@ -450,7 +454,8 @@ schedule_page_update_free_busy (SchedulePage *spage)
 }
 
 void
-schedule_page_set_name_selector (SchedulePage *spage, ENameSelector *name_selector)
+schedule_page_set_name_selector (SchedulePage *spage,
+                                 ENameSelector *name_selector)
 {
 	SchedulePagePrivate *priv;
 
@@ -504,7 +509,7 @@ times_changed_cb (GtkWidget *widget,
 		end_dt.tzid = start_dt.tzid;
 	} else {
 		/* For All-Day Events, we set the timezone to NULL, and add
-		   1 day to DTEND. */
+		 * 1 day to DTEND. */
 		start_dt.value->is_date = TRUE;
 		start_dt.tzid = NULL;
 		end_dt.value->is_date = TRUE;

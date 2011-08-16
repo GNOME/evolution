@@ -61,7 +61,9 @@ kill_popup (EComboCellEditable *ecce)
 }
 
 static gboolean
-popup_key_press_cb (GtkWidget *widget, GdkEventKey *event, EComboCellEditable *ecce)
+popup_key_press_cb (GtkWidget *widget,
+                    GdkEventKey *event,
+                    EComboCellEditable *ecce)
 {
 	switch (event->keyval) {
 	case GDK_KEY_Escape:
@@ -83,7 +85,9 @@ popup_key_press_cb (GtkWidget *widget, GdkEventKey *event, EComboCellEditable *e
 }
 
 static gboolean
-popup_button_press_cb (GtkWidget *widget, GdkEventButton *event, EComboCellEditable *ecce)
+popup_button_press_cb (GtkWidget *widget,
+                       GdkEventButton *event,
+                       EComboCellEditable *ecce)
 {
 	GtkAllocation alloc;
 	GdkWindow *window;
@@ -110,14 +114,17 @@ popup_button_press_cb (GtkWidget *widget, GdkEventButton *event, EComboCellEdita
 }
 
 static gboolean
-tree_button_release_cb (GtkWidget *widget, GdkEventButton *event, EComboCellEditable *ecce)
+tree_button_release_cb (GtkWidget *widget,
+                        GdkEventButton *event,
+                        EComboCellEditable *ecce)
 {
 	kill_popup (ecce);
 	return TRUE;
 }
 
 static void
-selection_changed_cb (GtkTreeSelection *selection, EComboCellEditable *ecce)
+selection_changed_cb (GtkTreeSelection *selection,
+                      EComboCellEditable *ecce)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -179,7 +186,8 @@ build_popup (EComboCellEditable *ecce)
 }
 
 static gint
-lookup_row (GList *list, const gchar *text)
+lookup_row (GList *list,
+            const gchar *text)
 {
 	GList *l;
 	gint result = 0;
@@ -192,7 +200,8 @@ lookup_row (GList *list, const gchar *text)
 }
 
 static void
-set_cursor (GtkTreeView *tree_view, gint index)
+set_cursor (GtkTreeView *tree_view,
+            gint index)
 {
 	GtkTreePath *path = gtk_tree_path_new ();
 	gtk_tree_path_append_index (path, index);
@@ -210,7 +219,10 @@ grab_popup (GdkWindow *popup)
 }
 
 static void
-position_popup (EComboCellEditable *ecce, gint x, gint y, gint offset)
+position_popup (EComboCellEditable *ecce,
+                gint x,
+                gint y,
+                gint offset)
 {
 	GtkRequisition req;
 
@@ -258,7 +270,8 @@ show_popup (EComboCellEditable *ecce)
 }
 
 static void
-button_clicked_cb (GtkButton *btn, EComboCellEditable *ecce)
+button_clicked_cb (GtkButton *btn,
+                   EComboCellEditable *ecce)
 {
 	if (ecce->priv->popup) {
 		kill_popup (ecce);
@@ -269,14 +282,17 @@ button_clicked_cb (GtkButton *btn, EComboCellEditable *ecce)
 }
 
 static void
-entry_activated_cb (GtkEntry *entry, EComboCellEditable *widget)
+entry_activated_cb (GtkEntry *entry,
+                    EComboCellEditable *widget)
 {
 	gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (widget));
 	gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (widget));
 }
 
 static gboolean
-entry_key_press_event_cb (GtkEntry *entry, GdkEventKey *key_event, EComboCellEditable *ecce)
+entry_key_press_event_cb (GtkEntry *entry,
+                          GdkEventKey *key_event,
+                          EComboCellEditable *ecce)
 {
 	if (key_event->keyval == GDK_KEY_Escape) {
 		ecce->priv->cancelled = TRUE;
@@ -297,7 +313,8 @@ entry_key_press_event_cb (GtkEntry *entry, GdkEventKey *key_event, EComboCellEdi
 }
 
 static void
-ecce_start_editing (GtkCellEditable *cell_editable, GdkEvent *event)
+ecce_start_editing (GtkCellEditable *cell_editable,
+                    GdkEvent *event)
 {
 	EComboCellEditable *ecce = E_COMBO_CELL_EDITABLE (cell_editable);
 
@@ -383,7 +400,8 @@ e_combo_cell_editable_get_list (EComboCellEditable *ecce)
 }
 
 void
-e_combo_cell_editable_set_list (EComboCellEditable *ecce, GList *list)
+e_combo_cell_editable_set_list (EComboCellEditable *ecce,
+                                GList *list)
 {
 	g_return_if_fail (E_IS_COMBO_CELL_EDITABLE (ecce));
 
@@ -399,7 +417,8 @@ e_combo_cell_editable_get_text (EComboCellEditable *ecce)
 }
 
 void
-e_combo_cell_editable_set_text (EComboCellEditable *ecce, const gchar *text)
+e_combo_cell_editable_set_text (EComboCellEditable *ecce,
+                                const gchar *text)
 {
 	g_return_if_fail (E_IS_COMBO_CELL_EDITABLE (ecce));
 

@@ -59,7 +59,8 @@ enum {
 
 gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
 						 EShellView *shell_view);
-gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+gint		e_plugin_lib_enable		(EPlugin *ep,
+						 gint enable);
 
 static void
 async_context_free (AsyncContext *context)
@@ -75,7 +76,8 @@ async_context_free (AsyncContext *context)
 }
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
@@ -207,8 +209,8 @@ prompt_user (gboolean has_subfolders)
 	gtk_widget_show (widget);
 
 	/* To Translators: It's a response button caption on a question
-	   "Do you want to mark messages as read in the current folder
-	   only, or in the current folder as well as all subfolders?" */
+	 * "Do you want to mark messages as read in the current folder
+	 * only, or in the current folder as well as all subfolders?" */
 	widget = gtk_button_new_with_mnemonic (
 		_("In Current Folder and _Subfolders"));
 	g_object_set_data (
@@ -221,8 +223,8 @@ prompt_user (gboolean has_subfolders)
 	gtk_widget_show (widget);
 
 	/* To Translators: It's a response button caption on a question
-	   "Do you want to mark messages as read in the current folder
-	   only, or in the current folder as well as all subfolders?" */
+	 * "Do you want to mark messages as read in the current folder
+	 * only, or in the current folder as well as all subfolders?" */
 	widget = gtk_button_new_with_mnemonic (
 		_("In Current _Folder Only"));
 	g_object_set_data (
@@ -252,7 +254,7 @@ static gboolean
 scan_folder_tree_for_unread_helper (GtkTreeModel *model,
                                     GtkTreeIter *iter,
                                     GtkTreePath *path,
-				    gboolean is_first_node,
+                                    gboolean is_first_node,
                                     gint initial_depth,
                                     gint *relative_depth)
 {

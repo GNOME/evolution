@@ -44,7 +44,8 @@ G_DEFINE_TYPE (
 	GTK_TYPE_CELL_RENDERER_TEXT)
 
 static void
-ecrc_editing_done (GtkCellEditable *editable, ECellRendererCombo *cell)
+ecrc_editing_done (GtkCellEditable *editable,
+                   ECellRendererCombo *cell)
 {
 	const gchar *new_text;
 
@@ -59,8 +60,13 @@ ecrc_editing_done (GtkCellEditable *editable, ECellRendererCombo *cell)
 }
 
 static GtkCellEditable *
-ecrc_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
-		    const GdkRectangle *bg_area, const GdkRectangle *cell_area, GtkCellRendererState flags)
+ecrc_start_editing (GtkCellRenderer *cell,
+                    GdkEvent *event,
+                    GtkWidget *widget,
+                    const gchar *path,
+                    const GdkRectangle *bg_area,
+                    const GdkRectangle *cell_area,
+                    GtkCellRendererState flags)
 {
 	ECellRendererCombo *combo_cell = E_CELL_RENDERER_COMBO (cell);
 	GtkCellRendererText *text_cell = GTK_CELL_RENDERER_TEXT (cell);
@@ -91,8 +97,13 @@ ecrc_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, c
 }
 
 static void
-ecrc_get_size (GtkCellRenderer *cell, GtkWidget *widget, const GdkRectangle *cell_area,
-	       gint *x_offset, gint *y_offset, gint *width, gint *height)
+ecrc_get_size (GtkCellRenderer *cell,
+               GtkWidget *widget,
+               const GdkRectangle *cell_area,
+               gint *x_offset,
+               gint *y_offset,
+               gint *width,
+               gint *height)
 {
 	GtkWidget *btn;
 	GtkRequisition req;
@@ -108,11 +119,14 @@ ecrc_get_size (GtkCellRenderer *cell, GtkWidget *widget, const GdkRectangle *cel
 }
 
 static void
-ecrc_get_prop (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+ecrc_get_prop (GObject *object,
+               guint property_id,
+               GValue *value,
+               GParamSpec *pspec)
 {
 	ECellRendererCombo *ecrc = E_CELL_RENDERER_COMBO (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_LIST:
 		g_value_set_pointer (value, ecrc->priv->list);
 		break;
@@ -122,11 +136,14 @@ ecrc_get_prop (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 }
 
 static void
-ecrc_set_prop (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+ecrc_set_prop (GObject *object,
+               guint property_id,
+               const GValue *value,
+               GParamSpec *pspec)
 {
 	ECellRendererCombo *ecrc = E_CELL_RENDERER_COMBO (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_LIST:
 		ecrc->priv->list = g_value_get_pointer (value);
 		break;

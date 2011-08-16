@@ -48,7 +48,7 @@ enum {
 /* Static functions */
 static void
 gal_view_instance_save_as_dialog_set_instance (GalViewInstanceSaveAsDialog *dialog,
-					       GalViewInstance *instance)
+                                               GalViewInstance *instance)
 {
 	gint i;
 	GtkListStore *store;
@@ -57,7 +57,7 @@ gal_view_instance_save_as_dialog_set_instance (GalViewInstanceSaveAsDialog *dial
 
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 
-	for (i=0; i<instance->collection->view_count; i++) {
+	for (i = 0; i < instance->collection->view_count; i++) {
 		GalViewCollectionItem *item = instance->collection->view_data[i];
 		GtkTreeIter iter;
 		gchar *title = NULL;
@@ -145,26 +145,31 @@ gvisad_setup_radio_buttons (GalViewInstanceSaveAsDialog *dialog)
 }
 
 static void
-gvisad_radio_toggled (GtkWidget *widget, GalViewInstanceSaveAsDialog *dialog)
+gvisad_radio_toggled (GtkWidget *widget,
+                      GalViewInstanceSaveAsDialog *dialog)
 {
 	gvisad_setup_radio_buttons (dialog);
 }
 
 static void
-gvisad_entry_changed (GtkWidget *widget, GalViewInstanceSaveAsDialog *dialog)
+gvisad_entry_changed (GtkWidget *widget,
+                      GalViewInstanceSaveAsDialog *dialog)
 {
 	gvisad_setup_validate_button (dialog);
 }
 
 /* Method override implementations */
 static void
-gal_view_instance_save_as_dialog_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+gal_view_instance_save_as_dialog_set_property (GObject *object,
+                                               guint property_id,
+                                               const GValue *value,
+                                               GParamSpec *pspec)
 {
 	GalViewInstanceSaveAsDialog *dialog;
 
 	dialog = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_INSTANCE:
 		if (g_value_get_object (value))
 			gal_view_instance_save_as_dialog_set_instance (dialog, GAL_VIEW_INSTANCE (g_value_get_object (value)));
@@ -178,19 +183,22 @@ gal_view_instance_save_as_dialog_set_property (GObject *object, guint prop_id, c
 }
 
 static void
-gal_view_instance_save_as_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+gal_view_instance_save_as_dialog_get_property (GObject *object,
+                                               guint property_id,
+                                               GValue *value,
+                                               GParamSpec *pspec)
 {
 	GalViewInstanceSaveAsDialog *dialog;
 
 	dialog = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_INSTANCE:
 		g_value_set_object (value, dialog->instance);
 		break;
 
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
@@ -214,7 +222,7 @@ gal_view_instance_save_as_dialog_class_init (GalViewInstanceSaveAsDialogClass *k
 {
 	GObjectClass *object_class;
 
-	object_class = (GObjectClass*) klass;
+	object_class = (GObjectClass *) klass;
 
 	object_class->set_property = gal_view_instance_save_as_dialog_set_property;
 	object_class->get_property = gal_view_instance_save_as_dialog_get_property;
@@ -312,7 +320,7 @@ gal_view_instance_save_as_dialog_save (GalViewInstanceSaveAsDialog *dialog)
 			if (gtk_tree_selection_get_selected (selection, &dialog->model, &iter)) {
 				gtk_tree_model_get (dialog->model, &iter, COL_GALVIEW_DATA, &item, -1);
 
-				for (n=0; n<dialog->instance->collection->view_count; n++) {
+				for (n = 0; n < dialog->instance->collection->view_count; n++) {
 					if (item == dialog->instance->collection->view_data[n]) {
 						id = gal_view_collection_set_nth_view (dialog->instance->collection, n, view);
 						gal_view_collection_save (dialog->instance->collection);

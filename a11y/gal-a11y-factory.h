@@ -36,7 +36,7 @@ type_as_function ## _factory_get_accessible_type (void)				\
   return type;									\
 }										\
 										\
-static AtkObject*								\
+static AtkObject *								\
 type_as_function ## _factory_create_accessible (GObject *obj)			\
 {										\
   GtkWidget *widget;								\

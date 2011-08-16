@@ -78,12 +78,12 @@ typedef GtkWidget *
 						 gpointer data);
 
 /* ok so this is all a bit bogussy
-   we need to map to glade stuff instead */
+ * we need to map to glade stuff instead */
 
 /* Add types?
-   if no factory, setup appropriate container ?
-   if factory, then assume that returns the right sort of object?
-   what about pages ?
+ * if no factory, setup appropriate container ?
+ * if factory, then assume that returns the right sort of object?
+ * what about pages ?
 */
 
 /**
@@ -318,7 +318,7 @@ void		e_config_target_free		(EConfig *config,
 /* config plugin target, they are closely integrated */
 
 /* To implement a basic config plugin, you just need to subclass
-   this and initialise the class target type tables */
+ * this and initialise the class target type tables */
 
 #include "e-util/e-plugin.h"
 

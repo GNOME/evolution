@@ -321,7 +321,8 @@ static gchar *i18n_hdrs[] = {
 #endif
 
 static void
-emfq_format_address (GString *out, struct _camel_header_address *a)
+emfq_format_address (GString *out,
+                     struct _camel_header_address *a)
 {
 	guint32 flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
 	gchar *name, *mailto, *addr;
@@ -581,7 +582,8 @@ emfq_format_message (EMFormat *emf,
 /* Decodes inline encoded parts of 'part'. The returned pointer,
  * if not NULL, should be unreffed with g_object_unref(). */
 static CamelMimePart *
-decode_inline_parts (CamelMimePart *part, GCancellable *cancellable)
+decode_inline_parts (CamelMimePart *part,
+                     GCancellable *cancellable)
 {
 	CamelMultipart *mp;
 	CamelStream *null;

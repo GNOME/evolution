@@ -35,7 +35,8 @@
 #define EPU_CHECK_FALSE "epu-check-false-value"
 
 static gboolean
-epu_is_uri_proto (const gchar *uri, const gchar *protocol)
+epu_is_uri_proto (const gchar *uri,
+                  const gchar *protocol)
 {
 	gboolean res;
 
@@ -60,7 +61,8 @@ epu_is_uri_proto (const gchar *uri, const gchar *protocol)
  * Returns: whether given source's uri is of the given protocol.
  **/
 gboolean
-e_plugin_util_is_source_proto (ESource *source, const gchar *protocol)
+e_plugin_util_is_source_proto (ESource *source,
+                               const gchar *protocol)
 {
 	gchar *uri;
 	gboolean res;
@@ -85,7 +87,8 @@ e_plugin_util_is_source_proto (ESource *source, const gchar *protocol)
  * Returns: whether given groups' base uri is of the given protocol.
  **/
 gboolean
-e_plugin_util_is_group_proto (ESourceGroup *group, const gchar *protocol)
+e_plugin_util_is_group_proto (ESourceGroup *group,
+                              const gchar *protocol)
 {
 	g_return_val_if_fail (E_IS_SOURCE_GROUP (group), FALSE);
 	g_return_val_if_fail (protocol != NULL, FALSE);
@@ -158,7 +161,9 @@ e_plugin_util_uri_no_proto (SoupURI *uri)
 }
 
 static void
-epu_update_source_property (ESource *source, GObject *object, const gchar *value)
+epu_update_source_property (ESource *source,
+                            GObject *object,
+                            const gchar *value)
 {
 	const gchar *property_name;
 
@@ -172,7 +177,8 @@ epu_update_source_property (ESource *source, GObject *object, const gchar *value
 }
 
 static void
-epu_entry_changed_cb (GObject *entry, ESource *source)
+epu_entry_changed_cb (GObject *entry,
+                      ESource *source)
 {
 	g_return_if_fail (GTK_IS_ENTRY (entry));
 
@@ -180,7 +186,8 @@ epu_entry_changed_cb (GObject *entry, ESource *source)
 }
 
 static void
-epu_check_toggled_cb (GObject *button, ESource *source)
+epu_check_toggled_cb (GObject *button,
+                      ESource *source)
 {
 	const gchar *true_value, *false_value;
 
@@ -208,7 +215,10 @@ epu_check_toggled_cb (GObject *button, ESource *source)
  * Returns: pointer to newly added #GtkEntry
  **/
 GtkWidget *
-e_plugin_util_add_entry (GtkWidget *parent, const gchar *label, ESource *source, const gchar *source_property)
+e_plugin_util_add_entry (GtkWidget *parent,
+                         const gchar *label,
+                         ESource *source,
+                         const gchar *source_property)
 {
 	GtkWidget *entry, *lbl = NULL;
 	const gchar *value;
@@ -254,7 +264,9 @@ e_plugin_util_add_entry (GtkWidget *parent, const gchar *label, ESource *source,
 
 	if (source) {
 		g_object_set_data_full (G_OBJECT (entry), EPU_SP_NAME, g_strdup (source_property), g_free);
-		g_signal_connect (G_OBJECT (entry), "changed", G_CALLBACK (epu_entry_changed_cb), source);
+		g_signal_connect (
+			entry, "changed",
+			G_CALLBACK (epu_entry_changed_cb), source);
 	}
 
 	return entry;
@@ -278,7 +290,12 @@ e_plugin_util_add_entry (GtkWidget *parent, const gchar *label, ESource *source,
  * Returns: pointer to newly added #GtkCheckButton
  **/
 GtkWidget *
-e_plugin_util_add_check (GtkWidget *parent, const gchar *label, ESource *source, const gchar *source_property, const gchar *true_value, const gchar *false_value)
+e_plugin_util_add_check (GtkWidget *parent,
+                         const gchar *label,
+                         ESource *source,
+                         const gchar *source_property,
+                         const gchar *true_value,
+                         const gchar *false_value)
 {
 	GtkWidget *check;
 	const gchar *value;
@@ -318,14 +335,18 @@ e_plugin_util_add_check (GtkWidget *parent, const gchar *label, ESource *source,
 		g_object_set_data_full (G_OBJECT (check), EPU_SP_NAME, g_strdup (source_property), g_free);
 		g_object_set_data_full (G_OBJECT (check), EPU_CHECK_TRUE, g_strdup (true_value), g_free);
 		g_object_set_data_full (G_OBJECT (check), EPU_CHECK_FALSE, g_strdup (false_value), g_free);
-		g_signal_connect (G_OBJECT (check), "toggled", G_CALLBACK (epu_check_toggled_cb), source);
+		g_signal_connect (
+			check, "toggled",
+			G_CALLBACK (epu_check_toggled_cb), source);
 	}
 
 	return check;
 }
 
 static void
-epu_update_refresh_value (GtkWidget *spin, GtkWidget *combobox, ESource *source)
+epu_update_refresh_value (GtkWidget *spin,
+                          GtkWidget *combobox,
+                          ESource *source)
 {
 	gchar *value;
 	gint setting = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
@@ -356,7 +377,8 @@ epu_update_refresh_value (GtkWidget *spin, GtkWidget *combobox, ESource *source)
 }
 
 static void
-epu_refresh_spin_changed_cb (GtkWidget *spin, ESource *source)
+epu_refresh_spin_changed_cb (GtkWidget *spin,
+                             ESource *source)
 {
 	g_return_if_fail (spin != NULL);
 	g_return_if_fail (GTK_IS_SPIN_BUTTON (spin));
@@ -365,7 +387,8 @@ epu_refresh_spin_changed_cb (GtkWidget *spin, ESource *source)
 }
 
 static void
-epu_refresh_combo_changed_cb (GtkWidget *combobox, ESource *source)
+epu_refresh_combo_changed_cb (GtkWidget *combobox,
+                              ESource *source)
 {
 	g_return_if_fail (combobox != NULL);
 	g_return_if_fail (GTK_IS_COMBO_BOX (combobox));
@@ -387,7 +410,10 @@ epu_refresh_combo_changed_cb (GtkWidget *combobox, ESource *source)
  * Returns: a new refresh control widget
  **/
 GtkWidget *
-e_plugin_util_add_refresh (GtkWidget *parent, const gchar *label, ESource *source, const gchar *source_property)
+e_plugin_util_add_refresh (GtkWidget *parent,
+                           const gchar *label,
+                           ESource *source,
+                           const gchar *source_property)
 {
 	GtkWidget *lbl = NULL, *hbox, *spin, *combo;
 	const gchar *value;
@@ -457,8 +483,12 @@ e_plugin_util_add_refresh (GtkWidget *parent, const gchar *label, ESource *sourc
 	g_object_set_data (G_OBJECT (spin), "refresh-combo", combo);
 	g_object_set_data (G_OBJECT (hbox), "refresh-spin", spin);
 	g_object_set_data (G_OBJECT (hbox), "refresh-combo", combo);
-	g_signal_connect (G_OBJECT (combo), "changed", G_CALLBACK (epu_refresh_combo_changed_cb), source);
-	g_signal_connect (G_OBJECT (spin), "value-changed", G_CALLBACK (epu_refresh_spin_changed_cb), source);
+	g_signal_connect (
+		combo, "changed",
+		G_CALLBACK (epu_refresh_combo_changed_cb), source);
+	g_signal_connect (
+		spin, "value-changed",
+		G_CALLBACK (epu_refresh_spin_changed_cb), source);
 
 	if (parent)
 		gtk_table_attach (GTK_TABLE (parent), hbox, 1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);

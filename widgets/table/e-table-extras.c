@@ -156,7 +156,9 @@ e_string_search (gconstpointer haystack,
 }
 
 static gint
-e_table_str_case_compare (gconstpointer x, gconstpointer y, gpointer cmp_cache)
+e_table_str_case_compare (gconstpointer x,
+                          gconstpointer y,
+                          gpointer cmp_cache)
 {
 	const gchar *cx = NULL, *cy = NULL;
 
@@ -190,7 +192,9 @@ e_table_str_case_compare (gconstpointer x, gconstpointer y, gpointer cmp_cache)
 }
 
 static gint
-e_table_collate_compare (gconstpointer x, gconstpointer y, gpointer cmp_cache)
+e_table_collate_compare (gconstpointer x,
+                         gconstpointer y,
+                         gpointer cmp_cache)
 {
 	const gchar *cx = NULL, *cy = NULL;
 

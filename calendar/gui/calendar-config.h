@@ -34,8 +34,8 @@
 #include <e-util/e-util-enums.h>
 
 /* These are used to get/set the working days in the week. The bit-flags are
-   combined together. The bits must be from 0 (Sun) to 6 (Sat) to match the
-   day values used by localtime etc. */
+ * combined together. The bits must be from 0 (Sun) to 6 (Sat) to match the
+ * day values used by localtime etc. */
 typedef enum
 {
 	CAL_SUNDAY	= 1 << 0,
@@ -68,7 +68,7 @@ gboolean  calendar_config_get_hide_completed_tasks	(void);
 gchar *	  calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed);
 
 /* Returns TRUE if the locale has 'am' and 'pm' strings defined, i.e. it
-   supports 12-hour time format. */
+ * supports 12-hour time format. */
 gboolean  calendar_config_locale_supports_12_hour_format (void);
 
 void	  calendar_config_set_dir_path (const gchar *);

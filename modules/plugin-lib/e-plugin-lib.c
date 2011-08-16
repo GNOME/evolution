@@ -35,15 +35,15 @@ static gpointer parent_class;
 static GType plugin_lib_type;
 
 /* TODO:
-   We need some way to manage lifecycle.
-   We need some way to manage state.
-
-   Maybe just the g module init method will do, or we could add
-   another which returns context.
-
-   There is also the question of per-instance context, e.g. for config
-   pages.
-*/
+ * We need some way to manage lifecycle.
+ * We need some way to manage state.
+ *
+ * Maybe just the g module init method will do, or we could add
+ * another which returns context.
+ *
+ * There is also the question of per-instance context, e.g. for config
+ * pages.
+ */
 
 static gint
 plugin_lib_loadmodule (EPlugin *plugin)
@@ -93,7 +93,8 @@ plugin_lib_loadmodule (EPlugin *plugin)
 }
 
 static gpointer
-plugin_lib_get_symbol (EPlugin *plugin, const gchar *name)
+plugin_lib_get_symbol (EPlugin *plugin,
+                       const gchar *name)
 {
 	EPluginLib *plugin_lib = E_PLUGIN_LIB (plugin);
 	gpointer symbol;
@@ -108,7 +109,9 @@ plugin_lib_get_symbol (EPlugin *plugin, const gchar *name)
 }
 
 static gpointer
-plugin_lib_invoke (EPlugin *plugin, const gchar *name, gpointer data)
+plugin_lib_invoke (EPlugin *plugin,
+                   const gchar *name,
+                   gpointer data)
 {
 	EPluginLib *plugin_lib = E_PLUGIN_LIB (plugin);
 	EPluginLibFunc func;
@@ -131,7 +134,8 @@ plugin_lib_invoke (EPlugin *plugin, const gchar *name, gpointer data)
 }
 
 static gint
-plugin_lib_construct (EPlugin *plugin, xmlNodePtr root)
+plugin_lib_construct (EPlugin *plugin,
+                      xmlNodePtr root)
 {
 	EPluginLib *plugin_lib = E_PLUGIN_LIB (plugin);
 
@@ -191,7 +195,8 @@ plugin_lib_get_configure_widget (EPlugin *plugin)
 }
 
 static void
-plugin_lib_enable (EPlugin *plugin, gint state)
+plugin_lib_enable (EPlugin *plugin,
+                   gint state)
 {
 	EPluginLib *plugin_lib = E_PLUGIN_LIB (plugin);
 	EPluginLibEnableFunc enable;

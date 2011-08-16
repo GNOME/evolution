@@ -151,7 +151,7 @@ e_xml_get_child_by_name_by_lang_list (const xmlNode *parent,
 		language_names = g_get_language_names ();
 		while (*language_names != NULL)
 			lang_list = g_list_append (
-				(GList *) lang_list, (gchar *)*language_names++);
+				(GList *) lang_list, (gchar *) * language_names++);
 	}
 	return e_xml_get_child_by_name_by_lang_list_with_score
 		(parent,name,
@@ -374,7 +374,8 @@ e_xml_set_double_prop_by_name (xmlNode *parent,
 }
 
 gchar *
-e_xml_get_string_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
+e_xml_get_string_prop_by_name (const xmlNode *parent,
+                               const xmlChar *prop_name)
 {
 	g_return_val_if_fail (parent != NULL, NULL);
 	g_return_val_if_fail (prop_name != NULL, NULL);

@@ -40,7 +40,8 @@ ecp_init (EABConfig *cfg)
 }
 
 static void
-ecp_target_free (EConfig *ec, EConfigTarget *t)
+ecp_target_free (EConfig *ec,
+                 EConfigTarget *t)
 {
 	struct _EABConfigPrivate *p = EAB_CONFIG (ec)->priv;
 
@@ -78,13 +79,15 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 }
 
 static void
-ecp_source_changed (struct _ESource *source, EConfig *ec)
+ecp_source_changed (ESource *source,
+                    EConfig *ec)
 {
 	e_config_target_changed (ec, E_CONFIG_TARGET_CHANGED_STATE);
 }
 
 static void
-ecp_set_target (EConfig *ec, EConfigTarget *t)
+ecp_set_target (EConfig *ec,
+                EConfigTarget *t)
 {
 	struct _EABConfigPrivate *p = EAB_CONFIG (ec)->priv;
 
@@ -137,7 +140,8 @@ eab_config_get_type (void)
 }
 
 EABConfig *
-eab_config_new (gint type, const gchar *menuid)
+eab_config_new (gint type,
+                const gchar *menuid)
 {
 	EABConfig *ecp = g_object_new (eab_config_get_type (), NULL);
 	e_config_construct (&ecp->config, type, menuid);
@@ -145,7 +149,8 @@ eab_config_new (gint type, const gchar *menuid)
 }
 
 EABConfigTargetSource *
-eab_config_target_new_source (EABConfig *ecp, struct _ESource *source)
+eab_config_target_new_source (EABConfig *ecp,
+                              ESource *source)
 {
 	EABConfigTargetSource *t = e_config_target_new (
 		&ecp->config, EAB_CONFIG_TARGET_SOURCE, sizeof (*t));
@@ -157,7 +162,8 @@ eab_config_target_new_source (EABConfig *ecp, struct _ESource *source)
 }
 
 EABConfigTargetPrefs *
-eab_config_target_new_prefs (EABConfig *ecp, GConfClient *gconf)
+eab_config_target_new_prefs (EABConfig *ecp,
+                             GConfClient *gconf)
 {
 	EABConfigTargetPrefs *t = e_config_target_new (
 		&ecp->config, EAB_CONFIG_TARGET_PREFS, sizeof (*t));

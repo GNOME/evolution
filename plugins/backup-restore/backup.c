@@ -95,7 +95,9 @@ static GOptionEntry options[] = {
 static gboolean check (const gchar *filename, gboolean *is_new_format);
 
 static GString *
-replace_string (const gchar *text, const gchar *find, const gchar *replace)
+replace_string (const gchar *text,
+                const gchar *find,
+                const gchar *replace)
 {
 	const gchar *p, *next;
 	GString *str;
@@ -183,7 +185,9 @@ replace_variables (const gchar *str)
 }
 
 static void
-replace_in_file (const gchar *filename, const gchar *find, const gchar *replace)
+replace_in_file (const gchar *filename,
+                 const gchar *find,
+                 const gchar *replace)
 {
 	gchar *content = NULL;
 	GError *error = NULL;
@@ -338,7 +342,9 @@ backup (const gchar *filename,
 }
 
 static void
-extract_backup_dirs (const gchar *filename, gchar **data_dir, gchar **config_dir)
+extract_backup_dirs (const gchar *filename,
+                     gchar **data_dir,
+                     gchar **config_dir)
 {
 	GKeyFile *key_file;
 	GError *error = NULL;
@@ -524,7 +530,8 @@ restore (const gchar *filename,
 }
 
 static gboolean
-check (const gchar *filename, gboolean *is_new_format)
+check (const gchar *filename,
+       gboolean *is_new_format)
 {
 	gchar *command;
 	gchar *quotedfname;
@@ -650,7 +657,8 @@ dlg_response (GtkWidget *dlg,
 }
 
 gint
-main (gint argc, gchar **argv)
+main (gint argc,
+      gchar **argv)
 {
 	GCancellable *cancellable;
 	gchar *file = NULL, *oper = NULL;
@@ -674,7 +682,7 @@ main (gint argc, gchar **argv)
 
 		p_SetProcessDEPPolicy = GetProcAddress (GetModuleHandle ("kernel32.dll"), "SetProcessDEPPolicy");
 		if (p_SetProcessDEPPolicy)
-			(*p_SetProcessDEPPolicy) (PROCESS_DEP_ENABLE|PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION);
+			(*p_SetProcessDEPPolicy) (PROCESS_DEP_ENABLE | PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION);
 	}
 #endif
 #endif
@@ -770,7 +778,7 @@ main (gint argc, gchar **argv)
 			txt2 = _("Please wait while Evolution is restoring your data.");
 		} else {
 			/* do not translate these two, it's just a fallback when something goes wrong,
-			   we should never get here anyway. */
+			 * we should never get here anyway. */
 			txt = "Oops, doing nothing...";
 			txt2 = "Should not be here now, really...";
 		}

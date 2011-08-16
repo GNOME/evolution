@@ -52,7 +52,8 @@ static guint e_reflow_model_signals[LAST_SIGNAL] = { 0, };
  * @width: The new value for the width of each item.
  */
 void
-e_reflow_model_set_width (EReflowModel *e_reflow_model, gint width)
+e_reflow_model_set_width (EReflowModel *e_reflow_model,
+                          gint width)
 {
 	g_return_if_fail (e_reflow_model != NULL);
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
@@ -84,7 +85,9 @@ e_reflow_model_count (EReflowModel *e_reflow_model)
  * Returns: the height of the nth item.
  */
 gint
-e_reflow_model_height (EReflowModel *e_reflow_model, gint n, GnomeCanvasGroup *parent)
+e_reflow_model_height (EReflowModel *e_reflow_model,
+                       gint n,
+                       GnomeCanvasGroup *parent)
 {
 	g_return_val_if_fail (e_reflow_model != NULL, 0);
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (e_reflow_model), 0);
@@ -103,7 +106,9 @@ e_reflow_model_height (EReflowModel *e_reflow_model, gint n, GnomeCanvasGroup *p
  * Returns: the new GnomeCanvasItem.
  */
 GnomeCanvasItem *
-e_reflow_model_incarnate (EReflowModel *e_reflow_model, gint n, GnomeCanvasGroup *parent)
+e_reflow_model_incarnate (EReflowModel *e_reflow_model,
+                          gint n,
+                          GnomeCanvasGroup *parent)
 {
 	g_return_val_if_fail (e_reflow_model != NULL, NULL);
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (e_reflow_model), NULL);
@@ -148,7 +153,10 @@ e_reflow_model_create_cmp_cache (EReflowModel *e_reflow_model)
  * Returns: strcmp like semantics for the comparison value.
  */
 gint
-e_reflow_model_compare (EReflowModel *e_reflow_model, gint n1, gint n2, GHashTable *cmp_cache)
+e_reflow_model_compare (EReflowModel *e_reflow_model,
+                        gint n1,
+                        gint n2,
+                        GHashTable *cmp_cache)
 {
 #if 0
 	g_return_val_if_fail (e_reflow_model != NULL, 0);
@@ -167,7 +175,9 @@ e_reflow_model_compare (EReflowModel *e_reflow_model, gint n1, gint n2, GHashTab
  * Update item to represent the nth piece of data.
  */
 void
-e_reflow_model_reincarnate (EReflowModel *e_reflow_model, gint n, GnomeCanvasItem *item)
+e_reflow_model_reincarnate (EReflowModel *e_reflow_model,
+                            gint n,
+                            GnomeCanvasItem *item)
 {
 	g_return_if_fail (e_reflow_model != NULL);
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
@@ -312,7 +322,9 @@ e_reflow_model_comparison_changed (EReflowModel *e_reflow_model)
  * Use this function to notify any views of the reflow model that a number of items have been inserted.
  **/
 void
-e_reflow_model_items_inserted (EReflowModel *e_reflow_model, gint position, gint count)
+e_reflow_model_items_inserted (EReflowModel *e_reflow_model,
+                               gint position,
+                               gint count)
 {
 	g_return_if_fail (e_reflow_model != NULL);
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
@@ -335,8 +347,8 @@ e_reflow_model_items_inserted (EReflowModel *e_reflow_model, gint position, gint
  * item has been removed.
  **/
 void
-e_reflow_model_item_removed    (EReflowModel     *e_reflow_model,
-				gint               n)
+e_reflow_model_item_removed (EReflowModel *e_reflow_model,
+                             gint n)
 {
 	g_return_if_fail (e_reflow_model != NULL);
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
@@ -362,7 +374,8 @@ e_reflow_model_item_removed    (EReflowModel     *e_reflow_model,
  * object
  */
 void
-e_reflow_model_item_changed (EReflowModel *e_reflow_model, gint n)
+e_reflow_model_item_changed (EReflowModel *e_reflow_model,
+                             gint n)
 {
 	g_return_if_fail (e_reflow_model != NULL);
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));

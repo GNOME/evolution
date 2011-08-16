@@ -55,20 +55,22 @@ void backup_restore_commit (EPlugin *ep, EMConfigTargetAccount *target);
 void backup_restore_abort (EPlugin *ep, EMConfigTargetAccount *target);
 
 typedef enum _br_flags {
-	BR_OK = 1<<0,
-	BR_START = 1<<1
+	BR_OK = 1 << 0,
+	BR_START = 1 << 1
 }br_flags;
 
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
 
 static void
-backup (const gchar *filename, gboolean restart)
+backup (const gchar *filename,
+        gboolean restart)
 {
 	if (restart)
 		execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--backup", "--restart", filename, (gchar *)NULL);
@@ -77,7 +79,8 @@ backup (const gchar *filename, gboolean restart)
 }
 
 static void
-restore (const gchar *filename, gboolean restart)
+restore (const gchar *filename,
+         gboolean restart)
 {
 	if (restart)
 		execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--restore", "--restart", filename, (gchar *)NULL);
@@ -111,7 +114,10 @@ sanity_check (const gchar *filename)
 }
 
 static guint32
-dialog_prompt_user (GtkWindow *parent, const gchar *string, const gchar *tag, ...)
+dialog_prompt_user (GtkWindow *parent,
+                    const gchar *string,
+                    const gchar *tag,
+                    ...)
 {
 	GtkWidget *dialog;
 	GtkWidget *check = NULL;
@@ -270,7 +276,8 @@ action_settings_restore_cb (GtkAction *action,
 }
 
 static void
-check_toggled (GtkToggleButton *button, GtkAssistant *assistant)
+check_toggled (GtkToggleButton *button,
+               GtkAssistant *assistant)
 {
 	GtkWidget *box = g_object_get_data ((GObject *)button, "box");
 	gboolean state = gtk_toggle_button_get_active ((GtkToggleButton *) button);
@@ -283,7 +290,8 @@ check_toggled (GtkToggleButton *button, GtkAssistant *assistant)
 }
 
 static void
-file_changed (GtkFileChooser *chooser, GtkAssistant *assistant)
+file_changed (GtkFileChooser *chooser,
+              GtkAssistant *assistant)
 {
 	gchar *file = NULL, *prevfile = NULL;
 
@@ -296,7 +304,9 @@ file_changed (GtkFileChooser *chooser, GtkAssistant *assistant)
 }
 
 static gboolean
-backup_restore_check (EConfig *ec, const gchar *pageid, gpointer data)
+backup_restore_check (EConfig *ec,
+                      const gchar *pageid,
+                      gpointer data)
 {
 	GtkAssistant *assistant = data;
 	gint do_restore;
@@ -314,7 +324,8 @@ backup_restore_check (EConfig *ec, const gchar *pageid, gpointer data)
 }
 
 GtkWidget *
-backup_restore_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
+backup_restore_page (EPlugin *ep,
+                     EConfigHookItemFactoryData *hook_data)
 {
 	GtkWidget *page, *hbox, *label, *cbox, *button;
 	GtkAssistant *assistant = GTK_ASSISTANT (hook_data->parent);
@@ -359,7 +370,8 @@ backup_restore_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	return GTK_WIDGET (page);
 }
 void
-backup_restore_commit (EPlugin *ep, EMConfigTargetAccount *target)
+backup_restore_commit (EPlugin *ep,
+                       EMConfigTargetAccount *target)
 {
 	GtkWidget *assistant = target->target.config->widget;
 	gboolean state = GPOINTER_TO_INT (g_object_get_data ((GObject *)assistant, "restore")) ? TRUE : FALSE;
@@ -377,7 +389,8 @@ backup_restore_commit (EPlugin *ep, EMConfigTargetAccount *target)
 }
 
 void
-backup_restore_abort (EPlugin *ep, EMConfigTargetAccount *target)
+backup_restore_abort (EPlugin *ep,
+                      EMConfigTargetAccount *target)
 {
 	/* Nothing really */
 }

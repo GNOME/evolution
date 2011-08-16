@@ -59,7 +59,8 @@ detach_tree (GalViewEtable *view)
 }
 
 static void
-config_changed (ETableConfig *config, GalViewEtable *view)
+config_changed (ETableConfig *config,
+                GalViewEtable *view)
 {
 	ETableState *state;
 	if (view->state)
@@ -74,7 +75,8 @@ config_changed (ETableConfig *config, GalViewEtable *view)
 }
 
 static void
-gal_view_etable_edit            (GalView *view, GtkWindow *parent)
+gal_view_etable_edit (GalView *view,
+                      GtkWindow *parent)
 {
 	GalViewEtable *etable_view = GAL_VIEW_ETABLE (view);
 	ETableConfig *config;
@@ -84,33 +86,33 @@ gal_view_etable_edit            (GalView *view, GtkWindow *parent)
 				    etable_view->state,
 				    parent);
 
-	g_signal_connect(config, "changed",
+	g_signal_connect (config, "changed",
 			 G_CALLBACK (config_changed), view);
 }
 
 static void
-gal_view_etable_load  (GalView *view,
-		       const gchar *filename)
+gal_view_etable_load (GalView *view,
+                      const gchar *filename)
 {
 	e_table_state_load_from_file (GAL_VIEW_ETABLE (view)->state, filename);
 }
 
 static void
-gal_view_etable_save    (GalView *view,
-			 const gchar *filename)
+gal_view_etable_save (GalView *view,
+                      const gchar *filename)
 {
 	e_table_state_save_to_file (GAL_VIEW_ETABLE (view)->state, filename);
 }
 
 static const gchar *
-gal_view_etable_get_title       (GalView *view)
+gal_view_etable_get_title (GalView *view)
 {
 	return GAL_VIEW_ETABLE (view)->title;
 }
 
 static void
 gal_view_etable_set_title (GalView *view,
-			   const gchar *title)
+                           const gchar *title)
 {
 	g_free (GAL_VIEW_ETABLE (view)->title);
 	GAL_VIEW_ETABLE (view)->title = g_strdup (title);
@@ -123,7 +125,7 @@ gal_view_etable_get_type_code (GalView *view)
 }
 
 static GalView *
-gal_view_etable_clone       (GalView *view)
+gal_view_etable_clone (GalView *view)
 {
 	GalViewEtable *gve, *new;
 
@@ -140,7 +142,7 @@ gal_view_etable_clone       (GalView *view)
 }
 
 static void
-gal_view_etable_dispose         (GObject *object)
+gal_view_etable_dispose (GObject *object)
 {
 	GalViewEtable *view = GAL_VIEW_ETABLE (object);
 
@@ -162,7 +164,7 @@ gal_view_etable_dispose         (GObject *object)
 }
 
 static void
-gal_view_etable_class_init      (GalViewEtableClass *klass)
+gal_view_etable_class_init (GalViewEtableClass *klass)
 {
 	GalViewClass *gal_view_class  = GAL_VIEW_CLASS (klass);
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -179,7 +181,7 @@ gal_view_etable_class_init      (GalViewEtableClass *klass)
 }
 
 static void
-gal_view_etable_init      (GalViewEtable *gve)
+gal_view_etable_init (GalViewEtable *gve)
 {
 	gve->spec  = NULL;
 	gve->state = e_table_state_new ();
@@ -198,7 +200,7 @@ gal_view_etable_init      (GalViewEtable *gve)
  */
 GalView *
 gal_view_etable_new (ETableSpecification *spec,
-		     const gchar *title)
+                     const gchar *title)
 {
 	GalViewEtable *view;
 
@@ -221,9 +223,9 @@ gal_view_etable_new (ETableSpecification *spec,
  * Returns: The GalViewEtable.
  */
 GalView *
-gal_view_etable_construct  (GalViewEtable *view,
-			    ETableSpecification *spec,
-			    const gchar *title)
+gal_view_etable_construct (GalViewEtable *view,
+                           ETableSpecification *spec,
+                           const gchar *title)
 {
 	g_return_val_if_fail (GAL_IS_VIEW_ETABLE (view), NULL);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (spec), NULL);
@@ -242,7 +244,8 @@ gal_view_etable_construct  (GalViewEtable *view,
 }
 
 void
-gal_view_etable_set_state (GalViewEtable *view, ETableState *state)
+gal_view_etable_set_state (GalViewEtable *view,
+                           ETableState *state)
 {
 	g_return_if_fail (GAL_IS_VIEW_ETABLE (view));
 	g_return_if_fail (E_IS_TABLE_STATE (state));
@@ -255,7 +258,8 @@ gal_view_etable_set_state (GalViewEtable *view, ETableState *state)
 }
 
 static void
-table_state_changed (ETable *table, GalViewEtable *view)
+table_state_changed (ETable *table,
+                     GalViewEtable *view)
 {
 	ETableState *state;
 
@@ -267,7 +271,8 @@ table_state_changed (ETable *table, GalViewEtable *view)
 }
 
 static void
-tree_state_changed (ETree *tree, GalViewEtable *view)
+tree_state_changed (ETree *tree,
+                    GalViewEtable *view)
 {
 	ETableState *state;
 
@@ -279,7 +284,8 @@ tree_state_changed (ETree *tree, GalViewEtable *view)
 }
 
 void
-gal_view_etable_attach_table (GalViewEtable *view, ETable *table)
+gal_view_etable_attach_table (GalViewEtable *view,
+                              ETable *table)
 {
 	g_return_if_fail (GAL_IS_VIEW_ETABLE (view));
 	g_return_if_fail (E_IS_TABLE (table));
@@ -291,12 +297,13 @@ gal_view_etable_attach_table (GalViewEtable *view, ETable *table)
 	e_table_set_state_object (view->table, view->state);
 	g_object_ref (view->table);
 	view->table_state_changed_id =
-		g_signal_connect(view->table, "state_change",
+		g_signal_connect (view->table, "state_change",
 				 G_CALLBACK (table_state_changed), view);
 }
 
 void
-gal_view_etable_attach_tree (GalViewEtable *view, ETree *tree)
+gal_view_etable_attach_tree (GalViewEtable *view,
+                             ETree *tree)
 {
 	g_return_if_fail (GAL_IS_VIEW_ETABLE (view));
 	g_return_if_fail (E_IS_TREE (tree));
@@ -308,7 +315,7 @@ gal_view_etable_attach_tree (GalViewEtable *view, ETree *tree)
 	e_tree_set_state_object (view->tree, view->state);
 	g_object_ref (view->tree);
 	view->tree_state_changed_id =
-		g_signal_connect(view->tree, "state_change",
+		g_signal_connect (view->tree, "state_change",
 				 G_CALLBACK (tree_state_changed), view);
 }
 

@@ -97,7 +97,7 @@ void		e_contact_map_remove_marker	(EContactMap *map,
 void		e_contact_map_zoom_on_marker	(EContactMap *map,
 						 ClutterActor *marker);
 
-ChamplainView*  e_contact_map_get_view		(EContactMap *map);
+ChamplainView *  e_contact_map_get_view		(EContactMap *map);
 
 G_END_DECLS
 

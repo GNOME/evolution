@@ -76,11 +76,11 @@ enum {
 static void	e_contact_editor_init		(EContactEditor *editor);
 static void	e_contact_editor_class_init	(EContactEditorClass *klass);
 static void	e_contact_editor_set_property	(GObject *object,
-						 guint prop_id,
+						 guint property_id,
 						 const GValue *value,
 						 GParamSpec *pspec);
 static void	e_contact_editor_get_property	(GObject *object,
-						 guint prop_id,
+						 guint property_id,
 						 GValue *value,
 						 GParamSpec *pspec);
 static void	e_contact_editor_dispose	(GObject *object);
@@ -488,7 +488,7 @@ name_to_style (const EContactName *name,
 		string = g_strjoinv(" ", strings);
 		break;
 	case 2:
-		midstrptr=midstring;
+		midstrptr = midstring;
 		if (name) {
 			if (name->family && *name->family)
 				*(midstrptr++) = name->family;
@@ -567,7 +567,8 @@ file_as_get_style (EContactEditor *editor)
 }
 
 static void
-file_as_set_style (EContactEditor *editor, gint style)
+file_as_set_style (EContactEditor *editor,
+                   gint style)
 {
 	gchar *string;
 	gint i;
@@ -1008,7 +1009,8 @@ get_ui_slot (EVCardAttribute *attr)
 }
 
 static void
-set_ui_slot (EVCardAttribute *attr, gint slot)
+set_ui_slot (EVCardAttribute *attr,
+             gint slot)
 {
 	EVCardAttributeParam *param;
 	gchar                *slot_str;
@@ -1524,7 +1526,8 @@ extract_phone (EContactEditor *editor)
 }
 
 static void
-init_phone_record_type (EContactEditor *editor, gint record)
+init_phone_record_type (EContactEditor *editor,
+                        gint record)
 {
 	GtkWidget *phone_type_combo_box;
 	GtkWidget *phone_entry;
@@ -1945,7 +1948,8 @@ extract_im (EContactEditor *editor)
 }
 
 static void
-sensitize_im_types (EContactEditor *editor, GtkWidget *combo_box)
+sensitize_im_types (EContactEditor *editor,
+                    GtkWidget *combo_box)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -1971,7 +1975,9 @@ sensitize_im_types (EContactEditor *editor, GtkWidget *combo_box)
 }
 
 static void
-sensitize_im_record (EContactEditor *editor, gint record, gboolean enabled)
+sensitize_im_record (EContactEditor *editor,
+                     gint record,
+                     gboolean enabled)
 {
 	GtkWidget *service_combo_box;
 #ifdef ENABLE_IM_LOCATION
@@ -2038,7 +2044,8 @@ init_personal (EContactEditor *editor)
 }
 
 static void
-init_address_textview (EContactEditor *editor, gint record)
+init_address_textview (EContactEditor *editor,
+                       gint record)
 {
 	gchar *textview_name;
 	GtkWidget *textview;
@@ -2078,7 +2085,8 @@ init_address_field (EContactEditor *editor,
 }
 
 static void
-init_address_record (EContactEditor *editor, gint record)
+init_address_record (EContactEditor *editor,
+                     gint record)
 {
 	init_address_textview (editor, record);
 	init_address_field (editor, record, "city");
@@ -2325,7 +2333,8 @@ set_address_label (EContact *contact,
 }
 
 static void
-extract_address_record (EContactEditor *editor, gint record)
+extract_address_record (EContactEditor *editor,
+                        gint record)
 {
 	EContactAddress *address;
 
@@ -2411,7 +2420,9 @@ sensitize_address_field (EContactEditor *editor,
 }
 
 static void
-sensitize_address_record (EContactEditor *editor, gint record, gboolean enabled)
+sensitize_address_record (EContactEditor *editor,
+                          gint record,
+                          gboolean enabled)
 {
 	sensitize_address_textview (editor, record, enabled);
 	sensitize_address_field (editor, record, "city", enabled);
@@ -2520,7 +2531,8 @@ static FieldMapping simple_field_map[] = {
 };
 
 static void
-init_simple_field (EContactEditor *editor, GtkWidget *widget)
+init_simple_field (EContactEditor *editor,
+                   GtkWidget *widget)
 {
 	GObject *changed_object = NULL;
 
@@ -2569,7 +2581,9 @@ init_simple_field (EContactEditor *editor, GtkWidget *widget)
 }
 
 static void
-fill_in_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
+fill_in_simple_field (EContactEditor *editor,
+                      GtkWidget *widget,
+                      gint field_id)
 {
 	EContact *contact;
 
@@ -2707,9 +2721,9 @@ extract_simple_field (EContactEditor *editor,
 		EContactDate date;
 		if (e_date_edit_get_date (
 				E_DATE_EDIT (widget),
-				(gint *)&date.year,
-				(gint *)&date.month,
-				(gint *)&date.day))
+				(gint *) &date.year,
+				(gint *) &date.month,
+				(gint *) &date.day))
 			e_contact_set (contact, field_id, &date);
 		else
 			e_contact_set (contact, field_id, NULL);
@@ -2809,7 +2823,8 @@ extract_simple_field (EContactEditor *editor,
 }
 
 static void
-sensitize_simple_field (GtkWidget *widget, gboolean enabled)
+sensitize_simple_field (GtkWidget *widget,
+                        gboolean enabled)
 {
 	if (GTK_IS_ENTRY (widget))
 		gtk_editable_set_editable (GTK_EDITABLE (widget), enabled);
@@ -3258,7 +3273,7 @@ categories_clicked (GtkWidget *button,
 		return;
 	}
 
-	g_signal_connect(dialog, "response",
+	g_signal_connect (dialog, "response",
 			G_CALLBACK (categories_response), editor);
 
 	/* Close the category dialog if the editor is closed*/
@@ -3649,7 +3664,8 @@ save_contact (EContactEditor *ce,
 }
 
 static void
-e_contact_editor_save_contact (EABEditor *editor, gboolean should_close)
+e_contact_editor_save_contact (EABEditor *editor,
+                               gboolean should_close)
 {
 	save_contact (E_CONTACT_EDITOR (editor), should_close);
 }
@@ -3782,7 +3798,7 @@ e_contact_editor_is_changed (EABEditor *editor)
 	return E_CONTACT_EDITOR (editor)->changed;
 }
 
-static GtkWindow*
+static GtkWindow *
 e_contact_editor_get_window (EABEditor *editor)
 {
 	return GTK_WINDOW (E_CONTACT_EDITOR (editor)->app);
@@ -3837,14 +3853,17 @@ app_delete_event_cb (GtkWidget *widget,
 }
 
 static void
-show_help_cb (GtkWidget *widget, gpointer data)
+show_help_cb (GtkWidget *widget,
+              gpointer data)
 {
 	/* FIXME Pass a proper parent window. */
 	e_display_help (NULL, "usage-contact-cards");
 }
 
 static GList *
-add_to_tab_order (GList *list, GtkBuilder *builder, const gchar *name)
+add_to_tab_order (GList *list,
+                  GtkBuilder *builder,
+                  const gchar *name)
 {
 	GtkWidget *widget = e_builder_get_widget (builder, name);
 	return g_list_prepend (list, widget);
@@ -3857,7 +3876,7 @@ setup_tab_order (GtkBuilder *builder)
 	GList *list = NULL;
 /*
 	container = e_builder_get_widget(builder, "table-contact-editor-general");
-
+ *
 	if (container) {
 		list = add_to_tab_order(list, builder, "entry-fullname");
 		list = add_to_tab_order(list, builder, "entry-jobtitle");
@@ -3867,7 +3886,7 @@ setup_tab_order (GtkBuilder *builder)
 		list = add_to_tab_order(list, builder, "entry-phone-2");
 		list = add_to_tab_order(list, builder, "entry-phone-3");
 		list = add_to_tab_order(list, builder, "entry-phone-4");
-
+ *
 		list = add_to_tab_order(list, builder, "entry-email1");
 		list = add_to_tab_order(list, builder, "alignment-htmlmail");
 		list = add_to_tab_order(list, builder, "entry-web");
@@ -4253,12 +4272,16 @@ e_contact_editor_new (EShell *shell,
 }
 
 static void
-notify_readonly_cb (EBookClient *book_client, GParamSpec *pspec, EContactEditor *ce)
+notify_readonly_cb (EBookClient *book_client,
+                    GParamSpec *pspec,
+                    EContactEditor *ce)
 {
+	EClient *client;
 	gint new_target_editable;
 	gboolean changed = FALSE;
 
-	new_target_editable = !e_client_is_readonly (E_CLIENT (ce->target_client));
+	client = E_CLIENT (ce->target_client);
+	new_target_editable = !e_client_is_readonly (client);
 
 	if (ce->target_editable != new_target_editable)
 		changed = TRUE;
@@ -4271,7 +4294,7 @@ notify_readonly_cb (EBookClient *book_client, GParamSpec *pspec, EContactEditor 
 
 static void
 e_contact_editor_set_property (GObject *object,
-                               guint prop_id,
+                               guint property_id,
                                const GValue *value,
                                GParamSpec *pspec)
 {
@@ -4279,7 +4302,7 @@ e_contact_editor_set_property (GObject *object,
 
 	editor = E_CONTACT_EDITOR (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_SOURCE_CLIENT: {
 		gboolean  writable;
 		gboolean  changed = FALSE;
@@ -4429,14 +4452,14 @@ e_contact_editor_set_property (GObject *object,
 			NULL, g_value_get_pointer (value));
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
 
 static void
 e_contact_editor_get_property (GObject *object,
-                               guint prop_id,
+                               guint property_id,
                                GValue *value,
                                GParamSpec *pspec)
 {
@@ -4444,7 +4467,7 @@ e_contact_editor_get_property (GObject *object,
 
 	e_contact_editor = E_CONTACT_EDITOR (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_SOURCE_CLIENT:
 		g_value_set_object (value, e_contact_editor->source_client);
 		break;
@@ -4480,7 +4503,7 @@ e_contact_editor_get_property (GObject *object,
 		g_value_set_pointer (value, e_contact_editor->required_fields);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }

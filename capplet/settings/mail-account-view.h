@@ -39,7 +39,7 @@ typedef struct _MailAccountViewPrivate MailAccountViewPrivate;
 typedef struct _MailAccountService MailAccountService;
 
 typedef enum {
-	MAV_IDENTITY_PAGE=0,
+	MAV_IDENTITY_PAGE = 0,
 	MAV_RECV_PAGE,
 	MAV_RECV_OPT_PAGE,
 	MAV_SEND_PAGE,

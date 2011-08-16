@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* The following is the mozilla license blurb, as the bodies some of
-   these functions were derived from the mozilla source. */
+ * these functions were derived from the mozilla source. */
 /*
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
@@ -145,7 +145,7 @@ e_pkcs12_get_type (void)
 
 
 
-EPKCS12*
+EPKCS12 *
 e_pkcs12_new (void)
 {
 	EPKCS12 *pk = E_PKCS12 (g_object_new (E_TYPE_PKCS12, NULL));
@@ -154,7 +154,9 @@ e_pkcs12_new (void)
 }
 
 static gboolean
-input_to_decoder (SEC_PKCS12DecoderContext *dcx, const gchar *path, GError **error)
+input_to_decoder (SEC_PKCS12DecoderContext *dcx,
+                  const gchar *path,
+                  GError **error)
 {
 	/*  nsNSSShutDownPreventionLock locker; */
 	SECStatus srv;
@@ -194,15 +196,17 @@ input_to_decoder (SEC_PKCS12DecoderContext *dcx, const gchar *path, GError **err
 }
 
 /* XXX toshok - this needs to be done using a signal as in the
-   e_cert_db_login_to_slot stuff, instead of a direct gui dep here..
-   for now, though, it stays. */
+ * e_cert_db_login_to_slot stuff, instead of a direct gui dep here..
+ * for now, though, it stays. */
 static gboolean
-prompt_for_password (gchar *title, gchar *prompt, SECItem *pwd)
+prompt_for_password (gchar *title,
+                     gchar *prompt,
+                     SECItem *pwd)
 {
 	gchar *passwd;
 
 	passwd = e_passwords_ask_password (title, NULL, "", prompt,
-					   E_PASSWORDS_REMEMBER_NEVER|E_PASSWORDS_SECRET, NULL,
+					   E_PASSWORDS_REMEMBER_NEVER | E_PASSWORDS_SECRET, NULL,
 					   NULL);
 
 	if (passwd) {
@@ -232,8 +236,11 @@ prompt_for_password (gchar *title, gchar *prompt, SECItem *pwd)
 }
 
 static gboolean
-import_from_file_helper (EPKCS12 *pkcs12, PK11SlotInfo *slot,
-			 const gchar *path, gboolean *aWantRetry, GError **error)
+import_from_file_helper (EPKCS12 *pkcs12,
+                         PK11SlotInfo *slot,
+                         const gchar *path,
+                         gboolean *aWantRetry,
+                         GError **error)
 {
 	/*nsNSSShutDownPreventionLock locker; */
 	gboolean rv;
@@ -294,8 +301,8 @@ import_from_file_helper (EPKCS12 *pkcs12, PK11SlotInfo *slot,
 	handle_error (PKCS12_RESTORE_OK);
  finish:
 	/* If srv != SECSuccess, NSS probably set a specific error code.
-	   We should use that error code instead of inventing a new one
-	   for every error possible. */
+	 * We should use that error code instead of inventing a new one
+	 * for every error possible. */
 	if (srv != SECSuccess) {
 		if (SEC_ERROR_BAD_PASSWORD == PORT_GetError ()) {
 			*aWantRetry = TRUE;
@@ -311,7 +318,9 @@ import_from_file_helper (EPKCS12 *pkcs12, PK11SlotInfo *slot,
 }
 
 gboolean
-e_pkcs12_import_from_file (EPKCS12 *pkcs12, const gchar *path, GError **error)
+e_pkcs12_import_from_file (EPKCS12 *pkcs12,
+                           const gchar *path,
+                           GError **error)
 {
 	/*nsNSSShutDownPreventionLock locker;*/
 	gboolean rv = TRUE;
@@ -342,9 +351,11 @@ e_pkcs12_export_to_file (EPKCS12 *pkcs12,
 }
 
 /* what to do when the nickname collides with one already in the db.
-   TODO: not handled, throw a dialog allowing the nick to be changed? */
+ * TODO: not handled, throw a dialog allowing the nick to be changed? */
 static SECItem * PR_CALLBACK
-nickname_collision (SECItem *oldNick, PRBool *cancel, gpointer wincx)
+nickname_collision (SECItem *oldNick,
+                    PRBool *cancel,
+                    gpointer wincx)
 {
 	/* nsNSSShutDownPreventionLock locker; */
 	gint count = 1;
@@ -356,32 +367,32 @@ nickname_collision (SECItem *oldNick, PRBool *cancel, gpointer wincx)
 	printf ("nickname_collision\n");
 
 	/* The user is trying to import a PKCS#12 file that doesn't have the
-	   attribute we use to set the nickname.  So in order to reduce the
-	   number of interactions we require with the user, we'll build a nickname
-	   for the user.  The nickname isn't prominently displayed in the UI,
-	   so it's OK if we generate one on our own here.
-	   XXX If the NSS API were smarter and actually passed a pointer to
-	       the CERTCertificate* we're importing we could actually just
-	       call default_nickname (which is what the issuance code path
-	       does) and come up with a reasonable nickname.  Alas, the NSS
-	       API limits our ability to produce a useful nickname without
-	       bugging the user.  :(
+	 * attribute we use to set the nickname.  So in order to reduce the
+	 * number of interactions we require with the user, we'll build a nickname
+	 * for the user.  The nickname isn't prominently displayed in the UI,
+	 * so it's OK if we generate one on our own here.
+	 * XXX If the NSS API were smarter and actually passed a pointer to
+	 *     the CERTCertificate * we're importing we could actually just
+	 *     call default_nickname (which is what the issuance code path
+	 *     does) and come up with a reasonable nickname.  Alas, the NSS
+	 *     API limits our ability to produce a useful nickname without
+	 *     bugging the user.  :(
 	*/
 	while (1) {
 		CERTCertificate *cert;
 
 		/* If we've gotten this far, that means there isn't a certificate
-		   in the database that has the same subject name as the cert we're
-		   trying to import.  So we need to come up with a "nickname" to
-		   satisfy the NSS requirement or fail in trying to import.
-		   Basically we use a default nickname from a properties file and
-		   see if a certificate exists with that nickname.  If there isn't, then
-		   create update the count by one and append the string '#1' Or
-		   whatever the count currently is, and look for a cert with
-		   that nickname.  Keep updating the count until we find a nickname
-		   without a corresponding cert.
-		   XXX If a user imports *many* certs without the 'friendly name'
-		   attribute, then this may take a long time.  :(
+		 * in the database that has the same subject name as the cert we're
+		 * trying to import.  So we need to come up with a "nickname" to
+		 * satisfy the NSS requirement or fail in trying to import.
+		 * Basically we use a default nickname from a properties file and
+		 * see if a certificate exists with that nickname.  If there isn't, then
+		 * create update the count by one and append the string '#1' Or
+		 * whatever the count currently is, and look for a cert with
+		 * that nickname.  Keep updating the count until we find a nickname
+		 * without a corresponding cert.
+		 * XXX If a user imports *many * certs without the 'friendly name'
+		 * attribute, then this may take a long time.  :(
 		*/
 		if (count > 1) {
 			g_free (nickname);

@@ -242,7 +242,9 @@ e_config_init (EConfig *config)
  * Return value: @ep is returned.
  **/
 EConfig *
-e_config_construct (EConfig *ep, gint type, const gchar *id)
+e_config_construct (EConfig *ep,
+                    gint type,
+                    const gchar *id)
 {
 	g_return_val_if_fail (type == E_CONFIG_BOOK || type == E_CONFIG_ASSISTANT, NULL);
 
@@ -301,7 +303,10 @@ e_config_add_items (EConfig *ec,
  * the assistant to continue or the notebook to close.
  **/
 void
-e_config_add_page_check (EConfig *ec, const gchar *pageid, EConfigCheckFunc check, gpointer data)
+e_config_add_page_check (EConfig *ec,
+                         const gchar *pageid,
+                         EConfigCheckFunc check,
+                         gpointer data)
 {
 	struct _check_node *cn;
 
@@ -314,7 +319,8 @@ e_config_add_page_check (EConfig *ec, const gchar *pageid, EConfigCheckFunc chec
 }
 
 static struct _finish_page_node *
-find_page_finish (EConfig *config, const gchar *pageid)
+find_page_finish (EConfig *config,
+                  const gchar *pageid)
 {
 	GList *link;
 
@@ -341,7 +347,9 @@ find_page_finish (EConfig *config, const gchar *pageid)
  * With is_finish set on the pageid the page is treated as the last page in an assistant.
  **/
 void
-e_config_set_page_is_finish (EConfig *ec, const gchar *pageid, gboolean is_finish)
+e_config_set_page_is_finish (EConfig *ec,
+                             const gchar *pageid,
+                             gboolean is_finish)
 {
 	struct _finish_page_node *fp;
 
@@ -378,7 +386,8 @@ ec_add_static_items (EConfig *config)
 }
 
 static gint
-ep_cmp (gconstpointer ap, gconstpointer bp)
+ep_cmp (gconstpointer ap,
+        gconstpointer bp)
 {
 	struct _widget_node *a = *((gpointer *) ap);
 	struct _widget_node *b = *((gpointer *) bp);
@@ -387,7 +396,9 @@ ep_cmp (gconstpointer ap, gconstpointer bp)
 }
 
 static GList *
-ec_assistant_find_page (EConfig *ec, GtkWidget *page, gint *page_index)
+ec_assistant_find_page (EConfig *ec,
+                        GtkWidget *page,
+                        gint *page_index)
 {
 	struct _widget_node *node = NULL;
 	GList *link;
@@ -493,7 +504,8 @@ ec_assistant_check_current (EConfig *ec)
 }
 
 static gint
-ec_assistant_forward (gint current_page, gpointer user_data)
+ec_assistant_forward (gint current_page,
+                      gpointer user_data)
 {
 	GtkAssistant *assistant;
 	EConfig *ec = user_data;
@@ -645,10 +657,10 @@ ec_rebuild (EConfig *emp)
 		case E_CONFIG_BOOK:
 		case E_CONFIG_ASSISTANT:
 			/* Only one of BOOK or ASSISTANT may be define, it
-			   is used by the defining code to mark the
-			   type of the config window.  It is
-			   cross-checked with the code's defined
-			   type. */
+			 * is used by the defining code to mark the
+			 * type of the config window.  It is
+			 * cross-checked with the code's defined
+			 * type. */
 			if (root != NULL) {
 				g_warning("EConfig book/assistant redefined at: %s", item->path);
 				break;
@@ -776,9 +788,9 @@ ec_rebuild (EConfig *emp)
 		case E_CONFIG_PAGE:
 		case E_CONFIG_PAGE_PROGRESS:
 			/* CONFIG_PAGEs depend on the config type.
-			   E_CONFIG_BOOK:
+			 * E_CONFIG_BOOK:
 				The page is a VBox, stored in the notebook.
-			   E_CONFIG_ASSISTANT
+			 * E_CONFIG_ASSISTANT
 				The page is a VBox, stored in the GtkAssistant,
 				any sections automatically added inside it. */
 			sectionno = 0;
@@ -848,12 +860,12 @@ ec_rebuild (EConfig *emp)
 			sectionnode = NULL;
 			wn->widget = page;
 			if (page)
-				g_signal_connect(page, "destroy", G_CALLBACK(gtk_widget_destroyed), &wn->widget);
+				g_signal_connect (page, "destroy", G_CALLBACK(gtk_widget_destroyed), &wn->widget);
 			break;
 		case E_CONFIG_SECTION:
 		case E_CONFIG_SECTION_TABLE:
 			/* The section factory is always called with
-			   the parent vbox object.  Even for assistant pages. */
+			 * the parent vbox object.  Even for assistant pages. */
 			if (page == NULL) {
 				/*g_warning("EConfig section '%s' has no parent page", item->path);*/
 				section = NULL;
@@ -950,7 +962,7 @@ ec_rebuild (EConfig *emp)
 			sectionno++;
 			wn->widget = section;
 			if (section)
-				g_signal_connect(section, "destroy", G_CALLBACK(gtk_widget_destroyed), &wn->widget);
+				g_signal_connect (section, "destroy", G_CALLBACK(gtk_widget_destroyed), &wn->widget);
 			sectionnode = wn;
 			break;
 		case E_CONFIG_ITEM:
@@ -960,8 +972,8 @@ ec_rebuild (EConfig *emp)
 				wn->widget = NULL;
 
 			/* ITEMs are called with the section parent.
-			   The type depends on the section type,
-			   either a GtkTable, or a GtkVBox */
+			 * The type depends on the section type,
+			 * either a GtkTable, or a GtkVBox */
 			w = NULL;
 			if (section == NULL) {
 				wn->widget = NULL;
@@ -989,7 +1001,7 @@ ec_rebuild (EConfig *emp)
 
 			wn->widget = w;
 			if (w) {
-				g_signal_connect(w, "destroy", G_CALLBACK(gtk_widget_destroyed), &wn->widget);
+				g_signal_connect (w, "destroy", G_CALLBACK(gtk_widget_destroyed), &wn->widget);
 				itemno++;
 
 				if (gtk_widget_get_visible (w))
@@ -1062,14 +1074,16 @@ ec_rebuild (EConfig *emp)
  * initiate a e_config_target_changed() call where appropriate.
  **/
 void
-e_config_set_target (EConfig *emp, EConfigTarget *target)
+e_config_set_target (EConfig *emp,
+                     EConfigTarget *target)
 {
 	if (emp->target != target)
 		((EConfigClass *) G_OBJECT_GET_CLASS (emp))->set_target (emp, target);
 }
 
 static void
-ec_widget_destroy (GtkWidget *w, EConfig *ec)
+ec_widget_destroy (GtkWidget *w,
+                   EConfig *ec)
 {
 	if (ec->target) {
 		e_config_target_free (ec, ec->target);
@@ -1115,7 +1129,7 @@ e_config_create_widget (EConfig *emp)
 	while (link != NULL) {
 		struct _menu_node *mnode = link->data;
 
-		for (l=mnode->menu; l; l = l->next) {
+		for (l = mnode->menu; l; l = l->next) {
 			struct _EConfigItem *item = l->data;
 			struct _widget_node *wn = g_malloc0 (sizeof (*wn));
 
@@ -1130,14 +1144,14 @@ e_config_create_widget (EConfig *emp)
 
 	qsort (items->pdata, items->len, sizeof (items->pdata[0]), ep_cmp);
 
-	for (i=0;i<items->len;i++)
+	for (i = 0; i < items->len; i++)
 		p->widgets = g_list_append (p->widgets, items->pdata[i]);
 
 	g_ptr_array_free (items, TRUE);
 	ec_rebuild (emp);
 
 	/* auto-unref it */
-	g_signal_connect(emp->widget, "destroy", G_CALLBACK(ec_widget_destroy), emp);
+	g_signal_connect (emp->widget, "destroy", G_CALLBACK(ec_widget_destroy), emp);
 
 	/* FIXME: for some reason ec_rebuild puts the widget on page 1, this is just to override that */
 	if (emp->type == E_CONFIG_BOOK)
@@ -1151,7 +1165,9 @@ e_config_create_widget (EConfig *emp)
 }
 
 static void
-ec_dialog_response (GtkWidget *d, gint id, EConfig *ec)
+ec_dialog_response (GtkWidget *d,
+                    gint id,
+                    EConfig *ec)
 {
 	if (id == GTK_RESPONSE_OK)
 		e_config_commit (ec);
@@ -1179,7 +1195,9 @@ ec_dialog_response (GtkWidget *d, gint id, EConfig *ec)
  * Return value: The window widget.  This is also stored in @emp.window.
  **/
 GtkWidget *
-e_config_create_window (EConfig *emp, GtkWindow *parent, const gchar *title)
+e_config_create_window (EConfig *emp,
+                        GtkWindow *parent,
+                        const gchar *title)
 {
 	GtkWidget *window;
 
@@ -1236,7 +1254,7 @@ ec_call_page_check (EConfig *emp)
 static gboolean
 ec_idle_handler_for_rebuild (gpointer data)
 {
-	EConfig *emp = (EConfig*) data;
+	EConfig *emp = (EConfig *) data;
 
 	ec_rebuild (emp);
 	ec_call_page_check (emp);
@@ -1258,7 +1276,8 @@ ec_idle_handler_for_rebuild (gpointer data)
  * button for the Notebook mode.
  **/
 void
-e_config_target_changed (EConfig *emp, e_config_target_change_t how)
+e_config_target_changed (EConfig *emp,
+                         e_config_target_change_t how)
 {
 	if (how == E_CONFIG_TARGET_CHANGED_REBUILD) {
 		g_idle_add (ec_idle_handler_for_rebuild, emp);
@@ -1312,7 +1331,8 @@ e_config_commit (EConfig *config)
  * Return value: FALSE if the data is inconsistent/incomplete.
  **/
 gboolean
-e_config_page_check (EConfig *config, const gchar *pageid)
+e_config_page_check (EConfig *config,
+                     const gchar *pageid)
 {
 	GList *link;
 
@@ -1345,7 +1365,8 @@ e_config_page_check (EConfig *config, const gchar *pageid)
  * container or the GtkVBox object inside the assistant.
  **/
 GtkWidget *
-e_config_page_get (EConfig *ec, const gchar *pageid)
+e_config_page_get (EConfig *ec,
+                   const gchar *pageid)
 {
 	GList *link;
 
@@ -1380,13 +1401,14 @@ e_config_page_get (EConfig *ec, const gchar *pageid)
  * last configured and visible page.
  **/
 const gchar *
-e_config_page_next (EConfig *ec, const gchar *pageid)
+e_config_page_next (EConfig *ec,
+                    const gchar *pageid)
 {
 	GList *link;
 	gint found;
 
 	link = g_list_first (ec->priv->widgets);
-	found = pageid == NULL ? 1:0;
+	found = pageid == NULL ? 1 : 0;
 
 	while (link != NULL) {
 		struct _widget_node *wn = link->data;
@@ -1420,13 +1442,14 @@ e_config_page_next (EConfig *ec, const gchar *pageid)
  * first configured and visible page.
  **/
 const gchar *
-e_config_page_prev (EConfig *ec, const gchar *pageid)
+e_config_page_prev (EConfig *ec,
+                    const gchar *pageid)
 {
 	GList *link;
 	gint found;
 
 	link = g_list_last (ec->priv->widgets);
-	found = pageid == NULL ? 1:0;
+	found = pageid == NULL ? 1 : 0;
 
 	while (link != NULL) {
 		struct _widget_node *wn = link->data;
@@ -1542,7 +1565,8 @@ gpointer e_config_target_new (EConfig *ep, gint type, gsize size)
  * free custom targets.
  **/
 void
-e_config_target_free (EConfig *ep, gpointer o)
+e_config_target_free (EConfig *ep,
+                      gpointer o)
 {
 	EConfigTarget *t = o;
 
@@ -1554,27 +1578,26 @@ e_config_target_free (EConfig *ep, gpointer o)
 /* Config menu plugin handler */
 
 /*
-<e-plugin
-  class="org.gnome.mail.plugin.config:1.0"
-  id="org.gnome.mail.plugin.config.item:1.0"
-  type="shlib"
-  location="/opt/gnome2/lib/camel/1.0/libcamelimap.so"
-  name="imap"
-  description="IMAP4 and IMAP4v1 mail store">
-  <hook class="org.gnome.mail.configMenu:1.0"
-        handler="HandleConfig">
-  <menu id="any" target="select">
-   <item
-    type="item|toggle|radio|image|submenu|bar"
-    active
-    path="foo/bar"
-    label="label"
-    icon="foo"
-    activate="ep_view_emacs"/>
-  </menu>
-  </extension>
-
-*/
+ * <e-plugin
+ *   class="org.gnome.mail.plugin.config:1.0"
+ *   id="org.gnome.mail.plugin.config.item:1.0"
+ *   type="shlib"
+ *   location="/opt/gnome2/lib/camel/1.0/libcamelimap.so"
+ *   name="imap"
+ *   description="IMAP4 and IMAP4v1 mail store">
+ *   <hook class="org.gnome.mail.configMenu:1.0"
+ *         handler="HandleConfig">
+ *   <menu id="any" target="select">
+ *    <item
+ *     type="item|toggle|radio|image|submenu|bar"
+ *     active
+ *     path="foo/bar"
+ *     label="label"
+ *     icon="foo"
+ *     activate="ep_view_emacs"/>
+ *   </menu>
+ * </e-plugin>
+ */
 
 #define emph ((EConfigHook *)eph)
 
@@ -1614,7 +1637,9 @@ ech_abort (EConfig *ec,
 }
 
 static gboolean
-ech_check (EConfig *ec, const gchar *pageid, gpointer data)
+ech_check (EConfig *ec,
+           const gchar *pageid,
+           gpointer data)
 {
 	EConfigHookGroup *group = data;
 	EConfigHookPageCheckData hdata;
@@ -1630,7 +1655,8 @@ ech_check (EConfig *ec, const gchar *pageid, gpointer data)
 }
 
 static void
-ech_config_factory (EConfig *emp, gpointer data)
+ech_config_factory (EConfig *emp,
+                    gpointer data)
 {
 	EConfigHookGroup *group = data;
 
@@ -1771,7 +1797,10 @@ ech_config_section_factory (EConfig *config,
 }
 
 static struct _EConfigItem *
-emph_construct_item (EPluginHook *eph, EConfigHookGroup *menu, xmlNodePtr root, EConfigHookTargetMap *map)
+emph_construct_item (EPluginHook *eph,
+                     EConfigHookGroup *menu,
+                     xmlNodePtr root,
+                     EConfigHookTargetMap *map)
 {
 	struct _EConfigItem *item;
 
@@ -1804,7 +1833,8 @@ error:
 }
 
 static EConfigHookGroup *
-emph_construct_menu (EPluginHook *eph, xmlNodePtr root)
+emph_construct_menu (EPluginHook *eph,
+                     xmlNodePtr root)
 {
 	EConfigHookGroup *menu;
 	xmlNodePtr node;
@@ -1853,7 +1883,9 @@ error:
 }
 
 static gint
-emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
+emph_construct (EPluginHook *eph,
+                EPlugin *ep,
+                xmlNodePtr root)
 {
 	xmlNodePtr node;
 	EConfigClass *class;

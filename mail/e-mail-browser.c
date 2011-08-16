@@ -270,9 +270,11 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 	EMailReader *reader;
 	EWebView *web_view;
 	const gchar *title;
+	guint32 state;
 
 	reader = E_MAIL_READER (browser);
-	e_mail_reader_update_actions (reader, e_mail_reader_check_state (reader));
+	state = e_mail_reader_check_state (reader);
+	e_mail_reader_update_actions (reader, state);
 
 	if (uid == NULL)
 		return;
@@ -293,7 +295,8 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 	gtk_window_set_title (GTK_WINDOW (browser), title);
 	gtk_widget_grab_focus (GTK_WIDGET (web_view));
 
-	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	camel_message_info_set_flags (
+		info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	camel_folder_free_message_info (folder, info);
 }
 

@@ -32,8 +32,8 @@ typedef struct _EMailReaderHeader EMailReaderHeader;
 
 struct _EMailReaderHeader {
 	gchar *name;
-	guint enabled:1;
-	guint is_default:1;
+	guint enabled : 1;
+	guint is_default : 1;
 };
 
 gboolean	e_mail_reader_confirm_delete	(EMailReader *reader);

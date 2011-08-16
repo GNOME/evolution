@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* The following is the mozilla license blurb, as the bodies some of
-   these functions were derived from the mozilla source. */
+ * these functions were derived from the mozilla source. */
 /*
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
@@ -442,13 +442,15 @@ e_cert_trust_has_trusted_peer (CERTCertTrust *trust,
 }
 
 void
-e_cert_trust_add_trust (guint *t, guint v)
+e_cert_trust_add_trust (guint *t,
+                        guint v)
 {
 	*t |= v;
 }
 
 PRBool
-e_cert_trust_has_trust (guint t, guint v)
+e_cert_trust_has_trust (guint t,
+                        guint v)
 {
 	return (t & v);
 }

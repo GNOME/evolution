@@ -86,7 +86,8 @@ get_uri_without_password (const gchar *full_uri)
  }
 
 gint
-get_position_in_array (GPtrArray *objects, gpointer item)
+get_position_in_array (GPtrArray *objects,
+		       gpointer item)
 {
 	gint i;
 
@@ -99,7 +100,8 @@ get_position_in_array (GPtrArray *objects, gpointer item)
 }
 
 gchar *
-calculate_time (time_t start, time_t end)
+calculate_time (time_t start,
+                time_t end)
 {
 	time_t difference = end - start;
 	gchar *str;

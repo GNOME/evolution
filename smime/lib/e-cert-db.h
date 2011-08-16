@@ -66,34 +66,34 @@ struct _ECertDBClass {
 GType                e_cert_db_get_type     (void);
 
 /* single instance */
-ECertDB*             e_cert_db_peek         (void);
+ECertDB *             e_cert_db_peek         (void);
 
 void                 e_cert_db_shutdown     (void);
 
 /* searching for certificates */
-ECert*               e_cert_db_find_cert_by_nickname (ECertDB *certdb,
+ECert *               e_cert_db_find_cert_by_nickname (ECertDB *certdb,
 						      const gchar *nickname,
 						      GError **error);
 
 #ifdef notyet
-ECert*               e_cert_db_find_cert_by_key      (ECertDB *certdb,
+ECert *               e_cert_db_find_cert_by_key      (ECertDB *certdb,
 						      const gchar *db_key,
 						      GError **error);
 
-GList*               e_cert_db_get_cert_nicknames    (ECertDB *certdb,
+GList *               e_cert_db_get_cert_nicknames    (ECertDB *certdb,
 						      ECertType cert_type,
 						      GError **error);
 
-ECert*               e_cert_db_find_email_encryption_cert (ECertDB *certdb,
+ECert *               e_cert_db_find_email_encryption_cert (ECertDB *certdb,
 							   const gchar *nickname,
 							   GError **error);
 
-ECert*               e_cert_db_find_email_signing_cert (ECertDB *certdb,
+ECert *               e_cert_db_find_email_signing_cert (ECertDB *certdb,
 							const gchar *nickname,
 							GError **error);
 #endif
 
-ECert*               e_cert_db_find_cert_by_email_address (ECertDB *certdb,
+ECert *               e_cert_db_find_cert_by_email_address (ECertDB *certdb,
 							   const gchar *nickname,
 							   GError **error);
 

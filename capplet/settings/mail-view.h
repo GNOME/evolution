@@ -36,7 +36,7 @@
 #define MAIL_VIEW_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), MAIL_VIEW_TYPE, MailViewClass))
 
 enum {
-	MAIL_VIEW_FOLDER=1,
+	MAIL_VIEW_FOLDER = 1,
 	MAIL_VIEW_COMPOSER,
 	MAIL_VIEW_MESSAGE,
 	MAIL_VIEW_ACCOUNT,
@@ -60,12 +60,12 @@ typedef struct _MailView {
 
 typedef struct _MailViewClass {
 	AnjalMailViewClass parent_class;
-	void (* view_new) (MailView*);
+	void (* view_new) (MailView *);
 
 } MailViewClass;
 
 typedef enum {
-	 MAIL_VIEW_HOLD_FOCUS=1,
+	 MAIL_VIEW_HOLD_FOCUS = 1,
 } MailViewFlags;
 
 typedef struct _MailViewChild {

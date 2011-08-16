@@ -139,7 +139,8 @@ free_sources (gpointer data)
 }
 
 static void
-select_source (GtkComboBox *combobox, EMFilterEditor *fe)
+select_source (GtkComboBox *combobox,
+               EMFilterEditor *fe)
 {
 	gchar *source;
 	gint idx;

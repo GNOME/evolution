@@ -63,13 +63,16 @@ struct two_ints {
 };
 
 static void
-eth_set_width (ETableHeader *eth, gint width)
+eth_set_width (ETableHeader *eth,
+               gint width)
 {
 	eth->width = width;
 }
 
 static void
-dequeue (ETableHeader *eth, gint *column, gint *width)
+dequeue (ETableHeader *eth,
+         gint *column,
+         gint *width)
 {
 	GSList *head;
 	struct two_ints *store;
@@ -110,7 +113,9 @@ dequeue_idle (ETableHeader *eth)
 }
 
 static void
-enqueue (ETableHeader *eth, gint column, gint width)
+enqueue (ETableHeader *eth,
+         gint column,
+         gint width)
 {
 	struct two_ints *store;
 	store = g_new (struct two_ints, 1);
@@ -129,7 +134,9 @@ enqueue (ETableHeader *eth, gint column, gint width)
 }
 
 void
-e_table_header_set_size (ETableHeader *eth, gint idx, gint size)
+e_table_header_set_size (ETableHeader *eth,
+                         gint idx,
+                         gint size)
 {
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
@@ -138,12 +145,14 @@ e_table_header_set_size (ETableHeader *eth, gint idx, gint size)
 }
 
 static void
-eth_do_remove (ETableHeader *eth, gint idx, gboolean do_unref)
+eth_do_remove (ETableHeader *eth,
+               gint idx,
+               gboolean do_unref)
 {
 	if (do_unref)
 		g_object_unref (eth->columns[idx]);
 
-	memmove (&eth->columns[idx], &eth->columns[idx+1],
+	memmove (&eth->columns[idx], &eth->columns[idx + 1],
 		 sizeof (ETableCol *) * (eth->col_count - idx - 1));
 	eth->col_count--;
 }
@@ -189,17 +198,21 @@ eth_finalize (GObject *object)
 }
 
 static void
-eth_group_info_changed (ETableSortInfo *info, ETableHeader *eth)
+eth_group_info_changed (ETableSortInfo *info,
+                        ETableHeader *eth)
 {
 	enqueue (eth, -1, eth->nominal_width);
 }
 
 static void
-eth_set_property (GObject *object, guint prop_id, const GValue *val, GParamSpec *pspec)
+eth_set_property (GObject *object,
+                  guint property_id,
+                  const GValue *val,
+                  GParamSpec *pspec)
 {
 	ETableHeader *eth = E_TABLE_HEADER (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_WIDTH:
 		eth->nominal_width = g_value_get_double (val);
 		enqueue (eth, -1, eth->nominal_width);
@@ -219,9 +232,9 @@ eth_set_property (GObject *object, guint prop_id, const GValue *val, GParamSpec 
 		eth->sort_info = E_TABLE_SORT_INFO (g_value_get_object (val));
 		if (eth->sort_info) {
 			g_object_ref (eth->sort_info);
-			eth->sort_info_group_change_id
-				= g_signal_connect(G_OBJECT(eth->sort_info), "group_info_changed",
-						   G_CALLBACK (eth_group_info_changed), eth);
+			eth->sort_info_group_change_id = g_signal_connect (
+				eth->sort_info, "group_info_changed",
+				G_CALLBACK (eth_group_info_changed), eth);
 		}
 		enqueue (eth, -1, eth->nominal_width);
 		break;
@@ -231,11 +244,14 @@ eth_set_property (GObject *object, guint prop_id, const GValue *val, GParamSpec 
 }
 
 static void
-eth_get_property (GObject *object, guint prop_id, GValue *val, GParamSpec *pspec)
+eth_get_property (GObject *object,
+                  guint property_id,
+                  GValue *val,
+                  GParamSpec *pspec)
 {
 	ETableHeader *eth = E_TABLE_HEADER (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_SORT_INFO:
 		g_value_set_object (val, G_OBJECT (eth->sort_info));
 		break;
@@ -246,7 +262,7 @@ eth_get_property (GObject *object, guint prop_id, GValue *val, GParamSpec *pspec
 		g_value_set_double (val, eth->width_extras);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
@@ -363,9 +379,11 @@ eth_update_offsets (ETableHeader *eth)
 }
 
 static void
-eth_do_insert (ETableHeader *eth, gint pos, ETableCol *val)
+eth_do_insert (ETableHeader *eth,
+               gint pos,
+               ETableCol *val)
 {
-	memmove (&eth->columns[pos+1], &eth->columns[pos],
+	memmove (&eth->columns[pos + 1], &eth->columns[pos],
 		sizeof (ETableCol *) * (eth->col_count - pos));
 	eth->columns[pos] = val;
 	eth->col_count++;
@@ -386,7 +404,9 @@ eth_do_insert (ETableHeader *eth, gint pos, ETableCol *val)
  * The ETableCol is assumed
  */
 void
-e_table_header_add_column (ETableHeader *eth, ETableCol *tc, gint pos)
+e_table_header_add_column (ETableHeader *eth,
+                           ETableCol *tc,
+                           gint pos)
 {
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
@@ -418,7 +438,8 @@ e_table_header_add_column (ETableHeader *eth, ETableCol *tc, gint pos)
  * Returns: The ETableCol at @column in the @eth object
  */
 ETableCol *
-e_table_header_get_column (ETableHeader *eth, gint column)
+e_table_header_get_column (ETableHeader *eth,
+                           gint column)
 {
 	g_return_val_if_fail (eth != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), NULL);
@@ -440,7 +461,8 @@ e_table_header_get_column (ETableHeader *eth, gint column)
  * Returns: The ETableCol with col_idx = @col_idx in the @eth object
  */
 ETableCol *
-e_table_header_get_column_by_col_idx (ETableHeader *eth, gint col_idx)
+e_table_header_get_column_by_col_idx (ETableHeader *eth,
+                                      gint col_idx)
 {
 	gint i;
 	g_return_val_if_fail (eth != NULL, NULL);
@@ -483,7 +505,8 @@ e_table_header_count (ETableHeader *eth)
  * Returns: the column in the model that the @col column
  * in the ETableHeader points to.  */
 gint
-e_table_header_index (ETableHeader *eth, gint col)
+e_table_header_index (ETableHeader *eth,
+                      gint col)
 {
 	g_return_val_if_fail (eth != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), -1);
@@ -504,7 +527,8 @@ e_table_header_index (ETableHeader *eth, gint col)
  * if no column inside this ETableHeader contains that pixel.
  */
 gint
-e_table_header_get_index_at (ETableHeader *eth, gint x_offset)
+e_table_header_get_index_at (ETableHeader *eth,
+                             gint x_offset)
 {
 	gint i, total;
 
@@ -629,7 +653,9 @@ e_table_header_min_width (ETableHeader *eth)
  * and "structure_change" will be emmited
  */
 void
-e_table_header_move (ETableHeader *eth, gint source_index, gint target_index)
+e_table_header_move (ETableHeader *eth,
+                     gint source_index,
+                     gint target_index)
 {
 	ETableCol *old;
 
@@ -663,7 +689,8 @@ e_table_header_move (ETableHeader *eth, gint source_index, gint target_index)
  * This emmits the "structure_change" signal on the @eth object.
  */
 void
-e_table_header_remove (ETableHeader *eth, gint idx)
+e_table_header_remove (ETableHeader *eth,
+                       gint idx)
 {
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
@@ -679,14 +706,17 @@ e_table_header_remove (ETableHeader *eth, gint idx)
  * FIXME: deprecated?
  */
 void
-e_table_header_set_selection (ETableHeader *eth, gboolean allow_selection)
+e_table_header_set_selection (ETableHeader *eth,
+                              gboolean allow_selection)
 {
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 }
 
 static void
-eth_set_size (ETableHeader *eth, gint idx, gint size)
+eth_set_size (ETableHeader *eth,
+              gint idx,
+              gint size)
 {
 	gdouble expansion;
 	gdouble old_expansion;
@@ -824,7 +854,9 @@ eth_set_size (ETableHeader *eth, gint idx, gint size)
  * @eth ETableHeader object
  */
 gint
-e_table_header_col_diff (ETableHeader *eth, gint start_col, gint end_col)
+e_table_header_col_diff (ETableHeader *eth,
+                         gint start_col,
+                         gint end_col)
 {
 	gint total, col;
 

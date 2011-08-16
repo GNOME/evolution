@@ -180,11 +180,11 @@ mail_tool_remove_xevolution_headers (CamelMimeMessage *message)
 {
 	struct _camel_header_raw *scan, *list = NULL;
 
-	for (scan = ((CamelMimePart *) message)->headers;scan;scan=scan->next)
+	for (scan = ((CamelMimePart *) message)->headers; scan; scan = scan->next)
 		if (!strncmp(scan->name, "X-Evolution", 11))
 			camel_header_raw_append (&list, scan->name, scan->value, scan->offset);
 
-	for (scan=list;scan;scan=scan->next)
+	for (scan = list; scan; scan = scan->next)
 		camel_medium_remove_header ((CamelMedium *) message, scan->name);
 
 	return list;
@@ -198,7 +198,7 @@ mail_tool_restore_xevolution_headers (CamelMimeMessage *message,
 
 	medium = CAMEL_MEDIUM (message);
 
-	for (;xev;xev=xev->next)
+	for (; xev; xev = xev->next)
 		camel_medium_add_header (medium, xev->name, xev->value);
 }
 

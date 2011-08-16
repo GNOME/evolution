@@ -51,7 +51,7 @@ static void atk_selection_interface_init (AtkSelectionIface *iface);
 static gboolean selection_interface_add_selection (AtkSelection *selection,
 						   gint i);
 static gboolean selection_interface_clear_selection (AtkSelection *selection);
-static AtkObject* selection_interface_ref_selection (AtkSelection *selection,
+static AtkObject * selection_interface_ref_selection (AtkSelection *selection,
 						     gint i);
 static gint selection_interface_get_selection_count (AtkSelection *selection);
 static gboolean selection_interface_is_child_selected (AtkSelection *selection,
@@ -187,7 +187,7 @@ ea_minicard_view_get_description (AtkObject *accessible)
 	return _("evolution address book");
 }
 
-AtkObject*
+AtkObject *
 ea_minicard_view_new (GObject *obj)
 {
 	GObject *object;
@@ -242,7 +242,8 @@ static AtkStateSet *ea_minicard_view_ref_state_set (AtkObject *obj)
 }
 
 static AtkObject *
-ea_minicard_view_ref_child (AtkObject *accessible, gint index)
+ea_minicard_view_ref_child (AtkObject *accessible,
+                            gint index)
 {
 	EReflow *reflow;
 	gint child_num;
@@ -288,7 +289,8 @@ atk_selection_interface_init (AtkSelectionIface *iface)
 }
 
 static gboolean
-selection_interface_add_selection (AtkSelection *selection, gint i)
+selection_interface_add_selection (AtkSelection *selection,
+                                   gint i)
 {
 	AtkGObjectAccessible *atk_gobj= NULL;
 	EReflow *reflow = NULL;
@@ -322,8 +324,9 @@ selection_interface_clear_selection (AtkSelection *selection)
 	return TRUE;
 }
 
-static AtkObject*
-selection_interface_ref_selection (AtkSelection *selection, gint i)
+static AtkObject *
+selection_interface_ref_selection (AtkSelection *selection,
+                                   gint i)
 {
 	return ea_minicard_view_ref_child (ATK_OBJECT (selection), i);
 }
@@ -344,7 +347,8 @@ selection_interface_get_selection_count (AtkSelection *selection)
 }
 
 static gboolean
-selection_interface_is_child_selected (AtkSelection *selection, gint i)
+selection_interface_is_child_selected (AtkSelection *selection,
+                                       gint i)
 {
 	AtkGObjectAccessible *atk_gobj = NULL;
 	EReflow *reflow = NULL;
@@ -407,13 +411,15 @@ static gint atk_action_interface_get_n_action (AtkAction *iface)
 }
 
 static const gchar *
-atk_action_interface_get_description (AtkAction *iface, gint i)
+atk_action_interface_get_description (AtkAction *iface,
+                                      gint i)
 {
 	return atk_action_interface_get_name (iface, i);
 }
 
 static const gchar *
-atk_action_interface_get_name (AtkAction *iface, gint i)
+atk_action_interface_get_name (AtkAction *iface,
+                               gint i)
 {
 	if ( i >= G_N_ELEMENTS (action_name) || i < 0)
 		return NULL;

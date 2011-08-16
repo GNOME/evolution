@@ -99,7 +99,7 @@ book_contacts_received_cb (GObject *source_object,
 
 	for (p = contacts; p; p = p->next)
 		e_contact_map_add_contact (
-			window->priv->map, (EContact*) p->data);
+			window->priv->map, (EContact *) p->data);
 
 	e_client_util_free_object_slist (contacts);
 	g_object_unref (client);
@@ -254,7 +254,7 @@ contact_map_window_entry_key_pressed_cb (GtkWidget *entry,
 
 static gboolean
 entry_completion_match_selected_cb (GtkEntryCompletion *widget,
-                                    GtkTreeModel* model,
+                                    GtkTreeModel *model,
                                     GtkTreeIter *iter,
                                     gpointer user_data)
 {
@@ -456,7 +456,7 @@ e_contact_map_window_load_addressbook (EContactMapWindow *map,
 	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
 
 	/* Reference book, so that it does not get deleted before the callback is
-	   involved. The book is unrefed in the callback */
+	 * involved. The book is unrefed in the callback */
 	g_object_ref (book_client);
 
 	book_query = e_book_query_field_exists (E_CONTACT_ADDRESS);
@@ -470,7 +470,7 @@ e_contact_map_window_load_addressbook (EContactMapWindow *map,
 	g_free (query_string);
 }
 
-EContactMap*
+EContactMap *
 e_contact_map_window_get_map (EContactMapWindow *window)
 {
 	g_return_val_if_fail (E_IS_CONTACT_MAP_WINDOW (window), NULL);

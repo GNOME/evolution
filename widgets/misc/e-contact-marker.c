@@ -74,8 +74,8 @@ static ClutterColor DEFAULT_COLOR = { 0x33, 0x33, 0x33, 0xff };
 
 static gboolean
 contact_marker_clicked_cb (ClutterActor *actor,
-			   ClutterEvent *event,
-			   gpointer user_data)
+                           ClutterEvent *event,
+                           gpointer user_data)
 {
 	gint click_count = clutter_event_get_click_count (event);
 
@@ -87,7 +87,7 @@ contact_marker_clicked_cb (ClutterActor *actor,
 
 static ClutterActor *
 texture_new_from_pixbuf (GdkPixbuf *pixbuf,
-			 GError **error)
+                         GError **error)
 {
 	ClutterActor *texture = NULL;
 	const guchar *data;
@@ -114,7 +114,7 @@ texture_new_from_pixbuf (GdkPixbuf *pixbuf,
 	return texture;
 }
 
-static ClutterActor*
+static ClutterActor *
 contact_photo_to_texture (EContactPhoto *photo)
 {
 	GdkPixbuf *pixbuf;
@@ -168,9 +168,9 @@ contact_photo_to_texture (EContactPhoto *photo)
 
 static void
 draw_box (cairo_t *cr,
-	  gint width,
-	  gint height,
-	  gint point)
+          gint width,
+          gint height,
+          gint point)
 {
       cairo_move_to (cr, RADIUS, 0);
       cairo_line_to (cr, width - RADIUS, 0);
@@ -185,9 +185,9 @@ draw_box (cairo_t *cr,
 
 static void
 draw_shadow (EContactMarker *marker,
-	     gint width,
-	     gint height,
-	     gint point)
+             gint width,
+             gint height,
+             gint point)
 {
 	EContactMarkerPrivate *priv = marker->priv;
 	ClutterActor *shadow = NULL;
@@ -232,9 +232,9 @@ draw_shadow (EContactMarker *marker,
 
 static void
 draw_background (EContactMarker *marker,
-		 gint width,
-		 gint height,
-		 gint point)
+                 gint width,
+                 gint height,
+                 gint point)
 {
 	EContactMarkerPrivate *priv = marker->priv;
 	ClutterActor *bg = NULL;
@@ -295,7 +295,7 @@ draw_marker (EContactMarker *marker)
 	ClutterText *text;
 
 	if (priv->image) {
-		clutter_actor_set_position (priv->image, 2*PADDING, 2*PADDING);
+		clutter_actor_set_position (priv->image, 2 *PADDING, 2 *PADDING);
 		if (clutter_actor_get_parent (priv->image) == NULL)
 			clutter_container_add_actor (
 				CLUTTER_CONTAINER (priv->content_group),
@@ -326,14 +326,14 @@ draw_marker (EContactMarker *marker)
 	if (priv->image) {
 		clutter_actor_set_width (priv->text_actor,
 			clutter_actor_get_width (priv->image));
-		total_height = clutter_actor_get_height (priv->image) + 2*PADDING +
-			       clutter_actor_get_height (priv->text_actor) + 2*PADDING;
-		total_width = clutter_actor_get_width (priv->image) + 4*PADDING;
+		total_height = clutter_actor_get_height (priv->image) + 2 *PADDING +
+			       clutter_actor_get_height (priv->text_actor) + 2 *PADDING;
+		total_width = clutter_actor_get_width (priv->image) + 4 *PADDING;
 		clutter_actor_set_position (priv->text_actor, PADDING,
-			clutter_actor_get_height (priv->image)+2*PADDING+3);
+			clutter_actor_get_height (priv->image) + 2 *PADDING + 3);
 	} else {
-		total_height = clutter_actor_get_height (priv->text_actor) + 2*PADDING;
-		total_width = clutter_actor_get_width (priv->text_actor) + 4*PADDING;
+		total_height = clutter_actor_get_height (priv->text_actor) + 2 *PADDING;
+		total_width = clutter_actor_get_width (priv->text_actor) + 4 *PADDING;
 		clutter_actor_set_position (priv->text_actor, 2 * PADDING, PADDING);
 	}
 
@@ -395,8 +395,8 @@ queue_redraw (EContactMarker *marker)
 
 static void
 allocate (ClutterActor *self,
-	  const ClutterActorBox *box,
-	  ClutterAllocationFlags flags)
+          const ClutterActorBox *box,
+          ClutterAllocationFlags flags)
 {
 	ClutterActorBox child_box;
 	EContactMarkerPrivate *priv = E_CONTACT_MARKER (self)->priv;
@@ -473,8 +473,8 @@ pick (ClutterActor *self,
 
 static void
 notify_selected (GObject *gobject,
-		 G_GNUC_UNUSED GParamSpec *pspec,
-		 G_GNUC_UNUSED gpointer user_data)
+                 G_GNUC_UNUSED GParamSpec *pspec,
+                 G_GNUC_UNUSED gpointer user_data)
 {
 	queue_redraw (E_CONTACT_MARKER (gobject));
 }
@@ -573,8 +573,8 @@ e_contact_marker_init (EContactMarker *marker)
 
 ClutterActor *
 e_contact_marker_new (const gchar *name,
-		      const gchar *contact_uid,
-		      EContactPhoto *photo)
+                      const gchar *contact_uid,
+                      EContactPhoto *photo)
 {
 	ClutterActor *marker = CLUTTER_ACTOR (g_object_new (E_TYPE_CONTACT_MARKER, NULL));
 	EContactMarkerPrivate *priv = E_CONTACT_MARKER (marker)->priv;

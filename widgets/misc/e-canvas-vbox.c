@@ -36,8 +36,8 @@
 #include "e-canvas-utils.h"
 #include "e-canvas-vbox.h"
 
-static void e_canvas_vbox_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
-static void e_canvas_vbox_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
+static void e_canvas_vbox_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
+static void e_canvas_vbox_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
 static void e_canvas_vbox_dispose (GObject *object);
 
 static gint e_canvas_vbox_event   (GnomeCanvasItem *item, GdkEvent *event);
@@ -69,7 +69,7 @@ e_canvas_vbox_class_init (ECanvasVboxClass *klass)
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = (GObjectClass*) klass;
+	object_class = (GObjectClass *) klass;
 	item_class = (GnomeCanvasItemClass *) klass;
 
 	klass->add_item       = e_canvas_vbox_real_add_item;
@@ -123,7 +123,10 @@ e_canvas_vbox_init (ECanvasVbox *vbox)
 }
 
 static void
-e_canvas_vbox_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+e_canvas_vbox_set_property (GObject *object,
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	ECanvasVbox *e_canvas_vbox;
@@ -131,7 +134,7 @@ e_canvas_vbox_set_property (GObject *object, guint prop_id, const GValue *value,
 	item = GNOME_CANVAS_ITEM (object);
 	e_canvas_vbox = E_CANVAS_VBOX (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_WIDTH:
 	case PROP_MINIMUM_WIDTH:
 		e_canvas_vbox->minimum_width = g_value_get_double (value);
@@ -146,13 +149,16 @@ e_canvas_vbox_set_property (GObject *object, guint prop_id, const GValue *value,
 }
 
 static void
-e_canvas_vbox_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+e_canvas_vbox_get_property (GObject *object,
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
 {
 	ECanvasVbox *e_canvas_vbox;
 
 	e_canvas_vbox = E_CANVAS_VBOX (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_WIDTH:
 		g_value_set_double (value, e_canvas_vbox->width);
 		break;
@@ -166,14 +172,15 @@ e_canvas_vbox_get_property (GObject *object, guint prop_id, GValue *value, GPara
 		g_value_set_double (value, e_canvas_vbox->spacing);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
 
 /* Used from g_list_foreach(); disconnects from an item's signals */
 static void
-disconnect_item_cb (gpointer data, gpointer user_data)
+disconnect_item_cb (gpointer data,
+                    gpointer user_data)
 {
 	ECanvasVbox *vbox;
 	GnomeCanvasItem *item;
@@ -202,7 +209,8 @@ e_canvas_vbox_dispose (GObject *object)
 }
 
 static gint
-e_canvas_vbox_event (GnomeCanvasItem *item, GdkEvent *event)
+e_canvas_vbox_event (GnomeCanvasItem *item,
+                     GdkEvent *event)
 {
 	gint return_val = TRUE;
 
@@ -249,14 +257,16 @@ e_canvas_vbox_realize (GnomeCanvasItem *item)
 }
 
 static void
-e_canvas_vbox_remove_item (gpointer data, GObject *where_object_was)
+e_canvas_vbox_remove_item (gpointer data,
+                           GObject *where_object_was)
 {
 	ECanvasVbox *vbox = data;
 	vbox->items = g_list_remove (vbox->items, where_object_was);
 }
 
 static void
-e_canvas_vbox_real_add_item (ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
+e_canvas_vbox_real_add_item (ECanvasVbox *e_canvas_vbox,
+                             GnomeCanvasItem *item)
 {
 	e_canvas_vbox->items = g_list_append (e_canvas_vbox->items, item);
 	g_object_weak_ref (G_OBJECT (item),
@@ -270,7 +280,8 @@ e_canvas_vbox_real_add_item (ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 }
 
 static void
-e_canvas_vbox_real_add_item_start (ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
+e_canvas_vbox_real_add_item_start (ECanvasVbox *e_canvas_vbox,
+                                   GnomeCanvasItem *item)
 {
 	e_canvas_vbox->items = g_list_prepend (e_canvas_vbox->items, item);
 	g_object_weak_ref (G_OBJECT (item),
@@ -299,7 +310,8 @@ e_canvas_vbox_resize_children (GnomeCanvasItem *item)
 }
 
 static void
-e_canvas_vbox_reflow ( GnomeCanvasItem *item, gint flags )
+e_canvas_vbox_reflow (GnomeCanvasItem *item,
+                      gint flags)
 {
 	ECanvasVbox *e_canvas_vbox = E_CANVAS_VBOX (item);
 	if (item->flags & GNOME_CANVAS_ITEM_REALIZED) {
@@ -361,14 +373,16 @@ e_canvas_vbox_reflow ( GnomeCanvasItem *item, gint flags )
 }
 
 void
-e_canvas_vbox_add_item (ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
+e_canvas_vbox_add_item (ECanvasVbox *e_canvas_vbox,
+                        GnomeCanvasItem *item)
 {
 	if (E_CANVAS_VBOX_CLASS (G_OBJECT_GET_CLASS (e_canvas_vbox))->add_item)
 		(E_CANVAS_VBOX_CLASS (G_OBJECT_GET_CLASS (e_canvas_vbox))->add_item) (e_canvas_vbox, item);
 }
 
 void
-e_canvas_vbox_add_item_start (ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
+e_canvas_vbox_add_item_start (ECanvasVbox *e_canvas_vbox,
+                              GnomeCanvasItem *item)
 {
 	if (E_CANVAS_VBOX_CLASS (G_OBJECT_GET_CLASS (e_canvas_vbox))->add_item_start)
 		(E_CANVAS_VBOX_CLASS (G_OBJECT_GET_CLASS (e_canvas_vbox))->add_item_start) (e_canvas_vbox, item);

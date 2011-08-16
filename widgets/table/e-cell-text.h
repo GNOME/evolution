@@ -87,8 +87,8 @@ struct _ECellText {
 	gint bold_column;
 
 	/* This column in the ETable should return a string specifying a color,
-	   either a color name like "red" or a color spec like "rgb:F/0/0".
-	   See the XParseColor man page for the formats available. */
+	 * either a color name like "red" or a color spec like "rgb:F/0/0".
+	 * See the XParseColor man page for the formats available. */
 	gint color_column;
 	gint bg_color_column;
 };
@@ -132,8 +132,8 @@ ECell *		e_cell_text_construct		(ECellText *cell,
 						 GtkJustification justify);
 
 /* Gets the value from the model and converts it into a string. In ECellText
-   itself, the value is assumed to be a gchar * and so needs no conversion.
-   In subclasses the ETableModel value may be a more complicated datatype. */
+ * itself, the value is assumed to be a gchar * and so needs no conversion.
+ * In subclasses the ETableModel value may be a more complicated datatype. */
 gchar *		e_cell_text_get_text		(ECellText *cell,
 						 ETableModel *model,
 						 gint col,

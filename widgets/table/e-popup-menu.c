@@ -38,7 +38,9 @@
  * Creates an item with an optional icon
  */
 static void
-make_item (GtkMenu *menu, GtkMenuItem *item, const gchar *name)
+make_item (GtkMenu *menu,
+           GtkMenuItem *item,
+           const gchar *name)
 {
 	GtkWidget *label;
 
@@ -57,10 +59,10 @@ make_item (GtkMenu *menu, GtkMenuItem *item, const gchar *name)
 
 GtkMenu *
 e_popup_menu_create_with_domain (EPopupMenu *menu_list,
-				 guint32 disable_mask,
-				 guint32 hide_mask,
-				 gpointer default_closure,
-				 const gchar *domain)
+                                 guint32 disable_mask,
+                                 guint32 hide_mask,
+                                 gpointer default_closure,
+                                 const gchar *domain)
 {
 	GtkMenu *menu = GTK_MENU (gtk_menu_new ());
 	gboolean last_item_separator = TRUE;

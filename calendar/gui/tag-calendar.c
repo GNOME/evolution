@@ -94,9 +94,9 @@ prepare_tag (ECalendar *ecal,
  * called from e_cal_generate_instances() */
 static gboolean
 tag_calendar_cb (ECalComponent *comp,
-		 time_t istart,
-		 time_t iend,
-		 gpointer data)
+                 time_t istart,
+                 time_t iend,
+                 gpointer data)
 {
 	struct calendar_tag_closure *c = data;
 	struct icaltimetype start_tt, end_tt;
@@ -104,7 +104,7 @@ tag_calendar_cb (ECalComponent *comp,
 	guint8 style = 0;
 
 	/* If we are skipping TRANSPARENT events, return if the event is
-	   transparent. */
+	 * transparent. */
 	e_cal_component_get_transparency (comp, &transparency);
 	if (transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT) {
 		if (c->skip_transparent_events)
@@ -153,7 +153,7 @@ get_recur_events_italic (void)
 void
 tag_calendar_by_client (ECalendar *ecal,
                         ECalClient *client,
-			GCancellable *cancellable)
+                        GCancellable *cancellable)
 {
 	struct calendar_tag_closure *c;
 
@@ -182,9 +182,9 @@ tag_calendar_by_client (ECalendar *ecal,
 }
 
 /* Resolves TZIDs for the recurrence generator, for when the comp is not on
-   the server. We need to try to use builtin timezones first, as they may not
-   be added to the server yet. */
-static icaltimezone*
+ * the server. We need to try to use builtin timezones first, as they may not
+ * be added to the server yet. */
+static icaltimezone *
 resolve_tzid_cb (const gchar *tzid,
                  gpointer data)
 {

@@ -35,8 +35,9 @@
 #include "e-table-defines.h"
 #include "e-table-header-utils.h"
 
-static PangoLayout*
-build_header_layout (GtkWidget *widget, const gchar *str)
+static PangoLayout *
+build_header_layout (GtkWidget *widget,
+                     const gchar *str)
 {
 	PangoLayout *layout;
 
@@ -69,7 +70,8 @@ build_header_layout (GtkWidget *widget, const gchar *str)
  * Return value: The height of the button, in pixels.
  **/
 gdouble
-e_table_header_compute_height (ETableCol *ecol, GtkWidget *widget)
+e_table_header_compute_height (ETableCol *ecol,
+                               GtkWidget *widget)
 {
 	gint ythick;
 	gint height;
@@ -112,9 +114,14 @@ e_table_header_width_extras (GtkStyle *style)
  */
 #if 0
 static GdkPixmap *
-make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
-		       GdkPixbuf *pixbuf, GdkColor *bg, gint width, gint height,
-		       gint dither_xofs, gint dither_yofs)
+make_composite_pixmap (GdkDrawable *drawable,
+                       GdkGC *gc,
+                       GdkPixbuf *pixbuf,
+                       GdkColor *bg,
+                       gint width,
+                       gint height,
+                       gint dither_xofs,
+                       gint dither_yofs)
 {
 	gint pwidth, pheight;
 	GdkPixmap *pixmap;
@@ -240,12 +247,18 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
  * Draws a button suitable for a table header.
  **/
 void
-e_table_header_draw_button (cairo_t *cr, ETableCol *ecol,
-			    GtkStyle *style, GtkStateType state,
-			    GtkWidget *widget,
-			    gint x, gint y, gint width, gint height,
-			    gint button_width, gint button_height,
-			    ETableColArrow arrow)
+e_table_header_draw_button (cairo_t *cr,
+                            ETableCol *ecol,
+                            GtkStyle *style,
+                            GtkStateType state,
+                            GtkWidget *widget,
+                            gint x,
+                            gint y,
+                            gint width,
+                            gint height,
+                            gint button_width,
+                            gint button_height,
+                            ETableColArrow arrow)
 {
 	gint xthick, ythick;
 	gint inner_x, inner_y;

@@ -65,12 +65,12 @@ struct _EContactMapWindowClass {
 };
 
 GType			e_contact_map_window_get_type		(void) G_GNUC_CONST;
-EContactMapWindow*	e_contact_map_window_new		(void);
+EContactMapWindow *	e_contact_map_window_new		(void);
 
 void			e_contact_map_window_load_addressbook	(EContactMapWindow *window,
 								 EBookClient *book);
 
-EContactMap*		e_contact_map_window_get_map		(EContactMapWindow *window);
+EContactMap *		e_contact_map_window_get_map		(EContactMapWindow *window);
 
 G_END_DECLS
 

@@ -89,7 +89,8 @@ ensure_google_source_group (void)
 }
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 
 	if (enable) {
@@ -125,7 +126,7 @@ static gboolean
 is_email (const gchar *address)
 {
 	/* This is supposed to check if the address's domain could be
-	   an FQDN but alas, it's not worth the pain and suffering. */
+	 * an FQDN but alas, it's not worth the pain and suffering. */
 	const gchar *at;
 
 	at = strchr (address, '@');
@@ -159,7 +160,8 @@ sanitize_user_mail (const gchar *user)
 }
 
 static gchar *
-construct_default_uri (const gchar *username, gboolean is_ssl)
+construct_default_uri (const gchar *username,
+                       gboolean is_ssl)
 {
 	gchar *user, *uri;
 
@@ -172,7 +174,8 @@ construct_default_uri (const gchar *username, gboolean is_ssl)
 
 /* checks whether the given_uri is pointing to the default user's calendar or not */
 static gboolean
-is_default_uri (const gchar *given_uri, const gchar *username)
+is_default_uri (const gchar *given_uri,
+                const gchar *username)
 {
 	gchar *uri, *at;
 	gint ats, i;
@@ -217,7 +220,8 @@ is_default_uri (const gchar *given_uri, const gchar *username)
 }
 
 static void
-update_source_uris (ESource *source, const gchar *uri)
+update_source_uris (ESource *source,
+                    const gchar *uri)
 {
 	gchar *abs_uri, *tmp, *user_sanitized, *slash;
 	const gchar *user, *feeds;
@@ -255,7 +259,8 @@ update_source_uris (ESource *source, const gchar *uri)
 static void init_combo_values (GtkComboBox *combo, const gchar *deftitle, const gchar *defuri);
 
 static void
-update_user_in_source (ESource *source, const gchar *new_user)
+update_user_in_source (ESource *source,
+                       const gchar *new_user)
 {
 	gchar       *uri, *eml, *user;
 	const gchar *ssl;
@@ -264,8 +269,8 @@ update_user_in_source (ESource *source, const gchar *new_user)
 	user = g_strdup (new_user);
 
 	/* two reasons why set readonly to FALSE:
-	   a) the e_source_set_relative_uri does nothing for readonly sources
-	   b) we are going to set default uri, which should be always writeable */
+	 * a) the e_source_set_relative_uri does nothing for readonly sources
+	 * b) we are going to set default uri, which should be always writeable */
 	e_source_set_readonly (source, FALSE);
 
 	if (user && *user) {
@@ -287,7 +292,7 @@ update_user_in_source (ESource *source, const gchar *new_user)
 	g_free (uri);
 
 	/* "setup-username" is used to this plugin only, to keep what user wrote,
-	   not what uses the backend */
+	 * not what uses the backend */
 	e_source_set_property (source, "setup-username", user);
 	e_source_set_property (source, "auth", (user && *user) ? "1" : NULL);
 	e_source_set_property (source, "googlename", NULL);
@@ -301,12 +306,13 @@ update_user_in_source (ESource *source, const gchar *new_user)
 }
 
 static void
-user_changed (GtkEntry *editable, ESource *source)
+user_changed (GtkEntry *editable,
+              ESource *source)
 {
 	update_user_in_source (source, gtk_entry_get_text (GTK_ENTRY (editable)));
 
 	/* we changed user, thus reset the chosen calendar combo too, because
-	   other user means other calendars subscribed */
+	 * other user means other calendars subscribed */
 	init_combo_values (GTK_COMBO_BOX (g_object_get_data (G_OBJECT (editable), "CalendarCombo")), _("Default"), NULL);
 }
 
@@ -319,7 +325,9 @@ enum {
 };
 
 static void
-init_combo_values (GtkComboBox *combo, const gchar *deftitle, const gchar *defuri)
+init_combo_values (GtkComboBox *combo,
+                   const gchar *deftitle,
+                   const gchar *defuri)
 {
 	GtkTreeIter iter;
 	GtkListStore *store;
@@ -343,7 +351,8 @@ init_combo_values (GtkComboBox *combo, const gchar *deftitle, const gchar *defur
 }
 
 static void
-cal_combo_changed (GtkComboBox *combo, ESource *source)
+cal_combo_changed (GtkComboBox *combo,
+                   ESource *source)
 {
 	GtkListStore *store;
 	GtkTreeIter iter;
@@ -386,7 +395,8 @@ cal_combo_changed (GtkComboBox *combo, ESource *source)
 }
 
 static void
-claim_error (GtkWindow *parent, const gchar *error)
+claim_error (GtkWindow *parent,
+             const gchar *error)
 {
 	GtkWidget *dialog;
 
@@ -401,7 +411,8 @@ claim_error (GtkWindow *parent, const gchar *error)
 }
 
 static void
-update_proxy_settings (GDataService *service, const gchar *uri)
+update_proxy_settings (GDataService *service,
+                       const gchar *uri)
 {
 	EProxy *proxy;
 	SoupURI *proxy_uri = NULL;
@@ -419,7 +430,8 @@ update_proxy_settings (GDataService *service, const gchar *uri)
 }
 
 static void
-retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
+retrieve_list_clicked (GtkButton *button,
+                       GtkComboBox *combo)
 {
 	ESource *source;
 	#ifdef HAVE_LIBGDATA_0_9
@@ -591,7 +603,8 @@ retrieve_list_sensitize (GtkEntry *username_entry,
 }
 
 gpointer
-plugin_google_check (EPlugin *epl, EConfigHookPageCheckData *data)
+plugin_google_check (EPlugin *epl,
+                     EConfigHookPageCheckData *data)
 {
 	ECalConfigTargetSource *t;
 
@@ -605,8 +618,8 @@ plugin_google_check (EPlugin *epl, EConfigHookPageCheckData *data)
 }
 
 GtkWidget *
-plugin_google  (EPlugin                    *epl,
-	     EConfigHookItemFactoryData *data)
+plugin_google (EPlugin *epl,
+               EConfigHookItemFactoryData *data)
 {
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource      *source;
@@ -655,10 +668,9 @@ plugin_google  (EPlugin                    *epl,
 
 	user = e_plugin_util_add_entry (parent, _("User_name:"), NULL, NULL);
 	gtk_entry_set_text (GTK_ENTRY (user), username ? username : "");
-	g_signal_connect (G_OBJECT (user),
-			  "changed",
-			  G_CALLBACK (user_changed),
-			  source);
+	g_signal_connect (
+		user, "changed",
+		G_CALLBACK (user_changed), source);
 
 	e_plugin_util_add_refresh (parent, _("Re_fresh:"), source, "refresh");
 
@@ -713,7 +725,8 @@ plugin_google  (EPlugin                    *epl,
 }
 
 void
-e_calendar_google_migrate (EPlugin *epl, ECalEventTargetBackend *data)
+e_calendar_google_migrate (EPlugin *epl,
+                           ECalEventTargetBackend *data)
 {
 	ESourceList *source_list;
 	ESourceGroup *google = NULL;

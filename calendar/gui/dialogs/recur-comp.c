@@ -33,9 +33,10 @@
 
 gboolean
 recur_component_dialog (ECalClient *client,
-			ECalComponent *comp,
-			CalObjModType *mod,
-			GtkWindow *parent, gboolean delegated)
+                        ECalComponent *comp,
+                        CalObjModType *mod,
+                        GtkWindow *parent,
+                        gboolean delegated)
 {
 	gchar *str;
 	GtkWidget *dialog, *rb_this, *rb_prior, *rb_future, *rb_all, *hbox;

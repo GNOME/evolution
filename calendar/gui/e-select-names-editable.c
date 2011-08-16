@@ -158,7 +158,7 @@ e_select_names_editable_get_emails (ESelectNamesEditable *esne)
 			if (e_destination_get_contact (destination) &&
 			    e_contact_get (e_destination_get_contact (destination), E_CONTACT_IS_LIST)) {
 				/* If its a contact_list which is not expanded, it wont have a email id,
-				   so we can use the name as the email id */
+				 * so we can use the name as the email id */
 
 				result = g_list_append (result, g_strdup (e_destination_get_name (destination)));
 			} else
@@ -227,7 +227,9 @@ e_select_names_editable_get_names (ESelectNamesEditable *esne)
 }
 
 void
-e_select_names_editable_set_address (ESelectNamesEditable *esne, const gchar *name, const gchar *email)
+e_select_names_editable_set_address (ESelectNamesEditable *esne,
+                                     const gchar *name,
+                                     const gchar *email)
 {
 	EDestinationStore *destination_store;
 	GList *destinations;

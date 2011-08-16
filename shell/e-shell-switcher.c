@@ -248,8 +248,8 @@ shell_switcher_dispose (GObject *object)
 
 static void
 shell_switcher_get_preferred_width (GtkWidget *widget,
-                                    gint      *minimum,
-                                    gint      *natural)
+                                    gint *minimum,
+                                    gint *natural)
 {
 	EShellSwitcherPrivate *priv;
 	GtkWidget *child;
@@ -283,8 +283,8 @@ shell_switcher_get_preferred_width (GtkWidget *widget,
 
 static void
 shell_switcher_get_preferred_height (GtkWidget *widget,
-                                     gint      *minimum,
-                                     gint      *natural)
+                                     gint *minimum,
+                                     gint *natural)
 {
 	EShellSwitcherPrivate *priv;
 	GtkWidget *child;
@@ -601,9 +601,9 @@ tool_item_get_button (GtkWidget *widget)
 }
 
 static gboolean
-tool_item_button_cb (GtkWidget      *internal_widget,
-		     GdkEventButton *event,
-		     GtkAction      *action)
+tool_item_button_cb (GtkWidget *internal_widget,
+                     GdkEventButton *event,
+                     GtkAction *action)
 {
 	g_return_val_if_fail (GTK_IS_ACTION (action), FALSE);
 
@@ -629,8 +629,8 @@ tool_item_button_cb (GtkWidget      *internal_widget,
  **/
 void
 e_shell_switcher_add_action (EShellSwitcher *switcher,
-			     GtkAction      *switch_action,
-			     GtkAction      *new_window_action)
+                             GtkAction *switch_action,
+                             GtkAction *new_window_action)
 {
 	GtkWidget *widget;
 	GtkButton *button;

@@ -63,8 +63,9 @@ subcell_destroyed (gpointer data)
 		gaev->a11y_subcells[cell->view_col] = NULL;
 }
 
-static AtkObject*
-ecv_ref_child (AtkObject *a11y, gint i)
+static AtkObject *
+ecv_ref_child (AtkObject *a11y,
+               gint i)
 {
 	GalA11yECellVbox *gaev = GAL_A11Y_E_CELL_VBOX (a11y);
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (a11y);
@@ -117,11 +118,11 @@ ecv_dispose (GObject *object)
 }
 
 /* AtkComponet interface */
-static AtkObject*
+static AtkObject *
 ecv_ref_accessible_at_point (AtkComponent *component,
-			     gint x,
-			     gint y,
-			     AtkCoordType coord_type)
+                             gint x,
+                             gint y,
+                             AtkCoordType coord_type)
 {
 	gint x0, y0, width, height;
 	gint subcell_height, i;
@@ -227,6 +228,6 @@ AtkObject *gal_a11y_e_cell_vbox_new	(ETableItem *item,
 	gaev = GAL_A11Y_E_CELL_VBOX (a11y);
 	ecvv = (ECellVboxView *) (gaec->cell_view);
 	gaev->a11y_subcell_count = ecvv->subcell_view_count;
-	gaev->a11y_subcells = g_malloc0 (sizeof (AtkObject *)*gaev->a11y_subcell_count);
+	gaev->a11y_subcells = g_malloc0 (sizeof (AtkObject *) * gaev->a11y_subcell_count);
 	return a11y;
 }

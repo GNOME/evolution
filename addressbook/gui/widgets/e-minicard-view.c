@@ -81,11 +81,11 @@ static GtkTargetEntry drag_types[] = {
 
 static void
 e_minicard_view_drag_data_get (GtkWidget *widget,
-			      GdkDragContext *context,
-			      GtkSelectionData *selection_data,
-			      guint info,
-			      guint time,
-			      EMinicardView *view)
+                              GdkDragContext *context,
+                              GtkSelectionData *selection_data,
+                              guint info,
+                              guint time,
+                              EMinicardView *view)
 {
 	GdkAtom target;
 
@@ -149,7 +149,7 @@ e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter,
 	target_list = gtk_target_list_new (drag_types, G_N_ELEMENTS (drag_types));
 
 	context = gtk_drag_begin (GTK_WIDGET (GNOME_CANVAS_ITEM (view)->canvas),
-				  target_list, actions, 1/*XXX*/, event);
+				  target_list, actions, 1/*XXX */, event);
 
 	if (!view->canvas_drag_data_get_id)
 		view->canvas_drag_data_get_id = g_signal_connect (
@@ -235,15 +235,15 @@ adapter_changed (EMinicardView *view)
 
 static void
 e_minicard_view_set_property (GObject *object,
-			      guint prop_id,
-			      const GValue *value,
-			      GParamSpec *pspec)
+                              guint property_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
 {
 	EMinicardView *view;
 
 	view = E_MINICARD_VIEW (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_ADAPTER:
 		if (view->adapter) {
 			if (view->writable_status_id || view->stop_state_id) {
@@ -303,22 +303,22 @@ e_minicard_view_set_property (GObject *object,
 		set_empty_message (view);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
 
 static void
 e_minicard_view_get_property (GObject *object,
-			      guint prop_id,
-			      GValue *value,
-			      GParamSpec *pspec)
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
 {
 	EMinicardView *view;
 
 	view = E_MINICARD_VIEW (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_ADAPTER:
 		g_value_set_object (value, view->adapter);
 		break;
@@ -335,7 +335,7 @@ e_minicard_view_get_property (GObject *object,
 				       "editable", value);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
@@ -378,7 +378,8 @@ e_minicard_view_dispose (GObject *object)
 }
 
 static guint
-e_minicard_view_right_click (EMinicardView *view, GdkEvent *event)
+e_minicard_view_right_click (EMinicardView *view,
+                             GdkEvent *event)
 {
 	guint ret_val = 0;
 	g_signal_emit (view, signals[RIGHT_CLICK], 0,
@@ -387,7 +388,8 @@ e_minicard_view_right_click (EMinicardView *view, GdkEvent *event)
 }
 
 static gboolean
-e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
+e_minicard_view_event (GnomeCanvasItem *item,
+                       GdkEvent *event)
 {
 	EMinicardView *view;
 
@@ -462,32 +464,6 @@ e_minicard_view_selection_event (EReflow *reflow,
 	}
 	return return_val;
 }
-
-#if 0
-static gint
-compare_to_utf_str (EMinicard *card, const gchar *utf_str)
-{
-	g_return_val_if_fail (card != NULL, 0);
-	g_return_val_if_fail (E_IS_MINICARD (card), 0);
-
-	if (g_unichar_isdigit (g_utf8_get_char (utf_str))) {
-		return 1;
-	}
-
-	if (card->card) {
-		gchar *file_as;
-		g_object_get (card->card,
-			     "file_as", &file_as,
-			     NULL);
-		if (file_as)
-			return g_utf8_strcasecmp (file_as, utf_str);
-		else
-			return 0;
-	} else {
-		return 0;
-	}
-}
-#endif
 
 static void
 e_minicard_view_class_init (EMinicardViewClass *klass)
@@ -625,7 +601,8 @@ typedef struct {
 } ModelAndList;
 
 static void
-add_to_list (gint index, gpointer closure)
+add_to_list (gint index,
+             gpointer closure)
 {
 	ModelAndList *mal = closure;
 	mal->list = g_slist_prepend (

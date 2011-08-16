@@ -35,17 +35,17 @@
 #include <libedataserver/e-data-server-util.h>
 
 /* The spacing between items in the time column. GRID_X_PAD is the space down
-   either side of the column, i.e. outside the main horizontal grid lines.
-   HOUR_L_PAD & HOUR_R_PAD are the spaces on the left & right side of the
-   big hour number (this is inside the horizontal grid lines).
-   MIN_X_PAD is the spacing either side of the minute number. The smaller
-   horizontal grid lines match with this.
-   60_MIN_X_PAD is the space either side of the HH:MM display used when
-   we are displaying 60 mins per row (inside the main grid lines).
-   LARGE_HOUR_Y_PAD is the offset of the large hour string from the top of the
-   row.
-   SMALL_FONT_Y_PAD is the offset of the small time/minute string from the top
-   of the row. */
+ * either side of the column, i.e. outside the main horizontal grid lines.
+ * HOUR_L_PAD & HOUR_R_PAD are the spaces on the left & right side of the
+ * big hour number (this is inside the horizontal grid lines).
+ * MIN_X_PAD is the spacing either side of the minute number. The smaller
+ * horizontal grid lines match with this.
+ * 60_MIN_X_PAD is the space either side of the HH:MM display used when
+ * we are displaying 60 mins per row (inside the main grid lines).
+ * LARGE_HOUR_Y_PAD is the offset of the large hour string from the top of the
+ * row.
+ * SMALL_FONT_Y_PAD is the offset of the small time/minute string from the top
+ * of the row. */
 #define E_DVTMI_TIME_GRID_X_PAD		4
 #define E_DVTMI_HOUR_L_PAD		4
 #define E_DVTMI_HOUR_R_PAD		2
@@ -272,8 +272,8 @@ e_day_view_time_item_get_type (void)
 
 static void
 e_day_view_time_item_update (GnomeCanvasItem *item,
-			     const cairo_matrix_t *i2c,
-			     gint flags)
+                             const cairo_matrix_t *i2c,
+                             gint flags)
 {
 	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->update)
 		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->update) (item, i2c, flags);
@@ -348,11 +348,11 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 
 	if (time_divisions == 60) {
 		/* The right edge of the complete time string in 60-min
-		   divisions, e.g. "14:00" or "2 pm". */
+		 * divisions, e.g. "14:00" or "2 pm". */
 		minute_x2 = long_line_x2 - E_DVTMI_60_MIN_X_PAD;
 
 		/* These aren't used for 60-minute divisions, but we initialize
-		   them to keep gcc happy. */
+		 * them to keep gcc happy. */
 		short_line_x1 = 0;
 		large_hour_x2 = 0;
 	} else {
@@ -363,7 +363,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 						  day_view->max_minute_width);
 
 		/* The start of the short horizontal line between the periods
-		   within each hour. */
+		 * within each hour. */
 		short_line_x1 = long_line_x2 - E_DVTMI_MIN_X_PAD * 2
 			- max_minute_or_suffix_width;
 
@@ -434,8 +434,8 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 	small_font_y_offset = E_DVTMI_SMALL_FONT_Y_PAD;
 
 	/* Calculate the minimum y position of the first row we need to draw.
-	   This is normally one row height above the 0 position, but if we
-	   are using the large font we may have to go back a bit further. */
+	 * This is normally one row height above the 0 position, but if we
+	 * are using the large font we may have to go back a bit further. */
 	start_y = 0 - MAX (day_view->row_height,
 			   (pango_font_metrics_get_ascent (large_font_metrics) +
 			    pango_font_metrics_get_descent (large_font_metrics)) / PANGO_SCALE +
@@ -484,7 +484,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 	}
 
 	/* Step through each row, drawing the times and the horizontal lines
-	   between them. */
+	 * between them. */
 	for (row = 0, row_y = 0 - y;
 	     row < day_view->rows && row_y < height;
 	     row++, row_y += day_view->row_height) {
@@ -496,7 +496,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 			midnight_day && midnight_month;
 
 		/* If the row is above the first row we want to draw just
-		   increment the time and skip to the next row. */
+		 * increment the time and skip to the next row. */
 		if (row_y < start_y) {
 			e_day_view_time_item_increment_time (
 				&hour, &minute, time_divisions);
@@ -504,15 +504,15 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 		}
 
 		/* Calculate the actual hour number to display. For 12-hour
-		   format we convert 0-23 to 12-11am/12-11pm. */
+		 * format we convert 0-23 to 12-11am / 12 - 11pm. */
 		e_day_view_convert_time_to_display (day_view, hour,
 						    &display_hour,
 						    &suffix, &suffix_width);
 
 		if (time_divisions == 60) {
 			/* 60 minute intervals - draw a long horizontal line
-			   between hours and display as one long string,
-			   e.g. "14:00" or "2 pm". */
+			 * between hours and display as one long string,
+			 * e.g. "14:00" or "2 pm". */
 			cairo_save (cr);
 			gdk_cairo_set_source_color (cr, &dark);
 			cairo_save (cr);
@@ -555,8 +555,8 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 
 			if (minute == 0) {
 				/* On the hour - draw a long horizontal line
-				   before the hour and display the hour in the
-				   large font. */
+				 * before the hour and display the hour in the
+				 * large font. */
 
 				cairo_save (cr);
 				gdk_cairo_set_source_color (cr, &dark);
@@ -591,7 +591,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				g_object_unref (layout);
 			} else {
 				/* Within the hour - draw a short line before
-				   the time. */
+				 * the time. */
 				cairo_save (cr);
 				gdk_cairo_set_source_color (cr, &dark);
 				cairo_set_line_width (cr, 0.7);
@@ -602,11 +602,11 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 			}
 
 			/* Normally we display the minute in each
-			   interval, but when using 30-minute intervals
-			   we don't display the '30'. */
+			 * interval, but when using 30-minute intervals
+			 * we don't display the '30'. */
 			if (time_divisions != 30 || minute != 30) {
 				/* In 12-hour format we display 'am' or 'pm'
-				   instead of '00'. */
+				 * instead of '00'. */
 				if (show_midnight_date)
 					strcpy (buffer, midnight_month);
 				else if (minute == 0
@@ -671,32 +671,35 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 }
 
 /* Increment the time by the 5/10/15/30/60 minute interval.
-   Note that time_divisions is never > 60, so we never have to
-   worry about adding more than 60 minutes. */
+ * Note that time_divisions is never > 60, so we never have to
+ * worry about adding more than 60 minutes. */
 static void
-e_day_view_time_item_increment_time	(gint	*hour,
-					 gint	*minute,
-					 gint	 time_divisions)
+e_day_view_time_item_increment_time (gint *hour,
+                                     gint *minute,
+                                     gint time_divisions)
 {
 	*minute += time_divisions;
 	if (*minute >= 60) {
 		*minute -= 60;
 		/* Currently we never wrap around to the next day, but
-		   we may do if we display extra timezones. */
+		 * we may do if we display extra timezones. */
 		*hour = (*hour + 1) % 24;
 	}
 }
 
 static GnomeCanvasItem *
-e_day_view_time_item_point (GnomeCanvasItem *item, double x, double y,
-			    gint cx, gint cy)
+e_day_view_time_item_point (GnomeCanvasItem *item,
+                            gdouble x,
+                            gdouble y,
+                            gint cx,
+                            gint cy)
 {
 	return item;
 }
 
 static gint
 e_day_view_time_item_event (GnomeCanvasItem *item,
-			    GdkEvent *event)
+                            GdkEvent *event)
 {
 	EDayViewTimeItem *time_item;
 
@@ -885,7 +888,7 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 
 static void
 e_day_view_time_item_on_set_divisions (GtkWidget *item,
-				       EDayViewTimeItem *time_item)
+                                       EDayViewTimeItem *time_item)
 {
 	EDayView *day_view;
 	ECalendarView *cal_view;
@@ -905,7 +908,7 @@ e_day_view_time_item_on_set_divisions (GtkWidget *item,
 
 static void
 e_day_view_time_item_on_button_press (EDayViewTimeItem *time_item,
-				      GdkEvent *event)
+                                      GdkEvent *event)
 {
 	GdkWindow *window;
 	EDayView *day_view;
@@ -939,7 +942,7 @@ e_day_view_time_item_on_button_press (EDayViewTimeItem *time_item,
 
 static void
 e_day_view_time_item_on_button_release (EDayViewTimeItem *time_item,
-					GdkEvent *event)
+                                        GdkEvent *event)
 {
 	EDayView *day_view;
 
@@ -957,7 +960,7 @@ e_day_view_time_item_on_button_release (EDayViewTimeItem *time_item,
 
 static void
 e_day_view_time_item_on_motion_notify (EDayViewTimeItem *time_item,
-				       GdkEvent *event)
+                                       GdkEvent *event)
 {
 	EDayView *day_view;
 	GnomeCanvas *canvas;
@@ -986,7 +989,7 @@ e_day_view_time_item_on_motion_notify (EDayViewTimeItem *time_item,
 /* Returns the row corresponding to the y position, or -1. */
 static gint
 e_day_view_time_item_convert_position_to_row (EDayViewTimeItem *time_item,
-					      gint y)
+                                              gint y)
 {
 	EDayView *day_view;
 	gint row;
@@ -1028,8 +1031,8 @@ e_day_view_time_item_set_day_view (EDayViewTimeItem *time_item,
 }
 
 /* Returns the minimum width needed for the column, by adding up all the
-   maximum widths of the strings. The string widths are all calculated in
-   the style_set handlers of EDayView and EDayViewTimeCanvas. */
+ * maximum widths of the strings. The string widths are all calculated in
+ * the style_set handlers of EDayView and EDayViewTimeCanvas. */
 gint
 e_day_view_time_item_get_column_width (EDayViewTimeItem *time_item)
 {
@@ -1066,8 +1069,8 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *time_item)
 	}
 
 	/* Calculate the width of each time column, using the maximum of the
-	   default format with large hour numbers, and the 60-min divisions
-	   format which uses small text. */
+	 * default format with large hour numbers, and the 60-min divisions
+	 * format which uses small text. */
 	max_suffix_width = MAX (day_view->am_string_width,
 				day_view->pm_string_width);
 

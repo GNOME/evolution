@@ -71,7 +71,9 @@ async_context_free (AsyncContext *context)
 }
 
 static void
-emfp_free (EConfig *ec, GSList *items, gpointer data)
+emfp_free (EConfig *ec,
+           GSList *items,
+           gpointer data)
 {
 	g_slist_free (items);
 }
@@ -103,7 +105,7 @@ add_numbered_row (GtkTable *table,
 	gtk_widget_show (label);
 	gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
 	gtk_table_attach (
-		table, label, 1, 2, row, row+1,
+		table, label, 1, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	g_free (str);
@@ -276,7 +278,7 @@ emfp_dialog_run (AsyncContext *context)
 	g_object_unref (client);
 
 	/*
-	   Do the calculation only for those accounts that support VTRASHes
+	 * Do the calculation only for those accounts that support VTRASHes
 	 */
 	if (parent_store->flags & CAMEL_STORE_VTRASH) {
 		if (CAMEL_IS_VTRASH_FOLDER (context->folder))

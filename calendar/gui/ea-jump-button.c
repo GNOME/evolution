@@ -112,7 +112,7 @@ ea_jump_button_class_init (EaJumpButtonClass *klass)
 	class->get_description = ea_jump_button_get_description;
 }
 
-AtkObject*
+AtkObject *
 ea_jump_button_new (GObject *obj)
 {
 	AtkObject *atk_obj = NULL;
@@ -171,7 +171,7 @@ atk_action_interface_init (AtkActionIface *iface)
 
 static gboolean
 jump_button_do_action (AtkAction *action,
-                       gint      i)
+                       gint i)
 {
   gboolean return_value = TRUE;
   AtkGObjectAccessible *atk_gobj;
@@ -209,7 +209,7 @@ jump_button_get_n_actions (AtkAction *action)
 
 static const gchar *
 jump_button_get_keybinding (AtkAction *action,
-                            gint      i)
+                            gint i)
 {
   const gchar *return_value = NULL;
 

@@ -30,9 +30,9 @@
 
 static void       gail_canvas_item_initialize               (AtkObject         *obj,
 							     gpointer          data);
-static AtkObject* gail_canvas_item_get_parent               (AtkObject         *obj);
+static AtkObject * gail_canvas_item_get_parent               (AtkObject         *obj);
 static gint       gail_canvas_item_get_index_in_parent      (AtkObject         *obj);
-static AtkStateSet* gail_canvas_item_ref_state_set          (AtkObject         *obj);
+static AtkStateSet * gail_canvas_item_ref_state_set          (AtkObject         *obj);
 
 static void       gail_canvas_item_component_interface_init (AtkComponentIface *iface);
 static guint      gail_canvas_item_add_focus_handler        (AtkComponent *component,
@@ -67,7 +67,7 @@ gail_canvas_item_init (GailCanvasItem *foo)
   ;
 }
 
-AtkObject*
+AtkObject *
 gail_canvas_item_new (GObject *obj)
 {
   gpointer object;
@@ -82,8 +82,8 @@ gail_canvas_item_new (GObject *obj)
 }
 
 static void
-gail_canvas_item_initialize (AtkObject   *obj,
-			     gpointer    data)
+gail_canvas_item_initialize (AtkObject *obj,
+                             gpointer data)
 {
   ATK_OBJECT_CLASS (parent_class)->initialize (obj, data);
 
@@ -174,8 +174,8 @@ gail_canvas_item_get_index_in_parent (AtkObject *obj)
     }
 }
 
-static AtkStateSet*
-gail_canvas_item_ref_state_set (AtkObject         *obj)
+static AtkStateSet *
+gail_canvas_item_ref_state_set (AtkObject *obj)
 {
   AtkGObjectAccessible *atk_gobj;
   GObject *g_obj;
@@ -232,7 +232,7 @@ gail_canvas_item_component_interface_init (AtkComponentIface *iface)
 }
 
 static guint
-gail_canvas_item_add_focus_handler (AtkComponent    *component,
+gail_canvas_item_add_focus_handler (AtkComponent *component,
                                     AtkFocusHandler handler)
 {
   GSignalMatchType match_type;
@@ -261,10 +261,10 @@ gail_canvas_item_add_focus_handler (AtkComponent    *component,
 
 static void
 gail_canvas_item_get_extents (AtkComponent *component,
-                              gint         *x,
-                              gint         *y,
-                              gint         *width,
-                              gint         *height,
+                              gint *x,
+                              gint *y,
+                              gint *width,
+                              gint *height,
                               AtkCoordType coord_type)
 {
   AtkGObjectAccessible *atk_gobj;
@@ -321,7 +321,7 @@ gail_canvas_item_get_mdi_zorder (AtkComponent *component)
 }
 
 static gboolean
-gail_canvas_item_grab_focus (AtkComponent    *component)
+gail_canvas_item_grab_focus (AtkComponent *component)
 {
   AtkGObjectAccessible *atk_gobj;
   GObject *obj;
@@ -348,7 +348,7 @@ gail_canvas_item_grab_focus (AtkComponent    *component)
 
 static void
 gail_canvas_item_remove_focus_handler (AtkComponent *component,
-                                       guint        handler_id)
+                                       guint handler_id)
 {
   g_signal_handler_disconnect (ATK_OBJECT (component), handler_id);
 }
@@ -363,8 +363,8 @@ is_item_on_screen (GnomeCanvasItem *item)
 }
 
 static void
-get_item_extents (GnomeCanvasItem   *item,
-                  GdkRectangle      *extents)
+get_item_extents (GnomeCanvasItem *item,
+                  GdkRectangle *extents)
 {
   double x1, x2, y1, y2;
   cairo_matrix_t i2c;
@@ -387,7 +387,7 @@ get_item_extents (GnomeCanvasItem   *item,
 }
 
 static gboolean
-is_item_in_window (GnomeCanvasItem    *item,
+is_item_in_window (GnomeCanvasItem *item,
                    const GdkRectangle *extents)
 {
   GtkWidget *widget;

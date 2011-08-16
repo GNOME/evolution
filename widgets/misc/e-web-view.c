@@ -2049,7 +2049,8 @@ e_web_view_get_cursor_image_src (EWebView *web_view)
 }
 
 void
-e_web_view_set_cursor_image_src (EWebView *web_view, const gchar *src_uri)
+e_web_view_set_cursor_image_src (EWebView *web_view,
+                                 const gchar *src_uri)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 

@@ -55,27 +55,27 @@ static void e_day_view_recalc_cols_per_row (gint           rows,
 					    guint16       *group_starts);
 
 void
-e_day_view_layout_long_events (GArray	   *events,
-			       gint	   days_shown,
-			       time_t	  *day_starts,
-			       gint	   *rows_in_top_display)
+e_day_view_layout_long_events (GArray *events,
+                               gint days_shown,
+                               time_t *day_starts,
+                               gint *rows_in_top_display)
 {
 	EDayViewEvent *event;
 	gint event_num;
 	guint8 *grid;
 
 	/* This is a temporary 2-d grid which is used to place events.
-	   Each element is 0 if the position is empty, or 1 if occupied.
-	   We allocate the maximum size possible here, assuming that each
-	   event will need its own row. */
+	 * Each element is 0 if the position is empty, or 1 if occupied.
+	 * We allocate the maximum size possible here, assuming that each
+	 * event will need its own row. */
 	grid = g_new0 (guint8, events->len * E_DAY_VIEW_MAX_DAYS);
 
 	/* Reset the number of rows in the top display to 0. It will be
-	   updated as events are layed out below. */
+	 * updated as events are layed out below. */
 	*rows_in_top_display = 0;
 
 	/* Iterate over the events, finding which days they cover, and putting
-	   them in the first free row available. */
+	 * them in the first free row available. */
 	for (event_num = 0; event_num < events->len; event_num++) {
 		event = &g_array_index (events, EDayViewEvent, event_num);
 		e_day_view_layout_long_event (event, grid,
@@ -89,10 +89,10 @@ e_day_view_layout_long_events (GArray	   *events,
 
 static void
 e_day_view_layout_long_event (EDayViewEvent *event,
-			      guint8	   *grid,
-			      gint	    days_shown,
-			      time_t	   *day_starts,
-			      gint	   *rows_in_top_display)
+                              guint8 *grid,
+                              gint days_shown,
+                              time_t *day_starts,
+                              gint *rows_in_top_display)
 {
 	gint start_day, end_day, free_row, day, row;
 
@@ -130,31 +130,31 @@ e_day_view_layout_long_event (EDayViewEvent *event,
 
 /* returns maximum number of columns among all rows */
 gint
-e_day_view_layout_day_events (GArray	   *events,
-			      gint	    rows,
-			      gint	    mins_per_row,
-			      guint8	   *cols_per_row,
-			      gint          max_cols)
+e_day_view_layout_day_events (GArray *events,
+                              gint rows,
+                              gint mins_per_row,
+                              guint8 *cols_per_row,
+                              gint max_cols)
 {
 	EDayViewEvent *event;
 	gint row, event_num, res;
 	EBitArray **grid;
 
 	/* This is a temporary array which keeps track of rows which are
-	   connected. When an appointment spans multiple rows then the number
-	   of columns in each of these rows must be the same (i.e. the maximum
-	   of all of them). Each element in the array corresponds to one row
-	   and contains the index of the first row in the group of connected
-	   rows. */
+	 * connected. When an appointment spans multiple rows then the number
+	 * of columns in each of these rows must be the same (i.e. the maximum
+	 * of all of them). Each element in the array corresponds to one row
+	 * and contains the index of the first row in the group of connected
+	 * rows. */
 	guint16 group_starts[12 * 24];
 
 	/* This is a temporary 2-d grid which is used to place events.
-	   Each element is 0 if the position is empty, or 1 if occupied. */
+	 * Each element is 0 if the position is empty, or 1 if occupied. */
 	grid = g_new0 (EBitArray *, rows);
 
 	/* Reset the cols_per_row array, and initialize the connected rows so
-	   that all rows are not connected - each row is the start of a new
-	   group. */
+	 * that all rows are not connected - each row is the start of a new
+	 * group. */
 	for (row = 0; row < rows; row++) {
 		cols_per_row[row] = 0;
 		group_starts[row] = row;
@@ -164,9 +164,9 @@ e_day_view_layout_day_events (GArray	   *events,
 	}
 
 	/* Iterate over the events, finding which rows they cover, and putting
-	   them in the first free column available. Increment the number of
-	   events in each of the rows it covers, and make sure they are all
-	   in one group. */
+	 * them in the first free column available. Increment the number of
+	 * events in each of the rows it covers, and make sure they are all
+	 * in one group. */
 	for (event_num = 0; event_num < events->len; event_num++) {
 		event = &g_array_index (events, EDayViewEvent, event_num);
 
@@ -178,7 +178,7 @@ e_day_view_layout_day_events (GArray	   *events,
 	e_day_view_recalc_cols_per_row (rows, cols_per_row, group_starts);
 
 	/* Iterate over the events again, trying to expand events horizontally
-	   if there is enough space. */
+	 * if there is enough space. */
 	for (event_num = 0; event_num < events->len; event_num++) {
 		event = &g_array_index (events, EDayViewEvent, event_num);
 		e_day_view_expand_day_event (event, grid, cols_per_row,
@@ -197,16 +197,16 @@ e_day_view_layout_day_events (GArray	   *events,
 }
 
 /* Finds the first free position to place the event in.
-   Increments the number of events in each of the rows it covers, and makes
-   sure they are all in one group. */
+ * Increments the number of events in each of the rows it covers, and makes
+ * sure they are all in one group. */
 static void
 e_day_view_layout_day_event (EDayViewEvent *event,
-			     EBitArray    **grid,
-			     guint16	   *group_starts,
-			     guint8	   *cols_per_row,
-			     gint	    rows,
-			     gint	    mins_per_row,
-			     gint           max_cols)
+                             EBitArray **grid,
+                             guint16 *group_starts,
+                             guint8 *cols_per_row,
+                             gint rows,
+                             gint mins_per_row,
+                             gint max_cols)
 {
 	gint start_row, end_row, free_col, col, row, group_start;
 
@@ -252,9 +252,9 @@ e_day_view_layout_day_event (EDayViewEvent *event,
 	group_start = group_starts[start_row];
 
 	/* Increment number of events in each of the rows the event covers.
-	   We use the cols_per_row array for this. It will be sorted out after
-	   all the events have been layed out. Also make sure all the rows that
-	   the event covers are in one group. */
+	 * We use the cols_per_row array for this. It will be sorted out after
+	 * all the events have been layed out. Also make sure all the rows that
+	 * the event covers are in one group. */
 	for (row = start_row; row <= end_row; row++) {
 		/* resize the array if necessary */
 		if (e_bit_array_bit_count (grid[row]) <= free_col)
@@ -276,11 +276,11 @@ e_day_view_layout_day_event (EDayViewEvent *event,
 }
 
 /* For each group of rows, find the max number of events in all the
-   rows, and set the number of cols in each of the rows to that. */
+ * rows, and set the number of cols in each of the rows to that. */
 static void
-e_day_view_recalc_cols_per_row (gint      rows,
-				guint8	 *cols_per_row,
-				guint16  *group_starts)
+e_day_view_recalc_cols_per_row (gint rows,
+                                guint8 *cols_per_row,
+                                guint16 *group_starts)
 {
 	gint start_row = 0, row, next_start_row, max_events;
 
@@ -301,9 +301,9 @@ e_day_view_recalc_cols_per_row (gint      rows,
 /* Expands the event horizontally to fill any free space. */
 static void
 e_day_view_expand_day_event (EDayViewEvent *event,
-			     EBitArray    **grid,
-			     guint8	   *cols_per_row,
-			     gint	    mins_per_row)
+                             EBitArray **grid,
+                             guint8 *cols_per_row,
+                             gint mins_per_row)
 {
 	gint start_row, end_row, col, row;
 	gboolean clashed;
@@ -333,11 +333,11 @@ e_day_view_expand_day_event (EDayViewEvent *event,
 
 /* Find the start and end days for the event. */
 gboolean
-e_day_view_find_long_event_days (EDayViewEvent	*event,
-				 gint		 days_shown,
-				 time_t		*day_starts,
-				 gint		*start_day_return,
-				 gint		*end_day_return)
+e_day_view_find_long_event_days (EDayViewEvent *event,
+                                 gint days_shown,
+                                 time_t *day_starts,
+                                 gint *start_day_return,
+                                 gint *end_day_return)
 {
 	gint day, start_day, end_day;
 

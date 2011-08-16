@@ -212,7 +212,9 @@ em_folder_selector_init (EMFolderSelector *emfs)
 }
 
 static void
-emfs_response (GtkWidget *dialog, gint response, EMFolderSelector *emfs)
+emfs_response (GtkWidget *dialog,
+               gint response,
+               EMFolderSelector *emfs)
 {
 	EMFolderTree *folder_tree;
 	EMailBackend *backend;
@@ -234,7 +236,8 @@ emfs_response (GtkWidget *dialog, gint response, EMFolderSelector *emfs)
 }
 
 static void
-emfs_create_name_changed (GtkEntry *entry, EMFolderSelector *emfs)
+emfs_create_name_changed (GtkEntry *entry,
+                          EMFolderSelector *emfs)
 {
 	EMFolderTree *folder_tree;
 	gchar *path;
@@ -386,7 +389,8 @@ em_folder_selector_new (GtkWindow *parent,
 }
 
 static void
-emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
+emfs_create_name_activate (GtkEntry *entry,
+                           EMFolderSelector *emfs)
 {
 	if (gtk_entry_get_text_length (emfs->name_entry) > 0) {
 		EMFolderTree *folder_tree;

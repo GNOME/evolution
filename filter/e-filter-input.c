@@ -96,7 +96,7 @@ filter_input_validate (EFilterElement *element,
 				gchar *regmsg;
 
 				/* regerror gets called twice to get the full error string
-				   length to do proper posix error reporting */
+				 * length to do proper posix error reporting */
 				reglen = regerror (regerr, &regexpat, 0, 0);
 				regmsg = g_malloc0 (reglen + 1);
 				regerror (regerr, &regexpat, regmsg, reglen);
@@ -178,7 +178,8 @@ filter_input_xml_encode (EFilterElement *element)
 }
 
 static gint
-filter_input_xml_decode (EFilterElement *element, xmlNodePtr node)
+filter_input_xml_decode (EFilterElement *element,
+                         xmlNodePtr node)
 {
 	EFilterInput *input = (EFilterInput *) element;
 	gchar *name, *str, *type;

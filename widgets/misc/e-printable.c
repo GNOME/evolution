@@ -121,11 +121,11 @@ e_printable_new (void)
 }
 
 void
-e_printable_print_page          (EPrintable        *e_printable,
-				 GtkPrintContext *context,
-				 gdouble            width,
-				 gdouble            height,
-				 gboolean           quantized)
+e_printable_print_page (EPrintable *e_printable,
+                        GtkPrintContext *context,
+                        gdouble width,
+                        gdouble height,
+                        gboolean quantized)
 {
 	g_return_if_fail (e_printable != NULL);
 	g_return_if_fail (E_IS_PRINTABLE (e_printable));
@@ -139,7 +139,7 @@ e_printable_print_page          (EPrintable        *e_printable,
 }
 
 gboolean
-e_printable_data_left           (EPrintable        *e_printable)
+e_printable_data_left (EPrintable *e_printable)
 {
 	gboolean ret_val;
 
@@ -154,7 +154,7 @@ e_printable_data_left           (EPrintable        *e_printable)
 }
 
 void
-e_printable_reset               (EPrintable        *e_printable)
+e_printable_reset (EPrintable *e_printable)
 {
 	g_return_if_fail (e_printable != NULL);
 	g_return_if_fail (E_IS_PRINTABLE (e_printable));
@@ -164,11 +164,11 @@ e_printable_reset               (EPrintable        *e_printable)
 }
 
 gdouble
-e_printable_height              (EPrintable        *e_printable,
-				 GtkPrintContext *context,
-				 gdouble            width,
-				 gdouble            max_height,
-				 gboolean           quantized)
+e_printable_height (EPrintable *e_printable,
+                    GtkPrintContext *context,
+                    gdouble width,
+                    gdouble max_height,
+                    gboolean quantized)
 {
 	gdouble ret_val;
 
@@ -187,11 +187,11 @@ e_printable_height              (EPrintable        *e_printable,
 }
 
 gboolean
-e_printable_will_fit            (EPrintable        *e_printable,
-				 GtkPrintContext *context,
-				 gdouble            width,
-				 gdouble            max_height,
-				 gboolean           quantized)
+e_printable_will_fit (EPrintable *e_printable,
+                      GtkPrintContext *context,
+                      gdouble width,
+                      gdouble max_height,
+                      gboolean quantized)
 {
 	gboolean ret_val;
 

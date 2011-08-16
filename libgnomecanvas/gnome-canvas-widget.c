@@ -170,7 +170,8 @@ gnome_canvas_widget_class_init (GnomeCanvasWidgetClass *class)
 }
 
 static void
-do_destroy (gpointer data, GObject *gone_object)
+do_destroy (gpointer data,
+            GObject *gone_object)
 {
 	GnomeCanvasWidget *witem;
 
@@ -244,10 +245,10 @@ recalc_bounds (GnomeCanvasWidget *witem)
 }
 
 static void
-gnome_canvas_widget_set_property (GObject            *object,
-				  guint               param_id,
-				  const GValue       *value,
-				  GParamSpec         *pspec)
+gnome_canvas_widget_set_property (GObject *object,
+                                  guint param_id,
+                                  const GValue *value,
+                                  GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	GnomeCanvasWidget *witem;
@@ -336,10 +337,10 @@ gnome_canvas_widget_set_property (GObject            *object,
 }
 
 static void
-gnome_canvas_widget_get_property (GObject            *object,
-				  guint               param_id,
-				  GValue             *value,
-				  GParamSpec         *pspec)
+gnome_canvas_widget_get_property (GObject *object,
+                                  guint param_id,
+                                  GValue *value,
+                                  GParamSpec *pspec)
 {
 	GnomeCanvasWidget *witem;
 
@@ -406,9 +407,11 @@ gnome_canvas_widget_update (GnomeCanvasItem *item,
 
 static void
 gnome_canvas_widget_draw (GnomeCanvasItem *item,
-			  cairo_t *cr,
-			  gint x, gint y,
-			  gint width, gint height)
+                          cairo_t *cr,
+                          gint x,
+                          gint y,
+                          gint width,
+                          gint height)
 {
 #if 0
 	GnomeCanvasWidget *witem;
@@ -421,8 +424,11 @@ gnome_canvas_widget_draw (GnomeCanvasItem *item,
 }
 
 static GnomeCanvasItem *
-gnome_canvas_widget_point (GnomeCanvasItem *item, gdouble x, gdouble y,
-			   gint cx, gint cy)
+gnome_canvas_widget_point (GnomeCanvasItem *item,
+                           gdouble x,
+                           gdouble y,
+                           gint cx,
+                           gint cy)
 {
 	GnomeCanvasWidget *witem;
 	gdouble x1, y1, x2, y2;

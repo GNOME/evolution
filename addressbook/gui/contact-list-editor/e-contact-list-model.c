@@ -137,7 +137,7 @@ e_contact_list_model_has_uid (EContactListModel *model,
 	return (g_hash_table_lookup (model->priv->uids_table, uid) != NULL);
 }
 
-GtkTreePath*
+GtkTreePath *
 e_contact_list_model_add_destination (EContactListModel *model,
                                       EDestination *destination,
                                       GtkTreeIter *parent,
@@ -213,7 +213,7 @@ e_contact_list_model_add_contact (EContactListModel *model,
 
 static void
 contact_list_model_unref_row_dest (EContactListModel *model,
-				   GtkTreeIter *iter)
+                                   GtkTreeIter *iter)
 {
 	EDestination *dest;
 	GtkTreeModel *tree_model;
@@ -227,7 +227,7 @@ contact_list_model_unref_row_dest (EContactListModel *model,
 			e_destination_get_contact_uid (dest)));
 
 		/* If the list is only once in the model, then remove it from the hash table,
-		   otherwise decrease the counter by one */
+		 * otherwise decrease the counter by one */
 		if (list_refs <= 1) {
 			g_hash_table_remove (model->priv->uids_table,
 				e_destination_get_contact_uid (dest));
@@ -270,11 +270,11 @@ e_contact_list_model_remove_row (EContactListModel *model,
 	g_return_if_fail (iter);
 
 	/* Use helper function to update our reference counters in
-	   hash tables but don't remove any row. */
+	 * hash tables but don't remove any row. */
 	contact_list_model_unref_row_dest (model, iter);
 
 	/* Get iter of parent of the row to be removed. After the row is removed, check if there are
-	   any more children left for the parent_iter, an eventually remove the parent_iter as well */
+	 * any more children left for the parent_iter, an eventually remove the parent_iter as well */
 	if (gtk_tree_model_iter_parent (GTK_TREE_MODEL (model), &parent_iter, iter)) {
 		gtk_tree_store_remove (GTK_TREE_STORE (model), iter);
 		if (!gtk_tree_model_iter_has_child (GTK_TREE_MODEL (model), &parent_iter)) {

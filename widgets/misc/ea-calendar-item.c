@@ -45,7 +45,7 @@ static const gchar * ea_calendar_item_get_name (AtkObject *accessible);
 static const gchar * ea_calendar_item_get_description (AtkObject *accessible);
 static gint ea_calendar_item_get_n_children (AtkObject *accessible);
 static AtkObject *ea_calendar_item_ref_child (AtkObject *accessible, gint index);
-static AtkStateSet* ea_calendar_item_ref_state_set (AtkObject *accessible);
+static AtkStateSet * ea_calendar_item_ref_state_set (AtkObject *accessible);
 
 /* atk table interface */
 static void atk_table_interface_init (AtkTableIface *iface);
@@ -56,7 +56,7 @@ static gint table_interface_get_column_at_index (AtkTable *table,
 						 gint     index);
 static gint table_interface_get_row_at_index (AtkTable *table,
 					      gint     index);
-static AtkObject* table_interface_ref_at (AtkTable *table,
+static AtkObject * table_interface_ref_at (AtkTable *table,
 					  gint     row,
 					  gint     column);
 static gint table_interface_get_n_rows (AtkTable *table);
@@ -86,29 +86,31 @@ static gboolean table_interface_add_column_selection (AtkTable *table,
 						      gint column);
 static gboolean table_interface_remove_column_selection (AtkTable *table,
 							 gint column);
-static AtkObject* table_interface_get_row_header (AtkTable *table, gint row);
-static AtkObject* table_interface_get_column_header (AtkTable *table,
+static AtkObject * table_interface_get_row_header (AtkTable *table, gint row);
+static AtkObject * table_interface_get_column_header (AtkTable *table,
 						     gint in_col);
-static AtkObject* table_interface_get_caption (AtkTable *table);
+static AtkObject * table_interface_get_caption (AtkTable *table);
 
 static const gchar *
-table_interface_get_column_description (AtkTable *table, gint in_col);
+table_interface_get_column_description (AtkTable *table,
+                                        gint in_col);
 
 static const gchar *
-table_interface_get_row_description (AtkTable *table, gint row);
+table_interface_get_row_description (AtkTable *table,
+                                     gint row);
 
-static AtkObject* table_interface_get_summary (AtkTable *table);
+static AtkObject *table_interface_get_summary (AtkTable *table);
 
 /* atk selection interface */
 static void atk_selection_interface_init (AtkSelectionIface *iface);
 static gboolean selection_interface_add_selection (AtkSelection *selection,
-						   gint i);
+                                                   gint i);
 static gboolean selection_interface_clear_selection (AtkSelection *selection);
-static AtkObject* selection_interface_ref_selection (AtkSelection *selection,
-						     gint i);
+static AtkObject *selection_interface_ref_selection (AtkSelection *selection,
+                                                     gint i);
 static gint selection_interface_get_selection_count (AtkSelection *selection);
 static gboolean selection_interface_is_child_selected (AtkSelection *selection,
-						       gint i);
+                                                       gint i);
 
 /* callbacks */
 static void selection_preview_change_cb (ECalendarItem *calitem);
@@ -118,18 +120,20 @@ static void date_range_changed_cb (ECalendarItem *calitem);
 static EaCellTable *ea_calendar_item_get_cell_data (EaCalendarItem *ea_calitem);
 static void ea_calendar_item_destory_cell_data (EaCalendarItem *ea_calitem);
 static gboolean ea_calendar_item_get_column_label (EaCalendarItem *ea_calitem,
-						   gint column,
-						   gchar *buffer,
-						   gint buffer_size);
+                                                   gint column,
+                                                   gchar *buffer,
+                                                   gint buffer_size);
 static gboolean ea_calendar_item_get_row_label (EaCalendarItem *ea_calitem,
-						gint row,
-						gchar *buffer,
-						gint buffer_size);
+                                                gint row,
+                                                gchar *buffer,
+                                                gint buffer_size);
 static gboolean e_calendar_item_get_offset_for_date (ECalendarItem *calitem,
-						     gint year, gint month, gint day,
-						     gint *offset);
+                                                     gint year,
+                                                     gint month,
+                                                     gint day,
+                                                     gint *offset);
 static void ea_calendar_set_focus_object (EaCalendarItem *ea_calitem,
-					  AtkObject *item_cell);
+                                          AtkObject *item_cell);
 
 #ifdef ACC_DEBUG
 static gint n_ea_calendar_item_created = 0;
@@ -212,7 +216,7 @@ ea_calendar_item_class_init (EaCalendarItemClass *klass)
 	class->ref_child = ea_calendar_item_ref_child;
 }
 
-AtkObject*
+AtkObject *
 ea_calendar_item_new (GObject *obj)
 {
 	gpointer object;
@@ -350,7 +354,7 @@ ea_calendar_item_get_description (AtkObject *accessible)
 	return _("evolution calendar item");
 }
 
-static AtkStateSet*
+static AtkStateSet *
 ea_calendar_item_ref_state_set (AtkObject *accessible)
 {
 	AtkStateSet *state_set;
@@ -403,7 +407,8 @@ ea_calendar_item_get_n_children (AtkObject *accessible)
 }
 
 static AtkObject *
-ea_calendar_item_ref_child (AtkObject *accessible, gint index)
+ea_calendar_item_ref_child (AtkObject *accessible,
+                            gint index)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
@@ -482,14 +487,14 @@ atk_table_interface_init (AtkTableIface *iface)
 	iface->get_column_description = table_interface_get_column_description;
 }
 
-static AtkObject*
+static AtkObject *
 table_interface_ref_at (AtkTable *table,
-			gint     row,
-			gint     column)
+                        gint row,
+                        gint column)
 {
 	gint index;
 
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (table);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (table);
 	index = EA_CALENDAR_COLUMN_NUM * row + column;
 	return ea_calendar_item_ref_child (ATK_OBJECT (ea_calitem), index);
 }
@@ -499,7 +504,7 @@ table_interface_get_n_rows (AtkTable *table)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (table);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (table);
 	gint n_children;
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_calitem);
@@ -516,7 +521,7 @@ table_interface_get_n_columns (AtkTable *table)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (table);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (table);
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_calitem);
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
@@ -528,12 +533,12 @@ table_interface_get_n_columns (AtkTable *table)
 
 static gint
 table_interface_get_index_at (AtkTable *table,
-			      gint     row,
-			      gint     column)
+                              gint row,
+                              gint column)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (table);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (table);
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_calitem);
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
@@ -545,11 +550,11 @@ table_interface_get_index_at (AtkTable *table,
 
 static gint
 table_interface_get_column_at_index (AtkTable *table,
-				     gint index)
+                                     gint index)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (table);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (table);
 	gint n_children;
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_calitem);
@@ -565,11 +570,11 @@ table_interface_get_column_at_index (AtkTable *table,
 
 static gint
 table_interface_get_row_at_index (AtkTable *table,
-				  gint     index)
+                                  gint index)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (table);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (table);
 	gint n_children;
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_calitem);
@@ -584,14 +589,14 @@ table_interface_get_row_at_index (AtkTable *table,
 }
 
 static gint
-table_interface_get_column_extent_at (AtkTable      *table,
-				      gint          row,
-				      gint          column)
+table_interface_get_column_extent_at (AtkTable *table,
+                                      gint row,
+                                      gint column)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
 	ECalendarItem *calitem;
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (table);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (table);
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_calitem);
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
@@ -604,12 +609,13 @@ table_interface_get_column_extent_at (AtkTable      *table,
 
 static gint
 table_interface_get_row_extent_at (AtkTable *table,
-				   gint row, gint column)
+                                   gint row,
+                                   gint column)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
 	ECalendarItem *calitem;
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (table);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (table);
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_calitem);
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
@@ -623,7 +629,7 @@ table_interface_get_row_extent_at (AtkTable *table,
 /* any day in the row is selected, the row is selected */
 static gboolean
 table_interface_is_row_selected (AtkTable *table,
-				 gint row)
+                                 gint row)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
@@ -673,8 +679,8 @@ table_interface_is_row_selected (AtkTable *table,
 
 static gboolean
 table_interface_is_selected (AtkTable *table,
-			     gint     row,
-			     gint     column)
+                             gint row,
+                             gint column)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
@@ -722,14 +728,14 @@ table_interface_is_selected (AtkTable *table,
 
 static gboolean
 table_interface_is_column_selected (AtkTable *table,
-				    gint column)
+                                    gint column)
 {
 	return FALSE;
 }
 
 static gint
 table_interface_get_selected_rows (AtkTable *table,
-				   gint **rows_selected)
+                                   gint **rows_selected)
 {
 	*rows_selected = NULL;
 	return -1;
@@ -737,7 +743,7 @@ table_interface_get_selected_rows (AtkTable *table,
 
 static gint
 table_interface_get_selected_columns (AtkTable *table,
-				      gint **columns_selected)
+                                      gint **columns_selected)
 {
 	*columns_selected = NULL;
 	return -1;
@@ -745,62 +751,63 @@ table_interface_get_selected_columns (AtkTable *table,
 
 static gboolean
 table_interface_add_row_selection (AtkTable *table,
-				   gint row)
+                                   gint row)
 {
 	return FALSE;
 }
 
 static gboolean
 table_interface_remove_row_selection (AtkTable *table,
-				      gint row)
+                                      gint row)
 {
 	return FALSE;
 }
 
 static gboolean
 table_interface_add_column_selection (AtkTable *table,
-				      gint column)
+                                      gint column)
 {
 	return FALSE;
 }
 
 static gboolean
 table_interface_remove_column_selection (AtkTable *table,
-					 gint     column)
+                                         gint column)
 {
 	/* FIXME: NOT IMPLEMENTED */
 	return FALSE;
 }
 
-static AtkObject*
+static AtkObject *
 table_interface_get_row_header (AtkTable *table,
-				gint     row)
+                                gint row)
 {
 	/* FIXME: NOT IMPLEMENTED */
 	return NULL;
 }
 
-static AtkObject*
+static AtkObject *
 table_interface_get_column_header (AtkTable *table,
-				   gint     in_col)
+                                   gint in_col)
 {
 	/* FIXME: NOT IMPLEMENTED */
 	return NULL;
 }
 
-static AtkObject*
-table_interface_get_caption (AtkTable	*table)
+static AtkObject *
+table_interface_get_caption (AtkTable *table)
 {
 	/* FIXME: NOT IMPLEMENTED */
 	return NULL;
 }
 
 static const gchar *
-table_interface_get_column_description (AtkTable *table, gint in_col)
+table_interface_get_column_description (AtkTable *table,
+                                        gint in_col)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (table);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (table);
 	const gchar *description = NULL;
 	EaCellTable *cell_data;
 	gint n_columns;
@@ -830,11 +837,12 @@ table_interface_get_column_description (AtkTable *table, gint in_col)
 }
 
 static const gchar *
-table_interface_get_row_description (AtkTable *table, gint row)
+table_interface_get_row_description (AtkTable *table,
+                                     gint row)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (table);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (table);
 	const gchar *description = NULL;
 	EaCellTable *cell_data;
 	gint n_rows;
@@ -863,8 +871,8 @@ table_interface_get_row_description (AtkTable *table, gint row)
 	return description;
 }
 
-static AtkObject*
-table_interface_get_summary (AtkTable	*table)
+static AtkObject *
+table_interface_get_summary (AtkTable *table)
 {
 	/* FIXME: NOT IMPLEMENTED */
 	return NULL;
@@ -885,12 +893,13 @@ atk_selection_interface_init (AtkSelectionIface *iface)
 }
 
 static gboolean
-selection_interface_add_selection (AtkSelection *selection, gint index)
+selection_interface_add_selection (AtkSelection *selection,
+                                   gint index)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
 	ECalendarItem *calitem;
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (selection);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (selection);
 	gint year, month, day;
 	GDate start_date, end_date;
 
@@ -917,7 +926,7 @@ selection_interface_clear_selection (AtkSelection *selection)
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
 	ECalendarItem *calitem;
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (selection);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (selection);
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_calitem);
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
@@ -930,12 +939,13 @@ selection_interface_clear_selection (AtkSelection *selection)
 	return TRUE;
 }
 
-static AtkObject*
-selection_interface_ref_selection (AtkSelection *selection, gint i)
+static AtkObject *
+selection_interface_ref_selection (AtkSelection *selection,
+                                   gint i)
 {
 	GObject *g_obj;
 	ECalendarItem *calitem;
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (selection);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (selection);
 	gint count, sel_offset;
 	GDate start_date, end_date;
 
@@ -964,7 +974,7 @@ selection_interface_get_selection_count (AtkSelection *selection)
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
 	ECalendarItem *calitem;
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (selection);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (selection);
 	GDate start_date, end_date;
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_calitem);
@@ -980,11 +990,12 @@ selection_interface_get_selection_count (AtkSelection *selection)
 }
 
 static gboolean
-selection_interface_is_child_selected (AtkSelection *selection, gint index)
+selection_interface_is_child_selected (AtkSelection *selection,
+                                       gint index)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	EaCalendarItem* ea_calitem = EA_CALENDAR_ITEM (selection);
+	EaCalendarItem * ea_calitem = EA_CALENDAR_ITEM (selection);
 	gint row, column, n_children;
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_calitem);
@@ -1066,7 +1077,7 @@ ea_calendar_item_get_cell_data (EaCalendarItem *ea_calitem)
 
 	if (!cell_data) {
 		gint n_cells = ea_calendar_item_get_n_children (ATK_OBJECT (ea_calitem));
-		cell_data = ea_cell_table_create (n_cells/EA_CALENDAR_COLUMN_NUM,
+		cell_data = ea_cell_table_create (n_cells / EA_CALENDAR_COLUMN_NUM,
 						  EA_CALENDAR_COLUMN_NUM,
 						  FALSE);
 		g_object_set_data (G_OBJECT (ea_calitem),
@@ -1092,8 +1103,10 @@ ea_calendar_item_destory_cell_data (EaCalendarItem *ea_calitem)
 }
 
 static gboolean
-ea_calendar_item_get_row_label (EaCalendarItem *ea_calitem, gint row,
-				gchar *buffer, gint buffer_size)
+ea_calendar_item_get_row_label (EaCalendarItem *ea_calitem,
+                                gint row,
+                                gchar *buffer,
+                                gint buffer_size)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
@@ -1123,8 +1136,10 @@ ea_calendar_item_get_row_label (EaCalendarItem *ea_calitem, gint row,
 }
 
 static gboolean
-ea_calendar_item_get_column_label (EaCalendarItem *ea_calitem, gint column,
-				   gchar *buffer, gint buffer_size)
+ea_calendar_item_get_column_label (EaCalendarItem *ea_calitem,
+                                   gint column,
+                                   gchar *buffer,
+                                   gint buffer_size)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
@@ -1147,9 +1162,13 @@ ea_calendar_item_get_column_label (EaCalendarItem *ea_calitem, gint column,
 /* the coordinate the e-calendar canvas coord */
 gboolean
 e_calendar_item_get_day_extents (ECalendarItem *calitem,
-				 gint year, gint month, gint date,
-				 gint *x, gint *y,
-				 gint *width, gint *height)
+                                 gint year,
+                                 gint month,
+                                 gint date,
+                                 gint *x,
+                                 gint *y,
+                                 gint *width,
+                                 gint *height)
 {
 	GnomeCanvasItem *item;
 	GtkWidget *widget;
@@ -1229,8 +1248,11 @@ e_calendar_item_get_day_extents (ECalendarItem *calitem,
 
 /* month is from 0 to 11 */
 gboolean
-e_calendar_item_get_date_for_offset (ECalendarItem *calitem, gint day_offset,
-				     gint *year, gint *month, gint *day)
+e_calendar_item_get_date_for_offset (ECalendarItem *calitem,
+                                     gint day_offset,
+                                     gint *year,
+                                     gint *month,
+                                     gint *day)
 {
 	gint start_year, start_month, start_day;
 	gint end_year, end_month, end_day;
@@ -1258,8 +1280,10 @@ e_calendar_item_get_date_for_offset (ECalendarItem *calitem, gint day_offset,
 /* the arg month is from 0 to 11 */
 static gboolean
 e_calendar_item_get_offset_for_date (ECalendarItem *calitem,
-				     gint year, gint month, gint day,
-				     gint *offset)
+                                     gint year,
+                                     gint month,
+                                     gint day,
+                                     gint *offset)
 {
 	gint start_year, start_month, start_day;
 	gint end_year, end_month, end_day;
@@ -1286,7 +1310,8 @@ e_calendar_item_get_offset_for_date (ECalendarItem *calitem,
 
 gint
 e_calendar_item_get_n_days_from_week_start (ECalendarItem *calitem,
-					    gint year, gint month)
+                                            gint year,
+                                            gint month)
 {
 	struct tm tmp_tm;
 	gint start_weekday, days_from_week_start;
@@ -1304,7 +1329,8 @@ e_calendar_item_get_n_days_from_week_start (ECalendarItem *calitem,
 }
 
 static void
-ea_calendar_set_focus_object (EaCalendarItem *ea_calitem, AtkObject *item_cell)
+ea_calendar_set_focus_object (EaCalendarItem *ea_calitem,
+                              AtkObject *item_cell)
 {
 	AtkStateSet *state_set, *old_state_set;
 	AtkObject *old_cell;

@@ -59,7 +59,8 @@ static GoToDialog *dlg = NULL;
 
 /* Callback used when the year adjustment is changed */
 static void
-year_changed (GtkAdjustment *adj, gpointer data)
+year_changed (GtkAdjustment *adj,
+              gpointer data)
 {
 	GtkSpinButton *spin_button;
 	GoToDialog *dlg = data;
@@ -73,7 +74,8 @@ year_changed (GtkAdjustment *adj, gpointer data)
 
 /* Callback used when a month button is toggled */
 static void
-month_changed (GtkToggleButton *toggle, gpointer data)
+month_changed (GtkToggleButton *toggle,
+               gpointer data)
 {
 	GtkComboBox *combo_box;
 	GoToDialog *dlg = data;
@@ -86,7 +88,8 @@ month_changed (GtkToggleButton *toggle, gpointer data)
 }
 
 static void
-ecal_date_range_changed (ECalendarItem *calitem, gpointer user_data)
+ecal_date_range_changed (ECalendarItem *calitem,
+                         gpointer user_data)
 {
 	GoToDialog *dlg = user_data;
 	ECalModel *model;
@@ -101,7 +104,8 @@ ecal_date_range_changed (ECalendarItem *calitem, gpointer user_data)
 /* Event handler for day groups in the month item.  A button press makes
  * the calendar jump to the selected day and destroys the Go-to dialog box. */
 static void
-ecal_event (ECalendarItem *calitem, gpointer user_data)
+ecal_event (ECalendarItem *calitem,
+            gpointer user_data)
 {
 	GoToDialog *dlg = user_data;
 	GDate start_date, end_date;
@@ -127,7 +131,8 @@ ecal_event (ECalendarItem *calitem, gpointer user_data)
 
 /* Returns the current time, for the ECalendarItem. */
 static struct tm
-get_current_time (ECalendarItem *calitem, gpointer data)
+get_current_time (ECalendarItem *calitem,
+                  gpointer data)
 {
 	icaltimezone *zone;
 	struct tm tmp_tm = { 0 };
@@ -224,7 +229,8 @@ goto_dialog_init_widgets (GoToDialog *dlg)
 
 /* Creates a "goto date" dialog and runs it */
 void
-goto_dialog (GtkWindow *parent, GnomeCalendar *gcal)
+goto_dialog (GtkWindow *parent,
+             GnomeCalendar *gcal)
 {
 	ECalModel *model;
 	time_t start_time;

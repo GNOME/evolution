@@ -114,11 +114,11 @@ etgl_dispose (GObject *object)
 
 static void
 e_table_group_leaf_construct (GnomeCanvasGroup *parent,
-                              ETableGroupLeaf  *etgl,
-                              ETableHeader     *full_header,
-                              ETableHeader     *header,
-                              ETableModel      *model,
-                              ETableSortInfo   *sort_info)
+                              ETableGroupLeaf *etgl,
+                              ETableHeader *full_header,
+                              ETableHeader *header,
+                              ETableModel *model,
+                              ETableSortInfo *sort_info)
 {
 	etgl->is_grouped =
 		(e_table_sort_info_grouping_get_count (sort_info) > 0);
@@ -262,7 +262,8 @@ etgl_click (GObject *object,
 }
 
 static void
-etgl_reflow (GnomeCanvasItem *item, gint flags)
+etgl_reflow (GnomeCanvasItem *item,
+             gint flags)
 {
 	ETableGroupLeaf *leaf = E_TABLE_GROUP_LEAF (item);
 
@@ -330,7 +331,8 @@ etgl_realize (GnomeCanvasItem *item)
 }
 
 static void
-etgl_add (ETableGroup *etg, gint row)
+etgl_add (ETableGroup *etg,
+          gint row)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
@@ -341,7 +343,9 @@ etgl_add (ETableGroup *etg, gint row)
 }
 
 static void
-etgl_add_array (ETableGroup *etg, const gint *array, gint count)
+etgl_add_array (ETableGroup *etg,
+                const gint *array,
+                gint count)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
@@ -363,7 +367,8 @@ etgl_add_all (ETableGroup *etg)
 }
 
 static gboolean
-etgl_remove (ETableGroup *etg, gint row)
+etgl_remove (ETableGroup *etg,
+             gint row)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
@@ -375,7 +380,9 @@ etgl_remove (ETableGroup *etg, gint row)
 }
 
 static void
-etgl_increment (ETableGroup *etg, gint position, gint amount)
+etgl_increment (ETableGroup *etg,
+                gint position,
+                gint amount)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
@@ -387,7 +394,9 @@ etgl_increment (ETableGroup *etg, gint position, gint amount)
 }
 
 static void
-etgl_decrement (ETableGroup *etg, gint position, gint amount)
+etgl_decrement (ETableGroup *etg,
+                gint position,
+                gint amount)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
@@ -407,7 +416,9 @@ etgl_row_count (ETableGroup *etg)
 }
 
 static void
-etgl_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
+etgl_set_focus (ETableGroup *etg,
+                EFocus direction,
+                gint view_col)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
@@ -437,7 +448,11 @@ etgl_get_printable (ETableGroup *etg)
 }
 
 static void
-etgl_compute_location (ETableGroup *etg, gint *x, gint *y, gint *row, gint *col)
+etgl_compute_location (ETableGroup *etg,
+                       gint *x,
+                       gint *y,
+                       gint *row,
+                       gint *col)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
@@ -445,7 +460,9 @@ etgl_compute_location (ETableGroup *etg, gint *x, gint *y, gint *row, gint *col)
 }
 
 static void
-etgl_get_mouse_over (ETableGroup *etg, gint *row, gint *col)
+etgl_get_mouse_over (ETableGroup *etg,
+                     gint *row,
+                     gint *col)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
@@ -473,14 +490,14 @@ etgl_get_cell_geometry (ETableGroup *etg,
 
 static void
 etgl_set_property (GObject *object,
-                   guint prop_id,
+                   guint property_id,
                    const GValue *value,
                    GParamSpec *pspec)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_FROZEN:
 		etg->frozen = g_value_get_boolean (value);
 		break;
@@ -574,12 +591,15 @@ etgl_set_property (GObject *object,
 }
 
 static void
-etgl_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+etgl_get_property (GObject *object,
+                   guint property_id,
+                   GValue *value,
+                   GParamSpec *pspec)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_FROZEN:
 		g_value_set_boolean (value, etg->frozen);
 		break;
@@ -595,7 +615,7 @@ etgl_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *ps
 	case PROP_UNIFORM_ROW_HEIGHT:
 		g_value_set_boolean (value, etgl->uniform_row_height);
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }

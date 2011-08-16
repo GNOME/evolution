@@ -28,8 +28,8 @@
 #include "e-meeting-utils.h"
 
 gint
-e_meeting_time_compare_times (EMeetingTime*time1,
-			      EMeetingTime*time2)
+e_meeting_time_compare_times (EMeetingTime *time1,
+                              EMeetingTime *time2)
 {
 	gint day_comparison;
 

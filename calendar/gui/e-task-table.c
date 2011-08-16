@@ -128,7 +128,9 @@ task_table_emit_status_message (ETaskTable *task_table,
 }
 
 static gint
-task_table_percent_compare_cb (gconstpointer a, gconstpointer b, gpointer cmp_cache)
+task_table_percent_compare_cb (gconstpointer a,
+                               gconstpointer b,
+                               gpointer cmp_cache)
 {
 	gint percent1 = GPOINTER_TO_INT (a);
 	gint percent2 = GPOINTER_TO_INT (b);
@@ -137,7 +139,9 @@ task_table_percent_compare_cb (gconstpointer a, gconstpointer b, gpointer cmp_ca
 }
 
 static gint
-task_table_priority_compare_cb (gconstpointer a, gconstpointer b, gpointer cmp_cache)
+task_table_priority_compare_cb (gconstpointer a,
+                                gconstpointer b,
+                                gpointer cmp_cache)
 {
 	gint priority1, priority2;
 
@@ -155,7 +159,8 @@ task_table_priority_compare_cb (gconstpointer a, gconstpointer b, gpointer cmp_c
 }
 
 static const gchar *
-get_cache_str (gpointer cmp_cache, const gchar *str)
+get_cache_str (gpointer cmp_cache,
+               const gchar *str)
 {
 	const gchar *value;
 
@@ -175,7 +180,9 @@ get_cache_str (gpointer cmp_cache, const gchar *str)
 }
 
 static gboolean
-same_cache_string (gpointer cmp_cache, const gchar *str_a, const gchar *str_b)
+same_cache_string (gpointer cmp_cache,
+                   const gchar *str_a,
+                   const gchar *str_b)
 {
 	if (!cmp_cache)
 		return g_utf8_collate (str_a, str_b) == 0;
@@ -189,7 +196,9 @@ same_cache_string (gpointer cmp_cache, const gchar *str_a, const gchar *str_b)
 }
 
 static gint
-task_table_status_compare_cb (gconstpointer a, gconstpointer b, gpointer cmp_cache)
+task_table_status_compare_cb (gconstpointer a,
+                              gconstpointer b,
+                              gpointer cmp_cache)
 {
 	const gchar *string_a = a;
 	const gchar *string_b = b;
@@ -502,7 +511,7 @@ task_table_constructed (GObject *object)
 
 	/* Priority field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
+	g_object_set (cell,
 		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
 		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
@@ -527,7 +536,7 @@ task_table_constructed (GObject *object)
 
 	/* Percent field. */
 	cell = e_cell_percent_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
+	g_object_set (cell,
 		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
 		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
@@ -540,8 +549,8 @@ task_table_constructed (GObject *object)
 	strings = NULL;
 	for (percent = 0; percent <= 100; percent += 10) {
 		/* Translators: "%d%%" is the percentage of a task done.
-		   %d is the actual value, %% is replaced with a percent sign.
-		   Result values will be 0%, 10%, 20%, ... 100%
+		 * %d is the actual value, %% is replaced with a percent sign.
+		 * Result values will be 0%, 10%, 20%, ... 100%
 		*/
 		strings = g_list_append (strings, g_strdup_printf (_("%d%%"), percent));
 	}
@@ -556,7 +565,7 @@ task_table_constructed (GObject *object)
 
 	/* Transparency field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
+	g_object_set (cell,
 		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
 		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
@@ -579,7 +588,7 @@ task_table_constructed (GObject *object)
 
 	/* Status field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
+	g_object_set (cell,
 		      "strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
 		      "bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
@@ -998,7 +1007,8 @@ task_table_cut_clipboard (ESelectable *selectable)
 
 /* Helper for task_table_copy_clipboard() */
 static void
-copy_row_cb (gint model_row, gpointer data)
+copy_row_cb (gint model_row,
+             gpointer data)
 {
 	ETaskTable *task_table;
 	ECalModelComponent *comp_data;
@@ -1209,7 +1219,8 @@ task_table_paste_clipboard (ESelectable *selectable)
  * gint pointed to by the closure data.
  */
 static void
-get_selected_row_cb (gint model_row, gpointer data)
+get_selected_row_cb (gint model_row,
+                     gpointer data)
 {
 	gint *row;
 
@@ -1240,7 +1251,8 @@ get_selected_comp (ETaskTable *task_table)
 }
 
 static void
-add_retract_data (ECalComponent *comp, const gchar *retract_comment)
+add_retract_data (ECalComponent *comp,
+                  const gchar *retract_comment)
 {
 	icalcomponent *icalcomp = NULL;
 	icalproperty *icalprop = NULL;
@@ -1255,7 +1267,8 @@ add_retract_data (ECalComponent *comp, const gchar *retract_comment)
 }
 
 static gboolean
-check_for_retract (ECalComponent *comp, ECalClient *client)
+check_for_retract (ECalComponent *comp,
+                   ECalClient *client)
 {
 	ECalComponentOrganizer org;
 	gchar *email = NULL;
@@ -1567,7 +1580,8 @@ struct get_selected_uids_closure {
 
 /* Used from e_table_selected_row_foreach(), builds a list of the selected UIDs */
 static void
-add_uid_cb (gint model_row, gpointer data)
+add_uid_cb (gint model_row,
+            gpointer data)
 {
 	struct get_selected_uids_closure *closure = data;
 	ECalModelComponent *comp_data;
@@ -1748,10 +1762,11 @@ show_completed_rows (ECalModel *model,
 }
 
 /* Returns the current time, for the ECellDateEdit items.
-   FIXME: Should probably use the timezone of the item rather than the
-   current timezone, though that may be difficult to get from here. */
+ * FIXME: Should probably use the timezone of the item rather than the
+ * current timezone, though that may be difficult to get from here. */
 static struct tm
-e_task_table_get_current_time (ECellDateEdit *ecde, gpointer data)
+e_task_table_get_current_time (ECellDateEdit *ecde,
+                               gpointer data)
 {
 	ETaskTable *task_table = data;
 	ECalModel *model;

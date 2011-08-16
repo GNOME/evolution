@@ -1255,7 +1255,7 @@ action_switcher_cb (GtkRadioAction *action,
 
 static void
 action_new_view_window_cb (GtkAction *action,
-			   EShellWindow *shell_window)
+                           EShellWindow *shell_window)
 {
 	EShell *shell;
 	const gchar *view_name;
@@ -2097,20 +2097,25 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 }
 
 static GtkAction *
-e_shell_window_create_switcher_action (GType type, EShellViewClass *class,
-				       const gchar *name, const gchar *tooltip,
-				       const gchar *view_name)
+e_shell_window_create_switcher_action (GType type,
+                                       EShellViewClass *class,
+                                       const gchar *name,
+                                       const gchar *tooltip,
+                                       const gchar *view_name)
 {
 	GtkAction *action;
 
-	action = g_object_new (type, "name", name,
-			       "label", class->label,
-			       "tooltip", tooltip,
-			       "icon-name", class->icon_name,
-			       NULL);
+	action = g_object_new (
+		type,
+		"name", name,
+		"label", class->label,
+		"tooltip", tooltip,
+		"icon-name", class->icon_name,
+		NULL);
 
-	g_object_set_data (G_OBJECT (action), "view-name",
-			   (gpointer) view_name);
+	g_object_set_data (
+		G_OBJECT (action),
+		"view-name", (gpointer) view_name);
 
 	return action;
 }
@@ -2188,17 +2193,19 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 
 		tooltip = g_strdup_printf (_("Switch to %s"), class->label);
 
-		s_action_name = g_strdup_printf (E_SHELL_SWITCHER_FORMAT, view_name);
+		s_action_name = g_strdup_printf (
+			E_SHELL_SWITCHER_FORMAT, view_name);
 
 		/* Note, we have to set "icon-name" separately because
 		 * gtk_radio_action_new() expects a "stock-id".  Sadly,
 		 * GTK+ still distinguishes between the two. */
 
 		s_action = GTK_RADIO_ACTION (
-			e_shell_window_create_switcher_action (GTK_TYPE_RADIO_ACTION,
-							       class, s_action_name,
-							       tooltip, view_name));
-		g_object_set (G_OBJECT (s_action), "value", ii++, NULL);
+			e_shell_window_create_switcher_action (
+				GTK_TYPE_RADIO_ACTION,
+				class, s_action_name,
+				tooltip, view_name));
+		g_object_set (s_action, "value", ii++, NULL);
 		gtk_radio_action_set_group (s_action, group);
 		group = gtk_radio_action_get_group (s_action);
 
@@ -2221,16 +2228,19 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 		g_free (s_action_name);
 
 		/* Create in new window actions */
-		n_action_name = g_strdup_printf (E_SHELL_NEW_WINDOW_FORMAT, view_name);
-		n_action = e_shell_window_create_switcher_action (GTK_TYPE_ACTION,
-								  class, n_action_name,
-								  tooltip, view_name);
-		g_signal_connect (G_OBJECT (n_action), "activate",
-				  G_CALLBACK (action_new_view_window_cb),
-				  shell_window);
+		n_action_name = g_strdup_printf (
+			E_SHELL_NEW_WINDOW_FORMAT, view_name);
+		n_action = e_shell_window_create_switcher_action (
+			GTK_TYPE_ACTION,
+			class, n_action_name,
+			tooltip, view_name);
+		g_signal_connect (
+			n_action, "activate",
+			G_CALLBACK (action_new_view_window_cb), shell_window);
 		gtk_action_group_add_action (n_action_group, n_action);
 
-		e_shell_switcher_add_action (switcher, GTK_ACTION (s_action), n_action);
+		e_shell_switcher_add_action (
+			switcher, GTK_ACTION (s_action), n_action);
 
 		g_free (n_action_name);
 		g_free (tooltip);

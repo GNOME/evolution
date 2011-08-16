@@ -101,7 +101,8 @@ G_DEFINE_TYPE (
 	G_TYPE_OBJECT)
 
 static gboolean
-create_system_thumbnail (EAttachment *attachment, GIcon **icon)
+create_system_thumbnail (EAttachment *attachment,
+                         GIcon **icon)
 {
 	GFile *file;
 	GFile *icon_file;

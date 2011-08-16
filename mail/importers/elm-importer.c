@@ -122,7 +122,8 @@ parse_elm_rc (const gchar *elmrc)
 }
 
 static gchar *
-elm_get_rc (EImport *ei, const gchar *name)
+elm_get_rc (EImport *ei,
+            const gchar *name)
 {
 	GHashTable *prefs;
 	gchar *elmrc;
@@ -142,7 +143,9 @@ elm_get_rc (EImport *ei, const gchar *name)
 }
 
 static gboolean
-elm_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
+elm_supported (EImport *ei,
+               EImportTarget *target,
+               EImportImporter *im)
 {
 	const gchar *maildir;
 	gchar *elmdir;
@@ -246,7 +249,10 @@ elm_import_free (struct _elm_import_msg *m)
 }
 
 static void
-elm_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
+elm_status (CamelOperation *op,
+            const gchar *what,
+            gint pc,
+            gpointer data)
 {
 	struct _elm_import_msg *importer = data;
 
@@ -288,7 +294,8 @@ static MailMsgInfo elm_import_info = {
 };
 
 static gint
-mail_importer_elm_import (EImport *ei, EImportTarget *target)
+mail_importer_elm_import (EImport *ei,
+                          EImportTarget *target)
 {
 	struct _elm_import_msg *m;
 	gint id;
@@ -314,7 +321,8 @@ mail_importer_elm_import (EImport *ei, EImportTarget *target)
 }
 
 static void
-checkbox_toggle_cb (GtkToggleButton *tb, EImportTarget *target)
+checkbox_toggle_cb (GtkToggleButton *tb,
+                    EImportTarget *target)
 {
 	g_datalist_set_data (
 		&target->data, "elm-do-mail",
@@ -322,7 +330,9 @@ checkbox_toggle_cb (GtkToggleButton *tb, EImportTarget *target)
 }
 
 static GtkWidget *
-elm_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
+elm_getwidget (EImport *ei,
+               EImportTarget *target,
+               EImportImporter *im)
 {
 	GtkWidget *box, *w;
 	GConfClient *gconf;
@@ -340,7 +350,7 @@ elm_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	w = gtk_check_button_new_with_label(_("Mail"));
 	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_mail);
-	g_signal_connect(w, "toggled", G_CALLBACK(checkbox_toggle_cb), target);
+	g_signal_connect (w, "toggled", G_CALLBACK(checkbox_toggle_cb), target);
 
 	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 0);
 	gtk_widget_show_all (box);
@@ -349,7 +359,9 @@ elm_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-elm_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+elm_import (EImport *ei,
+            EImportTarget *target,
+            EImportImporter *im)
 {
 	if (GPOINTER_TO_INT(g_datalist_get_data(&target->data, "elm-do-mail")))
 		mail_importer_elm_import (ei, target);
@@ -358,7 +370,9 @@ elm_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-elm_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
+elm_cancel (EImport *ei,
+            EImportTarget *target,
+            EImportImporter *im)
 {
 	struct _elm_import_msg *m = g_datalist_get_data(&target->data, "elm-msg");
 

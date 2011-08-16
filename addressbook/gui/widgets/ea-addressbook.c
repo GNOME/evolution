@@ -36,9 +36,9 @@ EA_FACTORY_GOBJECT (EA_TYPE_MINICARD_VIEW, ea_minicard_view, ea_minicard_view_ne
 EA_FACTORY_GOBJECT (EA_TYPE_AB_VIEW, ea_ab_view, ea_ab_view_new)
 
 static gboolean ea_addressbook_focus_watcher (GSignalInvocationHint *ihint,
-					      guint n_param_values,
-					      const GValue *param_values,
-					      gpointer data);
+                                              guint n_param_values,
+                                              const GValue *param_values,
+                                              gpointer data);
 
 void e_minicard_a11y_init (void)
 {
@@ -64,9 +64,9 @@ void eab_view_a11y_init (void)
 
 static gboolean
 ea_addressbook_focus_watcher (GSignalInvocationHint *ihint,
-			   guint n_param_values,
-			   const GValue *param_values,
-			   gpointer data)
+                              guint n_param_values,
+                              const GValue *param_values,
+                              gpointer data)
 {
 	GObject *object;
 	GdkEvent *event;

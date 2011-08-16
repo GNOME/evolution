@@ -95,7 +95,7 @@ struct _ETableGroupContainer {
 	/*
 	 * State: the ETableGroup is open or closed
 	 */
-	guint open:1;
+	guint open : 1;
 };
 
 struct _ETableGroupContainerClass {

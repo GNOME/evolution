@@ -91,7 +91,8 @@ quick_add_unref (QuickAdd *qa)
 }
 
 static void
-quick_add_set_name (QuickAdd *qa, const gchar *name)
+quick_add_set_name (QuickAdd *qa,
+                    const gchar *name)
 {
 	if (name == qa->name)
 		return;
@@ -101,7 +102,8 @@ quick_add_set_name (QuickAdd *qa, const gchar *name)
 }
 
 static void
-quick_add_set_email (QuickAdd *qa, const gchar *email)
+quick_add_set_email (QuickAdd *qa,
+                     const gchar *email)
 {
 	if (email == qa->email)
 		return;
@@ -111,7 +113,8 @@ quick_add_set_email (QuickAdd *qa, const gchar *email)
 }
 
 static void
-quick_add_set_vcard (QuickAdd *qa, const gchar *vcard)
+quick_add_set_vcard (QuickAdd *qa,
+                     const gchar *vcard)
 {
 	if (vcard == qa->vcard)
 		return;
@@ -332,7 +335,9 @@ edit_contact (QuickAdd *qa)
 #define QUICK_ADD_RESPONSE_EDIT_FULL 2
 
 static void
-clicked_cb (GtkWidget *w, gint button, gpointer closure)
+clicked_cb (GtkWidget *w,
+            gint button,
+            gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) closure;
 
@@ -400,7 +405,8 @@ sanitize_widgets (QuickAdd *qa)
 }
 
 static void
-source_changed (ESourceComboBox *source_combo_box, QuickAdd *qa)
+source_changed (ESourceComboBox *source_combo_box,
+                QuickAdd *qa)
 {
 	ESource *source;
 
@@ -423,7 +429,7 @@ build_quick_add_dialog (QuickAdd *qa)
 	GtkWidget *label;
 	GtkTable *table;
 	ESource *source;
-	const gint xpad=0, ypad=0;
+	const gint xpad = 0, ypad = 0;
 
 	g_return_val_if_fail (qa != NULL, NULL);
 
@@ -480,7 +486,7 @@ build_quick_add_dialog (QuickAdd *qa)
 	gtk_table_set_col_spacings (table, 12);
 
 	label = gtk_label_new_with_mnemonic (_("_Full name"));
-	gtk_label_set_mnemonic_widget ((GtkLabel*) label, qa->name_entry);
+	gtk_label_set_mnemonic_widget ((GtkLabel *) label, qa->name_entry);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
 	gtk_table_attach (table, label,
@@ -522,8 +528,10 @@ build_quick_add_dialog (QuickAdd *qa)
 }
 
 void
-e_contact_quick_add (const gchar *in_name, const gchar *email,
-		     EContactQuickAddCallback cb, gpointer closure)
+e_contact_quick_add (const gchar *in_name,
+                     const gchar *email,
+                     EContactQuickAddCallback cb,
+                     gpointer closure)
 {
 	QuickAdd *qa;
 	GtkWidget *dialog;
@@ -543,10 +551,10 @@ e_contact_quick_add (const gchar *in_name, const gchar *email,
 		/* Remove extra whitespace and the quotes some mailers put around names. */
 		g_strstrip (name);
 		len = strlen (name);
-		if ((name[0] == '\'' && name[len-1] == '\'') ||
+		if ((name[0] == '\'' && name[len - 1] == '\'') ||
 			(name[0] == '"' && name[len-1] == '"')) {
 			name[0] = ' ';
-			name[len-1] = ' ';
+			name[len - 1] = ' ';
 		}
 		g_strstrip (name);
 	}
@@ -570,7 +578,7 @@ e_contact_quick_add_free_form (const gchar *text,
                                EContactQuickAddCallback cb,
                                gpointer closure)
 {
-	gchar *name=NULL, *email=NULL;
+	gchar *name = NULL, *email = NULL;
 	const gchar *last_at, *s;
 	gboolean in_quote;
 
@@ -612,7 +620,7 @@ e_contact_quick_add_free_form (const gchar *text,
 		/* ...and then split the text there */
 		if (!bad_char) {
 			if (text < last_at)
-				name = g_strndup (text, last_at-text);
+				name = g_strndup (text, last_at - text);
 			email = g_strdup (last_at);
 		}
 	}
@@ -629,8 +637,8 @@ e_contact_quick_add_free_form (const gchar *text,
 			*email = ' ';
 			changed = TRUE;
 		}
-		if (email[strlen (email)-1] == '>') {
-			email[strlen (email)-1] = ' ';
+		if (email[strlen (email) - 1] == '>') {
+			email[strlen (email) - 1] = ' ';
 			changed = TRUE;
 		}
 		if (changed)

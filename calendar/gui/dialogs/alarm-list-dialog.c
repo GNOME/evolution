@@ -110,7 +110,8 @@ sensitize_buttons (Dialog *dialog)
 
 /* Callback used for the "add reminder" button */
 static void
-add_clicked_cb (GtkButton *button, gpointer data)
+add_clicked_cb (GtkButton *button,
+                gpointer data)
 {
 	Dialog *dialog = data;
 	ECalComponentAlarm *alarm;
@@ -140,7 +141,8 @@ add_clicked_cb (GtkButton *button, gpointer data)
 
 /* Callback used for the "edit reminder" button */
 static void
-edit_clicked_cb (GtkButton *button, gpointer data)
+edit_clicked_cb (GtkButton *button,
+                 gpointer data)
 {
 	Dialog *dialog = data;
 	GtkTreeSelection *selection;
@@ -168,7 +170,8 @@ edit_clicked_cb (GtkButton *button, gpointer data)
 
 /* Callback used for the "delete reminder" button */
 static void
-delete_clicked_cb (GtkButton *button, gpointer data)
+delete_clicked_cb (GtkButton *button,
+                   gpointer data)
 {
 	Dialog *dialog = data;
 	GtkTreeSelection *selection;
@@ -203,7 +206,8 @@ delete_clicked_cb (GtkButton *button, gpointer data)
 }
 
 static void
-selection_changed_cb (GtkTreeSelection *selection, gpointer data)
+selection_changed_cb (GtkTreeSelection *selection,
+                      gpointer data)
 {
 	Dialog *dialog = data;
 
@@ -211,7 +215,8 @@ selection_changed_cb (GtkTreeSelection *selection, gpointer data)
 }
 
 void
-alarm_list_dialog_set_client (GtkWidget *dlg_box, ECalClient *cal_client)
+alarm_list_dialog_set_client (GtkWidget *dlg_box,
+                              ECalClient *cal_client)
 {
 	Dialog *dialog;
 
@@ -310,7 +315,8 @@ alarm_list_dialog_run (GtkWidget *parent,
 }
 
 GtkWidget *
-alarm_list_dialog_peek (ECalClient *cal_client, EAlarmList *list_store)
+alarm_list_dialog_peek (ECalClient *cal_client,
+                        EAlarmList *list_store)
 {
 	Dialog *dialog;
 

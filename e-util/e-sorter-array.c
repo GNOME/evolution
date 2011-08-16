@@ -55,7 +55,9 @@ static gboolean	esa_needs_sorting		(ESorter *esa);
 #define ESA_NEEDS_SORTING(esa) (((ESorterArray *) (esa))->compare != NULL)
 
 static gint
-esort_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
+esort_callback (gconstpointer data1,
+                gconstpointer data2,
+                gpointer user_data)
 {
 	ESorterArray *esa = user_data;
 	gint ret_val;
@@ -125,7 +127,8 @@ esa_backsort (ESorterArray *esa)
 }
 
 static gint
-esa_model_to_sorted (ESorter *es, gint row)
+esa_model_to_sorted (ESorter *es,
+                     gint row)
 {
 	ESorterArray *esa = E_SORTER_ARRAY (es);
 
@@ -142,7 +145,8 @@ esa_model_to_sorted (ESorter *es, gint row)
 }
 
 static gint
-esa_sorted_to_model (ESorter *es, gint row)
+esa_sorted_to_model (ESorter *es,
+                     gint row)
 {
 	ESorterArray *esa = (ESorterArray *) es;
 
@@ -159,7 +163,9 @@ esa_sorted_to_model (ESorter *es, gint row)
 }
 
 static void
-esa_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
+esa_get_model_to_sorted_array (ESorter *es,
+                               gint **array,
+                               gint *count)
 {
 	ESorterArray *esa = E_SORTER_ARRAY (es);
 	if (array || count) {
@@ -173,7 +179,9 @@ esa_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
 }
 
 static void
-esa_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
+esa_get_sorted_to_model_array (ESorter *es,
+                               gint **array,
+                               gint *count)
 {
 	ESorterArray *esa = E_SORTER_ARRAY (es);
 	if (array || count) {
@@ -204,14 +212,16 @@ e_sorter_array_clean (ESorterArray *esa)
 }
 
 void
-e_sorter_array_set_count  (ESorterArray *esa, gint count)
+e_sorter_array_set_count (ESorterArray *esa,
+                          gint count)
 {
 	e_sorter_array_clean (esa);
 	esa->rows = count;
 }
 
 void
-e_sorter_array_append  (ESorterArray *esa, gint count)
+e_sorter_array_append (ESorterArray *esa,
+                       gint count)
 {
 	gint i;
 	g_free (esa->backsorted);
@@ -239,10 +249,10 @@ e_sorter_array_append  (ESorterArray *esa, gint count)
 }
 
 ESorterArray *
-e_sorter_array_construct  (ESorterArray *esa,
-			   ECreateCmpCacheFunc create_cmp_cache,
-			   ECompareRowsFunc  compare,
-			   gpointer      closure)
+e_sorter_array_construct (ESorterArray *esa,
+                          ECreateCmpCacheFunc create_cmp_cache,
+                          ECompareRowsFunc compare,
+                          gpointer closure)
 {
 	esa->create_cmp_cache = create_cmp_cache;
 	esa->compare = compare;

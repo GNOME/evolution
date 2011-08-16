@@ -280,7 +280,7 @@ rule_context_load (ERuleContext *context,
 	/* now load actual rules */
 	if (userdoc) {
 		root = xmlDocGetRootElement (userdoc);
-		set = root?root->children:NULL;
+		set = root ? root->children : NULL;
 		while (set) {
 			rule_map = g_hash_table_lookup (context->rule_set_map, set->name);
 			if (rule_map) {
@@ -373,7 +373,7 @@ rule_context_revert (ERuleContext *context,
 
 	/* setup stuff we have now */
 	/* Note that we assume there is only 1 set of rules in a given rule context,
-	   although other parts of the code dont assume this */
+	 * although other parts of the code dont assume this */
 	frule = NULL;
 	while ((frule = e_rule_context_next_rule (context, frule, NULL))) {
 		rest_data = g_hash_table_lookup (source_hash, frule->source);
@@ -387,7 +387,7 @@ rule_context_revert (ERuleContext *context,
 
 	/* make what we have, match what we load */
 	set = xmlDocGetRootElement (userdoc);
-	set = set?set->children:NULL;
+	set = set ? set->children : NULL;
 	while (set) {
 		rule_map = g_hash_table_lookup (context->rule_set_map, set->name);
 		if (rule_map) {

@@ -41,8 +41,9 @@
 
 #include "format-handler.h"
 
-static void
-add_string_to_rdf (xmlNodePtr node, const gchar *tag, const gchar *value);
+static void	add_string_to_rdf		(xmlNodePtr node,
+						 const gchar *tag,
+						 const gchar *value);
 
 /* Use { */
 
@@ -79,7 +80,8 @@ enum { /* XML helper enum */
 };
 
 static void
-display_error_message (GtkWidget *parent, GError *error)
+display_error_message (GtkWidget *parent,
+                       GError *error)
 {
 	GtkWidget *dialog;
 
@@ -91,7 +93,10 @@ display_error_message (GtkWidget *parent, GError *error)
 
 /* Some helpers for the xml stuff */
 static void
-add_list_to_rdf (xmlNodePtr node, const gchar *tag, GSList *list_in, gint type)
+add_list_to_rdf (xmlNodePtr node,
+                 const gchar *tag,
+                 GSList *list_in,
+                 gint type)
 {
 	if (list_in) {
 		GSList *list = list_in;
@@ -101,10 +106,10 @@ add_list_to_rdf (xmlNodePtr node, const gchar *tag, GSList *list_in, gint type)
 
 			switch (type) {
 			case ECALCOMPONENTATTENDEE:
-				str = ((ECalComponentAttendee*) list->data)->value;
+				str = ((ECalComponentAttendee *) list->data)->value;
 				break;
 			case ECALCOMPONENTTEXT:
-				str = ((ECalComponentText*) list->data)->value;
+				str = ((ECalComponentText *) list->data)->value;
 				break;
 			case CONSTCHAR:
 			default:
@@ -120,7 +125,9 @@ add_list_to_rdf (xmlNodePtr node, const gchar *tag, GSList *list_in, gint type)
 }
 
 static void
-add_nummeric_to_rdf (xmlNodePtr node, const gchar *tag, gint *nummeric)
+add_nummeric_to_rdf (xmlNodePtr node,
+                     const gchar *tag,
+                     gint *nummeric)
 {
 	if (nummeric) {
 		gchar *value = g_strdup_printf ("%d", *nummeric);
@@ -131,7 +138,9 @@ add_nummeric_to_rdf (xmlNodePtr node, const gchar *tag, gint *nummeric)
 }
 
 static void
-add_time_to_rdf (xmlNodePtr node, const gchar *tag, icaltimetype *time)
+add_time_to_rdf (xmlNodePtr node,
+                 const gchar *tag,
+                 icaltimetype *time)
 {
 	if (time) {
 		xmlNodePtr cur_node = NULL;
@@ -159,7 +168,9 @@ add_time_to_rdf (xmlNodePtr node, const gchar *tag, icaltimetype *time)
 }
 
 static void
-add_string_to_rdf (xmlNodePtr node, const gchar *tag, const gchar *value)
+add_string_to_rdf (xmlNodePtr node,
+                   const gchar *tag,
+                   const gchar *value)
 {
 	if (value) {
 		xmlNodePtr cur_node = NULL;
@@ -169,7 +180,10 @@ add_string_to_rdf (xmlNodePtr node, const gchar *tag, const gchar *value)
 }
 
 static void
-do_save_calendar_rdf (FormatHandler *handler, ESourceSelector *selector, ECalClientSourceType type, gchar *dest_uri)
+do_save_calendar_rdf (FormatHandler *handler,
+                      ESourceSelector *selector,
+                      ECalClientSourceType type,
+                      gchar *dest_uri)
 {
 
 	/*
@@ -211,7 +225,7 @@ do_save_calendar_rdf (FormatHandler *handler, ESourceSelector *selector, ECalCli
 	if (stream && e_cal_client_get_object_list_as_comps_sync (source_client, "#t", &objects, NULL, NULL)) {
 		GSList *iter;
 
-		xmlBufferPtr buffer=xmlBufferCreate ();
+		xmlBufferPtr buffer = xmlBufferCreate ();
 		xmlDocPtr doc = xmlNewDoc((xmlChar *) "1.0");
 		xmlNodePtr fnode;
 

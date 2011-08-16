@@ -44,7 +44,8 @@ enum {
 };
 
 static void
-save_to_hash (gint model_row, gpointer closure)
+save_to_hash (gint model_row,
+              gpointer closure)
 {
 	ETableSelectionModel *etsm = closure;
 	const gchar *key = e_table_model_get_save_id (etsm->model, model_row);
@@ -65,7 +66,8 @@ free_hash (ETableSelectionModel *etsm)
 }
 
 static void
-model_pre_change (ETableModel *etm, ETableSelectionModel *etsm)
+model_pre_change (ETableModel *etm,
+                  ETableSelectionModel *etsm)
 {
 	free_hash (etsm);
 
@@ -131,7 +133,8 @@ model_changed_idle (ETableSelectionModel *etsm)
 }
 
 static void
-model_changed (ETableModel *etm, ETableSelectionModel *etsm)
+model_changed (ETableModel *etm,
+               ETableSelectionModel *etsm)
 {
 	e_selection_model_clear (E_SELECTION_MODEL (etsm));
 	if (!etsm->model_changed_idle_id && etm && e_table_model_has_save_id (etm)) {
@@ -140,27 +143,38 @@ model_changed (ETableModel *etm, ETableSelectionModel *etsm)
 }
 
 static void
-model_row_changed (ETableModel *etm, gint row, ETableSelectionModel *etsm)
+model_row_changed (ETableModel *etm,
+                   gint row,
+                   ETableSelectionModel *etsm)
 {
 	free_hash (etsm);
 }
 
 static void
-model_cell_changed (ETableModel *etm, gint col, gint row, ETableSelectionModel *etsm)
+model_cell_changed (ETableModel *etm,
+                    gint col,
+                    gint row,
+                    ETableSelectionModel *etsm)
 {
 	free_hash (etsm);
 }
 
 #if 1
 static void
-model_rows_inserted (ETableModel *etm, gint row, gint count, ETableSelectionModel *etsm)
+model_rows_inserted (ETableModel *etm,
+                     gint row,
+                     gint count,
+                     ETableSelectionModel *etsm)
 {
 	e_selection_model_array_insert_rows (E_SELECTION_MODEL_ARRAY (etsm), row, count);
 	free_hash (etsm);
 }
 
 static void
-model_rows_deleted (ETableModel *etm, gint row, gint count, ETableSelectionModel *etsm)
+model_rows_deleted (ETableModel *etm,
+                    gint row,
+                    gint count,
+                    ETableSelectionModel *etsm)
 {
 	e_selection_model_array_delete_rows (E_SELECTION_MODEL_ARRAY (etsm), row, count);
 	free_hash (etsm);
@@ -169,36 +183,49 @@ model_rows_deleted (ETableModel *etm, gint row, gint count, ETableSelectionModel
 #else
 
 static void
-model_rows_inserted (ETableModel *etm, gint row, gint count, ETableSelectionModel *etsm)
+model_rows_inserted (ETableModel *etm,
+                     gint row,
+                     gint count,
+                     ETableSelectionModel *etsm)
 {
 	model_changed (etm, etsm);
 }
 
 static void
-model_rows_deleted (ETableModel *etm, gint row, gint count, ETableSelectionModel *etsm)
+model_rows_deleted (ETableModel *etm,
+                    gint row,
+                    gint count,
+                    ETableSelectionModel *etsm)
 {
 	model_changed (etm, etsm);
 }
 #endif
 
 inline static void
-add_model (ETableSelectionModel *etsm, ETableModel *model)
+add_model (ETableSelectionModel *etsm,
+           ETableModel *model)
 {
 	etsm->model = model;
 	if (model) {
 		g_object_ref (model);
-		etsm->model_pre_change_id = g_signal_connect(G_OBJECT(model), "model_pre_change",
-							G_CALLBACK (model_pre_change), etsm);
-		etsm->model_changed_id = g_signal_connect(G_OBJECT(model), "model_changed",
-							G_CALLBACK (model_changed), etsm);
-		etsm->model_row_changed_id = g_signal_connect(G_OBJECT(model), "model_row_changed",
-							G_CALLBACK (model_row_changed), etsm);
-		etsm->model_cell_changed_id = g_signal_connect(G_OBJECT(model), "model_cell_changed",
-							G_CALLBACK (model_cell_changed), etsm);
-		etsm->model_rows_inserted_id = g_signal_connect(G_OBJECT(model), "model_rows_inserted",
-							G_CALLBACK (model_rows_inserted), etsm);
-		etsm->model_rows_deleted_id = g_signal_connect(G_OBJECT(model), "model_rows_deleted",
-							G_CALLBACK (model_rows_deleted), etsm);
+		etsm->model_pre_change_id = g_signal_connect (
+			model, "model_pre_change",
+			G_CALLBACK (model_pre_change), etsm);
+		etsm->model_changed_id = g_signal_connect (
+			model, "model_changed",
+			G_CALLBACK (model_changed), etsm);
+		etsm->model_row_changed_id = g_signal_connect (
+			model, "model_row_changed",
+			G_CALLBACK (model_row_changed), etsm);
+		etsm->model_cell_changed_id = g_signal_connect (
+			model, "model_cell_changed",
+			G_CALLBACK (model_cell_changed), etsm);
+		etsm->model_rows_inserted_id = g_signal_connect (
+			model, "model_rows_inserted",
+			G_CALLBACK (model_rows_inserted), etsm);
+		etsm->model_rows_deleted_id = g_signal_connect (
+			model, "model_rows_deleted",
+			G_CALLBACK (model_rows_deleted), etsm);
 	}
 	e_selection_model_array_confirm_row_count (E_SELECTION_MODEL_ARRAY (etsm));
 }
@@ -244,11 +271,14 @@ etsm_dispose (GObject *object)
 }
 
 static void
-etsm_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+etsm_get_property (GObject *object,
+                   guint property_id,
+                   GValue *value,
+                   GParamSpec *pspec)
 {
 	ETableSelectionModel *etsm = E_TABLE_SELECTION_MODEL (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_MODEL:
 		g_value_set_object (value, etsm->model);
 		break;
@@ -259,11 +289,14 @@ etsm_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *ps
 }
 
 static void
-etsm_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+etsm_set_property (GObject *object,
+                   guint property_id,
+                   const GValue *value,
+                   GParamSpec *pspec)
 {
 	ETableSelectionModel *etsm = E_TABLE_SELECTION_MODEL (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_MODEL:
 		drop_model (etsm);
 		add_model (etsm, g_value_get_object (value) ? E_TABLE_MODEL (g_value_get_object (value)) : NULL);

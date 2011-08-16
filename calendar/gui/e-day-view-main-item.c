@@ -52,7 +52,11 @@ enum {
 static gpointer parent_class;
 
 static gboolean
-can_draw_in_region (cairo_region_t *draw_region, gint x, gint y, gint width, gint height)
+can_draw_in_region (cairo_region_t *draw_region,
+                    gint x,
+                    gint y,
+                    gint width,
+                    gint height)
 {
 	GdkRectangle rect;
 
@@ -212,7 +216,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	/* If the event is currently being dragged, don't draw it. It will
-	   be drawn in the special drag items. */
+	 * be drawn in the special drag items. */
 	if (day_view->drag_event_day == day && day_view->drag_event_num == event_num)
 		return;
 
@@ -241,10 +245,10 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		return;
 
 	/* Fill in the event background. Note that for events in the first
-	   column of the day, we might not want to paint over the vertical bar,
-	   since that is used for multiple events. But then you can't see
-	   where the event in the first column finishes. The border is drawn
-	   along with the event using cairo*/
+	 * column of the day, we might not want to paint over the vertical bar,
+	 * since that is used for multiple events. But then you can't see
+	 * where the event in the first column finishes. The border is drawn
+	 * along with the event using cairo */
 
 	red = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].red;
 	green = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].green;
@@ -260,7 +264,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	is_editing = day_view->editing_event_day == day && day_view->editing_event_num == event_num;
 
 	if (event->canvas_item)
-		g_object_get (G_OBJECT (event->canvas_item), "x_offset", &text_x_offset, NULL);
+		g_object_get (event->canvas_item, "x_offset", &text_x_offset, NULL);
 
 	/* Draw shadow around the event when selected */
 	if (is_editing && (gtk_widget_has_focus (day_view->main_canvas))) {
@@ -432,7 +436,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 	draw_curved_rectangle (cr, x0, y0, rect_width,rect_height, radius);
 	cairo_set_line_width (cr, 2.);
-	cairo_set_source_rgb (cr, red/cc, green/cc, blue/cc);
+	cairo_set_source_rgb (cr, red / cc, green / cc, blue / cc);
 	cairo_stroke (cr);
 	cairo_restore (cr);
 
@@ -468,19 +472,19 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	pat = cairo_pattern_create_linear (item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 7.75,
 						item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + item_h - 7.75);
 	if (!short_event) {
-		cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
-		cairo_pattern_add_color_stop_rgba (pat, 1/(date_fraction + (rect_height/18)), red/cc, green/cc, blue/cc, 0.8);
-		cairo_pattern_add_color_stop_rgba (pat, 1/(date_fraction + (rect_height/18)), red/cc, green/cc, blue/cc, 0.4);
-		cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
+		cairo_pattern_add_color_stop_rgba (pat, 1, red / cc, green / cc, blue / cc, 0.8);
+		cairo_pattern_add_color_stop_rgba (pat, 1 / (date_fraction + (rect_height / 18)), red / cc, green / cc, blue / cc, 0.8);
+		cairo_pattern_add_color_stop_rgba (pat, 1 / (date_fraction + (rect_height / 18)), red / cc, green / cc, blue / cc, 0.4);
+		cairo_pattern_add_color_stop_rgba (pat, 1, red / cc, green / cc, blue / cc, 0.8);
 	} else {
-		cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
-		cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
+		cairo_pattern_add_color_stop_rgba (pat, 1, red / cc, green / cc, blue / cc, 0.8);
+		cairo_pattern_add_color_stop_rgba (pat, 0, red / cc, green / cc, blue / cc, 0.4);
 	}
 	cairo_set_source (cr, pat);
 	cairo_fill_preserve (cr);
 	cairo_pattern_destroy (pat);
 
-	cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.2);
+	cairo_set_source_rgba (cr, red / cc, green / cc, blue / cc, 0.2);
 	cairo_set_line_width (cr, 0.5);
 	cairo_stroke (cr);
 	cairo_restore (cr);
@@ -499,7 +503,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 
 	/* Draw the vertical colored bar showing when the appointment
-	   begins & ends. */
+	 * begins & ends. */
 	bar_y1 = event->start_minute * day_view->row_height / time_divisions - y;
 	bar_y2 = event->end_minute * day_view->row_height / time_divisions - y;
 
@@ -546,7 +550,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 						 end_resize_suffix);
 			}
 			cairo_set_font_size (cr, 14);
-			if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
+			if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7 ))
 				cairo_set_source_rgb (cr, 0, 0, 0);
 			else
 				cairo_set_source_rgb (cr, 1, 1, 1);
@@ -570,9 +574,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		cairo_save (cr);
 		pat = cairo_pattern_create_linear (item_x + E_DAY_VIEW_BAR_WIDTH, item_y + 1,
 						item_x + E_DAY_VIEW_BAR_WIDTH, item_y + item_h - 1);
-		cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.7);
-		cairo_pattern_add_color_stop_rgba (pat, 0.5, red/cc, green/cc, blue/cc, 0.7);
-		cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.2);
+		cairo_pattern_add_color_stop_rgba (pat, 1, red / cc, green / cc, blue / cc, 0.7);
+		cairo_pattern_add_color_stop_rgba (pat, 0.5, red / cc, green / cc, blue / cc, 0.7);
+		cairo_pattern_add_color_stop_rgba (pat, 0, red / cc, green / cc, blue / cc, 0.2);
 
 		cairo_rectangle (cr, item_x + 1, bar_y1,
 			       E_DAY_VIEW_BAR_WIDTH - 2, bar_y2 - bar_y1);
@@ -623,7 +627,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			num_icons++;
 		}
 		/* If the DTSTART or DTEND are in a different timezone to our current
-		   timezone, we display the timezone icon. */
+		 * timezone, we display the timezone icon. */
 		if (event->different_timezone) {
 			draw_timezone_icon = TRUE;
 			num_icons++;
@@ -780,7 +784,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 10, item_y + 13);
 		else
 			cairo_move_to (cr, icon_x, item_y + 13);
-		if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
+		if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7 ))
 			cairo_set_source_rgb (cr, 0, 0, 0);
 		else
 			cairo_set_source_rgb (cr, 1, 1, 1);
@@ -849,7 +853,7 @@ day_view_main_item_draw_events_in_vbars (EDayViewMainItem *main_item,
 			continue;
 
 		/* We can skip the events in the first column since they will
-		   draw over this anyway. */
+		 * draw over this anyway. */
 		if (event->num_columns > 0 && event->start_row_or_col == 0) {
 			continue;
 		}
@@ -936,8 +940,8 @@ day_view_main_item_dispose (GObject *object)
 
 static void
 day_view_main_item_update (GnomeCanvasItem *item,
-			   const cairo_matrix_t *i2c,
-			   gint flags)
+                           const cairo_matrix_t *i2c,
+                           gint flags)
 {
 	GnomeCanvasItemClass *canvas_item_class;
 
@@ -1155,12 +1159,12 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	}
 
 	/* Fill in the vertical bars corresponding to the busy times from the
-	   long events. */
+	 * long events. */
 	day_view_main_item_draw_long_events_in_vbars (
 		main_item, cr, x, y, width, height, draw_region);
 
 	/* Draw the event borders and backgrounds, and the vertical bars
-	   down the left edges. */
+	 * down the left edges. */
 	for (day = 0; day < day_view->days_shown; day++)
 		day_view_main_item_draw_day_events (
 			main_item, cr, x, y,

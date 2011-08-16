@@ -95,7 +95,7 @@ decode_status (const gchar *status)
 static guint32
 decode_mozilla_status (const gchar *tmp)
 {
-	unsigned long status = strtoul (tmp, NULL, 16);
+	gulong status = strtoul (tmp, NULL, 16);
 	guint32 flags = 0;
 	gint i;
 
@@ -134,7 +134,7 @@ import_mbox_exec (struct _import_mbox_msg *m,
 		return;
 
 	if (S_ISREG (st.st_mode)) {
-		fd = g_open (m->path, O_RDONLY|O_BINARY, 0);
+		fd = g_open (m->path, O_RDONLY | O_BINARY, 0);
 		if (fd == -1) {
 			g_warning (
 				"cannot find source file to import '%s': %s",
@@ -242,7 +242,8 @@ mail_importer_import_mbox (EMailSession *session,
                            const gchar *path,
                            const gchar *folderuri,
                            GCancellable *cancellable,
-                           void (*done)(gpointer data, GError **),
+                           void (*done) (gpointer data,
+                                         GError **error),
                            gpointer data)
 {
 	struct _import_mbox_msg *m;
@@ -290,7 +291,7 @@ struct _import_folders_data {
 	EMailSession *session;
 	GCancellable *cancellable;
 
-	guint elmfmt:1;
+	guint elmfmt : 1;
 };
 
 static void
@@ -315,7 +316,7 @@ import_folders_rec (struct _import_folders_data *m,
 	camel_operation_push_message (m->cancellable, _("Scanning %s"), utf8_filename);
 	g_free (utf8_filename);
 
-	while ( (d=g_dir_read_name (dir))) {
+	while ( (d = g_dir_read_name (dir))) {
 		if (d[0] == '.')
 			continue;
 
@@ -333,7 +334,7 @@ import_folders_rec (struct _import_folders_data *m,
 		if (folderparent == NULL) {
 			gint i;
 
-			for (i=0;m->special_folders[i].orig;i++)
+			for (i = 0; m->special_folders[i].orig; i++)
 				if (strcmp (m->special_folders[i].orig, folder) == 0) {
 					folder = m->special_folders[i].new;
 					break;

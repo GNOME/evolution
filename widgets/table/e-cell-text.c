@@ -205,33 +205,42 @@ static gboolean e_cell_text_retrieve_surrounding_cb (GtkIMContext *context, ECel
 static gboolean e_cell_text_delete_surrounding_cb   (GtkIMContext *context, gint          offset, gint          n_chars, ECellTextView        *text_view);
 static void _insert (ECellTextView *text_view, const gchar *string, gint value);
 static void _delete_selection (ECellTextView *text_view);
-static PangoAttrList* build_attr_list (ECellTextView *text_view, gint row, gint text_length);
+static PangoAttrList * build_attr_list (ECellTextView *text_view, gint row, gint text_length);
 static void update_im_cursor_location (ECellTextView *tv);
 
 static gchar *
-ect_real_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
+ect_real_get_text (ECellText *cell,
+                   ETableModel *model,
+                   gint col,
+                   gint row)
 {
 	return e_table_model_value_at (model, col, row);
 }
 
 static void
-ect_real_free_text (ECellText *cell, gchar *text)
+ect_real_free_text (ECellText *cell,
+                    gchar *text)
 {
 }
 
 /* This is the default method for setting the ETableModel value based on
-   the text in the ECellText. This simply uses the text as it is - it assumes
-   the value in the model is a gchar *. Subclasses may parse the text into
-   data structures to pass to the model. */
+ * the text in the ECellText. This simply uses the text as it is - it assumes
+ * the value in the model is a gchar *. Subclasses may parse the text into
+ * data structures to pass to the model. */
 static void
-ect_real_set_value (ECellText *cell, ETableModel *model, gint col, gint row,
-		    const gchar *text)
+ect_real_set_value (ECellText *cell,
+                    ETableModel *model,
+                    gint col,
+                    gint row,
+                    const gchar *text)
 {
 	e_table_model_set_value_at (model, col, row, text);
 }
 
 static void
-ect_queue_redraw (ECellTextView *text_view, gint view_col, gint view_row)
+ect_queue_redraw (ECellTextView *text_view,
+                  gint view_col,
+                  gint view_row)
 {
 	e_table_item_redraw_range (
 		text_view->cell_view.e_table_item_view,
@@ -242,7 +251,8 @@ ect_queue_redraw (ECellTextView *text_view, gint view_col, gint view_row)
  * Shuts down the editing process
  */
 static void
-ect_stop_editing (ECellTextView *text_view, gboolean commit)
+ect_stop_editing (ECellTextView *text_view,
+                  gboolean commit)
 {
 	GdkWindow *window;
 	CellEdit *edit = text_view->edit;
@@ -319,7 +329,9 @@ ect_cancel_edit (ECellTextView *text_view)
  * ECell::new_view method
  */
 static ECellView *
-ect_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view)
+ect_new_view (ECell *ecell,
+              ETableModel *table_model,
+              gpointer e_table_item_view)
 {
 	ECellTextView *text_view = g_new0 (ECellTextView, 1);
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (e_table_item_view)->canvas;
@@ -388,8 +400,10 @@ ect_unrealize (ECellView *ecv)
 
 }
 
-static PangoAttrList*
-build_attr_list (ECellTextView *text_view, gint row, gint text_length)
+static PangoAttrList *
+build_attr_list (ECellTextView *text_view,
+                 gint row,
+                 gint text_length)
 {
 
 	ECellView *ecell_view = (ECellView *) text_view;
@@ -434,7 +448,10 @@ build_attr_list (ECellTextView *text_view, gint row, gint text_length)
 }
 
 static PangoLayout *
-layout_with_preedit (ECellTextView *text_view, gint row, const gchar *text, gint width)
+layout_with_preedit (ECellTextView *text_view,
+                     gint row,
+                     const gchar *text,
+                     gint width)
 {
 	CellEdit *edit = text_view->edit;
 	PangoAttrList *attrs;
@@ -463,9 +480,9 @@ layout_with_preedit (ECellTextView *text_view, gint row, const gchar *text, gint
 		 */
 
 		if (mlen < text_length) {
-			if (!g_utf8_validate (text+mlen, -1, NULL)) {
+			if (!g_utf8_validate (text + mlen, -1, NULL)) {
 				gchar *tc;
-				tc = g_utf8_find_next_char (text+mlen,NULL);
+				tc = g_utf8_find_next_char (text + mlen,NULL);
 				if (tc) {
 					mlen = (gint) (tc - text);
 				}
@@ -495,7 +512,10 @@ layout_with_preedit (ECellTextView *text_view, gint row, const gchar *text, gint
 }
 
 static PangoLayout *
-build_layout (ECellTextView *text_view, gint row, const gchar *text, gint width)
+build_layout (ECellTextView *text_view,
+              gint row,
+              const gchar *text,
+              gint width)
 {
 	ECellView *ecell_view = (ECellView *) text_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
@@ -560,7 +580,11 @@ build_layout (ECellTextView *text_view, gint row, const gchar *text, gint width)
 }
 
 static PangoLayout *
-generate_layout (ECellTextView *text_view, gint model_col, gint view_col, gint row, gint width)
+generate_layout (ECellTextView *text_view,
+                 gint model_col,
+                 gint view_col,
+                 gint row,
+                 gint width)
 {
 	ECellView *ecell_view = (ECellView *) text_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
@@ -583,7 +607,10 @@ generate_layout (ECellTextView *text_view, gint model_col, gint view_col, gint r
 }
 
 static void
-draw_cursor (cairo_t *cr, gint x1, gint y1, PangoRectangle rect)
+draw_cursor (cairo_t *cr,
+             gint x1,
+             gint y1,
+             PangoRectangle rect)
 {
 	gdouble scaled_x;
 	gdouble scaled_y;
@@ -602,7 +629,8 @@ draw_cursor (cairo_t *cr, gint x1, gint y1, PangoRectangle rect)
 }
 
 static gboolean
-show_pango_rectangle (CellEdit *edit, PangoRectangle rect)
+show_pango_rectangle (CellEdit *edit,
+                      PangoRectangle rect)
 {
 	gint x1 = rect.x / PANGO_SCALE;
 	gint x2 = (rect.x + rect.width) / PANGO_SCALE;
@@ -664,9 +692,16 @@ get_vertical_spacing (GtkWidget *canvas)
  * ECell::draw method
  */
 static void
-ect_draw (ECellView *ecell_view, cairo_t *cr,
-	  gint model_col, gint view_col, gint row, ECellFlags flags,
-	  gint x1, gint y1, gint x2, gint y2)
+ect_draw (ECellView *ecell_view,
+          cairo_t *cr,
+          gint model_col,
+          gint view_col,
+          gint row,
+          ECellFlags flags,
+          gint x1,
+          gint y1,
+          gint x2,
+          gint y2)
 {
 	PangoLayout *layout;
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
@@ -771,7 +806,8 @@ ect_draw (ECellView *ecell_view, cairo_t *cr,
  * Get the background color
  */
 static gchar *
-ect_get_bg_color (ECellView *ecell_view, gint row)
+ect_get_bg_color (ECellView *ecell_view,
+                  gint row)
 {
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	gchar *color_spec;
@@ -811,7 +847,13 @@ key_begins_editing (GdkEventKey *event)
  * ECell::event method
  */
 static gint
-ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col, gint row, ECellFlags flags, ECellActions *actions)
+ect_event (ECellView *ecell_view,
+           GdkEvent *event,
+           gint model_col,
+           gint view_col,
+           gint row,
+           ECellFlags flags,
+           ECellActions *actions)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	ETextEventProcessorEvent e_tep_event;
@@ -849,7 +891,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 		if (edit_display && edit->im_context &&
 				gtk_im_context_filter_keypress (\
 					edit->im_context,
-					(GdkEventKey*) event)) {
+					(GdkEventKey *) event)) {
 
 			edit->need_im_reset = TRUE;
 			if (preedit_len && flags & E_CELL_PREEDIT)
@@ -1022,7 +1064,10 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
  * ECell::height method
  */
 static gint
-ect_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
+ect_height (ECellView *ecell_view,
+            gint model_col,
+            gint view_col,
+            gint row)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	gint height;
@@ -1038,7 +1083,10 @@ ect_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
  * ECellView::enter_edit method
  */
 static gpointer
-ect_enter_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row)
+ect_enter_edit (ECellView *ecell_view,
+                gint model_col,
+                gint view_col,
+                gint row)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	CellEdit *edit;
@@ -1127,7 +1175,11 @@ ect_enter_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row)
  * ECellView::leave_edit method
  */
 static void
-ect_leave_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer edit_context)
+ect_leave_edit (ECellView *ecell_view,
+                gint model_col,
+                gint view_col,
+                gint row,
+                gpointer edit_context)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	CellEdit *edit = text_view->edit;
@@ -1153,7 +1205,11 @@ ect_leave_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row, 
  * ECellView::save_state method
  */
 static gpointer
-ect_save_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer edit_context)
+ect_save_state (ECellView *ecell_view,
+                gint model_col,
+                gint view_col,
+                gint row,
+                gpointer edit_context)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	CellEdit *edit = text_view->edit;
@@ -1169,7 +1225,12 @@ ect_save_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, 
  * ECellView::load_state method
  */
 static void
-ect_load_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer edit_context, gpointer save_state)
+ect_load_state (ECellView *ecell_view,
+                gint model_col,
+                gint view_col,
+                gint row,
+                gpointer edit_context,
+                gpointer save_state)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	CellEdit *edit = text_view->edit;
@@ -1188,14 +1249,21 @@ ect_load_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, 
  * ECellView::free_state method
  */
 static void
-ect_free_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer save_state)
+ect_free_state (ECellView *ecell_view,
+                gint model_col,
+                gint view_col,
+                gint row,
+                gpointer save_state)
 {
 	g_free (save_state);
 }
 
 static void
-get_font_size (PangoLayout *layout, PangoFontDescription *font, const gchar *text,
-		gdouble *width, gdouble *height)
+get_font_size (PangoLayout *layout,
+               PangoFontDescription *font,
+               const gchar *text,
+               gdouble *width,
+               gdouble *height)
 {
 	gint w;
 	gint h;
@@ -1213,9 +1281,13 @@ get_font_size (PangoLayout *layout, PangoFontDescription *font, const gchar *tex
 }
 
 static void
-ect_print (ECellView *ecell_view, GtkPrintContext *context,
-	   gint model_col, gint view_col, gint row,
-	   gdouble width, gdouble height)
+ect_print (ECellView *ecell_view,
+           GtkPrintContext *context,
+           gint model_col,
+           gint view_col,
+           gint row,
+           gdouble width,
+           gdouble height)
 {
 	PangoFontDescription *font_des;
 	PangoLayout *layout;
@@ -1263,7 +1335,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	dir = pango_find_base_dir (string, strlen (string));
 
 	if (underline) {
-		ly = ty + (gdouble) pango_font_metrics_get_underline_position (font_metrics)/(gdouble) PANGO_SCALE;
+		ly = ty + (gdouble) pango_font_metrics_get_underline_position (font_metrics) / (gdouble) PANGO_SCALE;
 		cairo_new_path (cr);
 		if (dir == PANGO_DIRECTION_RTL) {
 			cairo_move_to (cr, width - 2, ly + text_height + 6);
@@ -1273,12 +1345,12 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 			cairo_move_to (cr, 2, ly + text_height + 6);
 			cairo_line_to (cr, MIN (2 + text_width, width - 2), ly + text_height + 6);
 		}
-		cairo_set_line_width (cr, (gdouble) pango_font_metrics_get_underline_thickness (font_metrics)/(gdouble) PANGO_SCALE);
+		cairo_set_line_width (cr, (gdouble) pango_font_metrics_get_underline_thickness (font_metrics) / (gdouble) PANGO_SCALE);
 		cairo_stroke (cr);
 	}
 
 	if (strikeout) {
-		ly = ty + (gdouble) pango_font_metrics_get_strikethrough_position (font_metrics)/(gdouble) PANGO_SCALE;
+		ly = ty + (gdouble) pango_font_metrics_get_strikethrough_position (font_metrics) / (gdouble) PANGO_SCALE;
 		cairo_new_path (cr);
 		if (dir == PANGO_DIRECTION_RTL) {
 			cairo_move_to (cr, width - 2, ly + text_height + 6);
@@ -1288,13 +1360,13 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 			cairo_move_to (cr, 2, ly + text_height + 6);
 			cairo_line_to (cr, MIN (2 + text_width, width - 2), ly + text_height + 6);
 		}
-			cairo_set_line_width (cr,(gdouble) pango_font_metrics_get_strikethrough_thickness (font_metrics)/(gdouble) PANGO_SCALE);
+			cairo_set_line_width (cr,(gdouble) pango_font_metrics_get_strikethrough_thickness (font_metrics) / (gdouble) PANGO_SCALE);
 
 			cairo_stroke (cr);
 	}
 
 	cairo_move_to (cr, 2, text_height- 5);
-	pango_layout_set_width (layout, (width - 4)*PANGO_SCALE);
+	pango_layout_set_width (layout, (width - 4) * PANGO_SCALE);
 	pango_layout_set_wrap (layout, PANGO_WRAP_CHAR);
 	pango_cairo_show_layout (cr, layout);
 	cairo_restore (cr);
@@ -1305,9 +1377,12 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 }
 
 static gdouble
-ect_print_height (ECellView *ecell_view, GtkPrintContext *context,
-		  gint model_col, gint view_col, gint row,
-		  gdouble width)
+ect_print_height (ECellView *ecell_view,
+                  GtkPrintContext *context,
+                  gint model_col,
+                  gint view_col,
+                  gint row,
+                  gdouble width)
 {
 	/*
 	 * Font size is 16 by default. To leave some margin for cell
@@ -1321,7 +1396,7 @@ ect_print_height (ECellView *ecell_view, GtkPrintContext *context,
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	gchar *string;
 	gdouble text_width = 0.0, text_height = 0.0;
-	gint lines=1;
+	gint lines = 1;
 
 	string = e_cell_text_get_text (ect, ecell_view->e_table_model, model_col, row);
 
@@ -1334,15 +1409,15 @@ ect_print_height (ECellView *ecell_view, GtkPrintContext *context,
 	/* Checking if the text width goes beyond the column width to increase the
 	 * number of lines.
 	 */
-	if ( text_width > width-4)
-		lines = (text_width / (width-4)) + 1;
-	return 16*lines + 8;
+	if ( text_width > width - 4)
+		lines = (text_width / (width - 4)) + 1;
+	return 16 *lines + 8;
 }
 
 static gint
 ect_max_width (ECellView *ecell_view,
-	       gint model_col,
-	       gint view_col)
+               gint model_col,
+               gint view_col)
 {
 	/* New ECellText */
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
@@ -1367,9 +1442,9 @@ ect_max_width (ECellView *ecell_view,
 
 static gint
 ect_max_width_by_row (ECellView *ecell_view,
-		      gint model_col,
-		      gint view_col,
-		      gint row)
+                      gint model_col,
+                      gint view_col,
+                      gint row)
 {
 	/* New ECellText */
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
@@ -1399,15 +1474,15 @@ ect_finalize (GObject *object)
 /* Set_arg handler for the text item */
 static void
 ect_set_property (GObject *object,
-		  guint prop_id,
-		  const GValue *value,
-		  GParamSpec *pspec)
+                  guint property_id,
+                  const GValue *value,
+                  GParamSpec *pspec)
 {
 	ECellText *text;
 
 	text = E_CELL_TEXT (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_STRIKEOUT_COLUMN:
 		text->strikeout_column = g_value_get_int (value);
 		break;
@@ -1440,15 +1515,15 @@ ect_set_property (GObject *object,
 /* Get_arg handler for the text item */
 static void
 ect_get_property (GObject *object,
-		  guint prop_id,
-		  GValue *value,
-		  GParamSpec *pspec)
+                  guint property_id,
+                  GValue *value,
+                  GParamSpec *pspec)
 {
 	ECellText *text;
 
 	text = E_CELL_TEXT (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_STRIKEOUT_COLUMN:
 		g_value_set_int (value, text->strikeout_column);
 		break;
@@ -1474,7 +1549,7 @@ ect_get_property (GObject *object,
 		break;
 
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
@@ -1597,11 +1672,11 @@ e_cell_text_class_init (ECellTextClass *class)
 
 static void
 e_cell_text_get_cursor_locations (ECellTextView *tv,
-				  GdkRectangle *strong_pos,
-				  GdkRectangle *weak_pos)
+                                  GdkRectangle *strong_pos,
+                                  GdkRectangle *weak_pos)
 {
 	GdkRectangle area;
-	CellEdit *edit=tv->edit;
+	CellEdit *edit = tv->edit;
 	ECellView *cell_view = (ECellView *) tv;
 	ETableItem *item = E_TABLE_ITEM ((cell_view)->e_table_item_view);
 	GnomeCanvasItem *parent_item = GNOME_CANVAS_ITEM (item)->parent;
@@ -1647,7 +1722,7 @@ e_cell_text_get_cursor_locations (ECellTextView *tv,
 static void
 update_im_cursor_location (ECellTextView *tv)
 {
-	CellEdit *edit=tv->edit;
+	CellEdit *edit = tv->edit;
 	GdkRectangle area;
 
 	e_cell_text_get_cursor_locations (tv, &area, NULL);
@@ -1657,11 +1732,11 @@ update_im_cursor_location (ECellTextView *tv)
 
 static void
 e_cell_text_preedit_changed_cb (GtkIMContext *context,
-		  ECellTextView    *tv)
+                                ECellTextView *tv)
 {
 	gchar *preedit_string;
 	gint cursor_pos;
-	CellEdit *edit=tv->edit;
+	CellEdit *edit = tv->edit;
 	gtk_im_context_get_preedit_string (edit->im_context, &preedit_string,
 					NULL, &cursor_pos);
 
@@ -1675,8 +1750,8 @@ e_cell_text_preedit_changed_cb (GtkIMContext *context,
 
 static void
 e_cell_text_commit_cb (GtkIMContext *context,
-		  const gchar  *str,
-		  ECellTextView    *tv)
+                       const gchar *str,
+                       ECellTextView *tv)
 {
 	CellEdit *edit = tv->edit;
 	ETextEventProcessorCommand command;
@@ -1693,7 +1768,7 @@ e_cell_text_commit_cb (GtkIMContext *context,
 
 static gboolean
 e_cell_text_retrieve_surrounding_cb (GtkIMContext *context,
-				ECellTextView        *tv)
+                                     ECellTextView *tv)
 {
 	CellEdit *edit = tv->edit;
 
@@ -1707,10 +1782,10 @@ e_cell_text_retrieve_surrounding_cb (GtkIMContext *context,
 }
 
 static gboolean
-e_cell_text_delete_surrounding_cb   (GtkIMContext *context,
-				gint          offset,
-				gint          n_chars,
-				ECellTextView        *tv)
+e_cell_text_delete_surrounding_cb (GtkIMContext *context,
+                                   gint offset,
+                                   gint n_chars,
+                                   ECellTextView *tv)
 {
 	gint begin_pos, end_pos;
 	glong text_len;
@@ -1774,7 +1849,8 @@ e_cell_text_init (ECellText *ect)
  * Returns: an ECell object that can be used to render strings.
  */
 ECell *
-e_cell_text_new (const gchar *fontname, GtkJustification justify)
+e_cell_text_new (const gchar *fontname,
+                 GtkJustification justify)
 {
 	ECellText *ect = g_object_new (E_TYPE_CELL_TEXT, NULL);
 
@@ -1861,7 +1937,9 @@ e_cell_text_set_value (ECellText *cell,
 /* position is in BYTES */
 
 static gint
-get_position_from_xy (CellEdit *edit, gint x, gint y)
+get_position_from_xy (CellEdit *edit,
+                      gint x,
+                      gint y)
 {
 	gint index;
 	gint trailing;
@@ -1955,7 +2033,8 @@ _blink_scroll_timeout (gpointer data)
 }
 
 static gint
-next_word (CellEdit *edit, gint start)
+next_word (CellEdit *edit,
+           gint start)
 {
 	gchar *p;
 	gint length;
@@ -1977,7 +2056,8 @@ next_word (CellEdit *edit, gint start)
 }
 
 static gint
-_get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
+_get_position (ECellTextView *text_view,
+               ETextEventProcessorCommand *command)
 {
 	gint length;
 	CellEdit *edit = text_view->edit;
@@ -2144,14 +2224,16 @@ _delete_selection (ECellTextView *text_view)
 
 	edit->selection_end = edit->selection_start;
 
-	g_signal_emit (VIEW_TO_CELL (text_view), signals[TEXT_DELETED], 0, text_view, edit->selection_start, ep-sp, edit->row, edit->model_col);
+	g_signal_emit (VIEW_TO_CELL (text_view), signals[TEXT_DELETED], 0, text_view, edit->selection_start, ep - sp, edit->row, edit->model_col);
 }
 
 /* fixme: */
 /* NB! We expect value to be length IN BYTES */
 
 static void
-_insert (ECellTextView *text_view, const gchar *string, gint value)
+_insert (ECellTextView *text_view,
+         const gchar *string,
+         gint value)
 {
 	CellEdit *edit = text_view->edit;
 	gchar *temp;
@@ -2173,11 +2255,14 @@ _insert (ECellTextView *text_view, const gchar *string, gint value)
 	edit->selection_start += value;
 	edit->selection_end = edit->selection_start;
 
-	g_signal_emit (VIEW_TO_CELL (text_view), signals[TEXT_INSERTED], 0, text_view, edit->selection_end-value, value, edit->row, edit->model_col);
+	g_signal_emit (VIEW_TO_CELL (text_view), signals[TEXT_INSERTED], 0, text_view, edit->selection_end - value, value, edit->row, edit->model_col);
 }
 
 static void
-capitalize (CellEdit *edit, gint start, gint end, ETextEventProcessorCaps type)
+capitalize (CellEdit *edit,
+            gint start,
+            gint end,
+            ETextEventProcessorCaps type)
 {
 	ECellTextView *text_view = edit->text_view;
 
@@ -2228,7 +2313,9 @@ capitalize (CellEdit *edit, gint start, gint end, ETextEventProcessorCaps type)
 }
 
 static void
-e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data)
+e_cell_text_view_command (ETextEventProcessor *tep,
+                          ETextEventProcessorCommand *command,
+                          gpointer data)
 {
 	CellEdit *edit = (CellEdit *) data;
 	ECellTextView *text_view = edit->text_view;
@@ -2240,7 +2327,7 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 	gint sel_start, sel_end;
 
 	/* If the EText isn't editable, then ignore any commands that would
-	   modify the text. */
+	 * modify the text. */
 	if (!ect->editable && (command->action == E_TEP_DELETE
 			       || command->action == E_TEP_INSERT
 			       || command->action == E_TEP_PASTE
@@ -2372,7 +2459,11 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 }
 
 static void
-e_cell_text_view_supply_selection (CellEdit *edit, guint time, GdkAtom selection, gchar *data, gint length)
+e_cell_text_view_supply_selection (CellEdit *edit,
+                                   guint time,
+                                   GdkAtom selection,
+                                   gchar *data,
+                                   gint length)
 {
 #if DO_SELECTION
 	GtkClipboard *clipboard;
@@ -2390,8 +2481,8 @@ e_cell_text_view_supply_selection (CellEdit *edit, guint time, GdkAtom selection
 #ifdef DO_SELECTION
 static void
 paste_received (GtkClipboard *clipboard,
-		const gchar  *text,
-		gpointer      data)
+                const gchar *text,
+                gpointer data)
 {
 	CellEdit *edit;
 
@@ -2412,7 +2503,9 @@ paste_received (GtkClipboard *clipboard,
 #endif
 
 static void
-e_cell_text_view_get_selection (CellEdit *edit, GdkAtom selection, guint32 time)
+e_cell_text_view_get_selection (CellEdit *edit,
+                                GdkAtom selection,
+                                guint32 time)
 {
 #if DO_SELECTION
 	gtk_clipboard_request_text (gtk_widget_get_clipboard (GTK_WIDGET (edit->text_view->canvas),

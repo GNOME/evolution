@@ -23,16 +23,15 @@
  */
 
 /*
-  work before merge can occur:
-
-  verify behaviour.
-  work out what to do with the startup assistant.
-
-  also need to work out:
-  how to remove unecessary items from a service url once
-   configured (removing settings from other types).
-
-*/
+ * work before merge can occur:
+ *
+ * verify behaviour.
+ * work out what to do with the startup assistant.
+ *
+ * also need to work out:
+ * how to remove unecessary items from a service url once
+ * configured (removing settings from other types).
+ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -105,7 +104,7 @@ struct _receive_options_item {
 	EMConfigItem item;
 
 	/* Only CAMEL_PROVIDER_CONF_ENTRYs GtkEntrys are stored here.
-	   The auto-detect camel provider code will probably be removed */
+	 * The auto-detect camel provider code will probably be removed */
 	GHashTable *extra_table;
 };
 
@@ -216,10 +215,10 @@ struct _EMAccountEditorPrivate {
 	GHashTable *widgets;
 
 	/* for assistant page preparation */
-	guint identity_set:1;
-	guint receive_set:1;
-	guint send_set:1;
-	guint management_set:1;
+	guint identity_set : 1;
+	guint receive_set : 1;
+	guint send_set : 1;
+	guint management_set : 1;
 
 	ServerData *selected_server;
 };
@@ -586,7 +585,7 @@ static gboolean
 is_email (const gchar *address)
 {
 	/* This is supposed to check if the address's domain could be
-	   an FQDN but alas, it's not worth the pain and suffering. */
+	 * an FQDN but alas, it's not worth the pain and suffering. */
 	const gchar *at;
 
 	at = strchr (address, '@');
@@ -598,7 +597,8 @@ is_email (const gchar *address)
 }
 
 static CamelURL *
-emae_account_url (EMAccountEditor *emae, gint urlid)
+emae_account_url (EMAccountEditor *emae,
+                  gint urlid)
 {
 	EAccount *account;
 	CamelURL *url = NULL;
@@ -621,7 +621,8 @@ emae_account_url (EMAccountEditor *emae, gint urlid)
 /* ********************************************************************** */
 
 static void
-default_folders_clicked (GtkButton *button, gpointer user_data)
+default_folders_clicked (GtkButton *button,
+                         gpointer user_data)
 {
 	EMAccountEditor *emae = user_data;
 	const gchar *uri;
@@ -639,10 +640,12 @@ default_folders_clicked (GtkButton *button, gpointer user_data)
 }
 
 /* The camel provider auto-detect interface should be deprecated.
-   But it still needs to be replaced with something of similar functionality.
-   Just using the normal econfig plugin mechanism should be adequate. */
+ * But it still needs to be replaced with something of similar functionality.
+ * Just using the normal econfig plugin mechanism should be adequate. */
 static void
-emae_auto_detect_free (gpointer key, gpointer value, gpointer user_data)
+emae_auto_detect_free (gpointer key,
+                       gpointer value,
+                       gpointer user_data)
 {
 	g_free (key);
 	g_free (value);
@@ -686,7 +689,7 @@ emae_auto_detect (EMAccountEditor *emae)
 		g_return_if_fail (entries[i].type == CAMEL_PROVIDER_CONF_ENTRY);
 
 		w = NULL;
-		for (l = emae->priv->extra_items;l;l=g_slist_next (l)) {
+		for (l = emae->priv->extra_items; l; l = g_slist_next (l)) {
 			item = l->data;
 			if (item->extra_table && (w = g_hash_table_lookup (item->extra_table, entries[i].name)))
 				break;
@@ -700,7 +703,8 @@ emae_auto_detect (EMAccountEditor *emae)
 }
 
 static gint
-provider_compare (const CamelProvider *p1, const CamelProvider *p2)
+provider_compare (const CamelProvider *p1,
+                  const CamelProvider *p2)
 {
 	/* sort providers based on "location" (ie. local or remote) */
 	if (p1->flags & CAMEL_PROVIDER_IS_REMOTE) {
@@ -715,7 +719,9 @@ provider_compare (const CamelProvider *p1, const CamelProvider *p2)
 }
 
 static void
-emae_signature_added (ESignatureList *signatures, ESignature *sig, EMAccountEditor *emae)
+emae_signature_added (ESignatureList *signatures,
+                      ESignature *sig,
+                      EMAccountEditor *emae)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -730,11 +736,16 @@ emae_signature_added (ESignatureList *signatures, ESignature *sig, EMAccountEdit
 	gtk_list_store_append ((GtkListStore *) model, &iter);
 	gtk_list_store_set ((GtkListStore *) model, &iter, 0, name, 1, uid, -1);
 
-	gtk_combo_box_set_active (emae->priv->signatures_dropdown, gtk_tree_model_iter_n_children (model, NULL)-1);
+	gtk_combo_box_set_active (
+		emae->priv->signatures_dropdown,
+		gtk_tree_model_iter_n_children (model, NULL) - 1);
 }
 
 static gint
-emae_signature_get_iter (EMAccountEditor *emae, ESignature *sig, GtkTreeModel **modelp, GtkTreeIter *iter)
+emae_signature_get_iter (EMAccountEditor *emae,
+                         ESignature *sig,
+                         GtkTreeModel **modelp,
+                         GtkTreeIter *iter)
 {
 	GtkTreeModel *model;
 	gint found = 0;
@@ -760,7 +771,9 @@ emae_signature_get_iter (EMAccountEditor *emae, ESignature *sig, GtkTreeModel **
 }
 
 static void
-emae_signature_removed (ESignatureList *signatures, ESignature *sig, EMAccountEditor *emae)
+emae_signature_removed (ESignatureList *signatures,
+                        ESignature *sig,
+                        EMAccountEditor *emae)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model;
@@ -770,7 +783,9 @@ emae_signature_removed (ESignatureList *signatures, ESignature *sig, EMAccountEd
 }
 
 static void
-emae_signature_changed (ESignatureList *signatures, ESignature *sig, EMAccountEditor *emae)
+emae_signature_changed (ESignatureList *signatures,
+                        ESignature *sig,
+                        EMAccountEditor *emae)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model;
@@ -783,7 +798,8 @@ emae_signature_changed (ESignatureList *signatures, ESignature *sig, EMAccountEd
 }
 
 static void
-emae_signaturetype_changed (GtkComboBox *dropdown, EMAccountEditor *emae)
+emae_signaturetype_changed (GtkComboBox *dropdown,
+                            EMAccountEditor *emae)
 {
 	EAccount *account;
 	gint id = gtk_combo_box_get_active (dropdown);
@@ -804,7 +820,8 @@ emae_signaturetype_changed (GtkComboBox *dropdown, EMAccountEditor *emae)
 }
 
 static void
-emae_signature_new (GtkWidget *widget, EMAccountEditor *emae)
+emae_signature_new (GtkWidget *widget,
+                    EMAccountEditor *emae)
 {
 	GtkWidget *editor;
 	gpointer parent;
@@ -818,14 +835,15 @@ emae_signature_new (GtkWidget *widget, EMAccountEditor *emae)
 }
 
 static GtkWidget *
-emae_setup_signatures (EMAccountEditor *emae, GtkBuilder *builder)
+emae_setup_signatures (EMAccountEditor *emae,
+                       GtkBuilder *builder)
 {
 	EMAccountEditorPrivate *p = emae->priv;
 	EAccount *account;
 	GtkComboBox *dropdown = (GtkComboBox *)e_builder_get_widget (builder, "signature_dropdown");
 	GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
 	GtkListStore *store;
-	gint i, active=0;
+	gint i, active = 0;
 	GtkTreeIter iter;
 	ESignatureList *signatures;
 	EIterator *it;
@@ -890,7 +908,8 @@ emae_setup_signatures (EMAccountEditor *emae, GtkBuilder *builder)
 }
 
 static void
-emae_receipt_policy_changed (GtkComboBox *dropdown, EMAccountEditor *emae)
+emae_receipt_policy_changed (GtkComboBox *dropdown,
+                             EMAccountEditor *emae)
 {
 	EAccount *account;
 	gint id = gtk_combo_box_get_active (dropdown);
@@ -910,7 +929,8 @@ emae_receipt_policy_changed (GtkComboBox *dropdown, EMAccountEditor *emae)
 }
 
 static GtkWidget *
-emae_setup_receipt_policy (EMAccountEditor *emae, GtkBuilder *builder)
+emae_setup_receipt_policy (EMAccountEditor *emae,
+                           GtkBuilder *builder)
 {
 	EAccount *account;
 	GtkComboBox *dropdown = (GtkComboBox *)e_builder_get_widget (builder, "receipt_policy_dropdown");
@@ -960,7 +980,8 @@ emae_setup_receipt_policy (EMAccountEditor *emae, GtkBuilder *builder)
 }
 
 static void
-emae_account_entry_changed (GtkEntry *entry, EMAccountEditor *emae)
+emae_account_entry_changed (GtkEntry *entry,
+                            EMAccountEditor *emae)
 {
 	EAccount *account;
 	gchar *text;
@@ -978,7 +999,10 @@ emae_account_entry_changed (GtkEntry *entry, EMAccountEditor *emae)
 }
 
 static GtkEntry *
-emae_account_entry (EMAccountEditor *emae, const gchar *name, gint item, GtkBuilder *builder)
+emae_account_entry (EMAccountEditor *emae,
+                    const gchar *name,
+                    gint item,
+                    GtkBuilder *builder)
 {
 	EAccount *account;
 	GtkEntry *entry;
@@ -997,7 +1021,8 @@ emae_account_entry (EMAccountEditor *emae, const gchar *name, gint item, GtkBuil
 }
 
 static void
-emae_account_toggle_changed (GtkToggleButton *toggle, EMAccountEditor *emae)
+emae_account_toggle_changed (GtkToggleButton *toggle,
+                             EMAccountEditor *emae)
 {
 	EAccount *account;
 	gboolean active;
@@ -1011,7 +1036,9 @@ emae_account_toggle_changed (GtkToggleButton *toggle, EMAccountEditor *emae)
 }
 
 static void
-emae_account_toggle_widget (EMAccountEditor *emae, GtkToggleButton *toggle, gint item)
+emae_account_toggle_widget (EMAccountEditor *emae,
+                            GtkToggleButton *toggle,
+                            gint item)
 {
 	EAccount *account;
 	gboolean active;
@@ -1035,7 +1062,10 @@ emae_account_toggle_widget (EMAccountEditor *emae, GtkToggleButton *toggle, gint
 }
 
 static GtkToggleButton *
-emae_account_toggle (EMAccountEditor *emae, const gchar *name, gint item, GtkBuilder *builder)
+emae_account_toggle (EMAccountEditor *emae,
+                     const gchar *name,
+                     gint item,
+                     GtkBuilder *builder)
 {
 	GtkToggleButton *toggle;
 
@@ -1046,7 +1076,8 @@ emae_account_toggle (EMAccountEditor *emae, const gchar *name, gint item, GtkBui
 }
 
 static void
-emae_account_spinint_changed (GtkSpinButton *spin, EMAccountEditor *emae)
+emae_account_spinint_changed (GtkSpinButton *spin,
+                              EMAccountEditor *emae)
 {
 	EAccount *account;
 	gpointer data;
@@ -1060,7 +1091,9 @@ emae_account_spinint_changed (GtkSpinButton *spin, EMAccountEditor *emae)
 }
 
 static void
-emae_account_spinint_widget (EMAccountEditor *emae, GtkSpinButton *spin, gint item)
+emae_account_spinint_widget (EMAccountEditor *emae,
+                             GtkSpinButton *spin,
+                             gint item)
 {
 	EAccount *account;
 	gboolean writable;
@@ -1083,21 +1116,9 @@ emae_account_spinint_widget (EMAccountEditor *emae, GtkSpinButton *spin, gint it
 		G_CALLBACK (emae_account_spinint_changed), emae);
 }
 
-#if 0
-static GtkSpinButton *
-emae_account_spinint (EMAccountEditor *emae, const gchar *name, gint item)
-{
-	GtkSpinButton *spin;
-
-	spin = (GtkSpinButton *) e_builder_get_widget (emae->priv->xml, name);
-	emae_account_spinint_widget (emae, spin, item);
-
-	return spin;
-}
-#endif
-
 static void
-emae_account_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *emae)
+emae_account_folder_changed (EMFolderSelectionButton *folder,
+                             EMAccountEditor *emae)
 {
 	EAccount *account;
 	gpointer data;
@@ -1111,7 +1132,11 @@ emae_account_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *e
 }
 
 static EMFolderSelectionButton *
-emae_account_folder (EMAccountEditor *emae, const gchar *name, gint item, gint deffolder, GtkBuilder *builder)
+emae_account_folder (EMAccountEditor *emae,
+                     const gchar *name,
+                     gint item,
+                     gint deffolder,
+                     GtkBuilder *builder)
 {
 	EAccount *account;
 	EMFolderSelectionButton *folder;
@@ -1168,7 +1193,9 @@ smime_changed (EMAccountEditor *emae)
 }
 
 static void
-smime_sign_key_selected (GtkWidget *dialog, const gchar *key, EMAccountEditor *emae)
+smime_sign_key_selected (GtkWidget *dialog,
+                         const gchar *key,
+                         EMAccountEditor *emae)
 {
 	EMAccountEditorPrivate *priv = emae->priv;
 
@@ -1181,7 +1208,8 @@ smime_sign_key_selected (GtkWidget *dialog, const gchar *key, EMAccountEditor *e
 }
 
 static void
-smime_sign_key_select (GtkWidget *button, EMAccountEditor *emae)
+smime_sign_key_select (GtkWidget *button,
+                       EMAccountEditor *emae)
 {
 	EMAccountEditorPrivate *priv = emae->priv;
 	GtkWidget *w;
@@ -1194,7 +1222,8 @@ smime_sign_key_select (GtkWidget *button, EMAccountEditor *emae)
 }
 
 static void
-smime_sign_key_clear (GtkWidget *w, EMAccountEditor *emae)
+smime_sign_key_clear (GtkWidget *w,
+                      EMAccountEditor *emae)
 {
 	EMAccountEditorPrivate *priv = emae->priv;
 
@@ -1203,7 +1232,9 @@ smime_sign_key_clear (GtkWidget *w, EMAccountEditor *emae)
 }
 
 static void
-smime_encrypt_key_selected (GtkWidget *dialog, const gchar *key, EMAccountEditor *emae)
+smime_encrypt_key_selected (GtkWidget *dialog,
+                            const gchar *key,
+                            EMAccountEditor *emae)
 {
 	EMAccountEditorPrivate *priv = emae->priv;
 
@@ -1216,7 +1247,8 @@ smime_encrypt_key_selected (GtkWidget *dialog, const gchar *key, EMAccountEditor
 }
 
 static void
-smime_encrypt_key_select (GtkWidget *button, EMAccountEditor *emae)
+smime_encrypt_key_select (GtkWidget *button,
+                          EMAccountEditor *emae)
 {
 	EMAccountEditorPrivate *priv = emae->priv;
 	GtkWidget *w;
@@ -1229,7 +1261,8 @@ smime_encrypt_key_select (GtkWidget *button, EMAccountEditor *emae)
 }
 
 static void
-smime_encrypt_key_clear (GtkWidget *w, EMAccountEditor *emae)
+smime_encrypt_key_clear (GtkWidget *w,
+                         EMAccountEditor *emae)
 {
 	EMAccountEditorPrivate *priv = emae->priv;
 
@@ -1239,7 +1272,8 @@ smime_encrypt_key_clear (GtkWidget *w, EMAccountEditor *emae)
 #endif
 
 static void
-emae_url_set_host (CamelURL *url, const gchar *txt)
+emae_url_set_host (CamelURL *url,
+                   const gchar *txt)
 {
 	gchar *host;
 
@@ -1252,15 +1286,16 @@ emae_url_set_host (CamelURL *url, const gchar *txt)
 }
 
 static void
-emae_url_set_port (CamelURL *url, const gchar *port)
+emae_url_set_port (CamelURL *url,
+                   const gchar *port)
 {
 	if (port && *port)
 		camel_url_set_port (url, atoi (port));
 }
 
 /* This is used to map a funciton which will set on the url a string value.
-   if widgets[0] is set, it is the entry which will be called against setval ()
-   We need our own function for host:port decoding, as above */
+ * if widgets[0] is set, it is the entry which will be called against setval ()
+ * We need our own function for host:port decoding, as above */
 struct _provider_host_info {
 	guint32 flag;
 	void (*setval)(CamelURL *, const gchar *);
@@ -1393,7 +1428,8 @@ static struct _service_info {
 };
 
 static void
-emae_uri_changed (EMAccountEditorService *service, CamelURL *url)
+emae_uri_changed (EMAccountEditorService *service,
+                  CamelURL *url)
 {
 	EAccount *account;
 	gchar *uri;
@@ -1413,7 +1449,9 @@ emae_uri_changed (EMAccountEditorService *service, CamelURL *url)
 }
 
 static void
-emae_service_url_changed (EMAccountEditorService *service, void (*setval)(CamelURL *, const gchar *), GtkWidget *entry)
+emae_service_url_changed (EMAccountEditorService *service,
+                          void (*setval)(CamelURL *, const gchar *),
+                          GtkWidget *entry)
 {
 	GtkComboBox *dropdown;
 	gint id;
@@ -1433,7 +1471,7 @@ emae_service_url_changed (EMAccountEditorService *service, void (*setval)(CamelU
 
 	g_strstrip (text);
 
-	setval (url, (text && text[0])?text:NULL);
+	setval (url, (text && text[0]) ? text : NULL);
 
 	if (text && text[0] && setval == camel_url_set_user) {
 		dropdown = service->authtype;
@@ -1456,7 +1494,9 @@ emae_service_url_changed (EMAccountEditorService *service, void (*setval)(CamelU
 }
 
 static void
-emae_service_url_path_changed (EMAccountEditorService *service, void (*setval)(CamelURL *, const gchar *), GtkWidget *widget)
+emae_service_url_path_changed (EMAccountEditorService *service,
+                               void (*setval)(CamelURL *, const gchar *),
+                               GtkWidget *widget)
 {
 	GtkComboBox *dropdown;
 	gint id;
@@ -1467,7 +1507,7 @@ emae_service_url_path_changed (EMAccountEditorService *service, void (*setval)(C
 	CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
 	const gchar *text = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (widget));
 
-	setval (url, (text && text[0])?text:NULL);
+	setval (url, (text && text[0]) ? text : NULL);
 
 	if (text && text[0] && setval == camel_url_set_user) {
 		dropdown = service->authtype;
@@ -1489,25 +1529,29 @@ emae_service_url_path_changed (EMAccountEditorService *service, void (*setval)(C
 }
 
 static void
-emae_hostname_changed (GtkEntry *entry, EMAccountEditorService *service)
+emae_hostname_changed (GtkEntry *entry,
+                       EMAccountEditorService *service)
 {
 	emae_service_url_changed (service, emae_url_set_host, GTK_WIDGET (entry));
 }
 
 static void
-emae_port_changed (EPortEntry *pentry, EMAccountEditorService *service)
+emae_port_changed (EPortEntry *pentry,
+                   EMAccountEditorService *service)
 {
 	emae_service_url_changed (service, emae_url_set_port, GTK_WIDGET (pentry));
 }
 
 static void
-emae_username_changed (GtkEntry *entry, EMAccountEditorService *service)
+emae_username_changed (GtkEntry *entry,
+                       EMAccountEditorService *service)
 {
 	emae_service_url_changed (service, camel_url_set_user, GTK_WIDGET (entry));
 }
 
 static void
-emae_path_changed (GtkWidget *widget, EMAccountEditorService *service)
+emae_path_changed (GtkWidget *widget,
+                   EMAccountEditorService *service)
 {
 	emae_service_url_path_changed (service, camel_url_set_path, widget);
 }
@@ -1587,7 +1631,8 @@ emae_setup_settings (EMAccountEditorService *service)
 	config = E_CONFIG (service->emae->priv->config);
 	target = (EMConfigTargetAccount *) config->target;
 
-	em_config_target_new_account_update_settings (config, target, service->emae->priv->source.settings);
+	em_config_target_new_account_update_settings (
+		config, target, service->emae->priv->source.settings);
 }
 
 static void
@@ -1624,16 +1669,16 @@ emae_service_provider_changed (EMAccountEditorService *service)
 		if (service->port && service->provider->port_entries)
 			e_port_entry_set_camel_entries (service->port, service->provider->port_entries);
 
-		for (i=0;emae_service_info[service->type].host_info[i].flag;i++) {
+		for (i = 0; emae_service_info[service->type].host_info[i].flag; i++) {
 			GtkWidget *w;
 			gint hide;
 			struct _provider_host_info *info = &emae_service_info[service->type].host_info[i];
 
 			enable = CAMEL_PROVIDER_ALLOWS (service->provider, info->flag);
 			hide = CAMEL_PROVIDER_HIDDEN (service->provider, info->flag);
-			show = (enable && !hide)?gtk_widget_show:gtk_widget_hide;
+			show = (enable && !hide) ? gtk_widget_show : gtk_widget_hide;
 
-			for (j=0; j < G_N_ELEMENTS (info->widgets); j++) {
+			for (j = 0; j < G_N_ELEMENTS (info->widgets); j++) {
 				if (info->widgets[j] && (w = G_STRUCT_MEMBER (GtkWidget *, service, info->widgets[j]))) {
 					show (w);
 					if (j == 0) {
@@ -1642,10 +1687,10 @@ emae_service_provider_changed (EMAccountEditorService *service)
 
 						if (info->setval && !hide) {
 							if (GTK_IS_ENTRY (w))
-								info->setval (url, enable?gtk_entry_get_text ((GtkEntry *) w):NULL);
+								info->setval (url, enable ? gtk_entry_get_text ((GtkEntry *) w) : NULL);
 							else if (E_IS_PORT_ENTRY (w))
 								info->setval (url, enable?g_strdup_printf("%i",
-											e_port_entry_get_port (E_PORT_ENTRY (w))):NULL);
+											e_port_entry_get_port (E_PORT_ENTRY (w))) : NULL);
 						}
 					}
 				}
@@ -1661,7 +1706,7 @@ emae_service_provider_changed (EMAccountEditorService *service)
 			/* try to keep the authmech from the current url, or clear it */
 			if (url->authmech) {
 				if (service->provider->authtypes) {
-					for (ll = service->provider->authtypes;ll;ll = g_list_next (ll))
+					for (ll = service->provider->authtypes; ll; ll = g_list_next (ll))
 						if (!strcmp (url->authmech, ((CamelServiceAuthType *) ll->data)->authproto))
 							break;
 					if (ll == NULL)
@@ -1695,8 +1740,8 @@ emae_service_provider_changed (EMAccountEditorService *service)
 #endif
 
 		/* This must be done AFTER use_ssl is set; changing use_ssl overwrites
-		   the old port, which could be SSL port, but also could be some special
-		   port and we would otherwise lost it */
+		 * the old port, which could be SSL port, but also could be some special
+		 * port and we would otherwise lost it */
 		if (url->port && service->provider->port_entries)
 			e_port_entry_set_port (service->port, old_port);
 
@@ -1716,7 +1761,8 @@ emae_service_provider_changed (EMAccountEditorService *service)
 }
 
 static void
-emae_provider_changed (GtkComboBox *dropdown, EMAccountEditorService *service)
+emae_provider_changed (GtkComboBox *dropdown,
+                       EMAccountEditorService *service)
 {
 	gint id = gtk_combo_box_get_active (dropdown);
 	GtkTreeModel *model;
@@ -1740,7 +1786,8 @@ emae_provider_changed (GtkComboBox *dropdown, EMAccountEditorService *service)
 }
 
 static void
-emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
+emae_refresh_providers (EMAccountEditor *emae,
+                        EMAccountEditorService *service)
 {
 	EAccount *account;
 	GtkListStore *store;
@@ -1765,8 +1812,8 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 		gint len;
 
 		if (colon) {
-			len = colon-uri;
-			current = g_alloca (len+1);
+			len = colon - uri;
+			current = g_alloca (len + 1);
 			memcpy (current, uri, len);
 			current[len] = 0;
 		}
@@ -1787,7 +1834,7 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 		i++;
 	}
 
-	for (l=emae->priv->providers; l; l=l->next) {
+	for (l = emae->priv->providers; l; l = l->next) {
 		CamelProvider *provider = l->data;
 
 		if (!((strcmp (provider->domain, "mail") == 0
@@ -1841,7 +1888,8 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 }
 
 static void
-emae_authtype_changed (GtkComboBox *dropdown, EMAccountEditorService *service)
+emae_authtype_changed (GtkComboBox *dropdown,
+                       EMAccountEditorService *service)
 {
 	EAccount *account;
 	gint id = gtk_combo_box_get_active (dropdown);
@@ -1879,7 +1927,8 @@ emae_authtype_changed (GtkComboBox *dropdown, EMAccountEditorService *service)
 }
 
 static void
-emae_needs_auth (GtkToggleButton *toggle, EMAccountEditorService *service)
+emae_needs_auth (GtkToggleButton *toggle,
+                 EMAccountEditorService *service)
 {
 	gint need = gtk_toggle_button_get_active (toggle);
 
@@ -1899,7 +1948,8 @@ emae_needs_auth (GtkToggleButton *toggle, EMAccountEditorService *service)
 static void emae_check_authtype (GtkWidget *w, EMAccountEditorService *service);
 
 static void
-emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service)
+emae_refresh_authtype (EMAccountEditor *emae,
+                       EMAccountEditorService *service)
 {
 	EAccount *account;
 	GtkListStore *store;
@@ -1924,13 +1974,13 @@ emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service)
 		url = camel_url_new (uri, NULL);
 
 	if (service->provider) {
-		for (i=0, l=service->provider->authtypes; l; l=l->next, i++) {
+		for (i = 0, l = service->provider->authtypes; l; l = l->next, i++) {
 			CamelServiceAuthType *authtype = l->data;
 			gint avail;
 
 			/* if we have some already shown */
 			if (service->auth_types) {
-				for (ll = service->auth_types;ll;ll = g_list_next (ll))
+				for (ll = service->auth_types; ll; ll = g_list_next (ll))
 					if (!strcmp (authtype->authproto, ((CamelServiceAuthType *) ll->data)->authproto))
 						break;
 				avail = ll != NULL;
@@ -2046,7 +2096,9 @@ emae_check_authtype (GtkWidget *w,
 	session = e_mail_backend_get_session (backend);
 
 	uid = g_strdup_printf ("emae-check-authtype-%p", service);
-	url = camel_url_new (e_account_get_string (account, emae_service_info[service->type].account_uri_key), NULL);
+	url_string = (gchar *) e_account_get_string (
+		account, emae_service_info[service->type].account_uri_key);
+	url = camel_url_new (url_string, NULL);
 	if (service->settings)
 		camel_settings_save_to_url (service->settings, url);
 	url_string = camel_url_to_string (url, 0);
@@ -2196,7 +2248,7 @@ emae_setup_service (EMAccountEditor *emae,
 	emae_refresh_authtype (emae, service);
 
 	/* Set the port after SSL is set, because it would overwrite the
-	   port value (through emae_ssl_changed signal) */
+	 * port value (through emae_ssl_changed signal) */
 	if (url->port && service->provider->port_entries) {
 		e_port_entry_set_port (service->port, url->port);
 	}
@@ -2287,7 +2339,10 @@ static struct {
 };
 
 static void
-emae_queue_widgets (EMAccountEditor *emae, GtkBuilder *builder, const gchar *first, ...)
+emae_queue_widgets (EMAccountEditor *emae,
+                    GtkBuilder *builder,
+                    const gchar *first,
+                    ...)
 {
 	va_list ap;
 
@@ -2328,7 +2383,7 @@ emae_identity_page (EConfig *ec,
 	e_load_ui_builder_definition (builder, "mail-config.ui");
 
 	/* Management & Identity fields, in the assistant the management frame is relocated to the last page later on */
-	for (i=0;i<G_N_ELEMENTS (emae_identity_entries);i++)
+	for (i = 0; i < G_N_ELEMENTS (emae_identity_entries); i++)
 		priv->identity_entries[i] = emae_account_entry (emae, emae_identity_entries[i].name, emae_identity_entries[i].item, builder);
 
 	priv->management_frame = e_builder_get_widget (builder, "management-section");
@@ -2799,7 +2854,7 @@ emae_receive_options_item (EConfig *ec,
 
 	gtk_widget_show_all (box);
 
-	gtk_table_attach ((GtkTable *) parent, box, 0, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+	gtk_table_attach ((GtkTable *) parent, box, 0, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	return box;
 }
@@ -2867,7 +2922,7 @@ section:
 	table = GTK_TABLE (parent);
 	g_object_get (table, "n-rows", &row, NULL);
 
-	for (;entries[ii].type != CAMEL_PROVIDER_CONF_END && entries[ii].type != CAMEL_PROVIDER_CONF_SECTION_END; ii++) {
+	for (; entries[ii].type != CAMEL_PROVIDER_CONF_END && entries[ii].type != CAMEL_PROVIDER_CONF_SECTION_END; ii++) {
 		switch (entries[ii].type) {
 		case CAMEL_PROVIDER_CONF_SECTION_START:
 		case CAMEL_PROVIDER_CONF_SECTION_END:
@@ -2996,7 +3051,7 @@ emae_send_page (EConfig *ec,
 
 	/* no transport options page at all for these types of providers */
 	if (priv->source.provider && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (priv->source.provider)) {
-		memset (&priv->transport.frame, 0, ((gchar *)&priv->transport.check_dialog)-((gchar *)&priv->transport.frame));
+		memset (&priv->transport.frame, 0, ((gchar *) &priv->transport.check_dialog) - ((gchar *) &priv->transport.frame));
 		return NULL;
 	}
 
@@ -3052,7 +3107,10 @@ emae_real_url_toggled (GtkToggleButton *check,
 }
 
 static void
-set_real_folder_path (GtkButton *folder_button, CamelSettings *settings, const gchar *settings_prop, EAccount *account)
+set_real_folder_path (GtkButton *folder_button,
+                      CamelSettings *settings,
+                      const gchar *settings_prop,
+                      EAccount *account)
 {
 	gchar *path = NULL, *uri;
 	gchar *encoded_name;
@@ -3092,7 +3150,9 @@ set_real_folder_path (GtkButton *folder_button, CamelSettings *settings, const g
 }
 
 static void
-update_real_folder_cb (GtkButton *folder_button, GParamSpec *par_spec, EMAccountEditor *emae)
+update_real_folder_cb (GtkButton *folder_button,
+                       GParamSpec *par_spec,
+                       EMAccountEditor *emae)
 {
 	EMFolderSelectionButton *sel_button;
 	CamelSettings *settings;
@@ -3333,7 +3393,8 @@ emae_defaults_page (EConfig *ec,
 }
 
 static void
-emae_account_hash_algo_combo_changed_cb (GtkComboBox *combobox, EMAccountEditor *emae)
+emae_account_hash_algo_combo_changed_cb (GtkComboBox *combobox,
+                                         EMAccountEditor *emae)
 {
 	EAccount *account;
 	gpointer data;
@@ -3359,7 +3420,10 @@ emae_account_hash_algo_combo_changed_cb (GtkComboBox *combobox, EMAccountEditor 
 }
 
 static GtkComboBox *
-emae_account_hash_algo_combo (EMAccountEditor *emae, const gchar *name, gint item, GtkBuilder *builder)
+emae_account_hash_algo_combo (EMAccountEditor *emae,
+                              const gchar *name,
+                              gint item,
+                              GtkBuilder *builder)
 {
 	EAccount *account;
 	GtkComboBox *combobox;
@@ -3468,7 +3532,8 @@ emae_security_page (EConfig *ec,
  * Allow some level of post creation customisation in plugins.
  */
 GtkWidget *
-em_account_editor_get_widget (EMAccountEditor *emae, const gchar *name)
+em_account_editor_get_widget (EMAccountEditor *emae,
+                              const gchar *name)
 {
 	GtkWidget *wid;
 
@@ -3612,17 +3677,21 @@ static EMConfigItem emae_assistant_items[] = {
 static gboolean emae_assistant_items_translated = FALSE;
 
 static void
-emae_free (EConfig *ec, GSList *items, gpointer data)
+emae_free (EConfig *ec,
+           GSList *items,
+           gpointer data)
 {
 	g_slist_free (items);
 }
 
 static void
-emae_free_auto (EConfig *ec, GSList *items, gpointer data)
+emae_free_auto (EConfig *ec,
+                GSList *items,
+                gpointer data)
 {
 	GSList *l, *n;
 
-	for (l=items;l;) {
+	for (l = items; l;) {
 		struct _receive_options_item *item = l->data;
 
 		n = g_slist_next (l);
@@ -3636,7 +3705,8 @@ emae_free_auto (EConfig *ec, GSList *items, gpointer data)
 }
 
 static gboolean
-emae_service_complete (EMAccountEditor *emae, EMAccountEditorService *service)
+emae_service_complete (EMAccountEditor *emae,
+                       EMAccountEditorService *service)
 {
 	EAccount *account;
 	CamelURL *url;
@@ -3683,7 +3753,7 @@ emae_check_servers (const gchar *email)
 
 	server++;
 
-	for (i=0; i<len; i++) {
+	for (i = 0; i < len; i++) {
 		if (strstr (server, mail_servers[i].key) != NULL)
 			return &mail_servers[i];
 	}
@@ -3692,7 +3762,8 @@ emae_check_servers (const gchar *email)
 }
 
 static void
-emae_check_set_authtype (GtkComboBox *dropdown, const gchar *auth)
+emae_check_set_authtype (GtkComboBox *dropdown,
+                         const gchar *auth)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -3715,7 +3786,9 @@ emae_check_set_authtype (GtkComboBox *dropdown, const gchar *auth)
 }
 
 static gboolean
-emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
+emae_check_complete (EConfig *ec,
+                     const gchar *pageid,
+                     gpointer data)
 {
 	EMAccountEditor *emae = data;
 	EAccount *account;
@@ -3731,7 +3804,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 	new_account = (original_account == NULL);
 
 	/* We use the page-check of various pages to 'prepare' or
-	   pre-load their values, only in the assistant */
+	 * pre-load their values, only in the assistant */
 	if (pageid
 	    && ((EConfig *) emae->priv->config)->type == E_CONFIG_ASSISTANT) {
 		if (!strcmp (pageid, "00.identity")) {
@@ -3759,9 +3832,9 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 				emae->priv->receive_set = 1;
 				tmp = (gchar *) e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
 				at = strchr (tmp, '@');
-				user = g_alloca (at-tmp+1);
-				memcpy (user, tmp, at-tmp);
-				user[at-tmp] = 0;
+				user = g_alloca (at - tmp + 1);
+				memcpy (user, tmp, at - tmp);
+				user[at - tmp] = 0;
 				at++;
 
 				sdata = emae->priv->selected_server = emae->emae_check_servers (tmp);
@@ -3812,9 +3885,9 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 				emae->priv->send_set = 1;
 				tmp = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
 				at = strchr (tmp, '@');
-				user = g_alloca (at-tmp+1);
-				memcpy (user, tmp, at-tmp);
-				user[at-tmp] = 0;
+				user = g_alloca (at - tmp + 1);
+				memcpy (user, tmp, at - tmp);
+				user[at - tmp] = 0;
 				at++;
 
 				sdata = emae->priv->selected_server;
@@ -3879,9 +3952,9 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 	}
 
 	/*
-	   Setting a flag on the Account if it is marked as default. It is done in this way instead of
-	   using a temporary variable so as to keep track of which account is marked as default in case of
-	   editing multiple accounts at a time
+	 * Setting a flag on the Account if it is marked as default. It is done in this way instead of
+	 * using a temporary variable so as to keep track of which account is marked as default in case of
+	 * editing multiple accounts at a time
 	 */
 	if (gtk_toggle_button_get_active (emae->priv->default_account))
 		g_object_set_data (G_OBJECT (account), "default_flagged", GINT_TO_POINTER(1));
@@ -3936,13 +4009,17 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 }
 
 gboolean
-em_account_editor_check (EMAccountEditor *emae, const gchar *page)
+em_account_editor_check (EMAccountEditor *emae,
+                         const gchar *page)
 {
 	return emae_check_complete ((EConfig *) emae->config, page, emae);
 }
 
 static void
-forget_password_if_needed (EAccount *original_account, EAccount *modified_account, e_account_item_t save_pass_itm, e_account_item_t url_itm)
+forget_password_if_needed (EAccount *original_account,
+                           EAccount *modified_account,
+                           e_account_item_t save_pass_itm,
+                           e_account_item_t url_itm)
 {
 	const gchar *orig_url, *modif_url;
 
@@ -4026,7 +4103,7 @@ emae_commit (EConfig *ec,
 		account = modified_account;
 
 		/* HACK: this will add the account to the folder tree.
-		   We should just be listening to the account list directly for changed events */
+		 * We should just be listening to the account list directly for changed events */
 		if (account->enabled
 		    && emae->priv->source.provider
 		    && (emae->priv->source.provider->flags & CAMEL_PROVIDER_IS_STORAGE)) {
@@ -4076,7 +4153,7 @@ em_account_editor_construct (EMAccountEditor *emae,
 		ec = em_config_new (E_CONFIG_BOOK, id);
 		items = emae_editor_items;
 		if (!emae_editor_items_translated) {
-			for (i=0;items[i].path;i++) {
+			for (i = 0; items[i].path; i++) {
 				if (items[i].label)
 					items[i].label = gettext (items[i].label);
 			}
@@ -4086,7 +4163,7 @@ em_account_editor_construct (EMAccountEditor *emae,
 		ec = em_config_new (E_CONFIG_ASSISTANT, id);
 		items = emae_assistant_items;
 		if (!emae_assistant_items_translated) {
-			for (i=0;items[i].path;i++) {
+			for (i = 0; items[i].path; i++) {
 				if (items[i].label)
 					items[i].label = _(items[i].label);
 			}
@@ -4101,7 +4178,7 @@ em_account_editor_construct (EMAccountEditor *emae,
 
 	emae->config = priv->config = ec;
 	l = NULL;
-	for (i=0;items[i].path;i++)
+	for (i = 0; items[i].path; i++)
 		l = g_slist_prepend (l, &items[i]);
 	e_config_add_items ((EConfig *) ec, l, emae_free, emae);
 
@@ -4109,10 +4186,10 @@ em_account_editor_construct (EMAccountEditor *emae,
 	l = NULL;
 	have = g_hash_table_new (g_str_hash, g_str_equal);
 	index = 20;
-	for (prov=priv->providers;prov;prov=g_list_next (prov)) {
+	for (prov = priv->providers; prov; prov = g_list_next (prov)) {
 		CamelProviderConfEntry *entries = ((CamelProvider *) prov->data)->extra_conf;
 
-		for (i=0;entries && entries[i].type != CAMEL_PROVIDER_CONF_END;i++) {
+		for (i = 0; entries && entries[i].type != CAMEL_PROVIDER_CONF_END; i++) {
 			struct _receive_options_item *item;
 			const gchar *name = entries[i].name;
 			gint myindex = index;

@@ -121,8 +121,8 @@ memo_table_emit_status_message (EMemoTable *memo_table,
 }
 
 /* Returns the current time, for the ECellDateEdit items.
-   FIXME: Should probably use the timezone of the item rather than the
-   current timezone, though that may be difficult to get from here. */
+ * FIXME: Should probably use the timezone of the item rather than the
+ * current timezone, though that may be difficult to get from here. */
 static struct tm
 memo_table_get_current_time (ECellDateEdit *ecde,
                              gpointer user_data)
@@ -765,7 +765,8 @@ memo_table_cut_clipboard (ESelectable *selectable)
 
 /* Helper for memo_table_copy_clipboard() */
 static void
-copy_row_cb (gint model_row, gpointer data)
+copy_row_cb (gint model_row,
+             gpointer data)
 {
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
@@ -976,7 +977,8 @@ memo_table_paste_clipboard (ESelectable *selectable)
  * gint pointed to by the closure data.
  */
 static void
-get_selected_row_cb (gint model_row, gpointer data)
+get_selected_row_cb (gint model_row,
+                     gpointer data)
 {
 	gint *row;
 
@@ -1261,7 +1263,8 @@ struct get_selected_uids_closure {
 
 /* Used from e_table_selected_row_foreach(), builds a list of the selected UIDs */
 static void
-add_uid_cb (gint model_row, gpointer data)
+add_uid_cb (gint model_row,
+            gpointer data)
 {
 	struct get_selected_uids_closure *closure;
 	ECalModelComponent *comp_data;

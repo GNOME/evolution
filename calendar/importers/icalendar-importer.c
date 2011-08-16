@@ -115,7 +115,8 @@ ivcal_import_done (ICalImporter *ici)
 
 /* This removes all components except VEVENTs and VTIMEZONEs from the toplevel */
 static void
-prepare_events (icalcomponent *icalcomp, GList **vtodos)
+prepare_events (icalcomponent *icalcomp,
+                GList **vtodos)
 {
 	icalcomponent *subcomp;
 	icalcompiter iter;
@@ -143,10 +144,11 @@ prepare_events (icalcomponent *icalcomp, GList **vtodos)
 }
 
 /* This removes all components except VTODOs and VTIMEZONEs from the toplevel
-   icalcomponent, and adds the given list of VTODO components. The list is
-   freed afterwards. */
+ * icalcomponent, and adds the given list of VTODO components. The list is
+ * freed afterwards. */
 static void
-prepare_tasks (icalcomponent *icalcomp, GList *vtodos)
+prepare_tasks (icalcomponent *icalcomp,
+               GList *vtodos)
 {
 	icalcomponent *subcomp;
 	GList *elem;
@@ -203,7 +205,11 @@ receive_objects_ready_cb (GObject *source_object,
 }
 
 static void
-update_objects (ECalClient *cal_client, icalcomponent *icalcomp, GCancellable *cancellable, void (*done_cb)(gpointer user_data), gpointer user_data)
+update_objects (ECalClient *cal_client,
+                icalcomponent *icalcomp,
+                GCancellable *cancellable,
+                void (*done_cb) (gpointer user_data),
+                gpointer user_data)
 {
 	icalcomponent_kind kind;
 	icalcomponent *vcal;
@@ -246,7 +252,8 @@ struct _selector_data {
 };
 
 static void
-button_toggled_cb (GtkWidget *widget, struct _selector_data *sd)
+button_toggled_cb (GtkWidget *widget,
+                   struct _selector_data *sd)
 {
 	g_datalist_set_data_full(&sd->target->data, "primary-source",
 				 g_object_ref (e_source_selector_get_primary_selection ((ESourceSelector *) sd->selector)),
@@ -256,7 +263,8 @@ button_toggled_cb (GtkWidget *widget, struct _selector_data *sd)
 }
 
 static void
-primary_selection_changed_cb (ESourceSelector *selector, EImportTarget *target)
+primary_selection_changed_cb (ESourceSelector *selector,
+                              EImportTarget *target)
 {
 	g_datalist_set_data_full(&target->data, "primary-source",
 				 g_object_ref (e_source_selector_get_primary_selection (selector)),
@@ -264,7 +272,9 @@ primary_selection_changed_cb (ESourceSelector *selector, EImportTarget *target)
 }
 
 static GtkWidget *
-ivcal_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
+ivcal_getwidget (EImport *ei,
+                 EImportTarget *target,
+                 EImportImporter *im)
 {
 	GtkWidget *vbox, *hbox, *first = NULL;
 	GSList *group = NULL;
@@ -318,7 +328,9 @@ ivcal_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 		sd->notebook = nb;
 		sd->page = i;
 		g_object_set_data_full((GObject *)rb, "selector-data", sd, g_free);
-		g_signal_connect(G_OBJECT (rb), "toggled", G_CALLBACK (button_toggled_cb), sd);
+		g_signal_connect (
+			rb, "toggled",
+			G_CALLBACK (button_toggled_cb), sd);
 
 		if (!group)
 			group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (rb));
@@ -403,7 +415,9 @@ ivcal_opened (GObject *source_object,
 }
 
 static void
-ivcal_import (EImport *ei, EImportTarget *target, icalcomponent *icalcomp)
+ivcal_import (EImport *ei,
+              EImportTarget *target,
+              icalcomponent *icalcomp)
 {
 	EClientSourceType type;
 	ICalImporter *ici = g_malloc0 (sizeof (*ici));
@@ -426,7 +440,9 @@ ivcal_import (EImport *ei, EImportTarget *target, icalcomponent *icalcomp)
 }
 
 static void
-ivcal_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
+ivcal_cancel (EImport *ei,
+              EImportTarget *target,
+              EImportImporter *im)
 {
 	ICalImporter *ici = g_datalist_get_data(&target->data, "ivcal-data");
 
@@ -440,7 +456,9 @@ ivcal_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
  */
 
 static gboolean
-ical_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
+ical_supported (EImport *ei,
+                EImportTarget *target,
+                EImportImporter *im)
 {
 	gchar *filename;
 	gchar *contents;
@@ -482,7 +500,9 @@ ical_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-ical_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+ical_import (EImport *ei,
+             EImportTarget *target,
+             EImportImporter *im)
 {
 	gchar *filename;
 	gchar *contents;
@@ -512,7 +532,9 @@ ical_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static GtkWidget *
-ivcal_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+ivcal_get_preview (EImport *ei,
+                   EImportTarget *target,
+                   EImportImporter *im)
 {
 	GtkWidget *preview;
 	EImportTargetURI *s = (EImportTargetURI *) target;
@@ -570,7 +592,9 @@ ical_importer_peek (void)
  */
 
 static gboolean
-vcal_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
+vcal_supported (EImport *ei,
+                EImportTarget *target,
+                EImportImporter *im)
 {
 	gchar *filename;
 	gchar *contents;
@@ -601,8 +625,8 @@ vcal_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 
 		if (icalcomp && is_icalcomp_usable (icalcomp)) {
 			/* If we can create proper iCalendar from the file, then
-			   rather use ics importer, because it knows to read more
-			   information than older version, the vCalendar. */
+			 * rather use ics importer, because it knows to read more
+			 * information than older version, the vCalendar. */
 			ret = FALSE;
 			g_free (contents);
 		} else {
@@ -631,8 +655,8 @@ vcal_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 /* This tries to load in a vCalendar file and convert it to an icalcomponent.
-   It returns NULL on failure. */
-static icalcomponent*
+ * It returns NULL on failure. */
+static icalcomponent *
 load_vcalendar_file (const gchar *filename)
 {
 	icalvcal_defaults defaults = { NULL };
@@ -667,7 +691,9 @@ load_vcalendar_file (const gchar *filename)
 }
 
 static void
-vcal_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+vcal_import (EImport *ei,
+             EImportTarget *target,
+             EImportImporter *im)
 {
 	gchar *filename;
 	icalcomponent *icalcomp;
@@ -688,7 +714,9 @@ vcal_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static GtkWidget *
-vcal_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+vcal_get_preview (EImport *ei,
+                  EImportTarget *target,
+                  EImportImporter *im)
 {
 	GtkWidget *preview;
 	EImportTargetURI *s = (EImportTargetURI *) target;
@@ -736,7 +764,9 @@ vcal_importer_peek (void)
 /* ********************************************************************** */
 
 static gboolean
-gnome_calendar_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
+gnome_calendar_supported (EImport *ei,
+                          EImportTarget *target,
+                          EImportImporter *im)
 {
 	gchar *filename;
 	gboolean res;
@@ -800,7 +830,11 @@ default_source_opened_cb (GObject *source_object,
 }
 
 static void
-open_default_source (ICalIntelligentImporter *ici, ECalClientSourceType source_type, void (* opened_cb) (ECalClient *cal_client, const GError *error, ICalIntelligentImporter *ici))
+open_default_source (ICalIntelligentImporter *ici,
+                     ECalClientSourceType source_type,
+                     void (* opened_cb) (ECalClient *cal_client,
+                                         const GError *error,
+                                         ICalIntelligentImporter *ici))
 {
 	ESource *source;
 	ECalClient *cal_client;
@@ -912,7 +946,9 @@ gc_import_events (ECalClient *cal_client,
 }
 
 static void
-gnome_calendar_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+gnome_calendar_import (EImport *ei,
+                       EImportTarget *target,
+                       EImportImporter *im)
 {
 	icalcomponent *icalcomp = NULL;
 	gchar *filename;
@@ -920,7 +956,7 @@ gnome_calendar_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	ICalIntelligentImporter *ici;
 
 	/* This is pretty shitty, everything runs in the gui thread and can block
-	   for quite some time */
+	 * for quite some time */
 
 	do_calendar = GPOINTER_TO_INT(g_datalist_get_data(&target->data, "gnomecal-do-cal"));
 	do_tasks = GPOINTER_TO_INT(g_datalist_get_data(&target->data, "gnomecal-do-tasks"));
@@ -967,19 +1003,23 @@ gnome_calendar_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-calendar_toggle_cb (GtkToggleButton *tb, EImportTarget *target)
+calendar_toggle_cb (GtkToggleButton *tb,
+                    EImportTarget *target)
 {
 	g_datalist_set_data(&target->data, "gnomecal-do-cal", GINT_TO_POINTER(gtk_toggle_button_get_active(tb)));
 }
 
 static void
-tasks_toggle_cb (GtkToggleButton *tb, EImportTarget *target)
+tasks_toggle_cb (GtkToggleButton *tb,
+                 EImportTarget *target)
 {
 	g_datalist_set_data(&target->data, "gnomecal-do-tasks", GINT_TO_POINTER(gtk_toggle_button_get_active(tb)));
 }
 
 static GtkWidget *
-gnome_calendar_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
+gnome_calendar_getwidget (EImport *ei,
+                          EImportTarget *target,
+                          EImportImporter *im)
 {
 	GtkWidget *hbox, *w;
 	GConfClient *gconf;
@@ -1011,7 +1051,9 @@ gnome_calendar_getwidget (EImport *ei, EImportTarget *target, EImportImporter *i
 }
 
 static void
-gnome_calendar_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
+gnome_calendar_cancel (EImport *ei,
+                       EImportTarget *target,
+                       EImportImporter *im)
 {
 	ICalIntelligentImporter *ici = g_datalist_get_data(&target->data, "gnomecal-data");
 
@@ -1041,7 +1083,9 @@ gnome_calendar_importer_peek (void)
 /* ********************************************************************** */
 
 static gchar *
-format_dt (const ECalComponentDateTime *dt, GHashTable *timezones, icaltimezone *users_zone)
+format_dt (const ECalComponentDateTime *dt,
+           GHashTable *timezones,
+           icaltimezone *users_zone)
 {
 	struct tm tm;
 
@@ -1076,7 +1120,8 @@ strip_mailto (const gchar *str)
 }
 
 static void
-preview_comp (EWebViewPreview *preview, ECalComponent *comp)
+preview_comp (EWebViewPreview *preview,
+              ECalComponent *comp)
 {
 	ECalComponentText text = { 0 };
 	ECalComponentDateTime dt;
@@ -1293,7 +1338,8 @@ preview_comp (EWebViewPreview *preview, ECalComponent *comp)
 }
 
 static void
-preview_selection_changed_cb (GtkTreeSelection *selection, EWebViewPreview *preview)
+preview_selection_changed_cb (GtkTreeSelection *selection,
+                              EWebViewPreview *preview)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model = NULL;

@@ -183,8 +183,8 @@ struct _EventPagePrivate {
 	gint alarm_interval;
 
 	/* This is TRUE if both the start & end timezone are the same. If the
-	   start timezone is then changed, we updated the end timezone to the
-	   same value, since 99% of events start and end in one timezone. */
+	 * start timezone is then changed, we updated the end timezone to the
+	 * same value, since 99% of events start and end in one timezone. */
 	gboolean sync_timezones;
 	gboolean is_meeting;
 
@@ -645,7 +645,7 @@ sensitize_widgets (EventPage *epage)
 
 	alarm = e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map) != ALARM_NONE;
 	custom = is_custom_alarm_store (priv->alarm_list_store, priv->old_summary, priv->alarm_units, priv->alarm_interval, NULL) ||
-		 e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map)  == ALARM_CUSTOM ? TRUE:FALSE;
+		 e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map)  == ALARM_CUSTOM ? TRUE : FALSE;
 
 	if (alarm && !priv->alarm_icon) {
 		priv->alarm_icon = create_alarm_image_button ("stock_bell", _("This event has reminders"), epage);
@@ -729,7 +729,7 @@ update_time (EventPage *epage,
 	GtkAction *action;
 	struct icaltimetype *start_tt, *end_tt, implied_tt;
 	icaltimezone *start_zone = NULL, *def_zone = NULL;
-	gboolean all_day_event, homezone=TRUE;
+	gboolean all_day_event, homezone = TRUE;
 	gboolean show_timezone;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
@@ -737,8 +737,8 @@ update_time (EventPage *epage,
 
 	if (start_date->tzid) {
 		/* Note that if we are creating a new event, the timezones may not be
-		   on the server, so we try to get the builtin timezone with the TZID
-		   first. */
+		 * on the server, so we try to get the builtin timezone with the TZID
+		 * first. */
 		start_zone = icaltimezone_get_builtin_timezone_from_tzid (start_date->tzid);
 		if (!start_zone) {
 			/* FIXME: Handle error better. */
@@ -753,7 +753,7 @@ update_time (EventPage *epage,
 	}
 
 	/* If both times are DATE values, we set the 'All Day Event' checkbox.
-	   Also, if DTEND is after DTSTART, we subtract 1 day from it. */
+	 * Also, if DTEND is after DTSTART, we subtract 1 day from it. */
 	all_day_event = FALSE;
 	start_tt = start_date->value;
 	end_tt = end_date->value;
@@ -774,8 +774,8 @@ update_time (EventPage *epage,
 	set_all_day (epage, all_day_event);
 
 	/* If it is an all day event, we set both timezones to the current
-	   timezone, so that if the user toggles the 'All Day Event' checkbox
-	   the event uses the current timezone rather than none at all. */
+	 * timezone, so that if the user toggles the 'All Day Event' checkbox
+	 * the event uses the current timezone rather than none at all. */
 	if (all_day_event)
 		start_zone = e_meeting_store_get_timezone (
 			epage->priv->meeting_store);
@@ -809,7 +809,7 @@ update_time (EventPage *epage,
 		0, 0, NULL, NULL, epage);
 
 	/* Set the timezones, and set sync_timezones to TRUE if both timezones
-	   are the same. */
+	 * are the same. */
 	g_signal_handlers_block_matched (
 		epage->priv->start_timezone, G_SIGNAL_MATCH_DATA,
 		0, 0, NULL, NULL, epage);
@@ -843,7 +843,8 @@ update_time (EventPage *epage,
 }
 
 static void
-organizer_changed_cb (GtkEntry *entry, EventPage *epage)
+organizer_changed_cb (GtkEntry *entry,
+                      EventPage *epage)
 {
 	gchar *name;
 	gchar *mailto;
@@ -949,7 +950,7 @@ event_page_focus_main_widget (CompEditorPage *page)
 
 static void
 event_page_load_locations_list (CompEditorPage *page,
-				ECalComponent *comp)
+                                ECalComponent *comp)
 {
 	EShell *shell;
 	EShellBackend *backend;
@@ -1008,7 +1009,7 @@ event_page_load_locations_list (CompEditorPage *page,
 
 static void
 event_page_save_locations_list (CompEditorPage *page,
-				ECalComponent *comp)
+                                ECalComponent *comp)
 {
 	EShell *shell;
 	EShellBackend *backend;
@@ -1455,7 +1456,7 @@ event_page_fill_component (CompEditorPage *page,
 	g_return_val_if_fail (end_date_set, FALSE);
 
 	/* If the all_day toggle is set, we use DATE values for DTSTART and
-	   DTEND. If not, we fetch the hour & minute from the widgets. */
+	 * DTEND. If not, we fetch the hour & minute from the widgets. */
 	all_day_event = priv->all_day_event;
 
 	if (all_day_event) {
@@ -1806,28 +1807,32 @@ event_page_init (EventPage *epage)
 }
 
 void
-event_page_set_view_role (EventPage *epage, gboolean state)
+event_page_set_view_role (EventPage *epage,
+                          gboolean state)
 {
 	e_meeting_list_view_column_set_visible (
 		epage->priv->list_view, E_MEETING_STORE_ROLE_COL, state);
 }
 
 void
-event_page_set_view_status (EventPage *epage, gboolean state)
+event_page_set_view_status (EventPage *epage,
+                            gboolean state)
 {
 	e_meeting_list_view_column_set_visible (
 		epage->priv->list_view, E_MEETING_STORE_STATUS_COL, state);
 }
 
 void
-event_page_set_view_type (EventPage *epage, gboolean state)
+event_page_set_view_type (EventPage *epage,
+                          gboolean state)
 {
 	e_meeting_list_view_column_set_visible (
 		epage->priv->list_view, E_MEETING_STORE_TYPE_COL, state);
 }
 
 void
-event_page_set_view_rsvp (EventPage *epage, gboolean state)
+event_page_set_view_rsvp (EventPage *epage,
+                          gboolean state)
 {
 	e_meeting_list_view_column_set_visible (
 		epage->priv->list_view, E_MEETING_STORE_RSVP_COL, state);
@@ -1860,7 +1865,8 @@ event_page_show_options (EventPage *page)
 }
 
 void
-event_page_set_meeting (EventPage *page, gboolean set)
+event_page_set_meeting (EventPage *page,
+                        gboolean set)
 {
 	g_return_if_fail (IS_EVENT_PAGE (page));
 
@@ -1870,7 +1876,8 @@ event_page_set_meeting (EventPage *page, gboolean set)
 }
 
 void
-event_page_set_delegate (EventPage *page, gboolean set)
+event_page_set_delegate (EventPage *page,
+                         gboolean set)
 {
 	g_return_if_fail (IS_EVENT_PAGE (page));
 
@@ -1881,7 +1888,8 @@ event_page_set_delegate (EventPage *page, gboolean set)
 }
 
 static void
-time_sel_changed (GtkComboBox *combo, EventPage *epage)
+time_sel_changed (GtkComboBox *combo,
+                  EventPage *epage)
 {
 	EventPagePrivate *priv;
 	gint selection = gtk_combo_box_get_active (combo);
@@ -1932,20 +1940,22 @@ void update_end_time_combo (EventPage *epage)
 
 	end_timet -= start_timet;
 	hours = end_timet / ( 60 * 60 );
-	minutes = (end_timet/60) - ( hours * 60 );
+	minutes = (end_timet / 60) - ( hours * 60 );
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->hour_selector), hours);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->minute_selector), minutes);
 }
 
 static void
-hour_sel_changed (GtkSpinButton *widget, EventPage *epage)
+hour_sel_changed (GtkSpinButton *widget,
+                  EventPage *epage)
 {
 	hour_minute_changed (epage);
 }
 
 static void
-minute_sel_changed (GtkSpinButton *widget, EventPage *epage)
+minute_sel_changed (GtkSpinButton *widget,
+                    EventPage *epage)
 {
 	hour_minute_changed (epage);
 }
@@ -1981,7 +1991,8 @@ hour_minute_changed (EventPage *epage)
 }
 
 static void
-edit_clicked_cb (GtkButton *btn, EventPage *epage)
+edit_clicked_cb (GtkButton *btn,
+                 EventPage *epage)
 {
 	EventPagePrivate *priv;
 	GtkTreePath *path = NULL;
@@ -2001,7 +2012,8 @@ edit_clicked_cb (GtkButton *btn, EventPage *epage)
 }
 
 static void
-add_clicked_cb (GtkButton *btn, EventPage *epage)
+add_clicked_cb (GtkButton *btn,
+                EventPage *epage)
 {
 	CompEditor *editor;
 	CompEditorFlags flags;
@@ -2020,7 +2032,8 @@ add_clicked_cb (GtkButton *btn, EventPage *epage)
 }
 
 static gboolean
-existing_attendee (EMeetingAttendee *ia, ECalComponent *comp)
+existing_attendee (EMeetingAttendee *ia,
+                   ECalComponent *comp)
 {
 	GSList *attendees, *l;
 	const gchar *ia_address;
@@ -2056,7 +2069,8 @@ existing_attendee (EMeetingAttendee *ia, ECalComponent *comp)
 }
 
 static void
-remove_attendee (EventPage *epage, EMeetingAttendee *ia)
+remove_attendee (EventPage *epage,
+                 EMeetingAttendee *ia)
 {
 	EventPagePrivate *priv = epage->priv;
 	CompEditor *editor;
@@ -2070,7 +2084,7 @@ remove_attendee (EventPage *epage, EMeetingAttendee *ia)
 	delegate = (flags & COMP_EDITOR_DELEGATE);
 
 	/* If the user deletes the organizer attendee explicitly,
-	   assume they no longer want the organizer showing up */
+	 * assume they no longer want the organizer showing up */
 	if (ia == priv->ia) {
 		g_object_unref (priv->ia);
 		priv->ia = NULL;
@@ -2113,7 +2127,8 @@ remove_attendee (EventPage *epage, EMeetingAttendee *ia)
 }
 
 static void
-remove_clicked_cb (GtkButton *btn, EventPage *epage)
+remove_clicked_cb (GtkButton *btn,
+                   EventPage *epage)
 {
 	EventPagePrivate *priv;
 	EMeetingAttendee *ia;
@@ -2135,7 +2150,7 @@ remove_clicked_cb (GtkButton *btn, EventPage *epage)
 	}
 	paths = g_list_reverse (paths);
 
-	for (tmp = paths; tmp; tmp=tmp->next) {
+	for (tmp = paths; tmp; tmp = tmp->next) {
 		path = tmp->data;
 
 		gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->meeting_store), &iter, path);
@@ -2214,8 +2229,10 @@ attendee_added_cb (EMeetingListView *emlv,
 }
 
 static gboolean
-list_view_event (EMeetingListView *list_view, GdkEvent *event, EventPage *epage) {
-
+list_view_event (EMeetingListView *list_view,
+                 GdkEvent *event,
+                 EventPage *epage)
+{
 	EventPagePrivate *priv = epage->priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
@@ -2240,7 +2257,9 @@ list_view_event (EMeetingListView *list_view, GdkEvent *event, EventPage *epage)
 }
 
 static gboolean
-list_key_press (EMeetingListView *list_view, GdkEventKey *event, EventPage *epage)
+list_key_press (EMeetingListView *list_view,
+                GdkEventKey *event,
+                EventPage *epage)
 {
 	if (event->keyval == GDK_KEY_Delete) {
 
@@ -2257,7 +2276,8 @@ list_key_press (EMeetingListView *list_view, GdkEventKey *event, EventPage *epag
 }
 
 void
-event_page_set_all_day_event (EventPage *epage, gboolean all_day)
+event_page_set_all_day_event (EventPage *epage,
+                              gboolean all_day)
 {
 	EventPagePrivate *priv = epage->priv;
 	struct icaltimetype start_tt = icaltime_null_time ();
@@ -2309,7 +2329,7 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 		start_tt.is_date = TRUE;
 
 		/* Round down to the start of the day, or the start of the
-		   previous day if it is midnight. */
+		 * previous day if it is midnight. */
 		icaltime_adjust (&end_tt, 0, 0, 0, -1);
 		end_tt.hour = 0;
 		end_tt.minute  = 0;
@@ -2322,8 +2342,8 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 		    && end_tt.month == start_tt.month
 		    && end_tt.day == start_tt.day) {
 			/* The event is within one day, so we set the event
-			   start to the start of the working day, and the end
-			   to one hour later. */
+			 * start to the start of the working day, and the end
+			 * to one hour later. */
 			start_tt.hour =
 				comp_editor_get_work_day_start_hour (editor);
 			start_tt.minute =
@@ -2334,8 +2354,8 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 			icaltime_adjust (&end_tt, 0, 1, 0, 0);
 		} else {
 			/* The event is longer than 1 day, so we keep exactly
-			   the same times, just using DATE-TIME rather than
-			   DATE. */
+			 * the same times, just using DATE-TIME rather than
+			 * DATE. */
 			icaltime_adjust (&end_tt, 1, 0, 0, 0);
 		}
 
@@ -2373,7 +2393,8 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 }
 
 void
-event_page_set_show_time_busy (EventPage *epage, gboolean state)
+event_page_set_show_time_busy (EventPage *epage,
+                               gboolean state)
 {
 	epage->priv->show_time_as_busy = state;
 	comp_editor_page_changed (COMP_EDITOR_PAGE (epage));
@@ -2386,7 +2407,8 @@ event_page_show_alarm (EventPage *epage)
 }
 
 void
-event_page_set_show_timezone (EventPage *epage, gboolean state)
+event_page_set_show_timezone (EventPage *epage,
+                              gboolean state)
 {
 	if (state) {
 		gtk_widget_show_all (epage->priv->start_timezone);
@@ -2399,7 +2421,8 @@ event_page_set_show_timezone (EventPage *epage, gboolean state)
 }
 
 void
-event_page_set_show_categories (EventPage *epage, gboolean state)
+event_page_set_show_categories (EventPage *epage,
+                                gboolean state)
 {
 	if (state) {
 		gtk_widget_show (epage->priv->categories_btn);
@@ -2412,7 +2435,9 @@ event_page_set_show_categories (EventPage *epage, gboolean state)
 
 /*If the msg has some value set, the icon should always be set */
 void
-event_page_set_info_string (EventPage *epage, const gchar *icon, const gchar *msg)
+event_page_set_info_string (EventPage *epage,
+                            const gchar *icon,
+                            const gchar *msg)
 {
 	EventPagePrivate *priv;
 
@@ -2454,7 +2479,7 @@ get_widgets (EventPage *epage)
 		return FALSE;
 
 	/* Get the GtkAccelGroup from the toplevel window, so we can install
-	   it when the notebook page is mapped. */
+	 * it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
 	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
 	if (accel_groups)
@@ -2572,11 +2597,12 @@ summary_changed_cb (GtkEditable *editable,
 }
 
 /* Note that this assumes that the start_tt and end_tt passed to it are the
-   dates visible to the user. For DATE values, we have to add 1 day to the
-   end_tt before emitting the signal. */
+ * dates visible to the user. For DATE values, we have to add 1 day to the
+ * end_tt before emitting the signal. */
 static void
-notify_dates_changed (EventPage *epage, struct icaltimetype *start_tt,
-		      struct icaltimetype *end_tt)
+notify_dates_changed (EventPage *epage,
+                      struct icaltimetype *start_tt,
+                      struct icaltimetype *end_tt)
 {
 	EventPagePrivate *priv;
 	CompEditorPageDates dates;
@@ -2592,7 +2618,7 @@ notify_dates_changed (EventPage *epage, struct icaltimetype *start_tt,
 
 	if (all_day_event) {
 		/* The actual DTEND is 1 day after the displayed date for
-		   DATE values. */
+		 * DATE values. */
 		icaltime_adjust (end_tt, 1, 0, 0, 0);
 	} else {
 		start_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
@@ -2615,10 +2641,10 @@ notify_dates_changed (EventPage *epage, struct icaltimetype *start_tt,
 
 static gboolean
 check_start_before_end (struct icaltimetype *start_tt,
-			icaltimezone *start_zone,
-			struct icaltimetype *end_tt,
-			icaltimezone *end_zone,
-			gboolean adjust_end_time)
+                        icaltimezone *start_zone,
+                        struct icaltimetype *end_tt,
+                        icaltimezone *end_zone,
+                        gboolean adjust_end_time)
 {
 	struct icaltimetype end_tt_copy;
 	gint cmp;
@@ -2628,7 +2654,7 @@ check_start_before_end (struct icaltimetype *start_tt,
 	icaltimezone_convert_time (&end_tt_copy, end_zone, start_zone);
 
 	/* Now check if the start time is after the end time. If it is,
-	   we need to modify one of the times. */
+	 * we need to modify one of the times. */
 	cmp = icaltime_compare (*start_tt, end_tt_copy);
 	if (cmp > 0) {
 		if (adjust_end_time) {
@@ -2660,7 +2686,8 @@ check_start_before_end (struct icaltimetype *start_tt,
  * start or end time, the other time is adjusted to make it valid.
  */
 static void
-times_updated (EventPage *epage, gboolean adjust_end_time)
+times_updated (EventPage *epage,
+               gboolean adjust_end_time)
 {
 	EventPagePrivate *priv;
 	struct icaltimetype start_tt = icaltime_null_time ();
@@ -2691,7 +2718,7 @@ times_updated (EventPage *epage, gboolean adjust_end_time)
 
 	if (all_day_event) {
 		/* All Day Events are simple. We just compare the dates and if
-		   start > end we copy one of them to the other. */
+		 * start > end we copy one of them to the other. */
 		gint cmp = icaltime_compare_date_only (start_tt, end_tt);
 		if (cmp > 0) {
 			if (adjust_end_time) {
@@ -2707,7 +2734,7 @@ times_updated (EventPage *epage, gboolean adjust_end_time)
 		end_tt.is_date = TRUE;
 	} else {
 		/* For DATE-TIME events, we have to convert to the same
-		   timezone before comparing. */
+		 * timezone before comparing. */
 		e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
 					     &start_tt.hour,
 					     &start_tt.minute);
@@ -2858,7 +2885,9 @@ event_page_send_options_clicked_cb (EventPage *epage)
 }
 
 static void
-epage_client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+epage_client_opened_cb (GObject *source_object,
+                        GAsyncResult *result,
+                        gpointer user_data)
 {
 	ESource *source = E_SOURCE (source_object);
 	EClient *client = NULL;
@@ -2928,7 +2957,8 @@ epage_client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer u
 }
 
 static void
-source_changed_cb (ESourceComboBox *source_combo_box, EventPage *epage)
+source_changed_cb (ESourceComboBox *source_combo_box,
+                   EventPage *epage)
 {
 	EventPagePrivate *priv = epage->priv;
 	ESource *source;
@@ -2950,7 +2980,8 @@ source_changed_cb (ESourceComboBox *source_combo_box, EventPage *epage)
 }
 
 static void
-set_subscriber_info_string (EventPage *epage, const gchar *backend_address)
+set_subscriber_info_string (EventPage *epage,
+                            const gchar *backend_address)
 {
 	CompEditor *editor;
 	ECalClient *client;
@@ -2963,7 +2994,7 @@ set_subscriber_info_string (EventPage *epage, const gchar *backend_address)
 	if (e_source_get_property (source, "subscriber")) {
 		g_free (epage->priv->subscriber_info_text);
 		/* Translators: This string is used when we are creating an Event
-		   (meeting or appointment)  on behalf of some other user */
+		 * (meeting or appointment)  on behalf of some other user */
 		epage->priv->subscriber_info_text = g_markup_printf_escaped (_("You are acting on behalf of %s"), backend_address);
 	} else {
 		g_free (epage->priv->subscriber_info_text);
@@ -3131,7 +3162,7 @@ init_widgets (EventPage *epage)
 	client = comp_editor_get_client (editor);
 
 	/* Make sure the EDateEdit widgets use our timezones to get the
-	   current time. */
+	 * current time. */
 	e_date_edit_set_get_time_callback (
 		E_DATE_EDIT (priv->start_time),
 		(EDateEditGetTimeCallback) comp_editor_get_current_time,
@@ -3147,7 +3178,7 @@ init_widgets (EventPage *epage)
 	gtk_widget_hide (priv->info_hbox);
 
 	/* Summary */
-	g_signal_connect((priv->summary), "changed",
+	g_signal_connect ((priv->summary), "changed",
 			    G_CALLBACK (summary_changed_cb), epage);
 
 	/* Description */
@@ -3164,11 +3195,11 @@ init_widgets (EventPage *epage)
 			    G_CALLBACK (end_date_changed_cb), epage);
 
 	/* Categories */
-	g_signal_connect((priv->categories_btn), "clicked",
+	g_signal_connect ((priv->categories_btn), "clicked",
 			    G_CALLBACK (categories_clicked_cb), epage);
 
 	/* Source selector */
-	g_signal_connect((priv->source_selector), "changed",
+	g_signal_connect ((priv->source_selector), "changed",
 			    G_CALLBACK (source_changed_cb), epage);
 	/* Alarms */
 	priv->alarm_list_store = e_alarm_list_new ();
@@ -3183,7 +3214,7 @@ init_widgets (EventPage *epage)
 		G_CALLBACK (comp_editor_page_changed), epage);
 
 	/* Timezone changed */
-	g_signal_connect((priv->start_timezone), "changed",
+	g_signal_connect ((priv->start_timezone), "changed",
 			    G_CALLBACK (start_timezone_changed_cb), epage);
 
 	e_meeting_list_view_column_set_visible (
@@ -3212,24 +3243,40 @@ init_widgets (EventPage *epage)
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list_view));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
 
-	g_signal_connect (G_OBJECT (priv->list_view), "event", G_CALLBACK (list_view_event), epage);
-	g_signal_connect (priv->list_view, "key_press_event", G_CALLBACK (list_key_press), epage);
+	g_signal_connect (
+		priv->list_view, "event",
+		G_CALLBACK (list_view_event), epage);
+	g_signal_connect (
+		priv->list_view, "key_press_event",
+		G_CALLBACK (list_key_press), epage);
 
 	/* Add attendee button */
-	g_signal_connect (priv->add, "clicked", G_CALLBACK (add_clicked_cb), epage);
+	g_signal_connect (
+		priv->add, "clicked",
+		G_CALLBACK (add_clicked_cb), epage);
 
 	/* Remove attendee button */
-	g_signal_connect (priv->remove, "clicked", G_CALLBACK (remove_clicked_cb), epage);
+	g_signal_connect (
+		priv->remove, "clicked",
+		G_CALLBACK (remove_clicked_cb), epage);
 
 	/* Edit attendee button */
-	g_signal_connect (priv->edit, "clicked", G_CALLBACK (edit_clicked_cb), epage);
+	g_signal_connect (
+		priv->edit, "clicked",
+		G_CALLBACK (edit_clicked_cb), epage);
 
 	/* Contacts button */
-	g_signal_connect(priv->invite, "clicked", G_CALLBACK (invite_cb), epage);
+	g_signal_connect (
+		priv->invite, "clicked",
+		G_CALLBACK (invite_cb), epage);
 
 	/* Alarm dialog */
-	g_signal_connect (GTK_DIALOG (priv->alarm_dialog), "response", G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
-	g_signal_connect (GTK_DIALOG (priv->alarm_dialog), "delete-event", G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
+	g_signal_connect (
+		priv->alarm_dialog, "response",
+		G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
+	g_signal_connect (
+		priv->alarm_dialog, "delete-event",
+		G_CALLBACK (gtk_widget_hide), priv->alarm_dialog);
 	priv->alarm_list_dlg_widget = alarm_list_dialog_peek (client, priv->alarm_list_store);
 	gtk_widget_reparent (priv->alarm_list_dlg_widget, priv->alarm_box);
 	gtk_widget_show_all (priv->alarm_list_dlg_widget);
@@ -3259,7 +3306,7 @@ init_widgets (EventPage *epage)
 	update_end_time_combo ( epage);
 
 	/* Hour and Minute selector */
-	gtk_spin_button_set_range ( (GtkSpinButton*) priv->hour_selector, 0, G_MAXINT);
+	gtk_spin_button_set_range ( (GtkSpinButton *) priv->hour_selector, 0, G_MAXINT);
 	g_signal_connect (priv->hour_selector, "value-changed", G_CALLBACK (hour_sel_changed), epage);
 	g_signal_connect (priv->minute_selector, "value-changed", G_CALLBACK (minute_sel_changed), epage);
 
@@ -3363,7 +3410,8 @@ init_widgets (EventPage *epage)
 
 
 static void
-event_page_select_organizer (EventPage *epage, const gchar *backend_address)
+event_page_select_organizer (EventPage *epage,
+                             const gchar *backend_address)
 {
 	EventPagePrivate *priv = epage->priv;
 	CompEditor *editor;
@@ -3505,7 +3553,8 @@ event_page_new (EMeetingStore *meeting_store,
 }
 
 static void
-set_attendees (ECalComponent *comp, const GPtrArray *attendees)
+set_attendees (ECalComponent *comp,
+               const GPtrArray *attendees)
 {
 	GSList *comp_attendees = NULL, *l;
 	gint i;

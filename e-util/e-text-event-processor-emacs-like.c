@@ -111,7 +111,7 @@ e_text_event_processor_emacs_like_class_init (ETextEventProcessorEmacsLikeClass 
 {
   ETextEventProcessorClass *processor_class;
 
-  processor_class = (ETextEventProcessorClass*) klass;
+  processor_class = (ETextEventProcessorClass *) klass;
 
   processor_class->event = e_text_event_processor_emacs_like_event;
 }
@@ -131,9 +131,9 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 	/* Warning from the Intel compiler here:
 	 * e-text-event-processor-emacs-like.c(136): warning #589:
 	 *   transfer of control bypasses initialization of:
-         *   variable "key" (declared at line 194)
-         *  switch (event->type) {
-         *  ^
+ *       *   variable "key" (declared at line 194)
+ *       *  switch (event->type) {
+ *       *  ^
 	 */
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:

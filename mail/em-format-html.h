@@ -59,9 +59,9 @@ typedef struct _EMFormatHTMLClass EMFormatHTMLClass;
 typedef struct _EMFormatHTMLPrivate EMFormatHTMLPrivate;
 
 enum _em_format_html_header_flags {
-	EM_FORMAT_HTML_HEADER_TO = 1<<0,
-	EM_FORMAT_HTML_HEADER_CC = 1<<1,
-	EM_FORMAT_HTML_HEADER_BCC = 1<<2
+	EM_FORMAT_HTML_HEADER_TO = 1 << 0,
+	EM_FORMAT_HTML_HEADER_CC = 1 << 1,
+	EM_FORMAT_HTML_HEADER_BCC = 1 << 2
 };
 
 typedef enum {
@@ -85,8 +85,8 @@ typedef enum {
 } EMFormatHTMLColorType;
 
 /* A HTMLJob will be executed in another thread, in sequence.
-   It's job is to write to its stream, close it if successful,
-   then exit. */
+ * It's job is to write to its stream, close it if successful,
+ * then exit. */
 
 typedef struct _EMFormatHTMLJob EMFormatHTMLJob;
 
@@ -119,7 +119,7 @@ struct _EMFormatHTMLJob {
 	CamelStream *stream;
 
 	/* We need to track the state of the visibility tree at
-	   the point this uri was generated */
+	 * the point this uri was generated */
 	GNode *puri_level;
 	CamelURL *base;
 

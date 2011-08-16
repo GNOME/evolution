@@ -73,7 +73,7 @@ typedef struct _ECalConfigTargetPrefs ECalConfigTargetPrefs;
 struct _ECalConfigTargetSource {
 	EConfigTarget target;
 
-	struct _ESource *source;
+	ESource *source;
         ECalClientSourceType source_type;
 };
 

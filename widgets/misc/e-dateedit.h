@@ -73,15 +73,15 @@ struct _EDateEditClass {
 };
 
 GType      e_date_edit_get_type			(void);
-GtkWidget* e_date_edit_new			(void);
+GtkWidget * e_date_edit_new			(void);
 
 /* Analogous to gtk_editable_set_editable.  disable editing, while still
-   allowing selection. */
+ * allowing selection. */
 void       e_date_edit_set_editable             (EDateEdit      *dedit, gboolean editable);
 
 /* Returns TRUE if the last date and time set were valid. The date and time
-   are only set when the user hits Return or switches keyboard focus, or
-   selects a date or time from the popup. */
+ * are only set when the user hits Return or switches keyboard focus, or
+ * selects a date or time from the popup. */
 gboolean   e_date_edit_date_is_valid		(EDateEdit	*dedit);
 gboolean   e_date_edit_time_is_valid		(EDateEdit	*dedit);
 
@@ -89,14 +89,14 @@ gboolean   e_date_edit_time_is_valid		(EDateEdit	*dedit);
 gboolean   e_date_edit_have_time		(EDateEdit	*dedit);
 
 /* Returns the last valid date & time set, or -1 if the date & time was set to
-   'None' and this is permitted via e_date_edit_set_allow_no_date_set. */
+ * 'None' and this is permitted via e_date_edit_set_allow_no_date_set. */
 time_t	   e_date_edit_get_time			(EDateEdit	*dedit);
 void       e_date_edit_set_time			(EDateEdit	*dedit,
 						 time_t		 the_time);
 
 /* This returns the last valid date set, without the time. It returns TRUE
-   if a date is set, or FALSE if the date is set to 'None' and this is
-   permitted via e_date_edit_set_allow_no_date_set. (Month is 1 - 12). */
+ * if a date is set, or FALSE if the date is set to 'None' and this is
+ * permitted via e_date_edit_set_allow_no_date_set. (Month is 1 - 12). */
 gboolean   e_date_edit_get_date			(EDateEdit	*dedit,
 						 gint		*year,
 						 gint		*month,
@@ -107,8 +107,8 @@ void	   e_date_edit_set_date			(EDateEdit	*dedit,
 						 gint		 day);
 
 /* This returns the last valid time set, without the date. It returns TRUE
-   if a time is set, or FALSE if the time is set to 'None' and this is
-   permitted via e_date_edit_set_allow_no_date_set. */
+ * if a time is set, or FALSE if the time is set to 'None' and this is
+ * permitted via e_date_edit_set_allow_no_date_set. */
 gboolean   e_date_edit_get_time_of_day		(EDateEdit	*dedit,
 						 gint		*hour,
 						 gint		*minute);
@@ -150,7 +150,7 @@ void       e_date_edit_set_use_24_hour_format	(EDateEdit	*dedit,
 						 gboolean	 use_24_hour_format);
 
 /* Whether we allow the date to be set to 'None'. e_date_edit_get_time() will
-   return (time_t) -1 in this case. */
+ * return (time_t) -1 in this case. */
 gboolean   e_date_edit_get_allow_no_date_set	(EDateEdit	*dedit);
 void       e_date_edit_set_allow_no_date_set	(EDateEdit	*dedit,
 						 gboolean	 allow_no_date_set);
@@ -174,13 +174,13 @@ void       e_date_edit_set_twodigit_year_can_future (EDateEdit  *dedit,
 						     gboolean    value);
 
 /* Sets a callback to use to get the current time. This is useful if the
-   application needs to use its own timezone data rather than rely on the
-   Unix timezone. */
+ * application needs to use its own timezone data rather than rely on the
+ * Unix timezone. */
 void	   e_date_edit_set_get_time_callback	(EDateEdit	*dedit,
 						 EDateEditGetTimeCallback cb,
 						 gpointer	 data,
 						 GDestroyNotify  destroy);
 
-GtkWidget* e_date_edit_get_entry       (EDateEdit      *dedit);
+GtkWidget * e_date_edit_get_entry       (EDateEdit      *dedit);
 
 #endif

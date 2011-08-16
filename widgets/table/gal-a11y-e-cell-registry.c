@@ -108,13 +108,13 @@ init_default_registry (void)
 }
 
 AtkObject *
-gal_a11y_e_cell_registry_get_object     (GalA11yECellRegistry     *registry,
-					 ETableItem               *item,
-					 ECellView                *cell_view,
-					 AtkObject                *parent,
-					 gint                       model_col,
-					 gint                       view_col,
-					 gint                       row)
+gal_a11y_e_cell_registry_get_object (GalA11yECellRegistry *registry,
+                                     ETableItem *item,
+                                     ECellView *cell_view,
+                                     AtkObject *parent,
+                                     gint model_col,
+                                     gint view_col,
+                                     gint row)
 {
 	GalA11yECellRegistryFunc func = NULL;
 	GType type;
@@ -137,9 +137,9 @@ gal_a11y_e_cell_registry_get_object     (GalA11yECellRegistry     *registry,
 }
 
 void
-gal_a11y_e_cell_registry_add_cell_type  (GalA11yECellRegistry     *registry,
-					 GType                     type,
-					 GalA11yECellRegistryFunc  func)
+gal_a11y_e_cell_registry_add_cell_type (GalA11yECellRegistry *registry,
+                                        GType type,
+                                        GalA11yECellRegistryFunc func)
 {
 	if (registry == NULL) {
 		init_default_registry ();

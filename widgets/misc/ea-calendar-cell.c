@@ -70,7 +70,9 @@ e_calendar_cell_class_init (ECalendarCellClass *class)
 }
 
 ECalendarCell *
-e_calendar_cell_new (ECalendarItem *calitem, gint row, gint column)
+e_calendar_cell_new (ECalendarItem *calitem,
+                     gint row,
+                     gint column)
 {
 	GObject *object;
 	ECalendarCell *cell;
@@ -182,7 +184,7 @@ ea_calendar_cell_init (EaCalendarCell *a11y)
 	atk_state_set_add_state (a11y->state_set, ATK_STATE_FOCUSABLE);
 }
 
-AtkObject*
+AtkObject *
 ea_calendar_cell_new (GObject *obj)
 {
 	gpointer object;
@@ -316,8 +318,11 @@ atk_component_interface_init (AtkComponentIface *iface)
 
 static void
 component_interface_get_extents (AtkComponent *component,
-				 gint *x, gint *y, gint *width, gint *height,
-				 AtkCoordType coord_type)
+                                 gint *x,
+                                 gint *y,
+                                 gint *width,
+                                 gint *height,
+                                 AtkCoordType coord_type)
 {
 	GObject *g_obj;
 	AtkObject *atk_obj, *atk_canvas;

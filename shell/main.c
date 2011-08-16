@@ -431,7 +431,8 @@ create_default_shell (void)
 }
 
 gint
-main (gint argc, gchar **argv)
+main (gint argc,
+      gchar **argv)
 {
 	EShell *shell;
 	GConfClient *client;

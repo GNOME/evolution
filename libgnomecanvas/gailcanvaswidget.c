@@ -42,7 +42,7 @@ gail_canvas_widget_init (GailCanvasWidget *foo)
   ;
 }
 
-AtkObject*
+AtkObject *
 gail_canvas_widget_new (GObject *obj)
 {
   gpointer object;
@@ -89,7 +89,7 @@ gail_canvas_widget_get_n_children (AtkObject *obj)
 
 static AtkObject *
 gail_canvas_widget_ref_child (AtkObject *obj,
-                              gint      i)
+                              gint i)
 {
   AtkGObjectAccessible *atk_gobj;
   GnomeCanvasWidget *canvas_widget;

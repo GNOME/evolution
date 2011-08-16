@@ -42,7 +42,8 @@ static GObjectClass *parent_class;
 
 #if 0
 static void
-unref_item (gpointer user_data, GObject *obj_loc)
+unref_item (gpointer user_data,
+            GObject *obj_loc)
 {
 	GalA11yECell *a11y = GAL_A11Y_E_CELL (user_data);
 	a11y->item = NULL;
@@ -50,7 +51,8 @@ unref_item (gpointer user_data, GObject *obj_loc)
 }
 
 static void
-unref_cell (gpointer user_data, GObject *obj_loc)
+unref_cell (gpointer user_data,
+            GObject *obj_loc)
 {
 	GalA11yECell *a11y = GAL_A11Y_E_CELL (user_data);
 	a11y->cell_view = NULL;
@@ -104,7 +106,7 @@ gal_a11y_e_cell_dispose (GObject *object)
 
 /* Static functions */
 static const gchar *
-gal_a11y_e_cell_get_name (AtkObject * a11y)
+gal_a11y_e_cell_get_name (AtkObject *a11y)
 {
 	GalA11yECell *cell = GAL_A11Y_E_CELL (a11y);
 	ETableCol *ecol;
@@ -133,7 +135,7 @@ gal_a11y_e_cell_ref_state_set (AtkObject *accessible)
 	return cell->state_set;
 }
 
-static AtkObject*
+static AtkObject *
 gal_a11y_e_cell_get_parent (AtkObject *accessible)
 {
 	GalA11yECell *a11y = GAL_A11Y_E_CELL (accessible);
@@ -154,11 +156,11 @@ gal_a11y_e_cell_get_index_in_parent (AtkObject *accessible)
 /* Component IFace */
 static void
 gal_a11y_e_cell_get_extents (AtkComponent *component,
-		gint *x,
-		gint *y,
-		gint *width,
-		gint *height,
-		AtkCoordType coord_type)
+                             gint *x,
+                             gint *y,
+                             gint *width,
+                             gint *height,
+                             AtkCoordType coord_type)
 {
 	GalA11yECell *a11y = GAL_A11Y_E_CELL (component);
 	GtkWidget *tableOrTree;
@@ -267,7 +269,7 @@ gal_a11y_e_cell_init (GalA11yECell *a11y)
 
 static ActionInfo *
 _gal_a11y_e_cell_get_action_info (GalA11yECell *cell,
-                            gint     index)
+                                  gint index)
 {
 	GList *list_node;
 
@@ -282,7 +284,7 @@ _gal_a11y_e_cell_get_action_info (GalA11yECell *cell,
 
 static void
 _gal_a11y_e_cell_destroy_action_info (gpointer action_info,
-				      gpointer user_data)
+                                      gpointer user_data)
 {
 	ActionInfo *info = (ActionInfo *) action_info;
 
@@ -294,11 +296,11 @@ _gal_a11y_e_cell_destroy_action_info (gpointer action_info,
 }
 
 gboolean
-gal_a11y_e_cell_add_action ( GalA11yECell * cell,
-			     const gchar *action_name,
-			     const gchar *action_description,
-			     const gchar *action_keybinding,
-			     ACTION_FUNC action_func)
+gal_a11y_e_cell_add_action (GalA11yECell *cell,
+                            const gchar *action_name,
+                            const gchar *action_description,
+                            const gchar *action_keybinding,
+                            ACTION_FUNC action_func)
 {
 	ActionInfo *info;
 	g_return_val_if_fail (GAL_A11Y_IS_E_CELL (cell), FALSE);
@@ -325,7 +327,7 @@ gal_a11y_e_cell_add_action ( GalA11yECell * cell,
 
 gboolean
 gal_a11y_e_cell_remove_action (GalA11yECell *cell,
-			       gint     action_index)
+                               gint action_index)
 {
 	GList *list_node;
 
@@ -342,7 +344,7 @@ gal_a11y_e_cell_remove_action (GalA11yECell *cell,
 
 gboolean
 gal_a11y_e_cell_remove_action_by_name (GalA11yECell *cell,
-				       const gchar *action_name)
+                                       const gchar *action_name)
 {
 	GList *list_node;
 	gboolean action_found= FALSE;
@@ -377,7 +379,7 @@ gal_a11y_e_cell_action_get_n_actions (AtkAction *action)
 
 static const gchar *
 gal_a11y_e_cell_action_get_name (AtkAction *action,
-                           gint      index)
+                                 gint index)
 {
 	GalA11yECell *cell = GAL_A11Y_E_CELL (action);
 	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
@@ -389,7 +391,7 @@ gal_a11y_e_cell_action_get_name (AtkAction *action,
 
 static const gchar *
 gal_a11y_e_cell_action_get_description (AtkAction *action,
-					gint      index)
+                                        gint index)
 {
 	GalA11yECell *cell = GAL_A11Y_E_CELL (action);
 	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
@@ -400,9 +402,9 @@ gal_a11y_e_cell_action_get_description (AtkAction *action,
 }
 
 static gboolean
-gal_a11y_e_cell_action_set_description (AtkAction   *action,
-					gint        index,
-					const gchar *desc)
+gal_a11y_e_cell_action_set_description (AtkAction *action,
+                                        gint index,
+                                        const gchar *desc)
 {
 	GalA11yECell *cell = GAL_A11Y_E_CELL (action);
 	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
@@ -416,7 +418,7 @@ gal_a11y_e_cell_action_set_description (AtkAction   *action,
 
 static const gchar *
 gal_a11y_e_cell_action_get_keybinding (AtkAction *action,
-				       gint      index)
+                                       gint index)
 {
 	GalA11yECell *cell = GAL_A11Y_E_CELL (action);
 	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
@@ -445,7 +447,7 @@ idle_do_action (gpointer data)
 
 static gboolean
 gal_a11y_e_cell_action_do_action (AtkAction *action,
-				  gint      index)
+                                  gint index)
 {
 	GalA11yECell *cell = GAL_A11Y_E_CELL (action);
 	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
@@ -493,9 +495,9 @@ gal_a11y_e_cell_type_add_action_interface (GType type)
 }
 
 gboolean
-gal_a11y_e_cell_add_state (GalA11yECell     *cell,
-			   AtkStateType state_type,
-			   gboolean     emit_signal)
+gal_a11y_e_cell_add_state (GalA11yECell *cell,
+                           AtkStateType state_type,
+                           gboolean emit_signal)
 {
 	if (!atk_state_set_contains_state (cell->state_set, state_type)) {
 		gboolean rc;
@@ -510,7 +512,7 @@ gal_a11y_e_cell_add_state (GalA11yECell     *cell,
 		if (emit_signal) {
 			atk_object_notify_state_change (ATK_OBJECT (cell), state_type, TRUE);
 			/* If state_type is ATK_STATE_VISIBLE, additional
-			   notification */
+			 * notification */
 			if (state_type == ATK_STATE_VISIBLE)
 				g_signal_emit_by_name (cell, "visible_data_changed");
 		}
@@ -522,9 +524,9 @@ gal_a11y_e_cell_add_state (GalA11yECell     *cell,
 }
 
 gboolean
-gal_a11y_e_cell_remove_state (GalA11yECell     *cell,
-			      AtkStateType state_type,
-			      gboolean     emit_signal)
+gal_a11y_e_cell_remove_state (GalA11yECell *cell,
+                              AtkStateType state_type,
+                              gboolean emit_signal)
 {
 	if (atk_state_set_contains_state (cell->state_set, state_type)) {
 		gboolean rc;
@@ -592,11 +594,11 @@ gal_a11y_e_cell_get_type (void)
 
 AtkObject *
 gal_a11y_e_cell_new (ETableItem *item,
-		     ECellView  *cell_view,
-		     AtkObject  *parent,
-		     gint         model_col,
-		     gint         view_col,
-		     gint         row)
+                     ECellView *cell_view,
+                     AtkObject *parent,
+                     gint model_col,
+                     gint view_col,
+                     gint row)
 {
 	AtkObject *a11y;
 
@@ -613,13 +615,13 @@ gal_a11y_e_cell_new (ETableItem *item,
 }
 
 void
-gal_a11y_e_cell_construct (AtkObject  *object,
-			   ETableItem *item,
-			   ECellView  *cell_view,
-			   AtkObject  *parent,
-			   gint         model_col,
-			   gint         view_col,
-			   gint         row)
+gal_a11y_e_cell_construct (AtkObject *object,
+                           ETableItem *item,
+                           ECellView *cell_view,
+                           AtkObject *parent,
+                           gint model_col,
+                           gint view_col,
+                           gint row)
 {
 	GalA11yECell *a11y = GAL_A11Y_E_CELL (object);
 	a11y->item      = item;

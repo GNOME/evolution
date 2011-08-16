@@ -49,7 +49,7 @@
 
 static void	e_cell_popup_dispose	(GObject	*object);
 
-static ECellView* ecp_new_view		(ECell		*ecell,
+static ECellView * ecp_new_view		(ECell		*ecell,
 					 ETableModel	*table_model,
 					 void		*e_table_item_view);
 static void	ecp_kill_view		(ECellView	*ecv);
@@ -111,7 +111,7 @@ static gint e_cell_popup_do_popup	(ECellPopupView	*ecp_view,
 G_DEFINE_TYPE (ECellPopup, e_cell_popup, E_TYPE_CELL)
 
 static void
-e_cell_popup_class_init		(ECellPopupClass	*class)
+e_cell_popup_class_init (ECellPopupClass *class)
 {
 	ECellClass *ecc = E_CELL_CLASS (class);
 
@@ -137,7 +137,7 @@ e_cell_popup_class_init		(ECellPopupClass	*class)
 }
 
 static void
-e_cell_popup_init		(ECellPopup	*ecp)
+e_cell_popup_init (ECellPopup *ecp)
 {
 	ecp->popup_shown = FALSE;
 	ecp->popup_model = NULL;
@@ -172,7 +172,9 @@ e_cell_popup_dispose (GObject *object)
  * ECell::new_view method
  */
 static ECellView *
-ecp_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view)
+ecp_new_view (ECell *ecell,
+              ETableModel *table_model,
+              gpointer e_table_item_view)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecell);
 	ECellPopupView *ecp_view;
@@ -191,7 +193,7 @@ ecp_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view
 	ecp_view->child_view = e_cell_new_view (ecp->child, table_model,
 						e_table_item_view);
 
-	return (ECellView*) ecp_view;
+	return (ECellView *) ecp_view;
 }
 
 /*
@@ -247,9 +249,16 @@ ecp_unrealize (ECellView *ecv)
  * ECell::draw method
  */
 static void
-ecp_draw (ECellView *ecv, cairo_t *cr,
-	  gint model_col, gint view_col, gint row, ECellFlags flags,
-	  gint x1, gint y1, gint x2, gint y2)
+ecp_draw (ECellView *ecv,
+          cairo_t *cr,
+          gint model_col,
+          gint view_col,
+          gint row,
+          ECellFlags flags,
+          gint x1,
+          gint y1,
+          gint x2,
+          gint y2)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecv->ecell);
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
@@ -263,7 +272,7 @@ ecp_draw (ECellView *ecv, cairo_t *cr,
 	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ecv->e_table_item_view)->canvas);
 
 	/* Display the popup arrow if we are the cursor cell, or the popup
-	   is shown for this cell. */
+	 * is shown for this cell. */
 	show_popup_arrow =
 		e_table_model_is_cell_editable (
 			ecv->e_table_model, model_col, row) &&
@@ -318,8 +327,13 @@ ecp_draw (ECellView *ecv, cairo_t *cr,
  * ECell::event method
  */
 static gint
-ecp_event (ECellView *ecv, GdkEvent *event, gint model_col, gint view_col,
-	   gint row, ECellFlags flags, ECellActions *actions)
+ecp_event (ECellView *ecv,
+           GdkEvent *event,
+           gint model_col,
+           gint view_col,
+           gint row,
+           ECellFlags flags,
+           ECellActions *actions)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 	ECellPopup *ecp = E_CELL_POPUP (ecp_view->cell_view.ecell);
@@ -335,7 +349,7 @@ ecp_event (ECellView *ecv, GdkEvent *event, gint model_col, gint view_col,
 							 view_col + 1);
 
 			/* FIXME: The event coords seem to be relative to the
-			   text within the cell, so we have to add 4. */
+			 * text within the cell, so we have to add 4. */
 			if (event->button.x + 4 >= width - E_CELL_POPUP_ARROW_WIDTH) {
 				return e_cell_popup_do_popup (ecp_view, event, row, view_col);
 			}
@@ -360,7 +374,10 @@ ecp_event (ECellView *ecv, GdkEvent *event, gint model_col, gint view_col,
  * ECell::height method
  */
 static gint
-ecp_height (ECellView *ecv, gint model_col, gint view_col, gint row)
+ecp_height (ECellView *ecv,
+            gint model_col,
+            gint view_col,
+            gint row)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 
@@ -371,7 +388,10 @@ ecp_height (ECellView *ecv, gint model_col, gint view_col, gint row)
  * ECellView::enter_edit method
  */
 static gpointer
-ecp_enter_edit (ECellView *ecv, gint model_col, gint view_col, gint row)
+ecp_enter_edit (ECellView *ecv,
+                gint model_col,
+                gint view_col,
+                gint row)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 
@@ -382,8 +402,11 @@ ecp_enter_edit (ECellView *ecv, gint model_col, gint view_col, gint row)
  * ECellView::leave_edit method
  */
 static void
-ecp_leave_edit (ECellView *ecv, gint model_col, gint view_col, gint row,
-		gpointer edit_context)
+ecp_leave_edit (ECellView *ecv,
+                gint model_col,
+                gint view_col,
+                gint row,
+                gpointer edit_context)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 
@@ -392,8 +415,13 @@ ecp_leave_edit (ECellView *ecv, gint model_col, gint view_col, gint row,
 }
 
 static void
-ecp_print (ECellView *ecv, GtkPrintContext *context,
-	   gint model_col, gint view_col, gint row, gdouble width, gdouble height)
+ecp_print (ECellView *ecv,
+           GtkPrintContext *context,
+           gint model_col,
+           gint view_col,
+           gint row,
+           gdouble width,
+           gdouble height)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 
@@ -402,9 +430,12 @@ ecp_print (ECellView *ecv, GtkPrintContext *context,
 }
 
 static gdouble
-ecp_print_height (ECellView *ecv, GtkPrintContext *context,
-		  gint model_col, gint view_col, gint row,
-		  gdouble width)
+ecp_print_height (ECellView *ecv,
+                  GtkPrintContext *context,
+                  gint model_col,
+                  gint view_col,
+                  gint row,
+                  gdouble width)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 
@@ -414,8 +445,8 @@ ecp_print_height (ECellView *ecv, GtkPrintContext *context,
 
 static gint
 ecp_max_width (ECellView *ecv,
-	       gint model_col,
-	       gint view_col)
+               gint model_col,
+               gint view_col)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 
@@ -423,15 +454,16 @@ ecp_max_width (ECellView *ecv,
 }
 
 static gchar *
-ecp_get_bg_color (ECellView *ecell_view, gint row)
+ecp_get_bg_color (ECellView *ecell_view,
+                  gint row)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecell_view;
 
 	return e_cell_get_bg_color (ecp_view->child_view, row);
 }
 
-ECell*
-e_cell_popup_get_child			(ECellPopup	*ecp)
+ECell *
+e_cell_popup_get_child (ECellPopup *ecp)
 {
 	g_return_val_if_fail (E_IS_CELL_POPUP (ecp), NULL);
 
@@ -439,8 +471,8 @@ e_cell_popup_get_child			(ECellPopup	*ecp)
 }
 
 void
-e_cell_popup_set_child			(ECellPopup	*ecp,
-					 ECell		*child)
+e_cell_popup_set_child (ECellPopup *ecp,
+                        ECell *child)
 {
 	g_return_if_fail (E_IS_CELL_POPUP (ecp));
 
@@ -452,10 +484,10 @@ e_cell_popup_set_child			(ECellPopup	*ecp,
 }
 
 static gint
-e_cell_popup_do_popup			(ECellPopupView	*ecp_view,
-					 GdkEvent	*event,
-					 gint             row,
-					 gint             view_col)
+e_cell_popup_do_popup (ECellPopupView *ecp_view,
+                       GdkEvent *event,
+                       gint row,
+                       gint view_col)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecp_view->cell_view.ecell);
 	gint (*popup_func) (ECellPopup *ecp, GdkEvent *event, gint row, gint view_col);
@@ -472,7 +504,7 @@ e_cell_popup_do_popup			(ECellPopupView	*ecp_view,
 }
 
 /* This redraws the popup cell. Only use this if you know popup_view_col and
-   popup_row are valid. */
+ * popup_row are valid. */
 void
 e_cell_popup_queue_cell_redraw (ECellPopup *ecp)
 {
@@ -486,8 +518,8 @@ e_cell_popup_queue_cell_redraw (ECellPopup *ecp)
 }
 
 void
-e_cell_popup_set_shown  (ECellPopup *ecp,
-			 gboolean    shown)
+e_cell_popup_set_shown (ECellPopup *ecp,
+                        gboolean shown)
 {
 	ecp->popup_shown = shown;
 	e_cell_popup_queue_cell_redraw (ecp);

@@ -68,8 +68,8 @@ static EPrintable *
 etgc_get_printable (ETableGroup *etg);
 
 static void
-e_table_group_container_child_node_free (ETableGroupContainer          *etgc,
-					ETableGroupContainerChildNode *child_node)
+e_table_group_container_child_node_free (ETableGroupContainer *etgc,
+                                         ETableGroupContainerChildNode *child_node)
 {
 	ETableGroup *etg = E_TABLE_GROUP (etgc);
 	ETableGroup *child = child_node->child;
@@ -141,10 +141,13 @@ etgc_dispose (GObject *object)
  * This routine constructs the new %ETableGroupContainer.
  */
 void
-e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContainer *etgc,
-				   ETableHeader *full_header,
-				   ETableHeader     *header,
-				   ETableModel *model, ETableSortInfo *sort_info, gint n)
+e_table_group_container_construct (GnomeCanvasGroup *parent,
+                                   ETableGroupContainer *etgc,
+                                   ETableHeader *full_header,
+                                   ETableHeader *header,
+                                   ETableModel *model,
+                                   ETableSortInfo *sort_info,
+                                   gint n)
 {
 	ETableCol *col;
 	ETableSortColumn column = e_table_sort_info_grouping_get_nth (sort_info, n);
@@ -186,9 +189,12 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
  * Returns: The new %ETableGroupContainer.
  */
 ETableGroup *
-e_table_group_container_new (GnomeCanvasGroup *parent, ETableHeader *full_header,
-			     ETableHeader     *header,
-			     ETableModel *model, ETableSortInfo *sort_info, gint n)
+e_table_group_container_new (GnomeCanvasGroup *parent,
+                             ETableHeader *full_header,
+                             ETableHeader *header,
+                             ETableModel *model,
+                             ETableSortInfo *sort_info,
+                             gint n)
 {
 	ETableGroupContainer *etgc;
 
@@ -202,7 +208,8 @@ e_table_group_container_new (GnomeCanvasGroup *parent, ETableHeader *full_header
 }
 
 static gint
-etgc_event (GnomeCanvasItem *item, GdkEvent *event)
+etgc_event (GnomeCanvasItem *item,
+            GdkEvent *event)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (item);
 	gboolean return_val = TRUE;
@@ -338,17 +345,18 @@ etgc_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_node)
+compute_text (ETableGroupContainer *etgc,
+              ETableGroupContainerChildNode *child_node)
 {
 	gchar *text;
 
 	if (etgc->ecol->text) {
 		/* Translators: This text is used as a special row when an ETable
-		   has turned on grouping on a column, which has set a title.
-		   The first %s is replaced with a column title.
-		   The second %s is replaced with an actual  group value.
-		   Finally the %d is replaced with count of items in this group.
-		   Example: "Family name: Smith (13 items)"
+		 * has turned on grouping on a column, which has set a title.
+		 * The first %s is replaced with a column title.
+		 * The second %s is replaced with an actual  group value.
+		 * Finally the %d is replaced with count of items in this group.
+		 * Example: "Family name: Smith (13 items)"
 		*/
 		text = g_strdup_printf (ngettext("%s: %s (%d item)",
 						 "%s: %s (%d items)",
@@ -357,10 +365,10 @@ compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_n
 					(gint) child_node->count);
 	} else {
 		/* Translators: This text is used as a special row when an ETable
-		   has turned on grouping on a column, which doesn't have set a title.
-		   The %s is replaced with an actual group value.
-		   The %d is replaced with count of items in this group.
-		   Example: "Smith (13 items)"
+		 * has turned on grouping on a column, which doesn't have set a title.
+		 * The %s is replaced with an actual group value.
+		 * The %d is replaced with count of items in this group.
+		 * Example: "Smith (13 items)"
 		*/
 		text = g_strdup_printf (ngettext("%s (%d item)",
 						 "%s (%d items)",
@@ -375,56 +383,74 @@ compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_n
 }
 
 static void
-child_cursor_change (ETableGroup *etg, gint row,
-		    ETableGroupContainer *etgc)
+child_cursor_change (ETableGroup *etg,
+                     gint row,
+                     ETableGroupContainer *etgc)
 {
 	e_table_group_cursor_change (E_TABLE_GROUP (etgc), row);
 }
 
 static void
-child_cursor_activated (ETableGroup *etg, gint row,
-		    ETableGroupContainer *etgc)
+child_cursor_activated (ETableGroup *etg,
+                        gint row,
+                        ETableGroupContainer *etgc)
 {
 	e_table_group_cursor_activated (E_TABLE_GROUP (etgc), row);
 }
 
 static void
-child_double_click (ETableGroup *etg, gint row, gint col, GdkEvent *event,
-		    ETableGroupContainer *etgc)
+child_double_click (ETableGroup *etg,
+                    gint row,
+                    gint col,
+                    GdkEvent *event,
+                    ETableGroupContainer *etgc)
 {
 	e_table_group_double_click (E_TABLE_GROUP (etgc), row, col, event);
 }
 
 static gboolean
-child_right_click (ETableGroup *etg, gint row, gint col, GdkEvent *event,
-		   ETableGroupContainer *etgc)
+child_right_click (ETableGroup *etg,
+                   gint row,
+                   gint col,
+                   GdkEvent *event,
+                   ETableGroupContainer *etgc)
 {
 	return e_table_group_right_click (E_TABLE_GROUP (etgc), row, col, event);
 }
 
 static gboolean
-child_click (ETableGroup *etg, gint row, gint col, GdkEvent *event,
-		   ETableGroupContainer *etgc)
+child_click (ETableGroup *etg,
+             gint row,
+             gint col,
+             GdkEvent *event,
+             ETableGroupContainer *etgc)
 {
 	return e_table_group_click (E_TABLE_GROUP (etgc), row, col, event);
 }
 
 static gboolean
-child_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event,
-		 ETableGroupContainer *etgc)
+child_key_press (ETableGroup *etg,
+                 gint row,
+                 gint col,
+                 GdkEvent *event,
+                 ETableGroupContainer *etgc)
 {
 	return e_table_group_key_press (E_TABLE_GROUP (etgc), row, col, event);
 }
 
 static gboolean
-child_start_drag (ETableGroup *etg, gint row, gint col, GdkEvent *event,
-		 ETableGroupContainer *etgc)
+child_start_drag (ETableGroup *etg,
+                  gint row,
+                  gint col,
+                  GdkEvent *event,
+                  ETableGroupContainer *etgc)
 {
 	return e_table_group_start_drag (E_TABLE_GROUP (etgc), row, col, event);
 }
 
 static ETableGroupContainerChildNode *
-create_child_node (ETableGroupContainer *etgc, gpointer val)
+create_child_node (ETableGroupContainer *etgc,
+                   gpointer val)
 {
 	ETableGroup *child;
 	ETableGroupContainerChildNode *child_node;
@@ -478,7 +504,8 @@ create_child_node (ETableGroupContainer *etgc, gpointer val)
 }
 
 static void
-etgc_add (ETableGroup *etg, gint row)
+etgc_add (ETableGroup *etg,
+          gint row)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	gpointer val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, row);
@@ -522,7 +549,9 @@ etgc_add (ETableGroup *etg, gint row)
 }
 
 static void
-etgc_add_array (ETableGroup *etg, const gint *array, gint count)
+etgc_add_array (ETableGroup *etg,
+                const gint *array,
+                gint count)
 {
 	gint i;
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
@@ -589,7 +618,8 @@ etgc_add_all (ETableGroup *etg)
 }
 
 static gboolean
-etgc_remove (ETableGroup *etg, gint row)
+etgc_remove (ETableGroup *etg,
+             gint row)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	GList *list;
@@ -630,7 +660,9 @@ etgc_row_count (ETableGroup *etg)
 }
 
 static void
-etgc_increment (ETableGroup *etg, gint position, gint amount)
+etgc_increment (ETableGroup *etg,
+                gint position,
+                gint amount)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	GList *list;
@@ -641,7 +673,9 @@ etgc_increment (ETableGroup *etg, gint position, gint amount)
 }
 
 static void
-etgc_decrement (ETableGroup *etg, gint position, gint amount)
+etgc_decrement (ETableGroup *etg,
+                gint position,
+                gint amount)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	GList *list;
@@ -652,7 +686,9 @@ etgc_decrement (ETableGroup *etg, gint position, gint amount)
 }
 
 static void
-etgc_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
+etgc_set_focus (ETableGroup *etg,
+                EFocus direction,
+                gint view_col)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	if (etgc->children) {
@@ -683,7 +719,11 @@ etgc_get_focus_column (ETableGroup *etg)
 }
 
 static void
-etgc_compute_location (ETableGroup *etg, gint *x, gint *y, gint *row, gint *col)
+etgc_compute_location (ETableGroup *etg,
+                       gint *x,
+                       gint *y,
+                       gint *row,
+                       gint *col)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 
@@ -709,7 +749,9 @@ etgc_compute_location (ETableGroup *etg, gint *x, gint *y, gint *row, gint *col)
 }
 
 static void
-etgc_get_mouse_over (ETableGroup *etg, gint *row, gint *col)
+etgc_get_mouse_over (ETableGroup *etg,
+                     gint *row,
+                     gint *col)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 
@@ -740,7 +782,13 @@ etgc_get_mouse_over (ETableGroup *etg, gint *row, gint *col)
 }
 
 static void
-etgc_get_cell_geometry (ETableGroup *etg, gint *row, gint *col, gint *x, gint *y, gint *width, gint *height)
+etgc_get_cell_geometry (ETableGroup *etg,
+                        gint *row,
+                        gint *col,
+                        gint *x,
+                        gint *y,
+                        gint *width,
+                        gint *height)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 
@@ -773,13 +821,16 @@ static void etgc_thaw (ETableGroup *etg)
 }
 
 static void
-etgc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+etgc_set_property (GObject *object,
+                   guint property_id,
+                   const GValue *value,
+                   GParamSpec *pspec)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (object);
 	GList *list;
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_FROZEN:
 		if (g_value_get_boolean (value))
 			etg->frozen = TRUE;
@@ -887,12 +938,15 @@ etgc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 }
 
 static void
-etgc_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+etgc_get_property (GObject *object,
+                   guint property_id,
+                   GValue *value,
+                   GParamSpec *pspec)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_FROZEN:
 		g_value_set_boolean (value, etg->frozen);
 		break;
@@ -909,7 +963,7 @@ etgc_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *ps
 		g_value_set_boolean (value, etgc->uniform_row_height);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
@@ -1029,7 +1083,8 @@ etgc_class_init (ETableGroupContainerClass *class)
 }
 
 static void
-etgc_reflow (GnomeCanvasItem *item, gint flags)
+etgc_reflow (GnomeCanvasItem *item,
+             gint flags)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (item);
 	gboolean frozen;
@@ -1136,7 +1191,9 @@ etgc_init (ETableGroupContainer *container)
 }
 
 void
-e_table_group_apply_to_leafs (ETableGroup *etg, ETableGroupLeafFn fn, gpointer closure)
+e_table_group_apply_to_leafs (ETableGroup *etg,
+                              ETableGroupLeafFn fn,
+                              gpointer closure)
 {
 	if (E_IS_TABLE_GROUP_CONTAINER (etg)) {
 		ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
@@ -1170,7 +1227,11 @@ typedef struct {
 
 #if 0
 static gint
-gp_draw_rect (GtkPrintContext *context, gdouble x, gdouble y, gdouble width, gdouble height)
+gp_draw_rect (GtkPrintContext *context,
+              gdouble x,
+              gdouble y,
+              gdouble width,
+              gdouble height)
 {
 	cairo_t *cr;
 	cr = gtk_print_context_get_cairo_context (context);
@@ -1184,12 +1245,12 @@ gp_draw_rect (GtkPrintContext *context, gdouble x, gdouble y, gdouble width, gdo
 #define TEXT_AREA_HEIGHT (TEXT_HEIGHT + 4)
 
 static void
-e_table_group_container_print_page  (EPrintable *ep,
-				     GtkPrintContext *context,
-				     gdouble width,
-				     gdouble height,
-				     gboolean quantize,
-				     ETGCPrintContext *groupcontext)
+e_table_group_container_print_page (EPrintable *ep,
+                                    GtkPrintContext *context,
+                                    gdouble width,
+                                    gdouble height,
+                                    gboolean quantize,
+                                    ETGCPrintContext *groupcontext)
 {
 	cairo_t *cr;
 	GtkPageSetup *setup;
@@ -1283,7 +1344,7 @@ e_table_group_container_print_page  (EPrintable *ep,
 		cairo_rectangle (cr, 0, child_margin, width - 2 * TEXT_AREA_HEIGHT, child_height + child_margin + 20);
 		cairo_clip (cr);
 
-		e_printable_print_page (child_printable, context, width-2 * TEXT_AREA_HEIGHT, child_margin, quantize);
+		e_printable_print_page (child_printable, context, width - 2 * TEXT_AREA_HEIGHT, child_margin, quantize);
 		yd -= child_height + TEXT_AREA_HEIGHT;
 
 		if (e_printable_data_left (child_printable)) {
@@ -1319,16 +1380,16 @@ e_table_group_container_print_page  (EPrintable *ep,
 }
 
 static gboolean
-e_table_group_container_data_left   (EPrintable *ep,
-				     ETGCPrintContext *groupcontext)
+e_table_group_container_data_left (EPrintable *ep,
+                                     ETGCPrintContext *groupcontext)
 {
 	g_signal_stop_emission_by_name(ep, "data_left");
 	return groupcontext->child != NULL;
 }
 
 static void
-e_table_group_container_reset       (EPrintable *ep,
-				     ETGCPrintContext *groupcontext)
+e_table_group_container_reset (EPrintable *ep,
+                               ETGCPrintContext *groupcontext)
 {
 	groupcontext->child = groupcontext->etgc->children;
 	if (groupcontext->child_printable)
@@ -1337,12 +1398,12 @@ e_table_group_container_reset       (EPrintable *ep,
 }
 
 static gdouble
-e_table_group_container_height      (EPrintable *ep,
-				     GtkPrintContext *context,
-				     gdouble width,
-				     gdouble max_height,
-				     gboolean quantize,
-				     ETGCPrintContext *groupcontext)
+e_table_group_container_height (EPrintable *ep,
+                                GtkPrintContext *context,
+                                gdouble width,
+                                gdouble max_height,
+                                gboolean quantize,
+                                ETGCPrintContext *groupcontext)
 {
 	gdouble height = 0;
 	gdouble child_height;
@@ -1405,12 +1466,12 @@ e_table_group_container_height      (EPrintable *ep,
 }
 
 static gboolean
-e_table_group_container_will_fit      (EPrintable *ep,
-				       GtkPrintContext *context,
-				       gdouble width,
-				       gdouble max_height,
-				       gboolean quantize,
-				       ETGCPrintContext *groupcontext)
+e_table_group_container_will_fit (EPrintable *ep,
+                                  GtkPrintContext *context,
+                                  gdouble width,
+                                  gdouble max_height,
+                                  gboolean quantize,
+                                  ETGCPrintContext *groupcontext)
 {
 	gboolean will_fit = TRUE;
 	gdouble child_height;
@@ -1476,7 +1537,7 @@ e_table_group_container_will_fit      (EPrintable *ep,
 
 static void
 e_table_group_container_printable_destroy (gpointer data,
-					   GObject *where_object_was)
+                                           GObject *where_object_was)
 
 {
 	ETGCPrintContext *groupcontext = data;

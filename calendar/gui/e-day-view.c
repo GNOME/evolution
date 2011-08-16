@@ -76,23 +76,23 @@
 #define E_DAY_VIEW_AUTO_SCROLL_DELAY	5
 
 /* The number of pixels the mouse has to be moved with the button down before
-   we start a drag. */
+ * we start a drag. */
 #define E_DAY_VIEW_DRAG_START_OFFSET	4
 
 /* The amount we scroll the main canvas when the Page Up/Down keys are pressed,
-   as a fraction of the page size. */
+ * as a fraction of the page size. */
 #define E_DAY_VIEW_PAGE_STEP		0.5
 
 /* The amount we scroll the main canvas when the mouse wheel buttons are
-   pressed, as a fraction of the page size. */
+ * pressed, as a fraction of the page size. */
 #define E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE	0.25
 
 /* The timeout before we do a layout, so we don't do a layout for each event
-   we get from the server. */
+ * we get from the server. */
 #define E_DAY_VIEW_LAYOUT_TIMEOUT	100
 
 /* How many rows can be shown at a top_canvas; there will be always + 2 for
-   caption item and DnD space */
+ * caption item and DnD space */
 #define E_DAY_VIEW_MAX_ROWS_AT_TOP     6
 
 typedef struct {
@@ -449,12 +449,12 @@ day_view_notify_time_divisions_cb (EDayView *day_view)
 		day_view->need_layout[day] = TRUE;
 
 	/* We need to update all the day event labels since the start & end
-	   times may or may not be on row boundaries any more. */
+	 * times may or may not be on row boundaries any more. */
 	e_day_view_foreach_event (day_view,
 				  e_day_view_set_show_times_cb, NULL);
 
 	/* We must layout the events before updating the scroll region, since
-	   that will result in a redraw which would crash otherwise. */
+	 * that will result in a redraw which would crash otherwise. */
 	e_day_view_check_layout (day_view);
 	gtk_widget_queue_draw (day_view->time_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
@@ -664,7 +664,10 @@ e_day_view_class_init (EDayViewClass *class)
 }
 
 static void
-time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpointer user_data)
+time_range_changed_cb (ECalModel *model,
+                       time_t start_time,
+                       time_t end_time,
+                       gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
 	EDayViewTimeItem *eti;
@@ -673,9 +676,9 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
 	/* Calculate the first day that should be shown, based on start_time
-	   and the days_shown setting. If we are showing 1 day it is just the
-	   start of the day given by start_time, otherwise it is the previous
-	   work-week start day. */
+	 * and the days_shown setting. If we are showing 1 day it is just the
+	 * start of the day given by start_time, otherwise it is the previous
+	 * work-week start day. */
 	if (!day_view->work_week_view) {
 		lower = time_day_begin_with_zone (start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 	} else {
@@ -706,7 +709,8 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 }
 
 static void
-process_component (EDayView *day_view, ECalModelComponent *comp_data)
+process_component (EDayView *day_view,
+                   ECalModelComponent *comp_data)
 {
 	const gchar *uid;
 	gchar *rid = NULL;
@@ -742,7 +746,8 @@ process_component (EDayView *day_view, ECalModelComponent *comp_data)
 }
 
 static void
-update_row (EDayView *day_view, gint row)
+update_row (EDayView *day_view,
+            gint row)
 {
 	ECalModelComponent *comp_data;
 	ECalModel *model;
@@ -778,7 +783,9 @@ update_row (EDayView *day_view, gint row)
 }
 
 static void
-model_row_changed_cb (ETableModel *etm, gint row, gpointer user_data)
+model_row_changed_cb (ETableModel *etm,
+                      gint row,
+                      gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
 
@@ -792,7 +799,10 @@ model_row_changed_cb (ETableModel *etm, gint row, gpointer user_data)
 }
 
 static void
-model_cell_changed_cb (ETableModel *etm, gint col, gint row, gpointer user_data)
+model_cell_changed_cb (ETableModel *etm,
+                       gint col,
+                       gint row,
+                       gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
 
@@ -806,7 +816,10 @@ model_cell_changed_cb (ETableModel *etm, gint col, gint row, gpointer user_data)
 }
 
 static void
-model_rows_inserted_cb (ETableModel *etm, gint row, gint count, gpointer user_data)
+model_rows_inserted_cb (ETableModel *etm,
+                        gint row,
+                        gint count,
+                        gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
 	ECalModel *model;
@@ -839,7 +852,9 @@ model_rows_inserted_cb (ETableModel *etm, gint row, gint count, gpointer user_da
 }
 
 static void
-model_comps_deleted_cb (ETableModel *etm, gpointer data, gpointer user_data)
+model_comps_deleted_cb (ETableModel *etm,
+                        gpointer data,
+                        gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
 	GSList *l, *list = data;
@@ -879,8 +894,10 @@ model_comps_deleted_cb (ETableModel *etm, gpointer data, gpointer user_data)
 }
 
 static void
-timezone_changed_cb (ECalModel *cal_model, icaltimezone *old_zone,
-		     icaltimezone *new_zone, gpointer user_data)
+timezone_changed_cb (ECalModel *cal_model,
+                     icaltimezone *old_zone,
+                     icaltimezone *new_zone,
+                     gpointer user_data)
 {
 	struct icaltimetype tt;
 	time_t lower;
@@ -900,7 +917,7 @@ timezone_changed_cb (ECalModel *cal_model, icaltimezone *old_zone,
 		return;
 
 	/* Recalculate the new start of the first day. We just use exactly
-	   the same time, but with the new timezone. */
+	 * the same time, but with the new timezone. */
 	tt = icaltime_from_timet_with_zone (day_view->lower, FALSE,
 					    old_zone);
 
@@ -948,8 +965,8 @@ e_day_view_init (EDayView *day_view)
 	day_view->rows_in_top_display = 0;
 
 	/* Note that these don't work yet. It would need a few fixes to the
-	   way event->start_minute and event->end_minute are used, and there
-	   may be problems with events that go outside the visible times. */
+	 * way event->start_minute and event->end_minute are used, and there
+	 * may be problems with events that go outside the visible times. */
 	day_view->first_hour_shown = 0;
 	day_view->first_minute_shown = 0;
 	day_view->last_hour_shown = 24;
@@ -1236,28 +1253,35 @@ e_day_view_init (EDayView *day_view)
 }
 
 static void
-init_model (EDayView *day_view, ECalModel *model)
+init_model (EDayView *day_view,
+            ECalModel *model)
 {
 	/* connect to ECalModel's signals */
-	g_signal_connect (G_OBJECT (model), "time_range_changed",
-			  G_CALLBACK (time_range_changed_cb), day_view);
-	g_signal_connect (G_OBJECT (model), "model_row_changed",
-			  G_CALLBACK (model_row_changed_cb), day_view);
-	g_signal_connect (G_OBJECT (model), "model_cell_changed",
-			  G_CALLBACK (model_cell_changed_cb), day_view);
-	g_signal_connect (G_OBJECT (model), "model_rows_inserted",
-			  G_CALLBACK (model_rows_inserted_cb), day_view);
-	g_signal_connect (G_OBJECT (model), "comps_deleted",
-			  G_CALLBACK (model_comps_deleted_cb), day_view);
-	g_signal_connect (G_OBJECT (model), "timezone_changed",
-			  G_CALLBACK (timezone_changed_cb), day_view);
+	g_signal_connect (
+		model, "time_range_changed",
+		G_CALLBACK (time_range_changed_cb), day_view);
+	g_signal_connect (
+		model, "model_row_changed",
+		G_CALLBACK (model_row_changed_cb), day_view);
+	g_signal_connect (
+		model, "model_cell_changed",
+		G_CALLBACK (model_cell_changed_cb), day_view);
+	g_signal_connect (
+		model, "model_rows_inserted",
+		G_CALLBACK (model_rows_inserted_cb), day_view);
+	g_signal_connect (
+		model, "comps_deleted",
+		G_CALLBACK (model_comps_deleted_cb), day_view);
+	g_signal_connect (
+		model, "timezone_changed",
+		G_CALLBACK (timezone_changed_cb), day_view);
 }
 
 /* Turn off the background of the canvas windows. This reduces flicker
-   considerably when scrolling. (Why isn't it in GnomeCanvas?). */
+ * considerably when scrolling. (Why isn't it in GnomeCanvas?). */
 static void
 e_day_view_on_canvas_realized (GtkWidget *widget,
-			       EDayView *day_view)
+                               EDayView *day_view)
 {
 	GdkWindow *window;
 
@@ -1379,7 +1403,8 @@ e_day_view_realize (GtkWidget *widget)
 }
 
 static void
-e_day_view_set_colors (EDayView *day_view, GtkWidget *widget)
+e_day_view_set_colors (EDayView *day_view,
+                       GtkWidget *widget)
 {
 	GtkStyle *style;
 
@@ -1425,7 +1450,9 @@ e_day_view_unrealize (GtkWidget *widget)
 }
 
 static GdkColor
-e_day_view_get_text_color (EDayView *day_view, EDayViewEvent *event, GtkWidget *widget)
+e_day_view_get_text_color (EDayView *day_view,
+                           EDayViewEvent *event,
+                           GtkWidget *widget)
 {
 	GtkStyle *style;
 	GdkColor bg_color;
@@ -1445,21 +1472,22 @@ e_day_view_get_text_color (EDayView *day_view, EDayViewEvent *event, GtkWidget *
 
 	style = gtk_widget_get_style (widget);
 
-	if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
+	if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7 ))
 		return style->black;
 	else
 		return style->white;
 }
 
 static void
-e_day_view_update_top_scroll (EDayView *day_view, gboolean scroll_to_top)
+e_day_view_update_top_scroll (EDayView *day_view,
+                              gboolean scroll_to_top)
 {
 	GtkAllocation allocation;
 	gint top_rows, top_canvas_height;
 	gdouble old_x2, old_y2, new_x2, new_y2;
 
 	/* Set the height of the top canvas based on the row height and the
-	   number of rows needed (min 1 + 1 for the dates + 1 space for DnD).*/
+	 * number of rows needed (min 1 + 1 for the dates + 1 space for DnD).*/
 	top_rows = MAX (1, day_view->rows_in_top_display);
 	top_canvas_height = (top_rows + 1) * day_view->top_row_height;
 	if (top_rows <= E_DAY_VIEW_MAX_ROWS_AT_TOP) {
@@ -1494,7 +1522,7 @@ e_day_view_update_top_scroll (EDayView *day_view, gboolean scroll_to_top)
 
 static void
 e_day_view_style_set (GtkWidget *widget,
-		      GtkStyle  *previous_style)
+                      GtkStyle *previous_style)
 {
 	EDayView *day_view;
 	gint hour;
@@ -1699,7 +1727,7 @@ e_day_view_recalc_main_canvas_size (EDayView *day_view)
 	e_day_view_recalc_cell_sizes (day_view);
 
 	/* Scroll to the start of the working day, if this is the initial
-	   allocation. */
+	 * allocation. */
 	if (day_view->scroll_to_work_day) {
 		scroll_y = e_day_view_convert_time_to_position (
 			day_view, work_day_start_hour, work_day_start_minute);
@@ -1709,7 +1737,7 @@ e_day_view_recalc_main_canvas_size (EDayView *day_view)
 	}
 
 	/* Flag that we need to reshape the events. Note that changes in height
-	   don't matter, since the rows are always the same height. */
+	 * don't matter, since the rows are always the same height. */
 	if (need_reshape) {
 		day_view->long_events_need_reshape = TRUE;
 		for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++)
@@ -1721,21 +1749,19 @@ e_day_view_recalc_main_canvas_size (EDayView *day_view)
 
 /* This recalculates the sizes of each column. */
 static void
-e_day_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
+e_day_view_size_allocate (GtkWidget *widget,
+                          GtkAllocation *allocation)
 {
-#if 0
-	g_print ("In e_day_view_size_allocate\n");
-#endif
 	(*GTK_WIDGET_CLASS (e_day_view_parent_class)->size_allocate) (widget, allocation);
 
 	e_day_view_recalc_main_canvas_size (E_DAY_VIEW (widget));
 }
 
 static void
-e_day_view_recalc_cell_sizes	(EDayView	*day_view)
+e_day_view_recalc_cell_sizes (EDayView *day_view)
 {
 	/* An array of dates, one for each month in the year 2000. They must
-	   all be Sundays. */
+	 * all be Sundays. */
 	static const gint days[12] = { 23, 20, 19, 23, 21, 18,
 				      23, 20, 17, 22, 19, 24 };
 	gfloat width, offset;
@@ -1756,8 +1782,8 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	layout = pango_layout_new (pango_context);
 
 	/* Calculate the column sizes, using floating point so that pixels
-	   get divided evenly. Note that we use one more element than the
-	   number of columns, to make it easy to get the column widths. */
+	 * get divided evenly. Note that we use one more element than the
+	 * number of columns, to make it easy to get the column widths. */
 	width = allocation.width;
 	if (day_view->days_shown == 1)
 		width = MAX (width, day_view->max_cols * (E_DAY_VIEW_MIN_DAY_COL_WIDTH + E_DAY_VIEW_GAP_WIDTH) - E_DAY_VIEW_MIN_DAY_COL_WIDTH - 1);
@@ -1774,9 +1800,9 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	}
 
 	/* Determine which date format to use, based on the column widths.
-	   We want to check the widths using the longest full or abbreviated
-	   month name and the longest full or abbreviated weekday name, as
-	   appropriate. */
+	 * We want to check the widths using the longest full or abbreviated
+	 * month name and the longest full or abbreviated weekday name, as
+	 * appropriate. */
 	max_width = day_view->day_widths[0];
 
 	memset (&date_tm, 0, sizeof (date_tm));
@@ -1789,7 +1815,7 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	date_tm.tm_wday = day_view->longest_weekday_name;
 	date_tm.tm_isdst = -1;
 	/* strftime format %A = full weekday name, %d = day of month,
-	   %B = full month name. Don't use any other specifiers. */
+	 * %B = full month name. Don't use any other specifiers. */
 	e_utf8_strftime (buffer, sizeof (buffer), _("%A %d %B"), &date_tm);
 	pango_layout_set_text (layout, buffer, -1);
 	pango_layout_get_pixel_size (layout, &pango_width, NULL);
@@ -1806,7 +1832,7 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	date_tm.tm_wday = day_view->longest_abbreviated_weekday_name;
 	date_tm.tm_isdst = -1;
 	/* strftime format %a = abbreviated weekday name, %d = day of month,
-	   %b = abbreviated month name. Don't use any other specifiers. */
+	 * %b = abbreviated month name. Don't use any other specifiers. */
 	e_utf8_strftime (buffer, sizeof (buffer), _("%a %d %b"), &date_tm);
 	pango_layout_set_text (layout, buffer, -1);
 	pango_layout_get_pixel_size (layout, &pango_width, NULL);
@@ -1822,7 +1848,7 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	date_tm.tm_wday = 0;
 	date_tm.tm_isdst = -1;
 	/* strftime format %d = day of month, %b = abbreviated month name.
-	   Don't use any other specifiers. */
+	 * Don't use any other specifiers. */
 	e_utf8_strftime (buffer, sizeof (buffer), _("%d %b"), &date_tm);
 	pango_layout_set_text (layout, buffer, -1);
 	pango_layout_get_pixel_size (layout, &pango_width, NULL);
@@ -1837,7 +1863,8 @@ exit:
 }
 
 static gint
-e_day_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
+e_day_view_focus_in (GtkWidget *widget,
+                     GdkEventFocus *event)
 {
 	EDayView *day_view;
 
@@ -1863,7 +1890,7 @@ e_day_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 		if (e_calendar_view_get_visible_time_range (E_CALENDAR_VIEW (day_view), &my_start, &my_end) &&
 		    model_start == my_start && model_end == my_end) {
 			/* update only when the same time range is set in a view and in a model;
-			   otherwise time range change invokes also query update */
+			 * otherwise time range change invokes also query update */
 			e_day_view_recalc_day_starts (day_view, day_view->lower);
 			e_day_view_update_query (day_view);
 		}
@@ -1876,7 +1903,8 @@ e_day_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 }
 
 static gint
-e_day_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
+e_day_view_focus_out (GtkWidget *widget,
+                      GdkEventFocus *event)
 {
 	EDayView *day_view;
 
@@ -1899,13 +1927,13 @@ e_day_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 }
 
 /* This calls a given function for each event instance (in both views).
-   If the callback returns FALSE the iteration is stopped.
-   Note that it is safe for the callback to remove the event (since we
-   step backwards through the arrays). */
+ * If the callback returns FALSE the iteration is stopped.
+ * Note that it is safe for the callback to remove the event (since we
+ * step backwards through the arrays). */
 static void
-e_day_view_foreach_event		(EDayView	*day_view,
-					 EDayViewForeachEventCallback callback,
-					 gpointer	 data)
+e_day_view_foreach_event (EDayView *day_view,
+                          EDayViewForeachEventCallback callback,
+                          gpointer data)
 {
 	gint day, event_num;
 
@@ -1928,14 +1956,14 @@ e_day_view_foreach_event		(EDayView	*day_view,
 }
 
 /* This calls a given function for each event instance that matches the given
-   uid. If the callback returns FALSE the iteration is stopped.
-   Note that it is safe for the callback to remove the event (since we
-   step backwards through the arrays). */
+ * uid. If the callback returns FALSE the iteration is stopped.
+ * Note that it is safe for the callback to remove the event (since we
+ * step backwards through the arrays). */
 static void
 e_day_view_foreach_event_with_uid (EDayView *day_view,
-				   const gchar *uid,
-				   EDayViewForeachEventCallback callback,
-				   gpointer data)
+                                   const gchar *uid,
+                                   EDayViewForeachEventCallback callback,
+                                   gpointer data)
 {
 	EDayViewEvent *event;
 	gint day, event_num;
@@ -1978,9 +2006,9 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 
 static gboolean
 e_day_view_remove_event_cb (EDayView *day_view,
-			    gint day,
-			    gint event_num,
-			    gpointer data)
+                            gint day,
+                            gint event_num,
+                            gpointer data)
 {
 	EDayViewEvent *event;
 
@@ -2007,7 +2035,7 @@ e_day_view_remove_event_cb (EDayView *day_view,
 		return TRUE;
 
 	/* If we were editing this event, set editing_event_day to -1 so
-	   on_editing_stopped doesn't try to update the event. */
+	 * on_editing_stopped doesn't try to update the event. */
 	if (day_view->editing_event_num == event_num && day_view->editing_event_day == day) {
 		day_view->editing_event_num = -1;
 		day_view->editing_event_day = -1;
@@ -2064,8 +2092,8 @@ set_text_as_bold (EDayViewEvent *event)
 	}
 
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
-	   If the attendee is not present, it might have come through a mailing list.
-	   In that case, we never show the meeting as bold even if it is unaccepted. */
+	 * If the attendee is not present, it might have come through a mailing list.
+	 * In that case, we never show the meeting as bold even if it is unaccepted. */
 	if (at && (at->status == ICAL_PARTSTAT_NEEDSACTION))
 		gnome_canvas_item_set (event->canvas_item, "bold", TRUE, NULL);
 
@@ -2075,11 +2103,11 @@ set_text_as_bold (EDayViewEvent *event)
 }
 
 /* This updates the text shown for an event. If the event start or end do not
-   lie on a row boundary, the time is displayed before the summary. */
+ * lie on a row boundary, the time is displayed before the summary. */
 static void
 e_day_view_update_event_label (EDayView *day_view,
-			       gint day,
-			       gint event_num)
+                               gint day,
+                               gint event_num)
 {
 	EDayViewEvent *event;
 	ECalendarView *cal_view;
@@ -2147,7 +2175,7 @@ e_day_view_update_event_label (EDayView *day_view,
 
 static void
 e_day_view_update_long_event_label (EDayView *day_view,
-				    gint      event_num)
+                                    gint event_num)
 {
 	EDayViewEvent *event;
 	const gchar *summary;
@@ -2178,13 +2206,13 @@ e_day_view_update_long_event_label (EDayView *day_view,
 }
 
 /* Finds the day and index of the event with the given canvas item.
-   If is is a long event, -1 is returned as the day.
-   Returns TRUE if the event was found. */
+ * If is is a long event, -1 is returned as the day.
+ * Returns TRUE if the event was found. */
 gboolean
 e_day_view_find_event_from_item (EDayView *day_view,
-				 GnomeCanvasItem *item,
-				 gint *day_return,
-				 gint *event_num_return)
+                                 GnomeCanvasItem *item,
+                                 gint *day_return,
+                                 gint *event_num_return)
 {
 	EDayViewEvent *event;
 	gint day, event_num;
@@ -2217,19 +2245,19 @@ e_day_view_find_event_from_item (EDayView *day_view,
 }
 
 /* Finds the day and index of the event with the given uid.
-   If is is a long event, E_DAY_VIEW_LONG_EVENT is returned as the day.
-   Returns TRUE if an event with the uid was found.
-   Note that for recurring events there may be several EDayViewEvents, one
-   for each instance, all with the same iCalObject and uid. So only use this
-   function if you know the event doesn't recur or you are just checking to
-   see if any events with the uid exist. */
+ * If is is a long event, E_DAY_VIEW_LONG_EVENT is returned as the day.
+ * Returns TRUE if an event with the uid was found.
+ * Note that for recurring events there may be several EDayViewEvents, one
+ * for each instance, all with the same iCalObject and uid. So only use this
+ * function if you know the event doesn't recur or you are just checking to
+ * see if any events with the uid exist. */
 static gboolean
 e_day_view_find_event_from_uid (EDayView *day_view,
-				ECalClient *client,
-				const gchar *uid,
-				const gchar *rid,
-				gint *day_return,
-				gint *event_num_return)
+                                ECalClient *client,
+                                const gchar *uid,
+                                const gchar *rid,
+                                gint *day_return,
+                                gint *event_num_return)
 {
 	EDayViewEvent *event;
 	gint day, event_num;
@@ -2294,9 +2322,9 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 }
 
 static void
-e_day_view_set_selected_time_range_in_top_visible	(EDayView	*day_view,
-							 time_t		 start_time,
-							 time_t		 end_time)
+e_day_view_set_selected_time_range_in_top_visible (EDayView *day_view,
+                                                   time_t start_time,
+                                                   time_t end_time)
 {
 	gint start_row, start_col, end_row, end_col;
 	gboolean need_redraw = FALSE, start_in_grid, end_in_grid;
@@ -2342,9 +2370,9 @@ e_day_view_set_selected_time_range_in_top_visible	(EDayView	*day_view,
 }
 
 static void
-e_day_view_set_selected_time_range_visible	(EDayView	*day_view,
-						 time_t		 start_time,
-						 time_t		 end_time)
+e_day_view_set_selected_time_range_visible (EDayView *day_view,
+                                            time_t start_time,
+                                            time_t end_time)
 {
 	ECalModel *model;
 	gint work_day_start_hour;
@@ -2369,8 +2397,8 @@ e_day_view_set_selected_time_range_visible	(EDayView	*day_view,
 								&end_row);
 
 	/* If either of the times isn't in the grid, or the selection covers
-	   an entire day, we set the selection to 1 row from the start of the
-	   working day, in the day corresponding to the start time. */
+	 * an entire day, we set the selection to 1 row from the start of the
+	 * working day, in the day corresponding to the start time. */
 	if (!start_in_grid || !end_in_grid
 	    || (start_row == 0 && end_row == day_view->rows - 1)) {
 		end_col = start_col;
@@ -2406,8 +2434,8 @@ e_day_view_set_selected_time_range_visible	(EDayView	*day_view,
 
 /* Finds the start of the working week which includes the given time. */
 static time_t
-e_day_view_find_work_week_start		(EDayView	*day_view,
-					 time_t		 start_time)
+e_day_view_find_work_week_start (EDayView *day_view,
+                                 time_t start_time)
 {
 	GDate date;
 	ECalModel *model;
@@ -2422,14 +2450,14 @@ e_day_view_find_work_week_start		(EDayView	*day_view,
 	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
 	/* The start of the work-week is the first working day after the
-	   week start day. */
+	 * week start day. */
 
 	/* Get the weekday corresponding to start_time, 0 (Sun) to 6 (Sat). */
 	weekday = g_date_get_weekday (&date) % 7;
 
 	/* Calculate the first working day of the week, 0 (Sun) to 6 (Sat).
-	   It will automatically default to the week start day if no days
-	   are set as working days. */
+	 * It will automatically default to the week start day if no days
+	 * are set as working days. */
 	day = (week_start_day + 1) % 7;
 	for (i = 0; i < 7; i++) {
 		if (day_view->working_days & (1 << day))
@@ -2454,12 +2482,12 @@ e_day_view_find_work_week_start		(EDayView	*day_view,
 }
 
 /* This sets the selected time range. If the start_time & end_time are not equal
-   and are both visible in the view, then the selection is set to those times,
-   otherwise it is set to 1 hour from the start of the working day. */
+ * and are both visible in the view, then the selection is set to those times,
+ * otherwise it is set to 1 hour from the start of the working day. */
 static void
-e_day_view_set_selected_time_range	(ECalendarView	*cal_view,
-					 time_t		 start_time,
-					 time_t		 end_time)
+e_day_view_set_selected_time_range (ECalendarView *cal_view,
+                                    time_t start_time,
+                                    time_t end_time)
 {
 	ECalModel *model;
 	EDayView *day_view;
@@ -2484,8 +2512,8 @@ e_day_view_set_selected_time_range	(ECalendarView	*cal_view,
 								&end_row);
 
 	/* If either of the times isn't in the grid, or the selection covers
-	   an entire day, we set the selection to 1 row from the start of the
-	   working day, in the day corresponding to the start time. */
+	 * an entire day, we set the selection to 1 row from the start of the
+	 * working day, in the day corresponding to the start time. */
 	if (!start_in_grid || !end_in_grid
 	    || (start_row == 0 && end_row == day_view->rows - 1)) {
 		end_col = start_col;
@@ -2521,7 +2549,9 @@ e_day_view_set_selected_time_range	(ECalendarView	*cal_view,
 
 /* Returns the selected time range. */
 static gboolean
-e_day_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time)
+e_day_view_get_selected_time_range (ECalendarView *cal_view,
+                                    time_t *start_time,
+                                    time_t *end_time)
 {
 	gint start_col, start_row, end_col, end_row;
 	time_t start, end;
@@ -2540,7 +2570,7 @@ e_day_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time,
 	}
 
 	/* Check if the selection is only in the top canvas, in which case
-	   we can simply use the day_starts array. */
+	 * we can simply use the day_starts array. */
 	if (day_view->selection_in_top_canvas) {
 		start = day_view->day_starts[start_col];
 		end = day_view->day_starts[end_col + 1];
@@ -2561,9 +2591,9 @@ e_day_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time,
 
 /* Gets the visible time range. Returns FALSE if no time range has been set. */
 static gboolean
-e_day_view_get_visible_time_range	(ECalendarView	*cal_view,
-					 time_t		*start_time,
-					 time_t		*end_time)
+e_day_view_get_visible_time_range (ECalendarView *cal_view,
+                                   time_t *start_time,
+                                   time_t *end_time)
 {
 	EDayView *day_view = E_DAY_VIEW (cal_view);
 
@@ -2579,7 +2609,7 @@ e_day_view_get_visible_time_range	(ECalendarView	*cal_view,
 
 static void
 e_day_view_recalc_day_starts (EDayView *day_view,
-			      time_t start_time)
+                              time_t start_time)
 {
 	gint day;
 	gchar *str;
@@ -2612,9 +2642,9 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 }
 
 /* Whether we are displaying a work-week, in which case the display always
-   starts on the first day of the working week. */
+ * starts on the first day of the working week. */
 gboolean
-e_day_view_get_work_week_view	(EDayView	*day_view)
+e_day_view_get_work_week_view (EDayView *day_view)
 {
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), FALSE);
 
@@ -2622,8 +2652,8 @@ e_day_view_get_work_week_view	(EDayView	*day_view)
 }
 
 void
-e_day_view_set_work_week_view	(EDayView	*day_view,
-				 gboolean	 work_week_view)
+e_day_view_set_work_week_view (EDayView *day_view,
+                               gboolean work_week_view)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
@@ -2637,7 +2667,7 @@ e_day_view_set_work_week_view	(EDayView	*day_view,
 }
 
 gint
-e_day_view_get_days_shown	(EDayView	*day_view)
+e_day_view_get_days_shown (EDayView *day_view)
 {
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), -1);
 
@@ -2645,8 +2675,8 @@ e_day_view_get_days_shown	(EDayView	*day_view)
 }
 
 void
-e_day_view_set_days_shown	(EDayView	*day_view,
-				 gint		 days_shown)
+e_day_view_set_days_shown (EDayView *day_view,
+                           gint days_shown)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 	g_return_if_fail (days_shown >= 1);
@@ -2668,7 +2698,7 @@ e_day_view_set_days_shown	(EDayView	*day_view,
 }
 
 /* This specifies the working days in the week. The value is a bitwise
-   combination of day flags. Defaults to Mon-Fri. */
+ * combination of day flags. Defaults to Mon-Fri. */
 EDayViewDays
 e_day_view_get_working_days (EDayView *day_view)
 {
@@ -2692,14 +2722,14 @@ e_day_view_set_working_days (EDayView *day_view,
 		e_day_view_recalc_work_week (day_view);
 
 	/* We have to do this, as the new working days may have no effect on
-	   the days shown, but we still want the background color to change. */
+	 * the days shown, but we still want the background color to change. */
 	gtk_widget_queue_draw (day_view->main_canvas);
 
 	g_object_notify (G_OBJECT (day_view), "working-days");
 }
 
 static void
-e_day_view_recalc_work_week_days_shown	(EDayView	*day_view)
+e_day_view_recalc_work_week_days_shown (EDayView *day_view)
 {
 	ECalModel *model;
 	gint week_start_day;
@@ -2728,7 +2758,7 @@ e_day_view_recalc_work_week_days_shown	(EDayView	*day_view)
 			last_day = (last_day + 6) % 7;
 		}
 		/* Now calculate the days we need to show to include all the
-		   working days in the week. Add 1 to make it inclusive. */
+		 * working days in the week. Add 1 to make it inclusive. */
 		days_shown = (last_day + 7 - first_day) % 7 + 1;
 	} else {
 		/* If no working days are set, just use 7. */
@@ -2814,7 +2844,7 @@ e_day_view_marcus_bains_set_time_bar_color (EDayView *day_view,
 
 /* Whether we display event end times in the main canvas. */
 gboolean
-e_day_view_get_show_event_end_times	(EDayView	*day_view)
+e_day_view_get_show_event_end_times (EDayView *day_view)
 {
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), TRUE);
 
@@ -2822,8 +2852,8 @@ e_day_view_get_show_event_end_times	(EDayView	*day_view)
 }
 
 void
-e_day_view_set_show_event_end_times	(EDayView	*day_view,
-					 gboolean	 show)
+e_day_view_set_show_event_end_times (EDayView *day_view,
+                                     gboolean show)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
@@ -2836,10 +2866,10 @@ e_day_view_set_show_event_end_times	(EDayView	*day_view,
 
 /* This is a callback used to update all day event labels. */
 static gboolean
-e_day_view_set_show_times_cb		(EDayView	*day_view,
-					 gint		 day,
-					 gint		 event_num,
-					 gpointer	 data)
+e_day_view_set_show_times_cb (EDayView *day_view,
+                              gint day,
+                              gint event_num,
+                              gpointer data)
 {
 	if (day != E_DAY_VIEW_LONG_EVENT) {
 		e_day_view_update_event_label (day_view, day, event_num);
@@ -2849,7 +2879,7 @@ e_day_view_set_show_times_cb		(EDayView	*day_view,
 }
 
 static void
-e_day_view_recalc_work_week	(EDayView	*day_view)
+e_day_view_recalc_work_week (EDayView *day_view)
 {
 	time_t lower;
 
@@ -2890,7 +2920,7 @@ e_day_view_update_scroll_regions (EDayView *day_view)
 		day_view->time_canvas, &time_canvas_allocation);
 
 	/* Set the scroll region of the time canvas to its allocated width,
-	   but with the height the same as the main canvas. */
+	 * but with the height the same as the main canvas. */
 	gnome_canvas_get_scroll_region (
 		GNOME_CANVAS (day_view->time_canvas),
 		NULL, NULL, &old_x2, &old_y2);
@@ -2902,7 +2932,7 @@ e_day_view_update_scroll_regions (EDayView *day_view)
 						0, 0, new_x2, new_y2);
 
 	/* Set the scroll region of the main canvas to its allocated width,
-	   but with the height depending on the number of rows needed. */
+	 * but with the height depending on the number of rows needed. */
 	gnome_canvas_get_scroll_region (
 		GNOME_CANVAS (day_view->main_canvas),
 		NULL, NULL, &old_x2, &old_y2);
@@ -2926,9 +2956,9 @@ e_day_view_update_scroll_regions (EDayView *day_view)
 }
 
 /* This recalculates the number of rows to display, based on the time range
-   shown and the minutes per row. */
+ * shown and the minutes per row. */
 static void
-e_day_view_recalc_num_rows	(EDayView	*day_view)
+e_day_view_recalc_num_rows (EDayView *day_view)
 {
 	ECalendarView *cal_view;
 	gint time_divisions;
@@ -2945,12 +2975,12 @@ e_day_view_recalc_num_rows	(EDayView	*day_view)
 }
 
 /* Converts an hour and minute to a row in the canvas. Note that if we aren't
-   showing all 24 hours of the day, the returned row may be negative or
-   greater than day_view->rows. */
+ * showing all 24 hours of the day, the returned row may be negative or
+ * greater than day_view->rows. */
 gint
-e_day_view_convert_time_to_row	(EDayView	*day_view,
-				 gint		 hour,
-				 gint		 minute)
+e_day_view_convert_time_to_row (EDayView *day_view,
+                                gint hour,
+                                gint minute)
 {
 	ECalendarView *cal_view;
 	gint time_divisions;
@@ -2971,9 +3001,9 @@ e_day_view_convert_time_to_row	(EDayView	*day_view,
 
 /* Converts an hour and minute to a y coordinate in the canvas. */
 gint
-e_day_view_convert_time_to_position (EDayView	*day_view,
-				     gint	 hour,
-				     gint	 minute)
+e_day_view_convert_time_to_position (EDayView *day_view,
+                                     gint hour,
+                                     gint minute)
 {
 	ECalendarView *cal_view;
 	gint time_divisions;
@@ -2992,8 +3022,8 @@ e_day_view_convert_time_to_position (EDayView	*day_view,
 
 static gboolean
 e_day_view_on_top_canvas_button_press (GtkWidget *widget,
-				       GdkEventButton *event,
-				       EDayView *day_view)
+                                       GdkEventButton *event,
+                                       EDayView *day_view)
 {
 	gint event_x, event_y, day, event_num;
 	ECalendarViewPosition pos;
@@ -3010,9 +3040,9 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 		day_view->drag_event_num = -1;
 
 	/* Convert the coords to the main canvas window, or return if the
-	   window is not found. */
+	 * window is not found. */
 	if (!e_day_view_convert_event_coords (
-		day_view, (GdkEvent*) event, window, &event_x, &event_y))
+		day_view, (GdkEvent *) event, window, &event_x, &event_y))
 		return FALSE;
 
 	pos = e_day_view_convert_position_in_top_canvas (day_view,
@@ -3076,10 +3106,10 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 
 static gboolean
 e_day_view_convert_event_coords (EDayView *day_view,
-				 GdkEvent *event,
-				 GdkWindow *window,
-				 gint *x_return,
-				 gint *y_return)
+                                 GdkEvent *event,
+                                 GdkWindow *window,
+                                 gint *x_return,
+                                 gint *y_return)
 {
 	gint event_x, event_y, win_x, win_y;
 	GdkWindow *event_window;;
@@ -3126,8 +3156,8 @@ e_day_view_convert_event_coords (EDayView *day_view,
 
 static gboolean
 e_day_view_on_main_canvas_button_press (GtkWidget *widget,
-					GdkEventButton *event,
-					EDayView *day_view)
+                                        GdkEventButton *event,
+                                        EDayView *day_view)
 {
 	gint event_x, event_y, row, day, event_num;
 	ECalendarViewPosition pos;
@@ -3148,9 +3178,9 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 		day_view->drag_event_num = -1;
 
 	/* Convert the coords to the main canvas window, or return if the
-	   window is not found. */
+	 * window is not found. */
 	if (!e_day_view_convert_event_coords (
-		day_view, (GdkEvent*) event, window, &event_x, &event_y))
+		day_view, (GdkEvent *) event, window, &event_x, &event_y))
 		return FALSE;
 
 	/* Find out where the mouse is. */
@@ -3218,8 +3248,8 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 
 static gboolean
 e_day_view_on_main_canvas_scroll (GtkWidget *widget,
-				  GdkEventScroll *scroll,
-				  EDayView *day_view)
+                                  GdkEventScroll *scroll,
+                                  EDayView *day_view)
 {
 	switch (scroll->direction) {
 	case GDK_SCROLL_UP:
@@ -3237,8 +3267,8 @@ e_day_view_on_main_canvas_scroll (GtkWidget *widget,
 
 static gboolean
 e_day_view_on_top_canvas_scroll (GtkWidget *widget,
-				  GdkEventScroll *scroll,
-				  EDayView *day_view)
+                                  GdkEventScroll *scroll,
+                                  EDayView *day_view)
 {
 	switch (scroll->direction) {
 	case GDK_SCROLL_UP:
@@ -3253,9 +3283,9 @@ e_day_view_on_top_canvas_scroll (GtkWidget *widget,
 }
 
 static gboolean
-e_day_view_on_time_canvas_scroll (GtkWidget      *widget,
-				  GdkEventScroll *scroll,
-				  EDayView       *day_view)
+e_day_view_on_time_canvas_scroll (GtkWidget *widget,
+                                  GdkEventScroll *scroll,
+                                  EDayView *day_view)
 {
 	GtkWidget *tool_window = g_object_get_data ((GObject *)day_view, "tooltip-window");
 
@@ -3277,12 +3307,12 @@ e_day_view_on_time_canvas_scroll (GtkWidget      *widget,
 }
 
 static gboolean
-e_day_view_on_long_event_button_press (EDayView		*day_view,
-				       gint		 event_num,
-				       GdkEventButton	*event,
-				       ECalendarViewPosition  pos,
-				       gint		 event_x,
-				       gint		 event_y)
+e_day_view_on_long_event_button_press (EDayView *day_view,
+                                       gint event_num,
+                                       GdkEventButton *event,
+                                       ECalendarViewPosition pos,
+                                       gint event_x,
+                                       gint event_y)
 {
 	if (event->button == 1) {
 		if (event->type == GDK_BUTTON_PRESS) {
@@ -3316,13 +3346,13 @@ e_day_view_on_long_event_button_press (EDayView		*day_view,
 }
 
 static gboolean
-e_day_view_on_event_button_press (EDayView	  *day_view,
-				  gint		   day,
-				  gint		   event_num,
-				  GdkEventButton  *event,
-				  ECalendarViewPosition pos,
-				  gint		   event_x,
-				  gint		   event_y)
+e_day_view_on_event_button_press (EDayView *day_view,
+                                  gint day,
+                                  gint event_num,
+                                  GdkEventButton *event,
+                                  ECalendarViewPosition pos,
+                                  gint event_x,
+                                  gint event_y)
 {
 	if (event->button == 1) {
 		if (event->type == GDK_BUTTON_PRESS) {
@@ -3357,11 +3387,11 @@ e_day_view_on_event_button_press (EDayView	  *day_view,
 
 static void
 e_day_view_on_long_event_click (EDayView *day_view,
-				gint event_num,
-				GdkEventButton  *bevent,
-				ECalendarViewPosition pos,
-				gint	     event_x,
-				gint	     event_y)
+                                gint event_num,
+                                GdkEventButton *bevent,
+                                ECalendarViewPosition pos,
+                                gint event_x,
+                                gint event_y)
 {
 	EDayViewEvent *event;
 	GtkLayout *layout;
@@ -3381,7 +3411,7 @@ e_day_view_on_long_event_click (EDayView *day_view,
 	/* Ignore clicks on the EText while editing. */
 	if (pos == E_CALENDAR_VIEW_POS_EVENT
 	    && E_TEXT (event->canvas_item)->editing) {
-		GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*) bevent);
+		GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent *) bevent);
 		return;
 	}
 
@@ -3396,7 +3426,7 @@ e_day_view_on_long_event_click (EDayView *day_view,
 			return;
 
 		/* Grab the keyboard focus, so the event being edited is saved
-		   and we can use the Escape key to abort the resize. */
+		 * and we can use the Escape key to abort the resize. */
 		if (!gtk_widget_has_focus (GTK_WIDGET (day_view)))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
@@ -3422,7 +3452,7 @@ e_day_view_on_long_event_click (EDayView *day_view,
 						       &item_x, &item_y,
 						       &item_w, &item_h)) {
 		/* Remember the item clicked and the mouse position,
-		   so we can start a drag if the mouse moves. */
+		 * so we can start a drag if the mouse moves. */
 		day_view->pressed_event_day = E_DAY_VIEW_LONG_EVENT;
 		day_view->pressed_event_num = event_num;
 
@@ -3438,12 +3468,12 @@ e_day_view_on_long_event_click (EDayView *day_view,
 
 static void
 e_day_view_on_event_click (EDayView *day_view,
-			   gint day,
-			   gint event_num,
-			   GdkEventButton  *bevent,
-			   ECalendarViewPosition pos,
-			   gint		  event_x,
-			   gint		  event_y)
+                           gint day,
+                           gint event_num,
+                           GdkEventButton *bevent,
+                           ECalendarViewPosition pos,
+                           gint event_x,
+                           gint event_y)
 {
 	EDayViewEvent *event;
 	ECalendarView *cal_view;
@@ -3467,7 +3497,7 @@ e_day_view_on_event_click (EDayView *day_view,
 	/* Ignore clicks on the EText while editing. */
 	if (pos == E_CALENDAR_VIEW_POS_EVENT
 	    && E_TEXT (event->canvas_item)->editing) {
-		GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*) bevent);
+		GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent *) bevent);
 		return;
 	}
 
@@ -3480,7 +3510,7 @@ e_day_view_on_event_click (EDayView *day_view,
 		}
 
 		/* Grab the keyboard focus, so the event being edited is saved
-		   and we can use the Escape key to abort the resize. */
+		 * and we can use the Escape key to abort the resize. */
 		if (!gtk_widget_has_focus (GTK_WIDGET (day_view)))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
@@ -3511,7 +3541,7 @@ e_day_view_on_event_click (EDayView *day_view,
 
 	} else {
 		/* Remember the item clicked and the mouse position,
-		   so we can start a drag if the mouse moves. */
+		 * so we can start a drag if the mouse moves. */
 		day_view->pressed_event_day = day;
 		day_view->pressed_event_num = event_num;
 
@@ -3529,8 +3559,8 @@ e_day_view_on_event_click (EDayView *day_view,
 
 static void
 e_day_view_on_event_double_click (EDayView *day_view,
-				  gint day,
-				  gint event_num)
+                                  gint day,
+                                  gint event_num)
 {
 	EDayViewEvent *event;
 
@@ -3556,9 +3586,9 @@ e_day_view_on_event_double_click (EDayView *day_view,
 
 static void
 e_day_view_show_popup_menu (EDayView *day_view,
-			    GdkEventButton *event,
-			    gint day,
-			    gint event_num)
+                            GdkEventButton *event,
+                            gint day,
+                            gint event_num)
 {
 	day_view->popup_event_day = day;
 	day_view->popup_event_num = event_num;
@@ -3660,17 +3690,17 @@ e_day_view_update_query (EDayView *day_view)
 
 static void
 e_day_view_on_event_right_click (EDayView *day_view,
-				 GdkEventButton *bevent,
-				 gint day,
-				 gint event_num)
+                                 GdkEventButton *bevent,
+                                 gint day,
+                                 gint event_num)
 {
 	e_day_view_show_popup_menu (day_view, bevent, day, event_num);
 }
 
 static gboolean
 e_day_view_on_top_canvas_button_release (GtkWidget *widget,
-					 GdkEventButton *event,
-					 EDayView *day_view)
+                                         GdkEventButton *event,
+                                         EDayView *day_view)
 {
 	if (day_view->selection_is_being_dragged) {
 		gdk_pointer_ungrab (event->time);
@@ -3692,8 +3722,8 @@ e_day_view_on_top_canvas_button_release (GtkWidget *widget,
 
 static gboolean
 e_day_view_on_main_canvas_button_release (GtkWidget *widget,
-					  GdkEventButton *event,
-					  EDayView *day_view)
+                                          GdkEventButton *event,
+                                          EDayView *day_view)
 {
 #if 0
 	g_print ("In e_day_view_on_main_canvas_button_release\n");
@@ -3742,8 +3772,8 @@ e_day_view_update_calendar_selection_time (EDayView *day_view)
 
 static gboolean
 e_day_view_on_top_canvas_motion (GtkWidget *widget,
-				 GdkEventMotion *mevent,
-				 EDayView *day_view)
+                                 GdkEventMotion *mevent,
+                                 EDayView *day_view)
 {
 	EDayViewEvent *event = NULL;
 	ECalendarViewPosition pos;
@@ -3759,9 +3789,9 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 	window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
 
 	/* Convert the coords to the main canvas window, or return if the
-	   window is not found. */
+	 * window is not found. */
 	if (!e_day_view_convert_event_coords (
-		day_view, (GdkEvent*) mevent, window, &event_x, &event_y))
+		day_view, (GdkEvent *) mevent, window, &event_x, &event_y))
 		return FALSE;
 
 	canvas_x = event_x;
@@ -3818,7 +3848,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 			e_target_list_add_calendar_targets (target_list, 0);
 			gtk_drag_begin (widget, target_list,
 					GDK_ACTION_COPY | GDK_ACTION_MOVE,
-					1, (GdkEvent*) mevent);
+					1, (GdkEvent *) mevent);
 			gtk_target_list_unref (target_list);
 		}
 	} else {
@@ -3847,7 +3877,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		}
 
 		if (event && E_IS_TEXT (event->canvas_item) && E_TEXT (event->canvas_item)->editing) {
-			GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*) mevent);
+			GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent *) mevent);
 		}
 	}
 
@@ -3856,8 +3886,8 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 
 static gboolean
 e_day_view_on_main_canvas_motion (GtkWidget *widget,
-				  GdkEventMotion *mevent,
-				  EDayView *day_view)
+                                  GdkEventMotion *mevent,
+                                  EDayView *day_view)
 {
 	EDayViewEvent *event = NULL;
 	ECalendarViewPosition pos;
@@ -3873,9 +3903,9 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 	window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
 
 	/* Convert the coords to the main canvas window, or return if the
-	   window is not found. */
+	 * window is not found. */
 	if (!e_day_view_convert_event_coords (
-		day_view, (GdkEvent*) mevent, window, &event_x, &event_y))
+		day_view, (GdkEvent *) mevent, window, &event_x, &event_y))
 		return FALSE;
 
 	canvas_x = event_x;
@@ -3930,7 +3960,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 			e_target_list_add_calendar_targets (target_list, 0);
 			gtk_drag_begin (widget, target_list,
 					GDK_ACTION_COPY | GDK_ACTION_MOVE,
-					1, (GdkEvent*) mevent);
+					1, (GdkEvent *) mevent);
 			gtk_target_list_unref (target_list);
 		}
 	} else {
@@ -3963,7 +3993,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		}
 
 		if (event && E_IS_TEXT (event->canvas_item) && E_TEXT (event->canvas_item)->editing) {
-			GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*) mevent);
+			GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent *) mevent);
 		}
 	}
 
@@ -3971,12 +4001,12 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 }
 
 /* This sets the selection to a single cell. If day is -1 then the current
-   start day is reused. If row is -1 then the selection is in the top canvas.
+ * start day is reused. If row is -1 then the selection is in the top canvas.
 */
 void
 e_day_view_start_selection (EDayView *day_view,
-			    gint day,
-			    gint row)
+                            gint day,
+                            gint row)
 {
 	if (day == -1) {
 		day = day_view->selection_start_day;
@@ -4000,11 +4030,11 @@ e_day_view_start_selection (EDayView *day_view,
 }
 
 /* Updates the selection during a drag. If day is -1 the selection day is
-   unchanged. */
+ * unchanged. */
 void
 e_day_view_update_selection (EDayView *day_view,
-			     gint day,
-			     gint row)
+                             gint day,
+                             gint row)
 {
 	gboolean need_redraw = FALSE;
 
@@ -4075,7 +4105,7 @@ e_day_view_finish_selection (EDayView *day_view)
 
 static void
 e_day_view_update_long_event_resize (EDayView *day_view,
-				     gint day)
+                                     gint day)
 {
 	gint event_num;
 	gboolean need_reshape = FALSE;
@@ -4110,7 +4140,7 @@ e_day_view_update_long_event_resize (EDayView *day_view,
 
 static void
 e_day_view_update_resize (EDayView *day_view,
-			  gint row)
+                          gint row)
 {
 	/* Same thing again? */
 	EDayViewEvent *event;
@@ -4161,7 +4191,7 @@ e_day_view_update_resize (EDayView *day_view,
 }
 
 /* This converts the resize start or end row back to a time and updates the
-   event. */
+ * event. */
 static void
 e_day_view_finish_long_event_resize (EDayView *day_view)
 {
@@ -4190,8 +4220,8 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	client = event->comp_data->client;
 
 	/* We use a temporary copy of the comp since we don't want to
-	   change the original comp here. Otherwise we would not detect that
-	   the event's time had changed in the "update_event" callback. */
+	 * change the original comp here. Otherwise we would not detect that
+	 * the event's time had changed in the "update_event" callback. */
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
@@ -4276,7 +4306,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 }
 
 /* This converts the resize start or end row back to a time and updates the
-   event. */
+ * event. */
 static void
 e_day_view_finish_resize (EDayView *day_view)
 {
@@ -4308,8 +4338,8 @@ e_day_view_finish_resize (EDayView *day_view)
 	client = event->comp_data->client;
 
 	/* We use a temporary shallow copy of the ico since we don't want to
-	   change the original ico here. Otherwise we would not detect that
-	   the event's time had changed in the "update_event" callback. */
+	 * change the original ico here. Otherwise we would not detect that
+	 * the event's time had changed in the "update_event" callback. */
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
@@ -4443,7 +4473,7 @@ e_day_view_free_events (EDayView *day_view)
 
 static void
 e_day_view_free_event_array (EDayView *day_view,
-			     GArray *array)
+                             GArray *array)
 {
 	EDayViewEvent *event;
 	gint event_num;
@@ -4463,9 +4493,9 @@ e_day_view_free_event_array (EDayView *day_view,
 /* This adds one event to the view, adding it to the appropriate array. */
 static gboolean
 e_day_view_add_event (ECalComponent *comp,
-		      time_t	  start,
-		      time_t	  end,
-		      gpointer	  data)
+                      time_t start,
+                      time_t end,
+                      gpointer data)
 
 {
 	EDayViewEvent event;
@@ -4513,7 +4543,7 @@ e_day_view_add_event (ECalComponent *comp,
 	event.comp_data->instance_end = end;
 
 	/* Calculate the start & end minute, relative to the top of the
-	   display. */
+	 * display. */
 	offset = add_event_data->day_view->first_hour_shown * 60
 		+ add_event_data->day_view->first_minute_shown;
 	event.start_minute = start_tt.hour * 60 + start_tt.minute - offset;
@@ -4539,12 +4569,12 @@ e_day_view_add_event (ECalComponent *comp,
 		    && end <= add_event_data->day_view->day_starts[day + 1]) {
 
 			/* Special case for when the appointment ends at
-			   midnight, i.e. the start of the next day. */
+			 * midnight, i.e. the start of the next day. */
 			if (end == add_event_data->day_view->day_starts[day + 1]) {
 
 				/* If the event last the entire day, then we
-				   skip it here so it gets added to the top
-				   canvas. */
+				 * skip it here so it gets added to the top
+				 * canvas. */
 				if (start == add_event_data->day_view->day_starts[day])
 					break;
 
@@ -4559,7 +4589,7 @@ e_day_view_add_event (ECalComponent *comp,
 	}
 
 	/* The event wasn't within one day so it must be a long event,
-	   i.e. shown in the top canvas. */
+	 * i.e. shown in the top canvas. */
 	g_array_append_val (add_event_data->day_view->long_events, event);
 	add_event_data->day_view->long_events_sorted = FALSE;
 	add_event_data->day_view->long_events_need_layout = TRUE;
@@ -4567,7 +4597,7 @@ e_day_view_add_event (ECalComponent *comp,
 }
 
 /* This lays out the short (less than 1 day) events in the columns.
-   Any long events are simply skipped. */
+ * Any long events are simply skipped. */
 void
 e_day_view_check_layout (EDayView *day_view)
 {
@@ -4666,7 +4696,7 @@ e_day_view_reshape_long_events (EDayView *day_view)
 
 static void
 e_day_view_reshape_long_event (EDayView *day_view,
-			       gint	 event_num)
+                               gint event_num)
 {
 	EDayViewEvent *event;
 	gint start_day, end_day, item_x, item_y, item_w, item_h;
@@ -4705,7 +4735,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	item_h -= (E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT + E_DAY_VIEW_LONG_EVENT_Y_PAD) * 2;
 
 	/* We don't show the icons while resizing, since we'd have to
-	   draw them on top of the resize rect. Nor when editing. */
+	 * draw them on top of the resize rect. Nor when editing. */
 	num_icons = 0;
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -4770,9 +4800,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	}
 
 	/* Calculate its position. We first calculate the ideal position which
-	   is centered with the icons. We then make sure we haven't gone off
-	   the left edge of the available space. Finally we make sure we don't
-	   go off the right edge. */
+	 * is centered with the icons. We then make sure we haven't gone off
+	 * the left edge of the available space. Finally we make sure we don't
+	 * go off the right edge. */
 	icons_width = (E_DAY_VIEW_ICON_WIDTH + E_DAY_VIEW_ICON_X_PAD)
 		* num_icons + E_DAY_VIEW_LONG_EVENT_ICON_R_PAD;
 	time_width = e_day_view_get_time_string_width (day_view);
@@ -4782,7 +4812,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		text_w = item_w;
 	} else {
 		/* Get the requested size of the label. */
-		g_object_get (G_OBJECT (event->canvas_item), "text", &text, NULL);
+		g_object_get (event->canvas_item, "text", &text, NULL);
 		text_width = 0;
 		if (text) {
 			end_of_line = strchr (text, '\n');
@@ -4828,10 +4858,10 @@ e_day_view_reshape_long_event (EDayView *day_view,
 }
 
 /* This creates or updates the sizes of the canvas items for one day of the
-   main canvas. */
+ * main canvas. */
 static void
 e_day_view_reshape_day_events (EDayView *day_view,
-			       gint	 day)
+                               gint day)
 {
 	gint event_num;
 
@@ -4863,8 +4893,8 @@ e_day_view_reshape_day_events (EDayView *day_view,
 
 static void
 e_day_view_reshape_day_event (EDayView *day_view,
-			      gint	day,
-			      gint	event_num)
+                              gint day,
+                              gint event_num)
 {
 	EDayViewEvent *event;
 	gint item_x, item_y, item_w, item_h;
@@ -4891,7 +4921,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		item_h -= (E_DAY_VIEW_EVENT_BORDER_HEIGHT + E_DAY_VIEW_EVENT_Y_PAD) * 2;
 
 		/* We don't show the icons while resizing, since we'd have to
-		   draw them on top of the resize rect. */
+		 * draw them on top of the resize rect. */
 		icons_offset = 0;
 		num_icons = 0;
 		if (is_comp_data_valid (event) && (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_NONE
@@ -4967,7 +4997,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 }
 
 /* This creates or resizes the horizontal bars used to resize events in the
-   main canvas. */
+ * main canvas. */
 static void
 e_day_view_reshape_main_canvas_resize_bars (EDayView *day_view)
 {
@@ -4979,10 +5009,10 @@ e_day_view_reshape_main_canvas_resize_bars (EDayView *day_view)
 	event_num = day_view->resize_bars_event_num;
 
 	/* If we're not editing an event, or the event is not shown,
-	   hide the resize bars. */
+	 * hide the resize bars. */
 	if (day != -1 && day == day_view->drag_event_day
 	    && event_num == day_view->drag_event_num) {
-		g_object_get (G_OBJECT (day_view->drag_rect_item),
+		g_object_get (day_view->drag_rect_item,
 			      "x1", &x,
 			      "y1", &y,
 			      "x2", &w,
@@ -5034,12 +5064,12 @@ e_day_view_ensure_events_sorted (EDayView *day_view)
 
 gint
 e_day_view_event_sort_func (gconstpointer arg1,
-			    gconstpointer arg2)
+                            gconstpointer arg2)
 {
 	EDayViewEvent *event1, *event2;
 
-	event1 = (EDayViewEvent*) arg1;
-	event2 = (EDayViewEvent*) arg2;
+	event1 = (EDayViewEvent *) arg1;
+	event2 = (EDayViewEvent *) arg2;
 
 	if (event1->start < event2->start)
 		return -1;
@@ -5055,7 +5085,8 @@ e_day_view_event_sort_func (gconstpointer arg1,
 }
 
 static gboolean
-e_day_view_add_new_event_in_selected_range (EDayView *day_view, GdkEventKey *key_event)
+e_day_view_add_new_event_in_selected_range (EDayView *day_view,
+                                            GdkEventKey *key_event)
 {
 	icalcomponent *icalcomp;
 	ECalClient *client;
@@ -5115,7 +5146,7 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view, GdkEventKey *key
 		comp, e_calendar_view_get_default_category (E_CALENDAR_VIEW (day_view)));
 
 	/* We add the event locally and start editing it. We don't send it
-	   to the server until the user finishes editing it. */
+	 * to the server until the user finishes editing it. */
 	add_event_data.day_view = day_view;
 	add_event_data.comp_data = NULL;
 	e_day_view_add_event (comp, dtstart, dtend, &add_event_data);
@@ -5136,7 +5167,8 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view, GdkEventKey *key
 }
 
 static gboolean
-e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
+e_day_view_do_key_press (GtkWidget *widget,
+                         GdkEventKey *event)
 {
 	EDayView *day_view;
 	guint keyval;
@@ -5258,7 +5290,7 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		return FALSE;
 
 	/* We only want to start an edit with a return key or a simple
-	   character. */
+	 * character. */
 	if ((keyval != GDK_KEY_Return) &&
 	    (((keyval >= 0x20) && (keyval <= 0xFF)
 	      && (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
@@ -5271,7 +5303,8 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 }
 
 static gboolean
-e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
+e_day_view_key_press (GtkWidget *widget,
+                      GdkEventKey *event)
 {
 	gboolean handled = FALSE;
 	handled = e_day_view_do_key_press (widget, event);
@@ -5330,7 +5363,7 @@ e_day_view_goto_end_of_work_day (EDayView *day_view)
 	else
 		day_view->selection_start_row =
 			e_day_view_convert_time_to_row (
-			day_view, work_day_end_hour-1, work_day_end_minute+30);
+			day_view, work_day_end_hour - 1, work_day_end_minute + 30);
 	day_view->selection_end_row = day_view->selection_start_row;
 
 	e_day_view_ensure_rows_visible (day_view,
@@ -5403,7 +5436,7 @@ e_day_view_change_duration_to_end_of_work_day (EDayView *day_view)
 		gint work_end_row,selection_start_row;
 
 		work_end_row = e_day_view_convert_time_to_row (
-			day_view, work_day_end_hour-1, work_day_end_minute+30);
+			day_view, work_day_end_hour - 1, work_day_end_minute + 30);
 		selection_start_row = day_view->selection_start_row;
 		if (selection_start_row <= work_end_row)
 			day_view->selection_end_row = work_end_row;
@@ -5425,7 +5458,8 @@ e_day_view_change_duration_to_end_of_work_day (EDayView *day_view)
 }
 
 static void
-e_day_view_cursor_key_up_shifted (EDayView *day_view, GdkEventKey *event)
+e_day_view_cursor_key_up_shifted (EDayView *day_view,
+                                  GdkEventKey *event)
 {
 	gint *row;
 
@@ -5454,7 +5488,8 @@ e_day_view_cursor_key_up_shifted (EDayView *day_view, GdkEventKey *event)
 }
 
 static gboolean
-e_day_view_focus (GtkWidget *widget, GtkDirectionType direction)
+e_day_view_focus (GtkWidget *widget,
+                  GtkDirectionType direction)
 {
 	EDayView *day_view;
 	gint new_day;
@@ -5505,9 +5540,12 @@ e_day_view_focus (GtkWidget *widget, GtkDirectionType direction)
  * Return value: %TRUE, if a event found.
  **/
 static gboolean
-e_day_view_get_extreme_event (EDayView *day_view, gint start_day,
-			      gint end_day, gboolean first,
-			      gint *day_out, gint *event_num_out)
+e_day_view_get_extreme_event (EDayView *day_view,
+                              gint start_day,
+                              gint end_day,
+                              gboolean first,
+                              gint *day_out,
+                              gint *event_num_out)
 {
 	gint loop_day;
 
@@ -5553,8 +5591,10 @@ e_day_view_get_extreme_event (EDayView *day_view, gint start_day,
  * Return value: %TRUE, if a event found.
  **/
 static gboolean
-e_day_view_get_extreme_long_event (EDayView *day_view, gboolean first,
-				   gint *day_out, gint *event_num_out)
+e_day_view_get_extreme_long_event (EDayView *day_view,
+                                   gboolean first,
+                                   gint *day_out,
+                                   gint *event_num_out)
 {
 	g_return_val_if_fail (day_view != NULL, FALSE);
 	g_return_val_if_fail (day_out && event_num_out, FALSE);
@@ -5589,8 +5629,10 @@ e_day_view_get_extreme_long_event (EDayView *day_view, gboolean first,
  * Return value: %TRUE, if a event found.
  **/
 static gboolean
-e_day_view_get_next_tab_event (EDayView *day_view, GtkDirectionType direction,
-			       gint *day_out, gint *event_num_out)
+e_day_view_get_next_tab_event (EDayView *day_view,
+                               GtkDirectionType direction,
+                               gint *day_out,
+                               gint *event_num_out)
 {
 	gint new_day;
 	gint new_event_num;
@@ -5707,7 +5749,8 @@ e_day_view_get_next_tab_event (EDayView *day_view, GtkDirectionType direction,
 }
 
 static void
-e_day_view_cursor_key_down_shifted (EDayView *day_view, GdkEventKey *event)
+e_day_view_cursor_key_down_shifted (EDayView *day_view,
+                                    GdkEventKey *event)
 {
 	gint *row;
 
@@ -5736,7 +5779,8 @@ e_day_view_cursor_key_down_shifted (EDayView *day_view, GdkEventKey *event)
 }
 
 static void
-e_day_view_cursor_key_left_shifted (EDayView *day_view, GdkEventKey *event)
+e_day_view_cursor_key_left_shifted (EDayView *day_view,
+                                    GdkEventKey *event)
 {
 	gint *day;
 
@@ -5760,7 +5804,8 @@ e_day_view_cursor_key_left_shifted (EDayView *day_view, GdkEventKey *event)
 }
 
 static void
-e_day_view_cursor_key_right_shifted (EDayView *day_view, GdkEventKey *event)
+e_day_view_cursor_key_right_shifted (EDayView *day_view,
+                                     GdkEventKey *event)
 {
 	gint *day;
 
@@ -5784,7 +5829,8 @@ e_day_view_cursor_key_right_shifted (EDayView *day_view, GdkEventKey *event)
 }
 
 static void
-e_day_view_cursor_key_up (EDayView *day_view, GdkEventKey *event)
+e_day_view_cursor_key_up (EDayView *day_view,
+                          GdkEventKey *event)
 {
 	if (day_view->selection_start_day == -1) {
 		day_view->selection_start_day = 0;
@@ -5816,7 +5862,8 @@ e_day_view_cursor_key_up (EDayView *day_view, GdkEventKey *event)
 }
 
 static void
-e_day_view_cursor_key_down (EDayView *day_view, GdkEventKey *event)
+e_day_view_cursor_key_down (EDayView *day_view,
+                            GdkEventKey *event)
 {
 	if (day_view->selection_start_day == -1) {
 		day_view->selection_start_day = 0;
@@ -5848,7 +5895,8 @@ e_day_view_cursor_key_down (EDayView *day_view, GdkEventKey *event)
 }
 
 static void
-e_day_view_cursor_key_left (EDayView *day_view, GdkEventKey *event)
+e_day_view_cursor_key_left (EDayView *day_view,
+                            GdkEventKey *event)
 {
 	if (day_view->selection_start_day == 0) {
 		gnome_calendar_previous (e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view)));
@@ -5866,7 +5914,8 @@ e_day_view_cursor_key_left (EDayView *day_view, GdkEventKey *event)
 }
 
 static void
-e_day_view_cursor_key_right (EDayView *day_view, GdkEventKey *event)
+e_day_view_cursor_key_right (EDayView *day_view,
+                             GdkEventKey *event)
 {
 	if (day_view->selection_end_day == day_view->days_shown - 1) {
 		gnome_calendar_next (e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view)));
@@ -5884,12 +5933,12 @@ e_day_view_cursor_key_right (EDayView *day_view, GdkEventKey *event)
 }
 
 /* Scrolls the main canvas up or down. The pages_to_scroll argument
-   is multiplied with the adjustment's page size and added to the adjustment's
-   value, while ensuring we stay within the bounds. A positive value will
-   scroll the canvas down and a negative value will scroll it up. */
+ * is multiplied with the adjustment's page size and added to the adjustment's
+ * value, while ensuring we stay within the bounds. A positive value will
+ * scroll the canvas down and a negative value will scroll it up. */
 static void
-e_day_view_scroll	(EDayView	*day_view,
-			 gfloat		 pages_to_scroll)
+e_day_view_scroll (EDayView *day_view,
+                   gfloat pages_to_scroll)
 {
 	GtkAdjustment *adjustment;
 	GtkScrollable *scrollable;
@@ -5913,8 +5962,8 @@ e_day_view_scroll	(EDayView	*day_view,
 }
 
 static void
-e_day_view_top_scroll	(EDayView	*day_view,
-			 gfloat		 pages_to_scroll)
+e_day_view_top_scroll (EDayView *day_view,
+                       gfloat pages_to_scroll)
 {
 	GtkAdjustment *adjustment;
 	GtkScrollable *scrollable;
@@ -5939,8 +5988,8 @@ e_day_view_top_scroll	(EDayView	*day_view,
 
 void
 e_day_view_ensure_rows_visible (EDayView *day_view,
-				gint start_row,
-				gint end_row)
+                                gint start_row,
+                                gint end_row)
 {
 	GtkAdjustment *adjustment;
 	GtkScrollable *scrollable;
@@ -5968,9 +6017,9 @@ e_day_view_ensure_rows_visible (EDayView *day_view,
 
 static void
 e_day_view_start_editing_event (EDayView *day_view,
-				gint	  day,
-				gint	  event_num,
-				GdkEventKey *key_event)
+                                gint day,
+                                gint event_num,
+                                GdkEventKey *key_event)
 {
 	EDayViewEvent *event;
 	ETextEventProcessor *event_processor = NULL;
@@ -6010,9 +6059,9 @@ e_day_view_start_editing_event (EDayView *day_view,
 		return;
 
 	/* We must grab the focus before setting the initial text, since
-	   grabbing the focus will result in a call to
-	   e_day_view_on_editing_started (), which will reset the text to get
-	   rid of the start and end times. */
+	 * grabbing the focus will result in a call to
+	 * e_day_view_on_editing_started (), which will reset the text to get
+	 * rid of the start and end times. */
 	e_canvas_item_grab_focus (event->canvas_item, TRUE);
 
 	if (key_event) {
@@ -6032,7 +6081,7 @@ e_day_view_start_editing_event (EDayView *day_view,
 	}
 
 	/* Try to move the cursor to the end of the text. */
-	g_object_get (G_OBJECT (event->canvas_item),
+	g_object_get (event->canvas_item,
 		      "event_processor", &event_processor,
 		      NULL);
 	if (event_processor) {
@@ -6044,7 +6093,7 @@ e_day_view_start_editing_event (EDayView *day_view,
 }
 
 /* This stops the current edit. If accept is TRUE the event summary is updated,
-   else the edit is cancelled. */
+ * else the edit is cancelled. */
 static void
 e_day_view_stop_editing_event (EDayView *day_view)
 {
@@ -6091,7 +6140,7 @@ cancel_editing (EDayView *day_view)
 	/* Reset the text to what was in the component */
 
 	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
-	g_object_set (G_OBJECT (event->canvas_item),
+	g_object_set (event->canvas_item,
 		      "text", summary ? summary : "",
 		      NULL);
 
@@ -6100,7 +6149,9 @@ cancel_editing (EDayView *day_view)
 }
 
 static EDayViewEvent *
-tooltip_get_view_event (EDayView *day_view, gint day, gint event_num)
+tooltip_get_view_event (EDayView *day_view,
+                        gint day,
+                        gint event_num)
 {
 	EDayViewEvent *pevent;
 
@@ -6122,7 +6173,8 @@ tooltip_get_view_event (EDayView *day_view, gint day, gint event_num)
 }
 
 static void
-tooltip_destroy (EDayView *day_view, GnomeCanvasItem *item)
+tooltip_destroy (EDayView *day_view,
+                 GnomeCanvasItem *item)
 {
 	EDayViewEvent *pevent;
 	gint event_num = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-num"));
@@ -6146,8 +6198,8 @@ tooltip_destroy (EDayView *day_view, GnomeCanvasItem *item)
 
 static gboolean
 e_day_view_on_text_item_event (GnomeCanvasItem *item,
-			       GdkEvent *event,
-			       EDayView *day_view)
+                               GdkEvent *event,
+                               EDayView *day_view)
 {
 	switch (event->type) {
 	case GDK_KEY_PRESS:
@@ -6156,11 +6208,11 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			day_view->resize_event_num = -1;
 
 			/* We set the keyboard focus to the EDayView, so the
-			   EText item loses it and stops the edit. */
+			 * EText item loses it and stops the edit. */
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
 			/* Stop the signal last or we will also stop any
-			   other events getting to the EText item. */
+			 * other events getting to the EText item. */
 			g_signal_stop_emission_by_name (item, "event");
 			return TRUE;
 		} else if (event->key.keyval == GDK_KEY_Escape) {
@@ -6229,11 +6281,11 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 				break;
 
 			/* Convert the coords to the main canvas window, or return if the
-			   window is not found. */
+			 * window is not found. */
 			layout = GTK_LAYOUT (day_view->main_canvas);
 			window = gtk_layout_get_bin_window (layout);
 			if (!e_day_view_convert_event_coords (
-				day_view, (GdkEvent*) event,
+				day_view, (GdkEvent *) event,
 				window, &event_x, &event_y)) {
 
 				main_canvas = FALSE;
@@ -6241,7 +6293,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 				layout = GTK_LAYOUT (day_view->top_canvas);
 				window = gtk_layout_get_bin_window (layout);
 				if (!e_day_view_convert_event_coords (
-					day_view, (GdkEvent*) event,
+					day_view, (GdkEvent *) event,
 					window, &event_x, &event_y))  {
 					return FALSE;
 				}
@@ -6265,7 +6317,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 				break;
 
 			/* even when returns position inside, or other, then the day and/or event_num
-			   can be unknown, thus check for this here, otherwise it will crash later */
+			 * can be unknown, thus check for this here, otherwise it will crash later */
 			if (day == -1 || event_num == -1)
 				break;
 
@@ -6305,7 +6357,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			pevent->tooltip = (GtkWidget *)g_object_get_data (G_OBJECT (day_view), "tooltip-window");
 
 			if (pevent->tooltip) {
-				e_calendar_view_move_tip (pevent->tooltip, pevent->x+16, pevent->y+16);
+				e_calendar_view_move_tip (pevent->tooltip, pevent->x + 16, pevent->y + 16);
 			}
 
 			return TRUE;
@@ -6403,7 +6455,9 @@ e_day_view_event_move (ECalendarView *cal_view,
 }
 
 static void
-e_day_view_change_event_time (EDayView *day_view, time_t start_dt, time_t end_dt)
+e_day_view_change_event_time (EDayView *day_view,
+                              time_t start_dt,
+                              time_t end_dt)
 {
 	EDayViewEvent *event;
 	gint day, event_num;
@@ -6429,8 +6483,8 @@ e_day_view_change_event_time (EDayView *day_view, time_t start_dt, time_t end_dt
 	client = event->comp_data->client;
 
 	/* We use a temporary shallow copy of the ico since we don't want to
-	   change the original ico here. Otherwise we would not detect that
-	   the event's time had changed in the "update_event" callback. */
+	 * change the original ico here. Otherwise we would not detect that
+	 * the event's time had changed in the "update_event" callback. */
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
@@ -6441,7 +6495,7 @@ e_day_view_change_event_time (EDayView *day_view, time_t start_dt, time_t end_dt
 
 	date.value = &itt;
 	/* FIXME: Should probably keep the timezone of the original start
-	   and end times. */
+	 * and end times. */
 	date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
 	*date.value = icaltime_from_timet_with_zone (start_dt, FALSE,
@@ -6569,7 +6623,7 @@ e_day_view_change_event_end_time_down (EDayView *day_view)
 
 static void
 e_day_view_on_editing_started (EDayView *day_view,
-			       GnomeCanvasItem *item)
+                               GnomeCanvasItem *item)
 {
 	GtkAllocation allocation;
 	gint day, event_num;
@@ -6584,9 +6638,9 @@ e_day_view_on_editing_started (EDayView *day_view,
 #endif
 
 	/* FIXME: This is a temporary workaround for a bug which seems to stop
-	   us getting focus_out signals. It is not a complete fix since if we
-	   don't get focus_out signals we don't save the appointment text so
-	   this may be lost. */
+	 * us getting focus_out signals. It is not a complete fix since if we
+	 * don't get focus_out signals we don't save the appointment text so
+	 * this may be lost. */
 	if (day_view->editing_event_day == day
 	    && day_view->editing_event_num == event_num)
 		return;
@@ -6630,7 +6684,7 @@ e_day_view_on_editing_started (EDayView *day_view,
 
 static void
 e_day_view_on_editing_stopped (EDayView *day_view,
-			       GnomeCanvasItem *item)
+                               GnomeCanvasItem *item)
 {
 	gint day, event_num;
 	EDayViewEvent *event;
@@ -6641,8 +6695,8 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	gboolean on_server;
 
 	/* Note: the item we are passed here isn't reliable, so we just stop
-	   the edit of whatever item was being edited. We also receive this
-	   event twice for some reason. */
+	 * the edit of whatever item was being edited. We also receive this
+	 * event twice for some reason. */
 	day = day_view->editing_event_day;
 	event_num = day_view->editing_event_num;
 
@@ -6681,7 +6735,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	day_view->resize_bars_event_num = -1;
 
 	g_object_set (event->canvas_item, "handle_popup", FALSE, NULL);
-	g_object_get (G_OBJECT (event->canvas_item),
+	g_object_get (event->canvas_item,
 		      "text", &text,
 		      NULL);
 	g_return_if_fail (text != NULL);
@@ -6822,12 +6876,12 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 }
 
 /* FIXME: It is possible that we may produce an invalid time due to daylight
-   saving times (i.e. when clocks go forward there is a range of time which
-   is not valid). I don't know the best way to handle daylight saving time. */
+ * saving times (i.e. when clocks go forward there is a range of time which
+ * is not valid). I don't know the best way to handle daylight saving time. */
 static time_t
 e_day_view_convert_grid_position_to_time (EDayView *day_view,
-					  gint col,
-					  gint row)
+                                          gint col,
+                                          gint row)
 {
 	ECalendarView *cal_view;
 	gint time_divisions;
@@ -6844,7 +6898,7 @@ e_day_view_convert_grid_position_to_time (EDayView *day_view,
 		+ row * time_divisions;
 
 	/* A special case for midnight, where we can use the start of the
-	   next day. */
+	 * next day. */
 	if (minutes == 60 * 24)
 		return day_view->day_starts[col + 1];
 
@@ -6861,9 +6915,9 @@ e_day_view_convert_grid_position_to_time (EDayView *day_view,
 
 static gboolean
 e_day_view_convert_time_to_grid_position (EDayView *day_view,
-					  time_t time,
-					  gint *col,
-					  gint *row)
+                                          time_t time,
+                                          gint *col,
+                                          gint *row)
 {
 	ECalendarView *cal_view;
 	struct icaltimetype tt;
@@ -6887,8 +6941,8 @@ e_day_view_convert_time_to_grid_position (EDayView *day_view,
 	}
 
 	/* To find the row we need to convert the time to an icaltimetype,
-	   calculate the offset in minutes from the top of the display and
-	   divide it by the mins per row setting. */
+	 * calculate the offset in minutes from the top of the display and
+	 * divide it by the mins per row setting. */
 	tt = icaltime_from_timet_with_zone (time, FALSE, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
 	minutes = tt.hour * 60 + tt.minute;
@@ -6903,11 +6957,11 @@ e_day_view_convert_time_to_grid_position (EDayView *day_view,
 }
 
 /* This starts or stops auto-scrolling when dragging a selection or resizing
-   an event. */
+ * an event. */
 void
 e_day_view_check_auto_scroll (EDayView *day_view,
-			      gint event_x,
-			      gint event_y)
+                              gint event_x,
+                              gint event_y)
 {
 	GtkAllocation allocation;
 	gint scroll_x, scroll_y;
@@ -6933,7 +6987,7 @@ e_day_view_check_auto_scroll (EDayView *day_view,
 
 static void
 e_day_view_start_auto_scroll (EDayView *day_view,
-			      gboolean scroll_up)
+                              gboolean scroll_up)
 {
 	if (day_view->auto_scroll_timeout_id == 0) {
 		day_view->auto_scroll_timeout_id = g_timeout_add (E_DAY_VIEW_AUTO_SCROLL_TIMEOUT, e_day_view_auto_scroll_handler, day_view);
@@ -6993,7 +7047,7 @@ e_day_view_auto_scroll_handler (gpointer data)
 
 	if (new_scroll_y != scroll_y) {
 		/* NOTE: This reduces flicker, but only works if we don't use
-		   canvas items which have X windows. */
+		 * canvas items which have X windows. */
 		gnome_canvas_scroll_to (GNOME_CANVAS (day_view->main_canvas),
 					scroll_x, new_scroll_y);
 	}
@@ -7002,8 +7056,8 @@ e_day_view_auto_scroll_handler (gpointer data)
 	canvas_y = day_view->last_mouse_y + new_scroll_y;
 
 	/* The last_mouse_x position is set to -1 when we are selecting using
-	   the time column. In this case we set canvas_x to 0 and we ignore
-	   the resulting day. */
+	 * the time column. In this case we set canvas_x to 0 and we ignore
+	 * the resulting day. */
 	if (day_view->last_mouse_x == -1)
 		canvas_x = 0;
 
@@ -7031,10 +7085,10 @@ e_day_view_auto_scroll_handler (gpointer data)
 
 gboolean
 e_day_view_get_event_rows (EDayView *day_view,
-			   gint day,
-			   gint event_num,
-			   gint *start_row_out,
-			   gint *end_row_out)
+                           gint day,
+                           gint event_num,
+                           gint *start_row_out,
+                           gint *end_row_out)
 {
 	ECalendarView *cal_view;
 	EDayViewEvent *event;
@@ -7065,12 +7119,12 @@ e_day_view_get_event_rows (EDayView *day_view,
 
 gboolean
 e_day_view_get_event_position (EDayView *day_view,
-			       gint day,
-			       gint event_num,
-			       gint *item_x,
-			       gint *item_y,
-			       gint *item_w,
-			       gint *item_h)
+                               gint day,
+                               gint event_num,
+                               gint *item_x,
+                               gint *item_y,
+                               gint *item_w,
+                               gint *item_h)
 {
 	EDayViewEvent *event;
 	gint start_row, end_row, cols_in_row, start_col, num_columns;
@@ -7114,21 +7168,21 @@ e_day_view_get_event_position (EDayView *day_view,
 	*item_h = (end_row - start_row + 1) * day_view->row_height;
 #else
 	/* This makes the event end on the grid line of the next row,
-	   which maybe looks nicer if you have 2 events on consecutive rows. */
+	 * which maybe looks nicer if you have 2 events on consecutive rows. */
 	*item_h = (end_row - start_row + 1) * day_view->row_height + 1;
 #endif
 	return TRUE;
 }
 
 gboolean
-e_day_view_get_long_event_position	(EDayView	*day_view,
-					 gint		 event_num,
-					 gint		*start_day,
-					 gint		*end_day,
-					 gint		*item_x,
-					 gint		*item_y,
-					 gint		*item_w,
-					 gint		*item_h)
+e_day_view_get_long_event_position (EDayView *day_view,
+                                    gint event_num,
+                                    gint *start_day,
+                                    gint *end_day,
+                                    gint *item_x,
+                                    gint *item_y,
+                                    gint *item_w,
+                                    gint *item_h)
 {
 	EDayViewEvent *event;
 
@@ -7173,14 +7227,14 @@ e_day_view_get_long_event_position	(EDayView	*day_view,
 }
 
 /* Converts a position within the entire top canvas to a day & event and
-   a place within the event if appropriate. If event_num_return is NULL, it
-   simply returns the grid position without trying to find the event. */
+ * a place within the event if appropriate. If event_num_return is NULL, it
+ * simply returns the grid position without trying to find the event. */
 static ECalendarViewPosition
 e_day_view_convert_position_in_top_canvas (EDayView *day_view,
-					   gint x,
-					   gint y,
-					   gint *day_return,
-					   gint *event_num_return)
+                                           gint x,
+                                           gint y,
+                                           gint *day_return,
+                                           gint *event_num_return)
 {
 	EDayViewEvent *event;
 	gint day, row, col;
@@ -7248,15 +7302,15 @@ e_day_view_convert_position_in_top_canvas (EDayView *day_view,
 }
 
 /* Converts a position within the entire main canvas to a day, row, event and
-   a place within the event if appropriate. If event_num_return is NULL, it
-   simply returns the grid position without trying to find the event. */
+ * a place within the event if appropriate. If event_num_return is NULL, it
+ * simply returns the grid position without trying to find the event. */
 static ECalendarViewPosition
 e_day_view_convert_position_in_main_canvas (EDayView *day_view,
-					    gint x,
-					    gint y,
-					    gint *day_return,
-					    gint *row_return,
-					    gint *event_num_return)
+                                            gint x,
+                                            gint y,
+                                            gint *day_return,
+                                            gint *row_return,
+                                            gint *event_num_return)
 {
 	gint day, row, col, event_num;
 	gint item_x, item_y, item_w, item_h;
@@ -7271,7 +7325,7 @@ e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 		*event_num_return = -1;
 
 	/* Check the position is inside the canvas, and determine the day
-	   and row. */
+	 * and row. */
 	if (x < 0 || y < 0)
 		return E_CALENDAR_VIEW_POS_OUTSIDE;
 
@@ -7297,7 +7351,7 @@ e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 		return E_CALENDAR_VIEW_POS_NONE;
 
 	/* Check the selected item first, since the horizontal resizing bars
-	   may be above other events. */
+	 * may be above other events. */
 	if (day_view->resize_bars_event_day == day) {
 		if (e_day_view_get_event_position (day_view, day,
 						   day_view->resize_bars_event_num,
@@ -7348,12 +7402,12 @@ e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 }
 
 static gboolean
-e_day_view_on_top_canvas_drag_motion (GtkWidget      *widget,
-				      GdkDragContext *context,
-				      gint            x,
-				      gint            y,
-				      guint           time,
-				      EDayView	     *day_view)
+e_day_view_on_top_canvas_drag_motion (GtkWidget *widget,
+                                      GdkDragContext *context,
+                                      gint x,
+                                      gint y,
+                                      guint time,
+                                      EDayView *day_view)
 {
 	gint scroll_x, scroll_y;
 
@@ -7374,7 +7428,7 @@ e_day_view_reshape_top_canvas_drag_item (EDayView *day_view)
 	gint x, y, day;
 
 	/* Calculate the day & start row of the event being dragged, using
-	   the current mouse position. */
+	 * the current mouse position. */
 	x = day_view->drag_event_x;
 	y = day_view->drag_event_y;
 	pos = e_day_view_convert_position_in_top_canvas (day_view, x, y,
@@ -7392,7 +7446,7 @@ e_day_view_reshape_top_canvas_drag_item (EDayView *day_view)
 
 static void
 e_day_view_update_top_canvas_drag (EDayView *day_view,
-				   gint day)
+                                   gint day)
 {
 	EDayViewEvent *event = NULL;
 	gint row, num_days, start_day, end_day;
@@ -7400,7 +7454,7 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 	gchar *text;
 
 	/* Calculate the event's position. If the event is in the same
-	   position we started in, we use the same columns. */
+	 * position we started in, we use the same columns. */
 	row = day_view->rows_in_top_display + 1;
 	num_days = 1;
 
@@ -7467,8 +7521,8 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 	}
 
 	/* Set the text, if necessary. We don't want to set the text every
-	   time it moves, so we check if it is currently invisible and only
-	   set the text then. */
+	 * time it moves, so we check if it is currently invisible and only
+	 * set the text then. */
 	if (!(day_view->drag_long_event_item->flags & GNOME_CANVAS_ITEM_VISIBLE)) {
 		const gchar *summary;
 
@@ -7490,12 +7544,12 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 }
 
 static gboolean
-e_day_view_on_main_canvas_drag_motion (GtkWidget      *widget,
-				       GdkDragContext *context,
-				       gint            x,
-				       gint            y,
-				       guint           time,
-				       EDayView	      *day_view)
+e_day_view_on_main_canvas_drag_motion (GtkWidget *widget,
+                                       GdkDragContext *context,
+                                       gint x,
+                                       gint y,
+                                       guint time,
+                                       EDayView *day_view)
 {
 	gint scroll_x, scroll_y;
 
@@ -7520,7 +7574,7 @@ e_day_view_reshape_main_canvas_drag_item (EDayView *day_view)
 	gint x, y, day, row;
 
 	/* Calculate the day & start row of the event being dragged, using
-	   the current mouse position. */
+	 * the current mouse position. */
 	x = day_view->drag_event_x;
 	y = day_view->drag_event_y;
 	pos = e_day_view_convert_position_in_main_canvas (day_view, x, y,
@@ -7539,8 +7593,8 @@ e_day_view_reshape_main_canvas_drag_item (EDayView *day_view)
 
 static void
 e_day_view_update_main_canvas_drag (EDayView *day_view,
-				    gint row,
-				    gint day)
+                                    gint row,
+                                    gint day)
 {
 	EDayViewEvent *event = NULL;
 	ECalendarView *cal_view;
@@ -7562,7 +7616,7 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 	day_view->drag_last_row = row;
 
 	/* Calculate the event's position. If the event is in the same
-	   position we started in, we use the same columns. */
+	 * position we started in, we use the same columns. */
 	cols_in_row = 1;
 	start_row = 0;
 	start_col = 0;
@@ -7637,8 +7691,8 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 	}
 
 	/* Set the text, if necessary. We don't want to set the text every
-	   time it moves, so we check if it is currently invisible and only
-	   set the text then. */
+	 * time it moves, so we check if it is currently invisible and only
+	 * set the text then. */
 	if (!(day_view->drag_item->flags & GNOME_CANVAS_ITEM_VISIBLE)) {
 		const gchar *summary;
 
@@ -7660,10 +7714,10 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 }
 
 static void
-e_day_view_on_top_canvas_drag_leave (GtkWidget      *widget,
-				     GdkDragContext *context,
-				     guint           time,
-				     EDayView	     *day_view)
+e_day_view_on_top_canvas_drag_leave (GtkWidget *widget,
+                                     GdkDragContext *context,
+                                     guint time,
+                                     EDayView *day_view)
 {
 	day_view->drag_last_day = -1;
 
@@ -7672,10 +7726,10 @@ e_day_view_on_top_canvas_drag_leave (GtkWidget      *widget,
 }
 
 static void
-e_day_view_on_main_canvas_drag_leave (GtkWidget      *widget,
-				      GdkDragContext *context,
-				      guint           time,
-				      EDayView	     *day_view)
+e_day_view_on_main_canvas_drag_leave (GtkWidget *widget,
+                                      GdkDragContext *context,
+                                      guint time,
+                                      EDayView *day_view)
 {
 	day_view->drag_last_day = -1;
 
@@ -7692,9 +7746,9 @@ e_day_view_on_main_canvas_drag_leave (GtkWidget      *widget,
 }
 
 static void
-e_day_view_on_drag_begin (GtkWidget      *widget,
-			  GdkDragContext *context,
-			  EDayView	 *day_view)
+e_day_view_on_drag_begin (GtkWidget *widget,
+                          GdkDragContext *context,
+                          EDayView *day_view)
 {
 	EDayViewEvent *event;
 	gint day, event_num;
@@ -7721,14 +7775,14 @@ e_day_view_on_drag_begin (GtkWidget      *widget,
 	}
 
 	/* Hide the text item, since it will be shown in the special drag
-	   items. */
+	 * items. */
 	gnome_canvas_item_hide (event->canvas_item);
 }
 
 static void
-e_day_view_on_drag_end (GtkWidget      *widget,
-			GdkDragContext *context,
-			EDayView       *day_view)
+e_day_view_on_drag_end (GtkWidget *widget,
+                        GdkDragContext *context,
+                        EDayView *day_view)
 {
 	EDayViewEvent *event;
 	gint day, event_num;
@@ -7737,7 +7791,7 @@ e_day_view_on_drag_end (GtkWidget      *widget,
 	event_num = day_view->drag_event_num;
 
 	/* If the calendar has already been updated in drag_data_received()
-	   we just return. */
+	 * we just return. */
 	if (day == -1 || event_num == -1)
 		return;
 
@@ -7765,12 +7819,12 @@ e_day_view_on_drag_end (GtkWidget      *widget,
 }
 
 static void
-e_day_view_on_drag_data_get (GtkWidget          *widget,
-			     GdkDragContext     *context,
-			     GtkSelectionData   *selection_data,
-			     guint               info,
-			     guint               time,
-			     EDayView		*day_view)
+e_day_view_on_drag_data_get (GtkWidget *widget,
+                             GdkDragContext *context,
+                             GtkSelectionData *selection_data,
+                             guint info,
+                             guint time,
+                             EDayView *day_view)
 {
 	EDayViewEvent *event;
 	icalcomponent *vcal;
@@ -7831,16 +7885,16 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 }
 
 static void
-e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
-					      GdkDragContext     *context,
-					      gint                x,
-					      gint                y,
-					      GtkSelectionData   *selection_data,
-					      guint               info,
-					      guint               time,
-					      EDayView		 *day_view)
+e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
+                                             GdkDragContext *context,
+                                             gint x,
+                                             gint y,
+                                             GtkSelectionData *selection_data,
+                                             guint info,
+                                             guint time,
+                                             EDayView *day_view)
 {
-	EDayViewEvent *event=NULL;
+	EDayViewEvent *event = NULL;
 	ECalendarViewPosition pos;
 	gint day, start_day, end_day, num_days;
 	gint start_offset, end_offset;
@@ -7923,9 +7977,9 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			client = event->comp_data->client;
 
 			/* We clone the event since we don't want to change
-			   the original comp here.
-			   Otherwise we would not detect that the event's time
-			   had changed in the "update_event" callback. */
+			 * the original comp here.
+			 * Otherwise we would not detect that the event's time
+			 * had changed in the "update_event" callback. */
 
 			comp = e_cal_component_new ();
 			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -7950,7 +8004,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 				date.tzid = NULL;
 			} else {
 				/* FIXME: Should probably keep the timezone of
-				   the original start and end times. */
+				 * the original start and end times. */
 				date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 			}
 			cal_comp_set_dtstart_with_oldzone (client, comp, &date);
@@ -7966,7 +8020,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 				date.tzid = NULL;
 			} else {
 				/* FIXME: Should probably keep the timezone of
-				   the original start and end times. */
+				 * the original start and end times. */
 				date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 			}
 			cal_comp_set_dtend_with_oldzone (client, comp, &date);
@@ -7977,7 +8031,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			day_view->drag_event_day = -1;
 
 			/* Show the text item again, just in case it hasn't
-			   moved. If we don't do this it may not appear. */
+			 * moved. If we don't do this it may not appear. */
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
@@ -8075,14 +8129,14 @@ error:
 }
 
 static void
-e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
-					       GdkDragContext     *context,
-					       gint                x,
-					       gint                y,
-					       GtkSelectionData   *selection_data,
-					       guint               info,
-					       guint               time,
-					       EDayView		  *day_view)
+e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
+                                              GdkDragContext *context,
+                                              gint x,
+                                              gint y,
+                                              GtkSelectionData *selection_data,
+                                              guint info,
+                                              guint time,
+                                              EDayView *day_view)
 {
 	ECalendarView *cal_view;
 	EDayViewEvent *event = NULL;
@@ -8174,9 +8228,9 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			client = event->comp_data->client;
 
 			/* We use a temporary shallow copy of comp since we
-			   don't want to change the original comp here.
-			   Otherwise we would not detect that the event's time
-			   had changed in the "update_event" callback. */
+			 * don't want to change the original comp here.
+			 * Otherwise we would not detect that the event's time
+			 * had changed in the "update_event" callback. */
 			comp = e_cal_component_new ();
 			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
@@ -8204,7 +8258,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			day_view->drag_event_day = -1;
 
 			/* Show the text item again, just in case it hasn't
-			   moved. If we don't do this it may not appear. */
+			 * moved. If we don't do this it may not appear. */
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
@@ -8302,20 +8356,20 @@ error:
 }
 
 /* Converts an hour from 0-23 to the preferred time format, and returns the
-   suffix to add and the width of it in the normal font. */
+ * suffix to add and the width of it in the normal font. */
 void
-e_day_view_convert_time_to_display	(EDayView	*day_view,
-					 gint		 hour,
-					 gint		*display_hour,
-					 const gchar	**suffix,
-					 gint		*suffix_width)
+e_day_view_convert_time_to_display (EDayView *day_view,
+                                    gint hour,
+                                    gint *display_hour,
+                                    const gchar **suffix,
+                                    gint *suffix_width)
 {
 	ECalModel *model;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 
 	/* Calculate the actual hour number to display. For 12-hour
-	   format we convert 0-23 to 12-11am/12-11pm. */
+	 * format we convert 0-23 to 12-11am/12-11pm. */
 	*display_hour = hour;
 	if (e_cal_model_get_use_24_hour_format (model)) {
 		*suffix = "";
@@ -8337,7 +8391,7 @@ e_day_view_convert_time_to_display	(EDayView	*day_view,
 }
 
 gint
-e_day_view_get_time_string_width	(EDayView	*day_view)
+e_day_view_get_time_string_width (EDayView *day_view)
 {
 	ECalModel *model;
 	gint time_width;

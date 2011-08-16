@@ -51,7 +51,7 @@
 #define E_CALENDAR_ARROW_BUTTON_Y_PAD	0
 
 /* Vertical padding. The padding above the button includes the space for the
-   horizontal line. */
+ * horizontal line. */
 #define	E_CALENDAR_YPAD_ABOVE_LOWER_BUTTONS		4
 #define	E_CALENDAR_YPAD_BELOW_LOWER_BUTTONS		3
 
@@ -60,8 +60,8 @@
 #define E_CALENDAR_XPAD_BUTTONS				8
 
 /* The time between steps when the prev/next buttons is pressed, in 1/1000ths
-   of a second, and the number of timeouts we skip before we start
-   automatically moving back/forward. */
+ * of a second, and the number of timeouts we skip before we start
+ * automatically moving back/forward. */
 #define E_CALENDAR_AUTO_MOVE_TIMEOUT		150
 #define E_CALENDAR_AUTO_MOVE_TIMEOUT_DELAY	2
 
@@ -216,7 +216,7 @@ e_calendar_init (ECalendar *cal)
  * Creates a new #ECalendar.
  **/
 GtkWidget *
-e_calendar_new			(void)
+e_calendar_new (void)
 {
 	GtkWidget *cal;
 	AtkObject *a11y;
@@ -229,7 +229,7 @@ e_calendar_new			(void)
 }
 
 static void
-e_calendar_dispose		(GObject *object)
+e_calendar_dispose (GObject *object)
 {
 	ECalendar *cal;
 
@@ -256,15 +256,15 @@ e_calendar_realize (GtkWidget *widget)
 	(*GTK_WIDGET_CLASS (e_calendar_parent_class)->realize) (widget);
 
 	/* Set the background of the canvas window to the normal color,
-	   or the arrow buttons are not displayed properly. */
+	 * or the arrow buttons are not displayed properly. */
 	style = gtk_widget_get_style (widget);
 	window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
 	gdk_window_set_background (window, &style->bg[GTK_STATE_NORMAL]);
 }
 
 static void
-e_calendar_style_set		(GtkWidget	*widget,
-				 GtkStyle	*previous_style)
+e_calendar_style_set (GtkWidget *widget,
+                      GtkStyle *previous_style)
 {
 	ECalendar *e_calendar;
 
@@ -274,7 +274,7 @@ e_calendar_style_set		(GtkWidget	*widget,
 							       previous_style);
 
 	/* Set the background of the canvas window to the normal color,
-	   or the arrow buttons are not displayed properly. */
+	 * or the arrow buttons are not displayed properly. */
 	if (gtk_widget_get_realized (widget)) {
 		GtkStyle *style;
 		GdkWindow *window;
@@ -288,8 +288,8 @@ e_calendar_style_set		(GtkWidget	*widget,
 
 static void
 e_calendar_get_preferred_width (GtkWidget *widget,
-                                gint      *minimum,
-                                gint      *natural)
+                                gint *minimum,
+                                gint *natural)
 {
 	ECalendar *cal;
 	GtkStyle *style;
@@ -305,8 +305,8 @@ e_calendar_get_preferred_width (GtkWidget *widget,
 
 static void
 e_calendar_get_preferred_height (GtkWidget *widget,
-                                 gint      *minimum,
-                                 gint      *natural)
+                                 gint *minimum,
+                                 gint *natural)
 {
 	ECalendar *cal;
 	GtkStyle *style;
@@ -321,8 +321,8 @@ e_calendar_get_preferred_height (GtkWidget *widget,
 }
 
 static void
-e_calendar_size_allocate	(GtkWidget	*widget,
-				 GtkAllocation	*allocation)
+e_calendar_size_allocate (GtkWidget *widget,
+                          GtkAllocation *allocation)
 {
 	ECalendar *cal;
 	GtkStyle *style;
@@ -398,9 +398,9 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 }
 
 void
-e_calendar_set_minimum_size	(ECalendar	*cal,
-				 gint		 rows,
-				 gint		 cols)
+e_calendar_set_minimum_size (ECalendar *cal,
+                             gint rows,
+                             gint cols)
 {
 	g_return_if_fail (E_IS_CALENDAR (cal));
 
@@ -416,9 +416,9 @@ e_calendar_set_minimum_size	(ECalendar	*cal,
 }
 
 void
-e_calendar_set_maximum_size	(ECalendar	*cal,
-				 gint		 rows,
-				 gint		 cols)
+e_calendar_set_maximum_size (ECalendar *cal,
+                             gint rows,
+                             gint cols)
 {
 	g_return_if_fail (E_IS_CALENDAR (cal));
 
@@ -435,11 +435,11 @@ e_calendar_set_maximum_size	(ECalendar	*cal,
 
 /* Returns the border size on each side of the month displays. */
 void
-e_calendar_get_border_size	(ECalendar	*cal,
-				 gint		*top,
-				 gint		*bottom,
-				 gint		*left,
-				 gint		*right)
+e_calendar_get_border_size (ECalendar *cal,
+                            gint *top,
+                            gint *bottom,
+                            gint *left,
+                            gint *right)
 {
 	GtkStyle *style;
 
@@ -458,20 +458,20 @@ e_calendar_get_border_size	(ECalendar	*cal,
 }
 
 static void
-e_calendar_on_prev_pressed	(ECalendar	*cal)
+e_calendar_on_prev_pressed (ECalendar *cal)
 {
 	e_calendar_start_auto_move (cal, FALSE);
 }
 
 static void
-e_calendar_on_next_pressed	(ECalendar	*cal)
+e_calendar_on_next_pressed (ECalendar *cal)
 {
 	e_calendar_start_auto_move (cal, TRUE);
 }
 
 static void
-e_calendar_start_auto_move	(ECalendar	*cal,
-				 gboolean	 moving_forward)
+e_calendar_start_auto_move (ECalendar *cal,
+                            gboolean moving_forward)
 {
 	if (cal->timeout_id == 0) {
 		cal->timeout_id = g_timeout_add (E_CALENDAR_AUTO_MOVE_TIMEOUT,
@@ -484,7 +484,7 @@ e_calendar_start_auto_move	(ECalendar	*cal,
 }
 
 static gboolean
-e_calendar_auto_move_handler	(gpointer	 data)
+e_calendar_auto_move_handler (gpointer data)
 {
 	ECalendar *cal;
 	ECalendarItem *calitem;
@@ -510,19 +510,19 @@ e_calendar_auto_move_handler	(gpointer	 data)
 }
 
 static void
-e_calendar_on_prev_released	(ECalendar	*cal)
+e_calendar_on_prev_released (ECalendar *cal)
 {
 	e_calendar_stop_auto_move (cal);
 }
 
 static void
-e_calendar_on_next_released	(ECalendar	*cal)
+e_calendar_on_next_released (ECalendar *cal)
 {
 	e_calendar_stop_auto_move (cal);
 }
 
 static void
-e_calendar_stop_auto_move	(ECalendar	*cal)
+e_calendar_stop_auto_move (ECalendar *cal)
 {
 	if (cal->timeout_id != 0) {
 		g_source_remove (cal->timeout_id);
@@ -531,45 +531,38 @@ e_calendar_stop_auto_move	(ECalendar	*cal)
 }
 
 static void
-e_calendar_on_prev_clicked      (ECalendar      *cal)
+e_calendar_on_prev_clicked (ECalendar *cal)
 {
 	e_calendar_item_set_first_month (cal->calitem, cal->calitem->year,
 		cal->calitem->month - 1);
 }
 
 static void
-e_calendar_on_next_clicked      (ECalendar      *cal)
+e_calendar_on_next_clicked (ECalendar *cal)
 {
 	e_calendar_item_set_first_month (cal->calitem, cal->calitem->year,
 		cal->calitem->month + 1);
 }
 
 static gint
-e_calendar_drag_motion (GtkWidget      *widget,
-			GdkDragContext *context,
-			gint            x,
-			gint            y,
-			guint           time)
+e_calendar_drag_motion (GtkWidget *widget,
+                        GdkDragContext *context,
+                        gint x,
+                        gint y,
+                        guint time)
 {
-#if 0
-	g_print ("In e_calendar_drag_motion\n");
-#endif
-
 	return FALSE;
 }
 
 static void
-e_calendar_drag_leave (GtkWidget      *widget,
-		       GdkDragContext *context,
-		       guint           time)
+e_calendar_drag_leave (GtkWidget *widget,
+                       GdkDragContext *context,
+                       guint time)
 {
-#if 0
-	g_print ("In e_calendar_drag_leave\n");
-#endif
 }
 
 static gboolean
-e_calendar_button_has_focus (ECalendar	*cal)
+e_calendar_button_has_focus (ECalendar *cal)
 {
 	GtkWidget *prev_widget, *next_widget;
 	gboolean ret_val;
@@ -584,7 +577,8 @@ e_calendar_button_has_focus (ECalendar	*cal)
 }
 
 static gboolean
-e_calendar_focus (GtkWidget *widget, GtkDirectionType direction)
+e_calendar_focus (GtkWidget *widget,
+                  GtkDirectionType direction)
 {
 #define E_CALENDAR_FOCUS_CHILDREN_NUM 3
 	ECalendar *cal;
@@ -641,7 +635,8 @@ e_calendar_focus (GtkWidget *widget, GtkDirectionType direction)
 }
 
 void
-e_calendar_set_focusable (ECalendar *cal, gboolean focusable)
+e_calendar_set_focusable (ECalendar *cal,
+                          gboolean focusable)
 {
 	GtkWidget *widget;
 	GtkWidget *prev_widget, *next_widget;

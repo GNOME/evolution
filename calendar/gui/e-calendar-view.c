@@ -509,7 +509,9 @@ calendar_view_cut_clipboard (ESelectable *selectable)
 }
 
 static void
-add_related_timezones (icalcomponent *des_icalcomp, icalcomponent *src_icalcomp, ECalClient *client)
+add_related_timezones (icalcomponent *des_icalcomp,
+                       icalcomponent *src_icalcomp,
+                       ECalClient *client)
 {
 	icalproperty_kind look_in[] = {
 		ICAL_DTSTART_PROPERTY,
@@ -944,8 +946,12 @@ e_calendar_view_popup_event (ECalendarView *calendar_view,
 }
 
 void
-e_calendar_view_add_event (ECalendarView *cal_view, ECalClient *client, time_t dtstart,
-		      icaltimezone *default_zone, icalcomponent *icalcomp, gboolean in_top_canvas)
+e_calendar_view_add_event (ECalendarView *cal_view,
+                           ECalClient *client,
+                           time_t dtstart,
+                           icaltimezone *default_zone,
+                           icalcomponent *icalcomp,
+                           gboolean in_top_canvas)
 {
 	ECalComponent *comp;
 	struct icaltimetype itime, old_dtstart, old_dtend;
@@ -966,7 +972,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECalClient *client, time_t d
 	tt_end = icaltime_as_timet (old_dtend);
 	ic_dur = icaldurationtype_from_int (tt_end - tt_start);
 
-	if (icaldurationtype_as_int (ic_dur) > 60*60*24) {
+	if (icaldurationtype_as_int (ic_dur) > 60 *60 *24) {
 		/* This is a long event */
 		start_offset = old_dtstart.hour * 60 + old_dtstart.minute;
 		end_offset = old_dtstart.hour * 60 + old_dtend.minute;
@@ -985,7 +991,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECalClient *client, time_t d
 
 		if (all_day_event) {
 			ic_dur = ic_oneday;
-		} else if (icaldurationtype_as_int (ic_dur) >= 60*60*24
+		} else if (icaldurationtype_as_int (ic_dur) >= 60 *60 *24
 				&& !in_top_canvas) {
 			/* copy & paste from top canvas to main canvas */
 			gint time_divisions;
@@ -1076,7 +1082,8 @@ e_calendar_view_get_calendar (ECalendarView *cal_view)
 }
 
 void
-e_calendar_view_set_calendar (ECalendarView *cal_view, GnomeCalendar *calendar)
+e_calendar_view_set_calendar (ECalendarView *cal_view,
+                              GnomeCalendar *calendar)
 {
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
@@ -1099,7 +1106,8 @@ e_calendar_view_get_timezone (ECalendarView *cal_view)
 }
 
 void
-e_calendar_view_set_timezone (ECalendarView *cal_view, icaltimezone *zone)
+e_calendar_view_set_timezone (ECalendarView *cal_view,
+                              icaltimezone *zone)
 {
 	icaltimezone *old_zone;
 
@@ -1398,9 +1406,10 @@ e_calendar_view_open_event (ECalendarView *cal_view)
  */
 void
 e_calendar_view_new_appointment_for (ECalendarView *cal_view,
-				     time_t dtstart, time_t dtend,
-				     gboolean all_day,
-				     gboolean meeting)
+                                     time_t dtstart,
+                                     time_t dtend,
+                                     gboolean all_day,
+                                     gboolean meeting)
 {
 	ECalendarViewPrivate *priv;
 	struct icaltimetype itt;
@@ -1458,7 +1467,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 	itt = icaltime_from_timet_with_zone (dtend, FALSE, e_cal_model_get_timezone (cal_view->priv->model));
 	if (all_day) {
 		/* We round it up to the end of the day, unless it is
-		   already set to midnight */
+		 * already set to midnight */
 		if (itt.hour != 0 || itt.minute != 0 || itt.second != 0) {
 			icaltime_adjust (&itt, 1, 0, 0, 0);
 		}
@@ -1575,13 +1584,17 @@ e_calendar_view_new_appointment (ECalendarView *cal_view)
 
 /* Ensures the calendar is selected */
 static void
-object_created_cb (CompEditor *ce, ECalendarView *cal_view)
+object_created_cb (CompEditor *ce,
+                   ECalendarView *cal_view)
 {
 	e_calendar_view_emit_user_created (cal_view);
 }
 
 CompEditor *
-e_calendar_view_open_event_with_flags (ECalendarView *cal_view, ECalClient *client, icalcomponent *icalcomp, guint32 flags)
+e_calendar_view_open_event_with_flags (ECalendarView *cal_view,
+                                       ECalClient *client,
+                                       icalcomponent *icalcomp,
+                                       guint32 flags)
 {
 	CompEditor *ce;
 	const gchar *uid;
@@ -1624,7 +1637,10 @@ e_calendar_view_open_event_with_flags (ECalendarView *cal_view, ECalClient *clie
  * object.
  */
 void
-e_calendar_view_edit_appointment (ECalendarView *cal_view, ECalClient *client, icalcomponent *icalcomp, EEditEventMode mode)
+e_calendar_view_edit_appointment (ECalendarView *cal_view,
+                                  ECalClient *client,
+                                  icalcomponent *icalcomp,
+                                  EEditEventMode mode)
 {
 	guint32 flags = 0;
 
@@ -1647,10 +1663,10 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view, ECalClient *client, i
 
 void
 e_calendar_view_modify_and_send (ECalComponent *comp,
-				 ECalClient *client,
-				 CalObjModType mod,
-				 GtkWindow *toplevel,
-				 gboolean new)
+                                 ECalClient *client,
+                                 CalObjModType mod,
+                                 GtkWindow *toplevel,
+                                 gboolean new)
 {
 	gboolean only_new_attendees = FALSE;
 	GError *error = NULL;
@@ -1697,7 +1713,9 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 }
 
 static gboolean
-tooltip_grab (GtkWidget *tooltip, GdkEventKey *event, ECalendarView *view)
+tooltip_grab (GtkWidget *tooltip,
+              GdkEventKey *event,
+              ECalendarView *view)
 {
 	GtkWidget *widget = (GtkWidget *) g_object_get_data (G_OBJECT (view), "tooltip-window");
 
@@ -1712,7 +1730,9 @@ tooltip_grab (GtkWidget *tooltip, GdkEventKey *event, ECalendarView *view)
 }
 
 static gchar *
-get_label (struct icaltimetype *tt, icaltimezone *f_zone, icaltimezone *t_zone)
+get_label (struct icaltimetype *tt,
+           icaltimezone *f_zone,
+           icaltimezone *t_zone)
 {
 	struct tm tmp_tm;
 
@@ -1722,7 +1742,9 @@ get_label (struct icaltimetype *tt, icaltimezone *f_zone, icaltimezone *t_zone)
 }
 
 void
-e_calendar_view_move_tip (GtkWidget *widget, gint x, gint y)
+e_calendar_view_move_tip (GtkWidget *widget,
+                          gint x,
+                          gint y)
 {
 	GtkAllocation allocation;
 	GtkRequisition requisition;
@@ -1768,7 +1790,8 @@ e_calendar_view_move_tip (GtkWidget *widget, gint x, gint y)
  * Free returned pointer with g_free.
  **/
 gchar *
-e_calendar_view_get_attendees_status_info (ECalComponent *comp, ECalClient *client)
+e_calendar_view_get_attendees_status_info (ECalComponent *comp,
+                                           ECalClient *client)
 {
 	struct _values {
 		icalparameter_partstat status;
@@ -1827,7 +1850,7 @@ e_calendar_view_get_attendees_status_info (ECalComponent *comp, ECalClient *clie
 		g_string_prepend (str, ": ");
 
 		/* To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
-		   Status: Accepted: X   Declined: Y   ... */
+		 * Status: Accepted: X   Declined: Y   ... */
 		g_string_prepend (str, _("Status"));
 
 		res = g_string_free (str, FALSE);
@@ -2016,13 +2039,13 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
 
 	gtk_window_set_type_hint (GTK_WINDOW (pevent->tooltip), GDK_WINDOW_TYPE_HINT_TOOLTIP);
-	gtk_window_move ((GtkWindow *) pevent->tooltip, pevent->x +16, pevent->y+16);
+	gtk_window_move ((GtkWindow *) pevent->tooltip, pevent->x +16, pevent->y + 16);
 	gtk_container_add ((GtkContainer *) frame, box);
 	gtk_container_add ((GtkContainer *) pevent->tooltip, frame);
 
 	gtk_widget_show_all (pevent->tooltip);
 
-	e_calendar_view_move_tip (pevent->tooltip, pevent->x +16, pevent->y+16);
+	e_calendar_view_move_tip (pevent->tooltip, pevent->x +16, pevent->y + 16);
 
 	window = gtk_widget_get_window (pevent->tooltip);
 	gdk_keyboard_grab (window, FALSE, GDK_CURRENT_TIME);
@@ -2036,7 +2059,8 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 }
 
 static gboolean
-icalcomp_contains_category (icalcomponent *icalcomp, const gchar *category)
+icalcomp_contains_category (icalcomponent *icalcomp,
+                            const gchar *category)
 {
 	icalproperty *property;
 
@@ -2065,7 +2089,9 @@ icalcomp_contains_category (icalcomponent *icalcomp, const gchar *category)
  */
 
 const gchar *
-e_calendar_view_get_icalcomponent_summary (ECalClient *client, icalcomponent *icalcomp, gboolean *free_text)
+e_calendar_view_get_icalcomponent_summary (ECalClient *client,
+                                           icalcomponent *icalcomp,
+                                           gboolean *free_text)
 {
 	const gchar *summary;
 
@@ -2108,9 +2134,12 @@ e_calendar_view_emit_user_created (ECalendarView *cal_view)
 }
 
 void
-draw_curved_rectangle (cairo_t *cr, double x0, double y0,
-			gdouble rect_width, double rect_height,
-			gdouble radius)
+draw_curved_rectangle (cairo_t *cr,
+                       gdouble x0,
+                       gdouble y0,
+                       gdouble rect_width,
+                       gdouble rect_height,
+                       gdouble radius)
 {
 	gdouble x1, y1;
 
@@ -2121,28 +2150,28 @@ draw_curved_rectangle (cairo_t *cr, double x0, double y0,
 	    return;
 	if (rect_width / 2 < radius) {
 	    if (rect_height / 2 < radius) {
-		cairo_move_to  (cr, x0, (y0 + y1)/2);
-		cairo_curve_to (cr, x0 ,y0, x0, y0, (x0 + x1)/2, y0);
-		cairo_curve_to (cr, x1, y0, x1, y0, x1, (y0 + y1)/2);
-		cairo_curve_to (cr, x1, y1, x1, y1, (x1 + x0)/2, y1);
-		cairo_curve_to (cr, x0, y1, x0, y1, x0, (y0 + y1)/2);
+		cairo_move_to  (cr, x0, (y0 + y1) / 2);
+		cairo_curve_to (cr, x0 ,y0, x0, y0, (x0 + x1) / 2, y0);
+		cairo_curve_to (cr, x1, y0, x1, y0, x1, (y0 + y1) / 2);
+		cairo_curve_to (cr, x1, y1, x1, y1, (x1 + x0) / 2, y1);
+		cairo_curve_to (cr, x0, y1, x0, y1, x0, (y0 + y1) / 2);
 	    } else {
 		cairo_move_to  (cr, x0, y0 + radius);
-		cairo_curve_to (cr, x0 ,y0, x0, y0, (x0 + x1)/2, y0);
+		cairo_curve_to (cr, x0 ,y0, x0, y0, (x0 + x1) / 2, y0);
 		cairo_curve_to (cr, x1, y0, x1, y0, x1, y0 + radius);
 		cairo_line_to (cr, x1 , y1 - radius);
-		cairo_curve_to (cr, x1, y1, x1, y1, (x1 + x0)/2, y1);
+		cairo_curve_to (cr, x1, y1, x1, y1, (x1 + x0) / 2, y1);
 		cairo_curve_to (cr, x0, y1, x0, y1, x0, y1- radius);
 		}
 	} else {
 	    if (rect_height / 2 < radius) {
-		cairo_move_to  (cr, x0, (y0 + y1)/2);
+		cairo_move_to  (cr, x0, (y0 + y1) / 2);
 		cairo_curve_to (cr, x0 , y0, x0 , y0, x0 + radius, y0);
 		cairo_line_to (cr, x1 - radius, y0);
-		cairo_curve_to (cr, x1, y0, x1, y0, x1, (y0 + y1)/2);
+		cairo_curve_to (cr, x1, y0, x1, y0, x1, (y0 + y1) / 2);
 		cairo_curve_to (cr, x1, y1, x1, y1, x1 - radius, y1);
 		cairo_line_to (cr, x0 + radius, y1);
-		cairo_curve_to (cr, x0, y1, x0, y1, x0, (y0 + y1)/2);
+		cairo_curve_to (cr, x0, y1, x0, y1, x0, (y0 + y1) / 2);
 	    } else {
 		cairo_move_to  (cr, x0, y0 + radius);
 		cairo_curve_to (cr, x0 , y0, x0 , y0, x0 + radius, y0);
@@ -2158,7 +2187,7 @@ draw_curved_rectangle (cairo_t *cr, double x0, double y0,
 }
 
 /* returns either light or dark yellow, based on the base_background,
-   which is the default background color */
+ * which is the default background color */
 GdkColor
 get_today_background (const GdkColor base_background)
 {
@@ -2180,7 +2209,8 @@ get_today_background (const GdkColor base_background)
 }
 
 gboolean
-is_comp_data_valid_func (ECalendarViewEvent *event, const gchar *location)
+is_comp_data_valid_func (ECalendarViewEvent *event,
+                         const gchar *location)
 {
 	g_return_val_if_fail (location != NULL, FALSE);
 
@@ -2198,7 +2228,9 @@ is_comp_data_valid_func (ECalendarViewEvent *event, const gchar *location)
 }
 
 gboolean
-is_array_index_in_bounds_func (GArray *array, gint index, const gchar *location)
+is_array_index_in_bounds_func (GArray *array,
+                               gint index,
+                               const gchar *location)
 {
 	g_return_val_if_fail (location != NULL, FALSE);
 

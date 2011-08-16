@@ -53,14 +53,14 @@ static guint ecs_signals[ECS_LAST_SIGNAL];
 G_DEFINE_TYPE (ECertSelector, e_cert_selector, GTK_TYPE_DIALOG)
 
 /* (this is what mozilla shows)
-Issued to:
-  Subject: E=notzed@ximian.com, CN=notzed@ximian.com, O=My Company Ltd, L=Adelaide, ST=SA, C=AU
-  Serial Number: 03
-  Valid from 23/10/03 06:35:29 to 22/10/04 06:35:29
-  Purposes: Sign,Encrypt
-Issued by:
-  Subject: E=notzed@ximian.com, O=company, L=there, ST=Here, C=AU
-*/
+ * Issued to:
+ *  Subject: E=notzed@ximian.com, CN=notzed@ximian.com, O=My Company Ltd, L=Adelaide, ST=SA, C=AU
+ *  Serial Number: 03
+ *  Valid from 23/10/03 06:35:29 to 22/10/04 06:35:29
+ *  Purposes: Sign,Encrypt
+ * Issued by:
+ *  Subject: E=notzed@ximian.com, O=company, L=there, ST=Here, C=AU
+ */
 
 static CERTCertListNode *
 ecs_find_current (ECertSelector *ecs)
@@ -74,7 +74,7 @@ ecs_find_current (ECertSelector *ecs)
 
 	n = gtk_combo_box_get_active (GTK_COMBO_BOX (p->combobox));
 	node = CERT_LIST_HEAD (p->certlist);
-	while (n>0 && !CERT_LIST_END (node, p->certlist)) {
+	while (n > 0 && !CERT_LIST_END (node, p->certlist)) {
 		n--;
 		node = CERT_LIST_NEXT (node);
 	}
@@ -85,7 +85,8 @@ ecs_find_current (ECertSelector *ecs)
 }
 
 static void
-e_cert_selector_response (GtkDialog *dialog, gint button)
+e_cert_selector_response (GtkDialog *dialog,
+                          gint button)
 {
 	CERTCertListNode *node;
 
@@ -98,11 +99,12 @@ e_cert_selector_response (GtkDialog *dialog, gint button)
 		break;
 	}
 
-	g_signal_emit (dialog, ecs_signals[ECS_SELECTED], 0, node?node->cert->nickname:NULL);
+	g_signal_emit (dialog, ecs_signals[ECS_SELECTED], 0, node ? node->cert->nickname : NULL);
 }
 
 static void
-ecs_cert_changed (GtkWidget *w, ECertSelector *ecs)
+ecs_cert_changed (GtkWidget *w,
+                  ECertSelector *ecs)
 {
 	struct _ECertSelectorPrivate *p = ecs->priv;
 	CERTCertListNode *node;
@@ -140,7 +142,8 @@ ecs_cert_changed (GtkWidget *w, ECertSelector *ecs)
  * Return value: A dialogue to be shown.
  **/
 GtkWidget *
-e_cert_selector_new (gint type, const gchar *currentid)
+e_cert_selector_new (gint type,
+                     const gchar *currentid)
 {
 	ECertSelector *ecs;
 	struct _ECertSelectorPrivate *p;
@@ -152,7 +155,7 @@ e_cert_selector_new (gint type, const gchar *currentid)
 	GtkWidget *w;
 	GtkListStore *store;
 	GtkTreeIter iter;
-	gint n=0, active=0;
+	gint n = 0, active = 0;
 
 	ecs = g_object_new (e_cert_selector_get_type (), NULL);
 	p = ecs->priv;
@@ -189,7 +192,7 @@ e_cert_selector_new (gint type, const gchar *currentid)
 			if (node->cert->nickname || node->cert->emailAddr) {
 				gtk_list_store_append (store, &iter);
 				gtk_list_store_set (store, &iter,
-					0, node->cert->nickname?node->cert->nickname:node->cert->emailAddr,
+					0, node->cert->nickname ? node->cert->nickname : node->cert->emailAddr,
 					-1);
 
 				if (currentid != NULL
@@ -226,7 +229,7 @@ e_cert_selector_init (ECertSelector *ecs)
 }
 
 static void
-e_cert_selector_finalise (GObject *o)
+e_cert_selector_finalize (GObject *o)
 {
 	ECertSelector *ecs = (ECertSelector *) o;
 
@@ -241,7 +244,7 @@ e_cert_selector_finalise (GObject *o)
 static void
 e_cert_selector_class_init (ECertSelectorClass *klass)
 {
-	((GObjectClass *) klass)->finalize = e_cert_selector_finalise;
+	((GObjectClass *) klass)->finalize = e_cert_selector_finalize;
 	((GtkDialogClass *) klass)->response = e_cert_selector_response;
 
 	ecs_signals[ECS_SELECTED] =

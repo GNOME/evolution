@@ -30,11 +30,11 @@
 #include "e-util.h"
 
 static void e_text_event_processor_set_property (GObject *object,
-						 guint prop_id,
+						 guint property_id,
 						 const GValue *value,
 						 GParamSpec *pspec);
 static void e_text_event_processor_get_property (GObject *object,
-						 guint prop_id,
+						 guint property_id,
 						 GValue *value,
 						 GParamSpec *pspec);
 
@@ -61,7 +61,7 @@ e_text_event_processor_class_init (ETextEventProcessorClass *klass)
 {
 	GObjectClass *object_class;
 
-	object_class = (GObjectClass*) klass;
+	object_class = (GObjectClass *) klass;
 
 	object_class->set_property = e_text_event_processor_set_property;
 	object_class->get_property = e_text_event_processor_get_property;
@@ -107,13 +107,13 @@ e_text_event_processor_handle_event (ETextEventProcessor *tep,
 /* Set_arg handler for the text item */
 static void
 e_text_event_processor_set_property (GObject *object,
-				     guint prop_id,
-				     const GValue *value,
-				     GParamSpec *pspec)
+                                     guint property_id,
+                                     const GValue *value,
+                                     GParamSpec *pspec)
 {
 	ETextEventProcessor *tep = E_TEXT_EVENT_PROCESSOR (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_ALLOW_NEWLINES:
 		tep->allow_newlines = g_value_get_boolean (value);
 		break;
@@ -125,18 +125,18 @@ e_text_event_processor_set_property (GObject *object,
 /* Get_arg handler for the text item */
 static void
 e_text_event_processor_get_property (GObject *object,
-				     guint prop_id,
-				     GValue *value,
-				     GParamSpec *pspec)
+                                     guint property_id,
+                                     GValue *value,
+                                     GParamSpec *pspec)
 {
 	ETextEventProcessor *tep = E_TEXT_EVENT_PROCESSOR (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_ALLOW_NEWLINES:
 		g_value_set_boolean (value, tep->allow_newlines);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }

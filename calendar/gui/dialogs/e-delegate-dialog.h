@@ -52,11 +52,11 @@ struct _EDelegateDialogClass {
 
 GType            e_delegate_dialog_get_type          (void);
 
-EDelegateDialog* e_delegate_dialog_construct         (EDelegateDialog *etd,
+EDelegateDialog * e_delegate_dialog_construct         (EDelegateDialog *etd,
 						      const gchar      *name,
 						      const gchar      *address);
 
-EDelegateDialog* e_delegate_dialog_new               (const gchar      *name,
+EDelegateDialog * e_delegate_dialog_new               (const gchar      *name,
 						      const gchar      *address);
 
 gchar *            e_delegate_dialog_get_delegate      (EDelegateDialog *etd);
@@ -66,7 +66,7 @@ gchar *            e_delegate_dialog_get_delegate_name (EDelegateDialog *etd);
 void             e_delegate_dialog_set_delegate      (EDelegateDialog *etd,
 						      const gchar      *address);
 
-GtkWidget*       e_delegate_dialog_get_toplevel      (EDelegateDialog *etd);
+GtkWidget *       e_delegate_dialog_get_toplevel      (EDelegateDialog *etd);
 
 
 

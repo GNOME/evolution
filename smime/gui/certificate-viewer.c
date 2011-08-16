@@ -45,7 +45,8 @@ typedef struct {
 } CertificateViewerData;
 
 static void
-free_data (gpointer data, GObject *where_the_object_was)
+free_data (gpointer data,
+           GObject *where_the_object_was)
 {
 	CertificateViewerData *cvm = data;
 
@@ -59,7 +60,8 @@ free_data (gpointer data, GObject *where_the_object_was)
 #define NOT_PART_OF_CERT_MARKUP "<i>&lt;Not part of certificate&gt;</i>"
 
 static void
-fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
+fill_in_general (CertificateViewerData *cvm_data,
+                 ECert *cert)
 {
 	GtkWidget *label;
 	const gchar *text;
@@ -149,7 +151,9 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 }
 
 static void
-populate_fields_tree (CertificateViewerData *cvm_data, EASN1Object *asn1, GtkTreeIter *root)
+populate_fields_tree (CertificateViewerData *cvm_data,
+                      EASN1Object *asn1,
+                      GtkTreeIter *root)
 {
 	GtkTreeIter new_iter;
 
@@ -175,7 +179,8 @@ populate_fields_tree (CertificateViewerData *cvm_data, EASN1Object *asn1, GtkTre
 }
 
 static void
-hierarchy_selection_changed (GtkTreeSelection *selection, CertificateViewerData *cvm_data)
+hierarchy_selection_changed (GtkTreeSelection *selection,
+                             CertificateViewerData *cvm_data)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model;
@@ -214,7 +219,8 @@ hierarchy_selection_changed (GtkTreeSelection *selection, CertificateViewerData 
 }
 
 static void
-fields_selection_changed (GtkTreeSelection *selection, CertificateViewerData *cvm_data)
+fields_selection_changed (GtkTreeSelection *selection,
+                          CertificateViewerData *cvm_data)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model;
@@ -250,7 +256,8 @@ fields_selection_changed (GtkTreeSelection *selection, CertificateViewerData *cv
 }
 
 static void
-fill_in_details (CertificateViewerData *cvm_data, ECert *cert)
+fill_in_details (CertificateViewerData *cvm_data,
+                 ECert *cert)
 {
 	GList *l;
 	GtkTreeIter *root = NULL;
@@ -283,7 +290,7 @@ fill_in_details (CertificateViewerData *cvm_data, ECert *cert)
 	cvm_data->field_text = e_builder_get_widget (cvm_data->builder, "cert-field-value-textview");
 
 	/* set the font of the field value viewer to be some fixed
-	   width font to the hex display doesn't look like ass. */
+	 * width font to the hex display doesn't look like ass. */
 	cvm_data->text_tag = gtk_text_buffer_create_tag (gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
 							 "mono",
 							 "font", "Mono",
@@ -313,7 +320,7 @@ fill_in_details (CertificateViewerData *cvm_data, ECert *cert)
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (cvm_data->hierarchy_tree));
 }
 
-GtkWidget*
+GtkWidget *
 certificate_viewer_show (ECert *cert)
 {
 	CertificateViewerData *cvm_data;

@@ -99,8 +99,8 @@ struct _GnomeCalendarPrivate {
 	guint        update_marcus_bains_line_timeout;
 
 	/* This is the view currently shown. We use it to keep track of the
-	   positions of the panes. range_selected is TRUE if a range of dates
-	   was selected in the date navigator to show the view. */
+	 * positions of the panes. range_selected is TRUE if a range of dates
+	 * was selected in the date navigator to show the view. */
 	ECalendarView    *views[GNOME_CAL_LAST_VIEW];
 	GnomeCalendarViewType current_view_type;
 	GList *notifications;
@@ -108,8 +108,8 @@ struct _GnomeCalendarPrivate {
 	gboolean range_selected;
 
 	/* These are the saved positions of the panes. They are multiples of
-	   calendar month widths & heights in the date navigator, so that they
-	   will work OK after theme changes. */
+	 * calendar month widths & heights in the date navigator, so that they
+	 * will work OK after theme changes. */
 	gint	     hpane_pos;
 	gint	     hpane_pos_month_view;
 
@@ -117,8 +117,8 @@ struct _GnomeCalendarPrivate {
 	guint	     day_selected_id;
 
 	/* The dates currently shown. If they are -1 then we have no dates
-	   shown. We only use these to check if we need to emit a
-	   'dates-shown-changed' signal.*/
+	 * shown. We only use these to check if we need to emit a
+	 * 'dates-shown-changed' signal.*/
 	time_t visible_start;
 	time_t visible_end;
 	gboolean updating;
@@ -204,7 +204,9 @@ message_push (Message *msg)
 G_DEFINE_TYPE (GnomeCalendar, gnome_calendar, G_TYPE_OBJECT)
 
 static void
-gcal_update_status_message (GnomeCalendar *gcal, const gchar *message, gdouble percent)
+gcal_update_status_message (GnomeCalendar *gcal,
+                            const gchar *message,
+                            gdouble percent)
 {
 	ECalModel *model;
 
@@ -301,9 +303,9 @@ view_progress_cb (ECalModel *model,
 
 static void
 view_complete_cb (ECalModel *model,
-		  const GError *error,
-		  ECalClientSourceType type,
-		  GnomeCalendar *gcal)
+                  const GError *error,
+                  ECalClientSourceType type,
+                  GnomeCalendar *gcal)
 {
 	gcal_update_status_message (gcal, NULL, -1);
 }
@@ -878,7 +880,7 @@ get_times_for_views (GnomeCalendar *gcal,
 		time_to_gdate_with_zone (&date, *start_time, timezone);
 
 		/* The start of the work-week is the first working day after the
-		   week start day. */
+		 * week start day. */
 
 		/* Get the weekday corresponding to start_time, 0 (Sun) to 6 (Sat). */
 		weekday = g_date_get_weekday (&date) % 7;
@@ -902,7 +904,7 @@ get_times_for_views (GnomeCalendar *gcal,
 				last_day = (last_day + 6) % 7;
 			}
 			/* Now calculate the days we need to show to include all the
-			   working days in the week. Add 1 to make it inclusive. */
+			 * working days in the week. Add 1 to make it inclusive. */
 			days_shown = (last_day + 7 - first_day) % 7 + 1;
 		} else {
 			/* If no working days are set, just use 7. */
@@ -974,7 +976,9 @@ get_times_for_views (GnomeCalendar *gcal,
 
 /* Computes the range of time that the date navigator is showing */
 static void
-get_date_navigator_range (GnomeCalendar *gcal, time_t *start_time, time_t *end_time)
+get_date_navigator_range (GnomeCalendar *gcal,
+                          time_t *start_time,
+                          time_t *end_time)
 {
 	ECalModel *model;
 	gint start_year, start_month, start_day;
@@ -1014,7 +1018,8 @@ get_date_navigator_range (GnomeCalendar *gcal, time_t *start_time, time_t *end_t
 
 /* Adjusts a given query sexp with the time range of the date navigator */
 static gchar *
-adjust_client_view_sexp (GnomeCalendar *gcal, const gchar *sexp)
+adjust_client_view_sexp (GnomeCalendar *gcal,
+                         const gchar *sexp)
 {
 	time_t start_time, end_time;
 	gchar *start, *end;
@@ -1550,7 +1555,7 @@ notify_selected_time_changed (GnomeCalendar *gcal)
 
 static void
 gnome_calendar_goto_date (GnomeCalendar *gcal,
-			  GnomeCalendarGotoDateType goto_date)
+                          GnomeCalendarGotoDateType goto_date)
 {
 	ECalModel *model;
 	time_t	 new_time = 0;
@@ -1566,7 +1571,7 @@ gnome_calendar_goto_date (GnomeCalendar *gcal,
 
 	switch (goto_date) {
 		/* GNOME_CAL_GOTO_TODAY and GNOME_CAL_GOTO_DATE are
-		   currently not used
+		 * currently not used
 		*/
 	case GNOME_CAL_GOTO_TODAY:
 		break;
@@ -1625,7 +1630,8 @@ gnome_calendar_goto_date (GnomeCalendar *gcal,
 }
 
 void
-gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
+gnome_calendar_goto (GnomeCalendar *gcal,
+                     time_t new_time)
 {
 	GnomeCalendarPrivate *priv;
 	gint i;
@@ -1676,7 +1682,8 @@ gnome_calendar_update_view_times (GnomeCalendar *gcal,
 }
 
 static void
-gnome_calendar_direction (GnomeCalendar *gcal, gint direction)
+gnome_calendar_direction (GnomeCalendar *gcal,
+                          gint direction)
 {
 	ECalModel *model;
 	icaltimezone *timezone;
@@ -1724,7 +1731,8 @@ gnome_calendar_previous (GnomeCalendar *gcal)
 }
 
 void
-gnome_calendar_dayjump (GnomeCalendar *gcal, time_t time)
+gnome_calendar_dayjump (GnomeCalendar *gcal,
+                        time_t time)
 {
 	ECalModel *model;
 	icaltimezone *timezone;
@@ -1866,16 +1874,18 @@ gnome_calendar_display_view (GnomeCalendar *gcal,
 	gnome_calendar_set_range_selected (gcal, range_selected);
 
 	/* For the week & month views we want the selection in the date
-	   navigator to be rounded to the nearest week when the arrow buttons
-	   are pressed to move to the previous/next month. */
+	 * navigator to be rounded to the nearest week when the arrow buttons
+	 * are pressed to move to the previous/next month. */
 	g_object_set (
 		gcal->priv->date_navigator->calitem,
 		"preserve_day_when_moving", preserve_day, NULL);
 
 	/* keep week days selected as before for a work week view */
-	g_object_set (G_OBJECT (gcal->priv->date_navigator->calitem),
-		      "keep_wdays_on_weeknum_click", view_type == GNOME_CAL_WORK_WEEK_VIEW,
-		      NULL);
+	g_object_set (
+		gcal->priv->date_navigator->calitem,
+		"keep_wdays_on_weeknum_click",
+		view_type == GNOME_CAL_WORK_WEEK_VIEW,
+		NULL);
 
 	if (!gcal->priv->base_view_time)
 		start_time = time (NULL);
@@ -1931,7 +1941,8 @@ gnome_calendar_get_memo_table (GnomeCalendar *gcal)
 }
 
 void
-gnome_calendar_set_memo_table (GnomeCalendar *gcal, GtkWidget *memo_table)
+gnome_calendar_set_memo_table (GnomeCalendar *gcal,
+                               GtkWidget *memo_table)
 {
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
@@ -1957,7 +1968,8 @@ gnome_calendar_get_task_table (GnomeCalendar *gcal)
 }
 
 void
-gnome_calendar_set_task_table (GnomeCalendar *gcal, GtkWidget *task_table)
+gnome_calendar_set_task_table (GnomeCalendar *gcal,
+                               GtkWidget *task_table)
 {
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
@@ -2009,7 +2021,7 @@ gnome_calendar_set_range_selected (GnomeCalendar *gcal,
 
 void
 gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
-					time_t	       start_time)
+                                        time_t start_time)
 {
 	gnome_calendar_update_view_times (gcal, start_time);
 	gnome_calendar_update_date_navigator (gcal);
@@ -2026,7 +2038,9 @@ gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
  **/
 #if 0 /* KILL-BONOBO */
 void
-gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend)
+gnome_calendar_new_task (GnomeCalendar *gcal,
+                         time_t *dtstart,
+                         time_t *dtend)
 {
 	GnomeCalendarPrivate *priv;
 	ECal *ecal;
@@ -2080,12 +2094,12 @@ gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend)
 #endif
 
 /* Returns the selected time range for the current view. Note that this may be
-   different from the fields in the GnomeCalendar, since the view may clip
-   this or choose a more appropriate time. */
+ * different from the fields in the GnomeCalendar, since the view may clip
+ * this or choose a more appropriate time. */
 void
 gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
-				       time_t	 *start_time,
-				       time_t	 *end_time)
+                                       time_t *start_time,
+                                       time_t *end_time)
 {
 	GnomeCalendarViewType view_type;
 	ECalendarView *view;
@@ -2097,7 +2111,7 @@ gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 }
 
 /* This updates the month shown and the days selected in the calendar, if
-   necessary. */
+ * necessary. */
 static void
 gnome_calendar_update_date_navigator (GnomeCalendar *gcal)
 {
@@ -2165,8 +2179,8 @@ gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal)
 		return;
 
 	/* We check if the visible date range has changed, and only emit the
-	   signal if it has. (This makes sure we only change the folder title
-	   bar label in the shell when we need to.) */
+	 * signal if it has. (This makes sure we only change the folder title
+	 * bar label in the shell when we need to.) */
 	if (priv->visible_start != start_time
 	    || priv->visible_end != end_time) {
 		priv->visible_start = start_time;
@@ -2206,9 +2220,9 @@ struct purge_data {
 
 static gboolean
 check_instance_cb (ECalComponent *comp,
-		   time_t instance_start,
-		   time_t instance_end,
-		   gpointer data)
+                   time_t instance_start,
+                   time_t instance_end,
+                   gpointer data)
 {
 	struct purge_data *pd = data;
 
@@ -2219,7 +2233,8 @@ check_instance_cb (ECalComponent *comp,
 }
 
 void
-gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
+gnome_calendar_purge (GnomeCalendar *gcal,
+                      time_t older_than)
 {
 	gchar *sexp, *start, *end;
 	GList *clients, *l;

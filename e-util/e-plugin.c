@@ -40,29 +40,29 @@
 #define phd(x)
 
 /*
-<camel-plugin
-  class="org.gnome.camel.plugin.provider:1.0"
-  id="org.gnome.camel.provider.imap:1.0"
-  type="shlib"
-  location="/opt/gnome2/lib/camel/1.0/libcamelimap.so"
-  factory="camel_imap_provider_new">
- <name>imap</name>
- <description>IMAP4 and IMAP4v1 mail store</description>
- <class-data class="org.gnome.camel.plugin.provider:1.0"
-   protocol="imap"
-   domain="mail"
-   flags="remote,source,storage,ssl"/>
-</camel-plugin>
-
-<camel-plugin
-  class="org.gnome.camel.plugin.sasl:1.0"
-  id="org.gnome.camel.sasl.plain:1.0"
-  type="shlib"
-  location="/opt/gnome2/lib/camel/1.0/libcamelsasl.so"
-  factory="camel_sasl_plain_new">
- <name>PLAIN</name>
- <description>SASL PLAIN authentication mechanism</description>
-</camel-plugin>
+ * <camel-plugin
+ *   class="org.gnome.camel.plugin.provider:1.0"
+ *   id="org.gnome.camel.provider.imap:1.0"
+ *   type="shlib"
+ *   location="/opt/gnome2/lib/camel/1.0/libcamelimap.so"
+ *   factory="camel_imap_provider_new">
+ *  <name>imap</name>
+ *  <description>IMAP4 and IMAP4v1 mail store</description>
+ *  <class-data class="org.gnome.camel.plugin.provider:1.0"
+ *    protocol="imap"
+ *    domain="mail"
+ *    flags="remote,source,storage,ssl"/>
+ * </camel-plugin>
+ * 
+ * <camel-plugin
+ *   class="org.gnome.camel.plugin.sasl:1.0"
+ *   id="org.gnome.camel.sasl.plain:1.0"
+ *   type="shlib"
+ *   location="/opt/gnome2/lib/camel/1.0/libcamelsasl.so"
+ *   factory="camel_sasl_plain_new">
+ *  <name>PLAIN</name>
+ *  <description>SASL PLAIN authentication mechanism</description>
+ * </camel-plugin>
 */
 
 /* EPlugin stuff */
@@ -105,7 +105,8 @@ ep_check_enabled (const gchar *id)
 }
 
 static void
-ep_set_enabled (const gchar *id, gint state)
+ep_set_enabled (const gchar *id,
+                gint state)
 {
 	GConfClient *client;
 
@@ -133,7 +134,8 @@ ep_set_enabled (const gchar *id, gint state)
 }
 
 static gint
-ep_construct (EPlugin *ep, xmlNodePtr root)
+ep_construct (EPlugin *ep,
+              xmlNodePtr root)
 {
 	xmlNodePtr node;
 	gint res = -1;
@@ -159,7 +161,7 @@ ep_construct (EPlugin *ep, xmlNodePtr root)
 	node = root->children;
 	while (node) {
 		if (strcmp((gchar *)node->name, "hook") == 0) {
-			struct _EPluginHook *hook;
+			EPluginHook *hook;
 			EPluginHookClass *type;
 			gchar *class = e_plugin_xml_prop(node, "class");
 
@@ -213,7 +215,8 @@ fail:
 }
 
 static void
-ep_enable (EPlugin *ep, gint state)
+ep_enable (EPlugin *ep,
+           gint state)
 {
 	GSList *iter;
 
@@ -328,7 +331,8 @@ e_plugin_init (EPlugin *ep)
 }
 
 static EPlugin *
-ep_load_plugin (xmlNodePtr root, struct _plugin_doc *pdoc)
+ep_load_plugin (xmlNodePtr root,
+                struct _plugin_doc *pdoc)
 {
 	gchar *prop, *id;
 	EPluginClass *class;
@@ -375,7 +379,8 @@ ep_load_plugin (xmlNodePtr root, struct _plugin_doc *pdoc)
 }
 
 static gint
-ep_load (const gchar *filename, gint load_level)
+ep_load (const gchar *filename,
+         gint load_level)
 {
 	xmlDocPtr doc;
 	xmlNodePtr root;
@@ -545,8 +550,8 @@ e_plugin_load_plugins (void)
 		GCONF_VALUE_STRING, NULL);
 	g_object_unref (client);
 
-	for (i=0; i < 3; i++) {
-		for (l = ep_path;l;l = g_slist_next (l)) {
+	for (i = 0; i < 3; i++) {
+		for (l = ep_path; l; l = g_slist_next (l)) {
 			GDir *dir;
 			const gchar *d;
 			gchar *path = l->data;
@@ -577,7 +582,9 @@ e_plugin_load_plugins (void)
 }
 
 static void
-ep_list_plugin (gpointer key, gpointer val, gpointer dat)
+ep_list_plugin (gpointer key,
+                gpointer val,
+                gpointer dat)
 {
 	GSList **l = (GSList **) dat;
 
@@ -615,7 +622,8 @@ e_plugin_list_plugins (void)
  * Return value: The return from the construct virtual method.
  **/
 gint
-e_plugin_construct (EPlugin *ep, xmlNodePtr root)
+e_plugin_construct (EPlugin *ep,
+                    xmlNodePtr root)
 {
 	EPluginClass *class;
 
@@ -641,7 +649,9 @@ e_plugin_construct (EPlugin *ep, xmlNodePtr root)
  * Return value: The return of the plugin invocation.
  **/
 gpointer
-e_plugin_invoke (EPlugin *ep, const gchar *name, gpointer data)
+e_plugin_invoke (EPlugin *ep,
+                 const gchar *name,
+                 gpointer data)
 {
 	EPluginClass *class;
 
@@ -668,7 +678,8 @@ e_plugin_invoke (EPlugin *ep, const gchar *name, gpointer data)
  * Return value: the symbol value, or %NULL if not found
  **/
 gpointer
-e_plugin_get_symbol (EPlugin *ep, const gchar *name)
+e_plugin_get_symbol (EPlugin *ep,
+                     const gchar *name)
 {
 	EPluginClass *class;
 
@@ -690,7 +701,8 @@ e_plugin_get_symbol (EPlugin *ep, const gchar *name)
  * THIS IS NOT FULLY IMPLEMENTED YET
  **/
 void
-e_plugin_enable (EPlugin *ep, gint state)
+e_plugin_enable (EPlugin *ep,
+                 gint state)
 {
 	EPluginClass *class;
 
@@ -741,7 +753,8 @@ e_plugin_get_configure_widget (EPlugin *ep)
  * such property exists.
  **/
 gchar *
-e_plugin_xml_prop (xmlNodePtr node, const gchar *id)
+e_plugin_xml_prop (xmlNodePtr node,
+                   const gchar *id)
 {
 	xmlChar *xml_prop;
 	gchar *glib_prop = NULL;
@@ -769,7 +782,9 @@ e_plugin_xml_prop (xmlNodePtr node, const gchar *id)
  * such property exists.
  **/
 gchar *
-e_plugin_xml_prop_domain (xmlNodePtr node, const gchar *id, const gchar *domain)
+e_plugin_xml_prop_domain (xmlNodePtr node,
+                          const gchar *id,
+                          const gchar *domain)
 {
 	gchar *p, *out;
 
@@ -797,7 +812,9 @@ e_plugin_xml_prop_domain (xmlNodePtr node, const gchar *id, const gchar *domain)
  * Return value: The value if set, or @def if not.
  **/
 gint
-e_plugin_xml_int (xmlNodePtr node, const gchar *id, gint def)
+e_plugin_xml_int (xmlNodePtr node,
+                  const gchar *id,
+                  gint def)
 {
 	gchar *p = (gchar *) xmlGetProp (node, (const guchar *) id);
 
@@ -845,7 +862,8 @@ e_plugin_xml_content (xmlNodePtr node)
  * Return value: The node content, allocated in GLib memory.
  **/
 gchar *
-e_plugin_xml_content_domain (xmlNodePtr node, const gchar *domain)
+e_plugin_xml_content_domain (xmlNodePtr node,
+                             const gchar *domain)
 {
 	gchar *p, *out;
 
@@ -867,7 +885,9 @@ G_DEFINE_TYPE (
 	G_TYPE_OBJECT)
 
 static gint
-eph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
+eph_construct (EPluginHook *eph,
+               EPlugin *ep,
+               xmlNodePtr root)
 {
 	eph->plugin = ep;
 
@@ -875,7 +895,8 @@ eph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 }
 
 static void
-eph_enable (EPluginHook *eph, gint state)
+eph_enable (EPluginHook *eph,
+            gint state)
 {
 	/* NOOP */
 }
@@ -903,7 +924,8 @@ e_plugin_hook_init (EPluginHook *hook)
  * THIS IS NOT FULY IMEPLEMENTED YET
  **/
 void
-e_plugin_hook_enable (EPluginHook *eph, gint state)
+e_plugin_hook_enable (EPluginHook *eph,
+                      gint state)
 {
 	EPluginHookClass *class;
 
@@ -932,7 +954,7 @@ e_plugin_hook_enable (EPluginHook *eph, gint state)
  **/
 guint32
 e_plugin_hook_mask (xmlNodePtr root,
-                    const struct _EPluginHookTargetKey *map,
+                    const EPluginHookTargetKey *map,
                     const gchar *prop)
 {
 	gchar *val, *p, *start, c;
@@ -952,7 +974,7 @@ e_plugin_hook_mask (xmlNodePtr root,
 		if (start != p) {
 			gint i;
 
-			for (i=0;map[i].key;i++) {
+			for (i = 0; map[i].key; i++) {
 				if (!strcmp (map[i].key, start)) {
 					mask |= map[i].value;
 					break;
@@ -985,7 +1007,7 @@ e_plugin_hook_mask (xmlNodePtr root,
  **/
 guint32
 e_plugin_hook_id (xmlNodePtr root,
-                  const struct _EPluginHookTargetKey *map,
+                  const EPluginHookTargetKey *map,
                   const gchar *prop)
 {
 	gchar *val;
@@ -995,7 +1017,7 @@ e_plugin_hook_id (xmlNodePtr root,
 	if (val == NULL)
 		return ~0;
 
-	for (i=0;map[i].key;i++) {
+	for (i = 0; map[i].key; i++) {
 		if (!strcmp (map[i].key, val)) {
 			xmlFree (val);
 			return map[i].value;

@@ -55,7 +55,7 @@ typedef struct _ECalModelCalendarPrivate ECalModelCalendarPrivate;
 
 typedef enum {
 	/* If you add new items here or reorder them, you have to update the
-	   .etspec files for the tables using this model */
+	 * .etspec files for the tables using this model */
 	E_CAL_MODEL_CALENDAR_FIELD_DTEND = E_CAL_MODEL_FIELD_LAST,
 	E_CAL_MODEL_CALENDAR_FIELD_LOCATION,
 	E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY,

@@ -195,7 +195,8 @@ gnome_canvas_item_invoke_point (GnomeCanvasItem *item,
 #define DISPLAY_X1(canvas) (GNOME_CANVAS (canvas)->layout.xoffset)
 #define DISPLAY_Y1(canvas) (GNOME_CANVAS (canvas)->layout.yoffset)
 static gint
-pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
+pick_current_item (GnomeCanvas *canvas,
+                   GdkEvent *event)
 {
 	gint button_down;
 	gdouble x, y;

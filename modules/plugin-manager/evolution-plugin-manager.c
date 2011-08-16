@@ -96,7 +96,8 @@ GType e_plugin_manager_get_type (void);
 G_DEFINE_DYNAMIC_TYPE (EPluginManager, e_plugin_manager, E_TYPE_EXTENSION)
 
 static void
-eppm_set_label (GtkLabel *l, const gchar *v)
+eppm_set_label (GtkLabel *l,
+                const gchar *v)
 {
 	gtk_label_set_label(l, v?v:_("Unknown"));
 }
@@ -171,7 +172,8 @@ eppm_show_plugin (Manager *m,
 }
 
 static void
-eppm_selection_changed (GtkTreeSelection *selection, Manager *m)
+eppm_selection_changed (GtkTreeSelection *selection,
+                        Manager *m)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;

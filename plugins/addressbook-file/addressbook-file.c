@@ -32,7 +32,8 @@
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
@@ -40,7 +41,8 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 GtkWidget *e_book_file_dummy (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 GtkWidget *
-e_book_file_dummy (EPlugin *epl, EConfigHookItemFactoryData *data)
+e_book_file_dummy (EPlugin *epl,
+                   EConfigHookItemFactoryData *data)
 {
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource *source = t->source;

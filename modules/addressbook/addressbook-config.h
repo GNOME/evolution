@@ -47,7 +47,7 @@ typedef enum {
 	ADDRESSBOOK_LDAP_SSL_NEVER		/* No encryption */
 } AddressbookLDAPSSLType;
 
-GtkWidget* addressbook_config_edit_source        (GtkWidget *parent, ESource *source);
-GtkWidget* addressbook_config_create_new_source  (GtkWidget *parent);
+GtkWidget * addressbook_config_edit_source        (GtkWidget *parent, ESource *source);
+GtkWidget * addressbook_config_create_new_source  (GtkWidget *parent);
 
 #endif /* __ADDRESSBOOK_CONFIG_H__ */

@@ -83,13 +83,13 @@ contact_map_geocode_address (EContactAddress *address)
 
 static void
 contact_map_address_resolved_cb (GeoclueGeocode *geocode,
-				 GeocluePositionFields fields,
-				 double latitude,
-				 double longitude,
-				 double altitude,
-				 GeoclueAccuracy *accuracy,
-				 GError *error,
-				 struct GeoclueCallbackData *data)
+                                 GeocluePositionFields fields,
+                                 double latitude,
+                                 double longitude,
+                                 double altitude,
+                                 GeoclueAccuracy *accuracy,
+                                 GError *error,
+                                 struct GeoclueCallbackData *data)
 {
 	EContactMapPrivate *priv;
 	gpointer marker_ptr;
@@ -101,8 +101,8 @@ contact_map_address_resolved_cb (GeoclueGeocode *geocode,
 	g_return_if_fail (data->marker && E_IS_CONTACT_MARKER (data->marker));
 
 	/* If the marker_layer does not exist anymore, the map has probably been destroyed before this
-	   callback was launched. It's not a failure, just silently clean up what was left behind
-	   a pretend nothing happend */
+	 * callback was launched. It's not a failure, just silently clean up what was left behind
+	 * a pretend nothing happend */
 
 	if (!data->map->priv->marker_layer || !CHAMPLAIN_IS_MARKER_LAYER (data->map->priv->marker_layer)) {
 		goto exit;
@@ -150,8 +150,8 @@ exit:
 
 static void
 resolve_marker_position (EContactMap *map,
-			 EContactMarker *marker,
-			 EContactAddress *address)
+                         EContactMarker *marker,
+                         EContactAddress *address)
 {
 	GHashTable *details;
 
@@ -166,7 +166,7 @@ resolve_marker_position (EContactMap *map,
 		callback_data->marker = marker;
 
 		/* Make sure the map won't cease to exist before the address
-		   is resolved */
+		 * is resolved */
 		g_object_ref (map);
 
 		geocoder = geoclue_geocode_new ("org.freedesktop.Geoclue.Providers.Yahoo",
@@ -268,7 +268,7 @@ e_contact_map_init (EContactMap *map)
 	map->priv->marker_layer = layer;
 }
 
-GtkWidget*
+GtkWidget *
 e_contact_map_new (void)
 {
 	return g_object_new (
@@ -277,7 +277,7 @@ e_contact_map_new (void)
 
 void
 e_contact_map_add_contact (EContactMap *map,
-			   EContact *contact)
+                           EContact *contact)
 {
 	EContactAddress *address;
 	EContactPhoto *photo;
@@ -312,10 +312,10 @@ e_contact_map_add_contact (EContactMap *map,
 
 void
 e_contact_map_add_marker (EContactMap *map,
-			  const gchar *name,
-			  const gchar *contact_uid,
-			  EContactAddress *address,
-			  EContactPhoto *photo)
+                          const gchar *name,
+                          const gchar *contact_uid,
+                          EContactAddress *address,
+                          EContactPhoto *photo)
 {
 	EContactMarker *marker;
 
@@ -335,7 +335,7 @@ e_contact_map_add_marker (EContactMap *map,
  */
 void
 e_contact_map_remove_contact (EContactMap *map,
-			      const gchar *name)
+                              const gchar *name)
 {
 	ChamplainMarker *marker;
 
@@ -353,7 +353,7 @@ e_contact_map_remove_contact (EContactMap *map,
 
 void
 e_contact_map_remove_marker (EContactMap *map,
-			     ClutterActor *marker)
+                             ClutterActor *marker)
 {
 	const gchar *name;
 
@@ -367,7 +367,7 @@ e_contact_map_remove_marker (EContactMap *map,
 
 void
 e_contact_map_zoom_on_marker (EContactMap *map,
-			      ClutterActor *marker)
+                              ClutterActor *marker)
 {
 	ChamplainView *view;
 	gdouble lat, lng;
@@ -384,7 +384,7 @@ e_contact_map_zoom_on_marker (EContactMap *map,
 	champlain_view_set_zoom_level (view, 15);
 }
 
-ChamplainView*
+ChamplainView *
 e_contact_map_get_view (EContactMap *map)
 {
 	g_return_val_if_fail (E_IS_CONTACT_MAP (map), NULL);

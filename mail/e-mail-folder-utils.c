@@ -767,7 +767,8 @@ mail_folder_remove_recursive (CamelStore *store,
 }
 
 static void
-follow_cancel_cb (GCancellable *cancellable, GCancellable *transparent_cancellable)
+follow_cancel_cb (GCancellable *cancellable,
+                  GCancellable *transparent_cancellable)
 {
 	g_cancellable_cancel (transparent_cancellable);
 }

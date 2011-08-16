@@ -105,7 +105,7 @@ part_combobox_changed (GtkComboBox *combobox,
 		return;
 
 	/* here we do a widget shuffle, throw away the old widget/rulepart,
-	   and create another */
+	 * and create another */
 	if (data->partwidget)
 		gtk_container_remove (GTK_CONTAINER (data->container), data->partwidget);
 
@@ -203,7 +203,8 @@ less_parts (GtkWidget *button,
 static void
 attach_rule (GtkWidget *rule,
              FilterRuleData *data,
-             EFilterPart *part, gint row)
+             EFilterPart *part,
+             gint row)
 {
 	GtkWidget *remove;
 
@@ -611,7 +612,8 @@ filter_rule_build_code (EFilterRule *rule,
 }
 
 static void
-filter_rule_copy (EFilterRule *dest, EFilterRule *src)
+filter_rule_copy (EFilterRule *dest,
+                  EFilterRule *src)
 {
 	GList *node;
 
@@ -658,7 +660,7 @@ filter_rule_get_widget (EFilterRule *rule,
 	gint rows, i;
 
 	/* this stuff should probably be a table, but the
-	   rule parts need to be a vbox */
+	 * rule parts need to be a vbox */
 	vbox = gtk_vbox_new (FALSE, 6);
 
 	label = gtk_label_new_with_mnemonic (_("R_ule name:"));
@@ -723,7 +725,7 @@ filter_rule_get_widget (EFilterRule *rule,
 		label = gtk_label_new_with_mnemonic (_("_Find items:"));
 		combobox = gtk_combo_box_text_new ();
 
-		for (i=0;i<2;i++) {
+		for (i = 0; i < 2; i++) {
 			gtk_combo_box_text_append_text (
 				GTK_COMBO_BOX_TEXT (combobox),
 				_(thread_types[i]));
@@ -759,7 +761,7 @@ filter_rule_get_widget (EFilterRule *rule,
 		label = gtk_label_new_with_mnemonic (_("I_nclude threads:"));
 		combobox = gtk_combo_box_text_new ();
 
-		for (i=0;i<5;i++) {
+		for (i = 0; i < 5; i++) {
 			gtk_combo_box_text_append_text (
 				GTK_COMBO_BOX_TEXT (combobox),
 				_(thread_types[i]));
@@ -1107,7 +1109,7 @@ e_filter_rule_next_list (GList *list,
 }
 
 EFilterRule *
-e_filter_rule_find_list (GList * list,
+e_filter_rule_find_list (GList *list,
                          const gchar *name,
                          const gchar *source)
 {
