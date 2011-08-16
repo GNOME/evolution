@@ -254,20 +254,8 @@ em_config_target_new_account_update_settings (EConfig *ep, EMConfigTargetAccount
 
 	target->settings = settings;
 
-	if (target->settings != NULL) {
-		GParamSpec **params;
-		guint n_params = 0;
-
-		params = camel_settings_class_list_settings (CAMEL_SETTINGS_GET_CLASS (target->settings), &n_params);
-		if (params) {
-			guint ii;
-			gchar *sig_name;
-
-			for (ii = 0; ii < n_params; ii++) {
-				sig_name = g_strconcat ("notify::", params[ii]->name, NULL);
-				g_signal_connect (target->settings, sig_name, G_CALLBACK (emp_account_changed), ep);
-				g_free (sig_name);
-			}
-		}
-	}
+	if (target->settings != NULL)
+		g_signal_connect (
+			target->settings, "notify",
+			G_CALLBACK (emp_account_changed), ep);
 }
