@@ -1588,11 +1588,7 @@ emae_setup_settings (EMAccountEditorService *service)
 	config = E_CONFIG (service->emae->priv->config);
 	target = (EMConfigTargetAccount *) config->target;
 
-	if (target->settings != NULL)
-		g_object_unref (target->settings);
-	target->settings = service->emae->priv->source.settings;
-	if (target->settings != NULL)
-		g_object_ref (target->settings);
+	em_config_target_new_account_update_settings (config, target, service->emae->priv->source.settings);
 }
 
 static void

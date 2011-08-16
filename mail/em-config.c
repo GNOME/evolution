@@ -85,6 +85,8 @@ em_config_set_target (EConfig *ep,
 			config->priv->account_changed_id = g_signal_connect (
 				s->modified_account, "changed",
 				G_CALLBACK (emp_account_changed), ep);
+
+			em_config_target_new_account_update_settings (ep, s, s->settings);
 			break; }
 		}
 	}
@@ -110,6 +112,8 @@ em_config_target_free (EConfig *ep,
 					config->priv->account_changed_id);
 				config->priv->account_changed_id = 0;
 			}
+
+			em_config_target_new_account_update_settings (ep, s, NULL);
 			break; }
 		}
 	}
@@ -232,4 +236,38 @@ em_config_target_new_account (EMConfig *emp,
 		t->settings = NULL;
 
 	return t;
+}
+
+void
+em_config_target_new_account_update_settings (EConfig *ep, EMConfigTargetAccount *target, CamelSettings *settings)
+{
+	g_return_if_fail (ep != NULL);
+	g_return_if_fail (target != NULL);
+
+	if (settings)
+		g_object_ref (settings);
+
+	if (target->settings != NULL) {
+		g_signal_handlers_disconnect_by_func (target->settings, G_CALLBACK (emp_account_changed), ep);
+		g_object_unref (target->settings);
+	}
+
+	target->settings = settings;
+
+	if (target->settings != NULL) {
+		GParamSpec **params;
+		guint n_params = 0;
+
+		params = camel_settings_class_list_settings (CAMEL_SETTINGS_GET_CLASS (target->settings), &n_params);
+		if (params) {
+			guint ii;
+			gchar *sig_name;
+
+			for (ii = 0; ii < n_params; ii++) {
+				sig_name = g_strconcat ("notify::", params[ii]->name, NULL);
+				g_signal_connect (target->settings, sig_name, G_CALLBACK (emp_account_changed), ep);
+				g_free (sig_name);
+			}
+		}
+	}
 }
