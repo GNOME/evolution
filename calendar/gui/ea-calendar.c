@@ -50,9 +50,9 @@ EA_FACTORY_GOBJECT (
 EA_FACTORY (EA_TYPE_GNOME_CALENDAR, ea_gnome_calendar, ea_gnome_calendar_new)
 
 static gboolean ea_calendar_focus_watcher (GSignalInvocationHint *ihint,
-					   guint n_param_values,
-					   const GValue *param_values,
-					   gpointer data);
+                                           guint n_param_values,
+                                           const GValue *param_values,
+                                           gpointer data);
 
 static gpointer e_text_type, pixbuf_type, e_day_view_type, e_week_view_type;
 static gpointer e_day_view_main_item_type, e_week_view_main_item_type;

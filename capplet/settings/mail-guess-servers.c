@@ -50,7 +50,8 @@
 #include "mail-guess-servers.h"
 
 static gchar *
-xml_to_gchar (xmlChar *xml, EmailProvider *provider)
+xml_to_gchar (xmlChar *xml,
+              EmailProvider *provider)
 {
 	gchar *gxml = NULL;
 	gchar *tmp;
@@ -89,7 +90,8 @@ xml_to_gchar (xmlChar *xml, EmailProvider *provider)
 }
 
 static SoupMessage *
-get_url (SoupSession *session, const gchar *url)
+get_url (SoupSession *session,
+         const gchar *url)
 {
 	SoupMessage *msg;
 	const gchar *header;
@@ -175,7 +177,9 @@ handle_outgoing (xmlNodePtr head,
 }
 
 static gboolean
-parse_message (const gchar *msg, gint length, EmailProvider *provider)
+parse_message (const gchar *msg,
+               gint length,
+               EmailProvider *provider)
 {
 	xmlDocPtr doc;
 	xmlNodePtr node;
@@ -227,7 +231,8 @@ parse_message (const gchar *msg, gint length, EmailProvider *provider)
 }
 
 static gboolean
-parse_soup_message (SoupMessage *msg, EmailProvider *provider)
+parse_soup_message (SoupMessage *msg,
+                    EmailProvider *provider)
 {
 	return parse_message (
 		msg->response_body->data,
@@ -334,7 +339,8 @@ mail_guess_servers (EmailProvider *provider)
 
 #ifdef TEST
 gint
-main (gint argc, gchar **argv)
+main (gint argc,
+      gchar **argv)
 {
 	EmailProvider *provider;
 	g_thread_init (NULL);

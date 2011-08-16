@@ -42,8 +42,8 @@ void      e_canvas_item_show_area_delayed  (GnomeCanvasItem *item,
 					    gdouble           y2,
 					    gint             delay);
 /* Returns TRUE if the area is already shown on the screen (including
-   spacing.)  This is equivelent to returning FALSE iff show_area
-   would do anything. */
+ * spacing.)  This is equivelent to returning FALSE iff show_area
+ * would do anything. */
 gboolean  e_canvas_item_area_shown         (GnomeCanvasItem *item,
 					    gdouble           x1,
 					    gdouble           y1,

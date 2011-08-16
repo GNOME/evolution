@@ -50,7 +50,9 @@ G_DEFINE_TYPE (ECellHbox, e_cell_hbox, E_TYPE_CELL)
  * ECell::new_view method
  */
 static ECellView *
-ecv_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view)
+ecv_new_view (ECell *ecell,
+              ETableModel *table_model,
+              gpointer e_table_item_view)
 {
 	ECellHbox *ecv = E_CELL_HBOX (ecell);
 	ECellHboxView *hbox_view = g_new0 (ECellHboxView, 1);
@@ -155,11 +157,11 @@ ecv_draw (ECellView *ecell_view,
 
 	gint subcell_offset = 0;
 	gint i;
-	gint allotted_width = x2-x1;
+	gint allotted_width = x2 - x1;
 
 	for (i = 0; i < hbox_view->subcell_view_count; i++) {
 		/* Now cause our subcells to draw their contents,
-		   shifted by subcell_offset pixels */
+		 * shifted by subcell_offset pixels */
 		gint width = allotted_width * hbox_view->def_size_cols[i] / 100;
 			/* e_cell_max_width_by_row (hbox_view->subcell_views[i], hbox_view->model_cols[i], view_col, row);
 		if (width < hbox_view->def_size_cols[i])
@@ -180,7 +182,13 @@ ecv_draw (ECellView *ecell_view,
  * ECell::event method
  */
 static gint
-ecv_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col, gint row, ECellFlags flags, ECellActions *actions)
+ecv_event (ECellView *ecell_view,
+           GdkEvent *event,
+           gint model_col,
+           gint view_col,
+           gint row,
+           ECellFlags flags,
+           ECellActions *actions)
 {
 	ECellHboxView *hbox_view = (ECellHboxView *) ecell_view;
 	gint y = 0;
@@ -217,7 +225,10 @@ ecv_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
  * ECell::height method
  */
 static gint
-ecv_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
+ecv_height (ECellView *ecell_view,
+            gint model_col,
+            gint view_col,
+            gint row)
 {
 	ECellHboxView *hbox_view = (ECellHboxView *) ecell_view;
 	gint height = 0, max_height = 0;
@@ -234,7 +245,9 @@ ecv_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
  * ECell::max_width method
  */
 static gint
-ecv_max_width (ECellView *ecell_view, gint model_col, gint view_col)
+ecv_max_width (ECellView *ecell_view,
+               gint model_col,
+               gint view_col)
 {
 	ECellHboxView *hbox_view = (ECellHboxView *) ecell_view;
 	gint width = 0;
@@ -321,7 +334,10 @@ e_cell_hbox_new (void)
 }
 
 void
-e_cell_hbox_append (ECellHbox *hbox, ECell *subcell, gint model_col, gint size)
+e_cell_hbox_append (ECellHbox *hbox,
+                    ECell *subcell,
+                    gint model_col,
+                    gint size)
 {
 	hbox->subcell_count++;
 

@@ -120,7 +120,7 @@ struct _GnomeCanvasText {
 
 	gdouble xofs, yofs;		/* Text offset distance from anchor position */
 
-	gdouble affine[6];               /* The item -> canvas affine */ /*AA*/
+	gdouble affine[6];               /* The item -> canvas affine */ /*AA */
 
 	GtkJustification justification;	/* Justification for text */
 
@@ -130,7 +130,7 @@ struct _GnomeCanvasText {
 	gint max_width;			/* Maximum width of text lines */
 	gint height;			/* Rendered text height in pixels */
 
-        guint32 rgba;			/* RGBA color for text */ /*AA*/
+        guint32 rgba;			/* RGBA color for text */ /*AA */
 
 	guint clip : 1;			/* Use clip rectangle? */
 

@@ -162,7 +162,8 @@ delete_component_dialog (ECalComponent *comp,
 }
 
 static void
-cb_toggled_cb (GtkToggleButton *toggle, gpointer data)
+cb_toggled_cb (GtkToggleButton *toggle,
+               gpointer data)
 {
 	gboolean active = FALSE;
 	GtkWidget *entry = (GtkWidget *) data;
@@ -172,7 +173,10 @@ cb_toggled_cb (GtkToggleButton *toggle, gpointer data)
 }
 
 gboolean
-prompt_retract_dialog (ECalComponent *comp, gchar **retract_text, GtkWidget *parent, gboolean *retract)
+prompt_retract_dialog (ECalComponent *comp,
+                       gchar **retract_text,
+                       GtkWidget *parent,
+                       gboolean *retract)
 {
 	gchar *message = NULL;
 	ECalComponentVType type = E_CAL_COMPONENT_NO_TYPE;

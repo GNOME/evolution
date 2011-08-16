@@ -249,7 +249,7 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 		GTK_WINDOW (e_contact_editor_fullname), "contact-new");
 }
 
-GtkWidget*
+GtkWidget *
 e_contact_editor_fullname_new (const EContactName *name)
 {
 	GtkWidget *widget = g_object_new (E_TYPE_CONTACT_EDITOR_FULLNAME, NULL);

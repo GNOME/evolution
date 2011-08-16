@@ -252,7 +252,8 @@ get_n_columns (GtkTreeModel *model)
 }
 
 static GType
-get_column_type (GtkTreeModel *model, gint col)
+get_column_type (GtkTreeModel *model,
+                 gint col)
 {
 	g_return_val_if_fail (E_IS_MEETING_STORE (model), G_TYPE_INVALID);
 
@@ -277,7 +278,9 @@ get_column_type (GtkTreeModel *model, gint col)
 }
 
 static gboolean
-get_iter (GtkTreeModel *model, GtkTreeIter *iter, GtkTreePath *path)
+get_iter (GtkTreeModel *model,
+          GtkTreeIter *iter,
+          GtkTreePath *path)
 {
 	gint row;
 
@@ -296,7 +299,8 @@ get_iter (GtkTreeModel *model, GtkTreeIter *iter, GtkTreePath *path)
 }
 
 static GtkTreePath *
-get_path (GtkTreeModel *model, GtkTreeIter *iter)
+get_path (GtkTreeModel *model,
+          GtkTreeIter *iter)
 {
 	gint row;
 	GtkTreePath *result;
@@ -314,7 +318,10 @@ get_path (GtkTreeModel *model, GtkTreeIter *iter)
 }
 
 static void
-get_value (GtkTreeModel *model, GtkTreeIter *iter, gint col, GValue *value)
+get_value (GtkTreeModel *model,
+           GtkTreeIter *iter,
+           gint col,
+           GValue *value)
 {
 	EMeetingStore *store;
 	EMeetingAttendee *attendee;
@@ -410,7 +417,8 @@ get_value (GtkTreeModel *model, GtkTreeIter *iter, gint col, GValue *value)
 }
 
 static gboolean
-iter_next (GtkTreeModel *model, GtkTreeIter *iter)
+iter_next (GtkTreeModel *model,
+           GtkTreeIter *iter)
 {
 	gint row;
 
@@ -424,7 +432,9 @@ iter_next (GtkTreeModel *model, GtkTreeIter *iter)
 }
 
 static gboolean
-iter_children (GtkTreeModel *model, GtkTreeIter *iter, GtkTreeIter *parent)
+iter_children (GtkTreeModel *model,
+               GtkTreeIter *iter,
+               GtkTreeIter *parent)
 {
 	EMeetingStore *store;
 
@@ -442,13 +452,15 @@ iter_children (GtkTreeModel *model, GtkTreeIter *iter, GtkTreeIter *parent)
 }
 
 static gboolean
-iter_has_child (GtkTreeModel *model, GtkTreeIter *iter)
+iter_has_child (GtkTreeModel *model,
+                GtkTreeIter *iter)
 {
 	return FALSE;
 }
 
 static gint
-iter_n_children (GtkTreeModel *model, GtkTreeIter *iter)
+iter_n_children (GtkTreeModel *model,
+                 GtkTreeIter *iter)
 {
 	g_return_val_if_fail (E_IS_MEETING_STORE (model), -1);
 
@@ -461,7 +473,10 @@ iter_n_children (GtkTreeModel *model, GtkTreeIter *iter)
 }
 
 static gboolean
-iter_nth_child (GtkTreeModel *model, GtkTreeIter *iter, GtkTreeIter *parent, gint n)
+iter_nth_child (GtkTreeModel *model,
+                GtkTreeIter *iter,
+                GtkTreeIter *parent,
+                gint n)
 {
 	EMeetingStore *store;
 
@@ -479,7 +494,9 @@ iter_nth_child (GtkTreeModel *model, GtkTreeIter *iter, GtkTreeIter *parent, gin
 }
 
 static gboolean
-iter_parent (GtkTreeModel *model, GtkTreeIter *iter, GtkTreeIter *child)
+iter_parent (GtkTreeModel *model,
+             GtkTreeIter *iter,
+             GtkTreeIter *child)
 {
 	return FALSE;
 }
@@ -502,7 +519,10 @@ ems_tree_model_init (GtkTreeModelIface *iface)
 }
 
 void
-e_meeting_store_set_value (EMeetingStore *store, gint row, gint col, const gchar *val)
+e_meeting_store_set_value (EMeetingStore *store,
+                           gint row,
+                           gint col,
+                           const gchar *val)
 {
 	icalparameter_cutype type;
 	EMeetingAttendee *attendee = g_ptr_array_index (store->priv->attendees, row);
@@ -555,7 +575,9 @@ struct FindAttendeeData
 };
 
 static void
-find_attendee_cb (gpointer key, gpointer value, gpointer user_data)
+find_attendee_cb (gpointer key,
+                  gpointer value,
+                  gpointer user_data)
 {
 	EMeetingStoreQueueData *qdata = value;
 	struct FindAttendeeData *fad = user_data;
@@ -568,7 +590,8 @@ find_attendee_cb (gpointer key, gpointer value, gpointer user_data)
 }
 
 static void
-refresh_queue_remove (EMeetingStore *store, EMeetingAttendee *attendee)
+refresh_queue_remove (EMeetingStore *store,
+                      EMeetingAttendee *attendee)
 {
 	EMeetingStorePrivate *priv;
 	EMeetingStoreQueueData *qdata;
@@ -964,7 +987,8 @@ e_meeting_store_set_week_start_day (EMeetingStore *store,
 }
 
 static void
-attendee_changed_cb (EMeetingAttendee *attendee, gpointer data)
+attendee_changed_cb (EMeetingAttendee *attendee,
+                     gpointer data)
 {
 	EMeetingStore *store = E_MEETING_STORE (data);
 	GtkTreePath *path;
@@ -989,7 +1013,8 @@ attendee_changed_cb (EMeetingAttendee *attendee, gpointer data)
 }
 
 void
-e_meeting_store_add_attendee (EMeetingStore *store, EMeetingAttendee *attendee)
+e_meeting_store_add_attendee (EMeetingStore *store,
+                              EMeetingAttendee *attendee)
 {
 	GtkTreePath *path;
 	GtkTreeIter iter;
@@ -1045,7 +1070,8 @@ e_meeting_store_add_attendee_with_defaults (EMeetingStore *store)
 }
 
 void
-e_meeting_store_remove_attendee (EMeetingStore *store, EMeetingAttendee *attendee)
+e_meeting_store_remove_attendee (EMeetingStore *store,
+                                 EMeetingAttendee *attendee)
 {
 	gint i, row = -1;
 	GtkTreePath *path;
@@ -1170,7 +1196,8 @@ e_meeting_store_find_attendee (EMeetingStore *store,
 }
 
 EMeetingAttendee *
-e_meeting_store_find_attendee_at_row (EMeetingStore *store, gint row)
+e_meeting_store_find_attendee_at_row (EMeetingStore *store,
+                                      gint row)
 {
 	g_return_val_if_fail (E_IS_MEETING_STORE (store), NULL);
 	g_return_val_if_fail (ROW_VALID (store, row), NULL);
@@ -1179,7 +1206,8 @@ e_meeting_store_find_attendee_at_row (EMeetingStore *store, gint row)
 }
 
 GtkTreePath *
-e_meeting_store_find_attendee_path (EMeetingStore *store, EMeetingAttendee *attendee)
+e_meeting_store_find_attendee_path (EMeetingStore *store,
+                                    EMeetingAttendee *attendee)
 {
 	GtkTreePath *path;
 	gint row = -1, i;
@@ -1217,7 +1245,8 @@ e_meeting_store_get_attendees (EMeetingStore *store)
 }
 
 static icaltimezone *
-find_zone (icalproperty *ip, icalcomponent *tz_top_level)
+find_zone (icalproperty *ip,
+           icalcomponent *tz_top_level)
 {
 	icalparameter *param;
 	icalcomponent *sub_comp;
@@ -1284,9 +1313,9 @@ process_callbacks (EMeetingStoreQueueData *qdata)
 
 static void
 process_free_busy_comp (EMeetingAttendee *attendee,
-			icalcomponent *fb_comp,
-			icaltimezone *zone,
-			icalcomponent *tz_top_level)
+                        icalcomponent *fb_comp,
+                        icaltimezone *zone,
+                        icalcomponent *tz_top_level)
 {
 	icalproperty *ip;
 
@@ -1385,7 +1414,8 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 }
 
 static void
-process_free_busy (EMeetingStoreQueueData *qdata, gchar *text)
+process_free_busy (EMeetingStoreQueueData *qdata,
+                   gchar *text)
 {
 	EMeetingStore *store = qdata->store;
 	EMeetingStorePrivate *priv;
@@ -1439,7 +1469,9 @@ process_free_busy (EMeetingStoreQueueData *qdata, gchar *text)
  * In the returned newly allocated string.
 */
 static gchar *
-replace_string (gchar *string, const gchar *from_value, gchar *to_value)
+replace_string (gchar *string,
+                const gchar *from_value,
+                gchar *to_value)
 {
 	gchar *replaced;
 	gchar **split_uri;
@@ -1673,11 +1705,12 @@ refresh_busy_periods (gpointer data)
 }
 
 static void
-refresh_queue_add (EMeetingStore *store, gint row,
-		   EMeetingTime *start,
-		   EMeetingTime *end,
-		   EMeetingStoreRefreshCallback call_back,
-		   gpointer data)
+refresh_queue_add (EMeetingStore *store,
+                   gint row,
+                   EMeetingTime *start,
+                   EMeetingTime *end,
+                   EMeetingStoreRefreshCallback call_back,
+                   gpointer data)
 {
 	EMeetingStorePrivate *priv;
 	EMeetingAttendee *attendee;
@@ -1744,7 +1777,9 @@ refresh_queue_add (EMeetingStore *store, gint row,
 }
 
 static void
-async_read (GObject *source_object, GAsyncResult *res, gpointer data)
+async_read (GObject *source_object,
+            GAsyncResult *result,
+            gpointer data)
 {
 	EMeetingStoreQueueData *qdata = data;
 	GError *error = NULL;
@@ -1756,7 +1791,7 @@ async_read (GObject *source_object, GAsyncResult *res, gpointer data)
 
 	istream = G_INPUT_STREAM (source_object);
 
-	read = g_input_stream_read_finish (istream, res, &error);
+	read = g_input_stream_read_finish (istream, result, &error);
 
 	if (error || read < 0) {
 		g_warning ("Read finish failed: %s", error ? error->message : "Unknown error");
@@ -1874,7 +1909,8 @@ soup_authenticate (SoupSession *session,
 }
 
 static void
-redirect_handler (SoupMessage *msg, gpointer user_data)
+redirect_handler (SoupMessage *msg,
+                  gpointer user_data)
 {
 	if (SOUP_STATUS_IS_REDIRECTION (msg->status_code)) {
 		SoupSession *soup_session = user_data;
@@ -1901,7 +1937,9 @@ redirect_handler (SoupMessage *msg, gpointer user_data)
 }
 
 static void
-soup_msg_ready_cb (SoupSession *session, SoupMessage *msg, gpointer user_data)
+soup_msg_ready_cb (SoupSession *session,
+                   SoupMessage *msg,
+                   gpointer user_data)
 {
 	EMeetingStoreQueueData *qdata = user_data;
 
@@ -1926,7 +1964,8 @@ soup_msg_ready_cb (SoupSession *session, SoupMessage *msg, gpointer user_data)
 }
 
 static void
-download_with_libsoup (const gchar *uri, EMeetingStoreQueueData *qdata)
+download_with_libsoup (const gchar *uri,
+                       EMeetingStoreQueueData *qdata)
 {
 	SoupSession *session;
 	SoupMessage *msg;
@@ -1968,7 +2007,8 @@ download_with_libsoup (const gchar *uri, EMeetingStoreQueueData *qdata)
 }
 
 static void
-start_async_read (const gchar *uri, gpointer data)
+start_async_read (const gchar *uri,
+                  gpointer data)
 {
 	EMeetingStoreQueueData *qdata = data;
 	GError *error = NULL;
@@ -2011,10 +2051,10 @@ start_async_read (const gchar *uri, gpointer data)
 
 void
 e_meeting_store_refresh_all_busy_periods (EMeetingStore *store,
-					  EMeetingTime *start,
-					  EMeetingTime *end,
-					  EMeetingStoreRefreshCallback call_back,
-					  gpointer data)
+                                          EMeetingTime *start,
+                                          EMeetingTime *end,
+                                          EMeetingStoreRefreshCallback call_back,
+                                          gpointer data)
 {
 	gint i;
 
@@ -2026,11 +2066,11 @@ e_meeting_store_refresh_all_busy_periods (EMeetingStore *store,
 
 void
 e_meeting_store_refresh_busy_periods (EMeetingStore *store,
-				      gint row,
-				      EMeetingTime *start,
-				      EMeetingTime *end,
-				      EMeetingStoreRefreshCallback call_back,
-				      gpointer data)
+                                      gint row,
+                                      EMeetingTime *start,
+                                      EMeetingTime *end,
+                                      EMeetingStoreRefreshCallback call_back,
+                                      gpointer data)
 {
 	g_return_if_fail (E_IS_MEETING_STORE (store));
 

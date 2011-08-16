@@ -176,7 +176,8 @@ all_rows_deleted (EAlarmList *alarm_list)
 }
 
 static void
-row_deleted (EAlarmList *alarm_list, gint n)
+row_deleted (EAlarmList *alarm_list,
+             gint n)
 {
 	GtkTreePath *path;
 
@@ -187,7 +188,8 @@ row_deleted (EAlarmList *alarm_list, gint n)
 }
 
 static void
-row_added (EAlarmList *alarm_list, gint n)
+row_added (EAlarmList *alarm_list,
+           gint n)
 {
 	GtkTreePath *path;
 	GtkTreeIter  iter;
@@ -202,7 +204,8 @@ row_added (EAlarmList *alarm_list, gint n)
 }
 
 static void
-row_updated (EAlarmList *alarm_list, gint n)
+row_updated (EAlarmList *alarm_list,
+             gint n)
 {
 	GtkTreePath *path;
 	GtkTreeIter  iter;
@@ -238,7 +241,7 @@ e_alarm_list_get_n_columns (GtkTreeModel *tree_model)
 
 static GType
 e_alarm_list_get_column_type (GtkTreeModel *tree_model,
-			      gint          index)
+                              gint index)
 {
 	EAlarmList *alarm_list = (EAlarmList *) tree_model;
 
@@ -251,7 +254,8 @@ e_alarm_list_get_column_type (GtkTreeModel *tree_model,
 }
 
 const ECalComponentAlarm *
-e_alarm_list_get_alarm (EAlarmList *alarm_list, GtkTreeIter *iter)
+e_alarm_list_get_alarm (EAlarmList *alarm_list,
+                        GtkTreeIter *iter)
 {
 	g_return_val_if_fail (IS_VALID_ITER (alarm_list, iter), NULL);
 
@@ -271,8 +275,9 @@ copy_alarm (const ECalComponentAlarm *alarm)
 }
 
 void
-e_alarm_list_set_alarm (EAlarmList *alarm_list, GtkTreeIter *iter,
-			const ECalComponentAlarm *alarm)
+e_alarm_list_set_alarm (EAlarmList *alarm_list,
+                        GtkTreeIter *iter,
+                        const ECalComponentAlarm *alarm)
 {
 	ECalComponentAlarm *alarm_old;
 
@@ -285,8 +290,9 @@ e_alarm_list_set_alarm (EAlarmList *alarm_list, GtkTreeIter *iter,
 }
 
 void
-e_alarm_list_append (EAlarmList *alarm_list, GtkTreeIter *iter,
-		     const ECalComponentAlarm *alarm)
+e_alarm_list_append (EAlarmList *alarm_list,
+                     GtkTreeIter *iter,
+                     const ECalComponentAlarm *alarm)
 {
 	g_return_if_fail (alarm != NULL);
 
@@ -300,7 +306,8 @@ e_alarm_list_append (EAlarmList *alarm_list, GtkTreeIter *iter,
 }
 
 void
-e_alarm_list_remove (EAlarmList *alarm_list, GtkTreeIter *iter)
+e_alarm_list_remove (EAlarmList *alarm_list,
+                     GtkTreeIter *iter)
 {
 	gint n;
 
@@ -328,7 +335,9 @@ e_alarm_list_clear (EAlarmList *alarm_list)
 }
 
 static gboolean
-e_alarm_list_get_iter (GtkTreeModel *tree_model, GtkTreeIter *iter, GtkTreePath *path)
+e_alarm_list_get_iter (GtkTreeModel *tree_model,
+                       GtkTreeIter *iter,
+                       GtkTreePath *path)
 {
 	EAlarmList *alarm_list = (EAlarmList *) tree_model;
 	GList      *l;
@@ -354,7 +363,7 @@ e_alarm_list_get_iter (GtkTreeModel *tree_model, GtkTreeIter *iter, GtkTreePath 
 
 static GtkTreePath *
 e_alarm_list_get_path (GtkTreeModel *tree_model,
-		       GtkTreeIter  *iter)
+                       GtkTreeIter *iter)
 {
 	EAlarmList  *alarm_list = (EAlarmList *) tree_model;
 	GtkTreePath *retval;
@@ -539,9 +548,9 @@ get_alarm_string (ECalComponentAlarm *alarm)
 
 static void
 e_alarm_list_get_value (GtkTreeModel *tree_model,
-			GtkTreeIter  *iter,
-			gint          column,
-			GValue       *value)
+                        GtkTreeIter *iter,
+                        gint column,
+                        GValue *value)
 {
 	EAlarmList        *alarm_list = E_ALARM_LIST (tree_model);
 	ECalComponentAlarm *alarm;
@@ -574,8 +583,8 @@ e_alarm_list_get_value (GtkTreeModel *tree_model,
 }
 
 static gboolean
-e_alarm_list_iter_next (GtkTreeModel  *tree_model,
-			GtkTreeIter   *iter)
+e_alarm_list_iter_next (GtkTreeModel *tree_model,
+                        GtkTreeIter *iter)
 {
 	GList *l;
 
@@ -597,8 +606,8 @@ e_alarm_list_iter_next (GtkTreeModel  *tree_model,
 
 static gboolean
 e_alarm_list_iter_children (GtkTreeModel *tree_model,
-			    GtkTreeIter  *iter,
-			    GtkTreeIter  *parent)
+                            GtkTreeIter *iter,
+                            GtkTreeIter *parent)
 {
 	EAlarmList *alarm_list = E_ALARM_LIST (tree_model);
 
@@ -619,7 +628,7 @@ e_alarm_list_iter_children (GtkTreeModel *tree_model,
 
 static gboolean
 e_alarm_list_iter_has_child (GtkTreeModel *tree_model,
-			     GtkTreeIter  *iter)
+                             GtkTreeIter *iter)
 {
 	g_return_val_if_fail (IS_VALID_ITER (E_ALARM_LIST (tree_model), iter), FALSE);
 	return FALSE;
@@ -627,7 +636,7 @@ e_alarm_list_iter_has_child (GtkTreeModel *tree_model,
 
 static gint
 e_alarm_list_iter_n_children (GtkTreeModel *tree_model,
-			      GtkTreeIter  *iter)
+                              GtkTreeIter *iter)
 {
 	EAlarmList *alarm_list = E_ALARM_LIST (tree_model);
 
@@ -642,9 +651,9 @@ e_alarm_list_iter_n_children (GtkTreeModel *tree_model,
 
 static gboolean
 e_alarm_list_iter_nth_child (GtkTreeModel *tree_model,
-			     GtkTreeIter  *iter,
-			     GtkTreeIter  *parent,
-			     gint          n)
+                             GtkTreeIter *iter,
+                             GtkTreeIter *parent,
+                             gint n)
 {
 	EAlarmList *alarm_list = E_ALARM_LIST (tree_model);
 
@@ -670,8 +679,8 @@ e_alarm_list_iter_nth_child (GtkTreeModel *tree_model,
 
 static gboolean
 e_alarm_list_iter_parent (GtkTreeModel *tree_model,
-			  GtkTreeIter  *iter,
-			  GtkTreeIter  *child)
+                          GtkTreeIter *iter,
+                          GtkTreeIter *child)
 {
 	return FALSE;
 }

@@ -80,7 +80,8 @@ static GOptionEntry entries[] = {
 };
 
 gint
-main (gint argc, gchar **argv)
+main (gint argc,
+      gchar **argv)
 {
 	ActionContext actctx;
 	GOptionContext *context;
@@ -107,7 +108,7 @@ main (gint argc, gchar **argv)
 
 		p_SetProcessDEPPolicy = GetProcAddress (GetModuleHandle ("kernel32.dll"), "SetProcessDEPPolicy");
 		if (p_SetProcessDEPPolicy)
-			(*p_SetProcessDEPPolicy) (PROCESS_DEP_ENABLE|PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION);
+			(*p_SetProcessDEPPolicy) (PROCESS_DEP_ENABLE | PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION);
 	}
 #endif
 #endif

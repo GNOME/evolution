@@ -60,7 +60,9 @@ free_data (gpointer data)
 }
 
 static void
-ctd_response (GtkWidget *w, guint id, CertTrustDialogData *data)
+ctd_response (GtkWidget *w,
+              guint id,
+              CertTrustDialogData *data)
 {
 	CERTCertTrust trust;
 	CERTCertificate *icert;
@@ -109,7 +111,7 @@ ctd_response (GtkWidget *w, guint id, CertTrustDialogData *data)
 	}
 }
 
-GtkWidget*
+GtkWidget *
 cert_trust_dialog_show (ECert *cert)
 {
 	CertTrustDialogData *ctd_data;
@@ -128,7 +130,7 @@ cert_trust_dialog_show (ECert *cert)
 
 	ctd_data->label = e_builder_get_widget(ctd_data->builder, "trust-label");
 
-	g_signal_connect(ctd_data->dialog, "response", G_CALLBACK(ctd_response), ctd_data);
+	g_signal_connect (ctd_data->dialog, "response", G_CALLBACK(ctd_response), ctd_data);
 
 	g_object_set_data_full (G_OBJECT (ctd_data->dialog), "CertTrustDialogData", ctd_data, free_data);
 

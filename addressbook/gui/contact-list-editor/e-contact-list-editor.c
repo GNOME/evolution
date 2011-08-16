@@ -258,7 +258,7 @@ contact_list_editor_add_destination (GtkWidget *widget,
 
 static void
 contact_list_editor_add_email (EContactListEditor *editor,
-			       const gchar *email)
+                               const gchar *email)
 {
 	CamelInternetAddress *addr;
 	EContactListEditorPrivate *priv = editor->priv;
@@ -424,7 +424,7 @@ contact_list_editor_render_destination (GtkTreeViewColumn *column,
 
 static void
 contact_list_editor_selection_changed_cb (GtkTreeSelection *selection,
-					  gpointer user_data)
+                                          gpointer user_data)
 {
 	EContactListEditor *editor = user_data;
 	GtkTreeModel *model;
@@ -545,15 +545,17 @@ contact_list_editor_delete_event_cb (GtkWidget *widget,
 void
 contact_list_editor_drag_data_received_cb (GtkWidget *widget,
                                            GdkDragContext *context,
-                                             gint x, gint y,
-                                             GtkSelectionData *selection_data,
-                                             guint info,
-                                             guint time);
+                                           gint x,
+                                           gint y,
+                                           GtkSelectionData *selection_data,
+                                           guint info,
+                                           guint time);
 
 void
 contact_list_editor_drag_data_received_cb (GtkWidget *widget,
                                            GdkDragContext *context,
-                                           gint x, gint y,
+                                           gint x,
+                                           gint y,
                                            GtkSelectionData *selection_data,
                                            guint info,
                                            guint time)
@@ -695,7 +697,7 @@ contact_list_editor_email_entry_key_press_event_cb (GtkWidget *widget,
 		gint cpos = -1;
 
 		entry = GTK_ENTRY (WIDGET (EMAIL_ENTRY));
-		g_object_get (G_OBJECT (entry), "cursor-position", &cpos, NULL);
+		g_object_get (entry, "cursor-position", &cpos, NULL);
 
 		/* not the first letter */
 		if (cpos > 0) {
@@ -817,7 +819,7 @@ contact_list_editor_remove_button_clicked_cb (GtkWidget *widget)
 	}
 
 	/* new_selection != NULL when there is at least one item below the
-	   removed selection */
+	 * removed selection */
 	if (new_selection) {
 		path = gtk_tree_row_reference_get_path (new_selection);
 		gtk_tree_selection_select_path (selection, path);
@@ -825,7 +827,7 @@ contact_list_editor_remove_button_clicked_cb (GtkWidget *widget)
 		gtk_tree_row_reference_free (new_selection);
 	} else {
 		/* If selection was including the last item in the list, then
-		   find and select the new last item */
+		 * find and select the new last item */
 		GtkTreeIter iter, iter2;
 
 		/* When FALSE is returned, there are no items in the list to be selected */
@@ -1157,7 +1159,7 @@ setup_custom_widgets (EContactListEditor *editor)
 	combo_box = WIDGET (SOURCE_MENU);
 	if (!e_book_client_get_sources (&source_list, &error))
 		source_list = NULL;
-	g_object_set (G_OBJECT (combo_box), "source-list", source_list, NULL);
+	g_object_set (combo_box, "source-list", source_list, NULL);
 	if (source_list)
 		g_object_unref (source_list);
 
@@ -1242,7 +1244,7 @@ contact_list_editor_constructor (GType type,
 static void
 contact_list_editor_set_property (GObject *object,
                                   guint property_id,
-				  const GValue *value,
+                                  const GValue *value,
                                   GParamSpec *pspec)
 {
 	switch (property_id) {
@@ -1772,8 +1774,8 @@ e_contact_list_editor_get_contact (EContactListEditor *editor)
 		save_contact_list (model, &iter, &attrs, &parent_id);
 
 	/* Put it in reverse order because e_vcard_add_attribute also uses prepend,
-	   but we want to keep order of mails there. Hopefully noone will change
-	   the behaviour of the e_vcard_add_attribute. */
+	 * but we want to keep order of mails there. Hopefully noone will change
+	 * the behaviour of the e_vcard_add_attribute. */
 	for (a = attrs; a; a = a->next) {
 		e_vcard_add_attribute (E_VCARD (contact), a->data);
 	}

@@ -64,7 +64,7 @@ enum {
 typedef struct {
 	GType type;
 	const gchar *column_title;
-	const gchar * (*get_cert_data_func) (ECert *cert);  /* Prototype to e_cert_get_* functions */
+	const gchar * (*get_cert_data_func) (ECert *cert);  /* Prototype to e_cert_get_ * functions */
 	gboolean visible;				   /* Default visibility of column */
 } CertTreeColumn;
 
@@ -82,7 +82,7 @@ static CertTreeColumn yourcerts_columns[] = {
 	{ G_TYPE_STRING, N_("Expires"),				e_cert_get_expires_on,		TRUE },
 	{ G_TYPE_STRING, N_("SHA1 Fingerprint"),		e_cert_get_sha1_fingerprint,	FALSE },
 	{ G_TYPE_STRING, N_("MD5 Fingerprint"),			e_cert_get_md5_fingerprint,	FALSE },
-	{ G_TYPE_OBJECT, NULL,					NULL,				FALSE } /* Hidden column for ECert* object */
+	{ G_TYPE_OBJECT, NULL,					NULL,				FALSE } /* Hidden column for ECert * object */
 
 };
 static const gchar* yourcerts_mime_types[] = { "application/x-x509-user-cert", "application/x-pkcs12", NULL };
@@ -189,7 +189,7 @@ save_treeview_state (GtkTreeView *treeview)
 	tree_name = gtk_widget_get_name (GTK_WIDGET (treeview));
 	sortable = GTK_TREE_SORTABLE (model);
 
-	columns_count = gtk_tree_model_get_n_columns (model) - 1; /* Ignore the last column - the ECert* holder */
+	columns_count = gtk_tree_model_get_n_columns (model) - 1; /* Ignore the last column - the ECert * holder */
 	list = g_new0 (gint, columns_count);
 
 	for (i = 0; i < columns_count; i++) {
@@ -304,7 +304,9 @@ load_treeview_state (GtkTreeView *treeview)
 }
 
 static void
-report_and_free_error (CertPage *cp, const gchar *where, GError *error)
+report_and_free_error (CertPage *cp,
+                       const gchar *where,
+                       GError *error)
 {
 	g_return_if_fail (cp != NULL);
 
@@ -409,7 +411,7 @@ treeview_add_column (CertPage *cp,
 		G_CALLBACK (treeview_header_clicked), cp->popup_menu);
 
 	/* The first column should not be concealable so there's no point in displaying
-	   it in the popup menu */
+	 * it in the popup menu */
 	if (column_index == 0)
 		return;
 
@@ -430,7 +432,10 @@ struct find_cert_data {
 };
 
 static gboolean
-find_cert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+find_cert_cb (GtkTreeModel *model,
+              GtkTreePath *path,
+              GtkTreeIter *iter,
+              gpointer data)
 {
 	struct find_cert_data *fcd = data;
 	ECert *cert = NULL;
@@ -645,9 +650,9 @@ delete_cert (GtkWidget *button,
 			gtk_tree_store_remove (cp->treemodel, &child_iter);
 
 			/* we need two unrefs here, one to unref the
-			   gtk_tree_model_get above, and one to unref
-			   the initial ref when we created the cert
-			   and added it to the tree */
+			 * gtk_tree_model_get above, and one to unref
+			 * the initial ref when we created the cert
+			 * and added it to the tree */
 			g_object_unref (cert);
 			g_object_unref (cert);
 		}
@@ -656,7 +661,8 @@ delete_cert (GtkWidget *button,
 }
 
 static void
-add_cert (CertPage *cp, ECert *cert)
+add_cert (CertPage *cp,
+          ECert *cert)
 {
 	GtkTreeIter iter;
 	GtkTreeIter *parent_iter = NULL;
@@ -674,7 +680,7 @@ add_cert (CertPage *cp, ECert *cert)
 					    0, organization, -1);
 
 			/* now copy it off into parent_iter and insert it into
-			   the hashtable */
+			 * the hashtable */
 			parent_iter = gtk_tree_iter_copy (&iter);
 			g_hash_table_insert (cp->root_hash, g_strdup (organization), parent_iter);
 		}
@@ -746,7 +752,7 @@ load_certs (CertPage *cp)
 	for (node = CERT_LIST_HEAD (certList);
 	     !CERT_LIST_END (node, certList);
 	     node = CERT_LIST_NEXT (node)) {
-		ECert *cert = e_cert_new (CERT_DupCertificate ((CERTCertificate*) node->cert));
+		ECert *cert = e_cert_new (CERT_DupCertificate ((CERTCertificate *) node->cert));
 		ECertType ct = e_cert_get_cert_type (cert);
 
 		/* show everything else in a contact tab */
@@ -920,7 +926,7 @@ cert_manager_config_set_property (GObject *object,
 		case PROP_PREFERENCES_WINDOW:
 			ecmc->priv->pref_window = g_value_get_object (value);
 			/* When the preferences window is "closed" (= hidden), save
-			   state of all treeviews. */
+			 * state of all treeviews. */
 			g_signal_connect_swapped (ecmc->priv->pref_window, "hide",
 				G_CALLBACK (cert_manager_config_window_hide), ecmc);
 			return;
@@ -1029,7 +1035,7 @@ e_cert_manager_config_init (ECertManagerConfig *ecmc)
 	g_idle_add ((GSourceFunc) populate_ui, ecmc);
 
 	/* Disconnect cert-manager-notebook from it's window and attach it
-	   to this ECertManagerConfig */
+	 * to this ECertManagerConfig */
 	widget = e_builder_get_widget (priv->builder, "cert-manager-notebook");
 	parent = gtk_widget_get_parent (widget);
 	gtk_container_remove (GTK_CONTAINER (parent), widget);

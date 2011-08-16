@@ -101,7 +101,8 @@ create_default_shell (void)
 }
 
 gint
-main (gint argc, gchar *argv[])
+main (gint argc,
+      gchar *argv[])
 {
 	GError *error = NULL;
 
@@ -122,7 +123,7 @@ main (gint argc, gchar *argv[])
 
 		p_SetProcessDEPPolicy = GetProcAddress (GetModuleHandle ("kernel32.dll"), "SetProcessDEPPolicy");
 		if (p_SetProcessDEPPolicy)
-			(*p_SetProcessDEPPolicy) (PROCESS_DEP_ENABLE|PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION);
+			(*p_SetProcessDEPPolicy) (PROCESS_DEP_ENABLE | PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION);
 	}
 #endif
 

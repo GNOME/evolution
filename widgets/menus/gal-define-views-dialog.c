@@ -34,8 +34,8 @@
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
 
-static void gal_define_views_dialog_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
-static void gal_define_views_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
+static void gal_define_views_dialog_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
+static void gal_define_views_dialog_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
 static void gal_define_views_dialog_dispose	 (GObject *object);
 
 /* The properties we support */
@@ -65,7 +65,7 @@ gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
 {
 	GObjectClass *object_class;
 
-	object_class = (GObjectClass*) klass;
+	object_class = (GObjectClass *) klass;
 
 	object_class->set_property = gal_define_views_dialog_set_property;
 	object_class->get_property = gal_define_views_dialog_get_property;
@@ -82,7 +82,9 @@ gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
 /* Button callbacks */
 
 static void
-gdvd_button_new_dialog_callback (GtkWidget *widget, gint id, GalDefineViewsDialog *dialog)
+gdvd_button_new_dialog_callback (GtkWidget *widget,
+                                 gint id,
+                                 GalDefineViewsDialog *dialog)
 {
 	gchar *name;
 	GtkTreeIter iter;
@@ -103,7 +105,7 @@ gdvd_button_new_dialog_callback (GtkWidget *widget, gint id, GalDefineViewsDialo
 				view = gal_view_factory_new_view (factory, name);
 				gal_view_collection_append (dialog->collection, view);
 
-				item = dialog->collection->view_data[dialog->collection->view_count-1];
+				item = dialog->collection->view_data[dialog->collection->view_count - 1];
 				gtk_list_store_append (GTK_LIST_STORE (dialog->model), &iter);
 				gtk_list_store_set (GTK_LIST_STORE (dialog->model), &iter,
 						    COL_GALVIEW_NAME, name,
@@ -123,7 +125,8 @@ gdvd_button_new_dialog_callback (GtkWidget *widget, gint id, GalDefineViewsDialo
 }
 
 static void
-gdvd_button_new_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
+gdvd_button_new_callback (GtkWidget *widget,
+                          GalDefineViewsDialog *dialog)
 {
 	GtkWidget *view_new_dialog = gal_view_new_dialog_new (dialog->collection);
 	gtk_window_set_transient_for (GTK_WINDOW (view_new_dialog), GTK_WINDOW (dialog));
@@ -133,7 +136,8 @@ gdvd_button_new_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
 }
 
 static void
-gdvd_button_modify_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
+gdvd_button_modify_callback (GtkWidget *widget,
+                             GalDefineViewsDialog *dialog)
 {
 	GtkTreeIter iter;
 	GalViewCollectionItem *item;
@@ -150,7 +154,8 @@ gdvd_button_modify_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
 }
 
 static void
-gdvd_button_delete_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
+gdvd_button_delete_callback (GtkWidget *widget,
+                             GalDefineViewsDialog *dialog)
 {
 	gint row;
 	GtkTreeIter iter;
@@ -167,7 +172,7 @@ gdvd_button_delete_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
 
 		g_return_if_fail (item && !item->built_in);
 
-		for (row=0; row<dialog->collection->view_count; row++) {
+		for (row = 0; row < dialog->collection->view_count; row++) {
 			if (item == dialog->collection->view_data[row]) {
 				gal_view_collection_delete_view (dialog->collection, row);
 				path = gtk_tree_model_get_path (dialog->model, &iter);
@@ -187,7 +192,8 @@ gdvd_button_delete_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
 }
 
 static void
-gdvd_selection_changed_callback (GtkTreeSelection *selection, GalDefineViewsDialog *dialog)
+gdvd_selection_changed_callback (GtkTreeSelection *selection,
+                                 GalDefineViewsDialog *dialog)
 {
 	GtkWidget *button;
 	GtkTreeIter iter;
@@ -209,7 +215,10 @@ gdvd_selection_changed_callback (GtkTreeSelection *selection, GalDefineViewsDial
 }
 
 static void
-gdvd_connect_signal (GalDefineViewsDialog *dialog, const gchar *widget_name, const gchar *signal, GCallback handler)
+gdvd_connect_signal (GalDefineViewsDialog *dialog,
+                     const gchar *widget_name,
+                     const gchar *signal,
+                     GCallback handler)
 {
 	GtkWidget *widget;
 
@@ -220,7 +229,9 @@ gdvd_connect_signal (GalDefineViewsDialog *dialog, const gchar *widget_name, con
 }
 
 static void
-dialog_response (GalDefineViewsDialog *dialog, gint response_id, gpointer data)
+dialog_response (GalDefineViewsDialog *dialog,
+                 gint response_id,
+                 gpointer data)
 {
 	gal_view_collection_save (dialog->collection);
 }
@@ -293,7 +304,7 @@ gal_define_views_dialog_dispose (GObject *object)
 
 static void
 gal_define_views_dialog_set_collection (GalDefineViewsDialog *dialog,
-				       GalViewCollection *collection)
+                                        GalViewCollection *collection)
 {
 	gint i;
 	GtkListStore *store;
@@ -302,7 +313,7 @@ gal_define_views_dialog_set_collection (GalDefineViewsDialog *dialog,
 
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 
-	for (i=0; i<collection->view_count; i++) {
+	for (i = 0; i < collection->view_count; i++) {
 		GalViewCollectionItem *item = collection->view_data[i];
 		GtkTreeIter iter;
 
@@ -368,7 +379,7 @@ gal_define_views_dialog_set_collection (GalDefineViewsDialog *dialog,
  *
  * Returns: The GalDefineViewsDialog.
  */
-GtkWidget*
+GtkWidget *
 gal_define_views_dialog_new (GalViewCollection *collection)
 {
 	GtkWidget *widget = g_object_new (GAL_TYPE_DEFINE_VIEWS_DIALOG, NULL);
@@ -377,13 +388,16 @@ gal_define_views_dialog_new (GalViewCollection *collection)
 }
 
 static void
-gal_define_views_dialog_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+gal_define_views_dialog_set_property (GObject *object,
+                                      guint property_id,
+                                      const GValue *value,
+                                      GParamSpec *pspec)
 {
 	GalDefineViewsDialog *dialog;
 
 	dialog = GAL_DEFINE_VIEWS_DIALOG (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_COLLECTION:
 		if (g_value_get_object (value))
 			gal_define_views_dialog_set_collection (dialog, GAL_VIEW_COLLECTION (g_value_get_object (value)));
@@ -392,24 +406,27 @@ gal_define_views_dialog_set_property (GObject *object, guint prop_id, const GVal
 		break;
 
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		return;
 	}
 }
 
 static void
-gal_define_views_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+gal_define_views_dialog_get_property (GObject *object,
+                                      guint property_id,
+                                      GValue *value,
+                                      GParamSpec *pspec)
 {
 	GalDefineViewsDialog *dialog;
 
 	dialog = GAL_DEFINE_VIEWS_DIALOG (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_COLLECTION:
 		g_value_set_object (value, dialog->collection);
 
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }

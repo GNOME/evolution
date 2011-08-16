@@ -176,7 +176,7 @@ static gboolean process_ice_messages (IceConn       ice_conn);
 static void     smc_error_handler    (SmcConn       smc_conn,
 				      Bool          swap,
 				      gint           offending_minor_opcode,
-				      unsigned long offending_sequence,
+				      gulong offending_sequence,
 				      gint           error_class,
 				      gint           severity,
 				      SmPointer     values);
@@ -323,7 +323,7 @@ sm_client_xsmp_disconnect (EggSMClientXSMP *xsmp)
 
 static void
 sm_client_xsmp_startup (EggSMClient *client,
-			const gchar  *client_id)
+                        const gchar *client_id)
 {
   EggSMClientXSMP *xsmp = (EggSMClientXSMP *) client;
   SmcCallbacks callbacks;
@@ -399,9 +399,9 @@ sm_client_xsmp_startup (EggSMClient *client,
 }
 
 static void
-sm_client_xsmp_set_restart_command (EggSMClient  *client,
-				    gint           argc,
-				    const gchar  **argv)
+sm_client_xsmp_set_restart_command (EggSMClient *client,
+                                    gint argc,
+                                    const gchar **argv)
 {
   EggSMClientXSMP *xsmp = (EggSMClientXSMP *) client;
   gint i;
@@ -418,7 +418,7 @@ sm_client_xsmp_set_restart_command (EggSMClient  *client,
 
 static void
 sm_client_xsmp_will_quit (EggSMClient *client,
-			  gboolean     will_quit)
+                          gboolean will_quit)
 {
   EggSMClientXSMP *xsmp = (EggSMClientXSMP *) client;
 
@@ -455,9 +455,9 @@ sm_client_xsmp_will_quit (EggSMClient *client,
 }
 
 static gboolean
-sm_client_xsmp_end_session (EggSMClient         *client,
-			    EggSMClientEndStyle  style,
-			    gboolean             request_confirmation)
+sm_client_xsmp_end_session (EggSMClient *client,
+                            EggSMClientEndStyle style,
+                            gboolean request_confirmation)
 {
   EggSMClientXSMP *xsmp = (EggSMClientXSMP *) client;
   gint save_type;
@@ -603,9 +603,10 @@ update_pending_events (EggSMClientXSMP *xsmp)
 }
 
 static void
-fix_broken_state (EggSMClientXSMP *xsmp, const gchar *message,
-		  gboolean send_interact_done,
-		  gboolean send_save_yourself_done)
+fix_broken_state (EggSMClientXSMP *xsmp,
+                  const gchar *message,
+                  gboolean send_interact_done,
+                  gboolean send_save_yourself_done)
 {
   g_warning ("Received XSMP %s message in state %s: client or server error",
 	     message, EGG_SM_CLIENT_XSMP_STATE (xsmp));
@@ -626,12 +627,12 @@ fix_broken_state (EggSMClientXSMP *xsmp, const gchar *message,
 /* SM callbacks */
 
 static void
-xsmp_save_yourself (SmcConn   smc_conn,
-		    SmPointer client_data,
-		    gint       save_type,
-		    Bool      shutdown,
-		    gint       interact_style,
-		    Bool      fast)
+xsmp_save_yourself (SmcConn smc_conn,
+                    SmPointer client_data,
+                    gint save_type,
+                    Bool shutdown,
+                    gint interact_style,
+                    Bool fast)
 {
   EggSMClientXSMP *xsmp = client_data;
   gboolean wants_quit_requested;
@@ -946,8 +947,8 @@ save_state (EggSMClientXSMP *xsmp)
 }
 
 static void
-xsmp_interact (SmcConn   smc_conn,
-	       SmPointer client_data)
+xsmp_interact (SmcConn smc_conn,
+               SmPointer client_data)
 {
   EggSMClientXSMP *xsmp = client_data;
   EggSMClient *client = client_data;
@@ -966,8 +967,8 @@ xsmp_interact (SmcConn   smc_conn,
 }
 
 static void
-xsmp_die (SmcConn   smc_conn,
-	  SmPointer client_data)
+xsmp_die (SmcConn smc_conn,
+          SmPointer client_data)
 {
   EggSMClientXSMP *xsmp = client_data;
   EggSMClient *client = client_data;
@@ -980,8 +981,8 @@ xsmp_die (SmcConn   smc_conn,
 }
 
 static void
-xsmp_save_complete (SmcConn   smc_conn,
-		    SmPointer client_data)
+xsmp_save_complete (SmcConn smc_conn,
+                    SmPointer client_data)
 {
   EggSMClientXSMP *xsmp = client_data;
 
@@ -995,8 +996,8 @@ xsmp_save_complete (SmcConn   smc_conn,
 }
 
 static void
-xsmp_shutdown_cancelled (SmcConn   smc_conn,
-			 SmPointer client_data)
+xsmp_shutdown_cancelled (SmcConn smc_conn,
+                         SmPointer client_data)
 {
   EggSMClientXSMP *xsmp = client_data;
   EggSMClient *client = client_data;
@@ -1059,8 +1060,9 @@ xsmp_shutdown_cancelled (SmcConn   smc_conn,
  * then free the array, but not its contents.
  */
 static GPtrArray *
-generate_command (gchar **restart_command, const gchar *client_id,
-		  const gchar *state_file)
+generate_command (gchar **restart_command,
+                  const gchar *client_id,
+                  const gchar *state_file)
 {
   GPtrArray *cmd;
   gint i;
@@ -1091,7 +1093,8 @@ generate_command (gchar **restart_command, const gchar *client_id,
  * frees them.
  */
 static void
-set_properties (EggSMClientXSMP *xsmp, ...)
+set_properties (EggSMClientXSMP *xsmp,
+                ...)
 {
   GPtrArray *props;
   SmProp *prop;
@@ -1122,7 +1125,8 @@ set_properties (EggSMClientXSMP *xsmp, ...)
 
 /* Takes a NULL-terminated list of property names and deletes them. */
 static void
-delete_properties (EggSMClientXSMP *xsmp, ...)
+delete_properties (EggSMClientXSMP *xsmp,
+                   ...)
 {
   GPtrArray *props;
   gchar *prop;
@@ -1149,7 +1153,8 @@ delete_properties (EggSMClientXSMP *xsmp, ...)
  * until you're done with the SmProp.
  */
 static SmProp *
-array_prop (const gchar *name, ...)
+array_prop (const gchar *name,
+            ...)
 {
   SmProp *prop;
   SmPropValue pv;
@@ -1184,7 +1189,8 @@ array_prop (const gchar *name, ...)
  * remain valid until you're done with the SmProp.
  */
 static SmProp *
-ptrarray_prop (const gchar *name, GPtrArray *values)
+ptrarray_prop (const gchar *name,
+               GPtrArray *values)
 {
   SmProp *prop;
   SmPropValue pv;
@@ -1217,7 +1223,8 @@ ptrarray_prop (const gchar *name, GPtrArray *values)
  * done with the SmProp.
  */
 static SmProp *
-string_prop (const gchar *name, const gchar *value)
+string_prop (const gchar *name,
+             const gchar *value)
 {
   SmProp *prop;
 
@@ -1236,7 +1243,8 @@ string_prop (const gchar *name, const gchar *value)
 
 /* Takes a gchar and creates a CARD8 property. */
 static SmProp *
-card8_prop (const gchar *name, guchar value)
+card8_prop (const gchar *name,
+            guchar value)
 {
   SmProp *prop;
   gchar *card8val;
@@ -1277,7 +1285,7 @@ card8_prop (const gchar *name, guchar value)
 static void        ice_error_handler    (IceConn        ice_conn,
 					 Bool           swap,
 					 gint            offending_minor_opcode,
-					 unsigned long  offending_sequence,
+					 gulong  offending_sequence,
 					 gint            error_class,
 					 gint            severity,
 					 IcePointer     values);
@@ -1322,18 +1330,18 @@ process_ice_messages (IceConn ice_conn)
 }
 
 static gboolean
-ice_iochannel_watch (GIOChannel   *channel,
-		     GIOCondition  condition,
-		     gpointer      client_data)
+ice_iochannel_watch (GIOChannel *channel,
+                     GIOCondition condition,
+                     gpointer client_data)
 {
   return process_ice_messages (client_data);
 }
 
 static void
-ice_connection_watch (IceConn     ice_conn,
-		      IcePointer  client_data,
-		      Bool        opening,
-		      IcePointer *watch_data)
+ice_connection_watch (IceConn ice_conn,
+                      IcePointer client_data,
+                      Bool opening,
+                      IcePointer *watch_data)
 {
   guint watch_id;
 
@@ -1358,13 +1366,13 @@ ice_connection_watch (IceConn     ice_conn,
 }
 
 static void
-ice_error_handler (IceConn       ice_conn,
-		   Bool          swap,
-		   gint           offending_minor_opcode,
-		   unsigned long offending_sequence,
-		   gint           error_class,
-		   gint           severity,
-		   IcePointer    values)
+ice_error_handler (IceConn ice_conn,
+                   Bool swap,
+                   gint offending_minor_opcode,
+                   gulong offending_sequence,
+                   gint error_class,
+                   gint severity,
+                   IcePointer values)
 {
   /* Do nothing */
 }
@@ -1376,13 +1384,13 @@ ice_io_error_handler (IceConn ice_conn)
 }
 
 static void
-smc_error_handler (SmcConn       smc_conn,
-                   Bool          swap,
-                   gint           offending_minor_opcode,
-                   unsigned long offending_sequence,
-                   gint           error_class,
-                   gint           severity,
-                   SmPointer     values)
+smc_error_handler (SmcConn smc_conn,
+                   Bool swap,
+                   gint offending_minor_opcode,
+                   gulong offending_sequence,
+                   gint error_class,
+                   gint severity,
+                   SmPointer values)
 {
   /* Do nothing */
 }

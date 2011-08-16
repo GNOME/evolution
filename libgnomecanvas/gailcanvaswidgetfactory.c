@@ -47,8 +47,8 @@ gail_canvas_widget_factory_class_init (GailCanvasWidgetFactoryClass *klass)
   class->get_accessible_type = gail_canvas_widget_factory_get_accessible_type;
 }
 
-static AtkObject*
-gail_canvas_widget_factory_create_accessible (GObject   *obj)
+static AtkObject *
+gail_canvas_widget_factory_create_accessible (GObject *obj)
 {
   return gail_canvas_widget_new (obj);
 }

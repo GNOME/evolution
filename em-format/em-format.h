@@ -81,8 +81,8 @@ typedef enum {
  *
  **/
 typedef enum {
-	EM_FORMAT_HANDLER_INLINE = 1<<0,
-	EM_FORMAT_HANDLER_INLINE_DISPOSITION = 1<<1
+	EM_FORMAT_HANDLER_INLINE = 1 << 0,
+	EM_FORMAT_HANDLER_INLINE_DISPOSITION = 1 << 1
 } EMFormatHandlerFlags;
 
 /**
@@ -145,7 +145,7 @@ struct _EMFormatPURI {
 };
 
 struct _EMFormatHeader {
-	guint32 flags;		/* E_FORMAT_HEADER_* */
+	guint32 flags;		/* E_FORMAT_HEADER_ * */
 	gchar name[1];
 };
 
@@ -320,7 +320,7 @@ void		em_format_add_header		(EMFormat *emf,
 						 guint32 flags);
 
 /* FIXME: Need a 'clone' api to copy details about the current view (inlines etc)
-   Or maybe it should live with sub-classes? */
+ * Or maybe it should live with sub-classes? */
 
 gint		em_format_is_attachment		(EMFormat *emf,
 						 CamelMimePart *part);

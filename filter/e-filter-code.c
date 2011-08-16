@@ -26,6 +26,7 @@
 #endif
 
 #include "e-filter-code.h"
+#include "e-filter-part.h"
 
 G_DEFINE_TYPE (
 	EFilterCode,
@@ -36,7 +37,7 @@ G_DEFINE_TYPE (
 static void
 filter_code_build_code (EFilterElement *element,
                         GString *out,
-                        struct _EFilterPart *part)
+                        EFilterPart *part)
 {
 	GList *l;
 	EFilterInput *fi = (EFilterInput *) element;

@@ -54,7 +54,8 @@ gboolean	task_list_save_as_init		(GtkUIManager *ui_manager,
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
@@ -67,14 +68,16 @@ enum {  /* GtkComboBox enum */
 };
 
 static void
-extra_widget_foreach_hide (GtkWidget *widget, gpointer data)
+extra_widget_foreach_hide (GtkWidget *widget,
+                           gpointer data)
 {
 	if (widget != data)
 		gtk_widget_hide (widget);
 }
 
 static void
-on_type_combobox_changed (GtkComboBox *combobox, gpointer data)
+on_type_combobox_changed (GtkComboBox *combobox,
+                          gpointer data)
 {
 	FormatHandler *handler = NULL;
 	GtkWidget *extra_widget = data;
@@ -99,7 +102,8 @@ on_type_combobox_changed (GtkComboBox *combobox, gpointer data)
 }
 
 static void
-format_handlers_foreach_free (gpointer data, gpointer user_data)
+format_handlers_foreach_free (gpointer data,
+                              gpointer user_data)
 {
 	FormatHandler *handler = data;
 
@@ -113,7 +117,8 @@ format_handlers_foreach_free (gpointer data, gpointer user_data)
 }
 
 static void
-ask_destination_and_save (ESourceSelector *selector, ECalClientSourceType type)
+ask_destination_and_save (ESourceSelector *selector,
+                          ECalClientSourceType type)
 {
 	FormatHandler *handler = NULL;
 
@@ -123,7 +128,7 @@ ask_destination_and_save (ESourceSelector *selector, ECalClientSourceType type)
 	GtkComboBox *combo = GTK_COMBO_BOX (gtk_combo_box_new ());
 	GtkTreeModel *model = GTK_TREE_MODEL (gtk_list_store_new
 		(N_DEST_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER));
-	GtkCellRenderer *renderer=NULL;
+	GtkCellRenderer *renderer = NULL;
 	GtkListStore *store = GTK_LIST_STORE (model);
 	GtkTreeIter iter;
 	GtkWidget *dialog = NULL;
@@ -176,7 +181,8 @@ ask_destination_and_save (ESourceSelector *selector, ECalClientSourceType type)
 		format_handlers = g_list_next (format_handlers);
 	}
 
-	g_signal_connect (G_OBJECT(combo), "changed",
+	g_signal_connect (
+		combo, "changed",
 		G_CALLBACK (on_type_combobox_changed), extra_widget);
 	g_object_set_data (G_OBJECT (combo), "format-box", hbox);
 
@@ -229,11 +235,13 @@ ask_destination_and_save (ESourceSelector *selector, ECalClientSourceType type)
 }
 
 /* Returns output stream for the uri, or NULL on any error.
-   When done with the stream, just g_output_stream_close and g_object_unref it.
-   It will ask for overwrite if file already exists.
+ * When done with the stream, just g_output_stream_close and g_object_unref it.
+ * It will ask for overwrite if file already exists.
 */
 GOutputStream *
-open_for_writing (GtkWindow *parent, const gchar *uri, GError **error)
+open_for_writing (GtkWindow *parent,
+                  const gchar *uri,
+                  GError **error)
 {
 	GFile *file;
 	GFileOutputStream *fostream;

@@ -301,7 +301,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 			if (fm->delete && (!error || !*error)) {
 				/* not keep on server - just delete all
 				 * the actual messages on the server */
-				for (i=0;i<folder_uids->len;i++) {
+				for (i = 0; i < folder_uids->len; i++) {
 					camel_folder_delete_message (
 						folder, folder_uids->pdata[i]);
 				}
@@ -321,15 +321,15 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 		}
 
 		/* we unref the source folder here since we
-		   may now block in finalize (we try to
-		   disconnect cleanly) */
+		 * may now block in finalize (we try to
+		 * disconnect cleanly) */
 		g_object_unref (fm->source_folder);
 		fm->source_folder = NULL;
 	}
 
 fail:
 	/* we unref this here as it may have more work to do (syncing
-	   folders and whatnot) before we are really done */
+	 * folders and whatnot) before we are really done */
 	/* should this be cancellable too? (i.e. above unregister above) */
 	if (fm->driver) {
 		g_object_unref (fm->driver);
@@ -337,7 +337,7 @@ fail:
 	}
 
 	/* also disconnect if not a local delivery mbox;
-	   there is no need to keep the connection alive forever */
+	 * there is no need to keep the connection alive forever */
 	if (!is_local_delivery)
 		em_utils_disconnect_service_sync (
 			CAMEL_SERVICE (m->store), TRUE, cancellable, NULL);
@@ -595,7 +595,7 @@ mail_send_message (struct _send_queue_msg *m,
 	info = camel_message_info_new (NULL);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
 
-	for (header = xev;header;header=header->next) {
+	for (header = xev; header; header = header->next) {
 		gchar *uri;
 
 		if (strcmp(header->name, "X-Evolution-PostTo") != 0)
@@ -822,7 +822,7 @@ send_queue_exec (struct _send_queue_msg *m,
 			send_uids->len);
 
 		camel_operation_progress (
-			cancellable, (i+1) * 100 / send_uids->len);
+			cancellable, (i + 1) * 100 / send_uids->len);
 
 		mail_send_message (
 			m, m->queue, send_uids->pdata[i], m->transport,
@@ -1064,7 +1064,8 @@ mail_transfer_messages (EMailSession *session,
                         gboolean delete_from_source,
                         const gchar *dest_uri,
                         guint32 dest_flags,
-                        void (*done) (gboolean ok, gpointer data),
+                        void (*done) (gboolean ok,
+                                      gpointer data),
                         gpointer data)
 {
 	struct _transfer_msg *m;
@@ -1140,7 +1141,8 @@ static MailMsgInfo sync_folder_info = {
 
 void
 mail_sync_folder (CamelFolder *folder,
-                  void (*done) (CamelFolder *folder, gpointer data),
+                  void (*done) (CamelFolder *folder,
+                                gpointer data),
                   gpointer data)
 {
 	struct _sync_folder_msg *m;
@@ -1216,7 +1218,8 @@ static MailMsgInfo sync_store_info = {
 void
 mail_sync_store (CamelStore *store,
                  gint expunge,
-                 void (*done) (CamelStore *store, gpointer data),
+                 void (*done) (CamelStore *store,
+                               gpointer data),
                  gpointer data)
 {
 	struct _sync_store_msg *m;
@@ -1260,7 +1263,8 @@ static MailMsgInfo refresh_folder_info = {
 
 void
 mail_refresh_folder (CamelFolder *folder,
-                     void (*done) (CamelFolder *folder, gpointer data),
+                     void (*done) (CamelFolder *folder,
+                                   gpointer data),
                      gpointer data)
 {
 	struct _sync_folder_msg *m;

@@ -117,7 +117,8 @@ e_signature_list_init (ESignatureList *signature_list)
 }
 
 static GSList *
-add_autogen (ESignatureList *list, GSList *new_sigs)
+add_autogen (ESignatureList *list,
+             GSList *new_sigs)
 {
 	ESignature *autogen;
 
@@ -241,7 +242,8 @@ gconf_signatures_changed (GConfClient *client,
 }
 
 static gpointer
-copy_func (gconstpointer data, gpointer closure)
+copy_func (gconstpointer data,
+           gpointer closure)
 {
 	GObject *object = (GObject *) data;
 
@@ -251,7 +253,8 @@ copy_func (gconstpointer data, gpointer closure)
 }
 
 static void
-free_func (gpointer data, gpointer closure)
+free_func (gpointer data,
+           gpointer closure)
 {
 	g_object_unref (data);
 }
@@ -285,7 +288,8 @@ e_signature_list_new (GConfClient *gconf)
 }
 
 void
-e_signature_list_construct (ESignatureList *signature_list, GConfClient *gconf)
+e_signature_list_construct (ESignatureList *signature_list,
+                            GConfClient *gconf)
 {
 	g_return_if_fail (GCONF_IS_CLIENT (gconf));
 
@@ -359,7 +363,8 @@ e_signature_list_save (ESignatureList *signature_list)
  * event.
  **/
 void
-e_signature_list_add (ESignatureList *signature_list, ESignature *signature)
+e_signature_list_add (ESignatureList *signature_list,
+                      ESignature *signature)
 {
 	e_list_append ((EList *) signature_list, signature);
 	g_signal_emit (signature_list, signals[SIGNATURE_ADDED], 0, signature);
@@ -373,7 +378,8 @@ e_signature_list_add (ESignatureList *signature_list, ESignature *signature)
  * Signal that the details of an signature have changed.
  **/
 void
-e_signature_list_change (ESignatureList *signature_list, ESignature *signature)
+e_signature_list_change (ESignatureList *signature_list,
+                         ESignature *signature)
 {
 	/* maybe the signature should do this itself ... */
 	g_signal_emit (signature_list, signals[SIGNATURE_CHANGED], 0, signature);
@@ -389,7 +395,8 @@ e_signature_list_change (ESignatureList *signature_list, ESignature *signature)
  * then reset the default to the first signature.
  **/
 void
-e_signature_list_remove (ESignatureList *signature_list, ESignature *signature)
+e_signature_list_remove (ESignatureList *signature_list,
+                         ESignature *signature)
 {
 	/* not sure if need to ref but no harm */
 	g_object_ref (signature);
@@ -417,7 +424,7 @@ e_signature_list_find_by_name (ESignatureList *signature_list,
 	g_return_val_if_fail (E_IS_SIGNATURE_LIST (signature_list), NULL);
 
 	/* this could use a callback for more flexibility ...
-	   ... but this makes the common cases easier */
+	 * ... but this makes the common cases easier */
 
 	if (signature_name == NULL)
 		return NULL;
@@ -461,7 +468,7 @@ e_signature_list_find_by_uid (ESignatureList *signature_list,
 	g_return_val_if_fail (E_IS_SIGNATURE_LIST (signature_list), NULL);
 
 	/* this could use a callback for more flexibility ...
-	   ... but this makes the common cases easier */
+	 * ... but this makes the common cases easier */
 
 	if (signature_uid == NULL)
 		return NULL;

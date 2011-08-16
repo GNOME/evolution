@@ -32,7 +32,7 @@
 #include "evolution-addressbook-export.h"
 
 guint
-action_list_folders_init (ActionContext * p_actctx)
+action_list_folders_init (ActionContext *p_actctx)
 {
 	ESourceList *addressbooks = NULL;
 	GSList *groups, *group;

@@ -217,7 +217,7 @@ week_view_event_item_button_press (EWeekViewEventItem *event_item,
 			return FALSE;
 
 		/* Remember the item clicked and the mouse position,
-		   so we can start a drag if the mouse moves. */
+		 * so we can start a drag if the mouse moves. */
 		week_view->drag_event_x = bevent->button.x;
 		week_view->drag_event_y = bevent->button.y;
 
@@ -239,7 +239,7 @@ week_view_event_item_button_press (EWeekViewEventItem *event_item,
 			week_view, event->start, event->end);
 
 		e_week_view_show_popup_menu (
-			week_view, (GdkEventButton*) bevent,
+			week_view, (GdkEventButton *) bevent,
 			event_item->priv->event_num);
 		g_signal_stop_emission_by_name (
 			item->canvas, "button_press_event");
@@ -500,7 +500,7 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 }
 
 /* This draws a little triangle to indicate that an event extends past
-   the days visible on screen. */
+ * the days visible on screen. */
 static void
 week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
                                     cairo_t *cr,
@@ -574,7 +574,7 @@ week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
 		cr, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER]);
 
 	/* If the height is odd we can use the same central point for both
-	   lines. If it is even we use different end-points. */
+	 * lines. If it is even we use different end-points. */
 	c1 = c2 = y + (h / 2);
 	if (h % 2 == 0)
 		c1--;
@@ -811,7 +811,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			cairo_save (cr);
 			draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 			cairo_set_line_width (cr, 2.0);
-			cairo_set_source_rgb (cr, red/cc, green/cc, blue/cc);
+			cairo_set_source_rgb (cr, red / cc, green / cc, blue / cc);
 			cairo_stroke (cr);
 			cairo_restore (cr);
 		}
@@ -833,13 +833,13 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			pat = cairo_pattern_create_linear (
 				rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
 			cairo_pattern_add_color_stop_rgba (
-				pat, 1, red/cc, green/cc, blue/cc, 0.8);
+				pat, 1, red / cc, green / cc, blue / cc, 0.8);
 			cairo_pattern_add_color_stop_rgba (
-				pat, 0, red/cc, green/cc, blue/cc, 0.4);
+				pat, 0, red / cc, green / cc, blue / cc, 0.4);
 			cairo_set_source (cr, pat);
 			cairo_fill_preserve (cr);
 			cairo_pattern_destroy (pat);
-			cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.2);
+			cairo_set_source_rgba (cr, red / cc, green / cc, blue / cc, 0.2);
 			cairo_set_line_width (cr, 0.5);
 			cairo_stroke (cr);
 			cairo_restore (cr);
@@ -900,9 +900,9 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			- E_WEEK_VIEW_EVENT_R_PAD + 1;
 
 		/* Draw the triangles at the start & end, if needed.
-		   They also use the first few pixels at the edge of the
-		   event so we update rect_x & rect_w so we don't draw over
-		   them. */
+		 * They also use the first few pixels at the edge of the
+		 * event so we update rect_x & rect_w so we don't draw over
+		 * them. */
 		if (event->start < week_view->day_starts[span->start_day]) {
 			draw_start_triangle = TRUE;
 			rect_x += 2;
@@ -928,7 +928,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			cairo_save (cr);
 			draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 			cairo_set_line_width (cr, 2.0);
-			cairo_set_source_rgb (cr, red/cc, green/cc, blue/cc);
+			cairo_set_source_rgb (cr, red / cc, green / cc, blue / cc);
 			cairo_stroke (cr);
 			cairo_restore (cr);
 		}
@@ -950,13 +950,13 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			pat = cairo_pattern_create_linear (
 				rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
 			cairo_pattern_add_color_stop_rgba (
-				pat, 1, red/cc, green/cc, blue/cc, 0.8);
+				pat, 1, red / cc, green / cc, blue / cc, 0.8);
 			cairo_pattern_add_color_stop_rgba (
-				pat, 0, red/cc, green/cc, blue/cc, 0.4);
+				pat, 0, red / cc, green / cc, blue / cc, 0.4);
 			cairo_set_source (cr, pat);
 			cairo_fill_preserve (cr);
 			cairo_pattern_destroy (pat);
-			cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.2);
+			cairo_set_source_rgba (cr, red / cc, green / cc, blue / cc, 0.2);
 			cairo_set_line_width (cr, 0.5);
 			cairo_stroke (cr);
 			cairo_restore (cr);
@@ -1009,12 +1009,12 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			editing_span = TRUE;
 
 		/* Draw the start & end times, if they are not on day
-		   boundaries. The start time would always be shown if it was
-		   needed, though it may be clipped as the window shrinks.
-		   The end time is only displayed if there is enough room.
-		   We calculate the minimum position for the end time, which
-		   depends on whether the start time is displayed. If the end
-		   time doesn't fit, then we don't draw it. */
+		 * boundaries. The start time would always be shown if it was
+		 * needed, though it may be clipped as the window shrinks.
+		 * The end time is only displayed if there is enough room.
+		 * We calculate the minimum position for the end time, which
+		 * depends on whether the start time is displayed. If the end
+		 * time doesn't fit, then we don't draw it. */
 		min_end_time_x = x1 + E_WEEK_VIEW_EVENT_L_PAD
 			+ E_WEEK_VIEW_EVENT_BORDER_WIDTH
 			+ E_WEEK_VIEW_EVENT_EDGE_X_PAD;
@@ -1040,7 +1040,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			cairo_restore (cr);
 
 			/* We don't want the end time to be drawn over the
-			   start time, so we increase the minimum position. */
+			 * start time, so we increase the minimum position. */
 			min_end_time_x += time_width
 				+ E_WEEK_VIEW_EVENT_TIME_X_PAD;
 		}
@@ -1059,7 +1059,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 				- time_width;
 
 			/* Draw the end time, if the position is greater than
-			   the minimum calculated above. */
+			 * the minimum calculated above. */
 			if (time_x >= min_end_time_x) {
 				week_view_draw_time (
 					week_view, cr, time_x,

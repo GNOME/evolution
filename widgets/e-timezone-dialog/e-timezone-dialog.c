@@ -56,7 +56,7 @@
 
 struct _ETimezoneDialogPrivate {
 	/* The selected timezone. May be NULL for a 'local time' (i.e. when
-	   the displayed name is ""). */
+	 * the displayed name is ""). */
 	icaltimezone *zone;
 
 	GtkBuilder *builder;
@@ -95,7 +95,7 @@ static gboolean on_map_button_pressed		(GtkWidget	*w,
 						 GdkEventButton *event,
 						 gpointer	 data);
 
-static icaltimezone* get_zone_from_point	(ETimezoneDialog *etd,
+static icaltimezone * get_zone_from_point	(ETimezoneDialog *etd,
 						 EMapPoint	*point);
 static void	set_map_timezone		(ETimezoneDialog *etd,
 						 icaltimezone    *zone);
@@ -348,7 +348,7 @@ get_local_offset (void)
 }
 #endif
 
-static icaltimezone*
+static icaltimezone *
 get_local_timezone (void)
 {
 	icaltimezone *zone;
@@ -411,8 +411,8 @@ e_timezone_dialog_new (void)
 }
 
 static void
-format_utc_offset			(gint		 utc_offset,
-					 gchar		*buffer)
+format_utc_offset (gint utc_offset,
+                   gchar *buffer)
 {
   const gchar *sign = "+";
   gint hours, minutes, seconds;
@@ -503,13 +503,15 @@ on_map_timeout (gpointer data)
 }
 
 static gboolean
-on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
+on_map_motion (GtkWidget *widget,
+               GdkEventMotion *event,
+               gpointer data)
 {
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
 	gdouble longitude, latitude;
 	icaltimezone *new_zone;
-	gchar *display=NULL;
+	gchar *display = NULL;
 
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
@@ -539,7 +541,9 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 }
 
 static gboolean
-on_map_leave (GtkWidget *widget, GdkEventCrossing *event, gpointer data)
+on_map_leave (GtkWidget *widget,
+              GdkEventCrossing *event,
+              gpointer data)
 {
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
@@ -548,8 +552,8 @@ on_map_leave (GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 	priv = etd->priv;
 
 	/* We only want to reset the hover point if this is a normal leave
-	   event. For some reason we are getting leave events when the
-	   button is pressed in the map, which causes problems. */
+	 * event. For some reason we are getting leave events when the
+	 * button is pressed in the map, which causes problems. */
 	if (event->mode != GDK_CROSSING_NORMAL)
 		return FALSE;
 
@@ -567,8 +571,9 @@ on_map_leave (GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 }
 
 static gboolean
-on_map_visibility_changed (GtkWidget *w, GdkEventVisibility *event,
-			   gpointer data)
+on_map_visibility_changed (GtkWidget *w,
+                           GdkEventVisibility *event,
+                           gpointer data)
 {
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
@@ -578,7 +583,7 @@ on_map_visibility_changed (GtkWidget *w, GdkEventVisibility *event,
 
 	if (event->state != GDK_VISIBILITY_FULLY_OBSCURED) {
 		/* Map is visible, at least partly, so make sure we flash the
-		   selected point. */
+		 * selected point. */
 		if (!priv->timeout_id)
 			priv->timeout_id = g_timeout_add (100, on_map_timeout, etd);
 	} else {
@@ -593,7 +598,9 @@ on_map_visibility_changed (GtkWidget *w, GdkEventVisibility *event,
 }
 
 static gboolean
-on_map_button_pressed (GtkWidget *w, GdkEventButton *event, gpointer data)
+on_map_button_pressed (GtkWidget *w,
+                       GdkEventButton *event,
+                       gpointer data)
 {
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
@@ -627,10 +634,10 @@ on_map_button_pressed (GtkWidget *w, GdkEventButton *event, gpointer data)
 }
 
 /* Returns the translated timezone location of the given EMapPoint,
-   e.g. "Europe/London". */
+ * e.g. "Europe/London". */
 static icaltimezone *
 get_zone_from_point (ETimezoneDialog *etd,
-		     EMapPoint *point)
+                     EMapPoint *point)
 {
 	icalarray *zones;
 	gdouble longitude, latitude;
@@ -695,7 +702,7 @@ e_timezone_dialog_get_timezone (ETimezoneDialog *etd)
 
 void
 e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
-				icaltimezone    *zone)
+                                icaltimezone *zone)
 {
 	ETimezoneDialogPrivate *priv;
 	gchar *display = NULL;
@@ -722,7 +729,7 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 }
 
 GtkWidget *
-e_timezone_dialog_get_toplevel	(ETimezoneDialog  *etd)
+e_timezone_dialog_get_toplevel (ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
 
@@ -735,7 +742,8 @@ e_timezone_dialog_get_toplevel	(ETimezoneDialog  *etd)
 }
 
 static void
-set_map_timezone (ETimezoneDialog *etd, icaltimezone *zone)
+set_map_timezone (ETimezoneDialog *etd,
+                  icaltimezone *zone)
 {
 	ETimezoneDialogPrivate *priv;
 	EMapPoint *point;
@@ -761,7 +769,8 @@ set_map_timezone (ETimezoneDialog *etd, icaltimezone *zone)
 }
 
 static void
-on_combo_changed (GtkComboBox *combo_box, ETimezoneDialog *etd)
+on_combo_changed (GtkComboBox *combo_box,
+                  ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
 	const gchar *new_zone_name;
@@ -797,7 +806,8 @@ on_combo_changed (GtkComboBox *combo_box, ETimezoneDialog *etd)
 }
 
 static void
-timezone_combo_get_active_text (GtkComboBox *combo, const gchar **zone_name)
+timezone_combo_get_active_text (GtkComboBox *combo,
+                                const gchar **zone_name)
 {
 	GtkTreeModel *list_store;
 	GtkTreeIter iter;
@@ -812,7 +822,8 @@ timezone_combo_get_active_text (GtkComboBox *combo, const gchar **zone_name)
 }
 
 static gboolean
-timezone_combo_set_active_text (GtkComboBox *combo, const gchar *zone_name)
+timezone_combo_set_active_text (GtkComboBox *combo,
+                                const gchar *zone_name)
 {
 	GtkTreeModel *list_store;
 	GHashTable *index;
@@ -830,7 +841,8 @@ timezone_combo_set_active_text (GtkComboBox *combo, const gchar *zone_name)
 }
 
 static void
-map_destroy_cb (gpointer data, GObject *where_object_was)
+map_destroy_cb (gpointer data,
+                GObject *where_object_was)
 {
 
 	ETimezoneDialogPrivate *priv = data;

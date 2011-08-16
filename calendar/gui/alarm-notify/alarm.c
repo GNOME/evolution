@@ -167,7 +167,8 @@ setup_timeout (void)
 /* Used from g_list_insert_sorted(); compares the
  * trigger times of two AlarmRecord structures. */
 static gint
-compare_alarm_by_time (gconstpointer a, gconstpointer b)
+compare_alarm_by_time (gconstpointer a,
+                       gconstpointer b)
 {
 	const AlarmRecord *ara = a;
 	const AlarmRecord *arb = b;
@@ -187,7 +188,7 @@ queue_alarm (AlarmRecord *ar)
 	old_head = alarms;
 
 	/* Insert the new alarm in order if the alarm's trigger time is
-	   after the current time */
+	 * after the current time */
 	alarms = g_list_insert_sorted (alarms, ar, compare_alarm_by_time);
 
 	/* If there first item on the list didn't change, the time out is fine */
@@ -215,8 +216,10 @@ queue_alarm (AlarmRecord *ar)
  * the alarm will not be queued and the function will return NULL.
  **/
 gpointer
-alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,
-	   AlarmDestroyNotify destroy_notify_fn)
+alarm_add (time_t trigger,
+           AlarmFunction alarm_fn,
+           gpointer data,
+           AlarmDestroyNotify destroy_notify_fn)
 {
 	AlarmRecord *ar;
 

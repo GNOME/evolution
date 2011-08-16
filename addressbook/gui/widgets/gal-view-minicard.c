@@ -236,8 +236,8 @@ gal_view_minicard_new (const gchar *title)
  * Returns: The GalViewMinicard.
  */
 GalView *
-gal_view_minicard_construct  (GalViewMinicard *view,
-			      const gchar *title)
+gal_view_minicard_construct (GalViewMinicard *view,
+                             const gchar *title)
 {
 	view->title = g_strdup (title);
 

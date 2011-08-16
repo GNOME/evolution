@@ -250,7 +250,8 @@ e_meeting_attendee_get_fburi (EMeetingAttendee *ia)
 }
 
 void
-e_meeting_attendee_set_fburi (EMeetingAttendee *ia, gchar *fburi)
+e_meeting_attendee_set_fburi (EMeetingAttendee *ia,
+                              gchar *fburi)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -275,7 +276,8 @@ e_meeting_attendee_get_address (EMeetingAttendee *ia)
 }
 
 void
-e_meeting_attendee_set_address (EMeetingAttendee *ia, gchar *address)
+e_meeting_attendee_set_address (EMeetingAttendee *ia,
+                                gchar *address)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -310,7 +312,8 @@ e_meeting_attendee_get_member (EMeetingAttendee *ia)
 }
 
 void
-e_meeting_attendee_set_member (EMeetingAttendee *ia, gchar *member)
+e_meeting_attendee_set_member (EMeetingAttendee *ia,
+                               gchar *member)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -345,7 +348,8 @@ e_meeting_attendee_get_cutype (EMeetingAttendee *ia)
 }
 
 void
-e_meeting_attendee_set_cutype (EMeetingAttendee *ia, icalparameter_cutype cutype)
+e_meeting_attendee_set_cutype (EMeetingAttendee *ia,
+                               icalparameter_cutype cutype)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -367,7 +371,8 @@ e_meeting_attendee_get_role (EMeetingAttendee *ia)
 }
 
 void
-e_meeting_attendee_set_role (EMeetingAttendee *ia, icalparameter_role role)
+e_meeting_attendee_set_role (EMeetingAttendee *ia,
+                             icalparameter_role role)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -389,7 +394,8 @@ e_meeting_attendee_get_rsvp (EMeetingAttendee *ia)
 }
 
 void
-e_meeting_attendee_set_rsvp (EMeetingAttendee *ia, gboolean rsvp)
+e_meeting_attendee_set_rsvp (EMeetingAttendee *ia,
+                             gboolean rsvp)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -411,7 +417,8 @@ e_meeting_attendee_get_delto (EMeetingAttendee *ia)
 }
 
 void
-e_meeting_attendee_set_delto (EMeetingAttendee *ia, gchar *delto)
+e_meeting_attendee_set_delto (EMeetingAttendee *ia,
+                              gchar *delto)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -446,7 +453,8 @@ e_meeting_attendee_get_delfrom (EMeetingAttendee *ia)
 }
 
 void
-e_meeting_attendee_set_delfrom (EMeetingAttendee *ia, gchar *delfrom)
+e_meeting_attendee_set_delfrom (EMeetingAttendee *ia,
+                                gchar *delfrom)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -481,7 +489,8 @@ e_meeting_attendee_get_status (EMeetingAttendee *ia)
 }
 
 void
-e_meeting_attendee_set_status (EMeetingAttendee *ia, icalparameter_partstat status)
+e_meeting_attendee_set_status (EMeetingAttendee *ia,
+                               icalparameter_partstat status)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -503,7 +512,8 @@ e_meeting_attendee_get_sentby (EMeetingAttendee *ia)
 }
 
 void
-e_meeting_attendee_set_sentby (EMeetingAttendee *ia, gchar *sentby)
+e_meeting_attendee_set_sentby (EMeetingAttendee *ia,
+                               gchar *sentby)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -538,7 +548,8 @@ e_meeting_attendee_get_cn (EMeetingAttendee *ia)
 }
 
 void
-e_meeting_attendee_set_cn (EMeetingAttendee *ia, gchar *cn)
+e_meeting_attendee_set_cn (EMeetingAttendee *ia,
+                           gchar *cn)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -573,7 +584,8 @@ e_meeting_attendee_get_language (EMeetingAttendee *ia)
 }
 
 void
-e_meeting_attendee_set_language (EMeetingAttendee *ia, gchar *language)
+e_meeting_attendee_set_language (EMeetingAttendee *ia,
+                                 gchar *language)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -644,7 +656,7 @@ e_meeting_attendee_set_edit_level (EMeetingAttendee *ia,
 
 static gint
 compare_times (EMeetingTime *time1,
-	       EMeetingTime *time2)
+               EMeetingTime *time2)
 {
 	gint day_comparison;
 
@@ -669,7 +681,7 @@ compare_times (EMeetingTime *time1,
 
 static gint
 compare_period_starts (gconstpointer arg1,
-		       gconstpointer arg2)
+                       gconstpointer arg2)
 {
 	EMeetingFreeBusyPeriod *period1, *period2;
 
@@ -730,7 +742,8 @@ e_meeting_attendee_get_busy_periods (EMeetingAttendee *ia)
 }
 
 gint
-e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia, GDate *date)
+e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia,
+                                           GDate *date)
 {
 	EMeetingAttendeePrivate *priv;
 	EMeetingFreeBusyPeriod *period;
@@ -743,7 +756,7 @@ e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia, GDate *date)
 	ensure_periods_sorted (ia);
 
 	/* Calculate the first day which could have a busy period which
-	   continues onto our given date. */
+	 * continues onto our given date. */
 	tmp_date = *date;
 	g_date_subtract_days (&tmp_date, priv->longest_period_in_days);
 
@@ -771,7 +784,7 @@ e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia, GDate *date)
 	}
 
 	/* There may be several busy periods on the same day so we step
-	   backwards to the first one. */
+	 * backwards to the first one. */
 	if (cmp == 0) {
 		while (middle > 0) {
 			period = &g_array_index (priv->busy_periods,
@@ -782,8 +795,8 @@ e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia, GDate *date)
 		}
 	} else if (cmp > 0) {
 		/* This means we couldn't find a period on the given day, and
-		   the last one we looked at was before it, so if there are
-		   any more periods after this one we return it. */
+		 * the last one we looked at was before it, so if there are
+		 * any more periods after this one we return it. */
 		middle++;
 		if (priv->busy_periods->len <= middle)
 			return -1;
@@ -794,17 +807,17 @@ e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia, GDate *date)
 
 gboolean
 e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
-				    gint start_year,
-				    gint start_month,
-				    gint start_day,
-				    gint start_hour,
-				    gint start_minute,
-				    gint end_year,
-				    gint end_month,
-				    gint end_day,
-				    gint end_hour,
-				    gint end_minute,
-				    EMeetingFreeBusyType busy_type)
+                                    gint start_year,
+                                    gint start_month,
+                                    gint start_day,
+                                    gint start_hour,
+                                    gint start_minute,
+                                    gint end_year,
+                                    gint end_month,
+                                    gint end_day,
+                                    gint end_hour,
+                                    gint end_minute,
+                                    EMeetingFreeBusyType busy_type)
 {
 	EMeetingAttendeePrivate *priv;
 	EMeetingFreeBusyPeriod period;
@@ -944,11 +957,11 @@ e_meeting_attendee_get_end_busy_range (EMeetingAttendee *ia)
 
 gboolean
 e_meeting_attendee_set_start_busy_range (EMeetingAttendee *ia,
-					 gint start_year,
-					 gint start_month,
-					 gint start_day,
-					 gint start_hour,
-					 gint start_minute)
+                                         gint start_year,
+                                         gint start_month,
+                                         gint start_day,
+                                         gint start_hour,
+                                         gint start_minute)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -977,11 +990,11 @@ e_meeting_attendee_set_start_busy_range (EMeetingAttendee *ia,
 
 gboolean
 e_meeting_attendee_set_end_busy_range (EMeetingAttendee *ia,
-				       gint end_year,
-				       gint end_month,
-				       gint end_day,
-				       gint end_hour,
-				       gint end_minute)
+                                       gint end_year,
+                                       gint end_month,
+                                       gint end_day,
+                                       gint end_hour,
+                                       gint end_minute)
 {
 	EMeetingAttendeePrivate *priv;
 

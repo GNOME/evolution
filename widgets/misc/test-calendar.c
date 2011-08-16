@@ -46,14 +46,15 @@ static void on_selection_changed	(ECalendarItem *calitem);
 
 static void
 delete_event_cb (GtkWidget *widget,
-		 GdkEventAny *event,
-		 gpointer data)
+                 GdkEventAny *event,
+                 gpointer data)
 {
 	gtk_main_quit ();
 }
 
 gint
-main (gint argc, gchar **argv)
+main (gint argc,
+      gchar **argv)
 {
 	GtkWidget *window;
 	GtkWidget *cal;

@@ -36,8 +36,8 @@
 #include "e-table-field-chooser.h"
 #include "e-table-field-chooser-item.h"
 
-static void e_table_field_chooser_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
-static void e_table_field_chooser_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
+static void e_table_field_chooser_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
+static void e_table_field_chooser_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
 static void e_table_field_chooser_dispose (GObject *object);
 
 /* The arguments we take */
@@ -55,7 +55,7 @@ e_table_field_chooser_class_init (ETableFieldChooserClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = (GObjectClass*) class;
+	object_class = (GObjectClass *) class;
 
 	object_class->set_property = e_table_field_chooser_set_property;
 	object_class->get_property = e_table_field_chooser_get_property;
@@ -202,7 +202,7 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 					   "dnd_code", etfc->dnd_code,
 					   NULL );
 
-	g_signal_connect( etfc->canvas, "reflow",
+	g_signal_connect ( etfc->canvas, "reflow",
 			  G_CALLBACK ( resize ),
 			  etfc);
 
@@ -238,18 +238,21 @@ e_table_field_chooser_dispose (GObject *object)
 	G_OBJECT_CLASS (e_table_field_chooser_parent_class)->dispose (object);
 }
 
-GtkWidget*
+GtkWidget *
 e_table_field_chooser_new (void)
 {
 	return g_object_new (E_TYPE_TABLE_FIELD_CHOOSER, NULL);
 }
 
 static void
-e_table_field_chooser_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+e_table_field_chooser_set_property (GObject *object,
+                                    guint property_id,
+                                    const GValue *value,
+                                    GParamSpec *pspec)
 {
 	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_DND_CODE:
 		g_free (etfc->dnd_code);
 		etfc->dnd_code = g_strdup (g_value_get_string (value));
@@ -292,11 +295,14 @@ e_table_field_chooser_set_property (GObject *object, guint prop_id, const GValue
 }
 
 static void
-e_table_field_chooser_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+e_table_field_chooser_get_property (GObject *object,
+                                    guint property_id,
+                                    GValue *value,
+                                    GParamSpec *pspec)
 {
 	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_DND_CODE:
 		g_value_set_string (value, etfc->dnd_code);
 		break;
@@ -307,7 +313,7 @@ e_table_field_chooser_get_property (GObject *object, guint prop_id, GValue *valu
 		g_value_set_object (value, etfc->header);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }

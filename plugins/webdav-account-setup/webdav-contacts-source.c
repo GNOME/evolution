@@ -47,11 +47,12 @@ typedef struct {
 	GtkToggleButton *avoid_ifmatch_toggle;
 } ui_data;
 
-GtkWidget *
-plugin_webdav_contacts (EPlugin *epl, EConfigHookItemFactoryData *data);
+GtkWidget *	plugin_webdav_contacts	(EPlugin *epl,
+					 EConfigHookItemFactoryData *data);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable);
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable);
 
 static void
 ensure_webdav_contacts_source_group (void)
@@ -204,7 +205,8 @@ destroy_ui_data (gpointer data)
 }
 
 GtkWidget *
-plugin_webdav_contacts (EPlugin *epl, EConfigHookItemFactoryData *data)
+plugin_webdav_contacts (EPlugin *epl,
+                        EConfigHookItemFactoryData *data)
 {
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource      *source;
@@ -298,7 +300,8 @@ plugin_webdav_contacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	if (enable) {
 		ensure_webdav_contacts_source_group ();

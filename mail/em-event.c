@@ -35,7 +35,8 @@ static EMEvent *em_event;
 G_DEFINE_TYPE (EMEvent, em_event, E_TYPE_EVENT)
 
 static void
-eme_target_free (EEvent *ep, EEventTarget *t)
+eme_target_free (EEvent *ep,
+                 EEventTarget *t)
 {
 	switch (t->type) {
 	case EM_EVENT_TARGET_FOLDER: {

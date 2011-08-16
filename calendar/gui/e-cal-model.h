@@ -73,7 +73,7 @@ G_BEGIN_DECLS
 
 typedef enum {
 	/* If you add new items here or reorder them, you have to update the
-	   .etspec files for the tables using this model */
+	 * .etspec files for the tables using this model */
 	E_CAL_MODEL_FIELD_CATEGORIES,
 	E_CAL_MODEL_FIELD_CLASSIFICATION,
 	E_CAL_MODEL_FIELD_COLOR,            /* not a real field */

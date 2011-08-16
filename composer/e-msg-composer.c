@@ -225,18 +225,19 @@ emcu_remove_xevolution_headers (CamelMimeMessage *message)
 {
 	struct _camel_header_raw *scan, *list = NULL;
 
-	for (scan = ((CamelMimePart *) message)->headers;scan;scan=scan->next)
+	for (scan = ((CamelMimePart *) message)->headers; scan; scan = scan->next)
 		if (!strncmp(scan->name, "X-Evolution", 11))
 			camel_header_raw_append (&list, scan->name, scan->value, scan->offset);
 
-	for (scan=list;scan;scan=scan->next)
+	for (scan = list; scan; scan = scan->next)
 		camel_medium_remove_header ((CamelMedium *) message, scan->name);
 
 	return list;
 }
 
-static EDestination**
-destination_list_to_vector_sized (GList *list, gint n)
+static EDestination **
+destination_list_to_vector_sized (GList *list,
+                                  gint n)
 {
 	EDestination **destv;
 	gint i = 0;
@@ -259,7 +260,7 @@ destination_list_to_vector_sized (GList *list, gint n)
 	return destv;
 }
 
-static EDestination**
+static EDestination **
 destination_list_to_vector (GList *list)
 {
 	return destination_list_to_vector_sized (list, -1);
@@ -268,7 +269,8 @@ destination_list_to_vector (GList *list)
 #define LINE_LEN 72
 
 static gboolean
-text_requires_quoted_printable (const gchar *text, gsize len)
+text_requires_quoted_printable (const gchar *text,
+                                gsize len)
 {
 	const gchar *p;
 	gsize pos;
@@ -291,7 +293,8 @@ text_requires_quoted_printable (const gchar *text, gsize len)
 }
 
 static CamelTransferEncoding
-best_encoding (GByteArray *buf, const gchar *charset)
+best_encoding (GByteArray *buf,
+               const gchar *charset)
 {
 	gchar *in, *out, outbuf[256], *ch;
 	gsize inlen, outlen;
@@ -385,7 +388,8 @@ e_msg_composer_clear_inlined_table (EMsgComposer *composer)
 }
 
 static void
-add_inlined_images (EMsgComposer *composer, CamelMultipart *multipart)
+add_inlined_images (EMsgComposer *composer,
+                    CamelMultipart *multipart)
 {
 	EMsgComposerPrivate *p = composer->priv;
 
@@ -2720,7 +2724,7 @@ add_attachments_handle_mime_part (EMsgComposer *composer,
 static void
 add_attachments_from_multipart (EMsgComposer *composer,
                                 CamelMultipart *multipart,
-				gboolean just_inlines,
+                                gboolean just_inlines,
                                 gint depth)
 {
 	/* find appropriate message attachments to add to the composer */
@@ -2999,7 +3003,7 @@ handle_multipart_alternative (EMsgComposer *composer,
 			break;
 		} else if (camel_content_type_is (content_type, "text", "*")) {
 			/* anyt text part not text/html is second rate so the first
-			   text part we find isn't necessarily the one we'll use. */
+			 * text part we find isn't necessarily the one we'll use. */
 			if (!text_part)
 				text_part = mime_part;
 		} else {
@@ -3334,7 +3338,7 @@ e_msg_composer_new_with_message (EShell *shell,
 			format++;
 
 		flags = g_strsplit (format, ", ", 0);
-		for (i=0;flags[i];i++) {
+		for (i = 0; flags[i]; i++) {
 			if (g_ascii_strcasecmp (flags[i], "text/html") == 0)
 				gtkhtml_editor_set_html_mode (
 					GTKHTML_EDITOR (composer), TRUE);
@@ -3911,7 +3915,8 @@ e_msg_composer_print (EMsgComposer *composer,
 }
 
 static GList *
-add_recipients (GList *list, const gchar *recips)
+add_recipients (GList *list,
+                const gchar *recips)
 {
 	CamelInternetAddress *cia;
 	const gchar *name, *addr;
@@ -4505,7 +4510,7 @@ e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
  * be wrapped in a multipart/related.
  **/
 void
-e_msg_composer_add_inline_image_from_mime_part (EMsgComposer  *composer,
+e_msg_composer_add_inline_image_from_mime_part (EMsgComposer *composer,
                                                 CamelMimePart *part)
 {
 	gchar *url;

@@ -180,10 +180,10 @@ static void
 message_proxy (Message *msg)
 {
 	g_return_if_fail (msg->func != NULL);
-
+ *
 	msg->func (msg);
 }
-
+ *
 static gpointer
 create_thread_pool (void)
 {
@@ -344,7 +344,7 @@ remove_queued_alarm (CompQueuedAlarms *cqa,
                      gboolean free_object,
                      gboolean remove_alarm)
 {
-	QueuedAlarm *qa=NULL;
+	QueuedAlarm *qa = NULL;
 	GSList *l;
 
 	debug (("..."));
@@ -576,7 +576,9 @@ add_component_alarms (ClientAlarms *ca,
 
 /* Loads the alarms of a client for a given range of time */
 static void
-load_alarms (ClientAlarms *ca, time_t start, time_t end)
+load_alarms (ClientAlarms *ca,
+             time_t start,
+             time_t end)
 {
 	gchar *str_query, *iso_start, *iso_end;
 	GError *error = NULL;
@@ -1609,10 +1611,12 @@ display_notification (time_t trigger,
 		tray_icon = gtk_status_icon_new ();
 		gtk_status_icon_set_from_icon_name (
 			tray_icon, "appointment-soon");
-		g_signal_connect (G_OBJECT (tray_icon), "activate",
-				  G_CALLBACK (icon_activated), NULL);
-		g_signal_connect (G_OBJECT (tray_icon), "popup-menu",
-				  G_CALLBACK (popup_menu), NULL);
+		g_signal_connect (
+			tray_icon, "activate",
+			G_CALLBACK (icon_activated), NULL);
+		g_signal_connect (
+			tray_icon, "popup-menu",
+			G_CALLBACK (popup_menu), NULL);
 	}
 
 	current_zone = config_data_get_timezone ();
@@ -1661,8 +1665,9 @@ display_notification (time_t trigger,
 	g_free (time_str);
 	g_free (str);
 
-	g_signal_connect (G_OBJECT (tray_data->view), "objects_removed",
-			  G_CALLBACK (on_dialog_objs_removed_cb), tray_data);
+	g_signal_connect (
+		tray_data->view, "objects_removed",
+		G_CALLBACK (on_dialog_objs_removed_cb), tray_data);
 
 	/* FIXME: We should remove this check */
 	if (!config_data_get_notify_with_tray ()) {
@@ -1864,7 +1869,8 @@ mail_notification (time_t trigger,
 
 /* Performs notification of a procedure alarm */
 static gboolean
-procedure_notification_dialog (const gchar *cmd, const gchar *url)
+procedure_notification_dialog (const gchar *cmd,
+                               const gchar *url)
 {
 	GtkWidget *container;
 	GtkWidget *dialog;
@@ -2037,7 +2043,9 @@ alarm_queue_init (gpointer data)
 }
 
 static gboolean
-free_client_alarms_cb (gpointer key, gpointer value, gpointer user_data)
+free_client_alarms_cb (gpointer key,
+                       gpointer value,
+                       gpointer user_data)
 {
 	ClientAlarms *ca = value;
 
@@ -2101,7 +2109,8 @@ alarm_queue_done (void)
 }
 
 static gboolean
-compare_ids (gpointer a, gpointer b)
+compare_ids (gpointer a,
+             gpointer b)
 {
 	ECalComponentId *id, *id1;
 
@@ -2370,7 +2379,8 @@ update_cqa (CompQueuedAlarms *cqa,
 }
 
 static void
-update_qa (ECalComponentAlarms *alarms, QueuedAlarm *qa)
+update_qa (ECalComponentAlarms *alarms,
+           QueuedAlarm *qa)
 {
 	ECalComponentAlarmInstance *al_inst;
 	GSList *instance_list;

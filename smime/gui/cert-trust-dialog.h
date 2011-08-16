@@ -28,7 +28,7 @@
 
 G_BEGIN_DECLS
 
-GtkWidget* cert_trust_dialog_show (ECert *cert);
+GtkWidget * cert_trust_dialog_show (ECert *cert);
 
 G_END_DECLS
 

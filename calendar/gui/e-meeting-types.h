@@ -34,10 +34,10 @@ typedef struct _EMeetingTime               EMeetingTime;
 typedef struct _EMeetingFreeBusyPeriod     EMeetingFreeBusyPeriod;
 
 /* These are used to specify whether an attendee is free or busy at a
-   particular time. We'll probably replace this with a global calendar type.
-   These should be ordered in increasing order of preference. Higher precedence
-   busy periods will be painted over lower precedence ones. These are also
-   used as for loop counters, so they should start at 0 and be ordered. */
+ * particular time. We'll probably replace this with a global calendar type.
+ * These should be ordered in increasing order of preference. Higher precedence
+ * busy periods will be painted over lower precedence ones. These are also
+ * used as for loop counters, so they should start at 0 and be ordered. */
 typedef enum
 {
 	E_MEETING_FREE_BUSY_TENTATIVE		= 0,
@@ -49,7 +49,7 @@ typedef enum
 } EMeetingFreeBusyType;
 
 /* This is our representation of a time. We use a GDate to store the day,
-   and guint8s for the hours and minutes. */
+ * and guint8s for the hours and minutes. */
 struct _EMeetingTime
 {
 	GDate	date;

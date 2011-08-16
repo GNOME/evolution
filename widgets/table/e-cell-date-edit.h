@@ -84,7 +84,7 @@ struct _ECellDateEdit {
 	gboolean need_time_list_rebuild;
 
 	/* The freeze count for rebuilding the time list. We only rebuild when
-	   this is 0. */
+	 * this is 0. */
 	gint freeze_count;
 
 	ECellDateEditGetTimeCallback time_callback;
@@ -100,14 +100,14 @@ GType		e_cell_date_edit_get_type	(void) G_GNUC_CONST;
 ECell *		e_cell_date_edit_new		(void);
 
 /* These freeze and thaw the rebuilding of the time list. They are useful when
-   setting several properties which result in rebuilds of the list, e.g. the
-   lower_hour, upper_hour and use_24_hour_format properties. */
+ * setting several properties which result in rebuilds of the list, e.g. the
+ * lower_hour, upper_hour and use_24_hour_format properties. */
 void		e_cell_date_edit_freeze		(ECellDateEdit *ecde);
 void		e_cell_date_edit_thaw		(ECellDateEdit *ecde);
 
 /* Sets a callback to use to get the current time. This is useful if the
-   application needs to use its own timezone data rather than rely on the
-   Unix timezone. */
+ * application needs to use its own timezone data rather than rely on the
+ * Unix timezone. */
 void		e_cell_date_edit_set_get_time_callback
 						(ECellDateEdit *ecde,
 						 ECellDateEditGetTimeCallback cb,

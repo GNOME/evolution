@@ -39,7 +39,7 @@ struct  _AnjalMailViewPrivate {
 G_DEFINE_TYPE (AnjalMailView, anjal_mail_view, GTK_TYPE_NOTEBOOK)
 
 static void
-anjal_mail_view_init (AnjalMailView  *shell)
+anjal_mail_view_init (AnjalMailView *shell)
 {
 	shell->priv = g_new0 (AnjalMailViewPrivate, 1);
 	shell->priv->started = TRUE;
@@ -57,25 +57,32 @@ anjal_mail_view_finalize (GObject *object)
 }
 
 static void
-view_set_folder_uri (AnjalMailView *mail_view, const gchar *uri)
-{
-}
-static void
-view_set_folder_tree_widget (AnjalMailView *mail_view, GtkWidget *tree)
-{
-}
-static void
-view_set_folder_tree (AnjalMailView *mail_view, EMFolderTree *tree)
+view_set_folder_uri (AnjalMailView *mail_view,
+                     const gchar *uri)
 {
 }
 
 static void
-view_set_search (AnjalMailView *mail_view, const gchar *search)
+view_set_folder_tree_widget (AnjalMailView *mail_view,
+                             GtkWidget *tree)
 {
 }
 
 static void
-view_init_search (AnjalMailView *mail_view, GtkWidget *search)
+view_set_folder_tree (AnjalMailView *mail_view,
+                      EMFolderTree *tree)
+{
+}
+
+static void
+view_set_search (AnjalMailView *mail_view,
+                 const gchar *search)
+{
+}
+
+static void
+view_init_search (AnjalMailView *mail_view,
+                  GtkWidget *search)
 {
 }
 

@@ -61,19 +61,22 @@ GtkWidget * org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *da
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
 
 void
-imap_headers_abort (EPlugin *efp, EConfigHookItemFactoryData *data)
+imap_headers_abort (EPlugin *efp,
+                    EConfigHookItemFactoryData *data)
 {
 	/* Nothing to do here */
 }
 
 void
-imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
+imap_headers_commit (EPlugin *efp,
+                     EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
 	CamelFetchHeadersType fetch_headers;
@@ -178,7 +181,8 @@ epif_add_sensitivity (EPImapFeaturesData *ui)
 }
 
 static void
-epif_add_header (GtkButton *button, EPImapFeaturesData *ui)
+epif_add_header (GtkButton *button,
+                 EPImapFeaturesData *ui)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -196,7 +200,8 @@ epif_add_header (GtkButton *button, EPImapFeaturesData *ui)
 }
 
 static void
-epif_tv_selection_changed (GtkTreeSelection *selection, GtkWidget *button)
+epif_tv_selection_changed (GtkTreeSelection *selection,
+                           GtkWidget *button)
 {
 	g_return_if_fail (selection != NULL);
 	g_return_if_fail (button != NULL);
@@ -205,7 +210,8 @@ epif_tv_selection_changed (GtkTreeSelection *selection, GtkWidget *button)
 }
 
 static void
-epif_remove_header_clicked (GtkButton *button, EPImapFeaturesData *ui)
+epif_remove_header_clicked (GtkButton *button,
+                            EPImapFeaturesData *ui)
 {
 	GtkTreeSelection *select;
 	GtkTreeModel *model;
@@ -233,13 +239,15 @@ epif_remove_header_clicked (GtkButton *button, EPImapFeaturesData *ui)
 }
 
 static void
-epif_entry_changed (GtkWidget *entry, EPImapFeaturesData *ui)
+epif_entry_changed (GtkWidget *entry,
+                    EPImapFeaturesData *ui)
 {
 	epif_add_sensitivity (ui);
 }
 
 GtkWidget *
-org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
+org_gnome_imap_headers (EPlugin *epl,
+                        EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
 	CamelSettings *settings;

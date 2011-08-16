@@ -65,8 +65,9 @@ typedef void (*process_message_cb) (GObject *dialog, const gchar *msg_path, guin
 
 static void send_xml_message (xmlDocPtr doc, gboolean depth_1, const gchar *url, GObject *dialog, process_message_cb cb, gpointer cb_user_data, const gchar *info);
 
-static gchar *
-xpath_get_string (xmlXPathContextPtr xpctx, const gchar *path_format, ...)
+static gchar *	xpath_get_string		(xmlXPathContextPtr xpctx,
+						 const gchar *path_format,
+						 ...)
 {
 	gchar *res = NULL, *path, *tmp;
 	va_list args;
@@ -101,7 +102,10 @@ xpath_get_string (xmlXPathContextPtr xpctx, const gchar *path_format, ...)
 }
 
 static gboolean
-xpath_exists (xmlXPathContextPtr xpctx, xmlXPathObjectPtr *resobj, const gchar *path_format, ...)
+xpath_exists (xmlXPathContextPtr xpctx,
+              xmlXPathObjectPtr *resobj,
+              const gchar *path_format,
+              ...)
 {
 	gchar *path;
 	va_list args;
@@ -131,7 +135,8 @@ xpath_exists (xmlXPathContextPtr xpctx, xmlXPathObjectPtr *resobj, const gchar *
 }
 
 static gchar *
-change_url_path (const gchar *base_url, const gchar *new_path)
+change_url_path (const gchar *base_url,
+                 const gchar *new_path)
 {
 	SoupURI *suri;
 	gchar *url;
@@ -153,7 +158,9 @@ change_url_path (const gchar *base_url, const gchar *new_path)
 }
 
 static void
-report_error (GObject *dialog, gboolean is_fatal, const gchar *msg)
+report_error (GObject *dialog,
+              gboolean is_fatal,
+              const gchar *msg)
 {
 	g_return_if_fail (dialog != NULL);
 	g_return_if_fail (GTK_IS_DIALOG (dialog));
@@ -192,7 +199,11 @@ report_error (GObject *dialog, gboolean is_fatal, const gchar *msg)
 }
 
 static gboolean
-check_soup_status (GObject *dialog, guint status_code, const gchar *reason_phrase, const gchar *msg_body, gboolean is_fatal)
+check_soup_status (GObject *dialog,
+                   guint status_code,
+                   const gchar *reason_phrase,
+                   const gchar *msg_body,
+                   gboolean is_fatal)
 {
 	gchar *msg;
 
@@ -222,7 +233,10 @@ struct test_exists_data {
 };
 
 static gboolean
-test_href_exists_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer user_data)
+test_href_exists_cb (GtkTreeModel *model,
+                     GtkTreePath *path,
+                     GtkTreeIter *iter,
+                     gpointer user_data)
 {
 	struct test_exists_data *ted = user_data;
 	gchar *href = NULL;
@@ -242,7 +256,9 @@ test_href_exists_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, 
 }
 
 static void
-add_collection_node_to_tree (GtkTreeStore *store, GtkTreeIter *parent_iter, const gchar *href)
+add_collection_node_to_tree (GtkTreeStore *store,
+                             GtkTreeIter *parent_iter,
+                             const gchar *href)
 {
 	SoupURI *suri;
 	const gchar *path;
@@ -319,7 +335,12 @@ add_collection_node_to_tree (GtkTreeStore *store, GtkTreeIter *parent_iter, cons
 
 /* called with "caldav-thread-mutex" unlocked; 'user_data' is parent tree iter, NULL for "User's calendars" */
 static void
-traverse_users_calendars_cb (GObject *dialog, const gchar *msg_path, guint status_code, const gchar *reason_phrase, const gchar *msg_body, gpointer user_data)
+traverse_users_calendars_cb (GObject *dialog,
+                             const gchar *msg_path,
+                             guint status_code,
+                             const gchar *reason_phrase,
+                             const gchar *msg_body,
+                             gpointer user_data)
 {
 	xmlDocPtr doc;
 	xmlXPathContextPtr xpctx;
@@ -512,7 +533,10 @@ traverse_users_calendars_cb (GObject *dialog, const gchar *msg_path, guint statu
 }
 
 static void
-fetch_folder_content (GObject *dialog, const gchar *relative_path, const GtkTreeIter *parent_iter, const gchar *op_info)
+fetch_folder_content (GObject *dialog,
+                      const gchar *relative_path,
+                      const GtkTreeIter *parent_iter,
+                      const gchar *op_info)
 {
 	xmlDocPtr doc;
 	xmlNodePtr root, node;
@@ -604,7 +628,9 @@ mail_account_configured (const gchar *email)
 }
 
 static void
-add_usermail (GtkComboBoxText *usermail_combo, const gchar *email, gboolean is_first)
+add_usermail (GtkComboBoxText *usermail_combo,
+              const gchar *email,
+              gboolean is_first)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -642,7 +668,12 @@ add_usermail (GtkComboBoxText *usermail_combo, const gchar *email, gboolean is_f
 
 /* called with "caldav-thread-mutex" unlocked; user_data is not NULL when called second time on principal */
 static void
-find_users_calendar_cb (GObject *dialog, const gchar *msg_path, guint status_code, const gchar *reason_phrase, const gchar *msg_body, gpointer user_data)
+find_users_calendar_cb (GObject *dialog,
+                        const gchar *msg_path,
+                        guint status_code,
+                        const gchar *reason_phrase,
+                        const gchar *msg_body,
+                        gpointer user_data)
 {
 	xmlDocPtr doc;
 	xmlXPathContextPtr xpctx;
@@ -775,7 +806,8 @@ find_users_calendar_cb (GObject *dialog, const gchar *msg_path, guint status_cod
 }
 
 static void
-redirect_handler (SoupMessage *msg, gpointer user_data)
+redirect_handler (SoupMessage *msg,
+                  gpointer user_data)
 {
 	if (SOUP_STATUS_IS_REDIRECTION (msg->status_code)) {
 		SoupSession *soup_session = user_data;
@@ -802,7 +834,8 @@ redirect_handler (SoupMessage *msg, gpointer user_data)
 }
 
 static void
-send_and_handle_redirection (SoupSession *soup_session, SoupMessage *msg)
+send_and_handle_redirection (SoupSession *soup_session,
+                             SoupMessage *msg)
 {
 	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);
 	soup_message_add_header_handler (msg, "got_body", "Location", G_CALLBACK (redirect_handler), soup_session);
@@ -876,7 +909,11 @@ caldav_browse_server_thread (gpointer data)
 }
 
 static void
-soup_authenticate (SoupSession *session, SoupMessage *msg, SoupAuth *auth, gboolean retrying, gpointer data)
+soup_authenticate (SoupSession *session,
+                   SoupMessage *msg,
+                   SoupAuth *auth,
+                   gboolean retrying,
+                   gpointer data)
 {
 	GObject *dialog = data;
 	const gchar *username, *password;
@@ -936,7 +973,9 @@ soup_authenticate (SoupSession *session, SoupMessage *msg, SoupAuth *auth, gbool
 
 /* the dialog is about to die, so cancel any pending operations to close the thread too */
 static void
-dialog_response_cb (GObject *dialog, gint response_id, gpointer user_data)
+dialog_response_cb (GObject *dialog,
+                    gint response_id,
+                    gpointer user_data)
 {
 	GCond *cond;
 	GMutex *mutex;
@@ -958,7 +997,9 @@ dialog_response_cb (GObject *dialog, gint response_id, gpointer user_data)
 }
 
 static gboolean
-check_message (GtkWindow *dialog, SoupMessage *message, const gchar *url)
+check_message (GtkWindow *dialog,
+               SoupMessage *message,
+               const gchar *url)
 {
 	g_return_val_if_fail (dialog != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_DIALOG (dialog), FALSE);
@@ -970,7 +1011,8 @@ check_message (GtkWindow *dialog, SoupMessage *message, const gchar *url)
 }
 
 static void
-indicate_busy (GObject *dialog, gboolean is_busy)
+indicate_busy (GObject *dialog,
+               gboolean is_busy)
 {
 	GtkWidget *spinner = g_object_get_data (dialog, "caldav-spinner");
 
@@ -1064,7 +1106,13 @@ poll_for_message_sent_cb (gpointer data)
 }
 
 static void
-send_xml_message (xmlDocPtr doc, gboolean depth_1, const gchar *url, GObject *dialog, process_message_cb cb, gpointer cb_user_data, const gchar *info)
+send_xml_message (xmlDocPtr doc,
+                  gboolean depth_1,
+                  const gchar *url,
+                  GObject *dialog,
+                  process_message_cb cb,
+                  gpointer cb_user_data,
+                  const gchar *info)
 {
 	GCond *cond;
 	GMutex *mutex;
@@ -1136,7 +1184,8 @@ send_xml_message (xmlDocPtr doc, gboolean depth_1, const gchar *url, GObject *di
 }
 
 static void
-url_entry_changed (GtkEntry *entry, GObject *dialog)
+url_entry_changed (GtkEntry *entry,
+                   GObject *dialog)
 {
 	const gchar *url;
 
@@ -1149,7 +1198,8 @@ url_entry_changed (GtkEntry *entry, GObject *dialog)
 }
 
 static void
-tree_selection_changed_cb (GtkTreeSelection *selection, GtkEntry *url_entry)
+tree_selection_changed_cb (GtkTreeSelection *selection,
+                           GtkEntry *url_entry)
 {
 	gboolean ok = FALSE;
 	GtkTreeModel *model = NULL;
@@ -1179,7 +1229,10 @@ tree_selection_changed_cb (GtkTreeSelection *selection, GtkEntry *url_entry)
 }
 
 static void
-tree_row_expanded_cb (GtkTreeView *tree, GtkTreeIter *iter, GtkTreePath *path, GObject *dialog)
+tree_row_expanded_cb (GtkTreeView *tree,
+                      GtkTreeIter *iter,
+                      GtkTreePath *path,
+                      GObject *dialog)
 {
 	GtkTreeModel *model;
 	gboolean is_loaded = TRUE;
@@ -1217,7 +1270,15 @@ tree_row_expanded_cb (GtkTreeView *tree, GtkTreeIter *iter, GtkTreePath *path, G
 }
 
 static void
-init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, GtkWidget **new_usermail_combo, GtkWidget **new_autoschedule_check, const gchar *url, const gchar *username, const gchar *usermail, gboolean autoschedule, gint source_type)
+init_dialog (GtkDialog *dialog,
+             GtkWidget **new_url_entry,
+             GtkWidget **new_usermail_combo,
+             GtkWidget **new_autoschedule_check,
+             const gchar *url,
+             const gchar *username,
+             const gchar *usermail,
+             gboolean autoschedule,
+             gint source_type)
 {
 	GtkBox *content_area;
 	GtkWidget *label, *info_box, *spinner, *info_label, *hbox;
@@ -1251,7 +1312,9 @@ init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, GtkWidget **new_userm
 	*new_url_entry = gtk_entry_new ();
 	gtk_box_pack_start (content_area, *new_url_entry, FALSE, FALSE, 0);
 
-	g_signal_connect (G_OBJECT (*new_url_entry), "changed", G_CALLBACK (url_entry_changed), dialog);
+	g_signal_connect (
+		*new_url_entry, "changed",
+		G_CALLBACK (url_entry_changed), dialog);
 
 	*new_usermail_combo = gtk_combo_box_text_new ();
 	if (usermail && *usermail) {
@@ -1438,7 +1501,8 @@ init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, GtkWidget **new_userm
 }
 
 static gchar *
-prepare_url (const gchar *server_url, gboolean use_ssl)
+prepare_url (const gchar *server_url,
+             gboolean use_ssl)
 {
 	gchar *url;
 	gint len;
@@ -1502,7 +1566,13 @@ prepare_url (const gchar *server_url, gboolean use_ssl)
 }
 
 gchar *
-caldav_browse_server (GtkWindow *parent, const gchar *server_url, const gchar *username, gboolean use_ssl, gchar **new_usermail, gboolean *new_autoschedule, gint source_type)
+caldav_browse_server (GtkWindow *parent,
+                      const gchar *server_url,
+                      const gchar *username,
+                      gboolean use_ssl,
+                      gchar **new_usermail,
+                      gboolean *new_autoschedule,
+                      gint source_type)
 {
 	GtkWidget *dialog, *new_url_entry, *new_usermail_combo, *new_autoschedule_check;
 	gchar *url, *new_url = NULL;

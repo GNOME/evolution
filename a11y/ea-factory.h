@@ -30,7 +30,7 @@
 #include <atk/atkobject.h>
 
 #define EA_FACTORY_PARTA_GOBJECT(type, type_as_function, opt_create_accessible)	\
-static AtkObject*								\
+static AtkObject *								\
 type_as_function ## _factory_create_accessible (GObject *obj)			\
 {                                                                               \
   AtkObject *accessible;							\
@@ -40,7 +40,7 @@ type_as_function ## _factory_create_accessible (GObject *obj)			\
 }
 
 #define EA_FACTORY_PARTA(type, type_as_function, opt_create_accessible)		\
-static AtkObject*								\
+static AtkObject *								\
 type_as_function ## _factory_create_accessible (GObject *obj)			\
 {                                                                               \
   GtkWidget *widget;								\

@@ -38,14 +38,14 @@
 
 struct _ETimezoneEntryPrivate {
 	/* The current timezone, set in e_timezone_entry_set_timezone()
-	   or from the timezone dialog. Note that we don't copy it or
-	   use a ref count - we assume it is never destroyed for the
-	   lifetime of this widget. */
+	 * or from the timezone dialog. Note that we don't copy it or
+	 * use a ref count - we assume it is never destroyed for the
+	 * lifetime of this widget. */
 	icaltimezone *timezone;
 
 	/* This can be set to the default timezone. If the current timezone
-	   setting in the ETimezoneEntry matches this, then the entry field
-	   is hidden. This makes the user interface simpler. */
+	 * setting in the ETimezoneEntry matches this, then the entry field
+	 * is hidden. This makes the user interface simpler. */
 	icaltimezone *default_zone;
 
 	GtkWidget *entry;
@@ -85,8 +85,8 @@ timezone_entry_update_entry (ETimezoneEntry *timezone_entry)
 		display_name = icaltimezone_get_display_name (timezone);
 
 		/* We check if it is one of our builtin timezone
-		   names, in which case we call gettext to translate
-		   it. If it isn't a builtin timezone name, we don't. */
+		 * names, in which case we call gettext to translate
+		 * it. If it isn't a builtin timezone name, we don't. */
 		if (icaltimezone_get_builtin_timezone (display_name))
 			display_name = _(display_name);
 	} else
@@ -150,7 +150,7 @@ timezone_entry_add_relation (ETimezoneEntry *timezone_entry)
 }
 
 /* The arrow button beside the date field has been clicked, so we show the
-   popup with the ECalendar in. */
+ * popup with the ECalendar in. */
 static void
 timezone_entry_button_clicked_cb (ETimezoneEntry *timezone_entry)
 {

@@ -35,7 +35,12 @@
 
 /* This takes source rows. */
 static gint
-etsu_compare (ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint row1, gint row2, gpointer cmp_cache)
+etsu_compare (ETableModel *source,
+              ETableSortInfo *sort_info,
+              ETableHeader *full_header,
+              gint row1,
+              gint row2,
+              gpointer cmp_cache)
 {
 	gint j;
 	gint sort_count = e_table_sort_info_sorting_get_count (sort_info);
@@ -84,7 +89,9 @@ typedef struct {
 /* FIXME: Make it not cache the second and later columns (as if anyone cares.) */
 
 static gint
-e_sort_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
+e_sort_callback (gconstpointer data1,
+                 gconstpointer data2,
+                 gpointer user_data)
 {
 	gint row1 = *(gint *) data1;
 	gint row2 = *(gint *) data2;
@@ -111,7 +118,11 @@ e_sort_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
 }
 
 void
-e_table_sorting_utils_sort (ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint *map_table, gint rows)
+e_table_sorting_utils_sort (ETableModel *source,
+                            ETableSortInfo *sort_info,
+                            ETableHeader *full_header,
+                            gint *map_table,
+                            gint rows)
 {
 	gint total_rows;
 	gint i;
@@ -158,9 +169,9 @@ e_table_sorting_utils_sort (ETableModel *source, ETableSortInfo *sort_info, ETab
 }
 
 gboolean
-e_table_sorting_utils_affects_sort  (ETableSortInfo *sort_info,
-				     ETableHeader   *full_header,
-				     gint             col)
+e_table_sorting_utils_affects_sort (ETableSortInfo *sort_info,
+                                    ETableHeader *full_header,
+                                    gint col)
 {
 	gint j;
 	gint cols;
@@ -186,7 +197,12 @@ e_table_sorting_utils_affects_sort  (ETableSortInfo *sort_info,
 
 /* FIXME: This could be done in time log n instead of time n with a binary search. */
 gint
-e_table_sorting_utils_insert (ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint *map_table, gint rows, gint row)
+e_table_sorting_utils_insert (ETableModel *source,
+                              ETableSortInfo *sort_info,
+                              ETableHeader *full_header,
+                              gint *map_table,
+                              gint rows,
+                              gint row)
 {
 	gint i;
 	gpointer cmp_cache = e_table_sorting_utils_create_cmp_cache ();
@@ -203,7 +219,12 @@ e_table_sorting_utils_insert (ETableModel *source, ETableSortInfo *sort_info, ET
 
 /* FIXME: This could be done in time log n instead of time n with a binary search. */
 gint
-e_table_sorting_utils_check_position (ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint *map_table, gint rows, gint view_row)
+e_table_sorting_utils_check_position (ETableModel *source,
+                                      ETableSortInfo *sort_info,
+                                      ETableHeader *full_header,
+                                      gint *map_table,
+                                      gint rows,
+                                      gint view_row)
 {
 	gint i;
 	gint row;
@@ -231,7 +252,12 @@ e_table_sorting_utils_check_position (ETableModel *source, ETableSortInfo *sort_
 
 /* This takes source rows. */
 static gint
-etsu_tree_compare (ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath path1, ETreePath path2, gpointer cmp_cache)
+etsu_tree_compare (ETreeModel *source,
+                   ETableSortInfo *sort_info,
+                   ETableHeader *full_header,
+                   ETreePath path1,
+                   ETreePath path2,
+                   gpointer cmp_cache)
 {
 	gint j;
 	gint sort_count = e_table_sort_info_sorting_get_count (sort_info);
@@ -257,7 +283,9 @@ etsu_tree_compare (ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *
 }
 
 static gint
-e_sort_tree_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
+e_sort_tree_callback (gconstpointer data1,
+                      gconstpointer data2,
+                      gpointer user_data)
 {
 	ETreePath *path1 = *(ETreePath *) data1;
 	ETreePath *path2 = *(ETreePath *) data2;
@@ -267,7 +295,11 @@ e_sort_tree_callback (gconstpointer data1, gconstpointer data2, gpointer user_da
 }
 
 void
-e_table_sorting_utils_tree_sort (ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath *map_table, gint count)
+e_table_sorting_utils_tree_sort (ETreeModel *source,
+                                 ETableSortInfo *sort_info,
+                                 ETableHeader *full_header,
+                                 ETreePath *map_table,
+                                 gint count)
 {
 	ETableSortClosure closure;
 	gint cols;
@@ -331,7 +363,12 @@ e_table_sorting_utils_tree_sort (ETreeModel *source, ETableSortInfo *sort_info, 
 
 /* FIXME: This could be done in time log n instead of time n with a binary search. */
 gint
-e_table_sorting_utils_tree_check_position (ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath *map_table, gint count, gint old_index)
+e_table_sorting_utils_tree_check_position (ETreeModel *source,
+                                           ETableSortInfo *sort_info,
+                                           ETableHeader *full_header,
+                                           ETreePath *map_table,
+                                           gint count,
+                                           gint old_index)
 {
 	gint i;
 	ETreePath path;
@@ -357,7 +394,12 @@ e_table_sorting_utils_tree_check_position (ETreeModel *source, ETableSortInfo *s
 
 /* FIXME: This does not pay attention to making sure that it's a stable insert.  This needs to be fixed. */
 gint
-e_table_sorting_utils_tree_insert (ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath *map_table, gint count, ETreePath path)
+e_table_sorting_utils_tree_insert (ETreeModel *source,
+                                   ETableSortInfo *sort_info,
+                                   ETableHeader *full_header,
+                                   ETreePath *map_table,
+                                   gint count,
+                                   ETreePath path)
 {
 	gsize start;
 	gsize end;
@@ -418,7 +460,9 @@ e_table_sorting_utils_free_cmp_cache (gpointer cmp_cache)
  * Note: Given @value will be stolen and later freed with g_free.
  **/
 void
-e_table_sorting_utils_add_to_cmp_cache (gpointer cmp_cache, const gchar *key, gchar *value)
+e_table_sorting_utils_add_to_cmp_cache (gpointer cmp_cache,
+                                        const gchar *key,
+                                        gchar *value)
 {
 	g_return_if_fail (cmp_cache != NULL);
 	g_return_if_fail (key != NULL);
@@ -436,7 +480,8 @@ e_table_sorting_utils_add_to_cmp_cache (gpointer cmp_cache, const gchar *key, gc
  * with a key.
  **/
 const gchar *
-e_table_sorting_utils_lookup_cmp_cache (gpointer cmp_cache, const gchar *key)
+e_table_sorting_utils_lookup_cmp_cache (gpointer cmp_cache,
+                                        const gchar *key)
 {
 	g_return_val_if_fail (key != NULL, NULL);
 

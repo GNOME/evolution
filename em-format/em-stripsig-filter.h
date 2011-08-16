@@ -52,8 +52,8 @@ typedef struct _EMStripSigFilterClass EMStripSigFilterClass;
 struct _EMStripSigFilter {
 	CamelMimeFilter parent;
 
-	guint32 midline:1;
-	guint32 text_plain_only:1;
+	guint32 midline : 1;
+	guint32 text_plain_only : 1;
 };
 
 struct _EMStripSigFilterClass {

@@ -147,7 +147,7 @@ static void
 subscription_editor_populate (EMSubscriptionEditor *editor,
                               CamelFolderInfo *folder_info,
                               GtkTreeIter *parent,
-			      GSList **expand_paths)
+                              GSList **expand_paths)
 {
 	GtkListStore *list_store;
 	GtkTreeStore *tree_store;
@@ -202,7 +202,8 @@ subscription_editor_populate (EMSubscriptionEditor *editor,
 }
 
 static void
-expand_paths_cb (gpointer path, gpointer tree_view)
+expand_paths_cb (gpointer path,
+                 gpointer tree_view)
 {
 	gtk_tree_view_expand_to_path (tree_view, path);
 }

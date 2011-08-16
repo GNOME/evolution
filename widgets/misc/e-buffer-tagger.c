@@ -134,13 +134,16 @@ get_state (GtkTextBuffer *buffer)
 }
 
 static void
-set_state (GtkTextBuffer *buffer, guint32 state)
+set_state (GtkTextBuffer *buffer,
+           guint32 state)
 {
 	g_object_set_data (G_OBJECT (buffer), E_BUFFER_TAGGER_DATA_STATE, GINT_TO_POINTER (state));
 }
 
 static void
-update_state (GtkTextBuffer *buffer, guint32 value, gboolean do_set)
+update_state (GtkTextBuffer *buffer,
+              guint32 value,
+              gboolean do_set)
 {
 	guint32 state;
 
@@ -158,7 +161,10 @@ update_state (GtkTextBuffer *buffer, guint32 value, gboolean do_set)
 }
 
 static gboolean
-get_tag_bounds (GtkTextIter *iter, GtkTextTag *tag, GtkTextIter *start, GtkTextIter *end)
+get_tag_bounds (GtkTextIter *iter,
+                GtkTextTag *tag,
+                GtkTextIter *start,
+                GtkTextIter *end)
 {
 	gboolean res = FALSE;
 
@@ -184,7 +190,8 @@ get_tag_bounds (GtkTextIter *iter, GtkTextTag *tag, GtkTextIter *start, GtkTextI
 }
 
 static gchar *
-get_url_at_iter (GtkTextBuffer *buffer, GtkTextIter *iter)
+get_url_at_iter (GtkTextBuffer *buffer,
+                 GtkTextIter *iter)
 {
 	GtkTextTagTable *tag_table;
 	GtkTextTag *tag;
@@ -204,7 +211,8 @@ get_url_at_iter (GtkTextBuffer *buffer, GtkTextIter *iter)
 }
 
 static gboolean
-invoke_link_if_present (GtkTextBuffer *buffer, GtkTextIter *iter)
+invoke_link_if_present (GtkTextBuffer *buffer,
+                        GtkTextIter *iter)
 {
 	gboolean res;
 	gchar *url;
@@ -223,7 +231,8 @@ invoke_link_if_present (GtkTextBuffer *buffer, GtkTextIter *iter)
 }
 
 static void
-remove_tag_if_present (GtkTextBuffer *buffer, GtkTextIter *where)
+remove_tag_if_present (GtkTextBuffer *buffer,
+                       GtkTextIter *where)
 {
 	GtkTextTagTable *tag_table;
 	GtkTextTag *tag;
@@ -241,14 +250,21 @@ remove_tag_if_present (GtkTextBuffer *buffer, GtkTextIter *where)
 }
 
 static void
-buffer_insert_text (GtkTextBuffer *buffer, GtkTextIter *location, gchar *text, gint len, gpointer user_data)
+buffer_insert_text (GtkTextBuffer *buffer,
+                    GtkTextIter *location,
+                    gchar *text,
+                    gint len,
+                    gpointer user_data)
 {
 	update_state (buffer, E_BUFFER_TAGGER_STATE_INSDEL, TRUE);
 	remove_tag_if_present (buffer, location);
 }
 
 static void
-buffer_delete_range (GtkTextBuffer *buffer, GtkTextIter *start, GtkTextIter *end, gpointer user_data)
+buffer_delete_range (GtkTextBuffer *buffer,
+                     GtkTextIter *start,
+                     GtkTextIter *end,
+                     gpointer user_data)
 {
 	update_state (buffer, E_BUFFER_TAGGER_STATE_INSDEL, TRUE);
 	remove_tag_if_present (buffer, start);
@@ -256,7 +272,8 @@ buffer_delete_range (GtkTextBuffer *buffer, GtkTextIter *start, GtkTextIter *end
 }
 
 static void
-buffer_cursor_position (GtkTextBuffer *buffer, gpointer user_data)
+buffer_cursor_position (GtkTextBuffer *buffer,
+                        gpointer user_data)
 {
 	guint32 state;
 
@@ -275,7 +292,9 @@ buffer_cursor_position (GtkTextBuffer *buffer, gpointer user_data)
 }
 
 static void
-update_mouse_cursor (GtkTextView *text_view, gint x, gint y)
+update_mouse_cursor (GtkTextView *text_view,
+                     gint x,
+                     gint y)
 {
 	static GdkCursor *hand_cursor = NULL;
 	static GdkCursor *regular_cursor = NULL;
@@ -330,7 +349,12 @@ update_mouse_cursor (GtkTextView *text_view, gint x, gint y)
 }
 
 static gboolean
-textview_query_tooltip (GtkTextView *text_view, gint x, gint y, gboolean keyboard_mode, GtkTooltip *tooltip, gpointer user_data)
+textview_query_tooltip (GtkTextView *text_view,
+                        gint x,
+                        gint y,
+                        gboolean keyboard_mode,
+                        GtkTooltip *tooltip,
+                        gpointer user_data)
 {
 	GtkTextBuffer *buffer;
 	guint32 state;
@@ -373,7 +397,8 @@ textview_query_tooltip (GtkTextView *text_view, gint x, gint y, gboolean keyboar
 
 /* Links can be activated by pressing Enter. */
 static gboolean
-textview_key_press_event (GtkWidget *text_view, GdkEventKey *event)
+textview_key_press_event (GtkWidget *text_view,
+                          GdkEventKey *event)
 {
 	GtkTextIter iter;
 	GtkTextBuffer *buffer;
@@ -398,7 +423,8 @@ textview_key_press_event (GtkWidget *text_view, GdkEventKey *event)
 }
 
 static void
-update_ctrl_state (GtkTextView *textview, gboolean ctrl_is_down)
+update_ctrl_state (GtkTextView *textview,
+                   gboolean ctrl_is_down)
 {
 	GtkTextBuffer *buffer;
 	gint x, y;
@@ -417,7 +443,8 @@ update_ctrl_state (GtkTextView *textview, gboolean ctrl_is_down)
 
 /* Links can also be activated by clicking. */
 static gboolean
-textview_event_after (GtkTextView *textview, GdkEvent  *ev)
+textview_event_after (GtkTextView *textview,
+                      GdkEvent *ev)
 {
 	GtkTextIter start, end, iter;
 	GtkTextBuffer *buffer;
@@ -477,7 +504,8 @@ textview_event_after (GtkTextView *textview, GdkEvent  *ev)
 }
 
 static gboolean
-textview_motion_notify_event (GtkTextView *textview, GdkEventMotion *event)
+textview_motion_notify_event (GtkTextView *textview,
+                              GdkEventMotion *event)
 {
 	gint x, y;
 
@@ -493,7 +521,8 @@ textview_motion_notify_event (GtkTextView *textview, GdkEventMotion *event)
 }
 
 static gboolean
-textview_visibility_notify_event (GtkTextView *textview, GdkEventVisibility *event)
+textview_visibility_notify_event (GtkTextView *textview,
+                                  GdkEventVisibility *event)
 {
 	gint wx, wy, bx, by;
 

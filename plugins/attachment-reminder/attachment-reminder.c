@@ -66,7 +66,7 @@ gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *plugin);
 
 void org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t);
-GtkWidget* org_gnome_attachment_reminder_config_option (EPlugin *plugin, struct _EConfigHookItemFactoryData *data);
+GtkWidget * org_gnome_attachment_reminder_config_option (EPlugin *plugin, struct _EConfigHookItemFactoryData *data);
 
 static gboolean ask_for_missing_attachment (EPlugin *ep, GtkWindow *widget);
 static gboolean check_for_attachment_clues (gchar *msg);
@@ -75,13 +75,15 @@ static gchar * strip_text_msg (gchar *msg);
 static void commit_changes (UIData *ui);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
 
 void
-org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t)
+org_gnome_evolution_attachment_reminder (EPlugin *ep,
+                                         EMEventTargetComposer *t)
 {
 	GByteArray *raw_msg_barray;
 
@@ -107,7 +109,8 @@ org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t)
 }
 
 static gboolean
-ask_for_missing_attachment (EPlugin *ep, GtkWindow *window)
+ask_for_missing_attachment (EPlugin *ep,
+                            GtkWindow *window)
 {
 	GtkWidget *check;
 	GtkWidget *dialog;
@@ -157,7 +160,7 @@ check_for_attachment_clues (gchar *msg)
 	g_object_unref (gconf);
 
 	msg_length = strlen (msg);
-	for (list = clue_list;list && !ret_val;list=g_slist_next (list)) {
+	for (list = clue_list; list && !ret_val; list = g_slist_next (list)) {
 		gchar *needle = g_utf8_strdown (list->data, -1);
 		if (g_strstr_len (msg, msg_length, needle)) {
 			ret_val = TRUE;
@@ -191,7 +194,7 @@ strip_text_msg (gchar *msg)
 {
 	gchar **lines = g_strsplit ( msg, "\n", -1);
 	gchar *stripped_msg = g_strdup (" ");
-	guint i=0;
+	guint i = 0;
 	gchar *temp;
 
 	/* Note : HTML Signatures won't work. Depends on Bug #522784 */
@@ -273,7 +276,8 @@ cell_editing_canceled_cb (GtkCellRenderer *cell,
 }
 
 static void
-clue_add_clicked (GtkButton *button, UIData *ui)
+clue_add_clicked (GtkButton *button,
+                  UIData *ui)
 {
 	GtkTreeModel *model;
 	GtkTreeView *tree_view;
@@ -294,7 +298,8 @@ clue_add_clicked (GtkButton *button, UIData *ui)
 }
 
 static void
-clue_remove_clicked (GtkButton *button, UIData *ui)
+clue_remove_clicked (GtkButton *button,
+                     UIData *ui)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -337,7 +342,8 @@ clue_remove_clicked (GtkButton *button, UIData *ui)
 }
 
 static void
-clue_edit_clicked (GtkButton *button, UIData *ui)
+clue_edit_clicked (GtkButton *button,
+                   UIData *ui)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -359,7 +365,8 @@ clue_edit_clicked (GtkButton *button, UIData *ui)
 }
 
 static void
-selection_changed (GtkTreeSelection *selection, UIData *ui)
+selection_changed (GtkTreeSelection *selection,
+                   UIData *ui)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -456,7 +463,7 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Keywords"),
 			renderer, "text", CLUE_KEYWORD_COLUMN, NULL);
-	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
+	g_object_set (renderer, "editable", TRUE, NULL);
 	g_signal_connect (
 		renderer, "edited",
 		G_CALLBACK (cell_edited_cb), ui);
@@ -466,18 +473,26 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	g_signal_connect (G_OBJECT (selection), "changed", G_CALLBACK (selection_changed), ui);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (selection_changed), ui);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ui->treeview), TRUE);
 
 	ui->clue_add = clue_add;
-	g_signal_connect (G_OBJECT (ui->clue_add), "clicked", G_CALLBACK (clue_add_clicked), ui);
+	g_signal_connect (
+		ui->clue_add, "clicked",
+		G_CALLBACK (clue_add_clicked), ui);
 
 	ui->clue_remove = clue_remove;
-	g_signal_connect (G_OBJECT (ui->clue_remove), "clicked", G_CALLBACK (clue_remove_clicked), ui);
+	g_signal_connect (
+		ui->clue_remove, "clicked",
+		G_CALLBACK (clue_remove_clicked), ui);
 	gtk_widget_set_sensitive (ui->clue_remove, FALSE);
 
 	ui->clue_edit = clue_edit;
-	g_signal_connect (G_OBJECT (ui->clue_edit), "clicked", G_CALLBACK (clue_edit_clicked), ui);
+	g_signal_connect (
+		ui->clue_edit, "clicked",
+		G_CALLBACK (clue_edit_clicked), ui);
 	gtk_widget_set_sensitive (ui->clue_edit, FALSE);
 
 	/* Populate tree view with values from gconf */

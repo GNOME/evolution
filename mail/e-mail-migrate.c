@@ -124,7 +124,8 @@ static GtkLabel *label;
 static GtkProgressBar *progress;
 
 static void
-em_migrate_setup_progress_dialog (const gchar *title, const gchar *desc)
+em_migrate_setup_progress_dialog (const gchar *title,
+                                  const gchar *desc)
 {
 	GtkWidget *vbox, *hbox, *w;
 	gchar *markup;
@@ -238,7 +239,10 @@ static gint open_flags[3] = {
 };
 
 static gboolean
-cp (const gchar *src, const gchar *dest, gboolean show_progress, gint mode)
+cp (const gchar *src,
+    const gchar *dest,
+    gboolean show_progress,
+    gint mode)
 {
 	guchar readbuf[65536];
 	gssize nread, nwritten;
@@ -417,7 +421,8 @@ emm_setup_initial (const gchar *data_dir)
 }
 
 static gboolean
-is_in_plugs_list (GSList *list, const gchar *value)
+is_in_plugs_list (GSList *list,
+                  const gchar *value)
 {
 	GSList *l;
 
@@ -636,7 +641,8 @@ migrate_folders (CamelStore *store,
 
 /* This could be in CamelStore.ch */
 static void
-count_folders (CamelFolderInfo *fi, gint *count)
+count_folders (CamelFolderInfo *fi,
+               gint *count)
 {
 	while (fi) {
 		*count = *count + 1;
@@ -697,7 +703,7 @@ migrate_to_db (EShellBackend *shell_backend)
 	EMailBackend *mail_backend;
 	EMailSession *mail_session;
 	EIterator *iter;
-	gint i=0, len;
+	gint i = 0, len;
 	CamelStore *store = NULL;
 	CamelFolderInfo *info;
 	CamelURL *url;
@@ -724,7 +730,7 @@ migrate_to_db (EShellBackend *shell_backend)
 		  "folders has been moved to SQLite since Evolution 2.24.\n\nPlease be "
 		  "patient while Evolution migrates your folders..."));
 
-	em_migrate_set_progress ( (double) i/(len+1));
+	em_migrate_set_progress ( (double) i / (len + 1));
 	store = setup_local_store (shell_backend, session);
 	url = camel_service_get_camel_url (CAMEL_SERVICE (store));
 
@@ -753,14 +759,14 @@ migrate_to_db (EShellBackend *shell_backend)
 			g_main_context_iteration (NULL, TRUE);
 	}
 	i++;
-	em_migrate_set_progress ( (double) i/(len+1));
+	em_migrate_set_progress ( (double) i / (len + 1));
 
 	while (e_iterator_is_valid (iter)) {
 		EAccount *account = (EAccount *) e_iterator_get (iter);
 		EAccountService *service;
 
 		service = account->source;
-		em_migrate_set_progress ( (double) i/(len+1));
+		em_migrate_set_progress ( (double) i / (len + 1));
 		if (account->enabled
 		    && service->url != NULL && service->url[0]
 		    && strncmp (service->url, "mbox:", 5) != 0) {
@@ -795,8 +801,6 @@ migrate_to_db (EShellBackend *shell_backend)
 		e_iterator_next (iter);
 
 	}
-
-	//camel_session_set_online ((CamelSession *) session, TRUE);
 
 	g_object_unref (iter);
 	em_migrate_close_progress_dialog ();

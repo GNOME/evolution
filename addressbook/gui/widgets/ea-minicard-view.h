@@ -49,7 +49,7 @@ struct _EaMinicardViewClass
 
 GType ea_minicard_view_get_type (void);
 
-AtkObject* ea_minicard_view_new (GObject *obj);
+AtkObject * ea_minicard_view_new (GObject *obj);
 
 G_END_DECLS
 

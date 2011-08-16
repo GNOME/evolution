@@ -257,22 +257,22 @@ typedef struct ESensNetworkListener {
 	EWindowsSENS *ews_ptr;
 } ESensNetworkListener;
 
-static void e_sens_network_listener_init (ESensNetworkListener**,EWindowsSENS*);
+static void e_sens_network_listener_init (ESensNetworkListener **,EWindowsSENS *);
 
 /* Functions to implement ISensNetwork interface */
 
-static HRESULT WINAPI e_sens_network_listener_queryinterface (ISensNetwork*,REFIID,PVOID *);
-static ULONG WINAPI e_sens_network_listener_addref (ISensNetwork*);
-static ULONG WINAPI e_sens_network_listener_release (ISensNetwork*);
-static HRESULT WINAPI e_sens_network_listener_gettypeinfocount (ISensNetwork*, UINT*);
-static HRESULT WINAPI e_sens_network_listener_gettypeinfo (ISensNetwork*,UINT,LCID,ITypeInfo**);
-static HRESULT WINAPI e_sens_network_listener_getidsofnames (ISensNetwork*,REFIID,LPOLESTR*,UINT,LCID, DISPID*);
-static HRESULT WINAPI e_sens_network_listener_invoke (ISensNetwork*,DISPID,REFIID,LCID,WORD,DISPPARAMS*,VARIANT*,EXCEPINFO*,UINT*);
-static HRESULT WINAPI e_sens_network_listener_connectionmade (ISensNetwork*,BSTR,ULONG,LPSENS_QOCINFO);
-static HRESULT WINAPI e_sens_network_listener_connectionmadenoqocinfo (ISensNetwork*,BSTR,ULONG);
-static HRESULT WINAPI e_sens_network_listener_connectionlost (ISensNetwork*,BSTR,ULONG);
-static HRESULT WINAPI e_sens_network_listener_destinationreachable (ISensNetwork*,BSTR,BSTR,ULONG,LPSENS_QOCINFO);
-static HRESULT WINAPI e_sens_network_listener_destinationreachablenoqocinfo (ISensNetwork*,BSTR,BSTR,ULONG);
+static HRESULT WINAPI e_sens_network_listener_queryinterface (ISensNetwork *,REFIID,PVOID *);
+static ULONG WINAPI e_sens_network_listener_addref (ISensNetwork *);
+static ULONG WINAPI e_sens_network_listener_release (ISensNetwork *);
+static HRESULT WINAPI e_sens_network_listener_gettypeinfocount (ISensNetwork *, UINT *);
+static HRESULT WINAPI e_sens_network_listener_gettypeinfo (ISensNetwork *,UINT,LCID,ITypeInfo **);
+static HRESULT WINAPI e_sens_network_listener_getidsofnames (ISensNetwork *,REFIID,LPOLESTR *,UINT,LCID, DISPID *);
+static HRESULT WINAPI e_sens_network_listener_invoke (ISensNetwork *,DISPID,REFIID,LCID,WORD,DISPPARAMS *,VARIANT *,EXCEPINFO *,UINT *);
+static HRESULT WINAPI e_sens_network_listener_connectionmade (ISensNetwork *,BSTR,ULONG,LPSENS_QOCINFO);
+static HRESULT WINAPI e_sens_network_listener_connectionmadenoqocinfo (ISensNetwork *,BSTR,ULONG);
+static HRESULT WINAPI e_sens_network_listener_connectionlost (ISensNetwork *,BSTR,ULONG);
+static HRESULT WINAPI e_sens_network_listener_destinationreachable (ISensNetwork *,BSTR,BSTR,ULONG,LPSENS_QOCINFO);
+static HRESULT WINAPI e_sens_network_listener_destinationreachablenoqocinfo (ISensNetwork *,BSTR,BSTR,ULONG);
 
 /* Initializing the VTable of our ESensNetworkListener object */
 
@@ -293,12 +293,12 @@ static ISensNetworkVtbl ESensNetworkListenerVtbl = {
 
 static HRESULT WINAPI
 e_sens_network_listener_queryinterface (ISensNetwork *This,
-                                        REFIID        iid,
-                                        void        **ppv)
+                                        REFIID iid,
+                                        gpointer *ppv)
 {
 	if (IsEqualIID (iid, &IID_IUnknown) || IsEqualIID (iid, &IID_IDispatch) || IsEqualIID (iid, &IID_ISensNetwork)) {
 		*ppv = This;
-		((LPUNKNOWN)*ppv)->lpVtbl->AddRef ((LPUNKNOWN)*ppv);
+		((LPUNKNOWN) * ppv)->lpVtbl->AddRef ((LPUNKNOWN) * ppv);
 		return S_OK;
 	}
 	*ppv = NULL;
@@ -308,67 +308,67 @@ e_sens_network_listener_queryinterface (ISensNetwork *This,
 static ULONG WINAPI
 e_sens_network_listener_addref (ISensNetwork *This)
 {
-	ESensNetworkListener *esnl_ptr=(ESensNetworkListener*) This;
+	ESensNetworkListener *esnl_ptr = (ESensNetworkListener *) This;
 	return InterlockedIncrement (&(esnl_ptr->ref));
 }
 
 static ULONG WINAPI
 e_sens_network_listener_release (ISensNetwork *This)
 {
-	ESensNetworkListener *esnl_ptr=(ESensNetworkListener*) This;
+	ESensNetworkListener *esnl_ptr = (ESensNetworkListener *) This;
 	ULONG tmp = InterlockedDecrement (&(esnl_ptr->ref));
 	return tmp;
 }
 
 static HRESULT WINAPI
 e_sens_network_listener_gettypeinfocount (ISensNetwork *This,
-                                          UINT         *pctinfo)
+                                          UINT *pctinfo)
 {
 	return E_NOTIMPL;
 }
 
 static HRESULT WINAPI
 e_sens_network_listener_gettypeinfo (ISensNetwork *This,
-                                     UINT          iTInfo,
-                                     LCID          lcid,
-                                     ITypeInfo   **ppTInfo)
+                                     UINT iTInfo,
+                                     LCID lcid,
+                                     ITypeInfo **ppTInfo)
 {
 	return E_NOTIMPL;
 }
 
 static HRESULT WINAPI
 e_sens_network_listener_getidsofnames (ISensNetwork *This,
-                                       REFIID        riid,
-                                       LPOLESTR     *rgszNames,
-                                       UINT          cNames,
-                                       LCID          lcid,
-                                       DISPID       *rgDispId)
+                                       REFIID riid,
+                                       LPOLESTR *rgszNames,
+                                       UINT cNames,
+                                       LCID lcid,
+                                       DISPID *rgDispId)
 {
 	return E_NOTIMPL;
 }
 
 static HRESULT WINAPI
 e_sens_network_listener_invoke (ISensNetwork *This,
-                                DISPID        dispIdMember,
-                                REFIID        riid,
-                                LCID          lcid,
-                                WORD          wFlags,
-                                DISPPARAMS   *pDispParams,
-                                VARIANT      *pVarResult,
-                                EXCEPINFO    *pExcepInfo,
-                                UINT         *puArgErr)
+                                DISPID dispIdMember,
+                                REFIID riid,
+                                LCID lcid,
+                                WORD wFlags,
+                                DISPPARAMS *pDispParams,
+                                VARIANT *pVarResult,
+                                EXCEPINFO *pExcepInfo,
+                                UINT *puArgErr)
 {
 	return E_NOTIMPL;
 }
 
 static HRESULT WINAPI
-e_sens_network_listener_connectionmade (ISensNetwork  *This,
-                                        BSTR           bstrConnection,
-                                        ULONG          ulType,
+e_sens_network_listener_connectionmade (ISensNetwork *This,
+                                        BSTR bstrConnection,
+                                        ULONG ulType,
                                         LPSENS_QOCINFO lpQOCInfo)
 {
 	if (ulType) {
-		ESensNetworkListener *esnl_ptr=(ESensNetworkListener*) This;
+		ESensNetworkListener *esnl_ptr = (ESensNetworkListener *) This;
 		EShell *shell = windows_sens_get_shell (esnl_ptr->ews_ptr);
 		/* Wait a second so that the connection stabilizes */
 		g_usleep (G_USEC_PER_SEC);
@@ -379,20 +379,19 @@ e_sens_network_listener_connectionmade (ISensNetwork  *This,
 
 static HRESULT WINAPI
 e_sens_network_listener_connectionmadenoqocinfo (ISensNetwork *This,
-                                                 BSTR          bstrConnection,
-                                                 ULONG         ulType)
+                                                 BSTR bstrConnection,
+                                                 ULONG ulType)
 {
-	//Always followed by ConnectionMade
 	return S_OK;
 }
 
 static HRESULT WINAPI
 e_sens_network_listener_connectionlost (ISensNetwork *This,
-                                        BSTR          bstrConnection,
-                                        ULONG         ulType)
+                                        BSTR bstrConnection,
+                                        ULONG ulType)
 {
 	if (ulType) {
-		ESensNetworkListener *esnl_ptr=(ESensNetworkListener*) This;
+		ESensNetworkListener *esnl_ptr = (ESensNetworkListener *) This;
 		EShell *shell = windows_sens_get_shell (esnl_ptr->ews_ptr);
 		e_shell_set_network_available (shell, FALSE);
 	}
@@ -400,14 +399,14 @@ e_sens_network_listener_connectionlost (ISensNetwork *This,
 }
 
 static HRESULT WINAPI
-e_sens_network_listener_destinationreachable (ISensNetwork  *This,
-                                              BSTR           bstrDestination,
-                                              BSTR           bstrConnection,
-                                              ULONG          ulType,
+e_sens_network_listener_destinationreachable (ISensNetwork *This,
+                                              BSTR bstrDestination,
+                                              BSTR bstrConnection,
+                                              ULONG ulType,
                                               LPSENS_QOCINFO lpQOCInfo)
 {
 	if (ulType) {
-		ESensNetworkListener *esnl_ptr=(ESensNetworkListener*) This;
+		ESensNetworkListener *esnl_ptr = (ESensNetworkListener *) This;
 		EShell *shell = windows_sens_get_shell (esnl_ptr->ews_ptr);
 		/* Wait a second so that the connection stabilizes */
 		g_usleep (G_USEC_PER_SEC);
@@ -418,16 +417,16 @@ e_sens_network_listener_destinationreachable (ISensNetwork  *This,
 
 static HRESULT WINAPI
 e_sens_network_listener_destinationreachablenoqocinfo (ISensNetwork *This,
-                                                       BSTR          bstrDestination,
-                                                       BSTR          bstrConnection,
-                                                       ULONG         ulType)
+                                                       BSTR bstrDestination,
+                                                       BSTR bstrConnection,
+                                                       ULONG ulType)
 {
 	return S_OK;
 }
 
 static void
 e_sens_network_listener_init (ESensNetworkListener **esnl_ptr,
-                             EWindowsSENS          *ews)
+                             EWindowsSENS *ews)
 {
 	(*esnl_ptr) = g_new0 (ESensNetworkListener,1);
 	(*esnl_ptr)->lpVtbl = &ESensNetworkListenerVtbl;
@@ -436,7 +435,7 @@ e_sens_network_listener_init (ESensNetworkListener **esnl_ptr,
 }
 
 static BSTR
-_mb2wchar (const gchar * a)
+_mb2wchar (const gchar *a)
 {
 	static WCHAR b[64];
 	MultiByteToWideChar (0, 0, a, -1, b, 64);
@@ -451,7 +450,7 @@ static const gchar * add_curly_braces_to_uuid (const gchar * string_uuid)
 		return NULL;
 	lstrcpy(curly_braced_uuid_string,"{");
 	i = strlen (curly_braced_uuid_string);
-	lstrcat (curly_braced_uuid_string+i,string_uuid);
+	lstrcat (curly_braced_uuid_string + i,string_uuid);
 	i = strlen (curly_braced_uuid_string);
 	lstrcat(curly_braced_uuid_string+i,"}");
 	return curly_braced_uuid_string;
@@ -464,7 +463,7 @@ windows_sens_constructed (GObject *object)
 {
 	HRESULT res;
 	static IEventSystem *pEventSystem =0;
-	static IEventSubscription* pEventSubscription = 0;
+	static IEventSubscription * pEventSubscription = 0;
 	static ESensNetworkListener *pESensNetworkListener = 0;
 	static const gchar * eventclassid="{D5978620-5B9F-11D1-8DD2-00AA004ABD5E}";
 	static const gchar * methods[]={
@@ -488,51 +487,51 @@ windows_sens_constructed (GObject *object)
 
 	CoInitialize (0);
 
-	res=CoCreateInstance (&CLSID_CEventSystem, 0,CLSCTX_SERVER,&IID_IEventSystem,(LPVOID*)&pEventSystem);
+	res = CoCreateInstance (&CLSID_CEventSystem, 0,CLSCTX_SERVER,&IID_IEventSystem,(LPVOID *) &pEventSystem);
 
 	if (res == S_OK && pEventSystem) {
 
-		unsigned i;
+		guint i;
 
-		for (i=0; i<G_N_ELEMENTS (methods); i++) {
+		for (i = 0; i < G_N_ELEMENTS (methods); i++) {
 
-			res=CoCreateInstance (&CLSID_CEventSubscription, 0, CLSCTX_SERVER, &IID_IEventSubscription, (LPVOID*)&pEventSubscription);
+			res = CoCreateInstance (&CLSID_CEventSubscription, 0, CLSCTX_SERVER, &IID_IEventSubscription, (LPVOID *) &pEventSubscription);
 
 			if (res == S_OK && pEventSubscription) {
 				UUID tmp_uuid;
 				UuidCreate (&tmp_uuid);
 				UuidToString (&tmp_uuid, &subids[i]);
-				res=pEventSubscription->lpVtbl->put_SubscriptionID (pEventSubscription, _mb2wchar (add_curly_braces_to_uuid ((gchar *) subids[i])));
+				res = pEventSubscription->lpVtbl->put_SubscriptionID (pEventSubscription, _mb2wchar (add_curly_braces_to_uuid ((gchar *) subids[i])));
 				if (res) {
 					RpcStringFree (&subids[i]);
 					break;
 				}
 				RpcStringFree (&subids[i]);
-				res=pEventSubscription->lpVtbl->put_SubscriptionName (pEventSubscription, _mb2wchar (names[i]));
+				res = pEventSubscription->lpVtbl->put_SubscriptionName (pEventSubscription, _mb2wchar (names[i]));
 				if (res)
 					break;
-				res=pEventSubscription->lpVtbl->put_MethodName (pEventSubscription, _mb2wchar (methods[i]));
+				res = pEventSubscription->lpVtbl->put_MethodName (pEventSubscription, _mb2wchar (methods[i]));
 				if (res)
 					break;
-				res=pEventSubscription->lpVtbl->put_EventClassID (pEventSubscription, _mb2wchar (eventclassid));
+				res = pEventSubscription->lpVtbl->put_EventClassID (pEventSubscription, _mb2wchar (eventclassid));
 				if (res)
 					break;
-				res=pEventSubscription->lpVtbl->put_SubscriberInterface (pEventSubscription, (IUnknown*) pESensNetworkListener);
+				res = pEventSubscription->lpVtbl->put_SubscriberInterface (pEventSubscription, (IUnknown *) pESensNetworkListener);
 				if (res)
 					break;
 				/* Make the subscription receive the event only if the owner of the subscription
 				 * is logged on to the same computer as the publisher. This makes this module
 				 * work with normal user account without administrative privileges.
 				 */
-				res=pEventSubscription->lpVtbl->put_PerUser (pEventSubscription, TRUE);
+				res = pEventSubscription->lpVtbl->put_PerUser (pEventSubscription, TRUE);
 				if (res)
 					break;
 
-				res=pEventSystem->lpVtbl->Store (pEventSystem, (BSTR) PROGID_EventSubscription, (IUnknown*) pEventSubscription);
+				res = pEventSystem->lpVtbl->Store (pEventSystem, (BSTR) PROGID_EventSubscription, (IUnknown *) pEventSubscription);
 				if (res)
 					break;
 				pEventSubscription->lpVtbl->Release (pEventSubscription);
-				pEventSubscription=0;
+				pEventSubscription = 0;
 			}
 		}
 		if (pEventSubscription)
@@ -545,7 +544,7 @@ windows_sens_constructed (GObject *object)
 	 */
 	if (res == S_OK) {
 
-		typedef BOOL (WINAPI* IsNetworkAlive_t) (LPDWORD);
+		typedef BOOL (WINAPI * IsNetworkAlive_t) (LPDWORD);
 		BOOL alive = TRUE;
 		EShell *shell = windows_sens_get_shell (extension);
 
@@ -571,11 +570,11 @@ windows_sens_constructed (GObject *object)
 			strcat (buf, G_DIR_SEPARATOR_S);
 		strcat (buf, SENSAPI_DLL);
 
-		hDLL=LoadLibrary (buf);
+		hDLL = LoadLibrary (buf);
 
 		if ((pIsNetworkAlive=(IsNetworkAlive_t) GetProcAddress (hDLL, "IsNetworkAlive"))) {
 			DWORD Network;
-			alive=pIsNetworkAlive (&Network);
+			alive = pIsNetworkAlive (&Network);
 		}
 
 		FreeLibrary (hDLL);

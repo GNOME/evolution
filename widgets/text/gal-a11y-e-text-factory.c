@@ -39,7 +39,7 @@ gal_a11y_e_text_factory_get_accessible_type (void)
 	return GAL_A11Y_TYPE_E_TEXT;
 }
 
-static AtkObject*
+static AtkObject *
 gal_a11y_e_text_factory_create_accessible (GObject *obj)
 {
 	AtkObject *atk_object;

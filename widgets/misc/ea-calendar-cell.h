@@ -79,7 +79,7 @@ struct _EaCalendarCellClass
 	AtkGObjectAccessibleClass parent_class;
 };
 
-AtkObject*     ea_calendar_cell_new         (GObject *gobj);
+AtkObject *     ea_calendar_cell_new         (GObject *gobj);
 
 G_END_DECLS
 

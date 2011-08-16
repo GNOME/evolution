@@ -70,7 +70,7 @@ calendar_config_remove_notification (guint id)
 }
 
 /* Returns TRUE if the locale has 'am' and 'pm' strings defined, in which
-   case the user can choose between 12 and 24-hour time formats. */
+ * case the user can choose between 12 and 24-hour time formats. */
 gboolean
 calendar_config_locale_supports_12_hour_format (void)
 {
@@ -133,14 +133,14 @@ calendar_config_get_icaltimezone (void)
 
 /* Whether we use 24-hour format or 12-hour format (AM/PM). */
 gboolean
-calendar_config_get_24_hour_format	(void)
+calendar_config_get_24_hour_format (void)
 {
 	calendar_config_init ();
 
 	/* If the locale defines 'am' and 'pm' strings then the user has the
-	   choice of 12-hour or 24-hour time format, with 12-hour as the
-	   default. If the locale doesn't have 'am' and 'pm' strings we have
-	   to use 24-hour format, or strftime ()/strptime () won't work. */
+	 * choice of 12-hour or 24-hour time format, with 12-hour as the
+	 * default. If the locale doesn't have 'am' and 'pm' strings we have
+	 * to use 24-hour format, or strftime ()/strptime () won't work. */
 	if (calendar_config_locale_supports_12_hour_format ())
 		return gconf_client_get_bool (config, CALENDAR_CONFIG_24HOUR, NULL);
 
@@ -157,7 +157,8 @@ calendar_config_get_month_scroll_by_week (void)
 }
 
 guint
-calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc func, gpointer data)
+calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc func,
+                                                       gpointer data)
 {
 	guint id;
 
@@ -172,7 +173,7 @@ calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc fun
 
 /* The working days of the week, a bit-wise combination of flags. */
 CalWeekdays
-calendar_config_get_working_days	(void)
+calendar_config_get_working_days (void)
 {
 	calendar_config_init ();
 
@@ -181,7 +182,7 @@ calendar_config_get_working_days	(void)
 
 /* Settings to hide completed tasks. */
 gboolean
-calendar_config_get_hide_completed_tasks	(void)
+calendar_config_get_hide_completed_tasks (void)
 {
 	calendar_config_init ();
 
@@ -189,7 +190,7 @@ calendar_config_get_hide_completed_tasks	(void)
 }
 
 static EDurationType
-calendar_config_get_hide_completed_tasks_units	(void)
+calendar_config_get_hide_completed_tasks_units (void)
 {
 	gchar *units;
 	EDurationType cu;
@@ -232,7 +233,7 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 
 		if (value == 0) {
 			/* If the value is 0, we want to hide completed tasks
-			   immediately, so we filter out all complete/incomplete tasks.*/
+			 * immediately, so we filter out all complete/incomplete tasks.*/
 			if (!get_completed)
 				sexp = g_strdup ("(not is-completed?)");
 			else
@@ -244,7 +245,7 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 			time_t t;
 
 			/* Get the current time, and subtract the appropriate
-			   number of days/hours/minutes. */
+			 * number of days/hours/minutes. */
 			zone = calendar_config_get_icaltimezone ();
 			tt = icaltime_current_time_with_zone (zone);
 
@@ -265,7 +266,7 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 			t = icaltime_as_timet_with_zone (tt, zone);
 
 			/* Convert the time to an ISO date string, and build
-			   the query sub-expression. */
+			 * the query sub-expression. */
 			isodate = isodate_from_time_t (t);
 			if (!get_completed)
 				sexp = g_strdup_printf ("(not (completed-before? (make-time \"%s\")))", isodate);
@@ -299,7 +300,7 @@ calendar_config_get_dir_path (void)
 }
 
 /* contains list of strings, locations, recently used as the second timezone in a day view.
-   Free with calendar_config_free_day_second_zones. */
+ * Free with calendar_config_free_day_second_zones. */
 GSList *
 calendar_config_get_day_second_zones (void)
 {
@@ -424,7 +425,8 @@ calendar_config_select_day_second_zone (void)
 }
 
 guint
-calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func, gpointer data)
+calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func,
+                                                  gpointer data)
 {
 	guint id;
 

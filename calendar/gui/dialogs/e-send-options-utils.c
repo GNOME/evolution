@@ -31,7 +31,9 @@
 #include <string.h>
 
 void
-e_send_options_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, const gchar *type)
+e_send_options_utils_set_default_data (ESendOptionsDialog *sod,
+                                       ESource *source,
+                                       const gchar *type)
 {
 	ESendOptionsGeneral *gopts = NULL;
 	ESendOptionsStatusTracking *sopts;

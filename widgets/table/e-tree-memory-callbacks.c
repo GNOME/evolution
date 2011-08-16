@@ -34,7 +34,8 @@
 G_DEFINE_TYPE (ETreeMemoryCallbacks, e_tree_memory_callbacks, E_TYPE_TREE_MEMORY)
 
 static GdkPixbuf *
-etmc_icon_at (ETreeModel *etm, ETreePath node)
+etmc_icon_at (ETreeModel *etm,
+              ETreePath node)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS (etm);
 
@@ -64,7 +65,8 @@ etmc_has_save_id (ETreeModel *etm)
 }
 
 static gchar *
-etmc_get_save_id (ETreeModel *etm, ETreePath node)
+etmc_get_save_id (ETreeModel *etm,
+                  ETreePath node)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS (etm);
 
@@ -86,7 +88,8 @@ etmc_has_get_node_by_id (ETreeModel *etm)
 }
 
 static ETreePath
-etmc_get_node_by_id (ETreeModel *etm, const gchar *save_id)
+etmc_get_node_by_id (ETreeModel *etm,
+                     const gchar *save_id)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS (etm);
 
@@ -97,7 +100,9 @@ etmc_get_node_by_id (ETreeModel *etm, const gchar *save_id)
 }
 
 static gpointer
-etmc_sort_value_at (ETreeModel *etm, ETreePath node, gint col)
+etmc_sort_value_at (ETreeModel *etm,
+                    ETreePath node,
+                    gint col)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS (etm);
 
@@ -108,7 +113,9 @@ etmc_sort_value_at (ETreeModel *etm, ETreePath node, gint col)
 }
 
 static gpointer
-etmc_value_at (ETreeModel *etm, ETreePath node, gint col)
+etmc_value_at (ETreeModel *etm,
+               ETreePath node,
+               gint col)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS (etm);
 
@@ -116,7 +123,10 @@ etmc_value_at (ETreeModel *etm, ETreePath node, gint col)
 }
 
 static void
-etmc_set_value_at (ETreeModel *etm, ETreePath node, gint col, gconstpointer val)
+etmc_set_value_at (ETreeModel *etm,
+                   ETreePath node,
+                   gint col,
+                   gconstpointer val)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS (etm);
 
@@ -124,7 +134,9 @@ etmc_set_value_at (ETreeModel *etm, ETreePath node, gint col, gconstpointer val)
 }
 
 static gboolean
-etmc_is_editable (ETreeModel *etm, ETreePath node, gint col)
+etmc_is_editable (ETreeModel *etm,
+                  ETreePath node,
+                  gint col)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS (etm);
 
@@ -133,7 +145,9 @@ etmc_is_editable (ETreeModel *etm, ETreePath node, gint col)
 
 /* The default for etmc_duplicate_value is to return the raw value. */
 static gpointer
-etmc_duplicate_value (ETreeModel *etm, gint col, gconstpointer value)
+etmc_duplicate_value (ETreeModel *etm,
+                      gint col,
+                      gconstpointer value)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS (etm);
 
@@ -144,7 +158,9 @@ etmc_duplicate_value (ETreeModel *etm, gint col, gconstpointer value)
 }
 
 static void
-etmc_free_value (ETreeModel *etm, gint col, gpointer value)
+etmc_free_value (ETreeModel *etm,
+                 gint col,
+                 gpointer value)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS (etm);
 
@@ -153,7 +169,8 @@ etmc_free_value (ETreeModel *etm, gint col, gpointer value)
 }
 
 static gpointer
-etmc_initialize_value (ETreeModel *etm, gint col)
+etmc_initialize_value (ETreeModel *etm,
+                       gint col)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS (etm);
 
@@ -164,7 +181,9 @@ etmc_initialize_value (ETreeModel *etm, gint col)
 }
 
 static gboolean
-etmc_value_is_empty (ETreeModel *etm, gint col, gconstpointer value)
+etmc_value_is_empty (ETreeModel *etm,
+                     gint col,
+                     gconstpointer value)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS (etm);
 
@@ -175,7 +194,9 @@ etmc_value_is_empty (ETreeModel *etm, gint col, gconstpointer value)
 }
 
 static gchar *
-etmc_value_to_string (ETreeModel *etm, gint col, gconstpointer value)
+etmc_value_to_string (ETreeModel *etm,
+                      gint col,
+                      gconstpointer value)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS (etm);
 
@@ -240,28 +261,28 @@ e_tree_memory_callbacks_init (ETreeMemoryCallbacks *etmc)
  *
  */
 ETreeModel *
-e_tree_memory_callbacks_new  (ETreeMemoryCallbacksIconAtFn icon_at,
+e_tree_memory_callbacks_new (ETreeMemoryCallbacksIconAtFn icon_at,
 
-			      ETreeMemoryCallbacksColumnCountFn        column_count,
+                             ETreeMemoryCallbacksColumnCountFn column_count,
 
-			      ETreeMemoryCallbacksHasSaveIdFn          has_save_id,
-			      ETreeMemoryCallbacksGetSaveIdFn          get_save_id,
+                             ETreeMemoryCallbacksHasSaveIdFn has_save_id,
+                             ETreeMemoryCallbacksGetSaveIdFn get_save_id,
 
-			      ETreeMemoryCallbacksHasGetNodeByIdFn     has_get_node_by_id,
-			      ETreeMemoryCallbacksGetNodeByIdFn        get_node_by_id,
+                             ETreeMemoryCallbacksHasGetNodeByIdFn has_get_node_by_id,
+                             ETreeMemoryCallbacksGetNodeByIdFn get_node_by_id,
 
-			      ETreeMemoryCallbacksValueAtFn	       sort_value_at,
-			      ETreeMemoryCallbacksValueAtFn            value_at,
-			      ETreeMemoryCallbacksSetValueAtFn         set_value_at,
-			      ETreeMemoryCallbacksIsEditableFn         is_editable,
+                             ETreeMemoryCallbacksValueAtFn sort_value_at,
+                             ETreeMemoryCallbacksValueAtFn value_at,
+                             ETreeMemoryCallbacksSetValueAtFn set_value_at,
+                             ETreeMemoryCallbacksIsEditableFn is_editable,
 
-			      ETreeMemoryCallbacksDuplicateValueFn     duplicate_value,
-			      ETreeMemoryCallbacksFreeValueFn          free_value,
-			      ETreeMemoryCallbacksInitializeValueFn    initialize_value,
-			      ETreeMemoryCallbacksValueIsEmptyFn       value_is_empty,
-			      ETreeMemoryCallbacksValueToStringFn      value_to_string,
+                             ETreeMemoryCallbacksDuplicateValueFn duplicate_value,
+                             ETreeMemoryCallbacksFreeValueFn free_value,
+                             ETreeMemoryCallbacksInitializeValueFn initialize_value,
+                             ETreeMemoryCallbacksValueIsEmptyFn value_is_empty,
+                             ETreeMemoryCallbacksValueToStringFn value_to_string,
 
-			      gpointer                                 model_data)
+                             gpointer model_data)
 {
 	ETreeMemoryCallbacks *etmc;
 
@@ -290,6 +311,6 @@ e_tree_memory_callbacks_new  (ETreeMemoryCallbacksIconAtFn icon_at,
 
 	etmc->model_data         = model_data;
 
-	return (ETreeModel*) etmc;
+	return (ETreeModel *) etmc;
 }
 

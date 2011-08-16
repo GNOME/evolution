@@ -89,7 +89,8 @@ etfci_dispose (GObject *object)
 }
 
 static gint
-etfci_find_button (ETableFieldChooserItem *etfci, gdouble loc)
+etfci_find_button (ETableFieldChooserItem *etfci,
+                   gdouble loc)
 {
 	gint i;
 	gint count;
@@ -148,7 +149,8 @@ etfci_rebuild_combined (ETableFieldChooserItem *etfci)
 }
 
 static void
-etfci_reflow (GnomeCanvasItem *item, gint flags)
+etfci_reflow (GnomeCanvasItem *item,
+              gint flags)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
 	gdouble old_height;
@@ -345,7 +347,7 @@ etfci_add_table_header (ETableFieldChooserItem *etfci,
 
 static void
 etfci_set_property (GObject *object,
-                    guint prop_id,
+                    guint property_id,
                     const GValue *value,
                     GParamSpec *pspec)
 {
@@ -355,7 +357,7 @@ etfci_set_property (GObject *object,
 	item = GNOME_CANVAS_ITEM (object);
 	etfci = E_TABLE_FIELD_CHOOSER_ITEM (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_FULL_HEADER:
 		etfci_drop_full_header (etfci);
 		if (g_value_get_object (value))
@@ -385,13 +387,16 @@ etfci_set_property (GObject *object,
 }
 
 static void
-etfci_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+etfci_get_property (GObject *object,
+                    guint property_id,
+                    GValue *value,
+                    GParamSpec *pspec)
 {
 	ETableFieldChooserItem *etfci;
 
 	etfci = E_TABLE_FIELD_CHOOSER_ITEM (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 
 	case PROP_DND_CODE:
 		g_value_set_string (value, etfci->dnd_code);
@@ -403,18 +408,18 @@ etfci_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *p
 		g_value_set_double (value, etfci->height);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
 
 static void
-etfci_drag_data_get (GtkWidget          *widget,
-		     GdkDragContext     *context,
-		     GtkSelectionData   *selection_data,
-		     guint               info,
-		     guint               time,
-		     ETableFieldChooserItem *etfci)
+etfci_drag_data_get (GtkWidget *widget,
+                     GdkDragContext *context,
+                     GtkSelectionData *selection_data,
+                     guint info,
+                     guint time,
+                     ETableFieldChooserItem *etfci)
 {
 	if (etfci->drag_col != -1) {
 		gchar *string = g_strdup_printf("%d", etfci->drag_col);
@@ -428,9 +433,9 @@ etfci_drag_data_get (GtkWidget          *widget,
 }
 
 static void
-etfci_drag_end (GtkWidget      *canvas,
-		GdkDragContext *context,
-		ETableFieldChooserItem *etfci)
+etfci_drag_end (GtkWidget *canvas,
+                GdkDragContext *context,
+                ETableFieldChooserItem *etfci)
 {
 	etfci->drag_col = -1;
 }
@@ -529,13 +534,19 @@ etfci_draw (GnomeCanvasItem *item,
 }
 
 static GnomeCanvasItem *
-etfci_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy)
+etfci_point (GnomeCanvasItem *item,
+             gdouble x,
+             gdouble y,
+             gint cx,
+             gint cy)
 {
 	return item;
 }
 
 static gboolean
-etfci_maybe_start_drag (ETableFieldChooserItem *etfci, gint x, gint y)
+etfci_maybe_start_drag (ETableFieldChooserItem *etfci,
+                        gint x,
+                        gint y)
 {
 	if (!etfci->maybe_drag)
 		return FALSE;
@@ -548,7 +559,10 @@ etfci_maybe_start_drag (ETableFieldChooserItem *etfci, gint x, gint y)
 }
 
 static void
-etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, gdouble x, gdouble y)
+etfci_start_drag (ETableFieldChooserItem *etfci,
+                  GdkEvent *event,
+                  gdouble x,
+                  gdouble y)
 {
 	GtkWidget *widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas);
 	GtkTargetList *list;
@@ -622,7 +636,8 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, gdouble x, gdo
  * Handles the events on the ETableFieldChooserItem
  */
 static gint
-etfci_event (GnomeCanvasItem *item, GdkEvent *e)
+etfci_event (GnomeCanvasItem *item,
+             GdkEvent *e)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
 	GnomeCanvas *canvas = item->canvas;

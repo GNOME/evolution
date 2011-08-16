@@ -70,7 +70,8 @@ gal_view_instance_changed (GalViewInstance *instance)
 }
 
 static void
-gal_view_instance_display_view (GalViewInstance *instance, GalView *view)
+gal_view_instance_display_view (GalViewInstance *instance,
+                                GalView *view)
 {
 	g_return_if_fail (instance != NULL);
 	g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
@@ -101,7 +102,8 @@ save_current_view (GalViewInstance *instance)
 }
 
 static void
-view_changed (GalView *view, GalViewInstance *instance)
+view_changed (GalView *view,
+              GalViewInstance *instance)
 {
 	if (instance->current_id != NULL) {
 		g_free (instance->current_id);
@@ -133,7 +135,8 @@ disconnect_view (GalViewInstance *instance)
 }
 
 static void
-connect_view (GalViewInstance *instance, GalView *view)
+connect_view (GalViewInstance *instance,
+              GalView *view)
 {
 	if (instance->current_view)
 		disconnect_view (instance);
@@ -142,7 +145,7 @@ connect_view (GalViewInstance *instance, GalView *view)
 	instance->current_title = g_strdup (gal_view_get_title (view));
 	instance->current_type = g_strdup (gal_view_get_type_code (view));
 	instance->view_changed_id =
-		g_signal_connect(instance->current_view, "changed",
+		g_signal_connect (instance->current_view, "changed",
 				 G_CALLBACK (view_changed), instance);
 
 	gal_view_instance_display_view (instance, instance->current_view);
@@ -234,7 +237,8 @@ gal_view_instance_init (GalViewInstance *instance)
 }
 
 static void
-collection_changed (GalView *view, GalViewInstance *instance)
+collection_changed (GalView *view,
+                    GalViewInstance *instance)
 {
 	if (instance->current_id) {
 		gchar *view_id = instance->current_id;
@@ -316,7 +320,8 @@ load_current_view (GalViewInstance *instance)
  * Return value: The new %GalViewInstance.
  **/
 GalViewInstance *
-gal_view_instance_new (GalViewCollection *collection, const gchar *instance_id)
+gal_view_instance_new (GalViewCollection *collection,
+                       const gchar *instance_id)
 {
 	GalViewInstance *instance = g_object_new (GAL_VIEW_INSTANCE_TYPE, NULL);
 	if (gal_view_instance_construct (instance, collection, instance_id))
@@ -328,7 +333,9 @@ gal_view_instance_new (GalViewCollection *collection, const gchar *instance_id)
 }
 
 GalViewInstance *
-gal_view_instance_construct (GalViewInstance *instance, GalViewCollection *collection, const gchar *instance_id)
+gal_view_instance_construct (GalViewInstance *instance,
+                             GalViewCollection *collection,
+                             const gchar *instance_id)
 {
 	gchar *filename;
 	gchar *safe_id;
@@ -374,7 +381,8 @@ gal_view_instance_get_current_view_id (GalViewInstance *instance)
 }
 
 void
-gal_view_instance_set_current_view_id (GalViewInstance *instance, const gchar *view_id)
+gal_view_instance_set_current_view_id (GalViewInstance *instance,
+                                       const gchar *view_id)
 {
 	GalView *view;
 	gint index;
@@ -408,7 +416,8 @@ gal_view_instance_get_current_view (GalViewInstance *instance)
 }
 
 void
-gal_view_instance_set_custom_view (GalViewInstance *instance, GalView *view)
+gal_view_instance_set_custom_view (GalViewInstance *instance,
+                                   GalView *view)
 {
 	g_free (instance->current_id);
 	instance->current_id = NULL;
@@ -421,7 +430,9 @@ gal_view_instance_set_custom_view (GalViewInstance *instance, GalView *view)
 }
 
 static void
-dialog_response (GtkWidget *dialog, gint id, GalViewInstance *instance)
+dialog_response (GtkWidget *dialog,
+                 gint id,
+                 GalViewInstance *instance)
 {
 	if (id == GTK_RESPONSE_OK) {
 		gal_view_instance_save_as_dialog_save (GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (dialog));
@@ -437,7 +448,7 @@ gal_view_instance_save_as (GalViewInstance *instance)
 	g_return_if_fail (instance != NULL);
 
 	dialog = gal_view_instance_save_as_dialog_new (instance);
-	g_signal_connect(dialog, "response",
+	g_signal_connect (dialog, "response",
 			 G_CALLBACK (dialog_response), instance);
 	gtk_widget_show (dialog);
 }
@@ -464,7 +475,8 @@ gal_view_instance_get_default_view (GalViewInstance *instance)
 }
 
 void
-gal_view_instance_set_default_view (GalViewInstance *instance, const gchar *id)
+gal_view_instance_set_default_view (GalViewInstance *instance,
+                                    const gchar *id)
 {
 	g_free (instance->default_view);
 	instance->default_view = g_strdup (id);

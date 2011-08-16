@@ -67,7 +67,8 @@ read_file (gchar *name)
 
 /* Callback used when a contact editor is closed */
 static void
-editor_closed_cb (EContactEditor *ce, gpointer data)
+editor_closed_cb (EContactEditor *ce,
+                  gpointer data)
 {
 	static gint count = 2;
 
@@ -79,7 +80,8 @@ editor_closed_cb (EContactEditor *ce, gpointer data)
 }
 
 gint
-main (gint argc, gchar *argv[])
+main (gint argc,
+      gchar *argv[])
 {
 	gchar *cardstr;
 	EContactEditor *ce;

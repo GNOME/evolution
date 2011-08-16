@@ -24,7 +24,8 @@
 #include "e-pkcs12.h"
 
 gint
-main (gint argc, gchar **argv)
+main (gint argc,
+      gchar **argv)
 {
 	ECertDB *db;
 	EPKCS12 *pkcs12;

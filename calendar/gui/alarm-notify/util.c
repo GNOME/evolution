@@ -34,7 +34,8 @@
 
 /* Converts a time_t to a string, relative to the specified timezone */
 gchar *
-timet_to_str_with_zone (time_t t, icaltimezone *zone)
+timet_to_str_with_zone (time_t t,
+                        icaltimezone *zone)
 {
 	struct icaltimetype itt;
 	struct tm tm;
@@ -52,7 +53,8 @@ timet_to_str_with_zone (time_t t, icaltimezone *zone)
 }
 
 gchar *
-calculate_time (time_t start, time_t end)
+calculate_time (time_t start,
+                time_t end)
 {
 	time_t difference = end - start;
 	gchar *str;

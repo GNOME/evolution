@@ -68,10 +68,11 @@ static gboolean gal_a11y_e_table_item_ref_selection (GalA11yETableItem *a11y,
 						     ESelectionModel *selection);
 static gboolean gal_a11y_e_table_item_unref_selection (GalA11yETableItem *a11y);
 
-static AtkObject* eti_ref_at (AtkTable *table, gint row, gint column);
+static AtkObject * eti_ref_at (AtkTable *table, gint row, gint column);
 
 static void
-item_finalized (gpointer user_data, GObject *gone_item)
+item_finalized (gpointer user_data,
+                GObject *gone_item)
 {
 	GalA11yETableItem *a11y;
 	GalA11yETableItemPrivate *priv;
@@ -103,7 +104,8 @@ eti_ref_state_set (AtkObject *accessible)
 }
 
 inline static gint
-view_to_model_row (ETableItem *eti, gint row)
+view_to_model_row (ETableItem *eti,
+                   gint row)
 {
 	if (eti->uses_source_model) {
 		ETableSubset *etss = E_TABLE_SUBSET (eti->table_model);
@@ -117,14 +119,16 @@ view_to_model_row (ETableItem *eti, gint row)
 }
 
 inline static gint
-view_to_model_col (ETableItem *eti, gint col)
+view_to_model_col (ETableItem *eti,
+                   gint col)
 {
 	ETableCol *ecol = e_table_header_get_column (eti->header, col);
 	return ecol ? ecol->col_idx : -1;
 }
 
 inline static gint
-model_to_view_row (ETableItem *eti, gint row)
+model_to_view_row (ETableItem *eti,
+                   gint row)
 {
 	gint i;
 	if (row == -1)
@@ -146,7 +150,8 @@ model_to_view_row (ETableItem *eti, gint row)
 }
 
 inline static gint
-model_to_view_col (ETableItem *eti, gint col)
+model_to_view_col (ETableItem *eti,
+                   gint col)
 {
 	gint i;
 	if (col == -1)
@@ -235,8 +240,9 @@ eti_get_n_children (AtkObject *accessible)
 		(atk_table_get_n_rows (ATK_TABLE (accessible)) + 1);
 }
 
-static AtkObject*
-eti_ref_child (AtkObject *accessible, gint index)
+static AtkObject *
+eti_ref_child (AtkObject *accessible,
+               gint index)
 {
 	ETableItem *item;
 	gint col, row;
@@ -264,11 +270,11 @@ eti_ref_child (AtkObject *accessible, gint index)
 
 static void
 eti_get_extents (AtkComponent *component,
-		 gint *x,
-		 gint *y,
-		 gint *width,
-		 gint *height,
-		 AtkCoordType coord_type)
+                 gint *x,
+                 gint *y,
+                 gint *width,
+                 gint *height,
+                 AtkCoordType coord_type)
 {
 	ETableItem *item;
 	AtkObject *parent;
@@ -294,11 +300,11 @@ eti_get_extents (AtkComponent *component,
 	}
 }
 
-static AtkObject*
+static AtkObject *
 eti_ref_accessible_at_point (AtkComponent *component,
-			     gint x,
-			     gint y,
-			     AtkCoordType coord_type)
+                             gint x,
+                             gint y,
+                             AtkCoordType coord_type)
 {
 	gint row = -1;
 	gint col = -1;
@@ -349,11 +355,13 @@ cell_destroyed (gpointer data)
 }
 
 /* atk table */
-static AtkObject*
-eti_ref_at (AtkTable *table, gint row, gint column)
+static AtkObject *
+eti_ref_at (AtkTable *table,
+            gint row,
+            gint column)
 {
 	ETableItem *item;
-	AtkObject* ret;
+	AtkObject * ret;
 	GalA11yETableItemPrivate *priv = GET_PRIVATE (table);
 
 	if (atk_state_set_contains_state (priv->state_set, ATK_STATE_DEFUNCT))
@@ -399,7 +407,9 @@ eti_ref_at (AtkTable *table, gint row, gint column)
 }
 
 static gint
-eti_get_index_at (AtkTable *table, gint row, gint column)
+eti_get_index_at (AtkTable *table,
+                  gint row,
+                  gint column)
 {
 	ETableItem *item;
 
@@ -411,7 +421,8 @@ eti_get_index_at (AtkTable *table, gint row, gint column)
 }
 
 static gint
-eti_get_column_at_index (AtkTable *table, gint index)
+eti_get_column_at_index (AtkTable *table,
+                         gint index)
 {
 	ETableItem *item;
 
@@ -423,7 +434,8 @@ eti_get_column_at_index (AtkTable *table, gint index)
 }
 
 static gint
-eti_get_row_at_index (AtkTable *table, gint index)
+eti_get_row_at_index (AtkTable *table,
+                      gint index)
 {
 	ETableItem *item;
 
@@ -460,8 +472,8 @@ eti_get_n_rows (AtkTable *table)
 
 static gint
 eti_get_column_extent_at (AtkTable *table,
-			  gint row,
-			  gint column)
+                          gint row,
+                          gint column)
 {
 	ETableItem *item;
 	gint width;
@@ -483,8 +495,8 @@ eti_get_column_extent_at (AtkTable *table,
 
 static gint
 eti_get_row_extent_at (AtkTable *table,
-		       gint row,
-		       gint column)
+                       gint row,
+                       gint column)
 {
 	ETableItem *item;
 	gint height;
@@ -513,7 +525,7 @@ eti_get_caption (AtkTable *table)
 
 static const gchar *
 eti_get_column_description (AtkTable *table,
-			    gint column)
+                            gint column)
 {
 	ETableItem *item;
 	ETableCol *ecol;
@@ -528,7 +540,8 @@ eti_get_column_description (AtkTable *table,
 }
 
 static AtkObject *
-eti_get_column_header (AtkTable *table, gint column)
+eti_get_column_header (AtkTable *table,
+                       gint column)
 {
 	ETableItem *item;
 	ETableCol *ecol;
@@ -548,7 +561,7 @@ eti_get_column_header (AtkTable *table, gint column)
 
 static const gchar *
 eti_get_row_description (AtkTable *table,
-			 gint row)
+                         gint row)
 {
 	/* Unimplemented */
 	return NULL;
@@ -556,7 +569,7 @@ eti_get_row_description (AtkTable *table,
 
 static AtkObject *
 eti_get_row_header (AtkTable *table,
-		    gint row)
+                    gint row)
 {
 	/* Unimplemented */
 	return NULL;
@@ -570,7 +583,8 @@ eti_get_summary (AtkTable *table)
 }
 
 static gboolean
-table_is_row_selected (AtkTable *table, gint row)
+table_is_row_selected (AtkTable *table,
+                       gint row)
 {
 	ETableItem *item;
 	GalA11yETableItemPrivate *priv = GET_PRIVATE (table);
@@ -590,13 +604,16 @@ table_is_row_selected (AtkTable *table, gint row)
 }
 
 static gboolean
-table_is_selected (AtkTable *table, gint row, gint column)
+table_is_selected (AtkTable *table,
+                   gint row,
+                   gint column)
 {
 	return table_is_row_selected (table, row);
 }
 
 static gint
-table_get_selected_rows (AtkTable *table, gint **rows_selected)
+table_get_selected_rows (AtkTable *table,
+                         gint **rows_selected)
 {
 	ETableItem *item;
 	gint n_selected, row, index_selected;
@@ -625,7 +642,8 @@ table_get_selected_rows (AtkTable *table, gint **rows_selected)
 }
 
 static gboolean
-table_add_row_selection (AtkTable *table, gint row)
+table_add_row_selection (AtkTable *table,
+                         gint row)
 {
 	ETableItem *item;
 
@@ -642,7 +660,8 @@ table_add_row_selection (AtkTable *table, gint row)
 }
 
 static gboolean
-table_remove_row_selection (AtkTable *table, gint row)
+table_remove_row_selection (AtkTable *table,
+                            gint row)
 {
 	ETableItem *item;
 	GalA11yETableItemPrivate *priv = GET_PRIVATE (table);
@@ -698,8 +717,10 @@ eti_atk_component_iface_init (AtkComponentIface *iface)
 }
 
 static void
-eti_rows_inserted (ETableModel * model, gint row, gint count,
-		   AtkObject * table_item)
+eti_rows_inserted (ETableModel *model,
+                   gint row,
+                   gint count,
+                   AtkObject *table_item)
 {
 	gint n_cols,n_rows,i,j;
 	GalA11yETableItem * item_a11y;
@@ -725,7 +746,7 @@ eti_rows_inserted (ETableModel * model, gint row, gint count,
 		for (j = 0; j < n_cols; j++) {
 			g_signal_emit_by_name (table_item,
 					       "children_changed::add",
-					       ( ((i + 1)*n_cols) + j), NULL, NULL);
+					       ( ((i + 1) * n_cols) + j), NULL, NULL);
 		}
 	}
 
@@ -733,8 +754,10 @@ eti_rows_inserted (ETableModel * model, gint row, gint count,
 }
 
 static void
-eti_rows_deleted (ETableModel * model, gint row, gint count,
-		  AtkObject * table_item)
+eti_rows_deleted (ETableModel *model,
+                  gint row,
+                  gint count,
+                  AtkObject *table_item)
 {
 	gint i,j, n_rows, n_cols, old_nrows;
 	ETableItem *item = E_TABLE_ITEM (
@@ -746,7 +769,7 @@ eti_rows_deleted (ETableModel * model, gint row, gint count,
 
 	old_nrows = GET_PRIVATE (table_item)->rows;
 
-	g_return_if_fail ( row+count <= old_nrows);
+	g_return_if_fail ( row + count <= old_nrows);
 	g_return_if_fail (old_nrows == n_rows + count);
 	GET_PRIVATE (table_item)->rows = n_rows;
 
@@ -757,7 +780,7 @@ eti_rows_deleted (ETableModel * model, gint row, gint count,
 		for (j = 0; j < n_cols; j++) {
 			g_signal_emit_by_name (table_item,
 					       "children_changed::remove",
-					       ( ((i + 1)*n_cols) + j), NULL, NULL);
+					       ( ((i + 1) * n_cols) + j), NULL, NULL);
 		}
 	}
 	g_signal_emit_by_name (table_item, "visible-data-changed");
@@ -765,7 +788,9 @@ eti_rows_deleted (ETableModel * model, gint row, gint count,
 }
 
 static void
-eti_tree_model_node_changed_cb (ETreeModel *model, ETreePath node, ETableItem *eti)
+eti_tree_model_node_changed_cb (ETreeModel *model,
+                                ETreePath node,
+                                ETableItem *eti)
 {
 	AtkObject *atk_obj;
 	GalA11yETableItem *a11y;
@@ -793,10 +818,11 @@ enum {
  * 3. Emit signals
  */
 static void
-eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
+eti_header_structure_changed (ETableHeader *eth,
+                              AtkObject *a11y)
 {
 
-	gboolean reorder_found=FALSE, added_found=FALSE, removed_found=FALSE;
+	gboolean reorder_found = FALSE, added_found = FALSE, removed_found = FALSE;
 	GalA11yETableItem * a11y_item;
 	ETableCol ** cols, **prev_cols;
 	GalA11yETableItemPrivate *priv;
@@ -876,7 +902,7 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 					g_signal_emit_by_name (
 						G_OBJECT (a11y_item),
 						"children_changed::remove",
-						((j+1)*prev_n_cols+i),
+						((j + 1) * prev_n_cols + i),
 						NULL, NULL);
 			}
 		}
@@ -892,7 +918,7 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 					g_signal_emit_by_name (
 						G_OBJECT (a11y_item),
 						"children_changed::add",
-						((j+1)*n_cols+i),
+						((j + 1) * n_cols + i),
 						NULL, NULL);
 			}
 		}
@@ -910,7 +936,7 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 
 static void
 eti_real_initialize (AtkObject *obj,
-		     gpointer data)
+                     gpointer data)
 {
 	ETableItem * eti;
 	ETableModel * model;
@@ -920,14 +946,15 @@ eti_real_initialize (AtkObject *obj,
 
 	model = eti->table_model;
 
-	g_signal_connect (model, "model-rows-inserted",
-			  G_CALLBACK (eti_rows_inserted),
-			  obj);
-	g_signal_connect (model, "model-rows-deleted",
-			  G_CALLBACK (eti_rows_deleted),
-			  obj);
-	g_signal_connect (G_OBJECT (eti->header), "structure_change",
-			  G_CALLBACK (eti_header_structure_changed), obj);
+	g_signal_connect (
+		model, "model-rows-inserted",
+		G_CALLBACK (eti_rows_inserted), obj);
+	g_signal_connect (
+		model, "model-rows-deleted",
+		G_CALLBACK (eti_rows_deleted), obj);
+	g_signal_connect (
+		eti->header, "structure_change",
+		G_CALLBACK (eti_header_structure_changed), obj);
 
 }
 
@@ -1084,10 +1111,12 @@ gal_a11y_e_table_item_new (ETableItem *item)
 		return NULL;
 
 	if (item) {
-		g_signal_connect (G_OBJECT(item), "selection_model_removed",
-				  G_CALLBACK (eti_a11y_selection_model_removed_cb), NULL);
-		g_signal_connect (G_OBJECT(item), "selection_model_added",
-				  G_CALLBACK (eti_a11y_selection_model_added_cb), NULL);
+		g_signal_connect (
+			item, "selection_model_removed",
+			G_CALLBACK (eti_a11y_selection_model_removed_cb), NULL);
+		g_signal_connect (
+			item, "selection_model_added",
+			G_CALLBACK (eti_a11y_selection_model_added_cb), NULL);
 		if (item->selection)
 			gal_a11y_e_table_item_ref_selection (a11y,
 							     item->selection);
@@ -1104,8 +1133,9 @@ gal_a11y_e_table_item_new (ETableItem *item)
 		if (E_IS_TREE (GET_PRIVATE (a11y)->widget)) {
 			ETreeModel *model;
 			model = e_tree_get_model (E_TREE (GET_PRIVATE (a11y)->widget));
-			g_signal_connect (G_OBJECT(model), "node_changed",
-					G_CALLBACK (eti_tree_model_node_changed_cb), item);
+			g_signal_connect (
+				model, "node_changed",
+				G_CALLBACK (eti_tree_model_node_changed_cb), item);
 			accessible->role = ATK_ROLE_TREE_TABLE;
 		} else if (E_IS_TABLE (GET_PRIVATE (a11y)->widget)) {
 			accessible->role = ATK_ROLE_TABLE;
@@ -1126,7 +1156,7 @@ gal_a11y_e_table_item_new (ETableItem *item)
 
 static gboolean
 gal_a11y_e_table_item_ref_selection (GalA11yETableItem *a11y,
-				     ESelectionModel *selection)
+                                     ESelectionModel *selection)
 {
 	GalA11yETableItemPrivate *priv;
 
@@ -1174,8 +1204,9 @@ gal_a11y_e_table_item_unref_selection (GalA11yETableItem *a11y)
 /* callbacks */
 
 static void
-eti_a11y_selection_model_removed_cb (ETableItem *eti, ESelectionModel *selection,
-				     gpointer data)
+eti_a11y_selection_model_removed_cb (ETableItem *eti,
+                                     ESelectionModel *selection,
+                                     gpointer data)
 {
 	AtkObject *atk_obj;
 	GalA11yETableItem *a11y;
@@ -1191,8 +1222,9 @@ eti_a11y_selection_model_removed_cb (ETableItem *eti, ESelectionModel *selection
 }
 
 static void
-eti_a11y_selection_model_added_cb (ETableItem *eti, ESelectionModel *selection,
-				   gpointer data)
+eti_a11y_selection_model_added_cb (ETableItem *eti,
+                                   ESelectionModel *selection,
+                                   gpointer data)
 {
 	AtkObject *atk_obj;
 	GalA11yETableItem *a11y;
@@ -1209,7 +1241,8 @@ eti_a11y_selection_model_added_cb (ETableItem *eti, ESelectionModel *selection,
 }
 
 static void
-eti_a11y_selection_changed_cb (ESelectionModel *selection, GalA11yETableItem *a11y)
+eti_a11y_selection_changed_cb (ESelectionModel *selection,
+                               GalA11yETableItem *a11y)
 {
 	GalA11yETableItemPrivate *priv = GET_PRIVATE (a11y);
 
@@ -1223,7 +1256,9 @@ eti_a11y_selection_changed_cb (ESelectionModel *selection, GalA11yETableItem *a1
 
 static void
 eti_a11y_cursor_changed_cb (ESelectionModel *selection,
-			    gint row, gint col,  GalA11yETableItem *a11y)
+                            gint row,
+                            gint col,
+                            GalA11yETableItem *a11y)
 {
 	ETableItem *item;
 	GalA11yETableItemPrivate *priv = GET_PRIVATE (a11y);
@@ -1255,7 +1290,8 @@ static void atk_selection_interface_init (AtkSelectionIface *iface)
 }
 
 static gboolean
-selection_add_selection (AtkSelection *selection, gint index)
+selection_add_selection (AtkSelection *selection,
+                         gint index)
 {
 	AtkTable *table;
 	gint row, col, cursor_row, cursor_col, model_row, model_col;
@@ -1315,7 +1351,8 @@ selection_clear_selection (AtkSelection *selection)
 }
 
 static AtkObject *
-selection_ref_selection (AtkSelection *selection, gint index)
+selection_ref_selection (AtkSelection *selection,
+                         gint index)
 {
 	AtkTable *table;
 	gint row, col;
@@ -1343,7 +1380,8 @@ selection_get_selection_count (AtkSelection *selection)
 }
 
 static gboolean
-selection_is_child_selected (AtkSelection *selection, gint i)
+selection_is_child_selected (AtkSelection *selection,
+                             gint i)
 {
 	gint row;
 

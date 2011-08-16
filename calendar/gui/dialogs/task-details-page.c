@@ -269,7 +269,7 @@ task_details_page_fill_widgets (CompEditorPage *page,
 		icaltimezone *utc_zone, *zone;
 
 		/* Completed is in UTC, but that would confuse the user, so
-		   we convert it to local time. */
+		 * we convert it to local time. */
 		utc_zone = icaltimezone_get_utc_timezone ();
 		zone = comp_editor_get_timezone (editor);
 
@@ -376,11 +376,11 @@ task_details_page_fill_component (CompEditorPage *page,
 		}
 
 		/* COMPLETED must be in UTC, so we assume that the date in the
-		   dialog is in the current timezone, and we now convert it
-		   to UTC. FIXME: We should really use one timezone for the
-		   entire time the dialog is shown. Otherwise if the user
-		   changes the timezone, the COMPLETED date may get changed
-		   as well. */
+		 * dialog is in the current timezone, and we now convert it
+		 * to UTC. FIXME: We should really use one timezone for the
+		 * entire time the dialog is shown. Otherwise if the user
+		 * changes the timezone, the COMPLETED date may get changed
+		 * as well. */
 		icaltimezone_convert_time (&icalcomplete, zone,
 				icaltimezone_get_utc_timezone ());
 		e_cal_component_set_completed (comp, &icalcomplete);
@@ -461,7 +461,7 @@ get_widgets (TaskDetailsPage *tdpage)
 		return FALSE;
 
 	/* Get the GtkAccelGroup from the toplevel window, so we can install
-	   it when the notebook page is mapped. */
+	 * it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
 	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
 	if (accel_groups)
@@ -499,7 +499,9 @@ get_widgets (TaskDetailsPage *tdpage)
 }
 
 static void
-complete_date_changed (TaskDetailsPage *tdpage, time_t ctime, gboolean complete)
+complete_date_changed (TaskDetailsPage *tdpage,
+                       time_t ctime,
+                       gboolean complete)
 {
 	CompEditorPageDates dates = {NULL, NULL, NULL, NULL};
 	icaltimezone *zone;
@@ -573,7 +575,8 @@ date_changed_cb (EDateEdit *dedit,
 }
 
 static void
-status_changed (GtkWidget *combo, TaskDetailsPage *tdpage)
+status_changed (GtkWidget *combo,
+                TaskDetailsPage *tdpage)
 {
 	TaskDetailsPagePrivate *priv;
 	icalproperty_status status;
@@ -618,7 +621,8 @@ status_changed (GtkWidget *combo, TaskDetailsPage *tdpage)
 }
 
 static void
-percent_complete_changed (GtkAdjustment	*adj, TaskDetailsPage *tdpage)
+percent_complete_changed (GtkAdjustment *adj,
+                          TaskDetailsPage *tdpage)
 {
 	TaskDetailsPagePrivate *priv;
 	gint percent;
@@ -673,7 +677,7 @@ init_widgets (TaskDetailsPage *tdpage)
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tdpage));
 
 	/* Make sure the EDateEdit widgets use our timezones to get the
-	   current time. */
+	 * current time. */
 	e_date_edit_set_get_time_callback (
 		E_DATE_EDIT (priv->completed_date),
 		(EDateEditGetTimeCallback) comp_editor_get_current_time,
@@ -689,8 +693,8 @@ init_widgets (TaskDetailsPage *tdpage)
 		priv->url_entry);
 
 	/* Connect signals. The Status, Percent Complete & Date Completed
-	   properties are closely related so whenever one changes we may need
-	   to update the other 2. */
+	 * properties are closely related so whenever one changes we may need
+	 * to update the other 2. */
 	g_signal_connect (
 		GTK_COMBO_BOX (priv->status_combo), "changed",
 		G_CALLBACK (status_changed), tdpage);

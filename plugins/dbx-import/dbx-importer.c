@@ -100,8 +100,8 @@ gint		e_plugin_lib_enable		(EPlugin *ep,
 
 /* em-folder-selection-button.h is private, even though other internal
  * evo plugins use it!
-   so declare the functions here
-   TODO: sort out whether this should really be private
+ * so declare the functions here
+ * TODO: sort out whether this should really be private
 */
 
 typedef struct {
@@ -121,7 +121,6 @@ typedef struct {
 
 	gchar *uri;
 	gint dbx_fd;
-	//	dbx_file dbx;
 
 	CamelOperation *cancel;
 	CamelFolder *folder;
@@ -145,7 +144,8 @@ static guchar oe4_mbox_sig[8] = {
 };
 
 gboolean
-org_gnome_evolution_readdbx_supported (EPlugin *epl, EImportTarget *target)
+org_gnome_evolution_readdbx_supported (EPlugin *epl,
+                                       EImportTarget *target)
 {
 	gchar signature[16];
 	gboolean ret = FALSE;
@@ -189,7 +189,8 @@ org_gnome_evolution_readdbx_supported (EPlugin *epl, EImportTarget *target)
 }
 
 static void
-folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
+folder_selected (EMFolderSelectionButton *button,
+                 EImportTargetURI *target)
 {
 	g_free (target->uri_dest);
 	target->uri_dest = g_strdup (em_folder_selection_button_get_folder_uri (button));
@@ -277,7 +278,8 @@ org_gnome_evolution_readdbx_getwidget (EImport *ei,
 }
 
 static gchar *
-dbx_import_describe (DbxImporter *m, gint complete)
+dbx_import_describe (DbxImporter *m,
+                     gint complete)
 {
 	return g_strdup (_("Importing Outlook Express data"));
 }
@@ -437,10 +439,12 @@ static gboolean dbx_load_indices (DbxImporter *m)
 }
 
 static gboolean
-dbx_read_mail_body (DbxImporter *m, guint32 offset, gint bodyfd)
+dbx_read_mail_body (DbxImporter *m,
+                    guint32 offset,
+                    gint bodyfd)
 {
 	/* FIXME: We really ought to set up CamelStream that we can feed to the
-	   MIME parser, rather than using a temporary file */
+	 * MIME parser, rather than using a temporary file */
 
 	struct _dbx_block_hdrstruct hdr;
 	guint32 buflen = 0x200;
@@ -502,7 +506,10 @@ dbx_read_mail_body (DbxImporter *m, guint32 offset, gint bodyfd)
 }
 
 static gboolean
-dbx_read_email (DbxImporter *m, guint32 offset, gint bodyfd, gint *flags)
+dbx_read_email (DbxImporter *m,
+                guint32 offset,
+                gint bodyfd,
+                gint *flags)
 {
 	struct _dbx_email_headerstruct hdr;
 	guchar *buffer;
@@ -538,8 +545,8 @@ dbx_read_email (DbxImporter *m, guint32 offset, gint bodyfd, gint *flags)
 	}
 
 	for (i = 0; i < hdr.count; i++) {
-		guchar type = buffer[i*4];
-		gint val = buffer[i*4 + 1] + (buffer[i*4 + 2] << 8) + (buffer[i*4 + 3] << 16);
+		guchar type = buffer[i *4];
+		gint val = buffer[i *4 + 1] + (buffer[i *4 + 2] << 8) + (buffer[i *4 + 3] << 16);
 
 		switch (type) {
 		case 0x01:
@@ -551,7 +558,7 @@ dbx_read_email (DbxImporter *m, guint32 offset, gint bodyfd, gint *flags)
 			d(printf("Got type 0x81 flags %02x\n", *flags));
 			break;
 		case 0x04:
-			dataptr = GUINT32_FROM_LE (*(guint32 *)(buffer + hdr.count*4 + val));
+			dataptr = GUINT32_FROM_LE (*(guint32 *)(buffer + hdr.count *4 + val));
 			d(printf("Got type 0x04 data pointer %x\n", dataptr));
 			break;
 		case 0x84:
@@ -766,7 +773,10 @@ dbx_status_timeout (gpointer data)
 }
 
 static void
-dbx_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
+dbx_status (CamelOperation *op,
+            const gchar *what,
+            gint pc,
+            gpointer data)
 {
 	DbxImporter *importer = data;
 
@@ -820,7 +830,8 @@ org_gnome_evolution_readdbx_cancel (EImport *ei,
 }
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }

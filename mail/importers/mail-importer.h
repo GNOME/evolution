@@ -34,7 +34,7 @@ typedef void (*MboxImporterCreatePreviewFunc)(GObject *preview, GtkWidget **prev
 typedef void (*MboxImporterFillPreviewFunc)(GObject *preview, CamelMimeMessage *msg);
 
 /* 'create_func' is a function to create a view. 'fill_func' is to fill view with a preview of a message 'msg'
-   (mail importer cannot link to em-format-html-display directly) */
+ * (mail importer cannot link to em-format-html-display directly) */
 void mbox_importer_set_preview_funcs (MboxImporterCreatePreviewFunc create_func, MboxImporterFillPreviewFunc fill_func);
 
 EImportImporter *elm_importer_peek (void);

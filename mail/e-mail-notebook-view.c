@@ -100,7 +100,7 @@ emnv_get_page_num (EMailNotebookView *view,
 
 	n = gtk_notebook_get_n_pages (priv->book);
 
-	for (i=0; i<n; i++) {
+	for (i = 0; i < n; i++) {
 		GtkWidget *curr = gtk_notebook_get_nth_page (priv->book, i);
 		if (curr == widget)
 			return i;
@@ -164,8 +164,8 @@ fix_tab_picker_width (GtkWidget *widget,
 {
 	ClutterActor *stage = g_object_get_data ((GObject *)actor, "stage");
 
-	clutter_actor_set_size (actor, allocation->width-1, -1);
-	clutter_actor_set_size (stage, allocation->width-1, -1);
+	clutter_actor_set_size (actor, allocation->width - 1, -1);
+	clutter_actor_set_size (stage, allocation->width - 1, -1);
 }
 
 static void
@@ -230,8 +230,8 @@ tab_picker_preview_mode_notify (EMailTabPicker *picker,
 
 static void
 mnv_tab_anim_frame_cb (ClutterTimeline *timeline,
-                               gint             frame_num,
-                               EMailTab          *tab)
+                       gint frame_num,
+                       EMailTab *tab)
 {
 	if (!clutter_actor_get_parent (CLUTTER_ACTOR (tab))) {
 		clutter_timeline_stop (timeline);
@@ -246,7 +246,7 @@ mnv_tab_anim_frame_cb (ClutterTimeline *timeline,
 
 static void
 mnv_tab_anim_complete_cb (ClutterTimeline *timeline,
-                                  EMailTab          *tab)
+                          EMailTab *tab)
 {
 	e_mail_tab_set_width (tab, 200);
 	g_object_unref (tab);
@@ -261,7 +261,7 @@ struct _tab_data {
 
 static void
 mnv_tab_closed_cb (ClutterTimeline *timeline,
-		struct _tab_data *data)
+                   struct _tab_data *data)
 {
 	EMailView *page = g_object_get_data ((GObject *)data->tab, "page");
 	EMailView *prev;
@@ -291,7 +291,8 @@ mnv_tab_closed_cb (ClutterTimeline *timeline,
 }
 
 static void
-mnv_tab_closed (EMailTab *tab, EMailNotebookView *view)
+mnv_tab_closed (EMailTab *tab,
+                EMailNotebookView *view)
 {
 	EMailNotebookViewPrivate *priv = view->priv;
 	gint page, cur;
@@ -327,8 +328,8 @@ mnv_tab_closed (EMailTab *tab, EMailNotebookView *view)
 
 static void
 tab_activated_cb (EMailTabPicker *picker,
-		  EMailTab	 *tab,
-		  EMailNotebookView *view)
+                  EMailTab *tab,
+                  EMailNotebookView *view)
 {
 	EMailView *page = g_object_get_data ((GObject *)tab, "page");
 	gint num = emnv_get_page_num (view, (GtkWidget *) page);
@@ -339,7 +340,7 @@ tab_activated_cb (EMailTabPicker *picker,
 
 static void
 tab_remove_gtk_cb (GtkWidget *button,
-		   EMailNotebookView *view)
+                   EMailNotebookView *view)
 {
 	EMailView *page = g_object_get_data ((GObject *)button, "page");
 	EMailView *prev;
@@ -370,8 +371,8 @@ tab_remove_gtk_cb (GtkWidget *button,
 
 static void
 adjust_label_size_request (GtkWidget *view,
-			   GtkAllocation *allocation,
-			   GtkWidget *label)
+                           GtkAllocation *allocation,
+                           GtkWidget *label)
 {
 	GtkRequisition requisition;
 	gint max_width = allocation->width / 2;
@@ -387,7 +388,7 @@ adjust_label_size_request (GtkWidget *view,
 
 static void
 disconnect_label_adjusting (EMailNotebookView *view,
-			    GtkWidget *label)
+                            GtkWidget *label)
 {
 	g_signal_handlers_disconnect_by_func (
 		view,
@@ -397,8 +398,8 @@ disconnect_label_adjusting (EMailNotebookView *view,
 
 static GtkWidget *
 create_tab_label (EMailNotebookView *view,
-		  EMailView *page,
-		  const gchar *str)
+                  EMailView *page,
+                  const gchar *str)
 {
 	GtkWidget *container, *widget;
 	GtkAllocation allocation;
@@ -468,11 +469,12 @@ fix_clutter_embed_width (GtkWidget *widget,
 	GtkAllocation galoc;
 
 	gtk_widget_get_allocation (embed, &galoc);
-	clutter_actor_set_size (actor, allocation->width-1, galoc.height);
+	clutter_actor_set_size (actor, allocation->width - 1, galoc.height);
 }
 
 static GtkWidget *
-create_under_clutter (GtkWidget *widget, GtkWidget *paned)
+create_under_clutter (GtkWidget *widget,
+                      GtkWidget *paned)
 {
 	GtkWidget *embed;
 	ClutterActor *stage, *actor;
@@ -941,7 +943,8 @@ mail_notebook_view_get_window (EMailReader *reader)
 }
 
 static void
-reconnect_changed_event (EMailReader *child, EMailReader *parent)
+reconnect_changed_event (EMailReader *child,
+                         EMailReader *parent)
 {
 	g_signal_emit_by_name (parent, "changed");
 }
@@ -1023,7 +1026,7 @@ mail_netbook_view_open_mail (EMailView *view,
 
 	e_mail_tab_set_preview_actor (tab, clone);
 	e_mail_tab_set_can_close (tab, TRUE);
-	e_mail_tab_picker_add_tab (priv->tab_picker, tab, pos+1);
+	e_mail_tab_picker_add_tab (priv->tab_picker, tab, pos + 1);
 	e_mail_tab_enable_drag (tab, TRUE);
 
 	page = e_mail_tab_picker_get_tab_no (priv->tab_picker, tab);
@@ -1062,7 +1065,8 @@ mail_netbook_view_open_mail (EMailView *view,
 
 #if HAVE_CLUTTER
 static ClutterActor *
-build_histogram (GtkWidget *widget, CamelFolder *folder)
+build_histogram (GtkWidget *widget,
+                 CamelFolder *folder)
 {
 	gint week_time = 60 * 60 * 24 * 7;
 	gint weeks[54];
@@ -1075,7 +1079,7 @@ build_histogram (GtkWidget *widget, CamelFolder *folder)
 	gint x = 0;
 	time_t now = time (NULL);
 
-	for (i=0; i<54; i++)
+	for (i = 0; i < 54; i++)
 		weeks[i] = 0;
 
 	uids = camel_folder_get_uids (folder);
@@ -1098,12 +1102,12 @@ build_histogram (GtkWidget *widget, CamelFolder *folder)
 		}
 	}
 
-	for (i=0; i< 53; i++) {
+	for (i = 0; i< 53; i++) {
 		if (weeks[i] > max)
 			max = weeks[i];
 	}
 
-	ratio = 50.0/max;
+	ratio = 50.0 / max;
 
 	camel_folder_free_uids (folder, uids);
 
@@ -1119,7 +1123,7 @@ build_histogram (GtkWidget *widget, CamelFolder *folder)
 
 	cairo_set_source_rgba (cr, 0.3, 0.2, 0.4, 1.0);
 
-	for (i=51; i>=0; i--) {
+	for (i = 51; i >= 0; i--) {
 		x+=3;
 		cairo_line_to (cr, x, 50 - (weeks[i]*ratio));
 
@@ -1131,7 +1135,7 @@ build_histogram (GtkWidget *widget, CamelFolder *folder)
 	cairo_save (cr);
 
 	cairo_set_source_rgba (cr, 0.8, 0.5, 0.3, 1.0);
-	cairo_arc (cr, x,  50 - (weeks[0] * ratio), 3, 0, 2*M_PI);
+	cairo_arc (cr, x,  50 - (weeks[0] * ratio), 3, 0, 2 *M_PI);
 
 	cairo_fill (cr);
 	cairo_restore (cr);
@@ -1409,7 +1413,7 @@ e_mail_notebook_view_reader_init (EMailReaderInterface *interface)
 }
 
 static void
-e_mail_notebook_view_init (EMailNotebookView  *view)
+e_mail_notebook_view_init (EMailNotebookView *view)
 {
 	view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		view, E_TYPE_MAIL_NOTEBOOK_VIEW, EMailNotebookViewPrivate);
@@ -1419,7 +1423,8 @@ e_mail_notebook_view_init (EMailNotebookView  *view)
 }
 
 static void
-emnv_show_folder (EMailNotebookView *view, gpointer not_used)
+emnv_show_folder (EMailNotebookView *view,
+                  gpointer not_used)
 {
 	gint pos;
 	EMailNotebookViewPrivate *priv = view->priv;
@@ -1438,7 +1443,8 @@ emnv_show_folder (EMailNotebookView *view, gpointer not_used)
 }
 
 static void
-emnv_show_prevtab (EMailNotebookView *view, gpointer not_used)
+emnv_show_prevtab (EMailNotebookView *view,
+                   gpointer not_used)
 {
 	gint pos;
 	EMailNotebookViewPrivate *priv = view->priv;
@@ -1450,19 +1456,20 @@ emnv_show_prevtab (EMailNotebookView *view, gpointer not_used)
 #if HAVE_CLUTTER
 	pos = e_mail_tab_picker_get_current_tab (priv->tab_picker);
 	if (pos > 0) {
-		e_mail_tab_picker_set_current_tab (priv->tab_picker, pos-1);
-		mnv_set_current_tab (E_MAIL_NOTEBOOK_VIEW (view), pos-1);
+		e_mail_tab_picker_set_current_tab (priv->tab_picker, pos - 1);
+		mnv_set_current_tab (E_MAIL_NOTEBOOK_VIEW (view), pos - 1);
 	}
 #else
 	pos = gtk_notebook_get_current_page (priv->book);
 	if (pos > 0 )
-		gtk_notebook_set_current_page (priv->book, pos-1);
+		gtk_notebook_set_current_page (priv->book, pos - 1);
 #endif
 
 }
 
 static void
-emnv_show_nexttab (EMailNotebookView *view, gpointer not_used)
+emnv_show_nexttab (EMailNotebookView *view,
+                   gpointer not_used)
 {
 	gint pos;
 	EMailNotebookViewPrivate *priv = view->priv;
@@ -1470,20 +1477,21 @@ emnv_show_nexttab (EMailNotebookView *view, gpointer not_used)
 #if HAVE_CLUTTER
 	pos = e_mail_tab_picker_get_current_tab (priv->tab_picker);
 
-	if (pos < (gtk_notebook_get_n_pages (priv->book)-1)) {
-		e_mail_tab_picker_set_current_tab (priv->tab_picker, pos+1);
-		mnv_set_current_tab (E_MAIL_NOTEBOOK_VIEW (view), pos+1);
+	if (pos < (gtk_notebook_get_n_pages (priv->book) - 1)) {
+		e_mail_tab_picker_set_current_tab (priv->tab_picker, pos + 1);
+		mnv_set_current_tab (E_MAIL_NOTEBOOK_VIEW (view), pos + 1);
 	}
 #else
 	pos = gtk_notebook_get_current_page (priv->book);
-	if (pos < (gtk_notebook_get_n_pages (priv->book)-1))
-		gtk_notebook_set_current_page (priv->book, pos+1);
+	if (pos < (gtk_notebook_get_n_pages (priv->book) - 1))
+		gtk_notebook_set_current_page (priv->book, pos + 1);
 #endif
 
 }
 
 static void
-emnv_close_tab (EMailNotebookView *view, gpointer not_used)
+emnv_close_tab (EMailNotebookView *view,
+                gpointer not_used)
 {
 	EMailNotebookViewPrivate *priv = view->priv;
 

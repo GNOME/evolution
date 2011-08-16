@@ -1511,7 +1511,7 @@ action_mail_reply_sender_cb (GtkAction *action,
 
 static void
 action_mail_reply_recipient_cb (GtkAction *action,
-				EMailReader *reader)
+                                EMailReader *reader)
 {
 	e_mail_reader_reply_to_message (reader, NULL, E_MAIL_REPLY_TO_RECIPIENT);
 	check_close_browser_reader (reader);
@@ -2538,7 +2538,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 
 	if (!message_list) {
 		/* for cases where message fetching took so long that
-		   user closed the message window before this was called */
+		 * user closed the message window before this was called */
 		goto exit;
 	}
 

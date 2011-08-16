@@ -39,15 +39,14 @@ static GHashTable *emfh_types;
 /* Mail formatter handler plugin */
 
 /*
-  <hook class="org.gnome.evolution.mail.format:1.0">
-  <group id="EMFormatHTML">
-     <item flags="inline,inline_disposition"
-           mime_type="text/vcard"
-	   format="format_vcard"/>
-  </group>
-  </hook>
-
-*/
+ * <hook class="org.gnome.evolution.mail.format:1.0">
+ * <group id="EMFormatHTML">
+ *   <item flags="inline,inline_disposition"
+ *         mime_type="text/vcard"
+ *         format="format_vcard"/>
+ * </group>
+ * </hook>
+ */
 
 static gpointer emfh_parent_class;
 #define emfh ((EMFormatHook *)eph)
@@ -103,7 +102,9 @@ emfh_free_group (struct _EMFormatHookGroup *group)
 }
 
 static struct _EMFormatHookItem *
-emfh_construct_item (EPluginHook *eph, EMFormatHookGroup *group, xmlNodePtr root)
+emfh_construct_item (EPluginHook *eph,
+                     EMFormatHookGroup *group,
+                     xmlNodePtr root)
 {
 	struct _EMFormatHookItem *item;
 
@@ -130,7 +131,8 @@ error:
 }
 
 static struct _EMFormatHookGroup *
-emfh_construct_group (EPluginHook *eph, xmlNodePtr root)
+emfh_construct_group (EPluginHook *eph,
+                      xmlNodePtr root)
 {
 	struct _EMFormatHookGroup *group;
 	xmlNodePtr node;
@@ -161,7 +163,9 @@ error:
 }
 
 static gint
-emfh_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
+emfh_construct (EPluginHook *eph,
+                EPlugin *ep,
+                xmlNodePtr root)
 {
 	xmlNodePtr node;
 
@@ -183,7 +187,7 @@ emfh_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 				    && (klass = g_hash_table_lookup (emfh_types, group->id))) {
 					GSList *l = group->items;
 
-					for (;l;l=g_slist_next (l)) {
+					for (; l; l = g_slist_next (l)) {
 						EMFormatHookItem *item = l->data;
 						/* TODO: only add handlers if enabled? */
 						/* Well, disabling is handled by the callback,
@@ -209,7 +213,8 @@ emfh_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 }
 
 static void
-emfh_enable (EPluginHook *eph, gint state)
+emfh_enable (EPluginHook *eph,
+             gint state)
 {
 	GSList *g, *l;
 	EMFormatClass *klass;
@@ -218,11 +223,11 @@ emfh_enable (EPluginHook *eph, gint state)
 	if (emfh_types == NULL)
 		return;
 
-	for (;g;g=g_slist_next (g)) {
+	for (; g; g = g_slist_next (g)) {
 		struct _EMFormatHookGroup *group = g->data;
 
 		klass = g_hash_table_lookup (emfh_types, group->id);
-		for (l=group->items;l;l=g_slist_next (l)) {
+		for (l = group->items; l; l = g_slist_next (l)) {
 			EMFormatHookItem *item = l->data;
 
 			if (state)
@@ -234,7 +239,7 @@ emfh_enable (EPluginHook *eph, gint state)
 }
 
 static void
-emfh_finalise (GObject *o)
+emfh_finalize (GObject *o)
 {
 	EPluginHook *eph = (EPluginHook *) o;
 
@@ -247,7 +252,7 @@ emfh_finalise (GObject *o)
 static void
 emfh_class_init (EPluginHookClass *klass)
 {
-	((GObjectClass *) klass)->finalize = emfh_finalise;
+	((GObjectClass *) klass)->finalize = emfh_finalize;
 	klass->construct = emfh_construct;
 	klass->enable = emfh_enable;
 	klass->id = "org.gnome.evolution.mail.format:1.0";

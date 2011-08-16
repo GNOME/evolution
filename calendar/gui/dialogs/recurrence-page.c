@@ -463,7 +463,8 @@ clear_widgets (RecurrencePage *rpage)
 
 /* Appends an exception date to the list */
 static void
-append_exception (RecurrencePage *rpage, ECalComponentDateTime *datetime)
+append_exception (RecurrencePage *rpage,
+                  ECalComponentDateTime *datetime)
 {
 	RecurrencePagePrivate *priv;
 	GtkTreeView *view;
@@ -478,7 +479,8 @@ append_exception (RecurrencePage *rpage, ECalComponentDateTime *datetime)
 
 /* Fills in the exception widgets with the data from the calendar component */
 static void
-fill_exception_widgets (RecurrencePage *rpage, ECalComponent *comp)
+fill_exception_widgets (RecurrencePage *rpage,
+                        ECalComponent *comp)
 {
 	GSList *list, *l;
 
@@ -588,7 +590,8 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 }
 
 static void
-update_with_readonly (RecurrencePage *rpage, gboolean read_only)
+update_with_readonly (RecurrencePage *rpage,
+                      gboolean read_only)
 {
 	RecurrencePagePrivate *priv = rpage->priv;
 	CompEditor *editor;
@@ -617,7 +620,9 @@ update_with_readonly (RecurrencePage *rpage, gboolean read_only)
 }
 
 static void
-rpage_get_objects_for_uid_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+rpage_get_objects_for_uid_cb (GObject *source_object,
+                              GAsyncResult *result,
+                              gpointer user_data)
 {
 	ECalClient *client = E_CAL_CLIENT (source_object);
 	RecurrencePage *rpage = user_data;
@@ -639,7 +644,9 @@ rpage_get_objects_for_uid_cb (GObject *source_object, GAsyncResult *result, gpoi
 }
 
 static void
-rpage_get_object_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+rpage_get_object_cb (GObject *source_object,
+                     GAsyncResult *result,
+                     gpointer user_data)
 {
 	ECalClient *client = E_CAL_CLIENT (source_object);
 	RecurrencePage *rpage = user_data;
@@ -711,24 +718,12 @@ sensitize_buttons (RecurrencePage *rpage)
 	}
 }
 
-#if 0
-/* Encondes a position/weekday pair into the proper format for
- * icalrecurrencetype.by_day. Not needed at present.
- */
-static short
-nth_weekday (gint pos, icalrecurrencetype_weekday weekday)
-{
-	g_assert (pos > 0 && pos <= 5);
-
-	return (pos << 3) | (gint) weekday;
-}
-#endif
-
 /* Gets the simple recurrence data from the recurrence widgets and stores it in
  * the calendar component.
  */
 static void
-simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
+simple_recur_to_comp (RecurrencePage *rpage,
+                      ECalComponent *comp)
 {
 	RecurrencePagePrivate *priv;
 	struct icalrecurrencetype r;
@@ -820,8 +815,8 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 			break;
 
 		/* Outlook 2000 uses BYDAY=TU;BYSETPOS=2, and will not
-		   accept BYDAY=2TU. So we now use the same as Outlook
-		   by default. */
+		 * accept BYDAY=2TU. So we now use the same as Outlook
+		 * by default. */
 		case MONTH_DAY_MON:
 			r.by_day[0] = ICAL_MONDAY_WEEKDAY;
 			r.by_set_pos[0] = month_num;
@@ -890,7 +885,7 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 		g_return_if_fail (E_IS_DATE_EDIT (priv->ending_date_edit));
 
 		/* We only allow a DATE value to be set for the UNTIL property,
-		   since we don't support sub-day recurrences. */
+		 * since we don't support sub-day recurrences. */
 		date_set = e_date_edit_get_date (E_DATE_EDIT (priv->ending_date_edit),
 						 &r.until.year,
 						 &r.until.month,
@@ -921,7 +916,8 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
  * custom recurrence, it leaves it intact.
  */
 static gboolean
-fill_component (RecurrencePage *rpage, ECalComponent *comp)
+fill_component (RecurrencePage *rpage,
+                ECalComponent *comp)
 {
 	RecurrencePagePrivate *priv;
 	gboolean recurs;
@@ -1058,7 +1054,11 @@ make_weekly_special (RecurrencePage *rpage)
 
 /* Creates the subtree for the monthly recurrence number */
 static void
-make_recur_month_num_subtree (GtkTreeStore *store, GtkTreeIter *par, const gchar *title, gint start, gint end)
+make_recur_month_num_subtree (GtkTreeStore *store,
+                              GtkTreeIter *par,
+                              const gchar *title,
+                              gint start,
+                              gint end)
 {
 	GtkTreeIter iter, parent;
 	gint i;
@@ -1071,12 +1071,13 @@ make_recur_month_num_subtree (GtkTreeStore *store, GtkTreeIter *par, const gchar
 		gtk_tree_store_set (store, &iter, 0, _(e_cal_recur_nth[i]), 1, i + 1, -1);
 	}
 }
+
 static void
-only_leaf_sensitive (GtkCellLayout   *cell_layout,
-		      GtkCellRenderer *cell,
-		      GtkTreeModel    *tree_model,
-		      GtkTreeIter     *iter,
-		      gpointer         data)
+only_leaf_sensitive (GtkCellLayout *cell_layout,
+                     GtkCellRenderer *cell,
+                     GtkTreeModel *tree_model,
+                     GtkTreeIter *iter,
+                     gpointer data)
 {
   gboolean sensitive;
 
@@ -1184,8 +1185,8 @@ make_recur_month_combobox (void)
 {
 	static const gchar *options[] = {
 		/* For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
-		   (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
-		   the name of a week day (like 'Monday' or 'Friday') always follow. */
+		 * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
+		 * the name of a week day (like 'Monday' or 'Friday') always follow. */
 		N_("day"),
 		N_("Monday"),
 		N_("Tuesday"),
@@ -1209,7 +1210,8 @@ make_recur_month_combobox (void)
 }
 
 static void
-month_num_combo_changed_cb (GtkComboBox *combo, RecurrencePage *rpage)
+month_num_combo_changed_cb (GtkComboBox *combo,
+                            RecurrencePage *rpage)
 {
 	GtkTreeIter iter;
 	RecurrencePagePrivate *priv;
@@ -1269,7 +1271,8 @@ month_num_combo_changed_cb (GtkComboBox *combo, RecurrencePage *rpage)
  * are 1-31 while a Sunday is the 1st through 5th.
  */
 static void
-month_day_combo_changed_cb (GtkComboBox *combo, RecurrencePage *rpage)
+month_day_combo_changed_cb (GtkComboBox *combo,
+                            RecurrencePage *rpage)
 {
 	RecurrencePagePrivate *priv;
 	enum month_num_options month_num;
@@ -1403,7 +1406,8 @@ make_recurrence_special (RecurrencePage *rpage)
 
 /* Counts the elements in the by_xxx fields of an icalrecurrencetype */
 static gint
-count_by_xxx (gshort *field, gint max_elements)
+count_by_xxx (gshort *field,
+              gint max_elements)
 {
 	gint i;
 
@@ -1456,7 +1460,7 @@ make_ending_until_special (RecurrencePage *rpage)
 		G_CALLBACK (comp_editor_page_changed), rpage);
 
 	/* Make sure the EDateEdit widget uses our timezones to get the
-	   current time. */
+	 * current time. */
 	e_date_edit_set_get_time_callback (
 		de,
 		(EDateEditGetTimeCallback) comp_editor_get_current_time,
@@ -1554,7 +1558,8 @@ make_ending_special (RecurrencePage *rpage)
  * component.
  */
 static void
-fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
+fill_ending_date (RecurrencePage *rpage,
+                  struct icalrecurrencetype *r)
 {
 	RecurrencePagePrivate *priv = rpage->priv;
 	CompEditor *editor;
@@ -1635,7 +1640,8 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
  * no rdates or exrules (exdates are handled just fine elsewhere).
  */
 static gboolean
-recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
+recurrence_page_fill_widgets (CompEditorPage *page,
+                              ECalComponent *comp)
 {
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
@@ -1867,8 +1873,8 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 			enum month_day_options month_day;
 
 			/* Outlook 2000 uses BYDAY=TU;BYSETPOS=2, and will not
-			   accept BYDAY=2TU. So we now use the same as Outlook
-			   by default. */
+			 * accept BYDAY=2TU. So we now use the same as Outlook
+			 * by default. */
 
 			weekday = icalrecurrencetype_day_day_of_week (r->by_day[0]);
 			pos = icalrecurrencetype_day_position (r->by_day[0]);
@@ -1988,7 +1994,8 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 /* fill_component handler for the recurrence page */
 static gboolean
-recurrence_page_fill_component (CompEditorPage *page, ECalComponent *comp)
+recurrence_page_fill_component (CompEditorPage *page,
+                                ECalComponent *comp)
 {
 	RecurrencePage *rpage;
 
@@ -1998,7 +2005,8 @@ recurrence_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 /* set_dates handler for the recurrence page */
 static void
-recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
+recurrence_page_set_dates (CompEditorPage *page,
+                           CompEditorPageDates *dates)
 {
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
@@ -2088,7 +2096,7 @@ get_widgets (RecurrencePage *rpage)
 		return FALSE;
 
 	/* Get the GtkAccelGroup from the toplevel window, so we can install
-	   it when the notebook page is mapped. */
+	 * it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
 	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
 	if (accel_groups)
@@ -2170,7 +2178,9 @@ type_toggled_cb (GtkToggleButton *toggle,
 }
 
 static GtkWidget *
-create_exception_dialog (RecurrencePage *rpage, const gchar *title, GtkWidget **date_edit)
+create_exception_dialog (RecurrencePage *rpage,
+                         const gchar *title,
+                         GtkWidget **date_edit)
 {
 	RecurrencePagePrivate *priv;
 	GtkWidget *dialog, *toplevel;
@@ -2357,7 +2367,7 @@ init_widgets (RecurrencePage *rpage)
 	priv->preview_calendar = e_calendar_new ();
 	ecal = E_CALENDAR (priv->preview_calendar);
 
-	g_signal_connect((ecal->calitem), "date_range_changed",
+	g_signal_connect ((ecal->calitem), "date_range_changed",
 			    G_CALLBACK (preview_date_range_changed_cb),
 			    rpage);
 	e_calendar_item_set_max_days_sel (ecal->calitem, 0);
@@ -2373,7 +2383,7 @@ init_widgets (RecurrencePage *rpage)
 
 	/* Recurrence types */
 
-	g_signal_connect(priv->recurs, "toggled", G_CALLBACK (type_toggled_cb), rpage);
+	g_signal_connect (priv->recurs, "toggled", G_CALLBACK (type_toggled_cb), rpage);
 
 	/* Recurrence interval */
 
@@ -2402,11 +2412,11 @@ init_widgets (RecurrencePage *rpage)
 
 	/* Exception buttons */
 
-	g_signal_connect((priv->exception_add), "clicked",
+	g_signal_connect ((priv->exception_add), "clicked",
 			    G_CALLBACK (exception_add_cb), rpage);
-	g_signal_connect((priv->exception_modify), "clicked",
+	g_signal_connect ((priv->exception_modify), "clicked",
 			    G_CALLBACK (exception_modify_cb), rpage);
-	g_signal_connect((priv->exception_delete), "clicked",
+	g_signal_connect ((priv->exception_delete), "clicked",
 			    G_CALLBACK (exception_delete_cb), rpage);
 
 	gtk_widget_set_sensitive (priv->exception_modify, FALSE);

@@ -132,10 +132,10 @@ gnome_canvas_pixbuf_dispose (GnomeCanvasItem *object)
 
 /* Set_property handler for the pixbuf canvas item */
 static void
-gnome_canvas_pixbuf_set_property (GObject            *object,
-				  guint               param_id,
-				  const GValue       *value,
-				  GParamSpec         *pspec)
+gnome_canvas_pixbuf_set_property (GObject *object,
+                                  guint param_id,
+                                  const GValue *value,
+                                  GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	GnomeCanvasPixbuf *gcp;
@@ -170,10 +170,10 @@ gnome_canvas_pixbuf_set_property (GObject            *object,
 
 /* Get_property handler for the pixbuf canvasi item */
 static void
-gnome_canvas_pixbuf_get_property (GObject            *object,
-				  guint               param_id,
-				  GValue             *value,
-				  GParamSpec         *pspec)
+gnome_canvas_pixbuf_get_property (GObject *object,
+                                  guint param_id,
+                                  GValue *value,
+                                  GParamSpec *pspec)
 {
 	GnomeCanvasPixbuf *gcp;
 	GnomeCanvasPixbufPrivate *priv;
@@ -263,8 +263,12 @@ gnome_canvas_pixbuf_update (GnomeCanvasItem *item,
 
 /* Draw handler for the pixbuf canvas item */
 static void
-gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, cairo_t *cr,
-			  gint x, gint y, gint width, gint height)
+gnome_canvas_pixbuf_draw (GnomeCanvasItem *item,
+                          cairo_t *cr,
+                          gint x,
+                          gint y,
+                          gint width,
+                          gint height)
 {
 	GnomeCanvasPixbuf *gcp;
 	GnomeCanvasPixbufPrivate *priv;

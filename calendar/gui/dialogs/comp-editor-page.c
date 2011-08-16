@@ -329,7 +329,8 @@ comp_editor_page_fill_widgets (CompEditorPage *page,
  * Returns: TRUE if the component could be filled, FALSE otherwise
  **/
 gboolean
-comp_editor_page_fill_component (CompEditorPage *page, ECalComponent *comp)
+comp_editor_page_fill_component (CompEditorPage *page,
+                                 ECalComponent *comp)
 {
 	CompEditorPageClass *class;
 
@@ -355,7 +356,8 @@ comp_editor_page_fill_component (CompEditorPage *page, ECalComponent *comp)
  * Returns: TRUE if the timezones were added, FALSE otherwise.
  */
 gboolean
-comp_editor_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
+comp_editor_page_fill_timezones (CompEditorPage *page,
+                                 GHashTable *timezones)
 {
 	CompEditorPageClass *class;
 
@@ -378,7 +380,8 @@ comp_editor_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
  * Sets the date values for this group of widgets
  **/
 void
-comp_editor_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
+comp_editor_page_set_dates (CompEditorPage *page,
+                            CompEditorPageDates *dates)
 {
 	CompEditorPageClass *class;
 
@@ -421,7 +424,7 @@ comp_editor_page_add_attendee (CompEditorPage *page,
  **/
 void
 comp_editor_page_notify_dates_changed (CompEditorPage *page,
-				       CompEditorPageDates *dates)
+                                       CompEditorPageDates *dates)
 {
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
@@ -442,8 +445,8 @@ comp_editor_page_notify_dates_changed (CompEditorPage *page,
  */
 void
 comp_editor_page_display_validation_error (CompEditorPage *page,
-					   const gchar *msg,
-					   GtkWidget *field)
+                                           const gchar *msg,
+                                           GtkWidget *field)
 {
 	GtkWidget *dialog;
 

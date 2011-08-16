@@ -38,7 +38,7 @@ gal_a11y_e_tree_factory_get_accessible_type (void)
 	return GAL_A11Y_TYPE_E_TREE;
 }
 
-static AtkObject*
+static AtkObject *
 gal_a11y_e_tree_factory_create_accessible (GObject *obj)
 {
 	AtkObject *accessible;

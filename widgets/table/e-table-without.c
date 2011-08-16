@@ -53,7 +53,8 @@ struct _ETableWithoutPrivate {
 };
 
 static gboolean
-check (ETableWithout *etw, gint model_row)
+check (ETableWithout *etw,
+       gint model_row)
 {
 	gboolean ret_val;
 	gpointer key;
@@ -70,7 +71,9 @@ check (ETableWithout *etw, gint model_row)
 }
 
 static gboolean
-check_with_key (ETableWithout *etw, gpointer key, gint model_row)
+check_with_key (ETableWithout *etw,
+                gpointer key,
+                gint model_row)
 {
 	gboolean ret_val;
 	gpointer key2;
@@ -90,14 +93,16 @@ check_with_key (ETableWithout *etw, gpointer key, gint model_row)
 }
 
 static gint
-etw_view_to_model_row (ETableWithout *etw, gint view_row)
+etw_view_to_model_row (ETableWithout *etw,
+                       gint view_row)
 {
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 	return etss->map_table[view_row];
 }
 
 static void
-add_row (ETableWithout *etw, gint model_row)
+add_row (ETableWithout *etw,
+         gint model_row)
 {
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
@@ -111,7 +116,8 @@ add_row (ETableWithout *etw, gint model_row)
 }
 
 static void
-remove_row (ETableWithout *etw, gint view_row)
+remove_row (ETableWithout *etw,
+            gint view_row)
 {
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
@@ -126,8 +132,8 @@ remove_row (ETableWithout *etw, gint view_row)
 
 static void
 delete_hash_element (gpointer key,
-		     gpointer value,
-		     gpointer closure)
+                     gpointer value,
+                     gpointer closure)
 {
 	ETableWithout *etw = closure;
 	if (etw->priv->free_duplicated_key_func)
@@ -209,7 +215,8 @@ etw_proxy_model_rows_deleted (ETableSubset *etss,
 }
 
 static void
-etw_proxy_model_changed (ETableSubset *etss, ETableModel *etm)
+etw_proxy_model_changed (ETableSubset *etss,
+                         ETableModel *etm)
 {
 	gint i; /* Model row */
 	gint j; /* View row */
@@ -256,15 +263,15 @@ etw_init (ETableWithout *etw)
 }
 
 ETableModel *
-e_table_without_construct (ETableWithout                 *etw,
-			   ETableModel                   *source,
-			   GHashFunc                      hash_func,
-			   GCompareFunc                   compare_func,
-			   ETableWithoutGetKeyFunc        get_key_func,
-			   ETableWithoutDuplicateKeyFunc  duplicate_key_func,
-			   ETableWithoutFreeKeyFunc       free_gotten_key_func,
-			   ETableWithoutFreeKeyFunc       free_duplicated_key_func,
-			   void                          *closure)
+e_table_without_construct (ETableWithout *etw,
+                           ETableModel *source,
+                           GHashFunc hash_func,
+                           GCompareFunc compare_func,
+                           ETableWithoutGetKeyFunc get_key_func,
+                           ETableWithoutDuplicateKeyFunc duplicate_key_func,
+                           ETableWithoutFreeKeyFunc free_gotten_key_func,
+                           ETableWithoutFreeKeyFunc free_duplicated_key_func,
+                           gpointer closure)
 {
 	if (e_table_subset_construct (E_TABLE_SUBSET (etw), source, 1) == NULL)
 		return NULL;
@@ -284,14 +291,14 @@ e_table_without_construct (ETableWithout                 *etw,
 }
 
 ETableModel *
-e_table_without_new        (ETableModel                   *source,
-			    GHashFunc                      hash_func,
-			    GCompareFunc                   compare_func,
-			    ETableWithoutGetKeyFunc        get_key_func,
-			    ETableWithoutDuplicateKeyFunc  duplicate_key_func,
-			    ETableWithoutFreeKeyFunc       free_gotten_key_func,
-			    ETableWithoutFreeKeyFunc       free_duplicated_key_func,
-			    void                          *closure)
+e_table_without_new (ETableModel *source,
+                     GHashFunc hash_func,
+                     GCompareFunc compare_func,
+                     ETableWithoutGetKeyFunc get_key_func,
+                     ETableWithoutDuplicateKeyFunc duplicate_key_func,
+                     ETableWithoutFreeKeyFunc free_gotten_key_func,
+                     ETableWithoutFreeKeyFunc free_duplicated_key_func,
+                     gpointer closure)
 {
 	ETableWithout *etw = g_object_new (E_TYPE_TABLE_WITHOUT, NULL);
 
@@ -312,8 +319,9 @@ e_table_without_new        (ETableModel                   *source,
 	return (ETableModel *) etw;
 }
 
-void         e_table_without_hide       (ETableWithout *etw,
-					 void          *key)
+void
+e_table_without_hide (ETableWithout *etw,
+                      gpointer key)
 {
 	gint i; /* View row */
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
@@ -331,8 +339,9 @@ void         e_table_without_hide       (ETableWithout *etw,
 }
 
 /* An adopted key will later be freed using the free_duplicated_key function. */
-void         e_table_without_hide_adopt (ETableWithout *etw,
-					 void          *key)
+void
+e_table_without_hide_adopt (ETableWithout *etw,
+                            gpointer key)
 {
 	gint i; /* View row */
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
@@ -347,8 +356,8 @@ void         e_table_without_hide_adopt (ETableWithout *etw,
 }
 
 void
-e_table_without_show       (ETableWithout *etw,
-			    void          *key)
+e_table_without_show (ETableWithout *etw,
+                      gpointer key)
 {
 	gint i; /* Model row */
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
@@ -372,7 +381,7 @@ e_table_without_show       (ETableWithout *etw,
 }
 
 void
-e_table_without_show_all   (ETableWithout *etw)
+e_table_without_show_all (ETableWithout *etw)
 {
 	gint i; /* Model row */
 	gint row_count;

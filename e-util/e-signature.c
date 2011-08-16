@@ -404,7 +404,8 @@ e_signature_uid_from_xml (const gchar *xml)
  * Returns: %TRUE if the signature was loaded or %FALSE otherwise
  **/
 gboolean
-e_signature_set_from_xml (ESignature *signature, const gchar *xml)
+e_signature_set_from_xml (ESignature *signature,
+                          const gchar *xml)
 {
 	gboolean changed = FALSE;
 	xmlNodePtr node, cur;

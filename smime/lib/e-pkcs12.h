@@ -53,12 +53,12 @@ struct _EPKCS12Class {
 
 GType                e_pkcs12_get_type     (void);
 
-EPKCS12*             e_pkcs12_new (void);
+EPKCS12 *             e_pkcs12_new (void);
 
 #if 0
 /* XXX we're not going to support additional slots in the initial ssl
-   stuff, so we just always default to the internal token (and thus
-   don't need this function yet. */
+ * stuff, so we just always default to the internal token (and thus
+ * don't need this function yet. */
 gboolean             e_pkcs12_set_token    (void);
 #endif
 

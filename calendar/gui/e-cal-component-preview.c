@@ -40,7 +40,7 @@
 
 struct _ECalComponentPreviewPrivate {
 	/* information about currently showing component in a preview;
-	   if it didn't change then the preview is not updated */
+	 * if it didn't change then the preview is not updated */
 	gchar *cal_uid;
 	gchar *comp_uid;
 	struct icaltimetype comp_last_modified;
@@ -67,7 +67,7 @@ clear_comp_info (ECalComponentPreview *preview)
 }
 
 /* Stores information about actually shown component and
-   returns whether component in the preview changed */
+ * returns whether component in the preview changed */
 static gboolean
 update_comp_info (ECalComponentPreview *preview,
                   ECalClient *client,
@@ -457,7 +457,7 @@ e_cal_component_preview_display (ECalComponentPreview *preview,
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
 	/* do not update preview when setting the same component as last time,
-	   which even didn't change */
+	 * which even didn't change */
 	if (!update_comp_info (preview, client, comp))
 		return;
 

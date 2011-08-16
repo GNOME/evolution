@@ -281,7 +281,8 @@ e_contact_csv_get_name (EContactFieldCSV csv_field)
 }
 
 gchar *
-e_contact_csv_get (EContact * contact, EContactFieldCSV csv_field)
+e_contact_csv_get (EContact *contact,
+                   EContactFieldCSV csv_field)
 {
 	gint contact_field;
 	gchar *field_value;
@@ -399,7 +400,7 @@ e_contact_csv_get (EContact * contact, EContactFieldCSV csv_field)
 }
 
 gchar *
-e_contact_csv_get_header_line (GSList * csv_all_fields)
+e_contact_csv_get_header_line (GSList *csv_all_fields)
 {
 
 	guint field_number;
@@ -429,7 +430,8 @@ e_contact_csv_get_header_line (GSList * csv_all_fields)
 }
 
 gchar *
-e_contact_to_csv (EContact * contact, GSList * csv_all_fields)
+e_contact_to_csv (EContact *contact,
+                  GSList *csv_all_fields)
 {
 	guint field_number;
 	gint csv_field;
@@ -458,7 +460,8 @@ e_contact_to_csv (EContact * contact, GSList * csv_all_fields)
 }
 
 gchar *
-e_contact_get_csv (EContact * contact, GSList * csv_all_fields)
+e_contact_get_csv (EContact *contact,
+                   GSList *csv_all_fields)
 {
 	gchar *aline;
 
@@ -467,7 +470,7 @@ e_contact_get_csv (EContact * contact, GSList * csv_all_fields)
 }
 
 gchar *
-check_null_pointer (gchar * orig)
+check_null_pointer (gchar *orig)
 {
 	gchar *result;
 	if (orig == NULL)
@@ -478,7 +481,8 @@ check_null_pointer (gchar * orig)
 }
 
 gchar *
-delivery_address_get_sub_field (const EContactAddress * address, DeliveryAddressField sub_field)
+delivery_address_get_sub_field (const EContactAddress *address,
+                                DeliveryAddressField sub_field)
 {
 	gchar *sub_field_value;
 	gchar *str_temp, *str_temp_a;
@@ -563,7 +567,11 @@ escape_string (gchar *orig)
 }
 
 gint
-output_n_cards_file (FILE * outputfile, GSList *contacts, gint size, gint begin_no, CARD_FORMAT format)
+output_n_cards_file (FILE *outputfile,
+                     GSList *contacts,
+                     gint size,
+                     gint begin_no,
+                     CARD_FORMAT format)
 {
 	gint i;
 	if (format == CARD_FORMAT_VCARD) {
@@ -617,7 +625,8 @@ fork_to_background (void)
 }
 
 static void
-action_list_cards (GSList *contacts, ActionContext * p_actctx)
+action_list_cards (GSList *contacts,
+                   ActionContext *p_actctx)
 {
 	FILE *outputfile;
 	long length;
@@ -711,7 +720,7 @@ action_list_cards (GSList *contacts, ActionContext * p_actctx)
 }
 
 void
-set_pre_defined_field (GSList ** pre_defined_fields)
+set_pre_defined_field (GSList **pre_defined_fields)
 {
 	*pre_defined_fields = NULL;
 	*pre_defined_fields = g_slist_append (*pre_defined_fields, GINT_TO_POINTER (E_CONTACT_CSV_GIVEN_NAME));
@@ -760,7 +769,7 @@ set_pre_defined_field (GSList ** pre_defined_fields)
 }
 
 guint
-action_list_cards_init (ActionContext * p_actctx)
+action_list_cards_init (ActionContext *p_actctx)
 {
 	EBookClient *book_client;
 	EBookQuery *query;

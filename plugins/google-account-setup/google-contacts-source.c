@@ -85,7 +85,8 @@ remove_google_contacts_source_group (void)
 }
 
 static void
-on_username_entry_changed (GtkEntry *entry, gpointer user_data)
+on_username_entry_changed (GtkEntry *entry,
+                           gpointer user_data)
 {
 	ESource *source = user_data;
 	const gchar *text;
@@ -108,7 +109,8 @@ on_username_entry_changed (GtkEntry *entry, gpointer user_data)
 }
 
 static void
-on_ssl_cb_toggled (GtkToggleButton *tb, gpointer user_data)
+on_ssl_cb_toggled (GtkToggleButton *tb,
+                   gpointer user_data)
 {
 	ESource *source = user_data;
 
@@ -127,7 +129,9 @@ typedef enum {
 } IntervalType;
 
 static void
-seconds_to_interval (guint seconds, IntervalType *type, gint *time)
+seconds_to_interval (guint seconds,
+                     IntervalType *type,
+                     gint *time)
 {
 	gint minutes = seconds / 60;
 
@@ -146,7 +150,8 @@ seconds_to_interval (guint seconds, IntervalType *type, gint *time)
 }
 
 static guint
-interval_to_seconds (IntervalType type, gint time)
+interval_to_seconds (IntervalType type,
+                     gint time)
 {
 	switch (type) {
 	case MINUTES:
@@ -165,7 +170,8 @@ interval_to_seconds (IntervalType type, gint time)
 }
 
 static void
-on_interval_sb_value_changed (GtkSpinButton *sb, gpointer user_data)
+on_interval_sb_value_changed (GtkSpinButton *sb,
+                              gpointer user_data)
 {
 	ESource *source = user_data;
 	gdouble time;
@@ -187,7 +193,8 @@ on_interval_sb_value_changed (GtkSpinButton *sb, gpointer user_data)
 }
 
 static void
-on_interval_combo_changed (GtkComboBox *combo, gpointer user_data)
+on_interval_combo_changed (GtkComboBox *combo,
+                           gpointer user_data)
 {
 	ESource *source = user_data;
 	gdouble time;
@@ -234,7 +241,8 @@ check_username_filled (ESource *source)
 }
 
 gpointer
-plugin_google_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
+plugin_google_contacts_check (EPlugin *epl,
+                              EConfigHookPageCheckData *data)
 {
 	EABConfigTargetSource *t;
 

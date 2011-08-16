@@ -689,7 +689,8 @@ exit:
 }
 
 static gboolean
-subdirs_contain_unread (GtkTreeModel *model, GtkTreeIter *root)
+subdirs_contain_unread (GtkTreeModel *model,
+                        GtkTreeIter *root)
 {
 	guint unread;
 	GtkTreeIter iter;
@@ -2011,9 +2012,9 @@ struct _DragDataReceivedAsync {
 	guint32 action;
 	guint info;
 
-	guint move:1;
-	guint moved:1;
-	guint aborted:1;
+	guint move : 1;
+	guint moved : 1;
+	guint aborted : 1;
 };
 
 static void
@@ -2318,7 +2319,7 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 					COL_UINT_FLAGS, &src_flags, -1);
 
 			/* can't dnd onto itself or below itself - bad things happen,
-			   no point dragging to where we were either */
+			 * no point dragging to where we were either */
 			if (gtk_tree_path_compare (path, src_path) == 0
 			    || gtk_tree_path_is_descendant (path, src_path)
 			    || (gtk_tree_path_is_ancestor (path, src_path)
@@ -2716,10 +2717,10 @@ em_folder_tree_enable_drag_and_drop (EMFolderTree *folder_tree)
 	tree_view = GTK_TREE_VIEW (folder_tree);
 
 	if (!setup) {
-		for (i=0; i<NUM_DRAG_TYPES; i++)
+		for (i = 0; i < NUM_DRAG_TYPES; i++)
 			drag_atoms[i] = gdk_atom_intern (drag_types[i].target, FALSE);
 
-		for (i=0; i<NUM_DROP_TYPES; i++)
+		for (i = 0; i < NUM_DROP_TYPES; i++)
 			drop_atoms[i] = gdk_atom_intern (drop_types[i].target, FALSE);
 
 		setup = 1;
@@ -2759,7 +2760,8 @@ em_folder_tree_enable_drag_and_drop (EMFolderTree *folder_tree)
 }
 
 void
-em_folder_tree_set_excluded (EMFolderTree *folder_tree, guint32 flags)
+em_folder_tree_set_excluded (EMFolderTree *folder_tree,
+                             guint32 flags)
 {
 	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
 
@@ -2798,7 +2800,7 @@ em_folder_tree_get_selected_uris (EMFolderTree *folder_tree)
 	}
 
 	rows = gtk_tree_selection_get_selected_rows (selection, &model);
-	for (l=rows; l; l=g_list_next (l)) {
+	for (l = rows; l; l = g_list_next (l)) {
 		GtkTreeIter iter;
 		GtkTreePath *path = l->data;
 
@@ -2860,7 +2862,7 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
 	if (!expand_only)
 		folder_tree_clear_selected_list (folder_tree);
 
-	for (;list;list = list->next) {
+	for (; list; list = list->next) {
 		CamelStore *store;
 		struct _selected_uri *u;
 		const gchar *folder_uri;
@@ -2911,7 +2913,8 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
 
 #if 0
 static void
-dump_fi (CamelFolderInfo *fi, gint depth)
+dump_fi (CamelFolderInfo *fi,
+         gint depth)
 {
 	gint i;
 
@@ -2946,7 +2949,8 @@ em_folder_tree_set_selected (EMFolderTree *folder_tree,
 }
 
 void
-em_folder_tree_select_next_path (EMFolderTree *folder_tree, gboolean skip_read_folders)
+em_folder_tree_select_next_path (EMFolderTree *folder_tree,
+                                 gboolean skip_read_folders)
 {
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
@@ -3212,7 +3216,8 @@ em_folder_tree_get_selected (EMFolderTree *folder_tree,
 }
 
 gboolean
-em_folder_tree_store_root_selected (EMFolderTree *folder_tree, CamelStore **out_store)
+em_folder_tree_store_root_selected (EMFolderTree *folder_tree,
+                                    CamelStore **out_store)
 {
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
@@ -3317,14 +3322,16 @@ em_folder_tree_get_selected_store (EMFolderTree *folder_tree)
 }
 
 void
-em_folder_tree_set_skip_double_click (EMFolderTree *folder_tree, gboolean skip)
+em_folder_tree_set_skip_double_click (EMFolderTree *folder_tree,
+                                      gboolean skip)
 {
 	folder_tree->priv->skip_double_click = skip;
 }
 
 /* stores come first, then by uri */
 static gint
-sort_by_store_and_uri (gconstpointer name1, gconstpointer name2)
+sort_by_store_and_uri (gconstpointer name1,
+                       gconstpointer name2)
 {
 	const gchar *n1 = name1, *n2 = name2;
 	gboolean is_store1, is_store2;

@@ -285,7 +285,7 @@ e_mail_store_add_by_account (EMailSession *session,
 	transport_only = !account->source || !account->source->url || !*account->source->url;
 	if (transport_only)
 		goto handle_transport;
-		
+
 	/* Load the service, but don't connect.  Check its provider,
 	 * and if this belongs in the folder tree model, add it. */
 

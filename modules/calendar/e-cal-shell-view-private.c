@@ -828,7 +828,8 @@ struct ForeachTzidData
 };
 
 static void
-add_timezone_to_cal_cb (icalparameter *param, gpointer data)
+add_timezone_to_cal_cb (icalparameter *param,
+                        gpointer data)
 {
 	struct ForeachTzidData *ftd = data;
 	icaltimezone *tz = NULL;

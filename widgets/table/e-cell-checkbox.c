@@ -42,9 +42,13 @@ G_DEFINE_TYPE (ECellCheckbox, e_cell_checkbox, E_TYPE_CELL_TOGGLE)
 static GdkPixbuf *checks[2];
 
 static void
-ecc_print (ECellView *ecell_view, GtkPrintContext *context,
-	    gint model_col, gint view_col, gint row,
-	    gdouble width, gdouble height)
+ecc_print (ECellView *ecell_view,
+           GtkPrintContext *context,
+           gint model_col,
+           gint view_col,
+           gint row,
+           gdouble width,
+           gdouble height)
 {
 	cairo_t *cr = gtk_print_context_get_cairo_context (context);
 	const gint value = GPOINTER_TO_INT (

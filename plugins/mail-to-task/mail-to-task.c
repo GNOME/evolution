@@ -70,7 +70,7 @@ gboolean	mail_browser_init		(GtkUIManager *ui_manager,
 gboolean	mail_shell_view_init		(GtkUIManager *ui_manager,
 						 EShellView *shell_view);
 
-static CompEditor*
+static CompEditor *
 get_component_editor (EShell *shell,
                       ECalClient *client,
                       ECalComponent *comp,
@@ -144,7 +144,9 @@ get_component_editor (EShell *shell,
 }
 
 static void
-set_attendees (ECalComponent *comp, CamelMimeMessage *message, const gchar *organizer)
+set_attendees (ECalComponent *comp,
+               CamelMimeMessage *message,
+               const gchar *organizer)
 {
 	GSList *attendees = NULL, *to_free = NULL;
 	ECalComponentAttendee *ca;
@@ -214,7 +216,8 @@ set_attendees (ECalComponent *comp, CamelMimeMessage *message, const gchar *orga
 }
 
 static const gchar *
-prepend_from (CamelMimeMessage *message, gchar **text)
+prepend_from (CamelMimeMessage *message,
+              gchar **text)
 {
 	gchar *res, *tmp, *addr = NULL;
 	const gchar *name = NULL, *eml = NULL;
@@ -245,7 +248,8 @@ prepend_from (CamelMimeMessage *message, gchar **text)
 }
 
 static void
-set_description (ECalComponent *comp, CamelMimeMessage *message)
+set_description (ECalComponent *comp,
+                 CamelMimeMessage *message)
 {
 	CamelDataWrapper *content;
 	CamelStream *stream;
@@ -308,7 +312,8 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 }
 
 static gchar *
-set_organizer (ECalComponent *comp, CamelFolder *folder)
+set_organizer (ECalComponent *comp,
+               CamelFolder *folder)
 {
 	EAccount *account = NULL;
 	const gchar *str, *name;
@@ -380,7 +385,9 @@ attachment_save_finished (EAttachmentStore *store,
 }
 
 static void
-set_attachments (ECalClient *client, ECalComponent *comp, CamelMimeMessage *message)
+set_attachments (ECalClient *client,
+                 ECalComponent *comp,
+                 CamelMimeMessage *message)
 {
 	/* XXX Much of this is copied from CompEditor::get_attachment_list().
 	 *     Perhaps it should be split off as a separate utility? */
@@ -480,7 +487,8 @@ set_attachments (ECalClient *client, ECalComponent *comp, CamelMimeMessage *mess
 }
 
 static void
-set_priority (ECalComponent *comp, CamelMimePart *part)
+set_priority (ECalComponent *comp,
+              CamelMimePart *part)
 {
 	const gchar *prio;
 
@@ -515,7 +523,8 @@ do_report_error (struct _report_error *err)
 }
 
 static void
-report_error_idle (const gchar *format, const gchar *param)
+report_error_idle (const gchar *format,
+                   const gchar *param)
 {
 	struct _report_error *err = g_new (struct _report_error, 1);
 
@@ -559,7 +568,8 @@ free_manage_comp_struct (struct _manage_comp *mc)
 }
 
 static gint
-do_ask (const gchar *text, gboolean is_create_edit_add)
+do_ask (const gchar *text,
+        gboolean is_create_edit_add)
 {
 	gint res;
 	GtkWidget *dialog = gtk_message_dialog_new (NULL,
@@ -631,8 +641,8 @@ get_question_add_all_mails (ECalClientSourceType source_type)
 
 static void
 comp_editor_closed (CompEditor *editor,
-		    gboolean accepted,
-		    struct _manage_comp *mc)
+                    gboolean accepted,
+                    struct _manage_comp *mc)
 {
 	if (!mc)
 		return;
@@ -641,7 +651,7 @@ comp_editor_closed (CompEditor *editor,
 		mc->can_continue = (do_ask (_("Do you wish to continue converting remaining mails?"), FALSE) == GTK_RESPONSE_YES);
 
 	/* Signal the do_mail_to_event thread that editor was closed and editor
-	   for next event can be displayed (if any) */
+	 * for next event can be displayed (if any) */
 	g_cond_signal (mc->cond);
 }
 
@@ -653,8 +663,8 @@ comp_editor_closed (CompEditor *editor,
  */
 static void
 comp_editor_title_changed (GtkWidget *widget,
-			   GParamSpec *pspec,
-			   struct _manage_comp *mc)
+                           GParamSpec *pspec,
+                           struct _manage_comp *mc)
 {
 	GtkWindow *editor = GTK_WINDOW (widget);
 	const gchar *title = gtk_window_get_title (editor);
@@ -679,8 +689,8 @@ comp_editor_title_changed (GtkWidget *widget,
 			comp_name, mc->mails_done, mc->mails_count, task_name);
 
 	/* Remember the new title, so that when gtk_window_set_title() causes
-	   this handler to be recursively called, we can recognize that and
-	   prevent endless recursion */
+	 * this handler to be recursively called, we can recognize that and
+	 * prevent endless recursion */
 	if (mc->editor_title)
 		g_free (mc->editor_title);
 	mc->editor_title = new_title;
@@ -996,12 +1006,13 @@ do_mail_to_event (AsyncData *data)
 }
 
 static gboolean
-text_contains_nonwhitespace (const gchar *text, gint len)
+text_contains_nonwhitespace (const gchar *text,
+                             gint len)
 {
 	const gchar *p;
 	gunichar c = 0;
 
-	if (!text || len<=0)
+	if (!text || len <= 0)
 		return FALSE;
 
 	p = text;

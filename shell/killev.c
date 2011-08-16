@@ -107,7 +107,8 @@ kill_factories (void)
 }
 
 gint
-main (gint argc, gchar **argv)
+main (gint argc,
+      gchar **argv)
 {
 	GFile *pid_file;
 	GFileMonitor *monitor;

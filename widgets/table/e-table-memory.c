@@ -113,7 +113,8 @@ e_table_memory_new (void)
  * Return value:
  **/
 gpointer
-e_table_memory_get_data (ETableMemory *etmm, gint row)
+e_table_memory_get_data (ETableMemory *etmm,
+                         gint row)
 {
 	g_return_val_if_fail (row >= 0, NULL);
 	g_return_val_if_fail (row < etmm->priv->num_rows, NULL);
@@ -130,7 +131,9 @@ e_table_memory_get_data (ETableMemory *etmm, gint row)
  *
  **/
 void
-e_table_memory_set_data (ETableMemory *etmm, gint row, gpointer data)
+e_table_memory_set_data (ETableMemory *etmm,
+                         gint row,
+                         gpointer data)
 {
 	g_return_if_fail (row >= 0);
 	g_return_if_fail (row < etmm->priv->num_rows);
@@ -151,8 +154,8 @@ e_table_memory_set_data (ETableMemory *etmm, gint row, gpointer data)
  **/
 void
 e_table_memory_insert (ETableMemory *etmm,
-		       gint row,
-		       gpointer data)
+                       gint row,
+                       gpointer data)
 {
 	g_return_if_fail (row >= -1);
 	g_return_if_fail (row <= etmm->priv->num_rows);
@@ -185,7 +188,8 @@ e_table_memory_insert (ETableMemory *etmm,
  * Return value:
  **/
 gpointer
-e_table_memory_remove (ETableMemory *etmm, gint row)
+e_table_memory_remove (ETableMemory *etmm,
+                       gint row)
 {
 	gpointer ret;
 

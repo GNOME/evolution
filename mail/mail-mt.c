@@ -303,7 +303,8 @@ mail_msg_active (void)
 static GHookList cancel_hook_list;
 
 GHook *
-mail_cancel_hook_add (GHookFunc func, gpointer data)
+mail_cancel_hook_add (GHookFunc func,
+                      gpointer data)
 {
 	GHook *hook;
 
@@ -440,7 +441,8 @@ mail_msg_init (void)
 }
 
 static gint
-mail_msg_compare (const MailMsg *msg1, const MailMsg *msg2)
+mail_msg_compare (const MailMsg *msg1,
+                  const MailMsg *msg2)
 {
 	gint priority1 = msg1->priority;
 	gint priority2 = msg2->priority;
@@ -598,7 +600,9 @@ static MailMsgInfo mail_call_info = {
 };
 
 gpointer
-mail_call_main (mail_call_t type, MailMainFunc func, ...)
+mail_call_main (mail_call_t type,
+                MailMainFunc func,
+                ...)
 {
 	GCancellable *cancellable;
 	struct _call_msg *m;

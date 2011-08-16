@@ -358,7 +358,7 @@ folder_changed_cb (CamelFolder *folder,
 	    && folder != local_sent
 	    && changes && (changes->uid_added->len > 0)) {
 		/* for each added message, check to see that it is
-		   brand new, not junk and not already deleted */
+		 * brand new, not junk and not already deleted */
 		for (i = 0; i < changes->uid_added->len; i++) {
 			info = camel_folder_get_message_info (
 				folder, changes->uid_added->pdata[i]);
@@ -451,7 +451,9 @@ free_folder_info (struct _folder_info *mfi)
 }
 
 static void
-setup_folder (MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *si)
+setup_folder (MailFolderCache *self,
+              CamelFolderInfo *fi,
+              struct _store_info *si)
 {
 	struct _folder_info *mfi;
 	struct _folder_update *up;
@@ -482,7 +484,9 @@ setup_folder (MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *si
 }
 
 static void
-create_folders (MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *si)
+create_folders (MailFolderCache *self,
+                CamelFolderInfo *fi,
+                struct _store_info *si)
 {
 	while (fi) {
 		setup_folder (self, fi, si);
@@ -600,7 +604,7 @@ rename_folders (MailFolderCache *self,
 	}
 
 	up->full_name = g_strdup (mfi->full_name);
-	up->unread = fi->unread==-1?0:fi->unread;
+	up->unread = fi->unread==-1 ? 0 : fi->unread;
 	up->store = g_object_ref (si->store);
 
 	if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0)
@@ -638,7 +642,8 @@ rename_folders (MailFolderCache *self,
 }
 
 static void
-get_folders (CamelFolderInfo *fi, GPtrArray *folders)
+get_folders (CamelFolderInfo *fi,
+             GPtrArray *folders)
 {
 	while (fi) {
 		g_ptr_array_add (folders, fi);
@@ -651,7 +656,8 @@ get_folders (CamelFolderInfo *fi, GPtrArray *folders)
 }
 
 static gint
-folder_cmp (gconstpointer ap, gconstpointer bp)
+folder_cmp (gconstpointer ap,
+            gconstpointer bp)
 {
 	const CamelFolderInfo *a = ((CamelFolderInfo **) ap)[0];
 	const CamelFolderInfo *b = ((CamelFolderInfo **) bp)[0];
@@ -675,12 +681,12 @@ store_folder_renamed_cb (CamelStore *store,
 		gint i;
 
 		/* Ok, so for some reason the folderinfo we have comes in all messed up from
-		   imap, should find out why ... this makes it workable */
+		 * imap, should find out why ... this makes it workable */
 		get_folders (info, folders);
 		qsort (folders->pdata, folders->len, sizeof (folders->pdata[0]), folder_cmp);
 
 		top = folders->pdata[0];
-		for (i=0;i<folders->len;i++) {
+		for (i = 0; i < folders->len; i++) {
 			rename_folders (self, si, old_name, top->full_name, folders->pdata[i]);
 		}
 
@@ -698,14 +704,18 @@ struct _update_data {
 };
 
 static void
-unset_folder_info_hash (gchar *path, struct _folder_info *mfi, gpointer data)
+unset_folder_info_hash (gchar *path,
+                        struct _folder_info *mfi,
+                        gpointer data)
 {
-	MailFolderCache *self = (MailFolderCache*) data;
+	MailFolderCache *self = (MailFolderCache *) data;
 	unset_folder_info (self, mfi, FALSE, FALSE);
 }
 
 static void
-free_folder_info_hash (gchar *path, struct _folder_info *mfi, gpointer data)
+free_folder_info_hash (gchar *path,
+                       struct _folder_info *mfi,
+                       gpointer data)
 {
 	free_folder_info (mfi);
 }
@@ -902,7 +912,7 @@ storeinfo_find_folder_info (CamelStore *store,
 static void
 mail_folder_cache_finalize (GObject *object)
 {
-	MailFolderCache *cache = (MailFolderCache*) object;
+	MailFolderCache *cache = (MailFolderCache *) object;
 
 	g_hash_table_destroy (cache->priv->stores);
 	g_mutex_free (cache->priv->stores_mutex);
@@ -1350,7 +1360,7 @@ mail_folder_cache_get_folder_info_flags (MailFolderCache *self,
 }
 
 /* Returns whether folder 'folder' has children based on folder_info->child property.
-   If not found returns FALSE and sets 'found' to FALSE, if not NULL. */
+ * If not found returns FALSE and sets 'found' to FALSE, if not NULL. */
 gboolean
 mail_folder_cache_get_folder_has_children (MailFolderCache *self,
                                            CamelFolder *folder,

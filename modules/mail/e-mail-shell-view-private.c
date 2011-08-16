@@ -487,8 +487,8 @@ mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
 
 static void
 mail_shell_view_reader_update_actions_cb (EMailReader *reader,
-					  guint32 state,
-					  EMailShellView *mail_shell_view)
+                                          guint32 state,
+                                          EMailShellView *mail_shell_view)
 {
 	EMailShellContent *mail_shell_content;
 
@@ -722,7 +722,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		e_mail_shell_content_get_mail_view (mail_shell_content), "update-actions",
+		mail_view, "update-actions",
 		G_CALLBACK (mail_shell_view_reader_update_actions_cb),
 		mail_shell_view, 0);
 

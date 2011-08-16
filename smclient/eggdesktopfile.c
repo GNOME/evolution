@@ -53,7 +53,8 @@ struct EggDesktopFile {
  * Return value: the new #EggDesktopFile, or %NULL on error.
  **/
 EggDesktopFile *
-egg_desktop_file_new (const gchar *desktop_file_path, GError **error)
+egg_desktop_file_new (const gchar *desktop_file_path,
+                      GError **error)
 {
   GKeyFile *key_file;
 
@@ -80,8 +81,8 @@ egg_desktop_file_new (const gchar *desktop_file_path, GError **error)
  * Return value: the new #EggDesktopFile, or %NULL on error.
  **/
 EggDesktopFile *
-egg_desktop_file_new_from_data_dirs (const gchar  *desktop_file_path,
-				     GError     **error)
+egg_desktop_file_new_from_data_dirs (const gchar *desktop_file_path,
+                                     GError **error)
 {
   EggDesktopFile *desktop_file;
   GKeyFile *key_file;
@@ -115,9 +116,9 @@ egg_desktop_file_new_from_data_dirs (const gchar  *desktop_file_path,
  * Return value: the new #EggDesktopFile, or %NULL on error.
  **/
 EggDesktopFile *
-egg_desktop_file_new_from_dirs (const gchar  *desktop_file_path,
-				const gchar **search_dirs,
-				GError     **error)
+egg_desktop_file_new_from_dirs (const gchar *desktop_file_path,
+                                const gchar **search_dirs,
+                                GError **error)
 {
   EggDesktopFile *desktop_file;
   GKeyFile *key_file;
@@ -151,9 +152,9 @@ egg_desktop_file_new_from_dirs (const gchar  *desktop_file_path,
  * Return value: the new #EggDesktopFile, or %NULL on error.
  **/
 EggDesktopFile *
-egg_desktop_file_new_from_key_file (GKeyFile    *key_file,
-				    const gchar  *source,
-				    GError     **error)
+egg_desktop_file_new_from_key_file (GKeyFile *key_file,
+                                    const gchar *source,
+                                    GError **error)
 {
   EggDesktopFile *desktop_file;
   gchar *version, *type;
@@ -381,9 +382,9 @@ egg_desktop_file_get_icon (EggDesktopFile *desktop_file)
 }
 
 gboolean
-egg_desktop_file_has_key (EggDesktopFile  *desktop_file,
-			  const gchar      *key,
-			  GError         **error)
+egg_desktop_file_has_key (EggDesktopFile *desktop_file,
+                          const gchar *key,
+                          GError **error)
 {
   return g_key_file_has_key (desktop_file->key_file,
 			     EGG_DESKTOP_FILE_GROUP, key,
@@ -391,9 +392,9 @@ egg_desktop_file_has_key (EggDesktopFile  *desktop_file,
 }
 
 gchar *
-egg_desktop_file_get_string (EggDesktopFile  *desktop_file,
-			     const gchar      *key,
-			     GError         **error)
+egg_desktop_file_get_string (EggDesktopFile *desktop_file,
+                             const gchar *key,
+                             GError **error)
 {
   return g_key_file_get_string (desktop_file->key_file,
 				EGG_DESKTOP_FILE_GROUP, key,
@@ -401,10 +402,10 @@ egg_desktop_file_get_string (EggDesktopFile  *desktop_file,
 }
 
 gchar *
-egg_desktop_file_get_locale_string (EggDesktopFile  *desktop_file,
-				    const gchar      *key,
-				    const gchar      *locale,
-				    GError         **error)
+egg_desktop_file_get_locale_string (EggDesktopFile *desktop_file,
+                                    const gchar *key,
+                                    const gchar *locale,
+                                    GError **error)
 {
   return g_key_file_get_locale_string (desktop_file->key_file,
 				       EGG_DESKTOP_FILE_GROUP, key, locale,
@@ -412,9 +413,9 @@ egg_desktop_file_get_locale_string (EggDesktopFile  *desktop_file,
 }
 
 gboolean
-egg_desktop_file_get_boolean (EggDesktopFile  *desktop_file,
-			      const gchar      *key,
-			      GError         **error)
+egg_desktop_file_get_boolean (EggDesktopFile *desktop_file,
+                              const gchar *key,
+                              GError **error)
 {
   return g_key_file_get_boolean (desktop_file->key_file,
 				 EGG_DESKTOP_FILE_GROUP, key,
@@ -422,9 +423,9 @@ egg_desktop_file_get_boolean (EggDesktopFile  *desktop_file,
 }
 
 gdouble
-egg_desktop_file_get_numeric (EggDesktopFile  *desktop_file,
-			      const gchar      *key,
-			      GError         **error)
+egg_desktop_file_get_numeric (EggDesktopFile *desktop_file,
+                              const gchar *key,
+                              GError **error)
 {
   return g_key_file_get_double (desktop_file->key_file,
 				EGG_DESKTOP_FILE_GROUP, key,
@@ -432,10 +433,10 @@ egg_desktop_file_get_numeric (EggDesktopFile  *desktop_file,
 }
 
 gchar **
-egg_desktop_file_get_string_list (EggDesktopFile  *desktop_file,
-				  const gchar      *key,
-				  gsize           *length,
-				  GError         **error)
+egg_desktop_file_get_string_list (EggDesktopFile *desktop_file,
+                                  const gchar *key,
+                                  gsize *length,
+                                  GError **error)
 {
   return g_key_file_get_string_list (desktop_file->key_file,
 				     EGG_DESKTOP_FILE_GROUP, key, length,
@@ -443,11 +444,11 @@ egg_desktop_file_get_string_list (EggDesktopFile  *desktop_file,
 }
 
 gchar **
-egg_desktop_file_get_locale_string_list (EggDesktopFile  *desktop_file,
-					 const gchar      *key,
-					 const gchar      *locale,
-					 gsize           *length,
-					 GError         **error)
+egg_desktop_file_get_locale_string_list (EggDesktopFile *desktop_file,
+                                         const gchar *key,
+                                         const gchar *locale,
+                                         gsize *length,
+                                         GError **error)
 {
   return g_key_file_get_locale_string_list (desktop_file->key_file,
 					    EGG_DESKTOP_FILE_GROUP, key,
@@ -477,7 +478,7 @@ egg_desktop_file_get_locale_string_list (EggDesktopFile  *desktop_file,
  **/
 gboolean
 egg_desktop_file_can_launch (EggDesktopFile *desktop_file,
-			     const gchar     *desktop_environment)
+                             const gchar *desktop_environment)
 {
   gchar *try_exec, *found_program;
   gchar **only_show_in, **not_show_in;
@@ -599,10 +600,10 @@ egg_desktop_file_accepts_uris (EggDesktopFile *desktop_file)
 }
 
 static void
-append_quoted_word (GString    *str,
-		    const gchar *s,
-		    gboolean    in_single_quotes,
-		    gboolean    in_double_quotes)
+append_quoted_word (GString *str,
+                    const gchar *s,
+                    gboolean in_single_quotes,
+                    gboolean in_double_quotes)
 {
   const gchar *p;
 
@@ -632,11 +633,11 @@ append_quoted_word (GString    *str,
 
 static void
 do_percent_subst (EggDesktopFile *desktop_file,
-		  gchar            code,
-		  GString        *str,
-		  GSList        **documents,
-		  gboolean        in_single_quotes,
-		  gboolean        in_double_quotes)
+                  gchar code,
+                  GString *str,
+                  GSList **documents,
+                  gboolean in_single_quotes,
+                  gboolean in_double_quotes)
 {
   GSList *d;
   gchar *doc;
@@ -710,9 +711,9 @@ do_percent_subst (EggDesktopFile *desktop_file,
 }
 
 static gchar *
-parse_exec (EggDesktopFile  *desktop_file,
-	    GSList         **documents,
-	    GError         **error)
+parse_exec (EggDesktopFile *desktop_file,
+            GSList **documents,
+            GError **error)
 {
   gchar *exec, *p, *command;
   gboolean escape, single_quot, double_quot;
@@ -803,7 +804,8 @@ parse_exec (EggDesktopFile  *desktop_file,
 }
 
 static GSList *
-translate_document_list (EggDesktopFile *desktop_file, GSList *documents)
+translate_document_list (EggDesktopFile *desktop_file,
+                         GSList *documents)
 {
   gboolean accepts_uris = egg_desktop_file_accepts_uris (desktop_file);
   GSList *ret, *d;
@@ -863,9 +865,9 @@ free_document_list (GSList *documents)
  * Return value: the parsed Exec string
  **/
 gchar *
-egg_desktop_file_parse_exec (EggDesktopFile  *desktop_file,
-			     GSList          *documents,
-			     GError         **error)
+egg_desktop_file_parse_exec (EggDesktopFile *desktop_file,
+                             GSList *documents,
+                             GError **error)
 {
   GSList *translated, *docs;
   gchar *command;
@@ -878,10 +880,10 @@ egg_desktop_file_parse_exec (EggDesktopFile  *desktop_file,
 }
 
 static gboolean
-parse_link (EggDesktopFile  *desktop_file,
-	    EggDesktopFile **app_desktop_file,
-	    GSList         **documents,
-	    GError         **error)
+parse_link (EggDesktopFile *desktop_file,
+            EggDesktopFile **app_desktop_file,
+            GSList **documents,
+            GError **error)
 {
   gchar *url;
   GKeyFile *key_file;
@@ -910,12 +912,12 @@ parse_link (EggDesktopFile  *desktop_file,
 }
 
 static gchar *
-start_startup_notification (GdkDisplay     *display,
-			    EggDesktopFile *desktop_file,
-			    const gchar     *argv0,
-			    gint             screen,
-			    gint             workspace,
-			    guint32         launch_time)
+start_startup_notification (GdkDisplay *display,
+                            EggDesktopFile *desktop_file,
+                            const gchar *argv0,
+                            gint screen,
+                            gint workspace,
+                            guint32 launch_time)
 {
   static gint sequence = 0;
   gchar *startup_id;
@@ -944,15 +946,15 @@ start_startup_notification (GdkDisplay     *display,
 	return NULL;
     }
 
-  if (launch_time == (guint32)-1)
+  if (launch_time == (guint32) - 1)
     launch_time = gdk_x11_display_get_user_time (display);
   startup_id = g_strdup_printf ("%s-%lu-%s-%s-%d_TIME%lu",
 				g_get_prgname (),
-				(unsigned long) getpid (),
+				(gulong) getpid (),
 				g_get_host_name (),
 				argv0,
 				sequence++,
-				(unsigned long) launch_time);
+				(gulong) launch_time);
 
   description = g_strdup_printf (_("Starting %s"), desktop_file->name);
   screen_str = g_strdup_printf ("%d", screen);
@@ -979,7 +981,7 @@ start_startup_notification (GdkDisplay     *display,
 
 static void
 end_startup_notification (GdkDisplay *display,
-			  const gchar *startup_id)
+                          const gchar *startup_id)
 {
   gdk_x11_display_broadcast_startup_message (display, "remove",
 					     "ID", startup_id,
@@ -1008,7 +1010,7 @@ startup_notification_timeout (gpointer data)
 
 static void
 set_startup_notification_timeout (GdkDisplay *display,
-				  const gchar *startup_id)
+                                  const gchar *startup_id)
 {
   StartupNotificationData *sn_data;
 
@@ -1021,7 +1023,8 @@ set_startup_notification_timeout (GdkDisplay *display,
 }
 
 static GPtrArray *
-array_putenv (GPtrArray *env, gchar *variable)
+array_putenv (GPtrArray *env,
+              gchar *variable)
 {
   guint i, keylen;
 
@@ -1066,8 +1069,9 @@ array_putenv (GPtrArray *env, gchar *variable)
 
 static gboolean
 egg_desktop_file_launchv (EggDesktopFile *desktop_file,
-			  GSList *documents, va_list args,
-			  GError **error)
+                          GSList *documents,
+                          va_list args,
+                          GError **error)
 {
   EggDesktopFileLaunchOption option;
   GSList *translated_documents = NULL, *docs = NULL;
@@ -1082,7 +1086,7 @@ egg_desktop_file_launchv (EggDesktopFile *desktop_file,
   GdkScreen   *screen = NULL;
   gint          workspace = -1;
   const gchar  *directory = NULL;
-  guint32      launch_time = (guint32)-1;
+  guint32      launch_time = (guint32) - 1;
   GSpawnFlags  flags = G_SPAWN_SEARCH_PATH;
   GSpawnChildSetupFunc setup_func = NULL;
   gpointer     setup_data = NULL;
@@ -1341,8 +1345,9 @@ egg_desktop_file_launchv (EggDesktopFile *desktop_file,
  **/
 gboolean
 egg_desktop_file_launch (EggDesktopFile *desktop_file,
-			 GSList *documents, GError **error,
-			 ...)
+                         GSList *documents,
+                         GError **error,
+                         ...)
 {
   va_list args;
   gboolean success;

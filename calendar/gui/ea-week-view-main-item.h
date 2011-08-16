@@ -52,7 +52,7 @@ struct _EaWeekViewMainItemClass
 	AtkGObjectAccessibleClass parent_class;
 };
 
-AtkObject*     ea_week_view_main_item_new         (GObject *obj);
+AtkObject *     ea_week_view_main_item_new         (GObject *obj);
 
 G_END_DECLS
 

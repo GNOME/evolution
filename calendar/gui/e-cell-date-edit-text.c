@@ -120,9 +120,9 @@ cell_date_edit_text_get_text (ECellText *cell,
 	timezone = e_cell_date_edit_text_get_timezone (ecd);
 
 	/* Note that although the property may be in a different
-	   timezone, we convert it to the current timezone to display
-	   it in the table. If the user actually edits the value,
-	   it will be set to the current timezone. See set_value (). */
+	 * timezone, we convert it to the current timezone to display
+	 * it in the table. If the user actually edits the value,
+	 * it will be set to the current timezone. See set_value (). */
 	tmp_tm = icaltimetype_to_tm_with_zone (&dv->tt, dv->zone, timezone);
 
 	return e_datetime_format_format_tm (
@@ -148,7 +148,7 @@ show_date_warning (ECellDateEditText *ecd)
 
 	t = time (NULL);
 	/* We are only using this as an example, so the timezone doesn't
-	   matter. */
+	 * matter. */
 	tmp_tm = localtime (&t);
 
 	if (e_cell_date_edit_text_get_use_24_hour_format (ecd))
@@ -184,7 +184,7 @@ cell_date_edit_text_set_value (ECellText *cell,
 	gboolean is_date = TRUE;
 
 	/* Try to parse just a date first. If the value is only a date, we
-	   use a DATE value. */
+	 * use a DATE value. */
 	status = e_time_parse_date (text, &tmp_tm);
 	if (status == E_TIME_PARSE_INVALID) {
 		is_date = FALSE;
@@ -212,7 +212,7 @@ cell_date_edit_text_set_value (ECellText *cell,
 		dv.tt.is_date = is_date;
 
 		/* FIXME: We assume it is being set to the current timezone.
-		   Is that OK? */
+		 * Is that OK? */
 		if (is_date) {
 			dv.zone = NULL;
 		} else {
@@ -310,7 +310,7 @@ e_cell_date_edit_text_get_type (void)
  */
 ECell *
 e_cell_date_edit_text_new (const gchar *fontname,
-			   GtkJustification justify)
+                           GtkJustification justify)
 {
 	ECell *cell;
 
@@ -330,7 +330,7 @@ e_cell_date_edit_text_get_timezone (ECellDateEditText *ecd)
 
 void
 e_cell_date_edit_text_set_timezone (ECellDateEditText *ecd,
-				    icaltimezone *timezone)
+                                    icaltimezone *timezone)
 {
 	g_return_if_fail (E_IS_CELL_DATE_EDIT_TEXT (ecd));
 
@@ -349,7 +349,7 @@ e_cell_date_edit_text_get_use_24_hour_format (ECellDateEditText *ecd)
 
 void
 e_cell_date_edit_text_set_use_24_hour_format (ECellDateEditText *ecd,
-					      gboolean use_24_hour)
+                                              gboolean use_24_hour)
 {
 	g_return_if_fail (E_IS_CELL_DATE_EDIT_TEXT (ecd));
 
@@ -359,7 +359,9 @@ e_cell_date_edit_text_set_use_24_hour_format (ECellDateEditText *ecd,
 }
 
 gint
-e_cell_date_edit_compare_cb (gconstpointer a, gconstpointer b, gpointer cmp_cache)
+e_cell_date_edit_compare_cb (gconstpointer a,
+                             gconstpointer b,
+                             gpointer cmp_cache)
 {
 	ECellDateEditValue *dv1 = (ECellDateEditValue *) a;
 	ECellDateEditValue *dv2 = (ECellDateEditValue *) b;

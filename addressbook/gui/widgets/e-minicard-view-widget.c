@@ -37,12 +37,12 @@ static void	e_minicard_view_widget_class_init
 						 (EMinicardViewWidgetClass *class);
 static void	e_minicard_view_widget_set_property
 						(GObject *object,
-						 guint prop_id,
+						 guint property_id,
 						 const GValue *value,
 						 GParamSpec *pspec);
 static void	e_minicard_view_widget_get_property
 						(GObject *object,
-						 guint prop_id,
+						 guint property_id,
 						 GValue *value,
 						 GParamSpec *pspec);
 static void	e_minicard_view_widget_dispose	(GObject *object);
@@ -231,15 +231,15 @@ e_minicard_view_widget_new (EAddressbookReflowAdapter *adapter)
 
 static void
 e_minicard_view_widget_set_property (GObject *object,
-				     guint prop_id,
-				     const GValue *value,
-				     GParamSpec *pspec)
+                                     guint property_id,
+                                     const GValue *value,
+                                     GParamSpec *pspec)
 {
 	EMinicardViewWidget *emvw;
 
 	emvw = E_MINICARD_VIEW_WIDGET (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_CLIENT:
 		if (emvw->book_client)
 			g_object_unref (emvw->book_client);
@@ -277,22 +277,22 @@ e_minicard_view_widget_set_property (GObject *object,
 		}
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
 
 static void
 e_minicard_view_widget_get_property (GObject *object,
-				     guint prop_id,
-				     GValue *value,
-				     GParamSpec *pspec)
+                                     guint property_id,
+                                     GValue *value,
+                                     GParamSpec *pspec)
 {
 	EMinicardViewWidget *emvw;
 
 	emvw = E_MINICARD_VIEW_WIDGET (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_CLIENT:
 		g_value_set_object (value, emvw->book_client);
 		break;
@@ -306,7 +306,7 @@ e_minicard_view_widget_get_property (GObject *object,
 		g_value_set_double (value, emvw->column_width);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
@@ -335,49 +335,57 @@ e_minicard_view_widget_dispose (GObject *object)
 }
 
 static void
-selection_change (ESelectionModel *esm, EMinicardViewWidget *widget)
+selection_change (ESelectionModel *esm,
+                  EMinicardViewWidget *widget)
 {
-	g_signal_emit (widget,
-		       signals[SELECTION_CHANGE], 0);
+	g_signal_emit (widget, signals[SELECTION_CHANGE], 0);
 }
 
 static void
-selection_row_change (ESelectionModel *esm, gint row, EMinicardViewWidget *widget)
+selection_row_change (ESelectionModel *esm,
+                      gint row,
+                      EMinicardViewWidget *widget)
 {
 	selection_change (esm, widget);
 }
 
 static void
-column_width_changed (ESelectionModel *esm, double width, EMinicardViewWidget *widget)
+column_width_changed (ESelectionModel *esm,
+                      gdouble width,
+                      EMinicardViewWidget *widget)
 {
-	g_signal_emit (widget,
-		       signals[COLUMN_WIDTH_CHANGED], 0, width);
+	g_signal_emit (widget, signals[COLUMN_WIDTH_CHANGED], 0, width);
 }
 
 static void
-create_contact (EMinicardView *view, EMinicardViewWidget *widget)
+create_contact (EMinicardView *view,
+                EMinicardViewWidget *widget)
 {
 	g_signal_emit (widget, signals[CREATE_CONTACT], 0);
 }
 
 static void
-create_contact_list (EMinicardView *view, EMinicardViewWidget *widget)
+create_contact_list (EMinicardView *view,
+                     EMinicardViewWidget *widget)
 {
 	g_signal_emit (widget, signals[CREATE_CONTACT_LIST], 0);
 }
 
 static guint
-right_click (EMinicardView *view, GdkEvent *event, EMinicardViewWidget *widget)
+right_click (EMinicardView *view,
+             GdkEvent *event,
+             EMinicardViewWidget *widget)
 {
 	guint ret_val;
-	g_signal_emit (widget,
-		       signals[RIGHT_CLICK], 0,
-		       event, &ret_val);
+
+	g_signal_emit (widget, signals[RIGHT_CLICK], 0, event, &ret_val);
+
 	return ret_val;
 }
 
 static void
-e_minicard_view_widget_style_set (GtkWidget *widget, GtkStyle *previous_style)
+e_minicard_view_widget_style_set (GtkWidget *widget,
+                                  GtkStyle *previous_style)
 {
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET (widget);
 	GtkStyle *style;
@@ -493,7 +501,7 @@ e_minicard_view_widget_get_selection_model (EMinicardViewWidget *view)
 }
 
 EMinicardView *
-e_minicard_view_widget_get_view             (EMinicardViewWidget       *view)
+e_minicard_view_widget_get_view (EMinicardViewWidget *view)
 {
 	if (view->emv)
 		return E_MINICARD_VIEW (view->emv);
@@ -502,7 +510,8 @@ e_minicard_view_widget_get_view             (EMinicardViewWidget       *view)
 }
 
 static gboolean
-e_minicard_view_widget_real_focus_in_event (GtkWidget *widget, GdkEventFocus *event)
+e_minicard_view_widget_real_focus_in_event (GtkWidget *widget,
+                                            GdkEventFocus *event)
 {
 	GnomeCanvas *canvas;
 	EMinicardViewWidget *view;
@@ -524,6 +533,5 @@ e_minicard_view_widget_real_focus_in_event (GtkWidget *widget, GdkEventFocus *ev
 		return GTK_WIDGET_CLASS (parent_class)->focus_in_event (widget, event);
 
 	return FALSE;
-
 }
 

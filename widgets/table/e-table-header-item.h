@@ -84,8 +84,8 @@ struct _ETableHeaderItem {
 	/*
 	 * For dragging columns
 	 */
-	guint maybe_drag:1;
-	guint dnd_ready:1;
+	guint maybe_drag : 1;
+	guint dnd_ready : 1;
 	gint click_x, click_y;
 	gint drag_col, drop_col, drag_mark;
 	guint drag_motion_id;

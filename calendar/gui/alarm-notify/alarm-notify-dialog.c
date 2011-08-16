@@ -80,21 +80,23 @@ typedef struct {
 
 } AlarmNotify;
 
-
-static void
-tree_selection_changed_cb (GtkTreeSelection *selection, gpointer data);
+static void	tree_selection_changed_cb	(GtkTreeSelection *selection,
+						 gpointer data);
+static void	fill_in_labels			(AlarmNotify *an,
+						 const gchar *summary,
+						 const gchar *description,
+						 const gchar *location,
+						 time_t occur_start,
+						 time_t occur_end);
+
+static void	edit_pressed_cb			(GtkButton *button,
+						 gpointer user_data);
+static void	snooze_pressed_cb		(GtkButton *button,
+						 gpointer user_data);
 
 static void
-fill_in_labels (AlarmNotify *an, const gchar *summary, const gchar *description,
-			const gchar *location, time_t occur_start, time_t occur_end);
-static void
-edit_pressed_cb (GtkButton *button, gpointer user_data);
-
-static void
-snooze_pressed_cb (GtkButton *button, gpointer user_data);
-
-static void
-an_update_minutes_label (GtkSpinButton *sb, gpointer data)
+an_update_minutes_label (GtkSpinButton *sb,
+                         gpointer data)
 {
 	AlarmNotify *an;
 	gint snooze_timeout_min;
@@ -106,7 +108,8 @@ an_update_minutes_label (GtkSpinButton *sb, gpointer data)
 }
 
 static void
-an_update_hrs_label (GtkSpinButton *sb, gpointer data)
+an_update_hrs_label (GtkSpinButton *sb,
+                     gpointer data)
 {
 	AlarmNotify *an;
 	gint snooze_timeout_hrs;
@@ -118,7 +121,8 @@ an_update_hrs_label (GtkSpinButton *sb, gpointer data)
 }
 
 static void
-an_update_days_label (GtkSpinButton *sb, gpointer data)
+an_update_days_label (GtkSpinButton *sb,
+                      gpointer data)
 {
 	AlarmNotify *an;
 	gint snooze_timeout_days;
@@ -130,7 +134,9 @@ an_update_days_label (GtkSpinButton *sb, gpointer data)
 }
 
 static void
-dialog_response_cb (GtkDialog *dialog, guint response_id, gpointer user_data)
+dialog_response_cb (GtkDialog *dialog,
+                    guint response_id,
+                    gpointer user_data)
 {
 	AlarmNotify *an = user_data;
 	GtkTreeIter iter;
@@ -161,7 +167,8 @@ dialog_response_cb (GtkDialog *dialog, guint response_id, gpointer user_data)
 }
 
 static void
-edit_pressed_cb (GtkButton *button, gpointer user_data)
+edit_pressed_cb (GtkButton *button,
+                 gpointer user_data)
 {
 	AlarmNotify *an = user_data;
 	AlarmFuncInfo *funcinfo = NULL;
@@ -180,7 +187,8 @@ edit_pressed_cb (GtkButton *button, gpointer user_data)
 #define DEFAULT_SNOOZE_MINS 5
 
 static void
-snooze_pressed_cb (GtkButton *button, gpointer user_data)
+snooze_pressed_cb (GtkButton *button,
+                   gpointer user_data)
 {
 	gint snooze_timeout;
 	AlarmNotify *an = user_data;
@@ -205,7 +213,8 @@ snooze_pressed_cb (GtkButton *button, gpointer user_data)
 }
 
 static void
-dismiss_pressed_cb (GtkButton *button, gpointer user_data)
+dismiss_pressed_cb (GtkButton *button,
+                    gpointer user_data)
 {
 	AlarmNotify *an = user_data;
 	GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (an->treeview));
@@ -229,7 +238,8 @@ dismiss_pressed_cb (GtkButton *button, gpointer user_data)
 }
 
 static void
-dialog_destroyed_cb (GtkWidget *dialog, gpointer user_data)
+dialog_destroyed_cb (GtkWidget *dialog,
+                     gpointer user_data)
 {
 	AlarmNotify *an = user_data;
 
@@ -265,7 +275,7 @@ notified_alarms_dialog_new (void)
 			G_TYPE_POINTER, /* Start */
 			G_TYPE_POINTER, /* End */
 
-			G_TYPE_POINTER /* FuncInfo*/));
+			G_TYPE_POINTER /* FuncInfo */));
 
 	an->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (an->builder, "alarm-notify.ui");
@@ -310,7 +320,8 @@ notified_alarms_dialog_new (void)
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (an->treeview));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	g_signal_connect (G_OBJECT (selection), "changed",
+	g_signal_connect (
+		selection, "changed",
 		G_CALLBACK (tree_selection_changed_cb), an);
 
 	gtk_widget_realize (an->dialog);
@@ -328,8 +339,12 @@ notified_alarms_dialog_new (void)
 	g_signal_connect (edit_btn, "clicked", G_CALLBACK (edit_pressed_cb), an);
 	g_signal_connect (snooze_btn, "clicked", G_CALLBACK (snooze_pressed_cb), an);
 	g_signal_connect (an->dismiss_btn, "clicked", G_CALLBACK (dismiss_pressed_cb), an);
-	g_signal_connect (G_OBJECT (an->dialog), "response", G_CALLBACK (dialog_response_cb), an);
-	g_signal_connect (G_OBJECT (an->dialog), "destroy", G_CALLBACK (dialog_destroyed_cb), an);
+	g_signal_connect (
+		an->dialog, "response",
+		G_CALLBACK (dialog_response_cb), an);
+	g_signal_connect (
+		an->dialog, "destroy",
+		G_CALLBACK (dialog_destroyed_cb), an);
 
 	if (!gtk_widget_get_realized (an->dialog))
 		gtk_widget_realize (an->dialog);
@@ -337,16 +352,19 @@ notified_alarms_dialog_new (void)
 	gtk_window_set_icon_name (GTK_WINDOW (an->dialog), "stock_alarm");
 
 	/* Set callback for updating the snooze "minutes" label */
-	g_signal_connect (G_OBJECT (an->snooze_time_min), "value_changed",
-			G_CALLBACK (an_update_minutes_label), an);
+	g_signal_connect (
+		an->snooze_time_min, "value_changed",
+		G_CALLBACK (an_update_minutes_label), an);
 
 	/* Set callback for updating the snooze "hours" label */
-	g_signal_connect (G_OBJECT (an->snooze_time_hrs), "value_changed",
-			G_CALLBACK (an_update_hrs_label), an);
+	g_signal_connect (
+		an->snooze_time_hrs, "value_changed",
+		G_CALLBACK (an_update_hrs_label), an);
 
 	/* Set callback for updating the snooze "days" label */
-	g_signal_connect (G_OBJECT (an->snooze_time_days), "value_changed",
-			G_CALLBACK (an_update_days_label), an);
+	g_signal_connect (
+		an->snooze_time_days, "value_changed",
+		G_CALLBACK (an_update_days_label), an);
 
 	na = g_new0 (AlarmNotificationsDialog, 1);
 
@@ -376,11 +394,16 @@ notified_alarms_dialog_new (void)
  **/
 
 GtkTreeIter
-add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigger,
-				time_t occur_start, time_t occur_end,
-				ECalComponentVType vtype, const gchar *summary,
-				const gchar *description, const gchar *location,
-				AlarmNotifyFunc func, gpointer func_data)
+add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na,
+                                     time_t trigger,
+                                     time_t occur_start,
+                                     time_t occur_end,
+                                     ECalComponentVType vtype,
+                                     const gchar *summary,
+                                     const gchar *description,
+                                     const gchar *location,
+                                     AlarmNotifyFunc func,
+                                     gpointer func_data)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (na->treeview));
@@ -428,7 +451,8 @@ add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigge
 }
 
 static void
-tree_selection_changed_cb (GtkTreeSelection *selection, gpointer user_data)
+tree_selection_changed_cb (GtkTreeSelection *selection,
+                           gpointer user_data)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -454,8 +478,12 @@ tree_selection_changed_cb (GtkTreeSelection *selection, gpointer user_data)
 }
 
 static void
-fill_in_labels (AlarmNotify *an, const gchar *summary, const gchar *description,
-		const gchar *location, time_t occur_start, time_t occur_end)
+fill_in_labels (AlarmNotify *an,
+                const gchar *summary,
+                const gchar *description,
+                const gchar *location,
+                time_t occur_start,
+                time_t occur_end)
 {
 	GtkTextTagTable *table = gtk_text_tag_table_new ();
 	GtkTextBuffer *buffer =  gtk_text_buffer_new (table);

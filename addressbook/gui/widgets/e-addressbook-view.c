@@ -298,8 +298,8 @@ addressbook_view_create_table_view (EAddressbookView *view,
 	e_cell_date_set_format_component (E_CELL_DATE (cell), "addressbook");
 
 	/* Here we create the table.  We give it the three pieces of
-	   the table we've created, the header, the model, and the
-	   initial layout.  It does the rest.  */
+	 * the table we've created, the header, the model, and the
+	 * initial layout.  It does the rest.  */
 	etspecfile = g_build_filename (
 		EVOLUTION_ETSPECDIR, "e-addressbook-view.etspec", NULL);
 	widget = e_table_new_from_spec_file (
@@ -973,7 +973,8 @@ e_addressbook_view_get_view_object (EAddressbookView *view)
 
 /* Helper for e_addressbook_view_get_selected() */
 static void
-add_to_list (gint model_row, gpointer closure)
+add_to_list (gint model_row,
+             gpointer closure)
 {
 	GSList **list = closure;
 	*list = g_slist_prepend (*list, GINT_TO_POINTER (model_row));
@@ -1058,7 +1059,9 @@ e_addressbook_view_get_paste_target_list (EAddressbookView *view)
 }
 
 static void
-status_message (EAddressbookView *view, const gchar *status, gint percent)
+status_message (EAddressbookView *view,
+                const gchar *status,
+                gint percent)
 {
 	EActivity *activity;
 	EShellView *shell_view;
@@ -1122,7 +1125,8 @@ folder_bar_message (EAddressbookView *view,
 }
 
 static void
-stop_state_changed (GObject *object, EAddressbookView *view)
+stop_state_changed (GObject *object,
+                    EAddressbookView *view)
 {
 	command_state_change (view);
 }
@@ -1180,7 +1184,8 @@ contact_print_button_draw_page (GtkPrintOperation *operation,
 }
 
 static void
-e_contact_print_button (EPrintable *printable, GtkPrintOperationAction action)
+e_contact_print_button (EPrintable *printable,
+                        GtkPrintOperationAction action)
 {
 	GtkPrintOperation *operation;
 
@@ -1362,7 +1367,8 @@ addressbook_view_confirm_delete (GtkWindow *parent,
 }
 
 void
-e_addressbook_view_delete_selection (EAddressbookView *view, gboolean is_delete)
+e_addressbook_view_delete_selection (EAddressbookView *view,
+                                     gboolean is_delete)
 {
 	GSList *list, *l;
 	gboolean plural = FALSE, is_list = FALSE;
@@ -1621,13 +1627,15 @@ view_transfer_contacts (EAddressbookView *view,
 }
 
 void
-e_addressbook_view_copy_to_folder (EAddressbookView *view, gboolean all)
+e_addressbook_view_copy_to_folder (EAddressbookView *view,
+                                   gboolean all)
 {
 	view_transfer_contacts (view, FALSE, all);
 }
 
 void
-e_addressbook_view_move_to_folder (EAddressbookView *view, gboolean all)
+e_addressbook_view_move_to_folder (EAddressbookView *view,
+                                   gboolean all)
 {
 	view_transfer_contacts (view, TRUE, all);
 }

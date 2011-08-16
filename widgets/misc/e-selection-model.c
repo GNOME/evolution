@@ -54,7 +54,8 @@ enum {
 };
 
 inline static void
-add_sorter (ESelectionModel *esm, ESorter *sorter)
+add_sorter (ESelectionModel *esm,
+            ESorter *sorter)
 {
 	esm->sorter = sorter;
 	if (sorter) {

@@ -215,7 +215,8 @@ mail_config_get_sync_timeout (void)
 }
 
 gchar *
-mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
+mail_config_folder_to_cachename (CamelFolder *folder,
+                                 const gchar *prefix)
 {
 	gchar *folder_uri, *basename, *filename;
 	const gchar *config_dir;

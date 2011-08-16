@@ -31,7 +31,10 @@
 #include "e-html-utils.h"
 
 static gchar *
-check_size (gchar **buffer, gint *buffer_size, gchar *out, gint len)
+check_size (gchar **buffer,
+            gint *buffer_size,
+            gchar *out,
+            gint len)
 {
 	if (out + len + 1> *buffer + *buffer_size) {
 		gint index = out - *buffer;
@@ -72,7 +75,8 @@ static gint special_chars[] = {
 /* www\.[A-Za-z0-9.-]+(/([^ "|]*[^ ,.!?;:>)\]}`'"|_-])+)             */
 
 static gchar *
-url_extract (const guchar **text, gboolean full_url)
+url_extract (const guchar **text,
+             gboolean full_url)
 {
 	const guchar *end = *text, *p;
 	gchar *out;
@@ -99,13 +103,15 @@ url_extract (const guchar **text, gboolean full_url)
 			return NULL;
 	}
 
-	out = g_strndup ((gchar *)*text, end - *text);
+	out = g_strndup ((gchar *) * text, end - *text);
 	*text = end;
 	return out;
 }
 
 static gchar *
-email_address_extract (const guchar **cur, gchar **out, const guchar *linestart)
+email_address_extract (const guchar **cur,
+                       gchar **out,
+                       const guchar *linestart)
 {
 	const guchar *start, *end, *dot;
 	gchar *addr;
@@ -141,7 +147,8 @@ email_address_extract (const guchar **cur, gchar **out, const guchar *linestart)
 }
 
 static gboolean
-is_citation (const guchar *c, gboolean saw_citation)
+is_citation (const guchar *c,
+             gboolean saw_citation)
 {
 	const guchar *p;
 
@@ -218,7 +225,9 @@ is_citation (const guchar *c, gboolean saw_citation)
  * Returns: a newly-allocated string containing HTML
  **/
 gchar *
-e_text_to_html_full (const gchar *input, guint flags, guint32 color)
+e_text_to_html_full (const gchar *input,
+                     guint flags,
+                     guint32 color)
 {
 	const guchar *cur, *next, *linestart;
 	gchar *buffer = NULL;
@@ -436,7 +445,8 @@ e_text_to_html_full (const gchar *input, guint flags, guint32 color)
 }
 
 gchar *
-e_text_to_html (const gchar *input, guint flags)
+e_text_to_html (const gchar *input,
+                guint flags)
 {
 	return e_text_to_html_full (input, flags, 0);
 }
@@ -506,7 +516,8 @@ struct {
 gint num_url_tests = G_N_ELEMENTS (url_tests);
 
 gint
-main (gint argc, gchar **argv)
+main (gint argc,
+      gchar **argv)
 {
 	gint i, errors = 0;
 	gchar *html, *url, *p;

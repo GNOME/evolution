@@ -57,11 +57,11 @@ et_dispose (GObject *object)
 
 static void
 et_get_extents (AtkComponent *component,
-		gint *x,
-		gint *y,
-		gint *width,
-		gint *height,
-		AtkCoordType coord_type)
+                gint *x,
+                gint *y,
+                gint *width,
+                gint *height,
+                AtkCoordType coord_type)
 {
 	EText *item = E_TEXT (atk_gobject_accessible_get_object (
 		ATK_GOBJECT_ACCESSIBLE (component)));
@@ -107,7 +107,7 @@ et_get_full_text (AtkText *text)
 
 static void
 et_set_full_text (AtkEditableText *text,
-		  const gchar *full_text)
+                  const gchar *full_text)
 {
 	EText *etext = E_TEXT (atk_gobject_accessible_get_object (
 		ATK_GOBJECT_ACCESSIBLE (text)));
@@ -120,8 +120,8 @@ et_set_full_text (AtkEditableText *text,
 
 static gchar *
 et_get_text (AtkText *text,
-	     gint start_offset,
-	     gint end_offset)
+             gint start_offset,
+             gint end_offset)
 {
 	gint start, end, real_start, real_end, len;
 	const gchar *full_text = et_get_full_text (text);
@@ -153,8 +153,8 @@ is_a_seperator (gunichar c)
 
 static gint
 find_word_start (const gchar *text,
-		 gint begin_offset,
-		 gint step)
+                 gint begin_offset,
+                 gint step)
 {
 	gint offset;
 	gchar *at_offset;
@@ -167,7 +167,7 @@ find_word_start (const gchar *text,
 	while (offset > 0 && offset < len) {
 		at_offset = g_utf8_offset_to_pointer (text, offset);
 		current = g_utf8_get_char_validated (at_offset, -1);
-		at_offset = g_utf8_offset_to_pointer (text, offset-1);
+		at_offset = g_utf8_offset_to_pointer (text, offset - 1);
 		previous = g_utf8_get_char_validated (at_offset, -1);
 		if ((!is_a_seperator (current)) && is_a_seperator (previous))
 			break;
@@ -179,8 +179,8 @@ find_word_start (const gchar *text,
 
 static gint
 find_word_end (const gchar *text,
-	       gint begin_offset,
-	       gint step)
+               gint begin_offset,
+               gint step)
 {
 	gint offset;
 	gchar *at_offset;
@@ -193,7 +193,7 @@ find_word_end (const gchar *text,
 	while (offset > 0 && offset < len) {
 		at_offset = g_utf8_offset_to_pointer (text, offset);
 		current = g_utf8_get_char_validated (at_offset, -1);
-		at_offset = g_utf8_offset_to_pointer (text, offset-1);
+		at_offset = g_utf8_offset_to_pointer (text, offset - 1);
 		previous = g_utf8_get_char_validated (at_offset, -1);
 		if (is_a_seperator (current) && (!is_a_seperator (previous)))
 			break;
@@ -205,8 +205,8 @@ find_word_end (const gchar *text,
 
 static gint
 find_sentence_start (const gchar *text,
-		     gint begin_offset,
-		     gint step)
+                     gint begin_offset,
+                     gint step)
 {
 	gint offset, last_word_end, len;
 	gchar *at_offset;
@@ -216,7 +216,7 @@ find_sentence_start (const gchar *text,
 	offset = find_word_start (text, begin_offset, step);
 	len = g_utf8_strlen (text, -1);
 
-	while (offset>0 && offset <len) {
+	while (offset > 0 && offset <len) {
 		last_word_end = find_word_end (text, offset - 1, -1);
 		if (last_word_end == 0)
 			break;
@@ -307,10 +307,10 @@ find_line_end (const gchar *text,
 
 static gchar *
 et_get_text_after_offset (AtkText *text,
-			  gint offset,
-			  AtkTextBoundary boundary_type,
-			  gint *start_offset,
-			  gint *end_offset)
+                          gint offset,
+                          AtkTextBoundary boundary_type,
+                          gint *start_offset,
+                          gint *end_offset)
 {
 	gint start, end, len;
 	const gchar *full_text = et_get_full_text (text);
@@ -360,10 +360,10 @@ et_get_text_after_offset (AtkText *text,
 
 static gchar *
 et_get_text_at_offset (AtkText *text,
-		       gint offset,
-		       AtkTextBoundary boundary_type,
-		       gint *start_offset,
-		       gint *end_offset)
+                       gint offset,
+                       AtkTextBoundary boundary_type,
+                       gint *start_offset,
+                       gint *end_offset)
 {
 	gint start, end, len;
 	const gchar *full_text = et_get_full_text (text);
@@ -413,7 +413,7 @@ et_get_text_at_offset (AtkText *text,
 
 static gunichar
 et_get_character_at_offset (AtkText *text,
-			    gint offset)
+                            gint offset)
 {
 	const gchar *full_text = et_get_full_text (text);
 	gchar *at_offset;
@@ -424,10 +424,10 @@ et_get_character_at_offset (AtkText *text,
 
 static gchar *
 et_get_text_before_offset (AtkText *text,
-			   gint offset,
-			   AtkTextBoundary boundary_type,
-			   gint *start_offset,
-			   gint *end_offset)
+                           gint offset,
+                           AtkTextBoundary boundary_type,
+                           gint *start_offset,
+                           gint *end_offset)
 {
 	gint start, end, len;
 	const gchar *full_text = et_get_full_text (text);
@@ -494,17 +494,17 @@ et_get_caret_offset (AtkText *text)
 	return offset;
 }
 
-static AtkAttributeSet*
+static AtkAttributeSet *
 et_get_run_attributes (AtkText *text,
-		       gint offset,
-		       gint *start_offset,
-		       gint *end_offset)
+                       gint offset,
+                       gint *start_offset,
+                       gint *end_offset)
 {
 	/* Unimplemented */
 	return NULL;
 }
 
-static AtkAttributeSet*
+static AtkAttributeSet *
 et_get_default_attributes (AtkText *text)
 {
 	/* Unimplemented */
@@ -513,12 +513,12 @@ et_get_default_attributes (AtkText *text)
 
 static void
 et_get_character_extents (AtkText *text,
-			  gint offset,
-			  gint *x,
-			  gint *y,
-			  gint *width,
-			  gint *height,
-			  AtkCoordType coords)
+                          gint offset,
+                          gint *x,
+                          gint *y,
+                          gint *width,
+                          gint *height,
+                          AtkCoordType coords)
 {
 	GObject *obj;
 	EText *etext;
@@ -593,9 +593,9 @@ et_get_character_count (AtkText *text)
 
 static gint
 et_get_offset_at_point (AtkText *text,
-			gint x,
-			gint y,
-			AtkCoordType coords)
+                        gint x,
+                        gint y,
+                        AtkCoordType coords)
 {
 	GObject *obj;
 	EText *etext;
@@ -668,9 +668,9 @@ et_get_n_selections (AtkText *text)
 
 static gchar *
 et_get_selection (AtkText *text,
-		  gint selection_num,
-		  gint *start_offset,
-		  gint *end_offset)
+                  gint selection_num,
+                  gint *start_offset,
+                  gint *end_offset)
 {
 	gint start, end, real_start, real_end, len;
 	EText *etext;
@@ -701,8 +701,8 @@ et_get_selection (AtkText *text,
 
 static gboolean
 et_add_selection (AtkText *text,
-		  gint start_offset,
-		  gint end_offset)
+                  gint start_offset,
+                  gint end_offset)
 {
 	GObject *obj;
 	EText *etext;
@@ -739,7 +739,7 @@ et_add_selection (AtkText *text,
 
 static gboolean
 et_remove_selection (AtkText *text,
-		     gint selection_num)
+                     gint selection_num)
 {
 	GObject *obj;
 	EText *etext;
@@ -763,9 +763,9 @@ et_remove_selection (AtkText *text,
 
 static gboolean
 et_set_selection (AtkText *text,
-		  gint selection_num,
-		  gint start_offset,
-		  gint end_offset)
+                  gint selection_num,
+                  gint start_offset,
+                  gint end_offset)
 {
 	GObject *obj;
 
@@ -781,7 +781,7 @@ et_set_selection (AtkText *text,
 
 static gboolean
 et_set_caret_offset (AtkText *text,
-		     gint offset)
+                     gint offset)
 {
 	GObject *obj;
 	EText *etext;
@@ -813,9 +813,9 @@ et_set_caret_offset (AtkText *text,
 
 static gboolean
 et_set_run_attributes (AtkEditableText *text,
-		       AtkAttributeSet *attrib_set,
-		       gint start_offset,
-		       gint end_offset)
+                       AtkAttributeSet *attrib_set,
+                       gint start_offset,
+                       gint end_offset)
 {
 	/* Unimplemented */
 	return FALSE;
@@ -823,16 +823,16 @@ et_set_run_attributes (AtkEditableText *text,
 
 static void
 et_set_text_contents (AtkEditableText *text,
-		      const gchar *string)
+                      const gchar *string)
 {
 	et_set_full_text (text, string);
 }
 
 static void
 et_insert_text (AtkEditableText *text,
-		const gchar *string,
-		gint length,
-		gint *position)
+                const gchar *string,
+                gint length,
+                gint *position)
 {
 	/* Utf8 unimplemented */
 	gchar *result;
@@ -854,8 +854,8 @@ et_insert_text (AtkEditableText *text,
 
 static void
 et_copy_text (AtkEditableText *text,
-	      gint start_pos,
-	      gint end_pos)
+              gint start_pos,
+              gint end_pos)
 {
 	GObject *obj;
 	EText *etext;
@@ -877,8 +877,8 @@ et_copy_text (AtkEditableText *text,
 
 static void
 et_delete_text (AtkEditableText *text,
-		gint start_pos,
-		gint end_pos)
+                gint start_pos,
+                gint end_pos)
 {
 	GObject *obj;
 	EText *etext;
@@ -899,8 +899,8 @@ et_delete_text (AtkEditableText *text,
 
 static void
 et_cut_text (AtkEditableText *text,
-	     gint start_pos,
-	     gint end_pos)
+             gint start_pos,
+             gint end_pos)
 {
 	et_copy_text (text, start_pos, end_pos);
 	et_delete_text (text, start_pos, end_pos);
@@ -908,7 +908,7 @@ et_cut_text (AtkEditableText *text,
 
 static void
 et_paste_text (AtkEditableText *text,
-	       gint position)
+               gint position)
 {
 	GObject *obj;
 	EText *etext;
@@ -967,9 +967,9 @@ et_atk_editable_text_iface_init (AtkEditableTextIface *iface)
 
 static void
 _et_reposition_cb (ETextModel *model,
-		   ETextModelReposFn fn,
-		   gpointer repos_data,
-		   gpointer user_data)
+                   ETextModelReposFn fn,
+                   gpointer repos_data,
+                   gpointer user_data)
 {
 	AtkObject *accessible;
 	AtkText *text;
@@ -989,8 +989,8 @@ _et_reposition_cb (ETextModel *model,
 
 static void
 _et_command_cb (ETextEventProcessor *tep,
-		ETextEventProcessorCommand *command,
-		gpointer user_data)
+                ETextEventProcessorCommand *command,
+                gpointer user_data)
 {
 	AtkObject *accessible;
 	AtkText *text;
@@ -1012,7 +1012,7 @@ _et_command_cb (ETextEventProcessor *tep,
 
 static void
 et_real_initialize (AtkObject *obj,
-                    gpointer  data)
+                    gpointer data)
 {
 	EText *etext;
 

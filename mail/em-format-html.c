@@ -262,7 +262,7 @@ efh_format_exec (struct _format_msg *m,
 
 		if (m->estream) {
 			/* Closing this base stream can queue more jobs, so we need
-			   to check the list again after we've finished */
+			 * to check the list again after we've finished */
 			d(printf("out of jobs, closing root stream\n"));
 			camel_stream_write_string (
 				(CamelStream *) m->estream,
@@ -413,7 +413,8 @@ efh_free_cache (struct _EMFormatHTMLCache *efhc)
 }
 
 static void
-efh_gtkhtml_destroy (GtkHTML *html, EMFormatHTML *efh)
+efh_gtkhtml_destroy (GtkHTML *html,
+                     EMFormatHTML *efh)
 {
 	if (efh->priv->format_timeout_id != 0) {
 		g_source_remove (efh->priv->format_timeout_id);
@@ -433,7 +434,8 @@ efh_gtkhtml_destroy (GtkHTML *html, EMFormatHTML *efh)
 }
 
 static struct _EMFormatHTMLCache *
-efh_insert_cache (EMFormatHTML *efh, const gchar *partid)
+efh_insert_cache (EMFormatHTML *efh,
+                  const gchar *partid)
 {
 	struct _EMFormatHTMLCache *efhc;
 
@@ -994,14 +996,14 @@ efh_class_init (EMFormatHTMLClass *class)
 	user_cache_dir = e_get_user_cache_dir ();
 	emfh_http_cache = camel_data_cache_new (user_cache_dir, NULL);
 	if (emfh_http_cache) {
-		camel_data_cache_set_expire_age (emfh_http_cache, 24*60*60);
-		camel_data_cache_set_expire_access (emfh_http_cache, 2*60*60);
+		camel_data_cache_set_expire_age (emfh_http_cache, 24 *60 *60);
+		camel_data_cache_set_expire_access (emfh_http_cache, 2 *60 *60);
 	}
 }
 
 static void
 efh_init (EMFormatHTML *efh,
-	  EMFormatHTMLClass *class)
+          EMFormatHTMLClass *class)
 {
 	EWebView *web_view;
 	GdkColor *color;
@@ -1303,7 +1305,7 @@ em_format_html_get_headers_state (EMFormatHTML *efh)
 
 void
 em_format_html_set_headers_state (EMFormatHTML *efh,
-				  EMFormatHTMLHeadersState state)
+                                  EMFormatHTMLHeadersState state)
 {
 	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
 
@@ -1322,7 +1324,7 @@ em_format_html_get_headers_collapsable (EMFormatHTML *efh)
 
 void
 em_format_html_set_headers_collapsable (EMFormatHTML *efh,
-					gboolean collapsable)
+                                        gboolean collapsable)
 {
 	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
 
@@ -1365,7 +1367,11 @@ em_format_html_file_part (EMFormatHTML *efh,
 /* all this api is a pain in the bum ... */
 
 EMFormatHTMLPObject *
-em_format_html_add_pobject (EMFormatHTML *efh, gsize size, const gchar *classid, CamelMimePart *part, EMFormatHTMLPObjectFunc func)
+em_format_html_add_pobject (EMFormatHTML *efh,
+                            gsize size,
+                            const gchar *classid,
+                            CamelMimePart *part,
+                            EMFormatHTMLPObjectFunc func)
 {
 	EMFormatHTMLPObject *pobj;
 
@@ -1466,7 +1472,8 @@ em_format_html_clear_pobject (EMFormatHTML *emf)
 
 struct _EMFormatHTMLJob *
 em_format_html_job_new (EMFormatHTML *emfh,
-                        void (*callback) (struct _EMFormatHTMLJob *job, GCancellable *cancellable),
+                        void (*callback) (struct _EMFormatHTMLJob *job,
+                                          GCancellable *cancellable),
                         gpointer data)
 {
 	struct _EMFormatHTMLJob *job = g_malloc0 (sizeof (*job));
@@ -1482,7 +1489,8 @@ em_format_html_job_new (EMFormatHTML *emfh,
 }
 
 void
-em_format_html_job_queue (EMFormatHTML *emfh, struct _EMFormatHTMLJob *job)
+em_format_html_job_queue (EMFormatHTML *emfh,
+                          struct _EMFormatHTMLJob *job)
 {
 	g_mutex_lock (emfh->priv->lock);
 	g_queue_push_tail (&emfh->priv->pending_jobs, job);
@@ -1533,9 +1541,12 @@ emfh_gethttp (struct _EMFormatHTMLJob *job,
 		      || policy == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS
 		      || (policy == E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES
 			  && em_utils_in_addressbook ((CamelInternetAddress *) camel_mime_message_get_from (job->format->parent.message), FALSE)))) {
-			/* TODO: Ideally we would put the http requests into another queue and only send them out
-			   if the user selects 'load images', when they do.  The problem is how to maintain this
-			   state with multiple renderings, and how to adjust the thread dispatch/setup routine to handle it */
+			/* TODO: Ideally we would put the http requests into
+			 * another queue and only send them out if the user
+			 * selects 'load images', when they do.  The problem
+			 * is how to maintain this state with multiple
+			 * renderings, and how to adjust the thread
+			 * dispatch/setup routine to handle it */
 			camel_url_free (url);
 			goto done;
 		}
@@ -1590,7 +1601,7 @@ emfh_gethttp (struct _EMFormatHTMLJob *job,
 
 			camel_stream_write (job->stream, buffer, n, cancellable, NULL);
 		}
-	} while (n>0);
+	} while (n > 0);
 
 	/* indicates success */
 	if (n == 0)
@@ -1613,7 +1624,10 @@ badurl:
 /* ********************************************************************** */
 
 static void
-efh_url_requested (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, EMFormatHTML *efh)
+efh_url_requested (GtkHTML *html,
+                   const gchar *url,
+                   GtkHTMLStream *handle,
+                   EMFormatHTML *efh)
 {
 	EMFormatPURI *puri;
 	struct _EMFormatHTMLJob *job = NULL;
@@ -1623,14 +1637,14 @@ efh_url_requested (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, EMFor
 	puri = em_format_find_visible_puri ((EMFormat *) efh, url);
 	if (puri) {
 		CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *) puri->part);
-		CamelContentType *ct = dw?dw->mime_type:NULL;
+		CamelContentType *ct = dw ? dw->mime_type : NULL;
 
 		/* GtkHTML only handles text and images.
-		   application/octet-stream parts are the only ones
-		   which are snooped for other content.  So only try
-		   to pass these to it - any other types are badly
-		   formed or intentionally malicious emails.  They
-		   will still show as attachments anyway */
+		 * application/octet-stream parts are the only ones
+		 * which are snooped for other content.  So only try
+		 * to pass these to it - any other types are badly
+		 * formed or intentionally malicious emails.  They
+		 * will still show as attachments anyway */
 
 		if (ct && (camel_content_type_is(ct, "text", "*")
 			   || camel_content_type_is(ct, "image", "*")
@@ -1676,7 +1690,9 @@ efh_url_requested (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, EMFor
 }
 
 static gboolean
-efh_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTML *efh)
+efh_object_requested (GtkHTML *html,
+                      GtkHTMLEmbedded *eb,
+                      EMFormatHTML *efh)
 {
 	EMFormatHTMLPObject *pobject;
 	gint res = FALSE;
@@ -1725,7 +1741,7 @@ static const gchar *smime_sign_colour[4] = {
 };
 
 /* TODO: this could probably be virtual on em-format-html
-   then we only need one version of each type handler */
+ * then we only need one version of each type handler */
 static void
 efh_format_secure (EMFormat *emf,
                    CamelStream *stream,
@@ -1740,9 +1756,9 @@ efh_format_secure (EMFormat *emf,
 	format_class->format_secure (emf, stream, part, valid, cancellable);
 
 	/* To explain, if the validity is the same, then we are the
-	   base validity and now have a combined sign/encrypt validity
-	   we can display.  Primarily a new verification context is
-	   created when we have an embeded message. */
+	 * base validity and now have a combined sign/encrypt validity
+	 * we can display.  Primarily a new verification context is
+	 * created when we have an embeded message. */
 	if (emf->valid == valid
 	    && (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
 		|| valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
@@ -1844,15 +1860,15 @@ efh_text_plain (EMFormat *emf,
 		flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
 
 	/* This scans the text part for inline-encoded data, creates
-	   a multipart of all the parts inside it. */
+	 * a multipart of all the parts inside it. */
 
 	/* FIXME: We should discard this multipart if it only contains
-	   the original text, but it makes this hash lookup more complex */
+	 * the original text, but it makes this hash lookup more complex */
 
 	/* TODO: We could probably put this in the superclass, since
-	   no knowledge of html is required - but this messes with
-	   filters a bit.  Perhaps the superclass should just deal with
-	   html anyway and be done with it ... */
+	 * no knowledge of html is required - but this messes with
+	 * filters a bit.  Perhaps the superclass should just deal with
+	 * html anyway and be done with it ... */
 
 	efhc = g_hash_table_lookup (
 		efh->priv->text_inline_parts,
@@ -1914,7 +1930,7 @@ efh_text_plain (EMFormat *emf,
 
 	len = emf->part_id->len;
 	count = camel_multipart_get_number (mp);
-	for (i=0;i<count;i++) {
+	for (i = 0; i < count; i++) {
 		CamelMimePart *newpart = camel_multipart_get_part (mp, i);
 
 		if (!newpart)
@@ -2068,9 +2084,9 @@ efh_text_html (EMFormat *emf,
 
 	/* TODO: perhaps we don't need to calculate this anymore now base is handled better */
 	/* calculate our own location string so add_puri doesn't do it
-	   for us. our iframes are special cases, we need to use the
-	   proper base url to access them, but other children parts
-	   shouldn't blindly inherit the container's location. */
+	 * for us. our iframes are special cases, we need to use the
+	 * proper base url to access them, but other children parts
+	 * shouldn't blindly inherit the container's location. */
 	location = camel_mime_part_get_content_location (part);
 	if (location == NULL) {
 		if (emf->base)
@@ -2187,7 +2203,7 @@ efh_message_external (EMFormat *emf,
 		s = d = url;
 		while (*s) {
 			/* FIXME: use camel_isspace */
-			if (!isspace ((guchar)*s))
+			if (!isspace ((guchar) * s))
 				*d++ = *s;
 			s++;
 		}
@@ -2341,7 +2357,7 @@ efh_multipart_related (EMFormat *emf,
 	nparts = camel_multipart_get_number (mp);
 	content_type = camel_mime_part_get_content_type (part);
 	start = camel_content_type_param (content_type, "start");
-	if (start && strlen (start)>2) {
+	if (start && strlen (start) > 2) {
 		gint len;
 		const gchar *cid;
 
@@ -2349,7 +2365,7 @@ efh_multipart_related (EMFormat *emf,
 		len = strlen (start) - 2;
 		start++;
 
-		for (i=0; i<nparts; i++) {
+		for (i = 0; i < nparts; i++) {
 			body_part = camel_multipart_get_part (mp, i);
 			cid = camel_mime_part_get_content_id (body_part);
 
@@ -2469,8 +2485,8 @@ static EMFormatHandler type_builtin_table[] = {
 	{ (gchar *) "multipart/related", efh_multipart_related },
 
 	/* This is where one adds those busted, non-registered types,
-	   that some idiot mailer writers out there decide to pull out
-	   of their proverbials at random. */
+	 * that some idiot mailer writers out there decide to pull out
+	 * of their proverbials at random. */
 
 	{ (gchar *) "image/jpg", efh_image },
 	{ (gchar *) "image/pjpeg", efh_image },
@@ -2560,11 +2576,14 @@ static const gchar *addrspec_hdrs[] = {
 };
 
 static gchar *
-efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_address *a, gchar *field)
+efh_format_address (EMFormatHTML *efh,
+                    GString *out,
+                    struct _camel_header_address *a,
+                    gchar *field)
 {
 	guint32 flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
 	gchar *name, *mailto, *addr;
-	gint i=0;
+	gint i = 0;
 	gboolean wrap = FALSE;
 	gchar *str = NULL;
 	gint limit = mail_config_get_address_count ();
@@ -2632,7 +2651,7 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 			g_string_append (out, ", ");
 
 		/* Let us add a '...' if we have more addresses */
-		if (limit > 0 && wrap && a && (i>(limit-1))) {
+		if (limit > 0 && wrap && a && (i > (limit - 1))) {
 			gchar *evolution_imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
 
 			if (!strcmp (field, _("To"))) {
@@ -2656,7 +2675,7 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 
 	}
 
-	if (limit > 0 && i>(limit)) {
+	if (limit > 0 && i > (limit)) {
 		gchar *evolution_imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
 
 		if (!strcmp (field, _("To"))) {
@@ -2715,7 +2734,7 @@ efh_format_header (EMFormat *emf,
 	gchar *str_field = NULL;
 	gint i;
 
-	name = g_alloca (strlen (header->name)+1);
+	name = g_alloca (strlen (header->name) + 1);
 	strcpy (name, header->name);
 	canon_header_name (name);
 
@@ -2802,8 +2821,8 @@ efh_format_header (EMFormat *emf,
 
 			if (hide_real_date) {
 				/* Show only the local-formatted date, losing all timezone
-				   information like Outlook does. Should we attempt to show
-				   it somehow? */
+				 * information like Outlook does. Should we attempt to show
+				 * it somehow? */
 				txt = value = date_str;
 			} else {
 				txt = value = g_strdup_printf ("%s (<I>%s</I>)", html, date_str);
@@ -2838,7 +2857,7 @@ efh_format_header (EMFormat *emf,
 
 		txt = html->str;
 		g_string_free (html, FALSE);
-		flags |= EM_FORMAT_HEADER_BOLD|EM_FORMAT_HTML_HEADER_HTML;
+		flags |= EM_FORMAT_HEADER_BOLD | EM_FORMAT_HTML_HEADER_HTML;
 	} else if (!strcmp (name, "Received") || !strncmp (name, "X-", 2)) {
 		/* don't unfold Received nor extension headers */
 		txt = value = camel_header_decode_string (header->value, charset);
@@ -3331,7 +3350,8 @@ em_format_html_format_cert_infos (CamelCipherCertInfo *first_cinfo)
 
 /* unref returned pointer with g_object_unref(), if not NULL */
 CamelStream *
-em_format_html_get_cached_image (EMFormatHTML *efh, const gchar *image_uri)
+em_format_html_get_cached_image (EMFormatHTML *efh,
+                                 const gchar *image_uri)
 {
 	g_return_val_if_fail (efh != NULL, NULL);
 	g_return_val_if_fail (image_uri != NULL, NULL);

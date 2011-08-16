@@ -68,7 +68,11 @@ enum {
 };
 
 static void
-ecb_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2)
+ecb_bounds (GnomeCanvasItem *item,
+            gdouble *x1,
+            gdouble *y1,
+            gdouble *x2,
+            gdouble *y2)
 {
 	*x1 = -G_MAXDOUBLE;
 	*y1 = -G_MAXDOUBLE;
@@ -77,7 +81,9 @@ ecb_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdoubl
 }
 
 static void
-ecb_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
+ecb_update (GnomeCanvasItem *item,
+            const cairo_matrix_t *i2c,
+            gint flags)
 {
 	gdouble x1, y1, x2, y2;
 
@@ -112,9 +118,9 @@ ecb_dispose (GObject *object)
 
 static void
 ecb_set_property (GObject *object,
-		  guint prop_id,
-		  const GValue *value,
-		  GParamSpec *pspec)
+                  guint property_id,
+                  const GValue *value,
+                  GParamSpec *pspec)
 {
 	ECanvasBackground *ecb;
 
@@ -123,7 +129,7 @@ ecb_set_property (GObject *object,
 
 	ecb = E_CANVAS_BACKGROUND (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_FILL_COLOR:
 		if (g_value_get_string (value))
 			gdk_color_parse (g_value_get_string (value), &color);
@@ -157,20 +163,20 @@ ecb_set_property (GObject *object,
 
 static void
 ecb_get_property (GObject *object,
-		  guint prop_id,
-		  GValue *value,
-		  GParamSpec *pspec)
+                  guint property_id,
+                  GValue *value,
+                  GParamSpec *pspec)
 {
 	ECanvasBackground *ecb;
 
 	ecb = E_CANVAS_BACKGROUND (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_FILL_COLOR_RGBA:
 		g_value_set_uint (value, ecb->priv->rgba);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
@@ -202,7 +208,11 @@ ecb_draw (GnomeCanvasItem *item,
 }
 
 static GnomeCanvasItem *
-ecb_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy)
+ecb_point (GnomeCanvasItem *item,
+           gdouble x,
+           gdouble y,
+           gint cx,
+           gint cy)
 {
 	return item;
 }

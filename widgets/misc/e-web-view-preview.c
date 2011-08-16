@@ -47,9 +47,9 @@ G_DEFINE_TYPE (
 
 static void
 web_view_preview_set_property (GObject *object,
-                       guint property_id,
-                       const GValue *value,
-                       GParamSpec *pspec)
+                               guint property_id,
+                               const GValue *value,
+                               GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_ESCAPE_VALUES:
@@ -64,9 +64,9 @@ web_view_preview_set_property (GObject *object,
 
 static void
 web_view_preview_get_property (GObject *object,
-                       guint property_id,
-                       GValue *value,
-                       GParamSpec *pspec)
+                               guint property_id,
+                               GValue *value,
+                               GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_TREE_VIEW:
@@ -108,13 +108,13 @@ web_view_preview_dispose (GObject *object)
 }
 
 static void
-e_web_view_preview_class_init (EWebViewPreviewClass *klass)
+e_web_view_preview_class_init (EWebViewPreviewClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (EWebViewPreviewPrivate));
+	g_type_class_add_private (class, sizeof (EWebViewPreviewPrivate));
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = web_view_preview_set_property;
 	object_class->get_property = web_view_preview_get_property;
 	object_class->dispose = web_view_preview_dispose;
@@ -206,7 +206,7 @@ e_web_view_preview_get_tree_view (EWebViewPreview *preview)
 }
 
 GtkWidget *
-e_web_view_preview_get_preview	(EWebViewPreview *preview)
+e_web_view_preview_get_preview (EWebViewPreview *preview)
 {
 	g_return_val_if_fail (preview != NULL, NULL);
 	g_return_val_if_fail (E_IS_WEB_VIEW_PREVIEW (preview), NULL);
@@ -215,13 +215,12 @@ e_web_view_preview_get_preview	(EWebViewPreview *preview)
 }
 
 void
-e_web_view_preview_set_preview	(EWebViewPreview *preview, GtkWidget *preview_widget)
+e_web_view_preview_set_preview (EWebViewPreview *preview,
+                                GtkWidget *preview_widget)
 {
 	GtkWidget *old_child;
 
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
-	g_return_if_fail (preview_widget != NULL);
 	g_return_if_fail (GTK_IS_WIDGET (preview_widget));
 
 	old_child = gtk_bin_get_child (GTK_BIN (gtk_paned_get_child2 (GTK_PANED (preview))));
@@ -236,7 +235,6 @@ e_web_view_preview_set_preview	(EWebViewPreview *preview, GtkWidget *preview_wid
 void
 e_web_view_preview_show_tree_view (EWebViewPreview *preview)
 {
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
 
 	gtk_widget_show (gtk_paned_get_child1 (GTK_PANED (preview)));
@@ -245,18 +243,16 @@ e_web_view_preview_show_tree_view (EWebViewPreview *preview)
 void
 e_web_view_preview_hide_tree_view (EWebViewPreview *preview)
 {
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
 
 	gtk_widget_hide (gtk_paned_get_child1 (GTK_PANED (preview)));
 }
 
 void
-e_web_view_preview_set_escape_values (EWebViewPreview *preview, gboolean escape)
+e_web_view_preview_set_escape_values (EWebViewPreview *preview,
+                                      gboolean escape)
 {
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
-	g_return_if_fail (preview->priv != NULL);
 
 	preview->priv->escape_values = escape;
 }
@@ -274,9 +270,7 @@ e_web_view_preview_get_escape_values (EWebViewPreview *preview)
 void
 e_web_view_preview_begin_update (EWebViewPreview *preview)
 {
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
-	g_return_if_fail (preview->priv != NULL);
 
 	if (preview->priv->updating_content) {
 		g_warning ("%s: Previous content update isn't finished with e_web_view_preview_end_update()", G_STRFUNC);
@@ -291,9 +285,7 @@ e_web_view_preview_end_update (EWebViewPreview *preview)
 {
 	GtkWidget *web_view;
 
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
-	g_return_if_fail (preview->priv != NULL);
 	g_return_if_fail (preview->priv->updating_content != NULL);
 
 	g_string_append (preview->priv->updating_content, "</TABLE>");
@@ -307,7 +299,9 @@ e_web_view_preview_end_update (EWebViewPreview *preview)
 }
 
 static gchar *
-replace_string (const gchar *text, const gchar *find, const gchar *replace)
+replace_string (const gchar *text,
+                const gchar *find,
+                const gchar *replace)
 {
 	const gchar *p, *next;
 	GString *str;
@@ -337,7 +331,8 @@ replace_string (const gchar *text, const gchar *find, const gchar *replace)
 }
 
 static gchar *
-web_view_preview_escape_text (EWebViewPreview *preview, const gchar *text)
+web_view_preview_escape_text (EWebViewPreview *preview,
+                              const gchar *text)
 {
 	gchar *utf8_valid, *res, *end;
 
@@ -375,13 +370,13 @@ web_view_preview_escape_text (EWebViewPreview *preview, const gchar *text)
 }
 
 void
-e_web_view_preview_add_header (EWebViewPreview *preview, gint index, const gchar *header)
+e_web_view_preview_add_header (EWebViewPreview *preview,
+                               gint index,
+                               const gchar *header)
 {
 	gchar *escaped;
 
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
-	g_return_if_fail (preview->priv != NULL);
 	g_return_if_fail (preview->priv->updating_content != NULL);
 	g_return_if_fail (header != NULL);
 
@@ -400,13 +395,12 @@ e_web_view_preview_add_header (EWebViewPreview *preview, gint index, const gchar
 }
 
 void
-e_web_view_preview_add_text (EWebViewPreview *preview, const gchar *text)
+e_web_view_preview_add_text (EWebViewPreview *preview,
+                             const gchar *text)
 {
 	gchar *escaped;
 
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
-	g_return_if_fail (preview->priv != NULL);
 	g_return_if_fail (preview->priv->updating_content != NULL);
 	g_return_if_fail (text != NULL);
 
@@ -420,11 +414,10 @@ e_web_view_preview_add_text (EWebViewPreview *preview, const gchar *text)
 }
 
 void
-e_web_view_preview_add_raw_html (EWebViewPreview *preview, const gchar *raw_html)
+e_web_view_preview_add_raw_html (EWebViewPreview *preview,
+                                 const gchar *raw_html)
 {
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
-	g_return_if_fail (preview->priv != NULL);
 	g_return_if_fail (preview->priv->updating_content != NULL);
 	g_return_if_fail (raw_html != NULL);
 
@@ -434,9 +427,7 @@ e_web_view_preview_add_raw_html (EWebViewPreview *preview, const gchar *raw_html
 void
 e_web_view_preview_add_separator (EWebViewPreview *preview)
 {
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
-	g_return_if_fail (preview->priv != NULL);
 	g_return_if_fail (preview->priv->updating_content != NULL);
 
 	g_string_append (preview->priv->updating_content, "<TR><TD colspan=2><HR></TD></TR>");
@@ -445,9 +436,7 @@ e_web_view_preview_add_separator (EWebViewPreview *preview)
 void
 e_web_view_preview_add_empty_line (EWebViewPreview *preview)
 {
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
-	g_return_if_fail (preview->priv != NULL);
 	g_return_if_fail (preview->priv->updating_content != NULL);
 
 	g_string_append (preview->priv->updating_content, "<TR><TD colspan=2>&nbsp;</TD></TR>");
@@ -455,13 +444,13 @@ e_web_view_preview_add_empty_line (EWebViewPreview *preview)
 
 /* section can be NULL, but value cannot */
 void
-e_web_view_preview_add_section (EWebViewPreview *preview, const gchar *section, const gchar *value)
+e_web_view_preview_add_section (EWebViewPreview *preview,
+                                const gchar *section,
+                                const gchar *value)
 {
 	gchar *escaped_section = NULL, *escaped_value;
 
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
-	g_return_if_fail (preview->priv != NULL);
 	g_return_if_fail (preview->priv->updating_content != NULL);
 	g_return_if_fail (value != NULL);
 

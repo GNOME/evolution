@@ -64,7 +64,9 @@ struct _pine_import_msg {
 };
 
 static gboolean
-pine_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
+pine_supported (EImport *ei,
+                EImportTarget *target,
+                EImportImporter *im)
 {
 	gchar *maildir, *addrfile;
 	gboolean md_exists, addr_exists;
@@ -84,21 +86,22 @@ pine_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 /*
-See: http://www.washington.edu/pine/tech-notes/low-level.html
-
-addressbook line is:
-     <nickname>TAB<fullname>TAB<address>TAB<fcc>TAB<comments>
-lists, address is:
-     "(" <address>, <address>, <address>, ... ")"
-
-<address> is rfc822 address, or alias address.
-if rfc822 address includes a phrase, then that overrides <fullname>
-
-FIXME: we dont handle aliases in lists.
-*/
+ * See: http://www.washington.edu/pine/tech-notes/low-level.html
+ * 
+ * addressbook line is:
+ *      <nickname>TAB<fullname>TAB<address>TAB<fcc>TAB<comments>
+ * lists, address is:
+ *      "(" <address>, <address>, <address>, ... ")"
+ * 
+ * <address> is rfc822 address, or alias address.
+ * if rfc822 address includes a phrase, then that overrides <fullname>
+ * 
+ * FIXME: we dont handle aliases in lists.
+ */
 
 static void
-import_contact (EBookClient *book_client, gchar *line)
+import_contact (EBookClient *book_client,
+                gchar *line)
 {
 	gchar **strings, *addr, **addrs;
 	gint i;
@@ -118,16 +121,16 @@ import_contact (EBookClient *book_client, gchar *line)
 
 		addr = strings[2];
 		len = strlen (addr);
-		if (addr[0] == '(' && addr[len-1] == ')') {
+		if (addr[0] == '(' && addr[len - 1] == ')') {
 			addr[0] = 0;
-			addr[len-1] = 0;
+			addr[len - 1] = 0;
 			addrs = g_strsplit(addr+1, ",", 0);
 			list = NULL;
 			/* XXX So ... this api is just insane ... we set
 			 *     plain strings as the contact email if it
 			 *     is a normal contact, but need to do this
 			 *     XML crap for mailing lists. */
-			for (i=0;addrs[i];i++) {
+			for (i = 0; addrs[i]; i++) {
 				EDestination *d;
 				EVCardAttribute *attr;
 
@@ -228,15 +231,15 @@ import_contacts (void)
 	line = g_string_new("");
 	g_string_set_size (line, 256);
 	offset = 0;
-	while (fgets (line->str+offset, 256, fp)) {
+	while (fgets (line->str + offset, 256, fp)) {
 		gsize len;
 
-		len = strlen (line->str+offset)+offset;
-		if (line->str[len-1] == '\n')
-			g_string_truncate (line, len-1);
+		len = strlen (line->str + offset) + offset;
+		if (line->str[len - 1] == '\n')
+			g_string_truncate (line, len - 1);
 		else if (!feof (fp)) {
 			offset = len;
-			g_string_set_size (line, len+256);
+			g_string_set_size (line, len + 256);
 			continue;
 		} else {
 			g_string_truncate (line, len);
@@ -428,7 +431,9 @@ checkbox_addr_toggle_cb (GtkToggleButton *tb,
 }
 
 static GtkWidget *
-pine_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
+pine_getwidget (EImport *ei,
+                EImportTarget *target,
+                EImportImporter *im)
 {
 	GtkWidget *box, *w;
 	GConfClient *gconf;
@@ -452,12 +457,12 @@ pine_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	w = gtk_check_button_new_with_label(_("Mail"));
 	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_mail);
-	g_signal_connect(w, "toggled", G_CALLBACK(checkbox_mail_toggle_cb), target);
+	g_signal_connect (w, "toggled", G_CALLBACK(checkbox_mail_toggle_cb), target);
 	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 0);
 
 	w = gtk_check_button_new_with_label(_("Address Book"));
 	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_addr);
-	g_signal_connect(w, "toggled", G_CALLBACK(checkbox_addr_toggle_cb), target);
+	g_signal_connect (w, "toggled", G_CALLBACK(checkbox_addr_toggle_cb), target);
 	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (box);
@@ -466,7 +471,9 @@ pine_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-pine_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+pine_import (EImport *ei,
+             EImportTarget *target,
+             EImportImporter *im)
 {
 	if (GPOINTER_TO_INT(g_datalist_get_data(&target->data, "pine-do-mail"))
 	    || GPOINTER_TO_INT(g_datalist_get_data(&target->data, "pine-do-addr")))
@@ -476,7 +483,9 @@ pine_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-pine_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
+pine_cancel (EImport *ei,
+             EImportTarget *target,
+             EImportImporter *im)
 {
 	struct _pine_import_msg *m = g_datalist_get_data(&target->data, "pine-msg");
 

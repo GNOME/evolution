@@ -40,9 +40,9 @@ typedef enum {
 typedef enum {
 	EAB_CONTACT_MATCH_PART_NOT_APPLICABLE   = -1,
 	EAB_CONTACT_MATCH_PART_NONE             = 0,
-	EAB_CONTACT_MATCH_PART_GIVEN_NAME       = 1<<0,
-	EAB_CONTACT_MATCH_PART_ADDITIONAL_NAME  = 1<<2,
-	EAB_CONTACT_MATCH_PART_FAMILY_NAME      = 1<<3
+	EAB_CONTACT_MATCH_PART_GIVEN_NAME       = 1 << 0,
+	EAB_CONTACT_MATCH_PART_ADDITIONAL_NAME  = 1 << 2,
+	EAB_CONTACT_MATCH_PART_FAMILY_NAME      = 1 << 3
 } EABContactMatchPart;
 
 typedef void (*EABContactMatchQueryCallback) (EContact *contact, EContact *match, EABContactMatchType type, gpointer closure);

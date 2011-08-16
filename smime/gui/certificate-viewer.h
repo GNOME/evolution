@@ -26,6 +26,6 @@
 #include <gtk/gtk.h>
 #include "e-cert.h"
 
-GtkWidget* certificate_viewer_show (ECert *cert);
+GtkWidget * certificate_viewer_show (ECert *cert);
 
 #endif /* _CERTIFICATE_VIEWER_H_ */

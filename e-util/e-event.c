@@ -175,7 +175,8 @@ e_event_add_items (EEvent *event,
  * added, and may only be removed once.
  **/
 void
-e_event_remove_items (EEvent *event, gpointer handle)
+e_event_remove_items (EEvent *event,
+                      gpointer handle)
 {
 	struct _event_node *node = handle;
 
@@ -193,7 +194,8 @@ e_event_remove_items (EEvent *event, gpointer handle)
 }
 
 static gint
-ee_cmp (gconstpointer ap, gconstpointer bp)
+ee_cmp (gconstpointer ap,
+        gconstpointer bp)
 {
 	gint a = ((struct _event_info **) ap)[0]->item->priority;
 	gint b = ((struct _event_info **) bp)[0]->item->priority;
@@ -217,7 +219,9 @@ ee_cmp (gconstpointer ap, gconstpointer bp)
  * emission is complete.
  **/
 void
-e_event_emit (EEvent *event, const gchar *id, EEventTarget *target)
+e_event_emit (EEvent *event,
+              const gchar *id,
+              EEventTarget *target)
 {
 	EEventPrivate *p = event->priv;
 	GSList *events;
@@ -238,7 +242,7 @@ e_event_emit (EEvent *event, const gchar *id, EEventTarget *target)
 			struct _event_node *node = link->data;
 			GSList *l = node->events;
 
-			for (;l;l=g_slist_next (l)) {
+			for (; l; l = g_slist_next (l)) {
 				struct _event_info *info;
 
 				info = g_malloc0 (sizeof (*info));
@@ -253,7 +257,7 @@ e_event_emit (EEvent *event, const gchar *id, EEventTarget *target)
 		p->sorted = events = g_slist_sort (events, ee_cmp);
 	}
 
-	for (;events;events=g_slist_next (events)) {
+	for (; events; events = g_slist_next (events)) {
 		struct _event_info *info = events->data;
 		EEventItem *item = info->item;
 
@@ -325,42 +329,42 @@ e_event_target_free (EEvent *event,
 /* Event menu plugin handler */
 
 /*
-<e-plugin
-  class="org.gnome.mail.plugin.event:1.0"
-  id="org.gnome.mail.plugin.event.item:1.0"
-  type="shlib"
-  location="/opt/gnome2/lib/camel/1.0/libcamelimap.so"
-  name="imap"
-  description="IMAP4 and IMAP4v1 mail store">
-  <hook class="org.gnome.mail.eventMenu:1.0"
-        handler="HandleEvent">
-  <menu id="any" target="select">
-   <item
-    type="item|toggle|radio|image|submenu|bar"
-    active
-    path="foo/bar"
-    label="label"
-    icon="foo"
-    mask="select_one"
-    activate="ep_view_emacs"/>
-  </menu>
-  </extension>
-
-  <hook class="org.gnome.evolution.mail.events:1.0">
-  <event id=".folder.changed"
-  target=""
-    priority="0"
-    handle="gotevent"
-    enable="new"
-    />
-  <event id=".message.read"
-    priority="0"
-    handle="gotevent"
-    mask="new"
-    />
-  </hook>
-
-*/
+ * <e-plugin
+ *  class="org.gnome.mail.plugin.event:1.0"
+ *  id="org.gnome.mail.plugin.event.item:1.0"
+ *  type="shlib"
+ *  location="/opt/gnome2/lib/camel/1.0/libcamelimap.so"
+ *  name="imap"
+ *  description="IMAP4 and IMAP4v1 mail store">
+ *  <hook class="org.gnome.mail.eventMenu:1.0"
+ *      handler="HandleEvent">
+ *   <menu id="any" target="select">
+ *   <item
+ *    type="item|toggle|radio|image|submenu|bar"
+ *    active
+ *    path="foo/bar"
+ *    label="label"
+ *    icon="foo"
+ *    mask="select_one"
+ *    activate="ep_view_emacs"/>
+ *   </menu>
+ *  </hook>
+ *
+ * <hook class="org.gnome.evolution.mail.events:1.0">
+ * <event id=".folder.changed"
+ *  target=""
+ *  priority="0"
+ *  handle="gotevent"
+ *  enable="new"
+ *  />
+ * <event id=".message.read"
+ *  priority="0"
+ *  handle="gotevent"
+ *  mask="new"
+ *  />
+ * </hook>
+ *
+ */
 
 #define emph ((EEventHook *)eph)
 
@@ -377,7 +381,9 @@ G_DEFINE_TYPE (
 	E_TYPE_PLUGIN_HOOK)
 
 static void
-emph_event_handle (EEvent *ee, EEventItem *item, gpointer data)
+emph_event_handle (EEvent *ee,
+                   EEventItem *item,
+                   gpointer data)
 {
 	EEventHook *hook = data;
 
@@ -399,7 +405,9 @@ emph_free_item (EEventItem *item)
 }
 
 static void
-emph_free_items (EEvent *ee, GSList *items, gpointer data)
+emph_free_items (EEvent *ee,
+                 GSList *items,
+                 gpointer data)
 {
 	/*EPluginHook *eph = data;*/
 
@@ -408,7 +416,9 @@ emph_free_items (EEvent *ee, GSList *items, gpointer data)
 }
 
 static EEventItem *
-emph_construct_item (EPluginHook *eph, xmlNodePtr root, EEventHookClass *class)
+emph_construct_item (EPluginHook *eph,
+                     xmlNodePtr root,
+                     EEventHookClass *class)
 {
 	EEventItem *item;
 	EEventHookTargetMap *map;
@@ -444,7 +454,9 @@ error:
 }
 
 static gint
-emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
+emph_construct (EPluginHook *eph,
+                EPlugin *ep,
+                xmlNodePtr root)
 {
 	xmlNodePtr node;
 	EEventHookClass *class;

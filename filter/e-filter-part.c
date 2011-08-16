@@ -280,7 +280,7 @@ e_filter_part_copy_values (EFilterPart *dst_part,
 	/* NOTE: we go backwards, it just works better that way */
 
 	/* for each source type, search the dest type for
-	   a matching type in the same order */
+	 * a matching type in the same order */
 	src_link = g_list_last (src_part->elements);
 	dst_link = g_list_last (dst_part->elements);
 
@@ -491,7 +491,7 @@ e_filter_part_expand_code (EFilterPart *part,
 			namelen = (len + 1) * 2;
 			name = g_alloca (namelen);
 		}
-		memcpy (name, newstart+2, len);
+		memcpy (name, newstart + 2, len);
 		name[len] = 0;
 
 		element = e_filter_part_find_element (part, name);

@@ -155,7 +155,8 @@ e_map_stop_tweening (EMap *map)
 }
 
 static void
-e_map_tween_destroy (EMap *map, EMapTween *tween)
+e_map_tween_destroy (EMap *map,
+                     EMapTween *tween)
 {
 	map->priv->tweens = g_slist_remove (map->priv->tweens, tween);
 	g_slice_free (EMapTween, tween);
@@ -313,7 +314,8 @@ e_map_apply_tween (EMapTween *tween,
 }
 
 static void
-e_map_tweens_compute_matrix (EMap *map, cairo_matrix_t *matrix)
+e_map_tweens_compute_matrix (EMap *map,
+                             cairo_matrix_t *matrix)
 {
 	GSList *walk;
 	gdouble zoom, x, y, latitude, longitude, effect;
@@ -348,7 +350,8 @@ e_map_tweens_compute_matrix (EMap *map, cairo_matrix_t *matrix)
 /* GtkScrollable implementation */
 
 static void
-e_map_adjustment_changed (GtkAdjustment *adjustment, EMap *map)
+e_map_adjustment_changed (GtkAdjustment *adjustment,
+                          EMap *map)
 {
 	EMapPrivate *priv = map->priv;
 
@@ -420,7 +423,8 @@ e_map_set_vadjustment_values (EMap *map)
 }
 
 static void
-e_map_set_hadjustment (EMap *map, GtkAdjustment *adjustment)
+e_map_set_hadjustment (EMap *map,
+                       GtkAdjustment *adjustment)
 {
 	EMapPrivate *priv = map->priv;
 
@@ -447,7 +451,8 @@ e_map_set_hadjustment (EMap *map, GtkAdjustment *adjustment)
 }
 
 static void
-e_map_set_vadjustment (EMap *map, GtkAdjustment *adjustment)
+e_map_set_vadjustment (EMap *map,
+                       GtkAdjustment *adjustment)
 {
 	EMapPrivate *priv = map->priv;
 
@@ -479,7 +484,7 @@ e_map_set_vadjustment (EMap *map, GtkAdjustment *adjustment)
 
 static void
 e_map_set_property (GObject *object,
-                    guint prop_id,
+                    guint property_id,
                     const GValue *value,
                     GParamSpec *pspec)
 {
@@ -487,7 +492,7 @@ e_map_set_property (GObject *object,
 
 	map = E_MAP (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_HADJUSTMENT:
 		e_map_set_hadjustment (map, g_value_get_object (value));
 		break;
@@ -504,14 +509,14 @@ e_map_set_property (GObject *object,
 		break;
 
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
 
 static void
 e_map_get_property (GObject *object,
-                    guint prop_id,
+                    guint property_id,
                     GValue *value,
                     GParamSpec *pspec)
 {
@@ -519,7 +524,7 @@ e_map_get_property (GObject *object,
 
 	map = E_MAP (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_HADJUSTMENT:
 		g_value_set_object (value, map->priv->hadjustment);
 		break;
@@ -534,7 +539,7 @@ e_map_get_property (GObject *object,
 		break;
 
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
@@ -618,7 +623,9 @@ e_map_unrealize (GtkWidget *widget)
 }
 
 static void
-e_map_get_preferred_width (GtkWidget *widget, gint *minimum, gint *natural)
+e_map_get_preferred_width (GtkWidget *widget,
+                           gint *minimum,
+                           gint *natural)
 {
 	EMap *map;
 
@@ -633,7 +640,9 @@ e_map_get_preferred_width (GtkWidget *widget, gint *minimum, gint *natural)
 }
 
 static void
-e_map_get_preferred_height (GtkWidget *widget, gint *minimum, gint *natural)
+e_map_get_preferred_height (GtkWidget *widget,
+                            gint *minimum,
+                            gint *natural)
 {
 	EMap *view;
 	EMapPrivate *priv;
@@ -650,7 +659,8 @@ e_map_get_preferred_height (GtkWidget *widget, gint *minimum, gint *natural)
 }
 
 static void
-e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
+e_map_size_allocate (GtkWidget *widget,
+                     GtkAllocation *allocation)
 {
 	EMap *map;
 
@@ -680,7 +690,8 @@ e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 }
 
 static gboolean
-e_map_draw (GtkWidget *widget, cairo_t *cr)
+e_map_draw (GtkWidget *widget,
+            cairo_t *cr)
 {
 	EMap *map;
 	cairo_matrix_t matrix;
@@ -704,14 +715,16 @@ e_map_draw (GtkWidget *widget, cairo_t *cr)
 }
 
 static gint
-e_map_button_press (GtkWidget *widget, GdkEventButton *event)
+e_map_button_press (GtkWidget *widget,
+                    GdkEventButton *event)
 {
 	if (!gtk_widget_has_focus (widget)) gtk_widget_grab_focus (widget);
 		return TRUE;
 }
 
 static gint
-e_map_button_release (GtkWidget *widget, GdkEventButton *event)
+e_map_button_release (GtkWidget *widget,
+                      GdkEventButton *event)
 {
 	if (event->button != 1) return FALSE;
 
@@ -720,7 +733,8 @@ e_map_button_release (GtkWidget *widget, GdkEventButton *event)
 }
 
 static gint
-e_map_motion (GtkWidget *widget, GdkEventMotion *event)
+e_map_motion (GtkWidget *widget,
+              GdkEventMotion *event)
 {
 	return FALSE;
 }
@@ -934,7 +948,8 @@ e_map_get_magnification (EMap *map)
 }
 
 static void
-e_map_set_zoom (EMap *map, EMapZoomState zoom)
+e_map_set_zoom (EMap *map,
+                EMapZoomState zoom)
 {
 	if (map->priv->zoom_state == zoom)
 		return;
@@ -986,7 +1001,8 @@ e_map_zoom_out (EMap *map)
 }
 
 void
-e_map_set_smooth_zoom (EMap *map, gboolean state)
+e_map_set_smooth_zoom (EMap *map,
+                       gboolean state)
 {
 	((EMapPrivate *) map->priv)->smooth_zoom = state;
 }
@@ -1040,7 +1056,8 @@ e_map_add_point (EMap *map,
 }
 
 void
-e_map_remove_point (EMap *map, EMapPoint *point)
+e_map_remove_point (EMap *map,
+                    EMapPoint *point)
 {
 	g_ptr_array_remove (map->priv->points, point);
 
@@ -1094,7 +1111,8 @@ e_map_point_set_color_rgba (EMap *map,
 }
 
 void
-e_map_point_set_data (EMapPoint *point, gpointer data)
+e_map_point_set_data (EMapPoint *point,
+                      gpointer data)
 {
 	point->user_data = data;
 }
@@ -1106,7 +1124,8 @@ e_map_point_get_data (EMapPoint *point)
 }
 
 gboolean
-e_map_point_is_in_view (EMap *map, EMapPoint *point)
+e_map_point_is_in_view (EMap *map,
+                        EMapPoint *point)
 {
 	GtkAllocation allocation;
 	gdouble x, y;
@@ -1165,7 +1184,8 @@ update_and_paint (EMap *map)
 }
 
 static gint
-load_map_background (EMap *map, gchar *name)
+load_map_background (EMap *map,
+                     gchar *name)
 {
 	GdkPixbuf *pb0;
 
@@ -1251,7 +1271,8 @@ update_render_surface (EMap *map,
 /* Redraw point in client surface */
 
 static void
-update_render_point (EMap *map, EMapPoint *point)
+update_render_point (EMap *map,
+                     EMapPoint *point)
 {
 	cairo_t *cr;
 	gdouble px, py;
@@ -1295,7 +1316,8 @@ update_render_point (EMap *map, EMapPoint *point)
 /* Repaint point on X server */
 
 static void
-repaint_point (EMap *map, EMapPoint *point)
+repaint_point (EMap *map,
+               EMapPoint *point)
 {
 	gdouble px, py;
 
@@ -1310,7 +1332,9 @@ repaint_point (EMap *map, EMapPoint *point)
 }
 
 static void
-center_at (EMap *map, gdouble longitude, gdouble latitude)
+center_at (EMap *map,
+           gdouble longitude,
+           gdouble latitude)
 {
 	GtkAllocation allocation;
 	gint pb_width, pb_height;
@@ -1335,7 +1359,9 @@ center_at (EMap *map, gdouble longitude, gdouble latitude)
 /* Scrolls the view to the specified offsets.  Does not perform range checking!  */
 
 static void
-scroll_to (EMap *map, gint x, gint y)
+scroll_to (EMap *map,
+           gint x,
+           gint y)
 {
 	gint xofs, yofs;
 
@@ -1354,7 +1380,9 @@ scroll_to (EMap *map, gint x, gint y)
 }
 
 static void
-set_scroll_area (EMap *view, gint width, gint height)
+set_scroll_area (EMap *view,
+                 gint width,
+                 gint height)
 {
 	EMapPrivate *priv;
 	GtkAllocation allocation;

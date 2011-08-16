@@ -29,7 +29,8 @@
 #include "e-contact-print.h"
 
 gint
-main (gint argc, gchar *argv[])
+main (gint argc,
+      gchar *argv[])
 {
 	GList *shown_fields = NULL;
 

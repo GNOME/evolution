@@ -63,7 +63,10 @@ enum {
 };
 
 static void
-etcta_cursor_change (GObject *object, gint row, gint col, ETableClickToAdd *etcta)
+etcta_cursor_change (GObject *object,
+                     gint row,
+                     gint col,
+                     ETableClickToAdd *etcta)
 {
 	g_signal_emit (etcta,
 		       etcta_signals[CURSOR_CHANGE], 0,
@@ -71,7 +74,8 @@ etcta_cursor_change (GObject *object, gint row, gint col, ETableClickToAdd *etct
 }
 
 static void
-etcta_style_set (ETableClickToAdd *etcta, GtkStyle *previous_style)
+etcta_style_set (ETableClickToAdd *etcta,
+                 GtkStyle *previous_style)
 {
 	GtkWidget *widget;
 	GtkStyle *style;
@@ -94,7 +98,8 @@ etcta_style_set (ETableClickToAdd *etcta, GtkStyle *previous_style)
 }
 
 static void
-etcta_add_table_header (ETableClickToAdd *etcta, ETableHeader *header)
+etcta_add_table_header (ETableClickToAdd *etcta,
+                        ETableHeader *header)
 {
 	etcta->eth = header;
 	if (etcta->eth)
@@ -116,7 +121,8 @@ etcta_drop_table_header (ETableClickToAdd *etcta)
 }
 
 static void
-etcta_add_one (ETableClickToAdd *etcta, ETableModel *one)
+etcta_add_one (ETableClickToAdd *etcta,
+               ETableModel *one)
 {
 	etcta->one = one;
 	if (etcta->one)
@@ -143,7 +149,8 @@ etcta_drop_one (ETableClickToAdd *etcta)
 }
 
 static void
-etcta_add_model (ETableClickToAdd *etcta, ETableModel *model)
+etcta_add_model (ETableClickToAdd *etcta,
+                 ETableModel *model)
 {
 	etcta->model = model;
 	if (etcta->model)
@@ -161,7 +168,8 @@ etcta_drop_model (ETableClickToAdd *etcta)
 }
 
 static void
-etcta_add_message (ETableClickToAdd *etcta, const gchar *message)
+etcta_add_message (ETableClickToAdd *etcta,
+                   const gchar *message)
 {
 	etcta->message = g_strdup (message);
 }
@@ -191,7 +199,7 @@ etcta_dispose (GObject *object)
 
 static void
 etcta_set_property (GObject *object,
-                    guint prop_id,
+                    guint property_id,
                     const GValue *value,
                     GParamSpec *pspec)
 {
@@ -201,7 +209,7 @@ etcta_set_property (GObject *object,
 	item = GNOME_CANVAS_ITEM (object);
 	etcta = E_TABLE_CLICK_TO_ADD (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_HEADER:
 		etcta_drop_table_header (etcta);
 		etcta_add_table_header (etcta, E_TABLE_HEADER (g_value_get_object (value)));
@@ -230,7 +238,7 @@ etcta_set_property (GObject *object,
 					      NULL);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		return;
 
 	}
@@ -270,13 +278,16 @@ create_rect_and_text (ETableClickToAdd *etcta)
 }
 
 static void
-etcta_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+etcta_get_property (GObject *object,
+                    guint property_id,
+                    GValue *value,
+                    GParamSpec *pspec)
 {
 	ETableClickToAdd *etcta;
 
 	etcta = E_TABLE_CLICK_TO_ADD (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_HEADER:
 		g_value_set_object (value, etcta->eth);
 		break;
@@ -293,7 +304,7 @@ etcta_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *p
 		g_value_set_double (value, etcta->height);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
@@ -376,7 +387,7 @@ finish_editing (ETableClickToAdd *etcta)
 						   "cursor_mode", E_CURSOR_SPREADSHEET,
 						   NULL);
 
-		g_signal_connect(etcta->row, "key_press",
+		g_signal_connect (etcta->row, "key_press",
 				 G_CALLBACK (item_key_press), etcta);
 
 		set_initial_selection (etcta);
@@ -386,7 +397,8 @@ finish_editing (ETableClickToAdd *etcta)
 /* Handles the events on the ETableClickToAdd, particularly
  * it creates the ETableItem and passes in some events. */
 static gint
-etcta_event (GnomeCanvasItem *item, GdkEvent *e)
+etcta_event (GnomeCanvasItem *item,
+             GdkEvent *e)
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
 
@@ -424,7 +436,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 							   "cursor_mode", E_CURSOR_SPREADSHEET,
 							   NULL);
 
-			g_signal_connect(etcta->row, "key_press",
+			g_signal_connect (etcta->row, "key_press",
 					 G_CALLBACK (item_key_press), etcta);
 
 			e_canvas_item_grab_focus (GNOME_CANVAS_ITEM (etcta->row), TRUE);
@@ -462,7 +474,8 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 }
 
 static void
-etcta_reflow (GnomeCanvasItem *item, gint flags)
+etcta_reflow (GnomeCanvasItem *item,
+              gint flags)
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
 
@@ -583,7 +596,7 @@ etcta_init (ETableClickToAdd *etcta)
 	etcta->height = 6;
 
 	etcta->selection = e_table_selection_model_new ();
-	g_signal_connect(etcta->selection, "cursor_changed",
+	g_signal_connect (etcta->selection, "cursor_changed",
 			 G_CALLBACK (etcta_cursor_change), etcta);
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (etcta), etcta_reflow);

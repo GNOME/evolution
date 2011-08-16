@@ -48,8 +48,8 @@ gail_canvas_text_factory_class_init (GailCanvasTextFactoryClass *klass)
   class->get_accessible_type = gail_canvas_text_factory_get_accessible_type;
 }
 
-static AtkObject*
-gail_canvas_text_factory_create_accessible (GObject   *obj)
+static AtkObject *
+gail_canvas_text_factory_create_accessible (GObject *obj)
 {
   return gail_canvas_text_new (obj);
 }

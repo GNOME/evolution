@@ -36,7 +36,7 @@ static void ea_week_view_class_init (EaWeekViewClass *klass);
 static const gchar * ea_week_view_get_name (AtkObject *accessible);
 static const gchar * ea_week_view_get_description (AtkObject *accessible);
 static gint         ea_week_view_get_n_children      (AtkObject *obj);
-static AtkObject*   ea_week_view_ref_child           (AtkObject *obj,
+static AtkObject *   ea_week_view_ref_child           (AtkObject *obj,
 						      gint i);
 
 static gpointer parent_class = NULL;
@@ -101,7 +101,7 @@ ea_week_view_class_init (EaWeekViewClass *klass)
 	class->ref_child = ea_week_view_ref_child;
 }
 
-AtkObject*
+AtkObject *
 ea_week_view_new (GtkWidget *widget)
 {
 	GObject *object;
@@ -256,7 +256,8 @@ ea_week_view_get_n_children (AtkObject *accessible)
 }
 
 static AtkObject *
-ea_week_view_ref_child (AtkObject *accessible, gint index)
+ea_week_view_ref_child (AtkObject *accessible,
+                        gint index)
 {
 	EWeekView *week_view;
 	gint child_num, max_count;

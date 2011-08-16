@@ -164,7 +164,8 @@ jh_tree_refill (EMMailerPrefs *prefs)
 }
 
 static void
-jh_dialog_entry_changed_cb (GtkEntry *entry, gpointer user_data)
+jh_dialog_entry_changed_cb (GtkEntry *entry,
+                            gpointer user_data)
 {
 	GtkBuilder *builder = GTK_BUILDER (user_data);
 	GtkWidget *ok_button, *entry1, *entry2;
@@ -181,7 +182,8 @@ jh_dialog_entry_changed_cb (GtkEntry *entry, gpointer user_data)
 }
 
 static void
-jh_add_cb (GtkWidget *widget, gpointer user_data)
+jh_add_cb (GtkWidget *widget,
+           gpointer user_data)
 {
 	GtkWidget *dialog;
 	GtkWidget *entry;
@@ -222,7 +224,8 @@ jh_add_cb (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-jh_remove_cb (GtkWidget *widget, gpointer user_data)
+jh_remove_cb (GtkWidget *widget,
+              gpointer user_data)
 {
 	EMMailerPrefs *prefs = user_data;
 	GtkTreeSelection *selection;
@@ -233,14 +236,14 @@ jh_remove_cb (GtkWidget *widget, gpointer user_data)
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (prefs->junk_header_tree));
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gchar *name=NULL, *value=NULL;
+		gchar *name = NULL, *value = NULL;
 		GSList *prev = NULL, *node, *list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
 		gtk_tree_model_get (model, &iter, JH_LIST_COLUMN_NAME, &name, JH_LIST_COLUMN_VALUE, &value, -1);
 		node = list;
 		while (node) {
 			gchar *test;
 			gint len = strlen (name);
-			test = strncmp (node->data, name, len) == 0 ? (gchar *) node->data+len:NULL;
+			test = strncmp (node->data, name, len) == 0 ? (gchar *) node->data + len : NULL;
 
 			if (test) {
 				test++;
@@ -274,7 +277,8 @@ jh_remove_cb (GtkWidget *widget, gpointer user_data)
 }
 
 static GtkListStore *
-init_junk_tree (GtkWidget *label_tree, EMMailerPrefs *prefs)
+init_junk_tree (GtkWidget *label_tree,
+                EMMailerPrefs *prefs)
 {
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
@@ -287,11 +291,11 @@ init_junk_tree (GtkWidget *label_tree, EMMailerPrefs *prefs)
 
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (label_tree), -1, _("Header"), renderer, "text", JH_LIST_COLUMN_NAME, NULL);
-	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
+	g_object_set (renderer, "editable", TRUE, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (label_tree), -1, _("Contains Value"), renderer, "text", JH_LIST_COLUMN_VALUE, NULL);
-	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
+	g_object_set (renderer, "editable", TRUE, NULL);
 
 	return store;
 }
@@ -304,8 +308,8 @@ emmp_header_remove_sensitivity (EMMailerPrefs *prefs)
 	gboolean is_default;
 
 	/* remove button should be sensitive if the currenlty selected entry in the list view
-	   is not a default header. if there are no entries, or none is selected, it should be
-	   disabled
+	 * is not a default header. if there are no entries, or none is selected, it should be
+	 * disabled
 	*/
 	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (prefs->header_list_store), &iter,
@@ -341,8 +345,8 @@ emmp_header_add_sensitivity (EMMailerPrefs *prefs)
 	gboolean valid;
 
 	/* the add header button should be sensitive if the text box contains
-	   a valid header string, that is not a duplicate with something already
-	   in the list view
+	 * a valid header string, that is not a duplicate with something already
+	 * in the list view
 	*/
 	entry_contents = gtk_entry_get_text (GTK_ENTRY (prefs->entry_header));
 	if (!emmp_header_is_valid (entry_contents)) {
@@ -402,7 +406,9 @@ emmp_save_headers (EMMailerPrefs *prefs)
 }
 
 static void
-emmp_header_list_enabled_toggled (GtkCellRendererToggle *cell, const gchar *path_string, EMMailerPrefs *prefs)
+emmp_header_list_enabled_toggled (GtkCellRendererToggle *cell,
+                                  const gchar *path_string,
+                                  EMMailerPrefs *prefs)
 {
 	GtkTreeModel *model = GTK_TREE_MODEL (prefs->header_list_store);
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
@@ -420,7 +426,8 @@ emmp_header_list_enabled_toggled (GtkCellRendererToggle *cell, const gchar *path
 }
 
 static void
-emmp_header_add_header (GtkWidget *widget, EMMailerPrefs *prefs)
+emmp_header_add_header (GtkWidget *widget,
+                        EMMailerPrefs *prefs)
 {
 	GtkTreeModel *model = GTK_TREE_MODEL (prefs->header_list_store);
 	GtkTreeIter iter;
@@ -428,7 +435,7 @@ emmp_header_add_header (GtkWidget *widget, EMMailerPrefs *prefs)
 
 	g_strstrip ((gchar *) text);
 
-	if (text && (strlen (text)>0)) {
+	if (text && (strlen (text) > 0)) {
 		gtk_list_store_append (GTK_LIST_STORE (model), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 				HEADER_LIST_NAME_COLUMN, text,
@@ -445,7 +452,8 @@ emmp_header_add_header (GtkWidget *widget, EMMailerPrefs *prefs)
 }
 
 static void
-emmp_header_remove_header (GtkWidget *button, gpointer user_data)
+emmp_header_remove_header (GtkWidget *button,
+                           gpointer user_data)
 {
 	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
 	GtkTreeModel *model = GTK_TREE_MODEL (prefs->header_list_store);
@@ -462,7 +470,8 @@ emmp_header_remove_header (GtkWidget *button, gpointer user_data)
 }
 
 static void
-emmp_header_list_row_selected (GtkTreeSelection *selection, gpointer user_data)
+emmp_header_list_row_selected (GtkTreeSelection *selection,
+                               gpointer user_data)
 {
 	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
 
@@ -470,7 +479,8 @@ emmp_header_list_row_selected (GtkTreeSelection *selection, gpointer user_data)
 }
 
 static void
-emmp_header_entry_changed (GtkWidget *entry, gpointer user_data)
+emmp_header_entry_changed (GtkWidget *entry,
+                           gpointer user_data)
 {
 	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
 
@@ -478,7 +488,8 @@ emmp_header_entry_changed (GtkWidget *entry, gpointer user_data)
 }
 
 static void
-toggle_button_toggled (GtkToggleButton *toggle, EMMailerPrefs *prefs)
+toggle_button_toggled (GtkToggleButton *toggle,
+                       EMMailerPrefs *prefs)
 {
 	const gchar *key;
 
@@ -487,14 +498,16 @@ toggle_button_toggled (GtkToggleButton *toggle, EMMailerPrefs *prefs)
 }
 
 static void
-junk_book_lookup_button_toggled (GtkToggleButton *toggle, EMMailerPrefs *prefs)
+junk_book_lookup_button_toggled (GtkToggleButton *toggle,
+                                 EMMailerPrefs *prefs)
 {
 	toggle_button_toggled (toggle, prefs);
 	gtk_widget_set_sensitive (GTK_WIDGET (prefs->junk_lookup_local_only), gtk_toggle_button_get_active (toggle));
 }
 
 static void
-custom_junk_button_toggled (GtkToggleButton *toggle, EMMailerPrefs *prefs)
+custom_junk_button_toggled (GtkToggleButton *toggle,
+                            EMMailerPrefs *prefs)
 {
 	toggle_button_toggled (toggle, prefs);
 	if (gtk_toggle_button_get_active (toggle)) {
@@ -510,7 +523,11 @@ custom_junk_button_toggled (GtkToggleButton *toggle, EMMailerPrefs *prefs)
 }
 
 static void
-toggle_button_init (EMMailerPrefs *prefs, GtkToggleButton *toggle, gint not, const gchar *key, GCallback toggled)
+toggle_button_init (EMMailerPrefs *prefs,
+                    GtkToggleButton *toggle,
+                    gint not,
+                    const gchar *key,
+                    GCallback toggled)
 {
 	gboolean bool;
 
@@ -623,7 +640,8 @@ emmp_empty_junk_init (EMMailerPrefs *prefs,
 }
 
 static void
-http_images_changed (GtkWidget *widget, EMMailerPrefs *prefs)
+http_images_changed (GtkWidget *widget,
+                     EMMailerPrefs *prefs)
 {
 	EMailImageLoadingPolicy policy;
 
@@ -669,7 +687,9 @@ static EMConfigItem emmp_items[] = {
 };
 
 static void
-emmp_free (EConfig *ec, GSList *items, gpointer data)
+emmp_free (EConfig *ec,
+           GSList *items,
+           gpointer data)
 {
 	/* the prefs data is freed automagically */
 
@@ -957,8 +977,8 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 						     NULL);
 
 	/* populated the listview with entries; firstly we add all the default headers, and then
-	   we add read header configuration out of gconf. If a header in gconf is a default header,
-	   we update the enabled flag accordingly
+	 * we add read header configuration out of gconf. If a header in gconf is a default header,
+	 * we update the enabled flag accordingly
 	*/
 	header_add_list = NULL;
 	default_header_hash = g_hash_table_new (g_str_hash, g_str_equal);
@@ -1086,8 +1106,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	custom_junk_button_toggled (prefs->junk_header_check, prefs);
 	jh_tree_refill (prefs);
-	g_signal_connect (G_OBJECT (prefs->junk_header_add), "clicked", G_CALLBACK (jh_add_cb), prefs);
-	g_signal_connect (G_OBJECT (prefs->junk_header_remove), "clicked", G_CALLBACK (jh_remove_cb), prefs);
+	g_signal_connect (
+		prefs->junk_header_add, "clicked",
+		G_CALLBACK (jh_add_cb), prefs);
+	g_signal_connect (
+		prefs->junk_header_remove, "clicked",
+		G_CALLBACK (jh_remove_cb), prefs);
 
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs (ec, prefs->gconf);

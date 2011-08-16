@@ -270,7 +270,9 @@ static import_fields csv_fields_evolution[] = {
 };
 
 static void
-add_to_notes (EContact *contact, const gchar *field_text, gchar *val)
+add_to_notes (EContact *contact,
+              const gchar *field_text,
+              gchar *val)
 {
 	GString *new_text;
 
@@ -289,32 +291,32 @@ add_to_notes (EContact *contact, const gchar *field_text, gchar *val)
 }
 
 /* @str: a date string in the format MM-DD-YYYY or MMDDYYYY */
-static EContactDate*
+static EContactDate *
 date_from_string (const gchar *str)
 {
-	EContactDate* date;
+	EContactDate * date;
 	gint i = 0;
 
 	g_return_val_if_fail (str != NULL, NULL);
 
 	date = e_contact_date_new ();
 
-	if (g_ascii_isdigit (str[i]) && g_ascii_isdigit (str[i+1])) {
-		date->month = str[i] * 10 + str[i+1] - '0' * 11;
-		i = i+3;
+	if (g_ascii_isdigit (str[i]) && g_ascii_isdigit (str[i + 1])) {
+		date->month = str[i] * 10 + str[i + 1] - '0' * 11;
+		i = i + 3;
 	}
 	else {
 		date->month = str[i] - '0' * 1;
-		i = i+2;
+		i = i + 2;
 	}
 
-	if (g_ascii_isdigit (str[i]) && g_ascii_isdigit (str[i+1])) {
-		date->day = str[i] * 10 + str[i+1] - '0' * 11;
-		i = i+3;
+	if (g_ascii_isdigit (str[i]) && g_ascii_isdigit (str[i + 1])) {
+		date->day = str[i] * 10 + str[i + 1] - '0' * 11;
+		i = i + 3;
 	}
 	else {
 		date->day = str[i] - '0' * 1;
-		i = i+2;
+		i = i + 2;
 	}
 	date->year = str[i] * 1000 + str[i + 1] * 100 +
 		str[i + 2] * 10 + str[i + 3] - '0' * 1111;
@@ -364,7 +366,8 @@ parseNextValue (const gchar **pptr)
 }
 
 static GHashTable *
-map_fields (const gchar *header_line, gint pimporter)
+map_fields (const gchar *header_line,
+            gint pimporter)
 {
 	import_fields *fields_array = NULL;
 	gint n_fields = -1, idx, j;
@@ -417,8 +420,10 @@ map_fields (const gchar *header_line, gint pimporter)
 }
 
 static gboolean
-parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
-
+parseLine (CSVImporter *gci,
+           EContact *contact,
+           gchar *buf)
+{
 	const gchar *pptr = buf, *field_text;
 	gchar *do_free = NULL;
 	GString *value;
@@ -501,69 +506,69 @@ parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 			else {
 				switch (flags) {
 
-				case FLAG_HOME_ADDRESS|FLAG_STREET:
+				case FLAG_HOME_ADDRESS | FLAG_STREET:
 					if (strlen (home_street->str) != 0) {
 						home_street = g_string_append(home_street, ",\n");
 					}
 					home_street = g_string_append (home_street, value->str);
 					break;
-				case FLAG_HOME_ADDRESS|FLAG_CITY:
+				case FLAG_HOME_ADDRESS | FLAG_CITY:
 					home_address->locality = g_strdup (value->str);
 					break;
-				case FLAG_HOME_ADDRESS|FLAG_STATE:
+				case FLAG_HOME_ADDRESS | FLAG_STATE:
 					home_address->region = g_strdup (value->str);
 					break;
-				case FLAG_HOME_ADDRESS|FLAG_POSTAL_CODE:
+				case FLAG_HOME_ADDRESS | FLAG_POSTAL_CODE:
 					home_address->code = g_strdup (value->str);
 					break;
-				case FLAG_HOME_ADDRESS|FLAG_POBOX:
+				case FLAG_HOME_ADDRESS | FLAG_POBOX:
 					home_address->po = g_strdup (value->str);
 					break;
-				case FLAG_HOME_ADDRESS|FLAG_COUNTRY:
+				case FLAG_HOME_ADDRESS | FLAG_COUNTRY:
 					home_address->country = g_strdup (value->str);
 					break;
 
-				case FLAG_WORK_ADDRESS|FLAG_STREET:
+				case FLAG_WORK_ADDRESS | FLAG_STREET:
 					if (strlen (work_street->str) != 0) {
 						work_street = g_string_append(work_street, ",\n");
 					}
 					work_street = g_string_append (work_street, value->str);
 					break;
-				case FLAG_WORK_ADDRESS|FLAG_CITY:
+				case FLAG_WORK_ADDRESS | FLAG_CITY:
 					work_address->locality = g_strdup (value->str);
 					break;
-				case FLAG_WORK_ADDRESS|FLAG_STATE:
+				case FLAG_WORK_ADDRESS | FLAG_STATE:
 					work_address->region = g_strdup (value->str);
 					break;
-				case FLAG_WORK_ADDRESS|FLAG_POSTAL_CODE:
+				case FLAG_WORK_ADDRESS | FLAG_POSTAL_CODE:
 					work_address->code = g_strdup (value->str);
 					break;
-				case FLAG_WORK_ADDRESS|FLAG_POBOX:
+				case FLAG_WORK_ADDRESS | FLAG_POBOX:
 					work_address->po = g_strdup (value->str);
 					break;
-				case FLAG_WORK_ADDRESS|FLAG_COUNTRY:
+				case FLAG_WORK_ADDRESS | FLAG_COUNTRY:
 					work_address->country = g_strdup (value->str);
 					break;
 
-				case FLAG_OTHER_ADDRESS|FLAG_STREET:
+				case FLAG_OTHER_ADDRESS | FLAG_STREET:
 					if (strlen (other_street->str) != 0) {
 						other_street = g_string_append(other_street, ",\n");
 					}
 					other_street = g_string_append (other_street, value->str);
 					break;
-				case FLAG_OTHER_ADDRESS|FLAG_CITY:
+				case FLAG_OTHER_ADDRESS | FLAG_CITY:
 					other_address->locality = g_strdup (value->str);
 					break;
-				case FLAG_OTHER_ADDRESS|FLAG_STATE:
+				case FLAG_OTHER_ADDRESS | FLAG_STATE:
 					other_address->region = g_strdup (value->str);
 					break;
-				case FLAG_OTHER_ADDRESS|FLAG_POSTAL_CODE:
+				case FLAG_OTHER_ADDRESS | FLAG_POSTAL_CODE:
 					other_address->code = g_strdup (value->str);
 					break;
-				case FLAG_OTHER_ADDRESS|FLAG_POBOX:
+				case FLAG_OTHER_ADDRESS | FLAG_POBOX:
 					other_address->po = g_strdup (value->str);
 					break;
-				case FLAG_OTHER_ADDRESS|FLAG_COUNTRY:
+				case FLAG_OTHER_ADDRESS | FLAG_COUNTRY:
 					other_address->country = g_strdup (value->str);
 					break;
 
@@ -634,7 +639,9 @@ parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 }
 
 static EContact *
-getNextCSVEntry (CSVImporter *gci, FILE *f) {
+getNextCSVEntry (CSVImporter *gci,
+                 FILE *f)
+{
 	EContact *contact = NULL;
 	GString  *line;
 	GString *str;
@@ -745,15 +752,19 @@ csv_import_contacts (gpointer d)
 }
 
 static void
-primary_selection_changed_cb (ESourceSelector *selector, EImportTarget *target)
+primary_selection_changed_cb (ESourceSelector *selector,
+                              EImportTarget *target)
 {
-	g_datalist_set_data_full(&target->data, "csv-source",
-				 g_object_ref (e_source_selector_get_primary_selection (selector)),
-				 g_object_unref);
+	g_datalist_set_data_full (
+		&target->data, "csv-source",
+		g_object_ref (e_source_selector_get_primary_selection (selector)),
+		g_object_unref);
 }
 
 static GtkWidget *
-csv_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
+csv_getwidget (EImport *ei,
+               EImportTarget *target,
+               EImportImporter *im)
 {
 	GtkWidget *vbox, *selector;
 	ESource *primary;
@@ -792,7 +803,9 @@ static const gchar *supported_extensions[4] = {
 };
 
 static gboolean
-csv_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
+csv_supported (EImport *ei,
+               EImportTarget *target,
+               EImportImporter *im)
 {
 	gchar *ext;
 	gint i;
@@ -868,7 +881,9 @@ book_loaded_cb (GObject *source_object,
 }
 
 static void
-csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+csv_import (EImport *ei,
+            EImportTarget *target,
+            EImportImporter *im)
 {
 	CSVImporter *gci;
 	ESource *source;
@@ -909,28 +924,37 @@ csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-outlook_csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+outlook_csv_import (EImport *ei,
+                    EImportTarget *target,
+                    EImportImporter *im)
 {
 	importer = OUTLOOK_IMPORTER;
 	csv_import (ei, target, im);
 }
 
 static void
-mozilla_csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+mozilla_csv_import (EImport *ei,
+                    EImportTarget *target,
+                    EImportImporter *im)
 {
 	importer = MOZILLA_IMPORTER;
 	csv_import (ei, target, im);
 }
 
 static void
-evolution_csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+evolution_csv_import (EImport *ei,
+                      EImportTarget *target,
+                      EImportImporter *im)
 {
 	importer = EVOLUTION_IMPORTER;
 	csv_import (ei, target, im);
 }
 
 static void
-csv_cancel (EImport *ei, EImportTarget *target, EImportImporter *im) {
+csv_cancel (EImport *ei,
+            EImportTarget *target,
+            EImportImporter *im)
+{
 	CSVImporter *gci = g_datalist_get_data(&target->data, "csv-data");
 
 	if (gci)
@@ -938,7 +962,9 @@ csv_cancel (EImport *ei, EImportTarget *target, EImportImporter *im) {
 }
 
 static GtkWidget *
-csv_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+csv_get_preview (EImport *ei,
+                 EImportTarget *target,
+                 EImportImporter *im)
 {
 	GtkWidget *preview;
 	GSList *contacts = NULL;
@@ -984,21 +1010,27 @@ csv_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static GtkWidget *
-outlook_csv_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+outlook_csv_get_preview (EImport *ei,
+                         EImportTarget *target,
+                         EImportImporter *im)
 {
 	importer = OUTLOOK_IMPORTER;
 	return csv_get_preview (ei, target, im);
 }
 
 static GtkWidget *
-mozilla_csv_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+mozilla_csv_get_preview (EImport *ei,
+                         EImportTarget *target,
+                         EImportImporter *im)
 {
 	importer = MOZILLA_IMPORTER;
 	return csv_get_preview (ei, target, im);
 }
 
 static GtkWidget *
-evolution_csv_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+evolution_csv_get_preview (EImport *ei,
+                           EImportTarget *target,
+                           EImportImporter *im)
 {
 	importer = EVOLUTION_IMPORTER;
 	return csv_get_preview (ei, target, im);

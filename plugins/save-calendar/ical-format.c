@@ -37,7 +37,8 @@
 #include "format-handler.h"
 
 static void
-display_error_message (GtkWidget *parent, const gchar *message)
+display_error_message (GtkWidget *parent,
+                       const gchar *message)
 {
 	GtkWidget *dialog;
 
@@ -52,7 +53,8 @@ typedef struct {
 } CompTzData;
 
 static void
-insert_tz_comps (icalparameter *param, gpointer cb_data)
+insert_tz_comps (icalparameter *param,
+                 gpointer cb_data)
 {
 	const gchar *tzid;
 	CompTzData *tdata = cb_data;
@@ -76,13 +78,18 @@ insert_tz_comps (icalparameter *param, gpointer cb_data)
 }
 
 static void
-append_tz_to_comp (gpointer key, gpointer value, icalcomponent *toplevel)
+append_tz_to_comp (gpointer key,
+                   gpointer value,
+                   icalcomponent *toplevel)
 {
 	icalcomponent_add_component (toplevel, (icalcomponent *) value);
 }
 
 static void
-do_save_calendar_ical (FormatHandler *handler, ESourceSelector *selector, ECalClientSourceType type, gchar *dest_uri)
+do_save_calendar_ical (FormatHandler *handler,
+                       ESourceSelector *selector,
+                       ECalClientSourceType type,
+                       gchar *dest_uri)
 {
 	ESource *primary_source;
 	ECalClient *source_client;

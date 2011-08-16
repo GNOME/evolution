@@ -25,7 +25,7 @@
 #include <gtk/gtk.h>
 
 /* Opens a window with a list of available calendars for a given server;
-   Returns server URL of a calendar user chose, or NULL to let it be as is. */
+ * Returns server URL of a calendar user chose, or NULL to let it be as is. */
 gchar *caldav_browse_server (GtkWindow *parent, const gchar *server_url, const gchar *username, gboolean use_ssl, gchar **new_usermail, gboolean *new_autoschedule, gint source_type);
 
 #endif /* CALDAV_BROWSE_SERVER_H */

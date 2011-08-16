@@ -39,7 +39,8 @@
  *
  **/
 void
-delete_error_dialog (const GError *error, ECalComponentVType vtype)
+delete_error_dialog (const GError *error,
+                     ECalComponentVType vtype)
 {
 	GtkWidget *dialog;
 	const gchar *str;

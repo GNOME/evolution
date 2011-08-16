@@ -108,7 +108,8 @@ all_rows_deleted (EDateTimeList *date_time_list)
 }
 
 static void
-row_deleted (EDateTimeList *date_time_list, gint n)
+row_deleted (EDateTimeList *date_time_list,
+             gint n)
 {
 	GtkTreePath *path;
 
@@ -119,7 +120,8 @@ row_deleted (EDateTimeList *date_time_list, gint n)
 }
 
 static void
-row_added (EDateTimeList *date_time_list, gint n)
+row_added (EDateTimeList *date_time_list,
+           gint n)
 {
 	GtkTreePath *path;
 	GtkTreeIter  iter;
@@ -134,7 +136,8 @@ row_added (EDateTimeList *date_time_list, gint n)
 }
 
 static void
-row_updated (EDateTimeList *date_time_list, gint n)
+row_updated (EDateTimeList *date_time_list,
+             gint n)
 {
 	GtkTreePath *path;
 	GtkTreeIter  iter;
@@ -276,7 +279,7 @@ date_time_list_get_iter (GtkTreeModel *tree_model,
 
 static GtkTreePath *
 date_time_list_get_path (GtkTreeModel *tree_model,
-                         GtkTreeIter  *iter)
+                         GtkTreeIter *iter)
 {
 	EDateTimeList *date_time_list = (EDateTimeList *) tree_model;
 	GtkTreePath   *retval;
@@ -372,7 +375,7 @@ date_time_list_iter_children (GtkTreeModel *tree_model,
 
 static gboolean
 date_time_list_iter_has_child (GtkTreeModel *tree_model,
-                               GtkTreeIter  *iter)
+                               GtkTreeIter *iter)
 {
 	g_return_val_if_fail (IS_VALID_ITER (E_DATE_TIME_LIST (tree_model), iter), FALSE);
 	return FALSE;
@@ -483,7 +486,8 @@ e_date_time_list_new (void)
 }
 
 const ECalComponentDateTime *
-e_date_time_list_get_date_time (EDateTimeList *date_time_list, GtkTreeIter *iter)
+e_date_time_list_get_date_time (EDateTimeList *date_time_list,
+                                GtkTreeIter *iter)
 {
 	g_return_val_if_fail (IS_VALID_ITER (date_time_list, iter), NULL);
 
@@ -491,8 +495,9 @@ e_date_time_list_get_date_time (EDateTimeList *date_time_list, GtkTreeIter *iter
 }
 
 void
-e_date_time_list_set_date_time (EDateTimeList *date_time_list, GtkTreeIter *iter,
-				const ECalComponentDateTime *datetime)
+e_date_time_list_set_date_time (EDateTimeList *date_time_list,
+                                GtkTreeIter *iter,
+                                const ECalComponentDateTime *datetime)
 {
 	ECalComponentDateTime *datetime_old;
 
@@ -526,8 +531,9 @@ e_date_time_list_set_use_24_hour_format (EDateTimeList *date_time_list,
 }
 
 void
-e_date_time_list_append (EDateTimeList *date_time_list, GtkTreeIter *iter,
-			 const ECalComponentDateTime *datetime)
+e_date_time_list_append (EDateTimeList *date_time_list,
+                         GtkTreeIter *iter,
+                         const ECalComponentDateTime *datetime)
 {
 	g_return_if_fail (datetime != NULL);
 
@@ -546,7 +552,8 @@ e_date_time_list_append (EDateTimeList *date_time_list, GtkTreeIter *iter,
 }
 
 void
-e_date_time_list_remove (EDateTimeList *date_time_list, GtkTreeIter *iter)
+e_date_time_list_remove (EDateTimeList *date_time_list,
+                         GtkTreeIter *iter)
 {
 	gint n;
 

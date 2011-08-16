@@ -30,7 +30,8 @@
 #define MODEL_CLAMP(model, pos) (CLAMP((pos), 0, strlen((model)->text)))
 
 gint
-e_repos_absolute (gint pos, gpointer data)
+e_repos_absolute (gint pos,
+                  gpointer data)
 {
 	EReposAbsolute *info = (EReposAbsolute *) data;
 	g_return_val_if_fail (data, -1);
@@ -45,7 +46,8 @@ e_repos_absolute (gint pos, gpointer data)
 }
 
 gint
-e_repos_insert_shift (gint pos, gpointer data)
+e_repos_insert_shift (gint pos,
+                      gpointer data)
 {
 	EReposInsertShift *info = (EReposInsertShift *) data;
 	g_return_val_if_fail (data, -1);
@@ -57,7 +59,8 @@ e_repos_insert_shift (gint pos, gpointer data)
 }
 
 gint
-e_repos_delete_shift (gint pos, gpointer data)
+e_repos_delete_shift (gint pos,
+                      gpointer data)
 {
 	EReposDeleteShift *info = (EReposDeleteShift *) data;
 	g_return_val_if_fail (data, -1);

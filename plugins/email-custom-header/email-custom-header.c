@@ -78,10 +78,11 @@ static void commit_changes (ConfigData *cd);
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 gboolean e_plugin_ui_init (GtkUIManager *ui_manager, EMsgComposer *composer);
-GtkWidget *org_gnome_email_custom_header_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
+GtkWidget *org_gnome_email_custom_header_config_option (EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
@@ -138,7 +139,7 @@ epech_fill_widgets_with_data (CustomHeaderOptionsDialog *mch)
 	priv->help_section = g_strdup ("usage-mail");
 
 	for (set_index_column = 0;
-		set_index_column < priv->email_custom_header_details->len;set_index_column++) {
+		set_index_column < priv->email_custom_header_details->len; set_index_column++) {
 		sub_combo_box_fill = &g_array_index (priv->combo_box_header_value, HeaderValueComboBox,set_index_column);
 
 		if (priv->flag == 0) {
@@ -187,7 +188,9 @@ epech_dialog_get_type (void)
 }
 
 static void
-epech_header_options_cb (GtkDialog *dialog, gint state, gpointer func_data)
+epech_header_options_cb (GtkDialog *dialog,
+                         gint state,
+                         gpointer func_data)
 {
 	EmailCustomHeaderOptionsDialogPrivate *priv;
 	CustomHeaderOptionsDialog *mch;
@@ -214,7 +217,8 @@ epech_header_options_cb (GtkDialog *dialog, gint state, gpointer func_data)
 }
 
 static gboolean
-epech_dialog_run (CustomHeaderOptionsDialog *mch, GtkWidget *parent)
+epech_dialog_run (CustomHeaderOptionsDialog *mch,
+                  GtkWidget *parent)
 {
 	EmailCustomHeaderOptionsDialogPrivate *priv;
 	GtkWidget *toplevel;
@@ -259,7 +263,9 @@ epech_get_header_list (CustomHeaderOptionsDialog *mch)
 }
 
 static void
-epech_load_from_gconf (GConfClient *client,const gchar *path,CustomHeaderOptionsDialog *mch)
+epech_load_from_gconf (GConfClient *client,
+                       const gchar *path,
+                       CustomHeaderOptionsDialog *mch)
 {
 	EmailCustomHeaderOptionsDialogPrivate *priv;
 	EmailCustomHeaderDetails temp_header_details= {-1, -1, NULL, NULL};
@@ -284,11 +290,11 @@ epech_load_from_gconf (GConfClient *client,const gchar *path,CustomHeaderOptions
 			g_string_assign (temp_header_details.header_type_value, parse_header_list[0]);
 		}
 
-		for (index = 0; parse_header_list[index+1] ; ++index) {
+		for (index = 0; parse_header_list[index + 1] ; ++index) {
 			temp_header_value_details.sub_header_string_value = g_string_new("");
 
 			if (temp_header_value_details.sub_header_string_value) {
-				g_string_assign (temp_header_value_details.sub_header_string_value, parse_header_list[index+1]);
+				g_string_assign (temp_header_value_details.sub_header_string_value, parse_header_list[index + 1]);
 			}
 
 			g_array_append_val (temp_header_details.sub_header_type_value, temp_header_value_details);
@@ -375,7 +381,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 		}
 
 		/* Translators: "None" as an email custom header option in a dialog invoked by Insert->Custom Header from Composer,
-		   indicating the header will not be added to a mail message */
+		 * indicating the header will not be added to a mail message */
 		gtk_combo_box_text_append_text (
 			GTK_COMBO_BOX_TEXT (
 			sub_combo_box_ptr->header_value_combo_box),
@@ -453,7 +459,9 @@ epech_dialog_dispose (GObject *object)
 }
 
 static void
-epech_append_to_custom_header (CustomHeaderOptionsDialog *dialog, gint state, gpointer data)
+epech_append_to_custom_header (CustomHeaderOptionsDialog *dialog,
+                               gint state,
+                               gpointer data)
 {
 	EMsgComposer *composer;
 	EmailCustomHeaderOptionsDialogPrivate *priv;
@@ -483,7 +491,8 @@ epech_append_to_custom_header (CustomHeaderOptionsDialog *dialog, gint state, gp
 }
 
 static void
-epech_custom_header_options_commit (EMsgComposer *comp, gpointer user_data)
+epech_custom_header_options_commit (EMsgComposer *comp,
+                                    gpointer user_data)
 {
 	EMsgComposer *composer;
 	EmailCustomHeaderWindow *new_email_custom_header_window = NULL;
@@ -512,7 +521,8 @@ epech_custom_header_options_commit (EMsgComposer *comp, gpointer user_data)
 }
 
 static gint
-epech_check_existing_composer_window (gconstpointer compowindow, gconstpointer other_compowindow)
+epech_check_existing_composer_window (gconstpointer compowindow,
+                                      gconstpointer other_compowindow)
 {
 	if ((compowindow) && (other_compowindow)) {
 		if (((EmailCustomHeaderWindow *) compowindow)->epech_window == (GdkWindow *) other_compowindow) {
@@ -682,7 +692,8 @@ cell_value_edited_cb (GtkCellRendererText *cell,
 }
 
 static void
-header_add_clicked (GtkButton *button, ConfigData *cd)
+header_add_clicked (GtkButton *button,
+                    ConfigData *cd)
 {
 	GtkTreeModel *model;
 	GtkTreeView *tree_view;
@@ -703,7 +714,8 @@ header_add_clicked (GtkButton *button, ConfigData *cd)
 }
 
 static void
-header_remove_clicked (GtkButton *button, ConfigData *cd)
+header_remove_clicked (GtkButton *button,
+                       ConfigData *cd)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -746,7 +758,8 @@ header_remove_clicked (GtkButton *button, ConfigData *cd)
 }
 
 static void
-header_edit_clicked (GtkButton *button, ConfigData *cd)
+header_edit_clicked (GtkButton *button,
+                     ConfigData *cd)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -768,7 +781,8 @@ header_edit_clicked (GtkButton *button, ConfigData *cd)
 }
 
 static void
-selection_changed (GtkTreeSelection *selection, ConfigData *cd)
+selection_changed (GtkTreeSelection *selection,
+                   ConfigData *cd)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -891,7 +905,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_tree_view_column_set_reorderable (col, TRUE);
 	g_object_set (col, "min-width", 50, NULL);
 
-	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
+	g_object_set (renderer, "editable", TRUE, NULL);
 	g_signal_connect (
 		renderer, "edited",
 		G_CALLBACK (cell_edited_cb), cd);
@@ -905,7 +919,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	col = gtk_tree_view_get_column (GTK_TREE_VIEW (cd->treeview), col_pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
 	gtk_tree_view_column_set_reorderable (col, TRUE);
-	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
+	g_object_set (renderer, "editable", TRUE, NULL);
 
 	g_signal_connect (
 		renderer, "edited",
@@ -913,18 +927,26 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cd->treeview));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	g_signal_connect (G_OBJECT (selection), "changed", G_CALLBACK (selection_changed), cd);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (selection_changed), cd);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (cd->treeview), TRUE);
 
 	cd->header_add = header_add;
-	g_signal_connect (G_OBJECT (cd->header_add), "clicked", G_CALLBACK (header_add_clicked), cd);
+	g_signal_connect (
+		cd->header_add, "clicked",
+		G_CALLBACK (header_add_clicked), cd);
 
 	cd->header_remove = header_remove;
-	g_signal_connect (G_OBJECT (cd->header_remove), "clicked", G_CALLBACK (header_remove_clicked), cd);
+	g_signal_connect (
+		cd->header_remove, "clicked",
+		G_CALLBACK (header_remove_clicked), cd);
 	gtk_widget_set_sensitive (cd->header_remove, FALSE);
 
 	cd->header_edit = header_edit;
-	g_signal_connect (G_OBJECT (cd->header_edit), "clicked", G_CALLBACK (header_edit_clicked), cd);
+	g_signal_connect (
+		cd->header_edit, "clicked",
+		G_CALLBACK (header_edit_clicked), cd);
 	gtk_widget_set_sensitive (cd->header_edit, FALSE);
 
 	/* Populate tree view with values from gconf */
@@ -940,8 +962,8 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
 		gtk_list_store_set (cd->store, &iter, HEADER_KEY_COLUMN, parse_header_list[0], -1);
 
-		for (index = 0; parse_header_list[index+1] ; ++index) {
-			gtk_list_store_set (cd->store, &iter, HEADER_VALUE_COLUMN, parse_header_list[index+1], -1);
+		for (index = 0; parse_header_list[index + 1] ; ++index) {
+			gtk_list_store_set (cd->store, &iter, HEADER_VALUE_COLUMN, parse_header_list[index + 1], -1);
 		}
 	}
 
@@ -965,7 +987,8 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 /* Configuration in Mail Prefs Page goes here */
 
 GtkWidget *
-org_gnome_email_custom_header_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
+org_gnome_email_custom_header_config_option (EPlugin *epl,
+                                             struct _EConfigHookItemFactoryData *data)
 {
 	/* This function and the hook needs to be removed,
 	once the configure code is thoroughly tested */

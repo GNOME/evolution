@@ -229,7 +229,8 @@ ea_minicard_get_n_children (AtkObject *accessible)
 }
 
 static AtkObject *
-ea_minicard_ref_child (AtkObject *accessible, gint index)
+ea_minicard_ref_child (AtkObject *accessible,
+                       gint index)
 {
 	return NULL;
 }
@@ -246,7 +247,8 @@ atk_action_interface_init (AtkActionIface *iface)
 }
 
 static gboolean
-atk_action_interface_do_action (AtkAction *iface, gint i)
+atk_action_interface_do_action (AtkAction *iface,
+                                gint i)
 {
 	EMinicard *minicard = NULL;
 
@@ -278,13 +280,15 @@ atk_action_interface_get_n_action (AtkAction *iface)
 }
 
 static const gchar *
-atk_action_interface_get_description (AtkAction *iface, gint i)
+atk_action_interface_get_description (AtkAction *iface,
+                                      gint i)
 {
 	return atk_action_interface_get_name (iface, i);
 }
 
 static const gchar *
-atk_action_interface_get_name (AtkAction *iface, gint i)
+atk_action_interface_get_name (AtkAction *iface,
+                               gint i)
 {
 	if ( i >= G_N_ELEMENTS (action_name) || i < 0)
 		return NULL;

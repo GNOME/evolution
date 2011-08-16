@@ -85,14 +85,18 @@ er_create_cmp_cache (gpointer user_data)
 }
 
 static gint
-er_compare (gint i1, gint i2, GHashTable *cmp_cache, gpointer user_data)
+er_compare (gint i1,
+            gint i2,
+            GHashTable *cmp_cache,
+            gpointer user_data)
 {
 	EReflow *reflow = user_data;
 	return e_reflow_model_compare (reflow->model, i1, i2, cmp_cache);
 }
 
 static gint
-e_reflow_pick_line (EReflow *reflow, gdouble x)
+e_reflow_pick_line (EReflow *reflow,
+                    gdouble x)
 {
 	x += E_REFLOW_BORDER_WIDTH + E_REFLOW_DIVIDER_WIDTH;
 	x /= reflow->column_width + E_REFLOW_FULL_GUTTER;
@@ -100,7 +104,8 @@ e_reflow_pick_line (EReflow *reflow, gdouble x)
 }
 
 static gint
-er_find_item (EReflow *reflow, GnomeCanvasItem *item)
+er_find_item (EReflow *reflow,
+              GnomeCanvasItem *item)
 {
 	gint i;
 	for (i = 0; i < reflow->count; i++) {
@@ -129,7 +134,8 @@ e_reflow_resize_children (GnomeCanvasItem *item)
 }
 
 static inline void
-e_reflow_update_selection_row (EReflow *reflow, gint row)
+e_reflow_update_selection_row (EReflow *reflow,
+                               gint row)
 {
 	if (reflow->items[row]) {
 		g_object_set (reflow->items[row],
@@ -157,13 +163,16 @@ e_reflow_update_selection (EReflow *reflow)
 }
 
 static void
-selection_changed (ESelectionModel *selection, EReflow *reflow)
+selection_changed (ESelectionModel *selection,
+                   EReflow *reflow)
 {
 	e_reflow_update_selection (reflow);
 }
 
 static void
-selection_row_changed (ESelectionModel *selection, gint row, EReflow *reflow)
+selection_row_changed (ESelectionModel *selection,
+                       gint row,
+                       EReflow *reflow)
 {
 	e_reflow_update_selection_row (reflow, row);
 }
@@ -208,7 +217,10 @@ do_adjustment (gpointer user_data)
 }
 
 static void
-cursor_changed (ESelectionModel *selection, gint row, gint col, EReflow *reflow)
+cursor_changed (ESelectionModel *selection,
+                gint row,
+                gint col,
+                EReflow *reflow)
 {
 	gint count = reflow->count;
 	gint old_cursor = reflow->cursor_row;
@@ -329,8 +341,8 @@ reflow_columns (EReflow *reflow)
 	}
 	else {
 		/* we start one column before the earliest new entry,
-		   so we can handle the case where the new entry is
-		   inserted at the start of the column */
+		 * so we can handle the case where the new entry is
+		 * inserted at the start of the column */
 		column_start = reflow->reflow_from_column - 1;
 		start = reflow->columns[column_start];
 		column_count = column_start + 1;
@@ -371,7 +383,9 @@ reflow_columns (EReflow *reflow)
 }
 
 static void
-item_changed (EReflowModel *model, gint i, EReflow *reflow)
+item_changed (EReflowModel *model,
+              gint i,
+              EReflow *reflow)
 {
 	if (i < 0 || i >= reflow->count)
 		return;
@@ -386,7 +400,9 @@ item_changed (EReflowModel *model, gint i, EReflow *reflow)
 }
 
 static void
-item_removed (EReflowModel *model, gint i, EReflow *reflow)
+item_removed (EReflowModel *model,
+              gint i,
+              EReflow *reflow)
 {
 	gint c;
 	gint sorted;
@@ -428,7 +444,10 @@ item_removed (EReflowModel *model, gint i, EReflow *reflow)
 }
 
 static void
-items_inserted (EReflowModel *model, gint position, gint count, EReflow *reflow)
+items_inserted (EReflowModel *model,
+                gint position,
+                gint count,
+                EReflow *reflow)
 {
 	gint i, oldcount;
 
@@ -481,7 +500,8 @@ items_inserted (EReflowModel *model, gint position, gint count, EReflow *reflow)
 }
 
 static void
-model_changed (EReflowModel *model, EReflow *reflow)
+model_changed (EReflowModel *model,
+               EReflow *reflow)
 {
 	gint i;
 	gint count;
@@ -518,7 +538,8 @@ model_changed (EReflowModel *model, EReflow *reflow)
 }
 
 static void
-comparison_changed (EReflowModel *model, EReflow *reflow)
+comparison_changed (EReflowModel *model,
+                    EReflow *reflow)
 {
 	e_sorter_array_clean (reflow->sorter);
 	reflow->reflow_from_column = -1;
@@ -615,7 +636,8 @@ disconnect_selection (EReflow *reflow)
 }
 
 static void
-connect_model (EReflow *reflow, EReflowModel *model)
+connect_model (EReflow *reflow,
+               EReflowModel *model)
 {
 	if (reflow->model != NULL)
 		disconnect_model (reflow);
@@ -644,7 +666,8 @@ connect_model (EReflow *reflow, EReflowModel *model)
 }
 
 static void
-adjustment_changed (GtkAdjustment *adjustment, EReflow *reflow)
+adjustment_changed (GtkAdjustment *adjustment,
+                    EReflow *reflow)
 {
 	queue_incarnate (reflow);
 }
@@ -668,7 +691,8 @@ disconnect_adjustment (EReflow *reflow)
 }
 
 static void
-connect_adjustment (EReflow *reflow, GtkAdjustment *adjustment)
+connect_adjustment (EReflow *reflow,
+                    GtkAdjustment *adjustment)
 {
 	if (reflow->adjustment != NULL)
 		disconnect_adjustment (reflow);
@@ -688,7 +712,10 @@ connect_adjustment (EReflow *reflow, GtkAdjustment *adjustment)
 
 #if 0
 static void
-set_scroll_adjustments (GtkLayout *layout, GtkAdjustment *hadj, GtkAdjustment *vadj, EReflow *reflow)
+set_scroll_adjustments (GtkLayout *layout,
+                        GtkAdjustment *hadj,
+                        GtkAdjustment *vadj,
+                        EReflow *reflow)
 {
 	connect_adjustment (reflow, hadj);
 }
@@ -723,7 +750,10 @@ column_width_changed (EReflow *reflow)
 
 /* Virtual functions */
 static void
-e_reflow_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+e_reflow_set_property (GObject *object,
+                       guint property_id,
+                       const GValue *value,
+                       GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	EReflow *reflow;
@@ -731,7 +761,7 @@ e_reflow_set_property (GObject *object, guint prop_id, const GValue *value, GPar
 	item = GNOME_CANVAS_ITEM (object);
 	reflow = E_REFLOW (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_HEIGHT:
 		reflow->height = g_value_get_double (value);
 		reflow->need_reflow_columns = TRUE;
@@ -785,13 +815,16 @@ e_reflow_set_property (GObject *object, guint prop_id, const GValue *value, GPar
 }
 
 static void
-e_reflow_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+e_reflow_get_property (GObject *object,
+                       guint property_id,
+                       GValue *value,
+                       GParamSpec *pspec)
 {
 	EReflow *reflow;
 
 	reflow = E_REFLOW (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_MINIMUM_WIDTH:
 		g_value_set_double (value, reflow->minimum_width);
 		break;
@@ -811,7 +844,7 @@ e_reflow_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec
 		g_value_set_double (value, reflow->column_width);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
@@ -922,7 +955,8 @@ e_reflow_unrealize (GnomeCanvasItem *item)
 }
 
 static gboolean
-e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
+e_reflow_event (GnomeCanvasItem *item,
+                GdkEvent *event)
 {
 	EReflow *reflow;
 	gint return_val = FALSE;
@@ -1054,7 +1088,7 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 				value = gtk_adjustment_get_value (adjustment);
 
 				reflow->temp_column_width = reflow->column_width +
-					(button->x - reflow->start_x)/(reflow->which_column_dragged - e_reflow_pick_line (reflow, value));
+					(button->x - reflow->start_x) / (reflow->which_column_dragged - e_reflow_pick_line (reflow, value));
 				if (reflow->temp_column_width < 50)
 					reflow->temp_column_width = 50;
 				reflow->column_drag = FALSE;
@@ -1094,7 +1128,7 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 				value = gtk_adjustment_get_value (adjustment);
 
 				reflow->temp_column_width = reflow->column_width +
-					(motion->x - reflow->start_x)/(reflow->which_column_dragged - e_reflow_pick_line (reflow, value));
+					(motion->x - reflow->start_x) / (reflow->which_column_dragged - e_reflow_pick_line (reflow, value));
 				if (reflow->temp_column_width < 50)
 					reflow->temp_column_width = 50;
 				if (old_width != reflow->temp_column_width) {
@@ -1268,7 +1302,9 @@ e_reflow_draw (GnomeCanvasItem *item,
 }
 
 static void
-e_reflow_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
+e_reflow_update (GnomeCanvasItem *item,
+                 const cairo_matrix_t *i2c,
+                 gint flags)
 {
 	EReflow *reflow;
 	gdouble x0, x1, y0, y1;
@@ -1359,7 +1395,10 @@ e_reflow_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
 
 static GnomeCanvasItem *
 e_reflow_point (GnomeCanvasItem *item,
-		gdouble x, gdouble y, gint cx, gint cy)
+                gdouble x,
+                gdouble y,
+                gint cx,
+                gint cy)
 {
 	GnomeCanvasItem *child;
 
@@ -1383,7 +1422,8 @@ e_reflow_point (GnomeCanvasItem *item,
 }
 
 static void
-e_reflow_reflow ( GnomeCanvasItem *item, gint flags )
+e_reflow_reflow (GnomeCanvasItem *item,
+                 gint flags)
 {
 	EReflow *reflow = E_REFLOW (item);
 	gdouble old_width;
@@ -1429,7 +1469,9 @@ e_reflow_reflow ( GnomeCanvasItem *item, gint flags )
 }
 
 static gint
-e_reflow_selection_event_real (EReflow *reflow, GnomeCanvasItem *item, GdkEvent *event)
+e_reflow_selection_event_real (EReflow *reflow,
+                               GnomeCanvasItem *item,
+                               GdkEvent *event)
 {
 	gint row;
 	gint return_val = TRUE;
@@ -1484,7 +1526,7 @@ e_reflow_class_init (EReflowClass *klass)
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = (GObjectClass*) klass;
+	object_class = (GObjectClass *) klass;
 	item_class = (GnomeCanvasItemClass *) klass;
 
 	object_class->set_property  = e_reflow_set_property;
@@ -1612,13 +1654,13 @@ e_reflow_init (EReflow *reflow)
 		      NULL);
 
 	reflow->selection_changed_id =
-		g_signal_connect(reflow->selection, "selection_changed",
+		g_signal_connect (reflow->selection, "selection_changed",
 				 G_CALLBACK (selection_changed), reflow);
 	reflow->selection_row_changed_id =
-		g_signal_connect(reflow->selection, "selection_row_changed",
+		g_signal_connect (reflow->selection, "selection_row_changed",
 				 G_CALLBACK (selection_row_changed), reflow);
 	reflow->cursor_changed_id =
-		g_signal_connect(reflow->selection, "cursor_changed",
+		g_signal_connect (reflow->selection, "cursor_changed",
 				 G_CALLBACK (cursor_changed), reflow);
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (reflow), e_reflow_reflow);

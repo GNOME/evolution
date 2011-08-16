@@ -81,8 +81,8 @@ e_table_state_to_header (GtkWidget *widget,
 
 static ETableCol *
 et_col_spec_to_col (ETableColumnSpecification *col_spec,
-		    ETableExtras              *ete,
-		    const gchar                *domain)
+                    ETableExtras *ete,
+                    const gchar *domain)
 {
 	ETableCol *col = NULL;
 	ECell *cell = NULL;
@@ -146,7 +146,7 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 
 ETableHeader *
 e_table_spec_to_full_header (ETableSpecification *spec,
-			     ETableExtras        *ete)
+                             ETableExtras *ete)
 {
 	ETableHeader *nh;
 	gint column;
@@ -170,7 +170,8 @@ e_table_spec_to_full_header (ETableSpecification *spec,
 }
 
 static gboolean
-check_col (ETableCol *col, gpointer user_data)
+check_col (ETableCol *col,
+           gpointer user_data)
 {
 	return col->search ? TRUE : FALSE;
 }

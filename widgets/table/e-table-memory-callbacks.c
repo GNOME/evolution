@@ -43,7 +43,9 @@ etmc_column_count (ETableModel *etm)
 }
 
 static gpointer
-etmc_value_at (ETableModel *etm, gint col, gint row)
+etmc_value_at (ETableModel *etm,
+               gint col,
+               gint row)
 {
 	ETableMemoryCallbacks *etmc = E_TABLE_MEMORY_CALLBACKS (etm);
 
@@ -54,7 +56,10 @@ etmc_value_at (ETableModel *etm, gint col, gint row)
 }
 
 static void
-etmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
+etmc_set_value_at (ETableModel *etm,
+                   gint col,
+                   gint row,
+                   gconstpointer val)
 {
 	ETableMemoryCallbacks *etmc = E_TABLE_MEMORY_CALLBACKS (etm);
 
@@ -63,7 +68,9 @@ etmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 }
 
 static gboolean
-etmc_is_cell_editable (ETableModel *etm, gint col, gint row)
+etmc_is_cell_editable (ETableModel *etm,
+                       gint col,
+                       gint row)
 {
 	ETableMemoryCallbacks *etmc = E_TABLE_MEMORY_CALLBACKS (etm);
 
@@ -75,7 +82,9 @@ etmc_is_cell_editable (ETableModel *etm, gint col, gint row)
 
 /* The default for etmc_duplicate_value is to return the raw value. */
 static gpointer
-etmc_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
+etmc_duplicate_value (ETableModel *etm,
+                      gint col,
+                      gconstpointer value)
 {
 	ETableMemoryCallbacks *etmc = E_TABLE_MEMORY_CALLBACKS (etm);
 
@@ -86,7 +95,9 @@ etmc_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 }
 
 static void
-etmc_free_value (ETableModel *etm, gint col, gpointer value)
+etmc_free_value (ETableModel *etm,
+                 gint col,
+                 gpointer value)
 {
 	ETableMemoryCallbacks *etmc = E_TABLE_MEMORY_CALLBACKS (etm);
 
@@ -95,7 +106,8 @@ etmc_free_value (ETableModel *etm, gint col, gpointer value)
 }
 
 static gpointer
-etmc_initialize_value (ETableModel *etm, gint col)
+etmc_initialize_value (ETableModel *etm,
+                       gint col)
 {
 	ETableMemoryCallbacks *etmc = E_TABLE_MEMORY_CALLBACKS (etm);
 
@@ -106,7 +118,9 @@ etmc_initialize_value (ETableModel *etm, gint col)
 }
 
 static gboolean
-etmc_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
+etmc_value_is_empty (ETableModel *etm,
+                     gint col,
+                     gconstpointer value)
 {
 	ETableMemoryCallbacks *etmc = E_TABLE_MEMORY_CALLBACKS (etm);
 
@@ -117,7 +131,9 @@ etmc_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 }
 
 static gchar *
-etmc_value_to_string (ETableModel *etm, gint col, gconstpointer value)
+etmc_value_to_string (ETableModel *etm,
+                      gint col,
+                      gconstpointer value)
 {
 	ETableMemoryCallbacks *etmc = E_TABLE_MEMORY_CALLBACKS (etm);
 
@@ -128,7 +144,9 @@ etmc_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 }
 
 static void
-etmc_append_row (ETableModel *etm, ETableModel *source, gint row)
+etmc_append_row (ETableModel *etm,
+                 ETableModel *source,
+                 gint row)
 {
 	ETableMemoryCallbacks *etmc = E_TABLE_MEMORY_CALLBACKS (etm);
 
@@ -189,15 +207,15 @@ e_table_memory_callbacks_init (ETableMemoryCallbacks *etmc)
  */
 ETableModel *
 e_table_memory_callbacks_new (ETableMemoryCallbacksColumnCountFn col_count,
-			      ETableMemoryCallbacksValueAtFn value_at,
-			      ETableMemoryCallbacksSetValueAtFn set_value_at,
-			      ETableMemoryCallbacksIsCellEditableFn is_cell_editable,
-			      ETableMemoryCallbacksDuplicateValueFn duplicate_value,
-			      ETableMemoryCallbacksFreeValueFn free_value,
-			      ETableMemoryCallbacksInitializeValueFn initialize_value,
-			      ETableMemoryCallbacksValueIsEmptyFn value_is_empty,
-			      ETableMemoryCallbacksValueToStringFn value_to_string,
-			      gpointer data)
+                              ETableMemoryCallbacksValueAtFn value_at,
+                              ETableMemoryCallbacksSetValueAtFn set_value_at,
+                              ETableMemoryCallbacksIsCellEditableFn is_cell_editable,
+                              ETableMemoryCallbacksDuplicateValueFn duplicate_value,
+                              ETableMemoryCallbacksFreeValueFn free_value,
+                              ETableMemoryCallbacksInitializeValueFn initialize_value,
+                              ETableMemoryCallbacksValueIsEmptyFn value_is_empty,
+                              ETableMemoryCallbacksValueToStringFn value_to_string,
+                              gpointer data)
 {
 	ETableMemoryCallbacks *et;
 

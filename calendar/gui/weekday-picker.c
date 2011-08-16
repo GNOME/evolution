@@ -380,7 +380,8 @@ weekday_picker_class_init (WeekdayPickerClass *class)
 }
 
 static void
-day_clicked (WeekdayPicker *wp, gint index)
+day_clicked (WeekdayPicker *wp,
+             gint index)
 {
 	WeekdayPickerPrivate *priv = wp->priv;
 	guint8 day_mask;
@@ -397,7 +398,8 @@ day_clicked (WeekdayPicker *wp, gint index)
 }
 
 static gint
-handle_key_press_event (WeekdayPicker *wp, GdkEvent *event)
+handle_key_press_event (WeekdayPicker *wp,
+                        GdkEvent *event)
 {
 	WeekdayPickerPrivate *priv = wp->priv;
 	guint keyval = event->key.keyval;
@@ -434,7 +436,9 @@ handle_key_press_event (WeekdayPicker *wp, GdkEvent *event)
 
 /* Event handler for the day items */
 static gint
-day_event_cb (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
+day_event_cb (GnomeCanvasItem *item,
+              GdkEvent *event,
+              gpointer data)
 {
 	WeekdayPicker *wp;
 	WeekdayPickerPrivate *priv;
@@ -530,7 +534,8 @@ weekday_picker_new (void)
  * Sunday is bit 0, Monday is bit 1, etc.
  **/
 void
-weekday_picker_set_days (WeekdayPicker *wp, guint8 day_mask)
+weekday_picker_set_days (WeekdayPicker *wp,
+                         guint8 day_mask)
 {
 	WeekdayPickerPrivate *priv;
 
@@ -576,7 +581,8 @@ weekday_picker_get_days (WeekdayPicker *wp)
  * weekday_picker_set_days().
  **/
 void
-weekday_picker_set_blocked_days (WeekdayPicker *wp, guint8 blocked_day_mask)
+weekday_picker_set_blocked_days (WeekdayPicker *wp,
+                                 guint8 blocked_day_mask)
 {
 	WeekdayPickerPrivate *priv;
 
@@ -618,7 +624,8 @@ weekday_picker_get_blocked_days (WeekdayPicker *wp)
  * Sets the day that defines the start of the week for a weekday picker.
  **/
 void
-weekday_picker_set_week_start_day (WeekdayPicker *wp, gint week_start_day)
+weekday_picker_set_week_start_day (WeekdayPicker *wp,
+                                   gint week_start_day)
 {
 	WeekdayPickerPrivate *priv;
 

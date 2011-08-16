@@ -303,7 +303,9 @@ static EMConfigItem emcp_items[] = {
 };
 
 static void
-emcp_free (EConfig *ec, GSList *items, gpointer data)
+emcp_free (EConfig *ec,
+           GSList *items,
+           gpointer data)
 {
 	/* the prefs data is freed automagically */
 	g_slist_free (items);

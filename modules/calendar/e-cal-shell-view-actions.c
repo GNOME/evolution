@@ -1205,7 +1205,8 @@ exit:
 }
 
 static void
-edit_event_as (ECalShellView *cal_shell_view, gboolean as_meeting)
+edit_event_as (ECalShellView *cal_shell_view,
+               gboolean as_meeting)
 {
 	ECalShellContent *cal_shell_content;
 	GnomeCalendarViewType view_type;

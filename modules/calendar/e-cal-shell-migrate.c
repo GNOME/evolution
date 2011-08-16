@@ -75,11 +75,11 @@ create_calendar_contact_source (ESourceList *source_list)
 
 static void
 create_calendar_sources (EShellBackend *shell_backend,
-			 ESourceList *source_list,
-			 ESourceGroup **on_this_computer,
-			 ESource **personal_source,
-			 ESourceGroup **on_the_web,
-			 ESourceGroup **contacts)
+                         ESourceList *source_list,
+                         ESourceGroup **on_this_computer,
+                         ESource **personal_source,
+                         ESourceGroup **on_the_web,
+                         ESourceGroup **contacts)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
@@ -134,7 +134,7 @@ create_calendar_sources (EShellBackend *shell_backend,
 
 	if (*on_this_computer) {
 		/* make sure "Personal" shows up as a source under
-		   this group */
+		 * this group */
 		GSList *sources = e_source_group_peek_sources (*on_this_computer);
 		GSList *s;
 		for (s = sources; s; s = s->next) {
@@ -224,8 +224,8 @@ e_cal_shell_backend_migrate (EShellBackend *shell_backend,
 	g_object_get (shell_backend, "source-list", &source_list, NULL);
 
 	/* we call this unconditionally now - create_groups either
-	   creates the groups/sources or it finds the necessary
-	   groups/sources. */
+	 * creates the groups/sources or it finds the necessary
+	 * groups/sources. */
 	create_calendar_sources (
 		shell_backend, source_list, &on_this_computer,
 		&personal_source, &on_the_web, &contacts);

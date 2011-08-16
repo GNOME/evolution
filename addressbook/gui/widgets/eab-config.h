@@ -25,6 +25,7 @@
 #define __EAB_CONFIG_H__
 
 #include <gconf/gconf-client.h>
+#include <libedataserver/e-source.h>
 #include "e-util/e-config.h"
 
 #define EAB_TYPE_CONFIG (eab_config_get_type ())
@@ -56,7 +57,7 @@ typedef struct _EABConfigTargetSource EABConfigTargetSource;
 struct _EABConfigTargetSource {
 	EConfigTarget target;
 
-	struct _ESource *source;
+	ESource *source;
 };
 
 typedef struct _EABConfigTargetPrefs EABConfigTargetPrefs;
@@ -73,7 +74,7 @@ typedef struct _EConfigItem EABConfigItem;
 GType eab_config_get_type (void);
 EABConfig *eab_config_new (gint type, const gchar *menuid);
 
-EABConfigTargetSource *eab_config_target_new_source (EABConfig *ecp, struct _ESource *source);
+EABConfigTargetSource *eab_config_target_new_source (EABConfig *ecp, ESource *source);
 EABConfigTargetPrefs *eab_config_target_new_prefs (EABConfig *ecp, GConfClient *gconf);
 
 G_END_DECLS

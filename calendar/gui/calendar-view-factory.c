@@ -159,7 +159,8 @@ calendar_view_factory_get_type_code (GalViewFactory *factory)
 
 /* new_view method for the calendar view factory */
 static GalView *
-calendar_view_factory_new_view (GalViewFactory *factory, const gchar *name)
+calendar_view_factory_new_view (GalViewFactory *factory,
+                                const gchar *name)
 {
 	CalendarViewFactory *cal_view_factory;
 	CalendarViewFactoryPrivate *priv;
@@ -186,7 +187,7 @@ calendar_view_factory_new_view (GalViewFactory *factory, const gchar *name)
  **/
 GalViewFactory *
 calendar_view_factory_construct (CalendarViewFactory *cal_view_factory,
-				 GnomeCalendarViewType view_type)
+                                 GnomeCalendarViewType view_type)
 {
 	CalendarViewFactoryPrivate *priv;
 

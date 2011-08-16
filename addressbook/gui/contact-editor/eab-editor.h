@@ -68,7 +68,7 @@ struct _EABEditorClass {
 	void (* save_contact)     (EABEditor *editor, gboolean should_close);
 	gboolean (* is_valid)     (EABEditor *editor);
 	gboolean (* is_changed)   (EABEditor *editor);
-	GtkWindow* (* get_window) (EABEditor *editor);
+	GtkWindow * (* get_window) (EABEditor *editor);
 
 	/* signals */
 	void (* contact_added)    (EABEditor *editor, const GError *error, EContact *contact);

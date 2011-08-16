@@ -99,11 +99,11 @@ etg_dispose (GObject *object)
  */
 ETableGroup *
 e_table_group_new (GnomeCanvasGroup *parent,
-		   ETableHeader     *full_header,
-		   ETableHeader     *header,
-		   ETableModel      *model,
-		   ETableSortInfo   *sort_info,
-		   gint               n)
+                   ETableHeader *full_header,
+                   ETableHeader *header,
+                   ETableModel *model,
+                   ETableSortInfo *sort_info,
+                   gint n)
 {
 	g_return_val_if_fail (model != NULL, NULL);
 
@@ -128,10 +128,10 @@ e_table_group_new (GnomeCanvasGroup *parent,
  */
 void
 e_table_group_construct (GnomeCanvasGroup *parent,
-			 ETableGroup      *etg,
-			 ETableHeader     *full_header,
-			 ETableHeader     *header,
-			 ETableModel      *model)
+                         ETableGroup *etg,
+                         ETableHeader *full_header,
+                         ETableHeader *header,
+                         ETableModel *model)
 {
 	etg->full_header = full_header;
 	g_object_ref (etg->full_header);
@@ -139,9 +139,7 @@ e_table_group_construct (GnomeCanvasGroup *parent,
 	g_object_ref (etg->header);
 	etg->model = model;
 	g_object_ref (etg->model);
-	g_object_set (G_OBJECT (etg),
-		"parent", parent,
-		NULL);
+	g_object_set (etg, "parent", parent, NULL);
 }
 
 /**
@@ -154,7 +152,7 @@ e_table_group_construct (GnomeCanvasGroup *parent,
  */
 void
 e_table_group_add (ETableGroup *etg,
-		   gint row)
+                   gint row)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
@@ -174,8 +172,8 @@ e_table_group_add (ETableGroup *etg,
  */
 void
 e_table_group_add_array (ETableGroup *etg,
-			 const gint *array,
-			 gint count)
+                         const gint *array,
+                         gint count)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
@@ -214,7 +212,7 @@ e_table_group_add_all (ETableGroup *etg)
  */
 gboolean
 e_table_group_remove (ETableGroup *etg,
-		      gint row)
+                      gint row)
 {
 	g_return_val_if_fail (etg != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), FALSE);
@@ -235,8 +233,8 @@ e_table_group_remove (ETableGroup *etg,
  */
 void
 e_table_group_increment (ETableGroup *etg,
-			 gint position,
-			 gint amount)
+                         gint position,
+                         gint amount)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
@@ -257,8 +255,8 @@ e_table_group_increment (ETableGroup *etg,
  */
 void
 e_table_group_decrement (ETableGroup *etg,
-			 gint position,
-			 gint amount)
+                         gint position,
+                         gint amount)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
@@ -296,8 +294,8 @@ e_table_group_row_count (ETableGroup *etg)
  */
 void
 e_table_group_set_focus (ETableGroup *etg,
-			 EFocus direction,
-			 gint view_col)
+                         EFocus direction,
+                         gint view_col)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
@@ -390,7 +388,9 @@ e_table_group_compute_location (ETableGroup *etg,
 }
 
 void
-e_table_group_get_mouse_over (ETableGroup *etg, gint *row, gint *col)
+e_table_group_get_mouse_over (ETableGroup *etg,
+                              gint *row,
+                              gint *col)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
@@ -414,13 +414,13 @@ e_table_group_get_mouse_over (ETableGroup *etg, gint *row, gint *col)
  * removed from the value row points to.
  */
 void
-e_table_group_get_cell_geometry  (ETableGroup *etg,
-				  gint         *row,
-				  gint         *col,
-				  gint         *x,
-				  gint         *y,
-				  gint         *width,
-				  gint         *height)
+e_table_group_get_cell_geometry (ETableGroup *etg,
+                                 gint *row,
+                                 gint *col,
+                                 gint *x,
+                                 gint *y,
+                                 gint *width,
+                                 gint *height)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
@@ -437,7 +437,8 @@ e_table_group_get_cell_geometry  (ETableGroup *etg,
  * This routine emits the "cursor_change" signal.
  */
 void
-e_table_group_cursor_change (ETableGroup *e_table_group, gint row)
+e_table_group_cursor_change (ETableGroup *e_table_group,
+                             gint row)
 {
 	g_return_if_fail (e_table_group != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (e_table_group));
@@ -455,7 +456,8 @@ e_table_group_cursor_change (ETableGroup *e_table_group, gint row)
  * This routine emits the "cursor_activated" signal.
  */
 void
-e_table_group_cursor_activated (ETableGroup *e_table_group, gint row)
+e_table_group_cursor_activated (ETableGroup *e_table_group,
+                                gint row)
 {
 	g_return_if_fail (e_table_group != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (e_table_group));
@@ -614,7 +616,8 @@ e_table_group_get_header (ETableGroup *etg)
 }
 
 static gint
-etg_event (GnomeCanvasItem *item, GdkEvent *event)
+etg_event (GnomeCanvasItem *item,
+           GdkEvent *event)
 {
 	ETableGroup *etg = E_TABLE_GROUP (item);
 	gboolean return_val = TRUE;
@@ -638,7 +641,7 @@ etg_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static gboolean
-etg_get_focus (ETableGroup      *etg)
+etg_get_focus (ETableGroup *etg)
 {
 	return etg->has_focus;
 }

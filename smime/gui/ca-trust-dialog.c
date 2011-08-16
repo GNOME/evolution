@@ -54,7 +54,9 @@ free_data (gpointer data)
 }
 
 static void
-catd_response (GtkWidget *w, guint id, CATrustDialogData *data)
+catd_response (GtkWidget *w,
+               guint id,
+               CATrustDialogData *data)
 {
 	switch (id) {
 	case GTK_RESPONSE_ACCEPT: {
@@ -68,8 +70,9 @@ catd_response (GtkWidget *w, guint id, CATrustDialogData *data)
 	}
 }
 
-GtkWidget*
-ca_trust_dialog_show (ECert *cert, gboolean importing)
+GtkWidget *
+ca_trust_dialog_show (ECert *cert,
+                      gboolean importing)
 {
 	CATrustDialogData *ctd_data;
 	GtkDialog *dialog;
@@ -113,7 +116,10 @@ ca_trust_dialog_show (ECert *cert, gboolean importing)
 }
 
 void
-ca_trust_dialog_set_trust (GtkWidget *widget, gboolean ssl, gboolean email, gboolean objsign)
+ca_trust_dialog_set_trust (GtkWidget *widget,
+                           gboolean ssl,
+                           gboolean email,
+                           gboolean objsign)
 {
 	CATrustDialogData *ctd_data;
 
@@ -127,7 +133,10 @@ ca_trust_dialog_set_trust (GtkWidget *widget, gboolean ssl, gboolean email, gboo
 }
 
 void
-ca_trust_dialog_get_trust (GtkWidget *widget, gboolean *ssl, gboolean *email, gboolean *objsign)
+ca_trust_dialog_get_trust (GtkWidget *widget,
+                           gboolean *ssl,
+                           gboolean *email,
+                           gboolean *objsign)
 {
 	CATrustDialogData *ctd_data;
 

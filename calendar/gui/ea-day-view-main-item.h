@@ -51,7 +51,7 @@ struct _EaDayViewMainItemClass
 	AtkGObjectAccessibleClass parent_class;
 };
 
-AtkObject*     ea_day_view_main_item_new         (GObject *obj);
+AtkObject *     ea_day_view_main_item_new         (GObject *obj);
 
 G_END_DECLS
 

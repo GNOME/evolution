@@ -129,7 +129,7 @@ e_table_specification_new (void)
  */
 gboolean
 e_table_specification_load_from_file (ETableSpecification *specification,
-				      const gchar          *filename)
+                                      const gchar *filename)
 {
 	xmlDoc *doc;
 
@@ -156,7 +156,7 @@ e_table_specification_load_from_file (ETableSpecification *specification,
  */
 gboolean
 e_table_specification_load_from_string (ETableSpecification *specification,
-					const gchar          *xml)
+                                        const gchar *xml)
 {
 	xmlDoc *doc;
 	doc = xmlParseMemory ( (gchar *) xml, strlen (xml));
@@ -180,7 +180,7 @@ e_table_specification_load_from_string (ETableSpecification *specification,
  */
 void
 e_table_specification_load_from_node (ETableSpecification *specification,
-				      const xmlNode       *node)
+                                      const xmlNode *node)
 {
 	gchar *temp;
 	xmlNode *children;
@@ -285,7 +285,7 @@ e_table_specification_load_from_node (ETableSpecification *specification,
  */
 gint
 e_table_specification_save_to_file (ETableSpecification *specification,
-				    const gchar          *filename)
+                                    const gchar *filename)
 {
 	xmlDoc *doc;
 	gint ret;
@@ -349,7 +349,7 @@ e_table_specification_save_to_string (ETableSpecification *specification)
  */
 xmlNode *
 e_table_specification_save_to_node (ETableSpecification *specification,
-				    xmlDoc              *doc)
+                                    xmlDoc *doc)
 {
 	xmlNode *node;
 	const gchar *s;

@@ -242,7 +242,7 @@ EImportTargetHome *
 /* import plugin target, they are closely integrated */
 
 /* To implement a basic import plugin, you just need to subclass
-   this and initialise the class target type tables */
+ * this and initialise the class target type tables */
 
 #include "e-util/e-plugin.h"
 

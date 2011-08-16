@@ -101,7 +101,8 @@ ensure_loaded (void)
 }
 
 static const gchar *
-get_default_format (DTFormatKind kind, const gchar *key)
+get_default_format (DTFormatKind kind,
+                    const gchar *key)
 {
 	const gchar *res = NULL;
 
@@ -139,7 +140,8 @@ get_default_format (DTFormatKind kind, const gchar *key)
 }
 
 static const gchar *
-get_format_internal (const gchar *key, DTFormatKind kind)
+get_format_internal (const gchar *key,
+                     DTFormatKind kind)
 {
 	const gchar *res;
 
@@ -156,7 +158,9 @@ get_format_internal (const gchar *key, DTFormatKind kind)
 }
 
 static void
-set_format_internal (const gchar *key, const gchar *fmt, GKeyFile *keyfile)
+set_format_internal (const gchar *key,
+                     const gchar *fmt,
+                     GKeyFile *keyfile)
 {
 	ensure_loaded ();
 
@@ -174,7 +178,10 @@ set_format_internal (const gchar *key, const gchar *fmt, GKeyFile *keyfile)
 }
 
 static gchar *
-format_relative_date (time_t tvalue, time_t ttoday, const struct tm *value, const struct tm *today)
+format_relative_date (time_t tvalue,
+                      time_t ttoday,
+                      const struct tm *value,
+                      const struct tm *today)
 {
 	gchar *res = g_strdup (get_default_format (DTFormatKindDate, NULL));
 	GDate now, val;
@@ -215,44 +222,44 @@ format_relative_date (time_t tvalue, time_t ttoday, const struct tm *value, cons
 				switch (g_date_get_weekday (&val)) {
 				case 1:
 					/* Translators: This is used for abbreviated days in the future.
-				           You can use strftime modifiers here too, like "Next %a", to avoid
-					   repeated translation of the abbreviated day name. */
+				 *         You can use strftime modifiers here too, like "Next %a", to avoid
+					 * repeated translation of the abbreviated day name. */
 					res = g_strdup (C_ ("DateFmt", "Next Mon"));
 					break;
 				case 2:
 					/* Translators: This is used for abbreviated days in the future.
-				           You can use strftime modifiers here too, like "Next %a", to avoid
-					   repeated translation of the abbreviated day name. */
+				 *         You can use strftime modifiers here too, like "Next %a", to avoid
+					 * repeated translation of the abbreviated day name. */
 					res = g_strdup (C_ ("DateFmt", "Next Tue"));
 					break;
 				case 3:
 					/* Translators: This is used for abbreviated days in the future.
-				           You can use strftime modifiers here too, like "Next %a", to avoid
-					   repeated translation of the abbreviated day name. */
+				 *         You can use strftime modifiers here too, like "Next %a", to avoid
+					 * repeated translation of the abbreviated day name. */
 					res = g_strdup (C_ ("DateFmt", "Next Wed"));
 					break;
 				case 4:
 					/* Translators: This is used for abbreviated days in the future.
-				           You can use strftime modifiers here too, like "Next %a", to avoid
-					   repeated translation of the abbreviated day name. */
+				 *         You can use strftime modifiers here too, like "Next %a", to avoid
+					 * repeated translation of the abbreviated day name. */
 					res = g_strdup (C_ ("DateFmt", "Next Thu"));
 					break;
 				case 5:
 					/* Translators: This is used for abbreviated days in the future.
-				           You can use strftime modifiers here too, like "Next %a", to avoid
-					   repeated translation of the abbreviated day name. */
+				 *         You can use strftime modifiers here too, like "Next %a", to avoid
+					 * repeated translation of the abbreviated day name. */
 					res = g_strdup (C_ ("DateFmt", "Next Fri"));
 					break;
 				case 6:
 					/* Translators: This is used for abbreviated days in the future.
-				           You can use strftime modifiers here too, like "Next %a", to avoid
-					   repeated translation of the abbreviated day name. */
+				 *         You can use strftime modifiers here too, like "Next %a", to avoid
+					 * repeated translation of the abbreviated day name. */
 					res = g_strdup (C_ ("DateFmt", "Next Sat"));
 					break;
 				case 7:
 					/* Translators: This is used for abbreviated days in the future.
-				           You can use strftime modifiers here too, like "Next %a", to avoid
-					   repeated translation of the abbreviated day name. */
+				 *         You can use strftime modifiers here too, like "Next %a", to avoid
+					 * repeated translation of the abbreviated day name. */
 					res = g_strdup (C_ ("DateFmt", "Next Sun"));
 					break;
 				default:
@@ -269,7 +276,10 @@ format_relative_date (time_t tvalue, time_t ttoday, const struct tm *value, cons
 }
 
 static gchar *
-format_internal (const gchar *key, DTFormatKind kind, time_t tvalue, struct tm *tm_value)
+format_internal (const gchar *key,
+                 DTFormatKind kind,
+                 time_t tvalue,
+                 struct tm *tm_value)
 {
 	const gchar *fmt;
 	gchar buff[129];
@@ -332,7 +342,9 @@ format_internal (const gchar *key, DTFormatKind kind, time_t tvalue, struct tm *
 }
 
 static void
-fill_combo_formats (GtkWidget *combo, const gchar *key, DTFormatKind kind)
+fill_combo_formats (GtkWidget *combo,
+                    const gchar *key,
+                    DTFormatKind kind)
 {
 	const gchar *date_items[] = {
 		N_ ("Use locale default"),
@@ -449,7 +461,8 @@ update_preview_widget (GtkWidget *combo)
 }
 
 static void
-format_combo_changed_cb (GtkWidget *combo, gpointer user_data)
+format_combo_changed_cb (GtkWidget *combo,
+                         gpointer user_data)
 {
 	const gchar *key;
 	DTFormatKind kind;
@@ -478,12 +491,14 @@ format_combo_changed_cb (GtkWidget *combo, gpointer user_data)
 	update_preview_widget (combo);
 
 	/* save on every change only because 'unref_setup_keyfile' is never called :(
-	   how about in kill-bonobo? */
+	 * how about in kill - bonobo? */
 	save_keyfile (keyfile);
 }
 
 static gchar *
-gen_key (const gchar *component, const gchar *part, DTFormatKind kind)
+gen_key (const gchar *component,
+         const gchar *part,
+         DTFormatKind kind)
 {
 	const gchar *kind_str = NULL;
 
@@ -538,7 +553,12 @@ unref_setup_keyfile (gpointer ptr)
  * on user's changes.
  **/
 void
-e_datetime_format_add_setup_widget (GtkWidget *table, gint row, const gchar *component, const gchar *part, DTFormatKind kind, const gchar *caption)
+e_datetime_format_add_setup_widget (GtkWidget *table,
+                                    gint row,
+                                    const gchar *component,
+                                    const gchar *part,
+                                    DTFormatKind kind,
+                                    const gchar *caption)
 {
 	GtkListStore *store;
 	GtkWidget *label, *combo, *preview, *align;
@@ -601,7 +621,10 @@ e_datetime_format_add_setup_widget (GtkWidget *table, gint row, const gchar *com
 }
 
 gchar *
-e_datetime_format_format (const gchar *component, const gchar *part, DTFormatKind kind, time_t value)
+e_datetime_format_format (const gchar *component,
+                          const gchar *part,
+                          DTFormatKind kind,
+                          time_t value)
 {
 	gchar *key, *res;
 
@@ -619,7 +642,10 @@ e_datetime_format_format (const gchar *component, const gchar *part, DTFormatKin
 }
 
 gchar *
-e_datetime_format_format_tm (const gchar *component, const gchar *part, DTFormatKind kind, struct tm *tm_time)
+e_datetime_format_format_tm (const gchar *component,
+                             const gchar *part,
+                             DTFormatKind kind,
+                             struct tm *tm_time)
 {
 	gchar *key, *res;
 

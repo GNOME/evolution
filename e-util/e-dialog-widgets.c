@@ -37,7 +37,8 @@
  * values for the items are provided as a -1-terminated array.
  */
 static gint
-value_to_index (const gint *value_map, gint value)
+value_to_index (const gint *value_map,
+                gint value)
 {
 	gint i;
 
@@ -52,7 +53,8 @@ value_to_index (const gint *value_map, gint value)
  * function above.
  */
 static gint
-index_to_value (const gint *value_map, gint index)
+index_to_value (const gint *value_map,
+                gint index)
 {
 	gint i;
 
@@ -75,7 +77,8 @@ index_to_value (const gint *value_map, gint index)
  * Sets the string value inside a #GtkEditable-derived widget.
  **/
 void
-e_dialog_editable_set (GtkWidget *widget, const gchar *value)
+e_dialog_editable_set (GtkWidget *widget,
+                       const gchar *value)
 {
 	gint pos = 0;
 
@@ -116,7 +119,9 @@ e_dialog_editable_get (GtkWidget *widget)
  * indices.
  **/
 void
-e_dialog_combo_box_set (GtkWidget *widget, gint value, const gint *value_map)
+e_dialog_combo_box_set (GtkWidget *widget,
+                        gint value,
+                        const gint *value_map)
 {
 	gint i;
 
@@ -146,7 +151,8 @@ e_dialog_combo_box_set (GtkWidget *widget, gint value, const gint *value_map)
  * combo box.
  **/
 gint
-e_dialog_combo_box_get (GtkWidget *widget, const gint *value_map)
+e_dialog_combo_box_get (GtkWidget *widget,
+                        const gint *value_map)
 {
 	gint active;
 	gint i;

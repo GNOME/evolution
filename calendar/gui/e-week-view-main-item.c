@@ -121,10 +121,10 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	working_days = calendar_config_get_working_days ();
 
 	/* Draw the background of the day. In the month view odd months are
-	   one color and even months another, so you can easily see when each
-	   month starts (defaults are white for odd - January, March, ... and
-	   light gray for even). In the week view the background is always the
-	   same color, the color used for the odd months in the month view. */
+	 * one color and even months another, so you can easily see when each
+	 * month starts (defaults are white for odd - January, March, ... and
+	 * light gray for even). In the week view the background is always the
+	 * same color, the color used for the odd months in the month view. */
 	if (today)
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND];
 	else if ((working_days & day_of_week) == 0)
@@ -141,8 +141,8 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	cairo_restore (cr);
 
 	/* Draw the lines on the right and bottom of the cell. The canvas is
-	   sized so that the lines on the right & bottom edges will be off the
-	   edge of the canvas, so we don't have to worry about them. */
+	 * sized so that the lines on the right & bottom edges will be off the
+	 * edge of the canvas, so we don't have to worry about them. */
 	right_edge = x + width - 1;
 	bottom_edge = y + height - 1;
 
@@ -188,10 +188,10 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	cairo_restore (cr);
 
 	/* Display the date in the top of the cell.
-	   In the week view, display the long format "10 January" in all cells,
-	   or abbreviate it to "10 Jan" or "10" if that doesn't fit.
-	   In the month view, only use the long format for the first cell and
-	   the 1st of each month, otherwise use "10". */
+	 * In the week view, display the long format "10 January" in all cells,
+	 * or abbreviate it to "10 Jan" or "10" if that doesn't fit.
+	 * In the month view, only use the long format for the first cell and
+	 * the 1st of each month, otherwise use "10". */
 	show_day_name = FALSE;
 	show_month_name = FALSE;
 	if (!week_view->multi_week_view) {
@@ -209,32 +209,32 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 		    + week_view->space_width * 2
 		    + week_view->month_widths[month - 1] < max_width)
 			/* strftime format %A = full weekday name, %d = day of
-			   month, %B = full month name. You can change the
-			   order but don't change the specifiers or add
-			   anything. */
+			 * month, %B = full month name. You can change the
+			 * order but don't change the specifiers or add
+			 * anything. */
 			format_string = _("%A %d %B");
 		else if (week_view->max_abbr_day_width
 			 + week_view->digit_width * 2
 			 + week_view->space_width * 2
 			 + week_view->abbr_month_widths[month - 1] < max_width)
 			/* strftime format %a = abbreviated weekday name,
-			   %d = day of month, %b = abbreviated month name.
-			   You can change the order but don't change the
-			   specifiers or add anything. */
+			 * %d = day of month, %b = abbreviated month name.
+			 * You can change the order but don't change the
+			 * specifiers or add anything. */
 			format_string = _("%a %d %b");
 	}
 	if (!format_string && show_month_name) {
 		if (week_view->digit_width * 2 + week_view->space_width
 		    + week_view->month_widths[month - 1] < max_width)
 			/* strftime format %d = day of month, %B = full
-			   month name. You can change the order but don't
-			   change the specifiers or add anything. */
+			 * month name. You can change the order but don't
+			 * change the specifiers or add anything. */
 			format_string = _("%d %B");
 		else if (week_view->digit_width * 2 + week_view->space_width
 		    + week_view->abbr_month_widths[month - 1] < max_width)
 			/* strftime format %d = day of month, %b = abbreviated
-			   month name. You can change the order but don't
-			   change the specifiers or add anything. */
+			 * month name. You can change the order but don't
+			 * change the specifiers or add anything. */
 			format_string = _("%d %b");
 	}
 

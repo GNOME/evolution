@@ -218,9 +218,9 @@ action_address_book_properties_cb (GtkAction *action,
 #ifdef WITH_CONTACT_MAPS
 static void
 contact_editor_contact_modified_cb (EABEditor *editor,
-				    const GError *error,
-				    EContact *contact,
-				    gpointer user_data)
+                                    const GError *error,
+                                    EContact *contact,
+                                    gpointer user_data)
 {
 	EContactMapWindow *window = user_data;
 	EContactMap *map;
@@ -241,8 +241,8 @@ contact_editor_contact_modified_cb (EABEditor *editor,
 
 static void
 map_window_show_contact_editor_cb (EContactMapWindow *window,
-				   const gchar *contact_uid,
-				   gpointer user_data)
+                                   const gchar *contact_uid,
+                                   gpointer user_data)
 {
 	EShell *shell = e_shell_get_default ();
 	EBookShellView *book_shell_view = user_data;
@@ -291,7 +291,7 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 /* We need this function to he defined all the time. */
 static void
 action_address_book_map_cb (GtkAction *action,
-			    EBookShellView *book_shell_view)
+                            EBookShellView *book_shell_view)
 {
 #ifdef WITH_CONTACT_MAPS
 	EContactMapWindow *map_window;

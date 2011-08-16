@@ -33,7 +33,8 @@
 #include <string.h>
 
 static EPublishUri *
-migrateURI (const gchar *xml, xmlDocPtr doc)
+migrateURI (const gchar *xml,
+            xmlDocPtr doc)
 {
 	GConfClient *client;
 	GSList *uris, *l, *events = NULL;

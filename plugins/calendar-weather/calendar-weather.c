@@ -51,7 +51,8 @@ gint        e_plugin_lib_enable (EPlugin *epl, gint enable);
 #define WEATHER_BASE_URI "weather://"
 
 gint
-e_plugin_lib_enable (EPlugin *epl, gint enable)
+e_plugin_lib_enable (EPlugin *epl,
+                     gint enable)
 {
 	GList *l, *saved_cats;
 	const gchar *tmp;
@@ -100,7 +101,8 @@ exit:
 }
 
 void
-e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetBackend *data)
+e_calendar_weather_migrate (EPlugin *epl,
+                            ECalEventTargetBackend *data)
 {
 	/* Perform a migration step here. This allows us to keep the weather calendar completely
 	 * separate from evolution. If the plugin isn't built, the weather source group won't
@@ -135,7 +137,8 @@ e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetBackend *data)
 }
 
 static void
-selection_changed (GtkTreeSelection *selection, GtkDialog *dialog)
+selection_changed (GtkTreeSelection *selection,
+                   GtkDialog *dialog)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -157,7 +160,10 @@ static struct
 } find_data;
 
 static gboolean
-find_location_func (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *node, gpointer data)
+find_location_func (GtkTreeModel *model,
+                    GtkTreePath *path,
+                    GtkTreeIter *node,
+                    gpointer data)
 {
 	WeatherLocation *wl = NULL;
 
@@ -173,7 +179,8 @@ find_location_func (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *node, g
 }
 
 static GtkTreeIter *
-find_location (GtkTreeModel *model, gchar *relative_url)
+find_location (GtkTreeModel *model,
+               gchar *relative_url)
 {
 	/* old URL uses type/code/name, but new uses only code/name */
 	if (strncmp (relative_url, "ccf/", 4) == 0) {
@@ -191,7 +198,9 @@ find_location (GtkTreeModel *model, gchar *relative_url)
 }
 
 static gboolean
-treeview_clicked (GtkTreeView *treeview, GdkEventButton *event, GtkDialog *dialog)
+treeview_clicked (GtkTreeView *treeview,
+                  GdkEventButton *event,
+                  GtkDialog *dialog)
 {
 	if (event->type == GDK_2BUTTON_PRESS) {
 		GtkTreeSelection *selection = gtk_tree_view_get_selection (treeview);
@@ -242,7 +251,9 @@ create_source_selector (ESource *source)
 	gtk_widget_show (treeview);
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolledwindow), treeview);
 	gtk_widget_add_events (treeview, GDK_BUTTON_PRESS);
-	g_signal_connect (G_OBJECT (treeview), "button-press-event", G_CALLBACK (treeview_clicked), dialog);
+	g_signal_connect (
+		treeview, "button-press-event",
+		G_CALLBACK (treeview_clicked), dialog);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 
@@ -259,7 +270,9 @@ create_source_selector (ESource *source)
 	if (suri)
 		soup_uri_free (suri);
 
-	g_signal_connect (G_OBJECT (selection), "changed", G_CALLBACK (selection_changed), dialog);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (selection_changed), dialog);
 	g_object_set_data (G_OBJECT (dialog), "treeview", treeview);
 
 	text = gtk_cell_renderer_text_new ();
@@ -296,7 +309,8 @@ build_location_path (GtkTreeIter *iter)
 }
 
 static void
-location_clicked (GtkButton *button, ESource *source)
+location_clicked (GtkButton *button,
+                  ESource *source)
 {
 	GtkDialog *dialog = create_source_selector (source);
 	gint response;
@@ -341,7 +355,8 @@ location_clicked (GtkButton *button, ESource *source)
 }
 
 GtkWidget *
-e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
+e_calendar_weather_location (EPlugin *epl,
+                             EConfigHookItemFactoryData *data)
 {
 	GtkWidget *button, *parent, *text, *label;
 	guint row;
@@ -366,10 +381,12 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 	label = gtk_label_new_with_mnemonic (_("_Location:"));
 	gtk_widget_show (label);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
 
 	button = gtk_button_new ();
-	g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (location_clicked), source);
+	g_signal_connect (
+		button, "clicked",
+		G_CALLBACK (location_clicked), source);
 	gtk_widget_show (button);
 
 	if (suri && suri->path && *suri->path) {
@@ -387,13 +404,14 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 		soup_uri_free (suri);
 	g_free (uri_text);
 
-	gtk_table_attach (GTK_TABLE (parent), button, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (parent), button, 1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	return button;
 }
 
 GtkWidget *
-e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
+e_calendar_weather_refresh (EPlugin *epl,
+                            EConfigHookItemFactoryData *data)
 {
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 
@@ -404,7 +422,8 @@ e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 static void
-set_units (ESource *source, GtkWidget *combobox)
+set_units (ESource *source,
+           GtkWidget *combobox)
 {
 	const gchar *format = e_source_get_property (source, "units");
 	if (format == NULL) {
@@ -429,7 +448,8 @@ set_units (ESource *source, GtkWidget *combobox)
 }
 
 static void
-units_changed (GtkComboBox *combobox, ECalConfigTargetSource *t)
+units_changed (GtkComboBox *combobox,
+               ECalConfigTargetSource *t)
 {
 	gint choice = gtk_combo_box_get_active (GTK_COMBO_BOX (combobox));
 	if (choice == 0)
@@ -439,7 +459,8 @@ units_changed (GtkComboBox *combobox, ECalConfigTargetSource *t)
 }
 
 GtkWidget *
-e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data)
+e_calendar_weather_units (EPlugin *epl,
+                          EConfigHookItemFactoryData *data)
 {
 	GtkWidget *combobox, *parent, *label;
 	guint row;
@@ -456,7 +477,7 @@ e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data)
 	label = gtk_label_new_with_mnemonic (_("_Units:"));
 	gtk_widget_show (label);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
 
 	combobox = gtk_combo_box_text_new ();
 	gtk_widget_show (combobox);
@@ -468,14 +489,17 @@ e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data)
 		_("Imperial (Fahrenheit, inches, etc)"));
 	set_units (source, combobox);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), combobox);
-	g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (units_changed), t);
-	gtk_table_attach (GTK_TABLE (parent), combobox, 1, 2, row, row+1, GTK_FILL, 0, 0, 0);
+	g_signal_connect (
+		combobox, "changed",
+		G_CALLBACK (units_changed), t);
+	gtk_table_attach (GTK_TABLE (parent), combobox, 1, 2, row, row + 1, GTK_FILL, 0, 0, 0);
 
 	return combobox;
 }
 
 gboolean
-e_calendar_weather_check (EPlugin *epl, EConfigHookPageCheckData *data)
+e_calendar_weather_check (EPlugin *epl,
+                          EConfigHookPageCheckData *data)
 {
 	/* FIXME - check pageid */
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;

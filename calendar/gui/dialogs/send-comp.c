@@ -106,7 +106,8 @@ have_nonprocedural_alarm (ECalComponent *comp)
 }
 
 static GtkWidget *
-add_checkbox (GtkBox *where, const gchar *caption)
+add_checkbox (GtkBox *where,
+              const gchar *caption)
 {
 	GtkWidget *checkbox, *align;
 
@@ -133,7 +134,12 @@ add_checkbox (GtkBox *where, const gchar *caption)
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-send_component_dialog (GtkWindow *parent, ECalClient *client, ECalComponent *comp, gboolean new, gboolean *strip_alarms, gboolean *only_new_attendees)
+send_component_dialog (GtkWindow *parent,
+                       ECalClient *client,
+                       ECalComponent *comp,
+                       gboolean new,
+                       gboolean *strip_alarms,
+                       gboolean *only_new_attendees)
 {
 	ECalComponentVType vtype;
 	const gchar *id;
@@ -173,7 +179,7 @@ send_component_dialog (GtkWindow *parent, ECalClient *client, ECalComponent *com
 
 	if (only_new_attendees && !component_has_new_attendees (comp)) {
 		/* do not show the check if there is no new attendee and
-		   set as all attendees are required to be notified */
+		 * set as all attendees are required to be notified */
 		*only_new_attendees = FALSE;
 
 		/* pretend it as being passed NULL to simplify code below */
@@ -206,7 +212,9 @@ send_component_dialog (GtkWindow *parent, ECalClient *client, ECalComponent *com
 }
 
 gboolean
-send_component_prompt_subject (GtkWindow *parent, ECalClient *client, ECalComponent *comp)
+send_component_prompt_subject (GtkWindow *parent,
+                               ECalClient *client,
+                               ECalComponent *comp)
 {
 	ECalComponentVType vtype;
 	const gchar *id;

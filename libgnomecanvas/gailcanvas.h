@@ -62,7 +62,7 @@ struct _GailCanvas;
 
 struct _GailCanvasClass;
 
-AtkObject* gail_canvas_new (GtkWidget *widget);
+AtkObject * gail_canvas_new (GtkWidget *widget);
 
 void gail_canvas_init (void);
 

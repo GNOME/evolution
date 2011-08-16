@@ -81,7 +81,8 @@ typedef struct {
 static void vcard_import_done (VCardImporter *gci);
 
 static void
-add_to_notes (EContact *contact, EContactField field)
+add_to_notes (EContact *contact,
+              EContactField field)
 {
 	const gchar *old_text;
 	const gchar *field_text;
@@ -105,19 +106,20 @@ add_to_notes (EContact *contact, EContactField field)
 }
 
 static void
-vcard_import_contact (VCardImporter *gci, EContact *contact)
+vcard_import_contact (VCardImporter *gci,
+                      EContact *contact)
 {
 	EContactPhoto *photo;
 	GList *attrs, *attr;
 	gchar *uid = NULL;
 
 	/* Apple's addressbook.app exports PHOTO's without a TYPE
-	   param, so let's figure out the format here if there's a
-	   PHOTO attribute missing a TYPE param.
-
-	   this is sort of a hack, as EContact sets the type for us if
-	   we use the setter.  so let's e_contact_get + e_contact_set
-	   on E_CONTACT_PHOTO.
+	 * param, so let's figure out the format here if there's a
+	 * PHOTO attribute missing a TYPE param.
+	 *
+	 * this is sort of a hack, as EContact sets the type for us if
+	 * we use the setter.  so let's e_contact_get + e_contact_set
+	 * on E_CONTACT_PHOTO.
 	*/
 	photo = e_contact_get (contact, E_CONTACT_PHOTO);
 	if (photo) {
@@ -144,12 +146,11 @@ vcard_import_contact (VCardImporter *gci, EContact *contact)
 	}
 	e_contact_set_attributes (contact, E_CONTACT_EMAIL, attrs);
 
-	/*
-	  Deal with TEL attributes that don't conform to what we need.
-
-	  1. if there's no location (HOME/WORK/OTHER), default to OTHER.
-	  2. if there's *only* a location specified, default to VOICE.
-	*/
+	/* Deal with TEL attributes that don't conform to what we need.
+	 *
+	 * 1. if there's no location (HOME/WORK/OTHER), default to OTHER.
+	 * 2. if there's *only* a location specified, default to VOICE.
+	 */
 	attrs = e_vcard_get_attributes (E_VCARD (contact));
 	for (attr = attrs; attr; attr = attr->next) {
 		EVCardAttribute *a = attr->data;
@@ -188,7 +189,7 @@ vcard_import_contact (VCardImporter *gci, EContact *contact)
 
 		if (is_work_home) {
 			/* only WORK and HOME phone numbers require locations,
-			   the rest should be kept as is */
+			 * the rest should be kept as is */
 			if (location_only) {
 				/* add VOICE */
 				e_vcard_attribute_add_param_with_value (a,
@@ -204,11 +205,8 @@ vcard_import_contact (VCardImporter *gci, EContact *contact)
 		}
 	}
 
-	/*
-	  Deal with ADR and EMAIL attributes that don't conform to what we need.
-
-	  if HOME or WORK isn't specified, add TYPE=OTHER.
-	*/
+	/* Deal with ADR and EMAIL attributes that don't conform to what
+	 * we need.  If HOME or WORK isn't specified, add TYPE=OTHER. */
 	attrs = e_vcard_get_attributes (E_VCARD (contact));
 	for (attr = attrs; attr; attr = attr->next) {
 		EVCardAttribute *a = attr->data;
@@ -361,8 +359,8 @@ guess_vcard_encoding (const gchar *filename)
 	}
 	fclose (handle);
 
-	if (has_bom ((gunichar2*) line)) {
-		gunichar2 *utf16 = (gunichar2*) line;
+	if (has_bom ((gunichar2 *) line)) {
+		gunichar2 *utf16 = (gunichar2 *) line;
 		/* Check for a BOM to try to detect UTF-16 encoded vcards
 		 * (MacOSX address book creates such vcards for example)
 		 */
@@ -391,15 +389,19 @@ guess_vcard_encoding (const gchar *filename)
 }
 
 static void
-primary_selection_changed_cb (ESourceSelector *selector, EImportTarget *target)
+primary_selection_changed_cb (ESourceSelector *selector,
+                              EImportTarget *target)
 {
-	g_datalist_set_data_full(&target->data, "vcard-source",
-				 g_object_ref (e_source_selector_get_primary_selection (selector)),
-				 g_object_unref);
+	g_datalist_set_data_full (
+		&target->data, "vcard-source",
+		g_object_ref (e_source_selector_get_primary_selection (selector)),
+		g_object_unref);
 }
 
 static GtkWidget *
-vcard_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
+vcard_getwidget (EImport *ei,
+                 EImportTarget *target,
+                 EImportImporter *im)
 {
 	GtkWidget *vbox, *selector;
 	ESource *primary;
@@ -437,7 +439,9 @@ vcard_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static gboolean
-vcard_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
+vcard_supported (EImport *ei,
+                 EImportTarget *target,
+                 EImportImporter *im)
 {
 	EImportTargetURI *s;
 	gchar *filename;
@@ -498,7 +502,7 @@ book_loaded_cb (GObject *source_object,
 	if (gci->encoding == VCARD_ENCODING_UTF16) {
 		gchar *tmp;
 
-		gunichar2 *contents_utf16 = (gunichar2*) gci->contents;
+		gunichar2 *contents_utf16 = (gunichar2 *) gci->contents;
 		tmp = utf16_to_utf8 (contents_utf16);
 		g_free (gci->contents);
 		gci->contents = tmp;
@@ -523,7 +527,9 @@ book_loaded_cb (GObject *source_object,
 }
 
 static void
-vcard_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+vcard_import (EImport *ei,
+              EImportTarget *target,
+              EImportImporter *im)
 {
 	VCardImporter *gci;
 	ESource *source;
@@ -570,7 +576,9 @@ vcard_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-vcard_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
+vcard_cancel (EImport *ei,
+              EImportTarget *target,
+              EImportImporter *im)
 {
 	VCardImporter *gci = g_datalist_get_data(&target->data, "vcard-data");
 
@@ -579,7 +587,9 @@ vcard_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static GtkWidget *
-vcard_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+vcard_get_preview (EImport *ei,
+                   EImportTarget *target,
+                   EImportImporter *im)
 {
 	GtkWidget *preview;
 	GSList *contacts;
@@ -653,7 +663,8 @@ evolution_vcard_importer_peek (void)
 
 /* utility functions shared between all contact importers */
 static void
-preview_contact (EWebViewPreview *preview, EContact *contact)
+preview_contact (EWebViewPreview *preview,
+                 EContact *contact)
 {
 	gint idx;
 	gboolean had_value = FALSE;
@@ -888,7 +899,8 @@ preview_contact (EWebViewPreview *preview, EContact *contact)
 }
 
 static void
-preview_selection_changed_cb (GtkTreeSelection *selection, EWebViewPreview *preview)
+preview_selection_changed_cb (GtkTreeSelection *selection,
+                              EWebViewPreview *preview)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model = NULL;

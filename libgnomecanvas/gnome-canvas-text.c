@@ -595,9 +595,9 @@ get_bounds (GnomeCanvasText *text,
 }
 
 static PangoFontMask
-get_property_font_set_mask (guint prop_id)
+get_property_font_set_mask (guint property_id)
 {
-  switch (prop_id)
+  switch (property_id)
     {
     case PROP_FAMILY_SET:
       return PANGO_FONT_MASK_FAMILY;
@@ -625,10 +625,10 @@ ensure_font (GnomeCanvasText *text)
 
 /* Set_arg handler for the text item */
 static void
-gnome_canvas_text_set_property (GObject            *object,
-				guint               param_id,
-				const GValue       *value,
-				GParamSpec         *pspec)
+gnome_canvas_text_set_property (GObject *object,
+                                guint param_id,
+                                const GValue *value,
+                                GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	GnomeCanvasText *text;
@@ -900,10 +900,10 @@ gnome_canvas_text_set_property (GObject            *object,
 
 /* Get_arg handler for the text item */
 static void
-gnome_canvas_text_get_property (GObject            *object,
-				guint               param_id,
-				GValue             *value,
-				GParamSpec         *pspec)
+gnome_canvas_text_get_property (GObject *object,
+                                guint param_id,
+                                GValue *value,
+                                GParamSpec *pspec)
 {
 	GnomeCanvasText *text;
 
@@ -1115,8 +1115,8 @@ gnome_canvas_text_apply_font_desc (GnomeCanvasText *text)
 }
 
 static void
-add_attr (PangoAttrList  *attr_list,
-	  PangoAttribute *attr)
+add_attr (PangoAttrList *attr_list,
+          PangoAttribute *attr)
 {
 	attr->start_index = 0;
 	attr->end_index = G_MAXINT;
@@ -1147,8 +1147,8 @@ gnome_canvas_text_apply_attributes (GnomeCanvasText *text)
 }
 
 static void
-gnome_canvas_text_set_font_desc (GnomeCanvasText      *text,
-				 PangoFontDescription *font_desc)
+gnome_canvas_text_set_font_desc (GnomeCanvasText *text,
+                                 PangoFontDescription *font_desc)
 {
 	if (text->font_desc)
 		pango_font_description_free (text->font_desc);
@@ -1164,7 +1164,7 @@ gnome_canvas_text_set_font_desc (GnomeCanvasText      *text,
 /* Setting the text from a Pango markup string */
 static void
 gnome_canvas_text_set_markup (GnomeCanvasText *textitem,
-			      const gchar     *markup)
+                              const gchar *markup)
 {
 	PangoAttrList *attr_list = NULL;
 	gchar         *text = NULL;
@@ -1217,8 +1217,12 @@ gnome_canvas_text_update (GnomeCanvasItem *item,
 
 /* Draw handler for the text item */
 static void
-gnome_canvas_text_draw (GnomeCanvasItem *item, cairo_t *cr,
-			gint x, gint y, gint width, gint height)
+gnome_canvas_text_draw (GnomeCanvasItem *item,
+                        cairo_t *cr,
+                        gint x,
+                        gint y,
+                        gint width,
+                        gint height)
 {
 	GnomeCanvasText *text = GNOME_CANVAS_TEXT (item);
 
@@ -1250,8 +1254,11 @@ gnome_canvas_text_draw (GnomeCanvasItem *item, cairo_t *cr,
 
 /* Point handler for the text item */
 static GnomeCanvasItem *
-gnome_canvas_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
-			 gint cx, gint cy)
+gnome_canvas_text_point (GnomeCanvasItem *item,
+                         gdouble x,
+                         gdouble y,
+                         gint cx,
+                         gint cy)
 {
 	GnomeCanvasText *text;
 	PangoLayoutIter *iter;

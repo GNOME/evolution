@@ -40,7 +40,8 @@ typedef struct {
 } CompTzData;
 
  static void
-insert_tz_comps (icalparameter *param, gpointer cb_data)
+insert_tz_comps (icalparameter *param,
+                 gpointer cb_data)
 {
 	const gchar *tzid;
 	CompTzData *tdata = cb_data;
@@ -64,13 +65,18 @@ insert_tz_comps (icalparameter *param, gpointer cb_data)
 }
 
 static void
-append_tz_to_comp (gpointer key, gpointer value, icalcomponent *toplevel)
+append_tz_to_comp (gpointer key,
+                   gpointer value,
+                   icalcomponent *toplevel)
 {
 	icalcomponent_add_component (toplevel, (icalcomponent *) value);
 }
 
 static gboolean
-write_calendar (const gchar *uid, ESourceList *source_list, GOutputStream *stream, GError **error)
+write_calendar (const gchar *uid,
+                ESourceList *source_list,
+                GOutputStream *stream,
+                GError **error)
 {
 	ESource *source;
 	ECalClient *client = NULL;
@@ -128,7 +134,9 @@ write_calendar (const gchar *uid, ESourceList *source_list, GOutputStream *strea
 }
 
 void
-publish_calendar_as_ical (GOutputStream *stream, EPublishUri *uri, GError **error)
+publish_calendar_as_ical (GOutputStream *stream,
+                          EPublishUri *uri,
+                          GError **error)
 {
 	GSList *l;
 	ESourceList *source_list;

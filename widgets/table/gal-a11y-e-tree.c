@@ -61,11 +61,11 @@ init_child_item (GalA11yETree *a11y)
 	}
 }
 
-static AtkObject*
-et_ref_accessible_at_point  (AtkComponent *component,
-			     gint x,
-			     gint y,
-			     AtkCoordType coord_type)
+static AtkObject *
+et_ref_accessible_at_point (AtkComponent *component,
+                             gint x,
+                             gint y,
+                             AtkCoordType coord_type)
 {
 	GalA11yETree *a11y = GAL_A11Y_E_TREE (component);
 	init_child_item (a11y);
@@ -78,9 +78,9 @@ et_get_n_children (AtkObject *accessible)
 	return 1;
 }
 
-static AtkObject*
+static AtkObject *
 et_ref_child (AtkObject *accessible,
-	      gint i)
+              gint i)
 {
 	GalA11yETree *a11y = GAL_A11Y_E_TREE (accessible);
 	if (i != 0)

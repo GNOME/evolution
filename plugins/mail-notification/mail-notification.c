@@ -512,7 +512,9 @@ static ca_context *mailnotification = NULL;
 #endif
 
 static void
-do_play_sound (gboolean beep, gboolean use_theme, const gchar *file)
+do_play_sound (gboolean beep,
+               gboolean use_theme,
+               const gchar *file)
 {
 	if (!beep) {
 #ifdef HAVE_CANBERRA
@@ -537,7 +539,8 @@ struct _SoundConfigureWidgets {
 };
 
 static void
-sound_file_set_cb (GtkFileChooser *file_chooser, gpointer data)
+sound_file_set_cb (GtkFileChooser *file_chooser,
+                   gpointer data)
 {
 	gchar *file;
 	GConfClient *client;
@@ -828,7 +831,8 @@ gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 
 void
-org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
+org_gnome_mail_new_notify (EPlugin *ep,
+                           EMEventTargetFolder *t)
 {
 	g_return_if_fail (t != NULL);
 
@@ -852,7 +856,8 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 }
 
 void
-org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t)
+org_gnome_mail_read_notify (EPlugin *ep,
+                            EMEventTargetMessage *t)
 {
 	g_return_if_fail (t != NULL);
 
@@ -875,7 +880,8 @@ org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t)
 }
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	if (enable) {
 		enable_dbus (enable);

@@ -82,13 +82,13 @@ etc_dispose (GObject *object)
 
 static void
 etc_set_property (GObject *object,
-                  guint prop_id,
+                  guint property_id,
                   const GValue *value,
                   GParamSpec *pspec)
 {
 	ETableCol *etc = E_TABLE_COL (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_COMPARE_COL:
 		etc->compare_col = g_value_get_int (value);
 		break;
@@ -99,18 +99,18 @@ etc_set_property (GObject *object,
 
 static void
 etc_get_property (GObject *object,
-                  guint prop_id,
+                  guint property_id,
                   GValue *value,
                   GParamSpec *pspec)
 {
 	ETableCol *etc = E_TABLE_COL (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_COMPARE_COL:
 		g_value_set_int (value, etc->compare_col);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }

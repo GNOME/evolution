@@ -129,7 +129,7 @@ GalView               *gal_view_collection_load_view_from_file      (GalViewColl
 								     const gchar        *filename);
 
 /* Returns id of the new view.  These functions are used for
-   GalViewInstanceSaveAsDialog. */
+ * GalViewInstanceSaveAsDialog. */
 const gchar            *gal_view_collection_append_with_title        (GalViewCollection *collection,
 								     const gchar        *title,
 								     GalView           *view);

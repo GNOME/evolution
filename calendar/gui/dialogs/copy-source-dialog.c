@@ -41,7 +41,9 @@ typedef struct {
 } CopySourceDialogData;
 
 static void
-show_error (CopySourceDialogData *csdd, const gchar *msg, const GError *error)
+show_error (CopySourceDialogData *csdd,
+            const gchar *msg,
+            const GError *error)
 {
 	GtkWidget *dialog;
 
@@ -59,7 +61,8 @@ struct ForeachTzidData
 };
 
 static void
-add_timezone_to_cal_cb (icalparameter *param, gpointer data)
+add_timezone_to_cal_cb (icalparameter *param,
+                        gpointer data)
 {
 	struct ForeachTzidData *ftd = data;
 	icaltimezone *tz = NULL;
@@ -231,7 +234,9 @@ copy_source (const CopySourceDialogData *const_csdd)
  * source to copy to.
  */
 void
-copy_source_dialog (GtkWindow *parent, ESource *source, ECalClientSourceType obj_type)
+copy_source_dialog (GtkWindow *parent,
+                    ESource *source,
+                    ECalClientSourceType obj_type)
 {
 	CopySourceDialogData csdd;
 

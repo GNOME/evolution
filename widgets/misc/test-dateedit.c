@@ -48,7 +48,8 @@ static void on_time_changed		(EDateEdit	*dedit,
 #endif
 
 gint
-main (gint argc, gchar **argv)
+main (gint argc,
+      gchar **argv)
 {
 	GtkWidget *window;
 	EDateEdit *dedit;
@@ -94,14 +95,14 @@ main (gint argc, gchar **argv)
 	gtk_table_attach (GTK_TABLE (table), button,
 			  1, 2, 0, 1, 0, 0, 0, 0);
 	gtk_widget_show (button);
-	g_signal_connect((button), "clicked",
+	g_signal_connect ((button), "clicked",
 			    G_CALLBACK (on_get_date_clicked), dedit);
 
 	/* EDateEdit 2. */
 	dedit = E_DATE_EDIT (e_date_edit_new ());
-	gtk_table_attach (GTK_TABLE (table), (GtkWidget*) dedit,
+	gtk_table_attach (GTK_TABLE (table), (GtkWidget *) dedit,
 			  0, 1, 1, 2, GTK_FILL, GTK_EXPAND, 0, 0);
-	gtk_widget_show ((GtkWidget*) (dedit));
+	gtk_widget_show ((GtkWidget *) (dedit));
 	e_date_edit_set_week_start_day (dedit, 1);
 	e_date_edit_set_show_week_numbers (dedit, TRUE);
 	e_date_edit_set_use_24_hour_format (dedit, FALSE);
@@ -127,9 +128,9 @@ main (gint argc, gchar **argv)
 
 	/* EDateEdit 3. */
 	dedit = E_DATE_EDIT (e_date_edit_new ());
-	gtk_table_attach (GTK_TABLE (table), (GtkWidget*) dedit,
+	gtk_table_attach (GTK_TABLE (table), (GtkWidget *) dedit,
 			  0, 1, 2, 3, GTK_FILL, GTK_EXPAND, 0, 0);
-	gtk_widget_show ((GtkWidget*) (dedit));
+	gtk_widget_show ((GtkWidget *) (dedit));
 	e_date_edit_set_week_start_day (dedit, 1);
 	e_date_edit_set_show_week_numbers (dedit, TRUE);
 	e_date_edit_set_use_24_hour_format (dedit, FALSE);
@@ -168,9 +169,9 @@ main (gint argc, gchar **argv)
 }
 
 static void
-delete_event_cb		(GtkWidget	*widget,
-			 GdkEventAny	*event,
-			 GtkWidget	*window)
+delete_event_cb (GtkWidget *widget,
+                 GdkEventAny *event,
+                 GtkWidget *window)
 {
 	gtk_widget_destroy (window);
 
@@ -178,8 +179,8 @@ delete_event_cb		(GtkWidget	*widget,
 }
 
 static void
-on_get_date_clicked	(GtkWidget	*button,
-			 EDateEdit	*dedit)
+on_get_date_clicked (GtkWidget *button,
+                     EDateEdit *dedit)
 {
 	time_t t;
 
@@ -197,8 +198,8 @@ on_get_date_clicked	(GtkWidget	*button,
 }
 
 static void
-on_toggle_24_hour_clicked	(GtkWidget	*button,
-				 EDateEdit	*dedit)
+on_toggle_24_hour_clicked (GtkWidget *button,
+                           EDateEdit *dedit)
 {
 	gboolean use_24_hour_format;
 
@@ -208,8 +209,8 @@ on_toggle_24_hour_clicked	(GtkWidget	*button,
 
 #if 0
 static void
-on_date_changed		(EDateEdit	*dedit,
-			 gchar		*name)
+on_date_changed (EDateEdit *dedit,
+                 gchar *name)
 {
 	gint year, month, day;
 
@@ -226,8 +227,8 @@ on_date_changed		(EDateEdit	*dedit,
 }
 
 static void
-on_time_changed		(EDateEdit	*dedit,
-			 gchar		*name)
+on_time_changed (EDateEdit *dedit,
+                 gchar *name)
 {
 	gint hour, minute;
 
@@ -245,8 +246,8 @@ on_time_changed		(EDateEdit	*dedit,
 #endif
 
 static void
-on_changed		(EDateEdit	*dedit,
-			 gchar		*name)
+on_changed (EDateEdit *dedit,
+            gchar *name)
 {
 	gint year, month, day, hour, minute;
 

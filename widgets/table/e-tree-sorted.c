@@ -169,7 +169,8 @@ ets_insert_idle (ETreeSorted *ets)
 #define CHECK_AROUND_LAST_ACCESS
 
 static inline ETreeSortedPath *
-check_last_access (ETreeSorted *ets, ETreePath corresponding)
+check_last_access (ETreeSorted *ets,
+                   ETreePath corresponding)
 {
 #ifdef CHECK_AROUND_LAST_ACCESS
 	ETreeSortedPath *parent;
@@ -211,7 +212,8 @@ check_last_access (ETreeSorted *ets, ETreePath corresponding)
 }
 
 static ETreeSortedPath *
-find_path (ETreeSorted *ets, ETreePath corresponding)
+find_path (ETreeSorted *ets,
+           ETreePath corresponding)
 {
 	gint depth;
 	ETreePath *sequence;
@@ -268,7 +270,9 @@ find_path (ETreeSorted *ets, ETreePath corresponding)
 }
 
 static ETreeSortedPath *
-find_child_path (ETreeSorted *ets, ETreeSortedPath *parent, ETreePath corresponding)
+find_child_path (ETreeSorted *ets,
+                 ETreeSortedPath *parent,
+                 ETreePath corresponding)
 {
 	gint i;
 
@@ -287,7 +291,8 @@ find_child_path (ETreeSorted *ets, ETreeSortedPath *parent, ETreePath correspond
 }
 
 static ETreeSortedPath *
-find_or_create_path (ETreeSorted *ets, ETreePath corresponding)
+find_or_create_path (ETreeSorted *ets,
+                     ETreePath corresponding)
 {
 	gint depth;
 	ETreePath *sequence;
@@ -367,7 +372,8 @@ free_path (ETreeSortedPath *path)
 }
 
 static ETreeSortedPath *
-new_path (ETreeSortedPath *parent, ETreePath corresponding)
+new_path (ETreeSortedPath *parent,
+          ETreePath corresponding)
 {
 	ETreeSortedPath *path;
 
@@ -388,7 +394,8 @@ new_path (ETreeSortedPath *parent, ETreePath corresponding)
 }
 
 static gboolean
-reposition_path (ETreeSorted *ets, ETreeSortedPath *path)
+reposition_path (ETreeSorted *ets,
+                 ETreeSortedPath *path)
 {
 	gint new_index;
 	gint old_index = path->position;
@@ -442,7 +449,8 @@ reposition_path (ETreeSorted *ets, ETreeSortedPath *path)
 }
 
 static void
-regenerate_children (ETreeSorted *ets, ETreeSortedPath *path)
+regenerate_children (ETreeSorted *ets,
+                     ETreeSortedPath *path)
 {
 	ETreeSortedPath **children;
 	gint i;
@@ -455,7 +463,8 @@ regenerate_children (ETreeSorted *ets, ETreeSortedPath *path)
 }
 
 static void
-generate_children (ETreeSorted *ets, ETreeSortedPath *path)
+generate_children (ETreeSorted *ets,
+                   ETreeSortedPath *path)
 {
 	ETreePath child;
 	gint i;
@@ -484,7 +493,11 @@ generate_children (ETreeSorted *ets, ETreeSortedPath *path)
 }
 
 static void
-resort_node (ETreeSorted *ets, ETreeSortedPath *path, gboolean resort_all_children, gboolean needs_regen, gboolean send_signals)
+resort_node (ETreeSorted *ets,
+             ETreeSortedPath *path,
+             gboolean resort_all_children,
+             gboolean needs_regen,
+             gboolean send_signals)
 {
 	gboolean needs_resort;
 	if (path) {
@@ -532,7 +545,8 @@ resort_node (ETreeSorted *ets, ETreeSortedPath *path, gboolean resort_all_childr
 }
 
 static void
-mark_path_child_needs_resort (ETreeSorted *ets, ETreeSortedPath *path)
+mark_path_child_needs_resort (ETreeSorted *ets,
+                              ETreeSortedPath *path)
 {
 	if (path == NULL)
 		return;
@@ -543,7 +557,10 @@ mark_path_child_needs_resort (ETreeSorted *ets, ETreeSortedPath *path)
 }
 
 static void
-mark_path_needs_resort (ETreeSorted *ets, ETreeSortedPath *path, gboolean needs_regen, gboolean resort_all_children)
+mark_path_needs_resort (ETreeSorted *ets,
+                        ETreeSortedPath *path,
+                        gboolean needs_regen,
+                        gboolean resort_all_children)
 {
 	if (path == NULL)
 		return;
@@ -556,7 +573,10 @@ mark_path_needs_resort (ETreeSorted *ets, ETreeSortedPath *path, gboolean needs_
 }
 
 static void
-schedule_resort (ETreeSorted *ets, ETreeSortedPath *path, gboolean needs_regen, gboolean resort_all_children)
+schedule_resort (ETreeSorted *ets,
+                 ETreeSortedPath *path,
+                 gboolean needs_regen,
+                 gboolean resort_all_children)
 {
 	ets->priv->insert_count = 0;
 	if (ets->priv->insert_idle_id != 0) {
@@ -681,14 +701,16 @@ ets_get_root (ETreeModel *etm)
 }
 
 static ETreePath
-ets_get_parent (ETreeModel *etm, ETreePath node)
+ets_get_parent (ETreeModel *etm,
+                ETreePath node)
 {
 	ETreeSortedPath *path = node;
 	return path->parent;
 }
 
 static ETreePath
-ets_get_first_child (ETreeModel *etm, ETreePath node)
+ets_get_first_child (ETreeModel *etm,
+                     ETreePath node)
 {
 	ETreeSortedPath *path = node;
 	ETreeSorted *ets = E_TREE_SORTED (etm);
@@ -703,7 +725,8 @@ ets_get_first_child (ETreeModel *etm, ETreePath node)
 }
 
 static ETreePath
-ets_get_last_child (ETreeModel *etm, ETreePath node)
+ets_get_last_child (ETreeModel *etm,
+                    ETreePath node)
 {
 	ETreeSortedPath *path = node;
 	ETreeSorted *ets = E_TREE_SORTED (etm);
@@ -718,7 +741,8 @@ ets_get_last_child (ETreeModel *etm, ETreePath node)
 }
 
 static ETreePath
-ets_get_next (ETreeModel *etm, ETreePath node)
+ets_get_next (ETreeModel *etm,
+              ETreePath node)
 {
 	ETreeSortedPath *path = node;
 	ETreeSortedPath *parent = path->parent;
@@ -732,7 +756,8 @@ ets_get_next (ETreeModel *etm, ETreePath node)
 }
 
 static ETreePath
-ets_get_prev (ETreeModel *etm, ETreePath node)
+ets_get_prev (ETreeModel *etm,
+              ETreePath node)
 {
 	ETreeSortedPath *path = node;
 	ETreeSortedPath *parent = path->parent;
@@ -746,7 +771,8 @@ ets_get_prev (ETreeModel *etm, ETreePath node)
 }
 
 static gboolean
-ets_is_root (ETreeModel *etm, ETreePath node)
+ets_is_root (ETreeModel *etm,
+             ETreePath node)
 {
 	ETreeSortedPath *path = node;
 	ETreeSorted *ets = E_TREE_SORTED (etm);
@@ -755,7 +781,8 @@ ets_is_root (ETreeModel *etm, ETreePath node)
 }
 
 static gboolean
-ets_is_expandable (ETreeModel *etm, ETreePath node)
+ets_is_expandable (ETreeModel *etm,
+                   ETreePath node)
 {
 	ETreeSortedPath *path = node;
 	ETreeSorted *ets = E_TREE_SORTED (etm);
@@ -769,7 +796,9 @@ ets_is_expandable (ETreeModel *etm, ETreePath node)
 }
 
 static guint
-ets_get_children (ETreeModel *etm, ETreePath node, ETreePath **nodes)
+ets_get_children (ETreeModel *etm,
+                  ETreePath node,
+                  ETreePath **nodes)
 {
 	ETreeSortedPath *path = node;
 	guint n_children;
@@ -793,7 +822,8 @@ ets_get_children (ETreeModel *etm, ETreePath node, ETreePath **nodes)
 }
 
 static guint
-ets_depth (ETreeModel *etm, ETreePath node)
+ets_depth (ETreeModel *etm,
+           ETreePath node)
 {
 	ETreeSortedPath *path = node;
 	ETreeSorted *ets = E_TREE_SORTED (etm);
@@ -802,7 +832,8 @@ ets_depth (ETreeModel *etm, ETreePath node)
 }
 
 static GdkPixbuf *
-ets_icon_at (ETreeModel *etm, ETreePath node)
+ets_icon_at (ETreeModel *etm,
+             ETreePath node)
 {
 	ETreeSortedPath *path = node;
 	ETreeSorted *ets = E_TREE_SORTED (etm);
@@ -833,7 +864,8 @@ ets_has_save_id (ETreeModel *etm)
 }
 
 static gchar *
-ets_get_save_id (ETreeModel *etm, ETreePath node)
+ets_get_save_id (ETreeModel *etm,
+                 ETreePath node)
 {
 	ETreeSorted *ets = E_TREE_SORTED (etm);
 	ETreeSortedPath *path = node;
@@ -852,7 +884,8 @@ ets_has_get_node_by_id (ETreeModel *etm)
 }
 
 static ETreePath
-ets_get_node_by_id (ETreeModel *etm, const gchar *save_id)
+ets_get_node_by_id (ETreeModel *etm,
+                    const gchar *save_id)
 {
 	ETreeSorted *ets = E_TREE_SORTED (etm);
 	ETreePath node;
@@ -871,7 +904,9 @@ ets_has_change_pending (ETreeModel *etm)
 }
 
 static gpointer
-ets_value_at (ETreeModel *etm, ETreePath node, gint col)
+ets_value_at (ETreeModel *etm,
+              ETreePath node,
+              gint col)
 {
 	ETreeSorted *ets = E_TREE_SORTED (etm);
 	ETreeSortedPath *path = node;
@@ -880,7 +915,10 @@ ets_value_at (ETreeModel *etm, ETreePath node, gint col)
 }
 
 static void
-ets_set_value_at (ETreeModel *etm, ETreePath node, gint col, gconstpointer val)
+ets_set_value_at (ETreeModel *etm,
+                  ETreePath node,
+                  gint col,
+                  gconstpointer val)
 {
 	ETreeSorted *ets = E_TREE_SORTED (etm);
 	ETreeSortedPath *path = node;
@@ -889,7 +927,9 @@ ets_set_value_at (ETreeModel *etm, ETreePath node, gint col, gconstpointer val)
 }
 
 static gboolean
-ets_is_editable (ETreeModel *etm, ETreePath node, gint col)
+ets_is_editable (ETreeModel *etm,
+                 ETreePath node,
+                 gint col)
 {
 	ETreeSorted *ets = E_TREE_SORTED (etm);
 	ETreeSortedPath *path = node;
@@ -899,7 +939,9 @@ ets_is_editable (ETreeModel *etm, ETreePath node, gint col)
 
 /* The default for ets_duplicate_value is to return the raw value. */
 static gpointer
-ets_duplicate_value (ETreeModel *etm, gint col, gconstpointer value)
+ets_duplicate_value (ETreeModel *etm,
+                     gint col,
+                     gconstpointer value)
 {
 	ETreeSorted *ets = E_TREE_SORTED (etm);
 
@@ -907,7 +949,9 @@ ets_duplicate_value (ETreeModel *etm, gint col, gconstpointer value)
 }
 
 static void
-ets_free_value (ETreeModel *etm, gint col, gpointer value)
+ets_free_value (ETreeModel *etm,
+                gint col,
+                gpointer value)
 {
 	ETreeSorted *ets = E_TREE_SORTED (etm);
 
@@ -915,7 +959,8 @@ ets_free_value (ETreeModel *etm, gint col, gpointer value)
 }
 
 static gpointer
-ets_initialize_value (ETreeModel *etm, gint col)
+ets_initialize_value (ETreeModel *etm,
+                      gint col)
 {
 	ETreeSorted *ets = E_TREE_SORTED (etm);
 
@@ -923,7 +968,9 @@ ets_initialize_value (ETreeModel *etm, gint col)
 }
 
 static gboolean
-ets_value_is_empty (ETreeModel *etm, gint col, gconstpointer value)
+ets_value_is_empty (ETreeModel *etm,
+                    gint col,
+                    gconstpointer value)
 {
 	ETreeSorted *ets = E_TREE_SORTED (etm);
 
@@ -931,7 +978,9 @@ ets_value_is_empty (ETreeModel *etm, gint col, gconstpointer value)
 }
 
 static gchar *
-ets_value_to_string (ETreeModel *etm, gint col, gconstpointer value)
+ets_value_to_string (ETreeModel *etm,
+                     gint col,
+                     gconstpointer value)
 {
 	ETreeSorted *ets = E_TREE_SORTED (etm);
 
@@ -941,19 +990,23 @@ ets_value_to_string (ETreeModel *etm, gint col, gconstpointer value)
 /* Proxy functions */
 
 static void
-ets_proxy_pre_change (ETreeModel *etm, ETreeSorted *ets)
+ets_proxy_pre_change (ETreeModel *etm,
+                      ETreeSorted *ets)
 {
 	e_tree_model_pre_change (E_TREE_MODEL (ets));
 }
 
 static void
-ets_proxy_no_change (ETreeModel *etm, ETreeSorted *ets)
+ets_proxy_no_change (ETreeModel *etm,
+                     ETreeSorted *ets)
 {
 	e_tree_model_no_change (E_TREE_MODEL (ets));
 }
 
 static void
-ets_proxy_node_changed (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
+ets_proxy_node_changed (ETreeModel *etm,
+                        ETreePath node,
+                        ETreeSorted *ets)
 {
 	ets->priv->last_access = NULL;
 	d(g_print("Setting last access %p. (ets_proxy_node_changed)\n", ets->priv->last_access));
@@ -984,7 +1037,9 @@ ets_proxy_node_changed (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
 }
 
 static void
-ets_proxy_node_data_changed (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
+ets_proxy_node_data_changed (ETreeModel *etm,
+                             ETreePath node,
+                             ETreeSorted *ets)
 {
 	ETreeSortedPath *path = find_path (ets, node);
 
@@ -998,7 +1053,10 @@ ets_proxy_node_data_changed (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
 }
 
 static void
-ets_proxy_node_col_changed (ETreeModel *etm, ETreePath node, gint col, ETreeSorted *ets)
+ets_proxy_node_col_changed (ETreeModel *etm,
+                            ETreePath node,
+                            gint col,
+                            ETreeSorted *ets)
 {
 	ETreeSortedPath *path = find_path (ets, node);
 
@@ -1015,7 +1073,10 @@ ets_proxy_node_col_changed (ETreeModel *etm, ETreePath node, gint col, ETreeSort
 }
 
 static void
-ets_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETreeSorted *ets)
+ets_proxy_node_inserted (ETreeModel *etm,
+                         ETreePath parent,
+                         ETreePath child,
+                         ETreeSorted *ets)
 {
 	ETreeSortedPath *parent_path = find_path (ets, parent);
 
@@ -1083,7 +1144,11 @@ ets_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETr
 }
 
 static void
-ets_proxy_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, gint old_position, ETreeSorted *ets)
+ets_proxy_node_removed (ETreeModel *etm,
+                        ETreePath parent,
+                        ETreePath child,
+                        gint old_position,
+                        ETreeSorted *ets)
 {
 	ETreeSortedPath *parent_path = find_path (ets, parent);
 	ETreeSortedPath *path;
@@ -1120,13 +1185,17 @@ ets_proxy_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, gint
 }
 
 static void
-ets_proxy_node_deleted (ETreeModel *etm, ETreePath child, ETreeSorted *ets)
+ets_proxy_node_deleted (ETreeModel *etm,
+                        ETreePath child,
+                        ETreeSorted *ets)
 {
 	e_tree_model_node_deleted (E_TREE_MODEL (ets), NULL);
 }
 
 static void
-ets_proxy_node_request_collapse (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
+ets_proxy_node_request_collapse (ETreeModel *etm,
+                                 ETreePath node,
+                                 ETreeSorted *ets)
 {
 	ETreeSortedPath *path = find_path (ets, node);
 	if (path) {
@@ -1135,7 +1204,8 @@ ets_proxy_node_request_collapse (ETreeModel *etm, ETreePath node, ETreeSorted *e
 }
 
 static void
-ets_sort_info_changed (ETableSortInfo *sort_info, ETreeSorted *ets)
+ets_sort_info_changed (ETableSortInfo *sort_info,
+                       ETreeSorted *ets)
 {
 	schedule_resort (ets, ets->priv->root, TRUE, TRUE);
 }
@@ -1216,7 +1286,10 @@ e_tree_sorted_init (ETreeSorted *ets)
  *
  **/
 void
-e_tree_sorted_construct (ETreeSorted *ets, ETreeModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
+e_tree_sorted_construct (ETreeSorted *ets,
+                         ETreeModel *source,
+                         ETableHeader *full_header,
+                         ETableSortInfo *sort_info)
 {
 	ets->priv->source                              = source;
 	if (source)
@@ -1228,24 +1301,33 @@ e_tree_sorted_construct (ETreeSorted *ets, ETreeModel *source, ETableHeader *ful
 
 	e_tree_sorted_set_sort_info (ets, sort_info);
 
-	ets->priv->tree_model_pre_change_id            = g_signal_connect (G_OBJECT (source), "pre_change",
-									   G_CALLBACK (ets_proxy_pre_change), ets);
-	ets->priv->tree_model_no_change_id             = g_signal_connect (G_OBJECT (source), "no_change",
-									   G_CALLBACK (ets_proxy_no_change), ets);
-	ets->priv->tree_model_node_changed_id          = g_signal_connect (G_OBJECT (source), "node_changed",
-									   G_CALLBACK (ets_proxy_node_changed), ets);
-	ets->priv->tree_model_node_data_changed_id     = g_signal_connect (G_OBJECT (source), "node_data_changed",
-									   G_CALLBACK (ets_proxy_node_data_changed), ets);
-	ets->priv->tree_model_node_col_changed_id      = g_signal_connect (G_OBJECT (source), "node_col_changed",
-									   G_CALLBACK (ets_proxy_node_col_changed), ets);
-	ets->priv->tree_model_node_inserted_id         = g_signal_connect (G_OBJECT (source), "node_inserted",
-									   G_CALLBACK (ets_proxy_node_inserted), ets);
-	ets->priv->tree_model_node_removed_id          = g_signal_connect (G_OBJECT (source), "node_removed",
-									   G_CALLBACK (ets_proxy_node_removed), ets);
-	ets->priv->tree_model_node_deleted_id          = g_signal_connect (G_OBJECT (source), "node_deleted",
-									   G_CALLBACK (ets_proxy_node_deleted), ets);
-	ets->priv->tree_model_node_request_collapse_id = g_signal_connect (G_OBJECT (source), "node_request_collapse",
-									   G_CALLBACK (ets_proxy_node_request_collapse), ets);
+	ets->priv->tree_model_pre_change_id = g_signal_connect (
+		source, "pre_change",
+		G_CALLBACK (ets_proxy_pre_change), ets);
+	ets->priv->tree_model_no_change_id = g_signal_connect (
+		source, "no_change",
+		G_CALLBACK (ets_proxy_no_change), ets);
+	ets->priv->tree_model_node_changed_id = g_signal_connect (
+		source, "node_changed",
+		G_CALLBACK (ets_proxy_node_changed), ets);
+	ets->priv->tree_model_node_data_changed_id = g_signal_connect (
+		source, "node_data_changed",
+		G_CALLBACK (ets_proxy_node_data_changed), ets);
+	ets->priv->tree_model_node_col_changed_id = g_signal_connect (
+		source, "node_col_changed",
+		G_CALLBACK (ets_proxy_node_col_changed), ets);
+	ets->priv->tree_model_node_inserted_id = g_signal_connect (
+		source, "node_inserted",
+		G_CALLBACK (ets_proxy_node_inserted), ets);
+	ets->priv->tree_model_node_removed_id = g_signal_connect (
+		source, "node_removed",
+		G_CALLBACK (ets_proxy_node_removed), ets);
+	ets->priv->tree_model_node_deleted_id = g_signal_connect (
+		source, "node_deleted",
+		G_CALLBACK (ets_proxy_node_deleted), ets);
+	ets->priv->tree_model_node_request_collapse_id = g_signal_connect (
+		source, "node_request_collapse",
+		G_CALLBACK (ets_proxy_node_request_collapse), ets);
 
 }
 
@@ -1257,7 +1339,9 @@ e_tree_sorted_construct (ETreeSorted *ets, ETreeModel *source, ETableHeader *ful
  * return values: a newly constructed ETreeSorted.
  */
 ETreeSorted *
-e_tree_sorted_new (ETreeModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
+e_tree_sorted_new (ETreeModel *source,
+                   ETableHeader *full_header,
+                   ETableSortInfo *sort_info)
 {
 	ETreeSorted *ets = g_object_new (E_TYPE_TREE_SORTED, NULL);
 
@@ -1267,8 +1351,8 @@ e_tree_sorted_new (ETreeModel *source, ETableHeader *full_header, ETableSortInfo
 }
 
 ETreePath
-e_tree_sorted_view_to_model_path  (ETreeSorted    *ets,
-				   ETreePath       view_path)
+e_tree_sorted_view_to_model_path (ETreeSorted *ets,
+                                  ETreePath view_path)
 {
 	ETreeSortedPath *path = view_path;
 	if (path) {
@@ -1280,23 +1364,23 @@ e_tree_sorted_view_to_model_path  (ETreeSorted    *ets,
 }
 
 ETreePath
-e_tree_sorted_model_to_view_path  (ETreeSorted    *ets,
-				   ETreePath       model_path)
+e_tree_sorted_model_to_view_path (ETreeSorted *ets,
+                                  ETreePath model_path)
 {
 	return find_or_create_path (ets, model_path);
 }
 
 gint
-e_tree_sorted_orig_position       (ETreeSorted    *ets,
-				   ETreePath       path)
+e_tree_sorted_orig_position (ETreeSorted *ets,
+                             ETreePath path)
 {
 	ETreeSortedPath *sorted_path = path;
 	return sorted_path->orig_position;
 }
 
 gint
-e_tree_sorted_node_num_children   (ETreeSorted    *ets,
-				   ETreePath       path)
+e_tree_sorted_node_num_children (ETreeSorted *ets,
+                                 ETreePath path)
 {
 	ETreeSortedPath *sorted_path = path;
 
@@ -1308,7 +1392,8 @@ e_tree_sorted_node_num_children   (ETreeSorted    *ets,
 }
 
 void
-e_tree_sorted_node_resorted  (ETreeSorted *sorted, ETreePath node)
+e_tree_sorted_node_resorted (ETreeSorted *sorted,
+                             ETreePath node)
 {
 	g_return_if_fail (sorted != NULL);
 	g_return_if_fail (E_IS_TREE_SORTED (sorted));
@@ -1317,7 +1402,8 @@ e_tree_sorted_node_resorted  (ETreeSorted *sorted, ETreePath node)
 }
 
 void
-e_tree_sorted_set_sort_info (ETreeSorted *ets, ETableSortInfo *sort_info)
+e_tree_sorted_set_sort_info (ETreeSorted *ets,
+                             ETableSortInfo *sort_info)
 {
 
 	g_return_if_fail (ets != NULL);
@@ -1333,15 +1419,16 @@ e_tree_sorted_set_sort_info (ETreeSorted *ets, ETableSortInfo *sort_info)
 	ets->priv->sort_info = sort_info;
 	if (sort_info) {
 		g_object_ref (sort_info);
-		ets->priv->sort_info_changed_id = g_signal_connect (G_OBJECT (ets->priv->sort_info), "sort_info_changed",
-								    G_CALLBACK (ets_sort_info_changed), ets);
+		ets->priv->sort_info_changed_id = g_signal_connect (
+			ets->priv->sort_info, "sort_info_changed",
+			G_CALLBACK (ets_sort_info_changed), ets);
 	}
 
 	if (ets->priv->root)
 		schedule_resort (ets, ets->priv->root, TRUE, TRUE);
 }
 
-ETableSortInfo*
+ETableSortInfo *
 e_tree_sorted_get_sort_info (ETreeSorted *ets)
 {
 	return ets->priv->sort_info;

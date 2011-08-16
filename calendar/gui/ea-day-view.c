@@ -36,7 +36,7 @@ static void ea_day_view_class_init (EaDayViewClass *klass);
 static const gchar * ea_day_view_get_name (AtkObject *accessible);
 static const gchar * ea_day_view_get_description (AtkObject *accessible);
 static gint         ea_day_view_get_n_children      (AtkObject *obj);
-static AtkObject*   ea_day_view_ref_child           (AtkObject *obj,
+static AtkObject *   ea_day_view_ref_child           (AtkObject *obj,
                                                      gint i);
 static gpointer parent_class = NULL;
 
@@ -99,7 +99,7 @@ ea_day_view_class_init (EaDayViewClass *klass)
 	class->ref_child = ea_day_view_ref_child;
 }
 
-AtkObject*
+AtkObject *
 ea_day_view_new (GtkWidget *widget)
 {
 	GObject *object;
@@ -233,7 +233,8 @@ ea_day_view_get_n_children (AtkObject *accessible)
 }
 
 static AtkObject *
-ea_day_view_ref_child (AtkObject *accessible, gint index)
+ea_day_view_ref_child (AtkObject *accessible,
+                       gint index)
 {
 	EDayView *day_view;
 	gint child_num;

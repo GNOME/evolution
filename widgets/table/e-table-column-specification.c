@@ -102,7 +102,7 @@ e_table_column_specification_new (void)
 
 void
 e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
-					     const xmlNode       *node)
+                                             const xmlNode *node)
 {
 	free_strings (etcs);
 
@@ -128,7 +128,7 @@ e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
 
 xmlNode *
 e_table_column_specification_save_to_node (ETableColumnSpecification *specification,
-					   xmlNode                   *parent)
+                                           xmlNode *parent)
 {
 	xmlNode *node;
 	if (parent)

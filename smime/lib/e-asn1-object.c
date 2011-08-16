@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* The following is the mozilla license blurb, as the bodies some of
-   these functions were derived from the mozilla source. */
+ * these functions were derived from the mozilla source. */
 /*
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
@@ -131,14 +131,15 @@ e_asn1_object_get_type (void)
 
 
 /* This function is used to interpret an integer that
-   was encoded in a DER buffer. This function is used
-   when converting a DER buffer into a nsIASN1Object
-   structure.  This interprets the buffer in data
-   as defined by the DER (Distinguised Encoding Rules) of
-   ASN1.
+ * was encoded in a DER buffer. This function is used
+ * when converting a DER buffer into a nsIASN1Object
+ * structure.  This interprets the buffer in data
+ * as defined by the DER (Distinguised Encoding Rules) of
+ * ASN1.
 */
 static gint
-get_integer_256 (guchar *data, guint nb)
+get_integer_256 (guchar *data,
+                 guint nb)
 {
 	gint val;
 
@@ -163,17 +164,19 @@ get_integer_256 (guchar *data, guint nb)
 }
 
 /* This function is used to retrieve the lenght of a DER encoded
-   item.  It looks to see if this a multibyte length and then
-   interprets the buffer accordingly to get the actual length value.
-   This funciton is used mostly while parsing the DER headers.
-
-   A DER encoded item has the following structure:
-
-   <tag><length<data consisting of lenght bytes>
-*/
+ * item.  It looks to see if this a multibyte length and then
+ * interprets the buffer accordingly to get the actual length value.
+ * This funciton is used mostly while parsing the DER headers.
+ *
+ * A DER encoded item has the following structure:
+ *
+ * <tag><length<data consisting of lenght bytes>
+ */
 static guint32
-get_der_item_length (guchar *data, guchar *end,
-		     unsigned long *bytesUsed, gboolean *indefinite)
+get_der_item_length (guchar *data,
+                     guchar *end,
+                     gulong *bytesUsed,
+                     gboolean *indefinite)
 {
 	guchar lbyte = *data++;
 	PRInt32 length = -1;
@@ -181,13 +184,13 @@ get_der_item_length (guchar *data, guchar *end,
 	*indefinite = FALSE;
 	if (lbyte >= 0x80) {
 		/* Multibyte length */
-		unsigned nb = (unsigned) (lbyte & 0x7f);
+		guint nb = (guint) (lbyte & 0x7f);
 		if (nb > 4) {
 			return -1;
 		}
 		if (nb > 0) {
 
-			if ((data+nb) > end) {
+			if ((data + nb) > end) {
 				return -1;
 			}
 			length = get_integer_256 (data, nb);
@@ -206,9 +209,11 @@ get_der_item_length (guchar *data, guchar *end,
 }
 
 static gboolean
-build_from_der (EASN1Object *parent, gchar *data, gchar *end)
+build_from_der (EASN1Object *parent,
+                gchar *data,
+                gchar *end)
 {
-	unsigned long bytesUsed;
+	gulong bytesUsed;
 	gboolean indefinite;
 	PRInt32 len;
 	PRUint32 type;
@@ -219,13 +224,13 @@ build_from_der (EASN1Object *parent, gchar *data, gchar *end)
 		return TRUE;
 
 	/*
-	  A DER item has the form of |tag|len|data
-	  tag is one byte and describes the type of elment
-	  we are dealing with.
-	  len is a DER encoded gint telling us how long the data is
-	  data is a buffer that is len bytes long and has to be
-	  interpreted according to its type.
-	*/
+	 * A DER item has the form of |tag|len|data
+	 * tag is one byte and describes the type of elment
+	 * we are dealing with.
+	 * len is a DER encoded gint telling us how long the data is
+	 * data is a buffer that is len bytes long and has to be
+	 * interpreted according to its type.
+	 */
 
 	while (data < end) {
 		code = *data;
@@ -242,7 +247,7 @@ build_from_der (EASN1Object *parent, gchar *data, gchar *end)
 			(guchar *) data, (guchar *) end,
 			&bytesUsed, &indefinite);
 		data += bytesUsed;
-		if ((len < 0) || ((data+len) > end))
+		if ((len < 0) || ((data + len) > end))
 			return FALSE;
 
 		if (code & SEC_ASN1_CONSTRUCTED) {
@@ -292,8 +297,9 @@ build_from_der (EASN1Object *parent, gchar *data, gchar *end)
 	return TRUE;
 }
 
-EASN1Object*
-e_asn1_object_new_from_der (gchar *data, guint32 len)
+EASN1Object *
+e_asn1_object_new_from_der (gchar *data,
+                            guint32 len)
 {
 	EASN1Object *obj = g_object_new (E_TYPE_ASN1_OBJECT, NULL);
 
@@ -305,14 +311,15 @@ e_asn1_object_new_from_der (gchar *data, guint32 len)
 	return obj;
 }
 
-EASN1Object*
+EASN1Object *
 e_asn1_object_new (void)
 {
 	return E_ASN1_OBJECT (g_object_new (E_TYPE_ASN1_OBJECT, NULL));
 }
 
 void
-e_asn1_object_set_valid_container (EASN1Object *obj, gboolean flag)
+e_asn1_object_set_valid_container (EASN1Object *obj,
+                                   gboolean flag)
 {
 	obj->priv->valid_container = flag;
 }
@@ -335,7 +342,7 @@ e_asn1_object_get_asn1_tag (EASN1Object *obj)
 	return obj->priv->tag;
 }
 
-GList*
+GList *
 e_asn1_object_get_children (EASN1Object *obj)
 {
 	GList *children = g_list_copy (obj->priv->children);
@@ -346,14 +353,16 @@ e_asn1_object_get_children (EASN1Object *obj)
 }
 
 void
-e_asn1_object_append_child (EASN1Object *parent, EASN1Object *child)
+e_asn1_object_append_child (EASN1Object *parent,
+                            EASN1Object *child)
 {
 	parent->priv->children = g_list_append (
 		parent->priv->children, g_object_ref (child));
 }
 
 void
-e_asn1_object_set_display_name (EASN1Object *obj, const gchar *name)
+e_asn1_object_set_display_name (EASN1Object *obj,
+                                const gchar *name)
 {
 	g_free (obj->priv->display_name);
 	obj->priv->display_name = g_strdup (name);
@@ -366,7 +375,8 @@ e_asn1_object_get_display_name (EASN1Object *obj)
 }
 
 void
-e_asn1_object_set_display_value (EASN1Object *obj, const gchar *value)
+e_asn1_object_set_display_value (EASN1Object *obj,
+                                 const gchar *value)
 {
 	g_free (obj->priv->value);
 	obj->priv->value = g_strdup (value);
@@ -379,7 +389,9 @@ e_asn1_object_get_display_value (EASN1Object *obj)
 }
 
 void
-e_asn1_object_get_data (EASN1Object *obj, gchar **data, guint32 *len)
+e_asn1_object_get_data (EASN1Object *obj,
+                        gchar **data,
+                        guint32 *len)
 {
 	*data = obj->priv->data;
 	*len = obj->priv->data_len;

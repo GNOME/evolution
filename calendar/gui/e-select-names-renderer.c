@@ -53,7 +53,8 @@ static gint signals[LAST_SIGNAL];
 G_DEFINE_TYPE (ESelectNamesRenderer, e_select_names_renderer, GTK_TYPE_CELL_RENDERER_TEXT)
 
 static void
-e_select_names_renderer_editing_done (GtkCellEditable *editable, ESelectNamesRenderer *cell)
+e_select_names_renderer_editing_done (GtkCellEditable *editable,
+                                      ESelectNamesRenderer *cell)
 {
 	GList *addresses = NULL, *names = NULL, *a, *n;
 	gboolean editing_canceled;
@@ -101,8 +102,13 @@ e_select_names_renderer_editing_done (GtkCellEditable *editable, ESelectNamesRen
 }
 
 static GtkCellEditable *
-e_select_names_renderer_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
-		    const GdkRectangle *bg_area, const GdkRectangle *cell_area, GtkCellRendererState flags)
+e_select_names_renderer_start_editing (GtkCellRenderer *cell,
+                                       GdkEvent *event,
+                                       GtkWidget *widget,
+                                       const gchar *path,
+                                       const GdkRectangle *bg_area,
+                                       const GdkRectangle *cell_area,
+                                       GtkCellRendererState flags)
 {
 	ESelectNamesRenderer *sn_cell = E_SELECT_NAMES_RENDERER (cell);
 	GtkCellRendererText *text_cell = GTK_CELL_RENDERER_TEXT (cell);
@@ -128,7 +134,7 @@ e_select_names_renderer_start_editing (GtkCellRenderer *cell, GdkEvent *event, G
 	g_signal_connect (editable, "editing_done", G_CALLBACK (e_select_names_renderer_editing_done), sn_cell);
 
 	/* Removed focus-out-event. focus out event already listen by base class.
-	   We don't need to listen for the focus out event any more */
+	 * We don't need to listen for the focus out event any more */
 
 	sn_cell->priv->editable = g_object_ref (editable);
 	sn_cell->priv->path = g_strdup (path);
@@ -137,11 +143,14 @@ e_select_names_renderer_start_editing (GtkCellRenderer *cell, GdkEvent *event, G
 }
 
 static void
-e_select_names_renderer_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+e_select_names_renderer_get_property (GObject *object,
+                                      guint property_id,
+                                      GValue *value,
+                                      GParamSpec *pspec)
 {
 	ESelectNamesRenderer *esnr = E_SELECT_NAMES_RENDERER (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_NAME:
 		g_value_set_string (value, esnr->priv->name);
 		break;
@@ -154,11 +163,14 @@ e_select_names_renderer_get_property (GObject *object, guint prop_id, GValue *va
 }
 
 static void
-e_select_names_renderer_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+e_select_names_renderer_set_property (GObject *object,
+                                      guint property_id,
+                                      const GValue *value,
+                                      GParamSpec *pspec)
 {
 	ESelectNamesRenderer *esnr = E_SELECT_NAMES_RENDERER (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_NAME:
 		g_free (esnr->priv->name);
 		esnr->priv->name = g_strdup (g_value_get_string (value));

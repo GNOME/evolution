@@ -122,9 +122,9 @@ toggle_cell_action (GalA11yECell *cell)
 
 static void
 model_change_cb (ETableModel *etm,
-		 gint col,
-		 gint row,
-		 GalA11yECell *cell)
+                 gint col,
+                 gint row,
+                 GalA11yECell *cell)
 {
 	gint value;
 
@@ -143,13 +143,13 @@ model_change_cb (ETableModel *etm,
 	}
 }
 
-AtkObject*
+AtkObject *
 gal_a11y_e_cell_toggle_new (ETableItem *item,
-			    ECellView  *cell_view,
-			    AtkObject  *parent,
-			    gint         model_col,
-			    gint         view_col,
-			    gint         row)
+                            ECellView *cell_view,
+                            AtkObject *parent,
+                            gint model_col,
+                            gint view_col,
+                            gint row)
 {
 	AtkObject *a11y;
 	GalA11yECell *cell;

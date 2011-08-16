@@ -798,7 +798,8 @@ fix_folder_permissions (const gchar *data_dir)
 }
 
 static void
-merge_duplicate_local_sources (GConfClient *client, const gchar *gconf_key)
+merge_duplicate_local_sources (GConfClient *client,
+                               const gchar *gconf_key)
 {
 	ESourceList *source_list;
 	GSList *iter, *to_remove = NULL;
@@ -933,12 +934,12 @@ e_shell_migrate_attempt (EShell *shell)
 		fix_folder_permissions (e_get_user_data_dir ());
 
 	/* Attempt to run migration all the time and let the backend
-	   make the choice */
+	 * make the choice */
 	if (!shell_migrate_attempt (shell, major, minor, micro))
 		_exit (EXIT_SUCCESS);
 
 	/* The 2.32.x (except of 2.32.2) lefts duplicate On This Computer/Personal sources,
-	   thus clean the mess up */
+	 * thus clean the mess up */
 	merge_duplicate_local_sources (client, "/apps/evolution/addressbook/sources");
 	merge_duplicate_local_sources (client, "/apps/evolution/calendar/sources");
 	merge_duplicate_local_sources (client, "/apps/evolution/tasks/sources");

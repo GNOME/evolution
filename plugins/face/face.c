@@ -90,7 +90,8 @@ get_face_base64 (void)
 }
 
 static void
-set_face_raw (gchar *content, gsize length)
+set_face_raw (gchar *content,
+              gsize length)
 {
 	gchar *filename = get_filename ();
 
@@ -150,7 +151,11 @@ get_active_face (void)
 }
 
 static gboolean
-prepare_image (const gchar *image_filename, gchar **file_contents, gsize *length, GdkPixbuf **use_pixbuf, gboolean can_claim)
+prepare_image (const gchar *image_filename,
+               gchar **file_contents,
+               gsize *length,
+               GdkPixbuf **use_pixbuf,
+               gboolean can_claim)
 {
 	gboolean res = FALSE;
 
@@ -249,7 +254,8 @@ prepare_image (const gchar *image_filename, gchar **file_contents, gsize *length
 }
 
 static void
-update_preview_cb (GtkFileChooser *file_chooser, gpointer data)
+update_preview_cb (GtkFileChooser *file_chooser,
+                   gpointer data)
 {
 	GtkWidget *preview;
 	gchar *filename, *file_contents = NULL;
@@ -322,7 +328,8 @@ choose_new_face (void)
 }
 
 static void
-toggled_check_include_by_default_cb (GtkWidget *widget, gpointer data)
+toggled_check_include_by_default_cb (GtkWidget *widget,
+                                     gpointer data)
 {
 	set_include_face_by_default (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
 }
@@ -373,7 +380,8 @@ get_cfg_widget (void)
 }
 
 static void
-action_toggle_face_cb (GtkToggleAction *action, EMsgComposer *composer)
+action_toggle_face_cb (GtkToggleAction *action,
+                       EMsgComposer *composer)
 {
 	if (gtk_toggle_action_get_active (action)) {
 		gchar *face = get_face_base64 ();
@@ -403,14 +411,15 @@ void face_handle_send (EPlugin *ep, EMEventTargetComposer *target);
 /* ----------------------------------------------------------------- */
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
 
 gboolean
 e_plugin_ui_init (GtkUIManager *ui_manager,
-		  EMsgComposer *composer)
+                  EMsgComposer *composer)
 {
 	GtkhtmlEditor *editor;
 
@@ -450,7 +459,8 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 }
 
 void
-face_handle_send (EPlugin *ep, EMEventTargetComposer *target)
+face_handle_send (EPlugin *ep,
+                  EMEventTargetComposer *target)
 {
 	GtkhtmlEditor *editor;
 	GtkAction *action;

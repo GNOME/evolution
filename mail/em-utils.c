@@ -249,7 +249,9 @@ em_utils_check_user_can_send_mail (void)
 static GtkWidget *filter_editor = NULL;
 
 static void
-em_filter_editor_response (GtkWidget *dialog, gint button, gpointer user_data)
+em_filter_editor_response (GtkWidget *dialog,
+                           gint button,
+                           gpointer user_data)
 {
 	EMFilterContext *fc;
 
@@ -366,7 +368,7 @@ em_filename_make_safe (gchar *string)
 		 * written?
 		 */
 		if (!g_unichar_isprint (c) || ( c < 0xff && strchr (unsafe_chars, c&0xff ))) {
-			while (ts<p)
+			while (ts < p)
 				*ts++ = '_';
 		}
 	}
@@ -592,7 +594,7 @@ em_utils_write_messages_to_stream (CamelFolder *folder,
 		CAMEL_STREAM_FILTER (filtered_stream), from_filter);
 	g_object_unref (from_filter);
 
-	for (i=0; i<uids->len; i++) {
+	for (i = 0; i < uids->len; i++) {
 		CamelMimeMessage *message;
 		gchar *from;
 
@@ -793,8 +795,8 @@ em_utils_selection_set_uidlist (GtkSelectionData *selection_data,
 	g_byte_array_append (
 		array, (guchar *) folder_uri, strlen (folder_uri) + 1);
 
-	for (i=0; i<uids->len; i++)
-		g_byte_array_append (array, uids->pdata[i], strlen (uids->pdata[i])+1);
+	for (i = 0; i < uids->len; i++)
+		g_byte_array_append (array, uids->pdata[i], strlen (uids->pdata[i]) + 1);
 
 	target = gtk_selection_data_get_target (selection_data);
 	gtk_selection_data_set (
@@ -849,7 +851,7 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 			inptr++;
 
 		if (start > (gchar *) data)
-			g_ptr_array_add (uids, g_strndup (start, inptr-start));
+			g_ptr_array_add (uids, g_strndup (start, inptr - start));
 
 		inptr++;
 	}
@@ -975,7 +977,7 @@ em_utils_selection_get_urilist (GtkSelectionData *selection_data,
 
 	uris = gtk_selection_data_get_uris (selection_data);
 
-	for (i=0;res == 0 && uris[i];i++) {
+	for (i = 0; res == 0 && uris[i]; i++) {
 		g_strstrip (uris[i]);
 		if (uris[i][0] == '#')
 			continue;
@@ -1793,7 +1795,8 @@ search_address_in_addressbooks (const gchar *address,
 }
 
 gboolean
-em_utils_in_addressbook (CamelInternetAddress *iaddr, gboolean local_only)
+em_utils_in_addressbook (CamelInternetAddress *iaddr,
+                         gboolean local_only)
 {
 	const gchar *addr;
 
@@ -1805,7 +1808,8 @@ em_utils_in_addressbook (CamelInternetAddress *iaddr, gboolean local_only)
 }
 
 static gboolean
-extract_photo_data (EContact *contact, gpointer user_data)
+extract_photo_data (EContact *contact,
+                    gpointer user_data)
 {
 	EContactPhoto **photo = user_data;
 
@@ -1841,7 +1845,8 @@ G_LOCK_DEFINE_STATIC (photos_cache);
 static GSList *photos_cache = NULL; /* list of PhotoInfo-s */
 
 CamelMimePart *
-em_utils_contact_photo (CamelInternetAddress *cia, gboolean local_only)
+em_utils_contact_photo (CamelInternetAddress *cia,
+                        gboolean local_only)
 {
 	const gchar *addr = NULL;
 	CamelMimePart *part = NULL;
@@ -1914,8 +1919,8 @@ em_utils_contact_photo (CamelInternetAddress *cia, gboolean local_only)
 	return part;
 }
 
-/* list of email addresses (strings) to remove from local cache of photos and contacts,
-   but only if the photo doesn't exist or is an not-found contact */
+/* list of email addresses (strings) to remove from local cache of photos and
+ * contacts, but only if the photo doesn't exist or is an not-found contact */
 void
 emu_remove_from_mail_cache (const GSList *addresses)
 {

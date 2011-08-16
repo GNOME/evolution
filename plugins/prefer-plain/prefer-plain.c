@@ -36,7 +36,7 @@
 
 void org_gnome_prefer_plain_multipart_alternative (gpointer ep, EMFormatHookTarget *t);
 void org_gnome_prefer_plain_text_html (gpointer ep, EMFormatHookTarget *t);
-GtkWidget *org_gnome_prefer_plain_config_mode (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
+GtkWidget *org_gnome_prefer_plain_config_mode (EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 enum {
 	EPP_NORMAL,
@@ -49,7 +49,10 @@ static gint epp_mode = -1;
 static gboolean epp_show_suppressed = TRUE;
 
 static void
-make_part_attachment (EMFormat *format, CamelStream *stream, CamelMimePart *part, gint i)
+make_part_attachment (EMFormat *format,
+                      CamelStream *stream,
+                      CamelMimePart *part,
+                      gint i)
 {
 	gint partidlen = format->part_id->len;
 
@@ -72,7 +75,7 @@ make_part_attachment (EMFormat *format, CamelStream *stream, CamelMimePart *part
 			"application/octet-stream", NULL);
 	} else if (i == -1 && CAMEL_IS_MIME_MESSAGE (part)) {
 		/* message was asked to be formatted as text/html;
-		   might be for cases where message itself is a text/html part */
+		 * might be for cases where message itself is a text/html part */
 		CamelMimePart *new_part;
 		CamelDataWrapper *content;
 
@@ -94,7 +97,8 @@ make_part_attachment (EMFormat *format, CamelStream *stream, CamelMimePart *part
 }
 
 void
-org_gnome_prefer_plain_text_html (gpointer ep, EMFormatHookTarget *t)
+org_gnome_prefer_plain_text_html (gpointer ep,
+                                  EMFormatHookTarget *t)
 {
 	/* In text-only mode, all html output is suppressed for the first processing */
 	if (epp_mode != EPP_TEXT
@@ -109,7 +113,10 @@ org_gnome_prefer_plain_text_html (gpointer ep, EMFormatHookTarget *t)
 }
 
 static void
-export_as_attachments (CamelMultipart *mp, EMFormat *format, CamelStream *stream, CamelMimePart *except)
+export_as_attachments (CamelMultipart *mp,
+                       EMFormat *format,
+                       CamelStream *stream,
+                       CamelMimePart *except)
 {
 	gint i, nparts;
 	CamelMimePart *part;
@@ -134,7 +141,8 @@ export_as_attachments (CamelMultipart *mp, EMFormat *format, CamelStream *stream
 }
 
 void
-org_gnome_prefer_plain_multipart_alternative (gpointer ep, EMFormatHookTarget *t)
+org_gnome_prefer_plain_multipart_alternative (gpointer ep,
+                                              EMFormatHookTarget *t)
 {
 	CamelMultipart *mp = (CamelMultipart *) camel_medium_get_content ((CamelMedium *) t->part);
 	CamelMimePart *part, *display_part = NULL, *calendar_part = NULL;
@@ -146,11 +154,12 @@ org_gnome_prefer_plain_multipart_alternative (gpointer ep, EMFormatHookTarget *t
 	if (epp_mode == EPP_NORMAL) {
 		gboolean have_plain = FALSE;
 
-		/* Try to find text/html part even when not as last and force to show it.
-		   Old handler will show the last part of multipart/alternate, but if we
-		   can offer HTML, then offer it, regardless of position in multipart.
-		   But do this when have only text/plain and text/html parts, not more.
-		*/
+		/* Try to find text/html part even when not as last and force
+		 * to show it.  Old handler will show the last part of
+		 * multipart/alternate, but if we can offer HTML, then
+		 * offer it, regardless of position in multipart.  But do
+		 * this when have only text/plain and text/html parts,
+		 * not more. */
 		nparts = camel_multipart_get_number (mp);
 		for (i = 0; i < nparts; i++) {
 			CamelContentType *content_type;
@@ -196,7 +205,7 @@ org_gnome_prefer_plain_multipart_alternative (gpointer ep, EMFormatHookTarget *t
 	}
 
 	nparts = camel_multipart_get_number (mp);
-	for (i=0; i<nparts; i++) {
+	for (i = 0; i < nparts; i++) {
 		CamelContentType *ct;
 
 		part = camel_multipart_get_part (mp, i);
@@ -238,13 +247,24 @@ static struct {
 	const gchar *label;
 	const gchar *description;
 } epp_options[] = {
-	{ "normal",       N_("Show HTML if present"),       N_("Let Evolution choose the best part to show.") },
-	{ "prefer_plain", N_("Show plain text if present"), N_("Show plain text part, if present, otherwise let Evolution choose the best part to show.") },
-	{ "only_plain",   N_("Only ever show plain text"),  N_("Always show plain text part and make attachments from other parts, if requested.") },
+	{ "normal",
+	  N_("Show HTML if present"),
+	  N_("Let Evolution choose the best part to show.") },
+
+	{ "prefer_plain",
+	  N_("Show plain text if present"),
+	  N_("Show plain text part, if present, otherwise "
+	     "let Evolution choose the best part to show.") },
+
+	{ "only_plain",
+	  N_("Only ever show plain text"),
+	  N_("Always show plain text part and make attachments "
+	     "from other parts, if requested.") },
 };
 
 static void
-update_info_label (GtkWidget *info_label, guint mode)
+update_info_label (GtkWidget *info_label,
+                   guint mode)
 {
 	gchar *str = g_strconcat ("<i>", _(epp_options[mode > 2 ? 0 : mode].description), "</i>", NULL);
 
@@ -254,7 +274,8 @@ update_info_label (GtkWidget *info_label, guint mode)
 }
 
 static void
-epp_mode_changed (GtkComboBox *dropdown, GtkWidget *info_label)
+epp_mode_changed (GtkComboBox *dropdown,
+                  GtkWidget *info_label)
 {
 	epp_mode = gtk_combo_box_get_active (dropdown);
 	if (epp_mode > 2)
@@ -265,7 +286,8 @@ epp_mode_changed (GtkComboBox *dropdown, GtkWidget *info_label)
 }
 
 static void
-epp_show_suppressed_toggled (GtkToggleButton *check, gpointer data)
+epp_show_suppressed_toggled (GtkToggleButton *check,
+                             gpointer data)
 {
 	g_return_if_fail (check != NULL);
 
@@ -274,7 +296,8 @@ epp_show_suppressed_toggled (GtkToggleButton *check, gpointer data)
 }
 
 GtkWidget *
-org_gnome_prefer_plain_config_mode (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
+org_gnome_prefer_plain_config_mode (EPlugin *epl,
+                                    struct _EConfigHookItemFactoryData *data)
 {
 	/*EMConfigTargetPrefs *ep = (EMConfigTargetPrefs *)data->target;*/
 	GtkComboBox *dropdown;
@@ -334,7 +357,8 @@ org_gnome_prefer_plain_config_mode (struct _EPlugin *epl, struct _EConfigHookIte
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	gchar *key;
 	gint i;

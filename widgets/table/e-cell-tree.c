@@ -71,25 +71,29 @@ e_cell_tree_view_get_subcell_view (ECellView *ect)
 }
 
 static ETreePath
-e_cell_tree_get_node (ETableModel *table_model, gint row)
+e_cell_tree_get_node (ETableModel *table_model,
+                      gint row)
 {
 	return e_table_model_value_at (table_model, -1, row);
 }
 
-static ETreeModel*
-e_cell_tree_get_tree_model (ETableModel *table_model, gint row)
+static ETreeModel *
+e_cell_tree_get_tree_model (ETableModel *table_model,
+                            gint row)
 {
 	return e_table_model_value_at (table_model, -2, row);
 }
 
 static ETreeTableAdapter *
-e_cell_tree_get_tree_table_adapter (ETableModel *table_model, gint row)
+e_cell_tree_get_tree_table_adapter (ETableModel *table_model,
+                                    gint row)
 {
 	return e_table_model_value_at (table_model, -3, row);
 }
 
 static gint
-visible_depth_of_node (ETableModel *model, gint row)
+visible_depth_of_node (ETableModel *model,
+                       gint row)
 {
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (model, row);
 	ETreeTableAdapter *adapter = e_cell_tree_get_tree_table_adapter (model, row);
@@ -99,10 +103,11 @@ visible_depth_of_node (ETableModel *model, gint row)
 }
 
 /* If this is changed to not include the width of the expansion pixmap
-   if the path is not expandable, then max_width needs to change as
-   well. */
+ * if the path is not expandable, then max_width needs to change as
+ * well. */
 static gint
-offset_of_node (ETableModel *table_model, gint row)
+offset_of_node (ETableModel *table_model,
+                gint row)
 {
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (table_model, row);
 	ETreePath path = e_cell_tree_get_node (table_model, row);
@@ -119,7 +124,9 @@ offset_of_node (ETableModel *table_model, gint row)
  * ECell::new_view method
  */
 static ECellView *
-ect_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view)
+ect_new_view (ECell *ecell,
+              ETableModel *table_model,
+              gpointer e_table_item_view)
 {
 	ECellTree *ect = E_CELL_TREE (ecell);
 	ECellTreeView *tree_view = g_new0 (ECellTreeView, 1);
@@ -283,7 +290,7 @@ ect_draw (ECellView *ecell_view,
 	}
 
 	/* Now cause our subcell to draw its contents, shifted by
-	   subcell_offset pixels */
+	 * subcell_offset pixels */
 	e_cell_draw (tree_view->subcell_view, cr,
 		     model_col, view_col, row, flags,
 		     x1 + subcell_offset, y1, x2, y2);
@@ -292,7 +299,8 @@ ect_draw (ECellView *ecell_view,
 }
 
 static void
-adjust_event_position (GdkEvent *event, gint offset)
+adjust_event_position (GdkEvent *event,
+                       gint offset)
 {
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
@@ -310,7 +318,9 @@ adjust_event_position (GdkEvent *event, gint offset)
 }
 
 static gboolean
-event_in_expander (GdkEvent *event, gint offset, gint height)
+event_in_expander (GdkEvent *event,
+                   gint offset,
+                   gint height)
 {
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
@@ -329,7 +339,10 @@ event_in_expander (GdkEvent *event, gint offset, gint height)
  * ECell::height method
  */
 static gint
-ect_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
+ect_height (ECellView *ecell_view,
+            gint model_col,
+            gint view_col,
+            gint row)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 
@@ -381,7 +394,13 @@ animate_expander (gpointer data)
  * ECell::event method
  */
 static gint
-ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col, gint row, ECellFlags flags, ECellActions *actions)
+ect_event (ECellView *ecell_view,
+           GdkEvent *event,
+           gint model_col,
+           gint view_col,
+           gint row,
+           ECellFlags flags,
+           ECellActions *actions)
 {
 	GtkLayout *layout;
 	GdkWindow *window;
@@ -504,7 +523,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
  * ECell::max_width method
  */
 static gint
-ect_max_width (ECellView *ecell_view, gint model_col, gint view_col)
+ect_max_width (ECellView *ecell_view,
+               gint model_col,
+               gint view_col)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 	gint row;
@@ -578,7 +599,8 @@ ect_max_width (ECellView *ecell_view, gint model_col, gint view_col)
  * ECellView::get_bg_color method
  */
 static gchar *
-ect_get_bg_color (ECellView *ecell_view, gint row)
+ect_get_bg_color (ECellView *ecell_view,
+                  gint row)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 
@@ -589,7 +611,10 @@ ect_get_bg_color (ECellView *ecell_view, gint row)
  * ECellView::enter_edit method
  */
 static gpointer
-ect_enter_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row)
+ect_enter_edit (ECellView *ecell_view,
+                gint model_col,
+                gint view_col,
+                gint row)
 {
 	/* just defer to our subcell's view */
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
@@ -601,7 +626,11 @@ ect_enter_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row)
  * ECellView::leave_edit method
  */
 static void
-ect_leave_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer edit_context)
+ect_leave_edit (ECellView *ecell_view,
+                gint model_col,
+                gint view_col,
+                gint row,
+                gpointer edit_context)
 {
 	/* just defer to our subcell's view */
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
@@ -610,9 +639,13 @@ ect_leave_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row, 
 }
 
 static void
-ect_print (ECellView *ecell_view, GtkPrintContext *context,
-	   gint model_col, gint view_col, gint row,
-	   gdouble width, gdouble height)
+ect_print (ECellView *ecell_view,
+           GtkPrintContext *context,
+           gint model_col,
+           gint view_col,
+           gint row,
+           gdouble width,
+           gdouble height)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 	cairo_t *cr = gtk_print_context_get_cairo_context (context);
@@ -650,8 +683,8 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 			}
 
 			/* now traverse back up to the root of the tree, checking at
-			   each level if the node has siblings, and drawing the
-			   correct vertical pipe for it's configuration. */
+			 * each level if the node has siblings, and drawing the
+			 * correct vertical pipe for it's configuration. */
 			node = e_tree_model_node_get_parent (tree_model, node);
 			depth = visible_depth_of_node (ecell_view->e_table_model, row) - 1;
 			offset -= INDENT_AMOUNT;
@@ -700,9 +733,12 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 }
 
 static gdouble
-ect_print_height (ECellView *ecell_view, GtkPrintContext *context,
-		  gint model_col, gint view_col, gint row,
-		  gdouble width)
+ect_print_height (ECellView *ecell_view,
+                  GtkPrintContext *context,
+                  gint model_col,
+                  gint view_col,
+                  gint row,
+                  gdouble width)
 {
 	return 12; /* XXX */
 }
@@ -766,8 +802,8 @@ e_cell_tree_init (ECellTree *ect)
  **/
 void
 e_cell_tree_construct (ECellTree *ect,
-		       gboolean draw_lines,
-		       ECell *subcell)
+                       gboolean draw_lines,
+                       ECell *subcell)
 {
 	ect->subcell = subcell;
 	if (subcell)
@@ -792,7 +828,7 @@ e_cell_tree_construct (ECellTree *ect,
  **/
 ECell *
 e_cell_tree_new (gboolean draw_lines,
-		 ECell *subcell)
+                 ECell *subcell)
 {
 	ECellTree *ect = g_object_new (E_TYPE_CELL_TREE, NULL);
 

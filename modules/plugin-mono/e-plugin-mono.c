@@ -50,7 +50,8 @@ static gpointer parent_class;
 static GType plugin_mono_type;
 
 static gchar *
-get_xml_prop (xmlNodePtr node, const gchar *id)
+get_xml_prop (xmlNodePtr node,
+              const gchar *id)
 {
 	xmlChar *prop;
 	gchar *out = NULL;
@@ -82,7 +83,8 @@ plugin_mono_finalize (GObject *object)
 }
 
 static gint
-plugin_mono_construct (EPlugin *plugin, xmlNodePtr root)
+plugin_mono_construct (EPlugin *plugin,
+                       xmlNodePtr root)
 {
 	EPluginMono *plugin_mono;
 
@@ -99,11 +101,11 @@ plugin_mono_construct (EPlugin *plugin, xmlNodePtr root)
 
 /*
   Two approaches:
-    You can have a Evolution.Plugin implementation which has every
-    callback as methods on it.  Or you can just use static methods
-    for everything.
-
-   All methods take a single (structured) argument.
+ *  You can have a Evolution.Plugin implementation which has every
+ *  callback as methods on it.  Or you can just use static methods
+ *  for everything.
+ *
+ * All methods take a single (structured) argument.
 */
 
 static gpointer
@@ -155,7 +157,7 @@ plugin_mono_invoke (EPlugin *plugin,
 	if (m == NULL) {
 		if (priv->class) {
 			/* class method */
-			MonoMethod* mono_method;
+			MonoMethod * mono_method;
 			gpointer iter = NULL;
 
 			d = mono_method_desc_new (name, FALSE);
@@ -194,7 +196,7 @@ plugin_mono_invoke (EPlugin *plugin,
 		g_hash_table_insert (priv->methods, g_strdup (name), m);
 	}
 
-	params = g_malloc0 (sizeof (*params)*1);
+	params = g_malloc0 (sizeof (*params) * 1);
 	params[0] = &data;
 	res = mono_runtime_invoke (m, priv->plugin, params, &x);
 	/* do i need to free params?? */

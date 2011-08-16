@@ -149,17 +149,17 @@ map_type (const gchar *nick)
 }
 
 /*
-  XML format:
+ * XML format:
+ *
+ * <error id="error-id" type="info|warning|question|error"?
+ *      response="default_response"? >
+ *  <primary> Primary error text.</primary>?
+ *  <secondary> Secondary error text.</secondary>?
+ *  <button stock="stock-button-id"? label="button label"?
+ *      response="response_id"? /> *
+ * </error>
+ */
 
- <error id="error-id" type="info|warning|question|error"?
-      response="default_response"? >
-  <primary>Primary error text.</primary>?
-  <secondary>Secondary error text.</secondary>?
-  <button stock="stock-button-id"? label="button label"?
-      response="response_id"? /> *
- </error>
-
-*/
 static void
 e_alert_load (const gchar *path)
 {
@@ -211,7 +211,7 @@ e_alert_load (const gchar *path)
 		g_warning("Error file '%s', domain '%s' already used, merging", path, tmp);
 	xmlFree (tmp);
 
-	for (error = root->children;error;error = error->next) {
+	for (error = root->children; error; error = error->next) {
 		if (!strcmp((gchar *)error->name, "error")) {
 			tmp = (gchar *)xmlGetProp(error, (const guchar *)"id");
 			if (tmp == NULL)
@@ -221,7 +221,7 @@ e_alert_load (const gchar *path)
 			e->id = g_strdup (tmp);
 
 			xmlFree (tmp);
-			lastbutton = (EAlertButton *)&e->buttons;
+			lastbutton = (EAlertButton *) &e->buttons;
 
 			tmp = (gchar *)xmlGetProp(error, (const guchar *)"type");
 			e->message_type = map_type (tmp);
@@ -234,7 +234,7 @@ e_alert_load (const gchar *path)
 				xmlFree (tmp);
 			}
 
-			for (scan = error->children;scan;scan=scan->next) {
+			for (scan = error->children; scan; scan = scan->next) {
 				if (!strcmp((gchar *)scan->name, "primary")) {
 					if ((tmp = (gchar *) xmlNodeGetContent (scan))) {
 						e->primary_text = g_strdup (
@@ -373,7 +373,7 @@ alert_format_string (const gchar *format,
 
 	while (format
 	       && (newstart = strchr (format, '{'))
-	       && (end = strchr (newstart+1, '}'))) {
+	       && (end = strchr (newstart + 1, '}'))) {
 		g_string_append_len (string, format, newstart - format);
 		id = atoi (newstart + 1);
 		if (id < args->len) {
@@ -435,7 +435,7 @@ alert_set_property (GObject *object,
                     const GValue *value,
                     GParamSpec *pspec)
 {
-	EAlert *alert = (EAlert*) object;
+	EAlert *alert = (EAlert *) object;
 
 	switch (property_id) {
 		case PROP_TAG:
@@ -476,7 +476,7 @@ alert_get_property (GObject *object,
                     GValue *value,
                     GParamSpec *pspec)
 {
-	EAlert *alert = (EAlert*) object;
+	EAlert *alert = (EAlert *) object;
 
 	switch (property_id) {
 		case PROP_TAG:
@@ -703,7 +703,8 @@ e_alert_init (EAlert *alert)
  * Returns: a new #EAlert
  **/
 EAlert *
-e_alert_new (const gchar *tag, ...)
+e_alert_new (const gchar *tag,
+             ...)
 {
 	EAlert *e;
 	va_list va;
@@ -716,7 +717,8 @@ e_alert_new (const gchar *tag, ...)
 }
 
 EAlert *
-e_alert_new_valist (const gchar *tag, va_list va)
+e_alert_new_valist (const gchar *tag,
+                    va_list va)
 {
 	EAlert *alert;
 	GPtrArray *args;
@@ -738,7 +740,8 @@ e_alert_new_valist (const gchar *tag, va_list va)
 }
 
 EAlert *
-e_alert_new_array (const gchar *tag, GPtrArray *args)
+e_alert_new_array (const gchar *tag,
+                   GPtrArray *args)
 {
 	return g_object_new (E_TYPE_ALERT, "tag", tag, "args", args, NULL);
 }

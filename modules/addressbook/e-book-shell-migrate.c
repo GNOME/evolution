@@ -53,8 +53,8 @@
 
 typedef struct {
 	/* this hash table maps old folder uris to new uids.  It's
-	   build in migrate_contact_folder and it's used in
-	   migrate_completion_folders. */
+	 * build in migrate_contact_folder and it's used in
+	 * migrate_completion_folders. */
 	GHashTable *folder_uid_map;
 
 	ESourceList *source_list;
@@ -73,9 +73,9 @@ typedef struct {
 
 static void
 create_groups (MigrationContext *context,
-	       ESourceGroup **on_this_computer,
-	       ESourceGroup **on_ldap_servers,
-	       ESource      **personal_source)
+               ESourceGroup **on_this_computer,
+               ESourceGroup **on_ldap_servers,
+               ESource **personal_source)
 {
 	GSList *groups;
 	ESourceGroup *group;
@@ -115,7 +115,7 @@ create_groups (MigrationContext *context,
 
 	if (*on_this_computer) {
 		/* make sure "Personal" shows up as a source under
-		   this group */
+		 * this group */
 		GSList *sources = e_source_group_peek_sources (*on_this_computer);
 		GSList *s;
 		for (s = sources; s; s = s->next) {
@@ -207,8 +207,8 @@ e_book_shell_backend_migrate (EShellBackend *shell_backend,
 	context = migration_context_new (data_dir);
 
 	/* we call this unconditionally now - create_groups either
-	   creates the groups/sources or it finds the necessary
-	   groups/sources. */
+	 * creates the groups/sources or it finds the necessary
+	 * groups/sources. */
 	create_groups (context, &on_this_computer, &on_ldap_servers, &personal_source);
 
 	if (on_this_computer)

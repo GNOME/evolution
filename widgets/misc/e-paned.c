@@ -57,6 +57,14 @@ G_DEFINE_TYPE (
 	GTK_TYPE_PANED)
 
 static gboolean
+paned_queue_resize_on_idle (GtkWidget *paned)
+{
+	gtk_widget_queue_resize_no_redraw (paned);
+
+	return FALSE;
+}
+
+static gboolean
 paned_window_state_event_cb (EPaned *paned,
                              GdkEventWindowState *event,
                              GtkWidget *toplevel)
@@ -240,19 +248,6 @@ paned_realize (GtkWidget *widget)
 		priv->toplevel_ready = TRUE;
 }
 
-static gboolean
-paned_queue_resize_on_idle (gpointer user_data)
-{
-	GtkWidget *paned = user_data;
-
-	g_return_val_if_fail (paned != NULL, FALSE);
-
-	gtk_widget_queue_resize_no_redraw (paned);
-	g_object_unref (paned);
-
-	return FALSE;
-}
-
 static void
 paned_size_allocate (GtkWidget *widget,
                      GtkAllocation *allocation)
@@ -297,10 +292,13 @@ paned_size_allocate (GtkWidget *widget,
 	paned->priv->sync_request = SYNC_REQUEST_NONE;
 
 	/* gtk_paned_set_position() calls queue_resize, which cannot
-	   be called from size_allocate, thus call it on idle to take
-	   the change in the effect.
-	*/
-	g_idle_add (paned_queue_resize_on_idle, g_object_ref (paned));
+	 * be called from size_allocate, so schedule it from an idle
+	 * callback so the change takes effect. */
+	g_idle_add_full (
+		G_PRIORITY_DEFAULT_IDLE,
+		(GSourceFunc) paned_queue_resize_on_idle,
+		g_object_ref (paned),
+		(GDestroyNotify) g_object_unref);
 }
 
 static void

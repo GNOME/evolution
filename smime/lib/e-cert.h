@@ -66,10 +66,10 @@ struct _ECertClass {
 
 GType                e_cert_get_type     (void);
 
-ECert*               e_cert_new          (CERTCertificate *cert);
-ECert*               e_cert_new_from_der (gchar *data, guint32 len);
+ECert *               e_cert_new          (CERTCertificate *cert);
+ECert *               e_cert_new_from_der (gchar *data, guint32 len);
 
-CERTCertificate*     e_cert_get_internal_cert (ECert *cert);
+CERTCertificate *     e_cert_get_internal_cert (ECert *cert);
 
 gboolean             e_cert_get_raw_der       (ECert *cert, gchar **data, guint32 *len);
 const gchar *          e_cert_get_window_title  (ECert *cert);
@@ -95,9 +95,9 @@ const gchar *          e_cert_get_serial_number    (ECert *cert);
 const gchar *          e_cert_get_sha1_fingerprint (ECert *cert);
 const gchar *          e_cert_get_md5_fingerprint  (ECert *cert);
 
-GList*               e_cert_get_chain       (ECert *cert);
+GList *               e_cert_get_chain       (ECert *cert);
 ECert *              e_cert_get_ca_cert     (ECert *ecert);
-EASN1Object*         e_cert_get_asn1_struct (ECert *cert);
+EASN1Object *         e_cert_get_asn1_struct (ECert *cert);
 
 gboolean             e_cert_mark_for_deletion (ECert *cert);
 

@@ -66,13 +66,13 @@ struct _ECellPopup {
 	ECell *child;
 
 	/* This is TRUE if the popup window is shown for the cell being
-	   edited. While shown we display the arrow indented. */
+	 * edited. While shown we display the arrow indented. */
 	gboolean popup_shown;
 
 	/* This is TRUE if the popup arrow is shown for the cell being edited.
-	   This is needed to stop the first click on the cell from popping up
-	   the popup window. We only popup the window after we have drawn the
-	   arrow. */
+	 * This is needed to stop the first click on the cell from popping up
+	 * the popup window. We only popup the window after we have drawn the
+	 * arrow. */
 	gboolean popup_arrow_shown;
 
 	/* The view in which the popup is shown. */

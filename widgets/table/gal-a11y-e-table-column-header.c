@@ -67,7 +67,8 @@ gal_a11y_e_table_column_header_ref_state_set (AtkObject *accessible)
 }
 
 static void
-gal_a11y_e_table_column_header_real_initialize (AtkObject *obj, gpointer data)
+gal_a11y_e_table_column_header_real_initialize (AtkObject *obj,
+                                                gpointer data)
 {
 	ATK_OBJECT_CLASS (parent_class)->initialize (obj, data);
 }
@@ -110,7 +111,7 @@ etch_a11y_get_gobject (AtkGObjectAccessible *accessible)
 
 static gboolean
 gal_a11y_e_table_column_header_do_action (AtkAction *action,
-					  gint      i)
+                                          gint i)
 {
 	gboolean return_value = TRUE;
 	GtkWidget *widget;
@@ -148,7 +149,7 @@ gal_a11y_e_table_column_header_get_n_actions (AtkAction *action)
 
 static const gchar *
 gal_a11y_e_table_column_header_action_get_name (AtkAction *action,
-						gint      i)
+                                                gint i)
 {
 	const gchar *return_value;
 
@@ -209,7 +210,8 @@ gal_a11y_e_table_column_header_get_type (void)
 }
 
 AtkObject *
-gal_a11y_e_table_column_header_new (ETableCol *ecol, ETableItem *item)
+gal_a11y_e_table_column_header_new (ETableCol *ecol,
+                                    ETableItem *item)
 {
 	GalA11yETableColumnHeader *a11y;
 	AtkObject *accessible;

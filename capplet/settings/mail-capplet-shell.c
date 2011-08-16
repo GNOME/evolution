@@ -91,7 +91,7 @@ G_DEFINE_TYPE (MailCappletShell, mail_capplet_shell, GTK_TYPE_WINDOW)
 static void setup_abooks (void);
 
 static void
-mail_capplet_shell_init (MailCappletShell  *shell)
+mail_capplet_shell_init (MailCappletShell *shell)
 {
 	shell->priv = g_new0 (MailCappletShellPrivate, 1);
 	shell->priv->settings_view = NULL;
@@ -184,15 +184,15 @@ mail_capplet_shell_quit (MailCappletShell *shell)
 
 static void
 ms_delete_event (MailCappletShell *shell,
-		 GdkEvent *event G_GNUC_UNUSED,
-		 gpointer data G_GNUC_UNUSED)
+                 GdkEvent *event G_GNUC_UNUSED,
+                 gpointer data G_GNUC_UNUSED)
 {
 	mail_capplet_shell_quit (shell);
 }
 
 static void
 ms_show_post_druid (MailViewChild *mfv G_GNUC_UNUSED,
-		    MailCappletShell *shell)
+                    MailCappletShell *shell)
 {
 	gtk_widget_destroy (GTK_WIDGET (shell));
 }
@@ -200,7 +200,10 @@ ms_show_post_druid (MailViewChild *mfv G_GNUC_UNUSED,
 #define PACK_IN_TOOL(wid,icon)	{ GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, gtk_image_new_from_icon_name(icon, GTK_ICON_SIZE_BUTTON), FALSE, FALSE, 0); wid = (GtkWidget *)gtk_tool_button_new (tbox, NULL); }
 
 static void
-mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean just_druid, gboolean main_loop)
+mail_capplet_shell_construct (MailCappletShell *shell,
+                              gint socket_id,
+                              gboolean just_druid,
+                              gboolean main_loop)
 {
 	MailCappletShellPrivate *priv = shell->priv;
 	GtkStyle *style = gtk_widget_get_default_style ();
@@ -292,7 +295,9 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 }
 
 GtkWidget *
-mail_capplet_shell_new (gint socket_id, gboolean just_druid, gboolean main_loop)
+mail_capplet_shell_new (gint socket_id,
+                        gboolean just_druid,
+                        gboolean main_loop)
 {
 	MailCappletShell *shell = g_object_new (MAIL_CAPPLET_SHELL_TYPE, NULL);
 	mail_capplet_shell_construct (shell, socket_id, just_druid, main_loop);
@@ -351,7 +356,7 @@ setup_abooks (void)
 
 	if (on_this_computer) {
 		/* make sure "Personal" shows up as a source under
-		   this group */
+		 * this group */
 		GSList *sources = e_source_group_peek_sources (on_this_computer);
 		GSList *s;
 		for (s = sources; s; s = s->next) {

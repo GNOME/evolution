@@ -74,7 +74,11 @@ gnome_canvas_item_reset_bounds (GnomeCanvasItem *item)
  * Sets the bbox to the new value, requesting full repaint.
  **/
 void
-gnome_canvas_update_bbox (GnomeCanvasItem *item, gint x1, gint y1, gint x2, gint y2)
+gnome_canvas_update_bbox (GnomeCanvasItem *item,
+                          gint x1,
+                          gint y1,
+                          gint x2,
+                          gint y2)
 {
 	gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
 	item->x1 = x1;
@@ -118,7 +122,10 @@ gnome_canvas_cairo_create_scratch (void)
  **/
 void
 gnome_canvas_matrix_transform_rect (const cairo_matrix_t *matrix,
-                                    double *x1, double *y1, double *x2, double *y2)
+                                    gdouble *x1,
+                                    gdouble *y1,
+                                    gdouble *x2,
+                                    gdouble *y2)
 {
 	gdouble maxx, maxy, minx, miny;
 	gdouble tmpx, tmpy;

@@ -26,7 +26,7 @@
 #include "gailcanvasgroup.h"
 
 static gint       gail_canvas_group_get_n_children  (AtkObject            *obj);
-static AtkObject* gail_canvas_group_ref_child       (AtkObject            *obj,
+static AtkObject * gail_canvas_group_ref_child       (AtkObject            *obj,
                                                      gint                 i);
 
 G_DEFINE_TYPE (GailCanvasGroup,
@@ -39,7 +39,7 @@ gail_canvas_group_init (GailCanvasGroup *foo)
   ;
 }
 
-AtkObject*
+AtkObject *
 gail_canvas_group_new (GObject *obj)
 {
   gpointer object;
@@ -79,7 +79,7 @@ gail_canvas_group_get_n_children (AtkObject *obj)
 
 static AtkObject *
 gail_canvas_group_ref_child (AtkObject *obj,
-                             gint      i)
+                             gint i)
 {
   AtkGObjectAccessible *atk_gobject;
   GnomeCanvasGroup *group;

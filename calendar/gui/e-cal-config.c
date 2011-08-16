@@ -41,7 +41,8 @@ ecp_init (ECalConfig *cfg)
 }
 
 static void
-ecp_target_free (EConfig *ec, EConfigTarget *t)
+ecp_target_free (EConfig *ec,
+                 EConfigTarget *t)
 {
 	struct _ECalConfigPrivate *p = E_CAL_CONFIG (ec)->priv;
 
@@ -78,13 +79,15 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 }
 
 static void
-ecp_source_changed (struct _ESource *source, EConfig *ec)
+ecp_source_changed (ESource *source,
+                    EConfig *ec)
 {
 	e_config_target_changed (ec, E_CONFIG_TARGET_CHANGED_STATE);
 }
 
 static void
-ecp_set_target (EConfig *ec, EConfigTarget *t)
+ecp_set_target (EConfig *ec,
+                EConfigTarget *t)
 {
 	struct _ECalConfigPrivate *p = E_CAL_CONFIG (ec)->priv;
 
@@ -139,7 +142,8 @@ e_cal_config_get_type (void)
 }
 
 ECalConfig *
-e_cal_config_new (gint type, const gchar *menuid)
+e_cal_config_new (gint type,
+                  const gchar *menuid)
 {
 	ECalConfig *ecp = g_object_new (e_cal_config_get_type (), NULL);
 	e_config_construct (&ecp->config, type, menuid);
@@ -147,7 +151,8 @@ e_cal_config_new (gint type, const gchar *menuid)
 }
 
 ECalConfigTargetSource *
-e_cal_config_target_new_source (ECalConfig *ecp, ESource *source)
+e_cal_config_target_new_source (ECalConfig *ecp,
+                                ESource *source)
 {
 	ECalConfigTargetSource *t;
 

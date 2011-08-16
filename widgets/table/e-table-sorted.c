@@ -125,7 +125,9 @@ ets_insert_idle (ETableSorted *ets)
 }
 
 ETableModel *
-e_table_sorted_new (ETableModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
+e_table_sorted_new (ETableModel *source,
+                    ETableHeader *full_header,
+                    ETableSortInfo *sort_info)
 {
 	ETableSorted *ets = g_object_new (E_TYPE_TABLE_SORTED, NULL);
 	ETableSubset *etss = E_TABLE_SUBSET (ets);
@@ -145,20 +147,23 @@ e_table_sorted_new (ETableModel *source, ETableHeader *full_header, ETableSortIn
 
 	ets_proxy_model_changed (etss, source);
 
-	ets->sort_info_changed_id = g_signal_connect (G_OBJECT (sort_info), "sort_info_changed",
-						      G_CALLBACK (ets_sort_info_changed), ets);
+	ets->sort_info_changed_id = g_signal_connect (
+		sort_info, "sort_info_changed",
+		G_CALLBACK (ets_sort_info_changed), ets);
 
 	return E_TABLE_MODEL (ets);
 }
 
 static void
-ets_sort_info_changed (ETableSortInfo *info, ETableSorted *ets)
+ets_sort_info_changed (ETableSortInfo *info,
+                       ETableSorted *ets)
 {
 	ets_sort (ets);
 }
 
 static void
-ets_proxy_model_changed (ETableSubset *subset, ETableModel *source)
+ets_proxy_model_changed (ETableSubset *subset,
+                         ETableModel *source)
 {
 	gint rows, i;
 
@@ -179,7 +184,9 @@ ets_proxy_model_changed (ETableSubset *subset, ETableModel *source)
 }
 
 static void
-ets_proxy_model_row_changed (ETableSubset *subset, ETableModel *source, gint row)
+ets_proxy_model_row_changed (ETableSubset *subset,
+                             ETableModel *source,
+                             gint row)
 {
 	if (!E_TABLE_SORTED (subset)->sort_idle_id)
 		E_TABLE_SORTED (subset)->sort_idle_id = g_idle_add_full (50, (GSourceFunc) ets_sort_idle, subset, NULL);
@@ -189,7 +196,10 @@ ets_proxy_model_row_changed (ETableSubset *subset, ETableModel *source, gint row
 }
 
 static void
-ets_proxy_model_cell_changed (ETableSubset *subset, ETableModel *source, gint col, gint row)
+ets_proxy_model_cell_changed (ETableSubset *subset,
+                              ETableModel *source,
+                              gint col,
+                              gint row)
 {
 	ETableSorted *ets = E_TABLE_SORTED (subset);
 	if (e_table_sorting_utils_affects_sort (ets->sort_info, ets->full_header, col))
@@ -199,7 +209,10 @@ ets_proxy_model_cell_changed (ETableSubset *subset, ETableModel *source, gint co
 }
 
 static void
-ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, gint row, gint count)
+ets_proxy_model_rows_inserted (ETableSubset *etss,
+                               ETableModel *source,
+                               gint row,
+                               gint count)
 {
 	ETableModel *etm = E_TABLE_MODEL (etss);
 	ETableSorted *ets = E_TABLE_SORTED (etss);
@@ -228,7 +241,7 @@ ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, gint row
 		i = etss->n_map;
 		if (ets->sort_idle_id == 0) {
 			/* this is to see if we're inserting a lot of things between idle loops.
-			   If we are, we're busy, its faster to just append and perform a full sort later */
+			 * If we are, we're busy, its faster to just append and perform a full sort later */
 			ets->insert_count++;
 			if (ets->insert_count > ETS_INSERT_MAX) {
 				/* schedule a sort, and append instead */
@@ -259,7 +272,10 @@ ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, gint row
 }
 
 static void
-ets_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *source, gint row, gint count)
+ets_proxy_model_rows_deleted (ETableSubset *etss,
+                              ETableModel *source,
+                              gint row,
+                              gint count)
 {
 	ETableModel *etm = E_TABLE_MODEL (etss);
 	gint i;

@@ -42,9 +42,9 @@ typedef struct _EMeetingAttendeePrivate  EMeetingAttendeePrivate;
 typedef struct _EMeetingAttendeeClass    EMeetingAttendeeClass;
 
 /* These specify the type of attendee. Either a person or a resource (e.g. a
-   meeting room). These are used for the Autopick options, where the user can
-   ask for a time when, for example, all people and one resource are free.
-   The default is E_MEETING_ATTENDEE_REQUIRED_PERSON. */
+ * meeting room). These are used for the Autopick options, where the user can
+ * ask for a time when, for example, all people and one resource are free.
+ * The default is E_MEETING_ATTENDEE_REQUIRED_PERSON. */
 typedef enum
 {
 	E_MEETING_ATTENDEE_REQUIRED_PERSON,

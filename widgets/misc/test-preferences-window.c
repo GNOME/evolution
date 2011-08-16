@@ -71,8 +71,8 @@ add_pages (EPreferencesWindow *preferences_window)
 
 static gint
 delete_event_callback (GtkWidget *widget,
-		       GdkEventAny *event,
-		       gpointer data)
+                       GdkEventAny *event,
+                       gpointer data)
 {
 	gtk_main_quit ();
 
@@ -80,7 +80,8 @@ delete_event_callback (GtkWidget *widget,
 }
 
 gint
-main (gint argc, gchar **argv)
+main (gint argc,
+      gchar **argv)
 {
 	GtkWidget *window;
 

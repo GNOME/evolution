@@ -124,7 +124,7 @@ struct _attach_puri {
 	GtkWidget *forward, *down;
 	/* currently no way to correlate this data to the frame :( */
 	GtkHTML *frame;
-	guint shown:1;
+	guint shown : 1;
 
 	/* Embedded Frame */
 	GtkHTMLEmbedded *html;
@@ -193,7 +193,7 @@ efhd_xpkcs7mime_viewcert_clicked (GtkWidget *button,
 
 		/* oddly enough certificate_viewer_show doesn't ... */
 		gtk_widget_show (w);
-		g_signal_connect(w, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+		g_signal_connect (w, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 
 		if (w && po->widget)
 			gtk_window_set_transient_for ((GtkWindow *) w, (GtkWindow *) po->widget);
@@ -236,12 +236,12 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
 			w = gtk_label_new (l);
 			gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
 			g_free (la);
-			gtk_table_attach (table, w, 0, 1, n, n+1, GTK_FILL, GTK_FILL, 3, 3);
+			gtk_table_attach (table, w, 0, 1, n, n + 1, GTK_FILL, GTK_FILL, 3, 3);
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 			w = gtk_button_new_with_mnemonic(_("_View Certificate"));
-			gtk_table_attach (table, w, 1, 2, n, n+1, 0, 0, 3, 3);
+			gtk_table_attach (table, w, 1, 2, n, n + 1, 0, 0, 3, 3);
 			g_object_set_data((GObject *)w, "e-cert-info", info);
-			g_signal_connect(w, "clicked", G_CALLBACK(efhd_xpkcs7mime_viewcert_clicked), po);
+			g_signal_connect (w, "clicked", G_CALLBACK(efhd_xpkcs7mime_viewcert_clicked), po);
 
 			if (info->cert_data)
 				ec = e_cert_new (CERT_DupCertificate (info->cert_data));
@@ -252,7 +252,7 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
 				g_object_unref (ec);
 #else
 			w = gtk_label_new (_("This certificate is not viewable"));
-			gtk_table_attach (table, w, 1, 2, n, n+1, 0, 0, 3, 3);
+			gtk_table_attach (table, w, 1, 2, n, n + 1, 0, 0, 3, 3);
 #endif
 			n++;
 		}
@@ -346,7 +346,7 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 
 	g_object_unref (builder);
 
-	g_signal_connect(po->widget, "response", G_CALLBACK(efhd_xpkcs7mime_info_response), po);
+	g_signal_connect (po->widget, "response", G_CALLBACK(efhd_xpkcs7mime_info_response), po);
 	gtk_widget_show (po->widget);
 }
 
@@ -386,25 +386,35 @@ efhd_xpkcs7mime_button (EMFormatHTML *efh,
 }
 
 static gboolean
-remove_attachment_view_cb (gpointer message_part_id, gpointer attachment_view, gpointer gone_attachment_view)
+remove_attachment_view_cb (gpointer message_part_id,
+                           gpointer attachment_view,
+                           gpointer gone_attachment_view)
 {
 	return attachment_view == gone_attachment_view;
 }
 
 static void
-efhd_attachment_view_gone_cb (gpointer efh, GObject *gone_attachment_view)
+efhd_attachment_view_gone_cb (gpointer efh,
+                              GObject *gone_attachment_view)
 {
 	EMFormatHTMLDisplay *efhd = EM_FORMAT_HTML_DISPLAY (efh);
 
 	g_return_if_fail (efhd != NULL);
 
-	g_hash_table_foreach_remove (efhd->priv->attachment_views, remove_attachment_view_cb, gone_attachment_view);
+	g_hash_table_foreach_remove (
+		efhd->priv->attachment_views,
+		remove_attachment_view_cb,
+		gone_attachment_view);
 }
 
 static void
-weak_unref_attachment_view_cb (gpointer message_part_id, gpointer attachment_view, gpointer efh)
+weak_unref_attachment_view_cb (gpointer message_part_id,
+                               gpointer attachment_view,
+                               gpointer efh)
 {
-	g_object_weak_unref (G_OBJECT (attachment_view), efhd_attachment_view_gone_cb, efh);
+	g_object_weak_unref (
+		G_OBJECT (attachment_view),
+		efhd_attachment_view_gone_cb, efh);
 }
 
 static void
@@ -1106,7 +1116,9 @@ attachment_button_realized (GtkWidget *widget)
 
 /* attachment button callback */
 static gboolean
-efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
+efhd_attachment_button (EMFormatHTML *efh,
+                        GtkHTMLEmbedded *eb,
+                        EMFormatHTMLPObject *pobject)
 {
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) efh;
 	struct _attach_puri *info;
@@ -1134,7 +1146,7 @@ efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObj
 				size = ci->size;
 				/* what if its not encoded in base64 ? is it a case to consider? */
 				if (ci->encoding && !g_ascii_strcasecmp (ci->encoding, "base64"))
-					size = size/1.37;
+					size = size / 1.37;
 			}
 			camel_message_info_free (mi);
 		}
@@ -1222,7 +1234,9 @@ efhd_attachment_frame (EMFormat *emf,
 }
 
 static void
-set_size_request_cb (gpointer message_part_id, gpointer widget, gpointer width)
+set_size_request_cb (gpointer message_part_id,
+                     gpointer widget,
+                     gpointer width)
 {
 	gtk_widget_set_size_request (widget, GPOINTER_TO_INT (width), -1);
 }
@@ -1311,7 +1325,8 @@ efhd_message_add_bar (EMFormat *emf,
 }
 
 static void
-efhd_optional_button_show (GtkWidget *widget, GtkWidget *w)
+efhd_optional_button_show (GtkWidget *widget,
+                           GtkWidget *w)
 {
 	GtkWidget *label = g_object_get_data (G_OBJECT (widget), "text-label");
 
@@ -1325,7 +1340,9 @@ efhd_optional_button_show (GtkWidget *widget, GtkWidget *w)
 }
 
 static void
-efhd_resize (GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
+efhd_resize (GtkWidget *w,
+             GtkAllocation *event,
+             EMFormatHTML *efh)
 {
 	EWebView *web_view;
 	GtkAllocation allocation;
@@ -1337,7 +1354,9 @@ efhd_resize (GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
 
 /* optional render attachment button callback */
 static gboolean
-efhd_attachment_optional (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
+efhd_attachment_optional (EMFormatHTML *efh,
+                          GtkHTMLEmbedded *eb,
+                          EMFormatHTMLPObject *pobject)
 {
 	struct _attach_puri *info;
 	GtkWidget *hbox, *vbox, *button, *mainbox, *scroll, *label, *img;
@@ -1371,7 +1390,9 @@ efhd_attachment_optional (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPO
 	gtk_widget_show_all (hbox);
 	gtk_container_add (GTK_CONTAINER (button), GTK_WIDGET (hbox));
 	if (info->handle)
-		g_signal_connect(G_OBJECT (button), "clicked", G_CALLBACK(efhd_optional_button_show), scroll);
+		g_signal_connect (
+			button, "clicked",
+			G_CALLBACK (efhd_optional_button_show), scroll);
 	else {
 		gtk_widget_set_sensitive (button, FALSE);
 		gtk_widget_set_can_focus (button, FALSE);
@@ -1450,7 +1471,8 @@ efhd_free_attach_puri_data (EMFormatPURI *puri)
 
 /* returned object owned by html_display, thus do not unref it */
 EAttachmentView *
-em_format_html_display_get_attachment_view (EMFormatHTMLDisplay *html_display, const gchar *message_part_id)
+em_format_html_display_get_attachment_view (EMFormatHTMLDisplay *html_display,
+                                            const gchar *message_part_id)
 {
 	gpointer aview;
 

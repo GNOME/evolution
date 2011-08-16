@@ -109,7 +109,7 @@ get_best_span (time_t val)
 {
 	gint i;
 
-	for (i=G_N_ELEMENTS (timespans)-1;i>=0;i--) {
+	for (i = G_N_ELEMENTS (timespans) - 1; i >= 0; i--) {
 		if (val % timespans[i].seconds == 0)
 			return i;
 	}
@@ -205,7 +205,7 @@ set_values (EFilterDatespec *fds)
 
 	EFilterDatespecPrivate *p = fds->priv;
 
-	p->type = fds->type==FDST_UNKNOWN ? FDST_NOW : fds->type;
+	p->type = fds->type == FDST_UNKNOWN ? FDST_NOW : fds->type;
 
 	note_type = p->type==FDST_X_FUTURE ? FDST_X_AGO : p->type; /* FUTURE and AGO use the same notebook pages/etc. */
 
@@ -219,43 +219,46 @@ set_values (EFilterDatespec *fds)
 		struct tm tm;
 
 		localtime_r (&fds->value, &tm);
-		gtk_calendar_select_month ((GtkCalendar*) p->calendar_specify, tm.tm_mon, tm.tm_year + 1900);
-		gtk_calendar_select_day ((GtkCalendar*) p->calendar_specify, tm.tm_mday);
+		gtk_calendar_select_month ((GtkCalendar *) p->calendar_specify, tm.tm_mon, tm.tm_year + 1900);
+		gtk_calendar_select_day ((GtkCalendar *) p->calendar_specify, tm.tm_mday);
 		break;
 	}
 	case FDST_X_AGO:
 		p->span = get_best_span (fds->value);
-		gtk_spin_button_set_value ((GtkSpinButton*) p->spin_relative, fds->value/timespans[p->span].seconds);
+		gtk_spin_button_set_value ((GtkSpinButton *) p->spin_relative, fds->value / timespans[p->span].seconds);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_relative), p->span);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_past_future), 0);
 		break;
 	case FDST_X_FUTURE:
 		p->span = get_best_span (fds->value);
-		gtk_spin_button_set_value ((GtkSpinButton*) p->spin_relative, fds->value/timespans[p->span].seconds);
+		gtk_spin_button_set_value ((GtkSpinButton *) p->spin_relative, fds->value / timespans[p->span].seconds);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_relative), p->span);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_past_future), 1);
 		break;
 	}
 
-	gtk_notebook_set_current_page ((GtkNotebook*) p->notebook_type, note_type);
+	gtk_notebook_set_current_page ((GtkNotebook *) p->notebook_type, note_type);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_type), note_type);
 }
 
 static void
-set_combobox_type (GtkComboBox *combobox, EFilterDatespec *fds)
+set_combobox_type (GtkComboBox *combobox,
+                   EFilterDatespec *fds)
 {
 	fds->priv->type = gtk_combo_box_get_active (combobox);
-	gtk_notebook_set_current_page ((GtkNotebook*) fds->priv->notebook_type, fds->priv->type);
+	gtk_notebook_set_current_page ((GtkNotebook *) fds->priv->notebook_type, fds->priv->type);
 }
 
 static void
-set_combobox_relative (GtkComboBox *combobox, EFilterDatespec *fds)
+set_combobox_relative (GtkComboBox *combobox,
+                       EFilterDatespec *fds)
 {
 	fds->priv->span = gtk_combo_box_get_active (combobox);
 }
 
 static void
-set_combobox_past_future (GtkComboBox *combobox, EFilterDatespec *fds)
+set_combobox_past_future (GtkComboBox *combobox,
+                          EFilterDatespec *fds)
 {
 	if (gtk_combo_box_get_active (combobox) == 0)
 		fds->type = fds->priv->type = FDST_X_AGO;
@@ -264,7 +267,8 @@ set_combobox_past_future (GtkComboBox *combobox, EFilterDatespec *fds)
 }
 
 static void
-button_clicked (GtkButton *button, EFilterDatespec *fds)
+button_clicked (GtkButton *button,
+                EFilterDatespec *fds)
 {
 	EFilterDatespecPrivate *p = fds->priv;
 	GtkWidget *content_area;

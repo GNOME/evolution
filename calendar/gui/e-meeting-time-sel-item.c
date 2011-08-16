@@ -34,9 +34,9 @@
 #include "e-meeting-time-sel.h"
 
 /* Initially the grid lines were drawn at the bottom of cells, but this didn't
-   line up well with the GtkEntry widgets, which in the default theme draw a
-   black shadow line across the top. So I've switched our code to draw the
-   lines across the top of cells. */
+ * line up well with the GtkEntry widgets, which in the default theme draw a
+ * black shadow line across the top. So I've switched our code to draw the
+ * lines across the top of cells. */
 #define E_MEETING_TIME_SELECTOR_DRAW_GRID_LINES_AT_BOTTOM 0
 
 static void e_meeting_time_selector_item_dispose (GObject *object);
@@ -183,7 +183,9 @@ e_meeting_time_selector_item_set_property (GObject *object,
 }
 
 static void
-e_meeting_time_selector_item_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
+e_meeting_time_selector_item_update (GnomeCanvasItem *item,
+                                     const cairo_matrix_t *i2c,
+                                     gint flags)
 {
 	if (GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->update)
 		(* GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->update) (item, i2c, flags);
@@ -200,8 +202,12 @@ e_meeting_time_selector_item_update (GnomeCanvasItem *item, const cairo_matrix_t
  */
 
 static void
-draw_strikeout_box (EMeetingTimeSelectorItem *mts_item, cairo_t *cr,
-                    gint x, gint y, gint width, gint height)
+draw_strikeout_box (EMeetingTimeSelectorItem *mts_item,
+                    cairo_t *cr,
+                    gint x,
+                    gint y,
+                    gint width,
+                    gint height)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (mts_item)->canvas;
 	EMeetingTimeSelector *mts = mts_item->mts;
@@ -219,7 +225,12 @@ draw_strikeout_box (EMeetingTimeSelectorItem *mts_item, cairo_t *cr,
 }
 
 static void
-e_meeting_time_selector_item_draw (GnomeCanvasItem *item, cairo_t *cr, gint x, gint y, gint width, gint height)
+e_meeting_time_selector_item_draw (GnomeCanvasItem *item,
+                                   cairo_t *cr,
+                                   gint x,
+                                   gint y,
+                                   gint width,
+                                   gint height)
 {
 	EMeetingTimeSelector *mts;
 	EMeetingTimeSelectorItem *mts_item;
@@ -278,7 +289,7 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, cairo_t *cr, gint x, g
 	}
 
 	/* For the main display draw the no-info pattern background for attendee's
-	   that have no calendar information. */
+	 * that have no calendar information. */
 	if (!is_display_top) {
 		gdk_cairo_set_source_color (cr, &mts->grid_color);
 		row = y / mts->row_height;
@@ -317,8 +328,8 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, cairo_t *cr, gint x, g
 	current_date = date;
 	for (;;) {
 		/* Currently we use the same GnomeCanvasItem class for the
-		   top display and the main display. We may use separate
-		   classes in future if necessary. */
+		 * top display and the main display. We may use separate
+		 * classes in future if necessary. */
 		if (is_display_top)
 			e_meeting_time_selector_item_paint_day_top (mts_item, cr, &current_date, day_x, y, width, height);
 		else
@@ -369,9 +380,12 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, cairo_t *cr, gint x, g
 
 static void
 e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
-					    cairo_t *cr, GDate *date,
-					    gint x, gint scroll_y,
-					    gint width, gint height)
+                                            cairo_t *cr,
+                                            GDate *date,
+                                            gint x,
+                                            gint scroll_y,
+                                            gint width,
+                                            gint height)
 {
 	EMeetingTimeSelector *mts;
 	gint y, grid_x;
@@ -424,18 +438,18 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 	cairo_stroke (cr);
 
 	/* Draw the date. Set a clipping rectangle so we don't draw over the
-	   next day. */
+	 * next day. */
 	if (mts->date_format == E_MEETING_TIME_SELECTOR_DATE_FULL)
 		/* This is a strftime() format string %A = full weekday name,
-		   %B = full month name, %d = month day, %Y = full year. */
+		 * %B = full month name, %d = month day, %Y = full year. */
 		format = _("%A, %B %d, %Y");
 	else if (mts->date_format == E_MEETING_TIME_SELECTOR_DATE_ABBREVIATED_DAY)
 		/* This is a strftime() format string %a = abbreviated weekday
-		   name, %m = month number, %d = month day, %Y = full year. */
+		 * name, %m = month number, %d = month day, %Y = full year. */
 		format = _("%a %m/%d/%Y");
 	else
 		/* This is a strftime() format string %m = month number,
-		   %d = month day, %Y = full year. */
+		 * %d = month day, %Y = full year. */
 		format = _("%m/%d/%Y");
 
 	g_date_strftime (buffer, sizeof (buffer), format, date);
@@ -473,10 +487,16 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 }
 
 /* This paints the colored bars representing busy periods for the combined
-   list of attendees. For now we just paint the bars for each attendee of
-   each other. If we want to speed it up we could optimise it later. */
+ * list of attendees. For now we just paint the bars for each attendee of
+ * each other. If we want to speed it up we could optimise it later. */
 static void
-e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelectorItem *mts_item, cairo_t *cr, GDate *date, gint x, gint scroll_y, gint width, gint height)
+e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelectorItem *mts_item,
+                                                               cairo_t *cr,
+                                                               GDate *date,
+                                                               gint x,
+                                                               gint scroll_y,
+                                                               gint width,
+                                                               gint height)
 {
 	EMeetingTimeSelector *mts;
 	EMeetingFreeBusyType busy_type;
@@ -509,9 +529,12 @@ e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelec
 
 static void
 e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
-					cairo_t *cr, GDate *date,
-					gint x, gint scroll_y,
-					gint width, gint height)
+                                        cairo_t *cr,
+                                        GDate *date,
+                                        gint x,
+                                        gint scroll_y,
+                                        gint width,
+                                        gint height)
 {
 	EMeetingTimeSelector *mts;
 	gint grid_x, grid_y, attendee_index, unused_y;
@@ -522,7 +545,7 @@ e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
 	mts = mts_item->mts;
 
 	/* Draw the grid lines. The grid lines around unused rows are drawn in
-	   a different color. */
+	 * a different color. */
 
 	/* Draw the horizontal grid lines. */
 	attendee_index = scroll_y / mts->row_height;
@@ -585,9 +608,15 @@ e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
 }
 
 /* This paints the colored bars representing busy periods for the individual
-   attendees. */
+ * attendees. */
 static void
-e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_item, cairo_t *cr, GDate *date, gint x, gint scroll_y, gint width, gint height)
+e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_item,
+                                                 cairo_t *cr,
+                                                 GDate *date,
+                                                 gint x,
+                                                 gint scroll_y,
+                                                 gint width,
+                                                 gint height)
 {
 	EMeetingTimeSelector *mts;
 	EMeetingFreeBusyType busy_type;
@@ -608,8 +637,8 @@ e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_i
 		first_period = e_meeting_time_selector_item_find_first_busy_period (mts_item, date, row);
 		if (first_period != -1) {
 			/* Paint the different types of busy periods, in
-			   reverse order of precedence, so the highest
-			   precedences are displayed. */
+			 * reverse order of precedence, so the highest
+			 * precedences are displayed. */
 			for (busy_type = 0;
 			     busy_type < E_MEETING_FREE_BUSY_LAST;
 			     busy_type++) {
@@ -623,11 +652,13 @@ e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_i
 }
 
 /* This subtracts the attendees longest_period_in_days from the given date,
-   and does a binary search of the attendee's busy periods array to find the
-   first one which could possible end on the given day or later.
-   If none are found it returns -1. */
+ * and does a binary search of the attendee's busy periods array to find the
+ * first one which could possible end on the given day or later.
+ * If none are found it returns -1. */
 static gint
-e_meeting_time_selector_item_find_first_busy_period (EMeetingTimeSelectorItem *mts_item, GDate *date, gint row)
+e_meeting_time_selector_item_find_first_busy_period (EMeetingTimeSelectorItem *mts_item,
+                                                     GDate *date,
+                                                     gint row)
 {
 	EMeetingTimeSelector *mts;
 	EMeetingAttendee *ia;
@@ -644,7 +675,7 @@ e_meeting_time_selector_item_find_first_busy_period (EMeetingTimeSelectorItem *m
 		return -1;
 
 	/* Check if the period starts after the end of the current canvas
-	   scroll area. */
+	 * scroll area. */
 	busy_periods = e_meeting_attendee_get_busy_periods (ia);
 	period = &g_array_index (busy_periods, EMeetingFreeBusyPeriod, period_num);
 	if (g_date_compare (&mts->last_date_shown, &period->start.date) < 0)
@@ -654,10 +685,17 @@ e_meeting_time_selector_item_find_first_busy_period (EMeetingTimeSelectorItem *m
 }
 
 /* This paints the visible busy periods for one attendee which are of a certain
-   busy type, e.g out of office. It is passed the index of the first visible
-   busy period of the attendee and continues until it runs off the screen. */
+ * busy type, e.g out of office. It is passed the index of the first visible
+ * busy period of the attendee and continues until it runs off the screen. */
 static void
-e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorItem *mts_item, cairo_t *cr, gint x, gint y, gint width, gint row, gint first_period, EMeetingFreeBusyType busy_type)
+e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorItem *mts_item,
+                                                          cairo_t *cr,
+                                                          gint x,
+                                                          gint y,
+                                                          gint width,
+                                                          gint row,
+                                                          gint first_period,
+                                                          EMeetingFreeBusyType busy_type)
 {
 	EMeetingTimeSelector *mts;
 	EMeetingAttendee *ia;
@@ -681,7 +719,7 @@ e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorIt
 		/* Convert the period start and end times to x coordinates. */
 		x1 = e_meeting_time_selector_calculate_time_position (mts, &period->start);
 		/* If the period is off the right of the area being drawn, we
-		   are finished. */
+		 * are finished. */
 		if (x1 >= x + width)
 			return;
 
@@ -691,10 +729,10 @@ e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorIt
 			continue;
 
 		/* We paint from x1 to x2 - 1, so that for example a time
-		   from 5:00-6:00 is distinct from 6:00-7:00.
-		   We never finish on a grid line separating days, and we only
-		   ever paint on a normal vertical grid line if the period is
-		   only 1 pixel wide. */
+		 * from 5:00-6:00 is distinct from 6:00-7:00.
+		 * We never finish on a grid line separating days, and we only
+		 * ever paint on a normal vertical grid line if the period is
+		 * only 1 pixel wide. */
 		x2_within_day = x2 % mts->day_width;
 		if (x2_within_day == 0) {
 			x2 -= 2;
@@ -707,8 +745,8 @@ e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorIt
 		}
 
 		/* Paint the rectangle. We leave a gap of 2 pixels at the
-		 top and bottom, remembering that the grid is painted along
-		 the top/bottom line of each row. */
+		 * top and bottom, remembering that the grid is painted along
+		 * the top/bottom line of each row. */
 		if (x2 - x1 > 0) {
 #if E_MEETING_TIME_SELECTOR_DRAW_GRID_LINES_AT_BOTTOM
 			cairo_rectangle (cr, x1 - x, y + 2,
@@ -727,14 +765,18 @@ e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorIt
  */
 
 static GnomeCanvasItem *
-e_meeting_time_selector_item_point (GnomeCanvasItem *item, double x, double y,
-				    gint cx, gint cy)
+e_meeting_time_selector_item_point (GnomeCanvasItem *item,
+                                    gdouble x,
+                                    gdouble y,
+                                    gint cx,
+                                    gint cy)
 {
 	return item;
 }
 
 static gint
-e_meeting_time_selector_item_event (GnomeCanvasItem *item, GdkEvent *event)
+e_meeting_time_selector_item_event (GnomeCanvasItem *item,
+                                    GdkEvent *event)
 {
 	EMeetingTimeSelectorItem *mts_item;
 
@@ -758,13 +800,13 @@ e_meeting_time_selector_item_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 /* This handles all button press events for the item. If the cursor is over
-   one of the meeting time vertical bars we start a drag. If not we set the
-   meeting time to the nearest half-hour interval.
-   Note that GnomeCanvas converts the event coords to world coords,
-   i.e. relative to the entire canvas scroll area. */
+ * one of the meeting time vertical bars we start a drag. If not we set the
+ * meeting time to the nearest half-hour interval.
+ * Note that GnomeCanvas converts the event coords to world coords,
+ * i.e. relative to the entire canvas scroll area. */
 static gint
 e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
-					   GdkEvent *event)
+                                           GdkEvent *event)
 {
 	EMeetingTimeSelector *mts;
 	EMeetingTime start_time, end_time;
@@ -784,7 +826,7 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 					    GDK_POINTER_MOTION_MASK
 					    | GDK_BUTTON_RELEASE_MASK,
 					    mts_item->resize_cursor,
-					    event->button.time) == 0 /*Success*/) {
+					    event->button.time) == 0 /*Success */) {
 			mts->dragging_position = position;
 			return TRUE;
 		}
@@ -796,7 +838,7 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 	end_date = &end_time.date;
 
 	/* Find the nearest half-hour or hour interval, depending on whether
-	   zoomed_out is set. */
+	 * zoomed_out is set. */
 	if (!mts->all_day) {
 		gint astart_year, astart_month, astart_day, astart_hour, astart_minute;
 		gint aend_year, aend_month, aend_day, aend_hour, aend_minute;
@@ -869,10 +911,10 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 }
 
 /* This handles all button release events for the item. If we were dragging,
-   we finish the drag. */
+ * we finish the drag. */
 static gint
 e_meeting_time_selector_item_button_release (EMeetingTimeSelectorItem *mts_item,
-					     GdkEvent *event)
+                                             GdkEvent *event)
 {
 	EMeetingTimeSelector *mts;
 
@@ -890,12 +932,12 @@ e_meeting_time_selector_item_button_release (EMeetingTimeSelectorItem *mts_item,
 }
 
 /* This handles all motion notify events for the item. If button1 is pressed
-   we check if a drag is in progress. If not, we set the cursor if we are over
-   the meeting time vertical bars. Note that GnomeCanvas doesn't use motion
-   hints, which may affect performance. */
+ * we check if a drag is in progress. If not, we set the cursor if we are over
+ * the meeting time vertical bars. Note that GnomeCanvas doesn't use motion
+ * hints, which may affect performance. */
 static gint
 e_meeting_time_selector_item_motion_notify (EMeetingTimeSelectorItem *mts_item,
-					    GdkEvent *event)
+                                            GdkEvent *event)
 {
 	EMeetingTimeSelector *mts;
 	EMeetingTimeSelectorPosition position;
@@ -940,7 +982,8 @@ e_meeting_time_selector_item_motion_notify (EMeetingTimeSelectorItem *mts_item,
 
 static EMeetingTimeSelectorPosition
 e_meeting_time_selector_item_get_drag_position (EMeetingTimeSelectorItem *mts_item,
-						gint x, gint y)
+                                                gint x,
+                                                gint y)
 {
 	EMeetingTimeSelector *mts;
 	gboolean is_display_top;
@@ -967,11 +1010,11 @@ e_meeting_time_selector_item_get_drag_position (EMeetingTimeSelectorItem *mts_it
 
 static gboolean
 e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeSelector *mts,
-						   gint row,
-						   gint x,
-						   gint width,
-						   gint *start_x,
-						   gint *end_x)
+                                                   gint row,
+                                                   gint x,
+                                                   gint width,
+                                                   gint *start_x,
+                                                   gint *end_x)
 {
 	EMeetingAttendee *ia;
 	EMeetingTime busy_periods_start;

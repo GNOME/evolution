@@ -64,7 +64,7 @@
 /*  This stuff below is independent of the stuff above */
 
 /* this stuff is used to keep track of which folders filters have accessed, and
-   what not. the thaw/refreeze thing doesn't really seem to work though */
+ * what not. the thaw/refreeze thing doesn't really seem to work though */
 struct _folder_info {
 	gchar *uri;
 	CamelFolder *folder;
@@ -187,7 +187,8 @@ setup_send_data (void)
 }
 
 static void
-receive_cancel (GtkButton *button, struct _send_info *info)
+receive_cancel (GtkButton *button,
+                struct _send_info *info)
 {
 	if (info->state == SEND_ACTIVE) {
 		camel_operation_cancel (CAMEL_OPERATION (info->cancellable));
@@ -223,13 +224,17 @@ free_send_data (void)
 }
 
 static void
-cancel_send_info (gpointer key, struct _send_info *info, gpointer data)
+cancel_send_info (gpointer key,
+                  struct _send_info *info,
+                  gpointer data)
 {
 	receive_cancel (GTK_BUTTON (info->cancel_button), info);
 }
 
 static void
-hide_send_info (gpointer key, struct _send_info *info, gpointer data)
+hide_send_info (gpointer key,
+                struct _send_info *info,
+                gpointer data)
 {
 	info->cancel_button = NULL;
 	info->progress_bar = NULL;
@@ -242,7 +247,8 @@ hide_send_info (gpointer key, struct _send_info *info, gpointer data)
 }
 
 static void
-dialog_destroy_cb (struct _send_data *data, GObject *deadbeef)
+dialog_destroy_cb (struct _send_data *data,
+                   GObject *deadbeef)
 {
 	g_hash_table_foreach (data->active, (GHFunc) hide_send_info, NULL);
 	data->gd = NULL;
@@ -250,7 +256,9 @@ dialog_destroy_cb (struct _send_data *data, GObject *deadbeef)
 }
 
 static void
-dialog_response (GtkDialog *gd, gint button, struct _send_data *data)
+dialog_response (GtkDialog *gd,
+                 gint button,
+                 struct _send_data *data)
 {
 	switch (button) {
 	case GTK_RESPONSE_CANCEL:
@@ -310,7 +318,9 @@ operation_status_timeout (gpointer data)
 }
 
 static void
-set_send_status (struct _send_info *info, const gchar *desc, gint pc)
+set_send_status (struct _send_info *info,
+                 const gchar *desc,
+                 gint pc)
 {
 	g_static_mutex_lock (&status_lock);
 
@@ -322,7 +332,8 @@ set_send_status (struct _send_info *info, const gchar *desc, gint pc)
 }
 
 static void
-set_send_account (struct _send_info *info, const gchar *account_url)
+set_send_account (struct _send_info *info,
+                  const gchar *account_url)
 {
 	g_static_mutex_lock (&status_lock);
 
@@ -391,7 +402,7 @@ get_receive_type (CamelURL *url)
 	CamelProvider *provider;
 
 	/* mbox pointing to a file is a 'Local delivery' source
-	   which requires special processing */
+	 * which requires special processing */
 	if (em_utils_is_local_delivery_mbox_file (url))
 		return SEND_RECEIVE;
 
@@ -592,19 +603,19 @@ build_dialog (GtkWindow *parent,
 
 		gtk_table_attach (
 			GTK_TABLE (table), recv_icon,
-			0, 1, row, row+2, 0, 0, 0, 0);
+			0, 1, row, row + 2, 0, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), label,
-			1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), progress_bar,
-			2, 3, row, row+2, 0, 0, 0, 0);
+			2, 3, row, row + 2, 0, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), cancel_button,
-			3, 4, row, row+2, 0, 0, 0, 0);
+			3, 4, row, row + 2, 0, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), status_label,
-			1, 2, row+1, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			1, 2, row + 1, row + 2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 		info->progress_bar = progress_bar;
 		info->status_label = status_label;
@@ -686,19 +697,19 @@ build_dialog (GtkWindow *parent,
 
 		gtk_table_attach (
 			GTK_TABLE (table), send_icon,
-			0, 1, row, row+2, 0, 0, 0, 0);
+			0, 1, row, row + 2, 0, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), label,
-			1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), progress_bar,
-			2, 3, row, row+2, 0, 0, 0, 0);
+			2, 3, row, row + 2, 0, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), cancel_button,
-			3, 4, row, row+2, 0, 0, 0, 0);
+			3, 4, row, row + 2, 0, 0, 0, 0);
 		gtk_table_attach (
 			GTK_TABLE (table), status_label,
-			1, 2, row+1, row+2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			1, 2, row + 1, row + 2, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 		info->progress_bar = progress_bar;
 		info->cancel_button = cancel_button;
@@ -726,7 +737,9 @@ build_dialog (GtkWindow *parent,
 }
 
 static void
-update_folders (gchar *uri, struct _folder_info *info, gpointer data)
+update_folders (gchar *uri,
+                struct _folder_info *info,
+                gpointer data)
 {
 	time_t now = *((time_t *) data);
 
@@ -734,7 +747,7 @@ update_folders (gchar *uri, struct _folder_info *info, gpointer data)
 
 	/* let it flow through to the folders every 10 seconds */
 	/* we back off slowly as we progress */
-	if (now > info->update+10+info->count*5) {
+	if (now > info->update + 10 + info->count *5) {
 		d(printf("upating a folder: %s\n", info->uri));
 		/*camel_folder_thaw(info->folder);
 		  camel_folder_freeze (info->folder);*/
@@ -756,7 +769,7 @@ receive_status (CamelFilterDriver *driver,
 	/* let it flow through to the folder, every now and then too? */
 	g_hash_table_foreach (info->data->folders, (GHFunc) update_folders, &now);
 
-	if (info->data->inbox && now > info->data->inbox_update+20) {
+	if (info->data->inbox && now > info->data->inbox_update + 20) {
 		d(printf("updating inbox too\n"));
 		/* this doesn't seem to work right :( */
 		/*camel_folder_thaw(info->data->inbox);
@@ -765,8 +778,8 @@ receive_status (CamelFilterDriver *driver,
 	}
 
 	/* we just pile them onto the port, assuming it can handle it.
-	   We could also have a receiver port and see if they've been processed
-	   yet, so if this is necessary its not too hard to add */
+	 * We could also have a receiver port and see if they've been processed
+	 * yet, so if this is necessary its not too hard to add */
 	/* the mail_gui_port receiver will free everything for us */
 	switch (status) {
 	case CAMEL_FILTER_STATUS_START:
@@ -851,9 +864,9 @@ receive_done (gpointer data)
 }
 
 /* although we dont do anythign smart here yet, there is no need for this interface to
-   be available to anyone else.
-   This can also be used to hook into which folders are being updated, and occasionally
-   let them refresh */
+ * be available to anyone else.
+ * This can also be used to hook into which folders are being updated, and occasionally
+ * let them refresh */
 static CamelFolder *
 receive_get_folder (CamelFilterDriver *d,
                     const gchar *uri,
@@ -904,7 +917,9 @@ receive_get_folder (CamelFilterDriver *d,
 /* ********************************************************************** */
 
 static void
-get_folders (CamelStore *store, GPtrArray *folders, CamelFolderInfo *info)
+get_folders (CamelStore *store,
+             GPtrArray *folders,
+             CamelFolderInfo *info)
 {
 	while (info) {
 		if (camel_store_can_refresh_folder (store, info, NULL)) {
@@ -923,7 +938,8 @@ get_folders (CamelStore *store, GPtrArray *folders, CamelFolderInfo *info)
 }
 
 static void
-main_op_cancelled_cb (GCancellable *main_op, GCancellable *refresh_op)
+main_op_cancelled_cb (GCancellable *main_op,
+                      GCancellable *refresh_op)
 {
 	g_cancellable_cancel (refresh_op);
 }
@@ -962,7 +978,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 
 	camel_operation_push_message (m->info->cancellable, _("Updating..."));
 
-	for (i=0;i<m->folders->len;i++) {
+	for (i = 0; i < m->folders->len; i++) {
 		folder = e_mail_session_uri_to_folder_sync (
 			m->info->session,
 			m->folders->pdata[i], 0,
@@ -1003,7 +1019,7 @@ refresh_folders_free (struct _refresh_folders_msg *m)
 {
 	gint i;
 
-	for (i=0;i<m->folders->len;i++)
+	for (i = 0; i < m->folders->len; i++)
 		g_free (m->folders->pdata[i]);
 	g_ptr_array_free (m->folders, TRUE);
 
@@ -1068,7 +1084,9 @@ receive_update_got_store (CamelStore *store,
 }
 
 static GtkWidget *
-send_receive (GtkWindow *parent, EMailSession *session, gboolean allow_send)
+send_receive (GtkWindow *parent,
+              EMailSession *session,
+              gboolean allow_send)
 {
 	CamelFolder *local_outbox;
 	struct _send_data *data;
@@ -1142,13 +1160,15 @@ send_receive (GtkWindow *parent, EMailSession *session, gboolean allow_send)
 }
 
 GtkWidget *
-mail_send_receive (GtkWindow *parent, EMailSession *session)
+mail_send_receive (GtkWindow *parent,
+                   EMailSession *session)
 {
 	return send_receive (parent, session, TRUE);
 }
 
 GtkWidget *
-mail_receive (GtkWindow *parent, EMailSession *session)
+mail_receive (GtkWindow *parent,
+              EMailSession *session)
 {
 	return send_receive (parent, session, FALSE);
 }
@@ -1174,7 +1194,9 @@ auto_timeout (gpointer data)
 }
 
 static void
-auto_account_removed (EAccountList *eal, EAccount *ea, gpointer dummy)
+auto_account_removed (EAccountList *eal,
+                      EAccount *ea,
+                      gpointer dummy)
 {
 	struct _auto_data *info = g_object_get_data((GObject *)ea, "mail-autoreceive");
 
@@ -1187,7 +1209,7 @@ auto_account_removed (EAccountList *eal, EAccount *ea, gpointer dummy)
 }
 
 static void
-auto_account_finalised (struct _auto_data *info)
+auto_account_finalized (struct _auto_data *info)
 {
 	if (info->session != NULL)
 		g_object_unref (info->session);
@@ -1204,7 +1226,7 @@ auto_account_commit (struct _auto_data *info)
 	check = info->account->enabled
 		&& e_account_get_bool (info->account, E_ACCOUNT_SOURCE_AUTO_CHECK)
 		&& e_account_get_string (info->account, E_ACCOUNT_SOURCE_URL);
-	period = e_account_get_int (info->account, E_ACCOUNT_SOURCE_AUTO_CHECK_TIME)*60;
+	period = e_account_get_int (info->account, E_ACCOUNT_SOURCE_AUTO_CHECK_TIME) * 60;
 	period = MAX (60, period);
 
 	if (info->timeout_id
@@ -1230,12 +1252,14 @@ auto_account_added (EAccountList *eal,
 	info->session = g_object_ref (session);
 	g_object_set_data_full (
 		G_OBJECT (ea), "mail-autoreceive", info,
-		(GDestroyNotify) auto_account_finalised);
+		(GDestroyNotify) auto_account_finalized);
 	auto_account_commit (info);
 }
 
 static void
-auto_account_changed (EAccountList *eal, EAccount *ea, gpointer dummy)
+auto_account_changed (EAccountList *eal,
+                      EAccount *ea,
+                      gpointer dummy)
 {
 	struct _auto_data *info = g_object_get_data((GObject *)ea, "mail-autoreceive");
 

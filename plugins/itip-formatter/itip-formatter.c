@@ -155,13 +155,15 @@ typedef struct {
 static gboolean check_is_instance (icalcomponent *icalcomp);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
 
 static icalproperty *
-find_attendee (icalcomponent *ical_comp, const gchar *address)
+find_attendee (icalcomponent *ical_comp,
+               const gchar *address)
 {
 	icalproperty *prop;
 
@@ -194,7 +196,8 @@ find_attendee (icalcomponent *ical_comp, const gchar *address)
 }
 
 static icalproperty *
-find_attendee_if_sentby (icalcomponent *ical_comp, const gchar *address)
+find_attendee_if_sentby (icalcomponent *ical_comp,
+                         const gchar *address)
 {
 	icalproperty *prop;
 
@@ -230,7 +233,9 @@ find_attendee_if_sentby (icalcomponent *ical_comp, const gchar *address)
 }
 
 static void
-find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparameter_partstat *status)
+find_to_address (struct _itip_puri *pitip,
+                 icalcomponent *ical_comp,
+                 icalparameter_partstat *status)
 {
 	EIterator *it;
 
@@ -352,7 +357,8 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 }
 
 static void
-find_from_address (struct _itip_puri *pitip, icalcomponent *ical_comp)
+find_from_address (struct _itip_puri *pitip,
+                   icalcomponent *ical_comp)
 {
 	EIterator *it;
 	icalproperty *prop;
@@ -439,7 +445,8 @@ get_real_item (struct _itip_puri *pitip)
 }
 
 static void
-adjust_item (struct _itip_puri *pitip, ECalComponent *comp)
+adjust_item (struct _itip_puri *pitip,
+             ECalComponent *comp)
 {
 	ECalComponent *real_comp;
 
@@ -477,7 +484,9 @@ set_buttons_sensitive (struct _itip_puri *pitip)
 }
 
 static void
-add_failed_to_load_msg (ItipView *view, ESource *source, const GError *error)
+add_failed_to_load_msg (ItipView *view,
+                        ESource *source,
+                        const GError *error)
 {
 	gchar *msg;
 
@@ -486,7 +495,7 @@ add_failed_to_load_msg (ItipView *view, ESource *source, const GError *error)
 	g_return_if_fail (error != NULL);
 
 	/* Translators: The first '%s' is replaced with a calendar name,
-	   the second '%s' with an error message */
+	 * the second '%s' with an error message */
 	msg = g_strdup_printf (_("Failed to load the calendar '%s' (%s)"), e_source_peek_name (source), error->message);
 
 	itip_view_add_lower_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING, msg);
@@ -595,7 +604,9 @@ start_calendar_server (struct _itip_puri *pitip,
 }
 
 static void
-start_calendar_server_by_uid (struct _itip_puri *pitip, const gchar *uid, ECalClientSourceType type)
+start_calendar_server_by_uid (struct _itip_puri *pitip,
+                              const gchar *uid,
+                              ECalClientSourceType type)
 {
 	gint i;
 
@@ -613,7 +624,9 @@ start_calendar_server_by_uid (struct _itip_puri *pitip, const gchar *uid, ECalCl
 }
 
 static void
-source_selected_cb (ItipView *view, ESource *source, gpointer data)
+source_selected_cb (ItipView *view,
+                    ESource *source,
+                    gpointer data)
 {
 	struct _itip_puri *pitip = data;
 
@@ -625,7 +638,8 @@ source_selected_cb (ItipView *view, ESource *source, gpointer data)
 }
 
 static void
-find_cal_update_ui (FormatItipFindData *fd, ECalClient *cal_client)
+find_cal_update_ui (FormatItipFindData *fd,
+                    ECalClient *cal_client)
 {
 	struct _itip_puri *pitip;
 	ESource *source;
@@ -711,8 +725,8 @@ decrease_find_data (FormatItipFindData *fd)
 
 		/*
 		 * Only allow replies if backend doesn't do that automatically.
-                 * Only enable it for forwarded invitiations (PUBLISH) or direct
-                 * invitiations (REQUEST), but not replies (REPLY).
+ *               * Only enable it for forwarded invitiations (PUBLISH) or direct
+ *               * invitiations (REQUEST), but not replies (REPLY).
 		 * Replies only make sense for events with an organizer.
 		 */
 		if (pitip->current_client && !e_cal_client_check_save_schedules (pitip->current_client) &&
@@ -1003,7 +1017,8 @@ find_cal_opened_cb (GObject *source_object,
 }
 
 static void
-find_server (struct _itip_puri *pitip, ECalComponent *comp)
+find_server (struct _itip_puri *pitip,
+             ECalComponent *comp)
 {
 	FormatItipFindData *fd = NULL;
 	GSList *groups, *l, *sources_conflict = NULL, *all_sources = NULL;
@@ -1115,7 +1130,9 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 }
 
 static gboolean
-change_status (icalcomponent *ical_comp, const gchar *address, icalparameter_partstat status)
+change_status (icalcomponent *ical_comp,
+               const gchar *address,
+               icalparameter_partstat status)
 {
 	icalproperty *prop;
 
@@ -1161,7 +1178,8 @@ change_status (icalcomponent *ical_comp, const gchar *address, icalparameter_par
 }
 
 static void
-message_foreach_part (CamelMimePart *part, GSList **part_list)
+message_foreach_part (CamelMimePart *part,
+                      GSList **part_list)
 {
 	CamelDataWrapper *containee;
 	gint parts, i;
@@ -1294,7 +1312,8 @@ get_uri_for_part (CamelMimePart *mime_part)
 }
 
 static gboolean
-update_item (struct _itip_puri *pitip, ItipViewResponse response)
+update_item (struct _itip_puri *pitip,
+             ItipViewResponse response)
 {
 	struct icaltimetype stamp;
 	icalproperty *prop;
@@ -1473,7 +1492,8 @@ update_item (struct _itip_puri *pitip, ItipViewResponse response)
 
 /* TODO These operations should be available in e-cal-component.c */
 static void
-set_attendee (ECalComponent *comp, const gchar *address)
+set_attendee (ECalComponent *comp,
+              const gchar *address)
 {
 	icalproperty *prop;
 	icalcomponent *icalcomp;
@@ -1517,7 +1537,11 @@ set_attendee (ECalComponent *comp, const gchar *address)
 }
 
 static gboolean
-send_comp_to_attendee (ECalComponentItipMethod method, ECalComponent *comp, const gchar *user, ECalClient *client, const gchar *comment)
+send_comp_to_attendee (ECalComponentItipMethod method,
+                       ECalComponent *comp,
+                       const gchar *user,
+                       ECalClient *client,
+                       const gchar *comment)
 {
 	gboolean status;
 	ECalComponent *send_comp = e_cal_component_clone (comp);
@@ -1546,7 +1570,10 @@ send_comp_to_attendee (ECalComponentItipMethod method, ECalComponent *comp, cons
 }
 
 static void
-remove_delegate (struct _itip_puri *pitip, const gchar *delegate, const gchar *delegator, ECalComponent *comp)
+remove_delegate (struct _itip_puri *pitip,
+                 const gchar *delegate,
+                 const gchar *delegator,
+                 ECalComponent *comp)
 {
 	gboolean status;
 	gchar *comment = g_strdup_printf (_("Organizer has removed the delegate %s "), itip_strip_mailto (delegate));
@@ -1565,7 +1592,8 @@ remove_delegate (struct _itip_puri *pitip, const gchar *delegate, const gchar *d
 }
 
 static void
-update_x (ECalComponent *pitip_comp, ECalComponent *comp)
+update_x (ECalComponent *pitip_comp,
+          ECalComponent *comp)
 {
 	icalcomponent *itip_icalcomp = e_cal_component_get_icalcomponent (pitip_comp);
 	icalcomponent *icalcomp = e_cal_component_get_icalcomponent (comp);
@@ -1800,7 +1828,8 @@ attachment_load_finish (EAttachment *attachment,
 }
 
 static void
-save_vcalendar_cb (GtkWidget *button, struct _itip_puri *pitip)
+save_vcalendar_cb (GtkWidget *button,
+                   struct _itip_puri *pitip)
 {
 	EAttachment *attachment;
 	EShell *shell;
@@ -1832,7 +1861,10 @@ save_vcalendar_cb (GtkWidget *button, struct _itip_puri *pitip)
 }
 
 static GtkWidget *
-set_itip_error (struct _itip_puri *pitip, GtkContainer *container, const gchar *primary, const gchar *secondary)
+set_itip_error (struct _itip_puri *pitip,
+                GtkContainer *container,
+                const gchar *primary,
+                const gchar *secondary)
 {
 	GtkWidget *vbox, *label;
 	gchar *message;
@@ -1859,7 +1891,9 @@ set_itip_error (struct _itip_puri *pitip, GtkContainer *container, const gchar *
 }
 
 static gboolean
-extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *have_alarms)
+extract_itip_data (struct _itip_puri *pitip,
+                   GtkContainer *container,
+                   gboolean *have_alarms)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
@@ -2130,7 +2164,8 @@ struct _opencal_msg {
 };
 
 static gchar *
-open_calendar__desc (struct _opencal_msg *m, gint complete)
+open_calendar__desc (struct _opencal_msg *m,
+                     gint complete)
 {
 	return g_strdup (_("Opening calendar"));
 }
@@ -2180,7 +2215,9 @@ idle_open_cb (gpointer data)
 }
 
 static void
-view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
+view_response_cb (GtkWidget *widget,
+                  ItipViewResponse response,
+                  gpointer data)
 {
 	struct _itip_puri *pitip = data;
 	gboolean status = FALSE, delete_invitation_from_cache = FALSE;
@@ -2473,7 +2510,9 @@ in_proper_folder (CamelFolder *folder)
 }
 
 static gboolean
-format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
+format_itip_object (EMFormatHTML *efh,
+                    GtkHTMLEmbedded *eb,
+                    EMFormatHTMLPObject *pobject)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
@@ -2516,7 +2555,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	gtk_container_add (GTK_CONTAINER (eb), info->view);
 	gtk_widget_show (info->view);
 
-	response_enabled = in_proper_folder (((EMFormat*) efh)->folder);
+	response_enabled = in_proper_folder (((EMFormat *) efh)->folder);
 
 	if (!response_enabled) {
 		itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_HIDE_ALL);
@@ -2746,7 +2785,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 
 		if (datetime.value->is_date) {
 			/* RFC says the DTEND is not inclusive, thus subtract one day
-			   if we have a date */
+			 * if we have a date */
 
 			icaltime_adjust (datetime.value, -1, 0, 0, 0);
 		}
@@ -2797,7 +2836,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 static void
 puri_free (EMFormatPURI *puri)
 {
-	struct _itip_puri *pitip = (struct _itip_puri*) puri;
+	struct _itip_puri *pitip = (struct _itip_puri *) puri;
 	gint i;
 
 	g_cancellable_cancel (pitip->cancellable);
@@ -2852,7 +2891,8 @@ puri_free (EMFormatPURI *puri)
 }
 
 void
-format_itip (EPlugin *ep, EMFormatHookTarget *target)
+format_itip (EPlugin *ep,
+             EMFormatHookTarget *target)
 {
 	GConfClient *gconf;
 	gchar *classid;
@@ -2913,7 +2953,8 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 }
 
 static void
-delete_toggled_cb (GtkWidget *widget, gpointer data)
+delete_toggled_cb (GtkWidget *widget,
+                   gpointer data)
 {
 	EMConfigTargetPrefs *target = data;
 
@@ -2921,7 +2962,8 @@ delete_toggled_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-initialize_selection (ESourceSelector *selector, ESourceList *source_list)
+initialize_selection (ESourceSelector *selector,
+                      ESourceList *source_list)
 {
 	GSList *groups;
 
@@ -2938,7 +2980,8 @@ initialize_selection (ESourceSelector *selector, ESourceList *source_list)
 }
 
 static void
-source_selection_changed (ESourceSelector *selector, gpointer data)
+source_selection_changed (ESourceSelector *selector,
+                          gpointer data)
 {
 	ESourceList *source_list = data;
 	GSList *selection;
@@ -2957,7 +3000,7 @@ source_selection_changed (ESourceSelector *selector, gpointer data)
 	}
 
 	/* then we loop over the selector's selection, setting the
-	   property on those sources */
+	 * property on those sources */
 	selection = e_source_selector_get_selection (selector);
 	for (l = selection; l; l = l->next) {
 		e_source_set_property (E_SOURCE (l->data), "conflict", "true");
@@ -2969,7 +3012,8 @@ source_selection_changed (ESourceSelector *selector, gpointer data)
 }
 
 GtkWidget *
-itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
+itip_formatter_page_factory (EPlugin *ep,
+                             EConfigHookItemFactoryData *hook_data)
 {
 	EMConfigTargetPrefs *target = (EMConfigTargetPrefs *) hook_data->config->target;
 	GtkWidget *page;

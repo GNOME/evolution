@@ -227,7 +227,8 @@ cal_shell_view_execute_search (EShellView *shell_view)
 }
 
 static icalproperty *
-get_attendee_prop (icalcomponent *icalcomp, const gchar *address)
+get_attendee_prop (icalcomponent *icalcomp,
+                   const gchar *address)
 {
 
 	icalproperty *prop;
@@ -252,7 +253,8 @@ get_attendee_prop (icalcomponent *icalcomp, const gchar *address)
 }
 
 static gboolean
-is_delegated (icalcomponent *icalcomp, const gchar *user_email)
+is_delegated (icalcomponent *icalcomp,
+              const gchar *user_email)
 {
 	icalproperty *prop;
 	icalparameter *param;

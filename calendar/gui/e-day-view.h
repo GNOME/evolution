@@ -38,31 +38,31 @@ G_BEGIN_DECLS
  */
 
 /* The maximum number of days shown. We use the week view for anything more
-   than about 9 days. */
+ * than about 9 days. */
 #define E_DAY_VIEW_MAX_DAYS		10
 
 /* This is used as a special code to signify a long event instead of the day
-   of a normal event. */
+ * of a normal event. */
 #define E_DAY_VIEW_LONG_EVENT		E_DAY_VIEW_MAX_DAYS
 
 /* The maximum number of columns of appointments within a day in multi-day
-   view. */
+ * view. */
 #define E_DAY_VIEW_MULTI_DAY_MAX_COLUMNS 6
 
 /* minimum width of the event in one-day view in pixels */
 #define E_DAY_VIEW_MIN_DAY_COL_WIDTH	60
 
 /* The width of the gap between appointments. This should be at least
-   E_DAY_VIEW_BAR_WIDTH, since in the top canvas we use this space to draw
-   the triangle to represent continuing events. */
+ * E_DAY_VIEW_BAR_WIDTH, since in the top canvas we use this space to draw
+ * the triangle to represent continuing events. */
 #define E_DAY_VIEW_GAP_WIDTH		7
 
 /* The width of the bars down the left of each column and appointment.
-   This includes the borders on each side of it. */
+ * This includes the borders on each side of it. */
 #define E_DAY_VIEW_BAR_WIDTH		7
 
 /* The height of the horizontal bar above & beneath the selected event.
-   This includes the borders on the top and bottom. */
+ * This includes the borders on the top and bottom. */
 #define E_DAY_VIEW_BAR_HEIGHT		6
 
 /* The size of the reminder & recurrence icons, and padding around them. */
@@ -97,8 +97,8 @@ G_BEGIN_DECLS
 #define E_DAY_VIEW_TOP_CANVAS_Y_GAP	2
 
 /* These are used to get/set the working days in the week. The bit-flags are
-   combined together. The bits must be from 0 (Sun) to 6 (Sat) to match the
-   day values used by localtime etc. */
+ * combined together. The bits must be from 0 (Sun) to 6 (Sat) to match the
+ * day values used by localtime etc. */
 typedef enum
 {
 	E_DAY_VIEW_SUNDAY	= 1 << 0,
@@ -111,7 +111,7 @@ typedef enum
 } EDayViewDays;
 
 /* These are used to specify the type of an appointment. They match those
-   used in EMeetingTimeSelector. */
+ * used in EMeetingTimeSelector. */
 typedef enum
 {
 	E_DAY_VIEW_BUSY_TENTATIVE	= 0,
@@ -122,10 +122,10 @@ typedef enum
 } EDayViewBusyType;
 
 /* This is used to specify the format used when displaying the dates.
-   The full format is like 'Thursday 12 September'. The abbreviated format is
-   like 'Thu 12 Sep'. The no weekday format is like '12 Sep'. The short format
-   is like '12'. The actual format used is determined in
-   e_day_view_recalc_cell_sizes (), once we know the font being used. */
+ * The full format is like 'Thursday 12 September'. The abbreviated format is
+ * like 'Thu 12 Sep'. The no weekday format is like '12 Sep'. The short format
+ * is like '12'. The actual format used is determined in
+ * e_day_view_recalc_cell_sizes (), once we know the font being used. */
 typedef enum
 {
 	E_DAY_VIEW_DATE_FULL,
@@ -172,14 +172,14 @@ struct _EDayViewEvent {
 	E_CALENDAR_VIEW_EVENT_FIELDS
 
 	/* For events in the main canvas, this contains the start column.
-	   For long events in the top canvas, this is its row. */
+	 * For long events in the top canvas, this is its row. */
 	guint8 start_row_or_col;
 
 	/* For events in the main canvas, this is the number of columns that
-	   it covers. For long events this is set to 1 if the event is shown.
-	   For both types of events this is set to 0 if the event is not shown,
-	   i.e. it couldn't fit into the display. Currently long events are
-	   always shown as we just increase the height of the top canvas. */
+	 * it covers. For long events this is set to 1 if the event is shown.
+	 * For both types of events this is set to 0 if the event is not shown,
+	 * i.e. it couldn't fit into the display. Currently long events are
+	 * always shown as we just increase the height of the top canvas. */
 	guint8 num_columns;
 };
 
@@ -243,8 +243,8 @@ struct _EDayView {
 	gboolean work_week_view;
 
 	/* The number of days we are showing. Usually 1 or 5, but can be up
-	   to E_DAY_VIEW_MAX_DAYS, e.g. when the user selects a range of
-	   days in the date navigator. */
+	 * to E_DAY_VIEW_MAX_DAYS, e.g. when the user selects a range of
+	 * days in the date navigator. */
 	gint days_shown;
 
 	/* The start of each day & an extra element to hold the last time. */
@@ -255,8 +255,8 @@ struct _EDayView {
 	GArray *events[E_DAY_VIEW_MAX_DAYS];
 
 	/* These are set to FALSE whenever an event in the corresponding array
-	   is changed. Any function that needs the events sorted calls
-	   e_day_view_ensure_events_sorted (). */
+	 * is changed. Any function that needs the events sorted calls
+	 * e_day_view_ensure_events_sorted (). */
 	gboolean long_events_sorted;
 	gboolean events_sorted[E_DAY_VIEW_MAX_DAYS];
 
@@ -265,7 +265,7 @@ struct _EDayView {
 	gboolean need_layout[E_DAY_VIEW_MAX_DAYS];
 
 	/* This is TRUE if we need to reshape the canvas items, but a full
-	   layout is not necessary. */
+	 * layout is not necessary. */
 	gboolean long_events_need_reshape;
 	gboolean need_reshape[E_DAY_VIEW_MAX_DAYS];
 
@@ -273,7 +273,7 @@ struct _EDayView {
 	gint layout_timeout_id;
 
 	/* The number of rows needed, depending on the times shown and the
-	   minutes per row. */
+	 * minutes per row. */
 	gint rows;
 
 	/* The height of each row. */
@@ -286,7 +286,7 @@ struct _EDayView {
 	gint top_row_height;
 
 	/* The first and last times shown in the display. The last time isn't
-	   included in the range. Default is 0:00-24:00 */
+	 * included in the range. Default is 0:00-24:00 */
 	gint first_hour_shown;
 	gint first_minute_shown;
 	gint last_hour_shown;
@@ -304,17 +304,17 @@ struct _EDayView {
 	gboolean show_event_end_times;
 
 	/* This is set to TRUE when the widget is created, so it scrolls to
-	   the start of the working day when first shown. */
+	 * the start of the working day when first shown. */
 	gboolean scroll_to_work_day;
 
 	/* This is the width & offset of each of the day columns in the
-	   display. */
+	 * display. */
 	gint day_widths[E_DAY_VIEW_MAX_DAYS];
 	gint day_offsets[E_DAY_VIEW_MAX_DAYS + 1];
 
 	/* An array holding the number of columns in each row, in each day.
-	   Note that there are a maximum of 12 * 24 rows (when a row is 5 mins)
-	   but we don't always have that many rows. */
+	 * Note that there are a maximum of 12 * 24 rows (when a row is 5 mins)
+	 * but we don't always have that many rows. */
 	guint8 cols_per_row[E_DAY_VIEW_MAX_DAYS][12 * 24];
 	/* The maximum number of columns from all rows in cols_per_row */
 	gint max_cols;
@@ -330,14 +330,14 @@ struct _EDayView {
 	EDayViewDateFormat date_format;
 
 	/* These are the longest month & weekday names in the current font.
-	   Months are 0 to 11. Weekdays are 0 (Sun) to 6 (Sat). */
+	 * Months are 0 to 11. Weekdays are 0 (Sun) to 6 (Sat). */
 	gint longest_month_name;
 	gint longest_abbreviated_month_name;
 	gint longest_weekday_name;
 	gint longest_abbreviated_weekday_name;
 
 	/* The large font used to display the hours. I don't think we need a
-	   fontset since we only display numbers. */
+	 * fontset since we only display numbers. */
 	PangoFontDescription *large_font_desc;
 	PangoFontDescription *small_font_desc;
 
@@ -375,7 +375,7 @@ struct _EDayView {
 	gint editing_event_num;
 
 	/* This is a GnomeCanvasRect which is placed around an item while it
-	   is being resized, so we can raise it above all other EText items. */
+	 * is being resized, so we can raise it above all other EText items. */
 	GnomeCanvasItem *resize_long_event_rect_item;
 	GnomeCanvasItem *resize_rect_item;
 	GnomeCanvasItem *resize_bar_item;
@@ -385,26 +385,26 @@ struct _EDayView {
 	gint popup_event_num;
 
 	/* The currently selected region. If selection_start_day is -1 there is
-	   no current selection. If start_row or end_row is -1 then the
-	   selection is in the top canvas. */
+	 * no current selection. If start_row or end_row is -1 then the
+	 * selection is in the top canvas. */
 	gint selection_start_day;
 	gint selection_end_day;
 	gint selection_start_row;
 	gint selection_end_row;
 
 	/* This is TRUE if the selection is currently being dragged using the
-	   mouse. */
+	 * mouse. */
 	gboolean selection_is_being_dragged;
 
 	/* This specifies which end of the selection is being dragged. */
 	EDayViewDragPosition selection_drag_pos;
 
 	/* This is TRUE if the selection is in the top canvas only (i.e. if the
-	   last motion event was in the top canvas). */
+	 * last motion event was in the top canvas). */
 	gboolean selection_in_top_canvas;
 
 	/* The last mouse position, relative to the main canvas window.
-	   Used when auto-scrolling to update the selection. */
+	 * Used when auto-scrolling to update the selection. */
 	gint last_mouse_x;
 	gint last_mouse_y;
 
@@ -428,13 +428,13 @@ struct _EDayView {
 	gchar *last_edited_comp_string;
 
 	/* This is the event the mouse button was pressed on. If the button
-	   is released we start editing it, but if the mouse is dragged we set
-	   this to -1. */
+	 * is released we start editing it, but if the mouse is dragged we set
+	 * this to -1. */
 	gint pressed_event_day;
 	gint pressed_event_num;
 
 	/* These are used when dragging events. If drag_event_day is not -1 we
-	   know that we are dragging one of the EDayView events around. */
+	 * know that we are dragging one of the EDayView events around. */
 	gint drag_event_day;
 	gint drag_event_num;
 
@@ -443,16 +443,16 @@ struct _EDayView {
 	gint drag_event_y;
 
 	/* The offset of the mouse from the top of the event, in rows.
-	   In the top canvas this is the offset from the left, in days. */
+	 * In the top canvas this is the offset from the left, in days. */
 	gint drag_event_offset;
 
 	/* The last day & row dragged to, so we know when we need to update
-	   the dragged event's position. */
+	 * the dragged event's position. */
 	gint drag_last_day;
 	gint drag_last_row;
 
 	/* This is a GnomeCanvasRect which is placed around an item while it
-	   is being resized, so we can raise it above all other EText items. */
+	 * is being resized, so we can raise it above all other EText items. */
 	GnomeCanvasItem *drag_long_event_rect_item;
 	GnomeCanvasItem *drag_long_event_item;
 	GnomeCanvasItem *drag_rect_item;
@@ -466,7 +466,7 @@ struct _EDayView {
 	gint pm_string_width;
 
 	/* remember last selected interval when click and restore on double click,
-	   if we double clicked inside that interval. */
+	 * if we double clicked inside that interval. */
 	guint32 bc_event_time;
 	time_t before_click_dtstart;
 	time_t before_click_dtend;
@@ -483,25 +483,25 @@ GType		   e_day_view_get_type			(void);
 ECalendarView *    e_day_view_new			(ECalModel *model);
 
 /* Whether we are displaying a work-week, in which case the display always
-   starts on the first day of the working week. */
+ * starts on the first day of the working week. */
 gboolean   e_day_view_get_work_week_view	(EDayView	*day_view);
 void	   e_day_view_set_work_week_view	(EDayView	*day_view,
 						 gboolean	 work_week_view);
 
 /* The number of days shown in the EDayView, from 1 to 7. This is normally
-   either 1 or 5 (for the Work-Week view). */
+ * either 1 or 5 (for the Work-Week view). */
 gint	   e_day_view_get_days_shown		(EDayView	*day_view);
 void	   e_day_view_set_days_shown		(EDayView	*day_view,
 						 gint		 days_shown);
 
 /* This specifies the working days in the week. The value is a bitwise
-   combination of day flags. Defaults to Mon-Fri. */
+ * combination of day flags. Defaults to Mon-Fri. */
 EDayViewDays e_day_view_get_working_days	(EDayView	*day_view);
 void	   e_day_view_set_working_days		(EDayView	*day_view,
 						 EDayViewDays	 days);
 
 /* Whether we display the Marcus Bains Line in the main canvas and time
-   canvas. */
+ * canvas. */
 void	   e_day_view_marcus_bains_update	(EDayView *day_view);
 gboolean   e_day_view_marcus_bains_get_show_line (EDayView *day_view);
 void	   e_day_view_marcus_bains_set_show_line (EDayView *day_view,

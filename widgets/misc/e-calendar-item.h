@@ -86,7 +86,7 @@ typedef struct _ECalendarItem       ECalendarItem;
 typedef struct _ECalendarItemClass  ECalendarItemClass;
 
 /* The type of the callback function optionally used to get the colors to
-   use for each day. */
+ * use for each day. */
 typedef void (*ECalendarItemStyleCallback)   (ECalendarItem	*calitem,
 					      gint		 year,
 					      gint		 month,
@@ -137,10 +137,10 @@ struct _ECalendarItem
 	gint month;	/* 0 to 11 */
 
 	/* Points to an array of styles, one gchar for each day. We use 32
-	   chars for each month, with n + 2 months, where n is the number of
-	   complete months shown (since we show some days before the first
-	   month and after the last month grayes out).
-	   A value of 0 is the default, and 1 is bold. */
+	 * chars for each month, with n + 2 months, where n is the number of
+	 * complete months shown (since we show some days before the first
+	 * month and after the last month grayes out).
+	 * A value of 0 is the default, and 1 is bold. */
 	guint8 *styles;
 
 	/*
@@ -148,8 +148,8 @@ struct _ECalendarItem
 	 */
 
 	/* The minimum & maximum number of rows & columns of months.
-	   If the maximum values are -1 then there is no maximum.
-	   The minimum valies default to 1. The maximum values to -1. */
+	 * If the maximum values are -1 then there is no maximum.
+	 * The minimum valies default to 1. The maximum values to -1. */
 	gint min_rows;
 	gint min_cols;
 	gint max_rows;
@@ -174,16 +174,16 @@ struct _ECalendarItem
 	gint max_days_selected;
 
 	/* The number of days selected before we switch to selecting whole
-	   weeks, or -1 if we never switch. Defaults to -1. */
+	 * weeks, or -1 if we never switch. Defaults to -1. */
 	gint days_to_start_week_selection;
 
 	/* Whether the selection is moved when we move back/forward one month.
-	   Used for things like the EDateEdit which only want the selection to
-	   be changed when the user explicitly selects a day. */
+	 * Used for things like the EDateEdit which only want the selection to
+	 * be changed when the user explicitly selects a day. */
 	gboolean move_selection_when_moving;
 
 	/* Whether the selection day is preserved when we  move back/forward
-	   one month. Used for the work week and week view. */
+	 * one month. Used for the work week and week view. */
 	gboolean preserve_day_when_moving;
 
 	/* Whether to display the pop-up, TRUE by default */
@@ -216,8 +216,8 @@ struct _ECalendarItem
 	gint cell_height;
 
 	/* The current selection. The month offsets are from 0, which is the
-	   top-left calendar month view. Note that -1 is used for the last days
-	   from the previous month. The days are real month days. */
+	 * top-left calendar month view. Note that -1 is used for the last days
+	 * from the previous month. The days are real month days. */
 	gboolean selecting;
 	GDate *selecting_axis;
 	gboolean selection_dragging_end;
@@ -242,7 +242,7 @@ struct _ECalendarItem
 	gint max_week_number_digit_width;
 
 	/* Fonts for drawing text. If font isn't set it uses the font from the
-	   canvas widget. If week_number_font isn't set it uses font. */
+	 * canvas widget. If week_number_font isn't set it uses font. */
 	PangoFontDescription *font_desc;
 	PangoFontDescription *week_number_font_desc;
 
@@ -261,9 +261,9 @@ struct _ECalendarItem
 	gint signal_emission_idle_id;
 
 	/* A flag to indicate that the selection or date range has changed.
-	   When set the idle function will emit the signal and reset it to
-	   FALSE. This is so we don't emit it several times when args are set
-	   etc. */
+	 * When set the idle function will emit the signal and reset it to
+	 * FALSE. This is so we don't emit it several times when args are set
+	 * etc. */
 	gboolean selection_changed;
 	gboolean date_range_changed;
 };
@@ -311,9 +311,9 @@ void	e_calendar_item_set_display_popup	(ECalendarItem *calitem,
 						 gboolean display);
 
 /* Gets the range of dates actually shown. Months are 0 to 11.
-   This also includes the last days of the previous month and the first days
-   of the following month, which are normally shown in gray.
-   It returns FALSE if no dates are currently shown. */
+ * This also includes the last days of the previous month and the first days
+ * of the following month, which are normally shown in gray.
+ * It returns FALSE if no dates are currently shown. */
 gboolean
 	e_calendar_item_get_date_range		(ECalendarItem *calitem,
 						 gint *start_year,
@@ -324,22 +324,22 @@ gboolean
 						 gint *end_day);
 
 /* Returns the selected date range. It returns FALSE if no days are currently
-   selected. */
+ * selected. */
 gboolean
 	e_calendar_item_get_selection		(ECalendarItem *calitem,
 						 GDate *start_date,
 						 GDate *end_date);
 /* Sets the selected date range, and changes the date range shown so at least
-   the start of the selection is shown. If start_date is NULL it clears the
-   selection. */
+ * the start of the selection is shown. If start_date is NULL it clears the
+ * selection. */
 void	e_calendar_item_set_selection		(ECalendarItem *calitem,
 						 const GDate *start_date,
 						 const GDate *end_date);
 
 /* Marks a particular day. Passing E_CALENDAR_ITEM_MARK_BOLD as the day style
-   will result in the day being shown as bold by default. The style callback
-   could support more day_styles, or the style callback could determine the
-   colors itself, without needing to mark days. */
+ * will result in the day being shown as bold by default. The style callback
+ * could support more day_styles, or the style callback could determine the
+ * colors itself, without needing to mark days. */
 void	e_calendar_item_clear_marks		(ECalendarItem *calitem);
 void	e_calendar_item_mark_day		(ECalendarItem *calitem,
 						 gint year,
@@ -349,7 +349,7 @@ void	e_calendar_item_mark_day		(ECalendarItem *calitem,
 						 gboolean add_day_style);
 
 /* Mark a range of days. Any days outside the currently shown range are
-   ignored. */
+ * ignored. */
 void	e_calendar_item_mark_days		(ECalendarItem *calitem,
 						 gint start_year,
 						 gint start_month,
@@ -367,8 +367,8 @@ void	e_calendar_item_set_style_callback	(ECalendarItem *calitem,
 						 GDestroyNotify  destroy);
 
 /* Sets a callback to use to get the current time. This is useful if the
-   application needs to use its own timezone data rather than rely on the
-   Unix timezone. */
+ * application needs to use its own timezone data rather than rely on the
+ * Unix timezone. */
 void	e_calendar_item_set_get_time_callback	(ECalendarItem *calitem,
 						 ECalendarItemGetTimeCallback cb,
 						 gpointer data,

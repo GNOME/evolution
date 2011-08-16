@@ -126,7 +126,8 @@ async_context_free (AsyncContext *context)
 }
 
 static void
-selection_changed (GtkTreeSelection *selection, UIData *ui)
+selection_changed (GtkTreeSelection *selection,
+                   UIData *ui)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -186,7 +187,10 @@ commit_changes (UIData *ui)
 }
 
 static void
-clue_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, UIData *ui)
+clue_check_isempty (GtkTreeModel *model,
+                    GtkTreePath *path,
+                    GtkTreeIter *iter,
+                    UIData *ui)
 {
 	GtkTreeSelection *selection;
 	gchar *keyword = NULL;
@@ -216,7 +220,10 @@ clue_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, U
 }
 
 static gboolean
-clue_foreach_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, UIData *ui)
+clue_foreach_check_isempty (GtkTreeModel *model,
+                            GtkTreePath *path,
+                            GtkTreeIter *iter,
+                            UIData *ui)
 {
 	gboolean valid;
 
@@ -238,9 +245,9 @@ clue_foreach_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter 
 
 static void
 key_cell_edited_callback (GtkCellRendererText *cell,
-		      gchar               *path_string,
-		      gchar               *new_text,
-		      UIData             *ui)
+                          gchar *path_string,
+                          gchar *new_text,
+                          UIData *ui)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -259,9 +266,9 @@ key_cell_edited_callback (GtkCellRendererText *cell,
 
 static void
 value_cell_edited_callback (GtkCellRendererText *cell,
-		      gchar               *path_string,
-		      gchar               *new_text,
-		      UIData             *ui)
+                            gchar *path_string,
+                            gchar *new_text,
+                            UIData *ui)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -280,7 +287,8 @@ value_cell_edited_callback (GtkCellRendererText *cell,
 }
 
 static void
-clue_add_clicked (GtkButton *button, UIData *ui)
+clue_add_clicked (GtkButton *button,
+                  UIData *ui)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -310,11 +318,14 @@ clue_add_clicked (GtkButton *button, UIData *ui)
 	}
 
 	/* We have done our job, connect back to the signal */
-	g_signal_connect(G_OBJECT(model), "row-changed", G_CALLBACK(clue_check_isempty), ui);
+	g_signal_connect (
+		model, "row-changed",
+		G_CALLBACK (clue_check_isempty), ui);
 }
 
 static void
-clue_remove_clicked (GtkButton *button, UIData *ui)
+clue_remove_clicked (GtkButton *button,
+                     UIData *ui)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -357,7 +368,8 @@ clue_remove_clicked (GtkButton *button, UIData *ui)
 }
 
 static void
-clue_edit_clicked (GtkButton *button, UIData *ui)
+clue_edit_clicked (GtkButton *button,
+                   UIData *ui)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -449,33 +461,43 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	renderer_key = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Keywords"),
 			renderer_key, "text", CLUE_KEYWORD_COLUMN, NULL);
-	g_object_set (G_OBJECT (renderer_key), "editable", TRUE, NULL);
-	g_signal_connect(renderer_key, "edited", (GCallback) key_cell_edited_callback, ui);
+	g_object_set (renderer_key, "editable", TRUE, NULL);
+	g_signal_connect (renderer_key, "edited", (GCallback) key_cell_edited_callback, ui);
 
 	renderer_value = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Values"),
 			renderer_value, "text", CLUE_VALUE_COLUMN, NULL);
-	g_object_set (G_OBJECT (renderer_value), "editable", TRUE, NULL);
-	g_signal_connect(renderer_value, "edited", (GCallback) value_cell_edited_callback, ui);
+	g_object_set (renderer_value, "editable", TRUE, NULL);
+	g_signal_connect (renderer_value, "edited", (GCallback) value_cell_edited_callback, ui);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	g_signal_connect (G_OBJECT (selection), "changed", G_CALLBACK (selection_changed), ui);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (selection_changed), ui);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ui->treeview), TRUE);
 
 	ui->clue_add = clue_add;
-	g_signal_connect (G_OBJECT (ui->clue_add), "clicked", G_CALLBACK (clue_add_clicked), ui);
+	g_signal_connect (
+		ui->clue_add, "clicked",
+		G_CALLBACK (clue_add_clicked), ui);
 
 	ui->clue_remove = clue_remove;
-	g_signal_connect (G_OBJECT (ui->clue_remove), "clicked", G_CALLBACK (clue_remove_clicked), ui);
+	g_signal_connect (
+		ui->clue_remove, "clicked",
+		G_CALLBACK (clue_remove_clicked), ui);
 	gtk_widget_set_sensitive (ui->clue_remove, FALSE);
 
 	ui->clue_edit = clue_edit;
-	g_signal_connect (G_OBJECT (ui->clue_edit), "clicked", G_CALLBACK (clue_edit_clicked), ui);
+	g_signal_connect (
+		ui->clue_edit, "clicked",
+		G_CALLBACK (clue_edit_clicked), ui);
 	gtk_widget_set_sensitive (ui->clue_edit, FALSE);
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
-	g_signal_connect(G_OBJECT(model), "row-changed", G_CALLBACK(clue_check_isempty), ui);
+	g_signal_connect (
+		model, "row-changed",
+		G_CALLBACK (clue_check_isempty), ui);
 
 	/* Populate tree view with values from gconf */
 	clue_list = gconf_client_get_list ( gconf, GCONF_KEY_TEMPLATE_PLACEHOLDERS, GCONF_VALUE_STRING, NULL );
@@ -506,7 +528,8 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
 /* Case insensitive version of strstr */
 static gchar *
-strstr_nocase (const gchar * haystack, const gchar *needle)
+strstr_nocase (const gchar *haystack,
+               const gchar *needle)
 {
 /* When _GNU_SOURCE is available, use the nonstandard extension of libc */
 #ifdef _GNU_SOURCE
@@ -528,7 +551,7 @@ strstr_nocase (const gchar * haystack, const gchar *needle)
 	pos = strstr (l_haystack, l_needle);
 
 	/* Get actual position of the needle in the haystack instead of l_haystack or
-	   leave it NULL */
+	 * leave it NULL */
 	if (pos)
 		pos = (gchar *)(haystack + (pos - l_haystack));
 
@@ -541,7 +564,9 @@ strstr_nocase (const gchar * haystack, const gchar *needle)
 
 /* Replaces $ORIG[variable] in given template by given replacement from the original message */
 static void
-replace_template_variable (GString *text, const gchar *variable, const gchar *replacement)
+replace_template_variable (GString *text,
+                           const gchar *variable,
+                           const gchar *replacement)
 {
 	const gchar *p, *next;
 	GString *str;
@@ -573,7 +598,9 @@ replace_template_variable (GString *text, const gchar *variable, const gchar *re
 }
 
 static void
-replace_email_addresses (GString *template, CamelInternetAddress *internet_address, const gchar *variable)
+replace_email_addresses (GString *template,
+                         CamelInternetAddress *internet_address,
+                         const gchar *variable)
 {
 	gint address_index = 0;
 	GString *emails = g_string_new ("");
@@ -598,8 +625,9 @@ replace_email_addresses (GString *template, CamelInternetAddress *internet_addre
 	g_string_free (emails, TRUE);
 }
 
-static CamelMimePart*
-fill_template (CamelMimeMessage *message, CamelMimePart *template)
+static CamelMimePart *
+fill_template (CamelMimeMessage *message,
+               CamelMimePart *template)
 {
 	struct _camel_header_raw *header;
 	CamelContentType *ct;
@@ -666,7 +694,7 @@ fill_template (CamelMimeMessage *message, CamelMimePart *template)
 	}
 
 	/* Now manually replace the *subject* header. The header->value for subject header could be
-	   base64 encoded, so let camel_mime_message to decode it for us if needed */
+	 * base64 encoded, so let camel_mime_message to decode it for us if needed */
 	replace_template_variable (template_body, "subject", camel_mime_message_get_subject (message));
 
 	/* Replace TO and FROM modifiers. */
@@ -783,7 +811,7 @@ create_new_message (CamelFolder *folder,
 
 	dw = camel_medium_get_content (CAMEL_MEDIUM (template));
 	/* If template is a multipart, then try to use HTML. When no HTML part is available, use plaintext. Every other
-	   add as an attachment */
+	 * add as an attachment */
 	if (CAMEL_IS_MULTIPART (dw)) {
 		for (i = 0; i < camel_multipart_get_number (CAMEL_MULTIPART (dw)); i++) {
 			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (dw), i);
@@ -815,14 +843,14 @@ create_new_message (CamelFolder *folder,
 	out_part = fill_template (message, template_part);
 
 	/* Assigning part directly to mime_message causes problem with "Content-type" header displaying
-	   in the HTML message (camel parsing bug?) */
+	 * in the HTML message (camel parsing bug?) */
 	camel_multipart_add_part (new_multipart, out_part);
 	g_object_unref (out_part);
 	camel_medium_set_content (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (new_multipart));
 
 	/* Add the headers from the message we are replying to, so CC and that
-	   stuff is preserved. Also replace any $ORIG[header-name] modifiers ignoring
-	   'content-*' headers */
+	 * stuff is preserved. Also replace any $ORIG[header-name] modifiers ignoring
+	 * 'content-*' headers */
 	header = CAMEL_MIME_PART (message)->headers;
 	while (header) {
 		if (g_ascii_strncasecmp (header->name, "content-", 8) != 0) {
@@ -1017,7 +1045,7 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 			action_name, GTK_UI_MANAGER_MENU, FALSE);
 
 		/* Disconnect previous connection to avoid possible multiple calls because
-		   folder is a persistent structure */
+		 * folder is a persistent structure */
 		g_signal_handlers_disconnect_by_func (folder, G_CALLBACK (templates_folder_msg_changed_cb), shell_window);
 		g_signal_connect (folder, "changed",
 			G_CALLBACK (templates_folder_msg_changed_cb), shell_window);
@@ -1172,7 +1200,7 @@ static GtkActionEntry composer_entries[] = {
 
 static void
 build_menu (EShellWindow *shell_window,
-	    GtkActionGroup *action_group)
+            GtkActionGroup *action_group)
 {
 	EShellView *shell_view;
 	CamelFolder *folder;
@@ -1210,7 +1238,8 @@ build_menu (EShellWindow *shell_window,
 }
 
 static void
-update_actions_cb (EShellView *shell_view, GtkActionGroup *action_group)
+update_actions_cb (EShellView *shell_view,
+                   GtkActionGroup *action_group)
 {
 	GList *list;
 	gint length;
@@ -1269,16 +1298,16 @@ rebuild_template_menu (EShellWindow *shell_window)
 
 static void
 templates_folder_msg_changed_cb (CamelFolder *folder,
-				 CamelFolderChangeInfo *change_info,
-				 EShellWindow *shell_window)
+                                 CamelFolderChangeInfo *change_info,
+                                 EShellWindow *shell_window)
 {
 	rebuild_template_menu (shell_window);
 }
 
 static void
 templates_folder_changed_cb (CamelStore *store,
-			     CamelFolderInfo *folder_info,
-			     EShellWindow *shell_window)
+                             CamelFolderInfo *folder_info,
+                             EShellWindow *shell_window)
 {
 	if (folder_info->full_name && strstr (folder_info->full_name, _("Templates")) != NULL)
 		rebuild_template_menu (shell_window);
@@ -1286,9 +1315,9 @@ templates_folder_changed_cb (CamelStore *store,
 
 static void
 templates_folder_renamed_cb (CamelStore *store,
-			     const gchar *old_name,
-			     CamelFolderInfo *folder_info,
-			     EShellWindow *shell_window)
+                             const gchar *old_name,
+                             CamelFolderInfo *folder_info,
+                             EShellWindow *shell_window)
 {
 	if (folder_info->full_name && strstr (folder_info->full_name, _("Templates")) != NULL)
 		rebuild_template_menu (shell_window);

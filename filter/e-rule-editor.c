@@ -127,7 +127,8 @@ rule_editor_play_undo (ERuleEditor *editor)
 }
 
 static void
-dialog_rule_changed (EFilterRule *fr, GtkWidget *dialog)
+dialog_rule_changed (EFilterRule *fr,
+                     GtkWidget *dialog)
 {
 	g_return_if_fail (dialog != NULL);
 
@@ -135,7 +136,9 @@ dialog_rule_changed (EFilterRule *fr, GtkWidget *dialog)
 }
 
 static void
-add_editor_response (GtkWidget *dialog, gint button, ERuleEditor *editor)
+add_editor_response (GtkWidget *dialog,
+                     gint button,
+                     ERuleEditor *editor)
 {
 	GtkTreeSelection *selection;
 	GtkTreePath *path;
@@ -211,7 +214,8 @@ update_selected_rule (ERuleEditor *editor)
 }
 
 static void
-cursor_changed (GtkTreeView *treeview, ERuleEditor *editor)
+cursor_changed (GtkTreeView *treeview,
+                ERuleEditor *editor)
 {
 	if (update_selected_rule (editor)) {
 		g_return_if_fail (editor->current);
@@ -221,7 +225,9 @@ cursor_changed (GtkTreeView *treeview, ERuleEditor *editor)
 }
 
 static void
-editor_response (GtkWidget *dialog, gint button, ERuleEditor *editor)
+editor_response (GtkWidget *dialog,
+                 gint button,
+                 ERuleEditor *editor)
 {
 	if (button == GTK_RESPONSE_CANCEL) {
 		if (enable_undo)
@@ -242,7 +248,8 @@ editor_response (GtkWidget *dialog, gint button, ERuleEditor *editor)
 }
 
 static void
-rule_add (GtkWidget *widget, ERuleEditor *editor)
+rule_add (GtkWidget *widget,
+          ERuleEditor *editor)
 {
 	GtkWidget *rules;
 	GtkWidget *content_area;
@@ -281,7 +288,9 @@ rule_add (GtkWidget *widget, ERuleEditor *editor)
 }
 
 static void
-edit_editor_response (GtkWidget *dialog, gint button, ERuleEditor *editor)
+edit_editor_response (GtkWidget *dialog,
+                      gint button,
+                      ERuleEditor *editor)
 {
 	EFilterRule *rule;
 	GtkTreePath *path;
@@ -326,7 +335,8 @@ edit_editor_response (GtkWidget *dialog, gint button, ERuleEditor *editor)
 }
 
 static void
-rule_edit (GtkWidget *widget, ERuleEditor *editor)
+rule_edit (GtkWidget *widget,
+           ERuleEditor *editor)
 {
 	GtkWidget *rules;
 	GtkWidget *content_area;
@@ -367,7 +377,8 @@ rule_edit (GtkWidget *widget, ERuleEditor *editor)
 }
 
 static void
-rule_delete (GtkWidget *widget, ERuleEditor *editor)
+rule_delete (GtkWidget *widget,
+             ERuleEditor *editor)
 {
 	GtkTreeSelection *selection;
 	GtkTreePath *path;
@@ -422,7 +433,9 @@ rule_delete (GtkWidget *widget, ERuleEditor *editor)
 }
 
 static void
-rule_move (ERuleEditor *editor, gint from, gint to)
+rule_move (ERuleEditor *editor,
+           gint from,
+           gint to)
 {
 	GtkTreeSelection *selection;
 	GtkTreePath *path;
@@ -466,7 +479,8 @@ rule_move (ERuleEditor *editor, gint from, gint to)
 }
 
 static void
-rule_top (GtkWidget *widget, ERuleEditor *editor)
+rule_top (GtkWidget *widget,
+          ERuleEditor *editor)
 {
 	gint pos;
 
@@ -479,7 +493,8 @@ rule_top (GtkWidget *widget, ERuleEditor *editor)
 }
 
 static void
-rule_up (GtkWidget *widget, ERuleEditor *editor)
+rule_up (GtkWidget *widget,
+         ERuleEditor *editor)
 {
 	gint pos;
 
@@ -492,7 +507,8 @@ rule_up (GtkWidget *widget, ERuleEditor *editor)
 }
 
 static void
-rule_down (GtkWidget *widget, ERuleEditor *editor)
+rule_down (GtkWidget *widget,
+           ERuleEditor *editor)
 {
 	gint pos;
 
@@ -505,7 +521,8 @@ rule_down (GtkWidget *widget, ERuleEditor *editor)
 }
 
 static void
-rule_bottom (GtkWidget *widget, ERuleEditor *editor)
+rule_bottom (GtkWidget *widget,
+             ERuleEditor *editor)
 {
 	gint pos;
 	gint count = 0;
@@ -720,7 +737,10 @@ e_rule_editor_create_rule (ERuleEditor *editor)
 }
 
 static void
-double_click (GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, ERuleEditor *editor)
+double_click (GtkTreeView *treeview,
+              GtkTreePath *path,
+              GtkTreeViewColumn *column,
+              ERuleEditor *editor)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;

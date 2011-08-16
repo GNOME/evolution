@@ -232,7 +232,9 @@ current_search_col (ETable *et)
 }
 
 static void
-et_get_preferred_width (GtkWidget *widget, gint *minimum, gint *natural)
+et_get_preferred_width (GtkWidget *widget,
+                        gint *minimum,
+                        gint *natural)
 {
 	ETable *et = E_TABLE (widget);
 
@@ -246,7 +248,9 @@ et_get_preferred_width (GtkWidget *widget, gint *minimum, gint *natural)
 }
 
 static void
-et_get_preferred_height (GtkWidget *widget, gint *minimum, gint *natural)
+et_get_preferred_height (GtkWidget *widget,
+                         gint *minimum,
+                         gint *natural)
 {
 	GTK_WIDGET_CLASS (e_table_parent_class)->
 		get_preferred_height (widget, minimum, natural);
@@ -262,7 +266,8 @@ set_header_width (ETable *et)
 }
 
 static void
-structure_changed (ETableHeader *header, ETable *et)
+structure_changed (ETableHeader *header,
+                   ETable *et)
 {
 	e_table_state_change (et);
 	set_header_width (et);
@@ -270,14 +275,17 @@ structure_changed (ETableHeader *header, ETable *et)
 }
 
 static void
-expansion_changed (ETableHeader *header, ETable *et)
+expansion_changed (ETableHeader *header,
+                   ETable *et)
 {
 	e_table_state_change (et);
 	set_header_width (et);
 }
 
 static void
-dimension_changed (ETableHeader *header, gint total_width, ETable *et)
+dimension_changed (ETableHeader *header,
+                   gint total_width,
+                   ETable *et)
 {
 	set_header_width (et);
 }
@@ -303,7 +311,8 @@ disconnect_header (ETable *e_table)
 }
 
 static void
-connect_header (ETable *e_table, ETableState *state)
+connect_header (ETable *e_table,
+                ETableState *state)
 {
 	if (e_table->header != NULL)
 		disconnect_header (e_table);
@@ -311,15 +320,15 @@ connect_header (ETable *e_table, ETableState *state)
 	e_table->header = e_table_state_to_header (
 		GTK_WIDGET (e_table), e_table->full_header, state);
 
-	e_table->structure_change_id =
-		g_signal_connect (G_OBJECT (e_table->header), "structure_change",
-				  G_CALLBACK (structure_changed), e_table);
-	e_table->expansion_change_id =
-		g_signal_connect (G_OBJECT (e_table->header), "expansion_change",
-				  G_CALLBACK (expansion_changed), e_table);
-	e_table->dimension_change_id =
-		g_signal_connect (G_OBJECT (e_table->header), "dimension_change",
-				  G_CALLBACK (dimension_changed), e_table);
+	e_table->structure_change_id = g_signal_connect (
+		e_table->header, "structure_change",
+		G_CALLBACK (structure_changed), e_table);
+	e_table->expansion_change_id = g_signal_connect (
+		e_table->header, "expansion_change",
+		G_CALLBACK (expansion_changed), e_table);
+	e_table->dimension_change_id = g_signal_connect (
+		e_table->header, "dimension_change",
+		G_CALLBACK (dimension_changed), e_table);
 }
 
 static void
@@ -499,7 +508,8 @@ et_search_search (ETableSearch *search,
 }
 
 static void
-et_search_accept (ETableSearch *search, ETable *et)
+et_search_accept (ETableSearch *search,
+                  ETable *et)
 {
 	gint cursor;
 	ETableCol *col = current_search_col (et);
@@ -521,12 +531,12 @@ init_search (ETable *e_table)
 
 	e_table->search           = e_table_search_new ();
 
-	e_table->search_search_id =
-		g_signal_connect (G_OBJECT (e_table->search), "search",
-				  G_CALLBACK (et_search_search), e_table);
-	e_table->search_accept_id =
-		g_signal_connect (G_OBJECT (e_table->search), "accept",
-				  G_CALLBACK (et_search_accept), e_table);
+	e_table->search_search_id = g_signal_connect (
+		e_table->search, "search",
+		G_CALLBACK (et_search_search), e_table);
+	e_table->search_accept_id = g_signal_connect (
+		e_table->search, "accept",
+		G_CALLBACK (et_search_accept), e_table);
 }
 
 static void
@@ -610,7 +620,8 @@ et_grab_focus (GtkWidget *widget)
 
 /* Focus handler for the ETable */
 static gint
-et_focus (GtkWidget *container, GtkDirectionType direction)
+et_focus (GtkWidget *container,
+          GtkDirectionType direction)
 {
 	ETable *e_table;
 
@@ -647,7 +658,9 @@ set_header_canvas_width (ETable *e_table)
 }
 
 static void
-header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_table)
+header_canvas_size_allocate (GtkWidget *widget,
+                             GtkAllocation *alloc,
+                             ETable *e_table)
 {
 	GtkAllocation allocation;
 
@@ -657,9 +670,9 @@ header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_
 		GTK_WIDGET (e_table->header_canvas), &allocation);
 
 	/* When the header item is created ->height == 0,
-	   as the font is only created when everything is realized.
-	   So we set the usize here as well, so that the size of the
-	   header is correct */
+	 * as the font is only created when everything is realized.
+	 * So we set the usize here as well, so that the size of the
+	 * header is correct */
 	if (allocation.height != E_TABLE_HEADER_ITEM (e_table->header_item)->height)
 		g_object_set (
 			e_table->header_canvas, "height-request",
@@ -668,7 +681,8 @@ header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_
 }
 
 static void
-group_info_changed (ETableSortInfo *info, ETable *et)
+group_info_changed (ETableSortInfo *info,
+                    ETable *et)
 {
 	gboolean will_be_grouped = e_table_sort_info_grouping_get_count (info) > 0;
 	clear_current_search_col (et);
@@ -684,7 +698,8 @@ group_info_changed (ETableSortInfo *info, ETable *et)
 }
 
 static void
-sort_info_changed (ETableSortInfo *info, ETable *et)
+sort_info_changed (ETableSortInfo *info,
+                   ETable *et)
 {
 	clear_current_search_col (et);
 	e_table_state_change (et);
@@ -751,8 +766,9 @@ table_canvas_reflow_idle (ETable *e_table)
 }
 
 static void
-table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
-			    ETable *e_table)
+table_canvas_size_allocate (GtkWidget *widget,
+                            GtkAllocation *alloc,
+                            ETable *e_table)
 {
 	gdouble width;
 	gdouble height;
@@ -782,7 +798,8 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 }
 
 static void
-table_canvas_reflow (GnomeCanvas *canvas, ETable *e_table)
+table_canvas_reflow (GnomeCanvas *canvas,
+                     ETable *e_table)
 {
 	if (!e_table->reflow_idle_id)
 		e_table->reflow_idle_id = g_idle_add_full (
@@ -791,7 +808,10 @@ table_canvas_reflow (GnomeCanvas *canvas, ETable *e_table)
 }
 
 static void
-click_to_add_cursor_change (ETableClickToAdd *etcta, gint row, gint col, ETable *et)
+click_to_add_cursor_change (ETableClickToAdd *etcta,
+                            gint row,
+                            gint col,
+                            ETable *et)
 {
 	if (et->cursor_loc == E_TABLE_CURSOR_LOC_TABLE) {
 		e_selection_model_clear (E_SELECTION_MODEL (et->selection));
@@ -800,7 +820,9 @@ click_to_add_cursor_change (ETableClickToAdd *etcta, gint row, gint col, ETable 
 }
 
 static void
-group_cursor_change (ETableGroup *etg, gint row, ETable *et)
+group_cursor_change (ETableGroup *etg,
+                     gint row,
+                     ETable *et)
 {
 	ETableCursorLoc old_cursor_loc;
 
@@ -814,19 +836,29 @@ group_cursor_change (ETableGroup *etg, gint row, ETable *et)
 }
 
 static void
-group_cursor_activated (ETableGroup *etg, gint row, ETable *et)
+group_cursor_activated (ETableGroup *etg,
+                        gint row,
+                        ETable *et)
 {
 	g_signal_emit (G_OBJECT (et), et_signals[CURSOR_ACTIVATED], 0, row);
 }
 
 static void
-group_double_click (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
+group_double_click (ETableGroup *etg,
+                    gint row,
+                    gint col,
+                    GdkEvent *event,
+                    ETable *et)
 {
 	g_signal_emit (G_OBJECT (et), et_signals[DOUBLE_CLICK], 0, row, col, event);
 }
 
 static gboolean
-group_right_click (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
+group_right_click (ETableGroup *etg,
+                   gint row,
+                   gint col,
+                   GdkEvent *event,
+                   ETable *et)
 {
 	gboolean return_val = FALSE;
 
@@ -838,7 +870,11 @@ group_right_click (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable
 }
 
 static gboolean
-group_click (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
+group_click (ETableGroup *etg,
+             gint row,
+             gint col,
+             GdkEvent *event,
+             ETable *et)
 {
 	gboolean return_val = 0;
 	g_signal_emit (G_OBJECT (et), et_signals[CLICK], 0, row, col, event, &return_val);
@@ -846,7 +882,11 @@ group_click (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
 }
 
 static gboolean
-group_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
+group_key_press (ETableGroup *etg,
+                 gint row,
+                 gint col,
+                 GdkEvent *event,
+                 ETable *et)
 {
 	gboolean return_val = FALSE;
 	GdkEventKey *key = (GdkEventKey *) event;
@@ -923,7 +963,11 @@ group_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *
 }
 
 static gboolean
-group_start_drag (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
+group_start_drag (ETableGroup *etg,
+                  gint row,
+                  gint col,
+                  GdkEvent *event,
+                  ETable *et)
 {
 	gboolean return_val = TRUE;
 	g_signal_emit (G_OBJECT (et), et_signals[START_DRAG], 0,
@@ -932,7 +976,8 @@ group_start_drag (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable 
 }
 
 static void
-et_table_model_changed (ETableModel *model, ETable *et)
+et_table_model_changed (ETableModel *model,
+                        ETable *et)
 {
 	et->need_rebuild = TRUE;
 	if (!et->rebuild_idle_id) {
@@ -943,7 +988,9 @@ et_table_model_changed (ETableModel *model, ETable *et)
 }
 
 static void
-et_table_row_changed (ETableModel *table_model, gint row, ETable *et)
+et_table_row_changed (ETableModel *table_model,
+                      gint row,
+                      ETable *et)
 {
 	if (!et->need_rebuild) {
 		if (e_table_group_remove (et->group, row))
@@ -953,13 +1000,19 @@ et_table_row_changed (ETableModel *table_model, gint row, ETable *et)
 }
 
 static void
-et_table_cell_changed (ETableModel *table_model, gint view_col, gint row, ETable *et)
+et_table_cell_changed (ETableModel *table_model,
+                       gint view_col,
+                       gint row,
+                       ETable *et)
 {
 	et_table_row_changed (table_model, row, et);
 }
 
 static void
-et_table_rows_inserted (ETableModel *table_model, gint row, gint count, ETable *et)
+et_table_rows_inserted (ETableModel *table_model,
+                        gint row,
+                        gint count,
+                        ETable *et)
 {
 	/* This number has already been decremented. */
 	gint row_count = e_table_model_row_count (table_model);
@@ -974,7 +1027,10 @@ et_table_rows_inserted (ETableModel *table_model, gint row, gint count, ETable *
 }
 
 static void
-et_table_rows_deleted (ETableModel *table_model, gint row, gint count, ETable *et)
+et_table_rows_deleted (ETableModel *table_model,
+                       gint row,
+                       gint count,
+                       ETable *et)
 {
 	gint row_count = e_table_model_row_count (table_model);
 	if (!et->need_rebuild) {
@@ -1022,20 +1078,27 @@ et_build_groups (ETable *et)
 		"selection_model", et->selection,
 		NULL);
 
-	g_signal_connect (G_OBJECT (et->group), "cursor_change",
-			  G_CALLBACK (group_cursor_change), et);
-	g_signal_connect (G_OBJECT (et->group), "cursor_activated",
-			  G_CALLBACK (group_cursor_activated), et);
-	g_signal_connect (G_OBJECT (et->group), "double_click",
-			  G_CALLBACK (group_double_click), et);
-	g_signal_connect (G_OBJECT (et->group), "right_click",
-			  G_CALLBACK (group_right_click), et);
-	g_signal_connect (G_OBJECT (et->group), "click",
-			  G_CALLBACK (group_click), et);
-	g_signal_connect (G_OBJECT (et->group), "key_press",
-			  G_CALLBACK (group_key_press), et);
-	g_signal_connect (G_OBJECT (et->group), "start_drag",
-			  G_CALLBACK (group_start_drag), et);
+	g_signal_connect (
+		et->group, "cursor_change",
+		G_CALLBACK (group_cursor_change), et);
+	g_signal_connect (
+		et->group, "cursor_activated",
+		G_CALLBACK (group_cursor_activated), et);
+	g_signal_connect (
+		et->group, "double_click",
+		G_CALLBACK (group_double_click), et);
+	g_signal_connect (
+		et->group, "right_click",
+		G_CALLBACK (group_right_click), et);
+	g_signal_connect (
+		et->group, "click",
+		G_CALLBACK (group_click), et);
+	g_signal_connect (
+		et->group, "key_press",
+		G_CALLBACK (group_key_press), et);
+	g_signal_connect (
+		et->group, "start_drag",
+		G_CALLBACK (group_start_drag), et);
 
 	if (!(et->is_grouped) && was_grouped)
 		et_disconnect_model (et);
@@ -1102,7 +1165,8 @@ changed_idle (gpointer data)
 }
 
 static void
-et_canvas_realize (GtkWidget *canvas, ETable *e_table)
+et_canvas_realize (GtkWidget *canvas,
+                   ETable *e_table)
 {
 	GtkWidget *widget;
 	GtkStyle *style;
@@ -1120,7 +1184,9 @@ et_canvas_realize (GtkWidget *canvas, ETable *e_table)
 }
 
 static gboolean
-white_item_event (GnomeCanvasItem *white_item, GdkEvent *event, ETable *e_table)
+white_item_event (GnomeCanvasItem *white_item,
+                  GdkEvent *event,
+                  ETable *e_table)
 {
 	gboolean return_val = 0;
 	g_signal_emit (G_OBJECT (e_table), et_signals[WHITE_SPACE_EVENT], 0,
@@ -1143,7 +1209,9 @@ et_eti_leave_edit (ETable *et)
 }
 
 static gint
-et_canvas_root_event (GnomeCanvasItem *root, GdkEvent *event, ETable *e_table)
+et_canvas_root_event (GnomeCanvasItem *root,
+                      GdkEvent *event,
+                      ETable *e_table)
 {
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
@@ -1188,7 +1256,9 @@ focus_first_etable_item (ETableGroup *group)
  * always, and also give the focus to some ETableItem if we get focused.
  */
 static gint
-table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+table_canvas_focus_event_cb (GtkWidget *widget,
+                             GdkEventFocus *event,
+                             gpointer data)
 {
 	GnomeCanvas *canvas;
 	ECanvas *ecanvas;
@@ -1232,7 +1302,9 @@ table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
 }
 
 static gboolean
-canvas_vbox_event (ECanvasVbox *vbox, GdkEventKey *key, ETable *etable)
+canvas_vbox_event (ECanvasVbox *vbox,
+                   GdkEventKey *key,
+                   ETable *etable)
 {
 	if (key->type != GDK_KEY_PRESS  &&
 		key->type != GDK_KEY_RELEASE) {
@@ -1254,7 +1326,9 @@ canvas_vbox_event (ECanvasVbox *vbox, GdkEventKey *key, ETable *etable)
 }
 
 static gboolean
-click_to_add_event (ETableClickToAdd *etcta, GdkEventKey *key, ETable *etable)
+click_to_add_event (ETableClickToAdd *etcta,
+                    GdkEventKey *key,
+                    ETable *etable)
 {
 	if (key->type != GDK_KEY_PRESS  &&
 		key->type != GDK_KEY_RELEASE) {
@@ -1284,50 +1358,53 @@ click_to_add_event (ETableClickToAdd *etcta, GdkEventKey *key, ETable *etable)
 }
 
 static void
-e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *header,
-		     ETableModel *model)
+e_table_setup_table (ETable *e_table,
+                     ETableHeader *full_header,
+                     ETableHeader *header,
+                     ETableModel *model)
 {
 	GtkWidget *widget;
 	GtkStyle *style;
 
 	e_table->table_canvas = GNOME_CANVAS (e_canvas_new ());
 	g_signal_connect (
-		G_OBJECT (e_table->table_canvas), "size_allocate",
+		e_table->table_canvas, "size_allocate",
 		G_CALLBACK (table_canvas_size_allocate), e_table);
 	g_signal_connect (
-		G_OBJECT (e_table->table_canvas), "focus_in_event",
+		e_table->table_canvas, "focus_in_event",
 		G_CALLBACK (table_canvas_focus_event_cb), e_table);
 	g_signal_connect (
-		G_OBJECT (e_table->table_canvas), "focus_out_event",
+		e_table->table_canvas, "focus_out_event",
 		G_CALLBACK (table_canvas_focus_event_cb), e_table);
 
 	g_signal_connect (
-		G_OBJECT (e_table), "drag_begin",
+		e_table, "drag_begin",
 		G_CALLBACK (et_drag_begin), e_table);
 	g_signal_connect (
-		G_OBJECT (e_table), "drag_end",
+		e_table, "drag_end",
 		G_CALLBACK (et_drag_end), e_table);
 	g_signal_connect (
-		G_OBJECT (e_table), "drag_data_get",
+		e_table, "drag_data_get",
 		G_CALLBACK (et_drag_data_get), e_table);
 	g_signal_connect (
-		G_OBJECT (e_table), "drag_data_delete",
+		e_table, "drag_data_delete",
 		G_CALLBACK (et_drag_data_delete), e_table);
 	g_signal_connect (
-		G_OBJECT (e_table), "drag_motion",
+		e_table, "drag_motion",
 		G_CALLBACK (et_drag_motion), e_table);
 	g_signal_connect (
-		G_OBJECT (e_table), "drag_leave",
+		e_table, "drag_leave",
 		G_CALLBACK (et_drag_leave), e_table);
 	g_signal_connect (
-		G_OBJECT (e_table), "drag_drop",
+		e_table, "drag_drop",
 		G_CALLBACK (et_drag_drop), e_table);
 	g_signal_connect (
-		G_OBJECT (e_table), "drag_data_received",
+		e_table, "drag_data_received",
 		G_CALLBACK (et_drag_data_received), e_table);
 
-	g_signal_connect (G_OBJECT(e_table->table_canvas), "reflow",
-			  G_CALLBACK (table_canvas_reflow), e_table);
+	g_signal_connect (
+		e_table->table_canvas, "reflow",
+		G_CALLBACK (table_canvas_reflow), e_table);
 
 	widget = GTK_WIDGET (e_table->table_canvas);
 	style = gtk_widget_get_style (widget);
@@ -1340,14 +1417,17 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		"fill_color_gdk", &style->base[GTK_STATE_NORMAL],
 		NULL);
 
-	g_signal_connect (G_OBJECT (e_table->white_item), "event",
-			  G_CALLBACK (white_item_event), e_table);
+	g_signal_connect (
+		e_table->white_item, "event",
+		G_CALLBACK (white_item_event), e_table);
 
-	g_signal_connect (G_OBJECT(e_table->table_canvas), "realize",
-			  G_CALLBACK (et_canvas_realize), e_table);
+	g_signal_connect (
+		e_table->table_canvas, "realize",
+		G_CALLBACK (et_canvas_realize), e_table);
 
-	g_signal_connect (G_OBJECT(gnome_canvas_root (e_table->table_canvas)), "event",
-			  G_CALLBACK (et_canvas_root_event), e_table);
+	g_signal_connect (
+		gnome_canvas_root (e_table->table_canvas), "event",
+		G_CALLBACK (et_canvas_root_event), e_table);
 
 	e_table->canvas_vbox = gnome_canvas_item_new (
 		gnome_canvas_root (e_table->table_canvas),
@@ -1389,7 +1469,8 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 }
 
 static void
-e_table_fill_table (ETable *e_table, ETableModel *model)
+e_table_fill_table (ETable *e_table,
+                    ETableModel *model)
 {
 	e_table_group_add_all (e_table->group);
 }
@@ -1404,7 +1485,8 @@ e_table_fill_table (ETable *e_table, ETableModel *model)
  *
  **/
 void
-e_table_set_state_object (ETable *e_table, ETableState *state)
+e_table_set_state_object (ETable *e_table,
+                          ETableState *state)
 {
 	GValue *val;
 	GtkWidget *widget;
@@ -1434,12 +1516,13 @@ e_table_set_state_object (ETable *e_table, ETableState *state)
 	if (state->sort_info) {
 		e_table->sort_info = e_table_sort_info_duplicate (state->sort_info);
 		e_table_sort_info_set_can_group (e_table->sort_info, e_table->allow_grouping);
-		e_table->group_info_change_id =
-			g_signal_connect (G_OBJECT (e_table->sort_info), "group_info_changed",
-					  G_CALLBACK (group_info_changed), e_table);
-		e_table->sort_info_change_id =
-			g_signal_connect (G_OBJECT (e_table->sort_info), "sort_info_changed",
-					  G_CALLBACK (sort_info_changed), e_table);
+		e_table->group_info_change_id = g_signal_connect (
+			e_table->sort_info, "group_info_changed",
+			G_CALLBACK (group_info_changed), e_table);
+
+		e_table->sort_info_change_id = g_signal_connect (
+			e_table->sort_info, "sort_info_changed",
+			G_CALLBACK (sort_info_changed), e_table);
 	}
 	else
 		e_table->sort_info = NULL;
@@ -1474,8 +1557,8 @@ e_table_set_state_object (ETable *e_table, ETableState *state)
  *
  **/
 void
-e_table_set_state (ETable      *e_table,
-		   const gchar *state_str)
+e_table_set_state (ETable *e_table,
+                   const gchar *state_str)
 {
 	ETableState *state;
 
@@ -1501,8 +1584,8 @@ e_table_set_state (ETable      *e_table,
  *
  **/
 void
-e_table_load_state (ETable      *e_table,
-		    const gchar *filename)
+e_table_load_state (ETable *e_table,
+                    const gchar *filename)
 {
 	ETableState *state;
 
@@ -1592,8 +1675,8 @@ gchar          *e_table_get_state                 (ETable               *e_table
  *
  **/
 void
-e_table_save_state (ETable      *e_table,
-		    const gchar *filename)
+e_table_save_state (ETable *e_table,
+                    const gchar *filename)
 {
 	ETableState *state;
 
@@ -1603,20 +1686,26 @@ e_table_save_state (ETable      *e_table,
 }
 
 static void
-et_selection_model_selection_changed (ETableGroup *etg, ETable *et)
+et_selection_model_selection_changed (ETableGroup *etg,
+                                      ETable *et)
 {
 	g_signal_emit (G_OBJECT (et), et_signals[SELECTION_CHANGE], 0);
 }
 
 static void
-et_selection_model_selection_row_changed (ETableGroup *etg, gint row, ETable *et)
+et_selection_model_selection_row_changed (ETableGroup *etg,
+                                          gint row,
+                                          ETable *et)
 {
 	g_signal_emit (G_OBJECT (et), et_signals[SELECTION_CHANGE], 0);
 }
 
 static ETable *
-et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
-		   ETableSpecification *specification, ETableState *state)
+et_real_construct (ETable *e_table,
+                   ETableModel *etm,
+                   ETableExtras *ete,
+                   ETableSpecification *specification,
+                   ETableState *state)
 {
 	gint row = 0;
 	gint col_count, i;
@@ -1751,8 +1840,11 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
  * The passed in value @e_table or %NULL if there's an error.
  **/
 ETable *
-e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
-		   const gchar *spec_str, const gchar *state_str)
+e_table_construct (ETable *e_table,
+                   ETableModel *etm,
+                   ETableExtras *ete,
+                   const gchar *spec_str,
+                   const gchar *state_str)
 {
 	ETableSpecification *specification;
 	ETableState *state;
@@ -1811,8 +1903,11 @@ e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
  * The passed in value @e_table or %NULL if there's an error.
  **/
 ETable *
-e_table_construct_from_spec_file (ETable *e_table, ETableModel *etm, ETableExtras *ete,
-				  const gchar *spec_fn, const gchar *state_fn)
+e_table_construct_from_spec_file (ETable *e_table,
+                                  ETableModel *etm,
+                                  ETableExtras *ete,
+                                  const gchar *spec_fn,
+                                  const gchar *state_fn)
 {
 	ETableSpecification *specification;
 	ETableState *state;
@@ -2027,7 +2122,8 @@ e_table_get_specification (ETable *e_table)
 }
 
 gint
-e_table_set_specification (ETable *e_table, const gchar *spec)
+e_table_set_specification (ETable *e_table,
+                           const gchar *spec)
 {
 	xmlDoc *xmlSpec;
 	gint ret;
@@ -2045,7 +2141,8 @@ e_table_set_specification (ETable *e_table, const gchar *spec)
 }
 
 void
-e_table_save_specification (ETable *e_table, const gchar *filename)
+e_table_save_specification (ETable *e_table,
+                            const gchar *filename)
 {
 	xmlDoc *doc = et_build_tree (e_table);
 
@@ -2059,7 +2156,8 @@ e_table_save_specification (ETable *e_table, const gchar *filename)
 }
 
 gint
-e_table_load_specification (ETable *e_table, gchar *filename)
+e_table_load_specification (ETable *e_table,
+                            gchar *filename)
 {
 	xmlDoc *xmlSpec;
 	gint ret;
@@ -2093,7 +2191,8 @@ e_table_load_specification (ETable *e_table, gchar *filename)
  * Sets the cursor row and the selection to the given row number.
  **/
 void
-e_table_set_cursor_row (ETable *e_table, gint row)
+e_table_set_cursor_row (ETable *e_table,
+                        gint row)
 {
 	g_return_if_fail (e_table != NULL);
 	g_return_if_fail (E_IS_TABLE (e_table));
@@ -2140,9 +2239,9 @@ e_table_get_cursor_row (ETable *e_table)
  * and then act upon that list. (In inverse order if it's rows.)
  **/
 void
-e_table_selected_row_foreach     (ETable *e_table,
-				  EForeachFunc callback,
-				  gpointer closure)
+e_table_selected_row_foreach (ETable *e_table,
+                              EForeachFunc callback,
+                              gpointer closure)
 {
 	g_return_if_fail (e_table != NULL);
 	g_return_if_fail (E_IS_TABLE (e_table));
@@ -2162,7 +2261,7 @@ e_table_selected_row_foreach     (ETable *e_table,
  * The number of rows selected.
  **/
 gint
-e_table_selected_count     (ETable *e_table)
+e_table_selected_count (ETable *e_table)
 {
 	g_return_val_if_fail (e_table != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE (e_table), -1);
@@ -2248,13 +2347,13 @@ e_table_commit_click_to_add (ETable *table)
 
 static void
 et_get_property (GObject *object,
-		 guint prop_id,
-		 GValue *value,
-		 GParamSpec *pspec)
+                 guint property_id,
+                 GValue *value,
+                 GParamSpec *pspec)
 {
 	ETable *etable = E_TABLE (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_MODEL:
 		g_value_set_object (value, etable->model);
 		break;
@@ -2311,13 +2410,13 @@ typedef struct {
 
 static void
 et_set_property (GObject *object,
-                 guint prop_id,
+                 guint property_id,
                  const GValue *value,
                  GParamSpec *pspec)
 {
 	ETable *etable = E_TABLE (object);
 
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_LENGTH_THRESHOLD:
 		etable->length_threshold = g_value_get_int (value);
 		if (etable->group) {
@@ -2418,8 +2517,8 @@ et_set_property (GObject *object,
  * The model row number.
  **/
 gint
-e_table_get_next_row      (ETable *e_table,
-			   gint    model_row)
+e_table_get_next_row (ETable *e_table,
+                      gint model_row)
 {
 	g_return_val_if_fail (e_table != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE (e_table), -1);
@@ -2452,8 +2551,8 @@ e_table_get_next_row      (ETable *e_table,
  * The model row number.
  **/
 gint
-e_table_get_prev_row      (ETable *e_table,
-			   gint    model_row)
+e_table_get_prev_row (ETable *e_table,
+                      gint model_row)
 {
 	g_return_val_if_fail (e_table != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE (e_table), -1);
@@ -2481,8 +2580,8 @@ e_table_get_prev_row      (ETable *e_table,
  * The view row number.
  **/
 gint
-e_table_model_to_view_row        (ETable *e_table,
-				  gint    model_row)
+e_table_model_to_view_row (ETable *e_table,
+                           gint model_row)
 {
 	g_return_val_if_fail (e_table != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE (e_table), -1);
@@ -2504,8 +2603,8 @@ e_table_model_to_view_row        (ETable *e_table,
  * The model row number.
  **/
 gint
-e_table_view_to_model_row        (ETable *e_table,
-				  gint    view_row)
+e_table_view_to_model_row (ETable *e_table,
+                           gint view_row)
 {
 	g_return_val_if_fail (e_table != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE (e_table), -1);
@@ -2529,8 +2628,10 @@ e_table_view_to_model_row        (ETable *e_table,
  **/
 void
 e_table_get_cell_at (ETable *table,
-		     gint x, gint y,
-		     gint *row_return, gint *col_return)
+                     gint x,
+                     gint y,
+                     gint *row_return,
+                     gint *col_return)
 {
 	GtkAdjustment *adjustment;
 	GtkScrollable *scrollable;
@@ -2571,9 +2672,12 @@ e_table_get_cell_at (ETable *table,
  **/
 void
 e_table_get_cell_geometry (ETable *table,
-			   gint row, gint col,
-			   gint *x_return, gint *y_return,
-			   gint *width_return, gint *height_return)
+                           gint row,
+                           gint col,
+                           gint *x_return,
+                           gint *y_return,
+                           gint *width_return,
+                           gint *height_return)
 {
 	GtkAllocation allocation;
 	GtkAdjustment *adjustment;
@@ -2614,7 +2718,9 @@ e_table_get_cell_geometry (ETable *table,
  * based on the mouse motion information in the group.
  **/
 void
-e_table_get_mouse_over_cell (ETable *table, gint *row, gint *col)
+e_table_get_mouse_over_cell (ETable *table,
+                             gint *row,
+                             gint *col)
 {
 	g_return_if_fail (table != NULL);
 	g_return_if_fail (E_IS_TABLE (table));
@@ -2724,12 +2830,12 @@ struct _GtkDragSourceInfo
  *
  **/
 void
-e_table_drag_get_data (ETable         *table,
-		       gint             row,
-		       gint             col,
-		       GdkDragContext *context,
-		       GdkAtom         target,
-		       guint32         time)
+e_table_drag_get_data (ETable *table,
+                       gint row,
+                       gint col,
+                       GdkDragContext *context,
+                       GdkAtom target,
+                       guint32 time)
 {
 	g_return_if_fail (table != NULL);
 	g_return_if_fail (E_IS_TABLE (table));
@@ -2751,8 +2857,8 @@ e_table_drag_get_data (ETable         *table,
  **/
 void
 e_table_drag_highlight (ETable *table,
-			gint     row,
-			gint     col)
+                        gint row,
+                        gint col)
 {
 	GtkAllocation allocation;
 	GtkAdjustment *adjustment;
@@ -2867,7 +2973,10 @@ e_table_drag_dest_unset (GtkWidget *widget)
 /* Source side */
 
 static gint
-et_real_start_drag (ETable *table, gint row, gint col, GdkEvent *event)
+et_real_start_drag (ETable *table,
+                    gint row,
+                    gint col,
+                    GdkEvent *event)
 {
 	GtkDragSourceInfo *info;
 	GdkDragContext *context;
@@ -2910,11 +3019,11 @@ et_real_start_drag (ETable *table, gint row, gint col, GdkEvent *event)
  * Registers this table as a drag site, and possibly adds default behaviors.
  **/
 void
-e_table_drag_source_set  (ETable               *table,
-			  GdkModifierType       start_button_mask,
-			  const GtkTargetEntry *targets,
-			  gint                  n_targets,
-			  GdkDragAction         actions)
+e_table_drag_source_set (ETable *table,
+                         GdkModifierType start_button_mask,
+                         const GtkTargetEntry *targets,
+                         gint n_targets,
+                         GdkDragAction actions)
 {
 	ETableDragSourceSite *site;
 	GtkWidget *canvas;
@@ -2995,13 +3104,13 @@ e_table_drag_source_unset (ETable *table)
  * The drag context.
  **/
 GdkDragContext *
-e_table_drag_begin (ETable            *table,
-		    gint	       row,
-		    gint	       col,
-		    GtkTargetList     *targets,
-		    GdkDragAction      actions,
-		    gint               button,
-		    GdkEvent          *event)
+e_table_drag_begin (ETable *table,
+                    gint row,
+                    gint col,
+                    GtkTargetList *targets,
+                    GdkDragAction actions,
+                    gint button,
+                    GdkEvent *event)
 {
 	g_return_val_if_fail (table != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE (table), NULL);
@@ -3018,8 +3127,8 @@ e_table_drag_begin (ETable            *table,
 
 static void
 et_drag_begin (GtkWidget *widget,
-	       GdkDragContext *context,
-	       ETable *et)
+               GdkDragContext *context,
+               ETable *et)
 {
 	g_signal_emit (G_OBJECT (et), et_signals[TABLE_DRAG_BEGIN], 0,
 		       et->drag_row, et->drag_col, context);
@@ -3027,8 +3136,8 @@ et_drag_begin (GtkWidget *widget,
 
 static void
 et_drag_end (GtkWidget *widget,
-	     GdkDragContext *context,
-	     ETable *et)
+             GdkDragContext *context,
+             ETable *et)
 {
 	g_signal_emit (G_OBJECT (et), et_signals[TABLE_DRAG_END], 0,
 		       et->drag_row, et->drag_col, context);
@@ -3036,11 +3145,11 @@ et_drag_end (GtkWidget *widget,
 
 static void
 et_drag_data_get (GtkWidget *widget,
-		 GdkDragContext *context,
-		 GtkSelectionData *selection_data,
-		 guint info,
-		 guint time,
-		 ETable *et)
+                  GdkDragContext *context,
+                  GtkSelectionData *selection_data,
+                  guint info,
+                  guint time,
+                  ETable *et)
 {
 	g_signal_emit (G_OBJECT (et), et_signals[TABLE_DRAG_DATA_GET], 0,
 		       et->drag_row, et->drag_col, context, selection_data,
@@ -3049,8 +3158,8 @@ et_drag_data_get (GtkWidget *widget,
 
 static void
 et_drag_data_delete (GtkWidget *widget,
-		    GdkDragContext *context,
-		    ETable *et)
+                     GdkDragContext *context,
+                     ETable *et)
 {
 	g_signal_emit (G_OBJECT (et), et_signals[TABLE_DRAG_DATA_DELETE], 0,
 		       et->drag_row, et->drag_col, context);
@@ -3058,10 +3167,10 @@ et_drag_data_delete (GtkWidget *widget,
 
 static gboolean
 do_drag_motion (ETable *et,
-	       GdkDragContext *context,
-	       gint x,
-	       gint y,
-	       guint time)
+                GdkDragContext *context,
+                gint x,
+                gint y,
+                guint time)
 {
 	gboolean ret_val;
 	gint row = -1, col = -1;
@@ -3141,7 +3250,8 @@ scroll_timeout (gpointer data)
 }
 
 static void
-scroll_on (ETable *et, guint scroll_direction)
+scroll_on (ETable *et,
+           guint scroll_direction)
 {
 	if (et->scroll_idle_id == 0 || scroll_direction != et->scroll_direction) {
 		if (et->scroll_idle_id != 0)
@@ -3177,7 +3287,8 @@ context_destroyed (gpointer data)
 }
 
 static void
-context_connect (ETable *et, GdkDragContext *context)
+context_connect (ETable *et,
+                 GdkDragContext *context)
 {
 	if (g_dataset_get_data (context, "e-table") == NULL) {
 		g_object_ref (et);
@@ -3187,9 +3298,9 @@ context_connect (ETable *et, GdkDragContext *context)
 
 static void
 et_drag_leave (GtkWidget *widget,
-	      GdkDragContext *context,
-	      guint time,
-	      ETable *et)
+               GdkDragContext *context,
+               guint time,
+               ETable *et)
 {
 	g_signal_emit (G_OBJECT (et), et_signals[TABLE_DRAG_LEAVE], 0,
 		       et->drop_row, et->drop_col, context, time);
@@ -3201,11 +3312,11 @@ et_drag_leave (GtkWidget *widget,
 
 static gboolean
 et_drag_motion (GtkWidget *widget,
-	       GdkDragContext *context,
-	       gint x,
-	       gint y,
-	       guint time,
-	       ETable *et)
+                GdkDragContext *context,
+                gint x,
+                gint y,
+                guint time,
+                ETable *et)
 {
 	GtkAllocation allocation;
 	gboolean ret_val;
@@ -3240,11 +3351,11 @@ et_drag_motion (GtkWidget *widget,
 
 static gboolean
 et_drag_drop (GtkWidget *widget,
-	     GdkDragContext *context,
-	     gint x,
-	     gint y,
-	     guint time,
-	     ETable *et)
+              GdkDragContext *context,
+              gint x,
+              gint y,
+              guint time,
+              ETable *et)
 {
 	gboolean ret_val;
 	gint row, col;
@@ -3271,13 +3382,13 @@ et_drag_drop (GtkWidget *widget,
 
 static void
 et_drag_data_received (GtkWidget *widget,
-		      GdkDragContext *context,
-		      gint x,
-		      gint y,
-		      GtkSelectionData *selection_data,
-		      guint info,
-		      guint time,
-		      ETable *et)
+                       GdkDragContext *context,
+                       gint x,
+                       gint y,
+                       GtkSelectionData *selection_data,
+                       guint info,
+                       guint time,
+                       ETable *et)
 {
 	gint row, col;
 

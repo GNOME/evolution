@@ -44,13 +44,15 @@ void commit_default_book (EPlugin *epl, EConfigTarget *target);
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
 
 void
-commit_default_calendar (EPlugin *epl, EConfigTarget *target)
+commit_default_calendar (EPlugin *epl,
+                         EConfigTarget *target)
 {
 	ECalConfigTargetSource *cal_target;
 	ESource *source;
@@ -62,7 +64,8 @@ commit_default_calendar (EPlugin *epl, EConfigTarget *target)
 }
 
 void
-commit_default_book (EPlugin *epl, EConfigTarget *target)
+commit_default_book (EPlugin *epl,
+                     EConfigTarget *target)
 {
 	EABConfigTargetSource *book_target;
 	ESource *source;
@@ -75,7 +78,8 @@ commit_default_book (EPlugin *epl, EConfigTarget *target)
 }
 
 GtkWidget *
-org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data)
+org_gnome_default_book (EPlugin *epl,
+                        EConfigHookItemFactoryData *data)
 {
 	EABConfigTargetSource *book_target;
 
@@ -88,7 +92,8 @@ org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 GtkWidget *
-org_gnome_autocomplete_book (EPlugin *epl, EConfigHookItemFactoryData *data)
+org_gnome_autocomplete_book (EPlugin *epl,
+                             EConfigHookItemFactoryData *data)
 {
 	EABConfigTargetSource *book_target;
 
@@ -118,7 +123,8 @@ get_calendar_option_caption (ECalClientSourceType source_type)
 GtkWidget *org_gnome_default_cal (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 GtkWidget *
-org_gnome_default_cal (EPlugin *epl, EConfigHookItemFactoryData *data)
+org_gnome_default_cal (EPlugin *epl,
+                       EConfigHookItemFactoryData *data)
 {
 	ECalConfigTargetSource *cal_target;
 

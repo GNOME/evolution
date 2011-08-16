@@ -257,7 +257,8 @@ e_import_status (EImport *import,
  * no longer needed.
  **/
 GSList *
-e_import_get_importers (EImport *emp, EImportTarget *target)
+e_import_get_importers (EImport *emp,
+                        EImportTarget *target)
 {
 	GSList *importers = NULL;
 	GList *link;
@@ -328,7 +329,9 @@ e_import_class_add_importer (EImportClass *class,
  * classes will define the actual content of the target.
  **/
 gpointer
-e_import_target_new (EImport *ep, gint type, gsize size)
+e_import_target_new (EImport *ep,
+                     gint type,
+                     gsize size)
 {
 	EImportTarget *t;
 
@@ -355,7 +358,8 @@ e_import_target_new (EImport *ep, gint type, gsize size)
  * free custom targets.
  **/
 void
-e_import_target_free (EImport *ep, gpointer o)
+e_import_target_free (EImport *ep,
+                      gpointer o)
 {
 	EImportTarget *t = o;
 
@@ -388,27 +392,26 @@ e_import_target_new_home (EImport *import)
 /* Import menu plugin handler */
 
 /*
-<e-plugin
-  class="org.gnome.mail.plugin.import:1.0"
-  id="org.gnome.mail.plugin.import.item:1.0"
-  type="shlib"
-  location="/opt/gnome2/lib/camel/1.0/libcamelimap.so"
-  name="imap"
-  description="IMAP4 and IMAP4v1 mail store">
-  <hook class="org.gnome.mail.importMenu:1.0"
-        handler="HandleImport">
-  <menu id="any" target="select">
-   <item
-    type="item|toggle|radio|image|submenu|bar"
-    active
-    path="foo/bar"
-    label="label"
-    icon="foo"
-    activate="ep_view_emacs"/>
-  </menu>
-  </extension>
-
-*/
+ * <e-plugin
+ *   class="org.gnome.mail.plugin.import:1.0"
+ *   id="org.gnome.mail.plugin.import.item:1.0"
+ *   type="shlib"
+ *   location="/opt/gnome2/lib/camel/1.0/libcamelimap.so"
+ *   name="imap"
+ *   description="IMAP4 and IMAP4v1 mail store">
+ *   <hook class="org.gnome.mail.importMenu:1.0"
+ *         handler="HandleImport">
+ *   <menu id="any" target="select">
+ *    <item
+ *     type="item|toggle|radio|image|submenu|bar"
+ *     active
+ *     path="foo/bar"
+ *     label="label"
+ *     icon="foo"
+ *     activate="ep_view_emacs"/>
+ *   </menu>
+ * </e-plugin>
+ */
 
 #define emph ((EImportHook *)eph)
 
@@ -472,7 +475,8 @@ eih_cancel (EImport *ei,
 }
 
 static void
-eih_free_importer (EImportImporter *im, gpointer data)
+eih_free_importer (EImportImporter *im,
+                   gpointer data)
 {
 	EImportHookImporter *ihook = (EImportHookImporter *) im;
 
@@ -483,7 +487,8 @@ eih_free_importer (EImportImporter *im, gpointer data)
 }
 
 static struct _EImportHookImporter *
-emph_construct_importer (EPluginHook *eph, xmlNodePtr root)
+emph_construct_importer (EPluginHook *eph,
+                         xmlNodePtr root)
 {
 	struct _EImportHookImporter *item;
 	EImportHookTargetMap *map;
@@ -530,7 +535,9 @@ error:
 }
 
 static gint
-emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
+emph_construct (EPluginHook *eph,
+                EPlugin *ep,
+                xmlNodePtr root)
 {
 	xmlNodePtr node;
 	EImportClass *class;

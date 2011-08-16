@@ -139,14 +139,14 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 static void
-format_date_and_time_x		(struct tm	*date_tm,
-				 struct tm      *current_tm,
-				 gboolean	 use_24_hour_format,
-				 gboolean	 show_midnight,
-				 gboolean	 show_zero_seconds,
-				 gboolean	 is_date,
-				 gchar		*buffer,
-				 gint		 buffer_size)
+format_date_and_time_x (struct tm *date_tm,
+                        struct tm *current_tm,
+                        gboolean use_24_hour_format,
+                        gboolean show_midnight,
+                        gboolean show_zero_seconds,
+                        gboolean is_date,
+                        gchar *buffer,
+                        gint buffer_size)
 {
 	gchar *format;
 	struct tm tomorrow_tm, week_tm;
@@ -192,20 +192,20 @@ format_date_and_time_x		(struct tm	*date_tm,
 		} else if (use_24_hour_format) {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a time,
-				   in 24-hour format, without seconds. */
+				 * in 24-hour format, without seconds. */
 				format = _("Today %H:%M");
 			else
 				/* strftime format of a time,
-				   in 24-hour format. */
+				 * in 24-hour format. */
 				format = _("Today %H:%M:%S");
 		} else {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a time,
-				   in 12-hour format, without seconds. */
+				 * in 12-hour format, without seconds. */
 				format = _("Today %l:%M %p");
 			else
 				/* strftime format of a time,
-				   in 12-hour format. */
+				 * in 12-hour format. */
 				format = _("Today %l:%M:%S %p");
 		}
 
@@ -220,20 +220,20 @@ format_date_and_time_x		(struct tm	*date_tm,
 		} else if (use_24_hour_format) {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a time,
-				   in 24-hour format, without seconds. */
+				 * in 24-hour format, without seconds. */
 				format = _("Tomorrow %H:%M");
 			else
 				/* strftime format of a time,
-				   in 24-hour format. */
+				 * in 24-hour format. */
 				format = _("Tomorrow %H:%M:%S");
 		} else {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a time,
-				   in 12-hour format, without seconds. */
+				 * in 12-hour format, without seconds. */
 				format = _("Tomorrow %l:%M %p");
 			else
 				/* strftime format of a time,
-				   in 12-hour format. */
+				 * in 12-hour format. */
 				format = _("Tomorrow %l:%M:%S %p");
 		}
 
@@ -257,20 +257,20 @@ format_date_and_time_x		(struct tm	*date_tm,
 		} else if (use_24_hour_format) {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a weekday and a
-				   time, in 24-hour format, without seconds. */
+				 * time, in 24-hour format, without seconds. */
 				format = _("%A %H:%M");
 			else
 				/* strftime format of a weekday and a
-				   time, in 24-hour format. */
+				 * time, in 24-hour format. */
 				format = _("%A %H:%M:%S");
 		} else {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a weekday and a
-				   time, in 12-hour format, without seconds. */
+				 * time, in 12-hour format, without seconds. */
 				format = _("%A %l:%M %p");
 			else
 				/* strftime format of a weekday and a
-				   time, in 12-hour format. */
+				 * time, in 12-hour format. */
 				format = _("%A %l:%M:%S %p");
 		}
 
@@ -279,26 +279,26 @@ format_date_and_time_x		(struct tm	*date_tm,
 		if (is_date || (!show_midnight && date_tm->tm_hour == 0
 		    && date_tm->tm_min == 0 && date_tm->tm_sec == 0)) {
 			/* strftime format of a weekday and a date
-			   without a year. */
+			 * without a year. */
 			format = _("%A, %B %e");
 		} else if (use_24_hour_format) {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a weekday, a date
-				   without a year and a time,
-				   in 24-hour format, without seconds. */
+				 * without a year and a time,
+				 * in 24-hour format, without seconds. */
 				format = _("%A, %B %e %H:%M");
 			else
 				/* strftime format of a weekday, a date without a year
-				   and a time, in 24-hour format. */
+				 * and a time, in 24-hour format. */
 				format = _("%A, %B %e %H:%M:%S");
 		} else {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a weekday, a date without a year
-				   and a time, in 12-hour format, without seconds. */
+				 * and a time, in 12-hour format, without seconds. */
 				format = _("%A, %B %e %l:%M %p");
 			else
 				/* strftime format of a weekday, a date without a year
-				   and a time, in 12-hour format. */
+				 * and a time, in 12-hour format. */
 				format = _("%A, %B %e %l:%M:%S %p");
 		}
 	} else {
@@ -309,32 +309,34 @@ format_date_and_time_x		(struct tm	*date_tm,
 		} else if (use_24_hour_format) {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a weekday, a date and a
-				   time, in 24-hour format, without seconds. */
+				 * time, in 24-hour format, without seconds. */
 				format = _("%A, %B %e, %Y %H:%M");
 			else
 				/* strftime format of a weekday, a date and a
-				   time, in 24-hour format. */
+				 * time, in 24-hour format. */
 				format = _("%A, %B %e, %Y %H:%M:%S");
 		} else {
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a weekday, a date and a
-				   time, in 12-hour format, without seconds. */
+				 * time, in 12-hour format, without seconds. */
 				format = _("%A, %B %e, %Y %l:%M %p");
 			else
 				/* strftime format of a weekday, a date and a
-				   time, in 12-hour format. */
+				 * time, in 12-hour format. */
 				format = _("%A, %B %e, %Y %l:%M:%S %p");
 		}
 	}
 
 	/* strftime returns 0 if the string doesn't fit, and leaves the buffer
-	   undefined, so we set it to the empty string in that case. */
+	 * undefined, so we set it to the empty string in that case. */
 	if (e_utf8_strftime_fix_am_pm (buffer, buffer_size, format, date_tm) == 0)
 		buffer[0] = '\0';
 }
 
 static gchar *
-dupe_first_bold (const gchar *format, const gchar *first, const gchar *second)
+dupe_first_bold (const gchar *format,
+                 const gchar *first,
+                 const gchar *second)
 {
 	gchar *f, *s, *res;
 
@@ -721,7 +723,8 @@ update_start_end_times (ItipView *view)
 }
 
 static void
-set_info_items (GtkWidget *info_box, GSList *info_items)
+set_info_items (GtkWidget *info_box,
+                GSList *info_items)
 {
 	GSList *l;
 
@@ -790,7 +793,8 @@ set_lower_info_items (ItipView *view)
 #define DATA_RESPONSE_KEY "ItipView::button_response"
 
 static void
-button_clicked_cb (GtkWidget *widget, gpointer data)
+button_clicked_cb (GtkWidget *widget,
+                   gpointer data)
 {
 	ItipViewResponse response;
 
@@ -949,7 +953,8 @@ itip_view_class_init (ItipViewClass *klass)
 }
 
 static void
-rsvp_toggled_cb (GtkWidget *widget, gpointer data)
+rsvp_toggled_cb (GtkWidget *widget,
+                 gpointer data)
 {
 	ItipView *view = data;
 	ItipViewPrivate *priv;
@@ -964,7 +969,8 @@ rsvp_toggled_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-recur_toggled_cb (GtkWidget *widget, gpointer data)
+recur_toggled_cb (GtkWidget *widget,
+                  gpointer data)
 {
 	ItipView *view = data;
 	ItipViewPrivate *priv;
@@ -979,7 +985,8 @@ recur_toggled_cb (GtkWidget *widget, gpointer data)
   check1 was changed, so make the second available based on state of the first check.
 */
 static void
-alarm_check_toggled_cb (GtkWidget *check1, GtkWidget *check2)
+alarm_check_toggled_cb (GtkWidget *check1,
+                        GtkWidget *check2)
 {
 	g_return_if_fail (check1 != NULL);
 	g_return_if_fail (check2 != NULL);
@@ -1204,7 +1211,8 @@ itip_view_new (void)
 }
 
 void
-itip_view_set_mode (ItipView *view, ItipViewMode mode)
+itip_view_set_mode (ItipView *view,
+                    ItipViewMode mode)
 {
 	ItipViewPrivate *priv;
 
@@ -1233,7 +1241,8 @@ itip_view_get_mode (ItipView *view)
 }
 
 void
-itip_view_set_item_type (ItipView *view, ECalClientSourceType type)
+itip_view_set_item_type (ItipView *view,
+                         ECalClientSourceType type)
 {
 	ItipViewPrivate *priv;
 
@@ -1261,7 +1270,8 @@ itip_view_get_item_type (ItipView *view)
 }
 
 void
-itip_view_set_organizer (ItipView *view, const gchar *organizer)
+itip_view_set_organizer (ItipView *view,
+                         const gchar *organizer)
 {
 	ItipViewPrivate *priv;
 
@@ -1292,7 +1302,8 @@ itip_view_get_organizer (ItipView *view)
 }
 
 void
-itip_view_set_organizer_sentby (ItipView *view, const gchar *sentby)
+itip_view_set_organizer_sentby (ItipView *view,
+                                const gchar *sentby)
 {
 	ItipViewPrivate *priv;
 
@@ -1323,7 +1334,8 @@ itip_view_get_organizer_sentby (ItipView *view)
 }
 
 void
-itip_view_set_attendee (ItipView *view, const gchar *attendee)
+itip_view_set_attendee (ItipView *view,
+                        const gchar *attendee)
 {
 	ItipViewPrivate *priv;
 
@@ -1354,7 +1366,8 @@ itip_view_get_attendee (ItipView *view)
 }
 
 void
-itip_view_set_attendee_sentby (ItipView *view, const gchar *sentby)
+itip_view_set_attendee_sentby (ItipView *view,
+                               const gchar *sentby)
 {
 	ItipViewPrivate *priv;
 
@@ -1385,7 +1398,8 @@ itip_view_get_attendee_sentby (ItipView *view)
 }
 
 void
-itip_view_set_proxy (ItipView *view, const gchar *proxy)
+itip_view_set_proxy (ItipView *view,
+                     const gchar *proxy)
 {
 	ItipViewPrivate *priv;
 
@@ -1416,7 +1430,8 @@ itip_view_get_proxy (ItipView *view)
 }
 
 void
-itip_view_set_delegator (ItipView *view, const gchar *delegator)
+itip_view_set_delegator (ItipView *view,
+                         const gchar *delegator)
 {
 	ItipViewPrivate *priv;
 
@@ -1447,7 +1462,8 @@ itip_view_get_delegator (ItipView *view)
 }
 
 void
-itip_view_set_summary (ItipView *view, const gchar *summary)
+itip_view_set_summary (ItipView *view,
+                       const gchar *summary)
 {
 	ItipViewPrivate *priv;
 
@@ -1478,7 +1494,8 @@ itip_view_get_summary (ItipView *view)
 }
 
 void
-itip_view_set_location (ItipView *view, const gchar *location)
+itip_view_set_location (ItipView *view,
+                        const gchar *location)
 {
 	ItipViewPrivate *priv;
 
@@ -1509,7 +1526,8 @@ itip_view_get_location (ItipView *view)
 }
 
 void
-itip_view_set_status (ItipView *view, const gchar *status)
+itip_view_set_status (ItipView *view,
+                      const gchar *status)
 {
 	ItipViewPrivate *priv;
 
@@ -1540,7 +1558,8 @@ itip_view_get_status (ItipView *view)
 }
 
 void
-itip_view_set_comment (ItipView *view, const gchar *comment)
+itip_view_set_comment (ItipView *view,
+                       const gchar *comment)
 {
 	ItipViewPrivate *priv;
 
@@ -1571,7 +1590,8 @@ itip_view_get_comment (ItipView *view)
 }
 
 void
-itip_view_set_description (ItipView *view, const gchar *description)
+itip_view_set_description (ItipView *view,
+                           const gchar *description)
 {
 	ItipViewPrivate *priv;
 
@@ -1602,7 +1622,9 @@ itip_view_get_description (ItipView *view)
 }
 
 void
-itip_view_set_start (ItipView *view, struct tm *start, gboolean is_date)
+itip_view_set_start (ItipView *view,
+                     struct tm *start,
+                     gboolean is_date)
 {
 	ItipViewPrivate *priv;
 
@@ -1627,7 +1649,8 @@ itip_view_set_start (ItipView *view, struct tm *start, gboolean is_date)
 }
 
 const struct tm *
-itip_view_get_start (ItipView *view, gboolean *is_date)
+itip_view_get_start (ItipView *view,
+                     gboolean *is_date)
 {
 	ItipViewPrivate *priv;
 
@@ -1643,7 +1666,9 @@ itip_view_get_start (ItipView *view, gboolean *is_date)
 }
 
 void
-itip_view_set_end (ItipView *view, struct tm *end, gboolean is_date)
+itip_view_set_end (ItipView *view,
+                   struct tm *end,
+                   gboolean is_date)
 {
 	ItipViewPrivate *priv;
 
@@ -1668,7 +1693,8 @@ itip_view_set_end (ItipView *view, struct tm *end, gboolean is_date)
 }
 
 const struct tm *
-itip_view_get_end (ItipView *view, gboolean *is_date)
+itip_view_get_end (ItipView *view,
+                   gboolean *is_date)
 {
 	ItipViewPrivate *priv;
 
@@ -1684,7 +1710,9 @@ itip_view_get_end (ItipView *view, gboolean *is_date)
 }
 
 guint
-itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const gchar *message)
+itip_view_add_upper_info_item (ItipView *view,
+                               ItipViewInfoItemType type,
+                               const gchar *message)
 {
 	ItipViewPrivate *priv;
 	ItipViewInfoItem *item;
@@ -1708,7 +1736,10 @@ itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const 
 }
 
 guint
-itip_view_add_upper_info_item_printf (ItipView *view, ItipViewInfoItemType type, const gchar *format, ...)
+itip_view_add_upper_info_item_printf (ItipView *view,
+                                      ItipViewInfoItemType type,
+                                      const gchar *format,
+                                      ...)
 {
 	va_list args;
 	gchar *message;
@@ -1728,7 +1759,8 @@ itip_view_add_upper_info_item_printf (ItipView *view, ItipViewInfoItemType type,
 }
 
 void
-itip_view_remove_upper_info_item (ItipView *view, guint id)
+itip_view_remove_upper_info_item (ItipView *view,
+                                  guint id)
 {
 	ItipViewPrivate *priv;
 	GSList *l;
@@ -1779,7 +1811,9 @@ itip_view_clear_upper_info_items (ItipView *view)
 }
 
 guint
-itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const gchar *message)
+itip_view_add_lower_info_item (ItipView *view,
+                               ItipViewInfoItemType type,
+                               const gchar *message)
 {
 	ItipViewPrivate *priv;
 	ItipViewInfoItem *item;
@@ -1803,7 +1837,10 @@ itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const 
 }
 
 guint
-itip_view_add_lower_info_item_printf (ItipView *view, ItipViewInfoItemType type, const gchar *format, ...)
+itip_view_add_lower_info_item_printf (ItipView *view,
+                                      ItipViewInfoItemType type,
+                                      const gchar *format,
+                                      ...)
 {
 	va_list args;
 	gchar *message;
@@ -1823,7 +1860,8 @@ itip_view_add_lower_info_item_printf (ItipView *view, ItipViewInfoItemType type,
 }
 
 void
-itip_view_remove_lower_info_item (ItipView *view, guint id)
+itip_view_remove_lower_info_item (ItipView *view,
+                                  guint id)
 {
 	ItipViewPrivate *priv;
 	GSList *l;
@@ -1874,7 +1912,8 @@ itip_view_clear_lower_info_items (ItipView *view)
 }
 
 static void
-source_changed_cb (ESourceComboBox *escb, ItipView *view)
+source_changed_cb (ESourceComboBox *escb,
+                   ItipView *view)
 {
 	ESource *source;
 
@@ -1884,7 +1923,8 @@ source_changed_cb (ESourceComboBox *escb, ItipView *view)
 }
 
 void
-itip_view_set_source_list (ItipView *view, ESourceList *source_list)
+itip_view_set_source_list (ItipView *view,
+                           ESourceList *source_list)
 {
 	ItipViewPrivate *priv;
 
@@ -1949,7 +1989,8 @@ itip_view_get_source_list (ItipView *view)
 }
 
 void
-itip_view_set_source (ItipView *view, ESource *source)
+itip_view_set_source (ItipView *view,
+                      ESource *source)
 {
 	ItipViewPrivate *priv;
 
@@ -1983,7 +2024,8 @@ itip_view_get_source (ItipView *view)
 }
 
 void
-itip_view_set_rsvp (ItipView *view, gboolean rsvp)
+itip_view_set_rsvp (ItipView *view,
+                    gboolean rsvp)
 {
 	ItipViewPrivate *priv;
 
@@ -2012,7 +2054,8 @@ itip_view_get_rsvp (ItipView *view)
 }
 
 void
-itip_view_set_show_rsvp (ItipView *view, gboolean rsvp)
+itip_view_set_show_rsvp (ItipView *view,
+                         gboolean rsvp)
 {
 	ItipViewPrivate *priv;
 
@@ -2040,7 +2083,8 @@ itip_view_get_show_rsvp (ItipView *view)
 }
 
 void
-itip_view_set_update (ItipView *view, gboolean update)
+itip_view_set_update (ItipView *view,
+                      gboolean update)
 {
 	ItipViewPrivate *priv;
 
@@ -2066,7 +2110,8 @@ itip_view_get_update (ItipView *view)
 }
 
 void
-itip_view_set_show_update (ItipView *view, gboolean update)
+itip_view_set_show_update (ItipView *view,
+                           gboolean update)
 {
 	ItipViewPrivate *priv;
 
@@ -2094,7 +2139,8 @@ itip_view_get_show_update (ItipView *view)
 }
 
 void
-itip_view_set_rsvp_comment (ItipView *view, const gchar *comment)
+itip_view_set_rsvp_comment (ItipView *view,
+                            const gchar *comment)
 {
 	ItipViewPrivate *priv;
 
@@ -2120,7 +2166,8 @@ itip_view_get_rsvp_comment (ItipView *view)
 }
 
 void
-itip_view_set_needs_decline (ItipView *view, gboolean needs_decline)
+itip_view_set_needs_decline (ItipView *view,
+                             gboolean needs_decline)
 {
 	ItipViewPrivate *priv;
 
@@ -2133,7 +2180,8 @@ itip_view_set_needs_decline (ItipView *view, gboolean needs_decline)
 }
 
 void
-itip_view_set_buttons_sensitive (ItipView *view, gboolean sensitive)
+itip_view_set_buttons_sensitive (ItipView *view,
+                                 gboolean sensitive)
 {
 	ItipViewPrivate *priv;
 
@@ -2167,7 +2215,8 @@ itip_view_get_recur_check_state (ItipView *view)
 }
 
 void
-itip_view_set_show_recur_check (ItipView *view, gboolean show)
+itip_view_set_show_recur_check (ItipView *view,
+                                gboolean show)
 {
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (ITIP_IS_VIEW (view));
@@ -2181,7 +2230,8 @@ itip_view_set_show_recur_check (ItipView *view, gboolean show)
 }
 
 void
-itip_view_set_show_free_time_check (ItipView *view, gboolean show)
+itip_view_set_show_free_time_check (ItipView *view,
+                                    gboolean show)
 {
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (ITIP_IS_VIEW (view));
@@ -2203,7 +2253,8 @@ itip_view_get_free_time_check_state (ItipView *view)
 }
 
 void
-itip_view_set_show_keep_alarm_check (ItipView *view, gboolean show)
+itip_view_set_show_keep_alarm_check (ItipView *view,
+                                     gboolean show)
 {
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (ITIP_IS_VIEW (view));
@@ -2226,7 +2277,8 @@ itip_view_get_keep_alarm_check_state (ItipView *view)
 }
 
 void
-itip_view_set_show_inherit_alarm_check (ItipView *view, gboolean show)
+itip_view_set_show_inherit_alarm_check (ItipView *view,
+                                        gboolean show)
 {
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (ITIP_IS_VIEW (view));

@@ -68,7 +68,7 @@ mailto_handler_get_shell (EMailtoHandler *extension)
 }
 
 static gboolean
-mailto_handler_is_evolution (/*const*/ GAppInfo *app_info)
+mailto_handler_is_evolution (/*const */ GAppInfo *app_info)
 {
 	gint argc;
 	gchar **argv;

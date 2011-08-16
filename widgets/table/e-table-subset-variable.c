@@ -40,8 +40,8 @@ G_DEFINE_TYPE (ETableSubsetVariable, etssv, E_TYPE_TABLE_SUBSET)
 #define INCREMENT_AMOUNT 10
 
 static void
-etssv_add       (ETableSubsetVariable *etssv,
-		 gint                  row)
+etssv_add (ETableSubsetVariable *etssv,
+           gint row)
 {
 	ETableModel *etm = E_TABLE_MODEL (etssv);
 	ETableSubset *etss = E_TABLE_SUBSET (etssv);
@@ -62,8 +62,8 @@ etssv_add       (ETableSubsetVariable *etssv,
 
 static void
 etssv_add_array (ETableSubsetVariable *etssv,
-		 const gint           *array,
-		 gint                  count)
+                 const gint *array,
+                 gint count)
 {
 	ETableModel *etm = E_TABLE_MODEL (etssv);
 	ETableSubset *etss = E_TABLE_SUBSET (etssv);
@@ -84,7 +84,7 @@ etssv_add_array (ETableSubsetVariable *etssv,
 }
 
 static void
-etssv_add_all   (ETableSubsetVariable *etssv)
+etssv_add_all (ETableSubsetVariable *etssv)
 {
 	ETableModel *etm = E_TABLE_MODEL (etssv);
 	ETableSubset *etss = E_TABLE_SUBSET (etssv);
@@ -107,8 +107,8 @@ etssv_add_all   (ETableSubsetVariable *etssv)
 }
 
 static gboolean
-etssv_remove    (ETableSubsetVariable *etssv,
-		 gint                  row)
+etssv_remove (ETableSubsetVariable *etssv,
+              gint row)
 {
 	ETableModel *etm = E_TABLE_MODEL (etssv);
 	ETableSubset *etss = E_TABLE_SUBSET (etssv);
@@ -147,7 +147,7 @@ etssv_init (ETableSubsetVariable *etssv)
 
 ETableModel *
 e_table_subset_variable_construct (ETableSubsetVariable *etssv,
-				   ETableModel          *source)
+                                   ETableModel *source)
 {
 	if (e_table_subset_construct (E_TABLE_SUBSET (etssv), source, 1) == NULL)
 		return NULL;
@@ -170,8 +170,8 @@ e_table_subset_variable_new (ETableModel *source)
 }
 
 void
-e_table_subset_variable_add       (ETableSubsetVariable *etssv,
-				   gint                  row)
+e_table_subset_variable_add (ETableSubsetVariable *etssv,
+                             gint row)
 {
 	g_return_if_fail (etssv != NULL);
 	g_return_if_fail (E_IS_TABLE_SUBSET_VARIABLE (etssv));
@@ -181,9 +181,9 @@ e_table_subset_variable_add       (ETableSubsetVariable *etssv,
 }
 
 void
-e_table_subset_variable_add_array   (ETableSubsetVariable *etssv,
-				     const gint           *array,
-				     gint                  count)
+e_table_subset_variable_add_array (ETableSubsetVariable *etssv,
+                                   const gint *array,
+                                   gint count)
 {
 	g_return_if_fail (etssv != NULL);
 	g_return_if_fail (E_IS_TABLE_SUBSET_VARIABLE (etssv));
@@ -193,7 +193,7 @@ e_table_subset_variable_add_array   (ETableSubsetVariable *etssv,
 }
 
 void
-e_table_subset_variable_add_all   (ETableSubsetVariable *etssv)
+e_table_subset_variable_add_all (ETableSubsetVariable *etssv)
 {
 	g_return_if_fail (etssv != NULL);
 	g_return_if_fail (E_IS_TABLE_SUBSET_VARIABLE (etssv));
@@ -203,8 +203,8 @@ e_table_subset_variable_add_all   (ETableSubsetVariable *etssv)
 }
 
 gboolean
-e_table_subset_variable_remove    (ETableSubsetVariable *etssv,
-				   gint                  row)
+e_table_subset_variable_remove (ETableSubsetVariable *etssv,
+                                gint row)
 {
 	g_return_val_if_fail (etssv != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_SUBSET_VARIABLE (etssv), FALSE);
@@ -224,7 +224,7 @@ e_table_subset_variable_clear (ETableSubsetVariable *etssv)
 	e_table_model_pre_change (etm);
 	etss->n_map = 0;
 	g_free (etss->map_table);
-	etss->map_table = (gint *) g_new (unsigned int, 1);
+	etss->map_table = (gint *) g_new (guint, 1);
 	etssv->n_vals_allocated = 1;
 
 	e_table_model_changed (etm);
@@ -232,8 +232,8 @@ e_table_subset_variable_clear (ETableSubsetVariable *etssv)
 
 void
 e_table_subset_variable_increment (ETableSubsetVariable *etssv,
-				   gint                  position,
-				   gint                  amount)
+                                   gint position,
+                                   gint amount)
 {
 	gint i;
 	ETableSubset *etss = E_TABLE_SUBSET (etssv);
@@ -245,8 +245,8 @@ e_table_subset_variable_increment (ETableSubsetVariable *etssv,
 
 void
 e_table_subset_variable_decrement (ETableSubsetVariable *etssv,
-				   gint                  position,
-				   gint                  amount)
+                                   gint position,
+                                   gint amount)
 {
 	gint i;
 	ETableSubset *etss = E_TABLE_SUBSET (etssv);
@@ -258,7 +258,7 @@ e_table_subset_variable_decrement (ETableSubsetVariable *etssv,
 
 void
 e_table_subset_variable_set_allocation (ETableSubsetVariable *etssv,
-					gint total)
+                                        gint total)
 {
 	ETableSubset *etss = E_TABLE_SUBSET (etssv);
 	if (total <= 0)

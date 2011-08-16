@@ -193,12 +193,12 @@ get_token (const gchar **sp,
 			(*sp)++;
 		if (**sp == '\'') {
 			q = *sp;
-			res = LDAP_MALLOC (q-p+1);
+			res = LDAP_MALLOC (q - p + 1);
 			if (!res) {
 				kind = TK_OUTOFMEM;
 			} else {
-				strncpy (res,p,q-p);
-				res[q-p] = '\0';
+				strncpy (res,p,q - p);
+				res[q - p] = '\0';
 				*token_val = res;
 			}
 			(*sp)++;
@@ -217,12 +217,12 @@ get_token (const gchar **sp,
 			**sp != '\0')
 			(*sp)++;
 		q = *sp;
-		res = LDAP_MALLOC (q-p+1);
+		res = LDAP_MALLOC (q - p + 1);
 		if (!res) {
 			kind = TK_OUTOFMEM;
 		} else {
-			strncpy (res,p,q-p);
-			res[q-p] = '\0';
+			strncpy (res,p,q - p);
+			res[q - p] = '\0';
 			*token_val = res;
 		}
 		break;
@@ -287,7 +287,7 @@ ldap_int_parse_numericoid (const gchar **sp, gint *code, const gint flags)
 	if (flags & LDAP_SCHEMA_SKIP) {
 		res = (gchar *) start;
 	} else {
-		res = LDAP_MALLOC (len+1);
+		res = LDAP_MALLOC (len + 1);
 		if (!res) {
 			*code = LDAP_SCHERR_OUTOFMEM;
 			return (NULL);
@@ -326,9 +326,9 @@ parse_qdescrs (const gchar **sp, gint *code)
 			if (kind == TK_RIGHTPAREN)
 				break;
 			if (kind == TK_QDESCR) {
-				if (pos == size-2) {
+				if (pos == size - 2) {
 					size++;
-					res1 = LDAP_REALLOC (res,size*sizeof (gchar *));
+					res1 = LDAP_REALLOC (res,size *sizeof (gchar *));
 					if (!res1) {
 						LDAP_VFREE (res);
 						LDAP_FREE (sval);
@@ -417,9 +417,9 @@ parse_oids (const gchar **sp, gint *code, const gint allow_quoted)
 				if (kind == TK_BAREWORD ||
 				     (allow_quoted &&
 				       kind == TK_QDSTRING)) {
-					if (pos == size-2) {
+					if (pos == size - 2) {
 						size++;
-						res1 = LDAP_REALLOC (res,size*sizeof (gchar *));
+						res1 = LDAP_REALLOC (res,size *sizeof (gchar *));
 						if (!res1) {
 							LDAP_FREE (sval);
 							LDAP_VFREE (res);
@@ -551,8 +551,8 @@ ldap_str2objectclass (LDAP_CONST gchar *s,
 				} else if (flags &
 					LDAP_SCHEMA_ALLOW_OID_MACRO) {
 					/* Non-numerical OID, ignore */
-					gint len = ss-savepos;
-					oc->oc_oid = LDAP_MALLOC (len+1);
+					gint len = ss - savepos;
+					oc->oc_oid = LDAP_MALLOC (len + 1);
 					strncpy (oc->oc_oid, savepos, len);
 					oc->oc_oid[len] = 0;
 				}
@@ -1124,7 +1124,7 @@ ldap_url_parse_ext (LDAP_CONST gchar *url_in,
 	}
 
 	if (enclosed) {
-		p = &url[strlen (url)-1];
+		p = &url[strlen (url) - 1];
 
 		if (*p != '>') {
 			LDAP_FREE (url);
@@ -1391,7 +1391,7 @@ ldap_url_parse_ext (LDAP_CONST gchar *url_in,
 		return LDAP_URL_ERR_BADEXTS;
 	}
 
-	for (i=0; ludp->lud_exts[i] != NULL; i++) {
+	for (i = 0; ludp->lud_exts[i] != NULL; i++) {
 		ldap_pvt_hex_unescape (ludp->lud_exts[i]);
 
 		if (*ludp->lud_exts[i] == '!') {

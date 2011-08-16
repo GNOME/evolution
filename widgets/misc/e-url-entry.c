@@ -106,7 +106,8 @@ finalize (GObject *object)
 
 /* GtkWidget::mnemonic_activate() handler for the EUrlEntry */
 static gboolean
-mnemonic_activate (GtkWidget *widget, gboolean group_cycling)
+mnemonic_activate (GtkWidget *widget,
+                   gboolean group_cycling)
 {
 	EUrlEntry *url_entry;
 	EUrlEntryPrivate *priv;
@@ -139,7 +140,8 @@ e_url_entry_get_entry (EUrlEntry *url_entry)
 }
 
 static void
-button_clicked_cb (GtkWidget *widget, gpointer data)
+button_clicked_cb (GtkWidget *widget,
+                   gpointer data)
 {
 	EUrlEntry *url_entry;
 	EUrlEntryPrivate *priv;
@@ -155,7 +157,8 @@ button_clicked_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-entry_changed_cb (GtkEditable *editable, gpointer data)
+entry_changed_cb (GtkEditable *editable,
+                  gpointer data)
 {
 	EUrlEntry *url_entry;
 	EUrlEntryPrivate *priv;

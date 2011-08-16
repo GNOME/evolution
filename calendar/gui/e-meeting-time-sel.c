@@ -74,7 +74,7 @@ const gchar *EMeetingTimeSelectorHours12[24] = {
 #define E_MEETING_TIME_SELECTOR_FB_DAYS_AFTER           28
 
 /* This is the number of pixels between the mouse has to move before the
-   scroll speed is incremented. */
+ * scroll speed is incremented. */
 #define E_MEETING_TIME_SELECTOR_SCROLL_INCREMENT_WIDTH	10
 
 /* This is the maximum scrolling speed. */
@@ -150,22 +150,22 @@ static void e_meeting_time_selector_on_next_button_clicked (GtkWidget *button,
 							    EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_autopick (EMeetingTimeSelector *mts,
 					      gboolean forward);
-static void e_meeting_time_selector_calculate_time_difference (EMeetingTime*start,
-							       EMeetingTime*end,
+static void e_meeting_time_selector_calculate_time_difference (EMeetingTime *start,
+							       EMeetingTime *end,
 							       gint *days,
 							       gint *hours,
 							       gint *minutes);
 static void e_meeting_time_selector_find_nearest_interval (EMeetingTimeSelector *mts,
-							   EMeetingTime*start_time,
-							   EMeetingTime*end_time,
+							   EMeetingTime *start_time,
+							   EMeetingTime *end_time,
 							   gint days, gint hours, gint mins);
 static void e_meeting_time_selector_find_nearest_interval_backward (EMeetingTimeSelector *mts,
 								    EMeetingTime *start_time,
 								    EMeetingTime *end_time,
 								    gint days, gint hours, gint mins);
-static void e_meeting_time_selector_adjust_time (EMeetingTime*mtstime,
+static void e_meeting_time_selector_adjust_time (EMeetingTime *mtstime,
 						 gint days, gint hours, gint minutes);
-static EMeetingFreeBusyPeriod* e_meeting_time_selector_find_time_clash (EMeetingTimeSelector *mts,
+static EMeetingFreeBusyPeriod * e_meeting_time_selector_find_time_clash (EMeetingTimeSelector *mts,
 									EMeetingAttendee *attendee,
 									EMeetingTime *start_time,
 									EMeetingTime *end_time);
@@ -175,7 +175,7 @@ static void e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mt
 static void e_meeting_time_selector_save_position (EMeetingTimeSelector *mts,
 						   EMeetingTime *mtstime);
 static void e_meeting_time_selector_restore_position (EMeetingTimeSelector *mts,
-						      EMeetingTime*mtstime);
+						      EMeetingTime *mtstime);
 static void e_meeting_time_selector_on_start_time_changed (GtkWidget *widget,
 							   EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_on_end_time_changed (GtkWidget *widget,
@@ -298,7 +298,7 @@ meeting_time_selector_dispose (GObject *object)
 }
 
 static void
-e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * class)
+e_meeting_time_selector_class_init (EMeetingTimeSelectorClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
@@ -359,7 +359,7 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * class)
 }
 
 static void
-e_meeting_time_selector_init (EMeetingTimeSelector * mts)
+e_meeting_time_selector_init (EMeetingTimeSelector *mts)
 {
 	mts->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		mts, E_TYPE_MEETING_TIME_SELECTOR,
@@ -387,7 +387,8 @@ e_meeting_time_selector_init (EMeetingTimeSelector * mts)
 }
 
 void
-e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *ems)
+e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
+                                   EMeetingStore *ems)
 {
 	GtkWidget *hbox, *vbox, *separator, *label, *table, *sw;
 	GtkWidget *alignment, *child_hbox, *arrow, *menuitem;
@@ -401,7 +402,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	AtkObject *a11y_label, *a11y_date_edit;
 
 	/* The default meeting time is the nearest half-hour interval in the
-	   future, in working hours. */
+	 * future, in working hours. */
 	meeting_start_time = time (NULL);
 	g_date_clear (&mts->meeting_start_time.date, 1);
 	g_date_set_time_t (&mts->meeting_start_time.date, meeting_start_time);
@@ -859,11 +860,12 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 }
 
 /* This adds a color to the color key beneath the main display. If color is
-   NULL, it displays the No Info pattern instead. */
+ * NULL, it displays the No Info pattern instead. */
 static void
-e_meeting_time_selector_add_key_color (EMeetingTimeSelector * mts,
-				       GtkWidget *hbox,
-				       gchar *label_text, GdkColor *color)
+e_meeting_time_selector_add_key_color (EMeetingTimeSelector *mts,
+                                       GtkWidget *hbox,
+                                       gchar *label_text,
+                                       GdkColor *color)
 {
 	GtkWidget *child_hbox, *darea, *label;
 
@@ -888,7 +890,9 @@ e_meeting_time_selector_add_key_color (EMeetingTimeSelector * mts,
 }
 
 static gint
-e_meeting_time_selector_draw_key_color (GtkWidget *darea, cairo_t *cr, GdkColor *color)
+e_meeting_time_selector_draw_key_color (GtkWidget *darea,
+                                        cairo_t *cr,
+                                        GdkColor *color)
 {
 	EMeetingTimeSelector * mts;
 	GtkAllocation allocation;
@@ -918,8 +922,9 @@ e_meeting_time_selector_draw_key_color (GtkWidget *darea, cairo_t *cr, GdkColor 
 }
 
 static void
-e_meeting_time_selector_alloc_named_color (EMeetingTimeSelector * mts,
-					   const gchar *name, GdkColor *c)
+e_meeting_time_selector_alloc_named_color (EMeetingTimeSelector *mts,
+                                           const gchar *name,
+                                           GdkColor *c)
 {
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (c != NULL);
@@ -930,7 +935,7 @@ e_meeting_time_selector_alloc_named_color (EMeetingTimeSelector * mts,
 
 static void
 e_meeting_time_selector_options_menu_detacher (GtkWidget *widget,
-					       GtkMenu   *menu)
+                                               GtkMenu *menu)
 {
 	EMeetingTimeSelector *mts;
 
@@ -938,14 +943,14 @@ e_meeting_time_selector_options_menu_detacher (GtkWidget *widget,
 	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (widget));
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
-	g_return_if_fail (mts->options_menu == (GtkWidget*) menu);
+	g_return_if_fail (mts->options_menu == (GtkWidget *) menu);
 
 	mts->options_menu = NULL;
 }
 
 static void
 e_meeting_time_selector_autopick_menu_detacher (GtkWidget *widget,
-						GtkMenu   *menu)
+                                                GtkMenu *menu)
 {
 	EMeetingTimeSelector *mts;
 
@@ -953,7 +958,7 @@ e_meeting_time_selector_autopick_menu_detacher (GtkWidget *widget,
 	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (widget));
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
-	g_return_if_fail (mts->autopick_menu == (GtkWidget*) menu);
+	g_return_if_fail (mts->autopick_menu == (GtkWidget *) menu);
 
 	mts->autopick_menu = NULL;
 }
@@ -1149,12 +1154,12 @@ style_change_idle_func (EMeetingTimeSelector *mts)
 	 * FIXME: I can't find a way to get the treeview header heights
 	 * other than the below but it isn't nice to realize that widget here
 	 *
-
+ *
 	gtk_widget_realize (mts->list_view);
 	gdk_window_get_position (gtk_tree_view_get_bin_window (GTK_TREE_VIEW (mts->list_view)),
 				 NULL, &maxheight);
 	gtk_widget_set_size_request (mts->attendees_vbox_spacer, 1, mts->row_height * 3 - maxheight);
-
+ *
 	*/
 
 	gtk_widget_set_size_request (mts->attendees_vbox_spacer, 1, mts->row_height * 2 - 6);
@@ -1177,7 +1182,7 @@ style_change_idle_func (EMeetingTimeSelector *mts)
 
 static void
 e_meeting_time_selector_style_set (GtkWidget *widget,
-				   GtkStyle  *previous_style)
+                                   GtkStyle *previous_style)
 {
 	EMeetingTimeSelector *mts = E_MEETING_TIME_SELECTOR (widget);
 
@@ -1191,7 +1196,8 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 
 /* This draws a shadow around the top display and main display. */
 static gint
-e_meeting_time_selector_draw (GtkWidget *widget, cairo_t *cr)
+e_meeting_time_selector_draw (GtkWidget *widget,
+                              cairo_t *cr)
 {
 	EMeetingTimeSelector *mts;
 
@@ -1206,7 +1212,8 @@ e_meeting_time_selector_draw (GtkWidget *widget, cairo_t *cr)
 }
 
 static void
-e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts, cairo_t *cr)
+e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts,
+                                     cairo_t *cr)
 {
 	GtkAllocation allocation;
 	GtkStyle *style;
@@ -1233,7 +1240,7 @@ e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts, cairo_t *cr)
 /* When the main canvas scrolls, we scroll the other canvases. */
 static void
 e_meeting_time_selector_hadjustment_changed (GtkAdjustment *adjustment,
-					     EMeetingTimeSelector *mts)
+                                             EMeetingTimeSelector *mts)
 {
 	GtkAdjustment *hadjustment;
 	GtkScrollable *scrollable;
@@ -1248,7 +1255,7 @@ e_meeting_time_selector_hadjustment_changed (GtkAdjustment *adjustment,
 
 static void
 e_meeting_time_selector_vadjustment_changed (GtkAdjustment *adjustment,
-					     EMeetingTimeSelector *mts)
+                                             EMeetingTimeSelector *mts)
 {
 	GtkAdjustment *vadjustment;
 	GtkTreeView *tree_view;
@@ -1263,16 +1270,16 @@ e_meeting_time_selector_vadjustment_changed (GtkAdjustment *adjustment,
 
 void
 e_meeting_time_selector_get_meeting_time (EMeetingTimeSelector *mts,
-					  gint *start_year,
-					  gint *start_month,
-					  gint *start_day,
-					  gint *start_hour,
-					  gint *start_minute,
-					  gint *end_year,
-					  gint *end_month,
-					  gint *end_day,
-					  gint *end_hour,
-					  gint *end_minute)
+                                          gint *start_year,
+                                          gint *start_month,
+                                          gint *start_day,
+                                          gint *start_hour,
+                                          gint *start_minute,
+                                          gint *end_year,
+                                          gint *end_month,
+                                          gint *end_day,
+                                          gint *end_hour,
+                                          gint *end_minute)
 {
 	*start_year = g_date_get_year (&mts->meeting_start_time.date);
 	*start_month = g_date_get_month (&mts->meeting_start_time.date);
@@ -1289,16 +1296,16 @@ e_meeting_time_selector_get_meeting_time (EMeetingTimeSelector *mts,
 
 gboolean
 e_meeting_time_selector_set_meeting_time (EMeetingTimeSelector *mts,
-					  gint start_year,
-					  gint start_month,
-					  gint start_day,
-					  gint start_hour,
-					  gint start_minute,
-					  gint end_year,
-					  gint end_month,
-					  gint end_day,
-					  gint end_hour,
-					  gint end_minute)
+                                          gint start_year,
+                                          gint start_month,
+                                          gint start_day,
+                                          gint start_hour,
+                                          gint start_minute,
+                                          gint end_year,
+                                          gint end_month,
+                                          gint end_day,
+                                          gint end_hour,
+                                          gint end_minute)
 {
 	g_return_val_if_fail (E_IS_MEETING_TIME_SELECTOR (mts), FALSE);
 
@@ -1336,7 +1343,7 @@ e_meeting_time_selector_set_meeting_time (EMeetingTimeSelector *mts,
 
 void
 e_meeting_time_selector_set_all_day (EMeetingTimeSelector *mts,
-				     gboolean all_day)
+                                     gboolean all_day)
 {
 	EMeetingTime saved_time;
 
@@ -1358,7 +1365,7 @@ e_meeting_time_selector_set_all_day (EMeetingTimeSelector *mts,
 
 void
 e_meeting_time_selector_set_working_hours_only (EMeetingTimeSelector *mts,
-						gboolean working_hours_only)
+                                                gboolean working_hours_only)
 {
 	EMeetingTime saved_time;
 
@@ -1380,10 +1387,10 @@ e_meeting_time_selector_set_working_hours_only (EMeetingTimeSelector *mts,
 
 void
 e_meeting_time_selector_set_working_hours (EMeetingTimeSelector *mts,
-					   gint day_start_hour,
-					   gint day_start_minute,
-					   gint day_end_hour,
-					   gint day_end_minute)
+                                           gint day_start_hour,
+                                           gint day_start_minute,
+                                           gint day_end_hour,
+                                           gint day_end_minute)
 {
 	EMeetingTime saved_time;
 
@@ -1418,7 +1425,7 @@ e_meeting_time_selector_set_working_hours (EMeetingTimeSelector *mts,
 
 void
 e_meeting_time_selector_set_zoomed_out (EMeetingTimeSelector *mts,
-					gboolean zoomed_out)
+                                        gboolean zoomed_out)
 {
 	EMeetingTime saved_time;
 
@@ -1469,7 +1476,9 @@ e_meeting_time_selector_refresh_cb (gpointer data)
 }
 
 void
-e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, gint row, gboolean all)
+e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts,
+                                           gint row,
+                                           gboolean all)
 {
 	EMeetingTime start, end;
 
@@ -1547,7 +1556,7 @@ e_meeting_time_selector_get_autopick_option (EMeetingTimeSelector *mts)
 
 void
 e_meeting_time_selector_set_autopick_option (EMeetingTimeSelector *mts,
-					     EMeetingTimeSelectorAutopickOption autopick_option)
+                                             EMeetingTimeSelectorAutopickOption autopick_option)
 {
 	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (mts));
 
@@ -1566,26 +1575,10 @@ e_meeting_time_selector_set_autopick_option (EMeetingTimeSelector *mts,
 		break;
 	}
 }
-#if 0
-void
-e_meeting_time_selector_attendee_set_send_meeting_to (EMeetingTimeSelector *mts,
-						      gint row,
-						      gboolean send_meeting_to)
-{
-	EMeetingTimeSelectorAttendee *attendee;
-
-	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (mts));
-	g_return_if_fail (row >= 0);
-	g_return_if_fail (row < mts->attendees->len);
-
-	attendee = &g_array_index (mts->attendees,
-				   EMeetingTimeSelectorAttendee, row);
-	attendee->send_meeting_to = send_meeting_to;
-}
-#endif
 
 void
-e_meeting_time_selector_set_read_only (EMeetingTimeSelector *mts, gboolean read_only)
+e_meeting_time_selector_set_read_only (EMeetingTimeSelector *mts,
+                                       gboolean read_only)
 {
 	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (mts));
 
@@ -1651,9 +1644,9 @@ e_meeting_time_selector_dump (EMeetingTimeSelector *mts)
 }
 
 /* This formats a EMeetingTimein a string and returns it.
-   Note that it uses a static buffer. */
+ * Note that it uses a static buffer. */
 gchar *
-e_meeting_time_selector_dump_time (EMeetingTime*mtstime)
+e_meeting_time_selector_dump_time (EMeetingTime *mtstime)
 {
 	static gchar buffer[128];
 
@@ -1670,7 +1663,7 @@ e_meeting_time_selector_dump_time (EMeetingTime*mtstime)
 }
 
 /* This formats a GDate in a string and returns it.
-   Note that it uses a static buffer. */
+ * Note that it uses a static buffer. */
 gchar *
 e_meeting_time_selector_dump_date (GDate *date)
 {
@@ -1685,14 +1678,14 @@ e_meeting_time_selector_dump_date (GDate *date)
 
 static void
 e_meeting_time_selector_on_invite_others_button_clicked (GtkWidget *button,
-							 EMeetingTimeSelector *mts)
+                                                         EMeetingTimeSelector *mts)
 {
 	e_meeting_list_view_invite_others_dialog (mts->list_view);
 }
 
 static void
 e_meeting_time_selector_on_options_button_clicked (GtkWidget *button,
-						   EMeetingTimeSelector *mts)
+                                                   EMeetingTimeSelector *mts)
 {
 	gtk_menu_popup (GTK_MENU (mts->options_menu), NULL, NULL,
 			e_meeting_time_selector_options_menu_position_callback,
@@ -1701,10 +1694,10 @@ e_meeting_time_selector_on_options_button_clicked (GtkWidget *button,
 
 static void
 e_meeting_time_selector_options_menu_position_callback (GtkMenu *menu,
-							gint *x,
-							gint *y,
-							gboolean *push_in,
-							gpointer user_data)
+                                                        gint *x,
+                                                        gint *y,
+                                                        gboolean *push_in,
+                                                        gpointer user_data)
 {
 	EMeetingTimeSelector *mts;
 	GtkRequisition menu_requisition;
@@ -1733,10 +1726,10 @@ e_meeting_time_selector_options_menu_position_callback (GtkMenu *menu,
 
 static void
 e_meeting_time_selector_on_update_free_busy (GtkWidget *button,
-					     EMeetingTimeSelector *mts)
+                                             EMeetingTimeSelector *mts)
 {
 	/* Make sure the menu pops down, which doesn't happen by default if
-	   keyboard accelerators are used. */
+	 * keyboard accelerators are used. */
 	if (gtk_widget_get_visible (mts->options_menu))
 		gtk_menu_popdown (GTK_MENU (mts->options_menu));
 
@@ -1745,7 +1738,7 @@ e_meeting_time_selector_on_update_free_busy (GtkWidget *button,
 
 static void
 e_meeting_time_selector_on_autopick_button_clicked (GtkWidget *button,
-						    EMeetingTimeSelector *mts)
+                                                    EMeetingTimeSelector *mts)
 {
 	gtk_menu_popup (GTK_MENU (mts->autopick_menu), NULL, NULL,
 			e_meeting_time_selector_autopick_menu_position_callback,
@@ -1754,10 +1747,10 @@ e_meeting_time_selector_on_autopick_button_clicked (GtkWidget *button,
 
 static void
 e_meeting_time_selector_autopick_menu_position_callback (GtkMenu *menu,
-							 gint *x,
-							 gint *y,
-							 gboolean *push_in,
-							 gpointer user_data)
+                                                         gint *x,
+                                                         gint *y,
+                                                         gboolean *push_in,
+                                                         gpointer user_data)
 {
 	EMeetingTimeSelector *mts;
 	GtkRequisition menu_requisition;
@@ -1786,33 +1779,33 @@ e_meeting_time_selector_autopick_menu_position_callback (GtkMenu *menu,
 
 static void
 e_meeting_time_selector_on_autopick_option_toggled (GtkWidget *button,
-						    EMeetingTimeSelector *mts)
+                                                    EMeetingTimeSelector *mts)
 {
 	/* Make sure the menu pops down, which doesn't happen by default if
-	   keyboard accelerators are used. */
+	 * keyboard accelerators are used. */
 	if (gtk_widget_get_visible (mts->autopick_menu))
 		gtk_menu_popdown (GTK_MENU (mts->autopick_menu));
 }
 
 static void
 e_meeting_time_selector_on_prev_button_clicked (GtkWidget *button,
-						EMeetingTimeSelector *mts)
+                                                EMeetingTimeSelector *mts)
 {
 	e_meeting_time_selector_autopick (mts, FALSE);
 }
 
 static void
 e_meeting_time_selector_on_next_button_clicked (GtkWidget *button,
-						EMeetingTimeSelector *mts)
+                                                EMeetingTimeSelector *mts)
 {
 	e_meeting_time_selector_autopick (mts, TRUE);
 }
 
 /* This tries to find the previous or next meeting time for which all
-   attendees will be available. */
+ * attendees will be available. */
 static void
 e_meeting_time_selector_autopick (EMeetingTimeSelector *mts,
-				  gboolean forward)
+                                  gboolean forward)
 {
 	EMeetingTime start_time, end_time, *resource_free;
 	EMeetingAttendee *attendee;
@@ -1833,7 +1826,7 @@ e_meeting_time_selector_autopick (EMeetingTimeSelector *mts,
 		e_meeting_time_selector_find_nearest_interval_backward (mts, &start_time, &end_time, duration_days, duration_hours, duration_minutes);
 
 	/* Determine if we can skip optional people and if we only need one
-	   resource based on the autopick option. */
+	 * resource based on the autopick option. */
 	autopick_option = e_meeting_time_selector_get_autopick_option (mts);
 	if (autopick_option == E_MEETING_TIME_SELECTOR_REQUIRED_PEOPLE
 	    || autopick_option == E_MEETING_TIME_SELECTOR_REQUIRED_PEOPLE_AND_ONE_RESOURCE)
@@ -1843,14 +1836,14 @@ e_meeting_time_selector_autopick (EMeetingTimeSelector *mts,
 		need_one_resource = TRUE;
 
 	/* Keep moving forward or backward until we find a possible meeting
-	   time. */
+	 * time. */
 	for (;;) {
 		meeting_time_ok = TRUE;
 		found_resource = FALSE;
 		resource_free = NULL;
 
 		/* Step through each attendee, checking if the meeting time
-		   intersects one of the attendees busy periods. */
+		 * intersects one of the attendees busy periods. */
 		for (row = 0; row <  e_meeting_store_count_actual_attendees (mts->model); row++) {
 			attendee = e_meeting_store_find_attendee_at_row (mts->model, row);
 
@@ -1863,9 +1856,9 @@ e_meeting_time_selector_autopick (EMeetingTimeSelector *mts,
 			if (need_one_resource && e_meeting_attendee_get_atype (attendee) == E_MEETING_ATTENDEE_RESOURCE) {
 				if (period) {
 					/* We want to remember the closest
-					   prev/next time that one resource is
-					   available, in case we don't find any
-					   free resources. */
+					 * prev/next time that one resource is
+					 * available, in case we don't find any
+					 * free resources. */
 					if (forward) {
 						if (!resource_free || e_meeting_time_compare_times (resource_free, &period->end) > 0)
 							resource_free = &period->end;
@@ -1891,9 +1884,9 @@ e_meeting_time_selector_autopick (EMeetingTimeSelector *mts,
 		}
 
 		/* Check that we found one resource if necessary. If not, skip
-		   to the closest time that a resource is free. Note that if
-		   there are no resources, resource_free will never get set,
-		   so we assume the meeting time is OK. */
+		 * to the closest time that a resource is free. Note that if
+		 * there are no resources, resource_free will never get set,
+		 * so we assume the meeting time is OK. */
 		if (meeting_time_ok && need_one_resource && !found_resource
 		    && resource_free) {
 			if (forward) {
@@ -1933,11 +1926,11 @@ e_meeting_time_selector_autopick (EMeetingTimeSelector *mts,
 }
 
 static void
-e_meeting_time_selector_calculate_time_difference (EMeetingTime*start,
-						   EMeetingTime*end,
-						   gint *days,
-						   gint *hours,
-						   gint *minutes)
+e_meeting_time_selector_calculate_time_difference (EMeetingTime *start,
+                                                   EMeetingTime *end,
+                                                   gint *days,
+                                                   gint *hours,
+                                                   gint *minutes)
 {
 	*days = g_date_get_julian (&end->date) - g_date_get_julian (&start->date);
 	*hours = end->hour - start->hour;
@@ -1953,12 +1946,14 @@ e_meeting_time_selector_calculate_time_difference (EMeetingTime*start,
 }
 
 /* This moves the given time forward to the next suitable start of a meeting.
-   If zoomed_out is set, this means every hour. If not every half-hour. */
+ * If zoomed_out is set, this means every hour. If not every half-hour. */
 static void
 e_meeting_time_selector_find_nearest_interval (EMeetingTimeSelector *mts,
-					       EMeetingTime*start_time,
-					       EMeetingTime*end_time,
-					       gint days, gint hours, gint mins)
+                                               EMeetingTime *start_time,
+                                               EMeetingTime *end_time,
+                                               gint days,
+                                               gint hours,
+                                               gint mins)
 {
 	gint minutes_shown;
 	gboolean set_to_start_of_working_day = FALSE;
@@ -1982,7 +1977,7 @@ e_meeting_time_selector_find_nearest_interval (EMeetingTimeSelector *mts,
 	e_meeting_time_selector_adjust_time (end_time, days, hours, mins);
 
 	/* Check if the interval is less than a day as seen in the display.
-	   If it isn't we don't worry about the working day. */
+	 * If it isn't we don't worry about the working day. */
 	if (!mts->working_hours_only || days > 0)
 		return;
 	minutes_shown = (mts->day_end_hour - mts->day_start_hour) * 60;
@@ -1991,8 +1986,8 @@ e_meeting_time_selector_find_nearest_interval (EMeetingTimeSelector *mts,
 		return;
 
 	/* If the meeting time finishes past the end of the working day, move
-	   onto the start of the next working day. If the meeting time starts
-	   before the working day, move it on as well. */
+	 * onto the start of the next working day. If the meeting time starts
+	 * before the working day, move it on as well. */
 	if (start_time->hour > mts->day_end_hour
 	    || (start_time->hour == mts->day_end_hour
 		&& start_time->minute > mts->day_end_minute)
@@ -2029,12 +2024,14 @@ e_meeting_time_selector_find_nearest_interval (EMeetingTimeSelector *mts,
 }
 
 /* This moves the given time backward to the next suitable start of a meeting.
-   If zoomed_out is set, this means every hour. If not every half-hour. */
+ * If zoomed_out is set, this means every hour. If not every half-hour. */
 static void
 e_meeting_time_selector_find_nearest_interval_backward (EMeetingTimeSelector *mts,
-							EMeetingTime*start_time,
-							EMeetingTime*end_time,
-							gint days, gint hours, gint mins)
+                                                        EMeetingTime *start_time,
+                                                        EMeetingTime *end_time,
+                                                        gint days,
+                                                        gint hours,
+                                                        gint mins)
 {
 	gint new_hour, minutes_shown;
 	gboolean set_to_end_of_working_day = FALSE;
@@ -2069,7 +2066,7 @@ e_meeting_time_selector_find_nearest_interval_backward (EMeetingTimeSelector *mt
 	e_meeting_time_selector_adjust_time (end_time, days, hours, mins);
 
 	/* Check if the interval is less than a day as seen in the display.
-	   If it isn't we don't worry about the working day. */
+	 * If it isn't we don't worry about the working day. */
 	if (!mts->working_hours_only || days > 0)
 		return;
 	minutes_shown = (mts->day_end_hour - mts->day_start_hour) * 60;
@@ -2078,9 +2075,9 @@ e_meeting_time_selector_find_nearest_interval_backward (EMeetingTimeSelector *mt
 		return;
 
 	/* If the meeting time finishes past the end of the working day, move
-	   back to the end of the working day. If the meeting time starts
-	   before the working day, move it back to the end of the previous
-	   working day. */
+	 * back to the end of the working day. If the meeting time starts
+	 * before the working day, move it back to the end of the previous
+	 * working day. */
 	if (start_time->hour > mts->day_end_hour
 	    || (start_time->hour == mts->day_end_hour
 		&& start_time->minute > mts->day_end_minute)
@@ -2113,17 +2110,19 @@ e_meeting_time_selector_find_nearest_interval_backward (EMeetingTimeSelector *mt
 }
 
 /* This adds on the given days, hours & minutes to a EMeetingTimeSelectorTime.
-   It is used to calculate the end of a period given a start & duration.
-   Days, hours & minutes can be negative, to move backwards, but they should
-   be within normal ranges, e.g. hours should be between -23 and 23. */
+ * It is used to calculate the end of a period given a start & duration.
+ * Days, hours & minutes can be negative, to move backwards, but they should
+ * be within normal ranges, e.g. hours should be between -23 and 23. */
 static void
-e_meeting_time_selector_adjust_time (EMeetingTime*mtstime,
-				     gint days, gint hours, gint minutes)
+e_meeting_time_selector_adjust_time (EMeetingTime *mtstime,
+                                     gint days,
+                                     gint hours,
+                                     gint minutes)
 {
 	gint new_hours, new_minutes;
 
 	/* We have to handle negative values for hous and minutes here, since
-	   EMeetingTimeuses guint8s to store them. */
+	 * EMeetingTimeuses guint8s to store them. */
 	new_minutes = mtstime->minute + minutes;
 	if (new_minutes < 0) {
 		new_minutes += 60;
@@ -2144,12 +2143,12 @@ e_meeting_time_selector_adjust_time (EMeetingTime*mtstime,
 }
 
 /* This looks for any busy period of the given attendee which clashes with
-   the start and end time. It uses a binary search. */
+ * the start and end time. It uses a binary search. */
 static EMeetingFreeBusyPeriod *
 e_meeting_time_selector_find_time_clash (EMeetingTimeSelector *mts,
-					 EMeetingAttendee *attendee,
-					 EMeetingTime*start_time,
-					 EMeetingTime*end_time)
+                                         EMeetingAttendee *attendee,
+                                         EMeetingTime *start_time,
+                                         EMeetingTime *end_time)
 {
 	EMeetingFreeBusyPeriod *period;
 	const GArray *busy_periods;
@@ -2162,19 +2161,19 @@ e_meeting_time_selector_find_time_clash (EMeetingTimeSelector *mts,
 		return NULL;
 
 	/* Step forward through the busy periods until we find a clash or we
-	   go past the end_time. */
+	 * go past the end_time. */
 	while (period_num < busy_periods->len) {
 		period = &g_array_index (busy_periods,  EMeetingFreeBusyPeriod, period_num);
 
 		/* If the period starts at or after the end time, there is no
-		   clash and we are finished. The busy periods are sorted by
-		   their start times, so all the rest will be later. */
+		 * clash and we are finished. The busy periods are sorted by
+		 * their start times, so all the rest will be later. */
 		if (e_meeting_time_compare_times (&period->start, end_time) >= 0)
 			return NULL;
 
 		/* If the period ends after the start time, we have found a
-		   clash. From the above test we already know the busy period
-		   isn't completely after the meeting time. */
+		 * clash. From the above test we already know the busy period
+		 * isn't completely after the meeting time. */
 		if (e_meeting_time_compare_times (&period->end, start_time) > 0)
 			return period;
 
@@ -2186,12 +2185,12 @@ e_meeting_time_selector_find_time_clash (EMeetingTimeSelector *mts,
 
 static void
 e_meeting_time_selector_on_zoomed_out_toggled (GtkCheckMenuItem *menuitem,
-					       EMeetingTimeSelector *mts)
+                                               EMeetingTimeSelector *mts)
 {
 	gboolean active;
 
 	/* Make sure the menu pops down, which doesn't happen by default if
-	   keyboard accelerators are used. */
+	 * keyboard accelerators are used. */
 	if (gtk_widget_get_visible (mts->options_menu))
 		gtk_menu_popdown (GTK_MENU (mts->options_menu));
 
@@ -2202,12 +2201,12 @@ e_meeting_time_selector_on_zoomed_out_toggled (GtkCheckMenuItem *menuitem,
 
 static void
 e_meeting_time_selector_on_working_hours_toggled (GtkCheckMenuItem *menuitem,
-						  EMeetingTimeSelector *mts)
+                                                  EMeetingTimeSelector *mts)
 {
 	gboolean active;
 
 	/* Make sure the menu pops down, which doesn't happen by default if
-	   keyboard accelerators are used. */
+	 * keyboard accelerators are used. */
 	if (gtk_widget_get_visible (mts->options_menu))
 		gtk_menu_popdown (GTK_MENU (mts->options_menu));
 
@@ -2257,7 +2256,7 @@ e_meeting_time_selector_recalc_grid (EMeetingTimeSelector *mts)
 /* This saves the first visible time in the given EMeetingTimeSelectorTime. */
 static void
 e_meeting_time_selector_save_position (EMeetingTimeSelector *mts,
-				       EMeetingTime*mtstime)
+                                       EMeetingTime *mtstime)
 {
 	gint scroll_x, scroll_y;
 
@@ -2269,7 +2268,7 @@ e_meeting_time_selector_save_position (EMeetingTimeSelector *mts,
 /* This restores a saved position. */
 static void
 e_meeting_time_selector_restore_position (EMeetingTimeSelector *mts,
-					  EMeetingTime*mtstime)
+                                          EMeetingTime *mtstime)
 {
 	gint scroll_x, scroll_y, new_scroll_x;
 
@@ -2282,13 +2281,13 @@ e_meeting_time_selector_restore_position (EMeetingTimeSelector *mts,
 }
 
 /* This returns the x pixel coords of the meeting time in the entire scroll
-   region. It recalculates them if they have been marked as invalid.
-   If it returns FALSE then no meeting time is set or the meeting time is
-   not visible in the current scroll area. */
+ * region. It recalculates them if they have been marked as invalid.
+ * If it returns FALSE then no meeting time is set or the meeting time is
+ * not visible in the current scroll area. */
 gboolean
 e_meeting_time_selector_get_meeting_time_positions (EMeetingTimeSelector *mts,
-						    gint *start_x,
-						    gint *end_x)
+                                                    gint *start_x,
+                                                    gint *end_x)
 {
 	if (mts->meeting_positions_valid) {
 		if (mts->meeting_positions_in_scroll_area) {
@@ -2317,12 +2316,12 @@ e_meeting_time_selector_get_meeting_time_positions (EMeetingTimeSelector *mts,
 }
 
 /* This recalculates the date format to used, by computing the width of the
-   longest date strings in the widget's font and seeing if they fit. */
+ * longest date strings in the widget's font and seeing if they fit. */
 static void
 e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 {
 	/* An array of dates, one for each month in the year 2000. They must
-	   all be Sundays. */
+	 * all be Sundays. */
 	static const gint days[12] = { 23, 20, 19, 23, 21, 18,
 				      23, 20, 17, 22, 19, 24 };
 	GDate date;
@@ -2341,7 +2340,7 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	max_date_width = mts->day_width - 2;
 
 	/* Find the biggest full weekday name. We start on a particular
-	   Monday and go through seven days. */
+	 * Monday and go through seven days. */
 	g_date_clear (&date, 1);
 	g_date_set_dmy (&date, 3, 1, 2000);	/* Monday 3rd Jan 2000. */
 	longest_weekday_width = 0;
@@ -2370,13 +2369,13 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	}
 
 	/* See if we can use the full date. We want to use a date with a
-	   month day > 20 and also the longest weekday. We use a
-	   pre-calculated array of days for each month and add on the
-	   weekday (which is 1 (Mon) to 7 (Sun). */
+	 * month day > 20 and also the longest weekday. We use a
+	 * pre-calculated array of days for each month and add on the
+	 * weekday (which is 1 (Mon) to 7 (Sun). */
 	g_date_set_dmy (&date, days[longest_month - 1] + longest_weekday,
 			longest_month, 2000);
 	/* This is a strftime() format string %A = full weekday name,
-	   %B = full month name, %d = month day, %Y = full year. */
+	 * %B = full month name, %d = month day, %Y = full year. */
 	g_date_strftime (buffer, sizeof (buffer), _("%A, %B %d, %Y"), &date);
 
 #if 0
@@ -2407,7 +2406,7 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	g_date_set_dmy (&date, days[longest_month - 1] + longest_weekday,
 			longest_month, 2000);
 	/* This is a strftime() format string %a = abbreviated weekday name,
-	   %m = month number, %d = month day, %Y = full year. */
+	 * %m = month number, %d = month day, %Y = full year. */
 	g_date_strftime (buffer, sizeof (buffer), _("%a %m/%d/%Y"), &date);
 
 #if 0
@@ -2426,10 +2425,10 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 }
 
 /* Turn off the background of the canvas windows. This reduces flicker
-   considerably when scrolling. (Why isn't it in GnomeCanvas?). */
+ * considerably when scrolling. (Why isn't it in GnomeCanvas?). */
 static void
 e_meeting_time_selector_on_canvas_realized (GtkWidget *widget,
-					    EMeetingTimeSelector *mts)
+                                            EMeetingTimeSelector *mts)
 {
 	GdkWindow *window;
 
@@ -2438,12 +2437,12 @@ e_meeting_time_selector_on_canvas_realized (GtkWidget *widget,
 }
 
 /* This is called when the meeting start time GnomeDateEdit is changed,
-   either via the "date_changed". "time_changed" or "activate" signals on one
-   of the GtkEntry widgets. So don't use the widget parameter since it may be
-   one of the child GtkEntry widgets. */
+ * either via the "date_changed". "time_changed" or "activate" signals on one
+ * of the GtkEntry widgets. So don't use the widget parameter since it may be
+ * one of the child GtkEntry widgets. */
 static void
 e_meeting_time_selector_on_start_time_changed (GtkWidget *widget,
-					       EMeetingTimeSelector *mts)
+                                               EMeetingTimeSelector *mts)
 {
 	gint duration_days, duration_hours, duration_minutes;
 	EMeetingTime mtstime;
@@ -2484,12 +2483,12 @@ e_meeting_time_selector_on_start_time_changed (GtkWidget *widget,
 }
 
 /* This is called when the meeting end time GnomeDateEdit is changed,
-   either via the "date_changed", "time_changed" or "activate" signals on one
-   of the GtkEntry widgets. So don't use the widget parameter since it may be
-   one of the child GtkEntry widgets. */
+ * either via the "date_changed", "time_changed" or "activate" signals on one
+ * of the GtkEntry widgets. So don't use the widget parameter since it may be
+ * one of the child GtkEntry widgets. */
 static void
 e_meeting_time_selector_on_end_time_changed (GtkWidget *widget,
-					     EMeetingTimeSelector *mts)
+                                             EMeetingTimeSelector *mts)
 {
 	EMeetingTime mtstime;
 	gint hour = 0, minute = 0;
@@ -2517,7 +2516,7 @@ e_meeting_time_selector_on_end_time_changed (GtkWidget *widget,
 	/* If the start time is after the end time, set it to the same time. */
 	if (e_meeting_time_compare_times (&mtstime, &mts->meeting_start_time) <= 0) {
 		/* We set it first, before updating the widget, so the signal
-		   handler will just return. */
+		 * handler will just return. */
 		mts->meeting_start_time = mtstime;
 		if (mts->all_day)
 			g_date_subtract_days (&mts->meeting_start_time.date, 1);
@@ -2533,7 +2532,7 @@ e_meeting_time_selector_on_end_time_changed (GtkWidget *widget,
 }
 
 /* This updates the ranges shown in the GnomeDateEdit popup menus, according
-   to working_hours_only etc. */
+ * to working_hours_only etc. */
 static void
 e_meeting_time_selector_update_date_popup_menus (EMeetingTimeSelector *mts)
 {
@@ -2557,8 +2556,8 @@ e_meeting_time_selector_update_date_popup_menus (EMeetingTimeSelector *mts)
 
 static void
 e_meeting_time_selector_on_canvas_size_allocate (GtkWidget *widget,
-						 GtkAllocation *allocation,
-						 EMeetingTimeSelector *mts)
+                                                 GtkAllocation *allocation,
+                                                 EMeetingTimeSelector *mts)
 {
 	e_meeting_time_selector_update_main_canvas_scroll_region (mts);
 
@@ -2566,7 +2565,9 @@ e_meeting_time_selector_on_canvas_size_allocate (GtkWidget *widget,
 }
 
 static gboolean
-e_meeting_time_selector_on_canvas_scroll_event (GtkWidget *widget, GdkEventScroll *event, EMeetingTimeSelector *mts)
+e_meeting_time_selector_on_canvas_scroll_event (GtkWidget *widget,
+                                                GdkEventScroll *event,
+                                                EMeetingTimeSelector *mts)
 {
 	gboolean return_val = FALSE;
 
@@ -2577,8 +2578,8 @@ e_meeting_time_selector_on_canvas_scroll_event (GtkWidget *widget, GdkEventScrol
 }
 
 /* This updates the canvas scroll regions according to the number of attendees.
-   If the total height needed is less than the height of the canvas, we must
-   use the height of the canvas, or it causes problems. */
+ * If the total height needed is less than the height of the canvas, we must
+ * use the height of the canvas, or it causes problems. */
 static void
 e_meeting_time_selector_update_main_canvas_scroll_region (EMeetingTimeSelector *mts)
 {
@@ -2596,13 +2597,13 @@ e_meeting_time_selector_update_main_canvas_scroll_region (EMeetingTimeSelector *
 }
 
 /* This changes the meeting time based on the given x coordinate and whether
-   we are dragging the start or end bar. It returns the new position, which
-   will be swapped if the start bar is dragged past the end bar or vice versa.
-   It make sure the meeting time is never dragged outside the visible canvas
-   area. */
+ * we are dragging the start or end bar. It returns the new position, which
+ * will be swapped if the start bar is dragged past the end bar or vice versa.
+ * It make sure the meeting time is never dragged outside the visible canvas
+ * area. */
 void
 e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
-					   gint x)
+                                           gint x)
 {
 	EMeetingTime first_time, last_time, drag_time, *time_to_set;
 	gint scroll_x, scroll_y, canvas_width;
@@ -2635,7 +2636,7 @@ e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
 	}
 
 	/* Calculate the minimum & maximum times we can use, based on the
-	   scroll offsets and whether zoomed_out is set. */
+	 * scroll offsets and whether zoomed_out is set. */
 	e_meeting_time_selector_calculate_time (mts, scroll_x, &first_time);
 	e_meeting_time_selector_calculate_time (mts, scroll_x + canvas_width - 1,
 						&last_time);
@@ -2665,7 +2666,7 @@ e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
 	e_meeting_time_selector_calculate_time (mts, x, &drag_time);
 
 	/* Calculate the nearest half-hour or hour, depending on whether
-	   zoomed_out is set. */
+	 * zoomed_out is set. */
 	if (!mts->all_day) {
 		if (mts->zoomed_out) {
 			if (drag_time.minute > 30)
@@ -2749,8 +2750,8 @@ e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
 }
 
 /* This is the timeout function which handles auto-scrolling when the user is
-   dragging one of the meeting time vertical bars outside the left or right
-   edge of the canvas. */
+ * dragging one of the meeting time vertical bars outside the left or right
+ * edge of the canvas. */
 static gboolean
 e_meeting_time_selector_timeout_handler (gpointer data)
 {
@@ -2797,7 +2798,7 @@ e_meeting_time_selector_timeout_handler (gpointer data)
 	scroll_x = CLAMP (scroll_x, 0, max_scroll_x);
 
 	/* Calculate the minimum or maximum visible time in the canvas, which
-	   we will now set the dragged time to. */
+	 * we will now set the dragged time to. */
 	if (scroll_offset > 0) {
 		e_meeting_time_selector_calculate_time (mts,
 							scroll_x + canvas_width - 1,
@@ -2890,9 +2891,9 @@ e_meeting_time_selector_timeout_handler (gpointer data)
 
  scroll:
 	/* Redraw the canvases. We freeze and thaw the layouts so that they
-	   get redrawn completely. Otherwise the pixels get scrolled left or
-	   right which is not good for us (since our vertical bars have been
-	   moved) and causes flicker. */
+	 * get redrawn completely. Otherwise the pixels get scrolled left or
+	 * right which is not good for us (since our vertical bars have been
+	 * moved) and causes flicker. */
 	gnome_canvas_scroll_to (GNOME_CANVAS (mts->display_main),
 				scroll_x, scroll_y);
 	gnome_canvas_scroll_to (GNOME_CANVAS (mts->display_top),
@@ -2943,7 +2944,7 @@ e_meeting_time_selector_update_end_date_edit (EMeetingTimeSelector *mts)
 }
 
 /* This ensures that the meeting time is shown on screen, by scrolling the
-   canvas and possibly by changing the range of dates shown in the canvas. */
+ * canvas and possibly by changing the range of dates shown in the canvas. */
 static void
 e_meeting_time_selector_ensure_meeting_time_shown (EMeetingTimeSelector *mts)
 {
@@ -2983,7 +2984,7 @@ e_meeting_time_selector_ensure_meeting_time_shown (EMeetingTimeSelector *mts)
 }
 
 /* This updates the range of dates shown in the canvas, to make sure that the
-   currently selected meeting time is in the range. */
+ * currently selected meeting time is in the range. */
 static void
 e_meeting_time_selector_update_dates_shown (EMeetingTimeSelector *mts)
 {
@@ -2997,10 +2998,10 @@ e_meeting_time_selector_update_dates_shown (EMeetingTimeSelector *mts)
 }
 
 /* This checks if the time's hour is over 24 or its minute is over 60 and if
-   so it updates the day/hour appropriately. Note that hours and minutes are
-   stored in guint8's so they can't overflow by much. */
+ * so it updates the day/hour appropriately. Note that hours and minutes are
+ * stored in guint8's so they can't overflow by much. */
 void
-e_meeting_time_selector_fix_time_overflows (EMeetingTime*mtstime)
+e_meeting_time_selector_fix_time_overflows (EMeetingTime *mtstime)
 {
 	gint hours_to_add, days_to_add;
 
@@ -3023,16 +3024,16 @@ e_meeting_time_selector_fix_time_overflows (EMeetingTime*mtstime)
  */
 
 /* This takes an x pixel coordinate within the entire canvas scroll region and
-   returns the date in which it falls. If day_position is not NULL it also
-   returns the x coordinate within the date, relative to the visible part of
-   the canvas. It is used when painting the days in the item_draw function.
-   Note that it must handle negative x coordinates in case we are dragging off
-   the edge of the canvas. */
+ * returns the date in which it falls. If day_position is not NULL it also
+ * returns the x coordinate within the date, relative to the visible part of
+ * the canvas. It is used when painting the days in the item_draw function.
+ * Note that it must handle negative x coordinates in case we are dragging off
+ * the edge of the canvas. */
 void
 e_meeting_time_selector_calculate_day_and_position (EMeetingTimeSelector *mts,
-						    gint x,
-						    GDate *date,
-						    gint *day_position)
+                                                    gint x,
+                                                    GDate *date,
+                                                    gint *day_position)
 {
 	gint days_from_first_shown;
 
@@ -3052,9 +3053,12 @@ e_meeting_time_selector_calculate_day_and_position (EMeetingTimeSelector *mts,
 }
 
 /* This takes an x pixel coordinate within a day, and converts it to hours
-   and minutes, depending on working_hours_only and zoomed_out. */
+ * and minutes, depending on working_hours_only and zoomed_out. */
 void
-e_meeting_time_selector_convert_day_position_to_hours_and_mins (EMeetingTimeSelector *mts, gint day_position, guint8 *hours, guint8 *minutes)
+e_meeting_time_selector_convert_day_position_to_hours_and_mins (EMeetingTimeSelector *mts,
+                                                                gint day_position,
+                                                                guint8 *hours,
+                                                                guint8 *minutes)
 {
 	if (mts->zoomed_out)
 		day_position *= 3;
@@ -3068,14 +3072,14 @@ e_meeting_time_selector_convert_day_position_to_hours_and_mins (EMeetingTimeSele
 }
 
 /* This takes an x pixel coordinate within the entire canvas scroll region and
-   returns the time in which it falls. Note that it won't be extremely
-   accurate since hours may only be a few pixels wide in the display.
-   With zoomed_out set each pixel may represent 5 minutes or more, depending
-   on how small the font is. */
+ * returns the time in which it falls. Note that it won't be extremely
+ * accurate since hours may only be a few pixels wide in the display.
+ * With zoomed_out set each pixel may represent 5 minutes or more, depending
+ * on how small the font is. */
 void
 e_meeting_time_selector_calculate_time (EMeetingTimeSelector *mts,
-					gint x,
-					EMeetingTime*time)
+                                        gint x,
+                                        EMeetingTime *time)
 {
 	gint day_position;
 
@@ -3093,23 +3097,23 @@ e_meeting_time_selector_calculate_time (EMeetingTimeSelector *mts,
 }
 
 /* This takes a EMeetingTime and calculates the x pixel coordinate
-   within the entire canvas scroll region. It is used to draw the selected
-   meeting time and all the busy periods. */
+ * within the entire canvas scroll region. It is used to draw the selected
+ * meeting time and all the busy periods. */
 gint
 e_meeting_time_selector_calculate_time_position (EMeetingTimeSelector *mts,
-						 EMeetingTime *mtstime)
+                                                 EMeetingTime *mtstime)
 {
 	gint x, date_offset, day_offset;
 
 	/* Calculate the number of days since the first date shown in the
-	   entire canvas scroll region. */
+	 * entire canvas scroll region. */
 	date_offset = g_date_get_julian (&mtstime->date) - g_date_get_julian (&mts->first_date_shown);
 
 	/* Calculate the x pixel coordinate of the start of the day. */
 	x = date_offset * mts->day_width;
 
 	/* Add on the hours and minutes, depending on whether zoomed_out and
-	   working_hours_only are set. */
+	 * working_hours_only are set. */
 	day_offset = (mtstime->hour - mts->first_hour_shown) * 60
 		+ mtstime->minute;
 	/* The day width includes an extra vertical grid line so subtract 1. */
@@ -3123,7 +3127,10 @@ e_meeting_time_selector_calculate_time_position (EMeetingTimeSelector *mts,
 }
 
 static void
-row_inserted_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+row_inserted_cb (GtkTreeModel *model,
+                 GtkTreePath *path,
+                 GtkTreeIter *iter,
+                 gpointer data)
 {
 	EMeetingTimeSelector *mts = E_MEETING_TIME_SELECTOR (data);
 	gint row = gtk_tree_path_get_indices (path)[0];
@@ -3139,7 +3146,10 @@ row_inserted_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpoi
 }
 
 static void
-row_changed_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+row_changed_cb (GtkTreeModel *model,
+                GtkTreePath *path,
+                GtkTreeIter *iter,
+                gpointer data)
 {
 	EMeetingTimeSelector *mts = E_MEETING_TIME_SELECTOR (data);
 	gint row = gtk_tree_path_get_indices (path)[0];
@@ -3149,7 +3159,9 @@ row_changed_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpoin
 }
 
 static void
-row_deleted_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data)
+row_deleted_cb (GtkTreeModel *model,
+                GtkTreePath *path,
+                gpointer data)
 {
 	EMeetingTimeSelector *mts = E_MEETING_TIME_SELECTOR (data);
 

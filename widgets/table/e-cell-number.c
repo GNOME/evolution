@@ -35,7 +35,10 @@
 G_DEFINE_TYPE (ECellNumber, e_cell_number, E_TYPE_CELL_TEXT)
 
 static gchar *
-ecn_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
+ecn_get_text (ECellText *cell,
+              ETableModel *model,
+              gint col,
+              gint row)
 {
 	gpointer value;
 
@@ -45,7 +48,8 @@ ecn_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
 }
 
 static void
-ecn_free_text (ECellText *cell, gchar *text)
+ecn_free_text (ECellText *cell,
+               gchar *text)
 {
 	g_free (text);
 }
@@ -78,7 +82,8 @@ e_cell_number_init (ECellNumber *cell_number)
  * Returns: an ECell object that can be used to render numbers.
  */
 ECell *
-e_cell_number_new (const gchar *fontname, GtkJustification justify)
+e_cell_number_new (const gchar *fontname,
+                   GtkJustification justify)
 {
 	ECellNumber *ecn = g_object_new (E_TYPE_CELL_NUMBER, NULL);
 

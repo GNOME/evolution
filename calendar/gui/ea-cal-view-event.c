@@ -176,7 +176,7 @@ static void ea_cal_view_finalize (GObject *object)
 }
 #endif
 
-AtkObject*
+AtkObject *
 ea_cal_view_event_new (GObject *obj)
 {
 	AtkObject *atk_obj = NULL;
@@ -386,7 +386,7 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 		     --event_num) {
 			day_view_event = &g_array_index (day_view->long_events,
 							 EDayViewEvent, event_num);
-			if (cal_view_event == (ECalendarViewEvent*) day_view_event)
+			if (cal_view_event == (ECalendarViewEvent *) day_view_event)
 				return event_num;
 
 		}
@@ -397,7 +397,7 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 			     --event_num) {
 				day_view_event = &g_array_index (day_view->events[day],
 							EDayViewEvent, event_num);
-				if (cal_view_event == (ECalendarViewEvent*) day_view_event)
+				if (cal_view_event == (ECalendarViewEvent *) day_view_event)
 					return num_before + event_num;
 			}
 			num_before += day_view->events[day]->len;
@@ -447,12 +447,12 @@ atk_component_interface_init (AtkComponentIface *iface)
 }
 
 static void
-ea_cal_view_get_extents (AtkComponent   *component,
-                         gint           *x,
-                         gint           *y,
-                         gint           *width,
-                         gint           *height,
-                         AtkCoordType   coord_type)
+ea_cal_view_get_extents (AtkComponent *component,
+                         gint *x,
+                         gint *y,
+                         gint *width,
+                         gint *height,
+                         AtkCoordType coord_type)
 {
 	GObject *g_obj;
 	GnomeCanvasItem *canvas_item;
@@ -568,7 +568,8 @@ atk_action_interface_init (AtkActionIface *iface)
 }
 
 static gboolean
-ea_cal_view_event_do_action (AtkAction *action, gint i)
+ea_cal_view_event_do_action (AtkAction *action,
+                             gint i)
 {
 	AtkGObjectAccessible *atk_gobj;
 	AtkComponent *atk_comp;
@@ -591,7 +592,8 @@ ea_cal_view_event_get_n_actions (AtkAction *action)
 }
 
 static const gchar *
-ea_cal_view_event_action_get_name (AtkAction *action, gint i)
+ea_cal_view_event_action_get_name (AtkAction *action,
+                                   gint i)
 {
 	if (i >= 0 && i < CAL_VIEW_EVENT_ACTION_NUM)
 		return action_name[i];

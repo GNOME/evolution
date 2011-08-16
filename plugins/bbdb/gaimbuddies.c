@@ -250,8 +250,8 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 		if (contacts != NULL) {
 
 			/* FIXME: If there's more than one contact with this
-			   name, just give up; we're not smart enough for
-			   this. */
+			 * name, just give up; we're not smart enough for
+			 * this. */
 			if (contacts->next != NULL) {
 				e_client_util_free_object_slist (contacts);
 				continue;
@@ -360,7 +360,8 @@ bbdb_sync_buddy_list (void)
 }
 
 static gboolean
-im_list_contains_buddy (GList *ims, GaimBuddy *b)
+im_list_contains_buddy (GList *ims,
+                        GaimBuddy *b)
 {
 	GList *l;
 
@@ -375,7 +376,9 @@ im_list_contains_buddy (GList *ims, GaimBuddy *b)
 }
 
 static gboolean
-bbdb_merge_buddy_to_contact (EBookClient *client, GaimBuddy *b, EContact *c)
+bbdb_merge_buddy_to_contact (EBookClient *client,
+                             GaimBuddy *b,
+                             EContact *c)
 {
 	EContactField field;
 	GList *ims;
@@ -450,7 +453,8 @@ proto_to_contact_field (const gchar *proto)
 }
 
 static void
-get_all_blocked (xmlNodePtr node, GSList **blocked)
+get_all_blocked (xmlNodePtr node,
+                 GSList **blocked)
 {
 	xmlNodePtr child;
 
@@ -578,7 +582,9 @@ get_buddy_icon_from_setting (xmlNodePtr setting)
 }
 
 static void
-parse_contact (xmlNodePtr contact, GList **buddies, GSList *blocked)
+parse_contact (xmlNodePtr contact,
+               GList **buddies,
+               GSList *blocked)
 {
 	xmlNodePtr  child;
 	xmlNodePtr  buddy = NULL;
@@ -631,7 +637,9 @@ parse_contact (xmlNodePtr contact, GList **buddies, GSList *blocked)
 }
 
 static void
-parse_buddy_group (xmlNodePtr group, GList **buddies, GSList *blocked)
+parse_buddy_group (xmlNodePtr group,
+                   GList **buddies,
+                   GSList *blocked)
 {
 	xmlNodePtr child;
 

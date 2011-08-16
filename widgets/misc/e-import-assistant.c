@@ -159,7 +159,7 @@ filename_changed (GtkWidget *widget,
 		gboolean valid;
 		GSList *l;
 		EImportImporter *first = NULL;
-		gint i=0, firstitem=0;
+		gint i = 0, firstitem = 0;
 
 		g_free (page->target->uri_src);
 		page->target->uri_src = g_filename_to_uri (filename, NULL, NULL);
@@ -541,7 +541,7 @@ prepare_intelligent_page (GtkAssistant *assistant,
 
 	table = gtk_table_new (g_slist_length (l), 2, FALSE);
 	row = 0;
-	for (;l;l=l->next) {
+	for (; l; l = l->next) {
 		EImportImporter *eii = l->data;
 		gchar *str;
 		GtkWidget *w, *label;
@@ -558,11 +558,11 @@ prepare_intelligent_page (GtkAssistant *assistant,
 
 		gtk_table_attach (
 			GTK_TABLE (table), label,
-			0, 1, row, row+1, GTK_FILL, 0, 0, 0);
+			0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
 		if (w)
 			gtk_table_attach (
 				GTK_TABLE (table), w,
-				1, 2, row, row+1, GTK_FILL, 0, 3, 0);
+				1, 2, row, row + 1, GTK_FILL, 0, 3, 0);
 		row++;
 	}
 
@@ -597,7 +597,8 @@ import_done (EImport *ei,
 }
 
 static void
-import_simple_done (EImport *ei, gpointer user_data)
+import_simple_done (EImport *ei,
+                    gpointer user_data)
 {
 	EImportAssistant *import_assistant = user_data;
 	EImportAssistantPrivate *priv;
@@ -775,7 +776,7 @@ prepare_progress_page (GtkAssistant *assistant,
 	gtk_assistant_add_action_widget (assistant, cancel_button);
 	gtk_widget_show (cancel_button);
 
-	g_object_get (G_OBJECT (assistant), "is-simple", &is_simple, NULL);
+	g_object_get (assistant, "is-simple", &is_simple, NULL);
 
 	intelligent_import = is_simple ? FALSE : gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (priv->type_page.intelligent));
@@ -809,7 +810,8 @@ prepare_progress_page (GtkAssistant *assistant,
 }
 
 static void
-simple_filetype_changed_cb (GtkComboBox *combo_box, GtkAssistant *assistant)
+simple_filetype_changed_cb (GtkComboBox *combo_box,
+                            GtkAssistant *assistant)
 {
 	EImportAssistantPrivate *priv;
 	ImportSimplePage *page;
@@ -853,7 +855,8 @@ simple_filetype_changed_cb (GtkComboBox *combo_box, GtkAssistant *assistant)
 }
 
 static void
-prepare_simple_page (GtkAssistant *assistant, GtkWidget *vbox)
+prepare_simple_page (GtkAssistant *assistant,
+                     GtkWidget *vbox)
 {
 	EImportAssistantPrivate *priv;
 	GSList *importers, *imp;
@@ -963,7 +966,7 @@ forward_cb (gint current_page,
 	GtkToggleButton *toggle_button;
 	gboolean is_simple = FALSE;
 
-	g_object_get (G_OBJECT (import_assistant), "is-simple", &is_simple, NULL);
+	g_object_get (import_assistant, "is-simple", &is_simple, NULL);
 
 	if (is_simple) {
 		if (!import_assistant->priv->simple_page.has_preview)
@@ -1036,7 +1039,7 @@ set_import_uris (EImportAssistant *assistant,
 
 				if (importers != NULL) {
 					/* there is at least one importer which can be used,
-					   thus there can be done an import */
+					 * thus there can be done an import */
 					fileuris = g_ptr_array_new ();
 				}
 
@@ -1175,7 +1178,7 @@ import_assistant_prepare (GtkAssistant *assistant,
 	gint page_no = gtk_assistant_get_current_page (assistant);
 	gboolean is_simple = FALSE;
 
-	g_object_get (G_OBJECT (assistant), "is-simple", &is_simple, NULL);
+	g_object_get (assistant, "is-simple", &is_simple, NULL);
 
 	if (is_simple) {
 		if (page_no == 0) {

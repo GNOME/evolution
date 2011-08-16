@@ -103,8 +103,8 @@ void org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, 
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 /* em-folder-selection-button.h is private, even though other internal evo plugins use it!
-   so declare the functions here
-   TODO: sort out whether this should really be private
+ * so declare the functions here
+ * TODO: sort out whether this should really be private
 */
 
 static guchar pst_signature[] = { '!', 'B', 'D', 'N' };
@@ -141,7 +141,8 @@ struct _PstImporter {
 };
 
 gboolean
-org_credativ_evolution_readpst_supported (EPlugin *epl, EImportTarget *target)
+org_credativ_evolution_readpst_supported (EPlugin *epl,
+                                          EImportTarget *target)
 {
 	gchar signature[sizeof (pst_signature)];
 	gboolean ret = FALSE;
@@ -177,37 +178,43 @@ org_credativ_evolution_readpst_supported (EPlugin *epl, EImportTarget *target)
 }
 
 static void
-checkbox_mail_toggle_cb (GtkToggleButton *tb, EImportTarget *target)
+checkbox_mail_toggle_cb (GtkToggleButton *tb,
+                         EImportTarget *target)
 {
 	g_datalist_set_data (&target->data, "pst-do-mail", GINT_TO_POINTER (gtk_toggle_button_get_active (tb)));
 }
 
 static void
-checkbox_addr_toggle_cb (GtkToggleButton *tb, EImportTarget *target)
+checkbox_addr_toggle_cb (GtkToggleButton *tb,
+                         EImportTarget *target)
 {
 	g_datalist_set_data (&target->data, "pst-do-addr", GINT_TO_POINTER (gtk_toggle_button_get_active (tb)));
 }
 
 static void
-checkbox_appt_toggle_cb (GtkToggleButton *tb, EImportTarget *target)
+checkbox_appt_toggle_cb (GtkToggleButton *tb,
+                         EImportTarget *target)
 {
 	g_datalist_set_data (&target->data, "pst-do-appt", GINT_TO_POINTER (gtk_toggle_button_get_active (tb)));
 }
 
 static void
-checkbox_task_toggle_cb (GtkToggleButton *tb, EImportTarget *target)
+checkbox_task_toggle_cb (GtkToggleButton *tb,
+                         EImportTarget *target)
 {
 	g_datalist_set_data (&target->data, "pst-do-task", GINT_TO_POINTER (gtk_toggle_button_get_active (tb)));
 }
 
 static void
-checkbox_journal_toggle_cb (GtkToggleButton *tb, EImportTarget *target)
+checkbox_journal_toggle_cb (GtkToggleButton *tb,
+                            EImportTarget *target)
 {
 	g_datalist_set_data (&target->data, "pst-do-journal", GINT_TO_POINTER (gtk_toggle_button_get_active (tb)));
 }
 
 static void
-folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
+folder_selected (EMFolderSelectionButton *button,
+                 EImportTargetURI *target)
 {
 	g_free (target->uri_dest);
 	target->uri_dest = g_strdup (em_folder_selection_button_get_folder_uri (button));
@@ -276,12 +283,12 @@ get_suggested_foldername (EImportTargetURI *target)
 
 	if (!foldername) {
 		/* Suggest a folder that is in the same mail storage as the users' inbox,
-		   with a name derived from the .PST file */
+		 * with a name derived from the .PST file */
 		inbox = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_INBOX);
 
 		delim = g_strrstr (inbox, "#");
 		if (delim != NULL) {
-			foldername = g_string_new_len (inbox, delim-inbox);
+			foldername = g_string_new_len (inbox, delim - inbox);
 		} else {
 			foldername = g_string_new (inbox);
 		}
@@ -317,7 +324,7 @@ get_suggested_foldername (EImportTargetURI *target)
 		gint i, len;
 		len = foldername->len;
 
-		for (i=1; i<10000; i++) {
+		for (i = 1; i < 10000; i++) {
 			g_string_truncate (foldername, len);
 			g_string_append_printf (foldername, "_%d", i);
 			/* FIXME Not passing a GCancellable or GError here. */
@@ -338,7 +345,8 @@ get_suggested_foldername (EImportTargetURI *target)
 }
 
 static void
-widget_sanitizer_cb (GtkToggleButton *button, GtkWidget *source_combo)
+widget_sanitizer_cb (GtkToggleButton *button,
+                     GtkWidget *source_combo)
 {
 	g_return_if_fail (button != NULL);
 	g_return_if_fail (source_combo != NULL);
@@ -372,7 +380,11 @@ get_source_combo_key (EClientSourceType source_type)
 }
 
 static void
-add_source_list_with_check (GtkWidget *frame, const gchar *caption, EClientSourceType source_type, GCallback toggle_callback, EImportTarget *target)
+add_source_list_with_check (GtkWidget *frame,
+                            const gchar *caption,
+                            EClientSourceType source_type,
+                            GCallback toggle_callback,
+                            EImportTarget *target)
 {
 	GtkWidget *check, *hbox;
 	ESourceList *source_list = NULL;
@@ -416,7 +428,9 @@ add_source_list_with_check (GtkWidget *frame, const gchar *caption, EClientSourc
 }
 
 GtkWidget *
-org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
+org_credativ_evolution_readpst_getwidget (EImport *ei,
+                                          EImportTarget *target,
+                                          EImportImporter *im)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
@@ -471,7 +485,9 @@ org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EI
 }
 
 static void
-client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+client_opened_cb (GObject *source_object,
+                  GAsyncResult *result,
+                  gpointer user_data)
 {
 	PstImporter *m = user_data;
 	GError *error = NULL;
@@ -520,7 +536,8 @@ client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_da
 }
 
 static void
-open_client (PstImporter *m, EClientSourceType source_type)
+open_client (PstImporter *m,
+             EClientSourceType source_type)
 {
 	ESourceComboBox *combo;
 	ESource *source;
@@ -562,7 +579,8 @@ pst_prepare_run (PstImporter *m)
 }
 
 static gchar *
-pst_import_describe (PstImporter *m, gint complete)
+pst_import_describe (PstImporter *m,
+                     gint complete)
 {
 	return g_strdup (_("Importing Outlook data"));
 }
@@ -576,7 +594,8 @@ pst_import_import (PstImporter *m,
 }
 
 static void
-count_items (PstImporter *m, pst_desc_tree *topitem)
+count_items (PstImporter *m,
+             pst_desc_tree *topitem)
 {
 	pst_desc_tree *d_ptr;
 
@@ -671,7 +690,8 @@ pst_import_file (PstImporter *m)
 }
 
 static void
-pst_import_folders (PstImporter *m, pst_desc_tree *topitem)
+pst_import_folders (PstImporter *m,
+                    pst_desc_tree *topitem)
 {
 	CamelOperation *co = CAMEL_OPERATION (m->cancellable);
 	GHashTable *node_to_folderuri; /* pointers of hierarchy nodes, to them associated folder uris */
@@ -744,7 +764,9 @@ pst_import_folders (PstImporter *m, pst_desc_tree *topitem)
 }
 
 static void
-pst_process_item (PstImporter *m, pst_desc_tree *d_ptr, gchar **previous_folder)
+pst_process_item (PstImporter *m,
+                  pst_desc_tree *d_ptr,
+                  gchar **previous_folder)
 {
 	pst_item *item = NULL;
 
@@ -851,7 +873,8 @@ foldername_to_utf8 (const gchar *pstname)
 }
 
 static void
-pst_process_folder (PstImporter *m, pst_item *item)
+pst_process_folder (PstImporter *m,
+                    pst_item *item)
 {
 	gchar *uri;
 	g_free (m->folder_name);
@@ -951,7 +974,8 @@ pst_create_folder (PstImporter *m)
  * Returns: #CamelMimePart containing data and mime type
  */
 static CamelMimePart *
-attachment_to_part (PstImporter *m, pst_item_attach *attach)
+attachment_to_part (PstImporter *m,
+                    pst_item_attach *attach)
 {
 	CamelMimePart *part;
 	const gchar *mimetype;
@@ -986,7 +1010,8 @@ attachment_to_part (PstImporter *m, pst_item_attach *attach)
 }
 
 static void
-pst_process_email (PstImporter *m, pst_item *item)
+pst_process_email (PstImporter *m,
+                   pst_item *item)
 {
 	CamelMimeMessage *msg;
 	CamelInternetAddress *addr;
@@ -1222,7 +1247,9 @@ pst_process_email (PstImporter *m, pst_item *item)
 }
 
 static void
-contact_set_string (EContact *contact, EContactField id, gchar *string)
+contact_set_string (EContact *contact,
+                    EContactField id,
+                    gchar *string)
 {
 	if (string != NULL) {
 		e_contact_set (contact, id, string);
@@ -1230,7 +1257,10 @@ contact_set_string (EContact *contact, EContactField id, gchar *string)
 }
 
 static void
-unknown_field (EContact *contact, GString *notes, const gchar *name, gchar *string)
+unknown_field (EContact *contact,
+               GString *notes,
+               const gchar *name,
+               gchar *string)
 {
 	/* Field could not be mapped directly so add to notes field */
 	if (string != NULL) {
@@ -1239,7 +1269,15 @@ unknown_field (EContact *contact, GString *notes, const gchar *name, gchar *stri
 }
 
 static void
-contact_set_address (EContact *contact, EContactField id, gchar *address, gchar *city, gchar *country, gchar *po_box, gchar *postal_code, gchar *state, gchar *street)
+contact_set_address (EContact *contact,
+                     EContactField id,
+                     gchar *address,
+                     gchar *city,
+                     gchar *country,
+                     gchar *po_box,
+                     gchar *postal_code,
+                     gchar *state,
+                     gchar *street)
 {
 	EContactAddress *eaddress;
 
@@ -1275,7 +1313,9 @@ contact_set_address (EContact *contact, EContactField id, gchar *address, gchar 
 }
 
 void
-contact_set_date (EContact *contact, EContactField id, FILETIME *date)
+contact_set_date (EContact *contact,
+                  EContactField id,
+                  FILETIME *date)
 {
 	if (date && (date->dwLowDateTime || date->dwHighDateTime) ) {
 		time_t t1;
@@ -1295,7 +1335,8 @@ contact_set_date (EContact *contact, EContactField id, FILETIME *date)
 }
 
 static void
-pst_process_contact (PstImporter *m, pst_item *item)
+pst_process_contact (PstImporter *m,
+                     pst_item *item)
 {
 	pst_item_contact *c;
 	EContact *ec;
@@ -1462,7 +1503,8 @@ pst_process_contact (PstImporter *m, pst_item *item)
  * Returns: converted date
  */
 struct icaltimetype
-get_ical_date (FILETIME *date, gboolean is_date)
+get_ical_date (FILETIME *date,
+               gboolean is_date)
 {
 	if (date && (date->dwLowDateTime || date->dwHighDateTime) ) {
 		time_t t;
@@ -1475,7 +1517,10 @@ get_ical_date (FILETIME *date, gboolean is_date)
 }
 
 static void
-set_cal_attachments (ECalClient *cal, ECalComponent *ec, PstImporter *m, pst_item_attach *attach)
+set_cal_attachments (ECalClient *cal,
+                     ECalComponent *ec,
+                     PstImporter *m,
+                     pst_item_attach *attach)
 {
 	GSList *list = NULL;
 	const gchar *uid;
@@ -1572,7 +1617,10 @@ set_cal_attachments (ECalClient *cal, ECalComponent *ec, PstImporter *m, pst_ite
 }
 
 static void
-fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gchar *type)
+fill_calcomponent (PstImporter *m,
+                   pst_item *item,
+                   ECalComponent *ec,
+                   const gchar *type)
 {
 	pst_item_appointment *a;
 	pst_item_email *e;
@@ -1683,7 +1731,7 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gcha
 
 		if (a->alarm_minutes) {
 			trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;
-			trigger.u.rel_duration = icaldurationtype_from_int (- (a->alarm_minutes)*60);
+			trigger.u.rel_duration = icaldurationtype_from_int (- (a->alarm_minutes) * 60);
 			e_cal_component_alarm_set_trigger (alarm, trigger);
 		}
 
@@ -1773,7 +1821,10 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gcha
 }
 
 static void
-pst_process_component (PstImporter *m, pst_item *item, const gchar *comp_type, ECalClient *cal)
+pst_process_component (PstImporter *m,
+                       pst_item *item,
+                       const gchar *comp_type,
+                       ECalClient *cal)
 {
 	ECalComponent *ec;
 	gchar *uid = NULL;
@@ -1799,26 +1850,30 @@ pst_process_component (PstImporter *m, pst_item *item, const gchar *comp_type, E
 }
 
 static void
-pst_process_appointment (PstImporter *m, pst_item *item)
+pst_process_appointment (PstImporter *m,
+                         pst_item *item)
 {
 	pst_process_component (m, item, "appointment", m->calendar);
 }
 
 static void
-pst_process_task (PstImporter *m, pst_item *item)
+pst_process_task (PstImporter *m,
+                  pst_item *item)
 {
 	pst_process_component (m, item, "task", m->tasks);
 }
 
 static void
-pst_process_journal (PstImporter *m, pst_item *item)
+pst_process_journal (PstImporter *m,
+                     pst_item *item)
 {
 	pst_process_component (m, item, "journal", m->journal);
 }
 
 /* Print an error message - maybe later bring up an error dialog? */
 static void
-pst_error_msg (const gchar *fmt, ...)
+pst_error_msg (const gchar *fmt,
+               ...)
 {
 	va_list ap;
 
@@ -1889,7 +1944,10 @@ pst_status_timeout (gpointer data)
 }
 
 static void
-pst_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
+pst_status (CamelOperation *op,
+            const gchar *what,
+            gint pc,
+            gpointer data)
 {
 	PstImporter *importer = data;
 
@@ -1901,7 +1959,8 @@ pst_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
 }
 
 static void
-pst_import (EImport *ei, EImportTarget *target)
+pst_import (EImport *ei,
+            EImportTarget *target)
 {
 	PstImporter *m;
 
@@ -1934,7 +1993,9 @@ pst_import (EImport *ei, EImportTarget *target)
 
 /* Start the main import operation */
 void
-org_credativ_evolution_readpst_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+org_credativ_evolution_readpst_import (EImport *ei,
+                                       EImportTarget *target,
+                                       EImportImporter *im)
 {
 	if (GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-mail"))
 	    || GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-addr"))
@@ -1948,7 +2009,9 @@ org_credativ_evolution_readpst_import (EImport *ei, EImportTarget *target, EImpo
 }
 
 void
-org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
+org_credativ_evolution_readpst_cancel (EImport *ei,
+                                       EImportTarget *target,
+                                       EImportImporter *im)
 {
 	PstImporter *m = g_datalist_get_data (&target->data, "pst-msg");
 
@@ -1958,7 +2021,8 @@ org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, EImpo
 }
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
@@ -1973,7 +2037,8 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
  * Returns: 0 for sucess, -1 for failure
  */
 gint
-pst_init (pst_file *pst, gchar *filename)
+pst_init (pst_file *pst,
+          gchar *filename)
 {
 
 #if 0
@@ -2013,7 +2078,8 @@ pst_init (pst_file *pst, gchar *filename)
  * or %NULL if error
  */
 gchar *
-get_pst_rootname (pst_file *pst, gchar *filename)
+get_pst_rootname (pst_file *pst,
+                  gchar *filename)
 {
 	pst_item *item = NULL;
 	gchar *rootname = NULL;

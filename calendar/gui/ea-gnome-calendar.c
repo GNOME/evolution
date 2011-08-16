@@ -35,7 +35,7 @@
 
 static void ea_gnome_calendar_class_init (EaGnomeCalendarClass *klass);
 
-static gint ea_gnome_calendar_get_n_children (AtkObject* obj);
+static gint ea_gnome_calendar_get_n_children (AtkObject * obj);
 static AtkObject * ea_gnome_calendar_ref_child (AtkObject *obj, gint i);
 
 static void ea_gcal_dates_change_cb (GnomeCalendar *gcal, gpointer data);
@@ -114,7 +114,7 @@ ea_gnome_calendar_class_init (EaGnomeCalendarClass *klass)
 	class->ref_child = ea_gnome_calendar_ref_child;
 }
 
-AtkObject*
+AtkObject *
 ea_gnome_calendar_new (GtkWidget *widget)
 {
 	GObject *object;
@@ -253,7 +253,7 @@ ea_gnome_calendar_get_label_description (GnomeCalendar *gcal)
 }
 
 static gint
-ea_gnome_calendar_get_n_children (AtkObject* obj)
+ea_gnome_calendar_get_n_children (AtkObject *obj)
 {
 	g_return_val_if_fail (EA_IS_GNOME_CALENDAR (obj), 0);
 
@@ -264,7 +264,8 @@ ea_gnome_calendar_get_n_children (AtkObject* obj)
 }
 
 static AtkObject *
-ea_gnome_calendar_ref_child (AtkObject *obj, gint i)
+ea_gnome_calendar_ref_child (AtkObject *obj,
+                             gint i)
 {
 	AtkObject * child = NULL;
 	GnomeCalendar * calendarWidget;
@@ -309,7 +310,8 @@ ea_gnome_calendar_ref_child (AtkObject *obj, gint i)
 }
 
 static void
-ea_gcal_dates_change_cb (GnomeCalendar *gcal, gpointer data)
+ea_gcal_dates_change_cb (GnomeCalendar *gcal,
+                         gpointer data)
 {
 	const gchar *new_name;
 

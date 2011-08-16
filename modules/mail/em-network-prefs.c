@@ -77,7 +77,8 @@ em_network_prefs_init (EMNetworkPrefs *prefs)
 }
 
 static void
-toggle_button_toggled (GtkToggleButton *toggle, EMNetworkPrefs *prefs)
+toggle_button_toggled (GtkToggleButton *toggle,
+                       EMNetworkPrefs *prefs)
 {
 	const gchar *key;
 
@@ -93,7 +94,9 @@ toggle_button_toggled (GtkToggleButton *toggle, EMNetworkPrefs *prefs)
 }
 
 static void
-toggle_button_init (EMNetworkPrefs *prefs, GtkToggleButton *toggle, const gchar *key)
+toggle_button_init (EMNetworkPrefs *prefs,
+                    GtkToggleButton *toggle,
+                    const gchar *key)
 {
 	gboolean bool;
 
@@ -121,7 +124,9 @@ emnp_widget_glade (EConfig *ec,
 }
 
 static void
-emnp_set_sensitiveness (EMNetworkPrefs *prefs, NetworkConfigProxyType type, gboolean sensitivity)
+emnp_set_sensitiveness (EMNetworkPrefs *prefs,
+                        NetworkConfigProxyType type,
+                        gboolean sensitivity)
 {
 #if 0
 	if (type == NETWORK_PROXY_AUTOCONFIG) {
@@ -160,7 +165,8 @@ emnp_set_sensitiveness (EMNetworkPrefs *prefs, NetworkConfigProxyType type, gboo
 }
 
 static void
-notify_proxy_type_changed (GtkWidget *widget, EMNetworkPrefs *prefs)
+notify_proxy_type_changed (GtkWidget *widget,
+                           EMNetworkPrefs *prefs)
 {
 	gint type;
 
@@ -199,7 +205,8 @@ notify_proxy_type_changed (GtkWidget *widget, EMNetworkPrefs *prefs)
 }
 
 static void
-widget_entry_changed_cb (GtkWidget *widget, gpointer data)
+widget_entry_changed_cb (GtkWidget *widget,
+                         gpointer data)
 {
 	const gchar *value;
 	gint port = -1;
@@ -208,8 +215,8 @@ widget_entry_changed_cb (GtkWidget *widget, gpointer data)
 	client = gconf_client_get_default ();
 
 	/*
-	   Do not change the order of comparison -
-	   GtkSpinButton is an extended form of GtkEntry
+	 * Do not change the order of comparison -
+	 * GtkSpinButton is an extended form of GtkEntry
 	*/
 	if (GTK_IS_SPIN_BUTTON (widget)) {
 		port = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget));
@@ -225,7 +232,8 @@ widget_entry_changed_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-ignore_hosts_entry_changed_cb (GtkWidget *widget, const gchar *key)
+ignore_hosts_entry_changed_cb (GtkWidget *widget,
+                               const gchar *key)
 {
 	const gchar *value;
 	GSList *lst = NULL;
@@ -280,7 +288,9 @@ static EMConfigItem emnp_items[] = {
 };
 
 static void
-emnp_free (EConfig *ec, GSList *items, gpointer data)
+emnp_free (EConfig *ec,
+           GSList *items,
+           gpointer data)
 {
 	/* the prefs data is freed automagically */
 
@@ -369,7 +379,7 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 
 	gtk_toggle_button_set_active (prefs->auto_proxy, val == NETWORK_PROXY_AUTOCONFIG);
 
-	g_signal_connect(prefs->auto_proxy_url, "changed", G_CALLBACK(widget_entry_changed_cb), GCONF_E_AUTOCONFIG_URL_KEY);
+	g_signal_connect (prefs->auto_proxy_url, "changed", G_CALLBACK(widget_entry_changed_cb), GCONF_E_AUTOCONFIG_URL_KEY);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->auto_proxy, FALSE);
 #endif

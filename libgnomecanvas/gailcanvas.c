@@ -38,13 +38,13 @@ static void       gail_canvas_real_initialize     (AtkObject       *obj,
                                                    gpointer        data);
 
 static gint       gail_canvas_get_n_children      (AtkObject       *obj);
-static AtkObject* gail_canvas_ref_child           (AtkObject       *obj,
+static AtkObject * gail_canvas_ref_child           (AtkObject       *obj,
                                                    gint            i);
 
 static void       adjustment_changed              (GtkAdjustment   *adjustment,
                                                    GnomeCanvas     *canvas);
 
-static AtkObject* gail_canvas_factory_create_accessible (GObject *obj);
+static AtkObject * gail_canvas_factory_create_accessible (GObject *obj);
 
 static GType      gail_canvas_factory_get_accessible_type (void);
 
@@ -67,8 +67,8 @@ gail_canvas_factory_class_init (GailCanvasFactoryClass *klass)
   class->get_accessible_type = gail_canvas_factory_get_accessible_type;
 }
 
-static AtkObject*
-gail_canvas_factory_create_accessible (GObject   *obj)
+static AtkObject *
+gail_canvas_factory_create_accessible (GObject *obj)
 {
   return gail_canvas_new (GTK_WIDGET (obj));
 }
@@ -156,7 +156,7 @@ gail_canvas_class_init (GailCanvasClass *klass)
   class->initialize = gail_canvas_real_initialize;
 }
 
-AtkObject*
+AtkObject *
 gail_canvas_new (GtkWidget *widget)
 {
   GObject *object;
@@ -174,7 +174,7 @@ gail_canvas_new (GtkWidget *widget)
 
 static void
 gail_canvas_real_initialize (AtkObject *obj,
-                             gpointer  data)
+                             gpointer data)
 {
   GnomeCanvas *canvas;
   GtkAdjustment *adj;
@@ -199,7 +199,7 @@ gail_canvas_real_initialize (AtkObject *obj,
 }
 
 static gint
-gail_canvas_get_n_children (AtkObject* obj)
+gail_canvas_get_n_children (AtkObject *obj)
 {
   GtkAccessible *accessible;
   GtkWidget *widget;
@@ -222,9 +222,9 @@ gail_canvas_get_n_children (AtkObject* obj)
   return 1;
 }
 
-static AtkObject*
+static AtkObject *
 gail_canvas_ref_child (AtkObject *obj,
-		       gint       i)
+                       gint i)
 {
   GtkAccessible *accessible;
   GtkWidget *widget;
@@ -255,7 +255,7 @@ gail_canvas_ref_child (AtkObject *obj,
 
 static void
 adjustment_changed (GtkAdjustment *adjustment,
-                    GnomeCanvas   *canvas)
+                    GnomeCanvas *canvas)
 {
   AtkObject *atk_obj;
 

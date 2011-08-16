@@ -114,7 +114,8 @@ ecmc_column_count (ETableModel *etm)
 }
 
 static ECellDateEditValue *
-get_dtend (ECalModelCalendar *model, ECalModelComponent *comp_data)
+get_dtend (ECalModelCalendar *model,
+           ECalModelComponent *comp_data)
 {
 	struct icaltimetype tt_end;
 
@@ -194,7 +195,9 @@ get_transparency (ECalModelComponent *comp_data)
 }
 
 static gpointer
-ecmc_value_at (ETableModel *etm, gint col, gint row)
+ecmc_value_at (ETableModel *etm,
+               gint col,
+               gint row)
 {
 	ECalModelComponent *comp_data;
 	ECalModelCalendar *model = (ECalModelCalendar *) etm;
@@ -224,13 +227,16 @@ ecmc_value_at (ETableModel *etm, gint col, gint row)
 }
 
 static void
-set_dtend (ECalModel* model, ECalModelComponent *comp_data, gconstpointer value)
+set_dtend (ECalModel *model,
+           ECalModelComponent *comp_data,
+           gconstpointer value)
 {
 	e_cal_model_update_comp_time (model, comp_data, value, ICAL_DTEND_PROPERTY, icalproperty_set_dtend, icalproperty_new_dtend);
 }
 
 static void
-set_location (ECalModelComponent *comp_data, gconstpointer value)
+set_location (ECalModelComponent *comp_data,
+              gconstpointer value)
 {
 	icalproperty *prop;
 
@@ -252,7 +258,8 @@ set_location (ECalModelComponent *comp_data, gconstpointer value)
 }
 
 static void
-set_transparency (ECalModelComponent *comp_data, gconstpointer value)
+set_transparency (ECalModelComponent *comp_data,
+                  gconstpointer value)
 {
 	icalproperty *prop;
 
@@ -289,7 +296,10 @@ set_transparency (ECalModelComponent *comp_data, gconstpointer value)
 }
 
 static void
-ecmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
+ecmc_set_value_at (ETableModel *etm,
+                   gint col,
+                   gint row,
+                   gconstpointer value)
 {
 	ECalModelComponent *comp_data;
 	CalObjModType mod = CALOBJ_MOD_ALL;
@@ -377,7 +387,9 @@ ecmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 }
 
 static gboolean
-ecmc_is_cell_editable (ETableModel *etm, gint col, gint row)
+ecmc_is_cell_editable (ETableModel *etm,
+                       gint col,
+                       gint row)
 {
 	ECalModelCalendar *model = (ECalModelCalendar *) etm;
 
@@ -402,7 +414,9 @@ ecmc_is_cell_editable (ETableModel *etm, gint col, gint row)
 }
 
 static gpointer
-ecmc_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
+ecmc_duplicate_value (ETableModel *etm,
+                      gint col,
+                      gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, NULL);
 
@@ -430,7 +444,9 @@ ecmc_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 }
 
 static void
-ecmc_free_value (ETableModel *etm, gint col, gpointer value)
+ecmc_free_value (ETableModel *etm,
+                 gint col,
+                 gpointer value)
 {
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST);
 
@@ -450,7 +466,8 @@ ecmc_free_value (ETableModel *etm, gint col, gpointer value)
 }
 
 static gpointer
-ecmc_initialize_value (ETableModel *etm, gint col)
+ecmc_initialize_value (ETableModel *etm,
+                       gint col)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, NULL);
 
@@ -469,7 +486,9 @@ ecmc_initialize_value (ETableModel *etm, gint col)
 }
 
 static gboolean
-ecmc_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
+ecmc_value_is_empty (ETableModel *etm,
+                     gint col,
+                     gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, TRUE);
 
@@ -488,7 +507,9 @@ ecmc_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 }
 
 static gchar *
-ecmc_value_to_string (ETableModel *etm, gint col, gconstpointer value)
+ecmc_value_to_string (ETableModel *etm,
+                      gint col,
+                      gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, g_strdup (""));
 
@@ -509,8 +530,10 @@ ecmc_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 /* ECalModel class methods */
 
 static void
-ecmc_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
-				ETableModel *source_model, gint row)
+ecmc_fill_component_from_model (ECalModel *model,
+                                ECalModelComponent *comp_data,
+                                ETableModel *source_model,
+                                gint row)
 {
 	g_return_if_fail (E_IS_CAL_MODEL_CALENDAR (model));
 	g_return_if_fail (comp_data != NULL);

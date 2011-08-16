@@ -1052,7 +1052,8 @@ e_mail_paned_view_get_preview (EMailPanedView *view)
 }
 
 void
-e_mail_paned_view_set_enable_show_folder (EMailPanedView *view, gboolean set)
+e_mail_paned_view_set_enable_show_folder (EMailPanedView *view,
+                                          gboolean set)
 {
 	view->priv->enable_show_folder = set ? 1 : 0;
 }

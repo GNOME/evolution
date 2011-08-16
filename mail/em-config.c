@@ -45,7 +45,9 @@ struct _EMConfigPrivate {
 };
 
 static void
-emp_account_changed (struct _EAccount *ea, gint id, EMConfig *emc)
+emp_account_changed (EAccount *ea,
+                     gint id,
+                     EMConfig *emc)
 {
 	e_config_target_changed ((EConfig *) emc, E_CONFIG_TARGET_CHANGED_STATE);
 }
@@ -86,7 +88,8 @@ em_config_set_target (EConfig *ep,
 				s->modified_account, "changed",
 				G_CALLBACK (emp_account_changed), ep);
 
-			em_config_target_new_account_update_settings (ep, s, s->settings);
+			em_config_target_new_account_update_settings (
+				ep, s, s->settings);
 			break; }
 		}
 	}
@@ -239,7 +242,9 @@ em_config_target_new_account (EMConfig *emp,
 }
 
 void
-em_config_target_new_account_update_settings (EConfig *ep, EMConfigTargetAccount *target, CamelSettings *settings)
+em_config_target_new_account_update_settings (EConfig *ep,
+                                              EMConfigTargetAccount *target,
+                                              CamelSettings *settings)
 {
 	g_return_if_fail (ep != NULL);
 	g_return_if_fail (target != NULL);
@@ -248,7 +253,8 @@ em_config_target_new_account_update_settings (EConfig *ep, EMConfigTargetAccount
 		g_object_ref (settings);
 
 	if (target->settings != NULL) {
-		g_signal_handlers_disconnect_by_func (target->settings, G_CALLBACK (emp_account_changed), ep);
+		g_signal_handlers_disconnect_by_func (
+			target->settings, emp_account_changed, ep);
 		g_object_unref (target->settings);
 	}
 

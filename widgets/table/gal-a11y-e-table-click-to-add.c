@@ -56,7 +56,7 @@ etcta_get_n_actions (AtkAction *action)
 
 static const gchar *
 etcta_get_description (AtkAction *action,
-                             gint      i)
+                       gint i)
 {
 	if (i == 0)
 		return _("click to add");
@@ -65,7 +65,8 @@ etcta_get_description (AtkAction *action,
 }
 
 static const gchar *
-etcta_action_get_name (AtkAction *action, gint      i)
+etcta_action_get_name (AtkAction *action,
+                       gint i)
 {
 	if (i == 0)
 		return _("click");
@@ -105,7 +106,8 @@ idle_do_action (gpointer data)
 }
 
 static gboolean
-etcta_do_action (AtkAction * action, gint i)
+etcta_do_action (AtkAction *action,
+                 gint i)
 {
 	g_return_val_if_fail (i == 0, FALSE);
 
@@ -252,7 +254,9 @@ gal_a11y_e_table_click_to_add_get_type (void)
 }
 
 static gboolean
-etcta_event (GnomeCanvasItem *item, GdkEvent *e, gpointer data)
+etcta_event (GnomeCanvasItem *item,
+             GdkEvent *e,
+             gpointer data)
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
 	GalA11yETableClickToAdd *a11y;
@@ -285,8 +289,10 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e, gpointer data)
 }
 
 static void
-etcta_selection_cursor_changed (ESelectionModel *esm, gint row, gint col,
-			GalA11yETableClickToAdd *a11y)
+etcta_selection_cursor_changed (ESelectionModel *esm,
+                                gint row,
+                                gint col,
+                                GalA11yETableClickToAdd *a11y)
 {
 	ETableClickToAdd *etcta;
 	AtkObject *row_a11y;

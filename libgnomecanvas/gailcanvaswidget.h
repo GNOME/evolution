@@ -48,7 +48,7 @@ struct _GailCanvasWidgetClass
   GailCanvasItemClass parent_class;
 };
 
-AtkObject* gail_canvas_widget_new (GObject *obj);
+AtkObject * gail_canvas_widget_new (GObject *obj);
 
 G_END_DECLS
 

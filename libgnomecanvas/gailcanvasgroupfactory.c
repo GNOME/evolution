@@ -68,8 +68,8 @@ gail_canvas_group_factory_class_init (GailCanvasGroupFactoryClass *klass)
   class->get_accessible_type = gail_canvas_group_factory_get_accessible_type;
 }
 
-static AtkObject*
-gail_canvas_group_factory_create_accessible (GObject   *obj)
+static AtkObject *
+gail_canvas_group_factory_create_accessible (GObject *obj)
 {
   return gail_canvas_group_new (obj);
 }

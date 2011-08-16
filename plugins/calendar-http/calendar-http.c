@@ -41,13 +41,15 @@ GtkWidget *e_calendar_http_auth (EPlugin *epl, EConfigHookItemFactoryData *data)
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable (EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep,
+                     gint enable)
 {
 	return 0;
 }
 
 static void
-url_changed (GtkEntry *entry, ESource *source)
+url_changed (GtkEntry *entry,
+             ESource *source)
 {
 	SoupURI *uri;
 	gchar *relative_uri;
@@ -74,7 +76,8 @@ url_changed (GtkEntry *entry, ESource *source)
 }
 
 GtkWidget *
-e_calendar_http_url (EPlugin *epl, EConfigHookItemFactoryData *data)
+e_calendar_http_url (EPlugin *epl,
+                     EConfigHookItemFactoryData *data)
 {
 	GtkWidget *entry;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
@@ -103,14 +106,17 @@ e_calendar_http_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	entry = e_plugin_util_add_entry (data->parent, _("_URL:"), NULL, NULL);
 	gtk_entry_set_text (GTK_ENTRY (entry), uri_text);
-	g_signal_connect (G_OBJECT (entry), "changed", G_CALLBACK (url_changed), t->source);
+	g_signal_connect (
+		entry, "changed",
+		G_CALLBACK (url_changed), t->source);
 	g_free (uri_text);
 
 	return entry;
 }
 
 GtkWidget *
-e_calendar_http_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
+e_calendar_http_refresh (EPlugin *epl,
+                         EConfigHookItemFactoryData *data)
 {
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 
@@ -124,7 +130,8 @@ e_calendar_http_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 GtkWidget *
-e_calendar_http_secure (EPlugin *epl, EConfigHookItemFactoryData *data)
+e_calendar_http_secure (EPlugin *epl,
+                        EConfigHookItemFactoryData *data)
 {
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	GtkWidget *secure_setting;
@@ -144,7 +151,8 @@ e_calendar_http_secure (EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 static void
-username_changed (GtkEntry *entry, ESource *source)
+username_changed (GtkEntry *entry,
+                  ESource *source)
 {
 	const gchar *username;
 	gchar *uri;
@@ -181,7 +189,8 @@ username_changed (GtkEntry *entry, ESource *source)
 }
 
 GtkWidget *
-e_calendar_http_auth (EPlugin *epl, EConfigHookItemFactoryData *data)
+e_calendar_http_auth (EPlugin *epl,
+                      EConfigHookItemFactoryData *data)
 {
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	GtkWidget *entry;
@@ -197,13 +206,16 @@ e_calendar_http_auth (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	entry = e_plugin_util_add_entry (data->parent, _("Userna_me:"), NULL, NULL);
 	gtk_entry_set_text (GTK_ENTRY (entry), username ? username : "");
-	g_signal_connect (G_OBJECT (entry), "changed", G_CALLBACK (username_changed), t->source);
+	g_signal_connect (
+		entry, "changed",
+		G_CALLBACK (username_changed), t->source);
 
 	return entry;
 }
 
 gboolean
-e_calendar_http_check (EPlugin *epl, EConfigHookPageCheckData *data)
+e_calendar_http_check (EPlugin *epl,
+                       EConfigHookPageCheckData *data)
 {
 	/* FIXME - check pageid */
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;

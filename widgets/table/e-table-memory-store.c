@@ -41,7 +41,9 @@ struct _ETableMemoryStorePrivate {
 G_DEFINE_TYPE (ETableMemoryStore, e_table_memory_store, E_TYPE_TABLE_MEMORY)
 
 static gpointer
-duplicate_value (ETableMemoryStore *etms, gint col, gconstpointer val)
+duplicate_value (ETableMemoryStore *etms,
+                 gint col,
+                 gconstpointer val)
 {
 	switch (etms->priv->columns[col].type) {
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
@@ -65,7 +67,9 @@ duplicate_value (ETableMemoryStore *etms, gint col, gconstpointer val)
 }
 
 static void
-free_value (ETableMemoryStore *etms, gint col, gpointer value)
+free_value (ETableMemoryStore *etms,
+            gint col,
+            gpointer value)
 {
 	switch (etms->priv->columns[col].type) {
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
@@ -97,7 +101,9 @@ etms_column_count (ETableModel *etm)
 }
 
 static gpointer
-etms_value_at (ETableModel *etm, gint col, gint row)
+etms_value_at (ETableModel *etm,
+               gint col,
+               gint row)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
@@ -105,7 +111,10 @@ etms_value_at (ETableModel *etm, gint col, gint row)
 }
 
 static void
-etms_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
+etms_set_value_at (ETableModel *etm,
+                   gint col,
+                   gint row,
+                   gconstpointer val)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
@@ -117,7 +126,9 @@ etms_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 }
 
 static gboolean
-etms_is_cell_editable (ETableModel *etm, gint col, gint row)
+etms_is_cell_editable (ETableModel *etm,
+                       gint col,
+                       gint row)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
@@ -126,7 +137,9 @@ etms_is_cell_editable (ETableModel *etm, gint col, gint row)
 
 /* The default for etms_duplicate_value is to return the raw value. */
 static gpointer
-etms_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
+etms_duplicate_value (ETableModel *etm,
+                      gint col,
+                      gconstpointer value)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
@@ -134,7 +147,9 @@ etms_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 }
 
 static void
-etms_free_value (ETableModel *etm, gint col, gpointer value)
+etms_free_value (ETableModel *etm,
+                 gint col,
+                 gpointer value)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
@@ -142,7 +157,8 @@ etms_free_value (ETableModel *etm, gint col, gpointer value)
 }
 
 static gpointer
-etms_initialize_value (ETableModel *etm, gint col)
+etms_initialize_value (ETableModel *etm,
+                       gint col)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
@@ -163,7 +179,9 @@ etms_initialize_value (ETableModel *etm, gint col)
 }
 
 static gboolean
-etms_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
+etms_value_is_empty (ETableModel *etm,
+                     gint col,
+                     gconstpointer value)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
@@ -184,7 +202,9 @@ etms_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 }
 
 static gchar *
-etms_value_to_string (ETableModel *etm, gint col, gconstpointer value)
+etms_value_to_string (ETableModel *etm,
+                      gint col,
+                      gconstpointer value)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
@@ -205,7 +225,9 @@ etms_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 }
 
 static void
-etms_append_row (ETableModel *etm, ETableModel *source, gint row)
+etms_append_row (ETableModel *etm,
+                 ETableModel *source,
+                 gint row)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 	gpointer *new_data;
@@ -310,7 +332,8 @@ e_table_memory_store_new (ETableMemoryStoreColumnInfo *columns)
 }
 
 ETableModel *
-e_table_memory_store_construct (ETableMemoryStore *etms, ETableMemoryStoreColumnInfo *columns)
+e_table_memory_store_construct (ETableMemoryStore *etms,
+                                ETableMemoryStoreColumnInfo *columns)
 {
 	gint i;
 	for (i = 0; columns[i].type != E_TABLE_MEMORY_STORE_COLUMN_TYPE_TERMINATOR; i++)
@@ -325,7 +348,10 @@ e_table_memory_store_construct (ETableMemoryStore *etms, ETableMemoryStoreColumn
 }
 
 void
-e_table_memory_store_adopt_value_at (ETableMemoryStore *etms, gint col, gint row, gpointer value)
+e_table_memory_store_adopt_value_at (ETableMemoryStore *etms,
+                                     gint col,
+                                     gint row,
+                                     gpointer value)
 {
 	e_table_model_pre_change (E_TABLE_MODEL (etms));
 
@@ -336,7 +362,10 @@ e_table_memory_store_adopt_value_at (ETableMemoryStore *etms, gint col, gint row
 
 /* The size of these arrays is the number of columns. */
 void
-e_table_memory_store_insert_array (ETableMemoryStore *etms, gint row, gpointer *store, gpointer data)
+e_table_memory_store_insert_array (ETableMemoryStore *etms,
+                                   gint row,
+                                   gpointer *store,
+                                   gpointer data)
 {
 	gint row_count;
 	gint i;
@@ -357,7 +386,10 @@ e_table_memory_store_insert_array (ETableMemoryStore *etms, gint row, gpointer *
 }
 
 void
-e_table_memory_store_insert (ETableMemoryStore *etms, gint row, gpointer data, ...)
+e_table_memory_store_insert (ETableMemoryStore *etms,
+                             gint row,
+                             gpointer data,
+                             ...)
 {
 	gpointer *store;
 	va_list args;
@@ -377,7 +409,10 @@ e_table_memory_store_insert (ETableMemoryStore *etms, gint row, gpointer data, .
 }
 
 void
-e_table_memory_store_insert_adopt_array (ETableMemoryStore *etms, gint row, gpointer *store, gpointer data)
+e_table_memory_store_insert_adopt_array (ETableMemoryStore *etms,
+                                         gint row,
+                                         gpointer *store,
+                                         gpointer data)
 {
 	gint row_count;
 	gint i;
@@ -398,7 +433,10 @@ e_table_memory_store_insert_adopt_array (ETableMemoryStore *etms, gint row, gpoi
 }
 
 void
-e_table_memory_store_insert_adopt (ETableMemoryStore *etms, gint row, gpointer data, ...)
+e_table_memory_store_insert_adopt (ETableMemoryStore *etms,
+                                   gint row,
+                                   gpointer data,
+                                   ...)
 {
 	gpointer *store;
 	va_list args;
@@ -429,7 +467,10 @@ e_table_memory_store_insert_adopt (ETableMemoryStore *etms, gint row, gpointer d
  *
  */
 void
-e_table_memory_store_change_array (ETableMemoryStore *etms, gint row, gpointer *store, gpointer data)
+e_table_memory_store_change_array (ETableMemoryStore *etms,
+                                   gint row,
+                                   gpointer *store,
+                                   gpointer data)
 {
 	gint i;
 
@@ -456,7 +497,10 @@ e_table_memory_store_change_array (ETableMemoryStore *etms, gint row, gpointer *
  * pass in etms->col_count args.
  */
 void
-e_table_memory_store_change (ETableMemoryStore *etms, gint row, gpointer data, ...)
+e_table_memory_store_change (ETableMemoryStore *etms,
+                             gint row,
+                             gpointer data,
+                             ...)
 {
 	gpointer *store;
 	va_list args;
@@ -490,7 +534,10 @@ e_table_memory_store_change (ETableMemoryStore *etms, gint row, gpointer data, .
  * duplicate the data.
  */
 void
-e_table_memory_store_change_adopt_array (ETableMemoryStore *etms, gint row, gpointer *store, gpointer data)
+e_table_memory_store_change_adopt_array (ETableMemoryStore *etms,
+                                         gint row,
+                                         gpointer *store,
+                                         gpointer data)
 {
 	gint i;
 
@@ -515,7 +562,10 @@ e_table_memory_store_change_adopt_array (ETableMemoryStore *etms, gint row, gpoi
  * must pass in etms->col_count args.
  */
 void
-e_table_memory_store_change_adopt (ETableMemoryStore *etms, gint row, gpointer data, ...)
+e_table_memory_store_change_adopt (ETableMemoryStore *etms,
+                                   gint row,
+                                   gpointer data,
+                                   ...)
 {
 	gpointer *store;
 	va_list args;
@@ -537,7 +587,8 @@ e_table_memory_store_change_adopt (ETableMemoryStore *etms, gint row, gpointer d
 }
 
 void
-e_table_memory_store_remove (ETableMemoryStore *etms, gint row)
+e_table_memory_store_remove (ETableMemoryStore *etms,
+                             gint row)
 {
 	ETableModel *model;
 	gint column_count, row_count;

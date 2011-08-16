@@ -29,7 +29,7 @@
 G_BEGIN_DECLS
 
 /* I've split these functions away from EDayView so we can use them for
-   printing. */
+ * printing. */
 
 void e_day_view_layout_long_events	(GArray	   *events,
 					 gint	    days_shown,

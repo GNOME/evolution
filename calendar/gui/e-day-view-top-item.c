@@ -53,10 +53,10 @@ enum {
 static gpointer parent_class;
 
 /* This draws a little triangle to indicate that an event extends past
-   the days visible on screen. */
+ * the days visible on screen. */
 static void
 day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
-				 cairo_t *cr,
+                                 cairo_t *cr,
                                  gint x,
                                  gint y,
                                  gint w,
@@ -79,7 +79,7 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 	points[2].y = y + h - 1;
 
 	/* If the height is odd we can use the same central point for both
-	   lines. If it is even we use different end-points. */
+	 * lines. If it is even we use different end-points. */
 	c1 = c2 = y + (h / 2);
 	if (h % 2 == 0)
 		c1--;
@@ -128,7 +128,7 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 static void
 day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
                                    gint event_num,
-				   cairo_t *cr,
+                                   cairo_t *cr,
                                    gint x,
                                    gint y,
                                    gint width,
@@ -159,7 +159,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 
 	/* If the event is currently being dragged, don't draw it. It will
-	   be drawn in the special drag items. */
+	 * be drawn in the special drag items. */
 	if (day_view->drag_event_day == E_DAY_VIEW_LONG_EVENT
 	    && day_view->drag_event_num == event_num)
 		return;
@@ -225,7 +225,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 
 	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
-	cairo_set_source_rgb (cr, red/cc, green/cc, blue/cc);
+	cairo_set_source_rgb (cr, red / cc, green / cc, blue / cc);
 	cairo_set_line_width (cr, 1.5);
 	cairo_stroke (cr);
 	cairo_restore (cr);
@@ -245,13 +245,13 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 
 	pat = cairo_pattern_create_linear (item_x - x + 5.5, item_y + 2.5 - y,
 					item_x - x + 5, item_y - y + item_h + 7.5);
-	cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
-	cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
+	cairo_pattern_add_color_stop_rgba (pat, 1, red / cc, green / cc, blue / cc, 0.8);
+	cairo_pattern_add_color_stop_rgba (pat, 0, red / cc, green / cc, blue / cc, 0.4);
 	cairo_set_source (cr, pat);
 	cairo_fill_preserve (cr);
 	cairo_pattern_destroy (pat);
 
-	cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0);
+	cairo_set_source_rgba (cr, red / cc, green / cc, blue / cc, 0);
 	cairo_set_line_width (cr, 0.5);
 	cairo_stroke (cr);
 	cairo_restore (cr);
@@ -287,7 +287,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	}
 
 	/* If we are editing the event we don't show the icons or the start
-	   & end times. */
+	 * & end times. */
 	if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT
 	    && day_view->editing_event_num == event_num) {
 		g_object_unref (comp);
@@ -295,8 +295,8 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	}
 
 	/* Determine the position of the label, so we know where to place the
-	   icons. Note that since the top canvas never scrolls we don't need
-	   to take the scroll offset into account. It will always be 0. */
+	 * icons. Note that since the top canvas never scrolls we don't need
+	 * to take the scroll offset into account. It will always be 0. */
 	text_x = event->canvas_item->x1;
 
 	/* Draw the start & end times, if necessary. */
@@ -312,7 +312,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 		hour = offset / 60;
 		minute = offset % 60;
 		/* Calculate the actual hour number to display. For 12-hour
-		   format we convert 0-23 to 12-11am/12-11pm. */
+		 * format we convert 0-23 to 12-11am/12-11pm. */
 		e_day_view_convert_time_to_display (day_view, hour,
 						    &display_hour,
 						    &suffix, &suffix_width);
@@ -658,7 +658,7 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 
 	if (show_dates) {
 		/* Draw the date. Set a clipping rectangle so we don't draw over the
-		   next day. */
+		 * next day. */
 		for (day = 0; day < day_view->days_shown; day++) {
 			e_day_view_top_item_get_day_label (day_view, day, buffer, sizeof (buffer));
 			clip_rect.x = day_view->day_offsets[day] - x;
@@ -844,15 +844,15 @@ e_day_view_top_item_get_day_label (EDayView *day_view,
 
 	if (day_view->date_format == E_DAY_VIEW_DATE_FULL)
 		/* strftime format %A = full weekday name, %d = day of month,
-		   %B = full month name. Don't use any other specifiers. */
+		 * %B = full month name. Don't use any other specifiers. */
 		format = _("%A %d %B");
 	else if (day_view->date_format == E_DAY_VIEW_DATE_ABBREVIATED)
 		/* strftime format %a = abbreviated weekday name, %d = day of month,
-		   %b = abbreviated month name. Don't use any other specifiers. */
+		 * %b = abbreviated month name. Don't use any other specifiers. */
 		format = _("%a %d %b");
 	else if (day_view->date_format == E_DAY_VIEW_DATE_NO_WEEKDAY)
 		/* strftime format %d = day of month, %b = abbreviated month name.
-		   Don't use any other specifiers. */
+		 * Don't use any other specifiers. */
 		format = _("%d %b");
 	else
 		format = "%d";

@@ -347,7 +347,8 @@ e_mail_reader_mark_selected (EMailReader *reader,
 	return ii;
 }
 static void
-copy_tree_state (EMailReader *src_reader, EMailReader *des_reader)
+copy_tree_state (EMailReader *src_reader,
+                 EMailReader *des_reader)
 {
 	GtkWidget *src_mlist, *des_mlist;
 	gchar *state;

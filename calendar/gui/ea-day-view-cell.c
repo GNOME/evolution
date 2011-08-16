@@ -69,7 +69,9 @@ e_day_view_cell_class_init (EDayViewCellClass *class)
 }
 
 EDayViewCell *
-e_day_view_cell_new (EDayView *day_view, gint row, gint column)
+e_day_view_cell_new (EDayView *day_view,
+                     gint row,
+                     gint column)
 {
 	GObject *object;
 	EDayViewCell *cell;
@@ -95,7 +97,7 @@ static void ea_day_view_cell_class_init (EaDayViewCellClass *klass);
 
 static const gchar * ea_day_view_cell_get_name (AtkObject *accessible);
 static const gchar * ea_day_view_cell_get_description (AtkObject *accessible);
-static AtkStateSet* ea_day_view_cell_ref_state_set (AtkObject *obj);
+static AtkStateSet * ea_day_view_cell_ref_state_set (AtkObject *obj);
 static AtkObject * ea_day_view_cell_get_parent (AtkObject *accessible);
 static gint ea_day_view_cell_get_index_in_parent (AtkObject *accessible);
 
@@ -168,7 +170,7 @@ ea_day_view_cell_class_init (EaDayViewCellClass *klass)
 	class->get_index_in_parent = ea_day_view_cell_get_index_in_parent;
 }
 
-AtkObject*
+AtkObject *
 ea_day_view_cell_new (GObject *obj)
 {
 	gpointer object;
@@ -240,7 +242,7 @@ ea_day_view_cell_get_description (AtkObject *accessible)
 	return ea_day_view_cell_get_name (accessible);
 }
 
-static AtkStateSet*
+static AtkStateSet *
 ea_day_view_cell_ref_state_set (AtkObject *obj)
 {
   AtkStateSet *state_set;
@@ -326,8 +328,11 @@ atk_component_interface_init (AtkComponentIface *iface)
 
 static void
 component_interface_get_extents (AtkComponent *component,
-				 gint *x, gint *y, gint *width, gint *height,
-				 AtkCoordType coord_type)
+                                 gint *x,
+                                 gint *y,
+                                 gint *width,
+                                 gint *height,
+                                 AtkCoordType coord_type)
 {
 	GObject *g_obj;
 	AtkObject *atk_obj;

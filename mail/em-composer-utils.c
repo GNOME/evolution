@@ -179,10 +179,10 @@ ask_confirm_for_only_bcc (EMsgComposer *composer,
                           gboolean hidden_list_case)
 {
 	/* If the user is mailing a hidden contact list, it is possible for
-	   them to create a message with only Bcc recipients without really
-	   realizing it.  To try to avoid being totally confusing, I've changed
-	   this dialog to provide slightly different text in that case, to
-	   better explain what the hell is going on. */
+	 * them to create a message with only Bcc recipients without really
+	 * realizing it.  To try to avoid being totally confusing, I've changed
+	 * this dialog to provide slightly different text in that case, to
+	 * better explain what the hell is going on. */
 
 	return em_utils_prompt_user (
 		GTK_WINDOW (composer),
@@ -1028,7 +1028,9 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
 }
 
 static gboolean
-replace_variables (GSList *clues, CamelMimeMessage *message, gchar **pstr)
+replace_variables (GSList *clues,
+                   CamelMimeMessage *message,
+                   gchar **pstr)
 {
 	gint i;
 	gboolean string_changed = FALSE, count1 = FALSE;
@@ -1057,7 +1059,7 @@ replace_variables (GSList *clues, CamelMimeMessage *message, gchar **pstr)
 
 			for (list = clues; list; list = g_slist_next (list)) {
 				gchar **temp = g_strsplit (list->data, "=", 2);
-				if (!g_ascii_strcasecmp (temp[0], out+1)) {
+				if (!g_ascii_strcasecmp (temp[0], out + 1)) {
 					g_free (str);
 					str = g_strconcat (temp_str[0], temp[1], temp_str[1], NULL);
 					count1 = TRUE;
@@ -1068,7 +1070,7 @@ replace_variables (GSList *clues, CamelMimeMessage *message, gchar **pstr)
 			}
 
 			if (!count1) {
-				if (getenv (out+1)) {
+				if (getenv (out + 1)) {
 					g_free (str);
 					str = g_strconcat (
 						temp_str[0],
@@ -1113,7 +1115,9 @@ replace_variables (GSList *clues, CamelMimeMessage *message, gchar **pstr)
 }
 
 static void
-traverse_parts (GSList *clues, CamelMimeMessage *message, CamelDataWrapper *content)
+traverse_parts (GSList *clues,
+                CamelMimeMessage *message,
+                CamelDataWrapper *content)
 {
 	g_return_if_fail (message != NULL);
 
@@ -1401,7 +1405,8 @@ em_utils_edit_messages (EMailReader *reader,
 }
 
 static void
-emu_update_composers_security (EMsgComposer *composer, guint32 validity_found)
+emu_update_composers_security (EMsgComposer *composer,
+                               guint32 validity_found)
 {
 	GtkToggleAction *action;
 
@@ -1426,7 +1431,8 @@ emu_update_composers_security (EMsgComposer *composer, guint32 validity_found)
 }
 
 static void
-real_update_forwarded_flag (gpointer uid, gpointer folder)
+real_update_forwarded_flag (gpointer uid,
+                            gpointer folder)
 {
 	if (uid && folder)
 		camel_folder_set_message_flags (
@@ -1788,8 +1794,8 @@ redirect_get_composer (EShell *shell,
 	medium = CAMEL_MEDIUM (message);
 
 	/* QMail will refuse to send a message if it finds one of
-	   it's Delivered-To headers in the message, so remove all
-	   Delivered-To headers. Fixes bug #23635. */
+	 * it's Delivered-To headers in the message, so remove all
+	 * Delivered-To headers. Fixes bug #23635. */
 	while (camel_medium_get_header (medium, "Delivered-To"))
 		camel_medium_remove_header (medium, "Delivered-To");
 
@@ -2204,7 +2210,7 @@ reply_get_composer (EShell *shell,
 			store_url = camel_url_to_string (
 				url, CAMEL_URL_HIDE_ALL);
 			if (store_url[strlen (store_url) - 1] == '/')
-				store_url[strlen (store_url)-1] = '\0';
+				store_url[strlen (store_url) - 1] = '\0';
 		}
 
 		post = camel_address_encode ((CamelAddress *) postto);
@@ -2245,7 +2251,8 @@ reply_get_composer (EShell *shell,
 }
 
 static gboolean
-get_reply_list (CamelMimeMessage *message, CamelInternetAddress *to)
+get_reply_list (CamelMimeMessage *message,
+                CamelInternetAddress *to)
 {
 	const gchar *header, *p;
 	gchar *addr;
@@ -2571,7 +2578,9 @@ typedef void		(*AttribFormatter)	(GString *str,
 						 CamelMimeMessage *message);
 
 static void
-format_sender (GString *str, const gchar *attr, CamelMimeMessage *message)
+format_sender (GString *str,
+               const gchar *attr,
+               CamelMimeMessage *message)
 {
 	CamelInternetAddress *sender;
 	const gchar *name, *addr = NULL;
@@ -2821,8 +2830,8 @@ composer_set_body (EMsgComposer *composer,
 		const gchar *key;
 
 		/* If we are placing signature on top, then move cursor to the end,
-		   otherwise try to find the signature place and place cursor just
-		   before the signature. We added there an empty line already. */
+		 * otherwise try to find the signature place and place cursor just
+		 * before the signature. We added there an empty line already. */
 		gtkhtml_editor_run_command (editor, "block-selection");
 		gtkhtml_editor_run_command (editor, "cursor-bod");
 
@@ -2844,7 +2853,8 @@ composer_set_body (EMsgComposer *composer,
 }
 
 gchar *
-em_utils_construct_composer_text (CamelMimeMessage *message, EMFormat *source)
+em_utils_construct_composer_text (CamelMimeMessage *message,
+                                  EMFormat *source)
 {
 	gchar *text, *credits;
 	gboolean start_bottom = 0;
@@ -2882,7 +2892,7 @@ em_utils_reply_to_message (EShell *shell,
                            EMailReplyType type,
                            EMailReplyStyle style,
                            EMFormat *source_formatter,
-			   CamelInternetAddress *address)
+                           CamelInternetAddress *address)
 {
 	CamelInternetAddress *to, *cc;
 	CamelNNTPAddress *postto = NULL;

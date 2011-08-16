@@ -233,8 +233,10 @@ item_post_create_setup (GnomeCanvasItem *item)
 
 /* Set_property handler for canvas items */
 static void
-gnome_canvas_item_set_property (GObject *gobject, guint param_id,
-				const GValue *value, GParamSpec *pspec)
+gnome_canvas_item_set_property (GObject *gobject,
+                                guint property_id,
+                                const GValue *value,
+                                GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 
@@ -242,7 +244,7 @@ gnome_canvas_item_set_property (GObject *gobject, guint param_id,
 
 	item = GNOME_CANVAS_ITEM (gobject);
 
-	switch (param_id) {
+	switch (property_id) {
 	case ITEM_PROP_PARENT:
 		if (item->parent != NULL) {
 		    g_warning ("Cannot set `parent' argument after item has "
@@ -254,15 +256,17 @@ gnome_canvas_item_set_property (GObject *gobject, guint param_id,
 		}
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, property_id, pspec);
 		break;
 	}
 }
 
 /* Get_property handler for canvas items */
 static void
-gnome_canvas_item_get_property (GObject *gobject, guint param_id,
-				GValue *value, GParamSpec *pspec)
+gnome_canvas_item_get_property (GObject *gobject,
+                                guint property_id,
+                                GValue *value,
+                                GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 
@@ -270,13 +274,13 @@ gnome_canvas_item_get_property (GObject *gobject, guint param_id,
 
 	item = GNOME_CANVAS_ITEM (gobject);
 
-	switch (param_id) {
+	switch (property_id) {
 	case ITEM_PROP_PARENT:
 		g_value_set_object (value, item->parent);
 		break;
 
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, property_id, pspec);
 		break;
 	}
 }
@@ -291,8 +295,10 @@ gnome_canvas_item_get_property (GObject *gobject, guint param_id,
  * Constructs a canvas item; meant for use only by item implementations.
  **/
 void
-gnome_canvas_item_construct (GnomeCanvasItem *item, GnomeCanvasGroup *parent,
-			     const gchar *first_arg_name, va_list args)
+gnome_canvas_item_construct (GnomeCanvasItem *item,
+                             GnomeCanvasGroup *parent,
+                             const gchar *first_arg_name,
+                             va_list args)
 {
 	g_return_if_fail (GNOME_IS_CANVAS_GROUP (parent));
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
@@ -364,7 +370,7 @@ gnome_canvas_item_dispose (GObject *object)
 
 	G_OBJECT_CLASS (item_parent_class)->dispose (object);
 	/* items should remove any reference to item->canvas after the
-	   first ::dispose */
+	 * first ::dispose */
 	item->canvas = NULL;
 }
 
@@ -501,7 +507,9 @@ gnome_canvas_item_invoke_point (GnomeCanvasItem *item,
  * specified values, and the item is repainted as appropriate.
  **/
 void
-gnome_canvas_item_set (GnomeCanvasItem *item, const gchar *first_arg_name, ...)
+gnome_canvas_item_set (GnomeCanvasItem *item,
+                       const gchar *first_arg_name,
+                       ...)
 {
 	va_list args;
 
@@ -540,7 +548,8 @@ gnome_canvas_item_set_valist (GnomeCanvasItem *item,
  * transformation.
  **/
 void
-gnome_canvas_item_transform (GnomeCanvasItem *item, const cairo_matrix_t *matrix)
+gnome_canvas_item_transform (GnomeCanvasItem *item,
+                             const cairo_matrix_t *matrix)
 {
 	cairo_matrix_t i2p;
 
@@ -562,7 +571,8 @@ gnome_canvas_item_transform (GnomeCanvasItem *item, const cairo_matrix_t *matrix
  * matrix. NULL is treated as identity.
  **/
 void
-gnome_canvas_item_set_matrix (GnomeCanvasItem *item, const cairo_matrix_t *matrix)
+gnome_canvas_item_set_matrix (GnomeCanvasItem *item,
+                              const cairo_matrix_t *matrix)
 {
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 
@@ -593,7 +603,9 @@ gnome_canvas_item_set_matrix (GnomeCanvasItem *item, const cairo_matrix_t *matri
  * most probably does not do, what you want.
  **/
 void
-gnome_canvas_item_move (GnomeCanvasItem *item, gdouble dx, gdouble dy)
+gnome_canvas_item_move (GnomeCanvasItem *item,
+                        gdouble dx,
+                        gdouble dy)
 {
 	cairo_matrix_t translate;
 
@@ -608,7 +620,8 @@ gnome_canvas_item_move (GnomeCanvasItem *item, gdouble dx, gdouble dy)
  * specified link after the "before" link. Returns TRUE if the list was changed.
  */
 static gboolean
-put_item_after (GList *link, GList *before)
+put_item_after (GList *link,
+                GList *before)
 {
 	GnomeCanvasGroup *parent;
 	GList *old_before, *old_after;
@@ -666,7 +679,8 @@ put_item_after (GList *link, GList *before)
  * stack, then the item is put at the top.
  **/
 void
-gnome_canvas_item_raise (GnomeCanvasItem *item, gint positions)
+gnome_canvas_item_raise (GnomeCanvasItem *item,
+                         gint positions)
 {
 	GList *link, *before;
 	GnomeCanvasGroup *parent;
@@ -703,7 +717,8 @@ gnome_canvas_item_raise (GnomeCanvasItem *item, gint positions)
  * stack, then the item is put at the bottom.
  **/
 void
-gnome_canvas_item_lower (GnomeCanvasItem *item, gint positions)
+gnome_canvas_item_lower (GnomeCanvasItem *item,
+                         gint positions)
 {
 	GList *link, *before;
 	GnomeCanvasGroup *parent;
@@ -894,7 +909,8 @@ gnome_canvas_item_grab (GnomeCanvasItem *item,
  * mouse.
  **/
 void
-gnome_canvas_item_ungrab (GnomeCanvasItem *item, guint32 etime)
+gnome_canvas_item_ungrab (GnomeCanvasItem *item,
+                          guint32 etime)
 {
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 
@@ -907,7 +923,8 @@ gnome_canvas_item_ungrab (GnomeCanvasItem *item, guint32 etime)
 }
 
 void
-gnome_canvas_item_i2w_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
+gnome_canvas_item_i2w_matrix (GnomeCanvasItem *item,
+                              cairo_matrix_t *matrix)
 {
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 	g_return_if_fail (matrix != NULL);
@@ -922,7 +939,8 @@ gnome_canvas_item_i2w_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
 }
 
 void
-gnome_canvas_item_w2i_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
+gnome_canvas_item_w2i_matrix (GnomeCanvasItem *item,
+                              cairo_matrix_t *matrix)
 {
 	cairo_status_t status;
 
@@ -944,7 +962,9 @@ gnome_canvas_item_w2i_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
  * coordinates.
  **/
 void
-gnome_canvas_item_w2i (GnomeCanvasItem *item, gdouble *x, gdouble *y)
+gnome_canvas_item_w2i (GnomeCanvasItem *item,
+                       gdouble *x,
+                       gdouble *y)
 {
 	cairo_matrix_t matrix;
 
@@ -966,7 +986,9 @@ gnome_canvas_item_w2i (GnomeCanvasItem *item, gdouble *x, gdouble *y)
  * coordinates.
  **/
 void
-gnome_canvas_item_i2w (GnomeCanvasItem *item, gdouble *x, gdouble *y)
+gnome_canvas_item_i2w (GnomeCanvasItem *item,
+                       gdouble *x,
+                       gdouble *y)
 {
 	cairo_matrix_t matrix;
 
@@ -987,7 +1009,8 @@ gnome_canvas_item_i2w (GnomeCanvasItem *item, gdouble *x, gdouble *y)
  * canvas pixel coordinates.
  **/
 void
-gnome_canvas_item_i2c_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
+gnome_canvas_item_i2c_matrix (GnomeCanvasItem *item,
+                              cairo_matrix_t *matrix)
 {
 	cairo_matrix_t i2w, w2c;
 
@@ -998,7 +1021,8 @@ gnome_canvas_item_i2c_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
 
 /* Returns whether the item is an inferior of or is equal to the parent. */
 static gint
-is_descendant (GnomeCanvasItem *item, GnomeCanvasItem *parent)
+is_descendant (GnomeCanvasItem *item,
+               GnomeCanvasItem *parent)
 {
 	for (; item; item = item->parent)
 		if (item == parent)
@@ -1017,7 +1041,8 @@ is_descendant (GnomeCanvasItem *item, GnomeCanvasItem *parent)
  * its absolute position within the canvas.
  **/
 void
-gnome_canvas_item_reparent (GnomeCanvasItem *item, GnomeCanvasGroup *new_group)
+gnome_canvas_item_reparent (GnomeCanvasItem *item,
+                            GnomeCanvasGroup *new_group)
 {
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 	g_return_if_fail (GNOME_IS_CANVAS_GROUP (new_group));
@@ -1184,11 +1209,11 @@ enum {
 static void gnome_canvas_group_class_init  (GnomeCanvasGroupClass *class);
 static void gnome_canvas_group_init        (GnomeCanvasGroup      *group);
 static void gnome_canvas_group_set_property (GObject               *object,
-					    guint                  param_id,
+					    guint                  property_id,
 					    const GValue          *value,
 					    GParamSpec            *pspec);
 static void gnome_canvas_group_get_property (GObject               *object,
-					    guint                  param_id,
+					    guint                  property_id,
 					    GValue                *value,
 					    GParamSpec            *pspec);
 
@@ -1298,8 +1323,10 @@ gnome_canvas_group_init (GnomeCanvasGroup *group)
 
 /* Set_property handler for canvas groups */
 static void
-gnome_canvas_group_set_property (GObject *gobject, guint param_id,
-				 const GValue *value, GParamSpec *pspec)
+gnome_canvas_group_set_property (GObject *gobject,
+                                 guint property_id,
+                                 const GValue *value,
+                                 GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 
@@ -1307,7 +1334,7 @@ gnome_canvas_group_set_property (GObject *gobject, guint param_id,
 
 	item = GNOME_CANVAS_ITEM (gobject);
 
-	switch (param_id) {
+	switch (property_id) {
 	case GROUP_PROP_X:
 		item->matrix.x0 = g_value_get_double (value);
 		break;
@@ -1317,15 +1344,17 @@ gnome_canvas_group_set_property (GObject *gobject, guint param_id,
 		break;
 
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, property_id, pspec);
 		break;
 	}
 }
 
 /* Get_property handler for canvas groups */
 static void
-gnome_canvas_group_get_property (GObject *gobject, guint param_id,
-				 GValue *value, GParamSpec *pspec)
+gnome_canvas_group_get_property (GObject *gobject,
+                                 guint property_id,
+                                 GValue *value,
+                                 GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 
@@ -1333,7 +1362,7 @@ gnome_canvas_group_get_property (GObject *gobject, guint param_id,
 
 	item = GNOME_CANVAS_ITEM (gobject);
 
-	switch (param_id) {
+	switch (property_id) {
 	case GROUP_PROP_X:
 		g_value_set_double (value, item->matrix.x0);
 		break;
@@ -1343,7 +1372,7 @@ gnome_canvas_group_get_property (GObject *gobject, guint param_id,
 		break;
 
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, property_id, pspec);
 		break;
 	}
 }
@@ -1627,7 +1656,8 @@ gnome_canvas_group_bounds (GnomeCanvasItem *item,
 
 /* Adds an item to a group */
 static void
-group_add (GnomeCanvasGroup *group, GnomeCanvasItem *item)
+group_add (GnomeCanvasGroup *group,
+           GnomeCanvasItem *item)
 {
 	g_object_ref_sink (G_OBJECT (item));
 
@@ -1648,7 +1678,8 @@ group_add (GnomeCanvasGroup *group, GnomeCanvasItem *item)
 
 /* Removes an item from a group */
 static void
-group_remove (GnomeCanvasGroup *group, GnomeCanvasItem *item)
+group_remove (GnomeCanvasGroup *group,
+              GnomeCanvasItem *item)
 {
 	GList *children;
 
@@ -1826,33 +1857,33 @@ gnome_canvas_get_type (void)
 }
 
 static void
-gnome_canvas_get_property (GObject    *object,
-			   guint       prop_id,
-			   GValue     *value,
-			   GParamSpec *pspec)
+gnome_canvas_get_property (GObject *object,
+                           guint property_id,
+                           GValue *value,
+                           GParamSpec *pspec)
 {
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_FOCUSED_ITEM:
 		g_value_set_object (value, GNOME_CANVAS (object)->focused_item);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
 
 static void
-gnome_canvas_set_property (GObject      *object,
-			   guint         prop_id,
-			   const GValue *value,
-			   GParamSpec   *pspec)
+gnome_canvas_set_property (GObject *object,
+                           guint property_id,
+                           const GValue *value,
+                           GParamSpec *pspec)
 {
-	switch (prop_id) {
+	switch (property_id) {
 	case PROP_FOCUSED_ITEM:
 		GNOME_CANVAS (object)->focused_item = g_value_get_object (value);
 		break;
 	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
@@ -1914,7 +1945,8 @@ gnome_canvas_class_init (GnomeCanvasClass *klass)
  * never ever do this, so we panic if this happens.
  */
 G_GNUC_NORETURN static void
-panic_root_finalized (gpointer data, GObject *gone_object)
+panic_root_finalized (gpointer data,
+                      GObject *gone_object)
 {
 	g_error ("Eeeek, root item %p of canvas %p was destroyed!", gone_object, data);
 }
@@ -2127,7 +2159,9 @@ gnome_canvas_unrealize (GtkWidget *widget)
  * keep as much as possible of the canvas scrolling region in view.
  */
 static void
-scroll_to (GnomeCanvas *canvas, gint cx, gint cy)
+scroll_to (GnomeCanvas *canvas,
+           gint cx,
+           gint cy)
 {
 	GtkWidget *widget;
 	GtkAllocation allocation;
@@ -2219,7 +2253,8 @@ scroll_to (GnomeCanvas *canvas, gint cx, gint cy)
 
 /* Size allocation handler for the canvas */
 static void
-gnome_canvas_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
+gnome_canvas_size_allocate (GtkWidget *widget,
+                            GtkAllocation *allocation)
 {
 	GtkScrollable *scrollable;
 	GtkAdjustment *hadjustment;
@@ -2312,7 +2347,8 @@ gnome_canvas_draw (GtkWidget *widget,
  */
 
 static gint
-emit_event (GnomeCanvas *canvas, GdkEvent *event)
+emit_event (GnomeCanvas *canvas,
+            GdkEvent *event)
 {
 	GdkEvent *ev;
 	gint finished;
@@ -2443,7 +2479,8 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
  * Also emits enter/leave events for items as appropriate.
  */
 static gint
-pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
+pick_current_item (GnomeCanvas *canvas,
+                   GdkEvent *event)
 {
 	gint button_down;
 	gdouble x, y;
@@ -2586,7 +2623,8 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 
 /* Button event handler for the canvas */
 static gint
-gnome_canvas_button (GtkWidget *widget, GdkEventButton *event)
+gnome_canvas_button (GtkWidget *widget,
+                     GdkEventButton *event)
 {
 	GnomeCanvas *canvas;
 	GtkLayout *layout;
@@ -2665,7 +2703,8 @@ gnome_canvas_button (GtkWidget *widget, GdkEventButton *event)
 
 /* Motion event handler for the canvas */
 static gint
-gnome_canvas_motion (GtkWidget *widget, GdkEventMotion *event)
+gnome_canvas_motion (GtkWidget *widget,
+                     GdkEventMotion *event)
 {
 	GnomeCanvas *canvas;
 	GtkLayout *layout;
@@ -2689,7 +2728,8 @@ gnome_canvas_motion (GtkWidget *widget, GdkEventMotion *event)
 
 /* Key event handler for the canvas */
 static gboolean
-gnome_canvas_key (GtkWidget *widget, GdkEventKey *event)
+gnome_canvas_key (GtkWidget *widget,
+                  GdkEventKey *event)
 {
 	GnomeCanvas *canvas;
 
@@ -2719,7 +2759,8 @@ gnome_canvas_key (GtkWidget *widget, GdkEventKey *event)
 
 /* Crossing event handler for the canvas */
 static gint
-gnome_canvas_crossing (GtkWidget *widget, GdkEventCrossing *event)
+gnome_canvas_crossing (GtkWidget *widget,
+                       GdkEventCrossing *event)
 {
 	GnomeCanvas *canvas;
 	GtkLayout *layout;
@@ -2749,7 +2790,8 @@ gnome_canvas_crossing (GtkWidget *widget, GdkEventCrossing *event)
 
 /* Focus in handler for the canvas */
 static gint
-gnome_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
+gnome_canvas_focus_in (GtkWidget *widget,
+                       GdkEventFocus *event)
 {
 	GnomeCanvas *canvas;
 
@@ -2769,7 +2811,8 @@ gnome_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 
 /* Focus out handler for the canvas */
 static gint
-gnome_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
+gnome_canvas_focus_out (GtkWidget *widget,
+                        GdkEventFocus *event)
 {
 	GnomeCanvas *canvas;
 
@@ -2830,10 +2873,10 @@ update_again:
 	}
 
 	/* it is possible that during picking we emitted an event in which
-	   the user then called some function which then requested update
-	   of something.  Without this we'd be left in a state where
-	   need_update would have been left TRUE and the canvas would have
-	   been left unpainted. */
+	 * the user then called some function which then requested update
+	 * of something.  Without this we'd be left in a state where
+	 * need_update would have been left TRUE and the canvas would have
+	 * been left unpainted. */
 	if (canvas->need_update) {
 		goto update_again;
 	}
@@ -2999,7 +3042,9 @@ gnome_canvas_get_scroll_region (GnomeCanvas *canvas,
  * scrollbars to the canvas layout's scrolling adjusments.
  **/
 void
-gnome_canvas_scroll_to (GnomeCanvas *canvas, gint cx, gint cy)
+gnome_canvas_scroll_to (GnomeCanvas *canvas,
+                        gint cx,
+                        gint cy)
 {
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
@@ -3016,7 +3061,9 @@ gnome_canvas_scroll_to (GnomeCanvas *canvas, gint cx, gint cy)
  * pixel units.
  **/
 void
-gnome_canvas_get_scroll_offsets (GnomeCanvas *canvas, gint *cx, gint *cy)
+gnome_canvas_get_scroll_offsets (GnomeCanvas *canvas,
+                                 gint *cx,
+                                 gint *cy)
 {
 	GtkAdjustment *adjustment;
 	GtkScrollable *scrollable;
@@ -3049,7 +3096,9 @@ gnome_canvas_get_scroll_offsets (GnomeCanvas *canvas, gint *cx, gint *cy)
  * coordinates.
  **/
 GnomeCanvasItem *
-gnome_canvas_get_item_at (GnomeCanvas *canvas, gdouble x, gdouble y)
+gnome_canvas_get_item_at (GnomeCanvas *canvas,
+                          gdouble x,
+                          gdouble y)
 {
 	gint cx, cy;
 
@@ -3079,7 +3128,8 @@ gnome_canvas_request_update_real (GnomeCanvas *canvas)
 }
 
 static inline void
-get_visible_rect (GnomeCanvas *canvas, GdkRectangle *visible)
+get_visible_rect (GnomeCanvas *canvas,
+                  GdkRectangle *visible)
 {
 	GtkAllocation allocation;
 	GtkScrollable *scrollable;
@@ -3116,7 +3166,11 @@ get_visible_rect (GnomeCanvas *canvas, GdkRectangle *visible)
  * be used only by item implementations.
  **/
 void
-gnome_canvas_request_redraw (GnomeCanvas *canvas, gint x1, gint y1, gint x2, gint y2)
+gnome_canvas_request_redraw (GnomeCanvas *canvas,
+                             gint x1,
+                             gint y1,
+                             gint x2,
+                             gint y2)
 {
 	GdkRectangle area, clip;
 
@@ -3147,7 +3201,8 @@ gnome_canvas_request_redraw (GnomeCanvas *canvas, gint x1, gint y1, gint x2, gin
  * pixel coordinates.
  **/
 void
-gnome_canvas_w2c_matrix (GnomeCanvas *canvas, cairo_matrix_t *matrix)
+gnome_canvas_w2c_matrix (GnomeCanvas *canvas,
+                         cairo_matrix_t *matrix)
 {
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 	g_return_if_fail (matrix != NULL);
@@ -3165,7 +3220,8 @@ gnome_canvas_w2c_matrix (GnomeCanvas *canvas, cairo_matrix_t *matrix)
  * world coordinates.
  **/
 void
-gnome_canvas_c2w_matrix (GnomeCanvas *canvas, cairo_matrix_t *matrix)
+gnome_canvas_c2w_matrix (GnomeCanvas *canvas,
+                         cairo_matrix_t *matrix)
 {
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 	g_return_if_fail (matrix != NULL);
@@ -3185,7 +3241,11 @@ gnome_canvas_c2w_matrix (GnomeCanvas *canvas, cairo_matrix_t *matrix)
  * Converts world coordinates into canvas pixel coordinates.
  **/
 void
-gnome_canvas_w2c (GnomeCanvas *canvas, gdouble wx, gdouble wy, gint *cx, gint *cy)
+gnome_canvas_w2c (GnomeCanvas *canvas,
+                  gdouble wx,
+                  gdouble wy,
+                  gint *cx,
+                  gint *cy)
 {
 	cairo_matrix_t w2c;
 
@@ -3243,7 +3303,11 @@ gnome_canvas_w2c_d (GnomeCanvas *canvas,
  * Converts canvas pixel coordinates to world coordinates.
  **/
 void
-gnome_canvas_c2w (GnomeCanvas *canvas, gint cx, gint cy, gdouble *wx, gdouble *wy)
+gnome_canvas_c2w (GnomeCanvas *canvas,
+                  gint cx,
+                  gint cy,
+                  gdouble *wx,
+                  gdouble *wy)
 {
 	cairo_matrix_t c2w;
 	gdouble x, y;
@@ -3274,8 +3338,11 @@ gnome_canvas_c2w (GnomeCanvas *canvas, gint cx, gint cy, gdouble *wx, gdouble *w
  * example.
  **/
 void
-gnome_canvas_window_to_world (GnomeCanvas *canvas, gdouble winx, gdouble winy,
-			      gdouble *worldx, gdouble *worldy)
+gnome_canvas_window_to_world (GnomeCanvas *canvas,
+                              gdouble winx,
+                              gdouble winy,
+                              gdouble *worldx,
+                              gdouble *worldy)
 {
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
@@ -3297,8 +3364,11 @@ gnome_canvas_window_to_world (GnomeCanvas *canvas, gdouble winx, gdouble winy,
  * Converts world coordinates into window-relative coordinates.
  **/
 void
-gnome_canvas_world_to_window (GnomeCanvas *canvas, gdouble worldx, gdouble worldy,
-			      gdouble *winx, gdouble *winy)
+gnome_canvas_world_to_window (GnomeCanvas *canvas,
+                              gdouble worldx,
+                              gdouble worldy,
+                              gdouble *winx,
+                              gdouble *winy)
 {
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
@@ -3311,9 +3381,9 @@ gnome_canvas_world_to_window (GnomeCanvas *canvas, gdouble worldx, gdouble world
 
 static gboolean
 boolean_handled_accumulator (GSignalInvocationHint *ihint,
-			     GValue                *return_accu,
-			     const GValue          *handler_return,
-			     gpointer               dummy)
+                             GValue *return_accu,
+                             const GValue *handler_return,
+                             gpointer dummy)
 {
 	gboolean continue_emission;
 	gboolean signal_handled;

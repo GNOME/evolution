@@ -94,12 +94,12 @@ struct _ETableItem {
 	/* View row, -1 means unknown */
 	gint              old_cursor_row;
 
-	guint		 alternating_row_colors:1;
-	guint		 horizontal_draw_grid:1;
-	guint		 vertical_draw_grid:1;
-	guint		 draw_focus:1;
-	guint		 uniform_row_height:1;
-	guint		 cell_views_realized:1;
+	guint		 alternating_row_colors : 1;
+	guint		 horizontal_draw_grid : 1;
+	guint		 vertical_draw_grid : 1;
+	guint		 draw_focus : 1;
+	guint		 uniform_row_height : 1;
+	guint		 cell_views_realized : 1;
 
 	guint		 needs_redraw : 1;
 	guint		 needs_compute_height : 1;

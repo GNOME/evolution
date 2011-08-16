@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* The following is the mozilla license blurb, as the bodies some of
-   these functions were derived from the mozilla source. */
+ * these functions were derived from the mozilla source. */
 /* e-cert-db.c
  *
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
@@ -315,7 +315,9 @@ set_nss_error (GError **error)
 }
 
 static SECStatus PR_CALLBACK
-collect_certs (gpointer arg, SECItem **certs, gint numcerts)
+collect_certs (gpointer arg,
+               SECItem **certs,
+               gint numcerts)
 {
 	CERTDERCerts *collectArgs;
 	SECItem *cert;
@@ -342,10 +344,10 @@ collect_certs (gpointer arg, SECItem **certs, gint numcerts)
 	return (SECSuccess);
 }
 
-static CERTDERCerts*
+static CERTDERCerts *
 e_cert_db_get_certs_from_package (PRArenaPool *arena,
-				  gchar *data,
-				  guint32 length)
+                                  gchar *data,
+                                  guint32 length)
 {
 	/*nsNSSShutDownPreventionLock locker;*/
 	CERTDERCerts *collectArgs =
@@ -386,19 +388,21 @@ e_cert_db_dispose (GObject *object)
 #ifdef notyet
 PRBool
 ucs2_ascii_conversion_fn (PRBool toUnicode,
-			  guchar *inBuf,
-			  guint inBufLen,
-			  guchar *outBuf,
-			  guint maxOutBufLen,
-			  guint *outBufLen,
-			  PRBool swapBytes)
+                          guchar *inBuf,
+                          guint inBufLen,
+                          guchar *outBuf,
+                          guint maxOutBufLen,
+                          guint *outBufLen,
+                          PRBool swapBytes)
 {
 	printf ("in ucs2_ascii_conversion_fn\n");
 }
 #endif
 
 static gchar * PR_CALLBACK
-pk11_password (PK11SlotInfo* slot, PRBool retry, gpointer  arg)
+pk11_password (PK11SlotInfo *slot,
+               PRBool retry,
+               gpointer arg)
 {
 	gchar *pwd;
 	gchar *nsspwd;
@@ -497,9 +501,9 @@ install_loadable_roots (void)
 	if (!RootsModule) {
 #ifndef G_OS_WIN32
 		/* grovel in various places for mozilla's built-in
-		   cert module.
-
-		   XXX yes this is gross.  *sigh*
+		 * cert module.
+		 *
+		 * XXX yes this is gross.  *sigh *
 		*/
 		const gchar *paths_to_check[] = {
 #ifdef MOZILLA_NSS_LIB_DIR
@@ -617,7 +621,7 @@ e_cert_db_get_type (void)
 GStaticMutex init_mutex = G_STATIC_MUTEX_INIT;
 static ECertDB *cert_db = NULL;
 
-ECertDB*
+ECertDB *
 e_cert_db_peek (void)
 {
 	g_static_mutex_lock (&init_mutex);
@@ -635,10 +639,10 @@ e_cert_db_shutdown (void)
 }
 
 /* searching for certificates */
-ECert*
+ECert *
 e_cert_db_find_cert_by_nickname (ECertDB *certdb,
-				 const gchar *nickname,
-				 GError **error)
+                                 const gchar *nickname,
+                                 GError **error)
 {
 	/*  nsNSSShutDownPreventionLock locker;*/
 	CERTCertificate *cert = NULL;
@@ -661,16 +665,16 @@ e_cert_db_find_cert_by_nickname (ECertDB *certdb,
 }
 
 #ifdef notyet
-ECert*
+ECert *
 e_cert_db_find_cert_by_key (ECertDB *certdb,
-			    const gchar *db_key,
-			    GError **error)
+                            const gchar *db_key,
+                            GError **error)
 {
 	/*  nsNSSShutDownPreventionLock locker;*/
 	SECItem keyItem = {siBuffer, NULL, 0};
 	SECItem *dummy;
 	CERTIssuerAndSN issuerSN;
-	unsigned long moduleID,slotID;
+	gulong moduleID,slotID;
 	CERTCertificate *cert;
 
 	if (!db_key) {
@@ -686,10 +690,10 @@ e_cert_db_find_cert_by_key (ECertDB *certdb,
 	slotID = NS_NSS_GET_LONG (&keyItem.data[NS_NSS_LONG]);
 
 	/* build the issuer/SN structure*/
-	issuerSN.serialNumber.len = NS_NSS_GET_LONG (&keyItem.data[NS_NSS_LONG*2]);
-	issuerSN.derIssuer.len = NS_NSS_GET_LONG (&keyItem.data[NS_NSS_LONG*3]);
-	issuerSN.serialNumber.data= &keyItem.data[NS_NSS_LONG*4];
-	issuerSN.derIssuer.data= &keyItem.data[NS_NSS_LONG*4+
+	issuerSN.serialNumber.len = NS_NSS_GET_LONG (&keyItem.data[NS_NSS_LONG *2]);
+	issuerSN.derIssuer.len = NS_NSS_GET_LONG (&keyItem.data[NS_NSS_LONG *3]);
+	issuerSN.serialNumber.data= &keyItem.data[NS_NSS_LONG *4];
+	issuerSN.derIssuer.data= &keyItem.data[NS_NSS_LONG *4+
 					       issuerSN.serialNumber.len];
 
 	cert = CERT_FindCertByIssuerAndSN (CERT_GetDefaultCertDB (), &issuerSN);
@@ -703,32 +707,32 @@ e_cert_db_find_cert_by_key (ECertDB *certdb,
 	return NULL;
 }
 
-GList*
-e_cert_db_get_cert_nicknames    (ECertDB *certdb,
-				 ECertType cert_type,
-				 GError **error)
+GList *
+e_cert_db_get_cert_nicknames (ECertDB *certdb,
+                              ECertType cert_type,
+                              GError **error)
 {
 }
 
-ECert*
+ECert *
 e_cert_db_find_email_encryption_cert (ECertDB *certdb,
-				      const gchar *nickname,
-				      GError **error)
+                                      const gchar *nickname,
+                                      GError **error)
 {
 }
 
-ECert*
+ECert *
 e_cert_db_find_email_signing_cert (ECertDB *certdb,
-				   const gchar *nickname,
-				   GError **error)
+                                   const gchar *nickname,
+                                   GError **error)
 {
 }
 #endif
 
-ECert*
+ECert *
 e_cert_db_find_cert_by_email_address (ECertDB *certdb,
-				      const gchar *email,
-				      GError **error)
+                                      const gchar *email,
+                                      GError **error)
 {
 	/*  nsNSSShutDownPreventionLock locker; */
 	ECert *cert;
@@ -803,7 +807,9 @@ confirm_download_ca_cert (ECertDB *cert_db,
 }
 
 static gboolean
-handle_ca_cert_download (ECertDB *cert_db, GList *certs, GError **error)
+handle_ca_cert_download (ECertDB *cert_db,
+                         GList *certs,
+                         GError **error)
 {
 	ECert *certToShow;
 	SECItem der;
@@ -811,18 +817,18 @@ handle_ca_cert_download (ECertDB *cert_db, GList *certs, GError **error)
 	CERTCertificate *tmpCert;
 
 	/* First thing we have to do is figure out which certificate
-	   we're gonna present to the user.  The CA may have sent down
-	   a list of certs which may or may not be a chained list of
-	   certs.  Until the day we can design some solid UI for the
-	   general case, we'll code to the > 90% case.  That case is
-	   where a CA sends down a list that is a chain up to its root
-	   in either ascending or descending order.  What we're gonna
-	   do is compare the first 2 entries, if the first was signed
-	   by the second, we assume the leaf cert is the first cert
-	   and display it.  If the second cert was signed by the first
-	   cert, then we assume the first cert is the root and the
-	   last cert in the array is the leaf.  In this case we
-	   display the last cert.
+	 * we're gonna present to the user.  The CA may have sent down
+	 * a list of certs which may or may not be a chained list of
+	 * certs.  Until the day we can design some solid UI for the
+	 * general case, we'll code to the > 90% case.  That case is
+	 * where a CA sends down a list that is a chain up to its root
+	 * in either ascending or descending order.  What we're gonna
+	 * do is compare the first 2 entries, if the first was signed
+	 * by the second, we assume the leaf cert is the first cert
+	 * and display it.  If the second cert was signed by the first
+	 * cert, then we assume the first cert is the root and the
+	 * last cert in the array is the leaf.  In this case we
+	 * display the last cert.
 	*/
 
 	/*  nsNSSShutDownPreventionLock locker;*/
@@ -855,17 +861,17 @@ handle_ca_cert_download (ECertDB *cert_db, GList *certs, GError **error)
 
 		if (!strcmp (cert1IssuerName, cert0SubjectName)) {
 			/* In this case, the first cert in the list signed the second,
-			   so the first cert is the root.  Let's display the last cert
-			   in the list. */
+			 * so the first cert is the root.  Let's display the last cert
+			 * in the list. */
 			certToShow = E_CERT (g_list_last (certs)->data);
 		}
 		else if (!strcmp (cert0IssuerName, cert1SubjectName)) {
 			/* In this case the second cert has signed the first cert.  The
-			   first cert is the leaf, so let's display it. */
+			 * first cert is the leaf, so let's display it. */
 			certToShow = cert0;
 		} else {
 			/* It's not a chain, so let's just show the first one in the
-			   downloaded list. */
+			 * downloaded list. */
 			certToShow = cert0;
 		}
 	}
@@ -967,17 +973,17 @@ handle_ca_cert_download (ECertDB *cert_db, GList *certs, GError **error)
 
 #if 0
 		/* Now it's time to add the rest of the certs we just downloaded.
-		   Since we didn't prompt the user about any of these certs, we
-		   won't set any trust bits for them. */
+		 * Since we didn't prompt the user about any of these certs, we
+		 * won't set any trust bits for them. */
 		e_cert_trust_init (&trust);
 		e_cert_trust_set_valid_ca (&trust);
 		e_cert_trusts_add_ca_trust (&trust, 0, 0, 0);
-		for (PRUint32 i=0; i<numCerts; i++) {
+		for (PRUint32 i = 0; i < numCerts; i++) {
 			if (i == selCertIndex)
 				continue;
 
 			certToShow = do_QueryElementAt (x509Certs, i);
-			certToShow->GetRawDER (&der.len, (PRUint8 **)&der.data);
+			certToShow->GetRawDER (&der.len, (PRUint8 **) &der.data);
 
 			CERTCertificate *tmpCert2 =
 				CERT_NewTempCertificate (certdb, &der, nsnull, PR_FALSE, PR_TRUE);
@@ -1019,10 +1025,10 @@ gboolean e_cert_db_change_cert_trust (CERTCertificate *cert, CERTCertTrust *trus
 /* deleting certificates */
 gboolean
 e_cert_db_delete_cert (ECertDB *certdb,
-		       ECert   *ecert)
+                       ECert *ecert)
 {
 	/*  nsNSSShutDownPreventionLock locker;
-	    nsNSSCertificate *nssCert = NS_STATIC_CAST (nsNSSCertificate*, aCert); */
+	 *  nsNSSCertificate *nssCert = NS_STATIC_CAST (nsNSSCertificate *, aCert); */
 
 	CERTCertificate *cert;
 
@@ -1051,10 +1057,11 @@ e_cert_db_delete_cert (ECertDB *certdb,
 /* importing certificates */
 gboolean
 e_cert_db_import_certs (ECertDB *certdb,
-			gchar *data, guint32 length,
-			ECertType cert_type,
-			GSList **imported_certs,
-			GError **error)
+                        gchar *data,
+                        guint32 length,
+                        ECertType cert_type,
+                        GSList **imported_certs,
+                        GError **error)
 {
 	/*nsNSSShutDownPreventionLock locker;*/
 	PRArenaPool *arena = PORT_NewArena (DER_DEFAULT_CHUNKSIZE);
@@ -1070,7 +1077,7 @@ e_cert_db_import_certs (ECertDB *certdb,
 	}
 
 	/* Now let's create some certs to work with */
-	for (i=0; i<certCollection->numcerts; i++) {
+	for (i = 0; i < certCollection->numcerts; i++) {
 		SECItem *currItem = &certCollection->rawCerts[i];
 		ECert *cert;
 
@@ -1117,9 +1124,10 @@ e_cert_db_import_certs (ECertDB *certdb,
 
 gboolean
 e_cert_db_import_email_cert (ECertDB *certdb,
-			     gchar *data, guint32 length,
-			     GSList **imported_certs,
-			     GError **error)
+                             gchar *data,
+                             guint32 length,
+                             GSList **imported_certs,
+                             GError **error)
 {
 	/*nsNSSShutDownPreventionLock locker;*/
 	SECStatus srv = SECFailure;
@@ -1198,9 +1206,9 @@ default_nickname (CERTCertificate *cert)
 	gchar *nickname = NULL;
 	gchar *tmp = NULL;
 	gint count;
-	const gchar *nickFmt=NULL;
+	const gchar *nickFmt = NULL;
 	CERTCertificate *dummycert;
-	PK11SlotInfo *slot=NULL;
+	PK11SlotInfo *slot = NULL;
 	CK_OBJECT_HANDLE keyHandle;
 
 	CERTCertDBHandle *defaultcertdb = CERT_GetDefaultCertDB ();
@@ -1316,8 +1324,9 @@ default_nickname (CERTCertificate *cert)
 
 gboolean
 e_cert_db_import_user_cert (ECertDB *certdb,
-			    gchar *data, guint32 length,
-			    GError **error)
+                            gchar *data,
+                            guint32 length,
+                            GError **error)
 {
 	/*  nsNSSShutDownPreventionLock locker;*/
 	PK11SlotInfo *slot;
@@ -1327,7 +1336,7 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 	SECItem *CACerts;
 	CERTDERCerts * collectArgs;
 	PRArenaPool *arena;
-	CERTCertificate * cert=NULL;
+	CERTCertificate * cert = NULL;
 
 	arena = PORT_NewArena (DER_DEFAULT_CHUNKSIZE);
 	if (arena == NULL) {
@@ -1376,7 +1385,7 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 	numCACerts = collectArgs->numcerts - 1;
 
 	if (numCACerts) {
-		CACerts = collectArgs->rawCerts+1;
+		CACerts = collectArgs->rawCerts + 1;
 		if (!CERT_ImportCAChain (CACerts, numCACerts, certUsageUserCertImport)) {
 			rv = TRUE;
 		}
@@ -1394,21 +1403,22 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 
 gboolean
 e_cert_db_import_server_cert (ECertDB *certdb,
-			      gchar *data, guint32 length,
-			      GSList **imported_certs,
-			      GError **error)
+                              gchar *data,
+                              guint32 length,
+                              GSList **imported_certs,
+                              GError **error)
 {
 	/* not c&p'ing this over at the moment, as we don't have a UI
-	   for server certs anyway */
+	 * for server certs anyway */
 	return FALSE;
 }
 
 gboolean
 e_cert_db_import_certs_from_file (ECertDB *cert_db,
-				  const gchar *file_path,
-				  ECertType cert_type,
-				  GSList **imported_certs,
-				  GError **error)
+                                  const gchar *file_path,
+                                  ECertType cert_type,
+                                  GSList **imported_certs,
+                                  GError **error)
 {
 	gboolean rv;
 	gint fd;
@@ -1429,7 +1439,7 @@ e_cert_db_import_certs_from_file (ECertDB *cert_db,
 		return FALSE;
 	}
 
-	fd = g_open (file_path, O_RDONLY|O_BINARY, 0);
+	fd = g_open (file_path, O_RDONLY | O_BINARY, 0);
 	if (fd == -1) {
 		set_nss_error (error);
 		return FALSE;
@@ -1484,8 +1494,8 @@ e_cert_db_import_certs_from_file (ECertDB *cert_db,
 
 gboolean
 e_cert_db_import_pkcs12_file (ECertDB *cert_db,
-			      const gchar *file_path,
-			      GError **error)
+                              const gchar *file_path,
+                              GError **error)
 {
 	EPKCS12 *pkcs12 = e_pkcs12_new ();
 	GError *e = NULL;
@@ -1501,16 +1511,16 @@ e_cert_db_import_pkcs12_file (ECertDB *cert_db,
 #ifdef notyet
 gboolean
 e_cert_db_export_pkcs12_file (ECertDB *cert_db,
-			      const gchar *file_path,
-			      GList *certs,
-			      GError **error)
+                              const gchar *file_path,
+                              GList *certs,
+                              GError **error)
 {
 }
 #endif
 
 gboolean
 e_cert_db_login_to_slot (ECertDB *cert_db,
-			 PK11SlotInfo *slot)
+                         PK11SlotInfo *slot)
 {
 	if (PK11_NeedLogin (slot)) {
 		PK11_Logout (slot);

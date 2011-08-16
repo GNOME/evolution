@@ -52,7 +52,7 @@ struct _EABContactDisplayPrivate {
 	GtkOrientation orientation;
 	gboolean show_maps;
 
-	GHashTable *closed_lists; /* see render_contact_list_* */
+	GHashTable *closed_lists; /* see render_contact_list_ * */
 };
 
 enum {
@@ -193,7 +193,9 @@ static GtkActionEntry internal_mailto_entries[] = {
 };
 
 static void
-render_address_link (GString *buffer, EContact *contact, gint map_type)
+render_address_link (GString *buffer,
+                     EContact *contact,
+                     gint map_type)
 {
 	EContactAddress *adr;
 	GString *link = g_string_new ("");
@@ -366,8 +368,7 @@ accum_multival_attribute (GString *buffer,
 	GList *val_list, *l;
 
 	/* Workaround till bug [1] is fixed.
-	   [1] https://bugzilla.gnome.org/show_bug.cgi?id=473862
-	*/
+	 * [1] https://bugzilla.gnome.org/show_bug.cgi?id=473862 */
 	icon = NULL;
 
 	val_list = e_contact_get (contact, field);
@@ -409,7 +410,8 @@ get_email_location (EVCardAttribute *attr)
 }
 
 static void
-render_title_block (GString *buffer, EContact *contact)
+render_title_block (GString *buffer,
+                    EContact *contact)
 {
 	const gchar *str;
 	gchar *html;
@@ -455,9 +457,9 @@ render_title_block (GString *buffer, EContact *contact)
 
 static void
 render_contact_list_row (GString *buffer,
-			 EDestination *destination,
-			 EABContactDisplay *display)
- {
+                         EDestination *destination,
+                         EABContactDisplay *display)
+{
 	gchar *evolution_imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
 	gboolean list_collapsed = FALSE;
 	const gchar *listId = e_destination_get_contact_uid (destination), *textrep;
@@ -576,13 +578,14 @@ render_contact_list (GString *buffer,
 }
 
 static void
-render_contact_block (GString *buffer, EContact *contact)
+render_contact_block (GString *buffer,
+                      EContact *contact)
 {
 	GString *accum;
 	GList *email_list, *l, *email_attr_list, *al;
 	gint email_num = 0;
 	const gchar *nl;
-	gchar *nick=NULL;
+	gchar *nick = NULL;
 
 	accum = g_string_new ("");
 	nl = "";
@@ -592,7 +595,7 @@ render_contact_block (GString *buffer, EContact *contact)
 	email_list = e_contact_get (contact, E_CONTACT_EMAIL);
 	email_attr_list = e_contact_get_attributes (contact, E_CONTACT_EMAIL);
 
-	for (l = email_list, al=email_attr_list; l && al; l = l->next, al = al->next) {
+	for (l = email_list, al = email_attr_list; l && al; l = l->next, al = al->next) {
 		gchar *name = NULL, *mail = NULL;
 		gchar *attr_str = (gchar *) get_email_location ((EVCardAttribute *) al->data);
 
@@ -669,7 +672,8 @@ render_contact_block (GString *buffer, EContact *contact)
 }
 
 static void
-render_work_block (GString *buffer, EContact *contact)
+render_work_block (GString *buffer,
+                   EContact *contact)
 {
 	GString *accum = g_string_new ("");
 
@@ -696,7 +700,8 @@ render_work_block (GString *buffer, EContact *contact)
 }
 
 static void
-render_personal_block (GString *buffer, EContact *contact)
+render_personal_block (GString *buffer,
+                       EContact *contact)
 {
 	GString *accum = g_string_new ("");
 
@@ -719,7 +724,8 @@ render_personal_block (GString *buffer, EContact *contact)
 }
 
 static void
-render_note_block (GString *buffer, EContact *contact)
+render_note_block (GString *buffer,
+                   EContact *contact)
 {
 	const gchar *str;
 	gchar *html;
@@ -738,7 +744,9 @@ render_note_block (GString *buffer, EContact *contact)
 }
 
 static void
-render_address_map (GString *buffer, EContact *contact, gint map_type)
+render_address_map (GString *buffer,
+                    EContact *contact,
+                    gint map_type)
 {
 #ifdef WITH_CONTACT_MAPS
 	if (map_type == E_CONTACT_ADDRESS_WORK) {
@@ -750,7 +758,9 @@ render_address_map (GString *buffer, EContact *contact, gint map_type)
 }
 
 static void
-render_contact_horizontal (GString *buffer, EContact *contact, gboolean show_maps)
+render_contact_horizontal (GString *buffer,
+                           EContact *contact,
+                           gboolean show_maps)
 {
 	g_string_append (buffer, "<table border=\"0\">");
 	render_title_block (buffer, contact);
@@ -776,7 +786,9 @@ render_contact_horizontal (GString *buffer, EContact *contact, gboolean show_map
 }
 
 static void
-render_contact_vertical (GString *buffer, EContact *contact, gboolean show_maps)
+render_contact_vertical (GString *buffer,
+                         EContact *contact,
+                         gboolean show_maps)
 {
 	/* First row: photo & name */
 	g_string_append (buffer, "<tr><td colspan=\"3\">");
@@ -817,7 +829,10 @@ render_contact_vertical (GString *buffer, EContact *contact, gboolean show_maps)
 }
 
 static void
-render_contact (GString *buffer, EContact *contact, GtkOrientation orientation, gboolean show_maps)
+render_contact (GString *buffer,
+                EContact *contact,
+                GtkOrientation orientation,
+                gboolean show_maps)
 {
 	if (orientation == GTK_ORIENTATION_VERTICAL)
 		render_contact_vertical (buffer, contact, show_maps);
@@ -911,9 +926,9 @@ eab_contact_display_render_compact (EABContactDisplay *display,
 			GdkPixbuf *pixbuf;
 
 			/* figure out if we need to downscale the
-			   image here.  we don't scale the pixbuf
-			   itself, just insert width/height tags in
-			   the html */
+			 * image here.  we don't scale the pixbuf
+			 * itself, just insert width/height tags in
+			 * the html */
 			gdk_pixbuf_loader_write (loader, photo->data.inlined.data, photo->data.inlined.length, NULL);
 			gdk_pixbuf_loader_close (loader, NULL);
 			pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
@@ -1259,7 +1274,7 @@ contact_display_link_clicked (EWebView *web_view,
 		contact_display_emit_send_message (display, index);
 		return;
 	} else if (g_str_has_prefix (uri, "##") && g_str_has_suffix (uri, "##")) {
-		gchar *list_id = g_strndup (uri+2, strlen (uri) - 4);
+		gchar *list_id = g_strndup (uri + 2, strlen (uri) - 4);
 
 		if (g_hash_table_lookup (display->priv->closed_lists, list_id)) {
 			g_hash_table_remove (display->priv->closed_lists, list_id);
@@ -1278,19 +1293,21 @@ contact_display_link_clicked (EWebView *web_view,
 }
 
 #ifdef WITH_CONTACT_MAPS
-/**
- * Clutter event handling workaround. Clutter-gtk propagates events down to parent widgets.
- * In this case it leads to GtkHTML scrolling up and down while user's trying to zoom in the
- * champlain widget. This workaround stops the propagation from map widget down to GtkHTML
- */
+/* XXX Clutter event handling workaround. Clutter-gtk propagates events down
+ *     to parent widgets.  In this case it leads to GtkHTML scrolling up and
+ *     down while user's trying to zoom in the champlain widget. This
+ *     workaround stops the propagation from map widget down to GtkHTML. */
 static gboolean
-handle_map_scroll_event (GtkWidget *widget, GdkEvent *event)
+handle_map_scroll_event (GtkWidget *widget,
+                         GdkEvent *event)
 {
 	return TRUE;
 }
 
 static void
-contact_display_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, EABContactDisplay *display)
+contact_display_object_requested (GtkHTML *html,
+                                  GtkHTMLEmbedded *eb,
+                                  EABContactDisplay *display)
 {
 	EContact *contact = display->priv->contact;
 	const gchar *name = e_contact_get_const (contact, E_CONTACT_FILE_AS);
@@ -1587,7 +1604,8 @@ eab_contact_display_get_orientation (EABContactDisplay *display)
 }
 
 void
-eab_contact_display_set_orientation (EABContactDisplay *display, GtkOrientation orientation)
+eab_contact_display_set_orientation (EABContactDisplay *display,
+                                     GtkOrientation orientation)
 {
 	EABContactDisplayMode mode;
 	EContact *contact;
@@ -1620,7 +1638,8 @@ eab_contact_display_get_show_maps (EABContactDisplay *display)
 }
 
 void
-eab_contact_display_set_show_maps (EABContactDisplay *display, gboolean show_maps)
+eab_contact_display_set_show_maps (EABContactDisplay *display,
+                                   gboolean show_maps)
 {
 	EABContactDisplayMode mode;
 	EContact *contact;

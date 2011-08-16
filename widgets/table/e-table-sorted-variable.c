@@ -122,8 +122,8 @@ etsv_insert_idle (ETableSortedVariable *etsv)
 }
 
 static void
-etsv_add       (ETableSubsetVariable *etssv,
-		gint                  row)
+etsv_add (ETableSubsetVariable *etssv,
+          gint row)
 {
 	ETableModel *etm = E_TABLE_MODEL (etssv);
 	ETableSubset *etss = E_TABLE_SUBSET (etssv);
@@ -139,7 +139,7 @@ etsv_add       (ETableSubsetVariable *etssv,
 	i = etss->n_map;
 	if (etsv->sort_idle_id == 0) {
 		/* this is to see if we're inserting a lot of things between idle loops.
-		   If we are, we're busy, its faster to just append and perform a full sort later */
+		 * If we are, we're busy, its faster to just append and perform a full sort later */
 		etsv->insert_count++;
 		if (etsv->insert_count > ETSV_INSERT_MAX) {
 			/* schedule a sort, and append instead */
@@ -160,7 +160,7 @@ etsv_add       (ETableSubsetVariable *etssv,
 }
 
 static void
-etsv_add_all   (ETableSubsetVariable *etssv)
+etsv_add_all (ETableSubsetVariable *etssv)
 {
 	ETableModel *etm = E_TABLE_MODEL (etssv);
 	ETableSubset *etss = E_TABLE_SUBSET (etssv);
@@ -187,7 +187,9 @@ etsv_add_all   (ETableSubsetVariable *etssv)
 }
 
 ETableModel *
-e_table_sorted_variable_new (ETableModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
+e_table_sorted_variable_new (ETableModel *source,
+                             ETableHeader *full_header,
+                             ETableSortInfo *sort_info)
 {
 	ETableSortedVariable *etsv = g_object_new (E_TYPE_TABLE_SORTED_VARIABLE, NULL);
 	ETableSubsetVariable *etssv = E_TABLE_SUBSET_VARIABLE (etsv);
@@ -202,14 +204,16 @@ e_table_sorted_variable_new (ETableModel *source, ETableHeader *full_header, ETa
 	etsv->full_header = full_header;
 	g_object_ref (etsv->full_header);
 
-	etsv->sort_info_changed_id = g_signal_connect (G_OBJECT (sort_info), "sort_info_changed",
-						       G_CALLBACK (etsv_sort_info_changed), etsv);
+	etsv->sort_info_changed_id = g_signal_connect (
+		sort_info, "sort_info_changed",
+		G_CALLBACK (etsv_sort_info_changed), etsv);
 
 	return E_TABLE_MODEL (etsv);
 }
 
 static void
-etsv_sort_info_changed (ETableSortInfo *info, ETableSortedVariable *etsv)
+etsv_sort_info_changed (ETableSortInfo *info,
+                        ETableSortedVariable *etsv)
 {
 	etsv_sort (etsv);
 }

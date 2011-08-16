@@ -301,7 +301,8 @@ eab_editor_raise (EABEditor *editor)
 }
 
 void
-eab_editor_save_contact (EABEditor *editor, gboolean should_close)
+eab_editor_save_contact (EABEditor *editor,
+                         gboolean should_close)
 {
 	EABEditorClass *class;
 
@@ -339,7 +340,7 @@ eab_editor_is_valid (EABEditor *editor)
 	return class->is_valid (editor);
 }
 
-GtkWindow*
+GtkWindow *
 eab_editor_get_window (EABEditor *editor)
 {
 	EABEditorClass *class;
@@ -353,11 +354,12 @@ eab_editor_get_window (EABEditor *editor)
 }
 
 /* This function prompts for saving if editor conents are in changed state and
-   save or discards or cancels (just returns with out doing anything) according
-   to user input.  Editor gets destroyed in case of save and discard case. */
+ * save or discards or cancels (just returns with out doing anything) according
+ * to user input.  Editor gets destroyed in case of save and discard case. */
 
 gboolean
-eab_editor_prompt_to_save_changes (EABEditor *editor, GtkWindow *window)
+eab_editor_prompt_to_save_changes (EABEditor *editor,
+                                   GtkWindow *window)
 {
 	if (!eab_editor_is_changed (editor)) {
 		eab_editor_close (EAB_EDITOR (editor));

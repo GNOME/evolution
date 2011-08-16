@@ -49,7 +49,9 @@ one_row_count (ETableModel *etm)
 }
 
 static gpointer
-one_value_at (ETableModel *etm, gint col, gint row)
+one_value_at (ETableModel *etm,
+              gint col,
+              gint row)
 {
 	ETableOne *one = E_TABLE_ONE (etm);
 
@@ -60,7 +62,10 @@ one_value_at (ETableModel *etm, gint col, gint row)
 }
 
 static void
-one_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
+one_set_value_at (ETableModel *etm,
+                  gint col,
+                  gint row,
+                  gconstpointer val)
 {
 	ETableOne *one = E_TABLE_ONE (etm);
 
@@ -71,7 +76,9 @@ one_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 }
 
 static gboolean
-one_is_cell_editable (ETableModel *etm, gint col, gint row)
+one_is_cell_editable (ETableModel *etm,
+                      gint col,
+                      gint row)
 {
 	ETableOne *one = E_TABLE_ONE (etm);
 
@@ -83,7 +90,9 @@ one_is_cell_editable (ETableModel *etm, gint col, gint row)
 
 /* The default for one_duplicate_value is to return the raw value. */
 static gpointer
-one_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
+one_duplicate_value (ETableModel *etm,
+                     gint col,
+                     gconstpointer value)
 {
 	ETableOne *one = E_TABLE_ONE (etm);
 
@@ -94,7 +103,9 @@ one_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 }
 
 static void
-one_free_value (ETableModel *etm, gint col, gpointer value)
+one_free_value (ETableModel *etm,
+                gint col,
+                gpointer value)
 {
 	ETableOne *one = E_TABLE_ONE (etm);
 
@@ -103,7 +114,8 @@ one_free_value (ETableModel *etm, gint col, gpointer value)
 }
 
 static gpointer
-one_initialize_value (ETableModel *etm, gint col)
+one_initialize_value (ETableModel *etm,
+                      gint col)
 {
 	ETableOne *one = E_TABLE_ONE (etm);
 
@@ -114,7 +126,9 @@ one_initialize_value (ETableModel *etm, gint col)
 }
 
 static gboolean
-one_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
+one_value_is_empty (ETableModel *etm,
+                    gint col,
+                    gconstpointer value)
 {
 	ETableOne *one = E_TABLE_ONE (etm);
 
@@ -125,7 +139,9 @@ one_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 }
 
 static gchar *
-one_value_to_string (ETableModel *etm, gint col, gconstpointer value)
+one_value_to_string (ETableModel *etm,
+                     gint col,
+                     gconstpointer value)
 {
 	ETableOne *one = E_TABLE_ONE (etm);
 

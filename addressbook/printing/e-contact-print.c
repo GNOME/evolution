@@ -104,7 +104,9 @@ get_font_width (GtkPrintContext *context,
 static void
 e_contact_output (GtkPrintContext *context,
                   PangoFontDescription *font,
-                  gdouble x, gdouble y, gdouble width,
+                  gdouble x,
+                  gdouble y,
+                  gdouble width,
                   const gchar *text)
 {
 	PangoLayout *layout;
@@ -184,7 +186,7 @@ e_contact_print_letter_heading (EContactPrintContext *ctxt,
 
 	if (ctxt->page_nr == -1 || ctxt->pages != ctxt->page_nr) {
 		/* only calculating number of pages
-		   or on page we do not want to print */
+		 * or on page we do not want to print */
 		ctxt->y += pango_units_to_double (height);
 
 		return;
@@ -319,7 +321,7 @@ e_contact_print_contact (EContact *contact,
 	{
 		const gchar *value;
 		gchar *text;
-		gint wrapped_lines=0;
+		gint wrapped_lines = 0;
 
 		if (ctxt->y > page_height)
 			e_contact_start_new_column (ctxt);
@@ -341,7 +343,7 @@ e_contact_print_contact (EContact *contact,
 			wrapped_lines =
 				(get_font_width (ctxt->context,
 				ctxt->style->body_font, text) /
-				(ctxt->column_width+4)) + 1;
+				(ctxt->column_width + 4)) + 1;
 		ctxt->y =
 			ctxt->y + ((wrapped_lines + 1) *
 			e_contact_text_height (ctxt->context,
@@ -431,7 +433,8 @@ get_bool (gchar *data)
 }
 
 static void
-get_string (gchar *data, gchar **variable)
+get_string (gchar *data,
+            gchar **variable)
 {
 	g_free (*variable);
 	*variable = g_strdup ((data != NULL) ? data : "");
@@ -727,8 +730,8 @@ contact_page_draw_footer (GtkPrintOperation *operation,
 	pango_layout_set_text (layout, text, -1);
 	pango_layout_set_width (layout, -1);
 
-	x = page_width/2.0 - page_margin;
-	y = page_height - page_margin/2.0;
+	x = page_width / 2.0 - page_margin;
+	y = page_height - page_margin / 2.0;
 
 	cr = gtk_print_context_get_cairo_context (context);
 

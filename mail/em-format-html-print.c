@@ -84,7 +84,7 @@ efhp_init (GObject *o)
 	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (efhp));
 
 	/* gtk widgets don't like to be realized outside top level widget
-	   so we put new html widget into gtk window */
+	 * so we put new html widget into gtk window */
 	efhp->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_container_add (GTK_CONTAINER (efhp->window), GTK_WIDGET (web_view));
 	gtk_widget_realize (GTK_WIDGET (web_view));

@@ -89,7 +89,7 @@ struct _EPlugin {
 
 	guint32 flags;
 
-	guint enabled:1;
+	guint enabled : 1;
 };
 
 /**
@@ -273,8 +273,8 @@ guint32		e_plugin_hook_id		(xmlNodePtr root,
 						 const gchar *prop);
 
 /* README: Currently there is only one flag.
-   But we may need more in the future and hence makes
-   sense to keep as an enum */
+ * But we may need more in the future and hence makes
+ * sense to keep as an enum */
 
 typedef enum _EPluginFlags {
 	E_PLUGIN_FLAGS_SYSTEM_PLUGIN = 1 << 0

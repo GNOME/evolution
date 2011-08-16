@@ -70,8 +70,9 @@ find_first_table_item (ETableGroup *group)
 	return NULL;
 }
 
-static AtkObject*
-eti_get_accessible (ETableItem *eti, AtkObject *parent)
+static AtkObject *
+eti_get_accessible (ETableItem *eti,
+                    AtkObject *parent)
 {
 	AtkObject *a11y = NULL;
 
@@ -110,11 +111,11 @@ init_child_item (GalA11yETable *a11y)
 	return FALSE;
 }
 
-static AtkObject*
-et_ref_accessible_at_point  (AtkComponent *component,
-			     gint x,
-			     gint y,
-			     AtkCoordType coord_type)
+static AtkObject *
+et_ref_accessible_at_point (AtkComponent *component,
+                            gint x,
+                            gint y,
+                            AtkCoordType coord_type)
 {
 	GalA11yETable *a11y = GAL_A11Y_E_TABLE (component);
 	if (GET_PRIVATE (a11y)->child_item)
@@ -146,9 +147,9 @@ et_get_n_children (AtkObject *accessible)
 	return n;
 }
 
-static AtkObject*
+static AtkObject *
 et_ref_child (AtkObject *accessible,
-	      gint i)
+              gint i)
 {
 	GalA11yETable *a11y = GAL_A11Y_E_TABLE (accessible);
 	ETable * et;

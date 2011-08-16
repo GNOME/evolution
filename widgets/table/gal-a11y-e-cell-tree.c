@@ -43,8 +43,8 @@ static AtkObjectClass *a11y_parent_class;
 
 static void
 ectr_model_row_changed_cb (ETableModel *etm,
-			   gint row,
-			   GalA11yECell *a11y)
+                           gint row,
+                           GalA11yECell *a11y)
 {
 	ETreePath node;
 	ETreeModel *tree_model;
@@ -88,7 +88,7 @@ kill_view_cb (ECellView *subcell_view,
 
 static void
 ectr_subcell_weak_ref (GalA11yECellTree *a11y,
-		       GalA11yECell     *subcell_a11y)
+                       GalA11yECell *subcell_a11y)
 {
 	ECellView *subcell_view = subcell_a11y ? subcell_a11y->cell_view : NULL;
 	if (subcell_a11y && subcell_view && subcell_view->kill_view_cb_data)
@@ -184,11 +184,11 @@ gal_a11y_e_cell_tree_get_type (void)
 
 AtkObject *
 gal_a11y_e_cell_tree_new (ETableItem *item,
-			  ECellView  *cell_view,
-			  AtkObject  *parent,
-			  gint         model_col,
-			  gint         view_col,
-			  gint         row)
+                          ECellView *cell_view,
+                          AtkObject *parent,
+                          gint model_col,
+                          gint view_col,
+                          gint row)
 {
 	AtkObject *subcell_a11y;
 	GalA11yECellTree *a11y;
@@ -236,8 +236,8 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 		subcell_a11y = NULL;
 
 	/* create a companion a11y object, this object has type GalA11yECellTree
-	   and it connects to some signals to determine whether a tree cell is
-	   expanded or collapsed */
+	 * and it connects to some signals to determine whether a tree cell is
+	 * expanded or collapsed */
 	a11y = g_object_new (gal_a11y_e_cell_tree_get_type (), NULL);
 	gal_a11y_e_cell_construct (ATK_OBJECT (a11y),
 				   item,

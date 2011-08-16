@@ -83,23 +83,29 @@ typedef enum {
 } AddressFormat;
 
 void
-eab_error_dialog (EAlertSink *alert_sink, const gchar *msg, const GError *error)
+eab_error_dialog (EAlertSink *alert_sink,
+                  const gchar *msg,
+                  const GError *error)
 {
 	if (error && error->message) {
 		if (alert_sink)
-			e_alert_submit (alert_sink,
-					"addressbook:generic-error",
-					msg, error->message, NULL);
+			e_alert_submit (
+				alert_sink,
+				"addressbook:generic-error",
+				msg, error->message, NULL);
 		else
 			e_alert_run_dialog_for_args (
-					e_shell_get_active_window (NULL),
-					"addressbook:generic-error",
-					msg, error->message, NULL);
+				e_shell_get_active_window (NULL),
+				"addressbook:generic-error",
+				msg, error->message, NULL);
 	}
 }
 
 void
-eab_load_error_dialog (GtkWidget *parent, EAlertSink *alert_sink, ESource *source, const GError *error)
+eab_load_error_dialog (GtkWidget *parent,
+                       EAlertSink *alert_sink,
+                       ESource *source,
+                       const GError *error)
 {
 	gchar *label_string, *label = NULL, *uri;
 	gboolean can_detail_error = TRUE;
@@ -110,10 +116,12 @@ eab_load_error_dialog (GtkWidget *parent, EAlertSink *alert_sink, ESource *sourc
 
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_OFFLINE_UNAVAILABLE)) {
 		can_detail_error = FALSE;
-		label_string = _("This address book cannot be opened. This either means this "
-                                 "book is not marked for offline usage or not yet downloaded "
-                                 "for offline usage. Please load the address book once in online mode "
-                                 "to download its contents.");
+		label_string =
+			_("This address book cannot be opened. This either "
+			  "means this book is not marked for offline usage "
+			  "or not yet downloaded for offline usage. Please "
+			  "load the address book once in online mode to "
+			  "download its contents.");
 	}
 
 	else if (uri && g_str_has_prefix (uri, "local:")) {
@@ -187,7 +195,8 @@ eab_load_error_dialog (GtkWidget *parent, EAlertSink *alert_sink, ESource *sourc
 }
 
 void
-eab_search_result_dialog (EAlertSink *alert_sink, const GError *error)
+eab_search_result_dialog (EAlertSink *alert_sink,
+                          const GError *error)
 {
 	gchar *str = NULL;
 
@@ -265,7 +274,8 @@ make_safe_filename (gchar *name)
 }
 
 static void
-source_selection_changed_cb (ESourceSelector *selector, GtkWidget *ok_button)
+source_selection_changed_cb (ESourceSelector *selector,
+                             GtkWidget *ok_button)
 {
 	ESource *except_source = NULL, *selected;
 
@@ -276,7 +286,11 @@ source_selection_changed_cb (ESourceSelector *selector, GtkWidget *ok_button)
 }
 
 ESource *
-eab_select_source (ESource *except_source, const gchar *title, const gchar *message, const gchar *select_uid, GtkWindow *parent)
+eab_select_source (ESource *except_source,
+                   const gchar *title,
+                   const gchar *message,
+                   const gchar *select_uid,
+                   GtkWindow *parent)
 {
 	ESource *source;
 	ESourceList *source_list;
@@ -395,7 +409,8 @@ remove_contact_ready_cb (GObject *source_object,
 }
 
 static void
-do_delete_from_source (gpointer data, gpointer user_data)
+do_delete_from_source (gpointer data,
+                       gpointer user_data)
 {
 	ContactCopyProcess *process = user_data;
 	EContact *contact = data;
@@ -441,7 +456,10 @@ process_unref (ContactCopyProcess *process)
 }
 
 static void
-contact_added_cb (EBookClient *book_client, const GError *error, const gchar *id, gpointer user_data)
+contact_added_cb (EBookClient *book_client,
+                  const GError *error,
+                  const gchar *id,
+                  gpointer user_data)
 {
 	ContactCopyProcess *process = user_data;
 
@@ -462,7 +480,8 @@ contact_added_cb (EBookClient *book_client, const GError *error, const gchar *id
 }
 
 static void
-do_copy (gpointer data, gpointer user_data)
+do_copy (gpointer data,
+         gpointer user_data)
 {
 	EBookClient *book_client;
 	EContact *contact;
@@ -568,11 +587,12 @@ eab_transfer_contacts (EBookClient *source_client,
 }
 
 /* To parse something like...
-=?UTF-8?Q?=E0=A4=95=E0=A4=95=E0=A4=AC=E0=A5=82=E0=A5=8B=E0=A5=87?=\t\n=?UTF-8?Q?=E0=A4=B0?=\t\n<aa@aa.ccom>
-and return the decoded representation of name & email parts.
-*/
+ * =?UTF-8?Q?=E0=A4=95=E0=A4=95=E0=A4=AC=E0=A5=82=E0=A5=8B=E0=A5=87?=\t\n=?UTF-8?Q?=E0=A4=B0?=\t\n<aa@aa.ccom>
+ * and return the decoded representation of name & email parts. */
 gboolean
-eab_parse_qp_email (const gchar *string, gchar **name, gchar **email)
+eab_parse_qp_email (const gchar *string,
+                    gchar **name,
+                    gchar **email)
 {
 	struct _camel_header_address *address;
 	gboolean res = FALSE;
@@ -595,9 +615,9 @@ eab_parse_qp_email (const gchar *string, gchar **name, gchar **email)
 }
 
 /* This is only wrapper to parse_qp_mail, it decodes string and if returned TRUE,
-   then makes one string and returns it, otherwise returns NULL.
-   Returned string is usable to place directly into GtkHtml stream.
-   Returned value should be freed with g_free. */
+ * then makes one string and returns it, otherwise returns NULL.
+ * Returned string is usable to place directly into GtkHtml stream.
+ * Returned value should be freed with g_free. */
 gchar *
 eab_parse_qp_email_to_html (const gchar *string)
 {
@@ -731,7 +751,7 @@ country_to_ISO (const gchar *country)
 	}
 
 	/* If we get here, then no match was found in the map file and we
-	   fallback to local system locales */
+	 * fallback to local system locales */
 	fclose (file);
 
 	pair = get_locales ();
@@ -748,8 +768,8 @@ country_to_ISO (const gchar *country)
  */
 static gchar *
 get_key_file_locale_string (GKeyFile *key_file,
-			    const gchar *key,
-			    const gchar *locale)
+                            const gchar *key,
+                            const gchar *locale)
 {
 	gchar *result;
 	gchar *group;
@@ -773,9 +793,9 @@ get_key_file_locale_string (GKeyFile *key_file,
 
 static void
 get_address_format (AddressFormat address_format,
-		    const gchar *locale,
-		    gchar **format,
-		    gchar **country_position)
+                    const gchar *locale,
+                    gchar **format,
+                    gchar **country_position)
 {
 	GKeyFile *key_file;
 	GError *error;
@@ -858,7 +878,8 @@ find_balanced_bracket (const gchar *str)
 }
 
 static GString *
-string_append_upper (GString *str, const gchar *c)
+string_append_upper (GString *str,
+                     const gchar *c)
 {
 	gchar *up_c;
 
@@ -876,10 +897,10 @@ string_append_upper (GString *str, const gchar *c)
 
 static gboolean
 parse_address_template_section (const gchar *format,
-				const gchar *realname,
-				const gchar *org_name,
-				EContactAddress *address,
-				gchar **result)
+                                const gchar *realname,
+                                const gchar *org_name,
+                                EContactAddress *address,
+                                gchar **result)
 
 {
 	const gchar *pos, *old_pos;
@@ -1026,7 +1047,7 @@ parse_address_template_section (const gchar *format,
 
 gchar *
 eab_format_address (EContact *contact,
-		    EContactField address_type)
+                    EContactField address_type)
 {
 	gchar *result;
 	gchar *format = NULL;
@@ -1063,7 +1084,7 @@ eab_format_address (EContact *contact,
 	}
 
 	/* Expand all the variables in format.
-	   Don't display organization in home address */
+	 * Don't display organization in home address */
 	parse_address_template_section (format,
 					e_contact_get_const (contact, E_CONTACT_FULL_NAME),
 					(address_type == E_CONTACT_ADDRESS_WORK) ? e_contact_get_const (contact, E_CONTACT_ORG): NULL,
@@ -1071,7 +1092,7 @@ eab_format_address (EContact *contact,
 					&result);
 
 	/* Add the country line. In some countries, the address can be located above the
-	   rest of the address */
+	 * rest of the address */
 	if (addr->country && country_position) {
 		gchar *country_upper = g_utf8_strup (addr->country, -1);
 		gchar *p = result;

@@ -191,7 +191,8 @@ update_day_second_zone_caption (ECalendarPreferences *prefs)
 }
 
 static void
-on_set_day_second_zone (GtkWidget *item, ECalendarPreferences *prefs)
+on_set_day_second_zone (GtkWidget *item,
+                        ECalendarPreferences *prefs)
 {
 	if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item)))
 		return;
@@ -201,7 +202,8 @@ on_set_day_second_zone (GtkWidget *item, ECalendarPreferences *prefs)
 }
 
 static void
-on_select_day_second_zone (GtkWidget *item, ECalendarPreferences *prefs)
+on_select_day_second_zone (GtkWidget *item,
+                           ECalendarPreferences *prefs)
 {
 	g_return_if_fail (prefs != NULL);
 
@@ -210,7 +212,8 @@ on_select_day_second_zone (GtkWidget *item, ECalendarPreferences *prefs)
 }
 
 static void
-day_second_zone_clicked (GtkWidget *widget, ECalendarPreferences *prefs)
+day_second_zone_clicked (GtkWidget *widget,
+                         ECalendarPreferences *prefs)
 {
 	GtkWidget *menu, *item;
 	GSList *group = NULL, *recent_zones, *s;
@@ -263,7 +266,8 @@ day_second_zone_clicked (GtkWidget *widget, ECalendarPreferences *prefs)
 }
 
 static void
-start_of_day_changed (GtkWidget *widget, ECalendarPreferences *prefs)
+start_of_day_changed (GtkWidget *widget,
+                      ECalendarPreferences *prefs)
 {
 	gint start_hour, start_minute, end_hour, end_minute;
 	EDateEdit *start, *end;
@@ -292,7 +296,8 @@ start_of_day_changed (GtkWidget *widget, ECalendarPreferences *prefs)
 }
 
 static void
-end_of_day_changed (GtkWidget *widget, ECalendarPreferences *prefs)
+end_of_day_changed (GtkWidget *widget,
+                    ECalendarPreferences *prefs)
 {
 	gint start_hour, start_minute, end_hour, end_minute;
 	EDateEdit *start, *end;
@@ -321,7 +326,8 @@ end_of_day_changed (GtkWidget *widget, ECalendarPreferences *prefs)
 }
 
 static void
-notify_with_tray_toggled (GtkToggleButton *toggle, ECalendarPreferences *prefs)
+notify_with_tray_toggled (GtkToggleButton *toggle,
+                          ECalendarPreferences *prefs)
 {
 	GConfClient *gconf;
 
@@ -333,7 +339,8 @@ notify_with_tray_toggled (GtkToggleButton *toggle, ECalendarPreferences *prefs)
 }
 
 static void
-alarms_selection_changed (ESourceSelector *selector, ECalendarPreferences *prefs)
+alarms_selection_changed (ESourceSelector *selector,
+                          ECalendarPreferences *prefs)
 {
 	ESourceList *source_list = prefs->alarms_list;
 	GSList *selection;
@@ -358,7 +365,7 @@ alarms_selection_changed (ESourceSelector *selector, ECalendarPreferences *prefs
 	}
 
 	/* then we loop over the selector's selection, setting the
-	   property on those sources */
+	 * property on those sources */
 	selection = e_source_selector_get_selection (selector);
 	for (l = selection; l; l = l->next) {
 		source = E_SOURCE (l->data);
@@ -402,17 +409,30 @@ update_system_tz_widgets (EShellSettings *shell_settings,
 static void
 setup_changes (ECalendarPreferences *prefs)
 {
-	g_signal_connect (G_OBJECT (prefs->day_second_zone), "clicked", G_CALLBACK (day_second_zone_clicked), prefs);
+	g_signal_connect (
+		prefs->day_second_zone, "clicked",
+		G_CALLBACK (day_second_zone_clicked), prefs);
 
-	g_signal_connect (G_OBJECT (prefs->start_of_day), "changed", G_CALLBACK (start_of_day_changed), prefs);
-	g_signal_connect (G_OBJECT (prefs->end_of_day), "changed", G_CALLBACK (end_of_day_changed), prefs);
+	g_signal_connect (
+		prefs->start_of_day, "changed",
+		G_CALLBACK (start_of_day_changed), prefs);
 
-	g_signal_connect (G_OBJECT (prefs->notify_with_tray), "toggled", G_CALLBACK (notify_with_tray_toggled), prefs);
-	g_signal_connect (G_OBJECT (prefs->alarm_list_widget), "selection_changed", G_CALLBACK (alarms_selection_changed), prefs);
+	g_signal_connect (
+		prefs->end_of_day, "changed",
+		G_CALLBACK (end_of_day_changed), prefs);
+
+	g_signal_connect (
+		prefs->notify_with_tray, "toggled",
+		G_CALLBACK (notify_with_tray_toggled), prefs);
+
+	g_signal_connect (
+		prefs->alarm_list_widget, "selection_changed",
+		G_CALLBACK (alarms_selection_changed), prefs);
 }
 
 static void
-initialize_selection (ESourceSelector *selector, ESourceList *source_list)
+initialize_selection (ESourceSelector *selector,
+                      ESourceList *source_list)
 {
 	GSList *groups;
 
@@ -497,7 +517,9 @@ static ECalConfigItem eccp_items[] = {
 };
 
 static void
-eccp_free (EConfig *ec, GSList *items, gpointer data)
+eccp_free (EConfig *ec,
+           GSList *items,
+           gpointer data)
 {
 	g_slist_free (items);
 }

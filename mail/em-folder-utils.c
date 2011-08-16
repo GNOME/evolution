@@ -108,7 +108,8 @@ struct _EMCopyFolders {
 };
 
 static gchar *
-emft_copy_folders__desc (struct _EMCopyFolders *m, gint complete)
+emft_copy_folders__desc (struct _EMCopyFolders *m,
+                         gint complete)
 {
 	if (m->delete)
 		return g_strdup_printf (_("Moving folder %s"), m->frombase);
@@ -132,7 +133,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 		CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 
 	/* If we're copying, then we need to copy every subfolder. If we're
-	   *moving*, though, then we only need to rename the top-level folder */
+	 * *moving*, though, then we only need to rename the top-level folder */
 	if (!m->delete)
 		flags |= CAMEL_STORE_FOLDER_INFO_RECURSIVE;
 
@@ -164,8 +165,8 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 			gint deleted = 0;
 
 			/* We still get immediate children even without the
-			   CAMEL_STORE_FOLDER_INFO_RECURSIVE flag. But we only
-			   want to process the children too if we're *copying* */
+			 * CAMEL_STORE_FOLDER_INFO_RECURSIVE flag. But we only
+			 * want to process the children too if we're *copying * */
 			if (info->child && !m->delete)
 				pending = g_list_append (pending, info->child);
 
@@ -260,8 +261,8 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 		d(printf ("deleting folder '%s'\n", info->full_name));
 
 		/* FIXME: we need to do something with the exception
-		   since otherwise the users sees a failed operation
-		   with no error message or even any warnings */
+		 * since otherwise the users sees a failed operation
+		 * with no error message or even any warnings */
 		if (CAMEL_IS_SUBSCRIBABLE (m->fromstore))
 			camel_subscribable_unsubscribe_folder_sync (
 				CAMEL_SUBSCRIBABLE (m->fromstore),

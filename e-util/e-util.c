@@ -566,7 +566,8 @@ e_str_without_underscores (const gchar *string)
 }
 
 gint
-e_str_compare (gconstpointer x, gconstpointer y)
+e_str_compare (gconstpointer x,
+               gconstpointer y)
 {
 	if (x == NULL || y == NULL) {
 		if (x == y)
@@ -579,7 +580,8 @@ e_str_compare (gconstpointer x, gconstpointer y)
 }
 
 gint
-e_str_case_compare (gconstpointer x, gconstpointer y)
+e_str_case_compare (gconstpointer x,
+                    gconstpointer y)
 {
 	gchar *cx, *cy;
 	gint res;
@@ -603,7 +605,8 @@ e_str_case_compare (gconstpointer x, gconstpointer y)
 }
 
 gint
-e_collate_compare (gconstpointer x, gconstpointer y)
+e_collate_compare (gconstpointer x,
+                   gconstpointer y)
 {
 	if (x == NULL || y == NULL) {
 		if (x == y)
@@ -616,7 +619,8 @@ e_collate_compare (gconstpointer x, gconstpointer y)
 }
 
 gint
-e_int_compare (gconstpointer x, gconstpointer y)
+e_int_compare (gconstpointer x,
+               gconstpointer y)
 {
 	gint nx = GPOINTER_TO_INT (x);
 	gint ny = GPOINTER_TO_INT (y);
@@ -727,13 +731,13 @@ e_format_number (gint number)
 }
 
 /* Perform a binary search for key in base which has nmemb elements
-   of size bytes each.  The comparisons are done by (*compare)().  */
+ * of size bytes each.  The comparisons are done by (*compare)().  */
 void
 e_bsearch (gconstpointer key,
            gconstpointer base,
            gsize nmemb,
            gsize size,
-	   ESortCompareFunc compare,
+           ESortCompareFunc compare,
            gpointer closure,
            gsize *start,
            gsize *end)
@@ -813,7 +817,9 @@ e_bsearch (gconstpointer key,
  */
 
 gsize
-e_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
+e_strftime_fix_am_pm (gchar *str,
+                      gsize max,
+                      const gchar *fmt,
                       const struct tm *tm)
 {
 	gchar buf[10];
@@ -823,7 +829,7 @@ e_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
 
 	if (strstr(fmt, "%p")==NULL && strstr(fmt, "%P")==NULL) {
 		/* No AM/PM involved - can use the fmt string directly */
-		ret=e_strftime (str, max, fmt, tm);
+		ret = e_strftime (str, max, fmt, tm);
 	} else {
 		/* Get the AM/PM symbol from the locale */
 		e_strftime (buf, 10, "%p", tm);
@@ -831,11 +837,11 @@ e_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
 		if (buf[0]) {
 			/* AM/PM have been defined in the locale
 			 * so we can use the fmt string directly. */
-			ret=e_strftime (str, max, fmt, tm);
+			ret = e_strftime (str, max, fmt, tm);
 		} else {
 			/* No AM/PM defined by locale
 			 * must change to 24 hour clock. */
-			ffmt=g_strdup (fmt);
+			ffmt = g_strdup (fmt);
 			for (sp=ffmt; (sp=strstr(sp, "%l")); sp++) {
 				/* Maybe this should be 'k', but I have never
 				 * seen a 24 clock actually use that format. */
@@ -844,7 +850,7 @@ e_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
 			for (sp=ffmt; (sp=strstr(sp, "%I")); sp++) {
 				sp[1]='H';
 			}
-			ret=e_strftime (str, max, ffmt, tm);
+			ret = e_strftime (str, max, ffmt, tm);
 			g_free (ffmt);
 		}
 	}
@@ -853,7 +859,9 @@ e_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
 }
 
 gsize
-e_utf8_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
+e_utf8_strftime_fix_am_pm (gchar *str,
+                           gsize max,
+                           const gchar *fmt,
                            const struct tm *tm)
 {
 	gsize sz, ret;
@@ -1004,7 +1012,8 @@ e_get_weekday_name (GDateWeekday weekday,
  * Returns: the gdouble value
  **/
 gdouble
-e_flexible_strtod (const gchar *nptr, gchar **endptr)
+e_flexible_strtod (const gchar *nptr,
+                   gchar **endptr)
 {
 	gchar *fail_pos;
 	gdouble val;
@@ -1032,7 +1041,7 @@ e_flexible_strtod (const gchar *nptr, gchar **endptr)
 	p = nptr;
 
 	/* Skip leading space */
-	while (isspace ((guchar)*p))
+	while (isspace ((guchar) * p))
 		p++;
 
 	/* Skip leading optional sign */
@@ -1044,40 +1053,40 @@ e_flexible_strtod (const gchar *nptr, gchar **endptr)
 		p += 2;
 		/* HEX - find the (optional) decimal point */
 
-		while (isxdigit ((guchar)*p))
+		while (isxdigit ((guchar) * p))
 			p++;
 
 		if (*p == '.') {
 			decimal_point_pos = p++;
 
-			while (isxdigit ((guchar)*p))
+			while (isxdigit ((guchar) * p))
 				p++;
 
 			if (*p == 'p' || *p == 'P')
 				p++;
 			if (*p == '+' || *p == '-')
 				p++;
-			while (isdigit ((guchar)*p))
+			while (isdigit ((guchar) * p))
 				p++;
 			end = p;
 		} else if (strncmp (p, decimal_point, decimal_point_len) == 0) {
 			return strtod (nptr, endptr);
 		}
 	} else {
-		while (isdigit ((guchar)*p))
+		while (isdigit ((guchar) * p))
 			p++;
 
 		if (*p == '.') {
 			decimal_point_pos = p++;
 
-			while (isdigit ((guchar)*p))
+			while (isdigit ((guchar) * p))
 				p++;
 
 			if (*p == 'e' || *p == 'E')
 				p++;
 			if (*p == '+' || *p == '-')
 				p++;
-			while (isdigit ((guchar)*p))
+			while (isdigit ((guchar) * p))
 				p++;
 			end = p;
 		} else if (strncmp (p, decimal_point, decimal_point_len) == 0) {
@@ -1143,7 +1152,10 @@ e_flexible_strtod (const gchar *nptr, gchar **endptr)
  * Returns: the pointer to the buffer with the converted string
  **/
 gchar *
-e_ascii_dtostr (gchar *buffer, gint buf_len, const gchar *format, gdouble d)
+e_ascii_dtostr (gchar *buffer,
+                gint buf_len,
+                const gchar *format,
+                gdouble d)
 {
 	struct lconv *locale_data;
 	const gchar *decimal_point;
@@ -1188,15 +1200,15 @@ e_ascii_dtostr (gchar *buffer, gint buf_len, const gchar *format, gdouble d)
 		if (*p == '+' || *p == '-')
 			p++;
 
-		while (isdigit ((guchar)*p))
+		while (isdigit ((guchar) * p))
 			p++;
 
 		if (strncmp (p, decimal_point, decimal_point_len) == 0) {
 			*p = '.';
 			p++;
 			if (decimal_point_len > 1) {
-				rest_len = strlen (p + (decimal_point_len-1));
-				memmove (p, p + (decimal_point_len-1),
+				rest_len = strlen (p + (decimal_point_len - 1));
+				memmove (p, p + (decimal_point_len - 1),
 					 rest_len);
 				p[rest_len] = 0;
 			}
@@ -1274,7 +1286,8 @@ e_file_lock_exists (void)
  *          not be determined
  **/
 gchar *
-e_util_guess_mime_type (const gchar *filename, gboolean localfile)
+e_util_guess_mime_type (const gchar *filename,
+                        gboolean localfile)
 {
 	gchar *mime_type = NULL;
 

@@ -47,7 +47,10 @@ enum {
 G_DEFINE_TYPE (EPictureGallery, e_picture_gallery, GTK_TYPE_ICON_VIEW)
 
 static gboolean
-update_file_iter (GtkListStore *list_store, GtkTreeIter *iter, GFile *file, gboolean force_thumbnail_update)
+update_file_iter (GtkListStore *list_store,
+                  GtkTreeIter *iter,
+                  GFile *file,
+                  gboolean force_thumbnail_update)
 {
 	GFileInfo *file_info;
 	gchar *uri;
@@ -85,7 +88,7 @@ update_file_iter (GtkListStore *list_store, GtkTreeIter *iter, GFile *file, gboo
 		}
 
 		if (existing_thumb && !g_file_info_get_attribute_boolean (file_info, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED)) {
-			GdkPixbuf* pixbuf;
+			GdkPixbuf * pixbuf;
 
 			pixbuf = gdk_pixbuf_new_from_file (existing_thumb, NULL);
 
@@ -125,7 +128,8 @@ update_file_iter (GtkListStore *list_store, GtkTreeIter *iter, GFile *file, gboo
 }
 
 static void
-add_file (GtkListStore *list_store, GFile *file)
+add_file (GtkListStore *list_store,
+          GFile *file)
 {
 	GtkTreeIter iter;
 
@@ -138,7 +142,9 @@ add_file (GtkListStore *list_store, GFile *file)
 }
 
 static gboolean
-find_file_uri (GtkListStore *list_store, const gchar *uri, GtkTreeIter *iter)
+find_file_uri (GtkListStore *list_store,
+               const gchar *uri,
+               GtkTreeIter *iter)
 {
 	GtkTreeModel *model;
 
@@ -171,14 +177,16 @@ find_file_uri (GtkListStore *list_store, const gchar *uri, GtkTreeIter *iter)
 }
 
 static void
-picture_gallery_dir_changed_cb (GFileMonitor *monitor, GFile *file, GFile *other_file, GFileMonitorEvent event_type, EPictureGallery *gallery)
+picture_gallery_dir_changed_cb (GFileMonitor *monitor,
+                                GFile *file,
+                                GFile *other_file,
+                                GFileMonitorEvent event_type,
+                                EPictureGallery *gallery)
 {
 	gchar *uri;
 	GtkListStore *list_store;
 	GtkTreeIter iter;
 
-	g_return_if_fail (gallery != NULL);
-	g_return_if_fail (gallery->priv != NULL);
 	g_return_if_fail (file != NULL);
 
 	list_store = GTK_LIST_STORE (gtk_icon_view_get_model (GTK_ICON_VIEW (gallery)));
@@ -273,9 +281,9 @@ e_picture_gallery_get_path (EPictureGallery *gallery)
 }
 
 static void
-picture_gallery_set_path (EPictureGallery *gallery, const gchar *path)
+picture_gallery_set_path (EPictureGallery *gallery,
+                          const gchar *path)
 {
-	g_return_if_fail (gallery != NULL);
 	g_return_if_fail (E_IS_PICTURE_GALLERY (gallery));
 	g_return_if_fail (gallery->priv != NULL);
 
@@ -288,7 +296,10 @@ picture_gallery_set_path (EPictureGallery *gallery, const gchar *path)
 }
 
 static void
-picture_gallery_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
+picture_gallery_get_property (GObject *object,
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
 {
 	switch (property_id) {
 	case PROP_PATH:
@@ -300,7 +311,10 @@ picture_gallery_get_property (GObject *object, guint property_id, GValue *value,
 }
 
 static void
-picture_gallery_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
+picture_gallery_set_property (GObject *object,
+                              guint property_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
 {
 	switch (property_id) {
 	case PROP_PATH:
@@ -314,9 +328,6 @@ picture_gallery_set_property (GObject *object, guint property_id, const GValue *
 static void
 visible_cb (EPictureGallery *gallery)
 {
-	g_return_if_fail (gallery != NULL);
-	g_return_if_fail (gallery->priv != NULL);
-
 	if (!gallery->priv->initialized && gtk_widget_get_visible (GTK_WIDGET (gallery))) {
 		gallery->priv->initialized = TRUE;
 
@@ -366,9 +377,6 @@ picture_gallery_dispose (GObject *object)
 	EPictureGallery *gallery;
 
 	gallery = E_PICTURE_GALLERY (object);
-
-	g_return_if_fail (gallery != NULL);
-	g_return_if_fail (gallery->priv != NULL);
 
 	if (gallery->priv->monitor) {
 		g_object_unref (gallery->priv->monitor);

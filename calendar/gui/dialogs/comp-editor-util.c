@@ -49,7 +49,8 @@
  * results.
  **/
 void
-comp_editor_dates (CompEditorPageDates *dates, ECalComponent *comp)
+comp_editor_dates (CompEditorPageDates *dates,
+                   ECalComponent *comp)
 {
 	ECalComponentDateTime dt;
 
@@ -59,8 +60,8 @@ comp_editor_dates (CompEditorPageDates *dates, ECalComponent *comp)
 	dates->complete = NULL;
 
 	/* Note that the ECalComponentDateTime's returned contain allocated
-	   icaltimetype and tzid values, so we just take over ownership of
-	   those. */
+	 * icaltimetype and tzid values, so we just take over ownership of
+	 * those. */
 	e_cal_component_get_dtstart (comp, &dt);
 	if (dt.value) {
 		dates->start = g_new (ECalComponentDateTime, 1);
@@ -89,7 +90,7 @@ void
 comp_editor_free_dates (CompEditorPageDates *dates)
 {
 	/* Note that e_cal_component_free_datetime() only frees the fields in
-	   the struct. It doesn't free the struct itself, so we do that. */
+	 * the struct. It doesn't free the struct itself, so we do that. */
 	if (dates->start) {
 		e_cal_component_free_datetime (dates->start);
 		g_free (dates->start);
@@ -142,9 +143,9 @@ comp_editor_new_date_edit (gboolean show_date,
 }
 
 /* Returns the current time, for EDateEdit widgets and ECalendar items in the
-   dialogs.
-   FIXME: Should probably use the timezone from somewhere in the component
-   rather than the current timezone. */
+ * dialogs.
+ * FIXME: Should probably use the timezone from somewhere in the component
+ * rather than the current timezone. */
 struct tm
 comp_editor_get_current_time (EDateEdit *date_edit,
                               CompEditor *editor)
@@ -242,7 +243,9 @@ comp_editor_strip_categories (const gchar *categories)
 }
 
 static GSList *
-manage_new_attendees (const GSList *lst, const gchar *eml, gboolean add)
+manage_new_attendees (const GSList *lst,
+                      const gchar *eml,
+                      gboolean add)
 {
 	GSList *copy = NULL;
 	const GSList *l;
@@ -328,7 +331,8 @@ comp_editor_manage_new_attendees (ECalComponent *comp,
  * Copies "new-attendees" information from @src to @des component.
  **/
 void
-comp_editor_copy_new_attendees (ECalComponent *des, ECalComponent *src)
+comp_editor_copy_new_attendees (ECalComponent *des,
+                                ECalComponent *src)
 {
 	GSList *copy = NULL, *l;
 
@@ -350,7 +354,8 @@ comp_editor_copy_new_attendees (ECalComponent *des, ECalComponent *src)
  * Returns: Whether @ma is present in the list of new attendees of the comp.
  **/
 gboolean
-comp_editor_have_in_new_attendees (ECalComponent *comp, EMeetingAttendee *ma)
+comp_editor_have_in_new_attendees (ECalComponent *comp,
+                                   EMeetingAttendee *ma)
 {
 	const gchar *eml;
 

@@ -210,7 +210,8 @@ add_contact_ready_cb (GObject *source_object,
 }
 
 static void
-doit (EContactMergingLookup *lookup, gboolean force_modify)
+doit (EContactMergingLookup *lookup,
+      gboolean force_modify)
 {
 	if (lookup->op == E_CONTACT_MERGING_ADD) {
 		if (force_modify)
@@ -236,7 +237,9 @@ cancelit (EContactMergingLookup *lookup)
 }
 
 static void
-dialog_map (GtkWidget *window, GdkEvent *event, GtkWidget *table)
+dialog_map (GtkWidget *window,
+            GdkEvent *event,
+            GtkWidget *table)
 {
 	GtkAllocation allocation;
 	gint h, w;
@@ -256,7 +259,8 @@ dialog_map (GtkWidget *window, GdkEvent *event, GtkWidget *table)
 }
 
 static void
-dropdown_changed (GtkWidget *dropdown, dropdown_data *data)
+dropdown_changed (GtkWidget *dropdown,
+                  dropdown_data *data)
 {
 	gchar *str;
 	str = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (dropdown));
@@ -357,7 +361,7 @@ mergeit (EContactMergingLookup *lookup)
 						use_field = E_CONTACT_EMAIL_2;
 						break;
 					}
-					else/*Either the new contact has no email OR the email already exist in the duplicate contact*/
+					else/*Either the new contact has no email OR the email already exist in the duplicate contact */
 						continue;
 				case 2:
 					/*New contact has email and it is equal to neither of the 2 emails in the duplicate contact*/
@@ -381,7 +385,7 @@ mergeit (EContactMergingLookup *lookup)
 				}
 				label = gtk_label_new (_("Email"));
 				hbox = gtk_hbox_new (FALSE, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*) label, FALSE, FALSE, 0);
+				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, row, row + 1);
 
 				dropdown = gtk_combo_box_text_new ();
@@ -398,7 +402,7 @@ mergeit (EContactMergingLookup *lookup)
 				g_signal_connect (dropdown, "changed", G_CALLBACK(dropdown_changed), data);
 
 				hbox = gtk_hbox_new (FALSE, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*) dropdown, FALSE, FALSE, 0);
+				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) dropdown, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 1, 2, row, row + 1);
 				gtk_widget_show ((GtkWidget *) dropdown);
 				continue;
@@ -407,13 +411,13 @@ mergeit (EContactMergingLookup *lookup)
 				row++;
 				label = gtk_label_new (e_contact_pretty_name (field));
 				hbox = gtk_hbox_new (FALSE, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*) label, FALSE, FALSE, 0);
+				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, row, row + 1);
 
 				label = gtk_label_new (string);
 				hbox = gtk_hbox_new (FALSE, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*) label, FALSE, FALSE, 0);
-				gtk_table_attach_defaults (table, (GtkWidget*) hbox, 1, 2, row, row + 1);
+				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
+				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 1, 2, row, row + 1);
 				continue;
 			}
 
@@ -422,7 +426,7 @@ mergeit (EContactMergingLookup *lookup)
 				row++;
 				label = gtk_label_new (e_contact_pretty_name (field));
 				hbox = gtk_hbox_new (FALSE, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*) label, FALSE, FALSE, 0);
+				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, row, row + 1);
 				data = g_new0 (dropdown_data, 1);
 				dropdown = gtk_combo_box_text_new ();
@@ -443,7 +447,7 @@ mergeit (EContactMergingLookup *lookup)
 
 				g_signal_connect (dropdown, "changed", G_CALLBACK(dropdown_changed), data);
 				hbox = gtk_hbox_new (FALSE, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*) dropdown, FALSE, FALSE, 0);
+				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) dropdown, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 1, 2, row, row + 1);
 				gtk_widget_show_all ((GtkWidget *) dropdown);
 			}
@@ -475,7 +479,8 @@ mergeit (EContactMergingLookup *lookup)
 }
 
 static gboolean
-check_if_same (EContact *contact, EContact *match)
+check_if_same (EContact *contact,
+               EContact *match)
 {
 	EContactField field;
 	GList *email_attr_list;
@@ -487,7 +492,7 @@ check_if_same (EContact *contact, EContact *match)
 		num_of_email = g_list_length (email_attr_list);
 
 		if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2
-		     || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email<4)) {
+		     || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email < 4)) {
 			str = (gchar *) e_contact_get_const (contact, field);
 			switch (num_of_email)
 			{
@@ -522,7 +527,9 @@ check_if_same (EContact *contact, EContact *match)
 }
 
 static void
-response (GtkWidget *dialog, gint response, EContactMergingLookup *lookup)
+response (GtkWidget *dialog,
+          gint response,
+          EContactMergingLookup *lookup)
 {
 	static gint merge_response;
 
@@ -547,7 +554,10 @@ response (GtkWidget *dialog, gint response, EContactMergingLookup *lookup)
 }
 
 static void
-match_query_callback (EContact *contact, EContact *match, EABContactMatchType type, gpointer closure)
+match_query_callback (EContact *contact,
+                      EContact *match,
+                      EABContactMatchType type,
+                      gpointer closure)
 {
 	EContactMergingLookup *lookup = closure;
 	gint flag;
@@ -631,9 +641,9 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 
 gboolean
 eab_merging_book_add_contact (EBookClient *book_client,
-			      EContact *contact,
-			      EABMergingIdAsyncCallback cb,
-			      gpointer closure)
+                              EContact *contact,
+                              EABMergingIdAsyncCallback cb,
+                              gpointer closure)
 {
 	EContactMergingLookup *lookup;
 
@@ -654,9 +664,9 @@ eab_merging_book_add_contact (EBookClient *book_client,
 
 gboolean
 eab_merging_book_modify_contact (EBookClient *book_client,
-				 EContact *contact,
-				 EABMergingAsyncCallback cb,
-				 gpointer closure)
+                                 EContact *contact,
+                                 EABMergingAsyncCallback cb,
+                                 gpointer closure)
 {
 	EContactMergingLookup *lookup;
 
@@ -677,9 +687,9 @@ eab_merging_book_modify_contact (EBookClient *book_client,
 
 gboolean
 eab_merging_book_find_contact (EBookClient *book_client,
-			       EContact *contact,
-			       EABMergingContactAsyncCallback cb,
-			       gpointer closure)
+                               EContact *contact,
+                               EABMergingContactAsyncCallback cb,
+                               gpointer closure)
 {
 	EContactMergingLookup *lookup;
 

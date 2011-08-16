@@ -71,14 +71,17 @@ typedef struct {
 } MboxImporter;
 
 static void
-folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
+folder_selected (EMFolderSelectionButton *button,
+                 EImportTargetURI *target)
 {
 	g_free (target->uri_dest);
 	target->uri_dest = g_strdup (em_folder_selection_button_get_folder_uri (button));
 }
 
 static GtkWidget *
-mbox_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
+mbox_getwidget (EImport *ei,
+                EImportTarget *target,
+                EImportImporter *im)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
@@ -159,7 +162,9 @@ mbox_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static gboolean
-mbox_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
+mbox_supported (EImport *ei,
+                EImportTarget *target,
+                EImportImporter *im)
 {
 	gchar signature[6];
 	gboolean ret = FALSE;
@@ -190,7 +195,10 @@ mbox_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-mbox_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
+mbox_status (CamelOperation *op,
+             const gchar *what,
+             gint pc,
+             gpointer data)
 {
 	MboxImporter *importer = data;
 
@@ -224,7 +232,8 @@ mbox_status_timeout (gpointer data)
 }
 
 static void
-mbox_import_done (gpointer data, GError **error)
+mbox_import_done (gpointer data,
+                  GError **error)
 {
 	MboxImporter *importer = data;
 
@@ -238,7 +247,9 @@ mbox_import_done (gpointer data, GError **error)
 }
 
 static void
-mbox_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+mbox_import (EImport *ei,
+             EImportTarget *target,
+             EImportImporter *im)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
@@ -276,7 +287,9 @@ mbox_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-mbox_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
+mbox_cancel (EImport *ei,
+             EImportTarget *target,
+             EImportImporter *im)
 {
 	MboxImporter *importer = g_datalist_get_data(&target->data, "mbox-data");
 
@@ -296,7 +309,8 @@ mbox_importer_set_preview_funcs (MboxImporterCreatePreviewFunc create_func,
 }
 
 static void
-preview_selection_changed_cb (GtkTreeSelection *selection, EWebViewPreview *preview)
+preview_selection_changed_cb (GtkTreeSelection *selection,
+                              EWebViewPreview *preview)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model = NULL;
@@ -325,7 +339,9 @@ preview_selection_changed_cb (GtkTreeSelection *selection, EWebViewPreview *prev
 }
 
 static GtkWidget *
-mbox_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
+mbox_get_preview (EImport *ei,
+                  EImportTarget *target,
+                  EImportImporter *im)
 {
 	GtkWidget *preview = NULL;
 	EImportTargetURI *s = (EImportTargetURI *) target;
@@ -345,7 +361,7 @@ mbox_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 		return NULL;
 	}
 
-	fd = g_open (filename, O_RDONLY|O_BINARY, 0);
+	fd = g_open (filename, O_RDONLY | O_BINARY, 0);
 	if (fd == -1) {
 		g_warning (
 			"Cannot find source file to import '%s': %s",

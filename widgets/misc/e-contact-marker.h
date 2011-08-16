@@ -71,7 +71,7 @@ struct _EContactMarkerClass
 
 GType e_contact_marker_get_type		(void);
 
-ClutterActor* e_contact_marker_new		(const gchar *name,
+ClutterActor * e_contact_marker_new		(const gchar *name,
 						 const gchar *contact_uid,
 						 EContactPhoto *photo);
 

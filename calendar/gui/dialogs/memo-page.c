@@ -503,7 +503,8 @@ get_recipients (ECalComponent *comp)
 }
 
 static gboolean
-fill_comp_with_recipients (ENameSelector *name_selector, ECalComponent *comp)
+fill_comp_with_recipients (ENameSelector *name_selector,
+                           ECalComponent *comp)
 {
 	EDestinationStore *destination_store;
 	GString *str = NULL;
@@ -678,7 +679,7 @@ memo_page_fill_component (CompEditorPage *page,
 		gunichar uc;
 
 		for (i = 0, p = str, uc = g_utf8_get_char_validated (p, -1);
-		    i < 50 && p && uc < (gunichar)-2;
+		    i < 50 && p && uc < (gunichar) - 2;
 		    i++, p = g_utf8_next_char (p), uc = g_utf8_get_char_validated (p, -1)) {
 			if (uc == '\n' || !uc) {
 				p = NULL;
@@ -784,7 +785,8 @@ memo_page_fill_component (CompEditorPage *page,
 }
 
 void
-memo_page_set_show_categories (MemoPage *page, gboolean state)
+memo_page_set_show_categories (MemoPage *page,
+                               gboolean state)
 {
 	if (state) {
 		gtk_widget_show (page->priv->categories_btn);
@@ -797,7 +799,9 @@ memo_page_set_show_categories (MemoPage *page, gboolean state)
 
 /*If the msg has some value set, the icon should always be set */
 void
-memo_page_set_info_string (MemoPage *mpage, const gchar *icon, const gchar *msg)
+memo_page_set_info_string (MemoPage *mpage,
+                           const gchar *icon,
+                           const gchar *msg)
 {
 	MemoPagePrivate *priv;
 
@@ -834,7 +838,7 @@ get_widgets (MemoPage *mpage)
 	}
 
 	/* Get the GtkAccelGroup from the toplevel window, so we can install
-	   it when the notebook page is mapped. */
+	 * it when the notebook page is mapped. */
 	toplevel = gtk_widget_get_toplevel (priv->main);
 	accel_groups = gtk_accel_groups_from_object (G_OBJECT (toplevel));
 	if (accel_groups)
@@ -896,7 +900,9 @@ categories_clicked_cb (GtkWidget *button,
 }
 
 static void
-mpage_client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+mpage_client_opened_cb (GObject *source_object,
+                        GAsyncResult *result,
+                        gpointer user_data)
 {
 	ESource *source = E_SOURCE (source_object);
 	EClient *client = NULL;
@@ -1002,7 +1008,7 @@ set_subscriber_info_string (MemoPage *mpage,
 	if (e_source_get_property (source, "subscriber")) {
 		g_free (mpage->priv->subscriber_info_text);
 		/* Translators: This string is used when we are creating a Memo
-		   on behalf of some other user */
+		 * on behalf of some other user */
 		mpage->priv->subscriber_info_text = g_markup_printf_escaped (_("You are acting on behalf of %s"), backend_address);
 	} else {
 		g_free (mpage->priv->subscriber_info_text);
@@ -1082,7 +1088,7 @@ init_widgets (MemoPage *mpage)
 		G_CALLBACK (source_changed_cb), mpage);
 
 	/* Connect the default signal handler to use to make sure the "changed"
-	   field gets set whenever a field is changed. */
+	 * field gets set whenever a field is changed. */
 
 	/* Belongs to priv->memo_content */
 	g_signal_connect_swapped (
@@ -1142,7 +1148,8 @@ get_to_entry (ENameSelector *name_selector)
 }
 
 static void
-memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address)
+memo_page_select_organizer (MemoPage *mpage,
+                            const gchar *backend_address)
 {
 	MemoPagePrivate *priv;
 	CompEditor *editor;

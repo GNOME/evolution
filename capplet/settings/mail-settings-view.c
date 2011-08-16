@@ -52,7 +52,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static void msv_regen_view (MailSettingsView *acview);
 
 static void
-mail_settings_view_init (MailSettingsView  *shell)
+mail_settings_view_init (MailSettingsView *shell)
 {
 	shell->priv = g_new0 (MailSettingsViewPrivate, 1);
 
@@ -94,7 +94,8 @@ mail_settings_view_class_init (MailSettingsViewClass *klass)
 }
 
 static void
-msv_edit_account (GtkButton *button, MailSettingsView *msv)
+msv_edit_account (GtkButton *button,
+                  MailSettingsView *msv)
 {
 	EAccount *acc = g_object_get_data((GObject *)button, "account");
 
@@ -102,7 +103,8 @@ msv_edit_account (GtkButton *button, MailSettingsView *msv)
 }
 
 static void
-msv_delete_account (GtkButton *button, MailSettingsView *msv)
+msv_delete_account (GtkButton *button,
+                    MailSettingsView *msv)
 {
 	EAccount *account = g_object_get_data((GObject *)button, "account");
 	EAccountList *account_list = e_get_account_list ();
@@ -116,7 +118,9 @@ msv_delete_account (GtkButton *button, MailSettingsView *msv)
 }
 
 static void
-msv_account_added (EAccountList *al, EAccount *account, MailSettingsView *msv)
+msv_account_added (EAccountList *al,
+                   EAccount *account,
+                   MailSettingsView *msv)
 {
 	msv_regen_view (msv);
 }
@@ -124,7 +128,8 @@ msv_account_added (EAccountList *al, EAccount *account, MailSettingsView *msv)
 #define PACK_BOX(w,s) box = gtk_hbox_new(FALSE, 0); gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, s); gtk_widget_show(box); gtk_widget_show(w); gtk_box_pack_start((GtkBox *)acview->priv->box, box, FALSE, FALSE, 3);
 
 static void
-build_account_button (MailSettingsView *acview, EAccount *account)
+build_account_button (MailSettingsView *acview,
+                      EAccount *account)
 {
 	GtkWidget *box, *box1, *label, *tbox, *tlabel;
 	gchar *tmp;
@@ -153,7 +158,7 @@ build_account_button (MailSettingsView *acview, EAccount *account)
 	gtk_widget_show (tbox);
 	gtk_container_add ((GtkContainer *) label, tbox);
 	g_object_set_data ((GObject *)label, "account", account);
-	g_signal_connect(label, "clicked", G_CALLBACK(msv_edit_account), acview);
+	g_signal_connect (label, "clicked", G_CALLBACK(msv_edit_account), acview);
 	gtk_box_pack_start ((GtkBox *) box1, label, FALSE, FALSE, 0);
 	gtk_widget_show (label);
 
@@ -171,7 +176,7 @@ build_account_button (MailSettingsView *acview, EAccount *account)
 static void
 msv_regen_view (MailSettingsView *acview)
 {
-	struct _EAccount *account;
+	EAccount *account;
 	EAccountList *accounts = acview->priv->accounts;
 	EIterator *node;
 	GtkWidget *box, *label;
@@ -226,7 +231,8 @@ mail_settings_view_new ()
 }
 
 static void
-msv_close (GtkButton *w, MailSettingsView *mfv)
+msv_close (GtkButton *w,
+           MailSettingsView *mfv)
 {
 	g_signal_emit (mfv, signals[VIEW_CLOSE], 0);
 }
@@ -253,7 +259,7 @@ mail_settings_view_get_tab_widget (MailSettingsView *mcv)
 	gtk_container_add ((GtkContainer *) tool, box);
 	gtk_widget_show_all (tool);
 	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (tool) , GTK_ICON_SIZE_MENU, &w, &h);
-	gtk_widget_set_size_request (tool, w+2, h+2);
+	gtk_widget_set_size_request (tool, w + 2, h + 2);
 
 	box = gtk_label_new (_("Settings"));
 	tab_label = gtk_hbox_new (FALSE, 0);
@@ -268,12 +274,16 @@ mail_settings_view_get_tab_widget (MailSettingsView *mcv)
 }
 
 void
-mail_settings_view_activate (MailSettingsView *mcv, GtkWidget *tree, GtkWidget *folder_tree, GtkWidget *check_mail, GtkWidget *sort_by, GtkWidget *slider, gboolean act)
+mail_settings_view_activate (MailSettingsView *mcv,
+                             GtkWidget *tree,
+                             GtkWidget *folder_tree,
+                             GtkWidget *check_mail,
+                             GtkWidget *sort_by,
+                             GtkWidget *slider,
+                             gboolean act)
 {
 	 if (!check_mail || !sort_by)
 		  return;
-	 //if (!GTK_WIDGET_VISIBLE (folder_tree))
-	 //	 gtk_widget_show (slider);
 	 gtk_widget_set_sensitive (check_mail, TRUE);
 	 gtk_widget_set_sensitive (sort_by, FALSE);
 }

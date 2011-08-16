@@ -27,9 +27,11 @@
 #include "ea-cell-table.h"
 
 EaCellTable *
-ea_cell_table_create (gint rows, gint columns, gboolean column_first)
+ea_cell_table_create (gint rows,
+                      gint columns,
+                      gboolean column_first)
 {
-	EaCellTable * cell_data;
+	EaCellTable *cell_data;
 	gint index;
 
 	g_return_val_if_fail (((columns > 0) && (rows > 0)), NULL);
@@ -55,7 +57,7 @@ ea_cell_table_create (gint rows, gint columns, gboolean column_first)
 }
 
 void
-ea_cell_table_destroy (EaCellTable * cell_data)
+ea_cell_table_destroy (EaCellTable *cell_data)
 {
 	gint index;
 	g_return_if_fail (cell_data);
@@ -80,8 +82,9 @@ ea_cell_table_destroy (EaCellTable * cell_data)
 }
 
 gpointer
-ea_cell_table_get_cell (EaCellTable * cell_data,
-			gint row, gint column)
+ea_cell_table_get_cell (EaCellTable *cell_data,
+                        gint row,
+                        gint column)
 {
 	gint index;
 
@@ -95,8 +98,10 @@ ea_cell_table_get_cell (EaCellTable * cell_data,
 }
 
 gboolean
-ea_cell_table_set_cell (EaCellTable * cell_data,
-			gint row, gint column, gpointer cell)
+ea_cell_table_set_cell (EaCellTable *cell_data,
+                        gint row,
+                        gint column,
+                        gpointer cell)
 {
 	gint index;
 
@@ -117,8 +122,8 @@ ea_cell_table_set_cell (EaCellTable * cell_data,
 }
 
 gpointer
-ea_cell_table_get_cell_at_index (EaCellTable * cell_data,
-				 gint index)
+ea_cell_table_get_cell_at_index (EaCellTable *cell_data,
+                                 gint index)
 {
 	g_return_val_if_fail (cell_data, NULL);
 
@@ -128,8 +133,9 @@ ea_cell_table_get_cell_at_index (EaCellTable * cell_data,
 }
 
 gboolean
-ea_cell_table_set_cell_at_index (EaCellTable * cell_data,
-				 gint index, gpointer cell)
+ea_cell_table_set_cell_at_index (EaCellTable *cell_data,
+                                 gint index,
+                                 gpointer cell)
 {
 	g_return_val_if_fail (cell_data, FALSE);
 
@@ -147,8 +153,8 @@ ea_cell_table_set_cell_at_index (EaCellTable * cell_data,
 }
 
 const gchar *
-ea_cell_table_get_column_label (EaCellTable * cell_data,
-				gint column)
+ea_cell_table_get_column_label (EaCellTable *cell_data,
+                                gint column)
 {
 	g_return_val_if_fail (cell_data, NULL);
 	g_return_val_if_fail ((column >= 0 && column < cell_data->columns), NULL);
@@ -157,8 +163,9 @@ ea_cell_table_get_column_label (EaCellTable * cell_data,
 }
 
 void
-ea_cell_table_set_column_label (EaCellTable * cell_data,
-				gint column, const gchar *label)
+ea_cell_table_set_column_label (EaCellTable *cell_data,
+                                gint column,
+                                const gchar *label)
 {
 	g_return_if_fail (cell_data);
 	g_return_if_fail ((column >= 0 && column < cell_data->columns));
@@ -169,8 +176,8 @@ ea_cell_table_set_column_label (EaCellTable * cell_data,
 }
 
 const gchar *
-ea_cell_table_get_row_label (EaCellTable * cell_data,
-			     gint row)
+ea_cell_table_get_row_label (EaCellTable *cell_data,
+                             gint row)
 {
 	g_return_val_if_fail (cell_data, NULL);
 	g_return_val_if_fail ((row >= 0 && row < cell_data->rows), NULL);
@@ -179,8 +186,9 @@ ea_cell_table_get_row_label (EaCellTable * cell_data,
 }
 
 void
-ea_cell_table_set_row_label (EaCellTable * cell_data,
-			     gint row, const gchar *label)
+ea_cell_table_set_row_label (EaCellTable *cell_data,
+                             gint row,
+                             const gchar *label)
 {
 	g_return_if_fail (cell_data);
 	g_return_if_fail ((row >= 0 && row < cell_data->rows));
@@ -192,7 +200,8 @@ ea_cell_table_set_row_label (EaCellTable * cell_data,
 
 gint
 ea_cell_table_get_index (EaCellTable *cell_data,
-			 gint row, gint column)
+                         gint row,
+                         gint column)
 {
 	g_return_val_if_fail (cell_data, -1);
 	if (row < 0 || row >= cell_data->rows ||
