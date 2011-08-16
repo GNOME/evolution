@@ -93,6 +93,10 @@ EMConfigTargetAccount *
 						 EAccount *original_account,
 						 EAccount *modified_account,
 						 CamelSettings *settings);
+void		em_config_target_new_account_update_settings
+						(EConfig *ep,
+						 EMConfigTargetAccount *target,
+						 CamelSettings *settings);
 
 G_END_DECLS
 
