@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-14 17:23+0000\n"
-"PO-Revision-Date: 2011-08-15 10:38+0200\n"
+"POT-Creation-Date: 2011-08-15 13:40+0000\n"
+"PO-Revision-Date: 2011-08-16 11:16+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -606,21 +606,31 @@ msgstr ""
 "un amigo con la categoría «Trabajo» porque trabaja con él y en la categoría "
 "«Amigos» porque es un amigo."
 
-#: C/using-categories.page:30(title)
+#: C/using-categories.page:29(p)
+msgid ""
+"To display only the objects in a particular category, select the "
+"corresponding category in the quick <link xref=\"searching-items\">search</"
+"link> bar."
+msgstr ""
+"Para mostrar solo los objetos de una categoría en particular, seleccione la "
+"categoría correspondiente en la barra de <link xref=\"searching-items"
+"\">búsqueda</link> rápida."
+
+#: C/using-categories.page:32(title)
 msgid "Setting categories for an object"
 msgstr "Establecer categorías para un objeto"
 
-#: C/using-categories.page:32(p)
+#: C/using-categories.page:34(p)
 msgid "To mark an object as belonging to a category,"
 msgstr "Para marcar un objeto como perteneciente a una categoría,"
 
-#: C/using-categories.page:34(p)
+#: C/using-categories.page:36(p)
 msgid "Double-click the object to bring up the corresponding editor."
 msgstr ""
 "Pulse dos veces sobre el objeto para que aparezca la ventana del editor "
 "correspondiente."
 
-#: C/using-categories.page:35(p) C/using-categories.page:47(p)
+#: C/using-categories.page:37(p) C/using-categories.page:49(p)
 msgid ""
 "Click <gui style=\"button\">Categories...</gui>. (If this button is not "
 "available, select <guiseq><gui>View</gui><gui>Categories</gui></guiseq>.)"
@@ -628,7 +638,7 @@ msgstr ""
 "Pulse <gui style=\"button\">Categorías...</gui>. (Si este botón no está "
 "disponible, seleccione <guiseq><gui>Ver</gui><gui>Categorías</gui></guiseq>.)"
 
-#: C/using-categories.page:36(p)
+#: C/using-categories.page:38(p)
 msgid ""
 "Select the category from the list. You can select as many or as few "
 "categories as you like."
@@ -636,11 +646,11 @@ msgstr ""
 "Seleccione la categoría de la lista. Puede seleccionar tantas categorías "
 "como desee."
 
-#: C/using-categories.page:42(title)
+#: C/using-categories.page:44(title)
 msgid "Adding and managing categories"
 msgstr "Añadir y gestionar categorías"
 
-#: C/using-categories.page:44(p)
+#: C/using-categories.page:46(p)
 msgid ""
 "If the default list of categories does not suit your needs, you can add your "
 "own categories either directly via <guiseq><gui>Edit</gui><gui>Available "
@@ -651,24 +661,24 @@ msgstr ""
 "gui><gui>Categorías disponibles</gui></guiseq>, o indirectamente al editar "
 "un objeto:"
 
-#: C/using-categories.page:46(p)
+#: C/using-categories.page:48(p)
 msgid "Double-click any object to bring up th corresponding editor."
 msgstr ""
 "Pulse dos veces sobre cualquier objeto para que aparezca la ventana del "
 "editor correspondiente."
 
-#: C/using-categories.page:48(p)
+#: C/using-categories.page:50(p)
 msgid "Enter the new category in the entry box at the top."
 msgstr ""
 "Introduzca la nueva categoría en la caja de entrada de la parte superior."
 
-#: C/using-categories.page:49(p) C/using-categories.page:51(p)
+#: C/using-categories.page:51(p) C/using-categories.page:53(p)
 #: C/mail-spam-groupwise-remove-from-list.page:28(p)
 #: C/mail-search-folders-add.page:46(p) C/mail-filters.page:43(p)
 #: C/mail-filters.page:64(p)
 #: C/mail-encryption-s-mime-signing-encrypting.page:34(p)
 #: C/mail-encryption-gpg-signing-encrypting.page:35(p)
-#: C/mail-encryption-gpg-set-up.page:34(p)
+#: C/mail-encryption-gpg-set-up.page:35(p)
 #: C/mail-composer-custom-header-lines.page:45(p)
 #: C/mail-attachments-sending.page:32(p)
 #: C/contacts-using-contact-lists.page:37(p)
@@ -678,7 +688,7 @@ msgstr ""
 msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Pulse <gui style=\"button\">Aceptar</gui>."
 
-#: C/using-categories.page:50(p)
+#: C/using-categories.page:52(p)
 msgid ""
 "You can now see the category in the <gui>Categories</gui> text field in the "
 "editor."
@@ -686,7 +696,7 @@ msgstr ""
 "Puede ver que el nombre de la categoría aparece en el campo <gui>Categorías</"
 "gui> en el editor."
 
-#: C/using-categories.page:54(p)
+#: C/using-categories.page:56(p)
 msgid ""
 "In the <gui>Categories Editor</gui> you can edit or set the color and icon "
 "for each category available by clicking <gui style=\"button\">Edit</gui> at "
@@ -698,16 +708,6 @@ msgstr ""
 "ello pulse el botón <gui style=\"button\">Editar</gui> en la parte inferior "
 "de la ventana de <gui>Categorías</gui>. Pulse el botón <gui style=\"button"
 "\">Eliminar</gui> para eliminar categorías de la lista."
-
-#: C/using-categories.page:57(p)
-msgid ""
-"To display only the objects in a particular category, select the "
-"corresponding category in the quick <link xref=\"searching-items\">search</"
-"link> bar."
-msgstr ""
-"Para mostrar solo los objetos de una categoría en particular, seleccione la "
-"categoría correspondiente en la barra de <link xref=\"searching-items"
-"\">búsqueda</link> rápida."
 
 #: C/tasks-webdav.page:5(desc)
 msgid "Using an online WebDAV task list or memo list."
@@ -758,7 +758,7 @@ msgstr "Introduzca el nombre que quiera."
 #: C/calendar-weather.page:29(p) C/calendar-local.page:27(p)
 #: C/calendar-google.page:31(p) C/calendar-caldav.page:30(p)
 msgid "Optionally choose a color that you prefer."
-msgstr ""
+msgstr "Opcionalmente, elija un color."
 
 #: C/tasks-webdav.page:30(p) C/tasks-caldav.page:28(p)
 #: C/contacts-google.page:28(p) C/calendar-webdav.page:30(p)
@@ -767,20 +767,22 @@ msgstr ""
 msgid ""
 "Choose if you want to be able to view the content also when being offline."
 msgstr ""
+"Elija si quiere poder ver el contenido incluso cuando está desconectado."
 
 #: C/tasks-webdav.page:31(p) C/tasks-caldav.page:29(p)
 msgid "Enter the address of the list in the <gui>URL</gui> field."
 msgstr "Introduzca la dirección de la lista en el campo <gui>URL</gui>."
 
 #: C/tasks-webdav.page:32(p) C/tasks-caldav.page:30(p)
-#: C/mail-sending-options-smtp.page:38(p) C/contacts-google.page:30(p)
+#: C/mail-sending-options-smtp.page:39(p) C/contacts-google.page:30(p)
 #: C/calendar-webdav.page:32(p) C/calendar-weather.page:32(p)
 #: C/calendar-caldav.page:33(p)
 msgid ""
 "Choose <gui>Use secure connection</gui> if you want to connect securely."
 msgstr ""
+"Elija <gui>Usar conexión segura</gui> si quiere conectar de forma segura."
 
-#: C/tasks-webdav.page:33(p) C/mail-sending-options-smtp.page:35(p)
+#: C/tasks-webdav.page:33(p) C/mail-sending-options-smtp.page:36(p)
 #: C/calendar-webdav.page:33(p)
 msgid "Enter your username."
 msgstr "Introduzca su nombre de usuario."
@@ -800,14 +802,13 @@ msgstr "Se añadirá la lista en Evolution."
 
 #: C/tasks-using-several-tasklists.page:5(desc)
 msgid "Adding and using more than one task list or memo list."
-msgstr ""
+msgstr "Añadir y usar más de una lista de tareas o lista de notas."
 
 #: C/tasks-using-several-tasklists.page:20(title)
 msgid "Using several task lists or memo lists"
-msgstr ""
+msgstr "Usar varias listas de tareas o listas de notas"
 
 #: C/tasks-using-several-tasklists.page:22(p)
-#, fuzzy
 msgid ""
 "You can have multiple task or memo lists and overlay them one over the next. "
 "For example, you might have tasks for work, tasks for home, and tasks for "
@@ -815,13 +816,11 @@ msgid ""
 "and you can select or deselect the boxes next to them to show and hide the "
 "tasks or memos in your view."
 msgstr ""
-"En Evolution puede mantener múltiples calendarios y solaparlos entre ellos. "
-"Por ejemplo, puede tener un horario de acontecimientos del trabajo, uno para "
-"casa y uno para su equipo de deporte favorito. La barra lateral lista esos "
-"calendarios y puede seleccionar o deseleccionar las cajas junto a ellos para "
-"mostrar y ocultar las citas en la vista de calendario. Ocultando y mostrando "
-"diferentes juegos de citas, puede asegurarse de evitar conflictos, "
-"reduciendo la carga en la vista."
+"Puede tener múltiples listas de tareas o notas y solaparlas entre ellas. Por "
+"ejemplo, puede tener una tarea para trabajo, tareas para casa y tareas para "
+"su deporte favorito. La barra lateral lista esas listas y puede seleccionar "
+"o deseleccionar las cajas junto a ellas para mostrar y ocultar las tareas o "
+"notas en la vista."
 
 #: C/tasks-using-several-tasklists.page:24(p)
 msgid "Tasks and memos for each task or memo list appear as a different color."
@@ -834,10 +833,12 @@ msgid ""
 "You can also use lists that are not on your computer, such as on the "
 "internet."
 msgstr ""
+"También puede usar listas que no estén en su equipo, tales como listas en "
+"Internet."
 
 #: C/tasks-usage.page:5(desc)
 msgid "On adding, editing, and deleting tasks."
-msgstr ""
+msgstr "Acerca de añadir, editar y eliminar tareas."
 
 #: C/tasks-usage.page:20(title)
 msgid "Add, Edit, and Delete Tasks"
@@ -893,6 +894,11 @@ msgid ""
 "in the tool bar or press <keyseq><key>Ctrl</key><key>D</key></keyseq>, or "
 "click <guiseq><gui>Edit</gui><gui>Delete Task</gui></guiseq>."
 msgstr ""
+"Si quiere eliminar una tarea en su lista de tareas, pulse con el botón "
+"derecho del ratón sobre la tarea y seleccione <gui>Eliminar</gui>, o pulse "
+"sobre la tarea y pulse después <gui>Eliminar</gui> en la barra de tareas, o "
+"pulse <keyseq><key>Ctrl</key><key>D</key></keyseq>, o pulse "
+"<guiseq><gui>Editar</gui><gui>Eiminar tarea</gui></guiseq>."
 
 #: C/tasks-usage-add-task.page:5(desc)
 msgid "Adding a task to your task list."
@@ -912,9 +918,8 @@ msgstr ""
 "pulse <keyseq><key>Mayús</key><key>Ctrl</key><key>T</key></keyseq>."
 
 #: C/tasks-usage-add-task.page:27(p)
-#, fuzzy
 msgid "Select a task list in the <gui>List</gui> dropdown list."
-msgstr "Seleccione un calendario en la lista desplegable de Calendario."
+msgstr "Seleccione una tarea en la lista desplegable <gui>Lista</gui>."
 
 #: C/tasks-usage-add-task.page:28(p)
 msgid "Enter the task information."
@@ -925,6 +930,8 @@ msgid ""
 "If you just want to quickly add a task by entering a summary you can "
 "directly enter it in the list of tasks."
 msgstr ""
+"Si simplemente quiere añadir una tarea introduciendo un resumen, puede "
+"hacerlo directamente en la lista de tareas."
 
 #: C/tasks-usage-add-task.page:34(p)
 msgid ""
@@ -932,6 +939,10 @@ msgid ""
 "<link xref=\"using-categories\">category</link>, or a <link xref=\"calendar-"
 "classifications\">classification</link> for the task, or add an attachment."
 msgstr ""
+"También puede definir una <link xref=\"calendar-timezones\">zona horaria</"
+"link>, una <link xref=\"using-categories\">categoría</link> o una <link xref="
+"\"calendar-classifications\">clasificación</link> para la tarea, o añadir un "
+"adjunto."
 
 #: C/tasks-usage-add-task.page:37(title)
 msgid "Assigned Tasks"
@@ -942,7 +953,6 @@ msgid "Evolution can be used to assign a task to multiple people."
 msgstr "Evolution se puede usar para asignar una tarea a varias personas."
 
 #: C/tasks-usage-add-task.page:40(p)
-#, fuzzy
 msgid ""
 "When you assign a task, you can specify the attendees in several categories, "
 "such as \"chair\" or \"required\". When you save the task, each attendee is "
@@ -950,21 +960,25 @@ msgid ""
 "respond."
 msgstr ""
 "Al asignar una tarea puede especificar los asistentes en varias categorías, "
-"tales como <quote>presidencia</quote> o <quote>participante requerido</"
-"quote>. Cuando guarde la tarea, cada invitado recibirá un correo-e con los "
-"datos de la cita y tendrán la opción de responder."
+"tales como «presidencia» o «participante requerido». Cuando guarde la tarea, "
+"cada invitado recibirá un correo-e con los datos de la cita y tendrán la "
+"opción de responder."
 
 #: C/tasks-usage-add-task.page:41(p)
 msgid ""
 "This is similar to <link xref=\"calendar-meetings-sending-invitation"
 "\">meetings</link>."
 msgstr ""
+"Es similar a las <link xref=\"calendar-meetings-sending-invitation"
+"\">reuniones</link>."
 
 #: C/tasks-usage-add-task.page:42(p)
 msgid ""
 "To create an Assigned Task, click <guiseq><gui>File</gui><gui>New</"
 "gui><gui>Assigned Task</gui></guiseq>."
 msgstr ""
+"Para crear una tarea asignada pulse <guiseq><gui>Archivo</gui><gui>Nuevo</"
+"gui><gui>Tarea asignada</gui></guiseq>."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -1007,12 +1021,12 @@ msgid ""
 "In the Tasks view, you can quickly search for tasks either by summary or by "
 "category."
 msgstr ""
+"En la lista de tareas puede buscar tareas por su resumen o por categoría."
 
 #: C/tasks-searching.page:32(p) C/memos-searching.page:32(p)
 #: C/calendar-searching.page:32(p)
-#, fuzzy
 msgid "Searching by summary:"
-msgstr "Búsqueda de mensajes"
+msgstr "Buscar por resumen:"
 
 #: C/tasks-searching.page:34(p) C/memos-searching.page:34(p)
 #: C/contacts-searching.page:34(p) C/calendar-searching.page:34(p)
@@ -1026,26 +1040,22 @@ msgstr ""
 #: C/tasks-searching.page:35(p) C/memos-searching.page:35(p)
 #: C/mail-searching.page:34(p) C/contacts-searching.page:35(p)
 #: C/calendar-searching.page:35(p)
-#, fuzzy
 msgid "Select the search condition from the list."
 msgstr "Seleccione el criterio de búsqueda de la lista."
 
 #: C/tasks-searching.page:36(p) C/memos-searching.page:36(p)
 #: C/mail-searching.page:36(p) C/contacts-searching.page:36(p)
 #: C/calendar-searching.page:36(p)
-#, fuzzy
-#| msgid "Type the search string in the search entry and press Enter."
 msgid "Enter the text you want to search for and press <key>Enter</key>."
-msgstr "Escriba la cadena de búsqueda en el campo de búsqueda y pulse Intro."
+msgstr "Escriba el texto que quiere buscar y pulse <key>Intro</key>."
 
 #: C/tasks-searching.page:37(p) C/tasks-searching.page:43(p)
 #: C/memos-searching.page:37(p) C/memos-searching.page:43(p)
 #: C/mail-searching.page:37(p) C/contacts-searching.page:37(p)
 #: C/contacts-searching.page:43(p) C/calendar-searching.page:37(p)
 #: C/calendar-searching.page:43(p)
-#, fuzzy
 msgid "Evolution displays the search results."
-msgstr "Evolution muestra los contactos deseados."
+msgstr "Evolution muestra los resultados de la búsqueda."
 
 #: C/tasks-searching.page:39(p) C/memos-searching.page:39(p)
 #: C/contacts-searching.page:39(p) C/calendar-searching.page:39(p)
@@ -1054,9 +1064,8 @@ msgstr "Buscar por categoría:"
 
 #: C/tasks-searching.page:41(p) C/memos-searching.page:41(p)
 #: C/contacts-searching.page:41(p) C/calendar-searching.page:41(p)
-#, fuzzy
 msgid "Click the <gui>Show</gui> drop-down list."
-msgstr "Pulse Mostrar la lista desplegable."
+msgstr "Pulse la lista desplegable <gui>Mostrar</gui>."
 
 #: C/tasks-searching.page:42(p) C/memos-searching.page:42(p)
 #: C/contacts-searching.page:42(p) C/calendar-searching.page:42(p)
@@ -1070,6 +1079,8 @@ msgid ""
 "If you want to set several search conditions, you should use an Advanced "
 "search, which is described below."
 msgstr ""
+"Si quiere establecer varias condiciones de búsqueda debe usar la Búsqueda "
+"avanzada, descrita debajo."
 
 #: C/tasks-searching.page:49(title) C/memos-searching.page:49(title)
 #: C/contacts-searching.page:49(title) C/calendar-searching.page:49(title)
@@ -1092,17 +1103,18 @@ msgstr ""
 msgid ""
 "Click <gui style=\"button\">Add Condition</gui> to add any number of rules."
 msgstr ""
+"Pulse <gui style=\"button\">Añadir condición</gui> para añadir cualquier "
+"número de reglas."
 
 #: C/tasks-searching.page:53(p) C/memos-searching.page:53(p)
 #: C/mail-searching.page:49(p) C/contacts-searching.page:53(p)
 #: C/calendar-searching.page:53(p)
-#, fuzzy
 msgid ""
 "Select the condition from the dropdown list, and then type a search entry in "
 "the field."
 msgstr ""
-"Seleccione el criterio y después escriba una entrada de búsqueda en el campo "
-"proporcionado."
+"Seleccione el criterio de la lista desplegable y después escriba una entrada "
+"de búsqueda en el campo."
 
 #: C/tasks-searching.page:54(p) C/memos-searching.page:54(p)
 #: C/mail-searching.page:50(p) C/contacts-searching.page:54(p)
@@ -1116,9 +1128,8 @@ msgstr ""
 #: C/tasks-searching.page:60(title) C/memos-searching.page:60(title)
 #: C/mail-searching.page:56(title) C/contacts-searching.page:60(title)
 #: C/calendar-searching.page:60(title)
-#, fuzzy
 msgid "Clearing the Search results"
-msgstr "Limpiar la búsqueda"
+msgstr "Limpiar los resultados de la búsqueda"
 
 #: C/tasks-searching.page:61(p) C/memos-searching.page:61(p)
 #: C/mail-searching.page:57(p) C/contacts-searching.page:61(p)
@@ -1149,6 +1160,8 @@ msgid ""
 "If you search for something rather often, you will prefer not to type it "
 "many times. In this case you can use saved searches."
 msgstr ""
+"Si suele buscar algo con relativa frecuencia, quizá prefiera no escribirlo "
+"tantas veces. En ese caso puede usar las búsquedas guardadas."
 
 #: C/tasks-searching.page:67(p) C/memos-searching.page:67(p)
 #: C/mail-searching.page:63(p) C/contacts-searching.page:67(p)
@@ -1164,9 +1177,8 @@ msgstr ""
 #: C/tasks-searching.page:71(title) C/memos-searching.page:71(title)
 #: C/mail-searching.page:67(title) C/contacts-searching.page:71(title)
 #: C/calendar-searching.page:71(title)
-#, fuzzy
 msgid "Editing a Saved Search"
-msgstr "Editar búsquedas guardadas:"
+msgstr "Editar una búsqueda guardada"
 
 #: C/tasks-searching.page:73(p) C/memos-searching.page:73(p)
 #: C/mail-searching.page:69(p) C/contacts-searching.page:73(p)
@@ -1175,17 +1187,12 @@ msgid ""
 "Select <guiseq><gui>Search</gui><gui>Edit Saved Searches</gui></guiseq> from "
 "the menu bar to open the window."
 msgstr ""
-
-#: C/tasks-searching.page:73(item) C/memos-searching.page:73(item)
-#: C/mail-searching.page:69(item) C/contacts-searching.page:73(item)
-#: C/calendar-searching.page:73(item)
-msgid "<placeholder-1/>."
-msgstr "<placeholder-1/>."
+"Para abrir la ventana seleccione <guiseq><gui>Buscar</gui><gui>Editar "
+"búsquedas guardadas</gui></guiseq> de la barra de menú."
 
 #: C/tasks-searching.page:74(p) C/memos-searching.page:74(p)
 #: C/mail-searching.page:70(p) C/contacts-searching.page:74(p)
 #: C/calendar-searching.page:74(p)
-#| msgid "Click the Edit button to open the Edit Rule window."
 msgid ""
 "Click the <gui style=\"button\">Edit</gui> button to open the <gui>Edit "
 "Rule</gui> window."
@@ -1196,7 +1203,6 @@ msgstr ""
 #: C/tasks-searching.page:75(p) C/memos-searching.page:75(p)
 #: C/mail-searching.page:71(p) C/contacts-searching.page:75(p)
 #: C/calendar-searching.page:75(p)
-#, fuzzy
 msgid "Edit the title or search conditions from the dialog box."
 msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo."
 
@@ -1208,43 +1214,43 @@ msgstr "Pulse <gui>Aceptar</gui>."
 
 #: C/tasks-organizing.page:5(desc)
 msgid "On task and memo lists, searching, and categories."
-msgstr ""
+msgstr "Acerca de búsquedas y categorías en listas de tareas y notas."
 
 #: C/tasks-organizing.page:21(title)
 msgid "Sorting and organizing tasks and memos"
-msgstr ""
+msgstr "Ordenar y organizar tareas y notas"
 
 #: C/tasks-local.page:5(desc)
 msgid "Adding another local task or memo list."
-msgstr ""
+msgstr "Añadir otra lista de tareas o notas local."
 
 #: C/tasks-local.page:20(title)
 msgid "Adding another local task or memo list"
-msgstr ""
+msgstr "Añadir otra lista de tareas o notas local"
 
 #: C/tasks-local.page:22(p)
 msgid ""
 "To add another local task list to Evolution, perform the following steps:"
 msgstr ""
+"Para añadir una lista de tareas local a Evolution, realice los siguientes "
+"pasos:"
 
 #: C/tasks-local.page:25(p) C/contacts-local.page:25(p)
 #: C/calendar-local.page:25(p)
-#, fuzzy
 msgid "Select the type <gui>On This Computer</gui>."
-msgstr "gpg <placeholder-1/>"
+msgstr "Seleccione el tipo <gui>En este equipo</gui>."
 
 #: C/tasks-local.page:31(p) C/tasks-caldav.page:35(p)
 msgid "The task list will be added to the list of task lists in Evolution."
-msgstr ""
+msgstr "La tarea se añadirá a la lista de tareas en Evolution."
 
 #: C/tasks-display-settings.page:5(desc)
 msgid "Options for displaying task completion and due dates."
-msgstr ""
+msgstr "Opciones para mostrar completado de tareas y fechas de vencimiento."
 
 #: C/tasks-display-settings.page:23(title)
-#, fuzzy
 msgid "Displaying of tasks"
-msgstr "Mostrar elementos enviados"
+msgstr "Mostrado de tareas"
 
 #. TODO: Update once https://bugzilla.gnome.org/show_bug.cgi?id=655666 is fixed
 #: C/tasks-display-settings.page:29(p)
@@ -1288,7 +1294,7 @@ msgstr ""
 
 #: C/tasks-caldav.page:5(desc)
 msgid "Using an online CalDAV task list or memo list."
-msgstr ""
+msgstr "Usar una lista de tareas o lista de notas en línea CalDAV."
 
 #: C/tasks-caldav.page:20(title)
 msgid "Using a CalDAV task or memo list"
@@ -1412,31 +1418,28 @@ msgstr ""
 "de tareas."
 
 #: C/sync-with-other-devices.page:43(p)
-#, fuzzy
 msgid ""
 "Click <gui>Enable</gui>, then click <gui>Settings</gui> to change what the "
 "conduit does when activated. Your options can vary depending on the conduit, "
 "but typically they are as follows:"
 msgstr ""
-"Pulse Habilitar, después pulse Configuración para cambiar el conducto una "
-"vez activado. Las opciones pueden variar en función del conducto, pero "
-"habitualmente son las siguientes:"
+"Pulse <gui>Activar</gui>, después pulse <gui>Configuración</gui> para "
+"cambiar el conducto una vez activado. Las opciones pueden variar en función "
+"del conducto, pero habitualmente son las siguientes:"
 
 #: C/sync-with-other-devices.page:45(p)
-#, fuzzy
 msgid "<gui>Disabled</gui>: Do nothing."
-msgstr "gpg <placeholder-1/>"
+msgstr "<gui>Desactivado</gui>: no hacer nada."
 
 #: C/sync-with-other-devices.page:46(p)
-#, fuzzy
 msgid ""
 "<gui>Synchronize</gui>: Copy new data from the computer to the handheld, and "
 "from the handheld to the computer. Remove items that were on both systems "
 "but have been deleted on one."
 msgstr ""
-"Copia los datos nuevos del equipo y del dispositivo de mano en las dos "
-"direcciones. Elimina los elementos que se encontraban en los dos sistemas, "
-"pero que fueron eliminados en uno de ellos."
+"<gui>Sincronizar</gui>: copia los datos nuevos del equipo y del dispositivo "
+"de mano en las dos direcciones. Quita los elementos que se encontraban en "
+"los dos sistemas, pero que se eliminaron en uno de ellos."
 
 #: C/sync-with-other-devices.page:47(p)
 #, fuzzy
@@ -1452,13 +1455,12 @@ msgid ""
 msgstr "Copia los datos nuevos del equipo hacia el dispositivo de mano."
 
 #: C/sync-with-other-devices.page:50(p)
-#, fuzzy
 msgid ""
 "Select the behavior you want for each conduit you choose to use. If you're "
 "not sure, use <gui>Synchronize</gui>."
 msgstr ""
-"Seleccione el comportamiento de cada conducto elegido. Si no está seguro, "
-"use Sincronizar."
+"Seleccione el comportamiento que quiera para cada conducto elegido. Si no "
+"está seguro, use <gui>Sincronizar</gui>."
 
 #: C/sync-with-other-devices.page:54(title)
 msgid "Synchronizing Information"
@@ -1473,14 +1475,13 @@ msgstr ""
 "Palm Os con sus datos almacenados en Evolution."
 
 #: C/sync-with-other-devices.page:57(p)
-#, fuzzy
 msgid ""
 "If you want to back up your information before synchronizing, make a copy of "
 "the <file>.local/share/evolution</file> directory inside your home directory."
 msgstr ""
 "Si quiere realizar una copia de seguridad de su información antes de "
-"sincronizar, haga una copia del directorio <command>.evolution</command> "
-"dentro de su directorio de inicio."
+"sincronizar, haga una copia de la carpeta <file>.local/share/evolution</"
+"file> dentro de su carpeta de inicio."
 
 #: C/sync-with-other-devices.page:58(p)
 #, fuzzy
@@ -2190,17 +2191,25 @@ msgstr ""
 msgid "Click <gui>Close</gui>."
 msgstr "Pulse <gui>Cerrar</gui>."
 
-#: C/mail-spam-settings.page:42(title)
+#: C/mail-spam-settings.page:41(p)
+msgid ""
+"The junk mail options discussed in this page refer only to POP and Local "
+"Delivery. For handling junk mails on IMAP, see the Evolution settings under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui "
+"style=\"button\">Edit</gui><gui>Receiving Options</gui></guiseq>."
+msgstr ""
+
+#: C/mail-spam-settings.page:44(title)
 msgid "Junk Mail Preferences"
 msgstr "Opciones de correo spam"
 
-#: C/mail-spam-settings.page:43(p)
+#: C/mail-spam-settings.page:45(p)
 msgid ""
 "You can modify how Evolution handles junk mail by changing the Junk Mail "
 "Preferences:"
 msgstr ""
 
-#: C/mail-spam-settings.page:45(p)
+#: C/mail-spam-settings.page:47(p)
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Preferences</gui></guiseq> or press "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>."
@@ -2208,56 +2217,48 @@ msgstr ""
 "Pulse <guiseq><gui>Editar</gui><gui>Preferencias</gui></guiseq> o pulse "
 "<keyseq><key>Mayús</key><key>Ctrl</key><key>S</key></keyseq>."
 
-#: C/mail-spam-settings.page:46(p)
+#: C/mail-spam-settings.page:48(p)
 #, fuzzy
 #| msgid "Select Mail Preferences."
 msgid "Select <gui>Mail Preferences</gui>."
 msgstr "Seleccione Opciones de correo."
 
-#: C/mail-spam-settings.page:47(p)
+#: C/mail-spam-settings.page:49(p)
 msgid "Click on the <gui>Junk</gui> tab. Here, you can specify the following:"
 msgstr ""
 
-#: C/mail-spam-settings.page:49(p)
+#: C/mail-spam-settings.page:51(p)
 #, fuzzy
 msgid "Checking incoming mail for junk messages."
 msgstr "Detectar si el correo entrante es spam:"
 
-#: C/mail-spam-settings.page:50(p)
+#: C/mail-spam-settings.page:52(p)
 msgid ""
 "Deleting junk messages upon exit, and how often junk messages are to be "
 "deleted."
 msgstr ""
 
-#: C/mail-spam-settings.page:51(p)
+#: C/mail-spam-settings.page:53(p)
 #, fuzzy
 msgid "Checking custom headers for junk."
 msgstr "Compro_bar las cabeceras personalizadas contra SPAM"
 
-#: C/mail-spam-settings.page:52(p)
+#: C/mail-spam-settings.page:54(p)
 #, fuzzy
 msgid "Marking messages as junk if the sender is in the address book."
 msgstr ""
 "_No marcar los mensajes como basura si el remitente está en mi libreta de "
 "direcciones"
 
-#: C/mail-spam-settings.page:53(p)
+#: C/mail-spam-settings.page:55(p)
 #, fuzzy
 msgid "The default junk filter."
 msgstr "El complemento predeterminado para SPAM"
 
-#: C/mail-spam-settings.page:54(p)
+#: C/mail-spam-settings.page:56(p)
 msgid ""
 "Bogofilter and SpamAssassin options. These options are available only if the "
 "plugins are enabled."
-msgstr ""
-
-#: C/mail-spam-settings.page:60(p)
-msgid ""
-"The junk mail options discussed in this page refer only to POP and Local "
-"Delivery. For handling junk mails on IMAP, see the Evolution settings under "
-"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui "
-"style=\"button\">Edit</gui><gui>Receiving Options</gui></guiseq>."
 msgstr ""
 
 #: C/mail-spam.page:5(desc)
@@ -2588,12 +2589,6 @@ msgid ""
 "Select the <gui>Remove This Column</gui> or <gui>Add a Column</gui> option."
 msgstr ""
 
-#: C/mail-sorting-message-list.page:46(list)
-#, fuzzy
-msgid "<placeholder-1/><placeholder-2/>S <placeholder-3/>"
-msgstr ""
-"Pulse el botón Correo enviado para abrir la ventana de selección de carpeta."
-
 #: C/mail-sorting-message-list.page:52(p)
 msgid ""
 "Evolution allows you to sort your messages using these columns. Just click "
@@ -2833,7 +2828,7 @@ msgstr ""
 "acontecimiento organizado puede que quiera contactar con el administrador de "
 "su sistema para obtener más información."
 
-#: C/mail-sending-options-smtp.page:32(p)
+#: C/mail-sending-options-smtp.page:33(p)
 #, fuzzy
 msgid ""
 "If the server requires authentication, you need to provide the following "
@@ -2842,7 +2837,7 @@ msgstr ""
 "Si seleccionó que su servidor requiere autenticación, necesita proporcionar "
 "la siguiente información:"
 
-#: C/mail-sending-options-smtp.page:34(p)
+#: C/mail-sending-options-smtp.page:35(p)
 #, fuzzy
 msgid ""
 "Select the authentication type in the Authentication list, or click "
@@ -2856,7 +2851,7 @@ msgstr ""
 "mecanismo disponible funcione realmente."
 
 #. TODO:XINCLUDE: Maybe later replace this "go back" workaround by doing some content sharing with xinclude and xpointer in intro-first-run.page itself? <include href="foo.xml" xmlns="http://www.w3.org/2001/XInclude"/> See gnome-user-docs module for example usage.
-#: C/mail-sending-options-smtp.page:42(p)
+#: C/mail-sending-options-smtp.page:43(p)
 msgid ""
 "If you came to this page from the first-run wizard help page, click <link "
 "xref=\"intro-first-run#account-information\">here</link> to continue with "
@@ -2875,8 +2870,8 @@ msgstr "Enviar y recibir correo"
 #: C/mail-send-and-receive.page:22(p)
 msgid ""
 "This section refers to receiving mail and sending written emails. For "
-"writing a new message, please refer to the <link type=\"guide\" xref="
-"\"index#mail-composing\">Composing mail</link> section."
+"writing a new message, please refer to the <link xref=\"index#mail-composing"
+"\">Composing mail</link> section."
 msgstr ""
 
 #: C/mail-send-and-receive-manual.page:5(desc)
@@ -4279,15 +4274,15 @@ msgstr ""
 msgid "Sorting and organizing mail"
 msgstr "Enviar y recibir correo"
 
-#: C/mail-organizing.page:24(title)
-msgid "Advanced Options"
-msgstr "Opciones avanzadas"
-
-#: C/mail-organizing.page:27(p)
+#: C/mail-organizing.page:23(p)
 msgid ""
 "Evolution provides several options to organize your mail according to your "
 "needs."
 msgstr ""
+
+#: C/mail-organizing.page:26(title)
+msgid "Advanced Options"
+msgstr "Opciones avanzadas"
 
 #: C/mail-not-sent.page:5(desc)
 msgid "Possible reasons why emails are not sent."
@@ -4618,7 +4613,6 @@ msgid "Right-click one of the messages."
 msgstr "Pulse con el botón derecho sobre uno de los mensajes."
 
 #: C/mail-follow-up-flag.page:29(p)
-#| msgid "Click Mark for Follow Up."
 msgid "Click <gui>Mark for Follow Up...</gui>"
 msgstr "Pulse <gui>Marca para seguimiento...</gui>"
 
@@ -4743,7 +4737,6 @@ msgid "Specify the name and the location of the folder."
 msgstr "Seleccione la ubicación de la carpeta nueva."
 
 #: C/mail-folders.page:38(p)
-#| msgid "Click the Categories button at the left."
 msgid "Click on the <gui>Create</gui> button."
 msgstr "Pulse el botón <gui>Crear</gui>."
 
@@ -4753,53 +4746,7 @@ msgid ""
 "into the folder."
 msgstr ""
 
-#: C/mail-folders.page:44(title)
-#, fuzzy
-msgid "Moving Messages to New Folders"
-msgstr "Moviendo los mensajes a la carpeta %s"
-
-#: C/mail-folders.page:45(p)
-#, fuzzy
-msgid ""
-"You can move messages into folders by using one of the following methods:"
-msgstr "Puede ver el tamaño de la carpeta usando los siguientes métodos:"
-
-#: C/mail-folders.page:47(p)
-#, fuzzy
-msgid "Drag and drop the messages into the folder."
-msgstr "Marca todos los mensajes en la carpeta como leídos."
-
-#: C/mail-folders.page:48(p)
-#, fuzzy
-msgid ""
-"Right-click on the message and select the <gui>Move to Folder</gui> option."
-msgstr ""
-"Pulse con el botón derecho del ratón sobre el mensaje en la lista de "
-"mensajes."
-
-#: C/mail-folders.page:49(p)
-msgid ""
-"Select a message and press <keyseq><key>Shift</key><key>Ctrl</key><key>V</"
-"key></keyseq>."
-msgstr ""
-
-#: C/mail-folders.page:50(p)
-msgid ""
-"Select a message and click on <guiseq><gui>Message</gui><gui>Move to Folder</"
-"gui></guiseq>."
-msgstr ""
-
-#: C/mail-folders.page:53(p)
-msgid "The steps for copying are similar."
-msgstr ""
-
-#: C/mail-folders.page:55(p)
-msgid ""
-"Moving files can be done automatically by setting up <link xref=\"mail-"
-"filters\">filters</link>."
-msgstr ""
-
-#: C/mail-folders.page:60(p)
+#: C/mail-folders.page:43(p)
 #, fuzzy
 msgid ""
 "The Inbox folders on most IMAP servers cannot contain both messages and "
@@ -4814,6 +4761,52 @@ msgstr ""
 "carpetas de cuentas IMAP, y no desde el buzón de entrada. Si crea "
 "subcarpetas en el buzón de entrada, dejará de poder leer mensajes que "
 "existen en esta carpeta, hasta que las mueva hacia otro lugar."
+
+#: C/mail-folders.page:49(title)
+#, fuzzy
+msgid "Moving Messages to New Folders"
+msgstr "Moviendo los mensajes a la carpeta %s"
+
+#: C/mail-folders.page:50(p)
+#, fuzzy
+msgid ""
+"You can move messages into folders by using one of the following methods:"
+msgstr "Puede ver el tamaño de la carpeta usando los siguientes métodos:"
+
+#: C/mail-folders.page:52(p)
+#, fuzzy
+msgid "Drag and drop the messages into the folder."
+msgstr "Marca todos los mensajes en la carpeta como leídos."
+
+#: C/mail-folders.page:53(p)
+#, fuzzy
+msgid ""
+"Right-click on the message and select the <gui>Move to Folder</gui> option."
+msgstr ""
+"Pulse con el botón derecho del ratón sobre el mensaje en la lista de "
+"mensajes."
+
+#: C/mail-folders.page:54(p)
+msgid ""
+"Select a message and press <keyseq><key>Shift</key><key>Ctrl</key><key>V</"
+"key></keyseq>."
+msgstr ""
+
+#: C/mail-folders.page:55(p)
+msgid ""
+"Select a message and click on <guiseq><gui>Message</gui><gui>Move to Folder</"
+"gui></guiseq>."
+msgstr ""
+
+#: C/mail-folders.page:58(p)
+msgid "The steps for copying are similar."
+msgstr ""
+
+#: C/mail-folders.page:60(p)
+msgid ""
+"Moving files can be done automatically by setting up <link xref=\"mail-"
+"filters\">filters</link>."
+msgstr ""
 
 #: C/mail-filters.page:5(desc)
 msgid "Use filter rules to sort your mail automatically into folders."
@@ -5523,7 +5516,7 @@ msgid ""
 msgstr "_Firmar siempre los mensajes salientes cuando se use esta cuenta"
 
 #: C/mail-encryption-gpg-signing-encrypting.page:36(p)
-#: C/mail-encryption-gpg-set-up.page:35(p)
+#: C/mail-encryption-gpg-set-up.page:36(p)
 msgid "Click <gui style=\"button\">Close</gui>."
 msgstr "Pulse <gui style=\"button\">Cerrar</gui>."
 
@@ -5553,7 +5546,6 @@ msgstr ""
 "Seleccione la cuenta que quiere usar de forma segura, después pulse Editar."
 
 #: C/mail-encryption-gpg-set-up.page:31(p)
-#| msgid "Click the Security tab."
 msgid "Click the <gui>Security</gui> tab."
 msgstr "Pulse en la pestaña <gui>Seguridad</gui>."
 
@@ -5569,7 +5561,7 @@ msgid ""
 "using this account, and other options."
 msgstr "_Firmar siempre los mensajes salientes cuando se use esta cuenta"
 
-#: C/mail-encryption-gpg-set-up.page:37(p)
+#: C/mail-encryption-gpg-set-up.page:38(p)
 #, fuzzy
 msgid ""
 "Evolution requires that you know your key ID. If you do not remember it, you "
@@ -5686,7 +5678,7 @@ msgstr ""
 msgid "Creating a GPG key"
 msgstr "Crear una tarea nueva"
 
-#: C/mail-encryption-gpg-create-key.page:25(note)
+#: C/mail-encryption-gpg-create-key.page:25(p)
 msgid ""
 "These steps are very technical. For average users we nowadays recommend "
 "using the Seahorse application for managing GPG keys."
@@ -5800,8 +5792,8 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Enter the command <code>gpg --send-keys --keyserver wwwkeys.pgp.net "
-"<varname>32j38dk2</varname></code>. Substitute your key ID for "
-"<quote>32j38dk2</quote>. You need your password to do this."
+"32j38dk2</code>. Substitute your key ID for <code>32j38dk2</code>. You need "
+"your password to do this."
 msgstr ""
 "Escriba el comando <command>gpg --send-keys --keyserver wwwkeys.pgp.net "
 "<varname>32j38dk2</varname></command>. Sustituya el identificador de su "
@@ -6380,12 +6372,25 @@ msgid ""
 "composer by separating them with commas or semicolons."
 msgstr ""
 
-#: C/mail-composer-several-recipients.page:31(title)
+#: C/mail-composer-several-recipients.page:30(p)
+#, fuzzy
+msgid ""
+"If you frequently write email to the same groups of people, you can create "
+"<link xref=\"contacts-using-contact-lists\">contact lists</link> to send "
+"them mail as though they have a single address."
+msgstr ""
+"Si escribe con frecuencia a los mismos grupos de personas, puede crear "
+"listas de direcciones en la herramienta de contactos, y después enviarles "
+"correos como si cada grupo tuviera una única dirección de correo. Para saber "
+"cómo hacerlo consulte <link linkend=\"usage-contact-organize-group-list"
+"\">Crear una lista de contactos</link>."
+
+#: C/mail-composer-several-recipients.page:33(title)
 #, fuzzy
 msgid "Recipient types"
 msgstr "Destinatarios"
 
-#: C/mail-composer-several-recipients.page:32(p)
+#: C/mail-composer-several-recipients.page:34(p)
 msgid ""
 "Email messages can have three different types of recipients. The simplest "
 "way is to put the email address or addresses in the <gui>To:</gui> text "
@@ -6393,7 +6398,7 @@ msgid ""
 "to receive a copy of your message but are not the primary recipients."
 msgstr ""
 
-#: C/mail-composer-several-recipients.page:34(p)
+#: C/mail-composer-several-recipients.page:36(p)
 #, fuzzy
 msgid ""
 "Addresses in the <gui>Bcc:</gui> text field are hidden from the other "
@@ -6407,23 +6412,23 @@ msgstr ""
 "especialmente si no se conocen entre sí o si es importante mantener la "
 "privacidad. Si el campo Cco: no está a la vista pulse Ver &gt; Campo Cco."
 
-#: C/mail-composer-several-recipients.page:38(title)
+#: C/mail-composer-several-recipients.page:40(title)
 msgid "Autocompletion"
 msgstr "Autocompletado"
 
-#: C/mail-composer-several-recipients.page:39(p)
+#: C/mail-composer-several-recipients.page:41(p)
 msgid ""
 "It is recommended to use the <link xref=\"contacts-autocompletion"
 "\">Autocompletion</link> feature of the Evolution address book for entering "
 "addresses. By using this you avoid typos and save time."
 msgstr ""
 
-#: C/mail-composer-several-recipients.page:43(title)
+#: C/mail-composer-several-recipients.page:45(title)
 #, fuzzy
 msgid "Using the buttons"
 msgstr "Mostrar los botones del selector"
 
-#: C/mail-composer-several-recipients.page:45(p)
+#: C/mail-composer-several-recipients.page:47(p)
 #, fuzzy
 msgid ""
 "Instead of typing the recipients' names you can also click the <gui style="
@@ -6436,19 +6441,6 @@ msgstr ""
 "una lista de las direcciones de correo-e en su lista de contactos. "
 "Seleccione las direcciones y pulse las flechas para moverlas entre las "
 "columnas de direcciones apropiadas."
-
-#: C/mail-composer-several-recipients.page:48(p)
-#, fuzzy
-msgid ""
-"If you frequently write email to the same groups of people, you can create "
-"<link xref=\"contacts-using-contact-lists\">contact lists</link> to send "
-"them mail as though they have a single address."
-msgstr ""
-"Si escribe con frecuencia a los mismos grupos de personas, puede crear "
-"listas de direcciones en la herramienta de contactos, y después enviarles "
-"correos como si cada grupo tuviera una única dirección de correo. Para saber "
-"cómo hacerlo consulte <link linkend=\"usage-contact-organize-group-list"
-"\">Crear una lista de contactos</link>."
 
 #: C/mail-composer-search.page:5(desc)
 #, fuzzy
@@ -7354,7 +7346,7 @@ msgstr "Navegue y seleccione el archivo de la imagen."
 msgid "Click <gui>Open</gui>."
 msgstr "Pulse <gui>Abrir</gui>."
 
-#: C/mail-composer-html-image.page:30(note)
+#: C/mail-composer-html-image.page:30(p)
 msgid ""
 "Alternately, you can also drag an image into the text area of the message "
 "composer."
@@ -7583,7 +7575,7 @@ msgstr ""
 "característica."
 
 #: C/mail-change-time-format.page:20(p)
-#: C/calendar-layout-appointment-display.page:50(p)
+#: C/calendar-layout-appointment-display.page:49(p)
 msgid "The placeholders in the format expression are strftime variables."
 msgstr ""
 
@@ -9392,7 +9384,7 @@ msgstr "Elegir el archivo."
 msgid "The file type will be automatically determined."
 msgstr "Filtros de correo actualizados automáticamente."
 
-#: C/import-single-files.page:27(p) C/import-apps-outlook.page:63(p)
+#: C/import-single-files.page:27(p) C/import-apps-outlook.page:64(p)
 #: C/import-apps-mozilla.page:27(p)
 #, fuzzy
 msgid ""
@@ -9462,7 +9454,7 @@ msgstr ""
 msgid "Windows XP"
 msgstr "_Ventana"
 
-#: C/import-apps-outlook.page:38(td)
+#: C/import-apps-outlook.page:38(p)
 msgid "Outlook 2010"
 msgstr ""
 
@@ -9475,7 +9467,7 @@ msgid "C:\\Documents and Settings\\username\\My Documents\\Outlook Files"
 msgstr ""
 "C:\\Documents and Settings\\nombre_de_usuario\\My Documents\\Outlook Files"
 
-#: C/import-apps-outlook.page:41(td)
+#: C/import-apps-outlook.page:41(p)
 #, fuzzy
 msgid "Outlook 2007 and earlier"
 msgstr "Importador de VSC y Tab"
@@ -9560,7 +9552,7 @@ msgid ""
 "enabled this functionality."
 msgstr ""
 
-#: C/import-apps-outlook.page:64(p) C/import-apps-mozilla.page:28(p)
+#: C/import-apps-outlook.page:65(p) C/import-apps-mozilla.page:28(p)
 #, fuzzy
 msgid "Repeat the import steps until you have imported all your data."
 msgstr ""
@@ -11608,7 +11600,7 @@ msgstr "Desplazar la vista mensual una semana"
 msgid "Date/Time Format"
 msgstr "Formato de la fecha y hora"
 
-#: C/calendar-layout-appointment-display.page:50(p)
+#: C/calendar-layout-appointment-display.page:49(p)
 msgid ""
 "You can change the format of the <gui>Date</gui> column by setting your "
 "preferred format."
@@ -11922,6 +11914,15 @@ msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2011\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
+
+#~ msgid "<placeholder-1/>."
+#~ msgstr "<placeholder-1/>."
+
+#, fuzzy
+#~ msgid "<placeholder-1/><placeholder-2/>S <placeholder-3/>"
+#~ msgstr ""
+#~ "Pulse el botón Correo enviado para abrir la ventana de selección de "
+#~ "carpeta."
 
 #, fuzzy
 #~ msgid "Categories..."
