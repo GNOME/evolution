@@ -1043,7 +1043,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
 	reference = gtk_tree_row_reference_new (GTK_TREE_MODEL (model), path);
 
-	si = g_new (EMFolderTreeModelStoreInfo, 1);
+	si = g_new0 (EMFolderTreeModelStoreInfo, 1);
 	si->store = g_object_ref (store);
 	si->row = gtk_tree_row_reference_copy (reference);
 	si->full_hash = g_hash_table_new_full (
