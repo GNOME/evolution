@@ -52,7 +52,6 @@ struct _EAddressbookModelPrivate {
 
 	guint search_in_progress	: 1;
 	guint editable			: 1;
-	guint editable_set		: 1;
 	guint first_get_view		: 1;
 };
 
@@ -325,16 +324,10 @@ view_complete_cb (EBookClientView *client_view,
 
 static void
 readonly_cb (EBookClient *book_client,
+	     GParamSpec *pspec,
              EAddressbookModel *model)
 {
-	if (!model->priv->editable_set) {
-		model->priv->editable =
-			!e_client_is_readonly (E_CLIENT (book_client));
-
-		g_signal_emit (
-			model, signals[WRITABLE_STATUS], 0,
-			model->priv->editable);
-	}
+	e_addressbook_model_set_editable (model, !e_client_is_readonly (E_CLIENT (book_client)));
 }
 
 static void
@@ -885,13 +878,7 @@ e_addressbook_model_set_client (EAddressbookModel *model,
 		book_client, "backend-died",
 		G_CALLBACK (backend_died_cb), model);
 
-	if (!model->priv->editable_set) {
-		model->priv->editable =
-			!e_client_is_readonly (E_CLIENT (book_client));
-		g_signal_emit (
-			model, signals[WRITABLE_STATUS], 0,
-			model->priv->editable);
-	}
+	e_addressbook_model_set_editable (model, !e_client_is_readonly (E_CLIENT (book_client)));
 
 	if (model->priv->client_view_idle_id == 0)
 		model->priv->client_view_idle_id = g_idle_add (
@@ -915,10 +902,15 @@ e_addressbook_model_set_editable (EAddressbookModel *model,
 {
 	g_return_if_fail (E_IS_ADDRESSBOOK_MODEL (model));
 
-	model->priv->editable = editable;
-	model->priv->editable_set = TRUE;
+	if ((model->priv->editable ? 1 : 0) != (editable ? 1 : 0)) {
+		model->priv->editable = editable;
 
-	g_object_notify (G_OBJECT (model), "editable");
+		g_signal_emit (
+			model, signals[WRITABLE_STATUS], 0,
+			model->priv->editable);
+
+		g_object_notify (G_OBJECT (model), "editable");
+	}
 }
 
 gchar *
