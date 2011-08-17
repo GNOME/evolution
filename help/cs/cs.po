@@ -1,6 +1,6 @@
 # Czech translation of evolution documentation.
 # Copyright (C) 2008, 2009, 2010 the author(s) of evolution.
-# This file is distributed under GNU Free Documentation License 1.2.
+# This file is distributed under the same license as the evolution package.
 # Jiri Eischmann <jiri@eischmann.cz>, 2008, 2009, 2010.
 #
 msgid ""
