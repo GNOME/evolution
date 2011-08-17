@@ -130,7 +130,7 @@ contact_map_window_zoom_out_cb (GtkButton *button,
 }
 static void
 zoom_level_changed_cb (ChamplainView *view,
-                       gint bzoom_level,
+                       GParamSpec *pspec,
                        gpointer user_data)
 {
 	EContactMapWindow *window = user_data;

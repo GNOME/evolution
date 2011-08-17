@@ -4253,7 +4253,7 @@ e_contact_editor_new (EShell *shell,
 }
 
 static void
-notify_readonly_cb (EBookClient *book_client, EContactEditor *ce)
+notify_readonly_cb (EBookClient *book_client, GParamSpec *pspec, EContactEditor *ce)
 {
 	gint new_target_editable;
 	gboolean changed = FALSE;
