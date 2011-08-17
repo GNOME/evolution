@@ -2036,7 +2036,8 @@ emae_check_authtype (GtkWidget *w,
 	GtkWidget *editor;
 	gpointer parent;
 	gchar *uid;
-	const gchar *url_string;
+	gchar *url_string;
+	CamelURL *url;
 	GError *error = NULL;
 
 	account = em_account_editor_get_modified_account (service->emae);
@@ -2046,8 +2047,11 @@ emae_check_authtype (GtkWidget *w,
 	session = e_mail_backend_get_session (backend);
 
 	uid = g_strdup_printf ("emae-check-authtype-%p", service);
-	url_string = e_account_get_string (
-		account, emae_service_info[service->type].account_uri_key);
+	url = camel_url_new (e_account_get_string (account, emae_service_info[service->type].account_uri_key), NULL);
+	if (service->settings)
+		camel_settings_save_to_url (service->settings, url);
+	url_string = camel_url_to_string (url, 0);
+	camel_url_free (url);
 
 	/* to test on actual data, not on previously used */
 	camel_service = camel_session_add_service (
@@ -2055,6 +2059,7 @@ emae_check_authtype (GtkWidget *w,
 		url_string, service->type, &error);
 
 	g_free (uid);
+	g_free (url_string);
 
 	if (editor != NULL)
 		parent = gtk_widget_get_toplevel (editor);
