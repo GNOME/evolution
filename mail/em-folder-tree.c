@@ -293,13 +293,9 @@ folder_tree_get_folder_info_cb (CamelStore *store,
 		return;
 	}
 
-	if (!folder_info) {
-		g_warn_if_fail (folder_info != NULL);
-		async_context_free (context);
-		return;
-	}
-
-	g_return_if_fail (folder_info != NULL);
+	/* If we've just set up an NNTP account, for example, and haven't
+	 * subscribed to any folders yet, folder_info may legitimately be
+	 * NULL at this point.  We handle that case below.  Proceed. */
 
 	/* Check if the store has been removed. */
 	si = em_folder_tree_model_lookup_store_info (
@@ -336,17 +332,24 @@ folder_tree_get_folder_info_cb (CamelStore *store,
 	}
 
 	iter = titer;
+	child_info = folder_info;
 
 	/* FIXME Camel's IMAP code is totally on crack here: the
 	 *       folder_info we got back should be for the folder
 	 *       we're expanding, and folder_info->child should be
 	 *       what we want to fill our tree with... *sigh* */
-	if (g_strcmp0 (folder_info->full_name, context->full_name) == 0) {
-		child_info = folder_info->child;
-		if (child_info == NULL)
-			child_info = folder_info->next;
-	} else
-		child_info = folder_info;
+	if (folder_info != NULL) {
+		gboolean names_match;
+
+		names_match = (g_strcmp0 (
+			folder_info->full_name,
+			context->full_name) == 0);
+		if (names_match) {
+			child_info = folder_info->child;
+			if (child_info == NULL)
+				child_info = folder_info->next;
+		}
+	}
 
 	/* The folder being expanded has no children after all.  Remove
 	 * the "Loading..." placeholder row and collapse the parent. */
