@@ -1533,11 +1533,17 @@ emae_setup_settings (EMAccountEditorService *service)
 	EMConfigTargetAccount *target;
 	CamelServiceClass *class;
 	GType service_type;
+	CamelURL *url;
+
+	url = emae_account_url (
+		service->emae,
+		emae_service_info[service->type].account_uri_key);
 
 	/* Destroy any old CamelSettings instances.
 	 * Changing CamelProviders invalidates them. */
 
 	if (service->settings != NULL) {
+		camel_settings_save_to_url (service->settings, url);
 		g_object_unref (service->settings);
 		service->settings = NULL;
 	}
@@ -1550,19 +1556,12 @@ emae_setup_settings (EMAccountEditorService *service)
 	class = g_type_class_ref (service_type);
 
 	if (g_type_is_a (class->settings_type, CAMEL_TYPE_SETTINGS)) {
-		CamelURL *url;
-
-		url = emae_account_url (
-			service->emae,
-			emae_service_info[service->type].account_uri_key);
-
 		service->settings = g_object_new (class->settings_type, NULL);
 		camel_settings_load_from_url (service->settings, url);
-
-		camel_url_free (url);
 	}
 
 	g_type_class_unref (class);
+	camel_url_free (url);
 
 	/* If settings implements CamelNetworkSettings, bind the
 	 * "security-method" property to the security combo box
