@@ -2026,8 +2026,22 @@ check_time (const struct icaltimetype tmval,
 gboolean
 is_icalcomp_valid (icalcomponent *icalcomp)
 {
-	return  icalcomp &&
-		icalcomponent_is_valid (icalcomp) &&
-		check_time (icalcomponent_get_dtstart (icalcomp), FALSE) &&
-		check_time (icalcomponent_get_dtend (icalcomp), TRUE);
+	if (!icalcomp || !icalcomponent_is_valid (icalcomp))
+		return FALSE;
+
+	switch (icalcomponent_isa (icalcomp)) {
+	case ICAL_VEVENT_COMPONENT:
+		return	check_time (icalcomponent_get_dtstart (icalcomp), FALSE) &&
+			check_time (icalcomponent_get_dtend (icalcomp), TRUE);
+	case ICAL_VTODO_COMPONENT:
+		return	check_time (icalcomponent_get_dtstart (icalcomp), TRUE) &&
+			check_time (icalcomponent_get_due (icalcomp), TRUE);
+	case ICAL_VJOURNAL_COMPONENT:
+		return	check_time (icalcomponent_get_dtstart (icalcomp), TRUE) &&
+			check_time (icalcomponent_get_dtend (icalcomp), TRUE);
+	default:
+		break;
+	}
+
+	return TRUE;
 }
