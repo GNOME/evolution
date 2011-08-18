@@ -234,6 +234,8 @@ mail_shell_backend_mail_sync (EMailShellBackend *mail_shell_backend)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
+	EMailBackend *backend;
+	EMailSession *session;
 
 	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -246,8 +248,11 @@ mail_shell_backend_mail_sync (EMailShellBackend *mail_shell_backend)
 	if (mail_shell_backend->priv->mail_sync_in_progress)
 		goto exit;
 
+	backend = E_MAIL_BACKEND (mail_shell_backend);
+	session = e_mail_backend_get_session (backend);
+
 	e_mail_store_foreach (
-		(GFunc) mail_shell_backend_sync_store_cb,
+		session, (GFunc) mail_shell_backend_sync_store_cb,
 		mail_shell_backend);
 
 exit:

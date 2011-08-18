@@ -140,7 +140,7 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 	}
 
 	e_mail_store_foreach (
-		(GFunc) mail_store_prepare_for_offline_cb, activity);
+		session, (GFunc) mail_store_prepare_for_offline_cb, activity);
 }
 
 /* Helper for mail_backend_prepare_for_online_cb() */
@@ -166,7 +166,7 @@ mail_backend_prepare_for_online_cb (EShell *shell,
 	camel_session_set_online (CAMEL_SESSION (session), TRUE);
 
 	e_mail_store_foreach (
-		(GFunc) mail_store_prepare_for_online_cb, activity);
+		session, (GFunc) mail_store_prepare_for_online_cb, activity);
 }
 
 /* Helper for mail_backend_prepare_for_quit_cb() */
@@ -241,6 +241,7 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
                                   EMailBackend *backend)
 {
 	EAccountList *account_list;
+	EMailSession *session;
 	gboolean delete_junk;
 	gboolean empty_trash;
 
@@ -248,6 +249,8 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 		EActivity *activity;
 		gboolean empty_trash;
 	} sync_data;
+
+	session = e_mail_backend_get_session (backend);
 
 	delete_junk = e_mail_backend_delete_junk_policy_decision (backend);
 	empty_trash = e_mail_backend_empty_trash_policy_decision (backend);
@@ -264,12 +267,13 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 
 	if (delete_junk)
 		e_mail_store_foreach (
-			(GFunc) mail_backend_delete_junk, backend);
+			session, (GFunc) mail_backend_delete_junk, backend);
 
 	sync_data.activity = activity;
 	sync_data.empty_trash = empty_trash;
 
-	e_mail_store_foreach ((GFunc) mail_backend_final_sync, &sync_data);
+	e_mail_store_foreach (
+		session, (GFunc) mail_backend_final_sync, &sync_data);
 
 	/* Now we poll until all activities are actually cancelled or finished.
 	 * Reffing the activity delays quitting; the reference count

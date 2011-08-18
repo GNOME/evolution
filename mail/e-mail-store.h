@@ -38,7 +38,8 @@ void		e_mail_store_remove		(EMailSession *session,
 						 CamelStore *store);
 void		e_mail_store_remove_by_account	(EMailSession *session,
 						 EAccount *account);
-void		e_mail_store_foreach		(GFunc func,
+void		e_mail_store_foreach		(EMailSession *session,
+						 GFunc func,
 						 gpointer user_data);
 
 G_END_DECLS
