@@ -3127,8 +3127,8 @@ gnome_canvas_request_redraw (GnomeCanvas *canvas, gint x1, gint y1, gint x2, gin
 
 	area.x = x1;
 	area.y = y1;
-	area.width = x2 - x1;
-	area.height = y2 - y1;
+	area.width = x2 - x1 + 1;
+	area.height = y2 - y1 + 1;
 
 	get_visible_rect (canvas, &clip);
 	if (!gdk_rectangle_intersect (&area, &clip, &area))
