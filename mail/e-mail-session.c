@@ -819,10 +819,12 @@ mail_session_get_password (CamelSession *session,
                            GError **error)
 {
 	EAccount *account = NULL;
+	const gchar *display_name = NULL;
 	const gchar *uid = NULL;
 	gchar *ret = NULL;
 
 	if (CAMEL_IS_SERVICE (service)) {
+		display_name = camel_service_get_display_name (service);
 		uid = camel_service_get_uid (service);
 		account = e_get_account_by_uid (uid);
 	}
@@ -856,18 +858,18 @@ mail_session_get_password (CamelSession *session,
 				gchar *title;
 
 				if (flags & CAMEL_SESSION_PASSPHRASE) {
-					if (account)
+					if (display_name != NULL)
 						title = g_strdup_printf (
 							_("Enter Passphrase for %s"),
-							account->name);
+							display_name);
 					else
 						title = g_strdup (
 							_("Enter Passphrase"));
 				} else {
-					if (account)
+					if (display_name != NULL)
 						title = g_strdup_printf (
 							_("Enter Password for %s"),
-							account->name);
+							display_name);
 					else
 						title = g_strdup (
 							_("Enter Password"));

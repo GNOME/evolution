@@ -50,7 +50,6 @@ struct _StoreInfo {
 	gint ref_count;
 
 	CamelStore *store;
-	gchar *display_name;
 
 	/* Hold a reference to keep them alive. */
 	CamelFolder *vtrash;
@@ -65,26 +64,16 @@ CamelStore *vfolder_store;  /* XXX write a get () function for this */
 static GHashTable *store_table;
 
 static StoreInfo *
-store_info_new (CamelStore *store,
-                const gchar *display_name)
+store_info_new (CamelStore *store)
 {
-	CamelService *service;
 	StoreInfo *store_info;
 
 	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
-
-	service = CAMEL_SERVICE (store);
 
 	store_info = g_slice_new0 (StoreInfo);
 	store_info->ref_count = 1;
 
 	store_info->store = g_object_ref (store);
-
-	if (display_name == NULL)
-		store_info->display_name =
-			camel_service_get_name (service, TRUE);
-	else
-		store_info->display_name = g_strdup (display_name);
 
 	/* If these are vfolders then they need to be opened now,
 	 * otherwise they won't keep track of all folders. */
@@ -118,7 +107,6 @@ store_info_unref (StoreInfo *store_info)
 	if (g_atomic_int_dec_and_test (&store_info->ref_count)) {
 
 		g_object_unref (store_info->store);
-		g_free (store_info->display_name);
 
 		if (store_info->vtrash != NULL)
 			g_object_unref (store_info->vtrash);
@@ -167,7 +155,6 @@ mail_store_note_store_cb (MailFolderCache *folder_cache,
 static void
 mail_store_add (EMailSession *session,
                 CamelStore *store,
-                const gchar *display_name,
                 AddStoreCallback callback)
 {
 	EMFolderTreeModel *default_model;
@@ -187,13 +174,12 @@ mail_store_add (EMailSession *session,
 	default_model = em_folder_tree_model_get_default ();
 	folder_cache = e_mail_session_get_folder_cache (session);
 
-	store_info = store_info_new (store, display_name);
+	store_info = store_info_new (store);
 	store_info->callback = callback;
 
 	g_hash_table_insert (store_table, store, store_info);
 
-	em_folder_tree_model_add_store (
-		default_model, store, store_info->display_name);
+	em_folder_tree_model_add_store (default_model, store);
 
 	mail_folder_cache_note_store (
 		folder_cache, CAMEL_SESSION (session), store, NULL,
@@ -231,8 +217,8 @@ mail_store_load_accounts (EMailSession *session,
 	local_store = e_mail_local_get_store ();
 
 	mail_store_add (
-		session, local_store, _("On This Computer"),
-		(AddStoreCallback) mail_store_add_local_done_cb);
+		session, local_store, (AddStoreCallback)
+		mail_store_add_local_done_cb);
 
 	/* Set up remote stores. */
 
@@ -280,14 +266,12 @@ e_mail_store_init (EMailSession *session,
 
 void
 e_mail_store_add (EMailSession *session,
-                  CamelStore *store,
-                  const gchar *display_name)
+                  CamelStore *store)
 {
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (CAMEL_IS_STORE (store));
-	g_return_if_fail (display_name != NULL);
 
-	mail_store_add (session, store, display_name, NULL);
+	mail_store_add (session, store, NULL);
 }
 
 CamelStore *
@@ -318,6 +302,8 @@ e_mail_store_add_by_account (EMailSession *session,
 		CAMEL_SESSION (session),
 		account->uid, account->source->url,
 		CAMEL_PROVIDER_STORE, &error);
+
+	camel_service_set_display_name (service, account->name);
 
 handle_transport:
 
@@ -358,8 +344,7 @@ handle_transport:
 	}
 
 	if (!skip && (provider->flags & CAMEL_PROVIDER_IS_STORAGE))
-		e_mail_store_add (
-			session, CAMEL_STORE (service), account->name);
+		e_mail_store_add (session, CAMEL_STORE (service));
 
 	return CAMEL_STORE (service);
 
@@ -434,11 +419,11 @@ e_mail_store_remove_by_account (EMailSession *session,
 }
 
 void
-e_mail_store_foreach (GHFunc func,
+e_mail_store_foreach (GFunc func,
                       gpointer user_data)
 {
 	GHashTableIter iter;
-	gpointer key, value;
+	gpointer store;
 
 	g_return_if_fail (func != NULL);
 
@@ -448,13 +433,11 @@ e_mail_store_foreach (GHFunc func,
 
 	g_hash_table_iter_init (&iter, store_table);
 
-	while (g_hash_table_iter_next (&iter, &key, &value)) {
-		StoreInfo *store_info = value;
+	while (g_hash_table_iter_next (&iter, &store, NULL)) {
 
 		/* Just being paranoid. */
-		g_return_if_fail (CAMEL_IS_STORE (key));
-		g_return_if_fail (store_info != NULL);
+		g_return_if_fail (CAMEL_IS_STORE (store));
 
-		func (key, store_info->display_name, user_data);
+		func (store, user_data);
 	}
 }

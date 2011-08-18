@@ -373,18 +373,15 @@ new_notify_status (EMEventTargetFolder *t)
 	gchar *text;
 
 	if (!status_count) {
-		EAccount *account;
+		CamelService *service;
+		const gchar *store_name;
 		gchar *folder_name;
-		const gchar *uid;
 
-		uid = camel_service_get_uid (CAMEL_SERVICE (t->store));
-		account = e_get_account_by_uid (uid);
+		service = CAMEL_SERVICE (t->store);
+		store_name = camel_service_get_display_name (service);
 
-		if (account != NULL)
-			folder_name = g_strdup_printf (
-				"%s/%s", account->name, t->folder_name);
-		else
-			folder_name = g_strdup (t->folder_name);
+		folder_name = g_strdup_printf (
+			"%s/%s", store_name, t->folder_name);
 
 		status_count = t->new;
 

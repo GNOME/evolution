@@ -197,7 +197,6 @@ action_mail_download_finished_cb (CamelStore *store,
 
 static void
 action_mail_download_foreach_cb (CamelStore *store,
-                                 const gchar *display_name,
                                  EMailReader *reader)
 {
 	EActivity *activity;
@@ -226,7 +225,7 @@ action_mail_download_cb (GtkAction *action,
 	reader = E_MAIL_READER (mail_view);
 
 	e_mail_store_foreach (
-		(GHFunc) action_mail_download_foreach_cb, reader);
+		(GFunc) action_mail_download_foreach_cb, reader);
 }
 
 static void

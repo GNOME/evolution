@@ -1688,12 +1688,11 @@ ml_tree_value_at_ex (ETreeModel *etm,
 	}
 	case COL_LOCATION: {
 		/* Fixme : freeing memory stuff (mem leaks) */
-		CamelFolder *folder;
 		CamelStore *store;
-		EAccount *account;
+		CamelFolder *folder;
+		CamelService *service;
 		const gchar *store_name;
 		const gchar *folder_name;
-		const gchar *uid;
 
 		folder = message_list->folder;
 
@@ -1705,13 +1704,8 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		store = camel_folder_get_parent_store (folder);
 		folder_name = camel_folder_get_full_name (folder);
 
-		uid = camel_service_get_uid (CAMEL_SERVICE (store));
-		account = e_get_account_by_uid (uid);
-
-		if (account != NULL)
-			store_name = account->name;
-		else
-			store_name = _("On This Computer");
+		service = CAMEL_SERVICE (store);
+		store_name = camel_service_get_display_name (service);
 
 		return g_strdup_printf ("%s : %s", store_name, folder_name);
 	}

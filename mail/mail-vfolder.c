@@ -208,11 +208,10 @@ struct _adduri_msg {
 static gchar *
 vfolder_adduri_desc (struct _adduri_msg *m)
 {
-	EAccount *account;
 	CamelStore *store;
+	CamelService *service;
 	EMailSession *session;
 	const gchar *display_name;
-	const gchar *uid;
 	gchar *folder_name;
 	gchar *description;
 	gboolean success;
@@ -226,13 +225,8 @@ vfolder_adduri_desc (struct _adduri_msg *m)
 	if (!success)
 		return NULL;
 
-	uid = camel_service_get_uid (CAMEL_SERVICE (store));
-	account = e_get_account_by_uid (uid);
-
-	if (account != NULL)
-		display_name = account->name;
-	else
-		display_name = _("On This Computer");
+	service = CAMEL_SERVICE (store);
+	display_name = camel_service_get_display_name (service);
 
 	description = g_strdup_printf (
 		_("Updating Search Folders for '%s' : %s"),
@@ -1123,9 +1117,10 @@ vfolder_load_storage (EMailBackend *backend)
 	service = camel_session_add_service (
 		CAMEL_SESSION (session), "vfolder",
 		storeuri, CAMEL_PROVIDER_STORE, NULL);
-	if (service != NULL)
+	if (service != NULL) {
+		camel_service_set_display_name (service, _("Search Folders"));
 		em_utils_connect_service_sync (service, NULL, NULL);
-	else {
+	} else {
 		g_warning("Cannot open vfolder store - no vfolders available");
 		return;
 	}
@@ -1162,7 +1157,7 @@ vfolder_load_storage (EMailBackend *backend)
 		G_CALLBACK (context_rule_removed), context);
 
 	/* load store to mail component */
-	e_mail_store_add (session, vfolder_store, _("Search Folders"));
+	e_mail_store_add (session, vfolder_store);
 
 	/* and setup the rules we have */
 	rule = NULL;

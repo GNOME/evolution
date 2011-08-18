@@ -107,7 +107,6 @@ mail_backend_store_operation_done_cb (CamelStore *store,
 /* Helper for mail_backend_prepare_for_offline_cb() */
 static void
 mail_store_prepare_for_offline_cb (CamelService *service,
-                                   gpointer unused,
                                    EActivity *activity)
 {
 	/* FIXME Not passing a GCancellable. */
@@ -141,13 +140,12 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 	}
 
 	e_mail_store_foreach (
-		(GHFunc) mail_store_prepare_for_offline_cb, activity);
+		(GFunc) mail_store_prepare_for_offline_cb, activity);
 }
 
 /* Helper for mail_backend_prepare_for_online_cb() */
 static void
 mail_store_prepare_for_online_cb (CamelService *service,
-                                  gpointer unused,
                                   EActivity *activity)
 {
 	/* FIXME Not passing a GCancellable. */
@@ -168,13 +166,12 @@ mail_backend_prepare_for_online_cb (EShell *shell,
 	camel_session_set_online (CAMEL_SESSION (session), TRUE);
 
 	e_mail_store_foreach (
-		(GHFunc) mail_store_prepare_for_online_cb, activity);
+		(GFunc) mail_store_prepare_for_online_cb, activity);
 }
 
 /* Helper for mail_backend_prepare_for_quit_cb() */
 static void
 mail_backend_delete_junk (CamelStore *store,
-                          gpointer unused,
                           EMailBackend *backend)
 {
 	CamelFolder *folder;
@@ -206,7 +203,6 @@ mail_backend_delete_junk (CamelStore *store,
 /* Helper for mail_backend_prepare_for_quit_cb() */
 static void
 mail_backend_final_sync (CamelStore *store,
-                         gpointer unused,
                          gpointer user_data)
 {
 	struct {
@@ -268,12 +264,12 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 
 	if (delete_junk)
 		e_mail_store_foreach (
-			(GHFunc) mail_backend_delete_junk, backend);
+			(GFunc) mail_backend_delete_junk, backend);
 
 	sync_data.activity = activity;
 	sync_data.empty_trash = empty_trash;
 
-	e_mail_store_foreach ((GHFunc) mail_backend_final_sync, &sync_data);
+	e_mail_store_foreach ((GFunc) mail_backend_final_sync, &sync_data);
 
 	/* Now we poll until all activities are actually cancelled or finished.
 	 * Reffing the activity delays quitting; the reference count

@@ -31,15 +31,14 @@ G_BEGIN_DECLS
 void		e_mail_store_init		(EMailSession *session,
 						 const gchar *data_dir);
 void		e_mail_store_add		(EMailSession *session,
-						 CamelStore *store,
-						 const gchar *display_name);
+						 CamelStore *store);
 CamelStore *	e_mail_store_add_by_account	(EMailSession *session,
 						 EAccount *account);
 void		e_mail_store_remove		(EMailSession *session,
 						 CamelStore *store);
 void		e_mail_store_remove_by_account	(EMailSession *session,
 						 EAccount *account);
-void		e_mail_store_foreach		(GHFunc func,
+void		e_mail_store_foreach		(GFunc func,
 						 gpointer user_data);
 
 G_END_DECLS

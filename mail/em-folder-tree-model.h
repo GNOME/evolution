@@ -132,8 +132,7 @@ void		em_folder_tree_model_set_folder_info
 					 gint fully_loaded);
 void		em_folder_tree_model_add_store
 					(EMFolderTreeModel *model,
-					 CamelStore *store,
-					 const gchar *display_name);
+					 CamelStore *store);
 void		em_folder_tree_model_remove_store
 					(EMFolderTreeModel *model,
 					 CamelStore *store);
