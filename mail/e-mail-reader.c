@@ -2828,6 +2828,15 @@ mail_reader_set_message (EMailReader *reader,
 }
 
 static void
+mail_reader_folder_loaded (EMailReader *reader)
+{
+	guint32 state;
+
+	state = e_mail_reader_check_state (reader);
+	e_mail_reader_update_actions (reader, state);
+}
+
+static void
 mail_reader_update_actions (EMailReader *reader,
                             guint32 state)
 {
@@ -3259,6 +3268,7 @@ e_mail_reader_default_init (EMailReaderInterface *interface)
 	interface->set_folder = mail_reader_set_folder;
 	interface->set_message = mail_reader_set_message;
 	interface->open_selected_mail = e_mail_reader_open_selected;
+	interface->folder_loaded = mail_reader_folder_loaded;
 	interface->update_actions = mail_reader_update_actions;
 
 	g_object_interface_install_property (
@@ -3302,7 +3312,8 @@ e_mail_reader_default_init (EMailReaderInterface *interface)
 		"folder-loaded",
 		G_OBJECT_CLASS_TYPE (interface),
 		G_SIGNAL_RUN_FIRST,
-		0, NULL, NULL,
+		G_STRUCT_OFFSET (EMailReaderInterface, folder_loaded),
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 

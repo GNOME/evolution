@@ -111,6 +111,7 @@ struct _EMailReaderInterface {
 	gboolean	(*enable_show_folder)	(EMailReader *reader);
 
 	/* Signals */
+	void		(*folder_loaded)	(EMailReader *reader);
 	void		(*show_search_bar)	(EMailReader *reader);
 	void		(*update_actions)	(EMailReader *reader,
 						 guint32 state);
