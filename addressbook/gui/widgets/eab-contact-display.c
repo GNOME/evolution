@@ -321,6 +321,11 @@ accum_multival_attribute (GString *buffer,
 {
 	GList *val_list, *l;
 
+	/* Workaround till bug [1] is fixed.
+	   [1] https://bugzilla.gnome.org/show_bug.cgi?id=473862
+	*/
+	icon = NULL;
+
 	val_list = e_contact_get (contact, field);
 	for (l = val_list; l; l = l->next) {
 		const gchar *str = (const gchar *) l->data;
