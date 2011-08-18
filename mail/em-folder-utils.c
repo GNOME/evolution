@@ -553,19 +553,43 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	CamelStore *store = NULL;
 	gchar *folder_name = NULL;
 	GtkWidget *dialog;
+	GList *list, *link;
 	GError *error = NULL;
 
 	g_return_if_fail (GTK_IS_WINDOW (parent));
 	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 
+	model = em_folder_tree_model_new ();
 	session = e_mail_backend_get_session (backend);
+	em_folder_tree_model_set_session (model, session);
 
-	model = em_folder_tree_model_get_default ();
+	list = camel_session_list_services (CAMEL_SESSION (session));
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		CamelService *service;
+		CamelStore *store;
+
+		service = CAMEL_SERVICE (link->data);
+
+		if (!CAMEL_IS_STORE (service))
+			continue;
+
+		store = CAMEL_STORE (service);
+
+		if ((store->flags & CAMEL_STORE_CAN_EDIT_FOLDERS) == 0)
+			continue;
+
+		em_folder_tree_model_add_store (model, store);
+	}
+
+	g_list_free (list);
 
 	dialog = em_folder_selector_create_new (
 		parent, backend, model, 0,
 		_("Create Folder"),
 		_("Specify where to create the folder:"));
+
+	g_object_unref (model);
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	folder_tree = em_folder_selector_get_folder_tree (selector);

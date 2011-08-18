@@ -205,7 +205,6 @@ account_changed_cb (EAccountList *accounts,
                     EMFolderTreeModel *model)
 {
 	EMailSession *session;
-	CamelProvider *provider;
 	CamelService *service;
 
 	session = em_folder_tree_model_get_session (model);
@@ -220,12 +219,6 @@ account_changed_cb (EAccountList *accounts,
 
 	/* check if store needs to be added at all*/
 	if (!account->enabled)
-		return;
-
-	/* make sure the new store belongs in the tree */
-	provider = camel_service_get_provider (service);
-	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE) ||
-	    em_utils_is_local_delivery_mbox_file (camel_service_get_camel_url (service)))
 		return;
 
 	em_folder_tree_model_add_store (model, CAMEL_STORE (service));
@@ -1012,6 +1005,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	GtkTreeIter root, iter;
 	GtkTreePath *path;
 	CamelService *service;
+	CamelProvider *provider;
 	CamelURL *service_url;
 	const gchar *display_name;
 	gchar *uri;
@@ -1021,13 +1015,25 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 
 	tree_store = GTK_TREE_STORE (model);
 
+	service = CAMEL_SERVICE (store);
+	provider = camel_service_get_provider (service);
+	service_url = camel_service_get_camel_url (service);
+	display_name = camel_service_get_display_name (service);
+
+	/* Ignore stores that should not be added to the tree model. */
+
+	if (provider == NULL)
+		return;
+
+	if ((provider->flags & CAMEL_PROVIDER_IS_STORAGE) == 0)
+		return;
+
+	if (em_utils_is_local_delivery_mbox_file (service_url))
+		return;
+
 	si = em_folder_tree_model_lookup_store_info (model, store);
 	if (si != NULL)
 		em_folder_tree_model_remove_store (model, store);
-
-	service = CAMEL_SERVICE (store);
-	service_url = camel_service_get_camel_url (service);
-	display_name = camel_service_get_display_name (service);
 
 	uri = camel_url_to_string (service_url, CAMEL_URL_HIDE_ALL);
 
