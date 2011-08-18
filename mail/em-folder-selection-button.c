@@ -282,8 +282,7 @@ folder_selection_button_clicked (GtkButton *button)
 			model = em_folder_tree_model_new ();
 			em_folder_tree_model_set_session (model, session);
 			em_folder_tree_model_add_store (
-				model, CAMEL_STORE (service),
-				priv->account->name);
+				model, CAMEL_STORE (service));
 		}
 	}
 

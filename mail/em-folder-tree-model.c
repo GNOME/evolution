@@ -228,8 +228,7 @@ account_changed_cb (EAccountList *accounts,
 	    em_utils_is_local_delivery_mbox_file (camel_service_get_camel_url (service)))
 		return;
 
-	em_folder_tree_model_add_store (
-		model, CAMEL_STORE (service), account->name);
+	em_folder_tree_model_add_store (model, CAMEL_STORE (service));
 }
 
 static void
@@ -1005,20 +1004,20 @@ folder_renamed_cb (CamelStore *store,
 
 void
 em_folder_tree_model_add_store (EMFolderTreeModel *model,
-                                CamelStore *store,
-                                const gchar *display_name)
+                                CamelStore *store)
 {
 	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
 	GtkTreeStore *tree_store;
 	GtkTreeIter root, iter;
 	GtkTreePath *path;
+	CamelService *service;
 	CamelURL *service_url;
+	const gchar *display_name;
 	gchar *uri;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (CAMEL_IS_STORE (store));
-	g_return_if_fail (display_name != NULL);
 
 	tree_store = GTK_TREE_STORE (model);
 
@@ -1026,7 +1025,10 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	if (si != NULL)
 		em_folder_tree_model_remove_store (model, store);
 
-	service_url = camel_service_get_camel_url (CAMEL_SERVICE (store));
+	service = CAMEL_SERVICE (store);
+	service_url = camel_service_get_camel_url (service);
+	display_name = camel_service_get_display_name (service);
+
 	uri = camel_url_to_string (service_url, CAMEL_URL_HIDE_ALL);
 
 	/* Add the store to the tree. */

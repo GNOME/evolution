@@ -992,7 +992,7 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
-	EAccount *account = NULL;
+	CamelService *service = NULL;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
@@ -1008,15 +1008,17 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
 
 	if (folder != NULL) {
 		CamelStore *store;
-		const gchar *uid;
 
 		store = camel_folder_get_parent_store (folder);
-		uid = camel_service_get_uid (CAMEL_SERVICE (store));
-		account = e_get_account_by_uid (uid);
+		service = CAMEL_SERVICE (store);
 	}
 
-	if (account != NULL)
-		e_composer_header_table_set_account_name (table, account->name);
+	if (service != NULL) {
+		const gchar *display_name;
+
+		display_name = camel_service_get_display_name (service);
+		e_composer_header_table_set_account_name (table, display_name);
+	}
 
 	composer_set_no_change (composer);
 

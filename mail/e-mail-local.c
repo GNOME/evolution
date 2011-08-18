@@ -78,6 +78,8 @@ e_mail_local_init (EMailSession *session,
 		CAMEL_PROVIDER_STORE, &error);
 	g_free (temp);
 
+	camel_service_set_display_name (service, _("On This Computer"));
+
 	/* Shouldn't need to worry about other mail applications
 	 * altering files in our local mail store. */
 	g_object_set (service, "need-summary-check", FALSE, NULL);

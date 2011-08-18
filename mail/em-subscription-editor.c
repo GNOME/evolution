@@ -805,7 +805,7 @@ subscription_editor_add_store (EMSubscriptionEditor *editor,
                                CamelStore *store)
 {
 	StoreData *data;
-	EAccount *account;
+	CamelService *service;
 	GtkListStore *list_store;
 	GtkTreeStore *tree_store;
 	GtkTreeViewColumn *column;
@@ -814,17 +814,13 @@ subscription_editor_add_store (EMSubscriptionEditor *editor,
 	GtkComboBoxText *combo_box;
 	GtkWidget *container;
 	GtkWidget *widget;
-	const gchar *uid;
+	const gchar *display_name;
 
-	/* Neither of the built-in stores ("local" or "vfolder") support
-	 * folder subscriptions.  Therefore there should be a corresponding
-	 * EAccount for the store from which we can grab a display name. */
-	uid = camel_service_get_uid (CAMEL_SERVICE (store));
-	account = e_get_account_by_uid (uid);
-	g_return_if_fail (account != NULL);
+	service = CAMEL_SERVICE (store);
+	display_name = camel_service_get_display_name (service);
 
 	combo_box = GTK_COMBO_BOX_TEXT (editor->priv->combo_box);
-	gtk_combo_box_text_append_text (combo_box, account->name);
+	gtk_combo_box_text_append_text (combo_box, display_name);
 
 	tree_store = gtk_tree_store_new (
 		N_COLUMNS,

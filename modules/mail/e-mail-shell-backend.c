@@ -219,7 +219,6 @@ mail_shell_backend_sync_store_done_cb (CamelStore *store,
 
 static void
 mail_shell_backend_sync_store_cb (CamelStore *store,
-                                  const gchar *display_name,
                                   EMailShellBackend *mail_shell_backend)
 {
 	mail_shell_backend->priv->mail_sync_in_progress++;
@@ -248,7 +247,7 @@ mail_shell_backend_mail_sync (EMailShellBackend *mail_shell_backend)
 		goto exit;
 
 	e_mail_store_foreach (
-		(GHFunc) mail_shell_backend_sync_store_cb,
+		(GFunc) mail_shell_backend_sync_store_cb,
 		mail_shell_backend);
 
 exit:
