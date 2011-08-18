@@ -419,25 +419,26 @@ e_mail_store_remove_by_account (EMailSession *session,
 }
 
 void
-e_mail_store_foreach (GFunc func,
+e_mail_store_foreach (EMailSession *session,
+                      GFunc func,
                       gpointer user_data)
 {
-	GHashTableIter iter;
-	gpointer store;
+	GList *list, *link;
 
+	/* XXX This is a silly convenience function.
+	 *     Could probably just get rid of it. */
+
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (func != NULL);
 
-	/* case when started in other than mailer component and closing evolution */
-	if (!store_table)
-		return;
+	list = camel_session_list_services (CAMEL_SESSION (session));
 
-	g_hash_table_iter_init (&iter, store_table);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		CamelService *service = CAMEL_SERVICE (link->data);
 
-	while (g_hash_table_iter_next (&iter, &store, NULL)) {
-
-		/* Just being paranoid. */
-		g_return_if_fail (CAMEL_IS_STORE (store));
-
-		func (store, user_data);
+		if (CAMEL_IS_STORE (service))
+			func (service, user_data);
 	}
+
+	g_list_free (list);
 }

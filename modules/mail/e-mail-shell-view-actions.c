@@ -218,14 +218,18 @@ action_mail_download_cb (GtkAction *action,
 	EMailShellContent *mail_shell_content;
 	EMailView *mail_view;
 	EMailReader *reader;
+	EMailBackend *backend;
+	EMailSession *session;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	reader = E_MAIL_READER (mail_view);
+	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
 
 	e_mail_store_foreach (
-		(GFunc) action_mail_download_foreach_cb, reader);
+		session, (GFunc) action_mail_download_foreach_cb, reader);
 }
 
 static void
