@@ -159,17 +159,11 @@ mail_store_add (EMailSession *session,
 {
 	EMFolderTreeModel *default_model;
 	MailFolderCache *folder_cache;
-	CamelProvider *provider;
 	StoreInfo *store_info;
 
 	g_return_if_fail (store_table != NULL);
 	g_return_if_fail (store != NULL);
 	g_return_if_fail (CAMEL_IS_STORE (store));
-
-	provider = camel_service_get_provider (CAMEL_SERVICE (store));
-
-	g_return_if_fail (
-		(provider->flags & CAMEL_PROVIDER_IS_STORAGE) != 0);
 
 	default_model = em_folder_tree_model_get_default ();
 	folder_cache = e_mail_session_get_folder_cache (session);
