@@ -6,7 +6,7 @@
 
     <link type="guide" xref="calendar-sharing-information" />
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-31" status="final"/>
+    <revision pkgversion="3.1.5" version="0.3" date="2011-08-19" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -23,8 +23,6 @@
 <title>Free/Busy information</title>
 
 <p>You can use the Free/Busy search for meetings to determine the availability of invitees.</p>
-
-<!-- TODO: Recheck once https://bugzilla.gnome.org/show_bug.cgi?id=655494 is fixed -->
 
 <p>In addition to the standard meeting scheduling tools, you can use the Free/Busy view to check whether people are available in advance. The Free/Busy feature is normally a function of dedicated groupware servers such as Microsoft Exchange and Novell GroupWise. However, you can also publish Free/Busy information online, and access Free/Busy information published elsewhere. If not everyone you collaborate with publishes Free/Busy data, you can still use <link xref="calendar-meetings-sending-invitation">meeting invitations</link> to coordinate schedules with other people.</p>
 
