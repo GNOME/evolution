@@ -401,7 +401,7 @@ searcher_new (gint flags,
 	s->tage = g_strdup (tage);
 	s->flags = flags;
 	s->state = &s->t->root;
-	s->matchcount = 0;
+	s->matchcount = -1;
 
 	g_queue_init (&s->input);
 	g_queue_init (&s->output);
@@ -1019,6 +1019,8 @@ searching_tokenizer_next_token (HTMLTokenizer *tokenizer)
 			next_token (tokenizer);
 
 	oldmatched = priv->engine->matchcount;
+	if (priv->engine->matchcount == -1)
+		priv->engine->matchcount = 0;
 
 	token = searcher_next_token (priv->engine);
 

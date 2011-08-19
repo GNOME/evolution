@@ -72,6 +72,8 @@ search_bar_update_matches (ESearchBar *search_bar)
 	gint matches;
 	gchar *text;
 
+	search_bar->priv->rerun_search = FALSE;
+
 	tokenizer = e_search_bar_get_tokenizer (search_bar);
 	matches_label = search_bar->priv->matches_label;
 
