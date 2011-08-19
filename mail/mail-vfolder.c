@@ -1248,6 +1248,25 @@ vfolder_edit (EShellView *shell_view)
 	gtk_widget_destroy (dialog);
 }
 
+static void
+vfolder_edit_response_cb (GtkWidget *dialog, gint response_id, gpointer user_data)
+{
+	if (response_id == GTK_RESPONSE_OK) {
+		EFilterRule *rule = g_object_get_data (G_OBJECT (dialog), "vfolder-rule");
+		EFilterRule *newrule = g_object_get_data (G_OBJECT (dialog), "vfolder-newrule");
+		const gchar *config_dir;
+		gchar *user;
+
+		e_filter_rule_copy (rule, newrule);
+		config_dir = mail_session_get_config_dir ();
+		user = g_build_filename (config_dir, "vfolders.xml", NULL);
+		e_rule_context_save ((ERuleContext *) context, user);
+		g_free (user);
+	}
+
+	gtk_widget_destroy (dialog);
+}
+
 void
 vfolder_edit_rule (EMailBackend *backend,
                    const gchar *folder_uri)
@@ -1305,21 +1324,12 @@ vfolder_edit_rule (EMailBackend *backend,
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
-		const gchar *config_dir;
-		gchar *user;
+	g_object_set_data_full (G_OBJECT (dialog), "vfolder-rule", rule, g_object_unref);
+	g_object_set_data_full (G_OBJECT (dialog), "vfolder-newrule", newrule, g_object_unref);
 
-		e_filter_rule_copy (rule, newrule);
-		config_dir = mail_session_get_config_dir ();
-		user = g_build_filename (config_dir, "vfolders.xml", NULL);
-		e_rule_context_save ((ERuleContext *) context, user);
-		g_free (user);
-	}
+	g_signal_connect (dialog, "response", G_CALLBACK (vfolder_edit_response_cb), NULL);
 
-	gtk_widget_destroy (dialog);
-
-	g_object_unref (rule);
-	g_object_unref (newrule);
+	gtk_widget_show (dialog);
 }
 
 static void
