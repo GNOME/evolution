@@ -240,6 +240,19 @@ paned_realize (GtkWidget *widget)
 		priv->toplevel_ready = TRUE;
 }
 
+static gboolean
+paned_queue_resize_on_idle (gpointer user_data)
+{
+	GtkWidget *paned = user_data;
+
+	g_return_val_if_fail (paned != NULL, FALSE);
+
+	gtk_widget_queue_resize_no_redraw (paned);
+	g_object_unref (paned);
+
+	return FALSE;
+}
+
 static void
 paned_size_allocate (GtkWidget *widget,
                      GtkAllocation *allocation)
@@ -282,6 +295,12 @@ paned_size_allocate (GtkWidget *widget,
 	gtk_paned_set_position (GTK_PANED (paned), position);
 
 	paned->priv->sync_request = SYNC_REQUEST_NONE;
+
+	/* gtk_paned_set_position() calls queue_resize, which cannot
+	   be called from size_allocate, thus call it on idle to take
+	   the change in the effect.
+	*/
+	g_idle_add (paned_queue_resize_on_idle, g_object_ref (paned));
 }
 
 static void
