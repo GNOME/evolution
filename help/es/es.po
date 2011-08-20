@@ -6,23 +6,23 @@
 # I.R. Maturana <info@in3activa.com>, 2003.
 # Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006.
 # Jorge Gonzalez <jorgegonz@svn.gnome.org>, 2009.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-15 13:40+0000\n"
-"PO-Revision-Date: 2011-08-16 11:16+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2011-08-19 14:16+0000\n"
+"PO-Revision-Date: 2011-08-20 11:05+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: C/using-categories.page:5(desc)
 msgid ""
@@ -1281,14 +1281,13 @@ msgid "Hide completed tasks after:"
 msgstr "Ocultar las tareas completadas tras:"
 
 #: C/tasks-display-settings.page:37(p)
-#, fuzzy
 msgid ""
 "Select this option to have completed tasks hidden after a period of time "
 "measured in days, hours, or minutes. If you do not select this option, "
 "completed tasks remain in your task list, marked as complete."
 msgstr ""
 "Seleccione esta opción para ocultar las tareas completadas después de un "
-"periodo de tiempo, medido en días, horas o minutos. Si no selecciona esta "
+"periodo de tiempo medido en días, horas o minutos. Si no selecciona esta "
 "opción, las tareas completadas se mantendrán en su lista de tareas, marcadas "
 "como completadas."
 
@@ -1298,7 +1297,7 @@ msgstr "Usar una lista de tareas o lista de notas en línea CalDAV."
 
 #: C/tasks-caldav.page:20(title)
 msgid "Using a CalDAV task or memo list"
-msgstr ""
+msgstr "Usar una lista de tareas o notas CalDAV"
 
 #: C/tasks-caldav.page:31(p) C/calendar-caldav.page:34(p)
 msgid "Enter your username and your email address."
@@ -1346,6 +1345,10 @@ msgid ""
 "enter_bug.cgi?product=evolution&amp;component=User%20Documentation\">GNOME's "
 "bug tracking system</link>."
 msgstr ""
+"Si puede proporcionar buenas prácticas o más información acerca de este "
+"tema, rellene un informe de error en <link href=\"https://bugzilla.gnome.org/"
+"enter_bug.cgi?product=evolution&amp;component=User%20Documentation\">el "
+"sistema de seguimiento de errores de GNOME</link>."
 
 #: C/sync-with-other-devices.page:34(title)
 msgid "Palm"
@@ -1514,7 +1517,7 @@ msgstr ""
 
 #: C/searching-items.page:5(desc)
 msgid "Searching content and data within <em>Evolution</em>."
-msgstr ""
+msgstr "Buscar contenido y datos en <em>Evolution</em>."
 
 #: C/searching-items.page:18(title)
 msgid "Searching items"
@@ -1551,7 +1554,7 @@ msgstr ""
 
 #: C/problems-getting-help.page:5(desc)
 msgid "How to get help for problems."
-msgstr ""
+msgstr "Cómo obtener ayuda para resolver problemas."
 
 #: C/problems-getting-help.page:22(title)
 msgid "How to get help"
@@ -1564,23 +1567,26 @@ msgid ""
 "link> or ask a message in the IRC chat channel #evolution on the server irc."
 "gimp.net."
 msgstr ""
+"Para recibir ayuda sobre problemas puede enviar un correo a la <link href="
+"\"http://mail.gnome.org/mailman/listinfo/evolution-list\">lista de correo de "
+"Evolution</link> o enviar un mensaje en el canal de chat de IRC #evolution "
+"en el servidor irc.gimp.net."
 
 #: C/problems-debug-how-to.page:5(desc)
 msgid "How to provide good information when tracking down a problem."
-msgstr ""
+msgstr "Cómo proporcionar buena información al seguir un problema."
 
 #: C/problems-debug-how-to.page:21(title)
 msgid "How to track down a problem"
-msgstr ""
+msgstr "Cómo seguir un problema"
 
 #: C/problems-debug-how-to.page:23(p)
-#, fuzzy
 msgid ""
 "As a first hint, error messages will be either displayed in the statusbar or "
 "between the tool bar and the search bar."
 msgstr ""
-"Especifique la longitud de los mensajes de error que mostrar en la barra de "
-"estado."
+"Como primer consejo, los mensajes de error se mostrarán en la barra de "
+"estado o entre la barra de herramientas y la barra de búsqueda."
 
 #: C/problems-debug-how-to.page:25(p)
 msgid ""
@@ -1597,16 +1603,15 @@ msgstr ""
 
 #: C/organizing.page:5(desc)
 msgid "On organizing and finding your data in Evolution."
-msgstr ""
+msgstr "Acerca de organizar y buscar sus datos en Evolution."
 
 #: C/organizing.page:18(title)
 msgid "Sorting and organizing"
-msgstr ""
+msgstr "Ordenar y organizar"
 
 #: C/minimize-to-system-tray.page:5(desc)
-#, fuzzy
 msgid "On minimizing Evolution to the notification area."
-msgstr "Icono parpadeante en el área de notificación:"
+msgstr "Acerca de minimizar Evolution al área de notificación."
 
 #: C/minimize-to-system-tray.page:11(name)
 #: C/mail-two-trash-folders.page:11(name) C/mail-spam-settings.page:16(name)
@@ -1651,9 +1656,8 @@ msgid "loonycookie@gmail.com"
 msgstr "loonycookie@gmail.com"
 
 #: C/minimize-to-system-tray.page:25(title)
-#, fuzzy
 msgid "Minimizing Evolution to the system tray"
-msgstr "Configuración de Evolution para utilizar LDAP"
+msgstr "Minimizar Evolution a la bandeja del sistema"
 
 #: C/minimize-to-system-tray.page:27(p)
 msgid ""
@@ -1675,12 +1679,11 @@ msgstr ""
 
 #: C/memos-usage.page:5(desc)
 msgid "On adding, editing, and deleting memos."
-msgstr ""
+msgstr "Acerca de añadir, editar y eliminar notas."
 
 #: C/memos-usage.page:20(title)
-#, fuzzy
 msgid "Add, Edit and Delete Memos"
-msgstr "Eliminar notas"
+msgstr "Añadir, editar y eliminar notas"
 
 #: C/memos-usage.page:22(p)
 msgid ""
@@ -1689,31 +1692,28 @@ msgid ""
 msgstr ""
 
 #: C/memos-usage-edit-memo.page:5(desc)
-#, fuzzy
 msgid "Editing a memo in your memo list."
-msgstr "No se puede encontrar esta nota en ninguna lista de notas"
+msgstr "Editar una nota en su lista de notas."
 
 #: C/memos-usage-edit-memo.page:20(title)
-#, fuzzy
 msgid "Editing a Memo"
-msgstr "Editar un contacto:"
+msgstr "Editar una nota"
 
 #: C/memos-usage-edit-memo.page:22(p)
-#, fuzzy
 msgid "If you want to change a memo that already exists in your memo lists,"
-msgstr "Si quiere modificar una tarjeta que ya existe,"
+msgstr "Si quiere modificar una nota que ya existe en su lista de notas,"
 
 #: C/memos-usage-edit-memo.page:25(p)
-#, fuzzy
 msgid ""
 "Double-click on the memo that you want to edit in the list of contacts, or "
 "right-click on the memo and click <key>Open Memo</key>."
-msgstr "Pulse dos veces en la tarjeta que quiera editar."
+msgstr ""
+"Pulse dos veces en la nota que quiera editar en la lista de contactos, o "
+"pulse con el botón derecho sobre la nota y pulse <key>Abrir nota</key>."
 
 #: C/memos-usage-edit-memo.page:26(p)
-#, fuzzy
 msgid "Edit the memo information."
-msgstr "Rellene la información."
+msgstr "Edite la información de la nota."
 
 #: C/memos-usage-delete-memo.page:5(desc)
 #, fuzzy
@@ -10607,14 +10607,13 @@ msgid ""
 "email. Enable the plugin <gui>Automatic Contacts</gui> by going to "
 "<guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>; click on \"Automatic "
 "Contacts\" so that it shows a check mark. Then go to <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Automatic "
-"Contacts</gui></guiseq> and enable the <gui>Create address book entries when "
-"sending emails</gui> option and select an address book in the drop-down "
-"field below that will receive the new contacts."
+"gui><gui>Preferences</gui><gui>Contacts</gui><gui>Automatic Contacts</gui></"
+"guiseq> and enable the <gui>Create address book entries when sending emails</"
+"gui> option and select an address book in the drop-down field below that "
+"will receive the new contacts."
 msgstr ""
 
-#. TODO: Update once https://bugzilla.gnome.org/show_bug.cgi?id=655492 is fixed
-#: C/contacts-add-automatically.page:29(p)
+#: C/contacts-add-automatically.page:28(p)
 msgid ""
 "From now on, contacts will be automatically created for senders of received "
 "mail when you reply to that mail."
@@ -11074,7 +11073,7 @@ msgstr ""
 "publicación, la frecuencia de publicación, qué calendario publicará y cómo "
 "qué persona autenticarse."
 
-#: C/calendar-publishing.page:28(p) C/calendar-free-busy.page:44(p)
+#: C/calendar-publishing.page:28(p) C/calendar-free-busy.page:42(p)
 #, fuzzy
 msgid ""
 "You can publish Calendar and Free/Busy information to a WebDAV server, FTP "
@@ -11152,7 +11151,7 @@ msgid "To schedule a meeting:"
 msgstr "Para planificar una reunión:"
 
 #: C/calendar-meetings-sending-invitation.page:31(p)
-#: C/calendar-free-busy.page:33(p)
+#: C/calendar-free-busy.page:31(p)
 msgid "Click <guiseq><gui>File</gui><gui>New</gui><gui>Meeting</gui></guiseq>."
 msgstr ""
 
@@ -11166,7 +11165,7 @@ msgstr ""
 "seleccionando un elemento en el campo Organizador."
 
 #: C/calendar-meetings-sending-invitation.page:34(p)
-#: C/calendar-free-busy.page:34(p)
+#: C/calendar-free-busy.page:32(p)
 #, fuzzy
 msgid ""
 "Click <gui style=\"button\">Add</gui> to add the email addresses of people "
@@ -11230,12 +11229,12 @@ msgstr ""
 msgid "Accepting and replying to a meeting invitation."
 msgstr "Aceptar y responder a solicitudes de reuniones"
 
-#: C/calendar-meetings-replying-to-invitation.page:25(title)
+#: C/calendar-meetings-replying-to-invitation.page:23(title)
 #, fuzzy
 msgid "Replying to a Meeting Request"
 msgstr "Aceptar y responder a solicitudes de reuniones"
 
-#: C/calendar-meetings-replying-to-invitation.page:26(p)
+#: C/calendar-meetings-replying-to-invitation.page:24(p)
 #, fuzzy
 msgid ""
 "Meeting requests are sent as attachments. To view or respond to one, click "
@@ -11250,7 +11249,7 @@ msgstr ""
 "fechas. Después puede elegir cómo responder a la invitación. Sus opciones "
 "son:"
 
-#: C/calendar-meetings-replying-to-invitation.page:28(p)
+#: C/calendar-meetings-replying-to-invitation.page:26(p)
 #, fuzzy
 msgid ""
 "Click <gui style=\"button\">OK</gui> to send your answer per email to the "
@@ -11260,7 +11259,7 @@ msgstr ""
 "Pulse Aceptar para enviar un correo-e con su respuesta al organizador. Si "
 "acepta el acontecimiento también se añadirá a su calendario."
 
-#: C/calendar-meetings-replying-to-invitation.page:29(p)
+#: C/calendar-meetings-replying-to-invitation.page:27(p)
 #, fuzzy
 msgid ""
 "After you have added the meeting to your calendar, you can make changes to "
@@ -11271,11 +11270,11 @@ msgstr ""
 "a la información, pero si el organizador original envía otra actualización, "
 "sus cambios se sobreescribirán."
 
-#: C/calendar-meetings-replying-to-invitation.page:31(p)
+#: C/calendar-meetings-replying-to-invitation.page:29(p)
 msgid ""
-"Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</"
-"gui><gui>Calendar and Tasks</gui><gui>Conflict Search</gui></guiseq> you can "
-"define which calendars are used for warning you of meeting conflicts."
+"Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
+"gui><gui>Meeting Invitations</gui><gui>Conflict Search</gui></guiseq> you "
+"can define which calendars are used for warning you of meeting conflicts."
 msgstr ""
 
 #: C/calendar-meetings.page:5(desc)
@@ -11635,8 +11634,7 @@ msgid ""
 "of invitees."
 msgstr ""
 
-#. TODO: Recheck once https://bugzilla.gnome.org/show_bug.cgi?id=655494 is fixed
-#: C/calendar-free-busy.page:29(p)
+#: C/calendar-free-busy.page:27(p)
 #, fuzzy
 msgid ""
 "In addition to the standard meeting scheduling tools, you can use the Free/"
@@ -11658,11 +11656,11 @@ msgstr ""
 "todavía puede usar los acontecimientos iCal en forma de invitaciones para "
 "coordinar las agendas con otras personas."
 
-#: C/calendar-free-busy.page:31(p)
+#: C/calendar-free-busy.page:29(p)
 msgid "To access the free/busy view:"
 msgstr "Para acceder a la vista de disponibilidad:"
 
-#: C/calendar-free-busy.page:35(p)
+#: C/calendar-free-busy.page:33(p)
 #, fuzzy
 #| msgid ""
 #| "Click the Free/Busy button on the toolbar, or click Options &gt; Free/"
@@ -11674,7 +11672,7 @@ msgstr ""
 "Pulse el botón Disponibilidad en la barra de herramientas o pulse Opciones "
 "&gt; Disponibilidad."
 
-#: C/calendar-free-busy.page:36(p)
+#: C/calendar-free-busy.page:34(p)
 #, fuzzy
 msgid ""
 "Adjust the meeting time, either by dragging the meeting borders or by using "
@@ -11689,22 +11687,22 @@ msgstr ""
 "actualizados automáticamente, el resto recibirá una notificación por correo "
 "electrónico de cualquier cambio en los planes."
 
-#: C/calendar-free-busy.page:40(p)
+#: C/calendar-free-busy.page:38(p)
 msgid "Attendee List:"
 msgstr "Lista de asistentes:"
 
-#: C/calendar-free-busy.page:40(p)
+#: C/calendar-free-busy.page:38(p)
 msgid ""
 "The Attendee List shows the people who have been invited to the appointment."
 msgstr ""
 "La Lista de asistentes muestra a las personas que han sido invitadas a la "
 "reunión."
 
-#: C/calendar-free-busy.page:41(p)
+#: C/calendar-free-busy.page:39(p)
 msgid "Schedule Grid:"
 msgstr "Cuadrícula de planificación:"
 
-#: C/calendar-free-busy.page:41(p)
+#: C/calendar-free-busy.page:39(p)
 msgid ""
 "The Schedule Grid shows the published Free/Busy information for the people "
 "you have invited. This is where you compare schedules to find free time to "
@@ -11723,11 +11721,11 @@ msgstr ""
 "un URL y ha introducido ese URL en la tarjeta del contacto usando el editor "
 "de contactos."
 
-#: C/calendar-free-busy.page:47(title)
+#: C/calendar-free-busy.page:45(title)
 msgid "Accessing Free/Busy Data Without a Groupware Server"
 msgstr "Acceder a datos de Disponibilidad sin un servidor Groupware"
 
-#: C/calendar-free-busy.page:49(p)
+#: C/calendar-free-busy.page:47(p)
 #, fuzzy
 msgid ""
 "If individuals give you a URL for Free/Busy data or for their web calendar, "
