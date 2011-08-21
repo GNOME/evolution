@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-20 09:09+0000\n"
-"PO-Revision-Date: 2011-08-20 14:11+0200\n"
+"POT-Creation-Date: 2011-08-20 12:16+0000\n"
+"PO-Revision-Date: 2011-08-21 20:42+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -10947,7 +10947,7 @@ msgstr "Evolution soporta el uso de varias zonas horarias."
 
 #: C/calendar-timezones.page:28(title)
 msgid "Setting your global timezone(s)"
-msgstr ""
+msgstr "Establecer sus zonas horarias globales"
 
 #: C/calendar-timezones.page:30(p)
 msgid ""
@@ -10993,16 +10993,15 @@ msgstr ""
 msgid ""
 "Make your information (appointments and free/busy times) available to others."
 msgstr ""
+"Hacer que su información (citas y disponibilidad) esté disponible para otros."
 
 #: C/calendar-sharing-information.page:20(title)
-#, fuzzy
 msgid "Sharing your calendar information"
-msgstr "información de calendario"
+msgstr "Compartir la información de su calendario"
 
 #: C/calendar-searching.page:5(desc)
-#, fuzzy
 msgid "Searching appointments and meetings."
-msgstr "Purgar reuniones y acontecimientos antiguos"
+msgstr "Buscar citas y reuniones."
 
 #: C/calendar-searching.page:28(title)
 msgid "Searching for Calendar Items"
@@ -11013,6 +11012,8 @@ msgid ""
 "In the Calendar view, you can quickly search for appointments and meetings "
 "either by summary or by category."
 msgstr ""
+"En la vista del Calendario puede buscar citas y reuniones rápidamente por su "
+"resumen o categoría."
 
 #: C/calendar-recurrence.page:5(desc)
 msgid "Repeating appointments."
@@ -11046,7 +11047,7 @@ msgstr ""
 
 #: C/calendar-publishing.page:5(desc)
 msgid "Post your calendar content in public."
-msgstr ""
+msgstr "Publicar el contenido de sus calendarios en línea."
 
 #: C/calendar-publishing.page:23(title)
 msgid "Calendar Publishing"
@@ -11080,9 +11081,6 @@ msgstr ""
 "soporte HTTP PUT."
 
 #: C/calendar-publishing.page:30(p)
-#| msgid ""
-#| "To immediately publish calendar information, go to the Calendar tool and "
-#| "click Actions &gt; Publish Calendar Information."
 msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
 "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
@@ -11093,7 +11091,7 @@ msgstr ""
 
 #: C/calendar-organizing.page:5(desc)
 msgid "On using several calendars, searching, and categories."
-msgstr ""
+msgstr "Sobre usar varios calendarios, búsquedas y categorías."
 
 #: C/calendar-organizing.page:21(title)
 msgid "Sorting and organizing calendars"
@@ -11108,7 +11106,6 @@ msgid "Sending a Meeting Invitation"
 msgstr "Enviar una invitación para reunión"
 
 #: C/calendar-meetings-sending-invitation.page:25(p)
-#, fuzzy
 msgid ""
 "When you create a meeting (group appointment), you can specify the attendees "
 "in several categories, such as \"chair\" or \"required\". When you save the "
@@ -11116,9 +11113,9 @@ msgid ""
 "information, which also gives them the option to respond."
 msgstr ""
 "Al crear una reunión o una cita en grupo puede especificar a los asistentes "
-"en varias categorías como <quote>presidencia</quote> o <quote>participante "
-"requerido</quote>. Cuando guarde su lista, cada invitado recibirá un mensaje "
-"con los datos de la cita y tendrán la opción de responder."
+"en varias categorías como «presidencia» o «participante requerido». Cuando "
+"guarde su lista, cada invitado recibirá un mensaje con los datos de la cita "
+"y tendrán la opción de responder."
 
 #: C/calendar-meetings-sending-invitation.page:26(p)
 #, fuzzy
@@ -11145,6 +11142,7 @@ msgstr "Para planificar una reunión:"
 #: C/calendar-free-busy.page:31(p)
 msgid "Click <guiseq><gui>File</gui><gui>New</gui><gui>Meeting</gui></guiseq>."
 msgstr ""
+"Pulse <guiseq><gui>Archivo</gui><gui>Nuevo</gui><gui>Reunión</gui></guiseq>."
 
 #: C/calendar-meetings-sending-invitation.page:32(p)
 msgid ""
@@ -11164,9 +11162,6 @@ msgstr ""
 "correo-e de las personas a las que quiere invitar."
 
 #: C/calendar-meetings-sending-invitation.page:35(p)
-#| msgid ""
-#| "Click View on the menu bar to show or hide the Type, Role, Status, and "
-#| "RSVP fields."
 msgid ""
 "Click <gui>View</gui> in the menu bar to show or hide the <gui>Type</gui>, "
 "<gui>Role</gui>, <gui>Status</gui>, and <gui>RSVP</gui> fields."
@@ -11222,7 +11217,6 @@ msgid "Replying to a Meeting Request"
 msgstr "Responder a una solicitud de reunión"
 
 #: C/calendar-meetings-replying-to-invitation.page:24(p)
-#, fuzzy
 msgid ""
 "Meeting requests are sent as attachments. To view or respond to one, click "
 "the attachment icon and view it in the mail window. All the details about "
@@ -11230,11 +11224,12 @@ msgid ""
 "reply to the invitation - the options are to <gui>Accept</gui>, "
 "<gui>Tentatively Accept</gui>, or <gui>Decline</gui>."
 msgstr ""
-"Las peticiones de reunión se envían como adjuntos iCal. Para ver o responder "
-"a uno, pulse el icono del adjunto y véalo en línea en la ventana del correo. "
+"Las peticiones de reunión se envían como adjuntos. Para ver o responder a "
+"una, pulse el icono del adjunto y véalo en línea en la ventana del correo. "
 "Se mostrarán todos tos detalles acerca del acontecimiento, incluyendo hora y "
 "fechas. Después puede elegir cómo responder a la invitación. Sus opciones "
-"son:"
+"son: <gui>Aceptar</gui>, <gui>Aceptar provisionalmente</gui> o "
+"<gui>Rechazar</gui>."
 
 #: C/calendar-meetings-replying-to-invitation.page:26(p)
 msgid ""
@@ -11247,15 +11242,14 @@ msgstr ""
 "su calendario."
 
 #: C/calendar-meetings-replying-to-invitation.page:27(p)
-#, fuzzy
 msgid ""
 "After you have added the meeting to your calendar, you can make changes to "
 "the meeting, but if the original organizer sends out an update, your changes "
 "might be overwritten."
 msgstr ""
-"Después de que haya añadido la reunión a su calendario, puede hacer cambios "
-"a la información, pero si el organizador original envía otra actualización, "
-"sus cambios se sobreescribirán."
+"Después de que haya añadido la reunión a su calendario puede hacer cambios "
+"en la reunión, pero si el organizador original envía otra actualización, sus "
+"cambios se sobreescribirán."
 
 #: C/calendar-meetings-replying-to-invitation.page:29(p)
 msgid ""
@@ -11306,7 +11300,7 @@ msgstr "La línea roja «Marcus Bains» muestra el elemento actual."
 
 #: C/calendar-marcus-bains-line.page:19(title)
 msgid "Time display in the Day view"
-msgstr ""
+msgstr "Mostrado de la hora en la vista de Día"
 
 #: C/calendar-marcus-bains-line.page:21(p)
 msgid ""
@@ -11322,11 +11316,11 @@ msgstr "Añadir otro calendario local."
 
 #: C/calendar-local.page:20(title)
 msgid "Adding another local calendar"
-msgstr ""
+msgstr "Añadir otro calendario local"
 
 #: C/calendar-layout-views.page:5(desc)
 msgid "Using date ranges (day, week, month) to look at the calendar."
-msgstr ""
+msgstr "Usar rangos de datos (día, semana, mes) para ver el calendario."
 
 #: C/calendar-layout-views.page:23(title)
 msgid "Available views"
@@ -11335,6 +11329,7 @@ msgstr "Vistas disponibles"
 #: C/calendar-layout-views.page:25(p)
 msgid "Evolution offers five different views of your calendar data:"
 msgstr ""
+"Evolution ofrece cinco vistas diferentes de los datos de su calendario:"
 
 #: C/calendar-layout-views.page:27(p)
 msgid "Day (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
@@ -11636,9 +11631,6 @@ msgid "To access the free/busy view:"
 msgstr "Para acceder a la vista de disponibilidad:"
 
 #: C/calendar-free-busy.page:33(p)
-#| msgid ""
-#| "Click the Free/Busy button on the toolbar, or click Options &gt; Free/"
-#| "Busy."
 msgid ""
 "Click the <gui>Free/Busy</gui> button on the toolbar, or click "
 "<guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>."
