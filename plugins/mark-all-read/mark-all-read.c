@@ -252,6 +252,7 @@ static gboolean
 scan_folder_tree_for_unread_helper (GtkTreeModel *model,
                                     GtkTreeIter *iter,
                                     GtkTreePath *path,
+				    gboolean is_first_node,
                                     gint initial_depth,
                                     gint *relative_depth)
 {
@@ -263,16 +264,21 @@ scan_folder_tree_for_unread_helper (GtkTreeModel *model,
 		gboolean folder_has_unread;
 		gboolean is_draft = FALSE;
 		gboolean is_store = FALSE;
-		guint unread = 0;
+		guint unread = 0, folder_flags = 0;
 
 		gtk_tree_model_get (
 			model, iter,
+			COL_UINT_FLAGS, &folder_flags,
 			COL_UINT_UNREAD, &unread,
 			COL_BOOL_IS_STORE, &is_store,
 			COL_BOOL_IS_DRAFT, &is_draft, -1);
 
 		folder_has_unread =
 			!is_store && !is_draft &&
+			(folder_flags & CAMEL_FOLDER_VTRASH) == 0 &&
+			((folder_flags & CAMEL_FOLDER_VIRTUAL) == 0 ||
+				((folder_flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_TRASH &&
+				 (folder_flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_JUNK)) &&
 			unread > 0 && unread != ~((guint) 0);
 
 		if (folder_has_unread) {
@@ -291,12 +297,16 @@ scan_folder_tree_for_unread_helper (GtkTreeModel *model,
 			gtk_tree_path_down (path);
 
 			if (scan_folder_tree_for_unread_helper (
-				model, &child, path,
+				model, &child, path, FALSE,
 				initial_depth, relative_depth))
 				return TRUE;
 
 			gtk_tree_path_up (path);
 		}
+
+		/* do not check sibling nodes of the selected folder */
+		if (is_first_node)
+			break;
 
 		gtk_tree_path_next (path);
 
@@ -337,7 +347,7 @@ scan_folder_tree_for_unread (const gchar *folder_uri)
 		gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
 
 		scan_folder_tree_for_unread_helper (
-			GTK_TREE_MODEL (model), &iter, path,
+			GTK_TREE_MODEL (model), &iter, path, TRUE,
 			gtk_tree_path_get_depth (path), &relative_depth);
 
 		gtk_tree_path_free (path);
@@ -396,10 +406,8 @@ mar_got_folder (CamelStore *store,
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	/* XXX Skip virtual folders.  I guess this is intended for
-	 *     virtual Junk and Trash folders.  But what if I want
-	 *     to mark messages in a Search Folder? */
-	if (!CAMEL_IS_VEE_FOLDER (folder)) {
+	/* Skip virtual trash/junk folders. */
+	if (!CAMEL_IS_VTRASH_FOLDER (folder)) {
 		GPtrArray *uids;
 		gint ii;
 
