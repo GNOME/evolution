@@ -27,13 +27,13 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-08-03 12:15+0000\n"
-"PO-Revision-Date: 2011-07-21 19:48+0200\n"
-"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"POT-Creation-Date: 2011-08-18 16:41+0000\n"
+"PO-Revision-Date: 2011-08-09 11:01+0100\n"
+"Last-Translator: Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bits\n"
+"Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Lokalize 0.3\n"
@@ -268,7 +268,7 @@ msgid "_Use as it is"
 msgstr "_Wie es ist benutzen"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
-#: ../addressbook/gui/widgets/eab-contact-display.c:574
+#: ../addressbook/gui/widgets/eab-contact-display.c:579
 #: ../calendar/gui/e-calendar-view.c:2080
 msgid "Anniversary"
 msgstr "Jahrestag"
@@ -279,7 +279,7 @@ msgstr "Jahrestag"
 #. * which, so long as it has an icon.  We're just interested in
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
-#: ../addressbook/gui/widgets/eab-contact-display.c:573
+#: ../addressbook/gui/widgets/eab-contact-display.c:578
 #: ../calendar/gui/e-calendar-view.c:2079 ../capplet/anjal-settings-main.c:116
 #: ../shell/main.c:133
 msgid "Birthday"
@@ -315,9 +315,9 @@ msgstr "Kontakteditor"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:9
 #: ../addressbook/gui/merging/eab-contact-merging.c:295
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
-#: ../addressbook/gui/widgets/eab-contact-display.c:494
-#: ../addressbook/gui/widgets/eab-contact-display.c:502
-#: ../addressbook/gui/widgets/eab-contact-display.c:844
+#: ../addressbook/gui/widgets/eab-contact-display.c:499
+#: ../addressbook/gui/widgets/eab-contact-display.c:507
+#: ../addressbook/gui/widgets/eab-contact-display.c:849
 #: ../plugins/groupwise-features/junk-settings.c:409 ../smime/lib/e-cert.c:832
 msgid "Email"
 msgstr "E-Mail"
@@ -376,7 +376,7 @@ msgstr "Notizen"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:21
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:188
 #: ../addressbook/gui/widgets/eab-contact-display.c:69
-#: ../addressbook/gui/widgets/eab-contact-display.c:359
+#: ../addressbook/gui/widgets/eab-contact-display.c:364
 #: ../calendar/gui/e-calendar-view.c:1785
 msgid "Other"
 msgstr "Weitere"
@@ -404,7 +404,7 @@ msgstr "Web-Adressen"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:27
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:186
 #: ../addressbook/gui/widgets/eab-contact-display.c:67
-#: ../addressbook/gui/widgets/eab-contact-display.c:554
+#: ../addressbook/gui/widgets/eab-contact-display.c:559
 msgid "Work"
 msgstr "Geschäftlich"
 
@@ -510,42 +510,42 @@ msgid "_Zip/Postal Code:"
 msgstr "Postleit_zahl:"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:167
-#: ../addressbook/gui/widgets/eab-contact-display.c:516
+#: ../addressbook/gui/widgets/eab-contact-display.c:521
 msgid "AIM"
 msgstr "AIM"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:168
-#: ../addressbook/gui/widgets/eab-contact-display.c:519
+#: ../addressbook/gui/widgets/eab-contact-display.c:524
 msgid "Jabber"
 msgstr "Jabber"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:169
-#: ../addressbook/gui/widgets/eab-contact-display.c:521
+#: ../addressbook/gui/widgets/eab-contact-display.c:526
 msgid "Yahoo"
 msgstr "Yahoo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:170
-#: ../addressbook/gui/widgets/eab-contact-display.c:522
+#: ../addressbook/gui/widgets/eab-contact-display.c:527
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:171
-#: ../addressbook/gui/widgets/eab-contact-display.c:520
+#: ../addressbook/gui/widgets/eab-contact-display.c:525
 msgid "MSN"
 msgstr "MSN"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:172
-#: ../addressbook/gui/widgets/eab-contact-display.c:518
+#: ../addressbook/gui/widgets/eab-contact-display.c:523
 msgid "ICQ"
 msgstr "ICQ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:173
-#: ../addressbook/gui/widgets/eab-contact-display.c:517
+#: ../addressbook/gui/widgets/eab-contact-display.c:522
 msgid "GroupWise"
 msgstr "GroupWise"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:174
-#: ../addressbook/gui/widgets/eab-contact-display.c:523
+#: ../addressbook/gui/widgets/eab-contact-display.c:528
 msgid "Skype"
 msgstr "Skype"
 
@@ -908,7 +908,7 @@ msgid "Display _All Contacts"
 msgstr "_Alle Kontakte anzeigen"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
-#: ../addressbook/gui/widgets/eab-contact-display.c:545
+#: ../addressbook/gui/widgets/eab-contact-display.c:550
 msgid "Assistant"
 msgstr "Assistent"
 
@@ -945,7 +945,7 @@ msgid "Categories"
 msgstr "Kategorien"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
-#: ../addressbook/gui/widgets/eab-contact-display.c:540
+#: ../addressbook/gui/widgets/eab-contact-display.c:545
 msgid "Company"
 msgstr "Firma"
 
@@ -994,22 +994,22 @@ msgid "Journal"
 msgstr "Journal"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
-#: ../addressbook/gui/widgets/eab-contact-display.c:544
+#: ../addressbook/gui/widgets/eab-contact-display.c:549
 msgid "Manager"
 msgstr "Vorgesetzter"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
-#: ../addressbook/gui/widgets/eab-contact-display.c:571
+#: ../addressbook/gui/widgets/eab-contact-display.c:576
 msgid "Mobile Phone"
 msgstr "Mobiltelefon"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
-#: ../addressbook/gui/widgets/eab-contact-display.c:509
+#: ../addressbook/gui/widgets/eab-contact-display.c:514
 msgid "Nickname"
 msgstr "Spitzname"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
-#: ../addressbook/gui/widgets/eab-contact-display.c:597
+#: ../addressbook/gui/widgets/eab-contact-display.c:602
 msgid "Note"
 msgstr "Notiz"
 
@@ -1044,7 +1044,7 @@ msgid "Role"
 msgstr "Position"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:34
-#: ../addressbook/gui/widgets/eab-contact-display.c:575
+#: ../addressbook/gui/widgets/eab-contact-display.c:580
 msgid "Spouse"
 msgstr "Ehepartner"
 
@@ -1202,28 +1202,28 @@ msgstr "Neue Nachricht _schicken an …"
 msgid "Send a mail message to this address"
 msgstr "Eine Nachricht an diese Adresse senden"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:424
-#: ../addressbook/gui/widgets/eab-contact-display.c:811
+#: ../addressbook/gui/widgets/eab-contact-display.c:429
+#: ../addressbook/gui/widgets/eab-contact-display.c:816
 msgid "List Members"
 msgstr "Listenmitglieder"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:541
+#: ../addressbook/gui/widgets/eab-contact-display.c:546
 msgid "Department"
 msgstr "Abteilung"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:542
+#: ../addressbook/gui/widgets/eab-contact-display.c:547
 msgid "Profession"
 msgstr "Beruf"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:543
+#: ../addressbook/gui/widgets/eab-contact-display.c:548
 msgid "Position"
 msgstr "Position"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:546
+#: ../addressbook/gui/widgets/eab-contact-display.c:551
 msgid "Video Chat"
 msgstr "Video-Chat"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:547
+#: ../addressbook/gui/widgets/eab-contact-display.c:552
 #: ../calendar/gui/dialogs/calendar-setup.c:376
 #: ../modules/calendar/e-cal-shell-view-actions.c:218
 #: ../modules/calendar/e-cal-shell-view-actions.c:247
@@ -1236,7 +1236,7 @@ msgstr "Video-Chat"
 msgid "Calendar"
 msgstr "Kalender"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:548
+#: ../addressbook/gui/widgets/eab-contact-display.c:553
 #: ../calendar/gui/dialogs/event-editor.c:123
 #: ../calendar/gui/dialogs/event-editor.c:350
 #: ../modules/calendar/e-calendar-preferences.ui.h:17
@@ -1244,25 +1244,25 @@ msgstr "Kalender"
 msgid "Free/Busy"
 msgstr "Verfügbarkeit"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:549
-#: ../addressbook/gui/widgets/eab-contact-display.c:570
+#: ../addressbook/gui/widgets/eab-contact-display.c:554
+#: ../addressbook/gui/widgets/eab-contact-display.c:575
 msgid "Phone"
 msgstr "Telefon"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:550
+#: ../addressbook/gui/widgets/eab-contact-display.c:555
 msgid "Fax"
 msgstr "Fax"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:551
-#: ../addressbook/gui/widgets/eab-contact-display.c:572
+#: ../addressbook/gui/widgets/eab-contact-display.c:556
+#: ../addressbook/gui/widgets/eab-contact-display.c:577
 msgid "Address"
 msgstr "Adresse"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:567
+#: ../addressbook/gui/widgets/eab-contact-display.c:572
 msgid "Home Page"
 msgstr "Homepage"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:568
+#: ../addressbook/gui/widgets/eab-contact-display.c:573
 msgid "Web Log"
 msgstr "Weblog"
 
@@ -1270,7 +1270,7 @@ msgstr "Weblog"
 #. Create the default Person calendar
 #. Create the default Person memo list
 #. Create the default Person task list
-#: ../addressbook/gui/widgets/eab-contact-display.c:577
+#: ../addressbook/gui/widgets/eab-contact-display.c:582
 #: ../capplet/settings/mail-capplet-shell.c:361
 #: ../modules/addressbook/e-book-shell-backend.c:112
 #: ../modules/addressbook/e-book-shell-migrate.c:143
@@ -1283,19 +1283,19 @@ msgstr "Weblog"
 msgid "Personal"
 msgstr "Persönlich"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:829
+#: ../addressbook/gui/widgets/eab-contact-display.c:834
 msgid "Job Title"
 msgstr "Tätigkeit"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:866
+#: ../addressbook/gui/widgets/eab-contact-display.c:871
 msgid "Home page"
 msgstr "Homepage"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:875
+#: ../addressbook/gui/widgets/eab-contact-display.c:880
 msgid "Blog"
 msgstr "Blog"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:1055
+#: ../addressbook/gui/widgets/eab-contact-display.c:1060
 #: ../widgets/misc/e-web-view.c:858
 #, c-format
 msgid "Click to mail %s"
@@ -4104,7 +4104,7 @@ msgstr "%A, %d. %B"
 #: ../calendar/gui/e-day-view-top-item.c:845 ../calendar/gui/e-day-view.c:1810
 #: ../calendar/gui/e-week-view-main-item.c:217
 #: ../calendar/gui/ea-gnome-calendar.c:200
-#: ../modules/calendar/e-cal-shell-view-private.c:1005
+#: ../modules/calendar/e-cal-shell-view-private.c:1035
 msgid "%a %d %b"
 msgstr "%a, %d. %b"
 
@@ -4116,7 +4116,7 @@ msgstr "%a, %d. %b"
 #: ../calendar/gui/e-day-view-top-item.c:849 ../calendar/gui/e-day-view.c:1826
 #: ../calendar/gui/e-week-view-main-item.c:231
 #: ../calendar/gui/ea-gnome-calendar.c:230
-#: ../modules/calendar/e-cal-shell-view-private.c:1041
+#: ../modules/calendar/e-cal-shell-view-private.c:1071
 msgid "%d %b"
 msgstr "%d. %b"
 
@@ -4544,16 +4544,16 @@ msgid "Gnome Calendar"
 msgstr "GNOME Calendar"
 
 #: ../calendar/gui/ea-gnome-calendar.c:197
-#: ../modules/calendar/e-cal-shell-view-private.c:1001
+#: ../modules/calendar/e-cal-shell-view-private.c:1031
 msgid "%A %d %b %Y"
 msgstr "%A, %d. %B %Y"
 
 #: ../calendar/gui/ea-gnome-calendar.c:202
 #: ../calendar/gui/ea-gnome-calendar.c:207
 #: ../calendar/gui/ea-gnome-calendar.c:209
-#: ../modules/calendar/e-cal-shell-view-private.c:1008
-#: ../modules/calendar/e-cal-shell-view-private.c:1014
-#: ../modules/calendar/e-cal-shell-view-private.c:1017
+#: ../modules/calendar/e-cal-shell-view-private.c:1038
+#: ../modules/calendar/e-cal-shell-view-private.c:1044
+#: ../modules/calendar/e-cal-shell-view-private.c:1047
 msgid "%a %d %b %Y"
 msgstr "%a, %d. %Y"
 
@@ -4561,10 +4561,10 @@ msgstr "%a, %d. %Y"
 #: ../calendar/gui/ea-gnome-calendar.c:232
 #: ../calendar/gui/ea-gnome-calendar.c:238
 #: ../calendar/gui/ea-gnome-calendar.c:240
-#: ../modules/calendar/e-cal-shell-view-private.c:1034
-#: ../modules/calendar/e-cal-shell-view-private.c:1045
-#: ../modules/calendar/e-cal-shell-view-private.c:1052
-#: ../modules/calendar/e-cal-shell-view-private.c:1055
+#: ../modules/calendar/e-cal-shell-view-private.c:1064
+#: ../modules/calendar/e-cal-shell-view-private.c:1075
+#: ../modules/calendar/e-cal-shell-view-private.c:1082
+#: ../modules/calendar/e-cal-shell-view-private.c:1085
 msgid "%d %b %Y"
 msgstr "%d. %B %Y"
 
@@ -9021,7 +9021,7 @@ msgstr "Nachricht »%s« wird abgerufen"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
-#: ../mail/e-mail-reader.c:3385 ../mail/mail-config.ui.h:31
+#: ../mail/e-mail-reader.c:3394 ../mail/mail-config.ui.h:31
 #: ../plugins/google-account-setup/google-source.c:304
 #: ../plugins/google-account-setup/google-source.c:538
 #: ../plugins/google-account-setup/google-source.c:674
@@ -9029,47 +9029,47 @@ msgstr "Nachricht »%s« wird abgerufen"
 msgid "Default"
 msgstr "Vorgabe"
 
-#: ../mail/e-mail-reader.c:3556
+#: ../mail/e-mail-reader.c:3567
 #: ../modules/mail/e-mail-attachment-handler.c:172
 msgid "_Forward"
 msgstr "_Weiterleiten"
 
-#: ../mail/e-mail-reader.c:3557
+#: ../mail/e-mail-reader.c:3568
 msgid "Forward the selected message to someone"
 msgstr "Die gewählte Nachricht an jemanden weiterleiten"
 
-#: ../mail/e-mail-reader.c:3576
+#: ../mail/e-mail-reader.c:3587
 msgid "Group Reply"
 msgstr "Antwort an Gruppe"
 
-#: ../mail/e-mail-reader.c:3577
+#: ../mail/e-mail-reader.c:3588
 msgid "Reply to the mailing list, or to all recipients"
 msgstr ""
 "Eine Antwort an die Mailingliste oder an alle Empfänger der gewählten "
 "Nachricht verfassen"
 
-#: ../mail/e-mail-reader.c:3622 ../mail/em-filter-i18n.h:14
+#: ../mail/e-mail-reader.c:3633 ../mail/em-filter-i18n.h:14
 #: ../plugins/groupwise-features/share-folder.c:746
 msgid "Delete"
 msgstr "Löschen"
 
-#: ../mail/e-mail-reader.c:3655
+#: ../mail/e-mail-reader.c:3666
 #: ../modules/calendar/e-cal-shell-view-actions.c:1311
 #: ../widgets/misc/e-calendar.c:201
 msgid "Next"
 msgstr "Weiter"
 
-#: ../mail/e-mail-reader.c:3659
+#: ../mail/e-mail-reader.c:3670
 #: ../modules/calendar/e-cal-shell-view-actions.c:1304
 #: ../widgets/misc/e-calendar.c:177
 msgid "Previous"
 msgstr "Vorherige"
 
-#: ../mail/e-mail-reader.c:3669 ../mail/mail-dialogs.ui.h:16
+#: ../mail/e-mail-reader.c:3680 ../mail/mail-dialogs.ui.h:16
 msgid "Reply"
 msgstr "Antworten"
 
-#: ../mail/e-mail-reader.c:4304
+#: ../mail/e-mail-reader.c:4315
 #, c-format
 msgid "Folder '%s'"
 msgstr "Ordner »%s«"
@@ -16837,7 +16837,7 @@ msgstr "Regelmäßig"
 
 #: ../plugins/calendar-file/calendar-file.c:213
 msgid "Force read _only"
-msgstr "_Nur lesen erzwingen"
+msgstr "Schreibschutz er_zwingen"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
 msgid "Add local calendars to Evolution."
