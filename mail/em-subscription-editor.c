@@ -146,13 +146,12 @@ store_data_free (StoreData *data)
 static void
 subscription_editor_populate (EMSubscriptionEditor *editor,
                               CamelFolderInfo *folder_info,
-                              GtkTreeIter *parent)
+                              GtkTreeIter *parent,
+			      GSList **expand_paths)
 {
-	GtkTreeView *tree_view;
 	GtkListStore *list_store;
 	GtkTreeStore *tree_store;
 
-	tree_view = editor->priv->active->tree_view;
 	list_store = GTK_LIST_STORE (editor->priv->active->list_store);
 	tree_store = GTK_TREE_STORE (editor->priv->active->tree_store);
 
@@ -189,18 +188,23 @@ subscription_editor_populate (EMSubscriptionEditor *editor,
 
 			path = gtk_tree_model_get_path (
 				GTK_TREE_MODEL (tree_store), &iter);
-			gtk_tree_view_expand_to_path (tree_view, path);
-			gtk_tree_path_free (path);
+			*expand_paths = g_slist_prepend (*expand_paths, path);
 		}
 
 		g_free (casefolded);
 
 		if (folder_info->child != NULL)
 			subscription_editor_populate (
-				editor, folder_info->child, &iter);
+				editor, folder_info->child, &iter, expand_paths);
 
 		folder_info = folder_info->next;
 	}
+}
+
+static void
+expand_paths_cb (gpointer path, gpointer tree_view)
+{
+	gtk_tree_view_expand_to_path (tree_view, path);
 }
 
 static void
@@ -212,9 +216,11 @@ subscription_editor_get_folder_info_done (CamelStore *store,
 	GtkTreeView *tree_view;
 	GtkTreeModel *list_store;
 	GtkTreeModel *tree_store;
+	GtkTreeModel *model;
 	GtkTreeSelection *selection;
 	CamelFolderInfo *folder_info;
 	GdkWindow *window;
+	GSList *expand_paths = NULL;
 	GError *error = NULL;
 
 	folder_info = camel_store_get_folder_info_finish (
@@ -253,7 +259,15 @@ subscription_editor_get_folder_info_done (CamelStore *store,
 
 	gtk_list_store_clear (GTK_LIST_STORE (list_store));
 	gtk_tree_store_clear (GTK_TREE_STORE (tree_store));
-	subscription_editor_populate (editor, folder_info, NULL);
+
+	model = gtk_tree_view_get_model (tree_view);
+	gtk_tree_view_set_model (tree_view, NULL);
+	subscription_editor_populate (editor, folder_info, NULL, &expand_paths);
+	gtk_tree_view_set_model (tree_view, model);
+
+	g_slist_foreach (expand_paths, expand_paths_cb, tree_view);
+	g_slist_foreach (expand_paths, (GFunc) gtk_tree_path_free, NULL);
+	g_slist_free (expand_paths);
 
 	path = gtk_tree_path_new_first ();
 	selection = gtk_tree_view_get_selection (tree_view);
