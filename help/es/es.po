@@ -1,20 +1,20 @@
 # translation of evolution-help.master.po to Español
 # translation of evolution manual to spanish
-# Traducción realizada para LAMBDAUX SOFTWARE SERVICES (http://Lambdaux.com)
-#
+# 
 # Ismael Olea <ismael@olea.org>, 2003.
 # I.R. Maturana <info@in3activa.com>, 2003.
 # Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006.
-# Jorge Gonzalez <jorgegonz@svn.gnome.org>, 2009.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
+# 
+# Jorge González <jorgegonz@svn.gnome.org>, 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011., 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-21 18:45+0000\n"
-"PO-Revision-Date: 2011-08-22 16:13+0200\n"
+"POT-Creation-Date: 2011-08-23 13:05+0000\n"
+"PO-Revision-Date: 2011-08-23 17:08+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -588,7 +588,7 @@ msgstr "Creative Commons Compartir Igual 3.0"
 
 #: C/using-categories.page:25(title)
 msgid "Using Categories"
-msgstr "Usar categorías"
+msgstr "Usar las categorías"
 
 #: C/using-categories.page:27(p)
 msgid ""
@@ -1613,6 +1613,8 @@ msgid ""
 "To contact the Evolution community for help, please see <link xref="
 "\"problems-getting-help\">How to get help</link>."
 msgstr ""
+"Para obtener ayuda puede contactar con la comunidad de Evolution, consulte "
+"<link xref=\"problems-getting-help\">Cómo obtener ayuda</link>."
 
 #: C/organizing.page:5(desc)
 msgid "On organizing and finding your data in Evolution."
@@ -2237,6 +2239,8 @@ msgid ""
 "You can modify how Evolution handles junk mail by changing the Junk Mail "
 "Preferences:"
 msgstr ""
+"Puede modificar cómo Evolution gestiona el SPAM cambiando las Opciones de "
+"SPAM:"
 
 #: C/mail-spam-settings.page:47(p)
 msgid ""
@@ -2505,6 +2509,8 @@ msgid ""
 "Click <gui style=\"button\">Add</gui> and then click on the <gui style="
 "\"button\">OK</gui> button."
 msgstr ""
+"Pulse <gui style=\"button\">Añadir</gui> y después pulse el botón <gui style="
+"\"button\">Aceptar</gui>."
 
 #: C/mail-spam-groupwise-add-to-list.page:34(p)
 #, fuzzy
@@ -2606,7 +2612,7 @@ msgstr ""
 
 #: C/mail-sorting-message-list.page:47(p)
 msgid "Drag and drop the column header bars"
-msgstr ""
+msgstr "Arrastre y suelte las barras de cabeceras de columnas"
 
 #: C/mail-sorting-message-list.page:48(p)
 msgid "Right-click on the header."
@@ -2616,6 +2622,8 @@ msgstr "Pulse con el botón derecho en el la cabecera."
 msgid ""
 "Select the <gui>Remove This Column</gui> or <gui>Add a Column</gui> option."
 msgstr ""
+"Seleccione la opción <gui>Quitar esta columna</gui> o <gui>Añadir una "
+"columna</gui>."
 
 #: C/mail-sorting-message-list.page:52(p)
 msgid ""
@@ -2626,13 +2634,16 @@ msgstr ""
 
 #: C/mail-sorting-message-list.page:56(title)
 msgid "Using Other Sorting Options"
-msgstr ""
+msgstr "Usar otras opciones de ordenación"
 
 #: C/mail-sorting-message-list.page:57(p)
 msgid ""
 "Evolution provides other ways for sorting email messages. You can use Sort "
 "By, Sort Ascending, Sort Descending, or Unsort."
 msgstr ""
+"Evolution proporciona otras formas de ordenar mensajes de correo "
+"electrónico. Puede usar Ordenar por, Ordenar ascendentemente, Ordenar "
+"descendentemente o Desordenar."
 
 #: C/mail-sorting-message-list.page:59(title)
 msgid "Sort By"
@@ -2641,6 +2652,8 @@ msgstr "Ordenar por"
 #: C/mail-sorting-message-list.page:60(p)
 msgid "You can also sort email messages using the <gui>Sort By</gui> list."
 msgstr ""
+"También puede ordenar correos electrónicos usando la lista <gui>Ordenar por</"
+"gui>."
 
 #: C/mail-sorting-message-list.page:62(p)
 #: C/mail-sorting-message-list.page:92(p)
@@ -2659,6 +2672,8 @@ msgstr "Seleccione la opción <gui>Ordenar por</gui>."
 #: C/mail-sorting-message-list.page:63(p)
 msgid "This brings up this list of criteria for sorting email messages:"
 msgstr ""
+"Esto muestra la lista de criterios para ordenar los mensajes de correo "
+"electrónico:"
 
 #: C/mail-sorting-message-list.page:65(p)
 msgid "Subject - Trimmed"
@@ -2783,7 +2798,7 @@ msgstr ""
 
 #: C/mail-several-pop-accounts.page:5(desc)
 msgid "How to split and sort mail when using more than one local account."
-msgstr ""
+msgstr "Cómo partir y ordenar el correo al usar más de una cuenta local."
 
 #: C/mail-several-pop-accounts.page:22(title)
 msgid "Separating POP mail for more than one account"
@@ -2794,6 +2809,9 @@ msgid ""
 "It is not possible to have separate accounts in the accounts and folder list "
 "pane. Evolution only has one unique inbox for incoming email."
 msgstr ""
+"No es posible tener cuentas separadas en el panel de cuentas y la lista de "
+"carpetas. Evolution solo tiene una bandeja de entrada única para el correo "
+"entrante."
 
 #: C/mail-several-pop-accounts.page:25(p)
 msgid ""
@@ -2874,7 +2892,7 @@ msgstr ""
 
 #: C/mail-send-and-receive.page:5(desc)
 msgid "On receiving mail and sending written emails."
-msgstr ""
+msgstr "Acerca de recibir y enviar correos electrónicos."
 
 #: C/mail-send-and-receive.page:20(title)
 msgid "Sending and receiving mail"
@@ -2919,7 +2937,7 @@ msgstr ""
 
 #: C/mail-send-and-receive-automatically.page:5(desc)
 msgid "Check automatically and regularly for new received mail."
-msgstr ""
+msgstr "Comprobar automática y regularmente si hay correo nuevo."
 
 #: C/mail-send-and-receive-automatically.page:20(title)
 msgid "Automatically check for new mail"
@@ -2947,6 +2965,8 @@ msgstr "Buscar correos"
 msgid ""
 "In the mail view, you can quickly search for messages by defining conditions."
 msgstr ""
+"En la vista de correo puede buscar rápidamente mensajes definiendo las "
+"condiciones."
 
 #: C/mail-searching.page:33(p)
 #, fuzzy
@@ -2987,11 +3007,11 @@ msgstr "Búsqueda avanzada:"
 
 #: C/mail-searching-attachment-type.page:5(desc)
 msgid "Unfortunately this is not possible."
-msgstr ""
+msgstr "Desafortunadamente no es posible."
 
 #: C/mail-searching-attachment-type.page:21(title)
 msgid "Searching for emails with a specific attachment type"
-msgstr ""
+msgstr "Buscar correos con un tipo de adjunto específico"
 
 #: C/mail-searching-attachment-type.page:23(p)
 msgid ""
@@ -3026,6 +3046,8 @@ msgid ""
 "Use search folders to see messages in one folder while still keeping them in "
 "their original folders."
 msgstr ""
+"Use las carpetas de búsqueda para ver mensajes en una carpeta mientras estos "
+"aún están en sus carpetas originales."
 
 #: C/mail-search-folders.page:22(title)
 msgid "Using Search folders"
@@ -3127,12 +3149,12 @@ msgstr "Cc:"
 #: C/mail-search-folders-conditions.page:33(p)
 #: C/mail-filters-conditions.page:33(p)
 msgid "Only the CC recipients of the message."
-msgstr ""
+msgstr "Sólo los destinatarios Cc del correo."
 
 #: C/mail-search-folders-conditions.page:35(p)
 #: C/mail-filters-conditions.page:35(p)
 msgid "BCC:"
-msgstr ""
+msgstr "Cco:"
 
 #: C/mail-search-folders-conditions.page:36(p)
 #: C/mail-filters-conditions.page:36(p)
@@ -3140,6 +3162,8 @@ msgid ""
 "Only the BCC recipients of the message. Obviously this can only be applied "
 "to outgoing filters."
 msgstr ""
+"Sólo los destinatarios con Cco de este mensaje. Obviamente esto sólo se "
+"puede aplicar a filtros salientes."
 
 #: C/mail-search-folders-conditions.page:38(p)
 #: C/mail-filters-conditions.page:38(p)
@@ -3177,6 +3201,8 @@ msgid ""
 "Any header including <link xref=\"mail-composer-custom-header-lines\">custom "
 "ones</link>."
 msgstr ""
+"Cualquier cabecera incluyendo las <link xref=\"mail-composer-custom-header-"
+"lines\">personalizadas</link>."
 
 #: C/mail-search-folders-conditions.page:46(p)
 #: C/mail-filters-conditions.page:46(p)
@@ -3337,6 +3363,8 @@ msgid ""
 "Checks whether the message is <link xref=\"mail-follow-up-flag\">flagged for "
 "follow-up</link>."
 msgstr ""
+"Comprueba si el mensaje está <link xref=\"mail-follow-up-flag\">marcado para "
+"su seguimiento</link>."
 
 #: C/mail-search-folders-conditions.page:75(p)
 #: C/mail-filters-conditions.page:75(p)
@@ -3520,7 +3548,7 @@ msgstr "Formas de actualizar sus carpetas de Evolution."
 
 #: C/mail-refresh-folders.page:20(title)
 msgid "Updating/refreshing the folders on the mail server"
-msgstr ""
+msgstr "Actualizar las carpetas en el servidor de correo"
 
 #: C/mail-refresh-folders.page:22(p)
 msgid ""
@@ -3536,14 +3564,16 @@ msgid ""
 "You can also double-click on the folder name to refresh it, or press "
 "<key>F5</key>."
 msgstr ""
+"También puede pulsar dos veces en el nombre de la carpeta para actualizarla, "
+"o pulsar <key>F5</key>."
 
 #: C/mail-recognized-thread-related-headers.page:5(desc)
 msgid "Which thread-related headers are recognized by Evolution."
-msgstr ""
+msgstr "Qué cabeceras relacionadas con conversaciones reconoce Evolution."
 
 #: C/mail-recognized-thread-related-headers.page:20(title)
 msgid "Thread related headers recognized by Evolution"
-msgstr ""
+msgstr "Cabeceras relacionadas con conversaciones reconocidas por Evolution"
 
 #: C/mail-recognized-thread-related-headers.page:22(p)
 msgid "Evolution supports the following headers:"
@@ -3562,10 +3592,12 @@ msgid ""
 "<gui>Thread-*</gui> headers are Microsoft's proprietary headers and not "
 "supported."
 msgstr ""
+"Microsoft es propietaria de las cabeceras <gui>Thread-*</gui> y no están "
+"soportadas."
 
 #: C/mail-receiving-options-usenet-news.page:5(desc)
 msgid "Receiving options for Usenet news accounts."
-msgstr ""
+msgstr "Opciones de recepción para cuentas de noticias de Usenet."
 
 #: C/mail-receiving-options-usenet-news.page:23(title)
 msgid "Usenet news receiving options"
@@ -3599,6 +3631,8 @@ msgid ""
 "Enter the address of the email server in the <gui>Server</gui> field and "
 "enter your username for that server."
 msgstr ""
+"Introduzca la dirección del servidor de correo electrónico en el campo "
+"<gui>Servidor</gui> e introduzca su nombre de usuario para ese servidor."
 
 #: C/mail-receiving-options-usenet-news.page:28(p)
 #: C/mail-receiving-options-pop.page:32(p)
@@ -3945,32 +3979,29 @@ msgstr ""
 
 #: C/mail-receiving-options-exchange-mapi.page:30(p)
 #: C/mail-receiving-options-evolution-exchange.page:33(p)
-#, fuzzy
 msgid "Click <gui style=\"button\">Authenticate</gui> and enter your password."
-msgstr "Introduzca su contraseña."
+msgstr ""
+"Pulse <gui style=\"button\">Autenticar</gui> e introduzca su contraseña."
 
 #: C/mail-receiving-options-exchange-mapi.page:37(p)
 #: C/mail-receiving-options-evolution-exchange.page:40(p)
-#, fuzzy
 msgid ""
 "You can also define if Evolution checks for new messages in all folders."
 msgstr ""
-"Marque si quiere que compruebe si hay mensajes nuevos en todas las carpetas."
+"También puede definir si quiere que Evolution compruebe si hay mensajes "
+"nuevos en todas las carpetas."
 
 #: C/mail-receiving-options-evolution-exchange.page:5(desc)
-#, fuzzy
 msgid "Receiving options for Evolution Exchange accounts."
-msgstr "Configurar una cuenta existente para utilizarla con Evolution Exchange"
+msgstr "Opciones de recepción para cuentas de Evolution Exchange."
 
 #: C/mail-receiving-options-evolution-exchange.page:23(title)
-#, fuzzy
 msgid "Evolution Exchange receiving options"
 msgstr "Opciones de recepción de Microsoft Exchange"
 
 #: C/mail-receiving-options-evolution-exchange.page:28(p)
-#, fuzzy
 msgid "Enter your username for that server."
-msgstr "Teclee el usuario en el campo Usuario."
+msgstr "Introduzca su nombre de usuario para ese servidor."
 
 #: C/mail-receiving-options-evolution-exchange.page:29(p)
 msgid "Enter the OWA URL for that server."
@@ -4008,7 +4039,7 @@ msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
-#: C/mail-received-notification.page:23(None)
+#: C/mail-received-notification.page:24(None)
 msgid ""
 "@@image: './figures/new-mail-switcher.png'; "
 "md5=be4dbdb5f6e3dcbd5111b87169cae268"
@@ -4018,7 +4049,7 @@ msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
-#: C/mail-received-notification.page:28(None)
+#: C/mail-received-notification.page:29(None)
 msgid ""
 "@@image: './figures/new-mail-notification.png'; "
 "md5=25a4373da392793406910cd883f0c21c"
@@ -4031,9 +4062,8 @@ msgid "Options on notifications of newly received mail."
 msgstr ""
 
 #: C/mail-received-notification.page:20(title)
-#, fuzzy
 msgid "Getting notified of new mail"
-msgstr "Comprobando correo nuevo"
+msgstr "Notificar la recepción de correo nuevo"
 
 #: C/mail-received-notification.page:22(p)
 msgid ""
@@ -4042,13 +4072,12 @@ msgid ""
 "\">switcher</link>."
 msgstr ""
 
-#: C/mail-received-notification.page:24(p)
-#: C/mail-received-notification.page:29(p)
-#, fuzzy
+#: C/mail-received-notification.page:25(p)
+#: C/mail-received-notification.page:30(p)
 msgid "Switcher layout when a new message has arrived"
-msgstr "_Reproducir un sonido cuando llegue correo nuevo"
+msgstr "Distribución del selector cuando llega un correo nuevo"
 
-#: C/mail-received-notification.page:27(p)
+#: C/mail-received-notification.page:28(p)
 msgid ""
 "In order to get also notified of new messages in the GNOME Notification area "
 "at the bottom of the screen, make sure that <guiseq><gui>Edit</"
@@ -4057,14 +4086,12 @@ msgid ""
 msgstr ""
 
 #: C/mail-read-receipts.page:5(desc)
-#, fuzzy
 msgid "How to enable requesting read receipts."
-msgstr "Siempre solicitar confirmación de lectura"
+msgstr "Cómo activar la solicitud de confirmación de lectura."
 
 #: C/mail-read-receipts.page:33(title)
-#, fuzzy
 msgid "Read receipts for emails"
-msgstr "Se solicitó una notificación de lectura."
+msgstr "Confirmación de lectura para correos"
 
 #: C/mail-read-receipts.page:35(p)
 msgid ""
@@ -4090,18 +4117,16 @@ msgid ""
 msgstr ""
 
 #: C/mail-reading-keyboard-shortcuts.page:5(desc)
-#, fuzzy
 msgid "Keyboard shortcuts that can save you some time when reading mail."
-msgstr "Habilitar modo cursor, para que pueda ver un cursor cuando lee correo."
+msgstr "Atajos de teclado que le pueden ahorrar cierto tiempo al leer correos."
 
 #: C/mail-reading-keyboard-shortcuts.page:24(title)
 msgid "Using shortcut keys to read mail"
 msgstr ""
 
 #: C/mail-reading-keyboard-shortcuts.page:27(title)
-#, fuzzy
 msgid "Viewing an email"
-msgstr "Enviar un correo-e"
+msgstr "Ver un correo"
 
 #: C/mail-reading-keyboard-shortcuts.page:28(p)
 #, fuzzy
@@ -4122,9 +4147,8 @@ msgstr ""
 "pulsar dos veces en él, pulsar Intro o pulsar Ctrl+O."
 
 #: C/mail-reading-keyboard-shortcuts.page:32(title)
-#, fuzzy
 msgid "Navigating in a message"
-msgstr "Formateando el mensaje"
+msgstr "Navegar en un correo"
 
 #: C/mail-reading-keyboard-shortcuts.page:33(p)
 #, fuzzy
@@ -4139,11 +4163,8 @@ msgstr ""
 "está activada."
 
 #: C/mail-reading-keyboard-shortcuts.page:37(title)
-#, fuzzy
 msgid "Navigating in a folder in the message list"
-msgstr ""
-"Pulse con el botón derecho del ratón sobre el mensaje en la lista de "
-"mensajes."
+msgstr "Navegar en una carpeta en la lista de mensajes"
 
 #: C/mail-reading-keyboard-shortcuts.page:38(p)
 #, fuzzy
@@ -4151,9 +4172,8 @@ msgid "Navigate in the message list by using the arrow keys on the keyboard."
 msgstr "Navegar por la lista de mensajes mediante el teclado:"
 
 #: C/mail-reading-keyboard-shortcuts.page:42(title)
-#, fuzzy
 msgid "Navigating in a folder's unread mail in the message list"
-msgstr "Puede ver los mensajes en el orden deseado en la lista de mensajes."
+msgstr "Navegar en el correo no leído en una carpeta en la lista de mensajes"
 
 #: C/mail-reading-keyboard-shortcuts.page:43(p)
 #, fuzzy
@@ -4261,9 +4281,8 @@ msgid "Possible reasons why emails are not sent."
 msgstr ""
 
 #: C/mail-not-sent.page:20(title)
-#, fuzzy
 msgid "Mail is not sent"
-msgstr "no está configurado"
+msgstr "El correo no se ha enviado"
 
 #: C/mail-not-sent.page:22(p)
 msgid "There can be several reasons why emails are not sent:"
@@ -4330,9 +4349,8 @@ msgid "Use labels to categorize your mail while keeping it in their folders."
 msgstr ""
 
 #: C/mail-labels.page:21(title)
-#, fuzzy
 msgid "Using Labels"
-msgstr "Etiquetas"
+msgstr "Usar etiquetas"
 
 #: C/mail-labels.page:23(p)
 msgid ""
@@ -4350,9 +4368,8 @@ msgstr ""
 
 # index.docbook:41, index.docbook:293
 #: C/mail-labels.page:28(title)
-#, fuzzy
 msgid "Adding a label to a message"
-msgstr "Para asignar una etiqueta a un mensaje de correo-e específico:"
+msgstr "Añadir una etiqueta a un correo"
 
 #: C/mail-labels.page:29(p)
 msgid ""
@@ -4365,9 +4382,8 @@ msgid "You can also quickly add a new label by choosing <gui>New Label</gui>."
 msgstr ""
 
 #: C/mail-labels.page:34(title)
-#, fuzzy
 msgid "Managing labels"
-msgstr "Gestionar los elementos enviados"
+msgstr "Gestionar las etiquetas"
 
 #: C/mail-labels.page:35(p)
 msgid ""
@@ -4377,9 +4393,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-imap-subscriptions.page:5(desc)
-#, fuzzy
 msgid "IMAP folder subscriptions."
-msgstr "Suscripciones de carpetas"
+msgstr "Carpeta IMAP para suscripciones."
 
 #: C/mail-imap-subscriptions.page:26(title)
 msgid "IMAP Subscriptions"
@@ -4467,9 +4482,8 @@ msgstr ""
 "Se descargarán todas las cabeceras IMAP disponibles para todos los mensajes."
 
 #: C/mail-imap-headers.page:32(p)
-#, fuzzy
 msgid "Basic Headers (Fastest):"
-msgstr "Cabeceras básicas:"
+msgstr "Cabeceras básicas (lo más rápido):"
 
 #: C/mail-imap-headers.page:32(p)
 msgid ""
@@ -4563,9 +4577,8 @@ msgid "Using flags to remind you of actions."
 msgstr ""
 
 #: C/mail-follow-up-flag.page:23(title)
-#, fuzzy
 msgid "Follow up flags for emails"
-msgstr "Mostrar filtros para el correo:"
+msgstr "Marcas para seguimiento de correos"
 
 #: C/mail-follow-up-flag.page:25(p)
 #, fuzzy
@@ -4669,9 +4682,8 @@ msgid "Use folders to organize your mail."
 msgstr ""
 
 #: C/mail-folders.page:28(title)
-#, fuzzy
 msgid "Using Folders"
-msgstr "Usar las carpetas de búsqueda"
+msgstr "Usar las carpetas"
 
 #: C/mail-folders.page:30(p)
 #, fuzzy
@@ -9348,14 +9360,12 @@ msgstr ""
 "Exchange Client, Windows Messaging y Microsoft Outlook."
 
 #: C/import-single-files.page:5(desc)
-#, fuzzy
 msgid "Importing single files."
-msgstr "Importar un sólo archivo"
+msgstr "Importar archivos individuales."
 
 #: C/import-single-files.page:20(title)
-#, fuzzy
 msgid "Importing single files"
-msgstr "Importar un sólo archivo"
+msgstr "Importar archivos individuales"
 
 #: C/import-single-files.page:22(p)
 msgid "To import single files (mail, calendar data or contacts):"
@@ -9373,9 +9383,8 @@ msgid ""
 msgstr ""
 
 #: C/import-single-files.page:26(p)
-#, fuzzy
 msgid "Choose the file."
-msgstr "Elegir el archivo."
+msgstr "Elija el archivo."
 
 #: C/import-single-files.page:26(p) C/import-apps-outlook.page:61(p)
 #: C/import-apps-mozilla.page:26(p)
@@ -9397,24 +9406,20 @@ msgid ""
 msgstr ""
 
 #: C/import-data.page:5(desc)
-#, fuzzy
 msgid "Importing data from another application."
-msgstr "Importa datos de otros programas"
+msgstr "Importar datos desde otra aplicación."
 
 #: C/import-data.page:20(title)
-#, fuzzy
 msgid "Importing data from another application"
-msgstr "Importa datos de otros programas"
+msgstr "Importar datos desde otra aplicación"
 
 #: C/import-data.page:23(title)
 msgid "Applications"
 msgstr "Aplicaciones"
 
 #: C/import-apps-outlook.page:5(desc)
-#, fuzzy
 msgid "Importing data from Microsoft Outlook."
-msgstr ""
-"Decodificar adjuntos TNEF (.dat de correo de Windows) de Microsoft Outlook."
+msgstr "Importar datos desde otro Microsoft Outlook."
 
 #: C/import-apps-outlook.page:23(title)
 msgid "Outlook"
@@ -9850,9 +9855,8 @@ msgid "Where does Evolution store my data on the harddisk?"
 msgstr ""
 
 #: C/data-storage.page:20(title)
-#, fuzzy
 msgid "Data storage locations"
-msgstr "Ubicación del mensaje"
+msgstr "Ubicaciones de almacenamiento de datos"
 
 #: C/data-storage.page:23(p)
 msgid ""
@@ -11258,7 +11262,7 @@ msgstr "Día (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
 
 #: C/calendar-layout-views.page:28(p)
 msgid "Work Week (<keyseq><key>Ctrl</key><key>J</key></keyseq>)"
-msgstr ""
+msgstr "Semana laboral (<keyseq><key>Ctrl</key><key>J</key></keyseq>)"
 
 #: C/calendar-layout-views.page:29(p)
 msgid "Week (<keyseq><key>Ctrl</key><key>K</key></keyseq>)"
@@ -11289,7 +11293,6 @@ msgstr ""
 "lateral. Para ello seleccione los días que quiere ver en el calendario."
 
 #: C/calendar-layout-views.page:38(p)
-#, fuzzy
 msgid ""
 "The Previous and Next buttons move you forward and back in your calendar "
 "pages. If you are using a week or month view, you can move by week or month. "
@@ -11298,8 +11301,8 @@ msgid ""
 msgstr ""
 "Los botones Anterior y Siguiente sirven para desplazarse adelante y atrás "
 "por las páginas del calendario. Si está usando la vista de semana o mes, "
-"puede desplazarse una semana o un mes. Para volver al día de hoy pulse Hoy "
-"en la barra de tareas."
+"puede desplazarse una semana o un mes. Para volver al día de hoy pulse el "
+"botón <gui>Seleccionar hoy</gui> en la barra de tareas."
 
 #: C/calendar-layout-views.page:40(p)
 msgid ""
