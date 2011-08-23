@@ -823,11 +823,15 @@
                       </object>
                       <packing>
                         <property name="position">1</property>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
                     <property name="position">0</property>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
                   </packing>
                 </child>
                 <child>
@@ -917,6 +921,80 @@
           </packing>
         </child>
         <child>
+          <object class="GtkLabel" id="label65">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">Date/Time Format</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox27">
+            <property name="visible">True</property>
+            <property name="spacing">12</property>
+            <child>
+              <object class="GtkLabel" id="label66">
+                <property name="visible">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkTable" id="datetime_format_table">
+                <property name="visible">True</property>
+                <property name="n_columns">3</property>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="position">3</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="tab_fill">False</property>
+        <property name="tab_expand">False</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child type="tab">
+      <object class="GtkLabel" id="label2">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">Display</property>
+      </object>
+      <packing>
+        <property name="position">1</property>
+        <property name="tab_fill">False</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkVBox" id="tasks-vbox">
+        <property name="visible">True</property>
+        <property name="border_width">12</property>
+        <property name="spacing">12</property>
+        <child>
           <object class="GtkLabel" id="label18">
             <property name="visible">True</property>
             <property name="xalign">0</property>
@@ -928,7 +1006,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
-            <property name="position">2</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
@@ -981,6 +1059,17 @@
                         <property name="position">1</property>
                       </packing>
                     </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="hbox15">
+                    <property name="visible">True</property>
+                    <property name="spacing">12</property>
                     <child>
                       <object class="GtkLabel" id="label22">
                         <property name="visible">True</property>
@@ -992,8 +1081,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
-                        <property name="pack_type">end</property>
-                        <property name="position">3</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -1007,15 +1095,14 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
-                        <property name="pack_type">end</property>
-                        <property name="position">2</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">0</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
@@ -1065,7 +1152,9 @@
                     </child>
                   </object>
                   <packing>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
                   </packing>
                 </child>
               </object>
@@ -1076,75 +1165,23 @@
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="position">3</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label65">
-            <property name="visible">True</property>
-            <property name="xalign">0</property>
-            <property name="label" translatable="yes">Date/Time Format</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">4</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkHBox" id="hbox27">
-            <property name="visible">True</property>
-            <property name="spacing">12</property>
-            <child>
-              <object class="GtkLabel" id="label66">
-                <property name="visible">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkTable" id="datetime_format_table">
-                <property name="visible">True</property>
-                <property name="n_columns">3</property>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="position">5</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>
       <packing>
         <property name="tab_fill">False</property>
         <property name="tab_expand">False</property>
-        <property name="position">1</property>
+        <property name="position">2</property>
       </packing>
     </child>
     <child type="tab">
-      <object class="GtkLabel" id="label2">
+      <object class="GtkLabel" id="tasks-tab-label">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">Display</property>
+        <property name="label" translatable="yes">Tasks</property>
       </object>
       <packing>
-        <property name="position">1</property>
+        <property name="position">2</property>
         <property name="tab_fill">False</property>
       </packing>
     </child>
@@ -1368,7 +1405,7 @@
       <packing>
         <property name="tab_fill">False</property>
         <property name="tab_expand">False</property>
-        <property name="position">2</property>
+        <property name="position">3</property>
       </packing>
     </child>
     <child type="tab">
@@ -1379,14 +1416,13 @@
       <packing>
         <property name="tab_fill">False</property>
         <property name="tab_expand">False</property>
-        <property name="position">2</property>
+        <property name="position">3</property>
       </packing>
     </child>
     <child>
       <object class="GtkVBox" id="freebusy">
         <property name="visible">True</property>
         <property name="border_width">12</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkLabel" id="default-freebusy-header">
@@ -1398,9 +1434,9 @@
             </attributes>
           </object>
           <packing>
+            <property name="position">0</property>
             <property name="expand">False</property>
             <property name="fill">False</property>
-            <property name="position">0</property>
           </packing>
         </child>
         <child>
@@ -1410,7 +1446,6 @@
             <child>
               <object class="GtkVBox" id="default-freebusy-vbox">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkHBox" id="hbox18">
@@ -1422,9 +1457,9 @@
                         <property name="label" translatable="yes">Template:</property>
                       </object>
                       <packing>
+                        <property name="position">0</property>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
-                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -1435,11 +1470,15 @@
                       </object>
                       <packing>
                         <property name="position">1</property>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
                     <property name="position">0</property>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
                   </packing>
                 </child>
                 <child>
@@ -1452,36 +1491,34 @@
                     </attributes>
                   </object>
                   <packing>
+                    <property name="position">1</property>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">1</property>
                   </packing>
                 </child>
               </object>
             </child>
           </object>
           <packing>
+            <property name="position">1</property>
             <property name="expand">False</property>
             <property name="fill">False</property>
-            <property name="position">1</property>
           </packing>
         </child>
       </object>
       <packing>
-        <property name="tab_expand">False</property>
+        <property name="position">4</property>
         <property name="tab_fill">False</property>
-        <property name="position">3</property>
       </packing>
     </child>
     <child type="tab">
       <object class="GtkLabel" id="label3">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">Free/Busy</property>
+        <property name="label" translatable="yes">Publishing Information</property>
       </object>
       <packing>
-        <property name="tab_expand">False</property>
+        <property name="position">4</property>
         <property name="tab_fill">False</property>
-        <property name="position">3</property>
       </packing>
     </child>
   </object>

@@ -490,6 +490,7 @@ static ECalConfigItem eccp_items[] = {
 	{ E_CONFIG_PAGE,          (gchar *) "10.display",                   (gchar *) "display",           calendar_preferences_get_config_widget },
 	{ E_CONFIG_SECTION,       (gchar *) "10.display/00.general",        (gchar *) "displayGeneral",    calendar_preferences_get_config_widget },
 	{ E_CONFIG_SECTION,       (gchar *) "10.display/10.taskList",       (gchar *) "taskList",          calendar_preferences_get_config_widget },
+	{ E_CONFIG_PAGE,          (gchar *) "12.tasks",                     (gchar *) "tasks-vbox",        calendar_preferences_get_config_widget },
 	{ E_CONFIG_PAGE,          (gchar *) "15.alarms",                    (gchar *) "alarms",            calendar_preferences_get_config_widget },
 	{ E_CONFIG_PAGE,          (gchar *) "20.freeBusy",                  (gchar *) "freebusy",          calendar_preferences_get_config_widget },
 	{ E_CONFIG_SECTION,       (gchar *) "20.freeBusy/00.defaultServer", (gchar *) "default-freebusy-vbox",   calendar_preferences_get_config_widget },
