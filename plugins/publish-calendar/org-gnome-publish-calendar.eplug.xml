@@ -22,21 +22,9 @@
 
 	<!-- config page -->
 	<hook class="org.gnome.evolution.calendar.config:1.0">
-	    <group
-	     target="prefs"
-	     id="org.gnome.evolution.calendar.prefs">
-	        <item
-		 type="page"
-		 path="30.publishing"
-		 _label="Calendar Publishing"/>
-		<item
-		 type="section"
-		 path="30.publishing/00.urls"
-		 _label="Locations"/>
-		<item
-		 type="item"
-		 path="30.publishing/00.urls/00.locations"
-		 factory="publish_calendar_locations"/>
+	    <group target="prefs" id="org.gnome.evolution.calendar.prefs">
+		<item type="section" path="30.publishing/00.urls" _label="Locations"/>
+		<item type="item" path="30.publishing/00.urls/00.locations" factory="publish_calendar_locations"/>
 	    </group>
 	</hook>
     </e-plugin>
