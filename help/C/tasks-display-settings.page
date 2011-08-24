@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#memos-and-tasks"/>
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <revision pkgversion="3.1.5" version="0.3" date="2011-08-24" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -24,9 +24,8 @@
 
 <!-- TODO:POST-3-2: Just listing the partially busted UI options (also see calendar-layout-appointment-display) here is very poor and not task-oriented, but that's it for the time being. Better ideas welcome. -->
 
-<!-- TODO: Update once https://bugzilla.gnome.org/show_bug.cgi?id=655666 is fixed -->
-
-<p>The following task-related options are available under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Display</gui><gui>Task List</gui></guiseq>.</p>
+<p>The following task-related options are available under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Tasks</gui></guiseq>.</p>
+<!-- This is the location since 3.1.5, see bug https://bugzilla.gnome.org/show_bug.cgi?id=655666 -->
 
 <list>
 <item><p>Tasks due today:</p>
