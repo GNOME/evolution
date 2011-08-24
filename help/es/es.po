@@ -4,25 +4,24 @@
 # Ismael Olea <ismael@olea.org>, 2003.
 # I.R. Maturana <info@in3activa.com>, 2003.
 # Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
 # 
-# Jorge González <jorgegonz@svn.gnome.org>, 2011.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011., 2011.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011., 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-23 13:05+0000\n"
-"PO-Revision-Date: 2011-08-23 17:08+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2011-08-24 16:54+0000\n"
+"PO-Revision-Date: 2011-08-24 21:28+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: C/using-categories.page:5(desc)
 msgid ""
@@ -1134,7 +1133,6 @@ msgstr "Limpiar los resultados de la búsqueda"
 #: C/tasks-searching.page:61(p) C/memos-searching.page:61(p)
 #: C/mail-searching.page:57(p) C/contacts-searching.page:61(p)
 #: C/calendar-searching.page:61(p)
-#, fuzzy
 msgid ""
 "To clear your search view and get back to the default view, click the "
 "<gui>Clear</gui> icon in the search string field, or choose "
@@ -1142,10 +1140,11 @@ msgid ""
 "also press <keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq> to "
 "clear the search."
 msgstr ""
-"Para limpiar su búsqueda puede pulsar el botón o menú Limpiar en el campo de "
-"cadena de búsqueda, elegir Buscar &gt; Limpiar desde la barra de menú, o "
-"introducir una búsqueda vacía. También puede pulsar Mayús+Ctrl+Q para "
-"limpiar la búsqueda."
+"Para limpiar su búsqueda puede pulsar el botón o menú <gui>Limpiar</gui> en "
+"el campo de cadena de búsqueda, elegir <guiseq><gui>Buscar</"
+"gui><gui>Limpiar</gui></guiseq> desde la barra de menú, o introducir una "
+"búsqueda vacía. También puede pulsar <keyseq><key>Mayús</key><key>Ctrl</"
+"key><key>Q</key></keyseq> para limpiar la búsqueda."
 
 #: C/tasks-searching.page:65(title) C/memos-searching.page:65(title)
 #: C/mail-searching.page:61(title) C/contacts-searching.page:65(title)
@@ -1257,38 +1256,42 @@ msgstr "Opciones para mostrar completado de tareas y fechas de vencimiento."
 msgid "Displaying of tasks"
 msgstr "Mostrado de tareas"
 
-#. TODO: Update once https://bugzilla.gnome.org/show_bug.cgi?id=655666 is fixed
-#: C/tasks-display-settings.page:29(p)
+#. TODO:POST-3-2: Just listing the partially busted UI options (also see calendar-layout-appointment-display) here is very poor and not task-oriented, but that's it for the time being. Better ideas welcome.
+#: C/tasks-display-settings.page:27(p)
+#| msgid ""
+#| "The following calendar-related options are available under "
+#| "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
+#| "gui><gui>Display</gui></guiseq>."
 msgid ""
 "The following task-related options are available under <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Display</"
-"gui><gui>Task List</gui></guiseq>."
+"gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Tasks</gui></"
+"guiseq>."
 msgstr ""
-"Las siguientes opciones relacionadas con tareas están disponibles bajo "
-"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Calendario y tareas</"
-"gui><gui>Mostrar</gui><gui>Lista de tareas</gui></guiseq>."
+"Las siguientes opciones relacionadas con el calendario están disponibles "
+"bajo <guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Calendario y "
+"tareas</gui></guiseq>."
 
-#: C/tasks-display-settings.page:32(p)
+#: C/tasks-display-settings.page:31(p)
 msgid "Tasks due today:"
 msgstr "Tareas que vencen hoy:"
 
-#: C/tasks-display-settings.page:33(p)
+#: C/tasks-display-settings.page:32(p)
 msgid "Select the color for tasks due today."
 msgstr "Establece el color para las tareas que vencen hoy."
 
-#: C/tasks-display-settings.page:34(p)
+#: C/tasks-display-settings.page:33(p)
 msgid "Overdue tasks:"
 msgstr "Tareas vencidas:"
 
-#: C/tasks-display-settings.page:35(p)
+#: C/tasks-display-settings.page:34(p)
 msgid "Select the color for overdue tasks."
 msgstr "Establece el color para las tareas vencidas."
 
-#: C/tasks-display-settings.page:36(p)
+#: C/tasks-display-settings.page:35(p)
 msgid "Hide completed tasks after:"
 msgstr "Ocultar las tareas completadas tras:"
 
-#: C/tasks-display-settings.page:37(p)
+#: C/tasks-display-settings.page:36(p)
 msgid ""
 "Select this option to have completed tasks hidden after a period of time "
 "measured in days, hours, or minutes. If you do not select this option, "
@@ -1368,7 +1371,6 @@ msgid "Palm"
 msgstr "Palm"
 
 #: C/sync-with-other-devices.page:35(p)
-#, fuzzy
 msgid ""
 "To synchronize with a Palm OS device like the PalmPilot(TM) and the "
 "Handspring Visor several steps are needed: First, you need to enable "
@@ -1376,11 +1378,10 @@ msgid ""
 "handheld. Third, you should decide what sort of synchronization behavior you "
 "want."
 msgstr ""
-"La sincronización se le presenta con tres temas que debe tratar. Primero, "
-"debe activar la sincronización. Segundo, su equipo debe reconocer y acceder "
-"a su dispositivo portátil. En este momento, <trademark>Evolution</trademark> "
-"sólo soporta dispositivos Palm OS como PalmPilot* y Handspring Visor. "
-"Tercero, debe decidir que tipo de sincronización quiere."
+"Se necesitan varios pasos para sincronizar con un dispositivo Palm OS como "
+"la PalmPilot(TM) y el Handspring Visor: primero, debe activar la "
+"sincronización. Segundo, su equipo debe reconocer y acceder a su dispositivo "
+"portátil. Tercero, debe decidir que tipo de sincronización quiere."
 
 #: C/sync-with-other-devices.page:37(title)
 msgid "Enabling Synchronization"
@@ -1465,10 +1466,11 @@ msgid ""
 msgstr "Si el dispositivo de mano contiene datos nuevos, los copia al equipo."
 
 #: C/sync-with-other-devices.page:48(p)
-#, fuzzy
 msgid ""
 "<gui>Copy To Pilot</gui>: Copy new data from the computer to the handheld."
-msgstr "Copia los datos nuevos del equipo hacia el dispositivo de mano."
+msgstr ""
+"<gui>Copiar hacia Pilot:</gui> copia los datos nuevos del equipo hacia el "
+"dispositivo de mano."
 
 #: C/sync-with-other-devices.page:50(p)
 msgid ""
@@ -1522,11 +1524,10 @@ msgstr ""
 "vuelva a habilitar la protección de su dispositivo."
 
 #: C/sync-with-other-devices.page:61(p)
-#, fuzzy
 msgid "Now your Palm OS device will synchronize data with Evolution."
 msgstr ""
-"Si siguió las instrucciones de configuración adecuadamente, los datos de su "
-"dispositivo Palm OS se podrán sincronizar con Evolution."
+"Ahora se podrán sincronizar los datos de su dispositivo Palm OS con "
+"Evolution."
 
 #: C/searching-items.page:5(desc)
 msgid "Searching content and data within <em>Evolution</em>."
@@ -1733,14 +1734,12 @@ msgid "Edit the memo information."
 msgstr "Edite la información de la nota."
 
 #: C/memos-usage-delete-memo.page:5(desc)
-#, fuzzy
 msgid "Deleting a memo from your memo list."
-msgstr "No se puede encontrar esta nota en ninguna lista de notas"
+msgstr "Elimiinar una nota de su lista de notas."
 
 #: C/memos-usage-delete-memo.page:20(title)
-#, fuzzy
 msgid "Deleting a Memo"
-msgstr "Borrar un elemento"
+msgstr "Eliminar una nota"
 
 #: C/memos-usage-delete-memo.page:22(p)
 msgid ""
@@ -1751,14 +1750,12 @@ msgid ""
 msgstr ""
 
 #: C/memos-usage-add-memo.page:5(desc)
-#, fuzzy
 msgid "Adding a memo to your memo list."
-msgstr "Añadir una dirección de correo electrónico a su lista de correo basura"
+msgstr "Añadir una nota a su lista de notas."
 
 #: C/memos-usage-add-memo.page:23(title)
-#, fuzzy
 msgid "Adding a Memo"
-msgstr "Añadir una columna:"
+msgstr "Añadir una nota"
 
 #: C/memos-usage-add-memo.page:26(p)
 msgid ""
@@ -1767,14 +1764,13 @@ msgid ""
 msgstr ""
 
 #: C/memos-usage-add-memo.page:27(p)
-#, fuzzy
 msgid "Select a memo list in the <gui>List</gui> dropdown list."
-msgstr "Seleccione un calendario en la lista desplegable de Calendario."
+msgstr ""
+"Seleccione una lista de notas en la lista desplegable de <gui>Listas</gui>."
 
 #: C/memos-usage-add-memo.page:28(p)
-#, fuzzy
 msgid "Enter the memo information."
-msgstr "Rellene la información."
+msgstr "Introduzca la información de la nota."
 
 #: C/memos-usage-add-memo.page:32(p)
 msgid ""
@@ -1792,9 +1788,8 @@ msgid ""
 msgstr ""
 
 #: C/memos-usage-add-memo.page:37(title)
-#, fuzzy
 msgid "Shared Memos"
-msgstr "Nota _compartida"
+msgstr "Notas compartidas"
 
 #: C/memos-usage-add-memo.page:39(p)
 #, fuzzy
@@ -1813,9 +1808,8 @@ msgstr ""
 "o en el buzón de correo de ningún otro usuario."
 
 #: C/memos-usage-add-memo.page:41(p)
-#, fuzzy
 msgid "To send a Shared Memo,"
-msgstr "Enviar una nota de recordatorio,"
+msgstr "Para enviar una nota compartida,"
 
 #: C/memos-usage-add-memo.page:43(p)
 msgid ""
@@ -1864,14 +1858,12 @@ msgstr ""
 "recordatoria debería aparecer en los calendarios de los Destinatarios."
 
 #: C/memos-searching.page:5(desc)
-#, fuzzy
 msgid "Searching memos."
-msgstr "Búsqueda"
+msgstr "Buscar notas."
 
 #: C/memos-searching.page:28(title)
-#, fuzzy
 msgid "Searching Memos"
-msgstr "Buscar elementos de las notas"
+msgstr "Buscar notas"
 
 #: C/memos-searching.page:31(p)
 msgid ""
@@ -1886,9 +1878,8 @@ msgid "A known problem that is fixed in newer versions."
 msgstr "Un problema conocido solucionado en versiones más actuales."
 
 #: C/mail-wrong-fonts-in-3-0.page:21(title)
-#, fuzzy
 msgid "Message fonts are not the same fonts as in other applications"
-msgstr "_Usar las mismas tipografías que en otras aplicaciones"
+msgstr "La tipografía de las notas no es la misma que en otras aplicaciones"
 
 #: C/mail-wrong-fonts-in-3-0.page:23(p)
 msgid ""
@@ -1907,9 +1898,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-working-offline.page:5(desc)
-#, fuzzy
 msgid "Work with your mail while not being connected to the network."
-msgstr "Para cachear las carpetas seleccionadas y desconectar de la red,"
+msgstr "Trabajar con su correo mientras no está conectado a la red."
 
 #: C/mail-working-offline.page:23(title)
 msgid "Working Offline"
@@ -1945,31 +1935,28 @@ msgstr ""
 "almacenar."
 
 #: C/mail-working-offline.page:30(title)
-#, fuzzy
 msgid "Marking folders for offline usage"
-msgstr "Para marcar una carpeta para su uso desconectado,"
+msgstr "Marcar carpetas para su uso desconectado"
 
 #: C/mail-working-offline.page:31(p)
-#, fuzzy
 msgid "To mark a mail folder for offline use,"
-msgstr "Para marcar una carpeta para su uso desconectado,"
+msgstr "Para marcar una carpeta de correo para su uso desconectado,"
 
 #: C/mail-working-offline.page:33(p)
-#, fuzzy
 msgid "Right-click the folder, then click <gui>Properties</gui>."
 msgstr ""
-"Pulse con el botón derecho del ratón sobre la carpeta, después elija "
-"Propiedades."
+"Pulse con el botón derecho del ratón sobre la carpeta, después pulse "
+"<gui>Propiedades</gui>."
 
 #: C/mail-working-offline.page:34(p)
-#, fuzzy
 msgid "Click <gui>Copy folder content locally for offline operation</gui>."
-msgstr "Copiar la li_breta localmente para trabajar desconectado"
+msgstr ""
+"Pulse <gui>Copiar el contenido de la carpeta localmente para operar "
+"desconectado</gui>."
 
 #: C/mail-working-offline.page:39(title)
-#, fuzzy
 msgid "Syncing messages for offline usage"
-msgstr "_Descargar correos para trabajar sin conexión"
+msgstr "Sincronizar mensajes para su uso desconectado"
 
 #: C/mail-working-offline.page:40(p)
 #, fuzzy
@@ -3826,14 +3813,15 @@ msgstr ""
 #: C/mail-receiving-options-pop.page:45(p)
 msgid ""
 "The option <gui>Disable support for all POP3 extensions</gui> is only useful "
-"when accessing old or misconfigured mail servers. Such POP3 extensions "
-"provide enhanced functionality, however only some servers support them. In "
-"case of problems with receiving mail, enabling this setting might help."
+"when accessing old or misconfigured mail servers. <link href=\"https://tools."
+"ietf.org/html/rfc2449\">POP3 extensions</link> provide enhanced "
+"functionality, however only some servers support them. In case of problems "
+"with receiving mail, enabling this setting might help."
 msgstr ""
 
 #: C/mail-receiving-options.page:5(desc)
 msgid "Available mail receiving options for several server types."
-msgstr ""
+msgstr "Opciones de recepción de correo para diversos tipos de servidores."
 
 #: C/mail-receiving-options.page:18(title)
 msgid "Mail Receiving Options"
@@ -3845,7 +3833,7 @@ msgstr "Tipos comunes de servidor"
 
 #: C/mail-receiving-options.page:24(title) C/intro-first-run.page:55(title)
 msgid "Corporate server types"
-msgstr ""
+msgstr "Tipos de servidor corporativos"
 
 #: C/mail-receiving-options.page:27(title) C/intro-first-run.page:70(title)
 msgid "Local account server types"
@@ -3874,7 +3862,7 @@ msgstr ""
 
 #: C/mail-receiving-options-novell-groupwise.page:39(p)
 msgid "Enter the Post Office Agent SOAP port."
-msgstr ""
+msgstr "Introduzca el puerto del Agente SOAP de Oficina de correos."
 
 #: C/mail-receiving-options-novell-groupwise.page:40(p)
 msgid ""
@@ -3887,6 +3875,8 @@ msgstr ""
 #: C/mail-receiving-options-mh-format-directories.page:5(desc)
 msgid "Receiving options for MH-format mail directories accounts."
 msgstr ""
+"Opciones de recepción para las cuentas de directorios de correo en formato "
+"MH."
 
 #: C/mail-receiving-options-mh-format-directories.page:20(title)
 msgid "MH-format mail directories receiving options"
@@ -3975,7 +3965,7 @@ msgstr "Opciones de recepción Exchange MAPI"
 
 #: C/mail-receiving-options-exchange-mapi.page:26(p)
 msgid "Enter the Domain name for that server."
-msgstr ""
+msgstr "Introduzca el nombre de dominio para ese servidor."
 
 #: C/mail-receiving-options-exchange-mapi.page:30(p)
 #: C/mail-receiving-options-evolution-exchange.page:33(p)
@@ -4005,7 +3995,7 @@ msgstr "Introduzca su nombre de usuario para ese servidor."
 
 #: C/mail-receiving-options-evolution-exchange.page:29(p)
 msgid "Enter the OWA URL for that server."
-msgstr ""
+msgstr "Introduzca el URL del OWA para ese servidor."
 
 #: C/mail-receiving-options-evolution-exchange.page:30(p)
 msgid ""
@@ -4059,7 +4049,7 @@ msgstr ""
 
 #: C/mail-received-notification.page:5(desc)
 msgid "Options on notifications of newly received mail."
-msgstr ""
+msgstr "Opciones de notificación para el nuevo correo recibido."
 
 #: C/mail-received-notification.page:20(title)
 msgid "Getting notified of new mail"
@@ -4122,7 +4112,7 @@ msgstr "Atajos de teclado que le pueden ahorrar cierto tiempo al leer correos."
 
 #: C/mail-reading-keyboard-shortcuts.page:24(title)
 msgid "Using shortcut keys to read mail"
-msgstr ""
+msgstr "Usar atajos de teclado para leer el correo"
 
 #: C/mail-reading-keyboard-shortcuts.page:27(title)
 msgid "Viewing an email"
@@ -4278,7 +4268,7 @@ msgstr "Opciones avanzadas"
 
 #: C/mail-not-sent.page:5(desc)
 msgid "Possible reasons why emails are not sent."
-msgstr ""
+msgstr "Posibles motivos por los que los correos no se envían."
 
 #: C/mail-not-sent.page:20(title)
 msgid "Mail is not sent"
@@ -4598,7 +4588,9 @@ msgid "Right-click one of the messages."
 msgstr "Pulse con el botón derecho sobre uno de los mensajes."
 
 #: C/mail-follow-up-flag.page:29(p)
-msgid "Click <gui>Mark for Follow Up...</gui>"
+#, fuzzy
+#| msgid "Click <gui>Mark for Follow Up...</gui>"
+msgid "Click <gui>Mark for Follow Up...</gui>."
 msgstr "Pulse <gui>Marca para seguimiento...</gui>"
 
 #: C/mail-follow-up-flag.page:31(p)
@@ -5307,8 +5299,8 @@ msgstr ""
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
-"\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+"id=550414\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
@@ -5370,8 +5362,9 @@ msgstr "Seleccione la cuenta en la que cifrar mensajes."
 
 #: C/mail-encryption-s-mime-signing-encrypting.page:31(p)
 #: C/mail-encryption-gpg-signing-encrypting.page:33(p)
-msgid "Click <gui>Security</gui>."
-msgstr "Pulse en <gui>Seguridad</gui>."
+#: C/mail-encryption-gpg-set-up.page:31(p)
+msgid "Click the <gui>Security</gui> tab."
+msgstr "Pulse en la pestaña <gui>Seguridad</gui>."
 
 #: C/mail-encryption-s-mime-signing-encrypting.page:32(p)
 msgid ""
@@ -5534,10 +5527,6 @@ msgid ""
 "\">Edit</gui>."
 msgstr ""
 "Seleccione la cuenta que quiere usar de forma segura, después pulse Editar."
-
-#: C/mail-encryption-gpg-set-up.page:31(p)
-msgid "Click the <gui>Security</gui> tab."
-msgstr "Pulse en la pestaña <gui>Seguridad</gui>."
 
 #: C/mail-encryption-gpg-set-up.page:32(p)
 #, fuzzy
@@ -8382,8 +8371,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">GMail Help</link> for more information."
 msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
@@ -8492,71 +8481,98 @@ msgstr "El cliente de correo-e y GIP Evolution"
 msgid "Corresponding elements in the mail main window:"
 msgstr ""
 
-#: C/intro-main-window.page:41(p) C/intro-main-window.page:90(p)
-#: C/intro-main-window.page:136(p)
+#: C/intro-main-window.page:41(p)
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> "
+#| "Menu bar"
 msgid ""
-"<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> Menu "
-"bar"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png\" "
+"width=\"10\"/> Menu bar"
 msgstr ""
 "<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> "
 "Barra de menú"
 
-#: C/intro-main-window.page:44(p) C/intro-main-window.page:93(p)
-#: C/intro-main-window.page:139(p)
+#: C/intro-main-window.page:44(p)
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
+#| "Tool bar"
 msgid ""
-"<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> Tool "
-"bar"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png\" "
+"width=\"10\"/> Tool bar"
 msgstr ""
 "<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
 "Barra de herramientas"
 
 #: C/intro-main-window.page:47(p)
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+#| "Folder list"
 msgid ""
-"<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
-"Folder list"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png\" "
+"width=\"10\"/> Folder list"
 msgstr ""
 "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
 "Lista de carpetas"
 
-#: C/intro-main-window.page:48(p) C/intro-main-window.page:97(p)
-#: C/intro-main-window.page:143(p)
+#: C/intro-main-window.page:48(p)
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
+#| "Search bar"
 msgid ""
-"<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
-"Search bar"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png\" "
+"width=\"10\"/> Search bar"
 msgstr ""
 "<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
 "Barra de búsqueda"
 
 #: C/intro-main-window.page:51(p)
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
+#| "Message list"
 msgid ""
-"<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
-"Message list"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png\" "
+"width=\"10\"/> Message list"
 msgstr ""
 "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
 "Lista de mensajes"
 
-#: C/intro-main-window.page:54(p) C/intro-main-window.page:108(p)
-#: C/intro-main-window.page:149(p)
+#: C/intro-main-window.page:54(p)
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
+#| "Switcher"
 msgid ""
-"<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
-"Switcher"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png\" "
+"width=\"10\"/> Switcher"
 msgstr ""
 "<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
 "Selector"
 
 #: C/intro-main-window.page:55(p)
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
+#| "Preview pane"
 msgid ""
-"<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
-"Preview pane"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png\" "
+"width=\"10\"/> Preview pane"
 msgstr ""
 "<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
 "Panel de vista previa"
 
-#: C/intro-main-window.page:58(p) C/intro-main-window.page:111(p)
-#: C/intro-main-window.page:153(p)
+#: C/intro-main-window.page:58(p)
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
+#| "Status bar"
 msgid ""
-"<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
-"Status bar"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png\" "
+"width=\"10\"/> Status bar"
 msgstr ""
 "<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
 "Barra de estado"
@@ -8663,6 +8679,22 @@ msgstr "Calendario"
 msgid "Elements in the calendar main window:"
 msgstr "El elemento en el calendario no es válido"
 
+#: C/intro-main-window.page:90(p) C/intro-main-window.page:136(p)
+msgid ""
+"<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> Menu "
+"bar"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> "
+"Barra de menú"
+
+#: C/intro-main-window.page:93(p) C/intro-main-window.page:139(p)
+msgid ""
+"<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> Tool "
+"bar"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
+"Barra de herramientas"
+
 #: C/intro-main-window.page:96(p)
 #, fuzzy
 #| msgid ""
@@ -8674,6 +8706,14 @@ msgid ""
 msgstr ""
 "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
 "Lista de carpetas"
+
+#: C/intro-main-window.page:97(p) C/intro-main-window.page:143(p)
+msgid ""
+"<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
+"Search bar"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
+"Barra de búsqueda"
 
 #: C/intro-main-window.page:100(p)
 msgid ""
@@ -8697,6 +8737,22 @@ msgstr "Panel del mes:"
 #, fuzzy
 msgid "Memo list"
 msgstr "_Lista de notas"
+
+#: C/intro-main-window.page:108(p) C/intro-main-window.page:149(p)
+msgid ""
+"<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
+"Switcher"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
+"Selector"
+
+#: C/intro-main-window.page:111(p) C/intro-main-window.page:153(p)
+msgid ""
+"<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
+"Status bar"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
+"Barra de estado"
 
 #: C/intro-main-window.page:116(title)
 msgid "Appointment List"
@@ -9121,7 +9177,7 @@ msgstr "Importa datos de otros programas"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
-#: C/index.page:22(None)
+#: C/index.page:23(None)
 msgid ""
 "@@image: './figures/evolutionlogo.png'; md5=4bf469aaba7c368937309e931ba9bdcc"
 msgstr ""
@@ -9133,89 +9189,89 @@ msgstr "Evolution"
 
 #: C/index.page:22(title)
 msgid ""
-"<media type=\"image\" src=\"./figures/evolutionlogo.png\">Evolution logo</"
-"media> Evolution Mail and Calendar"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/evolutionlogo.png"
+"\"> Evolution logo </media> Evolution Mail and Calendar"
 msgstr ""
 
-#: C/index.page:26(title)
+#: C/index.page:30(title)
 msgid "Getting Started"
 msgstr "Inicio"
 
-#: C/index.page:30(title)
+#: C/index.page:34(title)
 #, fuzzy
 msgid "Mail Management"
 msgstr "Gestión de carpetas"
 
-#: C/index.page:32(title)
+#: C/index.page:36(title)
 #, fuzzy
 msgid "Advanced Mail Management"
 msgstr "Gestión de carpetas"
 
-#: C/index.page:34(title)
+#: C/index.page:38(title)
 msgid "IMAP"
 msgstr "IMAP"
 
-#: C/index.page:40(title)
+#: C/index.page:44(title)
 #, fuzzy
 msgid "Mail Composing"
 msgstr "Correo de %s"
 
-#: C/index.page:42(title)
+#: C/index.page:46(title)
 #, fuzzy
 msgid "Advanced Mail Composing"
 msgstr "Formato HTML avanzado"
 
-#: C/index.page:47(title)
+#: C/index.page:51(title)
 #, fuzzy
 msgid "Calendar Management"
 msgstr "Gestión de carpetas"
 
-#: C/index.page:49(title)
+#: C/index.page:53(title)
 #, fuzzy
 msgid "Advanced Calendar Management"
 msgstr "Nombre del calendario de Yahoo:"
 
-#: C/index.page:54(title)
-msgid "Contacts Management"
-msgstr "Gestión de contactos"
-
 #: C/index.page:58(title)
-#, fuzzy
-msgid "Memos and Tasks Management"
+msgid "Contacts Management"
 msgstr "Gestión de contactos"
 
 #: C/index.page:62(title)
 #, fuzzy
+msgid "Memos and Tasks Management"
+msgstr "Gestión de contactos"
+
+#: C/index.page:66(title)
+#, fuzzy
 msgid "Data Migration and Synchronization"
 msgstr "Activar la sincronización"
 
-#: C/index.page:66(title)
+#: C/index.page:70(title)
 msgid "Corporate Environments"
 msgstr ""
 
-#: C/index.page:68(title)
+#: C/index.page:72(title)
 #, fuzzy
 msgid "Microsoft Exchange"
 msgstr "Microsoft Exchange:"
 
-#: C/index.page:71(title)
+#: C/index.page:75(title)
 msgid "Novell Groupwise"
 msgstr "Novell GroupWise"
 
-#: C/index.page:76(title)
+#: C/index.page:80(title)
 #, fuzzy
 msgid "Tracking down Problems"
 msgstr "Opciones de seguimiento"
 
-#: C/index.page:80(title)
+#: C/index.page:84(title)
 msgid "Common Mail Questions and Problems"
 msgstr ""
 
-#: C/index.page:84(title)
+#: C/index.page:88(title)
 msgid "Common Other Questions and Problems"
 msgstr ""
 
-#: C/index.page:88(title)
+#: C/index.page:92(title)
 #, fuzzy
 msgid "Further reading"
 msgstr "Agrupación según el asunto"
@@ -10979,14 +11035,24 @@ msgid "Calendar Publishing"
 msgstr "Publicar el calendario"
 
 #: C/calendar-publishing.page:24(p)
+#, fuzzy
+#| msgid ""
+#| "The following task-related options are available under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Display</"
+#| "gui><gui>Task List</gui></guiseq>."
 msgid ""
 "In order to make one of your calendars available to the public, you can "
 "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Calendar "
-"Publishing</gui><gui style=\"button\">Add</gui></guiseq>."
+"gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Publishing "
+"Information</gui><gui>Locations</gui><gui style=\"button\">Add</gui></"
+"guiseq>."
 msgstr ""
+"Las siguientes opciones relacionadas con tareas están disponibles bajo "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Calendario y tareas</"
+"gui><gui>Mostrar</gui><gui>Lista de tareas</gui></guiseq>."
 
-#: C/calendar-publishing.page:26(p)
+#. This is the location since 3.1.5, see bug https://bugzilla.gnome.org/show_bug.cgi?id=655666
+#: C/calendar-publishing.page:27(p)
 msgid ""
 "You can specify the online location, the frequency of publishing, which "
 "calendar(s) to publish, and authentication information for uploading."
@@ -10995,7 +11061,7 @@ msgstr ""
 "publicación, qué calendario o calendarios publicará y cómo qué persona "
 "autenticarse."
 
-#: C/calendar-publishing.page:28(p) C/calendar-free-busy.page:42(p)
+#: C/calendar-publishing.page:29(p) C/calendar-free-busy.page:42(p)
 msgid ""
 "You can publish Calendar and Free/Busy information to a WebDAV server, FTP "
 "server, a remote machine through SSH or to any other web server with HTTP "
@@ -11005,7 +11071,7 @@ msgstr ""
 "servidor FTP o a una máquina remota a traes de SSH u otro servidor web con "
 "soporte HTTP PUT."
 
-#: C/calendar-publishing.page:30(p)
+#: C/calendar-publishing.page:31(p)
 msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
 "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
@@ -11610,11 +11676,26 @@ msgstr ""
 "un URL y ha introducido ese URL en la tarjeta del contacto usando el editor "
 "de contactos."
 
-#: C/calendar-free-busy.page:45(title)
+#: C/calendar-free-busy.page:43(p)
+#, fuzzy
+#| msgid ""
+#| "The following task-related options are available under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Display</"
+#| "gui><gui>Task List</gui></guiseq>."
+msgid ""
+"The default server can be defined under <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Publishing "
+"Information</gui><gui>Default Free/Busy Server</gui></guiseq>."
+msgstr ""
+"Las siguientes opciones relacionadas con tareas están disponibles bajo "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Calendario y tareas</"
+"gui><gui>Mostrar</gui><gui>Lista de tareas</gui></guiseq>."
+
+#: C/calendar-free-busy.page:47(title)
 msgid "Accessing Free/Busy Data Without a Groupware Server"
 msgstr "Acceder a datos de Disponibilidad sin un servidor Groupware"
 
-#: C/calendar-free-busy.page:47(p)
+#: C/calendar-free-busy.page:49(p)
 msgid ""
 "If individuals give you a URL for Free/Busy data or for their web calendar, "
 "you can add the URL under <guiseq><gui>Personal Information</gui><gui>Web "
@@ -11812,6 +11893,9 @@ msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2011\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
+
+#~ msgid "Click <gui>Security</gui>."
+#~ msgstr "Pulse en <gui>Seguridad</gui>."
 
 #~ msgid "<placeholder-1/>."
 #~ msgstr "<placeholder-1/>."
