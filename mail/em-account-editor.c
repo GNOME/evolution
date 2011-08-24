@@ -3047,6 +3047,83 @@ emae_real_url_toggled (GtkToggleButton *check,
 		em_folder_selection_button_set_folder_uri (button, "");
 }
 
+static void
+set_real_folder_path (GtkButton *folder_button, CamelSettings *settings, const gchar *settings_prop, EAccount *account)
+{
+	gchar *path = NULL, *uri;
+	gchar *encoded_name;
+	gchar *encoded_uid;
+	const gchar *folder_name;
+
+	g_return_if_fail (folder_button != NULL);
+	g_return_if_fail (settings != NULL);
+	g_return_if_fail (settings_prop != NULL);
+	g_return_if_fail (account != NULL);
+
+	g_object_get (G_OBJECT (settings), settings_prop, &path, NULL);
+
+	if (!path || !*path) {
+		g_free (path);
+		return;
+	}
+
+	folder_name = path;
+
+	/* Skip the leading slash, if present. */
+	if (*folder_name == '/')
+		folder_name++;
+
+	encoded_uid = camel_url_encode (account->uid, ":;@/");
+	encoded_name = camel_url_encode (folder_name, "#");
+
+	uri = g_strdup_printf ("folder://%s/%s", encoded_uid, encoded_name);
+
+	g_free (encoded_uid);
+	g_free (encoded_name);
+	g_free (path);
+
+	em_folder_selection_button_set_folder_uri (EM_FOLDER_SELECTION_BUTTON (folder_button), uri);
+
+	g_free (uri);
+}
+
+static void
+update_real_folder_cb (GtkButton *folder_button, GParamSpec *par_spec, EMAccountEditor *emae)
+{
+	EMFolderSelectionButton *sel_button;
+	CamelSettings *settings;
+	const gchar *prop_name = NULL;
+	const gchar *folder_uri;
+	gchar *path = NULL;
+
+	g_return_if_fail (folder_button != NULL);
+	g_return_if_fail (emae != NULL);
+	g_return_if_fail (emae->priv != NULL);
+
+	settings = emae->priv->source.settings;
+	if (folder_button == emae->priv->trash_folder_button)
+		prop_name = "real-trash-path";
+	else if (folder_button == emae->priv->junk_folder_button)
+		prop_name = "real-junk-path";
+
+	g_return_if_fail (prop_name != NULL);
+
+	sel_button = EM_FOLDER_SELECTION_BUTTON (folder_button);
+	g_return_if_fail (sel_button != NULL);
+
+	folder_uri = em_folder_selection_button_get_folder_uri (sel_button);
+	if (folder_uri && *folder_uri) {
+		EMailSession *session;
+
+		session = e_mail_backend_get_session (em_folder_selection_button_get_backend (sel_button));
+		if (!e_mail_folder_uri_parse (CAMEL_SESSION (session), folder_uri, NULL, &path, NULL))
+			path = NULL;
+	}
+
+	g_object_set (G_OBJECT (settings), prop_name, path, NULL);
+	g_free (path);
+}
+
 static GtkWidget *
 emae_defaults_page (EConfig *ec,
                     EConfigItem *item,
@@ -3128,12 +3205,10 @@ emae_defaults_page (EConfig *ec,
 	pspec = g_object_class_find_property (
 		G_OBJECT_GET_CLASS (settings), "real-trash-path");
 
-	if (pspec != NULL)
-		g_object_bind_property (
-			settings, "real-trash-path",
-			priv->trash_folder_button, "folder-uri",
-			G_BINDING_BIDIRECTIONAL |
-			G_BINDING_SYNC_CREATE);
+	if (pspec != NULL) {
+		set_real_folder_path (priv->trash_folder_button, settings, "real-trash-path", account);
+		g_signal_connect (priv->trash_folder_button, "notify::folder-uri", G_CALLBACK (update_real_folder_cb), emae);
+	}
 
 	flags = CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER;
 	visible = (emae->priv->source.provider != NULL) &&
@@ -3175,12 +3250,10 @@ emae_defaults_page (EConfig *ec,
 	pspec = g_object_class_find_property (
 		G_OBJECT_GET_CLASS (settings), "real-junk-path");
 
-	if (pspec != NULL)
-		g_object_bind_property (
-			settings, "real-junk-path",
-			priv->junk_folder_button, "folder-uri",
-			G_BINDING_BIDIRECTIONAL |
-			G_BINDING_SYNC_CREATE);
+	if (pspec != NULL) {
+		set_real_folder_path (priv->junk_folder_button, settings, "real-junk-path", account);
+		g_signal_connect (priv->junk_folder_button, "notify::folder-uri", G_CALLBACK (update_real_folder_cb), emae);
+	}
 
 	flags = CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER;
 	visible = (emae->priv->source.provider != NULL) &&
