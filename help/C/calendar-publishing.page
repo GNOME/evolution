@@ -6,7 +6,7 @@
 
     <link type="guide" xref="calendar-sharing-information" />
 
-    <revision pkgversion="3.1.5" version="0.3" date="2011-07-31" status="final"/>
+    <revision pkgversion="3.1.5" version="0.4" date="2011-08-24" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -21,7 +21,8 @@
   </info>
 
 <title>Calendar Publishing</title>
-<p>In order to make one of your calendars available to the public, you can define calendars to be uploaded to a web server under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Calendar Publishing</gui><gui style="button">Add</gui></guiseq>.</p>
+<p>In order to make one of your calendars available to the public, you can define calendars to be uploaded to a web server under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Publishing Information</gui><gui>Locations</gui><gui style="button">Add</gui></guiseq>.</p>
+<!-- This is the location since 3.1.5, see bug https://bugzilla.gnome.org/show_bug.cgi?id=655666 -->
 
 <p>You can specify the online location, the frequency of publishing, which calendar(s) to publish, and authentication information for uploading.</p>
 
