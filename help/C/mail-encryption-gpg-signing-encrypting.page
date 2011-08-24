@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-encryption#gpg"/>
 
-    <revision pkgversion="2.32.1" version="0.2" date="2011-07-27" status="final"/>
+    <revision pkgversion="2.32.1" version="0.3" date="2011-08-24" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -30,7 +30,7 @@
 <item><p>Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq>.</p></item>
 <item><p>Select the mail account to encrypt the messages in.</p></item>
 <item><p>Click <gui style="button">Edit</gui>.</p></item>
-<item><p>Click <gui>Security</gui>.</p></item>
+<item><p>Click the <gui>Security</gui> tab.</p></item>
 <item><p>Select <gui>Always sign outgoing messages when using this account</gui>.</p></item>
 <item><p>Click <gui style="button">OK</gui>.</p></item>
 <item><p>Click <gui style="button">Close</gui>.</p></item>
