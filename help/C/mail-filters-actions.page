@@ -6,7 +6,7 @@
 
     <link type="seealso" xref="mail-filters"/>
 
-    <revision pkgversion="3.0.2" version="0.1" date="2011-08-01" status="final"/>
+    <revision pkgversion="3.0.2" version="0.2" date="2011-08-25" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -20,7 +20,7 @@
     
   </info>
 
-  <title>Available Filter conditions</title>
+  <title>Available Filter actions</title>
 
 <list>
 <item><p>Move to Folder:</p>
