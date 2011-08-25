@@ -24,7 +24,7 @@
 
 <!-- TODO:POST-3-2: Just listing the partially busted UI options (also see calendar-layout-general-formatting) here is very poor and not task-oriented, but that's it for the time being. Better ideas welcome. -->
 
-<!-- TODO:ANDREKLAPPER: File bug report similar to #655666 once checked in 3.1 about General & Display tabs. This is a huge mess, e.g. time settings are split onto two tabs. -->
+<!-- TODO: Recheck once https://bugzilla.gnome.org/show_bug.cgi?id=657233 is fixed, as the current UI is a huge mess. -->
 
 <p>The following calendar-related options are available under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Display</gui></guiseq>.</p>
 
