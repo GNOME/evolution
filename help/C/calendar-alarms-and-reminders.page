@@ -35,7 +35,8 @@
 <p>Apart from the general settings you can also set up reminders in the appointment editor for certain appointments only:</p>
 <steps>
 <item><p>Click <guiseq><gui>Options</gui><gui>Reminders</gui></guiseq> or press the Reminder button in the toolbar.</p></item>
-<item><p>From the dropdown menu, choose either one of the available default options when to show a notification reminder, <!-- TODO: Test how this is in GNOME3? Displayed in Notification area, permanent? --> or choose <gui>Customize</gui>.</p></item>
+<item><p>From the dropdown menu, choose either one of the available default options when to show a notification reminder, or choose <gui>Customize</gui>.</p></item>
+<!-- TODO: Test how this is in GNOME3? Displayed in Notification area, permanently? --> 
 <item><p>In case of <gui>Customize</gui>, the reminder can be a popup, a sound played, or a program ran. You can also define whether the reminder should be repeated.</p></item>
 </steps>
 
