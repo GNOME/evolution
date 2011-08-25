@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-receiving-options#local-account-server-types"/>
     <link type="guide" xref="mail-account-manage-local-delivery#receiving-email"/>
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <revision pkgversion="3.1.90" version="0.3" date="2011-08-25" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -21,8 +21,7 @@
 
 <p>On the <gui>Receiving Email</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Email</gui></guiseq>):</p>
 
-<p>Choose the file by clicking on the button next to <gui>Path</gui> in the <gui>Configuration</gui> section. This will open a file chooser window.</p>
-<!-- TODO: Fix after https://bugzilla.gnome.org/show_bug.cgi?id=655629 is fixed - Calling this file a "Path" is just plain wrong. -->
+<p>Choose the file by clicking on the button next to <gui>File</gui> in the <gui>Configuration</gui> section. This will open a file chooser window.</p>
 
 <p>On the <gui>Receiving Options</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>):</p>
 
