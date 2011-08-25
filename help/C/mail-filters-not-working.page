@@ -21,14 +21,14 @@
 <title>Mail filters are not working</title>
 <p>Your mail filters are probably working, however, they could be ordered in an inefficient way. This will make your filters run slowly, so it may seem like they are not working.</p>
 
-<p>The order of email filters is very important. If your first filter has a <gui>Stop Processing</gui> rule, then all the email messages that match this filter will ignore all the succeeding filters. </p> 
+<p>The order of email filters is very important. If your first filter has a <gui>Stop Processing</gui> rule, then all the email messages that match this filter will ignore all the succeeding filters.</p> 
 
 <p>To check if a filter has a <gui>Stop Processing</gui> rule:</p>
 
 <steps>
 <item><p>Go to <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>.</p></item>
 <item><p>Select the filter and refer to the list of actions for that particular filter. </p></item>
-<item><p>The <gui>Stop Processing</gui> rule should be listed under the list of <gui>Actions</gui> if it is enabled. </p></item>
+<item><p>The <gui>Stop Processing</gui> rule should be listed under the list of <gui>Actions</gui> if it is enabled.</p></item>
 </steps>
 
 
