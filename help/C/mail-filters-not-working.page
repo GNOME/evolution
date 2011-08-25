@@ -7,10 +7,14 @@
     <link type="guide" xref="index#common-mail-problems" />
     <link type="seealso" xref="mail-filters" />
 
-    <revision pkgversion="2.28.3" version="0.1" date="2011-07-21" status="draft"/>
+    <revision pkgversion="3.1.5" version="0.2" date="2011-08-25" status="draft"/>
     <credit type="author">
       <name>April Gonzales</name>
       <email>loonycookie@gmail.com</email>
+    </credit>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
     </credit>
     <license>
       <p>Creative Commons Share Alike 3.0</p>
@@ -21,16 +25,12 @@
 <title>Mail filters are not working</title>
 <p>Your mail filters are probably working, however, they could be ordered in an inefficient way. This will make your filters run slowly, so it may seem like they are not working.</p>
 
-<p>The order of email filters is very important. If your first filter has a <gui>Stop Processing</gui> rule, then all the email messages that match this filter will ignore all the succeeding filters.</p> 
-
-<p>To check if a filter has a <gui>Stop Processing</gui> rule:</p>
-
-<steps>
-<item><p>Go to <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>.</p></item>
-<item><p>Select the filter and refer to the list of actions for that particular filter. </p></item>
-<item><p>The <gui>Stop Processing</gui> rule should be listed under the list of <gui>Actions</gui> if it is enabled.</p></item>
-</steps>
-
+<note>
+<p>Note that the order of filters is very important. They are applied to the original message in sequence, like a recipe.</p>
+<p>If your first filter has a <gui>Stop Processing</gui> rule, then all the email messages that match this filter will ignore all the succeeding filters.</p>
+<p>When you move a message to another folder, "moving" actually means appending a copy of the message to the destination folder and marking the original message for deletion. So any subsequent filter rules will be applied to the original message that is now marked for deletion. Therefore moving a message should usually appear last in a sequence of filter rules.</p>
+<p>To check the rules and their order of an existing filter, review its actions in the <gui>Then</gui> section by <link xref="mail-filters#editing">editing the filter</link>.</p>
+</note>
 
 <p>Another thing you have to keep in mind is that filters depend on the "new" flag that is set when a particular email message is initially fetched from the server. If you use another email client aside from Evolution, your filters may not work automatically.</p>
 
@@ -41,6 +41,3 @@
 </note>
 
 </page>
-
-
-
