@@ -47,7 +47,7 @@
 <title>Security</title>
 </section>
 
-<!-- TODO:DEVELOPERS: No "IMAP Headers" tab for IMAP+ under Edit>Prefs>MailAccounts>Edit existing in 3.1.4. Is that intended? IMAP provides it. -->
+<!-- TODO:DEVELOPERS: No "IMAP Headers" tab for IMAP+ under Edit>Prefs>MailAccounts>Edit existing. See https://bugzilla.gnome.org/show_bug.cgi?id=655519 -->
 
 </section> <!-- end "account editor" section, now list any account settings stuff related to this account type outside of it -->
 
