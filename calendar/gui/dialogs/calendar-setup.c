@@ -307,6 +307,47 @@ eccp_general_offline (EConfig *ec,
 }
 
 static void
+alarm_status_changed_cb (GtkWidget *widget, CalendarSourceDialog *sdialog)
+{
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
+		e_source_set_property (sdialog->source, "alarm", "true");
+	else
+		e_source_set_property (sdialog->source, "alarm", "false");
+}
+
+static GtkWidget *
+eccp_notify_reminders (EConfig *ec,
+			EConfigItem *item,
+			GtkWidget *parent,
+			GtkWidget *old,
+			gint position,
+			gpointer data)
+{
+	CalendarSourceDialog *sdialog = data;
+	GtkWidget *reminder_setting = NULL;
+	guint row;
+	const gchar *alarm;
+
+	if (old)
+		return old;
+
+	alarm =  e_source_get_property (sdialog->source, "alarm");
+	if (alarm && !g_ascii_strcasecmp (alarm, "never"))
+		return NULL;
+
+	g_object_get (parent, "n-rows", &row, NULL);
+
+	reminder_setting = gtk_check_button_new_with_mnemonic (_("Sh_ow reminder notifications"));
+
+	gtk_widget_show (reminder_setting);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (reminder_setting), alarm && g_str_equal (alarm, "true"));
+	g_signal_connect (reminder_setting, "toggled", G_CALLBACK (alarm_status_changed_cb), sdialog);
+	gtk_table_attach (GTK_TABLE (parent), reminder_setting, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+
+	return reminder_setting;
+}
+
+static void
 color_changed (GtkColorButton *color_button, ECalConfigTargetSource *target)
 {
 	ESource *source = target->source;
@@ -398,6 +439,7 @@ static ECalConfigItem eccp_items[] = {
 	{ E_CONFIG_ITEM_TABLE,    (gchar *) "00.general/00.source/10.name", NULL, eccp_get_source_name },
 	{ E_CONFIG_ITEM_TABLE,    (gchar *) "00.general/00.source/20.color", NULL, eccp_get_source_color },
 	{ E_CONFIG_ITEM_TABLE,	  (gchar *) "00.general/00.source/30.offline", NULL, eccp_general_offline },
+	{ E_CONFIG_ITEM_TABLE,	  (gchar *) "00.general/00.source/31.alarm", NULL, eccp_notify_reminders },
 	{ 0 },
 };
 
