@@ -6,7 +6,7 @@
     
     <link type="guide" xref="calendar-meetings" />
 
-    <revision pkgversion="3.1.5" version="0.4" date="2011-08-19" status="final"/>
+    <revision pkgversion="3.1.5" version="0.5" date="2011-08-24" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -21,7 +21,7 @@
   </info>
 
 <title>Replying to a Meeting Request</title>
-<p>Meeting requests are sent as attachments. To view or respond to one, click the attachment icon and view it in the mail window. All the details about the event are shown, including time and dates. Then you can choose how to reply to the invitation - the options are to <gui>Accept</gui>, <gui>Tentatively Accept</gui>, or <gui>Decline</gui>.</p>
+<p>Meeting requests are sent as attachments. To view or respond to one, click the attachment icon and view it in the mail window. All the details about the event are shown, including time and dates. Then you can choose how to reply to the invitation - the options are to <gui>Decline</gui>, Tentatively Accept (<gui>Tentative</gui>), or <gui>Accept</gui>.</p>
 
 <p>Click <gui style="button">OK</gui> to send your answer per email to the organizer. The event is also added automatically to your calendar if you accept.</p>
 <p>After you have added the meeting to your calendar, you can make changes to the meeting, but if the original organizer sends out an update, your changes might be overwritten.</p>
