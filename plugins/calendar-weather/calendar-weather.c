@@ -266,7 +266,7 @@ create_source_selector (ESource *source)
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview), -1, "location", text, "text", 0, NULL);
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-	gtk_container_add (GTK_CONTAINER (content_area), scrolledwindow);
+	gtk_box_pack_start (GTK_BOX (content_area), scrolledwindow, TRUE, TRUE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (scrolledwindow), 6);
 	gtk_box_set_spacing (GTK_BOX (content_area), 6);
 
