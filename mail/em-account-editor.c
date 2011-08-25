@@ -2180,6 +2180,10 @@ emae_setup_service (EMAccountEditor *emae,
 		if (service->provider && (service->provider->url_flags & CAMEL_URL_NEED_PATH_DIR) == 0)
 			action = GTK_FILE_CHOOSER_ACTION_OPEN;
 
+		if (service->pathlabel)
+			gtk_label_set_text_with_mnemonic (GTK_LABEL (service->pathlabel),
+				action == GTK_FILE_CHOOSER_ACTION_OPEN ? _("Fil_e:") : _("_Path:"));
+
 		if (action != gtk_file_chooser_get_action (GTK_FILE_CHOOSER (service->pathentry)))
 			gtk_file_chooser_set_action (GTK_FILE_CHOOSER (service->pathentry), action);
 

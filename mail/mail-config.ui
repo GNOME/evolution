@@ -4956,6 +4956,7 @@ For example: "Work" or "Personal"</property>
                     <property name="xalign">1</property>
                     <property name="label" translatable="yes">_Path:</property>
                     <property name="use_underline">True</property>
+                    <property name="mnemonic_widget">source_path_entry</property>
                   </object>
                   <packing>
                     <property name="top_attach">2</property>
