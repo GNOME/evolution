@@ -292,7 +292,7 @@ static GtkActionEntry lockdown_save_to_disk_entries[] = {
 
 	{ "calendar-memopad-save-as",
 	  GTK_STOCK_SAVE_AS,
-	  N_("Save as iCalendar..."),
+	  N_("_Save as iCalendar..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_calendar_memopad_save_as_cb) }

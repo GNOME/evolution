@@ -1778,7 +1778,7 @@ static GtkActionEntry lockdown_save_to_disk_entries[] = {
 
 	{ "event-save-as",
 	  GTK_STOCK_SAVE_AS,
-	  N_("Save as iCalendar..."),
+	  N_("_Save as iCalendar..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_event_save_as_cb) },
