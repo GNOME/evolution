@@ -549,6 +549,8 @@ memo_table_query_tooltip (GtkWidget *widget,
 		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
 		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
 		g_free (tmp);
+
+		gtk_widget_modify_fg (l, GTK_STATE_NORMAL, &(style->text[GTK_STATE_NORMAL]));
 	}
 
 	e_cal_component_get_dtstart (new_comp, &dtstart);
@@ -611,6 +613,8 @@ memo_table_query_tooltip (GtkWidget *widget,
 		l = gtk_label_new (tmp2->str);
 		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
 		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
+
+		gtk_widget_modify_fg (l, GTK_STATE_NORMAL, &(style->text[GTK_STATE_NORMAL]));
 	}
 
 	g_string_free (tmp2, TRUE);
@@ -638,7 +642,9 @@ memo_table_query_tooltip (GtkWidget *widget,
 	if (tmp2->len) {
 		l = gtk_label_new (tmp2->str);
 		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
-		gtk_box_pack_start (GTK_BOX (box), l, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
+
+		gtk_widget_modify_fg (l, GTK_STATE_NORMAL, &(style->text[GTK_STATE_NORMAL]));
 	}
 
 	g_string_free (tmp2, TRUE);
