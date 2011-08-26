@@ -1096,6 +1096,8 @@ mail_to_event (ECalClientSourceType source_type,
 
 		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
 			source = e_source_selector_dialog_peek_primary_selection (E_SOURCE_SELECTOR_DIALOG (dialog));
+		else
+			source = NULL;
 
 		gtk_widget_destroy (dialog);
 	} else if (!source && default_source) {
