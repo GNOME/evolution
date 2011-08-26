@@ -3348,6 +3348,7 @@ for display purposes only. </property>
                     <property name="right_attach">2</property>
                     <property name="top_attach">4</property>
                     <property name="bottom_attach">5</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -3360,6 +3361,7 @@ for display purposes only. </property>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -3374,6 +3376,7 @@ for display purposes only. </property>
                     <property name="right_attach">2</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -3388,6 +3391,7 @@ for display purposes only. </property>
                     <property name="right_attach">2</property>
                     <property name="top_attach">2</property>
                     <property name="bottom_attach">3</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -3402,6 +3406,7 @@ for display purposes only. </property>
                     <property name="right_attach">2</property>
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -3411,8 +3416,8 @@ for display purposes only. </property>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -3471,6 +3476,7 @@ for display purposes only. </property>
                   <packing>
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -3486,6 +3492,7 @@ for display purposes only. </property>
                   <packing>
                     <property name="top_attach">2</property>
                     <property name="bottom_attach">3</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -3504,6 +3511,7 @@ for display purposes only. </property>
                   <packing>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -3516,13 +3524,16 @@ for display purposes only. </property>
                     <property name="use_underline">True</property>
                     <property name="draw_indicator">True</property>
                   </object>
+                  <packing>
+                    <property name="y_options"></property>
+                  </packing>
                 </child>
               </object>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -3593,8 +3604,8 @@ for display purposes only. </property>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -3659,7 +3670,7 @@ For example: "Work" or "Personal"</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">True</property>
+                        <property name="fill">False</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
@@ -3698,18 +3709,25 @@ For example: "Work" or "Personal"</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">True</property>
+                        <property name="fill">False</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="right_attach">1</property>
+                    <property name="top_attach">0</property>
+                    <property name="bottom_attach">1</property>
+                    <property name="y_options"></property>
+                  </packing>
                 </child>
               </object>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -3822,8 +3840,8 @@ For example: "Work" or "Personal"</property>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -4016,8 +4034,8 @@ For example: "Work" or "Personal"</property>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -4073,8 +4091,8 @@ For example: "Work" or "Personal"</property>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -4201,8 +4219,8 @@ For example: "Work" or "Personal"</property>
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
@@ -4256,13 +4274,16 @@ For example: "Work" or "Personal"</property>
                       </packing>
                     </child>
                   </object>
+                  <packing>
+                    <property name="y_options"></property>
+                  </packing>
                 </child>
               </object>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -4397,7 +4418,7 @@ For example: "Work" or "Personal"</property>
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
                     <property name="x_options">GTK_FILL</property>
-                    <property name="y_options">GTK_FILL</property>
+                    <property name="y_options"></property>
                     <property name="y_padding">6</property>
                   </packing>
                 </child>
@@ -4551,7 +4572,7 @@ For example: "Work" or "Personal"</property>
                     <property name="top_attach">6</property>
                     <property name="bottom_attach">7</property>
                     <property name="x_options">GTK_FILL</property>
-                    <property name="y_options">GTK_FILL</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -4723,15 +4744,16 @@ For example: "Work" or "Personal"</property>
                     <property name="left_attach">2</property>
                     <property name="right_attach">3</property>
                     <property name="top_attach">1</property>
-                    <property name="bottom_attach">3</property>
+                    <property name="bottom_attach">2</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
               </object>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -4921,6 +4943,7 @@ For example: "Work" or "Personal"</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -4989,8 +5012,8 @@ For example: "Work" or "Personal"</property>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -5115,8 +5138,8 @@ For example: "Work" or "Personal"</property>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -5124,8 +5147,8 @@ For example: "Work" or "Personal"</property>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -5202,8 +5225,8 @@ For example: "Work" or "Personal"</property>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -5227,8 +5250,8 @@ For example: "Work" or "Personal"</property>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -5282,6 +5305,7 @@ For example: "Work" or "Personal"</property>
             <property name="top_attach">1</property>
             <property name="bottom_attach">2</property>
             <property name="x_options">GTK_FILL</property>
+            <property name="y_options"></property>
           </packing>
         </child>
         <child>
@@ -5434,6 +5458,7 @@ For example: "Work" or "Personal"</property>
                     <property name="right_attach">2</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -5449,8 +5474,8 @@ For example: "Work" or "Personal"</property>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -5531,6 +5556,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -5573,13 +5599,16 @@ For example: "Work" or "Personal"</property>
                       </packing>
                     </child>
                   </object>
+                  <packing>
+                    <property name="y_options"></property>
+                  </packing>
                 </child>
               </object>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -5685,6 +5714,7 @@ For example: "Work" or "Personal"</property>
                     <property name="right_attach">2</property>
                     <property name="top_attach">2</property>
                     <property name="bottom_attach">3</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -5730,6 +5760,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>
@@ -5739,8 +5770,8 @@ For example: "Work" or "Personal"</property>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
