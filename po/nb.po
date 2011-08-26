@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.1.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-24 18:53+0200\n"
-"PO-Revision-Date: 2011-08-24 21:27+0200\n"
+"POT-Creation-Date: 2011-08-26 12:08+0200\n"
+"PO-Revision-Date: 2011-08-26 12:12+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -1212,7 +1212,7 @@ msgid "Video Chat"
 msgstr "Videosamtale"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:683
-#: ../calendar/gui/dialogs/calendar-setup.c:396
+#: ../calendar/gui/dialogs/calendar-setup.c:437
 #: ../modules/calendar/e-cal-shell-view-actions.c:232
 #: ../modules/calendar/e-cal-shell-view-actions.c:261
 #: ../modules/calendar/e-cal-shell-view.c:511
@@ -2392,7 +2392,7 @@ msgstr "Le_gg til"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
 #: ../calendar/gui/dialogs/event-page.ui.h:8
-#: ../modules/calendar/e-calendar-preferences.ui.h:24
+#: ../modules/calendar/e-calendar-preferences.ui.h:23
 msgid "Reminders"
 msgstr "Påminnelser"
 
@@ -2424,53 +2424,57 @@ msgstr "Kopier oppgavelisten lokalt for frakoblet operasjon"
 msgid "Cop_y memo list contents locally for offline operation"
 msgstr "Kopier notatlisten lokalt for frakoblet operasjon"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:372
+#: ../calendar/gui/dialogs/calendar-setup.c:340
+msgid "Sh_ow reminder notifications"
+msgstr "Vis varsling _om påminnelser"
+
+#: ../calendar/gui/dialogs/calendar-setup.c:413
 msgid "Colo_r:"
 msgstr "Fa_rge:"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:395
-#: ../calendar/gui/dialogs/calendar-setup.c:406
-#: ../calendar/gui/dialogs/calendar-setup.c:417
+#: ../calendar/gui/dialogs/calendar-setup.c:436
+#: ../calendar/gui/dialogs/calendar-setup.c:448
+#: ../calendar/gui/dialogs/calendar-setup.c:459
 #: ../mail/em-folder-properties.c:233 ../mail/mail-config.ui.h:52
 #: ../modules/addressbook/addressbook-config.c:1052
 #: ../modules/addressbook/autocompletion-config.c:218
-#: ../modules/calendar/e-calendar-preferences.ui.h:18
+#: ../modules/calendar/e-calendar-preferences.ui.h:17
 #: ../plugins/itip-formatter/itip-formatter.c:3001
 #: ../plugins/publish-calendar/publish-calendar.ui.h:7
 #: ../smime/gui/smime-ui.ui.h:21
 msgid "General"
 msgstr "Generelt"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:407
-#: ../modules/calendar/e-calendar-preferences.ui.h:41
+#: ../calendar/gui/dialogs/calendar-setup.c:449
+#: ../modules/calendar/e-calendar-preferences.ui.h:40
 msgid "Task List"
 msgstr "Oppgaveliste"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:418
+#: ../calendar/gui/dialogs/calendar-setup.c:460
 msgid "Memo List"
 msgstr "Notatliste"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:506
+#: ../calendar/gui/dialogs/calendar-setup.c:548
 msgid "Calendar Properties"
 msgstr "Kalenderegenskaper"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:506
+#: ../calendar/gui/dialogs/calendar-setup.c:548
 msgid "New Calendar"
 msgstr "Ny kalender"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:565
+#: ../calendar/gui/dialogs/calendar-setup.c:607
 msgid "Task List Properties"
 msgstr "Egenskaper for oppgaveliste"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:565
+#: ../calendar/gui/dialogs/calendar-setup.c:607
 msgid "New Task List"
 msgstr "Ny oppgaveliste"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:624
+#: ../calendar/gui/dialogs/calendar-setup.c:666
 msgid "Memo List Properties"
 msgstr "Egenskaper for notatliste"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:624
+#: ../calendar/gui/dialogs/calendar-setup.c:666
 msgid "New Memo List"
 msgstr "Ny notatliste"
 
@@ -3059,7 +3063,7 @@ msgid "Event Description"
 msgstr "Beskrivelse av hendelse"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:9
-#: ../modules/calendar/e-calendar-preferences.ui.h:46
+#: ../modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Time _zone:"
 msgstr "Tids_sone:"
 
@@ -3361,37 +3365,37 @@ msgid "21st to 31st"
 msgstr "tjueførste til trettiførste"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1126
-#: ../modules/calendar/e-calendar-preferences.ui.h:21
+#: ../modules/calendar/e-calendar-preferences.ui.h:20
 msgid "Monday"
 msgstr "Mandag"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1127
-#: ../modules/calendar/e-calendar-preferences.ui.h:48
+#: ../modules/calendar/e-calendar-preferences.ui.h:47
 msgid "Tuesday"
 msgstr "Tirsdag"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1128
-#: ../modules/calendar/e-calendar-preferences.ui.h:50
+#: ../modules/calendar/e-calendar-preferences.ui.h:49
 msgid "Wednesday"
 msgstr "Onsdag"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1129
-#: ../modules/calendar/e-calendar-preferences.ui.h:44
+#: ../modules/calendar/e-calendar-preferences.ui.h:43
 msgid "Thursday"
 msgstr "Torsdag"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1130
-#: ../modules/calendar/e-calendar-preferences.ui.h:17
+#: ../modules/calendar/e-calendar-preferences.ui.h:16
 msgid "Friday"
 msgstr "Fredag"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1131
-#: ../modules/calendar/e-calendar-preferences.ui.h:27
+#: ../modules/calendar/e-calendar-preferences.ui.h:26
 msgid "Saturday"
 msgstr "Lørdag"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1132
-#: ../modules/calendar/e-calendar-preferences.ui.h:37
+#: ../modules/calendar/e-calendar-preferences.ui.h:36
 msgid "Sunday"
 msgstr "Søndag"
 
@@ -3939,8 +3943,8 @@ msgstr "Slett valgte hendelser"
 msgid "Deleting selected objects"
 msgstr "Sletter valgte objekter"
 
-#: ../calendar/gui/e-calendar-view.c:648 ../calendar/gui/e-memo-table.c:855
-#: ../calendar/gui/e-task-table.c:1086
+#: ../calendar/gui/e-calendar-view.c:648 ../calendar/gui/e-memo-table.c:861
+#: ../calendar/gui/e-task-table.c:1094
 msgid "Updating objects"
 msgstr "Oppdaterer objekter"
 
@@ -4040,7 +4044,7 @@ msgstr "Vis den andre tidssonen"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../calendar/gui/e-day-view-time-item.c:844
-#: ../modules/calendar/e-calendar-preferences.ui.h:78
+#: ../modules/calendar/e-calendar-preferences.ui.h:77
 #: ../modules/calendar/e-calendar-preferences.c:179
 #: ../modules/calendar/e-calendar-preferences.c:228
 msgctxt "cal-second-zone"
@@ -4334,33 +4338,33 @@ msgid "* No Summary *"
 msgstr "* Ingen sammendrag *"
 
 #. Translators: This is followed by an event's start date/time
-#: ../calendar/gui/e-memo-table.c:586 ../calendar/gui/e-task-table.c:806
+#: ../calendar/gui/e-memo-table.c:588 ../calendar/gui/e-task-table.c:808
 msgid "Start: "
 msgstr "Start: "
 
 #. Translators: This is followed by an event's due date/time
-#: ../calendar/gui/e-memo-table.c:605 ../calendar/gui/e-task-table.c:824
+#: ../calendar/gui/e-memo-table.c:607 ../calendar/gui/e-task-table.c:826
 msgid "Due: "
 msgstr "Ferdig: "
 
-#: ../calendar/gui/e-memo-table.c:720
+#: ../calendar/gui/e-memo-table.c:726
 msgid "Cut selected memos to the clipboard"
 msgstr "Klipp ut valgte notater til utklippstavlen"
 
-#: ../calendar/gui/e-memo-table.c:726
+#: ../calendar/gui/e-memo-table.c:732
 msgid "Copy selected memos to the clipboard"
 msgstr "Kopier valgte notater til utklippstavlen"
 
-#: ../calendar/gui/e-memo-table.c:732
+#: ../calendar/gui/e-memo-table.c:738
 msgid "Paste memos from the clipboard"
 msgstr "Lim inn notater fra utklippstavlen"
 
-#: ../calendar/gui/e-memo-table.c:738
+#: ../calendar/gui/e-memo-table.c:744
 #: ../modules/calendar/e-memo-shell-view-actions.c:587
 msgid "Delete selected memos"
 msgstr "Slett valgt notat"
 
-#: ../calendar/gui/e-memo-table.c:744
+#: ../calendar/gui/e-memo-table.c:750
 msgid "Select all visible memos"
 msgstr "Velg alle synlige notater"
 
@@ -4380,7 +4384,7 @@ msgstr "%d%%"
 #: ../calendar/gui/e-task-table.c:643 ../calendar/gui/print.c:2168
 #: ../calendar/importers/icalendar-importer.c:85
 #: ../calendar/importers/icalendar-importer.c:1003
-#: ../modules/calendar/e-calendar-preferences.ui.h:42
+#: ../modules/calendar/e-calendar-preferences.ui.h:41
 #: ../modules/calendar/e-cal-shell-content.c:433
 #: ../modules/calendar/e-task-shell-view-actions.c:254
 #: ../modules/calendar/e-task-shell-view-actions.c:269
@@ -4389,24 +4393,24 @@ msgstr "%d%%"
 msgid "Tasks"
 msgstr "Oppgaver"
 
-#: ../calendar/gui/e-task-table.c:951
+#: ../calendar/gui/e-task-table.c:959
 msgid "Cut selected tasks to the clipboard"
 msgstr "Klipp ut valgte oppgaver til utklippstavlen"
 
-#: ../calendar/gui/e-task-table.c:957
+#: ../calendar/gui/e-task-table.c:965
 msgid "Copy selected tasks to the clipboard"
 msgstr "Kopier valgte oppgaver til utklippstavlen"
 
-#: ../calendar/gui/e-task-table.c:963
+#: ../calendar/gui/e-task-table.c:971
 msgid "Paste tasks from the clipboard"
 msgstr "Lim inn oppgaver fra utklippstavlen"
 
-#: ../calendar/gui/e-task-table.c:969
+#: ../calendar/gui/e-task-table.c:977
 #: ../modules/calendar/e-task-shell-view-actions.c:711
 msgid "Delete selected tasks"
 msgstr "Slett valgte oppgaver"
 
-#: ../calendar/gui/e-task-table.c:975
+#: ../calendar/gui/e-task-table.c:983
 msgid "Select all visible tasks"
 msgstr "Velg alle synlige oppgaver"
 
@@ -7213,7 +7217,7 @@ msgstr ""
 "posten din."
 
 #: ../capplet/settings/mail-account-view.c:630
-#: ../mail/em-account-editor.c:2233 ../mail/em-account-editor.c:2366
+#: ../mail/em-account-editor.c:2237 ../mail/em-account-editor.c:2370
 msgid "Identity"
 msgstr "Identitet"
 
@@ -7265,7 +7269,7 @@ msgid "Back - Receiving options"
 msgstr "Tilbake - Alternativer for mottak"
 
 #: ../capplet/settings/mail-account-view.c:635
-#: ../mail/em-account-editor.c:3299
+#: ../mail/em-account-editor.c:3303
 msgid "Defaults"
 msgstr "Forvalg"
 
@@ -8106,11 +8110,19 @@ msgctxt "mail-receiving"
 msgid "None"
 msgstr "Ingen"
 
-#: ../mail/em-account-editor.c:2230
+#: ../mail/em-account-editor.c:2185
+msgid "Fil_e:"
+msgstr "_Fil:"
+
+#: ../mail/em-account-editor.c:2185 ../mail/mail-config.ui.h:157
+msgid "_Path:"
+msgstr "S_ti:"
+
+#: ../mail/em-account-editor.c:2234
 msgid "Mail Configuration"
 msgstr "E-post-konfigurasjon"
 
-#: ../mail/em-account-editor.c:2231
+#: ../mail/em-account-editor.c:2235
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -8120,7 +8132,7 @@ msgstr ""
 "\n"
 "Klikk «Fortsett» for å begynne."
 
-#: ../mail/em-account-editor.c:2234
+#: ../mail/em-account-editor.c:2238
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -8130,19 +8142,19 @@ msgstr ""
 "under må ikke nødvendigvis fylles ut, hvis du ikke ønsker å inkludere denne "
 "informasjonen i meldingene du sender."
 
-#: ../mail/em-account-editor.c:2236 ../mail/em-account-editor.c:2425
+#: ../mail/em-account-editor.c:2240 ../mail/em-account-editor.c:2429
 msgid "Receiving Email"
 msgstr "Innkommende e-post"
 
-#: ../mail/em-account-editor.c:2237
+#: ../mail/em-account-editor.c:2241
 msgid "Please configure the following account settings."
 msgstr "Vennligst konfigurer følgende kontoinnstillinger."
 
-#: ../mail/em-account-editor.c:2239 ../mail/em-account-editor.c:3022
+#: ../mail/em-account-editor.c:2243 ../mail/em-account-editor.c:3026
 msgid "Sending Email"
 msgstr "Utgående e-post"
 
-#: ../mail/em-account-editor.c:2240
+#: ../mail/em-account-editor.c:2244
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -8150,11 +8162,11 @@ msgstr ""
 "Vennligst skriv inn informasjon om måten du sender e-post. Hvis du ikke er "
 "sikker, kontakt din systemadministrator eller din Internett tjenestetilbyder."
 
-#: ../mail/em-account-editor.c:2242 ../mail/mail-config.ui.h:1
+#: ../mail/em-account-editor.c:2246 ../mail/mail-config.ui.h:1
 msgid "Account Information"
 msgstr "Kontoinformasjon"
 
-#: ../mail/em-account-editor.c:2243
+#: ../mail/em-account-editor.c:2247
 msgid ""
 "Please enter a descriptive name for this account below.\n"
 "This name will be used for display purposes only."
@@ -8162,11 +8174,11 @@ msgstr ""
 "Vennligst oppgi et beskrivende navn for denne kontoen i feltet under.\n"
 "Dette navnet vil kun bli brukt som et visningsnavn."
 
-#: ../mail/em-account-editor.c:2247
+#: ../mail/em-account-editor.c:2251
 msgid "Done"
 msgstr "Ferdig"
 
-#: ../mail/em-account-editor.c:2248
+#: ../mail/em-account-editor.c:2252
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -8180,25 +8192,25 @@ msgstr ""
 "\n"
 "Klikk «Bruk» for å lagre dine innstillinger."
 
-#: ../mail/em-account-editor.c:2784
+#: ../mail/em-account-editor.c:2788
 msgid "Check for _new messages every"
 msgstr "Se etter _nye meldinger hver(t)"
 
-#: ../mail/em-account-editor.c:2792
+#: ../mail/em-account-editor.c:2796
 msgid "minu_tes"
 msgstr "minu_tter"
 
-#: ../mail/em-account-editor.c:3438 ../mail/mail-config.ui.h:101
+#: ../mail/em-account-editor.c:3442 ../mail/mail-config.ui.h:101
 msgid "Security"
 msgstr "Sikkerhet"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3492 ../mail/em-account-editor.c:3575
+#: ../mail/em-account-editor.c:3496 ../mail/em-account-editor.c:3579
 msgid "Receiving Options"
 msgstr "Alternativer for mottak"
 
-#: ../mail/em-account-editor.c:3493 ../mail/em-account-editor.c:3576
+#: ../mail/em-account-editor.c:3497 ../mail/em-account-editor.c:3580
 msgid "Checking for New Messages"
 msgstr "Ser etter nye meldinger"
 
@@ -10890,7 +10902,7 @@ msgstr "Språk for stavekontroll"
 
 #: ../mail/evolution-mail.schemas.in.h:192
 msgid "State of message headers in paned view"
-msgstr ""
+msgstr "Tilstand for meldingshoder i vertikal visning"
 
 #: ../mail/evolution-mail.schemas.in.h:193
 msgid "Terminal font"
@@ -11387,7 +11399,7 @@ msgstr "Bekreftelser"
 
 #: ../mail/mail-config.ui.h:31
 #: ../modules/addressbook/autocompletion-config.c:178
-#: ../modules/calendar/e-calendar-preferences.ui.h:11
+#: ../modules/calendar/e-calendar-preferences.ui.h:10
 msgid "Date/Time Format"
 msgstr "Fromat for dato ogklokkeslett"
 
@@ -11559,7 +11571,7 @@ msgid "Pass_word:"
 msgstr "Pass_ord:"
 
 #: ../mail/mail-config.ui.h:79
-#: ../modules/calendar/e-calendar-preferences.ui.h:22
+#: ../modules/calendar/e-calendar-preferences.ui.h:21
 msgid "Pick a color"
 msgstr "Velg en farge"
 
@@ -11849,10 +11861,6 @@ msgstr "_Manuell konfigurasjon av proxy:"
 #: ../mail/mail-config.ui.h:156
 msgid "_Never load images from the Internet"
 msgstr "Aldri last bilder fra Internett"
-
-#: ../mail/mail-config.ui.h:157
-msgid "_Path:"
-msgstr "S_ti:"
 
 #: ../mail/mail-config.ui.h:158 ../modules/addressbook/ldap-config.ui.h:27
 msgid "_Port:"
@@ -12997,25 +13005,25 @@ msgstr "%d %b %H.%M"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../mail/message-list.c:2638
+#: ../mail/message-list.c:2651
 msgid "Select all visible messages"
 msgstr "Velg alle synlige meldinger"
 
-#: ../mail/message-list.c:2796 ../mail/message-list.etspec.h:10
+#: ../mail/message-list.c:2809 ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Meldinger"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:3991
+#: ../mail/message-list.c:4004
 msgid "Follow-up"
 msgstr "Følg opp"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4495 ../mail/message-list.c:4914
+#: ../mail/message-list.c:4508 ../mail/message-list.c:4927
 msgid "Generating message list"
 msgstr "Genererer meldingsliste"
 
-#: ../mail/message-list.c:4732
+#: ../mail/message-list.c:4745
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -13023,7 +13031,7 @@ msgstr ""
 "Ingen meldinger passer dine søkekriterier. Du kan enten tømme søket med "
 "menyoppføringen Søk->Tøm eller endre det."
 
-#: ../mail/message-list.c:4734
+#: ../mail/message-list.c:4747
 msgid "There are no messages in this folder."
 msgstr "Det er ingen meldinger i denne mappen."
 
@@ -13780,188 +13788,184 @@ msgid "60 minutes"
 msgstr "60 minutter"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:9
-msgid "Alarms"
-msgstr "Varsel"
-
-#: ../modules/calendar/e-calendar-preferences.ui.h:10
 msgid "Alerts"
 msgstr "Varsel"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:12
+#: ../modules/calendar/e-calendar-preferences.ui.h:11
 msgid "Day _ends:"
 msgstr "Dag_en slutter:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:13
+#: ../modules/calendar/e-calendar-preferences.ui.h:12
 msgid "Days"
 msgstr "Dager"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:14
+#: ../modules/calendar/e-calendar-preferences.ui.h:13
 msgid "Default Free/Busy Server"
 msgstr "Forvalgt ledig/opptatt-tjener"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:15
+#: ../modules/calendar/e-calendar-preferences.ui.h:14
 msgid "Display"
 msgstr "Vis"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:16
+#: ../modules/calendar/e-calendar-preferences.ui.h:15
 msgid "Display reminders in _notification area only"
 msgstr "Vis alarmer kun i varsli_ngsområdet"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:19
+#: ../modules/calendar/e-calendar-preferences.ui.h:18
 msgid "Hours"
 msgstr "Timer"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:20
+#: ../modules/calendar/e-calendar-preferences.ui.h:19
 msgid "Minutes"
 msgstr "Minutter"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:23
+#: ../modules/calendar/e-calendar-preferences.ui.h:22
 msgid "Publishing Information"
 msgstr "Publiserer informasjon"
 
 #. Sunday
-#: ../modules/calendar/e-calendar-preferences.ui.h:26
+#: ../modules/calendar/e-calendar-preferences.ui.h:25
 msgid "S_un"
 msgstr "S_ø."
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:28
+#: ../modules/calendar/e-calendar-preferences.ui.h:27
 msgid "Sc_roll Month View by a week"
 msgstr "_Rull månedsvisning en uke om gangen"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:29
+#: ../modules/calendar/e-calendar-preferences.ui.h:28
 msgid "Se_cond zone:"
 msgstr "Se_kundær sone:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:30
+#: ../modules/calendar/e-calendar-preferences.ui.h:29
 msgid "Select the calendars for reminder notification"
 msgstr "Velg kalendere for varsling av påminnelser"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../modules/calendar/e-calendar-preferences.ui.h:32
+#: ../modules/calendar/e-calendar-preferences.ui.h:31
 msgid "Sh_ow a reminder"
 msgstr "_Vis en påminnelse"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../modules/calendar/e-calendar-preferences.ui.h:34
+#: ../modules/calendar/e-calendar-preferences.ui.h:33
 msgid "Show a _reminder"
 msgstr "Vis en _påminnelse"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:35
+#: ../modules/calendar/e-calendar-preferences.ui.h:34
 msgid "Show r_ecurring events in italic in bottom left calendar"
 msgstr "Vis r_epeterende hendelser i kursiv i kalender nede til venstre"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:36
+#: ../modules/calendar/e-calendar-preferences.ui.h:35
 msgid "Show week _numbers"
 msgstr "Vis uke_nummer"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:38
+#: ../modules/calendar/e-calendar-preferences.ui.h:37
 msgid "T_asks due today:"
 msgstr "Oppg_aver som går ut i dag:"
 
 #. Thursday
-#: ../modules/calendar/e-calendar-preferences.ui.h:40
+#: ../modules/calendar/e-calendar-preferences.ui.h:39
 msgid "T_hu"
 msgstr "T_o."
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:43
+#: ../modules/calendar/e-calendar-preferences.ui.h:42
 msgid "Template:"
 msgstr "Mal:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:45
+#: ../modules/calendar/e-calendar-preferences.ui.h:44
 #: ../widgets/misc/e-dateedit.c:592
 msgid "Time"
 msgstr "Tid"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:47
+#: ../modules/calendar/e-calendar-preferences.ui.h:46
 msgid "Time format:"
 msgstr "Tidformat:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:49
+#: ../modules/calendar/e-calendar-preferences.ui.h:48
 msgid "Use s_ystem time zone"
 msgstr "Bruk s_ystemets tidssone"
 
 #. A weekday like "Monday" follows
-#: ../modules/calendar/e-calendar-preferences.ui.h:52
+#: ../modules/calendar/e-calendar-preferences.ui.h:51
 msgid "Wee_k starts on:"
 msgstr "Uk_en starter på:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:53
+#: ../modules/calendar/e-calendar-preferences.ui.h:52
 #: ../modules/calendar/e-cal-shell-view-actions.c:1678
 msgid "Work Week"
 msgstr "Arbeidsuke"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:54
+#: ../modules/calendar/e-calendar-preferences.ui.h:53
 msgid "Work days:"
 msgstr "Arbeidsdager:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:55
+#: ../modules/calendar/e-calendar-preferences.ui.h:54
 msgid "_12 hour (AM/PM)"
 msgstr "_12 timer (AM/PM)"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:56
+#: ../modules/calendar/e-calendar-preferences.ui.h:55
 msgid "_24 hour"
 msgstr "_24 timer"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:57
+#: ../modules/calendar/e-calendar-preferences.ui.h:56
 msgid "_Ask for confirmation when deleting items"
 msgstr "Spør etter bekreftelse ved sletting _av oppføringer"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:58
+#: ../modules/calendar/e-calendar-preferences.ui.h:57
 msgid "_Compress weekends in month view"
 msgstr "_Komprimer helger i månedsvisning"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:59
+#: ../modules/calendar/e-calendar-preferences.ui.h:58
 msgid "_Day begins:"
 msgstr "_Dagen begynner:"
 
 #. Friday
-#: ../modules/calendar/e-calendar-preferences.ui.h:61
+#: ../modules/calendar/e-calendar-preferences.ui.h:60
 msgid "_Fri"
 msgstr "_Fr."
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:62
+#: ../modules/calendar/e-calendar-preferences.ui.h:61
 msgid "_Hide completed tasks after"
 msgstr "Sk_jul utførte oppgaver etter"
 
 #. Monday
-#: ../modules/calendar/e-calendar-preferences.ui.h:64
+#: ../modules/calendar/e-calendar-preferences.ui.h:63
 msgid "_Mon"
 msgstr "_Ma."
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:65
+#: ../modules/calendar/e-calendar-preferences.ui.h:64
 msgid "_Overdue tasks:"
 msgstr "Utgåtte _oppgaver:"
 
 #. Saturday
-#: ../modules/calendar/e-calendar-preferences.ui.h:67
+#: ../modules/calendar/e-calendar-preferences.ui.h:66
 msgid "_Sat"
 msgstr "L_ø."
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:68
+#: ../modules/calendar/e-calendar-preferences.ui.h:67
 msgid "_Show appointment end times in week and month view"
 msgstr "Vi_s tid for avtalers slutt i ukes- og månedsvisning"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:69
+#: ../modules/calendar/e-calendar-preferences.ui.h:68
 msgid "_Time divisions:"
 msgstr "Oppdeling av _tid:"
 
 #. Tuesday
-#: ../modules/calendar/e-calendar-preferences.ui.h:71
+#: ../modules/calendar/e-calendar-preferences.ui.h:70
 msgid "_Tue"
 msgstr "_Ti."
 
 #. Wednesday
-#: ../modules/calendar/e-calendar-preferences.ui.h:73
+#: ../modules/calendar/e-calendar-preferences.ui.h:72
 msgid "_Wed"
 msgstr "_On."
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../modules/calendar/e-calendar-preferences.ui.h:75
+#: ../modules/calendar/e-calendar-preferences.ui.h:74
 msgid "before every anniversary/birthday"
 msgstr "før hvert jubileum/bursdag"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../modules/calendar/e-calendar-preferences.ui.h:77
+#: ../modules/calendar/e-calendar-preferences.ui.h:76
 msgid "before every appointment"
 msgstr "før hver avtale"
 
@@ -14923,8 +14927,11 @@ msgstr "Forhåndsvis kalenderen som skal skrives ut"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1781
 #: ../modules/calendar/e-cal-shell-view-memopad.c:295
-msgid "Save as iCalendar..."
-msgstr "Lagre som iCalendar …"
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:382
+#: ../modules/calendar/e-memo-shell-view-actions.c:844
+#: ../modules/calendar/e-task-shell-view-actions.c:1043
+msgid "_Save as iCalendar..."
+msgstr "_Lagre som iCalendar …"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1858
 msgid "Go To"
@@ -15028,12 +15035,6 @@ msgstr "Vis valgt oppgave"
 #: ../modules/calendar/e-task-shell-view-actions.c:1028
 msgid "Print the selected task"
 msgstr "Skriv ut valgt oppgave"
-
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:382
-#: ../modules/calendar/e-memo-shell-view-actions.c:844
-#: ../modules/calendar/e-task-shell-view-actions.c:1043
-msgid "_Save as iCalendar..."
-msgstr "_Lagre som iCalendar …"
 
 #: ../modules/calendar/e-memo-shell-backend.c:298
 msgctxt "New"
@@ -16877,8 +16878,8 @@ msgstr ""
 "%s"
 
 #: ../plugins/google-account-setup/google-source.c:564
-#: ../plugins/mail-to-task/mail-to-task.c:796
-#: ../plugins/mail-to-task/mail-to-task.c:1045
+#: ../plugins/mail-to-task/mail-to-task.c:803
+#: ../plugins/mail-to-task/mail-to-task.c:1052
 msgid "Unknown error."
 msgstr "Ukjent feil."
 
@@ -17817,7 +17818,7 @@ msgstr "Varsler når nye meldinger ankommer."
 msgid "Created from a mail by %s"
 msgstr "Opprettet av en e-post fra %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:586
+#: ../plugins/mail-to-task/mail-to-task.c:593
 #, c-format
 msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
@@ -17826,7 +17827,7 @@ msgstr ""
 "Valgt kalender inneholder hendelsen «%s» allerede. Vil du redigere den gamle "
 "hendelsen?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:589
+#: ../plugins/mail-to-task/mail-to-task.c:596
 #, c-format
 msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
@@ -17835,7 +17836,7 @@ msgstr ""
 "Valgt oppgaveliste inneholder oppgave «%s» allerede. Vil du redigere den "
 "gamle oppgaven?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:592
+#: ../plugins/mail-to-task/mail-to-task.c:599
 #, c-format
 msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
@@ -17844,7 +17845,7 @@ msgstr ""
 "Valgt notatliste inneholder notatet «%s» allerede. Vil du redigere det gamle "
 "notatet?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:609
+#: ../plugins/mail-to-task/mail-to-task.c:616
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to events. Do you really want to "
@@ -17853,7 +17854,7 @@ msgstr ""
 "Du har valgt %d meldinger som skal konverteres til hendelser. Vil du "
 "virkelig legge dem til?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:612
+#: ../plugins/mail-to-task/mail-to-task.c:619
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
@@ -17862,7 +17863,7 @@ msgstr ""
 "Du har valgt %d meldinger som skal konverteres til oppgaver. Vil du virkelig "
 "legge dem til?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:615
+#: ../plugins/mail-to-task/mail-to-task.c:622
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
@@ -17871,29 +17872,29 @@ msgstr ""
 "Du har valgt %d meldinger som skal konverteres til notater. Vil du virkelig "
 "legge dem til?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:634
+#: ../plugins/mail-to-task/mail-to-task.c:641
 msgid "Do you wish to continue converting remaining mails?"
 msgstr "Vil du fortsette med konvertering av gjenstående meldinger?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:709
+#: ../plugins/mail-to-task/mail-to-task.c:716
 msgid "[No Summary]"
 msgstr "[Ingen sammendrag]"
 
-#: ../plugins/mail-to-task/mail-to-task.c:721
+#: ../plugins/mail-to-task/mail-to-task.c:728
 msgid "Invalid object returned from a server"
 msgstr "Ugyldig objekt returnert fra en tjener"
 
-#: ../plugins/mail-to-task/mail-to-task.c:771
+#: ../plugins/mail-to-task/mail-to-task.c:778
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "En feil oppsto under prosessering: %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:796
+#: ../plugins/mail-to-task/mail-to-task.c:803
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Kan ikke åpne kalender. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:803
+#: ../plugins/mail-to-task/mail-to-task.c:810
 msgid ""
 "Selected source is read only, thus cannot create event there. Select other "
 "source, please."
@@ -17901,7 +17902,7 @@ msgstr ""
 "Valgt kilde er skrivebeskyttet og hendelser kan ikke opprettes der. Velg en "
 "annen kilde."
 
-#: ../plugins/mail-to-task/mail-to-task.c:806
+#: ../plugins/mail-to-task/mail-to-task.c:813
 msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
@@ -17909,7 +17910,7 @@ msgstr ""
 "Valgt kilde er skrivebeskyttet og oppgaver kan ikke opprettes der. Velg en "
 "annen kilde."
 
-#: ../plugins/mail-to-task/mail-to-task.c:809
+#: ../plugins/mail-to-task/mail-to-task.c:816
 msgid ""
 "Selected source is read only, thus cannot create memo there. Select other "
 "source, please."
@@ -17917,44 +17918,44 @@ msgstr ""
 "Valgt kilde er skrivebeskyttet og notater kan ikke opprettes der. Velg en "
 "annen kilde."
 
-#: ../plugins/mail-to-task/mail-to-task.c:1045
+#: ../plugins/mail-to-task/mail-to-task.c:1052
 #, c-format
 msgid "Cannot get source list. %s"
 msgstr "Fant ikke kildeliste %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1104
+#: ../plugins/mail-to-task/mail-to-task.c:1113
 msgid "No writable calendar is available."
 msgstr "Ingen skrivbar kalender tilgjengelig."
 
-#: ../plugins/mail-to-task/mail-to-task.c:1196
+#: ../plugins/mail-to-task/mail-to-task.c:1205
 msgid "Create an _Event"
 msgstr "Lag en h_endelse"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1198
+#: ../plugins/mail-to-task/mail-to-task.c:1207
 msgid "Create a new event from the selected message"
 msgstr " Lag en ny hendelse fra den valgte meldingen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1203
+#: ../plugins/mail-to-task/mail-to-task.c:1212
 msgid "Create a Mem_o"
 msgstr "Lag et n_otat"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1205
+#: ../plugins/mail-to-task/mail-to-task.c:1214
 msgid "Create a new memo from the selected message"
 msgstr "Lag et nytt notat fra den valgte meldingen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1210
+#: ../plugins/mail-to-task/mail-to-task.c:1219
 msgid "Create a _Task"
 msgstr "Lag en o_ppgave"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1212
+#: ../plugins/mail-to-task/mail-to-task.c:1221
 msgid "Create a new task from the selected message"
 msgstr "Lag en ny oppgave fra den valgte meldingen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1220
+#: ../plugins/mail-to-task/mail-to-task.c:1229
 msgid "Create a _Meeting"
 msgstr "Lag et _møte"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1222
+#: ../plugins/mail-to-task/mail-to-task.c:1231
 msgid "Create a new meeting from the selected message"
 msgstr "Lag et nytt møte fra den valgte meldingen"
 
