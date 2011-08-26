@@ -275,12 +275,17 @@ e_mail_store_add_by_account (EMailSession *session,
 	CamelService *service = NULL;
 	CamelProvider *provider;
 	CamelURL *url;
-	gboolean skip;
+	gboolean skip, transport_only;
 	GError *error = NULL;
 
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 	g_return_val_if_fail (E_IS_ACCOUNT (account), NULL);
 
+	/* check whether it's transport-only accounts */
+	transport_only = !account->source || !account->source->url || !*account->source->url;
+	if (transport_only)
+		goto handle_transport;
+		
 	/* Load the service, but don't connect.  Check its provider,
 	 * and if this belongs in the folder tree model, add it. */
 
@@ -325,6 +330,9 @@ handle_transport:
 			g_error_free (transport_error);
 		}
 	}
+
+	if (transport_only)
+		return NULL;
 
 	if (!CAMEL_IS_STORE (service))
 		goto fail;
