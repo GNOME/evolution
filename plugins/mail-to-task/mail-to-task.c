@@ -308,14 +308,21 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 }
 
 static gchar *
-set_organizer (ECalComponent *comp)
+set_organizer (ECalComponent *comp, CamelFolder *folder)
 {
-	EAccount *account;
+	EAccount *account = NULL;
 	const gchar *str, *name;
 	ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
 	gchar *res;
 
-	account = e_get_default_account ();
+	if (folder) {
+		CamelStore *store = camel_folder_get_parent_store (folder);
+
+		account = e_get_account_by_uid (camel_service_get_uid (CAMEL_SERVICE (store)));
+	}
+
+	if (!account)
+		account = e_get_default_account ();
 	if (!account)
 		return NULL;
 
@@ -894,7 +901,7 @@ do_mail_to_event (AsyncData *data)
 				gchar *organizer;
 
 				/* set actual user as organizer, to be able to change event's properties */
-				organizer = set_organizer (comp);
+				organizer = set_organizer (comp, data->folder);
 				set_attendees (comp, message, organizer);
 				g_free (organizer);
 			}
