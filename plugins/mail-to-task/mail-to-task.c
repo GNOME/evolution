@@ -983,7 +983,7 @@ do_mail_to_event (AsyncData *data)
 
 	/* free memory */
 	g_object_unref (data->client);
-	camel_folder_free_uids (folder, uids);
+	em_utils_uids_free (uids);
 	g_object_unref (folder);
 	g_free (data->selected_text);
 	g_free (data);
@@ -1066,7 +1066,7 @@ mail_to_event (ECalClientSourceType source_type,
 		e_notice (NULL, GTK_MESSAGE_ERROR, _("Cannot get source list. %s"), error ? error->message : _("Unknown error."));
 		if (error)
 			g_error_free (error);
-		camel_folder_free_uids (folder, uids);
+		em_utils_uids_free (uids);
 		g_object_unref (folder);
 		return;
 	}
@@ -1077,7 +1077,7 @@ mail_to_event (ECalClientSourceType source_type,
 		if (do_ask (question, FALSE) == GTK_RESPONSE_NO) {
 			g_free (question);
 			g_object_unref (source_list);
-			camel_folder_free_uids (folder, uids);
+			em_utils_uids_free (uids);
 			g_object_unref (folder);
 			return;
 		}
@@ -1127,7 +1127,7 @@ mail_to_event (ECalClientSourceType source_type,
 		e_notice (NULL, GTK_MESSAGE_ERROR, _("No writable calendar is available."));
 
 		g_object_unref (source_list);
-		camel_folder_free_uids (folder, uids);
+		em_utils_uids_free (uids);
 		g_object_unref (folder);
 		if (error)
 			g_error_free (error);
@@ -1149,7 +1149,7 @@ mail_to_event (ECalClientSourceType source_type,
 
 			g_free (uri);
 			g_object_unref (source_list);
-			camel_folder_free_uids (folder, uids);
+			em_utils_uids_free (uids);
 			g_object_unref (folder);
 			if (error)
 				g_error_free (error);
