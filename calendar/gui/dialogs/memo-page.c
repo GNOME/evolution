@@ -96,6 +96,8 @@ struct _MemoPagePrivate {
 	gchar *fallback_address;
 
 	ENameSelector *name_selector;
+
+	GCancellable *open_cancellable;
 };
 
 static void set_subscriber_info_string (MemoPage *mpage, const gchar *backend_address);
@@ -188,8 +190,17 @@ memo_page_dispose (GObject *object)
 
 	priv = MEMO_PAGE (object)->priv;
 
+	if (priv->open_cancellable) {
+		g_cancellable_cancel (priv->open_cancellable);
+		g_object_unref (priv->open_cancellable);
+		priv->open_cancellable = NULL;
+	}
+
 	g_strfreev (priv->address_strings);
+	priv->address_strings = NULL;
+
 	g_free (priv->fallback_address);
+	priv->fallback_address = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (memo_page_parent_class)->dispose (object);
@@ -373,6 +384,7 @@ memo_page_init (MemoPage *mpage)
 {
 	mpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		mpage, TYPE_MEMO_PAGE, MemoPagePrivate);
+	mpage->priv->open_cancellable = NULL;
 }
 
 /* returns whether changed info text */
@@ -884,36 +896,30 @@ categories_clicked_cb (GtkWidget *button,
 }
 
 static void
-source_changed_cb (ESourceComboBox *source_combo_box,
-                   MemoPage *mpage)
+mpage_client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	MemoPagePrivate *priv = mpage->priv;
+	ESource *source = E_SOURCE (source_object);
+	EClient *client = NULL;
+	MemoPage *mpage = user_data;
+	MemoPagePrivate *priv;
 	CompEditor *editor;
-	CompEditorFlags flags;
-	ESource *source;
-	ECalClient *client;
 	GError *error = NULL;
 
-	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (mpage)))
-		return;
+	if (!e_client_utils_open_new_finish (source, result, &client, &error)) {
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			return;
+		}
+	}
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
-	flags = comp_editor_get_flags (editor);
+	priv = mpage->priv;
 
-	source = e_source_combo_box_get_active (source_combo_box);
-	client = e_cal_client_new (source, E_CAL_CLIENT_SOURCE_TYPE_MEMOS, &error);
-
-	if (client)
-		g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
-
-	if (!client || !e_client_open_sync (E_CLIENT (client), FALSE, NULL, &error)) {
+	if (error) {
 		GtkWidget *dialog;
 		ECalClient *old_client;
 
 		old_client = comp_editor_get_client (editor);
-
-		if (client)
-			g_object_unref (client);
 
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (priv->source_selector),
@@ -930,12 +936,22 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 		if (error)
 			g_error_free (error);
 	} else {
-		comp_editor_set_client (editor, client);
+		icaltimezone *zone;
+		CompEditorFlags flags;
+		ECalClient *cal_client = E_CAL_CLIENT (client);
+
+		g_return_if_fail (cal_client != NULL);
+
+		flags = comp_editor_get_flags (editor);
+		zone = comp_editor_get_timezone (editor);
+		e_cal_client_set_default_timezone (cal_client, zone);
+
+		comp_editor_set_client (editor, cal_client);
 
 		if (client) {
 			gchar *backend_addr = NULL;
 
-			e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
+			e_client_get_backend_property_sync (client, CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
 
 			if (flags & COMP_EDITOR_IS_SHARED)
 				memo_page_select_organizer (mpage, backend_addr);
@@ -946,6 +962,29 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 
 		sensitize_widgets (mpage);
 	}
+}
+
+static void
+source_changed_cb (ESourceComboBox *source_combo_box,
+                   MemoPage *mpage)
+{
+	MemoPagePrivate *priv = mpage->priv;
+	ESource *source;
+
+	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (mpage)))
+		return;
+
+	source = e_source_combo_box_get_active (source_combo_box);
+
+	if (priv->open_cancellable) {
+		g_cancellable_cancel (priv->open_cancellable);
+		g_object_unref (priv->open_cancellable);
+	}
+	priv->open_cancellable = g_cancellable_new ();
+
+	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_MEMOS, FALSE, priv->open_cancellable,
+				 e_client_utils_authenticate_handler, NULL,
+				 mpage_client_opened_cb, mpage);
 }
 
 static void

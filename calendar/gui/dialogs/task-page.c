@@ -124,6 +124,8 @@ struct _TaskPagePrivate {
 	gboolean is_assignment;
 
 	ESendOptionsDialog *sod;
+
+	GCancellable *open_cancellable;
 };
 
 static const gint classification_map[] = {
@@ -393,6 +395,12 @@ task_page_dispose (GObject *object)
 	TaskPagePrivate *priv;
 
 	priv = TASK_PAGE_GET_PRIVATE (object);
+
+	if (priv->open_cancellable) {
+		g_cancellable_cancel (priv->open_cancellable);
+		g_object_unref (priv->open_cancellable);
+		priv->open_cancellable = NULL;
+	}
 
 	if (priv->main != NULL) {
 		g_object_unref (priv->main);
@@ -1006,6 +1014,7 @@ task_page_init (TaskPage *tpage)
 {
 	tpage->priv = TASK_PAGE_GET_PRIVATE (tpage);
 	tpage->priv->deleted_attendees = g_ptr_array_new ();
+	tpage->priv->open_cancellable = NULL;
 }
 
 void
@@ -1695,42 +1704,33 @@ due_date_changed_cb (TaskPage *tpage)
 }
 
 static void
-source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
+tpage_client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	TaskPagePrivate *priv = tpage->priv;
+	ESource *source = E_SOURCE (source_object);
+	EClient *client = NULL;
+	TaskPage *tpage = user_data;
+	TaskPagePrivate *priv;
 	CompEditor *editor;
-	ESource *source;
-	ECalClient *client;
 	GError *error = NULL;
 
-	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
-	source = e_source_combo_box_get_active (source_combo_box);
-
-	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tpage)))
-		return;
-
-	client = e_cal_client_new (source, E_CAL_CLIENT_SOURCE_TYPE_TASKS, &error);
-	if (client) {
-		icaltimezone *zone;
-
-		zone = comp_editor_get_timezone (editor);
-		e_cal_client_set_default_timezone (client, zone);
+	if (!e_client_utils_open_new_finish (source, result, &client, &error)) {
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			return;
+		}
 	}
 
-	if (client)
-		g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
-
-	if (!client || !e_client_open_sync (E_CLIENT (client), FALSE, NULL, &error)) {
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
+	priv = tpage->priv;
+	if (error) {
 		GtkWidget *dialog;
+		ECalClient *old_client;
 
-		if (client)
-			g_object_unref (client);
-
-		client = comp_editor_get_client (editor);
+		old_client = comp_editor_get_client (editor);
 
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (priv->source_selector),
-			e_client_get_source (E_CLIENT (client)));
+			e_client_get_source (E_CLIENT (old_client)));
 
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
@@ -1743,9 +1743,17 @@ source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
 		if (error)
 			g_error_free (error);
 	} else {
-		comp_editor_set_client (editor, client);
+		icaltimezone *zone;
+		ECalClient *cal_client = E_CAL_CLIENT (client);
+
+		g_return_if_fail (cal_client != NULL);
+
+		zone = comp_editor_get_timezone (editor);
+		e_cal_client_set_default_timezone (cal_client, zone);
+
+		comp_editor_set_client (editor, cal_client);
 		comp_editor_page_changed (COMP_EDITOR_PAGE (tpage));
-		if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS) && priv->is_assignment)
+		if (e_client_check_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS) && priv->is_assignment)
 			task_page_show_options (tpage);
 		else
 			task_page_hide_options (tpage);
@@ -1753,7 +1761,7 @@ source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
 		if (client) {
 			gchar *backend_addr = NULL;
 
-			e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
+			e_client_get_backend_property_sync (client, CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
 
 			if (priv->is_assignment)
 				task_page_select_organizer (tpage, backend_addr);
@@ -1764,6 +1772,28 @@ source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
 
 		sensitize_widgets (tpage);
 	}
+}
+
+static void
+source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
+{
+	TaskPagePrivate *priv = tpage->priv;
+	ESource *source;
+
+	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tpage)))
+		return;
+
+	source = e_source_combo_box_get_active (source_combo_box);
+
+	if (priv->open_cancellable) {
+		g_cancellable_cancel (priv->open_cancellable);
+		g_object_unref (priv->open_cancellable);
+	}
+	priv->open_cancellable = g_cancellable_new ();
+
+	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, priv->open_cancellable,
+				 e_client_utils_authenticate_handler, NULL,
+				 tpage_client_opened_cb, tpage);
 }
 
 static void

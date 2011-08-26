@@ -192,6 +192,8 @@ struct _EventPagePrivate {
 
 	/* either with-user-time or without it */
 	const gint *alarm_map;
+
+	GCancellable *open_cancellable;
 };
 
 static void event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
@@ -866,6 +868,12 @@ event_page_dispose (GObject *object)
 	EventPagePrivate *priv;
 
 	priv = EVENT_PAGE_GET_PRIVATE (object);
+
+	if (priv->open_cancellable) {
+		g_cancellable_cancel (priv->open_cancellable);
+		g_object_unref (priv->open_cancellable);
+		priv->open_cancellable = NULL;
+	}
 
 	if (priv->location_completion != NULL) {
 		g_object_unref (priv->location_completion);
@@ -1794,6 +1802,7 @@ event_page_init (EventPage *epage)
 	epage->priv->alarm_interval = -1;
 	epage->priv->alarm_map = alarm_map_with_user_time;
 	epage->priv->location_completion = gtk_entry_completion_new ();
+	epage->priv->open_cancellable = NULL;
 }
 
 void
@@ -2849,38 +2858,30 @@ event_page_send_options_clicked_cb (EventPage *epage)
 }
 
 static void
-source_changed_cb (ESourceComboBox *source_combo_box, EventPage *epage)
+epage_client_opened_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
-	EventPagePrivate *priv = epage->priv;
+	ESource *source = E_SOURCE (source_object);
+	EClient *client = NULL;
+	EventPage *epage = user_data;
+	EventPagePrivate *priv;
 	CompEditor *editor;
-	ESource *source;
-	ECalClient *client;
 	GError *error = NULL;
 
-	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (epage)))
-		return;
-
-	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
-	source = e_source_combo_box_get_active (source_combo_box);
-	client = e_cal_client_new (source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, &error);
-
-	if (client) {
-		icaltimezone *zone;
-
-		zone = e_meeting_store_get_timezone (epage->priv->meeting_store);
-		e_cal_client_set_default_timezone (client, zone);
-
-		g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+	if (!e_client_utils_open_new_finish (source, result, &client, &error)) {
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			return;
+		}
 	}
 
-	if (!client || !e_client_open_sync (E_CLIENT (client), FALSE, NULL, &error)) {
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
+	priv = epage->priv;
+
+	if (error) {
 		GtkWidget *dialog;
 		ECalClient *old_client;
 
 		old_client = comp_editor_get_client (editor);
-
-		if (client)
-			g_object_unref (client);
 
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (priv->source_selector),
@@ -2897,28 +2898,55 @@ source_changed_cb (ESourceComboBox *source_combo_box, EventPage *epage)
 		if (error)
 			g_error_free (error);
 	} else {
-		comp_editor_set_client (editor, client);
-		if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS) && priv->is_meeting)
+		gchar *backend_addr = NULL;
+		icaltimezone *zone;
+		ECalClient *cal_client = E_CAL_CLIENT (client);
+
+		g_return_if_fail (cal_client != NULL);
+
+		zone = e_meeting_store_get_timezone (priv->meeting_store);
+		e_cal_client_set_default_timezone (cal_client, zone);
+
+		comp_editor_set_client (editor, cal_client);
+		if (e_client_check_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS) && priv->is_meeting)
 			event_page_show_options (epage);
 		else
 			event_page_hide_options (epage);
 
-		if (client) {
-			gchar *backend_addr = NULL;
+		e_client_get_backend_property_sync (client, CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
 
-			e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
+		if (priv->is_meeting)
+			event_page_select_organizer (epage, backend_addr);
 
-			if (priv->is_meeting)
-				event_page_select_organizer (epage, backend_addr);
-
-			set_subscriber_info_string (epage, backend_addr);
-			g_free (backend_addr);
-		}
+		set_subscriber_info_string (epage, backend_addr);
+		g_free (backend_addr);
 
 		sensitize_widgets (epage);
 
-		alarm_list_dialog_set_client (priv->alarm_list_dlg_widget, client);
+		alarm_list_dialog_set_client (priv->alarm_list_dlg_widget, cal_client);
 	}
+}
+
+static void
+source_changed_cb (ESourceComboBox *source_combo_box, EventPage *epage)
+{
+	EventPagePrivate *priv = epage->priv;
+	ESource *source;
+
+	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (epage)))
+		return;
+
+	source = e_source_combo_box_get_active (source_combo_box);
+
+	if (priv->open_cancellable) {
+		g_cancellable_cancel (priv->open_cancellable);
+		g_object_unref (priv->open_cancellable);
+	}
+	priv->open_cancellable = g_cancellable_new ();
+
+	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_EVENTS, FALSE, priv->open_cancellable,
+				 e_client_utils_authenticate_handler, NULL,
+				 epage_client_opened_cb, epage);
 }
 
 static void

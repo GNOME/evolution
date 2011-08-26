@@ -588,22 +588,15 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 }
 
 static void
-sensitize_buttons (RecurrencePage *rpage)
+update_with_readonly (RecurrencePage *rpage, gboolean read_only)
 {
 	RecurrencePagePrivate *priv = rpage->priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
-	gboolean read_only, sensitize = TRUE;
 	gint selected_rows;
-	icalcomponent *icalcomp;
-	ECalClient *client;
-	const gchar *uid;
-
-	if (priv->comp == NULL)
-		return;
+	gboolean sensitize = TRUE;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
-	client = comp_editor_get_client (editor);
 	flags = comp_editor_get_flags (editor);
 
 	if (flags & COMP_EDITOR_MEETING)
@@ -611,30 +604,6 @@ sensitize_buttons (RecurrencePage *rpage)
 
 	selected_rows = gtk_tree_selection_count_selected_rows (
 		gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list)));
-
-	read_only = e_client_is_readonly (E_CLIENT (client));
-
-	if (!read_only) {
-		e_cal_component_get_uid (priv->comp, &uid);
-
-		if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_CONV_TO_RECUR) && e_cal_client_get_object_sync (client, uid, NULL, &icalcomp, NULL, NULL)) {
-			read_only = TRUE;
-			icalcomponent_free (icalcomp);
-		}
-
-		if (!read_only) {
-			GSList *list = NULL;
-
-			/* see if we have detached instances */
-			if (e_cal_client_get_objects_for_uid_sync (client, uid, &list, NULL, NULL)) {
-				if (list && g_slist_length (list) > 1)
-					read_only = TRUE;
-
-				g_slist_foreach (list, (GFunc) g_object_unref, NULL);
-				g_slist_free (list);
-			}
-		}
-	}
 
 	if (!read_only)
 		sensitize_recur_widgets (rpage);
@@ -645,6 +614,101 @@ sensitize_buttons (RecurrencePage *rpage)
 	gtk_widget_set_sensitive (priv->exception_add, !read_only && e_cal_component_has_recurrences (priv->comp) && sensitize);
 	gtk_widget_set_sensitive (priv->exception_modify, !read_only && selected_rows > 0 && sensitize);
 	gtk_widget_set_sensitive (priv->exception_delete, !read_only && selected_rows > 0 && sensitize);
+}
+
+static void
+rpage_get_objects_for_uid_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	ECalClient *client = E_CAL_CLIENT (source_object);
+	RecurrencePage *rpage = user_data;
+	GSList *ecalcomps = NULL;
+	GError *error = NULL;
+
+	if (result && !e_cal_client_get_objects_for_uid_finish (client, result, &ecalcomps, &error)) {
+		ecalcomps = NULL;
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			return;
+		}
+	}
+
+	update_with_readonly (rpage, g_slist_length (ecalcomps) > 1);
+
+	g_slist_foreach (ecalcomps, (GFunc) g_object_unref, NULL);
+	g_slist_free (ecalcomps);
+}
+
+static void
+rpage_get_object_cb (GObject *source_object, GAsyncResult *result, gpointer user_data)
+{
+	ECalClient *client = E_CAL_CLIENT (source_object);
+	RecurrencePage *rpage = user_data;
+	icalcomponent *icalcomp = NULL;
+	const gchar *uid = NULL;
+	GError *error = NULL;
+
+	if (result && !e_cal_client_get_object_finish (client, result, &icalcomp, &error)) {
+		icalcomp = NULL;
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
+		    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			return;
+		}
+	}
+
+	if (icalcomp) {
+		icalcomponent_free (icalcomp);
+		update_with_readonly (rpage, TRUE);
+		return;
+	}
+
+	if (rpage->priv->comp)
+		e_cal_component_get_uid (rpage->priv->comp, &uid);
+
+	if (!uid || !*uid) {
+		update_with_readonly (rpage, FALSE);
+		return;
+	}
+
+	/* see if we have detached instances */
+	e_cal_client_get_objects_for_uid (client, uid, rpage->priv->cancellable, rpage_get_objects_for_uid_cb, rpage);
+}
+
+static void
+sensitize_buttons (RecurrencePage *rpage)
+{
+	RecurrencePagePrivate *priv = rpage->priv;
+	CompEditor *editor;
+	ECalClient *client;
+	const gchar *uid;
+
+	if (priv->comp == NULL)
+		return;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
+	client = comp_editor_get_client (editor);
+
+	if (e_client_is_readonly (E_CLIENT (client))) {
+		update_with_readonly (rpage, TRUE);
+		return;
+	}
+
+	if (priv->cancellable) {
+		g_cancellable_cancel (priv->cancellable);
+		g_object_unref (priv->cancellable);
+	}
+	priv->cancellable = g_cancellable_new ();
+
+	e_cal_component_get_uid (priv->comp, &uid);
+	if (!uid || !*uid) {
+		update_with_readonly (rpage, FALSE);
+		return;
+	}
+
+	if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_CONV_TO_RECUR)) {
+		e_cal_client_get_object (client, uid, NULL, priv->cancellable, rpage_get_object_cb, rpage);
+	} else {
+		rpage_get_object_cb (G_OBJECT (client), NULL, rpage);
+	}
 }
 
 #if 0
