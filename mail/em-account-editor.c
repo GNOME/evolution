@@ -3196,7 +3196,7 @@ emae_defaults_page (EConfig *ec,
 		priv->trash_folder_button, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	pspec = g_object_class_find_property (
+	pspec = !settings ? NULL : g_object_class_find_property (
 		G_OBJECT_GET_CLASS (settings), "use-real-trash-path");
 
 	if (pspec != NULL)
@@ -3206,7 +3206,7 @@ emae_defaults_page (EConfig *ec,
 			G_BINDING_BIDIRECTIONAL |
 			G_BINDING_SYNC_CREATE);
 
-	pspec = g_object_class_find_property (
+	pspec = !settings ? NULL : g_object_class_find_property (
 		G_OBJECT_GET_CLASS (settings), "real-trash-path");
 
 	if (pspec != NULL) {
@@ -3241,7 +3241,7 @@ emae_defaults_page (EConfig *ec,
 		priv->junk_folder_button, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	pspec = g_object_class_find_property (
+	pspec = !settings ? NULL : g_object_class_find_property (
 		G_OBJECT_GET_CLASS (settings), "use-real-junk-path");
 
 	if (pspec != NULL)
@@ -3251,7 +3251,7 @@ emae_defaults_page (EConfig *ec,
 			G_BINDING_BIDIRECTIONAL |
 			G_BINDING_SYNC_CREATE);
 
-	pspec = g_object_class_find_property (
+	pspec = !settings ? NULL : g_object_class_find_property (
 		G_OBJECT_GET_CLASS (settings), "real-junk-path");
 
 	if (pspec != NULL) {
