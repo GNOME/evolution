@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-08-23 21:13+0000\n"
-"PO-Revision-Date: 2011-08-24 19:53+0200\n"
+"POT-Creation-Date: 2011-08-26 06:48+0000\n"
+"PO-Revision-Date: 2011-08-26 10:55+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1232,7 +1232,7 @@ msgid "Video Chat"
 msgstr "Charla por vídeo"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:683
-#: ../calendar/gui/dialogs/calendar-setup.c:396
+#: ../calendar/gui/dialogs/calendar-setup.c:437
 #: ../modules/calendar/e-cal-shell-view-actions.c:232
 #: ../modules/calendar/e-cal-shell-view-actions.c:261
 #: ../modules/calendar/e-cal-shell-view.c:511
@@ -1579,8 +1579,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar from the side bar in the Calendar view."
 msgstr ""
-"«{0}» es un calendario de sólo lectura y no se puede modificar. Seleccione "
-"un calendario diferente de la barra lateral en la vista del calendario."
+"«{0}» es un calendario de sólo lectura y no se puede modificar. Seleccione un "
+"calendario diferente de la barra lateral en la vista del calendario."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
@@ -2422,7 +2422,7 @@ msgstr "Aña_dir"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
 #: ../calendar/gui/dialogs/event-page.ui.h:8
-#: ../modules/calendar/e-calendar-preferences.ui.h:24
+#: ../modules/calendar/e-calendar-preferences.ui.h:23
 msgid "Reminders"
 msgstr "Recordatorios"
 
@@ -2459,53 +2459,58 @@ msgstr ""
 "Copia_r el contenido de la lista de notas localmente para trabajar "
 "desconectado"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:372
+#: ../calendar/gui/dialogs/calendar-setup.c:340
+#| msgid "Show display reminders in notification tray"
+msgid "Sh_ow reminder notifications"
+msgstr "M_ostrar notificaciones de recordatorios"
+
+#: ../calendar/gui/dialogs/calendar-setup.c:413
 msgid "Colo_r:"
 msgstr "Colo_r:"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:395
-#: ../calendar/gui/dialogs/calendar-setup.c:406
-#: ../calendar/gui/dialogs/calendar-setup.c:417
+#: ../calendar/gui/dialogs/calendar-setup.c:436
+#: ../calendar/gui/dialogs/calendar-setup.c:448
+#: ../calendar/gui/dialogs/calendar-setup.c:459
 #: ../mail/em-folder-properties.c:233 ../mail/mail-config.ui.h:52
 #: ../modules/addressbook/addressbook-config.c:1052
 #: ../modules/addressbook/autocompletion-config.c:218
-#: ../modules/calendar/e-calendar-preferences.ui.h:18
+#: ../modules/calendar/e-calendar-preferences.ui.h:17
 #: ../plugins/itip-formatter/itip-formatter.c:3001
 #: ../plugins/publish-calendar/publish-calendar.ui.h:7
 #: ../smime/gui/smime-ui.ui.h:21
 msgid "General"
 msgstr "General"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:407
-#: ../modules/calendar/e-calendar-preferences.ui.h:41
+#: ../calendar/gui/dialogs/calendar-setup.c:449
+#: ../modules/calendar/e-calendar-preferences.ui.h:40
 msgid "Task List"
 msgstr "Lista de tareas"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:418
+#: ../calendar/gui/dialogs/calendar-setup.c:460
 msgid "Memo List"
 msgstr "Lista de notas"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:506
+#: ../calendar/gui/dialogs/calendar-setup.c:548
 msgid "Calendar Properties"
 msgstr "Propiedades del calendario"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:506
+#: ../calendar/gui/dialogs/calendar-setup.c:548
 msgid "New Calendar"
 msgstr "Calendario nuevo"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:565
+#: ../calendar/gui/dialogs/calendar-setup.c:607
 msgid "Task List Properties"
 msgstr "Propiedades de lista de tareas"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:565
+#: ../calendar/gui/dialogs/calendar-setup.c:607
 msgid "New Task List"
 msgstr "Lista de tareas nueva"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:624
+#: ../calendar/gui/dialogs/calendar-setup.c:666
 msgid "Memo List Properties"
 msgstr "Propiedades de lista de notas"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:624
+#: ../calendar/gui/dialogs/calendar-setup.c:666
 msgid "New Memo List"
 msgstr "Lista de notas nueva"
 
@@ -3096,7 +3101,7 @@ msgid "Event Description"
 msgstr "Descripción del acontecimiento"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:9
-#: ../modules/calendar/e-calendar-preferences.ui.h:46
+#: ../modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Time _zone:"
 msgstr "_Zona horaria:"
 
@@ -3400,37 +3405,37 @@ msgid "21st to 31st"
 msgstr "del 21 al 31"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1126
-#: ../modules/calendar/e-calendar-preferences.ui.h:21
+#: ../modules/calendar/e-calendar-preferences.ui.h:20
 msgid "Monday"
 msgstr "lunes"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1127
-#: ../modules/calendar/e-calendar-preferences.ui.h:48
+#: ../modules/calendar/e-calendar-preferences.ui.h:47
 msgid "Tuesday"
 msgstr "martes"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1128
-#: ../modules/calendar/e-calendar-preferences.ui.h:50
+#: ../modules/calendar/e-calendar-preferences.ui.h:49
 msgid "Wednesday"
 msgstr "miércoles"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1129
-#: ../modules/calendar/e-calendar-preferences.ui.h:44
+#: ../modules/calendar/e-calendar-preferences.ui.h:43
 msgid "Thursday"
 msgstr "jueves"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1130
-#: ../modules/calendar/e-calendar-preferences.ui.h:17
+#: ../modules/calendar/e-calendar-preferences.ui.h:16
 msgid "Friday"
 msgstr "viernes"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1131
-#: ../modules/calendar/e-calendar-preferences.ui.h:27
+#: ../modules/calendar/e-calendar-preferences.ui.h:26
 msgid "Saturday"
 msgstr "sábado"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1132
-#: ../modules/calendar/e-calendar-preferences.ui.h:37
+#: ../modules/calendar/e-calendar-preferences.ui.h:36
 msgid "Sunday"
 msgstr "domingo"
 
@@ -3977,8 +3982,8 @@ msgstr "Borra los acontecimientos seleccionados"
 msgid "Deleting selected objects"
 msgstr "Borrando los objetos seleccionados"
 
-#: ../calendar/gui/e-calendar-view.c:648 ../calendar/gui/e-memo-table.c:855
-#: ../calendar/gui/e-task-table.c:1086
+#: ../calendar/gui/e-calendar-view.c:648 ../calendar/gui/e-memo-table.c:861
+#: ../calendar/gui/e-task-table.c:1094
 msgid "Updating objects"
 msgstr "Actualizando objetos"
 
@@ -4078,7 +4083,7 @@ msgstr "Muestra la segunda zona horaria"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../calendar/gui/e-day-view-time-item.c:844
-#: ../modules/calendar/e-calendar-preferences.ui.h:78
+#: ../modules/calendar/e-calendar-preferences.ui.h:77
 #: ../modules/calendar/e-calendar-preferences.c:179
 #: ../modules/calendar/e-calendar-preferences.c:228
 msgctxt "cal-second-zone"
@@ -4372,33 +4377,33 @@ msgid "* No Summary *"
 msgstr "* Sin resumen *"
 
 #. Translators: This is followed by an event's start date/time
-#: ../calendar/gui/e-memo-table.c:586 ../calendar/gui/e-task-table.c:806
+#: ../calendar/gui/e-memo-table.c:588 ../calendar/gui/e-task-table.c:808
 msgid "Start: "
 msgstr "Empieza: "
 
 #. Translators: This is followed by an event's due date/time
-#: ../calendar/gui/e-memo-table.c:605 ../calendar/gui/e-task-table.c:824
+#: ../calendar/gui/e-memo-table.c:607 ../calendar/gui/e-task-table.c:826
 msgid "Due: "
 msgstr "Vence: "
 
-#: ../calendar/gui/e-memo-table.c:720
+#: ../calendar/gui/e-memo-table.c:726
 msgid "Cut selected memos to the clipboard"
 msgstr "Cortar las notas seleccionadas al portapapeles"
 
-#: ../calendar/gui/e-memo-table.c:726
+#: ../calendar/gui/e-memo-table.c:732
 msgid "Copy selected memos to the clipboard"
 msgstr "Copiar las notas seleccionadas al portapapeles"
 
-#: ../calendar/gui/e-memo-table.c:732
+#: ../calendar/gui/e-memo-table.c:738
 msgid "Paste memos from the clipboard"
 msgstr "Pegar las notas desde el portapapeles"
 
-#: ../calendar/gui/e-memo-table.c:738
+#: ../calendar/gui/e-memo-table.c:744
 #: ../modules/calendar/e-memo-shell-view-actions.c:587
 msgid "Delete selected memos"
 msgstr "Borra las notas seleccionadas"
 
-#: ../calendar/gui/e-memo-table.c:744
+#: ../calendar/gui/e-memo-table.c:750
 msgid "Select all visible memos"
 msgstr "Seleccionar todas las notas visibles"
 
@@ -4418,7 +4423,7 @@ msgstr "%d%%"
 #: ../calendar/gui/e-task-table.c:643 ../calendar/gui/print.c:2168
 #: ../calendar/importers/icalendar-importer.c:85
 #: ../calendar/importers/icalendar-importer.c:1003
-#: ../modules/calendar/e-calendar-preferences.ui.h:42
+#: ../modules/calendar/e-calendar-preferences.ui.h:41
 #: ../modules/calendar/e-cal-shell-content.c:433
 #: ../modules/calendar/e-task-shell-view-actions.c:254
 #: ../modules/calendar/e-task-shell-view-actions.c:269
@@ -4427,24 +4432,24 @@ msgstr "%d%%"
 msgid "Tasks"
 msgstr "Tareas"
 
-#: ../calendar/gui/e-task-table.c:951
+#: ../calendar/gui/e-task-table.c:959
 msgid "Cut selected tasks to the clipboard"
 msgstr "Cortar las tareas seleccionadas al portapapeles"
 
-#: ../calendar/gui/e-task-table.c:957
+#: ../calendar/gui/e-task-table.c:965
 msgid "Copy selected tasks to the clipboard"
 msgstr "Copiar las tareas seleccionadas al portapapeles"
 
-#: ../calendar/gui/e-task-table.c:963
+#: ../calendar/gui/e-task-table.c:971
 msgid "Paste tasks from the clipboard"
 msgstr "Pega las tareas del portapapeles"
 
-#: ../calendar/gui/e-task-table.c:969
+#: ../calendar/gui/e-task-table.c:977
 #: ../modules/calendar/e-task-shell-view-actions.c:711
 msgid "Delete selected tasks"
 msgstr "Borra las tareas seleccionadas"
 
-#: ../calendar/gui/e-task-table.c:975
+#: ../calendar/gui/e-task-table.c:983
 msgid "Select all visible tasks"
 msgstr "Seleccionar todas las tareas visibles"
 
@@ -7252,7 +7257,7 @@ msgstr ""
 "obtener su correo."
 
 #: ../capplet/settings/mail-account-view.c:630
-#: ../mail/em-account-editor.c:2233 ../mail/em-account-editor.c:2366
+#: ../mail/em-account-editor.c:2237 ../mail/em-account-editor.c:2370
 msgid "Identity"
 msgstr "Identidad"
 
@@ -7304,7 +7309,7 @@ msgid "Back - Receiving options"
 msgstr "Atrás - Opciones de recepción"
 
 #: ../capplet/settings/mail-account-view.c:635
-#: ../mail/em-account-editor.c:3226
+#: ../mail/em-account-editor.c:3303
 msgid "Defaults"
 msgstr "Predeterminados"
 
@@ -8149,11 +8154,20 @@ msgctxt "mail-receiving"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../mail/em-account-editor.c:2230
+#: ../mail/em-account-editor.c:2185
+#| msgid "_File:"
+msgid "Fil_e:"
+msgstr "_Archivo:"
+
+#: ../mail/em-account-editor.c:2185 ../mail/mail-config.ui.h:157
+msgid "_Path:"
+msgstr "R_uta:"
+
+#: ../mail/em-account-editor.c:2234
 msgid "Mail Configuration"
 msgstr "Configuración del correo"
 
-#: ../mail/em-account-editor.c:2231
+#: ../mail/em-account-editor.c:2235
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -8163,7 +8177,7 @@ msgstr ""
 "\n"
 "Para comenzar, pulse «Continuar»."
 
-#: ../mail/em-account-editor.c:2234
+#: ../mail/em-account-editor.c:2238
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -8173,19 +8187,19 @@ msgstr ""
 "hace falta que los rellene, a menos que quiera incluir esta información en "
 "el correo-e que envíe."
 
-#: ../mail/em-account-editor.c:2236 ../mail/em-account-editor.c:2425
+#: ../mail/em-account-editor.c:2240 ../mail/em-account-editor.c:2429
 msgid "Receiving Email"
 msgstr "Recepción de correo"
 
-#: ../mail/em-account-editor.c:2237
+#: ../mail/em-account-editor.c:2241
 msgid "Please configure the following account settings."
 msgstr "Configure las siguientes opciones de la cuenta."
 
-#: ../mail/em-account-editor.c:2239 ../mail/em-account-editor.c:3022
+#: ../mail/em-account-editor.c:2243 ../mail/em-account-editor.c:3026
 msgid "Sending Email"
 msgstr "Envío de correo"
 
-#: ../mail/em-account-editor.c:2240
+#: ../mail/em-account-editor.c:2244
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -8194,11 +8208,11 @@ msgstr ""
 "seguro, pregúntele a su administrador de sistemas o a su Proveedor de "
 "Servicios de Internet."
 
-#: ../mail/em-account-editor.c:2242 ../mail/mail-config.ui.h:1
+#: ../mail/em-account-editor.c:2246 ../mail/mail-config.ui.h:1
 msgid "Account Information"
 msgstr "Información de la cuenta"
 
-#: ../mail/em-account-editor.c:2243
+#: ../mail/em-account-editor.c:2247
 msgid ""
 "Please enter a descriptive name for this account below.\n"
 "This name will be used for display purposes only."
@@ -8206,11 +8220,11 @@ msgstr ""
 "Introduzca un nombre descriptivo para esta cuenta en el espacio de abajo.\n"
 "Este nombre se usará sólo para mostrarlo."
 
-#: ../mail/em-account-editor.c:2247
+#: ../mail/em-account-editor.c:2251
 msgid "Done"
 msgstr "Hecho"
 
-#: ../mail/em-account-editor.c:2248
+#: ../mail/em-account-editor.c:2252
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -8224,25 +8238,25 @@ msgstr ""
 "\n"
 "Pulse «Aplicar» para guardar su configuración."
 
-#: ../mail/em-account-editor.c:2784
+#: ../mail/em-account-editor.c:2788
 msgid "Check for _new messages every"
 msgstr "Comprobar si hay mensajes _nuevos cada"
 
-#: ../mail/em-account-editor.c:2792
+#: ../mail/em-account-editor.c:2796
 msgid "minu_tes"
 msgstr "minuto_s"
 
-#: ../mail/em-account-editor.c:3365 ../mail/mail-config.ui.h:101
+#: ../mail/em-account-editor.c:3442 ../mail/mail-config.ui.h:101
 msgid "Security"
 msgstr "Seguridad"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3419 ../mail/em-account-editor.c:3502
+#: ../mail/em-account-editor.c:3496 ../mail/em-account-editor.c:3579
 msgid "Receiving Options"
 msgstr "Opciones de recepción"
 
-#: ../mail/em-account-editor.c:3420 ../mail/em-account-editor.c:3503
+#: ../mail/em-account-editor.c:3497 ../mail/em-account-editor.c:3580
 msgid "Checking for New Messages"
 msgstr "Comprobando si hay mensajes nuevos"
 
@@ -10162,8 +10176,7 @@ msgid ""
 "expanded by default. \"0\" = expanded \"1\" = collapsed"
 msgstr ""
 "Describe si las cabeceras del mensajes en la vista con paneles se deben "
-"contraer o expandir de manera predeterminada. «0» = expandidas «1» = "
-"contraídas"
+"contraer o expandir de manera predeterminada. «0» = expandidas «1» = contraídas"
 
 #: ../mail/evolution-mail.schemas.in.h:45
 msgid ""
@@ -10211,8 +10224,8 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
-"Determina si se debe usar la misma tipografía para las líneas «De» y "
-"«Asunto» en la columna «Mensajes» de la vista vertical."
+"Determina si se debe usar la misma tipografía para las líneas «De» y «Asunto» "
+"en la columna «Mensajes» de la vista vertical."
 
 #: ../mail/evolution-mail.schemas.in.h:51
 msgid "Directory for loading/attaching files to composer."
@@ -10398,8 +10411,8 @@ msgid ""
 "Initial height of the \"Filter Editor\" window. The value updates as the "
 "user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Editor de filtros». El valor se actualiza "
-"según el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Editor de filtros». El valor se actualiza según "
+"el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:86
 msgid ""
@@ -10422,8 +10435,8 @@ msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Enviar y recibir correo». El valor se "
-"actualiza según el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Enviar y recibir correo». El valor se actualiza "
+"según el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:89
 msgid ""
@@ -10444,11 +10457,11 @@ msgid ""
 "particular value is not used by Evolution since the \"Folder Subscriptions\" "
 "window cannot be maximized. This key exists only as an implementation detail."
 msgstr ""
-"Estado inicial maximizado de la ventana «Suscripciones de carpetas». El "
-"valor se actualiza cuando el usuario maximiza o reduce la ventana. Nota: "
-"Evolution no usa este valor en particular ya que la ventana «Suscripciones "
-"de carpetas» no se puede maximizar. Esta clave existe sólo como un detalle "
-"de implementación."
+"Estado inicial maximizado de la ventana «Suscripciones de carpetas». El valor "
+"se actualiza cuando el usuario maximiza o reduce la ventana. Nota: Evolution "
+"no usa este valor en particular ya que la ventana «Suscripciones de carpetas» "
+"no se puede maximizar. Esta clave existe sólo como un detalle de "
+"implementación."
 
 #: ../mail/evolution-mail.schemas.in.h:91
 msgid ""
@@ -10734,9 +10747,9 @@ msgid ""
 "Possible values are: never - to never close browser window always - to "
 "always close browser window ask - (or any other value) will ask user"
 msgstr ""
-"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana "
-"del examinador; «always» (siempre) para cerrar siempre la ventana del "
-"examinador; «ask» (preguntar) o cualquier otro valor, preguntarán al usuario"
+"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana del "
+"examinador; «always» (siempre) para cerrar siempre la ventana del examinador; "
+"«ask» (preguntar) o cualquier otro valor, preguntarán al usuario"
 
 #: ../mail/evolution-mail.schemas.in.h:139
 msgid "Prompt before sending to recipients not entered as mail addresses"
@@ -10918,8 +10931,8 @@ msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
-"Mostrar el campo «Cco» al enviar un mensaje de correo. Esto se controla "
-"desde el menú Ver cuando se elige una cuenta de correo."
+"Mostrar el campo «Cco» al enviar un mensaje de correo. Esto se controla desde "
+"el menú Ver cuando se elige una cuenta de correo."
 
 #: ../mail/evolution-mail.schemas.in.h:181
 msgid ""
@@ -10986,8 +10999,8 @@ msgid ""
 "it will do that. It works by comparing the Reply-To: header with a List-"
 "Post: header, if there is one."
 msgstr ""
-"Algunas listas de correo establecen una cabecera «Responder a:» para forzar "
-"a los usuarios a responder a la lista, incluso cuando los usuarios piden que "
+"Algunas listas de correo establecen una cabecera «Responder a:» para forzar a "
+"los usuarios a responder a la lista, incluso cuando los usuarios piden que "
 "Evolution envíe una respuesta privada. Establecer esta opción a cierta "
 "intentará ignorar tales cabeceras «Responder a:», de tal forma que Evolution "
 "haga lo que se le pide. Si usa la acción de respuesta privada, responderá de "
@@ -11082,8 +11095,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
-"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
-"«2» para mensajes de depuración."
+"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. «2» "
+"para mensajes de depuración."
 
 #: ../mail/evolution-mail.schemas.in.h:204
 msgid ""
@@ -11111,9 +11124,9 @@ msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr ""
-"Esta clave es de una sola lectura y después de leerla se establece a "
-"«false». Esto deselecciona el correo en la lista y elimina la vista previa "
-"para esa carpeta."
+"Esta clave es de una sola lectura y después de leerla se establece a «false». "
+"Esto deselecciona el correo en la lista y elimina la vista previa para esa "
+"carpeta."
 
 #: ../mail/evolution-mail.schemas.in.h:207
 msgid ""
@@ -11246,9 +11259,9 @@ msgid ""
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
 "Indica si se debe comprobar si hay mensajes nuevos en todas las cuentas "
-"activas independientemente del conteo en la opción «Comprobar si hay "
-"mensajes nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se "
-"usa junto con la opción «send_recv_on_start»."
+"activas independientemente del conteo en la opción «Comprobar si hay mensajes "
+"nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se usa junto "
+"con la opción «send_recv_on_start»."
 
 #: ../mail/evolution-mail.schemas.in.h:226
 msgid ""
@@ -11550,7 +11563,7 @@ msgstr "Confirmaciones"
 
 #: ../mail/mail-config.ui.h:31
 #: ../modules/addressbook/autocompletion-config.c:178
-#: ../modules/calendar/e-calendar-preferences.ui.h:11
+#: ../modules/calendar/e-calendar-preferences.ui.h:10
 msgid "Date/Time Format"
 msgstr "Formato de la fecha y hora"
 
@@ -11725,7 +11738,7 @@ msgid "Pass_word:"
 msgstr "_Contraseña:"
 
 #: ../mail/mail-config.ui.h:79
-#: ../modules/calendar/e-calendar-preferences.ui.h:22
+#: ../modules/calendar/e-calendar-preferences.ui.h:21
 msgid "Pick a color"
 msgstr "Elija un color"
 
@@ -12018,10 +12031,6 @@ msgstr "Configuración _manual del proxy:"
 #: ../mail/mail-config.ui.h:156
 msgid "_Never load images from the Internet"
 msgstr "_Nunca cargar imágenes desde Internet"
-
-#: ../mail/mail-config.ui.h:157
-msgid "_Path:"
-msgstr "R_uta:"
 
 #: ../mail/mail-config.ui.h:158 ../modules/addressbook/ldap-config.ui.h:27
 msgid "_Port:"
@@ -12389,8 +12398,8 @@ msgid ""
 "A read receipt notification has been requested for \"{1}\". Send the receipt "
 "notification to {0}?"
 msgstr ""
-"Se ha solicitado una notificación de recepción para «{1}». ¿Quiere enviar "
-"una notificación de recepción a {0}?"
+"Se ha solicitado una notificación de recepción para «{1}». ¿Quiere enviar una "
+"notificación de recepción a {0}?"
 
 #: ../mail/mail.error.xml.h:10
 msgid ""
@@ -13179,25 +13188,25 @@ msgstr "%e de %b %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%e de %b de %Y"
 
-#: ../mail/message-list.c:2638
+#: ../mail/message-list.c:2651
 msgid "Select all visible messages"
 msgstr "Selecciona todos los mensajes visibles"
 
-#: ../mail/message-list.c:2796 ../mail/message-list.etspec.h:10
+#: ../mail/message-list.c:2809 ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Mensajes"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:3991
+#: ../mail/message-list.c:4004
 msgid "Follow-up"
 msgstr "Seguimiento"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4495 ../mail/message-list.c:4914
+#: ../mail/message-list.c:4508 ../mail/message-list.c:4927
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
-#: ../mail/message-list.c:4732
+#: ../mail/message-list.c:4745
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -13205,7 +13214,7 @@ msgstr ""
 "Ningún mensaje satisface su criterio de búsqueda. Limpie el criterio de "
 "selección con el elemento del menú Buscar->Limpiar o cámbielo."
 
-#: ../mail/message-list.c:4734
+#: ../mail/message-list.c:4747
 msgid "There are no messages in this folder."
 msgstr "No hay mensajes en esta carpeta."
 
@@ -13981,192 +13990,187 @@ msgid "60 minutes"
 msgstr "60 minutos"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:9
-msgid "Alarms"
-msgstr "Alertas"
-
-#: ../modules/calendar/e-calendar-preferences.ui.h:10
 msgid "Alerts"
 msgstr "Alertas"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:12
+#: ../modules/calendar/e-calendar-preferences.ui.h:11
 msgid "Day _ends:"
 msgstr "La jornada _acaba a las:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:13
+#: ../modules/calendar/e-calendar-preferences.ui.h:12
 msgid "Days"
 msgstr "Días"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:14
+#: ../modules/calendar/e-calendar-preferences.ui.h:13
 msgid "Default Free/Busy Server"
 msgstr "Servidor de disponibilidad predeterminado"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:15
+#: ../modules/calendar/e-calendar-preferences.ui.h:14
 msgid "Display"
 msgstr "Mostrar"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:16
+#: ../modules/calendar/e-calendar-preferences.ui.h:15
 msgid "Display reminders in _notification area only"
 msgstr "Mostrar recordatorios sólo en el área de _notificación"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:19
+#: ../modules/calendar/e-calendar-preferences.ui.h:18
 msgid "Hours"
 msgstr "Horas"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:20
+#: ../modules/calendar/e-calendar-preferences.ui.h:19
 msgid "Minutes"
 msgstr "Minutos"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:23
-#| msgid "Publishing Location"
+#: ../modules/calendar/e-calendar-preferences.ui.h:22
 msgid "Publishing Information"
 msgstr "Información de de publicación"
 
 #. Sunday
-#: ../modules/calendar/e-calendar-preferences.ui.h:26
+#: ../modules/calendar/e-calendar-preferences.ui.h:25
 msgid "S_un"
 msgstr "_Dom"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:28
+#: ../modules/calendar/e-calendar-preferences.ui.h:27
 msgid "Sc_roll Month View by a week"
 msgstr "Desplazar la vista mens_ual una semana"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:29
+#: ../modules/calendar/e-calendar-preferences.ui.h:28
 msgid "Se_cond zone:"
 msgstr "Zona se_cundaria:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:30
+#: ../modules/calendar/e-calendar-preferences.ui.h:29
 msgid "Select the calendars for reminder notification"
 msgstr "Seleccione los calendarios para los recordatorios de notificación"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../modules/calendar/e-calendar-preferences.ui.h:32
+#: ../modules/calendar/e-calendar-preferences.ui.h:31
 msgid "Sh_ow a reminder"
 msgstr "Mos_\ttrar un recordatorio"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../modules/calendar/e-calendar-preferences.ui.h:34
+#: ../modules/calendar/e-calendar-preferences.ui.h:33
 msgid "Show a _reminder"
 msgstr "Mostrar un _recordatorio"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:35
+#: ../modules/calendar/e-calendar-preferences.ui.h:34
 msgid "Show r_ecurring events in italic in bottom left calendar"
 msgstr ""
 "Mostrar acontecimientos repeti_dos en cursiva en el calendario inferior "
 "izquierdo"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:36
+#: ../modules/calendar/e-calendar-preferences.ui.h:35
 msgid "Show week _numbers"
 msgstr "Mostrar _números de semanas"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:38
+#: ../modules/calendar/e-calendar-preferences.ui.h:37
 msgid "T_asks due today:"
 msgstr "_Tareas que vencen hoy:"
 
 #. Thursday
-#: ../modules/calendar/e-calendar-preferences.ui.h:40
+#: ../modules/calendar/e-calendar-preferences.ui.h:39
 msgid "T_hu"
 msgstr "_Jue"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:43
+#: ../modules/calendar/e-calendar-preferences.ui.h:42
 msgid "Template:"
 msgstr "Plantilla:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:45
+#: ../modules/calendar/e-calendar-preferences.ui.h:44
 #: ../widgets/misc/e-dateedit.c:592
 msgid "Time"
 msgstr "Hora"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:47
+#: ../modules/calendar/e-calendar-preferences.ui.h:46
 msgid "Time format:"
 msgstr "Formato de la hora:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:49
+#: ../modules/calendar/e-calendar-preferences.ui.h:48
 msgid "Use s_ystem time zone"
 msgstr "Usar la zona horaria del s_istema"
 
 #. A weekday like "Monday" follows
-#: ../modules/calendar/e-calendar-preferences.ui.h:52
+#: ../modules/calendar/e-calendar-preferences.ui.h:51
 msgid "Wee_k starts on:"
 msgstr "La sema_na empieza en:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:53
+#: ../modules/calendar/e-calendar-preferences.ui.h:52
 #: ../modules/calendar/e-cal-shell-view-actions.c:1678
 msgid "Work Week"
 msgstr "Semana laboral"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:54
+#: ../modules/calendar/e-calendar-preferences.ui.h:53
 msgid "Work days:"
 msgstr "Días laborables:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:55
+#: ../modules/calendar/e-calendar-preferences.ui.h:54
 msgid "_12 hour (AM/PM)"
 msgstr "_12 horas (AM/PM)"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:56
+#: ../modules/calendar/e-calendar-preferences.ui.h:55
 msgid "_24 hour"
 msgstr "_24 horas"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:57
+#: ../modules/calendar/e-calendar-preferences.ui.h:56
 msgid "_Ask for confirmation when deleting items"
 msgstr "Pedir con_firmación al eliminar elementos"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:58
+#: ../modules/calendar/e-calendar-preferences.ui.h:57
 msgid "_Compress weekends in month view"
 msgstr "_Comprimir fines de semana en la vista mensual"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:59
+#: ../modules/calendar/e-calendar-preferences.ui.h:58
 msgid "_Day begins:"
 msgstr "La jornada laboral c_omienza a las:"
 
 #. Friday
-#: ../modules/calendar/e-calendar-preferences.ui.h:61
+#: ../modules/calendar/e-calendar-preferences.ui.h:60
 msgid "_Fri"
 msgstr "Vi_e"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:62
+#: ../modules/calendar/e-calendar-preferences.ui.h:61
 msgid "_Hide completed tasks after"
 msgstr "_Ocultar tareas terminadas tras"
 
 #. Monday
-#: ../modules/calendar/e-calendar-preferences.ui.h:64
+#: ../modules/calendar/e-calendar-preferences.ui.h:63
 msgid "_Mon"
 msgstr "_Lun"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:65
+#: ../modules/calendar/e-calendar-preferences.ui.h:64
 msgid "_Overdue tasks:"
 msgstr "Tareas fuera de pla_zo:"
 
 #. Saturday
-#: ../modules/calendar/e-calendar-preferences.ui.h:67
+#: ../modules/calendar/e-calendar-preferences.ui.h:66
 msgid "_Sat"
 msgstr "_Sáb"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:68
+#: ../modules/calendar/e-calendar-preferences.ui.h:67
 msgid "_Show appointment end times in week and month view"
 msgstr ""
 "_Mostrar la hora del final de las citas en las vistas semanales y mensuales"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:69
+#: ../modules/calendar/e-calendar-preferences.ui.h:68
 msgid "_Time divisions:"
 msgstr "Divisiones de _hora:"
 
 #. Tuesday
-#: ../modules/calendar/e-calendar-preferences.ui.h:71
+#: ../modules/calendar/e-calendar-preferences.ui.h:70
 msgid "_Tue"
 msgstr "_Mar"
 
 #. Wednesday
-#: ../modules/calendar/e-calendar-preferences.ui.h:73
+#: ../modules/calendar/e-calendar-preferences.ui.h:72
 msgid "_Wed"
 msgstr "M_ié"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../modules/calendar/e-calendar-preferences.ui.h:75
+#: ../modules/calendar/e-calendar-preferences.ui.h:74
 msgid "before every anniversary/birthday"
 msgstr "antes de cada aniversario/cumpleaños"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../modules/calendar/e-calendar-preferences.ui.h:77
+#: ../modules/calendar/e-calendar-preferences.ui.h:76
 msgid "before every appointment"
 msgstr "antes de cada cita"
 
@@ -14478,8 +14482,7 @@ msgstr ""
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:67
 msgid "Show Role field in the event/task/meeting editor"
-msgstr ""
-"Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
+msgstr "Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:68
 msgid "Show appointment end times in week and month views"
@@ -14569,8 +14572,8 @@ msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view."
 msgstr ""
-"El UID de la nota seleccionada (o «primaria») en la barra lateral de la "
-"vista de «Notas»."
+"El UID de la nota seleccionada (o «primaria») en la barra lateral de la vista "
+"de «Notas»."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:85
 msgid ""
@@ -14607,8 +14610,8 @@ msgid ""
 msgstr ""
 "El estilo de la distribución determina dónde ubicar el panel de vista previa "
 "en relación con la lista de notas. «0» (vista clásica) ubica el panel de "
-"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el "
-"panel de vista previa junto a la lista de notas."
+"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el panel "
+"de vista previa junto a la lista de notas."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:90
 msgid ""
@@ -14630,8 +14633,8 @@ msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
 msgstr ""
-"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
-"«2» para mensajes de depuración."
+"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. «2» "
+"para mensajes de depuración."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:93
 msgid "Time divisions"
@@ -14654,8 +14657,8 @@ msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\"."
 msgstr ""
-"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», "
-"«hours» o «days»."
+"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», «hours» "
+"o «days»."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:98
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
@@ -14784,8 +14787,8 @@ msgstr ""
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:121
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr ""
-"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/"
-"tareas/reuniones"
+"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/tareas/"
+"reuniones"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:122
 msgid "Whether to show week numbers in various places in the Calendar."
@@ -15199,8 +15202,11 @@ msgstr "Previsualizar el calendario que imprimir"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1781
 #: ../modules/calendar/e-cal-shell-view-memopad.c:295
-msgid "Save as iCalendar..."
-msgstr "Guardar como iCalendar…"
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:382
+#: ../modules/calendar/e-memo-shell-view-actions.c:844
+#: ../modules/calendar/e-task-shell-view-actions.c:1043
+msgid "_Save as iCalendar..."
+msgstr "G_uardar como iCalendar…"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1858
 msgid "Go To"
@@ -15304,12 +15310,6 @@ msgstr "Ver la tarea seleccionada"
 #: ../modules/calendar/e-task-shell-view-actions.c:1028
 msgid "Print the selected task"
 msgstr "Imprimir la tarea seleccionada"
-
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:382
-#: ../modules/calendar/e-memo-shell-view-actions.c:844
-#: ../modules/calendar/e-task-shell-view-actions.c:1043
-msgid "_Save as iCalendar..."
-msgstr "G_uardar como iCalendar…"
 
 #: ../modules/calendar/e-memo-shell-backend.c:298
 msgctxt "New"
@@ -17674,8 +17674,8 @@ msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr ""
-"%s desea recibir la última información de la siguiente reunión a través de "
-"%s:"
+"%s desea recibir la última información de la siguiente reunión a través de %"
+"s:"
 
 #: ../plugins/itip-formatter/itip-view.c:400
 #, c-format
@@ -18135,8 +18135,8 @@ msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
 msgstr ""
-"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere "
-"editar el acontecimiento antiguo?"
+"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere editar "
+"el acontecimiento antiguo?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:589
 #, c-format
@@ -21488,6 +21488,12 @@ msgstr "Seleccionar todo"
 msgid "Input Methods"
 msgstr "Métodos de entrada"
 
+#~ msgid "Alarms"
+#~ msgstr "Alertas"
+
+#~ msgid "Save as iCalendar..."
+#~ msgstr "Guardar como iCalendar…"
+
 #~ msgid "Please select a folder from the current account."
 #~ msgstr "Seleccionar una carpeta de la cuenta actual."
 
@@ -22136,8 +22142,8 @@ msgstr "Métodos de entrada"
 #~ "Folder '%s' contains %d duplicate messages. Are you sure you want to "
 #~ "delete them?"
 #~ msgstr ""
-#~ "La carpeta «%s» contiene %d correos duplicados. ¿Está seguro de que "
-#~ "quiere eliminarlos?"
+#~ "La carpeta «%s» contiene %d correos duplicados. ¿Está seguro de que quiere "
+#~ "eliminarlos?"
 
 #~ msgid ""
 #~ "Error on %s: %s\n"
@@ -22164,8 +22170,8 @@ msgstr "Métodos de entrada"
 
 #~ msgid "Count of default recurrence for a new event. -1 means forever."
 #~ msgstr ""
-#~ "Conteo de las repeticiones predeterminadas para un acontecimiento nuevo. "
-#~ "-1 significa para siempre."
+#~ "Conteo de las repeticiones predeterminadas para un acontecimiento nuevo. -"
+#~ "1 significa para siempre."
 
 #~ msgid "Default recurrence count"
 #~ msgstr "Conteo de repeticiones predeterminado"
@@ -23513,8 +23519,7 @@ msgstr "Métodos de entrada"
 
 #~ msgid "The content widget appears in a shell window's right pane"
 #~ msgstr ""
-#~ "El widget de contenido aparece en un panel derecho de la ventana de "
-#~ "«shell»"
+#~ "El widget de contenido aparece en un panel derecho de la ventana de «shell»"
 
 #~ msgid "Shell Sidebar Widget"
 #~ msgstr "Widget de barra lateral de «shell»"
@@ -24501,8 +24506,8 @@ msgstr "Métodos de entrada"
 #~ "This is the full name of your LDAP server. For example, \"ldap.mycompany."
 #~ "com\"."
 #~ msgstr ""
-#~ "Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap."
-#~ "miempresa.com»."
+#~ "Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap.miempresa."
+#~ "com»."
 
 #~ msgid ""
 #~ "This is the maximum number of entries to download. Setting this number to "
