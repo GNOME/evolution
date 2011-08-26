@@ -2363,6 +2363,19 @@ ml_tree_drag_motion (ETree *tree, GdkDragContext *context, gint x, gint y, guint
 		return TRUE;
 	}
 
+	if (EM_IS_FOLDER_TREE (gtk_drag_get_source_widget (context))) {
+		EMFolderTree *folder_tree;
+		CamelFolder *folder;
+
+		folder_tree = EM_FOLDER_TREE (gtk_drag_get_source_widget (context));
+		folder = em_folder_tree_get_selected_folder (folder_tree);
+
+		if (folder == ml->folder) {
+			gdk_drag_status (context, 0, time);
+			return TRUE;
+		}
+	}
+
 	targets = gdk_drag_context_list_targets (context);
 	while (targets != NULL) {
 		gint i;
