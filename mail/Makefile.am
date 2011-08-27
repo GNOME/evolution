@@ -6,6 +6,7 @@ mailincludedir = $(privincludedir)/mail
 
 include $(top_srcdir)/glib-gen.mak
 glib_enum_headers=e-mail-enums.h
+glib_enum_output=e-mail-enumtypes
 glib_enum_define=E_MAIL
 glib_enum_prefix=e_mail
 
