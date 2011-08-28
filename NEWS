@@ -1,3 +1,101 @@
+Evolution 3.1.90 2011-08-29
+---------------------------
+
+* New user documentation in Mallard format by Andre Klapper.
+
+Bug Fixes:
+	Bug 362366 - Dragging selected folder to message pane duplicates
+	             messages (Milan Crha)
+	Bug 650839 - Add option for alarms into calendar preferences
+	             (Milan Crha)
+	Bug 651633 - Hidden task/memo sidebar always automagically re-appears
+	             (Milan Crha)
+	Bug 651741 - Find in text message doesn't warn about no matching found
+	             (Milan Crha)
+	Bug 652092 - 'Mark messages as read' doesn't work with search folder
+	             (Milan Crha)
+	Bug 652914 - IMAP: moving mail puts a copy into real Trash too
+	             (Milan Crha)
+	Bug 655254 - Cropped Junk settings text (Milan Crha)
+	Bug 655419 - "Save as iCalendar" misses mnemonic (Milan Crha)
+	Bug 655490 - Location chooser dialog for Weather calendar is too small
+	             (Milan Crha)
+	Bug 655549 - [mail-to-task] Ignores cancel of source select dialog
+	             (Milan Crha)
+	Bug 655551 - [mail-to-task] Pick organizer based on selected folder's
+	             store (Milan Crha)
+	Bug 655629 - "Path:" label for spool file should be "File:" label
+	             (Milan Crha)
+	Bug 655666 - Split task preferences into its own tab (Milan Crha)
+	Bug 655708 - Unreadable tooltip for Memo/Task (Milan Crha)
+	Bug 655942 - Shows 'Storing folder...' when deleting a local folder
+	             (Milan Crha)
+	Bug 656258 - Critical runtime warning on comp-editor close (Milan Crha)
+	Bug 656537 - Fix mallard relaxng validation errors in help pages
+	             (Alexandre Rostovtsev)
+	Bug 656620 - Account editor doesn't update on settings change
+	             (Milan Crha)
+	Bug 656622 - 'Check for supported types' fails again (Milan Crha)
+	Bug 656718 - Runtime warning in folder_tree_get_folder_info_cb()
+	             (Matthew Barnes)
+	Bug 656720 - Exclude NNTP stores from Create Folder dialog
+	             (Matthew Barnes)
+	Bug 656722 - Incorrect prototype of notify:: signal callback
+	             (Milan Crha)
+	Bug 656723 - Forgets 'Use secure connection' setting during account
+	             configuration (Milan Crha)
+	Bug 656733 - GUI no longer allows for non-default ports for email
+	             (Milan Crha)
+	Bug 656810 - Too strict checking for validity of received calendars
+	             (Milan Crha)
+	Bug 657310 - Crash when editing transport-only accounts (Milan Crha)
+	Bug 657396 - Rename Alarms tab to Reminders in preferences (Milan Crha)
+
+Other Changes:
+	* Adapt to new CamelSettings API. (Matthew Barnes)
+	* Adapt to new CamelSubscribable interface. (Matthew Barnes)
+	* Notify about all newly received messages since the last check
+	  (Milan Crha)
+	* Using of uninitialized memory in
+	  em-folder-tree-model.c:store_info_free (Milan Crha)
+	* Simplify em_config_target_new_account_update_settings().
+	  (Matthew Barnes)
+	* Change license of Czech Help translation as per
+	  https://mail.gnome.org/archives/gnome-cs-list/2011-August/msg00013.html
+	  (Andre Klapper)
+	* Use new CamelService:display-name property. (Matthew Barnes)
+	* e_mail_store_foreach(): Take an EMailSession parameter.
+	  (Matthew Barnes)
+	* Do not show IM icons, a workaround till bug #473862 is fixed
+	  (Milan Crha)
+	* Update EMailBrowser actions when MessageList reloads. (Matthew Barnes)
+	* Invalidate region by one more pixel in width and height (Milan Crha)
+	* plugin-mono: Remove Camel.cs and Evolution.cs (Matthew Barnes)
+	* Cannot add folder to previously saved Search folder (Milan Crha)
+	* Add translator comment for screenshot in docs (Andre Klapper)
+	* Very slow filling of EMSubscriptionEditor tree view (Milan Crha)
+	* Changing source in CompEditor blocks UI (Milan Crha)
+	* [mail-to-task] Uses incorrect function to free array of message
+	  uids (Milan Crha)
+	* Stick Account Editor widgets at the top, like it used to before gtk3
+	  (Milan Crha)
+	* Fix enum generation problems in glib-gen.mak. (Matthew Barnes)
+
+Translations:
+	Christian Kirbach (de)
+	Jorge González (es)
+	Daniel Mustieles (es)
+	Fran Dieguez (gl)
+	Andika Triwidada (id)
+	OKANO Takayoshi (ja)
+	Kjartan Maraas (nb)
+	A S Alam (pa)
+	Yuri Myasoedov (ru)
+	Мирослав Николић (sr)
+	Daniel Nylander (sv)
+	Dr.T.Vasudevan (ta)
+
+
 Evolution 3.1.5 2011-08-14
 --------------------------
 
