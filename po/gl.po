@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-24 21:24+0200\n"
-"PO-Revision-Date: 2011-08-24 21:47+0200\n"
+"POT-Creation-Date: 2011-08-28 16:03+0200\n"
+"PO-Revision-Date: 2011-08-28 16:03+0200\n"
 "Last-Translator: Fran Diéguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
 "Language: gl\n"
@@ -445,7 +445,7 @@ msgid "_Blog:"
 msgstr "_blogue:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:33
-#: ../calendar/gui/dialogs/event-page.c:708
+#: ../calendar/gui/dialogs/event-page.c:710
 #: ../calendar/gui/dialogs/event-page.ui.h:10
 #: ../plugins/itip-formatter/itip-view.c:1923
 msgid "_Calendar:"
@@ -1233,7 +1233,7 @@ msgid "Video Chat"
 msgstr "Videoconferencia"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:683
-#: ../calendar/gui/dialogs/calendar-setup.c:396
+#: ../calendar/gui/dialogs/calendar-setup.c:437
 #: ../modules/calendar/e-cal-shell-view-actions.c:232
 #: ../modules/calendar/e-cal-shell-view-actions.c:261
 #: ../modules/calendar/e-cal-shell-view.c:511
@@ -1501,8 +1501,8 @@ msgstr "Non foi posíbel obter unha lista das axendas de enderezos: %s"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:45
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:79
-#: ../calendar/gui/dialogs/event-page.c:2893
-#: ../calendar/gui/dialogs/memo-page.c:926
+#: ../calendar/gui/dialogs/event-page.c:2894
+#: ../calendar/gui/dialogs/memo-page.c:932
 #: ../calendar/gui/dialogs/task-page.c:1739 ../em-format/em-format.c:2316
 #: ../mail/em-folder-tree.c:695 ../mail/mail-ops.c:658
 #: ../plugins/caldav/caldav-browse-server.c:209
@@ -2013,7 +2013,7 @@ msgstr[1] "horas"
 #. (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:129
-#: ../calendar/gui/dialogs/recurrence-page.c:1125
+#: ../calendar/gui/dialogs/recurrence-page.c:1189
 msgid "day"
 msgid_plural "days"
 msgstr[0] "día"
@@ -2431,7 +2431,7 @@ msgstr "Enga_dir"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
 #: ../calendar/gui/dialogs/event-page.ui.h:8
-#: ../modules/calendar/e-calendar-preferences.ui.h:24
+#: ../modules/calendar/e-calendar-preferences.ui.h:23
 msgid "Reminders"
 msgstr "Recordatorios"
 
@@ -2468,53 +2468,57 @@ msgstr ""
 "Copia_r localmente os contidos da lista de notas para unha operación sen "
 "conexión"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:372
+#: ../calendar/gui/dialogs/calendar-setup.c:340
+msgid "Sh_ow reminder notifications"
+msgstr "M_ostrar notificacións de recordatorios"
+
+#: ../calendar/gui/dialogs/calendar-setup.c:413
 msgid "Colo_r:"
 msgstr "Co_r:"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:395
-#: ../calendar/gui/dialogs/calendar-setup.c:406
-#: ../calendar/gui/dialogs/calendar-setup.c:417
+#: ../calendar/gui/dialogs/calendar-setup.c:436
+#: ../calendar/gui/dialogs/calendar-setup.c:448
+#: ../calendar/gui/dialogs/calendar-setup.c:459
 #: ../mail/em-folder-properties.c:233 ../mail/mail-config.ui.h:52
 #: ../modules/addressbook/addressbook-config.c:1052
 #: ../modules/addressbook/autocompletion-config.c:218
-#: ../modules/calendar/e-calendar-preferences.ui.h:18
+#: ../modules/calendar/e-calendar-preferences.ui.h:17
 #: ../plugins/itip-formatter/itip-formatter.c:3001
 #: ../plugins/publish-calendar/publish-calendar.ui.h:7
 #: ../smime/gui/smime-ui.ui.h:21
 msgid "General"
 msgstr "Xeral"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:407
-#: ../modules/calendar/e-calendar-preferences.ui.h:41
+#: ../calendar/gui/dialogs/calendar-setup.c:449
+#: ../modules/calendar/e-calendar-preferences.ui.h:40
 msgid "Task List"
 msgstr "Lista de tarefas"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:418
+#: ../calendar/gui/dialogs/calendar-setup.c:460
 msgid "Memo List"
 msgstr "Lista de notas"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:506
+#: ../calendar/gui/dialogs/calendar-setup.c:548
 msgid "Calendar Properties"
 msgstr "Propiedades do calendario"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:506
+#: ../calendar/gui/dialogs/calendar-setup.c:548
 msgid "New Calendar"
 msgstr "Calendario novo"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:565
+#: ../calendar/gui/dialogs/calendar-setup.c:607
 msgid "Task List Properties"
 msgstr "Propiedades da lista de tarefas"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:565
+#: ../calendar/gui/dialogs/calendar-setup.c:607
 msgid "New Task List"
 msgstr "Lista de tarefas nova"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:624
+#: ../calendar/gui/dialogs/calendar-setup.c:666
 msgid "Memo List Properties"
 msgstr "Propiedades da lista de notas"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:624
+#: ../calendar/gui/dialogs/calendar-setup.c:666
 msgid "New Memo List"
 msgstr "Lista de notas nova"
 
@@ -2974,79 +2978,79 @@ msgstr "Participantes"
 msgid "Print this event"
 msgstr "Imprimir esta actividade"
 
-#: ../calendar/gui/dialogs/event-page.c:556
+#: ../calendar/gui/dialogs/event-page.c:558
 msgid "Event's start time is in the past"
 msgstr "A hora de inicio da actividade xa pasou"
 
-#: ../calendar/gui/dialogs/event-page.c:633
+#: ../calendar/gui/dialogs/event-page.c:635
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr ""
 "Non é posíbel editar a actividade porque o calendario seleccionado é de só "
 "lectura"
 
-#: ../calendar/gui/dialogs/event-page.c:637
+#: ../calendar/gui/dialogs/event-page.c:639
 msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr ""
 "Non é posíbel editar a actividade totalmente porque vostede non é o "
 "organizador"
 
-#: ../calendar/gui/dialogs/event-page.c:649
-#: ../calendar/gui/dialogs/event-page.c:3021
+#: ../calendar/gui/dialogs/event-page.c:651
+#: ../calendar/gui/dialogs/event-page.c:3049
 msgid "This event has reminders"
 msgstr "Esta actividade ten recordatorios"
 
-#: ../calendar/gui/dialogs/event-page.c:716
+#: ../calendar/gui/dialogs/event-page.c:718
 #: ../calendar/gui/dialogs/event-page.ui.h:7
 #: ../calendar/gui/dialogs/memo-page.ui.h:2
 msgid "Or_ganizer:"
 msgstr "Or_ganizador:"
 
-#: ../calendar/gui/dialogs/event-page.c:1254
+#: ../calendar/gui/dialogs/event-page.c:1262
 msgid "Event with no start date"
 msgstr "Actividade sen data de inicio"
 
-#: ../calendar/gui/dialogs/event-page.c:1257
+#: ../calendar/gui/dialogs/event-page.c:1265
 msgid "Event with no end date"
 msgstr "Actividade sen data de finalización"
 
-#: ../calendar/gui/dialogs/event-page.c:1430
-#: ../calendar/gui/dialogs/memo-page.c:695
-#: ../calendar/gui/dialogs/task-page.c:811
+#: ../calendar/gui/dialogs/event-page.c:1438
+#: ../calendar/gui/dialogs/memo-page.c:707
+#: ../calendar/gui/dialogs/task-page.c:819
 msgid "Start date is wrong"
 msgstr "A data de inicio é incorrecta"
 
-#: ../calendar/gui/dialogs/event-page.c:1440
+#: ../calendar/gui/dialogs/event-page.c:1448
 msgid "End date is wrong"
 msgstr "A data de finalización é incorrecta"
 
-#: ../calendar/gui/dialogs/event-page.c:1463
+#: ../calendar/gui/dialogs/event-page.c:1471
 msgid "Start time is wrong"
 msgstr "A hora de inicio é incorrecta"
 
-#: ../calendar/gui/dialogs/event-page.c:1470
+#: ../calendar/gui/dialogs/event-page.c:1478
 msgid "End time is wrong"
 msgstr "A hora de finalización é incorrecta"
 
-#: ../calendar/gui/dialogs/event-page.c:1635
-#: ../calendar/gui/dialogs/memo-page.c:736
-#: ../calendar/gui/dialogs/task-page.c:865
+#: ../calendar/gui/dialogs/event-page.c:1643
+#: ../calendar/gui/dialogs/memo-page.c:748
+#: ../calendar/gui/dialogs/task-page.c:873
 msgid "An organizer is required."
 msgstr "Requírese un organizador."
 
-#: ../calendar/gui/dialogs/event-page.c:1669
-#: ../calendar/gui/dialogs/task-page.c:899
+#: ../calendar/gui/dialogs/event-page.c:1677
+#: ../calendar/gui/dialogs/task-page.c:907
 msgid "At least one attendee is required."
 msgstr "Requírese polo menos un participante."
 
-#: ../calendar/gui/dialogs/event-page.c:1869
+#: ../calendar/gui/dialogs/event-page.c:1878
 msgid "_Delegatees"
 msgstr "_Delegados"
 
-#: ../calendar/gui/dialogs/event-page.c:1871
+#: ../calendar/gui/dialogs/event-page.c:1880
 msgid "Atte_ndees"
 msgstr "_Participantes"
 
-#: ../calendar/gui/dialogs/event-page.c:2891
+#: ../calendar/gui/dialogs/event-page.c:2892
 #, c-format
 msgid "Unable to open the calendar '%s': %s"
 msgstr "Non foi posíbel abrir o calendario «%s»: %s"
@@ -3057,40 +3061,40 @@ msgstr "Non foi posíbel abrir o calendario «%s»: %s"
 #. on behalf of some other user
 #. Translators: This string is used when we are creating a Task
 #. on behalf of some other user
-#: ../calendar/gui/dialogs/event-page.c:2939
-#: ../calendar/gui/dialogs/memo-page.c:967
-#: ../calendar/gui/dialogs/task-page.c:1784
+#: ../calendar/gui/dialogs/event-page.c:2967
+#: ../calendar/gui/dialogs/memo-page.c:1006
+#: ../calendar/gui/dialogs/task-page.c:1814
 #, c-format
 msgid "You are acting on behalf of %s"
 msgstr "Está actuando no nome de %s"
 
-#: ../calendar/gui/dialogs/event-page.c:3250
+#: ../calendar/gui/dialogs/event-page.c:3278
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d día antes da cita"
 msgstr[1] "%d días antes da cita"
 
-#: ../calendar/gui/dialogs/event-page.c:3256
+#: ../calendar/gui/dialogs/event-page.c:3284
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d hora antes da cita"
 msgstr[1] "%d horas antes da cita"
 
-#: ../calendar/gui/dialogs/event-page.c:3262
+#: ../calendar/gui/dialogs/event-page.c:3290
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minuto antes da cita"
 msgstr[1] "%d minutos antes da cita"
 
-#: ../calendar/gui/dialogs/event-page.c:3281
+#: ../calendar/gui/dialogs/event-page.c:3309
 msgid "Customize"
 msgstr "Personalizar"
 
 #. Translators: "None" for "No reminder set"
-#: ../calendar/gui/dialogs/event-page.c:3287
+#: ../calendar/gui/dialogs/event-page.c:3315
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "Ningunha"
@@ -3110,7 +3114,7 @@ msgid "Event Description"
 msgstr "Descrición da actividade"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:9
-#: ../modules/calendar/e-calendar-preferences.ui.h:46
+#: ../modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Time _zone:"
 msgstr "Fuso _horario:"
 
@@ -3233,28 +3237,28 @@ msgstr "Nota"
 msgid "Print this memo"
 msgstr "Imprimir esta nota"
 
-#: ../calendar/gui/dialogs/memo-page.c:393
+#: ../calendar/gui/dialogs/memo-page.c:405
 msgid "Memo's start date is in the past"
 msgstr "A hora de inicio da nota xa pasou"
 
-#: ../calendar/gui/dialogs/memo-page.c:430
+#: ../calendar/gui/dialogs/memo-page.c:442
 msgid "Memo cannot be edited, because the selected memo list is read only"
 msgstr ""
 "Non é posíbel editar a nota porque a lista de notas solicitada é de só "
 "lectura"
 
-#: ../calendar/gui/dialogs/memo-page.c:434
+#: ../calendar/gui/dialogs/memo-page.c:446
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr ""
 "Non é posíbel editar a nota na súa totalidade porque vostede non é o "
 "organizador"
 
-#: ../calendar/gui/dialogs/memo-page.c:924
+#: ../calendar/gui/dialogs/memo-page.c:930
 #, c-format
 msgid "Unable to open memos in '%s': %s"
 msgstr "Non é posíbel abrir as notas en «%s»: %s"
 
-#: ../calendar/gui/dialogs/memo-page.c:1099 ../em-format/em-format-quote.c:319
+#: ../calendar/gui/dialogs/memo-page.c:1138 ../em-format/em-format-quote.c:319
 #: ../em-format/em-format.c:1056 ../mail/em-format-html.c:2573
 #: ../mail/em-format-html.c:2638 ../mail/em-format-html.c:2662
 #: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:74
@@ -3276,7 +3280,7 @@ msgid "T_o:"
 msgstr "_Para:"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:7
-#: ../calendar/gui/dialogs/task-page.c:331
+#: ../calendar/gui/dialogs/task-page.c:333
 #: ../calendar/gui/dialogs/task-page.ui.h:9
 msgid "_List:"
 msgstr "_Lista:"
@@ -3321,18 +3325,18 @@ msgstr "Todas as instancias"
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Esta cita contén repeticións que o Evolution non pode editar."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:904
+#: ../calendar/gui/dialogs/recurrence-page.c:968
 msgid "Recurrence date is invalid"
 msgstr "A data da repetición non é correcta"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:944
+#: ../calendar/gui/dialogs/recurrence-page.c:1008
 msgid "End time of the recurrence was before event's start"
 msgstr ""
 "A hora de finalización da repetición era anterior á do inicio da actividade"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/dialogs/recurrence-page.c:974
+#: ../calendar/gui/dialogs/recurrence-page.c:1038
 msgid "on"
 msgstr "en"
 
@@ -3340,7 +3344,7 @@ msgstr "en"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1032
+#: ../calendar/gui/dialogs/recurrence-page.c:1096
 msgid "first"
 msgstr "primeiro"
 
@@ -3349,7 +3353,7 @@ msgstr "primeiro"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1038
+#: ../calendar/gui/dialogs/recurrence-page.c:1102
 msgid "second"
 msgstr "segundo"
 
@@ -3357,7 +3361,7 @@ msgstr "segundo"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1043
+#: ../calendar/gui/dialogs/recurrence-page.c:1107
 msgid "third"
 msgstr "terceiro"
 
@@ -3365,7 +3369,7 @@ msgstr "terceiro"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1048
+#: ../calendar/gui/dialogs/recurrence-page.c:1112
 msgid "fourth"
 msgstr "cuarto"
 
@@ -3373,7 +3377,7 @@ msgstr "cuarto"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1053
+#: ../calendar/gui/dialogs/recurrence-page.c:1117
 msgid "fifth"
 msgstr "quinto"
 
@@ -3381,13 +3385,13 @@ msgstr "quinto"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1058
+#: ../calendar/gui/dialogs/recurrence-page.c:1122
 msgid "last"
 msgstr "último"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/dialogs/recurrence-page.c:1082
+#: ../calendar/gui/dialogs/recurrence-page.c:1146
 msgid "Other Date"
 msgstr "Outra data"
 
@@ -3395,7 +3399,7 @@ msgstr "Outra data"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1088
+#: ../calendar/gui/dialogs/recurrence-page.c:1152
 msgid "1st to 10th"
 msgstr "Do 1 ao 10"
 
@@ -3403,7 +3407,7 @@ msgstr "Do 1 ao 10"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1094
+#: ../calendar/gui/dialogs/recurrence-page.c:1158
 msgid "11th to 20th"
 msgstr "do 11 ao 20"
 
@@ -3411,73 +3415,73 @@ msgstr "do 11 ao 20"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1100
+#: ../calendar/gui/dialogs/recurrence-page.c:1164
 msgid "21st to 31st"
 msgstr "Do 21 ao 31"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1126
-#: ../modules/calendar/e-calendar-preferences.ui.h:21
+#: ../calendar/gui/dialogs/recurrence-page.c:1190
+#: ../modules/calendar/e-calendar-preferences.ui.h:20
 msgid "Monday"
 msgstr "Luns"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1127
-#: ../modules/calendar/e-calendar-preferences.ui.h:48
+#: ../calendar/gui/dialogs/recurrence-page.c:1191
+#: ../modules/calendar/e-calendar-preferences.ui.h:47
 msgid "Tuesday"
 msgstr "Martes"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1128
-#: ../modules/calendar/e-calendar-preferences.ui.h:50
+#: ../calendar/gui/dialogs/recurrence-page.c:1192
+#: ../modules/calendar/e-calendar-preferences.ui.h:49
 msgid "Wednesday"
 msgstr "Mércores"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1129
-#: ../modules/calendar/e-calendar-preferences.ui.h:44
+#: ../calendar/gui/dialogs/recurrence-page.c:1193
+#: ../modules/calendar/e-calendar-preferences.ui.h:43
 msgid "Thursday"
 msgstr "Xoves"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1130
-#: ../modules/calendar/e-calendar-preferences.ui.h:17
+#: ../calendar/gui/dialogs/recurrence-page.c:1194
+#: ../modules/calendar/e-calendar-preferences.ui.h:16
 msgid "Friday"
 msgstr "Venres"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1131
-#: ../modules/calendar/e-calendar-preferences.ui.h:27
+#: ../calendar/gui/dialogs/recurrence-page.c:1195
+#: ../modules/calendar/e-calendar-preferences.ui.h:26
 msgid "Saturday"
 msgstr "Sábado"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1132
-#: ../modules/calendar/e-calendar-preferences.ui.h:37
+#: ../calendar/gui/dialogs/recurrence-page.c:1196
+#: ../modules/calendar/e-calendar-preferences.ui.h:36
 msgid "Sunday"
 msgstr "Domingo"
 
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1254
+#: ../calendar/gui/dialogs/recurrence-page.c:1318
 msgid "on the"
 msgstr "no"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1428
+#: ../calendar/gui/dialogs/recurrence-page.c:1492
 msgid "occurrences"
 msgstr "aparicións"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2140
+#: ../calendar/gui/dialogs/recurrence-page.c:2204
 msgid "Add exception"
 msgstr "Engadir unha excepción"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2181
+#: ../calendar/gui/dialogs/recurrence-page.c:2245
 msgid "Could not get a selection to modify."
 msgstr "Non foi posíbel obter unha selección para modificar."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2187
+#: ../calendar/gui/dialogs/recurrence-page.c:2251
 msgid "Modify exception"
 msgstr "Modificar a excepción"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2231
+#: ../calendar/gui/dialogs/recurrence-page.c:2295
 msgid "Could not get a selection to delete."
 msgstr "Non foi posíbel obter unha selección para eliminar."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2365
+#: ../calendar/gui/dialogs/recurrence-page.c:2429
 msgid "Date/Time"
 msgstr "Data e hora"
 
@@ -3691,32 +3695,32 @@ msgstr "Información da tarefa"
 msgid "Print this task"
 msgstr "Imprimir esta tarefa"
 
-#: ../calendar/gui/dialogs/task-page.c:249
+#: ../calendar/gui/dialogs/task-page.c:251
 msgid "Task's start date is in the past"
 msgstr "A data de inicio da tarefa xa pasou"
 
-#: ../calendar/gui/dialogs/task-page.c:250
+#: ../calendar/gui/dialogs/task-page.c:252
 msgid "Task's due date is in the past"
 msgstr "A data de vencemento da tarefa xa pasou"
 
-#: ../calendar/gui/dialogs/task-page.c:284
+#: ../calendar/gui/dialogs/task-page.c:286
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr ""
 "Non é posíbel editar a tarefa porque a lista de tarefas seleccionada é de só "
 "lectura"
 
-#: ../calendar/gui/dialogs/task-page.c:288
+#: ../calendar/gui/dialogs/task-page.c:290
 msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr ""
 "Non é posíbel editar a tarefa na súa totalidade porque vostede non é o "
 "organizador"
 
-#: ../calendar/gui/dialogs/task-page.c:339
+#: ../calendar/gui/dialogs/task-page.c:341
 #: ../calendar/gui/dialogs/task-page.ui.h:4
 msgid "Organi_zer:"
 msgstr "Organi_zador:"
 
-#: ../calendar/gui/dialogs/task-page.c:793
+#: ../calendar/gui/dialogs/task-page.c:801
 msgid "Due date is wrong"
 msgstr "A data de vencemento é incorrecta"
 
@@ -3997,8 +4001,8 @@ msgstr "Eliminar as actividades seleccionadas"
 msgid "Deleting selected objects"
 msgstr "Eliminando os obxectos seleccionados"
 
-#: ../calendar/gui/e-calendar-view.c:648 ../calendar/gui/e-memo-table.c:855
-#: ../calendar/gui/e-task-table.c:1086
+#: ../calendar/gui/e-calendar-view.c:648 ../calendar/gui/e-memo-table.c:861
+#: ../calendar/gui/e-task-table.c:1094
 msgid "Updating objects"
 msgstr "Actualizando os obxectos"
 
@@ -4098,7 +4102,7 @@ msgstr "Mostrar o fuso horario secundario"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../calendar/gui/e-day-view-time-item.c:844
-#: ../modules/calendar/e-calendar-preferences.ui.h:78
+#: ../modules/calendar/e-calendar-preferences.ui.h:77
 #: ../modules/calendar/e-calendar-preferences.c:179
 #: ../modules/calendar/e-calendar-preferences.c:228
 msgctxt "cal-second-zone"
@@ -4392,33 +4396,33 @@ msgid "* No Summary *"
 msgstr "* Sen resumo *"
 
 #. Translators: This is followed by an event's start date/time
-#: ../calendar/gui/e-memo-table.c:586 ../calendar/gui/e-task-table.c:806
+#: ../calendar/gui/e-memo-table.c:588 ../calendar/gui/e-task-table.c:808
 msgid "Start: "
 msgstr "Inicio: "
 
 #. Translators: This is followed by an event's due date/time
-#: ../calendar/gui/e-memo-table.c:605 ../calendar/gui/e-task-table.c:824
+#: ../calendar/gui/e-memo-table.c:607 ../calendar/gui/e-task-table.c:826
 msgid "Due: "
 msgstr "Vencemento: "
 
-#: ../calendar/gui/e-memo-table.c:720
+#: ../calendar/gui/e-memo-table.c:726
 msgid "Cut selected memos to the clipboard"
 msgstr "Cortar as notas seleccionadas ao portapapeis"
 
-#: ../calendar/gui/e-memo-table.c:726
+#: ../calendar/gui/e-memo-table.c:732
 msgid "Copy selected memos to the clipboard"
 msgstr "Copiar as notas seleccionadas ao portapapeis"
 
-#: ../calendar/gui/e-memo-table.c:732
+#: ../calendar/gui/e-memo-table.c:738
 msgid "Paste memos from the clipboard"
 msgstr "Pegar as notas desde o portapapeis"
 
-#: ../calendar/gui/e-memo-table.c:738
+#: ../calendar/gui/e-memo-table.c:744
 #: ../modules/calendar/e-memo-shell-view-actions.c:587
 msgid "Delete selected memos"
 msgstr "Eliminar as notas seleccionadas"
 
-#: ../calendar/gui/e-memo-table.c:744
+#: ../calendar/gui/e-memo-table.c:750
 msgid "Select all visible memos"
 msgstr "Seleccionar todas as notas visíbeis"
 
@@ -4438,7 +4442,7 @@ msgstr "%d%%"
 #: ../calendar/gui/e-task-table.c:643 ../calendar/gui/print.c:2168
 #: ../calendar/importers/icalendar-importer.c:85
 #: ../calendar/importers/icalendar-importer.c:1003
-#: ../modules/calendar/e-calendar-preferences.ui.h:42
+#: ../modules/calendar/e-calendar-preferences.ui.h:41
 #: ../modules/calendar/e-cal-shell-content.c:433
 #: ../modules/calendar/e-task-shell-view-actions.c:254
 #: ../modules/calendar/e-task-shell-view-actions.c:269
@@ -4447,24 +4451,24 @@ msgstr "%d%%"
 msgid "Tasks"
 msgstr "Tarefas"
 
-#: ../calendar/gui/e-task-table.c:951
+#: ../calendar/gui/e-task-table.c:959
 msgid "Cut selected tasks to the clipboard"
 msgstr "Cortar as tarefas seleccionadas ao portapapeis"
 
-#: ../calendar/gui/e-task-table.c:957
+#: ../calendar/gui/e-task-table.c:965
 msgid "Copy selected tasks to the clipboard"
 msgstr "Copiar as tarefas seleccionadas ao portapapeis"
 
-#: ../calendar/gui/e-task-table.c:963
+#: ../calendar/gui/e-task-table.c:971
 msgid "Paste tasks from the clipboard"
 msgstr "Pegar as tarefas desde o portapapeis"
 
-#: ../calendar/gui/e-task-table.c:969
+#: ../calendar/gui/e-task-table.c:977
 #: ../modules/calendar/e-task-shell-view-actions.c:711
 msgid "Delete selected tasks"
 msgstr "Eliminar as tarefas seleccionadas"
 
-#: ../calendar/gui/e-task-table.c:975
+#: ../calendar/gui/e-task-table.c:983
 msgid "Select all visible tasks"
 msgstr "Seleccionar todas as tarefas visíbeis"
 
@@ -7279,7 +7283,7 @@ msgstr ""
 "o seu correo electrónico"
 
 #: ../capplet/settings/mail-account-view.c:630
-#: ../mail/em-account-editor.c:2233 ../mail/em-account-editor.c:2366
+#: ../mail/em-account-editor.c:2237 ../mail/em-account-editor.c:2370
 msgid "Identity"
 msgstr "Identidade"
 
@@ -7331,7 +7335,7 @@ msgid "Back - Receiving options"
 msgstr "Anterior - Opcións de recepción"
 
 #: ../capplet/settings/mail-account-view.c:635
-#: ../mail/em-account-editor.c:3299
+#: ../mail/em-account-editor.c:3303
 msgid "Defaults"
 msgstr "Predefinicións"
 
@@ -8186,11 +8190,19 @@ msgctxt "mail-receiving"
 msgid "None"
 msgstr "Ningún"
 
-#: ../mail/em-account-editor.c:2230
+#: ../mail/em-account-editor.c:2185
+msgid "Fil_e:"
+msgstr "Fi_cheiro:"
+
+#: ../mail/em-account-editor.c:2185 ../mail/mail-config.ui.h:157
+msgid "_Path:"
+msgstr "_Ruta:"
+
+#: ../mail/em-account-editor.c:2234
 msgid "Mail Configuration"
 msgstr "Configuración do correo"
 
-#: ../mail/em-account-editor.c:2231
+#: ../mail/em-account-editor.c:2235
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -8200,7 +8212,7 @@ msgstr ""
 "\n"
 "Prema en «Continuar» para comezar."
 
-#: ../mail/em-account-editor.c:2234
+#: ../mail/em-account-editor.c:2238
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -8210,19 +8222,19 @@ msgstr ""
 "necesitan encherse, a non ser que desexe incluír esta información no correo "
 "que envíe."
 
-#: ../mail/em-account-editor.c:2236 ../mail/em-account-editor.c:2425
+#: ../mail/em-account-editor.c:2240 ../mail/em-account-editor.c:2429
 msgid "Receiving Email"
 msgstr "Recepción de correo"
 
-#: ../mail/em-account-editor.c:2237
+#: ../mail/em-account-editor.c:2241
 msgid "Please configure the following account settings."
 msgstr "Configurar os seguintes axustes da conta."
 
-#: ../mail/em-account-editor.c:2239 ../mail/em-account-editor.c:3022
+#: ../mail/em-account-editor.c:2243 ../mail/em-account-editor.c:3026
 msgid "Sending Email"
 msgstr "Envío de correo"
 
-#: ../mail/em-account-editor.c:2240
+#: ../mail/em-account-editor.c:2244
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -8231,11 +8243,11 @@ msgstr ""
 "seguro, pregunte ao administrador do sistema ou provedor de acceso a "
 "Internet."
 
-#: ../mail/em-account-editor.c:2242 ../mail/mail-config.ui.h:1
+#: ../mail/em-account-editor.c:2246 ../mail/mail-config.ui.h:1
 msgid "Account Information"
 msgstr "Información da conta"
 
-#: ../mail/em-account-editor.c:2243
+#: ../mail/em-account-editor.c:2247
 msgid ""
 "Please enter a descriptive name for this account below.\n"
 "This name will be used for display purposes only."
@@ -8243,11 +8255,11 @@ msgstr ""
 "Introduza un nome descritivo para esta conta no espazo inferior.\n"
 "Este nome usarase só para a visualización."
 
-#: ../mail/em-account-editor.c:2247
+#: ../mail/em-account-editor.c:2251
 msgid "Done"
 msgstr "Feito"
 
-#: ../mail/em-account-editor.c:2248
+#: ../mail/em-account-editor.c:2252
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -8262,25 +8274,25 @@ msgstr ""
 "\n"
 "Prema en «Aplicar» para gardar os axustes."
 
-#: ../mail/em-account-editor.c:2784
+#: ../mail/em-account-editor.c:2788
 msgid "Check for _new messages every"
 msgstr "Comprobar automaticamente se hai mensaxes _novas cada"
 
-#: ../mail/em-account-editor.c:2792
+#: ../mail/em-account-editor.c:2796
 msgid "minu_tes"
 msgstr "minu_tos"
 
-#: ../mail/em-account-editor.c:3438 ../mail/mail-config.ui.h:101
+#: ../mail/em-account-editor.c:3442 ../mail/mail-config.ui.h:101
 msgid "Security"
 msgstr "Seguranza"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3492 ../mail/em-account-editor.c:3575
+#: ../mail/em-account-editor.c:3496 ../mail/em-account-editor.c:3579
 msgid "Receiving Options"
 msgstr "Opcións de recepción"
 
-#: ../mail/em-account-editor.c:3493 ../mail/em-account-editor.c:3576
+#: ../mail/em-account-editor.c:3497 ../mail/em-account-editor.c:3580
 msgid "Checking for New Messages"
 msgstr "Comprobando se hai mensaxes novas"
 
@@ -11584,7 +11596,7 @@ msgstr "Confirmacións"
 
 #: ../mail/mail-config.ui.h:31
 #: ../modules/addressbook/autocompletion-config.c:178
-#: ../modules/calendar/e-calendar-preferences.ui.h:11
+#: ../modules/calendar/e-calendar-preferences.ui.h:10
 msgid "Date/Time Format"
 msgstr "Formato da data e da hora"
 
@@ -11758,7 +11770,7 @@ msgid "Pass_word:"
 msgstr "Con_trasinal:"
 
 #: ../mail/mail-config.ui.h:79
-#: ../modules/calendar/e-calendar-preferences.ui.h:22
+#: ../modules/calendar/e-calendar-preferences.ui.h:21
 msgid "Pick a color"
 msgstr "Seleccionar unha cor"
 
@@ -12050,10 +12062,6 @@ msgstr "Configuración _manual do proxy:"
 #: ../mail/mail-config.ui.h:156
 msgid "_Never load images from the Internet"
 msgstr "_Non cargar as imaxes desde Internet"
-
-#: ../mail/mail-config.ui.h:157
-msgid "_Path:"
-msgstr "_Ruta:"
 
 #: ../mail/mail-config.ui.h:158 ../modules/addressbook/ldap-config.ui.h:27
 msgid "_Port:"
@@ -13220,25 +13228,25 @@ msgstr "O %b %d ás %l:%M %p"
 msgid "%b %d %Y"
 msgstr "O %b %d de %Y"
 
-#: ../mail/message-list.c:2638
+#: ../mail/message-list.c:2651
 msgid "Select all visible messages"
 msgstr "Seleccionar todas as mensaxes visíbeis"
 
-#: ../mail/message-list.c:2796 ../mail/message-list.etspec.h:10
+#: ../mail/message-list.c:2809 ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Mensaxes"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:3991
+#: ../mail/message-list.c:4004
 msgid "Follow-up"
 msgstr "Seguimento"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4495 ../mail/message-list.c:4914
+#: ../mail/message-list.c:4508 ../mail/message-list.c:4927
 msgid "Generating message list"
 msgstr "Xerando a lista de mensaxes"
 
-#: ../mail/message-list.c:4732
+#: ../mail/message-list.c:4745
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -13246,7 +13254,7 @@ msgstr ""
 "Non hai mensaxes que satisfagan os seus criterios de busca. Limpe a busca no "
 "menú Buscar->Limpar ou cámbiea."
 
-#: ../mail/message-list.c:4734
+#: ../mail/message-list.c:4747
 msgid "There are no messages in this folder."
 msgstr "Non hai mensaxes neste cartafol."
 
@@ -14019,191 +14027,187 @@ msgid "60 minutes"
 msgstr "60 minutos"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:9
-msgid "Alarms"
-msgstr "Alarmas"
-
-#: ../modules/calendar/e-calendar-preferences.ui.h:10
 msgid "Alerts"
 msgstr "Alertas"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:12
+#: ../modules/calendar/e-calendar-preferences.ui.h:11
 msgid "Day _ends:"
 msgstr "A xornada _finaliza ás:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:13
+#: ../modules/calendar/e-calendar-preferences.ui.h:12
 msgid "Days"
 msgstr "Días"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:14
+#: ../modules/calendar/e-calendar-preferences.ui.h:13
 msgid "Default Free/Busy Server"
 msgstr "Servidor predeterminado de dispoñibilidade"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:15
+#: ../modules/calendar/e-calendar-preferences.ui.h:14
 msgid "Display"
 msgstr "Mostrar"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:16
+#: ../modules/calendar/e-calendar-preferences.ui.h:15
 msgid "Display reminders in _notification area only"
 msgstr "Mostrar os recordatorios só na área de _notificación"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:19
+#: ../modules/calendar/e-calendar-preferences.ui.h:18
 msgid "Hours"
 msgstr "Horas"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:20
+#: ../modules/calendar/e-calendar-preferences.ui.h:19
 msgid "Minutes"
 msgstr "Minutos"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:23
+#: ../modules/calendar/e-calendar-preferences.ui.h:22
 msgid "Publishing Information"
 msgstr "Información de publicación"
 
 #. Sunday
-#: ../modules/calendar/e-calendar-preferences.ui.h:26
+#: ../modules/calendar/e-calendar-preferences.ui.h:25
 msgid "S_un"
 msgstr "_Dom"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:28
+#: ../modules/calendar/e-calendar-preferences.ui.h:27
 msgid "Sc_roll Month View by a week"
 msgstr "Desp_razar a visualización mensual unha semana"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:29
+#: ../modules/calendar/e-calendar-preferences.ui.h:28
 msgid "Se_cond zone:"
 msgstr "Fuso se_cundario:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:30
+#: ../modules/calendar/e-calendar-preferences.ui.h:29
 msgid "Select the calendars for reminder notification"
 msgstr "Seleccionar os calendarios para a notificación de recordatorios"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../modules/calendar/e-calendar-preferences.ui.h:32
+#: ../modules/calendar/e-calendar-preferences.ui.h:31
 msgid "Sh_ow a reminder"
 msgstr "M_ostrar un aviso"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../modules/calendar/e-calendar-preferences.ui.h:34
+#: ../modules/calendar/e-calendar-preferences.ui.h:33
 msgid "Show a _reminder"
 msgstr "Most_rar un aviso"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:35
+#: ../modules/calendar/e-calendar-preferences.ui.h:34
 msgid "Show r_ecurring events in italic in bottom left calendar"
 msgstr ""
 "Mostrar en cursiva as actividades con _repeticións no calendario inferior "
 "esquerdo"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:36
+#: ../modules/calendar/e-calendar-preferences.ui.h:35
 msgid "Show week _numbers"
 msgstr "Mostrar os _números das semanas"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:38
+#: ../modules/calendar/e-calendar-preferences.ui.h:37
 msgid "T_asks due today:"
 msgstr "T_arefas que vencen hoxe:"
 
 #. Thursday
-#: ../modules/calendar/e-calendar-preferences.ui.h:40
+#: ../modules/calendar/e-calendar-preferences.ui.h:39
 msgid "T_hu"
 msgstr "_Xov"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:43
+#: ../modules/calendar/e-calendar-preferences.ui.h:42
 msgid "Template:"
 msgstr "Modelo:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:45
+#: ../modules/calendar/e-calendar-preferences.ui.h:44
 #: ../widgets/misc/e-dateedit.c:592
 msgid "Time"
 msgstr "Hora"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:47
+#: ../modules/calendar/e-calendar-preferences.ui.h:46
 msgid "Time format:"
 msgstr "Formato horario:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:49
+#: ../modules/calendar/e-calendar-preferences.ui.h:48
 msgid "Use s_ystem time zone"
 msgstr "Empregar o fuso horario do s_istema"
 
 #. A weekday like "Monday" follows
-#: ../modules/calendar/e-calendar-preferences.ui.h:52
+#: ../modules/calendar/e-calendar-preferences.ui.h:51
 msgid "Wee_k starts on:"
 msgstr "A _semana comeza en:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:53
+#: ../modules/calendar/e-calendar-preferences.ui.h:52
 #: ../modules/calendar/e-cal-shell-view-actions.c:1678
 msgid "Work Week"
 msgstr "Semana laboral"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:54
+#: ../modules/calendar/e-calendar-preferences.ui.h:53
 msgid "Work days:"
 msgstr "Días laborábeis:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:55
+#: ../modules/calendar/e-calendar-preferences.ui.h:54
 msgid "_12 hour (AM/PM)"
 msgstr "_12 horas (AM/PM)"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:56
+#: ../modules/calendar/e-calendar-preferences.ui.h:55
 msgid "_24 hour"
 msgstr "_24 horas"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:57
+#: ../modules/calendar/e-calendar-preferences.ui.h:56
 msgid "_Ask for confirmation when deleting items"
 msgstr "_Pedir a confirmación antes de eliminar elementos"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:58
+#: ../modules/calendar/e-calendar-preferences.ui.h:57
 msgid "_Compress weekends in month view"
 msgstr "_Comprimir as fins de semana na visualización mensual"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:59
+#: ../modules/calendar/e-calendar-preferences.ui.h:58
 msgid "_Day begins:"
 msgstr "A _xornada comeza ás:"
 
 #. Friday
-#: ../modules/calendar/e-calendar-preferences.ui.h:61
+#: ../modules/calendar/e-calendar-preferences.ui.h:60
 msgid "_Fri"
 msgstr "_Ven"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:62
+#: ../modules/calendar/e-calendar-preferences.ui.h:61
 msgid "_Hide completed tasks after"
 msgstr "_Ocultar as tarefas terminadas despois de"
 
 #. Monday
-#: ../modules/calendar/e-calendar-preferences.ui.h:64
+#: ../modules/calendar/e-calendar-preferences.ui.h:63
 msgid "_Mon"
 msgstr "_Lun"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:65
+#: ../modules/calendar/e-calendar-preferences.ui.h:64
 msgid "_Overdue tasks:"
 msgstr "Tarefas _atrasadas:"
 
 #. Saturday
-#: ../modules/calendar/e-calendar-preferences.ui.h:67
+#: ../modules/calendar/e-calendar-preferences.ui.h:66
 msgid "_Sat"
 msgstr "_Sáb"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:68
+#: ../modules/calendar/e-calendar-preferences.ui.h:67
 msgid "_Show appointment end times in week and month view"
 msgstr ""
 "_Mostrar as horas finais das citas nas visualizacións semanal e mensual"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:69
+#: ../modules/calendar/e-calendar-preferences.ui.h:68
 msgid "_Time divisions:"
 msgstr "Di_visións horarias:"
 
 #. Tuesday
-#: ../modules/calendar/e-calendar-preferences.ui.h:71
+#: ../modules/calendar/e-calendar-preferences.ui.h:70
 msgid "_Tue"
 msgstr "_Mar"
 
 #. Wednesday
-#: ../modules/calendar/e-calendar-preferences.ui.h:73
+#: ../modules/calendar/e-calendar-preferences.ui.h:72
 msgid "_Wed"
 msgstr "Mé_r"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../modules/calendar/e-calendar-preferences.ui.h:75
+#: ../modules/calendar/e-calendar-preferences.ui.h:74
 msgid "before every anniversary/birthday"
 msgstr "antes de cada aniversario"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../modules/calendar/e-calendar-preferences.ui.h:77
+#: ../modules/calendar/e-calendar-preferences.ui.h:76
 msgid "before every appointment"
 msgstr "antes de cada cita"
 
@@ -15221,8 +15225,11 @@ msgstr "Previsualizar o calendario que se vai imprimir"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1781
 #: ../modules/calendar/e-cal-shell-view-memopad.c:295
-msgid "Save as iCalendar..."
-msgstr "Gardar como vCard…"
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:382
+#: ../modules/calendar/e-memo-shell-view-actions.c:844
+#: ../modules/calendar/e-task-shell-view-actions.c:1043
+msgid "_Save as iCalendar..."
+msgstr "Gardar como iCalendar…"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1858
 msgid "Go To"
@@ -15326,12 +15333,6 @@ msgstr "Ver a tarefa seleccionada"
 #: ../modules/calendar/e-task-shell-view-actions.c:1028
 msgid "Print the selected task"
 msgstr "Imprimir a tarefa seleccionada"
-
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:382
-#: ../modules/calendar/e-memo-shell-view-actions.c:844
-#: ../modules/calendar/e-task-shell-view-actions.c:1043
-msgid "_Save as iCalendar..."
-msgstr "Gardar como iCalendar…"
 
 #: ../modules/calendar/e-memo-shell-backend.c:298
 msgctxt "New"
@@ -17203,8 +17204,8 @@ msgstr ""
 "%s"
 
 #: ../plugins/google-account-setup/google-source.c:564
-#: ../plugins/mail-to-task/mail-to-task.c:796
-#: ../plugins/mail-to-task/mail-to-task.c:1045
+#: ../plugins/mail-to-task/mail-to-task.c:803
+#: ../plugins/mail-to-task/mail-to-task.c:1066
 msgid "Unknown error."
 msgstr "Erro descoñecido."
 
@@ -18154,7 +18155,7 @@ msgstr "Notificar a chegada de mensaxes novas."
 msgid "Created from a mail by %s"
 msgstr "Creado desde un correo electrónico por %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:586
+#: ../plugins/mail-to-task/mail-to-task.c:593
 #, c-format
 msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
@@ -18163,7 +18164,7 @@ msgstr ""
 "O calendario seleccionado xa contén unha actividade «%s». Desexa editar a "
 "actividade antiga?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:589
+#: ../plugins/mail-to-task/mail-to-task.c:596
 #, c-format
 msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
@@ -18172,7 +18173,7 @@ msgstr ""
 "A lista de tarefas seleccionadas xa contén unha tarefa «%s». Desexa editar a "
 "tarefa antiga?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:592
+#: ../plugins/mail-to-task/mail-to-task.c:599
 #, c-format
 msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
@@ -18181,7 +18182,7 @@ msgstr ""
 "A lista de notas seleccionada xa contén unha nota «%s» . Desexa editar a "
 "nota antiga?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:609
+#: ../plugins/mail-to-task/mail-to-task.c:616
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to events. Do you really want to "
@@ -18190,7 +18191,7 @@ msgstr ""
 "Seleccionou %d correos para convertelos en actividades. Desexa engadilos "
 "todos?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:612
+#: ../plugins/mail-to-task/mail-to-task.c:619
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
@@ -18198,7 +18199,7 @@ msgid ""
 msgstr ""
 "Seleccionou %d correos para convertelos en tarefas. Desexa engadilos todos?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:615
+#: ../plugins/mail-to-task/mail-to-task.c:622
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
@@ -18206,29 +18207,29 @@ msgid ""
 msgstr ""
 "Seleccionou %d correos para convertelos en notas. Desexa engadilos todos?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:634
+#: ../plugins/mail-to-task/mail-to-task.c:641
 msgid "Do you wish to continue converting remaining mails?"
 msgstr "Desexa continuar convertendo os correos restantes?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:709
+#: ../plugins/mail-to-task/mail-to-task.c:716
 msgid "[No Summary]"
 msgstr "[Sen resumo]"
 
-#: ../plugins/mail-to-task/mail-to-task.c:721
+#: ../plugins/mail-to-task/mail-to-task.c:728
 msgid "Invalid object returned from a server"
 msgstr "O obxecto devolto por un servidor non é válido"
 
-#: ../plugins/mail-to-task/mail-to-task.c:771
+#: ../plugins/mail-to-task/mail-to-task.c:778
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "Produciuse un erro no proceso: %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:796
+#: ../plugins/mail-to-task/mail-to-task.c:803
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Non é posíbel abrir o calendario. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:803
+#: ../plugins/mail-to-task/mail-to-task.c:810
 msgid ""
 "Selected source is read only, thus cannot create event there. Select other "
 "source, please."
@@ -18236,7 +18237,7 @@ msgstr ""
 "A fonte seleccionada é só de lectura polo que non é posíbel crear "
 "actividades nela. Seleccione outra fonte."
 
-#: ../plugins/mail-to-task/mail-to-task.c:806
+#: ../plugins/mail-to-task/mail-to-task.c:813
 msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
@@ -18244,7 +18245,7 @@ msgstr ""
 "A fonte seleccionada é só de lectura polo que non é posíbel crear tarefas "
 "nela. Seleccione outra fonte."
 
-#: ../plugins/mail-to-task/mail-to-task.c:809
+#: ../plugins/mail-to-task/mail-to-task.c:816
 msgid ""
 "Selected source is read only, thus cannot create memo there. Select other "
 "source, please."
@@ -18252,44 +18253,44 @@ msgstr ""
 "A fonte seleccionada é só de lectura polo que non é posíbel crear notas "
 "nela. Seleccione outra fonte."
 
-#: ../plugins/mail-to-task/mail-to-task.c:1045
+#: ../plugins/mail-to-task/mail-to-task.c:1066
 #, c-format
 msgid "Cannot get source list. %s"
 msgstr "Non é posíbel obter a lista fonte. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1104
+#: ../plugins/mail-to-task/mail-to-task.c:1127
 msgid "No writable calendar is available."
 msgstr "Non hai ningún calendario escribíbel dispoñíbel."
 
-#: ../plugins/mail-to-task/mail-to-task.c:1196
+#: ../plugins/mail-to-task/mail-to-task.c:1219
 msgid "Create an _Event"
 msgstr "Cr_ear unha actividade"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1198
+#: ../plugins/mail-to-task/mail-to-task.c:1221
 msgid "Create a new event from the selected message"
 msgstr "Crear unha actividade nova a partir da mensaxe seleccionada"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1203
+#: ../plugins/mail-to-task/mail-to-task.c:1226
 msgid "Create a Mem_o"
 msgstr "Crear unha n_ota"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1205
+#: ../plugins/mail-to-task/mail-to-task.c:1228
 msgid "Create a new memo from the selected message"
 msgstr "Crear unha nota nova a partir da mensaxe seleccionada"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1210
+#: ../plugins/mail-to-task/mail-to-task.c:1233
 msgid "Create a _Task"
 msgstr "Crear unha _tarefa"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1212
+#: ../plugins/mail-to-task/mail-to-task.c:1235
 msgid "Create a new task from the selected message"
 msgstr "Crear unha tarefa nova a partir da mensaxe seleccionada"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1220
+#: ../plugins/mail-to-task/mail-to-task.c:1243
 msgid "Create a _Meeting"
 msgstr "Crear unha _reunión"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1222
+#: ../plugins/mail-to-task/mail-to-task.c:1245
 msgid "Create a new meeting from the selected message"
 msgstr "Crear unha reunión nova a partir da mensaxe seleccionada"
 
@@ -21513,6 +21514,12 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2318
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "Alarms"
+#~ msgstr "Alarmas"
+
+#~ msgid "Save as iCalendar..."
+#~ msgstr "Gardar como vCard…"
 
 #~ msgid "Please select a folder from the current account."
 #~ msgstr "Seleccionar un cartafol desde a conta actual."
