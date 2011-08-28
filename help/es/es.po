@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-26 19:15+0000\n"
-"PO-Revision-Date: 2011-08-28 12:39+0200\n"
+"PO-Revision-Date: 2011-08-28 14:24+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3925,12 +3925,12 @@ msgstr ""
 
 #: C/mail-receiving-options-imap-plus.page:38(p)
 #: C/mail-receiving-options-imap.page:38(p)
-#, fuzzy
 msgid ""
 "You can also define if Evolution checks for new messages in all folders, or "
 "only in subscribed folders."
 msgstr ""
-"Marque si quiere que compruebe si hay mensajes nuevos en todas las carpetas."
+"También puede definir si Evolution debe comprobar si existe correo nuevo en "
+"todas sus carpetas o solo en las carpetas suscritas."
 
 #: C/mail-receiving-options-imap-plus.page:39(p)
 #: C/mail-receiving-options-imap.page:39(p)
@@ -4170,9 +4170,9 @@ msgid "Navigating in a folder in the message list"
 msgstr "Navegar en una carpeta en la lista de mensajes"
 
 #: C/mail-reading-keyboard-shortcuts.page:38(p)
-#, fuzzy
 msgid "Navigate in the message list by using the arrow keys on the keyboard."
-msgstr "Navegar por la lista de mensajes mediante el teclado:"
+msgstr ""
+"Navegar por la lista de mensajes usando las teclas de flecha del teclado."
 
 #: C/mail-reading-keyboard-shortcuts.page:42(title)
 msgid "Navigating in a folder's unread mail in the message list"
@@ -4209,11 +4209,10 @@ msgid ""
 msgstr "Puede ver los mensajes en el orden deseado en la lista de mensajes."
 
 #: C/mail-reading-keyboard-shortcuts.page:51(p)
-#, fuzzy
 msgid ""
 "When you are in the Mail window, the Spacebar has the following behavior:"
 msgstr ""
-"Cuando esté en la vista de correo, la barra espaciadora se comportará de la "
+"Cuando esté en la vista de Correo, la barra espaciadora se comportará de la "
 "siguiente manera:"
 
 #: C/mail-reading-keyboard-shortcuts.page:53(p)
@@ -4225,13 +4224,12 @@ msgstr ""
 "correo no leído."
 
 #: C/mail-reading-keyboard-shortcuts.page:54(p)
-#, fuzzy
 msgid ""
 "If the message is more than one screen long, the Spacebar works as <key>Page "
 "Down</key>."
 msgstr ""
 "Si el mensaje es más largo que la pantalla, la barra espaciadora funciona "
-"como avance de página."
+"como <key>Avanzar Página</key>."
 
 #: C/mail-reading-keyboard-shortcuts.page:55(p)
 msgid ""
@@ -4263,6 +4261,8 @@ msgstr ""
 #: C/mail-organizing.page:5(desc)
 msgid "On folders, sorting, searching, filters, search folders, and labels."
 msgstr ""
+"Acerca de las carpetas, ordenar, buscar, filtros, carpetas de búsqueda y "
+"etiquetas."
 
 #: C/mail-organizing.page:21(title)
 msgid "Sorting and organizing mail"
@@ -4443,10 +4443,11 @@ msgid ""
 msgstr ""
 
 #: C/mail-imap-subscriptions.page:32(p)
-#, fuzzy
 msgid ""
 "Evolution displays a list of files and folders available on the IMAP server."
-msgstr "Evolution mostrará la lista de carpetas y archivos disponibles."
+msgstr ""
+"Evolution mostrará la lista de archivos y carpetas disponibles en el "
+"servidor IMAP."
 
 #: C/mail-imap-subscriptions.page:33(p)
 msgid "Select a file or folder by clicking it."
@@ -4607,7 +4608,7 @@ msgstr ""
 
 #: C/mail-follow-up-flag.page:5(desc)
 msgid "Using flags to remind you of actions."
-msgstr ""
+msgstr "Usar marcadores para recordarle acciones."
 
 #: C/mail-follow-up-flag.page:23(title)
 msgid "Follow up flags for emails"
@@ -4713,7 +4714,7 @@ msgstr ""
 
 #: C/mail-folders.page:5(desc)
 msgid "Use folders to organize your mail."
-msgstr ""
+msgstr "Use carpetas para orgranizar su correo."
 
 #: C/mail-folders.page:28(title)
 msgid "Using Folders"
@@ -4760,6 +4761,8 @@ msgid ""
 "The new folder will be shown in the folder view. You can then move messages "
 "into the folder."
 msgstr ""
+"La carpeta nueva se mostrará en la vista de carpetas. Entonces podrá mover "
+"mensajes dentro de la carpeta."
 
 #: C/mail-folders.page:43(p)
 #, fuzzy
@@ -4792,38 +4795,45 @@ msgid "Drag and drop the messages into the folder."
 msgstr "Arrastre y suelte los mensajes en la carpeta."
 
 #: C/mail-folders.page:53(p)
-#, fuzzy
 msgid ""
 "Right-click on the message and select the <gui>Move to Folder</gui> option."
 msgstr ""
-"Pulse con el botón derecho del ratón sobre el mensaje en la lista de "
-"mensajes."
+"Pulse con el botón derecho del ratón sobre el mensaje y seleccione la opción "
+"<gui>Mover a la carpeta...</gui>."
 
 #: C/mail-folders.page:54(p)
 msgid ""
 "Select a message and press <keyseq><key>Shift</key><key>Ctrl</key><key>V</"
 "key></keyseq>."
 msgstr ""
+"Seleccione un correo y pulse <keyseq><key>Mayús</key><key>Ctrl</key><key>V</"
+"key></keyseq>."
 
 #: C/mail-folders.page:55(p)
 msgid ""
 "Select a message and click on <guiseq><gui>Message</gui><gui>Move to Folder</"
 "gui></guiseq>."
 msgstr ""
+"Seleccione un correo y pulse <guiseq><gui>Mensaje</gui><gui>Mover a la "
+"carpeta</gui></guiseq>."
 
 #: C/mail-folders.page:58(p)
 msgid "The steps for copying are similar."
-msgstr ""
+msgstr "Los pasos para copiar son similares."
 
 #: C/mail-folders.page:60(p)
 msgid ""
 "Moving files can be done automatically by setting up <link xref=\"mail-"
 "filters\">filters</link>."
 msgstr ""
+"Mover archivos se puede hacer automáticamente configurando <link xref=\"mail-"
+"filters\">filtros</link>."
 
 #: C/mail-filters.page:5(desc)
 msgid "Use filter rules to sort your mail automatically into folders."
 msgstr ""
+"Use las reglas de filtrado para ordenar su correo automáticamente en "
+"carpetas."
 
 #: C/mail-filters.page:23(title)
 msgid "Using Filters"
@@ -4887,9 +4897,9 @@ msgstr ""
 "link>."
 
 #: C/mail-filters.page:42(p)
-#, fuzzy
 msgid "Select the Actions for the Filter in the <gui>Then</gui> section."
-msgstr "Seleccione las Acciones para el filtro en la sección Entonces:"
+msgstr ""
+"Seleccione las Acciones para el filtro en la sección <gui>Entonces</gui>:"
 
 #: C/mail-filters.page:42(p)
 #, fuzzy
@@ -4905,6 +4915,8 @@ msgid ""
 "Note that the order of filters is very important. They are applied to the "
 "original message in sequence, like a recipe."
 msgstr ""
+"Note que el orden de los filtros es muy importante. Se aplican sobre el "
+"correo original en secuencia, como una receta."
 
 #: C/mail-filters.page:45(p) C/mail-filters-not-working.page:30(p)
 msgid ""
@@ -4969,6 +4981,8 @@ msgid ""
 "Fix problems with mail filters that do not sort and organize mail as "
 "expected."
 msgstr ""
+"Solucionar problems con los filtros de correo que no ordenan ni organizan el "
+"correo como se espera."
 
 #: C/mail-filters-not-working.page:25(title)
 msgid "Mail filters are not working"
@@ -5043,11 +5057,12 @@ msgstr "Detección de spam:"
 
 # index.docbook:458, index.docbook:949
 #: C/mail-filters-conditions.page:93(p)
-#, fuzzy
 msgid ""
 "Filters based on the results of the <link xref=\"mail-spam\">junk mail</"
 "link> test."
-msgstr "Filtros basados en los resultados de las pruebas de spam."
+msgstr ""
+"Filtros basados en los resultados de las <link xref=\"mail-spam\">pruebas de "
+"spam</link>."
 
 #: C/mail-filters-actions.page:5(desc)
 msgid "Available actions for setting up filtering."
@@ -5104,9 +5119,8 @@ msgstr "Establecer etiqueta:"
 
 # index.docbook:41, index.docbook:293
 #: C/mail-filters-actions.page:39(p)
-#, fuzzy
 msgid "Adds a label to a message."
-msgstr "Para asignar una etiqueta a un mensaje de correo-e específico:"
+msgstr "Añade una etiqueta al correo."
 
 #: C/mail-filters-actions.page:41(p)
 msgid "Assign Color:"
@@ -5197,11 +5211,8 @@ msgid "Forward to:"
 msgstr "Reenviar a:"
 
 #: C/mail-filters-actions.page:69(p)
-#, fuzzy
 msgid "Forwards the message to another email address."
-msgstr ""
-"Reenvía una copia del mensaje y cualquier comentario adicional a distintas "
-"direcciones de correo-e."
+msgstr "Reenvía el correo a otra dirección de correo-e."
 
 #: C/mail-error-no-provider-available.page:5(desc)
 #: C/mail-error-folder-mismatch.page:5(desc)
@@ -5239,6 +5250,7 @@ msgstr ""
 #: C/mail-error-no-provider-available.page:31(p)
 msgid "The account settings may not have been copied properly."
 msgstr ""
+"Puede que la configuración de la cuenta no se haya copiado correctamente."
 
 #: C/mail-error-no-provider-available.page:32(p)
 #, fuzzy
@@ -5250,6 +5262,8 @@ msgid ""
 "To fix this problem, edit the email filters and re-select the folder for "
 "each Copy/Move filter. To do this:"
 msgstr ""
+"Para solucionar este problema edite los filtros de correo y vuelva a "
+"seleccionar la carpeta para cada filtro de Copiar/mover. Para ello:"
 
 #: C/mail-error-no-provider-available.page:37(p)
 msgid "Go to <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>."
@@ -5279,6 +5293,8 @@ msgstr ""
 msgid ""
 "Error message \"Summary and folder mismatch\" after synchronizing folders"
 msgstr ""
+"Mensaje de error «El resumen y la carpeta no coinciden» después de "
+"sincronizar las carpetas"
 
 #: C/mail-error-folder-mismatch.page:26(p)
 msgid ""
@@ -5303,7 +5319,7 @@ msgstr ""
 
 #: C/mail-error-folder-mismatch.page:32(p)
 msgid "Remove the files ending in:"
-msgstr ""
+msgstr "Quite los archivos que terminan en:"
 
 #: C/mail-error-folder-mismatch.page:34(file)
 msgid ".ev-summary"
@@ -5330,7 +5346,7 @@ msgstr ""
 
 #: C/mail-error-folder-mismatch.page:44(p)
 msgid "You may lose your mail labels when performing this operation."
-msgstr ""
+msgstr "Al realizar esta operación puede que pierda algunas de sus etiquetas."
 
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
@@ -5365,7 +5381,7 @@ msgstr ""
 
 #: C/mail-encryption-s-mime-signing-encrypting.page:5(desc)
 msgid "Signing or encrypting messages via S/MIME that you send."
-msgstr ""
+msgstr "Firmar o cifrar los mensajes que envía a través de S/MIME."
 
 #: C/mail-encryption-s-mime-signing-encrypting.page:23(title)
 #: C/mail-encryption-gpg-signing-encrypting.page:23(title)
@@ -5426,7 +5442,7 @@ msgstr ""
 
 #: C/mail-encryption-s-mime-manage.page:5(desc)
 msgid "Adding, editing, viewing and deleting S/MIME certificates."
-msgstr ""
+msgstr "Añadir, editar, ver y eliminar certificados S/MIME."
 
 #: C/mail-encryption-s-mime-manage.page:23(title)
 #, fuzzy
@@ -5503,7 +5519,7 @@ msgstr ""
 
 #: C/mail-encryption.page:38(title)
 msgid "GPG"
-msgstr ""
+msgstr "GPG"
 
 #: C/mail-encryption.page:42(title)
 #, fuzzy
@@ -5544,6 +5560,8 @@ msgid ""
 "Setting up GPG for your mail account to sign and/or encrypt and decrypt "
 "messages."
 msgstr ""
+"Configurar GPG para su cuenta de correo para poder firmar, cifrar y "
+"descifrar correos."
 
 #: C/mail-encryption-gpg-set-up.page:23(title)
 #, fuzzy
@@ -5640,7 +5658,7 @@ msgstr "Seguir el estado de un mensaje."
 
 #: C/mail-encryption-gpg-decrypting.page:23(title)
 msgid "Receiving messages encrypted or signed via GPG"
-msgstr ""
+msgstr "Recibir mensajes cifrados o firmados con GPG"
 
 #: C/mail-encryption-gpg-decrypting.page:26(title)
 #, fuzzy
@@ -5705,6 +5723,8 @@ msgid ""
 "Before you can get or send GPG encrypted mail, you need to generate your "
 "public and private keys with GPG."
 msgstr ""
+"Antes de que pueda obtener o enviar correo cifrado con GPG debe generar sus "
+"claves pública y privada con GPG."
 
 #: C/mail-encryption-gpg-create-key.page:30(p)
 #, fuzzy
@@ -5939,14 +5959,16 @@ msgstr ""
 msgid ""
 "If there are multiple matches for a contact, the first one is always used."
 msgstr ""
+"Se usará siempre la primera coincidencia si existen múltiples coincidencias "
+"para un contacto."
 
 #: C/mail-displaying-no-css.page:5(desc)
 msgid "When a received message looks weird or is hard to read."
-msgstr ""
+msgstr "Al recibir un correo parece extraño o difícil de leer."
 
 #: C/mail-displaying-no-css.page:21(title)
 msgid "HTML emails are not correctly displayed"
-msgstr ""
+msgstr "Los correos en HTML no se muestran correctamente"
 
 #: C/mail-displaying-no-css.page:23(p)
 msgid ""
@@ -5958,7 +5980,7 @@ msgstr ""
 
 #: C/mail-displaying-no-css.page:24(p)
 msgid "This will likely be fixed in version 3.2 or 3.4."
-msgstr ""
+msgstr "Esto probablemente se solucione en las versiones 3.2 o 3.4."
 
 #: C/mail-displaying-no-css.page:25(p)
 msgid ""
@@ -5976,7 +5998,7 @@ msgstr ""
 
 #: C/mail-displaying-message.page:5(desc)
 msgid "Rendering an email and handling its attachments."
-msgstr ""
+msgstr "Renderizar un correo y gestionar sus adjuntos."
 
 #: C/mail-displaying-message.page:20(title)
 #, fuzzy
@@ -5985,7 +6007,7 @@ msgstr "Mostrar el mensaje siguiente"
 
 #: C/mail-displaying-images-in-html.page:5(desc)
 msgid "On embedded pictures in received HTML messages."
-msgstr ""
+msgstr "Acerca de imágenes empotradas en correos HTML recibidos."
 
 #: C/mail-displaying-images-in-html.page:28(title)
 #, fuzzy
@@ -6071,6 +6093,8 @@ msgid ""
 "To save an image that is embedded in an HTML email, right-click on the image "
 "and click <gui>Save Image...</gui>."
 msgstr ""
+"Para guardar una imagen empotrada en un correo HTML, pulse con el botón "
+"derecho del ratón sobre la imagen y seleccione <gui>Guardar imagen...</gui>."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -6313,6 +6337,8 @@ msgid ""
 "After you have written your message, click <gui>Send</gui> or press "
 "<keyseq><key>Ctrl</key><key>Return</key></keyseq>."
 msgstr ""
+"Después de que haya escrito su correo, pulse <gui>Enviar</gui> o pulse "
+"<keyseq><key>Ctrl</key><key>Intro</key></keyseq>."
 
 #: C/mail-composer-spellcheck.page:5(desc)
 #, fuzzy
