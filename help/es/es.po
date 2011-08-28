@@ -5,24 +5,24 @@
 # I.R. Maturana <info@in3activa.com>, 2003.
 # Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006.
 # 
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011., 2011.
 # 
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011., 2011.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011., 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-25 17:26+0000\n"
-"PO-Revision-Date: 2011-08-26 10:08+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2011-08-26 19:15+0000\n"
+"PO-Revision-Date: 2011-08-28 12:39+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: C/using-categories.page:5(desc)
 msgid ""
@@ -1692,6 +1692,11 @@ msgid ""
 "installation in the software management tool of your distribution. This is "
 "not possible in GNOME 3 anymore."
 msgstr ""
+"En la versión 2 de GNOME podía modificar el área de notificación y "
+"configurarlo para que fuese una bandeja del sistema usando software externo "
+"tal como <link href=\"http://alltray.trausch.us/\">Alltray</link>, que puede "
+"estar disponible para su instalación en la herramienta de gestión de "
+"software de su distribución. Esto ya no es posible en GNOME 3."
 
 #: C/memos-usage.page:5(desc)
 msgid "On adding, editing, and deleting memos."
@@ -2025,6 +2030,9 @@ msgid ""
 "<guiseq><gui>Format</gui><gui>Paragraph Style</gui><gui>Preformatted</gui></"
 "guiseq> in the mail composer."
 msgstr ""
+"Para evitar los saltos de línea en un párrafo, marque el párrafo y elija "
+"<guiseq><gui>Formato</gui><gui>Estilo de párrafo</gui><gui>Preformateado</"
+"gui></guiseq> en el editor de correos."
 
 #: C/mail-vertical-view.page:5(desc)
 msgid "Changing the mail view for widescreen displays."
@@ -3758,9 +3766,6 @@ msgstr "Opciones de recepción para el archivo spool mbox estándar de Unix"
 
 #: C/mail-receiving-options-unix-mbox-spool-file.page:24(p)
 #: C/mail-receiving-options-local-delivery.page:24(p)
-#| msgid ""
-#| "Choose the file by clicking on the button next to <gui>Path</gui> in the "
-#| "<gui>Configuration</gui> section. This will open a file chooser window."
 msgid ""
 "Choose the file by clicking on the button next to <gui>File</gui> in the "
 "<gui>Configuration</gui> section. This will open a file chooser window."
@@ -3784,7 +3789,6 @@ msgstr ""
 "Unix."
 
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:20(title)
-#, fuzzy
 msgid "Standard Unix mbox spool directory receiving options"
 msgstr ""
 "Opciones de recepción para directorios de correo mbox en formato estándar de "
@@ -3939,11 +3943,12 @@ msgstr ""
 
 #: C/mail-receiving-options-imap-plus.page:40(p)
 #: C/mail-receiving-options-imap.page:40(p)
-#, fuzzy
 msgid ""
 "Select if you want Evolution to show only <link xref=\"mail-imap-"
 "subscriptions\">subscribed folders</link>."
-msgstr "Marque si quiere que Evolution sólo muestre las carpetas suscritas."
+msgstr ""
+"Seleccione si quiere que Evolution sólo muestre las <link xref=\"mail-imap-"
+"subscriptions\">carpetas suscritas</link>."
 
 #: C/mail-receiving-options-imap-plus.page:41(p)
 #: C/mail-receiving-options-imap.page:41(p)
@@ -4194,7 +4199,7 @@ msgstr ""
 
 #: C/mail-reading-keyboard-shortcuts.page:47(title)
 msgid "Navigating in unread mail across folders"
-msgstr ""
+msgstr "Navegar por el correo sin leer en las carpetas"
 
 #: C/mail-reading-keyboard-shortcuts.page:49(p)
 #, fuzzy
@@ -4260,15 +4265,16 @@ msgid "On folders, sorting, searching, filters, search folders, and labels."
 msgstr ""
 
 #: C/mail-organizing.page:21(title)
-#, fuzzy
 msgid "Sorting and organizing mail"
-msgstr "Enviar y recibir correo"
+msgstr "Ordenar y orgranizar el correo"
 
 #: C/mail-organizing.page:23(p)
 msgid ""
 "Evolution provides several options to organize your mail according to your "
 "needs."
 msgstr ""
+"Evolution proporciona varias opciones para gestionar su correo según sus "
+"necesidades."
 
 #: C/mail-organizing.page:26(title)
 msgid "Advanced Options"
@@ -4284,7 +4290,7 @@ msgstr "El correo no se ha enviado"
 
 #: C/mail-not-sent.page:22(p)
 msgid "There can be several reasons why emails are not sent:"
-msgstr ""
+msgstr "Puede haber varias razones por las que los correos no se envían:"
 
 #: C/mail-not-sent.page:25(p)
 msgid ""
@@ -4311,11 +4317,11 @@ msgstr ""
 
 #: C/mail-moving-emails.page:5(desc)
 msgid "Moving emails from one folder to another."
-msgstr ""
+msgstr "Mover correos de una carpeta a otra."
 
 #: C/mail-moving-emails.page:24(title)
 msgid "Moved emails are still shown in the original folder"
-msgstr ""
+msgstr "Los correos movidos aún se muestran en la carpeta original"
 
 #: C/mail-moving-emails.page:26(p)
 msgid ""
@@ -4324,6 +4330,10 @@ msgid ""
 "original messages are retained until you Expunge the emails marked for "
 "deletion."
 msgstr ""
+"IMAP no dispone de la característica «mover». Evolution «mueve» los mensajes "
+"copiando y eliminando correos. Eliminar significa «marcar correos para "
+"eliminar» de tal forma que los correos originales se mantienen hasta que "
+"purgue los correos marcados para eliminar."
 
 #: C/mail-moving-emails.page:28(p)
 msgid ""
@@ -4331,20 +4341,28 @@ msgid ""
 "link> for instructions on how to expunge email messages. Note that this "
 "applies to other types of accounts as well."
 msgstr ""
+"Para obtener instrucciones acerca de cómo purgar mensajes de correo "
+"electrónico, consulte el tema <link xref=\"mail-delete-and-undelete"
+"\">eliminar correos</link>. Note que esto también se aplica a otros tipos de "
+"cuenta."
 
 #: C/mail-layout-changing.page:5(desc)
 msgid ""
 "Changing the display of the mail window (message list columns and "
 "widescreen)."
 msgstr ""
+"Cambiar la visualización de la ventana de correo (lista de mensajes, "
+"columnas y pantalla ancha)."
 
 #: C/mail-layout-changing.page:20(title)
 msgid "Changing the mail window layout"
-msgstr ""
+msgstr "Cambiar la distribución de la ventana"
 
 #: C/mail-labels.page:5(desc)
 msgid "Use labels to categorize your mail while keeping it in their folders."
 msgstr ""
+"Use las etiquetas para categorizar su correo mientras este se mantiene en su "
+"carpeta correspondiente."
 
 #: C/mail-labels.page:21(title)
 msgid "Using Labels"
@@ -4356,6 +4374,9 @@ msgid ""
 "similar to <link xref=\"using-categories\">Categories</link> in the other "
 "Evolution windows."
 msgstr ""
+"Puede añadir etiquetas coloreadas a correos para categorizarlos. Es similar "
+"a <link xref=\"using-categories\">Categorías</link> en las otras ventanas de "
+"Evolution."
 
 #: C/mail-labels.page:25(p)
 msgid ""
@@ -4363,6 +4384,10 @@ msgid ""
 "\"mail-searching\">quick search dropdown</link>. Also, <link xref=\"mail-"
 "search-folders\">search folders</link> can be created based on labels."
 msgstr ""
+"También puede buscar correos por etiquetas específicas usando el <link xref="
+"\"mail-searching\">desplegable de búsqueda rápida</link>. También se pueden "
+"crear <link xref=\"mail-search-folders\">carpetas de búsqueda</link> basadas "
+"en etiquetas."
 
 # index.docbook:41, index.docbook:293
 #: C/mail-labels.page:28(title)
@@ -4374,10 +4399,15 @@ msgid ""
 "To assign a label to a message, right-click the message, click <gui>Label</"
 "gui>, and choose the label to apply."
 msgstr ""
+"Para asignar una etiqueta a un mensaje, pulse con el botón derecho del ratón "
+"sobre el mensaje, seleccione <gui>Etiqueta</gui> y elija la etiqueta que "
+"quiere aplicar."
 
 #: C/mail-labels.page:30(p)
 msgid "You can also quickly add a new label by choosing <gui>New Label</gui>."
 msgstr ""
+"También puede añadir rápidamente una etiqueta nueva eligiendo <gui>Etiqueta "
+"nueva</gui>."
 
 #: C/mail-labels.page:34(title)
 msgid "Managing labels"
@@ -4442,7 +4472,7 @@ msgstr ""
 
 #: C/mail-imap-headers.page:5(desc)
 msgid "Define which mail headers to download when using IMAP."
-msgstr ""
+msgstr "Defina qué cabeceras de correo descargar cuando use IMAP."
 
 #: C/mail-imap-headers.page:25(title)
 #: C/mail-account-manage-imap.page:51(title)
@@ -4498,9 +4528,8 @@ msgstr ""
 "más rápido y generalmente se recomienda para usuarios normales."
 
 #: C/mail-imap-headers.page:33(p)
-#, fuzzy
 msgid "Basic and Mailing List Headers (Default):"
-msgstr "Cabeceras básicas y de _listas de correo predeterminadas"
+msgstr "Cabeceras básicas y de listas de correo (predeterminadas):"
 
 #: C/mail-imap-headers.page:33(p)
 msgid ""
@@ -4545,6 +4574,8 @@ msgid ""
 "Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
 "gui></guiseq>."
 msgstr ""
+"Seleccione <guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Cuentas de "
+"correo</gui></guiseq>."
 
 #: C/mail-imap-headers.page:39(p)
 msgid "Select the IMAP account."
@@ -4563,12 +4594,16 @@ msgid ""
 "Optionally: If you want to define extra headers to download you can add "
 "these in the <gui>Custom Headers</gui> section."
 msgstr ""
+"Opcionalmente: si quiere definir cabeceras adicionales para descargar puede "
+"añadirlas en la sección <gui>Cabeceras personalizadas</gui>."
 
 #: C/mail-imap-headers.page:45(p)
 msgid ""
 "The option to define IMAP Headers is currently only available for IMAP "
 "accounts, but not for IMAP+ accounts."
 msgstr ""
+"Actualmente la opción para definir las cabeceras IMAP sólo está disponible "
+"para cuentas IMAP, pero no para cuentas IMAP+."
 
 #: C/mail-follow-up-flag.page:5(desc)
 msgid "Using flags to remind you of actions."
@@ -4596,10 +4631,9 @@ msgid "Right-click one of the messages."
 msgstr "Pulse con el botón derecho sobre uno de los mensajes."
 
 #: C/mail-follow-up-flag.page:29(p)
-#, fuzzy
 #| msgid "Click <gui>Mark for Follow Up...</gui>"
 msgid "Click <gui>Mark for Follow Up...</gui>."
-msgstr "Pulse <gui>Marca para seguimiento...</gui>"
+msgstr "Pulse <gui>Marca para seguimiento...</gui>."
 
 #: C/mail-follow-up-flag.page:31(p)
 msgid ""
@@ -4699,14 +4733,12 @@ msgstr ""
 "botón derecho sobre la lista y seleccionando Carpeta nueva."
 
 #: C/mail-folders.page:33(title)
-#, fuzzy
 msgid "Creating A Folder"
-msgstr "Crear una carpeta de búsqueda"
+msgstr "Crear una carpeta"
 
 #: C/mail-folders.page:34(p)
-#, fuzzy
 msgid "To create a folder:"
-msgstr "Para crear una carpeta nueva:"
+msgstr "Para crear una carpeta:"
 
 #: C/mail-folders.page:36(p)
 msgid ""
@@ -4716,9 +4748,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-folders.page:37(p)
-#, fuzzy
 msgid "Specify the name and the location of the folder."
-msgstr "Seleccione la ubicación de la carpeta nueva."
+msgstr "Especificque el nombre y la ubicación de la carpeta nueva."
 
 #: C/mail-folders.page:38(p)
 msgid "Click on the <gui>Create</gui> button."
@@ -4747,20 +4778,18 @@ msgstr ""
 "existen en esta carpeta, hasta que las mueva hacia otro lugar."
 
 #: C/mail-folders.page:49(title)
-#, fuzzy
 msgid "Moving Messages to New Folders"
-msgstr "Moviendo los mensajes a la carpeta %s"
+msgstr "Mover mensajes a carpetas nuevas"
 
 #: C/mail-folders.page:50(p)
-#, fuzzy
 msgid ""
 "You can move messages into folders by using one of the following methods:"
-msgstr "Puede ver el tamaño de la carpeta usando los siguientes métodos:"
+msgstr ""
+"Puede mover mensajes en las carpetas usando uno de los siguientes métodos:"
 
 #: C/mail-folders.page:52(p)
-#, fuzzy
 msgid "Drag and drop the messages into the folder."
-msgstr "Marca todos los mensajes en la carpeta como leídos."
+msgstr "Arrastre y suelte los mensajes en la carpeta."
 
 #: C/mail-folders.page:53(p)
 #, fuzzy
@@ -4797,9 +4826,8 @@ msgid "Use filter rules to sort your mail automatically into folders."
 msgstr ""
 
 #: C/mail-filters.page:23(title)
-#, fuzzy
 msgid "Using Filters"
-msgstr "Editar de filtros"
+msgstr "Usar filtros"
 
 #: C/mail-filters.page:25(p)
 msgid ""
@@ -4839,9 +4867,8 @@ msgstr ""
 "pulse Carpeta &gt; Purgar o pulse Ctrl+E."
 
 #: C/mail-filters.page:33(title)
-#, fuzzy
 msgid "Creating a Filter"
-msgstr "Crear reglas de filtros nuevas"
+msgstr "Crear un filtro"
 
 #: C/mail-filters.page:36(p)
 msgid ""
@@ -4851,13 +4878,13 @@ msgid ""
 msgstr ""
 
 #: C/mail-filters.page:39(p)
-#, fuzzy
 msgid ""
 "For more information on the available conditions see <link xref=\"mail-"
 "filters-conditions\">Available Filter conditions</link>."
 msgstr ""
-"Para obtener más información acerca de los recordatorios, vea <link linkend="
-"\"bshly4v\">Recordatorios</link>."
+"Para obtener más información acerca de las condiciones disponibles, consulte "
+"<link xref=\"mail-filters-conditions\">condiciones disponibles para filtros</"
+"link>."
 
 #: C/mail-filters.page:42(p)
 #, fuzzy
@@ -4912,9 +4939,8 @@ msgstr ""
 "Pulse <guiseq><gui>Editar</gui><gui>Filtros de mensajes</gui></guiseq>."
 
 #: C/mail-filters.page:59(p) C/mail-filters.page:69(p)
-#, fuzzy
 msgid "Select the filter."
-msgstr "Elija un archivo"
+msgstr "Seleccione el filtro."
 
 #: C/mail-filters.page:60(p)
 #: C/mail-encryption-s-mime-signing-encrypting.page:30(p)
@@ -4923,11 +4949,12 @@ msgid "Click <gui style=\"button\">Edit</gui>."
 msgstr "Pulse <gui style=\"button\">Editar</gui>."
 
 #: C/mail-filters.page:61(p)
-#, fuzzy
 msgid ""
 "Make the desired corrections, then click <gui style=\"button\">OK</gui> "
 "twice."
-msgstr "Haga las correcciones que desee, después pulse Aceptar dos veces."
+msgstr ""
+"Haga las correcciones que quiera, después pulse <gui style=\"button"
+"\">Aceptar</gui> dos veces."
 
 #: C/mail-filters.page:66(title)
 msgid "Deleting Filters"
@@ -4980,9 +5007,8 @@ msgid "Available conditions for setting up filtering."
 msgstr "Condiciones disponibles para configurar un filtro."
 
 #: C/mail-filters-conditions.page:23(title)
-#, fuzzy
 msgid "Available Filter conditions"
-msgstr "Campos disponibles"
+msgstr "Condiciones disponibles para filtros"
 
 #: C/mail-filters-conditions.page:86(p)
 msgid "Source Account:"
@@ -5028,9 +5054,8 @@ msgid "Available actions for setting up filtering."
 msgstr "Acciones disponibles para configurar un filtro."
 
 #: C/mail-filters-actions.page:23(title)
-#, fuzzy
 msgid "Available Filter actions"
-msgstr "Campos disponibles"
+msgstr "Acciones disponibles para filtros"
 
 #: C/mail-filters-actions.page:26(p)
 msgid "Move to Folder:"
@@ -5074,9 +5099,8 @@ msgstr ""
 "particular, se ignorarán."
 
 #: C/mail-filters-actions.page:38(p)
-#, fuzzy
 msgid "Set Label:"
-msgstr "Establecer etiqueta"
+msgstr "Establecer etiqueta:"
 
 # index.docbook:41, index.docbook:293
 #: C/mail-filters-actions.page:39(p)
@@ -5169,9 +5193,8 @@ msgstr ""
 "que no estén soportados por Evolution."
 
 #: C/mail-filters-actions.page:68(p)
-#, fuzzy
 msgid "Forward to:"
-msgstr "Reenviar a"
+msgstr "Reenviar a:"
 
 #: C/mail-filters-actions.page:69(p)
 #, fuzzy
@@ -5312,8 +5335,8 @@ msgstr ""
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
-"\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+"id=550414\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
@@ -8387,8 +8410,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">GMail Help</link> for more information."
 msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
