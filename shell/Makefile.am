@@ -12,6 +12,7 @@ eshellincludedir = $(privincludedir)/shell
 
 include $(top_srcdir)/glib-gen.mak
 glib_enum_headers=e-shell.h
+glib_enum_output=e-shell-enumtypes
 glib_enum_define=E_SHELL
 glib_enum_prefix=e_shell
 
