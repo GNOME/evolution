@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-26 19:15+0000\n"
-"PO-Revision-Date: 2011-08-28 14:24+0200\n"
+"POT-Creation-Date: 2011-08-28 12:25+0000\n"
+"PO-Revision-Date: 2011-08-29 18:58+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4632,7 +4632,6 @@ msgid "Right-click one of the messages."
 msgstr "Pulse con el botón derecho sobre uno de los mensajes."
 
 #: C/mail-follow-up-flag.page:29(p)
-#| msgid "Click <gui>Mark for Follow Up...</gui>"
 msgid "Click <gui>Mark for Follow Up...</gui>."
 msgstr "Pulse <gui>Marca para seguimiento...</gui>."
 
@@ -5015,6 +5014,8 @@ msgid ""
 "Applying the <gui>Stop Processing</gui> rule to an email message will cause "
 "all succeeding filters to ignore that message."
 msgstr ""
+"Aplicar la regla <gui>Parar de procesar</gui> sobre un mensaje de correo "
+"hará que todos los sucesivos filtors ignoren ese correo."
 
 #: C/mail-filters-conditions.page:5(desc)
 msgid "Available conditions for setting up filtering."
@@ -5239,6 +5240,8 @@ msgid ""
 "This happens when the <file>filters.xml</file> file is copied and used on a "
 "fresh install of Evolution on a new machine."
 msgstr ""
+"Esto sucede cuando el archivo <file>filters.xml</file> se copia y usa en una "
+"instalación nueva de Evolution en un equipo nuevo."
 
 #: C/mail-error-no-provider-available.page:28(p)
 msgid ""
@@ -6257,14 +6260,12 @@ msgstr ""
 "marca y el mensaje se borrará de la carpeta Papelera."
 
 #: C/mail-default-folder-locations.page:5(desc)
-#, fuzzy
 msgid "Changing the location of the Draft folder and Sent folder."
-msgstr "Seleccione la ubicación de la carpeta nueva."
+msgstr "Cambiar la ubicación de las carpetas Borradores y Enviados."
 
 #: C/mail-default-folder-locations.page:31(title)
-#, fuzzy
 msgid "Mail folder locations"
-msgstr "Dirección del buzón"
+msgstr "Ubicaciones de las carpetas de correo"
 
 #: C/mail-default-folder-locations.page:33(p)
 msgid ""
@@ -6286,9 +6287,8 @@ msgid "Make somebody always receive copies of your sent mail."
 msgstr "Hacer que alguien siempre reciba copias de los correos que envía."
 
 #: C/mail-default-CC-and-BCC.page:27(title)
-#, fuzzy
 msgid "Default CC and BCC"
-msgstr "Cliente de calendario predeterminado"
+msgstr "Cc y Cco predeterminadas"
 
 #: C/mail-default-CC-and-BCC.page:29(p)
 msgid ""
@@ -6304,9 +6304,8 @@ msgid "Writing a new email to send to a recipient."
 msgstr "Escribir un nuevo correo para enviarlo a un destinatario."
 
 #: C/mail-composer-write-new-message.page:23(title)
-#, fuzzy
 msgid "Composing a new message"
-msgstr "Redacta un mensaje de correo nuevo"
+msgstr "Redactar un mensaje de correo nuevo"
 
 #: C/mail-composer-write-new-message.page:25(p)
 #, fuzzy
@@ -6341,14 +6340,12 @@ msgstr ""
 "<keyseq><key>Ctrl</key><key>Intro</key></keyseq>."
 
 #: C/mail-composer-spellcheck.page:5(desc)
-#, fuzzy
 msgid "On spell checking your mail in the composer."
-msgstr "Configure la ortografía, firmas y el editor de mensajes aquí"
+msgstr "Acerca de la comprobación de ortografía en el editor."
 
 #: C/mail-composer-spellcheck.page:20(title)
-#, fuzzy
 msgid "Spell checking"
-msgstr "Ortografía"
+msgstr "Comprobación de ortografía"
 
 #: C/mail-composer-spellcheck.page:25(title)
 msgid "Prerequirements"
@@ -6371,9 +6368,8 @@ msgid "Install enchant now."
 msgstr "Instalar «enchant» ahora."
 
 #: C/mail-composer-spellcheck.page:32(title)
-#, fuzzy
 msgid "Global Preferences"
-msgstr "Opciones de correo"
+msgstr "Preferencias globales"
 
 #: C/mail-composer-spellcheck.page:34(p)
 msgid ""
@@ -6392,9 +6388,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-spellcheck.page:40(title)
-#, fuzzy
 msgid "Manual spell checking in the composer"
-msgstr "Color de la corrección ortográfica"
+msgstr "Comprobación de ortografía manual en el editor"
 
 #: C/mail-composer-spellcheck.page:41(p)
 msgid ""
@@ -6409,9 +6404,8 @@ msgid "Sending to more than one person and using CC or BCC."
 msgstr "Enviar a más de una persona y usar Cc o Cco."
 
 #: C/mail-composer-several-recipients.page:26(title)
-#, fuzzy
 msgid "Sending a message to several recipients"
-msgstr "Enviando la respuesta sólo a los destinatarios definidos en _Cco"
+msgstr "Enviar un correo a varios destinatarios"
 
 #: C/mail-composer-several-recipients.page:28(p)
 msgid ""
@@ -6433,9 +6427,8 @@ msgstr ""
 "\">Crear una lista de contactos</link>."
 
 #: C/mail-composer-several-recipients.page:33(title)
-#, fuzzy
 msgid "Recipient types"
-msgstr "Destinatarios"
+msgstr "Tipos de destinatarios"
 
 #: C/mail-composer-several-recipients.page:34(p)
 msgid ""
@@ -6471,9 +6464,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-several-recipients.page:45(title)
-#, fuzzy
 msgid "Using the buttons"
-msgstr "Mostrar los botones del selector"
+msgstr "Usar los botones"
 
 #: C/mail-composer-several-recipients.page:47(p)
 #, fuzzy
@@ -6490,14 +6482,12 @@ msgstr ""
 "columnas de direcciones apropiadas."
 
 #: C/mail-composer-search.page:5(desc)
-#, fuzzy
 msgid "Searching for text in the mail composer."
-msgstr "Buscar el texto en la nota mostrada"
+msgstr "Buscar texto en el editor de correo."
 
 #: C/mail-composer-search.page:21(title)
-#, fuzzy
 msgid "Searching in the mail composer"
-msgstr "Buscar y sustituir en el editor de mensajes"
+msgstr "Buscar y en el editor de mensajes"
 
 #: C/mail-composer-search.page:23(p)
 #, fuzzy
@@ -6517,9 +6507,8 @@ msgid "Enter a word or phrase, and Evolution finds it in your message."
 msgstr "Escriba una palabra o frase y Evolution la encontrará en el mensaje."
 
 #: C/mail-composer-search.page:30(p)
-#, fuzzy
 msgid "<gui>Find Again</gui>:"
-msgstr "Buscar de nuevo:"
+msgstr "<gui>Buscar de nuevo</gui>:"
 
 #: C/mail-composer-search.page:31(p)
 msgid "Select this item to repeat the last search you performed."
@@ -6553,14 +6542,12 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-reply.page:5(desc)
-#, fuzzy
 msgid "Answering a received email."
-msgstr "Descifrar un mensaje recibido"
+msgstr "Responder a un correo recibido."
 
 #: C/mail-composer-reply.page:23(title)
-#, fuzzy
 msgid "Replying to a message"
-msgstr "Responder un mensaje:"
+msgstr "Responder un correo"
 
 #: C/mail-composer-reply.page:26(title)
 msgid "Replying to Email Messages"
@@ -6642,7 +6629,6 @@ msgid "Action"
 msgstr "Acción"
 
 #: C/mail-composer-reply.page:41(p)
-#, fuzzy
 msgid "Shortcut keys"
 msgstr "Atajos de teclado"
 
@@ -6660,9 +6646,8 @@ msgid "R"
 msgstr "R"
 
 #: C/mail-composer-reply.page:45(p)
-#, fuzzy
 msgid "Reply to Mailing List"
-msgstr "Responder a la lista"
+msgstr "Responder a una lista de correo"
 
 #: C/mail-composer-reply.page:45(key)
 msgid "L"
@@ -6678,7 +6663,6 @@ msgstr "Mayús"
 
 # index.docbook:29, index.docbook:30
 #: C/mail-composer-reply.page:53(title) C/mail-composer-forward.page:40(title)
-#, fuzzy
 msgid "Default settings"
 msgstr "Ajustes predeterminados"
 
@@ -6695,9 +6679,8 @@ msgid "Setting a priority for messages to be sent."
 msgstr "Establecer una prioridad en los mensajes que enviar."
 
 #: C/mail-composer-priority.page:23(title)
-#, fuzzy
 msgid "Prioritizing outgoing messages"
-msgstr "Priorizar mensaje:"
+msgstr "Priorizar mensajes salientes"
 
 #: C/mail-composer-priority.page:25(p)
 #, fuzzy
@@ -6725,9 +6708,8 @@ msgid "Message templates to reuse in the composer."
 msgstr "Plantillas de correos para reusar en el editor."
 
 #: C/mail-composer-message-templates.page:23(title)
-#, fuzzy
 msgid "Message Templates"
-msgstr "Filtros de mensajes"
+msgstr "Plantillas de correo"
 
 #: C/mail-composer-message-templates.page:24(p)
 #, fuzzy
@@ -6746,9 +6728,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-message-templates.page:31(title)
-#, fuzzy
 msgid "Creating a Message Template from an existing Message"
-msgstr "Crear un mensaje plantilla desde un mensaje existente"
+msgstr "Crear una plantilla de correo desde un mensaje existente"
 
 #: C/mail-composer-message-templates.page:33(p)
 msgid "Select the message."
@@ -6771,15 +6752,13 @@ msgstr ""
 "Seleccione la carpeta <gui>Plantillas</gui> bajo <gui>En este equipo</gui>."
 
 #: C/mail-composer-message-templates.page:37(p)
-#, fuzzy
 msgid "You can also edit an existing message and save it as a template:"
 msgstr ""
-"También puede editar un mensaje existente y guardarlo como una plantilla."
+"También puede editar un correo existente y guardarlo como una plantilla:"
 
 #: C/mail-composer-message-templates.page:39(p)
-#, fuzzy
 msgid "Open the message and click <gui>Reply</gui>."
-msgstr "Abra el mensaje y pulse Responder."
+msgstr "Abra el correo y pulse <gui>Responder</gui>."
 
 #: C/mail-composer-message-templates.page:40(p)
 msgid "Edit the message body or the addresses according to your requirements."
@@ -6802,6 +6781,8 @@ msgid ""
 "Click <gui>New</gui> and enter in the composer window what you need for the "
 "template."
 msgstr ""
+"Pulse <gui>Nuevo</gui> para entrar en la ventana del editor que necesita "
+"para la plantilla."
 
 #: C/mail-composer-message-templates.page:58(title)
 msgid "Using a Message Template as a Reply"
@@ -6860,10 +6841,9 @@ msgstr "Pulse <gui>Plantilas</gui>."
 #: C/mail-composer-message-templates.page:79(p)
 #: C/mail-composer-custom-header-lines.page:33(p)
 #: C/mail-attachments-sending.page:48(p)
-#, fuzzy
 #| msgid "Click the Receiving Options tab."
 msgid "Click the <gui>Configuration</gui> tab."
-msgstr "Pulse en la pestaña Opciones de recepción."
+msgstr "Pulse la pestaña <gui>Configuración</gui>."
 
 #: C/mail-composer-message-templates.page:80(p)
 #, fuzzy
@@ -6949,9 +6929,8 @@ msgstr ""
 "Configurar una firma predeterminada para una cuenta de correo electrónico."
 
 #: C/mail-composer-mail-signatures-per-account.page:32(title)
-#, fuzzy
 msgid "Default account signature"
-msgstr "Recordatorio predeterminado de citas"
+msgstr "Firma de la cuenta predeterminada"
 
 #: C/mail-composer-mail-signatures-per-account.page:34(p)
 msgid ""
@@ -6975,9 +6954,8 @@ msgid "Using email signatures at the bottom of a message you send."
 msgstr "Usar firmas de correo al final de los mensajes que envía."
 
 #: C/mail-composer-mail-signatures.page:21(title)
-#, fuzzy
 msgid "Working with email signatures"
-msgstr "Utilización de cuentas de correo"
+msgstr "Uso de firmas en los correos"
 
 #: C/mail-composer-mail-signatures.page:23(p)
 msgid ""
@@ -6992,15 +6970,16 @@ msgid ""
 "The term \"signature\" is also differently used in terms of <link xref="
 "\"mail-encryption\">encryption</link>."
 msgstr ""
+"El término «firma» también se usa de forma diferente en el argot de <link "
+"xref=\"mail-encryption\">cifrado</link>."
 
 #: C/mail-composer-mail-signatures-manage.page:5(desc)
 msgid "Add, change, edit or delete email signatures."
 msgstr "Añadir, cambiar, editar o eliminar firmas de correo."
 
 #: C/mail-composer-mail-signatures-manage.page:20(title)
-#, fuzzy
 msgid "Managing signatures"
-msgstr "Firma no válida"
+msgstr "Gestionar firmas"
 
 #: C/mail-composer-mail-signatures-manage.page:22(p)
 msgid ""
@@ -7008,6 +6987,9 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Composer preferences</gui><gui>Signatures</"
 "gui></guiseq>."
 msgstr ""
+"Puede añadir, editar y eliminar todas sus firmas bajo <guiseq><gui>Editar</"
+"gui><gui>Preferencias</gui><gui>Preferencias del editor</gui><gui>Firmas</"
+"gui></guiseq>."
 
 #: C/mail-composer-mail-signatures-manage.page:23(p)
 msgid ""
@@ -7017,14 +6999,12 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-html-text.page:5(desc)
-#, fuzzy
 msgid "Format Text in the mail composer."
-msgstr "Redactor de correo de Evolution"
+msgstr "Formatear texto en el editor de correo."
 
 #: C/mail-composer-html-text.page:21(title)
-#, fuzzy
 msgid "Formatting Text in HTML"
-msgstr "Dar formato _HTML a los mensajes"
+msgstr "Formatear texto en HTML"
 
 #. TODO: These instructions are partially WRONG in 3.0.2 as the tool bar has been split into two. Needs an update. Maybe we also need a way to describe the non-HTML-only functions for plain text mail somewhere.
 #: C/mail-composer-html-text.page:25(p)
@@ -7138,11 +7118,10 @@ msgid "TT"
 msgstr "TT"
 
 #: C/mail-composer-html-text.page:55(p)
-#, fuzzy
 msgid "Typewriter text, which is similar to a monospace font."
 msgstr ""
 "Texto de máquina de escribir, es aproximadamente igual a la tipografía "
-"monoespaciadia Courier."
+"monoespaciadia."
 
 #: C/mail-composer-html-text.page:58(p)
 msgid "Bold A"
@@ -7200,22 +7179,19 @@ msgstr ""
 "para después seleccionar Estilo &gt; Estilo de la página."
 
 #: C/mail-composer-html-table.page:5(desc)
-#, fuzzy
 msgid "Insert a table in the mail composer."
-msgstr "Pulse Insertar &gt; Tabla en la barra de menú."
+msgstr "Insertar una tabla en el editor de correo."
 
 #: C/mail-composer-html-table.page:21(title)
-#, fuzzy
 msgid "Inserting a Table in HTML"
-msgstr "Insertar una tabla"
+msgstr "Insertar una tabla en HTML"
 
 #: C/mail-composer-html-table.page:23(p)
-#, fuzzy
 msgid ""
 "You can insert a table into the email (at the current position of the "
 "cursor):"
 msgstr ""
-"Insertar una línea horizontal en el texto para dividirlo en dos secciones:"
+"Puede insertar una tabla en el correo (en la posición actual del cursor):"
 
 #: C/mail-composer-html-table.page:25(p)
 msgid ""
@@ -7229,33 +7205,28 @@ msgid "Select the number of rows and columns."
 msgstr "Seleccione el número de filas y columnas."
 
 #: C/mail-composer-html-table.page:27(p)
-#, fuzzy
 msgid "Define the type of layout for the table."
-msgstr "Seleccione el tipo de disposición para la tabla."
+msgstr "Defina el tipo de distribución de la tabla."
 
 #: C/mail-composer-html-table.page:28(p)
-#, fuzzy
 msgid "Optionally: Select a background color or image for the table."
-msgstr "Seleccione un fondo para la tabla."
+msgstr "Opcional: seleccione un color de fondo o una imagen para la tabla."
 
 #: C/mail-composer-html-rule.page:5(desc)
-#, fuzzy
 msgid "Insert a horizontal line in the mail composer."
-msgstr ""
-"Insertar una línea horizontal en el texto para dividirlo en dos secciones:"
+msgstr "Insertar una línea horizontal en el editor de correo."
 
 #: C/mail-composer-html-rule.page:21(title)
-#, fuzzy
 msgid "Inserting a Rule in HTML"
-msgstr "Insertar una regla"
+msgstr "Insertar una regla en HTML"
 
 #: C/mail-composer-html-rule.page:23(p)
-#, fuzzy
 msgid ""
 "You can insert a horizontal line into the email (at the current position of "
 "the cursor) to help divide two sections:"
 msgstr ""
-"Insertar una línea horizontal en el texto para dividirlo en dos secciones:"
+"Puede insertar una línea horizontal en el correo (en la posición actual del "
+"cursor) para ayudarle a dividir dos secciones:"
 
 #: C/mail-composer-html-rule.page:25(p)
 msgid ""
@@ -7265,9 +7236,8 @@ msgstr ""
 "menú."
 
 #: C/mail-composer-html-rule.page:26(p)
-#, fuzzy
 msgid "Select width, size, and alignment."
-msgstr "Seleccione la anchura, tamaño y el alineamiento."
+msgstr "Seleccione la anchura, tamaño y la alineación."
 
 #: C/mail-composer-html-rule.page:27(p)
 #, fuzzy
@@ -7324,9 +7294,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-html.page:31(title)
-#, fuzzy
 msgid "HTML Formatting Options"
-msgstr "Opciones de seguimiento"
+msgstr "Opciones de formateo HTML"
 
 #: C/mail-composer-html-link.page:5(desc)
 #, fuzzy
@@ -7334,9 +7303,8 @@ msgid "Insert a link to a website in the mail composer."
 msgstr "Pulse el botón Adjuntar en el editor."
 
 #: C/mail-composer-html-link.page:21(title)
-#, fuzzy
 msgid "Inserting a Link in HTML"
-msgstr "Insertar un enlace"
+msgstr "Insertar un enlace en HTML"
 
 #: C/mail-composer-html-link.page:24(p)
 #, fuzzy
@@ -7429,6 +7397,8 @@ msgid ""
 "When you receive an email, you can forward it to other individuals or groups "
 "that might be interested."
 msgstr ""
+"Cuando recibe un correo, puede reenviarlo a otros individuos o grupos que "
+"puedan estar interesados."
 
 #: C/mail-composer-forward.page:26(p)
 msgid ""
@@ -7480,6 +7450,8 @@ msgid ""
 "Click <gui style=\"button\">Send</gui> or press <keyseq><key>Ctrl</"
 "key><key>Return</key></keyseq>."
 msgstr ""
+"Pulse <gui style=\"button\">Enviar</gui> o <keyseq><key>Ctrl</"
+"key><key>Intro</key></keyseq>."
 
 #: C/mail-composer-forward.page:37(p)
 msgid ""
@@ -7576,6 +7548,8 @@ msgstr ""
 #: C/mail-composer-custom-header-lines.page:42(p)
 msgid "Select <guiseq><gui>Insert</gui><gui>Custom Header</gui></guiseq>."
 msgstr ""
+"Seleccione <guiseq><gui>Insertar</gui><gui>Cabeceras personalizadas</gui></"
+"guiseq>."
 
 #: C/mail-composer-custom-header-lines.page:43(p)
 #, fuzzy
@@ -7597,11 +7571,11 @@ msgstr ""
 msgid ""
 "It is not possible to change the quotation introduction added when answering "
 "mail."
-msgstr ""
+msgstr "No es posible cambiar la cita introducida al responder un correo."
 
 #: C/mail-composer-change-quotation-string.page:22(title)
 msgid "Changing the \"On <em>date, person</em> wrote:\" string when replying"
-msgstr ""
+msgstr "Cambiar la cadena «El <em>fecha, persona</em> escribió:» al responder"
 
 #: C/mail-composer-change-quotation-string.page:24(p)
 msgid ""
@@ -7674,7 +7648,7 @@ msgstr ""
 
 #: C/mail-cannot-see.page:5(desc)
 msgid "If you received or sent an email, but you cannot find it anywhere."
-msgstr ""
+msgstr "Si recibió o envió un correo pero ya no puede encontrarlo."
 
 #: C/mail-cannot-see.page:11(name) C/index.page:9(name) C/credits.page:34(p)
 msgid "Phil Bull"
@@ -7686,7 +7660,7 @@ msgstr "philbull@gmail.com"
 
 #: C/mail-cannot-see.page:20(title)
 msgid "I cannot see some emails, where are they?"
-msgstr ""
+msgstr "No puedo ver algunos correos, ¿dónde están?"
 
 #: C/mail-cannot-see.page:24(p)
 msgid ""
@@ -7721,6 +7695,8 @@ msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Show Hidden Messages</gui></guiseq> to "
 "make sure all messages are visible."
 msgstr ""
+"Pulse <guiseq><gui>Editar</gui><gui>Mostrar mensajes ocultos</gui></guiseq> "
+"para asegurarse de que se muestran todos los mensajes."
 
 #: C/mail-cannot-see.page:41(p)
 msgid ""
@@ -7732,6 +7708,7 @@ msgstr ""
 #: C/mail-calendar-sending-invitations.page:5(desc)
 msgid "Sending invitations for appointments to contacts via email."
 msgstr ""
+"Enviar invitaciones a contactos para citas a través de correo electrónico."
 
 # #-#-#-#-#  usage-exchange.po  #-#-#-#-#
 # index.docbook:342, index.docbook:514
@@ -7816,7 +7793,7 @@ msgstr ""
 
 #: C/mail-attachments-sending.page:5(desc)
 msgid "Attaching files to emails you want to send."
-msgstr ""
+msgstr "Añadir archivos a los correos que quiere enviar."
 
 #: C/mail-attachments-sending.page:24(title)
 #, fuzzy
@@ -7847,6 +7824,8 @@ msgstr "Seleccione el archivo que quiere adjuntar."
 #: C/mail-attachments-sending.page:34(p)
 msgid "You can also drag a file to the attachment bar of the composer window."
 msgstr ""
+"También puede arrastrar un archivo a la barra de adjuntos de la ventana del "
+"editor."
 
 #: C/mail-attachments-sending.page:36(p)
 msgid ""
@@ -7887,6 +7866,8 @@ msgid ""
 "Click <gui style=\"button\">Add</gui>, then enter keywords in your language "
 "such as \"Attach\" or \"enclosed\"."
 msgstr ""
+"Pulse <gui style=\"button\">Añadir</gui>, después introduzca las palabras "
+"claves en su idioma tales como «adjuntar» o «adjunto»."
 
 #: C/mail-attachments-sending.page:51(p)
 #, fuzzy
@@ -7902,7 +7883,7 @@ msgstr ""
 
 #: C/mail-attachments-received.page:5(desc)
 msgid "Saving and opening files that are attached to received emails."
-msgstr ""
+msgstr "Guardar y abrir archivos adjuntos a correos recibidos."
 
 #: C/mail-attachments-received.page:24(title)
 #, fuzzy
@@ -7921,12 +7902,16 @@ msgstr ""
 #: C/mail-attachments-received.page:28(p)
 msgid "A list of attachments is also available at the bottom of the email."
 msgstr ""
+"También existe una lista de adjuntos disponible en la parte inferior del "
+"correo."
 
 #: C/mail-attachments-received.page:29(p)
 msgid ""
 "To save an attachment to disk, click the down-arrow next to the attachment "
 "icon and click <gui>Save As</gui>."
 msgstr ""
+"Para guardar un adjunto al disco, pulse sobre la flecha hacia abajo junto al "
+"icono de adjunto y seleccione <gui>Guardar como</gui>."
 
 #: C/mail-attachments-received.page:30(p)
 msgid ""
@@ -7950,7 +7935,7 @@ msgstr ""
 
 #: C/mail-attachments.page:5(desc)
 msgid "Handling of file attachments for writing and reading mail"
-msgstr ""
+msgstr "Gestión de los adjuntos de correos para escribibr y leer correos"
 
 #: C/mail-attachments.page:18(title)
 #, fuzzy
@@ -8154,7 +8139,7 @@ msgstr "Configuración de «shell»"
 msgid ""
 "Other account related settings that are not located in the <gui>Account "
 "Editor</gui>:"
-msgstr ""
+msgstr "Otros ajustes "
 
 #: C/mail-account-manage-unix-mbox-spool-file.page:5(desc)
 #, fuzzy
@@ -8182,7 +8167,7 @@ msgstr ""
 
 #: C/mail-account-manage-pop.page:5(desc)
 msgid "Add and edit a POP mail account in Evolution."
-msgstr ""
+msgstr "Añadir y editar una cuenta de correo POP en Evolution."
 
 #: C/mail-account-manage-pop.page:20(title)
 #, fuzzy
@@ -8205,7 +8190,7 @@ msgstr "Proxy"
 
 #: C/mail-account-manage-novell-groupwise.page:50(p)
 msgid "Settings for having somebody else handle your account."
-msgstr ""
+msgstr "Ajustes para que otra persona gestione su cuenta."
 
 #: C/mail-account-manage-microsoft-exchange.page:5(desc)
 #, fuzzy
@@ -8294,7 +8279,7 @@ msgstr "Opciones de recepción para directorios de correo en formato MH"
 
 #: C/mail-account-management.page:5(desc)
 msgid "Adding, editing and managing mail accounts."
-msgstr ""
+msgstr "Añadir, editar y gestionar cuentas de correo."
 
 #: C/mail-account-management.page:20(title)
 msgid "Account Management"
@@ -8302,17 +8287,15 @@ msgstr "Gestión de la cuenta"
 
 #: C/mail-account-management.page:23(title)
 msgid "Common Account Types"
-msgstr ""
+msgstr "Tipos comunes de cuentas"
 
 #: C/mail-account-management.page:27(title)
-#, fuzzy
 msgid "Local Account Types"
-msgstr "Cuentas de correo"
+msgstr "Tipos de cuenta locales"
 
 #: C/mail-account-management.page:31(title)
-#, fuzzy
 msgid "Corporate Account Types"
-msgstr "Cuenta actual"
+msgstr "Tipos de cuenta corporativos"
 
 #: C/mail-account-manage-maildir-format-directories.page:5(desc)
 #, fuzzy
@@ -8333,49 +8316,45 @@ msgstr ""
 
 #: C/mail-account-manage-local-delivery.page:5(desc)
 msgid "Add and edit a Local Delivery account in Evolution."
-msgstr ""
+msgstr "Añadir y editar una cuenta de envío local en Evolution."
 
 #: C/mail-account-manage-local-delivery.page:20(title)
-#, fuzzy
 msgid "Local Delivery account settings"
-msgstr "Configuración de la cuenta de Google:"
+msgstr "Configuración de cuenta de envío local"
 
 #: C/mail-account-manage-imap-plus.page:5(desc)
-#, fuzzy
 msgid "Add and edit an IMAP+ mail account in Evolution."
-msgstr "Añadir su cuenta Exchange a Evolution"
+msgstr "Añadir y editar una cuenta de correo IMAP+ en Evolution."
 
 #: C/mail-account-manage-imap-plus.page:20(title)
-#, fuzzy
 msgid "IMAP+ mail account settings"
-msgstr "Configuración de la cuenta de Yahoo:"
+msgstr "Configuración de cuenta de correo IMAP+"
 
 #: C/mail-account-manage-imap.page:5(desc)
-#, fuzzy
 msgid "Add and edit an IMAP mail account in Evolution."
-msgstr "Añadir su cuenta Exchange a Evolution"
+msgstr "Añadir y editar una cuenta de correo IMAP en Evolution."
 
 #: C/mail-account-manage-imap.page:20(title)
-#, fuzzy
 msgid "IMAP mail account settings"
-msgstr "Configuración de la cuenta de Yahoo:"
+msgstr "Configuración de cuenta de correo IMAP"
 
 #: C/mail-access-gmail-pop-account.page:5(desc)
 msgid "How to set up a GMail POP Account."
-msgstr ""
+msgstr "Cómo configurar una cuenta POP de GMail."
 
 #: C/mail-access-gmail-pop-account.page:24(title)
 msgid "Access a GMail POP Account via Evolution"
-msgstr ""
+msgstr "Acceder a una cuenta POP de GMail a través de Evolution"
 
 #: C/mail-access-gmail-pop-account.page:26(p)
 msgid "Follow these steps to set up your GMail POP Account in Evolution:"
 msgstr ""
+"Siga estos pasos para configurar su cuenta de correo POP de GMail en "
+"Evolution:"
 
 #: C/mail-access-gmail-pop-account.page:29(p)
-#, fuzzy
 msgid "Log in to your gmail account."
-msgstr "Configurar cuentas de correo-e"
+msgstr "Inicie sesión en su cuenta de GMail."
 
 #: C/mail-access-gmail-pop-account.page:30(p)
 msgid ""
