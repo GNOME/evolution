@@ -8,13 +8,13 @@
 # 
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011., 2011.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011., 2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-28 12:25+0000\n"
-"PO-Revision-Date: 2011-08-29 18:58+0200\n"
+"POT-Creation-Date: 2011-08-30 13:56+0000\n"
+"PO-Revision-Date: 2011-08-30 17:25Centra\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1608,6 +1608,9 @@ msgid ""
 "href=\"http://projects.gnome.org/evolution/bugs.shtml\">Evolution project "
 "website</link>."
 msgstr ""
+"Se listan algunas opciones de depuración en la <link href=\"http://projects."
+"gnome.org/evolution/bugs.shtml\">página web del proyecto de Evolution</link> "
+"para un seguimiento más profundo de los problemas."
 
 #: C/problems-debug-how-to.page:27(p)
 msgid ""
@@ -4465,11 +4468,10 @@ msgstr ""
 "problema."
 
 #: C/mail-imap-subscriptions.page:35(p)
-#, fuzzy
 msgid "Click a folder's checkbox to add a folder to your subscriptions."
 msgstr ""
-"Active la correspondiente casilla de verificación para añadir una carpeta a "
-"su lista de suscripción."
+"Active la correspondiente casilla de verificación de carpeta para añadir una "
+"carpeta a sus suscripciones."
 
 #: C/mail-imap-headers.page:5(desc)
 msgid "Define which mail headers to download when using IMAP."
@@ -4615,12 +4617,11 @@ msgid "Follow up flags for emails"
 msgstr "Marcas para seguimiento de correos"
 
 #: C/mail-follow-up-flag.page:25(p)
-#, fuzzy
 msgid ""
 "To make sure you do not forget about a message, you can use the follow-up "
 "feature."
 msgstr ""
-"Para asegurarse de que no se olvida de un mensaje, puede usar la "
+"Para asegurarse de que no se olvida de un correo, puede usar la "
 "característica Marca de seguimiento."
 
 #: C/mail-follow-up-flag.page:27(p)
@@ -5256,9 +5257,8 @@ msgstr ""
 "Puede que la configuración de la cuenta no se haya copiado correctamente."
 
 #: C/mail-error-no-provider-available.page:32(p)
-#, fuzzy
 msgid "The account settings were modified."
-msgstr "Configuración de la cuenta de Yahoo:"
+msgstr "Se modificó la configuración de la cuenta."
 
 #: C/mail-error-no-provider-available.page:35(p)
 msgid ""
@@ -5274,9 +5274,8 @@ msgstr ""
 "Vaya a <guiseq><gui>Editar</gui><gui>Filtros de mensajes</gui></guiseq>."
 
 #: C/mail-error-no-provider-available.page:38(p)
-#, fuzzy
 msgid "Select the Copy/Move filter and click <gui>Edit</gui>."
-msgstr "Seleccione el archivo y pulse Abrir."
+msgstr "Seleccione el filtro Copiar-Mover y pulse <gui>Editar</gui>."
 
 #: C/mail-error-no-provider-available.page:39(p)
 msgid ""
@@ -5354,13 +5353,14 @@ msgstr "Al realizar esta operación puede que pierda algunas de sus etiquetas."
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
-"id=550414\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
+"\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
 msgid "Error message \"Failed to append to...\" after sending message"
 msgstr ""
+"Mensaje de error «No es posible anexar a ...» después de enviar un correo"
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:26(p)
 msgid ""
@@ -5388,9 +5388,8 @@ msgstr "Firmar o cifrar los mensajes que envía a través de S/MIME."
 
 #: C/mail-encryption-s-mime-signing-encrypting.page:23(title)
 #: C/mail-encryption-gpg-signing-encrypting.page:23(title)
-#, fuzzy
 msgid "Signing or encrypting messages"
-msgstr "Firmar o cifrar cada mensaje"
+msgstr "Firmar o cifrar correos"
 
 #: C/mail-encryption-s-mime-signing-encrypting.page:25(p)
 #, fuzzy
@@ -5411,7 +5410,6 @@ msgstr "Para enviar cada mensaje cifrado o firmado:"
 
 #: C/mail-encryption-s-mime-signing-encrypting.page:29(p)
 #: C/mail-encryption-gpg-signing-encrypting.page:31(p)
-#, fuzzy
 msgid "Select the mail account to encrypt the messages in."
 msgstr "Seleccione la cuenta en la que cifrar mensajes."
 
@@ -5448,9 +5446,8 @@ msgid "Adding, editing, viewing and deleting S/MIME certificates."
 msgstr "Añadir, editar, ver y eliminar certificados S/MIME."
 
 #: C/mail-encryption-s-mime-manage.page:23(title)
-#, fuzzy
 msgid "Managing S/MIME certificates"
-msgstr "Gestione sus certificados S/MIME aquí"
+msgstr "Gestionar certificados S/MIME"
 
 #: C/mail-encryption-s-mime-manage.page:25(p)
 #, fuzzy
@@ -5504,14 +5501,12 @@ msgstr ""
 "certificados desde esta página."
 
 #: C/mail-encryption.page:5(desc)
-#, fuzzy
 msgid "Sending and receiving encrypted mail."
-msgstr "Enviar y recibir correo"
+msgstr "Enviar y recibir correo cifrado."
 
 #: C/mail-encryption.page:33(title)
-#, fuzzy
 msgid "Mail encryption and certificates"
-msgstr "Certificado de ci_frado:"
+msgstr "Cifrado de correo y certificados"
 
 #: C/mail-encryption.page:35(p)
 msgid ""
@@ -5525,15 +5520,13 @@ msgid "GPG"
 msgstr "GPG"
 
 #: C/mail-encryption.page:42(title)
-#, fuzzy
 msgid "S/MIME"
-msgstr "Fi_rmar con S/MIME"
+msgstr "S/MIME"
 
 #: C/mail-encryption-gpg-signing-encrypting.page:5(desc)
 #: C/mail-encryption-gpg-create-key.page:5(desc)
-#, fuzzy
 msgid "Signing or encrypting messages via GPG that you send."
-msgstr "Firmar o cifrar cada mensaje"
+msgstr "Firmar o cifrarlos correos que envía usando GPG."
 
 #: C/mail-encryption-gpg-signing-encrypting.page:25(p)
 #, fuzzy
@@ -6841,7 +6834,6 @@ msgstr "Pulse <gui>Plantilas</gui>."
 #: C/mail-composer-message-templates.page:79(p)
 #: C/mail-composer-custom-header-lines.page:33(p)
 #: C/mail-attachments-sending.page:48(p)
-#| msgid "Click the Receiving Options tab."
 msgid "Click the <gui>Configuration</gui> tab."
 msgstr "Pulse la pestaña <gui>Configuración</gui>."
 
@@ -8371,14 +8363,16 @@ msgstr ""
 #: C/mail-access-gmail-pop-account.page:33(p)
 msgid "Enable POP for all mail (even mail that's already been downloaded)"
 msgstr ""
+"Habilitar POP para todos los mensajes (incluso si ya se han descargado)"
 
 #: C/mail-access-gmail-pop-account.page:34(p)
 msgid "Enable POP for mail that arrives from now on"
-msgstr ""
+msgstr "Habilitar POP para los mensajes que se reciban a partir de ahora"
 
 #: C/mail-access-gmail-pop-account.page:37(p)
 msgid "Specify the other required settings for this Gmail feature."
 msgstr ""
+"Especifique los otros ajustes requeridos por esta característica de GMail."
 
 #: C/mail-access-gmail-pop-account.page:38(p)
 msgid ""
@@ -8399,12 +8393,12 @@ msgstr ""
 
 #: C/mail-access-gmail-imap-account.page:5(desc)
 msgid "How to set up a GMail IMAP Account."
-msgstr ""
+msgstr "Cómo configurar una cuenta IMAP de GMail."
 
 #. Page only exists for the <note>, apart from that nothing special.
 #: C/mail-access-gmail-imap-account.page:24(title)
 msgid "Access a GMail IMAP Account via Evolution"
-msgstr ""
+msgstr "Acceder a una cuenta IMAP de GMail a través de Evolution"
 
 #: C/mail-access-gmail-imap-account.page:26(p)
 msgid ""
@@ -8415,8 +8409,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?"
-"answer=77695\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
+"\">GMail Help</link> for more information."
 msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
@@ -9303,18 +9297,16 @@ msgid "Corporate Environments"
 msgstr "Entornos corporativos"
 
 #: C/index.page:72(title)
-#, fuzzy
 msgid "Microsoft Exchange"
-msgstr "Microsoft Exchange:"
+msgstr "Microsoft Exchange"
 
 #: C/index.page:75(title)
 msgid "Novell Groupwise"
 msgstr "Novell GroupWise"
 
 #: C/index.page:80(title)
-#, fuzzy
 msgid "Tracking down Problems"
-msgstr "Opciones de seguimiento"
+msgstr "Localizar problemas"
 
 #: C/index.page:84(title)
 msgid "Common Mail Questions and Problems"
@@ -9334,9 +9326,8 @@ msgid "Supported file formats for importing data."
 msgstr "Tipos de formatos de archivo soportados para importar datos."
 
 #: C/import-supported-file-formats.page:23(title)
-#, fuzzy
 msgid "Supported file formats"
-msgstr "Formato de firma no soportado"
+msgstr "Formatos de archivo soportados"
 
 #: C/import-supported-file-formats.page:25(p)
 msgid "Evolution can import the following types of files:"
@@ -9388,9 +9379,8 @@ msgstr ""
 "descrita en el <link linkend=\"bsawgkk\">Paso 1</link>."
 
 #: C/import-supported-file-formats.page:48(p)
-#, fuzzy
 msgid "vCalendar (.vcs):"
-msgstr "iCalendar (.ics)"
+msgstr "vCalendar (.vcs):"
 
 #: C/import-supported-file-formats.page:50(p)
 msgid ""
@@ -9414,9 +9404,8 @@ msgstr ""
 "Evolution, Microsoft Outlook, Sunbird y Korganizer."
 
 #: C/import-supported-file-formats.page:62(p)
-#, fuzzy
 msgid "LDAP Data Interchange Format (.ldif):"
-msgstr "Formato de intercambio de datos LDAP (.ldif)"
+msgstr "Formato de intercambio de datos LDAP (.ldif):"
 
 #: C/import-supported-file-formats.page:64(p)
 msgid "A standard data format for contact cards."
@@ -9437,9 +9426,8 @@ msgstr ""
 "exportar la libreta de direcciones de su otra aplicación al formato vCard."
 
 #: C/import-supported-file-formats.page:74(title)
-#, fuzzy
 msgid "Miscellaneous"
-msgstr "Miscelánea"
+msgstr "Información variada"
 
 #: C/import-supported-file-formats.page:76(p)
 msgid "Evolution/Mozilla/Outlook CSV/Tab (.csv, .tab):"
@@ -9497,9 +9485,8 @@ msgstr "Elija el archivo."
 
 #: C/import-single-files.page:26(p) C/import-apps-outlook.page:61(p)
 #: C/import-apps-mozilla.page:26(p)
-#, fuzzy
 msgid "The file type will be automatically determined."
-msgstr "Filtros de correo actualizados automáticamente."
+msgstr "Se determinará automáticamente el tipo de archivo."
 
 #: C/import-single-files.page:27(p) C/import-apps-outlook.page:64(p)
 #: C/import-apps-mozilla.page:27(p)
@@ -10201,6 +10188,8 @@ msgstr ""
 #: C/contacts-using-contact-lists.page:40(p)
 msgid "The contact list will be added to the chosen address book in Evolution."
 msgstr ""
+"La libreta de direcciones se añadirá a la libreta de direcciones "
+"seleccionada en Evolution."
 
 #: C/contacts-using-contact-lists.page:44(title)
 msgid "Sending messages to a contact list"
@@ -10356,6 +10345,7 @@ msgstr "Buscar por la información del contacto:"
 #: C/contacts-organizing.page:5(desc)
 msgid "On address books, searching, contact lists, and categories."
 msgstr ""
+"Acerca de libretas de direcciones, buscar, listas de contactos y categorías."
 
 #: C/contacts-organizing.page:21(title)
 msgid "Sorting, organizing and grouping contacts"
@@ -10380,6 +10370,7 @@ msgstr "Añadir otra libreta de direcciones local"
 msgid ""
 "To add another local calendar to Evolution, perform the following steps:"
 msgstr ""
+"Para añadir otro calendario local a Evolition, realice los siguientes pasos:"
 
 #: C/contacts-local.page:24(p) C/contacts-ldap.page:31(p)
 #: C/contacts-google.page:25(p)
@@ -10393,6 +10384,8 @@ msgstr ""
 msgid ""
 "The address book will be added to the list of address books in Evolution."
 msgstr ""
+"La libreta de direcciones se añadirá a la lista de libretas de direcciones "
+"en Evolution."
 
 #: C/contacts-ldap.page:5(desc)
 msgid "Use shared address books on a local network."
@@ -10400,7 +10393,7 @@ msgstr "Usar libretas de direcciones compartidas en una red local."
 
 #: C/contacts-ldap.page:23(title)
 msgid "Adding LDAP access"
-msgstr ""
+msgstr "Añadir acceso LDAP"
 
 #: C/contacts-ldap.page:25(p)
 #, fuzzy
@@ -10425,6 +10418,8 @@ msgstr "Añadir una libreta de direcciones LDAP"
 msgid ""
 "In the <gui>General</gui> tab, select the type <gui>On LDAP Servers</gui>."
 msgstr ""
+"En la pestaña <gui>General</gui> seleccione el tipo de <gui>En servidores "
+"LDAP</gui>"
 
 #: C/contacts-ldap.page:34(p)
 msgid ""
@@ -10434,21 +10429,21 @@ msgstr ""
 
 #: C/contacts-ldap.page:35(p)
 msgid "Define the login method and your user name."
-msgstr ""
+msgstr "Defina el método de registro y su nombre de usuario."
 
 #: C/contacts-ldap.page:37(p)
 msgid "In the <gui>Details</gui> tab you can define the following settings:"
 msgstr ""
+"En la pestaña <gui>Detalles</gui> puede definir los siguientes ajustes:"
 
 #: C/contacts-ldap.page:39(p)
-#, fuzzy
 msgid ""
 "Search Base: The search base is the starting point for a directory search. "
 "Contact your system administrator for information about the correct settings."
 msgstr ""
-"La <glossterm linkend=\"search-base\">base de búsqueda</glossterm> es el "
-"punto de partida utilizado para las búsquedas en directorios. Consulte a su "
-"administrador para obtener información acerca de los ajustes adecuados."
+"Base de búsqueda: la base de búsqueda es el punto de partida usado para las "
+"búsquedas en directorios. Consulte a su administrador para obtener "
+"información acerca de la configuración adecuada."
 
 #: C/contacts-ldap.page:40(p)
 msgid ""
@@ -10459,9 +10454,8 @@ msgstr ""
 "las siguientes:"
 
 #: C/contacts-ldap.page:42(p)
-#, fuzzy
 msgid "One: Searches the Search Base and one entry below it."
-msgstr "Una: busca dentro de la raíz y un nivel de subdirectorios."
+msgstr "Una: busca dentro de la raíz y un nivel de subdirectorios debajo."
 
 #: C/contacts-ldap.page:43(p)
 #, fuzzy
@@ -10479,11 +10473,11 @@ msgstr ""
 
 #: C/contacts-ldap.page:48(p)
 msgid "<code>ObjectClass=*</code>: Lists all the objects from the server."
-msgstr ""
+msgstr "<code>ObjectClass=*</code>: lista todos los objetos del servidor."
 
 #: C/contacts-ldap.page:49(p)
 msgid "<code>ObjectClass=User</code>: Lists only the users."
-msgstr ""
+msgstr "<code>ObjectClass=User</code>: solo lista los usuarios."
 
 #: C/contacts-ldap.page:50(p)
 #, fuzzy
@@ -10534,6 +10528,8 @@ msgid ""
 "LDAP address books work like local address books on your computer, with the "
 "following exceptions:"
 msgstr ""
+"Las libretas de direcciones LDAP funcionan igual que las libretas de "
+"direcciones locales en su equipo, con las siguientes excepciones:"
 
 #: C/contacts-ldap.page:69(p)
 msgid ""
@@ -10590,6 +10586,8 @@ msgstr "Usar una libreta de direcciones de Google"
 #: C/contacts-google.page:23(p)
 msgid "To add such an address book to Evolution, perform the following steps:"
 msgstr ""
+"Para añadir una libreta de direcciones a Evolution, realice los siguientes "
+"pasos:"
 
 #: C/contacts-google.page:26(p) C/calendar-google.page:29(p)
 msgid "Select the type <gui>Google</gui>."
@@ -10654,6 +10652,8 @@ msgstr ""
 msgid ""
 "Automatically add senders of mail that you have received to your contacts."
 msgstr ""
+"Añadir automáticamente a sus contactos los remitentes de los correos que ha "
+"recibido."
 
 #: C/contacts-add-automatically.page:24(title)
 msgid "Adding people automatically to my contacts"
