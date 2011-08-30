@@ -61,18 +61,18 @@ void em_utils_selection_get_uidlist (GtkSelectionData *data, EMailSession *sessi
 void em_utils_selection_set_urilist (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
 void em_utils_selection_get_urilist (GtkSelectionData *data, CamelFolder *folder);
 
-gboolean em_utils_folder_is_drafts (CamelFolder *folder);
-gboolean em_utils_folder_is_templates (CamelFolder *folder);
-gboolean em_utils_folder_is_sent (CamelFolder *folder);
-gboolean em_utils_folder_is_outbox (CamelFolder *folder);
+gboolean	em_utils_folder_is_drafts	(CamelFolder *folder);
+gboolean	em_utils_folder_is_templates	(CamelFolder *folder);
+gboolean	em_utils_folder_is_sent		(CamelFolder *folder);
+gboolean	em_utils_folder_is_outbox	(CamelFolder *folder);
 
 gchar *em_utils_get_proxy_uri (const gchar *uri);
 
 /* FIXME: should this have an override charset? */
 gchar *em_utils_message_to_html (CamelMimeMessage *msg, const gchar *credits, guint32 flags, struct _EMFormat *source, const gchar *append, guint32 *validity_found);
 
-void em_utils_expunge_folder (GtkWidget *parent, EMailSession *session, CamelFolder *folder);
-void em_utils_empty_trash (GtkWidget *parent, EMailSession *session);
+void em_utils_expunge_folder (GtkWidget *parent, EMailBackend *backend, CamelFolder *folder);
+void em_utils_empty_trash (GtkWidget *parent, EMailBackend *backend);
 
 /* is this address in the addressbook?  caches results */
 gboolean em_utils_in_addressbook (CamelInternetAddress *addr, gboolean local_only);

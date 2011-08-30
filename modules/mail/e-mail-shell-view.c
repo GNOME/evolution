@@ -828,6 +828,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	EMFolderTreeModel *model;
 	EMailReader *reader;
 	EMailView *mail_view;
+	CamelStore *store;
 	EAccount *account;
 	GtkAction *action;
 	GList *list, *link;
@@ -883,7 +884,17 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		(state & E_MAIL_SIDEBAR_STORE_IS_SUBSCRIBABLE);
 
 	uri = em_folder_tree_get_selected_uri (folder_tree);
-	account = em_folder_tree_get_selected_account (folder_tree);
+	store = em_folder_tree_get_selected_store (folder_tree);
+
+	if (store != NULL) {
+		CamelService *service;
+		const gchar *uid;
+
+		service = CAMEL_SERVICE (store);
+		uid = camel_service_get_uid (service);
+		account = e_get_account_by_uid (uid);
+	} else
+		account = NULL;
 
 	if (uri != NULL) {
 		GtkTreeRowReference *reference;

@@ -25,7 +25,6 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
-#include <libedataserver/e-account-list.h>
 
 #include <mail/e-mail-session.h>
 

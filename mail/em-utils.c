@@ -1361,13 +1361,15 @@ em_utils_message_to_html (CamelMimeMessage *message,
 /**
  * em_utils_expunge_folder:
  * @parent: parent window
- * @session: #EMailSession
+ * @backend: #EMailBackend
  * @folder: folder to expunge
  *
  * Expunges @folder.
  **/
 void
-em_utils_expunge_folder (GtkWidget *parent, EMailSession *session, CamelFolder *folder)
+em_utils_expunge_folder (GtkWidget *parent,
+                         EMailBackend *backend,
+                         CamelFolder *folder)
 {
 	const gchar *description;
 
@@ -1379,56 +1381,62 @@ em_utils_expunge_folder (GtkWidget *parent, EMailSession *session, CamelFolder *
 		"mail:ask-expunge", description, NULL))
 		return;
 
-	mail_expunge_folder (session, folder, NULL, NULL);
+	mail_expunge_folder (backend, folder);
 }
 
 /**
  * em_utils_empty_trash:
  * @parent: parent window
- * @session: an #EMailSession
+ * @backend: an #EMailBackend
  *
  * Empties all Trash folders.
  **/
 void
 em_utils_empty_trash (GtkWidget *parent,
-                      EMailSession *session)
+                      EMailBackend *backend)
 {
-	CamelProvider *provider;
-	EAccountList *account_list;
-	EAccount *account;
-	EIterator *iterator;
+	EMailSession *session;
+	GList *list, *iter;
 
-	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 
 	if (!em_utils_prompt_user ((GtkWindow *) parent,
 		"/apps/evolution/mail/prompts/empty_trash",
 		"mail:ask-empty-trash", NULL))
 		return;
 
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
+	session = e_mail_backend_get_session (backend);
+	list = camel_session_list_services (CAMEL_SESSION (session));
 
-	while (e_iterator_is_valid (iterator)) {
-		account = (EAccount *) e_iterator_get (iterator);
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		EAccount *account;
+		CamelProvider *provider;
+		CamelService *service;
+		const gchar *uid;
 
-		/* make sure this is a valid source */
-		if (account->enabled && account->source->url) {
-			provider = camel_provider_get (account->source->url, NULL);
-			if (provider) {
-				/* make sure this store is a remote store */
-				if (provider->flags & CAMEL_PROVIDER_IS_STORAGE) {
-					mail_empty_trash (session, account, NULL, NULL);
-				}
-			}
+		service = CAMEL_SERVICE (iter->data);
+		provider = camel_service_get_provider (service);
+		uid = camel_service_get_uid (service);
+
+		if (!CAMEL_IS_STORE (service))
+			continue;
+
+		if ((provider->flags & CAMEL_PROVIDER_IS_STORAGE) == 0)
+			continue;
+
+		account = e_get_account_by_uid (uid);
+
+		/* The local store has no corresponding
+		 * EAccount, so skip the enabled check. */
+		if (account != NULL) {
+			if (!account->enabled)
+				continue;
 		}
 
-		e_iterator_next (iterator);
+		mail_empty_trash (backend, CAMEL_STORE (service));
 	}
 
-	g_object_unref (iterator);
-
-	/* Now empty the local trash folder */
-	mail_empty_trash (session, NULL, NULL, NULL);
+	g_list_free (list);
 }
 
 /* ********************************************************************** */

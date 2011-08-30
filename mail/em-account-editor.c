@@ -3141,7 +3141,9 @@ emae_defaults_page (EConfig *ec,
 	EMFolderSelectionButton *button;
 	CamelProviderFlags flags;
 	CamelSettings *settings;
+	CamelStore *store = NULL;
 	EMailBackend *backend;
+	EMailSession *session;
 	EAccount *account;
 	GtkWidget *widget;
 	GtkBuilder *builder;
@@ -3155,6 +3157,18 @@ emae_defaults_page (EConfig *ec,
 
 	account = em_account_editor_get_modified_account (emae);
 	backend = em_account_editor_get_backend (emae);
+
+	session = e_mail_backend_get_session (backend);
+
+	if (account != NULL) {
+		CamelService *service;
+
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), account->uid);
+
+		if (CAMEL_IS_STORE (service))
+			store = CAMEL_STORE (service);
+	}
 
 	settings = emae->priv->source.settings;
 
@@ -3182,8 +3196,8 @@ emae_defaults_page (EConfig *ec,
 
 	widget = e_builder_get_widget (builder, "trash_folder_butt");
 	button = EM_FOLDER_SELECTION_BUTTON (widget);
-	em_folder_selection_button_set_account (button, account);
 	em_folder_selection_button_set_backend (button, backend);
+	em_folder_selection_button_set_store (button, store);
 	priv->trash_folder_button = GTK_BUTTON (button);
 
 	g_signal_connect (
@@ -3227,8 +3241,8 @@ emae_defaults_page (EConfig *ec,
 
 	widget = e_builder_get_widget (builder, "junk_folder_butt");
 	button = EM_FOLDER_SELECTION_BUTTON (widget);
-	em_folder_selection_button_set_account (button, account);
 	em_folder_selection_button_set_backend (button, backend);
+	em_folder_selection_button_set_store (button, store);
 	priv->junk_folder_button = GTK_BUTTON (button);
 
 	g_signal_connect (

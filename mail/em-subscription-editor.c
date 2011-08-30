@@ -1038,14 +1038,19 @@ subscription_editor_constructed (GObject *object)
 
 	editor = EM_SUBSCRIPTION_EDITOR (object);
 
+	/* Pick an initial store based on the default mail account, if
+	 * one wasn't already given in em_subscription_editor_new(). */
 	if (editor->priv->initial_store == NULL) {
 		EAccount *account;
 		CamelService *service;
 		CamelSession *session;
+		const gchar *uid;
 
 		account = e_get_default_account ();
+		uid = account->uid;
+
 		session = em_subscription_editor_get_session (editor);
-		service = camel_session_get_service (session, account->uid);
+		service = camel_session_get_service (session, uid);
 
 		if (CAMEL_IS_SUBSCRIBABLE (service))
 			editor->priv->initial_store = g_object_ref (service);

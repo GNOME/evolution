@@ -1091,7 +1091,7 @@ mail_transfer_messages (EMailSession *session,
 struct _sync_folder_msg {
 	MailMsg base;
 
-	EMailSession *session;
+	EMailBackend *backend;
 	CamelFolder *folder;
 	void (*done) (CamelFolder *folder, gpointer data);
 	gpointer data;
@@ -1123,10 +1123,11 @@ sync_folder_done (struct _sync_folder_msg *m)
 static void
 sync_folder_free (struct _sync_folder_msg *m)
 {
-	g_object_unref (m->folder);
+	if (m->backend)
+		g_object_unref (m->backend);
 
-	if (m->session)
-		g_object_unref (m->session);
+	if (m->folder)
+		g_object_unref (m->folder);
 }
 
 static MailMsgInfo sync_folder_info = {
@@ -1145,8 +1146,7 @@ mail_sync_folder (CamelFolder *folder,
 	struct _sync_folder_msg *m;
 
 	m = mail_msg_new (&sync_folder_info);
-	m->folder = folder;
-	g_object_ref (folder);
+	m->folder = g_object_ref (folder);
 	m->data = data;
 	m->done = done;
 
@@ -1222,9 +1222,8 @@ mail_sync_store (CamelStore *store,
 	struct _sync_store_msg *m;
 
 	m = mail_msg_new (&sync_store_info);
-	m->store = store;
+	m->store = g_object_ref (store);
 	m->expunge = expunge;
-	g_object_ref (store);
 	m->data = data;
 	m->done = done;
 
@@ -1267,8 +1266,7 @@ mail_refresh_folder (CamelFolder *folder,
 	struct _sync_folder_msg *m;
 
 	m = mail_msg_new (&refresh_folder_info);
-	m->folder = folder;
-	g_object_ref (folder);
+	m->folder = g_object_ref (folder);
 	m->data = data;
 	m->done = done;
 
@@ -1293,115 +1291,125 @@ folder_is_from_source_uid (CamelFolder *folder,
 /* This is because pop3 accounts are hidden under local Inbox,
  * thus whenever an expunge is done on a local trash or Inbox,
  * then also all active pop3 accounts should be expunged. */
-static void
+static gboolean
 expunge_pop3_stores (CamelFolder *expunging,
-                     EMailSession *session,
+                     EMailBackend *backend,
                      GCancellable *cancellable,
                      GError **error)
 {
+	GHashTable *expunging_uids;
+	EMailSession *session;
 	GPtrArray *uids;
-	CamelFolder *folder;
 	EAccount *account;
 	EIterator *iter;
-	guint i;
-	GHashTable *expunging_uids = NULL;
+	gboolean success = TRUE;
+	guint ii;
+
+	session = e_mail_backend_get_session (backend);
 
 	uids = camel_folder_get_uids (expunging);
-	if (!uids)
-		return;
 
-	for (i = 0; i < uids->len; i++) {
+	if (uids == NULL)
+		return TRUE;
+
+	expunging_uids = g_hash_table_new_full (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
+
+	for (ii = 0; ii < uids->len; ii++) {
 		CamelMessageInfo *info;
+		CamelMessageFlags flags = 0;
+		CamelMimeMessage *message;
+		const gchar *pop3_uid;
+		const gchar *source_uid;
 
 		info = camel_folder_get_message_info (
-			expunging, uids->pdata[i]);
+			expunging, uids->pdata[ii]);
 
-		if (!info)
-			continue;
-
-		if ((camel_message_info_flags (info) & CAMEL_MESSAGE_DELETED) != 0) {
-			CamelMimeMessage *msg;
-			GError *local_error = NULL;
-
-			/* because the UID in the local store doesn't
-			 * match with the UID in the pop3 store */
-			msg = camel_folder_get_message_sync (
-				expunging, uids->pdata[i],
-				cancellable, &local_error);
-			if (msg) {
-				const gchar *pop3_uid;
-
-				pop3_uid = camel_medium_get_header (
-					CAMEL_MEDIUM (msg),
-					"X-Evolution-POP3-UID");
-				if (pop3_uid) {
-					gchar *duped;
-
-					duped = g_strstrip (g_strdup (pop3_uid));
-
-					if (!expunging_uids)
-						expunging_uids = g_hash_table_new_full (
-							g_str_hash, g_str_equal,
-
-							g_free, g_free);
-
-					g_hash_table_insert (
-						expunging_uids, duped,
-						g_strdup (camel_mime_message_get_source (msg)));
-				}
-
-				g_object_unref (msg);
-			}
-
-			if (local_error)
-				g_clear_error (&local_error);
+		if (info != NULL) {
+			flags = camel_message_info_flags (info);
+			camel_folder_free_message_info (expunging, info);
 		}
 
-		camel_folder_free_message_info (expunging, info);
+		/* Only interested in deleted messages. */
+		if ((flags & CAMEL_MESSAGE_DELETED) == 0)
+			continue;
+
+		/* because the UID in the local store doesn't
+		 * match with the UID in the pop3 store */
+		message = camel_folder_get_message_sync (
+			expunging, uids->pdata[ii], cancellable, NULL);
+
+		if (message == NULL)
+			continue;
+
+		pop3_uid = camel_medium_get_header (
+			CAMEL_MEDIUM (message), "X-Evolution-POP3-UID");
+		source_uid = camel_mime_message_get_source (message);
+
+		if (pop3_uid != NULL)
+			g_hash_table_insert (
+				expunging_uids,
+				g_strstrip (g_strdup (pop3_uid)),
+				g_strstrip (g_strdup (source_uid)));
+
+		g_object_unref (message);
 	}
 
 	camel_folder_free_uids (expunging, uids);
 	uids = NULL;
 
-	if (!expunging_uids)
-		return;
+	if (g_hash_table_size (expunging_uids) == 0) {
+		g_hash_table_destroy (expunging_uids);
+		return TRUE;
+	}
 
 	for (iter = e_list_get_iterator ((EList *) e_get_account_list ());
-	     e_iterator_is_valid (iter) && (!error || !*error);
-	     e_iterator_next (iter)) {
+	     e_iterator_is_valid (iter); e_iterator_next (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 
 		if (account->enabled &&
 		    account->source && account->source->url &&
 		    g_str_has_prefix (account->source->url, "pop://")) {
+			CamelFolder *folder;
 			gboolean any_found = FALSE;
 
 			folder = e_mail_session_get_inbox_sync (
 				session, account->uid, cancellable, error);
-			if (!folder || (error && *error))
-				continue;
+
+			/* Abort the loop on error. */
+			if (folder == NULL) {
+				success = FALSE;
+				break;
+			}
 
 			uids = camel_folder_get_uids (folder);
 			if (uids) {
-				for (i = 0; i < uids->len; i++) {
+				for (ii = 0; ii < uids->len; ii++) {
 					/* ensure the ID is from this account,
 					 * as it's generated by evolution */
 					const gchar *source_uid;
 
 					source_uid = g_hash_table_lookup (
-						expunging_uids, uids->pdata[i]);
+						expunging_uids, uids->pdata[ii]);
 					if (folder_is_from_source_uid (folder, source_uid)) {
 						any_found = TRUE;
-						camel_folder_delete_message (folder, uids->pdata[i]);
+						camel_folder_delete_message (folder, uids->pdata[ii]);
 					}
 				}
 				camel_folder_free_uids (folder, uids);
 			}
 
 			if (any_found)
-				camel_folder_synchronize_sync (folder, TRUE, cancellable, error);
+				success = camel_folder_synchronize_sync (folder, TRUE, cancellable, error);
 
 			g_object_unref (folder);
+
+			/* Abort the loop on error. */
+			if (!success)
+				break;
 		}
 	}
 
@@ -1409,6 +1417,8 @@ expunge_pop3_stores (CamelFolder *expunging,
 		g_object_unref (iter);
 
 	g_hash_table_destroy (expunging_uids);
+
+	return success;
 }
 
 static gchar *
@@ -1424,26 +1434,38 @@ expunge_folder_exec (struct _sync_folder_msg *m,
                      GCancellable *cancellable,
                      GError **error)
 {
-	gboolean is_local_inbox_or_trash =
-		m->folder == e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_INBOX);
+	CamelFolder *local_inbox;
+	CamelStore *local_store;
+	CamelStore *parent_store;
+	gboolean is_local_inbox_or_trash;
+	gboolean success = TRUE;
 
-	if (!is_local_inbox_or_trash && e_mail_local_get_store () ==
-			camel_folder_get_parent_store (m->folder)) {
+	local_inbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_INBOX);
+	is_local_inbox_or_trash = (m->folder == local_inbox);
+
+	local_store = e_mail_local_get_store ();
+	parent_store = camel_folder_get_parent_store (m->folder);
+
+	if (!is_local_inbox_or_trash && local_store == parent_store) {
 		CamelFolder *trash;
 
-		trash = e_mail_session_get_trash_sync (
-			m->session, "local", cancellable, error);
+		trash = camel_store_get_trash_folder_sync (
+			parent_store, cancellable, error);
 
-		is_local_inbox_or_trash = m->folder == trash;
+		if (trash == NULL)
+			return;
+
+		is_local_inbox_or_trash = (m->folder == trash);
 
 		g_object_unref (trash);
 	}
 
 	/* do this before expunge, to know which messages will be expunged */
-	if (is_local_inbox_or_trash && (!error || !*error))
-		expunge_pop3_stores (m->folder, m->session, cancellable, error);
+	if (is_local_inbox_or_trash)
+		success = expunge_pop3_stores (
+			m->folder, m->backend, cancellable, error);
 
-	if (!error || !*error)
+	if (success)
 		camel_folder_expunge_sync (m->folder, cancellable, error);
 }
 
@@ -1457,19 +1479,14 @@ static MailMsgInfo expunge_folder_info = {
 };
 
 void
-mail_expunge_folder (EMailSession *session,
-                     CamelFolder *folder,
-                     void (*done) (CamelFolder *folder, gpointer data),
-                     gpointer data)
+mail_expunge_folder (EMailBackend *backend,
+                     CamelFolder *folder)
 {
 	struct _sync_folder_msg *m;
 
 	m = mail_msg_new (&expunge_folder_info);
-	m->session = g_object_ref (session);
-	m->folder = folder;
-	g_object_ref (folder);
-	m->data = data;
-	m->done = done;
+	m->backend = g_object_ref (backend);
+	m->folder = g_object_ref (folder);
 
 	mail_msg_slow_ordered_push (m);
 }
@@ -1479,17 +1496,21 @@ mail_expunge_folder (EMailSession *session,
 struct _empty_trash_msg {
 	MailMsg base;
 
-	EMailSession *session;
-	EAccount *account;
-	void (*done) (EAccount *account, gpointer data);
-	gpointer data;
+	EMailBackend *backend;
+	CamelStore *store;
 };
 
 static gchar *
 empty_trash_desc (struct _empty_trash_msg *m)
 {
-	return g_strdup_printf (_("Emptying trash in '%s'"),
-				m->account ? m->account->name : _("Local Folders"));
+	CamelService *service;
+	const gchar *display_name;
+
+	service = CAMEL_SERVICE (m->store);
+	display_name = camel_service_get_display_name (service);
+
+	return g_strdup_printf (
+		_("Emptying trash in '%s'"), display_name);
 }
 
 static void
@@ -1497,39 +1518,46 @@ empty_trash_exec (struct _empty_trash_msg *m,
                   GCancellable *cancellable,
                   GError **error)
 {
+	CamelService *service;
 	CamelFolder *trash;
 	const gchar *uid;
+	gboolean success = TRUE;
 
-	uid = (m->account != NULL) ? m->account->uid : "local";
+	service = CAMEL_SERVICE (m->store);
+	uid = camel_service_get_uid (service);
 
-	trash = e_mail_session_get_trash_sync (
-		m->session, uid, cancellable, error);
+	if (!em_utils_connect_service_sync (service, cancellable, error))
+		return;
 
-	if (trash) {
-		/* do this before expunge, to know which messages will be expunged */
-		if (!m->account && (!error || !*error))
-			expunge_pop3_stores (trash, m->session, cancellable, error);
+	trash = camel_store_get_trash_folder_sync (
+		m->store, cancellable, error);
 
-		if (!error || !*error)
-			camel_folder_expunge_sync (trash, cancellable, error);
-		g_object_unref (trash);
-	}
+	if (trash == NULL)
+		return;
+
+	/* do this before expunge, to know which messages will be expunged */
+	if (g_strcmp0 (uid, "local") == 0)
+		success = expunge_pop3_stores (
+			trash, m->backend, cancellable, error);
+
+	if (success)
+		camel_folder_expunge_sync (trash, cancellable, error);
+
+	g_object_unref (trash);
 }
 
 static void
 empty_trash_done (struct _empty_trash_msg *m)
 {
-	if (m->done)
-		m->done (m->account, m->data);
 }
 
 static void
 empty_trash_free (struct _empty_trash_msg *m)
 {
-	if (m->session)
-		g_object_unref (m->session);
-	if (m->account)
-		g_object_unref (m->account);
+	if (m->backend)
+		g_object_unref (m->backend);
+	if (m->store)
+		g_object_unref (m->store);
 }
 
 static MailMsgInfo empty_trash_info = {
@@ -1541,20 +1569,17 @@ static MailMsgInfo empty_trash_info = {
 };
 
 void
-mail_empty_trash (EMailSession *session,
-                  EAccount *account,
-                  void (*done) (EAccount *account, gpointer data),
-                  gpointer data)
+mail_empty_trash (EMailBackend *backend,
+                  CamelStore *store)
 {
 	struct _empty_trash_msg *m;
 
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+
 	m = mail_msg_new (&empty_trash_info);
-	m->session = g_object_ref (session);
-	m->account = account;
-	if (account)
-		g_object_ref (account);
-	m->data = data;
-	m->done = done;
+	m->backend = g_object_ref (backend);
+	m->store = g_object_ref (store);
 
 	mail_msg_slow_ordered_push (m);
 }

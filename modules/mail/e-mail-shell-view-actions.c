@@ -87,8 +87,11 @@ action_mail_account_disable_cb (GtkAction *action,
 	EMailBackend *backend;
 	EMailSession *session;
 	EMFolderTree *folder_tree;
+	CamelService *service;
+	CamelStore *store;
 	EAccountList *account_list;
 	EAccount *account;
+	const gchar *uid;
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 
@@ -99,7 +102,12 @@ action_mail_account_disable_cb (GtkAction *action,
 	session = e_mail_backend_get_session (backend);
 
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	account = em_folder_tree_get_selected_account (folder_tree);
+	store = em_folder_tree_get_selected_store (folder_tree);
+	g_return_if_fail (store != NULL);
+
+	service = CAMEL_SERVICE (store);
+	uid = camel_service_get_uid (service);
+	account = e_get_account_by_uid (uid);
 	g_return_if_fail (account != NULL);
 
 	account_list = e_get_account_list ();
@@ -308,7 +316,6 @@ action_mail_folder_expunge_cb (GtkAction *action,
 	EShellBackend *shell_backend;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
-	EMailSession *session;
 	CamelFolder *folder;
 
 	/* This handles both the "folder-expunge" and "account-expunge"
@@ -329,9 +336,10 @@ action_mail_folder_expunge_cb (GtkAction *action,
 	g_return_if_fail (folder != NULL);
 
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
-	em_utils_expunge_folder (GTK_WIDGET (shell_window), session, folder);
+	em_utils_expunge_folder (
+		GTK_WIDGET (shell_window),
+		E_MAIL_BACKEND (shell_backend), folder);
 }
 
 static void
@@ -594,17 +602,14 @@ action_mail_global_expunge_cb (GtkAction *action,
 	EShellBackend *shell_backend;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
-	EMailBackend *backend;
-	EMailSession *session;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
-	backend = E_MAIL_BACKEND (shell_backend);
-	session = e_mail_backend_get_session (backend);
-
-	em_utils_empty_trash (GTK_WIDGET (shell_window), session);
+	em_utils_empty_trash (
+		GTK_WIDGET (shell_window),
+		E_MAIL_BACKEND (shell_backend));
 }
 
 static void
@@ -1056,9 +1061,8 @@ action_mail_tools_subscriptions_cb (GtkAction *action,
 	EMailBackend *backend;
 	EMailSession *session;
 	EMFolderTree *folder_tree;
-	EAccount *account;
 	GtkWidget *dialog;
-	CamelStore *store = NULL;
+	CamelStore *store;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -1066,19 +1070,10 @@ action_mail_tools_subscriptions_cb (GtkAction *action,
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	account = em_folder_tree_get_selected_account (folder_tree);
+	store = em_folder_tree_get_selected_store (folder_tree);
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-
-	if (account != NULL) {
-		CamelService *service;
-
-		service = camel_session_get_service (
-			CAMEL_SESSION (session), account->uid);
-		if (service != NULL)
-			store = CAMEL_STORE (service);
-	}
 
 	dialog = em_subscription_editor_new (
 		GTK_WINDOW (shell_window),

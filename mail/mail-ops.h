@@ -27,10 +27,9 @@
 G_BEGIN_DECLS
 
 #include <camel/camel.h>
-#include <libedataserver/e-account.h>
 
 #include <mail/mail-mt.h>
-#include <mail/e-mail-session.h>
+#include <mail/e-mail-backend.h>
 
 void		mail_transfer_messages		(EMailSession *session,
 						 CamelFolder *source,
@@ -51,14 +50,11 @@ void mail_refresh_folder (CamelFolder *folder,
 			  void (*done) (CamelFolder *folder, gpointer data),
 			  gpointer data);
 
-void mail_expunge_folder (EMailSession *session, CamelFolder *folder,
-			  void (*done) (CamelFolder *folder, gpointer data),
-			  gpointer data);
+void		mail_expunge_folder		(EMailBackend *backend,
+						 CamelFolder *folder);
 
-void		mail_empty_trash		(EMailSession *session,
-						 EAccount *account,
-						 void (*done) (EAccount *account, gpointer data),
-						 gpointer data);
+void		mail_empty_trash		(EMailBackend *backend,
+						 CamelStore *store);
 
 /* transfer (copy/move) a folder */
 void mail_xfer_folder (const gchar *src_uri, const gchar *dest_uri, gboolean remove_source,
