@@ -1535,7 +1535,7 @@ dnl image-inline plugin requires gtkimageview
 dnl *****************************************
 AC_ARG_ENABLE([image-inline],
 	[AS_HELP_STRING([--enable-image-inline],
-	[Enable image-inline plugin @<:@default=yes@:>@])],
+	[Enable image-inline plugin @<:@default=no@:>@])],
 	[enable_image_inline="$enableval"], [enable_image_inline=no])
 
 if test "x$enable_image_inline" = "xyes"; then
