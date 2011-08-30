@@ -24,9 +24,6 @@
 
 #include <mail/e-mail-backend.h>
 
-#include <e-util/e-signature-list.h>
-#include <libedataserver/e-account-list.h>
-
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SHELL_BACKEND \
 	(e_mail_shell_backend_get_type ())

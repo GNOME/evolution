@@ -26,6 +26,7 @@
 #include <gtk/gtk.h>
 #include <camel/camel.h>
 #include <mail/e-mail-backend.h>
+#include <libedataserver/e-account.h>
 
 G_BEGIN_DECLS
 

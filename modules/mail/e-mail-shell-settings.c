@@ -26,9 +26,6 @@
 #include "e-mail-shell-settings.h"
 
 #include <gconf/gconf-client.h>
-#include <libedataserver/e-account-list.h>
-
-#include <e-util/e-signature-list.h>
 
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-label-list-store.h>

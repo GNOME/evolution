@@ -569,10 +569,11 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		G_BINDING_SYNC_CREATE);
 
 	/* Sanitize the dialog for Express mode */
-	e_shell_hide_widgets_for_express_mode (shell, prefs->builder,
-					       "chkOutlookFilenames",
-					       "chkTopSignature",
-					       NULL);
+	e_shell_hide_widgets_for_express_mode (
+		shell, prefs->builder,
+		"chkOutlookFilenames",
+		"chkTopSignature",
+		NULL);
 
 	/* get our toplevel widget */
 	client = gconf_client_get_default ();

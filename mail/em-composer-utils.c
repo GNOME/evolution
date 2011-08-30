@@ -1782,27 +1782,27 @@ static EMsgComposer *
 redirect_get_composer (EShell *shell,
                        CamelMimeMessage *message)
 {
-	EMsgComposer *composer;
+	CamelMedium *medium;
 	EAccount *account;
+
+	medium = CAMEL_MEDIUM (message);
 
 	/* QMail will refuse to send a message if it finds one of
 	   it's Delivered-To headers in the message, so remove all
 	   Delivered-To headers. Fixes bug #23635. */
-	while (camel_medium_get_header (CAMEL_MEDIUM (message), "Delivered-To"))
-		camel_medium_remove_header (CAMEL_MEDIUM (message), "Delivered-To");
+	while (camel_medium_get_header (medium, "Delivered-To"))
+		camel_medium_remove_header (medium, "Delivered-To");
 
-	while (camel_medium_get_header (CAMEL_MEDIUM (message), "Bcc"))
-		camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
+	while (camel_medium_get_header (medium, "Bcc"))
+		camel_medium_remove_header (medium, "Bcc");
 
-	while (camel_medium_get_header (CAMEL_MEDIUM (message), "Resent-Bcc"))
-		camel_medium_remove_header (CAMEL_MEDIUM (message), "Resent-Bcc");
+	while (camel_medium_get_header (medium, "Resent-Bcc"))
+		camel_medium_remove_header (medium, "Resent-Bcc");
 
 	account = em_utils_guess_account_with_recipients (message, NULL);
 
-	composer = e_msg_composer_new_redirect (
+	return e_msg_composer_new_redirect (
 		shell, message, account ? account->name : NULL, NULL);
-
-	return composer;
 }
 
 /**
@@ -1967,9 +1967,10 @@ em_utils_send_receipt (EMailSession *session,
 		message_date ="";
 
 	/* Create toplevel container */
-	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (body),
-					  "multipart/report;"
-					  "report-type=\"disposition-notification\"");
+	camel_data_wrapper_set_mime_type (
+		CAMEL_DATA_WRAPPER (body),
+		"multipart/report;"
+		"report-type=\"disposition-notification\"");
 	camel_multipart_set_boundary (body, NULL);
 
 	/* Create textual receipt */
@@ -2036,7 +2037,8 @@ em_utils_send_receipt (EMailSession *session,
 	g_object_unref (part);
 
 	/* Finish creating the message */
-	camel_medium_set_content (CAMEL_MEDIUM (receipt), CAMEL_DATA_WRAPPER (body));
+	camel_medium_set_content (
+		CAMEL_MEDIUM (receipt), CAMEL_DATA_WRAPPER (body));
 	g_object_unref (body);
 
 	/* Translators: %s is the subject of the email message */
@@ -2052,7 +2054,8 @@ em_utils_send_receipt (EMailSession *session,
 
 	addr = camel_internet_address_new ();
 	camel_address_decode (CAMEL_ADDRESS (addr), receipt_address);
-	camel_mime_message_set_recipients (receipt, CAMEL_RECIPIENT_TYPE_TO, addr);
+	camel_mime_message_set_recipients (
+		receipt, CAMEL_RECIPIENT_TYPE_TO, addr);
 	g_object_unref (addr);
 
 	transport_uid = g_strconcat (account->uid, "-transport", NULL);
@@ -2139,12 +2142,17 @@ reply_get_composer (EShell *shell,
 	EDestination **tov, **ccv;
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
+	CamelMedium *medium;
 	gchar *subject;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
-	g_return_val_if_fail (to == NULL || CAMEL_IS_INTERNET_ADDRESS (to), NULL);
-	g_return_val_if_fail (cc == NULL || CAMEL_IS_INTERNET_ADDRESS (cc), NULL);
+
+	if (to != NULL)
+		g_return_val_if_fail (CAMEL_IS_INTERNET_ADDRESS (to), NULL);
+
+	if (cc != NULL)
+		g_return_val_if_fail (CAMEL_IS_INTERNET_ADDRESS (cc), NULL);
 
 	composer = e_msg_composer_new (shell);
 
@@ -2207,22 +2215,30 @@ reply_get_composer (EShell *shell,
 	}
 
 	/* Add In-Reply-To and References. */
-	message_id = camel_medium_get_header (CAMEL_MEDIUM (message), "Message-ID");
-	references = camel_medium_get_header (CAMEL_MEDIUM (message), "References");
-	if (message_id) {
+
+	medium = CAMEL_MEDIUM (message);
+	message_id = camel_medium_get_header (medium, "Message-ID");
+	references = camel_medium_get_header (medium, "References");
+
+	if (message_id != NULL) {
 		gchar *reply_refs;
 
-		e_msg_composer_add_header (composer, "In-Reply-To", message_id);
+		e_msg_composer_add_header (
+			composer, "In-Reply-To", message_id);
 
 		if (references)
-			reply_refs = g_strdup_printf ("%s %s", references, message_id);
+			reply_refs = g_strdup_printf (
+				"%s %s", references, message_id);
 		else
 			reply_refs = g_strdup (message_id);
 
-		e_msg_composer_add_header (composer, "References", reply_refs);
+		e_msg_composer_add_header (
+			composer, "References", reply_refs);
 		g_free (reply_refs);
-	} else if (references) {
-		e_msg_composer_add_header (composer, "References", references);
+
+	} else if (references != NULL) {
+		e_msg_composer_add_header (
+			composer, "References", references);
 	}
 
 	return composer;
@@ -2865,7 +2881,7 @@ em_utils_reply_to_message (EShell *shell,
                            const gchar *message_uid,
                            EMailReplyType type,
                            EMailReplyStyle style,
-                           EMFormat *source,
+                           EMFormat *source_formatter,
 			   CamelInternetAddress *address)
 {
 	CamelInternetAddress *to, *cc;
@@ -2925,7 +2941,7 @@ em_utils_reply_to_message (EShell *shell,
 	g_object_unref (to);
 	g_object_unref (cc);
 
-	composer_set_body (composer, message, style, source);
+	composer_set_body (composer, message, style, source_formatter);
 
 	if (folder != NULL) {
 		gchar *folder_uri;

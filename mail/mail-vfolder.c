@@ -347,12 +347,13 @@ mv_find_folder (GQueue *queue,
 }
 
 static gint
-uri_is_ignore (EMailSession *session, const gchar *uri)
+uri_is_ignore (EMailBackend *backend, const gchar *uri)
 {
+	EMailSession *session;
+	CamelSession *camel_session;
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
-	CamelSession *camel_session;
 	const gchar *local_drafts_uri;
 	const gchar *local_outbox_uri;
 	const gchar *local_sent_uri;
@@ -365,6 +366,7 @@ uri_is_ignore (EMailSession *session, const gchar *uri)
 	local_sent_uri =
 		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
 
+	session = e_mail_backend_get_session (backend);
 	camel_session = CAMEL_SESSION (session);
 
 	if (e_mail_folder_uri_equal (camel_session, local_outbox_uri, uri))
@@ -468,7 +470,7 @@ mail_vfolder_add_folder (EMailBackend *backend,
 
 	uri = e_mail_folder_uri_build (store, folder_name);
 
-	is_ignore = uri_is_ignore (session, uri);
+	is_ignore = uri_is_ignore (backend, uri);
 
 	G_LOCK (vfolder);
 

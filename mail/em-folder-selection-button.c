@@ -27,7 +27,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <e-util/e-util.h>
-#include <e-util/e-account-utils.h>
 
 #include "e-mail-folder-utils.h"
 #include "em-folder-tree.h"
@@ -44,7 +43,7 @@ struct _EMFolderSelectionButtonPrivate {
 	EMailBackend *backend;
 	GtkWidget *icon;
 	GtkWidget *label;
-	EAccount *account;
+	CamelStore *store;
 
 	gchar *title;
 	gchar *caption;
@@ -53,10 +52,10 @@ struct _EMFolderSelectionButtonPrivate {
 
 enum {
 	PROP_0,
-	PROP_ACCOUNT,
 	PROP_BACKEND,
 	PROP_CAPTION,
 	PROP_FOLDER_URI,
+	PROP_STORE,
 	PROP_TITLE
 };
 
@@ -87,9 +86,9 @@ folder_selection_button_set_contents (EMFolderSelectionButton *button)
 {
 	EMailBackend *backend;
 	CamelStore *store = NULL;
-	EAccount *account;
+	CamelService *service;
 	GtkLabel *label;
-	const gchar *uid;
+	const gchar *display_name;
 	gchar *folder_name = NULL;
 
 	label = GTK_LABEL (button->priv->label);
@@ -110,15 +109,14 @@ folder_selection_button_set_contents (EMFolderSelectionButton *button)
 		return;
 	}
 
-	uid = camel_service_get_uid (CAMEL_SERVICE (store));
-	account = e_get_account_by_uid (uid);
+	service = CAMEL_SERVICE (store);
+	display_name = camel_service_get_display_name (service);
 
-	if (account != NULL) {
+	if (display_name != NULL) {
 		gchar *text;
 
 		text = g_strdup_printf (
-			"%s/%s", e_account_get_string (
-			account, E_ACCOUNT_NAME), _(folder_name));
+			"%s/%s", display_name, _(folder_name));
 		gtk_label_set_text (label, text);
 		g_free (text);
 	} else
@@ -135,12 +133,6 @@ folder_selection_button_set_property (GObject *object,
                                       GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ACCOUNT:
-			em_folder_selection_button_set_account (
-				EM_FOLDER_SELECTION_BUTTON (object),
-				g_value_get_object (value));
-			return;
-
 		case PROP_BACKEND:
 			em_folder_selection_button_set_backend (
 				EM_FOLDER_SELECTION_BUTTON (object),
@@ -157,6 +149,12 @@ folder_selection_button_set_property (GObject *object,
 			em_folder_selection_button_set_folder_uri (
 				EM_FOLDER_SELECTION_BUTTON (object),
 				g_value_get_string (value));
+			return;
+
+		case PROP_STORE:
+			em_folder_selection_button_set_store (
+				EM_FOLDER_SELECTION_BUTTON (object),
+				g_value_get_object (value));
 			return;
 
 		case PROP_TITLE:
@@ -176,13 +174,6 @@ folder_selection_button_get_property (GObject *object,
                                       GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ACCOUNT:
-			g_value_set_object (
-				value,
-				em_folder_selection_button_get_account (
-				EM_FOLDER_SELECTION_BUTTON (object)));
-			return;
-
 		case PROP_BACKEND:
 			g_value_set_object (
 				value,
@@ -204,6 +195,13 @@ folder_selection_button_get_property (GObject *object,
 				EM_FOLDER_SELECTION_BUTTON (object)));
 			return;
 
+		case PROP_STORE:
+			g_value_set_object (
+				value,
+				em_folder_selection_button_get_store (
+				EM_FOLDER_SELECTION_BUTTON (object)));
+			return;
+
 		case PROP_TITLE:
 			g_value_set_string (
 				value,
@@ -222,14 +220,14 @@ folder_selection_button_dispose (GObject *object)
 
 	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (object);
 
-	if (priv->account != NULL) {
-		g_object_unref (priv->account);
-		priv->account = NULL;
-	}
-
 	if (priv->backend != NULL) {
 		g_object_unref (priv->backend);
 		priv->backend = NULL;
+	}
+
+	if (priv->store != NULL) {
+		g_object_unref (priv->store);
+		priv->store = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -269,21 +267,14 @@ folder_selection_button_clicked (GtkButton *button)
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	if (priv->account != NULL && priv->account->source != NULL) {
+	if (priv->store != NULL) {
 		EMailSession *session;
-		CamelService *service;
 
 		session = e_mail_backend_get_session (priv->backend);
 
-		service = camel_session_get_service (
-			CAMEL_SESSION (session), priv->account->uid);
-
-		if (CAMEL_IS_STORE (service)) {
-			model = em_folder_tree_model_new ();
-			em_folder_tree_model_set_session (model, session);
-			em_folder_tree_model_add_store (
-				model, CAMEL_STORE (service));
-		}
+		model = em_folder_tree_model_new ();
+		em_folder_tree_model_set_session (model, session);
+		em_folder_tree_model_add_store (model, priv->store);
 	}
 
 	if (model == NULL)
@@ -342,16 +333,6 @@ em_folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_ACCOUNT,
-		g_param_spec_object (
-			"account",
-			NULL,
-			NULL,
-			E_TYPE_ACCOUNT,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_BACKEND,
 		g_param_spec_object (
 			"backend",
@@ -382,6 +363,16 @@ em_folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_STORE,
+		g_param_spec_object (
+			"store",
+			NULL,
+			NULL,
+			CAMEL_TYPE_STORE,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -437,33 +428,6 @@ em_folder_selection_button_new (EMailBackend *backend,
 		EM_TYPE_FOLDER_SELECTION_BUTTON,
 		"backend", backend, "title", title,
 		"caption", caption, NULL);
-}
-
-EAccount *
-em_folder_selection_button_get_account (EMFolderSelectionButton *button)
-{
-	g_return_val_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button), NULL);
-
-	return button->priv->account;
-}
-
-void
-em_folder_selection_button_set_account (EMFolderSelectionButton *button,
-                                        EAccount *account)
-{
-	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
-
-	if (account != NULL) {
-		g_return_if_fail (E_IS_ACCOUNT (account));
-		g_object_ref (account);
-	}
-
-	if (button->priv->account != NULL)
-		g_object_unref (button->priv->account);
-
-	button->priv->account = account;
-
-	g_object_notify (G_OBJECT (button), "account");
 }
 
 EMailBackend *
@@ -537,6 +501,33 @@ em_folder_selection_button_set_folder_uri (EMFolderSelectionButton *button,
 	folder_selection_button_set_contents (button);
 
 	g_object_notify (G_OBJECT (button), "folder-uri");
+}
+
+CamelStore *
+em_folder_selection_button_get_store (EMFolderSelectionButton *button)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button), NULL);
+
+	return button->priv->store;
+}
+
+void
+em_folder_selection_button_set_store (EMFolderSelectionButton *button,
+                                      CamelStore *store)
+{
+	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
+
+	if (store != NULL) {
+		g_return_if_fail (CAMEL_IS_STORE (store));
+		g_object_ref (store);
+	}
+
+	if (button->priv->store != NULL)
+		g_object_unref (button->priv->store);
+
+	button->priv->store = store;
+
+	g_object_notify (G_OBJECT (button), "store");
 }
 
 const gchar *

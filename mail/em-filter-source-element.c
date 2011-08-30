@@ -31,11 +31,11 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
+
 #include <libedataserver/e-sexp.h>
 
 #include <e-util/e-account-utils.h>
-
-#include "filter/e-filter-part.h"
+#include <filter/e-filter-part.h>
 
 #define EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -343,18 +343,28 @@ filter_source_element_get_widget (EFilterElement *fe)
 
 	for (i = fs->priv->sources; i != NULL; i = g_list_next (i)) {
 		SourceInfo *info = (SourceInfo *) i->data;
+		const gchar *display_name;
+		const gchar *address;
+		const gchar *name;
+		const gchar *uid;
 		gchar *label;
 
-		if (g_strcmp0 (info->account_name, info->address) == 0)
+		uid = info->uid;
+		display_name = info->account_name;
+
+		name = info->name;
+		address = info->address;
+
+		if (g_strcmp0 (display_name, address) == 0)
 			label = g_strdup_printf (
-				"%s <%s>", info->name, info->address);
+				"%s <%s>", name, address);
 		else
 			label = g_strdup_printf (
-				"%s <%s> (%s)", info->name,
-				info->address, info->account_name);
+				"%s <%s> (%s)", name,
+				address, display_name);
 
 		gtk_combo_box_text_append (
-			GTK_COMBO_BOX_TEXT (combo_box), info->uid, label);
+			GTK_COMBO_BOX_TEXT (combo_box), uid, label);
 
 		g_free (label);
 	}

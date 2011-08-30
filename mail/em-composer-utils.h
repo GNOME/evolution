@@ -66,7 +66,7 @@ void		em_utils_send_receipt		(EMailSession *session,
 						 CamelMimeMessage *message);
 gchar *		em_utils_construct_composer_text
 						(CamelMimeMessage *message,
-						 EMFormat *source);
+						 EMFormat *source_formatter);
 gboolean	em_utils_is_munged_list_message	(CamelMimeMessage *message);
 void		em_utils_get_reply_sender	(CamelMimeMessage *message,
 						 CamelInternetAddress *to,

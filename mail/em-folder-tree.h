@@ -135,7 +135,7 @@ gboolean	em_folder_tree_store_root_selected
 gchar *		em_folder_tree_get_selected_uri	(EMFolderTree *folder_tree);
 CamelFolder *	em_folder_tree_get_selected_folder
 						(EMFolderTree *folder_tree);
-EAccount *	em_folder_tree_get_selected_account
+CamelStore *	em_folder_tree_get_selected_store
 						(EMFolderTree *folder_tree);
 gboolean	em_folder_tree_create_folder	(EMFolderTree *folder_tree,
 						 const gchar *full_name,

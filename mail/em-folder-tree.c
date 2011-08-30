@@ -39,7 +39,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-account-utils.h"
 #include "e-util/e-mktemp.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-alert-dialog.h"
@@ -496,10 +495,9 @@ folder_tree_expand_node (const gchar *key,
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
 	GtkTreePath *path;
-	EAccount *account;
 	EMailBackend *backend;
 	EMailSession *session;
-	CamelStore *store;
+	CamelService *service;
 	const gchar *p;
 	gchar *uid;
 	gsize n;
@@ -520,36 +518,21 @@ folder_tree_expand_node (const gchar *key,
 	backend = em_folder_tree_get_backend (folder_tree);
 	session = e_mail_backend_get_session (backend);
 
-	if ((account = e_get_account_by_uid (uid)) && account->enabled) {
-		store = (CamelStore *) camel_session_get_service (
-			CAMEL_SESSION (session), account->uid);
+	service = camel_session_get_service (CAMEL_SESSION (session), uid);
 
-		if (store == NULL)
-			return;
-
-		g_object_ref (store);
-	} else if (!strcmp (uid, "vfolder")) {
-		if (!(store = vfolder_store))
-			return;
-
-		g_object_ref (store);
-	} else if (!strcmp (uid, "local")) {
-		if (!(store = e_mail_local_get_store ()))
-			return;
-
-		g_object_ref (store);
-	} else {
+	if (!CAMEL_IS_STORE (service))
 		return;
-	}
+
+	g_object_ref (service);
 
 	si = em_folder_tree_model_lookup_store_info (
-		EM_FOLDER_TREE_MODEL (model), store);
+		EM_FOLDER_TREE_MODEL (model), CAMEL_STORE (service));
 	if (si == NULL) {
-		g_object_unref (store);
+		g_object_unref (service);
 		return;
 	}
 
-	g_object_unref (store);
+	g_object_unref (service);
 
 	if (p != NULL) {
 		if (!(row = g_hash_table_lookup (si->full_hash, p + 1)))
@@ -3308,15 +3291,14 @@ em_folder_tree_get_selected_folder (EMFolderTree *folder_tree)
 	return folder;
 }
 
-EAccount *
-em_folder_tree_get_selected_account (EMFolderTree *folder_tree)
+CamelStore *
+em_folder_tree_get_selected_store (EMFolderTree *folder_tree)
 {
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	CamelStore *store = NULL;
-	const gchar *uid = NULL;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
 
@@ -3331,10 +3313,7 @@ em_folder_tree_get_selected_account (EMFolderTree *folder_tree)
 			model, &iter,
 			COL_POINTER_CAMEL_STORE, &store, -1);
 
-	if (CAMEL_IS_STORE (store))
-		uid = camel_service_get_uid (CAMEL_SERVICE (store));
-
-	return (uid != NULL) ? e_get_account_by_uid (uid) : NULL;
+	return CAMEL_IS_STORE (store) ? store : NULL;
 }
 
 void
