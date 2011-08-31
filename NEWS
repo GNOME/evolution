@@ -1,3 +1,53 @@
+Evolution 3.0.3 2011-08-31
+--------------------------
+
+Bug Fixes:
+	Bug 657765 - Explicitly link libgnomecanvas against libm (Frederic Peters)
+	Bug 651633 - Hidden task/memo sidebar always automagically re-appears (Milan Crha)
+	Bug 656810 - Too strict checking for validity of received calendars (Milan Crha)
+	Bug 645476 - Message list unnecessarily scrolls back to selected row (Milan Crha)
+	Bug 655843 - Copy to calendar doesn't add timezone information (James Bottomley)
+	Bug 655893 - Crash on pst folder hierarchy import (Milan Crha)
+	Bug 646646 - Incomplete and folder-incorrect import of pst file (Milan Crha)
+	Bug 655263 - mail lost in MailDir migration (Chenthill Palanisamy)
+	Bug 654889 - Closes when clicking on year/month selector (Milan Crha)
+	Bug 653036 - CAL_STATIC_CAPABILITY_SAVE_SCHEDULES misbehaving (Chenthill Palanisamy)
+	Bug 652634 - Runtime warning on second search dialog (Matthew Barnes)
+	Bug 653568 - Forward as Redirect doesn't work (Matthew Barnes)
+	Bug 652629 - GnomeCanvas: Disregard synthesized crossing events (Matthew Barnes)
+	Bug 653247 - Don't show TIFF documents inline (Matthew Barnes)
+	Bug 637402 - No quoted mail when replying to html email (Milan Crha)
+	Bug 653008 - Preference window for imap accounts is too large (Milan Crha)
+	Bug 648468 - Disconnect service after mail fetching is done (Milan Crha)
+	Bug 638307 - Error when sending mail after converting to maildir (Milan Crha)
+	Bug 652620 - Can use uninitialized memory in alarm-notification-dialog (Milan Crha)
+	Bug 643526 - Crash in et_get_n_children (Milan Crha)
+	Bug 651976 - Reply/Forward setting isn't respected in message window (Milan Crha)
+	Bug 651316 - Crash with Outgoing mail filters (Milan Crha)
+	Bug 651761 - Message window doesn't mark message seen (Milan Crha)
+	Bug 649310 - Calendar only shows midnight to noon (Milan Crha)
+	Bug 640083 - Cannot configure LDAPS on port 636 (Milan Crha)
+	Bug 578245 - View settings for threads getting lost (Milan Crha)
+	Bug 651062 - Emit operation progress on the correct cancellable (Milan Crha)
+	Bug 651135 - Crash using saved search with an empty expression (Milan Crha)
+	Bug 651062 - refresh_folders_exec() reports progress incorrectly. (Matthew Barnes)
+	Bug 651039 - Always update signature in composer on account change (Milan Crha)
+
+Miscellaneous Fixes:
+	Encode email address in meeting selector dialog (Chenthill Palanisamy)
+	Update EMailBrowser actions when MessageList reloads. (Matthew Barnes)
+	Make "open_calendar" function as expected. (Chenthill Palanisamy)
+	EMsgComposer: Minor cleanups. (Matthew Barnes)
+	[itip-formatter] stock_animation is gone, use GtkSpinner instead (Milan Crha)
+	Fix typo in a GConf key for alarm-notification dialog timezone setting (Milan Crha)
+
+Translations:
+	Abduxukur Abdurixit (ug)
+	Christian Kirbach (de)
+	Alexander Shopov (bg)
+	Valencian translation  (ca)
+	Marek Černocký (cs)
+
 Evolution 3.0.2 2011-04-23
 --------------------------
 
