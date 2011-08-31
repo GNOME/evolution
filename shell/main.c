@@ -613,7 +613,11 @@ main (gint argc, gchar **argv)
 	}
 
 #ifdef G_OS_UNIX
-#if GLIB_CHECK_VERSION(2,29,5)
+#if GLIB_CHECK_VERSION(2,29,19)
+	g_unix_signal_add_full (
+		G_PRIORITY_DEFAULT, SIGTERM,
+		handle_term_signal, NULL, NULL);
+#elif GLIB_CHECK_VERSION(2,29,5)
 	g_unix_signal_add_watch_full (
 		SIGTERM, G_PRIORITY_DEFAULT,
 		handle_term_signal, NULL, NULL);
