@@ -1,3 +1,13 @@
+Evolution 3.1.90.1 2011-08-31
+-----------------------------
+
+* This release addresses a linking issue affecting some distributions.
+
+Bug Fixes:
+	Bug 657765 - Explicitly link libgnomecanvas against libm
+	             (Frederic Peters)
+
+
 Evolution 3.1.90 2011-08-29
 ---------------------------
 
