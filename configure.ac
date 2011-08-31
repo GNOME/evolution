@@ -23,7 +23,7 @@ m4_define([upgrade_revision], [0])
 dnl Autoconf / Automake Initialization
 AC_PREREQ(2.58)
 AC_INIT([evolution],[evo_version],[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution])
-AM_INIT_AUTOMAKE([1.10 -Wall -Werror foreign])
+AM_INIT_AUTOMAKE([1.10 dist-xz no-dist-gzip -Wall -Werror foreign])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR(README)
