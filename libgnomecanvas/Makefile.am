@@ -59,7 +59,8 @@ MARSHAL_GENERATED =				\
 	gnome-canvas-marshal.h
 
 libgnomecanvas_la_LIBADD = \
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS) \
+	$(MATH_LIB)
 
 libgnomecanvas_la_LDFLAGS = $(NO_UNDEFINED)
 
