@@ -39,6 +39,7 @@
 #include "itip-utils.h"
 #include <misc/e-cell-renderer-combo.h>
 #include <libebook/e-destination.h>
+#include <camel/camel.h>
 #include "e-select-names-renderer.h"
 
 struct _EMeetingListViewPrivate {
@@ -360,7 +361,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 		gboolean can_remove = TRUE;
 
 		for (l = addresses, m = names; l && m; l = l->next, m = m->next) {
-			gchar *name = m->data, *email = l->data;
+			gchar *name = m->data, *email = l->data, *encode;
 
 			if (!((name && *name) || (email && *email)))
 					continue;
@@ -373,7 +374,10 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 			}
 
 			attendee = e_meeting_store_add_attendee_with_defaults (model);
-			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", (gchar *)l->data));
+			
+			encode = camel_internet_address_encode_address (NULL, NULL, email);
+			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", encode));
+			g_free (encode);
 			e_meeting_attendee_set_cn (attendee, g_strdup (m->data));
 			if (existing_attendee) {
 				/* FIXME Should we copy anything else? */
@@ -392,7 +396,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 			e_meeting_store_remove_attendee (model, existing_attendee);
 		}
 	} else if (g_list_length (addresses) == 1) {
-		gchar *name = names->data, *email = addresses->data;
+		gchar *name = names->data, *email = addresses->data, *encode;
 		gint existing_row;
 
 		if (!((name && *name) || (email && *email)) || ((e_meeting_store_find_attendee (model, email, &existing_row) != NULL) && existing_row != row)) {
@@ -421,7 +425,9 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 			value_edited (view, E_MEETING_STORE_ADDRESS_COL, path, email);
 			value_edited (view, E_MEETING_STORE_CN_COL, path, name);
 
-			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", email));
+			encode = camel_internet_address_encode_address (NULL, NULL, email);
+			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", encode));
+			g_free (encode);
 			e_meeting_attendee_set_cn (attendee, g_strdup (name));
 			e_meeting_attendee_set_role (attendee, ICAL_ROLE_REQPARTICIPANT);
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
