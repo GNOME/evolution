@@ -6,23 +6,24 @@
 # Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006.
 # 
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011., 2011.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011., 2011.
 # 
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011., 2011.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-30 13:56+0000\n"
-"PO-Revision-Date: 2011-08-30 17:25Centra\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2011-08-31 15:55+0000\n"
+"PO-Revision-Date: 2011-09-01 11:46+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: C/using-categories.page:5(desc)
 msgid ""
@@ -2061,15 +2062,14 @@ msgstr ""
 "pantalla panorámica."
 
 #: C/mail-vertical-view.page:26(p)
-#, fuzzy
 #| msgid ""
 #| "To switch to vertical view, click View &gt; Preview &gt; Vertical View."
 msgid ""
 "To switch to vertical view, click <guiseq><gui>View</gui><gui>Preview</"
 "gui><gui>Vertical View</gui></guiseq>."
 msgstr ""
-"Para cambiar a la vista vertical, pulse Ver &gt; Vista previa &gt; Vista "
-"vertical."
+"Para cambiar a la vista vertical, pulse <guiseq><gui>Ver</gui><gui>Vista "
+"previa</gui><gui>Vista vertical</gui></guiseq>."
 
 #: C/mail-vertical-view.page:28(p)
 msgid ""
@@ -2085,15 +2085,14 @@ msgstr ""
 "en la segunda línea."
 
 #: C/mail-vertical-view.page:30(p)
-#, fuzzy
 #| msgid ""
 #| "To switch to classical view, click View &gt; Preview &gt; Classical View."
 msgid ""
 "To switch back to classical view, click <guiseq><gui>View</gui><gui>Preview</"
 "gui><gui>Classical View</gui></guiseq>."
 msgstr ""
-"Para cambiar a la vista clásica, pulse Ver &gt; Vista previa &gt; Vista "
-"clásica."
+"Para cambiar a la vista clásica, pulse <guiseq><gui>Ver</gui><gui>Vista "
+"previa</gui><gui>Vista clásica</gui></guiseq>."
 
 #: C/mail-usenet-subscriptions.page:5(desc)
 msgid "Subscribing to Usenet newsgroups."
@@ -2117,13 +2116,12 @@ msgstr ""
 "Seleccione <guiseq><gui>Carpeta</gui><gui>Suscripciones</gui></guiseq>."
 
 #: C/mail-usenet-subscriptions.page:30(p) C/mail-imap-subscriptions.page:31(p)
-#, fuzzy
 msgid ""
 "If you have accounts on multiple servers, select the server where you want "
 "to manage your subscriptions."
 msgstr ""
-"Si tiene cuentas en varios servidores IMAP, seleccione el servidor donde "
-"quiere gestionar sus suscripciones."
+"Si tiene cuentas en varios servidores, seleccione el servidor donde quiere "
+"gestionar sus suscripciones."
 
 #: C/mail-usenet-subscriptions.page:31(p)
 msgid "Click a group's checkbox to add a folder to your subscriptions."
@@ -2440,13 +2438,12 @@ msgid "Marking a Message As Junk Mail"
 msgstr "Marcar un mensaje como spam"
 
 #: C/mail-spam-groupwise-mark-message.page:25(p)
-#, fuzzy
 msgid ""
 "Select the message to mark as junk, then click the <gui>Junk</gui> button or "
 "press <keyseq><key>Ctrl</key><key>J</key></keyseq>."
 msgstr ""
-"Seleccione el mensaje marcado como spam, después pulse el icono de SPAM o "
-"pulse Ctrl+J."
+"Seleccione el mensaje que marcar como spam, después pulse el botón "
+"<gui>SPAM</gui> o pulse <keyseq><key>Ctrl</key><key>J</key></keyseq>."
 
 #: C/mail-spam-groupwise-mark-message.page:26(p)
 msgid ""
@@ -2534,7 +2531,6 @@ msgstr ""
 "mensajes."
 
 #: C/mail-sorting-message-list.page:31(p)
-#, fuzzy
 #| msgid ""
 #| "To look at the complete headers for a message, click View &gt; All "
 #| "Message Headers. To see all message data, click View &gt; Message Source."
@@ -2543,9 +2539,9 @@ msgid ""
 "gui><gui>All Message Headers</gui></guiseq>. This will display the complete "
 "header data on the viewing pane."
 msgstr ""
-"Para ver todas las cabeceras de un mensaje, pulse Ver &gt; Todas las "
-"cabeceras del mensaje. Para ver todos los datos del mensaje, pulse Ver &gt; "
-"Mensaje en bruto."
+"Para ver todas las cabeceras de un mensaje, pulse <guiseq><gui>Ver</"
+"gui><gui>Todas las cabeceras del mensaje</gui></guiseq>. Esto mostrará todos "
+"los datos de las cabeceras en el panel de visualización."
 
 #: C/mail-sorting-message-list.page:32(p)
 msgid ""
@@ -2842,14 +2838,13 @@ msgstr ""
 #: C/mail-receiving-options-pop.page:35(p)
 #: C/mail-receiving-options-imap-plus.page:29(p)
 #: C/mail-receiving-options-imap.page:29(p)
-#, fuzzy
 msgid ""
 "Free webmail providers often supply information about which of these options "
 "can be used. If you are in an organizational environment, you may want to "
 "contact your system administrator for more information."
 msgstr ""
 "Los servidores de correo web gratuitos generalmente proporcionan información "
-"acerca de cuál de estas opciones se pueden usar. Si está en un "
+"acerca de cuáles de estas opciones se pueden usar. Si está en un "
 "acontecimiento organizado puede que quiera contactar con el administrador de "
 "su sistema para obtener más información."
 
@@ -2963,13 +2958,12 @@ msgstr ""
 "condiciones."
 
 #: C/mail-searching.page:33(p)
-#, fuzzy
 msgid ""
 "Click on the search icon <media type=\"image\" mime=\"image/png\" src="
 "\"figures/search-icon.png\"/> to expand the drop-down list."
 msgstr ""
-"Pulse el botón de búsqueda <inlinegraphic format=\"PNG\" fileref=\"figures/"
-"stock_search.png\"/> para expandir la dista desplegable."
+"Pulse el icono de búsqueda <media type=\"image\" mime=\"image/png\" src="
+"\"figures/search-icon.png\"/> para expandir la dista desplegable."
 
 #: C/mail-searching.page:35(p)
 msgid "Select the scope from the drop-down list right to the text box."
@@ -3239,14 +3233,14 @@ msgstr "Expresión:"
 
 #: C/mail-search-folders-conditions.page:52(p)
 #: C/mail-filters-conditions.page:52(p)
-#, fuzzy
 msgid ""
 "(For programmers only) Match a message according to an expression you write "
 "in the Scheme language used to define <link xref=\"mail-filters\">filters</"
 "link> in Evolution."
 msgstr ""
 "(Sólo para programadores) busca un mensaje que corresponda a una expresión "
-"escrita en lenguaje Scheme, usado para definir filtros en Evolution."
+"escrita en lenguaje Scheme, usado para definir <link xref=\"mail-filters"
+"\">filtros</link> en Evolution."
 
 #: C/mail-search-folders-conditions.page:54(p)
 #: C/mail-filters-conditions.page:54(p)
@@ -3294,15 +3288,14 @@ msgstr "Etiqueta:"
 
 #: C/mail-search-folders-conditions.page:61(p)
 #: C/mail-filters-conditions.page:61(p)
-#, fuzzy
 msgid ""
 "Messages can have <link xref=\"mail-labels\">labels</link> of Important, "
 "Work, Personal, To Do, or Later. You can set labels with other filters or "
 "manually."
 msgstr ""
-"Los mensajes pueden tener las etiquetas Importante, Trabajo, personal, "
-"Tareas pendientes o Más tarde. Puede establecer etiquetas con otros filtros "
-"o manualmente."
+"Los mensajes pueden tener las <link xref=\"mail-labels\">labels</link> "
+"Importante, Trabajo, personal, Tareas pendientes o Más tarde. Puede "
+"establecer etiquetas con otros filtros o manualmente."
 
 #: C/mail-search-folders-conditions.page:63(p)
 #: C/mail-filters-conditions.page:63(p)
@@ -3723,13 +3716,12 @@ msgid "For example, comp.os.linux would appear as c.o.linux."
 msgstr "Por ejemplo, com.os.linux aparecería como c.o.linux."
 
 #: C/mail-receiving-options-usenet-news.page:39(p)
-#, fuzzy
 msgid ""
 "Select if you want to show relative folder names in the <link xref=\"mail-"
 "imap-subscriptions\">subscriptions window</link>."
 msgstr ""
-"Seleccione si quiere mostrar los nombres de carpetas relativos en la caja de "
-"suscripción del diálogo."
+"Seleccione si quiere mostrar los nombres de carpetas relativos en la <link "
+"xref=\"mail-imap-subscriptions\">ventana de suscripciones</link>."
 
 #: C/mail-receiving-options-usenet-news.page:40(p)
 #, fuzzy
@@ -5560,9 +5552,8 @@ msgstr ""
 "descifrar correos."
 
 #: C/mail-encryption-gpg-set-up.page:23(title)
-#, fuzzy
 msgid "Setting up GPG for your mail account"
-msgstr "Configurar el cifrado GPG"
+msgstr "Configurar el cifrado GPG para su cuenta de correo"
 
 #: C/mail-encryption-gpg-set-up.page:26(p)
 msgid ""
@@ -5603,12 +5594,10 @@ msgstr ""
 "números y letras aleatorios."
 
 #: C/mail-encryption-gpg-getting-keys.page:5(desc)
-#, fuzzy
 msgid "Getting and Using GPG Public Keys."
-msgstr "Obtener y usar claves GPG públicas"
+msgstr "Obtener y usar claves GPG públicas."
 
 #: C/mail-encryption-gpg-getting-keys.page:23(title)
-#, fuzzy
 msgid "Getting and using GPG public keys"
 msgstr "Obtener y usar claves GPG públicas"
 
@@ -5657,7 +5646,6 @@ msgid "Receiving messages encrypted or signed via GPG"
 msgstr "Recibir mensajes cifrados o firmados con GPG"
 
 #: C/mail-encryption-gpg-decrypting.page:26(title)
-#, fuzzy
 msgid "Decrypting a received message"
 msgstr "Descifrar un mensaje recibido"
 
@@ -5703,9 +5691,8 @@ msgstr ""
 
 # index.docbook:41, index.docbook:293
 #: C/mail-encryption-gpg-create-key.page:23(title)
-#, fuzzy
 msgid "Creating a GPG key"
-msgstr "Crear una tarea nueva"
+msgstr "Crear una clave GPG"
 
 #: C/mail-encryption-gpg-create-key.page:25(p)
 msgid ""
@@ -5803,9 +5790,8 @@ msgstr ""
 "alguien su clave, envíele éste archivo."
 
 #: C/mail-encryption-gpg-create-key.page:44(p)
-#, fuzzy
 msgid "If you want, you can upload your keys to a key server:"
-msgstr "Si lo desea puede subir sus claves a un servidor de claves."
+msgstr "Si quiere puede subir sus claves a un servidor de claves:"
 
 #: C/mail-encryption-gpg-create-key.page:46(p)
 #, fuzzy
@@ -5867,9 +5853,8 @@ msgid "Duplicate emails get downloaded"
 msgstr "Se descargan correos duplicados"
 
 #: C/mail-duplicates.page:27(title)
-#, fuzzy
 msgid "Removing duplicate emails"
-msgstr "¿Quitar mensajes duplicados?"
+msgstr "Quitar mensajes duplicados"
 
 #: C/mail-duplicates.page:28(p)
 #, fuzzy
@@ -6006,9 +5991,8 @@ msgid "On embedded pictures in received HTML messages."
 msgstr "Acerca de imágenes empotradas en correos HTML recibidos."
 
 #: C/mail-displaying-images-in-html.page:28(title)
-#, fuzzy
 msgid "Images in HTML messages"
-msgstr "Imágenes dentro de correos HTML"
+msgstr "Imágenes en mensajes HTML"
 
 #: C/mail-displaying-images-in-html.page:30(p)
 #, fuzzy
@@ -6025,9 +6009,8 @@ msgstr ""
 "composición del mensaje."
 
 #: C/mail-displaying-images-in-html.page:33(title)
-#, fuzzy
 msgid "Loading images"
-msgstr "Cargando imágenes"
+msgstr "Cargar imágenes"
 
 #: C/mail-displaying-images-in-html.page:34(p)
 msgid ""
@@ -6080,9 +6063,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-displaying-images-in-html.page:50(title)
-#, fuzzy
 msgid "Saving images"
-msgstr "Cargando imágenes"
+msgstr "Guardar imágenes"
 
 #: C/mail-displaying-images-in-html.page:51(p)
 msgid ""
@@ -6177,14 +6159,12 @@ msgid "Deleting, expunging, and undeleting mail."
 msgstr "Eliminar, purgar y recuperar correo."
 
 #: C/mail-delete-and-undelete.page:25(title)
-#, fuzzy
 msgid "Deleting and undeleting messages"
-msgstr "Recuperar mensajes"
+msgstr "Eliminar y recuperar mensajes"
 
 #: C/mail-delete-and-undelete.page:28(title)
-#, fuzzy
 msgid "Deleting Messages"
-msgstr "Recuperar mensajes"
+msgstr "Eliminar mensajes"
 
 #: C/mail-delete-and-undelete.page:30(p)
 #, fuzzy
@@ -7299,14 +7279,12 @@ msgid "Inserting a Link in HTML"
 msgstr "Insertar un enlace en HTML"
 
 #: C/mail-composer-html-link.page:24(p)
-#, fuzzy
 msgid "You can insert links into the email:"
-msgstr "Para insertar una tabla en el texto:"
+msgstr "Puede insertar enlaces en el correo:"
 
 #: C/mail-composer-html-link.page:26(p)
-#, fuzzy
 msgid "Select the text that you want to turn into a link."
-msgstr "Seleccione el texto en el que quiere poner el enlace."
+msgstr "Seleccione el texto en el que quiere poner en el enlace."
 
 #: C/mail-composer-html-link.page:27(p)
 msgid ""
@@ -7338,9 +7316,8 @@ msgid "Embed a picture in the mail composer."
 msgstr "Empotrar una imagen en el editor."
 
 #: C/mail-composer-html-image.page:21(title)
-#, fuzzy
 msgid "Inserting an Image in HTML"
-msgstr "Insertar una imagen"
+msgstr "Insertar una imagen en HTML"
 
 #: C/mail-composer-html-image.page:23(p)
 #, fuzzy
@@ -7358,9 +7335,8 @@ msgstr ""
 "de menú."
 
 #: C/mail-composer-html-image.page:26(p)
-#, fuzzy
 msgid "Browse to and select the file."
-msgstr "Navegue y seleccione el archivo de la imagen."
+msgstr "Navegue y seleccione el archivo."
 
 #: C/mail-composer-html-image.page:27(p)
 msgid "Click <gui>Open</gui>."
@@ -7375,14 +7351,12 @@ msgstr ""
 "editor de mensajes."
 
 #: C/mail-composer-forward.page:5(desc)
-#, fuzzy
 msgid "Forwarding a received email to somebody."
-msgstr "Reenvía a alguien el mensaje seleccionado"
+msgstr "Reenvía a alguien el mensaje seleccionado."
 
 #: C/mail-composer-forward.page:23(title)
-#, fuzzy
 msgid "Forwarding a message"
-msgstr "Reenviar un mensaje:"
+msgstr "Reenviar un mensaje"
 
 #: C/mail-composer-forward.page:25(p)
 msgid ""
@@ -7409,9 +7383,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-forward.page:29(p)
-#, fuzzy
 msgid "To forward a message that you are reading:"
-msgstr "Reenviar un mensaje que está leyendo:"
+msgstr "Para reenviar un mensaje que está leyendo:"
 
 #: C/mail-composer-forward.page:31(p)
 msgid ""
@@ -7456,14 +7429,12 @@ msgstr ""
 "ningún adjunto."
 
 #: C/mail-composer-forward-as-attachment.page:5(desc)
-#, fuzzy
 msgid "How to forward a message with its attachments."
-msgstr "Mensajes con adjuntos"
+msgstr "Cómo reenviar un mensaje con sus adjuntos."
 
 #: C/mail-composer-forward-as-attachment.page:21(title)
-#, fuzzy
 msgid "Forwarding a message with its attachments"
-msgstr "Mensajes con adjuntos"
+msgstr "Reenviar un mensaje con sus adjuntos"
 
 #: C/mail-composer-forward-as-attachment.page:23(p)
 msgid ""
@@ -8743,7 +8714,6 @@ msgstr ""
 "Barra de herramientas"
 
 #: C/intro-main-window.page:99(p)
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
 #| "Folder list"
@@ -8752,7 +8722,7 @@ msgid ""
 "Calendar list"
 msgstr ""
 "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
-"Lista de carpetas"
+"Lista de calendarios"
 
 #: C/intro-main-window.page:100(p) C/intro-main-window.page:146(p)
 msgid ""
@@ -8771,19 +8741,16 @@ msgstr ""
 "Lista de citas"
 
 #: C/intro-main-window.page:104(p)
-#, fuzzy
 msgid "Task list"
-msgstr "Lista de ta_reas"
+msgstr "Lista de tareas"
 
 #: C/intro-main-window.page:107(p)
-#, fuzzy
 msgid "Month pane"
-msgstr "Panel del mes:"
+msgstr "Panel del mes"
 
 #: C/intro-main-window.page:108(p)
-#, fuzzy
 msgid "Memo list"
-msgstr "_Lista de notas"
+msgstr "Lista de notas"
 
 #: C/intro-main-window.page:111(p) C/intro-main-window.page:152(p)
 msgid ""
@@ -8851,7 +8818,6 @@ msgid "Elements in the contacts main window:"
 msgstr "El elemento en el calendario no es válido"
 
 #: C/intro-main-window.page:145(p)
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
 #| "Folder list"
@@ -8860,7 +8826,7 @@ msgid ""
 "Address book list"
 msgstr ""
 "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
-"Lista de carpetas"
+"Lista de libretas de direcciones"
 
 #: C/intro-main-window.page:149(p)
 msgid ""
@@ -8989,7 +8955,7 @@ msgstr ""
 
 #: C/intro-first-run.page:49(p)
 msgid "POP: Downloads your email to your hard disk."
-msgstr ""
+msgstr "POP: descarga su corre-e a su disco duro"
 
 #: C/intro-first-run.page:49(p)
 msgid ""
@@ -9014,7 +8980,7 @@ msgstr ""
 
 #: C/intro-first-run.page:56(p)
 msgid "Available server types for corporate users are:"
-msgstr ""
+msgstr "Los servidores disponibles para usuarios corporativos son:"
 
 #: C/intro-first-run.page:59(p)
 msgid ""
@@ -9216,11 +9182,12 @@ msgid "Importing Mail (Optional)"
 msgstr "Importar correo (opcional)"
 
 #: C/intro-first-run.page:105(p)
-#, fuzzy
 msgid ""
 "Continue with <link xref=\"import-data\">Importing data from another "
 "application</link>."
-msgstr "Importa datos de otros programas"
+msgstr ""
+"Continúe con <link xref=\"import-data\">Importa datos de otros programas</"
+"link>."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -9245,9 +9212,8 @@ msgid "Getting Started"
 msgstr "Inicio"
 
 #: C/index.page:34(title)
-#, fuzzy
 msgid "Mail Management"
-msgstr "Gestión de carpetas"
+msgstr "Gestión del correo"
 
 #: C/index.page:36(title)
 #, fuzzy
@@ -9269,9 +9235,8 @@ msgid "Advanced Mail Composing"
 msgstr "Formato HTML avanzado"
 
 #: C/index.page:51(title)
-#, fuzzy
 msgid "Calendar Management"
-msgstr "Gestión de carpetas"
+msgstr "Gestión del calendario"
 
 #: C/index.page:53(title)
 #, fuzzy
@@ -9288,9 +9253,8 @@ msgid "Memos and Tasks Management"
 msgstr "Gestión de contactos"
 
 #: C/index.page:66(title)
-#, fuzzy
 msgid "Data Migration and Synchronization"
-msgstr "Activar la sincronización"
+msgstr "Migración de datos y sincronización"
 
 #: C/index.page:70(title)
 msgid "Corporate Environments"
@@ -9548,7 +9512,7 @@ msgstr ""
 
 #: C/import-apps-outlook.page:35(p)
 msgid "Windows 7, Windows Vista"
-msgstr ""
+msgstr "Windows 7, Windows Vista"
 
 #: C/import-apps-outlook.page:35(p)
 msgid "Windows XP"
@@ -9659,7 +9623,7 @@ msgstr "Importar datos de Mozilla Thunderbird."
 
 #: C/import-apps-mozilla.page:20(title)
 msgid "Mozilla"
-msgstr ""
+msgstr "Mozilla"
 
 #: C/import-apps-mozilla.page:26(p)
 msgid "Choose the Thunderbird files that you would like to import."
@@ -10044,7 +10008,7 @@ msgstr "Francisco Javier F. Serrador"
 
 #: C/credits.page:61(p)
 msgid "Jessica Prabhakar"
-msgstr ""
+msgstr "Jessica Prabhakar"
 
 #: C/credits.page:64(p)
 msgid "Kevin Breit"
