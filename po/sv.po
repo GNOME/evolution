@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-24 08:49+0200\n"
-"PO-Revision-Date: 2011-08-24 08:51+0100\n"
+"POT-Creation-Date: 2011-09-01 12:36+0200\n"
+"PO-Revision-Date: 2011-09-01 12:38+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -382,7 +382,7 @@ msgid "_Blog:"
 msgstr "_Blogg:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:33
-#: ../calendar/gui/dialogs/event-page.c:708
+#: ../calendar/gui/dialogs/event-page.c:710
 #: ../calendar/gui/dialogs/event-page.ui.h:10
 #: ../plugins/itip-formatter/itip-view.c:1923
 msgid "_Calendar:"
@@ -1168,7 +1168,7 @@ msgid "Video Chat"
 msgstr "Videochatt"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:683
-#: ../calendar/gui/dialogs/calendar-setup.c:396
+#: ../calendar/gui/dialogs/calendar-setup.c:437
 #: ../modules/calendar/e-cal-shell-view-actions.c:232
 #: ../modules/calendar/e-cal-shell-view-actions.c:261
 #: ../modules/calendar/e-cal-shell-view.c:511
@@ -1414,11 +1414,11 @@ msgstr "Kunde inte hämta lista över adressböcker: %s"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:45
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:79
-#: ../calendar/gui/dialogs/event-page.c:2893
-#: ../calendar/gui/dialogs/memo-page.c:926
+#: ../calendar/gui/dialogs/event-page.c:2894
+#: ../calendar/gui/dialogs/memo-page.c:932
 #: ../calendar/gui/dialogs/task-page.c:1739
 #: ../em-format/em-format.c:2316
-#: ../mail/em-folder-tree.c:695
+#: ../mail/em-folder-tree.c:678
 #: ../mail/mail-ops.c:658
 #: ../plugins/caldav/caldav-browse-server.c:209
 #: ../plugins/caldav/caldav-browse-server.c:1406
@@ -1849,7 +1849,7 @@ msgstr[1] "timmar"
 #. (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:129
-#: ../calendar/gui/dialogs/recurrence-page.c:1125
+#: ../calendar/gui/dialogs/recurrence-page.c:1189
 msgid "day"
 msgid_plural "days"
 msgstr[0] "dag"
@@ -2308,7 +2308,7 @@ msgstr "L_ägg till"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
 #: ../calendar/gui/dialogs/event-page.ui.h:8
-#: ../modules/calendar/e-calendar-preferences.ui.h:24
+#: ../modules/calendar/e-calendar-preferences.ui.h:23
 msgid "Reminders"
 msgstr "Påminnelser"
 
@@ -2341,54 +2341,58 @@ msgstr "Kopie_ra innehåll i uppgiftslista lokalt för frånkopplad användning"
 msgid "Cop_y memo list contents locally for offline operation"
 msgstr "Kopie_ra innehåll i memolista lokalt för frånkopplad användning"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:372
+#: ../calendar/gui/dialogs/calendar-setup.c:340
+msgid "Sh_ow reminder notifications"
+msgstr "Visa på_minnelser"
+
+#: ../calendar/gui/dialogs/calendar-setup.c:413
 msgid "Colo_r:"
 msgstr "F_ärg:"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:395
-#: ../calendar/gui/dialogs/calendar-setup.c:406
-#: ../calendar/gui/dialogs/calendar-setup.c:417
+#: ../calendar/gui/dialogs/calendar-setup.c:436
+#: ../calendar/gui/dialogs/calendar-setup.c:448
+#: ../calendar/gui/dialogs/calendar-setup.c:459
 #: ../mail/em-folder-properties.c:233
 #: ../mail/mail-config.ui.h:52
 #: ../modules/addressbook/addressbook-config.c:1052
 #: ../modules/addressbook/autocompletion-config.c:218
-#: ../modules/calendar/e-calendar-preferences.ui.h:18
+#: ../modules/calendar/e-calendar-preferences.ui.h:17
 #: ../plugins/itip-formatter/itip-formatter.c:3001
 #: ../plugins/publish-calendar/publish-calendar.ui.h:7
 #: ../smime/gui/smime-ui.ui.h:21
 msgid "General"
 msgstr "Allmänt"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:407
-#: ../modules/calendar/e-calendar-preferences.ui.h:41
+#: ../calendar/gui/dialogs/calendar-setup.c:449
+#: ../modules/calendar/e-calendar-preferences.ui.h:40
 msgid "Task List"
 msgstr "Uppgiftslista"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:418
+#: ../calendar/gui/dialogs/calendar-setup.c:460
 msgid "Memo List"
 msgstr "Memolista"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:506
+#: ../calendar/gui/dialogs/calendar-setup.c:548
 msgid "Calendar Properties"
 msgstr "Egenskaper för kalendern"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:506
+#: ../calendar/gui/dialogs/calendar-setup.c:548
 msgid "New Calendar"
 msgstr "Ny kalender"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:565
+#: ../calendar/gui/dialogs/calendar-setup.c:607
 msgid "Task List Properties"
 msgstr "Egenskaper för uppgiftslistan"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:565
+#: ../calendar/gui/dialogs/calendar-setup.c:607
 msgid "New Task List"
 msgstr "Ny uppgiftslista"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:624
+#: ../calendar/gui/dialogs/calendar-setup.c:666
 msgid "Memo List Properties"
 msgstr "Egenskaper för uppgiftslista"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:624
+#: ../calendar/gui/dialogs/calendar-setup.c:666
 msgid "New Memo List"
 msgstr "Ny memolista"
 
@@ -2858,75 +2862,75 @@ msgstr "Deltagare"
 msgid "Print this event"
 msgstr "Skriv ut detta evenemang"
 
-#: ../calendar/gui/dialogs/event-page.c:556
+#: ../calendar/gui/dialogs/event-page.c:558
 msgid "Event's start time is in the past"
 msgstr "Starttiden för evenemanget har redan inträffat"
 
-#: ../calendar/gui/dialogs/event-page.c:633
+#: ../calendar/gui/dialogs/event-page.c:635
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr "Evenemanget kan inte redigeras därför att den markerade kalendern är skrivskyddad"
 
-#: ../calendar/gui/dialogs/event-page.c:637
+#: ../calendar/gui/dialogs/event-page.c:639
 msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr "Evenemanget kan inte redigeras fullständigt eftersom du inte är organisatören"
 
-#: ../calendar/gui/dialogs/event-page.c:649
-#: ../calendar/gui/dialogs/event-page.c:3021
+#: ../calendar/gui/dialogs/event-page.c:651
+#: ../calendar/gui/dialogs/event-page.c:3049
 msgid "This event has reminders"
 msgstr "Detta evenemang har påminnelser"
 
-#: ../calendar/gui/dialogs/event-page.c:716
+#: ../calendar/gui/dialogs/event-page.c:718
 #: ../calendar/gui/dialogs/event-page.ui.h:7
 #: ../calendar/gui/dialogs/memo-page.ui.h:2
 msgid "Or_ganizer:"
 msgstr "Or_ganisatör:"
 
-#: ../calendar/gui/dialogs/event-page.c:1254
+#: ../calendar/gui/dialogs/event-page.c:1262
 msgid "Event with no start date"
 msgstr "Evenemang utan startdatum"
 
-#: ../calendar/gui/dialogs/event-page.c:1257
+#: ../calendar/gui/dialogs/event-page.c:1265
 msgid "Event with no end date"
 msgstr "Evenemang utan slutdatum"
 
-#: ../calendar/gui/dialogs/event-page.c:1430
-#: ../calendar/gui/dialogs/memo-page.c:695
-#: ../calendar/gui/dialogs/task-page.c:811
+#: ../calendar/gui/dialogs/event-page.c:1438
+#: ../calendar/gui/dialogs/memo-page.c:707
+#: ../calendar/gui/dialogs/task-page.c:819
 msgid "Start date is wrong"
 msgstr "Startdatumet är fel"
 
-#: ../calendar/gui/dialogs/event-page.c:1440
+#: ../calendar/gui/dialogs/event-page.c:1448
 msgid "End date is wrong"
 msgstr "Slutdatumet är fel"
 
-#: ../calendar/gui/dialogs/event-page.c:1463
+#: ../calendar/gui/dialogs/event-page.c:1471
 msgid "Start time is wrong"
 msgstr "Starttiden är fel"
 
-#: ../calendar/gui/dialogs/event-page.c:1470
+#: ../calendar/gui/dialogs/event-page.c:1478
 msgid "End time is wrong"
 msgstr "Sluttiden är fel"
 
-#: ../calendar/gui/dialogs/event-page.c:1635
-#: ../calendar/gui/dialogs/memo-page.c:736
-#: ../calendar/gui/dialogs/task-page.c:865
+#: ../calendar/gui/dialogs/event-page.c:1643
+#: ../calendar/gui/dialogs/memo-page.c:748
+#: ../calendar/gui/dialogs/task-page.c:873
 msgid "An organizer is required."
 msgstr "En organisatör krävs."
 
-#: ../calendar/gui/dialogs/event-page.c:1669
-#: ../calendar/gui/dialogs/task-page.c:899
+#: ../calendar/gui/dialogs/event-page.c:1677
+#: ../calendar/gui/dialogs/task-page.c:907
 msgid "At least one attendee is required."
 msgstr "Det måste finnas åtminstone en deltagare."
 
-#: ../calendar/gui/dialogs/event-page.c:1869
+#: ../calendar/gui/dialogs/event-page.c:1878
 msgid "_Delegatees"
 msgstr "_Delegater"
 
-#: ../calendar/gui/dialogs/event-page.c:1871
+#: ../calendar/gui/dialogs/event-page.c:1880
 msgid "Atte_ndees"
 msgstr "Delta_gare"
 
-#: ../calendar/gui/dialogs/event-page.c:2891
+#: ../calendar/gui/dialogs/event-page.c:2892
 #, c-format
 msgid "Unable to open the calendar '%s': %s"
 msgstr "Kan inte öppna kalendern \"%s\": %s"
@@ -2937,40 +2941,40 @@ msgstr "Kan inte öppna kalendern \"%s\": %s"
 #. on behalf of some other user
 #. Translators: This string is used when we are creating a Task
 #. on behalf of some other user
-#: ../calendar/gui/dialogs/event-page.c:2939
-#: ../calendar/gui/dialogs/memo-page.c:967
-#: ../calendar/gui/dialogs/task-page.c:1784
+#: ../calendar/gui/dialogs/event-page.c:2967
+#: ../calendar/gui/dialogs/memo-page.c:1006
+#: ../calendar/gui/dialogs/task-page.c:1814
 #, c-format
 msgid "You are acting on behalf of %s"
 msgstr "Du arbetar på uppdrag av %s"
 
-#: ../calendar/gui/dialogs/event-page.c:3250
+#: ../calendar/gui/dialogs/event-page.c:3278
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d dag före möte"
 msgstr[1] "%d dagar före möte"
 
-#: ../calendar/gui/dialogs/event-page.c:3256
+#: ../calendar/gui/dialogs/event-page.c:3284
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d timme före möte"
 msgstr[1] "%d timmar före möte"
 
-#: ../calendar/gui/dialogs/event-page.c:3262
+#: ../calendar/gui/dialogs/event-page.c:3290
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minut före möte"
 msgstr[1] "%d minuter före möte"
 
-#: ../calendar/gui/dialogs/event-page.c:3281
+#: ../calendar/gui/dialogs/event-page.c:3309
 msgid "Customize"
 msgstr "Anpassa"
 
 #. Translators: "None" for "No reminder set"
-#: ../calendar/gui/dialogs/event-page.c:3287
+#: ../calendar/gui/dialogs/event-page.c:3315
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "Ingen"
@@ -2990,7 +2994,7 @@ msgid "Event Description"
 msgstr "Evenemangsbeskrivning"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:9
-#: ../modules/calendar/e-calendar-preferences.ui.h:46
+#: ../modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Time _zone:"
 msgstr "Tids_zon:"
 
@@ -3114,24 +3118,24 @@ msgstr "Memo"
 msgid "Print this memo"
 msgstr "Skriv ut detta memo"
 
-#: ../calendar/gui/dialogs/memo-page.c:393
+#: ../calendar/gui/dialogs/memo-page.c:405
 msgid "Memo's start date is in the past"
 msgstr "Starttiden för memot har redan inträffat"
 
-#: ../calendar/gui/dialogs/memo-page.c:430
+#: ../calendar/gui/dialogs/memo-page.c:442
 msgid "Memo cannot be edited, because the selected memo list is read only"
 msgstr "Memot kan inte redigeras därför att den markerade memolistan är skrivskyddad"
 
-#: ../calendar/gui/dialogs/memo-page.c:434
+#: ../calendar/gui/dialogs/memo-page.c:446
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "Memot kan inte redigeras fullständigt eftersom du inte är organisatören"
 
-#: ../calendar/gui/dialogs/memo-page.c:924
+#: ../calendar/gui/dialogs/memo-page.c:930
 #, c-format
 msgid "Unable to open memos in '%s': %s"
 msgstr "Kan inte öppna memon i \"%s\": %s"
 
-#: ../calendar/gui/dialogs/memo-page.c:1099
+#: ../calendar/gui/dialogs/memo-page.c:1138
 #: ../em-format/em-format-quote.c:319
 #: ../em-format/em-format.c:1056
 #: ../mail/em-format-html.c:2573
@@ -3157,7 +3161,7 @@ msgid "T_o:"
 msgstr "T_ill:"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:7
-#: ../calendar/gui/dialogs/task-page.c:331
+#: ../calendar/gui/dialogs/task-page.c:333
 #: ../calendar/gui/dialogs/task-page.ui.h:9
 msgid "_List:"
 msgstr "_Lista:"
@@ -3202,17 +3206,17 @@ msgstr "Alla instanser"
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Detta möte har upprepningsregler som inte kan redigeras med Evolution."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:904
+#: ../calendar/gui/dialogs/recurrence-page.c:968
 msgid "Recurrence date is invalid"
 msgstr "Upprepningsdatumet är ogiltigt"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:944
+#: ../calendar/gui/dialogs/recurrence-page.c:1008
 msgid "End time of the recurrence was before event's start"
 msgstr "Sluttiden för upprepningen var före evenemangets starttid"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/dialogs/recurrence-page.c:974
+#: ../calendar/gui/dialogs/recurrence-page.c:1038
 msgid "on"
 msgstr "på"
 
@@ -3220,7 +3224,7 @@ msgstr "på"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1032
+#: ../calendar/gui/dialogs/recurrence-page.c:1096
 msgid "first"
 msgstr "första"
 
@@ -3230,7 +3234,7 @@ msgstr "första"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1038
+#: ../calendar/gui/dialogs/recurrence-page.c:1102
 msgid "second"
 msgstr "sekund"
 
@@ -3238,7 +3242,7 @@ msgstr "sekund"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1043
+#: ../calendar/gui/dialogs/recurrence-page.c:1107
 msgid "third"
 msgstr "tredje"
 
@@ -3246,7 +3250,7 @@ msgstr "tredje"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1048
+#: ../calendar/gui/dialogs/recurrence-page.c:1112
 msgid "fourth"
 msgstr "fjärde"
 
@@ -3254,7 +3258,7 @@ msgstr "fjärde"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1053
+#: ../calendar/gui/dialogs/recurrence-page.c:1117
 msgid "fifth"
 msgstr "femte"
 
@@ -3262,13 +3266,13 @@ msgstr "femte"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1058
+#: ../calendar/gui/dialogs/recurrence-page.c:1122
 msgid "last"
 msgstr "sista"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/dialogs/recurrence-page.c:1082
+#: ../calendar/gui/dialogs/recurrence-page.c:1146
 msgid "Other Date"
 msgstr "Annat datum"
 
@@ -3276,7 +3280,7 @@ msgstr "Annat datum"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1088
+#: ../calendar/gui/dialogs/recurrence-page.c:1152
 msgid "1st to 10th"
 msgstr "Första till tionde"
 
@@ -3284,7 +3288,7 @@ msgstr "Första till tionde"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1094
+#: ../calendar/gui/dialogs/recurrence-page.c:1158
 msgid "11th to 20th"
 msgstr "elfte till tjugonde"
 
@@ -3292,73 +3296,73 @@ msgstr "elfte till tjugonde"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1100
+#: ../calendar/gui/dialogs/recurrence-page.c:1164
 msgid "21st to 31st"
 msgstr "tjugoförsta till trettiförsta"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1126
-#: ../modules/calendar/e-calendar-preferences.ui.h:21
+#: ../calendar/gui/dialogs/recurrence-page.c:1190
+#: ../modules/calendar/e-calendar-preferences.ui.h:20
 msgid "Monday"
 msgstr "måndag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1127
-#: ../modules/calendar/e-calendar-preferences.ui.h:48
+#: ../calendar/gui/dialogs/recurrence-page.c:1191
+#: ../modules/calendar/e-calendar-preferences.ui.h:47
 msgid "Tuesday"
 msgstr "tisdag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1128
-#: ../modules/calendar/e-calendar-preferences.ui.h:50
+#: ../calendar/gui/dialogs/recurrence-page.c:1192
+#: ../modules/calendar/e-calendar-preferences.ui.h:49
 msgid "Wednesday"
 msgstr "onsdag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1129
-#: ../modules/calendar/e-calendar-preferences.ui.h:44
+#: ../calendar/gui/dialogs/recurrence-page.c:1193
+#: ../modules/calendar/e-calendar-preferences.ui.h:43
 msgid "Thursday"
 msgstr "torsdag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1130
-#: ../modules/calendar/e-calendar-preferences.ui.h:17
+#: ../calendar/gui/dialogs/recurrence-page.c:1194
+#: ../modules/calendar/e-calendar-preferences.ui.h:16
 msgid "Friday"
 msgstr "fredag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1131
-#: ../modules/calendar/e-calendar-preferences.ui.h:27
+#: ../calendar/gui/dialogs/recurrence-page.c:1195
+#: ../modules/calendar/e-calendar-preferences.ui.h:26
 msgid "Saturday"
 msgstr "lördag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1132
-#: ../modules/calendar/e-calendar-preferences.ui.h:37
+#: ../calendar/gui/dialogs/recurrence-page.c:1196
+#: ../modules/calendar/e-calendar-preferences.ui.h:36
 msgid "Sunday"
 msgstr "söndag"
 
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1254
+#: ../calendar/gui/dialogs/recurrence-page.c:1318
 msgid "on the"
 msgstr "den"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1428
+#: ../calendar/gui/dialogs/recurrence-page.c:1492
 msgid "occurrences"
 msgstr "förekomster"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2140
+#: ../calendar/gui/dialogs/recurrence-page.c:2204
 msgid "Add exception"
 msgstr "Lägg till undantag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2181
+#: ../calendar/gui/dialogs/recurrence-page.c:2245
 msgid "Could not get a selection to modify."
 msgstr "Kunde inte få ett val att ändra."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2187
+#: ../calendar/gui/dialogs/recurrence-page.c:2251
 msgid "Modify exception"
 msgstr "Ändra undantag"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2231
+#: ../calendar/gui/dialogs/recurrence-page.c:2295
 msgid "Could not get a selection to delete."
 msgstr "Kunde inte få ett val att ta bort."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2365
+#: ../calendar/gui/dialogs/recurrence-page.c:2429
 msgid "Date/Time"
 msgstr "Datum/tid"
 
@@ -3475,7 +3479,7 @@ msgstr "Färdigt"
 #: ../calendar/gui/e-cal-component-preview.c:319
 #: ../calendar/gui/e-task-table.c:517
 #: ../calendar/gui/tasktypes.xml.h:14
-#: ../mail/message-list.c:1224
+#: ../mail/message-list.c:1223
 #: ../widgets/misc/e-send-options.ui.h:13
 msgid "High"
 msgstr "Hög"
@@ -3498,7 +3502,7 @@ msgstr "Pågår"
 #: ../calendar/gui/e-cal-component-preview.c:323
 #: ../calendar/gui/e-task-table.c:519
 #: ../calendar/gui/tasktypes.xml.h:16
-#: ../mail/message-list.c:1222
+#: ../mail/message-list.c:1221
 #: ../widgets/misc/e-send-options.ui.h:14
 msgid "Low"
 msgstr "Låg"
@@ -3509,7 +3513,7 @@ msgstr "Låg"
 #: ../calendar/gui/e-cal-model.c:1533
 #: ../calendar/gui/e-task-table.c:518
 #: ../calendar/gui/tasktypes.xml.h:17
-#: ../mail/message-list.c:1223
+#: ../mail/message-list.c:1222
 #: ../widgets/misc/e-send-options.ui.h:16
 msgid "Normal"
 msgstr "Normal"
@@ -3596,28 +3600,28 @@ msgstr "Uppgiftsdetaljer"
 msgid "Print this task"
 msgstr "Skriv ut denna uppgift"
 
-#: ../calendar/gui/dialogs/task-page.c:249
+#: ../calendar/gui/dialogs/task-page.c:251
 msgid "Task's start date is in the past"
 msgstr "Starttiden för uppgiften har redan inträffat"
 
-#: ../calendar/gui/dialogs/task-page.c:250
+#: ../calendar/gui/dialogs/task-page.c:252
 msgid "Task's due date is in the past"
 msgstr "Sluttiden för uppgiften har redan inträffat"
 
-#: ../calendar/gui/dialogs/task-page.c:284
+#: ../calendar/gui/dialogs/task-page.c:286
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr "Uppgiften kan inte redigeras därför att den markerade uppgiftslistan är skrivskyddad"
 
-#: ../calendar/gui/dialogs/task-page.c:288
+#: ../calendar/gui/dialogs/task-page.c:290
 msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr "Uppgiften kan inte redigeras fullständigt eftersom du inte är organisatören"
 
-#: ../calendar/gui/dialogs/task-page.c:339
+#: ../calendar/gui/dialogs/task-page.c:341
 #: ../calendar/gui/dialogs/task-page.ui.h:4
 msgid "Organi_zer:"
 msgstr "Organisa_tör:"
 
-#: ../calendar/gui/dialogs/task-page.c:793
+#: ../calendar/gui/dialogs/task-page.c:801
 msgid "Due date is wrong"
 msgstr "Förfallodatumet är fel"
 
@@ -3910,8 +3914,8 @@ msgid "Deleting selected objects"
 msgstr "Tar bort markerade objekt"
 
 #: ../calendar/gui/e-calendar-view.c:648
-#: ../calendar/gui/e-memo-table.c:855
-#: ../calendar/gui/e-task-table.c:1086
+#: ../calendar/gui/e-memo-table.c:861
+#: ../calendar/gui/e-task-table.c:1094
 msgid "Updating objects"
 msgstr "Uppdaterar objekt"
 
@@ -4018,7 +4022,7 @@ msgstr "Visa sekundära tidszonen"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../calendar/gui/e-day-view-time-item.c:844
-#: ../modules/calendar/e-calendar-preferences.ui.h:78
+#: ../modules/calendar/e-calendar-preferences.ui.h:77
 #: ../modules/calendar/e-calendar-preferences.c:179
 #: ../modules/calendar/e-calendar-preferences.c:228
 msgctxt "cal-second-zone"
@@ -4336,35 +4340,35 @@ msgid "* No Summary *"
 msgstr "* Ingen sammanfattning *"
 
 #. Translators: This is followed by an event's start date/time
-#: ../calendar/gui/e-memo-table.c:586
-#: ../calendar/gui/e-task-table.c:806
+#: ../calendar/gui/e-memo-table.c:588
+#: ../calendar/gui/e-task-table.c:808
 msgid "Start: "
 msgstr "Start: "
 
 #. Translators: This is followed by an event's due date/time
-#: ../calendar/gui/e-memo-table.c:605
-#: ../calendar/gui/e-task-table.c:824
+#: ../calendar/gui/e-memo-table.c:607
+#: ../calendar/gui/e-task-table.c:826
 msgid "Due: "
 msgstr "Ska genomföras: "
 
-#: ../calendar/gui/e-memo-table.c:720
+#: ../calendar/gui/e-memo-table.c:726
 msgid "Cut selected memos to the clipboard"
 msgstr "Klipp ut markerade memon till urklipp"
 
-#: ../calendar/gui/e-memo-table.c:726
+#: ../calendar/gui/e-memo-table.c:732
 msgid "Copy selected memos to the clipboard"
 msgstr "Kopiera markerade memon till urklipp"
 
-#: ../calendar/gui/e-memo-table.c:732
+#: ../calendar/gui/e-memo-table.c:738
 msgid "Paste memos from the clipboard"
 msgstr "Klistra in memon från urklipp"
 
-#: ../calendar/gui/e-memo-table.c:738
+#: ../calendar/gui/e-memo-table.c:744
 #: ../modules/calendar/e-memo-shell-view-actions.c:587
 msgid "Delete selected memos"
 msgstr "Ta bort markerade memon"
 
-#: ../calendar/gui/e-memo-table.c:744
+#: ../calendar/gui/e-memo-table.c:750
 msgid "Select all visible memos"
 msgstr "Markera alla synliga memon"
 
@@ -4385,7 +4389,7 @@ msgstr "%d%%"
 #: ../calendar/gui/print.c:2168
 #: ../calendar/importers/icalendar-importer.c:85
 #: ../calendar/importers/icalendar-importer.c:1003
-#: ../modules/calendar/e-calendar-preferences.ui.h:42
+#: ../modules/calendar/e-calendar-preferences.ui.h:41
 #: ../modules/calendar/e-cal-shell-content.c:433
 #: ../modules/calendar/e-task-shell-view-actions.c:254
 #: ../modules/calendar/e-task-shell-view-actions.c:269
@@ -4394,24 +4398,24 @@ msgstr "%d%%"
 msgid "Tasks"
 msgstr "Uppgifter"
 
-#: ../calendar/gui/e-task-table.c:951
+#: ../calendar/gui/e-task-table.c:959
 msgid "Cut selected tasks to the clipboard"
 msgstr "Klipp ut markerade uppgifter till urklipp"
 
-#: ../calendar/gui/e-task-table.c:957
+#: ../calendar/gui/e-task-table.c:965
 msgid "Copy selected tasks to the clipboard"
 msgstr "Kopiera markerade uppgifter till urklipp"
 
-#: ../calendar/gui/e-task-table.c:963
+#: ../calendar/gui/e-task-table.c:971
 msgid "Paste tasks from the clipboard"
 msgstr "Klistra in uppgifter från urklipp"
 
-#: ../calendar/gui/e-task-table.c:969
+#: ../calendar/gui/e-task-table.c:977
 #: ../modules/calendar/e-task-shell-view-actions.c:711
 msgid "Delete selected tasks"
 msgstr "Ta bort markerade uppgifter"
 
-#: ../calendar/gui/e-task-table.c:975
+#: ../calendar/gui/e-task-table.c:983
 msgid "Select all visible tasks"
 msgstr "Markera alla synliga uppgifter"
 
@@ -7173,8 +7177,8 @@ msgid "Time to check things over before we try and connect to the server and fet
 msgstr "Nu är det dags att kontrollera så att allt ser bra ut innan vi försöker att ansluta till servern och hämta din e-post."
 
 #: ../capplet/settings/mail-account-view.c:630
-#: ../mail/em-account-editor.c:2233
-#: ../mail/em-account-editor.c:2366
+#: ../mail/em-account-editor.c:2237
+#: ../mail/em-account-editor.c:2370
 msgid "Identity"
 msgstr "Identitet"
 
@@ -7226,7 +7230,7 @@ msgid "Back - Receiving options"
 msgstr "Bakåt - Alternativ för mottagning"
 
 #: ../capplet/settings/mail-account-view.c:635
-#: ../mail/em-account-editor.c:3226
+#: ../mail/em-account-editor.c:3317
 msgid "Defaults"
 msgstr "Standardvärden"
 
@@ -7299,12 +7303,12 @@ msgstr "Evolutions kontoguide"
 #: ../capplet/settings/mail-capplet-shell.c:372
 #: ../mail/e-mail-local.c:81
 #: ../mail/e-mail-migrate.c:744
-#: ../mail/em-folder-tree-model.c:149
-#: ../mail/em-folder-tree-model.c:152
-#: ../mail/em-folder-tree-model.c:155
-#: ../mail/em-folder-tree-model.c:157
-#: ../mail/em-folder-tree-model.c:164
-#: ../mail/em-folder-tree-model.c:166
+#: ../mail/em-folder-tree-model.c:153
+#: ../mail/em-folder-tree-model.c:156
+#: ../mail/em-folder-tree-model.c:159
+#: ../mail/em-folder-tree-model.c:161
+#: ../mail/em-folder-tree-model.c:168
+#: ../mail/em-folder-tree-model.c:170
 #: ../modules/addressbook/e-book-shell-backend.c:100
 #: ../modules/addressbook/e-book-shell-migrate.c:136
 #: ../modules/calendar/e-cal-shell-backend.c:113
@@ -8103,11 +8107,20 @@ msgctxt "mail-receiving"
 msgid "None"
 msgstr "Ingen"
 
-#: ../mail/em-account-editor.c:2230
+#: ../mail/em-account-editor.c:2185
+msgid "Fil_e:"
+msgstr "Fi_l:"
+
+#: ../mail/em-account-editor.c:2185
+#: ../mail/mail-config.ui.h:157
+msgid "_Path:"
+msgstr "_Sökväg:"
+
+#: ../mail/em-account-editor.c:2234
 msgid "Mail Configuration"
 msgstr "E-postkonfiguration"
 
-#: ../mail/em-account-editor.c:2231
+#: ../mail/em-account-editor.c:2235
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -8117,34 +8130,34 @@ msgstr ""
 "\n"
 "Klicka på \"Fortsätt\" för att börja."
 
-#: ../mail/em-account-editor.c:2234
+#: ../mail/em-account-editor.c:2238
 msgid "Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send."
 msgstr "Ange ditt namn och din e-postadress nedan. De \"valfria\" fälten nedan behöver du inte fylla i, såvida du inte vill inkludera denna information i den e-post du skickar."
 
-#: ../mail/em-account-editor.c:2236
-#: ../mail/em-account-editor.c:2425
+#: ../mail/em-account-editor.c:2240
+#: ../mail/em-account-editor.c:2429
 msgid "Receiving Email"
 msgstr "Mottagande av e-post"
 
-#: ../mail/em-account-editor.c:2237
+#: ../mail/em-account-editor.c:2241
 msgid "Please configure the following account settings."
 msgstr "Konfigurera följande kontoinställningar."
 
-#: ../mail/em-account-editor.c:2239
-#: ../mail/em-account-editor.c:3022
+#: ../mail/em-account-editor.c:2243
+#: ../mail/em-account-editor.c:3026
 msgid "Sending Email"
 msgstr "Sändning av e-post"
 
-#: ../mail/em-account-editor.c:2240
+#: ../mail/em-account-editor.c:2244
 msgid "Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider."
 msgstr "Ange information om hur du vill skicka e-post. Om du inte är säker bör du fråga din systemadministratör eller internetleverantör."
 
-#: ../mail/em-account-editor.c:2242
+#: ../mail/em-account-editor.c:2246
 #: ../mail/mail-config.ui.h:1
 msgid "Account Information"
 msgstr "Kontoinformation"
 
-#: ../mail/em-account-editor.c:2243
+#: ../mail/em-account-editor.c:2247
 msgid ""
 "Please enter a descriptive name for this account below.\n"
 "This name will be used for display purposes only."
@@ -8152,11 +8165,11 @@ msgstr ""
 "Ange ett beskrivande namn för detta konto i fältet nedan.\n"
 "Detta namn kommer endast att användas för visningsändamål."
 
-#: ../mail/em-account-editor.c:2247
+#: ../mail/em-account-editor.c:2251
 msgid "Done"
 msgstr "Klar"
 
-#: ../mail/em-account-editor.c:2248
+#: ../mail/em-account-editor.c:2252
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -8170,28 +8183,28 @@ msgstr ""
 "\n"
 "Klicka på \"Verkställ\" för att spara dina inställningar."
 
-#: ../mail/em-account-editor.c:2784
+#: ../mail/em-account-editor.c:2788
 msgid "Check for _new messages every"
 msgstr "Leta efter _nya meddelanden var"
 
-#: ../mail/em-account-editor.c:2792
+#: ../mail/em-account-editor.c:2796
 msgid "minu_tes"
 msgstr "minu_ter"
 
-#: ../mail/em-account-editor.c:3365
+#: ../mail/em-account-editor.c:3456
 #: ../mail/mail-config.ui.h:101
 msgid "Security"
 msgstr "Säkerhet"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3419
-#: ../mail/em-account-editor.c:3502
+#: ../mail/em-account-editor.c:3510
+#: ../mail/em-account-editor.c:3593
 msgid "Receiving Options"
 msgstr "Alternativ för mottagning"
 
-#: ../mail/em-account-editor.c:3420
-#: ../mail/em-account-editor.c:3503
+#: ../mail/em-account-editor.c:3511
+#: ../mail/em-account-editor.c:3594
 msgid "Checking for New Messages"
 msgstr "Letar efter nya meddelanden"
 
@@ -8338,7 +8351,7 @@ msgid "_Later"
 msgstr "Se_nare"
 
 #: ../mail/e-mail-label-manager.c:165
-#: ../modules/mail/e-mail-shell-view-actions.c:679
+#: ../modules/mail/e-mail-shell-view-actions.c:684
 msgid "Add Label"
 msgstr "Lägg till etikett"
 
@@ -8368,32 +8381,32 @@ msgstr "Namn"
 
 #: ../mail/e-mail-local.c:41
 #: ../mail/em-folder-properties.c:310
-#: ../mail/em-folder-tree-model.c:717
+#: ../mail/em-folder-tree-model.c:720
 #: ../modules/mail/e-mail-shell-view-private.c:1066
 #: ../modules/mail/e-mail-shell-view-private.c:1077
 msgid "Inbox"
 msgstr "Inkorg"
 
 #: ../mail/e-mail-local.c:42
-#: ../mail/em-folder-tree-model.c:710
+#: ../mail/em-folder-tree-model.c:713
 #: ../modules/mail/e-mail-shell-view-private.c:1064
 msgid "Drafts"
 msgstr "Utkast"
 
 #: ../mail/e-mail-local.c:43
-#: ../mail/em-folder-tree-model.c:721
+#: ../mail/em-folder-tree-model.c:724
 #: ../modules/mail/e-mail-shell-view-private.c:1068
 msgid "Outbox"
 msgstr "Utkorg"
 
 #: ../mail/e-mail-local.c:44
-#: ../mail/em-folder-tree-model.c:725
+#: ../mail/em-folder-tree-model.c:728
 #: ../modules/mail/e-mail-shell-view-private.c:1070
 msgid "Sent"
 msgstr "Skickat"
 
 #: ../mail/e-mail-local.c:45
-#: ../mail/em-folder-tree-model.c:713
+#: ../mail/em-folder-tree-model.c:716
 #: ../modules/mail/e-mail-shell-view-private.c:1072
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
 #: ../plugins/templates/templates.c:1006
@@ -9209,25 +9222,25 @@ msgstr "-----Ursprungligt meddelande-----"
 
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
-#: ../mail/em-composer-utils.c:1985
+#: ../mail/em-composer-utils.c:1986
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "Ditt meddelande till %s om \"%s\" den %s har lästs."
 
-#: ../mail/em-composer-utils.c:2044
+#: ../mail/em-composer-utils.c:2046
 #, c-format
 msgid "Delivery Notification for: \"%s\""
 msgstr "Leveransnotifiering för: \"%s\""
 
-#: ../mail/em-composer-utils.c:2567
+#: ../mail/em-composer-utils.c:2583
 msgid "an unknown sender"
 msgstr "en okänd avsändare"
 
-#: ../mail/em-composer-utils.c:2972
+#: ../mail/em-composer-utils.c:2988
 msgid "Posting destination"
 msgstr "Postdestination"
 
-#: ../mail/em-composer-utils.c:2973
+#: ../mail/em-composer-utils.c:2989
 msgid "Choose folders to post the message to."
 msgstr "Välj mappar att posta meddelandet till."
 
@@ -9519,7 +9532,7 @@ msgstr "Kvotanvändning"
 msgid "Folder Properties"
 msgstr "Mappegenskaper"
 
-#: ../mail/em-folder-selection-button.c:80
+#: ../mail/em-folder-selection-button.c:79
 msgid "<click here to select a folder>"
 msgstr "<klicka här för att välja en mapp>"
 
@@ -9531,68 +9544,68 @@ msgstr "S_kapa"
 msgid "Folder _name:"
 msgstr "Mapp_namn:"
 
-#: ../mail/em-folder-tree.c:664
+#: ../mail/em-folder-tree.c:647
 msgid "Folder names cannot contain '/'"
 msgstr "Mappnamn kan inte innehålla \"/\""
 
-#: ../mail/em-folder-tree.c:784
+#: ../mail/em-folder-tree.c:767
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../mail/em-folder-tree.c:1606
+#: ../mail/em-folder-tree.c:1589
 msgid "Mail Folder Tree"
 msgstr "E-postmappträd"
 
-#: ../mail/em-folder-tree.c:2085
+#: ../mail/em-folder-tree.c:2068
 #: ../mail/em-folder-utils.c:114
 #, c-format
 msgid "Moving folder %s"
 msgstr "Flyttar mappen %s"
 
-#: ../mail/em-folder-tree.c:2088
+#: ../mail/em-folder-tree.c:2071
 #: ../mail/em-folder-utils.c:116
 #, c-format
 msgid "Copying folder %s"
 msgstr "Kopierar mappen %s"
 
-#: ../mail/em-folder-tree.c:2095
-#: ../mail/message-list.c:2212
+#: ../mail/em-folder-tree.c:2078
+#: ../mail/message-list.c:2211
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Flyttar meddelanden till mappen %s"
 
-#: ../mail/em-folder-tree.c:2099
-#: ../mail/message-list.c:2214
+#: ../mail/em-folder-tree.c:2082
+#: ../mail/message-list.c:2213
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopierar meddelanden till mappen %s"
 
-#: ../mail/em-folder-tree.c:2118
+#: ../mail/em-folder-tree.c:2101
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Kan inte släppa meddelanden i ett lager på översta nivån"
 
-#: ../mail/em-folder-tree-model.c:150
-#: ../mail/em-folder-tree-model.c:153
-#: ../mail/em-folder-tree-model.c:159
-#: ../mail/em-folder-tree-model.c:161
-#: ../mail/em-folder-tree-model.c:168
-#: ../mail/em-folder-tree-model.c:170
-#: ../mail/mail-vfolder.c:1121
-#: ../mail/mail-vfolder.c:1235
+#: ../mail/em-folder-tree-model.c:154
+#: ../mail/em-folder-tree-model.c:157
+#: ../mail/em-folder-tree-model.c:163
+#: ../mail/em-folder-tree-model.c:165
+#: ../mail/em-folder-tree-model.c:172
+#: ../mail/em-folder-tree-model.c:174
+#: ../mail/mail-vfolder.c:1123
+#: ../mail/mail-vfolder.c:1237
 msgid "Search Folders"
 msgstr "Sökmappar"
 
 #. UNMATCHED is always last.
-#: ../mail/em-folder-tree-model.c:175
-#: ../mail/em-folder-tree-model.c:177
+#: ../mail/em-folder-tree-model.c:179
+#: ../mail/em-folder-tree-model.c:181
 msgid "UNMATCHED"
 msgstr "OMATCHADE"
 
-#: ../mail/em-folder-tree-model.c:787
-#: ../mail/em-folder-tree-model.c:1072
+#: ../mail/em-folder-tree-model.c:790
+#: ../mail/em-folder-tree-model.c:1075
 msgid "Loading..."
 msgstr "Läser in..."
 
@@ -9819,61 +9832,61 @@ msgstr "Sida %d av %d"
 msgid "No HTML stream available"
 msgstr "Ingen HTML-ström tillgänglig"
 
-#: ../mail/em-subscription-editor.c:1156
+#: ../mail/em-subscription-editor.c:1161
 msgid "Folder Subscriptions"
 msgstr "Mapprenumerationer"
 
-#: ../mail/em-subscription-editor.c:1195
+#: ../mail/em-subscription-editor.c:1200
 msgid "_Account:"
 msgstr "_Konto:"
 
-#: ../mail/em-subscription-editor.c:1210
+#: ../mail/em-subscription-editor.c:1215
 msgid "Clear Search"
 msgstr "Töm sökfältet"
 
-#: ../mail/em-subscription-editor.c:1228
+#: ../mail/em-subscription-editor.c:1233
 msgid "Sho_w items that contain:"
 msgstr "Visa objekt som inn_ehåller:"
 
-#: ../mail/em-subscription-editor.c:1267
+#: ../mail/em-subscription-editor.c:1272
 msgid "Subscribe to the selected folder"
 msgstr "Prenumerera på markerad mapp"
 
-#: ../mail/em-subscription-editor.c:1268
+#: ../mail/em-subscription-editor.c:1273
 msgid "Su_bscribe"
 msgstr "Pren_umerera"
 
-#: ../mail/em-subscription-editor.c:1279
-#: ../modules/mail/e-mail-shell-view-actions.c:1227
+#: ../mail/em-subscription-editor.c:1284
+#: ../modules/mail/e-mail-shell-view-actions.c:1222
 msgid "Unsubscribe from the selected folder"
 msgstr "Säg upp prenumeration på vald mapp"
 
-#: ../mail/em-subscription-editor.c:1280
-#: ../modules/mail/e-mail-shell-view-actions.c:1225
+#: ../mail/em-subscription-editor.c:1285
+#: ../modules/mail/e-mail-shell-view-actions.c:1220
 msgid "_Unsubscribe"
 msgstr "_Säg upp prenumeration"
 
-#: ../mail/em-subscription-editor.c:1291
+#: ../mail/em-subscription-editor.c:1296
 msgid "Collapse all folders"
 msgstr "Fäll in alla mappar"
 
-#: ../mail/em-subscription-editor.c:1292
+#: ../mail/em-subscription-editor.c:1297
 msgid "C_ollapse All"
 msgstr "Fäll i_n alla"
 
-#: ../mail/em-subscription-editor.c:1302
+#: ../mail/em-subscription-editor.c:1307
 msgid "Expand all folders"
 msgstr "Fäll ut alla mappar"
 
-#: ../mail/em-subscription-editor.c:1303
+#: ../mail/em-subscription-editor.c:1308
 msgid "E_xpand All"
 msgstr "Fä_ll ut alla"
 
-#: ../mail/em-subscription-editor.c:1313
+#: ../mail/em-subscription-editor.c:1318
 msgid "Refresh the folder list"
 msgstr "Uppdatera mapplistan"
 
-#: ../mail/em-subscription-editor.c:1325
+#: ../mail/em-subscription-editor.c:1330
 msgid "Stop the current operation"
 msgstr "Stoppa aktuell åtgärd"
 
@@ -10848,7 +10861,7 @@ msgstr "Importerar Elm-data"
 
 #: ../mail/importers/elm-importer.c:341
 #: ../mail/importers/pine-importer.c:453
-#: ../modules/mail/e-mail-shell-view.c:1040
+#: ../modules/mail/e-mail-shell-view.c:1051
 #: ../widgets/misc/e-send-options.c:511
 msgid "Mail"
 msgstr "E-post"
@@ -11091,7 +11104,7 @@ msgstr "Bekräftelser"
 
 #: ../mail/mail-config.ui.h:31
 #: ../modules/addressbook/autocompletion-config.c:178
-#: ../modules/calendar/e-calendar-preferences.ui.h:11
+#: ../modules/calendar/e-calendar-preferences.ui.h:10
 msgid "Date/Time Format"
 msgstr "Format för datum/tid"
 
@@ -11263,7 +11276,7 @@ msgid "Pass_word:"
 msgstr "Lösen_ord:"
 
 #: ../mail/mail-config.ui.h:79
-#: ../modules/calendar/e-calendar-preferences.ui.h:22
+#: ../modules/calendar/e-calendar-preferences.ui.h:21
 msgid "Pick a color"
 msgstr "Välj en färg"
 
@@ -11548,10 +11561,6 @@ msgstr "_Manuell proxykonfiguration:"
 msgid "_Never load images from the Internet"
 msgstr "Läs al_drig in bilder från nätet"
 
-#: ../mail/mail-config.ui.h:157
-msgid "_Path:"
-msgstr "_Sökväg:"
-
 #: ../mail/mail-config.ui.h:158
 #: ../modules/addressbook/ldap-config.ui.h:27
 msgid "_Port:"
@@ -11778,26 +11787,22 @@ msgstr "Tömmer och lagrar kontot \"%s\""
 msgid "Storing account '%s'"
 msgstr "Lagrar kontot \"%s\""
 
-#: ../mail/mail-ops.c:1240
+#: ../mail/mail-ops.c:1239
 #, c-format
 msgid "Refreshing folder '%s'"
 msgstr "Uppdaterar mappen \"%s\""
 
-#: ../mail/mail-ops.c:1418
+#: ../mail/mail-ops.c:1428
 #, c-format
 msgid "Expunging folder '%s'"
 msgstr "Tömmer mappen \"%s\""
 
-#: ../mail/mail-ops.c:1491
+#: ../mail/mail-ops.c:1513
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Tömmer papperskorgen i \"%s\""
 
-#: ../mail/mail-ops.c:1492
-msgid "Local Folders"
-msgstr "Lokala mappar"
-
-#: ../mail/mail-ops.c:1590
+#: ../mail/mail-ops.c:1615
 #, c-format
 msgid "Disconnecting %s"
 msgstr "Kopplar från %s"
@@ -11863,7 +11868,7 @@ msgstr "Uppdaterar sökmappar för \"%s\" : %s"
 #. * removed folder. For more than one search folder is
 #. * each of them on a separate line, with four spaces
 #. * in front of its name, without quotes.
-#: ../mail/mail-vfolder.c:675
+#: ../mail/mail-vfolder.c:677
 #, c-format
 msgid ""
 "The Search Folder \"%s\" has been modified to account for the deleted folder\n"
@@ -11880,11 +11885,11 @@ msgstr[1] ""
 "%s har ändrats på grund av den borttagna mappen\n"
 "\"%s\"."
 
-#: ../mail/mail-vfolder.c:1308
+#: ../mail/mail-vfolder.c:1310
 msgid "Edit Search Folder"
 msgstr "Redigera sökmapp"
 
-#: ../mail/mail-vfolder.c:1413
+#: ../mail/mail-vfolder.c:1415
 msgid "New Search Folder"
 msgstr "Ny sökmapp"
 
@@ -12482,7 +12487,7 @@ msgid "_Discard changes"
 msgstr "Förkasta _ändringar"
 
 #: ../mail/mail.error.xml.h:158
-#: ../modules/mail/e-mail-shell-view-actions.c:1127
+#: ../modules/mail/e-mail-shell-view-actions.c:1122
 msgid "_Empty Trash"
 msgstr "Töm papperskor_gen"
 
@@ -12524,99 +12529,99 @@ msgstr "_Ja"
 msgid "{0}"
 msgstr "{0}"
 
-#: ../mail/message-list.c:1211
+#: ../mail/message-list.c:1210
 msgid "Unseen"
 msgstr "Oläst"
 
-#: ../mail/message-list.c:1212
+#: ../mail/message-list.c:1211
 msgid "Seen"
 msgstr "Läst"
 
-#: ../mail/message-list.c:1213
+#: ../mail/message-list.c:1212
 msgid "Answered"
 msgstr "Besvarad"
 
-#: ../mail/message-list.c:1214
+#: ../mail/message-list.c:1213
 msgid "Forwarded"
 msgstr "Vidarebefordrat"
 
-#: ../mail/message-list.c:1215
+#: ../mail/message-list.c:1214
 msgid "Multiple Unseen Messages"
 msgstr "Flera olästa meddelanden"
 
-#: ../mail/message-list.c:1216
+#: ../mail/message-list.c:1215
 msgid "Multiple Messages"
 msgstr "Flera meddelanden"
 
-#: ../mail/message-list.c:1220
+#: ../mail/message-list.c:1219
 msgid "Lowest"
 msgstr "Lägsta"
 
-#: ../mail/message-list.c:1221
+#: ../mail/message-list.c:1220
 msgid "Lower"
 msgstr "Lägre"
 
-#: ../mail/message-list.c:1225
+#: ../mail/message-list.c:1224
 msgid "Higher"
 msgstr "Högre"
 
-#: ../mail/message-list.c:1226
+#: ../mail/message-list.c:1225
 msgid "Highest"
 msgstr "Högsta"
 
-#: ../mail/message-list.c:1832
+#: ../mail/message-list.c:1831
 #: ../widgets/table/e-cell-date.c:48
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1839
+#: ../mail/message-list.c:1838
 #: ../plugins/itip-formatter/itip-view.c:205
 msgid "Today %l:%M %p"
 msgstr "Idag %H.%M"
 
-#: ../mail/message-list.c:1848
+#: ../mail/message-list.c:1847
 msgid "Yesterday %l:%M %p"
 msgstr "Igår %H.%M"
 
-#: ../mail/message-list.c:1860
+#: ../mail/message-list.c:1859
 msgid "%a %l:%M %p"
 msgstr "%a %H.%M"
 
-#: ../mail/message-list.c:1868
+#: ../mail/message-list.c:1867
 msgid "%b %d %l:%M %p"
 msgstr "%d %b %H.%M"
 
-#: ../mail/message-list.c:1870
+#: ../mail/message-list.c:1869
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../mail/message-list.c:2638
+#: ../mail/message-list.c:2650
 msgid "Select all visible messages"
 msgstr "Markera alla synliga meddelanden"
 
-#: ../mail/message-list.c:2796
+#: ../mail/message-list.c:2808
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Meddelanden"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:3991
+#: ../mail/message-list.c:4003
 msgid "Follow-up"
 msgstr "Följ upp"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4495
-#: ../mail/message-list.c:4914
+#: ../mail/message-list.c:4507
+#: ../mail/message-list.c:4926
 msgid "Generating message list"
 msgstr "Genererar meddelandelista"
 
-#: ../mail/message-list.c:4732
+#: ../mail/message-list.c:4744
 msgid "No message satisfies your search criteria. Either clear search with Search->Clear menu item or change it."
 msgstr "Inga meddelanden matchar dina sökkriteria. Antingen töm sökningen med menyobjektet Sök->Töm eller ändra den."
 
-#: ../mail/message-list.c:4734
+#: ../mail/message-list.c:4746
 msgid "There are no messages in this folder."
 msgstr "Det finns inga meddelanden i denna mapp."
 
@@ -12654,27 +12659,27 @@ msgid "Subject - Trimmed"
 msgstr "Ämne - Nedkortat"
 
 #: ../mail/searchtypes.xml.h:1
-#: ../modules/mail/e-mail-shell-view-actions.c:1567
+#: ../modules/mail/e-mail-shell-view-actions.c:1562
 msgid "Body contains"
 msgstr "Meddelandetexten innehåller"
 
 #: ../mail/searchtypes.xml.h:2
-#: ../modules/mail/e-mail-shell-view-actions.c:1574
+#: ../modules/mail/e-mail-shell-view-actions.c:1569
 msgid "Message contains"
 msgstr "Meddelandet innehåller"
 
 #: ../mail/searchtypes.xml.h:3
-#: ../modules/mail/e-mail-shell-view-actions.c:1581
+#: ../modules/mail/e-mail-shell-view-actions.c:1576
 msgid "Recipients contain"
 msgstr "Mottagare innehåller"
 
 #: ../mail/searchtypes.xml.h:4
-#: ../modules/mail/e-mail-shell-view-actions.c:1588
+#: ../modules/mail/e-mail-shell-view-actions.c:1583
 msgid "Sender contains"
 msgstr "Avsändare innehåller"
 
 #: ../mail/searchtypes.xml.h:5
-#: ../modules/mail/e-mail-shell-view-actions.c:1595
+#: ../modules/mail/e-mail-shell-view-actions.c:1590
 msgid "Subject contains"
 msgstr "Ämne innehåller"
 
@@ -12937,7 +12942,7 @@ msgstr "Visa karta över alla kontakter i markerad adressbok"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1404
 #: ../modules/calendar/e-memo-shell-view-actions.c:641
 #: ../modules/calendar/e-task-shell-view-actions.c:765
-#: ../modules/mail/e-mail-shell-view-actions.c:1204
+#: ../modules/mail/e-mail-shell-view-actions.c:1199
 msgid "_Rename..."
 msgstr "_Byt namn..."
 
@@ -13018,7 +13023,7 @@ msgstr "_Åtgärder"
 #: ../modules/addressbook/e-book-shell-view-actions.c:940
 #: ../modules/calendar/e-memo-shell-view-actions.c:678
 #: ../modules/calendar/e-task-shell-view-actions.c:830
-#: ../modules/mail/e-mail-shell-view-actions.c:1362
+#: ../modules/mail/e-mail-shell-view-actions.c:1357
 msgid "_Preview"
 msgstr "F_örhandsgranskning"
 
@@ -13056,7 +13061,7 @@ msgstr "Visa kartor i förhandsvisningsfönstret för kontakter"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1018
 #: ../modules/calendar/e-memo-shell-view-actions.c:748
 #: ../modules/calendar/e-task-shell-view-actions.c:912
-#: ../modules/mail/e-mail-shell-view-actions.c:1477
+#: ../modules/mail/e-mail-shell-view-actions.c:1472
 msgid "_Classic View"
 msgstr "_Klassisk vy"
 
@@ -13067,7 +13072,7 @@ msgstr "Visa förhandsvisning av kontakter nedanför kontaktlistan"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1025
 #: ../modules/calendar/e-memo-shell-view-actions.c:755
 #: ../modules/calendar/e-task-shell-view-actions.c:919
-#: ../modules/mail/e-mail-shell-view-actions.c:1484
+#: ../modules/mail/e-mail-shell-view-actions.c:1479
 msgid "_Vertical View"
 msgstr "_Vertikal vy"
 
@@ -13093,7 +13098,7 @@ msgstr "Omatchade"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1719
 #: ../modules/calendar/e-memo-shell-view-actions.c:782
 #: ../modules/calendar/e-task-shell-view-actions.c:981
-#: ../modules/mail/e-mail-shell-view-actions.c:1560
+#: ../modules/mail/e-mail-shell-view-actions.c:1555
 #: ../shell/e-shell-content.c:666
 msgid "Advanced Search"
 msgstr "Avancerad sökning"
@@ -13317,188 +13322,184 @@ msgid "60 minutes"
 msgstr "60 minuter"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:9
-msgid "Alarms"
-msgstr "Alarm"
-
-#: ../modules/calendar/e-calendar-preferences.ui.h:10
 msgid "Alerts"
 msgstr "Alarm"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:12
+#: ../modules/calendar/e-calendar-preferences.ui.h:11
 msgid "Day _ends:"
 msgstr "Dagen _slutar:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:13
+#: ../modules/calendar/e-calendar-preferences.ui.h:12
 msgid "Days"
 msgstr "dagar"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:14
+#: ../modules/calendar/e-calendar-preferences.ui.h:13
 msgid "Default Free/Busy Server"
 msgstr "Standardserver för ledig/upptagen"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:15
+#: ../modules/calendar/e-calendar-preferences.ui.h:14
 msgid "Display"
 msgstr "Visning"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:16
+#: ../modules/calendar/e-calendar-preferences.ui.h:15
 msgid "Display reminders in _notification area only"
 msgstr "Visa endast påminnelser i _notifieringsytan"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:19
+#: ../modules/calendar/e-calendar-preferences.ui.h:18
 msgid "Hours"
 msgstr "timmar"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:20
+#: ../modules/calendar/e-calendar-preferences.ui.h:19
 msgid "Minutes"
 msgstr "minuter"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:23
+#: ../modules/calendar/e-calendar-preferences.ui.h:22
 msgid "Publishing Information"
 msgstr "Publiceringsinformation"
 
 #. Sunday
-#: ../modules/calendar/e-calendar-preferences.ui.h:26
+#: ../modules/calendar/e-calendar-preferences.ui.h:25
 msgid "S_un"
 msgstr "_sön"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:28
+#: ../modules/calendar/e-calendar-preferences.ui.h:27
 msgid "Sc_roll Month View by a week"
 msgstr "R_ulla månadsvy med en vecka"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:29
+#: ../modules/calendar/e-calendar-preferences.ui.h:28
 msgid "Se_cond zone:"
 msgstr "An_dra tidszon:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:30
+#: ../modules/calendar/e-calendar-preferences.ui.h:29
 msgid "Select the calendars for reminder notification"
 msgstr "Välj kalendrar för påminnelsenotifiering"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../modules/calendar/e-calendar-preferences.ui.h:32
+#: ../modules/calendar/e-calendar-preferences.ui.h:31
 msgid "Sh_ow a reminder"
 msgstr "_Visa en påminnelse"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../modules/calendar/e-calendar-preferences.ui.h:34
+#: ../modules/calendar/e-calendar-preferences.ui.h:33
 msgid "Show a _reminder"
 msgstr "Visa en p_åminnelse"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:35
+#: ../modules/calendar/e-calendar-preferences.ui.h:34
 msgid "Show r_ecurring events in italic in bottom left calendar"
 msgstr "Visa åter_kommande evenemang i kursiv text i nedre vänstra kalendern"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:36
+#: ../modules/calendar/e-calendar-preferences.ui.h:35
 msgid "Show week _numbers"
 msgstr "Visa v_eckonummer"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:38
+#: ../modules/calendar/e-calendar-preferences.ui.h:37
 msgid "T_asks due today:"
 msgstr "U_ppgifter som ska genomföras idag:"
 
 #. Thursday
-#: ../modules/calendar/e-calendar-preferences.ui.h:40
+#: ../modules/calendar/e-calendar-preferences.ui.h:39
 msgid "T_hu"
 msgstr "to_r"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:43
+#: ../modules/calendar/e-calendar-preferences.ui.h:42
 msgid "Template:"
 msgstr "Mall:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:45
+#: ../modules/calendar/e-calendar-preferences.ui.h:44
 #: ../widgets/misc/e-dateedit.c:592
 msgid "Time"
 msgstr "Tid"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:47
+#: ../modules/calendar/e-calendar-preferences.ui.h:46
 msgid "Time format:"
 msgstr "Tidsformat:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:49
+#: ../modules/calendar/e-calendar-preferences.ui.h:48
 msgid "Use s_ystem time zone"
 msgstr "Använd s_ystemets tidszon"
 
 #. A weekday like "Monday" follows
-#: ../modules/calendar/e-calendar-preferences.ui.h:52
+#: ../modules/calendar/e-calendar-preferences.ui.h:51
 msgid "Wee_k starts on:"
 msgstr "Vec_kan börjar på:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:53
+#: ../modules/calendar/e-calendar-preferences.ui.h:52
 #: ../modules/calendar/e-cal-shell-view-actions.c:1678
 msgid "Work Week"
 msgstr "Arbetsvecka"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:54
+#: ../modules/calendar/e-calendar-preferences.ui.h:53
 msgid "Work days:"
 msgstr "Arbetsdagar:"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:55
+#: ../modules/calendar/e-calendar-preferences.ui.h:54
 msgid "_12 hour (AM/PM)"
 msgstr "_12-timmars (FM/EM)"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:56
+#: ../modules/calendar/e-calendar-preferences.ui.h:55
 msgid "_24 hour"
 msgstr "_24-timmars"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:57
+#: ../modules/calendar/e-calendar-preferences.ui.h:56
 msgid "_Ask for confirmation when deleting items"
 msgstr "_Fråga efter bekräftelse vid borttagning av objekt"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:58
+#: ../modules/calendar/e-calendar-preferences.ui.h:57
 msgid "_Compress weekends in month view"
 msgstr "T_ryck ihop helger i månadsvyn"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:59
+#: ../modules/calendar/e-calendar-preferences.ui.h:58
 msgid "_Day begins:"
 msgstr "_Dagen börjar:"
 
 #. Friday
-#: ../modules/calendar/e-calendar-preferences.ui.h:61
+#: ../modules/calendar/e-calendar-preferences.ui.h:60
 msgid "_Fri"
 msgstr "_fre"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:62
+#: ../modules/calendar/e-calendar-preferences.ui.h:61
 msgid "_Hide completed tasks after"
 msgstr "_Dölj färdiga uppgifter efter"
 
 #. Monday
-#: ../modules/calendar/e-calendar-preferences.ui.h:64
+#: ../modules/calendar/e-calendar-preferences.ui.h:63
 msgid "_Mon"
 msgstr "_mån"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:65
+#: ../modules/calendar/e-calendar-preferences.ui.h:64
 msgid "_Overdue tasks:"
 msgstr "Uppgi_fter som skulle ha genomförts:"
 
 #. Saturday
-#: ../modules/calendar/e-calendar-preferences.ui.h:67
+#: ../modules/calendar/e-calendar-preferences.ui.h:66
 msgid "_Sat"
 msgstr "_lör"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:68
+#: ../modules/calendar/e-calendar-preferences.ui.h:67
 msgid "_Show appointment end times in week and month view"
 msgstr "_Visa sluttiderna på möten i vecko- och månadsvyerna"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:69
+#: ../modules/calendar/e-calendar-preferences.ui.h:68
 msgid "_Time divisions:"
 msgstr "_Tidsuppdelningar:"
 
 #. Tuesday
-#: ../modules/calendar/e-calendar-preferences.ui.h:71
+#: ../modules/calendar/e-calendar-preferences.ui.h:70
 msgid "_Tue"
 msgstr "t_is"
 
 #. Wednesday
-#: ../modules/calendar/e-calendar-preferences.ui.h:73
+#: ../modules/calendar/e-calendar-preferences.ui.h:72
 msgid "_Wed"
 msgstr "_ons"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../modules/calendar/e-calendar-preferences.ui.h:75
+#: ../modules/calendar/e-calendar-preferences.ui.h:74
 msgid "before every anniversary/birthday"
 msgstr "innan varje jubileum/födelsedag"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../modules/calendar/e-calendar-preferences.ui.h:77
+#: ../modules/calendar/e-calendar-preferences.ui.h:76
 msgid "before every appointment"
 msgstr "före varje möte"
 
@@ -14405,8 +14406,11 @@ msgstr "Förhandsgranska kalendern som ska skrivas ut"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1781
 #: ../modules/calendar/e-cal-shell-view-memopad.c:295
-msgid "Save as iCalendar..."
-msgstr "Spara som iCalendar..."
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:382
+#: ../modules/calendar/e-memo-shell-view-actions.c:844
+#: ../modules/calendar/e-task-shell-view-actions.c:1043
+msgid "_Save as iCalendar..."
+msgstr "_Spara som iCalendar..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1858
 msgid "Go To"
@@ -14510,12 +14514,6 @@ msgstr "Visa den markerade uppgiften"
 #: ../modules/calendar/e-task-shell-view-actions.c:1028
 msgid "Print the selected task"
 msgstr "Skriv ut markerad uppgift"
-
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:382
-#: ../modules/calendar/e-memo-shell-view-actions.c:844
-#: ../modules/calendar/e-task-shell-view-actions.c:1043
-msgid "_Save as iCalendar..."
-msgstr "_Spara som iCalendar..."
 
 #: ../modules/calendar/e-memo-shell-backend.c:298
 msgctxt "New"
@@ -14857,295 +14855,295 @@ msgstr "Redigerarinställningar"
 msgid "Network Preferences"
 msgstr "Nätverksinställningar"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1120
-#: ../modules/mail/e-mail-shell-view.c:949
+#: ../modules/mail/e-mail-shell-view-actions.c:1115
+#: ../modules/mail/e-mail-shell-view.c:960
 msgid "_Disable Account"
 msgstr "_Inaktivera konto"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1122
+#: ../modules/mail/e-mail-shell-view-actions.c:1117
 msgid "Disable this account"
 msgstr "Inaktivera detta konto"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1129
+#: ../modules/mail/e-mail-shell-view-actions.c:1124
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Ta bort alla borttagna meddelanden från alla mappar permanent"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1134
+#: ../modules/mail/e-mail-shell-view-actions.c:1129
 msgid "_Download Messages for Offline Usage"
 msgstr "_Hämta ner meddelanden för frånkopplad användning"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1136
+#: ../modules/mail/e-mail-shell-view-actions.c:1131
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr "Hämta meddelanden för konton och mappar markerade för frånkopplad användning"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1141
+#: ../modules/mail/e-mail-shell-view-actions.c:1136
 msgid "Fl_ush Outbox"
 msgstr "Tö_m utkorg"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1148
+#: ../modules/mail/e-mail-shell-view-actions.c:1143
 msgid "_Copy Folder To..."
 msgstr "_Kopiera mapp till..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1150
+#: ../modules/mail/e-mail-shell-view-actions.c:1145
 msgid "Copy the selected folder into another folder"
 msgstr "Kopiera den markerade mappen till en annan mapp"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1157
+#: ../modules/mail/e-mail-shell-view-actions.c:1152
 msgid "Permanently remove this folder"
 msgstr "Ta bort denna mapp permanent"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1162
+#: ../modules/mail/e-mail-shell-view-actions.c:1157
 msgid "E_xpunge"
 msgstr "T_öm"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1164
+#: ../modules/mail/e-mail-shell-view-actions.c:1159
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Ta bort alla borttagna meddelanden från denna mapp permanent"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1169
+#: ../modules/mail/e-mail-shell-view-actions.c:1164
 msgid "Mar_k All Messages as Read"
 msgstr "Markera a_lla meddelanden som lästa"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1171
+#: ../modules/mail/e-mail-shell-view-actions.c:1166
 msgid "Mark all messages in the folder as read"
 msgstr "Markera alla meddelanden i den här mappen som lästa"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1176
+#: ../modules/mail/e-mail-shell-view-actions.c:1171
 msgid "_Move Folder To..."
 msgstr "_Flytta mapp till..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1178
+#: ../modules/mail/e-mail-shell-view-actions.c:1173
 msgid "Move the selected folder into another folder"
 msgstr "Flytta den markerade mappen till en annan mapp"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1183
+#: ../modules/mail/e-mail-shell-view-actions.c:1178
 msgid "_New..."
 msgstr "_Ny..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1185
+#: ../modules/mail/e-mail-shell-view-actions.c:1180
 msgid "Create a new folder for storing mail"
 msgstr "Skapa en ny mapp för lagring av post"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1192
+#: ../modules/mail/e-mail-shell-view-actions.c:1187
 msgid "Change the properties of this folder"
 msgstr "Ändra egenskaperna för denna mapp"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1199
+#: ../modules/mail/e-mail-shell-view-actions.c:1194
 msgid "Refresh the folder"
 msgstr "Uppdatera mappen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1206
+#: ../modules/mail/e-mail-shell-view-actions.c:1201
 msgid "Change the name of this folder"
 msgstr "Ändra namnet på denna mapp"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1211
+#: ../modules/mail/e-mail-shell-view-actions.c:1206
 msgid "Select Message _Thread"
 msgstr "Markera meddelandetr_åd"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1213
+#: ../modules/mail/e-mail-shell-view-actions.c:1208
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Markera alla meddelanden i samma tråd som det markerade meddelandet"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1218
+#: ../modules/mail/e-mail-shell-view-actions.c:1213
 msgid "Select Message S_ubthread"
 msgstr "Välj meddelandets _undertråd"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1220
+#: ../modules/mail/e-mail-shell-view-actions.c:1215
 msgid "Select all replies to the currently selected message"
 msgstr "Markera alla svar för det markerade meddelandet"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1232
+#: ../modules/mail/e-mail-shell-view-actions.c:1227
 msgid "Empty _Trash"
 msgstr "Töm _papperskorgen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1234
+#: ../modules/mail/e-mail-shell-view-actions.c:1229
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr "Ta bort alla borttagna meddelanden från alla konton permanent"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1239
+#: ../modules/mail/e-mail-shell-view-actions.c:1234
 msgid "_New Label"
 msgstr "_Ny etikett"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1248
+#: ../modules/mail/e-mail-shell-view-actions.c:1243
 msgid "N_one"
 msgstr "I_ngen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1262
+#: ../modules/mail/e-mail-shell-view-actions.c:1257
 msgid "_Manage Subscriptions"
 msgstr "_Hantera prenumerationer"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1264
-#: ../modules/mail/e-mail-shell-view-actions.c:1341
+#: ../modules/mail/e-mail-shell-view-actions.c:1259
+#: ../modules/mail/e-mail-shell-view-actions.c:1336
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Prenumerera eller säg upp prenumeration på mappar på fjärrservrar"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1269
-#: ../modules/mail/e-mail-shell-view-actions.c:1290
+#: ../modules/mail/e-mail-shell-view-actions.c:1264
+#: ../modules/mail/e-mail-shell-view-actions.c:1285
 msgid "Send / _Receive"
 msgstr "Ski_cka / Ta emot"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1271
+#: ../modules/mail/e-mail-shell-view-actions.c:1266
 msgid "Send queued items and retrieve new items"
 msgstr "Skicka kölagda objekt och hämta nya objekt"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1276
+#: ../modules/mail/e-mail-shell-view-actions.c:1271
 msgid "R_eceive All"
 msgstr "Ta _emot alla"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1278
+#: ../modules/mail/e-mail-shell-view-actions.c:1273
 msgid "Receive new items from all accounts"
 msgstr "Ta emot nya objekt från alla konton"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1283
+#: ../modules/mail/e-mail-shell-view-actions.c:1278
 msgid "_Send All"
 msgstr "_Skicka alla"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1285
+#: ../modules/mail/e-mail-shell-view-actions.c:1280
 msgid "Send queued items in all accounts"
 msgstr "Skicka kölagda objekt i alla konton"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1311
+#: ../modules/mail/e-mail-shell-view-actions.c:1306
 #: ../widgets/misc/e-activity-proxy.c:310
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1313
+#: ../modules/mail/e-mail-shell-view-actions.c:1308
 msgid "Cancel the current mail operation"
 msgstr "Avbryt aktuell e-poståtgärd"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1318
+#: ../modules/mail/e-mail-shell-view-actions.c:1313
 msgid "Collapse All _Threads"
 msgstr "Fäll in alla _trådar"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1320
+#: ../modules/mail/e-mail-shell-view-actions.c:1315
 msgid "Collapse all message threads"
 msgstr "Fäll in alla meddelandetrådar"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1325
+#: ../modules/mail/e-mail-shell-view-actions.c:1320
 msgid "E_xpand All Threads"
 msgstr "Fäll ut alla tr_ådar"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1327
+#: ../modules/mail/e-mail-shell-view-actions.c:1322
 msgid "Expand all message threads"
 msgstr "Fäll ut alla meddelandetrådar"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1332
+#: ../modules/mail/e-mail-shell-view-actions.c:1327
 msgid "_Message Filters"
 msgstr "_Meddelandefilter"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1334
+#: ../modules/mail/e-mail-shell-view-actions.c:1329
 msgid "Create or edit rules for filtering new mail"
 msgstr "Skapa eller redigera regler för filtrering av ny post"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1339
+#: ../modules/mail/e-mail-shell-view-actions.c:1334
 msgid "_Subscriptions..."
 msgstr "_Prenumerationer..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1348
+#: ../modules/mail/e-mail-shell-view-actions.c:1343
 msgid "F_older"
 msgstr "Ma_pp"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1355
+#: ../modules/mail/e-mail-shell-view-actions.c:1350
 msgid "_Label"
 msgstr "E_tikett"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1372
+#: ../modules/mail/e-mail-shell-view-actions.c:1367
 msgid "C_reate Search Folder From Search..."
 msgstr "S_kapa sökmapp från sökning..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1379
+#: ../modules/mail/e-mail-shell-view-actions.c:1374
 msgid "Search F_olders"
 msgstr "Sök_mappar"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1381
+#: ../modules/mail/e-mail-shell-view-actions.c:1376
 msgid "Create or edit search folder definitions"
 msgstr "Skapa eller redigera definitioner för sökmappar"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1412
+#: ../modules/mail/e-mail-shell-view-actions.c:1407
 msgid "_New Folder..."
 msgstr "_Ny mapp..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1440
+#: ../modules/mail/e-mail-shell-view-actions.c:1435
 msgid "Show Message _Preview"
 msgstr "Visa _förhandsgranskning av meddelande"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1442
+#: ../modules/mail/e-mail-shell-view-actions.c:1437
 msgid "Show message preview pane"
 msgstr "Visa förhandsvisningspanel för meddelanden"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1448
+#: ../modules/mail/e-mail-shell-view-actions.c:1443
 msgid "Show _Deleted Messages"
 msgstr "Visa _borttagna meddelanden"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1450
+#: ../modules/mail/e-mail-shell-view-actions.c:1445
 msgid "Show deleted messages with a line through them"
 msgstr "Visa borttagna meddelanden som genomstrukna"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1456
+#: ../modules/mail/e-mail-shell-view-actions.c:1451
 msgid "_Group By Threads"
 msgstr "_Gruppera efter trådar"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1458
+#: ../modules/mail/e-mail-shell-view-actions.c:1453
 msgid "Threaded message list"
 msgstr "Trådad meddelandelista"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1479
+#: ../modules/mail/e-mail-shell-view-actions.c:1474
 msgid "Show message preview below the message list"
 msgstr "Visa förhandsgranskning av meddelanden nedan i meddelandelistan"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1486
+#: ../modules/mail/e-mail-shell-view-actions.c:1481
 msgid "Show message preview alongside the message list"
 msgstr "Visa förhandsgranskning av meddelanden bredvid meddelandelistan"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1494
+#: ../modules/mail/e-mail-shell-view-actions.c:1489
 msgid "All Messages"
 msgstr "Alla meddelanden"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1501
+#: ../modules/mail/e-mail-shell-view-actions.c:1496
 msgid "Important Messages"
 msgstr "Viktiga meddelanden"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1508
+#: ../modules/mail/e-mail-shell-view-actions.c:1503
 msgid "Last 5 Days' Messages"
 msgstr "Meddelanden de senaste 5 dagarna"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1515
+#: ../modules/mail/e-mail-shell-view-actions.c:1510
 msgid "Messages Not Junk"
 msgstr "Meddelandet är inte skräppost"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1522
+#: ../modules/mail/e-mail-shell-view-actions.c:1517
 msgid "Messages with Attachments"
 msgstr "Meddelanden med bilagor"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1529
+#: ../modules/mail/e-mail-shell-view-actions.c:1524
 msgid "No Label"
 msgstr "Ingen etikett"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1536
+#: ../modules/mail/e-mail-shell-view-actions.c:1531
 msgid "Read Messages"
 msgstr "Lästa meddelanden"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1543
+#: ../modules/mail/e-mail-shell-view-actions.c:1538
 msgid "Recent Messages"
 msgstr "Senaste meddelanden"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1550
+#: ../modules/mail/e-mail-shell-view-actions.c:1545
 msgid "Unread Messages"
 msgstr "Olästa meddelanden"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1602
+#: ../modules/mail/e-mail-shell-view-actions.c:1597
 msgid "Subject or Addresses contain"
 msgstr "Ämne eller Adresser innehåller"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1612
+#: ../modules/mail/e-mail-shell-view-actions.c:1607
 msgid "All Accounts"
 msgstr "Alla konton"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1619
+#: ../modules/mail/e-mail-shell-view-actions.c:1614
 msgid "Current Account"
 msgstr "Aktuellt konto"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1626
+#: ../modules/mail/e-mail-shell-view-actions.c:1621
 msgid "Current Folder"
 msgstr "Aktuell mapp"
 
@@ -15157,7 +15155,7 @@ msgstr "Sökning i alla konton"
 msgid "Account Search"
 msgstr "Kontosökning"
 
-#: ../modules/mail/e-mail-shell-view.c:947
+#: ../modules/mail/e-mail-shell-view.c:958
 msgid "Proxy _Logout"
 msgstr "Proxy_utloggning"
 
@@ -16284,8 +16282,8 @@ msgstr ""
 "%s"
 
 #: ../plugins/google-account-setup/google-source.c:564
-#: ../plugins/mail-to-task/mail-to-task.c:796
-#: ../plugins/mail-to-task/mail-to-task.c:1045
+#: ../plugins/mail-to-task/mail-to-task.c:803
+#: ../plugins/mail-to-task/mail-to-task.c:1066
 msgid "Unknown error."
 msgstr "Okänt fel."
 
@@ -17191,108 +17189,108 @@ msgstr "Informerar dig när nya meddelanden anländer."
 msgid "Created from a mail by %s"
 msgstr "Skapad från ett e-postmeddelande från %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:586
+#: ../plugins/mail-to-task/mail-to-task.c:593
 #, c-format
 msgid "Selected calendar contains event '%s' already. Would you like to edit the old event?"
 msgstr "Markerad kalender innehåller redan evenemanget \"%s\". Vill du redigera det gamla evenemanget?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:589
+#: ../plugins/mail-to-task/mail-to-task.c:596
 #, c-format
 msgid "Selected task list contains task '%s' already. Would you like to edit the old task?"
 msgstr "Markerad uppgiftslista innehåller redan uppgiften \"%s\". Vill du redigera den gamla uppgiften?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:592
+#: ../plugins/mail-to-task/mail-to-task.c:599
 #, c-format
 msgid "Selected memo list contains memo '%s' already. Would you like to edit the old memo?"
 msgstr "Markerad memolista innehåller redan memot \"%s\". Vill du redigera det gamla memot?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:609
+#: ../plugins/mail-to-task/mail-to-task.c:616
 #, c-format
 msgid "You have selected %d mails to be converted to events. Do you really want to add them all?"
 msgstr "Du har valt att konvertera %d meddelanden till evenemang. Vill du verkligen lägga till dem alla?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:612
+#: ../plugins/mail-to-task/mail-to-task.c:619
 #, c-format
 msgid "You have selected %d mails to be converted to tasks. Do you really want to add them all?"
 msgstr "Du har valt att konvertera %d meddelanden till uppgifter. Vill du verkligen lägga till dem alla?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:615
+#: ../plugins/mail-to-task/mail-to-task.c:622
 #, c-format
 msgid "You have selected %d mails to be converted to memos. Do you really want to add them all?"
 msgstr "Du har valt att konvertera %d meddelanden till memon. Vill du verkligen lägga till dem alla?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:634
+#: ../plugins/mail-to-task/mail-to-task.c:641
 msgid "Do you wish to continue converting remaining mails?"
 msgstr "Vill du fortsätta att konvertera återstående meddelanden?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:709
+#: ../plugins/mail-to-task/mail-to-task.c:716
 msgid "[No Summary]"
 msgstr "[Ingen sammanfattning]"
 
-#: ../plugins/mail-to-task/mail-to-task.c:721
+#: ../plugins/mail-to-task/mail-to-task.c:728
 msgid "Invalid object returned from a server"
 msgstr "Ogiltigt objekt returnerat från en server"
 
-#: ../plugins/mail-to-task/mail-to-task.c:771
+#: ../plugins/mail-to-task/mail-to-task.c:778
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "Ett fel inträffade vid behandling: %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:796
+#: ../plugins/mail-to-task/mail-to-task.c:803
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Kan inte öppna kalender. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:803
+#: ../plugins/mail-to-task/mail-to-task.c:810
 msgid "Selected source is read only, thus cannot create event there. Select other source, please."
 msgstr "Vald källa är skrivskyddad och kan därför inte skapa ett evenemang där. Välj en annan källa."
 
-#: ../plugins/mail-to-task/mail-to-task.c:806
+#: ../plugins/mail-to-task/mail-to-task.c:813
 msgid "Selected source is read only, thus cannot create task there. Select other source, please."
 msgstr "Vald källa är skrivskyddad och kan därför inte skapa en uppgift där. Välj en annan källa."
 
-#: ../plugins/mail-to-task/mail-to-task.c:809
+#: ../plugins/mail-to-task/mail-to-task.c:816
 msgid "Selected source is read only, thus cannot create memo there. Select other source, please."
 msgstr "Vald källa är skrivskyddad och kan därför inte skapa ett memo där. Välj en annan källa."
 
-#: ../plugins/mail-to-task/mail-to-task.c:1045
+#: ../plugins/mail-to-task/mail-to-task.c:1066
 #, c-format
 msgid "Cannot get source list. %s"
 msgstr "Kan inte hämta källistan.  %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1104
+#: ../plugins/mail-to-task/mail-to-task.c:1127
 msgid "No writable calendar is available."
 msgstr "Ingen skrivbar kalender finns tillgänglig."
 
-#: ../plugins/mail-to-task/mail-to-task.c:1196
+#: ../plugins/mail-to-task/mail-to-task.c:1219
 msgid "Create an _Event"
 msgstr "Skapa ett eveneman_g"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1198
+#: ../plugins/mail-to-task/mail-to-task.c:1221
 msgid "Create a new event from the selected message"
 msgstr "Skapa ett nytt evenemang från markerat meddelande"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1203
+#: ../plugins/mail-to-task/mail-to-task.c:1226
 msgid "Create a Mem_o"
 msgstr "Skapa _ett memo"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1205
+#: ../plugins/mail-to-task/mail-to-task.c:1228
 msgid "Create a new memo from the selected message"
 msgstr "Skapa ett nytt memo från markerat meddelande"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1210
+#: ../plugins/mail-to-task/mail-to-task.c:1233
 msgid "Create a _Task"
 msgstr "Skapa en upp_gift"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1212
+#: ../plugins/mail-to-task/mail-to-task.c:1235
 msgid "Create a new task from the selected message"
 msgstr "Skapa en ny uppgift från markerat meddelande"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1220
+#: ../plugins/mail-to-task/mail-to-task.c:1243
 msgid "Create a _Meeting"
 msgstr "Skapa ett sammantr_äde"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1222
+#: ../plugins/mail-to-task/mail-to-task.c:1245
 msgid "Create a new meeting from the selected message"
 msgstr "Skapa ett nytt sammanträde från markerat meddelande"
 
@@ -20377,6 +20375,12 @@ msgstr "Markera allt"
 msgid "Input Methods"
 msgstr "Inmatningsmetoder"
 
+#~ msgid "Local Folders"
+#~ msgstr "Lokala mappar"
+#~ msgid "Alarms"
+#~ msgstr "Alarm"
+#~ msgid "Save as iCalendar..."
+#~ msgstr "Spara som iCalendar..."
 #~ msgid "Please select a folder from the current account."
 #~ msgstr "Välj en mapp från det aktuella kontot."
 #~ msgid "_Group:"
