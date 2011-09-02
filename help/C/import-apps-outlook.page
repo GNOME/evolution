@@ -6,7 +6,7 @@
     
     <link type="guide" xref="import-data#import-from-apps" />
 
-    <revision pkgversion="3.0.2" version="0.4" date="2011-08-02" status="final"/>
+    <revision pkgversion="3.0.2" version="0.5" date="2011-09-02" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -46,16 +46,17 @@
 <!-- File locations taken from http://support.microsoft.com/kb/2291280 and http://answers.microsoft.com/en-us/windows/forum/windows_7-files/where-is-location-of-outlookpst-file-in-windows-7/3a4c03c3-e8ad-4912-9e37-f1c62057d1f9 -->
 <item><p>Copy the Outlook files to the system or partition that Evolution is installed on.</p>
 <p>As your Windows hard drive is probably in the NTFS format, some Linux systems cannot read it without additional software. You might find it simpler to copy the mail folders to a USB drive or to burn a CD.</p></item>
-<item><p>Mount your Windows drive or the disk where you saved the mail files.</p></item>
-<item><p>Copy all the mail files into your home directory or another convenient place.</p></item>
-<item><p>Start Evolution.</p></item>
-<item><p>Optionally select <guiseq><gui>File</gui><gui>New</gui><gui>Mail Folder</gui></guiseq> to create the <link xref="mail-folders">folders</link> you want.</p></item>
 </steps>
 </section>
 
 <section id="importing">
 <title>Importing into Evolution</title>
 <steps>
+<item><p>Depending on your last step, either plug in the disk or USB drive with the data and wait until the file manager window opens, or mount your Windows drive.</p></item>
+<item><p>Copy all the mail files into your home directory or another convenient place.</p></item>
+<item><p>Start Evolution.</p></item>
+<item><p>Optionally select <guiseq><gui>File</gui><gui>New</gui><gui>Mail Folder</gui></guiseq> to create the <link xref="mail-folders">folders</link> you want.</p></item>
+
 <item><p>Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>.</p></item>
 <item><p>In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>.</p></item>
 <item><p>Choose the Outlook personal folders (.pst) file that you would like to import.</p><p>The file type will be automatically determined.</p>
