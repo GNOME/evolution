@@ -1,0 +1,31 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="change-keyboard-shortcuts">
+
+  <info>
+    <desc>Changing keyboard shortcuts.</desc>
+    <link type="guide" xref="index#common-other-problems" />
+    <revision pkgversion="3.1.91" version="0.1" date="2011-09-02" status="draft"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>    
+
+  </info>
+
+  <title>Changing keyboard shortcuts</title>
+
+<list>
+<item><p>Open the <gui>dconf-editor</gui> application.</p></item>
+<item><p>Navigate to <code>/org/gnome/desktop/interface</code>.</p></item>
+<item><p>Enable <gui>can-change-accels</gui>.</p></item>
+<item><p>Start Evolution.</p></item>
+<item><p>Hover your mouse cursor over the menu bar item for which you want to add or change the keyboard shortcut.</p></item>
+<item><p>Type the shortcut that you want on the keyboard.</p></item>
+</list>
+
+<p>Note that this setting is desktop-wide and that you can disable it again in <gui>dconf-editor</gui> after your changes.</p>
+
+</page>
