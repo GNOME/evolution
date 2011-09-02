@@ -28,7 +28,6 @@
 #endif
 
 #include <gtk/gtk.h>
-#include <glib/gstdio.h>
 
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
@@ -40,7 +39,6 @@
 #include "e-mail-local.h"
 #include "e-mail-folder-utils.h"
 #include "mail-config.h"
-#include "mail-folder-cache.h"
 #include "mail-tools.h"
 
 typedef struct {
@@ -216,23 +214,6 @@ mail_config_get_sync_timeout (void)
 	return res;
 }
 
-static gchar *
-uri_to_evname (const gchar *uri, const gchar *prefix)
-{
-	const gchar *data_dir;
-	gchar *safe;
-	gchar *tmp;
-
-	data_dir = mail_session_get_data_dir ();
-
-	safe = g_strdup (uri);
-	e_filename_make_safe (safe);
-	tmp = g_strdup_printf ("%s/%s%s.xml", data_dir, prefix, safe);
-	g_free (safe);
-
-	return tmp;
-}
-
 gchar *
 mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
 {
@@ -291,146 +272,12 @@ mail_config_get_lookup_book_local_only (void)
 	return config->book_lookup_local_only;
 }
 
-static void
-folder_deleted_cb (MailFolderCache *cache,
-                   CamelStore *store,
-                   const gchar *folder_name,
-                   gpointer user_data)
-{
-	CamelStoreClass *class;
-	EAccountList *account_list;
-	EIterator *iterator;
-	const gchar *local_drafts_folder_uri;
-	const gchar *local_sent_folder_uri;
-	gboolean write_config = FALSE;
-	gchar *uri;
-
-	class = CAMEL_STORE_GET_CLASS (store);
-
-	/* assumes these can't be removed ... */
-	local_drafts_folder_uri =
-		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
-	local_sent_folder_uri =
-		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
-
-	uri = e_mail_folder_uri_build (store, folder_name);
-
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
-
-	while (e_iterator_is_valid (iterator)) {
-		EAccount *account;
-
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iterator);
-
-		if (account->sent_folder_uri && class->compare_folder_name (
-				account->sent_folder_uri, uri)) {
-			g_free (account->sent_folder_uri);
-			account->sent_folder_uri =
-				g_strdup (local_sent_folder_uri);
-			write_config = TRUE;
-		}
-
-		if (account->drafts_folder_uri && class->compare_folder_name (
-				account->drafts_folder_uri, uri)) {
-			g_free (account->drafts_folder_uri);
-			account->drafts_folder_uri =
-				g_strdup (local_drafts_folder_uri);
-			write_config = TRUE;
-		}
-
-		e_iterator_next (iterator);
-	}
-
-	g_object_unref (iterator);
-	g_free (uri);
-
-	/* nasty again */
-	if (write_config)
-		mail_config_write ();
-}
-
-static void
-folder_renamed_cb (MailFolderCache *cache,
-                   CamelStore *store,
-                   const gchar *old_folder_name,
-                   const gchar *new_folder_name,
-                   gpointer user_data)
-{
-	CamelStoreClass *class;
-	EAccountList *account_list;
-	EAccount *account;
-	EIterator *iterator;
-	gboolean write_config = FALSE;
-	gchar *old_uri;
-	gchar *new_uri;
-	gint i;
-
-	const gchar *cachenames[] = {
-		"views/current_view-",
-		"views/custom_view-",
-		NULL };
-
-	class = CAMEL_STORE_GET_CLASS (store);
-
-	old_uri = e_mail_folder_uri_build (store, old_folder_name);
-	new_uri = e_mail_folder_uri_build (store, new_folder_name);
-
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
-
-	while (e_iterator_is_valid (iterator)) {
-		account = (EAccount *) e_iterator_get (iterator);
-
-		if (account->sent_folder_uri && class->compare_folder_name (
-				account->sent_folder_uri, old_uri)) {
-			g_free (account->sent_folder_uri);
-			account->sent_folder_uri = g_strdup (new_uri);
-			write_config = TRUE;
-		}
-
-		if (account->drafts_folder_uri && class->compare_folder_name (
-				account->drafts_folder_uri, old_uri)) {
-			g_free (account->drafts_folder_uri);
-			account->drafts_folder_uri = g_strdup (new_uri);
-			write_config = TRUE;
-		}
-
-		e_iterator_next (iterator);
-	}
-
-	g_object_unref (iterator);
-
-	/* ignore return values or if the files exist or
-	 * not, doesn't matter */
-
-	for (i = 0; cachenames[i]; i++) {
-		gchar *oldname;
-		gchar *newname;
-
-		oldname = uri_to_evname (old_uri, cachenames[i]);
-		newname = uri_to_evname (new_uri, cachenames[i]);
-		g_rename (oldname, newname);
-		g_free (oldname);
-		g_free (newname);
-	}
-
-	g_free (old_uri);
-	g_free (new_uri);
-
-	/* nasty ... */
-	if (write_config)
-		mail_config_write ();
-}
-
 /* Config struct routines */
 void
 mail_config_init (EMailSession *session)
 {
 	GConfClient *client;
 	GConfClientNotifyFunc func;
-	MailFolderCache *folder_cache;
 	const gchar *key;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
@@ -514,15 +361,6 @@ mail_config_init (EMailSession *session)
 		gconf_client_get_bool (client, key, NULL);
 
 	gconf_jh_check_changed (client, 0, NULL, session);
-
-	folder_cache = e_mail_session_get_folder_cache (session);
-
-	g_signal_connect (
-		folder_cache, "folder-deleted",
-		(GCallback) folder_deleted_cb, NULL);
-	g_signal_connect (
-		folder_cache, "folder-renamed",
-		(GCallback) folder_renamed_cb, NULL);
 
 	g_object_unref (client);
 }

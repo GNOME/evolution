@@ -29,6 +29,7 @@
 #include "e-mail-backend.h"
 
 #include <string.h>
+#include <glib/gstdio.h>
 #include <libedataserver/e-data-server-util.h>
 
 #include "e-util/e-account-utils.h"
@@ -88,6 +89,29 @@ static const gchar *
 mail_shell_backend_get_config_dir (EShellBackend *backend)
 {
 	return mail_session_get_config_dir ();
+}
+
+static gchar *
+mail_backend_uri_to_evname (const gchar *uri,
+                            const gchar *prefix)
+{
+	const gchar *data_dir;
+	gchar *basename;
+	gchar *filename;
+	gchar *safe;
+
+	/* Converts a folder URI to a GalView filename. */
+
+	data_dir = mail_session_get_data_dir ();
+
+	safe = g_strdup (uri);
+	e_filename_make_safe (safe);
+	basename = g_strdup_printf ("%s%s.xml", prefix, safe);
+	filename = g_build_filename (data_dir, basename, NULL);
+	g_free (basename);
+	g_free (safe);
+
+	return filename;
 }
 
 /* Callback for various asynchronous CamelStore operations where
@@ -339,6 +363,76 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
                                 const gchar *folder_name,
                                 EMailBackend *backend)
 {
+	CamelStoreClass *class;
+	EAccountList *account_list;
+	EIterator *iterator;
+	const gchar *local_drafts_folder_uri;
+	const gchar *local_sent_folder_uri;
+	gboolean write_config = FALSE;
+	gchar *uri;
+
+	/* Check whether the deleted folder was a designated Drafts or
+	 * Sent folder for any mail account, and if so revert the setting
+	 * to the equivalent local folder, which is always present. */
+
+	class = CAMEL_STORE_GET_CLASS (store);
+	g_return_if_fail (class->compare_folder_name != NULL);
+
+	local_drafts_folder_uri =
+		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
+	local_sent_folder_uri =
+		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
+
+	uri = e_mail_folder_uri_build (store, folder_name);
+
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		EAccount *account;
+
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iterator);
+
+		if (account->sent_folder_uri != NULL) {
+			gboolean match;
+
+			match = class->compare_folder_name (
+				account->sent_folder_uri, uri);
+
+			if (match) {
+				g_free (account->sent_folder_uri);
+				account->sent_folder_uri =
+					g_strdup (local_sent_folder_uri);
+				write_config = TRUE;
+			}
+		}
+
+		if (account->drafts_folder_uri != NULL) {
+			gboolean match;
+
+			match = class->compare_folder_name (
+				account->drafts_folder_uri, uri);
+
+			if (match) {
+				g_free (account->drafts_folder_uri);
+				account->drafts_folder_uri =
+					g_strdup (local_drafts_folder_uri);
+				write_config = TRUE;
+			}
+		}
+
+		e_iterator_next (iterator);
+	}
+
+	g_object_unref (iterator);
+	g_free (uri);
+
+	if (write_config)
+		mail_config_write ();
+
+	/* This does something completely different.
+	 * XXX Make it a separate signal handler? */
 	mail_filter_delete_folder (backend, store, folder_name);
 }
 
@@ -349,6 +443,89 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
                                 const gchar *new_folder_name,
                                 EMailBackend *backend)
 {
+	CamelStoreClass *class;
+	EAccountList *account_list;
+	EIterator *iterator;
+	gboolean write_config = FALSE;
+	gchar *old_uri;
+	gchar *new_uri;
+	gint ii;
+
+	const gchar *cachenames[] = {
+		"views/current_view-",
+		"views/custom_view-"
+	};
+
+	class = CAMEL_STORE_GET_CLASS (store);
+	g_return_if_fail (class->compare_folder_name != NULL);
+
+	old_uri = e_mail_folder_uri_build (store, old_folder_name);
+	new_uri = e_mail_folder_uri_build (store, new_folder_name);
+
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		EAccount *account;
+
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iterator);
+
+		if (account->sent_folder_uri != NULL) {
+			gboolean match;
+
+			match = class->compare_folder_name (
+				account->sent_folder_uri, old_uri);
+
+			if (match) {
+				g_free (account->sent_folder_uri);
+				account->sent_folder_uri = g_strdup (new_uri);
+				write_config = TRUE;
+			}
+		}
+
+		if (account->drafts_folder_uri != NULL) {
+			gboolean match;
+
+			match = class->compare_folder_name (
+				account->drafts_folder_uri, old_uri);
+
+			if (match) {
+				g_free (account->drafts_folder_uri);
+				account->drafts_folder_uri = g_strdup (new_uri);
+				write_config = TRUE;
+			}
+		}
+
+		e_iterator_next (iterator);
+	}
+
+	g_object_unref (iterator);
+
+	if (write_config)
+		mail_config_write ();
+
+	/* Rename GalView files. */
+
+	for (ii = 0; ii < G_N_ELEMENTS (cachenames); ii++) {
+		gchar *oldname;
+		gchar *newname;
+
+		oldname = mail_backend_uri_to_evname (old_uri, cachenames[ii]);
+		newname = mail_backend_uri_to_evname (new_uri, cachenames[ii]);
+
+		/* Ignore errors; doesn't matter. */
+		g_rename (oldname, newname);
+
+		g_free (oldname);
+		g_free (newname);
+	}
+
+	g_free (old_uri);
+	g_free (new_uri);
+
+	/* This does something completely different.
+	 * XXX Make it a separate signal handler? */
 	mail_filter_rename_folder (
 		backend, store, old_folder_name, new_folder_name);
 }
