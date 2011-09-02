@@ -1828,6 +1828,7 @@ echo "
 	NetworkManager:		$enable_nm
 	Windows SENS:		$enable_sens
 	ConnMan:		$enable_connman
+	Contact Maps:		$enable_contact_maps
 	GNOME Online Accounts:	$enable_goa
 	Libnotify:		$HAVE_LIBNOTIFY
 	Kerberos 5:		$msg_krb5
