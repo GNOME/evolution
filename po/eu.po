@@ -10226,7 +10226,7 @@ msgstr "Mezuaren testuaren muga bistaratzeko"
 
 #: ../mail/evolution-mail.schemas.in.h:129
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "Mezuak bistaratzeko estiloa (\"normala\", \"goiburu osoak\", \"iturburua\")"
+msgstr "Mezuak bistaratzeko estiloa (normala: \"normal\", goiburu osoak: \"full headers\", iturburua: \"source\")"
 
 #: ../mail/evolution-mail.schemas.in.h:130
 msgid "Minimum days between emptying the junk on exit"

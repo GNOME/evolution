@@ -16,23 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
@@ -13639,7 +13622,7 @@ msgstr "संदेश विंडो तयशुदा चौड़ाई"
 
 #: ../mail/evolution-mail.schemas.in.h:94
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "संदेश-प्रदर्शन शैली (\"सामान्य\", \"पूर्ण शीर्ष\", \"स्रोत\")"
+msgstr "संदेश-प्रदर्शन शैली (सामान्य: \"normal\", पूर्ण शीर्ष: \"full headers\", स्रोत: \"source\")"
 
 #: ../mail/evolution-mail.schemas.in.h:95
 msgid "Minimum days between emptying the junk on exit"

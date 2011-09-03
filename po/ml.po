@@ -10923,7 +10923,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "സന്ദേശം പ്രദര്‍ശിപ്പിക്കേണ്ട ശൈലി (\"സാധാരണ\", \"മുഴുവന്‍ തലക്കെട്ടുകളും\", \"ഉറവിടം\")"
+msgstr "സന്ദേശം പ്രദര്‍ശിപ്പിക്കേണ്ട ശൈലി (സാധാരണ: \"normal\", മുഴുവന്‍ തലക്കെട്ടുകളും: \"full headers\", ഉറവിടം: \"source\")"
 
 #: ../mail/evolution-mail.schemas.in.h:129
 msgid "Minimum days between emptying the junk on exit"

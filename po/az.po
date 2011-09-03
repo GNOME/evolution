@@ -12147,8 +12147,8 @@ msgid "Message Window default width"
 msgstr "İsmarış pəncərəsinin ön qurğulu eni"
 
 #: ../mail/evolution-mail.schemas.in.in.h:50
-msgid "Message-display style (normal, full headers, source)"
-msgstr "İsmarış göstərmə tərzi (normal, tam başlıqlar, mənbə)"
+msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
+msgstr "İsmarış göstərmə tərzi (normal: \"normal\", tam başlıqlar: \"full headers\", mənbə: \"source\")"
 
 #: ../mail/evolution-mail.schemas.in.in.h:51
 msgid "Minimum days between emptying the trash on exit"

@@ -11324,7 +11324,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:110
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "ಸಂದೇಶ-ತೋರಿಸುವ ಶೈಲಿ (\"ಸಾಮಾನ್ಯ\", \"ಸಂಪೂರ್ಣ ಹೆಡರುಗಳು\", \"ಆಕರ\")"
+msgstr "ಸಂದೇಶ-ತೋರಿಸುವ ಶೈಲಿ (ಸಾಮಾನ್ಯ: \"normal\", ಸಂಪೂರ್ಣ ಹೆಡರುಗಳು: \"full headers\", ಆಕರ: \"source\")"
 
 #: ../mail/evolution-mail.schemas.in.h:111
 msgid "Minimum days between emptying the junk on exit"
