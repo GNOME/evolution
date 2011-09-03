@@ -13485,7 +13485,7 @@ msgstr "Gjerësia e prezgjedhur e dritares së mesazhit"
 
 #: ../mail/evolution-mail.schemas.in.h:92
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "Stili i shfaqjes së mesazhit (\"normal\", \"me gjithë tituj\", \"burimi\")"
+msgstr "Stili i shfaqjes së mesazhit (normal: \"normal\", me gjithë tituj: \"full headers\", burimi: \"source\")"
 
 #: ../mail/evolution-mail.schemas.in.h:93
 #, fuzzy

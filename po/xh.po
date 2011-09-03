@@ -12114,10 +12114,10 @@ msgid "Message Window default width"
 msgstr "Ububanzi Bommiselo Wefestile Yomyalezo"
 
 #: ../mail/evolution-mail.schemas.in.in.h:50
-msgid "Message-display style (normal, full headers, source)"
+msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 msgstr ""
-"Isimbo sokubonisa umyalezo kwiskrini (oqhelekileyo, onezihloko ezizeleyo, "
-"umthombo)"
+"Isimbo sokubonisa umyalezo kwiskrini (oqhelekileyo: \"normal\", onezihloko ezizeleyo: \"full headers\", "
+"umthombo: \"source\")"
 
 #: ../mail/evolution-mail.schemas.in.in.h:51
 msgid "Minimum days between emptying the trash on exit"

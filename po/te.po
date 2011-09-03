@@ -11689,7 +11689,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:119
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "సందేశ-ప్రదర్శన శైలి (\"సాదారణ\", \"పూర్తి పీఠికలు\", \"మూలం\")"
+msgstr "సందేశ-ప్రదర్శన శైలి (సాదారణ: \"normal\", పూర్తి పీఠికలు: \"full headers\", మూలం: \"source\")"
 
 #: ../mail/evolution-mail.schemas.in.h:120
 msgid "Minimum days between emptying the junk on exit"

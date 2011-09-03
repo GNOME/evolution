@@ -12572,7 +12572,7 @@ msgstr "सन्देश सञ्झ्याल पूर्वनिर्�
 
 #: ../mail/evolution-mail.schemas.in.h:95
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "सन्देश-प्रदर्शन शैली (\"सामान्य\", \"पूर्ण हेडर\", \"स्रोत\")"
+msgstr "सन्देश-प्रदर्शन शैली (सामान्य: \"normal\", पूर्ण हेडर: \"full headers\", स्रोत: \"source\")"
 
 #: ../mail/evolution-mail.schemas.in.h:96
 msgid "Minimum days between emptying the junk on exit"
