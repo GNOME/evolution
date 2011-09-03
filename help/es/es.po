@@ -6,24 +6,24 @@
 # Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006.
 # 
 # 
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011., 2011.
 # 
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011., 2011.
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011., 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-31 15:55+0000\n"
-"PO-Revision-Date: 2011-09-01 11:46+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2011-09-02 20:42+0000\n"
+"PO-Revision-Date: 2011-09-03 13:37+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: C/using-categories.page:5(desc)
 msgid ""
@@ -149,7 +149,7 @@ msgstr "Usar y gestionar categorías para citas, contactos, notas y tareas."
 #: C/mail-account-manage-imap.page:11(name)
 #: C/mail-access-gmail-imap-account.page:13(name)
 #: C/intro-main-window.page:13(name) C/intro-first-run.page:11(name)
-#: C/index.page:13(name) C/import-supported-file-formats.page:11(name)
+#: C/index.page:14(name) C/import-supported-file-formats.page:11(name)
 #: C/import-single-files.page:11(name) C/import-data.page:11(name)
 #: C/import-apps-outlook.page:11(name) C/import-apps-mozilla.page:11(name)
 #: C/groupwise-placeholder.page:11(name) C/google-services.page:9(name)
@@ -318,7 +318,7 @@ msgstr "Andre Klapper"
 #: C/mail-account-manage-imap.page:12(email)
 #: C/mail-access-gmail-imap-account.page:14(email)
 #: C/intro-main-window.page:14(email) C/intro-first-run.page:12(email)
-#: C/index.page:14(email) C/import-supported-file-formats.page:12(email)
+#: C/index.page:15(email) C/import-supported-file-formats.page:12(email)
 #: C/import-single-files.page:12(email) C/import-data.page:12(email)
 #: C/import-apps-outlook.page:12(email) C/import-apps-mozilla.page:12(email)
 #: C/groupwise-placeholder.page:12(email) C/google-services.page:10(email)
@@ -548,7 +548,7 @@ msgstr "Novell, Inc"
 #: C/mail-account-manage-imap.page:15(p)
 #: C/mail-access-gmail-pop-account.page:17(p)
 #: C/mail-access-gmail-imap-account.page:17(p) C/intro-main-window.page:24(p)
-#: C/intro-first-run.page:15(p) C/index.page:17(p)
+#: C/intro-first-run.page:15(p) C/index.page:18(p)
 #: C/import-supported-file-formats.page:18(p) C/import-single-files.page:15(p)
 #: C/import-data.page:15(p) C/import-apps-outlook.page:18(p)
 #: C/import-apps-mozilla.page:15(p) C/groupwise-placeholder.page:15(p)
@@ -1539,8 +1539,9 @@ msgid "Searching items"
 msgstr "Buscar elementos"
 
 #: C/problems-reporting-bugs.page:5(desc)
-msgid "How to report bugs."
-msgstr "Cómo informar de un error."
+#, fuzzy
+msgid "How to report mistakes in the application."
+msgstr "Importa datos de otros programas"
 
 #: C/problems-reporting-bugs.page:21(title)
 msgid "How to report bugs"
@@ -1549,12 +1550,12 @@ msgstr "Cómo informar de un error"
 #: C/problems-reporting-bugs.page:23(p)
 msgid ""
 "If you do not need help for configuration but you are sure that you have "
-"found a bug in the Evolution software, or if you want to request a feature "
-"you can file a bug report in the <link href=\"http://bugzilla.gnome.org"
-"\">GNOME bug tracking system</link>. Note that this requires registration "
-"first. Please try to avoid filing duplicates and check the <link href="
-"\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">bug writing "
-"guidelines</link> first."
+"found a mistake or wrong behavior in the Evolution software, or if you want "
+"to request a feature you can file a report in the <link href=\"http://"
+"bugzilla.gnome.org\">GNOME bug tracking system</link>. Note that this "
+"requires registration first. Please try to avoid filing duplicates and check "
+"the <link href=\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html"
+"\">bug writing guidelines</link> first."
 msgstr ""
 
 #: C/problems-reporting-bugs.page:23(p)
@@ -1567,6 +1568,17 @@ msgid ""
 "distribution</link> instead."
 msgstr ""
 
+#: C/problems-reporting-bugs.page:25(p)
+msgid ""
+"When reporting bugs exact information is welcome as it makes it easier for "
+"others to reproduce and fix the issue. If possible please include "
+"information such as the Evolution version (under <guiseq><gui>Help</"
+"gui><gui>Contents</gui></guiseq>), your distribution, and exact steps to "
+"reproduce the problem, click by click. See the <link href=\"https://bugzilla."
+"gnome.org/page.cgi?id=bug-writing.html\">Bug Writing Guidelines</link> for "
+"more information."
+msgstr ""
+
 #: C/problems-getting-help.page:5(desc)
 msgid "How to get help for problems."
 msgstr "Cómo obtener ayuda para resolver problemas."
@@ -1576,11 +1588,18 @@ msgid "How to get help"
 msgstr "Cómo obtener ayuda"
 
 #: C/problems-getting-help.page:24(p)
+#, fuzzy
+#| msgid ""
+#| "To receive help on problems you can send an email to the <link href="
+#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
+#| "mailing list</link> or ask a message in the IRC chat channel #evolution "
+#| "on the server irc.gimp.net."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
 "mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
-"link> or ask a message in the IRC chat channel #evolution on the server irc."
-"gimp.net."
+"link> or talk to developers and other users in the IRC chat channel "
+"#evolution on the server irc.gimp.net. To connect to an IRC server you can "
+"for example use the internet messenger application Empathy."
 msgstr ""
 "Para recibir ayuda sobre problemas puede enviar un correo a la <link href="
 "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">lista de correo de "
@@ -1771,6 +1790,8 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Memo</gui></guiseq>, or "
 "press <keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>."
 msgstr ""
+"Pulse <guiseq><gui>Archivo</gui><gui>Nuevo</gui><gui>Nota</gui></guiseq> o "
+"pulse <keyseq><key>Mayús</key><key>Ctrl</key><key>O</key></keyseq>."
 
 #: C/memos-usage-add-memo.page:27(p)
 msgid "Select a memo list in the <gui>List</gui> dropdown list."
@@ -1795,6 +1816,9 @@ msgid ""
 "<link xref=\"calendar-classifications\">classification</link> for the memo, "
 "or add an attachment."
 msgstr ""
+"También puede definir una <link xref=\"using-categories\">categoría</link> o "
+"una <link xref=\"calendar-classifications\">clasificación</link> para la "
+"nota, o añadir un adjunto."
 
 #: C/memos-usage-add-memo.page:37(title)
 msgid "Shared Memos"
@@ -1915,7 +1939,6 @@ msgid "Working Offline"
 msgstr "Trabar desconectado"
 
 #: C/mail-working-offline.page:25(p)
-#, fuzzy
 msgid ""
 "Offline mode helps you communicate with remote mail storage systems like "
 "GroupWise, IMAP or Exchange, in situations where you are not connected to "
@@ -1924,11 +1947,10 @@ msgid ""
 "sent the next time you connect."
 msgstr ""
 "El modo desconectado le ayuda a comunicarse con sistemas de almacenamiento "
-"de correo remoto tales como <trademark class=\"registered\">GroupWise</"
-"trademark>, IMAP o Exchange en situaciones en las que no podrá estar siempre "
-"conectado a la red local. Evolution guarda copia de una o más carpetas y le "
-"permite crear nuevos mensajes, guardarlos en la Bandeja de salida y enviarlo "
-"en cuanto vuelva a conectarse."
+"de correo remoto tales como GroupWise, IMAP o Exchange en situaciones en las "
+"que no podrá estar siempre conectado a la red local. Evolution guarda copia "
+"de una o más carpetas y le permite crear nuevos mensajes, guardarlos en la "
+"Bandeja de salida y enviarlo en cuanto vuelva a conectarse."
 
 #: C/mail-working-offline.page:27(p)
 msgid ""
@@ -1983,7 +2005,6 @@ msgstr ""
 "desenchufados."
 
 #: C/mail-working-offline.page:41(p)
-#, fuzzy
 #| msgid ""
 #| "To download messages for offline operations, select File &gt; Download "
 #| "messages for offline."
@@ -1993,7 +2014,8 @@ msgid ""
 "Usage</gui></guiseq>."
 msgstr ""
 "Para descargar los mensajes para operaciones en modo desconectado, "
-"seleccione Archivo &gt; Descargar mensajes para trabajar sin conexión."
+"seleccione <guiseq><gui>Archivo</gui><gui>Descargar mensajes para trabajar "
+"sin conexión</gui></guiseq>."
 
 #: C/mail-working-offline.page:45(title)
 msgid "Automatic Network State Handling"
@@ -2062,8 +2084,6 @@ msgstr ""
 "pantalla panorámica."
 
 #: C/mail-vertical-view.page:26(p)
-#| msgid ""
-#| "To switch to vertical view, click View &gt; Preview &gt; Vertical View."
 msgid ""
 "To switch to vertical view, click <guiseq><gui>View</gui><gui>Preview</"
 "gui><gui>Vertical View</gui></guiseq>."
@@ -2085,8 +2105,6 @@ msgstr ""
 "en la segunda línea."
 
 #: C/mail-vertical-view.page:30(p)
-#| msgid ""
-#| "To switch to classical view, click View &gt; Preview &gt; Classical View."
 msgid ""
 "To switch back to classical view, click <guiseq><gui>View</gui><gui>Preview</"
 "gui><gui>Classical View</gui></guiseq>."
@@ -2504,17 +2522,14 @@ msgstr ""
 "\"button\">Aceptar</gui>."
 
 #: C/mail-spam-groupwise-add-to-list.page:34(p)
-#, fuzzy
 msgid ""
 "Remember, when you mark an item as junk in GroupWise, that item is added to "
 "your junk list in the GroupWise system. The settings in the GroupWise system "
 "are applied from computer to computer."
 msgstr ""
-"La gestión de correo basura para cuentas GroupWise es algo diferente de la "
-"gestión de otro correo basura. Cuando marca un elemento como SPAM en "
-"GroupWise, el elemento se añade a su lista de SPAM en el sistema GroupWise. "
-"Debido a que estos ajustes están en el sistema GroupWise, su lista de SPAM "
-"le sigue de equipo en equipo."
+"Recuerde, cuando marca un elemento como basura en GroupWise, ese elemento se "
+"añade a su lista de SPAM en el sistema GroupWise. Debido a que estos ajustes "
+"están en el sistema GroupWise, su lista de SPAM le sigue de equipo en equipo."
 
 #: C/mail-sorting-message-list.page:5(desc)
 msgid "Sorting the message list of a mail folder."
@@ -2531,9 +2546,6 @@ msgstr ""
 "mensajes."
 
 #: C/mail-sorting-message-list.page:31(p)
-#| msgid ""
-#| "To look at the complete headers for a message, click View &gt; All "
-#| "Message Headers. To see all message data, click View &gt; Message Source."
 msgid ""
 "To view the complete headers for a message, click <guiseq><gui>View</"
 "gui><gui>All Message Headers</gui></guiseq>. This will display the complete "
@@ -2588,17 +2600,16 @@ msgid "Sorting Mail with Column Headers"
 msgstr "Uso de cabeceras para ordenar los mensajes"
 
 #: C/mail-sorting-message-list.page:45(p)
-#, fuzzy
 msgid ""
 "The message list displays columns that indicate whether a message has been "
 "read, whether it has attachments, how important the message is, the sender, "
 "date, and the subject. To change the columns used in the message list, you "
 "can do one of the following:"
 msgstr ""
-"Normalmente la lista de mensajes tiene columnas para indicar si un mensaje "
-"se ha leído, si tiene adjuntos, su importancia, el remitente, la fecha y el "
-"asunto. Puede cambiar el orden de las columnas o añadir y quitar columnas "
-"arrastrando y soltándolas."
+"La lista de mensajes tiene columnas para indicar si un mensaje se ha leído, "
+"si tiene adjuntos, su importancia, el remitente, la fecha y el asunto. Para "
+"cambiar las columnas usadas en la lista de mensajes puede hacer una de las "
+"siguientes:"
 
 #: C/mail-sorting-message-list.page:47(p)
 msgid "Drag and drop the column header bars"
@@ -5345,8 +5356,8 @@ msgstr "Al realizar esta operación puede que pierda algunas de sus etiquetas."
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
-"\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+"id=550414\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
@@ -7613,11 +7624,11 @@ msgstr ""
 msgid "If you received or sent an email, but you cannot find it anywhere."
 msgstr "Si recibió o envió un correo pero ya no puede encontrarlo."
 
-#: C/mail-cannot-see.page:11(name) C/index.page:9(name) C/credits.page:34(p)
+#: C/mail-cannot-see.page:11(name) C/index.page:10(name) C/credits.page:34(p)
 msgid "Phil Bull"
 msgstr "Phil Bull"
 
-#: C/mail-cannot-see.page:12(email) C/index.page:10(email)
+#: C/mail-cannot-see.page:12(email) C/index.page:11(email)
 msgid "philbull@gmail.com"
 msgstr "philbull@gmail.com"
 
@@ -8380,8 +8391,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">GMail Help</link> for more information."
 msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
@@ -8714,9 +8725,6 @@ msgstr ""
 "Barra de herramientas"
 
 #: C/intro-main-window.page:99(p)
-#| msgid ""
-#| "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
-#| "Folder list"
 msgid ""
 "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
 "Calendar list"
@@ -8818,9 +8826,6 @@ msgid "Elements in the contacts main window:"
 msgstr "El elemento en el calendario no es válido"
 
 #: C/intro-main-window.page:145(p)
-#| msgid ""
-#| "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
-#| "Folder list"
 msgid ""
 "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
 "Address book list"
@@ -9191,9 +9196,13 @@ msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
-#: C/index.page:23(None)
+#: C/index.page:6(None) C/index.page:24(None)
+#, fuzzy
+#| msgid ""
+#| "@@image: './figures/evolutionlogo.png'; "
+#| "md5=4bf469aaba7c368937309e931ba9bdcc"
 msgid ""
-"@@image: './figures/evolutionlogo.png'; md5=4bf469aaba7c368937309e931ba9bdcc"
+"@@image: 'figures/evolutionlogo.png'; md5=4bf469aaba7c368937309e931ba9bdcc"
 msgstr ""
 "@@image: './figures/evolutionlogo.png'; md5=4bf469aaba7c368937309e931ba9bdcc"
 
@@ -9201,86 +9210,91 @@ msgstr ""
 msgid "Evolution"
 msgstr "Evolution"
 
-#: C/index.page:22(title)
+#: C/index.page:7(title)
+#, fuzzy
+msgid "Evolution Mail and Calendar"
+msgstr "El cliente de correo-e y GIP Evolution"
+
+#: C/index.page:23(title)
 msgid ""
-"<media type=\"image\" mime=\"image/png\" src=\"./figures/evolutionlogo.png"
-"\"> Evolution logo </media> Evolution Mail and Calendar"
+"<media type=\"image\" src=\"figures/evolutionlogo.png\"> Evolution logo </"
+"media> Evolution Mail and Calendar"
 msgstr ""
 
-#: C/index.page:30(title)
+#: C/index.page:31(title)
 msgid "Getting Started"
 msgstr "Inicio"
 
-#: C/index.page:34(title)
+#: C/index.page:35(title)
 msgid "Mail Management"
 msgstr "Gestión del correo"
 
-#: C/index.page:36(title)
+#: C/index.page:37(title)
 #, fuzzy
 msgid "Advanced Mail Management"
 msgstr "Gestión de carpetas"
 
-#: C/index.page:38(title)
+#: C/index.page:39(title)
 msgid "IMAP"
 msgstr "IMAP"
 
-#: C/index.page:44(title)
+#: C/index.page:45(title)
 #, fuzzy
 msgid "Mail Composing"
 msgstr "Correo de %s"
 
-#: C/index.page:46(title)
+#: C/index.page:47(title)
 #, fuzzy
 msgid "Advanced Mail Composing"
 msgstr "Formato HTML avanzado"
 
-#: C/index.page:51(title)
+#: C/index.page:52(title)
 msgid "Calendar Management"
 msgstr "Gestión del calendario"
 
-#: C/index.page:53(title)
+#: C/index.page:54(title)
 #, fuzzy
 msgid "Advanced Calendar Management"
 msgstr "Nombre del calendario de Yahoo:"
 
-#: C/index.page:58(title)
+#: C/index.page:59(title)
 msgid "Contacts Management"
 msgstr "Gestión de contactos"
 
-#: C/index.page:62(title)
+#: C/index.page:63(title)
 #, fuzzy
 msgid "Memos and Tasks Management"
 msgstr "Gestión de contactos"
 
-#: C/index.page:66(title)
+#: C/index.page:67(title)
 msgid "Data Migration and Synchronization"
 msgstr "Migración de datos y sincronización"
 
-#: C/index.page:70(title)
+#: C/index.page:71(title)
 msgid "Corporate Environments"
 msgstr "Entornos corporativos"
 
-#: C/index.page:72(title)
+#: C/index.page:73(title)
 msgid "Microsoft Exchange"
 msgstr "Microsoft Exchange"
 
-#: C/index.page:75(title)
+#: C/index.page:76(title)
 msgid "Novell Groupwise"
 msgstr "Novell GroupWise"
 
-#: C/index.page:80(title)
+#: C/index.page:81(title)
 msgid "Tracking down Problems"
 msgstr "Localizar problemas"
 
-#: C/index.page:84(title)
+#: C/index.page:85(title)
 msgid "Common Mail Questions and Problems"
 msgstr "Preguntas y problemas comunes"
 
-#: C/index.page:88(title)
+#: C/index.page:89(title)
 msgid "Common Other Questions and Problems"
 msgstr "Otras preguntas y problemas comunes"
 
-#: C/index.page:92(title)
+#: C/index.page:93(title)
 #, fuzzy
 msgid "Further reading"
 msgstr "Agrupación según el asunto"
@@ -9432,12 +9446,12 @@ msgstr "Importar archivos individuales"
 msgid "To import single files (mail, calendar data or contacts):"
 msgstr ""
 
-#: C/import-single-files.page:24(p) C/import-apps-outlook.page:59(p)
+#: C/import-single-files.page:24(p) C/import-apps-outlook.page:60(p)
 #: C/import-apps-mozilla.page:24(p)
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr "Pulse <guiseq><gui>Archivo</gui><gui>Importar</gui></guiseq>."
 
-#: C/import-single-files.page:25(p) C/import-apps-outlook.page:60(p)
+#: C/import-single-files.page:25(p) C/import-apps-outlook.page:61(p)
 #: C/import-apps-mozilla.page:25(p)
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
@@ -9447,12 +9461,12 @@ msgstr ""
 msgid "Choose the file."
 msgstr "Elija el archivo."
 
-#: C/import-single-files.page:26(p) C/import-apps-outlook.page:61(p)
+#: C/import-single-files.page:26(p) C/import-apps-outlook.page:62(p)
 #: C/import-apps-mozilla.page:26(p)
 msgid "The file type will be automatically determined."
 msgstr "Se determinará automáticamente el tipo de archivo."
 
-#: C/import-single-files.page:27(p) C/import-apps-outlook.page:64(p)
+#: C/import-single-files.page:27(p) C/import-apps-outlook.page:65(p)
 #: C/import-apps-mozilla.page:27(p)
 #, fuzzy
 msgid ""
@@ -9568,35 +9582,36 @@ msgstr ""
 "pueden leer sin software adicional. Quizá encuentre más fácil copiar las "
 "carpetas de correo a una unidad diferente o grabar un CD."
 
-#: C/import-apps-outlook.page:49(p)
-msgid "Mount your Windows drive or the disk where you saved the mail files."
-msgstr ""
-"Monte su unidad Windows o el disco donde tenga guardados los archivos de "
-"correo."
+#: C/import-apps-outlook.page:53(title)
+msgid "Importing into Evolution"
+msgstr "Importar en Evolution"
 
-#: C/import-apps-outlook.page:50(p)
+#: C/import-apps-outlook.page:55(p)
+msgid ""
+"Depending on your last step, either plug in the disk or USB drive with the "
+"data and wait until the file manager window opens, or mount your Windows "
+"drive."
+msgstr ""
+
+#: C/import-apps-outlook.page:56(p)
 msgid ""
 "Copy all the mail files into your home directory or another convenient place."
 msgstr ""
 "Copie todos los archivos de correo en su carpeta personal o cualquier otro "
 "lugar conveniente."
 
-#: C/import-apps-outlook.page:51(p)
+#: C/import-apps-outlook.page:57(p)
 msgid "Start Evolution."
 msgstr "Inicie Evolution."
 
-#: C/import-apps-outlook.page:52(p)
+#: C/import-apps-outlook.page:58(p)
 msgid ""
 "Optionally select <guiseq><gui>File</gui><gui>New</gui><gui>Mail Folder</"
 "gui></guiseq> to create the <link xref=\"mail-folders\">folders</link> you "
 "want."
 msgstr ""
 
-#: C/import-apps-outlook.page:57(title)
-msgid "Importing into Evolution"
-msgstr "Importar en Evolution"
-
-#: C/import-apps-outlook.page:61(p)
+#: C/import-apps-outlook.page:62(p)
 msgid ""
 "Choose the Outlook personal folders (.pst) file that you would like to "
 "import."
@@ -9604,7 +9619,7 @@ msgstr ""
 "Seleccione el archivo de carpetas personales de Outlook (.pst) que quiere "
 "importar."
 
-#: C/import-apps-outlook.page:62(p)
+#: C/import-apps-outlook.page:63(p)
 msgid ""
 "If the option to import Outlook personal folders (.pst files) is not "
 "available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import single "
@@ -9612,7 +9627,7 @@ msgid ""
 "enabled this functionality."
 msgstr ""
 
-#: C/import-apps-outlook.page:65(p) C/import-apps-mozilla.page:28(p)
+#: C/import-apps-outlook.page:66(p) C/import-apps-mozilla.page:28(p)
 msgid "Repeat the import steps until you have imported all your data."
 msgstr ""
 "Repita los pasos de importación hasta que haya importado todos sus datos."
@@ -11914,6 +11929,14 @@ msgstr ""
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
 
+#~ msgid "How to report bugs."
+#~ msgstr "Cómo informar de un error."
+
+#~ msgid "Mount your Windows drive or the disk where you saved the mail files."
+#~ msgstr ""
+#~ "Monte su unidad Windows o el disco donde tenga guardados los archivos de "
+#~ "correo."
+
 #~ msgid "To check if a filter has a <gui>Stop Processing</gui> rule:"
 #~ msgstr ""
 #~ "Para comprobar si un filtro tiene una regla <gui>Parar de procesar</gui>:"
@@ -13140,10 +13163,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Contact Preview"
 #~ msgstr "Vista _previa de contactos"
-
-#, fuzzy
-#~ msgid "import data from other applications."
-#~ msgstr "Importa datos de otros programas"
 
 #, fuzzy
 #~ msgid "Server Type"
