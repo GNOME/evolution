@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-03 12:19+0000\n"
-"PO-Revision-Date: 2011-09-04 11:46+0200\n"
+"POT-Creation-Date: 2011-09-04 09:49+0000\n"
+"PO-Revision-Date: 2011-09-04 14:50+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3096,13 +3096,12 @@ msgstr ""
 "cuando se reciben mensajes nuevos o al eliminar mensajes."
 
 #: C/mail-search-folders.page:30(p)
-#, fuzzy
 msgid ""
 "The <gui>Unmatched</gui> search folder is the opposite of other search "
 "folders: it displays all messages that do not appear in other search folders."
 msgstr ""
-"La carpeta de búsqueda no coincidente es el espejo de todas las demás "
-"carpetas de búsqueda: contiene todos los mensajes que no cumplen los "
+"La carpeta de búsqueda <gui>No coincidente</gui> es lo contrario del resto "
+"de carpetas de búsqueda: contiene todos los mensajes que no cumplen los "
 "criterios satisfechos por las demás carpetas de búsqueda."
 
 #: C/mail-search-folders.page:32(p)
@@ -5499,28 +5498,22 @@ msgid ""
 msgstr ""
 
 #: C/mail-encryption-s-mime-manage.page:28(p)
-#, fuzzy
 msgid ""
 "<gui>Contact Certificates</gui> displays a list of certificates that you "
 "have for contacts. These certificates allow you to decrypt messages as well "
 "verify signed messages."
 msgstr ""
-"Pulse sobre la pestaña Certificados de contactos para mostrar una lista de "
-"los certificados que posee de sus contactos. Estos certificados le permiten "
-"descifrar mensajes así como verificar los mensajes firmados. Desde esta "
-"página puede importar, ver, respaldar y borrar los certificados de sus "
-"contactos."
+"Pulse sobre la pestaña <gui>Certificados de contactos</gui> para mostrar una "
+"lista de los certificados que posee de sus contactos. Estos certificados le "
+"permiten descifrar mensajes así como verificar los mensajes firmados."
 
 #: C/mail-encryption-s-mime-manage.page:29(p)
-#, fuzzy
 msgid ""
 "<gui>Authorities</gui> displays a list of trusted certificate authorities "
 "who verify that your own certificate is valid."
 msgstr ""
-"Pulse sobre la pestaña Autoridades para mostrar una lista de las autoridades "
-"de certificados de confianza quienes verifican que el certificado que tiene "
-"es válido. Puede importar, ver, editar y borrar las autoridades de "
-"certificados desde esta página."
+"<gui>Autoridades</gui> muestra una lista de las autoridades de certificados "
+"de confianza quienes verifican que el certificado que tiene es válido."
 
 #: C/mail-encryption.page:5(desc)
 msgid "Sending and receiving encrypted mail."
@@ -5746,10 +5739,8 @@ msgstr ""
 "claves pública y privada con GPG."
 
 #: C/mail-encryption-gpg-create-key.page:30(p)
-#, fuzzy
 msgid "Open a terminal window and enter <code>gpg --gen-key</code>."
-msgstr ""
-"Abra una terminal e introduzca el comando <command>gpg --gen-key</command>."
+msgstr "Abra una terminal e introduzca <command>gpg --gen-key</command>."
 
 #: C/mail-encryption-gpg-create-key.page:31(p)
 msgid "Select an algorithm, then press Enter."
@@ -6459,7 +6450,6 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-several-recipients.page:36(p)
-#, fuzzy
 msgid ""
 "Addresses in the <gui>Bcc:</gui> text field are hidden from the other "
 "recipients of the message. It can be used to send mail to large groups of "
@@ -6467,10 +6457,11 @@ msgid ""
 "concern. If the <gui>Bcc:</gui> text field is not shown, click "
 "<guiseq><gui>View</gui><gui>Bcc Field</gui></guiseq>."
 msgstr ""
-"Las direcciones en la lista Cco: están ocultas a los otros destinatarios del "
-"mensaje. Puede usarlo para enviar correos a grandes grupos de personas "
-"especialmente si no se conocen entre sí o si es importante mantener la "
-"privacidad. Si el campo Cco: no está a la vista pulse Ver &gt; Campo Cco."
+"Las direcciones en la lista <gui>Cco:</gui> están ocultas a los otros "
+"destinatarios del mensaje. Puede usarlo para enviar correos a grandes grupos "
+"de personas especialmente si no se conocen entre sí o si es importante "
+"mantener la privacidad. Si el campo <gui>Cco:</gui> no está a la vista pulse "
+"<guiseq><gui>Ver</gui><gui>Campo Cco</gui></guiseq>."
 
 #: C/mail-composer-several-recipients.page:40(title)
 msgid "Autocompletion"
@@ -7030,7 +7021,6 @@ msgstr "Formatear texto en HTML"
 
 #. TODO: These instructions are partially WRONG in 3.0.2 as the tool bar has been split into two. Needs an update. Maybe we also need a way to describe the non-HTML-only functions for plain text mail somewhere.
 #: C/mail-composer-html-text.page:25(p)
-#, fuzzy
 msgid ""
 "HTML formatting tools are located in the two tool bars just above the area "
 "where you actually write the message. They also appear in the <gui>Insert</"
@@ -7038,7 +7028,7 @@ msgid ""
 msgstr ""
 "Las herramientas de formateo HTML se encuentran en la barra de herramientas "
 "justo encima del espacio en el que realmente compone su mensaje y también "
-"aparecen en los menús Insertar y Formato."
+"aparecen en los menús <gui>Insertar</gui> y <gui>Formato</gui>."
 
 #: C/mail-composer-html-text.page:26(p)
 #, fuzzy
@@ -8051,9 +8041,8 @@ msgstr "Identidad"
 #: C/mail-account-manage-local-delivery.page:30(p)
 #: C/mail-account-manage-imap-plus.page:30(p)
 #: C/mail-account-manage-imap.page:30(p) C/intro-first-run.page:26(p)
-#, fuzzy
 msgid "Here you define your name and your email address."
-msgstr "Introduzca su dirección de correo-e."
+msgstr "Introduzca aquí su nombre y su dorección de correo electrónico."
 
 #: C/mail-account-manage-usenet-news.page:31(p)
 #: C/mail-account-manage-unix-mbox-spool-file.page:31(p)
@@ -8513,7 +8502,7 @@ msgstr ""
 
 #: C/intro-main-window.page:5(desc)
 msgid "An explanation of the areas shown in the Evolution window."
-msgstr ""
+msgstr "Una explicación de las áreas mostradas en la ventana de Evolution."
 
 #: C/intro-main-window.page:17(name) C/credits.page:31(p)
 msgid "Barbara M. Tobias"
@@ -8521,7 +8510,7 @@ msgstr "Barbara M. Tobias"
 
 #: C/intro-main-window.page:29(title)
 msgid "The <em>Evolution</em> main window"
-msgstr ""
+msgstr "La ventana principal de <em>Evolution</em>"
 
 #. This section fixes https://bugzilla.gnome.org/show_bug.cgi?id=657028
 #: C/intro-main-window.page:32(p)
@@ -8542,7 +8531,7 @@ msgstr "La ventana principal de correo de Evolution"
 
 #: C/intro-main-window.page:41(p)
 msgid "Corresponding elements in the mail main window:"
-msgstr ""
+msgstr "Elementos correspondientes en la ventana principal de correo:"
 
 #: C/intro-main-window.page:44(p)
 #, fuzzy
@@ -8645,7 +8634,6 @@ msgid "Folder list"
 msgstr "Lista de carpetas"
 
 #: C/intro-main-window.page:68(p)
-#, fuzzy
 msgid ""
 "The folder list gives you a list of the available folders for each account. "
 "To see the contents of a folder, click the folder name and its contents are "
@@ -8671,15 +8659,14 @@ msgid "Message List"
 msgstr "Lista de mensajes"
 
 #: C/intro-main-window.page:73(p)
-#, fuzzy
 msgid ""
 "The message list displays all the read and unread messages that you have in "
 "the chosen folder. To view an email in the preview pane, click the message "
 "in the message list."
 msgstr ""
-"La lista de mensajes muestra todos los mensajes leídos y sin leer que tiene. "
-"Para ver un correo-e en el panel de vista previa, pulse en correo-e en la "
-"lista de mensajes."
+"La lista de mensajes muestra todos los mensajes leídos y sin leer que tiene "
+"en la carpeta seleccionada. Para ver un correo-e en el panel de vista "
+"previa, pulse en correo-e en la lista de mensajes."
 
 #: C/intro-main-window.page:76(title)
 msgid "Switcher"
@@ -8814,11 +8801,12 @@ msgid "Appointment List"
 msgstr "Lista de citas"
 
 #: C/intro-main-window.page:120(p)
-#, fuzzy
 msgid ""
 "The appointment list displays all your scheduled appointments in the time "
 "frame selected."
-msgstr "La lista de citas muestra todas sus citas programadas."
+msgstr ""
+"La lista de citas muestra todas sus citas programadas en el espacio de "
+"tiempo seleccionado."
 
 #: C/intro-main-window.page:123(title)
 msgid "Month Pane"
@@ -8948,15 +8936,15 @@ msgstr ""
 
 #: C/intro-first-run.page:43(p)
 msgid "The most common available server types for normal users are:"
-msgstr ""
+msgstr "Los tipos más comunes de servidores disponibles son:"
 
 #: C/intro-first-run.page:45(p)
 msgid "None: If you do not plan to use Evolution for receiving email."
-msgstr ""
+msgstr "Ninguno: si no tiene intención de usar Evolution para recibir correo."
 
 #: C/intro-first-run.page:45(p)
 msgid "Continue <link xref=\"#sending\">here</link> for configuration."
-msgstr ""
+msgstr "Continúe <link xref=\"#sending\">aquí</link> para la configuración."
 
 #: C/intro-first-run.page:46(p)
 #, fuzzy
@@ -8972,6 +8960,8 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-imap\">here</link> for "
 "configuration."
 msgstr ""
+"Continue <link xref=\"mail-receiving-options-imap\">aquí</link> para la "
+"configuración."
 
 #: C/intro-first-run.page:48(p)
 #, fuzzy
@@ -8987,6 +8977,8 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-imap-plus\">here</link> for "
 "configuration."
 msgstr ""
+"Continue <link xref=\"mail-receiving-options-imap-plus\">aquí</link> para la "
+"configuración."
 
 #: C/intro-first-run.page:49(p)
 msgid "POP: Downloads your email to your hard disk."
@@ -8997,6 +8989,8 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-pop\">here</link> for "
 "configuration."
 msgstr ""
+"Continue <link xref=\"mail-receiving-options-pop\">aquí</link> para la "
+"configuración."
 
 #: C/intro-first-run.page:50(p)
 #, fuzzy
@@ -9012,6 +9006,8 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-usenet-news\">here</link> for "
 "configuration."
 msgstr ""
+"Continue <link xref=\"mail-receiving-options-usenet-news\">aquí</link> para "
+"la configuración."
 
 #: C/intro-first-run.page:56(p)
 msgid "Available server types for corporate users are:"
@@ -9022,12 +9018,16 @@ msgid ""
 "Exchange MAPI: For connecting to a Microsoft Exchange 2007/2010 or "
 "OpenChange server."
 msgstr ""
+"Exchange MAPI: para conectar con servidores Microsoft Exchange 2007/2010 u "
+"OpenChange."
 
 #: C/intro-first-run.page:59(p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-exchange-mapi\">here</link> for "
 "configuration."
 msgstr ""
+"Continue <link xref=\"mail-receiving-options-exchange-mapi\">aquí</link> "
+"para la configuración."
 
 #: C/intro-first-run.page:60(p)
 msgid ""
@@ -9049,6 +9049,8 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-evolution-exchange\">here</"
 "link> for configuration."
 msgstr ""
+"Continue <link xref=\"mail-receiving-options-evolution-exchange\">aquí</"
+"link> para la configuración."
 
 #: C/intro-first-run.page:63(p)
 msgid ""
@@ -9067,10 +9069,14 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-novell-groupwise\">here</link> "
 "for configuration."
 msgstr ""
+"Continue <link xref=\"mail-receiving-options-novell-groupwise\">aquí</link> "
+"para la configuración."
 
 #: C/intro-first-run.page:71(p)
 msgid "Available local account server types for advanced users are:"
 msgstr ""
+"Los tipos de servidor para cuentas locales disponibles para usuarios "
+"avanzados son:"
 
 #: C/intro-first-run.page:73(p)
 #, fuzzy
@@ -9091,6 +9097,8 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-local-delivery\">here</link> "
 "for configuration."
 msgstr ""
+"Continue <link xref=\"mail-receiving-options-local-delivery\">aquí</link> "
+"para la configuración."
 
 #: C/intro-first-run.page:75(p)
 #, fuzzy
@@ -9112,6 +9120,8 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-mh-format-directories\">here</"
 "link> for configuration."
 msgstr ""
+"Continue <link xref=\"mail-receiving-options-mh-format-directories\">aquí</"
+"link> para la configuración."
 
 #: C/intro-first-run.page:77(p)
 #, fuzzy
@@ -9127,6 +9137,8 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-maildir-format-directories"
 "\">here</link> for configuration."
 msgstr ""
+"Continue <link xref=\"mail-receiving-options-maildir-format-directories"
+"\">aquí</link> para la configuración."
 
 #: C/intro-first-run.page:79(p)
 msgid ""
@@ -9139,6 +9151,8 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-unix-mbox-spool-file\">here</"
 "link> for configuration."
 msgstr ""
+"Continue <link xref=\"mail-receiving-options-unix-mbox-spool-file\">aquí</"
+"link> para la configuración."
 
 #: C/intro-first-run.page:79(p)
 #, fuzzy
@@ -9156,6 +9170,8 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-unix-mbox-spool-directory"
 "\">here</link> for configuration."
 msgstr ""
+"Continue <link xref=\"mail-receiving-options-unix-mbox-spool-directory"
+"\">aquí</link> para la configuración."
 
 #: C/intro-first-run.page:84(p)
 #, fuzzy
@@ -9192,6 +9208,8 @@ msgid ""
 "Continue <link xref=\"mail-sending-options-smtp\">here</link> for "
 "configuration."
 msgstr ""
+"Continue <link xref=\"mail-sending-options-smtp\">aquí</link> para la "
+"configuración."
 
 #: C/intro-first-run.page:94(p)
 #, fuzzy
@@ -9227,9 +9245,6 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/index.page:6(None) C/index.page:24(None)
-#| msgid ""
-#| "@@image: './figures/evolutionlogo.png'; "
-#| "md5=4bf469aaba7c368937309e931ba9bdcc"
 msgid ""
 "@@image: 'figures/evolutionlogo.png'; md5=4bf469aaba7c368937309e931ba9bdcc"
 msgstr ""
@@ -9467,6 +9482,8 @@ msgstr "Importar archivos individuales"
 #: C/import-single-files.page:22(p)
 msgid "To import single files (mail, calendar data or contacts):"
 msgstr ""
+"Para importar archivos individuales (correo, datos de calendario o "
+"contactos):"
 
 #: C/import-single-files.page:24(p) C/import-apps-outlook.page:60(p)
 #: C/import-apps-mozilla.page:24(p)
@@ -9478,6 +9495,8 @@ msgstr "Pulse <guiseq><gui>Archivo</gui><gui>Importar</gui></guiseq>."
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
 msgstr ""
+"En la pestaña <gui>Tipo de importador</gui> pulse <gui>Importar un único "
+"archivo</gui>."
 
 #: C/import-single-files.page:26(p)
 msgid "Choose the file."
@@ -9545,6 +9564,8 @@ msgid ""
 "Find your Outlook files (they normally have the file ending <file>.pst</"
 "file> or <file>.ost</file>):"
 msgstr ""
+"Busque sus archivos de Outlook (generalmente tienen una terminación <file>."
+"pst</file> o <file>.ost</file>):"
 
 #: C/import-apps-outlook.page:35(p)
 msgid "Windows 7, Windows Vista"
@@ -9560,7 +9581,7 @@ msgstr "Outlook 2010"
 
 #: C/import-apps-outlook.page:38(file)
 msgid "C:\\Users\\username\\My Documents\\Outlook Files"
-msgstr ""
+msgstr "C:\\Users\\username\\My Documents\\Outlook Files"
 
 #: C/import-apps-outlook.page:38(file)
 msgid "C:\\Documents and Settings\\username\\My Documents\\Outlook Files"
@@ -9573,7 +9594,7 @@ msgstr " Outlook 2007 y anteriores"
 
 #: C/import-apps-outlook.page:41(file)
 msgid "C:\\Users\\username\\AppData\\Local\\Microsoft\\Outlook"
-msgstr ""
+msgstr "C:\\Users\\nombre_de_usuario\\AppData\\Local\\Microsoft\\Outlook"
 
 #: C/import-apps-outlook.page:41(file)
 msgid ""
@@ -9584,7 +9605,7 @@ msgstr ""
 
 #: C/import-apps-outlook.page:44(p)
 msgid "(Replace \"username\" by your username.)"
-msgstr ""
+msgstr "(Reemplace «nombre_de_usuario» por su nombre de usuario.)"
 
 #: C/import-apps-outlook.page:47(p)
 msgid ""
@@ -9687,11 +9708,11 @@ msgstr "Usar servicios de Google"
 
 #: C/express-mode.page:5(desc)
 msgid "What to do when using a small screen or netbook."
-msgstr ""
+msgstr "Qué hacer si se usa una pantalla pequeña o un «netbook»:"
 
 #: C/express-mode.page:20(title)
 msgid "Some windows are too large for small screens."
-msgstr ""
+msgstr "Algunas ventanas son demasiado grandes para las pantallas pequeñas."
 
 #: C/express-mode.page:22(p)
 msgid ""
@@ -9714,15 +9735,15 @@ msgstr ""
 
 #: C/exporting-data.page:5(desc)
 msgid "How to export data from <em>Evolution</em>."
-msgstr ""
+msgstr "Cómo exportar datos de <em>Evolution</em>."
 
 #: C/exporting-data.page:20(title)
 msgid "Exporting data from <em>Evolution</em>"
-msgstr ""
+msgstr "Exportar datos de <em>Evolution</em>"
 
 #: C/exporting-data-mail.page:5(desc)
 msgid "How to export mail data from <em>Evolution</em>."
-msgstr ""
+msgstr "Cómo exportar datos del correo de <em>Evolution</em>."
 
 #: C/exporting-data-mail.page:20(title)
 msgid "Exporting mail data"
@@ -9744,7 +9765,7 @@ msgstr ""
 
 #: C/exporting-data-contacts.page:5(desc)
 msgid "How to export contacts data from <em>Evolution</em>."
-msgstr ""
+msgstr "Cómo exportar los datos de contactos de <em>Evolution</em>."
 
 #: C/exporting-data-contacts.page:23(title)
 msgid "Exporting contacts data"
@@ -9754,6 +9775,8 @@ msgstr "Exportar datos de los contactos"
 msgid ""
 "Contacts files are stored in a database, but can be saved as a vCard file."
 msgstr ""
+"Los archivos de contactos se almacenan en una base de datos, pero se pueden "
+"guardar como un archivo vCard."
 
 #: C/exporting-data-contacts.page:26(p)
 msgid ""
@@ -9770,7 +9793,7 @@ msgstr ""
 
 #: C/exporting-data-calendar.page:5(desc)
 msgid "How to export calendar data from <em>Evolution</em>."
-msgstr ""
+msgstr "Cómo exportar los datos del calendario de <em>Evolution</em>."
 
 #: C/exporting-data-calendar.page:20(title)
 msgid "Exporting calendar data"
@@ -9788,6 +9811,8 @@ msgid ""
 "If you want to export only one appointment, right-click on the appointment "
 "and click <gui>Save as iCalendar...</gui>."
 msgstr ""
+"Si sólo quiere exportar una cita, pulse con el botón derecho del ratón sobre "
+"la cita y seleccione <gui>Guardar como iCalendar...</gui>."
 
 #: C/exchange-placeholder.page:5(desc) C/exchange-placeholder.page:20(title)
 msgid "Connecting to Exchange Servers"
@@ -9805,10 +9830,12 @@ msgid ""
 "Which additional package to install in order to connect to an Exchange "
 "server."
 msgstr ""
+"Qué paquete adicional instalar para poder conectar Evolution con un servidor "
+"Exchange."
 
 #: C/exchange-connectors-overview.page:20(title)
 msgid "Choosing the right connector"
-msgstr ""
+msgstr "Elegir el conector adecuado"
 
 #: C/exchange-connectors-overview.page:22(p)
 msgid ""
@@ -9857,18 +9884,21 @@ msgid ""
 "Deleting emails and calendar entries to reduce the size of the files used by "
 "Evolution."
 msgstr ""
+"Eliminar correos y entradas del calendario para reducir el tamaño de los "
+"archivos que usa Evolution."
 
 #: C/deleting-to-free-disk-space.page:20(title)
 msgid "Freeing disk space by deleting items"
-msgstr ""
+msgstr "Liberar espacio en disco eliminando elementos"
 
 #: C/deleting-emails.page:5(desc)
 msgid "Deleting emails or attachments to reduce the size of the mailbox."
 msgstr ""
+"Eliminando correos o adjuntos para reducir el tamaño del buzón de correo."
 
 #: C/deleting-emails.page:25(title)
 msgid "Deleting emails or attachments permanently"
-msgstr ""
+msgstr "Eliminar permanentemente correos o adjuntos"
 
 #: C/deleting-emails.page:28(title)
 msgid "Emails"
@@ -10001,7 +10031,7 @@ msgstr "$HOME/.gconf/apps/evolution"
 
 #: C/credits.page:5(desc)
 msgid "Credits and Acknowledgment."
-msgstr ""
+msgstr "Créditos y reconocimientos."
 
 #: C/credits.page:20(title)
 msgid "Credits and Acknowledgment"
@@ -10077,7 +10107,7 @@ msgstr "Proyecto de Documentación GNOME:"
 
 #: C/credits.page:87(link)
 msgid "Website"
-msgstr ""
+msgstr "Sitio web"
 
 #: C/credits.page:90(link)
 msgid "Mailing list"
@@ -10106,7 +10136,7 @@ msgstr ""
 
 #: C/contacts-using-contact-lists.page:5(desc)
 msgid "Using contact lists for grouping contacts."
-msgstr ""
+msgstr "Usar listas de contactos para agrupar contactos."
 
 #: C/contacts-using-contact-lists.page:23(title)
 msgid "Using Contact Lists"
@@ -10149,12 +10179,16 @@ msgstr "Crear una lista de contactos"
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Contact List</gui></guiseq>."
 msgstr ""
+"Pulse <guiseq><gui>Archivo</gui><gui>Nuevo</gui><gui>Lista de contactos</"
+"gui></guiseq>."
 
 #: C/contacts-using-contact-lists.page:34(p)
 #: C/contacts-usage-add-contact.page:24(p)
 msgid ""
 "Select the address book under <gui>Where:</gui> to which it will be added."
 msgstr ""
+"Selecciones la libreta de direcciones bajo <gui>Dónde:</gui> en la que "
+"quiere añadirlo."
 
 #: C/contacts-using-contact-lists.page:35(p)
 msgid ""
@@ -10338,6 +10372,8 @@ msgid ""
 "In the Calendar view, you can quickly search for contacts either by category "
 "or by contact's info."
 msgstr ""
+"En la vista de Calendario puede buscar rápidamente los contactos tanto por "
+"categoría o por la información del contacto."
 
 #: C/contacts-searching.page:32(p)
 msgid "Searching by contact's info:"
@@ -10493,6 +10529,8 @@ msgid ""
 "<code>(&amp;(mail=*)(ObjectClass=*))</code>: Lists the objects associated "
 "with the email addresses."
 msgstr ""
+"<code>(&amp;(mail=*)(ObjectClass=*))</code>: lista los objetos asociados con "
+"las direcciones de correo electrónico."
 
 #: C/contacts-ldap.page:54(p)
 #, fuzzy
@@ -11288,6 +11326,8 @@ msgid ""
 "If you click <gui>Accept</gui> the event is added automatically to the "
 "calendar that you have chosen."
 msgstr ""
+"Si pulsa <gui>Aceptar</gui> el acontecimiento se añadirá automáticamente al "
+"calendario que haya elegido."
 
 #: C/calendar-meetings-replying-to-invitation.page:30(p)
 msgid ""
