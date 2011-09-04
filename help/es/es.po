@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-04 09:49+0000\n"
-"PO-Revision-Date: 2011-09-04 14:50+0200\n"
+"PO-Revision-Date: 2011-09-04 18:09+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4917,13 +4917,12 @@ msgstr ""
 "Seleccione las Acciones para el filtro en la sección <gui>Entonces</gui>:"
 
 #: C/mail-filters.page:42(p)
-#, fuzzy
 msgid ""
 "For more information on the available actions see <link xref=\"mail-filters-"
 "actions\">Available Filter actions</link>."
 msgstr ""
-"Para obtener más información acerca de los recordatorios, vea <link linkend="
-"\"bshly4v\">Recordatorios</link>."
+"Para obtener más información acerca de las acciones disponibles, consulte "
+"<link linkend=\"bshly4v\">Acciones disponibles para filtros</link>."
 
 #: C/mail-filters.page:44(p) C/mail-filters-not-working.page:29(p)
 msgid ""
@@ -5558,10 +5557,11 @@ msgstr ""
 "de mensajes."
 
 #: C/mail-encryption-gpg-signing-encrypting.page:34(p)
-#, fuzzy
 msgid ""
 "Select <gui>Always sign outgoing messages when using this account</gui>."
-msgstr "_Firmar siempre los mensajes salientes cuando se use esta cuenta"
+msgstr ""
+"Seleccione <gui>Firmar siempre los mensajes salientes cuando se use esta "
+"cuenta</gui>."
 
 #: C/mail-encryption-gpg-signing-encrypting.page:36(p)
 #: C/mail-encryption-gpg-set-up.page:36(p)
@@ -5589,17 +5589,17 @@ msgstr ""
 "\"mail-encryption-gpg-create-key\">Crear una clave GPG</link>."
 
 #: C/mail-encryption-gpg-set-up.page:30(p)
-#, fuzzy
 msgid ""
 "Select the account you want to use securely, then click <gui style=\"button"
 "\">Edit</gui>."
 msgstr ""
-"Seleccione la cuenta que quiere usar de forma segura, después pulse Editar."
+"Seleccione la cuenta que quiere usar de forma segura, después pulse <gui "
+"style=\"button\">Editar</gui>."
 
 #: C/mail-encryption-gpg-set-up.page:32(p)
-#, fuzzy
 msgid "Specify your key ID in the <gui>PGP/GPG Key ID</gui> field."
-msgstr "Especifique el ID de su clave en el campo ID de la clave GPG/PGP."
+msgstr ""
+"Especifique el ID de su clave en el campo <gui>ID de la clave GPG/PGP</gui>."
 
 #: C/mail-encryption-gpg-set-up.page:33(p)
 #, fuzzy
@@ -7723,9 +7723,8 @@ msgstr ""
 # #-#-#-#-#  usage-exchange.po  #-#-#-#-#
 # index.docbook:342, index.docbook:514
 #: C/mail-calendar-sending-invitations.page:21(title)
-#, fuzzy
 msgid "Sending invitations by email"
-msgstr "Envío de invitaciones por correo"
+msgstr "Enviar invitaciones por correo-e"
 
 #: C/mail-calendar-sending-invitations.page:23(p)
 msgid ""
@@ -7806,19 +7805,16 @@ msgid "Attaching files to emails you want to send."
 msgstr "Añadir archivos a los correos que quiere enviar."
 
 #: C/mail-attachments-sending.page:24(title)
-#, fuzzy
 msgid "Adding attachments to an email"
-msgstr "Añadir adjunto"
+msgstr "Añadir adjuntos a un correo-e"
 
 #: C/mail-attachments-sending.page:27(title)
-#, fuzzy
 msgid "Attaching files"
-msgstr "Adjuntar archivo(s)"
+msgstr "Adjuntar archivos"
 
 #: C/mail-attachments-sending.page:28(p)
-#, fuzzy
 msgid "To attach a file to your email in the composer:"
-msgstr "Para adjuntar un archivo a su correo-e:"
+msgstr "Para adjuntar un archivo a su correo en el editor:"
 
 #: C/mail-attachments-sending.page:30(p)
 msgid ""
@@ -7866,10 +7862,9 @@ msgid "To enable the Attachment Reminder:"
 msgstr "Para activar el Recuerdo de adjuntos:"
 
 #: C/mail-attachments-sending.page:47(p)
-#, fuzzy
 #| msgid "To enable the Attachment Reminder:"
 msgid "Enable <gui>Attachment Reminder</gui>."
-msgstr "Para activar el Recuerdo de adjuntos:"
+msgstr "Actíve <gui>Recuerdo de adjuntos</gui>."
 
 #: C/mail-attachments-sending.page:49(p)
 msgid ""
@@ -7896,10 +7891,8 @@ msgid "Saving and opening files that are attached to received emails."
 msgstr "Guardar y abrir archivos adjuntos a correos recibidos."
 
 #: C/mail-attachments-received.page:24(title)
-#, fuzzy
 msgid "Handling attachments in received mail"
-msgstr ""
-"Reproducir los adjuntos de sonido directamente en los mensajes de correo."
+msgstr "Gestionar adjuntos en correos recibidos"
 
 #: C/mail-attachments-received.page:26(p)
 msgid ""
