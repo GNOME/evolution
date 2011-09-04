@@ -1,3 +1,25 @@
+Evolution 3.1.91 2011-09-05
+---------------------------
+
+Bug Fixes:
+	Bug 657765 - Explicitly link libgnomecanvas against libm
+	             (Frederic Peters)
+	Bug 657836 - Work around g_unix_signal API changes. (Matthew Barnes)
+
+Other Changes:
+	* Various user documentation improvements. (Andre Klapper)
+	* Disable inline-image plugin by default. (Matthew Barnes)
+	* Create tar.xz files for 'make dist' only (Milan Crha)
+
+Translations:
+	Jorge González (es)
+	Daniel Mustieles (es)
+	Bruno Brouard (fr)
+	Andika Triwidada (id)
+	Daniel Nylander (sv)
+	Cheng-Chia Tseng (zh_HK)
+
+
 Evolution 3.1.90 2011-08-29
 ---------------------------
 
