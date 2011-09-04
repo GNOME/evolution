@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-04 09:49+0000\n"
-"PO-Revision-Date: 2011-09-04 18:09+0200\n"
+"PO-Revision-Date: 2011-09-04 19:32+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5300,6 +5300,9 @@ msgid ""
 "on the button that allows you to modify the folders assigned for that "
 "filter. Set the folders again."
 msgstr ""
+"Consulte la lista de las carpetas asociadas con ese filtro en particular. "
+"Pulse el botón que le permite modificar las carpetas asignadas para ese "
+"filtro. Configure de nuevo las carpetas."
 
 #: C/mail-error-no-provider-available.page:43(p)
 msgid ""
@@ -5487,6 +5490,9 @@ msgid ""
 "your certificates under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Certificates</gui></guiseq>."
 msgstr ""
+"Puede importar, ver, editar (excepto sus propios certificados), y eliminar "
+"sus certificados bajo <guiseq><gui>Editar</gui><gui>Preferencias</"
+"gui><gui>Certificados</gui></guiseq>."
 
 #: C/mail-encryption-s-mime-manage.page:27(p)
 msgid ""
@@ -5664,9 +5670,8 @@ msgstr ""
 "varname></command> para añadirá a su depósito de claves."
 
 #: C/mail-encryption-gpg-decrypting.page:5(desc)
-#, fuzzy
 msgid "Decrypting and checking the signature of received GPG messages."
-msgstr "Seguir el estado de un mensaje."
+msgstr "Descifrar y comprobar la firma de correos GPG recibidos."
 
 #: C/mail-encryption-gpg-decrypting.page:23(title)
 msgid "Receiving messages encrypted or signed via GPG"
@@ -5677,14 +5682,11 @@ msgid "Decrypting a received message"
 msgstr "Descifrar un mensaje recibido"
 
 #: C/mail-encryption-gpg-decrypting.page:27(p)
-#, fuzzy
 msgid ""
 "If you receive an encrypted message, you need to decrypt it before you can "
 "read it."
 msgstr ""
-"Si recibe un mensaje cifrado necesita descifrarlo antes de poder leerlo. "
-"Recuerde que el remitente tiene que tener su clave pública (la suya, de "
-"usted) antes de enviarle un mensaje cifrado."
+"Si recibe un mensaje cifrado necesita descifrarlo antes de poder leerlo."
 
 #: C/mail-encryption-gpg-decrypting.page:28(p)
 msgid ""
@@ -5695,19 +5697,16 @@ msgstr ""
 "Escríbala y el mensaje se mostrará apropiadamente."
 
 #: C/mail-encryption-gpg-decrypting.page:29(p)
-#, fuzzy
 msgid ""
 "Senders must have your GPG public key before they can send you an encrypted "
 "message."
 msgstr ""
-"Si recibe un mensaje cifrado necesita descifrarlo antes de poder leerlo. "
-"Recuerde que el remitente tiene que tener su clave pública (la suya, de "
-"usted) antes de enviarle un mensaje cifrado."
+"Los remitentes deben tener su clave GPG pública antes de poder enviarle "
+"correos cifrados."
 
 #: C/mail-encryption-gpg-decrypting.page:33(title)
-#, fuzzy
 msgid "Checking the signature of a received message"
-msgstr "Seguir el estado de un mensaje."
+msgstr "Comprobar la firma de un correo recibido"
 
 #: C/mail-encryption-gpg-decrypting.page:34(p)
 msgid ""
@@ -5747,9 +5746,8 @@ msgid "Select an algorithm, then press Enter."
 msgstr "Seleccione un algoritmo, después pulse Intro."
 
 #: C/mail-encryption-gpg-create-key.page:32(p)
-#, fuzzy
 msgid "Select a key length, then press Enter."
-msgstr "Seleccione un algoritmo, después pulse Intro."
+msgstr "Seleccione una longitud de clave, después pulse Intro."
 
 #: C/mail-encryption-gpg-create-key.page:33(p)
 msgid "Enter how long your key should be valid for."
@@ -7010,6 +7008,9 @@ msgid ""
 "<link xref=\"mail-composer-mail-signatures-per-account\">account settings</"
 "link>."
 msgstr ""
+"Añadir una firma predeterminada a una cuenta de correo electrónico se debe "
+"hacer en la <link xref=\"mail-composer-mail-signatures-per-account"
+"\">configuración de cuenta</link>."
 
 #: C/mail-composer-html-text.page:5(desc)
 msgid "Format Text in the mail composer."
@@ -8389,6 +8390,8 @@ msgstr ""
 msgid ""
 "Provide the required information. For the account settings, refer to Step 5"
 msgstr ""
+"Proporcione la información requerida. Para la configuración de la cuenta, "
+"vaya al paso 5."
 
 #: C/mail-access-gmail-imap-account.page:5(desc)
 msgid "How to set up a GMail IMAP Account."
@@ -8404,6 +8407,8 @@ msgid ""
 "Please refer to the <link xref=\"mail-account-manage-imap\">IMAP mail "
 "account settings</link>."
 msgstr ""
+"Consulte la <link xref=\"mail-account-manage-imap\">configuración de cuenta "
+"de correo IMAP</link>."
 
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
@@ -8527,7 +8532,6 @@ msgid "Corresponding elements in the mail main window:"
 msgstr "Elementos correspondientes en la ventana principal de correo:"
 
 #: C/intro-main-window.page:44(p)
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> "
 #| "Menu bar"
@@ -8535,11 +8539,10 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png\" "
 "width=\"10\"/> Menu bar"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> "
-"Barra de menú"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png\" "
+"width=\"10\"/> Barra de menú"
 
 #: C/intro-main-window.page:47(p)
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
 #| "Tool bar"
@@ -8547,11 +8550,10 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png\" "
 "width=\"10\"/> Tool bar"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
-"Barra de herramientas"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png\" "
+"width=\"10\"/> Barra de herramientas"
 
 #: C/intro-main-window.page:50(p)
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
 #| "Folder list"
@@ -8559,11 +8561,10 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png\" "
 "width=\"10\"/> Folder list"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
-"Lista de carpetas"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png\" "
+"width=\"10\"/> Lista de carpetas"
 
 #: C/intro-main-window.page:51(p)
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
 #| "Search bar"
@@ -8571,11 +8572,10 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png\" "
 "width=\"10\"/> Search bar"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
-"Barra de búsqueda"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png\" "
+"width=\"10\"/> Barra de búsqueda"
 
 #: C/intro-main-window.page:54(p)
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
 #| "Message list"
@@ -8583,11 +8583,10 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png\" "
 "width=\"10\"/> Message list"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
-"Lista de mensajes"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png\" "
+"width=\"10\"/> Lista de mensajes"
 
 #: C/intro-main-window.page:57(p)
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
 #| "Switcher"
@@ -8595,11 +8594,10 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png\" "
 "width=\"10\"/> Switcher"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
-"Selector"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png\" "
+"width=\"10\"/> Selector"
 
 #: C/intro-main-window.page:58(p)
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
 #| "Preview pane"
@@ -8607,11 +8605,10 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png\" "
 "width=\"10\"/> Preview pane"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
-"Panel de vista previa"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png\" "
+"width=\"10\"/> Panel de vista previa"
 
 #: C/intro-main-window.page:61(p)
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
 #| "Status bar"
@@ -8619,8 +8616,8 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png\" "
 "width=\"10\"/> Status bar"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
-"Barra de estado"
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png\" "
+"width=\"10\"/> Barra de estado"
 
 #: C/intro-main-window.page:67(title)
 msgid "Folder list"
@@ -8692,6 +8689,9 @@ msgid ""
 "You can disable the folder list and the switcher side bar by toggling "
 "<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq>."
 msgstr ""
+"Puede desactivar la lista de carpetas y la barra lateral del selector "
+"cambiando <guiseq><gui>Ver</gui><gui>Distribución</gui><gui>Mostrar barra "
+"lateral</gui></guiseq>."
 
 #: C/intro-main-window.page:81(title)
 msgid "Preview Pane"
@@ -8710,6 +8710,9 @@ msgid ""
 "You can disable the preview pane by toggling <guiseq><gui>View</"
 "gui><gui>Preview</gui><gui>Show Message Preview</gui></guiseq>."
 msgstr ""
+"Puede desactivar el panel de vista previa cambiando <guiseq><gui>Ver</"
+"gui><gui>Vista previa</gui><gui>Mostrar vista previa del correo</gui></"
+"guiseq>."
 
 #: C/intro-main-window.page:89(title)
 #: C/import-supported-file-formats.page:46(title)
@@ -8717,9 +8720,8 @@ msgid "Calendar"
 msgstr "Calendario"
 
 #: C/intro-main-window.page:90(p)
-#, fuzzy
 msgid "Elements in the calendar main window:"
-msgstr "El elemento en el calendario no es válido"
+msgstr "Elementos en la ventana principal del calendario:"
 
 #: C/intro-main-window.page:93(p) C/intro-main-window.page:139(p)
 msgid ""
@@ -8865,16 +8867,17 @@ msgid ""
 "You can disable the contact preview by toggling <guiseq><gui>View</"
 "gui><gui>Preview</gui><gui>Contact Preview</gui></guiseq>."
 msgstr ""
+"Puede desactivar la vista previa de los contactos cambiando "
+"<guiseq><gui>Ver</gui><gui>Vista previa</gui><gui>Vista previa de contactos</"
+"gui></guiseq>."
 
 #: C/intro-first-run.page:5(desc)
-#, fuzzy
 msgid "Running Evolution for the very first time."
-msgstr "Inicio de Evolution por primera vez"
+msgstr "Inicio de Evolution por primera vez."
 
 #: C/intro-first-run.page:20(title)
-#, fuzzy
 msgid "Starting <em>Evolution</em> for the first time"
-msgstr "Inicio de Evolution por primera vez"
+msgstr "Inicio de <em>Evolution</em> por primera vez"
 
 #: C/intro-first-run.page:22(p)
 #, fuzzy
@@ -8940,13 +8943,12 @@ msgid "Continue <link xref=\"#sending\">here</link> for configuration."
 msgstr "Continúe <link xref=\"#sending\">aquí</link> para la configuración."
 
 #: C/intro-first-run.page:46(p)
-#, fuzzy
 msgid ""
 "IMAP: Keeps the mail on the server so you can access your mail from multiple "
 "systems."
 msgstr ""
-"Conserva su correo-e en el servidor para que pueda acceder a él con sistemas "
-"diferentes."
+"IMAP: conserva su correo-e en el servidor para que pueda acceder a él de "
+"diversas formas."
 
 #: C/intro-first-run.page:46(p)
 msgid ""
@@ -8957,13 +8959,12 @@ msgstr ""
 "configuración."
 
 #: C/intro-first-run.page:48(p)
-#, fuzzy
 msgid ""
 "IMAP+: Keeps the mail on the server so you can access your mail from "
 "multiple systems."
 msgstr ""
-"Conserva su correo-e en el servidor para que pueda acceder a él con sistemas "
-"diferentes."
+"IMAP+: conserva su correo-e en el servidor para que pueda acceder a él de "
+"diversas formas."
 
 #: C/intro-first-run.page:48(p)
 msgid ""
@@ -9030,12 +9031,12 @@ msgid ""
 msgstr ""
 
 #: C/intro-first-run.page:62(p)
-#, fuzzy
 msgid ""
 "Microsoft Exchange: For connecting to a Microsoft Exchange 2000 or 2003 "
 "server."
 msgstr ""
-"Evolution no puede almacenar listas de contactos en servidores Exchange."
+"Microsoft Exchange: para conectarse con un servidor Microsoft Exchange 2000 "
+"o 2003."
 
 #: C/intro-first-run.page:62(p)
 msgid ""
@@ -9053,9 +9054,8 @@ msgid ""
 msgstr ""
 
 #: C/intro-first-run.page:65(p)
-#, fuzzy
 msgid "Novell Groupwise: For connecting to a Novell GroupWise server."
-msgstr "No es posible conectarse con el servidor GroupWise."
+msgstr "Novell Groupwise: para conectarse con un servidor Novell GroupWise"
 
 #: C/intro-first-run.page:65(p)
 msgid ""
@@ -9195,6 +9195,8 @@ msgid ""
 "SMTP: Sends mail using an outbound mail server. This is the most common "
 "choice for sending mail."
 msgstr ""
+"SMTP: envía correo usando un servidor de correo saliente. Esta es la opción "
+"más común para enviar correo."
 
 #: C/intro-first-run.page:93(p)
 msgid ""
@@ -9512,6 +9514,8 @@ msgid ""
 "You can also import contacts that you have received as a vCard attachment of "
 "an email from its attachment menu."
 msgstr ""
+"También puede importar contactos que haya recibido como un adjunto vCard en "
+"un correo desde su menú de adjunto."
 
 #: C/import-data.page:5(desc)
 msgid "Importing data from another application."
@@ -9921,10 +9925,12 @@ msgid ""
 "To delete the attachments of an email, select the message and click "
 "<guiseq><gui>Message</gui><gui>Remove Attachments</gui></guiseq>."
 msgstr ""
+"Para eliminar los adjuntos de un correo, seleccione el mensaje y pulse "
+"<guiseq><gui>Mensaje</gui><gui>Quitar adjuntos</gui></guiseq>."
 
 #: C/deleting-appointments.page:5(desc)
 msgid "Deleting calendar entries to reduce the size of the mailbox."
-msgstr ""
+msgstr "Eliminar entradas del calendario reduce el tamaño del buzón de correo."
 
 #: C/deleting-appointments.page:20(title)
 msgid "Deleting old appointments permanently"
@@ -9941,11 +9947,11 @@ msgstr ""
 
 #: C/default-browser.page:5(desc)
 msgid "How to define the default browser to open links with."
-msgstr ""
+msgstr "Cómo definir el navegador predeterminado con el que abrir los enlaces."
 
 #: C/default-browser.page:20(title)
 msgid "Setting the default browser"
-msgstr ""
+msgstr "Establecer el navegador predeterminado"
 
 #. For GNOME2 the steps are to define the gconf keys /desktop/gnome/url-handlers/http and /https
 #: C/default-browser.page:24(p)
@@ -9972,7 +9978,7 @@ msgstr ""
 
 #: C/data-storage.page:5(desc)
 msgid "Where does Evolution store my data on the harddisk?"
-msgstr ""
+msgstr "¿Dónde almacena Evolution mis datos en el disco duro?"
 
 #: C/data-storage.page:20(title)
 msgid "Data storage locations"
@@ -9982,6 +9988,8 @@ msgstr "Ubicaciones de almacenamiento de datos"
 msgid ""
 "This is only interesting for advanced users that want to debug problems."
 msgstr ""
+"Esto sólo es interesante para usuarios avanzados que quieren depurar "
+"problemas."
 
 #: C/data-storage.page:26(p)
 msgid ""
@@ -10028,7 +10036,7 @@ msgstr "Créditos y reconocimientos."
 
 #: C/credits.page:20(title)
 msgid "Credits and Acknowledgment"
-msgstr ""
+msgstr "Créditos y reconocimientos"
 
 #: C/credits.page:23(title)
 msgid "Authors of the Evolution User Documentation"
@@ -10108,7 +10116,7 @@ msgstr "Lista de correo"
 
 #: C/contacts-using-several-addressbooks.page:5(desc)
 msgid "Adding and using more than one address book and different types."
-msgstr ""
+msgstr "Añadir y usar más de una libreta de direcciones y de diferentes tipos."
 
 #: C/contacts-using-several-addressbooks.page:20(title)
 msgid "Using several address books"
@@ -10456,6 +10464,8 @@ msgid ""
 "Enter the address of the server, the port number (the default number is 389) "
 "and whether you want to connect securely."
 msgstr ""
+"Introduzca la dirección del servidor, el número del puerto (el número "
+"predeterminado es 3899 y si quiere conectar de forma segura."
 
 #: C/contacts-ldap.page:35(p)
 msgid "Define the login method and your user name."
@@ -10893,6 +10903,8 @@ msgid ""
 "Edit the appointment (see <link xref=\"calendar-usage-add-appointment"
 "\">Adding an Appointment</link> for the list of available options)."
 msgstr ""
+"Edite la cita (consulte <link xref=\"calendar-usage-add-appointment\">Añadir "
+"una cita</link> para la lista de opciones disponibles)."
 
 #: C/calendar-usage-delete-appointment.page:5(desc)
 msgid "Deleting in appointment in your calendar."
