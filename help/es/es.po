@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-03 11:39+0000\n"
-"PO-Revision-Date: 2011-09-03 14:18+0200\n"
+"POT-Creation-Date: 2011-09-03 12:19+0000\n"
+"PO-Revision-Date: 2011-09-04 11:46+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1459,11 +1459,12 @@ msgstr ""
 "los dos sistemas, pero que se eliminaron en uno de ellos."
 
 #: C/sync-with-other-devices.page:47(p)
-#, fuzzy
 msgid ""
 "<gui>Copy From Pilot</gui>: If there is any new data on the handheld device, "
 "copy it to the computer."
-msgstr "Si el dispositivo de mano contiene datos nuevos, los copia al equipo."
+msgstr ""
+"<gui>Copiar desde Pilot</gui>: si el dispositivo de mano contiene datos "
+"nuevos, los copia al equipo."
 
 #: C/sync-with-other-devices.page:48(p)
 msgid ""
@@ -1539,9 +1540,8 @@ msgid "Searching items"
 msgstr "Buscar elementos"
 
 #: C/problems-reporting-bugs.page:5(desc)
-#, fuzzy
 msgid "How to report mistakes in the application."
-msgstr "Importa datos de otros programas"
+msgstr "Cómo informar de errores en la aplicación."
 
 #: C/problems-reporting-bugs.page:21(title)
 msgid "How to report bugs"
@@ -1882,13 +1882,12 @@ msgid "Enter a brief summary in the Summary field."
 msgstr "Escriba un breve resumen para la tarea en el campo Resumen."
 
 #: C/memos-usage-add-memo.page:48(p)
-#, fuzzy
 msgid ""
 "In the Start Date field, type the date this shared memo should appear in the "
 "recipients' calendars."
 msgstr ""
-"En el campo Fecha de inicio escriba la fecha en la que esta nota "
-"recordatoria debería aparecer en los calendarios de los Destinatarios."
+"En el campo Fecha de inicio escriba la fecha en la que esta nota compartida "
+"debería aparecer en los calendarios de los destinatarios."
 
 #: C/memos-searching.page:5(desc)
 msgid "Searching memos."
@@ -2417,6 +2416,9 @@ msgid ""
 "the message and press <keyseq><key>Shift</key><key>Ctrl</key><key>J</key></"
 "keyseq>."
 msgstr ""
+"Pulse con el botón derecho del ratón en el correo, después pulse <gui>Marcar "
+"como no SPAM</gui>, o seleccione el mensaje y pulse <keyseq><key>Mayús</"
+"key><key>Ctrl</key><key>J</key></keyseq>."
 
 #: C/mail-spam-groupwise-unmark-message.page:30(p)
 msgid ""
@@ -3022,6 +3024,8 @@ msgid ""
 "There currently is no way to do search for emails with a specific type of "
 "attachment (for example searching for all emails that have a PDF attachment)."
 msgstr ""
+"Actualmente no existe una forma de buscar correos con un tipo específico de "
+"adjunto (por ejemplo, buscando todos los correos que tengan un PDF adjunto)."
 
 #: C/mail-search-folders-refresh.page:5(desc)
 msgid "Ways of updating Search folders."
@@ -3475,13 +3479,13 @@ msgstr ""
 "primero qué parte del mensaje se comprobará y después definir la comparación."
 
 #: C/mail-search-folders-add.page:29(p)
-#, fuzzy
 msgid ""
 "For more information on the available conditions see <link xref=\"mail-"
 "search-folders-conditions\">Available Search Folder conditions</link>."
 msgstr ""
-"Para obtener más información acerca de los recordatorios, vea <link linkend="
-"\"bshly4v\">Recordatorios</link>."
+"Para obtener más información acerca de las condiciones disponibles, consulte "
+"<link xref=\"mail-search-folders-conditions\">condiciones disponibles para "
+"las carpetas de búsqueda</link>."
 
 #: C/mail-search-folders-add.page:30(p) C/mail-filters.page:40(p)
 msgid ""
@@ -3491,12 +3495,12 @@ msgid ""
 msgstr ""
 
 #: C/mail-search-folders-add.page:31(p)
-#, fuzzy
 msgid ""
 "Select which folders will be used for the search folder in the section "
 "<gui>Search Folder Sources</gui>. Options are:"
 msgstr ""
-"Seleccione qué carpetas usará la carpeta de búsqueda. Sus opciones son:"
+"Seleccione qué carpetas usará la carpeta de búsqueda en la sección "
+"<gui>Orígenes de las carpetas de búsqueda</gui>. Las opciones son:"
 
 #: C/mail-search-folders-add.page:33(p)
 msgid "All local folders:"
@@ -3543,11 +3547,12 @@ msgid "Specific folders only:"
 msgstr "Únicamente carpetas especificadas:"
 
 #: C/mail-search-folders-add.page:43(p)
-#, fuzzy
 msgid ""
 "Uses individual folders for the search folder source. In this case, click "
 "the <gui style=\"button\">Add</gui> to select folders."
-msgstr "Usa carpetas individuales para la fuente de carpeta de búsqueda."
+msgstr ""
+"Usa carpetas individuales para la fuente de la carpeta de búsqueda. En este "
+"caso, pulse <gui style=\"button\">Añadir</gui> para seleccionar las carpetas."
 
 #: C/mail-refresh-folders.page:5(desc)
 msgid "Ways to update your Evolution folders."
@@ -3764,6 +3769,9 @@ msgid ""
 "If you came to this page from the first-run wizard help page, click <link "
 "xref=\"intro-first-run#sending\">here</link> to continue with the next step."
 msgstr ""
+"Si ha llegado a esta página desde la página del asistente de primera "
+"ejecución, pulse <link xref=\"intro-first-run#sending\">aquí</link> para "
+"continuar con el siguiente paso."
 
 #: C/mail-receiving-options-unix-mbox-spool-file.page:5(desc)
 msgid "Receiving options for standard Unix mbox spool file accounts."
@@ -3869,15 +3877,12 @@ msgstr "Opciones de recepción para Novell Groupwise"
 #: C/mail-receiving-options-novell-groupwise.page:30(p)
 #: C/mail-receiving-options-exchange-mapi.page:27(p)
 #: C/mail-receiving-options-evolution-exchange.page:31(p)
-#, fuzzy
 msgid ""
 "If you are in an organizational environment, you may want to contact your "
 "system administrator for more information."
 msgstr ""
-"Los servidores de correo web gratuitos generalmente proporcionan información "
-"acerca de cuál de estas opciones se pueden usar. Si está en un "
-"acontecimiento organizado puede que quiera contactar con el administrador de "
-"su sistema para obtener más información."
+"Si está en un acontecimiento organizado puede que quiera contactar con el "
+"administrador de su sistema para obtener más información."
 
 #: C/mail-receiving-options-novell-groupwise.page:39(p)
 msgid "Enter the Post Office Agent SOAP port."
@@ -3931,6 +3936,9 @@ msgid ""
 "tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick Mailbox "
 "Resynchronization</link>."
 msgstr ""
+"Seleccione «Usar resincronización rápida si el servidor lo soporta» <link "
+"href=\"http://tools.ietf.org/html/rfc5162\">Extensiones IMAP4 para "
+"resincronización rápida de buzón de correo</link>."
 
 #: C/mail-receiving-options-imap-plus.page:38(p)
 #: C/mail-receiving-options-imap.page:38(p)
@@ -4211,11 +4219,12 @@ msgid "Navigating in unread mail across folders"
 msgstr "Navegar por el correo sin leer en las carpetas"
 
 #: C/mail-reading-keyboard-shortcuts.page:49(p)
-#, fuzzy
 msgid ""
 "You can easily read the unread messages in all the mail folders by using the "
 "<key>Spacebar</key>."
-msgstr "Puede ver los mensajes en el orden deseado en la lista de mensajes."
+msgstr ""
+"Puede ver fácilmente los correos sin leer de todas las carpetas de correo "
+"usando la <key>Barra espaciadora</key>."
 
 #: C/mail-reading-keyboard-shortcuts.page:51(p)
 msgid ""
@@ -4656,14 +4665,12 @@ msgstr ""
 "de vencimiento."
 
 #: C/mail-follow-up-flag.page:35(p)
-#, fuzzy
 msgid ""
 "The flag itself is the action you want to remind yourself about, such as "
 "Call, Forward and Reply."
 msgstr ""
-"La marca en si es la acción que quiere que recordarse a si mismo. Tiene "
-"varias disponibles, como Llamar, Reenviar y Responder, pero puede escribir "
-"la nota o acción que prefiera."
+"La marca en si es la acción que quiere que recordarse a si mismo, como "
+"Llamar, Reenviar y Responder."
 
 #: C/mail-follow-up-flag.page:37(p)
 #, fuzzy
@@ -4850,6 +4857,9 @@ msgid ""
 "Message filters apply actions on messages based on conditions that you have "
 "defined. You can define filters for both incoming and outgoing emails."
 msgstr ""
+"Los filtros de correos aplican acciones sobre correos basándose en "
+"condiciones que usted ha definido. Puede definir filtros tanto para correo "
+"entrante como para correo saliente."
 
 #: C/mail-filters.page:27(p)
 msgid ""
@@ -4929,6 +4939,9 @@ msgid ""
 "If your first filter has a <gui>Stop Processing</gui> rule, then all the "
 "email messages that match this filter will ignore all the succeeding filters."
 msgstr ""
+"Si su primer filtro tiene una regla <gui>Parar de procesar</gui>, entonces "
+"todos los mensajes de correo que coincidan con este filtro ignorarán los "
+"siguientes filtros."
 
 #: C/mail-filters.page:46(p) C/mail-filters-not-working.page:31(p)
 msgid ""
@@ -5351,6 +5364,9 @@ msgid ""
 "Restart Evolution. Note that restarting the application may take some time "
 "since it will need to rebuild the indexes deleted in the previous step."
 msgstr ""
+"Reinicie Evolution. Note que reiniciar la aplicación puede llevar algún "
+"tiempo ya que se necesita reconstruir los índices eliminados en el paso "
+"anterior."
 
 #: C/mail-error-folder-mismatch.page:44(p)
 msgid "You may lose your mail labels when performing this operation."
@@ -5520,6 +5536,8 @@ msgid ""
 "encrypting email messages. S/MIME is used most often in corporate "
 "environments."
 msgstr ""
+"Evolution ofrece cifrado GPG y S/MIME para firmar y cifrar mensajes de "
+"correo electrónico. En entornos corporativos S/MIME se usa más."
 
 #: C/mail-encryption.page:38(title)
 msgid "GPG"
@@ -5574,6 +5592,8 @@ msgid ""
 "You need a GPG key to do this. If you do not have one yet, please refer to "
 "<link xref=\"mail-encryption-gpg-create-key\">Creating a GPG key</link>."
 msgstr ""
+"Necesita una clave GPG para esto. Si aún no tiene una, consulte <link xref="
+"\"mail-encryption-gpg-create-key\">Crear una clave GPG</link>."
 
 #: C/mail-encryption-gpg-set-up.page:30(p)
 #, fuzzy
@@ -5713,6 +5733,8 @@ msgid ""
 "These steps are very technical. For average users we nowadays recommend "
 "using the Seahorse application for managing GPG keys."
 msgstr ""
+"Estos pasos son muy técnicos. Se recomienda, para el usuario medio de hoy en "
+"día, usar la aplicación Seahorse para gestionar claves GPG."
 
 #. TODO:POST-3-2: Update and rewrite using Seahorse. Needs a complete rewrite once https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed.
 #: C/mail-encryption-gpg-create-key.page:28(p)
@@ -5925,6 +5947,9 @@ msgid ""
 "the message preview if the sender is in one of your address books and has a "
 "photograph."
 msgstr ""
+"Se puede mostrar la fotografía del remitente en la parte derecha de la vista "
+"previa del correo, si el remitente está en alguna de sus libretas de "
+"direcciones y tiene una fotografía."
 
 #: C/mail-displaying-sender-photograph.page:29(p)
 #, fuzzy
@@ -6721,6 +6746,9 @@ msgid ""
 "To enable the Message Template Plugin, click <guiseq><gui>Edit</"
 "gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
 msgstr ""
+"Para activar el complemento de plantillas de correo pulse "
+"<guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq> y actíve "
+"<gui>Plantillas</gui>."
 
 #: C/mail-composer-message-templates.page:31(title)
 msgid "Creating a Message Template from an existing Message"
@@ -7567,6 +7595,9 @@ msgid ""
 "Advanced users can change this string by editing the gconf key <file>/apps/"
 "evolution/mail/composer/message_attribution</file> via gconf-editor."
 msgstr ""
+"Los usuarios avanzados pueden cambiar esta cadena editando la clave de gconf "
+"<file>/apps/evolution/mail/composer/message_attribution</file> a través de "
+"gconf-editor."
 
 #: C/mail-change-time-format.page:5(desc)
 #, fuzzy
@@ -7652,6 +7683,8 @@ msgid ""
 "Check whether you are using filters on incoming (or outgoing) messages. "
 "These could be automatically moving your messages to another destination."
 msgstr ""
+"Compruebe si está usando filtros en los correos entrantes (o salientes). "
+"Esto podría estar moviendo automáticamente sus correos a otro destino."
 
 #: C/mail-cannot-see.page:27(p)
 msgid ""
@@ -7674,6 +7707,8 @@ msgid ""
 "Look in the <gui>Junk</gui> folder. Messages that are marked as Junk "
 "disappear from the original folder and are moved to the Junk folder."
 msgstr ""
+"Mire en la carpeta <gui>SPAM</gui>. Los correos marcados como SPAM "
+"desaparecen de la carpeta original y se mueven a la carpeta de SPAM."
 
 #: C/mail-cannot-see.page:38(p)
 msgid ""
@@ -7903,6 +7938,8 @@ msgid ""
 "To open an attachment in another application, click the down-arrow next to "
 "the attachment icon and choose one of the available applications."
 msgstr ""
+"Para abrir un adjunto en otra aplicación, pulse la flecha hacia abajo junto "
+"al icono del adjunto y elija una de las aplicaciones disponibles."
 
 #: C/mail-attachments-received.page:32(p)
 #, fuzzy
@@ -7923,19 +7960,16 @@ msgid "Handling of file attachments for writing and reading mail"
 msgstr "Gestión de los adjuntos de correos para escribibr y leer correos"
 
 #: C/mail-attachments.page:18(title)
-#, fuzzy
 msgid "Managing attachments"
-msgstr "Guardando adjunto"
+msgstr "Gestionar adjuntos"
 
 #: C/mail-account-manage-usenet-news.page:5(desc)
-#, fuzzy
 msgid "Add and edit a Usenet news account in Evolution."
-msgstr "Añadir su cuenta Exchange a Evolution"
+msgstr "Añadir y editar una cuenta de noticias de Usenet en Evolution."
 
 #: C/mail-account-manage-usenet-news.page:20(title)
-#, fuzzy
 msgid "Usenet news account settings"
-msgstr "Configuración de la cuenta de Google:"
+msgstr "Configuración de cuenta de noticias de Usenet"
 
 #: C/mail-account-manage-usenet-news.page:23(title)
 #: C/mail-account-manage-unix-mbox-spool-file.page:23(title)
@@ -8108,9 +8142,8 @@ msgstr "Seguridad"
 #: C/mail-account-manage-local-delivery.page:53(title)
 #: C/mail-account-manage-imap-plus.page:55(title)
 #: C/mail-account-manage-imap.page:57(title)
-#, fuzzy
 msgid "Other settings"
-msgstr "Configuración de «shell»"
+msgstr "Otros ajustes"
 
 #: C/mail-account-manage-usenet-news.page:54(p)
 #: C/mail-account-manage-unix-mbox-spool-file.page:54(p)
@@ -8155,19 +8188,16 @@ msgid "Add and edit a POP mail account in Evolution."
 msgstr "Añadir y editar una cuenta de correo POP en Evolution."
 
 #: C/mail-account-manage-pop.page:20(title)
-#, fuzzy
 msgid "POP mail account settings"
-msgstr "Configuración de la cuenta de Yahoo:"
+msgstr "Configuración de cuenta de correo POP"
 
 #: C/mail-account-manage-novell-groupwise.page:5(desc)
-#, fuzzy
 msgid "Add and edit a Novell Groupwise account in Evolution."
-msgstr "Añadir soporte Novell GroupWise para Evolution."
+msgstr "Añadir y editar una cuenta de Novell Groupwise en Evolution"
 
 #: C/mail-account-manage-novell-groupwise.page:21(title)
-#, fuzzy
 msgid "Novell Groupwise account settings"
-msgstr "Configuración de la cuenta de Google:"
+msgstr "Configuración de cuenta para Novell Groupwise"
 
 #: C/mail-account-manage-novell-groupwise.page:49(title)
 msgid "Proxy"
@@ -8178,16 +8208,13 @@ msgid "Settings for having somebody else handle your account."
 msgstr "Ajustes para que otra persona gestione su cuenta."
 
 #: C/mail-account-manage-microsoft-exchange.page:5(desc)
-#, fuzzy
 msgid "Add and edit a Microsoft Exchange account in Evolution."
-msgstr ""
-"Sólo se puede configurar una cuenta de Microsoft Exchange con Evolution."
+msgstr "Añadir y editar una cuenta de Microsoft Exchange en Evolution."
 
 #: C/mail-account-manage-microsoft-exchange.page:21(title)
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:20(title)
-#, fuzzy
 msgid "Microsoft Exchange account settings"
-msgstr "Opciones de recepción de Microsoft Exchange"
+msgstr "Configuración de cuenta para Microsoft Exchange"
 
 #: C/mail-account-manage-microsoft-exchange.page:23(p)
 msgid ""
@@ -8197,15 +8224,12 @@ msgid ""
 msgstr ""
 
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5(desc)
-#, fuzzy
 msgid "Add and edit a Microsoft Exchange 2007 account in Evolution."
-msgstr ""
-"Sólo se puede configurar una cuenta de Microsoft Exchange con Evolution."
+msgstr "Añadir y editar una cuenta de Microsoft Exchange 2007 en Evolution."
 
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:20(title)
-#, fuzzy
 msgid "Exchange MAPI account settings"
-msgstr "Configuración de la cuenta de Google:"
+msgstr "Configuración de cuenta para Exchange MAPI"
 
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:44(title)
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:44(title)
@@ -8213,37 +8237,33 @@ msgid "Exchange Settings"
 msgstr "Configuración de Exchange"
 
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45(p)
-#, fuzzy
 msgid "In this section you can view the size of all Exchange folders."
-msgstr "Vea el tamaño de todas las carpetas Exchange"
+msgstr "En esta sección puede ver el tamaño de todas sus carpetas Exchange."
 
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:5(desc)
-#, fuzzy
 msgid "Add and edit a Microsoft Exchange 2000/2003 account in Evolution."
 msgstr ""
-"Sólo se puede configurar una cuenta de Microsoft Exchange con Evolution."
+"Añadir y editar una cuenta de Microsoft Exchange 2000/2003 en Evolution."
 
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:45(p)
 msgid ""
 "In this section you can define your \"Out of Office\" status, change the "
 "password for your Exchange account, and manage the delegation settings."
 msgstr ""
+"En esta sección puede definir su estado «Fuera de la oficina», cambiar la "
+"contraseña de su cuenta Exchange y gestionar la configuración de delegación."
 
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:45(p)
-#, fuzzy
 msgid "You can also view the size of all Exchange folders."
-msgstr "Vea el tamaño de todas las carpetas Exchange"
+msgstr "También puede ver el tamaño de todas sus carpetas Exchange."
 
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:5(desc)
-#, fuzzy
 msgid "Add and edit a Microsoft Exchange 2010 account in Evolution."
-msgstr ""
-"Sólo se puede configurar una cuenta de Microsoft Exchange con Evolution."
+msgstr "Añadir y editar una cuenta de Microsoft Exchange 2010 en Evolution."
 
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:20(title)
-#, fuzzy
 msgid "Exchange Web Services account settings"
-msgstr "Configuración del servidor Exchange"
+msgstr "Configuración de cuenta para Exchange Web Services"
 
 #. TODO: Write once evo-ews is stable. Copy structure from other Exchange account types if applicable.
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:23(p)
@@ -8251,6 +8271,8 @@ msgid ""
 "This documentation section will be added once the currently developed "
 "evolution-ews has become stable and mature."
 msgstr ""
+"Esta sección de la documentación se añadirá una vez que evolution-ews, "
+"actualmente en desarrollo, sea estable y maduro."
 
 #: C/mail-account-manage-mh-format-directories.page:5(desc)
 #, fuzzy
@@ -8258,9 +8280,8 @@ msgid "Add and edit a MH Format Mail Directories account in Evolution."
 msgstr "Opciones de recepción para directorios de correo en formato MH"
 
 #: C/mail-account-manage-mh-format-directories.page:20(title)
-#, fuzzy
 msgid "MH Format Mail Directories account settings"
-msgstr "Opciones de recepción para directorios de correo en formato MH"
+msgstr "Configuración de cuenta para directorios de correo en formato MH"
 
 #: C/mail-account-management.page:5(desc)
 msgid "Adding, editing and managing mail accounts."
@@ -8288,9 +8309,8 @@ msgid "Add and edit a Maildir Format Mail Directories account in Evolution."
 msgstr "Opciones de recepción para directorios de correo en formato Maildir"
 
 #: C/mail-account-manage-maildir-format-directories.page:20(title)
-#, fuzzy
 msgid "Maildir Format Mail Directories account settings"
-msgstr "Opciones de recepción para directorios de correo en formato Maildir"
+msgstr "Configuración de cuenta para directorios de correo en formato Maildir"
 
 #: C/mail-account-manage-maildir-format-directories.page:25(p)
 msgid ""
@@ -8346,12 +8366,16 @@ msgid ""
 "Go to <guiseq><gui>Settings</gui><gui>Forwarding and POP/IMAP</gui></"
 "guiseq>. Refer to the POP Download section."
 msgstr ""
+"Vaya a <guiseq><gui>Configuración</gui><gui>Reenvío y correo POP/IMAP</gui></"
+"guiseq>. Consulte la sección Descarga de correo POP."
 
 #: C/mail-access-gmail-pop-account.page:31(p)
 msgid ""
 "Enable the POP download feature by ticking the radio button that corresponds "
 "to either of these options:"
 msgstr ""
+"Active la caracerística de descarga de correo POP seleccionando uno de los "
+"botones de radio que corresponde con una de estas opciones:"
 
 #: C/mail-access-gmail-pop-account.page:33(p)
 msgid "Enable POP for all mail (even mail that's already been downloaded)"
@@ -8513,9 +8537,8 @@ msgid "E-Mail"
 msgstr "Correo-e"
 
 #: C/intro-main-window.page:38(p)
-#, fuzzy
 msgid "The Evolution mail main window"
-msgstr "El cliente de correo-e y GIP Evolution"
+msgstr "La ventana principal de correo de Evolution"
 
 #: C/intro-main-window.page:41(p)
 msgid "Corresponding elements in the mail main window:"
@@ -8691,9 +8714,8 @@ msgid ""
 msgstr ""
 
 #: C/intro-main-window.page:81(title)
-#, fuzzy
 msgid "Preview Pane"
-msgstr "Panel de vista previa:"
+msgstr "Panel de vista previa"
 
 #: C/intro-main-window.page:82(p)
 msgid ""
@@ -8799,9 +8821,8 @@ msgid ""
 msgstr "La lista de citas muestra todas sus citas programadas."
 
 #: C/intro-main-window.page:123(title)
-#, fuzzy
 msgid "Month Pane"
-msgstr "Panel del mes:"
+msgstr "Panel del mes"
 
 #: C/intro-main-window.page:124(p)
 msgid ""
@@ -8816,9 +8837,8 @@ msgstr ""
 "de citas."
 
 #: C/intro-main-window.page:127(title)
-#, fuzzy
 msgid "Task list and Memo list"
-msgstr "Crea una lista de notas nueva"
+msgstr "Lista de tareas y notas"
 
 #: C/intro-main-window.page:128(p)
 msgid ""
@@ -8832,9 +8852,8 @@ msgid "Contacts"
 msgstr "Contactos"
 
 #: C/intro-main-window.page:136(p)
-#, fuzzy
 msgid "Elements in the contacts main window:"
-msgstr "El elemento en el calendario no es válido"
+msgstr "Elementos en la ventana principal de contactos:"
 
 #: C/intro-main-window.page:145(p)
 msgid ""
@@ -9208,14 +9227,13 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/index.page:6(None) C/index.page:24(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: './figures/evolutionlogo.png'; "
 #| "md5=4bf469aaba7c368937309e931ba9bdcc"
 msgid ""
 "@@image: 'figures/evolutionlogo.png'; md5=4bf469aaba7c368937309e931ba9bdcc"
 msgstr ""
-"@@image: './figures/evolutionlogo.png'; md5=4bf469aaba7c368937309e931ba9bdcc"
+"@@image: 'figures/evolutionlogo.png'; md5=4bf469aaba7c368937309e931ba9bdcc"
 
 #: C/index.page:5(desc)
 msgid "Evolution"
@@ -9250,32 +9268,28 @@ msgid "IMAP"
 msgstr "IMAP"
 
 #: C/index.page:45(title)
-#, fuzzy
 msgid "Mail Composing"
-msgstr "Correo de %s"
+msgstr "Edición de correo"
 
 #: C/index.page:47(title)
-#, fuzzy
 msgid "Advanced Mail Composing"
-msgstr "Formato HTML avanzado"
+msgstr "Edición avanzada de correos"
 
 #: C/index.page:52(title)
 msgid "Calendar Management"
 msgstr "Gestión del calendario"
 
 #: C/index.page:54(title)
-#, fuzzy
 msgid "Advanced Calendar Management"
-msgstr "Nombre del calendario de Yahoo:"
+msgstr "Gestión avanzada de calendarios"
 
 #: C/index.page:59(title)
 msgid "Contacts Management"
 msgstr "Gestión de contactos"
 
 #: C/index.page:63(title)
-#, fuzzy
 msgid "Memos and Tasks Management"
-msgstr "Gestión de contactos"
+msgstr "Gestión de notas y tareas"
 
 #: C/index.page:67(title)
 msgid "Data Migration and Synchronization"
@@ -9306,9 +9320,8 @@ msgid "Common Other Questions and Problems"
 msgstr "Otras preguntas y problemas comunes"
 
 #: C/index.page:93(title)
-#, fuzzy
 msgid "Further reading"
-msgstr "Agrupación según el asunto"
+msgstr "Lecturas recomendadas"
 
 #: C/import-supported-file-formats.page:5(desc)
 msgid "Supported file formats for importing data."
@@ -9327,9 +9340,8 @@ msgid "Mail"
 msgstr "Correo"
 
 #: C/import-supported-file-formats.page:30(p)
-#, fuzzy
 msgid "Berkeley Mailbox (.mbox or no extension):"
-msgstr "Berkley Mailbox (.mbox o extensión nula):"
+msgstr "Berkley Mailbox (.mbox o sin extensión):"
 
 #: C/import-supported-file-formats.page:32(p)
 #, fuzzy
@@ -9353,9 +9365,8 @@ msgid ""
 msgstr ""
 
 #: C/import-supported-file-formats.page:38(p)
-#, fuzzy
 msgid "Outlook Express 5/6 Personal Folders (.dbx):"
-msgstr "Carpetas personales de Outlook Express 5/6 (.dbx)"
+msgstr "Carpetas personales de Outlook Express 5/6 (.dbx):"
 
 #: C/import-supported-file-formats.page:40(p)
 #, fuzzy
