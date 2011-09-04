@@ -2195,7 +2195,8 @@ comp_editor_init (CompEditor *editor)
 
 	comp_editor_bind_gconf (editor);
 
-	e_shell_watch_window (shell, GTK_WINDOW (editor));
+	gtk_application_add_window (
+		GTK_APPLICATION (shell), GTK_WINDOW (editor));
 	e_shell_adapt_window_size (shell, GTK_WINDOW (editor));
 }
 

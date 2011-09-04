@@ -306,7 +306,9 @@ e_shell_utils_import_uris (EShell *shell,
 			assistant, "finished",
 			G_CALLBACK (gtk_widget_destroy), NULL);
 
-		e_shell_watch_window (shell, GTK_WINDOW (assistant));
+		gtk_application_add_window (
+			GTK_APPLICATION (shell),
+			GTK_WINDOW (assistant));
 
 		gtk_widget_show (assistant);
 	} else

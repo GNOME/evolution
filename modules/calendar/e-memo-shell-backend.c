@@ -485,8 +485,8 @@ exit:
 }
 
 static void
-memo_shell_backend_window_created_cb (EShellBackend *shell_backend,
-                                      GtkWindow *window)
+memo_shell_backend_window_added_cb (EShellBackend *shell_backend,
+                                    GtkWindow *window)
 {
 	const gchar *module_name;
 
@@ -555,8 +555,8 @@ memo_shell_backend_constructed (GObject *object)
 		shell_backend);
 
 	g_signal_connect_swapped (
-		shell, "window-created",
-		G_CALLBACK (memo_shell_backend_window_created_cb),
+		shell, "window-added",
+		G_CALLBACK (memo_shell_backend_window_added_cb),
 		shell_backend);
 
 	/* Chain up to parent's constructed() method. */

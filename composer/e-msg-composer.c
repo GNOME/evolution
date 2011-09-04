@@ -1902,6 +1902,8 @@ static gboolean
 msg_composer_delete_event_cb (EMsgComposer *composer)
 {
 	EShell *shell;
+	GtkApplication *application;
+	GList *windows;
 
 	shell = e_msg_composer_get_shell (composer);
 
@@ -1910,7 +1912,10 @@ msg_composer_delete_event_cb (EMsgComposer *composer)
 	if (!gtk_action_group_get_sensitive (composer->priv->async_actions))
 		return TRUE;
 
-	if (g_list_length (e_shell_get_watched_windows (shell)) == 1) {
+	application = GTK_APPLICATION (shell);
+	windows = gtk_application_get_windows (application);
+
+	if (g_list_length (windows) == 1) {
 		/* This is the last watched window, use the quit
 		 * mechanism to have a draft saved properly */
 		e_shell_quit (shell, E_SHELL_QUIT_ACTION);
@@ -2092,8 +2097,10 @@ msg_composer_constructed (GObject *object)
 		object, "delete-event",
 		G_CALLBACK (msg_composer_delete_event_cb), NULL);
 
-	e_shell_adapt_window_size (shell, GTK_WINDOW (composer));
-	e_shell_watch_window (shell, GTK_WINDOW (object));
+	e_shell_adapt_window_size (shell, GTK_WINDOW (object));
+
+	gtk_application_add_window (
+		GTK_APPLICATION (shell), GTK_WINDOW (object));
 
 	g_signal_connect (
 		shell, "quit-requested",

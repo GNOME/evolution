@@ -13,8 +13,6 @@ e_shell_get_gconf_client
 e_shell_create_shell_window
 e_shell_handle_uris
 e_shell_submit_alert
-e_shell_watch_window
-e_shell_get_watched_windows
 e_shell_get_active_window
 e_shell_get_meego_mode
 e_shell_get_express_mode

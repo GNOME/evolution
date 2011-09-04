@@ -632,10 +632,13 @@ mail_backend_job_finished_cb (CamelSession *session,
 
 	} else if (error != NULL) {
 		EShell *shell;
+		GtkApplication *application;
 		GList *list, *iter;
 
 		shell = e_shell_backend_get_shell (shell_backend);
-		list = e_shell_get_watched_windows (shell);
+
+		application = GTK_APPLICATION (shell);
+		list = gtk_application_get_windows (application);
 
 		/* Submit the error to an appropriate EAlertSink. */
 		for (iter = list; iter != NULL; iter = g_list_next (iter)) {
@@ -917,6 +920,7 @@ e_mail_backend_submit_alert (EMailBackend *backend,
 	EShellContent *shell_content;
 	EShellWindow *shell_window = NULL;
 	EShellBackendClass *class;
+	GtkApplication *application;
 	GList *list, *iter;
 	va_list va;
 
@@ -931,8 +935,10 @@ e_mail_backend_submit_alert (EMailBackend *backend,
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
+	application = GTK_APPLICATION (shell);
+	list = gtk_application_get_windows (application);
+
 	/* Find the most recently used EShellWindow. */
-	list = e_shell_get_watched_windows (shell);
 	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
 		if (E_IS_SHELL_WINDOW (iter->data)) {
 			shell_window = E_SHELL_WINDOW (iter->data);

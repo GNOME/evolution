@@ -580,9 +580,10 @@ mail_browser_constructed (GObject *object)
 	priv->ui_manager = ui_manager;
 	domain = GETTEXT_PACKAGE;
 
-	formatter = e_mail_reader_get_formatter (reader);
-	e_shell_watch_window (shell, GTK_WINDOW (object));
+	gtk_application_add_window (
+		GTK_APPLICATION (shell), GTK_WINDOW (object));
 
+	formatter = e_mail_reader_get_formatter (reader);
 	web_view = em_format_html_get_web_view (formatter);
 
 	/* The message list is a widget, but it is not shown in the browser.

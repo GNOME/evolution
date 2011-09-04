@@ -52,7 +52,6 @@
 
 struct _EShellPrivate {
 	GQueue alerts;
-	GList *watched_windows;
 	EShellSettings *settings;
 	GConfClient *gconf_client;
 	GActionGroup *action_group;
@@ -102,8 +101,6 @@ enum {
 	PREPARE_FOR_ONLINE,
 	PREPARE_FOR_QUIT,
 	QUIT_REQUESTED,
-	WINDOW_CREATED,
-	WINDOW_DESTROYED,
 	LAST_SIGNAL
 };
 
@@ -166,70 +163,18 @@ shell_notify_online_cb (EShell *shell)
 }
 
 static gboolean
-shell_window_delete_event_cb (EShell *shell,
-                              GtkWindow *window)
+shell_window_delete_event_cb (GtkWindow *window,
+                              GdkEvent *event,
+                              GtkApplication *application)
 {
 	/* If other windows are open we can safely close this one. */
-	if (g_list_length (shell->priv->watched_windows) > 1)
+	if (g_list_length (gtk_application_get_windows (application)) > 1)
 		return FALSE;
 
 	/* Otherwise we initiate application quit. */
-	e_shell_quit (shell, E_SHELL_QUIT_LAST_WINDOW);
+	e_shell_quit (E_SHELL (application), E_SHELL_QUIT_LAST_WINDOW);
 
 	return TRUE;
-}
-
-static gboolean
-shell_window_focus_in_event_cb (EShell *shell,
-                                GdkEventFocus *event,
-                                GtkWindow *window)
-{
-	GList *list, *link;
-
-	/* Keep the watched windows list sorted by most recently focused,
-	 * so the first item in the list should always be the currently
-	 * focused window. */
-
-	list = shell->priv->watched_windows;
-	link = g_list_find (list, window);
-	g_return_val_if_fail (link != NULL, FALSE);
-
-	if (link != list) {
-		list = g_list_remove_link (list, link);
-		list = g_list_concat (link, list);
-	}
-
-	shell->priv->watched_windows = list;
-
-	return FALSE;
-}
-
-static gboolean
-shell_emit_window_destroyed_cb (EShell *shell)
-{
-	g_signal_emit (shell, signals[WINDOW_DESTROYED], 0);
-
-	g_object_unref (shell);
-
-	return FALSE;
-}
-
-static void
-shell_window_weak_notify_cb (EShell *shell,
-                             GObject *where_the_object_was)
-{
-	GList *list;
-
-	list = shell->priv->watched_windows;
-	list = g_list_remove (list, where_the_object_was);
-	shell->priv->watched_windows = list;
-
-	/* Let the watched window finish finalizing itself before we
-	 * emit the "window-destroyed" signal, which may trigger the
-	 * application to initiate shutdown. */
-	g_idle_add (
-		(GSourceFunc) shell_emit_window_destroyed_cb,
-		g_object_ref (shell));
 }
 
 static void
@@ -237,15 +182,18 @@ shell_action_new_window_cb (GSimpleAction *action,
                             GVariant *parameter,
                             EShell *shell)
 {
-	GList *watched_windows;
+	GtkApplication *application;
+	GList *list;
 	const gchar *view_name;
 
+	application = GTK_APPLICATION (shell);
+	list = gtk_application_get_windows (application);
+
 	view_name = g_variant_get_string (parameter, NULL);
-	watched_windows = e_shell_get_watched_windows (shell);
 
 	/* Present the first EShellWindow showing 'view_name'. */
-	while (watched_windows != NULL) {
-		GtkWindow *window = GTK_WINDOW (watched_windows->data);
+	while (list != NULL) {
+		GtkWindow *window = GTK_WINDOW (list->data);
 
 		if (E_IS_SHELL_WINDOW (window)) {
 			const gchar *active_view;
@@ -258,7 +206,7 @@ shell_action_new_window_cb (GSimpleAction *action,
 			}
 		}
 
-		watched_windows = g_list_next (watched_windows);
+		list = g_list_next (list);
 	}
 
 	/* No suitable EShellWindow found, so create one. */
@@ -437,10 +385,13 @@ shell_ready_for_quit (EShell *shell,
                       EActivity *activity,
                       gboolean is_last_ref)
 {
+	GtkApplication *application;
 	GList *list;
 
 	if (!is_last_ref)
 		return;
+
+	application = GTK_APPLICATION (shell);
 
 	/* Increment the reference count so we can safely emit
 	 * a signal without triggering the toggle reference. */
@@ -459,7 +410,7 @@ shell_ready_for_quit (EShell *shell,
 	 * of the watched windows list because the act of destroying a
 	 * watched window will modify the watched windows list, which
 	 * would derail the iteration. */
-	list = g_list_copy (e_shell_get_watched_windows (shell));
+	list = g_list_copy (gtk_application_get_windows (application));
 	g_list_foreach (list, (GFunc) gtk_widget_destroy, NULL);
 	g_list_free (list);
 }
@@ -467,11 +418,14 @@ shell_ready_for_quit (EShell *shell,
 static void
 shell_prepare_for_quit (EShell *shell)
 {
+	GtkApplication *application;
 	GList *list, *iter;
 
 	/* Are preparations already in progress? */
 	if (shell->priv->preparing_for_quit != NULL)
 		return;
+
+	application = GTK_APPLICATION (shell);
 
 	shell->priv->preparing_for_quit = e_activity_new ();
 
@@ -494,7 +448,7 @@ shell_prepare_for_quit (EShell *shell)
 	g_object_unref (shell->priv->preparing_for_quit);
 
 	/* Desensitize all watched windows to prevent user action. */
-	list = e_shell_get_watched_windows (shell);
+	list = gtk_application_get_windows (application);
 	for (iter = list; iter != NULL; iter = iter->next)
 		gtk_widget_set_sensitive (GTK_WIDGET (iter->data), FALSE);
 }
@@ -837,43 +791,50 @@ shell_startup (GApplication *application)
 static void
 shell_activate (GApplication *application)
 {
-	EShell *shell;
-	GList *watched_windows;
+	GList *list;
 
 	/* Do not chain up.  Default method just emits a warning. */
 
-	shell = E_SHELL (application);
-	watched_windows = e_shell_get_watched_windows (shell);
+	list = gtk_application_get_windows (GTK_APPLICATION (application));
 
 	/* Present the first EShellWindow, if found. */
-	while (watched_windows != NULL) {
-		GtkWindow *window = GTK_WINDOW (watched_windows->data);
+	while (list != NULL) {
+		GtkWindow *window = GTK_WINDOW (list->data);
 
 		if (E_IS_SHELL_WINDOW (window)) {
 			gtk_window_present (window);
 			return;
 		}
 
-		watched_windows = g_list_next (watched_windows);
+		list = g_list_next (list);
 	}
 
 	/* No EShellWindow found, so create one. */
-	e_shell_create_shell_window (shell, NULL);
+	e_shell_create_shell_window (E_SHELL (application), NULL);
 }
 
 static void
-shell_quit_mainloop (GApplication *application)
+shell_window_added (GtkApplication *application,
+                    GtkWindow *window)
 {
-	/* XXX Don't allow GApplication to quit the main loop.
-	 *     We'll do that ourselves until GtkApplication gets
-	 *     a signal equivalent to EShell::window-destroyed. */
-}
+	gchar *role;
 
-static void
-shell_window_destroyed (EShell *shell)
-{
-	if (e_shell_get_watched_windows (shell) == NULL)
-		gtk_main_quit ();
+	/* Chain up to parent's window_added() method. */
+	GTK_APPLICATION_CLASS (e_shell_parent_class)->
+		window_added (application, window);
+
+	g_signal_connect (
+		window, "delete-event",
+		G_CALLBACK (shell_window_delete_event_cb), application);
+
+	/* We use the window's own type name and memory
+	 * address to form a unique window role for X11. */
+	role = g_strdup_printf (
+		"%s-%" G_GINTPTR_FORMAT,
+		G_OBJECT_TYPE_NAME (window),
+		(gintptr) window);
+	gtk_window_set_role (window, role);
+	g_free (role);
 }
 
 static gboolean
@@ -893,6 +854,7 @@ e_shell_class_init (EShellClass *class)
 {
 	GObjectClass *object_class;
 	GApplicationClass *application_class;
+	GtkApplicationClass *gtk_application_class;
 
 	g_type_class_add_private (class, sizeof (EShellPrivate));
 
@@ -906,9 +868,9 @@ e_shell_class_init (EShellClass *class)
 	application_class = G_APPLICATION_CLASS (class);
 	application_class->startup = shell_startup;
 	application_class->activate = shell_activate;
-	application_class->quit_mainloop =  shell_quit_mainloop;
 
-	class->window_destroyed = shell_window_destroyed;
+	gtk_application_class = GTK_APPLICATION_CLASS (class);
+	gtk_application_class->window_added = shell_window_added;
 
 	/**
 	 * EShell:express-mode
@@ -1182,38 +1144,6 @@ e_shell_class_init (EShellClass *class)
 		g_cclosure_marshal_VOID__ENUM,
 		G_TYPE_NONE, 1,
 		E_TYPE_SHELL_QUIT_REASON);
-
-	/**
-	 * EShell::window-created
-	 * @shell: the #EShell which emitted the signal
-	 * @window: the newly created #GtkWindow
-	 *
-	 * Emitted when @shell begins watching a newly created window.
-	 **/
-	signals[WINDOW_CREATED] = g_signal_new (
-		"window-created",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (EShellClass, window_created),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE, 1,
-		GTK_TYPE_WINDOW);
-
-	/**
-	 * EShell::window-destroyed
-	 * @shell: the #EShell which emitted the signal
-	 *
-	 * Emitted when a watched is destroyed.
-	 **/
-	signals[WINDOW_DESTROYED] = g_signal_new (
-		"window-destroyed",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (EShellClass, window_destroyed),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
 }
 
 static void
@@ -1478,9 +1408,9 @@ e_shell_get_gconf_client (EShell *shell)
  * @shell: an #EShell
  * @view_name: name of the initial shell view, or %NULL
  *
- * Creates a new #EShellWindow and emits the #EShell::window-created
- * signal.  Use this function instead of e_shell_window_new() so that
- * @shell can track the window.
+ * Creates a new #EShellWindow.  Use this function instead of
+ * e_shell_window_new() so that @shell can properly configure
+ * the window.
  *
  * Returns: a new #EShellWindow
  **/
@@ -1616,10 +1546,13 @@ void
 e_shell_submit_alert (EShell *shell,
                       EAlert *alert)
 {
+	GtkApplication *application;
 	GList *list, *iter;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (E_IS_ALERT (alert));
+
+	application = GTK_APPLICATION (shell);
 
 	g_queue_push_tail (&shell->priv->alerts, g_object_ref (alert));
 
@@ -1627,7 +1560,7 @@ e_shell_submit_alert (EShell *shell,
 		alert, "response",
 		G_CALLBACK (shell_alert_response_cb), shell);
 
-	list = e_shell_get_watched_windows (shell);
+	list = gtk_application_get_windows (application);
 
 	/* Submit the alert to all available EShellWindows. */
 	for (iter = list; iter != NULL; iter = g_list_next (iter))
@@ -1637,92 +1570,11 @@ e_shell_submit_alert (EShell *shell,
 }
 
 /**
- * e_shell_watch_window:
- * @shell: an #EShell
- * @window: a #GtkWindow
- *
- * Makes @shell "watch" a newly created toplevel window, and emits the
- * #EShell::window-created signal.  All #EShellWindow<!-- -->s should be
- * watched, along with any editor or viewer windows that may be shown in
- * response to e_shell_handle_uris().  When the last watched window is
- * closed, Evolution terminates.
- **/
-void
-e_shell_watch_window (EShell *shell,
-                      GtkWindow *window)
-{
-	GList *list;
-	gchar *role;
-
-	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (GTK_IS_WINDOW (window));
-
-	list = shell->priv->watched_windows;
-
-	/* XXX If my suggestion in [1] is accepted for GtkApplication
-	 *     then we can get rid of our own watched_windows list.
-	 *
-	 *     [1] https://bugzilla.gnome.org/show_bug.cgi?id=624539
-	 */
-
-	/* Ignore duplicates. */
-	if (g_list_find (list, window) != NULL)
-		return;
-
-	list = g_list_prepend (list, window);
-	shell->priv->watched_windows = list;
-
-	gtk_application_add_window (GTK_APPLICATION (shell), window);
-
-	/* We use the window's own type name and memory
-	 * address to form a unique window role for X11. */
-	role = g_strdup_printf (
-		"%s-%" G_GINTPTR_FORMAT,
-		G_OBJECT_TYPE_NAME (window),
-		(gintptr) window);
-	gtk_window_set_role (window, role);
-	g_free (role);
-
-	g_signal_connect_swapped (
-		window, "delete-event",
-		G_CALLBACK (shell_window_delete_event_cb), shell);
-
-	g_signal_connect_swapped (
-		window, "focus-in-event",
-		G_CALLBACK (shell_window_focus_in_event_cb), shell);
-
-	g_object_weak_ref (
-		G_OBJECT (window), (GWeakNotify)
-		shell_window_weak_notify_cb, shell);
-
-	g_signal_emit (shell, signals[WINDOW_CREATED], 0, window);
-}
-
-/**
- * e_shell_get_watched_windows:
- * @shell: an #EShell
- *
- * Returns a list of windows being watched by @shell.  The list is sorted
- * by the most recently focused window, such that the first instance is the
- * currently focused window.  (Useful for choosing a parent for a transient
- * window.)  The list is owned by @shell and should not be modified or freed.
- *
- * Returns: a list of watched windows
- **/
-GList *
-e_shell_get_watched_windows (EShell *shell)
-{
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-
-	return shell->priv->watched_windows;
-}
-
-/**
  * e_shell_get_active_window:
  * @shell: an #EShell or %NULL to use the default shell
  *
  * Returns the most recently focused watched window, according to
- * e_shell_get_watched_windows().  Convenient for finding a parent
+ * gtk_application_get_windows().  Convenient for finding a parent
  * for a transient window.
  *
  * Note the returned window is not necessarily an #EShellWindow.
@@ -1732,22 +1584,24 @@ e_shell_get_watched_windows (EShell *shell)
 GtkWindow *
 e_shell_get_active_window (EShell *shell)
 {
-	GList *watched_windows;
+	GtkApplication *application;
+	GList *list;
 
 	if (shell == NULL)
 		shell = e_shell_get_default ();
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	watched_windows = e_shell_get_watched_windows (shell);
+	application = GTK_APPLICATION (shell);
+	list = gtk_application_get_windows (application);
 
-	if (!watched_windows)
+	if (list == NULL)
 		return NULL;
 
 	/* Sanity check */
-	g_return_val_if_fail (GTK_IS_WINDOW (watched_windows->data), NULL);
+	g_return_val_if_fail (GTK_IS_WINDOW (list->data), NULL);
 
-	return GTK_WINDOW (watched_windows->data);
+	return GTK_WINDOW (list->data);
 }
 
 /**

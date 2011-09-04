@@ -4097,7 +4097,9 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	/* show window */
 	gtk_widget_show (e_contact_editor->app);
 
-	e_shell_watch_window (shell, GTK_WINDOW (e_contact_editor->app));
+	gtk_application_add_window (
+		GTK_APPLICATION (shell),
+		GTK_WINDOW (e_contact_editor->app));
 }
 
 static void
