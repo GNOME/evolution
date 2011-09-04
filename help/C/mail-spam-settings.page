@@ -2,12 +2,12 @@
       type="topic" id="mail-spam-settings">
 
   <info>
-    <desc>How to set up handling unwanted junk and spam mail.</desc>
+    <desc>How to set up handling unwanted junk/spam mail.</desc>
 
     <link type="guide" xref="mail-spam" />
     <link type="seealso" xref="mail-spam-marking"/>
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <revision pkgversion="3.0.2" version="0.3" date="2011-09-04" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -51,7 +51,7 @@
 <item><p>Checking incoming mail for junk messages.</p></item>
 <item><p>Deleting junk messages upon exit, and how often junk messages are to be deleted.</p></item>
 <item><p>Checking custom headers for junk.</p></item>
-<item><p>Marking messages as junk if the sender is in the address book.</p></item>
+<item><p>Marking messages as not junk if the sender is in the address book.</p></item>
 <item><p>The default junk filter.</p></item>
 <item><p>Bogofilter and SpamAssassin options. These options are available only if the plugins are enabled.</p></item>
 </list>

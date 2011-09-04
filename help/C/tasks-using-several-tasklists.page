@@ -6,7 +6,7 @@
 
     <link type="guide" xref="tasks-organizing" />
 
-    <revision pkgversion="3.1.5" version="0.2" date="2011-07-28" status="final"/>
+    <revision pkgversion="3.1.91" version="0.3" date="2011-09-04" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -19,9 +19,9 @@
 
 <title>Using several task lists or memo lists</title>
 
-<p>You can have multiple task or memo lists and overlay them one over the next. For example, you might have tasks for work, tasks for home, and tasks for the singing club that you are a member of. The side bar lists those lists, and you can select or deselect the boxes next to them to show and hide the tasks or memos in your view.</p>
+<p>You can have multiple task or memo lists and choose which of your lists get displayed. For example, you might have tasks for work, tasks for home, and tasks for the singing club that you are a member of. The side bar lists those lists, and you can select or deselect any of the boxes next to them to show and hide the corresponding tasks or memos in your view.</p>
 
-<p>Tasks and memos for each task or memo list appear as a different color.</p>
+<p>Tasks and memos from each task or memo list appear as different colors.</p>
 
 <p>You can also use lists that are not on your computer, such as on the internet.</p>
 
