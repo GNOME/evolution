@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-04 09:49+0000\n"
-"PO-Revision-Date: 2011-09-04 19:32+0200\n"
+"POT-Creation-Date: 2011-09-04 19:34+0000\n"
+"PO-Revision-Date: 2011-09-04 22:31+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -812,12 +812,19 @@ msgid "Using several task lists or memo lists"
 msgstr "Usar varias listas de tareas o listas de notas"
 
 #: C/tasks-using-several-tasklists.page:22(p)
+#, fuzzy
+#| msgid ""
+#| "You can have multiple task or memo lists and overlay them one over the "
+#| "next. For example, you might have tasks for work, tasks for home, and "
+#| "tasks for the singing club that you are a member of. The side bar lists "
+#| "those lists, and you can select or deselect the boxes next to them to "
+#| "show and hide the tasks or memos in your view."
 msgid ""
-"You can have multiple task or memo lists and overlay them one over the next. "
-"For example, you might have tasks for work, tasks for home, and tasks for "
-"the singing club that you are a member of. The side bar lists those lists, "
-"and you can select or deselect the boxes next to them to show and hide the "
-"tasks or memos in your view."
+"You can have multiple task or memo lists and choose which of your lists get "
+"displayed. For example, you might have tasks for work, tasks for home, and "
+"tasks for the singing club that you are a member of. The side bar lists "
+"those lists, and you can select or deselect any of the boxes next to them to "
+"show and hide the corresponding tasks or memos in your view."
 msgstr ""
 "Puede tener múltiples listas de tareas o notas y solaparlas entre ellas. Por "
 "ejemplo, puede tener una tarea para trabajo, tareas para casa y tareas para "
@@ -826,7 +833,10 @@ msgstr ""
 "notas en la vista."
 
 #: C/tasks-using-several-tasklists.page:24(p)
-msgid "Tasks and memos for each task or memo list appear as a different color."
+#, fuzzy
+#| msgid ""
+#| "Tasks and memos for each task or memo list appear as a different color."
+msgid "Tasks and memos from each task or memo list appear as different colors."
 msgstr ""
 "Las tareas y notas para cada lista de tareas o notas, aparecen en diferente "
 "color."
@@ -1915,18 +1925,22 @@ msgstr "La tipografía de las notas no es la misma que en otras aplicaciones"
 
 #: C/mail-wrong-fonts-in-3-0.page:23(p)
 msgid ""
-"It can happen that <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
-"Preferences</gui><gui>Message Fonts</gui><gui>Use the same fonts as other "
-"applications</gui></guiseq> is enabled but Evolution still uses different "
-"fonts than other parts of the system."
+"In version 3.0 it can happen that <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>Mail Preferences</gui><gui>General</gui><gui>Message Fonts</"
+"gui><gui>Use the same fonts as other applications</gui></guiseq> is enabled "
+"but Evolution still uses different fonts than other parts of the system."
 msgstr ""
 
 #: C/mail-wrong-fonts-in-3-0.page:25(p)
 msgid ""
-"This bug is fixed in Evolution versions higher than 3.0.2 (stable series) "
-"and 3.1.3 (unstable development series). If this is not the case, please add "
-"a comment to the corresponding <link href=\"https://bugzilla.gnome.org/"
-"show_bug.cgi?id=655002\">bug report</link>."
+"This bug is fixed from Evolution version 3.0.3 (stable series) and 3.1.4 "
+"(unstable development series) onwards. If this is not the case, please add a "
+"comment to the corresponding <link href=\"https://bugzilla.gnome.org/"
+"show_bug.cgi?id=655002\">bug report</link>. Note that from version 3.2 "
+"onwards this setting is located under <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
+"gui><gui>Message Display</gui><gui>Use the same fonts as other applications</"
+"gui></guiseq>."
 msgstr ""
 
 #: C/mail-working-offline.page:5(desc)
@@ -2188,7 +2202,9 @@ msgstr ""
 "también puede aparecer dos veces."
 
 #: C/mail-spam-settings.page:5(desc)
-msgid "How to set up handling unwanted junk and spam mail."
+#, fuzzy
+#| msgid "How to set up handling unwanted junk and spam mail."
+msgid "How to set up handling unwanted junk/spam mail."
 msgstr "Cómo configurar la gestión de correo no deseado y SPAM."
 
 #: C/mail-spam-settings.page:28(title)
@@ -2286,7 +2302,9 @@ msgid "Checking custom headers for junk."
 msgstr "Comprobar las cabeceras personalizadas contra SPAM."
 
 #: C/mail-spam-settings.page:54(p)
-msgid "Marking messages as junk if the sender is in the address book."
+#, fuzzy
+#| msgid "Marking messages as junk if the sender is in the address book."
+msgid "Marking messages as not junk if the sender is in the address book."
 msgstr ""
 "Marcar mensajes como SPAM si el remitente está en la libreta de direcciones."
 
@@ -2364,10 +2382,10 @@ msgid ""
 "If legitimate mail is incorrectly flagged, remove it from the Junk folder by "
 "right-clicking it and selecting <gui>Mark as Not Junk</gui> or pressing "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>J</key></keyseq>. If Evolution "
-"misses junk mail, right-click the message, then click Mark as Junk or press "
-"<keyseq><key>Ctrl</key><key>J</key></keyseq>. When you correct it, the "
-"filter can recognize similar messages in the future, and becomes more "
-"accurate as time goes on."
+"misses junk mail, right-click the message, then click <gui>Mark as Junk</"
+"gui> or press <keyseq><key>Ctrl</key><key>J</key></keyseq>. When you correct "
+"it, the filter can recognize similar messages in the future, and becomes "
+"more accurate as time goes on."
 msgstr ""
 "El filtro de correo basura puede aprender qué tipos de correo son legítimos "
 "y cuales no, si lo entrena. Cuando comience a usar el bloqueador de correo "
@@ -6013,9 +6031,8 @@ msgid "Rendering an email and handling its attachments."
 msgstr "Renderizar un correo y gestionar sus adjuntos."
 
 #: C/mail-displaying-message.page:20(title)
-#, fuzzy
 msgid "Display of a message"
-msgstr "Mostrar el mensaje siguiente"
+msgstr "Mostrado de un correo"
 
 #: C/mail-displaying-images-in-html.page:5(desc)
 msgid "On embedded pictures in received HTML messages."
@@ -6126,9 +6143,8 @@ msgstr ""
 
 # index.docbook:458, index.docbook:949
 #: C/mail-displaying-collapsible-headers.page:5(desc)
-#, fuzzy
 msgid "Display less email recipients of a specific message."
-msgstr "Los destinatarios del mensaje."
+msgstr "Mostrar menos destinatarios de un correo específico."
 
 #: C/mail-displaying-collapsible-headers.page:23(title)
 msgid "Collapsible Message Headers"
@@ -6166,9 +6182,8 @@ msgstr ""
 "que faltan."
 
 #: C/mail-displaying-character-encodings.page:20(title)
-#, fuzzy
 msgid "Character Encodings and Sets"
-msgstr "Codificación de caracteres"
+msgstr "Codificación y conjuntos de caracteres"
 
 #. TODO: Recheck once https://bugzilla.gnome.org/show_bug.cgi?id=655021 is fixed
 #: C/mail-displaying-character-encodings.page:24(p)
@@ -6748,14 +6763,13 @@ msgid "Select the message."
 msgstr "Seleccione el mensaje."
 
 #: C/mail-composer-message-templates.page:34(p)
-#, fuzzy
 #| msgid "Right-click &gt; Move to folder / Copy to folder."
 msgid ""
 "Right-click the message and choose <gui>Move to folder</gui> or <gui>Copy to "
 "folder</gui>."
 msgstr ""
-"Pulse con el botón derecho del ratón &gt; Mover a la carpeta / Copiar a la "
-"carpeta."
+"Pulse con el botón derecho del ratón y seleccione <gui>Mover a la carpeta</"
+"gui> o <gui>Copiar a la carpeta</gui>."
 
 #: C/mail-composer-message-templates.page:35(p)
 msgid ""
@@ -6801,20 +6815,19 @@ msgid "Using a Message Template as a Reply"
 msgstr "Usar una plantilla de mensaje como respuesta"
 
 #: C/mail-composer-message-templates.page:61(p)
-#, fuzzy
 msgid ""
 "Right-click the message you are replying to, then click <gui>Templates</gui>."
 msgstr ""
-"Pulse con el botón derecho del ratón sobre el mensaje al que está "
-"respondiendo, después pulse Plantillas."
+"Pulse con el botón derecho del ratón sobre el correo al que está "
+"respondiendo, después pulse <gui>Plantillas</gui>."
 
 #: C/mail-composer-message-templates.page:62(p)
-#, fuzzy
 msgid ""
 "This option lists all the message templates in the <gui>Templates</gui> "
 "folder."
 msgstr ""
-"Esta opción lista todas las plantillas de mensajes en la carpeta Plantilla."
+"Esta opción lista todas las plantillas de mensajes en la carpeta "
+"<gui>Plantillas</gui>."
 
 #: C/mail-composer-message-templates.page:65(p)
 msgid ""
@@ -7253,9 +7266,8 @@ msgid "Select width, size, and alignment."
 msgstr "Seleccione la anchura, tamaño y la alineación."
 
 #: C/mail-composer-html-rule.page:27(p)
-#, fuzzy
 msgid "Select <gui>Shaded</gui> if wanted."
-msgstr "gpg <placeholder-1/>"
+msgstr ""
 
 #: C/mail-composer-html.page:5(desc)
 msgid "Format emails by using HTML instead of plain text."
@@ -7311,9 +7323,8 @@ msgid "HTML Formatting Options"
 msgstr "Opciones de formateo HTML"
 
 #: C/mail-composer-html-link.page:5(desc)
-#, fuzzy
 msgid "Insert a link to a website in the mail composer."
-msgstr "Pulse el botón Adjuntar en el editor."
+msgstr "Insertar un enlace a una página web en el editor."
 
 #: C/mail-composer-html-link.page:21(title)
 msgid "Inserting a Link in HTML"
@@ -7338,9 +7349,8 @@ msgstr ""
 "pulse <gui>Insertar enlace</gui>."
 
 #: C/mail-composer-html-link.page:28(p)
-#, fuzzy
 msgid "Enter the address in the <gui>URL</gui> field."
-msgstr "Escriba su dirección de correo-e en el campo Dirección de correo-e."
+msgstr "Escriba la dirección en el campo <gui>URL</gui>."
 
 #: C/mail-composer-html-link.page:32(p)
 #, fuzzy
@@ -7863,7 +7873,6 @@ msgid "To enable the Attachment Reminder:"
 msgstr "Para activar el Recuerdo de adjuntos:"
 
 #: C/mail-attachments-sending.page:47(p)
-#| msgid "To enable the Attachment Reminder:"
 msgid "Enable <gui>Attachment Reminder</gui>."
 msgstr "Actíve <gui>Recuerdo de adjuntos</gui>."
 
@@ -8532,9 +8541,6 @@ msgid "Corresponding elements in the mail main window:"
 msgstr "Elementos correspondientes en la ventana principal de correo:"
 
 #: C/intro-main-window.page:44(p)
-#| msgid ""
-#| "<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> "
-#| "Menu bar"
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png\" "
 "width=\"10\"/> Menu bar"
@@ -8543,9 +8549,6 @@ msgstr ""
 "width=\"10\"/> Barra de menú"
 
 #: C/intro-main-window.page:47(p)
-#| msgid ""
-#| "<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
-#| "Tool bar"
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png\" "
 "width=\"10\"/> Tool bar"
@@ -8554,9 +8557,6 @@ msgstr ""
 "width=\"10\"/> Barra de herramientas"
 
 #: C/intro-main-window.page:50(p)
-#| msgid ""
-#| "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
-#| "Folder list"
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png\" "
 "width=\"10\"/> Folder list"
@@ -8565,9 +8565,6 @@ msgstr ""
 "width=\"10\"/> Lista de carpetas"
 
 #: C/intro-main-window.page:51(p)
-#| msgid ""
-#| "<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
-#| "Search bar"
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png\" "
 "width=\"10\"/> Search bar"
@@ -8576,9 +8573,6 @@ msgstr ""
 "width=\"10\"/> Barra de búsqueda"
 
 #: C/intro-main-window.page:54(p)
-#| msgid ""
-#| "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
-#| "Message list"
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png\" "
 "width=\"10\"/> Message list"
@@ -8587,9 +8581,6 @@ msgstr ""
 "width=\"10\"/> Lista de mensajes"
 
 #: C/intro-main-window.page:57(p)
-#| msgid ""
-#| "<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
-#| "Switcher"
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png\" "
 "width=\"10\"/> Switcher"
@@ -8598,9 +8589,6 @@ msgstr ""
 "width=\"10\"/> Selector"
 
 #: C/intro-main-window.page:58(p)
-#| msgid ""
-#| "<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
-#| "Preview pane"
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png\" "
 "width=\"10\"/> Preview pane"
@@ -8609,9 +8597,6 @@ msgstr ""
 "width=\"10\"/> Panel de vista previa"
 
 #: C/intro-main-window.page:61(p)
-#| msgid ""
-#| "<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
-#| "Status bar"
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png\" "
 "width=\"10\"/> Status bar"
@@ -9759,6 +9744,8 @@ msgid ""
 "The same steps apply to save a complete mail folder, but you have to mark "
 "all messages in it first."
 msgstr ""
+"Los mismos pasos se aplican al guardar una carpeta de correo completa, pero "
+"antes debe marcar todos los correos en ella."
 
 #: C/exporting-data-contacts.page:5(desc)
 msgid "How to export contacts data from <em>Evolution</em>."
