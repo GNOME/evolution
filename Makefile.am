@@ -149,6 +149,7 @@ MAINTAINERCLEANFILES =			\
 # distcheck uses a custom prefix.  See GNOME bug #354357.
 DISTCHECK_CONFIGURE_FLAGS =		\
 	--enable-gtk-doc		\
+	--disable-goa			\
 	--disable-scrollkeeper		\
 	--enable-test-component		\
 	--disable-image-inline		\
