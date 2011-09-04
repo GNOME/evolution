@@ -515,7 +515,32 @@ e-shell-window.sgml
 @store: 
 @Returns: 
 
+<!-- ##### FUNCTION e_attachment_store_get_current_folder_uri ##### -->
+<para>
+
+</para>
+
+@store: 
+@Returns: 
+
+<!-- ##### FUNCTION e_attachment_store_run_file_chooser_dialog ##### -->
+<para>
+
+</para>
+
+@store: 
+@dialog: 
+@Returns: 
+
 <!-- ##### FUNCTION e_attachment_store_set_current_folder ##### -->
+<para>
+
+</para>
+
+@store: 
+@current_folder: 
+
+<!-- ##### FUNCTION e_attachment_store_set_current_folder_uri ##### -->
 <para>
 
 </para>

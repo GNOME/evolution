@@ -34,14 +34,12 @@
 
 struct _EAttachmentStorePrivate {
 	GHashTable *attachment_index;
-	gchar *current_folder_uri;
 
 	guint ignore_row_changed : 1;
 };
 
 enum {
 	PROP_0,
-	PROP_CURRENT_FOLDER_URI,
 	PROP_NUM_ATTACHMENTS,
 	PROP_NUM_LOADING,
 	PROP_TOTAL_SIZE
@@ -53,36 +51,12 @@ G_DEFINE_TYPE (
 	GTK_TYPE_LIST_STORE)
 
 static void
-attachment_store_set_property (GObject *object,
-                               guint property_id,
-                               const GValue *value,
-                               GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_CURRENT_FOLDER_URI:
-			e_attachment_store_set_current_folder_uri (
-				E_ATTACHMENT_STORE (object),
-				g_value_get_string (value));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
 attachment_store_get_property (GObject *object,
                                guint property_id,
                                GValue *value,
                                GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_CURRENT_FOLDER_URI:
-			g_value_set_string (
-				value,
-				e_attachment_store_get_current_folder_uri (
-				E_ATTACHMENT_STORE (object)));
-			return;
-
 		case PROP_NUM_ATTACHMENTS:
 			g_value_set_uint (
 				value,
@@ -126,25 +100,8 @@ attachment_store_finalize (GObject *object)
 
 	g_hash_table_destroy (priv->attachment_index);
 
-	g_free (priv->current_folder_uri);
-
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_attachment_store_parent_class)->finalize (object);
-}
-
-static void
-attachment_store_constructed (GObject *object)
-{
-	GConfBridge *bridge;
-	const gchar *key;
-
-	bridge = gconf_bridge_get ();
-
-	key = "/apps/evolution/shell/file_chooser_folder";
-	gconf_bridge_bind_property (bridge, key, object, "current-folder-uri");
-
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_attachment_store_parent_class)->constructed (object);
 }
 
 static void
@@ -155,22 +112,9 @@ e_attachment_store_class_init (EAttachmentStoreClass *class)
 	g_type_class_add_private (class, sizeof (EAttachmentStorePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->set_property = attachment_store_set_property;
 	object_class->get_property = attachment_store_get_property;
 	object_class->dispose = attachment_store_dispose;
 	object_class->finalize = attachment_store_finalize;
-	object_class->constructed = attachment_store_constructed;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_CURRENT_FOLDER_URI,
-		g_param_spec_string (
-			"current-folder-uri",
-			"Current Folder URI",
-			NULL,
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
@@ -409,34 +353,6 @@ e_attachment_store_get_attachments (EAttachmentStore *store)
 	return g_list_reverse (list);
 }
 
-const gchar *
-e_attachment_store_get_current_folder_uri (EAttachmentStore *store)
-{
-	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), NULL);
-
-	return store->priv->current_folder_uri;
-}
-
-void
-e_attachment_store_set_current_folder_uri (EAttachmentStore *store,
-                                           const gchar *current_folder_uri)
-{
-	gchar *allocated;
-
-	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
-
-	if (current_folder_uri == NULL) {
-		const gchar *home_dir = g_get_home_dir ();
-		allocated = g_filename_to_uri (home_dir, NULL, NULL);
-	} else
-		allocated = g_strdup (current_folder_uri);
-
-	g_free (store->priv->current_folder_uri);
-	store->priv->current_folder_uri = allocated;
-
-	g_object_notify (G_OBJECT (store), "current-folder-uri");
-}
-
 guint
 e_attachment_store_get_num_attachments (EAttachmentStore *store)
 {
@@ -493,41 +409,6 @@ e_attachment_store_get_total_size (EAttachmentStore *store)
 	return total_size;
 }
 
-gint
-e_attachment_store_run_file_chooser_dialog (EAttachmentStore *store,
-                                            GtkWidget *dialog)
-{
-	GtkFileChooser *file_chooser;
-	gint response = GTK_RESPONSE_NONE;
-	const gchar *current_uri;
-	gboolean update_folder;
-
-	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), response);
-	g_return_val_if_fail (GTK_IS_FILE_CHOOSER_DIALOG (dialog), response);
-
-	file_chooser = GTK_FILE_CHOOSER (dialog);
-	current_uri = e_attachment_store_get_current_folder_uri (store);
-	gtk_file_chooser_set_current_folder_uri (file_chooser, current_uri);
-
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-
-	update_folder =
-		(response == GTK_RESPONSE_ACCEPT) ||
-		(response == GTK_RESPONSE_OK) ||
-		(response == GTK_RESPONSE_YES) ||
-		(response == GTK_RESPONSE_APPLY);
-
-	if (update_folder) {
-		gchar *uri;
-
-		uri = gtk_file_chooser_get_current_folder_uri (file_chooser);
-		e_attachment_store_set_current_folder_uri (store, uri);
-		g_free (uri);
-	}
-
-	return response;
-}
-
 void
 e_attachment_store_run_load_dialog (EAttachmentStore *store,
                                     GtkWindow *parent)
@@ -560,7 +441,7 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 	gtk_file_chooser_set_extra_widget (file_chooser, option);
 	gtk_widget_show (option);
 
-	response = e_attachment_store_run_file_chooser_dialog (store, dialog);
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
 	if (response != GTK_RESPONSE_OK)
 		goto exit;
@@ -643,7 +524,7 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 		gtk_file_chooser_set_current_name (file_chooser, name);
 	}
 
-	response = e_attachment_store_run_file_chooser_dialog (store, dialog);
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
 	if (response == GTK_RESPONSE_OK)
 		destination = gtk_file_chooser_get_file (file_chooser);

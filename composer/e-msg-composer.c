@@ -2114,12 +2114,6 @@ msg_composer_constructed (GObject *object)
 
 	array = composer->priv->gconf_bridge_binding_ids;
 
-	binding_id = gconf_bridge_bind_property (
-		gconf_bridge_get (),
-		COMPOSER_GCONF_CURRENT_FOLDER_KEY,
-		G_OBJECT (composer), "current-folder");
-	g_array_append_val (array, binding_id);
-
 	binding_id = gconf_bridge_bind_window (
 		gconf_bridge_get (),
 		COMPOSER_GCONF_WINDOW_PREFIX,

@@ -87,20 +87,12 @@ void		e_attachment_store_add_to_multipart
 						 const gchar *default_charset);
 GList *		e_attachment_store_get_attachments
 						(EAttachmentStore *store);
-const gchar *	e_attachment_store_get_current_folder_uri
-						(EAttachmentStore *store);
-void		e_attachment_store_set_current_folder_uri
-						(EAttachmentStore *store,
-						 const gchar *current_folder);
 guint		e_attachment_store_get_num_attachments
 						(EAttachmentStore *store);
 guint		e_attachment_store_get_num_loading
 						(EAttachmentStore *store);
 goffset		e_attachment_store_get_total_size
 						(EAttachmentStore *store);
-gint		e_attachment_store_run_file_chooser_dialog
-						(EAttachmentStore *store,
-						 GtkWidget *dialog);
 void		e_attachment_store_run_load_dialog
 						(EAttachmentStore *store,
 						 GtkWindow *parent);

@@ -58,20 +58,6 @@
       </locale>
     </schema>
 
-    <!-- Initial GtkFileChooser Folder -->
-
-    <schema>
-      <key>/schemas/apps/evolution/shell/file_chooser_folder</key>
-      <applyto>/apps/evolution/shell/file_chooser_folder</applyto>
-      <owner>evolution</owner>
-      <type>string</type>
-      <default></default>
-      <locale name="C">
-        <short>Initial file chooser folder</short>
-        <long>Initial folder for GtkFileChooser dialogs.</long>
-      </locale>
-    </schema>
-
     <!-- Offline Mode -->
 
     <schema>

@@ -3418,10 +3418,6 @@ image_clicked (GtkWidget *button,
 			GTK_DIALOG (editor->file_selector),
 			GTK_RESPONSE_ACCEPT);
 
-		gtk_file_chooser_set_current_folder (
-			GTK_FILE_CHOOSER (editor->file_selector),
-			g_get_home_dir ());
-
 		g_signal_connect (
 			editor->file_selector, "response",
 			G_CALLBACK (file_chooser_response), editor);

@@ -218,8 +218,7 @@ action_save_as_cb (GtkAction *action,
 	gtk_window_set_icon_name (
 		GTK_WINDOW (dialog), "mail-message-new");
 
-	response = gtkhtml_editor_file_chooser_dialog_run (
-		GTKHTML_EDITOR (composer), dialog);
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
 	if (response != GTK_RESPONSE_OK)
 		goto exit;
