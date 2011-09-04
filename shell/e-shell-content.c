@@ -40,7 +40,6 @@
 #include "filter/e-rule-editor.h"
 #include "widgets/misc/e-action-combo-box.h"
 #include "widgets/misc/e-alert-bar.h"
-#include "widgets/misc/e-hinted-entry.h"
 
 #include "e-shell-backend.h"
 #include "e-shell-searchbar.h"
