@@ -164,6 +164,7 @@ e_table_state_load_from_node (ETableState *state,
 	GList *list = NULL, *iterator;
 	gdouble state_version;
 	gint i;
+	gboolean can_group = TRUE;
 
 	g_return_if_fail (E_IS_TABLE_STATE (state));
 	g_return_if_fail (node != NULL);
@@ -171,8 +172,10 @@ e_table_state_load_from_node (ETableState *state,
 	state_version = e_xml_get_double_prop_by_name_with_default (
 		node, (const guchar *)"state-version", STATE_VERSION);
 
-	if (state->sort_info)
+	if (state->sort_info) {
+		can_group = e_table_sort_info_get_can_group (state->sort_info);
 		g_object_unref (state->sort_info);
+	}
 
 	state->sort_info = NULL;
 	children = node->xmlChildrenNode;
@@ -202,6 +205,7 @@ e_table_state_load_from_node (ETableState *state,
 
 	if (!state->sort_info)
 		state->sort_info = e_table_sort_info_new ();
+	e_table_sort_info_set_can_group (state->sort_info, can_group);
 
 	for (iterator = list, i = 0; iterator; i++) {
 		int_and_double *column_info = iterator->data;

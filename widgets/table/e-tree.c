@@ -1677,6 +1677,7 @@ e_tree_construct (ETree *e_tree,
 	}
 
 	e_tree->priv->spec = specification;
+	e_tree->priv->spec->allow_grouping = FALSE;
 
 	g_object_unref (state);
 
@@ -1743,6 +1744,7 @@ e_tree_construct_from_spec_file (ETree *e_tree,
 	}
 
 	e_tree->priv->spec = specification;
+	e_tree->priv->spec->allow_grouping = FALSE;
 
 	g_object_unref (state);
 
