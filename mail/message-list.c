@@ -3330,13 +3330,28 @@ build_tree (MessageList *ml,
 		tree_equal (ml->model, top, thread->tree);
 	}
 #endif
+	if (!saveuid && ml->cursor_uid && g_hash_table_lookup (ml->uid_nodemap, ml->cursor_uid)) {
+		/* this makes sure a visible node is selected, like when
+		   collapsing all nodes and a children had been selected
+		*/
+		saveuid = g_strdup (ml->cursor_uid);
+	}
+
 	if (saveuid) {
-		ETreePath *node = g_hash_table_lookup (ml->uid_nodemap, saveuid);
+		ETreePath node = g_hash_table_lookup (ml->uid_nodemap, saveuid);
 		if (node == NULL) {
 			g_free (ml->cursor_uid);
 			ml->cursor_uid = NULL;
 			g_signal_emit (ml, message_list_signals[MESSAGE_SELECTED], 0, NULL);
 		} else {
+			ETree *tree = E_TREE (ml);
+			ETreePath parent = node;
+
+			while (parent = e_tree_model_node_get_parent (etm, parent), parent) {
+				if (!e_tree_node_is_expanded (tree, parent))
+					node = parent;
+			}
+
 			e_tree_set_cursor (E_TREE (ml), node);
 		}
 		g_free (saveuid);
