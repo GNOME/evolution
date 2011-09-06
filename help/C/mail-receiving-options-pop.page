@@ -26,7 +26,11 @@
 
   <title>POP receiving options</title>
 
+<section id="receiving-email">
+<title>Receiving Email</title>
+
 <p>On the <gui>Receiving Email</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Email</gui></guiseq>):</p>
+
 <list>
 <item><p>Enter the address of the email server in the <gui>Server</gui> field and enter your username for that server.</p></item>
 <item><p>Select if you want to use a secure connection (SSL or TLS).</p><p>You should enable this option if your server supports it.</p>
@@ -36,15 +40,23 @@
 <item><p>Select if you want Evolution to remember your password.</p></item>
 </list>
 
+</section>
+
+<section id="receiving-options">
+<title>Receiving Options</title>
+
 <p>On the <gui>Receiving Options</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>):</p>
 
-<p>If you want Evolution to check automatically for new messages, click the <gui>Check for new messages every ... minutes</gui> option and select the frequency in minutes.</p>
+<list>
+<item><p>If you want Evolution to check automatically for new messages, click the <gui>Check for new messages every ... minutes</gui> option and select the frequency in minutes.</p></item>
+<item><p>If you want the messages to remain on the server for a period of time, click the <gui>Leave messages on server</gui> option and the <gui>Delete after ... days</gui> option and select the number of days to allow messages to remain on the server.</p></item>
+<item><p>The option <gui>Disable support for all POP3 extensions</gui> is only useful when accessing old or misconfigured mail servers. <link href="https://tools.ietf.org/html/rfc2449">POP3 extensions</link> provide enhanced functionality, however only some servers support them. In case of problems with receiving mail, enabling this setting might help.</p></item>
+</list>
 
-<p>If you want the messages to remain on the server for a period of time, click the <gui>Leave messages on server</gui> option and the <gui>Delete after ... days</gui> option and select the number of days to allow messages to remain on the server.</p>
+</section>
 
-<p>The option <gui>Disable support for all POP3 extensions</gui> is only useful when accessing old or misconfigured mail servers. <link href="https://tools.ietf.org/html/rfc2449">POP3 extensions</link> provide enhanced functionality, however only some servers support them. In case of problems with receiving mail, enabling this setting might help.</p>
-
+<section id="return-to-assistant-bottom-link">
 <!-- TODO:XINCLUDE: Maybe later replace this "go back" workaround by doing some content sharing with xinclude and xpointer in intro-first-run.page itself? <include href="foo.xml" xmlns="http://www.w3.org/2001/XInclude"/> See gnome-user-docs module for example usage. -->
 <p>If you came to this page from the first-run wizard help page, click <link xref="intro-first-run#sending">here</link> to continue with the next step.</p>
-
+</section>
 </page>
