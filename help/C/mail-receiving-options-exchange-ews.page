@@ -19,6 +19,9 @@
 
   <title>Exchange Web Services receiving options</title>
 
+<section id="receiving-email">
+<title>Receiving Email</title>
+
 <p>On the <gui>Receiving Email</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Email</gui></guiseq>):</p>
 
 <list>
@@ -28,14 +31,25 @@
 <item><p>Select your authentication type in the Authentication list, or click <gui style="button">Check for Supported Types</gui> to have Evolution check for supported authentication mechanisms. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</p></item>
 </list>
 
+</section>
+
+<section id="receiving-options">
+<title>Receiving Options</title>
+
 <p>On the <gui>Receiving Options</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>):</p>
+
 <list>
 <item><p>If you want Evolution to check automatically for new messages, click the <gui>Check for new messages every ... minutes</gui> option and select the frequency in minutes.</p></item>
 <item><p>You can also define if Evolution checks for new messages in all folders.</p></item>
 <item><p>If you would like to have a copy of the address book on the server for offline access to it, enable <gui>Cache offline address book</gui> and click <gui style="button">Fetch list</gui>. Afterwards, select the address book from the available options.</p></item>
-<p>If you want <link xref="mail-filters">Filters</link> to be automatically used for new messages in your inbox, enable <gui>Apply filters to new messages in INBOX on this server</gui>.</p>
+<p>If you want <link xref="mail-filters">Filters</link> to be automatically used for new messages in your inbox, enable <gui>Apply filters to new messages in Inbox on this server</gui>.</p>
 </list>
+
+</section>
+
+<section id="return-to-assistant-bottom-link">
 <!-- TODO:XINCLUDE: Maybe later replace this "go back" workaround by doing some content sharing with xinclude and xpointer in intro-first-run.page itself? <include href="foo.xml" xmlns="http://www.w3.org/2001/XInclude"/> See gnome-user-docs module for example usage. -->
 <p>If you came to this page from the first-run wizard help page, click <link xref="intro-first-run#sending">here</link> to continue with the next step.</p>
+</section>
 
 </page>
