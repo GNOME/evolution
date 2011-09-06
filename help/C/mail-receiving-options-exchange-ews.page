@@ -1,0 +1,41 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-receiving-options-exchange-ews">
+
+  <info>
+    <desc>Receiving options for Exchange Web Services accounts.</desc>
+
+    <link type="guide" xref="mail-receiving-options#corporate-server-types"/>
+    <link type="guide" xref="mail-account-manage-microsoft-exchange-evo-ews#receiving-email"/>
+    <revision pkgversion="3.1.91" version="0.1" date="2011-09-06" status="draft"/>
+    <credit type="author">
+      <name>Andre Klapper</name>
+      <email>ak-47@gmx.net</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+
+  </info>
+
+  <title>Exchange Web Services receiving options</title>
+
+<p>On the <gui>Receiving Email</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Email</gui></guiseq>):</p>
+
+<list>
+<item><p>Enter your username for that server.</p></item>
+<item><p>Either manually enter the Host URL and OAB URL, or click <gui style="button">Fetch URL</gui> which will ask you for your password and then try to automatically fill in the values.</p>
+<note style="tip"><p>If you are in an organizational environment, you may want to contact your system administrator for more information.</p></note></item>
+<item><p>Select your authentication type in the Authentication list, or click <gui style="button">Check for Supported Types</gui> to have Evolution check for supported authentication mechanisms. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</p></item>
+</list>
+
+<p>On the <gui>Receiving Options</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>):</p>
+<list>
+<item><p>If you want Evolution to check automatically for new messages, click the <gui>Check for new messages every ... minutes</gui> option and select the frequency in minutes.</p></item>
+<item><p>You can also define if Evolution checks for new messages in all folders.</p></item>
+<item><p>If you would like to have a copy of the address book on the server for offline access to it, enable <gui>Cache offline address book</gui> and click <gui style="button">Fetch list</gui>. Afterwards, select the address book from the available options.</p></item>
+<p>If you want <link xref="mail-filters">Filters</link> to be automatically used for new messages in your inbox, enable <gui>Apply filters to new messages in INBOX on this server</gui>.</p>
+</list>
+<!-- TODO:XINCLUDE: Maybe later replace this "go back" workaround by doing some content sharing with xinclude and xpointer in intro-first-run.page itself? <include href="foo.xml" xmlns="http://www.w3.org/2001/XInclude"/> See gnome-user-docs module for example usage. -->
+<p>If you came to this page from the first-run wizard help page, click <link xref="intro-first-run#sending">here</link> to continue with the next step.</p>
+
+</page>

@@ -6,7 +6,7 @@
 
   <link type="guide" xref="mail-account-manage-microsoft-exchange"/>
 
-    <revision pkgversion="3.1.5" version="0.1" date="2011-07-30" status="stub"/>
+    <revision pkgversion="3.1.91" version="0.2" date="2011-09-06" status="draft"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -18,7 +18,37 @@
   </info>
 
   <title>Exchange Web Services account settings</title>
-<!-- TODO: Write once evo-ews is stable. Copy structure from other Exchange account types if applicable. -->
 
-<p>This documentation section will be added once the currently developed evolution-ews has become stable and mature.</p>
+<section id="account-editor">
+<title>Account Editor</title>
+
+<p>Mail accounts can be added via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Add</gui></guiseq>. The steps are mostly the same as for the <link xref="intro-first-run">First-Run Assistant</link>, except for not getting asked whether to import data from other applications or to restore from a backup file.</p>
+<p>Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui></guiseq>. The following settings are available when editing an existing account:</p>
+
+<section id="identity">
+<title>Identity</title>
+<!-- TODO:XINCLUDE: Quite ugly to copy this text into all account type's, but it's not really worth a separate topic page for it, plus it would make the intro-first-run.page even more complex. Maybe later replace this text by a single instance by doing some content sharing with xinclude and xpointer in the other mail-account-manage-*.page files and in intro-first-run.page. <include href="foo.xml" xmlns="http://www.w3.org/2001/XInclude"/> See gnome-user-docs module for example usage. Also see https://bugzilla.gnome.org/show_bug.cgi?id=638866 -->
+<p>Here you define your name and your email address.</p>
+<p>Optionally you can make this account your default account (e.g. when writing emails), set a Reply-To email address (if you want replies to messages sent to a different address), and set an organization (the company where you work, or the organization you represent when you send email from this account).</p>
+</section>
+
+<section id="receiving-email">
+<title>Receiving Email and Receiving options</title>
+</section>
+
+<section id="defaults">
+<title>Defaults</title>
+</section>
+
+<section id="security">
+<title>Security</title>
+</section>
+
+</section> <!-- end "account editor" section, now list any account settings stuff related to this account type outside of it -->
+
+<!-- <section id="other-settings">
+<title>Other settings</title>
+<p>Other account related settings that are not located in the <gui>Account Editor</gui>:</p>
+</section> -->
+
 </page>
