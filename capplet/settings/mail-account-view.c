@@ -719,8 +719,10 @@ mav_next_pressed (GtkButton *button,
 		tmp = mail_account_pages[mav->current_page].create_page (mav);
 		page->main = gtk_hbox_new (FALSE, 0);
 		gtk_widget_show (page->main);
-		gtk_box_pack_start ((GtkBox *) page->main, tmp, FALSE, FALSE, 0);
-		gtk_widget_show (tmp);
+		if (tmp) {
+			gtk_box_pack_start ((GtkBox *) page->main, tmp, FALSE, FALSE, 0);
+			gtk_widget_show (tmp);
+		}
 		gtk_box_pack_start ((GtkBox *) page->box, page->main, FALSE, FALSE, 3);
 
 		if (mav->priv->is_gmail) {
@@ -943,8 +945,6 @@ mav_construct_page (MailAccountView *view,
 		}
 		page->next = gtk_button_new ();
 		gtk_widget_set_can_default (page->next, TRUE);
-		g_signal_connect (page->next, "hierarchy-changed",
-				  G_CALLBACK (gtk_widget_grab_default), NULL);
 		gtk_container_add ((GtkContainer *) page->next, box);
 		gtk_widget_show_all (page->next);
 		g_signal_connect (page->next, "clicked", G_CALLBACK(mav_next_pressed), view);
