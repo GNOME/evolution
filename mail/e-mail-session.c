@@ -434,61 +434,48 @@ ms_forward_to_cb (CamelFolder *folder,
 
 /* Support for SOCKS proxy ***************************************************/
 
-#define DIR_PROXY "/system/proxy"
-#define MODE_PROXY "/system/proxy/mode"
-#define KEY_SOCKS_HOST "/system/proxy/socks_host"
-#define KEY_SOCKS_PORT "/system/proxy/socks_port"
+static GSettings *proxy_settings = NULL, *proxy_socks_settings = NULL;
 
 static void
-set_socks_proxy_from_gconf (CamelSession *session)
+set_socks_proxy_from_gsettings (CamelSession *session)
 {
-	GConfClient *client;
 	gchar *mode, *host;
 	gint port;
 
-	client = gconf_client_get_default ();
+	g_return_if_fail (proxy_settings != NULL);
+	g_return_if_fail (proxy_socks_settings != NULL);
 
-	mode = gconf_client_get_string (client, MODE_PROXY, NULL);
-	if (!g_strcmp0(mode, "manual")) {
-		/* FIXME Pass GErrors */
-		host = gconf_client_get_string (client, KEY_SOCKS_HOST, NULL);
-		port = gconf_client_get_int (client, KEY_SOCKS_PORT, NULL);
+	mode = g_settings_get_string (proxy_settings, "mode");
+	if (g_strcmp0 (mode, "manual") == 0) {
+		host = g_settings_get_string (proxy_socks_settings, "host");
+		port = g_settings_get_int (proxy_socks_settings, "port");
 		camel_session_set_socks_proxy (session, host, port);
 		g_free (host);
 	}
 	g_free (mode);
-
-	g_object_unref (client);
 }
 
 static void
-proxy_gconf_notify_cb (GConfClient *client,
-                       guint cnxn_id,
-                       GConfEntry *entry,
-                       gpointer user_data)
+proxy_gsettings_changed_cb (GSettings *settings,
+			    const gchar *key,
+			    CamelSession *session)
 {
-	CamelSession *session = CAMEL_SESSION (user_data);
-
-	if (strcmp (entry->key, KEY_SOCKS_HOST) == 0
-	    || strcmp (entry->key, KEY_SOCKS_PORT) == 0)
-		set_socks_proxy_from_gconf (session);
+	set_socks_proxy_from_gsettings (session);
 }
 
 static void
-set_socks_proxy_gconf_watch (CamelSession *session)
+set_socks_proxy_gsettings_watch (CamelSession *session)
 {
-	GConfClient *client;
+	g_return_if_fail (proxy_settings != NULL);
+	g_return_if_fail (proxy_socks_settings != NULL);
 
-	client = gconf_client_get_default ();
+	g_signal_connect (
+		proxy_settings, "changed::mode",
+		G_CALLBACK (proxy_gsettings_changed_cb), session);
 
-	gconf_client_add_dir (
-		client, DIR_PROXY,
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL); /* NULL-GError */
-	session_gconf_proxy_id = gconf_client_notify_add (
-		client, DIR_PROXY, proxy_gconf_notify_cb,
-		session, NULL, NULL); /* NULL-GError */
-
-	g_object_unref (client);
+	g_signal_connect (
+		proxy_socks_settings, "changed",
+		G_CALLBACK (proxy_gsettings_changed_cb), session);
 }
 
 static void
@@ -496,8 +483,18 @@ init_socks_proxy (CamelSession *session)
 {
 	g_return_if_fail (CAMEL_IS_SESSION (session));
 
-	set_socks_proxy_gconf_watch (session);
-	set_socks_proxy_from_gconf (session);
+	if (!proxy_settings) {
+		proxy_settings = g_settings_new ("org.gnome.system.proxy");
+		proxy_socks_settings = g_settings_get_child (proxy_settings, "socks");
+		g_object_weak_ref (G_OBJECT (proxy_settings), (GWeakNotify) g_nullify_pointer, &proxy_settings);
+		g_object_weak_ref (G_OBJECT (proxy_socks_settings), (GWeakNotify) g_nullify_pointer, &proxy_socks_settings);
+	} else {
+		g_object_ref (proxy_settings);
+		g_object_ref (proxy_socks_settings);
+	}
+
+	set_socks_proxy_gsettings_watch (session);
+	set_socks_proxy_from_gsettings (session);
 }
 
 /*****************************************************************************/
@@ -696,6 +693,16 @@ mail_session_finalize (GObject *object)
 
 	g_free (mail_data_dir);
 	g_free (mail_config_dir);
+
+	if (proxy_settings) {
+		g_signal_handlers_disconnect_by_func (proxy_settings, proxy_gsettings_changed_cb, CAMEL_SESSION (object));
+		g_object_unref (proxy_settings);
+	}
+
+	if (proxy_socks_settings) {
+		g_signal_handlers_disconnect_by_func (proxy_socks_settings, proxy_gsettings_changed_cb, CAMEL_SESSION (object));
+		g_object_unref (proxy_socks_settings);
+	}
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_session_parent_class)->finalize (object);
