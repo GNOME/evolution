@@ -179,7 +179,7 @@ mail_capplet_shell_quit (MailCappletShell *shell)
 	if (priv->main_loop)
 		gtk_main_quit ();
 	else
-		gtk_widget_hide ((GtkWidget *) shell);
+		gtk_widget_destroy ((GtkWidget *) shell);
 }
 
 static void
