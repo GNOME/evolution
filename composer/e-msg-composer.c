@@ -3590,6 +3590,8 @@ msg_composer_send_cb (EMsgComposer *composer,
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		g_error_free (error);
+
+		gtk_window_present (GTK_WINDOW (composer));
 		return;
 	}
 
@@ -3601,6 +3603,8 @@ msg_composer_send_cb (EMsgComposer *composer,
 			error->message, NULL);
 		async_context_free (context);
 		g_error_free (error);
+
+		gtk_window_present (GTK_WINDOW (composer));
 		return;
 	}
 
@@ -3639,8 +3643,10 @@ e_msg_composer_send (EMsgComposer *composer)
 	/* This gives the user a chance to abort the send. */
 	g_signal_emit (composer, signals[PRESEND], 0, &proceed_with_send);
 
-	if (!proceed_with_send)
+	if (!proceed_with_send) {
+		gtk_window_present (GTK_WINDOW (composer));
 		return;
+	}
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_composer_activity_new (composer);
