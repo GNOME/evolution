@@ -257,6 +257,14 @@ alarm_notify_startup (GApplication *application)
 }
 
 static void
+alarm_notify_activate (GApplication *application)
+{
+	/* Disregard.  This is just here to prevent the default
+	 * activate method from running, which issues a warning
+	 * if there are no handlers connected to this signal. */
+}
+
+static void
 alarm_notify_class_init (AlarmNotifyClass *class)
 {
 	GObjectClass *object_class;
@@ -269,6 +277,7 @@ alarm_notify_class_init (AlarmNotifyClass *class)
 
 	application_class = G_APPLICATION_CLASS (class);
 	application_class->startup = alarm_notify_startup;
+	application_class->activate = alarm_notify_activate;
 }
 
 static void
