@@ -23,17 +23,21 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
 
-#include <e-util/e-config.h>
-#include <e-util/e-plugin-util.h>
-#include <calendar/gui/e-cal-config.h>
-#include <libedataserver/e-source.h>
-#include <addressbook/gui/widgets/eab-config.h>
 #include <libebook/e-book-client.h>
 #include <libecal/e-cal-client.h>
-#include <glib/gi18n.h>
-#include <string.h>
+#include <libedataserver/e-source.h>
+
+#include <addressbook/gui/widgets/eab-config.h>
+#include <calendar/gui/e-cal-config.h>
+#include <e-util/e-config.h>
+#include <e-util/e-plugin-util.h>
+#include <e-util/e-plugin-util.h>
+#include <shell/e-shell.h>
+#include <shell/e-shell-backend.h>
 
 GtkWidget *org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *org_gnome_autocomplete_book (EPlugin *epl, EConfigHookItemFactoryData *data);
@@ -50,6 +54,26 @@ e_plugin_lib_enable (EPlugin *ep,
 	return 0;
 }
 
+static void
+mark_default_source_in_list (ESourceList *source_list, ESource *source)
+{
+	GSList *g, *s;
+	g_return_if_fail (source_list != NULL);
+	g_return_if_fail (source != NULL);
+
+	source = e_source_list_peek_source_by_uid (source_list, e_source_peek_uid (source));
+
+	for (g = e_source_list_peek_groups (source_list); g; g = g->next) {
+		ESourceGroup *group = g->data;
+
+		for (s = e_source_group_peek_sources (group); s; s = s->next) {
+			ESource *es = s->data;
+
+			e_source_set_property (es, "default", es == source ? "true" : NULL);
+		}
+	}
+}
+
 void
 commit_default_calendar (EPlugin *epl,
                          EConfigTarget *target)
@@ -59,8 +83,41 @@ commit_default_calendar (EPlugin *epl,
 
 	cal_target = (ECalConfigTargetSource *) target;
 	source = cal_target->source;
-	if (e_source_get_property (source, "default"))
-		e_cal_client_set_default_source (source, cal_target->source_type, NULL);
+	if (e_source_get_property (source, "default")) {
+		EShellBackend *shell_backend = NULL;
+		ESourceList *source_list = NULL;
+
+		switch (cal_target->source_type) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			shell_backend = e_shell_get_backend_by_name (e_shell_get_default (), "calendar");
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			shell_backend = e_shell_get_backend_by_name (e_shell_get_default (), "memos");
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			shell_backend = e_shell_get_backend_by_name (e_shell_get_default (), "tasks");
+			break;
+		default:
+			break;
+		}
+
+		if (shell_backend)
+			g_object_get (G_OBJECT (shell_backend), "source-list", &source_list, NULL);
+
+		if (source_list) {
+			/* mark in the backend's source_list, to avoid race
+			   with saving of two different source lists
+			*/
+			mark_default_source_in_list (source_list, source);
+		} else {
+			GError *error = NULL;
+
+			e_cal_client_set_default_source (source, cal_target->source_type, &error);
+			if (error)
+				g_debug ("%s: Failed to set default source: %s", G_STRFUNC, error->message);
+			g_clear_error (&error);
+		}
+	}
 }
 
 void
@@ -72,8 +129,28 @@ commit_default_book (EPlugin *epl,
 
 	book_target = (EABConfigTargetSource *) target;
 	source = book_target->source;
-	if (e_source_get_property (source, "default"))
-		e_book_client_set_default_source (source, NULL);
+	if (e_source_get_property (source, "default")) {
+		EShellBackend *shell_backend;
+		ESourceList *source_list = NULL;
+
+		shell_backend = e_shell_get_backend_by_name (e_shell_get_default (), "addressbook");
+		if (shell_backend)
+			g_object_get (G_OBJECT (shell_backend), "source-list", &source_list, NULL);
+
+		if (source_list) {
+			/* mark in the backend's source_list, to avoid race
+			   with saving of two different source lists
+			*/
+			mark_default_source_in_list (source_list, source);
+		} else {
+			GError *error = NULL;
+
+			e_book_client_set_default_source (source, &error);
+			if (error)
+				g_debug ("%s: Failed to set default source: %s", G_STRFUNC, error->message);
+			g_clear_error (&error);
+		}
+	}
 
 }
 
