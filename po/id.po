@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N\n"
 "POT-Creation-Date: 2011-08-23 13:03+0000\n"
-"PO-Revision-Date: 2011-08-29 14:32+0700\n"
+"PO-Revision-Date: 2011-08-31 15:12+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -9805,24 +9805,20 @@ msgid "C_ollapse All"
 msgstr "Pilih Semua"
 
 #: ../mail/em-subscription-editor.c:1302
-#, fuzzy
 msgid "Expand all folders"
-msgstr "Semua folder lokal"
+msgstr "Kembangkan semua folder"
 
 #: ../mail/em-subscription-editor.c:1303
-#, fuzzy
 msgid "E_xpand All"
-msgstr "Kembangkan Seluruh Susunan"
+msgstr "_Kembangkan Semua"
 
 #: ../mail/em-subscription-editor.c:1313
-#, fuzzy
 msgid "Refresh the folder list"
-msgstr "Menyegarkan atau memuat ulang daftar proses"
+msgstr "Segarkan daftar folder"
 
 #: ../mail/em-subscription-editor.c:1325
-#, fuzzy
 msgid "Stop the current operation"
-msgstr "Menghentikan operasi"
+msgstr "Hentikan operasi saat ini"
 
 #. Translators: This message is shown only for ten or more
 #. * messages to be opened.  The %d is replaced with the actual
@@ -9928,23 +9924,20 @@ msgid "Attribute message."
 msgstr "Pesan Tanpa Judul"
 
 #: ../mail/evolution-mail.schemas.in.h:17
-#, fuzzy
 msgid "Automatic emoticon recognition"
-msgstr "Pengenalan link otomatis"
+msgstr "Pengenalan emoticon otomatis"
 
 #: ../mail/evolution-mail.schemas.in.h:18
 msgid "Automatic link recognition"
 msgstr "Pengenalan link otomatis"
 
 #: ../mail/evolution-mail.schemas.in.h:19
-#, fuzzy
 msgid "Check for new messages in all active accounts"
-msgstr "Periksa pesan _baru setiap"
+msgstr "Periksa pesan baru pada setiap akun aktif"
 
 #: ../mail/evolution-mail.schemas.in.h:20
-#, fuzzy
 msgid "Check for new messages on start"
-msgstr "Periksa pesan _baru setiap"
+msgstr "Periksa pesan baru saat awalan"
 
 #: ../mail/evolution-mail.schemas.in.h:21
 msgid "Check incoming mail being junk"
@@ -10085,9 +10078,8 @@ msgid "Display only message texts not exceeding certain size"
 msgstr "Hanya tampilkan teks pesan yang tak melebihi ukuran tertentu"
 
 #: ../mail/evolution-mail.schemas.in.h:55
-#, fuzzy
 msgid "Do not add signature delimiter"
-msgstr "Tidak dapat menyimpan file tanda tangan."
+msgstr "Jangan tambahkan pembatas tanda tangan"
 
 #: ../mail/evolution-mail.schemas.in.h:56
 msgid "Draw spelling error indicators on words as you type."
@@ -10134,9 +10126,8 @@ msgid "Enable or disable type ahead search feature"
 msgstr "Aktif atau matikan pengetikan pada fasilitas cari"
 
 #: ../mail/evolution-mail.schemas.in.h:66
-#, fuzzy
 msgid "Enable search folders"
-msgstr "Aktifkan Pencarian Penandaan"
+msgstr "Aktifkan folder pencarian"
 
 #: ../mail/evolution-mail.schemas.in.h:67
 msgid "Enable search folders on startup."
@@ -10176,17 +10167,18 @@ msgid "Encode file names in the mail headers same as Outlook or GMail do, to let
 msgstr "Kodekan nama berkas pada tajuk surat sama seperti yang dilakukan Outlook atau GMail, yang memungkinkan mereka menampilkan nama berkas secara benar dengan huruf UTF-8 yang dikirim oleh Evolution, karena mereka tidak mengikuti RFC 2231, tapi memakai standar RFC 2047 yang tak benar."
 
 #: ../mail/evolution-mail.schemas.in.h:76
+#, fuzzy
 msgid "Flush Outbox after filtering"
-msgstr ""
+msgstr "Gelontor Outbox setelah penyaringan"
 
 #: ../mail/evolution-mail.schemas.in.h:77
-#, fuzzy
 msgid "Forward message."
-msgstr "Pesan Tanpa Judul"
+msgstr "Teruskan pesan."
 
 #: ../mail/evolution-mail.schemas.in.h:78
+#, fuzzy
 msgid "Group Reply replies to list"
-msgstr ""
+msgstr "Kirim Jawaban Grup ke milis"
 
 #: ../mail/evolution-mail.schemas.in.h:79
 msgid "Height of the message-list pane"
@@ -10294,7 +10286,6 @@ msgid "Last time Empty Trash was run"
 msgstr "Kala terakhir Kosongkan Tong Sampah dijalankan"
 
 #: ../mail/evolution-mail.schemas.in.h:105
-#, fuzzy
 msgid "Layout style"
 msgstr "Gaya tata letak"
 
@@ -10424,9 +10415,8 @@ msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Jumlah alamat ditampilkan dalam TO/CC/BCC"
 
 #: ../mail/evolution-mail.schemas.in.h:136
-#, fuzzy
 msgid "Original message."
-msgstr "-----Isi Pesan Asli-----"
+msgstr "Pesan asli."
 
 #: ../mail/evolution-mail.schemas.in.h:137
 msgid "Path where picture gallery should search for its content"
@@ -10676,9 +10666,8 @@ msgid "The layout style determines where to place the preview pane in relation t
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:198
-#, fuzzy
 msgid "The terminal font for mail display."
-msgstr "Huruf terminal untuk penampil surat"
+msgstr "Fonta terminal untuk penampil surat."
 
 #: ../mail/evolution-mail.schemas.in.h:199
 msgid "The text that is inserted when forwarding a message, saying that the forwarded message follows."
@@ -10693,14 +10682,12 @@ msgid "The text that is inserted when replying to a message, attributing the mes
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:202
-#, fuzzy
 msgid "The variable width font for mail display."
-msgstr "Pilih jenis huruf dengan lebar bebas untuk cetakan"
+msgstr "Fonta lebar variable untuk penampil surat."
 
 #: ../mail/evolution-mail.schemas.in.h:203
-#, fuzzy
 msgid "This can have three possible values. \"0\" for errors. \"1\" for warnings. \"2\" for debug messages."
-msgstr "Terdapat tiga nilai yang mungkin. 0 untuk galat. 1 untuk peringatan. 2 untuk pesan debug."
+msgstr "Terdapat tiga nilai yang mungkin. \"0\" untuk galat. \"1\" untuk peringatan. \"2\" untuk pesan awakutu."
 
 #: ../mail/evolution-mail.schemas.in.h:204
 msgid "This decides the max size of the message text that will be displayed under Evolution, specified in terms of KB. The default is 4096 (4MB). This value is used only when 'force_message_limit' key is activated."
@@ -10747,14 +10734,12 @@ msgid "Thread the message-list based on Subject"
 msgstr "Hubungkan daftar-pesan berdasarkan pada Subjek"
 
 #: ../mail/evolution-mail.schemas.in.h:215
-#, fuzzy
 msgid "Timeout for marking message as seen"
-msgstr "Habis waktu untuk menandai pesan sebagai Telah dilihat"
+msgstr "Habis waktu untuk menandai pesan sebagai telah dilihat"
 
 #: ../mail/evolution-mail.schemas.in.h:216
-#, fuzzy
 msgid "Timeout for marking message as seen."
-msgstr "Habis waktu untuk menandai pesan sebagai Telah dilihat."
+msgstr "Habis waktu untuk menandai pesan sebagai telah dilihat."
 
 #: ../mail/evolution-mail.schemas.in.h:217
 msgid "UID string of the default account."
@@ -11018,14 +11003,12 @@ msgid "Check cu_stom headers for junk"
 msgstr "Perik_sa tajuk ubahan untuk pesan sampah"
 
 #: ../mail/mail-config.ui.h:20
-#, fuzzy
 msgid "Check for new _messages on start"
-msgstr "Periksa pesan _baru setiap"
+msgstr "_Periksa pesan baru saat awalan"
 
 #: ../mail/mail-config.ui.h:21
-#, fuzzy
 msgid "Check for new messa_ges in all active accounts"
-msgstr "Periksa pesan _baru setiap"
+msgstr "Periksa pesan _baru pada setiap akun aktif"
 
 #: ../mail/mail-config.ui.h:22
 msgid "Check incoming _messages for junk"
@@ -11061,9 +11044,8 @@ msgid "Confirm _when expunging a folder"
 msgstr "Konfirmasi _saat menghapus folder"
 
 #: ../mail/mail-config.ui.h:30
-#, fuzzy
 msgid "Confirmations"
-msgstr "Konfigurasi"
+msgstr "Konfirmasi"
 
 #: ../mail/mail-config.ui.h:31
 #: ../modules/addressbook/autocompletion-config.c:178
@@ -11129,9 +11111,8 @@ msgid "F_all back to threading messages by subject"
 msgstr "Atur pesan sesuai subjek"
 
 #: ../mail/mail-config.ui.h:49
-#, fuzzy
 msgid "Fix_ed Width Font:"
-msgstr "Huruf L_ebar tetap:"
+msgstr "Fonta L_ebar Tetap:"
 
 #: ../mail/mail-config.ui.h:50
 msgid "Format messages in _HTML"
@@ -11154,14 +11135,12 @@ msgid "H_TTP Proxy:"
 msgstr "H_TTP Proksi:"
 
 #: ../mail/mail-config.ui.h:56
-#, fuzzy
 msgid "Header content"
-msgstr "Isi Snippet"
+msgstr "Isi tajuk"
 
 #: ../mail/mail-config.ui.h:57
-#, fuzzy
 msgid "Header name"
-msgstr "Nama Header:"
+msgstr "Nama tajuk"
 
 #: ../mail/mail-config.ui.h:58
 msgid "Headers"
@@ -11276,9 +11255,8 @@ msgid "Remember _password"
 msgstr "Ingat _sandi"
 
 #: ../mail/mail-config.ui.h:88
-#, fuzzy
 msgid "Replies and Forwards"
-msgstr "Balasan dan induk"
+msgstr "Balasan dan Terusan"
 
 #: ../mail/mail-config.ui.h:89
 msgid "Required Information"
@@ -11339,9 +11317,8 @@ msgid "Select HTML variable width font"
 msgstr "Pilih jenis huruf dengan lebar bebas"
 
 #: ../mail/mail-config.ui.h:104
-#, fuzzy
 msgid "Sender Photograph"
-msgstr "pengirim tidak diketahui"
+msgstr "Foto Pengirim"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:106
@@ -14242,9 +14219,8 @@ msgid "Delete all occurrences"
 msgstr "Hapus Semua Kejadian"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1453
-#, fuzzy
 msgid "New All Day _Event..."
-msgstr "Acara Seluruh Hari Baru"
+msgstr "Acara Baru S_epanjang Hari..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1455
 msgid "Create a new all day event"
@@ -14351,9 +14327,8 @@ msgid "Active Appointments"
 msgstr "Janji yang Aktif"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1702
-#, fuzzy
 msgid "Next 7 Days' Appointments"
-msgstr "J_anji Baru..."
+msgstr "Janji 7 Hari Mendatang"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1733
 #: ../modules/calendar/e-memo-shell-view-actions.c:796
@@ -14372,9 +14347,8 @@ msgid "Print this calendar"
 msgstr "Cetak kalender ini"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1759
-#, fuzzy
 msgid "Preview the calendar to be printed"
-msgstr "Melihat pratinjau pesan sebelum dicetak"
+msgstr "Pratinjau kalender sebelum dicetak"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1781
 #: ../modules/calendar/e-cal-shell-view-memopad.c:295
@@ -14505,7 +14479,7 @@ msgstr "_Berbagi memo"
 #: ../modules/calendar/e-memo-shell-backend.c:307
 #, fuzzy
 msgid "Create a new shared memo"
-msgstr "Membuat daftar memo baru"
+msgstr "Membuat memo baru"
 
 #: ../modules/calendar/e-memo-shell-backend.c:315
 msgctxt "New"
@@ -14578,28 +14552,24 @@ msgid "Memo _Preview"
 msgstr "_Pratinjau Memo"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:729
-#, fuzzy
 msgid "Show memo preview pane"
 msgstr "Tampilkan panel pratinjau memo"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:750
-#, fuzzy
 msgid "Show memo preview below the memo list"
-msgstr "Menampilkan pratinjau kontak di bawah daftar kontak"
+msgstr "Menampilkan pratinjau memo di bawah daftar memo"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:757
-#, fuzzy
 msgid "Show memo preview alongside the memo list"
-msgstr "Menampilkan pratinjau kontak di samping daftar kontak"
+msgstr "Menampilkan pratinjau memo di samping daftar memo"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:815
 msgid "Print the list of memos"
 msgstr "Cetak daftar memo"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:822
-#, fuzzy
 msgid "Preview the list of memos to be printed"
-msgstr "Lihat contoh jadi hasil cetakan pesan surel ini"
+msgstr "Pratinjau daftar memo yang akan dicetak"
 
 #: ../modules/calendar/e-memo-shell-view.c:227
 msgid "Delete Memos"
@@ -14709,23 +14679,20 @@ msgid "_New Task List"
 msgstr "_Daftar Tugas Baru"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:760
-#, fuzzy
 msgid "Refresh the selected task list"
-msgstr "Menghapus daftar tugas yang dipilih"
+msgstr "Segarkan daftar tugas yang dipilih"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:767
 msgid "Rename the selected task list"
 msgstr "Mengubah nama daftar tugas yang dipilih"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:772
-#, fuzzy
 msgid "Show _Only This Task List"
-msgstr "Tampilkan hanya Daftar Tuga_s ini saja"
+msgstr "Tampilkan Hanya D_aftar Tugas Ini Saja"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:786
-#, fuzzy
 msgid "Mar_k as Incomplete"
-msgstr "_Tandai Belum Selesai"
+msgstr "Tandai sebagai Ta_k Lengkap"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:816
 msgid "Delete completed tasks"
@@ -14772,9 +14739,8 @@ msgid "Print the list of tasks"
 msgstr "Cetak daftar tugas"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:1021
-#, fuzzy
 msgid "Preview the list of tasks to be printed"
-msgstr "Lihat contoh jadi hasil cetakan pesan surel ini"
+msgstr "Pratinjau daftar tugas yang akan dicetak"
 
 #: ../modules/calendar/e-task-shell-view.c:362
 msgid "Delete Tasks"
@@ -14892,9 +14858,8 @@ msgid "Mar_k All Messages as Read"
 msgstr "_Tandai Semua Pesan Sudah Dibaca"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1171
-#, fuzzy
 msgid "Mark all messages in the folder as read"
-msgstr "_Tandai Semua Pesan Sudah Dibaca"
+msgstr "Tandai semua pesan dalam folder sebagai sudah dibaca"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1176
 msgid "_Move Folder To..."
@@ -14933,23 +14898,20 @@ msgid "Select all messages in the same thread as the selected message"
 msgstr "Pilih semua pesan dalam thread yang sama dengan pesan yang sedang dipilih"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1218
-#, fuzzy
 msgid "Select Message S_ubthread"
-msgstr "Pilih _Topik Pesan"
+msgstr "Pilih S_ubtopik Pesan"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1220
-#, fuzzy
 msgid "Select all replies to the currently selected message"
-msgstr "Pilih semua pesan dalam thread yang sama dengan pesan yang sedang dipilih"
+msgstr "Pilih semua jawaban atas pesan yang sedang dipilih"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1232
 msgid "Empty _Trash"
 msgstr "Kosongkan _Tempat Sampah"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1234
-#, fuzzy
 msgid "Permanently remove all the deleted messages from all accounts"
-msgstr "Menghapus permanen semua pesan dari semua folder yang telah dihapus"
+msgstr "Hapus permanen semua pesan yang dihapus dari semua akun"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1239
 msgid "_New Label"
@@ -14960,9 +14922,8 @@ msgid "N_one"
 msgstr "N_ihil"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1262
-#, fuzzy
 msgid "_Manage Subscriptions"
-msgstr "Langganan Folder"
+msgstr "_Kelola Langganan"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1264
 #: ../modules/mail/e-mail-shell-view-actions.c:1341
@@ -15068,7 +15029,6 @@ msgid "Show _Deleted Messages"
 msgstr "Tampilkan Pesan yang _Dihapus"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1450
-#, fuzzy
 msgid "Show deleted messages with a line through them"
 msgstr "Tampilkan pesan yang dihapus dengan coretan"
 
@@ -15279,9 +15239,8 @@ msgid "Evolution is currently offline."
 msgstr "Evolution sedang luring."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:4
-#, fuzzy
 msgid "Evolution will return to online mode once a network connection is established."
-msgstr "Evolution bekerja luring, karena jaringan tidak tersedia."
+msgstr "Evolution akan kembali ke modus daring ketika koneksi jaringan terjalin."
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:374
 msgid "Cannot find a corresponding account in the org.gnome.OnlineAccounts service from which to obtain an authentication token."
@@ -15352,9 +15311,9 @@ msgid "Failed to stream mail message content to SpamAssassin: "
 msgstr "Menyaring pesan sampah menggunakan SpamAssassin."
 
 #: ../modules/spamassassin/evolution-spamassassin.c:233
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to write '%s' to SpamAssassin: "
-msgstr "Gagal menulis berkas `%s': %s"
+msgstr "Gagal menulis'%s' ke SpamAssassin:"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:261
 msgid "Failed to read output from SpamAssassin: "
@@ -15545,25 +15504,22 @@ msgid "Back up Evolution data and settings to an archive file"
 msgstr "Menyimpan data dan pengaturan Evolution sebagai arsip cadangan"
 
 #: ../plugins/backup-restore/backup-restore.c:396
-#, fuzzy
 msgid "R_estore Evolution Data..."
-msgstr "Mengembalikan Data Evolution"
+msgstr "M_engembalikan Data Evolution..."
 
 #: ../plugins/backup-restore/backup-restore.c:398
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "Mengembalikan data serta pengaturan Evolution yang sebelumnya disimpan sebagai arsip cadangan"
 
 #: ../plugins/backup-restore/backup.c:77
-#, fuzzy
 msgid "Back up Evolution directory"
-msgstr "Direktori untuk backup Evolution"
+msgstr "Buat cadangan direktori Evolution"
 
 #: ../plugins/backup-restore/backup.c:79
 msgid "Restore Evolution directory"
 msgstr "Direktori untuk restore Evolution"
 
 #: ../plugins/backup-restore/backup.c:81
-#, fuzzy
 msgid "Check Evolution Back up"
 msgstr "Periksa Cadangan Evolution"
 
@@ -15604,16 +15560,14 @@ msgid "Back up current Evolution data"
 msgstr ""
 
 #: ../plugins/backup-restore/backup.c:426
-#, fuzzy
 msgid "Extracting files from back up"
-msgstr "Mengekstrak dari berkas cadangan"
+msgstr "Mengekstrak berkas dari cadangan"
 
 #: ../plugins/backup-restore/backup.c:485
 msgid "Loading Evolution settings"
 msgstr "Memuat pengaturan Evolution"
 
 #: ../plugins/backup-restore/backup.c:502
-#, fuzzy
 msgid "Removing temporary back up files"
 msgstr "Membuang berkas cadangan temporer"
 
@@ -15812,12 +15766,12 @@ msgstr "Tidak menemukan kalender pengguna."
 #: ../plugins/caldav/caldav-browse-server.c:901
 #, c-format
 msgid "Previous attempt failed: %s"
-msgstr ""
+msgstr "Percobaan sebelumnya gagal: %s"
 
 #: ../plugins/caldav/caldav-browse-server.c:903
 #, c-format
 msgid "Previous attempt failed with code %d"
-msgstr ""
+msgstr "Percobaan sebelumnya gagal dengan kode %d"
 
 #: ../plugins/caldav/caldav-browse-server.c:908
 #, c-format
@@ -16029,7 +15983,7 @@ msgstr "Mengimpor data Outlook Express"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:1
 msgid "Import Outlook Express messages from DBX file"
-msgstr ""
+msgstr "Impor pesan Outlook Express dari berkas DBX"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:2
 msgid "Outlook DBX import"
@@ -16067,11 +16021,11 @@ msgstr "Sumber Awal"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
 msgid "Mark your preferred address book and calendar as default."
-msgstr ""
+msgstr "Tandai kalender dan buku alamat yang Anda sukai sebagai baku."
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:1
 msgid "List of Custom Headers"
-msgstr ""
+msgstr "Daftar Tajuk Ubahan"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:2
 msgid "The key specifies the list of custom headers that you can add to an outgoing message. The format for specifying a Header and Header value is: Name of the custom header followed by \"=\" and the values separated by \";\""
@@ -16140,7 +16094,7 @@ msgstr "Nilai"
 #. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:2
 msgid "Add custom headers to outgoing mail messages."
-msgstr ""
+msgstr "Tambahkan tajuk ubahan ke pesan surel keluar."
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:3
 msgid "Custom Header"
@@ -16152,7 +16106,7 @@ msgstr "Tajuk Ubahan Surel"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:1
 msgid "Automatically launch editor when key is pressed in the mail composer"
-msgstr ""
+msgstr "Otomatis luncurkan penyunting ketika tombol ditekan dalam penyusun surel"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 #: ../plugins/external-editor/external-editor.c:131
@@ -16165,11 +16119,11 @@ msgstr "Penyunting Eksternal Utama"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:4
 msgid "The default command that must be used as the editor."
-msgstr ""
+msgstr "Perintah baku yang mesti dipakai sebagai penyunting."
 
 #: ../plugins/external-editor/external-editor.c:120
 msgid "Command to be executed to launch the editor: "
-msgstr ""
+msgstr "Perintah yang dieksekusi untuk meluncurkan penyunting:"
 
 #: ../plugins/external-editor/external-editor.c:121
 msgid ""
@@ -16210,11 +16164,11 @@ msgstr "Penyunting eksternal masih berjalan"
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:5
 msgid "The external editor is still running. The mail composer window cannot be closed as long as the editor is active."
-msgstr ""
+msgstr "Penyunting eksternal masih berjalan. Jendela penyusun surel tak dapat ditutup selama penyunting aktif."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:6
 msgid "The external editor set in your plugin preferences cannot be launched. Try setting a different editor."
-msgstr ""
+msgstr "Penyunting eksternal yang ditata dalam preferensi plugin Anda tak dapat diluncurkan. Cobalah memakai penyunting lain."
 
 #: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:1
 msgid "Insert Face picture by default"
@@ -16239,7 +16193,7 @@ msgstr ""
 
 #: ../plugins/face/face.c:363
 msgid "Load new _Face picture"
-msgstr ""
+msgstr "Muat gambar _Wajah yang baru"
 
 #: ../plugins/face/face.c:420
 #, fuzzy
@@ -16248,7 +16202,7 @@ msgstr "Nama jenis huruf"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Attach a small picture of your face to outgoing messages."
-msgstr ""
+msgstr "Lampirkan gambar kecil wajah Anda ke pesan keluar."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:1
 msgid "Failed Read"
@@ -16322,7 +16276,7 @@ msgstr "Render citra"
 
 #: ../plugins/image-inline/org-gnome-image-inline.eplug.xml.h:2
 msgid "View image attachments directly in mail messages."
-msgstr ""
+msgstr "Tilik lampiran gambar secara langsung dalam pesan surat."
 
 #: ../plugins/imap-features/imap-headers.c:329
 #: ../plugins/imap-features/imap-headers.ui.h:2
@@ -16482,7 +16436,7 @@ msgstr "Informasi memo dikirim"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1746
 msgid "Unable to send meeting information, the meeting does not exist"
-msgstr ""
+msgstr "Tak bisa mengirim informasi rapat, rapat tak ada"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1749
 msgid "Unable to send task information, the task does not exist"
@@ -16490,7 +16444,7 @@ msgstr "Gagal mengirim informasi tugas, tugas tak ada"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1752
 msgid "Unable to send memo information, the memo does not exist"
-msgstr ""
+msgstr "Tak bisa mengirim informasi memo, memo tak ada"
 
 #. Translators: This is a default filename for a calendar.
 #: ../plugins/itip-formatter/itip-formatter.c:1817
@@ -16553,9 +16507,8 @@ msgid "This memo recurs"
 msgstr "Memo ini berulang"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2992
-#, fuzzy
 msgid "Meeting Invitations"
-msgstr "Informasi Pertemuan"
+msgstr "Undangan Rapat"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
@@ -17078,7 +17031,7 @@ msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
 msgid "Notify new messages for Inbox only."
-msgstr ""
+msgstr "Beritahukan pesan baru hanya bagi Inbox."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
 #, fuzzy
@@ -17115,7 +17068,7 @@ msgstr "Putar berkas suara saat ada email _datang"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr ""
+msgstr "Apakah memberitahu pesan baru hanya pada folder Inbox."
 
 #: ../plugins/mail-notification/mail-notification.c:391
 #, c-format
@@ -17177,7 +17130,7 @@ msgstr "Pilih berkas suara"
 
 #: ../plugins/mail-notification/mail-notification.c:798
 msgid "Notify new messages for _Inbox only"
-msgstr ""
+msgstr "Beritahukan pesan baru hanya bagi _Inbox"
 
 #: ../plugins/mail-notification/mail-notification.c:808
 msgid "Show _notification when a new message arrives"
@@ -17200,32 +17153,32 @@ msgstr "Created from a mail by %s"
 #: ../plugins/mail-to-task/mail-to-task.c:586
 #, c-format
 msgid "Selected calendar contains event '%s' already. Would you like to edit the old event?"
-msgstr ""
+msgstr "Kalender yang dipilih telah memuat acara '%s'. Apakah Anda ingin menyunting acara lama?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:589
 #, c-format
 msgid "Selected task list contains task '%s' already. Would you like to edit the old task?"
-msgstr ""
+msgstr "Daftar tugas yang dipilih telah memuat acara '%s'. Apakah Anda ingin menyunting tugas lama?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:592
 #, c-format
 msgid "Selected memo list contains memo '%s' already. Would you like to edit the old memo?"
-msgstr ""
+msgstr "Daftar memo yang dipilih telah memuat memo '%s'. Apakah Anda ingin menyunting memo lama?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:609
 #, c-format
 msgid "You have selected %d mails to be converted to events. Do you really want to add them all?"
-msgstr ""
+msgstr "Anda telah memilih %d surat untuk dikonversi ke acara. Anda benar ingin menambahkan semua?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:612
 #, c-format
 msgid "You have selected %d mails to be converted to tasks. Do you really want to add them all?"
-msgstr ""
+msgstr "Anda telah memilih %d surat untuk dikonversi ke tugas. Anda benar ingin menambahkan semua?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:615
 #, c-format
 msgid "You have selected %d mails to be converted to memos. Do you really want to add them all?"
-msgstr ""
+msgstr "Anda telah memilih %d surat untuk dikonversi ke memo. Anda benar ingin menambahkan semua?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:634
 #, fuzzy
@@ -17238,12 +17191,12 @@ msgstr "[Tanpa Judul]"
 
 #: ../plugins/mail-to-task/mail-to-task.c:721
 msgid "Invalid object returned from a server"
-msgstr ""
+msgstr "Objek tak valid dikembalikan dari server"
 
 #: ../plugins/mail-to-task/mail-to-task.c:771
 #, c-format
 msgid "An error occurred during processing: %s"
-msgstr ""
+msgstr "Terjadi galat saat pemrosesan: %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:796
 #, c-format
@@ -17252,15 +17205,15 @@ msgstr "Tidak dapat membuka kalender. %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:803
 msgid "Selected source is read only, thus cannot create event there. Select other source, please."
-msgstr ""
+msgstr "Sumber yang dipilih hanya-baca, jadi tak bisa membuat acara disana. Silakan pilih sumber lain."
 
 #: ../plugins/mail-to-task/mail-to-task.c:806
 msgid "Selected source is read only, thus cannot create task there. Select other source, please."
-msgstr ""
+msgstr "Sumber yang dipilih hanya-baca, jadi tak bisa membuat tugas disana. Silakan pilih sumber lain."
 
 #: ../plugins/mail-to-task/mail-to-task.c:809
 msgid "Selected source is read only, thus cannot create memo there. Select other source, please."
-msgstr ""
+msgstr "Sumber yang dipilih hanya-baca, jadi tak bisa membuat memo disana. Silakan pilih sumber lain."
 
 #: ../plugins/mail-to-task/mail-to-task.c:1045
 #, c-format
@@ -17463,9 +17416,8 @@ msgid "Mark All Read"
 msgstr "Anggap Sudah _Dibaca"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:2
-#, fuzzy
 msgid "Mark all messages in a folder as read."
-msgstr "_Tandai Semua Pesan Sudah Dibaca"
+msgstr "Tandai semua pesan dalam suatu folder sebagai sudah dibaca."
 
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:2
@@ -17486,7 +17438,7 @@ msgstr "Sajikan HTML bila ada"
 
 #: ../plugins/prefer-plain/prefer-plain.c:241
 msgid "Let Evolution choose the best part to show."
-msgstr ""
+msgstr "Biarkan Evolution memilih bagian terbaik untuk ditampilkan."
 
 #: ../plugins/prefer-plain/prefer-plain.c:242
 msgid "Show plain text if present"
@@ -17494,7 +17446,7 @@ msgstr "Sajikan teks biasa bila ada"
 
 #: ../plugins/prefer-plain/prefer-plain.c:242
 msgid "Show plain text part, if present, otherwise let Evolution choose the best part to show."
-msgstr ""
+msgstr "Tampilkan bagian teks polos, bila ada, atau biarkan Evolution memilih bagian terbaik untuk ditampilkan."
 
 #: ../plugins/prefer-plain/prefer-plain.c:243
 msgid "Only ever show plain text"
@@ -17502,11 +17454,12 @@ msgstr "Hanya pernah tampilkan teks polos"
 
 #: ../plugins/prefer-plain/prefer-plain.c:243
 msgid "Always show plain text part and make attachments from other parts, if requested."
-msgstr ""
+msgstr "Selalu tampilkan bagian teks polos dan buat lampiran dari bagian lain, bila diminta."
 
 #: ../plugins/prefer-plain/prefer-plain.c:290
+#, fuzzy
 msgid "Show s_uppressed HTML parts as attachments"
-msgstr ""
+msgstr "Tampilkan bagian HTML yang disembunyikan sebagai lampiran"
 
 #: ../plugins/prefer-plain/prefer-plain.c:310
 msgid "HTML _Mode"
@@ -17582,12 +17535,12 @@ msgstr "Tak bisa membuka %s: Galat tak dikenal"
 #: ../plugins/publish-calendar/publish-calendar.c:234
 #, c-format
 msgid "There was an error while publishing to %s:"
-msgstr ""
+msgstr "Ada galat ketika menerbitkan ke %s:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:236
 #, c-format
 msgid "Publishing to %s finished successfully"
-msgstr ""
+msgstr "Selesai menerbitkan ke %s dengan sukses"
 
 #: ../plugins/publish-calendar/publish-calendar.c:280
 #, c-format
@@ -17707,7 +17660,7 @@ msgstr "iCal"
 #: ../plugins/publish-calendar/publish-format-ical.c:86
 #, c-format
 msgid "Could not publish calendar: Calendar backend no longer exists"
-msgstr ""
+msgstr "Tak bisa menerbitkan kalender: Back end kalender tak ada lagi"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:487
 msgid "New Location"
@@ -17807,9 +17760,8 @@ msgid "Save Selected"
 msgstr "Simpan Pilihan"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
-#, fuzzy
 msgid "Save a calendar or task list to disk."
-msgstr "Simpan kalender atau daftar tugas pilihan dalam disk."
+msgstr "Simpan kalender atau daftar tugas ke disk."
 
 #.
 #. * Translator: the %FT%T is the thirth argument for a strftime function.
@@ -17833,9 +17785,8 @@ msgid "Select destination file"
 msgstr "Pilih berkas tujuan"
 
 #: ../plugins/save-calendar/save-calendar.c:336
-#, fuzzy
 msgid "Save the selected calendar to disk"
-msgstr "Simpan memo pilihan dalam disk."
+msgstr "Simpan kalender yang dipilih ke disk."
 
 #: ../plugins/save-calendar/save-calendar.c:367
 msgid "Save the selected memo list to disk"
@@ -17867,7 +17818,7 @@ msgstr "Menyimpan sebegai Palet"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "Decode TNEF (winmail.dat) attachments from Microsoft Outlook."
-msgstr ""
+msgstr "Awakode lampiran TNEF (winmail.dat) dari Microsoft Outlook."
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
 msgid "TNEF Decoder"
@@ -17879,7 +17830,7 @@ msgstr "Inline vCard"
 
 #: ../plugins/vcard-inline/org-gnome-vcard-inline.eplug.xml.h:2
 msgid "Show vCards directly in mail messages."
-msgstr ""
+msgstr "Tampilkan vCard secara langsung dalam pesan surat."
 
 #: ../plugins/vcard-inline/vcard-inline.c:206
 #: ../plugins/vcard-inline/vcard-inline.c:291
@@ -17891,9 +17842,8 @@ msgid "Show Compact vCard"
 msgstr "Tampilkan Ringkasan vCard"
 
 #: ../plugins/vcard-inline/vcard-inline.c:270
-#, fuzzy
 msgid "There is one other contact."
-msgstr "Ada satu %d kontak lainnya."
+msgstr "Ada satu kontak lainnya."
 
 #: ../plugins/vcard-inline/vcard-inline.c:279
 #, c-format
@@ -18005,15 +17955,15 @@ msgstr "Tilikan lampiran awal"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:20
 msgid "Initial file chooser folder"
-msgstr ""
+msgstr "Folder awal pemilih berkas"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:21
 msgid "Initial folder for GtkFileChooser dialogs."
-msgstr ""
+msgstr "Folder awal bagi dialog GtkFileChooser."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:22
 msgid "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List View."
-msgstr ""
+msgstr "Tilikan awal bagi widget bilah lampiran. \"0\" adalah TIlikan Ikon, \"1\" adalah Tilikan Daftar."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:23
 msgid "Last upgraded configuration version"
@@ -18337,7 +18287,7 @@ msgstr "Ubah P_encarian Tersimpan..."
 
 #: ../shell/e-shell-window-actions.c:1546
 msgid "Manage your saved searches"
-msgstr ""
+msgstr "Kelola pencarian Anda yang disimpan"
 
 #: ../shell/e-shell-window-actions.c:1553
 msgid "Click here to change the search type"
@@ -18494,7 +18444,7 @@ msgstr "Tampilan Sendiri"
 
 #: ../shell/e-shell-window-actions.c:1794
 msgid "Current view is a customized view"
-msgstr ""
+msgstr "Tilikan kini adalah tilikan ubahan"
 
 #: ../shell/e-shell-window-actions.c:1804
 msgid "Change the page settings for your current printer"
@@ -18578,7 +18528,7 @@ msgstr "Jangan beritahu saya lagi"
 #. * names, they MUST remain in English!
 #: ../shell/main.c:308
 msgid "Start Evolution showing the specified component. Available options are 'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
-msgstr ""
+msgstr "Memulai Evolution menampilkan komponen yang dinyatakan. Opsi tersedia adalah 'mail' (surat), 'calendar' (kalender), 'contacts' (kontak), 'tasks' (tugas), dan 'memos' (memo)."
 
 #: ../shell/main.c:312
 msgid "Apply the given geometry to the main window"
@@ -18590,7 +18540,7 @@ msgstr "Berjalan pada modus daring"
 
 #: ../shell/main.c:318
 msgid "Ignore network availability"
-msgstr ""
+msgstr "Abaikan ketersediaan jaringan"
 
 #: ../shell/main.c:320
 msgid "Start in \"express\" mode"
@@ -18614,7 +18564,7 @@ msgstr "Menonaktifkan panel pratinjau untuk Surat, Kontak, dan Tugas."
 
 #: ../shell/main.c:334
 msgid "Import URIs or file names given as rest of arguments."
-msgstr ""
+msgstr "Impor URI atau nama berkas yang diberikan sebagai sisa argumen."
 
 #: ../shell/main.c:336
 msgid "Request a running Evolution process to quit"
@@ -19378,8 +19328,9 @@ msgid "Time Zones"
 msgstr "Zona Waktu"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:4
+#, fuzzy
 msgid "Timezone drop-down combination box"
-msgstr ""
+msgstr "Kotak kombo drop-down zona waktu"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:5
 msgid ""
