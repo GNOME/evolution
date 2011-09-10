@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-04 19:34+0000\n"
-"PO-Revision-Date: 2011-09-04 22:31+0200\n"
+"POT-Creation-Date: 2011-09-07 15:55+0000\n"
+"PO-Revision-Date: 2011-09-10 11:41+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -94,7 +94,7 @@ msgstr "Usar y gestionar categorías para citas, contactos, notas y tareas."
 #: C/mail-error-failed-to-append-to-sent-folder.page:15(name)
 #: C/mail-encryption-s-mime-signing-encrypting.page:11(name)
 #: C/mail-encryption-s-mime-manage.page:11(name)
-#: C/mail-encryption.page:24(name)
+#: C/mail-encryption.page:25(name)
 #: C/mail-encryption-gpg-signing-encrypting.page:11(name)
 #: C/mail-encryption-gpg-set-up.page:11(name)
 #: C/mail-encryption-gpg-getting-keys.page:11(name)
@@ -108,8 +108,8 @@ msgstr "Usar y gestionar categorías para citas, contactos, notas y tareas."
 #: C/mail-displaying-collapsible-headers.page:11(name)
 #: C/mail-displaying-character-encodings.page:11(name)
 #: C/mail-delete-and-undelete.page:13(name)
-#: C/mail-default-folder-locations.page:22(name)
-#: C/mail-default-CC-and-BCC.page:18(name)
+#: C/mail-default-folder-locations.page:23(name)
+#: C/mail-default-CC-and-BCC.page:23(name)
 #: C/mail-composer-write-new-message.page:11(name)
 #: C/mail-composer-spellcheck.page:11(name)
 #: C/mail-composer-several-recipients.page:14(name)
@@ -261,7 +261,7 @@ msgstr "Andre Klapper"
 #: C/mail-error-failed-to-append-to-sent-folder.page:16(email)
 #: C/mail-encryption-s-mime-signing-encrypting.page:12(email)
 #: C/mail-encryption-s-mime-manage.page:12(email)
-#: C/mail-encryption.page:25(email)
+#: C/mail-encryption.page:26(email)
 #: C/mail-encryption-gpg-signing-encrypting.page:12(email)
 #: C/mail-encryption-gpg-set-up.page:12(email)
 #: C/mail-encryption-gpg-getting-keys.page:12(email)
@@ -275,8 +275,8 @@ msgstr "Andre Klapper"
 #: C/mail-displaying-collapsible-headers.page:12(email)
 #: C/mail-displaying-character-encodings.page:12(email)
 #: C/mail-delete-and-undelete.page:14(email)
-#: C/mail-default-folder-locations.page:23(email)
-#: C/mail-default-CC-and-BCC.page:19(email)
+#: C/mail-default-folder-locations.page:24(email)
+#: C/mail-default-CC-and-BCC.page:24(email)
 #: C/mail-composer-write-new-message.page:12(email)
 #: C/mail-composer-spellcheck.page:12(email)
 #: C/mail-composer-several-recipients.page:15(email)
@@ -496,7 +496,7 @@ msgstr "Novell, Inc"
 #: C/mail-error-folder-mismatch.page:19(p)
 #: C/mail-error-failed-to-append-to-sent-folder.page:19(p)
 #: C/mail-encryption-s-mime-signing-encrypting.page:18(p)
-#: C/mail-encryption-s-mime-manage.page:18(p) C/mail-encryption.page:28(p)
+#: C/mail-encryption-s-mime-manage.page:18(p) C/mail-encryption.page:29(p)
 #: C/mail-encryption-gpg-signing-encrypting.page:18(p)
 #: C/mail-encryption-gpg-set-up.page:18(p)
 #: C/mail-encryption-gpg-getting-keys.page:18(p)
@@ -508,8 +508,8 @@ msgstr "Novell, Inc"
 #: C/mail-displaying-collapsible-headers.page:18(p)
 #: C/mail-displaying-character-encodings.page:15(p)
 #: C/mail-delete-and-undelete.page:20(p)
-#: C/mail-default-folder-locations.page:26(p)
-#: C/mail-default-CC-and-BCC.page:22(p)
+#: C/mail-default-folder-locations.page:27(p)
+#: C/mail-default-CC-and-BCC.page:27(p)
 #: C/mail-composer-write-new-message.page:18(p)
 #: C/mail-composer-spellcheck.page:15(p)
 #: C/mail-composer-several-recipients.page:21(p)
@@ -833,13 +833,12 @@ msgstr ""
 "notas en la vista."
 
 #: C/tasks-using-several-tasklists.page:24(p)
-#, fuzzy
 #| msgid ""
 #| "Tasks and memos for each task or memo list appear as a different color."
 msgid "Tasks and memos from each task or memo list appear as different colors."
 msgstr ""
-"Las tareas y notas para cada lista de tareas o notas, aparecen en diferente "
-"color."
+"Las tareas y notas para cada lista de tareas o notas, aparecen en diferentes "
+"colores."
 
 #: C/tasks-using-several-tasklists.page:26(p)
 msgid ""
@@ -1427,7 +1426,6 @@ msgid "Selecting Conduits"
 msgstr "Seleccionar un conducto"
 
 #: C/sync-with-other-devices.page:42(p)
-#, fuzzy
 msgid ""
 "After your computer and your Palm OS device are communicating, select the "
 "conduits you want under the <gui>Pilot Conduits</gui> section. You can use "
@@ -1437,12 +1435,11 @@ msgid ""
 "task list."
 msgstr ""
 "Una vez que su equipo y el dispositivo Palm OS son capaces de comunicarse "
-"con fluidez, seleccione los <link linkend=\"conduit\">conductos</link> "
-"deseados en la sección Conductos del Pilot del Centro de control. Los "
-"conductos sirven para sincronizar datos de numerosas aplicaciones; los "
-"conductos de Evolution llevan la etiqueta EAddress para los contactos de la "
-"libreta de direcciones, ECalendar, para el calendario y ETodo, para la lista "
-"de tareas."
+"con fluidez, seleccione los <gui>Conductos de Pilot</gui> que quiera. Puede "
+"usar los conductos para sincronizar datos de numerosas aplicaciones; los "
+"conductos de Evolution llevan la etiqueta <gui>EAddress</gui> para los "
+"contactos de la libreta de direcciones, <gui>ECalendar</gui>, para el "
+"calendario y <gui>ETodo</gui> para la lista de tareas."
 
 #: C/sync-with-other-devices.page:43(p)
 msgid ""
@@ -1521,7 +1518,6 @@ msgstr ""
 "\"button\">HotSync</gui>."
 
 #: C/sync-with-other-devices.page:59(p)
-#, fuzzy
 msgid ""
 "If you use Palm OS version 4.0 and have password protection turned on for "
 "your handheld device, you might encounter trouble synchronizing. If this "
@@ -1529,11 +1525,11 @@ msgid ""
 "it with your desktop computer, and then re-enable password protection on "
 "your handheld."
 msgstr ""
-"Si utiliza un dispositivo de mano Palm OS v. 4.0 y activó la protección por "
+"Si usa un dispositivo de mano Palm OS v. 4.0 y activó la protección por "
 "contraseña, es posible que se produzcan problemas durante la sincronización. "
 "En este caso, intente desactivar la protección por contraseña de su "
 "dispositivo de mano, realice la sincronización con su equipo de sobremesa y "
-"vuelva a habilitar la protección de su dispositivo."
+"vuelva a activar la protección con contraseña de su dispositivo."
 
 #: C/sync-with-other-devices.page:61(p)
 msgid "Now your Palm OS device will synchronize data with Evolution."
@@ -1598,7 +1594,6 @@ msgid "How to get help"
 msgstr "Cómo obtener ayuda"
 
 #: C/problems-getting-help.page:24(p)
-#, fuzzy
 #| msgid ""
 #| "To receive help on problems you can send an email to the <link href="
 #| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
@@ -1614,7 +1609,8 @@ msgstr ""
 "Para recibir ayuda sobre problemas puede enviar un correo a la <link href="
 "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">lista de correo de "
 "Evolution</link> o enviar un mensaje en el canal de chat de IRC #evolution "
-"en el servidor irc.gimp.net."
+"en el servidor irc.gimp.net. Para conectarse a un servidor IRC puede usar la "
+"aplicación de mensajería instantánea Empathy."
 
 #: C/problems-debug-how-to.page:5(desc)
 msgid "How to provide good information when tracking down a problem."
@@ -1716,6 +1712,11 @@ msgid ""
 "messages on Evolution. You can refer to this built-in feature of GNOME for "
 "any email notifications."
 msgstr ""
+"GNOME de forma predeterminada tiene un <link xref=\"mail-received-"
+"notification\">área de notificación</link> que incluye una miniaplicación "
+"que informa a los usuarios de actualizaciones del sistema, cambios o "
+"acontecimientos. Esto incluye la recepción de correo en Evolution. Puede "
+"usar esta característica de GNOME par acualquier notificación de correo."
 
 #: C/minimize-to-system-tray.page:29(p)
 msgid ""
@@ -1786,6 +1787,10 @@ msgid ""
 "in the tool bar, or click <guiseq><gui>Edit</gui><gui>Delete Memo</gui></"
 "guiseq>."
 msgstr ""
+"Si quiere eliminar una nota de su lista de notas, pulse con el botón derecho "
+"del ratón sobre la nota y seleccione <gui>Eliminar</gui> o pulse sobre la "
+"nota y pulse después <gui>Eliminar</gui> en la barra de herramientas o pulse "
+"<guiseq><gui>Editar</gui><gui>Eliminar nota</gui></guiseq>."
 
 #: C/memos-usage-add-memo.page:5(desc)
 msgid "Adding a memo to your memo list."
@@ -1835,7 +1840,6 @@ msgid "Shared Memos"
 msgstr "Notas compartidas"
 
 #: C/memos-usage-add-memo.page:39(p)
-#, fuzzy
 msgid ""
 "Shared Memos are like mail messages except they are scheduled for a "
 "particular day and appear on the calendar for that date. You can use shared "
@@ -1843,12 +1847,12 @@ msgid ""
 "shared memos are placed in your Calendar on the date you specify. They are "
 "not placed in your Mailbox or in any other user's Mailbox."
 msgstr ""
-"Las notas de recordatorios GroupWise son como mensajes de correo excepto que "
-"están planificados para aparecer un día concreto del Calendario. Puede usar "
-"las notas de recordatorio para mostrar vacaciones, días festivos, días de "
-"pago, cumpleaños y demás. Las notas de recordatorio se emplazan en su "
-"Calendario en la fecha que especifique. No se emplazan en su Buzón de correo "
-"o en el buzón de correo de ningún otro usuario."
+"Las notas compartidas son como mensajes de correo excepto que están "
+"planificados para aparecer un día concreto del calendario. Puede usar las "
+"notas compartidas para mostrar vacaciones, días festivos, días de pago, "
+"cumpleaños y demás. Las notas compartidas se emplazan en su Calendario en la "
+"fecha que especifique. No se emplazan en su Buzón de correo o en el buzón de "
+"correo de ningún otro usuario."
 
 #: C/memos-usage-add-memo.page:41(p)
 msgid "To send a Shared Memo,"
@@ -2202,7 +2206,6 @@ msgstr ""
 "también puede aparecer dos veces."
 
 #: C/mail-spam-settings.page:5(desc)
-#, fuzzy
 #| msgid "How to set up handling unwanted junk and spam mail."
 msgid "How to set up handling unwanted junk/spam mail."
 msgstr "Cómo configurar la gestión de correo no deseado y SPAM."
@@ -2602,6 +2605,9 @@ msgid ""
 "allows you to follow the flow of the conversation from one message to the "
 "next."
 msgstr ""
+"Cuando esta característica está activada, agrupa las respuestas con el "
+"correo original y le permite seguir la conversación de un mensaje al "
+"siguiente."
 
 #: C/mail-sorting-message-list.page:38(p)
 msgid ""
@@ -2609,6 +2615,9 @@ msgid ""
 "Threads are sorted and displayed based on the date of the most recent "
 "message received."
 msgstr ""
+"Cuando un correo nuevo llega se añadirá debajo del mensaje original. Los "
+"hilos se agrupan y muestran basándose en la fecha del correo más "
+"recientemente recibido."
 
 #: C/mail-sorting-message-list.page:39(p)
 msgid ""
@@ -2867,11 +2876,11 @@ msgid ""
 msgstr ""
 
 #: C/mail-sending-options-smtp.page:31(p)
-#: C/mail-receiving-options-usenet-news.page:29(p)
-#: C/mail-receiving-options-pop.page:33(p)
-#: C/mail-receiving-options-pop.page:35(p)
-#: C/mail-receiving-options-imap-plus.page:29(p)
-#: C/mail-receiving-options-imap.page:29(p)
+#: C/mail-receiving-options-usenet-news.page:33(p)
+#: C/mail-receiving-options-pop.page:37(p)
+#: C/mail-receiving-options-pop.page:39(p)
+#: C/mail-receiving-options-imap-plus.page:33(p)
+#: C/mail-receiving-options-imap.page:33(p)
 msgid ""
 "Free webmail providers often supply information about which of these options "
 "can be used. If you are in an organizational environment, you may want to "
@@ -2910,6 +2919,9 @@ msgid ""
 "xref=\"intro-first-run#account-information\">here</link> to continue with "
 "the next step."
 msgstr ""
+"Si ha llegado a esta página desde la página del asistente de primera "
+"ejecución, pulse <link xref=\"intro-first-run#account-information\">aquí</"
+"link> para continuar con el siguiente paso."
 
 #: C/mail-send-and-receive.page:5(desc)
 msgid "On receiving mail and sending written emails."
@@ -3632,30 +3644,46 @@ msgstr "Opciones de recepción para cuentas de noticias de Usenet."
 msgid "Usenet news receiving options"
 msgstr "Opciones de recepción de noticias de Usenet"
 
-#: C/mail-receiving-options-usenet-news.page:25(p)
-#: C/mail-receiving-options-unix-mbox-spool-file.page:22(p)
-#: C/mail-receiving-options-unix-mbox-spool-directory.page:22(p)
-#: C/mail-receiving-options-pop.page:29(p)
-#: C/mail-receiving-options-novell-groupwise.page:26(p)
-#: C/mail-receiving-options-mh-format-directories.page:22(p)
-#: C/mail-receiving-options-maildir-format-directories.page:22(p)
-#: C/mail-receiving-options-local-delivery.page:22(p)
-#: C/mail-receiving-options-imap-plus.page:25(p)
-#: C/mail-receiving-options-imap.page:25(p)
-#: C/mail-receiving-options-exchange-mapi.page:22(p)
-#: C/mail-receiving-options-evolution-exchange.page:25(p)
+#: C/mail-receiving-options-usenet-news.page:26(title)
+#: C/mail-receiving-options-unix-mbox-spool-file.page:23(title)
+#: C/mail-receiving-options-unix-mbox-spool-directory.page:23(title)
+#: C/mail-receiving-options-pop.page:30(title)
+#: C/mail-receiving-options-novell-groupwise.page:27(title)
+#: C/mail-receiving-options-mh-format-directories.page:23(title)
+#: C/mail-receiving-options-maildir-format-directories.page:23(title)
+#: C/mail-receiving-options-local-delivery.page:23(title)
+#: C/mail-receiving-options-imap-plus.page:26(title)
+#: C/mail-receiving-options-imap.page:26(title)
+#: C/mail-receiving-options-exchange-mapi.page:23(title)
+#: C/mail-receiving-options-evolution-exchange.page:26(title)
+#: C/intro-first-run.page:36(title)
+msgid "Receiving Email"
+msgstr "Recepción de correo"
+
+#: C/mail-receiving-options-usenet-news.page:28(p)
+#: C/mail-receiving-options-unix-mbox-spool-file.page:25(p)
+#: C/mail-receiving-options-unix-mbox-spool-directory.page:25(p)
+#: C/mail-receiving-options-pop.page:32(p)
+#: C/mail-receiving-options-novell-groupwise.page:29(p)
+#: C/mail-receiving-options-mh-format-directories.page:25(p)
+#: C/mail-receiving-options-maildir-format-directories.page:25(p)
+#: C/mail-receiving-options-local-delivery.page:25(p)
+#: C/mail-receiving-options-imap-plus.page:28(p)
+#: C/mail-receiving-options-imap.page:28(p)
+#: C/mail-receiving-options-exchange-mapi.page:25(p)
+#: C/mail-receiving-options-evolution-exchange.page:28(p)
 msgid ""
 "On the <gui>Receiving Email</gui> page (accessible via <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
 "\">Edit</gui><gui>Receiving Email</gui></guiseq>):"
 msgstr ""
 
-#: C/mail-receiving-options-usenet-news.page:27(p)
-#: C/mail-receiving-options-pop.page:31(p)
-#: C/mail-receiving-options-novell-groupwise.page:28(p)
-#: C/mail-receiving-options-imap-plus.page:27(p)
-#: C/mail-receiving-options-imap.page:27(p)
-#: C/mail-receiving-options-exchange-mapi.page:25(p)
+#: C/mail-receiving-options-usenet-news.page:31(p)
+#: C/mail-receiving-options-pop.page:35(p)
+#: C/mail-receiving-options-novell-groupwise.page:32(p)
+#: C/mail-receiving-options-imap-plus.page:31(p)
+#: C/mail-receiving-options-imap.page:31(p)
+#: C/mail-receiving-options-exchange-mapi.page:28(p)
 msgid ""
 "Enter the address of the email server in the <gui>Server</gui> field and "
 "enter your username for that server."
@@ -3663,30 +3691,30 @@ msgstr ""
 "Introduzca la dirección del servidor de correo electrónico en el campo "
 "<gui>Servidor</gui> e introduzca su nombre de usuario para ese servidor."
 
-#: C/mail-receiving-options-usenet-news.page:28(p)
-#: C/mail-receiving-options-pop.page:32(p)
-#: C/mail-receiving-options-novell-groupwise.page:29(p)
-#: C/mail-receiving-options-imap-plus.page:28(p)
-#: C/mail-receiving-options-imap.page:28(p)
-#: C/mail-receiving-options-exchange-mapi.page:29(p)
+#: C/mail-receiving-options-usenet-news.page:32(p)
+#: C/mail-receiving-options-pop.page:36(p)
+#: C/mail-receiving-options-novell-groupwise.page:33(p)
+#: C/mail-receiving-options-imap-plus.page:32(p)
+#: C/mail-receiving-options-imap.page:32(p)
+#: C/mail-receiving-options-exchange-mapi.page:32(p)
 msgid "Select if you want to use a secure connection (SSL or TLS)."
 msgstr "Seleccione su quiere usar una conexión segura (SSL o TLS)."
 
-#: C/mail-receiving-options-usenet-news.page:28(p)
-#: C/mail-receiving-options-pop.page:32(p)
-#: C/mail-receiving-options-novell-groupwise.page:29(p)
-#: C/mail-receiving-options-imap-plus.page:28(p)
-#: C/mail-receiving-options-imap.page:28(p)
+#: C/mail-receiving-options-usenet-news.page:32(p)
+#: C/mail-receiving-options-pop.page:36(p)
+#: C/mail-receiving-options-novell-groupwise.page:33(p)
+#: C/mail-receiving-options-imap-plus.page:32(p)
+#: C/mail-receiving-options-imap.page:32(p)
 msgid "You should enable this option if your server supports it."
 msgstr "Debería activar esta opción si su servidor la soporta."
 
-#: C/mail-receiving-options-usenet-news.page:30(p)
-#: C/mail-receiving-options-pop.page:34(p)
-#: C/mail-receiving-options-novell-groupwise.page:31(p)
-#: C/mail-receiving-options-imap-plus.page:30(p)
-#: C/mail-receiving-options-imap.page:30(p)
-#: C/mail-receiving-options-exchange-mapi.page:28(p)
-#: C/mail-receiving-options-evolution-exchange.page:32(p)
+#: C/mail-receiving-options-usenet-news.page:34(p)
+#: C/mail-receiving-options-pop.page:38(p)
+#: C/mail-receiving-options-novell-groupwise.page:35(p)
+#: C/mail-receiving-options-imap-plus.page:34(p)
+#: C/mail-receiving-options-imap.page:34(p)
+#: C/mail-receiving-options-exchange-mapi.page:31(p)
+#: C/mail-receiving-options-evolution-exchange.page:35(p)
 #, fuzzy
 msgid ""
 "Select your authentication type in the Authentication list, or click <gui "
@@ -3700,58 +3728,73 @@ msgstr ""
 "autenticación que soportan, así que pulsar este botón no garantiza que el "
 "mecanismo disponible funcione realmente."
 
-#: C/mail-receiving-options-usenet-news.page:31(p)
-#: C/mail-receiving-options-pop.page:36(p)
-#: C/mail-receiving-options-novell-groupwise.page:32(p)
-#: C/mail-receiving-options-imap-plus.page:31(p)
-#: C/mail-receiving-options-imap.page:31(p)
+#: C/mail-receiving-options-usenet-news.page:35(p)
+#: C/mail-receiving-options-pop.page:40(p)
+#: C/mail-receiving-options-novell-groupwise.page:36(p)
+#: C/mail-receiving-options-imap-plus.page:35(p)
+#: C/mail-receiving-options-imap.page:35(p)
 msgid "Select if you want Evolution to remember your password."
 msgstr "Marque si quiere que Evolution recuerde su contraseña."
 
-#: C/mail-receiving-options-usenet-news.page:34(p)
-#: C/mail-receiving-options-unix-mbox-spool-file.page:26(p)
-#: C/mail-receiving-options-unix-mbox-spool-directory.page:26(p)
-#: C/mail-receiving-options-pop.page:39(p)
-#: C/mail-receiving-options-novell-groupwise.page:35(p)
-#: C/mail-receiving-options-mh-format-directories.page:26(p)
-#: C/mail-receiving-options-maildir-format-directories.page:26(p)
-#: C/mail-receiving-options-local-delivery.page:26(p)
-#: C/mail-receiving-options-imap-plus.page:34(p)
-#: C/mail-receiving-options-imap.page:34(p)
-#: C/mail-receiving-options-exchange-mapi.page:33(p)
-#: C/mail-receiving-options-evolution-exchange.page:36(p)
+#: C/mail-receiving-options-usenet-news.page:41(title)
+#: C/mail-receiving-options-unix-mbox-spool-file.page:34(title)
+#: C/mail-receiving-options-unix-mbox-spool-directory.page:34(title)
+#: C/mail-receiving-options-pop.page:46(title)
+#: C/mail-receiving-options-novell-groupwise.page:42(title)
+#: C/mail-receiving-options-mh-format-directories.page:34(title)
+#: C/mail-receiving-options-maildir-format-directories.page:34(title)
+#: C/mail-receiving-options-local-delivery.page:34(title)
+#: C/mail-receiving-options-imap-plus.page:41(title)
+#: C/mail-receiving-options-imap.page:41(title)
+#: C/mail-receiving-options-exchange-mapi.page:39(title)
+#: C/mail-receiving-options-evolution-exchange.page:42(title)
+msgid "Receiving Options"
+msgstr "Opciones de recepción"
+
+#: C/mail-receiving-options-usenet-news.page:43(p)
+#: C/mail-receiving-options-unix-mbox-spool-file.page:36(p)
+#: C/mail-receiving-options-unix-mbox-spool-directory.page:36(p)
+#: C/mail-receiving-options-pop.page:48(p)
+#: C/mail-receiving-options-novell-groupwise.page:44(p)
+#: C/mail-receiving-options-mh-format-directories.page:36(p)
+#: C/mail-receiving-options-maildir-format-directories.page:36(p)
+#: C/mail-receiving-options-local-delivery.page:36(p)
+#: C/mail-receiving-options-imap-plus.page:43(p)
+#: C/mail-receiving-options-imap.page:43(p)
+#: C/mail-receiving-options-exchange-mapi.page:41(p)
+#: C/mail-receiving-options-evolution-exchange.page:44(p)
 msgid ""
 "On the <gui>Receiving Options</gui> page (accessible via <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
 "\">Edit</gui><gui>Receiving Options</gui></guiseq>):"
 msgstr ""
 
-#: C/mail-receiving-options-usenet-news.page:36(p)
-#: C/mail-receiving-options-unix-mbox-spool-file.page:28(p)
-#: C/mail-receiving-options-pop.page:41(p)
-#: C/mail-receiving-options-novell-groupwise.page:37(p)
-#: C/mail-receiving-options-mh-format-directories.page:28(p)
-#: C/mail-receiving-options-maildir-format-directories.page:28(p)
-#: C/mail-receiving-options-local-delivery.page:28(p)
-#: C/mail-receiving-options-imap-plus.page:36(p)
-#: C/mail-receiving-options-imap.page:37(p)
-#: C/mail-receiving-options-exchange-mapi.page:35(p)
-#: C/mail-receiving-options-evolution-exchange.page:38(p)
+#: C/mail-receiving-options-usenet-news.page:46(p)
+#: C/mail-receiving-options-unix-mbox-spool-file.page:39(p)
+#: C/mail-receiving-options-pop.page:51(p)
+#: C/mail-receiving-options-novell-groupwise.page:47(p)
+#: C/mail-receiving-options-mh-format-directories.page:39(p)
+#: C/mail-receiving-options-maildir-format-directories.page:39(p)
+#: C/mail-receiving-options-local-delivery.page:39(p)
+#: C/mail-receiving-options-imap-plus.page:46(p)
+#: C/mail-receiving-options-imap.page:46(p)
+#: C/mail-receiving-options-exchange-mapi.page:44(p)
+#: C/mail-receiving-options-evolution-exchange.page:47(p)
 msgid ""
 "If you want Evolution to check automatically for new messages, click the "
 "<gui>Check for new messages every ... minutes</gui> option and select the "
 "frequency in minutes."
 msgstr ""
 
-#: C/mail-receiving-options-usenet-news.page:37(p)
+#: C/mail-receiving-options-usenet-news.page:47(p)
 msgid "Select if you want to show folders in short notation."
 msgstr "Seleccione si quiere mostrar las carpetas en notación corta."
 
-#: C/mail-receiving-options-usenet-news.page:38(p)
+#: C/mail-receiving-options-usenet-news.page:48(p)
 msgid "For example, comp.os.linux would appear as c.o.linux."
 msgstr "Por ejemplo, com.os.linux aparecería como c.o.linux."
 
-#: C/mail-receiving-options-usenet-news.page:39(p)
+#: C/mail-receiving-options-usenet-news.page:49(p)
 msgid ""
 "Select if you want to show relative folder names in the <link xref=\"mail-"
 "imap-subscriptions\">subscriptions window</link>."
@@ -3759,7 +3802,7 @@ msgstr ""
 "Seleccione si quiere mostrar los nombres de carpetas relativos en la <link "
 "xref=\"mail-imap-subscriptions\">ventana de suscripciones</link>."
 
-#: C/mail-receiving-options-usenet-news.page:40(p)
+#: C/mail-receiving-options-usenet-news.page:50(p)
 #, fuzzy
 msgid ""
 "If you select to show relative folder names, only the name of the folder is "
@@ -3770,18 +3813,18 @@ msgstr ""
 "carpeta evolution.mail aparecería como evolution."
 
 #. TODO:XINCLUDE: Maybe later replace this "go back" workaround by doing some content sharing with xinclude and xpointer in intro-first-run.page itself? <include href="foo.xml" xmlns="http://www.w3.org/2001/XInclude"/> See gnome-user-docs module for example usage.
-#: C/mail-receiving-options-usenet-news.page:43(p)
-#: C/mail-receiving-options-unix-mbox-spool-file.page:32(p)
-#: C/mail-receiving-options-unix-mbox-spool-directory.page:31(p)
-#: C/mail-receiving-options-pop.page:48(p)
-#: C/mail-receiving-options-novell-groupwise.page:43(p)
-#: C/mail-receiving-options-mh-format-directories.page:31(p)
-#: C/mail-receiving-options-maildir-format-directories.page:32(p)
-#: C/mail-receiving-options-local-delivery.page:31(p)
-#: C/mail-receiving-options-imap-plus.page:45(p)
-#: C/mail-receiving-options-imap.page:45(p)
-#: C/mail-receiving-options-exchange-mapi.page:40(p)
-#: C/mail-receiving-options-evolution-exchange.page:47(p)
+#: C/mail-receiving-options-usenet-news.page:57(p)
+#: C/mail-receiving-options-unix-mbox-spool-file.page:47(p)
+#: C/mail-receiving-options-unix-mbox-spool-directory.page:46(p)
+#: C/mail-receiving-options-pop.page:60(p)
+#: C/mail-receiving-options-novell-groupwise.page:56(p)
+#: C/mail-receiving-options-mh-format-directories.page:46(p)
+#: C/mail-receiving-options-maildir-format-directories.page:47(p)
+#: C/mail-receiving-options-local-delivery.page:46(p)
+#: C/mail-receiving-options-imap-plus.page:58(p)
+#: C/mail-receiving-options-imap.page:57(p)
+#: C/mail-receiving-options-exchange-mapi.page:52(p)
+#: C/mail-receiving-options-evolution-exchange.page:58(p)
 msgid ""
 "If you came to this page from the first-run wizard help page, click <link "
 "xref=\"intro-first-run#sending\">here</link> to continue with the next step."
@@ -3798,8 +3841,8 @@ msgstr "Opciones de recepción para el archivo spool mbox estándar de Unix."
 msgid "Standard Unix mbox spool file receiving options"
 msgstr "Opciones de recepción para el archivo spool mbox estándar de Unix"
 
-#: C/mail-receiving-options-unix-mbox-spool-file.page:24(p)
-#: C/mail-receiving-options-local-delivery.page:24(p)
+#: C/mail-receiving-options-unix-mbox-spool-file.page:28(p)
+#: C/mail-receiving-options-local-delivery.page:28(p)
 msgid ""
 "Choose the file by clicking on the button next to <gui>File</gui> in the "
 "<gui>Configuration</gui> section. This will open a file chooser window."
@@ -3807,14 +3850,17 @@ msgstr ""
 "Elija el campo pulsando en el botón junto a <gui>Ruta</gui> en la sección "
 "<gui>Configuración</gui>. Esto abrirá una ventana del selector de archivos."
 
-#: C/mail-receiving-options-unix-mbox-spool-file.page:29(p)
-#: C/mail-receiving-options-unix-mbox-spool-directory.page:28(p)
-#: C/mail-receiving-options-maildir-format-directories.page:29(p)
+#: C/mail-receiving-options-unix-mbox-spool-file.page:40(p)
+#: C/mail-receiving-options-unix-mbox-spool-directory.page:39(p)
+#: C/mail-receiving-options-maildir-format-directories.page:40(p)
 msgid ""
 "If you want <link xref=\"mail-filters\">Filters</link> to be automatically "
 "used for new messages in your inbox, enable <gui>Apply filters to new "
 "messages in INBOX</gui>."
 msgstr ""
+"Si quiere que los <link xref=\"mail-filters\">Filtros</link> se usen "
+"automáticamente para los correos nuevos en su Bandeja de entrada, active "
+"<gui>Aplicar filtros a los mensajes nuevos en la bandeja de entrada</gui>"
 
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:5(desc)
 msgid "Receiving options for standard Unix mbox spool directory accounts."
@@ -3828,9 +3874,9 @@ msgstr ""
 "Opciones de recepción para directorios de correo mbox en formato estándar de "
 "Unix"
 
-#: C/mail-receiving-options-unix-mbox-spool-directory.page:24(p)
-#: C/mail-receiving-options-mh-format-directories.page:24(p)
-#: C/mail-receiving-options-maildir-format-directories.page:24(p)
+#: C/mail-receiving-options-unix-mbox-spool-directory.page:28(p)
+#: C/mail-receiving-options-mh-format-directories.page:28(p)
+#: C/mail-receiving-options-maildir-format-directories.page:28(p)
 msgid ""
 "Choose the directory by clicking on the button next to <gui>Path</gui> in "
 "the <gui>Configuration</gui> section. Some default folders are available in "
@@ -3846,7 +3892,7 @@ msgstr "Opciones de recepción para cuentas POP."
 msgid "POP receiving options"
 msgstr "Opciones de recepción POP"
 
-#: C/mail-receiving-options-pop.page:43(p)
+#: C/mail-receiving-options-pop.page:52(p)
 msgid ""
 "If you want the messages to remain on the server for a period of time, click "
 "the <gui>Leave messages on server</gui> option and the <gui>Delete after ... "
@@ -3854,7 +3900,7 @@ msgid ""
 "on the server."
 msgstr ""
 
-#: C/mail-receiving-options-pop.page:45(p)
+#: C/mail-receiving-options-pop.page:53(p)
 msgid ""
 "The option <gui>Disable support for all POP3 extensions</gui> is only useful "
 "when accessing old or misconfigured mail servers. <link href=\"https://tools."
@@ -3891,9 +3937,9 @@ msgstr "Opciones de recepción para cuentas Novell Groupwise."
 msgid "Novell Groupwise receiving options"
 msgstr "Opciones de recepción para Novell Groupwise"
 
-#: C/mail-receiving-options-novell-groupwise.page:30(p)
-#: C/mail-receiving-options-exchange-mapi.page:27(p)
-#: C/mail-receiving-options-evolution-exchange.page:31(p)
+#: C/mail-receiving-options-novell-groupwise.page:34(p)
+#: C/mail-receiving-options-exchange-mapi.page:30(p)
+#: C/mail-receiving-options-evolution-exchange.page:34(p)
 msgid ""
 "If you are in an organizational environment, you may want to contact your "
 "system administrator for more information."
@@ -3901,11 +3947,11 @@ msgstr ""
 "Si está en un acontecimiento organizado puede que quiera contactar con el "
 "administrador de su sistema para obtener más información."
 
-#: C/mail-receiving-options-novell-groupwise.page:39(p)
+#: C/mail-receiving-options-novell-groupwise.page:48(p)
 msgid "Enter the Post Office Agent SOAP port."
 msgstr "Introduzca el puerto del Agente SOAP de Oficina de correos."
 
-#: C/mail-receiving-options-novell-groupwise.page:40(p)
+#: C/mail-receiving-options-novell-groupwise.page:49(p)
 msgid ""
 "If you are unsure what your Post Office Agent SOAP port is, contact your "
 "system administrator."
@@ -3947,7 +3993,7 @@ msgstr "Opciones de recepción para cuentas IMAP+."
 msgid "IMAP+ receiving options"
 msgstr "Opciones de recepción IMAP+"
 
-#: C/mail-receiving-options-imap-plus.page:37(p)
+#: C/mail-receiving-options-imap-plus.page:47(p)
 msgid ""
 "Select \"Use Quick Resync\" if the IMAP server supports <link href=\"http://"
 "tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick Mailbox "
@@ -3957,8 +4003,8 @@ msgstr ""
 "href=\"http://tools.ietf.org/html/rfc5162\">Extensiones IMAP4 para "
 "resincronización rápida de buzón de correo</link>."
 
-#: C/mail-receiving-options-imap-plus.page:38(p)
-#: C/mail-receiving-options-imap.page:38(p)
+#: C/mail-receiving-options-imap-plus.page:48(p)
+#: C/mail-receiving-options-imap.page:47(p)
 msgid ""
 "You can also define if Evolution checks for new messages in all folders, or "
 "only in subscribed folders."
@@ -3966,8 +4012,8 @@ msgstr ""
 "También puede definir si Evolution debe comprobar si existe correo nuevo en "
 "todas sus carpetas o solo en las carpetas suscritas."
 
-#: C/mail-receiving-options-imap-plus.page:39(p)
-#: C/mail-receiving-options-imap.page:39(p)
+#: C/mail-receiving-options-imap-plus.page:49(p)
+#: C/mail-receiving-options-imap.page:48(p)
 msgid ""
 "Select if you want Evolution to use custom commands to connect to the IMAP "
 "server."
@@ -3975,8 +4021,8 @@ msgstr ""
 "Seleccione si quiere que Evolution use comandos personalizados para "
 "conectarse al servidor IMAP."
 
-#: C/mail-receiving-options-imap-plus.page:40(p)
-#: C/mail-receiving-options-imap.page:40(p)
+#: C/mail-receiving-options-imap-plus.page:50(p)
+#: C/mail-receiving-options-imap.page:49(p)
 msgid ""
 "Select if you want Evolution to show only <link xref=\"mail-imap-"
 "subscriptions\">subscribed folders</link>."
@@ -3984,8 +4030,8 @@ msgstr ""
 "Seleccione si quiere que Evolution sólo muestre las <link xref=\"mail-imap-"
 "subscriptions\">carpetas suscritas</link>."
 
-#: C/mail-receiving-options-imap-plus.page:41(p)
-#: C/mail-receiving-options-imap.page:41(p)
+#: C/mail-receiving-options-imap-plus.page:51(p)
+#: C/mail-receiving-options-imap.page:50(p)
 msgid ""
 "Select if you want Evolution to override server-supplied folder namespaces."
 msgstr ""
@@ -4008,18 +4054,18 @@ msgstr "Opciones de recepción para cuentas Exchange MAPI."
 msgid "Exchange MAPI receiving options"
 msgstr "Opciones de recepción Exchange MAPI"
 
-#: C/mail-receiving-options-exchange-mapi.page:26(p)
+#: C/mail-receiving-options-exchange-mapi.page:29(p)
 msgid "Enter the Domain name for that server."
 msgstr "Introduzca el nombre de dominio para ese servidor."
 
-#: C/mail-receiving-options-exchange-mapi.page:30(p)
-#: C/mail-receiving-options-evolution-exchange.page:33(p)
+#: C/mail-receiving-options-exchange-mapi.page:33(p)
+#: C/mail-receiving-options-evolution-exchange.page:36(p)
 msgid "Click <gui style=\"button\">Authenticate</gui> and enter your password."
 msgstr ""
 "Pulse <gui style=\"button\">Autenticar</gui> e introduzca su contraseña."
 
-#: C/mail-receiving-options-exchange-mapi.page:37(p)
-#: C/mail-receiving-options-evolution-exchange.page:40(p)
+#: C/mail-receiving-options-exchange-mapi.page:45(p)
+#: C/mail-receiving-options-evolution-exchange.page:48(p)
 msgid ""
 "You can also define if Evolution checks for new messages in all folders."
 msgstr ""
@@ -4034,15 +4080,15 @@ msgstr "Opciones de recepción para cuentas de Evolution Exchange."
 msgid "Evolution Exchange receiving options"
 msgstr "Opciones de recepción de Microsoft Exchange"
 
-#: C/mail-receiving-options-evolution-exchange.page:28(p)
+#: C/mail-receiving-options-evolution-exchange.page:31(p)
 msgid "Enter your username for that server."
 msgstr "Introduzca su nombre de usuario para ese servidor."
 
-#: C/mail-receiving-options-evolution-exchange.page:29(p)
+#: C/mail-receiving-options-evolution-exchange.page:32(p)
 msgid "Enter the OWA URL for that server."
 msgstr "Introduzca el URL del OWA para ese servidor."
 
-#: C/mail-receiving-options-evolution-exchange.page:30(p)
+#: C/mail-receiving-options-evolution-exchange.page:33(p)
 msgid ""
 "Select if the mailbox name is different from the username. If it is, enter "
 "the mailbox name."
@@ -4050,14 +4096,14 @@ msgstr ""
 "Seleccione si el nombre del buzón de correo es diferente del nombre de "
 "usuario. De serlo, introduzca el nombre del buzón."
 
-#: C/mail-receiving-options-evolution-exchange.page:42(p)
+#: C/mail-receiving-options-evolution-exchange.page:49(p)
 msgid ""
 "In the section <gui>Global Address List/Active Directory</gui>, specify the "
 "name of the Global Catalog server. The Global Catalog Server contains the "
 "user information for users."
 msgstr ""
 
-#: C/mail-receiving-options-evolution-exchange.page:43(p)
+#: C/mail-receiving-options-evolution-exchange.page:50(p)
 #, fuzzy
 msgid ""
 "Select if you want to limit the number of Global Address List (GAL) "
@@ -4067,7 +4113,7 @@ msgstr ""
 "Seleccione si quiere limitar el número de «Listas de direcciones globales "
 "(GAL)»."
 
-#: C/mail-receiving-options-evolution-exchange.page:44(p)
+#: C/mail-receiving-options-evolution-exchange.page:51(p)
 msgid ""
 "You also have to define the Authentication type, and whether you want groups "
 "of contacts in GAL to be represented in the Evolution address book by <link "
@@ -4777,6 +4823,9 @@ msgid ""
 "click anywhere on the folder list and select the <gui>New Folder</gui> "
 "option."
 msgstr ""
+"Pulse en <gui>Carpeta</gui> y seleccione <gui>Nuevo</gui>. También puede "
+"pulsar con el botón derecho del ratón en cualquier parte de la lista de "
+"carpetas y seleccionar la opción <gui>Carpeta nueva</gui>."
 
 #: C/mail-folders.page:37(p)
 msgid "Specify the name and the location of the folder."
@@ -5036,6 +5085,9 @@ msgid ""
 "in the <gui>Then</gui> section by <link xref=\"mail-filters#editing"
 "\">editing the filter</link>."
 msgstr ""
+"Para comprobar las reglas y su orden en un filtro ya existente, revise sus "
+"acciones en la sección <gui>Después</gui> <link xref=\"mail-filters#editing"
+"\">editando el filtro</link>."
 
 #: C/mail-filters-not-working.page:35(p)
 msgid ""
@@ -5542,11 +5594,11 @@ msgstr ""
 msgid "Sending and receiving encrypted mail."
 msgstr "Enviar y recibir correo cifrado."
 
-#: C/mail-encryption.page:33(title)
+#: C/mail-encryption.page:34(title)
 msgid "Mail encryption and certificates"
 msgstr "Cifrado de correo y certificados"
 
-#: C/mail-encryption.page:35(p)
+#: C/mail-encryption.page:36(p)
 msgid ""
 "Evolution offers GPG Encryption and S/MIME Encryption for signing and "
 "encrypting email messages. S/MIME is used most often in corporate "
@@ -5555,11 +5607,11 @@ msgstr ""
 "Evolution ofrece cifrado GPG y S/MIME para firmar y cifrar mensajes de "
 "correo electrónico. En entornos corporativos S/MIME se usa más."
 
-#: C/mail-encryption.page:38(title)
+#: C/mail-encryption.page:39(title)
 msgid "GPG"
 msgstr "GPG"
 
-#: C/mail-encryption.page:42(title)
+#: C/mail-encryption.page:43(title)
 msgid "S/MIME"
 msgstr "S/MIME"
 
@@ -6006,7 +6058,9 @@ msgid ""
 msgstr ""
 
 #: C/mail-displaying-no-css.page:24(p)
-msgid "This will likely be fixed in version 3.2 or 3.4."
+#, fuzzy
+#| msgid "This will likely be fixed in version 3.2 or 3.4."
+msgid "This will likely be fixed in version 3.4."
 msgstr "Esto probablemente se solucione en las versiones 3.2 o 3.4."
 
 #: C/mail-displaying-no-css.page:25(p)
@@ -6285,11 +6339,11 @@ msgstr ""
 msgid "Changing the location of the Draft folder and Sent folder."
 msgstr "Cambiar la ubicación de las carpetas Borradores y Enviados."
 
-#: C/mail-default-folder-locations.page:31(title)
+#: C/mail-default-folder-locations.page:32(title)
 msgid "Mail folder locations"
 msgstr "Ubicaciones de las carpetas de correo"
 
-#: C/mail-default-folder-locations.page:33(p)
+#: C/mail-default-folder-locations.page:34(p)
 msgid ""
 "You can set a different place where to store messages in your Draft folder "
 "and Sent folder in the <gui>Defaults</gui> section of the mail account "
@@ -6297,7 +6351,7 @@ msgid ""
 "gui><gui style=\"button\">Edit</gui><gui>Defaults</gui></guiseq>)."
 msgstr ""
 
-#: C/mail-default-folder-locations.page:34(p)
+#: C/mail-default-folder-locations.page:35(p)
 msgid ""
 "For remote account types (accounts such as IMAP) you can also set a Trash "
 "folder and Junk folder on the mail server so Evolution's local virtual "
@@ -6308,11 +6362,11 @@ msgstr ""
 msgid "Make somebody always receive copies of your sent mail."
 msgstr "Hacer que alguien siempre reciba copias de los correos que envía."
 
-#: C/mail-default-CC-and-BCC.page:27(title)
+#: C/mail-default-CC-and-BCC.page:32(title)
 msgid "Default CC and BCC"
 msgstr "Cc y Cco predeterminadas"
 
-#: C/mail-default-CC-and-BCC.page:29(p)
+#: C/mail-default-CC-and-BCC.page:34(p)
 msgid ""
 "You can set email addresses that should always receive copies of your sent "
 "mail (either as CC visible for all recipients, or BCC not visible for other "
@@ -6763,7 +6817,6 @@ msgid "Select the message."
 msgstr "Seleccione el mensaje."
 
 #: C/mail-composer-message-templates.page:34(p)
-#| msgid "Right-click &gt; Move to folder / Copy to folder."
 msgid ""
 "Right-click the message and choose <gui>Move to folder</gui> or <gui>Copy to "
 "folder</gui>."
@@ -7971,6 +8024,7 @@ msgstr "Configuración de cuenta de noticias de Usenet"
 #: C/mail-account-manage-novell-groupwise.page:24(title)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:23(title)
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:23(title)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:23(title)
 #: C/mail-account-manage-mh-format-directories.page:23(title)
 #: C/mail-account-manage-maildir-format-directories.page:23(title)
 #: C/mail-account-manage-local-delivery.page:23(title)
@@ -7986,6 +8040,7 @@ msgstr "Editor de cuentas"
 #: C/mail-account-manage-novell-groupwise.page:25(p)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25(p)
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:25(p)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25(p)
 #: C/mail-account-manage-mh-format-directories.page:24(p)
 #: C/mail-account-manage-maildir-format-directories.page:24(p)
 #: C/mail-account-manage-local-delivery.page:24(p)
@@ -8006,6 +8061,7 @@ msgstr ""
 #: C/mail-account-manage-novell-groupwise.page:26(p)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26(p)
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:26(p)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:26(p)
 #: C/mail-account-manage-mh-format-directories.page:25(p)
 #: C/mail-account-manage-local-delivery.page:25(p)
 #: C/mail-account-manage-imap-plus.page:25(p)
@@ -8023,6 +8079,7 @@ msgstr ""
 #: C/mail-account-manage-novell-groupwise.page:29(title)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:29(title)
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:29(title)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:29(title)
 #: C/mail-account-manage-mh-format-directories.page:28(title)
 #: C/mail-account-manage-maildir-format-directories.page:28(title)
 #: C/mail-account-manage-local-delivery.page:28(title)
@@ -8039,6 +8096,7 @@ msgstr "Identidad"
 #: C/mail-account-manage-novell-groupwise.page:31(p)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:31(p)
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:31(p)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:31(p)
 #: C/mail-account-manage-mh-format-directories.page:30(p)
 #: C/mail-account-manage-maildir-format-directories.page:30(p)
 #: C/mail-account-manage-local-delivery.page:30(p)
@@ -8054,6 +8112,7 @@ msgstr "Introduzca aquí su nombre y su dorección de correo electrónico."
 #: C/mail-account-manage-novell-groupwise.page:32(p)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:32(p)
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:32(p)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:32(p)
 #: C/mail-account-manage-mh-format-directories.page:31(p)
 #: C/mail-account-manage-maildir-format-directories.page:31(p)
 #: C/mail-account-manage-local-delivery.page:31(p)
@@ -8074,6 +8133,7 @@ msgstr ""
 #: C/mail-account-manage-novell-groupwise.page:36(title)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:36(title)
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:36(title)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:36(title)
 #: C/mail-account-manage-mh-format-directories.page:35(title)
 #: C/mail-account-manage-maildir-format-directories.page:35(title)
 #: C/mail-account-manage-local-delivery.page:35(title)
@@ -8102,6 +8162,7 @@ msgstr "Envío de correo"
 #: C/mail-account-manage-novell-groupwise.page:40(title)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:40(title)
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:40(title)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:40(title)
 #: C/mail-account-manage-mh-format-directories.page:43(title)
 #: C/mail-account-manage-maildir-format-directories.page:43(title)
 #: C/mail-account-manage-local-delivery.page:43(title)
@@ -8117,6 +8178,7 @@ msgstr "Predeterminados"
 #: C/mail-account-manage-novell-groupwise.page:45(title)
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:49(title)
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:49(title)
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:44(title)
 #: C/mail-account-manage-mh-format-directories.page:47(title)
 #: C/mail-account-manage-maildir-format-directories.page:47(title)
 #: C/mail-account-manage-local-delivery.page:47(title)
@@ -8214,6 +8276,8 @@ msgid ""
 "right connector</link> to find out about the right Exchange account type for "
 "you."
 msgstr ""
+"Lea primero <link xref=\"exchange-connectors-overview\">Elegir el conector "
+"adecuado</link> para saber el tipo de cuenta Exchange para usted."
 
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5(desc)
 msgid "Add and edit a Microsoft Exchange 2007 account in Evolution."
@@ -8256,15 +8320,6 @@ msgstr "Añadir y editar una cuenta de Microsoft Exchange 2010 en Evolution."
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:20(title)
 msgid "Exchange Web Services account settings"
 msgstr "Configuración de cuenta para Exchange Web Services"
-
-#. TODO: Write once evo-ews is stable. Copy structure from other Exchange account types if applicable.
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:23(p)
-msgid ""
-"This documentation section will be added once the currently developed "
-"evolution-ews has become stable and mature."
-msgstr ""
-"Esta sección de la documentación se añadirá una vez que evolution-ews, "
-"actualmente en desarrollo, sea estable y maduro."
 
 #: C/mail-account-manage-mh-format-directories.page:5(desc)
 #, fuzzy
@@ -8388,6 +8443,9 @@ msgid ""
 "To know the Gmail Account settings, click on <guiseq><gui>Configuration "
 "instructions</gui><gui>Other</gui><gui>Standard Instructions</gui></guiseq>."
 msgstr ""
+"Para saber la configuración de la cuenta de Gmail pulse en "
+"<guiseq><gui>Instrucciones de configuración</gui><gui>Otras</"
+"gui><gui>Instrucciones estándar</gui></guiseq>."
 
 #: C/mail-access-gmail-pop-account.page:39(p)
 msgid ""
@@ -8892,10 +8950,6 @@ msgid ""
 "If you have such a backup, continue <link xref=\"backup-restore#restore"
 "\">here</link>. Otherwise, go to the next page."
 msgstr ""
-
-#: C/intro-first-run.page:36(title)
-msgid "Receiving Email"
-msgstr "Recepción de correo"
 
 #: C/intro-first-run.page:37(p)
 #, fuzzy
@@ -11983,6 +12037,13 @@ msgstr ""
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
 
+#~ msgid ""
+#~ "This documentation section will be added once the currently developed "
+#~ "evolution-ews has become stable and mature."
+#~ msgstr ""
+#~ "Esta sección de la documentación se añadirá una vez que evolution-ews, "
+#~ "actualmente en desarrollo, sea estable y maduro."
+
 #~ msgid "How to report bugs."
 #~ msgstr "Cómo informar de un error."
 
@@ -12367,9 +12428,6 @@ msgstr ""
 
 #~ msgid "Mail Accounts"
 #~ msgstr "Cuentas de correo"
-
-#~ msgid "Receiving Options"
-#~ msgstr "Opciones de recepción"
 
 #, fuzzy
 #~ msgid "Mark as Not Junk"
