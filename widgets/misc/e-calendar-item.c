@@ -25,6 +25,8 @@
 #include <config.h>
 #endif
 
+#include <libebackend/e-extensible.h>
+
 #include "e-calendar-item.h"
 #include "ea-widgets.h"
 
@@ -36,7 +38,6 @@
 #include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
-#include <e-util/e-extensible.h>
 
 static const gint e_calendar_item_days_in_month[12] = {
 	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31

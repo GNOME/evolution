@@ -103,16 +103,6 @@ Miscellaneous Utilities
 @object: 
 
 
-<!-- ##### FUNCTION e_type_traverse ##### -->
-<para>
-
-</para>
-
-@parent_type: 
-@func: 
-@user_data: 
-
-
 <!-- ##### FUNCTION e_str_without_underscores ##### -->
 <para>
 

@@ -22,8 +22,9 @@
 
 #include "e-cal-config-comp-editor.h"
 
+#include <libebackend/e-extension.h>
+
 #include <shell/e-shell.h>
-#include <e-util/e-extension.h>
 #include <calendar/gui/dialogs/comp-editor.h>
 
 static gpointer parent_class;

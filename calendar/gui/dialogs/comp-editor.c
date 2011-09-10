@@ -35,10 +35,10 @@
 #include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
+#include <libebackend/e-extensible.h>
 #include <e-util/e-util.h>
 #include <e-util/e-alert-sink.h>
 #include <e-util/e-dialog-utils.h>
-#include <e-util/e-extensible.h>
 #include <e-util/e-util-private.h>
 #include <e-util/gconf-bridge.h>
 #include <shell/e-shell.h>

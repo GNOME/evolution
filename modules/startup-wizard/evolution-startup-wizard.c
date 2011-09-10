@@ -21,11 +21,11 @@
 #endif
 
 #include <glib/gi18n-lib.h>
+#include <libebackend/e-extension.h>
 
 #include <shell/e-shell.h>
 #include <e-util/e-account-utils.h>
 #include <e-util/e-alert-dialog.h>
-#include <e-util/e-extension.h>
 #include <e-util/e-import.h>
 
 #include <mail/e-mail-backend.h>

@@ -22,8 +22,9 @@
 
 #include "e-cal-config-date-edit.h"
 
+#include <libebackend/e-extension.h>
+
 #include <shell/e-shell.h>
-#include <e-util/e-extension.h>
 #include <misc/e-dateedit.h>
 
 static gpointer parent_class;

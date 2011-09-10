@@ -854,41 +854,6 @@ e_dialog_combo_box_get
 </SECTION>
 
 <SECTION>
-<FILE>e-extensible</FILE>
-<TITLE>EExtensible</TITLE>
-EExtensible
-e_extensible_load_extensions
-e_extensible_list_extensions
-<SUBSECTION Standard>
-E_EXTENSIBLE
-E_IS_EXTENSIBLE
-E_TYPE_EXTENSIBLE
-E_EXTENSIBLE_INTERFACE
-E_IS_EXTENSIBLE_INTERFACE
-E_EXTENSIBLE_GET_INTERFACE
-EExtensibleInterface
-e_extensible_get_type
-</SECTION>
-
-<SECTION>
-<FILE>e-extension</FILE>
-<TITLE>EExtension</TITLE>
-EExtension
-e_extension_get_extensible
-<SUBSECTION Standard>
-E_EXTENSION
-E_IS_EXTENSION
-E_TYPE_EXTENSION
-E_EXTENSION_CLASS
-E_IS_EXTENSION_CLASS
-E_EXTENSION_GET_CLASS
-EExtensionClass
-e_extension_get_type
-<SUBSECTION Private>
-EExtensionPrivate
-</SECTION>
-
-<SECTION>
 <FILE>e-html-utils</FILE>
 <TITLE>Text to HTML Conversion</TITLE>
 E_TEXT_TO_HTML_PRE
@@ -910,26 +875,6 @@ e_icon_factory_get_icon_filename
 e_icon_factory_get_icon
 e_icon_factory_pixbuf_scale
 e_icon_factory_create_thumbnail
-</SECTION>
-
-<SECTION>
-<FILE>e-module</FILE>
-<TITLE>EModule</TITLE>
-EModule
-e_module_new
-e_module_get_filename
-e_module_load_all_in_directory
-<SUBSECTION Standard>
-E_MODULE
-E_IS_MODULE
-E_TYPE_MODULE
-E_MODULE_CLASS
-E_IS_MODULE_CLASS
-E_MODULE_GET_CLASS
-EModuleClass
-e_module_get_type
-<SUBSECTION Private>
-EModulePrivate
 </SECTION>
 
 <SECTION>
@@ -1137,7 +1082,6 @@ e_action_compare_by_label
 e_action_group_remove_all_actions
 e_radio_action_get_current_action
 e_categories_add_change_hook
-e_type_traverse
 e_str_without_underscores
 e_str_compare
 e_str_case_compare

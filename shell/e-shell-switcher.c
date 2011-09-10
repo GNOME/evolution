@@ -32,7 +32,7 @@
 #include "e-shell-switcher.h"
 
 #include <glib/gi18n.h>
-#include <e-util/e-extensible.h>
+#include <libebackend/e-extensible.h>
 
 #define H_PADDING 6
 #define V_PADDING 6

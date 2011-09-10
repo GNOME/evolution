@@ -32,12 +32,12 @@
 #include "e-shell.h"
 
 #include <glib/gi18n.h>
+#include <libebackend/e-module.h>
+#include <libebackend/e-extensible.h>
 #include <libedataserverui/e-passwords.h>
 
-#include "e-util/e-module.h"
-#include "e-util/e-extensible.h"
-#include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
+#include "e-util/e-util-private.h"
 #include "smclient/eggsmclient.h"
 #include "widgets/misc/e-preferences-window.h"
 

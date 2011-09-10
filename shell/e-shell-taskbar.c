@@ -31,9 +31,9 @@
 
 #include "e-shell-taskbar.h"
 
-#include <e-shell-view.h>
+#include <libebackend/e-extensible.h>
 
-#include <e-util/e-extensible.h>
+#include <e-shell-view.h>
 #include <misc/e-activity-proxy.h>
 
 struct _EShellTaskbarPrivate {

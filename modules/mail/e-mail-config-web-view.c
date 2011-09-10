@@ -22,8 +22,9 @@
 
 #include "e-mail-config-web-view.h"
 
+#include <libebackend/e-extension.h>
+
 #include <shell/e-shell.h>
-#include <e-util/e-extension.h>
 #include <misc/e-web-view.h>
 
 typedef struct _EMailConfigWebView EMailConfigWebView;

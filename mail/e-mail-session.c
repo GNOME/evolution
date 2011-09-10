@@ -44,13 +44,13 @@
 #include <canberra-gtk.h>
 #endif
 
-#include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-flag.h>
+#include <libebackend/e-extensible.h>
+#include <libedataserverui/e-passwords.h>
 
 #include "e-util/e-util.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
-#include "e-util/e-extensible.h"
 #include "e-util/e-util-private.h"
 #include "e-util/gconf-bridge.h"
 

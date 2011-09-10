@@ -30,11 +30,11 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
+#include <libebackend/e-extensible.h>
 #include <libedataserver/e-time-utils.h>
 #include <libedataserverui/e-client-utils.h>
 #include <e-util/e-util.h>
 #include <e-util/e-alert-dialog.h>
-#include <e-util/e-extensible.h>
 #include <e-util/e-selection.h>
 #include <e-util/e-datetime-format.h>
 #include <e-util/e-dialog-utils.h>

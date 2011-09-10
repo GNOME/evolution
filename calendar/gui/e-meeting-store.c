@@ -31,10 +31,10 @@
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
+#include <libebackend/e-extensible.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-proxy.h>
 #include <libedataserverui/e-passwords.h>
-#include <e-util/e-extensible.h>
 #include <e-util/e-account-utils.h>
 #include <e-util/e-util-enumtypes.h>
 #include "itip-utils.h"

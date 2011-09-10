@@ -22,8 +22,9 @@
 
 #include "e-cal-config-meeting-time-selector.h"
 
+#include <libebackend/e-extension.h>
+
 #include <shell/e-shell.h>
-#include <e-util/e-extension.h>
 #include <calendar/gui/e-meeting-time-sel.h>
 
 static gpointer parent_class;

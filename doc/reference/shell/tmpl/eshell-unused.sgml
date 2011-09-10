@@ -26,6 +26,62 @@
 GObject Property Bindings
 
 
+<!-- ##### SECTION ./tmpl/e-extensible.sgml:Image ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-extensible.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-extensible.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-extensible.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-extensible.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-extensible.sgml:Title ##### -->
+EExtensible
+
+
+<!-- ##### SECTION ./tmpl/e-extension.sgml:Image ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-extension.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-extension.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-extension.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-extension.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-extension.sgml:Title ##### -->
+EExtension
+
+
 <!-- ##### SECTION ./tmpl/e-logger.sgml:Image ##### -->
 
 
@@ -52,6 +108,34 @@ GObject Property Bindings
 
 <!-- ##### SECTION ./tmpl/e-logger.sgml:Title ##### -->
 Error Logging
+
+
+<!-- ##### SECTION ./tmpl/e-module.sgml:Image ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-module.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-module.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-module.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-module.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-module.sgml:Title ##### -->
+EModule
 
 
 <!-- ##### SECTION ./tmpl/e-shell-window.sgml.sgml.sgml.sgml:Image ##### -->
@@ -154,6 +238,24 @@ e-shell-window.sgml
 @user_data: 
 @Returns: 
 
+<!-- ##### STRUCT EExtensible ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT EExtension ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EExtension:extensible ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### USER_FUNCTION ELogFunction ##### -->
 <para>
 
@@ -178,6 +280,18 @@ e-shell-window.sgml
 
 
 <!-- ##### ARG ELogger:name ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT EModule ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EModule:filename ##### -->
 <para>
 
 </para>
@@ -437,6 +551,30 @@ e-shell-window.sgml
 
 @binding: 
 
+<!-- ##### FUNCTION e_extensible_list_extensions ##### -->
+<para>
+
+</para>
+
+@extensible: 
+@extension_type: 
+@Returns: 
+
+<!-- ##### FUNCTION e_extensible_load_extensions ##### -->
+<para>
+
+</para>
+
+@extensible: 
+
+<!-- ##### FUNCTION e_extension_get_extensible ##### -->
+<para>
+
+</para>
+
+@extension: 
+@Returns: 
+
 <!-- ##### FUNCTION e_get_gnome2_user_dir ##### -->
 <para>
 
@@ -486,6 +624,30 @@ e-shell-window.sgml
 </para>
 
 @name: 
+@Returns: 
+
+<!-- ##### FUNCTION e_module_get_filename ##### -->
+<para>
+
+</para>
+
+@module: 
+@Returns: 
+
+<!-- ##### FUNCTION e_module_load_all_in_directory ##### -->
+<para>
+
+</para>
+
+@dirname: 
+@Returns: 
+
+<!-- ##### FUNCTION e_module_new ##### -->
+<para>
+
+</para>
+
+@filename: 
 @Returns: 
 
 <!-- ##### FUNCTION e_mutual_binding_new ##### -->
@@ -581,6 +743,15 @@ e-shell-window.sgml
 @type: 
 @key: 
 @Returns: 
+
+<!-- ##### FUNCTION e_type_traverse ##### -->
+<para>
+
+</para>
+
+@parent_type: 
+@func: 
+@user_data: 
 
 <!-- ##### FUNCTION get_font_options ##### -->
 <para>

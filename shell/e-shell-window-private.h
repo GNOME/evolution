@@ -28,12 +28,12 @@
 #include <glib/gi18n.h>
 
 #include <gconf/gconf-client.h>
+#include <libebackend/e-extensible.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-alert-sink.h>
-#include <e-util/e-extensible.h>
 #include <e-util/e-plugin-ui.h>
 #include <e-util/gconf-bridge.h>
 #include <widgets/misc/e-alert-bar.h>

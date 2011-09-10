@@ -47,13 +47,6 @@
   </chapter>
 
   <chapter>
-    <title>Extending Evolution</title>
-    <xi:include href="xml/e-module.xml"/>
-    <xi:include href="xml/e-extension.xml"/>
-    <xi:include href="xml/e-extensible.xml"/>
-  </chapter>
-
-  <chapter>
     <title>Actions</title>
     <xi:include href="xml/shell-actions.xml"/>
     <xi:include href="xml/action-groups.xml"/>

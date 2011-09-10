@@ -31,15 +31,12 @@ eutilinclude_HEADERS = 				\
 	e-dialog-utils.h			\
 	e-dialog-widgets.h			\
 	e-event.h				\
-	e-extensible.h				\
-	e-extension.h				\
 	e-file-utils.h				\
 	e-html-utils.h				\
 	e-icon-factory.h			\
 	e-import.h				\
 	e-marshal.h				\
 	e-mktemp.h				\
-	e-module.h				\
 	e-poolv.h				\
 	e-print.h				\
 	e-plugin.h				\
@@ -106,15 +103,12 @@ libeutil_la_SOURCES =				\
 	e-dialog-utils.c			\
 	e-dialog-widgets.c			\
 	e-event.c				\
-	e-extensible.c				\
-	e-extension.c				\
 	e-file-utils.c				\
 	e-html-utils.c				\
 	e-icon-factory.c			\
 	e-import.c				\
 	e-marshal.c				\
 	e-mktemp.c				\
-	e-module.c				\
 	e-poolv.c				\
 	e-plugin.c				\
 	e-plugin-ui.c				\

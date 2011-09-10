@@ -33,8 +33,8 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
+#include <libebackend/e-extensible.h>
 
-#include "e-util/e-extensible.h"
 #include "e-util/e-file-utils.h"
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-ui-manager.h"
