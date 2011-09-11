@@ -1,15 +1,7 @@
 # translation of evolution-help.master.po to Español
 # translation of evolution manual to spanish
 # 
-# Ismael Olea <ismael@olea.org>, 2003.
-# I.R. Maturana <info@in3activa.com>, 2003.
-# Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006.
-# 
-# 
-# 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011., 2011.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011., 2011.
-#
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.#
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
@@ -833,6 +825,8 @@ msgstr ""
 "notas en la vista."
 
 #: C/tasks-using-several-tasklists.page:24(p)
+#| msgid ""
+#| "Tasks and memos for each task or memo list appear as a different color."
 msgid "Tasks and memos from each task or memo list appear as different colors."
 msgstr ""
 "Las tareas y notas para cada lista de tareas o notas, aparecen en diferentes "
@@ -1592,6 +1586,11 @@ msgid "How to get help"
 msgstr "Cómo obtener ayuda"
 
 #: C/problems-getting-help.page:24(p)
+#| msgid ""
+#| "To receive help on problems you can send an email to the <link href="
+#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
+#| "mailing list</link> or ask a message in the IRC chat channel #evolution "
+#| "on the server irc.gimp.net."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
 "mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
@@ -2199,6 +2198,7 @@ msgstr ""
 "también puede aparecer dos veces."
 
 #: C/mail-spam-settings.page:5(desc)
+#| msgid "How to set up handling unwanted junk and spam mail."
 msgid "How to set up handling unwanted junk/spam mail."
 msgstr "Cómo configurar la gestión de correo no deseado y SPAM."
 
@@ -2297,11 +2297,11 @@ msgid "Checking custom headers for junk."
 msgstr "Comprobar las cabeceras personalizadas contra SPAM."
 
 #: C/mail-spam-settings.page:54(p)
-#, fuzzy
 #| msgid "Marking messages as junk if the sender is in the address book."
 msgid "Marking messages as not junk if the sender is in the address book."
 msgstr ""
-"Marcar mensajes como SPAM si el remitente está en la libreta de direcciones."
+"Marcar mensajes como no SPAM si el remitente está en la libreta de "
+"direcciones."
 
 #: C/mail-spam-settings.page:55(p)
 msgid "The default junk filter."
@@ -2684,11 +2684,10 @@ msgstr ""
 #: C/mail-sorting-message-list.page:92(p)
 #: C/mail-sorting-message-list.page:101(p)
 #: C/mail-sorting-message-list.page:110(p)
-#, fuzzy
 msgid "Right-click on the message list column headers."
 msgstr ""
-"Pulse con el botón derecho del ratón sobre el mensaje en la lista de "
-"mensajes."
+"Pulse con el botón derecho del ratón sobre las cabeceras de las columnas de "
+"la lista de correos."
 
 #: C/mail-sorting-message-list.page:63(p)
 msgid "Select the <gui>Sort By</gui> option."
@@ -3807,14 +3806,13 @@ msgstr ""
 "xref=\"mail-imap-subscriptions\">ventana de suscripciones</link>."
 
 #: C/mail-receiving-options-usenet-news.page:50(p)
-#, fuzzy
 msgid ""
 "If you select to show relative folder names, only the name of the folder is "
 "displayed. For example the folder evolution.mail would appear as evolution."
 msgstr ""
-"Si selecciona mostrar nombres de carpetas relativos en la página de "
-"suscripción, se muestra sólo el nombre de la carpeta. Por ejemplo, la "
-"carpeta evolution.mail aparecería como evolution."
+"Si selecciona mostrar nombres de carpetas relativos sólo se muestra el "
+"nombre de la carpeta. Por ejemplo, la carpeta evolution.mail aparecería como "
+"evolution."
 
 #. TODO:XINCLUDE: Maybe later replace this "go back" workaround by doing some content sharing with xinclude and xpointer in intro-first-run.page itself? <include href="foo.xml" xmlns="http://www.w3.org/2001/XInclude"/> See gnome-user-docs module for example usage.
 #: C/mail-receiving-options-usenet-news.page:57(p)
@@ -4111,14 +4109,14 @@ msgstr ""
 "catálogo global contiene la información de los usuarios."
 
 #: C/mail-receiving-options-evolution-exchange.page:50(p)
-#, fuzzy
 msgid ""
 "Select if you want to limit the number of Global Address List (GAL) "
 "responses as this may increase speed. The GAL contains a list of all email "
 "addresses."
 msgstr ""
-"Seleccione si quiere limitar el número de «Listas de direcciones globales "
-"(GAL)»."
+"Seleccione si quiere limitar el número de respuestas de Listas de "
+"direcciones globales (GAL) ya puede aumentar la velocidad. Las GAL contienen "
+"una lista de todas las direcciones de correo-e."
 
 #: C/mail-receiving-options-evolution-exchange.page:51(p)
 msgid ""
@@ -4541,6 +4539,10 @@ msgid ""
 "click on the top level node of an email account in the folder list and click "
 "<gui>Manage subscriptions</gui>."
 msgstr ""
+"Seleccione <guiseq><gui>Carpeta</gui><gui>Subscripciones</gui></guiseq> o "
+"pulse con el botón derecho del ratón sobre el nodo de nivel superior de una "
+"cuenta de correo-e en la lista de carpetas y pulse <gui>Gestionar "
+"subscripciones</gui>."
 
 #: C/mail-imap-subscriptions.page:32(p)
 msgid ""
@@ -4587,7 +4589,7 @@ msgid ""
 msgstr ""
 "La pestaña <gui>Cabeceras IMAP</gui> sólo se muestra en el <gui>Editor de "
 "cuentas</gui> si <guiseq><gui>Editar</gui><gui>Complementos</"
-"gui><gui>Características IMAP</gui></guiseq> está activada."
+"gui><gui>Características IMAP</gui> está activada."
 
 #: C/mail-imap-headers.page:29(p)
 #, fuzzy
@@ -4758,7 +4760,6 @@ msgstr ""
 "Llamar, Reenviar y Responder."
 
 #: C/mail-follow-up-flag.page:37(p)
-#, fuzzy
 msgid ""
 "After you have added a flag, you can mark it as complete or remove it "
 "entirely by right-clicking the message and clicking either <gui>Flag "
@@ -4766,10 +4767,9 @@ msgid ""
 msgstr ""
 "Una vez que ha añadido una marca, puede remarcar el mensaje como terminado o "
 "eliminar la marca pinchando con el botón derecho sobre el mensaje y "
-"eligiendo Marcar como terminado o Quitar marca."
+"eligiendo <gui>Marcar como terminado</gui> o <gui>Quitar marca</gui>."
 
 #: C/mail-follow-up-flag.page:39(p)
-#, fuzzy
 msgid ""
 "When you read a flagged message, its flag status is displayed at the top, "
 "before the message headers. An overdue message might tell you \"Overdue: "
@@ -4777,8 +4777,8 @@ msgid ""
 msgstr ""
 "Cuando lea un mensaje marcado con una bandera, se mostrará su estado en la "
 "parte superior derecha del mismo, antes de la cabecera del mensaje. Al ver "
-"un mensaje atrasado podrá decirle algo como <quote>Llamar antes del 7 de "
-"abril de 2003 a las 17:00</quote>."
+"un mensaje atrasado podrá decirle algo como «Atrasado: Llamar antes del 7 de "
+"abril de 2003 a las 17:00»."
 
 #: C/mail-follow-up-flag.page:41(p)
 #, fuzzy
@@ -4971,14 +4971,14 @@ msgstr ""
 "pulse Carpeta &gt; Purgar o pulse Ctrl+E."
 
 #: C/mail-filters.page:30(p) C/exporting-data-mail.page:25(p)
-#, fuzzy
 msgid ""
 "You can select all messages in a folder by clicking <guiseq><gui>Edit</"
 "gui><gui>Select All</gui></guiseq> or pressing <keyseq><key>Ctrl</"
 "key><key>A</key></keyseq>."
 msgstr ""
-"Para borrar permanentemente todos los mensajes borrados en una carpeta, "
-"pulse Carpeta &gt; Purgar o pulse Ctrl+E."
+"Puede seleccionar todos los correos en su carpeta pulsando "
+"<guiseq><gui>Editar</gui><gui>Seleccionar todos</gui></guiseq> o pulsando "
+"<keyseq><key>Ctrl</key><key>A</key></keyseq>."
 
 #: C/mail-filters.page:33(title)
 msgid "Creating a Filter"
@@ -5100,6 +5100,9 @@ msgid ""
 "inefficient way. This will make your filters run slowly, so it may seem like "
 "they are not working."
 msgstr ""
+"Probablemente sus filtros de correo están funcionando, no obstante pueden "
+"estar ordenados de una forma no eficiente. Esto hará que sus filtros se "
+"ejecuten lentamente, de tal forma que parece que no funcionan."
 
 #: C/mail-filters-not-working.page:32(p)
 msgid ""
@@ -5468,8 +5471,8 @@ msgstr "Al realizar esta operación puede que pierda algunas de sus etiquetas."
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
-"\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+"id=550414\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
@@ -5700,11 +5703,12 @@ msgstr ""
 "Especifique el ID de su clave en el campo <gui>ID de la clave GPG/PGP</gui>."
 
 #: C/mail-encryption-gpg-set-up.page:33(p)
-#, fuzzy
 msgid ""
 "Below the field you can choose whether to always sign outgoing messages when "
 "using this account, and other options."
-msgstr "_Firmar siempre los mensajes salientes cuando se use esta cuenta"
+msgstr ""
+"Debajo del campo puede seleccionar si quiere firmar siempre los correos "
+"salientes al usar esta cuenta y otras opciones."
 
 #: C/mail-encryption-gpg-set-up.page:38(p)
 #, fuzzy
@@ -5752,14 +5756,13 @@ msgstr ""
 "su identificador se añadirá automáticamente a su depósito de claves."
 
 #: C/mail-encryption-gpg-getting-keys.page:30(p)
-#, fuzzy
 msgid ""
 "If someone sends you a public key directly, save it as a plain text file and "
 "enter the command <code>gpg --import</code> to add it to your keyring."
 msgstr ""
 "Si alguien le envía directamente su clave pública, guárdela como un archivo "
-"de texto plano e introduzca el comando <command>gpg <varname>--import</"
-"varname></command> para añadirá a su depósito de claves."
+"de texto plano e introduzca el comando <code>gpg --import</code> para "
+"añadirla a su depósito de claves."
 
 #: C/mail-encryption-gpg-decrypting.page:5(desc)
 msgid "Decrypting and checking the signature of received GPG messages."
@@ -5923,16 +5926,14 @@ msgstr ""
 "<quote>32j38dk2</quote>."
 
 #: C/mail-encryption-gpg-create-key.page:47(p)
-#, fuzzy
 msgid ""
 "Enter the command <code>gpg --send-keys --keyserver wwwkeys.pgp.net "
 "32j38dk2</code>. Substitute your key ID for <code>32j38dk2</code>. You need "
 "your password to do this."
 msgstr ""
-"Escriba el comando <command>gpg --send-keys --keyserver wwwkeys.pgp.net "
-"<varname>32j38dk2</varname></command>. Sustituya el identificador de su "
-"clave por <varname>32j38dk2</varname>. Necesitará su contraseña para poder "
-"hacerlo."
+"Escriba el comando <code>gpg --send-keys --keyserver wwwkeys.pgp.net "
+"32j38dk2</code>. Sustituya el identificador de su clave por <code>32j38dk2</"
+"code>. Necesitará su contraseña para poder hacerlo."
 
 #: C/mail-encryption-gpg-create-key.page:50(p)
 msgid ""
@@ -7598,6 +7599,7 @@ msgid "To set up the Custom Header plugin:"
 msgstr "Para configurar el complemento Cabecera personalizada:"
 
 #: C/mail-composer-custom-header-lines.page:32(p)
+#| msgid "Email Custom Header"
 msgid "Enable <gui>Custom Header</gui>."
 msgstr "Actíve <gui>Cabecera personalizada</gui>."
 
@@ -7626,6 +7628,9 @@ msgid ""
 "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq> to open the "
 "message composer window."
 msgstr ""
+"Pulse <guiseq><gui>Nuevo</gui><gui>Mensaje de correo</gui></guiseq> o pulse "
+"<keyseq><key>Mayús</key><key>Ctrl</key><key>M</key></keyseq> para abrir la "
+"ventana del editor de correos."
 
 #: C/mail-composer-custom-header-lines.page:42(p)
 msgid "Select <guiseq><gui>Insert</gui><gui>Custom Header</gui></guiseq>."
@@ -7716,6 +7721,9 @@ msgid ""
 "the column headers and choose either <gui>Add a Column...</gui> or "
 "<gui>Remove This Column</gui>."
 msgstr ""
+"Si quiere cambiar las columnas de la lista de mensajes, pulse con el botón "
+"derecho del ratón en las cabeceras de las columnas y elija <gui>Añadir una "
+"columna...</gui> o <gui>Quitar esta columna</gui>."
 
 #: C/mail-change-columns-in-message-list.page:23(p)
 msgid ""
@@ -7896,6 +7904,8 @@ msgid ""
 "gui><gui>Attachment</gui></guiseq>, or press <keyseq><key>Ctrl</key><key>M</"
 "key></keyseq>."
 msgstr ""
+"Pulse <gui>Añadir adjunto...</gui>, <guiseq><gui>Insertar</gui><gui>Adjunto</"
+"gui></guiseq> o pulse <keyseq><key>Ctrl</key><key>M</key></keyseq>."
 
 #: C/mail-attachments-sending.page:31(p)
 msgid "Select the file you want to attach."
@@ -8461,6 +8471,9 @@ msgid ""
 "On your Evolution client, go to <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Accounts</gui></guiseq>. Click <gui style=\"button\">Add</gui>."
 msgstr ""
+"En su cliente de Evolution, vaya a <guiseq><gui>Editar</"
+"gui><gui>Preferencias</gui><gui>Cuentas de correo</gui></guiseq>. Pulse <gui "
+"style=\"button\">Añadir</gui>."
 
 #: C/mail-access-gmail-pop-account.page:40(p)
 msgid ""
@@ -8489,8 +8502,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">GMail Help</link> for more information."
 msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
@@ -8880,6 +8893,9 @@ msgid ""
 "Tasks and memos are just displayed for your convience and are not associated "
 "to any appointments. Use the <gui>switcher</gui> to go to their main windows."
 msgstr ""
+"Para su comodidad, las tareas y las notas se muestran y no están asociadas "
+"con ninguna cita. Use el <gui>Selector</gui> para ir a sus ventanas "
+"principales."
 
 #: C/intro-main-window.page:135(title)
 #: C/import-supported-file-formats.page:60(title)
@@ -9186,6 +9202,8 @@ msgid ""
 "Standard Unix mbox spool file: For reading and storing email in the mail "
 "spool file on your local system."
 msgstr ""
+"Archivo spool mbox estándar de Unix: para leer y almacenar correo en el "
+"archivo de correo spool de su sistema local."
 
 #: C/intro-first-run.page:79(p)
 msgid ""
@@ -9307,6 +9325,8 @@ msgid ""
 "<media type=\"image\" src=\"figures/evolutionlogo.png\"> Evolution logo </"
 "media> Evolution Mail and Calendar"
 msgstr ""
+"<media type=\"image\" src=\"figures/evolutionlogo.png\">Logotipo de "
+"Evolution</media> Correo y calendario de Evolution"
 
 #: C/index.page:31(title)
 msgid "Getting Started"
@@ -9680,6 +9700,9 @@ msgid ""
 "data and wait until the file manager window opens, or mount your Windows "
 "drive."
 msgstr ""
+"Dependiendo de su último paso, conecte el disco o la unidad USB con los "
+"datos y espere hasta que se abra la ventana del gestor de archivos o monte "
+"su unidad Windows."
 
 #: C/import-apps-outlook.page:56(p)
 msgid ""
