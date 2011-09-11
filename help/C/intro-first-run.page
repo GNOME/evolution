@@ -6,7 +6,7 @@
 
     <link type="guide" xref="index#getting-started"/>
 
-    <revision pkgversion="2.30.2" version="0.1" date="2010-12-09" status="stub"/>
+    <revision pkgversion="2.30.2" version="0.2" date="2011-09-11" status="stub"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -76,7 +76,7 @@
 
 <item><p>Maildir-Format Mail Directories: For downloading your email using Qmail or another Maildir-style program.</p><p>You need to provide the path to the directory you want to use.</p><p>Continue <link xref="mail-receiving-options-maildir-format-directories">here</link> for configuration.</p></item>
 
-<item><p>Standard Unix mbox spool file: For reading and storing email in the mail spool file on your local system.</p><p>Continue <link xref="mail-receiving-options-unix-mbox-spool-file">here</link> for configuration.</p><p>You need to provide the path to the mail spool file you want to use.</p></item>
+<item><p>Standard Unix mbox spool file: For reading and storing email in the mail spool file on your local system.</p><p>You need to provide the path to the mail spool file you want to use.</p><p>Continue <link xref="mail-receiving-options-unix-mbox-spool-file">here</link> for configuration.</p></item>
 
 <item><p>Standard Unix mbox spool directory: For reading and storing email in the mail spool directory on your local system.</p><p>You need to provide the path to the directory you want to use.</p><p>Continue <link xref="mail-receiving-options-unix-mbox-spool-directory">here</link> for configuration.</p></item>
 </list>
