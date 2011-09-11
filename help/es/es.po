@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-07 15:55+0000\n"
+"POT-Creation-Date: 2011-09-11 10:31+0000\n"
 "PO-Revision-Date: 2011-09-11 12:30+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
@@ -833,8 +833,6 @@ msgstr ""
 "notas en la vista."
 
 #: C/tasks-using-several-tasklists.page:24(p)
-#| msgid ""
-#| "Tasks and memos for each task or memo list appear as a different color."
 msgid "Tasks and memos from each task or memo list appear as different colors."
 msgstr ""
 "Las tareas y notas para cada lista de tareas o notas, aparecen en diferentes "
@@ -1594,11 +1592,6 @@ msgid "How to get help"
 msgstr "Cómo obtener ayuda"
 
 #: C/problems-getting-help.page:24(p)
-#| msgid ""
-#| "To receive help on problems you can send an email to the <link href="
-#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
-#| "mailing list</link> or ask a message in the IRC chat channel #evolution "
-#| "on the server irc.gimp.net."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
 "mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
@@ -2206,7 +2199,6 @@ msgstr ""
 "también puede aparecer dos veces."
 
 #: C/mail-spam-settings.page:5(desc)
-#| msgid "How to set up handling unwanted junk and spam mail."
 msgid "How to set up handling unwanted junk/spam mail."
 msgstr "Cómo configurar la gestión de correo no deseado y SPAM."
 
@@ -4595,7 +4587,7 @@ msgid ""
 msgstr ""
 "La pestaña <gui>Cabeceras IMAP</gui> sólo se muestra en el <gui>Editor de "
 "cuentas</gui> si <guiseq><gui>Editar</gui><gui>Complementos</"
-"gui><gui>Características IMAP</gui> está activada."
+"gui><gui>Características IMAP</gui></guiseq> está activada."
 
 #: C/mail-imap-headers.page:29(p)
 #, fuzzy
@@ -5476,8 +5468,8 @@ msgstr "Al realizar esta operación puede que pierda algunas de sus etiquetas."
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
-"id=550414\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
+"\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
@@ -7606,7 +7598,6 @@ msgid "To set up the Custom Header plugin:"
 msgstr "Para configurar el complemento Cabecera personalizada:"
 
 #: C/mail-composer-custom-header-lines.page:32(p)
-#| msgid "Email Custom Header"
 msgid "Enable <gui>Custom Header</gui>."
 msgstr "Actíve <gui>Cabecera personalizada</gui>."
 
@@ -8498,8 +8489,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?"
-"answer=77695\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
+"\">GMail Help</link> for more information."
 msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
