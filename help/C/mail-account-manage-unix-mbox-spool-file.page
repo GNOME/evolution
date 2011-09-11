@@ -49,9 +49,9 @@
 
 </section> <!-- end "account editor" section, now list any account settings stuff related to this account type outside of it -->
 
-<section id="other-settings">
+<!-- <section id="other-settings">
 <title>Other settings</title>
 <p>Other account related settings that are not located in the <gui>Account Editor</gui>:</p>
-</section>
+</section> -->
 
 </page>
