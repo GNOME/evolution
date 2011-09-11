@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-07 15:55+0000\n"
-"PO-Revision-Date: 2011-09-10 11:41+0200\n"
+"PO-Revision-Date: 2011-09-11 12:30+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2874,6 +2874,9 @@ msgid ""
 "gui> field and select if the server requires authentication (entering a "
 "username and a password)."
 msgstr ""
+"Introduzca la dirección de su servidor de correo para enviar correo en el "
+"campo <gui>Servidor</gui> y seleccione si el servidor requiere autenticación "
+"(introduciendo un nombre de usuario y una contraseña)."
 
 #: C/mail-sending-options-smtp.page:31(p)
 #: C/mail-receiving-options-usenet-news.page:33(p)
@@ -2937,6 +2940,9 @@ msgid ""
 "writing a new message, please refer to the <link xref=\"index#mail-composing"
 "\">Composing mail</link> section."
 msgstr ""
+"Este sección se refiere a la recepción y envío de correos escritos. Para "
+"escribir un correo nuevo, consulte la sección <link xref=\"index#mail-"
+"composing\">Redactar correos</link>."
 
 #: C/mail-send-and-receive-manual.page:5(desc)
 msgid "Force sending and receiving emails."
@@ -3078,6 +3084,9 @@ msgid ""
 "another folder and then back again, or by right-clicking on the search "
 "folder and choosing <gui>Refresh</gui>."
 msgstr ""
+"Puede obtener una vista actualizada de la carpeta de búsqueda cambiando a "
+"otra carpeta y volviendo a la misma o pulsando con el botón derecho del "
+"ratón sobre la carpeta de búsqueda y eligiendo <gui>Actualizar</gui>."
 
 #: C/mail-search-folders.page:5(desc)
 msgid ""
@@ -3785,6 +3794,9 @@ msgid ""
 "<gui>Check for new messages every ... minutes</gui> option and select the "
 "frequency in minutes."
 msgstr ""
+"Si quiere que Evolution compruebe automáticamente si hay correo nuevo, "
+"seleccione la opción <gui>Comprobar si hay mensajes nuevos cada ... minutos</"
+"gui> y seleccione la frecuencia en minutos."
 
 #: C/mail-receiving-options-usenet-news.page:47(p)
 msgid "Select if you want to show folders in short notation."
@@ -4102,6 +4114,9 @@ msgid ""
 "name of the Global Catalog server. The Global Catalog Server contains the "
 "user information for users."
 msgstr ""
+"En la sección <gui>Lista de acceso global/Directorio Activo</gui> "
+"especifique el nombre del servidor del catálogo global. El servidor del "
+"catálogo global contiene la información de los usuarios."
 
 #: C/mail-receiving-options-evolution-exchange.page:50(p)
 #, fuzzy
@@ -4154,6 +4169,9 @@ msgid ""
 "mailer icon in the window <link xref=\"change-switcher-appearance.page"
 "\">switcher</link>."
 msgstr ""
+"Evolution siempre le notifica nuevos correos añadiendo una estrella amarilla "
+"al icono del correo en la ventana del <link xref=\"change-switcher-"
+"appearance.page\">selector</link>."
 
 #: C/mail-received-notification.page:25(p)
 #: C/mail-received-notification.page:30(p)
@@ -4190,6 +4208,9 @@ msgid ""
 "composer's menu. To do so, go to <guiseq><gui>Options</gui><gui>Request Read "
 "Receipt</gui></guiseq>."
 msgstr ""
+"Puede solicitar confirmación de lectura activando esta opción en el menú del "
+"editor de correos. Para ello, vaya a <guiseq><gui>Opciones</"
+"gui><gui>Solicitar confirmación de lectura</gui></guiseq>."
 
 #: C/mail-read-receipts.page:39(p)
 msgid ""
@@ -4379,6 +4400,9 @@ msgid ""
 "are correct. If the message contains a wrong or invalid email address, the "
 "message will not be sent."
 msgstr ""
+"Dirección de correo-e no válida. Compruebe si todas las direcciones listadas "
+"como destinatarios del correo son correctas. Si el correo contiene una "
+"dirección errónea o no válida no se enviará el mensaje."
 
 #: C/mail-not-sent.page:26(p)
 msgid ""
@@ -4386,6 +4410,9 @@ msgid ""
 "is correct. Using the incorrect server address or authentication method may "
 "prevent emails from being sent"
 msgstr ""
+"Configuración SMTP incorrecta. Compruebe si la configuración usada para los "
+"correos salientes es correcta. Usar una dirección de servidor o un método "
+"incorrecto hará que no se puedan enviar correos."
 
 #: C/mail-not-sent.page:27(p)
 msgid ""
@@ -4566,6 +4593,9 @@ msgid ""
 "Editor</gui> if <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>IMAP Features</"
 "gui></guiseq> is enabled."
 msgstr ""
+"La pestaña <gui>Cabeceras IMAP</gui> sólo se muestra en el <gui>Editor de "
+"cuentas</gui> si <guiseq><gui>Editar</gui><gui>Complementos</"
+"gui><gui>Características IMAP</gui> está activada."
 
 #: C/mail-imap-headers.page:29(p)
 #, fuzzy
@@ -7510,9 +7540,8 @@ msgstr ""
 "ya está introducido, aunque puede cambiarlo si lo desea."
 
 #: C/mail-composer-forward.page:33(p)
-#, fuzzy
 msgid "Add your comments on the message in the text field."
-msgstr "Añada sus comentarios en el mensaje dentro del marco de edición"
+msgstr "Añada sus comentarios en el correo en el campo de texto."
 
 #: C/mail-composer-forward.page:34(p)
 msgid ""
@@ -7560,7 +7589,6 @@ msgid "Using custom fields in the header of composed messages"
 msgstr "Mostrar un cursor parpadeante en el cuerpo de los mensajes mostrados"
 
 #: C/mail-composer-custom-header-lines.page:23(title)
-#, fuzzy
 msgid "Custom Header Lines"
 msgstr "Cabeceras personalizadas"
 
@@ -7570,20 +7598,17 @@ msgid "You can add arbitrary header lines to outgoing emails."
 msgstr "Añadir una cabecera personalizada a los mensajes salientes."
 
 #: C/mail-composer-custom-header-lines.page:28(title)
-#, fuzzy
 msgid "Enabling and managing custom headers"
-msgstr "Pulse Añadir para añadir cualquier cabecera predefinida."
+msgstr "Activar y gestionar cabeceras personalizadas"
 
 #: C/mail-composer-custom-header-lines.page:29(p)
-#, fuzzy
 msgid "To set up the Custom Header plugin:"
-msgstr "Para activar el complemento Cabecera personalizada:"
+msgstr "Para configurar el complemento Cabecera personalizada:"
 
 #: C/mail-composer-custom-header-lines.page:32(p)
-#, fuzzy
 #| msgid "Email Custom Header"
 msgid "Enable <gui>Custom Header</gui>."
-msgstr "Cabeceras personalizadas del correo-e"
+msgstr "Actíve <gui>Cabecera personalizada</gui>."
 
 #: C/mail-composer-custom-header-lines.page:34(p)
 #, fuzzy
@@ -7601,9 +7626,8 @@ msgstr ""
 "un punto y coma para separar cada valor que introduzca."
 
 #: C/mail-composer-custom-header-lines.page:39(title)
-#, fuzzy
 msgid "Inserting custom headers in a message"
-msgstr "Añadir una cabecera personalizada a los mensajes salientes."
+msgstr "Insertar cabeceras personalizadas en un correo"
 
 #: C/mail-composer-custom-header-lines.page:41(p)
 msgid ""
@@ -7659,9 +7683,8 @@ msgid "Changing the date and time format in the message list."
 msgstr "Puede ver los mensajes en el orden deseado en la lista de mensajes."
 
 #: C/mail-change-time-format.page:19(title)
-#, fuzzy
 msgid "Format of dates and time"
-msgstr "Seleccione la fecha y la hora."
+msgstr "Formatos de fechas y hora"
 
 #: C/mail-change-time-format.page:20(p)
 #, fuzzy
@@ -7689,16 +7712,12 @@ msgid ""
 msgstr ""
 
 #: C/mail-change-columns-in-message-list.page:5(desc)
-#, fuzzy
 msgid "Editing the columns displayed in the list of messages."
-msgstr ""
-"Pulse con el botón derecho del ratón sobre el mensaje en la lista de "
-"mensajes."
+msgstr "Editar las columnas mostradas en la lista de correos."
 
 #: C/mail-change-columns-in-message-list.page:20(title)
-#, fuzzy
 msgid "Changing the message list columns"
-msgstr "Agrupar la lista de mensajes."
+msgstr "Cambiar la lista de columnas del correo"
 
 #: C/mail-change-columns-in-message-list.page:22(p)
 msgid ""
@@ -8139,9 +8158,8 @@ msgstr ""
 #: C/mail-account-manage-local-delivery.page:35(title)
 #: C/mail-account-manage-imap-plus.page:35(title)
 #: C/mail-account-manage-imap.page:35(title)
-#, fuzzy
 msgid "Receiving Email and Receiving options"
-msgstr "Opciones de recepción de correo"
+msgstr "Recibir correo y opciones de recepción"
 
 #: C/mail-account-manage-usenet-news.page:39(title)
 #: C/mail-account-manage-unix-mbox-spool-file.page:39(title)
