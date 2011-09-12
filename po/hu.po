@@ -16060,7 +16060,7 @@ msgstr "Python bővítménybetöltő tesztjei"
 #: ../modules/spamassassin/evolution-spamassassin.c:191
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
-msgstr "Nem sikerült elindítani a SpamAssassint (s): "
+msgstr "Nem sikerült elindítani a SpamAssassint (%s): "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:214
 msgid "Failed to stream mail message content to SpamAssassin: "
