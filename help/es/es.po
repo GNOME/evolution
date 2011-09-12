@@ -1,21 +1,22 @@
 # translation of evolution-help.master.po to Español
 # translation of evolution manual to spanish
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.#
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-11 10:31+0000\n"
-"PO-Revision-Date: 2011-09-11 12:30+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2011-09-11 21:43+0000\n"
+"PO-Revision-Date: 2011-09-12 18:09+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: C/using-categories.page:5(desc)
 msgid ""
@@ -804,7 +805,6 @@ msgid "Using several task lists or memo lists"
 msgstr "Usar varias listas de tareas o listas de notas"
 
 #: C/tasks-using-several-tasklists.page:22(p)
-#, fuzzy
 #| msgid ""
 #| "You can have multiple task or memo lists and overlay them one over the "
 #| "next. For example, you might have tasks for work, tasks for home, and "
@@ -818,15 +818,13 @@ msgid ""
 "those lists, and you can select or deselect any of the boxes next to them to "
 "show and hide the corresponding tasks or memos in your view."
 msgstr ""
-"Puede tener múltiples listas de tareas o notas y solaparlas entre ellas. Por "
-"ejemplo, puede tener una tarea para trabajo, tareas para casa y tareas para "
-"su deporte favorito. La barra lateral lista esas listas y puede seleccionar "
-"o deseleccionar las cajas junto a ellas para mostrar y ocultar las tareas o "
-"notas en la vista."
+"Puede tener múltiples listas de tareas o notas y elegir qué listas se "
+"muestran. Por ejemplo, puede tener una tarea para trabajo, tareas para casa "
+"y tareas para el club de canto al que pertenece. La barra lateral lista esas "
+"listas y puede seleccionar o deseleccionar las cajas junto a ellas para "
+"mostrar y ocultar las tareas o notas correspondientes en la vista."
 
 #: C/tasks-using-several-tasklists.page:24(p)
-#| msgid ""
-#| "Tasks and memos for each task or memo list appear as a different color."
 msgid "Tasks and memos from each task or memo list appear as different colors."
 msgstr ""
 "Las tareas y notas para cada lista de tareas o notas, aparecen en diferentes "
@@ -1586,11 +1584,6 @@ msgid "How to get help"
 msgstr "Cómo obtener ayuda"
 
 #: C/problems-getting-help.page:24(p)
-#| msgid ""
-#| "To receive help on problems you can send an email to the <link href="
-#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
-#| "mailing list</link> or ask a message in the IRC chat channel #evolution "
-#| "on the server irc.gimp.net."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
 "mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
@@ -2198,7 +2191,6 @@ msgstr ""
 "también puede aparecer dos veces."
 
 #: C/mail-spam-settings.page:5(desc)
-#| msgid "How to set up handling unwanted junk and spam mail."
 msgid "How to set up handling unwanted junk/spam mail."
 msgstr "Cómo configurar la gestión de correo no deseado y SPAM."
 
@@ -2297,7 +2289,6 @@ msgid "Checking custom headers for junk."
 msgstr "Comprobar las cabeceras personalizadas contra SPAM."
 
 #: C/mail-spam-settings.page:54(p)
-#| msgid "Marking messages as junk if the sender is in the address book."
 msgid "Marking messages as not junk if the sender is in the address book."
 msgstr ""
 "Marcar mensajes como no SPAM si el remitente está en la libreta de "
@@ -3409,23 +3400,23 @@ msgstr ""
 msgid "Completed On:"
 msgstr "Completado en:"
 
-#: C/mail-search-folders-conditions.page:77(p)
-#: C/mail-filters-conditions.page:77(p)
+#: C/mail-search-folders-conditions.page:78(p)
+#: C/mail-filters-conditions.page:78(p)
 msgid "Attachments:"
 msgstr "Adjuntos:"
 
-#: C/mail-search-folders-conditions.page:78(p)
-#: C/mail-filters-conditions.page:78(p)
+#: C/mail-search-folders-conditions.page:79(p)
+#: C/mail-filters-conditions.page:79(p)
 msgid "Checks whether there is an attachment for the email."
 msgstr "Comprueba si existe un adjunto para el correo."
 
-#: C/mail-search-folders-conditions.page:80(p)
-#: C/mail-filters-conditions.page:80(p)
+#: C/mail-search-folders-conditions.page:81(p)
+#: C/mail-filters-conditions.page:81(p)
 msgid "Mailing List"
 msgstr "Lista de correo"
 
-#: C/mail-search-folders-conditions.page:81(p)
-#: C/mail-filters-conditions.page:81(p)
+#: C/mail-search-folders-conditions.page:82(p)
+#: C/mail-filters-conditions.page:82(p)
 msgid ""
 "Filters based on the mailing list the message came from. This filter might "
 "miss messages from some list servers, because it checks for the X-BeenThere "
@@ -3439,13 +3430,13 @@ msgstr ""
 "redistribuciones de correo. El correo proveniente de servidores de listas "
 "que no establezca adecuadamente la cabecera X-BeenThere no será filtrado."
 
-#: C/mail-search-folders-conditions.page:83(p)
-#: C/mail-filters-conditions.page:83(p)
+#: C/mail-search-folders-conditions.page:84(p)
+#: C/mail-filters-conditions.page:84(p)
 msgid "Regex Match:"
 msgstr "Coincide con la expresión regular:"
 
-#: C/mail-search-folders-conditions.page:84(p)
-#: C/mail-filters-conditions.page:84(p)
+#: C/mail-search-folders-conditions.page:85(p)
+#: C/mail-filters-conditions.page:85(p)
 #, fuzzy
 msgid ""
 "(For programmers only) If you know your way around a <link href=\"https://"
@@ -3465,12 +3456,12 @@ msgstr ""
 "cómo usar las expresiones regulares examine la página del manual del comando "
 "grep."
 
-#: C/mail-search-folders-conditions.page:86(p)
+#: C/mail-search-folders-conditions.page:87(p)
 msgid "Message Location:"
 msgstr "Ubicación del mensaje:"
 
-#: C/mail-search-folders-conditions.page:88(p)
-#: C/mail-filters-conditions.page:95(p)
+#: C/mail-search-folders-conditions.page:90(p)
+#: C/mail-filters-conditions.page:96(p)
 msgid "Match All:"
 msgstr "Coincidir con todo:"
 
@@ -5138,11 +5129,11 @@ msgstr "Condiciones disponibles para configurar un filtro."
 msgid "Available Filter conditions"
 msgstr "Condiciones disponibles para filtros"
 
-#: C/mail-filters-conditions.page:86(p)
+#: C/mail-filters-conditions.page:87(p)
 msgid "Source Account:"
 msgstr "Cuenta de origen:"
 
-#: C/mail-filters-conditions.page:87(p)
+#: C/mail-filters-conditions.page:88(p)
 msgid ""
 "Filters messages according the server you got them from. This is most useful "
 "if you use multiple POP mail accounts."
@@ -5150,11 +5141,11 @@ msgstr ""
 "Filtros de mensajes de acuerdo con el servidor de las que las recibió. Esto "
 "es útil cuando tiene múltiples cuentas de correo POP."
 
-#: C/mail-filters-conditions.page:89(p) C/mail-filters-actions.page:65(p)
+#: C/mail-filters-conditions.page:90(p) C/mail-filters-actions.page:65(p)
 msgid "Pipe to Program:"
 msgstr "Encauzar al programa:"
 
-#: C/mail-filters-conditions.page:90(p)
+#: C/mail-filters-conditions.page:91(p)
 msgid ""
 "Evolution can use an external command to process a message, then process it "
 "based on the return value. Commands used in this way must return an integer. "
@@ -5165,12 +5156,12 @@ msgstr ""
 "deben devolver un entero. Generalmente esto se suele usar para añadir un "
 "filtro de correo spam."
 
-#: C/mail-filters-conditions.page:92(p)
+#: C/mail-filters-conditions.page:93(p)
 msgid "Junk Test:"
 msgstr "Detección de spam:"
 
 # index.docbook:458, index.docbook:949
-#: C/mail-filters-conditions.page:93(p)
+#: C/mail-filters-conditions.page:94(p)
 msgid ""
 "Filters based on the results of the <link xref=\"mail-spam\">junk mail</"
 "link> test."
@@ -5471,8 +5462,8 @@ msgstr "Al realizar esta operación puede que pierda algunas de sus etiquetas."
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
-"id=550414\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
+"\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
@@ -5962,9 +5953,8 @@ msgstr ""
 "la clave se mostrará un mensaje de error."
 
 #: C/mail-duplicates.page:5(desc)
-#, fuzzy
 msgid "How to handle duplicated email messages"
-msgstr "Falló al buscar mensajes duplicados."
+msgstr "Cómo gestionar mensajes de correo duplicados"
 
 #: C/mail-duplicates.page:24(title)
 msgid "Duplicate emails get downloaded"
@@ -6081,10 +6071,9 @@ msgid ""
 msgstr ""
 
 #: C/mail-displaying-no-css.page:24(p)
-#, fuzzy
 #| msgid "This will likely be fixed in version 3.2 or 3.4."
 msgid "This will likely be fixed in version 3.4."
-msgstr "Esto probablemente se solucione en las versiones 3.2 o 3.4."
+msgstr "Esto probablemente se solucione en la versión 3.4."
 
 #: C/mail-displaying-no-css.page:25(p)
 msgid ""
@@ -7599,7 +7588,6 @@ msgid "To set up the Custom Header plugin:"
 msgstr "Para configurar el complemento Cabecera personalizada:"
 
 #: C/mail-composer-custom-header-lines.page:32(p)
-#| msgid "Email Custom Header"
 msgid "Enable <gui>Custom Header</gui>."
 msgstr "Actíve <gui>Cabecera personalizada</gui>."
 
@@ -8207,24 +8195,12 @@ msgid "Security"
 msgstr "Seguridad"
 
 #: C/mail-account-manage-usenet-news.page:53(title)
-#: C/mail-account-manage-unix-mbox-spool-file.page:53(title)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:53(title)
-#: C/mail-account-manage-pop.page:53(title)
-#: C/mail-account-manage-mh-format-directories.page:53(title)
-#: C/mail-account-manage-maildir-format-directories.page:53(title)
-#: C/mail-account-manage-local-delivery.page:53(title)
 #: C/mail-account-manage-imap-plus.page:55(title)
 #: C/mail-account-manage-imap.page:57(title)
 msgid "Other settings"
 msgstr "Otros ajustes"
 
 #: C/mail-account-manage-usenet-news.page:54(p)
-#: C/mail-account-manage-unix-mbox-spool-file.page:54(p)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:54(p)
-#: C/mail-account-manage-pop.page:54(p)
-#: C/mail-account-manage-mh-format-directories.page:54(p)
-#: C/mail-account-manage-maildir-format-directories.page:54(p)
-#: C/mail-account-manage-local-delivery.page:54(p)
 #: C/mail-account-manage-imap-plus.page:56(p)
 #: C/mail-account-manage-imap.page:58(p)
 msgid ""
@@ -8502,8 +8478,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?"
-"answer=77695\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
+"\">GMail Help</link> for more information."
 msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
@@ -9206,17 +9182,17 @@ msgstr ""
 "archivo de correo spool de su sistema local."
 
 #: C/intro-first-run.page:79(p)
+#, fuzzy
+msgid "You need to provide the path to the mail spool file you want to use."
+msgstr "Debe proporcionar la ruta al directorio de correo que quiere usar."
+
+#: C/intro-first-run.page:79(p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-unix-mbox-spool-file\">here</"
 "link> for configuration."
 msgstr ""
 "Continue <link xref=\"mail-receiving-options-unix-mbox-spool-file\">aquí</"
 "link> para la configuración."
-
-#: C/intro-first-run.page:79(p)
-#, fuzzy
-msgid "You need to provide the path to the mail spool file you want to use."
-msgstr "Debe proporcionar la ruta al directorio de correo que quiere usar."
 
 #: C/intro-first-run.page:81(p)
 msgid ""
@@ -9447,14 +9423,12 @@ msgid "Outlook Express 5/6 Personal Folders (.dbx):"
 msgstr "Carpetas personales de Outlook Express 5/6 (.dbx):"
 
 #: C/import-supported-file-formats.page:40(p)
-#, fuzzy
 msgid ""
 "The email file format used by Microsoft Outlook Express 5/6. For newer "
 "versions PST import is recommended."
 msgstr ""
-"El formato de los archivos de correos-e de Microsoft Outlook Express 4. Para "
-"otras versiones de Microsoft Outlook y Outlook Express, vea la solución "
-"descrita en el <link linkend=\"bsawgkk\">Paso 1</link>."
+"El formato de los archivos de correo-e usado por Microsoft Outlook Express "
+"5/6. Para versiones más modernas se recomienda la importación de PST."
 
 #: C/import-supported-file-formats.page:48(p)
 msgid "vCalendar (.vcs):"
@@ -9473,13 +9447,12 @@ msgid "iCalendar or iCal (.ics):"
 msgstr "iCalendar o iCal (.ics):"
 
 #: C/import-supported-file-formats.page:54(p)
-#, fuzzy
 msgid ""
 "A format for storing calendar files. iCalendar is used by Evolution, "
 "Microsoft Outlook, Palm OS handhelds, and others."
 msgstr ""
-"Un formato para almacenar archivos de calendario, generalmente usado por "
-"Evolution, Microsoft Outlook, Sunbird y Korganizer."
+"Un formato para almacenar archivos de calendario. iCalendar lo usan por "
+"Evolution, Microsoft Outlook, los dispositivos de mano Palm OS y otros."
 
 #: C/import-supported-file-formats.page:62(p)
 msgid "LDAP Data Interchange Format (.ldif):"
@@ -9512,13 +9485,12 @@ msgid "Evolution/Mozilla/Outlook CSV/Tab (.csv, .tab):"
 msgstr "Evolution/Mozilla/Outlook CSV/Tab (.csv, .tab):"
 
 #: C/import-supported-file-formats.page:78(p)
-#, fuzzy
 msgid ""
 "CSV (Comma-separated values) or Tabulator files saved by using Evolution, "
 "Microsoft Outlook and Mozilla."
 msgstr ""
-"Los archivos CSV o Tab guardados al usar Evolution, Microsoft Outlook y "
-"Mozilla."
+"Archivos CSV (archivos separados por comas) o Tab guardados al usar "
+"Evolution, Microsoft Outlook y Mozilla."
 
 #: C/import-supported-file-formats.page:80(p)
 msgid "Personal Storage Table (.pst):"
@@ -9572,10 +9544,10 @@ msgstr "Se determinará automáticamente el tipo de archivo."
 
 #: C/import-single-files.page:27(p) C/import-apps-outlook.page:65(p)
 #: C/import-apps-mozilla.page:27(p)
-#, fuzzy
 msgid ""
 "Choose the destination (e.g. the folder in Evolution) for the imported data."
-msgstr "Elija el destino de esta importación"
+msgstr ""
+"Elija el destino (ej. la carpeta en Evolution) para los datos importados."
 
 #: C/import-single-files.page:30(p)
 msgid ""
@@ -9941,13 +9913,13 @@ msgid ""
 msgstr ""
 
 #: C/exchange-connectors-overview.page:29(p)
-#, fuzzy
 msgid ""
 "If you are unsure which Microsoft Exchange server version is used, you may "
 "want to contact your system administrator for more information."
 msgstr ""
-"Si no está seguro de cuál es la dirección de su servidor, contacte con su "
-"administrador."
+"Si no está seguro de que versión del servidor Microsoft Exchange se usa, "
+"puede querer contactar con su administrador del sistema para obtener más "
+"información."
 
 #: C/deleting-to-free-disk-space.page:5(desc)
 msgid ""
@@ -10507,19 +10479,17 @@ msgid "Adding LDAP access"
 msgstr "Añadir acceso LDAP"
 
 #: C/contacts-ldap.page:25(p)
-#, fuzzy
 msgid ""
 "The LDAP protocol was created to let users share contact information over a "
 "network by sharing access to a central directory. LDAP allows a company to "
 "maintain a shared set of contact information. Many companies keep a common "
 "LDAP address book for all their employees or for client contacts."
 msgstr ""
-"El protocolo <link linkend=\"ldap\">LDAP</link> permite a los usuarios "
-"compartir información de contactos en red, mediante accesos compartidos a "
-"una libreta de direcciones central. LDAP permite que una organización ponga "
-"un conjunto de contactos a la disposición de sus miembros, o de un "
-"departamento. Muchas empresas conservan en una libreta LDAP las direcciones "
-"de todos sus empleados o los contactos de clientes."
+"El protocolo LDAP se creó para permitir a los usuarios compartir información "
+"de contactos en red, mediante accesos compartidos a un directorio central. "
+"LDAP permite a una empresa mantener un conjunto de información de contactos. "
+"Muchas empresas mantienen una libreta de direcciones LDAP para todos sus "
+"empleados o para sus clientes."
 
 #: C/contacts-ldap.page:28(title)
 msgid "Adding an LDAP address book"
@@ -10576,13 +10546,12 @@ msgid "Sub: Searches the Search Base and all entries below it."
 msgstr "Busca dentro de la raíz y en todos los subdirectorios."
 
 #: C/contacts-ldap.page:46(p)
-#, fuzzy
 msgid ""
 "Search Filter: The search filter can be set here for all the LDAP queries. "
 "For example:"
 msgstr ""
-"Se puede establecer aquí el filtro de búsqueda para todas las consultas "
-"LDAP. Por ejemplo:"
+"Filtro de búsqueda: se puede establecer aquí el filtro de búsqueda para "
+"todas las consultas LDAP. Por ejemplo:"
 
 #: C/contacts-ldap.page:48(p)
 msgid "<code>ObjectClass=*</code>: Lists all the objects from the server."
@@ -10609,24 +10578,23 @@ msgstr ""
 "las direcciones de correo electrónico."
 
 #: C/contacts-ldap.page:54(p)
-#, fuzzy
 msgid ""
 "Timeout (minutes): The maximum time Evolution attempts to download data from "
 "the server before giving up."
 msgstr ""
-"Es el tiempo de espera máximo para descargar los datos del servidor, antes "
-"de abandonar."
+"Tiempo de expiración (minutos): es el tiempo de espera máximo de Evolution "
+"para descargar los datos del servidor, antes de abandonar."
 
 #: C/contacts-ldap.page:55(p)
-#, fuzzy
 msgid ""
 "Download Limit: The maximum number of results for a given search. Most "
 "servers refuse to send more than 500 contacts, but you can set the number "
 "lower if you want to shorten downloads for very broad searches."
 msgstr ""
-"El número máximo de resultados para una búsqueda dada. Muchos servidores no "
-"aceptan enviar más de 500 respuestas, pero puede fijar un número inferior "
-"para reducir el volumen de descargas, en caso de búsquedas muy amplias."
+"Límite de descarga: el número máximo de resultados para una búsqueda dada. "
+"Muchos servidores no aceptan enviar más de 500 respuestas, pero puede fijar "
+"un número inferior para reducir el volumen de descargas, en caso de "
+"búsquedas muy amplias."
 
 #: C/contacts-ldap.page:60(p)
 msgid "If you are unsure about some settings, ask your system administrator."
@@ -10738,7 +10706,6 @@ msgid ""
 msgstr ""
 
 #: C/contacts-autocompletion.page:32(p)
-#, fuzzy
 #| msgid ""
 #| "Select the Always show address of the autocompleted contact check box to "
 #| "show the email address along with the username."
@@ -10747,9 +10714,10 @@ msgid ""
 "show the email address along with the name. This can be helpful to "
 "distinguish if a contact has several email addresses."
 msgstr ""
-"Seleccione la casilla de verificación Siempre mostrar la dirección del "
-"contacto autocompletado para mostrar la dirección del correo-e junto con el "
-"nombre de usuario."
+"Seleccione la casilla de verificación <gui>Siempre mostrar la dirección del "
+"contacto autocompletado</gui> para mostrar la dirección del correo-e junto "
+"con el nombre de usuario. Esto puede ser útil para distinguir si un contacto "
+"tiene varias direcciones de correo-e."
 
 #: C/contacts-autocompletion.page:34(p)
 msgid ""
@@ -10932,16 +10900,15 @@ msgstr ""
 "calendarios en Internet o en una red local."
 
 #: C/calendar-using-several-calendars.page:31(p)
-#, fuzzy
 msgid ""
 "For example, the <link href=\"http://icalshare.com\">icalshare.com website</"
 "link> has an extensive list of shared online calendars, including national "
 "and religious holidays, phases of the moon, sports, and local and regional "
 "events."
 msgstr ""
-"La <ulink url=\"http://icalshare.com\">página web de icalshare.com</ulink> "
-"tiene una extensa lista de calendarios compartidos en línea, incluyendo "
-"fiestas nacionales y religiosas, fases de la luna, deportes y "
+"Por ejemplo, la <ulink url=\"http://icalshare.com\">página web de icalshare."
+"com</ulink> tiene una extensa lista de calendarios compartidos en línea, "
+"incluyendo fiestas nacionales y religiosas, fases de la luna, deportes y "
 "acontecimientos locales y regionales."
 
 #: C/calendar-usage.page:5(desc)
@@ -11279,7 +11246,6 @@ msgstr ""
 "y tendrán la opción de responder."
 
 #: C/calendar-meetings-sending-invitation.page:26(p)
-#, fuzzy
 msgid ""
 "If you do not need to collect attendance information when you're scheduling "
 "an event, and would rather just announce the event, right-click the meeting "
@@ -11290,10 +11256,11 @@ msgid ""
 msgstr ""
 "Si no necesita recibir confirmaciones de asistencia al planificar un "
 "acontecimiento y sólo necesita anunciarlo, pulse con el botón derecho sobre "
-"la reunión y seleccione Reenviar como iCalendar. Esto abrirá un nuevo "
-"mensaje de correo con una notificación del acontecimiento adjunta. Los "
+"la reunión y seleccione <gui>Reenviar como iCalendar</gui>. Esto abrirá un "
+"nuevo mensaje de correo con una notificación del acontecimiento adjunta. Los "
 "destinatarios podrán incluir el acontecimiento en sus calendarios con una "
-"pulsación, pero no le enviarán respuesta acerca de si asistirán o no."
+"pulsación, pero no le enviarán una respuesta automática acerca de si "
+"asistirán o no."
 
 #: C/calendar-meetings-sending-invitation.page:28(p)
 msgid "To schedule a meeting:"
@@ -11852,7 +11819,6 @@ msgstr ""
 "de contactos."
 
 #: C/calendar-free-busy.page:43(p)
-#, fuzzy
 #| msgid ""
 #| "The following task-related options are available under <guiseq><gui>Edit</"
 #| "gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Display</"
@@ -11862,9 +11828,10 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Publishing "
 "Information</gui><gui>Default Free/Busy Server</gui></guiseq>."
 msgstr ""
-"Las siguientes opciones relacionadas con tareas están disponibles bajo "
-"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Calendario y tareas</"
-"gui><gui>Mostrar</gui><gui>Lista de tareas</gui></guiseq>."
+"El servidor predeterminado se puede definir en <guiseq><gui>Editar</"
+"gui><gui>Preferencias</gui><gui>Calendario y tareas</gui><gui>Información de "
+"publicación</gui><gui>Servidor de disponibilidad predeterminado</gui></"
+"guiseq>."
 
 #: C/calendar-free-busy.page:47(title)
 msgid "Accessing Free/Busy Data Without a Groupware Server"
