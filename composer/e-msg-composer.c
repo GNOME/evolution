@@ -1087,6 +1087,10 @@ composer_build_message (EMsgComposer *composer,
 
 	context->message = camel_mime_message_new ();
 
+	/* Explicitly generate a Message-ID header here so it's
+	 * consistent for all outbound streams (SMTP, Fcc, etc). */
+	camel_mime_message_set_message_id (context->message, NULL);
+
 	build_message_headers (composer, context->message, FALSE);
 	for (i = 0; i < priv->extra_hdr_names->len; i++) {
 		camel_medium_add_header (
