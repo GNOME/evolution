@@ -1,4 +1,34 @@
 <schemalist>
   <schema gettext-domain="evolution" id="org.gnome.evolution.calendar" path="/apps/evolution/calendar/">
   </schema>
+  <key name="editor-show-categories" type="b">
+    <default>false</default>
+    <_summary>Show categories field in the event/meeting/task editor</_summary>
+    <_description>Whether to show categories field in the event/meeting editor</_description>
+  </key>
+  <key name="editor-show-role" type="b">
+    <default>true</default>
+    <_summary>Show Role field in the event/task/meeting editor</_summary>
+    <_description>Whether to show role field in the event/task/meeting editor</_description>
+  </key>
+  <key name="editor-show-rsvp" type="b">
+    <default>false</default>
+    <_summary>Show RSVP field in the event/task/meeting editor</_summary>
+    <_description>Whether to show RSVP field in the event/task/meeting editor</_description>
+  </key>
+  <key name="editor-show-status" type="b">
+    <default>false</default>
+    <_summary>Show status field in the event/task/meeting editor</_summary>
+    <_description>Whether to show status field in the event/task/meeting editor</_description>
+  </key>
+  <key name="editor-show-timezone" type="b">
+    <default>false</default>
+    <_summary>Show timezone field in the event/meeting editor</_summary>
+    <_description>Whether to show timezone field in the event/meeting editor</_description>
+  </key>
+  <key name="editor-show-type" type="b">
+    <default>false</default>
+    <_summary>Show type field in the event/task/meeting editor</_summary>
+    <_description>Whether to show type field in the event/task/meeting editor</_description>
+  </key>
 </schemalist>

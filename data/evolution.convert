@@ -32,6 +32,12 @@ vpane-position = /apps/evolution/addressbook/display/vpane_position
 show-preview = /apps/evolution/addressbook/display/show_preview
 
 [org.gnome.evolution.calendar]
+editor-show-categories = /apps/evolution/calendar/display/show_categories
+editor-show-role = /apps/evolution/calendar/display/show_role
+editor-show-rsvp = /apps/evolution/calendar/display/show_rsvp
+editor-show-status = /apps/evolution/calendar/display/show_status
+editor-show-timezone = /apps/evolution/calendar/display/show_timezone
+editor-show-type = /apps/evolution/calendar/display/show_type
 
 [org.gnome.evolution.mail]
 check-if-default-mailer = /apps/evolution/mail/prompts/checkdefault

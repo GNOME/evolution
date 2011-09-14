@@ -34,13 +34,13 @@
 #include <unistd.h>
 #include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
+#include <gio/gio.h>
 #include <gdk/gdkkeysyms.h>
 #include <e-util/e-util.h>
 #include <e-util/e-alert-sink.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-extensible.h>
 #include <e-util/e-util-private.h>
-#include <e-util/gconf-bridge.h>
 #include <shell/e-shell.h>
 
 #include <libecal/e-cal-client.h>
@@ -69,6 +69,8 @@
 struct _CompEditorPrivate {
 
 	gpointer shell;  /* weak pointer */
+
+	GSettings *calendar_settings;
 
 	/* EFocusTracker keeps selection actions up-to-date. */
 	EFocusTracker *focus_tracker;
@@ -1616,6 +1618,7 @@ comp_editor_finalize (GObject *object)
 
 	priv = COMP_EDITOR (object)->priv;
 
+	g_object_unref (priv->calendar_settings);
 	g_free (priv->summary);
 
 	/* Chain up to parent's finalize() method. */
@@ -1632,39 +1635,29 @@ comp_editor_constructed (GObject *object)
 }
 
 static void
-comp_editor_bind_gconf (CompEditor *editor)
+comp_editor_bind_settings (CompEditor *editor)
 {
-	GConfBridge *bridge;
 	GtkAction *action;
-	const gchar *key;
 
 	g_return_if_fail (editor != NULL);
 
-	bridge = gconf_bridge_get ();
-
-	key = "/apps/evolution/calendar/display/show_categories";
 	action = comp_editor_get_action (editor, "view-categories");
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
+	g_settings_bind (priv->calendar_settings, "editor-show-categories", G_OBJECT (action), "active");
 
-	key = "/apps/evolution/calendar/display/show_role";
 	action = comp_editor_get_action (editor, "view-role");
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
+	g_settings_bind (priv->calendar_settings, "editor-show-role", G_OBJECT (action), "active");
 
-	key = "/apps/evolution/calendar/display/show_rsvp";
 	action = comp_editor_get_action (editor, "view-rsvp");
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
+	g_settings_bind (priv->calendar_settings, "editor-show-rsvp", G_OBJECT (action), "active");
 
-	key = "/apps/evolution/calendar/display/show_status";
 	action = comp_editor_get_action (editor, "view-status");
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
+	g_settings_bind (priv->calendar_settings, "editor-show-status", G_OBJECT (action), "active");
 
-	key = "/apps/evolution/calendar/display/show_timezone";
 	action = comp_editor_get_action (editor, "view-time-zone");
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
+	g_settings_bind (priv->calendar_settings, "editor-show-timezone", G_OBJECT (action), "active");
 
-	key = "/apps/evolution/calendar/display/show_type";
 	action = comp_editor_get_action (editor, "view-type");
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
+	g_settings_bind (priv->calendar_settings, "editor-show-type", G_OBJECT (action), "active");
 }
 
 static gboolean
@@ -1960,6 +1953,8 @@ comp_editor_init (CompEditor *editor)
 
 	active_editors = g_list_prepend (active_editors, editor);
 
+	priv->calendar_settings = g_settings_new ("org.gnome.evolution.calendar");
+
 	/* Each editor window gets its own window group. */
 	window = GTK_WINDOW (editor);
 	priv->window_group = gtk_window_group_new ();
@@ -2172,7 +2167,7 @@ comp_editor_init (CompEditor *editor)
 		store, "row-inserted",
 		G_CALLBACK (attachment_store_changed_cb), editor);
 
-	comp_editor_bind_gconf (editor);
+	comp_editor_bind_settings (editor);
 
 	e_shell_watch_window (shell, GTK_WINDOW (editor));
 	e_shell_adapt_window_size (shell, GTK_WINDOW (editor));
