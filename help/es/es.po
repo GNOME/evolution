@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-11 21:43+0000\n"
-"PO-Revision-Date: 2011-09-12 18:09+0200\n"
+"POT-Creation-Date: 2011-09-12 16:30+0000\n"
+"PO-Revision-Date: 2011-09-14 16:35+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -805,12 +805,6 @@ msgid "Using several task lists or memo lists"
 msgstr "Usar varias listas de tareas o listas de notas"
 
 #: C/tasks-using-several-tasklists.page:22(p)
-#| msgid ""
-#| "You can have multiple task or memo lists and overlay them one over the "
-#| "next. For example, you might have tasks for work, tasks for home, and "
-#| "tasks for the singing club that you are a member of. The side bar lists "
-#| "those lists, and you can select or deselect the boxes next to them to "
-#| "show and hide the tasks or memos in your view."
 msgid ""
 "You can have multiple task or memo lists and choose which of your lists get "
 "displayed. For example, you might have tasks for work, tasks for home, and "
@@ -1497,7 +1491,7 @@ msgid ""
 msgstr ""
 "Si quiere realizar una copia de seguridad de su información antes de "
 "sincronizar, haga una copia de la carpeta <file>.local/share/evolution</"
-"file> dentro de su carpeta de inicio."
+"file> dentro de su carpeta personal."
 
 #: C/sync-with-other-devices.page:58(p)
 msgid ""
@@ -1563,6 +1557,12 @@ msgid ""
 "NonGnome#Bug_trackers_for_distributions\">the bug tracker of your GNOME "
 "distribution</link> instead."
 msgstr ""
+"Tenga en cuenta que algunas distribuciones con GNOME incluyen a veces sus "
+"propios cambios en Evolution, cambios que no están incluidos en GNOME "
+"Evolution. Esto es difícil de reconocer por parte de los usuarios, pero si "
+"está seguro, envíe un informe de error al <link xref=\"https://live.gnome."
+"org/Bugsquad/TriageGuide/NonGnome#Bug_trackers_for_distributions\">gestor de "
+"errores su distribución con GNOME</link> en su lugar."
 
 #: C/problems-reporting-bugs.page:25(p)
 msgid ""
@@ -2647,6 +2647,9 @@ msgid ""
 "on the column label to sort the emails. The direction of the arrow next to "
 "the label indicates the direction of the sort."
 msgstr ""
+"Evolution le permite ordenar sus mensajes usando estas columnas. Simplemente "
+"pulse en la etiqueta de la columna para ordenar los mensajes. La dirección "
+"de la flecha junto a la etiqueta indica la dirección de la ordenación."
 
 #: C/mail-sorting-message-list.page:56(title)
 msgid "Using Other Sorting Options"
@@ -2885,17 +2888,16 @@ msgstr ""
 "información:"
 
 #: C/mail-sending-options-smtp.page:35(p)
-#, fuzzy
 msgid ""
 "Select the authentication type in the Authentication list, or click "
 "<gui>Check for Supported Types</gui> to have Evolution check. Some servers "
 "do not support this, so clicking this button is not a guarantee that "
 "available mechanisms actually work."
 msgstr ""
-"Pulse «Comprobar tipos soportados» para que Evolution compruebe qué tipos "
-"están soportados. Algunos servidores no anuncian los mecanismos de "
-"autenticación que soportan, así que pulsar este botón no garantiza que el "
-"mecanismo disponible funcione realmente."
+"Seleccione el tipo de autenticación en la lista de Autenticación o pulse "
+"<gui>Comprobar tipos soportados</gui> para que Evolution los compruebe. "
+"Algunos servidores no soportan esto, así que pulsar este botón no garantiza "
+"que los mecanismos disponibles actualmente funcionen."
 
 #. TODO:XINCLUDE: Maybe later replace this "go back" workaround by doing some content sharing with xinclude and xpointer in intro-first-run.page itself? <include href="foo.xml" xmlns="http://www.w3.org/2001/XInclude"/> See gnome-user-docs module for example usage.
 #: C/mail-sending-options-smtp.page:43(p)
@@ -2942,6 +2944,11 @@ msgid ""
 "<guiseq><gui>File</gui><gui>Send / Receive </gui></guiseq> from the main "
 "menu."
 msgstr ""
+"Para recibir los mensajes nuevos del servidor y para enviar los mensajes que "
+"haya escrito en la Bandeja de salida local, pulse el botón <gui style="
+"\"button\">Enviar / Recibir</gui> en la barra de herramientas, pulse "
+"<key>F9</key>, o elija <guiseq><gui>Archivo</gui><gui>Enviar / Recibir</"
+"gui></guiseq> en el menú principal."
 
 #: C/mail-send-and-receive-manual.page:22(p)
 msgid ""
@@ -3706,7 +3713,6 @@ msgstr "Debería activar esta opción si su servidor la soporta."
 #: C/mail-receiving-options-imap.page:34(p)
 #: C/mail-receiving-options-exchange-mapi.page:31(p)
 #: C/mail-receiving-options-evolution-exchange.page:35(p)
-#, fuzzy
 msgid ""
 "Select your authentication type in the Authentication list, or click <gui "
 "style=\"button\">Check for Supported Types</gui> to have Evolution check for "
@@ -3714,10 +3720,11 @@ msgid ""
 "authentication mechanisms they support, so clicking this button is not a "
 "guarantee that available mechanisms actually work."
 msgstr ""
-"Pulse «Comprobar tipos soportados» para que Evolution compruebe qué tipos "
-"están soportados. Algunos servidores no anuncian los mecanismos de "
-"autenticación que soportan, así que pulsar este botón no garantiza que el "
-"mecanismo disponible funcione realmente."
+"Seleccione el tipo de autenticación en la lista de Autenticación o pulse "
+"<gui style=\"button\">Comprobar tipos soportados</gui> para que Evolution "
+"compruebe qué tipos están soportados. Algunos servidores no informan de qué "
+"mecanismos de autenticación soportan esto, así que pulsar este botón no "
+"garantiza que los mecanismos disponibles actualmente funcionen."
 
 #: C/mail-receiving-options-usenet-news.page:35(p)
 #: C/mail-receiving-options-pop.page:40(p)
@@ -3964,7 +3971,9 @@ msgstr "Opciones de recepción para directorios de correo en formato MH"
 
 #: C/mail-receiving-options-maildir-format-directories.page:5(desc)
 msgid "Receiving options for Maildir-format mail directories accounts."
-msgstr "Opciones de recepción para directorios de correo en formato Maildir."
+msgstr ""
+"Opciones de recepción para cuentas de directorios de correo en formato "
+"Maildir."
 
 #: C/mail-receiving-options-maildir-format-directories.page:20(title)
 msgid "Maildir-format mail directories receiving options"
@@ -4580,20 +4589,18 @@ msgid ""
 msgstr ""
 "La pestaña <gui>Cabeceras IMAP</gui> sólo se muestra en el <gui>Editor de "
 "cuentas</gui> si <guiseq><gui>Editar</gui><gui>Complementos</"
-"gui><gui>Características IMAP</gui> está activada."
+"gui><gui>Cabeceras IMAP</gui></guiseq> está activada."
 
 #: C/mail-imap-headers.page:29(p)
-#, fuzzy
 msgid ""
 "Evolution allows you for IMAP accounts to choose the headers that you want "
 "to download so that you can reduce the download time and filter or move your "
 "mail around the way you like it. The IMAP Mail header options are as follows:"
 msgstr ""
-"Evolution le permite elegir las cabeceras que quiere descargar para reducir "
-"el tiempo de descarga y al mismo tiempo tener un control para filtrar o "
-"mover sus correos de la manera que desee. Evolution le ayuda a personalizar "
-"las preferencias de las cabeceras de corroe IMAP y así ahorrar tiempo de "
-"descarga. Las cabeceras de correo IMAP son las siguientes:"
+"Evolution le permite elegir para las cuentas IMAP las cabeceras que quiere "
+"descargar para reducir el tiempo de descarga y filtrar o mover sus correos "
+"de la manera que quiera. Las opciones de las cabeceras de correo IMAP son "
+"las siguientes:"
 
 #: C/mail-imap-headers.page:31(p)
 msgid "Fetch All Headers:"
@@ -4981,6 +4988,9 @@ msgid ""
 "<guiseq><gui>Message</gui><gui>Create Rule</gui></guiseq> and select the "
 "criterion the filter will be based on."
 msgstr ""
+"Pulse <guiseq><gui>Editar</gui><gui>Filtros de mensajes</gui></guiseq> o "
+"pulse <guiseq><gui>Mensaje</gui><gui>Crear regla</gui></guiseq> y elija el "
+"criterio en que se basará el filtro."
 
 #: C/mail-filters.page:39(p)
 msgid ""
@@ -5417,6 +5427,10 @@ msgid ""
 "locations in 2.30 and 2.32 are different (<file>~/.evolution/mail/local/</"
 "file> instead of <file>~/.local/share/evolution/mail/local/</file>)."
 msgstr ""
+"Estos pasos se aplican en las versiones 3.0 y 3.2. Tenga en cuenta que la "
+"ubicación de los archivos de Evolution en las versiones 2.30 y 2.32 son "
+"diferentes (<file>~/.evolution/mail/local/</file> en lugar de <file>~/.local/"
+"share/evolution/mail/local/</file>)."
 
 #: C/mail-error-folder-mismatch.page:31(p)
 msgid ""
@@ -5559,14 +5573,12 @@ msgid "Managing S/MIME certificates"
 msgstr "Gestionar certificados S/MIME"
 
 #: C/mail-encryption-s-mime-manage.page:25(p)
-#, fuzzy
 msgid ""
 "Certificates allow you to communicate with others securely over an encrypted "
 "connection, or sign a message confirming your identity to the contact. These "
 "settings only apply to S/MIME encryption."
 msgstr ""
-"Evolution le permite añadir certificados para si mismo así como para otros "
-"contactos. Ello le permite comunicarse con otros de una forma segura bajo "
+"Los certificados le permiten comunicarse con otros de una forma segura bajo "
 "una conexión cifrada o firmar un mensaje confirmando su identidad al "
 "contacto. Estos ajustes sólo se aplican al cifrado S/MIME."
 
@@ -5741,10 +5753,10 @@ msgid ""
 "and the ID is automatically added to your keyring."
 msgstr ""
 "Para obtener claves públicas desde un servidor de claves públicas escriba el "
-"comando <command> gpg --recv-keys --keyserver wwwkeys.pgp.net "
-"<varname>keyid</varname></command>, sustituyendo <varname>keyid</varname> "
-"por el identificador del destinatario. Necesitará escribir su contraseña y "
-"su identificador se añadirá automáticamente a su depósito de claves."
+"comando <code> gpg --recv-keys --keyserver wwwkeys.pgp.net keyid</code>, "
+"sustituyendo <code>keyid</code> por el identificador del destinatario. "
+"Necesitará escribir su contraseña y su identificador se añadirá "
+"automáticamente a su depósito de claves."
 
 #: C/mail-encryption-gpg-getting-keys.page:30(p)
 msgid ""
@@ -5865,7 +5877,6 @@ msgid "Move your mouse randomly to generate the keys."
 msgstr "Mueva su ratón aleatoriamente para generar las claves."
 
 #: C/mail-encryption-gpg-create-key.page:42(p)
-#, fuzzy
 #| msgid ""
 #| "After the keys are generated, you can view your key information by "
 #| "entering <command>gpg --list-keys</command>. You should see something "
@@ -5882,10 +5893,9 @@ msgid ""
 msgstr ""
 "Después de que se hayan generado estas claves, puede ver su información "
 "introduciendo <command>gpg --list-keys</command>. Debería ver algo similar a "
-"esto: <computeroutput> /home/you/.gnupg/pubring.gpg "
-"----------------------------  pub 1024D/32j38dk2 2001-06-20 you &lt;"
-"you@example.com&gt;  sub 1024g/289sklj3 2001-06-20 [expires: 2002-11-14]  </"
-"computeroutput>"
+"esto: <code> /home/usuario/.gnupg/pubring.gpg ----------------------------  "
+"pub 1024D/32j38dk2 2001-06-20 usuario &lt;usuario@ejemplo.com&gt;  sub "
+"1024g/289sklj3 2011-06-20 [expires: 2012-11-14]</code>"
 
 #: C/mail-encryption-gpg-create-key.page:43(p)
 #, fuzzy
@@ -5905,18 +5915,17 @@ msgid "If you want, you can upload your keys to a key server:"
 msgstr "Si quiere puede subir sus claves a un servidor de claves:"
 
 #: C/mail-encryption-gpg-create-key.page:46(p)
-#, fuzzy
 msgid ""
 "Check your public key ID with <code>gpg --list-keys</code>. It is the string "
 "after <code>1024D</code> on the line beginning with <code>pub</code>. In the "
 "example above, it is <code>32j38dk2</code>."
 msgstr ""
-"Compruebe su identificador de clave pública con gpg --list-keys. Su "
-"identificador será la cadena que está detrás de <quote>1024D</quote> en la "
-"línea que empieza con <quote>pub</quote>. En este ejemplo es "
-"<quote>32j38dk2</quote>."
+"Compruebe su identificador de clave pública con <code>gpg --list-keys</"
+"code>. Es la cadena que está detrás de <code>1024D</code> en la línea que "
+"empieza con <code>pub</code>. En este ejemplo es <code>32j38dk2</code>."
 
 #: C/mail-encryption-gpg-create-key.page:47(p)
+#, fuzzy
 msgid ""
 "Enter the command <code>gpg --send-keys --keyserver wwwkeys.pgp.net "
 "32j38dk2</code>. Substitute your key ID for <code>32j38dk2</code>. You need "
@@ -5996,11 +6005,12 @@ msgid "Evolution is having a problem with the UIDL extension."
 msgstr "Evolution está sufriendo un problema con la extensión UIDL."
 
 #: C/mail-duplicates.page:38(p)
-#, fuzzy
 msgid ""
 "The cache files located at <file>$HOME/.local/share/evolution/mail/pop/</"
 "file> are not writable."
-msgstr "No se puede escribir en la carpeta seleccionada."
+msgstr ""
+"Los archivo de la cache se encuentran en <file>$HOME/.local/share/evolution/"
+"mail/pop/</file> y no se puede escribir en ellos."
 
 #: C/mail-displaying-sender-photograph.page:5(desc)
 #, fuzzy
@@ -6024,7 +6034,6 @@ msgstr ""
 "direcciones y tiene una fotografía."
 
 #: C/mail-displaying-sender-photograph.page:29(p)
-#, fuzzy
 #| msgid ""
 #| "To enable this feature, select Edit &gt; Preferences &gt; Mail "
 #| "Preferences &gt; Headers &gt; Show the photograph of sender in the email "
@@ -6034,10 +6043,10 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Headers</"
 "gui><gui>Show the photograph of sender in the message preview</gui></guiseq>."
 msgstr ""
-"Para activar esta característica, seleccione Editar &gt; Preferencias &gt; "
-"Opciones de correo &gt; Cabeceras &gt; Mostrar la foto del remitente en la "
-"vista preliminar del correo-e. Deseleccione esta opción para desactivar esta "
-"característica."
+"Para activar esta característica, seleccione <guiseq><gui>Editar</"
+"gui><gui>Preferencias</gui><gui>Opciones de correo</gui><gui>Cabeceras</"
+"gui><gui>Mostrar la foto del remitente en la vista preliminar del mensaje</"
+"gui></guiseq>."
 
 #: C/mail-displaying-sender-photograph.page:31(p)
 msgid ""
@@ -6071,7 +6080,6 @@ msgid ""
 msgstr ""
 
 #: C/mail-displaying-no-css.page:24(p)
-#| msgid "This will likely be fixed in version 3.2 or 3.4."
 msgid "This will likely be fixed in version 3.4."
 msgstr "Esto probablemente se solucione en la versión 3.4."
 
@@ -6282,17 +6290,16 @@ msgid "Deleting Messages"
 msgstr "Eliminar mensajes"
 
 #: C/mail-delete-and-undelete.page:30(p)
-#, fuzzy
 msgid ""
 "To delete a message, select it and press the <key>Delete</key> key, or click "
 "the <gui style=\"button\">Delete</gui> button in the toolbar, or press "
 "<keyseq><key>Ctrl</key><key>D</key></keyseq>, or right-click the message and "
 "click <gui>Delete</gui>."
 msgstr ""
-"Evolution le permite borrar correos no deseados. Para borrar un correo, "
-"selecciónelo y pulse la tecla Suprimir, o pulse el botón Borrar en la barra "
-"de herramientas, pulse Ctrl+D o pulse con el botón derecho del ratón sobre "
-"el mensaje y después pulse Borrar."
+"Para eliminar un correo, selecciónelo y pulse la tecla <key>Supr</key>, "
+"pulse el botón <gui style=\"button\">Eliminar</gui> en la barra de "
+"herramientas, pulse <keyseq><key>Ctrl</key><key>D</key></keyseq>, o pulse "
+"con el botón derecho sobre el mensaje y elija <gui>Eliminar</gui>."
 
 #: C/mail-delete-and-undelete.page:32(p)
 #, fuzzy
@@ -6418,6 +6425,10 @@ msgid ""
 "several-recipients\"/> for more information on sending messages to more than "
 "one person."
 msgstr ""
+"Introduzca una dirección de correo-e en el campo <gui>To:</gui>. Si quiere "
+"introducir varias direcciones, sepárelas con comas. Consulte la <link xref="
+"\"mail-composer-several-recipients\"/> para obtener más información sobre "
+"cómo enviar mensajes a más de una persona."
 
 #: C/mail-composer-write-new-message.page:29(p)
 msgid ""
@@ -6682,7 +6693,6 @@ msgid "Using the Reply To All Feature"
 msgstr "Uso de la característica de Responder a todos"
 
 #: C/mail-composer-reply.page:33(p)
-#, fuzzy
 msgid ""
 "Susan sends an email to a client and sends copies to Tim and to an internal "
 "company mailing list of co-workers. If Tim wants to make a comment for all "
@@ -6694,10 +6704,10 @@ msgstr ""
 "Susana envía un mensaje a un cliente y añade una copia para Tomás y a una "
 "lista de correo interna de la compañía para sus compañeros de trabajo. Si "
 "Tomás quiere mandar un comentario para que lo lean todos sus compañeros, él "
-"pulsará en Responder a todos pero si lo que quiere es solamente decirle a "
-"Susana que está de acuerdo con ella, usará Responder. Observe que esta "
-"respuesta no la recibirá nadie a quien Susana haya incluido en la lista de "
-"Cco: de su mensaje original porque tal lista no ha sido compartida con nadie."
+"pulsará en <gui>Responder a todos</gui> pero si lo que quiere es solamente "
+"decirle a Susana que está de acuerdo con ella, usará <gui>Responder</gui>. "
+"Su la recibirá nadie a quien Susana haya incluido en la lista de Cco porque "
+"tal lista no se ha compartido con nadie."
 
 #: C/mail-composer-reply.page:34(p)
 #, fuzzy
@@ -6763,6 +6773,10 @@ msgid ""
 "gui><gui>General</gui><gui>Replies and Forwards</gui><gui>Forward style</"
 "gui></guiseq>."
 msgstr ""
+"La configuración predeterminada para responder y reenviar se puede cambiar "
+"en <guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Preferencias del "
+"editor</gui><gui>General</gui><gui>Respuestas y reenvíos</gui><gui>Estilo de "
+"reenvío</gui></guiseq>."
 
 #: C/mail-composer-priority.page:5(desc)
 msgid "Setting a priority for messages to be sent."
@@ -6802,14 +6816,12 @@ msgid "Message Templates"
 msgstr "Plantillas de correo"
 
 #: C/mail-composer-message-templates.page:24(p)
-#, fuzzy
 msgid ""
 "A message template is a standard message that you can use at any time to "
 "send mail with the same pattern."
 msgstr ""
 "Una plantilla de mensaje es un mensaje estándar que puede usar en cualquier "
-"momento para enviar correos con el mismo patrón. Evolution le permite crear "
-"y editar plantillas de mensajes."
+"momento para enviar correos con el mismo patrón."
 
 #: C/mail-composer-message-templates.page:25(p)
 msgid ""
@@ -6958,7 +6970,6 @@ msgstr ""
 "con Tomás en el mensaje."
 
 #: C/mail-composer-message-templates.page:83(p)
-#, fuzzy
 msgid ""
 "Assume that you have 1000 message templates with your current manager's name "
 "in them. When the current manager is replaced by a new one, it is not easy "
@@ -6966,10 +6977,10 @@ msgid ""
 "the messages have a $Manager key value, you can reset the value in the "
 "Configuration tab of this plugin."
 msgstr ""
-"Asuma que tiene 1.000 plantillas de mensajes con el nombre actual de su "
-"director como referencia en ellas. Cuando el director actual cambia, no es "
-"fácil reemplazar el nombre del director en las 1.000 plantillas. Si los "
-"mensajes tienen un valor de clave $Director, puede cambiar el valor en la "
+"Asuma que tiene 1.000 plantillas de mensajes con el nombre actual de su jefe "
+"como referencia en ellas. Cuando el jefe actual cambia, no es fácil "
+"reemplazar manualmente el nombre del jefe en las 1.000 plantillas. Si los "
+"mensajes tienen un valor de clave $Jefe, puede cambiar el valor en la "
 "pestaña Configuración de este complemento."
 
 #: C/mail-composer-message-templates.page:84(p)
@@ -7053,6 +7064,10 @@ msgid ""
 "information or other things. A signature always begins with two dashes and a "
 "space (<code>-- </code>)."
 msgstr ""
+"Una firma consiste en una o más líneas de texto (o incluso una imagen) que "
+"se añadirá al final de un correo que escriba. Puede contener información de "
+"contacto u otras cosas. Una firma siempre empieza por dos guiones y un "
+"espacio (<code>-- </code>)."
 
 #: C/mail-composer-mail-signatures.page:24(p)
 msgid ""
@@ -7513,13 +7528,12 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-forward.page:32(p)
-#, fuzzy
 msgid ""
 "Select a recipient for the message. The subject is already entered, although "
 "you can alter it if you want."
 msgstr ""
-"Seleccione una dirección como lo haría al enviar un mensaje nuevo, el asunto "
-"ya está introducido, aunque puede cambiarlo si lo desea."
+"Seleccione un destinatario para el mensaje. El asunto ya está introducido, "
+"aunque puede cambiarlo si quiere."
 
 #: C/mail-composer-forward.page:33(p)
 msgid "Add your comments on the message in the text field."
@@ -7636,11 +7650,10 @@ msgstr ""
 "de cabeceras y valores que puede añadir."
 
 #: C/mail-composer-custom-header-lines.page:44(p)
-#, fuzzy
 msgid "Set the values for the header fields by using the dropdown list."
 msgstr ""
 "Establezca los valores para los campos de cabecera usando la lista "
-"desplegable respectiva."
+"desplegable."
 
 #: C/mail-composer-change-quotation-string.page:5(desc)
 msgid ""
@@ -7662,9 +7675,8 @@ msgstr ""
 "gconf-editor."
 
 #: C/mail-change-time-format.page:5(desc)
-#, fuzzy
 msgid "Changing the date and time format in the message list."
-msgstr "Puede ver los mensajes en el orden deseado en la lista de mensajes."
+msgstr "Cambiar el formato de la fecha y la hora en la lista de mensajes."
 
 #: C/mail-change-time-format.page:19(title)
 msgid "Format of dates and time"
@@ -7694,6 +7706,9 @@ msgid ""
 "complete list of available strftime formats, run <code>date --help</code> in "
 "a terminal window."
 msgstr ""
+"Los marcadores de posición en la expresión de formato son formatos de "
+"strftime. Para obtener una lista completa de formatos de strftime, ejecute "
+"<code>date --help</code> en una ventana de la terminal."
 
 #: C/mail-change-columns-in-message-list.page:5(desc)
 msgid "Editing the columns displayed in the list of messages."
@@ -7784,6 +7799,10 @@ msgid ""
 "gui><gui>Email Accounts</gui><gui>Edit</gui><gui>Defaults</gui></guiseq>. "
 "Perhaps it is set to some other folder then the folder you thought of."
 msgstr ""
+"Compruebe su carpeta predeterminada en <guiseq><gui>Editar</"
+"gui><gui>Preferencias</gui><gui>Cuentas de correo-e</gui><gui>Editar</"
+"gui><gui>Predeterminados</gui></guiseq>. Posiblemente esté establecida una "
+"carpeta distinta de la que cree."
 
 #: C/mail-calendar-sending-invitations.page:5(desc)
 msgid "Sending invitations for appointments to contacts via email."
@@ -7808,13 +7827,12 @@ msgstr ""
 "iCal."
 
 #: C/mail-calendar-sending-invitations.page:25(p)
-#, fuzzy
 msgid ""
 "To send an invitation, right-click on the entry in the calendar and choose "
 "<gui>Forward as iCalendar</gui>."
 msgstr ""
-"Para enviar una invitación pulse con el botón derecho sobre el elemento del "
-"calendario y pulse Reenviar como iCalendar."
+"Para enviar una invitación pulse con el botón derecho sobre la entrada en el "
+"calendario y elija <gui>Reenviar como iCalendar</gui>."
 
 #: C/mail-calendar-sending-invitations.page:27(p)
 msgid "When you receive an invitation, you have several options:"
@@ -7996,7 +8014,6 @@ msgstr ""
 "al icono del adjunto y elija una de las aplicaciones disponibles."
 
 #: C/mail-attachments-received.page:32(p)
-#, fuzzy
 msgid ""
 "The options available for an attachment vary depending on the type of "
 "attachment and the applications that are installed on your system. For "
@@ -8005,9 +8022,8 @@ msgid ""
 msgstr ""
 "Las opciones disponibles para los adjuntos varían dependiendo del tipo de "
 "adjunto y de las aplicaciones instaladas en su sistema. Por ejemplo, los "
-"archivos adjuntos de procesadores de texto se pueden abrir con OpenOffice."
-"org y cualquier otro procesador de textos, y archivos comprimidos se pueden "
-"abrir con la aplicación File Roller."
+"archivos de imágenes se pueden abrir con el <gui>Visor de imágenes</gui> o "
+"en el editor de gráficos <gui>GIMP</gui>."
 
 #: C/mail-attachments.page:5(desc)
 msgid "Handling of file attachments for writing and reading mail"
@@ -8481,6 +8497,9 @@ msgid ""
 "the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
 "\">GMail Help</link> for more information."
 msgstr ""
+"Para acceder a GMail mediante IMAP debe activar IMAP en su cuenta de Google. "
+"Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">ayuda de GMail</link> para obtener más información."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -8704,7 +8723,6 @@ msgid "Switcher"
 msgstr "Selector"
 
 #: C/intro-main-window.page:77(p)
-#, fuzzy
 msgid ""
 "The switcher at the bottom of the side bar lets you switch between the "
 "Evolution tools: Mail, Contacts, Calendars, Memos and Tasks."
@@ -8924,7 +8942,6 @@ msgid "Starting <em>Evolution</em> for the first time"
 msgstr "Inicio de <em>Evolution</em> por primera vez"
 
 #: C/intro-first-run.page:22(p)
-#, fuzzy
 #| msgid ""
 #| "The first time you run Evolution, it creates a directory named <emphasis>."
 #| "evolution</emphasis> in your home directory, where it stores all of its "
@@ -8935,11 +8952,6 @@ msgid ""
 "you set up email accounts and <link xref=\"import-data\">import data from "
 "other applications.</link>"
 msgstr ""
-"La primera vez que ejecute Evolution, éste crea un directorio llamado "
-"<emphasis>.evolution</emphasis> en su directorio de inicio de sesión, donde "
-"almacena toda su información local. Después se abrirá un asistente, sólo la "
-"primera vez, con el fin de ayudarle a configurar sus cuentas de correo, así "
-"como para importar datos de otras aplicaciones."
 
 #: C/intro-first-run.page:31(title)
 msgid "Restore from backup"
@@ -9069,6 +9081,9 @@ msgid ""
 "\"install:evolution-mapi\" href=\"http://ftp.gnome.org/pub/gnome/sources/"
 "evolution-mapi/\">Install evolution-mapi now.</link>"
 msgstr ""
+"Esto requiere tener instalado el paquete «evolution-mapi». <link action="
+"\"install:evolution-mapi\" href=\"http://ftp.gnome.org/pub/gnome/sources/"
+"evolution-mapi/\">Instalar evolution-mapi ahora.</link>"
 
 #: C/intro-first-run.page:62(p)
 msgid ""
@@ -9092,6 +9107,9 @@ msgid ""
 "\"install:evolution-exchange\" href=\"http://ftp.gnome.org/pub/gnome/sources/"
 "evolution-exchange/\">Install evolution-exchange now.</link>"
 msgstr ""
+"Esto requiere tener instalado el paquete «evolution-exchange». <link action="
+"\"install:evolution-exchange\" href=\"http://ftp.gnome.org/pub/gnome/sources/"
+"evolution-exchange/\">Instalar evolution-exchange ahora.</link>"
 
 #: C/intro-first-run.page:65(p)
 msgid "Novell Groupwise: For connecting to a Novell GroupWise server."
@@ -9112,7 +9130,6 @@ msgstr ""
 "avanzados son:"
 
 #: C/intro-first-run.page:73(p)
-#, fuzzy
 msgid ""
 "Local delivery: If you want to move email from the spool (the location where "
 "mail waits for delivery) and store it in your home directory. You need to "
@@ -9121,7 +9138,7 @@ msgid ""
 "Spool</gui> option instead."
 msgstr ""
 "Elija esta opciones si quiere mover el correo desde el buzón local a su "
-"directorio de inicio. Necesita proporcionar la ruta al buzón de correo que "
+"carpeta personal. Necesita proporcionar la ruta al buzón de correo que "
 "quiere usar, Si quiere dejar el correo en los archivos de spools del "
 "sistema, elija la opción «Mbox estándar de Unix»."
 
@@ -9249,15 +9266,14 @@ msgstr ""
 "configuración."
 
 #: C/intro-first-run.page:94(p)
-#, fuzzy
 msgid ""
 "Sendmail: Uses the Sendmail program to send mail from your system. It is not "
 "easy to configure, so you should select this option only if you know how to "
 "set up a Sendmail service."
 msgstr ""
-"Utiliza el programa Sendmail para enviar el correo desde su sistema. "
-"Sendmail es muy flexible pero no es tan fácil de configurar por lo que sólo "
-"debería elegir esta opción si sabe cómo poner en marcha un servicio Sendmail."
+"Sendmail: utiliza el programa Sendmail para enviar el correo desde su "
+"sistema. No es fácil de configurar por lo que sólo debería elegir esta "
+"opción si sabe cómo poner en marcha un servicio Sendmail."
 
 #: C/intro-first-run.page:99(title)
 msgid "Account Information"
@@ -9398,13 +9414,13 @@ msgid "Berkeley Mailbox (.mbox or no extension):"
 msgstr "Berkley Mailbox (.mbox o sin extensión):"
 
 #: C/import-supported-file-formats.page:32(p)
-#, fuzzy
 msgid ""
 "The email format used by Mozilla, Netscape, Evolution (for local folders "
 "until version 2.32), Eudora, and many other email clients."
 msgstr ""
-"El formato de buzón de correo utilizado por los programas Mozilla, Netscape, "
-"Evolution, Eudora* y muchos otros clientes de correo electrónico."
+"El formato correo-e utilizado por Mozilla, Netscape, Evolution (para "
+"carpetas locales hasta la versión 2.32), Eudora y muchos otros clientes de "
+"correo-e."
 
 #: C/import-supported-file-formats.page:34(p)
 msgid "Maildir (no extension):"
@@ -9885,6 +9901,9 @@ msgid ""
 "like to connect to it is required to make sure that an additional package is "
 "installed that provides this functionality."
 msgstr ""
+"Dependiendo de la versión del servidor Microsoft Exchange al que se quiera "
+"conectar, es necesario que se asegure de que tiene instalado un paquete que "
+"proporciona esta funcionalidad."
 
 #: C/exchange-connectors-overview.page:24(p)
 msgid ""
@@ -10533,7 +10552,7 @@ msgid ""
 "Search Scope: The search scope is the breadth of a given search. The "
 "following options are available:"
 msgstr ""
-"Rango de búsquedaÑ es la extensión de una búsqueda dada. Están disponibles "
+"Rango de búsqueda: es la extensión de una búsqueda dada. Están disponibles "
 "las siguientes:"
 
 #: C/contacts-ldap.page:42(p)
@@ -10623,7 +10642,7 @@ msgid ""
 msgstr ""
 "Las carpetas de red sólo están disponibles cuando se conecta a la red. Si "
 "usa un equipo portátil o una conexión telefónica, conviene hacer una copia "
-"del directorio de red o colocar en caché algún directorio de red. Para ello, "
+"de la carpeta de red o colocar en caché algún directorio de red. Para ello, "
 "arrastre los contactos deseados dentro de la lista de contactos local."
 
 #: C/contacts-ldap.page:70(p)
@@ -10706,9 +10725,6 @@ msgid ""
 msgstr ""
 
 #: C/contacts-autocompletion.page:32(p)
-#| msgid ""
-#| "Select the Always show address of the autocompleted contact check box to "
-#| "show the email address along with the username."
 msgid ""
 "Select <gui>Always show address of the autocompleted contact</gui> to also "
 "show the email address along with the name. This can be helpful to "
@@ -10765,7 +10781,7 @@ msgstr ""
 #: C/change-switcher-appearance.page:5(desc)
 msgid "Changing the display of the window buttons in the lower left corner."
 msgstr ""
-"Cambiar el mostrado de los botones de la ventana en la esquina inferior "
+"Cambiar la visualización de los botones de la ventana en la esquina inferior "
 "izquierda."
 
 #: C/change-switcher-appearance.page:19(title)
@@ -10934,9 +10950,8 @@ msgid ""
 msgstr "Si quiere modificar una tarjeta que ya existe,"
 
 #: C/calendar-usage-edit-appointment.page:25(p)
-#, fuzzy
 msgid "Double-click on the appointment that you want to edit in the calendar."
-msgstr "Pulse dos veces en la tarjeta que quiera editar."
+msgstr "Pulse dos veces en la cita que quiera editar en el calendario."
 
 #: C/calendar-usage-edit-appointment.page:26(p)
 msgid ""
@@ -11819,10 +11834,6 @@ msgstr ""
 "de contactos."
 
 #: C/calendar-free-busy.page:43(p)
-#| msgid ""
-#| "The following task-related options are available under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Display</"
-#| "gui><gui>Task List</gui></guiseq>."
 msgid ""
 "The default server can be defined under <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Publishing "
