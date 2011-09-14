@@ -8,6 +8,7 @@
       <applyto>/apps/evolution/calendar/display/primary_calendar</applyto>
       <owner>evolution-calendar</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
         <short>Primary calendar</short>
         <long>
@@ -501,6 +502,7 @@
       <applyto>/apps/evolution/calendar/memos/primary_memos</applyto>
       <owner>evolution-calendar</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
         <short>Primary memo list</short>
         <long>
@@ -517,6 +519,7 @@
       <applyto>/apps/evolution/calendar/tasks/primary_tasks</applyto>
       <owner>evolution-calendar</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
         <short>Primary task list</short>
         <long>
@@ -786,6 +789,7 @@
       <applyto>/apps/evolution/calendar/publish/template</applyto>
       <owner>evolution-calendar</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
         <short>Free/busy template URL</short>
         <long>The URL template to use as a free/busy data fallback, %u is replaced by the user part of the mail address and %d is replaced by the domain.</long>
@@ -797,6 +801,7 @@
       <applyto>/apps/evolution/calendar/audio_dir</applyto>
       <owner>evolution-calendar</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
         <short>Save directory for reminder audio</short>
          <long>
