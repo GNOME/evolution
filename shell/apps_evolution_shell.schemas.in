@@ -8,6 +8,7 @@
       <applyto>/apps/evolution/version</applyto>
       <owner>evolution</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
         <short>Configuration version</short>
         <long>The configuration version of Evolution, with major/minor/configuration level (for example "2.6.0").</long>
@@ -21,6 +22,7 @@
       <applyto>/apps/evolution/last_version</applyto>
       <owner>evolution</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
         <short>Last upgraded configuration version</short>
         <long>The last upgraded configuration version of Evolution, with major/minor/configuration level (for example "2.6.0").</long>
@@ -63,6 +65,7 @@
       <applyto>/apps/evolution/shell/file_chooser_folder</applyto>
       <owner>evolution</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
         <short>Initial file chooser folder</short>
         <long>Initial folder for GtkFileChooser dialogs.</long>
@@ -103,6 +106,7 @@
       <applyto>/apps/evolution/shell/view_defaults/window_y</applyto>
       <owner>evolution</owner>
       <type>int</type>
+      <default>0</default>
       <locale name="C">
         <short>Default window Y coordinate</short>
         <long>The default Y coordinate for the main window.</long>
@@ -114,6 +118,7 @@
       <applyto>/apps/evolution/shell/view_defaults/window_x</applyto>
       <owner>evolution</owner>
       <type>int</type>
+      <default>0</default>
       <locale name="C">
         <short>Default window X coordinate</short>
         <long>The default X coordinate for the main window.</long>
@@ -149,7 +154,7 @@
       <applyto>/apps/evolution/shell/view_defaults/window_maximized</applyto>
       <owner>evolution</owner>
       <type>bool</type>
-      <default>TRUE</default>
+      <default>true</default>
       <locale name="C">
         <short>Default window state</short>
         <long>Whether or not the window should be maximized.</long>
@@ -161,7 +166,7 @@
       <applyto>/apps/evolution/shell/view_defaults/buttons_visible</applyto>
       <owner>evolution</owner>
       <type>bool</type>
-      <default>TRUE</default>
+      <default>true</default>
       <locale name="C">
         <short>Window buttons are visible</short>
         <long>Whether the window buttons should be visible.</long>
@@ -185,7 +190,7 @@
       <applyto>/apps/evolution/shell/view_defaults/toolbar_visible</applyto>
       <owner>evolution</owner>
       <type>bool</type>
-      <default>TRUE</default>
+      <default>true</default>
       <locale name="C">
         <short>Toolbar is visible</short>
         <long>Whether the toolbar should be visible.</long>
@@ -197,7 +202,7 @@
       <applyto>/apps/evolution/shell/view_defaults/sidebar_visible</applyto>
       <owner>evolution</owner>
       <type>bool</type>
-      <default>TRUE</default>
+      <default>true</default>
       <locale name="C">
         <short>Sidebar is visible</short>
         <long>Whether the sidebar should be visible.</long>
@@ -209,7 +214,7 @@
       <applyto>/apps/evolution/shell/view_defaults/statusbar_visible</applyto>
       <owner>evolution</owner>
       <type>bool</type>
-      <default>TRUE</default>
+      <default>true</default>
       <locale name="C">
         <short>Statusbar is visible</short>
         <long>Whether the status bar should be visible.</long>
@@ -261,6 +266,7 @@
       <applyto>/apps/evolution/shell/network_config/http_port</applyto>
       <owner>evolution</owner>
       <type>int</type>
+      <default>0</default>
       <locale name="C">
         <short>HTTP proxy port</short>
         <long>The port on the machine defined by "/apps/evolution/shell/network_config/http_host" that you proxy through.</long>
@@ -272,6 +278,7 @@
       <applyto>/apps/evolution/shell/network_config/http_host</applyto>
       <owner>evolution</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
         <short>HTTP proxy host name</short>
         <long>The machine name to proxy HTTP through.</long>
@@ -283,6 +290,7 @@
       <applyto>/apps/evolution/shell/network_config/secure_port</applyto>
       <owner>evolution</owner>
       <type>int</type>
+      <default>0</default>
       <locale name="C">
         <short>Secure HTTP proxy port</short>
         <long>The port on the machine defined by "/apps/evolution/shell/network_config/secure_host" that you proxy through.</long>
@@ -294,6 +302,7 @@
       <applyto>/apps/evolution/shell/network_config/secure_host</applyto>
       <owner>evolution</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
         <short>Secure HTTP proxy host name</short>
         <long>The machine name to proxy secure HTTP through.</long>
@@ -305,6 +314,7 @@
       <applyto>/apps/evolution/shell/network_config/socks_port</applyto>
       <owner>evolution</owner>
       <type>int</type>
+      <default>0</default>
       <locale name="C">
         <short>SOCKS proxy port</short>
         <long>The port on the machine defined by "/apps/evolution/shell/network_config/socks_host" that you proxy through.</long>
@@ -316,6 +326,7 @@
       <applyto>/apps/evolution/shell/network_config/socks_host</applyto>
       <owner>evolution</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
         <short>SOCKS proxy host name</short>
         <long>The machine name to proxy socks through.</long>
@@ -327,6 +338,7 @@
       <applyto>/apps/evolution/shell/network_config/use_http_proxy</applyto>
       <owner>evolution</owner>
       <type>bool</type>
+      <default>false</default>
       <locale name="C">
         <short>Use HTTP proxy</short>
         <long>Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet.</long>
@@ -338,6 +350,7 @@
       <applyto>/apps/evolution/shell/network_config/use_authentication</applyto>
       <owner>evolution</owner>
       <type>bool</type>
+      <default>false</default>
       <locale name="C">
         <short>Authenticate proxy server connections</short>
         <long>If true, then connections to the proxy server require authentication. The username is retrieved from the "/apps/evolution/shell/network_config/authentication_user" GConf key, and the password is retrieved from either gnome-keyring or the ~/.gnome2_private/Evolution password file.</long>
@@ -349,6 +362,7 @@
       <applyto>/apps/evolution/shell/network_config/authentication_user</applyto>
       <owner>evolution</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
         <short>HTTP proxy username</short>
         <long>Username to pass as authentication when doing HTTP proxying.</long>
@@ -360,6 +374,7 @@
       <applyto>/apps/evolution/shell/network_config/authentication_password</applyto>
       <owner>evolution</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
         <short>HTTP proxy password</short>
         <long>Password to pass as authentication when doing HTTP proxying.</long>
@@ -372,6 +387,7 @@
       <owner>evolution</owner>
       <type>list</type>
       <list_type>string</list_type>
+      <default>[]</default>
       <locale name="C">
         <short>Non-proxy hosts</short>
         <long>This key contains a list of hosts which are connected to directly, rather than via the proxy (if it is active). The values can be hostnames, domains (using an initial wildcard like *.foo.com), IP host addresses (both IPv4 and IPv6) and network addresses with a netmask (something like 192.168.0.0/24).</long>
@@ -383,6 +399,7 @@
       <applyto>/apps/evolution/shell/network_config/autoconfig_url</applyto>
       <owner>evolution</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
         <short>Automatic proxy configuration URL</short>
         <long>URL that provides proxy configuration values.</long>

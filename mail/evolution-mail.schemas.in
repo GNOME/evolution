@@ -138,6 +138,7 @@
       <owner>evolution-mail</owner>
       <type>list</type>
       <list_type>string</list_type>
+      <default>[]</default>
       <locale name="C">
         <short>Spell checking languages</short>
         <long>
@@ -536,6 +537,7 @@
       <owner>evolution-mail</owner>
       <type>list</type>
       <list_type>string</list_type>
+      <default>[]</default>
       <locale name="C">
          <short>List of custom headers and whether they are enabled.</short>
          <long>
@@ -580,6 +582,7 @@
       <owner>evolution-mail</owner>
       <type>list</type>
       <list_type>string</list_type>
+      <default>[]</default>
       <locale name="C">
          <short>List of MIME types to check for Bonobo component viewers</short>
          <long>
@@ -958,6 +961,7 @@
       <key>/schemas/apps/evolution/mail/subscription_editor_maximized</key>
       <applyto>/apps/evolution/mail/subscription_editor_maximized</applyto>
       <type>bool</type>
+      <default>false</default>
       <locale name="C">
         <short>"Folder Subscriptions" window maximize state</short>
         <long>
@@ -1496,6 +1500,7 @@
       <applyto>/apps/evolution/mail/default_account</applyto>
       <owner>evolution-mail</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
          <short>UID string of the default account.</short>
          <long>
@@ -1510,6 +1515,7 @@
       <owner>evolution-mail</owner>
       <type>list</type>
       <list_type>string</list_type>
+      <default>[]</default>
       <locale name="C">
          <short>List of accounts</short>
          <long>
@@ -1526,6 +1532,7 @@
       <owner>evolution-mail</owner>
       <type>list</type>
       <list_type>string</list_type>
+      <default>[]</default>
       <locale name="C">
          <short>List of accepted licenses</short>
          <long>
@@ -1541,6 +1548,7 @@
       <applyto>/apps/evolution/mail/save_dir</applyto>
       <owner>evolution-mail</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
          <short>Save directory</short>
          <long>
@@ -1554,6 +1562,7 @@
       <applyto>/apps/evolution/mail/composer/current_folder</applyto>
       <owner>evolution-mail</owner>
       <type>string</type>
+      <default></default>
       <locale name="C">
          <short>Composer load/attach directory</short>
          <long>
@@ -1582,6 +1591,7 @@
       <key>/schemas/apps/evolution/mail/filter_editor_maximized</key>
       <applyto>/apps/evolution/mail/filter_editor_maximized</applyto>
       <type>bool</type>
+      <default>false</default>
       <locale name="C">
         <short>"Filter Editor" window maximize state</short>
         <long>
@@ -1660,6 +1670,7 @@
       <applyto>/apps/evolution/mail/send_recv_maximized</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
+      <default>false</default>
       <locale name="C">
         <short>"Send and Receive Mail" window maximize state</short>
         <long>
@@ -1705,6 +1716,7 @@
       <key>/schemas/apps/evolution/mail/vfolder_editor_maximized</key>
       <applyto>/apps/evolution/mail/vfolder_editor_maximized</applyto>
       <type>bool</type>
+      <default>false</default>
       <locale name="C">
         <short>"Search Folder Editor" window maximize state</short>
         <long>
