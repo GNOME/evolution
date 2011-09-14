@@ -38,7 +38,7 @@
   <p>Click <guiseq><gui>Edit</gui><gui>Show Hidden Messages</gui></guiseq> to make sure all messages are visible.</p>
  </item>
  <item>
-  <p>Check your default folder under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Email Accounts</gui><gui>Edit</gui><gui>Defaults</gui></guiseq>. Perhaps it is set to some other folder then the folder you thought of.</p>
+  <p>Check your default folder under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Email Accounts</gui><gui>Edit</gui><gui>Defaults</gui></guiseq>. Perhaps it is set to some other folder than the folder you thought of.</p>
  </item>
 </list>
 
