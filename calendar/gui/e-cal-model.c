@@ -2115,6 +2115,33 @@ search_by_id_and_client (ECalModelPrivate *priv,
 	return NULL;
 }
 
+static void
+remove_all_for_id_and_client (ECalModel *model,
+			      ECalClient *client,
+			      const ECalComponentId *id)
+{
+	ECalModelComponent *comp_data;
+
+	while ((comp_data = search_by_id_and_client (model->priv, client, id))) {
+		gint pos;
+		GSList *list = NULL;
+
+		pos = get_position_in_array (model->priv->objects, comp_data);
+
+		if (!g_ptr_array_remove (model->priv->objects, comp_data))
+			continue;
+
+		list = g_slist_append (list, comp_data);
+		g_signal_emit (G_OBJECT (model), signals[COMPS_DELETED], 0, list);
+
+		g_slist_free (list);
+		g_object_unref (comp_data);
+
+		e_table_model_pre_change (E_TABLE_MODEL (model));
+		e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
+	}
+}
+
 typedef struct {
 	ECalClient *client;
 	ECalClientView *view;
@@ -2134,10 +2161,15 @@ add_instance_cb (ECalComponent *comp,
 	icaltimetype time;
 	ECalComponentDateTime datetime, to_set;
 	icaltimezone *zone = NULL;
+	ECalComponentId *id;
 
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), TRUE);
 
 	priv = rdata->model->priv;
+
+	id = e_cal_component_get_id (comp);
+	remove_all_for_id_and_client (rdata->model, rdata->client, id);
+	e_cal_component_free_id (id);
 
 	e_table_model_pre_change (E_TABLE_MODEL (rdata->model));
 
@@ -2265,25 +2297,7 @@ process_added (ECalClientView *view,
 		id = e_cal_component_get_id (comp);
 
 		/* remove the components if they are already present and re-add them */
-		while ((comp_data = search_by_id_and_client (priv, client,
-							      id))) {
-			gint pos;
-			GSList *list = NULL;
-
-			pos = get_position_in_array (priv->objects, comp_data);
-
-			if (!g_ptr_array_remove (priv->objects, comp_data))
-				continue;
-
-			list = g_slist_append (list, comp_data);
-			g_signal_emit (G_OBJECT (model), signals[COMPS_DELETED], 0, list);
-
-			g_slist_free (list);
-			g_object_unref (comp_data);
-
-			e_table_model_pre_change (E_TABLE_MODEL (model));
-			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
-		}
+		remove_all_for_id_and_client (model, client, id);
 
 		e_cal_component_free_id (id);
 		g_object_unref (comp);
