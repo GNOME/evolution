@@ -1586,6 +1586,8 @@ comp_editor_dispose (GObject *object)
 		g_signal_handlers_disconnect_matched (
 			G_OBJECT (store), G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
+		g_object_unref (priv->attachment_view);
+		priv->attachment_view = NULL;
 	}
 
 	/* We want to destroy the pages after the widgets get destroyed,

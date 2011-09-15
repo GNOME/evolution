@@ -160,7 +160,6 @@ action_calendar_taskpad_new_cb (GtkAction *action,
 	gtk_window_present (GTK_WINDOW (editor));
 
 	g_object_unref (comp);
-	g_object_unref (client);
 }
 
 static void
@@ -548,7 +547,7 @@ e_cal_shell_view_taskpad_open_task (ECalShellView *cal_shell_view,
 	editor = task_editor_new (comp_data->client, shell, flags);
 	comp_editor_edit_comp (editor, comp);
 
-	g_object_ref (comp);
+	g_object_unref (comp);
 
 	if (flags & COMP_EDITOR_IS_ASSIGNED)
 		task_editor_show_assignment (TASK_EDITOR (editor));

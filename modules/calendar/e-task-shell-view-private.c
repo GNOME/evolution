@@ -445,7 +445,7 @@ e_task_shell_view_open_task (ETaskShellView *task_shell_view,
 	editor = task_editor_new (comp_data->client, shell, flags);
 	comp_editor_edit_comp (editor, comp);
 
-	g_object_ref (comp);
+	g_object_unref (comp);
 
 	if (flags & COMP_EDITOR_IS_ASSIGNED)
 		task_editor_show_assignment (TASK_EDITOR (editor));

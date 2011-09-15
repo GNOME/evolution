@@ -422,6 +422,8 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 		g_warning (
 			"%s: Failed to create/open client: %s",
 			G_STRFUNC, error->message);
+		if (client)
+			g_object_unref (client);
 		g_object_unref (source_list);
 		g_error_free (error);
 		goto exit;
@@ -443,6 +445,7 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 			"%s: Failed to get object: %s",
 			G_STRFUNC, error->message);
 		g_object_unref (source_list);
+		g_object_unref (client);
 		g_error_free (error);
 		goto exit;
 	}
