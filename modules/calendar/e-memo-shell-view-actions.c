@@ -385,7 +385,6 @@ action_memo_new_cb (GtkAction *action,
 	gtk_window_present (GTK_WINDOW (editor));
 
 	g_object_unref (comp);
-	g_object_unref (client);
 }
 
 static void

@@ -2149,6 +2149,20 @@ typedef struct {
 	icalcomponent *icalcomp;
 } RecurrenceExpansionData;
 
+static void
+free_rdata (gpointer data)
+{
+	RecurrenceExpansionData *rdata = data;
+
+	if (!rdata)
+		return;
+
+	g_object_unref (rdata->client);
+	g_object_unref (rdata->view);
+	g_object_unref (rdata->model);
+	g_free (rdata);
+}
+
 static gboolean
 add_instance_cb (ECalComponent *comp,
                  time_t instance_start,
@@ -2308,13 +2322,12 @@ process_added (ECalClientView *view,
 
 			if (client_data) {
 				RecurrenceExpansionData *rdata = g_new0 (RecurrenceExpansionData, 1);
-				rdata->client = client;
-				rdata->view = view;
-				rdata->model = model;
-				rdata->icalcomp = l->data;
+				rdata->client = g_object_ref (client);
+				rdata->view = g_object_ref (view);
+				rdata->model = g_object_ref (model);
 
 				e_cal_client_generate_instances_for_object (rdata->client, l->data, priv->start, priv->end, client_data->cancellable,
-									    (ECalRecurInstanceFn) add_instance_cb, rdata, g_free);
+									    (ECalRecurInstanceFn) add_instance_cb, rdata, free_rdata);
 			}
 		} else {
 			e_table_model_pre_change (E_TABLE_MODEL (model));
