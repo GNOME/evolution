@@ -32,18 +32,27 @@ vpane-position = /apps/evolution/addressbook/display/vpane_position
 show-preview = /apps/evolution/addressbook/display/show_preview
 
 [org.gnome.evolution.calendar]
+audi-dir = /apps/evolution/calendar/audio_dir
+day-second-zone = /apps/evolution/calendar/display/day_second_zone
+day-second-zones = /apps/evolution/calendar/display/day_second_zones
+day-second-zones-max = /apps/evolution/calendar/display/day_second_zones_max
 editor-show-categories = /apps/evolution/calendar/display/show_categories
 editor-show-role = /apps/evolution/calendar/display/show_role
 editor-show-rsvp = /apps/evolution/calendar/display/show_rsvp
 editor-show-status = /apps/evolution/calendar/display/show_status
 editor-show-timezone = /apps/evolution/calendar/display/show_timezone
 editor-show-type = /apps/evolution/calendar/display/show_type
+hide-completed-tasks = /apps/evolution/calendar/tasks/hide_completed
+hide-completed-tasks-units = /apps/evolution/calendar/tasks/hide_completed_units
+hide-completed-tasks-value = /apps/evolution/calendar/tasks/hide_completed_value
 last-notification-time = /apps/evolution/calendar/notify/last_notification_time
+month-scroll-by-week = /apps/evolution/calendar/display/month_scroll_by_week
 notify-programs = /apps/evolution/calendar/notify/programs
 notify-with-tray = /apps/evolution/calendar/notify/notify_with_tray
 timezone = /apps/evolution/calendar/display/timezone
 use-24hour-format = /apps/evolution/calendar/display/use_24hour_format
 use-system-timezone = /apps/evolution/calendar/display/use_system_timezone
+working-days = /apps/evolution/calendar/display/working_days
 
 [org.gnome.evolution.mail]
 check-if-default-mailer = /apps/evolution/mail/prompts/checkdefault

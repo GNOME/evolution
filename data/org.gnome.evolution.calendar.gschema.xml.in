@@ -1,6 +1,26 @@
 <schemalist>
   <schema gettext-domain="evolution" id="org.gnome.evolution.calendar" path="/apps/evolution/calendar/">
   </schema>
+  <key name="audio-dir" type="s">
+    <default>''</default>
+    <_summary>Save directory for reminder audio</_summary>
+    <_description>Directory for saving reminder audio files</_description>
+  </key>
+  <key name="day-second-zone" type="s">
+    <default>''</default>
+    <_summary>The second timezone for a Day View</_summary>
+    <_description>Shows the second time zone in a Day View, if set. Value is similar to one used in a 'timezone' key</_description>
+  </key>
+  <key name="day-second-zones" type="as">
+    <default>[]</default>
+    <_summary>Recently used second time zones in a Day View</_summary>
+    <_description>List of recently used second time zones in a Day View</_description>
+  </key>
+  <key name="day-second-zones-max" type="i">
+    <default>5</default>
+    <_summary>Maximum number of recently used timezones to remember</_summary>
+    <_description>Maximum number of recently used timezones to remember in a 'day-second-zones' list</_description>
+  </key>
   <key name="editor-show-categories" type="b">
     <default>false</default>
     <_summary>Show categories field in the event/meeting/task editor</_summary>
@@ -31,10 +51,30 @@
     <_summary>Show type field in the event/task/meeting editor</_summary>
     <_description>Whether to show type field in the event/task/meeting editor</_description>
   </key>
+  <key name="hide-completed-tasks" type="b">
+    <default>false</default>
+    <_summary>Hide completed tasks</_summary>
+    <_description>Whether to hide completed tasks in the tasks view</_description>
+  </key>
+  <key name="hide-completed-tasks-units" type="s">
+    <default>'days'</default>
+    <_summary>Hide task units</_summary>
+    <_description>Units for determining when to hide tasks, "minutes", "hours" or "days"</_description>
+  </key>
+  <key name="hide-completed-tasks-value" type="i">
+    <default>1</default>
+    <_summary>Hide task value</_summary>
+    <_description>Number of units for determining when to hide tasks</_description>
+  </key>
   <key name="last-notification-time" type="i">
     <default>1</default>
     <_summary>Last reminder time</_summary>
     <_description>Time the last reminder ran, in time_t</_description>
+  </key>
+  <key name="month-scroll-by-week" type="b">
+    <default>true</default>
+    <_summary>Scroll Month View by a week</_summary>
+    <_description>Whether to scroll a Month View by a week, not by a month</_description>
   </key>
   <key name="notify-programs" type="as">
     <default>[]</default>
@@ -60,5 +100,10 @@
     <default>true</default>
     <_summary>Use system timezone</_summary>
     <_description>Use the system timezone instead of the timezone selected in Evolution</_description>
+  </key>
+  <key name="working-days" type="i">
+    <default>62</default>
+    <_summary>Work days</_summary>
+    <_description>Days on which the start and end of work hours should be indicated</_description>
   </key>
 </schemalist>
