@@ -38,6 +38,12 @@ editor-show-rsvp = /apps/evolution/calendar/display/show_rsvp
 editor-show-status = /apps/evolution/calendar/display/show_status
 editor-show-timezone = /apps/evolution/calendar/display/show_timezone
 editor-show-type = /apps/evolution/calendar/display/show_type
+last-notification-time = /apps/evolution/calendar/notify/last_notification_time
+notify-programs = /apps/evolution/calendar/notify/programs
+notify-with-tray = /apps/evolution/calendar/notify/notify_with_tray
+timezone = /apps/evolution/calendar/display/timezone
+use-24hour-format = /apps/evolution/calendar/display/use_24hour_format
+use-system-timezone = /apps/evolution/calendar/display/use_system_timezone
 
 [org.gnome.evolution.mail]
 check-if-default-mailer = /apps/evolution/mail/prompts/checkdefault

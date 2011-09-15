@@ -31,4 +31,34 @@
     <_summary>Show type field in the event/task/meeting editor</_summary>
     <_description>Whether to show type field in the event/task/meeting editor</_description>
   </key>
+  <key name="last-notification-time" type="i">
+    <default>1</default>
+    <_summary>Last reminder time</_summary>
+    <_description>Time the last reminder ran, in time_t</_description>
+  </key>
+  <key name="notify-programs" type="as">
+    <default>[]</default>
+    <_summary>Reminder programs</_summary>
+    <_description>Programs that are allowed to be run by reminders</_description>
+  </key>
+  <key name="notify-with-tray" type="b">
+    <default>false</default>
+    <_summary>Show display reminders in notification tray</_summary>
+    <_description>Whether or not to use the notification tray for display reminders</_description>
+  </key>
+  <key name="timezone" type="s">
+    <default>'UTC'</default>
+    <_summary>Timezone</_summary>
+    <_description>The default timezone to use for dates and times in the calendar, as an untranslated Olsen timezone database location like "America/New York"</_description>
+  </key>
+  <key name="use-24hour-format" type="b">
+    <default>false</default>
+    <_summary>Twenty four hour time format</_summary>
+    <_description>Whether to show times in twenty four hour format instead of using am/pm</_description>
+  </key>
+  <key name="use-system-timezone" type="b">
+    <default>true</default>
+    <_summary>Use system timezone</_summary>
+    <_description>Use the system timezone instead of the timezone selected in Evolution</_description>
+  </key>
 </schemalist>
