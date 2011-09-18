@@ -2,21 +2,22 @@
 # translation of evolution manual to spanish
 # 
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
+# Jorge González <jorgegonz@svn.gnome.org>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-14 14:50+0000\n"
-"PO-Revision-Date: 2011-09-18 18:56+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"POT-Creation-Date: 2011-09-18 16:58+0000\n"
+"PO-Revision-Date: 2011-09-18 20:14+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: C/using-categories.page:5(desc)
 msgid ""
@@ -5482,8 +5483,8 @@ msgstr "Al realizar esta operación puede que pierda algunas de sus etiquetas."
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
-"id=550414\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
+"\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
@@ -8494,8 +8495,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?"
-"answer=77695\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
+"\">GMail Help</link> for more information."
 msgstr ""
 "Para acceder a GMail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -10225,7 +10226,6 @@ msgstr ""
 "servidor."
 
 #: C/contacts-using-contact-lists.page:27(p)
-#, fuzzy
 msgid ""
 "For example, you could create one contact for each family member, then add "
 "those contacts to a contact list called \"Family\". Then, instead of "
@@ -10233,10 +10233,10 @@ msgid ""
 "\"Family\" and the messages would go to all of them."
 msgstr ""
 "Por ejemplo, puede crear una tarjeta para cada miembro de su familia, "
-"después añadir esas tarjetas a una lista de contactos llamada "
-"<quote>Familia</quote>. Después, en lugar de introducir cada dirección de "
-"correo electrónico de cada persona individualmente, puede enviar un correo "
-"electrónico a <quote>Familia</quote> y el mensaje se enviará a todos ellos."
+"después añadir esas tarjetas a una lista de contactos llamada «Familia». "
+"Después, en lugar de introducir cada dirección de correo electrónico de cada "
+"persona individualmente, puede enviar un correo electrónico a «Familia» y el "
+"mensaje se enviará a todos ellos."
 
 #: C/contacts-using-contact-lists.page:30(title)
 msgid "Creating a contact list"
@@ -10274,7 +10274,6 @@ msgstr ""
 "mensaje a la lista."
 
 #: C/contacts-using-contact-lists.page:36(p)
-#, fuzzy
 msgid ""
 "Unless it is a very small list, it is recommended that you leave the "
 "addresses hidden. This is the same thing as using the “Bcc:” feature "
@@ -10282,10 +10281,9 @@ msgid ""
 "message to several recipients</link>."
 msgstr ""
 "A no ser que sea una lista muy pequeña, es recomendable que oculte las "
-"direcciones. Este funcionamiento es similar al de la característica "
-"<quote>Cco:</quote>, comentada en <link linkend=\"usage-mail-getnsend-send-"
-"to-types\">Especificar destinatarios adicioneles para correo electrónico</"
-"link>."
+"direcciones. Este funcionamiento es similar al de la característica «Cco:», "
+"comentada en <link xref=\"mail-composer-several-recipients\">Especificar "
+"destinatarios adicionales para correo electrónico</link>."
 
 #: C/contacts-using-contact-lists.page:40(p)
 msgid "The contact list will be added to the chosen address book in Evolution."
@@ -10298,23 +10296,17 @@ msgid "Sending messages to a contact list"
 msgstr "Enviar mensajes a listas de contactos"
 
 #: C/contacts-using-contact-lists.page:45(p)
-#, fuzzy
-#| msgid ""
-#| "To mail the list, open a new email and type the name you chose for the "
-#| "list. Evolution addresses the message to the entire list when you send "
-#| "the message. You can also right-click the list's address card in the "
-#| "contacts tool and select Send Message to List."
 msgid ""
 "To send a message to the contact list, enter the name that you chose for the "
 "contact list as the recipient in the mail composer. You can also right-click "
 "the contact list in your address book and select <gui>Send Message to List</"
 "gui>."
 msgstr ""
-"Para enviar un mensaje a la lista, abra un mensaje nuevo y escriba el nombre "
-"correspondiente. Al enviarlo, Evolution transmitirá el mensaje a todos los "
-"miembros de la lista. También puede pulsar con el botón derecho en la "
-"tarjeta correspondiente en la libreta de direcciones, y seleccionar Enviar "
-"un mensaje a la lista."
+"Para enviar un correo a la lista de contactos, introduzca el nombre que "
+"eligió para la lista de contactos como el destinatario del correo en el "
+"editor. También puede pulsar con el botón derecho en la lista de contactos "
+"en su libreta de direcciones y seleccionar <gui>Enviar un mensaje a la "
+"lista</gui>."
 
 #: C/contacts-usage.page:5(desc)
 msgid "On adding, editing, and deleting contacts in address books."
@@ -10562,9 +10554,9 @@ msgid "One: Searches the Search Base and one entry below it."
 msgstr "Una: busca dentro de la raíz y un nivel de subdirectorios debajo."
 
 #: C/contacts-ldap.page:43(p)
-#, fuzzy
 msgid "Sub: Searches the Search Base and all entries below it."
-msgstr "Busca dentro de la raíz y en todos los subdirectorios."
+msgstr ""
+"Sub: busca dentro de la búsqueda base y en todas las entradas bajo ésta."
 
 #: C/contacts-ldap.page:46(p)
 msgid ""
@@ -10583,12 +10575,12 @@ msgid "<code>ObjectClass=User</code>: Lists only the users."
 msgstr "<code>ObjectClass=User</code>: solo lista los usuarios."
 
 #: C/contacts-ldap.page:50(p)
-#, fuzzy
-#| msgid "Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))"
 msgid ""
 "<code>Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))</code>: "
 "Retrieves the User and Contact List objects."
-msgstr "Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))"
+msgstr ""
+"<code>Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))</code>: obtiene "
+"los objetos de listas de usuario y contactos."
 
 #: C/contacts-ldap.page:51(p)
 msgid ""
@@ -10945,10 +10937,9 @@ msgid "Editing an Appointment"
 msgstr "Editar una cita"
 
 #: C/calendar-usage-edit-appointment.page:22(p)
-#, fuzzy
 msgid ""
 "If you want to change an appointment that already exists in your calendars,"
-msgstr "Si quiere modificar una tarjeta que ya existe,"
+msgstr "Si quiere cambiar una cita que ya existe en sus calendarios,"
 
 #: C/calendar-usage-edit-appointment.page:25(p)
 msgid "Double-click on the appointment that you want to edit in the calendar."
@@ -10989,7 +10980,6 @@ msgid "Adding an Appointment"
 msgstr "Añadir una cita"
 
 #: C/calendar-usage-add-appointment.page:23(p)
-#, fuzzy
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Appointment</gui></guiseq>, "
 "or double-click in a blank space in the calendar to open the Appointment "
@@ -10998,9 +10988,12 @@ msgid ""
 "directly write in the calendar and then adjust the duration by dragging it "
 "with the mouse."
 msgstr ""
-"Pulse dos veces en un espacio vacío en la vista de calendario para abrir el "
-"cuadro de diálogo Cita. Se creará la cita para esa hora en particular en la "
-"vista del calendario sobre la que haya pulsado dos veces."
+"Pulse <guiseq><gui>Archivo</gui><gui>Nuevo</gui><gui>Cita</gui></guiseq> o "
+"pulse dos veces en un espacio vacío en el calendario para abrir el cuadro de "
+"diálogo Cita. Se creará la cita para esa hora en particular en la vista del "
+"calendario sobre la que haya pulsado dos veces. También puede escribir "
+"directamente en el calendario y después ajustar la duración arrastrando con "
+"el ratón."
 
 #: C/calendar-usage-add-appointment.page:24(p)
 msgid "If you use the Appointment dialog:"
@@ -11057,6 +11050,9 @@ msgid ""
 "To show the time as <link xref=\"calendar-free-busy\">busy</link> to others, "
 "click <guiseq><gui>Options</gui><gui>Show Time as Busy</gui></guiseq>."
 msgstr ""
+"Para mostrar la hora como <link xref=\"calendar-free-busy\">ocupalda</link> "
+"pulse <guiseq><gui>Opciones</gui><gui>Mostrar hora como ocupada</gui></"
+"guiseq>."
 
 #: C/calendar-usage-add-appointment.page:34(p)
 #: C/calendar-meetings-sending-invitation.page:48(p)
@@ -11067,6 +11063,12 @@ msgid ""
 "\">recurrence</link>, or a <link xref=\"calendar-classifications"
 "\">classification</link> for the event, or add an attachment."
 msgstr ""
+"También puede definir una <link xref=\"calendar-timezones\">zona horaria</"
+"link>, una <link xref=\"using-categories\">categoría</link>, un <link xref="
+"\"calendar-alarms-and-reminders\">recordatorio</link>, una <link xref="
+"\"calendar-recurrence\">repetición</link> o una <link xref=\"calendar-"
+"classifications\">clasificación</link> para el acontecimiento o añadir un "
+"adjunto."
 
 #: C/calendar-timezones.page:5(desc)
 msgid "Using time zones in the calendar."
@@ -11090,6 +11092,10 @@ msgid ""
 "under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
 "gui><gui>General</gui><gui>Time</gui><gui>Time zone</gui></guiseq>."
 msgstr ""
+"De forma predeterminada Evolution usa la hora del sistema. Se puede cambiar "
+"bajo <guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Calendario y "
+"tareas</gui><gui>General</gui><gui>Hora</gui><gui>Zona horaria</gui></"
+"guiseq>."
 
 #: C/calendar-timezones.page:32(p)
 msgid ""
@@ -11099,6 +11105,11 @@ msgid ""
 "and Tasks</gui><gui>General</gui><gui>Time</gui><gui>Second zone</gui></"
 "guiseq>."
 msgstr ""
+"Si trata con mucha gente en otro huso horario específico puede mostrar ese "
+"segundo huso horario en la vista de día de su calendario. Puede configurar "
+"una segunda zona horaria bajo <guiseq><gui>Editar</gui><gui>Preferencias</"
+"gui><gui>Calendario y tareas</gui><gui>General</gui><gui>Hora</gui><gui>Zona "
+"secundaria</gui></guiseq>."
 
 #: C/calendar-timezones.page:36(title)
 msgid "Setting a timezone for an appointment"
@@ -11157,7 +11168,6 @@ msgid "Using Recurrence"
 msgstr "Repetición"
 
 #: C/calendar-recurrence.page:25(p)
-#, fuzzy
 msgid ""
 "If you have an appointment that takes place regularly, you can define its "
 "recurrence by clicking the <gui>Recurrence</gui> button in the "
@@ -11169,14 +11179,14 @@ msgid ""
 "Friday until January 3, 2015\" or \"Every month on the first Friday for 12 "
 "occurrences.\""
 msgstr ""
-"El botón de la herramienta de Repetición le permite describir la "
-"periodicidad de las citas que puede variar desde diaria hasta cada 100 años. "
-"Puede elegir una hora y una fecha a la que quiere que la cita deje de ser "
-"periódica y, en la sección Excepciones, elegir días individuales en los que "
-"la cita no tendrá lugar. Haga su selección de izquierda a derecha y podrá "
-"construir una frase: <quote>cada dos semanas en lunes y viernes hasta el 23 "
-"de junio de 2008</quote> o <quote>de cada mes el primer viernes en 12 "
-"ocasiones</quote>."
+"Si tiene una cita que se repite habitualmente puede definir su recurrencia "
+"pulsando el botón <gui>Repetición</gui> en el <gui>Editor de citas</gui> o "
+"pulsando <guiseq><gui>Opciones</gui><gui>Repetición</gui></guiseq>. Puede "
+"elegir una hora y una fecha a la que quiere que la cita deje de ser "
+"periódica y, en la sección <gui>Excepciones</gui>, elegir días individuales "
+"en los que la cita no tendrá lugar. Haga su selección de izquierda a derecha "
+"y podrá construir una frase: «cada dos semanas en lunes y viernes hasta el 3 "
+"de enero de 2015« o «de cada mes el primer viernes en 12 ocasiones»."
 
 #: C/calendar-publishing.page:5(desc)
 msgid "Post your calendar content in public."
@@ -11187,11 +11197,6 @@ msgid "Calendar Publishing"
 msgstr "Publicar el calendario"
 
 #: C/calendar-publishing.page:24(p)
-#, fuzzy
-#| msgid ""
-#| "The following task-related options are available under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Display</"
-#| "gui><gui>Task List</gui></guiseq>."
 msgid ""
 "In order to make one of your calendars available to the public, you can "
 "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
@@ -11199,9 +11204,10 @@ msgid ""
 "Information</gui><gui>Locations</gui><gui style=\"button\">Add</gui></"
 "guiseq>."
 msgstr ""
-"Las siguientes opciones relacionadas con tareas están disponibles bajo "
-"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Calendario y tareas</"
-"gui><gui>Mostrar</gui><gui>Lista de tareas</gui></guiseq>."
+"Para poder hacer público uno de sus calendarios debe definir qué calendarios "
+"subir a un servidor web bajo: <guiseq><gui>Editar</gui><gui>Preferencias</"
+"gui><gui>Calendario y tareas</gui><gui>Información de publicación</"
+"gui><gui>Lugares</gui><guiseq>Añadir<gui></guiseq>."
 
 #. This is the location since 3.1.5, see bug https://bugzilla.gnome.org/show_bug.cgi?id=655666
 #: C/calendar-publishing.page:27(p)
@@ -11364,6 +11370,9 @@ msgid ""
 "Meeting requests are sent as attachments and displayed as the body of an "
 "email. All the details about the event are shown, including time and dates."
 msgstr ""
+"Las solicitudes de reuniones se envían como adjuntos y se muestran como el "
+"cuerpo de un correo electrónico. Se muestran todos los detalles acerca del "
+"acontecimiento, incluyendo fechas y horas."
 
 #: C/calendar-meetings-replying-to-invitation.page:25(p)
 msgid ""
@@ -11373,6 +11382,11 @@ msgid ""
 "also decide whether the time of the meeting will still be shown as free in "
 "your calendar."
 msgstr ""
+"Puede elegir cómo responder a una invitación y añadir un comentario personal "
+"a su respuesta. Las opciones disponibles son <gui>Rechazar</gui>, aceptar "
+"provisionalmente (<gui>Provisional</gui>) o <gui>Aceptar</gui>. También "
+"puede decidir si quiere que la hora de la reunión se siga mostrando como "
+"libre en su calendario."
 
 #: C/calendar-meetings-replying-to-invitation.page:27(p)
 msgid ""
@@ -11380,6 +11394,9 @@ msgid ""
 "reminders\">reminder</link> you can import the reminder to your calendar by "
 "enabling <gui>Inherit reminder</gui>."
 msgstr ""
+"Si la solicitud de reunión ya incluye un <link xref=\"calendar-alarms-and-"
+"reminders\">recordatorio</link> puede importar el recordatorio a su "
+"calendario activando <gui>Heredar recordatorio</gui>."
 
 #: C/calendar-meetings-replying-to-invitation.page:29(p)
 msgid ""
@@ -11405,6 +11422,10 @@ msgid ""
 "gui><gui>Meeting Invitations</gui><gui>Conflict Search</gui></guiseq> you "
 "can define which calendars are used for warning you of meeting conflicts."
 msgstr ""
+"Bajo <guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Calendario y "
+"tareas</gui><gui>Invitaciones a reuniones</gui><gui>Búsqueda de conflictos</"
+"gui></guiseq> puede definir qué calendarios se usan para avisarle de sus "
+"conflictos en reuniones."
 
 #: C/calendar-meetings.page:5(desc)
 msgid "Using meetings in the calendar."
@@ -11888,6 +11909,12 @@ msgid ""
 "network. <gui>Private</gui> denotes one level of security, and "
 "<gui>Confidential</gui> an even higher level."
 msgstr ""
+"Para establecer una clasificación para una cita o tarea, pulse "
+"<guiseq><gui>Opciones</gui><gui>Clasificación</gui></guiseq> y seleccione "
+"una clasificación en el editor. <gui>Público</gui> es la categoría "
+"predeterminada y una cita pública la puede ver cualquiera en la red "
+"compartida de calendarios. <gui>Privado</gui> denota un nivel de seguridad y "
+"<gui>Confidencial</gui> un nivel incluso superior."
 
 #: C/calendar-classifications.page:27(p)
 msgid ""
@@ -11932,6 +11959,12 @@ msgid ""
 "define whether to show a reminder for every appointment and for every "
 "birthday and anniversary."
 msgstr ""
+"Bajo <guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Calendario y "
+"tareas</gui><gui>Recordatorios</gui></guiseq> puede seleccionar esos "
+"calendarios para los que quiere recibir notificaciones de recordatorios. Si "
+"no selecciona un calendario no recibirá recordatorios para ningún evento en "
+"ese calendario. También puede definir si quiere mostrar un recordatorio para "
+"cada cita  para cada cumpleaños y aniversario."
 
 #: C/calendar-alarms-and-reminders.page:33(title)
 msgid "Manual Reminders"
