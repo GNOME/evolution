@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2011-09-14 11:01+0000\n"
-"PO-Revision-Date: 2011-09-18 02:34+0200\n"
+"PO-Revision-Date: 2011-09-18 05:43+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -579,7 +579,7 @@ msgstr "Novell, Inc"
 #: C/calendar-classifications.page:18(p) C/calendar-caldav.page:18(p)
 #: C/calendar-alarms-and-reminders.page:18(p) C/backup-restore.page:16(p)
 msgid "Creative Commons Share Alike 3.0"
-msgstr ""
+msgstr "Creative Commons Compartir Igual 3.0"
 
 #: C/using-categories.page:25(title)
 #, fuzzy
@@ -605,31 +605,35 @@ msgstr ""
 
 #: C/using-categories.page:32(title)
 msgid "Setting categories for an object"
-msgstr ""
+msgstr "Configurar categorías para un obxecto"
 
 #: C/using-categories.page:34(p)
 msgid "To mark an object as belonging to a category,"
-msgstr ""
+msgstr "Para marcar un obxecto como pertencente a unha categoría."
 
 #: C/using-categories.page:36(p)
 msgid "Double-click the object to bring up the corresponding editor."
-msgstr ""
+msgstr "Prema dúas veces no obxecto para mostrar o editor correspondente."
 
 #: C/using-categories.page:37(p) C/using-categories.page:49(p)
 msgid ""
 "Click <gui style=\"button\">Categories...</gui>. (If this button is not "
 "available, select <guiseq><gui>View</gui><gui>Categories</gui></guiseq>.)"
 msgstr ""
+"Prema <gui style=\"button\">Categorías…</gui>. (Se este botón non está "
+"dispoñíbel, seleccione <guiseq><gui>Ver</gui><gui>Categorías</gui></guiseq>.)"
 
 #: C/using-categories.page:38(p)
 msgid ""
 "Select the category from the list. You can select as many or as few "
 "categories as you like."
 msgstr ""
+"Seleccione a categoría desde a lista. Pode seleccionar cantas categorías "
+"queira."
 
 #: C/using-categories.page:44(title)
 msgid "Adding and managing categories"
-msgstr ""
+msgstr "Engadir e xestionar categorías"
 
 #: C/using-categories.page:46(p)
 msgid ""
@@ -644,7 +648,7 @@ msgstr ""
 
 #: C/using-categories.page:50(p)
 msgid "Enter the new category in the entry box at the top."
-msgstr ""
+msgstr "Escriba a nova categoría na caixa de entrada de arriba."
 
 #: C/using-categories.page:51(p) C/using-categories.page:53(p)
 #: C/mail-spam-groupwise-remove-from-list.page:28(p)
@@ -660,13 +664,15 @@ msgstr ""
 #: C/contacts-usage-add-contact.page:27(p)
 #: C/calendar-meetings-delegating.page:38(p)
 msgid "Click <gui style=\"button\">OK</gui>."
-msgstr ""
+msgstr "Prema <gui style=\"button\">Aceptar</gui>."
 
 #: C/using-categories.page:52(p)
 msgid ""
 "You can now see the category in the <gui>Categories</gui> text field in the "
 "editor."
 msgstr ""
+"Agora poderá ver a categoría desde o campo de texto <gui>Categorías</gui> no "
+"editor."
 
 #: C/using-categories.page:56(p)
 msgid ""
@@ -678,15 +684,15 @@ msgstr ""
 
 #: C/tasks-webdav.page:5(desc)
 msgid "Using an online WebDAV task list or memo list."
-msgstr ""
+msgstr "Usar a lista de tarefas ou lista de recordatorios WebDAV en liña."
 
 #: C/tasks-webdav.page:20(title)
 msgid "Using a WebDAV task or memo list"
-msgstr ""
+msgstr "Usar unha lista de tarefas ou recordatorios WebDAV"
 
 #: C/tasks-webdav.page:22(p)
 msgid "Lists of this type are read-only."
-msgstr ""
+msgstr "As listas deste tipo son de só lectura."
 
 #: C/tasks-webdav.page:24(p) C/tasks-caldav.page:22(p)
 msgid ""
@@ -700,12 +706,14 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Task List</gui></guiseq> or "
 "<guiseq><gui>File</gui><gui>New</gui><gui>Memo List</gui></guiseq>."
 msgstr ""
+"Prema <guiseq><gui>Ficheiro</gui><gui>Novo</gui><gui>Lista de tarefas</gui></"
+"guiseq> ou <guiseq><gui>Ficheiro</gui><gui>Novo</gui><gui>Lista de "
+"recordatorios</gui></guiseq>."
 
 #: C/tasks-webdav.page:27(p) C/tasks-caldav.page:25(p)
 #: C/calendar-webdav.page:27(p)
-#, fuzzy
 msgid "Select the type <gui>On the Web</gui>."
-msgstr "gpg <placeholder-1/>"
+msgstr "Seleccione o tipo <gui>No web</gui>."
 
 #: C/tasks-webdav.page:28(p) C/tasks-local.page:26(p)
 #: C/tasks-caldav.page:26(p) C/contacts-using-contact-lists.page:33(p)
@@ -714,14 +722,14 @@ msgstr "gpg <placeholder-1/>"
 #: C/calendar-weather.page:28(p) C/calendar-local.page:26(p)
 #: C/calendar-google.page:30(p) C/calendar-caldav.page:29(p)
 msgid "Enter a name that you prefer."
-msgstr ""
+msgstr "Escriba un nome que prefira."
 
 #: C/tasks-webdav.page:29(p) C/tasks-local.page:27(p)
 #: C/tasks-caldav.page:27(p) C/calendar-webdav.page:29(p)
 #: C/calendar-weather.page:29(p) C/calendar-local.page:27(p)
 #: C/calendar-google.page:31(p) C/calendar-caldav.page:30(p)
 msgid "Optionally choose a color that you prefer."
-msgstr ""
+msgstr "Opcionalmente seleccione unha cor que prefira."
 
 #: C/tasks-webdav.page:30(p) C/tasks-caldav.page:28(p)
 #: C/contacts-google.page:28(p) C/calendar-webdav.page:30(p)
@@ -729,7 +737,7 @@ msgstr ""
 #: C/calendar-caldav.page:31(p)
 msgid ""
 "Choose if you want to be able to view the content also when being offline."
-msgstr ""
+msgstr "Seleccione se quere poder ver o contido tamén ao estar desconectado."
 
 #: C/tasks-webdav.page:31(p) C/tasks-caldav.page:29(p)
 #, fuzzy
@@ -745,12 +753,13 @@ msgstr ""
 msgid ""
 "Choose <gui>Use secure connection</gui> if you want to connect securely."
 msgstr ""
+"Seleccione <gui>Usar conexión segura</gui> se quere conectarse de forma "
+"segura."
 
 #: C/tasks-webdav.page:33(p) C/mail-sending-options-smtp.page:36(p)
 #: C/calendar-webdav.page:33(p)
-#, fuzzy
 msgid "Enter your username."
-msgstr "Introduza o seu nome completo."
+msgstr "Escriba o seu nome de usuario."
 
 #: C/tasks-webdav.page:34(p) C/tasks-local.page:28(p)
 #: C/tasks-caldav.page:32(p) C/contacts-local.page:27(p)
@@ -759,7 +768,7 @@ msgstr "Introduza o seu nome completo."
 #: C/calendar-local.page:28(p) C/calendar-google.page:35(p)
 #: C/calendar-caldav.page:35(p)
 msgid "Click <gui style=\"button\">Apply</gui>."
-msgstr ""
+msgstr "Prema <gui style=\"button\">Aplicar</gui>."
 
 #: C/tasks-webdav.page:37(p)
 #, fuzzy
@@ -768,11 +777,11 @@ msgstr "Engadir calendarios meteorolóxicos ao Evolution."
 
 #: C/tasks-using-several-tasklists.page:5(desc)
 msgid "Adding and using more than one task list or memo list."
-msgstr ""
+msgstr "Engadir e usar máis dunha lista de tarefas ou lista de recordatorios."
 
 #: C/tasks-using-several-tasklists.page:20(title)
 msgid "Using several task lists or memo lists"
-msgstr ""
+msgstr "Usar varias listas de tarefas ou listas de recordatorios"
 
 #: C/tasks-using-several-tasklists.page:22(p)
 msgid ""
@@ -795,36 +804,36 @@ msgstr ""
 
 #: C/tasks-usage.page:5(desc)
 msgid "On adding, editing, and deleting tasks."
-msgstr ""
+msgstr "Engadir, editar e eliminar tarefas."
 
 #: C/tasks-usage.page:20(title)
-#, fuzzy
 msgid "Add, Edit, and Delete Tasks"
-msgstr "Eliminar as tarefas"
+msgstr "Engadir, editar e eliminar tarefas"
 
 #: C/tasks-usage-edit-task.page:5(desc)
-#, fuzzy
 msgid "Editing a task in your task list."
-msgstr "Non é posíbel atopar esta tarefa en ningunha lista de tarefas"
+msgstr "Engadir unha tarefa na súa lista de tarefas."
 
 #: C/tasks-usage-edit-task.page:20(title)
 msgid "Editing a Task"
-msgstr ""
+msgstr "Editar unha tarefa"
 
 #: C/tasks-usage-edit-task.page:22(p)
 msgid "If you want to change a task that already exists in your task lists,"
-msgstr ""
+msgstr "Se quere cambiar unha tarefa que xa existe na súa lista de tarefas."
 
 #: C/tasks-usage-edit-task.page:25(p)
 msgid ""
 "Double-click on the task that you want to edit in the list of tasks, or "
 "right-click on the task and click <key>Open Task</key>."
 msgstr ""
+"Prema dúas veces sobre unha tarefa que queira editar desde a lista de "
+"tarefas, ou prema co botón dereito sobre unha tarefa e prema <key>Abrir "
+"tarefa</key>."
 
 #: C/tasks-usage-edit-task.page:26(p)
-#, fuzzy
 msgid "Edit the task information."
-msgstr "Información da tarefa"
+msgstr "Editar a información dunha tarefa."
 
 #: C/tasks-usage-edit-task.page:27(p) C/tasks-usage-add-task.page:29(p)
 #: C/memos-usage-edit-memo.page:27(p) C/memos-usage-add-memo.page:29(p)
@@ -834,16 +843,16 @@ msgid ""
 "Click the <gui style=\"button\">Save</gui> button, or <guiseq><gui>File</"
 "gui><gui>Save</gui></guiseq>."
 msgstr ""
+"Prema no botón <gui style=\"button\">Gardar</gui>, ou <guiseq><gui>Ficheiro</"
+"gui><gui>Gardar</gui></guiseq>."
 
 #: C/tasks-usage-delete-task.page:5(desc)
-#, fuzzy
 msgid "Deleting a task from your task list."
-msgstr "Non é posíbel atopar esta tarefa en ningunha lista de tarefas"
+msgstr "Eliminar unha tarefa desde a súa lista de tarefas."
 
 #: C/tasks-usage-delete-task.page:20(title)
-#, fuzzy
 msgid "Deleting a Task"
-msgstr "Eliminar a tarefa"
+msgstr "Eliminar unha tarefa"
 
 #: C/tasks-usage-delete-task.page:22(p)
 msgid ""
@@ -855,17 +864,19 @@ msgstr ""
 
 #: C/tasks-usage-add-task.page:5(desc)
 msgid "Adding a task to your task list."
-msgstr ""
+msgstr "Engadir unha tarefa á súa lista de tarefas."
 
 #: C/tasks-usage-add-task.page:23(title)
 msgid "Adding a Task"
-msgstr ""
+msgstr "Engadir unha tarefa"
 
 #: C/tasks-usage-add-task.page:26(p)
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Task</gui></guiseq>, or "
 "press <keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>."
 msgstr ""
+"Prema <guiseq><gui>Ficheiro</gui><gui>Novo</gui><gui>Tarefa</gui></guiseq>, "
+"ou prema <keyseq><key>Maiús</key><key>Ctrl</key><key>T</key></keyseq>."
 
 #: C/tasks-usage-add-task.page:27(p)
 #, fuzzy
@@ -892,11 +903,11 @@ msgstr ""
 
 #: C/tasks-usage-add-task.page:37(title)
 msgid "Assigned Tasks"
-msgstr ""
+msgstr "Tarefas asignadas"
 
 #: C/tasks-usage-add-task.page:39(p)
 msgid "Evolution can be used to assign a task to multiple people."
-msgstr ""
+msgstr "Evolution pode usarse para asignar unha tarefa a múltiples persoas."
 
 #: C/tasks-usage-add-task.page:40(p)
 msgid ""
@@ -926,6 +937,7 @@ msgstr ""
 msgid ""
 "@@image: 'figures/search-icon.png'; md5=cd4b82c84c628bfbbfa39d1e0d1eae89"
 msgstr ""
+"@@image: 'figures/search-icon.png'; md5=cd4b82c84c628bfbbfa39d1e0d1eae89"
 
 #: C/tasks-searching.page:5(desc)
 #, fuzzy
@@ -7411,48 +7423,64 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png\" "
 "width=\"10\"/> Menu bar"
 msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png\" "
+"width=\"10\"/> Barra de menú"
 
 #: C/intro-main-window.page:47(p)
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png\" "
 "width=\"10\"/> Tool bar"
 msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png\" "
+"width=\"10\"/> Barra de ferramentas"
 
 #: C/intro-main-window.page:50(p)
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png\" "
 "width=\"10\"/> Folder list"
 msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png\" "
+"width=\"10\"/> Lista de cartafoles"
 
 #: C/intro-main-window.page:51(p)
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png\" "
 "width=\"10\"/> Search bar"
 msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png\" "
+"width=\"10\"/> Barra de busca"
 
 #: C/intro-main-window.page:54(p)
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png\" "
 "width=\"10\"/> Message list"
 msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png\" "
+"width=\"10\"/> Lista de mensaxes"
 
 #: C/intro-main-window.page:57(p)
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png\" "
 "width=\"10\"/> Switcher"
 msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png\" "
+"width=\"10\"/> Trocador"
 
 #: C/intro-main-window.page:58(p)
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png\" "
 "width=\"10\"/> Preview pane"
 msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png\" "
+"width=\"10\"/> Panel de previsualización"
 
 #: C/intro-main-window.page:61(p)
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png\" "
 "width=\"10\"/> Status bar"
 msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png\" "
+"width=\"10\"/> Barra de estado"
 
 #: C/intro-main-window.page:67(title)
 msgid "Folder list"
@@ -7534,30 +7562,40 @@ msgid ""
 "<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> Menu "
 "bar"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> "
+"Barra de menú"
 
 #: C/intro-main-window.page:96(p) C/intro-main-window.page:142(p)
 msgid ""
 "<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> Tool "
 "bar"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
+"Barra de ferramentas"
 
 #: C/intro-main-window.page:99(p)
 msgid ""
 "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
 "Calendar list"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+"Lista de calendarios"
 
 #: C/intro-main-window.page:100(p) C/intro-main-window.page:146(p)
 msgid ""
 "<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
 "Search bar"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
+"Barra de busca"
 
 #: C/intro-main-window.page:103(p)
 msgid ""
 "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
 "Appointment list"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
+"Lista de apuntamentos"
 
 #: C/intro-main-window.page:104(p)
 msgid "Task list"
@@ -7576,12 +7614,16 @@ msgid ""
 "<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
 "Switcher"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
+"Trocador"
 
 #: C/intro-main-window.page:114(p) C/intro-main-window.page:156(p)
 msgid ""
 "<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
 "Status bar"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
+"Barra de estado"
 
 #: C/intro-main-window.page:119(title)
 msgid "Appointment List"
@@ -7632,18 +7674,24 @@ msgid ""
 "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
 "Address book list"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+"Lista de axenda de enderezos"
 
 #: C/intro-main-window.page:149(p)
 msgid ""
 "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
 "Contacts list"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
+"Lista de contactos"
 
 #: C/intro-main-window.page:153(p)
 msgid ""
 "<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
 "Contact preview"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
+"Previsualización de contacto"
 
 #: C/intro-main-window.page:159(p)
 msgid ""
@@ -7985,6 +8033,8 @@ msgid ""
 "<media type=\"image\" src=\"figures/evolutionlogo.png\"> Evolution logo </"
 "media> Evolution Mail and Calendar"
 msgstr ""
+"<media type=\"image\" src=\"figures/evolutionlogo.png\"> Logo de Evolution </"
+"media> Correo electrónico e calendario de Evolution"
 
 #: C/index.page:31(title)
 msgid "Getting Started"
@@ -10347,17 +10397,7 @@ msgstr ""
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2
 #: C/index.page:0(None)
 msgid "translator-credits"
-msgstr ""
-"Fran Diéguez <frandieguez@ubuntu.com>, 2009, 2010, 2011.\n"
-"Antón Méixome <meixome@certima.net>, 2010.\n"
-"Antón Méixome <meixome@mancomun.org>, 2009.\n"
-"Mancomún - Centro de Referencia e Servizos de Software Libre <g11n@mancomun."
-"org>, 2009.\n"
-"Ignacio Casal Quinteiro <icq@svn.gnome.org>, 2007, 2008.\n"
-"Ignacio Casal Quinteiro <nacho.resa@gmail.com>, 2005, 2006.\n"
-"Manuel A. Fernández Montecelo <manuel@sindominio.net>, 2001, 2005.\n"
-"Jesús Bravo Álvarez <jba@pobox.com>, 2000.\"\n"
-"Marcos Lans <marcoslansgarza@gmail.com>,2010."
+msgstr "Fran Diéguez <frandieguez@ubuntu.com>, 2009, 2010, 2011."
 
 #, fuzzy
 #~ msgid "Categories..."
