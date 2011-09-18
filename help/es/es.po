@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-14 14:39+0000\n"
-"PO-Revision-Date: 2011-09-14 16:49+0200\n"
+"POT-Creation-Date: 2011-09-14 14:50+0000\n"
+"PO-Revision-Date: 2011-09-18 18:56+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1547,6 +1547,13 @@ msgid ""
 "the <link href=\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html"
 "\">bug writing guidelines</link> first."
 msgstr ""
+"Si no necesita ayuda para la configuración, pero está seguro de que ha "
+"encontrado un problema o un comportamiento erróneo en Evolution, o si quiere "
+"solicitar una característica, puede rellenar un informe en el <link href="
+"\"http://bugzilla.gnome.org\">sistema de seguimiento de errores de GNOME</"
+"link>. Tenga en cuenta que esto requiere que primero se registre. Trate de "
+"no enviar duplicados y revise primero la <link href=\"https://bugzilla.gnome."
+"org/page.cgi?id=bug-writing.html\">guía para informar de un error</link>."
 
 #: C/problems-reporting-bugs.page:23(p)
 msgid ""
@@ -3459,9 +3466,8 @@ msgstr ""
 "opción le permite hacer búsquedas de patrones complejos de letras de manera "
 "que, por ejemplo, podría encontrar todas las palabras que empiezan o acaban "
 "con m y tienen entre seis y quince letras de longitud, o distinguir todos "
-"los mensajes que tengan duplicacada una determinada cabecera. Para saber "
-"cómo usar las expresiones regulares examine la página del manual del comando "
-"grep."
+"los mensajes que tengan duplicada una determinada cabecera. Para saber cómo "
+"usar las expresiones regulares examine la página del manual del comando grep."
 
 #: C/mail-search-folders-conditions.page:87(p)
 msgid "Message Location:"
@@ -5476,8 +5482,8 @@ msgstr "Al realizar esta operación puede que pierda algunas de sus etiquetas."
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
-"\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+"id=550414\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
@@ -6552,6 +6558,9 @@ msgid ""
 "\">Autocompletion</link> feature of the Evolution address book for entering "
 "addresses. By using this you avoid typos and save time."
 msgstr ""
+"Se recomienda usar la característica <link xref=\"contacts-autocompletion"
+"\">Autocompletado</link> de la libreta de direcciones de Evolution para "
+"escribir direcciones. Al usar esto se evitan errores y se ahorra tiempo."
 
 #: C/mail-composer-several-recipients.page:45(title)
 msgid "Using the buttons"
@@ -6630,6 +6639,9 @@ msgid ""
 "<link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/"
 "Regular_expression\">Regular expressions</link> for searching."
 msgstr ""
+"Si tiene conocimientos técnicos, puede usar la opción <link href=\"https://"
+"secure.wikimedia.org/wikipedia/en/wiki/Regular_expression\">Expresiones "
+"regulares</link> para buscar."
 
 #: C/mail-composer-reply.page:5(desc)
 msgid "Answering a received email."
@@ -6776,25 +6788,25 @@ msgid "Prioritizing outgoing messages"
 msgstr "Priorizar mensajes salientes"
 
 #: C/mail-composer-priority.page:25(p)
-#, fuzzy
 msgid ""
 "You can prioritize a message to be sent, so that the recipient sees its "
 "relative importance. To prioritize a message, click <guiseq><gui>Insert</"
 "gui><gui>Prioritize Message</gui></guiseq> in the composer window."
 msgstr ""
-"Puede priorizar un mensaje para ser enviado, para que el destinatario vea su "
-"importancia relativa. Para priorizar un mensaje, pulse Insertar &gt; "
-"Priorizar mensaje en la ventana del editor."
+"Puede priorizar un mensaje que enviar, para que el destinatario vea su "
+"importancia relativa. Para priorizar un mensaje, pulse "
+"<guiseq><gui>Insertar</gui><gui>Priorizar mensaje</gui></guiseq> en la "
+"ventana del editor."
 
 #: C/mail-composer-priority.page:27(p)
-#, fuzzy
 msgid ""
 "Evolution will ignore the message priority of incoming messages because the "
 "recipient should decide whether the message is important or not. You can set "
 "the \"Important\" flag for any messages."
 msgstr ""
-"Evolution ignorará la prioridad del mensaje porque asume que el destinatario "
-"debería decidir si el mensaje es importante o no."
+"Evolution ignorará la prioridad de los mensajes entrantes porque asume que "
+"el destinatario debería decidir si el mensaje es importante o no. Puede "
+"establecer la opción de «importante» para cualquier mensaje."
 
 #: C/mail-composer-message-templates.page:5(desc)
 msgid "Message templates to reuse in the composer."
@@ -7114,15 +7126,14 @@ msgstr ""
 "aparecen en los menús <gui>Insertar</gui> y <gui>Formato</gui>."
 
 #: C/mail-composer-html-text.page:26(p)
-#, fuzzy
 msgid ""
 "The icons in the tool bar are explained in tooltips which appear when you "
 "hold your mouse pointer over the buttons. The buttons fall into five "
 "categories:"
 msgstr ""
-"Los iconos de la barra de herramientas se explican en <glossterm linkend="
-"\"tooltip\">consejos</glossterm> que aparecen cuando mantiene el ratón sobre "
-"los botones. Estos se clasifican en cuatro categorías:"
+"Los iconos de la barra de herramientas se explican con consejos que aparecen "
+"cuando mantiene el ratón sobre los botones. Estos se clasifican en cinco "
+"categorías:"
 
 #: C/mail-composer-html-text.page:29(title)
 msgid "Headers and Lists:"
@@ -7783,10 +7794,6 @@ msgstr ""
 "para asegurarse de que se muestran todos los mensajes."
 
 #: C/mail-cannot-see.page:41(p)
-#| msgid ""
-#| "Check your default folder under <guiseq><gui>Edit</gui><gui>Preferences</"
-#| "gui><gui>Email Accounts</gui><gui>Edit</gui><gui>Defaults</gui></guiseq>. "
-#| "Perhaps it is set to some other folder then the folder you thought of."
 msgid ""
 "Check your default folder under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Email Accounts</gui><gui>Edit</gui><gui>Defaults</gui></guiseq>. "
@@ -8487,8 +8494,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">GMail Help</link> for more information."
 msgstr ""
 "Para acceder a GMail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -8953,22 +8960,19 @@ msgid ""
 msgstr ""
 
 #: C/intro-first-run.page:37(p)
-#, fuzzy
 msgid ""
 "First, choose the server type from the <gui>Server Type</gui> dropdown-list."
 msgstr ""
-"En el campo Actualizar, seleccione de la lista desplegable el tipo de "
-"actualización."
+"Primero, elija el tipo de servidor en la lista desplegable <gui>Tipo de "
+"servidor</gui>."
 
 #: C/intro-first-run.page:38(p)
-#, fuzzy
 msgid ""
 "If you are unsure about the type of server to choose, ask your system "
 "administrator or Internet Service Provider."
 msgstr ""
-"Escriba debajo la información acerca de cómo enviará su correo. Si no está "
-"seguro, pregúntele a su administrador de sistemas o a su Proveedor de "
-"Servicios de Internet."
+"Si no está seguro del tipo de servidor que elegir, pregúntele a su "
+"administrador de sistemas o a su proveedor de servicios de Internet."
 
 #: C/intro-first-run.page:43(p)
 msgid "The most common available server types for normal users are:"
@@ -9027,13 +9031,12 @@ msgstr ""
 "configuración."
 
 #: C/intro-first-run.page:50(p)
-#, fuzzy
 msgid ""
 "USENET News: Connects to a news server and downloads a list of available "
 "news digests."
 msgstr ""
-"Conecta con servidores de noticias y descarga una lista de los compendios de "
-"noticias disponibles."
+"Noticias USENET: conecta con un servidor de noticias y descarga una lista de "
+"los compendios de noticias disponibles."
 
 #: C/intro-first-run.page:50(p)
 msgid ""
@@ -9214,7 +9217,6 @@ msgstr ""
 "\">aquí</link> para la configuración."
 
 #: C/intro-first-run.page:84(p)
-#, fuzzy
 msgid ""
 "Later on, if you want to change an account, or if you want to create another "
 "one, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
@@ -9223,10 +9225,10 @@ msgid ""
 "\"button\">Add</gui>."
 msgstr ""
 "Más tarde, si quiere cambiar esta cuenta, o si quiere crear una nueva, pulse "
-"Editar &gt; Preferencias, después pulse Cuantas de correo. seleccione la "
-"cuenta que quiera cambiar, después pulse Editar. Alternativamente, añada una "
-"cuenta nueva pulsando Añadir. Vea <link linkend=\"config-prefs-mail"
-"\">Opciones de correo</link> para los detalles."
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Cuentas de correo</"
+"gui></guiseq>. Seleccione la cuenta que quiera cambiar y pulse <gui style="
+"\"button\">Editar</gui>. Alternativamente, añada una cuenta nueva pulsando "
+"<gui style=\"button\">Añadir</gui>."
 
 #. Do not rename, we link to it from the subpages
 #: C/intro-first-run.page:90(title)
@@ -9296,9 +9298,8 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: C/index.page:7(title)
-#, fuzzy
 msgid "Evolution Mail and Calendar"
-msgstr "El cliente de correo-e y GIP Evolution"
+msgstr "Correo y calendario de Evolution"
 
 #: C/index.page:23(title)
 msgid ""
@@ -9317,9 +9318,8 @@ msgid "Mail Management"
 msgstr "Gestión del correo"
 
 #: C/index.page:37(title)
-#, fuzzy
 msgid "Advanced Mail Management"
-msgstr "Gestión de carpetas"
+msgstr "Gestión avanzada del correo"
 
 #: C/index.page:39(title)
 msgid "IMAP"
@@ -9697,6 +9697,9 @@ msgid ""
 "gui></guiseq> to create the <link xref=\"mail-folders\">folders</link> you "
 "want."
 msgstr ""
+"opcionalmente, seleccione <guiseq><gui>Archivo</gui><gui>Nuevo</"
+"gui><gui>Carpeta de correo</gui></guiseq> para crear las <link xref=\"mail-"
+"folders\">carpetas</link> que quiera."
 
 #: C/import-apps-outlook.page:62(p)
 msgid ""
@@ -9741,6 +9744,9 @@ msgid ""
 "gnome.org/users/evolution/2.32/usage-groupwise.html.en\">old Evolution "
 "manual</link>."
 msgstr ""
+"Para consultar temas no tratados aquí, diríjase al <link href=\"http://"
+"library.gnome.org/users/evolution/2.32/usage-groupwise.html.en\">antiguo "
+"manual de Evolution</link>."
 
 #: C/google-services.page:5(desc)
 msgid "Using Google services."
@@ -9967,6 +9973,11 @@ msgid ""
 "Expunge all folders, go to <guiseq><gui>File</gui><gui>Empty Trash</gui></"
 "guiseq>. This applies to other types of accounts as well."
 msgstr ""
+"Para purgar una carpeta específica, vaya a <guiseq><gui>Carpeta</"
+"gui><gui>Purgar</gui></guiseq> o pulse <keyseq><key>Ctrl</key><key>E</key></"
+"keyseq>. Para purgar todas las carpetas, vaya a <guiseq><gui>Archivo</"
+"gui><gui>Vaciar papelera</gui></guiseq>. Esto también se aplica a otros "
+"tipos de cuentas."
 
 #: C/deleting-emails.page:35(title)
 msgid "Attachments"
@@ -10027,6 +10038,9 @@ msgid ""
 "defining scheme-handlers in <file>$HOME/.local/share/applications/mimeapps."
 "list</file>."
 msgstr ""
+"Los usuarios de GNOME 3 con conocimientos técnicos puede ajustar estas "
+"configuraciones definiendo manejadores de esquemas en <file>$HOME/.local/"
+"share/applications/mimeapps.list</file>."
 
 #: C/data-storage.page:5(desc)
 msgid "Where does Evolution store my data on the harddisk?"
@@ -10196,7 +10210,6 @@ msgid "Using Contact Lists"
 msgstr "Usar listas de contactos"
 
 #: C/contacts-using-contact-lists.page:25(p)
-#, fuzzy
 msgid ""
 "A contact list is a set of contacts with a single nickname that you create. "
 "When you send mail to this nickname it is actually sent to every member of "
@@ -10204,11 +10217,12 @@ msgid ""
 "on your computer as a convenience to you, rather than as an actual email "
 "address managed by a mailing list application on a server."
 msgstr ""
-"Una lista de contactos es un juego de contactos que cree con un solo apodo. "
-"Cuando envíe correos electrónicos al apodo, se envía a cada miembro de la "
-"lista. Esto es diferente a una lista de correo que existe sólo en su equipo "
-"para su conveniencia, en lugar de ser una dirección de correo real "
-"gestionada por una aplicación para listas de correo en un servidor."
+"Una lista de contactos es un conjunto de contactos que crea con un solo "
+"apodo. Cuando envía correos electrónicos a este apodo, se envían a cada "
+"miembro de la lista. Esto es diferente a una lista de correo «real» que "
+"existe sólo en su equipo para su conveniencia, en lugar de ser una dirección "
+"de correo real gestionada por una aplicación para listas de correo en un "
+"servidor."
 
 #: C/contacts-using-contact-lists.page:27(p)
 #, fuzzy
@@ -10346,7 +10360,6 @@ msgid "Deleting a Contact"
 msgstr "Eliminar un contacto"
 
 #: C/contacts-usage-delete-contact.page:22(p)
-#, fuzzy
 msgid ""
 "If you want to delete a contact in your address books, right-click on the "
 "contact and select <gui>Delete</gui>, or click on the contact and click "
@@ -10354,10 +10367,11 @@ msgid ""
 "key></keyseq>, or click <guiseq><gui>Edit</gui><gui>Delete Contact</gui></"
 "guiseq>."
 msgstr ""
-"Evolution le permite borrar correos no deseados. Para borrar un correo, "
-"selecciónelo y pulse la tecla Suprimir, o pulse el botón Borrar en la barra "
-"de herramientas, pulse Ctrl+D o pulse con el botón derecho del ratón sobre "
-"el mensaje y después pulse Borrar."
+"Si quiere eliminar un contacto de sus libretas de direcciones, pulse con el "
+"botón derecho y elija <gui>Eliminar</gui>, pulse sobre el contacto y elija "
+"<gui>Eliminar</gui> en la barra de herramientas, pulse <keyseq><key>Ctrl</"
+"key><key>D</key></keyseq>, o pulse <guiseq><gui>Editar</gui><gui>Eliminar "
+"contacto</gui></guiseq>."
 
 #: C/contacts-usage-add-contact.page:5(desc)
 msgid "Adding a contact to your address book."
@@ -10873,7 +10887,6 @@ msgid "Using several calendars"
 msgstr "Usar varios calendarios"
 
 #: C/calendar-using-several-calendars.page:25(p)
-#, fuzzy
 msgid ""
 "You can have multiple calendars and overlay them one over the next. For "
 "example, you might have a schedule of events for work, one for home, and one "
@@ -10883,11 +10896,11 @@ msgid ""
 "appointments, you can be sure to avoid conflicts, while keeping a minimum of "
 "clutter in your view."
 msgstr ""
-"En Evolution puede mantener múltiples calendarios y solaparlos entre ellos. "
-"Por ejemplo, puede tener un horario de acontecimientos del trabajo, uno para "
-"casa y uno para su equipo de deporte favorito. La barra lateral lista esos "
-"calendarios y puede seleccionar o deseleccionar las cajas junto a ellos para "
-"mostrar y ocultar las citas en la vista de calendario. Ocultando y mostrando "
+"Puede mantener múltiples calendarios y solaparlos entre ellos. Por ejemplo, "
+"puede tener un horario de acontecimientos del trabajo, uno para casa y uno "
+"para su equipo de deporte favorito. La barra lateral lista esos calendarios "
+"y puede seleccionar o deseleccionar las cajas junto a ellos para mostrar y "
+"ocultar las citas en la vista de calendario. Ocultando y mostrando "
 "diferentes juegos de citas, puede asegurarse de evitar conflictos, "
 "reduciendo la carga en la vista."
 
@@ -11092,7 +11105,6 @@ msgid "Setting a timezone for an appointment"
 msgstr "Configurar una zona horaria para una cita"
 
 #: C/calendar-timezones.page:38(p)
-#, fuzzy
 msgid ""
 "You can also configure time zone information specific to each appointment. "
 "To do that, <link xref=\"calendar-usage\">add a new or edit an existing "
@@ -11102,13 +11114,13 @@ msgid ""
 "sure that your schedules are coordinated. Setting time zones on a per-"
 "appointment basis helps avoid that potential confusion."
 msgstr ""
-"También puede configurar información específica de la zona horaria a la hora "
-"de inicio y fin de cada cita. Para ello cree una nueva cita y pulse sobre el "
-"globo terráqueo para personalizar la zona horaria acordada para la reunión. "
-"Por ejemplo, si vive en Ávila, España, y tiene una reunión telefónica para "
-"la tarde con alguien en Veracruz, México, debe asegurarse que no se hacen "
-"las llamadas con varias horas de diferencia. Usar las zonas horarias "
-"adecuadas en cada cita ayuda a evitar esa confusión potencial."
+"También puede configurar información específica de la zona horaria para cada "
+"cita. Para ello <link xref=\"calendar-usage\">añada una cita nueva o edite "
+"una ya existente</link> y pulse sobre el botón del globo terráqueo para "
+"personalizar la zona horaria existente. Por ejemplo, si vive en Madrid, "
+"España, y tiene una reunión telefónica para la tarde con alguien en "
+"California, debe asegurarse que las citas están coordinadas. Usar las zonas "
+"horarias adecuadas en cada cita ayuda a evitar esa confusión potencial."
 
 #: C/calendar-sharing-information.page:5(desc)
 msgid ""
