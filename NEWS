@@ -1,3 +1,53 @@
+Evolution 3.1.92 2011-09-19
+---------------------------
+
+Bug Fixes:
+	Bug 659125 - Reference counting issues in calendar (Milan Crha)
+	Bug 655253 - Do not show detached instances twice in a calendar (Milan Crha)
+	Bug 635347 - Message lacks ID when submitted for sending (Matthew Barnes)
+	Bug 657611 - Hidden error of invalid attendee on send (Milan Crha)
+	Bug 658460 - alarm-notify issues runtime warning (Matthew Barnes)
+	Bug 657386 - Changing default source doesn't unmark previous one (Milan Crha)
+	Bug 655728 - Read proxy settings from GSettings since Gnome 3 (Milan Crha)
+	Bug 655564 - Express remembers settings of not finished account (Milan Crha)
+	Bug 655568 - Cursor lost after Collapse all threads called (Milan Crha)
+	Bug 655709 - Hide 'Group by' in views when not supported (Milan Crha)
+
+Miscellaneous Fixes:
+	Make sure GConf schemas have defined default values (Milan Crha)
+	User Docs: Fix order of sentences. (Andre Klapper)
+	User Docs: Hide 'Other Settings' if there is no content. Thanks to Michael Hill for pointing this out (Andre Klapper)
+	User Docs: Add TODOs as pointed out by Michael Hill (Andre Klapper)
+	Make maintiner mode enabled by default (Javier Jardón)
+	Added hu to DOC_LINGUAS (Gabor Kelemen)
+	User Docs: Update CSS/WebKit integration version statement (Andre Klapper)
+	User Docs: Add subsections to Receiving settings for better readability, use lists everywhere (Andre Klapper)
+	User Docs: Include Security and Default tab pages in new EWS account settings page (Andre Klapper)
+	User Docs: Add missing includes for Exchange account types (Andre Klapper)
+	User Docs: Add initial docu for EWS account setup. Thanks to Akhil Laddha for screenshots. (Andre Klapper)
+
+Translations:
+	Dr.T.Vasudevan (ta)
+	Fran Dieguez (gl)
+	Mario Blättermann (de)
+	Duarte Loreto (pt)
+	Jiro Matsuzawa (ja)
+	Bruce Cowan (en_GB)
+	A S Alam (pa)
+	Gabor Kelemen (hu)
+	Luca Ferretti (it)
+	Kenneth Nielsen (da)
+	Jorge González (es)
+	Piotr Drąg (pl)
+	Mojca Ograjšek (sl)
+	dmustieles (es)
+	Matej Urbančič (sl)
+	Rudolfs Mazurs (lv)
+	Andika Triwidada (id)
+	Hannie Dumoleyn (nl)
+	Alexander Shopov (bg)
+	Daniel Mustieles (es)
+
 Evolution 3.1.91 2011-09-05
 ---------------------------
 
