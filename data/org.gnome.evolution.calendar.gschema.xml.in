@@ -103,8 +103,13 @@
   </key>
   <key name="selected-memos" type="as">
     <default>[]</default>
-    <_summary>List of selected memos</_summary>
-    <_description>List of memos to load</_description>
+    <_summary>List of selected memo lists</_summary>
+    <_description>List of memo lists to load</_description>
+  </key>
+  <key name="selected-tasks" type="as">
+    <default>[]</default>
+    <_summary>List of selected task lists</_summary>
+    <_description>List of task lists to load</_description>
   </key>
   <key name="show-memo-preview" type="b">
     <default>true</default>

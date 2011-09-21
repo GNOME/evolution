@@ -648,7 +648,7 @@ e_memo_shell_backend_get_selected_memo_lists (EMemoShellBackend *memo_shell_back
 	GSettings *settings;
 	char **strv;
 	gint i;
-	GSList *selected_memo_list = NULL;
+	GSList *selected_memo_lists = NULL;
 
 	g_return_val_if_fail (
 		E_IS_MEMO_SHELL_BACKEND (memo_shell_backend), NULL);
@@ -660,12 +660,12 @@ e_memo_shell_backend_get_selected_memo_lists (EMemoShellBackend *memo_shell_back
 
 	if (strv != NULL) {
 		for (i = 0; strv[i] != NULL; i++)
-			selected_memo_list = g_slist_append (selected_memo_list, g_strdup (strv[i]));
+			selected_memo_lists = g_slist_append (selected_memo_lists, g_strdup (strv[i]));
 
 		g_strfreev (strv);
 	}
 
-	return selected_memo_list;
+	return selected_memo_lists;
 }
 
 void
@@ -678,7 +678,7 @@ e_memo_shell_backend_set_selected_memo_lists (EMemoShellBackend *memo_shell_back
 
 	g_return_if_fail (E_IS_MEMO_SHELL_BACKEND (memo_shell_backend));
 
-	for (l = selected_memo_list; l != NULL; l = l->next)
+	for (l = selected_memo_lists; l != NULL; l = l->next)
 		g_ptr_array_add (array, l->data);
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");
