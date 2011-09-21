@@ -339,6 +339,8 @@ calendar_config_set_day_second_zone (const gchar *location)
 	if (location && *location) {
 		GSList *lst, *l;
 		gint max_zones;
+		GPtrArray *array;
+		gint i;
 
 		/* configurable max number of timezones to remember */
 		max_zones = g_settings_get_int (config, "day-second-zones-max");
@@ -365,15 +367,14 @@ calendar_config_set_day_second_zone (const gchar *location)
 			lst = g_slist_prepend (lst, g_strdup (location));
 		}
 
-		while (g_slist_length (lst) > max_zones) {
-			l = g_slist_last (lst);
-			g_free (l->data);
-			lst = g_slist_delete_link (lst, l);
-		}
+		array = g_ptr_array_new ();
+		for (i = 0, l = lst; i < max_zones && l != NULL; i++, l = l->next)
+			g_ptr_array_add (array, l->data);
 
-		gconf_client_set_list (config, CALENDAR_CONFIG_DAY_SECOND_ZONES_LIST, GCONF_VALUE_STRING, lst, NULL);
+		g_settings_set_strv (config, "day-second-zones", array->pdata);
 
 		calendar_config_free_day_second_zones (lst);
+		g_ptr_array_free (array, FALSE);
 	}
 
 	g_settings_set_string (config, "day-second-zone", location ? location : "");
