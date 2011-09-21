@@ -76,10 +76,20 @@
     <_summary>Last reminder time</_summary>
     <_description>Time the last reminder ran, in time_t</_description>
   </key>
+  <key name="memo-hpane-position" type="i">
+    <default>200</default>
+    <_summary>Memo preview pane position (horizontal)</_summary>
+    <_description>Position of the task preview pane when oriented horizontally</_description>
+  </key>
   <key name="memo-layout" type="i">
     <default>0</default>
     <_summary>Memo layout style</_summary>
     <_description>The layout style determines where to place the preview pane in relation to the memo list.  "0" (Classic View) places the preview pane below the memo list.  "1" (Vertical View) places the preview pane next to the memo list</_description>
+  </key>
+  <key name="memo-vpane-position" type="i">
+    <default>400</default>
+    <_summary>Memo preview pane position (vertical)</_summary>
+    <_description>Position of the memo preview pane when oriented vertically</_description>
   </key>
   <key name="month-scroll-by-week" type="b">
     <default>true</default>
@@ -121,10 +131,20 @@
     <_summary>Show the task preview pane</_summary>
     <_description>If "true", show the task preview pane in the main window</_description>
   </key>
+  <key name="task-hpane-position" type="i">
+    <default>200</default>
+    <_summary>Task preview pane position (horizontal)</_summary>
+    <_description>Position of the task preview pane when oriented horizontally</_description>
+  </key>
   <key name="task-layout" type="i">
     <default>0</default>
     <_summary>Task layout style</_summary>
     <_description>The layout style determines where to place the preview pane in relation to the task list.  "0" (Classic View) places the preview pane below the task list.  "1" (Vertical View) places the preview pane next to the task list</_description>
+  </key>
+  <key name="task-vpane-position" type="i">
+    <default>400</default>
+    <_summary>Task preview pane position (vertical)</_summary>
+    <_description>Position of the task preview pane when oriented vertically</_description>
   </key>
   <key name="timezone" type="s">
     <default>'UTC'</default>

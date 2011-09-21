@@ -271,23 +271,22 @@ task_shell_content_restore_state_cb (EShellWindow *shell_window,
                                      EShellContent *shell_content)
 {
 	ETaskShellContentPrivate *priv;
-	GConfBridge *bridge;
+	GSettings *settings;
 	GObject *object;
-	const gchar *key;
 
 	priv = E_TASK_SHELL_CONTENT (shell_content)->priv;
 
-	/* Bind GObject properties to GConf keys. */
+	/* Bind GObject properties to settings keys. */
 
-	bridge = gconf_bridge_get ();
-
-	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/calendar/display/task_hpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "hposition");
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
 	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/calendar/display/task_vpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
+	g_settings_bind (settings, "task-hpane-position", object, "hposition", G_SETTINGS_BIND_DEFAULT);
+
+	object = G_OBJECT (priv->paned);
+	g_settings_bind (settings, "task-vpane-position", object, "vposition", G_SETTINGS_BIND_DEFAULT);
+
+	g_object_unref (G_OBJECT (settings));
 }
 
 static GtkOrientation
