@@ -61,8 +61,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-08 19:49+0200\n"
-"PO-Revision-Date: 2011-09-07 15:26+0200\n"
+"POT-Creation-Date: 2011-09-21 23:45+0200\n"
+"PO-Revision-Date: 2011-09-16 17:07+0200\n"
 "Last-Translator: Hannie Dumoleyn <hannie@ubuntu-nl.org>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
@@ -856,8 +856,8 @@ msgstr "Contact samenvoegen"
 #: ../calendar/gui/tasktypes.xml.h:4
 #: ../modules/addressbook/e-book-shell-view-actions.c:1059
 #: ../modules/calendar/e-cal-shell-view-actions.c:1727
-#: ../modules/calendar/e-memo-shell-view-actions.c:789
-#: ../modules/calendar/e-task-shell-view-actions.c:988
+#: ../modules/calendar/e-memo-shell-view-actions.c:788
+#: ../modules/calendar/e-task-shell-view-actions.c:987
 msgid "Any field contains"
 msgstr "Een veld bevat"
 
@@ -2542,7 +2542,7 @@ msgstr "De inhoud van het _memo's-lijst lokaal kopiëren voor offline gebruik"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:350
 msgid "Sh_ow reminder notifications"
-msgstr "_Notificaties tonen voor herinneringen"
+msgstr "_Herinneringen tonen in het mededelingengebied"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:425
 msgid "Colo_r:"
@@ -2866,25 +2866,25 @@ msgstr "Schakelt weergave van type aanwezige aan/uit"
 msgid "Recent _Documents"
 msgstr "Recente _documenten"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2057
+#: ../calendar/gui/dialogs/comp-editor.c:2059
 #: ../composer/e-composer-actions.c:508
 msgid "Attach"
 msgstr "Bijvoegen"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2395
-#: ../calendar/gui/dialogs/comp-editor.c:2558
-#: ../calendar/gui/dialogs/comp-editor.c:3547
+#: ../calendar/gui/dialogs/comp-editor.c:2397
+#: ../calendar/gui/dialogs/comp-editor.c:2560
+#: ../calendar/gui/dialogs/comp-editor.c:3549
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "De gemaakte veranderingen aan dit item worden verworpen indien een "
-"bijwerking via e-mail arriveerd"
+"bijwerking via e-mail arriveert"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3511
+#: ../calendar/gui/dialogs/comp-editor.c:3513
 #: ../plugins/prefer-plain/prefer-plain.c:67
 msgid "attachment"
 msgstr "bijlage"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3579
+#: ../calendar/gui/dialogs/comp-editor.c:3581
 msgid "Unable to use current version!"
 msgstr "Kan huidige niet gebruiken!"
 
@@ -4061,7 +4061,7 @@ msgstr "Terugkerend"
 msgid "Assigned"
 msgstr "Toegewezen"
 
-#: ../calendar/gui/e-cal-model.c:2910
+#: ../calendar/gui/e-cal-model.c:2937
 #, c-format
 msgid "Opening %s"
 msgstr "Openen van %s"
@@ -4555,7 +4555,7 @@ msgstr "Plak de memo van het klembord"
 
 # de memo verwijderen
 #: ../calendar/gui/e-memo-table.c:744
-#: ../modules/calendar/e-memo-shell-view-actions.c:587
+#: ../modules/calendar/e-memo-shell-view-actions.c:586
 msgid "Delete selected memos"
 msgstr "Verwijder de geselecteerde memo"
 
@@ -4601,7 +4601,7 @@ msgid "Paste tasks from the clipboard"
 msgstr "Plak taken vanaf het klembord"
 
 #: ../calendar/gui/e-task-table.c:986
-#: ../modules/calendar/e-task-shell-view-actions.c:711
+#: ../modules/calendar/e-task-shell-view-actions.c:710
 msgid "Delete selected tasks"
 msgstr "Verwijder de geselecteerde taken"
 
@@ -7138,16 +7138,16 @@ msgstr ""
 "ingesteld voor dit account"
 
 # een nieuw bericht opstellen/stel een nieuw bericht op
-#: ../composer/e-msg-composer.c:1695 ../composer/e-msg-composer.c:2079
+#: ../composer/e-msg-composer.c:1699 ../composer/e-msg-composer.c:2083
 msgid "Compose Message"
 msgstr "Stel een nieuw bericht op"
 
-#: ../composer/e-msg-composer.c:4224
+#: ../composer/e-msg-composer.c:4228
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Dit is berichtinhoud wat geen tekst is, en kan daarom niet bewerkt worden."
 
-#: ../composer/e-msg-composer.c:4929
+#: ../composer/e-msg-composer.c:4933
 msgid "Untitled Message"
 msgstr "Naamloos Bericht"
 
@@ -7623,7 +7623,7 @@ msgstr "Instellingen"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Calendar event notifications"
-msgstr "Meldingen van agendagebeurtenissen"
+msgstr "Meldingen van agenda-afspraken"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:2
 msgid "Evolution Alarm Notify"
@@ -8169,7 +8169,7 @@ msgstr "Als aan alle voorwaarden is voldaan"
 
 #: ../filter/e-filter-rule.c:722
 msgid "If any conditions are met"
-msgstr "Als aan een van de voorwaarden is voldaan"
+msgstr "Als aan één van de voorwaarden is voldaan"
 
 # items zoeken/zoek items
 #: ../filter/e-filter-rule.c:725
@@ -8907,7 +8907,7 @@ msgstr "Geselecteerde berichten als geen-spam markeren"
 
 #: ../mail/e-mail-reader.c:1936
 msgid "_Read"
-msgstr "_Lezen"
+msgstr "_Gelezen"
 
 #: ../mail/e-mail-reader.c:1938
 msgid "Mark the selected messages as having been read"
@@ -9260,7 +9260,7 @@ msgstr "Markeren als _onbelangrijk"
 
 #: ../mail/e-mail-reader.c:2309
 msgid "Mark as _Unread"
-msgstr "Als o_ngelezen markeren"
+msgstr "Markeren als o_ngelezen"
 
 #: ../mail/e-mail-reader.c:2353
 msgid "_Caret Mode"
@@ -10151,12 +10151,12 @@ msgstr "A_bonneren"
 #: ../mail/em-subscription-editor.c:1285
 #: ../modules/mail/e-mail-shell-view-actions.c:1222
 msgid "Unsubscribe from the selected folder"
-msgstr "Uitschrijven bij de geselecteerde map"
+msgstr "Abonnement op de geselecteerde map opzeggen"
 
 #: ../mail/em-subscription-editor.c:1286
 #: ../modules/mail/e-mail-shell-view-actions.c:1220
 msgid "_Unsubscribe"
-msgstr "_Uitschrijven"
+msgstr "_Opzeggen"
 
 #: ../mail/em-subscription-editor.c:1297
 msgid "Collapse all folders"
@@ -10438,7 +10438,7 @@ msgstr ""
 "Bepaalt of het adres van de afzender opgezocht wordt in het adresboek. "
 "Indien aanwezig zou de e-mail geen spam zijn. Het doorzoekt de adresboeken "
 "die aangevinkt zijn voor automatisch aanvullen. Het kan traag zijn wanneer "
-"adresboeken (zoals ldap) aangevinkt zijn voor automatisch aanvullen."
+"adresboeken (zoals LDAP) aangevinkt zijn voor automatisch aanvullen."
 
 #: ../mail/evolution-mail.schemas.in.h:48
 msgid "Determines whether to use custom headers to check for junk"
@@ -11747,7 +11747,7 @@ msgstr "Altijd lees_bevestiging vragen"
 
 #: ../mail/mail-config.ui.h:13
 msgid "Apply the same _view settings to all folders"
-msgstr "Dezelfde _weergave-instelliingen toepassen op alle mappen"
+msgstr "Dezelfde _weergave-instellingen toepassen op alle mappen"
 
 #: ../mail/mail-config.ui.h:15
 #: ../modules/addressbook/addressbook-config.c:1088
@@ -12240,7 +12240,7 @@ msgstr "Gebruikers_naam:"
 
 #: ../mail/mail-config.ui.h:140
 msgid "Use Authe_ntication"
-msgstr "Aanmeldingscontrole gebruiken"
+msgstr "_Aanmeldingscontrole gebruiken"
 
 #: ../mail/mail-config.ui.h:141
 msgid "User _Name:"
@@ -12935,12 +12935,13 @@ msgstr "Vinden van duplicaatberichten mislukt."
 msgid "Failed to open folder."
 msgstr "Kon de map niet openen."
 
+# bevraagd voor/gevraagd om
 #: ../mail/mail.error.xml.h:66
 msgid ""
 "Failed to query server for a list of supported authentication mechanisms."
 msgstr ""
-"Fout bij opvragen van lijst met ondersteunde aanmeldingsmechanismen van "
-"server."
+"Aanvraag bij de server om een lijst met ondersteunde aanmeldingsmechanismen "
+"mislukt."
 
 #: ../mail/mail.error.xml.h:67
 msgid "Failed to remove attachments from messages."
@@ -13597,7 +13598,7 @@ msgid ""
 "server if your LDAP server supports SSL."
 msgstr ""
 "Deze optie selecteren betekent dat Evolution alleen verbinding zal maken met "
-"uw LDAP server wanneer deze het SSL-protocol ondersteunt."
+"uw LDAP-server wanneer deze het SSL-protocol ondersteunt."
 
 #: ../modules/addressbook/addressbook-config.c:209
 msgid ""
@@ -13605,7 +13606,7 @@ msgid ""
 "server if your LDAP server supports TLS."
 msgstr ""
 "Deze optie selecteren betekent dat Evolution alleen verbinding zal maken met "
-"uw LDAP server wanneer deze het TLS-protocol ondersteunt."
+"uw LDAP-server wanneer deze het TLS-protocol ondersteunt."
 
 #: ../modules/addressbook/addressbook-config.c:211
 msgid ""
@@ -13613,7 +13614,7 @@ msgid ""
 "TLS. This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits."
 msgstr ""
-"Deze optie selecteren betekent dat uw LDAP server het SSL- of TLS-protocol "
+"Deze optie selecteren betekent dat uw LDAP-server het SSL- of TLS-protocol "
 "niet ondersteunt. Dit betekent dat uw verbinding onbeveiligd zal zijn en dat "
 "u veiligheidsrisico's loopt."
 
@@ -13642,7 +13643,7 @@ msgid ""
 "server."
 msgstr ""
 "Dit is de methode die Evolution zal gebruiken om u aan te melden. Als het op "
-"‘Email Address’ wordt ingesteld, is anonieme toegang tot de ldap server "
+"‘Email Address’ wordt ingesteld, is anonieme toegang tot de LDAP-server "
 "vereist."
 
 #: ../modules/addressbook/addressbook-config.c:962
@@ -13805,7 +13806,7 @@ msgstr "Al_tijd het adres tonen van het aangevulde contact"
 #: ../modules/addressbook/e-book-shell-backend.c:102
 #: ../modules/addressbook/e-book-shell-migrate.c:154
 msgid "On LDAP Servers"
-msgstr "Op LDAP servers"
+msgstr "Op LDAP-servers"
 
 #: ../modules/addressbook/e-book-shell-backend.c:302
 msgctxt "New"
@@ -13907,8 +13908,8 @@ msgstr "Toon een kaart met alle contacten uit het geselecteerde adresboek"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:854
 #: ../modules/calendar/e-cal-shell-view-actions.c:1405
-#: ../modules/calendar/e-memo-shell-view-actions.c:641
-#: ../modules/calendar/e-task-shell-view-actions.c:765
+#: ../modules/calendar/e-memo-shell-view-actions.c:640
+#: ../modules/calendar/e-task-shell-view-actions.c:764
 #: ../modules/mail/e-mail-shell-view-actions.c:1199
 msgid "_Rename..."
 msgstr "He_rnoemen…"
@@ -13986,7 +13987,7 @@ msgstr "Stuur een bericht naar de geselecteerde contacten"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:933
 #: ../modules/calendar/e-cal-shell-view-actions.c:1540
-#: ../modules/calendar/e-task-shell-view-actions.c:823
+#: ../modules/calendar/e-task-shell-view-actions.c:822
 msgid "_Actions"
 msgstr "_Acties"
 
@@ -13996,16 +13997,16 @@ msgstr "_Acties"
 # Preview heeft hier niet de betekenis van 'voorbeeld'
 # Berichtweergave/Berichtinhoud/Weergave
 #: ../modules/addressbook/e-book-shell-view-actions.c:940
-#: ../modules/calendar/e-memo-shell-view-actions.c:678
-#: ../modules/calendar/e-task-shell-view-actions.c:830
+#: ../modules/calendar/e-memo-shell-view-actions.c:677
+#: ../modules/calendar/e-task-shell-view-actions.c:829
 #: ../modules/mail/e-mail-shell-view-actions.c:1357
 msgid "_Preview"
 msgstr "_Berichtenweergave"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:949
 #: ../modules/calendar/e-cal-shell-view-actions.c:1557
-#: ../modules/calendar/e-memo-shell-view-actions.c:691
-#: ../modules/calendar/e-task-shell-view-actions.c:843
+#: ../modules/calendar/e-memo-shell-view-actions.c:690
+#: ../modules/calendar/e-task-shell-view-actions.c:842
 msgid "_Delete"
 msgstr "_Verwijderen"
 
@@ -14034,8 +14035,8 @@ msgid "Show maps in contact preview window"
 msgstr "Kaarten tonen in contactenvoorbeeldvenster"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1018
-#: ../modules/calendar/e-memo-shell-view-actions.c:748
-#: ../modules/calendar/e-task-shell-view-actions.c:912
+#: ../modules/calendar/e-memo-shell-view-actions.c:747
+#: ../modules/calendar/e-task-shell-view-actions.c:911
 #: ../modules/mail/e-mail-shell-view-actions.c:1472
 msgid "_Classic View"
 msgstr "_Klassieke weergave"
@@ -14045,8 +14046,8 @@ msgid "Show contact preview below the contact list"
 msgstr "Het contact onder de contactenenlijst tonen"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1025
-#: ../modules/calendar/e-memo-shell-view-actions.c:755
-#: ../modules/calendar/e-task-shell-view-actions.c:919
+#: ../modules/calendar/e-memo-shell-view-actions.c:754
+#: ../modules/calendar/e-task-shell-view-actions.c:918
 #: ../modules/mail/e-mail-shell-view-actions.c:1479
 msgid "_Vertical View"
 msgstr "_Verticale weergave"
@@ -14057,22 +14058,22 @@ msgstr "Contacten-voorbeeld naast contactenlijst tonen"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1035
 #: ../modules/calendar/e-cal-shell-view-actions.c:1696
-#: ../modules/calendar/e-memo-shell-view-actions.c:765
-#: ../modules/calendar/e-task-shell-view-actions.c:936
+#: ../modules/calendar/e-memo-shell-view-actions.c:764
+#: ../modules/calendar/e-task-shell-view-actions.c:935
 msgid "Any Category"
 msgstr "Elke categorie"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1042
 #: ../modules/calendar/e-cal-shell-view-actions.c:1710
-#: ../modules/calendar/e-memo-shell-view-actions.c:772
-#: ../modules/calendar/e-task-shell-view-actions.c:971
+#: ../modules/calendar/e-memo-shell-view-actions.c:771
+#: ../modules/calendar/e-task-shell-view-actions.c:970
 msgid "Unmatched"
 msgstr "Niet passend"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1052
 #: ../modules/calendar/e-cal-shell-view-actions.c:1720
-#: ../modules/calendar/e-memo-shell-view-actions.c:782
-#: ../modules/calendar/e-task-shell-view-actions.c:981
+#: ../modules/calendar/e-memo-shell-view-actions.c:781
+#: ../modules/calendar/e-task-shell-view-actions.c:980
 #: ../modules/mail/e-mail-shell-view-actions.c:1555
 #: ../shell/e-shell-content.c:666
 msgid "Advanced Search"
@@ -14342,7 +14343,7 @@ msgstr "minuten"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:22
 msgid "Publishing Information"
-msgstr "Publicatie-informatie"
+msgstr "Informatie publiceren"
 
 #. Sunday
 #: ../modules/calendar/e-calendar-preferences.ui.h:25
@@ -14439,7 +14440,7 @@ msgstr "_Bevestiging vragen bij het wissen van items"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:57
 msgid "_Compress weekends in month view"
-msgstr "Weekeinden comprimeren in maand weergave"
+msgstr "Weekeinden _comprimeren in maandweergave"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:58
 msgid "_Day begins:"
@@ -15270,15 +15271,15 @@ msgid "event"
 msgstr "afspraak"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1177
-#: ../modules/calendar/e-cal-shell-view-memopad.c:220
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:287
-#: ../modules/calendar/e-memo-shell-view-actions.c:525
-#: ../modules/calendar/e-task-shell-view-actions.c:642
+#: ../modules/calendar/e-cal-shell-view-memopad.c:219
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:286
+#: ../modules/calendar/e-memo-shell-view-actions.c:524
+#: ../modules/calendar/e-task-shell-view-actions.c:641
 msgid "Save as iCalendar"
 msgstr "Opslaan als i_Kalendar"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1335
-#: ../modules/calendar/e-memo-shell-view-actions.c:606
+#: ../modules/calendar/e-memo-shell-view-actions.c:605
 msgid "_Copy..."
 msgstr "_Kopiëren…"
 
@@ -15315,7 +15316,7 @@ msgid "_New Calendar"
 msgstr "_Nieuwe agenda"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1391
-#: ../modules/calendar/e-task-shell-view-actions.c:814
+#: ../modules/calendar/e-task-shell-view-actions.c:813
 msgid "Purg_e"
 msgstr "L_egen"
 
@@ -15324,8 +15325,8 @@ msgid "Purge old appointments and meetings"
 msgstr "Verwijder oude afspraken en agendanotities"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1398
-#: ../modules/calendar/e-memo-shell-view-actions.c:634
-#: ../modules/calendar/e-task-shell-view-actions.c:758
+#: ../modules/calendar/e-memo-shell-view-actions.c:633
+#: ../modules/calendar/e-task-shell-view-actions.c:757
 msgid "Re_fresh"
 msgstr "_Verversen"
 
@@ -15382,10 +15383,10 @@ msgid "Create a new all day event"
 msgstr "Maak een nieuwe dag-omvattende agendanotitie"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1461
-#: ../modules/calendar/e-cal-shell-view-memopad.c:254
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:327
-#: ../modules/calendar/e-memo-shell-view-actions.c:599
-#: ../modules/calendar/e-task-shell-view-actions.c:723
+#: ../modules/calendar/e-cal-shell-view-memopad.c:253
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:326
+#: ../modules/calendar/e-memo-shell-view-actions.c:598
+#: ../modules/calendar/e-task-shell-view-actions.c:722
 msgid "_Forward as iCalendar..."
 msgstr "_Doorsturen als iCalendar…"
 
@@ -15487,15 +15488,15 @@ msgid "Next 7 Days' Appointments"
 msgstr "Afspraken van de komende 7 dagen"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1734
-#: ../modules/calendar/e-memo-shell-view-actions.c:796
-#: ../modules/calendar/e-task-shell-view-actions.c:995
+#: ../modules/calendar/e-memo-shell-view-actions.c:795
+#: ../modules/calendar/e-task-shell-view-actions.c:994
 msgid "Description contains"
 msgstr "Omschrijving bevat"
 
 # onderwerp/samevatting
 #: ../modules/calendar/e-cal-shell-view-actions.c:1741
-#: ../modules/calendar/e-memo-shell-view-actions.c:803
-#: ../modules/calendar/e-task-shell-view-actions.c:1002
+#: ../modules/calendar/e-memo-shell-view-actions.c:802
+#: ../modules/calendar/e-task-shell-view-actions.c:1001
 msgid "Summary contains"
 msgstr "Samenvatting bevat"
 
@@ -15508,10 +15509,10 @@ msgid "Preview the calendar to be printed"
 msgstr "Geeft een afdrukvoorbeeld van de agenda"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1782
-#: ../modules/calendar/e-cal-shell-view-memopad.c:295
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:382
-#: ../modules/calendar/e-memo-shell-view-actions.c:844
-#: ../modules/calendar/e-task-shell-view-actions.c:1043
+#: ../modules/calendar/e-cal-shell-view-memopad.c:294
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:381
+#: ../modules/calendar/e-memo-shell-view-actions.c:843
+#: ../modules/calendar/e-task-shell-view-actions.c:1042
 msgid "_Save as iCalendar..."
 msgstr "_Opslaan als iCalendar…"
 
@@ -15522,41 +15523,41 @@ msgstr "Ga naar"
 # meervoud beter?
 #. Translators: Default filename part saving a memo to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
-#: ../modules/calendar/e-cal-shell-view-memopad.c:218
-#: ../modules/calendar/e-memo-shell-view-actions.c:523
+#: ../modules/calendar/e-cal-shell-view-memopad.c:217
+#: ../modules/calendar/e-memo-shell-view-actions.c:522
 msgid "memo"
 msgstr "memo"
 
-#: ../modules/calendar/e-cal-shell-view-memopad.c:261
-#: ../modules/calendar/e-memo-shell-view-actions.c:655
+#: ../modules/calendar/e-cal-shell-view-memopad.c:260
+#: ../modules/calendar/e-memo-shell-view-actions.c:654
 msgid "New _Memo"
 msgstr "Nieuwe _memo"
 
-#: ../modules/calendar/e-cal-shell-view-memopad.c:263
+#: ../modules/calendar/e-cal-shell-view-memopad.c:262
 #: ../modules/calendar/e-memo-shell-backend.c:300
-#: ../modules/calendar/e-memo-shell-view-actions.c:657
+#: ../modules/calendar/e-memo-shell-view-actions.c:656
 msgid "Create a new memo"
 msgstr "Maak een nieuwe memo aan"
 
-#: ../modules/calendar/e-cal-shell-view-memopad.c:268
-#: ../modules/calendar/e-memo-shell-view-actions.c:662
+#: ../modules/calendar/e-cal-shell-view-memopad.c:267
+#: ../modules/calendar/e-memo-shell-view-actions.c:661
 msgid "_Open Memo"
 msgstr "Memo _openen"
 
-#: ../modules/calendar/e-cal-shell-view-memopad.c:270
-#: ../modules/calendar/e-memo-shell-view-actions.c:664
+#: ../modules/calendar/e-cal-shell-view-memopad.c:269
+#: ../modules/calendar/e-memo-shell-view-actions.c:663
 msgid "View the selected memo"
 msgstr "De geselecteerde memo weergeven"
 
-#: ../modules/calendar/e-cal-shell-view-memopad.c:275
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:362
-#: ../modules/calendar/e-memo-shell-view-actions.c:669
-#: ../modules/calendar/e-task-shell-view-actions.c:807
+#: ../modules/calendar/e-cal-shell-view-memopad.c:274
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:361
+#: ../modules/calendar/e-memo-shell-view-actions.c:668
+#: ../modules/calendar/e-task-shell-view-actions.c:806
 msgid "Open _Web Page"
 msgstr "Open _website"
 
-#: ../modules/calendar/e-cal-shell-view-memopad.c:287
-#: ../modules/calendar/e-memo-shell-view-actions.c:829
+#: ../modules/calendar/e-cal-shell-view-memopad.c:286
+#: ../modules/calendar/e-memo-shell-view-actions.c:828
 msgid "Print the selected memo"
 msgstr "De geselecteerde memo afdrukken"
 
@@ -15564,58 +15565,58 @@ msgstr "De geselecteerde memo afdrukken"
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:285
-#: ../modules/calendar/e-task-shell-view-actions.c:640
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:284
+#: ../modules/calendar/e-task-shell-view-actions.c:639
 msgid "task"
 msgstr "Taak"
 
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:320
-#: ../modules/calendar/e-task-shell-view-actions.c:702
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:319
+#: ../modules/calendar/e-task-shell-view-actions.c:701
 msgid "_Assign Task"
 msgstr "Taak _toewijzen"
 
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:334
-#: ../modules/calendar/e-task-shell-view-actions.c:779
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:333
+#: ../modules/calendar/e-task-shell-view-actions.c:778
 msgid "_Mark as Complete"
 msgstr "Markeren als voltooid"
 
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:336
-#: ../modules/calendar/e-task-shell-view-actions.c:781
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:335
+#: ../modules/calendar/e-task-shell-view-actions.c:780
 msgid "Mark selected tasks as complete"
 msgstr "Geselecteerde taken als voltooid markeren"
 
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:341
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:340
 msgid "_Mark as Incomplete"
 msgstr "Markeren als _onvoltooid"
 
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:343
-#: ../modules/calendar/e-task-shell-view-actions.c:788
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:342
+#: ../modules/calendar/e-task-shell-view-actions.c:787
 msgid "Mark selected tasks as incomplete"
 msgstr "Geselecteerde taken als onvoltooid markeren"
 
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:348
-#: ../modules/calendar/e-task-shell-view-actions.c:793
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:347
+#: ../modules/calendar/e-task-shell-view-actions.c:792
 msgid "New _Task"
 msgstr "Nieuwe _taak"
 
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:350
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:349
 #: ../modules/calendar/e-task-shell-backend.c:299
-#: ../modules/calendar/e-task-shell-view-actions.c:795
+#: ../modules/calendar/e-task-shell-view-actions.c:794
 msgid "Create a new task"
 msgstr "Nieuwe taak aanmaken"
 
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:355
-#: ../modules/calendar/e-task-shell-view-actions.c:800
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:354
+#: ../modules/calendar/e-task-shell-view-actions.c:799
 msgid "_Open Task"
 msgstr "_Open taak"
 
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:357
-#: ../modules/calendar/e-task-shell-view-actions.c:802
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:356
+#: ../modules/calendar/e-task-shell-view-actions.c:801
 msgid "View the selected task"
 msgstr "De geselecteerde taak weergeven"
 
-#: ../modules/calendar/e-cal-shell-view-taskpad.c:374
-#: ../modules/calendar/e-task-shell-view-actions.c:1028
+#: ../modules/calendar/e-cal-shell-view-taskpad.c:373
+#: ../modules/calendar/e-task-shell-view-actions.c:1027
 msgid "Print the selected task"
 msgstr "De geselecteerde taak afdrukken"
 
@@ -15640,7 +15641,7 @@ msgid "Memo Li_st"
 msgstr "Memo_lijst"
 
 #: ../modules/calendar/e-memo-shell-backend.c:317
-#: ../modules/calendar/e-memo-shell-view-actions.c:622
+#: ../modules/calendar/e-memo-shell-view-actions.c:621
 msgid "Create a new memo list"
 msgstr "Een nieuwe memolijst toevoegen"
 
@@ -15664,41 +15665,41 @@ msgid "Print Memos"
 msgstr "Memo's afdrukken"
 
 # de _v wordt gebruikt voor _voorkeuren
-#: ../modules/calendar/e-memo-shell-view-actions.c:585
+#: ../modules/calendar/e-memo-shell-view-actions.c:584
 msgid "_Delete Memo"
 msgstr "Memo verwij_deren"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:592
+#: ../modules/calendar/e-memo-shell-view-actions.c:591
 msgid "_Find in Memo..."
 msgstr "_Zoeken in memo…"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:594
+#: ../modules/calendar/e-memo-shell-view-actions.c:593
 msgid "Search for text in the displayed memo"
 msgstr "Zoek naar tekst in de weergegeven memo"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:613
+#: ../modules/calendar/e-memo-shell-view-actions.c:612
 msgid "D_elete Memo List"
 msgstr "Memolijst ver_wijderen"
 
 # de memo verwijderen
-#: ../modules/calendar/e-memo-shell-view-actions.c:615
+#: ../modules/calendar/e-memo-shell-view-actions.c:614
 msgid "Delete the selected memo list"
 msgstr "Verwijder de geselecteerde memolijst"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:620
+#: ../modules/calendar/e-memo-shell-view-actions.c:619
 msgid "_New Memo List"
 msgstr "_Nieuwe memo's-lijst"
 
 # de memo verwijderen
-#: ../modules/calendar/e-memo-shell-view-actions.c:636
+#: ../modules/calendar/e-memo-shell-view-actions.c:635
 msgid "Refresh the selected memo list"
 msgstr "Vernieuw de geselecteerde memolijst"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:643
+#: ../modules/calendar/e-memo-shell-view-actions.c:642
 msgid "Rename the selected memo list"
 msgstr "De geselecteerde memolijst hernoemen"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:648
+#: ../modules/calendar/e-memo-shell-view-actions.c:647
 msgid "Show _Only This Memo List"
 msgstr "_Alleen deze memolijst tonen"
 
@@ -15707,27 +15708,27 @@ msgstr "_Alleen deze memolijst tonen"
 #                       Vertical view
 # Preview heeft hier niet de betekenis van 'voorbeeld'
 # Berichtweergave/Berichtinhoud/Weergave
-#: ../modules/calendar/e-memo-shell-view-actions.c:727
+#: ../modules/calendar/e-memo-shell-view-actions.c:726
 msgid "Memo _Preview"
 msgstr "_Memovoorbeeldweergave"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:729
+#: ../modules/calendar/e-memo-shell-view-actions.c:728
 msgid "Show memo preview pane"
 msgstr "Het memovoorbeeldpaneel tonen"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:750
+#: ../modules/calendar/e-memo-shell-view-actions.c:749
 msgid "Show memo preview below the memo list"
 msgstr "Memovoorbeeld onder de memolijst weergeven"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:757
+#: ../modules/calendar/e-memo-shell-view-actions.c:756
 msgid "Show memo preview alongside the memo list"
 msgstr "Memovoorbeeld naast de memolijst weergeven"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:815
+#: ../modules/calendar/e-memo-shell-view-actions.c:814
 msgid "Print the list of memos"
 msgstr "De memo's-lijst afdrukken"
 
-#: ../modules/calendar/e-memo-shell-view-actions.c:822
+#: ../modules/calendar/e-memo-shell-view-actions.c:821
 msgid "Preview the list of memos to be printed"
 msgstr "Geeft een voorbeeld van de af te drukken memo's"
 
@@ -15774,7 +15775,7 @@ msgid "Tas_k List"
 msgstr "Ta_kenlijst"
 
 #: ../modules/calendar/e-task-shell-backend.c:316
-#: ../modules/calendar/e-task-shell-view-actions.c:746
+#: ../modules/calendar/e-task-shell-view-actions.c:745
 msgid "Create a new task list"
 msgstr "Nieuwe takenlijst toevoegen"
 
@@ -15797,7 +15798,7 @@ msgstr "Openen van taken op %s"
 msgid "Print Tasks"
 msgstr "Taken afdrukken"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:584
+#: ../modules/calendar/e-task-shell-view-actions.c:583
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -15809,99 +15810,99 @@ msgstr ""
 "\n"
 "De taken echt verwijderen?"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:591
+#: ../modules/calendar/e-task-shell-view-actions.c:590
 msgid "Do not ask me again"
 msgstr "Niet opnieuw vragen"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:709
+#: ../modules/calendar/e-task-shell-view-actions.c:708
 msgid "_Delete Task"
 msgstr "Verwij_der taak"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:716
+#: ../modules/calendar/e-task-shell-view-actions.c:715
 msgid "_Find in Task..."
 msgstr "_Zoeken in taak…"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:718
+#: ../modules/calendar/e-task-shell-view-actions.c:717
 msgid "Search for text in the displayed task"
 msgstr "Zoek naar tekst in de weergegeven taak"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:730
+#: ../modules/calendar/e-task-shell-view-actions.c:729
 msgid "Copy..."
 msgstr "_Kopiëren…"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:737
+#: ../modules/calendar/e-task-shell-view-actions.c:736
 msgid "D_elete Task List"
 msgstr "Takenlijst verwijderen"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:739
+#: ../modules/calendar/e-task-shell-view-actions.c:738
 msgid "Delete the selected task list"
 msgstr "Verwijder de geselecteerde takenlijst"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:744
+#: ../modules/calendar/e-task-shell-view-actions.c:743
 msgid "_New Task List"
 msgstr "_Nieuwe takenlijst"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:760
+#: ../modules/calendar/e-task-shell-view-actions.c:759
 msgid "Refresh the selected task list"
 msgstr "Vernieuw de geselecteerde takenlijst"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:767
+#: ../modules/calendar/e-task-shell-view-actions.c:766
 msgid "Rename the selected task list"
 msgstr "De geselecteerde takenlijst hernoemen"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:772
+#: ../modules/calendar/e-task-shell-view-actions.c:771
 msgid "Show _Only This Task List"
 msgstr "_Alleen deze takenlijst tonen"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:786
+#: ../modules/calendar/e-task-shell-view-actions.c:785
 msgid "Mar_k as Incomplete"
 msgstr "Markeren als _onvoltooid"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:816
+#: ../modules/calendar/e-task-shell-view-actions.c:815
 msgid "Delete completed tasks"
 msgstr "Verwijder de voltooide taken"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:891
+#: ../modules/calendar/e-task-shell-view-actions.c:890
 msgid "Task _Preview"
 msgstr "Taken_weergave"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:893
+#: ../modules/calendar/e-task-shell-view-actions.c:892
 msgid "Show task preview pane"
 msgstr "Het taakvoorbeeldpaneel tonen"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:914
+#: ../modules/calendar/e-task-shell-view-actions.c:913
 msgid "Show task preview below the task list"
 msgstr "Taakvoorbeeld onder de takenlijst weergeven"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:921
+#: ../modules/calendar/e-task-shell-view-actions.c:920
 msgid "Show task preview alongside the task list"
 msgstr "Taakvoorbeeld naast de takenlijst weergeven"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:929
+#: ../modules/calendar/e-task-shell-view-actions.c:928
 msgid "Active Tasks"
 msgstr "Actieve taken"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:943
+#: ../modules/calendar/e-task-shell-view-actions.c:942
 msgid "Completed Tasks"
 msgstr "Afgeronde taken"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:950
+#: ../modules/calendar/e-task-shell-view-actions.c:949
 msgid "Next 7 Days' Tasks"
 msgstr "Taken voor de komende 7 dagen"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:957
+#: ../modules/calendar/e-task-shell-view-actions.c:956
 msgid "Overdue Tasks"
 msgstr "Verlopen taken"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:964
+#: ../modules/calendar/e-task-shell-view-actions.c:963
 msgid "Tasks with Attachments"
 msgstr "Taken met bijlagen"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:1014
+#: ../modules/calendar/e-task-shell-view-actions.c:1013
 msgid "Print the list of tasks"
 msgstr "De takenlijst afdrukken"
 
-#: ../modules/calendar/e-task-shell-view-actions.c:1021
+#: ../modules/calendar/e-task-shell-view-actions.c:1020
 msgid "Preview the list of tasks to be printed"
 msgstr "Geeft een voorbeeld van de af te drukken taken"
 
@@ -16690,7 +16691,7 @@ msgstr "Geluidsbijlage direct afspelen in e-mailbericht."
 
 #: ../plugins/backup-restore/backup-restore.c:192
 msgid "Select name of the Evolution backup file"
-msgstr "Selecteer naam van het Evolution-archief"
+msgstr "Selecteer de naam van het Evolution-archief"
 
 # na het maken van de reservekopie/archief
 #: ../plugins/backup-restore/backup-restore.c:225
@@ -16847,7 +16848,7 @@ msgstr "Evolution-data worden hersteld"
 
 #: ../plugins/backup-restore/backup.c:778
 msgid "Please wait while Evolution is restoring your data."
-msgstr "Even geduld a.u.b. Evolution haalt een back-up terug."
+msgstr "Even geduld a.u.b. Evolution is bezig met het terugzetten van uw data."
 
 #: ../plugins/backup-restore/backup.c:796
 msgid "This may take a while depending on the amount of data in your account."
@@ -17821,9 +17822,10 @@ msgstr "Deze taak herhaalt zich"
 msgid "This memo recurs"
 msgstr "Deze memo herhaalt zich"
 
+# bijeenkomstinformatie/bijeenkomstgegevens
 #: ../plugins/itip-formatter/itip-formatter.c:3036
 msgid "Meeting Invitations"
-msgstr "Uitnodigingen voor bijeenkomsten"
+msgstr "Bijeenkomstuitnodigingen"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
@@ -18363,7 +18365,7 @@ msgstr "Deze bijeenkomst is gedelegeerd"
 msgid ""
 "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr ""
-"Dit antwoord is niet van een van de huidige aanwezigen. De afzender "
+"Dit antwoord is niet van één van de huidige aanwezigen. De afzender "
 "toevoegen als aanwezige?"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
@@ -18708,7 +18710,7 @@ msgstr "_Abonnement op de lijst opzeggen"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:383
 msgid "Unsubscribe from the mailing list this message belongs to"
-msgstr "Afmelden bij de mailinglijst waartoe dit bericht behoort"
+msgstr "Abonnement op de mailinglijst waartoe dit bericht behoort opzeggen"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:390
 msgid "Mailing _List"
@@ -19244,7 +19246,7 @@ msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
 "message body."
 msgstr ""
-"Lijst met trefwoord/waarde-combinaties voor de Sjabloonplugin waarmee de "
+"Lijst met trefwoord/waarde-combinaties voor de Sjabloonplug-in waarmee de "
 "tekstinhoud van het bericht wordt omgezet."
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
@@ -20299,12 +20301,12 @@ msgstr "ID"
 
 #: ../smclient/eggsmclient.c:253
 msgid "Session management options:"
-msgstr "Sessiebeheer-opties:"
+msgstr "Opties voor sessiebeheer:"
 
 # filmpjes weergeven
 #: ../smclient/eggsmclient.c:254
 msgid "Show session management options"
-msgstr "Sessiebeheer-opties tonen"
+msgstr "Opties voor sessiebeheer tonen"
 
 #: ../smime/gui/ca-trust-dialog.c:107
 #, c-format
