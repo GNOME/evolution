@@ -910,7 +910,7 @@ e_cal_shell_backend_get_selected_calendars (ECalShellBackend *cal_shell_backend)
 		E_IS_CAL_SHELL_BACKEND (cal_shell_backend), NULL);
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");
-	selected_calendars = g_settings_get_strv (settings, "selected-calendars");
+	strv = g_settings_get_strv (settings, "selected-calendars");
 	g_object_unref (settings);
 
 	if (strv != NULL) {

@@ -645,34 +645,45 @@ e_memo_shell_backend_get_source_list (EMemoShellBackend *memo_shell_backend)
 GSList *
 e_memo_shell_backend_get_selected_memo_lists (EMemoShellBackend *memo_shell_backend)
 {
-	GConfClient *client;
-	GSList *selected_memo_lists;
-	const gchar *key;
+	GSettings *settings;
+	char **strv;
+	gint i;
+	GSList *selected_memo_list = NULL;
 
 	g_return_val_if_fail (
 		E_IS_MEMO_SHELL_BACKEND (memo_shell_backend), NULL);
 
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/calendar/memos/selected_memos";
-	selected_memo_lists = gconf_client_get_list (
-		client, key, GCONF_VALUE_STRING, NULL);
-	g_object_unref (client);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+	strv = g_settings_get_strv (settings, "selected-memos");
+	g_object_unref (settings);
 
-	return selected_memo_lists;
+
+	if (strv != NULL) {
+		for (i = 0; strv[i] != NULL; i++)
+			selected_memo_list = g_slist_append (selected_memo_list, g_strdup (strv[i]));
+
+		g_strfreev (strv);
+	}
+
+	return selected_memo_list;
 }
 
 void
 e_memo_shell_backend_set_selected_memo_lists (EMemoShellBackend *memo_shell_backend,
                                               GSList *selected_memo_lists)
 {
-	GConfClient *client;
-	const gchar *key;
+	GSettings *settings;
+	GSList *l;
+	GPtrArray *array = g_ptr_array_new ();
 
 	g_return_if_fail (E_IS_MEMO_SHELL_BACKEND (memo_shell_backend));
 
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/calendar/memos/selected_memos";
-	gconf_client_set_list (
-		client, key, GCONF_VALUE_STRING, selected_memo_lists, NULL);
-	g_object_unref (client);
+	for (l = selected_memo_list; l != NULL; l = l->next)
+		g_ptr_array_add (array, l->data);
+
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+	g_settings_set_strv (settings, "selected-memos", array->pdata);
+	g_object_unref (settings);
+
+	g_ptr_array_free (array, FALSE);
 }
