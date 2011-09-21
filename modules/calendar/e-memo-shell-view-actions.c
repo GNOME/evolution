@@ -863,7 +863,7 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	EPreviewPane *preview_pane;
 	EWebView *web_view;
 	GtkActionGroup *action_group;
-	GConfBridge *bridge;
+	GSettings *memo_settings;
 	GtkAction *action;
 	GObject *object;
 	const gchar *key;
@@ -922,17 +922,17 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 		action_group, lockdown_save_to_disk_popup_entries,
 		G_N_ELEMENTS (lockdown_save_to_disk_popup_entries));
 
-	/* Bind GObject properties to GConf keys. */
+	/* Bind GObject properties to settings keys. */
 
-	bridge = gconf_bridge_get ();
+	memo_settings = g_settings_new ("org.gnome.evolution.calendar");
 
 	object = G_OBJECT (ACTION (MEMO_PREVIEW));
-	key = "/apps/evolution/calendar/display/show_memo_preview";
-	gconf_bridge_bind_property (bridge, key, object, "active");
+	g_settings_bind (memo_settings, "show-memo-preview", object, "active");
 
 	object = G_OBJECT (ACTION (MEMO_VIEW_VERTICAL));
-	key = "/apps/evolution/calendar/display/memo_layout";
-	gconf_bridge_bind_property (bridge, key, object, "current-value");
+	g_settings_bind (memo_settings, "memo-layout", object, "current-value");
+
+	g_object_unref (G_OBJECT (memo_settings));
 
 	/* Fine tuning. */
 

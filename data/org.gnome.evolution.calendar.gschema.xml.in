@@ -71,6 +71,11 @@
     <_summary>Last reminder time</_summary>
     <_description>Time the last reminder ran, in time_t</_description>
   </key>
+  <key name="memo-layout" type="i">
+    <default>0</default>
+    <_summary>Memo layout style</_summary>
+    <_description>The layout style determines where to place the preview pane in relation to the memo list.  "0" (Classic View) places the preview pane below the memo list.  "1" (Vertical View) places the preview pane next to the memo list</_description>
+  </key>
   <key name="month-scroll-by-week" type="b">
     <default>true</default>
     <_summary>Scroll Month View by a week</_summary>
@@ -85,6 +90,11 @@
     <default>false</default>
     <_summary>Show display reminders in notification tray</_summary>
     <_description>Whether or not to use the notification tray for display reminders</_description>
+  </key>
+  <key name="show-memo-preview" type="b">
+    <default>true</default>
+    <_summary>Show the memo preview pane</_summary>
+    <_description>If "true", show the memo preview pane in the main window</_description>
   </key>
   <key name="timezone" type="s">
     <default>'UTC'</default>
