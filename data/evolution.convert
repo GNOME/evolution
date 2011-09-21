@@ -51,6 +51,7 @@ memo-layout = /apps/evolution/calendar/display/memo_layout
 month-scroll-by-week = /apps/evolution/calendar/display/month_scroll_by_week
 notify-programs = /apps/evolution/calendar/notify/programs
 notify-with-tray = /apps/evolution/calendar/notify/notify_with_tray
+selected-calendars = /apps/evolution/calendar/display/selected_calendars
 show-memo-preview = /apps/evolution/calendar/display/show_memo_preview
 timezone = /apps/evolution/calendar/display/timezone
 use-24hour-format = /apps/evolution/calendar/display/use_24hour_format

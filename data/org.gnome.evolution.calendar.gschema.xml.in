@@ -96,6 +96,11 @@
     <_summary>Show display reminders in notification tray</_summary>
     <_description>Whether or not to use the notification tray for display reminders</_description>
   </key>
+  <key name="selected-calendars" type="as">
+    <default>[]</default>
+    <_summary>List of selected calendars</_summary>
+    <_description>List of calendars to load</_description>
+  </key>
   <key name="show-memo-preview" type="b">
     <default>true</default>
     <_summary>Show the memo preview pane</_summary>
