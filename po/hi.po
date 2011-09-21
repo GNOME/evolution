@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
 "POT-Creation-Date: 2011-09-15 13:17+0000\n"
-"PO-Revision-Date: 2011-09-21 15:02+0530\n"
+"PO-Revision-Date: 2011-09-21 15:10+0530\n"
 "Last-Translator: Rajesh <rranjan>\n"
 "Language-Team: Hindi <fedora-trans-hi@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -4116,10 +4116,9 @@ msgid "Paste events from the clipboard"
 msgstr "क्लिपबोर्ड से कार्यक्रम चिपकाएँ"
 
 #: ../calendar/gui/e-calendar-view.c:438
-#, fuzzy
 #| msgid "Delete selected memos"
 msgid "Delete selected events"
-msgstr "चयनित ज्ञापन मिटाएँ"
+msgstr "चयनित कार्यक्रम मिटाएँ"
 
 #: ../calendar/gui/e-calendar-view.c:457 ../calendar/gui/e-memo-table.c:182
 #: ../calendar/gui/e-task-table.c:269
@@ -4230,7 +4229,6 @@ msgstr "दूसरा समय क्षेत्र दिखाएँ"
 #: ../modules/calendar/e-calendar-preferences.ui.h:77
 #: ../modules/calendar/e-calendar-preferences.c:179
 #: ../modules/calendar/e-calendar-preferences.c:231
-#, fuzzy
 #| msgid "None"
 msgctxt "cal-second-zone"
 msgid "None"
@@ -4389,10 +4387,10 @@ msgid "Enter password to access free/busy information on server %s as user %s"
 msgstr ""
 
 #: ../calendar/gui/e-meeting-store.c:1886
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to create pipe: %s"
 msgid "Failure reason: %s"
-msgstr "पाइप बनाने में विफल: %s"
+msgstr "विफलता कारण: %s"
 
 #: ../calendar/gui/e-meeting-store.c:1891
 #: ../plugins/caldav/caldav-browse-server.c:957
@@ -4532,22 +4530,19 @@ msgid "Due: "
 msgstr "शेष: "
 
 #: ../calendar/gui/e-memo-table.c:726
-#, fuzzy
 #| msgid "Cut selected messages to the clipboard"
 msgid "Cut selected memos to the clipboard"
 msgstr "क्लिपबोर्ड से चयनित संदेश काटें"
 
 #: ../calendar/gui/e-memo-table.c:732
-#, fuzzy
 #| msgid "Copy selected messages to the clipboard"
 msgid "Copy selected memos to the clipboard"
-msgstr "क्लिपबोर्ड से चयनित संदेश नक़ल करें"
+msgstr "क्लिपबोर्ड से चयनित मेमो की नक़ल करें"
 
 #: ../calendar/gui/e-memo-table.c:738
-#, fuzzy
 #| msgid "Paste memo from the clipboard"
 msgid "Paste memos from the clipboard"
-msgstr "क्लिपबोर्ड से ज्ञापन चिपकाएँ"
+msgstr "क्लिपबोर्ड से मेमो चिपकाएँ"
 
 #: ../calendar/gui/e-memo-table.c:744
 #: ../modules/calendar/e-memo-shell-view-actions.c:586
@@ -4555,10 +4550,9 @@ msgid "Delete selected memos"
 msgstr "चयनित ज्ञापन मिटाएँ"
 
 #: ../calendar/gui/e-memo-table.c:750
-#, fuzzy
 #| msgid "Select all visible messages"
 msgid "Select all visible memos"
-msgstr "सभी दृश्य संदेशों को चुनें"
+msgstr "सभी दृश्य मेमो को चुनें"
 
 #: ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
@@ -4569,10 +4563,10 @@ msgstr "एक ज्ञापन जोड़ने के लिए क्ल�
 #. * Result values will be 0%, 10%, 20%, ... 100%
 #.
 #: ../calendar/gui/e-task-table.c:555
-#, fuzzy, c-format
+#, c-format
 #| msgid "%d %b %Y"
 msgid "%d%%"
-msgstr "%d %b %Y"
+msgstr "%d%%"
 
 #: ../calendar/gui/e-task-table.c:652 ../calendar/gui/print.c:2273
 #: ../calendar/importers/icalendar-importer.c:85
@@ -4587,16 +4581,14 @@ msgid "Tasks"
 msgstr "कार्य"
 
 #: ../calendar/gui/e-task-table.c:968
-#, fuzzy
 #| msgid "Cut selected text to the clipboard"
 msgid "Cut selected tasks to the clipboard"
-msgstr "क्लिपबोर्ड से चयनित पाठ काटें"
+msgstr "क्लिपबोर्ड से चयनित कार्य काटें"
 
 #: ../calendar/gui/e-task-table.c:974
-#, fuzzy
 #| msgid "Copy selected text to the clipboard"
 msgid "Copy selected tasks to the clipboard"
-msgstr "क्लिपबोर्ड से चयनित पाठ की नक़ल लें"
+msgstr "क्लिपबोर्ड से चयनित कार्य की नक़ल लें"
 
 #: ../calendar/gui/e-task-table.c:980
 msgid "Paste tasks from the clipboard"
@@ -4608,10 +4600,9 @@ msgid "Delete selected tasks"
 msgstr "चयनित कार्य को मिटाएँ"
 
 #: ../calendar/gui/e-task-table.c:992
-#, fuzzy
 #| msgid "Select all visible messages"
 msgid "Select all visible tasks"
-msgstr "सभी दृश्य संदेशों को चुनें"
+msgstr "सभी दृश्य कार्यों को चुनें"
 
 #: ../calendar/gui/e-timezone-entry.c:330
 msgid "Select Timezone"
@@ -4625,10 +4616,9 @@ msgid "%d %B"
 msgstr "%d %B"
 
 #: ../calendar/gui/ea-cal-view-event.c:290
-#, fuzzy
 #| msgid "It has recurrences."
 msgid "It has reminders."
-msgstr "इसमें आवृत्ति है."
+msgstr "इसमें अनुस्मारक है.."
 
 #: ../calendar/gui/ea-cal-view-event.c:293
 msgid "It has recurrences."
@@ -5166,10 +5156,9 @@ msgid "Reminder!"
 msgstr "अनुस्मारक!"
 
 #: ../calendar/importers/icalendar-importer.c:758
-#, fuzzy
 #| msgid "vCalendar files (.vcf)"
 msgid "vCalendar files (.vcs)"
-msgstr "वीकैलेंडर फ़ाइल (.vcf)"
+msgstr "वीकैलेंडर फ़ाइल (.vcs)"
 
 #: ../calendar/importers/icalendar-importer.c:759
 msgid "Evolution vCalendar importer"
@@ -5185,24 +5174,21 @@ msgstr "एवोल्यूशनकैलेंडर"
 
 #: ../calendar/importers/icalendar-importer.c:1146
 #: ../calendar/importers/icalendar-importer.c:1464
-#, fuzzy
 #| msgctxt "New"
 #| msgid "M_eeting"
 msgctxt "iCalImp"
 msgid "Meeting"
-msgstr "बैठक (_e)"
+msgstr "बैठक"
 
 #: ../calendar/importers/icalendar-importer.c:1146
 #: ../calendar/importers/icalendar-importer.c:1464
-#, fuzzy
 #| msgid "Sent"
 msgctxt "iCalImp"
 msgid "Event"
-msgstr "गई डाक"
+msgstr "कार्यक्रम"
 
 #: ../calendar/importers/icalendar-importer.c:1149
 #: ../calendar/importers/icalendar-importer.c:1465
-#, fuzzy
 #| msgid "Task"
 msgctxt "iCalImp"
 msgid "Task"
@@ -5210,18 +5196,16 @@ msgstr "कार्य"
 
 #: ../calendar/importers/icalendar-importer.c:1152
 #: ../calendar/importers/icalendar-importer.c:1466
-#, fuzzy
 #| msgid "Memo"
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "ज्ञापन"
 
 #: ../calendar/importers/icalendar-importer.c:1161
-#, fuzzy
 #| msgid "It has recurrences."
 msgctxt "iCalImp"
 msgid "has recurrences"
-msgstr "इसमें आवृत्ति है."
+msgstr "इसमें आवृत्ति है"
 
 #: ../calendar/importers/icalendar-importer.c:1166
 #, fuzzy
@@ -5231,18 +5215,16 @@ msgid "is an instance"
 msgstr "यह और इसके पहले का दृष्टांत"
 
 #: ../calendar/importers/icalendar-importer.c:1171
-#, fuzzy
 #| msgid "Sh_ow a reminder"
 msgctxt "iCalImp"
 msgid "has reminders"
-msgstr "अनुस्मारक दिखाएँ (_o)"
+msgstr "अनुस्मारक है"
 
 #: ../calendar/importers/icalendar-importer.c:1176
-#, fuzzy
 #| msgid "%s attachment"
 msgctxt "iCalImp"
 msgid "has attachments"
-msgstr "%s संलग्नक"
+msgstr "संलग्नक है"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:1189
