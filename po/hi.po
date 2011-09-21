@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
 "POT-Creation-Date: 2011-09-15 13:17+0000\n"
-"PO-Revision-Date: 2011-09-21 15:10+0530\n"
+"PO-Revision-Date: 2011-09-21 15:37+0530\n"
 "Last-Translator: Rajesh <rranjan>\n"
 "Language-Team: Hindi <fedora-trans-hi@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -5228,7 +5228,6 @@ msgstr "संलग्नक है"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:1189
-#, fuzzy
 #| msgid "Public"
 msgctxt "iCalImp"
 msgid "Public"
@@ -5236,7 +5235,6 @@ msgstr "सार्वजनिक"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:1192
-#, fuzzy
 #| msgid "Private"
 msgctxt "iCalImp"
 msgid "Private"
@@ -5244,7 +5242,6 @@ msgstr "निजी"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:1195
-#, fuzzy
 #| msgid "Confidential"
 msgctxt "iCalImp"
 msgid "Confidential"
@@ -5252,7 +5249,6 @@ msgstr "गोपनीय"
 
 #. Translators: Appointment's classification section name
 #: ../calendar/importers/icalendar-importer.c:1199
-#, fuzzy
 #| msgid "Classification"
 msgctxt "iCalImp"
 msgid "Classification"
@@ -5262,7 +5258,6 @@ msgstr "वर्गीकरण"
 #. Translators: Column header for a component summary
 #: ../calendar/importers/icalendar-importer.c:1204
 #: ../calendar/importers/icalendar-importer.c:1505
-#, fuzzy
 #| msgid "Summary"
 msgctxt "iCalImp"
 msgid "Summary"
@@ -5270,7 +5265,6 @@ msgstr "सारांश"
 
 #. Translators: Appointment's location
 #: ../calendar/importers/icalendar-importer.c:1210
-#, fuzzy
 #| msgid "Location"
 msgctxt "iCalImp"
 msgid "Location"
@@ -5280,7 +5274,6 @@ msgstr "स्थान"
 #. Translators: Column header for a component start date/time
 #: ../calendar/importers/icalendar-importer.c:1218
 #: ../calendar/importers/icalendar-importer.c:1501
-#, fuzzy
 #| msgid "Start"
 msgctxt "iCalImp"
 msgid "Start"
@@ -5288,7 +5281,6 @@ msgstr "प्रारंभ"
 
 #. Translators: 'Due' like the time due a task should be finished
 #: ../calendar/importers/icalendar-importer.c:1229
-#, fuzzy
 #| msgid "Due"
 msgctxt "iCalImp"
 msgid "Due"
@@ -5296,7 +5288,6 @@ msgstr "शेष"
 
 #. Translators: Appointment's end time
 #: ../calendar/importers/icalendar-importer.c:1241
-#, fuzzy
 #| msgid "End"
 msgctxt "iCalImp"
 msgid "End"
@@ -5304,7 +5295,6 @@ msgstr "अंत"
 
 #. Translators: Appointment's categories
 #: ../calendar/importers/icalendar-importer.c:1251
-#, fuzzy
 #| msgid "Categories"
 msgctxt "iCalImp"
 msgid "Categories"
@@ -5312,7 +5302,6 @@ msgstr "श्रेणी"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
 #: ../calendar/importers/icalendar-importer.c:1275
-#, fuzzy
 #| msgid "Completed"
 msgctxt "iCalImp"
 msgid "Completed"
@@ -5320,7 +5309,6 @@ msgstr "समाप्त"
 
 #. Translators: Appointment's URL
 #: ../calendar/importers/icalendar-importer.c:1283
-#, fuzzy
 #| msgid "URL"
 msgctxt "iCalImp"
 msgid "URL"
@@ -5329,7 +5317,6 @@ msgstr "URL"
 #. Translators: Appointment's organizer
 #: ../calendar/importers/icalendar-importer.c:1294
 #: ../calendar/importers/icalendar-importer.c:1297
-#, fuzzy
 #| msgid "Organizer"
 msgctxt "iCalImp"
 msgid "Organizer"
@@ -5338,14 +5325,12 @@ msgstr "व्यवस्थापक"
 #. Translators: Appointment's attendees
 #: ../calendar/importers/icalendar-importer.c:1317
 #: ../calendar/importers/icalendar-importer.c:1320
-#, fuzzy
 #| msgid "Attendees"
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "उपस्थित"
 
 #: ../calendar/importers/icalendar-importer.c:1334
-#, fuzzy
 #| msgid "Description"
 msgctxt "iCalImp"
 msgid "Description"
@@ -5353,7 +5338,6 @@ msgstr "वर्णन"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
 #: ../calendar/importers/icalendar-importer.c:1497
-#, fuzzy
 #| msgid "Type"
 msgctxt "iCalImp"
 msgid "Type"
@@ -6930,10 +6914,9 @@ msgid "Open New Message window"
 msgstr "नया संदेश विंडो खोलें"
 
 #: ../composer/e-composer-actions.c:312 ../shell/e-shell-window-actions.c:1511
-#, fuzzy
 #| msgid "Configuration"
 msgid "Configure Evolution"
-msgstr "कॉन्फ़िगरेशन"
+msgstr "एवोल्यूशन विन्यस्त करें"
 
 #: ../composer/e-composer-actions.c:319
 msgid "Save the current file"
@@ -6993,7 +6976,7 @@ msgstr "अपने PGP कुंजी से इस संदेश पर �
 
 #: ../composer/e-composer-actions.c:397
 msgid "_Picture Gallery"
-msgstr ""
+msgstr "तस्वीर दीर्घा (_P)"
 
 #: ../composer/e-composer-actions.c:399
 msgid "Show a collection of pictures that you can drag to your message"
@@ -7141,10 +7124,9 @@ msgid "Search for and replace text"
 msgstr "iPod के लिए खोज विफल"
 
 #: ../composer/e-composer-private.c:372
-#, fuzzy
 #| msgid "Save Draft"
 msgid "Save draft"
-msgstr "मसौदा सहेजें (_D)"
+msgstr "मसौदा सहेजें"
 
 #: ../composer/e-msg-composer.c:812
 #, c-format
@@ -7170,13 +7152,11 @@ msgid "Compose Message"
 msgstr "संदेश लिखें"
 
 #: ../composer/e-msg-composer.c:4228
-#, fuzzy
 #| msgid ""
 #| "<b>(The composer contains a non-text message body, which cannot be "
 #| "edited.)</b>"
 msgid "The composer contains a non-text message body, which cannot be edited."
-msgstr ""
-"<b>(कंपोजर में गैर पाठ संदेश बॉडी है, जिसे संपादित नहीं किया जा सकता है.)<b>"
+msgstr "कंपोजर में गैर पाठ संदेश बॉडी है, जिसे संपादित नहीं किया जा सकता है."
 
 #: ../composer/e-msg-composer.c:4933
 msgid "Untitled Message"
@@ -7287,7 +7267,6 @@ msgid "Saving message to Outbox."
 msgstr "फ़ोल्डर में संदेश संग्रहित कर रहा है"
 
 #: ../composer/mail-composer.error.xml.h:20
-#, fuzzy
 #| msgid ""
 #| "The file `{0}' is not a regular file and cannot be sent in a message."
 msgid "The file '{0}' is not a regular file and cannot be sent in a message."
@@ -7295,10 +7274,9 @@ msgstr ""
 "फ़ाइल `{0}' एक सामान्य फ़ाइल नहीं है और संदेश में भेजी नहीं जा सकती है."
 
 #: ../composer/mail-composer.error.xml.h:21 ../mail/mail.error.xml.h:124
-#, fuzzy
 #| msgid "Bad regular expression &quot;{0}&quot;."
 msgid "The reported error was &quot;{0}&quot;."
-msgstr "गलत सामान्य अभिव्यक्ति &quot;{0}&quot;."
+msgstr "रिपोर्ट की गई त्रुटि &quot;{0}&quot;."
 
 #: ../composer/mail-composer.error.xml.h:22
 msgid ""
@@ -7342,10 +7320,9 @@ msgid "_Save Draft"
 msgstr "मसौदा सहेजें (_S)"
 
 #: ../composer/mail-composer.error.xml.h:33
-#, fuzzy
 #| msgid "_Save to Disk"
 msgid "_Save to Outbox"
-msgstr "डिस्क में सहेजें (_S)"
+msgstr "आउटबॉक्स में सहेजें (_S)"
 
 #: ../composer/mail-composer.error.xml.h:35
 msgid "_Try Again"
@@ -7357,10 +7334,9 @@ msgid "ID of the socket to embed in"
 msgstr ""
 
 #: ../capplet/anjal-settings-main.c:155
-#, fuzzy
 #| msgid "sort"
 msgid "socket"
-msgstr "छांटे"
+msgstr "सॉकेट"
 
 #: ../capplet/settings/mail-account-view.c:77
 #, fuzzy
@@ -7379,10 +7355,9 @@ msgid "The email address you have entered is invalid."
 msgstr ""
 
 #: ../capplet/settings/mail-account-view.c:80
-#, fuzzy
 #| msgid "Enter password."
 msgid "Please enter your password."
-msgstr "कूटशब्द दाखिल करें."
+msgstr "अपना कूटशब्द दाखिल करें."
 
 #: ../capplet/settings/mail-account-view.c:259
 #: ../plugins/caldav/caldav-source.c:67
@@ -7399,71 +7374,60 @@ msgid "Google"
 msgstr "गूगल"
 
 #: ../capplet/settings/mail-account-view.c:480
-#, fuzzy
 #| msgid "Personal"
 msgid "Personal details:"
-msgstr "निजी"
+msgstr "निजी विवरण"
 
 #: ../capplet/settings/mail-account-view.c:487
-#, fuzzy
 #| msgid "_Name:"
 msgid "Name:"
-msgstr "नाम: (_N)"
+msgstr "नाम: "
 
 #: ../capplet/settings/mail-account-view.c:496
-#, fuzzy
 #| msgid "Email address"
 msgid "Email address:"
 msgstr "ईमेल पता"
 
 #: ../capplet/settings/mail-account-view.c:506
-#, fuzzy
 #| msgid "Details"
 msgid "Details:"
 msgstr "विवरण"
 
 #: ../capplet/settings/mail-account-view.c:514
-#, fuzzy
 #| msgid "Receiving Email"
 msgid "Receiving"
-msgstr "ई-मेल प्राप्त कर रहा है"
+msgstr "प्राप्त कर रहा है"
 
 #: ../capplet/settings/mail-account-view.c:521
-#, fuzzy
 #| msgid "Server _Type: "
 msgid "Server type:"
-msgstr "सर्वर प्रकार (_T): "
+msgstr "सर्वर प्रकार "
 
 #: ../capplet/settings/mail-account-view.c:530
-#, fuzzy
 #| msgid "Server Message:"
 msgid "Server address:"
 msgstr "सर्वर संदेश:"
 
 #: ../capplet/settings/mail-account-view.c:539
-#, fuzzy
 #| msgid "Us_ername:"
 msgid "Username:"
-msgstr "उपभोक्ता नाम (_e):"
+msgstr "उपयोक्तानाम:"
 
 #: ../capplet/settings/mail-account-view.c:548
-#, fuzzy
 #| msgid "No encryption"
 msgid "Use encryption:"
-msgstr "कोई गोपन नहीं"
+msgstr "गोपन का उपयोग करें:"
 
 #: ../capplet/settings/mail-account-view.c:553
 #: ../capplet/settings/mail-account-view.c:588
-#, fuzzy
 #| msgid "Never"
 msgid "never"
 msgstr "कभी नहीं"
 
 #: ../capplet/settings/mail-account-view.c:565
-#, fuzzy
 #| msgid "Ascending"
 msgid "Sending"
-msgstr "बढ़ते क्रम में"
+msgstr "भेज रहा है"
 
 #: ../capplet/settings/mail-account-view.c:607
 msgid ""
@@ -7507,73 +7471,62 @@ msgid "Identity"
 msgstr "पहचान"
 
 #: ../capplet/settings/mail-account-view.c:630
-#, fuzzy
 #| msgid "Receiving Email"
 msgid "Next - Receiving mail"
-msgstr "ई-मेल प्राप्त कर रहा है"
+msgstr "आगे - ई-मेल प्राप्त कर रहा है"
 
 #: ../capplet/settings/mail-account-view.c:631
-#, fuzzy
 #| msgid "Receiving Email"
 msgid "Receiving mail"
 msgstr "ई-मेल प्राप्त कर रहा है"
 
 #: ../capplet/settings/mail-account-view.c:631
 #: ../capplet/settings/mail-account-view.c:632
-#, fuzzy
 #| msgid "Sending Email"
 msgid "Next - Sending mail"
-msgstr "ईमेल भेज रहा है"
+msgstr "आगे - ईमेल भेज रहा है"
 
 #: ../capplet/settings/mail-account-view.c:631
-#, fuzzy
 #| msgid "Identity"
 msgid "Back - Identity"
-msgstr "पहचान"
+msgstr "पीछे - पहचान"
 
 #: ../capplet/settings/mail-account-view.c:631
-#, fuzzy
 #| msgid "Receiving Options"
 msgid "Next - Receiving options"
-msgstr "प्राप्ति विकल्प"
+msgstr "आगे - प्राप्ति विकल्प"
 
 #: ../capplet/settings/mail-account-view.c:632
-#, fuzzy
 #| msgid "Receiving Options"
 msgid "Receiving options"
-msgstr "प्राप्ति विकल्प"
+msgstr "विकल्प पा रहा है"
 
 #: ../capplet/settings/mail-account-view.c:632
 #: ../capplet/settings/mail-account-view.c:634
-#, fuzzy
 #| msgid "Receiving Email"
 msgid "Back - Receiving mail"
-msgstr "ई-मेल प्राप्त कर रहा है"
+msgstr "पीछे - ई-मेल प्राप्त कर रहा है"
 
 #: ../capplet/settings/mail-account-view.c:634
-#, fuzzy
 #| msgid "Sending Email"
 msgid "Sending mail"
 msgstr "ईमेल भेज रहा है"
 
 #: ../capplet/settings/mail-account-view.c:634
 #: ../capplet/settings/mail-account-view.c:635
-#, fuzzy
 #| msgid "Delete account?"
 msgid "Next - Review account"
-msgstr "खाता मिटाएँ?"
+msgstr "आगे - खाता की समीक्षा करें"
 
 #: ../capplet/settings/mail-account-view.c:634
-#, fuzzy
 #| msgid "Defaults"
 msgid "Next - Defaults"
-msgstr "तयशुदा"
+msgstr "आगे - तयशुदा"
 
 #: ../capplet/settings/mail-account-view.c:634
-#, fuzzy
 #| msgid "Receiving Options"
 msgid "Back - Receiving options"
-msgstr "प्राप्ति विकल्प"
+msgstr "पीछे - प्राप्ति विकल्प"
 
 #: ../capplet/settings/mail-account-view.c:635
 #: ../mail/em-account-editor.c:3377
@@ -7581,28 +7534,24 @@ msgid "Defaults"
 msgstr "तयशुदा"
 
 #: ../capplet/settings/mail-account-view.c:635
-#, fuzzy
 #| msgid "Sending Email"
 msgid "Back - Sending mail"
-msgstr "ईमेल भेज रहा है"
+msgstr "पीछे - ईमेल भेज रहा है"
 
 #: ../capplet/settings/mail-account-view.c:637
-#, fuzzy
 #| msgid "Delete account?"
 msgid "Review account"
-msgstr "खाता मिटाएँ?"
+msgstr "खाता की समीक्षा करें"
 
 #: ../capplet/settings/mail-account-view.c:637
-#, fuzzy
 #| msgid "Fiji"
 msgid "Finish"
-msgstr "फिजी"
+msgstr "समाप्त"
 
 #: ../capplet/settings/mail-account-view.c:637
-#, fuzzy
 #| msgid "Ascending"
 msgid "Back - Sending"
-msgstr "बढ़ते क्रम में"
+msgstr "पीछे - भेज रहा है"
 
 #: ../capplet/settings/mail-account-view.c:760
 msgid "Setup Google contacts with Evolution"
@@ -7617,10 +7566,9 @@ msgid "You may need to enable IMAP access."
 msgstr ""
 
 #: ../capplet/settings/mail-account-view.c:774
-#, fuzzy
 #| msgid "Backing Evolution accounts and settings"
 msgid "Google account settings:"
-msgstr "एवोल्यूशन डाटा व सेटिंग का बैकअप ले रहा है"
+msgstr "गूगल खाता सेटिंग:"
 
 #: ../capplet/settings/mail-account-view.c:800
 msgid "Setup Yahoo calendar with Evolution"
@@ -7634,38 +7582,32 @@ msgid ""
 msgstr ""
 
 #: ../capplet/settings/mail-account-view.c:813
-#, fuzzy
 #| msgid "Backing Evolution accounts and settings"
 msgid "Yahoo account settings:"
-msgstr "एवोल्यूशन डाटा व सेटिंग का बैकअप ले रहा है"
+msgstr "याहू खाता सेटिंग:"
 
 #: ../capplet/settings/mail-account-view.c:827
-#, fuzzy
 #| msgid "Calendar Message"
 msgid "Yahoo Calendar name:"
-msgstr "पंचांग संदेश"
+msgstr "याहू पंचांग नाम:"
 
 #: ../capplet/settings/mail-account-view.c:1098
-#, fuzzy
 #| msgid "Pass_word:"
 msgid "Password:"
-msgstr "कूटशब्द (_w):"
+msgstr "कूटशब्द:"
 
 #: ../capplet/settings/mail-account-view.c:1150
 #: ../capplet/settings/mail-settings-view.c:254
-#, fuzzy
 #| msgid "Close"
 msgid "Close Tab"
-msgstr "बंद करें"
+msgstr "टैब बंद करें"
 
 #: ../capplet/settings/mail-account-view.c:1160
-#, fuzzy
 #| msgid "Account Editor"
 msgid "Account Wizard"
-msgstr "खाता संपादक"
+msgstr "खाता सहायक"
 
 #: ../capplet/settings/mail-capplet-shell.c:215
-#, fuzzy
 #| msgid "Evolution Account Assistant"
 msgid "Evolution account assistant"
 msgstr "एवोल्यूशन खाता सहायक"
@@ -7688,40 +7630,35 @@ msgid "On This Computer"
 msgstr "इस कम्प्यूटर पर"
 
 #: ../capplet/settings/mail-settings-view.c:150
-#, fuzzy, c-format
+#, c-format
 #| msgid "Modify"
 msgid "Modify %s..."
-msgstr "सुधारें"
+msgstr "सुधारें %s..."
 
 #: ../capplet/settings/mail-settings-view.c:152
-#, fuzzy
 #| msgid "Add IM Account"
 msgid "Add a new account"
-msgstr "IM खाता जोड़ें"
+msgstr "नया खाता जोड़ें"
 
 #: ../capplet/settings/mail-settings-view.c:188
-#, fuzzy
 #| msgid "Account Management"
 msgid "Account management"
 msgstr "खाता प्रबंधन"
 
 #: ../capplet/settings/mail-settings-view.c:264
-#, fuzzy
 #| msgid "Junk Settings"
 msgid "Settings"
-msgstr "कचरा डाक सेटिंग"
+msgstr "सेटिंग"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
-#, fuzzy
 #| msgid "Calendar information"
 msgid "Calendar event notifications"
-msgstr "पंचांग सूचना"
+msgstr "पंचांग कार्यक्रम अधिसूचना"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:2
-#, fuzzy
 #| msgid "Evolution Elm importer"
 msgid "Evolution Alarm Notify"
-msgstr "एवोल्यूशन Elm आयातक"
+msgstr "एवोल्यूशन चेतावनी अधिसूचक"
 
 #: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:999
 #: ../modules/mailto-handler/evolution-mailto-handler.c:215
@@ -7742,48 +7679,46 @@ msgid "Manage your email, contacts and schedule"
 msgstr "अपना ईमेल संपर्क व योजना प्रबंधित करें"
 
 #: ../data/evolution-settings.desktop.in.in.h:1
-#, fuzzy
 #| msgid "Configure your email accounts here"
 msgid "Configure email accounts"
-msgstr "ईमेल खाता को यहाँ विन्यस्त करें"
+msgstr "ईमेल खाता को विन्यस्त करें"
 
 #: ../data/evolution-settings.desktop.in.in.h:2
-#, fuzzy
 #| msgid "Junk Mail Settings"
 msgid "Email Settings"
-msgstr "कचरा डाक डाक सेटिंग"
+msgstr "ईमेल सेटिंग"
 
 #. Translators: This is a cancelled activity.
 #: ../e-util/e-activity.c:227
-#, fuzzy, c-format
+#, c-format
 #| msgid "Cancelled"
 msgid "%s (cancelled)"
-msgstr "रद्द"
+msgstr "%s (रद्द किया)"
 
 #. Translators: This is a completed activity.
 #: ../e-util/e-activity.c:230
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s (%d%% complete)"
 msgid "%s (completed)"
-msgstr "%s (%d%% समाप्त)"
+msgstr "%s (संपन्न)"
 
 #. Translators: This is an activity waiting to run.
 #: ../e-util/e-activity.c:233
 #, c-format
 msgid "%s (waiting)"
-msgstr ""
+msgstr "%s (प्रतीक्षारत)"
 
 #. Translators: This is a running activity which
 #. *              the user has requested to cancel.
 #: ../e-util/e-activity.c:237
 #, c-format
 msgid "%s (cancelling)"
-msgstr ""
+msgstr "%s (रद्द कर रहा है)"
 
 #: ../e-util/e-activity.c:239
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: ../e-util/e-activity.c:244
 #, c-format
@@ -7881,99 +7816,88 @@ msgid "Tomorrow"
 msgstr "कल"
 
 #: ../e-util/e-datetime-format.c:219
-#, fuzzy
 #| msgid "Yesterday %l:%M %p"
 msgid "Yesterday"
-msgstr "कल %l:%M %p"
+msgstr "कल"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:227
-#, fuzzy
 #| msgid "Text Model"
 msgctxt "DateFmt"
 msgid "Next Mon"
-msgstr "पाठ माडल"
+msgstr "अगला सोम"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:233
-#, fuzzy
 #| msgid "Next _Thread"
 msgctxt "DateFmt"
 msgid "Next Tue"
-msgstr "अगला धागा (_T)"
+msgstr "अगला मंगल"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:239
-#, fuzzy
 #| msgid "Next _Thread"
 msgctxt "DateFmt"
 msgid "Next Wed"
-msgstr "अगला धागा (_T)"
+msgstr "अगला बुध"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:245
-#, fuzzy
 #| msgid "Next _Thread"
 msgctxt "DateFmt"
 msgid "Next Thu"
-msgstr "अगला धागा (_T)"
+msgstr "अगला गुरू"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:251
-#, fuzzy
 #| msgid "Next"
 msgctxt "DateFmt"
 msgid "Next Fri"
-msgstr "अगला"
+msgstr "अगला शुक्र"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:257
-#, fuzzy
 #| msgid "Set Status"
 msgctxt "DateFmt"
 msgid "Next Sat"
-msgstr "स्थिति निश्चित करें"
+msgstr "अगला शनि"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:263
-#, fuzzy
 #| msgid "Next"
 msgctxt "DateFmt"
 msgid "Next Sun"
-msgstr "अगला"
+msgstr "अगला रवि"
 
 #: ../e-util/e-datetime-format.c:350 ../e-util/e-datetime-format.c:360
 #: ../e-util/e-datetime-format.c:369
-#, fuzzy
 #| msgid "_Use system defaults"
 msgid "Use locale default"
-msgstr "तंत्र तयशुदा का उपयोग करें (_U)"
+msgstr "लोकेल तयशुदा का उपयोग करें"
 
 #: ../e-util/e-datetime-format.c:574
-#, fuzzy
 #| msgid "Format"
 msgid "Format:"
 msgstr "प्रारूप"
 
 #: ../e-util/e-file-utils.c:151
-#, fuzzy
 #| msgid "Unknown type"
 msgid "(Unknown Filename)"
-msgstr "अज्ञात प्रकार"
+msgstr "(अज्ञात फ़ाइलनाम)"
 
 #. Translators: The string value is the basename of a file.
 #: ../e-util/e-file-utils.c:155
