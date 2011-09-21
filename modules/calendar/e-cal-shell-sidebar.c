@@ -589,7 +589,7 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	settings = g_settings_new ("org.gnome.evolution.calendar");
 
 	object = G_OBJECT (priv->paned);
-	g_settings_bind (settings, "date-navigator-pane-position", object, "vposition");
+	g_settings_bind (settings, "date-navigator-pane-position", object, "vposition", G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (G_OBJECT (settings));
 }

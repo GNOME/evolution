@@ -927,10 +927,10 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	memo_settings = g_settings_new ("org.gnome.evolution.calendar");
 
 	object = G_OBJECT (ACTION (MEMO_PREVIEW));
-	g_settings_bind (memo_settings, "show-memo-preview", object, "active");
+	g_settings_bind (memo_settings, "show-memo-preview", object, "active", G_SETTINGS_BIND_DEFAULT);
 
 	object = G_OBJECT (ACTION (MEMO_VIEW_VERTICAL));
-	g_settings_bind (memo_settings, "memo-layout", object, "current-value");
+	g_settings_bind (memo_settings, "memo-layout", object, "current-value", G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (G_OBJECT (memo_settings));
 

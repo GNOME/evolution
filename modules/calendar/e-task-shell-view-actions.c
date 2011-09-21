@@ -1126,10 +1126,10 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	settings = g_settings_new ("org.gnome.evolution.calendar");
 
 	object = G_OBJECT (ACTION (TASK_PREVIEW));
-	g_settings_bind (settings, "show-task-preview", object, "active");
+	g_settings_bind (settings, "show-task-preview", object, "active", G_SETTINGS_BIND_DEFAULT);
 
 	object = G_OBJECT (ACTION (TASK_VIEW_VERTICAL));
-	g_settings_bind (settings, "task-layout", "current-value");
+	g_settings_bind (settings, "task-layout", "current-value", G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (G_OBJECT (settings));
 

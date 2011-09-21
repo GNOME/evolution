@@ -1644,22 +1644,22 @@ comp_editor_bind_settings (CompEditor *editor)
 	g_return_if_fail (editor != NULL);
 
 	action = comp_editor_get_action (editor, "view-categories");
-	g_settings_bind (priv->calendar_settings, "editor-show-categories", G_OBJECT (action), "active");
+	g_settings_bind (priv->calendar_settings, "editor-show-categories", G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
 
 	action = comp_editor_get_action (editor, "view-role");
-	g_settings_bind (priv->calendar_settings, "editor-show-role", G_OBJECT (action), "active");
+	g_settings_bind (priv->calendar_settings, "editor-show-role", G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
 
 	action = comp_editor_get_action (editor, "view-rsvp");
-	g_settings_bind (priv->calendar_settings, "editor-show-rsvp", G_OBJECT (action), "active");
+	g_settings_bind (priv->calendar_settings, "editor-show-rsvp", G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
 
 	action = comp_editor_get_action (editor, "view-status");
-	g_settings_bind (priv->calendar_settings, "editor-show-status", G_OBJECT (action), "active");
+	g_settings_bind (priv->calendar_settings, "editor-show-status", G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
 
 	action = comp_editor_get_action (editor, "view-time-zone");
-	g_settings_bind (priv->calendar_settings, "editor-show-timezone", G_OBJECT (action), "active");
+	g_settings_bind (priv->calendar_settings, "editor-show-timezone", G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
 
 	action = comp_editor_get_action (editor, "view-type");
-	g_settings_bind (priv->calendar_settings, "editor-show-type", G_OBJECT (action), "active");
+	g_settings_bind (priv->calendar_settings, "editor-show-type", G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
 }
 
 static gboolean
