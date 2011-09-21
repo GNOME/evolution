@@ -1379,11 +1379,11 @@ get_users_timezone (void)
 	if (e_shell_settings_get_boolean (shell_settings, "cal-use-system-timezone")) {
 		location = e_cal_util_get_system_timezone_location ();
 	} else {
-		GConfClient *client = gconf_client_get_default ();
+		GSettings *settings = g_settings_new ("org.gnome.evolution.calendar");
 
-		location = gconf_client_get_string (client, CALENDAR_CONFIG_TIMEZONE, NULL);
+		location = g_settings_get_string (settings, "timezone", NULL);
 
-		g_object_unref (client);
+		g_object_unref (settings);
 	}
 
 	if (location) {
