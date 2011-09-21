@@ -1062,7 +1062,7 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	EPreviewPane *preview_pane;
 	EWebView *web_view;
 	GtkActionGroup *action_group;
-	GConfBridge *bridge;
+	GSettings *settings;
 	GtkAction *action;
 	GObject *object;
 	const gchar *key;
@@ -1121,17 +1121,17 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 		action_group, lockdown_save_to_disk_popup_entries,
 		G_N_ELEMENTS (lockdown_save_to_disk_popup_entries));
 
-	/* Bind GObject properties to GConf keys. */
+	/* Bind GObject properties to settings keys. */
 
-	bridge = gconf_bridge_get ();
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
 	object = G_OBJECT (ACTION (TASK_PREVIEW));
-	key = "/apps/evolution/calendar/display/show_task_preview";
-	gconf_bridge_bind_property (bridge, key, object, "active");
+	g_settings_bind (settings, "show-task-preview", object, "active");
 
 	object = G_OBJECT (ACTION (TASK_VIEW_VERTICAL));
-	key = "/apps/evolution/calendar/display/task_layout";
-	gconf_bridge_bind_property (bridge, key, object, "current-value");
+	g_settings_bind (settings, "task-layout", "current-value");
+
+	g_object_unref (G_OBJECT (settings));
 
 	/* Fine tuning. */
 

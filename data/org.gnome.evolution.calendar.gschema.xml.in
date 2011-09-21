@@ -111,6 +111,16 @@
     <_summary>Show the memo preview pane</_summary>
     <_description>If "true", show the memo preview pane in the main window</_description>
   </key>
+  <key name="show-task-preview" type="b">
+    <default>true</default>
+    <_summary>Show the task preview pane</_summary>
+    <_description>If "true", show the task preview pane in the main window</_description>
+  </key>
+  <key name="task-layout" type="i">
+    <default>0</default>
+    <_summary>Task layout style</_summary>
+    <_description>The layout style determines where to place the preview pane in relation to the task list.  "0" (Classic View) places the preview pane below the task list.  "1" (Vertical View) places the preview pane next to the task list</_description>
+  </key>
   <key name="timezone" type="s">
     <default>'UTC'</default>
     <_summary>Timezone</_summary>
