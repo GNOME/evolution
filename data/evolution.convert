@@ -33,6 +33,7 @@ show-preview = /apps/evolution/addressbook/display/show_preview
 
 [org.gnome.evolution.calendar]
 audio-dir = /apps/evolution/calendar/audio_dir
+date-navigator-pane-position = /apps/evolution/calendar/display/date_navigator_pane_position
 day-second-zone = /apps/evolution/calendar/display/day_second_zone
 day-second-zones = /apps/evolution/calendar/display/day_second_zones
 day-second-zones-max = /apps/evolution/calendar/display/day_second_zones_max

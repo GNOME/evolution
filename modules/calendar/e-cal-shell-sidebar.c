@@ -30,7 +30,6 @@
 #include <libedataserverui/e-client-utils.h>
 
 #include "e-util/e-alert-dialog.h"
-#include "e-util/gconf-bridge.h"
 #include "widgets/misc/e-paned.h"
 
 #include "calendar/gui/e-calendar-selector.h"
@@ -523,7 +522,7 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	ESourceSelector *selector;
 	ESourceList *source_list;
 	ESource *source;
-	GConfBridge *bridge;
+	GSettings *settings;
 	GtkTreeModel *model;
 	GSList *list, *iter;
 	GObject *object;
@@ -585,13 +584,14 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 		G_CALLBACK (cal_shell_sidebar_selection_changed_cb),
 		shell_sidebar);
 
-	/* Bind GObject properties to GConf keys. */
+	/* Bind GObject properties to settings keys. */
 
-	bridge = gconf_bridge_get ();
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 
 	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/calendar/display/date_navigator_pane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
+	g_settings_bind (settings, "date-navigator-pane-position", object, "vposition");
+
+	g_object_unref (G_OBJECT (settings));
 }
 
 static void

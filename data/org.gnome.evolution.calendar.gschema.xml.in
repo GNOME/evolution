@@ -6,6 +6,11 @@
     <_summary>Save directory for reminder audio</_summary>
     <_description>Directory for saving reminder audio files</_description>
   </key>
+  <key name="date-navigator-pane-position" type="i">
+    <default>150</default>
+    <_summary>Month view vertical pane position</_summary>
+    <_description>Position of the vertical pane, between the calendar lists and the date navigator calendar</_description>
+  </key>
   <key name="day-second-zone" type="s">
     <default>''</default>
     <_summary>The second timezone for a Day View</_summary>
