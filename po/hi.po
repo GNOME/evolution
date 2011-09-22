@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
 "POT-Creation-Date: 2011-09-15 13:17+0000\n"
-"PO-Revision-Date: 2011-09-21 15:37+0530\n"
+"PO-Revision-Date: 2011-09-22 15:37+0530\n"
 "Last-Translator: Rajesh <rranjan>\n"
 "Language-Team: Hindi <fedora-trans-hi@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -5208,11 +5208,10 @@ msgid "has recurrences"
 msgstr "इसमें आवृत्ति है"
 
 #: ../calendar/importers/icalendar-importer.c:1166
-#, fuzzy
 #| msgid "This and Prior Instances"
 msgctxt "iCalImp"
 msgid "is an instance"
-msgstr "यह और इसके पहले का दृष्टांत"
+msgstr "एक दृष्टांत है"
 
 #: ../calendar/importers/icalendar-importer.c:1171
 #| msgid "Sh_ow a reminder"
@@ -7100,28 +7099,24 @@ msgid "Click here to select folders to post to"
 msgstr "इसे प्रेषित करने हेतु फ़ोल्डर चयन के लिए यहीं क्लिक करें"
 
 #: ../composer/e-composer-private.c:249
-#, fuzzy
 #| msgid "Copy the selection"
 msgid "Undo the last action"
-msgstr "चयन की नक़ल लें"
+msgstr "अंतिम क्रिया पहले जैसा करें"
 
 #: ../composer/e-composer-private.c:253
-#, fuzzy
 #| msgid "Send Latest Information"
 msgid "Redo the last undone action"
-msgstr "नवीनतम सूचना भेजें"
+msgstr "अंतिम पहले जैसा करें क्रिया फिर करें"
 
 #: ../composer/e-composer-private.c:257
-#, fuzzy
 #| msgid "Search filter"
 msgid "Search for text"
-msgstr "फ़िल्टर खोजें"
+msgstr "पाठ के लिए खोजें"
 
 #: ../composer/e-composer-private.c:261
-#, fuzzy
 #| msgid "Search for an iPod failed"
 msgid "Search for and replace text"
-msgstr "iPod के लिए खोज विफल"
+msgstr "पाठ के लिए खोजें और बदलें"
 
 #: ../composer/e-composer-private.c:372
 #| msgid "Save Draft"
@@ -7339,20 +7334,18 @@ msgid "socket"
 msgstr "सॉकेट"
 
 #: ../capplet/settings/mail-account-view.c:77
-#, fuzzy
 #| msgid "Please choose another name."
 msgid "Please enter your full name."
-msgstr "कृपया अन्य नाम चुनें."
+msgstr "कृपया अपना पूरा नाम दर्ज करें."
 
 #: ../capplet/settings/mail-account-view.c:78
-#, fuzzy
 #| msgid "Using email address"
 msgid "Please enter your email address."
-msgstr "ईमेल पता का उपयोग कर रहा है"
+msgstr "कृपया अपना ईमेल पता दर्ज करें."
 
 #: ../capplet/settings/mail-account-view.c:79
 msgid "The email address you have entered is invalid."
-msgstr ""
+msgstr "आपके द्वारा दर्ज किया गया ईमेल पता अवैध है."
 
 #: ../capplet/settings/mail-account-view.c:80
 #| msgid "Enter password."
@@ -7444,10 +7437,9 @@ msgid ""
 msgstr ""
 
 #: ../capplet/settings/mail-account-view.c:611
-#, fuzzy
 #| msgid "You may only configure a single Exchange account."
 msgid "You can specify more options to configure the account."
-msgstr "आपको एकल विनिमय खाता विन्यस्त कर सकते हैं."
+msgstr "आप खाता विन्यस्त करने के लिए अधिक विकल्प निर्दिष्ट कर सकते हैं."
 
 #: ../capplet/settings/mail-account-view.c:613
 msgid ""
@@ -7559,11 +7551,11 @@ msgstr ""
 
 #: ../capplet/settings/mail-account-view.c:761
 msgid "Setup Google calendar with Evolution"
-msgstr ""
+msgstr "एवोल्यूशन के साथ गूगल कैलेंडर सेटअप करें"
 
 #: ../capplet/settings/mail-account-view.c:766
 msgid "You may need to enable IMAP access."
-msgstr ""
+msgstr "आपको IMAP पहुँच को सक्रिय करने की जरूरत है."
 
 #: ../capplet/settings/mail-account-view.c:774
 #| msgid "Backing Evolution accounts and settings"
@@ -7572,7 +7564,7 @@ msgstr "गूगल खाता सेटिंग:"
 
 #: ../capplet/settings/mail-account-view.c:800
 msgid "Setup Yahoo calendar with Evolution"
-msgstr ""
+msgstr "एवोल्यूशन के साथ याहू कैलेंडर सेटअप करें"
 
 #: ../capplet/settings/mail-account-view.c:804
 msgid ""
@@ -7901,18 +7893,18 @@ msgstr "(अज्ञात फ़ाइलनाम)"
 
 #. Translators: The string value is the basename of a file.
 #: ../e-util/e-file-utils.c:155
-#, fuzzy, c-format
+#, c-format
 #| msgid "Pinging %s"
 msgid "Writing \"%s\""
-msgstr "%s को पिंग कर रहा है"
+msgstr "\"%s\" लिख रहा है"
 
 #. Translators: The first string value is the basename of a
 #. * remote file, the second string value is the hostname.
 #: ../e-util/e-file-utils.c:160
-#, fuzzy, c-format
+#, c-format
 #| msgid "Copying `%s' to `%s'"
 msgid "Writing \"%s\" to %s"
-msgstr "`%s' को `%s' में नक़ल कर रहा है"
+msgstr "\"%s\" को %s में लिख रहा है"
 
 #: ../e-util/e-plugin-util.c:455 ../filter/filter.ui.h:22
 #: ../plugins/google-account-setup/google-contacts-source.c:388
@@ -8197,10 +8189,9 @@ msgid "Select a time to compare against"
 msgstr "इससे तुलना करने के लिए समय चुनें"
 
 #: ../filter/e-filter-file.c:190
-#, fuzzy
 #| msgid "Choose a file"
 msgid "Choose a File"
-msgstr "एक फ़ाइल चुनें"
+msgstr "कोई फ़ाइल चुनें"
 
 #: ../filter/e-filter-rule.c:666
 msgid "R_ule name:"
@@ -8245,10 +8236,9 @@ msgid "No reply or parent"
 msgstr "कोई जवाब नहीं या जनक"
 
 #: ../filter/e-filter-rule.c:761
-#, fuzzy
 #| msgid "I_nclude threads"
 msgid "I_nclude threads:"
-msgstr "सूत्रों को शामिल करें (_n)"
+msgstr "लड़ियाँ शामिल करें (_n)"
 
 #: ../filter/e-filter-rule.c:786
 msgid "A_dd Condition"
@@ -8386,7 +8376,6 @@ msgstr "साल"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
 #: ../mail/em-account-editor.c:863 ../widgets/misc/e-signature-combo-box.c:75
-#, fuzzy
 #| msgid "None"
 msgctxt "mail-signature"
 msgid "None"
@@ -8406,17 +8395,15 @@ msgstr "प्रत्येक संदेश के लिए पूछे�
 
 #. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
 #: ../mail/em-account-editor.c:1833 ../widgets/misc/e-account-tree-view.c:131
-#, fuzzy
 #| msgid "None"
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "कोई नहीं"
 
 #: ../mail/em-account-editor.c:2237
-#, fuzzy
 #| msgid "_File:"
 msgid "Fil_e:"
-msgstr "फ़ाइल (_F):"
+msgstr "फ़ाइल (_e):"
 
 #: ../mail/em-account-editor.c:2237 ../mail/mail-config.ui.h:157
 msgid "_Path:"
@@ -8456,10 +8443,9 @@ msgid "Receiving Email"
 msgstr "ई-मेल प्राप्त कर रहा है"
 
 #: ../mail/em-account-editor.c:2293
-#, fuzzy
 #| msgid "Please select among the following options"
 msgid "Please configure the following account settings."
-msgstr "कृपया निम्नलिखित विकल्पों में से चुनें"
+msgstr "कृपया निम्नलिखित खाता सेटिंग विन्यस्त करें"
 
 #: ../mail/em-account-editor.c:2295 ../mail/em-account-editor.c:3081
 msgid "Sending Email"
@@ -8475,10 +8461,9 @@ msgstr ""
 "इंटर सर्विस प्रोवाइडर को पूछें."
 
 #: ../mail/em-account-editor.c:2298 ../mail/mail-config.ui.h:1
-#, fuzzy
 #| msgid "No Information"
 msgid "Account Information"
-msgstr "कोई सूचना नहीं"
+msgstr "खाता सूचना"
 
 #: ../mail/em-account-editor.c:2299
 #, fuzzy
@@ -8552,17 +8537,15 @@ msgstr[1] "संलग्नक"
 
 #: ../mail/e-mail-attachment-bar.c:608
 #: ../widgets/misc/e-attachment-paned.c:623
-#, fuzzy
 #| msgid "Month View"
 msgid "Icon View"
-msgstr "मासिक दृश्य"
+msgstr "प्रतीक दृश्य"
 
 #: ../mail/e-mail-attachment-bar.c:610
 #: ../widgets/misc/e-attachment-paned.c:625
-#, fuzzy
 #| msgid "_List View"
 msgid "List View"
-msgstr "सूची दृश्य (_L)"
+msgstr "सूची दृश्य"
 
 #: ../mail/e-mail-browser.c:134 ../shell/e-shell-window-actions.c:1427
 #: ../shell/e-shell-window-actions.c:1434
@@ -8571,34 +8554,29 @@ msgid "Close this window"
 msgstr "इस विंडो को बन्द करें"
 
 #: ../mail/e-mail-browser.c:293
-#, fuzzy
 #| msgid "Subject"
 msgid "(No Subject)"
-msgstr "विषय"
+msgstr "(कोई विषय नहीं)"
 
 #: ../mail/e-mail-display.c:66
-#, fuzzy
 #| msgid "_Add to Address Book"
 msgid "_Add to Address Book..."
-msgstr "पता पुस्तिका में जोड़ें (_A)"
+msgstr "पता पुस्तिका में जोड़ें (_A)..."
 
 #: ../mail/e-mail-display.c:73
-#, fuzzy
 #| msgid "_To this Address"
 msgid "_To This Address"
 msgstr "इस पता में (_T)"
 
 #: ../mail/e-mail-display.c:80
-#, fuzzy
 #| msgid "_From this Address"
 msgid "_From This Address"
 msgstr "इस पता से (_F)"
 
 #: ../mail/e-mail-display.c:87
-#, fuzzy
 #| msgid "Send _reply to sender"
 msgid "Send _Reply To..."
-msgstr "प्रेषक को जवाब दें (_r)"
+msgstr "इन्हें जवाब दें (_R)"
 
 #: ../mail/e-mail-display.c:89
 #, fuzzy
@@ -8607,26 +8585,24 @@ msgid "Send a reply message to this address"
 msgstr "चयनित संपर्क में कोई संदेश भेजें."
 
 #: ../mail/e-mail-display.c:96
-#, fuzzy
 #| msgid "Create _Search Folder"
 msgid "Create Search _Folder"
-msgstr "खोज फ़ोल्डर बनाएँ (_S)"
+msgstr "खोज फ़ोल्डर बनाएँ (_F)"
 
 #: ../mail/e-mail-folder-utils.c:111
-#, fuzzy, c-format
+#, c-format
 #| msgid "Saving message to folder"
 msgid "Saving message to folder '%s'"
-msgstr "फ़ोल्डर में संदेश संग्रहित कर रहा है"
+msgstr "फ़ोल्डर '%s' में संदेश संग्रहित कर रहा है "
 
 #: ../mail/e-mail-folder-utils.c:274
 msgid "Forwarded messages"
 msgstr "अग्रेषित संदेश"
 
 #: ../mail/e-mail-folder-utils.c:391
-#, fuzzy
 #| msgid "Saving message to folder"
 msgid "Scanning messages for duplicates"
-msgstr "फ़ोल्डर में संदेश संग्रहित कर रहा है"
+msgstr "नक़ली के लिए संदेश स्कैन कर रहा है"
 
 #: ../mail/e-mail-folder-utils.c:584
 #, c-format
@@ -8636,28 +8612,26 @@ msgstr[0] "%d संदेश पुनःप्राप्त कर रहा
 msgstr[1] "%d संदेश पुनःप्राप्त कर रहा है"
 
 #: ../mail/e-mail-folder-utils.c:834
-#, fuzzy, c-format
+#, c-format
 #| msgid "Removing folder %s"
 msgid "Removing folder '%s'"
-msgstr "%s फ़ोल्डर हटा रहा है"
+msgstr "'%s' फ़ोल्डर हटा रहा है"
 
 #: ../mail/e-mail-folder-utils.c:968
-#, fuzzy, c-format
+#, c-format
 #| msgid "All accounts have been removed."
 msgid "File \"%s\" has been removed."
-msgstr "सारा खाता हटा दिया गया"
+msgstr "\"%s\" फ़ाइल को हटा दिया गया"
 
 #: ../mail/e-mail-folder-utils.c:972
-#, fuzzy
 #| msgid "All accounts have been removed."
 msgid "File has been removed."
-msgstr "सारा खाता हटा दिया गया"
+msgstr "फ़ाइल हटा दिया गया."
 
 #: ../mail/e-mail-folder-utils.c:1031
-#, fuzzy
 #| msgid "Saving attachment"
 msgid "Removing attachments"
-msgstr "संलग्नक संग्रहित कर रहा है"
+msgstr "संलग्नक हटा रहा है"
 
 #: ../mail/e-mail-folder-utils.c:1195
 #, c-format
@@ -8667,19 +8641,18 @@ msgstr[0] "%d संदेश संग्रहित कर रहा है"
 msgstr[1] "%d संदेश संग्रहित कर रहा है"
 
 #: ../mail/e-mail-folder-utils.c:1539 ../mail/em-folder-utils.c:613
-#, fuzzy, c-format
+#, c-format
 #| msgid "Invalid folder: `%s'"
 msgid "Invalid folder URI '%s'"
-msgstr "अवैध फ़ोल्डर: `%s'"
+msgstr "अवैध फ़ोल्डर URI '%s'"
 
 #. Label + combo box has a 12px left margin so it's
 #. * aligned with the junk mail options above it.
 #: ../mail/e-mail-junk-options.c:252
 msgid "Junk filtering software:"
-msgstr ""
+msgstr "जंक फिल्टरिंग सॉफ़्टवेयर:"
 
 #: ../mail/e-mail-label-dialog.c:223
-#, fuzzy
 #| msgid "Label _Name:"
 msgid "_Label name:"
 msgstr "लेबल नाम (_N):"
@@ -8718,14 +8691,13 @@ msgid "Edit Label"
 msgstr "लेबल संपादित करें"
 
 #: ../mail/e-mail-label-manager.c:350
-#, fuzzy
 #| msgid ""
 #| "Note: Underscore in the label name is used as mnemonic identifier in menu."
 msgid ""
 "Note: Underscore in the label name is used\n"
 "as mnemonic identifier in menu."
 msgstr ""
-"नोट: इस लेबल नाम में अंडरस्कोर मेन्यू में न्यूमोनिक पहचानकर्ता के रूप में "
+"नोट: इस लेबल नाम में अंडरस्कोर मेन्यू में न्यूमोनिक पहचानकर्ता के रूप में \n"
 "प्रयुक्त है."
 
 #: ../mail/e-mail-label-tree-view.c:88
@@ -8799,16 +8771,15 @@ msgstr ""
 "कृपया धैर्य रखें जबकि एवोल्यूशन आपके फ़ोल्डर में उत्प्रवासित होता है..."
 
 #: ../mail/e-mail-migrate.c:1527
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unable to create local mail folders at `%s': %s"
 msgid "Unable to create local mail folders at '%s': %s"
-msgstr "`%s' पर स्थानीय डाक फ़ोल्डर बनाने में विफल: %s"
+msgstr "`%s' पर स्थानीय डाक फ़ोल्डर बनाने में असमर्थ: %s"
 
 #: ../mail/e-mail-notebook-view.c:621
-#, fuzzy
 #| msgid "Please select a user."
 msgid "Please select a folder"
-msgstr "कृपया एक उपयोक्ता चुनें."
+msgstr "कृपया एक फोल्डर चुनें."
 
 #: ../mail/e-mail-reader.c:308 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
@@ -8828,10 +8799,9 @@ msgstr "खिसकाएँ (_M)"
 
 #: ../mail/e-mail-reader.c:1175 ../mail/e-mail-reader.c:1363
 #: ../mail/e-mail-reader.c:1403
-#, fuzzy
 #| msgid "Do not ask me again."
 msgid "_Do not ask me again."
-msgstr "मुझसे फिर मत पूछें."
+msgstr "मुझसे फिर मत पूछें (_D)."
 
 #: ../mail/e-mail-reader.c:1409
 msgid "_Always ignore Reply-To: for mailing lists."
@@ -8842,7 +8812,6 @@ msgid "A_dd Sender to Address Book"
 msgstr "पता पुस्तिका में प्रेषक जोड़ें (_d)"
 
 #: ../mail/e-mail-reader.c:1777
-#, fuzzy
 #| msgid "Add Sender to Address Book"
 msgid "Add sender to address book"
 msgstr "पता पुस्तिका में प्रेषक को जोड़ें"
@@ -8944,7 +8913,6 @@ msgid "Follow _Up..."
 msgstr "फोलो अप (_U)..."
 
 #: ../mail/e-mail-reader.c:1861
-#, fuzzy
 #| msgid "Flag selected messages for follow-up"
 msgid "Flag the selected messages for follow-up"
 msgstr "फोलो-अप के लिए चयनित संदेश पताका चिह्नित करें"
@@ -8958,10 +8926,9 @@ msgid "Forward the selected message to someone as an attachment"
 msgstr "चयनित संदेश को संलग्नक के रूप में किसी के अग्रेषित करें"
 
 #: ../mail/e-mail-reader.c:1873
-#, fuzzy
 #| msgid "_Forward as iCalendar"
 msgid "Forward As _Attached"
-msgstr "आईकैलेंडर के रूप में अग्रेषित करें (_F)"
+msgstr "बतौर संलग्नक अग्रेषित करें (_F)"
 
 #: ../mail/e-mail-reader.c:1880
 msgid "_Inline"
@@ -8972,10 +8939,9 @@ msgid "Forward the selected message in the body of a new message"
 msgstr "चयनित संदेश को नए संदेश के अंदर अग्रेषित करें"
 
 #: ../mail/e-mail-reader.c:1887
-#, fuzzy
 #| msgid "_Forward style:"
 msgid "Forward As _Inline"
-msgstr "अग्रेषित शैली (_F):"
+msgstr "बतौर इनलाइन अग्रेषित शैली (_I):"
 
 #: ../mail/e-mail-reader.c:1894
 msgid "_Quoted"
@@ -8986,10 +8952,9 @@ msgid "Forward the selected message quoted like a reply"
 msgstr "चयनित संदेश को जवाब के रूप में अग्रेषित करें"
 
 #: ../mail/e-mail-reader.c:1901
-#, fuzzy
 #| msgid "_Forward style:"
 msgid "Forward As _Quoted"
-msgstr "अग्रेषित शैली (_F):"
+msgstr "बतौर उद्धरण अग्रेषित करें (_Q)"
 
 #: ../mail/e-mail-reader.c:1908
 msgid "_Load Images"
@@ -9080,48 +9045,42 @@ msgid "Move selected messages to another folder"
 msgstr "चयनित संदेश को दूसरे फ़ोल्डर में खिसकाएँ"
 
 #: ../mail/e-mail-reader.c:1985
-#, fuzzy
 #| msgid "Switch to %s"
 msgid "_Switch to Folder"
-msgstr "%s पर जाएँ"
+msgstr "फोल्डर में जाएँ (_S)"
 
 #: ../mail/e-mail-reader.c:1987
-#, fuzzy
 #| msgid "Install the shared folder"
 msgid "Display the parent folder"
-msgstr "साझा फ़ोल्डर संस्थापित करें"
+msgstr "जनक फ़ोल्डर दिखाएँ"
 
 #: ../mail/e-mail-reader.c:1992
-#, fuzzy
 #| msgid "Switch to %s"
 msgid "Switch to _next tab"
-msgstr "%s पर जाएँ"
+msgstr "अगले टैब में जाएँ (_n)"
 
 #: ../mail/e-mail-reader.c:1994
 msgid "Switch to the next tab"
-msgstr ""
+msgstr "अगले टैब में जाएँ"
 
 #: ../mail/e-mail-reader.c:1999
-#, fuzzy
 #| msgid "Switch to %s"
 msgid "Switch to _previous tab"
-msgstr "%s पर जाएँ"
+msgstr "पिछले टैब में जाएँ (_p)"
 
 #: ../mail/e-mail-reader.c:2001
 msgid "Switch to the previous tab"
-msgstr ""
+msgstr "पिछले टैब में जाएँ"
 
 #: ../mail/e-mail-reader.c:2006
-#, fuzzy
 #| msgid "Close the current file"
 msgid "Cl_ose current tab"
-msgstr "बर्तमान फ़ाइल बंद करें"
+msgstr "वर्तमान टैब बंद करें (_o)"
 
 #: ../mail/e-mail-reader.c:2008
-#, fuzzy
 #| msgid "Close the current file"
 msgid "Close current tab"
-msgstr "बर्तमान फ़ाइल बंद करें"
+msgstr "वर्तमान टैब बंद करें"
 
 #: ../mail/e-mail-reader.c:2013
 msgid "_Next Message"
@@ -9172,16 +9131,14 @@ msgid "Display the previous important message"
 msgstr "पूर्ववर्ती महत्वपूर्ण संदेश को प्रदर्शित करें"
 
 #: ../mail/e-mail-reader.c:2055
-#, fuzzy
 #| msgid "Previous"
 msgid "Previous T_hread"
-msgstr "पिछला"
+msgstr "पिछली लड़ी"
 
 #: ../mail/e-mail-reader.c:2057
-#, fuzzy
 #| msgid "Display the previous message"
 msgid "Display the previous thread"
-msgstr "पूर्ववर्ती संदेश को प्रदर्शित करें"
+msgstr "पिछली लड़ी प्रदर्शित करें"
 
 #: ../mail/e-mail-reader.c:2062
 msgid "P_revious Unread Message"
@@ -9208,28 +9165,24 @@ msgid "Redirect (bounce) the selected message to someone"
 msgstr "चयनित संदेश किसी को पुनर्प्रेषित (बाउंस) करें"
 
 #: ../mail/e-mail-reader.c:2090
-#, fuzzy
 #| msgid "No Attachment"
 msgid "Remo_ve Attachments"
-msgstr "कोई संलग्नक नहीं"
+msgstr "संलग्नक हटाएँ (_v)"
 
 #: ../mail/e-mail-reader.c:2092
-#, fuzzy
 #| msgid "Save attachments"
 msgid "Remove attachments"
-msgstr "संलग्नक सहेजें"
+msgstr "संलग्नक हटाएँ"
 
 #: ../mail/e-mail-reader.c:2097
-#, fuzzy
 #| msgid "Hide S_elected Messages"
 msgid "Remove Du_plicate Messages"
-msgstr "चयनित संदेश छुपाएँ (_e)"
+msgstr "नक़ली संदेश छुपाएँ (_p)"
 
 #: ../mail/e-mail-reader.c:2099
-#, fuzzy
 #| msgid "Mark the selected messages for deletion"
 msgid "Checks selected messages for duplicates"
-msgstr "चुने संदेश को मिटाने के लिए चिह्नित करें"
+msgstr "नक़ली के लिए चुने संदेशों को जाँचें"
 
 #: ../mail/e-mail-reader.c:2104 ../mail/mail.error.xml.h:109
 #: ../modules/calendar/e-cal-shell-view-actions.c:1510
@@ -9261,16 +9214,14 @@ msgid "Compose a reply to the sender of the selected message"
 msgstr "चयनित संदेश के प्रेषक के लिए एक जवाब लिखें"
 
 #: ../mail/e-mail-reader.c:2125
-#, fuzzy
 #| msgid "Save as..."
 msgid "_Save as mbox..."
-msgstr "इस रूप में सहेजें..."
+msgstr "बतौर mbox सहेजें (_S)..."
 
 #: ../mail/e-mail-reader.c:2127
-#, fuzzy
 #| msgid "Save the selected messages as a text file"
 msgid "Save selected messages as an mbox file"
-msgstr "पाठ फ़ाइल के रूप में संदेश सहेजता है"
+msgstr "बतौर  mbox फ़ाइल चुने संदेश सहेजता है"
 
 #: ../mail/e-mail-reader.c:2132
 msgid "_Message Source"
@@ -9321,23 +9272,20 @@ msgid "Ch_aracter Encoding"
 msgstr "वर्ण कूटलेखन (_a)"
 
 #: ../mail/e-mail-reader.c:2190
-#, fuzzy
 #| msgid "F_orward As..."
 msgid "F_orward As"
-msgstr "ऐसे अग्रेषित करें (_o)..."
+msgstr "ऐसे अग्रेषित करें (_o)"
 
 #: ../mail/e-mail-reader.c:2197
-#, fuzzy
 #| msgid "_Reply"
 msgid "_Group Reply"
-msgstr "जवाब (_R)"
+msgstr "समूह उत्तर (_G)"
 
 #: ../mail/e-mail-reader.c:2204
 msgid "_Go To"
 msgstr "यहाँ जाएँ (_G)"
 
 #: ../mail/e-mail-reader.c:2211
-#, fuzzy
 #| msgid "Mar_k as"
 msgid "Mar_k As"
 msgstr "ऐसे चिह्नित करें (_k)"
@@ -9462,10 +9410,9 @@ msgid "Forward the selected message to someone"
 msgstr "चयनित संदेश को किसी को अग्रेषित करें"
 
 #: ../mail/e-mail-reader.c:3435
-#, fuzzy
 #| msgid "Group Items By"
 msgid "Group Reply"
-msgstr "इसके द्वारा समूहीकृत"
+msgstr "समूही उत्तर"
 
 #: ../mail/e-mail-reader.c:3436
 #, fuzzy
@@ -9494,16 +9441,15 @@ msgid "Reply"
 msgstr "जवाब"
 
 #: ../mail/e-mail-reader.c:4205
-#, fuzzy, c-format
+#, c-format
 #| msgid "Folder"
 msgid "Folder '%s'"
-msgstr "फ़ोल्डर"
+msgstr "फ़ोल्डर '%s'"
 
 #: ../mail/e-mail-reader-utils.c:145
-#, fuzzy
 #| msgid "Do not ask me again."
 msgid "Do not warn me again"
-msgstr "मुझसे फिर मत पूछें."
+msgstr "मुझे फिर मत चेताएँ"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
@@ -9519,12 +9465,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../mail/e-mail-reader-utils.c:1047
-#, fuzzy
 #| msgid "Save Message..."
 msgid "Save Message"
 msgid_plural "Save Messages"
-msgstr[0] "संदेश सहेजें..."
-msgstr[1] "संदेश सहेजें..."
+msgstr[0] "संदेश सहेजें"
+msgstr[1] "संदेश सहेजें"
 
 #. Translators: This is part of a suggested file name
 #. * used when saving a message or multiple messages to
@@ -9532,7 +9477,6 @@ msgstr[1] "संदेश सहेजें..."
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
 #: ../mail/e-mail-reader-utils.c:1068
-#, fuzzy
 #| msgid "Message"
 msgid "Message"
 msgid_plural "Messages"
@@ -9659,10 +9603,10 @@ msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr ""
 
 #: ../mail/em-composer-utils.c:2052
-#, fuzzy, c-format
+#, c-format
 #| msgid "Mail Notification Properties"
 msgid "Delivery Notification for: \"%s\""
-msgstr "डाक सूचना गुण"
+msgstr "इसके लिए डिलिवरी अधिसूचना: \"%s\""
 
 #: ../mail/em-composer-utils.c:2592
 msgid "an unknown sender"
@@ -9762,10 +9706,9 @@ msgid "Follow Up"
 msgstr "फोलो अप"
 
 #: ../mail/em-filter-i18n.h:29
-#, fuzzy
 #| msgid "Forward"
 msgid "Forward to"
-msgstr "अग्रेषित"
+msgstr "इसमें अग्रेषित करें"
 
 #: ../mail/em-filter-i18n.h:30
 msgid "Important"
@@ -9832,10 +9775,9 @@ msgid "Message is not Junk"
 msgstr "संदेश कचरा डाक नहीं है"
 
 #: ../mail/em-filter-i18n.h:50
-#, fuzzy
 #| msgid "Message contains"
 msgid "Message Location"
-msgstr "संदेश में यह समाहित है"
+msgstr "संदेश स्थान"
 
 #: ../mail/em-filter-i18n.h:52
 msgid "Pipe to Program"
@@ -9978,12 +9920,12 @@ msgid "Folder names cannot contain '/'"
 msgstr "फ़ोल्डर नाम'/' समाहित नहीं रख सकता है."
 
 #: ../mail/em-folder-tree.c:768
-#, fuzzy, c-format
+#, c-format
 #| msgctxt "folder-display"
 #| msgid "%s (%u)"
 msgctxt "folder-display"
 msgid "%s (%u%s)"
-msgstr "%s (%u)"
+msgstr "%s (%u%s)"
 
 #: ../mail/em-folder-tree.c:1590
 msgid "Mail Folder Tree"
@@ -10031,19 +9973,16 @@ msgid "Loading..."
 msgstr "लोड कर रहा है..."
 
 #: ../mail/em-folder-utils.c:488
-#, fuzzy
 #| msgid "_Move Folder To..."
 msgid "Move Folder To"
-msgstr "फ़ोल्डर यहाँ खिसकाएँ (_M)..."
+msgstr "फ़ोल्डर यहाँ खिसकाएँ"
 
 #: ../mail/em-folder-utils.c:488
-#, fuzzy
 #| msgid "_Copy Folder To..."
 msgid "Copy Folder To"
-msgstr "फ़ोल्डर की नक़ल यहाँ लें (_C)..."
+msgstr "फ़ोल्डर की नक़ल यहाँ लें"
 
 #: ../mail/em-folder-utils.c:590
-#, fuzzy
 #| msgid "Create folder"
 msgid "Create Folder"
 msgstr "फ़ोल्डर बनाएँ"
@@ -10061,7 +10000,7 @@ msgid "Formatting Message..."
 msgstr "संदेश संरूपित कर रहा है..."
 
 #: ../mail/em-format-html.c:1562 ../mail/em-format-html.c:1572
-#, fuzzy, c-format
+#, c-format
 #| msgid "Retrieving `%s'"
 msgid "Retrieving '%s'"
 msgstr "`%s' पुनःप्राप्त कर रहा है"
@@ -10139,22 +10078,21 @@ msgstr "अनजान बाह्य आंकड़ा (\"%s\" प्रक�
 #. * sender address, like "From: user@example.com"
 #: ../mail/em-format-html.c:2934
 #: ../plugins/mail-notification/mail-notification.c:402
-#, fuzzy, c-format
+#, c-format
 #| msgid "From %s:"
 msgid "From: %s"
-msgstr "%s से:"
+msgstr "प्रेषक: %s"
 
 #: ../mail/em-format-html.c:2956
-#, fuzzy
 #| msgid "Subject"
 msgid "(no subject)"
-msgstr "विषय"
+msgstr "(कोई विषय नहीं)"
 
 #: ../mail/em-format-html.c:3032
-#, fuzzy, c-format
+#, c-format
 #| msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgid "This message was sent by %s on behalf of %s"
-msgstr "यह संदेश <b>%s</b> के द्वारा <b>%s</b> के बदले भेजा गया था."
+msgstr "यह संदेश %s के द्वारा %s के बदले भेजा गया था."
 
 #: ../mail/em-format-html-display.c:89
 msgid ""
@@ -10247,25 +10185,21 @@ msgstr ""
 "देख सकते हैं."
 
 #: ../mail/em-format-html-display.c:756
-#, fuzzy
 #| msgid "_Save Changes"
 msgid "Save Image"
-msgstr "परिवर्तन सहेजें (_S)"
+msgstr "छवि सहेजें"
 
 #: ../mail/em-format-html-display.c:804
-#, fuzzy
 #| msgid "Save Message..."
 msgid "Save _Image..."
-msgstr "संदेश सहेजें..."
+msgstr "छवि सहेजें (_I)..."
 
 #: ../mail/em-format-html-display.c:806
-#, fuzzy
 #| msgid "Save the current file"
 msgid "Save the image to a file"
-msgstr "वर्तमान फ़ाइल सहेजें"
+msgstr "इस छवि को फ़ाइल में सहेजें"
 
 #: ../mail/em-format-html-display.c:1034
-#, fuzzy
 #| msgid "Completed On"
 msgid "Completed on"
 msgstr "इसपर समाप्त "
@@ -10276,7 +10210,7 @@ msgstr "मियाद पूर्ण:"
 
 #: ../mail/em-format-html-display.c:1054
 msgid "by"
-msgstr ""
+msgstr "द्वारा"
 
 #: ../mail/em-format-html-display.c:1335 ../mail/em-format-html-display.c:1386
 msgid "View _Unformatted"
@@ -10297,10 +10231,10 @@ msgstr "%d का %d पृष्ठ"
 
 #: ../mail/em-html-stream.c:82 ../mail/em-html-stream.c:104
 #: ../mail/em-html-stream.c:122
-#, fuzzy, c-format
+#, c-format
 #| msgid "No summary available."
 msgid "No HTML stream available"
-msgstr "कोई सार उपलब्ध नहीं है."
+msgstr "कोई HTML स्ट्रीम उपलब्ध नहीं है"
 
 #: ../mail/em-subscription-editor.c:1162
 msgid "Folder Subscriptions"
@@ -10311,10 +10245,9 @@ msgid "_Account:"
 msgstr "खाता (_A):"
 
 #: ../mail/em-subscription-editor.c:1216
-#, fuzzy
 #| msgid "Save Search"
 msgid "Clear Search"
-msgstr "खोज सहेजें"
+msgstr "खोज साफ करें"
 
 #: ../mail/em-subscription-editor.c:1234
 #, fuzzy
@@ -10323,23 +10256,20 @@ msgid "Sho_w items that contain:"
 msgstr "नहीं रखता है"
 
 #: ../mail/em-subscription-editor.c:1273
-#, fuzzy
 #| msgid "Subscribe to Other User's Folder"
 msgid "Subscribe to the selected folder"
-msgstr "अन्य उपयोक्ता फ़ोल्डर की सदस्यता लें"
+msgstr "चुने फ़ोल्डर की सदस्यता लें"
 
 #: ../mail/em-subscription-editor.c:1274
-#, fuzzy
 #| msgid "Subscribed"
 msgid "Su_bscribe"
-msgstr "सदस्यता स्वीकृत"
+msgstr "सदस्यता लें"
 
 #: ../mail/em-subscription-editor.c:1285
 #: ../modules/mail/e-mail-shell-view-actions.c:1222
-#, fuzzy
 #| msgid "Rename the selected folder"
 msgid "Unsubscribe from the selected folder"
-msgstr "चयनित फ़ोल्डर का पुनर्नामकरण करें:"
+msgstr "चयनित फ़ोल्डर की सदस्यता वापस करें"
 
 #: ../mail/em-subscription-editor.c:1286
 #: ../modules/mail/e-mail-shell-view-actions.c:1220
@@ -10347,40 +10277,34 @@ msgid "_Unsubscribe"
 msgstr "सदस्यता वापस लें (_U)"
 
 #: ../mail/em-subscription-editor.c:1297
-#, fuzzy
 #| msgid "All local folders"
 msgid "Collapse all folders"
-msgstr "सभी स्थानीय फ़ोल्डर"
+msgstr "सभी फ़ोल्डर सिकोड़ें"
 
 #: ../mail/em-subscription-editor.c:1298
-#, fuzzy
 #| msgid "Collapse All _Threads"
 msgid "C_ollapse All"
-msgstr "सभी लड़ियाँ समेटें (_T)"
+msgstr "सभी सिकोड़ें"
 
 #: ../mail/em-subscription-editor.c:1308
-#, fuzzy
 #| msgid "E_xpand All Threads"
 msgid "Expand all folders"
-msgstr "सभी लड़ियाँ फैलाएँ (_x)"
+msgstr "सभी फ़ोल्डर फैलाएँ"
 
 #: ../mail/em-subscription-editor.c:1309
-#, fuzzy
 #| msgid "E_xpand All Threads"
 msgid "E_xpand All"
-msgstr "सभी लड़ियाँ फैलाएँ (_x)"
+msgstr "सभी फैलाएँ (_x)"
 
 #: ../mail/em-subscription-editor.c:1319
-#, fuzzy
 #| msgid "Refresh the folder"
 msgid "Refresh the folder list"
-msgstr "फ़ोल्डर ताज़ा करें"
+msgstr "फ़ोल्डर सूची ताज़ा करें"
 
 #: ../mail/em-subscription-editor.c:1331
-#, fuzzy
 #| msgid "Cancel the current mail operation"
 msgid "Stop the current operation"
-msgstr "मौजूदा डाक संक्रिया को रद्द करें"
+msgstr "मौजूदा संक्रिया रोकें"
 
 #. Translators: This message is shown only for ten or more
 #. * messages to be opened.  The %d is replaced with the actual
@@ -10396,10 +10320,9 @@ msgstr[1] "क्या आप निश्चित हैं कि आप {0}
 
 #: ../mail/em-utils.c:158
 #: ../modules/mailto-handler/evolution-mailto-handler.c:154
-#, fuzzy
 #| msgid "_Do not show this message again."
 msgid "_Do not show this message again"
-msgstr "यह संदेश फिर मत दिखाएँ (_D)."
+msgstr "यह संदेश फिर मत दिखाएँ (_D)"
 
 #: ../mail/em-utils.c:333
 msgid "Message Filters"
@@ -10415,10 +10338,9 @@ msgid "Search _Folders"
 msgstr "फ़ोल्डर खोजें (_F)"
 
 #: ../mail/em-vfolder-rule.c:618
-#, fuzzy
 #| msgid "Folder"
 msgid "Add Folder"
-msgstr "फ़ोल्डर"
+msgstr "फ़ोल्डर जोड़ें"
 
 #: ../mail/evolution-mail.schemas.in.h:1
 #, fuzzy
@@ -10433,46 +10355,39 @@ msgid "\"Filter Editor\" window maximize state"
 msgstr "\"डाक भेजें और प्राप्त करें\" विंडो अधिकतम आकार"
 
 #: ../mail/evolution-mail.schemas.in.h:3
-#, fuzzy
 #| msgid "Default window width"
 msgid "\"Filter Editor\" window width"
-msgstr "तयशुदा विंडो चौड़ाई"
+msgstr "\"फिल्टर संपादक\" विंडो चौड़ाई"
 
 #: ../mail/evolution-mail.schemas.in.h:4
-#, fuzzy
 #| msgid "Folder Subscriptions"
 msgid "\"Folder Subscriptions\" window height"
-msgstr "फ़ोल्डर सदस्यता"
+msgstr "\"फ़ोल्डर सदस्यता\" विंडो ऊँचाई"
 
 #: ../mail/evolution-mail.schemas.in.h:5
-#, fuzzy
 #| msgid "\"Send and Receive Mail\" window maximize state"
 msgid "\"Folder Subscriptions\" window maximize state"
-msgstr "\"डाक भेजें और प्राप्त करें\" विंडो अधिकतम आकार"
+msgstr "\"फ़ोल्डर सदस्यता\" विंडो अधिकतम स्थिति"
 
 #: ../mail/evolution-mail.schemas.in.h:6
-#, fuzzy
 #| msgid "Folder Subscriptions"
 msgid "\"Folder Subscriptions\" window width"
-msgstr "फ़ोल्डर सदस्यता"
+msgstr "\"फ़ोल्डर सदस्यता\" विंडो ऊँचाई"
 
 #: ../mail/evolution-mail.schemas.in.h:7
-#, fuzzy
 #| msgid "Default window height"
 msgid "\"Search Folder Editor\" window height"
-msgstr "तयशुदा विंडो ऊंचाई"
+msgstr "\"खोज फ़ोल्डर संपादक\" विंडो ऊँचाई"
 
 #: ../mail/evolution-mail.schemas.in.h:8
-#, fuzzy
 #| msgid "\"Send and Receive Mail\" window maximize state"
 msgid "\"Search Folder Editor\" window maximize state"
-msgstr "\"डाक भेजें और प्राप्त करें\" विंडो अधिकतम आकार"
+msgstr "\"खोज फ़ोल्डर संपादक\" विंडो अधिकतम आकार"
 
 #: ../mail/evolution-mail.schemas.in.h:9
-#, fuzzy
 #| msgid "Search Folder based on Mailing _List"
 msgid "\"Search Folder Editor\" window width"
-msgstr "डाक सूची से फ़ोल्डर खोजें (_L)"
+msgstr "\"खोज फ़ोल्डर संपादक\" विंडो चौड़ाई"
 
 #: ../mail/evolution-mail.schemas.in.h:10
 msgid "\"Send and Receive Mail\" window height"
@@ -12345,19 +12260,19 @@ msgstr "सर्वर सूचना"
 
 #: ../mail/mail-config.ui.h:90
 msgid "SHA1"
-msgstr ""
+msgstr "SHA1"
 
 #: ../mail/mail-config.ui.h:91
 msgid "SHA256"
-msgstr ""
+msgstr "SHA256"
 
 #: ../mail/mail-config.ui.h:92
 msgid "SHA384"
-msgstr ""
+msgstr "SHA384"
 
 #: ../mail/mail-config.ui.h:93
 msgid "SHA512"
-msgstr ""
+msgstr "SHA512"
 
 #: ../mail/mail-config.ui.h:94 ../modules/addressbook/ldap-config.ui.h:12
 msgid "SSL encryption"
@@ -12387,7 +12302,7 @@ msgstr "मानक फ़ॉन्ट (t):"
 
 #: ../mail/mail-config.ui.h:100
 msgid "Secure MIME (S/MIME)"
-msgstr ""
+msgstr "Secure MIME (S/MIME)"
 
 #: ../mail/mail-config.ui.h:102
 msgid "Select HTML fixed width font"
@@ -12398,10 +12313,9 @@ msgid "Select HTML variable width font"
 msgstr "एचटीएमएल का अनियत चौड़ाई वाला फ़ॉन्ट खोजें"
 
 #: ../mail/mail-config.ui.h:104
-#, fuzzy
 #| msgid "<b>Sender Photograph</b>"
 msgid "Sender Photograph"
-msgstr "<b>प्रेषक फोटो</b>"
+msgstr "प्रेषक फोटो"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:106
@@ -12693,7 +12607,7 @@ msgstr "पूर्वाह्न"
 
 #: ../mail/mail-config.ui.h:173 ../smime/gui/smime-ui.ui.h:49
 msgid "b"
-msgstr ""
+msgstr "b"
 
 #: ../mail/mail-config.ui.h:174
 msgid "color"
@@ -18269,7 +18183,7 @@ msgstr ""
 
 #: ../plugins/face/face.c:370
 msgid "Load new _Face picture"
-msgstr ""
+msgstr "नया चेहरे का तस्वीर लोड करें (_F)"
 
 #: ../plugins/face/face.c:429
 #, fuzzy
@@ -18357,7 +18271,7 @@ msgstr "सूची पुनःप्राप्त करें (_l)"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "Add Google Calendars to Evolution."
-msgstr ""
+msgstr "एवोल्यूशन में गूगल कैलेंडर जोड़ें."
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
 #, fuzzy
@@ -19078,7 +18992,7 @@ msgstr "<b>%s</b> ने निम्न साझा ज्ञापन रद�
 
 #: ../plugins/itip-formatter/itip-view.c:690
 msgid "All day:"
-msgstr ""
+msgstr "सारा दिन:"
 
 #: ../plugins/itip-formatter/itip-view.c:700
 #, fuzzy
@@ -19444,7 +19358,7 @@ msgstr "कोई सारांश नहीं"
 
 #: ../plugins/mail-to-task/mail-to-task.c:738
 msgid "Invalid object returned from a server"
-msgstr ""
+msgstr "सर्वर से अवैध वस्तु वापस"
 
 #: ../plugins/mail-to-task/mail-to-task.c:788
 #, fuzzy, c-format
@@ -19879,7 +19793,7 @@ msgstr ""
 #: ../plugins/publish-calendar/publish-calendar.c:288
 #, c-format
 msgid "Mount of %s failed:"
-msgstr ""
+msgstr "%s का आरोह विफल:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:619
 #: ../plugins/publish-calendar/publish-calendar.ui.h:4
@@ -19917,7 +19831,7 @@ msgstr "दिन"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:5
 msgid "FTP (with login)"
-msgstr ""
+msgstr "FTP (लॉगिन सहित)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:9
 #, fuzzy
@@ -19951,11 +19865,11 @@ msgstr "प्रकाशकीय आवृति (_F):"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:15
 msgid "Secure FTP (SSH)"
-msgstr ""
+msgstr "सिक्योर FTP (SSH)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:16
 msgid "Secure WebDAV (HTTPS)"
-msgstr ""
+msgstr "सिक्योर WebDAV (HTTPS)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "Service _type:"
@@ -21016,7 +20930,7 @@ msgstr "खाता '%s' को ऑफ़लाइन के लिए तै�
 
 #: ../shell/e-shell.c:476
 msgid "Preparing to quit..."
-msgstr ""
+msgstr "छोड़ने के लिए तैयार..."
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:195
@@ -21084,7 +20998,7 @@ msgstr "ऑनलाइन विधि में आरंभ करें"
 
 #: ../shell/main.c:318
 msgid "Ignore network availability"
-msgstr ""
+msgstr "संजाल उपलब्धता नजरअंदाज करें "
 
 #: ../shell/main.c:320
 #, fuzzy
@@ -21289,7 +21203,7 @@ msgstr "पाइलट विन्यास स्थापित करें
 
 #: ../smclient/eggsmclient.c:229
 msgid "FILE"
-msgstr ""
+msgstr "फ़ाइल"
 
 #: ../smclient/eggsmclient.c:232
 msgid "Specify session management ID"
@@ -22624,7 +22538,7 @@ msgstr "दिन"
 
 #: ../widgets/misc/e-send-options.ui.h:11
 msgid "For Your Eyes Only"
-msgstr ""
+msgstr "आपके देखने के लिए केवल"
 
 #: ../widgets/misc/e-send-options.ui.h:12
 msgid "Gene_ral Options"
