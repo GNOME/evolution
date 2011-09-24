@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-18 19:18+0000\n"
-"PO-Revision-Date: 2011-09-24 14:24+0200\n"
+"PO-Revision-Date: 2011-09-24 15:03+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3029,16 +3029,14 @@ msgstr ""
 "asunto y direcciones de los correos y el rango será la «Carpeta actual»."
 
 #: C/mail-searching.page:40(p)
-#, fuzzy
 msgid ""
 "If you search for messages that are not in the same folder rather often you "
 "might want to create a search folder instead; see <link xref=\"mail-search-"
 "folders\">Using Search Folders</link> for more detail."
 msgstr ""
-"Evolution le muestra los resultados en la lista de mensajes. Puede querer "
-"crear una carpeta de búsqueda en su lugar, para obtener más información vea "
-"la <link linkend=\"usage-mail-organize-vfolders\">Uso de las carpetas de "
-"búsqueda</link>."
+"Si busca correos que, a menudo, no están en la misma carpeta puede querer "
+"crear una carpeta de búsqueda en su lugar; para obtener más detalles "
+"consulte <link xref=\"mail-search-folders\">Usar carpetas de búsqueda</link>."
 
 #: C/mail-searching.page:45(title)
 msgid "Advanced Search:"
@@ -4252,16 +4250,15 @@ msgid "Navigating in a message"
 msgstr "Navegar en un correo"
 
 #: C/mail-reading-keyboard-shortcuts.page:33(p)
-#, fuzzy
 msgid ""
 "To read mail with the keyboard, you can click the <key>Spacebar</key> to "
 "page down and press <key>Backspace</key> to page up while reading an email. "
 "Ensure that you use the keys when the message list is focused."
 msgstr ""
-"Para leer correo con el teclado puede pulsar la barra espaciadora para "
-"avanzar una página y pulsar Retroceso para retroceder una página mientras "
-"lee un correo-e. Asegúrese de que usa las teclas cuando la lista de mensajes "
-"está activada."
+"Para leer correo con el teclado puede pulsar la <key>barra espaciadora</key> "
+"para avanzar una página y pulsar <key>Retroceso</key> para retroceder una "
+"página mientras lee un correo-e. Asegúrese de que usa las teclas cuando la "
+"lista de mensajes está activada."
 
 #: C/mail-reading-keyboard-shortcuts.page:37(title)
 msgid "Navigating in a folder in the message list"
@@ -4657,7 +4654,6 @@ msgstr ""
 "un filtro para listas de correo."
 
 #: C/mail-imap-headers.page:33(p)
-#, fuzzy
 msgid ""
 "This is the default Header preference that comes with Evolution. When this "
 "option is chosen, Evolution will download a basic set of headers (as "
@@ -4670,7 +4666,7 @@ msgstr ""
 "cabeceras (como se describió anteriormente) junto con las cabeceras "
 "necesarias para los filtros de correo del cliente, basados en listas de "
 "correo. Si no tiene ningún filtro en Evolution, se recomienda que cambie a "
-"la opción «Cabeceras básicas»."
+"la opción <gui>Cabeceras básicas</gui>."
 
 #: C/mail-imap-headers.page:36(p)
 msgid "To set the IMAP Mail headers:"
@@ -4803,7 +4799,6 @@ msgstr ""
 "contenga mensajes pendientes."
 
 #: C/mail-follow-up-flag.page:43(p)
-#, fuzzy
 msgid ""
 "If you prefer a simpler way to remind yourself about messages, you can mark "
 "them as important by right-clicking the message, then click <gui>Mark as "
@@ -4812,8 +4807,9 @@ msgid ""
 msgstr ""
 "Si prefiere una forma más sencilla de recordarse a sí mismo los mensajes, "
 "puede marcarlos como importantes pulsando con el botón derecho del ratón "
-"sobre el mensaje y después pulsando Marcar como importante o seleccionar "
-"Mensaje &gt; Marcar como &gt; Importante desde la barra de menú."
+"sobre el mensaje y después pulsando <gui>Marcar como importante</gui> o "
+"seleccionar <guiseq><gui>Mensaje</gui><gui>Marcar como</gui><gui>Importante</"
+"gui></guiseq> desde la barra de menú."
 
 #: C/mail-folders.page:5(desc)
 msgid "Use folders to organize your mail."
@@ -4824,7 +4820,6 @@ msgid "Using Folders"
 msgstr "Usar las carpetas"
 
 #: C/mail-folders.page:30(p)
-#, fuzzy
 msgid ""
 "Evolution, like most mail systems, uses folders to store email messages. You "
 "start out with a few mail folders such as the Inbox, Outbox, and Drafts. You "
@@ -4833,8 +4828,7 @@ msgstr ""
 "Evolution, al igual que muchos otros sistemas de correo, almacena el correo "
 "en carpetas. Al comenzar a usar Evolution existen unas pocas carpetas, como "
 "la Bandeja de entrada y la carpeta Borradores, pero puede crear tantas como "
-"desee. Cree nuevas carpetas pulsaando Carpeta &gt; Nueva, o pulsando con el "
-"botón derecho sobre la lista y seleccionando Carpeta nueva."
+"desee."
 
 #: C/mail-folders.page:33(title)
 msgid "Creating A Folder"
@@ -4871,7 +4865,6 @@ msgstr ""
 "mensajes dentro de la carpeta."
 
 #: C/mail-folders.page:43(p)
-#, fuzzy
 msgid ""
 "The Inbox folders on most IMAP servers cannot contain both messages and "
 "subfolders. When creating additional folders on your IMAP mail server, "
@@ -4879,12 +4872,13 @@ msgid ""
 "Creating subfolders in your Inbox may prevent you from reading messages that "
 "exist in the Inbox. If this happens, move the folders to the IMAP account."
 msgstr ""
-"El buzón de entrada de la mayoría de los servidores IMAP no puede contener a "
+"El Buzón de entrada de la mayoría de los servidores IMAP no puede contener a "
 "la vez subcarpetas y mensajes. Cuando crea carpetas adicionales en su "
 "servidor de correo IMAP, debe hacerlas partir de la raíz del árbol de "
 "carpetas de cuentas IMAP, y no desde el buzón de entrada. Si crea "
-"subcarpetas en el buzón de entrada, dejará de poder leer mensajes que "
-"existen en esta carpeta, hasta que las mueva hacia otro lugar."
+"subcarpetas en el buzón de entrada es posible que no pueda leer los mensajes "
+"que existen en esta carpeta. Si esto sucede, mueva las carpetas a la cuenta "
+"IMAP."
 
 #: C/mail-folders.page:49(title)
 msgid "Moving Messages to New Folders"
@@ -4966,14 +4960,14 @@ msgid ""
 msgstr ""
 
 #: C/mail-filters.page:29(p)
-#, fuzzy
 msgid ""
 "To manually apply filters on messages in a folder, select the messages and "
 "click <guiseq><gui>Message</gui><gui>Apply Filters</gui></guiseq> or press "
 "<keyseq><key>Ctrl</key><key>Y</key></keyseq>."
 msgstr ""
-"Para borrar permanentemente todos los mensajes borrados en una carpeta, "
-"pulse Carpeta &gt; Purgar o pulse Ctrl+E."
+"Para aplicar manualmente filtros sobre correos en una carpeta, seleccione "
+"los mensajes y pulse <guiseq><gui>Mensaje</gui><gui>Aplicar filtros</gui></"
+"guiseq> o pulse <keyseq><key>Ctrl</key><key>Y</key></keyseq>."
 
 #: C/mail-filters.page:30(p) C/exporting-data-mail.page:25(p)
 msgid ""
@@ -5522,16 +5516,16 @@ msgid "Signing or encrypting messages"
 msgstr "Firmar o cifrar correos"
 
 #: C/mail-encryption-s-mime-signing-encrypting.page:25(p)
-#, fuzzy
 msgid ""
 "After you have <link xref=\"mail-encryption-s-mime-manage\">added your "
 "certificate</link>, you can sign or encrypt a message by clicking "
 "<guiseq><gui>Options</gui><gui>S/MIME Sign</gui></guiseq> or <gui>S/MIME "
 "Encrypt</gui> from the message composer menu."
 msgstr ""
-"Después de que haya añadido su certificado, puede firmar o cifrar cada "
-"mensaje pulsando Seguridad &gt; Firma S/MIME o Cifrado S/MIME en el editor "
-"de mensajes."
+"Después de que haya <link xref=\"mail-encryption-s-mime-manage\">añadido su "
+"certificado</link>, puede firmar o cifrar un correo pulsando "
+"<guiseq><gui>Opciones</gui><gui>Firma S/MIME</gui></guiseq> o <gui>Cifrado S/"
+"MIME</gui> en el editor de mensajes."
 
 #: C/mail-encryption-s-mime-signing-encrypting.page:26(p)
 #: C/mail-encryption-gpg-signing-encrypting.page:28(p)
@@ -5656,16 +5650,16 @@ msgid "Signing or encrypting messages via GPG that you send."
 msgstr "Firmar o cifrarlos correos que envía usando GPG."
 
 #: C/mail-encryption-gpg-signing-encrypting.page:25(p)
-#, fuzzy
 msgid ""
 "After you have <link xref=\"mail-encryption-gpg-set-up\">set up your GPG "
 "key</link>, you can sign or encrypt a message by clicking "
 "<guiseq><gui>Options</gui><gui>PGP Sign</gui></guiseq> or <gui>PGP Encrypt</"
 "gui> from the message composer menu."
 msgstr ""
-"Después de que haya añadido su certificado, puede firmar o cifrar cada "
-"mensaje pulsando Seguridad &gt; Firma S/MIME o Cifrado S/MIME en el editor "
-"de mensajes."
+"Después de que haya <link xref=\"mail-encryption-gpg-set-up\">configurado su "
+"clave GPG</link> puede firmar o cifrar un correo pulsando "
+"<guiseq><gui>Opciones</gui><gui>Firma PGP</gui></guiseq> o <gui>Cifrado PGP</"
+"gui> en el editor de mensajes."
 
 #: C/mail-encryption-gpg-signing-encrypting.page:34(p)
 msgid ""
@@ -6013,7 +6007,6 @@ msgstr ""
 "mail/pop/</file> y no se puede escribir en ellos."
 
 #: C/mail-displaying-sender-photograph.page:5(desc)
-#, fuzzy
 msgid "Display a picture of the sender in the message header area."
 msgstr "Mostrar la foto del remitente en el panel de lectura de mensajes."
 
@@ -6236,6 +6229,10 @@ msgid ""
 "icon.png\"/> icon next to the <gui>To:</gui> or <gui>Cc:</gui> line, or "
 "click the ellipsis (...) at the end of the five displayed addresses."
 msgstr ""
+"Para ver todos los destinatarios pulse el icono <media type=\"image\" src="
+"\"./figures/plus-icon.png\"/> junto a las líneas <gui>Para:</gui> o <gui>CC:"
+"</gui> o pulse la elipsis (...) al final de las cinco direcciones de correo "
+"mostradas."
 
 #: C/mail-displaying-collapsible-headers.page:29(p)
 msgid ""
@@ -7038,6 +7035,11 @@ msgid ""
 "gui><gui>Edit</gui><gui>Identity</gui><gui>Optional Information</gui></"
 "guiseq>."
 msgstr ""
+"Puede definir una <link xref=\"mail-composer-mail-signatures\">firma</link> "
+"predeterminada para cada una de sus cuentas de correo. Se puede editar bajo "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Cuentas de correo</"
+"gui><gui>Editar</gui><gui>Identidad</gui><gui>Información opcional</gui></"
+"guiseq>."
 
 #: C/mail-composer-mail-signatures-per-account.page:36(p)
 msgid ""
@@ -7394,6 +7396,10 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Default "
 "Behavior</gui><gui>Format messages in HTML</gui></guiseq>."
 msgstr ""
+"Para enviar todos sus correos en HTML de forma predeterminada actíve "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Preferencias del "
+"editor</gui><gui>Comportamiento predeterminado</gui><gui>Dar formato HTML a "
+"los mensajes</gui></guiseq>."
 
 #: C/mail-composer-html.page:31(title)
 msgid "HTML Formatting Options"
@@ -7568,6 +7574,9 @@ msgid ""
 "<gui>Attachment</gui>, so the forwarded email and also its attachments get "
 "attached to the email you want to send."
 msgstr ""
+"Pulse <guiseq><gui>Mensaje</gui><gui>Reenviar como...</gui></guiseq> y elija "
+"<gui>Adjunto</gui> para que el correo reenviado y sus adjuntos se adjunten "
+"al correo que quiere enviar."
 
 #: C/mail-composer-forward-as-attachment.page:26(p)
 msgid ""
@@ -7575,6 +7584,9 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Forward Style</"
 "gui></guiseq> to <gui>Attachment</gui>."
 msgstr ""
+"Si quiere que esta opción esté activada de forma predeterminada cambie "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Preferencias del "
+"editor</gui><gui>Estilo de reenvío</gui></guiseq> a <gui>Adjunto</gui>."
 
 #: C/mail-composer-custom-header-lines.page:5(desc)
 msgid "Using custom fields in the header of composed messages"
@@ -8089,6 +8101,10 @@ msgid ""
 "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui></guiseq>. The "
 "following settings are available when editing an existing account:"
 msgstr ""
+"Las cuentas de correo se pueden editar en <guiseq><gui>Editar</"
+"gui><gui>Preferencias</gui><gui>Cuentas de correo</gui><gui style=\"button"
+"\">Editar</gui></guiseq>. La siguiente configuración está disponible al "
+"editar una cuenta existente:"
 
 #: C/mail-account-manage-usenet-news.page:28(title)
 #: C/mail-account-manage-unix-mbox-spool-file.page:28(title)
@@ -8370,6 +8386,10 @@ msgid ""
 "gui><gui>Mail Accounts</gui><gui>Edit</gui></guiseq>. The following settings "
 "are available when editing an existing account:"
 msgstr ""
+"Las cuentas de correo se pueden editar en <guiseq><gui>Editar</"
+"gui><gui>Preferencias</gui><gui>Cuentas de correo</gui><gui>Editar</gui></"
+"guiseq>. La siguiente configuración está disponible al editar una cuenta "
+"existente:"
 
 #: C/mail-account-manage-local-delivery.page:5(desc)
 msgid "Add and edit a Local Delivery account in Evolution."
@@ -8939,6 +8959,9 @@ msgid ""
 "you set up email accounts and <link xref=\"import-data\">import data from "
 "other applications.</link>"
 msgstr ""
+"La primera vez que ejecuta Evolution se abre el Asistente de primera "
+"ejecución que le ayuda a configurar sus cuentas de correo electrónico e "
+"<link xref=\"import-data\">importar datos de otras aplicaciones</link>."
 
 #: C/intro-first-run.page:31(title)
 msgid "Restore from backup"
@@ -8950,6 +8973,9 @@ msgid ""
 "If you have such a backup, continue <link xref=\"backup-restore#restore"
 "\">here</link>. Otherwise, go to the next page."
 msgstr ""
+"Se le preguntará si quiere estaurar un respaldo de una versión anterior. Si "
+"tiene tal respaldo, continúe <link xref=\"backup-restore#restore\">aquí</"
+"link>. De lo contrario, continúe con la siguiente página."
 
 #: C/intro-first-run.page:37(p)
 msgid ""
@@ -9769,6 +9795,10 @@ msgid ""
 "screen devices. This is available from version 2.30 on and can be enabled by "
 "starting <code>evolution --express</code> from the terminal window."
 msgstr ""
+"Puede usar la versión Express que está pensada para dispositivos móviles y "
+"con pantallas pequeñas. Está disponible desde la versión 2.30 en adelante y "
+"se puede activar iniciando <code>evolution --express</code> desde la ventana "
+"de la terminal."
 
 #: C/express-mode.page:25(p)
 msgid ""
