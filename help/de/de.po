@@ -23,13 +23,14 @@
 # Andre Klapper <ak-47@gmx.net>, 2007-2009.
 # Mario Blättermann <mariobl@freenet.de>, 2009, 2010, 2011.
 # Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010, 2011.
+# Gabor Karsay <gabor.karsay@gmx.at>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-07 15:55+0000\n"
-"PO-Revision-Date: 2011-09-08 23:42+0100\n"
+"POT-Creation-Date: 2011-09-24 13:04+0000\n"
+"PO-Revision-Date: 2011-09-24 23:11+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@freenet.de>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -591,7 +592,7 @@ msgstr "Novell, Inc"
 #: C/calendar-classifications.page:18(p) C/calendar-caldav.page:18(p)
 #: C/calendar-alarms-and-reminders.page:18(p) C/backup-restore.page:16(p)
 msgid "Creative Commons Share Alike 3.0"
-msgstr ""
+msgstr "Creative Commons Share Alike 3.0"
 
 #: C/using-categories.page:25(title)
 msgid "Using Categories"
@@ -685,7 +686,7 @@ msgstr "Geben Sie den Namen der Kategorie in das Textfeld oben ein."
 #: C/contacts-usage-add-contact.page:27(p)
 #: C/calendar-meetings-delegating.page:38(p)
 msgid "Click <gui style=\"button\">OK</gui>."
-msgstr ""
+msgstr "Klicken Sie auf <gui style=\"button\">OK</gui>."
 
 #: C/using-categories.page:52(p)
 #, fuzzy
@@ -786,7 +787,7 @@ msgstr "Geben Sie Ihren Benutzernamen ein."
 #: C/calendar-weather.page:34(p) C/calendar-local.page:28(p)
 #: C/calendar-google.page:35(p) C/calendar-caldav.page:35(p)
 msgid "Click <gui style=\"button\">Apply</gui>."
-msgstr ""
+msgstr "Klicken Sie auf <gui style=\"button\">Anwenden</gui>."
 
 #: C/tasks-webdav.page:37(p)
 #, fuzzy
@@ -875,9 +876,8 @@ msgid ""
 msgstr ""
 
 #: C/tasks-usage-delete-task.page:5(desc)
-#, fuzzy
 msgid "Deleting a task from your task list."
-msgstr "Diese Aufgabe wurde in keiner Aufgabenliste gefunden"
+msgstr "Eine Aufgabe aus Ihrer Aufgabenliste löschen."
 
 #: C/tasks-usage-delete-task.page:20(title)
 msgid "Deleting a Task"
@@ -892,9 +892,8 @@ msgid ""
 msgstr ""
 
 #: C/tasks-usage-add-task.page:5(desc)
-#, fuzzy
 msgid "Adding a task to your task list."
-msgstr "Eine E-Mail-Adresse zu Ihrer Unerwünscht-Liste hinzufügen"
+msgstr "Eine Aufgabe zu Ihrer Aufgabenliste hinzufügen."
 
 #: C/tasks-usage-add-task.page:23(title)
 msgid "Adding a Task"
@@ -972,9 +971,8 @@ msgid "@@image: 'figures/search-icon.png'; md5=cd4b82c84c628bfbbfa39d1e0d1eae89"
 msgstr "lokalisiert - verwendet original"
 
 #: C/tasks-searching.page:5(desc)
-#, fuzzy
 msgid "Searching tasks."
-msgstr "Suchen"
+msgstr "Nach Aufgaben suchen."
 
 #: C/tasks-searching.page:12(name) C/memos-searching.page:12(name)
 #: C/mail-searching.page:12(name) C/contacts-searching.page:12(name)
@@ -989,7 +987,6 @@ msgid "vmax0770@gmail.com"
 msgstr "vmax0770@gmail.com"
 
 #: C/tasks-searching.page:28(title)
-#, fuzzy
 msgid "Searching Tasks"
 msgstr "Nach Aufgaben suchen"
 
@@ -1013,18 +1010,16 @@ msgstr "Suchen nach Nachrichten"
 
 #: C/tasks-searching.page:34(p) C/memos-searching.page:34(p)
 #: C/contacts-searching.page:34(p) C/calendar-searching.page:34(p)
-#, fuzzy
 msgid ""
 "Click the search icon <media type=\"image\" mime=\"image/png\" src=\"figures/"
 "search-icon.png\"/> to expand the drop-down list."
 msgstr ""
-"Klicken Sie auf das Such-Symbol <inlinegraphic format=\"PNG\" fileref="
-"\"figures/stock_search.png\"/>, um den Suchtypen auszuwählen."
+"Klicken Sie auf das Such-Symbol <media type=\"image\" mime=\"image/png\" src="
+"\"figures/search-icon.png\"/>, um die Auswahlliste auszuklappen."
 
 #: C/tasks-searching.page:35(p) C/memos-searching.page:35(p)
 #: C/mail-searching.page:34(p) C/contacts-searching.page:35(p)
 #: C/calendar-searching.page:35(p)
-#, fuzzy
 msgid "Select the search condition from the list."
 msgstr "Wählen Sie das Suchkriterium aus der Liste aus."
 
@@ -1041,9 +1036,8 @@ msgstr ""
 #: C/mail-searching.page:37(p) C/contacts-searching.page:37(p)
 #: C/contacts-searching.page:43(p) C/calendar-searching.page:37(p)
 #: C/calendar-searching.page:43(p)
-#, fuzzy
 msgid "Evolution displays the search results."
-msgstr "Evolution zeigt die gewünschten Kontakte an."
+msgstr "Evolution zeigt die Suchergebnisse an."
 
 #: C/tasks-searching.page:39(p) C/memos-searching.page:39(p)
 #: C/contacts-searching.page:39(p) C/calendar-searching.page:39(p)
@@ -1059,9 +1053,8 @@ msgstr "Klicken Sie neben »Anzeigen« auf die Auswahlliste."
 
 #: C/tasks-searching.page:42(p) C/memos-searching.page:42(p)
 #: C/contacts-searching.page:42(p) C/calendar-searching.page:42(p)
-#, fuzzy
 msgid "Select the category from the list."
-msgstr "Wählen Sie das Suchkriterium aus der Liste aus."
+msgstr "Wählen Sie die Kategorie aus der Liste aus."
 
 #: C/tasks-searching.page:45(p) C/memos-searching.page:45(p)
 #: C/mail-searching.page:41(p) C/contacts-searching.page:45(p)
@@ -1105,10 +1098,11 @@ msgstr ""
 #: C/tasks-searching.page:54(p) C/memos-searching.page:54(p)
 #: C/mail-searching.page:50(p) C/contacts-searching.page:54(p)
 #: C/calendar-searching.page:54(p)
-#, fuzzy
 msgid ""
 "Click <gui style=\"button\">OK</gui> to get the search results displayed."
-msgstr "Klicken Sie hier, um den Suchtypen zu ändern"
+msgstr ""
+"Klicken Sie auf <gui style=\"button\">OK</gui>, um die Suchergebnisse "
+"anzuzeigen."
 
 #: C/tasks-searching.page:60(title) C/memos-searching.page:60(title)
 #: C/mail-searching.page:56(title) C/contacts-searching.page:60(title)
@@ -1324,7 +1318,7 @@ msgstr ""
 
 #: C/sync-with-other-devices.page:34(title)
 msgid "Palm"
-msgstr ""
+msgstr "Palm"
 
 #: C/sync-with-other-devices.page:35(p)
 #, fuzzy
@@ -1405,9 +1399,8 @@ msgstr ""
 "unterscheiden sich je nach Conduit, sind aber üblicherweise folgende:"
 
 #: C/sync-with-other-devices.page:45(p)
-#, fuzzy
 msgid "<gui>Disabled</gui>: Do nothing."
-msgstr "gpg <placeholder-1/>"
+msgstr "<gui>Deaktiviert</gui>: Nichts tun."
 
 #: C/sync-with-other-devices.page:46(p)
 #, fuzzy
@@ -1467,16 +1460,14 @@ msgstr ""
 "Ihrem persönlichen Ordner."
 
 #: C/sync-with-other-devices.page:58(p)
-#, fuzzy
 msgid ""
 "Put your handheld device in its cradle and press the <gui style=\"button"
 "\">HotSync</gui> button."
 msgstr ""
-"Stecken Sie das tragbare Gerät in die Halterung und drücken Sie den »HotSync«-"
-"Knopf."
+"Stecken Sie das tragbare Gerät in die Halterung und drücken Sie den <gui "
+"style=\"button\">HotSync</gui>-Knopf."
 
 #: C/sync-with-other-devices.page:59(p)
-#, fuzzy
 msgid ""
 "If you use Palm OS version 4.0 and have password protection turned on for "
 "your handheld device, you might encounter trouble synchronizing. If this "
@@ -1682,9 +1673,8 @@ msgid ""
 msgstr ""
 
 #: C/memos-usage-edit-memo.page:5(desc)
-#, fuzzy
 msgid "Editing a memo in your memo list."
-msgstr "Diese Notiz wurde in keiner Notizliste gefunden"
+msgstr "Eine Notiz in Ihrer Notizliste bearbeiten."
 
 #: C/memos-usage-edit-memo.page:20(title)
 msgid "Editing a Memo"
@@ -1709,9 +1699,8 @@ msgid "Edit the memo information."
 msgstr "Geben Sie die Informationen ein."
 
 #: C/memos-usage-delete-memo.page:5(desc)
-#, fuzzy
 msgid "Deleting a memo from your memo list."
-msgstr "Diese Notiz wurde in keiner Notizliste gefunden"
+msgstr "Eine Notiz aus Ihrer Notizliste löschen."
 
 #: C/memos-usage-delete-memo.page:20(title)
 msgid "Deleting a Memo"
@@ -1725,9 +1714,8 @@ msgid ""
 msgstr ""
 
 #: C/memos-usage-add-memo.page:5(desc)
-#, fuzzy
 msgid "Adding a memo to your memo list."
-msgstr "Eine E-Mail-Adresse zu Ihrer Unerwünscht-Liste hinzufügen"
+msgstr "Eine Notiz zu Ihrer Notizliste hinzufügen."
 
 #: C/memos-usage-add-memo.page:23(title)
 msgid "Adding a Memo"
@@ -1831,12 +1819,10 @@ msgstr ""
 "Empfängers angezeigt werden soll."
 
 #: C/memos-searching.page:5(desc)
-#, fuzzy
 msgid "Searching memos."
-msgstr "Suchen"
+msgstr "Nach Notizen suchen."
 
 #: C/memos-searching.page:28(title)
-#, fuzzy
 msgid "Searching Memos"
 msgstr "Nach Notizen suchen"
 
@@ -1935,9 +1921,8 @@ msgid "Click <gui>Copy folder content locally for offline operation</gui>."
 msgstr "Den Adressbuchinhalt lokal zum Arbeiten im Offline-Modus _kopieren"
 
 #: C/mail-working-offline.page:39(title)
-#, fuzzy
 msgid "Syncing messages for offline usage"
-msgstr "_Nachrichten für Offline-Benutzung herunterladen"
+msgstr "Nachrichten für Offline-Benutzung herunterladen"
 
 #: C/mail-working-offline.page:40(p)
 #, fuzzy
@@ -2052,9 +2037,8 @@ msgid "Subscribing to Usenet newsgroups."
 msgstr ""
 
 #: C/mail-usenet-subscriptions.page:25(title)
-#, fuzzy
 msgid "Newsgroups Subscriptions"
-msgstr "Ordnerabonnements"
+msgstr "Newsgroup-Abonnements"
 
 #: C/mail-usenet-subscriptions.page:27(p)
 msgid ""
@@ -2756,9 +2740,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-sending-options-smtp.page:5(desc)
-#, fuzzy
 msgid "Sending options for SMTP."
-msgstr "Einladungen per E-Mail versenden"
+msgstr "Versandoptionen für SMTP."
 
 #: C/mail-sending-options-smtp.page:27(title)
 msgid "SMTP sending options"
@@ -2777,7 +2760,6 @@ msgstr ""
 #: C/mail-receiving-options-pop.page:39(p)
 #: C/mail-receiving-options-imap-plus.page:33(p)
 #: C/mail-receiving-options-imap.page:33(p)
-#, fuzzy
 msgid ""
 "Free webmail providers often supply information about which of these options "
 "can be used. If you are in an organizational environment, you may want to "
@@ -2840,9 +2822,8 @@ msgid "Force sending and receiving emails."
 msgstr "Verschicken und Abrufen von E-Mails"
 
 #: C/mail-send-and-receive-manual.page:20(title)
-#, fuzzy
 msgid "Manually send and receive message"
-msgstr "Nachrichten konnten nicht abgerufen werden."
+msgstr "Nachrichten manuell senden und abrufen"
 
 #: C/mail-send-and-receive-manual.page:21(p)
 msgid ""
@@ -2870,9 +2851,8 @@ msgid "Check automatically and regularly for new received mail."
 msgstr ""
 
 #: C/mail-send-and-receive-automatically.page:20(title)
-#, fuzzy
 msgid "Automatically check for new mail"
-msgstr "Automatisch beim Bearbeiten einer neuen E-Mail starten"
+msgstr "Automatisch nach neuen E-Mails sehen"
 
 #: C/mail-send-and-receive-automatically.page:21(p)
 msgid ""
@@ -2950,9 +2930,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-search-folders-refresh.page:5(desc)
-#, fuzzy
 msgid "Ways of updating Search folders."
-msgstr "Suchordner benutzen"
+msgstr "Möglichkeiten zur Aktualisierung von Suchordnern"
 
 #: C/mail-search-folders-refresh.page:24(title)
 msgid "Updating/refreshing Search folders"
@@ -3289,23 +3268,23 @@ msgstr ""
 msgid "Completed On:"
 msgstr "Abgeschlossen am:"
 
-#: C/mail-search-folders-conditions.page:77(p)
-#: C/mail-filters-conditions.page:77(p)
+#: C/mail-search-folders-conditions.page:78(p)
+#: C/mail-filters-conditions.page:78(p)
 msgid "Attachments:"
 msgstr "Anlagen:"
 
-#: C/mail-search-folders-conditions.page:78(p)
-#: C/mail-filters-conditions.page:78(p)
+#: C/mail-search-folders-conditions.page:79(p)
+#: C/mail-filters-conditions.page:79(p)
 msgid "Checks whether there is an attachment for the email."
 msgstr "Filtert je nachdem, ob eine Nachricht einen Anhang besitzt."
 
-#: C/mail-search-folders-conditions.page:80(p)
-#: C/mail-filters-conditions.page:80(p)
+#: C/mail-search-folders-conditions.page:81(p)
+#: C/mail-filters-conditions.page:81(p)
 msgid "Mailing List"
 msgstr "Mailingliste"
 
-#: C/mail-search-folders-conditions.page:81(p)
-#: C/mail-filters-conditions.page:81(p)
+#: C/mail-search-folders-conditions.page:82(p)
+#: C/mail-filters-conditions.page:82(p)
 msgid ""
 "Filters based on the mailing list the message came from. This filter might "
 "miss messages from some list servers, because it checks for the X-BeenThere "
@@ -3319,13 +3298,13 @@ msgstr ""
 "stammen, die diese Kopfzeile nicht korrekt benutzen, werden von diesem Filter "
 "nicht erkannt."
 
-#: C/mail-search-folders-conditions.page:83(p)
-#: C/mail-filters-conditions.page:83(p)
+#: C/mail-search-folders-conditions.page:84(p)
+#: C/mail-filters-conditions.page:84(p)
 msgid "Regex Match:"
 msgstr "Regex-Treffer:"
 
-#: C/mail-search-folders-conditions.page:84(p)
-#: C/mail-filters-conditions.page:84(p)
+#: C/mail-search-folders-conditions.page:85(p)
+#: C/mail-filters-conditions.page:85(p)
 #, fuzzy
 msgid ""
 "(For programmers only) If you know your way around a <link href=\"https://"
@@ -3345,12 +3324,12 @@ msgstr ""
 "Ausdrücke genutzt werden können, lesen Sie die Hilfeseite für das grep-"
 "Kommando."
 
-#: C/mail-search-folders-conditions.page:86(p)
+#: C/mail-search-folders-conditions.page:87(p)
 msgid "Message Location:"
 msgstr "Nachrichtenort:"
 
-#: C/mail-search-folders-conditions.page:88(p)
-#: C/mail-filters-conditions.page:95(p)
+#: C/mail-search-folders-conditions.page:90(p)
+#: C/mail-filters-conditions.page:96(p)
 msgid "Match All:"
 msgstr "Auf alles zutreffen:"
 
@@ -3796,14 +3775,12 @@ msgid "Corporate server types"
 msgstr ""
 
 #: C/mail-receiving-options.page:27(title) C/intro-first-run.page:70(title)
-#, fuzzy
 msgid "Local account server types"
-msgstr "Google-Konteneinstellungen:"
+msgstr "Servertypen für lokale Konten"
 
 #: C/mail-receiving-options-novell-groupwise.page:5(desc)
-#, fuzzy
 msgid "Receiving options for Novell Groupwise accounts."
-msgstr "E-Mails von Ihrem GroupWise-Konto verschicken."
+msgstr "Empfangsoptionen für Novell Groupwise-Konten."
 
 #: C/mail-receiving-options-novell-groupwise.page:24(title)
 msgid "Novell Groupwise receiving options"
@@ -3858,14 +3835,12 @@ msgid "Receiving options for Local delivery accounts."
 msgstr "Neue Objekte in von allen Konten empfangen"
 
 #: C/mail-receiving-options-local-delivery.page:20(title)
-#, fuzzy
 msgid "Local delivery receiving options"
 msgstr "Empfangsoptionen für Lokale Auslieferung"
 
 #: C/mail-receiving-options-imap-plus.page:5(desc)
-#, fuzzy
 msgid "Receiving options for IMAP+ accounts."
-msgstr "IMAP-Konten detailliert einstellen."
+msgstr "Empfangsoptionen für IMAP+-Konten."
 
 #: C/mail-receiving-options-imap-plus.page:23(title)
 msgid "IMAP+ receiving options"
@@ -4048,9 +4023,8 @@ msgid "How to enable requesting read receipts."
 msgstr "Lesebestätigung immer anfordern"
 
 #: C/mail-read-receipts.page:33(title)
-#, fuzzy
 msgid "Read receipts for emails"
-msgstr "Lesebestätigung angefordert."
+msgstr "Lesebestätigungen für E-Mails"
 
 #: C/mail-read-receipts.page:35(p)
 msgid ""
@@ -4171,7 +4145,6 @@ msgstr ""
 "betrachten."
 
 #: C/mail-reading-keyboard-shortcuts.page:51(p)
-#, fuzzy
 msgid ""
 "When you are in the Mail window, the Spacebar has the following behavior:"
 msgstr ""
@@ -4239,9 +4212,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-organizing.page:26(title)
-#, fuzzy
 msgid "Advanced Options"
-msgstr "Erweiterte Versandoptionen"
+msgstr "Erweiterte Optionen"
 
 #: C/mail-not-sent.page:5(desc)
 msgid "Possible reasons why emails are not sent."
@@ -4315,9 +4287,8 @@ msgid "Use labels to categorize your mail while keeping it in their folders."
 msgstr ""
 
 #: C/mail-labels.page:21(title)
-#, fuzzy
 msgid "Using Labels"
-msgstr "Beschriftungen"
+msgstr "Beschriftungen verwenden"
 
 #: C/mail-labels.page:23(p)
 msgid ""
@@ -4334,9 +4305,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-labels.page:28(title)
-#, fuzzy
 msgid "Adding a label to a message"
-msgstr "Um eine Beschriftung einer spezifischen E-Mail zuzuweisen:"
+msgstr "Eine Beschriftung zu einer Nachricht hinzufügen"
 
 #: C/mail-labels.page:29(p)
 msgid ""
@@ -4349,9 +4319,8 @@ msgid "You can also quickly add a new label by choosing <gui>New Label</gui>."
 msgstr ""
 
 #: C/mail-labels.page:34(title)
-#, fuzzy
 msgid "Managing labels"
-msgstr "Verschickte Objekte verwalten"
+msgstr "Beschriftungen verwalten"
 
 #: C/mail-labels.page:35(p)
 msgid ""
@@ -4543,7 +4512,6 @@ msgid "Follow up flags for emails"
 msgstr "Anzeigen der Filter für E-Mail:"
 
 #: C/mail-follow-up-flag.page:25(p)
-#, fuzzy
 msgid ""
 "To make sure you do not forget about a message, you can use the follow-up "
 "feature."
@@ -4679,9 +4647,8 @@ msgid "Specify the name and the location of the folder."
 msgstr "Wählen Sie den Namen und den Ort für den Ordner aus."
 
 #: C/mail-folders.page:38(p)
-#, fuzzy
 msgid "Click on the <gui>Create</gui> button."
-msgstr "Klicken Sie auf den »Kategorien«-Knopf."
+msgstr "Klicken Sie auf den <gui>Erstellen</gui>-Knopf."
 
 #: C/mail-folders.page:40(p)
 msgid ""
@@ -4710,10 +4677,9 @@ msgid "Moving Messages to New Folders"
 msgstr "Nachrichten in neue Ordner verschoben"
 
 #: C/mail-folders.page:50(p)
-#, fuzzy
 msgid ""
 "You can move messages into folders by using one of the following methods:"
-msgstr "Sie können die Ordnergröße folgendermaßen betrachten:"
+msgstr "Sie können Nachrichten folgendermaßen in Ordner verschieben:"
 
 #: C/mail-folders.page:52(p)
 #, fuzzy
@@ -4721,11 +4687,11 @@ msgid "Drag and drop the messages into the folder."
 msgstr "Markiert alle Nachrichten im Ordner als gelesen."
 
 #: C/mail-folders.page:53(p)
-#, fuzzy
 msgid ""
 "Right-click on the message and select the <gui>Move to Folder</gui> option."
 msgstr ""
-"Klicken Sie mit der rechten Maustaste auf die Nachricht in der E-Mail-Liste."
+"Klicken Sie mit der rechten Maustaste auf die Nachricht und wählen Sie die "
+"Option <gui>In Ordner verschieben</gui>."
 
 #: C/mail-folders.page:54(p)
 msgid ""
@@ -4817,18 +4783,16 @@ msgstr ""
 "\">Erinnerungen</link>."
 
 #: C/mail-filters.page:42(p)
-#, fuzzy
 msgid "Select the Actions for the Filter in the <gui>Then</gui> section."
-msgstr "Wählen Sie die Aktionen für den Filter unter »Dann« aus:"
+msgstr "Wählen Sie die Aktionen für den Filter unter <gui>Dann</gui> aus."
 
 #: C/mail-filters.page:42(p)
-#, fuzzy
 msgid ""
 "For more information on the available actions see <link xref=\"mail-filters-"
 "actions\">Available Filter actions</link>."
 msgstr ""
-"Für weitere Informationen zu Alarmen lesen Sie bitte <link linkend=\"bshly4v"
-"\">Erinnerungen</link>."
+"Für weitere Informationen zu den verfügbaren Aktionen lesen Sie bitte <link "
+"xref=\"mail-filters-actions\">Verfügbare Filteraktionen</link>."
 
 #: C/mail-filters.page:44(p) C/mail-filters-not-working.page:29(p)
 msgid ""
@@ -4866,24 +4830,25 @@ msgstr "Filter bearbeiten"
 #: C/mail-filters.page:58(p) C/mail-filters.page:68(p)
 msgid "Click <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>."
 msgstr ""
+"Klicken Sie <guiseq><gui>Bearbeiten</gui><gui>Nachrichtenfilter</gui></"
+"guiseq>."
 
 #: C/mail-filters.page:59(p) C/mail-filters.page:69(p)
-#, fuzzy
 msgid "Select the filter."
-msgstr "Eine Datei wählen"
+msgstr "Wählen Sie den Filter aus."
 
 #: C/mail-filters.page:60(p)
 #: C/mail-encryption-s-mime-signing-encrypting.page:30(p)
 #: C/mail-encryption-gpg-signing-encrypting.page:32(p)
 msgid "Click <gui style=\"button\">Edit</gui>."
-msgstr ""
+msgstr "Klicken Sie auf <gui style=\"button\">Bearbeiten</gui>."
 
 #: C/mail-filters.page:61(p)
-#, fuzzy
 msgid ""
 "Make the desired corrections, then click <gui style=\"button\">OK</gui> twice."
 msgstr ""
-"Führen Sie die gewünschten Änderungen durch und klicken Sie zweimal auf OK."
+"Führen Sie die gewünschten Änderungen durch und klicken Sie zweimal auf <gui "
+"style=\"button\">OK</gui>."
 
 #: C/mail-filters.page:66(title)
 msgid "Deleting Filters"
@@ -4891,7 +4856,7 @@ msgstr "Filter löschen"
 
 #: C/mail-filters.page:70(p)
 msgid "Click <gui style=\"button\">Remove</gui>."
-msgstr ""
+msgstr "Klicken Sie auf <gui style=\"button\">Entfernen</gui>."
 
 #: C/mail-filters-not-working.page:5(desc)
 msgid ""
@@ -4935,15 +4900,14 @@ msgid "Available conditions for setting up filtering."
 msgstr ""
 
 #: C/mail-filters-conditions.page:23(title)
-#, fuzzy
 msgid "Available Filter conditions"
-msgstr "Verfügbare Felder"
+msgstr "Verfügbare Filterbedingungen"
 
-#: C/mail-filters-conditions.page:86(p)
+#: C/mail-filters-conditions.page:87(p)
 msgid "Source Account:"
 msgstr "Quellkonto:"
 
-#: C/mail-filters-conditions.page:87(p)
+#: C/mail-filters-conditions.page:88(p)
 msgid ""
 "Filters messages according the server you got them from. This is most useful "
 "if you use multiple POP mail accounts."
@@ -4951,11 +4915,11 @@ msgstr ""
 "Filtert Nachrichten gemäß dem Server, von dem sie stammen. Dies ist nützlich, "
 "falls Sie mehrere POP-Konten besitzen."
 
-#: C/mail-filters-conditions.page:89(p) C/mail-filters-actions.page:65(p)
+#: C/mail-filters-conditions.page:90(p) C/mail-filters-actions.page:65(p)
 msgid "Pipe to Program:"
 msgstr "An Programm weiterleiten:"
 
-#: C/mail-filters-conditions.page:90(p)
+#: C/mail-filters-conditions.page:91(p)
 msgid ""
 "Evolution can use an external command to process a message, then process it "
 "based on the return value. Commands used in this way must return an integer. "
@@ -4967,11 +4931,11 @@ msgstr ""
 "Wert als Rückgabewert liefern. Dies kann zum Beispiel zum Filtern "
 "unerwünschter Nachrichten oder für einen Virusscanner genutzt werden."
 
-#: C/mail-filters-conditions.page:92(p)
+#: C/mail-filters-conditions.page:93(p)
 msgid "Junk Test:"
 msgstr "Unerwünscht-Test:"
 
-#: C/mail-filters-conditions.page:93(p)
+#: C/mail-filters-conditions.page:94(p)
 #, fuzzy
 msgid ""
 "Filters based on the results of the <link xref=\"mail-spam\">junk mail</link> "
@@ -4983,9 +4947,8 @@ msgid "Available actions for setting up filtering."
 msgstr ""
 
 #: C/mail-filters-actions.page:23(title)
-#, fuzzy
 msgid "Available Filter actions"
-msgstr "Verfügbare Felder"
+msgstr "Verfügbare Filteraktionen"
 
 #: C/mail-filters-actions.page:26(p)
 msgid "Move to Folder:"
@@ -5031,14 +4994,12 @@ msgstr ""
 "Nachricht angewendet werden sollen."
 
 #: C/mail-filters-actions.page:38(p)
-#, fuzzy
 msgid "Set Label:"
-msgstr "Beschriftung setzen"
+msgstr "Beschriftung setzen:"
 
 #: C/mail-filters-actions.page:39(p)
-#, fuzzy
 msgid "Adds a label to a message."
-msgstr "Um eine Beschriftung einer spezifischen E-Mail zuzuweisen:"
+msgstr "Fügt eine Beschriftung zu einer Nachricht hinzu"
 
 #: C/mail-filters-actions.page:41(p)
 msgid "Assign Color:"
@@ -5126,16 +5087,12 @@ msgstr ""
 "dieser Form nicht unterstützt wird."
 
 #: C/mail-filters-actions.page:68(p)
-#, fuzzy
 msgid "Forward to:"
-msgstr "Weiterleiten an"
+msgstr "Weiterleiten an:"
 
 #: C/mail-filters-actions.page:69(p)
-#, fuzzy
 msgid "Forwards the message to another email address."
-msgstr ""
-"Leitet eine Kopie einer Nachricht und hinzugefügte Kommentare an eine andere "
-"E-Mail-Adresse weiter."
+msgstr "Leitet die Nachricht an eine andere E-Mail-Adresse weiter."
 
 #: C/mail-error-no-provider-available.page:5(desc)
 #: C/mail-error-folder-mismatch.page:5(desc)
@@ -5300,9 +5257,8 @@ msgstr ""
 
 #: C/mail-encryption-s-mime-signing-encrypting.page:23(title)
 #: C/mail-encryption-gpg-signing-encrypting.page:23(title)
-#, fuzzy
 msgid "Signing or encrypting messages"
-msgstr "Jede Nachricht signieren oder verschlüsseln"
+msgstr "Nachrichten signieren oder verschlüsseln"
 
 #: C/mail-encryption-s-mime-signing-encrypting.page:25(p)
 #, fuzzy
@@ -5324,7 +5280,6 @@ msgstr "So signieren oder verschlüsseln Sie jede Nachricht:"
 
 #: C/mail-encryption-s-mime-signing-encrypting.page:29(p)
 #: C/mail-encryption-gpg-signing-encrypting.page:31(p)
-#, fuzzy
 msgid "Select the mail account to encrypt the messages in."
 msgstr ""
 "Wählen Sie das E-Mail-Konto aus, für welches die Nachrichten verschlüsselt "
@@ -5333,9 +5288,8 @@ msgstr ""
 #: C/mail-encryption-s-mime-signing-encrypting.page:31(p)
 #: C/mail-encryption-gpg-signing-encrypting.page:33(p)
 #: C/mail-encryption-gpg-set-up.page:31(p)
-#, fuzzy
 msgid "Click the <gui>Security</gui> tab."
-msgstr "Klicken Sie auf den Reiter Sicherheit."
+msgstr "Klicken Sie auf den Reiter <gui>Sicherheit</gui>."
 
 #: C/mail-encryption-s-mime-signing-encrypting.page:32(p)
 msgid ""
@@ -5421,14 +5375,12 @@ msgstr ""
 "und löschen."
 
 #: C/mail-encryption.page:5(desc)
-#, fuzzy
 msgid "Sending and receiving encrypted mail."
-msgstr "Verschicken und Abrufen von E-Mails"
+msgstr "Verschlüsselte Nachrichten senden und empfangen"
 
 #: C/mail-encryption.page:34(title)
-#, fuzzy
 msgid "Mail encryption and certificates"
-msgstr "_Verschlüsselungszertifikat:"
+msgstr "Mailverschlüsselung und Zertifikate"
 
 #: C/mail-encryption.page:36(p)
 msgid ""
@@ -5439,7 +5391,7 @@ msgstr ""
 
 #: C/mail-encryption.page:39(title)
 msgid "GPG"
-msgstr ""
+msgstr "GPG"
 
 #: C/mail-encryption.page:43(title)
 msgid "S/MIME"
@@ -5465,14 +5417,14 @@ msgstr ""
 "klicken."
 
 #: C/mail-encryption-gpg-signing-encrypting.page:34(p)
-#, fuzzy
 msgid "Select <gui>Always sign outgoing messages when using this account</gui>."
-msgstr "Aus diesem Konto ausgehende Nachrichten _immer signieren"
+msgstr ""
+"Wählen Sie <gui>Aus diesem Konto ausgehende Nachrichten immer signieren</gui>."
 
 #: C/mail-encryption-gpg-signing-encrypting.page:36(p)
 #: C/mail-encryption-gpg-set-up.page:36(p)
 msgid "Click <gui style=\"button\">Close</gui>."
-msgstr ""
+msgstr "Klicken Sie auf <gui style=\"button\">Schließen</gui>."
 
 #: C/mail-encryption-gpg-set-up.page:5(desc)
 msgid ""
@@ -5481,9 +5433,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-encryption-gpg-set-up.page:23(title)
-#, fuzzy
 msgid "Setting up GPG for your mail account"
-msgstr "GPG-Verschlüsselung einrichten"
+msgstr "GPG-Verschlüsselung für Ihr E-Mail-Konto einrichten"
 
 #: C/mail-encryption-gpg-set-up.page:26(p)
 msgid ""
@@ -5492,11 +5443,12 @@ msgid ""
 msgstr ""
 
 #: C/mail-encryption-gpg-set-up.page:30(p)
-#, fuzzy
 msgid ""
 "Select the account you want to use securely, then click <gui style=\"button"
 "\">Edit</gui>."
-msgstr "Wählen Sie das Konto aus und klicken Sie auf Bearbeiten."
+msgstr ""
+"Wählen Sie das Konto aus, das Sie sicher verwenden wollen, und klicken Sie "
+"auf <gui style=\"button\">Bearbeiten</gui>."
 
 #: C/mail-encryption-gpg-set-up.page:32(p)
 #, fuzzy
@@ -5637,11 +5589,9 @@ msgid ""
 msgstr ""
 
 #: C/mail-encryption-gpg-create-key.page:30(p)
-#, fuzzy
 msgid "Open a terminal window and enter <code>gpg --gen-key</code>."
 msgstr ""
-"Öffnen Sie ein Kommandozeilen-Fenster und geben Sie <command>gpg --gen-key</"
-"command> ein."
+"Öffnen Sie ein Terminalfenster und geben Sie <code>gpg --gen-key</code> ein."
 
 #: C/mail-encryption-gpg-create-key.page:31(p)
 msgid "Select an algorithm, then press Enter."
@@ -5713,11 +5663,10 @@ msgstr ""
 "Schlüssel geben möchten, so senden Sie ihnen diese Datei."
 
 #: C/mail-encryption-gpg-create-key.page:44(p)
-#, fuzzy
 msgid "If you want, you can upload your keys to a key server:"
 msgstr ""
 "Falls Sie möchten, können Sie Ihre Schlüssel auf einen Schlüssel-Server "
-"hochladen."
+"hochladen:"
 
 #: C/mail-encryption-gpg-create-key.page:46(p)
 #, fuzzy
@@ -5732,16 +5681,13 @@ msgstr ""
 "Kennung Ihres öffentliche Schlüssels <quote>32j38dk2</quote>."
 
 #: C/mail-encryption-gpg-create-key.page:47(p)
-#, fuzzy
 msgid ""
 "Enter the command <code>gpg --send-keys --keyserver wwwkeys.pgp.net 32j38dk2</"
 "code>. Substitute your key ID for <code>32j38dk2</code>. You need your "
 "password to do this."
 msgstr ""
-"Geben Sie den Befehl <command>gpg --send-keys --keyserver wwwkeys.pgp.net "
-"<varname>32j38dk2</varname></command> ein. Setzen Sie Ihre eigene "
-"Schlüsselkennung (Key ID) für <quote>32j38dk2</quote> ein. Sie benötigen Ihr "
-"Passwort, um diesen Befehl auszuführen."
+"Geben Sie den Befehl <code>gpg --send-keys --keyserver wwwkeys.pgp.net "
+"32j38dk2</code> ein. Sie benötigen Ihr Passwort, um diesen Befehl auszuführen."
 
 #: C/mail-encryption-gpg-create-key.page:50(p)
 msgid ""
@@ -5760,7 +5706,6 @@ msgstr ""
 "können."
 
 #: C/mail-encryption-gpg-create-key.page:51(p)
-#, fuzzy
 msgid ""
 "If you don't have a key to unlock or encrypt a message, you can set your "
 "encryption tool to look it up automatically. If it cannot find the key, an "
@@ -5781,9 +5726,8 @@ msgid "Duplicate emails get downloaded"
 msgstr ""
 
 #: C/mail-duplicates.page:27(title)
-#, fuzzy
 msgid "Removing duplicate emails"
-msgstr "Sollen die doppelten Nachrichten entfernt werden?"
+msgstr "Doppelte Nachrichten entfernen"
 
 #: C/mail-duplicates.page:28(p)
 msgid ""
@@ -5795,7 +5739,7 @@ msgstr ""
 
 #: C/mail-duplicates.page:33(title)
 msgid "Reasons"
-msgstr ""
+msgstr "Gründe"
 
 #: C/mail-duplicates.page:34(p)
 msgid "Downloading duplicate emails may be due to one of the following reasons:"
@@ -5810,16 +5754,16 @@ msgid "Evolution is having a problem with the UIDL extension."
 msgstr ""
 
 #: C/mail-duplicates.page:38(p)
-#, fuzzy
 msgid ""
 "The cache files located at <file>$HOME/.local/share/evolution/mail/pop/</"
 "file> are not writable."
-msgstr "Der gewählte Ordner ist schreibgeschützt."
+msgstr ""
+"Die Zwischenspeicherdateien in <file>$HOME/.local/share/evolution/mail/pop/</"
+"file> sind schreibgeschützt."
 
 #: C/mail-displaying-sender-photograph.page:5(desc)
-#, fuzzy
 msgid "Display a picture of the sender in the message header area."
-msgstr "Fotos des Absenders in der Nachrichtenvorschau anzeigen."
+msgstr "Ein Foto des Absenders in der Nachrichtenvorschau anzeigen."
 
 #: C/mail-displaying-sender-photograph.page:23(title)
 #, fuzzy
@@ -5875,9 +5819,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-displaying-no-css.page:24(p)
-#, fuzzy
 msgid "This will likely be fixed in version 3.4."
-msgstr "Wetterkalender zu Evolution hinzufügen."
+msgstr "Dies wird wahrscheinlich in Version 3.4 korrigiert."
 
 #: C/mail-displaying-no-css.page:25(p)
 msgid ""
@@ -5910,7 +5853,6 @@ msgid "Images in HTML messages"
 msgstr "Bilder in HTML-Nachrichten"
 
 #: C/mail-displaying-images-in-html.page:30(p)
-#, fuzzy
 msgid ""
 "When someone sends you HTML mail that includes an image in the body of the "
 "message (for example, the welcome message in your Inbox), Evolution displays "
@@ -5918,10 +5860,7 @@ msgid ""
 msgstr ""
 "Wenn Ihnen jemand eine in HTML formatierte E-Mail schickt, die ein Bild in "
 "der Nachricht enthält (zum Beispiel die Willkommens-Nachricht in Ihrem "
-"Eingangsordner), so stellt Evolution das Bild in der Nachricht dar. Sie "
-"können Nachricht wie diese erstellen, indem Sie die »Bild einfügen«-Funktion "
-"im E-Mail-Editor benutzen. Sie können auch ein Bild per Maus (Ziehen-und-"
-"ablegen) in das Textfeld des E-Mail-Editors ziehen."
+"Eingangsordner), so stellt Evolution das Bild in der Nachricht dar."
 
 #: C/mail-displaying-images-in-html.page:33(title)
 msgid "Loading images"
@@ -6038,9 +5977,8 @@ msgid "When characters in an email are not shown correctly or missing."
 msgstr ""
 
 #: C/mail-displaying-character-encodings.page:20(title)
-#, fuzzy
 msgid "Character Encodings and Sets"
-msgstr "Zeichenkodierung"
+msgstr "Zeichenkodierungen und Zeichensätze"
 
 #. TODO: Recheck once https://bugzilla.gnome.org/show_bug.cgi?id=655021 is fixed
 #: C/mail-displaying-character-encodings.page:24(p)
@@ -6107,15 +6045,14 @@ msgstr ""
 "markierte E-Mails auch im Müllordner finden."
 
 #: C/mail-delete-and-undelete.page:34(p)
-#, fuzzy
 msgid ""
 "To permanently erase all the deleted messages in a folder, click "
 "<guiseq><gui>Folder</gui><gui>Expunge</gui></guiseq> or press "
 "<keyseq><key>Ctrl</key><key>E</key></keyseq>."
 msgstr ""
 "Um die in einem Ordner als gelöscht markierten Nachrichten endgültig zu "
-"löschen, wählen Sie Ordner &gt; Säubern in der Menüleiste, oder drücken Sie "
-"Strg+E."
+"löschen, wählen Sie <guiseq><gui>Ordner</gui><gui>Säubern</gui></guiseq> in "
+"der Menüleiste oder drücken Sie <keyseq><key>Strg</key><key>E</key></keyseq>."
 
 #: C/mail-delete-and-undelete.page:38(title)
 msgid "Undeleting Messages"
@@ -6152,9 +6089,8 @@ msgid "Changing the location of the Draft folder and Sent folder."
 msgstr "Wählen Sie den Ort für den neuen Ordner aus."
 
 #: C/mail-default-folder-locations.page:32(title)
-#, fuzzy
 msgid "Mail folder locations"
-msgstr "Ort des Postfachs"
+msgstr "Orte der E-Mail-Ordner"
 
 #: C/mail-default-folder-locations.page:34(p)
 msgid ""
@@ -6193,7 +6129,6 @@ msgid "Writing a new email to send to a recipient."
 msgstr ""
 
 #: C/mail-composer-write-new-message.page:23(title)
-#, fuzzy
 msgid "Composing a new message"
 msgstr "Eine neue E-Mail-Nachricht verfassen"
 
@@ -6272,9 +6207,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-spellcheck.page:40(title)
-#, fuzzy
 msgid "Manual spell checking in the composer"
-msgstr "Farbe für Rechtschreibprüfung"
+msgstr "Manuelle Rechtschreibprüfung im E-Mail-Editor"
 
 #: C/mail-composer-spellcheck.page:41(p)
 msgid ""
@@ -6351,9 +6285,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-several-recipients.page:45(title)
-#, fuzzy
 msgid "Using the buttons"
-msgstr "Umschaltknöpfe anzeigen"
+msgstr "Die Knöpfe verwenden"
 
 #: C/mail-composer-several-recipients.page:47(p)
 #, fuzzy
@@ -6370,14 +6303,12 @@ msgstr ""
 "Feldern hinzuzufügen."
 
 #: C/mail-composer-search.page:5(desc)
-#, fuzzy
 msgid "Searching for text in the mail composer."
-msgstr "In der angezeigten Notiz einen Text suchen"
+msgstr "Im E-Mail-Editor nach Text suchen."
 
 #: C/mail-composer-search.page:21(title)
-#, fuzzy
 msgid "Searching in the mail composer"
-msgstr "Suchen und Ersetzen im E-Mail-Editor"
+msgstr "Suchen im E-Mail-Editor"
 
 #: C/mail-composer-search.page:23(p)
 #, fuzzy
@@ -6388,7 +6319,7 @@ msgstr "Der E-Mail-Editor enthält verschiedene Möglichkeiten zur Textsuche."
 
 #: C/mail-composer-search.page:26(p)
 msgid "<gui>Find</gui>:"
-msgstr ""
+msgstr "<gui>Suchen</gui>:"
 
 #: C/mail-composer-search.page:27(p)
 msgid "Enter a word or phrase, and Evolution finds it in your message."
@@ -6397,9 +6328,8 @@ msgstr ""
 "Nachricht danach."
 
 #: C/mail-composer-search.page:30(p)
-#, fuzzy
 msgid "<gui>Find Again</gui>:"
-msgstr "Weitersuchen:"
+msgstr "<gui>Weitersuchen</gui>:"
 
 #: C/mail-composer-search.page:31(p)
 msgid "Select this item to repeat the last search you performed."
@@ -6407,7 +6337,7 @@ msgstr "Wählen Sie dies, um die letzte Suche fortzusetzen."
 
 #: C/mail-composer-search.page:34(p)
 msgid "<gui>Replace</gui>:"
-msgstr ""
+msgstr "<gui>Ersetzen</gui>:"
 
 #: C/mail-composer-search.page:35(p)
 msgid "Find a word or phrase, and replace it with something else."
@@ -6433,14 +6363,12 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-reply.page:5(desc)
-#, fuzzy
 msgid "Answering a received email."
-msgstr "Eine empfangene Nachricht entschlüsseln"
+msgstr "Eine empfangene Nachricht beantworten"
 
 #: C/mail-composer-reply.page:23(title)
-#, fuzzy
 msgid "Replying to a message"
-msgstr "Eine Nachricht beantworten:"
+msgstr "Eine Nachricht beantworten"
 
 #: C/mail-composer-reply.page:26(title)
 msgid "Replying to Email Messages"
@@ -6469,7 +6397,6 @@ msgstr ""
 "einen Teil der vorherigen Nachricht handelt."
 
 #: C/mail-composer-reply.page:28(p)
-#, fuzzy
 msgid ""
 "If you are reading a message with several recipients, you can use <gui>Reply "
 "to All</gui> instead of <gui>Reply</gui>. If there are large numbers of "
@@ -6477,15 +6404,15 @@ msgid ""
 "substantial amounts of time."
 msgstr ""
 "Falls Sie eine Nachricht mit mehreren Empfängern beantworten möchten, so "
-"wählen Sie Antwort an Alle anstelle von Antwort. Dies spart Zeit, falls es "
-"sich um eine große Anzahl an Personen im An:- oder Kopie:-Feld handelt."
+"wählen Sie <gui>Antwort an Alle</gui> anstelle von <gui>Antwort</gui>. Dies "
+"spart Zeit, falls es sich um eine große Anzahl an Personen im <gui>An:</gui>- "
+"oder <gui>Kopie:</gui>-Feld handelt."
 
 #: C/mail-composer-reply.page:32(title)
 msgid "Using the Reply To All Feature"
 msgstr "Antwort an Alle"
 
 #: C/mail-composer-reply.page:33(p)
-#, fuzzy
 msgid ""
 "Susan sends an email to a client and sends copies to Tim and to an internal "
 "company mailing list of co-workers. If Tim wants to make a comment for all of "
@@ -6494,16 +6421,16 @@ msgid ""
 "reach anyone that Susan put on her Bcc list, because that list is not shared "
 "with anyone."
 msgstr ""
-"Margit sendet eine E-Mail an einem Empfänger und schickt Kopien an Lothar und "
+"Margit sendet eine E-Mail an einen Empfänger und schickt Kopien an Lothar und "
 "an eine firmeninterne Mailingliste von Mitarbeitern. Wenn nun Lothar einen "
-"Kommentar an alle Empfänger schicken will, so benutzt er Antwort an Alle, "
-"will er jedoch nur Margit schreiben, dass er einverstanden ist, so benutzt er "
-"Antwort. Seine Antwort wird nicht an Adressen verschickt, die Margit in das "
-"Blindkopie-Feld eingetragen hatte, da die Adressen der Blindkopie-Empfänger "
-"von keinem der Empfänger gesehen werden können."
+"Kommentar an alle Empfänger schicken will, so benutzt er <gui>Antwort an "
+"Alle</gui>, will er jedoch nur Margit schreiben, dass er einverstanden ist, "
+"so benutzt er <gui>Antwort</gui>. Seine Antwort wird nicht an Adressen "
+"verschickt, die Margit in das Blindkopie-Feld eingetragen hatte, da die "
+"Adressen der Blindkopie-Empfänger von keinem der Empfänger gesehen werden "
+"können."
 
 #: C/mail-composer-reply.page:34(p)
-#, fuzzy
 msgid ""
 "If you subscribe to a mailing list, and want your reply to go just to the "
 "list rather than to the sender, select <gui>Reply to List</gui> instead of "
@@ -6511,7 +6438,8 @@ msgid ""
 msgstr ""
 "Falls Sie auf einer Mailingliste angemeldet sind und Ihre Antwort an die "
 "Mailingliste und nicht nur an den Absender verschickt werden soll, so wählen "
-"Sie Antwort an Liste oder Antwort an alle."
+"Sie <gui>Antwort an Liste</gui> anstelle von <gui>Antwort</gui> oder "
+"<gui>Antwort an alle</gui>."
 
 #: C/mail-composer-reply.page:38(title)
 msgid "Keyboard shortcuts"
@@ -6552,7 +6480,7 @@ msgstr "Antwort an alle"
 
 #: C/mail-composer-reply.page:47(key)
 msgid "Shift"
-msgstr ""
+msgstr "Umschalttaste"
 
 #: C/mail-composer-reply.page:53(title) C/mail-composer-forward.page:40(title)
 msgid "Default settings"
@@ -6622,7 +6550,6 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-message-templates.page:31(title)
-#, fuzzy
 msgid "Creating a Message Template from an existing Message"
 msgstr "Eine Nachrichtenvorlage aus einer bestehenden Nachricht erstellen"
 
@@ -6631,13 +6558,12 @@ msgid "Select the message."
 msgstr "Wählen Sie die Nachricht aus."
 
 #: C/mail-composer-message-templates.page:34(p)
-#, fuzzy
 msgid ""
 "Right-click the message and choose <gui>Move to folder</gui> or <gui>Copy to "
 "folder</gui>."
 msgstr ""
-"Klicken Sie mit der rechten Maustaste und wählen Sie »In Ordner "
-"verschieben« / »In Ordner kopieren«."
+"Klicken Sie mit der rechten Maustaste und wählen Sie <gui>In Ordner "
+"verschieben</gui> / <gui>In Ordner kopieren</gui>."
 
 #: C/mail-composer-message-templates.page:35(p)
 msgid ""
@@ -6645,16 +6571,14 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-message-templates.page:37(p)
-#, fuzzy
 msgid "You can also edit an existing message and save it as a template:"
 msgstr ""
 "Sie können auch eine bestehende Nachricht bearbeiten und diese als Vorlage "
-"speichern."
+"speichern:"
 
 #: C/mail-composer-message-templates.page:39(p)
-#, fuzzy
 msgid "Open the message and click <gui>Reply</gui>."
-msgstr "Öffnen Sie die Nachricht und klicken Sie auf »Antworten«."
+msgstr "Öffnen Sie die Nachricht und klicken Sie auf <gui>Antworten</gui>."
 
 #: C/mail-composer-message-templates.page:40(p)
 msgid "Edit the message body or the addresses according to your requirements."
@@ -6890,14 +6814,14 @@ msgstr "Text in HTML formatieren"
 
 #. TODO: These instructions are partially WRONG in 3.0.2 as the tool bar has been split into two. Needs an update. Maybe we also need a way to describe the non-HTML-only functions for plain text mail somewhere.
 #: C/mail-composer-html-text.page:25(p)
-#, fuzzy
 msgid ""
 "HTML formatting tools are located in the two tool bars just above the area "
 "where you actually write the message. They also appear in the <gui>Insert</"
 "gui> and <gui>Format</gui> menus."
 msgstr ""
 "Werkzeuge zur HTML-Formatierung befinden sich in der Werkzeugleiste unter der "
-"Betreffzeile, sowie in den Menüs Einfügen und Format in der Menüleiste."
+"Betreffzeile, sowie in den Menüs <gui>Einfügen</gui> und <gui>Format</gui> in "
+"der Menüleiste."
 
 #: C/mail-composer-html-text.page:26(p)
 #, fuzzy
@@ -7105,9 +7029,8 @@ msgstr ""
 "Lesbarkeit zu verbessern:"
 
 #: C/mail-composer-html-rule.page:21(title)
-#, fuzzy
 msgid "Inserting a Rule in HTML"
-msgstr "Eine Trennlinie einfügen"
+msgstr "Eine HTML-Regel einfügen"
 
 #: C/mail-composer-html-rule.page:23(p)
 #, fuzzy
@@ -7387,9 +7310,8 @@ msgid "To set up the Custom Header plugin:"
 msgstr "Um das Plugin »Benutzerdefinierte Kopfzeilen« zu aktivieren:"
 
 #: C/mail-composer-custom-header-lines.page:32(p)
-#, fuzzy
 msgid "Enable <gui>Custom Header</gui>."
-msgstr "Benutzerdefinierte E-Mail-Kopfzeile"
+msgstr "Aktivieren Sie <gui>Benutzerdefinierte E-Mail-Kopfzeile</gui>"
 
 #: C/mail-composer-custom-header-lines.page:34(p)
 #, fuzzy
@@ -7459,9 +7381,8 @@ msgstr ""
 "betrachten."
 
 #: C/mail-change-time-format.page:19(title)
-#, fuzzy
 msgid "Format of dates and time"
-msgstr "Wählen Sie Datum und Zeit."
+msgstr "Format für Datum und Zeit"
 
 #: C/mail-change-time-format.page:20(p)
 msgid ""
@@ -7485,9 +7406,8 @@ msgstr ""
 "Klicken Sie mit der rechten Maustaste auf die Nachricht in der E-Mail-Liste."
 
 #: C/mail-change-columns-in-message-list.page:20(title)
-#, fuzzy
 msgid "Changing the message list columns"
-msgstr "Die E-Mail-Liste sortieren"
+msgstr "Die Spalten der E-Mail-Liste ändern"
 
 #: C/mail-change-columns-in-message-list.page:22(p)
 msgid ""
@@ -7556,11 +7476,15 @@ msgid ""
 msgstr ""
 
 #: C/mail-cannot-see.page:41(p)
+#, fuzzy
 msgid ""
 "Check your default folder under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Email Accounts</gui><gui>Edit</gui><gui>Defaults</gui></guiseq>. "
-"Perhaps it is set to some other folder then the folder you thought of."
+"Perhaps it is set to some other folder than the folder you thought of."
 msgstr ""
+"Um diese Funktion zu aktivieren, wählen Sie Bearbeiten &gt; Einstellungen "
+"&gt; E-Mail-Einstellungen &gt; Kopfzeilen &gt; Photo des Absenders in der "
+"Nachrichtenvorschau anzeigen aus."
 
 #: C/mail-calendar-sending-invitations.page:5(desc)
 msgid "Sending invitations for appointments to contacts via email."
@@ -7581,13 +7505,12 @@ msgstr ""
 "Format verschickt."
 
 #: C/mail-calendar-sending-invitations.page:25(p)
-#, fuzzy
 msgid ""
 "To send an invitation, right-click on the entry in the calendar and choose "
 "<gui>Forward as iCalendar</gui>."
 msgstr ""
 "Um eine Einladung zu verschicken, klicken Sie mit der rechten Maustaste auf "
-"den Kalendereintrag und wählen Sie »Als iCalendar weiterleiten«."
+"den Kalendereintrag und wählen Sie <gui>Als iCalendar weiterleiten</gui>."
 
 #: C/mail-calendar-sending-invitations.page:27(p)
 msgid "When you receive an invitation, you have several options:"
@@ -7650,18 +7573,16 @@ msgid "Attaching files to emails you want to send."
 msgstr ""
 
 #: C/mail-attachments-sending.page:24(title)
-#, fuzzy
 msgid "Adding attachments to an email"
-msgstr "Mit Anhängen und HTML-E-Mails arbeiten"
+msgstr "Anhänge zu E-Mails hinzufügen"
 
 #: C/mail-attachments-sending.page:27(title)
 msgid "Attaching files"
 msgstr "Dateien beilegen"
 
 #: C/mail-attachments-sending.page:28(p)
-#, fuzzy
 msgid "To attach a file to your email in the composer:"
-msgstr "Um einer E-mail eine Datei beizulegen:"
+msgstr ""
 
 #: C/mail-attachments-sending.page:30(p)
 msgid ""
@@ -7735,9 +7656,8 @@ msgid "Saving and opening files that are attached to received emails."
 msgstr ""
 
 #: C/mail-attachments-received.page:24(title)
-#, fuzzy
 msgid "Handling attachments in received mail"
-msgstr "Audio-Anlagen direkt in Nachrichten wiedergeben."
+msgstr "Umgang mit Anlagen in empfangenen Nachrichten"
 
 #: C/mail-attachments-received.page:26(p)
 msgid ""
@@ -7764,7 +7684,6 @@ msgid ""
 msgstr ""
 
 #: C/mail-attachments-received.page:32(p)
-#, fuzzy
 msgid ""
 "The options available for an attachment vary depending on the type of "
 "attachment and the applications that are installed on your system. For "
@@ -7772,9 +7691,9 @@ msgid ""
 "or in the <gui>GIMP</gui> graphics editor."
 msgstr ""
 "Die für einen Anhang verfügbaren Optionen hängen vom Dateitypen und den auf "
-"Ihrem Rechner installierten Anwendungen ab. So können angehängte Textdateien "
-"in OpenOffice.org oder einer anderen Textverarbeitung geöffnet werden, und "
-"Archivdateien können mit dem Archivmanager geöffnet werden."
+"Ihrem Rechner installierten Anwendungen ab. So können angehängte Bilddateien "
+"im <gui>Bildbetrachter</gui> oder im Bildbearbeitungsprogramm <gui>GIMP</gui> "
+"geöffnet werden."
 
 #: C/mail-attachments.page:5(desc)
 msgid "Handling of file attachments for writing and reading mail"
@@ -7965,24 +7884,12 @@ msgid "Security"
 msgstr "Sicherheit"
 
 #: C/mail-account-manage-usenet-news.page:53(title)
-#: C/mail-account-manage-unix-mbox-spool-file.page:53(title)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:53(title)
-#: C/mail-account-manage-pop.page:53(title)
-#: C/mail-account-manage-mh-format-directories.page:53(title)
-#: C/mail-account-manage-maildir-format-directories.page:53(title)
-#: C/mail-account-manage-local-delivery.page:53(title)
 #: C/mail-account-manage-imap-plus.page:55(title)
 #: C/mail-account-manage-imap.page:57(title)
 msgid "Other settings"
 msgstr "Andere Einstellungen"
 
 #: C/mail-account-manage-usenet-news.page:54(p)
-#: C/mail-account-manage-unix-mbox-spool-file.page:54(p)
-#: C/mail-account-manage-unix-mbox-spool-directory.page:54(p)
-#: C/mail-account-manage-pop.page:54(p)
-#: C/mail-account-manage-mh-format-directories.page:54(p)
-#: C/mail-account-manage-maildir-format-directories.page:54(p)
-#: C/mail-account-manage-local-delivery.page:54(p)
 #: C/mail-account-manage-imap-plus.page:56(p)
 #: C/mail-account-manage-imap.page:58(p)
 msgid ""
@@ -8015,9 +7922,8 @@ msgid "Add and edit a POP mail account in Evolution."
 msgstr ""
 
 #: C/mail-account-manage-pop.page:20(title)
-#, fuzzy
 msgid "POP mail account settings"
-msgstr "Yahoo-Konteneinstellungen:"
+msgstr "Einstellungen für POP-Mail-Konten"
 
 #: C/mail-account-manage-novell-groupwise.page:5(desc)
 #, fuzzy
@@ -8025,9 +7931,8 @@ msgid "Add and edit a Novell Groupwise account in Evolution."
 msgstr "GroupWise-Konto in Evolution hinzufügen"
 
 #: C/mail-account-manage-novell-groupwise.page:21(title)
-#, fuzzy
 msgid "Novell Groupwise account settings"
-msgstr "Google-Konteneinstellungen:"
+msgstr "Einstellungen für Novell Groupwise-Konten"
 
 #: C/mail-account-manage-novell-groupwise.page:49(title)
 msgid "Proxy"
@@ -8044,9 +7949,8 @@ msgstr "Sie können nur ein Microsoft-Exchange-Konto in Evolution einrichten."
 
 #: C/mail-account-manage-microsoft-exchange.page:21(title)
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:20(title)
-#, fuzzy
 msgid "Microsoft Exchange account settings"
-msgstr "Microsoft Exchange-Empfangsoptionen"
+msgstr "Einstellungen für Microsoft Exchange-Konten"
 
 #: C/mail-account-manage-microsoft-exchange.page:23(p)
 msgid ""
@@ -8061,9 +7965,8 @@ msgid "Add and edit a Microsoft Exchange 2007 account in Evolution."
 msgstr "Sie können nur ein Microsoft-Exchange-Konto in Evolution einrichten."
 
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:20(title)
-#, fuzzy
 msgid "Exchange MAPI account settings"
-msgstr "Google-Konteneinstellungen:"
+msgstr "Einstellungen für Exchange MAPI-Konten"
 
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:44(title)
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:44(title)
@@ -8089,9 +7992,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-account-manage-microsoft-exchange-evo-exchange.page:45(p)
-#, fuzzy
 msgid "You can also view the size of all Exchange folders."
-msgstr "Ermöglicht das Ändern des Ordnernamens."
+msgstr "Sie können auch die Größe aller Exchange-Ordner anzeigen lassen."
 
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:5(desc)
 #, fuzzy
@@ -8109,9 +8011,8 @@ msgid "Add and edit a MH Format Mail Directories account in Evolution."
 msgstr "Empfangsoptionen für E-Mail-Ordner im MH-Format"
 
 #: C/mail-account-manage-mh-format-directories.page:20(title)
-#, fuzzy
 msgid "MH Format Mail Directories account settings"
-msgstr "Empfangsoptionen für E-Mail-Ordner im MH-Format"
+msgstr "Konteneinstellungen für E-Mail-Ordner im MH-Format"
 
 #: C/mail-account-management.page:5(desc)
 msgid "Adding, editing and managing mail accounts."
@@ -8156,9 +8057,8 @@ msgid "Add and edit a Local Delivery account in Evolution."
 msgstr ""
 
 #: C/mail-account-manage-local-delivery.page:20(title)
-#, fuzzy
 msgid "Local Delivery account settings"
-msgstr "Google-Konteneinstellungen:"
+msgstr "Konteneinstellungen für lokale Auslieferung"
 
 #: C/mail-account-manage-imap-plus.page:5(desc)
 #, fuzzy
@@ -8166,19 +8066,16 @@ msgid "Add and edit an IMAP+ mail account in Evolution."
 msgstr "Ein Exchange-Konto einrichten"
 
 #: C/mail-account-manage-imap-plus.page:20(title)
-#, fuzzy
 msgid "IMAP+ mail account settings"
-msgstr "Yahoo-Konteneinstellungen:"
+msgstr "Einstellungen für IMAP+-Konten"
 
 #: C/mail-account-manage-imap.page:5(desc)
-#, fuzzy
 msgid "Add and edit an IMAP mail account in Evolution."
-msgstr "Ein Exchange-Konto einrichten"
+msgstr "Ein IMAP E-Mail-Konto in Evolution einrichten und bearbeiten."
 
 #: C/mail-account-manage-imap.page:20(title)
-#, fuzzy
 msgid "IMAP mail account settings"
-msgstr "Yahoo-Konteneinstellungen:"
+msgstr "E-Mail-Konteneinstellungen für IMAP"
 
 #: C/mail-access-gmail-pop-account.page:5(desc)
 msgid "How to set up a GMail POP Account."
@@ -8193,9 +8090,8 @@ msgid "Follow these steps to set up your GMail POP Account in Evolution:"
 msgstr ""
 
 #: C/mail-access-gmail-pop-account.page:29(p)
-#, fuzzy
 msgid "Log in to your gmail account."
-msgstr "E-Mail-Konten konfigurieren"
+msgstr "Melden Sie sich an Ihrem Gmail-Konto an."
 
 #: C/mail-access-gmail-pop-account.page:30(p)
 msgid ""
@@ -8357,92 +8253,82 @@ msgid "E-Mail"
 msgstr "E-Mail"
 
 #: C/intro-main-window.page:38(p)
-#, fuzzy
 msgid "The Evolution mail main window"
-msgstr "– Die Evolution PIM- und E-Mail-Anwendung"
+msgstr "Das Hauptfenster von Evolution E-Mail"
 
 #: C/intro-main-window.page:41(p)
 msgid "Corresponding elements in the mail main window:"
 msgstr ""
 
 #: C/intro-main-window.page:44(p)
-#, fuzzy
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png\" "
 "width=\"10\"/> Menu bar"
 msgstr ""
-"Klicken Sie auf das Such-Symbol <inlinegraphic format=\"PNG\" fileref="
-"\"figures/stock_search.png\"/>, um den Suchtypen auszuwählen."
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png\" "
+"width=\"10\"/> Menüleiste"
 
 #: C/intro-main-window.page:47(p)
-#, fuzzy
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png\" "
 "width=\"10\"/> Tool bar"
 msgstr ""
-"Klicken Sie auf das Such-Symbol <inlinegraphic format=\"PNG\" fileref="
-"\"figures/stock_search.png\"/>, um den Suchtypen auszuwählen."
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png\" "
+"width=\"10\"/> Werkzeugleiste"
 
 #: C/intro-main-window.page:50(p)
-#, fuzzy
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png\" "
 "width=\"10\"/> Folder list"
 msgstr ""
-"Klicken Sie auf das Such-Symbol <inlinegraphic format=\"PNG\" fileref="
-"\"figures/stock_search.png\"/>, um den Suchtypen auszuwählen."
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png\" "
+"width=\"10\"/> Ordnerliste"
 
 #: C/intro-main-window.page:51(p)
-#, fuzzy
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png\" "
 "width=\"10\"/> Search bar"
 msgstr ""
-"Klicken Sie auf das Such-Symbol <inlinegraphic format=\"PNG\" fileref="
-"\"figures/stock_search.png\"/>, um den Suchtypen auszuwählen."
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png\" "
+"width=\"10\"/> Suchleiste"
 
 #: C/intro-main-window.page:54(p)
-#, fuzzy
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png\" "
 "width=\"10\"/> Message list"
 msgstr ""
-"Klicken Sie auf das Such-Symbol <inlinegraphic format=\"PNG\" fileref="
-"\"figures/stock_search.png\"/>, um den Suchtypen auszuwählen."
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png\" "
+"width=\"10\"/> Nachrichtenliste"
 
 #: C/intro-main-window.page:57(p)
-#, fuzzy
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png\" "
 "width=\"10\"/> Switcher"
 msgstr ""
-"Klicken Sie auf das Such-Symbol <inlinegraphic format=\"PNG\" fileref="
-"\"figures/stock_search.png\"/>, um den Suchtypen auszuwählen."
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png\" "
+"width=\"10\"/> Knöpfe"
 
 #: C/intro-main-window.page:58(p)
-#, fuzzy
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png\" "
 "width=\"10\"/> Preview pane"
 msgstr ""
-"Klicken Sie auf das Such-Symbol <inlinegraphic format=\"PNG\" fileref="
-"\"figures/stock_search.png\"/>, um den Suchtypen auszuwählen."
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png\" "
+"width=\"10\"/> Vorschauleiste"
 
 #: C/intro-main-window.page:61(p)
-#, fuzzy
 msgid ""
 "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png\" "
 "width=\"10\"/> Status bar"
 msgstr ""
-"Klicken Sie auf das Such-Symbol <inlinegraphic format=\"PNG\" fileref="
-"\"figures/stock_search.png\"/>, um den Suchtypen auszuwählen."
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png\" "
+"width=\"10\"/> Statusleiste"
 
 #: C/intro-main-window.page:67(title)
 msgid "Folder list"
 msgstr "Ordnerliste"
 
 #: C/intro-main-window.page:68(p)
-#, fuzzy
 msgid ""
 "The folder list gives you a list of the available folders for each account. "
 "To see the contents of a folder, click the folder name and its contents are "
@@ -8453,34 +8339,31 @@ msgstr ""
 "Ordnernamen, und die Inhalte werden in der E-Mail-Liste dargestellt."
 
 #: C/intro-main-window.page:69(p)
-#, fuzzy
 msgid ""
 "For more information see <link xref=\"mail-folders\">Using Folders</link>."
 msgstr ""
-"Für weitere Informationen lesen Sie bitte <link linkend=\"third-step\">E-"
-"Mails verschicken</link>."
+"Für weitere Informationen lesen Sie bitte <link linkend=\"third-step\">Ordner "
+"verwenden</link>."
 
 #: C/intro-main-window.page:72(title)
 msgid "Message List"
 msgstr "E-Mail-Liste"
 
 #: C/intro-main-window.page:73(p)
-#, fuzzy
 msgid ""
 "The message list displays all the read and unread messages that you have in "
 "the chosen folder. To view an email in the preview pane, click the message in "
 "the message list."
 msgstr ""
-"Nachrichtenliste zeigt all Ihre gelesenen und ungelesenen Nachrichten an. Um "
-"eine dieser E-Mails in der Nachrichtenvorschau anzuzeigen, klicken Sie auf "
-"die Nachricht in der E-Mail-Liste."
+"Die Nachrichtenliste zeigt alle Ihre gelesenen und ungelesenen Nachrichten im "
+"gewählten Ordner an. Um eine dieser E-Mails in der Nachrichtenvorschau "
+"anzuzeigen, klicken Sie auf die Nachricht in der E-Mail-Liste."
 
 #: C/intro-main-window.page:76(title)
 msgid "Switcher"
 msgstr "Umschalter"
 
 #: C/intro-main-window.page:77(p)
-#, fuzzy
 msgid ""
 "The switcher at the bottom of the side bar lets you switch between the "
 "Evolution tools: Mail, Contacts, Calendars, Memos and Tasks."
@@ -8490,13 +8373,12 @@ msgstr ""
 "Notizen und Aufgaben)."
 
 #: C/intro-main-window.page:77(p)
-#, fuzzy
 msgid ""
 "For more information see <link xref=\"change-switcher-appearance\">Changing "
 "the Switcher appearance</link>."
 msgstr ""
-"Lesen Sie für weitere Informationen <link linkend="
-"\"Aal54a9\">Statusüberprüfung eines von Ihnen gesendeten Objektes</link>."
+"Lesen Sie für weitere Informationen <link xref=\"change-switcher-appearance"
+"\">Das Erscheinungsbild der Knöpfe ändern</link>."
 
 #: C/intro-main-window.page:78(p)
 msgid ""
@@ -8528,9 +8410,8 @@ msgid "Calendar"
 msgstr "Kalender:"
 
 #: C/intro-main-window.page:90(p)
-#, fuzzy
 msgid "Elements in the calendar main window:"
-msgstr "Das Element im Kalender ist ungültig"
+msgstr "Elemente im Hauptfenster des Kalenders:"
 
 #: C/intro-main-window.page:93(p) C/intro-main-window.page:139(p)
 msgid ""
@@ -8572,7 +8453,6 @@ msgid "Month pane"
 msgstr "Der kleine Kalender:"
 
 #: C/intro-main-window.page:108(p)
-#, fuzzy
 msgid "Memo list"
 msgstr "Notizliste"
 
@@ -8619,9 +8499,8 @@ msgstr ""
 "die in Ihrer Kalenderansicht angezeigt werden sollen."
 
 #: C/intro-main-window.page:127(title)
-#, fuzzy
 msgid "Task list and Memo list"
-msgstr "Eine neue Notizliste anlegen"
+msgstr "Aufgabenliste und Notizliste"
 
 #: C/intro-main-window.page:128(p)
 msgid ""
@@ -8635,9 +8514,8 @@ msgid "Contacts"
 msgstr "Kontakte"
 
 #: C/intro-main-window.page:136(p)
-#, fuzzy
 msgid "Elements in the contacts main window:"
-msgstr "Das Element im Kalender ist ungültig"
+msgstr "Elemente im Kontakte-Hauptfenster:"
 
 #: C/intro-main-window.page:145(p)
 msgid ""
@@ -8664,27 +8542,23 @@ msgid ""
 msgstr ""
 
 #: C/intro-first-run.page:5(desc)
-#, fuzzy
 msgid "Running Evolution for the very first time."
-msgstr "Evolution zum ersten Mal starten"
+msgstr "Evolution zum allerersten Mal starten."
 
 #: C/intro-first-run.page:20(title)
-#, fuzzy
 msgid "Starting <em>Evolution</em> for the first time"
-msgstr "Evolution zum ersten Mal starten"
+msgstr "<em>Evolution</em> zum ersten Mal starten"
 
 #: C/intro-first-run.page:22(p)
-#, fuzzy
 msgid ""
 "The first time you run Evolution, it opens the First-Run Assistant to help "
 "you set up email accounts and <link xref=\"import-data\">import data from "
 "other applications.</link>"
 msgstr ""
-"Wenn Sie das erste Mal Evolution starten, wird ein Ordner mit dem Namen "
-"<emphasis>.evolution</emphasis> in Ihrem persönlichen Ordner erstellt, in "
-"welchem Evolution alle lokalen Daten speichert. Danach wird der Erste-"
-"Schritte-Assistent gestartet, der Ihnen dabei hilft, Ihre E-Mail-Konten "
-"einzutragen und gegebenenfalls Daten aus anderen Programmen zu importieren."
+"Wenn Sie das erste Mal Evolution starten, wird der Erste-Schritte-Assistent "
+"gestartet, der Ihnen dabei hilft, Ihre E-Mail-Konten einzutragen und "
+"gegebenenfalls <link xref=\"import-data\">Daten aus anderen Programmen zu "
+"importieren</link>."
 
 #: C/intro-first-run.page:31(title)
 msgid "Restore from backup"
@@ -8698,22 +8572,20 @@ msgid ""
 msgstr ""
 
 #: C/intro-first-run.page:37(p)
-#, fuzzy
 msgid ""
 "First, choose the server type from the <gui>Server Type</gui> dropdown-list."
 msgstr ""
-"Wählen Sie den gewünschten Suchtypen aus der Auswahlliste im Feld "
-"»Auffrischen« aus."
+"Wählen Sie zuerst den gewünschten Servertyp aus der Auswahlliste "
+"<gui>Servertyp</gui> aus."
 
 #: C/intro-first-run.page:38(p)
-#, fuzzy
 msgid ""
 "If you are unsure about the type of server to choose, ask your system "
 "administrator or Internet Service Provider."
 msgstr ""
-"Bitte geben Sie unten Informationen zur Art und Weise ein, auf die Sie E-"
-"Mails verschicken wollen. Falls Sie sich nicht sicher sind, wenden Sie sich "
-"bitte an Ihren Systemadministrator oder Internet-Provider."
+"Falls Sie sich nicht sicher sind, welche Server-Art Sie wählen sollten, "
+"wenden Sie sich bitte an Ihren Systemadministrator oder Internet-"
+"Dienstanbieter."
 
 #: C/intro-first-run.page:43(p)
 msgid "The most common available server types for normal users are:"
@@ -8725,37 +8597,39 @@ msgstr ""
 
 #: C/intro-first-run.page:45(p)
 msgid "Continue <link xref=\"#sending\">here</link> for configuration."
-msgstr ""
+msgstr "Setzen Sie die Konfiguration <link xref=\"#sending\">hier</link> fort."
 
 #: C/intro-first-run.page:46(p)
-#, fuzzy
 msgid ""
 "IMAP: Keeps the mail on the server so you can access your mail from multiple "
 "systems."
 msgstr ""
-"Behält E-Mails auf dem Server, so dass Sie auf Ihre E-Mails von verschiedenen "
-"Rechnern zugreifen können."
+"IMAP: Behält E-Mails auf dem Server, so dass Sie auf Ihre E-Mails von "
+"verschiedenen Rechnern zugreifen können."
 
 #: C/intro-first-run.page:46(p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-imap\">here</link> for "
 "configuration."
 msgstr ""
+"Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-imap\">hier</"
+"link> fort."
 
 #: C/intro-first-run.page:48(p)
-#, fuzzy
 msgid ""
 "IMAP+: Keeps the mail on the server so you can access your mail from multiple "
 "systems."
 msgstr ""
-"Behält E-Mails auf dem Server, so dass Sie auf Ihre E-Mails von verschiedenen "
-"Rechnern zugreifen können."
+"IMAP+: Behält E-Mails auf dem Server, so dass Sie auf Ihre E-Mails von "
+"verschiedenen Rechnern zugreifen können."
 
 #: C/intro-first-run.page:48(p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-imap-plus\">here</link> for "
 "configuration."
 msgstr ""
+"Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-imap-plus"
+"\">hier</link> fort."
 
 #: C/intro-first-run.page:49(p)
 msgid "POP: Downloads your email to your hard disk."
@@ -8766,14 +8640,15 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-pop\">here</link> for "
 "configuration."
 msgstr ""
+"Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-pop\">hier</"
+"link> fort."
 
 #: C/intro-first-run.page:50(p)
-#, fuzzy
 msgid ""
 "USENET News: Connects to a news server and downloads a list of available news "
 "digests."
 msgstr ""
-"Verbindet Evolution mit einem News-Server und lädt eine Liste verfügbarer "
+"USENET-News: Verbindet mit einem News-Server und lädt eine Liste verfügbarer "
 "Nachrichten aus Newsgroups herunter."
 
 #: C/intro-first-run.page:50(p)
@@ -8781,6 +8656,8 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-usenet-news\">here</link> for "
 "configuration."
 msgstr ""
+"Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-usenet-news"
+"\">hier</link> fort."
 
 #: C/intro-first-run.page:56(p)
 msgid "Available server types for corporate users are:"
@@ -8797,6 +8674,8 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-exchange-mapi\">here</link> for "
 "configuration."
 msgstr ""
+"Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-exchange-mapi"
+"\">hier</link> fort."
 
 #: C/intro-first-run.page:60(p)
 msgid ""
@@ -8806,18 +8685,19 @@ msgid ""
 msgstr ""
 
 #: C/intro-first-run.page:62(p)
-#, fuzzy
 msgid ""
 "Microsoft Exchange: For connecting to a Microsoft Exchange 2000 or 2003 "
 "server."
 msgstr ""
-"Evolution kann keine Kontaktlisten auf Microsoft-Exchange-Servern speichern."
+"Microsoft Exchange: zum Verbinden mit Microsoft Exchange 2000 oder 2003."
 
 #: C/intro-first-run.page:62(p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-evolution-exchange\">here</link> "
 "for configuration."
 msgstr ""
+"Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-evolution-"
+"exchange\">hier</link> fort."
 
 #: C/intro-first-run.page:63(p)
 msgid ""
@@ -8827,22 +8707,22 @@ msgid ""
 msgstr ""
 
 #: C/intro-first-run.page:65(p)
-#, fuzzy
 msgid "Novell Groupwise: For connecting to a Novell GroupWise server."
-msgstr "Verbindungsaufbau zum GroupWise-Server gescheitert."
+msgstr "Novell Groupwise: zum Verbinden mit einem Novell GroupWise-Server."
 
 #: C/intro-first-run.page:65(p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-novell-groupwise\">here</link> "
 "for configuration."
 msgstr ""
+"Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-novell-"
+"groupwise\">hier</link> fort."
 
 #: C/intro-first-run.page:71(p)
 msgid "Available local account server types for advanced users are:"
 msgstr ""
 
 #: C/intro-first-run.page:73(p)
-#, fuzzy
 msgid ""
 "Local delivery: If you want to move email from the spool (the location where "
 "mail waits for delivery) and store it in your home directory. You need to "
@@ -8850,56 +8730,56 @@ msgid ""
 "email in your system's spool files, choose the <gui>Standard Unix Mbox Spool</"
 "gui> option instead."
 msgstr ""
-"Wählen Sie diese Option, falls Sie E-Mails vom Spool (der Ort, an dem die E-"
-"Mails auf ihre Zustellung warten) in Ihren persönlichen Ordner zur "
-"Speicherung verschieben möchten. Hierfür müssen Sie den Pfad zum Spool "
-"angeben, der benutzt werden soll. Falls die E-Mails im Spool verbleiben "
-"sollen und nicht in Ihren persönlichen Ordner verschoben werden sollen, so "
-"wählen Sie anstelle dessen die Option Standard-Unix-mbox-Spool."
+"Lokale Auslieferung: Wenn Sie E-Mails vom Spool (der Ort, an dem die E-Mails "
+"auf ihre Zustellung warten) in Ihren persönlichen Ordner zur Speicherung "
+"verschieben möchten. Hierfür müssen Sie den Pfad zum Spool angeben, der "
+"benutzt werden soll. Falls die E-Mails im Spool verbleiben sollen, wählen Sie "
+"stattdessen die Option <gui>Standard-UNIX-mbox-Spool</gui>."
 
 #: C/intro-first-run.page:73(p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-local-delivery\">here</link> for "
 "configuration."
 msgstr ""
+"Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-local-"
+"delivery\">hier</link> fort."
 
 #: C/intro-first-run.page:75(p)
-#, fuzzy
 msgid ""
 "MH-Format Mail Directories: For downloading email using MH or another MH-"
 "style program."
 msgstr ""
-"Wählen Sie diese Option, falls Sie E-Mails per MH oder durch eine MH-gleiche "
-"Anwendung herunterladen möchten."
+"E-Mail-Ordner im MH-Format: Zum Herunterladen von E-Mails per MH oder durch "
+"eine MH-gleiche Anwendung."
 
 #: C/intro-first-run.page:75(p) C/intro-first-run.page:77(p)
 #: C/intro-first-run.page:81(p)
-#, fuzzy
 msgid "You need to provide the path to the directory you want to use."
-msgstr ""
-"Hierfür müssen Sie den Pfad zum E-Mail-Ordner angeben, der benutzt werden "
-"soll."
+msgstr "Sie müssen den Pfad zum Ordner angeben, der benutzt werden soll."
 
 #: C/intro-first-run.page:75(p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-mh-format-directories\">here</"
 "link> for configuration."
 msgstr ""
+"Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-mh-format-"
+"directories\">hier</link> fort."
 
 #: C/intro-first-run.page:77(p)
-#, fuzzy
 msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style program."
 msgstr ""
-"Wählen Sie diese Option, falls Sie E-Mails per Qmail oder durch eine Maildir-"
-"gleiche Anwendung herunterladen möchten."
+"E-Mail-Ordner im Maildir-Format: Wählen Sie diese Option, falls Sie E-Mails "
+"per Qmail oder durch eine Maildir-gleiche Anwendung herunterladen möchten."
 
 #: C/intro-first-run.page:77(p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-maildir-format-directories"
 "\">here</link> for configuration."
 msgstr ""
+"Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-maildir-"
+"format-directories\">hier</link> fort."
 
 #: C/intro-first-run.page:79(p)
 msgid ""
@@ -8908,17 +8788,18 @@ msgid ""
 msgstr ""
 
 #: C/intro-first-run.page:79(p)
+msgid "You need to provide the path to the mail spool file you want to use."
+msgstr ""
+"Hierfür müssen Sie den Pfad zur Mail-Spool-Datei angeben, die benutzt werden "
+"soll."
+
+#: C/intro-first-run.page:79(p)
 msgid ""
 "Continue <link xref=\"mail-receiving-options-unix-mbox-spool-file\">here</"
 "link> for configuration."
 msgstr ""
-
-#: C/intro-first-run.page:79(p)
-#, fuzzy
-msgid "You need to provide the path to the mail spool file you want to use."
-msgstr ""
-"Hierfür müssen Sie den Pfad zum E-Mail-Ordner angeben, der benutzt werden "
-"soll."
+"Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-unix-mbox-"
+"spool-file\">hier</link> fort."
 
 #: C/intro-first-run.page:81(p)
 msgid ""
@@ -8931,6 +8812,8 @@ msgid ""
 "Continue <link xref=\"mail-receiving-options-unix-mbox-spool-directory"
 "\">here</link> for configuration."
 msgstr ""
+"Setzen Sie die Konfiguration <link xref=\"mail-receiving-options-unix-mbox-"
+"spool-directory\">hier</link> fort."
 
 #: C/intro-first-run.page:84(p)
 #, fuzzy
@@ -8968,15 +8851,16 @@ msgid ""
 "Continue <link xref=\"mail-sending-options-smtp\">here</link> for "
 "configuration."
 msgstr ""
+"Setzen Sie die Konfiguration <link xref=\"mail-sending-options-smtp\">hier</"
+"link> fort."
 
 #: C/intro-first-run.page:94(p)
-#, fuzzy
 msgid ""
 "Sendmail: Uses the Sendmail program to send mail from your system. It is not "
 "easy to configure, so you should select this option only if you know how to "
 "set up a Sendmail service."
 msgstr ""
-"Nutzt das Sendmail-Programm auf Ihrem Rechner. Sendmail bietet mehr "
+"Sendmail: Nutzt das Sendmail-Programm auf Ihrem Rechner. Sendmail bietet mehr "
 "Flexibilität, allerdings ist es schwieriger einzustellen. Sie sollten diese "
 "Option nur wählen, falls Sie mit Sendmail vertraut sind."
 
@@ -8993,11 +8877,12 @@ msgid "Importing Mail (Optional)"
 msgstr "E-Mails importieren (optional)"
 
 #: C/intro-first-run.page:105(p)
-#, fuzzy
 msgid ""
 "Continue with <link xref=\"import-data\">Importing data from another "
 "application</link>."
-msgstr "Daten aus anderen Programmen importieren"
+msgstr ""
+"Setzen Sie bei <link xref=\"import-data\">Daten aus anderen Programmen "
+"importieren</link> fort."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -9011,9 +8896,8 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: C/index.page:7(title)
-#, fuzzy
 msgid "Evolution Mail and Calendar"
-msgstr "evolution -c calendar"
+msgstr "Evolution-E-Mail und -Kalender"
 
 #: C/index.page:23(title)
 msgid ""
@@ -9030,9 +8914,8 @@ msgid "Mail Management"
 msgstr "Nachrichtenverwaltung"
 
 #: C/index.page:37(title)
-#, fuzzy
 msgid "Advanced Mail Management"
-msgstr "Ordnerverwaltung"
+msgstr "Fortgeschrittene E-Mail-Verwaltung"
 
 #: C/index.page:39(title)
 msgid "IMAP"
@@ -9043,27 +8926,24 @@ msgid "Mail Composing"
 msgstr "Verfassen von Nachrichten"
 
 #: C/index.page:47(title)
-#, fuzzy
 msgid "Advanced Mail Composing"
-msgstr "Weiterführende HTML-Formatierung"
+msgstr "Fortgeschrittene E-Mail-Erstellung"
 
 #: C/index.page:52(title)
 msgid "Calendar Management"
 msgstr "Kalenderverwaltung"
 
 #: C/index.page:54(title)
-#, fuzzy
 msgid "Advanced Calendar Management"
-msgstr "Name des Yahoo-Kalenders:"
+msgstr "Fortgeschrittene Kalenderverwaltung"
 
 #: C/index.page:59(title)
 msgid "Contacts Management"
 msgstr "Verwaltung von Kontakten"
 
 #: C/index.page:63(title)
-#, fuzzy
 msgid "Memos and Tasks Management"
-msgstr "Verwaltung von Kontakten"
+msgstr "Verwaltung von Notizen und Aufgaben"
 
 #: C/index.page:67(title)
 msgid "Data Migration and Synchronization"
@@ -9082,9 +8962,8 @@ msgid "Novell Groupwise"
 msgstr "Novell Groupwise"
 
 #: C/index.page:81(title)
-#, fuzzy
 msgid "Tracking down Problems"
-msgstr "Verfolgungsoptionen"
+msgstr "Eingrenzen von Problemen"
 
 #: C/index.page:85(title)
 msgid "Common Mail Questions and Problems"
@@ -9119,13 +8998,12 @@ msgid "Berkeley Mailbox (.mbox or no extension):"
 msgstr "Berkley Mailbox (.mbox oder keine Dateiendung):"
 
 #: C/import-supported-file-formats.page:32(p)
-#, fuzzy
 msgid ""
 "The email format used by Mozilla, Netscape, Evolution (for local folders "
 "until version 2.32), Eudora, and many other email clients."
 msgstr ""
-"Das von Mozilla, Netscape, Evolution, Eudora* und vielen anderen E-Mail-"
-"Programmen benutzte E-Mail-Dateiformat."
+"Das von Mozilla, Netscape, Evolution (für lokale Ordner bis Version 2.32), "
+"Eudora und vielen anderen E-Mail-Programmen benutzte E-Mail-Dateiformat."
 
 #: C/import-supported-file-formats.page:34(p)
 msgid "Maildir (no extension):"
@@ -9144,14 +9022,12 @@ msgid "Outlook Express 5/6 Personal Folders (.dbx):"
 msgstr "Persönliche Ordner aus Outlook Express 5/6 (.dbx):"
 
 #: C/import-supported-file-formats.page:40(p)
-#, fuzzy
 msgid ""
 "The email file format used by Microsoft Outlook Express 5/6. For newer "
 "versions PST import is recommended."
 msgstr ""
-"Das von Microsoft Outlook Express 4 benutzte E-Mail-Dateiformat. Für andere "
-"Versionen von Microsoft Outlook und Outlook Express lesen Sie bitte die in "
-"<link linkend=\"bsawgkk\">Schritt 1</link> beschriebene Abhilfe."
+"Das von Microsoft Outlook Express 5/6 benutzte E-Mail-Dateiformat. Für neuere "
+"Versionen wird der PST-Import empfohlen."
 
 #: C/import-supported-file-formats.page:48(p)
 msgid "vCalendar (.vcs):"
@@ -9263,10 +9139,9 @@ msgstr "Der Dateityp wird automatisch bestimmt."
 
 #: C/import-single-files.page:27(p) C/import-apps-outlook.page:65(p)
 #: C/import-apps-mozilla.page:27(p)
-#, fuzzy
 msgid ""
 "Choose the destination (e.g. the folder in Evolution) for the imported data."
-msgstr "Wählen Sie das Ziel dieses Imports"
+msgstr "Wählen Sie das Ziel dieses Imports, also den Ordner in Evolution."
 
 #: C/import-single-files.page:30(p)
 msgid ""
@@ -9275,12 +9150,10 @@ msgid ""
 msgstr ""
 
 #: C/import-data.page:5(desc)
-#, fuzzy
 msgid "Importing data from another application."
-msgstr "Daten aus anderen Programmen importieren"
+msgstr "Daten aus anderen Programmen importieren."
 
 #: C/import-data.page:20(title)
-#, fuzzy
 msgid "Importing data from another application"
 msgstr "Daten aus anderen Programmen importieren"
 
@@ -9289,13 +9162,12 @@ msgid "Applications"
 msgstr "Anwendungen"
 
 #: C/import-apps-outlook.page:5(desc)
-#, fuzzy
 msgid "Importing data from Microsoft Outlook."
-msgstr "TNEF-Anhänge (winmail.dat) von Microsoft Outlook dekodieren."
+msgstr "Daten aus Microsoft Outlook importieren."
 
 #: C/import-apps-outlook.page:23(title)
 msgid "Outlook"
-msgstr ""
+msgstr "Outlook"
 
 #. "Import data and settings from older programs" cannot recognize Outlook, as there obviously is no default storage location for Outlook *under Linux*
 #: C/import-apps-outlook.page:26(p)
@@ -9311,10 +9183,10 @@ msgid "Prerequisites under Windows"
 msgstr ""
 
 #: C/import-apps-outlook.page:30(p)
-#, fuzzy
 msgid "First, while using Microsoft Windows, prepare your messages for import:"
 msgstr ""
-"Bereiten Sie zunächst Ihre Nachrichten unter Windows für das Importieren vor."
+"Bereiten Sie zunächst Ihre Nachrichten unter Microsoft Windows für das "
+"Importieren vor:"
 
 #: C/import-apps-outlook.page:32(p)
 msgid ""
@@ -9324,16 +9196,15 @@ msgstr ""
 
 #: C/import-apps-outlook.page:35(p)
 msgid "Windows 7, Windows Vista"
-msgstr ""
+msgstr "Windows 7, Windows Vista"
 
 #: C/import-apps-outlook.page:35(p)
-#, fuzzy
 msgid "Windows XP"
-msgstr "_Fenster"
+msgstr "Windows XP"
 
 #: C/import-apps-outlook.page:38(p)
 msgid "Outlook 2010"
-msgstr ""
+msgstr "Outlook 2010"
 
 #: C/import-apps-outlook.page:38(file)
 msgid "C:\\Users\\username\\My Documents\\Outlook Files"
@@ -9344,9 +9215,8 @@ msgid "C:\\Documents and Settings\\username\\My Documents\\Outlook Files"
 msgstr ""
 
 #: C/import-apps-outlook.page:41(p)
-#, fuzzy
 msgid "Outlook 2007 and earlier"
-msgstr "Outlook CSV- und Tab-Importeur"
+msgstr "Outlook 2007 und früher"
 
 #: C/import-apps-outlook.page:41(file)
 msgid "C:\\Users\\username\\AppData\\Local\\Microsoft\\Outlook"
@@ -9361,31 +9231,27 @@ msgid "(Replace \"username\" by your username.)"
 msgstr ""
 
 #: C/import-apps-outlook.page:47(p)
-#, fuzzy
 msgid ""
 "Copy the Outlook files to the system or partition that Evolution is installed "
 "on."
 msgstr ""
-"Kopieren Sie die Dateien auf das System oder die Partition, auf der Evolution "
-"installiert ist."
+"Kopieren Sie die Outlook-Dateien auf das System oder die Partition, auf der "
+"Evolution installiert ist."
 
 #: C/import-apps-outlook.page:48(p)
-#, fuzzy
 msgid ""
 "As your Windows hard drive is probably in the NTFS format, some Linux systems "
 "cannot read it without additional software. You might find it simpler to copy "
 "the mail folders to a USB drive or to burn a CD."
 msgstr ""
-"Falls Sie Windows Vista*, Windows XP* oder Windows 2000* nutzen, so ist ihre "
-"Windows-Festplatte wahrscheinlich im NTFS-Format, welches von einigen Linux-"
-"Systemen nicht ohne zusätzliche Software gelesen werden kann. In diesem Fall "
-"kann es einfacher sein, die E-Mail-Ordner auf ein anderes Laufwerk zu "
-"kopieren, oder eine CD zu brennen."
+"Falls Ihre Windows-Festplatte mit NTFS formatiert ist, können einige Linux-"
+"Systeme dies nicht ohne zusätzliche Software lesen. In diesem Fall kann es "
+"einfacher sein, die E-Mail-Ordner auf ein anderes Laufwerk zu kopieren, oder "
+"eine CD zu brennen."
 
 #: C/import-apps-outlook.page:53(title)
-#, fuzzy
 msgid "Importing into Evolution"
-msgstr "Evolution wiederherstellen"
+msgstr "In Evolution importieren"
 
 #: C/import-apps-outlook.page:55(p)
 msgid ""
@@ -9427,23 +9293,20 @@ msgid ""
 msgstr ""
 
 #: C/import-apps-outlook.page:66(p) C/import-apps-mozilla.page:28(p)
-#, fuzzy
 msgid "Repeat the import steps until you have imported all your data."
-msgstr "Wiederholen Sie diese Schritte, bis all Ihre E-Mails importiert sind."
+msgstr "Wiederholen Sie diese Schritte, bis alle Ihre Daten importiert sind."
 
 #: C/import-apps-mozilla.page:5(desc)
-#, fuzzy
 msgid "Importing data from Mozilla Thunderbird."
-msgstr "Daten aus anderen Programmen importieren"
+msgstr "Daten aus Mozilla Thunderbird importieren."
 
 #: C/import-apps-mozilla.page:20(title)
 msgid "Mozilla"
-msgstr ""
+msgstr "Mozilla"
 
 #: C/import-apps-mozilla.page:26(p)
-#, fuzzy
 msgid "Choose the Thunderbird files that you would like to import."
-msgstr "Bitte wählen Sie die Informationen, die Sie importieren wollen:"
+msgstr "Bitte wählen Sie Thunderbird-Dateien, die Sie importieren wollen."
 
 #: C/groupwise-placeholder.page:5(desc) C/groupwise-placeholder.page:20(title)
 msgid "Connecting to GroupWise"
@@ -9504,9 +9367,8 @@ msgid "How to export mail data from <em>Evolution</em>."
 msgstr ""
 
 #: C/exporting-data-mail.page:20(title)
-#, fuzzy
 msgid "Exporting mail data"
-msgstr "Elm-Daten werden importiert"
+msgstr "E-Mail-Daten importieren"
 
 #: C/exporting-data-mail.page:22(p)
 msgid ""
@@ -9527,9 +9389,8 @@ msgid "How to export contacts data from <em>Evolution</em>."
 msgstr ""
 
 #: C/exporting-data-contacts.page:23(title)
-#, fuzzy
 msgid "Exporting contacts data"
-msgstr "Kontakte importieren"
+msgstr "Kontaktdaten exportieren"
 
 #: C/exporting-data-contacts.page:25(p)
 msgid ""
@@ -9554,9 +9415,8 @@ msgid "How to export calendar data from <em>Evolution</em>."
 msgstr ""
 
 #: C/exporting-data-calendar.page:20(title)
-#, fuzzy
 msgid "Exporting calendar data"
-msgstr "Kalender auf %s wird geöffnet"
+msgstr "Kalenderdaten exportieren"
 
 #: C/exporting-data-calendar.page:22(p)
 msgid ""
@@ -9624,13 +9484,12 @@ msgid ""
 msgstr ""
 
 #: C/exchange-connectors-overview.page:29(p)
-#, fuzzy
 msgid ""
 "If you are unsure which Microsoft Exchange server version is used, you may "
 "want to contact your system administrator for more information."
 msgstr ""
-"Falls Sie den Namen des Servers nicht kennen, so fragen Sie Ihren "
-"Administrator."
+"Falls Sie die Version des Microsoft Exchange-Servers nicht kennen, so fragen "
+"Sie Ihren Administrator."
 
 #: C/deleting-to-free-disk-space.page:5(desc)
 msgid ""
@@ -9651,9 +9510,8 @@ msgid "Deleting emails or attachments permanently"
 msgstr ""
 
 #: C/deleting-emails.page:28(title)
-#, fuzzy
 msgid "Emails"
-msgstr "E-Mail"
+msgstr "E-Mails"
 
 #: C/deleting-emails.page:29(p)
 msgid ""
@@ -9684,9 +9542,8 @@ msgid "Deleting calendar entries to reduce the size of the mailbox."
 msgstr ""
 
 #: C/deleting-appointments.page:20(title)
-#, fuzzy
 msgid "Deleting old appointments permanently"
-msgstr "Alte Kalendereinträge löschen"
+msgstr ""
 
 #: C/deleting-appointments.page:22(p)
 msgid ""
@@ -9733,9 +9590,8 @@ msgid "Where does Evolution store my data on the harddisk?"
 msgstr ""
 
 #: C/data-storage.page:20(title)
-#, fuzzy
 msgid "Data storage locations"
-msgstr "Nachrichtenort"
+msgstr "Orte zur Datenspeicherung"
 
 #: C/data-storage.page:23(p)
 msgid "This is only interesting for advanced users that want to debug problems."
@@ -9754,38 +9610,32 @@ msgid "The user's data files"
 msgstr "Um die Dateien zu importieren:"
 
 #: C/data-storage.page:31(p)
-#, fuzzy
 msgid "$HOME/.local/share/evolution"
-msgstr ".local/share/evolution"
+msgstr "$HOME/.local/share/evolution"
 
 #: C/data-storage.page:34(title)
-#, fuzzy
 msgid "Various configuration and state files"
-msgstr "Proxy-Konfigurationsmodus"
+msgstr "Verschiedene Konfigurations- und Statusdateien"
 
 #: C/data-storage.page:35(p)
-#, fuzzy
 msgid "$HOME/.config/evolution"
-msgstr "Evolution konfigurieren"
+msgstr "$HOME/.config/evolution"
 
 #: C/data-storage.page:38(title)
 msgid "Disposable data caches"
 msgstr ""
 
 #: C/data-storage.page:39(p)
-#, fuzzy
 msgid "$HOME/.cache/evolution"
-msgstr "$HOME/.local/share/evolution/mail/pop/"
+msgstr "$HOME/.cache/evolution"
 
 #: C/data-storage.page:42(title)
-#, fuzzy
 msgid "Configuration settings in GConf"
-msgstr "Konfigurationsversion"
+msgstr "Konfigurationseinstellungen in GConf"
 
 #: C/data-storage.page:43(p)
-#, fuzzy
 msgid "$HOME/.gconf/apps/evolution"
-msgstr "$HOME/.local/share/evolution/mail/pop/"
+msgstr "$HOME/.gconf/apps/evolution"
 
 #: C/credits.page:5(desc)
 msgid "Credits and Acknowledgment."
@@ -9796,24 +9646,20 @@ msgid "Credits and Acknowledgment"
 msgstr ""
 
 #: C/credits.page:23(title)
-#, fuzzy
 msgid "Authors of the Evolution User Documentation"
-msgstr "Das Benutzerhandbuch von Evolution öffnen"
+msgstr "Die Autoren des Benutzerhandbuch von Evolution"
 
 #: C/credits.page:25(p) C/credits.page:49(p)
-#, fuzzy
 msgid "André Klapper"
-msgstr "Andre Klapper"
+msgstr "André Klapper"
 
 #: C/credits.page:28(p)
-#, fuzzy
 msgid "April Gonzalez"
-msgstr "April Gonzales"
+msgstr "April Gonzalez"
 
 #: C/credits.page:41(title)
-#, fuzzy
 msgid "Authors of the previous version"
-msgstr "Zum vorherigen Reiter wechseln"
+msgstr "Die Autoren der vorherigen Version"
 
 #: C/credits.page:43(p)
 msgid "Aaron Weber"
@@ -9828,14 +9674,12 @@ msgid "Duncan Mak"
 msgstr "Duncan Mak"
 
 #: C/credits.page:55(p)
-#, fuzzy
 msgid "Ettore Perazzoli"
-msgstr "Ettore Perazzoli (ettore@ximian.com)"
+msgstr "Ettore Perazzoli"
 
 #: C/credits.page:58(p)
-#, fuzzy
 msgid "Francisco Javier F. Serrador"
-msgstr "Francisco Serrador"
+msgstr "Francisco Javier F. Serrador"
 
 #: C/credits.page:61(p)
 msgid "Jessica Prabhakar"
@@ -9846,32 +9690,28 @@ msgid "Kevin Breit"
 msgstr "Kevin Breit"
 
 #: C/credits.page:67(p)
-#, fuzzy
 msgid "Mark Moulder"
-msgstr "Suchordner"
+msgstr "Mark Moulder"
 
 #: C/credits.page:70(p)
 msgid "Novell, Inc."
 msgstr "Novell, Inc."
 
 #: C/credits.page:73(p)
-#, fuzzy
 msgid "Radhika Nair"
-msgstr "Radhika PC"
+msgstr "Radhika Nair"
 
 #: C/credits.page:76(p)
-#, fuzzy
 msgid "Srinivasa Ragavan"
-msgstr "Srinivasa Ragavan (sragavan@novell.com)"
+msgstr "Srinivasa Ragavan"
 
 #: C/credits.page:83(title)
 msgid "Contact information"
 msgstr "Kontaktinformationen"
 
 #: C/credits.page:84(p)
-#, fuzzy
 msgid "The GNOME Documentation Project:"
-msgstr "Konventionen in dieser Dokumentation:"
+msgstr "Das GNOME-Dokumentationsprojekt:"
 
 #: C/credits.page:87(link)
 msgid "Website"
@@ -9886,9 +9726,8 @@ msgid "Adding and using more than one address book and different types."
 msgstr ""
 
 #: C/contacts-using-several-addressbooks.page:20(title)
-#, fuzzy
 msgid "Using several address books"
-msgstr "E-Mail-Adresse verwenden"
+msgstr "Verschiedene Adressbücher verwenden"
 
 #: C/contacts-using-several-addressbooks.page:22(p)
 msgid ""
@@ -9908,12 +9747,10 @@ msgid "Using contact lists for grouping contacts."
 msgstr ""
 
 #: C/contacts-using-contact-lists.page:23(title)
-#, fuzzy
 msgid "Using Contact Lists"
-msgstr "Liste der Kontakte"
+msgstr "Verwendung von Kontaktlisten"
 
 #: C/contacts-using-contact-lists.page:25(p)
-#, fuzzy
 msgid ""
 "A contact list is a set of contacts with a single nickname that you create. "
 "When you send mail to this nickname it is actually sent to every member of "
@@ -9929,7 +9766,6 @@ msgstr ""
 "echte Mailingliste von einer Software auf einem Server verwaltet wird."
 
 #: C/contacts-using-contact-lists.page:27(p)
-#, fuzzy
 msgid ""
 "For example, you could create one contact for each family member, then add "
 "those contacts to a contact list called \"Family\". Then, instead of entering "
@@ -9938,13 +9774,12 @@ msgid ""
 msgstr ""
 "Sie können zum Beispiel in Evolution einen Kontakt für jedes Familienmitglied "
 "erstellen und dann all diese Kontakte zu einer Kontaktliste hinzufügen, die "
-"Sie <quote>Familie</quote> nennen. Danach können Sie, anstelle jede E-Mail-"
-"Adresse der Familienmitglieder einzeln einzugeben, einfach eine E-Mail an "
-"<quote>Familie</quote> schreiben und die E-Mail wird automatisch an alle "
-"einzelnen Familienmitglieder versendet."
+"Sie »Familie« nennen. Danach können Sie, anstelle jede E-Mail-Adresse der "
+"Familienmitglieder einzeln einzugeben, einfach eine E-Mail an »Familie« "
+"schreiben und die E-Mail wird automatisch an alle einzelnen "
+"Familienmitglieder versendet."
 
 #: C/contacts-using-contact-lists.page:30(title)
-#, fuzzy
 msgid "Creating a contact list"
 msgstr "Eine Kontaktliste erstellen"
 
@@ -9994,9 +9829,8 @@ msgid "The contact list will be added to the chosen address book in Evolution."
 msgstr ""
 
 #: C/contacts-using-contact-lists.page:44(title)
-#, fuzzy
 msgid "Sending messages to a contact list"
-msgstr "E-Mail an einen Kontakt senden:"
+msgstr "Nachrichten an eine Kontaktliste senden"
 
 #: C/contacts-using-contact-lists.page:45(p)
 #, fuzzy
@@ -10020,51 +9854,44 @@ msgstr ""
 "löschen."
 
 #: C/contacts-usage.page:20(title)
-#, fuzzy
 msgid "Add, Edit, and Delete Contacts"
-msgstr "Kontakt konnte nicht gelöscht werden"
+msgstr "Kontakt hinzufügen, bearbeiten und löschen"
 
 #: C/contacts-usage-edit-contact.page:5(desc)
-#, fuzzy
 msgid "Editing a contact in your address book."
-msgstr "Geben Sie einen Namen für das Adressbuch ein."
+msgstr "Einen Kontakt in Ihrem Adressbuch bearbeiten."
 
 #: C/contacts-usage-edit-contact.page:20(title)
-#, fuzzy
 msgid "Editing a Contact"
-msgstr "Einen Kontakt bearbeiten:"
+msgstr "Einen Kontakt bearbeiten"
 
 #: C/contacts-usage-edit-contact.page:22(p)
-#, fuzzy
 msgid ""
 "If you want to change a contact that already exists in your address books,"
 msgstr ""
-"Wenn Sie Kontaktinformationen eines bereits bestehenden Kontakts ändern "
-"möchten,"
+"Wenn Sie Kontaktinformationen eines in Ihren Adressbüchern bereits "
+"bestehenden Kontakts ändern möchten,"
 
 #: C/contacts-usage-edit-contact.page:25(p)
-#, fuzzy
 msgid ""
 "Double-click on the contact that you want to edit in the list of contacts, or "
 "select the contact and press <key>Enter</key>."
 msgstr ""
-"Klicken Sie doppelt mit der linken Maustaste auf den Kontakt, den Sie "
-"bearbeiten möchten."
+"Klicken Sie doppelt mit der linken Maustaste in der Kontaktliste auf den "
+"Kontakt, den Sie bearbeiten möchten, oder wählen Sie den Kontakt aus und "
+"drücken Sie die <key>Eingabetaste</key>."
 
 #: C/contacts-usage-edit-contact.page:26(p)
-#, fuzzy
 msgid "Edit the contact information."
-msgstr "Kontaktinformationen"
+msgstr "Die Kontaktinformationen bearbeiten."
 
 #: C/contacts-usage-delete-contact.page:5(desc)
-#, fuzzy
 msgid "Deleting a contact from your address book."
-msgstr "Gewählte Kontakte in ein anderes Adressbuch kopieren"
+msgstr "Einen Kontakt aus Ihrem Adressbuch löschen."
 
 #: C/contacts-usage-delete-contact.page:20(title)
-#, fuzzy
 msgid "Deleting a Contact"
-msgstr "Einen Kontakt löschen:"
+msgstr "Einen Kontakt löschen"
 
 #: C/contacts-usage-delete-contact.page:22(p)
 msgid ""
@@ -10076,14 +9903,12 @@ msgid ""
 msgstr ""
 
 #: C/contacts-usage-add-contact.page:5(desc)
-#, fuzzy
 msgid "Adding a contact to your address book."
-msgstr "Einen Absender zum Adressbuch hinzufügen:"
+msgstr "Einen Kontakt zum Adressbuch hinzufügen."
 
 #: C/contacts-usage-add-contact.page:20(title)
-#, fuzzy
 msgid "Adding a Contact"
-msgstr "Einen Kontakt bearbeiten:"
+msgstr "Einen Kontakt hinzufügen"
 
 #: C/contacts-usage-add-contact.page:23(p)
 msgid ""
@@ -10094,11 +9919,10 @@ msgid ""
 msgstr ""
 
 #: C/contacts-usage-add-contact.page:25(p)
-#, fuzzy
 msgid "Enter the contact information. Note that there are several tabs."
 msgstr ""
-"Geben Sie die gewünschten Kontaktinformationen in die bereitgestellten Felder "
-"ein."
+"Geben Sie die gewünschten Kontaktinformationen ein. Beachten Sie, dass "
+"mehrere Reiter vorhanden sind."
 
 #: C/contacts-usage-add-contact.page:26(p)
 msgid ""
@@ -10112,23 +9936,19 @@ msgid "Contact Quick-Add from the Email Window"
 msgstr "Kontakt schnell hinzufügen"
 
 #: C/contacts-usage-add-contact.page:33(p)
-#, fuzzy
 msgid "You can also add a contact directly from an email."
 msgstr ""
-"Sie können auch die Kontaktinformationen aus der Nachrichtenvorschau einer E-"
-"Mail heraus bearbeiten."
+"Sie können auch einen Kontakt direkt aus einer E-Mail heraus hinzufügen."
 
 #: C/contacts-usage-add-contact.page:35(p)
-#, fuzzy
 msgid "Right-click on the email address in the message header."
 msgstr ""
 "Klicken Sie mit der rechten Maustaste auf die E-Mail-Adresse in der Kopfzeile "
 "der Nachricht."
 
 #: C/contacts-usage-add-contact.page:36(p)
-#, fuzzy
 msgid "Select <gui>Add to Address Book...</gui>."
-msgstr "Zum Adressbuch _hinzufügen …"
+msgstr "Wählen Sie <gui>Zum Adressbuch hinzufügen …</gui>."
 
 #: C/contacts-usage-add-contact.page:37(p)
 msgid ""
@@ -10138,12 +9958,10 @@ msgid ""
 msgstr ""
 
 #: C/contacts-searching.page:5(desc)
-#, fuzzy
 msgid "Searching contacts."
-msgstr "Nach Kontakten suchen"
+msgstr "Nach Kontakten suchen."
 
 #: C/contacts-searching.page:28(title)
-#, fuzzy
 msgid "Searching Contacts"
 msgstr "Nach Kontakten suchen"
 
@@ -10163,9 +9981,8 @@ msgid "On address books, searching, contact lists, and categories."
 msgstr ""
 
 #: C/contacts-organizing.page:21(title)
-#, fuzzy
 msgid "Sorting, organizing and grouping contacts"
-msgstr "Verwaltung Ihrer Kontakte"
+msgstr "Sortieren, Organisieren und Gruppieren Ihrer Kontakte"
 
 #: C/contacts-organizing.page:23(p)
 msgid ""
@@ -10175,14 +9992,12 @@ msgid ""
 msgstr ""
 
 #: C/contacts-local.page:5(desc)
-#, fuzzy
 msgid "Adding another local address book."
-msgstr "Absender zum Adressbuch hinzufügen"
+msgstr "Ein weiteres lokales Adressbuch hinzufügen."
 
 #: C/contacts-local.page:20(title)
-#, fuzzy
 msgid "Adding another local address book"
-msgstr "Absender zum Adressbuch hinzufügen"
+msgstr "Ein weiteres lokales Adressbuch hinzufügen"
 
 #: C/contacts-local.page:22(p) C/calendar-local.page:22(p)
 msgid "To add another local calendar to Evolution, perform the following steps:"
@@ -10200,31 +10015,28 @@ msgid ""
 msgstr ""
 
 #: C/contacts-ldap.page:5(desc)
-#, fuzzy
 msgid "Use shared address books on a local network."
-msgstr "LDAP: Adressbücher im Netzwerk"
+msgstr "Die freigegebenen Adressbücher im Netzwerk verwenden."
 
 #: C/contacts-ldap.page:23(title)
 msgid "Adding LDAP access"
 msgstr ""
 
 #: C/contacts-ldap.page:25(p)
-#, fuzzy
 msgid ""
 "The LDAP protocol was created to let users share contact information over a "
 "network by sharing access to a central directory. LDAP allows a company to "
 "maintain a shared set of contact information. Many companies keep a common "
 "LDAP address book for all their employees or for client contacts."
 msgstr ""
-"Das <link linkend=\"ldap\">LDAP</link>-Protokoll wurde entworfen, damit "
-"Benutzer Kontaktinformationen zentral über ein Netzwerk teilen können. Viele "
-"Firmen nutzen ein LDAP-Adressbuch für alle Ihre Mitarbeiter oder für "
-"Kundenkontakte."
+"Das LDAP-Protokoll wurde entworfen, damit Benutzer Kontaktinformationen "
+"zentral über ein Netzwerk teilen können. LDAP ermöglicht einem Unternehmen, "
+"eine Reihe von freigegebenen Kontaktinformationen zu verwalten. Viele Firmen "
+"nutzen ein LDAP-Adressbuch für alle Ihre Mitarbeiter oder für Kundenkontakte."
 
 #: C/contacts-ldap.page:28(title)
-#, fuzzy
 msgid "Adding an LDAP address book"
-msgstr "Absender zum Adressbuch hinzufügen"
+msgstr "Ein LDAP-Adressbuch hinzufügen"
 
 #: C/contacts-ldap.page:32(p)
 msgid ""
@@ -10276,12 +10088,12 @@ msgid "Sub: Searches the Search Base and all entries below it."
 msgstr "Durchsucht alle Einträge unterhalb des Suchbereichs."
 
 #: C/contacts-ldap.page:46(p)
-#, fuzzy
 msgid ""
 "Search Filter: The search filter can be set here for all the LDAP queries. "
 "For example:"
 msgstr ""
-"Hier kann der Suchfilter für alle LDAP-Anfragen bestimmt werden. Zum Beispiel:"
+"Suchfilter: Hier kann der Suchfilter für alle LDAP-Anfragen bestimmt werden. "
+"Zum Beispiel:"
 
 #: C/contacts-ldap.page:48(p)
 msgid "<code>ObjectClass=*</code>: Lists all the objects from the server."
@@ -10394,23 +10206,20 @@ msgid "Use the online address book of your Google account."
 msgstr "Erzeugt ein lokales Adressbuch auf Ihrem Rechner."
 
 #: C/contacts-google.page:21(title)
-#, fuzzy
 msgid "Using a Google addressbook"
-msgstr "Adressbuch konnte nicht geöffnet werden"
+msgstr "Ein Google-Adressbuch verwenden"
 
 #: C/contacts-google.page:23(p)
 msgid "To add such an address book to Evolution, perform the following steps:"
 msgstr ""
 
 #: C/contacts-google.page:26(p) C/calendar-google.page:29(p)
-#, fuzzy
 msgid "Select the type <gui>Google</gui>."
-msgstr "gpg <placeholder-1/>"
+msgstr "Wählen Sie den Typ <gui>Google</gui>."
 
 #: C/contacts-google.page:29(p) C/calendar-google.page:33(p)
-#, fuzzy
 msgid "Enter your Google username."
-msgstr "Bitte geben Sie Ihre vollständigen Namen ein."
+msgstr "Geben Sie Ihren Google-Benutzernamen ein."
 
 #: C/contacts-autocompletion.page:5(desc)
 #, fuzzy
@@ -10420,9 +10229,8 @@ msgstr ""
 "Automatisch den Editor bei Tastendruck beim Verfassen einer Nachricht starten"
 
 #: C/contacts-autocompletion.page:27(title)
-#, fuzzy
 msgid "Autocompletion of mail recipients"
-msgstr "Auto-Vervollständigungslänge"
+msgstr "Automatische Vervollständigung der E-Mail-Empfänger"
 
 #: C/contacts-autocompletion.page:29(p)
 msgid ""
@@ -10494,9 +10302,8 @@ msgid "Changing the display of the window buttons in the lower left corner."
 msgstr ""
 
 #: C/change-switcher-appearance.page:19(title)
-#, fuzzy
 msgid "Changing the Switcher appearance"
-msgstr "Das Erscheinungsbild der Fensterknöpfe ändern:"
+msgstr "Das Erscheinungsbild der Knöpfe ändern"
 
 #: C/change-switcher-appearance.page:21(p)
 msgid ""
@@ -10507,43 +10314,36 @@ msgid ""
 msgstr ""
 
 #: C/change-switcher-appearance.page:22(p)
-#, fuzzy
 msgid "The available options are:"
 msgstr "Die folgenden Optionen sind verfügbar:"
 
 #: C/change-switcher-appearance.page:24(p)
-#, fuzzy
 msgid "Icons and Text"
-msgstr "Symbole und Text:"
+msgstr "Symbole und Text"
 
 #: C/change-switcher-appearance.page:27(p)
-#, fuzzy
 msgid "Icons Only"
-msgstr "Nur Symbole:"
+msgstr "Nur Symbole"
 
 #: C/change-switcher-appearance.page:30(p)
-#, fuzzy
 msgid "Text Only"
-msgstr "Nur _Text"
+msgstr "Nur Text"
 
 #: C/change-switcher-appearance.page:33(p)
-#, fuzzy
 msgid "Toolbar Style"
-msgstr "Werkzeugleistenstil:"
+msgstr "Werkzeugleistenstil"
 
 #: C/change-switcher-appearance.page:36(p)
-#, fuzzy
 msgid "Show Buttons"
-msgstr "_Knöpfe anzeigen"
+msgstr "Knöpfe anzeigen"
 
 #: C/calendar-webdav.page:5(desc)
 msgid "Using an online Webcal/WebDAV calendar."
 msgstr ""
 
 #: C/calendar-webdav.page:20(title)
-#, fuzzy
 msgid "Using a WebDAV calendar"
-msgstr "Nach einem CalDAV-Kalender suchen"
+msgstr "Einen WebDAV-Kalender verwenden"
 
 #: C/calendar-webdav.page:22(p) C/calendar-weather.page:22(p)
 msgid "Calendars of this type are read-only."
@@ -10573,37 +10373,32 @@ msgid "The calendar will be added to the list of calendars in Evolution."
 msgstr "Wetterkalender zu Evolution hinzufügen."
 
 #: C/calendar-weather.page:5(desc)
-#, fuzzy
 msgid "Display the weather in the calendar."
-msgstr "Nächsten Thread anzeigen"
+msgstr "Das Wetter im Kalender anzeigen."
 
 #: C/calendar-weather.page:20(title)
-#, fuzzy
 msgid "Using a weather calendar"
-msgstr "Wetterkalender"
+msgstr "Einen Wetterkalender verwenden"
 
 #: C/calendar-weather.page:27(p)
-#, fuzzy
 msgid "Select the type <gui>Weather</gui>."
-msgstr "gpg <placeholder-1/>"
+msgstr "Wählen Sie den Typ <gui>Wetter</gui>."
 
 #: C/calendar-weather.page:31(p)
 msgid "Choose a location by selecting continent, country and city."
 msgstr ""
 
 #: C/calendar-weather.page:33(p)
-#, fuzzy
 msgid "Choose the temperature unit."
-msgstr "Wählen Sie den auszuführenden Importeur:"
+msgstr "Wählen Sie die Temperatureinheit."
 
 #: C/calendar-using-several-calendars.page:5(desc)
 msgid "Adding and using more than one calendar and different types."
 msgstr ""
 
 #: C/calendar-using-several-calendars.page:23(title)
-#, fuzzy
 msgid "Using several calendars"
-msgstr "Benutzerkalender"
+msgstr "Verschiedene Kalender verwenden"
 
 #: C/calendar-using-several-calendars.page:25(p)
 #, fuzzy
@@ -10654,19 +10449,16 @@ msgid "On adding, editing, and deleting appointments."
 msgstr ""
 
 #: C/calendar-usage.page:21(title)
-#, fuzzy
 msgid "Add, Edit, and Delete Appointments"
-msgstr "Den Termin _löschen"
+msgstr "Termine hinzufügen, bearbeiten und löschen"
 
 #: C/calendar-usage-edit-appointment.page:5(desc)
-#, fuzzy
 msgid "Editing in appointment in your calendar."
-msgstr "Erstellen Sie einen neuen Termin im Kalender."
+msgstr "Einen Termin in Ihrem Kalender bearbeiten."
 
 #: C/calendar-usage-edit-appointment.page:20(title)
-#, fuzzy
 msgid "Editing an Appointment"
-msgstr "Termin bearbeiten"
+msgstr "Einen Termin bearbeiten"
 
 #: C/calendar-usage-edit-appointment.page:22(p)
 #, fuzzy
@@ -10677,11 +10469,10 @@ msgstr ""
 "möchten,"
 
 #: C/calendar-usage-edit-appointment.page:25(p)
-#, fuzzy
 msgid "Double-click on the appointment that you want to edit in the calendar."
 msgstr ""
-"Klicken Sie doppelt mit der linken Maustaste auf den Kontakt, den Sie "
-"bearbeiten möchten."
+"Klicken Sie doppelt mit der linken Maustaste im Kalender auf den Termin, den "
+"Sie bearbeiten möchten."
 
 #: C/calendar-usage-edit-appointment.page:26(p)
 msgid ""
@@ -10690,14 +10481,12 @@ msgid ""
 msgstr ""
 
 #: C/calendar-usage-delete-appointment.page:5(desc)
-#, fuzzy
 msgid "Deleting in appointment in your calendar."
-msgstr "Erstellen Sie einen neuen Termin im Kalender."
+msgstr "Einen Termin in Ihrem Kalender löschen."
 
 #: C/calendar-usage-delete-appointment.page:20(title)
-#, fuzzy
 msgid "Deleting an Appointment"
-msgstr "Den Termin _löschen"
+msgstr "Einen Termin löschen"
 
 #: C/calendar-usage-delete-appointment.page:22(p)
 msgid ""
@@ -10710,14 +10499,12 @@ msgid ""
 msgstr ""
 
 #: C/calendar-usage-add-appointment.page:5(desc)
-#, fuzzy
 msgid "Adding an appointment."
-msgstr "Ende des Termins"
+msgstr "Einen Termin hinzufügen."
 
 #: C/calendar-usage-add-appointment.page:20(title)
-#, fuzzy
 msgid "Adding an Appointment"
-msgstr "Termin bearbeiten"
+msgstr "Einen Termin hinzufügen"
 
 #: C/calendar-usage-add-appointment.page:23(p)
 #, fuzzy
@@ -10734,21 +10521,19 @@ msgstr ""
 "auf welche Sie in der Kalenderansicht geklickt haben."
 
 #: C/calendar-usage-add-appointment.page:24(p)
-#, fuzzy
 msgid "If you use the Appointment dialog:"
-msgstr "Angekündigter Termin"
+msgstr "Falls Sie den Termindialog verwenden:"
 
 #: C/calendar-usage-add-appointment.page:25(p)
 #: C/calendar-meetings-sending-invitation.page:33(p)
-#, fuzzy
 msgid "Select a calendar in the <gui>Calendar</gui> drop-down list."
-msgstr "Wählen Sie einen Kalender in der Kalender-Auswahlliste."
+msgstr "Wählen Sie einen Kalender in der <gui>Kalender</gui>-Auswahlliste."
 
 #: C/calendar-usage-add-appointment.page:26(p)
 #: C/calendar-meetings-sending-invitation.page:36(p)
-#, fuzzy
 msgid "Enter a brief summary in the <gui>Summary</gui> field."
-msgstr "Geben Sie eine kurze Zusammenfassung in das »Zusammenfassung«-Feld ein."
+msgstr ""
+"Geben Sie eine kurze Zusammenfassung im <gui>Zusammenfassung</gui>-Feld ein."
 
 #: C/calendar-usage-add-appointment.page:27(p)
 #: C/calendar-meetings-sending-invitation.page:37(p)
@@ -10800,17 +10585,14 @@ msgid ""
 msgstr ""
 
 #: C/calendar-timezones.page:5(desc)
-#, fuzzy
 msgid "Using time zones in the calendar."
-msgstr "Klicken Sie mit rechts auf den Kalender."
+msgstr "Zeitzonen im Kalender verwenden."
 
 #: C/calendar-timezones.page:23(title)
-#, fuzzy
 msgid "Using time zones"
-msgstr "Zeitzone des S_ystems verwenden"
+msgstr "Zeitzonen verwenden"
 
 #: C/calendar-timezones.page:25(p)
-#, fuzzy
 msgid "Evolution supports using multiple time zones."
 msgstr "Evolution unterstützt die Nutzung mehrerer Zeitzonen."
 
@@ -10835,12 +10617,10 @@ msgid ""
 msgstr ""
 
 #: C/calendar-timezones.page:36(title)
-#, fuzzy
 msgid "Setting a timezone for an appointment"
-msgstr "Wandelt eine Besprechung in einen Termin um"
+msgstr "Eine Zeitzone für einen Termin festlegen"
 
 #: C/calendar-timezones.page:38(p)
-#, fuzzy
 msgid ""
 "You can also configure time zone information specific to each appointment. To "
 "do that, <link xref=\"calendar-usage\">add a new or edit an existing "
@@ -10851,11 +10631,13 @@ msgid ""
 "helps avoid that potential confusion."
 msgstr ""
 "Sie können die Zeitzone-Informationen auch spezifisch für einen Termin "
-"eingeben. Hierzu erstellen Sie einen neuen Termin und klicken dann auf den "
-"Globus-Knopf (rechts vom Zeitzone-Feld), um die gewünschte Zeitzone "
-"einzugeben. Wenn Sie zum Beispiel in London leben, aber eine "
-"Telefonbesprechung mit jemandem in London um 12 Uhr mittags haben, können Sie "
-"Verwirrung vermeiden, indem Sie die Zeitzone dieses Termins korrekt setzen."
+"eingeben. Hierzu <link xref=\"calendar-usage\">erstellen Sie einen neuen "
+"Termin oder bearbeiten einen bestehenden Termin</link> und klicken dann auf "
+"den Globus-Knopf, um die gewünschte Zeitzone einzugeben. Wenn Sie zum "
+"Beispiel in Berlin leben, aber eine Telefonbesprechung mit jemandem in New "
+"York um 12 Uhr mittags haben, müssen Sie Ihre Planungen untereinander "
+"koordinieren. Sie können Verwirrung vermeiden, indem Sie die Zeitzone dieses "
+"Termins korrekt setzen."
 
 #: C/calendar-sharing-information.page:5(desc)
 msgid ""
@@ -10863,14 +10645,12 @@ msgid ""
 msgstr ""
 
 #: C/calendar-sharing-information.page:20(title)
-#, fuzzy
 msgid "Sharing your calendar information"
-msgstr "iCalendar-Informationen"
+msgstr "Ihre Kalender-Informationen freigeben"
 
 #: C/calendar-searching.page:5(desc)
-#, fuzzy
 msgid "Searching appointments and meetings."
-msgstr "Alte Termine und Besprechungen löschen"
+msgstr "Nach Terminen und Besprechungen suchen."
 
 #: C/calendar-searching.page:28(title)
 msgid "Searching for Calendar Items"
@@ -10888,9 +10668,8 @@ msgid "Repeating appointments."
 msgstr "Termine erstellen"
 
 #: C/calendar-recurrence.page:23(title)
-#, fuzzy
 msgid "Using Recurrence"
-msgstr "Wiederholung"
+msgstr "Wiederholungen verwenden"
 
 #: C/calendar-recurrence.page:25(p)
 #, fuzzy
@@ -10955,27 +10734,25 @@ msgstr ""
 "unterstützt wird."
 
 #: C/calendar-publishing.page:31(p)
-#, fuzzy
 msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
 "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
 msgstr ""
 "Um die Kalenderinformationen sofort zu veröffentlichen, wählen Sie im "
-"Kalender-Fenster Aktionen &gt; Kalenderinformationen veröffentlichen."
+"Kalender-Fenster <guiseq><gui>Aktionen</gui><gui>Kalenderinformationen "
+"veröffentlichen</gui></guiseq>."
 
 #: C/calendar-organizing.page:5(desc)
 msgid "On using several calendars, searching, and categories."
 msgstr ""
 
 #: C/calendar-organizing.page:21(title)
-#, fuzzy
 msgid "Sorting and organizing calendars"
-msgstr "Kalender werden geladen"
+msgstr "Kalender sortieren und organisieren"
 
 #: C/calendar-meetings-sending-invitation.page:5(desc)
-#, fuzzy
 msgid "Sending a Meeting Invitation."
-msgstr "Eine Besprechungseinladung verschicken"
+msgstr "Eine Besprechungseinladung verschicken."
 
 #: C/calendar-meetings-sending-invitation.page:23(title)
 msgid "Sending a Meeting Invitation"
@@ -11023,23 +10800,21 @@ msgid "Click <guiseq><gui>File</gui><gui>New</gui><gui>Meeting</gui></guiseq>."
 msgstr ""
 
 #: C/calendar-meetings-sending-invitation.page:32(p)
-#, fuzzy
 msgid ""
 "If you have multiple email accounts, select the one to use by selecting an "
 "item in the <gui>Organizer</gui> field."
 msgstr ""
 "Falls Sie mehrere E-Mail-Konten haben, wählen Sie das gewünschte Konto in der "
-"Auswahlliste im Organisator-Feld aus."
+"Auswahlliste im <gui>Organisator</gui>-Feld aus."
 
 #: C/calendar-meetings-sending-invitation.page:34(p)
 #: C/calendar-free-busy.page:32(p)
-#, fuzzy
 msgid ""
 "Click <gui style=\"button\">Add</gui> to add the email addresses of people "
 "you want to invite."
 msgstr ""
-"Klicken Sie auf den Hinzufügen-Knopf, um die E-Mail-Adressen der Personen "
-"hinzuzufügen, die Sie einladen möchten."
+"Klicken Sie auf <gui style=\"button\">Hinzufügen</gui>, um die E-Mail-"
+"Adressen der Personen hinzuzufügen, die Sie einladen möchten."
 
 #: C/calendar-meetings-sending-invitation.page:35(p)
 #, fuzzy
@@ -11061,11 +10836,8 @@ msgstr ""
 "»Verfügbarkeit«-Knopf in der Werkzeugleiste."
 
 #: C/calendar-meetings-sending-invitation.page:43(p)
-#, fuzzy
 msgid "Click <gui>Save</gui> to save the meeting."
-msgstr ""
-"Klicken Sie auf den Speichern-Knopf in der Werkzeugleiste, um die Besprechung "
-"zu speichern."
+msgstr "Klicken Sie auf <gui>Speichern</gui>, um die Besprechung zu speichern."
 
 #: C/calendar-meetings-sending-invitation.page:46(p)
 msgid "An email is sent out to all the recipients, inviting them to your event."
@@ -11091,14 +10863,12 @@ msgstr ""
 "eigentliche Einladungsnachricht an weitere Personen weiterzuleiten."
 
 #: C/calendar-meetings-replying-to-invitation.page:5(desc)
-#, fuzzy
 msgid "Accepting and replying to a meeting invitation."
-msgstr "Eine Besprechungseinladung annehmen und beantworten"
+msgstr "Eine Besprechungseinladung annehmen und beantworten."
 
 #: C/calendar-meetings-replying-to-invitation.page:23(title)
-#, fuzzy
 msgid "Replying to a Meeting Request"
-msgstr "Eine Besprechungseinladung annehmen und beantworten"
+msgstr "Eine Besprechungseinladung beantworten"
 
 #: C/calendar-meetings-replying-to-invitation.page:24(p)
 msgid ""
@@ -11129,15 +10899,14 @@ msgid ""
 msgstr ""
 
 #: C/calendar-meetings-replying-to-invitation.page:30(p)
-#, fuzzy
 msgid ""
 "After you have added the meeting to your calendar, you can make changes to "
 "the meeting, but if the original organizer sends out an update, your changes "
 "might be overwritten."
 msgstr ""
-"Nachdem Sie die Besprechung zu Ihrem Kalender hinzugefügt haben können Sie "
+"Nachdem Sie die Besprechung zu Ihrem Kalender hinzugefügt haben, können Sie "
 "Änderungen vornehmen, aber falls der eigentliche Organisator eine "
-"Aktualisierung schickt, können diese Änderungen überschrieben werden."
+"Aktualisierung schickt, können Ihre Änderungen überschrieben werden."
 
 #: C/calendar-meetings-replying-to-invitation.page:32(p)
 msgid ""
@@ -11147,14 +10916,12 @@ msgid ""
 msgstr ""
 
 #: C/calendar-meetings.page:5(desc)
-#, fuzzy
 msgid "Using meetings in the calendar."
-msgstr "Klicken Sie mit rechts auf den Kalender."
+msgstr "Besprechungen im Kalender verwenden."
 
 #: C/calendar-meetings.page:20(title)
-#, fuzzy
 msgid "Meetings"
-msgstr "Besprechung"
+msgstr "Besprechungen"
 
 #: C/calendar-meetings-delegating.page:5(desc)
 #, fuzzy
@@ -11170,16 +10937,14 @@ msgid "Only attendees of a meeting can delegate a meeting."
 msgstr "Nur Teilnehmer einer Besprechung können eine Besprechung delegieren."
 
 #: C/calendar-meetings-delegating.page:29(p)
-#, fuzzy
 msgid "Right-click on the meeting that you want to delegate."
 msgstr ""
-"Klicken Sie im Kalender mit der rechten Maustaste auf die Besprechung, die "
-"Sie delegieren möchten."
+"Klicken Sie mit der rechten Maustaste auf die Besprechung, die Sie delegieren "
+"möchten."
 
 #: C/calendar-meetings-delegating.page:32(p)
-#, fuzzy
 msgid "Click <gui>Delegate Meeting</gui>."
-msgstr "Klicken Sie auf »Besprechung delegieren«."
+msgstr "Klicken Sie auf <gui>Besprechung delegieren</gui>."
 
 #: C/calendar-meetings-delegating.page:35(p)
 msgid "Select the contacts you want to delegate the meeting to."
@@ -11191,18 +10956,14 @@ msgid "Each contact receives a copy of the meeting invitation."
 msgstr "Jeder Kontakt erhält eine E-Mail mit der Einladung zur Besprechung."
 
 #: C/calendar-marcus-bains-line.page:5(desc)
-#, fuzzy
 msgid "The red \"Marcus Bains\" line displays the current time."
-msgstr ""
-"Soll eine Marcus-Bains-Linie (Linie auf der momentanen Zeit) im Kalender "
-"angezeigt werden?"
+msgstr "Die rote Marcus-Bains-Linie zeigt die aktuelle Zeit an."
 
 #: C/calendar-marcus-bains-line.page:19(title)
 msgid "Time display in the Day view"
 msgstr ""
 
 #: C/calendar-marcus-bains-line.page:21(p)
-#, fuzzy
 msgid ""
 "The red Marcus Bains Line in the Day view of the calendar is a marker to show "
 "the current date and time."
@@ -11211,9 +10972,8 @@ msgstr ""
 "das momentane Datum im Kalender anzeigt."
 
 #: C/calendar-local.page:5(desc)
-#, fuzzy
 msgid "Adding another local calendar."
-msgstr "Geben Sie einen Namen für den Google-Kalender ein."
+msgstr "Einen weiteren lokalen Kalender hinzufügen."
 
 #: C/calendar-local.page:20(title)
 msgid "Adding another local calendar"
@@ -11224,9 +10984,8 @@ msgid "Using date ranges (day, week, month) to look at the calendar."
 msgstr ""
 
 #: C/calendar-layout-views.page:23(title)
-#, fuzzy
 msgid "Available views"
-msgstr "Verfügbare Felder"
+msgstr "Verfügbare Ansichten"
 
 #: C/calendar-layout-views.page:25(p)
 msgid "Evolution offers five different views of your calendar data:"
@@ -11234,23 +10993,23 @@ msgstr ""
 
 #: C/calendar-layout-views.page:27(p)
 msgid "Day (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
-msgstr ""
+msgstr "Tag (<keyseq><key>Strg</key><key>Y</key></keyseq>)"
 
 #: C/calendar-layout-views.page:28(p)
 msgid "Work Week (<keyseq><key>Ctrl</key><key>J</key></keyseq>)"
-msgstr ""
+msgstr "Arbeitswoche (<keyseq><key>Strg</key><key>J</key></keyseq>)"
 
 #: C/calendar-layout-views.page:29(p)
 msgid "Week (<keyseq><key>Ctrl</key><key>K</key></keyseq>)"
-msgstr ""
+msgstr "Woche (<keyseq><key>Strg</key><key>K</key></keyseq>)"
 
 #: C/calendar-layout-views.page:30(p)
 msgid "Month (<keyseq><key>Ctrl</key><key>M</key></keyseq>)"
-msgstr ""
+msgstr "Monat (<keyseq><key>Strg</key><key>M</key></keyseq>)"
 
 #: C/calendar-layout-views.page:31(p)
 msgid "List (<keyseq><key>Ctrl</key><key>L</key></keyseq>)"
-msgstr ""
+msgstr "Liste (<keyseq><key>Strg</key><key>L</key></keyseq>)"
 
 #: C/calendar-layout-views.page:34(p)
 msgid ""
@@ -11296,18 +11055,16 @@ msgid "Adjusting the display and views of the calendar."
 msgstr ""
 
 #: C/calendar-layout.page:20(title)
-#, fuzzy
 msgid "Changing the calendar layout"
-msgstr "Kalender wird geöffnet. Bitte warten …"
+msgstr "Die Anordnung des Kalenders ändern"
 
 #: C/calendar-layout-general-formatting.page:5(desc)
 msgid "General formatting options for the calendar."
 msgstr ""
 
 #: C/calendar-layout-general-formatting.page:25(title)
-#, fuzzy
 msgid "General formatting options"
-msgstr "Allge_meine Optionen"
+msgstr "Allgemeine Optionen zur Formatierung"
 
 #: C/calendar-layout-general-formatting.page:27(p)
 msgid ""
@@ -11333,18 +11090,16 @@ msgid "<link xref=\"calendar-timezones\">Time zone</link> and Second zone:"
 msgstr ""
 
 #: C/calendar-layout-general-formatting.page:34(p)
-#, fuzzy
 msgid "The city you are located in, and optionally a second city."
-msgstr "Die Stadt, in der Sie sich befinden, um Ihre Zeitzone zu definieren."
+msgstr "Die Stadt, in der Sie sich befinden, sowie optional eine zweite Stadt."
 
 #: C/calendar-layout-general-formatting.page:39(title)
 msgid "Work Week"
 msgstr "Arbeitswochenansicht"
 
 #: C/calendar-layout-general-formatting.page:41(p)
-#, fuzzy
 msgid "Week starts on:"
-msgstr "W_oche beginnt am:"
+msgstr "Woche beginnt am:"
 
 #: C/calendar-layout-general-formatting.page:42(p)
 msgid "Select the day to display as the first in each week."
@@ -11359,18 +11114,16 @@ msgid "Define which week days are work days."
 msgstr ""
 
 #: C/calendar-layout-general-formatting.page:45(p)
-#, fuzzy
 msgid "Day begins:"
-msgstr "_Tag beginnt:"
+msgstr "Tag beginnt:"
 
 #: C/calendar-layout-general-formatting.page:46(p)
 msgid "Define at which time your work day begins."
 msgstr ""
 
 #: C/calendar-layout-general-formatting.page:47(p)
-#, fuzzy
 msgid "Day ends:"
-msgstr "Tag _endet:"
+msgstr "Tag endet:"
 
 #: C/calendar-layout-general-formatting.page:48(p)
 msgid "Define at which time your work day ends."
@@ -11381,14 +11134,12 @@ msgid "Alerts"
 msgstr "Alarme"
 
 #: C/calendar-layout-general-formatting.page:54(p)
-#, fuzzy
 msgid ""
 "If you want to be warned before you delete any appointment, select this "
 "option."
 msgstr ""
-"Falls Sie vor dem Löschen eines Termins gewarnt werden möchten, oder "
-"automatisch einen Alarm für jedes Ereignis erhalten möchten, so wählen Sie "
-"diese Optionen hier aus."
+"Falls Sie vor dem Löschen eines Termins gewarnt werden möchten, wählen Sie "
+"diese Option hier aus."
 
 #: C/calendar-layout-appointment-display.page:5(desc)
 #, fuzzy
@@ -11396,9 +11147,8 @@ msgid "Define the displaying of appointments in the calendar."
 msgstr "Erstellen Sie einen neuen Termin im Kalender."
 
 #: C/calendar-layout-appointment-display.page:23(title)
-#, fuzzy
 msgid "Appearance of Appointments"
-msgstr "Ende des Termins"
+msgstr "Erscheinungsbild von Terminen"
 
 #. TODO: Recheck once https://bugzilla.gnome.org/show_bug.cgi?id=657233 is fixed, as the current UI is a huge mess.
 #: C/calendar-layout-appointment-display.page:29(p)
@@ -11483,18 +11233,16 @@ msgid "Using the online calendar of your Google account."
 msgstr "Geben Sie den Benutzernamen für Ihr Google-Konto ein."
 
 #: C/calendar-google.page:24(title)
-#, fuzzy
 msgid "Using a Google calendar"
-msgstr "Google-Kalender"
+msgstr "Einen Google-Kalender verwenden"
 
 #: C/calendar-google.page:34(p)
 msgid "If you have more than one Google calendar, define which of them to use."
 msgstr ""
 
 #: C/calendar-free-busy.page:5(desc)
-#, fuzzy
 msgid "Using the Free/Busy view for setting up meetings."
-msgstr "Die Verfügbarkeitsansicht benutzen"
+msgstr "Die Verfügbarkeitsansicht zum Planen von Besprechungen benutzen."
 
 #: C/calendar-free-busy.page:23(title)
 msgid "Free/Busy information"
@@ -11627,9 +11375,8 @@ msgid "Classifying appointments and tasks on groupware servers."
 msgstr ""
 
 #: C/calendar-classifications.page:23(title)
-#, fuzzy
 msgid "Using Classifications"
-msgstr "Einstufungen"
+msgstr "Einstufungen verwenden"
 
 #: C/calendar-classifications.page:25(p)
 msgid ""
@@ -11659,29 +11406,24 @@ msgid "Using an online CalDAV calendar."
 msgstr "Nach einem CalDAV-Kalender suchen"
 
 #: C/calendar-caldav.page:23(title)
-#, fuzzy
 msgid "Using a CalDAV calendar"
-msgstr "Nach einem CalDAV-Kalender suchen"
+msgstr "Einen CalDAV-Kalender verwenden"
 
 #: C/calendar-caldav.page:28(p)
-#, fuzzy
 msgid "Select the type <gui>CalDAV</gui>."
-msgstr "gpg <placeholder-1/>"
+msgstr "Wählen Sie den Typ <gui>CalDAV</gui>."
 
 #: C/calendar-alarms-and-reminders.page:5(desc)
-#, fuzzy
 msgid "Setting up reminder notifications for appointments."
-msgstr "Soll eine voreingestellte Erinnerung für Termine festgelegt werden?"
+msgstr "Erinnerungen für Termine einrichten."
 
 #: C/calendar-alarms-and-reminders.page:23(title)
-#, fuzzy
 msgid "Reminders for appointments"
-msgstr "Ende des Termins"
+msgstr "Erinnerungen für Termine"
 
 #: C/calendar-alarms-and-reminders.page:26(title)
-#, fuzzy
 msgid "General Settings"
-msgstr "Allgemeine E-Mail-Einstellungen"
+msgstr "Allgemeine Einstellungen"
 
 #: C/calendar-alarms-and-reminders.page:28(p)
 msgid ""
@@ -11694,9 +11436,8 @@ msgid ""
 msgstr ""
 
 #: C/calendar-alarms-and-reminders.page:33(title)
-#, fuzzy
 msgid "Manual Reminders"
-msgstr "Erinnerungen"
+msgstr "Manuelle Erinnerungen"
 
 #: C/calendar-alarms-and-reminders.page:35(p)
 msgid ""
@@ -11727,7 +11468,6 @@ msgid "Back up and restore your Evolution data and settings."
 msgstr "Sichern und Wiederherstellen von Evolution-Daten und Einstellungen."
 
 #: C/backup-restore.page:21(title)
-#, fuzzy
 msgid "Back up and restore"
 msgstr "Sichern und Wiederherstellen"
 
@@ -11739,9 +11479,8 @@ msgid ""
 msgstr ""
 
 #: C/backup-restore.page:26(title)
-#, fuzzy
 msgid "Backing up"
-msgstr "Verfolgungsoptionen"
+msgstr "Datensicherung"
 
 #: C/backup-restore.page:28(p)
 msgid ""
@@ -11761,9 +11500,8 @@ msgid ""
 msgstr ""
 
 #: C/backup-restore.page:35(title)
-#, fuzzy
 msgid "Restoring"
-msgstr "Wiederkehrend"
+msgstr "Wiederherstellung"
 
 #: C/backup-restore.page:37(p)
 msgid ""
@@ -11771,9 +11509,9 @@ msgid ""
 msgstr ""
 
 #: C/backup-restore.page:38(p)
-#, fuzzy
 msgid "Choose the file, and click <gui style=\"button\">Open</gui>."
-msgstr "Wählen Sie die Datei und klicken Sie auf »Öffnen«."
+msgstr ""
+"Wählen Sie die Datei und klicken Sie auf <gui style=\"button\">Öffnen</gui>."
 
 #: C/backup-restore.page:41(p)
 #, fuzzy
@@ -11791,4 +11529,3 @@ msgstr ""
 "Andre Klapper <ak-47@gmx.net>, 2007, 2008, 2009\n"
 "Mario Blättermann <mariobl@freenet.de>, 2009, 2010, 2011\n"
 "Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010."
-
