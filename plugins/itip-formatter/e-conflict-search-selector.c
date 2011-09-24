@@ -1,0 +1,105 @@
+/*
+ * e-conflict-search-selector.c
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
+ *
+ */
+
+#include "e-conflict-search-selector.h"
+
+#include <libedataserver/e-source-calendar.h>
+
+#include "e-source-conflict-search.h"
+
+/* This forces the GType to be registered in a way that
+ * avoids a "statement with no effect" compiler warning. */
+#define REGISTER_TYPE(type) \
+	(g_type_class_unref (g_type_class_ref (type)))
+
+G_DEFINE_TYPE (
+	EConflictSearchSelector,
+	e_conflict_search_selector,
+	E_TYPE_SOURCE_SELECTOR)
+
+static gboolean
+conflict_search_selector_get_source_selected (ESourceSelector *selector,
+                                           ESource *source)
+{
+	ESourceConflictSearch *extension;
+	const gchar *extension_name;
+
+	/* Make sure this source is a calendar. */
+	extension_name = e_source_selector_get_extension_name (selector);
+	if (!e_source_has_extension (source, extension_name))
+		return FALSE;
+
+	extension_name = E_SOURCE_EXTENSION_CONFLICT_SEARCH;
+	extension = e_source_get_extension (source, extension_name);
+	g_return_val_if_fail (E_IS_SOURCE_CONFLICT_SEARCH (extension), FALSE);
+
+	return e_source_conflict_search_get_include_me (extension);
+}
+
+static void
+conflict_search_selector_set_source_selected (ESourceSelector *selector,
+                                           ESource *source,
+                                           gboolean selected)
+{
+	ESourceConflictSearch *extension;
+	const gchar *extension_name;
+
+	/* Make sure this source is a calendar. */
+	extension_name = e_source_selector_get_extension_name (selector);
+	if (!e_source_has_extension (source, extension_name))
+		return;
+
+	extension_name = E_SOURCE_EXTENSION_CONFLICT_SEARCH;
+	extension = e_source_get_extension (source, extension_name);
+	g_return_if_fail (E_IS_SOURCE_CONFLICT_SEARCH (extension));
+
+	if (selected != e_source_conflict_search_get_include_me (extension)) {
+		e_source_conflict_search_set_include_me (extension, selected);
+		e_source_selector_queue_write (selector, source);
+	}
+}
+
+static void
+e_conflict_search_selector_class_init (EConflictSearchSelectorClass *class)
+{
+	ESourceSelectorClass *source_selector_class;
+
+	source_selector_class = E_SOURCE_SELECTOR_CLASS (class);
+	source_selector_class->get_source_selected =
+				conflict_search_selector_get_source_selected;
+	source_selector_class->set_source_selected =
+				conflict_search_selector_set_source_selected;
+
+	REGISTER_TYPE (E_TYPE_SOURCE_CONFLICT_SEARCH);
+}
+
+static void
+e_conflict_search_selector_init (EConflictSearchSelector *selector)
+{
+}
+
+GtkWidget *
+e_conflict_search_selector_new (ESourceRegistry *registry)
+{
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
+	return g_object_new (
+		E_TYPE_CONFLICT_SEARCH_SELECTOR,
+		"extension-name", E_SOURCE_EXTENSION_CALENDAR,
+		"registry", registry, NULL);
+}

@@ -30,7 +30,8 @@
 
 #include <libecal/e-cal-client.h>
 #include <libecal/e-cal-time-util.h>
-#include <libedataserver/e-account-list.h>
+#include <libedataserver/e-source-calendar.h>
+#include <libedataserver/e-source-mail-identity.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libedataserverui/e-client-utils.h>
 
@@ -40,7 +41,6 @@
 #include <shell/e-shell.h>
 #include <shell/e-shell-utils.h>
 
-#include <libemail-utils/e-account-utils.h>
 #include <libemail-utils/mail-mt.h>
 
 #include <libemail-engine/mail-folder-cache.h>
@@ -55,6 +55,8 @@
 
 #include <calendar/gui/itip-utils.h>
 
+#include "e-conflict-search-selector.h"
+#include "e-source-conflict-search.h"
 #include "itip-view.h"
 
 #define CONF_KEY_DELETE "delete-processed"
@@ -71,7 +73,7 @@ struct _ItipPURI {
 
 	gchar *uid;
 
-	ESourceList *source_lists[E_CAL_CLIENT_SOURCE_TYPE_LAST];
+	ESourceRegistry *registry;
 	GHashTable *clients[E_CAL_CLIENT_SOURCE_TYPE_LAST];
 
 	ECalClient *current_client;
@@ -94,8 +96,6 @@ struct _ItipPURI {
 	gint total;
 
 	gchar *calendar_uid;
-
-	EAccountList *accounts;
 
 	gchar *from_address;
 	gchar *from_name;
@@ -247,133 +247,154 @@ find_to_address (ItipPURI *pitip,
                  icalcomponent *ical_comp,
                  icalparameter_partstat *status)
 {
-	EIterator *it;
+	ESourceRegistry *registry;
+	ESourceMailIdentity *extension;
+	GList *list, *link;
+	const gchar *extension_name;
 
-	it = e_list_get_iterator ((EList *) pitip->accounts);
+	registry = pitip->registry;
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 
-	if (!pitip->to_address && pitip->msg && pitip->folder) {
-		EAccount *account = em_utils_guess_account (pitip->msg, pitip->folder);
+	if (pitip->to_address != NULL)
+		return;
 
-		if (account) {
-			pitip->to_address = g_strdup (e_account_get_string (account, E_ACCOUNT_ID_ADDRESS));
-			if (pitip->to_address && !*pitip->to_address) {
-				g_free (pitip->to_address);
-				pitip->to_address = NULL;
-			}
+	if (pitip->msg != NULL && pitip->folder != NULL) {
+		ESource *source;
+
+		source = em_utils_guess_mail_identity (
+			registry, pitip->msg, pitip->folder);
+
+		if (source != NULL) {
+			extension = e_source_get_extension (source, extension_name);
+
+			pitip->to_address = e_source_mail_identity_dup_address (extension);
+
+			g_object_unref (source);
 		}
 	}
 
+	if (pitip->to_address != NULL)
+		return;
+
 	/* Look through the list of attendees to find the user's address */
-	if (!pitip->to_address)
-		while (e_iterator_is_valid (it)) {
-			const EAccount *account = e_iterator_get (it);
-			icalproperty *prop = NULL;
 
-			if (!account->enabled) {
-				e_iterator_next (it);
-				continue;
-			}
+	list = e_source_registry_list_sources (registry, extension_name);
 
-			prop = find_attendee (ical_comp, account->id->address);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		icalproperty *prop = NULL;
+		icalparameter *param;
+		const gchar *address;
+		gchar *text;
 
-			if (prop) {
-				gchar *text;
-				icalparameter *param;
+		if (!e_source_get_enabled (source))
+			continue;
 
-				param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
-				if (param)
-					pitip->to_name = g_strdup (icalparameter_get_cn (param));
+		extension = e_source_get_extension (source, extension_name);
+		address = e_source_mail_identity_get_address (extension);
 
-				text = icalproperty_get_value_as_string_r (prop);
+		prop = find_attendee (ical_comp, address);
+		if (prop == NULL)
+			continue;
 
-				pitip->to_address = g_strdup (itip_strip_mailto (text));
-				g_free (text);
-				g_strstrip (pitip->to_address);
+		param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+		if (param != NULL)
+			pitip->to_name = g_strdup (icalparameter_get_cn (param));
 
-				pitip->my_address = g_strdup (account->id->address);
+		text = icalproperty_get_value_as_string_r (prop);
 
-				param = icalproperty_get_first_parameter (prop, ICAL_RSVP_PARAMETER);
-				if (param &&
-				    icalparameter_get_rsvp (param) == ICAL_RSVP_FALSE) {
-					pitip->no_reply_wanted = TRUE;
-				}
+		pitip->to_address = g_strdup (itip_strip_mailto (text));
+		g_free (text);
+		g_strstrip (pitip->to_address);
 
-				if (status) {
-					param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
-					*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
-				}
+		pitip->my_address = g_strdup (address);
 
-				break;
-			}
-			e_iterator_next (it);
+		param = icalproperty_get_first_parameter (prop, ICAL_RSVP_PARAMETER);
+		if (param != NULL &&
+		    icalparameter_get_rsvp (param) == ICAL_RSVP_FALSE)
+			pitip->no_reply_wanted = TRUE;
+
+		if (status) {
+			param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+			*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
 		}
 
-	e_iterator_reset (it);
+		break;
+	}
 
-	/* If the user's address was not found in the attendee's list, then the user
-	 * might be responding on behalf of his/her delegator. In this case, we
-	 * would want to go through the SENT-BY fields of the attendees to find
-	 * the user's address.
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	if (pitip->to_address != NULL)
+		return;
+
+	/* If the user's address was not found in the attendee's list,
+	 * then the user might be responding on behalf of his/her delegator.
+	 * In this case, we would want to go through the SENT-BY fields of
+	 * the attendees to find the user's address.
 	 *
-	 * Note: This functionality could have been (easily) implemented in the
-	 * previous loop, but it would hurt the performance for all providers in
-	 * general. Hence, we choose to iterate through the accounts list again.
+	 * Note: This functionality could have been (easily) implemented
+	 * in the previous loop, but it would hurt the performance for all
+	 * providers in general. Hence, we choose to iterate through the
+	 * accounts list again.
 	 */
-	if (!pitip->to_address)
-		while (e_iterator_is_valid (it)) {
-			const EAccount *account = e_iterator_get (it);
-			icalproperty *prop = NULL;
 
-			if (!account->enabled) {
-				e_iterator_next (it);
-				continue;
-			}
+	list = e_source_registry_list_sources (registry, extension_name);
 
-			prop = find_attendee_if_sentby (ical_comp, account->id->address);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		icalproperty *prop = NULL;
+		icalparameter *param;
+		const gchar *address;
+		gchar *text;
 
-			if (prop) {
-				gchar *text;
-				icalparameter *param;
 
-				param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
-				if (param)
-					pitip->to_name = g_strdup (icalparameter_get_cn (param));
+		if (!e_source_get_enabled (source))
+			continue;
 
-				text = icalproperty_get_value_as_string_r (prop);
+		extension = e_source_get_extension (source, extension_name);
+		address = e_source_mail_identity_get_address (extension);
 
-				pitip->to_address = g_strdup (itip_strip_mailto (text));
-				g_free (text);
-				g_strstrip (pitip->to_address);
+		prop = find_attendee_if_sentby (ical_comp, address);
+		if (prop == NULL)
+			continue;
 
-				pitip->my_address = g_strdup (account->id->address);
+		param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+		if (param != NULL)
+			pitip->to_name = g_strdup (icalparameter_get_cn (param));
 
-				param = icalproperty_get_first_parameter (prop, ICAL_RSVP_PARAMETER);
-				if (param &&
-				    ICAL_RSVP_FALSE == icalparameter_get_rsvp (param)) {
-					pitip->no_reply_wanted = TRUE;
-				}
+		text = icalproperty_get_value_as_string_r (prop);
 
-				if (status) {
-					param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
-					*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
-				}
+		pitip->to_address = g_strdup (itip_strip_mailto (text));
+		g_free (text);
+		g_strstrip (pitip->to_address);
 
-				break;
-			}
-			e_iterator_next (it);
+		pitip->my_address = g_strdup (address);
+
+		param = icalproperty_get_first_parameter (prop, ICAL_RSVP_PARAMETER);
+		if (param != NULL &&
+		    ICAL_RSVP_FALSE == icalparameter_get_rsvp (param))
+			pitip->no_reply_wanted = TRUE;
+
+		if (status) {
+			param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+			*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
 		}
 
-	g_object_unref (it);
+		break;
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
 static void
 find_from_address (ItipPURI *pitip,
                    icalcomponent *ical_comp)
 {
-	EIterator *it;
+	GList *list, *link;
 	icalproperty *prop;
 	gchar *organizer;
 	icalparameter *param;
+	const gchar *extension_name;
 	const gchar *organizer_sentby;
 	gchar *organizer_clean = NULL;
 	gchar *organizer_sentby_clean = NULL;
@@ -408,24 +429,33 @@ find_from_address (ItipPURI *pitip,
 	if (param)
 		pitip->from_name = g_strdup (icalparameter_get_cn (param));
 
-	it = e_list_get_iterator ((EList *) pitip->accounts);
-	while (e_iterator_is_valid (it)) {
-		const EAccount *account = e_iterator_get (it);
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	list = e_source_registry_list_sources (pitip->registry, extension_name);
 
-		if (!account->enabled) {
-			e_iterator_next (it);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		ESourceMailIdentity *extension;
+		const gchar *address;
+
+		if (!e_source_get_enabled (source))
 			continue;
-		}
 
-		if ((organizer_clean && !g_ascii_strcasecmp (organizer_clean, account->id->address))
-		    || (organizer_sentby_clean && !g_ascii_strcasecmp (organizer_sentby_clean, account->id->address))) {
-			pitip->my_address = g_strdup (account->id->address);
+		extension = e_source_get_extension (source, extension_name);
+		address = e_source_mail_identity_get_address (extension);
+
+		if (address == NULL)
+			continue;
+
+		if ((organizer_clean && !g_ascii_strcasecmp (organizer_clean, address))
+		    || (organizer_sentby_clean && !g_ascii_strcasecmp (organizer_sentby_clean, address))) {
+			pitip->my_address = g_strdup (address);
 
 			break;
 		}
-		e_iterator_next (it);
 	}
-	g_object_unref (it);
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
 	g_free (organizer_sentby_clean);
 	g_free (organizer_clean);
 }
@@ -601,7 +631,6 @@ start_calendar_server (ItipPURI *pitip,
 		type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS ? E_CLIENT_SOURCE_TYPE_MEMOS :
 		type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ? E_CLIENT_SOURCE_TYPE_TASKS : E_CLIENT_SOURCE_TYPE_LAST,
 		TRUE, pitip->cancellable,
-		e_client_utils_authenticate_handler, NULL,
 		func, data);
 }
 
@@ -611,18 +640,15 @@ start_calendar_server_by_uid (ItipPURI *pitip,
                               const gchar *uid,
                               ECalClientSourceType type)
 {
-	gint i;
+	ESource *source;
 
 	itip_view_set_buttons_sensitive (view, FALSE);
 
-	for (i = 0; i < E_CAL_CLIENT_SOURCE_TYPE_LAST; i++) {
-		ESource *source;
-
-		source = e_source_list_peek_source_by_uid (pitip->source_lists[i], uid);
-		if (source) {
-			start_calendar_server (pitip, view, source, type, cal_opened_cb, view);
-			break;
-		}
+	source = e_source_registry_ref_source (pitip->registry, uid);
+	if (source != NULL) {
+		start_calendar_server (
+			pitip, view, source, type, cal_opened_cb, view);
+		g_object_unref (source);
 	}
 }
 
@@ -749,53 +775,34 @@ decrease_find_data (FormatItipFindData *fd)
 		    && !pitip->current_client) {
 			/* Reuse already declared one or rename? */
 			ESource *source = NULL;
+			const gchar *extension_name;
 
-			/* Try to create a default if there isn't one */
-			source = e_source_list_peek_default_source (pitip->source_lists[pitip->type]);
-
-			if (!source) {
-				EShell *shell;
-				EShellSettings *shell_settings;
-				gchar *uid;
-
-				/* FIXME Find a better way to obtain the shell. */
-				shell = e_shell_get_default ();
-				shell_settings = e_shell_get_shell_settings (shell);
-
-				switch (pitip->type) {
+			switch (pitip->type) {
 				case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-					uid = e_shell_settings_get_string (
-						shell_settings, "cal-primary-calendar");
+					extension_name = E_SOURCE_EXTENSION_CALENDAR;
 					break;
 				case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-					uid = e_shell_settings_get_string (
-						shell_settings, "cal-primary-task-list");
+					extension_name = E_SOURCE_EXTENSION_TASK_LIST;
 					break;
 				case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-					uid = e_shell_settings_get_string (
-						shell_settings, "cal-primary-memo-list");
+					extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
 					break;
 				default:
-					uid = NULL;
-					g_assert_not_reached ();
-				}
-
-				if (uid) {
-					source = e_source_list_peek_source_by_uid (pitip->source_lists[pitip->type], uid);
-					g_free (uid);
-				}
+					g_return_if_reached ();
 			}
 
-			if (!source)
-				source = e_source_list_peek_source_any (pitip->source_lists[pitip->type]);
+			source = e_source_registry_ref_default_for_extension_name (
+				pitip->registry, extension_name);
 
-			itip_view_set_source_list (view, pitip->source_lists[pitip->type]);
+			itip_view_set_extension_name (view, extension_name);
+
 			g_signal_connect (
 				view, "source_selected",
 				G_CALLBACK (source_selected_cb), pitip);
 
-			if (source) {
+			if (source != NULL) {
 				itip_view_set_source (view, source);
+				g_object_unref (source);
 
 				/* FIXME Shouldn't the buttons be sensitized here? */
 			} else {
@@ -992,6 +999,8 @@ find_cal_opened_cb (GObject *source_object,
 	ECalClientSourceType source_type;
 	EClient *client = NULL;
 	ECalClient *cal_client;
+	gboolean search_for_conflicts = FALSE;
+	const gchar *extension_name;
 	const gchar *uid;
 	GError *error = NULL;
 
@@ -1039,18 +1048,32 @@ find_cal_opened_cb (GObject *source_object,
 	g_hash_table_insert (
 		pitip->clients[source_type], g_strdup (uid), cal_client);
 
+	extension_name = E_SOURCE_EXTENSION_CONFLICT_SEARCH;
+	if (e_source_has_extension (source, extension_name)) {
+		ESourceConflictSearch *extension;
+
+		extension = e_source_get_extension (source, extension_name);
+		search_for_conflicts =
+			(pitip->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) &&
+			e_source_conflict_search_get_include_me (extension);
+	}
+
 	/* Check for conflicts */
 	/* If the query fails, we'll just ignore it */
 	/* FIXME What happens for recurring conflicts? */
-	if (pitip->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS
-	    && e_source_get_property (E_SOURCE (source), "conflict")
-	    && !g_ascii_strcasecmp (e_source_get_property (E_SOURCE (source), "conflict"), "true")) {
-		e_cal_client_get_object_list (cal_client, fd->sexp, fd->cancellable, get_object_list_ready_cb, fd);
+	if (search_for_conflicts) {
+		e_cal_client_get_object_list (
+			cal_client, fd->sexp,
+			fd->cancellable,
+			get_object_list_ready_cb, fd);
 		return;
 	}
 
 	if (!pitip->current_client) {
-		e_cal_client_get_object (cal_client, fd->uid, fd->rid, fd->cancellable, get_object_with_rid_ready_cb, fd);
+		e_cal_client_get_object (
+			cal_client, fd->uid, fd->rid,
+			fd->cancellable,
+			get_object_with_rid_ready_cb, fd);
 		return;
 	}
 
@@ -1063,77 +1086,93 @@ find_server (ItipPURI *pitip,
              ECalComponent *comp)
 {
 	FormatItipFindData *fd = NULL;
-	GSList *groups, *l, *sources_conflict = NULL, *all_sources = NULL;
 	const gchar *uid;
 	gchar *rid = NULL;
 	CamelStore *parent_store;
-	CamelURL *url;
-	gchar *uri;
-	ESource *source = NULL, *current_source = NULL;
+	ESourceRegistry *registry;
+	ESource *current_source = NULL;
+	GList *list, *link;
+	GList *conflict_list = NULL;
+	const gchar *extension_name;
+	const gchar *store_uid;
 
 	g_return_if_fail (pitip->folder != NULL);
+
+	switch (pitip->type) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			extension_name = E_SOURCE_EXTENSION_CALENDAR;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+			break;
+		default:
+			g_return_if_reached ();
+	}
+
+	registry = pitip->registry;
+	list = e_source_registry_list_sources (registry, extension_name);
 
 	e_cal_component_get_uid (comp, &uid);
 	rid = e_cal_component_get_recurid_as_string (comp);
 
+	/* XXX Not sure what this was trying to do,
+	 *     but it propbably doesn't work anymore.
+	 *     Some comments would have been helpful. */
 	parent_store = camel_folder_get_parent_store (pitip->folder);
-
-	url = camel_service_new_camel_url (CAMEL_SERVICE (parent_store));
-	uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-	camel_url_free (url);
+	store_uid = camel_service_get_uid (CAMEL_SERVICE (parent_store));
 
 	itip_view_set_buttons_sensitive (view, FALSE);
 
-	groups = e_source_list_peek_groups (pitip->source_lists[pitip->type]);
-	for (l = groups; l; l = l->next) {
-		ESourceGroup *group;
-		GSList *sources, *m;
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		gboolean search_for_conflicts = FALSE;
+		const gchar *source_uid;
 
-		group = l->data;
+		extension_name = E_SOURCE_EXTENSION_CONFLICT_SEARCH;
+		if (e_source_has_extension (source, extension_name)) {
+			ESourceConflictSearch *extension;
 
-		sources = e_source_group_peek_sources (group);
-		for (m = sources; m; m = m->next) {
-			gchar *source_uri = NULL;
+			extension =
+				e_source_get_extension (source, extension_name);
+			search_for_conflicts =
+				e_source_conflict_search_get_include_me (extension);
+		}
 
-			source = m->data;
+		if (search_for_conflicts)
+			conflict_list = g_list_prepend (
+				conflict_list, g_object_ref (source));
 
-			if (e_source_get_property (source, "conflict"))
-				sources_conflict = g_slist_prepend (sources_conflict, source);
+		if (current_source != NULL)
+			continue;
 
-			if (current_source)
-				continue;
+		source_uid = e_source_get_uid (source);
+		if (g_strcmp0 (source_uid, store_uid) == 0) {
+			current_source = source;
+			conflict_list = g_list_prepend (
+				conflict_list, g_object_ref (source));
 
-			source_uri = e_source_get_uri (source);
-			if (source_uri && (strcmp (uri, source_uri) == 0)) {
-				current_source = source;
-				sources_conflict = g_slist_prepend (sources_conflict, source);
-
-				g_free (source_uri);
-				continue;
-			}
-
-			all_sources = g_slist_prepend (all_sources, source);
-			g_free (source_uri);
-
+			continue;
 		}
 	}
 
 	if (current_source) {
-		l = sources_conflict;
+		link = conflict_list;
 
 		pitip->progress_info_id = itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
 			_("Opening the calendar. Please wait..."));
 	} else {
+		link = list;
 		pitip->progress_info_id = itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
 			_("Searching for an existing version of this appointment"));
-
-		l = all_sources;
 	}
 
-	for (; l != NULL; l = l->next) {
-		source = l->data;
+	for (; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
 
 		if (!fd) {
 			gchar *start = NULL, *end = NULL;
@@ -1163,20 +1202,24 @@ find_server (ItipPURI *pitip,
 		d(printf ("Increasing itip formatter search count to %d\n", fd->count));
 
 		if (current_source == source)
-			start_calendar_server (pitip, view, source, pitip->type, find_cal_opened_cb, fd);
+			start_calendar_server (
+				pitip, view, source, pitip->type,
+				find_cal_opened_cb, fd);
 		else
-			start_calendar_server (pitip, view, source, pitip->type, find_cal_opened_cb, fd);
-
+			start_calendar_server (
+				pitip, view, source, pitip->type,
+				find_cal_opened_cb, fd);
 	}
 
-	g_slist_free (all_sources);
-	g_slist_free (sources_conflict);
-	g_free (uri);
+	g_list_free_full (conflict_list, (GDestroyNotify) g_object_unref);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
 	g_free (rid);
 }
 
 static gboolean
-change_status (icalcomponent *ical_comp,
+change_status (ESourceRegistry *registry,
+               icalcomponent *ical_comp,
                const gchar *address,
                icalparameter_partstat status)
 {
@@ -1202,14 +1245,16 @@ change_status (icalcomponent *ical_comp,
 			param = icalparameter_new_partstat (status);
 			icalproperty_add_parameter (prop, param);
 		} else {
-			EAccount *a;
+			gchar *default_name = NULL;
+			gchar *default_address = NULL;
 
-			a = e_get_default_account ();
+			itip_get_default_name_and_address (
+				registry, &default_name, &default_address);
 
-			prop = icalproperty_new_attendee (a->id->address);
+			prop = icalproperty_new_attendee (default_address);
 			icalcomponent_add_property (ical_comp, prop);
 
-			param = icalparameter_new_cn (a->id->name);
+			param = icalparameter_new_cn (default_name);
 			icalproperty_add_parameter (prop, param);
 
 			param = icalparameter_new_role (ICAL_ROLE_REQPARTICIPANT);
@@ -1217,6 +1262,9 @@ change_status (icalcomponent *ical_comp,
 
 			param = icalparameter_new_partstat (status);
 			icalproperty_add_parameter (prop, param);
+
+			g_free (default_name);
+			g_free (default_address);
 		}
 	}
 
@@ -1465,7 +1513,12 @@ finish_message_delete_with_rsvp (ItipPURI *pitip,
 		}
 
 		e_cal_component_rescan (comp);
-		if (itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_client, pitip->top_level, NULL, NULL, TRUE, FALSE) && pitip->folder) {
+		if (itip_send_comp (
+				pitip->registry,
+				E_CAL_COMPONENT_METHOD_REPLY,
+				comp, pitip->current_client,
+				pitip->top_level, NULL, NULL, TRUE, FALSE) &&
+				pitip->folder != NULL) {
 			camel_folder_set_message_flags (
 				pitip->folder, pitip->uid,
 				CAMEL_MESSAGE_ANSWERED,
@@ -1504,7 +1557,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 		return;
 	}
 
-	itip_view_set_source_list (view, NULL);
+	itip_view_set_extension_name (view, NULL);
 
 	itip_view_clear_lower_info_items (view);
 
@@ -1784,7 +1837,8 @@ set_attendee (ECalComponent *comp,
 }
 
 static gboolean
-send_comp_to_attendee (ECalComponentItipMethod method,
+send_comp_to_attendee (ESourceRegistry *registry,
+                       ECalComponentItipMethod method,
                        ECalComponent *comp,
                        const gchar *user,
                        ECalClient *client,
@@ -1809,7 +1863,9 @@ send_comp_to_attendee (ECalComponentItipMethod method,
 	}
 
 	/* FIXME send the attachments in the request */
-	status = itip_send_comp (method, send_comp, client, NULL, NULL, NULL, TRUE, FALSE);
+	status = itip_send_comp (
+		registry, method, send_comp,
+		client, NULL, NULL, NULL, TRUE, FALSE);
 
 	g_object_unref (send_comp);
 
@@ -1828,10 +1884,12 @@ remove_delegate (ItipPURI *pitip,
 
 	/* send cancellation notice to delegate */
 	status = send_comp_to_attendee (
+		pitip->registry,
 		E_CAL_COMPONENT_METHOD_CANCEL, pitip->comp,
 		delegate, pitip->current_client, comment);
 	if (status)
 		send_comp_to_attendee (
+			pitip->registry,
 			E_CAL_COMPONENT_METHOD_REQUEST, pitip->comp,
 			 delegator, pitip->current_client, comment);
 	if (status) {
@@ -1977,11 +2035,15 @@ update_attendee_status_icalcomp (ItipPURI *pitip,
 					}
 				}
 
-				response = e_alert_run_dialog_for_args (e_shell_get_active_window (shell),
-									"org.gnome.itip-formatter:add-unknown-attendee", NULL);
+				response = e_alert_run_dialog_for_args (
+					e_shell_get_active_window (shell),
+					"org.gnome.itip-formatter:add-unknown-attendee", NULL);
 
 				if (response == GTK_RESPONSE_YES) {
-					change_status (icalcomp, itip_strip_mailto (a->value), a->status);
+					change_status (
+						pitip->registry, icalcomp,
+						itip_strip_mailto (a->value),
+						a->status);
 					e_cal_component_rescan (comp);
 				} else {
 					goto cleanup;
@@ -2002,7 +2064,10 @@ update_attendee_status_icalcomp (ItipPURI *pitip,
 					new_prop = find_attendee (org_icalcomp, itip_strip_mailto (a->value));
 					icalcomponent_add_property (icalcomp, icalproperty_new_clone (new_prop));
 				} else
-					change_status (icalcomp, itip_strip_mailto (a->value), a->status);
+					change_status (
+						pitip->registry, icalcomp,
+						itip_strip_mailto (a->value),
+						a->status);
 
 				e_cal_component_rescan (comp);
 			}
@@ -2013,7 +2078,11 @@ update_attendee_status_icalcomp (ItipPURI *pitip,
 
 	if (itip_view_get_update (view)) {
 		e_cal_component_commit_sequence (comp);
-		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_client, NULL, NULL, NULL, TRUE, FALSE);
+		itip_send_comp (
+			pitip->registry,
+			E_CAL_COMPONENT_METHOD_REQUEST,
+			comp, pitip->current_client,
+			NULL, NULL, NULL, TRUE, FALSE);
 	}
 
 	update_item_progress_info (pitip, view, _("Saving changes to the calendar. Please wait..."));
@@ -2145,7 +2214,11 @@ send_item (ItipPURI *pitip,
 	comp = get_real_item (pitip);
 
 	if (comp != NULL) {
-		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_client, NULL, NULL, NULL, TRUE, FALSE);
+		itip_send_comp (
+			pitip->registry,
+			E_CAL_COMPONENT_METHOD_REQUEST,
+			comp, pitip->current_client,
+			NULL, NULL, NULL, TRUE, FALSE);
 		g_object_unref (comp);
 
 		switch (pitip->type) {
@@ -2419,7 +2492,7 @@ extract_itip_data (ItipPURI *pitip,
 		prop = NULL;
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (pitip->ical_comp));
-		my_address = itip_get_comp_attendee (comp, NULL);
+		my_address = itip_get_comp_attendee (pitip->registry, comp, NULL);
 		g_object_unref (comp);
 		comp = NULL;
 
@@ -2643,7 +2716,10 @@ view_response_cb (ItipView *view,
 	switch (response) {
 		case ITIP_VIEW_RESPONSE_ACCEPT:
 			if (pitip->type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
-				status = change_status (pitip->ical_comp, pitip->to_address,
+				status = change_status (
+					pitip->registry,
+					pitip->ical_comp,
+					pitip->to_address,
 					ICAL_PARTSTAT_ACCEPTED);
 			else
 				status = TRUE;
@@ -2654,8 +2730,11 @@ view_response_cb (ItipView *view,
 			}
 			break;
 		case ITIP_VIEW_RESPONSE_TENTATIVE:
-			status = change_status (pitip->ical_comp, pitip->to_address,
-					ICAL_PARTSTAT_TENTATIVE);
+			status = change_status (
+				pitip->registry,
+				pitip->ical_comp,
+				pitip->to_address,
+				ICAL_PARTSTAT_TENTATIVE);
 			if (status) {
 				e_cal_component_rescan (pitip->comp);
 				pitip->can_delete_invitation_from_cache = TRUE;
@@ -2664,7 +2743,10 @@ view_response_cb (ItipView *view,
 			break;
 		case ITIP_VIEW_RESPONSE_DECLINE:
 			if (pitip->type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
-				status = change_status (pitip->ical_comp, pitip->to_address,
+				status = change_status (
+					pitip->registry,
+					pitip->ical_comp,
+					pitip->to_address,
 					ICAL_PARTSTAT_DECLINED);
 			else {
 				prop = icalproperty_new_x ("1");
@@ -2716,7 +2798,8 @@ check_is_instance (icalcomponent *icalcomp)
 }
 
 static gboolean
-in_proper_folder (CamelFolder *folder)
+in_proper_folder (ESourceRegistry *registry,
+                  CamelFolder *folder)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
@@ -2744,17 +2827,17 @@ in_proper_folder (CamelFolder *folder)
 			  /* or any other virtual folder */
 			  CAMEL_IS_VEE_FOLDER (folder) ||
 			  /* or anything else except of sent, outbox or drafts folder */
-			  (!em_utils_folder_is_sent (folder) &&
-			   !em_utils_folder_is_outbox (folder) &&
-			   !em_utils_folder_is_drafts (folder))
+			  (!em_utils_folder_is_sent (registry, folder) &&
+			   !em_utils_folder_is_outbox (registry, folder) &&
+			   !em_utils_folder_is_drafts (registry, folder))
 			));
 	} else {
 		/* cannot check for Inbox folder here */
 		res = (folder->folder_flags & (CAMEL_FOLDER_IS_TRASH | CAMEL_FOLDER_IS_JUNK)) == 0 && (
 		      (CAMEL_IS_VEE_FOLDER (folder)) || (
-		      !em_utils_folder_is_sent (folder) &&
-		      !em_utils_folder_is_outbox (folder) &&
-		      !em_utils_folder_is_drafts (folder)));
+		      !em_utils_folder_is_sent (registry, folder) &&
+		      !em_utils_folder_is_outbox (registry, folder) &&
+		      !em_utils_folder_is_drafts (registry, folder)));
 	}
 
 	return res;
@@ -2766,6 +2849,7 @@ init_itip_view (ItipPURI *info,
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
+	ESourceRegistry *registry;
 	ECalComponentText text;
 	ECalComponentOrganizer organizer;
 	ECalComponentDateTime datetime;
@@ -2780,29 +2864,27 @@ init_itip_view (ItipPURI *info,
 	EMFormat *emf = info->puri.emf;
 
 	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
 	shell_settings = e_shell_get_shell_settings (shell);
+
+	info->registry = g_object_ref (registry);
 
         /* Reset current client before initializing view */
 	info->current_client = NULL;
 
-        /* Accounts */
-	info->accounts = e_get_account_list ();
-
-        /* Source Lists and open ecal clients */
-	for (i = 0; i < E_CAL_CLIENT_SOURCE_TYPE_LAST; i++) {
-		if (!e_cal_client_get_sources (&info->source_lists[i], i, NULL))
-                        /* FIXME More error handling? */
-			info->source_lists[i] = NULL;
-
-                /* Initialize the ecal hashes */
-		info->clients[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
-	}
+	/* Initialize the ecal hashes */
+	for (i = 0; i < E_CAL_CLIENT_SOURCE_TYPE_LAST; i++)
+		info->clients[i] = g_hash_table_new_full (
+			(GHashFunc) g_str_hash,
+			(GEqualFunc) g_str_equal,
+			(GDestroyNotify) g_free,
+			(GDestroyNotify) g_object_unref);
 
         /* FIXME Handle multiple VEVENTS with the same UID, ie detached instances */
 	if (!extract_itip_data (info, view, &have_alarms))
 		return;
 
-	response_enabled = in_proper_folder (emf->folder);
+	response_enabled = in_proper_folder (registry, emf->folder);
 
 	if (!response_enabled) {
 		itip_view_set_mode (view, ITIP_VIEW_MODE_HIDE_ALL);
@@ -3117,11 +3199,12 @@ puri_free (EMFormatPURI *puri)
 	g_cancellable_cancel (pitip->cancellable);
 	g_object_unref (pitip->cancellable);
 
-	for (i = 0; i < E_CAL_CLIENT_SOURCE_TYPE_LAST; i++) {
-		if (pitip->source_lists[i])
-		g_object_unref (pitip->source_lists[i]);
-		pitip->source_lists[i] = NULL;
+	if (pitip->registry != NULL) {
+		g_object_unref (pitip->registry);
+		pitip->registry = NULL;
+	}
 
+	for (i = 0; i < E_CAL_CLIENT_SOURCE_TYPE_LAST; i++) {
 		g_hash_table_destroy (pitip->clients[i]);
 		pitip->clients[i] = NULL;
 	}
@@ -3177,18 +3260,19 @@ write_itip_view (EMFormat *emf,
 
 	if (info->mode == EM_FORMAT_WRITE_MODE_PRINTING) {
 		ItipView *view;
-		ItipPURI *ipuri;
+		ItipPURI *pitip;
 
 		buffer = g_string_sized_new (1024);
 
-		ipuri = (ItipPURI *) puri;
-		view = itip_view_new (ipuri);
+		pitip = (ItipPURI *) puri;
+		view = itip_view_new (pitip, pitip->registry);
 
-		init_itip_view (ipuri, view);
+		init_itip_view (pitip, view);
 		itip_view_write_for_printing (view, buffer);
 
                 /* Destroy the view when the formatter is destroyed */
-		g_object_weak_ref (G_OBJECT (emf), (GWeakNotify) g_object_unref, view);
+		g_object_weak_ref (
+			G_OBJECT (emf), (GWeakNotify) g_object_unref, view);
 
 	} else if (info->mode == EM_FORMAT_WRITE_MODE_RAW) {
 		buffer = g_string_sized_new (2048);
@@ -3226,6 +3310,7 @@ bind_itip_view (WebKitDOMElement *element,
                 EMFormatPURI *puri)
 {
 	if (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
+		ItipPURI *pitip = (ItipPURI *) puri;
 		GString *buffer = g_string_new ("");
 		WebKitDOMDocument *document;
 		ItipView *view;
@@ -3233,14 +3318,16 @@ bind_itip_view (WebKitDOMElement *element,
 		document = webkit_dom_html_iframe_element_get_content_document (
 				WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
 
-		view = itip_view_new ((ItipPURI *) puri);
-		g_object_set_data_full (G_OBJECT (element), "view", view,
-					(GDestroyNotify) g_object_unref);
+		view = itip_view_new (pitip, pitip->registry);
+
+		g_object_set_data_full (
+			G_OBJECT (element), "view", view,
+			(GDestroyNotify) g_object_unref);
 
 		itip_view_create_dom_bindings (view,
 			webkit_dom_document_get_document_element (document));
 
-		init_itip_view ((ItipPURI *) puri, view);
+		init_itip_view (pitip, view);
 		g_string_free (buffer, TRUE);
 	}
 }
@@ -3317,60 +3404,12 @@ delete_toggled_cb (GtkWidget *widget)
 	g_object_unref (settings);
 }
 
-static void
-initialize_selection (ESourceSelector *selector,
-                      ESourceList *source_list)
-{
-	GSList *groups;
-
-	for (groups = e_source_list_peek_groups (source_list); groups; groups = groups->next) {
-		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
-		GSList *sources;
-		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
-			ESource *source = E_SOURCE (sources->data);
-			const gchar *completion = e_source_get_property (source, "conflict");
-			if (completion && !g_ascii_strcasecmp (completion, "true"))
-				e_source_selector_select_source (selector, source);
-		}
-	}
-}
-
-static void
-source_selection_changed (ESourceSelector *selector,
-                          gpointer data)
-{
-	ESourceList *source_list = data;
-	GSList *selection;
-	GSList *l;
-	GSList *groups;
-
-	/* first we clear all the completion flags from all sources */
-	for (groups = e_source_list_peek_groups (source_list); groups; groups = groups->next) {
-		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
-		GSList *sources;
-		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
-			ESource *source = E_SOURCE (sources->data);
-
-			e_source_set_property (source, "conflict", NULL);
-		}
-	}
-
-	/* then we loop over the selector's selection, setting the
-	 * property on those sources */
-	selection = e_source_selector_get_selection (selector);
-	for (l = selection; l; l = l->next) {
-		e_source_set_property (E_SOURCE (l->data), "conflict", "true");
-	}
-	e_source_selector_free_selection (selection);
-
-	/* FIXME show an error if this fails? */
-	e_source_list_sync (source_list, NULL);
-}
-
 GtkWidget *
 itip_formatter_page_factory (EPlugin *ep,
                              EConfigHookItemFactoryData *hook_data)
 {
+	EShell *shell;
+	ESourceRegistry *registry;
 	GtkWidget *page;
 	GtkWidget *tab_label;
 	GtkWidget *frame;
@@ -3382,9 +3421,11 @@ itip_formatter_page_factory (EPlugin *ep,
 	GtkWidget *label;
 	GtkWidget *ess;
 	GtkWidget *scrolledwin;
-	ESourceList *source_list;
 	gchar *str;
 	GSettings *settings;
+
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
 
 	/* Create a new notebook page */
 	page = gtk_vbox_new (FALSE, 0);
@@ -3448,31 +3489,21 @@ itip_formatter_page_factory (EPlugin *ep,
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), label, FALSE, FALSE, 0);
 
-	if (!e_cal_client_get_sources (&source_list, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL)) {
-	    /* FIXME Error handling */;
-	}
-
 	scrolledwin = gtk_scrolled_window_new (NULL, NULL);
 
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwin),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwin),
-					     GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (scrolledwin),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (scrolledwin), GTK_SHADOW_IN);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), scrolledwin, TRUE, TRUE, 0);
 
-	ess = e_source_selector_new (source_list);
+	ess = e_conflict_search_selector_new (registry);
 	atk_object_set_name (gtk_widget_get_accessible (ess), _("Conflict Search"));
 	gtk_container_add (GTK_CONTAINER (scrolledwin), ess);
-
-	initialize_selection (E_SOURCE_SELECTOR (ess), source_list);
-
-	g_signal_connect (
-		ess, "selection_changed",
-		G_CALLBACK (source_selection_changed), source_list);
-	g_object_weak_ref (G_OBJECT (page), (GWeakNotify) g_object_unref, source_list);
 
 	gtk_widget_show_all (page);
 
 	return page;
 }
+

@@ -27,9 +27,9 @@
 #include <stdarg.h>
 #include <unistd.h>
 #include <gtk/gtk.h>
-#include <libedataserver/e-source-list.h>
-#include <libecal/e-cal-client.h>
 #include <webkit/webkitdom.h>
+#include <libecal/e-cal-client.h>
+#include <libedataserver/e-source-registry.h>
 
 /* Standard GObject macros */
 #define ITIP_TYPE_VIEW \
@@ -105,13 +105,19 @@ struct _ItipViewClass {
 };
 
 GType		itip_view_get_type		(void);
-ItipView *	itip_view_new			(ItipPURI *puri);
+ItipView *	itip_view_new			(ItipPURI *puri,
+						 ESourceRegistry *registry);
 void		itip_view_write			(GString *buffer);
 void		itip_view_write_for_printing	(ItipView *view,
 						 GString *buffer);
 void		itip_view_create_dom_bindings	(ItipView *view,
 						 WebKitDOMElement *element);
 ItipPURI *	itip_view_get_puri		(ItipView *view);
+ESourceRegistry *
+		itip_view_get_registry		(ItipView *view);
+const gchar *	itip_view_get_extension_name	(ItipView *view);
+void		itip_view_set_extension_name	(ItipView *view,
+						 const gchar *extension_name);
 ItipViewMode	itip_view_get_mode		(ItipView *view);
 void		itip_view_set_mode		(ItipView *view,
 						 ItipViewMode mode);
@@ -190,10 +196,7 @@ void		itip_view_remove_lower_info_item
 						 guint id);
 void		itip_view_clear_lower_info_items
 						(ItipView *view);
-ESourceList *	itip_view_get_source_list	(ItipView *view);
-void		itip_view_set_source_list	(ItipView *view,
-						 ESourceList *source_list);
-ESource *	itip_view_get_source		(ItipView *view);
+ESource *	itip_view_ref_source		(ItipView *view);
 void		itip_view_set_source		(ItipView *view,
 						 ESource *source);
 gboolean	itip_view_get_rsvp		(ItipView *view);

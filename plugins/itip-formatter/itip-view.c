@@ -33,7 +33,6 @@
 #include <libecal/e-cal-time-util.h>
 #include <mail/em-format-hook.h>
 #include <mail/em-format-html.h>
-#include <libedataserver/e-account-list.h>
 #include <e-util/e-util.h>
 #include <e-util/e-unicode.h>
 #include <calendar/gui/itip-utils.h>
@@ -59,6 +58,11 @@ typedef struct  {
 } ItipViewInfoItem;
 
 struct _ItipViewPrivate {
+	ESourceRegistry *registry;
+	gulong source_added_id;
+	gulong source_removed_id;
+	gchar *extension_name;
+
 	ItipViewMode mode;
 	ECalClientSourceType type;
 
@@ -92,8 +96,6 @@ struct _ItipViewPrivate {
 	guint next_info_item_id;
 
 	gchar *description;
-
-	ESourceList *source_list;
 
 	gint buttons_sensitive : 1;
 
@@ -149,6 +151,12 @@ struct _ItipViewPrivate {
 
 #define DIV_ITIP_CONTENT "div_itip_content"
 #define DIV_ITIP_ERROR "div_itip_error"
+
+enum {
+	PROP_0,
+	PROP_EXTENSION_NAME,
+	PROP_REGISTRY
+};
 
 enum {
 	SOURCE_SELECTED,
@@ -730,85 +738,6 @@ button_clicked_cb (WebKitDOMElement *element,
 }
 
 static void
-itip_view_finalize (GObject *object)
-{
-	ItipViewPrivate *priv;
-	GSList *iter;
-
-	priv = ITIP_VIEW_GET_PRIVATE (object);
-
-	d(printf("Itip view finalized!\n"));
-
-	g_free (priv->sender);
-	g_free (priv->organizer);
-	g_free (priv->organizer_sentby);
-	g_free (priv->delegator);
-	g_free (priv->attendee);
-	g_free (priv->attendee_sentby);
-	g_free (priv->proxy);
-	g_free (priv->summary);
-	g_free (priv->location);
-	g_free (priv->status);
-	g_free (priv->comment);
-	g_free (priv->start_tm);
-	g_free (priv->start_label);
-	g_free (priv->end_tm);
-	g_free (priv->end_label);
-	g_free (priv->description);
-	g_free (priv->error);
-
-	for (iter = priv->lower_info_items; iter; iter = iter->next) {
-		ItipViewInfoItem *item = iter->data;
-		g_free (item->message);
-		g_free (item);
-	}
-
-	g_slist_free (priv->lower_info_items);
-
-	for (iter = priv->upper_info_items; iter; iter = iter->next) {
-		ItipViewInfoItem *item = iter->data;
-		g_free (item->message);
-		g_free (item);
-	}
-
-	g_slist_free (priv->upper_info_items);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (itip_view_parent_class)->finalize (object);
-}
-
-static void
-itip_view_class_init (ItipViewClass *class)
-{
-	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (ItipViewPrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = itip_view_finalize;
-
-	signals[SOURCE_SELECTED] = g_signal_new (
-		"source_selected",
-		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ItipViewClass, source_selected),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE, 1,
-		E_TYPE_SOURCE);
-
-	signals[RESPONSE] = g_signal_new (
-		"response",
-		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ItipViewClass, response),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__INT,
-		G_TYPE_NONE, 1,
-		G_TYPE_INT);
-}
-
-static void
 rsvp_toggled_cb (WebKitDOMHTMLInputElement *input,
                  WebKitDOMEvent *event,
                  gpointer data)
@@ -872,10 +801,12 @@ source_changed_cb (WebKitDOMElement *select,
 {
 	ESource *source;
 
-	source = itip_view_get_source (view);
+	source = itip_view_ref_source (view);
 
 	d(printf("Source changed to '%s'\n", e_source_get_display_name (source)));
 	g_signal_emit (view, signals[SOURCE_SELECTED], 0, source);
+
+	g_object_unref (source);
 }
 
 static gchar *
@@ -1118,6 +1049,322 @@ append_buttons_table (GString *buffer)
 		GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_CANCEL);
 
 	g_string_append (buffer, "</tr></table>");
+}
+
+static void
+itip_view_rebuild_source_list (ItipView *view)
+{
+	ESourceRegistry *registry;
+	WebKitDOMElement *select;
+	GList *list, *link;
+	const gchar *extension_name;
+
+	d(printf("Assigning a new source list!\n"));
+
+	if (!view->priv->dom_document)
+		return;
+
+	registry = itip_view_get_registry (view);
+	extension_name = itip_view_get_extension_name (view);
+
+	select = webkit_dom_document_get_element_by_id (
+		view->priv->dom_document, SELECT_ESOURCE);
+
+	while (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (select))) {
+		webkit_dom_node_remove_child (
+			WEBKIT_DOM_NODE (select),
+			webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (select)),
+			NULL);
+	}
+
+	if (extension_name == NULL)
+		return;
+
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		WebKitDOMElement *option;
+
+		option = webkit_dom_document_create_element (
+			view->priv->dom_document, "OPTION", NULL);
+		webkit_dom_html_option_element_set_value (
+			WEBKIT_DOM_HTML_OPTION_ELEMENT (option),
+			e_source_get_uid (source));
+		webkit_dom_html_option_element_set_label (
+			WEBKIT_DOM_HTML_OPTION_ELEMENT (option),
+			e_source_get_display_name (source));
+		webkit_dom_html_element_set_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (option),
+			e_source_get_display_name (source), NULL);
+		webkit_dom_html_element_set_class_name (
+			WEBKIT_DOM_HTML_ELEMENT (option), "calendar");
+
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (select),
+			WEBKIT_DOM_NODE (option),
+			NULL);
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	source_changed_cb (select, NULL, view);
+}
+
+static void
+itip_view_source_added_cb (ESourceRegistry *registry,
+                           ESource *source,
+                           ItipView *view)
+{
+	const gchar *extension_name;
+
+	extension_name = itip_view_get_extension_name (view);
+
+	/* If we don't have an extension name set
+	 * yet then disregard the signal emission. */
+	if (extension_name == NULL)
+		return;
+
+	if (e_source_has_extension (source, extension_name))
+		itip_view_rebuild_source_list (view);
+}
+
+static void
+itip_view_source_removed_cb (ESourceRegistry *registry,
+                             ESource *source,
+                             ItipView *view)
+{
+	const gchar *extension_name;
+
+	extension_name = itip_view_get_extension_name (view);
+
+	/* If we don't have an extension name set
+	 * yet then disregard the signal emission. */
+	if (extension_name == NULL)
+		return;
+
+	if (e_source_has_extension (source, extension_name))
+		itip_view_rebuild_source_list (view);
+}
+
+static void
+itip_view_set_registry (ItipView *view,
+                        ESourceRegistry *registry)
+{
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+	g_return_if_fail (view->priv->registry == NULL);
+
+	view->priv->registry = g_object_ref (registry);
+}
+
+static void
+itip_view_set_property (GObject *object,
+                        guint property_id,
+                        const GValue *value,
+                        GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_EXTENSION_NAME:
+			itip_view_set_extension_name (
+				ITIP_VIEW (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_REGISTRY:
+			itip_view_set_registry (
+				ITIP_VIEW (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+itip_view_get_property (GObject *object,
+                        guint property_id,
+                        GValue *value,
+                        GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_EXTENSION_NAME:
+			g_value_set_string (
+				value, itip_view_get_extension_name (
+				ITIP_VIEW (object)));
+			return;
+
+		case PROP_REGISTRY:
+			g_value_set_object (
+				value, itip_view_get_registry (
+				ITIP_VIEW (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+itip_view_dispose (GObject *object)
+{
+	ItipViewPrivate *priv;
+
+	priv = ITIP_VIEW_GET_PRIVATE (object);
+
+	if (priv->registry != NULL) {
+		g_signal_handler_disconnect (
+			priv->registry, priv->source_added_id);
+		g_signal_handler_disconnect (
+			priv->registry, priv->source_removed_id);
+		g_object_unref (priv->registry);
+		priv->registry = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (itip_view_parent_class)->dispose (object);
+}
+
+static void
+itip_view_finalize (GObject *object)
+{
+	ItipViewPrivate *priv;
+	GSList *iter;
+
+	priv = ITIP_VIEW_GET_PRIVATE (object);
+
+	d(printf("Itip view finalized!\n"));
+
+	g_free (priv->extension_name);
+	g_free (priv->sender);
+	g_free (priv->organizer);
+	g_free (priv->organizer_sentby);
+	g_free (priv->delegator);
+	g_free (priv->attendee);
+	g_free (priv->attendee_sentby);
+	g_free (priv->proxy);
+	g_free (priv->summary);
+	g_free (priv->location);
+	g_free (priv->status);
+	g_free (priv->comment);
+	g_free (priv->start_tm);
+	g_free (priv->start_label);
+	g_free (priv->end_tm);
+	g_free (priv->end_label);
+	g_free (priv->description);
+	g_free (priv->error);
+
+	for (iter = priv->lower_info_items; iter; iter = iter->next) {
+		ItipViewInfoItem *item = iter->data;
+		g_free (item->message);
+		g_free (item);
+	}
+
+	g_slist_free (priv->lower_info_items);
+
+	for (iter = priv->upper_info_items; iter; iter = iter->next) {
+		ItipViewInfoItem *item = iter->data;
+		g_free (item->message);
+		g_free (item);
+	}
+
+	g_slist_free (priv->upper_info_items);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (itip_view_parent_class)->finalize (object);
+}
+
+static void
+itip_view_constructed (GObject *object)
+{
+	ItipView *view;
+	ESourceRegistry *registry;
+
+	view = ITIP_VIEW (object);
+	registry = itip_view_get_registry (view);
+
+	view->priv->source_added_id = g_signal_connect (
+		registry, "source-added",
+		G_CALLBACK (itip_view_source_added_cb), view);
+
+	view->priv->source_removed_id = g_signal_connect (
+		registry, "source-removed",
+		G_CALLBACK (itip_view_source_removed_cb), view);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (itip_view_parent_class)->constructed (object);
+}
+
+static void
+itip_view_class_init (ItipViewClass *class)
+{
+	GObjectClass *object_class;
+
+	g_type_class_add_private (class, sizeof (ItipViewPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = itip_view_set_property;
+	object_class->get_property = itip_view_get_property;
+	object_class->dispose = itip_view_dispose;
+	object_class->finalize = itip_view_finalize;
+	object_class->constructed = itip_view_constructed;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_REGISTRY,
+		g_param_spec_string (
+			"extension-name",
+			"Extension Name",
+			"Show only data sources with this extension",
+			NULL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_REGISTRY,
+		g_param_spec_object (
+			"registry",
+			"Registry",
+			"Data source registry",
+			E_TYPE_SOURCE_REGISTRY,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	signals[SOURCE_SELECTED] = g_signal_new (
+		"source_selected",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ItipViewClass, source_selected),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_SOURCE);
+
+	signals[RESPONSE] = g_signal_new (
+		"response",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ItipViewClass, response),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE, 1,
+		G_TYPE_INT);
+}
+
+static void
+itip_view_init (ItipView *view)
+{
+	view->priv = ITIP_VIEW_GET_PRIVATE (view);
+}
+
+ItipView *
+itip_view_new (ItipPURI *puri,
+               ESourceRegistry *registry)
+{
+	ItipView *view;
+
+	view = g_object_new (ITIP_TYPE_VIEW, "registry", registry, NULL);
+	view->priv->puri = puri;
+
+	return view;
 }
 
 void
@@ -1393,29 +1640,46 @@ itip_view_create_dom_bindings (ItipView *view,
 	}
 }
 
-static void
-itip_view_init (ItipView *view)
-{
-	view->priv = ITIP_VIEW_GET_PRIVATE (view);
-}
-
-ItipView *
-itip_view_new (ItipPURI *puri)
-{
-	ItipView *view;
-
-	view = ITIP_VIEW (g_object_new (ITIP_TYPE_VIEW, NULL));
-	view->priv->puri = puri;
-
-	return view;
-}
-
 ItipPURI *
 itip_view_get_puri (ItipView *view)
 {
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
 
 	return view->priv->puri;
+}
+
+ESourceRegistry *
+itip_view_get_registry (ItipView *view)
+{
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+
+	return view->priv->registry;
+}
+
+const gchar *
+itip_view_get_extension_name (ItipView *view)
+{
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+
+	return view->priv->extension_name;
+}
+
+void
+itip_view_set_extension_name (ItipView *view,
+                              const gchar *extension_name)
+{
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
+	/* Avoid unnecessary rebuilds. */
+	if (g_strcmp0 (extension_name, view->priv->extension_name) == 0)
+		return;
+
+	g_free (view->priv->extension_name);
+	view->priv->extension_name = g_strdup (extension_name);
+
+	g_object_notify (G_OBJECT (view), "extension-name");
+
+	itip_view_rebuild_source_list (view);
 }
 
 static void
@@ -2159,119 +2423,13 @@ itip_view_clear_lower_info_items (ItipView *view)
 	priv->lower_info_items = NULL;
 }
 
-static void
-source_list_changed_cb (ESourceList *source_list,
-                        ItipView *view)
-{
-	GSList *groups, *iter;
-	WebKitDOMElement *select;
-
-	d(printf("Assigning a new source list!\n"));
-
-	if (!view->priv->dom_document)
-		return;
-
-	select = webkit_dom_document_get_element_by_id (
-		view->priv->dom_document, SELECT_ESOURCE);
-
-	while (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (select))) {
-		webkit_dom_node_remove_child (
-			WEBKIT_DOM_NODE (select),
-			webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (select)),
-			NULL);
-	}
-
-	groups = e_source_list_peek_groups (source_list);
-	for (iter = groups; iter; iter = iter->next) {
-
-		ESourceGroup *group = iter->data;
-		GSList *sources, *iter2;
-		WebKitDOMElement *optgroup;
-
-		sources = e_source_group_peek_sources (group);
-		if (sources == NULL)
-			continue;
-
-		optgroup = webkit_dom_document_create_element (
-			view->priv->dom_document, "OPTGROUP", NULL);
-		webkit_dom_html_opt_group_element_set_label (
-			WEBKIT_DOM_HTML_OPT_GROUP_ELEMENT (optgroup),
-			e_source_group_peek_name (group));
-
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (select),
-			WEBKIT_DOM_NODE (optgroup),
-			NULL);
-
-		for (iter2 = sources; iter2; iter2 = iter2->next) {
-
-			WebKitDOMElement *option;
-			ESource *source = iter2->data;
-
-			option = webkit_dom_document_create_element (
-				view->priv->dom_document, "OPTION", NULL);
-			webkit_dom_html_option_element_set_value (
-				WEBKIT_DOM_HTML_OPTION_ELEMENT (option),
-				e_source_get_uid (source));
-			webkit_dom_html_option_element_set_label (
-				WEBKIT_DOM_HTML_OPTION_ELEMENT (option),
-				e_source_get_display_name (source));
-			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (option),
-				e_source_get_display_name (source), NULL);
-			webkit_dom_html_element_set_class_name (
-				WEBKIT_DOM_HTML_ELEMENT (option), "calendar");
-
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (optgroup),
-				WEBKIT_DOM_NODE (option),
-				NULL);
-		}
-	}
-
-	source_changed_cb (select, NULL, view);
-}
-
-void
-itip_view_set_source_list (ItipView *view,
-                           ESourceList *source_list)
-{
-	ItipViewPrivate *priv;
-
-	g_return_if_fail (ITIP_IS_VIEW (view));
-
-	priv = view->priv;
-
-	if (priv->source_list)
-		g_object_unref (priv->source_list);
-
-	if (!source_list) {
-		priv->source_list = NULL;
-		return;
-	}
-
-	priv->source_list = g_object_ref (source_list);
-
-	source_list_changed_cb (source_list, view);
-
-	g_signal_connect (source_list, "changed",
-		G_CALLBACK (source_list_changed_cb), view);
-}
-
-ESourceList *
-itip_view_get_source_list (ItipView *view)
-{
-	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
-
-	return view->priv->source_list;
-}
-
 void
 itip_view_set_source (ItipView *view,
                       ESource *source)
 {
 	WebKitDOMElement *select;
 	WebKitDOMElement *row;
+	ESource *selected_source;
 	gulong i, len;
 
 	g_return_if_fail (ITIP_IS_VIEW (view));
@@ -2294,9 +2452,11 @@ itip_view_set_source (ItipView *view,
 	/* <select> does not emit 'change' event when already selected
 	 * <option> is re-selected, but we need to notify itip formatter,
 	 * so that it would make all the buttons sensitive. */
-	if (source == itip_view_get_source (view)) {
+	selected_source = itip_view_ref_source (view);
+	if (source == selected_source)
 		source_changed_cb (select, NULL, view);
-	}
+	if (selected_source != NULL)
+		g_object_unref (selected_source);
 
 	if (webkit_dom_html_select_element_get_disabled (
 			WEBKIT_DOM_HTML_SELECT_ELEMENT (select))) {
@@ -2330,8 +2490,9 @@ itip_view_set_source (ItipView *view,
 }
 
 ESource *
-itip_view_get_source (ItipView *view)
+itip_view_ref_source (ItipView *view)
 {
+	ESourceRegistry *registry;
 	WebKitDOMElement *select;
 	gchar *uid;
 	ESource *source;
@@ -2354,8 +2515,9 @@ itip_view_get_source (ItipView *view)
 	uid = webkit_dom_html_select_element_get_value (
 		WEBKIT_DOM_HTML_SELECT_ELEMENT (select));
 
-	source = e_source_list_peek_source_by_uid (
-		view->priv->source_list, uid);
+	registry = itip_view_get_registry (view);
+	source = e_source_registry_ref_source (registry, uid);
+
 	g_free (uid);
 
 	if (disable) {
@@ -2901,4 +3063,3 @@ itip_view_set_error (ItipView *view,
 			G_CALLBACK (button_clicked_cb), FALSE, view);
 	}
 }
-
