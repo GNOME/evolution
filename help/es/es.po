@@ -1,23 +1,23 @@
 # translation of evolution-help.master.po to Español
 # translation of evolution manual to spanish
 # 
-# Jorge González <jorgegonz@svn.gnome.org>, 2011.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
+# Jorge González <jorgegonz@svn.gnome.org>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-18 19:18+0000\n"
-"PO-Revision-Date: 2011-09-21 17:49+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"PO-Revision-Date: 2011-09-24 14:24+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: C/using-categories.page:5(desc)
 msgid ""
@@ -1462,7 +1462,7 @@ msgstr ""
 msgid ""
 "<gui>Copy To Pilot</gui>: Copy new data from the computer to the handheld."
 msgstr ""
-"<gui>Copiar hacia Pilot</gui>: copia los datos nuevos del equipo hacia el "
+"<gui>Copiar hacia Pilot:</gui> copia los datos nuevos del equipo hacia el "
 "dispositivo de mano."
 
 #: C/sync-with-other-devices.page:50(p)
@@ -5483,8 +5483,8 @@ msgstr "Al realizar esta operación puede que pierda algunas de sus etiquetas."
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
-"\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+"id=550414\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
@@ -6315,14 +6315,14 @@ msgstr ""
 "además encontrar los mensajes borrados en la carpeta Papelera."
 
 #: C/mail-delete-and-undelete.page:34(p)
-#, fuzzy
 msgid ""
 "To permanently erase all the deleted messages in a folder, click "
 "<guiseq><gui>Folder</gui><gui>Expunge</gui></guiseq> or press "
 "<keyseq><key>Ctrl</key><key>E</key></keyseq>."
 msgstr ""
 "Para borrar permanentemente todos los mensajes borrados en una carpeta, "
-"pulse Carpeta &gt; Purgar o pulse Ctrl+E."
+"pulse <guiseq><gui>Carpeta</gui><gui>Purgar</gui></guiseq> o pulse "
+"<keyseq><key>Ctrl</key><key>E</key></keyseq>."
 
 #: C/mail-delete-and-undelete.page:38(title)
 msgid "Undeleting Messages"
@@ -6590,13 +6590,12 @@ msgid "Searching in the mail composer"
 msgstr "Buscar y en el editor de mensajes"
 
 #: C/mail-composer-search.page:23(p)
-#, fuzzy
 msgid ""
 "Under the <gui>Edit</gui> menu in the message composer there are several "
 "text searching features available."
 msgstr ""
-"El editor de mensajes le proporciona varias características de búsqueda de "
-"texto."
+"Bajo el menú <gui>Editar</gui> en el editor de mensajes existen diversas "
+"características de búsqueda de texto disponibles."
 
 #: C/mail-composer-search.page:26(p)
 msgid "<gui>Find</gui>:"
@@ -6949,15 +6948,12 @@ msgid "Click the <gui>Configuration</gui> tab."
 msgstr "Pulse la pestaña <gui>Configuración</gui>."
 
 #: C/mail-composer-message-templates.page:80(p)
-#, fuzzy
 msgid ""
 "You can add, edit or remove the key-value pairs. You can specify any number "
 "of key-value pairs."
 msgstr ""
-"En el Gestor de complementos seleccione la pestaña Configuración para "
-"personalizar sus plantillas de mensajes. Puede añadir, editar o quitar pares "
-"de claves y valores. Puede especificar cualquier número de pares de claves y "
-"valores."
+"Puede añadir, editar o quitar los pares de claves y valores. Puede "
+"especificar cualquier número de pares de claves y valores."
 
 #: C/mail-composer-message-templates.page:82(p)
 msgid ""
@@ -7348,7 +7344,7 @@ msgstr "Seleccione la anchura, tamaño y la alineación."
 
 #: C/mail-composer-html-rule.page:27(p)
 msgid "Select <gui>Shaded</gui> if wanted."
-msgstr ""
+msgstr "Seleccione <gui>Enrollada</gui> si lo desea."
 
 #: C/mail-composer-html.page:5(desc)
 msgid "Format emails by using HTML instead of plain text."
@@ -7452,12 +7448,12 @@ msgid "Inserting an Image in HTML"
 msgstr "Insertar una imagen en HTML"
 
 #: C/mail-composer-html-image.page:23(p)
-#, fuzzy
 msgid ""
 "You can insert an image into the email (at the current position of the "
 "cursor):"
 msgstr ""
-"Insertar una línea horizontal en el texto para dividirlo en dos secciones:"
+"Puede insertar una imagen en el correo electrónico (en la posición actual "
+"del cursor):"
 
 #: C/mail-composer-html-image.page:25(p)
 msgid ""
@@ -7581,18 +7577,16 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-custom-header-lines.page:5(desc)
-#, fuzzy
 msgid "Using custom fields in the header of composed messages"
-msgstr "Mostrar un cursor parpadeante en el cuerpo de los mensajes mostrados"
+msgstr "Usar campos personalizados en la cabecera de la edición de correos"
 
 #: C/mail-composer-custom-header-lines.page:23(title)
 msgid "Custom Header Lines"
 msgstr "Cabeceras personalizadas"
 
 #: C/mail-composer-custom-header-lines.page:25(p)
-#, fuzzy
 msgid "You can add arbitrary header lines to outgoing emails."
-msgstr "Añadir una cabecera personalizada a los mensajes salientes."
+msgstr "Puede añadir líneas de cabeceras arbitrarias en los correos salientes."
 
 #: C/mail-composer-custom-header-lines.page:28(title)
 msgid "Enabling and managing custom headers"
@@ -7642,13 +7636,12 @@ msgstr ""
 "guiseq>."
 
 #: C/mail-composer-custom-header-lines.page:43(p)
-#, fuzzy
 msgid ""
 "In the <gui>Email Custom Header</gui> window, you can view all the defined "
 "header fields and values."
 msgstr ""
-"En la ventana Cabeceras personalizadas del correo-e puede ver todos campos "
-"de cabeceras y valores que puede añadir."
+"En la ventana <gui>Cabeceras personalizadas del correo-e</gui> puede ver "
+"todos campos de cabeceras y valores que puede añadir."
 
 #: C/mail-composer-custom-header-lines.page:44(p)
 msgid "Set the values for the header fields by using the dropdown list."
@@ -8495,8 +8488,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">GMail Help</link> for more information."
 msgstr ""
 "Para acceder a GMail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -8695,15 +8688,14 @@ msgstr ""
 "la carpeta y el contenido se mostrará en la lista de correo-e."
 
 #: C/intro-main-window.page:69(p)
-#, fuzzy
 #| msgid ""
 #| "For additional information, see <link linkend=\"third-step\">Sending "
 #| "Mail</link>."
 msgid ""
 "For more information see <link xref=\"mail-folders\">Using Folders</link>."
 msgstr ""
-"Para obtener información adicional vea <link linkend=\"third-step\">Envío de "
-"correo</link>."
+"Para obtener información adicional consulte <link xref=\"mail-folders\">Usar "
+"carpetas</link>."
 
 #: C/intro-main-window.page:72(title)
 msgid "Message List"
@@ -8733,7 +8725,6 @@ msgstr ""
 "tareas."
 
 #: C/intro-main-window.page:77(p)
-#, fuzzy
 #| msgid ""
 #| "For more information, see <link linkend=\"Aal54a9\">Checking the Status "
 #| "of an Item You Have Sent</link>."
@@ -8741,8 +8732,8 @@ msgid ""
 "For more information see <link xref=\"change-switcher-appearance\">Changing "
 "the Switcher appearance</link>."
 msgstr ""
-"Para obtener más información, consulte <link linkend=\"Aal54a9\">Comprobar "
-"el estado de un elemento que ha enviado</link>."
+"Para obtener más información consulte <link xref=\"change-switcher-appearance"
+"\">Cambiar la apariencia del selector</link>."
 
 #: C/intro-main-window.page:78(p)
 msgid ""
@@ -9153,7 +9144,6 @@ msgstr ""
 
 #: C/intro-first-run.page:75(p) C/intro-first-run.page:77(p)
 #: C/intro-first-run.page:81(p)
-#, fuzzy
 msgid "You need to provide the path to the directory you want to use."
 msgstr "Debe proporcionar la ruta al directorio de correo que quiere usar."
 
@@ -9770,6 +9760,8 @@ msgid ""
 "This is a known problem and hard to solve for a complex application with "
 "many settings such as Evolution."
 msgstr ""
+"Es un problema conocido y es muy difícil solucionarlo para una aplicación "
+"complja con tantos ajustes como Evolution."
 
 #: C/express-mode.page:23(p)
 msgid ""
@@ -9783,6 +9775,9 @@ msgid ""
 "You can also explicitly open Evolution in a specific component. For the "
 "calendar, use <code>evolution --express --component=calendar</code>."
 msgstr ""
+"También puede abrir explícitamente un componente específico de Evolution. "
+"Para el calendario, use <code>evolution --express --component=calendar</"
+"code>."
 
 #: C/exporting-data.page:5(desc)
 msgid "How to export data from <em>Evolution</em>."
@@ -9836,6 +9831,9 @@ msgid ""
 "To export a complete address book, click <guiseq><gui>File</gui><gui>Save "
 "Address Book As vCard</gui></guiseq>."
 msgstr ""
+"Para exportar una libreta de direcciones completa pulse "
+"<guiseq><gui>Archivo</gui><gui>Guardar la libreta de direcciones como vCard</"
+"gui></guiseq>."
 
 #: C/exporting-data-contacts.page:27(p)
 msgid ""
@@ -9877,6 +9875,9 @@ msgid ""
 "gnome.org/users/evolution/2.32/usage-exchange.html.en\">old Evolution "
 "manual</link>."
 msgstr ""
+"Consulte el <link href=\"http://library.gnome.org/users/evolution/2.32/usage-"
+"exchange.html.en\">antiguo manual de Evolution</link> para temas que no "
+"estén cubiertos aquí."
 
 #: C/exchange-connectors-overview.page:5(desc)
 msgid ""
@@ -9966,6 +9967,9 @@ msgid ""
 "for deletion; space is not freed until you <em>expunge</em> the marked "
 "emails."
 msgstr ""
+"Evolution elimina correos electrónicos en servidores IMAP <em>marcándolos</"
+"em> para su eliminación; el espacio no se libera hasta que <em>purga</em> "
+"los correos marcados."
 
 #: C/deleting-emails.page:31(p)
 msgid ""
@@ -10032,6 +10036,9 @@ msgid ""
 "work correctly please contact your distribution via their forum or bug "
 "tracker."
 msgstr ""
+"Si el navegador preferido esté establecido como la aplicación predeterminada "
+"pero aún así no funciona correctamente, contacte con su distribución a "
+"través de su foto o web de seguimiento de errores."
 
 #: C/default-browser.page:26(p)
 msgid ""
@@ -10201,6 +10208,8 @@ msgid ""
 "You can also use address books that are not on your computer, such as on the "
 "internet (e.g. Google) or in a local network (e.g. LDAP)."
 msgstr ""
+"También puede usar las libretas de direcciones que no están en su equipo, "
+"tales como en Internet (ej. Google) o en su red local (ej. LDAP)."
 
 #: C/contacts-using-contact-lists.page:5(desc)
 msgid "Using contact lists for grouping contacts."
@@ -10710,6 +10719,9 @@ msgid ""
 "recipients text field and Evolution will present you with a list of matches "
 "from your address books."
 msgstr ""
+"Puede introducir las primeras tres letras de nombres y direcciones de "
+"correos electrónicos en el campo de destinatarios del correo y Evolution le "
+"presentará una lista con las coincidencias de sus libretas de direcciones."
 
 #: C/contacts-autocompletion.page:30(p)
 msgid ""
@@ -10717,6 +10729,10 @@ msgid ""
 "gui><gui>Contacts</gui><gui>Autocompletion</gui></guiseq> and choose the "
 "address books from the list that Evolution should look in for matches."
 msgstr ""
+"Para activar el autocompletado vaya a <guiseq><gui>Editar</"
+"gui><gui>Preferencias</gui><gui>Contactos</gui><gui>Autocompletado</gui></"
+"guiseq> y elija las libretas de direcciones de la lista desde las que "
+"Evolution debería buscar coincidencias."
 
 #: C/contacts-autocompletion.page:32(p)
 msgid ""
