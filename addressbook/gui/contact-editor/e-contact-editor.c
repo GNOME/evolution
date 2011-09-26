@@ -1327,7 +1327,7 @@ expand_phone (EContactEditor *editor,
               gboolean expanded)
 {
 	const gchar *names[] = {
-		"entry-phone-2", "combobox-phone-2",
+		"entry-phone-3", "combobox-phone-3",
 		"entry-phone-4", "combobox-phone-4",
 		"table-phone-extended", NULL
 	};
@@ -1401,7 +1401,7 @@ fill_in_phone_record (EContactEditor *editor,
 		phone_type >= 0 ? phone_type : phones_default[record - 1]);
 	set_entry_text (editor, GTK_ENTRY (phone_entry), phone ? phone : "");
 
-	if (phone && *phone && record >= 5)
+	if (phone && *phone && record >= 3)
 		expand_phone (editor, TRUE);
 }
 
