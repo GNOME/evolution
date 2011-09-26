@@ -487,7 +487,7 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 	label = delete ? _("_Move") : _("C_opy");
 	title = delete ? _("Move Folder To") : _("Copy Folder To");
 
-	model = em_folder_tree_model_get_default (backend);
+	model = em_folder_tree_model_get_default ();
 
 	dialog = em_folder_selector_new (
 		parent, backend, model,
@@ -565,10 +565,10 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	model = em_folder_tree_model_new (backend);
-	session = e_mail_backend_get_session (backend);
-	em_folder_tree_model_set_session (model, session);
+	model = em_folder_tree_model_new ();
+	em_folder_tree_model_set_backend (model, backend);
 
+	session = e_mail_backend_get_session (backend);
 	list = camel_session_list_services (CAMEL_SESSION (session));
 
 	for (link = list; link != NULL; link = g_list_next (link)) {

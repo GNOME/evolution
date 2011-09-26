@@ -68,7 +68,6 @@ struct _EMFolderTreeModelPrivate {
 	GtkTreeSelection *selection;  /* weak reference */
 
 	EAccountList *accounts;
-	EMailSession *session;
 	EMailBackend *backend;
 
 	/* CamelStore -> EMFolderTreeStoreInfo */
@@ -85,7 +84,6 @@ struct _EMFolderTreeModelPrivate {
 enum {
 	PROP_0,
 	PROP_SELECTION,
-	PROP_SESSION,
 	PROP_BACKEND
 };
 
@@ -124,15 +122,20 @@ static gint
 folder_tree_model_sort (GtkTreeModel *model,
                         GtkTreeIter *a,
                         GtkTreeIter *b,
-                        gpointer user_data)
+                        gpointer unused)
 {
-	EShell *shell = user_data;
+	EMFolderTreeModel *folder_tree_model;
+	EMailBackend *backend;
 	gchar *aname, *bname;
 	CamelStore *store;
 	gboolean is_store;
 	guint32 aflags, bflags;
 	guint asortorder, bsortorder;
 	gint rv = -2;
+
+	folder_tree_model = EM_FOLDER_TREE_MODEL (model);
+	backend = em_folder_tree_model_get_backend (folder_tree_model);
+	g_return_val_if_fail (backend != NULL, -1);
 
 	gtk_tree_model_get (
 		model, a,
@@ -151,7 +154,16 @@ folder_tree_model_sort (GtkTreeModel *model,
 		-1);
 
 	if (is_store) {
-		if (e_shell_settings_get_boolean (e_shell_get_shell_settings (shell), "mail-sort-accounts-alpha")) {
+		EShell *shell;
+		EShellBackend *shell_backend;
+		EShellSettings *shell_settings;
+
+		shell_backend = E_SHELL_BACKEND (backend);
+		shell = e_shell_backend_get_shell (shell_backend);
+		shell_settings = e_shell_get_shell_settings (shell);
+
+		if (e_shell_settings_get_boolean (
+			shell_settings, "mail-sort-accounts-alpha")) {
 			const gchar *on_this_computer = _("On This Computer");
 			const gchar *search_folders = _("Search Folders");
 
@@ -226,10 +238,12 @@ account_changed_cb (EAccountList *accounts,
                     EAccount *account,
                     EMFolderTreeModel *model)
 {
+	EMailBackend *backend;
 	EMailSession *session;
 	CamelService *service;
 
-	session = em_folder_tree_model_get_session (model);
+	backend = em_folder_tree_model_get_backend (model);
+	session = e_mail_backend_get_session (backend);
 
 	service = camel_session_get_service (
 		CAMEL_SESSION (session), account->uid);
@@ -251,10 +265,12 @@ account_removed_cb (EAccountList *accounts,
                     EAccount *account,
                     EMFolderTreeModel *model)
 {
+	EMailBackend *backend;
 	EMailSession *session;
 	CamelService *service;
 
-	session = em_folder_tree_model_get_session (model);
+	backend = em_folder_tree_model_get_backend (model);
+	session = e_mail_backend_get_session (backend);
 
 	service = camel_session_get_service (
 		CAMEL_SESSION (session), account->uid);
@@ -271,9 +287,12 @@ account_added_cb (EAccountList *accounts,
                   EAccount *account,
                   EMFolderTreeModel *model)
 {
+	EMailBackend *backend;
 	EMailSession *session;
 
-	session = em_folder_tree_model_get_session (model);
+	backend = em_folder_tree_model_get_backend (model);
+	session = e_mail_backend_get_session (backend);
+
 	e_mail_store_add_by_account (session, account);
 }
 
@@ -281,7 +300,6 @@ static void
 folder_tree_model_sort_changed (EMFolderTreeModel *tree_model)
 {
 	GtkTreeModel *model;
-	EShellBackend *shell_backend;
 
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (tree_model));
@@ -290,12 +308,10 @@ folder_tree_model_sort_changed (EMFolderTreeModel *tree_model)
 	if (!model)
 		return;
 
-	shell_backend = E_SHELL_BACKEND (em_folder_tree_model_get_backend (tree_model));
-
 	/* this invokes also sort on a GtkTreeStore */
 	gtk_tree_sortable_set_default_sort_func (
 		GTK_TREE_SORTABLE (model),
-		folder_tree_model_sort, e_shell_backend_get_shell (shell_backend), NULL);
+		folder_tree_model_sort, NULL, NULL);
 }
 
 static void
@@ -339,14 +355,19 @@ account_sort_order_changed_cb (EMFolderTreeModel *folder_tree_model)
 }
 
 static void
-add_remove_special_folder (EMFolderTreeModel *model, const gchar *account_uid, gboolean add)
+add_remove_special_folder (EMFolderTreeModel *model,
+                           const gchar *account_uid,
+                           gboolean add)
 {
+	EMailBackend *backend;
 	EMailSession *session;
 	CamelService *service;
 
-	session = em_folder_tree_model_get_session (model);
+	backend = em_folder_tree_model_get_backend (model);
+	session = e_mail_backend_get_session (backend);
 
-	service = camel_session_get_service (CAMEL_SESSION (session), account_uid);
+	service = camel_session_get_service (
+		CAMEL_SESSION (session), account_uid);
 
 	if (!CAMEL_IS_STORE (service))
 		return;
@@ -358,7 +379,9 @@ add_remove_special_folder (EMFolderTreeModel *model, const gchar *account_uid, g
 }
 
 static void
-enable_local_folders_changed_cb (EMFolderTreeModel *model, GParamSpec *spec, EShellSettings *shell_settings)
+enable_local_folders_changed_cb (EMFolderTreeModel *model,
+                                 GParamSpec *spec,
+                                 EShellSettings *shell_settings)
 {
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (shell_settings != NULL);
@@ -368,7 +391,9 @@ enable_local_folders_changed_cb (EMFolderTreeModel *model, GParamSpec *spec, ESh
 }
 
 static void
-enable_search_folders_changed_cb (EMFolderTreeModel *model, GParamSpec *spec, EShellSettings *shell_settings)
+enable_search_folders_changed_cb (EMFolderTreeModel *model,
+                                  GParamSpec *spec,
+                                  EShellSettings *shell_settings)
 {
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (shell_settings != NULL);
@@ -398,11 +423,6 @@ folder_tree_model_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
-		case PROP_SESSION:
-			em_folder_tree_model_set_session (
-				EM_FOLDER_TREE_MODEL (object),
-				g_value_get_object (value));
-			return;
 		case PROP_BACKEND:
 			em_folder_tree_model_set_backend (
 				EM_FOLDER_TREE_MODEL (object),
@@ -427,12 +447,6 @@ folder_tree_model_get_property (GObject *object,
 				EM_FOLDER_TREE_MODEL (object)));
 			return;
 
-		case PROP_SESSION:
-			g_value_set_object (
-				value,
-				em_folder_tree_model_get_session (
-				EM_FOLDER_TREE_MODEL (object)));
-			return;
 		case PROP_BACKEND:
 			g_value_set_object (
 				value,
@@ -444,62 +458,6 @@ folder_tree_model_get_property (GObject *object,
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
-
-static void
-folder_tree_model_constructed (GObject *object)
-{
-	EShell *shell;
-	EShellSettings *shell_settings;
-	EMFolderTreeModel *model;
-
-	GType col_types[] = {
-		G_TYPE_STRING,   /* display name */
-		G_TYPE_POINTER,  /* store object */
-		G_TYPE_STRING,   /* full name */
-		G_TYPE_STRING,   /* icon name */
-		G_TYPE_STRING,   /* uri */
-		G_TYPE_UINT,     /* unread count */
-		G_TYPE_UINT,     /* flags */
-		G_TYPE_BOOLEAN,  /* is a store node */
-		G_TYPE_BOOLEAN,  /* is a folder node */
-		G_TYPE_BOOLEAN,  /* has not-yet-loaded subfolders */
-		G_TYPE_UINT,     /* last known unread count */
-		G_TYPE_BOOLEAN,  /* folder is a draft folder */
-		G_TYPE_UINT	 /* user's sortorder */
-	};
-
-	model = EM_FOLDER_TREE_MODEL (object);
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (model->priv->backend));
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	gtk_tree_store_set_column_types (
-		GTK_TREE_STORE (model), NUM_COLUMNS, col_types);
-	gtk_tree_sortable_set_default_sort_func (
-		GTK_TREE_SORTABLE (model),
-		folder_tree_model_sort, shell, NULL);
-	gtk_tree_sortable_set_sort_column_id (
-		GTK_TREE_SORTABLE (model),
-		GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
-		GTK_SORT_ASCENDING);
-
-	model->priv->accounts = e_get_account_list ();
-	model->priv->account_changed_id = g_signal_connect (
-		model->priv->accounts, "account-changed",
-		G_CALLBACK (account_changed_cb), model);
-	model->priv->account_removed_id = g_signal_connect (
-		model->priv->accounts, "account-removed",
-		G_CALLBACK (account_removed_cb), model);
-	model->priv->account_added_id = g_signal_connect (
-		model->priv->accounts, "account-added",
-		G_CALLBACK (account_added_cb), model);
-
-	g_signal_connect_swapped (model->priv->backend, "account-sort-order-changed", G_CALLBACK (account_sort_order_changed_cb), model);
-	g_signal_connect_swapped (shell_settings, "notify::mail-sort-accounts-alpha", G_CALLBACK (account_sort_order_changed_cb), model);
-	g_signal_connect_swapped (shell_settings, "notify::mail-enable-local-folders", G_CALLBACK (enable_local_folders_changed_cb), model);
-	g_signal_connect_swapped (shell_settings, "notify::mail-enable-search-folders", G_CALLBACK (enable_search_folders_changed_cb), model);
-
-	G_OBJECT_CLASS (parent_class)->constructed (object);
-}
 
 static void
 folder_tree_model_dispose (GObject *object)
@@ -515,24 +473,23 @@ folder_tree_model_dispose (GObject *object)
 		priv->selection = NULL;
 	}
 
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
-
-	if (priv->backend) {
+	if (priv->backend != NULL) {
 		EShell *shell;
+		EShellBackend *shell_backend;
 		EShellSettings *shell_settings;
-		EMFolderTreeModel *model;
 
-		model = EM_FOLDER_TREE_MODEL (object);
-		shell = e_shell_backend_get_shell (E_SHELL_BACKEND (priv->backend));
+		shell_backend = E_SHELL_BACKEND (priv->backend);
+		shell = e_shell_backend_get_shell (shell_backend);
 		shell_settings = e_shell_get_shell_settings (shell);
 
-		g_signal_handlers_disconnect_by_func (priv->backend, G_CALLBACK (account_sort_order_changed_cb), model);
-		g_signal_handlers_disconnect_by_func (shell_settings, G_CALLBACK (account_sort_order_changed_cb), model);
-		g_signal_handlers_disconnect_by_func (shell_settings, G_CALLBACK (enable_local_folders_changed_cb), model);
-		g_signal_handlers_disconnect_by_func (shell_settings, G_CALLBACK (enable_search_folders_changed_cb), model);
+		g_signal_handlers_disconnect_by_func (
+			priv->backend, account_sort_order_changed_cb, object);
+		g_signal_handlers_disconnect_by_func (
+			shell_settings, account_sort_order_changed_cb, object);
+		g_signal_handlers_disconnect_by_func (
+			shell_settings, enable_local_folders_changed_cb, object);
+		g_signal_handlers_disconnect_by_func (
+			shell_settings, enable_search_folders_changed_cb, object);
 
 		g_object_unref (priv->backend);
 		priv->backend = NULL;
@@ -564,6 +521,54 @@ folder_tree_model_finalize (GObject *object)
 }
 
 static void
+folder_tree_model_constructed (GObject *object)
+{
+	EMFolderTreeModelPrivate *priv;
+
+	GType col_types[] = {
+		G_TYPE_STRING,   /* display name */
+		G_TYPE_POINTER,  /* store object */
+		G_TYPE_STRING,   /* full name */
+		G_TYPE_STRING,   /* icon name */
+		G_TYPE_STRING,   /* uri */
+		G_TYPE_UINT,     /* unread count */
+		G_TYPE_UINT,     /* flags */
+		G_TYPE_BOOLEAN,  /* is a store node */
+		G_TYPE_BOOLEAN,  /* is a folder node */
+		G_TYPE_BOOLEAN,  /* has not-yet-loaded subfolders */
+		G_TYPE_UINT,     /* last known unread count */
+		G_TYPE_BOOLEAN,  /* folder is a draft folder */
+		G_TYPE_UINT	 /* user's sortorder */
+	};
+
+	priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (object);
+
+	gtk_tree_store_set_column_types (
+		GTK_TREE_STORE (object), NUM_COLUMNS, col_types);
+	gtk_tree_sortable_set_default_sort_func (
+		GTK_TREE_SORTABLE (object),
+		folder_tree_model_sort, NULL, NULL);
+	gtk_tree_sortable_set_sort_column_id (
+		GTK_TREE_SORTABLE (object),
+		GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
+		GTK_SORT_ASCENDING);
+
+	priv->accounts = e_get_account_list ();
+	priv->account_changed_id = g_signal_connect (
+		priv->accounts, "account-changed",
+		G_CALLBACK (account_changed_cb), object);
+	priv->account_removed_id = g_signal_connect (
+		priv->accounts, "account-removed",
+		G_CALLBACK (account_removed_cb), object);
+	priv->account_added_id = g_signal_connect (
+		priv->accounts, "account-added",
+		G_CALLBACK (account_added_cb), object);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
+}
+
+static void
 em_folder_tree_model_class_init (EMFolderTreeModelClass *class)
 {
 	GObjectClass *object_class;
@@ -574,9 +579,19 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = folder_tree_model_set_property;
 	object_class->get_property = folder_tree_model_get_property;
-	object_class->constructed = folder_tree_model_constructed;
 	object_class->dispose = folder_tree_model_dispose;
 	object_class->finalize = folder_tree_model_finalize;
+	object_class->constructed = folder_tree_model_constructed;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_BACKEND,
+		g_param_spec_object (
+			"backend",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_BACKEND,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -587,26 +602,6 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *class)
 			NULL,
 			GTK_TYPE_TREE_SELECTION,
 			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
-		g_param_spec_object (
-			"session",
-			NULL,
-			NULL,
-			E_TYPE_MAIL_SESSION,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_BACKEND,
-		g_param_spec_object (
-			"backend",
-			NULL,
-			NULL,
-			E_TYPE_MAIL_BACKEND,
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 
 	signals[LOADING_ROW] = g_signal_new (
 		"loading-row",
@@ -708,26 +703,18 @@ em_folder_tree_model_init (EMFolderTreeModel *model)
 }
 
 EMFolderTreeModel *
-em_folder_tree_model_new (EMailBackend *mail_backend)
+em_folder_tree_model_new (void)
 {
-	return g_object_new (EM_TYPE_FOLDER_TREE_MODEL, "backend", mail_backend, NULL);
+	return g_object_new (EM_TYPE_FOLDER_TREE_MODEL, NULL);
 }
 
 EMFolderTreeModel *
-em_folder_tree_model_get_default (EMailBackend *mail_backend)
+em_folder_tree_model_get_default (void)
 {
 	static EMFolderTreeModel *default_folder_tree_model;
 
-	if (G_UNLIKELY (default_folder_tree_model == NULL)) {
-		if (!mail_backend) {
-			EShell *shell;
-
-			shell = e_shell_get_default ();
-			mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (shell, "mail"));
-		}
-
-		default_folder_tree_model = em_folder_tree_model_new (mail_backend);
-	}
+	if (G_UNLIKELY (default_folder_tree_model == NULL))
+		default_folder_tree_model = em_folder_tree_model_new ();
 
 	return default_folder_tree_model;
 }
@@ -766,47 +753,6 @@ em_folder_tree_model_set_selection (EMFolderTreeModel *model,
 	g_object_notify (G_OBJECT (model), "selection");
 }
 
-EMailSession *
-em_folder_tree_model_get_session (EMFolderTreeModel *model)
-{
-	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
-
-	return model->priv->session;
-}
-
-void
-em_folder_tree_model_set_session (EMFolderTreeModel *model,
-                                  EMailSession *session)
-{
-	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
-
-	if (session != NULL) {
-		g_return_if_fail (E_IS_MAIL_SESSION (session));
-		g_object_ref (session);
-	}
-
-	if (model->priv->session != NULL)
-		g_object_unref (model->priv->session);
-
-	model->priv->session = session;
-
-	/* FIXME Technically we should be disconnecting this signal
-	 *       when replacing an old session with a new session,
-	 *       but at present this function is only called once. */
-	if (session != NULL) {
-		MailFolderCache *folder_cache;
-
-		folder_cache = e_mail_session_get_folder_cache (session);
-
-		g_signal_connect_swapped (
-			folder_cache, "folder-unread-updated",
-			G_CALLBACK (folder_tree_model_set_unread_count),
-			model);
-	}
-
-	g_object_notify (G_OBJECT (model), "session");
-}
-
 EMailBackend *
 em_folder_tree_model_get_backend (EMFolderTreeModel *model)
 {
@@ -831,6 +777,43 @@ em_folder_tree_model_set_backend (EMFolderTreeModel *model,
 
 	model->priv->backend = backend;
 
+	/* FIXME Technically we should be disconnecting this signal
+	 *       when replacing an old backend with a new backend,
+	 *       but at present this function is only called once. */
+	if (backend != NULL) {
+		MailFolderCache *folder_cache;
+		EMailSession *session;
+		EShell *shell;
+		EShellBackend *shell_backend;
+		EShellSettings *shell_settings;
+
+		shell_backend = E_SHELL_BACKEND (backend);
+		shell = e_shell_backend_get_shell (shell_backend);
+		shell_settings = e_shell_get_shell_settings (shell);
+
+		session = e_mail_backend_get_session (backend);
+		folder_cache = e_mail_session_get_folder_cache (session);
+
+		g_signal_connect_swapped (
+			backend, "account-sort-order-changed",
+			G_CALLBACK (account_sort_order_changed_cb), model);
+
+		g_signal_connect_swapped (
+			shell_settings, "notify::mail-sort-accounts-alpha",
+			G_CALLBACK (account_sort_order_changed_cb), model);
+		g_signal_connect_swapped (
+			shell_settings, "notify::mail-enable-local-folders",
+			G_CALLBACK (enable_local_folders_changed_cb), model);
+		g_signal_connect_swapped (
+			shell_settings, "notify::mail-enable-search-folders",
+			G_CALLBACK (enable_search_folders_changed_cb), model);
+
+		g_signal_connect_swapped (
+			folder_cache, "folder-unread-updated",
+			G_CALLBACK (folder_tree_model_set_unread_count),
+			model);
+	}
+
 	g_object_notify (G_OBJECT (model), "backend");
 }
 
@@ -844,6 +827,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	GtkTreeRowReference *uri_row, *path_row;
 	GtkTreeStore *tree_store;
 	MailFolderCache *folder_cache;
+	EMailBackend *backend;
 	EMailSession *session;
 	EAccount *account;
 	guint unread;
@@ -868,7 +852,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 
 	tree_store = GTK_TREE_STORE (model);
 
-	session = em_folder_tree_model_get_session (model);
+	backend = em_folder_tree_model_get_backend (model);
+	session = e_mail_backend_get_session (backend);
 	folder_cache = e_mail_session_get_folder_cache (session);
 
 	uid = camel_service_get_uid (CAMEL_SERVICE (si->store));

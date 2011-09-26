@@ -4191,7 +4191,7 @@ on_click (ETree *tree,
 	if (col == COL_MESSAGE_STATUS && (flags & CAMEL_MESSAGE_SEEN)) {
 		EMFolderTreeModel *model;
 
-		model = em_folder_tree_model_get_default (list->priv->backend);
+		model = em_folder_tree_model_get_default ();
 		em_folder_tree_model_user_marked_unread (
 			model, list->folder, 1);
 	}

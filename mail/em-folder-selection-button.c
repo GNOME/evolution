@@ -268,17 +268,13 @@ folder_selection_button_clicked (GtkButton *button)
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	if (priv->store != NULL) {
-		EMailSession *session;
-
-		session = e_mail_backend_get_session (priv->backend);
-
-		model = em_folder_tree_model_new (priv->backend);
-		em_folder_tree_model_set_session (model, session);
+		model = em_folder_tree_model_new ();
+		em_folder_tree_model_set_backend (model, priv->backend);
 		em_folder_tree_model_add_store (model, priv->store);
 	}
 
 	if (model == NULL)
-		model = g_object_ref (em_folder_tree_model_get_default (priv->backend));
+		model = g_object_ref (em_folder_tree_model_get_default ());
 
 	dialog = em_folder_selector_new (
 		parent, priv->backend, model,

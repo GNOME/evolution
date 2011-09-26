@@ -300,7 +300,7 @@ action_mail_copy_cb (GtkAction *action,
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
-	model = em_folder_tree_model_get_default (backend);
+	model = em_folder_tree_model_get_default ();
 
 	dialog = em_folder_selector_new (
 		window, backend, model,
@@ -732,7 +732,7 @@ action_mail_mark_unread_cb (GtkAction *action,
 
 	/* Notify the tree model that the user has marked messages as
 	 * unread so it doesn't mistake the event as new mail arriving. */
-	model = em_folder_tree_model_get_default (e_mail_reader_get_backend (reader));
+	model = em_folder_tree_model_get_default ();
 	folder = e_mail_reader_get_folder (reader);
 	em_folder_tree_model_user_marked_unread (model, folder, n_marked);
 }
@@ -806,7 +806,7 @@ action_mail_move_cb (GtkAction *action,
 	uids = e_mail_reader_get_selected_uids (reader);
 	window = e_mail_reader_get_window (reader);
 
-	model = em_folder_tree_model_get_default (backend);
+	model = em_folder_tree_model_get_default ();
 
 	dialog = em_folder_selector_new (
 		window, backend, model,

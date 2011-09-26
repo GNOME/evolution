@@ -194,7 +194,7 @@ mail_store_add (EMailSession *session,
 	g_return_if_fail (store != NULL);
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
-	default_model = em_folder_tree_model_get_default (NULL);
+	default_model = em_folder_tree_model_get_default ();
 	folder_cache = e_mail_session_get_folder_cache (session);
 
 	store_info = store_info_new (store);
@@ -417,7 +417,7 @@ e_mail_store_remove (EMailSession *session,
 	folder_cache = e_mail_session_get_folder_cache (session);
 	mail_folder_cache_note_store_remove (folder_cache, store);
 
-	default_model = em_folder_tree_model_get_default (NULL);
+	default_model = em_folder_tree_model_get_default ();
 	em_folder_tree_model_remove_store (default_model, store);
 
 	mail_disconnect_store (store);

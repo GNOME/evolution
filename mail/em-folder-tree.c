@@ -1770,7 +1770,7 @@ em_folder_tree_new (EMailBackend *backend,
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 	g_return_val_if_fail (E_IS_ALERT_SINK (alert_sink), NULL);
 
-	model = em_folder_tree_model_get_default (backend);
+	model = em_folder_tree_model_get_default ();
 
 	return em_folder_tree_new_with_model (backend, alert_sink, model);
 }

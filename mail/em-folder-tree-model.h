@@ -111,20 +111,15 @@ struct _EMFolderTreeModelClass {
 
 GType		em_folder_tree_model_get_type	(void);
 EMFolderTreeModel *
-		em_folder_tree_model_new	(EMailBackend *mail_backend);
+		em_folder_tree_model_new	(void);
 EMFolderTreeModel *
-		em_folder_tree_model_get_default (EMailBackend *mail_backend);
+		em_folder_tree_model_get_default (void);
 GtkTreeSelection *
 		em_folder_tree_model_get_selection
 					(EMFolderTreeModel *model);
 void		em_folder_tree_model_set_selection
 					(EMFolderTreeModel *model,
 					 GtkTreeSelection *selection);
-EMailSession *	em_folder_tree_model_get_session
-					(EMFolderTreeModel *model);
-void		em_folder_tree_model_set_session
-					(EMFolderTreeModel *model,
-					 EMailSession *session);
 EMailBackend *	em_folder_tree_model_get_backend
 					(EMFolderTreeModel *model);
 void		em_folder_tree_model_set_backend

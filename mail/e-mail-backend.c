@@ -572,7 +572,7 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	folder_type = (flags & CAMEL_FOLDER_TYPE_MASK);
 	target->is_inbox = (folder_type == CAMEL_FOLDER_TYPE_INBOX);
 
-	model = em_folder_tree_model_get_default (mail_backend);
+	model = em_folder_tree_model_get_default ();
 	target->display_name = em_folder_tree_model_get_folder_name (
 		model, store, folder_name);
 
@@ -773,8 +773,12 @@ mail_backend_constructed (GObject *object)
 	e_account_combo_box_set_session (CAMEL_SESSION (priv->session));
 
 	/* FIXME EMailBackend should own the default EMFolderTreeModel. */
-	folder_tree_model = em_folder_tree_model_get_default (E_MAIL_BACKEND (shell_backend));
-	em_folder_tree_model_set_session (folder_tree_model, priv->session);
+	folder_tree_model = em_folder_tree_model_get_default ();
+
+	/* FIXME This is creating a circular reference.  Perhaps the
+	 *       should only hold a weak pointer to EMailBackend? */
+	em_folder_tree_model_set_backend (
+		folder_tree_model, E_MAIL_BACKEND (object));
 
 	g_signal_connect (
 		shell, "prepare-for-offline",
