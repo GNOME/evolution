@@ -290,6 +290,12 @@ sensitize_widgets (TaskPage *tpage)
 		gchar *tmp = g_strconcat ("<b>", _("Task cannot be fully edited, because you are not the organizer"), "</b>", NULL);
 		task_page_set_info_string (tpage, GTK_STOCK_DIALOG_INFO, tmp);
 		g_free (tmp);
+	} else if ((flags & COMP_EDITOR_IS_ASSIGNED) != 0 && e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)) {
+		gchar *tmp = g_strconcat ("<b>", _("Task cannot be edited, because the selected task list does not support assigned tasks"), "</b>", NULL);
+		task_page_set_info_string (tpage, GTK_STOCK_DIALOG_INFO, tmp);
+		g_free (tmp);
+		sens = FALSE;
+		read_only = TRUE;
 	} else if (!check_starts_in_the_past (tpage)) {
 		task_page_set_info_string (tpage, priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, priv->subscriber_info_text);
 	}
