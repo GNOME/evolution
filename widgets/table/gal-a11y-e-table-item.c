@@ -54,6 +54,7 @@ static GQuark		quark_accessible_object = 0;
 #define PARENT_TYPE (parent_type)
 
 struct _GalA11yETableItemPrivate {
+	ETableItem *item;
 	gint cols;
 	gint rows;
 	gint selection_change_id;
@@ -77,13 +78,10 @@ item_finalized (gpointer user_data,
 	GalA11yETableItem *a11y;
 	GalA11yETableItemPrivate *priv;
 
-	/* XXX GalA11yETableItem may already be finalized.
-	 *     Just work around it for now. */
-	if (!GAL_A11Y_IS_E_TABLE_ITEM (user_data))
-		return;
-
 	a11y = GAL_A11Y_E_TABLE_ITEM (user_data);
 	priv = GET_PRIVATE (a11y);
+
+	priv->item = NULL;
 
 	atk_state_set_add_state (priv->state_set, ATK_STATE_DEFUNCT);
 	atk_object_notify_state_change (ATK_OBJECT (a11y), ATK_STATE_DEFUNCT, TRUE);
@@ -91,6 +89,7 @@ item_finalized (gpointer user_data,
 	if (priv->selection)
 		gal_a11y_e_table_item_unref_selection (a11y);
 
+	g_object_unref (a11y);
 }
 
 static AtkStateSet *
@@ -222,6 +221,11 @@ eti_dispose (GObject *object)
 	if (priv->columns) {
 		g_free (priv->columns);
 		priv->columns = NULL;
+	}
+
+	if (priv->item) {
+		g_object_weak_unref (G_OBJECT (priv->item), item_finalized, a11y);
+		priv->item = NULL;
 	}
 
 	if (parent_class->dispose)
@@ -1102,6 +1106,7 @@ gal_a11y_e_table_item_new (ETableItem *item)
 
 	accessible  = ATK_OBJECT (a11y);
 
+	GET_PRIVATE (a11y)->item = item;
 	/* Initialize cell data. */
 	GET_PRIVATE (a11y)->cols = item->cols;
 	GET_PRIVATE (a11y)->rows = item->rows;
@@ -1143,7 +1148,7 @@ gal_a11y_e_table_item_new (ETableItem *item)
 	}
 
 	if (item)
-		g_object_weak_ref (G_OBJECT (item), item_finalized, a11y);
+		g_object_weak_ref (G_OBJECT (item), item_finalized, g_object_ref (a11y));
 
 	esm = item->selection;
 

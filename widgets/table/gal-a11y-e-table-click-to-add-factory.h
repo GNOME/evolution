@@ -25,7 +25,7 @@
 
 #include <atk/atkobjectfactory.h>
 
-#define GAL_A11Y_TYPE_E_TABLE_CLICK_TO_ADD_FACTORY            (gal_a11y_e_table_item_factory_get_type ())
+#define GAL_A11Y_TYPE_E_TABLE_CLICK_TO_ADD_FACTORY            (gal_a11y_e_table_item_click_to_add_factory_get_type ())
 #define GAL_A11Y_E_TABLE_CLICK_TO_ADD_FACTORY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_A11Y_TYPE_E_TABLE_CLICK_TO_ADD_FACTORY, GalA11yETableClickToAddFactory))
 #define GAL_A11Y_E_TABLE_CLICK_TO_ADD_FACTORY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GAL_A11Y_TYPE_E_TABLE_CLICK_TO_ADD_FACTORY, GalA11yETableClickToAddFactoryClass))
 #define GAL_A11Y_IS_E_TABLE_CLICK_TO_ADD_FACTORY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GAL_A11Y_TYPE_E_TABLE_CLICK_TO_ADD_FACTORY))
