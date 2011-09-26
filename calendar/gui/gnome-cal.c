@@ -1016,6 +1016,24 @@ get_date_navigator_range (GnomeCalendar *gcal,
 	*end_time = icaltime_as_timet_with_zone (end_tt, timezone);
 }
 
+static const gchar *
+gcal_get_default_tzloc (GnomeCalendar *gcal)
+{
+	ECalModel *model;
+	icaltimezone *timezone;
+	const gchar *tzloc = NULL;
+
+	g_return_val_if_fail (gcal != NULL, "");
+
+	model = gnome_calendar_get_model (gcal);
+	timezone = e_cal_model_get_timezone (model);
+
+	if (timezone && timezone != icaltimezone_get_utc_timezone ())
+		tzloc = icaltimezone_get_location (timezone);
+
+	return tzloc ? tzloc : "";
+}
+
 /* Adjusts a given query sexp with the time range of the date navigator */
 static gchar *
 adjust_client_view_sexp (GnomeCalendar *gcal,
@@ -1033,15 +1051,12 @@ adjust_client_view_sexp (GnomeCalendar *gcal,
 	end = isodate_from_time_t (end_time);
 
 	if (sexp) {
-		new_sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\")"
-				"                           (make-time \"%s\"))"
-				"     %s)",
-				start, end,
+		new_sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\") %s)",
+				start, end, gcal_get_default_tzloc (gcal),
 				sexp);
 	} else {
-		new_sexp = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\")"
-				"                     (make-time \"%s\"))",
-				start, end);
+		new_sexp = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\")",
+				start, end, gcal_get_default_tzloc (gcal));
 	}
 
 	g_free (start);
@@ -1366,10 +1381,8 @@ update_memo_view (GnomeCalendar *gcal)
 		g_free (priv->memo_sexp);
 
 		priv->memo_sexp = g_strdup_printf (
-			"(and (or (not (has-start?)) "
-			"(occur-in-time-range? (make-time \"%s\")"
-			" (make-time \"%s\"))) %s)",
-			iso_start, iso_end,
+			"(and (or (not (has-start?)) (occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\")) %s)",
+			iso_start, iso_end, gcal_get_default_tzloc (gcal),
 			priv->sexp ? priv->sexp : "");
 
 		e_cal_model_set_search_query (model, priv->memo_sexp);
@@ -2243,9 +2256,8 @@ gnome_calendar_purge (GnomeCalendar *gcal,
 
 	start = isodate_from_time_t (0);
 	end = isodate_from_time_t (older_than);
-	sexp = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\")"
-				"                      (make-time \"%s\"))",
-				start, end);
+	sexp = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\")",
+				start, end, gcal_get_default_tzloc (gcal));
 
 	gcal_update_status_message (gcal, _("Purging"), -1);
 
