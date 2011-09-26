@@ -1077,7 +1077,7 @@ subscription_editor_realize (GtkWidget *widget)
 
 	/* Find stores to display, and watch for the initial store. */
 
-	model = em_folder_tree_model_get_default ();
+	model = em_folder_tree_model_get_default (NULL);
 	list = em_folder_tree_model_list_stores (model);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {

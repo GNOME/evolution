@@ -84,6 +84,8 @@ extern const gchar *shell_builtin_backend;
 
 #define d(x)
 
+static void free_account_sort_order_cache (void);
+
 gboolean
 em_utils_ask_open_many (GtkWindow *parent,
                         gint how_many)
@@ -2014,6 +2016,8 @@ emu_free_mail_cache (void)
 	photos_cache = NULL;
 
 	G_UNLOCK (photos_cache);
+
+	free_account_sort_order_cache ();
 }
 
 void
@@ -2366,6 +2370,170 @@ em_utils_disconnect_service_sync (CamelService *service,
 
 	if (handler_id)
 		g_cancellable_disconnect (cancellable, handler_id);
+
+	return res;
+}
+
+G_LOCK_DEFINE_STATIC (accounts_sort_order_cache);
+static GHashTable *accounts_sort_order_cache = NULL; /* account_uid string to sort order uint */
+
+static void
+free_account_sort_order_cache (void)
+{
+	G_LOCK (accounts_sort_order_cache);
+
+	if (accounts_sort_order_cache) {
+		g_hash_table_destroy (accounts_sort_order_cache);
+		accounts_sort_order_cache = NULL;
+	}
+
+	G_UNLOCK (accounts_sort_order_cache);
+}
+
+static void
+fill_accounts_sort_order_cache (EMailBackend *backend, gboolean force_reload)
+{
+	GSList *account_uids;
+
+	G_LOCK (accounts_sort_order_cache);
+
+	if (!force_reload && accounts_sort_order_cache) {
+		G_UNLOCK (accounts_sort_order_cache);
+		return;
+	}
+
+	if (!accounts_sort_order_cache)
+		accounts_sort_order_cache = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	else
+		g_hash_table_remove_all (accounts_sort_order_cache);
+
+	account_uids = em_utils_load_accounts_sort_order (backend);
+	if (account_uids) {
+		GSList *iter;
+		guint index;
+
+		for (index = 1, iter = account_uids; iter; index++, iter = iter->next) {
+			if (iter->data)
+				g_hash_table_insert (accounts_sort_order_cache, iter->data, GUINT_TO_POINTER (index));
+		}
+
+		/* items are stolen into the cache */
+		/* g_slist_foreach (account_uids, (GFunc) g_free, NULL); */
+		g_slist_free (account_uids);
+	}
+
+	G_UNLOCK (accounts_sort_order_cache);
+}
+
+static gchar *
+emu_get_sort_order_filename (EMailBackend *backend)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+
+	return g_build_filename (
+		e_shell_backend_get_config_dir (E_SHELL_BACKEND (backend)),
+		"sortorder.ini", NULL);
+}
+
+static GKeyFile *
+emu_get_sort_order_key_file (EMailBackend *backend)
+{
+	gchar *filename;
+	GKeyFile *key_file;
+
+	g_return_val_if_fail (backend != NULL, NULL);
+
+	filename = emu_get_sort_order_filename (backend);
+	g_return_val_if_fail (filename != NULL, NULL);
+
+	key_file = g_key_file_new ();
+	g_key_file_load_from_file (key_file, filename, G_KEY_FILE_NONE, NULL);
+
+	g_free (filename);
+
+	return key_file;
+}
+
+void
+em_utils_save_accounts_sort_order (EMailBackend *backend, const GSList *account_uids)
+{
+	gchar *filename;
+	GKeyFile *key_file;
+	gint ii;
+	gchar key[32];
+	gchar *content;
+	gsize length = 0;
+
+	key_file = emu_get_sort_order_key_file (backend);
+	g_return_if_fail (key_file != NULL);
+
+	filename = emu_get_sort_order_filename (backend);
+	g_return_if_fail (filename != NULL);
+
+	g_key_file_remove_group (key_file, "accounts", NULL);
+
+	for (ii = 0; account_uids; ii++, account_uids = account_uids->next) {
+		sprintf (key, "%d", ii);
+
+		g_key_file_set_string (key_file, "accounts", key, account_uids->data);
+	}
+
+	content = g_key_file_to_data (key_file, &length, NULL);
+	if (content)
+		g_file_set_contents (filename, content, length, NULL);
+
+	g_free (content);
+	g_free (filename);
+	g_key_file_free (key_file);
+
+	fill_accounts_sort_order_cache (backend, TRUE);
+	e_mail_backend_account_sort_order_changed (backend);
+}
+
+GSList *
+em_utils_load_accounts_sort_order (EMailBackend *backend)
+{
+	GKeyFile *key_file;
+	GSList *account_uids = NULL;
+	gchar key[32];
+	gchar *value;
+	gint ii;
+
+	key_file = emu_get_sort_order_key_file (backend);
+	g_return_val_if_fail (key_file != NULL, NULL);
+
+	ii = 0;
+	do {
+		sprintf (key, "%d", ii);
+		ii++;
+
+		value = g_key_file_get_string (key_file, "accounts", key, NULL);
+		if (!value)
+			break;
+
+		account_uids = g_slist_prepend (account_uids, value);
+	} while (*key);
+
+	g_key_file_free (key_file);
+
+	return g_slist_reverse (account_uids);
+}
+
+guint
+em_utils_get_account_sort_order (EMailBackend *backend, const gchar *account_uid)
+{
+	guint res;
+
+	g_return_val_if_fail (backend != NULL, 0);
+	g_return_val_if_fail (account_uid != NULL, 0);
+
+	fill_accounts_sort_order_cache (backend, FALSE);
+
+	G_LOCK (accounts_sort_order_cache);
+
+	res = GPOINTER_TO_UINT (g_hash_table_lookup (accounts_sort_order_cache, account_uid));
+
+	G_UNLOCK (accounts_sort_order_cache);
 
 	return res;
 }

@@ -487,7 +487,7 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 	label = delete ? _("_Move") : _("C_opy");
 	title = delete ? _("Move Folder To") : _("Copy Folder To");
 
-	model = em_folder_tree_model_get_default ();
+	model = em_folder_tree_model_get_default (backend);
 
 	dialog = em_folder_selector_new (
 		parent, backend, model,
@@ -547,6 +547,8 @@ em_folder_utils_create_folder (GtkWindow *parent,
                                EMFolderTree *emft,
                                const gchar *initial_uri)
 {
+	EShell *shell;
+	EShellSettings *shell_settings;
 	EMailSession *session;
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
@@ -560,7 +562,10 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	g_return_if_fail (GTK_IS_WINDOW (parent));
 	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 
-	model = em_folder_tree_model_new ();
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	model = em_folder_tree_model_new (backend);
 	session = e_mail_backend_get_session (backend);
 	em_folder_tree_model_set_session (model, session);
 
@@ -569,6 +574,7 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		CamelService *service;
 		CamelStore *store;
+		const gchar *uid, *prop = NULL;
 
 		service = CAMEL_SERVICE (link->data);
 
@@ -578,6 +584,15 @@ em_folder_utils_create_folder (GtkWindow *parent,
 		store = CAMEL_STORE (service);
 
 		if ((store->flags & CAMEL_STORE_CAN_EDIT_FOLDERS) == 0)
+			continue;
+
+		uid = camel_service_get_uid (service);
+		if (g_strcmp0 (uid, "local") == 0)
+			prop = "mail-enable-local-folders";
+		else if (g_strcmp0 (uid, "vfolder") == 0)
+			prop = "mail-enable-search-folders";
+
+		if (prop && !e_shell_settings_get_boolean (shell_settings, prop))
 			continue;
 
 		em_folder_tree_model_add_store (model, store);

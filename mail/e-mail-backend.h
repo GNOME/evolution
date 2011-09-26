@@ -67,6 +67,10 @@ struct _EMailBackendClass {
 						(EMailBackend *backend);
 	gboolean	(*empty_trash_policy_decision)
 						(EMailBackend *backend);
+
+	/* Signals */
+	void		(*account_sort_order_changed)
+						(EMailBackend *backend);
 };
 
 GType		e_mail_backend_get_type		(void);
@@ -78,6 +82,9 @@ gboolean	e_mail_backend_empty_trash_policy_decision
 void		e_mail_backend_submit_alert	(EMailBackend *backend,
 						 const gchar *tag,
 						 ...) G_GNUC_NULL_TERMINATED;
+
+void		e_mail_backend_account_sort_order_changed
+						(EMailBackend *backend);
 
 G_END_DECLS
 

@@ -678,6 +678,20 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/enable_local</key>
+      <applyto>/apps/evolution/mail/display/enable_local</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Enable local folders</short>
+         <long>
+          Whether to show local folders (On This Computer) in a folder tree.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/safe_list</key>
       <applyto>/apps/evolution/mail/display/safe_list</applyto>
       <owner>evolution-mail</owner>
@@ -885,7 +899,7 @@
          </long>
       </locale>
     </schema>
-    
+
     <schema>
       <key>/schemas/apps/evolution/mail/display/paned_view_headers_state</key>
       <applyto>/apps/evolution/mail/display/paned_view_headers_state</applyto>
@@ -901,7 +915,24 @@
       	</long>
       </locale>
     </schema>
-      
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/sort_accounts_alpha</key>
+      <applyto>/apps/evolution/mail/display/sort_accounts_alpha</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+      	<short>Sort accounts alphabetically in a folder tree</short>
+      	<long>
+      	   Tells how to sort accounts in a folder tree used in a Mail view.
+	   When set to true accounts are sorted alphabetically, with an exception
+	   of On This Computer and Search folders, otherwise accounts are
+	   sorted based on an order given by a user.
+      	</long>
+      </locale>
+    </schema>
+
     <!-- Mail Browser -->
 
     <schema>

@@ -71,8 +71,15 @@ enum {
 	PROP_SESSION
 };
 
+enum {
+	ACCOUNT_SORT_ORDER_CHANGED,
+	LAST_SIGNAL
+};
+
 /* FIXME Kill this thing.  It's a horrible hack. */
 extern gint camel_application_is_exiting;
+
+static guint signals[LAST_SIGNAL];
 
 G_DEFINE_ABSTRACT_TYPE (
 	EMailBackend,
@@ -538,7 +545,7 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
                                 const gchar *msg_uid,
                                 const gchar *msg_sender,
                                 const gchar *msg_subject,
-                                EShell *shell)
+                                EMailBackend *mail_backend)
 {
 	CamelFolder *folder = NULL;
 	EMEvent *event = em_event_peek ();
@@ -565,12 +572,12 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	folder_type = (flags & CAMEL_FOLDER_TYPE_MASK);
 	target->is_inbox = (folder_type == CAMEL_FOLDER_TYPE_INBOX);
 
-	model = em_folder_tree_model_get_default ();
+	model = em_folder_tree_model_get_default (mail_backend);
 	target->display_name = em_folder_tree_model_get_folder_name (
 		model, store, folder_name);
 
 	if (target->new > 0)
-		e_shell_event (shell, "mail-icon", (gpointer) "mail-unread");
+		e_shell_event (e_shell_backend_get_shell (E_SHELL_BACKEND (mail_backend)), "mail-icon", (gpointer) "mail-unread");
 
 	/** @Event: folder.changed
 	 * @Title: Folder changed
@@ -766,7 +773,7 @@ mail_backend_constructed (GObject *object)
 	e_account_combo_box_set_session (CAMEL_SESSION (priv->session));
 
 	/* FIXME EMailBackend should own the default EMFolderTreeModel. */
-	folder_tree_model = em_folder_tree_model_get_default ();
+	folder_tree_model = em_folder_tree_model_get_default (E_MAIL_BACKEND (shell_backend));
 	em_folder_tree_model_set_session (folder_tree_model, priv->session);
 
 	g_signal_connect (
@@ -801,7 +808,7 @@ mail_backend_constructed (GObject *object)
 
 	g_signal_connect (
 		folder_cache, "folder-changed",
-		G_CALLBACK (mail_backend_folder_changed_cb), shell);
+		G_CALLBACK (mail_backend_folder_changed_cb), shell_backend);
 
 	mail_config_init (priv->session);
 	mail_msg_init ();
@@ -838,6 +845,15 @@ e_mail_backend_class_init (EMailBackendClass *class)
 			NULL,
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READABLE));
+
+	signals[ACCOUNT_SORT_ORDER_CHANGED] = g_signal_new (
+		"account-sort-order-changed",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMailBackendClass, account_sort_order_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
@@ -933,4 +949,13 @@ e_mail_backend_submit_alert (EMailBackend *backend,
 	va_start (va, tag);
 	e_alert_submit_valist (E_ALERT_SINK (shell_content), tag, va);
 	va_end (va);
+}
+
+void
+e_mail_backend_account_sort_order_changed (EMailBackend *backend)
+{
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+
+	g_signal_emit (backend, signals[ACCOUNT_SORT_ORDER_CHANGED], 0);
 }

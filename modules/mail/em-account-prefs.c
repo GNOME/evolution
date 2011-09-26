@@ -40,6 +40,8 @@
 #include "e-mail-store.h"
 #include "em-config.h"
 #include "em-account-editor.h"
+#include "em-utils.h"
+#include "mail-vfolder.h"
 #include "shell/e-shell.h"
 #include "capplet/settings/mail-capplet-shell.h"
 
@@ -59,6 +61,36 @@ G_DEFINE_TYPE (
 	em_account_prefs,
 	E_TYPE_ACCOUNT_MANAGER)
 
+static gboolean
+account_prefs_toggle_enable_special (EMAccountPrefs *prefs, EAccountTreeViewSelectedType type, gboolean enabled)
+{
+	const gchar *prop = NULL;
+	EShell *shell;
+	EShellSettings *shell_settings;
+
+	g_return_val_if_fail (prefs != NULL, FALSE);
+	g_return_val_if_fail (prefs->priv != NULL, FALSE);
+
+	if (type == E_ACCOUNT_TREE_VIEW_SELECTED_LOCAL)
+		prop = "mail-enable-local-folders";
+	else if (type == E_ACCOUNT_TREE_VIEW_SELECTED_VFOLDER)
+		prop = "mail-enable-search-folders";
+
+	if (!prop)
+		return FALSE;
+
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (prefs->priv->backend));
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	e_shell_settings_set_boolean (shell_settings, prop, enabled);
+
+	/* make sure "Search Folders" are loaded when enabled */
+	if (enabled && type == E_ACCOUNT_TREE_VIEW_SELECTED_VFOLDER)
+		vfolder_load_storage (prefs->priv->backend);
+
+	return TRUE;
+}
+
 static void
 account_prefs_enable_account_cb (EAccountTreeView *tree_view,
                                  EMAccountPrefs *prefs)
@@ -67,6 +99,11 @@ account_prefs_enable_account_cb (EAccountTreeView *tree_view,
 	EMailSession *session;
 
 	account = e_account_tree_view_get_selected (tree_view);
+	if (!account) {
+		if (account_prefs_toggle_enable_special (prefs, e_account_tree_view_get_selected_type (tree_view), TRUE))
+			return;
+	}
+
 	g_return_if_fail (account != NULL);
 
 	session = e_mail_backend_get_session (prefs->priv->backend);
@@ -84,6 +121,11 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view,
 	gint response;
 
 	account = e_account_tree_view_get_selected (tree_view);
+	if (!account) {
+		if (account_prefs_toggle_enable_special (prefs, e_account_tree_view_get_selected_type (tree_view), FALSE))
+			return;
+	}
+
 	g_return_if_fail (account != NULL);
 
 	account_list = e_account_tree_view_get_account_list (tree_view);
@@ -380,14 +422,35 @@ em_account_prefs_init (EMAccountPrefs *prefs)
 		G_CALLBACK (account_prefs_disable_account_cb), prefs);
 }
 
+static void
+account_tree_view_sort_order_changed_cb (EAccountTreeView *tree_view, EMailBackend *backend)
+{
+	GSList *account_uids;
+
+	g_return_if_fail (tree_view != NULL);
+	g_return_if_fail (backend != NULL);
+
+	account_uids = e_account_tree_view_get_sort_order (tree_view);
+	if (!account_uids)
+		return;
+
+	em_utils_save_accounts_sort_order (backend, account_uids);
+
+	g_slist_foreach (account_uids, (GFunc) g_free, NULL);
+	g_slist_free (account_uids);
+}
+
 GtkWidget *
 em_account_prefs_new (EPreferencesWindow *window)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EAccountList *account_list;
+	EAccountTreeView *tree_view;
 	EMailSession *session;
 	const gchar *data_dir;
+	GtkWidget *res;
+	GSList *account_uids;
 
 	account_list = e_get_account_list ();
 	g_return_val_if_fail (E_IS_ACCOUNT_LIST (account_list), NULL);
@@ -402,10 +465,40 @@ em_account_prefs_new (EPreferencesWindow *window)
 	/* Make sure the e-mail-local is initialized. */
 	e_mail_local_init (session, data_dir);
 
-	return g_object_new (
+	res = g_object_new (
 		EM_TYPE_ACCOUNT_PREFS,
 		"account-list", account_list,
 		"backend", shell_backend, NULL);
+
+	tree_view = e_account_manager_get_tree_view (E_ACCOUNT_MANAGER (res));
+	e_account_tree_view_set_express_mode (tree_view, e_shell_get_express_mode (shell));
+
+	g_object_bind_property (
+		e_shell_get_shell_settings (shell), "mail-sort-accounts-alpha",
+		tree_view, "sort-alpha",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		e_shell_get_shell_settings (shell), "mail-enable-local-folders",
+		tree_view, "enable-local-folders",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		e_shell_get_shell_settings (shell), "mail-enable-search-folders",
+		tree_view, "enable-search-folders",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	account_uids = em_utils_load_accounts_sort_order (E_MAIL_BACKEND (shell_backend));
+	if (account_uids) {
+		e_account_tree_view_set_sort_order (tree_view, account_uids);
+		g_slist_foreach (account_uids, (GFunc) g_free, NULL);
+		g_slist_free (account_uids);
+	}
+
+	g_signal_connect (tree_view, "sort-order-changed",
+		G_CALLBACK (account_tree_view_sort_order_changed_cb), shell_backend);
+
+	return res;
 }
 
 EMailBackend *

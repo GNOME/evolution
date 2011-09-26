@@ -610,7 +610,7 @@ source_add (GtkWidget *widget,
 
 	backend = em_vfolder_rule_get_backend (data->vr);
 
-	model = em_folder_tree_model_get_default ();
+	model = em_folder_tree_model_get_default (backend);
 
 	dialog = em_folder_selector_new (
 		parent, backend, model,
