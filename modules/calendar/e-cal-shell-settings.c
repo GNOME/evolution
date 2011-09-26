@@ -69,18 +69,33 @@ transform_icaltimezone_to_string (GBinding *binding,
                                   GValue *target_value,
                                   gpointer user_data)
 {
+	EShellSettings *shell_settings;
+	gboolean use_system_timezone;
 	const gchar *location = NULL;
+	gchar *location_str = NULL;
 	icaltimezone *timezone;
 
-	timezone = g_value_get_pointer (source_value);
+	shell_settings = E_SHELL_SETTINGS (user_data);
 
-	if (timezone != NULL)
-		location = icaltimezone_get_location (timezone);
+	use_system_timezone = e_shell_settings_get_boolean (
+		shell_settings, "cal-use-system-timezone");
+
+	if (use_system_timezone) {
+		location_str = e_shell_settings_get_string (shell_settings, "cal-timezone-string");
+		location = location_str;
+	} else {
+		timezone = g_value_get_pointer (source_value);
+
+		if (timezone != NULL)
+			location = icaltimezone_get_location (timezone);
+	}
 
 	if (location == NULL)
 		location = "UTC";
 
 	g_value_set_string (target_value, location);
+
+	g_free (location_str);
 
 	return TRUE;
 }
@@ -494,6 +509,12 @@ transform_working_days_saturday_to_bitset (GBinding *binding,
 	return TRUE;
 }
 
+static void
+cal_use_system_timezone_changed_cb (GObject *shell_settings)
+{
+	g_object_notify (shell_settings, "cal-timezone-string");
+}
+
 void
 e_cal_shell_backend_init_settings (EShell *shell)
 {
@@ -872,4 +893,8 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		transform_working_days_saturday_to_bitset,
 		g_object_ref (shell_settings),
 		(GDestroyNotify) g_object_unref);
+
+	g_signal_connect (
+		shell_settings, "notify::cal-use-system-timezone",
+		G_CALLBACK (cal_use_system_timezone_changed_cb), NULL);
 }

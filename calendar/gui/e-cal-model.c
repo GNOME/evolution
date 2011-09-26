@@ -137,6 +137,7 @@ static ECalModelClient *add_new_client (ECalModel *model, ECalClient *client, gb
 static ECalModelClient *find_client_data (ECalModel *model, ECalClient *client);
 static void remove_client_objects (ECalModel *model, ECalModelClient *client_data);
 static void remove_client (ECalModel *model, ECalModelClient *client_data);
+static void redo_queries (ECalModel *model);
 
 enum {
 	PROP_0,
@@ -1733,6 +1734,7 @@ e_cal_model_set_timezone (ECalModel *model,
 	/* the timezone affects the times shown for date fields,
 	 * so we need to redisplay everything */
 	e_table_model_changed (E_TABLE_MODEL (model));
+	redo_queries (model);
 
 	g_object_notify (G_OBJECT (model), "timezone");
 	g_signal_emit (G_OBJECT (model), signals[TIMEZONE_CHANGED], 0,
