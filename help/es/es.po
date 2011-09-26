@@ -1,15 +1,15 @@
 # translation of evolution-help.master.po to Español
 # translation of evolution manual to spanish
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
 # Jorge González <jorgegonz@svn.gnome.org>, 2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-18 19:18+0000\n"
-"PO-Revision-Date: 2011-09-24 15:03+0200\n"
+"POT-Creation-Date: 2011-09-26 12:39+0000\n"
+"PO-Revision-Date: 2011-09-26 15:30Centra\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2189,6 +2189,9 @@ msgid ""
 "The Evolution <gui>Trash</gui> folder has a special icon whereas the other "
 "physical Trash folder looks like any other folder."
 msgstr ""
+"Puede comparar las dos carpetas de Papelera mirando los iconos. La carpeta "
+"de <gui>Papelera</gui> de Evolution tiene un icono especial mientras que la "
+"otra carpeta física de Papelera es igual a cualquier otra carpeta."
 
 #: C/mail-two-trash-folders.page:29(p)
 msgid ""
@@ -2397,6 +2400,9 @@ msgid ""
 "the menu bar; you can flag mail in the junk folder as \"Not Junk\" by "
 "selecting it and clicking the <gui>Not Junk</gui> icon."
 msgstr ""
+"También puede marcar correo como SPAM seleccionándolo y pulsando el icono de "
+"SPAM en la barra de menú; puede marcar correo en la carpeta de SPAM como «No "
+"es SPAM» seleccionándolo y pulsando el icono <gui>No es SPAM</gui>."
 
 #: C/mail-spam-marking.page:32(p)
 msgid ""
@@ -2589,6 +2595,10 @@ msgid ""
 "click on <guiseq><gui>View</gui><gui>Group By Threads</gui></guiseq> or "
 "press <keyseq><key>Ctrl</key><key>T</key></keyseq>."
 msgstr ""
+"Puede usar mensajes por conversaciones para ordenar los correos "
+"electrónicos. Para activar esta opción pulse en <guiseq><gui>Ver</"
+"gui><gui>Agrupar por conversaciones</gui></guiseq> o pulse "
+"<keyseq><key>Ctrl</key><key>T</key></keyseq>."
 
 #: C/mail-sorting-message-list.page:37(p)
 msgid ""
@@ -2964,6 +2974,10 @@ msgid ""
 "only receive, click the small down-arrow next to the <gui style=\"button"
 "\">Send / Receive</gui> button and choose the corresponding option."
 msgstr ""
+"Para enviar y recibir correo sólo para una de sus cuentas de correo, o solo "
+"para enviar o recibir correo, pulse la pequeña flecha desplegable junto al "
+"botón <gui style=\"button\">Enviar / Recibir</gui> y elija la opción "
+"correspondiente."
 
 #: C/mail-send-and-receive-manual.page:23(p)
 msgid ""
@@ -3072,6 +3086,9 @@ msgid ""
 "new email arrived or since an email was deleted, for example. This will mean "
 "that the list of emails in the folder is not up-to-date."
 msgstr ""
+"Puede suceder que una de sus carpetas de búsqueda no se ha actualizado desde "
+"que llegó correo nuevo o desde que se eliminó un correo. Esto significa que "
+"la lista de correos electrónicos en la carpeta no está actualizada."
 
 #: C/mail-search-folders-refresh.page:28(p)
 msgid ""
@@ -3101,6 +3118,10 @@ msgid ""
 "you find yourself performing the same <link xref=\"mail-searching\">search</"
 "link> again and again, consider a search folder."
 msgstr ""
+"Si los <link xref=\"mail-filters\">filtros</link> no son lo suficientemente "
+"flexibles o se encuentra a si mismo realizando la misma <link xref=\"mail-"
+"searching\">búsqueda</link> una y otra vez, considere crear una carpeta de "
+"búsqueda."
 
 #: C/mail-search-folders.page:26(p)
 #, fuzzy
@@ -3525,6 +3546,9 @@ msgid ""
 "gui> if any or if all conditions have to apply, and click <gui style=\"button"
 "\">Add Condition</gui> and repeat the previous step."
 msgstr ""
+"Si quiere definir varias condiciones, defínalas bajo <gui>Buscar elementos</"
+"gui> si se debe aplicar una o todas las condiciones y pulse <gui style="
+"\"button\">Añadir condición</gui> y repita el paso anterior."
 
 #: C/mail-search-folders-add.page:31(p)
 msgid ""
@@ -3680,6 +3704,10 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
 "\">Edit</gui><gui>Receiving Email</gui></guiseq>):"
 msgstr ""
+"En la página <gui>Recepción de correo</gui> (accesible a través de "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Cuentas de correo</"
+"gui><gui style=\"button\">Editar</gui><gui>Recepción de correo</gui></"
+"guiseq>):"
 
 #: C/mail-receiving-options-usenet-news.page:31(p)
 #: C/mail-receiving-options-pop.page:35(p)
@@ -3771,6 +3799,10 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
 "\">Edit</gui><gui>Receiving Options</gui></guiseq>):"
 msgstr ""
+"En la página <gui>Recepción de correo</gui> (accesible a través de "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Cuentas de correo</"
+"gui><gui style=\"button\">Editar</gui><gui>Recepción de correo</gui></"
+"guiseq>):"
 
 #: C/mail-receiving-options-usenet-news.page:46(p)
 #: C/mail-receiving-options-unix-mbox-spool-file.page:39(p)
@@ -4129,6 +4161,10 @@ msgid ""
 "of contacts in GAL to be represented in the Evolution address book by <link "
 "xref=\"contacts-using-contact-lists\">contact lists</link>."
 msgstr ""
+"También tiene que definir el tipo de Autenticación y si quiere que los "
+"grupos de contactos en GAL se muestren en la libreta de direcciones de "
+"Evolution a través de <link xref=\"contacts-using-contact-lists\">listas de "
+"contactos</link>."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -5477,8 +5513,8 @@ msgstr "Al realizar esta operación puede que pierda algunas de sus etiquetas."
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
-"id=550414\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
+"\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
@@ -8508,8 +8544,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?"
-"answer=77695\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
+"\">GMail Help</link> for more information."
 msgstr ""
 "Para acceder a GMail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -8708,9 +8744,6 @@ msgstr ""
 "la carpeta y el contenido se mostrará en la lista de correo-e."
 
 #: C/intro-main-window.page:69(p)
-#| msgid ""
-#| "For additional information, see <link linkend=\"third-step\">Sending "
-#| "Mail</link>."
 msgid ""
 "For more information see <link xref=\"mail-folders\">Using Folders</link>."
 msgstr ""
@@ -8745,9 +8778,6 @@ msgstr ""
 "tareas."
 
 #: C/intro-main-window.page:77(p)
-#| msgid ""
-#| "For more information, see <link linkend=\"Aal54a9\">Checking the Status "
-#| "of an Item You Have Sent</link>."
 msgid ""
 "For more information see <link xref=\"change-switcher-appearance\">Changing "
 "the Switcher appearance</link>."
