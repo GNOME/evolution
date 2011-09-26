@@ -1068,6 +1068,7 @@ typedef struct _SaveContext SaveContext;
 struct _SaveContext {
 	GSimpleAsyncResult *simple;
 	GFile *destination;
+	gchar *filename_prefix;
 	GFile *fresh_directory;
 	GFile *trash_directory;
 	GList *attachment_list;
@@ -1079,6 +1080,7 @@ struct _SaveContext {
 static SaveContext *
 attachment_store_save_context_new (EAttachmentStore *store,
                                    GFile *destination,
+				   const gchar *filename_prefix,
                                    GAsyncReadyCallback callback,
                                    gpointer user_data)
 {
@@ -1101,6 +1103,7 @@ attachment_store_save_context_new (EAttachmentStore *store,
 	save_context = g_slice_new0 (SaveContext);
 	save_context->simple = simple;
 	save_context->destination = g_object_ref (destination);
+	save_context->filename_prefix = g_strdup (filename_prefix);
 	save_context->attachment_list = attachment_list;
 	save_context->uris = uris;
 
@@ -1123,6 +1126,9 @@ attachment_store_save_context_free (SaveContext *save_context)
 		save_context->destination = NULL;
 	}
 
+	g_free (save_context->filename_prefix);
+	save_context->filename_prefix = NULL;
+	
 	if (save_context->fresh_directory) {
 		g_object_unref (save_context->fresh_directory);
 		save_context->fresh_directory = NULL;
@@ -1139,6 +1145,56 @@ attachment_store_save_context_free (SaveContext *save_context)
 }
 
 static void
+attachment_store_move_file (SaveContext *save_context, GFile *source, GFile *destination, GError **error)
+{
+	gchar *tmpl;
+	gchar *path;
+
+	g_return_if_fail (save_context != NULL);
+	g_return_if_fail (source != NULL);
+	g_return_if_fail (destination != NULL);
+	g_return_if_fail (error != NULL);
+
+	/* Attachments are all saved to a temporary directory.
+	 * Now we need to move the existing destination directory
+	 * out of the way (if it exists).  Instead of testing for
+	 * existence we'll just attempt the move and ignore any
+	 * G_IO_ERROR_NOT_FOUND errors. */
+
+	/* First, however, we need another temporary directory to
+	 * move the existing destination directory to.  Note we're
+	 * not actually creating the directory yet, just picking a
+	 * name for it.  The usual raciness with this approach
+	 * applies here (read up on mktemp(3)), but worst case is
+	 * we get a spurious G_IO_ERROR_WOULD_MERGE error and the
+	 * user has to try saving attachments again. */
+	tmpl = g_strdup_printf (PACKAGE "-%s-XXXXXX", g_get_user_name ());
+	path = e_mktemp (tmpl);
+	g_free (tmpl);
+
+	save_context->trash_directory = g_file_new_for_path (path);
+	g_free (path);
+
+	/* XXX No asynchronous move operation in GIO? */
+	g_file_move (
+		destination,
+		save_context->trash_directory,
+		G_FILE_COPY_NONE, NULL, NULL, NULL, error);
+
+	if (*error != NULL && !g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
+		return;
+
+	g_clear_error (error);
+
+	/* Now we can move the file from the temporary directory
+	 * to the user-specified destination. */
+	g_file_move (
+		source,
+		destination,
+		G_FILE_COPY_NONE, NULL, NULL, NULL, error);
+}
+
+static void
 attachment_store_save_cb (EAttachment *attachment,
                           GAsyncResult *result,
                           SaveContext *save_context)
@@ -1146,8 +1202,6 @@ attachment_store_save_cb (EAttachment *attachment,
 	GSimpleAsyncResult *simple;
 	GFile *file;
 	gchar **uris;
-	gchar *template;
-	gchar *path;
 	GError *error = NULL;
 
 	file = e_attachment_save_finish (attachment, result, &error);
@@ -1161,18 +1215,35 @@ attachment_store_save_cb (EAttachment *attachment,
 		/* Assemble the file's final URI from its basename. */
 		gchar *basename;
 		gchar *uri;
+		GFile *source = NULL, *destination = NULL;
 
 		basename = g_file_get_basename (file);
 		g_object_unref (file);
 
+		source = g_file_get_child (save_context->fresh_directory, basename);
+
+		if (save_context->filename_prefix && *save_context->filename_prefix) {
+			gchar *tmp = basename;
+
+			basename = g_strconcat (save_context->filename_prefix, basename, NULL);
+			g_free (tmp);
+		}
+
 		file = save_context->destination;
-		file = g_file_get_child (file, basename);
-		uri = g_file_get_uri (file);
-		g_object_unref (file);
+		destination = g_file_get_child (file, basename);
+		uri = g_file_get_uri (destination);
 
-		save_context->uris[save_context->index++] = uri;
+		/* move them file-by-file */
+		attachment_store_move_file (save_context, source, destination, &error);
 
-	} else if (error != NULL) {
+		if (!error)
+			save_context->uris[save_context->index++] = uri;
+
+		g_object_unref (source);
+		g_object_unref (destination);
+	}
+
+	if (error != NULL) {
 		/* If this is the first error, cancel the other jobs. */
 		if (save_context->error == NULL) {
 			g_propagate_error (&save_context->error, error);
@@ -1189,8 +1260,7 @@ attachment_store_save_cb (EAttachment *attachment,
 			g_warning ("%s", error->message);
 	}
 
-	if (error != NULL)
-		g_error_free (error);
+	g_clear_error (&error);
 
 	/* If there's still jobs running, let them finish. */
 	if (save_context->attachment_list != NULL)
@@ -1212,53 +1282,6 @@ attachment_store_save_cb (EAttachment *attachment,
 		return;
 	}
 
-	/* Attachments are all saved to a temporary directory.
-	 * Now we need to move the existing destination directory
-	 * out of the way (if it exists).  Instead of testing for
-	 * existence we'll just attempt the move and ignore any
-	 * G_IO_ERROR_NOT_FOUND errors. */
-
-	/* First, however, we need another temporary directory to
-	 * move the existing destination directory to.  Note we're
-	 * not actually creating the directory yet, just picking a
-	 * name for it.  The usual raciness with this approach
-	 * applies here (read up on mktemp(3)), but worst case is
-	 * we get a spurious G_IO_ERROR_WOULD_MERGE error and the
-	 * user has to try saving attachments again. */
-	template = g_strdup_printf (PACKAGE "-%s-XXXXXX", g_get_user_name ());
-	path = e_mktemp (template);
-	g_free (template);
-
-	save_context->trash_directory = g_file_new_for_path (path);
-	g_free (path);
-
-	/* XXX No asynchronous move operation in GIO? */
-	g_file_move (
-		save_context->destination,
-		save_context->trash_directory,
-		G_FILE_COPY_NONE, NULL, NULL, NULL, &error);
-
-	if (error != NULL && !g_error_matches (
-		error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)) {
-
-		simple = save_context->simple;
-		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete (simple);
-
-		attachment_store_save_context_free (save_context);
-		g_error_free (error);
-		return;
-	}
-
-	g_clear_error (&error);
-
-	/* Now we can move the first temporary directory containing
-	 * the newly saved files to the user-specified destination. */
-	g_file_move (
-		save_context->fresh_directory,
-		save_context->destination,
-		G_FILE_COPY_NONE, NULL, NULL, NULL, &error);
-
 	if (error != NULL) {
 		simple = save_context->simple;
 		g_simple_async_result_set_from_error (simple, error);
@@ -1268,6 +1291,9 @@ attachment_store_save_cb (EAttachment *attachment,
 		g_error_free (error);
 		return;
 	}
+
+	/* clean-up left directory */
+	g_file_delete (save_context->fresh_directory, NULL, NULL);
 
 	/* And the URI list. */
 	uris = save_context->uris;
@@ -1279,10 +1305,13 @@ attachment_store_save_cb (EAttachment *attachment,
 
 	attachment_store_save_context_free (save_context);
 }
-
+/*
+ * @filename_prefix: prefix to use for a file name; can be %NULL for none
+ **/
 void
 e_attachment_store_save_async (EAttachmentStore *store,
                                GFile *destination,
+			       const gchar *filename_prefix,
                                GAsyncReadyCallback callback,
                                gpointer user_data)
 {
@@ -1296,7 +1325,7 @@ e_attachment_store_save_async (EAttachmentStore *store,
 	g_return_if_fail (G_IS_FILE (destination));
 
 	save_context = attachment_store_save_context_new (
-		store, destination, callback, user_data);
+		store, destination, filename_prefix, callback, user_data);
 
 	attachment_list = save_context->attachment_list;
 

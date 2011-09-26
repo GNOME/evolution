@@ -43,6 +43,7 @@
 #include <e-util/gconf-bridge.h>
 #include <shell/e-shell.h>
 
+#include <libedataserver/e-data-server-util.h>
 #include <libecal/e-cal-client.h>
 #include <libecal/e-cal-client-view.h>
 
@@ -300,7 +301,7 @@ get_attachment_list (CompEditor *editor)
 	GSList *list = NULL;
 	const gchar *comp_uid = NULL;
 	const gchar *local_store;
-	gchar *path;
+	gchar *filename_prefix, *tmp;
 	gint ii;
 
 	struct {
@@ -309,6 +310,9 @@ get_attachment_list (CompEditor *editor)
 		GtkWindow *parent;
 	} status;
 
+	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
+	g_return_val_if_fail (comp_uid != NULL, NULL);
+
 	status.uris = NULL;
 	status.done = FALSE;
 	status.parent = g_object_ref (editor);
@@ -316,17 +320,20 @@ get_attachment_list (CompEditor *editor)
 	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
 
+	tmp = g_strdup (comp_uid);
+	e_filename_make_safe (tmp);
+	filename_prefix = g_strconcat (tmp, "-", NULL);
+	g_free (tmp);
+
 	local_store = e_cal_client_get_local_attachment_store (editor->priv->cal_client);
-	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
-	path = g_build_path ("/", local_store, comp_uid, NULL);
-	destination = g_file_new_for_path (path);
-	g_free (path);
+	destination = g_file_new_for_path (local_store);
 
 	e_attachment_store_save_async (
-		store, destination, (GAsyncReadyCallback)
-		attachment_save_finished, &status);
+		store, destination, filename_prefix,
+		(GAsyncReadyCallback) attachment_save_finished, &status);
 
 	g_object_unref (destination);
+	g_free (filename_prefix);
 
 	/* We can't return until we have results, so crank
 	 * the main loop until the callback gets triggered. */

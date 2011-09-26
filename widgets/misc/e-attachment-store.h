@@ -128,6 +128,7 @@ gboolean	e_attachment_store_load_finish	(EAttachmentStore *store,
 						 GError **error);
 void		e_attachment_store_save_async	(EAttachmentStore *store,
 						 GFile *destination,
+						 const gchar *filename_prefix,
 						 GAsyncReadyCallback callback,
 						 gpointer user_data);
 gchar **	e_attachment_store_save_finish	(EAttachmentStore *store,
