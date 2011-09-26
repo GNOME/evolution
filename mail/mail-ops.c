@@ -45,6 +45,7 @@
 
 #include "e-mail-local.h"
 #include "e-mail-session.h"
+#include "e-mail-session-utils.h"
 
 #define w(x)
 #define d(x)
@@ -707,6 +708,26 @@ mail_send_message (struct _send_queue_msg *m,
 					err, _("Failed to append to local 'Sent' folder: %s"),
 					local_error->message);
 			}
+		}
+	}
+
+	if (local_error == NULL) {
+		/* Mark the draft message for deletion, if present. */
+		e_mail_session_handle_draft_headers_sync (
+			m->session, message, cancellable, &local_error);
+		if (local_error != NULL) {
+			g_warning ("%s: Failed to handle draft headers: %s", G_STRFUNC, local_error->message);
+			g_clear_error (&local_error);
+		}
+
+		/* Set flags on the original source message, if present.
+		 * Source message refers to the message being forwarded
+		 * or replied to. */
+		e_mail_session_handle_source_headers_sync (
+			m->session, message, cancellable, &local_error);
+		if (local_error != NULL) {
+			g_warning ("%s: Failed to handle source headers: %s", G_STRFUNC, local_error->message);
+			g_clear_error (&local_error);
 		}
 	}
 
