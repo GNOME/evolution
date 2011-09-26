@@ -958,6 +958,18 @@ action_save_cb (GtkAction *action,
 		return;
 	}
 
+	if ((comp_editor_get_flags (editor) & COMP_EDITOR_IS_ASSIGNED) != 0
+	    && e_cal_component_get_vtype (priv->comp) == E_CAL_COMPONENT_TODO
+	    && e_client_check_capability (E_CLIENT (priv->cal_client), CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)) {
+		e_alert_submit (
+			E_ALERT_SINK (editor),
+			"calendar:prompt-no-task-assignment-editor",
+			e_source_peek_name (
+				e_client_get_source (E_CLIENT (priv->cal_client))),
+			NULL);
+		return;
+	}
+
 	commit_all_fields (editor);
 	if (e_cal_component_has_recurrences (priv->comp)) {
 		if (!recur_component_dialog (
@@ -2211,6 +2223,18 @@ prompt_and_save_changes (CompEditor *editor,
 					e_client_get_source (E_CLIENT (priv->cal_client))),
 				NULL);
 			/* don't discard changes when selected readonly calendar */
+			return FALSE;
+		}
+
+		if ((comp_editor_get_flags (editor) & COMP_EDITOR_IS_ASSIGNED) != 0
+		    && e_cal_component_get_vtype (priv->comp) == E_CAL_COMPONENT_TODO
+		    && e_client_check_capability (E_CLIENT (priv->cal_client), CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)) {
+			e_alert_submit (
+				E_ALERT_SINK (editor),
+				"calendar:prompt-no-task-assignment-editor",
+				e_source_peek_name (
+					e_client_get_source (E_CLIENT (priv->cal_client))),
+				NULL);
 			return FALSE;
 		}
 
