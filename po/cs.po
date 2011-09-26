@@ -3,7 +3,6 @@
 # Copyright (C) 2004, 2005, 2006 Miloslav Trmac <mitr@volny.cz>.
 # Copyright (C) 2006 Lukas Novotny <lukasnov@cvs.gnome.org>.
 # This file is distributed under the same license as the evolution package.
-#
 # Radka Doulíková <doulikova@centrum.cz>, 2002.
 # Michal Bukovjan <bukm@centrum.cz>, 2003.
 # Miloslav Trmac <mitr@volny.cz>, 2004, 2005, 2006.
@@ -14,17 +13,16 @@
 # Andre Klapper <ak-47@gmx.net>, 2009.
 # Marek Černocký <marek@manet.cz>, 2010.
 # Jiri Eischmann <jiri@eischmann.cz>, 2008, 2009, 2010, 2011.
-#
 #: ../shell/main.c:570
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-09-22 08:12+0000\n"
-"PO-Revision-Date: 2011-09-25 01:12+0200\n"
+"POT-Creation-Date: 2011-09-25 17:12+0000\n"
+"PO-Revision-Date: 2011-09-25 22:51+0200\n"
 "Last-Translator: Jiri Eischmann <jiri@eischmann.cz>\n"
-"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bits\n"
@@ -119,7 +117,7 @@ msgstr "Chyba při ukládání {0} do {1}: {2}"
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "Failed to authenticate with LDAP server."
-msgstr "Nelze se autentizovat u serveru LDAP."
+msgstr "Ověření totožnosti u serveru LDAP selhalo."
 
 #: ../addressbook/addressbook.error.xml.h:18
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1278
@@ -2462,7 +2460,7 @@ msgstr "Z_kopírovat obsah seznamu poznámek lokálně pro práci při odpojení
 
 #: ../calendar/gui/dialogs/calendar-setup.c:350
 msgid "Sh_ow reminder notifications"
-msgstr "Z_obrazovat oznámení s připomenutím"
+msgstr "Zobrazovat upozornění na připomínky"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:425
 msgid "Colo_r:"
@@ -11475,7 +11473,7 @@ msgstr "Použít stejné nasta_vení zobrazení pro všechny složky"
 #: ../mail/mail-config.ui.h:15
 #: ../modules/addressbook/addressbook-config.c:1088
 msgid "Authentication"
-msgstr "Ověření identity"
+msgstr "Ověření totožnosti"
 
 #: ../mail/mail-config.ui.h:16
 msgid "Automatically insert _emoticon images"
@@ -11842,7 +11840,7 @@ msgstr "Složka pro _odeslané zprávy:"
 
 #: ../mail/mail-config.ui.h:116
 msgid "Ser_ver requires authentication"
-msgstr "Server _vyžaduje autentizaci"
+msgstr "Server _vyžaduje ověření totožnosti"
 
 #: ../mail/mail-config.ui.h:117
 msgid "Server Configuration"
@@ -11959,7 +11957,7 @@ msgstr "_Vždy načítat obrázky z Internetu"
 
 #: ../mail/mail-config.ui.h:144
 msgid "_Authentication Type"
-msgstr "Typ _autentizace"
+msgstr "Typ _ověření totožnosti"
 
 #: ../mail/mail-config.ui.h:145
 msgid "_Direct connection to the Internet"
@@ -12622,7 +12620,8 @@ msgstr "Selhalo otevření složky."
 msgid ""
 "Failed to query server for a list of supported authentication mechanisms."
 msgstr ""
-"Selhalo dotazování se serveru na seznam podporovaných mechanismů autentizace."
+"Selhalo dotazování se serveru na seznam podporovaných mechanismů oveření "
+"totožnosti."
 
 #: ../mail/mail.error.xml.h:67
 msgid "Failed to remove attachments from messages."
@@ -12701,7 +12700,7 @@ msgstr "Ignorovat"
 
 #: ../mail/mail.error.xml.h:84
 msgid "Invalid authentication"
-msgstr "Neplatná autentizace"
+msgstr "Neplatné ověřování totožnosti"
 
 #: ../mail/mail.error.xml.h:85
 msgid "Mail Deletion Failed"
@@ -12793,7 +12792,9 @@ msgstr "Problém při převodu staré složky pošty „{0}“."
 
 #: ../mail/mail.error.xml.h:103
 msgid "Querying server for a list of supported authentication mechanisms."
-msgstr "Dotazování se serveru na seznam podporovaných mechanismů autentizace."
+msgstr ""
+"Dotazování se serveru na seznam podporovaných mechanismů ověřování "
+"totožnosti."
 
 #: ../mail/mail.error.xml.h:104
 msgid "Read receipt requested."
@@ -12910,7 +12911,7 @@ msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
 msgstr ""
-"Tento server nepodporuje tento typ autentizaci a možná autentizaci "
+"Tento server nepodporuje tento typ ověření totožnosti a možná ověření "
 "nepodporuje vůbec."
 
 #: ../mail/mail.error.xml.h:132
@@ -13290,9 +13291,9 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your LDAP "
 "server."
 msgstr ""
-"Toto je metoda, kterou aplikace Evolution použije pro vaši autentizaci. "
-"Uvědomte si, že použití volby „E-mailová adresa“ vyžaduje anonymní přístup k "
-"vašemu serveru LDAP."
+"Toto je metoda, kterou aplikace Evolution použije pro ověření vaší "
+"totožnosti. Uvědomte si, že použití volby „E-mailová adresa“ vyžaduje "
+"anonymní přístup k vašemu serveru LDAP."
 
 #: ../modules/addressbook/addressbook-config.c:962
 msgid ""
@@ -13969,7 +13970,7 @@ msgstr "minut"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:22
 msgid "Publishing Information"
-msgstr "Zveřejňování informací"
+msgstr "Informace o zveřejnění"
 
 #. Sunday
 #: ../modules/calendar/e-calendar-preferences.ui.h:25
@@ -16504,7 +16505,8 @@ msgstr ""
 
 #: ../plugins/caldav/caldav-browse-server.c:214
 msgid "Authentication failed. Server requires correct login."
-msgstr "Autentizace selhalo. Server požaduje správné přihlašovací údaje."
+msgstr ""
+"Ověření totožnosti selhalo. Server požaduje správné přihlašovací údaje."
 
 #: ../plugins/caldav/caldav-browse-server.c:216
 msgid "Given URL cannot be found."
@@ -18858,10 +18860,10 @@ msgid ""
 "authentication_user\" GConf key, and the password is retrieved from either "
 "gnome-keyring or the ~/.gnome2_private/Evolution password file."
 msgstr ""
-"Pokud platí, připojení do proxy serveru vyžadují autentizaci. Uživatelské "
-"jméno je získáno z klíče GConf „/apps/evolution/shell/network_config/"
-"authentication_user“ a heslo je získáno buď z gnome-keyring nebo ze souboru "
-"hesla ~/.gnome2_private/Evolution."
+"Pokud platí, připojení do proxy serveru vyžadují ověření totožnosti. "
+"Uživatelské jméno je získáno z klíče GConf „/apps/evolution/shell/"
+"network_config/authentication_user“ a heslo je získáno buď z gnome-keyring "
+"nebo ze souboru hesla ~/.gnome2_private/Evolution."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Initial attachment view"
@@ -18900,7 +18902,7 @@ msgstr "Počítače bez proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:26
 msgid "Password to pass as authentication when doing HTTP proxying."
-msgstr "Heslo pro autentizaci během používání HTTP proxy."
+msgstr "Heslo pro ověření totožnosti při používání HTTP proxy."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:27
 msgid "Proxy configuration mode"
@@ -19058,7 +19060,7 @@ msgstr "Použít HTTP proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:55
 msgid "Username to pass as authentication when doing HTTP proxying."
-msgstr "Uživatelské jméno pro autentizaci během používání HTTP proxy."
+msgstr "Uživatelské jméno pro ověření totožnosti při používání HTTP proxy."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:56
 msgid "Whether Evolution will start up in offline mode instead of online mode."
@@ -21334,3 +21336,12 @@ msgstr "Vybrat vše"
 #: ../widgets/text/e-text.c:2339
 msgid "Input Methods"
 msgstr "Vstupní metody"
+
+#~ msgid "Local Folders"
+#~ msgstr "Místní složky"
+
+#~ msgid "Alarms"
+#~ msgstr "Alarmy"
+
+#~ msgid "Save as iCalendar..."
+#~ msgstr "Uložit jako iCalendar…"
