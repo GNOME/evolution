@@ -37,6 +37,7 @@
 #include <libecal/e-cal-client.h>
 #include <libecal/e-cal-component.h>
 #include <libedataserver/e-account.h>
+#include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-flag.h>
 #include <libedataserverui/e-source-selector-dialog.h>
 #include <libedataserverui/e-client-utils.h>
@@ -400,8 +401,8 @@ set_attachments (ECalClient *client,
 	GSList *uri_list = NULL;
 	const gchar *comp_uid = NULL;
 	const gchar *local_store;
+	gchar *filename_prefix, *tmp;
 	gint ii, n_parts;
-	gchar *path;
 	struct _att_async_cb_data cb_data;
 
 	cb_data.flag = e_flag_new ();
@@ -416,11 +417,15 @@ set_attachments (ECalClient *client,
 		return;
 
 	e_cal_component_get_uid (comp, &comp_uid);
-	local_store = e_cal_client_get_local_attachment_store (client);
-	path = g_build_path ("/", local_store, comp_uid, NULL);
+	g_return_if_fail (comp_uid != NULL);
 
-	destination = g_file_new_for_path (path);
-	g_free (path);
+	tmp = g_strdup (comp_uid);
+	e_filename_make_safe (tmp);
+	filename_prefix = g_strconcat (tmp, "-", NULL);
+	g_free (tmp);
+
+	local_store = e_cal_client_get_local_attachment_store (client);
+	destination = g_file_new_for_path (local_store);
 
 	/* Create EAttachments from the MIME parts and add them to the
 	 * attachment store. */
@@ -457,8 +462,10 @@ set_attachments (ECalClient *client,
 	e_flag_clear (cb_data.flag);
 
 	e_attachment_store_save_async (
-		store, destination, (GAsyncReadyCallback)
-		attachment_save_finished, &cb_data);
+		store, destination, filename_prefix,
+		(GAsyncReadyCallback) attachment_save_finished, &cb_data);
+
+	g_free (filename_prefix);
 
 	/* We can't return until we have results. */
 	e_flag_wait (cb_data.flag);
