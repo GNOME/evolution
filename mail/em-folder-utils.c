@@ -691,6 +691,18 @@ em_folder_utils_get_icon_name (guint32 flags)
 		case CAMEL_FOLDER_TYPE_SENT:
 			icon_name = "mail-sent";
 			break;
+		case CAMEL_FOLDER_TYPE_CONTACTS:
+			icon_name = "x-office-address-book";
+			break;
+		case CAMEL_FOLDER_TYPE_EVENTS:
+			icon_name = "x-office-calendar";
+			break;
+		case CAMEL_FOLDER_TYPE_MEMOS:
+			icon_name = "evolution-memos";
+			break;
+		case CAMEL_FOLDER_TYPE_TASKS:
+			icon_name = "evolution-tasks";
+			break;
 		default:
 			if (flags & CAMEL_FOLDER_SHARED_TO_ME)
 				icon_name = "stock_shared-to-me";
