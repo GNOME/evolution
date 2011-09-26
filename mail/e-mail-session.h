@@ -116,6 +116,7 @@ CamelFolder *	e_mail_session_uri_to_folder_finish
 
 void		mail_session_flush_filter_log	(EMailSession *session);
 const gchar *	mail_session_get_data_dir	(void);
+const gchar *	mail_session_get_cache_dir	(void);
 const gchar *	mail_session_get_config_dir	(void);
 
 G_END_DECLS
