@@ -70,6 +70,7 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	ECalModel *model;
 	GtkRadioAction *action;
 	icaltimezone *timezone;
+	const gchar *default_tzloc = NULL;
 	struct icaltimetype current_time;
 	time_t start_range;
 	time_t end_range;
@@ -94,6 +95,11 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	timezone = e_cal_model_get_timezone (model);
 	current_time = icaltime_current_time_with_zone (timezone);
 	now_time = time_day_begin (icaltime_as_timet (current_time));
+
+	if (timezone && timezone != icaltimezone_get_utc_timezone ())
+		default_tzloc = icaltimezone_get_location (timezone);
+	if (!default_tzloc)
+		default_tzloc = "";
 
 	action = GTK_RADIO_ACTION (ACTION (CALENDAR_SEARCH_ANY_FIELD_CONTAINS));
 	value = gtk_radio_action_get_current_value (action);
@@ -165,9 +171,8 @@ cal_shell_view_execute_search (EShellView *shell_view)
 			end = isodate_from_time_t (end_range);
 
 			temp = g_strdup_printf (
-				"(and %s (occur-in-time-range? "
-				"(make-time \"%s\") (make-time \"%s\")))",
-				query, start, end);
+				"(and %s (occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\"))",
+				query, start, end, default_tzloc);
 			g_free (query);
 			query = temp;
 
@@ -181,9 +186,8 @@ cal_shell_view_execute_search (EShellView *shell_view)
 			end = isodate_from_time_t (end_range);
 
 			temp = g_strdup_printf (
-				"(and %s (occur-in-time-range? "
-				"(make-time \"%s\") (make-time \"%s\")))",
-				query, start, end);
+				"(and %s (occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\"))",
+				query, start, end, default_tzloc);
 			g_free (query);
 			query = temp;
 
