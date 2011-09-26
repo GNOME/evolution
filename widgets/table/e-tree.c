@@ -1156,7 +1156,7 @@ et_canvas_root_event (GnomeCanvasItem *root,
 /* Handler for focus events in the table_canvas; we have to repaint ourselves
  * and give the focus to some ETableItem.
  */
-static gint
+static gboolean
 table_canvas_focus_event_cb (GtkWidget *widget,
                              GdkEventFocus *event,
                              gpointer data)

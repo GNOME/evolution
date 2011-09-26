@@ -1208,7 +1208,7 @@ efhd_attachment_button (EMFormatHTML *efh,
 	/* If the button is created, then give it focus after
 	 * it is realized, so that user can use arrow keys to scroll
 	 * message */
-	if (efhd->priv->attachment_expanded || e_attachment_button_get_expanded (E_ATTACHMENT_BUTTON (widget))) {
+	if (efhd->priv->attachment_expanded) {
 		g_signal_connect (
 			widget, "realize",
 			G_CALLBACK (attachment_button_realized), NULL);
