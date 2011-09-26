@@ -160,6 +160,8 @@ if test "x${GCC}" = "xyes"; then
 	CFLAGS="$CFLAGS -fno-strict-aliasing"
 fi
 
+GLIB_GSETTINGS
+
 dnl ******************************
 dnl I18N stuff
 dnl ******************************
