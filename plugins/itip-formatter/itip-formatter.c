@@ -2326,7 +2326,7 @@ view_response_cb (GtkWidget *widget,
 				camel_message_info_free (mi);
 				if (tag) {
 					CamelStore *parent_store;
-					GSList *list = NULL;
+					GList *list = NULL;
 					const gchar *full_name;
 					gint i = 0, count;
 
@@ -2339,7 +2339,7 @@ view_response_cb (GtkWidget *widget,
 						if ( camel_message_info_user_tag (mi, "recurrence-key") && g_str_equal (camel_message_info_user_tag (mi, "recurrence-key"), tag)) {
 							camel_folder_summary_remove_uid_fast (pitip->folder->summary, (gchar *)(mi->uid));
 							camel_folder_change_info_remove_uid (changes, (gchar *) mi->uid);
-							list = g_slist_prepend (list, (gpointer) mi->uid);
+							list = g_list_prepend (list, (gpointer) mi->uid);
 
 							/* step back once to have the right index */
 							count--;
@@ -2351,7 +2351,7 @@ view_response_cb (GtkWidget *widget,
 					full_name = camel_folder_get_full_name (pitip->folder);
 					parent_store = camel_folder_get_parent_store (pitip->folder);
 					camel_db_delete_uids (parent_store->cdb_w, full_name, list, NULL);
-					g_slist_free (list);
+					g_list_free (list);
 				}
 			} else {
 				/* Either not a recurring appointment or "apply-to-all" is not selected. So just delete this instance alone */
