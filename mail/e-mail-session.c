@@ -101,6 +101,7 @@ enum {
 };
 
 static gchar *mail_data_dir;
+static gchar *mail_cache_dir;
 static gchar *mail_config_dir;
 
 #if 0
@@ -1220,12 +1221,16 @@ EMailSession *
 e_mail_session_new (void)
 {
 	const gchar *user_data_dir;
+	const gchar *user_cache_dir;
 
 	user_data_dir = mail_session_get_data_dir ();
+	user_cache_dir = mail_session_get_cache_dir ();
 
 	return g_object_new (
 		E_TYPE_MAIL_SESSION,
-		"user-data-dir", user_data_dir, NULL);
+		"user-data-dir", user_data_dir,
+		"user-cache-dir", user_cache_dir,
+		NULL);
 }
 
 MailFolderCache *
@@ -1598,6 +1603,16 @@ mail_session_get_data_dir (void)
 			e_get_user_data_dir (), "mail", NULL);
 
 	return mail_data_dir;
+}
+
+const gchar *
+mail_session_get_cache_dir (void)
+{
+	if (G_UNLIKELY (mail_cache_dir == NULL))
+		mail_cache_dir = g_build_filename (
+			e_get_user_cache_dir (), "mail", NULL);
+
+	return mail_cache_dir;
 }
 
 const gchar *
