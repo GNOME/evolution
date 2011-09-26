@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-26 13:58+0000\n"
-"PO-Revision-Date: 2011-09-26 20:34+0200\n"
+"PO-Revision-Date: 2011-09-26 20:52+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5800,15 +5800,14 @@ msgstr ""
 "salientes al usar esta cuenta y otras opciones."
 
 #: C/mail-encryption-gpg-set-up.page:38(p)
-#, fuzzy
 msgid ""
 "Evolution requires that you know your key ID. If you do not remember it, you "
 "can find it by typing <code>gpg --list-keys</code> in a terminal window. "
 "Your key ID is an eight-character string with random numbers and letters."
 msgstr ""
 "Evolution necesita que usted sepa su identificador (ID) de clave. Si no lo "
-"recuerda puede encontrarlo con el comando <command>gpg --list-keys</command> "
-"en un terminal. El identificador de clave es una cadena de 8 caracteres con "
+"recuerda puede encontrarlo con el comando <code>gpg --list-keys</code> en "
+"una terminal. El identificador de su clave es una cadena de 8 caracteres con "
 "números y letras aleatorios."
 
 #: C/mail-encryption-gpg-getting-keys.page:5(desc)
@@ -5831,7 +5830,6 @@ msgstr ""
 "necesitará obtener su clave y añadirla a su depósito de claves."
 
 #: C/mail-encryption-gpg-getting-keys.page:28(p)
-#, fuzzy
 msgid ""
 "To get public keys from a public key server, enter the command <code>gpg --"
 "recv-keys --keyserver wwwkeys.pgp.net keyid</code>, substituting "
@@ -5841,8 +5839,8 @@ msgstr ""
 "Para obtener claves públicas desde un servidor de claves públicas escriba el "
 "comando <code> gpg --recv-keys --keyserver wwwkeys.pgp.net keyid</code>, "
 "sustituyendo <code>keyid</code> por el identificador del destinatario. "
-"Necesitará escribir su contraseña y su identificador se añadirá "
-"automáticamente a su depósito de claves."
+"Necesitará escribir su contraseña y se añadirá automáticamente su "
+"identificador a su depósito de claves."
 
 #: C/mail-encryption-gpg-getting-keys.page:30(p)
 msgid ""
@@ -5977,7 +5975,6 @@ msgstr ""
 "1024g/289sklj3 2011-06-20 [expires: 2012-11-14]</code>"
 
 #: C/mail-encryption-gpg-create-key.page:43(p)
-#, fuzzy
 msgid ""
 "GPG creates one list, or keyring, for your public keys and one for your "
 "private keys. All the public keys you know are stored in the file <file>~/."
@@ -5986,8 +5983,8 @@ msgid ""
 msgstr ""
 "GPG creará una lista, o depósito de claves, con todas las claves públicas "
 "que tenga y otra para las privadas. Todas las claves públicas que conoce "
-"están guardadas en el archivo ~/.gnupg/pubring.gpg. Si quiere darle a "
-"alguien su clave, envíele éste archivo."
+"están guardadas en el archivo <file>~/.gnupg/pubring.gpg</file>. Si quiere "
+"darle a alguien su clave, envíele éste archivo."
 
 #: C/mail-encryption-gpg-create-key.page:44(p)
 msgid "If you want, you can upload your keys to a key server:"
@@ -6004,7 +6001,6 @@ msgstr ""
 "empieza con <code>pub</code>. En este ejemplo es <code>32j38dk2</code>."
 
 #: C/mail-encryption-gpg-create-key.page:47(p)
-#, fuzzy
 msgid ""
 "Enter the command <code>gpg --send-keys --keyserver wwwkeys.pgp.net "
 "32j38dk2</code>. Substitute your key ID for <code>32j38dk2</code>. You need "
@@ -6030,13 +6026,12 @@ msgstr ""
 "central cuando ellos quieran."
 
 #: C/mail-encryption-gpg-create-key.page:51(p)
-#, fuzzy
 msgid ""
 "If you don't have a key to unlock or encrypt a message, you can set your "
 "encryption tool to look it up automatically. If it cannot find the key, an "
 "error message appears."
 msgstr ""
-"Si no tiene una clave para desbloquear un mensaje cifrado, puede ajustar su "
+"Si no tiene una clave para desbloquear un mensaje cifrado puede ajustar su "
 "herramienta de cifrado para buscarla automáticamente. Si no puede encontrar "
 "la clave se mostrará un mensaje de error."
 
@@ -6053,7 +6048,6 @@ msgid "Removing duplicate emails"
 msgstr "Quitar mensajes duplicados"
 
 #: C/mail-duplicates.page:28(p)
-#, fuzzy
 msgid ""
 "To remove duplicate emails in a folder, select multiple messages (or select "
 "all messages in a folder by clicking <guiseq><gui>Edit</gui><gui>Select All</"
@@ -6061,8 +6055,11 @@ msgid ""
 "click <guiseq><gui>Message</gui><gui>Remove Duplicate Messages</gui></"
 "guiseq>."
 msgstr ""
-"Para borrar permanentemente todos los mensajes borrados en una carpeta, "
-"pulse Carpeta &gt; Purgar o pulse Ctrl+E."
+"Para quitar correos duplicados en una carpeta seleccione varios mensajes (o "
+"seleccione todos los mensajes en una carpeta pulsando <guiseq><gui>Editar</"
+"gui><gui>Seleccionar todo</gui></guiseq> o pulsando <keyseq><key>Ctrl</"
+"key><key>A</key></keyseq>) y pulse <guiseq><gui>Mensaje</gui><gui>Quitar "
+"correos duplicados</gui></guiseq>."
 
 #: C/mail-duplicates.page:33(title)
 msgid "Reasons"
@@ -6096,9 +6093,8 @@ msgid "Display a picture of the sender in the message header area."
 msgstr "Mostrar la foto del remitente en el panel de lectura de mensajes."
 
 #: C/mail-displaying-sender-photograph.page:23(title)
-#, fuzzy
 msgid "Photograph Message Headers"
-msgstr "Cabeceras de mensajes contraíbles"
+msgstr "Cabecera de mensaje con fotografía"
 
 #. TODO: Check and describe whether this requires enabling <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Face</gui></guiseq>!
 #: C/mail-displaying-sender-photograph.page:27(p)
@@ -6191,7 +6187,6 @@ msgid "Images in HTML messages"
 msgstr "Imágenes en mensajes HTML"
 
 #: C/mail-displaying-images-in-html.page:30(p)
-#, fuzzy
 msgid ""
 "When someone sends you HTML mail that includes an image in the body of the "
 "message (for example, the welcome message in your Inbox), Evolution displays "
@@ -6199,10 +6194,7 @@ msgid ""
 msgstr ""
 "Cuando alguien le envía un mensaje HTML que una imagen en su interior (por "
 "ejemplo el mensaje de bienvenida que encontrará en la Bandeja de entrada) "
-"Evolution mostrará la imagen dentro del mensaje. También puede crear "
-"mensajes como este usando la herramienta de insertar imágenes del "
-"compositor. Alternativamente, sólo arrastre una imagen dentro del área de "
-"composición del mensaje."
+"Evolution mostrará la imagen dentro del mensaje."
 
 #: C/mail-displaying-images-in-html.page:33(title)
 msgid "Loading images"
@@ -6299,14 +6291,12 @@ msgid "Collapsible Message Headers"
 msgstr "Cabeceras de mensajes contraíbles"
 
 #: C/mail-displaying-collapsible-headers.page:25(p)
-#, fuzzy
 msgid ""
 "Evolution compresses the To, Cc and Bcc headers of received mail and shows "
 "only five addresses in the message preview."
 msgstr ""
 "Evolution comprime las cabeceras Para, Cc, Cco recibidas en los correos y "
-"muestra sólo direcciones limitadas. Puede establecer un límite en el número "
-"de direcciones para mostrar en el panel de vista previa."
+"muestra sólo direcciones limitadas."
 
 #: C/mail-displaying-collapsible-headers.page:27(p)
 msgid ""
@@ -6424,13 +6414,12 @@ msgstr ""
 "desactivado para esto."
 
 #: C/mail-delete-and-undelete.page:42(p)
-#, fuzzy
 msgid ""
 "If you have marked a message for deletion, undeleting it unmarks it, and the "
 "message is not shown anymore in the Trash folder."
 msgstr ""
 "Si ha marcado un mensaje para su eliminación, recuperándolo eliminará la "
-"marca y el mensaje se borrará de la carpeta Papelera."
+"marca y el mensaje ya no será visible en la carpeta Papelera."
 
 #: C/mail-default-folder-locations.page:5(desc)
 msgid "Changing the location of the Draft folder and Sent folder."
