@@ -110,9 +110,9 @@ struct _ECalModelPrivate {
 	gboolean in_modified;
 	gboolean in_removed;
 
-	GSList *notify_added;
-	GSList *notify_modified;
-	GSList *notify_removed;
+	GHashTable *notify_added;
+	GHashTable *notify_modified;
+	GHashTable *notify_removed;
 
 	GMutex *notify_lock;
 
@@ -443,6 +443,10 @@ cal_model_finalize (GObject *object)
 
 	g_mutex_free (priv->notify_lock);
 
+	g_hash_table_destroy (priv->notify_added);
+	g_hash_table_destroy (priv->notify_modified);
+	g_hash_table_destroy (priv->notify_removed);
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -710,9 +714,9 @@ e_cal_model_init (ECalModel *model)
 	model->priv->in_added = FALSE;
 	model->priv->in_modified = FALSE;
 	model->priv->in_removed = FALSE;
-	model->priv->notify_added = NULL;
-	model->priv->notify_modified = NULL;
-	model->priv->notify_removed = NULL;
+	model->priv->notify_added = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, NULL);
+	model->priv->notify_modified = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, NULL);
+	model->priv->notify_removed = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, NULL);
 	model->priv->notify_lock = g_mutex_new ();
 
 	model->priv->loading_clients = g_cancellable_new ();
@@ -2503,20 +2507,26 @@ process_event (ECalClientView *view,
                                    const GSList *objects,
                                    ECalModel *model),
                gboolean *in,
-               GSList **save_list,
+               GHashTable *save_hash,
                gpointer (*copy_fn) (gpointer data),
                void (*free_fn) (gpointer data))
 {
 	gboolean skip = FALSE;
 	const GSList *l;
 
+	g_return_if_fail (save_hash != NULL);
+
 	g_mutex_lock (model->priv->notify_lock);
 	if (*in) {
+		GSList *save_list = g_hash_table_lookup (save_hash, view);
+
 		skip = TRUE;
 		for (l = objects; l; l = l->next) {
 			if (l->data)
-				*save_list = g_slist_append (*save_list, copy_fn (l->data));
+				save_list = g_slist_append (save_list, copy_fn (l->data));
 		}
+
+		g_hash_table_insert (save_hash, g_object_ref (view), save_list);
 	} else {
 		*in = TRUE;
 	}
@@ -2530,20 +2540,34 @@ process_event (ECalClientView *view,
 	process_fn (view, objects, model);
 
 	g_mutex_lock (model->priv->notify_lock);
-	while (*save_list) {
-		GSList *copy = *save_list;
-		*save_list = NULL;
+	while (g_hash_table_size (save_hash)) {
+		gpointer key = NULL, value = NULL;
+		GHashTableIter iter;
+		GSList *save_list;
+
+		g_hash_table_iter_init (&iter, save_hash);
+		if (!g_hash_table_iter_next (&iter, &key, &value)) {
+			g_debug ("%s: Failed to get first item of the save_hash", G_STRFUNC);
+			break;
+		}
+
+		save_list = value;
+		view = g_object_ref (key);
+
+		g_hash_table_remove (save_hash, view);
+
 		g_mutex_unlock (model->priv->notify_lock);
 
 		/* do it */
-		process_fn (view, copy, model);
+		process_fn (view, save_list, model);
 
-		for (l = copy; l; l = l->next) {
+		for (l = save_list; l; l = l->next) {
 			if (l->data) {
 				free_fn (l->data);
 			}
 		}
-		g_slist_free (copy);
+		g_slist_free (save_list);
+		g_object_unref (view);
 
 		g_mutex_lock (model->priv->notify_lock);
 	}
@@ -2560,7 +2584,7 @@ client_view_objects_added_cb (ECalClientView *view,
 	process_event (
 		view, objects, model, process_added,
 		&model->priv->in_added,
-		&model->priv->notify_added,
+		model->priv->notify_added,
 		(gpointer (*)(gpointer)) icalcomponent_new_clone,
 		(void (*)(gpointer)) icalcomponent_free);
 }
@@ -2573,7 +2597,7 @@ client_view_objects_modified_cb (ECalClientView *view,
 	process_event (
 		view, objects, model, process_modified,
 		&model->priv->in_modified,
-		&model->priv->notify_modified,
+		model->priv->notify_modified,
 		(gpointer (*)(gpointer)) icalcomponent_new_clone,
 		(void (*)(gpointer)) icalcomponent_free);
 }
@@ -2586,7 +2610,7 @@ client_view_objects_removed_cb (ECalClientView *view,
 	process_event (
 		view, ids, model, process_removed,
 		&model->priv->in_removed,
-		&model->priv->notify_removed,
+		model->priv->notify_removed,
 		copy_comp_id, free_comp_id);
 }
 
