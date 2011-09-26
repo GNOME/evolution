@@ -521,7 +521,7 @@ mail_session_make_key (CamelService *service,
 	if (service != NULL)
 		key = camel_url_to_string (
 			camel_service_get_camel_url (service),
-			CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+			CAMEL_URL_HIDE_PARAMS);
 	else
 		key = g_strdup (item);
 

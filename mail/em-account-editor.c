@@ -4045,7 +4045,7 @@ forget_password_if_needed (EAccount *original_account,
 		if (!url)
 			return;
 
-		url_str = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+		url_str = camel_url_to_string (url, CAMEL_URL_HIDE_PARAMS);
 		if (url_str)
 			e_passwords_forget_password (NULL, url_str);
 
