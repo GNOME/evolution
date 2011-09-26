@@ -3160,20 +3160,24 @@ redo_queries (ECalModel *model)
 
 	if (priv->start != -1 && priv->end != -1) {
 		gchar *iso_start, *iso_end;
+		const gchar *default_tzloc = NULL;
 
 		iso_start = isodate_from_time_t (priv->start);
 		iso_end = isodate_from_time_t (priv->end);
 
+		if (priv->zone && priv->zone != icaltimezone_get_utc_timezone ())
+			default_tzloc = icaltimezone_get_location (priv->zone);
+		if (!default_tzloc)
+			default_tzloc = "";
+
 		if (priv->search_sexp) {
-			priv->full_sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\")"
-					"                           (make-time \"%s\"))"
-					"     %s)",
-					iso_start, iso_end,
+			priv->full_sexp = g_strdup_printf (
+					"(and (occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\") %s)",
+					iso_start, iso_end, default_tzloc,
 					priv->search_sexp ? priv->search_sexp : "");
 		} else {
-			priv->full_sexp = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\")"
-					"                           (make-time \"%s\"))",
-					iso_start, iso_end);
+			priv->full_sexp = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\")",
+					iso_start, iso_end, default_tzloc);
 		}
 
 		g_free (iso_start);
