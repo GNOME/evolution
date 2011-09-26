@@ -1,15 +1,16 @@
 # translation of evolution-help.master.po to Español
 # translation of evolution manual to spanish
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
-# Jorge González <jorgegonz@svn.gnome.org>, 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
+# 
+# Jorge González <jorgegonz@svn.gnome.org>, 2011., 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-18 19:18+0000\n"
-"PO-Revision-Date: 2011-09-24 15:03+0200\n"
+"POT-Creation-Date: 2011-09-26 13:58+0000\n"
+"PO-Revision-Date: 2011-09-26 20:34+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1382,7 +1383,6 @@ msgid "Enabling Synchronization"
 msgstr "Activar la sincronización"
 
 #: C/sync-with-other-devices.page:38(p)
-#, fuzzy
 msgid ""
 "If you have not used a handheld device with your computer before, you need "
 "to configure it via <guiseq><gui>Edit</gui><gui>GNOME Pilot "
@@ -1395,16 +1395,16 @@ msgid ""
 "<file>ttyUSB0</file> and <file>ttyUSB1</file>. The second node is the one to "
 "be used in configuring the device."
 msgstr ""
-"Si nunca antes utilizó un dispositivo de mano junto con su equipo, ejecute "
-"la herramienta Centro de control de GNOME pulsando Sistema &gt; Preferencias "
-"y asegúrese de que la configuración de Pilot Link es correcta. Deberá "
-"asegurarse de que dispone de permisos de lectura y escritura sobre el "
-"dispositivo, habitualmente n /dev/pilot. Si esto no funciona, compruebe /dev/"
-"ttyS0 si tiene una conexión serie o /dev/ttyUSB1 en el caso de una conexión "
-"USB. Para ello, inicie una sesión root y añada su nombre de usuario al grupo "
-"que es propietario de este nodo de dispositivo. Para un dispositivo USB se "
-"crean dos nodos de dispositivo, ttyUSB0 y ttyUSB1. El segundo nodo es el que "
-"se debe usar al configurar el dispositivo."
+"Si nunca antes usó un dispositivo de mano en su equipo debe configurarlo a "
+"través de <guiseq><gui>Editar</gui><gui>Sincronización de GNOME Pilot...</"
+"gui></guiseq>. Deberá asegurarse de que dispone de permisos de lectura y "
+"escritura sobre el dispositivo, habitualmente en <file>/dev/pilot</file>. Si "
+"esto no funciona, compruebe <file>/dev/ttyS0</file> si tiene una conexión "
+"serie o <file>/dev/ttyUSB1</file> en el caso de una conexión USB. Para ello, "
+"inicie una sesión root y añada su nombre de usuario al grupo que es "
+"propietario de este nodo de dispositivo. Para un dispositivo USB se crean "
+"dos nodos de dispositivo, <file>ttyUSB0</file> y <file>ttyUSB1</file>. El "
+"segundo nodo es el que se debe usar al configurar el dispositivo."
 
 #: C/sync-with-other-devices.page:41(title)
 msgid "Selecting Conduits"
@@ -1582,6 +1582,13 @@ msgid ""
 "gnome.org/page.cgi?id=bug-writing.html\">Bug Writing Guidelines</link> for "
 "more information."
 msgstr ""
+"La información exacta es bienvenida al informar de errores, ya que hace más "
+"sencillo a los demás reproducir el error y solucionarlo. Si es posible, "
+"incluya la información de la versión de Evolution (bajo <guiseq><gui>Ayuda</"
+"gui><gui>Índice</gui></guiseq>), su distribución y los pasos exactos para "
+"reproducir el problema paso a paso. Para obtener más información consulte la "
+"<link href=\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">guía "
+"para informar de un error</link>."
 
 #: C/problems-getting-help.page:5(desc)
 msgid "How to get help for problems."
@@ -1927,6 +1934,11 @@ msgid ""
 "gui><gui>Use the same fonts as other applications</gui></guiseq> is enabled "
 "but Evolution still uses different fonts than other parts of the system."
 msgstr ""
+"En la versión 3.0 puede suceder que <guiseq><gui>Editar</"
+"gui><gui>Preferencias</gui><gui>Opciones de correo</gui><gui>General</"
+"gui><gui>Tipografías del mensaje</gui><gui>Usar las mismas tipografías que "
+"en otras aplicaciones</gui></guiseq> esté activada pero aún así Evolution "
+"use diferentes tipografías que otras partes del sistema."
 
 #: C/mail-wrong-fonts-in-3-0.page:25(p)
 msgid ""
@@ -1939,6 +1951,14 @@ msgid ""
 "gui><gui>Message Display</gui><gui>Use the same fonts as other applications</"
 "gui></guiseq>."
 msgstr ""
+"Este error está solucionado desde la versión 3.0.3 de Evolution (series "
+"estables) y desde la 3.1.4 (series de desarrollo inestables) en adelante. Si "
+"no es el caso, añada un comentario al correspondiente <link href=\"https://"
+"bugzilla.gnome.org/show_bug.cgi?id=655002\">informe de error</link> Note que "
+"desde la versión 3.2 y siguientes este ajuste se encuentra bajo "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Preferencias del "
+"correo</gui><gui>General</gui><gui>Mostrado de mensajes</gui><gui>Usar las "
+"mismas tipografías que en otras aplicaciones</gui></guiseq>."
 
 #: C/mail-working-offline.page:5(desc)
 msgid "Work with your mail while not being connected to the network."
@@ -2000,7 +2020,6 @@ msgid "Syncing messages for offline usage"
 msgstr "Sincronizar mensajes para su uso desconectado"
 
 #: C/mail-working-offline.page:40(p)
-#, fuzzy
 msgid ""
 "Your connection status is shown by the small icon in the lower left corner "
 "of the Evolution main window. When you are online, it displays two connected "
@@ -2012,7 +2031,10 @@ msgstr ""
 "El estado de la conexión lo muestra un icono en la esquina inferior "
 "izquierda de la ventana principal de Evolution. Cuando está conectado "
 "mostrará dos cables enchufados. Cuando esté desconectado los cables estarán "
-"desenchufados."
+"desenchufados. Al desconectarse a través del icono o a través de "
+"<guiseq><gui>Archivo</gui><gui>Trabajar desconectado</gui></guiseq> los "
+"cables se separan. Se le preguntará si quiere desconectarse inmediatamente o "
+"sincronizar sus carpetas localmente antes de desconectarse."
 
 #: C/mail-working-offline.page:41(p)
 msgid ""
@@ -2182,6 +2204,10 @@ msgid ""
 "\">Search folder</link>. It does not really exist but simply displays all "
 "the messages that are marked for deletion in any folders of that account."
 msgstr ""
+"La carpeta de <gui>Papelera</gui> de Evolution es una <link xref=\"mail-"
+"search-folders\">Carpeta de búsqueda</link>. Realmente no existe pero "
+"muestra todos los mensajes marcados para su eliminación en cualquier carpeta "
+"de la cuenta."
 
 #: C/mail-two-trash-folders.page:26(p)
 msgid ""
@@ -2189,6 +2215,9 @@ msgid ""
 "The Evolution <gui>Trash</gui> folder has a special icon whereas the other "
 "physical Trash folder looks like any other folder."
 msgstr ""
+"Puede comparar las dos carpetas de Papelera mirando los iconos. La carpeta "
+"de <gui>Papelera</gui> de Evolution tiene un icono especial mientras que la "
+"otra carpeta física de Papelera es igual a cualquier otra carpeta."
 
 #: C/mail-two-trash-folders.page:29(p)
 msgid ""
@@ -2213,6 +2242,10 @@ msgid ""
 "that they are installed via the software management tool of your "
 "distribution and you need enable their respective plugins."
 msgstr ""
+"Evolution le permite comprobar si hay mensajes SPAM usando las herramientas "
+"Bogofilter o SpamAssasin. Para usar estas herramientas debe asegurarse de "
+"que están instaladas a través de la herramienta de gestión de software de su "
+"distribución y necesita tener instalados sus correspondientes complementos."
 
 #: C/mail-spam-settings.page:31(link)
 msgid "Install bogofilter now."
@@ -2250,6 +2283,11 @@ msgid ""
 "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui "
 "style=\"button\">Edit</gui><gui>Receiving Options</gui></guiseq>."
 msgstr ""
+"Las opciones de SPAM comentadas en esta página sólo se refieren al correo "
+"POP y Entrega local. Para gestionar correos SPAM en cuentas IMAP consulte la "
+"configuración de Evolution en <guiseq><gui>Editar</gui><gui>Preferencias</"
+"gui><gui>Cuentas de correo</gui><gui style=\"button\">Editar</"
+"gui><gui>Opciones de recepción</gui></guiseq>."
 
 #: C/mail-spam-settings.page:44(title)
 msgid "Junk Mail Preferences"
@@ -2369,9 +2407,13 @@ msgid ""
 "folder frequently to be sure that legitimate mail doesn't get flagged as "
 "junk mail."
 msgstr ""
+"El filtro de correo basura puede aprender qué tipos de correo son legítimos "
+"y cuáles no lo son si lo entrena marcando como SPAM el correo no deseado "
+"entrante. LLa primera vez que comienza a usar el bloqueo de correo no "
+"deseado, compruebe frecuentemente la carpeta de SPAM para asegurarse de que "
+"el correo legítimo no se marca como SPAM."
 
 #: C/mail-spam-marking.page:30(p)
-#, fuzzy
 msgid ""
 "If legitimate mail is incorrectly flagged, remove it from the Junk folder by "
 "right-clicking it and selecting <gui>Mark as Not Junk</gui> or pressing "
@@ -2381,15 +2423,14 @@ msgid ""
 "it, the filter can recognize similar messages in the future, and becomes "
 "more accurate as time goes on."
 msgstr ""
-"El filtro de correo basura puede aprender qué tipos de correo son legítimos "
-"y cuales no, si lo entrena. Cuando comience a usar el bloqueador de correo "
-"basura, compruebe la carpeta SPAM para asegurarse de que el correo legítimo "
-"no se marca como correo basura. Si el correo bueno se marca incorrectamente, "
-"quítelo de la carpeta SPAM pulsando con el botón derecho y seleccionando "
-"Marcar como no SPAM o pulsando Mayús+Ctrl+J. Si Evolution falla algún correo "
-"basura, pulse con el botón derecho sobre el mensaje, después pulse Marcar "
-"como SPAM o Ctrl+J. Cuando lo corrija, el filtro puede reconocer mensajes "
-"similares para el futuro y se hace más preciso a medida que pasa el tiempo."
+"Si el correo legítimo se marca incorrectamente, quítelo de la carpeta SPAM "
+"pulsando con el botón derecho y seleccionando <gui>Marcar como no SPAM</gui> "
+"o pulsando <keyseq><key>Mayús</key><key>Ctrl</key><key>J</key></keyseq>. Si "
+"Evolution no detetca algún correo basura, pulse con el botón derecho sobre "
+"el mensaje, después pulse <gui>Marcar como SPAM</gui> o <keyseq><key>Ctrl</"
+"key><key>J</key></keyseq>. Cuando lo corrija, el filtro puede reconocer "
+"mensajes similares para el futuro y se hace más preciso a medida que pasa el "
+"tiempo."
 
 #: C/mail-spam-marking.page:31(p)
 msgid ""
@@ -2397,6 +2438,9 @@ msgid ""
 "the menu bar; you can flag mail in the junk folder as \"Not Junk\" by "
 "selecting it and clicking the <gui>Not Junk</gui> icon."
 msgstr ""
+"También puede marcar correo como SPAM seleccionándolo y pulsando el icono de "
+"SPAM en la barra de menú; puede marcar correo en la carpeta de SPAM como «No "
+"es SPAM» seleccionándolo y pulsando el icono <gui>No es SPAM</gui>."
 
 #: C/mail-spam-marking.page:32(p)
 msgid ""
@@ -2578,6 +2622,10 @@ msgid ""
 "Source</gui></guiseq> or press <keyseq><key>Ctrl</key><key>U</key></keyseq>. "
 "This will display the message data in a pop-up window."
 msgstr ""
+"Para ver todos los datos del correo pulse en <guiseq><gui>Ver</"
+"gui><gui>Mensaje en bruto</gui></guiseq> o pulse <keyseq><key>Ctrl</"
+"key><key>U</key></keyseq>. Se mostrarán todos los datos del mensaje en una "
+"ventana emergente."
 
 #: C/mail-sorting-message-list.page:35(title)
 msgid "Sorting Mail in Email Threads"
@@ -2589,6 +2637,10 @@ msgid ""
 "click on <guiseq><gui>View</gui><gui>Group By Threads</gui></guiseq> or "
 "press <keyseq><key>Ctrl</key><key>T</key></keyseq>."
 msgstr ""
+"Puede usar mensajes por conversaciones para ordenar los correos "
+"electrónicos. Para activar esta opción pulse en <guiseq><gui>Ver</"
+"gui><gui>Agrupar por conversaciones</gui></guiseq> o pulse "
+"<keyseq><key>Ctrl</key><key>T</key></keyseq>."
 
 #: C/mail-sorting-message-list.page:37(p)
 msgid ""
@@ -2617,6 +2669,10 @@ msgid ""
 "is enabled by default and may be modified at /apps/evolution/mail/display/"
 "thread_expand."
 msgstr ""
+"Para usuarios avanzados: existe una clave de GConf que le permite cambiar el "
+"estado de las conversaciones de correo electrónico entre contraídas y "
+"expandidas. El estado contraído está activado de forma predeterminada y se "
+"puede modificar en «/apps/evolution/mail/display/thread_expand»."
 
 #: C/mail-sorting-message-list.page:44(title)
 msgid "Sorting Mail with Column Headers"
@@ -2964,6 +3020,10 @@ msgid ""
 "only receive, click the small down-arrow next to the <gui style=\"button"
 "\">Send / Receive</gui> button and choose the corresponding option."
 msgstr ""
+"Para enviar y recibir correo sólo para una de sus cuentas de correo, o solo "
+"para enviar o recibir correo, pulse la pequeña flecha desplegable junto al "
+"botón <gui style=\"button\">Enviar / Recibir</gui> y elija la opción "
+"correspondiente."
 
 #: C/mail-send-and-receive-manual.page:23(p)
 msgid ""
@@ -2990,6 +3050,13 @@ msgid ""
 "style=\"button\">Edit</gui><gui>Receiving Email</gui></guiseq>) and select "
 "the frequency in minutes."
 msgstr ""
+"Si quiere que Evolution compruebe automáticamente si hay correos nuevos "
+"actíve la opción <gui>Comprobar si hay mensajes nuevos cada ... minutos</"
+"gui> en la página <gui>Recepción de correo</gui> de la configuración de la "
+"cuenta (accesible a través de <guiseq><gui>Editar</gui><gui>Preferencias</"
+"gui><gui>Cuentas de correo</gui><gui style=\"button\">Editar</"
+"gui><gui>Recepción de correo</gui></guiseq>) y seleccione la frecuencia en "
+"minutos."
 
 #: C/mail-searching.page:5(desc)
 msgid "Searching messages."
@@ -3072,6 +3139,9 @@ msgid ""
 "new email arrived or since an email was deleted, for example. This will mean "
 "that the list of emails in the folder is not up-to-date."
 msgstr ""
+"Puede suceder que una de sus carpetas de búsqueda no se ha actualizado desde "
+"que llegó correo nuevo o desde que se eliminó un correo. Esto significa que "
+"la lista de correos electrónicos en la carpeta no está actualizada."
 
 #: C/mail-search-folders-refresh.page:28(p)
 msgid ""
@@ -3101,9 +3171,12 @@ msgid ""
 "you find yourself performing the same <link xref=\"mail-searching\">search</"
 "link> again and again, consider a search folder."
 msgstr ""
+"Si los <link xref=\"mail-filters\">filtros</link> no son lo suficientemente "
+"flexibles o se encuentra a si mismo realizando la misma <link xref=\"mail-"
+"searching\">búsqueda</link> una y otra vez, considere crear una carpeta de "
+"búsqueda."
 
 #: C/mail-search-folders.page:26(p)
-#, fuzzy
 msgid ""
 "A search folder looks like a <link xref=\"mail-folders\">folder</link>, it "
 "acts like a <link xref=\"mail-searching\">search</link>, and you set it up "
@@ -3113,13 +3186,14 @@ msgid ""
 "determined on the fly using a set of criteria that you have chosen when "
 "setting up the search folder."
 msgstr ""
-"Una carpeta de búsqueda es realmente un híbrido de todas las demás "
-"herramientas de organización: es parecido a una carpeta, opera como una "
-"función de búsqueda y se configura como un filtro. En otras palabras, "
-"mientras una carpeta convencional contiene mensajes reales, una carpeta "
-"virtual es una vista de mensajes que pueden estar ubicados en carpetas "
-"diferentes. Los mensajes incluidos son identificados al vuelo mediante un "
-"conjunto de criterios elegidos de antemano."
+"Una carpeta de <link xref=\"mail-folders\">búsqueda</link> es realmente un "
+"híbrido de todas las demás herramientas de organización: es parecido a una "
+"carpeta, opera como una función <link xref=\"mail-searching\">búsqueda</"
+"link> y se configura como un filtro. En otras palabras, mientras una carpeta "
+"convencional contiene mensajes reales, una carpeta virtual es una vista de "
+"mensajes que pueden estar ubicados en carpetas diferentes. Los mensajes "
+"incluidos son identificados al vuelo mediante un conjunto de criterios "
+"elegidos de antemano."
 
 #: C/mail-search-folders.page:28(p)
 msgid ""
@@ -3139,7 +3213,6 @@ msgstr ""
 "criterios satisfechos por las demás carpetas de búsqueda."
 
 #: C/mail-search-folders.page:32(p)
-#, fuzzy
 msgid ""
 "If you use remote email storage like IMAP, and have created search folders "
 "to search through them, the <gui>Unmatched</gui> search folder also searches "
@@ -3147,11 +3220,11 @@ msgid ""
 "remote mail stores, the <gui>Unmatched</gui> search folder does not search "
 "in them either."
 msgstr ""
-"Si usa un sistema de almacenamiento remoto como IMAP o Microsoft Exchange, y "
-"ha creado carpetas de búsqueda en ellos, la carpeta de búsqueda no "
-"coincidente también explora las carpetas en ellos. Si no crea ninguna "
-"carpeta de búsqueda que busque en almacenes de correo remotos, la carpeta de "
-"búsqueda No coincidente tampoco los buscará."
+"Si usa un sistema de almacenamiento remoto como IMAP y ha creado carpetas de "
+"búsqueda en ellos, la carpeta de búsqueda <gui>No coincidente</gui> también "
+"explora las carpetas en ellos. Si no crea ninguna carpeta de búsqueda que "
+"busque en almacenes de correo remotos, la carpeta de búsqueda <gui>No "
+"coincidente</gui> tampoco los buscará."
 
 #: C/mail-search-folders-conditions.page:5(desc)
 msgid "Available conditions for setting up search folders."
@@ -3249,7 +3322,6 @@ msgstr ""
 
 #: C/mail-search-folders-conditions.page:46(p)
 #: C/mail-filters-conditions.page:46(p)
-#, fuzzy
 msgid ""
 "If a message uses a header more than once, Evolution pays attention only to "
 "the first instance, even if the message defines the header differently the "
@@ -3261,10 +3333,10 @@ msgstr ""
 "Si en un mensaje aparece más de una vez la misma cabecera, Evolution sólo se "
 "fija en la primera, aunque en la segunda el contenido sea diferente. Por "
 "ejemplo, si un mensaje declara la cabecera Reenviado-De: con "
-"<quote>engineering@rupertcorp.com</quote>» y a continuación la redefine como "
-"<quote>marketing@rupertcorp.com</quote>, Evolution aplicará el filtro como "
-"si la segunda declaración no apareciera. Para filtrar mensajes que utilizan "
-"varias cabeceras varias veces, utilice una expresión regular."
+"«ingeniero@ejemplo.es» y a continuación la redefine como «marketing@ejemplo."
+"es», Evolution aplicará el filtro como si la segunda declaración no "
+"apareciera. Para filtrar mensajes que utilizan varias cabeceras varias veces "
+"use una expresión regular."
 
 #: C/mail-search-folders-conditions.page:48(p)
 #: C/mail-filters-conditions.page:48(p)
@@ -3450,7 +3522,6 @@ msgstr "Coincide con la expresión regular:"
 
 #: C/mail-search-folders-conditions.page:85(p)
 #: C/mail-filters-conditions.page:85(p)
-#, fuzzy
 msgid ""
 "(For programmers only) If you know your way around a <link href=\"https://"
 "secure.wikimedia.org/wikipedia/en/wiki/Regular_expression\">regex</link>, or "
@@ -3460,13 +3531,14 @@ msgid ""
 "that declare a particular header twice. For information about how to use "
 "regular expressions, check the man page for the grep command."
 msgstr ""
-"Si sabe lo que se hace con las <link linkend=\"regular-expression"
-"\">expresiones regulares</link>, saque provecho aquí de su poderío, esta "
-"opción le permite hacer búsquedas de patrones complejos de letras de manera "
-"que, por ejemplo, podría encontrar todas las palabras que empiezan o acaban "
-"con m y tienen entre seis y quince letras de longitud, o distinguir todos "
-"los mensajes que tengan duplicada una determinada cabecera. Para saber cómo "
-"usar las expresiones regulares examine la página del manual del comando grep."
+"(Sólo para programadores) Si sabe lo que se hace con las <link href=\"http://"
+"es.wikipedia.org/wiki/Expresi%C3%B3n_regular\">expresiones regulares</link>, "
+"saque provecho aquí de su poderío, esta opción le permite hacer búsquedas de "
+"patrones complejos de letras de manera que, por ejemplo, podría encontrar "
+"todas las palabras que empiezan o acaban con «m» y tienen entre seis y "
+"quince letras de longitud, o distinguir todos los mensajes que tengan "
+"duplicada una determinada cabecera. Para saber cómo usar las expresiones "
+"regulares examine la página del manual del comando «grep»."
 
 #: C/mail-search-folders-conditions.page:87(p)
 msgid "Message Location:"
@@ -3525,6 +3597,9 @@ msgid ""
 "gui> if any or if all conditions have to apply, and click <gui style=\"button"
 "\">Add Condition</gui> and repeat the previous step."
 msgstr ""
+"Si quiere definir varias condiciones, defínalas bajo <gui>Buscar elementos</"
+"gui> si se debe aplicar una o todas las condiciones y pulse <gui style="
+"\"button\">Añadir condición</gui> y repita el paso anterior."
 
 #: C/mail-search-folders-add.page:31(p)
 msgid ""
@@ -3680,6 +3755,10 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
 "\">Edit</gui><gui>Receiving Email</gui></guiseq>):"
 msgstr ""
+"En la página <gui>Recepción de correo</gui> (accesible a través de "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Cuentas de correo</"
+"gui><gui style=\"button\">Editar</gui><gui>Recepción de correo</gui></"
+"guiseq>):"
 
 #: C/mail-receiving-options-usenet-news.page:31(p)
 #: C/mail-receiving-options-pop.page:35(p)
@@ -3771,6 +3850,10 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
 "\">Edit</gui><gui>Receiving Options</gui></guiseq>):"
 msgstr ""
+"En la página <gui>Recepción de correo</gui> (accesible a través de "
+"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Cuentas de correo</"
+"gui><gui style=\"button\">Editar</gui><gui>Recepción de correo</gui></"
+"guiseq>):"
 
 #: C/mail-receiving-options-usenet-news.page:46(p)
 #: C/mail-receiving-options-unix-mbox-spool-file.page:39(p)
@@ -4129,6 +4212,10 @@ msgid ""
 "of contacts in GAL to be represented in the Evolution address book by <link "
 "xref=\"contacts-using-contact-lists\">contact lists</link>."
 msgstr ""
+"También tiene que definir el tipo de Autenticación y si quiere que los "
+"grupos de contactos en GAL se muestren en la libreta de direcciones de "
+"Evolution a través de <link xref=\"contacts-using-contact-lists\">listas de "
+"contactos</link>."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -4228,7 +4315,6 @@ msgid "Viewing an email"
 msgstr "Ver un correo"
 
 #: C/mail-reading-keyboard-shortcuts.page:28(p)
-#, fuzzy
 #| msgid ""
 #| "If you are not already viewing mail, switch to the mail tool by clicking "
 #| "the Mail shortcut button, or press Ctrl+1. To read a message, select it "
@@ -4240,10 +4326,10 @@ msgid ""
 "it, press <key>Enter</key>, or press <keyseq><key>Ctrl</key><key>O</key></"
 "keyseq>."
 msgstr ""
-"Si no está viendo ya el correo, cambie la la herramienta de correo pulsando "
-"en el botón Correo, o pulsando Ctrl+1. Para leer un mensaje, selecciónelo en "
-"la lista de mensajes, si quiere verlo en su propia ventana, puede o bien "
-"pulsar dos veces en él, pulsar Intro o pulsar Ctrl+O."
+"Puede leer un correo seleccionándolo en la ventana de la lista de correos. "
+"Si quiere ver el correo en su propia ventana puede pulsar dos veces sobre el "
+"correo, pulsar <key>Intro</key> o pulsar <keyseq><key>Ctrl</key><key>O</"
+"key></keyseq>."
 
 #: C/mail-reading-keyboard-shortcuts.page:32(title)
 msgid "Navigating in a message"
@@ -4274,7 +4360,6 @@ msgid "Navigating in a folder's unread mail in the message list"
 msgstr "Navegar en el correo no leído en una carpeta en la lista de mensajes"
 
 #: C/mail-reading-keyboard-shortcuts.page:43(p)
-#, fuzzy
 msgid ""
 "To go to the next or previous unread messages, press the period (<key>.</"
 "key>) or comma (<key>,</key>) keys. On some keyboards, these keys are also "
@@ -4284,13 +4369,13 @@ msgid ""
 "the next unread message, and the left square bracket (<key>[</key>) for the "
 "previous unread message."
 msgstr ""
-"Navegue por la lista de mensajes usando las teclas de flechas en el teclado. "
-"Para ir al siguiente mensaje no leído o al anterior, pulse el punto (.) o la "
-"coma (,) respectivamente. En muchos teclados estas teclas también están "
-"marcadas con los símbolos &gt; y &lt;, una manera conveniente de recordarle "
-"que se mueve adelante y atrás en la lista de mensajes. También puede usar el "
-"corchete derecho (]) para el siguiente mensaje no leído y el corchete "
-"izquierdo ([) para el mensaje anterior no leído."
+"Para ir al siguiente mensaje no leído o al anterior, pulse el punto (<key>.</"
+"key>) o la coma (<key>,</key>) respectivamente. En muchos teclados estas "
+"teclas también están marcadas con los símbolos <key>&gt;</key> y <key>&lt;</"
+"key>, una manera conveniente de recordarle que se mueve adelante y atrás en "
+"la lista de mensajes. También puede usar el corchete derecho (<key>]</key>) "
+"para el siguiente mensaje no leído y el corchete izquierdo (<key>[</key>) "
+"para el mensaje anterior no leído."
 
 #: C/mail-reading-keyboard-shortcuts.page:47(title)
 msgid "Navigating in unread mail across folders"
@@ -4782,7 +4867,6 @@ msgstr ""
 "abril de 2003 a las 17:00»."
 
 #: C/mail-follow-up-flag.page:41(p)
-#, fuzzy
 msgid ""
 "Flags can help you organize your work in a number of ways. For example, you "
 "might <link xref=\"mail-change-columns-in-message-list\">add a Flag Status "
@@ -4792,11 +4876,12 @@ msgid ""
 "so the search folder contains only messages with upcoming deadlines."
 msgstr ""
 "Las marcas le pueden ayudar a organizar su correo de varias maneras. Por "
-"ejemplo, puede añadir a la lista de mensajes una columna de Marca de "
-"seguimiento y poder ordenarlos por ese campo. También puede crear una "
-"carpeta de búsqueda que muestre todos los mensajes marcados que tiene y "
-"quitarles las marcas cuando haya acabado, de manera que la carpeta sólo "
-"contenga mensajes pendientes."
+"ejemplo, puede <link xref=\"mail-change-columns-in-message-list\">añadir una "
+"columna de Marca de seguimiento</link> a la lista de mensajes y poder "
+"ordenarlos por ese campo. También puede crear una <link xref=\"mail-search-"
+"folders\">carpeta de búsqueda</link> que muestre todos los mensajes marcados "
+"que tiene y quitarles las marcas cuando haya acabado, de manera que la "
+"carpeta sólo contenga mensajes pendientes."
 
 #: C/mail-follow-up-flag.page:43(p)
 msgid ""
@@ -8708,9 +8793,6 @@ msgstr ""
 "la carpeta y el contenido se mostrará en la lista de correo-e."
 
 #: C/intro-main-window.page:69(p)
-#| msgid ""
-#| "For additional information, see <link linkend=\"third-step\">Sending "
-#| "Mail</link>."
 msgid ""
 "For more information see <link xref=\"mail-folders\">Using Folders</link>."
 msgstr ""
@@ -8745,9 +8827,6 @@ msgstr ""
 "tareas."
 
 #: C/intro-main-window.page:77(p)
-#| msgid ""
-#| "For more information, see <link linkend=\"Aal54a9\">Checking the Status "
-#| "of an Item You Have Sent</link>."
 msgid ""
 "For more information see <link xref=\"change-switcher-appearance\">Changing "
 "the Switcher appearance</link>."
