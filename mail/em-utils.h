@@ -26,6 +26,7 @@
 #include <gtk/gtk.h>
 #include <sys/types.h>
 #include <camel/camel.h>
+#include <libedataserver/e-proxy.h>
 
 #include <mail/e-mail-reader.h>
 #include <mail/e-mail-session.h>
@@ -66,7 +67,7 @@ gboolean	em_utils_folder_is_templates	(CamelFolder *folder);
 gboolean	em_utils_folder_is_sent		(CamelFolder *folder);
 gboolean	em_utils_folder_is_outbox	(CamelFolder *folder);
 
-gchar *em_utils_get_proxy_uri (const gchar *uri);
+EProxy *	em_utils_get_proxy		(void);
 
 /* FIXME: should this have an override charset? */
 gchar *em_utils_message_to_html (CamelMimeMessage *msg, const gchar *credits, guint32 flags, struct _EMFormat *source, const gchar *append, guint32 *validity_found);

@@ -1511,6 +1511,43 @@ emfh_getpuri (struct _EMFormatHTMLJob *job,
 }
 
 static void
+emfh_configure_stream_for_proxy (CamelHttpStream *stream,
+                                 const gchar *uri)
+{
+	EProxy *proxy;
+	SoupURI *proxy_uri;
+	gchar *basic;
+	gchar *basic64;
+	const gchar *user = "";
+	const gchar *password = "";
+
+	proxy = em_utils_get_proxy ();
+
+	if (!e_proxy_require_proxy_for_uri (proxy, uri))
+		return;
+
+	proxy_uri = e_proxy_peek_uri_for (proxy, uri);
+
+	if (proxy_uri == NULL)
+		return;
+
+	if (proxy_uri->user != NULL)
+		user = proxy_uri->user;
+
+	if (proxy_uri->password != NULL)
+		password = proxy_uri->password;
+
+	if (*user == '\0' && *password == '\0')
+		return;
+
+	basic = g_strdup_printf ("%s:%s", user, password);
+	basic64 = g_base64_encode ((guchar *) basic, strlen (basic));
+	camel_http_stream_set_proxy_authpass (stream, basic64);
+	g_free (basic64);
+	g_free (basic);
+}
+
+static void
 emfh_gethttp (struct _EMFormatHTMLJob *job,
               GCancellable *cancellable)
 {
@@ -1533,7 +1570,6 @@ emfh_gethttp (struct _EMFormatHTMLJob *job,
 
 	if (instream == NULL) {
 		EMailImageLoadingPolicy policy;
-		gchar *proxy;
 
 		policy = em_format_html_get_image_loading_policy (job->format);
 
@@ -1552,12 +1588,9 @@ emfh_gethttp (struct _EMFormatHTMLJob *job,
 		}
 
 		instream = camel_http_stream_new (CAMEL_HTTP_METHOD_GET, ((EMFormat *) job->format)->session, url);
-		camel_http_stream_set_user_agent((CamelHttpStream *)instream, "CamelHttpStream/1.0 Evolution/" VERSION);
-		proxy = em_utils_get_proxy_uri (job->u.uri);
-		if (proxy) {
-			camel_http_stream_set_proxy ((CamelHttpStream *) instream, proxy);
-			g_free (proxy);
-		}
+		camel_http_stream_set_user_agent((CamelHttpStream *) instream, "CamelHttpStream/1.0 Evolution/" VERSION);
+		emfh_configure_stream_for_proxy ((CamelHttpStream *) instream, job->u.uri);
+
 		camel_operation_push_message (
 			cancellable, _("Retrieving '%s'"), job->u.uri);
 		tmp_stream = (CamelHttpStream *) instream;
