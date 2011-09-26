@@ -464,7 +464,8 @@ mergeit (EContactMergingLookup *lookup)
 
 	switch (result) {
 	case GTK_RESPONSE_OK:
-		     lookup->contact = lookup->match;
+		     g_object_unref (lookup->contact);
+		     lookup->contact = g_object_ref (lookup->match);
 		     e_book_client_remove_contact (lookup->book_client, lookup->match, NULL, remove_contact_ready_cb, lookup);
 		     value = 1;
 		     break;
