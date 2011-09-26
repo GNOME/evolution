@@ -318,7 +318,7 @@ scan_folder_tree_for_unread_helper (GtkTreeModel *model,
 }
 
 static gint
-scan_folder_tree_for_unread (const gchar *folder_uri)
+scan_folder_tree_for_unread (EMailBackend *backend, const gchar *folder_uri)
 {
 	GtkTreeRowReference *reference;
 	EMFolderTreeModel *model;
@@ -338,7 +338,7 @@ scan_folder_tree_for_unread (const gchar *folder_uri)
 	if (folder_uri == NULL)
 		return 0;
 
-	model = em_folder_tree_model_get_default ();
+	model = em_folder_tree_model_get_default (backend);
 	reference = em_folder_tree_model_lookup_uri (model, folder_uri);
 
 	if (gtk_tree_row_reference_valid (reference)) {
@@ -602,7 +602,7 @@ update_actions_cb (EShellView *shell_view,
 	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
 	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
 
-	visible = (scan_folder_tree_for_unread (folder_uri) > 0);
+	visible = (scan_folder_tree_for_unread (E_MAIL_BACKEND (e_shell_view_get_shell_backend (shell_view)), folder_uri) > 0);
 	gtk_action_set_visible (action, visible);
 
 	g_object_unref (folder_tree);

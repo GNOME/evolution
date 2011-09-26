@@ -47,6 +47,14 @@
 
 G_BEGIN_DECLS
 
+typedef enum
+{
+	E_ACCOUNT_TREE_VIEW_SELECTED_NONE,
+	E_ACCOUNT_TREE_VIEW_SELECTED_ACCOUNT,
+	E_ACCOUNT_TREE_VIEW_SELECTED_LOCAL,
+	E_ACCOUNT_TREE_VIEW_SELECTED_VFOLDER
+} EAccountTreeViewSelectedType;
+
 typedef struct _EAccountTreeView EAccountTreeView;
 typedef struct _EAccountTreeViewClass EAccountTreeViewClass;
 typedef struct _EAccountTreeViewPrivate EAccountTreeViewPrivate;
@@ -62,6 +70,7 @@ struct _EAccountTreeViewClass {
 	void		(*enable_account)	(EAccountTreeView *tree_view);
 	void		(*disable_account)	(EAccountTreeView *tree_view);
 	void		(*refreshed)		(EAccountTreeView *tree_view);
+	void		(*sort_order_changed)	(EAccountTreeView *tree_view);
 };
 
 GType		e_account_tree_view_get_type	(void);
@@ -80,6 +89,43 @@ EAccount *	e_account_tree_view_get_selected
 gboolean	e_account_tree_view_set_selected
 						(EAccountTreeView *tree_view,
 						 EAccount *account);
+EAccountTreeViewSelectedType
+		e_account_tree_view_get_selected_type
+						(EAccountTreeView *tree_view);
+void		e_account_tree_view_set_selected_type
+						(EAccountTreeView *tree_view,
+						 EAccountTreeViewSelectedType select);
+
+void		e_account_tree_view_set_sort_order
+						(EAccountTreeView *tree_view,
+						 const GSList *account_uids);
+
+GSList *	e_account_tree_view_get_sort_order
+						(EAccountTreeView *tree_view);
+
+void		e_account_tree_view_sort_changed
+						(EAccountTreeView *tree_view);
+void		e_account_tree_view_move_up	(EAccountTreeView *tree_view);
+void		e_account_tree_view_move_down	(EAccountTreeView *tree_view);
+
+void		e_account_tree_view_set_sort_alpha
+						(EAccountTreeView *tree_view,
+						 gboolean sort_alpha);
+gboolean	e_account_tree_view_get_sort_alpha
+						(EAccountTreeView *tree_view);
+void		e_account_tree_view_set_express_mode
+						(EAccountTreeView *tree_view,
+						 gboolean express_mode);
+gboolean	e_account_tree_view_get_express_mode
+						(EAccountTreeView *tree_view);
+void		e_account_tree_view_set_enable_local_folders
+						(EAccountTreeView *tree_view, gboolean enabled);
+gboolean	e_account_tree_view_get_enable_local_folders
+						(EAccountTreeView *tree_view);
+void		e_account_tree_view_set_enable_search_folders
+						(EAccountTreeView *tree_view, gboolean enabled);
+gboolean	e_account_tree_view_get_enable_search_folders
+						(EAccountTreeView *tree_view);
 
 G_END_DECLS
 

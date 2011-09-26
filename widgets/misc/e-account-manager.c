@@ -37,6 +37,9 @@ struct _EAccountManagerPrivate {
 	GtkWidget *edit_button;
 	GtkWidget *delete_button;
 	GtkWidget *default_button;
+	GtkWidget *sort_toggle;
+	GtkWidget *sort_up_button;
+	GtkWidget *sort_down_button;
 };
 
 enum {
@@ -96,16 +99,22 @@ account_manager_selection_changed_cb (EAccountManager *manager,
 	EAccountList *account_list;
 	EAccount *default_account;
 	EAccount *account;
+	GtkTreeModel *model = NULL;
+	GtkTreeIter iter1, iter2;
 	GtkWidget *add_button;
 	GtkWidget *edit_button;
 	GtkWidget *delete_button;
 	GtkWidget *default_button;
+	GtkWidget *sort_up_button;
+	GtkWidget *sort_down_button;
 	gboolean sensitive;
 
 	add_button = manager->priv->add_button;
 	edit_button = manager->priv->edit_button;
 	delete_button = manager->priv->delete_button;
 	default_button = manager->priv->default_button;
+	sort_up_button = manager->priv->sort_up_button;
+	sort_down_button = manager->priv->sort_down_button;
 
 	tree_view = e_account_manager_get_tree_view (manager);
 	account = e_account_tree_view_get_selected (tree_view);
@@ -126,6 +135,50 @@ account_manager_selection_changed_cb (EAccountManager *manager,
 
 	sensitive = (account != NULL && account != default_account);
 	gtk_widget_set_sensitive (default_button, sensitive);
+
+	sensitive = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (manager->priv->sort_toggle)) &&
+		    gtk_tree_selection_get_selected (selection, &model, &iter1);
+	iter2 = iter1;
+	gtk_widget_set_sensitive (sort_up_button, sensitive && gtk_tree_model_iter_previous (model, &iter1));
+	gtk_widget_set_sensitive (sort_down_button, sensitive && gtk_tree_model_iter_next (model, &iter2));
+}
+
+static void
+account_manager_sort_toggled_cb (EAccountManager *manager)
+{
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+
+	tree_view = GTK_TREE_VIEW (e_account_manager_get_tree_view (manager));
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	account_manager_selection_changed_cb (manager, selection);
+}
+
+static void
+account_manager_sort_up_cb (EAccountManager *manager)
+{
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+
+	tree_view = GTK_TREE_VIEW (e_account_manager_get_tree_view (manager));
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	e_account_tree_view_move_up (e_account_manager_get_tree_view (manager));
+	account_manager_selection_changed_cb (manager, selection);
+}
+
+static void
+account_manager_sort_down_cb (EAccountManager *manager)
+{
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+
+	tree_view = GTK_TREE_VIEW (e_account_manager_get_tree_view (manager));
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	e_account_tree_view_move_down (e_account_manager_get_tree_view (manager));
+	account_manager_selection_changed_cb (manager, selection);
 }
 
 static void
@@ -193,6 +246,21 @@ account_manager_dispose (GObject *object)
 	if (priv->delete_button != NULL) {
 		g_object_unref (priv->delete_button);
 		priv->delete_button = NULL;
+	}
+
+	if (priv->sort_toggle != NULL) {
+		g_object_unref (priv->sort_toggle);
+		priv->sort_toggle = NULL;
+	}
+
+	if (priv->sort_up_button != NULL) {
+		g_object_unref (priv->sort_up_button);
+		priv->sort_up_button = NULL;
+	}
+
+	if (priv->sort_down_button != NULL) {
+		g_object_unref (priv->sort_down_button);
+		priv->sort_down_button = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -312,6 +380,23 @@ e_account_manager_init (EAccountManager *manager)
 
 	container = GTK_WIDGET (manager);
 
+	widget = gtk_check_button_new_with_mnemonic (_("Use default Evolution _sort order for accounts"));
+	manager->priv->sort_toggle = g_object_ref (widget);
+	gtk_widget_show (widget);
+	gtk_table_attach (
+		GTK_TABLE (container), widget, 0, 1, 1, 2,
+		GTK_EXPAND | GTK_FILL, 0, 4, 0);
+
+	g_object_bind_property (
+		manager->priv->tree_view, "sort-alpha",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	g_signal_connect_swapped (
+		widget, "toggled",
+		G_CALLBACK (account_manager_sort_toggled_cb), manager);
+
 	widget = gtk_vbutton_box_new ();
 	gtk_button_box_set_layout (
 		GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_START);
@@ -361,6 +446,24 @@ e_account_manager_init (EAccountManager *manager)
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (account_manager_default_clicked_cb), manager);
+
+	widget = gtk_button_new_from_stock (GTK_STOCK_GO_UP);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	manager->priv->sort_up_button = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (account_manager_sort_up_cb), manager);
+
+	widget = gtk_button_new_from_stock (GTK_STOCK_GO_DOWN);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	manager->priv->sort_down_button = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (account_manager_sort_down_cb), manager);
 }
 
 GtkWidget *

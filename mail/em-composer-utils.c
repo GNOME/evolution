@@ -2989,7 +2989,7 @@ post_header_clicked_cb (EComposerPostHeader *header,
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
 	/* FIXME Limit the folder tree to the NNTP account? */
-	model = em_folder_tree_model_get_default ();
+	model = em_folder_tree_model_get_default (E_MAIL_BACKEND (shell_backend));
 
 	dialog = em_folder_selector_new (
 		GTK_WINDOW (composer),

@@ -142,6 +142,10 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"/apps/evolution/mail/display/enable_vfolders");
 
 	e_shell_settings_install_property_for_key (
+		"mail-enable-local-folders",
+		"/apps/evolution/mail/display/enable_local");
+
+	e_shell_settings_install_property_for_key (
 		"mail-font-monospace",
 		"/apps/evolution/mail/display/fonts/monospace");
 
@@ -199,6 +203,10 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 	e_shell_settings_install_property_for_key (
 		"mail-show-real-date",
 		"/apps/evolution/mail/display/show_real_date");
+
+	e_shell_settings_install_property_for_key (
+		"mail-sort-accounts-alpha",
+		"/apps/evolution/mail/display/sort_accounts_alpha");
 
 	e_shell_settings_install_property_for_key (
 		"mail-prompt-delete-in-vfolder",

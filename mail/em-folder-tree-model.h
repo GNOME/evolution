@@ -26,6 +26,7 @@
 #include <gtk/gtk.h>
 #include <camel/camel.h>
 
+#include <mail/e-mail-backend.h>
 #include <mail/e-mail-session.h>
 
 /* Standard GObject macros */
@@ -72,6 +73,7 @@ enum {
 					 * been added to the tree */
 	COL_UINT_UNREAD_LAST_SEL,	/* last known unread count */
 	COL_BOOL_IS_DRAFT,		/* %TRUE for a draft folder */
+	COL_UINT_SORTORDER,		/* user sort-order for the node */
 	NUM_COLUMNS
 };
 
@@ -109,9 +111,9 @@ struct _EMFolderTreeModelClass {
 
 GType		em_folder_tree_model_get_type	(void);
 EMFolderTreeModel *
-		em_folder_tree_model_new	(void);
+		em_folder_tree_model_new	(EMailBackend *mail_backend);
 EMFolderTreeModel *
-		em_folder_tree_model_get_default (void);
+		em_folder_tree_model_get_default (EMailBackend *mail_backend);
 GtkTreeSelection *
 		em_folder_tree_model_get_selection
 					(EMFolderTreeModel *model);
@@ -123,6 +125,11 @@ EMailSession *	em_folder_tree_model_get_session
 void		em_folder_tree_model_set_session
 					(EMFolderTreeModel *model,
 					 EMailSession *session);
+EMailBackend *	em_folder_tree_model_get_backend
+					(EMFolderTreeModel *model);
+void		em_folder_tree_model_set_backend
+					(EMFolderTreeModel *model,
+					 EMailBackend *backend);
 void		em_folder_tree_model_set_folder_info
 					(EMFolderTreeModel *model,
 					 GtkTreeIter *iter,

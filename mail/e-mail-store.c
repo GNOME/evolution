@@ -39,6 +39,9 @@
 #include "mail/mail-mt.h"
 #include "mail/mail-ops.h"
 
+#include "shell/e-shell.h"
+#include "shell/e-shell-settings.h"
+
 typedef struct _StoreInfo StoreInfo;
 
 typedef void	(*AddStoreCallback)	(MailFolderCache *folder_cache,
@@ -152,6 +155,32 @@ mail_store_note_store_cb (MailFolderCache *folder_cache,
 	return TRUE;
 }
 
+static gboolean
+special_mail_store_is_enabled (CamelStore *store)
+{
+	CamelService *service;
+	EShell *shell;
+	EShellSettings *shell_settings;
+	const gchar *uid, *prop = NULL;
+
+	service = CAMEL_SERVICE (store);
+	g_return_val_if_fail (service, FALSE);
+
+	uid = camel_service_get_uid (service);
+	if (g_strcmp0 (uid, "local") == 0)
+		prop = "mail-enable-local-folders";
+	else if (g_strcmp0 (uid, "vfolder") == 0)
+		prop = "mail-enable-search-folders";
+
+	if (!prop)
+		return TRUE;
+
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	return e_shell_settings_get_boolean (shell_settings, prop);
+}
+
 static void
 mail_store_add (EMailSession *session,
                 CamelStore *store,
@@ -165,7 +194,7 @@ mail_store_add (EMailSession *session,
 	g_return_if_fail (store != NULL);
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
-	default_model = em_folder_tree_model_get_default ();
+	default_model = em_folder_tree_model_get_default (NULL);
 	folder_cache = e_mail_session_get_folder_cache (session);
 
 	store_info = store_info_new (store);
@@ -173,7 +202,8 @@ mail_store_add (EMailSession *session,
 
 	g_hash_table_insert (store_table, store, store_info);
 
-	em_folder_tree_model_add_store (default_model, store);
+	if (special_mail_store_is_enabled (store))
+		em_folder_tree_model_add_store (default_model, store);
 
 	mail_folder_cache_note_store (
 		folder_cache, CAMEL_SESSION (session), store, NULL,
@@ -387,7 +417,7 @@ e_mail_store_remove (EMailSession *session,
 	folder_cache = e_mail_session_get_folder_cache (session);
 	mail_folder_cache_note_store_remove (folder_cache, store);
 
-	default_model = em_folder_tree_model_get_default ();
+	default_model = em_folder_tree_model_get_default (NULL);
 	em_folder_tree_model_remove_store (default_model, store);
 
 	mail_disconnect_store (store);
