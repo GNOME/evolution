@@ -942,6 +942,7 @@ remodel (EMinicard *e_minicard)
 		gint left_width = -1;
 		gboolean is_list = FALSE;
 		gboolean email_rendered = FALSE;
+		gboolean has_voice = FALSE, has_fax = FALSE;
 
 		if (e_minicard->header_text) {
 			file_as = e_contact_get (e_minicard->contact, E_CONTACT_FILE_AS);
@@ -966,11 +967,14 @@ remodel (EMinicard *e_minicard)
 			EMinicardField *minicard_field = NULL;
 			gboolean is_email = FALSE;
 
-			if (field == E_CONTACT_FAMILY_NAME || field == E_CONTACT_GIVEN_NAME)
+			if (field == E_CONTACT_FAMILY_NAME || field == E_CONTACT_GIVEN_NAME ||
+			    (has_voice && field == E_CONTACT_PHONE_OTHER) ||
+			    (has_fax && field == E_CONTACT_PHONE_OTHER_FAX))
 				continue;
 
 			if (field == E_CONTACT_FULL_NAME && is_list)
 				continue;
+
 			if (field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2 || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) {
 				if (email_rendered)
 					continue;
@@ -1019,6 +1023,15 @@ remodel (EMinicard *e_minicard)
 					if (string && *string) {
 						add_field (e_minicard, field, left_width);
 						count++;
+
+						has_voice = has_voice ||
+							    field == E_CONTACT_PHONE_BUSINESS ||
+							    field == E_CONTACT_PHONE_BUSINESS_2 ||
+							    field == E_CONTACT_PHONE_HOME ||
+							    field == E_CONTACT_PHONE_HOME_2;
+						has_fax = has_fax ||
+							  field == E_CONTACT_PHONE_BUSINESS_FAX ||
+							  field == E_CONTACT_PHONE_HOME_FAX;
 					}
 					g_free (string);
 				}
