@@ -1080,7 +1080,7 @@ struct _SaveContext {
 static SaveContext *
 attachment_store_save_context_new (EAttachmentStore *store,
                                    GFile *destination,
-				   const gchar *filename_prefix,
+                                   const gchar *filename_prefix,
                                    GAsyncReadyCallback callback,
                                    gpointer user_data)
 {
@@ -1128,7 +1128,7 @@ attachment_store_save_context_free (SaveContext *save_context)
 
 	g_free (save_context->filename_prefix);
 	save_context->filename_prefix = NULL;
-	
+
 	if (save_context->fresh_directory) {
 		g_object_unref (save_context->fresh_directory);
 		save_context->fresh_directory = NULL;
@@ -1145,7 +1145,10 @@ attachment_store_save_context_free (SaveContext *save_context)
 }
 
 static void
-attachment_store_move_file (SaveContext *save_context, GFile *source, GFile *destination, GError **error)
+attachment_store_move_file (SaveContext *save_context,
+                            GFile *source,
+                            GFile *destination,
+                            GError **error)
 {
 	gchar *tmpl;
 	gchar *path;
@@ -1311,7 +1314,7 @@ attachment_store_save_cb (EAttachment *attachment,
 void
 e_attachment_store_save_async (EAttachmentStore *store,
                                GFile *destination,
-			       const gchar *filename_prefix,
+                               const gchar *filename_prefix,
                                GAsyncReadyCallback callback,
                                gpointer user_data)
 {

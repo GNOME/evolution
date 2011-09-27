@@ -1131,10 +1131,12 @@ mail_to_event (ECalClientSourceType source_type,
 		/* ask the user which tasks list to save to */
 		dialog = e_source_selector_dialog_new (NULL, source_list);
 
-		e_source_selector_dialog_select_default_source (E_SOURCE_SELECTOR_DIALOG (dialog));
+		e_source_selector_dialog_select_default_source (
+			E_SOURCE_SELECTOR_DIALOG (dialog));
 
 		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
-			source = e_source_selector_dialog_peek_primary_selection (E_SOURCE_SELECTOR_DIALOG (dialog));
+			source = e_source_selector_dialog_peek_primary_selection (
+				E_SOURCE_SELECTOR_DIALOG (dialog));
 		else
 			source = NULL;
 

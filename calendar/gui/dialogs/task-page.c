@@ -1758,11 +1758,12 @@ tpage_client_opened_cb (GObject *source_object,
 			E_SOURCE_COMBO_BOX (priv->source_selector),
 			e_client_get_source (E_CLIENT (old_client)));
 
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-						 _("Unable to open tasks in '%s': %s"),
-						 e_source_peek_name (source),
-						 error ? error->message : _("Unknown error"));
+		dialog = gtk_message_dialog_new (
+			NULL, GTK_DIALOG_MODAL,
+			GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
+			_("Unable to open tasks in '%s': %s"),
+			e_source_peek_name (source),
+			error->message);
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 

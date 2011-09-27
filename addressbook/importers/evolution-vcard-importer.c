@@ -42,9 +42,9 @@
 #include <util/eab-book-util.h>
 #include <libebook/e-destination.h>
 
-#include "e-util/e-import.h"
-#include "e-util/e-datetime-format.h"
-#include "misc/e-web-view-preview.h"
+#include <e-util/e-import.h>
+#include <e-util/e-datetime-format.h>
+#include <misc/e-web-view-preview.h>
 
 #include "evolution-addressbook-importers.h"
 

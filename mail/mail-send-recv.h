@@ -32,16 +32,16 @@ G_BEGIN_DECLS
 
 /* send/receive all uri's */
 GtkWidget *	mail_send_receive		(GtkWindow *parent,
-						 EMailSession *session);
+						 EMailBackend *backend);
 
 GtkWidget *	mail_receive			(GtkWindow *parent,
-						 EMailSession *session);
+						 EMailBackend *backend);
 
 /* receive a single account */
-void		mail_receive_account		(EMailSession *session,
+void		mail_receive_account		(EMailBackend *backend,
 						 EAccount *account);
 
-void		mail_send			(EMailSession *session);
+void		mail_send			(EMailBackend *backend);
 
 /* setup auto receive stuff */
 void		mail_autoreceive_init		(EMailBackend *backend);

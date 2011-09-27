@@ -522,6 +522,7 @@ build_message_headers (EMsgComposer *composer,
 	if (account != NULL) {
 		CamelMedium *medium;
 		CamelInternetAddress *addr;
+		const gchar *header_name;
 		const gchar *name = account->id->name;
 		const gchar *address = account->id->address;
 		gchar *transport_uid;
@@ -542,18 +543,18 @@ build_message_headers (EMsgComposer *composer,
 		g_object_unref (addr);
 
 		/* X-Evolution-Account */
-		camel_medium_set_header (
-			medium, "X-Evolution-Account", account->uid);
+		header_name = "X-Evolution-Account";
+		camel_medium_set_header (medium, header_name, account->uid);
 
 		/* X-Evolution-Fcc */
-		camel_medium_set_header (
-			medium, "X-Evolution-Fcc", account->sent_folder_uri);
+		header_name = "X-Evolution-Fcc";
+		camel_medium_set_header (medium, header_name, account->sent_folder_uri);
 
 		/* X-Evolution-Transport */
+		header_name = "X-Evolution-Transport";
 		transport_uid = g_strconcat (
 			account->uid, "-transport", NULL);
-		camel_medium_set_header (
-			medium, "X-Evolution-Transport", transport_uid);
+		camel_medium_set_header (medium, header_name, transport_uid);
 		g_free (transport_uid);
 	}
 
@@ -1102,7 +1103,8 @@ composer_build_message (EMsgComposer *composer,
 	/* Disposition-Notification-To */
 	if (flags & COMPOSER_FLAG_REQUEST_READ_RECEIPT) {
 		gchar *mdn_address = account->id->reply_to;
-		if (!mdn_address || !*mdn_address)
+
+		if (mdn_address == NULL || *mdn_address == '\0')
 			mdn_address = account->id->address;
 
 		camel_medium_add_header (
@@ -1501,7 +1503,8 @@ is_top_signature (EMsgComposer *composer)
 	shell = e_msg_composer_get_shell (composer);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	return e_shell_settings_get_boolean (shell_settings, "composer-top-signature");
+	return e_shell_settings_get_boolean (
+		shell_settings, "composer-top-signature");
 }
 
 static gboolean

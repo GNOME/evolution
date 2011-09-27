@@ -712,6 +712,7 @@ task_table_query_tooltip (GtkWidget *widget,
 
 	model = e_task_table_get_model (task_table);
 	comp_data = e_cal_model_get_component_at (model, row);
+
 	if (!comp_data || !comp_data->icalcomp)
 		return FALSE;
 
@@ -850,8 +851,8 @@ task_table_query_tooltip (GtkWidget *widget,
 	e_cal_component_free_datetime (&dtstart);
 	e_cal_component_free_datetime (&dtdue);
 
-	tmp = e_calendar_view_get_attendees_status_info (
-		new_comp, comp_data->client);
+	tmp = e_cal_model_get_attendees_status_info (
+		model, new_comp, comp_data->client);
 	if (tmp) {
 		l = gtk_label_new (tmp);
 		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);

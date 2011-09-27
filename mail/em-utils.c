@@ -2316,7 +2316,8 @@ free_account_sort_order_cache (void)
 }
 
 static void
-fill_accounts_sort_order_cache (EMailBackend *backend, gboolean force_reload)
+fill_accounts_sort_order_cache (EMailBackend *backend,
+                                gboolean force_reload)
 {
 	GSList *account_uids;
 
@@ -2380,7 +2381,8 @@ emu_get_sort_order_key_file (EMailBackend *backend)
 }
 
 void
-em_utils_save_accounts_sort_order (EMailBackend *backend, const GSList *account_uids)
+em_utils_save_accounts_sort_order (EMailBackend *backend,
+                                   const GSList *account_uids)
 {
 	gchar *filename;
 	GKeyFile *key_file;
@@ -2445,7 +2447,8 @@ em_utils_load_accounts_sort_order (EMailBackend *backend)
 }
 
 guint
-em_utils_get_account_sort_order (EMailBackend *backend, const gchar *account_uid)
+em_utils_get_account_sort_order (EMailBackend *backend,
+                                 const gchar *account_uid)
 {
 	guint res;
 

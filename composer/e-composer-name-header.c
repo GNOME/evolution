@@ -276,11 +276,11 @@ e_composer_name_header_new (const gchar *label,
 {
 	g_return_val_if_fail (E_IS_NAME_SELECTOR (name_selector), NULL);
 
-	return g_object_new (E_TYPE_COMPOSER_NAME_HEADER,
-			     "label", label,
-			     "button", TRUE,
-			     "name-selector", name_selector,
-			     NULL);
+	return g_object_new (
+		E_TYPE_COMPOSER_NAME_HEADER,
+		"label", label, "button", TRUE,
+		"name-selector", name_selector,
+		 NULL);
 }
 
 ENameSelector *

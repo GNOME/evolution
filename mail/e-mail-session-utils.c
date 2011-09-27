@@ -695,13 +695,13 @@ e_mail_session_send_to (EMailSession *session,
 		sent_folder_uri = g_strdup (account->sent_folder_uri);
 	}
 
-	string = camel_header_raw_find (&xev, "X-Evolution-Transport", NULL);
-	if (transport_uid == NULL && string != NULL)
-		transport_uid = g_strstrip (g_strdup (string));
-
 	string = camel_header_raw_find (&xev, "X-Evolution-Fcc", NULL);
 	if (sent_folder_uri == NULL && string != NULL)
 		sent_folder_uri = g_strstrip (g_strdup (string));
+
+	string = camel_header_raw_find (&xev, "X-Evolution-Transport", NULL);
+	if (transport_uid == NULL && string != NULL)
+		transport_uid = g_strstrip (g_strdup (string));
 
 	post_to_uris = g_ptr_array_new ();
 	for (header = xev; header != NULL; header = header->next) {

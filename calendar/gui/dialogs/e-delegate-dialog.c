@@ -124,7 +124,6 @@ e_delegate_dialog_construct (EDelegateDialog *edd,
 	ENameSelectorModel *name_selector_model;
 	ENameSelectorDialog *name_selector_dialog;
 
-	g_return_val_if_fail (edd != NULL, NULL);
 	g_return_val_if_fail (E_IS_DELEGATE_DIALOG (edd), NULL);
 
 	priv = edd->priv;
@@ -228,8 +227,10 @@ e_delegate_dialog_new (const gchar *name,
 {
 	EDelegateDialog *edd;
 
-	edd = E_DELEGATE_DIALOG (g_object_new (E_TYPE_DELEGATE_DIALOG, NULL));
-	return e_delegate_dialog_construct (E_DELEGATE_DIALOG (edd), name, address);
+	edd = g_object_new (E_TYPE_DELEGATE_DIALOG, NULL);
+
+	return e_delegate_dialog_construct (
+		E_DELEGATE_DIALOG (edd), name, address);
 }
 
 gchar *

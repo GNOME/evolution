@@ -26,21 +26,12 @@
 
 #include "e-composer-header.h"
 
-#include <glib/gi18n.h>
+#include <config.h>
+#include <glib/gi18n-lib.h>
 
-enum {
-	PROP_0,
-	PROP_BUTTON,
-	PROP_LABEL,
-	PROP_SENSITIVE,
-	PROP_VISIBLE
-};
-
-enum {
-	CHANGED,
-	CLICKED,
-	LAST_SIGNAL
-};
+#define E_COMPOSER_HEADER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_COMPOSER_HEADER, EComposerHeaderPrivate))
 
 struct _EComposerHeaderPrivate {
 	gchar *label;
@@ -54,6 +45,20 @@ struct _EComposerHeaderPrivate {
 
 	guint sensitive : 1;
 	guint visible   : 1;
+};
+
+enum {
+	PROP_0,
+	PROP_BUTTON,
+	PROP_LABEL,
+	PROP_SENSITIVE,
+	PROP_VISIBLE
+};
+
+enum {
+	CHANGED,
+	CLICKED,
+	LAST_SIGNAL
 };
 
 static guint signal_ids[LAST_SIGNAL];
@@ -98,7 +103,8 @@ composer_header_constructor (GType type,
 		label = gtk_bin_get_child (GTK_BIN (widget));
 	} else {
 		widget = gtk_label_new_with_mnemonic (header->priv->label);
-		gtk_label_set_mnemonic_widget (GTK_LABEL (widget), header->input_widget);
+		gtk_label_set_mnemonic_widget (
+			GTK_LABEL (widget), header->input_widget);
 		label = widget;
 	}
 
@@ -227,7 +233,8 @@ e_composer_header_class_init (EComposerHeaderClass *class)
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -238,7 +245,8 @@ e_composer_header_class_init (EComposerHeaderClass *class)
 			NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -248,7 +256,8 @@ e_composer_header_class_init (EComposerHeaderClass *class)
 			NULL,
 			NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -258,7 +267,8 @@ e_composer_header_class_init (EComposerHeaderClass *class)
 			NULL,
 			NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	signal_ids[CHANGED] = g_signal_new (
 		"changed",

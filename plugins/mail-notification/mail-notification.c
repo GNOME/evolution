@@ -37,7 +37,6 @@
 #include <time.h>
 
 #include <e-util/e-config.h>
-#include <e-util/e-account-utils.h>
 #include <e-util/gconf-bridge.h>
 #include <mail/e-mail-folder-utils.h>
 #include <mail/em-utils.h>

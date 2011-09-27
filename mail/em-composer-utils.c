@@ -1750,7 +1750,7 @@ em_utils_forward_messages (EMailReader *reader,
                            CamelFolder *folder,
                            GPtrArray *uids,
                            EMailForwardStyle style,
-			   GtkWidget *destroy_when_done)
+                           GtkWidget *destroy_when_done)
 {
 	EActivity *activity;
 	AsyncContext *context;
@@ -1846,7 +1846,7 @@ em_utils_redirect_message (EShell *shell,
 
 /* Message disposition notifications, rfc 2298 */
 void
-em_utils_handle_receipt (EMailSession *session,
+em_utils_handle_receipt (EMailBackend *backend,
                          CamelFolder *folder,
                          const gchar *message_uid,
                          CamelMimeMessage *message)
@@ -1855,7 +1855,7 @@ em_utils_handle_receipt (EMailSession *session,
 	const gchar *addr;
 	CamelMessageInfo *info;
 
-	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
@@ -1911,23 +1911,23 @@ em_utils_handle_receipt (EMailSession *session,
 			return;
 	}
 
-	em_utils_send_receipt (session, folder, message);
+	em_utils_send_receipt (backend, folder, message);
 }
 
 static void
 em_utils_receipt_done (CamelFolder *folder,
                        GAsyncResult *result,
-                       EMailSession *session)
+                       EMailBackend *backend)
 {
 	/* FIXME Poor error handling. */
 	if (!e_mail_folder_append_message_finish (folder, result, NULL, NULL))
 		return;
 
-	mail_send (session);
+	mail_send (backend);
 }
 
 void
-em_utils_send_receipt (EMailSession *session,
+em_utils_send_receipt (EMailBackend *backend,
                        CamelFolder *folder,
                        CamelMimeMessage *message)
 {
@@ -2102,7 +2102,7 @@ em_utils_send_receipt (EMailSession *session,
 	/* FIXME Pass a GCancellable. */
 	e_mail_folder_append_message (
 		out_folder, receipt, info, G_PRIORITY_DEFAULT, NULL,
-		(GAsyncReadyCallback) em_utils_receipt_done, session);
+		(GAsyncReadyCallback) em_utils_receipt_done, backend);
 
 	camel_message_info_free (info);
 }
@@ -2485,17 +2485,23 @@ concat_unique_addrs (CamelInternetAddress *dest,
 	}
 }
 
-static void
-get_reply_all (CamelMimeMessage *message,
-               CamelInternetAddress *to,
-               CamelInternetAddress *cc,
-               CamelNNTPAddress *postto)
+void
+em_utils_get_reply_all (CamelMimeMessage *message,
+                        CamelInternetAddress *to,
+                        CamelInternetAddress *cc,
+                        CamelNNTPAddress *postto)
 {
-	CamelInternetAddress *reply_to, *to_addrs, *cc_addrs;
+	CamelInternetAddress *reply_to;
+	CamelInternetAddress *to_addrs;
+	CamelInternetAddress *cc_addrs;
 	CamelMedium *medium;
 	const gchar *name, *addr;
 	const gchar *posthdr = NULL;
 	GHashTable *rcpt_hash;
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+	g_return_if_fail (CAMEL_IS_INTERNET_ADDRESS (to));
+	g_return_if_fail (CAMEL_IS_INTERNET_ADDRESS (cc));
 
 	medium = CAMEL_MEDIUM (message);
 
@@ -2512,8 +2518,10 @@ get_reply_all (CamelMimeMessage *message,
 	rcpt_hash = em_utils_generate_account_hash ();
 
 	reply_to = get_reply_to (message);
-	to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
-	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+	to_addrs = camel_mime_message_get_recipients (
+		message, CAMEL_RECIPIENT_TYPE_TO);
+	cc_addrs = camel_mime_message_get_recipients (
+		message, CAMEL_RECIPIENT_TYPE_CC);
 
 	if (reply_to != NULL) {
 		gint ii = 0;
@@ -2554,15 +2562,6 @@ get_reply_all (CamelMimeMessage *message,
 	}
 
 	g_hash_table_destroy (rcpt_hash);
-}
-
-void
-em_utils_get_reply_all (CamelMimeMessage *message,
-                        CamelInternetAddress *to,
-                        CamelInternetAddress *cc,
-                        CamelNNTPAddress *postto)
-{
-	get_reply_all (message, to, cc, postto);
 }
 
 enum {
@@ -2947,7 +2946,7 @@ em_utils_reply_to_message (EShell *shell,
 		if (folder)
 			postto = camel_nntp_address_new ();
 
-		get_reply_all (message, to, cc, postto);
+		em_utils_get_reply_all (message, to, cc, postto);
 		break;
 	}
 

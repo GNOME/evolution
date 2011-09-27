@@ -46,6 +46,10 @@
 #include "e-shell-window.h"
 #include "e-shell-utils.h"
 
+#define E_SHELL_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SHELL, EShellPrivate))
+
 struct _EShellPrivate {
 	GQueue alerts;
 	GList *watched_windows;
@@ -739,7 +743,7 @@ shell_dispose (GObject *object)
 	EShellPrivate *priv;
 	EAlert *alert;
 
-	priv = E_SHELL (object)->priv;
+	priv = E_SHELL_GET_PRIVATE (object);
 
 	while ((alert = g_queue_pop_head (&priv->alerts)) != NULL) {
 		g_signal_handlers_disconnect_by_func (
@@ -787,7 +791,7 @@ shell_finalize (GObject *object)
 {
 	EShellPrivate *priv;
 
-	priv = E_SHELL (object)->priv;
+	priv = E_SHELL_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->backends_by_name);
 	g_hash_table_destroy (priv->backends_by_scheme);
@@ -1226,8 +1230,7 @@ e_shell_init (EShell *shell)
 	GtkIconTheme *icon_theme;
 	EggSMClient *sm_client;
 
-	shell->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		shell, E_TYPE_SHELL, EShellPrivate);
+	shell->priv = E_SHELL_GET_PRIVATE (shell);
 
 	backends_by_name = g_hash_table_new (g_str_hash, g_str_equal);
 	backends_by_scheme = g_hash_table_new (g_str_hash, g_str_equal);

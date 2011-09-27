@@ -55,7 +55,8 @@ e_plugin_lib_enable (EPlugin *ep,
 }
 
 static void
-mark_default_source_in_list (ESourceList *source_list, ESource *source)
+mark_default_source_in_list (ESourceList *source_list,
+                             ESource *source)
 {
 	GSList *g, *s;
 	g_return_if_fail (source_list != NULL);
@@ -106,7 +107,7 @@ commit_default_calendar (EPlugin *epl,
 
 		if (source_list) {
 			/* mark in the backend's source_list, to avoid race
-			   with saving of two different source lists
+			 * with saving of two different source lists
 			*/
 			mark_default_source_in_list (source_list, source);
 		} else {
@@ -139,7 +140,7 @@ commit_default_book (EPlugin *epl,
 
 		if (source_list) {
 			/* mark in the backend's source_list, to avoid race
-			   with saving of two different source lists
+			 * with saving of two different source lists
 			*/
 			mark_default_source_in_list (source_list, source);
 		} else {

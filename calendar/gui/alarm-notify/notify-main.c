@@ -27,6 +27,7 @@
 #include <config.h>
 #endif
 
+#include <stdlib.h>
 #include <glib/gi18n.h>
 
 #include "alarm-notify.h"
@@ -50,6 +51,7 @@ main (gint argc,
 {
 	AlarmNotify *alarm_notify_service;
 	gint exit_status;
+	GError *error = NULL;
 #ifdef G_OS_WIN32
 	gchar *path;
 
@@ -87,7 +89,13 @@ main (gint argc,
 		g_warning ("Could not set PATH for Evolution Alarm Notifier");
 #endif
 
-	alarm_notify_service = alarm_notify_new ();
+	alarm_notify_service = alarm_notify_new (NULL, &error);
+
+	if (error != NULL) {
+		g_printerr ("%s\n", error->message);
+		g_error_free (error);
+		exit (EXIT_FAILURE);
+	}
 
 	exit_status = g_application_run (
 		G_APPLICATION (alarm_notify_service), argc, argv);

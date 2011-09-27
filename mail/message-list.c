@@ -3332,7 +3332,7 @@ build_tree (MessageList *ml,
 #endif
 	if (!saveuid && ml->cursor_uid && g_hash_table_lookup (ml->uid_nodemap, ml->cursor_uid)) {
 		/* this makes sure a visible node is selected, like when
-		   collapsing all nodes and a children had been selected
+		 * collapsing all nodes and a children had been selected
 		*/
 		saveuid = g_strdup (ml->cursor_uid);
 	}

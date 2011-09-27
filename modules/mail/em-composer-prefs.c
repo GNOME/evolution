@@ -43,16 +43,16 @@
 #include <gtkhtml/gtkhtml.h>
 #include <editor/gtkhtml-spell-language.h>
 
-#include "e-util/e-util.h"
-#include "e-util/e-util-private.h"
-#include "mail/e-mail-junk-options.h"
-#include "widgets/misc/e-charset-combo-box.h"
-#include "widgets/misc/e-signature-editor.h"
-#include "widgets/misc/e-signature-manager.h"
-#include "widgets/misc/e-signature-preview.h"
+#include <e-util/e-util.h>
+#include <e-util/e-util-private.h>
+#include <misc/e-charset-combo-box.h>
+#include <misc/e-signature-editor.h>
+#include <misc/e-signature-manager.h>
+#include <misc/e-signature-preview.h>
 
 #include "em-config.h"
 #include "em-folder-selection-button.h"
+#include "e-mail-junk-options.h"
 
 G_DEFINE_TYPE (
 	EMComposerPrefs,
@@ -132,14 +132,17 @@ transform_new_to_old_reply_style (GBinding *binding,
 }
 
 static void
-composer_prefs_finalize (GObject *object)
+composer_prefs_dispose (GObject *object)
 {
 	EMComposerPrefs *prefs = (EMComposerPrefs *) object;
 
-	g_object_unref (prefs->builder);
+	if (prefs->builder != NULL) {
+		g_object_unref (prefs->builder);
+		prefs->builder = NULL;
+	}
 
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (em_composer_prefs_parent_class)->finalize (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (em_composer_prefs_parent_class)->dispose (object);
 }
 
 static void
@@ -148,7 +151,7 @@ em_composer_prefs_class_init (EMComposerPrefsClass *class)
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = composer_prefs_finalize;
+	object_class->dispose = composer_prefs_dispose;
 }
 
 static void
@@ -538,7 +541,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	/* Signatures */
 	signature_list = e_get_signature_list ();
-	container = e_builder_get_widget (prefs->builder, "signature-alignment");
+	container = e_builder_get_widget (
+		prefs->builder, "signature-alignment");
 	widget = e_signature_manager_new (signature_list);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
@@ -589,9 +593,10 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 GtkWidget *
 em_composer_prefs_new (EPreferencesWindow *window)
 {
+	EShell *shell;
 	EMComposerPrefs *prefs;
-	EShell *shell = e_preferences_window_get_shell (window);
 
+	shell = e_preferences_window_get_shell (window);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	prefs = g_object_new (EM_TYPE_COMPOSER_PREFS, NULL);

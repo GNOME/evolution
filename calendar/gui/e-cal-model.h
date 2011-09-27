@@ -263,6 +263,10 @@ void		e_cal_model_set_search_query	(ECalModel *model,
 icalcomponent *	e_cal_model_create_component_with_defaults
 						(ECalModel *model,
 						 gboolean all_day);
+gchar *		e_cal_model_get_attendees_status_info
+						(ECalModel *model,
+						 ECalComponent *comp,
+						 ECalClient *cal_client);
 const gchar *	e_cal_model_get_color_for_component
 						(ECalModel *model,
 						 ECalModelComponent *comp_data);

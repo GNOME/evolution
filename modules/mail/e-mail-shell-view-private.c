@@ -1089,7 +1089,6 @@ e_mail_shell_view_send_receive (EMailShellView *mail_shell_view,
                                 EMailSendReceiveMode mode,
                                 const gchar *account_uid)
 {
-	EMailSession *session;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
@@ -1100,20 +1099,22 @@ e_mail_shell_view_send_receive (EMailShellView *mail_shell_view,
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
-	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
-
 	em_utils_clear_get_password_canceled_accounts_flag ();
 
 	if (!account_uid) {
 		switch (mode) {
 		case E_MAIL_SEND_RECEIVE_BOTH:
-			mail_send_receive (GTK_WINDOW (shell_window), session);
+			mail_send_receive (
+				GTK_WINDOW (shell_window),
+				E_MAIL_BACKEND (shell_backend));
 			break;
 		case E_MAIL_SEND_RECEIVE_RECEIVE:
-			mail_receive (GTK_WINDOW (shell_window), session);
+			mail_receive (
+				GTK_WINDOW (shell_window),
+				E_MAIL_BACKEND (shell_backend));
 			break;
 		case E_MAIL_SEND_RECEIVE_SEND:
-			mail_send (session);
+			mail_send (E_MAIL_BACKEND (shell_backend));
 			break;
 		}
 	} else {
@@ -1124,7 +1125,8 @@ e_mail_shell_view_send_receive (EMailShellView *mail_shell_view,
 		g_return_if_fail (account != NULL);
 
 		if (account->enabled && account->source != NULL)
-			mail_receive_account (session, account);
+			mail_receive_account (
+				E_MAIL_BACKEND (shell_backend), account);
 	}
 }
 

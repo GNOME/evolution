@@ -335,7 +335,7 @@ ivcal_getwidget (EImport *ei,
 		if (!group)
 			group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (rb));
 		if (first == NULL) {
-			g_datalist_set_data_full(&target->data, "primary-source", g_object_ref(primary), g_object_unref);
+			g_datalist_set_data_full(&target->data, "primary-source", g_object_ref (primary), g_object_unref);
 			g_datalist_set_data(&target->data, "primary-type", GINT_TO_POINTER(import_type_map[i]));
 			first = rb;
 		}
@@ -867,7 +867,8 @@ open_default_source (ICalIntelligentImporter *ici,
 
 	e_import_status (ici->ei, ici->target, _("Opening calendar"), 0);
 
-	e_client_utils_open_new (source, source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? E_CLIENT_SOURCE_TYPE_EVENTS : E_CLIENT_SOURCE_TYPE_TASKS, FALSE, ici->cancellable,
+	e_client_utils_open_new (
+		source, source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? E_CLIENT_SOURCE_TYPE_EVENTS : E_CLIENT_SOURCE_TYPE_TASKS, FALSE, ici->cancellable,
 		e_client_utils_authenticate_handler, NULL,
 		default_source_opened_cb, odsd);
 

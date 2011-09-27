@@ -412,7 +412,9 @@ add_source_list_with_check (GtkWidget *frame,
 
 		gtk_box_pack_end ((GtkBox *) hbox, combo, FALSE, FALSE, 0);
 
-		g_signal_connect (check, "toggled", G_CALLBACK (widget_sanitizer_cb), combo);
+		g_signal_connect (
+			check, "toggled",
+			G_CALLBACK (widget_sanitizer_cb), combo);
 		widget_sanitizer_cb (GTK_TOGGLE_BUTTON (check), combo);
 	}
 
@@ -472,10 +474,22 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
 
 	gtk_box_pack_start ((GtkBox *) framebox, hbox, FALSE, FALSE, 0);
 
-	add_source_list_with_check (framebox, _("_Address Book"), E_CLIENT_SOURCE_TYPE_CONTACTS, G_CALLBACK (checkbox_addr_toggle_cb), target);
-	add_source_list_with_check (framebox, _("A_ppointments"), E_CLIENT_SOURCE_TYPE_EVENTS, G_CALLBACK (checkbox_appt_toggle_cb), target);
-	add_source_list_with_check (framebox, _("_Tasks"), E_CLIENT_SOURCE_TYPE_TASKS, G_CALLBACK (checkbox_task_toggle_cb), target);
-	add_source_list_with_check (framebox, _("_Journal entries"), E_CLIENT_SOURCE_TYPE_MEMOS, G_CALLBACK (checkbox_journal_toggle_cb), target);
+	add_source_list_with_check (
+		framebox, _("_Address Book"),
+		E_CLIENT_SOURCE_TYPE_CONTACTS,
+		G_CALLBACK (checkbox_addr_toggle_cb), target);
+	add_source_list_with_check (
+		framebox, _("A_ppointments"),
+		E_CLIENT_SOURCE_TYPE_EVENTS,
+		G_CALLBACK (checkbox_appt_toggle_cb), target);
+	add_source_list_with_check (
+		framebox, _("_Tasks"),
+		E_CLIENT_SOURCE_TYPE_TASKS,
+		G_CALLBACK (checkbox_task_toggle_cb), target);
+	add_source_list_with_check (
+		framebox, _("_Journal entries"),
+		E_CLIENT_SOURCE_TYPE_MEMOS,
+		G_CALLBACK (checkbox_journal_toggle_cb), target);
 
 	gtk_widget_show_all (framebox);
 
@@ -550,7 +564,8 @@ open_client (PstImporter *m,
 
 	m->waiting_open++;
 
-	e_client_utils_open_new (source, source_type, FALSE, m->cancellable,
+	e_client_utils_open_new (
+		source, source_type, FALSE, m->cancellable,
 		e_client_utils_authenticate_handler, NULL,
 		client_opened_cb, m);
 }

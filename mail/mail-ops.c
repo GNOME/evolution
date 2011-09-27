@@ -452,7 +452,7 @@ static const gchar *resent_recipients[] = {
 struct _send_queue_msg {
 	MailMsg base;
 
-	EMailSession *session;
+	EMailBackend *backend;
 	CamelFolder *queue;
 	CamelTransport *transport;
 
@@ -483,6 +483,7 @@ mail_send_message (struct _send_queue_msg *m,
                    GError **error)
 {
 	EAccount *account = NULL;
+	EMailSession *session;
 	const CamelInternetAddress *iaddr;
 	CamelAddress *from, *recipients;
 	CamelMessageInfo *info = NULL;
@@ -504,11 +505,13 @@ mail_send_message (struct _send_queue_msg *m,
 
 	camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer", x_mailer);
 
-	err = g_string_new("");
+	err = g_string_new ("");
 	xev = mail_tool_remove_xevolution_headers (message);
 
-	tmp = camel_header_raw_find(&xev, "X-Evolution-Account", NULL);
-	if (tmp) {
+	session = e_mail_backend_get_session (m->backend);
+
+	tmp = camel_header_raw_find (&xev, "X-Evolution-Account", NULL);
+	if (tmp != NULL) {
 		gchar *name;
 
 		name = g_strstrip (g_strdup (tmp));
@@ -522,7 +525,7 @@ mail_send_message (struct _send_queue_msg *m,
 				transport_uid = g_strconcat (
 					account->uid, "-transport", NULL);
 				service = camel_session_get_service (
-					CAMEL_SESSION (m->session),
+					CAMEL_SESSION (session),
 					transport_uid);
 				g_free (transport_uid);
 
@@ -607,7 +610,7 @@ mail_send_message (struct _send_queue_msg *m,
 		uri = g_strstrip (g_strdup (header->value));
 		/* FIXME Not passing a GCancellable or GError here. */
 		folder = e_mail_session_uri_to_folder_sync (
-			m->session, uri, 0, NULL, NULL);
+			session, uri, 0, NULL, NULL);
 		if (folder) {
 			/* FIXME Not passing a GCancellable or GError here. */
 			camel_folder_append_message_sync (
@@ -647,7 +650,7 @@ mail_send_message (struct _send_queue_msg *m,
 
 		if (sent_folder_uri) {
 			folder = e_mail_session_uri_to_folder_sync (
-				m->session, sent_folder_uri, 0,
+				session, sent_folder_uri, 0,
 				cancellable, &local_error);
 			if (folder == NULL) {
 				g_string_append_printf (
@@ -714,7 +717,7 @@ mail_send_message (struct _send_queue_msg *m,
 	if (local_error == NULL) {
 		/* Mark the draft message for deletion, if present. */
 		e_mail_session_handle_draft_headers_sync (
-			m->session, message, cancellable, &local_error);
+			session, message, cancellable, &local_error);
 		if (local_error != NULL) {
 			g_warning ("%s: Failed to handle draft headers: %s", G_STRFUNC, local_error->message);
 			g_clear_error (&local_error);
@@ -724,7 +727,7 @@ mail_send_message (struct _send_queue_msg *m,
 		 * Source message refers to the message being forwarded
 		 * or replied to. */
 		e_mail_session_handle_source_headers_sync (
-			m->session, message, cancellable, &local_error);
+			session, message, cancellable, &local_error);
 		if (local_error != NULL) {
 			g_warning ("%s: Failed to handle source headers: %s", G_STRFUNC, local_error->message);
 			g_clear_error (&local_error);
@@ -766,8 +769,6 @@ exit:
 	camel_header_raw_clear (&xev);
 	g_string_free (err, TRUE);
 	g_object_unref (message);
-
-	return;
 }
 
 /* ** SEND MAIL QUEUE ***************************************************** */
@@ -930,8 +931,8 @@ send_queue_desc (struct _send_queue_msg *m)
 static void
 send_queue_free (struct _send_queue_msg *m)
 {
-	if (m->session != NULL)
-		g_object_unref (m->session);
+	if (m->backend != NULL)
+		g_object_unref (m->backend);
 	if (m->driver != NULL)
 		g_object_unref (m->driver);
 	if (m->transport != NULL)
@@ -950,7 +951,7 @@ static MailMsgInfo send_queue_info = {
 /* same interface as fetch_mail, just 'cause i'm lazy today
  * (and we need to run it from the same spot?) */
 void
-mail_send_queue (EMailSession *session,
+mail_send_queue (EMailBackend *backend,
                  CamelFolder *queue,
                  CamelTransport *transport,
                  const gchar *type,
@@ -962,10 +963,15 @@ mail_send_queue (EMailSession *session,
                  void (*done)(gpointer data),
                  gpointer data)
 {
+	EMailSession *session;
 	struct _send_queue_msg *m;
 
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+
+	session = e_mail_backend_get_session (backend);
+
 	m = mail_msg_new (&send_queue_info);
-	m->session = g_object_ref (session);
+	m->backend = g_object_ref (backend);
 	m->queue = g_object_ref (queue);
 	m->transport = g_object_ref (transport);
 	if (G_IS_CANCELLABLE (cancellable))

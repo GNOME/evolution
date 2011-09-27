@@ -398,10 +398,17 @@ static guint preparing_flush = 0;
 static gboolean
 forward_to_flush_outbox_cb (EMailSession *session)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+
 	g_return_val_if_fail (preparing_flush != 0, FALSE);
 
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (shell_backend), FALSE);
+
 	preparing_flush = 0;
-	mail_send (session);
+	mail_send (E_MAIL_BACKEND (shell_backend));
 
 	return FALSE;
 }
@@ -458,8 +465,8 @@ set_socks_proxy_from_gsettings (CamelSession *session)
 
 static void
 proxy_gsettings_changed_cb (GSettings *settings,
-			    const gchar *key,
-			    CamelSession *session)
+                            const gchar *key,
+                            CamelSession *session)
 {
 	set_socks_proxy_from_gsettings (session);
 }

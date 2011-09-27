@@ -34,7 +34,10 @@ struct _EMemoListSelectorPrivate {
 	gint dummy_value;
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EMemoListSelector,
+	e_memo_list_selector,
+	E_TYPE_SOURCE_SELECTOR)
 
 static gboolean
 memo_list_selector_update_single_object (ECalClient *client,
@@ -302,11 +305,10 @@ memo_list_selector_data_dropped (ESourceSelector *selector,
 }
 
 static void
-memo_list_selector_class_init (EMemoListSelectorClass *class)
+e_memo_list_selector_class_init (EMemoListSelectorClass *class)
 {
 	ESourceSelectorClass *source_selector_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMemoListSelectorPrivate));
 
 	source_selector_class = E_SOURCE_SELECTOR_CLASS (class);
@@ -314,7 +316,7 @@ memo_list_selector_class_init (EMemoListSelectorClass *class)
 }
 
 static void
-memo_list_selector_init (EMemoListSelector *selector)
+e_memo_list_selector_init (EMemoListSelector *selector)
 {
 	selector->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		selector, E_TYPE_MEMO_LIST_SELECTOR, EMemoListSelectorPrivate);
@@ -324,33 +326,6 @@ memo_list_selector_init (EMemoListSelector *selector)
 		NULL, 0, GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
 	e_drag_dest_add_calendar_targets (GTK_WIDGET (selector));
-}
-
-GType
-e_memo_list_selector_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EMemoListSelectorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) memo_list_selector_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMemoListSelector),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) memo_list_selector_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_SOURCE_SELECTOR, "EMemoListSelector",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

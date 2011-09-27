@@ -26,13 +26,17 @@
 
 #include <libecal/e-cal-client.h>
 #include <libedataserverui/e-client-utils.h>
+
 #include "e-util/e-selection.h"
 
 struct _ECalendarSelectorPrivate {
 	gint dummy_value;
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	ECalendarSelector,
+	e_calendar_selector,
+	E_TYPE_SOURCE_SELECTOR)
 
 static gboolean
 calendar_selector_update_single_object (ECalClient *client,
@@ -170,7 +174,8 @@ calendar_selector_data_dropped (ESourceSelector *selector,
 		icalcomponent_set_uid (icalcomp, uid);
 	}
 
-	e_client_utils_open_new (destination, E_CLIENT_SOURCE_TYPE_EVENTS, FALSE, NULL,
+	e_client_utils_open_new (
+		destination, E_CLIENT_SOURCE_TYPE_EVENTS, FALSE, NULL,
 		e_client_utils_authenticate_handler, NULL,
 		client_opened_cb, icalcomp);
 
@@ -187,11 +192,10 @@ exit:
 }
 
 static void
-calendar_selector_class_init (ECalendarSelectorClass *class)
+e_calendar_selector_class_init (ECalendarSelectorClass *class)
 {
 	ESourceSelectorClass *source_selector_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalendarSelectorPrivate));
 
 	source_selector_class = E_SOURCE_SELECTOR_CLASS (class);
@@ -199,7 +203,7 @@ calendar_selector_class_init (ECalendarSelectorClass *class)
 }
 
 static void
-calendar_selector_init (ECalendarSelector *selector)
+e_calendar_selector_init (ECalendarSelector *selector)
 {
 	selector->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		selector, E_TYPE_CALENDAR_SELECTOR, ECalendarSelectorPrivate);
@@ -209,33 +213,6 @@ calendar_selector_init (ECalendarSelector *selector)
 		NULL, 0, GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
 	e_drag_dest_add_calendar_targets (GTK_WIDGET (selector));
-}
-
-GType
-e_calendar_selector_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (ECalendarSelectorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) calendar_selector_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ECalendarSelector),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) calendar_selector_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_SOURCE_SELECTOR, "ECalendarSelector",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

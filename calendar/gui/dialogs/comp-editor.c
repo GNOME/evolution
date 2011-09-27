@@ -3243,6 +3243,7 @@ real_send_comp (CompEditor *editor,
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
 	priv = editor->priv;
+
 	flags = comp_editor_get_flags (editor);
 
 	if (priv->mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (priv->comp)) {

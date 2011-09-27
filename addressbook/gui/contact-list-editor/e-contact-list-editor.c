@@ -49,6 +49,10 @@
 #include "e-contact-list-model.h"
 #include "eab-contact-merging.h"
 
+#define E_CONTACT_LIST_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorPrivate))
+
 #define CONTACT_LIST_EDITOR_WIDGET(editor, name) \
 	(e_builder_get_widget \
 	(E_CONTACT_LIST_EDITOR (editor)->priv->builder, name))
@@ -1341,6 +1345,76 @@ contact_list_editor_dispose (GObject *object)
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
+static void
+contact_list_editor_constructed (GObject *object)
+{
+	EContactListEditor *editor;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *renderer;
+	GtkTreeView *view;
+	GtkTreeSelection *selection;
+
+	editor = E_CONTACT_LIST_EDITOR (object);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
+
+	editor->priv->editable = TRUE;
+	editor->priv->allows_contact_lists = TRUE;
+
+	editor->priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (
+		editor->priv->builder, "contact-list-editor.ui");
+	gtk_builder_connect_signals (editor->priv->builder, NULL);
+
+	/* Embed a pointer to the EContactListEditor in the top-level
+	 * widget.  Signal handlers can then access the pointer from any
+	 * child widget by calling contact_list_editor_extract(widget). */
+	g_object_set_data (G_OBJECT (WIDGET (DIALOG)), TOPLEVEL_KEY, editor);
+
+	view = GTK_TREE_VIEW (WIDGET (TREE_VIEW));
+	editor->priv->model = e_contact_list_model_new ();
+	gtk_tree_view_set_model (view, editor->priv->model);
+
+	selection = gtk_tree_view_get_selection (view);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
+	g_signal_connect (selection, "changed",
+		G_CALLBACK (contact_list_editor_selection_changed_cb), editor);
+
+	gtk_tree_view_enable_model_drag_dest (view, NULL, 0, GDK_ACTION_LINK);
+	e_drag_dest_add_directory_targets (WIDGET (TREE_VIEW));
+	gtk_drag_dest_add_text_targets (WIDGET (TREE_VIEW));
+
+	column = gtk_tree_view_column_new ();
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+	gtk_tree_view_append_column (view, column);
+
+	gtk_tree_view_column_set_cell_data_func (
+		column, renderer, (GtkTreeCellDataFunc)
+		contact_list_editor_render_destination, NULL, NULL);
+
+	editor->priv->name_selector = e_name_selector_new ();
+
+	e_name_selector_model_add_section (
+		e_name_selector_peek_model (editor->priv->name_selector),
+		"Members", _("_Members"), NULL);
+
+	g_signal_connect (
+		editor, "notify::book",
+		G_CALLBACK (contact_list_editor_notify_cb), NULL);
+	g_signal_connect (
+		editor, "notify::editable",
+		G_CALLBACK (contact_list_editor_notify_cb), NULL);
+
+	gtk_widget_show_all (WIDGET (DIALOG));
+
+	setup_custom_widgets (editor);
+
+	e_name_selector_load_books (editor->priv->name_selector);
+}
+
 /**************************** EABEditor Callbacks ****************************/
 
 static void
@@ -1492,6 +1566,7 @@ contact_list_editor_class_init (EContactListEditorClass *class)
 	object_class->set_property = contact_list_editor_set_property;
 	object_class->get_property = contact_list_editor_get_property;
 	object_class->dispose = contact_list_editor_dispose;
+	object_class->constructed = contact_list_editor_constructed;
 
 	editor_class = EAB_EDITOR_CLASS (class);
 	editor_class->show = contact_list_editor_show;
@@ -1550,68 +1625,7 @@ contact_list_editor_class_init (EContactListEditorClass *class)
 static void
 contact_list_editor_init (EContactListEditor *editor)
 {
-	EContactListEditorPrivate *priv;
-	GtkTreeViewColumn *column;
-	GtkCellRenderer *renderer;
-	GtkTreeView *view;
-	GtkTreeSelection *selection;
-
-	editor->priv = priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		editor, E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorPrivate);
-
-	priv->editable = TRUE;
-	priv->allows_contact_lists = TRUE;
-
-	priv->builder = gtk_builder_new ();
-	e_load_ui_builder_definition (priv->builder, "contact-list-editor.ui");
-	gtk_builder_connect_signals (priv->builder, NULL);
-
-	/* Embed a pointer to the EContactListEditor in the top-level
-	 * widget.  Signal handlers can then access the pointer from any
-	 * child widget by calling contact_list_editor_extract(widget). */
-	g_object_set_data (G_OBJECT (WIDGET (DIALOG)), TOPLEVEL_KEY, editor);
-
-	view = GTK_TREE_VIEW (WIDGET (TREE_VIEW));
-	priv->model = e_contact_list_model_new ();
-	gtk_tree_view_set_model (view, priv->model);
-
-	selection = gtk_tree_view_get_selection (view);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
-	g_signal_connect (selection, "changed",
-		G_CALLBACK (contact_list_editor_selection_changed_cb), editor);
-
-	gtk_tree_view_enable_model_drag_dest (view, NULL, 0, GDK_ACTION_LINK);
-	e_drag_dest_add_directory_targets (WIDGET (TREE_VIEW));
-	gtk_drag_dest_add_text_targets (WIDGET (TREE_VIEW));
-
-	column = gtk_tree_view_column_new ();
-	renderer = gtk_cell_renderer_text_new ();
-	g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
-	gtk_tree_view_column_pack_start (column, renderer, TRUE);
-	gtk_tree_view_append_column (view, column);
-
-	gtk_tree_view_column_set_cell_data_func (
-		column, renderer, (GtkTreeCellDataFunc)
-		contact_list_editor_render_destination, NULL, NULL);
-
-	priv->name_selector = e_name_selector_new ();
-
-	e_name_selector_model_add_section (
-		e_name_selector_peek_model (priv->name_selector),
-		"Members", _("_Members"), NULL);
-
-	g_signal_connect (
-		editor, "notify::book",
-		G_CALLBACK (contact_list_editor_notify_cb), NULL);
-	g_signal_connect (
-		editor, "notify::editable",
-		G_CALLBACK (contact_list_editor_notify_cb), NULL);
-
-	gtk_widget_show_all (WIDGET (DIALOG));
-
-	setup_custom_widgets (editor);
-
-	e_name_selector_load_books (priv->name_selector);
+	editor->priv = E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor);
 }
 
 /***************************** Public Interface ******************************/

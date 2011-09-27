@@ -411,6 +411,7 @@ source_changed (ESourceComboBox *source_combo_box,
 	ESource *source;
 
 	source = e_source_combo_box_get_active (source_combo_box);
+
 	if (source != NULL) {
 		if (qa->source != NULL)
 			g_object_unref (qa->source);
@@ -472,6 +473,7 @@ build_quick_add_dialog (QuickAdd *qa)
 		gconf_client, "/apps/evolution/addressbook/sources");
 	source = e_source_list_peek_default_source (qa->source_list);
 	g_object_unref (gconf_client);
+
 	qa->combo_box = e_source_combo_box_new (qa->source_list);
 	e_source_combo_box_set_active (
 		E_SOURCE_COMBO_BOX (qa->combo_box), source);

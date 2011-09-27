@@ -180,7 +180,7 @@ eab_book_and_contact_list_from_string (const gchar *str,
 	*book_client = e_book_client_new_from_uri (uri, NULL);
 	g_free (uri);
 
-	return *book_client ? TRUE : FALSE;
+	return (*book_client != NULL);
 }
 
 gchar *
@@ -193,11 +193,11 @@ eab_book_and_contact_list_to_string (EBookClient *book_client,
 	if (!s0)
 		s0 = g_strdup ("");
 
-	if (book_client)
+	if (book_client != NULL) {
 		s1 = g_strconcat (
 			"Book: ", e_client_get_uri (
 			E_CLIENT (book_client)), "\r\n", s0, NULL);
-	else
+	} else
 		s1 = g_strdup (s0);
 
 	g_free (s0);

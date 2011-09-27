@@ -739,7 +739,9 @@ process_component (EDayView *day_view,
 	/* Add the object */
 	add_event_data.day_view = day_view;
 	add_event_data.comp_data = comp_data;
-	e_day_view_add_event (comp, comp_data->instance_start, comp_data->instance_end, &add_event_data);
+	e_day_view_add_event (
+		comp, comp_data->instance_start,
+		comp_data->instance_end, &add_event_data);
 
 	g_object_unref (comp);
 	g_free (rid);
@@ -4225,7 +4227,8 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-	if (e_cal_component_has_attendees (comp) && !itip_organizer_is_user (comp, client)) {
+	if (e_cal_component_has_attendees (comp) &&
+	    !itip_organizer_is_user (comp, client)) {
 		g_object_unref (comp);
 		e_day_view_abort_resize (day_view);
 		return;
@@ -4297,7 +4300,10 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 		mod = CALOBJ_MOD_THIS;
 
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
-	e_calendar_view_modify_and_send (comp, client, mod, toplevel, TRUE);
+
+	e_calendar_view_modify_and_send (
+		E_CALENDAR_VIEW (day_view),
+		comp, client, mod, toplevel, TRUE);
 
  out:
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
@@ -4343,7 +4349,8 @@ e_day_view_finish_resize (EDayView *day_view)
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-	if (e_cal_component_has_attendees (comp) && !itip_organizer_is_user (comp, client))	{
+	if (e_cal_component_has_attendees (comp) &&
+	    !itip_organizer_is_user (comp, client)) {
 		g_object_unref (comp);
 		e_day_view_abort_resize (day_view);
 		return;
@@ -4413,7 +4420,11 @@ e_day_view_finish_resize (EDayView *day_view)
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 
 	e_cal_component_commit_sequence (comp);
-	e_calendar_view_modify_and_send (comp, client, mod, toplevel, TRUE);
+
+	e_calendar_view_modify_and_send (
+		E_CALENDAR_VIEW (day_view),
+		comp, client, mod, toplevel, TRUE);
+
  out:
 	g_object_unref (comp);
 }
@@ -4558,7 +4569,9 @@ e_day_view_add_event (ECalComponent *comp,
 						    e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->day_view))))
 		event.different_timezone = TRUE;
 
-	if (!e_cal_component_has_attendees (comp) || itip_organizer_is_user (comp, event.comp_data->client) || itip_sentby_is_user (comp, event.comp_data->client))
+	if (!e_cal_component_has_attendees (comp) ||
+	    itip_organizer_is_user (comp, event.comp_data->client) ||
+	    itip_sentby_is_user (comp, event.comp_data->client))
 		event.is_editable = TRUE;
 	else
 		event.is_editable = FALSE;
@@ -5099,9 +5112,11 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view,
 	const gchar *uid;
 	AddEventData add_event_data;
 
-	/* Check if the client is read only */
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+
 	client = e_cal_model_get_default_client (model);
+
+	/* Check if the client is read only */
 	if (e_client_is_readonly (E_CLIENT (client)))
 		return FALSE;
 
@@ -6488,7 +6503,8 @@ e_day_view_change_event_time (EDayView *day_view,
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-	if (e_cal_component_has_attendees (comp) && !itip_organizer_is_user (comp, client))	{
+	if (e_cal_component_has_attendees (comp) &&
+	    !itip_organizer_is_user (comp, client)) {
 		g_object_unref (comp);
 		return;
 	}
@@ -6537,7 +6553,10 @@ e_day_view_change_event_time (EDayView *day_view,
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 
 	e_cal_component_commit_sequence (comp);
-	e_calendar_view_modify_and_send (comp, client, mod, toplevel, TRUE);
+
+	e_calendar_view_modify_and_send (
+		E_CALENDAR_VIEW (day_view),
+		comp, client, mod, toplevel, TRUE);
 
 out:
 	g_object_unref (comp);
@@ -6861,7 +6880,10 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 
 			/* FIXME When sending here, what exactly should we send? */
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
-			e_calendar_view_modify_and_send (comp, client, mod, toplevel, FALSE);
+
+			e_calendar_view_modify_and_send (
+				E_CALENDAR_VIEW (day_view),
+				comp, client, mod, toplevel, FALSE);
 		}
 
 	}
@@ -7863,13 +7885,13 @@ e_day_view_on_drag_data_get (GtkWidget *widget,
 
 	comp_str = icalcomponent_as_ical_string_r (vcal);
 	if (comp_str) {
-		ESource *source = e_client_get_source (E_CLIENT (event->comp_data->client));
-		const gchar *source_uid = e_source_peek_uid (source);
+		ESource *source;
+		const gchar *source_uid;
 		GdkAtom target;
 		gchar *tmp;
 
-		if (!source_uid)
-			source_uid = "";
+		source = e_client_get_source (E_CLIENT (event->comp_data->client));
+		source_uid = e_source_peek_uid (source);
 
 		tmp = g_strconcat (source_uid, "\n", comp_str, NULL);
 		target = gtk_selection_data_get_target (selection_data);
@@ -7984,7 +8006,8 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 			comp = e_cal_component_new ();
 			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-			if (e_cal_component_has_attendees (comp) && !itip_organizer_is_user (comp, client))	{
+			if (e_cal_component_has_attendees (comp) &&
+			    !itip_organizer_is_user (comp, client)) {
 				g_object_unref (comp);
 				return;
 			}
@@ -8055,7 +8078,10 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 				mod = CALOBJ_MOD_THIS;
 
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
-			e_calendar_view_modify_and_send (comp, client, mod, toplevel, FALSE);
+
+			e_calendar_view_modify_and_send (
+				E_CALENDAR_VIEW (day_view),
+				comp, client, mod, toplevel, FALSE);
 
 			g_object_unref (comp);
 
@@ -8234,7 +8260,8 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 			comp = e_cal_component_new ();
 			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-			if (e_cal_component_has_attendees (comp) && !itip_organizer_is_user (comp, client))	{
+			if (e_cal_component_has_attendees (comp) &&
+			    !itip_organizer_is_user (comp, client)) {
 				g_object_unref (comp);
 				return;
 			}
@@ -8282,7 +8309,10 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 				mod = CALOBJ_MOD_THIS;
 
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
-			e_calendar_view_modify_and_send (comp, client, mod, toplevel, FALSE);
+
+			e_calendar_view_modify_and_send (
+				E_CALENDAR_VIEW (day_view),
+				comp, client, mod, toplevel, FALSE);
 
 			g_object_unref (comp);
 

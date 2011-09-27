@@ -234,8 +234,6 @@ mail_shell_backend_mail_sync (EMailShellBackend *mail_shell_backend)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
-	EMailBackend *backend;
-	EMailSession *session;
 
 	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -248,11 +246,9 @@ mail_shell_backend_mail_sync (EMailShellBackend *mail_shell_backend)
 	if (mail_shell_backend->priv->mail_sync_in_progress)
 		goto exit;
 
-	backend = E_MAIL_BACKEND (mail_shell_backend);
-	session = e_mail_backend_get_session (backend);
-
 	e_mail_store_foreach (
-		session, (GFunc) mail_shell_backend_sync_store_cb,
+		E_MAIL_BACKEND (mail_shell_backend),
+		(GFunc) mail_shell_backend_sync_store_cb,
 		mail_shell_backend);
 
 exit:
@@ -445,7 +441,6 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	EShell *shell;
 	EShellSettings *shell_settings;
 	EMailBackend *backend;
-	EMailSession *session;
 	gboolean enable_search_folders;
 	const gchar *data_dir;
 
@@ -455,10 +450,9 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	backend = E_MAIL_BACKEND (shell_backend);
-	session = e_mail_backend_get_session (backend);
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
 
-	e_mail_store_init (session, data_dir);
+	e_mail_store_init (backend, data_dir);
 
 	enable_search_folders = e_shell_settings_get_boolean (
 		shell_settings, "mail-enable-search-folders");

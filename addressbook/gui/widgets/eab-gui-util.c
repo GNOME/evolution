@@ -34,13 +34,13 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#include <libebook/e-destination.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-selector.h>
 #include <e-util/e-util.h>
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
-#include <libebook/e-destination.h>
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-html-utils.h"
 #include "shell/e-shell.h"
@@ -319,14 +319,18 @@ eab_select_source (ESource *except_source,
 	selector = e_source_selector_new (source_list);
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
 	if (except_source)
-		g_object_set_data (G_OBJECT (ok_button), "except-source", e_source_list_peek_source_by_uid (source_list, e_source_peek_uid (except_source)));
-	g_signal_connect (selector, "primary_selection_changed",
-			  G_CALLBACK (source_selection_changed_cb), ok_button);
+		g_object_set_data (
+			G_OBJECT (ok_button), "except-source",
+			e_source_list_peek_source_by_uid (source_list, e_source_peek_uid (except_source)));
+	g_signal_connect (
+		selector, "primary_selection_changed",
+		G_CALLBACK (source_selection_changed_cb), ok_button);
 
 	if (select_uid) {
 		source = e_source_list_peek_source_by_uid (source_list, select_uid);
 		if (source)
-			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (selector), source);
+			e_source_selector_set_primary_selection (
+				E_SOURCE_SELECTOR (selector), source);
 	}
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
@@ -493,7 +497,9 @@ do_copy (gpointer data,
 	book_client = process->destination;
 
 	process->count++;
-	eab_merging_book_add_contact (book_client, contact, contact_added_cb, process);
+	eab_merging_book_add_contact (
+		book_client,
+		contact, contact_added_cb, process);
 }
 
 static void
@@ -533,6 +539,7 @@ eab_transfer_contacts (EBookClient *source_client,
                        gboolean delete_from_source,
                        EAlertSink *alert_sink)
 {
+	ESource *source;
 	ESource *destination;
 	static gchar *last_uid = NULL;
 	ContactCopyProcess *process;
@@ -559,9 +566,10 @@ eab_transfer_contacts (EBookClient *source_client,
 			desc = _("Copy contacts to");
 	}
 
+	source = e_client_get_source (E_CLIENT (source_client));
+
 	destination = eab_select_source (
-		e_client_get_source (E_CLIENT (source_client)),
-		desc, NULL, last_uid, window);
+		source, desc, NULL, last_uid, window);
 
 	if (!destination)
 		return;

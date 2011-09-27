@@ -40,7 +40,7 @@
 
 #include <libebook/e-destination.h>
 
-#include "e-util/e-import.h"
+#include <e-util/e-import.h>
 
 #include "evolution-addressbook-importers.h"
 
@@ -784,9 +784,12 @@ csv_getwidget (EImport *ei,
 	if (primary == NULL) {
 		primary = e_source_list_peek_source_any (source_list);
 		g_object_ref (primary);
-		g_datalist_set_data_full(&target->data, "csv-source", primary, g_object_unref);
+		g_datalist_set_data_full (
+			&target->data, "csv-source", primary,
+			(GDestroyNotify) g_object_unref);
 	}
-	e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (selector), primary);
+	e_source_selector_set_primary_selection (
+		E_SOURCE_SELECTOR (selector), primary);
 	g_object_unref (source_list);
 
 	g_signal_connect (

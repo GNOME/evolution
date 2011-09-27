@@ -205,9 +205,10 @@ prompt_for_password (gchar *title,
 {
 	gchar *passwd;
 
-	passwd = e_passwords_ask_password (title, NULL, "", prompt,
-					   E_PASSWORDS_REMEMBER_NEVER | E_PASSWORDS_SECRET, NULL,
-					   NULL);
+	passwd = e_passwords_ask_password (
+		title, NULL, "", prompt,
+		E_PASSWORDS_REMEMBER_NEVER | E_PASSWORDS_SECRET,
+		NULL, NULL);
 
 	if (passwd) {
 		gsize len = strlen (passwd);
