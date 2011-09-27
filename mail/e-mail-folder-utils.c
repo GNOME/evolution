@@ -1630,3 +1630,51 @@ e_mail_folder_uri_from_folder (CamelFolder *folder)
 
 	return e_mail_folder_uri_build (store, folder_name);
 }
+
+/**
+ * e_mail_folder_uri_to_markup:
+ * @session: a #CamelSession
+ * @folder_uri: a folder URI
+ * @error: return location for a #GError, or %NULL
+ *
+ * Converts @folder_uri to a markup string suitable for displaying to users.
+ * The string consists of the #CamelStore display name (in bold), followed
+ * by the folder path.  If the URI is malformed or no corresponding store
+ * exists, the function sets @error and returns %NULL.  Free the returned
+ * string with g_free().
+ *
+ * Returns: a newly-allocated markup string, or %NULL
+ **/
+gchar *
+e_mail_folder_uri_to_markup (CamelSession *session,
+                             const gchar *folder_uri,
+                             GError **error)
+{
+	CamelStore *store = NULL;
+	const gchar *display_name;
+	gchar *folder_name = NULL;
+	gchar *markup;
+	gboolean success;
+
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+	g_return_val_if_fail (folder_uri != NULL, NULL);
+
+	success = e_mail_folder_uri_parse (
+		session, folder_uri, &store, &folder_name, error);
+
+	if (!success)
+		return NULL;
+
+	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
+	g_return_val_if_fail (folder_name != NULL, NULL);
+
+	display_name = camel_service_get_display_name (CAMEL_SERVICE (store));
+
+	markup = g_markup_printf_escaped (
+		"<b>%s</b> : %s", display_name, folder_name);
+
+	g_object_unref (store);
+	g_free (folder_name);
+
+	return markup;
+}
