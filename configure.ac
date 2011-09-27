@@ -1196,13 +1196,9 @@ AM_CONDITIONAL([ENABLE_CONNMAN], [test "$enable_connman" = yes])
 dnl ******************************
 dnl Camel Flags
 dnl ******************************
-EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-1.2, $MANUAL_NSS_CFLAGS, $MOXILLA_NSS_CFLAGS)
+EVO_SET_COMPILE_FLAGS(CAMEL, camel-1.2, $MANUAL_NSS_CFLAGS, $MOXILLA_NSS_CFLAGS)
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
-
-EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, camel-provider-1.2 libedataserver-1.2)
-AC_SUBST(CAMEL_GROUPWISE_CFLAGS)
-AC_SUBST(CAMEL_GROUPWISE_LIBS)
 
 if test "x$mozilla_nss" != "x"; then
 	EVO_SET_COMPILE_FLAGS(MOZILLA_NSS, $mozilla_nss)
@@ -1232,7 +1228,7 @@ AC_SUBST(CERT_UI_LIBS)
 dnl ************
 dnl E_UTIL Flags
 dnl ************
-EVO_SET_COMPILE_FLAGS(E_UTIL, libebackend-1.2 libedataserverui-3.0 camel-provider-1.2 $mozilla_nspr, $MANUAL_NSPR_CFLAGS $MANUAL_NSPR_LIBS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, libebackend-1.2 libedataserverui-3.0 camel-1.2 $mozilla_nspr, $MANUAL_NSPR_CFLAGS $MANUAL_NSPR_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
@@ -1255,7 +1251,7 @@ AC_SUBST(E_WIDGETS_LIBS)
 dnl ***************
 dnl IMPORTERS Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-3.0 camel-provider-1.2 libebook-1.2)
+EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-3.0 camel-1.2 libebook-1.2)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
@@ -1336,7 +1332,7 @@ AC_MSG_RESULT([$ac_cv_have_iuth])
 dnl **********
 dnl Mail Flags
 dnl **********
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-1.2 libgtkhtml-4.0 gtkhtml-editor-4.0 $mozilla_nss libebook-1.2 libedataserverui-3.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-1.2 libgtkhtml-4.0 gtkhtml-editor-4.0 $mozilla_nss libebook-1.2 libedataserverui-3.0)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
