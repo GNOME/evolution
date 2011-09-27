@@ -125,7 +125,7 @@
                             <child>
                               <object class="GtkCellRendererText" id="source_renderer"/>
                               <attributes>
-                                <attribute name="text">0</attribute>
+                                <attribute name="markup">0</attribute>
                               </attributes>
                             </child>
                           </object>

@@ -155,6 +155,9 @@ gboolean	e_mail_folder_uri_equal		(CamelSession *session,
 						 const gchar *folder_uri_a,
 						 const gchar *folder_uri_b);
 gchar *		e_mail_folder_uri_from_folder	(CamelFolder *folder);
+gchar *		e_mail_folder_uri_to_markup	(CamelSession *session,
+						 const gchar *folder_uri,
+						 GError **error);
 
 G_END_DECLS
 
