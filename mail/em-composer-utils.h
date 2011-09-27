@@ -54,7 +54,8 @@ EMsgComposer *	em_utils_forward_message	(EShell *shell,
 void		em_utils_forward_messages	(EMailReader *reader,
 						 CamelFolder *folder,
 						 GPtrArray *uids,
-						 EMailForwardStyle style);
+						 EMailForwardStyle style,
+						 GtkWidget *destroy_when_done);
 void		em_utils_redirect_message	(EShell *shell,
 						 CamelMimeMessage *message);
 void		em_utils_handle_receipt		(EMailSession *session,

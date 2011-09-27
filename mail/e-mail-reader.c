@@ -479,8 +479,8 @@ action_mail_flag_for_followup_cb (GtkAction *action,
 	em_utils_flag_for_followup (reader, folder, uids);
 }
 
-static void
-check_close_browser_reader (EMailReader *reader)
+static gboolean
+get_close_browser_reader (EMailReader *reader)
 {
 	GConfClient *client;
 	const gchar *key;
@@ -489,7 +489,7 @@ check_close_browser_reader (EMailReader *reader)
 
 	/* only allow closing of a mail browser and nothing else */
 	if (!E_IS_MAIL_BROWSER (reader))
-		return;
+		return FALSE;
 
 	client = gconf_client_get_default ();
 
@@ -529,11 +529,16 @@ check_close_browser_reader (EMailReader *reader)
 	}
 
 	g_free (value);
-
-	if (close_it)
-		gtk_widget_destroy (GTK_WIDGET (reader));
-
 	g_object_unref (client);
+
+	return close_it;
+}
+
+static void
+check_close_browser_reader (EMailReader *reader)
+{
+	if (get_close_browser_reader (reader))
+		gtk_widget_destroy (GTK_WIDGET (reader));
 }
 
 static void
@@ -543,11 +548,13 @@ action_mail_forward_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
+	gboolean close_reader;
 
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
+	close_reader = get_close_browser_reader (reader);
 
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
@@ -556,11 +563,10 @@ action_mail_forward_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
-			e_mail_reader_get_forward_style (reader));
+			e_mail_reader_get_forward_style (reader),
+			close_reader ? GTK_WIDGET (reader) : NULL);
 
 	g_ptr_array_unref (uids);
-
-	check_close_browser_reader (reader);
 }
 
 static void
@@ -570,11 +576,13 @@ action_mail_forward_attached_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
+	gboolean close_reader;
 
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
+	close_reader = get_close_browser_reader (reader);
 
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
@@ -583,11 +591,10 @@ action_mail_forward_attached_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
-			E_MAIL_FORWARD_STYLE_ATTACHED);
+			E_MAIL_FORWARD_STYLE_ATTACHED,
+			close_reader ? GTK_WIDGET (reader) : NULL);
 
 	g_ptr_array_unref (uids);
-
-	check_close_browser_reader (reader);
 }
 
 static void
@@ -597,11 +604,13 @@ action_mail_forward_inline_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
+	gboolean close_reader;
 
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
+	close_reader = get_close_browser_reader (reader);
 
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
@@ -610,11 +619,10 @@ action_mail_forward_inline_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
-			E_MAIL_FORWARD_STYLE_INLINE);
+			E_MAIL_FORWARD_STYLE_INLINE,
+			close_reader ? GTK_WIDGET (reader) : NULL);
 
 	g_ptr_array_unref (uids);
-
-	check_close_browser_reader (reader);
 }
 
 static void
@@ -624,11 +632,13 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
+	gboolean close_reader;
 
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
+	close_reader = get_close_browser_reader (reader);
 
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
@@ -637,11 +647,10 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
-			E_MAIL_FORWARD_STYLE_QUOTED);
+			E_MAIL_FORWARD_STYLE_QUOTED,
+			close_reader ? GTK_WIDGET (reader) : NULL);
 
 	g_ptr_array_unref (uids);
-
-	check_close_browser_reader (reader);
 }
 
 static void
