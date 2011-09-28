@@ -2,23 +2,23 @@
 # translation of evolution manual to spanish
 # 
 # 
-# Jorge González <jorgegonz@svn.gnome.org>, 2011., 2011.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
+# Jorge González <jorgegonz@svn.gnome.org>, 2011., 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-26 18:55+0000\n"
-"PO-Revision-Date: 2011-09-27 12:26+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2011-09-28 01:15+0000\n"
+"PO-Revision-Date: 2011-09-28 10:29+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: C/using-categories.page:5(desc)
 msgid ""
@@ -2906,6 +2906,16 @@ msgid ""
 "outgoing filter to move outgoing mail to the sent folder by filtering on the "
 "sender's address."
 msgstr ""
+"Puede usar UMAP en lugar de POP o mover los correos electrónicos entrantes a "
+"diferentes carpetas <link xref=\"mail-folders\">creando carpetas</link> y "
+"<link xref=\"mail-filters\">creando filtros</link>: cree una carpeta nueva y "
+"cree dos subcarpetas (para correo entrante y para correo enviado para esa "
+"cuenta). Ahora configure un filtro de correo de entrada en "
+"<guiseq><gui>Editar</gui><gui>Filtros de correos...</gui><gui style=\"button"
+"\">Añadir</gui></guiseq> para mover el correo entrante a la carpeta de "
+"correo entrante filtrando la dirección de correo del destinatario y "
+"configure un filtro de salida para mover el correo saliente a la carpeta de "
+"correo saliente filtrando la dirección del remitente."
 
 # #-#-#-#-#  usage-exchange.po  #-#-#-#-#
 # index.docbook:342, index.docbook:514
@@ -3535,10 +3545,10 @@ msgstr ""
 "es.wikipedia.org/wiki/Expresi%C3%B3n_regular\">expresiones regulares</link>, "
 "saque provecho aquí de su poderío, esta opción le permite hacer búsquedas de "
 "patrones complejos de letras de manera que, por ejemplo, podría encontrar "
-"todas las palabras que empiezan o acaban con «m» y tienen entre seis y quince "
-"letras de longitud, o distinguir todos los mensajes que tengan duplicada una "
-"determinada cabecera. Para saber cómo usar las expresiones regulares examine "
-"la página del manual del comando «grep»."
+"todas las palabras que empiezan o acaban con «m» y tienen entre seis y "
+"quince letras de longitud, o distinguir todos los mensajes que tengan "
+"duplicada una determinada cabecera. Para saber cómo usar las expresiones "
+"regulares examine la página del manual del comando «grep»."
 
 #: C/mail-search-folders-conditions.page:87(p)
 msgid "Message Location:"
@@ -5561,8 +5571,8 @@ msgstr "Al realizar esta operación puede que pierda algunas de sus etiquetas."
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
-"\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+"id=550414\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 
 #: C/mail-error-failed-to-append-to-sent-folder.page:24(title)
@@ -6160,9 +6170,9 @@ msgid ""
 "Evolution's code repository to test."
 msgstr ""
 "Sólo para desarrolladores: en versiones futuras, Evolution usará WebKit en "
-"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href=\"http://"
-"git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el repositorio "
-"de código de Evolution para pruebas."
+"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href="
+"\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el "
+"repositorio de código de Evolution para pruebas."
 
 #: C/mail-displaying-no-css.page:27(p)
 msgid ""
@@ -6471,10 +6481,6 @@ msgid "Composing a new message"
 msgstr "Redactar un mensaje de correo nuevo"
 
 #: C/mail-composer-write-new-message.page:25(p)
-#| msgid ""
-#| "You can start writing a new email message by clicking File &gt; New &gt; "
-#| "Mail Message, by pressing Ctrl+N when in the mail tool, or by clicking "
-#| "New in the toolbar."
 msgid ""
 "You can start writing a new email message by clicking <guiseq><gui>File</"
 "gui><gui>New</gui><gui>Mail Message</gui></guiseq>, by pressing "
@@ -7241,17 +7247,16 @@ msgid "Alignment:"
 msgstr "Alineación:"
 
 #: C/mail-composer-html-text.page:36(p)
-#, fuzzy
 msgid ""
 "Located next to the Headers and Lists dropdown, the three paragraph icons "
 "should be familiar to users of most word processing software. The left-most "
 "button aligns your text to the left, the center button centers text, and the "
 "right button aligns the text to the right."
 msgstr ""
-"Situado junto a los botones de estilo del texto, estos tres iconos de "
-"párrafo deberían ser familiares para los usuarios de procesadores de textos. "
-"El que está más a la izquierda alinea el texto a la izquierda, el del "
-"centro, lo centra y el de la derecha lo alinea hacia el lado derecho."
+"Situado junto a la lista desplegable de Cabeceras y Listas, los tres iconos "
+"de párrafo deberían ser familiares para los usuarios de procesadores de "
+"textos. El que está más a la izquierda alinea el texto a la izquierda, el "
+"del centro, lo centra y el de la derecha lo alinea hacia el lado derecho."
 
 #: C/mail-composer-html-text.page:40(title)
 msgid "Indentation Rules:"
@@ -7504,14 +7509,12 @@ msgid "Enter the address in the <gui>URL</gui> field."
 msgstr "Escriba la dirección en el campo <gui>URL</gui>."
 
 #: C/mail-composer-html-link.page:32(p)
-#, fuzzy
 msgid ""
 "If you do not want a special link text you can just enter the address of the "
 "link directly. It will be automatically recognized as a link."
 msgstr ""
-"Use la herramienta de añadir enlace para poner hiperenlaces en sus mensajes "
-"HTML. Si no quiere escribir ningún texto en particular, sólo tiene que "
-"escribir la dirección directamente y Evolution la reconocerá como un enlace."
+"Si no quiere escribir ningún texto en particular sólo tiene que escribir la "
+"dirección directamente. Evolution la reconocerá como un enlace."
 
 #: C/mail-composer-html-image.page:5(desc)
 msgid "Embed a picture in the mail composer."
@@ -7755,10 +7758,6 @@ msgid "Format of dates and time"
 msgstr "Formatos de fechas y hora"
 
 #: C/mail-change-time-format.page:20(p)
-#| msgid ""
-#| "To enable this feature, select Edit &gt; Preferences &gt; Mail "
-#| "Preferences &gt; Headers &gt; Show the photograph of sender in the email "
-#| "preview. Deselect this option to disable this feature."
 msgid ""
 "You can change the format of the <gui>Date</gui> column by setting your "
 "preferred format under <guiseq><gui>Edit</gui><gui>Preferences</"
@@ -8299,27 +8298,23 @@ msgid ""
 msgstr "Otros ajustes "
 
 #: C/mail-account-manage-unix-mbox-spool-file.page:5(desc)
-#, fuzzy
 msgid "Add and edit a Standard Unix mbox Spool File account in Evolution."
-msgstr "Opciones de recepción para el archivo spool mbox estándar de Unix"
+msgstr "Añadir y editar una cuenta de Archivo spool mbox estándar de Unix."
 
 #: C/mail-account-manage-unix-mbox-spool-file.page:20(title)
-#, fuzzy
 msgid "Standard Unix mbox Spool File account settings"
-msgstr "Opciones de recepción para el archivo spool mbox estándar de Unix"
+msgstr "Configuración de cuenta de Archivo spool mbox estándar de Unix"
 
 #: C/mail-account-manage-unix-mbox-spool-directory.page:5(desc)
-#, fuzzy
 msgid "Add and edit a Standard Unix mbox Spool Directory account in Evolution."
 msgstr ""
-"Opciones de recepción para directorios de correo mbox en formato estándar de "
-"Unix"
+"Añadir y editar una cuenta de Archivo spool mbox estándar de Unix en "
+"Evolution."
 
 #: C/mail-account-manage-unix-mbox-spool-directory.page:20(title)
-#, fuzzy
 msgid "Standard Unix mbox Spool Directory account settings"
 msgstr ""
-"Opciones de recepción para directorios de correo mbox en formato estándar de "
+"Configuración de cuenta de directorios de correo mbox en formato estándar de "
 "Unix"
 
 #: C/mail-account-manage-pop.page:5(desc)
@@ -8407,9 +8402,10 @@ msgid "Exchange Web Services account settings"
 msgstr "Configuración de cuenta para Exchange Web Services"
 
 #: C/mail-account-manage-mh-format-directories.page:5(desc)
-#, fuzzy
 msgid "Add and edit a MH Format Mail Directories account in Evolution."
-msgstr "Opciones de recepción para directorios de correo en formato MH"
+msgstr ""
+"Añadir y editar una cuenta de directorios de correo en formato MH en "
+"Evolution."
 
 #: C/mail-account-manage-mh-format-directories.page:20(title)
 msgid "MH Format Mail Directories account settings"
@@ -8436,9 +8432,10 @@ msgid "Corporate Account Types"
 msgstr "Tipos de cuenta corporativos"
 
 #: C/mail-account-manage-maildir-format-directories.page:5(desc)
-#, fuzzy
 msgid "Add and edit a Maildir Format Mail Directories account in Evolution."
-msgstr "Opciones de recepción para directorios de correo en formato Maildir"
+msgstr ""
+"Añadir y editar una cuenta de directorios de correo en formato Maildir en "
+"Evolution."
 
 #: C/mail-account-manage-maildir-format-directories.page:20(title)
 msgid "Maildir Format Mail Directories account settings"
@@ -8572,8 +8569,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
-"\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">GMail Help</link> for more information."
 msgstr ""
 "Para acceder a GMail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -9218,13 +9215,12 @@ msgstr ""
 "para la configuración."
 
 #: C/intro-first-run.page:75(p)
-#, fuzzy
 msgid ""
 "MH-Format Mail Directories: For downloading email using MH or another MH-"
 "style program."
 msgstr ""
-"Si descarga su correo-e usando MH u otro programa estilo MH debe usar esta "
-"opción."
+"Directorios de correo en formato MH: para descargar correo electrónico "
+"usando MH u otro programa de estilo MH."
 
 #: C/intro-first-run.page:75(p) C/intro-first-run.page:77(p)
 #: C/intro-first-run.page:81(p)
@@ -9240,13 +9236,12 @@ msgstr ""
 "link> para la configuración."
 
 #: C/intro-first-run.page:77(p)
-#, fuzzy
 msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style program."
 msgstr ""
-"Si descarga su correo-e usando Qmail u otro programa estilo Maildir debe "
-"usar esta opción."
+"Directorios de correo en formato Maildir: para descargar correo electrónico "
+"usando Qmail u otro programa de estilo Maildir."
 
 #: C/intro-first-run.page:77(p)
 msgid ""
@@ -9281,6 +9276,9 @@ msgid ""
 "Standard Unix mbox spool directory: For reading and storing email in the "
 "mail spool directory on your local system."
 msgstr ""
+"Directorios de correo mbox en formato estándar de Unix: para leer y "
+"almacenar correo electrónico en el directorio de correo spool en su sistema "
+"local."
 
 #: C/intro-first-run.page:81(p)
 msgid ""
@@ -9495,6 +9493,11 @@ msgid ""
 "maildir-format-directories\">configure a Maildir account</link> in Evolution "
 "and point to the folder where the Maildir files are stored."
 msgstr ""
+"El formato usado por Evolution (para carpetas locales desde la versión 3.0). "
+"No existe necesidad de importar archivos Maildir ya que puede <link xref="
+"\"mail-account-manage-maildir-format-directories\">configurar una cuenta "
+"Maildir</link> en Evolution y que apunte a la carepta donde los archivos "
+"Maildir están almacenados."
 
 #: C/import-supported-file-formats.page:38(p)
 msgid "Outlook Express 5/6 Personal Folders (.dbx):"
@@ -9663,6 +9666,10 @@ msgid ""
 "server and does not need to be manually transfered. You can set up the "
 "corresponding account in Evolution and the data will be downloaded."
 msgstr ""
+"Estos pasos hablan sobre datos almacenados localmente tales como cuentas "
+"POP. Esto no es necesario para los datos remotos (como IMAP), ya que los "
+"datos están en el servidor y no se necesita su transferencia manual. Puede "
+"configurar la cuenta correspondiente en Evolution y se descargarán los datos."
 
 #: C/import-apps-outlook.page:29(title)
 msgid "Prerequisites under Windows"
@@ -9893,6 +9900,11 @@ msgid ""
 "<guiseq><gui>File</gui><gui>Save as mbox...</gui></guiseq> or right-click on "
 "the message and click <gui>Save as mbox...</gui>."
 msgstr ""
+"Para guardar un correo en un arachivo en formato <link href=\"http://es."
+"wikipedia.org/wiki/Mbox\">mbox</link>, seleccione un correo y pulse "
+"<guiseq><gui>Archivo</gui><gui>Guardar como mbox...</gui></guiseq> o pulse "
+"con el botón derecho del ratón sobre el correo y pulse <gui>Guardar como "
+"mbox...</gui>."
 
 #: C/exporting-data-mail.page:24(p)
 msgid ""
@@ -9932,6 +9944,9 @@ msgid ""
 "gui><gui>Save as vCard</gui></guiseq> or right-click on the contact and "
 "click <gui>Save as vCard</gui>."
 msgstr ""
+"Si quiere exportar un sólo contacto pulse <guiseq><gui>Archivo</"
+"gui><gui>Guardar como vCard</gui></guiseq> o pulse con el botón derecho del "
+"ratón sobre el contacto y pulse <gui>Guardar como vCard</gui>."
 
 #: C/exporting-data-calendar.page:5(desc)
 msgid "How to export calendar data from <em>Evolution</em>."
@@ -9947,6 +9962,10 @@ msgid ""
 "calendars and click <gui>Save as</gui>. Available formats are iCalendar "
 "format (ICS, recommended), comma separated values (CSV), and RDF format."
 msgstr ""
+"Para exportar un calendario completo, pulse con el botón derecho del ratón "
+"sobre el calendario en la lista de calendarios y pulse <gui>Guardar como</"
+"gui>. Los formatos disponibles son el formato iCalendar (ICS, recomendado), "
+"valores separados por comas (CSV) y formato RDF."
 
 #: C/exporting-data-calendar.page:23(p)
 msgid ""
@@ -10117,6 +10136,12 @@ msgid ""
 "will be applied to the currently opened calendar (selected in the list of "
 "calendars on the left); other calendars remain unchanged."
 msgstr ""
+"Para purgar entradas antiguas en un calendario vaya a <guiseq><gui>Acciones</"
+"gui><gui>Purgar</gui></guiseq> en la vista del Calendario. Se le preguntará "
+"cuántos días de antigüedad deben tener los acontecimientos del calendario "
+"que se deben quitar. La acción se aplicará sobre el calendario actualmente "
+"abierto (sieleccionado en la lista de calendarios a la izquierda); no se "
+"verán afectados los otros calendarios."
 
 #: C/default-browser.page:5(desc)
 msgid "How to define the default browser to open links with."
@@ -10134,6 +10159,10 @@ msgid ""
 "gui><gui>System</gui><gui>System Info</gui><gui>Default Applications</gui></"
 "guiseq>."
 msgstr ""
+"En GNOME 3 puede configurar el navegador predeterminado del sistema bajo "
+"<guiseq><gui>Actividades</gui><gui>Aplicaciones</gui><gui>Configuración del "
+"sistema</gui><gui>Sistema</gui><gui>Información del sistema</"
+"gui><gui>Aplicaciones predeterminadas</gui></guiseq>."
 
 #: C/default-browser.page:25(p)
 msgid ""
@@ -10176,6 +10205,10 @@ msgid ""
 "<link href=\"http://www.freedesktop.org/wiki/Specifications/basedir-spec"
 "\">XDG Base Directory Specification</link>. By default this means:"
 msgstr ""
+"Si ejecuta Evolution 2.32.0 o posterior se almacenarán sus datos según la "
+"<link href=\"http://www.freedesktop.org/wiki/Specifications/basedir-spec"
+"\">Especificación de directorios base XDG</link>. De forma predeterminada "
+"significa que:"
 
 #: C/data-storage.page:30(title)
 msgid "The user's data files"
