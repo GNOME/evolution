@@ -1,16 +1,16 @@
 # translation of evolution-help.master.po to Español
 # translation of evolution manual to spanish
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
 # 
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
 # Jorge González <jorgegonz@svn.gnome.org>, 2011., 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-26 13:58+0000\n"
-"PO-Revision-Date: 2011-09-26 20:52+0200\n"
+"POT-Creation-Date: 2011-09-28 01:15+0000\n"
+"PO-Revision-Date: 2011-09-28 10:29+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2906,6 +2906,16 @@ msgid ""
 "outgoing filter to move outgoing mail to the sent folder by filtering on the "
 "sender's address."
 msgstr ""
+"Puede usar UMAP en lugar de POP o mover los correos electrónicos entrantes a "
+"diferentes carpetas <link xref=\"mail-folders\">creando carpetas</link> y "
+"<link xref=\"mail-filters\">creando filtros</link>: cree una carpeta nueva y "
+"cree dos subcarpetas (para correo entrante y para correo enviado para esa "
+"cuenta). Ahora configure un filtro de correo de entrada en "
+"<guiseq><gui>Editar</gui><gui>Filtros de correos...</gui><gui style=\"button"
+"\">Añadir</gui></guiseq> para mover el correo entrante a la carpeta de "
+"correo entrante filtrando la dirección de correo del destinatario y "
+"configure un filtro de salida para mover el correo saliente a la carpeta de "
+"correo saliente filtrando la dirección del remitente."
 
 # #-#-#-#-#  usage-exchange.po  #-#-#-#-#
 # index.docbook:342, index.docbook:514
@@ -3987,6 +3997,10 @@ msgid ""
 "days</gui> option and select the number of days to allow messages to remain "
 "on the server."
 msgstr ""
+"Si quiere dejar los mensajes en el servidor por un periodo de tiempo, marque "
+"la opciones <gui>Dejar mensajes en el servidor</gui> y <gui>Eliminar después "
+"de ... días</gui> y seleccione el número de días que los mensajes se "
+"almacenarán en el servidor."
 
 #: C/mail-receiving-options-pop.page:53(p)
 msgid ""
@@ -4315,11 +4329,6 @@ msgid "Viewing an email"
 msgstr "Ver un correo"
 
 #: C/mail-reading-keyboard-shortcuts.page:28(p)
-#| msgid ""
-#| "If you are not already viewing mail, switch to the mail tool by clicking "
-#| "the Mail shortcut button, or press Ctrl+1. To read a message, select it "
-#| "in the message list; if you'd like to see it in its own window, either "
-#| "double-click it, press Enter, or press Ctrl+O."
 msgid ""
 "In the Mail window you read a message by selecting it in the message list. "
 "If you would like to see the message in its own window, either double-click "
@@ -6160,6 +6169,10 @@ msgid ""
 "\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>\" in "
 "Evolution's code repository to test."
 msgstr ""
+"Sólo para desarrolladores: en versiones futuras, Evolution usará WebKit en "
+"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href="
+"\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el "
+"repositorio de código de Evolution para pruebas."
 
 #: C/mail-displaying-no-css.page:27(p)
 msgid ""
@@ -6370,7 +6383,6 @@ msgstr ""
 "con el botón derecho sobre el mensaje y elija <gui>Eliminar</gui>."
 
 #: C/mail-delete-and-undelete.page:32(p)
-#, fuzzy
 msgid ""
 "When you press Delete or click the Trash folder, your mail is not actually "
 "deleted, but is marked for deletion. You can see all message marked for "
@@ -6378,13 +6390,12 @@ msgid ""
 "<guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq>. You can "
 "view the messages striken off for later deletion."
 msgstr ""
-"Cuando pulsa Borrar o pulsa en el la carpeta de la Papelera, su correo no se "
-"borra realmente sino que se marca para ser eliminado. Su correo es "
-"recuperable hasta que no lo haya purgado. Cuando Purga una carpeta realmente "
-"está eliminando todo el correo marcado como borrado. Para mostrar los "
-"mensajes borrados, desmarque la casilla Ocultar mensajes borrados del menú "
-"Ver. Puede ver los mensajes marcados para ser borrados posteriormente. Puede "
-"además encontrar los mensajes borrados en la carpeta Papelera."
+"Cuando pulsa Eliminar o pulsa en el la carpeta de la Papelera, su correo no "
+"se borra realmente sino que se marca para ser eliminado. Puede ver los "
+"mensajes marcados para ser eliminados en la carpeta Papelera. Para mostrar "
+"los mensajes eliminados, pulse <guiseq><gui>Ver</gui><gui>Mostrar mensajes "
+"eliminados</gui></guiseq>. Puede ver los mensajes marcados para ser "
+"eliminados más tarde."
 
 #: C/mail-delete-and-undelete.page:34(p)
 msgid ""
@@ -6401,17 +6412,17 @@ msgid "Undeleting Messages"
 msgstr "Recuperar mensajes"
 
 #: C/mail-delete-and-undelete.page:40(p)
-#, fuzzy
 msgid ""
 "You can undelete a message that has been deleted but not expunged yet. To "
 "undelete a message, select the message, click <guiseq><gui>Edit</"
 "gui><gui>Undelete message</gui></guiseq>. Note that <guiseq><gui>View</"
 "gui><gui>Show Deleted Messages</gui></guiseq> must be enabled for this."
 msgstr ""
-"Puede recuperar un mensaje que ha sido borrado pero no ha sido purgado. Para "
-"recuperar un mensaje, seleccione el mensaje, pulse Editar &gt: Recuperar. "
-"Note que Ver &gt; Ocultar mensajes borrados en la barra de menú debe estar "
-"desactivado para esto."
+"Puede recuperar un mensaje que se ha eliminado pero no ha sido purgado "
+"todavía. Para recuperar un mensaje, seleccione el mensaje, pulse "
+"<guiseq><gui>Editar</gui><gui>Recuperar mensaje</gui></guiseq>. Tenga en "
+"cuenta que que <guiseq><gui>Ver</gui><gui>Mostrar mensajes eliminados</gui></"
+"guiseq> debe estar activado para esto."
 
 #: C/mail-delete-and-undelete.page:42(p)
 msgid ""
@@ -6470,20 +6481,16 @@ msgid "Composing a new message"
 msgstr "Redactar un mensaje de correo nuevo"
 
 #: C/mail-composer-write-new-message.page:25(p)
-#, fuzzy
-#| msgid ""
-#| "You can start writing a new email message by clicking File &gt; New &gt; "
-#| "Mail Message, by pressing Ctrl+N when in the mail tool, or by clicking "
-#| "New in the toolbar."
 msgid ""
 "You can start writing a new email message by clicking <guiseq><gui>File</"
 "gui><gui>New</gui><gui>Mail Message</gui></guiseq>, by pressing "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>, or by clicking "
 "<gui>New</gui> in the toolbar."
 msgstr ""
-"Puede comenzar a escribir un nuevo mensaje de correo-e pulsando Archivo &gt; "
-"Nuevo &gt; Mensaje de correo, pulsando Ctrl+N cuando esté en la herramienta "
-"de correo o pulsando Nuevo en la barra de herramientas."
+"Puede comenzar a escribir un nuevo mensaje de correo-e pulsando "
+"<guiseq><gui>Archivo</gui><gui>Nuevo</gui><gui>Mensajes de correo</gui></"
+"guiseq>, <keyseq><key>Mayús</key><key>Ctrl</key><key>M</key></keyseq> o "
+"pulsando <gui>Nuevo</gui> en la barra de herramientas."
 
 #: C/mail-composer-write-new-message.page:27(p)
 msgid ""
@@ -6582,17 +6589,14 @@ msgstr ""
 "direcciones en el editor separándolas por comas o puntos y comas."
 
 #: C/mail-composer-several-recipients.page:30(p)
-#, fuzzy
 msgid ""
 "If you frequently write email to the same groups of people, you can create "
 "<link xref=\"contacts-using-contact-lists\">contact lists</link> to send "
 "them mail as though they have a single address."
 msgstr ""
-"Si escribe con frecuencia a los mismos grupos de personas, puede crear "
-"listas de direcciones en la herramienta de contactos, y después enviarles "
-"correos como si cada grupo tuviera una única dirección de correo. Para saber "
-"cómo hacerlo consulte <link linkend=\"usage-contact-organize-group-list"
-"\">Crear una lista de contactos</link>."
+"Si escribe con frecuencia a los mismos grupos de personas, puede crear <link "
+"xref=\"contacts-using-contact-lists\">listas de contactos</link> para "
+"enviarles correos como si tuvieran una única dirección de correo."
 
 #: C/mail-composer-several-recipients.page:33(title)
 msgid "Recipient types"
@@ -6639,7 +6643,6 @@ msgid "Using the buttons"
 msgstr "Usar los botones"
 
 #: C/mail-composer-several-recipients.page:47(p)
-#, fuzzy
 msgid ""
 "Instead of typing the recipients' names you can also click the <gui style="
 "\"button\">To:</gui>, <gui style=\"button\">Cc:</gui>, or <gui style=\"button"
@@ -6647,10 +6650,12 @@ msgid ""
 "books. Select the addresses and click the arrow buttons to move them into "
 "the appropriate address columns (To:, Cc:, Bcc:)."
 msgstr ""
-"Alternativamente, puede pulsar los botones Para:, Cc:, Cco:, para obtener "
-"una lista de las direcciones de correo-e en su lista de contactos. "
-"Seleccione las direcciones y pulse las flechas para moverlas entre las "
-"columnas de direcciones apropiadas."
+"En vez de escribir los nombres de los destinatarios, puede pulsar los "
+"botones <gui style=\"button\">Para:</gui>, <gui style=\"button\">Cc:</gui>, "
+"o <gui style=\"button\">CCo:</gui> para obtener una lista de las direcciones "
+"de corre-e en sus libretas de direcciones. Seleccione las direcciones y "
+"pulse los botones de flechas para moverlas a las columnas de direcciones "
+"adecuadas (Para:, Cc:, CCo:)."
 
 #: C/mail-composer-search.page:5(desc)
 msgid "Searching for text in the mail composer."
@@ -6694,15 +6699,15 @@ msgid "Find a word or phrase, and replace it with something else."
 msgstr "Buscar una palabra o una frase y sustituirla por otra cosa."
 
 #: C/mail-composer-search.page:39(p)
-#, fuzzy
 msgid ""
 "For all of these menu items you can choose whether to search backwards in "
 "the document from the point where your cursor is. You can also determine "
 "whether the search is to be case sensitive in determining a match"
 msgstr ""
-"Para todos estas opciones puede elegir si quiere o no Hacia atrás, desde el "
-"punto el que se encuentra el cursor. También puede determinar si quiere que "
-"la búsqueda sea sensible a mayúsculas o no."
+"Para todos estos elementos de menú puede elegir si quiere o no buscar hacia "
+"atrás en el documento desde el punto en el que se encuentra el cursor. "
+"También puede determinar si quiere que la búsqueda sea sensible a mayúsculas "
+"o no."
 
 #: C/mail-composer-search.page:40(p)
 msgid ""
@@ -6727,7 +6732,6 @@ msgid "Replying to Email Messages"
 msgstr "Responder a mensajes de correo-e"
 
 #: C/mail-composer-reply.page:27(p)
-#, fuzzy
 msgid ""
 "To reply to a message, select the message to reply to in the message list "
 "and click the Reply button in the toolbar, or right-click within the message "
@@ -6741,24 +6745,24 @@ msgstr ""
 "Para responder a un mensaje, seleccione el mensaje al que responder en la "
 "lista de mensajes y pulse el botón Responder en la barra de tareas, o pulse "
 "con el botón derecho en el mensaje y seleccione Responder al remitente. Esto "
-"abrirá el editor de mensajes. Los campos Para: y Asunto: ya estarán "
-"rellenados, aunque puede cambiarlos si lo desea. Además se insertará el "
-"texto completo del mensaje antiguo en el nuevo mensaje, en gris o bien con "
-"una línea azul a un lado (sólo para correos en HTML) o con el carácter &gt; "
-"antes de cada línea (para el modo texto plano), para indicar que es parte "
-"del mensaje anterior."
+"abrirá el editor de mensajes. Los campos <gui>Para:</gui> y <gui>Asunto:</"
+"gui> ya estarán rellenados, aunque puede cambiarlos si quiere. Además se "
+"insertará el texto completo del mensaje antiguo en el nuevo mensaje, en gris "
+"o bien con una línea azul a un lado (sólo para correos en HTML) o con el "
+"carácter &gt; antes de cada línea (para el modo texto plano), para indicar "
+"que es parte del mensaje anterior."
 
 #: C/mail-composer-reply.page:28(p)
-#, fuzzy
 msgid ""
 "If you are reading a message with several recipients, you can use <gui>Reply "
 "to All</gui> instead of <gui>Reply</gui>. If there are large numbers of "
 "people in the <gui>Cc:</gui> or <gui>To:</gui> fields, this can save "
 "substantial amounts of time."
 msgstr ""
-"Si está leyendo un mensaje que tiene varios destinatarios puede que desee "
-"Responder a todos en lugar de Responder. Si hay un gran número de personas "
-"en los campos Para: o Cc: esto puede ahorrar mucho tiempo."
+"Si está leyendo un mensaje que tiene varios destinatarios puede usar "
+"<gui>Responder a todos</gui> en lugar de <gui>Responder</gui>. Si hay un "
+"gran número de personas en los campos <gui>Para:</gui> o <gui>Cc:</gui> esto "
+"puede ahorrar mucho tiempo."
 
 #: C/mail-composer-reply.page:32(title)
 msgid "Using the Reply To All Feature"
@@ -6782,15 +6786,14 @@ msgstr ""
 "tal lista no se ha compartido con nadie."
 
 #: C/mail-composer-reply.page:34(p)
-#, fuzzy
 msgid ""
 "If you subscribe to a mailing list, and want your reply to go just to the "
 "list rather than to the sender, select <gui>Reply to List</gui> instead of "
 "<gui>Reply</gui> or <gui>Reply to All</gui>."
 msgstr ""
-"Si está suscrito a una lista de correo y quiere que su respuesta sólo vaya a "
-"la misma en lugar de al remitente pulse en Responder la lista en lugar de "
-"Responder o de Responder a todos."
+"Si se suscribe a una lista de correo y quiere que su respuesta sólo vaya a "
+"la lista en lugar de al remitente pulse en <gui>Responder a la lista</gui> "
+"en lugar de <gui>Responder</gui> o <gui>Responder a todos</gui>."
 
 #: C/mail-composer-reply.page:38(title)
 msgid "Keyboard shortcuts"
@@ -7213,7 +7216,6 @@ msgid "Headers and Lists:"
 msgstr "Cabeceras y listas:"
 
 #: C/mail-composer-html-text.page:30(p)
-#, fuzzy
 msgid ""
 "At the left of the upper tool bar, you can choose <gui>Normal</gui> for a "
 "default text style or <gui>Header 1</gui> through <gui>Header 6</gui> for "
@@ -7221,41 +7223,40 @@ msgid ""
 "<gui>Preformat</gui>, to use the HTML tag for preformatted blocks of text, "
 "and three types of bullet points for lists."
 msgstr ""
-"En el borde izquierda de la barra de herramientas puede elegir el estilo de "
-"texto predeterminado, Normal o los diferentes tamaños de cabecera "
-"disponibles desde Cabecera 1 (el más grande) hasta Cabecera 6 (el más "
-"pequeño). Otros estilos disponibles para los más organizados son Preformato, "
-"la lista de puntos o los tres tipos de listas numeradas."
+"En la parte izquierda de la barra superior puede elegir el estilo de texto "
+"predeterminado, <gui>Normal</gui> <gui>Cabecera 1</gui> hasta <gui>Cabecera "
+"6</gui> para tamaños variables de la cabecera, desde grande (1) hasta "
+"pequeño (6). Otros estilos incluyen el <gui>Preformato</gui>, para usar la "
+"etiqueta de HTML para bloques de texto preformateados, y tres tipos de topos "
+"para las listas."
 
 #: C/mail-composer-html-text.page:31(p)
-#, fuzzy
 msgid ""
 "For instance, instead of using asterisks to mark a bulleted list, you can "
 "use the <gui>Bulleted List</gui> style from the style dropdown list. "
 "Evolution uses different bullet styles, and handles word wrap and multiple "
 "levels of indentation."
 msgstr ""
-"En lugar de usar asteriscos para marcar una lista de puntos, pruebe el "
-"estilo Lista de puntos desde el menú desplegable de estilos. Evolution "
-"distintos estilos para las listas de topos y maneja varios niveles de "
-"sangría y de ajuste para las palabras."
+"Por ejemplo, en lugar de usar asteriscos para marcar una lista de puntos, "
+"puede usar el estilo <gui>Lista de topos</gui> desde el menú desplegable de "
+"estilos. Evolution distintos estilos para las listas de topos y maneja "
+"varios niveles de sangría y de ajuste para las palabras."
 
 #: C/mail-composer-html-text.page:35(title)
 msgid "Alignment:"
 msgstr "Alineación:"
 
 #: C/mail-composer-html-text.page:36(p)
-#, fuzzy
 msgid ""
 "Located next to the Headers and Lists dropdown, the three paragraph icons "
 "should be familiar to users of most word processing software. The left-most "
 "button aligns your text to the left, the center button centers text, and the "
 "right button aligns the text to the right."
 msgstr ""
-"Situado junto a los botones de estilo del texto, estos tres iconos de "
-"párrafo deberían ser familiares para los usuarios de procesadores de textos. "
-"El que está más a la izquierda alinea el texto a la izquierda, el del "
-"centro, lo centra y el de la derecha lo alinea hacia el lado derecho."
+"Situado junto a la lista desplegable de Cabeceras y Listas, los tres iconos "
+"de párrafo deberían ser familiares para los usuarios de procesadores de "
+"textos. El que está más a la izquierda alinea el texto a la izquierda, el "
+"del centro, lo centra y el de la derecha lo alinea hacia el lado derecho."
 
 #: C/mail-composer-html-text.page:40(title)
 msgid "Indentation Rules:"
@@ -7274,15 +7275,14 @@ msgid "Text Styles:"
 msgstr "Estilos de texto:"
 
 #: C/mail-composer-html-text.page:46(p)
-#, fuzzy
 msgid ""
 "Use these buttons in the lower tool bar to determine the way your email "
 "looks. If you have text selected, the style applies to the selected text. If "
 "you do not have text selected, the style applies to whatever you type next."
 msgstr ""
-"Use estos botones para fijar la apariencia de sus correos-e. Si tiene "
-"seleccionado un texto, el estilo se aplicará sobre él. Si no, el estilo se "
-"aplicará a lo próximo que escriba."
+"Use estos botones de la barra de herramientas inferior para fijar la "
+"apariencia de su mensaje. Si tiene seleccionado un texto, el estilo se "
+"aplicará sobre él. Si no, el estilo se aplicará a lo próximo que escriba."
 
 #: C/mail-composer-html-text.page:50(p)
 msgid "Button"
@@ -7339,7 +7339,6 @@ msgid "Color Selection:"
 msgstr "Selección de color:"
 
 #: C/mail-composer-html-text.page:78(p)
-#, fuzzy
 msgid ""
 "At the left in the lower tool bar is the color section tool, where a box "
 "displays the current text color. To choose a new color, click the arrow "
@@ -7349,13 +7348,14 @@ msgid ""
 "clicking the message background, then selecting <guiseq><gui>Style</"
 "gui><gui>Page Style</gui></guiseq>."
 msgstr ""
-"En el extremo de la derecha está la herramienta de selección del color, "
-"donde una caja muestra el color actual del texto. Para elegir uno nuevo "
-"pulse sobre el botón de la flecha que está a su derecha. Si tiene un trozo "
-"de texto seleccionado el color se aplicará al mismo. Si no, el color se "
+"En parte izquierda de la barra inferior está la herramienta de selección del "
+"color, donde una caja muestra el color actual del texto. Para elegir uno "
+"nuevo pulse sobre el botón de la flecha que está a su derecha. Si tiene un "
+"texto seleccionado el color se aplicará al mismo. Si no, el color se "
 "aplicará a lo que escriba después. Puede seleccionar un color o imagen de "
 "fondo pulsando con el botón derecho del ratón sobre el fondo del mensaje, "
-"para después seleccionar Estilo &gt; Estilo de la página."
+"para después seleccionar <guiseq><gui>Estilo</gui><gui>Estilo de la página</"
+"gui></guiseq>."
 
 #: C/mail-composer-html-table.page:5(desc)
 msgid "Insert a table in the mail composer."
@@ -7431,7 +7431,6 @@ msgid "Using HTML format to enhance emails"
 msgstr "Usar HTML para mejorar el formato de los correos"
 
 #: C/mail-composer-html.page:23(p)
-#, fuzzy
 msgid ""
 "Normally, you cannot set text styles or insert pictures in email. However, "
 "most newer email programs can display images and text styles in addition to "
@@ -7441,8 +7440,8 @@ msgstr ""
 "Normalmente no se pueden aplicar estilos o insertar imágenes en mensajes de "
 "correo electrónico. Sin embargo la mayoría de los clientes de correo moderno "
 "son capaces de mostrar imágenes y estilos en el texto, además del alineado "
-"básico y formateo de párrafos. Esto es posible al usar <glossterm linkend="
-"\"html\">HTML</glossterm> al igual que las páginas web."
+"básico y formateo de párrafos. Esto es posible al usar HTML al igual que las "
+"páginas web."
 
 #: C/mail-composer-html.page:25(p)
 msgid ""
@@ -7456,13 +7455,13 @@ msgstr ""
 "texto plano a menos que le pida explícitamenteque los componga con HTML."
 
 #: C/mail-composer-html.page:27(p)
-#, fuzzy
 msgid ""
 "You can change the format of an email message from plain text to HTML by "
 "choosing <guiseq><gui>Format</gui><gui>HTML</gui></guiseq> from the menu bar."
 msgstr ""
 "Puede cambiar el formato de un mensaje de correo electrónico de texto plano "
-"a HTML eligiendo Formato &gt; HTML desde la barra de menú."
+"a HTML eligiendo <guiseq><gui>Formato</gui><gui>HTML</gui></guiseq> desde la "
+"barra de menú."
 
 #: C/mail-composer-html.page:28(p)
 msgid ""
@@ -7510,14 +7509,12 @@ msgid "Enter the address in the <gui>URL</gui> field."
 msgstr "Escriba la dirección en el campo <gui>URL</gui>."
 
 #: C/mail-composer-html-link.page:32(p)
-#, fuzzy
 msgid ""
 "If you do not want a special link text you can just enter the address of the "
 "link directly. It will be automatically recognized as a link."
 msgstr ""
-"Use la herramienta de añadir enlace para poner hiperenlaces en sus mensajes "
-"HTML. Si no quiere escribir ningún texto en particular, sólo tiene que "
-"escribir la dirección directamente y Evolution la reconocerá como un enlace."
+"Si no quiere escribir ningún texto en particular sólo tiene que escribir la "
+"dirección directamente. Evolution la reconocerá como un enlace."
 
 #: C/mail-composer-html-image.page:5(desc)
 msgid "Embed a picture in the mail composer."
@@ -7687,19 +7684,17 @@ msgid "Enable <gui>Custom Header</gui>."
 msgstr "Actíve <gui>Cabecera personalizada</gui>."
 
 #: C/mail-composer-custom-header-lines.page:34(p)
-#, fuzzy
 msgid ""
 "You can add, edit, or remove the header fields. For every header field you "
 "add, you can specify the keys and values. The key is used as the title of "
 "the Custom Header. You can enter multiple values for the keys. You must use "
 "a semicolon to separate every value you enter."
 msgstr ""
-"En el Gestor de complementos seleccione la pestaña Configuración para "
-"personalizar sus campos de cabeceras. Puede añadir, editar o quitar los "
-"campos de cabeceras. Para cada campo de cabecera que añada puede especificar "
-"las claves y los valores. La clave se usa como el título de la cabecera "
-"personalizada. Puede introducir múltiples valores para las claves. Debe usar "
-"un punto y coma para separar cada valor que introduzca."
+"Puede añadir, editar o quitar los campos de cabeceras. Para cada campo de "
+"cabecera que añada puede especificar las claves y los valores. La clave se "
+"usa como el título de la cabecera personalizada. Puede introducir múltiples "
+"valores para las claves. Debe usar un punto y coma para separar cada valor "
+"que introduzca."
 
 #: C/mail-composer-custom-header-lines.page:39(title)
 msgid "Inserting custom headers in a message"
@@ -7763,21 +7758,16 @@ msgid "Format of dates and time"
 msgstr "Formatos de fechas y hora"
 
 #: C/mail-change-time-format.page:20(p)
-#, fuzzy
-#| msgid ""
-#| "To enable this feature, select Edit &gt; Preferences &gt; Mail "
-#| "Preferences &gt; Headers &gt; Show the photograph of sender in the email "
-#| "preview. Deselect this option to disable this feature."
 msgid ""
 "You can change the format of the <gui>Date</gui> column by setting your "
 "preferred format under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Preferences</gui><gui>Headers</gui><gui>Date/Time format</"
 "gui></guiseq>."
 msgstr ""
-"Para activar esta característica, seleccione Editar &gt; Preferencias &gt; "
-"Opciones de correo &gt; Cabeceras &gt; Mostrar la foto del remitente en la "
-"vista preliminar del correo-e. Deseleccione esta opción para desactivar esta "
-"característica."
+"Puede cambiar el formato de la columna <gui>Fecha</gui> estableciendo su "
+"formato preferido en <guiseq><gui>Editar</gui><gui>Preferencias</"
+"gui><gui>Opciones de correo</gui><gui>Cabeceras</gui><gui>Formato de la "
+"fecha y hora</gui></guiseq>."
 
 #: C/mail-change-time-format.page:21(p)
 #: C/calendar-layout-appointment-display.page:50(p)
@@ -8017,7 +8007,6 @@ msgid "Attachment Reminder"
 msgstr "Recuerdo de adjuntos"
 
 #: C/mail-attachments-sending.page:42(p)
-#, fuzzy
 msgid ""
 "Evolution has an Attachment Reminder plugin you can use to remind yourself "
 "to attach a file to an email. If it determines that you have not attached "
@@ -8025,7 +8014,8 @@ msgid ""
 msgstr ""
 "Evolution tiene un complemento de Recuerdo de adjuntos que puede usar para "
 "recordarle que adjunte un archivo en un correo-e. Si determina que el "
-"archivo no está adjuntado, muestra el siguiente mensaje:"
+"archivo no está adjuntado, muestra una ventana de recordatorio antes de "
+"enviar el mensaje."
 
 #: C/mail-attachments-sending.page:44(p)
 msgid "To enable the Attachment Reminder:"
@@ -8044,16 +8034,15 @@ msgstr ""
 "claves en su idioma tales como «adjuntar» o «adjunto»."
 
 #: C/mail-attachments-sending.page:51(p)
-#, fuzzy
 msgid ""
 "Based on the keywords you have added, Evolution searches the text of every "
 "mail you are going to send. If it finds any of the keywords in your email "
 "and there is no actual attached file, the reminder window is displayed."
 msgstr ""
-"Busca cada correo electrónico que esté enviando basándose en las palabras "
-"clave que haya añadido aquí. Si en su correo-e encuentra palabras clave "
-"tales como <quote>adjuntar</quote> y no hay un archivo adjunto, se le "
-"recuerda que faltan adjuntos."
+"Evolution busca cada correo electrónico que esté enviando basándose en las "
+"palabras clave que haya añadido. Si encuentra cualquiera de las palabras "
+"clave en su correo y no hay un archivo adjunto, se muestra la ventana de "
+"recordatorio."
 
 #: C/mail-attachments-received.page:5(desc)
 msgid "Saving and opening files that are attached to received emails."
@@ -8309,27 +8298,23 @@ msgid ""
 msgstr "Otros ajustes "
 
 #: C/mail-account-manage-unix-mbox-spool-file.page:5(desc)
-#, fuzzy
 msgid "Add and edit a Standard Unix mbox Spool File account in Evolution."
-msgstr "Opciones de recepción para el archivo spool mbox estándar de Unix"
+msgstr "Añadir y editar una cuenta de Archivo spool mbox estándar de Unix."
 
 #: C/mail-account-manage-unix-mbox-spool-file.page:20(title)
-#, fuzzy
 msgid "Standard Unix mbox Spool File account settings"
-msgstr "Opciones de recepción para el archivo spool mbox estándar de Unix"
+msgstr "Configuración de cuenta de Archivo spool mbox estándar de Unix"
 
 #: C/mail-account-manage-unix-mbox-spool-directory.page:5(desc)
-#, fuzzy
 msgid "Add and edit a Standard Unix mbox Spool Directory account in Evolution."
 msgstr ""
-"Opciones de recepción para directorios de correo mbox en formato estándar de "
-"Unix"
+"Añadir y editar una cuenta de Archivo spool mbox estándar de Unix en "
+"Evolution."
 
 #: C/mail-account-manage-unix-mbox-spool-directory.page:20(title)
-#, fuzzy
 msgid "Standard Unix mbox Spool Directory account settings"
 msgstr ""
-"Opciones de recepción para directorios de correo mbox en formato estándar de "
+"Configuración de cuenta de directorios de correo mbox en formato estándar de "
 "Unix"
 
 #: C/mail-account-manage-pop.page:5(desc)
@@ -8417,9 +8402,10 @@ msgid "Exchange Web Services account settings"
 msgstr "Configuración de cuenta para Exchange Web Services"
 
 #: C/mail-account-manage-mh-format-directories.page:5(desc)
-#, fuzzy
 msgid "Add and edit a MH Format Mail Directories account in Evolution."
-msgstr "Opciones de recepción para directorios de correo en formato MH"
+msgstr ""
+"Añadir y editar una cuenta de directorios de correo en formato MH en "
+"Evolution."
 
 #: C/mail-account-manage-mh-format-directories.page:20(title)
 msgid "MH Format Mail Directories account settings"
@@ -8446,9 +8432,10 @@ msgid "Corporate Account Types"
 msgstr "Tipos de cuenta corporativos"
 
 #: C/mail-account-manage-maildir-format-directories.page:5(desc)
-#, fuzzy
 msgid "Add and edit a Maildir Format Mail Directories account in Evolution."
-msgstr "Opciones de recepción para directorios de correo en formato Maildir"
+msgstr ""
+"Añadir y editar una cuenta de directorios de correo en formato Maildir en "
+"Evolution."
 
 #: C/mail-account-manage-maildir-format-directories.page:20(title)
 msgid "Maildir Format Mail Directories account settings"
@@ -9228,13 +9215,12 @@ msgstr ""
 "para la configuración."
 
 #: C/intro-first-run.page:75(p)
-#, fuzzy
 msgid ""
 "MH-Format Mail Directories: For downloading email using MH or another MH-"
 "style program."
 msgstr ""
-"Si descarga su correo-e usando MH u otro programa estilo MH debe usar esta "
-"opción."
+"Directorios de correo en formato MH: para descargar correo electrónico "
+"usando MH u otro programa de estilo MH."
 
 #: C/intro-first-run.page:75(p) C/intro-first-run.page:77(p)
 #: C/intro-first-run.page:81(p)
@@ -9250,13 +9236,12 @@ msgstr ""
 "link> para la configuración."
 
 #: C/intro-first-run.page:77(p)
-#, fuzzy
 msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style program."
 msgstr ""
-"Si descarga su correo-e usando Qmail u otro programa estilo Maildir debe "
-"usar esta opción."
+"Directorios de correo en formato Maildir: para descargar correo electrónico "
+"usando Qmail u otro programa de estilo Maildir."
 
 #: C/intro-first-run.page:77(p)
 msgid ""
@@ -9275,9 +9260,8 @@ msgstr ""
 "archivo de correo spool de su sistema local."
 
 #: C/intro-first-run.page:79(p)
-#, fuzzy
 msgid "You need to provide the path to the mail spool file you want to use."
-msgstr "Debe proporcionar la ruta al directorio de correo que quiere usar."
+msgstr "Debe proporcionar la ruta la carpeta de correo que quiere usar."
 
 #: C/intro-first-run.page:79(p)
 msgid ""
@@ -9292,6 +9276,9 @@ msgid ""
 "Standard Unix mbox spool directory: For reading and storing email in the "
 "mail spool directory on your local system."
 msgstr ""
+"Directorios de correo mbox en formato estándar de Unix: para leer y "
+"almacenar correo electrónico en el directorio de correo spool en su sistema "
+"local."
 
 #: C/intro-first-run.page:81(p)
 msgid ""
@@ -9506,6 +9493,11 @@ msgid ""
 "maildir-format-directories\">configure a Maildir account</link> in Evolution "
 "and point to the folder where the Maildir files are stored."
 msgstr ""
+"El formato usado por Evolution (para carpetas locales desde la versión 3.0). "
+"No existe necesidad de importar archivos Maildir ya que puede <link xref="
+"\"mail-account-manage-maildir-format-directories\">configurar una cuenta "
+"Maildir</link> en Evolution y que apunte a la carepta donde los archivos "
+"Maildir están almacenados."
 
 #: C/import-supported-file-formats.page:38(p)
 msgid "Outlook Express 5/6 Personal Folders (.dbx):"
@@ -9674,6 +9666,10 @@ msgid ""
 "server and does not need to be manually transfered. You can set up the "
 "corresponding account in Evolution and the data will be downloaded."
 msgstr ""
+"Estos pasos hablan sobre datos almacenados localmente tales como cuentas "
+"POP. Esto no es necesario para los datos remotos (como IMAP), ya que los "
+"datos están en el servidor y no se necesita su transferencia manual. Puede "
+"configurar la cuenta correspondiente en Evolution y se descargarán los datos."
 
 #: C/import-apps-outlook.page:29(title)
 msgid "Prerequisites under Windows"
@@ -9801,6 +9797,10 @@ msgid ""
 "file</gui><gui>File type</gui></guiseq>, your distribution might have not "
 "enabled this functionality."
 msgstr ""
+"Si la opción para importar carpetas personales de Outlook (archivos .pst) no "
+"está disponible en <guiseq><gui>Archivo</gui><gui>Importar</"
+"gui><gui>Importar un único archivo</gui><gui>Tipo de archivo</gui></guiseq>, "
+"es posible que su distribución tenga activada esta funcionalidad."
 
 #: C/import-apps-outlook.page:66(p) C/import-apps-mozilla.page:28(p)
 msgid "Repeat the import steps until you have imported all your data."
@@ -9900,6 +9900,11 @@ msgid ""
 "<guiseq><gui>File</gui><gui>Save as mbox...</gui></guiseq> or right-click on "
 "the message and click <gui>Save as mbox...</gui>."
 msgstr ""
+"Para guardar un correo en un arachivo en formato <link href=\"http://es."
+"wikipedia.org/wiki/Mbox\">mbox</link>, seleccione un correo y pulse "
+"<guiseq><gui>Archivo</gui><gui>Guardar como mbox...</gui></guiseq> o pulse "
+"con el botón derecho del ratón sobre el correo y pulse <gui>Guardar como "
+"mbox...</gui>."
 
 #: C/exporting-data-mail.page:24(p)
 msgid ""
@@ -9939,6 +9944,9 @@ msgid ""
 "gui><gui>Save as vCard</gui></guiseq> or right-click on the contact and "
 "click <gui>Save as vCard</gui>."
 msgstr ""
+"Si quiere exportar un sólo contacto pulse <guiseq><gui>Archivo</"
+"gui><gui>Guardar como vCard</gui></guiseq> o pulse con el botón derecho del "
+"ratón sobre el contacto y pulse <gui>Guardar como vCard</gui>."
 
 #: C/exporting-data-calendar.page:5(desc)
 msgid "How to export calendar data from <em>Evolution</em>."
@@ -9954,6 +9962,10 @@ msgid ""
 "calendars and click <gui>Save as</gui>. Available formats are iCalendar "
 "format (ICS, recommended), comma separated values (CSV), and RDF format."
 msgstr ""
+"Para exportar un calendario completo, pulse con el botón derecho del ratón "
+"sobre el calendario en la lista de calendarios y pulse <gui>Guardar como</"
+"gui>. Los formatos disponibles son el formato iCalendar (ICS, recomendado), "
+"valores separados por comas (CSV) y formato RDF."
 
 #: C/exporting-data-calendar.page:23(p)
 msgid ""
@@ -10007,6 +10019,11 @@ msgid ""
 "\"http://projects.gnome.org/evolution/download\">Install evolution-exchange "
 "now.</link>"
 msgstr ""
+"Para Microsoft Exchange 2000 y 2003 (y, posiblemente, versiones anteriores "
+"de Exchange que usan Acceso web a Outlook) se recomienda usar el paquete "
+"evolution-exchange. <link action=\"install:evolution-exchange\" href="
+"\"http://projects.gnome.org/evolution/download\">Instalar evolution-exchange "
+"ahora.</link>"
 
 #: C/exchange-connectors-overview.page:26(p)
 msgid ""
@@ -10015,6 +10032,10 @@ msgid ""
 "action=\"install:evolution-mapi\" href=\"http://projects.gnome.org/evolution/"
 "download\">Install evolution-mapi now.</link>"
 msgstr ""
+"Para Microsoft Exchange 2007 y 2010 (y, posiblemente, versiones anteriores "
+"que soporten MAPI) se recomienda usar el paquete evolution-mapi. <link "
+"action=\"install:evolution-mapi\" href=\"http://projects.gnome.org/evolution/"
+"download\">Instalar evolution-mapi ahora</link>."
 
 #: C/exchange-connectors-overview.page:27(p)
 msgid ""
@@ -10024,6 +10045,11 @@ msgid ""
 "ews\" href=\"http://projects.gnome.org/evolution/download\">Install "
 "evolution-ews now.</link>"
 msgstr ""
+"Para Microsoft Exchange 2007 y 2010 el paquete «evolution-ews» está "
+"actualmente en desarrollo, y sustituirá a  «evolution-mapi» en el futuro. "
+"Puede que todavía no esté disponible para su distribución. <link action="
+"\"install:evolution-ews\" href=\"http://projects.gnome.org/evolution/download"
+"\">Instalar evolution-ews ahora</link>."
 
 #: C/exchange-connectors-overview.page:29(p)
 msgid ""
@@ -10110,6 +10136,12 @@ msgid ""
 "will be applied to the currently opened calendar (selected in the list of "
 "calendars on the left); other calendars remain unchanged."
 msgstr ""
+"Para purgar entradas antiguas en un calendario vaya a <guiseq><gui>Acciones</"
+"gui><gui>Purgar</gui></guiseq> en la vista del Calendario. Se le preguntará "
+"cuántos días de antigüedad deben tener los acontecimientos del calendario "
+"que se deben quitar. La acción se aplicará sobre el calendario actualmente "
+"abierto (sieleccionado en la lista de calendarios a la izquierda); no se "
+"verán afectados los otros calendarios."
 
 #: C/default-browser.page:5(desc)
 msgid "How to define the default browser to open links with."
@@ -10127,6 +10159,10 @@ msgid ""
 "gui><gui>System</gui><gui>System Info</gui><gui>Default Applications</gui></"
 "guiseq>."
 msgstr ""
+"En GNOME 3 puede configurar el navegador predeterminado del sistema bajo "
+"<guiseq><gui>Actividades</gui><gui>Aplicaciones</gui><gui>Configuración del "
+"sistema</gui><gui>Sistema</gui><gui>Información del sistema</"
+"gui><gui>Aplicaciones predeterminadas</gui></guiseq>."
 
 #: C/default-browser.page:25(p)
 msgid ""
@@ -10169,6 +10205,10 @@ msgid ""
 "<link href=\"http://www.freedesktop.org/wiki/Specifications/basedir-spec"
 "\">XDG Base Directory Specification</link>. By default this means:"
 msgstr ""
+"Si ejecuta Evolution 2.32.0 o posterior se almacenarán sus datos según la "
+"<link href=\"http://www.freedesktop.org/wiki/Specifications/basedir-spec"
+"\">Especificación de directorios base XDG</link>. De forma predeterminada "
+"significa que:"
 
 #: C/data-storage.page:30(title)
 msgid "The user's data files"
@@ -10300,6 +10340,10 @@ msgid ""
 "book for work related contacts and one for private contacts. The side bar "
 "lists those address books, and you can select which address book is shown."
 msgstr ""
+"Puede tener varias libretas de direcciones. Por ejemplo, puede tener una "
+"libreta de direcciones para contactos relacionados con el trabajo y otra "
+"para contactos privados. La barra lateral muestra estas libretas de "
+"direcciones, y puede seleccionar cuál de ellas se muestra."
 
 #: C/contacts-using-several-addressbooks.page:24(p)
 msgid ""
@@ -10487,6 +10531,10 @@ msgid ""
 "Contact...\", or press <keyseq><key>Shift</key><key>Ctrl</key><key>C</key></"
 "keyseq>."
 msgstr ""
+"Pulse <guiseq><gui>Archivo</gui><gui>Nuevo</gui><gui>Contacto</gui></"
+"guiseq>, o pulse con el botón derecho en una zona vacía de la lista de "
+"contactos y elija \"Contacto nuevo...\", o pulse <keyseq><key>Mayús</"
+"key><key>Ctrl</key><key>C</key></keyseq>."
 
 #: C/contacts-usage-add-contact.page:25(p)
 msgid "Enter the contact information. Note that there are several tabs."
@@ -11084,6 +11132,12 @@ msgid ""
 "xref=\"calendar-layout-views\">list view</link> you can also use "
 "<guiseq><gui>Edit</gui><gui>Delete Appointment</gui></guiseq>."
 msgstr ""
+"Si quiere eliminar una cita de sus calendarios, pulse con el botón derecho "
+"sobre la cita en el calendario y seleccione <gui>Eliminar cita</gui>, pulse "
+"sobre la cita y pulse <gui>Eliminar</gui> en la barra de herramientas, o "
+"pulse <keyseq><key>Ctrl</key><key>D</key></keyseq>. Si está en la <link xref="
+"\"calendar-layout-views\">vista de lista</link> también puede usar "
+"<guiseq><gui>Editar</gui><gui>Eliminar cita</gui></guiseq>."
 
 #: C/calendar-usage-add-appointment.page:5(desc)
 msgid "Adding an appointment."
@@ -11153,6 +11207,9 @@ msgid ""
 "specify the duration, or select <gui>Until</gui> to specify the ending time "
 "of the event."
 msgstr ""
+"Si el evento no dura todo el día, seleccione <gui>Durante</gui> para "
+"especificar la duración o <gui>Hasta</gui> para especificar la finalización "
+"del evento."
 
 #: C/calendar-usage-add-appointment.page:31(p)
 #: C/calendar-meetings-sending-invitation.page:41(p)
