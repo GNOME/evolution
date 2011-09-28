@@ -2,23 +2,23 @@
 # translation of evolution manual to spanish
 # 
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
 # Jorge González <jorgegonz@svn.gnome.org>, 2011., 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-28 01:15+0000\n"
-"PO-Revision-Date: 2011-09-28 15:55+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2011-09-28 13:56+0000\n"
+"PO-Revision-Date: 2011-09-28 16:26+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: C/using-categories.page:5(desc)
 msgid ""
@@ -3545,10 +3545,10 @@ msgstr ""
 "es.wikipedia.org/wiki/Expresi%C3%B3n_regular\">expresiones regulares</link>, "
 "saque provecho aquí de su poderío, esta opción le permite hacer búsquedas de "
 "patrones complejos de letras de manera que, por ejemplo, podría encontrar "
-"todas las palabras que empiezan o acaban con «m» y tienen entre seis y "
-"quince letras de longitud, o distinguir todos los mensajes que tengan "
-"duplicada una determinada cabecera. Para saber cómo usar las expresiones "
-"regulares examine la página del manual del comando «grep»."
+"todas las palabras que empiezan o acaban con «m» y tienen entre seis y quince "
+"letras de longitud, o distinguir todos los mensajes que tengan duplicada una "
+"determinada cabecera. Para saber cómo usar las expresiones regulares examine "
+"la página del manual del comando «grep»."
 
 #: C/mail-search-folders-conditions.page:87(p)
 msgid "Message Location:"
@@ -5613,9 +5613,9 @@ msgid ""
 "the command <code>evolution --force-shutdown</code>. This command stops "
 "Evolution and all the processes related to it."
 msgstr ""
-"Abra la aplicación de la Terminal (categoría <gui>Herramientas del sistema) "
-"y escriba el comando <code>evolution --force-shutdown</code>. Este comando "
-"detiene Evolution y todos los procesos relacionados con él."
+"Abra la aplicación de la Terminal (categoría <gui>Herramientas del sistema</"
+"gui>) y escriba el comando <code>evolution --force-shutdown</code>. Este "
+"comando detiene Evolution y todos los procesos relacionados con él."
 
 #: C/mail-error-folder-mismatch.page:32(p)
 msgid "Remove the files ending in:"
@@ -5659,8 +5659,8 @@ msgstr "Al realizar esta operación puede que pierda algunas de sus etiquetas."
 #: C/mail-error-folder-mismatch.page:48(p)
 msgid ""
 "This problem is expected to be fixed in version 3.0 according to the "
-"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
-"id=550414\">bug report</link>. Please add a comment if this is not the case."
+"corresponding <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550414"
+"\">bug report</link>. Please add a comment if this is not the case."
 msgstr ""
 "Se espera solucionar este problema en la versión 3.0 según el "
 "correspondiente <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
@@ -6296,9 +6296,9 @@ msgid ""
 "Evolution's code repository to test."
 msgstr ""
 "Sólo para desarrolladores: en versiones futuras, Evolution usará WebKit en "
-"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href="
-"\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el "
-"repositorio de código de Evolution para pruebas."
+"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href=\"http://"
+"git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el repositorio "
+"de código de Evolution para pruebas."
 
 #: C/mail-displaying-no-css.page:27(p)
 msgid ""
@@ -8808,8 +8808,8 @@ msgstr ""
 #: C/mail-access-gmail-imap-account.page:28(p)
 msgid ""
 "To access GMail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?"
-"answer=77695\">GMail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
+"\">GMail Help</link> for more information."
 msgstr ""
 "Para acceder a GMail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -11218,7 +11218,7 @@ msgid ""
 msgstr ""
 "Se puede cambiar el mostrado de los botones en la esquina inferior izquierda "
 "(Correo, Contactos, Calendario, Tareas y Notas) en <guiseq><gui>Ver</"
-"gui><gui>Apariencia del selector<gui></guiseq>. Puede ser útil si tiene una "
+"gui><gui>Apariencia del selector</gui></guiseq>. Puede ser útil si tiene una "
 "pantalla pequeña. También puede ocultarlos completamente."
 
 #: C/change-switcher-appearance.page:22(p)
@@ -11647,7 +11647,7 @@ msgstr ""
 "Para poder hacer público uno de sus calendarios debe definir qué calendarios "
 "subir a un servidor web bajo: <guiseq><gui>Editar</gui><gui>Preferencias</"
 "gui><gui>Calendario y tareas</gui><gui>Información de publicación</"
-"gui><gui>Lugares</gui><guiseq>Añadir<gui></guiseq>."
+"gui><gui>Lugares</gui><gui style=\"button\">Añadir</gui></guiseq>."
 
 #. This is the location since 3.1.5, see bug https://bugzilla.gnome.org/show_bug.cgi?id=655666
 #: C/calendar-publishing.page:27(p)
