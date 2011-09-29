@@ -270,16 +270,25 @@ config_data_set_last_notification_time (ECalClient *cal,
 	if (cal) {
 		ESource *source = e_client_get_source (E_CLIENT (cal));
 		if (source) {
-			GTimeVal tmval = {0};
-			gchar *as_text;
+			const gchar *prop_str;
+			GTimeVal curr_tv = {0};
 
-			tmval.tv_sec = (glong) t;
-			as_text = g_time_val_to_iso8601 (&tmval);
+			prop_str = e_source_get_property (source, "last-notified");
+			if (!prop_str || !g_time_val_from_iso8601 (prop_str, &curr_tv))
+				curr_tv.tv_sec = 0;
 
-			if (as_text) {
-				e_source_set_property (source, "last-notified", as_text);
-				g_free (as_text);
-				return;
+			if (t > (time_t) curr_tv.tv_sec || (time_t) curr_tv.tv_sec > now) {
+				GTimeVal tmval = {0};
+				gchar *as_text;
+
+				tmval.tv_sec = (glong) t;
+				as_text = g_time_val_to_iso8601 (&tmval);
+
+				if (as_text) {
+					e_source_set_property (source, "last-notified", as_text);
+					g_free (as_text);
+					/* pass through, thus the global last notification time is also changed */
+				}
 			}
 		}
 	}
