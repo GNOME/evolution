@@ -1705,6 +1705,13 @@ static GtkRadioActionEntry calendar_filter_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS },
 
+	{ "calendar-filter-occurs-less-than-5-times",
+	  NULL,
+	  N_("Occurs Less Than 5 Times"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  CALENDAR_FILTER_OCCURS_LESS_THAN_5_TIMES },
+
 	{ "calendar-filter-unmatched",
 	  NULL,
 	  N_("Unmatched"),
@@ -1972,7 +1979,7 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 		ii = CALENDAR_FILTER_UNMATCHED;
 		e_action_combo_box_add_separator_after (combo_box, ii);
 
-		ii = CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS;
+		ii = CALENDAR_FILTER_OCCURS_LESS_THAN_5_TIMES;
 		e_action_combo_box_add_separator_after (combo_box, ii);
 
 		e_shell_view_unblock_execute_search (shell_view);

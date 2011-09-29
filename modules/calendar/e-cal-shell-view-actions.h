@@ -133,6 +133,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-any-category")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-next-7-days-appointments")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_FILTER_OCCURS_LESS_THAN_5_TIMES(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-occurs-less-than-5-times")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_FILTER_UNMATCHED(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-unmatched")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_ADVANCED_HIDDEN(window) \

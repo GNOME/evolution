@@ -194,6 +194,12 @@ cal_shell_view_execute_search (EShellView *shell_view)
 			range_search = TRUE;
 			break;
 
+		case CALENDAR_FILTER_OCCURS_LESS_THAN_5_TIMES:
+			temp = g_strdup_printf ("(and %s (< (occurrences-count?) 5))", query);
+			g_free (query);
+			query = temp;
+			break;
+
 		default:
 		{
 			GList *categories;
