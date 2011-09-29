@@ -252,11 +252,7 @@ unmount_done_cb (GObject *source_object,
 {
 	GError *error = NULL;
 
-#if GLIB_CHECK_VERSION(2,21,3)
 	g_mount_unmount_with_operation_finish (G_MOUNT (source_object), result, &error);
-#else
-	g_mount_unmount_finish (G_MOUNT (source_object), result, &error);
-#endif
 
 	if (error) {
 		g_warning ("Unmount failed: %s", error->message);
@@ -305,11 +301,7 @@ mount_ready_cb (GObject *source_object,
 
 	mount = g_file_find_enclosing_mount (G_FILE (source_object), NULL, NULL);
 	if (mount)
-#if GLIB_CHECK_VERSION(2,21,3)
 		g_mount_unmount_with_operation (mount, G_MOUNT_UNMOUNT_NONE, NULL, NULL, unmount_done_cb, NULL);
-#else
-		g_mount_unmount (mount, G_MOUNT_UNMOUNT_NONE, NULL, unmount_done_cb, NULL);
-#endif
 
 	g_object_unref (source_object);
 }
