@@ -194,8 +194,6 @@ e_cert_get_type (void)
 	return cert_type;
 }
 
-
-
 static void
 e_cert_populate (ECert *cert)
 {
@@ -285,8 +283,6 @@ e_cert_new_from_der (gchar *data,
 
 	return e_cert_new (cert);
 }
-
-
 
 CERTCertificate *
 e_cert_get_internal_cert (ECert *cert)

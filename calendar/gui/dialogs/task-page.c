@@ -2027,8 +2027,6 @@ init_widgets (TaskPage *tpage)
 	return TRUE;
 }
 
-
-
 static void
 task_page_select_organizer (TaskPage *tpage,
                             const gchar *backend_address)

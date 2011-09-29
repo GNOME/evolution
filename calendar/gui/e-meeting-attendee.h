@@ -36,7 +36,6 @@ G_BEGIN_DECLS
 #define E_IS_MEETING_ATTENDEE(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MEETING_ATTENDEE))
 #define E_IS_MEETING_ATTENDEE_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MEETING_ATTENDEE))
 
-
 typedef struct _EMeetingAttendee         EMeetingAttendee;
 typedef struct _EMeetingAttendeePrivate  EMeetingAttendeePrivate;
 typedef struct _EMeetingAttendeeClass    EMeetingAttendeeClass;

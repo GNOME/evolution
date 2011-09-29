@@ -189,8 +189,6 @@ struct _RecurrencePagePrivate {
 	GCancellable *cancellable;
 };
 
-
-
 static void recurrence_page_finalize (GObject *object);
 
 static gboolean fill_component (RecurrencePage *rpage, ECalComponent *comp);
@@ -2074,8 +2072,6 @@ recurrence_page_set_dates (CompEditorPage *page,
 	/* Make sure the preview gets updated. */
 	preview_recur (rpage);
 }
-
-
 
 /* Gets the widgets from the XML file and returns if they are all available. */
 static gboolean

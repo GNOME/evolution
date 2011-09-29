@@ -61,7 +61,6 @@ enum {
 
 static guint e_tree_model_signals[LAST_SIGNAL] = {0, };
 
-
 static void
 e_tree_model_class_init (ETreeModelClass *class)
 {
@@ -418,8 +417,6 @@ e_tree_model_node_request_collapse (ETreeModel *tree_model,
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_REQUEST_COLLAPSE], 0, collapsed_node);
 }
-
-
 
 /**
  * e_tree_model_new

@@ -67,7 +67,6 @@ static void gnome_canvas_pixbuf_bounds (GnomeCanvasItem *item,
 
 G_DEFINE_TYPE (GnomeCanvasPixbuf, gnome_canvas_pixbuf, GNOME_TYPE_CANVAS_ITEM)
 
-
 
 /* Class initialization function for the pixbuf canvas item */
 static void
@@ -127,8 +126,6 @@ gnome_canvas_pixbuf_dispose (GnomeCanvasItem *object)
 	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->dispose)
 		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->dispose (object);
 }
-
-
 
 /* Set_property handler for the pixbuf canvas item */
 static void
@@ -195,8 +192,6 @@ gnome_canvas_pixbuf_get_property (GObject *object,
 	}
 }
 
-
-
 /* Bounds and utilities */
 
 /* Recomputes the bounding box of a pixbuf canvas item.  The horizontal and
@@ -233,8 +228,6 @@ recompute_bounding_box (GnomeCanvasPixbuf *gcp)
 	item->y2 = ceil (y2);
 }
 
-
-
 /* Update sequence */
 
 /* Update handler for the pixbuf canvas item */
@@ -258,8 +251,6 @@ gnome_canvas_pixbuf_update (GnomeCanvasItem *item,
 	gnome_canvas_request_redraw (
 		item->canvas, item->x1, item->y1, item->x2, item->y2);
 }
-
-
 
 /* Draw handler for the pixbuf canvas item */
 static void
@@ -289,8 +280,6 @@ gnome_canvas_pixbuf_draw (GnomeCanvasItem *item,
 	cairo_paint (cr);
 	cairo_restore (cr);
 }
-
-
 
 /* Point handler for the pixbuf canvas item */
 static GnomeCanvasItem *
@@ -332,8 +321,6 @@ gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
 	else
 		return item;
 }
-
-
 
 /* Bounds handler for the pixbuf canvas item */
 static void

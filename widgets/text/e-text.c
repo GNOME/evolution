@@ -174,8 +174,6 @@ static gboolean e_text_delete_surrounding_cb   (GtkIMContext *context,
 
 static GdkAtom clipboard_atom = GDK_NONE;
 
-
-
 static void
 disconnect_im_context (EText *text)
 {

@@ -143,8 +143,6 @@ e_pkcs12_get_type (void)
 	return pkcs12_type;
 }
 
-
-
 EPKCS12 *
 e_pkcs12_new (void)
 {

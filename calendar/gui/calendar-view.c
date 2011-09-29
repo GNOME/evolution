@@ -28,7 +28,6 @@
 
 #include "calendar-view.h"
 
-
 
 /* Private part of the CalendarView structure */
 struct _CalendarViewPrivate {
@@ -38,8 +37,6 @@ struct _CalendarViewPrivate {
 	/* Title of the view */
 	gchar *title;
 };
-
-
 
 static void calendar_view_finalize (GObject *object);
 
@@ -109,8 +106,6 @@ calendar_view_finalize (GObject *object)
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (calendar_view_parent_class)->finalize (object);
 }
-
-
 
 /* load method of the calendar view */
 static void
@@ -206,8 +201,6 @@ calendar_view_clone (GalView *view)
 
 	return GAL_VIEW (new_view);
 }
-
-
 
 /**
  * calendar_view_construct:

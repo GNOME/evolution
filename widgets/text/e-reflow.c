@@ -746,8 +746,6 @@ column_width_changed (EReflow *reflow)
 	g_signal_emit (reflow, signals[COLUMN_WIDTH_CHANGED], 0, reflow->column_width);
 }
 
-
-
 /* Virtual functions */
 static void
 e_reflow_set_property (GObject *object,

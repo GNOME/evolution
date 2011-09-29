@@ -30,7 +30,6 @@
 #include "e-util/e-alert-dialog.h"
 #include "delete-comp.h"
 
-
 
 /**
  * delete_component_dialog:

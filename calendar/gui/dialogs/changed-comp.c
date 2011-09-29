@@ -29,7 +29,6 @@
 #include <glib/gi18n.h>
 #include "changed-comp.h"
 
-
 
 /**
  * changed_component_dialog:

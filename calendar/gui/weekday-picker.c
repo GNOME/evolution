@@ -59,8 +59,6 @@ struct _WeekdayPickerPrivate {
 	GnomeCanvasItem *labels[7];
 };
 
-
-
 /* Signal IDs */
 enum {
 	CHANGED,

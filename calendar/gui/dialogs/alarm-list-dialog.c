@@ -42,7 +42,6 @@
 #include "alarm-dialog.h"
 #include "alarm-list-dialog.h"
 
-
 
 typedef struct {
 	GtkBuilder *builder;

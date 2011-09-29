@@ -36,7 +36,6 @@
 #include "alarm.h"
 #include "config-data.h"
 
-
 
 /* Our glib timeout */
 static guint timeout_id;
@@ -53,8 +52,6 @@ typedef struct {
 } AlarmRecord;
 
 static void setup_timeout (void);
-
-
 
 /* Removes the head alarm from the queue.  Does not touch the timeout_id. */
 static void
@@ -198,8 +195,6 @@ queue_alarm (AlarmRecord *ar)
 	/* Set the timer for removal upon activation */
 	setup_timeout ();
 }
-
-
 
 /**
  * alarm_add:

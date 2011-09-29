@@ -3409,8 +3409,6 @@ init_widgets (EventPage *epage)
 	return TRUE;
 }
 
-
-
 static void
 event_page_select_organizer (EventPage *epage,
                              const gchar *backend_address)

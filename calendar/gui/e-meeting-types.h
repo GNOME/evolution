@@ -28,8 +28,6 @@
 
 G_BEGIN_DECLS
 
-
-
 typedef struct _EMeetingTime               EMeetingTime;
 typedef struct _EMeetingFreeBusyPeriod     EMeetingFreeBusyPeriod;
 

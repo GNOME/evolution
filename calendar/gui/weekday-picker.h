@@ -28,8 +28,6 @@
 
 G_BEGIN_DECLS
 
-
-
 #define TYPE_WEEKDAY_PICKER            (weekday_picker_get_type ())
 #define WEEKDAY_PICKER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_WEEKDAY_PICKER, WeekdayPicker))
 #define WEEKDAY_PICKER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_WEEKDAY_PICKER,	\
@@ -66,8 +64,6 @@ guint weekday_picker_get_blocked_days (WeekdayPicker *wp);
 
 void weekday_picker_set_week_start_day (WeekdayPicker *wp, gint week_start_day);
 gint weekday_picker_get_week_start_day (WeekdayPicker *wp);
-
-
 
 G_END_DECLS
 

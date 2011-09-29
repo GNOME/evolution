@@ -176,8 +176,6 @@ e_table_memory_insert (ETableMemory *etmm,
 		e_table_model_row_inserted (E_TABLE_MODEL (etmm), row);
 }
 
-
-
 /**
  * e_table_memory_remove:
  * @etable:

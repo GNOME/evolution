@@ -158,7 +158,6 @@ e_meeting_attendee_init (EMeetingAttendee *ia)
 	priv->longest_period_in_days = 0;
 }
 
-
 static void
 e_meeting_attendee_finalize (GObject *obj)
 {

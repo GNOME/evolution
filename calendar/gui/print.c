@@ -116,8 +116,6 @@ get_font_size (PangoFontDescription *font)
 	return pango_units_to_double (pango_font_description_get_size (font));
 }
 
-
-
 /*
  * Note that most dimensions are in points (1/72 of an inch) since that is
  * what gnome-print uses.

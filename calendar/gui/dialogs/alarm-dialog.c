@@ -45,7 +45,6 @@
 #include "comp-editor-util.h"
 #include "alarm-dialog.h"
 
-
 
 typedef struct {
 	GtkBuilder *builder;

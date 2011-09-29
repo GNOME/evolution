@@ -46,7 +46,6 @@
 #include "gnome-canvas-util.h"
 #include "gnome-canvas-i18n.h"
 
-
 
 /* Object argument IDs */
 enum {
@@ -134,8 +133,6 @@ static void add_attr (PangoAttrList  *attr_list,
 		      PangoAttribute *attr);
 
 static GnomeCanvasItemClass *parent_class;
-
-
 
 /**
  * gnome_canvas_text_get_type:

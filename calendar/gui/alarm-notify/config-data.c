@@ -40,8 +40,6 @@ static gboolean inited = FALSE;
 static GConfClient *conf_client = NULL;
 static ESourceList *calendar_source_list = NULL, *tasks_source_list = NULL;
 
-
-
 /* Copied from ../calendar-config.c; returns whether the locale has 'am' and
  * 'pm' strings defined.
  */

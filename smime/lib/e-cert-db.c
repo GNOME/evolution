@@ -616,8 +616,6 @@ e_cert_db_get_type (void)
 	return cert_type;
 }
 
-
-
 GStaticMutex init_mutex = G_STATIC_MUTEX_INIT;
 static ECertDB *cert_db = NULL;
 

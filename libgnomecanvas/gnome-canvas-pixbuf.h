@@ -27,8 +27,6 @@
 
 G_BEGIN_DECLS
 
-
-
 #define GNOME_TYPE_CANVAS_PIXBUF            (gnome_canvas_pixbuf_get_type ())
 #define GNOME_CANVAS_PIXBUF(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_PIXBUF, GnomeCanvasPixbuf))
 #define GNOME_CANVAS_PIXBUF_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_PIXBUF, GnomeCanvasPixbufClass))
@@ -52,8 +50,6 @@ struct _GnomeCanvasPixbufClass {
 };
 
 GType gnome_canvas_pixbuf_get_type (void) G_GNUC_CONST;
-
-
 
 G_END_DECLS
 
