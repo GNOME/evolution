@@ -24,7 +24,7 @@
 <title>Adding people automatically to my contacts</title>
 
 
-<p>You can add people automatically to your contacts when you reply to received email. Enable the plugin <gui>Automatic Contacts</gui> by going to <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>; click on "Automatic Contacts" so that it shows a check mark. Then go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui><gui>Automatic Contacts</gui></guiseq> and enable the <gui>Create address book entries when sending emails</gui> option and select an address book in the drop-down field below that will receive the new contacts.</p>
+<p>You can add people automatically to your contacts when you reply to received email. Enable the plugin <gui>Automatic Contacts</gui> by going to <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>; click on <gui>Automatic Contacts</gui> so that it shows a check mark. Then go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui><gui>Automatic Contacts</gui></guiseq> and enable the <gui>Create address book entries when sending emails</gui> option and select an address book in the drop-down field below that will receive the new contacts.</p>
 <p>From now on, contacts will be automatically created for senders of received mail when you reply to that mail.</p>
 <!-- Location in Preferences is correct only since 3.1.5, as https://bugzilla.gnome.org/show_bug.cgi?id=655492 was fixed -->
 </page>

@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-send-and-receive" />
 
-    <revision pkgversion="3.0.2" version="0.3" date="2011-08-22" status="final"/>
+    <revision pkgversion="3.0.2" version="0.4" date="2011-09-29" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -19,7 +19,7 @@
 
 <title>Getting notified of new mail</title>
 
-<p>Evolution always notifies you of new messages by adding a yellow star to the mailer icon in the window <link xref="change-switcher-appearance.page">switcher</link>.</p>
+<p>Evolution always notifies you of new messages by adding a yellow star to the mailer icon in the window <link xref="change-switcher-appearance">switcher</link>.</p>
 <!-- Translators: Please make sure that the screenshot does have the small yellow star in the Mail icon -->
 <media type="image" src="./figures/new-mail-switcher.png" width="256">
   <p>Switcher layout when a new message has arrived</p>
