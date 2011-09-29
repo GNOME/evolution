@@ -20,7 +20,7 @@
 <title>Data storage locations</title>
 
 <note style="tip">
-<p>This is only interesting for advanced users that want to debug problems.</p>
+<p>This is only interesting for advanced users who want to debug problems.</p>
 </note>
 
 <p>If you run Evolution 2.32.0 or later, data will be stored according to the <link href="http://www.freedesktop.org/wiki/Specifications/basedir-spec">XDG Base Directory Specification</link>. By default this means:</p>

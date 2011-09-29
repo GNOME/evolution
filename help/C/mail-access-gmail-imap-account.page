@@ -2,7 +2,7 @@
       type="topic" id="email-access-gmail-imap-account">
 
   <info>
-    <desc>How to set up a GMail IMAP Account.</desc>
+    <desc>How to set up a Gmail IMAP Account.</desc>
     
     <link type="guide" xref="index#common-mail-problems" />
     <link type="guide" xref="google-services"/>
@@ -21,10 +21,10 @@
 
 <!-- Page only exists for the <note>, apart from that nothing special. -->
 
-<title>Access a GMail IMAP Account via Evolution</title>
+<title>Access a Gmail IMAP Account via Evolution</title>
 
 <p>Please refer to the <link xref="mail-account-manage-imap">IMAP mail account settings</link>.</p>
 
-<note><p>To access GMail via IMAP you must turn on IMAP in your Google account. See the <link href="https://mail.google.com/support/bin/answer.py?answer=77695">GMail Help</link> for more information.</p></note>
+<note><p>To access Gmail via IMAP you must turn on IMAP in your Google account. See the <link href="https://mail.google.com/support/bin/answer.py?answer=77695">Gmail Help</link> for more information.</p></note>
 </page>
 

@@ -19,7 +19,7 @@
 
 <title>Adding another local address book</title>
 
-<p>To add another local calendar to Evolution, perform the following steps:</p>
+<p>To add another local address book to Evolution, perform the following steps:</p>
 <steps>
 <item><p>Click <guiseq><gui>File</gui><gui>New</gui><gui>Address Book</gui></guiseq>.</p></item>
 <item><p>Select the type <gui>On This Computer</gui>.</p></item>

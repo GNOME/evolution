@@ -27,7 +27,7 @@
 <list>
 <item><p>Select <guiseq><gui>File</gui><gui>Back up Evolution Data...</gui></guiseq>.</p></item>
 <item><p>Choose a filename and the folder where you want to save the backup file, and click <gui style="button">Save</gui>.</p></item>
-<item><p>You will get asked to close Evolution. Answer with <gui style="button">Yes</gui>.</p></item>
+<item><p>You will be asked to close Evolution. Answer with <gui style="button">Yes</gui>.</p></item>
 </list>
 </section>
 
@@ -36,7 +36,7 @@
 <list>
 <item><p>Select <guiseq><gui>File</gui><gui>Restore Evolution Data...</gui></guiseq>.</p></item>
 <item><p>Choose the file, and click <gui style="button">Open</gui>.</p></item>
-<item><p>You will get asked to close Evolution. Answer with <gui style="button">Yes</gui>.</p></item>
+<item><p>You will be asked to close Evolution. Answer with <gui style="button">Yes</gui>.</p></item>
 </list>
 <note style="tip"><p>In the <link xref="intro-first-run">first-run assistant</link>, you can restore Evolution data from a backup file.</p></note>
 </section>

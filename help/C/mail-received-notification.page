@@ -25,7 +25,7 @@
   <p>Switcher layout when a new message has arrived</p>
 </media>
 
-<p>In order to get also notified of new messages in the GNOME Notification area at the bottom of the screen, make sure that <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Mail Notification</gui></guiseq> is enabled and that you have set your preferred options in the <gui>Configuration</gui> tab.</p>
+<p>In order to also be notified of new messages in the GNOME Notification area at the bottom of the screen, make sure that <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Mail Notification</gui></guiseq> is enabled and that you have set your preferred options in the <gui>Configuration</gui> tab.</p>
 <media type="image" src="./figures/new-mail-notification.png" width="512">
   <p>Switcher layout when a new message has arrived</p>
 </media>

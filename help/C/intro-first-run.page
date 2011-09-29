@@ -29,12 +29,12 @@
 
 <section id="restore">
 <title>Restore from backup</title>
-<p>You will get asked whether to restore from a backup of a previous version. If you have such a backup, continue <link xref="backup-restore#restore">here</link>. Otherwise, go to the next page.</p>
+<p>You will be asked whether to restore from a backup of a previous version. If you have such a backup, continue <link xref="backup-restore#restore">here</link>. Otherwise, go to the next page.</p>
 </section>
 
 <section id="receiving">
 <title>Receiving Email</title>
-<p>First, choose the server type from the <gui>Server Type</gui> dropdown-list.</p>
+<p>First, choose the server type from the <gui>Server Type</gui> drop-down list.</p>
 <p>If you are unsure about the type of server to choose, ask your system administrator or Internet Service Provider.</p>
 
 

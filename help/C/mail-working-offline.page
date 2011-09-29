@@ -43,7 +43,7 @@
 
 <section id="network-manager-integration">
 <title>Automatic Network State Handling</title>
-<p>Evolution automatically understands the network state and acts accordingly. For instance, Evolution switches to offline mode when the network goes down and automatically switches on when the network is up again. Ensure that your system has Network Manager installed on to enable this feature.</p>
+<p>Evolution automatically understands the network state and acts accordingly. For instance, Evolution switches to offline mode when the network goes down and automatically switches on when the network is up again. Ensure that your system has Network Manager installed to enable this feature.</p>
 </section>
 
 </page>
