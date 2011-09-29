@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#common-other-problems" />
 
-    <revision pkgversion="2.32.1" version="0.2" date="2011-07-21" status="draft"/>
+    <revision pkgversion="3.1.91" version="0.3" date="2011-09-29" status="draft"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -28,19 +28,19 @@
 <terms>
 <item>
 <title>The user's data files</title>
-<p>$HOME/.local/share/evolution</p>
+<p><file>$HOME/.local/share/evolution</file></p>
 </item>
 <item>
 <title>Various configuration and state files</title>
-<p>$HOME/.config/evolution</p>
+<p><file>$HOME/.config/evolution</file></p>
 </item>
 <item>
 <title>Disposable data caches</title>
-<p>$HOME/.cache/evolution</p>
+<p><file>$HOME/.cache/evolution</file></p>
 </item>
 <item>
 <title>Configuration settings in GConf</title>
-<p>$HOME/.gconf/apps/evolution</p>
+<p><file>$HOME/.gconf/apps/evolution</file></p>
 </item>
 </terms>
 
