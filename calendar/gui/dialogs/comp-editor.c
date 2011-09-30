@@ -3010,8 +3010,8 @@ attachment_loaded_cb (EAttachment *attachment,
 {
 	GFileInfo *file_info;
 	const gchar *display_name;
-	const gchar *new_name;
 	const gchar *uid;
+	gchar *new_name;
 
 	/* Prior to 2.27.2, attachment files were named:
 	 *
@@ -3042,7 +3042,7 @@ attachment_loaded_cb (EAttachment *attachment,
 	uid = g_object_get_data (G_OBJECT (attachment), "uid");
 
 	if (g_str_has_prefix (display_name, uid)) {
-		new_name = g_strdup (display_name+strlen(uid)+1);
+		new_name = g_strdup (display_name + strlen (uid) + 1);
 		g_file_info_set_display_name (file_info, new_name);
 		g_object_notify (G_OBJECT (attachment), "file-info");
 		g_free (new_name);

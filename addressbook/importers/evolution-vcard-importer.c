@@ -351,8 +351,7 @@ guess_vcard_encoding (const gchar *filename)
 		return VCARD_ENCODING_NONE;
 	}
 
-	fgets (line, 4096, handle);
-	if (line == NULL) {
+	if (fgets (line, 4096, handle) == NULL) {
 		fclose (handle);
 		g_print ("\n");
 		return VCARD_ENCODING_NONE;

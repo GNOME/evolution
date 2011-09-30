@@ -4125,7 +4125,7 @@ on_click (ETree *tree,
 	CamelMessageInfo *info;
 	gboolean folder_is_trash;
 	const gchar *uid;
-	gint flag;
+	gint flag = 0;
 	guint32 flags;
 
 	if (col == COL_MESSAGE_STATUS)

@@ -311,7 +311,7 @@ e_mail_store_add_by_account (EMailBackend *backend,
 	CamelService *service = NULL;
 	CamelProvider *provider;
 	CamelURL *url;
-	gboolean skip, transport_only;
+	gboolean skip = FALSE, transport_only;
 	GError *error = NULL;
 
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);

@@ -735,7 +735,7 @@ country_to_ISO (const gchar *country)
 	}
 
 	while (fgets (buffer, length, file) != NULL) {
-		gchar *low;
+		gchar *low = NULL;
 		pair = g_strsplit (buffer, "\t", 2);
 
 		if (pair[0]) {

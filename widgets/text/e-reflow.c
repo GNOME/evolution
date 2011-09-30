@@ -1398,7 +1398,7 @@ e_reflow_point (GnomeCanvasItem *item,
                 gint cx,
                 gint cy)
 {
-	GnomeCanvasItem *child;
+	GnomeCanvasItem *child = NULL;
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->point)
 		child = GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->point (item, x, y, cx, cy);

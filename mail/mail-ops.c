@@ -215,7 +215,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	CamelFolder *folder = NULL;
 	CamelURL *url;
 	const gchar *uid;
-	gboolean is_local_delivery;
+	gboolean is_local_delivery = FALSE;
 	gint i;
 
 	fm->destination = e_mail_local_get_folder (

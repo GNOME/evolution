@@ -780,7 +780,7 @@ contact_list_editor_remove_button_clicked_cb (GtkWidget *widget)
 {
 	EContactListEditor *editor;
 	GtkTreeSelection *selection;
-	GtkTreeRowReference *new_selection;
+	GtkTreeRowReference *new_selection = NULL;
 	GtkTreeModel *model;
 	GtkTreeView *view;
 	GtkTreePath *path;
