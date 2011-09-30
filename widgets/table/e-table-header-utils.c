@@ -35,31 +35,6 @@
 #include "e-table-defines.h"
 #include "e-table-header-utils.h"
 
-static PangoLayout *
-build_header_layout (GtkWidget *widget,
-                     const gchar *str)
-{
-	PangoLayout *layout;
-
-	layout = gtk_widget_create_pango_layout (widget, str);
-
-#ifdef FROB_FONT_DESC
-	{
-		PangoFontDescription *desc;
-		desc = pango_font_description_copy (gtk_widget_get_style (widget)->font_desc);
-		pango_font_description_set_size (desc,
-						 pango_font_description_get_size (desc) * 1.2);
-
-		pango_font_description_set_weight (desc, PANGO_WEIGHT_BOLD);
-		pango_layout_set_font_description (layout, desc);
-
-		pango_font_description_free (desc);
-	}
-#endif
-
-	return layout;
-}
-
 static void
 get_button_padding (GtkWidget *widget,
                     GtkBorder *padding)
@@ -100,7 +75,7 @@ e_table_header_compute_height (ETableCol *ecol,
 
 	get_button_padding (widget, &padding);
 
-	layout = build_header_layout (widget, ecol->text);
+	layout = gtk_widget_create_pango_layout (widget, ecol->text);
 
 	pango_layout_get_pixel_size (layout, NULL, &height);
 
@@ -125,126 +100,6 @@ e_table_header_width_extras (GtkWidget *widget)
 	get_button_padding (widget, &padding);
 	return padding.left + padding.right + 2 * HEADER_PADDING;
 }
-
-/* Creates a pixmap that is a composite of a background color and the upper-left
- * corner rectangle of a pixbuf.
- */
-#if 0
-static GdkPixmap *
-make_composite_pixmap (GdkDrawable *drawable,
-                       GdkGC *gc,
-                       GdkPixbuf *pixbuf,
-                       GdkColor *bg,
-                       gint width,
-                       gint height,
-                       gint dither_xofs,
-                       gint dither_yofs)
-{
-	gint pwidth, pheight;
-	GdkPixmap *pixmap;
-	GdkPixbuf *tmp;
-	gint color;
-
-	pwidth = gdk_pixbuf_get_width (pixbuf);
-	pheight = gdk_pixbuf_get_height (pixbuf);
-	g_return_val_if_fail (width <= pwidth && height <= pheight, NULL);
-
-	color = ((bg->red & 0xff00) << 8) |
-		(bg->green & 0xff00) |
-		((bg->blue & 0xff00) >> 8);
-
-	if (width >= pwidth && height >= pheight) {
-		tmp = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, width, height);
-		if (!tmp)
-			return NULL;
-
-		gdk_pixbuf_composite_color (pixbuf, tmp,
-					    0, 0,
-					    width, height,
-					    0, 0,
-					    1.0, 1.0,
-					    GDK_INTERP_NEAREST,
-					    255,
-					    0, 0,
-					    16,
-					    color, color);
-	} else {
-		gint x, y, rowstride;
-		GdkPixbuf *fade;
-		guchar *pixels;
-
-		/* Do a nice fade of the pixbuf down and to the right */
-
-		fade = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, width, height);
-		if (!fade)
-			return NULL;
-
-		gdk_pixbuf_copy_area (pixbuf,
-				      0, 0,
-				      width, height,
-				      fade,
-				      0, 0);
-
-		rowstride = gdk_pixbuf_get_rowstride (fade);
-		pixels = gdk_pixbuf_get_pixels (fade);
-
-		for (y = 0; y < height; y++) {
-			guchar *p;
-			gint yfactor;
-
-			p = pixels + y * rowstride;
-
-			if (height < pheight)
-				yfactor = height - y;
-			else
-				yfactor = height;
-
-			for (x = 0; x < width; x++) {
-				gint xfactor;
-
-				if (width < pwidth)
-					xfactor = width - x;
-				else
-					xfactor = width;
-
-				p[3] = ((gint) p[3] * xfactor * yfactor / (width * height));
-				p += 4;
-			}
-		}
-
-		tmp = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, width, height);
-		if (!tmp) {
-			g_object_unref (fade);
-			return NULL;
-		}
-
-		gdk_pixbuf_composite_color (fade, tmp,
-					    0, 0,
-					    width, height,
-					    0, 0,
-					    1.0, 1.0,
-					    GDK_INTERP_NEAREST,
-					    255,
-					    0, 0,
-					    16,
-					    color, color);
-
-		g_object_unref (fade);
-	}
-
-	pixmap = gdk_pixmap_new (drawable, width, height, -1);
-	gdk_draw_rgb_image_dithalign (pixmap, gc,
-				      0, 0,
-				      width, height,
-				      GDK_RGB_DITHER_NORMAL,
-				      gdk_pixbuf_get_pixels (tmp),
-				      gdk_pixbuf_get_rowstride (tmp),
-				      dither_xofs, dither_yofs);
-	g_object_unref (tmp);
-
-	return pixmap;
-}
-#endif
 
 /**
  * e_table_header_draw_button:
@@ -340,7 +195,7 @@ e_table_header_draw_button (cairo_t *cr,
 		return; /* nothing else fits */
 	}
 
-	layout = build_header_layout (widget, ecol->text);
+	layout = gtk_widget_create_pango_layout (widget, ecol->text);
 	pango_layout_set_ellipsize (layout, PANGO_ELLIPSIZE_END);
 
 	/* Pixbuf or label */
