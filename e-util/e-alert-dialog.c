@@ -120,6 +120,7 @@ alert_dialog_constructed (GObject *object)
 	PangoAttrList *list;
 	GList *actions;
 	const gchar *primary, *secondary;
+	gint default_response;
 	gint min_width = -1, prefer_width = -1;
 	gint height;
 
@@ -128,6 +129,8 @@ alert_dialog_constructed (GObject *object)
 
 	dialog = E_ALERT_DIALOG (object);
 	alert = e_alert_dialog_get_alert (dialog);
+
+	default_response = e_alert_get_default_response (alert);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), " ");
 
@@ -149,14 +152,18 @@ alert_dialog_constructed (GObject *object)
 	actions = e_alert_peek_actions (alert);
 	while (actions != NULL) {
 		GtkWidget *button;
+		gpointer data;
 
 		/* These actions are already wired to trigger an
 		 * EAlert::response signal when activated, which
 		 * will in turn call to gtk_dialog_response(),
 		 * so we can add buttons directly to the action
-		 * area without knowing their response IDs. */
+		 * area without knowing their response IDs.
+		 * (XXX Well, kind of.  See below.) */
 
 		button = gtk_button_new ();
+
+		gtk_widget_set_can_default (button, TRUE);
 
 		gtk_activatable_set_related_action (
 			GTK_ACTIVATABLE (button),
@@ -166,13 +173,22 @@ alert_dialog_constructed (GObject *object)
 			GTK_BOX (action_area),
 			button, FALSE, FALSE, 0);
 
+		/* This is set in e_alert_add_action(). */
+		data = g_object_get_data (
+			actions->data, "e-alert-response-id");
+
+		/* Normally GtkDialog sets the initial focus widget to
+		 * the button corresponding to the default response, but
+		 * because the buttons are not directly tied to response
+		 * IDs, we have set both the default widget and the
+		 * initial focus widget ourselves. */
+		if (GPOINTER_TO_INT (data) == default_response) {
+			gtk_widget_grab_default (button);
+			gtk_widget_grab_focus (button);
+		}
+
 		actions = g_list_next (actions);
 	}
-
-	if (e_alert_get_default_response (alert))
-		gtk_dialog_set_default_response (
-			GTK_DIALOG (dialog),
-			e_alert_get_default_response (alert));
 
 	widget = gtk_hbox_new (FALSE, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
