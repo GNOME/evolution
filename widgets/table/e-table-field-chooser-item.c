@@ -491,16 +491,11 @@ etfci_draw (GnomeCanvasItem *item,
 	gint rows;
 	gint y1, y2;
 	gint row;
-	GtkStyle *style;
-	GtkStateType state;
 
 	if (etfci->combined_header == NULL)
 		return;
 
 	rows = e_table_header_count (etfci->combined_header);
-
-	style = gtk_widget_get_style (GTK_WIDGET (canvas));
-	state = gtk_widget_get_state (GTK_WIDGET (canvas));
 
 	y1 = y2 = 0;
 	for (row = 0; row < rows; row++, y1 = y2) {
@@ -519,17 +514,12 @@ etfci_draw (GnomeCanvasItem *item,
 		if (y2 < y)
 			continue;
 
-		cairo_save (cr);
-
 		e_table_header_draw_button (cr, ecol,
-					    style, state,
 					    GTK_WIDGET (canvas),
 					    -x, y1 - y,
 					    width, height,
 					    etfci->width, y2 - y1,
 					    E_TABLE_COL_ARROW_NONE);
-
-		cairo_restore (cr);
 	}
 }
 
@@ -567,15 +557,11 @@ etfci_start_drag (ETableFieldChooserItem *etfci,
 	GtkWidget *widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas);
 	GtkTargetList *list;
 	GdkDragContext *context;
-	GdkWindow *window;
-	GtkStyle *style;
-	GtkStateType state;
 	ETableCol *ecol;
 	cairo_surface_t *cs;
 	cairo_t *cr;
 	gint drag_col;
 	gint button_height;
-	GdkPixbuf *pixbuf;
 
 	GtkTargetEntry  etfci_drag_types[] = {
 		{ (gchar *) TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
@@ -604,28 +590,18 @@ etfci_start_drag (ETableFieldChooserItem *etfci,
 	g_free ((gpointer) etfci_drag_types[0].target);
 
 	button_height = e_table_header_compute_height (ecol, widget);
-	window = gtk_widget_get_window (widget);
-	cs = gdk_window_create_similar_surface (
-		window, CAIRO_CONTENT_COLOR, etfci->width, button_height);
-
-	style = gtk_widget_get_style (widget);
-	state = gtk_widget_get_state (widget);
-
+	cs = cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
+					 etfci->width, button_height);
 	cr = cairo_create (cs);
+
 	e_table_header_draw_button (
-		cr, ecol, style,
-		state, widget, 0, 0,
+		cr, ecol,
+		widget, 0, 0,
 		etfci->width, button_height,
 		etfci->width, button_height,
 		E_TABLE_COL_ARROW_NONE);
 
-	pixbuf = gdk_pixbuf_get_from_window (window, 0, 0, etfci->width, button_height);
-	gtk_drag_set_icon_pixbuf (
-		context,
-		pixbuf,
-		etfci->width / 2,
-		button_height / 2);
-	g_object_unref (pixbuf);
+	gtk_drag_set_icon_surface (context, cs);
 
 	cairo_surface_destroy (cs);
 	cairo_destroy (cr);
