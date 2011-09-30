@@ -127,7 +127,6 @@ static const gchar* authoritycerts_mime_types[] =  { "application/x-x509-ca-cert
 
 typedef struct {
 	GtkTreeView *treeview;
-	GtkTreeStore *treemodel;
 	GtkTreeModel *streemodel;
 	GHashTable *root_hash;
 	GtkMenu *popup_menu;
@@ -474,6 +473,7 @@ select_certificate (CertPage *cp,
 
 	fcd.cp = cp;
 	fcd.cert = cert;
+	fcd.path = NULL;
 
 	gtk_tree_model_foreach (model, find_cert_cb, &fcd);
 
@@ -483,7 +483,7 @@ select_certificate (CertPage *cp,
 		selection = gtk_tree_view_get_selection (cp->treeview);
 		gtk_tree_selection_select_path (selection, fcd.path);
 
-		gtk_tree_view_scroll_to_cell (cp->treeview, fcd.path, NULL, FALSE, 0.0, 0.0);
+		gtk_tree_view_scroll_to_cell (cp->treeview, fcd.path, NULL, TRUE, 0.5, 0.5);
 		gtk_tree_path_free (fcd.path);
 	}
 }
@@ -644,10 +644,17 @@ delete_cert (GtkWidget *button,
 				    -1);
 
 		if (cert && e_cert_db_delete_cert (e_cert_db_peek (), cert)) {
-			GtkTreeIter child_iter;
+			GtkTreeIter child_iter, parent_iter;
+			gboolean has_parent;
+			GtkTreeStore *store = GTK_TREE_STORE (gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (cp->streemodel)));
 
 			gtk_tree_model_sort_convert_iter_to_child_iter (GTK_TREE_MODEL_SORT (cp->streemodel), &child_iter, &iter);
-			gtk_tree_store_remove (cp->treemodel, &child_iter);
+			has_parent = gtk_tree_model_iter_parent (GTK_TREE_MODEL (store), &parent_iter, &child_iter);
+			gtk_tree_store_remove (store, &child_iter);
+
+			/* Remove parent if it became empty */
+			if (has_parent && gtk_tree_model_iter_n_children (GTK_TREE_MODEL (store), &parent_iter) == 0)
+				gtk_tree_store_remove (store, &parent_iter);
 
 			/* we need two unrefs here, one to unref the
 			 * gtk_tree_model_get above, and one to unref
@@ -861,14 +868,9 @@ cert_page_free (CertPage *cp)
 	if (!cp)
 		return;
 
-	/* Free all certificates in treeviews */
-	if (cp->treemodel) {
-		gtk_tree_model_foreach (GTK_TREE_MODEL (cp->treemodel),
-			(GtkTreeModelForeachFunc) free_cert, cp);
-	}
-
-	/* Free streemodel */
 	if (cp->streemodel) {
+		gtk_tree_model_foreach (GTK_TREE_MODEL (cp->streemodel),
+			(GtkTreeModelForeachFunc) free_cert, cp);
 		g_object_unref (cp->streemodel);
 		cp->streemodel = NULL;
 	}
@@ -978,7 +980,6 @@ e_cert_manager_config_init (ECertManagerConfig *ecmc)
 	priv->yourcerts_page = cp;
 	cp->treeview = GTK_TREE_VIEW (e_builder_get_widget (priv->builder, "yourcerts-treeview"));
 	cp->streemodel = NULL;
-	cp->treemodel = NULL;
 	cp->view_button = e_builder_get_widget (priv->builder, "your-view-button");
 	cp->backup_button = e_builder_get_widget (priv->builder, "your-backup-button");
 	cp->backup_all_button = e_builder_get_widget (priv->builder, "your-backup-all-button");
@@ -996,7 +997,6 @@ e_cert_manager_config_init (ECertManagerConfig *ecmc)
 	priv->contactcerts_page = cp;
 	cp->treeview = GTK_TREE_VIEW (e_builder_get_widget (priv->builder, "contactcerts-treeview"));
 	cp->streemodel = NULL;
-	cp->treemodel = NULL;
 	cp->view_button = e_builder_get_widget (priv->builder, "contact-view-button");
 	cp->backup_button = NULL;
 	cp->backup_all_button = NULL;
@@ -1014,7 +1014,6 @@ e_cert_manager_config_init (ECertManagerConfig *ecmc)
 	priv->authoritycerts_page = cp;
 	cp->treeview = GTK_TREE_VIEW (e_builder_get_widget (priv->builder, "authoritycerts-treeview"));
 	cp->streemodel = NULL;
-	cp->treemodel = NULL;
 	cp->view_button = e_builder_get_widget (priv->builder, "authority-view-button");
 	cp->backup_button = NULL;
 	cp->backup_all_button = NULL;
