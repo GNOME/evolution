@@ -409,6 +409,11 @@ for display purposes only. </property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="adjustment6">
+    <property name="upper">65535</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkNotebook" id="composer_toplevel">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
@@ -1505,6 +1510,22 @@ for display purposes only. </property>
                                   </packing>
                                 </child>
                                 <child>
+                                  <object class="GtkLabel" id="lblSocksHost">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">SOC_KS Proxy:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">txtSocksHost</property>
+                                  </object>
+                                  <packing>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <object class="GtkLabel" id="lblIgnoreHosts">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
@@ -1547,6 +1568,20 @@ for display purposes only. </property>
                                   </packing>
                                 </child>
                                 <child>
+                                  <object class="GtkEntry" id="txtSocksHost">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">●</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <object class="GtkLabel" id="lblHttpPort">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
@@ -1572,6 +1607,22 @@ for display purposes only. </property>
                                     <property name="right_attach">3</property>
                                     <property name="top_attach">1</property>
                                     <property name="bottom_attach">2</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="lblSocksPort">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Port:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
                                     <property name="x_options">GTK_FILL</property>
                                     <property name="y_options"></property>
                                   </packing>
@@ -1603,6 +1654,22 @@ for display purposes only. </property>
                                     <property name="right_attach">4</property>
                                     <property name="top_attach">1</property>
                                     <property name="bottom_attach">2</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="spnSocksPort">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">●</property>
+                                    <property name="adjustment">adjustment6</property>
+                                    <property name="climb_rate">1</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">3</property>
+                                    <property name="right_attach">4</property>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
                                     <property name="y_options"></property>
                                   </packing>
                                 </child>
