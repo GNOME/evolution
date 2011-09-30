@@ -90,7 +90,8 @@ static GOptionEntry options[] = {
 
 #define d(x)
 
-#define print_and_run(x) G_STMT_START { g_message ("%s", x); system (x); } G_STMT_END
+#define print_and_run(x) \
+	G_STMT_START { g_message ("%s", x); system (x); } G_STMT_END
 
 static gboolean check (const gchar *filename, gboolean *is_new_format);
 
@@ -308,7 +309,9 @@ backup (const gchar *filename,
 	txt = _("Backing Evolution accounts and settings");
 	run_cmd ("gconftool-2 --dump " GCONF_DIR " > " EVOLUTION_DIR GCONF_DUMP_FILE);
 
-	replace_in_file (EVOLUTION_DIR GCONF_DUMP_FILE, e_get_user_data_dir (), EVOUSERDATADIR_MAGIC);
+	replace_in_file (
+		EVOLUTION_DIR GCONF_DUMP_FILE,
+		e_get_user_data_dir (), EVOUSERDATADIR_MAGIC);
 
 	write_dir_file ();
 
@@ -321,7 +324,10 @@ backup (const gchar *filename,
 	/* FIXME compression type?" */
 	/* FIXME date/time stamp?" */
 	/* FIXME backup location?" */
-	command = g_strdup_printf ("cd $HOME && tar chf - $STRIPDATADIR $STRIPCONFIGDIR .camel_certs " EVOLUTION_DIR_FILE " | gzip > %s", quotedfname);
+	command = g_strdup_printf (
+		"cd $HOME && tar chf - $STRIPDATADIR "
+		"$STRIPCONFIGDIR .camel_certs " EVOLUTION_DIR_FILE " | "
+		"gzip > %s", quotedfname);
 	run_cmd (command);
 	g_free (command);
 	g_free (quotedfname);
@@ -435,7 +441,9 @@ restore (const gchar *filename,
 		GString *dir_fn;
 		gchar *data_dir = NULL, *config_dir = NULL;
 
-		command = g_strdup_printf ("cd $TMP && tar xzf %s " EVOLUTION_DIR_FILE, quotedfname);
+		command = g_strdup_printf (
+			"cd $TMP && tar xzf %s "
+			EVOLUTION_DIR_FILE, quotedfname);
 		run_cmd (command);
 		g_free (command);
 
@@ -461,15 +469,20 @@ restore (const gchar *filename,
 		g_mkdir_with_parents (e_get_user_data_dir (), 0700);
 		g_mkdir_with_parents (e_get_user_config_dir (), 0700);
 
-		command = g_strdup_printf ("cd $DATADIR && tar xzf %s %s --strip-components=%d", quotedfname, data_dir, get_dir_level (data_dir));
+		command = g_strdup_printf (
+			"cd $DATADIR && tar xzf %s %s --strip-components=%d",
+			quotedfname, data_dir, get_dir_level (data_dir));
 		run_cmd (command);
 		g_free (command);
 
-		command = g_strdup_printf ("cd $CONFIGDIR && tar xzf %s %s --strip-components=%d", quotedfname, config_dir, get_dir_level (config_dir));
+		command = g_strdup_printf (
+			"cd $CONFIGDIR && tar xzf %s %s --strip-components=%d",
+			quotedfname, config_dir, get_dir_level (config_dir));
 		run_cmd (command);
 		g_free (command);
 
-		command = g_strdup_printf ("cd $HOME && tar xzf %s .camel_certs", quotedfname);
+		command = g_strdup_printf (
+			"cd $HOME && tar xzf %s .camel_certs", quotedfname);
 		run_cmd (command);
 		g_free (command);
 
@@ -478,7 +491,8 @@ restore (const gchar *filename,
 	} else {
 		run_cmd ("mv $HOME/.evolution $HOME/.evolution_old");
 
-		command = g_strdup_printf ("cd $HOME && gzip -cd %s | tar xf -", quotedfname);
+		command = g_strdup_printf (
+			"cd $HOME && gzip -cd %s | tar xf -", quotedfname);
 		run_cmd (command);
 		g_free (command);
 	}
@@ -492,14 +506,33 @@ restore (const gchar *filename,
 
 	if (is_new_format) {
 		/* new format has it in DATADIR... */
-		replace_in_file (EVOLUTION_DIR GCONF_DUMP_FILE, EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
+		replace_in_file (
+			EVOLUTION_DIR GCONF_DUMP_FILE,
+			EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
 		run_cmd ("gconftool-2 --load " EVOLUTION_DIR GCONF_DUMP_FILE);
 		run_cmd ("rm " EVOLUTION_DIR GCONF_DUMP_FILE);
 	} else {
+		gchar *gconf_dump_file;
+
 		/* ... old format in ~/.evolution */
-		replace_in_file ("$HOME/.evolution/" GCONF_DUMP_FILE, EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
-		run_cmd ("gconftool-2 --load " "$HOME/.evolution/" GCONF_DUMP_FILE);
-		run_cmd ("rm " "$HOME/.evolution/" GCONF_DUMP_FILE);
+		gconf_dump_file = g_build_filename (
+			"$HOME", ".evolution", GCONF_DUMP_FILE, NULL);
+
+		replace_in_file (
+			gconf_dump_file,
+			EVOUSERDATADIR_MAGIC,
+			e_get_user_data_dir ());
+
+		command = g_strconcat (
+			"gconftool-2 --load ", gconf_dump_file, NULL);
+		run_cmd (command);
+		g_free (command);
+
+		command = g_strconcat ("rm ", gconf_dump_file, NULL);
+		run_cmd (command);
+		g_free (command);
+
+		g_free (gconf_dump_file);
 	}
 
 	if (g_cancellable_is_cancelled (cancellable))
@@ -519,7 +552,7 @@ restore (const gchar *filename,
 
 	txt = _("Ensuring local sources");
 
- end:
+end:
 	if (restart_arg) {
 		if (g_cancellable_is_cancelled (cancellable))
 			return;
@@ -662,7 +695,8 @@ main (gint argc,
 {
 	GCancellable *cancellable;
 	gchar *file = NULL, *oper = NULL;
-	gint i;
+	const gchar *title = NULL;
+	gint ii;
 	GError *error = NULL;
 
 #ifdef G_OS_WIN32
@@ -671,18 +705,26 @@ main (gint argc,
 		typedef BOOL (WINAPI *t_SetDllDirectoryA) (LPCSTR lpPathName);
 		t_SetDllDirectoryA p_SetDllDirectoryA;
 
-		p_SetDllDirectoryA = GetProcAddress (GetModuleHandle ("kernel32.dll"), "SetDllDirectoryA");
-		if (p_SetDllDirectoryA)
-			(*p_SetDllDirectoryA) ("");
+		p_SetDllDirectoryA = GetProcAddress (
+			GetModuleHandle ("kernel32.dll"),
+			"SetDllDirectoryA");
+
+		if (p_SetDllDirectoryA != NULL)
+			p_SetDllDirectoryA ("");
 	}
 #ifndef _WIN64
 	{
 		typedef BOOL (WINAPI *t_SetProcessDEPPolicy) (DWORD dwFlags);
 		t_SetProcessDEPPolicy p_SetProcessDEPPolicy;
 
-		p_SetProcessDEPPolicy = GetProcAddress (GetModuleHandle ("kernel32.dll"), "SetProcessDEPPolicy");
+		p_SetProcessDEPPolicy = GetProcAddress (
+			GetModuleHandle ("kernel32.dll"),
+			"SetProcessDEPPolicy");
+
 		if (p_SetProcessDEPPolicy)
-			(*p_SetProcessDEPPolicy) (PROCESS_DEP_ENABLE | PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION);
+			p_SetProcessDEPPolicy (
+				PROCESS_DEP_ENABLE |
+				PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION);
 	}
 #endif
 #endif
@@ -691,31 +733,32 @@ main (gint argc,
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	g_thread_init (NULL);
-
 	gtk_init_with_args (
-		&argc, &argv, NULL, options, (gchar *) GETTEXT_PACKAGE, &error);
+		&argc, &argv, NULL, options, GETTEXT_PACKAGE, &error);
+
 	if (error != NULL) {
 		g_printerr ("%s\n", error->message);
 		g_error_free (error);
-		exit (1);
+		exit (EXIT_FAILURE);
 	}
 
-	if (opt_remaining) {
-		for (i = 0; i < g_strv_length (opt_remaining); i++) {
+	if (opt_remaining != NULL) {
+		for (ii = 0; ii < g_strv_length (opt_remaining); ii++) {
 			if (backup_op) {
+				title = _("Evolution Back Up");
 				oper = _("Backing up to the folder %s");
-				d(g_message ("Backing up to the folder %s", (gchar *) opt_remaining[i]));
-				bk_file = g_strdup ((gchar *) opt_remaining[i]);
+				d(g_message ("Backing up to the folder %s", (gchar *) opt_remaining[ii]));
+				bk_file = g_strdup ((gchar *) opt_remaining[ii]);
 				file = bk_file;
 			} else if (restore_op) {
+				title = _("Evolution Restore");
 				oper = _("Restoring from the folder %s");
-				d(g_message ("Restoring from the folder %s", (gchar *) opt_remaining[i]));
-				res_file = g_strdup ((gchar *) opt_remaining[i]);
+				d(g_message ("Restoring from the folder %s", (gchar *) opt_remaining[ii]));
+				res_file = g_strdup ((gchar *) opt_remaining[ii]);
 				file = res_file;
 			} else if (check_op) {
-				d(g_message ("Checking %s", (gchar *) opt_remaining[i]));
-				chk_file = g_strdup ((gchar *) opt_remaining[i]);
+				d(g_message ("Checking %s", (gchar *) opt_remaining[ii]));
+				chk_file = g_strdup ((gchar *) opt_remaining[ii]);
 			}
 		}
 	}
@@ -732,15 +775,19 @@ main (gint argc,
 
 		gtk_window_set_default_icon_name ("evolution");
 
-		/* Backup / Restore only can have GUI. We should restrict the rest */
-		progress_dialog = gtk_dialog_new_with_buttons (backup_op ? _("Evolution Back up"): _("Evolution Restore"),
-							  NULL,
-							  GTK_DIALOG_MODAL,
-							  GTK_STOCK_CANCEL,
-							  GTK_RESPONSE_REJECT,
-							  NULL);
+		/* Backup / Restore only can have GUI.
+		 * We should restrict the rest. */
+		progress_dialog = gtk_dialog_new_with_buttons (
+			title, NULL,
+			GTK_DIALOG_MODAL,
+			GTK_STOCK_CANCEL,
+			GTK_RESPONSE_REJECT,
+			NULL);
 
-		gtk_container_set_border_width (GTK_CONTAINER (progress_dialog), 12);
+		gtk_container_set_border_width (
+			GTK_CONTAINER (progress_dialog), 12);
+		gtk_window_set_default_size (
+			GTK_WINDOW (progress_dialog), 450, 120);
 
 		action_area = gtk_dialog_get_action_area (
 			GTK_DIALOG (progress_dialog));
@@ -764,11 +811,14 @@ main (gint argc,
 		gtk_box_pack_start (
 			GTK_BOX (content_area), container, FALSE, TRUE, 0);
 
-		widget = gtk_image_new_from_stock (GTK_STOCK_COPY, GTK_ICON_SIZE_DIALOG);
+		widget = gtk_image_new_from_stock (
+			GTK_STOCK_COPY, GTK_ICON_SIZE_DIALOG);
 		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
 		gtk_widget_show (widget);
 
-		gtk_table_attach (GTK_TABLE (container), widget, 0, 1, 0, 3, GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+		gtk_table_attach (
+			GTK_TABLE (container), widget, 0, 1, 0, 3,
+			GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 
 		if (backup_op) {
 			txt = _("Backing up Evolution Data");
@@ -777,53 +827,62 @@ main (gint argc,
 			txt = _("Restoring Evolution Data");
 			txt2 = _("Please wait while Evolution is restoring your data.");
 		} else {
-			/* do not translate these two, it's just a fallback when something goes wrong,
-			 * we should never get here anyway. */
-			txt = "Oops, doing nothing...";
-			txt2 = "Should not be here now, really...";
+			g_return_val_if_reached (EXIT_FAILURE);
 		}
 
-		markup = g_strconcat ("<b><big>", txt, "</big></b>", NULL);
-		widget = gtk_label_new (NULL);
+		markup = g_markup_printf_escaped ("<b><big>%s</big></b>", txt);
+		widget = gtk_label_new (markup);
 		gtk_label_set_line_wrap (GTK_LABEL (widget), FALSE);
-		gtk_label_set_markup (GTK_LABEL (widget), markup);
+		gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
 		gtk_widget_show (widget);
 		g_free (markup);
 
-		gtk_table_attach (GTK_TABLE (container), widget, 1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+		gtk_table_attach (
+			GTK_TABLE (container), widget, 1, 2, 0, 1,
+			GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
 
-		markup = g_strconcat (txt2, " ", _("This may take a while depending on the amount of data in your account."), NULL);
-		widget = gtk_label_new (NULL);
+		markup = g_strconcat (
+			txt2, " ", _("This may take a while depending "
+			"on the amount of data in your account."), NULL);
+		widget = gtk_label_new (markup);
 		gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
-		gtk_label_set_markup (GTK_LABEL (widget), markup);
 		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 		gtk_widget_show (widget);
 		g_free (markup);
 
-		gtk_table_attach (GTK_TABLE (container), widget, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+		gtk_table_attach (
+			GTK_TABLE (container), widget, 1, 2, 1, 2,
+			GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
 
 		pbar = gtk_progress_bar_new ();
 
-		if (str) {
-			markup = g_strconcat ("<i>", str, "</i>", NULL);
-			widget = gtk_label_new (NULL);
-			gtk_label_set_markup (GTK_LABEL (widget), markup);
+		if (str != NULL) {
+			markup = g_markup_printf_escaped ("<i>%s</i>", str);
+			widget = gtk_label_new (markup);
+			gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 			gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 			g_free (markup);
 			g_free (str);
-			gtk_table_attach (GTK_TABLE (container), widget, 1, 2, 2, 3, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+
+			gtk_table_attach (
+				GTK_TABLE (container), widget, 1, 2, 2, 3,
+				GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
 			gtk_table_set_row_spacing (GTK_TABLE (container), 2, 6);
 
-			gtk_table_attach (GTK_TABLE (container), pbar, 1, 2, 3, 4, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+			gtk_table_attach (
+				GTK_TABLE (container), pbar, 1, 2, 3, 4,
+				GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
 		} else
-			gtk_table_attach (GTK_TABLE (container), pbar, 1, 2, 2, 3, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+			gtk_table_attach (
+				GTK_TABLE (container), pbar, 1, 2, 2, 3,
+				GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
 
-		gtk_window_set_default_size ((GtkWindow *) progress_dialog, 450, 120);
 		g_signal_connect (
 			progress_dialog, "response",
 			G_CALLBACK (dlg_response), cancellable);
 		gtk_widget_show_all (progress_dialog);
+
 	} else if (check_op) {
 		/* For sanity we don't need gui */
 		check (chk_file, NULL);
