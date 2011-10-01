@@ -663,7 +663,11 @@ get_locales (void)
 	gchar *dot;
 	gchar **split;
 
+#ifdef LC_ADDRESS
 	locale = g_strdup (setlocale (LC_ADDRESS, NULL));
+#else
+	locale = NULL;
+#endif
 	if (!locale)
 		return NULL;
 
