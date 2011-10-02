@@ -64,7 +64,7 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">Secure FTP (SSH)</col>
+        <col id="0" translatable="yes">Secure FTP (SFTP)</col>
       </row>
       <row>
         <col id="0" translatable="yes">Public FTP</col>
