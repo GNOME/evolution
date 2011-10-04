@@ -540,5 +540,10 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
   </error>
 
+  <error id="blacklisted-file" type="warning">
+    <_primary>Hidden file is attached.</_primary>
+    <_secondary xml:space="preserve">The attachment named {0} is a hidden file and may contain sensitive data. Please review it before sending.</_secondary>
+  </error>
+
 </error-list>
 
