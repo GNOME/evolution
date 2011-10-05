@@ -1650,6 +1650,11 @@ emae_service_provider_changed (EMAccountEditorService *service)
 		gint enable;
 		GtkWidget *dwidget = NULL;
 
+		/* Remember the current port. Any following changes in SSL would overwrite it
+		   and we don't want that since user can be using a non-standard port and we
+		   would lost the value this way. */
+		old_port = e_port_entry_get_port (service->port);
+
 		emae_setup_settings (service);
 
 		camel_url_set_protocol (url, service->provider->protocol);
@@ -1665,9 +1670,6 @@ emae_service_provider_changed (EMAccountEditorService *service)
 
 		enable = e_account_writable (account, emae_service_info[service->type].save_passwd_key);
 		gtk_widget_set_sensitive ((GtkWidget *) service->remember, enable);
-
-		if (service->port && service->provider->port_entries)
-			e_port_entry_set_camel_entries (service->port, service->provider->port_entries);
 
 		for (i = 0; emae_service_info[service->type].host_info[i].flag; i++) {
 			GtkWidget *w;
@@ -1689,7 +1691,7 @@ emae_service_provider_changed (EMAccountEditorService *service)
 							if (GTK_IS_ENTRY (w))
 								info->setval (url, enable ? gtk_entry_get_text ((GtkEntry *) w) : NULL);
 							else if (E_IS_PORT_ENTRY (w))
-								info->setval (url, enable?g_strdup_printf("%i",
+								info->setval (url, enable ? g_strdup_printf ("%i",
 											e_port_entry_get_port (E_PORT_ENTRY (w))) : NULL);
 						}
 					}
@@ -1724,7 +1726,6 @@ emae_service_provider_changed (EMAccountEditorService *service)
 				gtk_widget_hide ((GtkWidget *) service->needs_auth);
 		}
 #ifdef HAVE_SSL
-		old_port = url->port;
 		gtk_widget_hide (service->no_ssl);
 		if (service->provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL) {
 			camel_url_set_port (url, e_port_entry_get_port (service->port));
@@ -1739,9 +1740,7 @@ emae_service_provider_changed (EMAccountEditorService *service)
 		gtk_widget_show (service->no_ssl);
 #endif
 
-		/* This must be done AFTER use_ssl is set; changing use_ssl overwrites
-		 * the old port, which could be SSL port, but also could be some special
-		 * port and we would otherwise lost it */
+		/* When everything is set it is safe to put back user's original port. */
 		if (url->port && service->provider->port_entries)
 			e_port_entry_set_port (service->port, old_port);
 
@@ -2206,9 +2205,6 @@ emae_setup_service (EMAccountEditor *emae,
 
 	service->auth_changed_id = 0;
 
-	/* Do this first.  Otherwise subsequent changes get clobbered. */
-	emae_service_provider_changed (service);
-
 	g_signal_connect (service->hostname, "changed", G_CALLBACK (emae_hostname_changed), service);
 	g_signal_connect (service->port, "changed", G_CALLBACK (emae_port_changed), service);
 	g_signal_connect (service->username, "changed", G_CALLBACK (emae_username_changed), service);
@@ -2247,6 +2243,9 @@ emae_setup_service (EMAccountEditor *emae,
 	emae_refresh_providers (emae, service);
 	emae_refresh_authtype (emae, service);
 
+	if (service->port && service->provider->port_entries)
+		e_port_entry_set_camel_entries (service->port, service->provider->port_entries);
+
 	/* Set the port after SSL is set, because it would overwrite the
 	 * port value (through emae_ssl_changed signal) */
 	if (url->port && service->provider->port_entries) {
@@ -2263,6 +2262,8 @@ emae_setup_service (EMAccountEditor *emae,
 		gtk_widget_set_sensitive (service->container, FALSE);
 	else
 		gtk_widget_set_sensitive (service->container, TRUE);
+
+	emae_service_provider_changed (service);
 
 	camel_url_free (url);
 }
