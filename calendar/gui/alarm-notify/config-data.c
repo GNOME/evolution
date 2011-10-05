@@ -34,7 +34,7 @@
  * the data from the configuration engine. */
 static gboolean inited = FALSE;
 static GConfClient *conf_client = NULL;
-static GSetting *calendar_settings = NULL;
+static GSettings *calendar_settings = NULL;
 static ESourceList *calendar_source_list = NULL, *tasks_source_list = NULL;
 
 /* Copied from ../calendar-config.c; returns whether the locale has 'am' and
@@ -123,11 +123,11 @@ config_data_get_calendars (const gchar *key)
 		return cal_sources;
 	}
 
-	state = g_settings_get_boolean (calendar_settings, "notify-with-tray", NULL);
+	state = g_settings_get_boolean (calendar_settings, "notify-with-tray");
 	if (!state) /* Should be old client */ {
 		GSList *source;
 
-		g_settings_set_boolean (calendar_settings, "notify-with-tray", TRUE, NULL);
+		g_settings_set_boolean (calendar_settings, "notify-with-tray", TRUE);
 		source = gconf_client_get_list (conf_client,
 						"/apps/evolution/calendar/sources",
 						GCONF_VALUE_STRING,
@@ -226,7 +226,7 @@ config_data_get_24_hour_format (void)
 	ensure_inited ();
 
 	if (locale_supports_12_hour_format ()) {
-		return g_settings_get_boolean (calendar_client, "use-24hour-format");
+		return g_settings_get_boolean (calendar_settings, "use-24hour-format");
 	}
 
 	return TRUE;
@@ -237,7 +237,7 @@ config_data_get_notify_with_tray (void)
 {
 	ensure_inited ();
 
-	return g_settings_get_boolean (calendar_client, "notify-with-tray");
+	return g_settings_get_boolean (calendar_settings, "notify-with-tray");
 }
 
 /**
@@ -286,7 +286,7 @@ config_data_set_last_notification_time (ECalClient *cal,
 	 * than the already stored one */
 	current_t = g_settings_get_int (calendar_settings, "last-notification-time");
 	if (t > current_t || current_t > now)
-		g_settings_set_int (calendar_settings "last-notification-time", t);
+		g_settings_set_int (calendar_settings, "last-notification-time", t);
 }
 
 /**
@@ -313,21 +313,21 @@ config_data_get_last_notification_time (ECalClient *cal)
 
 			if (last_notified && *last_notified &&
 				g_time_val_from_iso8601 (last_notified, &tmval)) {
-				time_t now = time (NULL), val = (time_t) tmval.tv_sec;
+				time_t now = time (NULL), value = (time_t) tmval.tv_sec;
 
-				if (val > now)
-					val = now;
-				return val;
+				if (value > now)
+					value = now;
+				return value;
 			}
 		}
 	}
 
 	value = g_settings_get_int (calendar_settings, "last-notification-time");
 	now = time (NULL);
-	if (val > now)
-		val = now;
+	if (value > now)
+		value = now;
 
-	return val;
+	return value;
 }
 
 /**

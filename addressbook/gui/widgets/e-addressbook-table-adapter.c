@@ -223,7 +223,6 @@ addressbook_append_row (ETableModel *etm,
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 	EBookClient *book_client;
 	EContact *contact;
-	EBookClient *book_client;
 	gint col;
 
 	contact = e_contact_new ();

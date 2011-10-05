@@ -185,17 +185,6 @@ disconnect_im_context (EText *text)
 	text->im_context_signals_registered = FALSE;
 }
 
-static void
-disconnect_im_context (EText *text)
-{
-	if (!text || !text->im_context)
-		return;
-
-	g_signal_handlers_disconnect_matched (
-		text->im_context, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, text);
-	text->im_context_signals_registered = FALSE;
-}
-
 /* Dispose handler for the text item */
 
 #if 0

@@ -52,7 +52,6 @@
 #include "e-util/e-util.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
-#include "e-util/e-extensible.h"
 #include "e-util/e-util-private.h"
 #include "e-util/gconf-bridge.h"
 
@@ -632,16 +631,6 @@ mail_session_finalize (GObject *object)
 
 	g_free (mail_data_dir);
 	g_free (mail_config_dir);
-
-	if (proxy_settings) {
-		g_signal_handlers_disconnect_by_func (proxy_settings, proxy_gsettings_changed_cb, CAMEL_SESSION (object));
-		g_object_unref (proxy_settings);
-	}
-
-	if (proxy_socks_settings) {
-		g_signal_handlers_disconnect_by_func (proxy_socks_settings, proxy_gsettings_changed_cb, CAMEL_SESSION (object));
-		g_object_unref (proxy_socks_settings);
-	}
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_session_parent_class)->finalize (object);

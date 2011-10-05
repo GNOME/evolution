@@ -272,7 +272,6 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
                                   EMailBackend *backend)
 {
 	EAccountList *account_list;
-	EMailSession *session;
 	gboolean delete_junk;
 	gboolean empty_trash;
 
@@ -280,8 +279,6 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 		EActivity *activity;
 		gboolean empty_trash;
 	} sync_data;
-
-	session = e_mail_backend_get_session (backend);
 
 	delete_junk = e_mail_backend_delete_junk_policy_decision (backend);
 	empty_trash = e_mail_backend_empty_trash_policy_decision (backend);

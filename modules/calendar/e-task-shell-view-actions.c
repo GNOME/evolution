@@ -1065,7 +1065,6 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	GSettings *settings;
 	GtkAction *action;
 	GObject *object;
-	const gchar *key;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -1129,7 +1128,7 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	g_settings_bind (settings, "show-task-preview", object, "active", G_SETTINGS_BIND_DEFAULT);
 
 	object = G_OBJECT (ACTION (TASK_VIEW_VERTICAL));
-	g_settings_bind (settings, "task-layout", "current-value", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (settings, "task-layout", object, "current-value", G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (G_OBJECT (settings));
 

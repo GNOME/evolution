@@ -15,6 +15,7 @@ gsettings_SCHEMAS =							\
 	org.gnome.evolution.addressbook.gschema.xml			\
 	org.gnome.evolution.calendar.gschema.xml			\
 	org.gnome.evolution.mail.gschema.xml				\
+	org.gnome.evolution.shell.gschema.xml.in			\
 	org.gnome.evolution.eplugin.attachment-reminder.gschema.xml	\
 	org.gnome.evolution.eplugin.bogo-junk.gschema.xml		\
 	org.gnome.evolution.eplugin.email-custom-header.gschema.xml	\

@@ -1,0 +1,94 @@
+<schemalist>
+  <schema gettext-domain="evolution" id="org.gnome.evolution.shell" path="/org/gnome/evolution/shell/">
+    <key name="skip-warning-dialog" type="b">
+      <default>false</default>
+      <_summary>Skip development warning dialog</_summary>
+      <_description>Whether the warning dialog in development versions of Evolution is skipped.</_description>
+    </key>
+    <key name="attachment-view" type="i">
+      <default>0</default>
+      <_summary>Initial attachment view</_summary>
+      <_description>Initial view for attachment bar widgets. "0" is Icon View, "1" is List View.</_description>
+    </key>
+    <key name="file-chooser-folder" type="s">
+      <default>''</default>
+      <_summary>Initial file chooser folder</_summary>
+      <_description>Initial folder for GtkFileChooser dialogs.</_description>
+    </key>
+    <key name="start-offline" type="b">
+      <default>false</default>
+      <_summary>Start in offline mode</_summary>
+      <_description> Whether Evolution will start up in offline mode instead of online mode.</_description>
+    </key>
+    <key name="folder-paths" type="as">
+      <default>[]</default>
+      <_summary>Offline folder paths</_summary>
+      <_description>List of paths for the folders to be synchronized to disk for offline usage.</_description>
+    </key>
+    <key name="express-mode" type="b">
+      <default>false</default>
+      <_summary>Enable express mode</_summary>
+      <_description>Flag that enables a much simplified user interface.</_description>
+    </key>
+    <key name="window-y" type="i">
+      <default></default>
+      <_summary>Default window Y coordinate</_summary>
+      <_description>The default Y coordinate for the main window.</_description>
+    </key>
+    <key name="window-x" type="i">
+      <default></default>
+      <_summary>Default window X coordinate</_summary>
+      <_description>The default X coordinate for the main window.</_description>
+    </key>
+    <key name="window-width" type="i">
+      <default>640</default>
+      <_summary>Default window width</_summary>
+      <_description>The default width for the main window, in pixels.</_description>
+    </key>
+    <key name="window-height" type="i">
+      <default>480</default>
+      <_summary>Default window height</_summary>
+      <_description>The default height for the main window, in pixels.</_description>
+    </key>
+    <key name="window-maximized" type="b">
+      <default>true</default>
+      <_summary>Default window state</_summary>
+      <_description>Whether or not the window should be maximized.</_description>
+    </key>
+    <key name="buttons-visible" type="b">
+      <default>true</default>
+      <_summary>Window buttons are visible</_summary>
+      <_description>Whether the window buttons should be visible.</_description>
+    </key>
+    <key name="buttons-style" type="s">
+      <default>toolbar</default>
+      <_summary>Window button style</_summary>
+      <_description>The style of the window buttons.  Can be "text", "icons", "both", "toolbar".  If "toolbar" is set, the style of the buttons is determined by the GNOME toolbar setting.</_description>
+    </key>
+    <key name="toolbar-visible" type="b">
+      <default>true</default>
+      <_summary>Toolbar is visible</_summary>
+      <_description>Whether the toolbar should be visible.</_description>
+    </key>
+    <key name="sidebar-visible" type="b">
+      <default>true</default>
+      <_summary>Sidebar is visible</_summary>
+      <_description>Whether the sidebar should be visible.</_description>
+    </key>
+    <key name="statusbar-visible" type="b">
+      <default>TRUE</default>
+      <_summary>Statusbar is visible</_summary>
+      <_description>Whether the status bar should be visible.</_description>
+    </key>
+    <key name="default-component-id" type="s">
+      <default>mail</default>
+      <_summary>ID or alias of the component to be shown by default at start-up.</_summary>
+      <_description>ID or alias of the component to be shown by default at start-up.</_description>
+    </key>
+    <key name="folder-bar-width" type="i">
+      <default>200</default>
+      <_summary>Default sidebar width</_summary>
+      <_description>The default width for the sidebar, in pixels.</_description>
+    </key>
+  </schema>
+</schemalist>

@@ -428,7 +428,7 @@ e_mail_store_remove (EMailBackend *backend,
 	folder_cache = e_mail_session_get_folder_cache (session);
 	mail_folder_cache_note_store_remove (folder_cache, store);
 
-	default_model = em_folder_tree_model_get_default (NULL);
+	default_model = em_folder_tree_model_get_default ();
 	em_folder_tree_model_remove_store (default_model, store);
 
 	mail_disconnect_store (store);

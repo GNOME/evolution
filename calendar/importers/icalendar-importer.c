@@ -1382,7 +1382,7 @@ get_users_timezone (void)
 	} else {
 		GSettings *settings = g_settings_new ("org.gnome.evolution.calendar");
 
-		location = g_settings_get_string (settings, "timezone", NULL);
+		location = g_settings_get_string (settings, "timezone");
 
 		g_object_unref (settings);
 	}
