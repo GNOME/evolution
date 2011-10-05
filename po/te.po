@@ -12901,15 +12901,9 @@ msgstr ""
 "ఆఫ్‌లైన్ ఉపయోగార్దం గుర్తుంచబడిన సంచయాలను మీరు స్థానికంగా కాలనియమత "
 "చేద్దామనుకుంటున్నారా?"
 
-<<<<<<< HEAD
-#: ../mail/evolution-mail.schemas.in.h:119
-msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "సందేశ-ప్రదర్శన శైలి (సాదారణ: \"normal\", పూర్తి పీఠికలు: \"full headers\", మూలం: \"source\")"
-=======
 #: ../mail/mail.error.xml.h:50
 msgid "Do you want to mark all messages as read?"
 msgstr "మీరు అన్ని సందేశాలను చదివిన వాటిలా గుర్తుంచుదామని అనుకుంటున్నారా?"
->>>>>>> master
 
 #: ../mail/mail.error.xml.h:51
 msgid "Do you wish to save your changes?"
