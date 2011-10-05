@@ -5,8 +5,9 @@ libevolution_module_composer_autosave_la_CPPFLAGS =		\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/widgets					\
 	-DG_LOG_DOMAIN=\"evolution-composer-autosave\"		\
-	$(EVOLUTION_MAIL_CFLAGS)				\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
+	$(GNOME_PLATFORM_CFLAGS)				\
+	$(GTKHTML_CFLAGS)
 
 libevolution_module_composer_autosave_la_SOURCES =		\
 	evolution-composer-autosave.c				\
@@ -20,8 +21,9 @@ libevolution_module_composer_autosave_la_LIBADD =		\
 	$(top_builddir)/composer/libcomposer.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/e-util/libeutil.la			\
-	$(EVOLUTION_MAIL_LIBS)					\
-	$(GNOME_PLATFORM_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)					\
+	$(GTKHTML_LIBS)
 
 libevolution_module_composer_autosave_la_LDFLAGS =		\
 	-module -avoid-version $(NO_UNDEFINED)

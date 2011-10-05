@@ -61,9 +61,8 @@ libeshell_la_CPPFLAGS =						\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(EGG_SMCLIENT_CFLAGS)					\
-	$(CLUTTER_CFLAGS)					\
-	$(TZDIALOG_CFLAGS)					\
-	$(SHELL_CFLAGS)
+	$(GTKHTML_CFLAGS)					\
+	$(CLUTTER_CFLAGS)
 
 libeshell_la_SOURCES =				\
 	$(eshellinclude_HEADERS)		\
@@ -99,8 +98,7 @@ libeshell_la_LIBADD =					\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(EGG_SMCLIENT_LIBS)				\
-	$(CLUTTER_LIBS)					\
-	$(SHELL_LIBS)
+	$(CLUTTER_LIBS)
 
 # Evolution executable
 
@@ -131,10 +129,10 @@ evolution_CPPFLAGS =						\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"			\
 	-DDATADIR=\""$(datadir)"\"				\
 	-DLIBDIR=\""$(datadir)"\"				\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(TZDIALOG_CFLAGS)					\
-	$(CLUTTER_CFLAGS)					\
-	$(SHELL_CFLAGS)
+	$(GTKHTML_CFLAGS)					\
+	$(CLUTTER_CFLAGS)
 
 evolution_SOURCES =				\
 	main.c
@@ -146,8 +144,7 @@ evolution_LDADD =							\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/filter/libfilter.la				\
-	$(TZDIALOG_LIBS)						\
-	$(SHELL_LIBS)							\
+	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
 	$(CLUTTER_LIBS)							\
 	$(EVOLUTIONICON)

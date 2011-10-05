@@ -5,13 +5,13 @@ libevolution_module_mail_la_CPPFLAGS =					\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/mail						\
 	-I$(top_srcdir)/widgets						\
-	$(GNOME_PLATFORM_CFLAGS)					\
-	$(EVOLUTION_MAIL_CFLAGS)					\
-	$(CAMEL_CFLAGS)							\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
-	-DG_LOG_DOMAIN=\"evolution-module-mail\"
+	-DG_LOG_DOMAIN=\"evolution-module-mail\"			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
+	$(GNOME_PLATFORM_CFLAGS)					\
+	$(GTKHTML_CFLAGS)
 
 libevolution_module_mail_la_SOURCES =					\
 	evolution-module-mail.c						\
@@ -66,11 +66,9 @@ libevolution_module_mail_la_LIBADD =					\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/capplet/settings/libevolution-mail-settings.la	\
-	$(EVOLUTION_MAIL_LIBS)						\
-	$(CAMEL_LIBS)							\
-	$(GTKHTML_LIBS)							\
-	$(E_WIDGETS_LIBS)						\
-	$(GNOME_PLATFORM_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)						\
+	$(GTKHTML_LIBS)
 
 libevolution_module_mail_la_LDFLAGS =					\
 	-avoid-version -module $(NO_UNDEFINED)

@@ -5,7 +5,7 @@ libevolution_module_plugin_lib_la_CPPFLAGS =			\
 	-DG_LOG_DOMAIN=\"evolution-plugin-lib\"			\
 	-I$(top_srcdir)						\
 	-DEVOLUTION_PREFIX=\""$(prefix)"\"			\
-	$(E_UTIL_CFLAGS)
+	$(EVOLUTION_DATA_SERVER_CFLAGS)
 
 libevolution_module_plugin_lib_la_SOURCES =			\
 	evolution-module-plugin-lib.c				\
@@ -14,7 +14,7 @@ libevolution_module_plugin_lib_la_SOURCES =			\
 
 libevolution_module_plugin_lib_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la			\
-	$(E_UTIL_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)
 
 libevolution_module_plugin_lib_la_LDFLAGS =			\
 	-module -avoid-version $(NO_UNDEFINED)

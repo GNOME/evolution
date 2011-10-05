@@ -78,15 +78,15 @@ libemiscwidgets_la_CPPFLAGS =						\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/filter						\
 	-I$(top_srcdir)/widgets						\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"				\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
 	-DG_LOG_DOMAIN=__FILE__						\
-	$(EVOLUTION_MAIL_CFLAGS)					\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
 	$(CHAMPLAIN_CFLAGS)						\
 	$(GEOCLUE_CFLAGS)						\
-	$(CLUTTER_CFLAGS)
-	
+	$(CLUTTER_CFLAGS)						\
+	$(GTKHTML_CFLAGS)
 
 libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
@@ -165,13 +165,14 @@ libemiscwidgets_la_LIBADD =					\
 	$(top_builddir)/filter/libfilter.la			\
 	$(top_builddir)/a11y/libevolution-a11y.la		\
 	$(top_builddir)/libgnomecanvas/libgnomecanvas.la	\
-	$(EVOLUTION_MAIL_LIBS)					\
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(MATH_LIB)						\
 	$(ICONV_LIBS)						\
 	$(CHAMPLAIN_LIBS)					\
 	$(GEOCLUE_LIBS)						\
-	$(CLUTTER_LIBS)
+	$(CLUTTER_LIBS)						\
+	$(GTKHTML_LIBS)
 
 noinst_PROGRAMS = 			\
 	test-calendar			\
@@ -183,9 +184,9 @@ test_widgets_misc_CPPFLAGS=						\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/filter						\
 	-I$(top_srcdir)/widgets						\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"				\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
 	-DG_LOG_DOMAIN=__FILE__						\
-	$(EVOLUTION_MAIL_CFLAGS)					\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)
 
 # test-calendar
@@ -199,8 +200,8 @@ test_calendar_LDADD = 				\
 	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/filter/libfilter.la	\
-	$(GNOME_PLATFORM_LIBS)			\
-	$(E_WIDGETS_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)		\
+	$(GNOME_PLATFORM_LIBS)
 
 # test-dateedit
 
@@ -213,8 +214,8 @@ test_dateedit_LDADD = 				\
 	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/filter/libfilter.la	\
-	$(GNOME_PLATFORM_LIBS)			\
-	$(E_WIDGETS_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)		\
+	$(GNOME_PLATFORM_LIBS)
 
 # test-preferences-window
 
@@ -227,8 +228,8 @@ test_preferences_window_LDADD = 		\
 	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/filter/libfilter.la	\
-	$(GNOME_PLATFORM_LIBS)			\
-	$(E_WIDGETS_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)		\
+	$(GNOME_PLATFORM_LIBS)
 
 EXTRA_DIST = $(ui_DATA)
 

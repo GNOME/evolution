@@ -7,27 +7,27 @@ plugin_LTLIBRARIES = liborg-gnome-email-custom-header.la
 liborg_gnome_email_custom_header_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)					\
 	-I.	 					\
-	-I$(top_srcdir)	                                \
+	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
-	-I$(top_builddir)/mail                          \
+	-I$(top_builddir)/mail				\
 	-I$(top_builddir)/composer			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_MAIL_CFLAGS)			\
-	-DEVOLUTION_UIDIR=\""$(uidir)"\"          \
-	-DCONNECTOR_UIDIR=\""$(uidir)"\"
+	$(GTKHTML_CFLAGS)
 
 liborg_gnome_email_custom_header_la_SOURCES = 		\
 	email-custom-header.c				\
-	email-custom-header.h										
+	email-custom-header.h
 
 liborg_gnome_email_custom_header_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la 			\
 	$(top_builddir)/composer/libcomposer.la 		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/mail/libevolution-mail.la 		\
-	$(EVOLUTION_MAIL_LIBS)					\
-	$(GNOME_PLATFORM_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)					\
+	$(GTKHTML_LIBS)
 
 liborg_gnome_email_custom_header_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

@@ -16,10 +16,11 @@ libevolution_mail_settings_la_CPPFLAGS =		\
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)/smime/lib			\
 	-I$(top_srcdir)/smime/gui			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(CERT_UI_CFLAGS)				\
 	$(CANBERRA_CFLAGS)				\
+	$(GTKHTML_CFLAGS)				\
 	-DANJAL_SETTINGS				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
@@ -52,13 +53,12 @@ libevolution_mail_settings_la_SOURCES = \
 	mail-guess-servers.h
 
 libevolution_mail_settings_la_LIBADD = 				\
-	$(EVOLUTION_MAIL_LIBS)				\
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
+	$(GNOME_PLATFORM_LIBS)				\
 	$(CERT_UI_LIBS)					\
 	$(CANBERRA_LIBS)				\
 	$(GTKHTML_LIBS)					\
-	$(E_WIDGETS_LIBS)				\
 	$(SMIME_LIBS)					\
-	$(GNOME_PLATFORM_LIBS)				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\

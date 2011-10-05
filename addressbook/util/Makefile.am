@@ -11,8 +11,8 @@ libeabutil_la_CPPFLAGS =				\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)/widgets				\
-	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
+	$(GNOME_PLATFORM_CFLAGS)
 
 libeabutil_la_SOURCES =					\
 	eab-book-util.c					\
@@ -24,7 +24,7 @@ libeabutil_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la \
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)
 
 dist-hook:

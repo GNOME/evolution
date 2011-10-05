@@ -4,7 +4,7 @@ libevolution_module_plugin_python_la_CPPFLAGS =			\
 	$(AM_CPPFLAGS)						\
 	-DG_LOG_DOMAIN=\"evolution-plugin-python\"		\
 	-I$(top_srcdir)						\
-	$(E_UTIL_CFLAGS)					\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(PY_INCLUDES)
 
 libevolution_module_plugin_python_la_SOURCES =			\
@@ -15,7 +15,7 @@ libevolution_module_plugin_python_la_SOURCES =			\
 libevolution_module_plugin_python_la_LIBADD =			\
 	-ldl -lutil -lm						\
 	$(top_builddir)/e-util/libeutil.la			\
-	$(E_UTIL_LIBS)						\
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(PY_LIBS)
 
 libevolution_module_plugin_python_la_LDFLAGS =			\

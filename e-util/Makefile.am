@@ -85,8 +85,8 @@ libeutil_la_CPPFLAGS =							\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\"				\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
-	$(GNOME_PLATFORM_CFLAGS)					\
-	$(E_UTIL_CFLAGS)
+	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
+	$(GNOME_PLATFORM_CFLAGS)
 
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
@@ -133,10 +133,10 @@ libeutil_la_SOURCES =				\
 
 libeutil_la_LDFLAGS = $(NO_UNDEFINED)
 
-libeutil_la_LIBADD = 		\
-	$(ICONV_LIBS)		\
-	$(E_UTIL_LIBS)		\
-	$(GNOME_PLATFORM_LIBS)	\
+libeutil_la_LIBADD = 			\
+	$(ICONV_LIBS)			\
+	$(EVOLUTION_DATA_SERVER_LIBS)	\
+	$(GNOME_PLATFORM_LIBS)		\
 	$(INTLLIBS)
 
 error_DATA = e-system.error

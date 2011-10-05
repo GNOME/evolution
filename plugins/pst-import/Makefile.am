@@ -2,7 +2,6 @@ if OS_WIN32
 NO_UNDEFINED_REQUIRED_LIBS =				\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/e-util/libeutil.la		\
-	$(EVOLUTION_CALENDAR_LIBS)			\
 	$(EVOLUTION_MAIL_LIBS)
 endif
 
@@ -17,11 +16,10 @@ liborg_gnome_pst_import_la_CPPFLAGS =			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)				\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_CFLAGS)				\
-	$(EVOLUTION_CALENDAR_CFLAGS)			\
-	$(LIBPST_CFLAGS)				\
-	$(CAMEL_CFLAGS)
+	$(GTKHTML_CFLAGS)				\
+	$(LIBPST_CFLAGS)
 
 liborg_gnome_pst_import_la_SOURCES = pst-importer.c
 
@@ -31,11 +29,10 @@ liborg_gnome_pst_import_la_LIBADD =			\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/e-util/libeutil.la		\
-	$(EVOLUTION_CALENDAR_LIBS)			\
-	$(EVOLUTION_MAIL_LIBS)				\
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(LIBPST_LIBS)					\
-	$(CAMEL_LIBS)
+	$(GTKHTML_LIBS)					\
+	$(LIBPST_LIBS)
 
 EXTRA_DIST = org-gnome-pst-import.eplug.xml
 

@@ -7,9 +7,9 @@ liborg_gnome_itip_formatter_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_MAIL_CFLAGS)			\
-	$(EVOLUTION_CALENDAR_CFLAGS)
+	$(GTKHTML_CFLAGS)
 
 liborg_gnome_itip_formatter_la_SOURCES = itip-formatter.c itip-view.c itip-view.h
 
@@ -22,9 +22,9 @@ liborg_gnome_itip_formatter_la_LIBADD =				\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/em-format/libemformat.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
-	$(CAMEL_LIBS)						\
-	$(EVOLUTION_CALENDAR_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)					\
+	$(GTKHTML_LIBS)
 
 error_DATA = org-gnome-itip-formatter.error
 errordir = $(privdatadir)/errors

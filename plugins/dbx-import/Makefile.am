@@ -1,9 +1,7 @@
 if OS_WIN32
 NO_UNDEFINED_REQUIRED_LIBS =				\
 	$(top_builddir)/mail/libevolution-mail.la	\
-	$(top_builddir)/e-util/libeutil.la		\
-	$(EVOLUTION_CALENDAR_LIBS)			\
-	$(EVOLUTION_MAIL_LIBS)
+	$(top_builddir)/e-util/libeutil.la
 endif
 
 @EVO_PLUGIN_RULE@
@@ -17,10 +15,9 @@ liborg_gnome_dbx_import_la_CPPFLAGS =			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)				\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_CFLAGS)				\
-	$(EVOLUTION_CALENDAR_CFLAGS)			\
-	$(CAMEL_CFLAGS)
+	$(GTKHTML_CFLAGS)
 
 liborg_gnome_dbx_import_la_SOURCES = dbx-importer.c
 
@@ -30,11 +27,9 @@ liborg_gnome_dbx_import_la_LIBADD =			\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
-	$(CAMEL_LIBS)					\
-	$(EVOLUTION_CALENDAR_LIBS)			\
-	$(EVOLUTION_MAIL_LIBS)				\
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(CAMEL_LIBS)
+	$(GTKHTML_LIBS)
 
 EXTRA_DIST = org-gnome-dbx-import.eplug.xml
 

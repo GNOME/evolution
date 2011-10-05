@@ -37,8 +37,9 @@ libcomposer_la_CPPFLAGS =						\
 	-DEVOLUTION_UIDIR=\"$(uidir)\"					\
 	-DPREFIX=\"$(prefix)\"						\
 	-DG_LOG_DOMAIN=\"composer\"					\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(EVOLUTION_MAIL_CFLAGS)
+	$(GTKHTML_CFLAGS)
 
 libcomposer_la_SOURCES = 			\
 	$(libcomposerinclude_HEADERS)		\
@@ -62,8 +63,9 @@ libcomposer_la_LIBADD =					\
 	$(top_builddir)/em-format/libemformat.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la		\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
-	$(EVOLUTION_MAIL_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
+	$(GNOME_PLATFORM_LIBS)				\
+	$(GTKHTML_LIBS)
 
 ui_DATA = evolution-composer.ui
 

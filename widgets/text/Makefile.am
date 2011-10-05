@@ -4,7 +4,7 @@ libetext_la_CPPFLAGS =				\
 	$(AM_CPPFLAGS)				\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
-	$(E_UTIL_CFLAGS)			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)		\
 	$(GNOME_PLATFORM_CFLAGS)		\
 	-DG_LOG_DOMAIN=\"e-text\"
 
@@ -35,8 +35,9 @@ libetext_la_LIBADD = 						\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/libgnomecanvas/libgnomecanvas.la	\
-	$(E_UTIL_LIBS)						\
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(REGEX_LIBS)
+	$(REGEX_LIBS)						\
+	$(MATH_LIB)
 
 -include $(top_srcdir)/git.mk

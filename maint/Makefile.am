@@ -16,8 +16,6 @@ libgladeevolution_la_LIBADD = \
 	$(top_srcdir)/calendar/gui/libevolution-calendar.la \
 	$(top_builddir)/widgets/misc/libemiscwidgets.la \
 	$(EVOLUTION_DATA_SERVER_LIBS) \
-	$(EVOLUTION_CALENDAR_LIBS) \
-	$(EVOLUTION_MAIL_LIBS) \
 	$(GNOME_PLATFORM_LIBS)
 
 EXTRA_DIST = \

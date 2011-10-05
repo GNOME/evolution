@@ -16,18 +16,18 @@ liborg_gnome_backup_restore_la_CPPFLAGS =		\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"		\
 	-DDATADIR=\""$(datadir)"\"			\
 	-DLIBDIR=\""$(libdir)"\"			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_CALENDAR_CFLAGS)			\
-	$(SHELL_CFLAGS)					\
-	$(E_UTIL_CFLAGS)
+	$(GTKHTML_CFLAGS)
 
 liborg_gnome_backup_restore_la_SOURCES = backup-restore.c
 liborg_gnome_backup_restore_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_backup_restore_la_LIBADD =		\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/shell/libeshell.la	\
-	$(SHELL_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)		\
+	$(GNOME_PLATFORM_LIBS)			\
+	$(GTKHTML_LIBS)
 
 privlibexec_PROGRAMS = evolution-backup
 evolution_backup_SOURCES = backup.c
@@ -41,14 +41,12 @@ evolution_backup_CPPFLAGS =				\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"		\
 	-DDATADIR=\""$(datadir)"\"			\
 	-DLIBDIR=\""$(libdir)"\"			\
-	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_CALENDAR_CFLAGS)			\
-	$(SHELL_CFLAGS)					\
-	$(E_UTIL_CFLAGS)
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
+	$(GNOME_PLATFORM_CFLAGS)
 
 evolution_backup_LDADD =			\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(SHELL_LIBS)				\
+	$(EVOLUTION_DATA_SERVER_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)
 
 if OS_WIN32
