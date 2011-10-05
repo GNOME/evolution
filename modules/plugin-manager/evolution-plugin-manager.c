@@ -20,13 +20,12 @@
 #include <config.h>
 #endif
 
-#include <glib/gi18n-lib.h>
-
 #include <string.h>
 #include <stdio.h>
+#include <glib/gi18n-lib.h>
+#include <libebackend/e-extension.h>
 
 #include <e-util/e-plugin.h>
-#include <e-util/e-extension.h>
 #include <shell/e-shell-window.h>
 #include <shell/e-shell-window-actions.h>
 

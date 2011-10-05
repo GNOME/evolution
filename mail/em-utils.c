@@ -1194,69 +1194,6 @@ em_utils_folder_is_outbox (CamelFolder *folder)
 static EProxy *emu_proxy = NULL;
 static GStaticMutex emu_proxy_lock = G_STATIC_MUTEX_INIT;
 
-/* encode to string this way, because soup_uri_to_string doesn't include passwords */
-static gchar *
-suri_to_string (SoupURI *suri)
-{
-	GString *uri;
-	gchar *tmp;
-
-	if (!suri)
-		return NULL;
-
-	uri = g_string_sized_new (20);
-
-	if (suri->scheme)
-		g_string_append_printf (uri, "%s:", suri->scheme);
-	if (suri->host) {
-		g_string_append (uri, "//");
-		if (suri->user) {
-			tmp = soup_uri_encode (suri->user, ":/;#@?\\");
-			g_string_append (uri, tmp);
-			g_free (tmp);
-		}
-
-		if (suri->password) {
-			g_string_append_c (uri, ':');
-			tmp = soup_uri_encode (suri->password, ":/;#@?\\");
-			g_string_append (uri, tmp);
-			g_free (tmp);
-		}
-
-		if (suri->user || suri->password)
-			g_string_append_c (uri, '@');
-
-		if (strchr (suri->host, ':')) {
-			g_string_append_c (uri, '[');
-			g_string_append (uri, suri->host);
-			g_string_append_c (uri, ']');
-		} else {
-			tmp = soup_uri_encode (suri->host, ":/");
-			g_string_append (uri, tmp);
-			g_free (tmp);
-		}
-
-		if (suri->port && !soup_uri_uses_default_port (suri))
-			g_string_append_printf (uri, ":%d", suri->port);
-		if (!suri->path && (suri->query || suri->fragment))
-			g_string_append_c (uri, '/');
-	}
-
-	if (suri->path && *suri->path)
-		g_string_append (uri, suri->path);
-
-	if (suri->query) {
-		g_string_append_c (uri, '?');
-		g_string_append (uri, suri->query);
-	}
-	if (suri->fragment) {
-		g_string_append_c (uri, '#');
-		g_string_append (uri, suri->fragment);
-	}
-
-	return g_string_free (uri, FALSE);
-}
-
 static gpointer
 emu_proxy_setup (gpointer data)
 {
@@ -1269,30 +1206,18 @@ emu_proxy_setup (gpointer data)
 	return NULL;
 }
 
-/**
- * em_utils_get_proxy_uri:
- *
- * Get the system proxy uri for 'pUri'.
- *
- * Return value: Must be freed when finished with.
- **/
-gchar *
-em_utils_get_proxy_uri (const gchar *pUri)
+EProxy *
+em_utils_get_proxy (void)
 {
-	gchar *uri = NULL;
-
 	g_static_mutex_lock (&emu_proxy_lock);
 
 	if (!emu_proxy) {
 		mail_call_main (MAIL_CALL_p_p, (MailMainFunc) emu_proxy_setup, NULL);
 	}
 
-	if (e_proxy_require_proxy_for_uri (emu_proxy, pUri))
-		uri = suri_to_string (e_proxy_peek_uri_for (emu_proxy, pUri));
-
 	g_static_mutex_unlock (&emu_proxy_lock);
 
-	return uri;
+	return emu_proxy;
 }
 
 /**
@@ -2391,7 +2316,8 @@ free_account_sort_order_cache (void)
 }
 
 static void
-fill_accounts_sort_order_cache (EMailBackend *backend, gboolean force_reload)
+fill_accounts_sort_order_cache (EMailBackend *backend,
+                                gboolean force_reload)
 {
 	GSList *account_uids;
 
@@ -2455,7 +2381,8 @@ emu_get_sort_order_key_file (EMailBackend *backend)
 }
 
 void
-em_utils_save_accounts_sort_order (EMailBackend *backend, const GSList *account_uids)
+em_utils_save_accounts_sort_order (EMailBackend *backend,
+                                   const GSList *account_uids)
 {
 	gchar *filename;
 	GKeyFile *key_file;
@@ -2520,7 +2447,8 @@ em_utils_load_accounts_sort_order (EMailBackend *backend)
 }
 
 guint
-em_utils_get_account_sort_order (EMailBackend *backend, const gchar *account_uid)
+em_utils_get_account_sort_order (EMailBackend *backend,
+                                 const gchar *account_uid)
 {
 	guint res;
 

@@ -31,15 +31,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
+#include <gdk/gdkkeysyms.h>
+#include <libebackend/e-extensible.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 
 #include "misc/e-canvas.h"
 #include "misc/e-canvas-utils.h"
-
 #include "misc/e-dateedit.h"
-#include "e-util/e-extensible.h"
+
 #include "e-util/e-util.h"
 
 #include "e-meeting-utils.h"

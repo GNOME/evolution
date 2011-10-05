@@ -31,10 +31,10 @@
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
+#include <libebackend/e-extensible.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-proxy.h>
 #include <libedataserverui/e-passwords.h>
-#include <e-util/e-extensible.h>
 #include <e-util/e-account-utils.h>
 #include <e-util/e-util-enumtypes.h>
 #include "itip-utils.h"
@@ -1984,7 +1984,9 @@ download_with_libsoup (const gchar *uri,
 	g_object_set_data_full (G_OBJECT (msg), "orig-uri", g_strdup (uri), g_free);
 
 	session = soup_session_async_new ();
-	g_signal_connect (session, "authenticate", G_CALLBACK (soup_authenticate), NULL);
+	g_signal_connect (
+		session, "authenticate",
+		G_CALLBACK (soup_authenticate), NULL);
 
 	proxy = e_proxy_new ();
 	e_proxy_setup_proxy (proxy);

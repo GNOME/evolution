@@ -32,9 +32,9 @@
 #include "e-shell-searchbar.h"
 
 #include <glib/gi18n-lib.h>
+#include <libebackend/e-extensible.h>
 
 #include "e-util/e-util.h"
-#include "e-util/e-extensible.h"
 #include "widgets/misc/e-action-combo-box.h"
 #include "widgets/misc/e-hinted-entry.h"
 

@@ -76,8 +76,8 @@ struct _EMComposerPrefsClass {
 	GtkVBoxClass parent_class;
 };
 
-GType      em_composer_prefs_get_type      (void);
-GtkWidget *em_composer_prefs_new           (EPreferencesWindow *window);
+GType		em_composer_prefs_get_type	(void);
+GtkWidget *	em_composer_prefs_new		(EPreferencesWindow *window);
 
 G_END_DECLS
 

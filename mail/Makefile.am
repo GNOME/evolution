@@ -25,16 +25,17 @@ libevolution_mail_la_CPPFLAGS =				\
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)/smime/lib			\
 	-I$(top_srcdir)/smime/gui			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(CERT_UI_CFLAGS)				\
 	$(CANBERRA_CFLAGS)				\
 	$(CLUTTER_CFLAGS)				\
+	$(GTKHTML_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_ICONDIR=\""$(icondir)"\"		\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"		\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
 	-DEVOLUTION_BUTTONSDIR=\""$(buttonsdir)"\"	\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
@@ -209,14 +210,13 @@ libevolution_mail_la_LIBADD =				\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(top_builddir)/em-format/libemformat.la	\
 	$(top_builddir)/filter/libfilter.la		\
-	$(EVOLUTION_MAIL_LIBS)				\
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
+	$(GNOME_PLATFORM_LIBS)				\
 	$(CERT_UI_LIBS)					\
 	$(CANBERRA_LIBS)				\
 	$(CLUTTER_LIBS)					\
 	$(GTKHTML_LIBS)					\
-	$(E_WIDGETS_LIBS)				\
-	$(SMIME_LIBS)					\
-	$(GNOME_PLATFORM_LIBS)
+	$(SMIME_LIBS)
 
 libevolution_mail_la_LDFLAGS = $(NO_UNDEFINED)
 

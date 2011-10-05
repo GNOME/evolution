@@ -6,8 +6,8 @@ libmenus_la_CPPFLAGS =				\
 	-I$(top_srcdir)/widgets			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"  \
 	-DG_LOG_DOMAIN=\"menus\"		\
-	$(GNOME_PLATFORM_CFLAGS)		\
-	$(E_UTIL_CFLAGS)
+	$(EVOLUTION_DATA_SERVER_CFLAGS)		\
+	$(GNOME_PLATFORM_CFLAGS)
 
 libmenus_la_SOURCES = 				\
 	gal-define-views-dialog.c		\
@@ -46,8 +46,8 @@ libmenus_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/widgets/table/libetable.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
-	$(GNOME_PLATFORM_LIBS)				\
-	$(E_UTIL_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
+	$(GNOME_PLATFORM_LIBS)
 
 icons =
 EXTRA_DIST =			\

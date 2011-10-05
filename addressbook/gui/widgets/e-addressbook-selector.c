@@ -293,7 +293,8 @@ target_client_open_ready_cb (GObject *source_object,
 	}
 
 	eab_merging_book_add_contact (
-		merge_context->target_client, merge_context->current_contact,
+		merge_context->target_client,
+		merge_context->current_contact,
 		addressbook_selector_merge_next_cb, merge_context);
 }
 
@@ -335,7 +336,8 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	merge_context->remove_from_source = remove_from_source;
 	merge_context->pending_adds = TRUE;
 
-	e_client_utils_open_new (destination, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
+	e_client_utils_open_new (
+		destination, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
 		e_client_utils_authenticate_handler, NULL,
 		target_client_open_ready_cb, merge_context);
 

@@ -119,14 +119,13 @@ org_gnome_vcard_inline_decode (VCardInlinePObject *vcard_object,
 }
 
 static void
-org_gnome_vcard_inline_client_loaded_cb (GObject *source_object,
+org_gnome_vcard_inline_client_loaded_cb (ESource *source,
                                          GAsyncResult *result,
-                                         gpointer user_data)
+                                         GSList *contact_list)
 {
-	ESource *source = E_SOURCE (source_object);
 	EClient *client = NULL;
 	EBookClient *book_client;
-	GSList *contact_list = user_data, *iter;
+	GSList *iter;
 	GError *error = NULL;
 
 	e_client_utils_open_new_finish (source, result, &client, &error);
@@ -185,9 +184,11 @@ org_gnome_vcard_inline_save_cb (VCardInlinePObject *vcard_object)
 
 	contact_list = e_client_util_copy_object_slist (NULL, vcard_object->contact_list);
 
-	e_client_utils_open_new (source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
-		e_client_utils_authenticate_handler, NULL,
-		org_gnome_vcard_inline_client_loaded_cb, contact_list);
+	e_client_utils_open_new (
+		source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE,
+		NULL, e_client_utils_authenticate_handler, NULL,
+		(GAsyncReadyCallback) org_gnome_vcard_inline_client_loaded_cb,
+		contact_list);
 }
 
 static void

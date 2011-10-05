@@ -33,8 +33,6 @@
 
 #include "misc.h"
 
-
-
 /**
  * string_is_empty:
  * @value: A string.

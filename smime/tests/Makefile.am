@@ -3,8 +3,8 @@ noinst_PROGRAMS=import-cert
 TEST_CPPFLAGS=						\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)/smime/lib			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CERT_UI_CFLAGS)
 
 TEST_LIBS= \
@@ -12,6 +12,7 @@ TEST_LIBS= \
 	-L/home/toshok/src/mozilla/mozilla/dist/lib	\
 	$(CERT_UI_LIBS)					\
 	$(top_builddir)/e-util/libeutil.la		\
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)
 
 import_cert_LDADD=$(TEST_LIBS)

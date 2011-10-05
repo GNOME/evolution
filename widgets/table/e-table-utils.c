@@ -40,7 +40,6 @@ e_table_state_to_header (GtkWidget *widget,
                          ETableState *state)
 {
 	ETableHeader *nh;
-	GtkStyle *style;
 	const gint max_cols = e_table_header_count (full_header);
 	gint column;
 	GValue *val = g_new0 (GValue, 1);
@@ -49,11 +48,9 @@ e_table_state_to_header (GtkWidget *widget,
 	g_return_val_if_fail (full_header, NULL);
 	g_return_val_if_fail (state, NULL);
 
-	style = gtk_widget_get_style (widget);
-
 	nh = e_table_header_new ();
 	g_value_init (val, G_TYPE_DOUBLE);
-	g_value_set_double (val, e_table_header_width_extras (style));
+	g_value_set_double (val, e_table_header_width_extras (widget));
 	g_object_set_property (G_OBJECT(nh), "width_extras", val);
 	g_free (val);
 

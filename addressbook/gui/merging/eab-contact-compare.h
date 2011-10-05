@@ -26,8 +26,8 @@
 #ifndef __EAB_CONTACT_COMPARE_H__
 #define __EAB_CONTACT_COMPARE_H__
 
-#include <libebook/e-book-client.h>
 #include <libebook/e-contact.h>
+#include <libebook/e-book-client.h>
 
 typedef enum {
 	EAB_CONTACT_MATCH_NOT_APPLICABLE = 0,
@@ -45,26 +45,56 @@ typedef enum {
 	EAB_CONTACT_MATCH_PART_FAMILY_NAME      = 1 << 3
 } EABContactMatchPart;
 
-typedef void (*EABContactMatchQueryCallback) (EContact *contact, EContact *match, EABContactMatchType type, gpointer closure);
+typedef void	(*EABContactMatchQueryCallback)	(EContact *contact,
+						 EContact *match,
+						 EABContactMatchType type,
+						 gpointer closure);
 
-EABContactMatchType eab_contact_compare_name_to_string      (EContact *contact, const gchar *str);
+EABContactMatchType
+		eab_contact_compare_name_to_string
+						(EContact *contact,
+						 const gchar *str);
 
-EABContactMatchType eab_contact_compare_name_to_string_full (EContact *contact, const gchar *str,
-							     gboolean allow_partial_matches,
-							     gint *matched_parts, EABContactMatchPart *first_matched_part,
-							     gint *matched_character_count);
+EABContactMatchType
+		eab_contact_compare_name_to_string_full
+						(EContact *contact,
+						 const gchar *str,
+						 gboolean allow_partial_matches,
+						 gint *matched_parts,
+						 EABContactMatchPart *first_matched_part,
+						 gint *matched_character_count);
 
-EABContactMatchType eab_contact_compare_file_as   (EContact *contact1, EContact *contact2);
-EABContactMatchType eab_contact_compare_name      (EContact *contact1, EContact *contact2);
-EABContactMatchType eab_contact_compare_nickname  (EContact *contact1, EContact *contact2);
-EABContactMatchType eab_contact_compare_email     (EContact *contact1, EContact *contact2);
-EABContactMatchType eab_contact_compare_address   (EContact *contact1, EContact *contact2);
-EABContactMatchType eab_contact_compare_telephone (EContact *contact1, EContact *contact2);
+EABContactMatchType
+		eab_contact_compare_file_as	(EContact *contact1,
+						 EContact *contact2);
+EABContactMatchType
+		eab_contact_compare_name	(EContact *contact1,
+						 EContact *contact2);
+EABContactMatchType
+		eab_contact_compare_nickname	(EContact *contact1,
+						 EContact *contact2);
+EABContactMatchType
+		eab_contact_compare_email	(EContact *contact1,
+						 EContact *contact2);
+EABContactMatchType
+		eab_contact_compare_address	(EContact *contact1,
+						 EContact *contact2);
+EABContactMatchType
+		eab_contact_compare_telephone	(EContact *contact1,
+						 EContact *contact2);
 
-EABContactMatchType eab_contact_compare           (EContact *contact1, EContact *contact2);
+EABContactMatchType
+		eab_contact_compare		(EContact *contact1,
+						 EContact *contact2);
 
-void                eab_contact_locate_match      (EContact *contact, EABContactMatchQueryCallback cb, gpointer closure);
-void                eab_contact_locate_match_full (EBookClient *book_client, EContact *contact, GList *avoid, EABContactMatchQueryCallback cb, gpointer closure);
+void		eab_contact_locate_match	(EContact *contact,
+						 EABContactMatchQueryCallback cb,
+						 gpointer closure);
+void		eab_contact_locate_match_full	(EBookClient *book_client,
+						 EContact *contact,
+						 GList *avoid,
+						 EABContactMatchQueryCallback cb,
+						 gpointer closure);
 
 #endif /* __E_CONTACT_COMPARE_H__ */
 

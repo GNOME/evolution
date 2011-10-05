@@ -4,10 +4,8 @@ libevolution_module_online_accounts_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
 	-DG_LOG_DOMAIN=\"evolution-online-accounts\"		\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)				\
-	$(EVOLUTION_CALENDAR_CFLAGS)				\
-	$(EVOLUTION_MAIL_CFLAGS)				\
 	$(GOA_CFLAGS)
 
 libevolution_module_online_accounts_la_SOURCES =		\
@@ -20,10 +18,8 @@ libevolution_module_online_accounts_la_SOURCES =		\
 libevolution_module_online_accounts_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
-	$(EVOLUTION_CALENDAR_LIBS)				\
-	$(EVOLUTION_MAIL_LIBS)					\
 	$(GOA_LIBS)
 
 libevolution_module_online_accounts_la_LDFLAGS =		\

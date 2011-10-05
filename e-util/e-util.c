@@ -489,47 +489,6 @@ e_categories_add_change_hook (GHookFunc func,
 }
 
 /**
- * e_type_traverse:
- * @parent_type: the root #GType to traverse from
- * @func: the function to call for each visited #GType
- * @user_data: user data to pass to the function
- *
- * Calls @func for all instantiable subtypes of @parent_type.
- *
- * This is often useful for extending functionality by way of #EModule.
- * A module may register a subtype of @parent_type in its e_module_load()
- * function.  Then later on the application will call e_type_traverse()
- * to instantiate all registered subtypes of @parent_type.
- **/
-void
-e_type_traverse (GType parent_type,
-                 ETypeFunc func,
-                 gpointer user_data)
-{
-	GType *children;
-	guint n_children, ii;
-
-	g_return_if_fail (func != NULL);
-
-	children = g_type_children (parent_type, &n_children);
-
-	for (ii = 0; ii < n_children; ii++) {
-		GType type = children[ii];
-
-		/* Recurse over the child's children. */
-		e_type_traverse (type, func, user_data);
-
-		/* Skip abstract types. */
-		if (G_TYPE_IS_ABSTRACT (type))
-			continue;
-
-		func (type, user_data);
-	}
-
-	g_free (children);
-}
-
-/**
  * e_str_without_underscores:
  * @string: the string to strip underscores from
  *

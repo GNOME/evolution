@@ -198,7 +198,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 		gtk_widget_hide (widget);
 #endif
 		widget = gtkhtml_editor_get_managed_widget (editor, "/main-toolbar");
-		gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
+		gtk_toolbar_set_style (
+			GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
 		gtk_widget_hide (widget);
 
 	}
@@ -318,7 +319,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	/* Construct the attachment paned. */
 
 	if (small_screen_mode) {
-		/* short attachment bar for Anjal */
+		/* Short attachment bar for Anjal. */
 		e_attachment_paned_set_default_height (75);
 		e_attachment_icon_view_set_default_icon_size (GTK_ICON_SIZE_BUTTON);
 	}

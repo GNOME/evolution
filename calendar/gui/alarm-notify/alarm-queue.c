@@ -970,7 +970,6 @@ query_objects_removed_cb (ECalClientView *view,
 
 	message_push ((Message *) msg);
 }
-
 
 /* Notification functions */
 

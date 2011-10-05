@@ -89,19 +89,19 @@ e_composer_text_header_init (EComposerTextHeader *header)
 EComposerHeader *
 e_composer_text_header_new_label (const gchar *label)
 {
-	return g_object_new (E_TYPE_COMPOSER_TEXT_HEADER,
-			     "label", label,
-			     "button", FALSE,
-			     NULL);
+	return g_object_new (
+		E_TYPE_COMPOSER_TEXT_HEADER,
+		"label", label, "button", FALSE,
+		NULL);
 }
 
 EComposerHeader *
 e_composer_text_header_new_button (const gchar *label)
 {
-	return g_object_new (E_TYPE_COMPOSER_TEXT_HEADER,
-			     "label", label,
-			     "button", TRUE,
-			     NULL);
+	return g_object_new (
+		E_TYPE_COMPOSER_TEXT_HEADER,
+		"label", label, "button", TRUE,
+		NULL);
 }
 
 const gchar *
@@ -112,6 +112,7 @@ e_composer_text_header_get_text (EComposerTextHeader *header)
 	g_return_val_if_fail (E_IS_COMPOSER_TEXT_HEADER (header), NULL);
 
 	entry = E_COMPOSER_TEXT_HEADER_GET_ENTRY (header);
+
 	return gtk_entry_get_text (entry);
 }
 
@@ -124,5 +125,6 @@ e_composer_text_header_set_text (EComposerTextHeader *header,
 	g_return_if_fail (E_IS_COMPOSER_TEXT_HEADER (header));
 
 	entry = E_COMPOSER_TEXT_HEADER_GET_ENTRY (header);
+
 	gtk_entry_set_text (entry, (text != NULL) ? text : "");
 }

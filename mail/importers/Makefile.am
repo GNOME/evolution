@@ -6,11 +6,11 @@ libevolution_mail_importers_la_CPPFLAGS = \
 	-I$(srcdir)/..					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
-	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DG_LOG_DOMAIN=\"evolution-mail-importer\"	\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
-	$(IMPORTERS_CFLAGS)
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
+	$(GNOME_PLATFORM_CFLAGS)			\
+	$(GTKHTML_CFLAGS)
 
 libevolution_mail_importers_la_SOURCES =	\
 	mail-importer.c				\
@@ -28,8 +28,8 @@ libevolution_mail_importers_la_LIBADD =				\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(EVOLUTION_MAIL_LIBS)					\
-	$(IMPORTERS_LIBS)
+	$(GTKHTML_LIBS)
 
 -include $(top_srcdir)/git.mk

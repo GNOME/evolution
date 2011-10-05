@@ -9,7 +9,6 @@ liborg_gnome_image_inline_la_CPPFLAGS =			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(GTKIMAGEVIEW_CFLAGS)
 
 liborg_gnome_image_inline_la_SOURCES = image-inline.c
@@ -20,7 +19,6 @@ liborg_gnome_image_inline_la_LIBADD =			\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(GTKIMAGEVIEW_LIBS)				\
-	$(EVOLUTION_MAIL_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)
 
 EXTRA_DIST = org-gnome-image-inline.eplug.xml

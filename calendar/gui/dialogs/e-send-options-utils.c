@@ -28,6 +28,7 @@
 
 #include "e-send-options-utils.h"
 
+#include <stdlib.h>
 #include <string.h>
 
 void

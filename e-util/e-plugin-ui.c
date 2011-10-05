@@ -522,7 +522,8 @@ e_plugin_ui_hook_init (EPluginUIHook *hook)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_free);
 
-	registry = g_hash_table_new (g_direct_hash, g_direct_equal);
+	registry = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+		NULL, (GDestroyNotify) g_hash_table_destroy);
 
 	hook->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		hook, E_TYPE_PLUGIN_UI_HOOK, EPluginUIHookPrivate);

@@ -33,7 +33,7 @@
 #include <misc/e-web-view.h>
 #include <shell/e-shell.h>
 
-#include "e-composer-header-table.h"
+#include <composer/e-composer-header-table.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MSG_COMPOSER \

@@ -144,7 +144,7 @@ e_contact_list_model_add_destination (EContactListModel *model,
                                       gboolean ignore_conflicts)
 {
 	GtkTreeIter iter;
-	GtkTreePath *path;
+	GtkTreePath *path = NULL;
 
 	g_return_val_if_fail (E_IS_CONTACT_LIST_MODEL (model), NULL);
 	g_return_val_if_fail (E_IS_DESTINATION (destination), NULL);
@@ -160,8 +160,10 @@ e_contact_list_model_add_destination (EContactListModel *model,
 
 		for (dest = dests; dest; dest = dest->next) {
 			path = e_contact_list_model_add_destination (model, dest->data, &iter, ignore_conflicts);
-			if (dest->next && path)
+			if (dest->next && path) {
 				gtk_tree_path_free (path);
+				path = NULL;
+			}
 		}
 
 		/* When the list has no children the remove it. We don't want empty sublists displayed. */

@@ -15,8 +15,8 @@ evolution_settings_CPPFLAGS = \
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)/smime/lib			\
 	-I$(top_srcdir)/smime/gui			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(CERT_UI_CFLAGS)				\
 	$(CANBERRA_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
@@ -42,13 +42,12 @@ evolution_settings_LDFLAGS = -mwindows
 endif
 
 evolution_settings_LDADD = 				\
-	$(EVOLUTION_MAIL_LIBS)				\
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
+	$(GNOME_PLATFORM_LIBS)				\
 	$(CERT_UI_LIBS)					\
 	$(CANBERRA_LIBS)				\
 	$(GTKHTML_LIBS)					\
-	$(E_WIDGETS_LIBS)				\
 	$(SMIME_LIBS)					\
-	$(GNOME_PLATFORM_LIBS)				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\

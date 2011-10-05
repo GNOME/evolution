@@ -185,7 +185,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	gint item_x, item_y, item_w, item_h, bar_y1, bar_y2;
 	GdkColor bg_color;
 	ECalComponent *comp;
-	gint num_icons, icon_x, icon_y, icon_x_inc = 0, icon_y_inc = 0;
+	gint num_icons, icon_x = 0, icon_y, icon_x_inc = 0, icon_y_inc = 0;
 	gint max_icon_w, max_icon_h;
 	gboolean draw_reminder_icon, draw_recurrence_icon, draw_timezone_icon, draw_meeting_icon;
 	gboolean draw_attach_icon;

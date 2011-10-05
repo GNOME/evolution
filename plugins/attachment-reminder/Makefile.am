@@ -14,9 +14,10 @@ liborg_gnome_evolution_attachment_reminder_la_CPPFLAGS = \
 	-I$(top_builddir)/composer			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""	\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_MAIL_CFLAGS)			\
-	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""
+	$(GTKHTML_CFLAGS)
 
 liborg_gnome_evolution_attachment_reminder_la_SOURCES = attachment-reminder.c 
 
@@ -30,8 +31,9 @@ liborg_gnome_evolution_attachment_reminder_la_LIBADD =	\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/mail/libevolution-mail.la	\
-	$(EVOLUTION_MAIL_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
+	$(GNOME_PLATFORM_LIBS)				\
+	$(GTKHTML_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)
 schema_in_files = apps-evolution-attachment-reminder.schemas.in

@@ -10,9 +10,8 @@ liborg_gnome_evolution_google_la_CPPFLAGS = 		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-DCALDAV_UIDIR=\""$(uidir)"\"			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_CALENDAR_CFLAGS)			\
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(GDATA_CFLAGS)
 
 liborg_gnome_evolution_google_la_SOURCES =        \
@@ -23,8 +22,7 @@ liborg_gnome_evolution_google_la_SOURCES =        \
 liborg_gnome_evolution_google_la_LIBADD = 			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(top_builddir)/e-util/libeutil.la			\
-	$(EVOLUTION_CALENDAR_LIBS)				\
-	$(EPLUGIN_LIBS)						\
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(GDATA_LIBS)
 

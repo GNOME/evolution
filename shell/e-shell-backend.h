@@ -22,9 +22,10 @@
 #ifndef E_SHELL_BACKEND_H
 #define E_SHELL_BACKEND_H
 
+#include <libebackend/e-extension.h>
+
 #include <shell/e-shell-common.h>
 #include <e-util/e-activity.h>
-#include <e-util/e-extension.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_BACKEND \

@@ -129,7 +129,6 @@ e_asn1_object_get_type (void)
 	return asn1_object_type;
 }
 
-
 /* This function is used to interpret an integer that
  * was encoded in a DER buffer. This function is used
  * when converting a DER buffer into a nsIASN1Object

@@ -28,6 +28,7 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
+#include <libebackend/e-extensible.h>
 #include <libedataserver/e-flag.h>
 #include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-client-view.h>
@@ -38,7 +39,6 @@
 #include "misc.h"
 #include "e-util/e-util.h"
 #include "e-util/e-account-utils.h"
-#include "e-util/e-extensible.h"
 #include "e-util/e-util-enumtypes.h"
 
 typedef struct {
@@ -1609,6 +1609,7 @@ ecm_get_color_for_component (ECalModel *model,
 	ESource *source;
 	const gchar *color_spec;
 	gint i, first_empty = 0;
+
 	static AssignedColorData assigned_colors[] = {
 		{ "#BECEDD", NULL }, /* 190 206 221     Blue */
 		{ "#E2F0EF", NULL }, /* 226 240 239     Light Blue */
@@ -1650,8 +1651,9 @@ ecm_get_color_for_component (ECalModel *model,
 	}
 
 	/* return the first unused color */
-	assigned_colors[first_empty].uris = g_list_append (assigned_colors[first_empty].uris,
-							   g_strdup (e_client_get_uri (E_CLIENT (comp_data->client))));
+	assigned_colors[first_empty].uris = g_list_append (
+		assigned_colors[first_empty].uris,
+		g_strdup (e_client_get_uri (E_CLIENT (comp_data->client))));
 
 	return assigned_colors[first_empty].color;
 }
@@ -2039,7 +2041,7 @@ e_cal_model_get_client_list (ECalModel *model)
 
 /**
  * e_cal_model_get_client_for_uri:
- * @model: A calendar model.
+ * @model: an #ECalModel
  * @uri: Uri for the client to get.
  */
 ECalClient *
@@ -2123,8 +2125,8 @@ search_by_id_and_client (ECalModelPrivate *priv,
 
 static void
 remove_all_for_id_and_client (ECalModel *model,
-			      ECalClient *client,
-			      const ECalComponentId *id)
+                              ECalClient *client,
+                              const ECalComponentId *id)
 {
 	ECalModelComponent *comp_data;
 
@@ -2883,13 +2885,15 @@ client_opened_cb (GObject *source_object,
 	}
 
 	if (error != NULL) {
-		const gchar *uri;
+		ESource *source;
 
-		uri = e_client_get_uri (E_CLIENT (client));
+		source = e_client_get_source (E_CLIENT (client));
 		e_cal_model_remove_client (model, client);
 		g_warning (
 			"%s: Failed to open '%s': %s",
-			G_STRFUNC, uri, error->message);
+			G_STRFUNC,
+			e_source_peek_name (source),
+			error->message);
 		g_error_free (error);
 		e_cal_model_update_status_message (model, NULL, -1.0);
 		return;
@@ -2958,9 +2962,13 @@ add_new_client (ECalModel *model,
 	if (e_client_is_opened (E_CLIENT (client))) {
 		update_e_cal_view_for_client (model, client_data);
 	} else {
+		ESource *source;
+		const gchar *display_name;
 		gchar *msg;
 
-		msg = g_strdup_printf (_("Opening %s"), e_client_get_uri (E_CLIENT (client)));
+		source = e_client_get_source (E_CLIENT (client));
+		display_name = e_source_peek_name (source);
+		msg = g_strdup_printf (_("Opening %s"), display_name);
 		e_cal_model_update_status_message (model, msg, -1.0);
 		g_free (msg);
 
@@ -3385,6 +3393,91 @@ e_cal_model_create_component_with_defaults (ECalModel *model,
 	}
 
 	return icalcomp;
+}
+
+/**
+ * Returns information about attendees in the component.
+ * If there are no attendees, the function returns NULL.
+ *
+ * The information is like "Status: Accepted: X   Declined: Y  ...".
+ *
+ * Free returned pointer with g_free.
+ **/
+gchar *
+e_cal_model_get_attendees_status_info (ECalModel *model,
+                                       ECalComponent *comp,
+                                       ECalClient *cal_client)
+{
+	struct _values {
+		icalparameter_partstat status;
+		const gchar *caption;
+		gint count;
+	} values[] = {
+		{ ICAL_PARTSTAT_ACCEPTED,    N_("Accepted"),     0 },
+		{ ICAL_PARTSTAT_DECLINED,    N_("Declined"),     0 },
+		{ ICAL_PARTSTAT_TENTATIVE,   N_("Tentative"),    0 },
+		{ ICAL_PARTSTAT_DELEGATED,   N_("Delegated"),    0 },
+		{ ICAL_PARTSTAT_NEEDSACTION, N_("Needs action"), 0 },
+		{ ICAL_PARTSTAT_NONE,        N_("Other"),        0 },
+		{ ICAL_PARTSTAT_X,           NULL,              -1 }
+	};
+
+	GSList *attendees = NULL, *a;
+	gboolean have = FALSE;
+	gchar *res = NULL;
+	gint i;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
+	if (!comp || !e_cal_component_has_attendees (comp) ||
+	    !itip_organizer_is_user_ex (comp, cal_client, TRUE))
+		return NULL;
+
+	e_cal_component_get_attendee_list (comp, &attendees);
+
+	for (a = attendees; a; a = a->next) {
+		ECalComponentAttendee *att = a->data;
+
+		if (att && att->cutype == ICAL_CUTYPE_INDIVIDUAL &&
+		    (att->role == ICAL_ROLE_CHAIR ||
+		     att->role == ICAL_ROLE_REQPARTICIPANT ||
+		     att->role == ICAL_ROLE_OPTPARTICIPANT)) {
+			have = TRUE;
+
+			for (i = 0; values[i].count != -1; i++) {
+				if (att->status == values[i].status || values[i].status == ICAL_PARTSTAT_NONE) {
+					values[i].count++;
+					break;
+				}
+			}
+		}
+	}
+
+	if (have) {
+		GString *str = g_string_new ("");
+
+		for (i = 0; values[i].count != -1; i++) {
+			if (values[i].count > 0) {
+				if (str->str && *str->str)
+					g_string_append (str, "   ");
+
+				g_string_append_printf (str, "%s: %d", _(values[i].caption), values[i].count);
+			}
+		}
+
+		g_string_prepend (str, ": ");
+
+		/* To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
+		 * Status: Accepted: X   Declined: Y   ... */
+		g_string_prepend (str, _("Status"));
+
+		res = g_string_free (str, FALSE);
+	}
+
+	if (attendees)
+		e_cal_component_free_attendee_list (attendees);
+
+	return res;
 }
 
 /**

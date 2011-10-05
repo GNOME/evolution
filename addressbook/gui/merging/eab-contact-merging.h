@@ -30,9 +30,18 @@
 
 G_BEGIN_DECLS
 
-typedef void (*EABMergingAsyncCallback)		(EBookClient *book_client, const GError *error, gpointer closure);
-typedef void (*EABMergingIdAsyncCallback)	(EBookClient *book_client, const GError *error, const gchar *id, gpointer closure);
-typedef void (*EABMergingContactAsyncCallback)	(EBookClient *book_client, const GError *error, EContact *contact, gpointer closure);
+typedef void	(*EABMergingAsyncCallback)	(EBookClient *book_client,
+						 const GError *error,
+						 gpointer closure);
+typedef void	(*EABMergingIdAsyncCallback)	(EBookClient *book_client,
+						 const GError *error,
+						 const gchar *id,
+						 gpointer closure);
+typedef void	(*EABMergingContactAsyncCallback)
+						(EBookClient *book_client,
+						 const GError *error,
+						 EContact *contact,
+						 gpointer closure);
 
 gboolean	eab_merging_book_add_contact	(EBookClient *book_client,
 						 EContact *contact,

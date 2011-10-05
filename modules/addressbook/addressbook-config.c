@@ -76,7 +76,6 @@
 #define EVOLUTIONPERSON      "evolutionPerson"
 #define CALENTRY             "calEntry"
 
-
 typedef struct _AddressbookSourceDialog AddressbookSourceDialog;
 
 struct _AddressbookSourceDialog {
@@ -121,8 +120,6 @@ struct _AddressbookSourceDialog {
 	/* display name page fields */
 	GtkWidget *display_name;
 };
-
-
 
 #ifdef HAVE_LDAP
 

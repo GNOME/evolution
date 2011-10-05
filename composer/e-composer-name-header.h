@@ -18,12 +18,10 @@
 #ifndef E_COMPOSER_NAME_HEADER_H
 #define E_COMPOSER_NAME_HEADER_H
 
-#include "e-composer-common.h"
-
 #include <libebook/e-destination.h>
 #include <libedataserverui/e-name-selector.h>
 
-#include "e-composer-header.h"
+#include <composer/e-composer-header.h>
 
 /* Standard GObject macros */
 #define E_TYPE_COMPOSER_NAME_HEADER \
@@ -62,7 +60,6 @@ struct _EComposerNameHeaderClass {
 GType		e_composer_name_header_get_type	(void);
 EComposerHeader * e_composer_name_header_new	(const gchar *label,
 						 ENameSelector *name_selector);
-
 ENameSelector *	e_composer_name_header_get_name_selector
 						(EComposerNameHeader *header);
 EDestination **	e_composer_name_header_get_destinations

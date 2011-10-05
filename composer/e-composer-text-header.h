@@ -21,8 +21,7 @@
 #ifndef E_COMPOSER_TEXT_HEADER_H
 #define E_COMPOSER_TEXT_HEADER_H
 
-#include "e-composer-common.h"
-#include "e-composer-header.h"
+#include <composer/e-composer-header.h>
 
 /* Standard GObject macros */
 #define E_TYPE_COMPOSER_TEXT_HEADER \
@@ -57,13 +56,12 @@ struct _EComposerTextHeaderClass {
 };
 
 GType		e_composer_text_header_get_type	(void);
-
 EComposerHeader *
-e_composer_text_header_new_label (const gchar *label);
-
+		e_composer_text_header_new_label
+						(const gchar *label);
 EComposerHeader *
-e_composer_text_header_new_button (const gchar *label);
-
+		e_composer_text_header_new_button
+						(const gchar *label);
 const gchar *	e_composer_text_header_get_text	(EComposerTextHeader *header);
 void		e_composer_text_header_set_text (EComposerTextHeader *header,
 						 const gchar *text);

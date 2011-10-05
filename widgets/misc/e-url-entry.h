@@ -33,7 +33,6 @@ G_BEGIN_DECLS
 #define E_IS_URL_ENTRY(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_URL_ENTRY))
 #define E_IS_URL_ENTRY_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_URL_ENTRY))
 
-
 typedef struct _EUrlEntry        EUrlEntry;
 typedef struct _EUrlEntryPrivate EUrlEntryPrivate;
 typedef struct _EUrlEntryClass   EUrlEntryClass;
@@ -47,8 +46,6 @@ struct _EUrlEntry {
 struct _EUrlEntryClass {
 	GtkHBoxClass parent_class;
 };
-
-
 
 GType      e_url_entry_get_type  (void);
 GtkWidget *e_url_entry_new       (void);

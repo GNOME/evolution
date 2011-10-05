@@ -118,8 +118,6 @@ mnemonic_activate (GtkWidget *widget,
 	return gtk_widget_mnemonic_activate (priv->entry, group_cycling);
 }
 
-
-
 GtkWidget *
 e_url_entry_new (void)
 {

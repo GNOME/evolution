@@ -411,6 +411,7 @@ source_changed (ESourceComboBox *source_combo_box,
 	ESource *source;
 
 	source = e_source_combo_box_get_active (source_combo_box);
+
 	if (source != NULL) {
 		if (qa->source != NULL)
 			g_object_unref (qa->source);

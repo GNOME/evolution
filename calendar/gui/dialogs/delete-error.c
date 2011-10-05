@@ -30,7 +30,6 @@
 #include <glib/gi18n.h>
 #include "delete-error.h"
 
-
 
 /**
  * delete_error_dialog:

@@ -10,10 +10,9 @@ liborg_gnome_templates_la_CPPFLAGS =			\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)				\
 	-I$(top_builddir)/composer			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_MAIL_CFLAGS)			\
-	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
-	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""
+	$(GTKHTML_CFLAGS)
 
 liborg_gnome_templates_la_SOURCES = templates.c
 
@@ -24,8 +23,9 @@ liborg_gnome_templates_la_LIBADD =	\
 	$(top_builddir)/composer/libcomposer.la		\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\
-	$(EVOLUTION_MAIL_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
+	$(GNOME_PLATFORM_LIBS)				\
+	$(GTKHTML_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)
 schema_in_files = apps-evolution-template-placeholders.schemas.in

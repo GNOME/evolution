@@ -19,8 +19,9 @@ libevolution_module_addressbook_la_CPPFLAGS =			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"			\
 	-DPREFIX=\""$(prefix)"\"				\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)				\
+	$(GTKHTML_CFLAGS)					\
 	$(LDAP_CFLAGS)						\
 	$(CHAMPLAIN_CFLAGS)
 
@@ -72,8 +73,9 @@ libevolution_module_addressbook_la_LIBADD =			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/widgets/menus/libmenus.la		\
 	$(top_builddir)/addressbook/importers/libevolution-addressbook-importers.la \
-	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(GTKHTML_LIBS)						\
 	$(LDAP_LIBS)
 
 

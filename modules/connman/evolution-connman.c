@@ -21,9 +21,9 @@
 #endif
 
 #include <gio/gio.h>
+#include <libebackend/e-extension.h>
 
 #include <shell/e-shell.h>
-#include <e-util/e-extension.h>
 
 #define CM_DBUS_SERVICE   "net.connman"
 #define CM_DBUS_INTERFACE "net.connman.Manager"

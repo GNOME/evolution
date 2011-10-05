@@ -21,6 +21,7 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
+#include <mail/e-mail-backend.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_SUBSCRIPTION_EDITOR \
@@ -58,9 +59,11 @@ struct _EMSubscriptionEditorClass {
 
 GType		em_subscription_editor_get_type	(void);
 GtkWidget *	em_subscription_editor_new	(GtkWindow *parent,
-						 CamelSession *session,
+						 EMailBackend *backend,
 						 CamelStore *initial_store);
-CamelSession *	em_subscription_editor_get_session
+EMailBackend *	em_subscription_editor_get_backend
+						(EMSubscriptionEditor *editor);
+CamelStore *	em_subscription_editor_get_store
 						(EMSubscriptionEditor *editor);
 CamelStore *	em_subscription_editor_get_store
 						(EMSubscriptionEditor *editor);

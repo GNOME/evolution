@@ -21,6 +21,7 @@
 #endif
 
 #include <gio/gio.h>
+#include <libebackend/e-extension.h>
 #include <NetworkManager/NetworkManager.h>
 
 #if !defined(NM_CHECK_VERSION)
@@ -28,7 +29,6 @@
 #endif
 
 #include <shell/e-shell.h>
-#include <e-util/e-extension.h>
 
 /* Standard GObject macros */
 #define E_TYPE_NETWORK_MANAGER \

@@ -27,9 +27,7 @@
 #include <glib/gstdio.h>
 
 #ifdef G_OS_UNIX
-#if GLIB_CHECK_VERSION(2,29,5)
 #include <glib-unix.h>
-#endif
 #endif
 
 #if HAVE_CLUTTER
@@ -271,7 +269,6 @@ idle_cb (const gchar * const *uris)
 }
 
 #ifdef G_OS_UNIX
-#if GLIB_CHECK_VERSION(2,29,5)
 static gboolean
 handle_term_signal (gpointer data)
 {
@@ -286,7 +283,6 @@ handle_term_signal (gpointer data)
 
 	return FALSE;
 }
-#endif
 #endif
 
 static GOptionEntry entries[] = {
@@ -614,15 +610,9 @@ main (gint argc,
 	}
 
 #ifdef G_OS_UNIX
-#if GLIB_CHECK_VERSION(2,29,19)
 	g_unix_signal_add_full (
 		G_PRIORITY_DEFAULT, SIGTERM,
 		handle_term_signal, NULL, NULL);
-#elif GLIB_CHECK_VERSION(2,29,5)
-	g_unix_signal_add_watch_full (
-		SIGTERM, G_PRIORITY_DEFAULT,
-		handle_term_signal, NULL, NULL);
-#endif
 #endif
 
 	if (evolution_debug_log) {

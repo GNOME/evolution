@@ -18,9 +18,9 @@ evolution_alarm_notify_CPPFLAGS = 			\
 	-DEVOLUTION_ICONDIR=\""$(icondir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_LIBEXECDIR=\""$(privlibexecdir)"\"	\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(CAMEL_CFLAGS)					\
-	$(EVOLUTION_CALENDAR_CFLAGS)			\
+	$(LIBNOTIFY_CFLAGS)				\
 	$(CANBERRA_CFLAGS)
 
 ui_DATA =		\
@@ -44,10 +44,10 @@ evolution_alarm_notify_SOURCES =	\
 evolution_alarm_notify_LDADD =						\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
-	$(CAMEL_LIBS)							\
-	$(EVOLUTION_CALENDAR_LIBS)					\
-	$(CANBERRA_LIBS)						\
+	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
+	$(LIBNOTIFY_LIBS)						\
+	$(CANBERRA_LIBS)						\
 	$(EVOLUTIONALARMNOTIFYICON)
 
 if OS_WIN32

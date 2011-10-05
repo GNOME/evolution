@@ -3332,7 +3332,7 @@ build_tree (MessageList *ml,
 #endif
 	if (!saveuid && ml->cursor_uid && g_hash_table_lookup (ml->uid_nodemap, ml->cursor_uid)) {
 		/* this makes sure a visible node is selected, like when
-		   collapsing all nodes and a children had been selected
+		 * collapsing all nodes and a children had been selected
 		*/
 		saveuid = g_strdup (ml->cursor_uid);
 	}
@@ -4125,7 +4125,7 @@ on_click (ETree *tree,
 	CamelMessageInfo *info;
 	gboolean folder_is_trash;
 	const gchar *uid;
-	gint flag;
+	gint flag = 0;
 	guint32 flags;
 
 	if (col == COL_MESSAGE_STATUS)

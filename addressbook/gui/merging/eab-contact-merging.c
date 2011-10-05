@@ -73,7 +73,10 @@ add_lookup (EContactMergingLookup *lookup)
 {
 	if (running_merge_requests < SIMULTANEOUS_MERGING_REQUESTS) {
 		running_merge_requests++;
-		eab_contact_locate_match_full (lookup->book_client, lookup->contact, lookup->avoid, match_query_callback, lookup);
+		eab_contact_locate_match_full (
+			lookup->book_client,
+			lookup->contact, lookup->avoid,
+			match_query_callback, lookup);
 	}
 	else {
 		merging_queue = g_list_append (merging_queue, lookup);
@@ -97,8 +100,9 @@ finished_lookup (void)
 
 		running_merge_requests++;
 		eab_contact_locate_match_full (
-			lookup->book_client, lookup->contact,
-			lookup->avoid, match_query_callback, lookup);
+			lookup->book_client,
+			lookup->contact, lookup->avoid,
+			match_query_callback, lookup);
 	}
 }
 
@@ -138,8 +142,8 @@ final_cb_as_id (EBookClient *book_client,
 
 	if (lookup->id_cb)
 		lookup->id_cb (
-			lookup->book_client, error,
-			lookup->contact ?
+			lookup->book_client,
+			error, lookup->contact ?
 				e_contact_get_const (
 				lookup->contact, E_CONTACT_UID) : NULL,
 			lookup->closure);
@@ -566,7 +570,11 @@ match_query_callback (EContact *contact,
 
 	if (lookup->op == E_CONTACT_MERGING_FIND) {
 		if (lookup->c_cb)
-			lookup->c_cb (lookup->book_client, NULL, (gint) type <= (gint) EAB_CONTACT_MATCH_VAGUE ? NULL : match, lookup->closure);
+			lookup->c_cb (
+				lookup->book_client, NULL,
+				(gint) type <= (gint)
+				EAB_CONTACT_MATCH_VAGUE ? NULL : match,
+				lookup->closure);
 
 		free_lookup (lookup);
 		finished_lookup ();

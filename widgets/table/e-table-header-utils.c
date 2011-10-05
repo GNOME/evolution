@@ -35,29 +35,21 @@
 #include "e-table-defines.h"
 #include "e-table-header-utils.h"
 
-static PangoLayout *
-build_header_layout (GtkWidget *widget,
-                     const gchar *str)
+static void
+get_button_padding (GtkWidget *widget,
+                    GtkBorder *padding)
 {
-	PangoLayout *layout;
+	GtkStyleContext *context;
+	GtkStateFlags state_flags;
 
-	layout = gtk_widget_create_pango_layout (widget, str);
+	context = gtk_widget_get_style_context (widget);
+	state_flags = gtk_widget_get_state_flags (widget);
 
-#ifdef FROB_FONT_DESC
-	{
-		PangoFontDescription *desc;
-		desc = pango_font_description_copy (gtk_widget_get_style (widget)->font_desc);
-		pango_font_description_set_size (desc,
-						 pango_font_description_get_size (desc) * 1.2);
+	gtk_style_context_save (context);
+	gtk_style_context_add_class (context, GTK_STYLE_CLASS_BUTTON);
+	gtk_style_context_get_padding (context, state_flags, padding);
 
-		pango_font_description_set_weight (desc, PANGO_WEIGHT_BOLD);
-		pango_layout_set_font_description (layout, desc);
-
-		pango_font_description_free (desc);
-	}
-#endif
-
-	return layout;
+	gtk_style_context_restore (context);
 }
 
 /**
@@ -73,17 +65,17 @@ gdouble
 e_table_header_compute_height (ETableCol *ecol,
                                GtkWidget *widget)
 {
-	gint ythick;
 	gint height;
 	PangoLayout *layout;
+	GtkBorder padding;
 
 	g_return_val_if_fail (ecol != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE_COL (ecol), -1);
 	g_return_val_if_fail (GTK_IS_WIDGET (widget), -1);
 
-	ythick = gtk_widget_get_style (widget)->ythickness;
+	get_button_padding (widget, &padding);
 
-	layout = build_header_layout (widget, ecol->text);
+	layout = gtk_widget_create_pango_layout (widget, ecol->text);
 
 	pango_layout_get_pixel_size (layout, NULL, &height);
 
@@ -93,8 +85,7 @@ e_table_header_compute_height (ETableCol *ecol,
 	}
 
 	height = MAX (height, MIN_ARROW_SIZE);
-
-	height += 2 * (ythick + HEADER_PADDING);
+	height += padding.top + padding.bottom + 2 * HEADER_PADDING;
 
 	g_object_unref (layout);
 
@@ -102,139 +93,18 @@ e_table_header_compute_height (ETableCol *ecol,
 }
 
 gdouble
-e_table_header_width_extras (GtkStyle *style)
+e_table_header_width_extras (GtkWidget *widget)
 {
-	g_return_val_if_fail (style != NULL, -1);
+	GtkBorder padding;
 
-	return 2 * (style->xthickness + HEADER_PADDING);
+	get_button_padding (widget, &padding);
+	return padding.left + padding.right + 2 * HEADER_PADDING;
 }
-
-/* Creates a pixmap that is a composite of a background color and the upper-left
- * corner rectangle of a pixbuf.
- */
-#if 0
-static GdkPixmap *
-make_composite_pixmap (GdkDrawable *drawable,
-                       GdkGC *gc,
-                       GdkPixbuf *pixbuf,
-                       GdkColor *bg,
-                       gint width,
-                       gint height,
-                       gint dither_xofs,
-                       gint dither_yofs)
-{
-	gint pwidth, pheight;
-	GdkPixmap *pixmap;
-	GdkPixbuf *tmp;
-	gint color;
-
-	pwidth = gdk_pixbuf_get_width (pixbuf);
-	pheight = gdk_pixbuf_get_height (pixbuf);
-	g_return_val_if_fail (width <= pwidth && height <= pheight, NULL);
-
-	color = ((bg->red & 0xff00) << 8) |
-		(bg->green & 0xff00) |
-		((bg->blue & 0xff00) >> 8);
-
-	if (width >= pwidth && height >= pheight) {
-		tmp = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, width, height);
-		if (!tmp)
-			return NULL;
-
-		gdk_pixbuf_composite_color (pixbuf, tmp,
-					    0, 0,
-					    width, height,
-					    0, 0,
-					    1.0, 1.0,
-					    GDK_INTERP_NEAREST,
-					    255,
-					    0, 0,
-					    16,
-					    color, color);
-	} else {
-		gint x, y, rowstride;
-		GdkPixbuf *fade;
-		guchar *pixels;
-
-		/* Do a nice fade of the pixbuf down and to the right */
-
-		fade = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, width, height);
-		if (!fade)
-			return NULL;
-
-		gdk_pixbuf_copy_area (pixbuf,
-				      0, 0,
-				      width, height,
-				      fade,
-				      0, 0);
-
-		rowstride = gdk_pixbuf_get_rowstride (fade);
-		pixels = gdk_pixbuf_get_pixels (fade);
-
-		for (y = 0; y < height; y++) {
-			guchar *p;
-			gint yfactor;
-
-			p = pixels + y * rowstride;
-
-			if (height < pheight)
-				yfactor = height - y;
-			else
-				yfactor = height;
-
-			for (x = 0; x < width; x++) {
-				gint xfactor;
-
-				if (width < pwidth)
-					xfactor = width - x;
-				else
-					xfactor = width;
-
-				p[3] = ((gint) p[3] * xfactor * yfactor / (width * height));
-				p += 4;
-			}
-		}
-
-		tmp = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, width, height);
-		if (!tmp) {
-			g_object_unref (fade);
-			return NULL;
-		}
-
-		gdk_pixbuf_composite_color (fade, tmp,
-					    0, 0,
-					    width, height,
-					    0, 0,
-					    1.0, 1.0,
-					    GDK_INTERP_NEAREST,
-					    255,
-					    0, 0,
-					    16,
-					    color, color);
-
-		g_object_unref (fade);
-	}
-
-	pixmap = gdk_pixmap_new (drawable, width, height, -1);
-	gdk_draw_rgb_image_dithalign (pixmap, gc,
-				      0, 0,
-				      width, height,
-				      GDK_RGB_DITHER_NORMAL,
-				      gdk_pixbuf_get_pixels (tmp),
-				      gdk_pixbuf_get_rowstride (tmp),
-				      dither_xofs, dither_yofs);
-	g_object_unref (tmp);
-
-	return pixmap;
-}
-#endif
 
 /**
  * e_table_header_draw_button:
  * @drawable: Destination drawable.
  * @ecol: Table column for the header information.
- * @style: Style to use for drawing the button.
- * @state: State of the table widget.
  * @widget: The table widget.
  * @x: Leftmost coordinate of the button.
  * @y: Topmost coordinate of the button.
@@ -249,8 +119,6 @@ make_composite_pixmap (GdkDrawable *drawable,
 void
 e_table_header_draw_button (cairo_t *cr,
                             ETableCol *ecol,
-                            GtkStyle *style,
-                            GtkStateType state,
                             GtkWidget *widget,
                             gint x,
                             gint y,
@@ -260,58 +128,49 @@ e_table_header_draw_button (cairo_t *cr,
                             gint button_height,
                             ETableColArrow arrow)
 {
-	gint xthick, ythick;
 	gint inner_x, inner_y;
 	gint inner_width, inner_height;
 	gint arrow_width = 0, arrow_height = 0;
 	PangoLayout *layout;
-	static gpointer g_label = NULL;
+	GtkStyleContext *context;
+	GtkBorder padding;
+	GtkStateFlags state_flags;
 
 	g_return_if_fail (cr != NULL);
 	g_return_if_fail (ecol != NULL);
 	g_return_if_fail (E_IS_TABLE_COL (ecol));
-	g_return_if_fail (style != NULL);
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GTK_IS_WIDGET (widget));
 	g_return_if_fail (button_width > 0 && button_height > 0);
 
-	if (g_label == NULL) {
-		GtkWidget *button = gtk_button_new_with_label("Hi");
-		GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-		gtk_container_add (GTK_CONTAINER (window), button);
-		gtk_widget_ensure_style (window);
-		gtk_widget_ensure_style (button);
-		g_label = gtk_bin_get_child (GTK_BIN (button));
-		g_object_add_weak_pointer (G_OBJECT (g_label), &g_label);
-		gtk_widget_ensure_style (g_label);
-		gtk_widget_realize (g_label);
-	}
-
-	cairo_save (cr);
-	gdk_cairo_set_source_color (
-		cr, &gtk_widget_get_style (GTK_WIDGET (g_label))->fg[state]);
-
-	xthick = style->xthickness;
-	ythick = style->ythickness;
-
 	/* Button bevel */
+	context = gtk_widget_get_style_context (widget);
+	state_flags = gtk_widget_get_state_flags (widget);
 
-	gtk_paint_box (style, cr, state, GTK_SHADOW_OUT,
-		       widget, "button",
-		       x, y, button_width, button_height);
+	gtk_style_context_save (context);
+	gtk_style_context_set_state (context, state_flags);
+	gtk_style_context_add_class (context, GTK_STYLE_CLASS_BUTTON);
+
+	gtk_style_context_get_padding (context, state_flags, &padding);
+
+	gtk_render_background (
+		context, cr, x, y,
+		button_width, button_height);
+	gtk_render_frame (
+		context, cr, x, y,
+		button_width, button_height);
 
 	/* Inside area */
 
-	inner_width = button_width - 2 * (xthick + HEADER_PADDING);
-	inner_height = button_height - 2 * (ythick + HEADER_PADDING);
+	inner_width = button_width - (padding.left + padding.right + 2 * HEADER_PADDING);
+	inner_height = button_height - (padding.top + padding.bottom + 2 * HEADER_PADDING);
 
 	if (inner_width < 1 || inner_height < 1) {
-		cairo_restore (cr);
 		return; /* nothing fits */
 	}
 
-	inner_x = x + xthick + HEADER_PADDING;
-	inner_y = y + ythick + HEADER_PADDING;
+	inner_x = x + padding.left + HEADER_PADDING;
+	inner_y = y + padding.top + HEADER_PADDING;
 
 	/* Arrow space */
 
@@ -333,11 +192,11 @@ e_table_header_draw_button (cairo_t *cr,
 	}
 
 	if (inner_width < 1) {
-		cairo_restore (cr);
+		gtk_style_context_restore (context);
 		return; /* nothing else fits */
 	}
 
-	layout = build_header_layout (widget, ecol->text);
+	layout = gtk_widget_create_pango_layout (widget, ecol->text);
 	pango_layout_set_ellipsize (layout, PANGO_ELLIPSIZE_END);
 
 	/* Pixbuf or label */
@@ -370,18 +229,19 @@ e_table_header_draw_button (cairo_t *cr,
 				layout, (inner_width - (xpos - inner_x)) *
 				PANGO_SCALE);
 
-			cairo_move_to (cr, xpos + pwidth + 1, ypos);
-			pango_cairo_show_layout (cr, layout);
+			gtk_render_layout (
+				context, cr, xpos + pwidth + 1,
+				ypos, layout);
 		}
 
-		gdk_cairo_set_source_pixbuf (cr, ecol->pixbuf,
-					     xpos, inner_y + (inner_height - clip_height) / 2);
-		cairo_paint (cr);
+		gtk_render_icon (
+			context, cr, ecol->pixbuf, xpos,
+			inner_y + (inner_height - clip_height) / 2);
+
 	} else {
 		pango_layout_set_width (layout, inner_width * PANGO_SCALE);
 
-		cairo_move_to (cr, inner_x, inner_y);
-		pango_cairo_show_layout (cr, layout);
+		gtk_render_layout (context, cr, inner_x, inner_y, layout);
 	}
 
 	switch (arrow) {
@@ -393,13 +253,13 @@ e_table_header_draw_button (cairo_t *cr,
 		if (ecol->icon_name == NULL)
 			inner_width += arrow_width + HEADER_PADDING;
 
-		gtk_paint_arrow (style, cr, state,
-				 GTK_SHADOW_NONE, widget, "header",
-				 (arrow == E_TABLE_COL_ARROW_UP) ? GTK_ARROW_UP : GTK_ARROW_DOWN,
-				 (ecol->icon_name == NULL),
-				 inner_x + inner_width - arrow_width,
-				 inner_y + (inner_height - arrow_height) / 2,
-				 arrow_width, arrow_height);
+		gtk_render_arrow (
+			context, cr,
+			(arrow == E_TABLE_COL_ARROW_UP) ? 0 : G_PI,
+			inner_x + inner_width - arrow_width,
+			inner_y + (inner_height - arrow_height) / 2,
+			MAX (arrow_width, arrow_height));
+
 		break;
 	}
 
@@ -409,5 +269,5 @@ e_table_header_draw_button (cairo_t *cr,
 	}
 
 	g_object_unref (layout);
-	cairo_restore (cr);
+	gtk_style_context_restore (context);
 }

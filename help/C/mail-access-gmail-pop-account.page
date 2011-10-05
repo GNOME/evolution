@@ -2,7 +2,7 @@
       type="topic" id="email-access-gmail-pop-account">
 
   <info>
-    <desc>How to set up a GMail POP Account.</desc>
+    <desc>How to set up a Gmail POP Account.</desc>
     
     <link type="guide" xref="index#common-mail-problems" />
     <link type="guide" xref="google-services"/>
@@ -21,12 +21,12 @@
 
 
 
-<title>Access a GMail POP Account via Evolution</title>
+<title>Access a Gmail POP Account via Evolution</title>
 
-<p>Follow these steps to set up your GMail POP Account in Evolution:</p>
+<p>Follow these steps to set up your Gmail POP Account in Evolution:</p>
 
 <steps>
-<item><p>Log in to your gmail account.</p></item>
+<item><p>Log in to your Gmail account.</p></item>
 <item><p>Go to <guiseq><gui>Settings</gui><gui>Forwarding and POP/IMAP</gui></guiseq>. Refer to the POP Download section.</p></item>
 <item><p>Enable the POP download feature by ticking the radio button that corresponds to either of these options:</p>
     <list>

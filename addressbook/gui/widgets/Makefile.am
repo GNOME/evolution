@@ -18,9 +18,10 @@ libeabwidgets_la_CPPFLAGS =				\
 	-I$(top_srcdir)/addressbook/util		\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_builddir)/shell				\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
-	$(CHAMPLAIN_CFLAGS)
+	$(CHAMPLAIN_CFLAGS)				\
+	$(GTKHTML_CFLAGS)
 
 eabincludedir = $(privincludedir)/addressbook/gui/widgets
 
@@ -71,8 +72,10 @@ libeabwidgets_la_LIBADD =					\
 	$(top_builddir)/widgets/menus/libmenus.la		\
 	$(top_builddir)/a11y/libevolution-a11y.la		\
 	$(top_builddir)/e-util/libeutil.la			\
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(CHAMPLAIN_LIBS)
+	$(CHAMPLAIN_LIBS)					\
+	$(GTKHTML_LIBS)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

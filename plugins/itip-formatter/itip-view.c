@@ -411,19 +411,19 @@ set_calendar_sender_text (ItipView *view)
 		if (priv->organizer_sentby)
 			sender = dupe_first_bold (_("%s through %s has canceled the following meeting:"), organizer, priv->organizer_sentby);
 		else
-			sender = dupe_first_bold (_("%s has canceled the following meeting."), organizer, NULL);
+			sender = dupe_first_bold (_("%s has canceled the following meeting:"), organizer, NULL);
 		break;
 	case ITIP_VIEW_MODE_COUNTER:
 		if (priv->attendee_sentby)
 			sender = dupe_first_bold (_("%s through %s has proposed the following meeting changes."), attendee, priv->attendee_sentby);
 		else
-			sender = dupe_first_bold (_("%s has proposed the following meeting changes."), attendee, NULL);
+			sender = dupe_first_bold (_("%s has proposed the following meeting changes:"), attendee, NULL);
 		break;
 	case ITIP_VIEW_MODE_DECLINECOUNTER:
 		if (priv->organizer_sentby)
 			sender = dupe_first_bold (_("%s through %s has declined the following meeting changes:"), organizer, priv->organizer_sentby);
 		else
-			sender = dupe_first_bold (_("%s has declined the following meeting changes."), organizer, NULL);
+			sender = dupe_first_bold (_("%s has declined the following meeting changes:"), organizer, NULL);
 		break;
 	default:
 		break;

@@ -4045,7 +4045,7 @@ forget_password_if_needed (EAccount *original_account,
 		if (!url)
 			return;
 
-		url_str = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+		url_str = camel_url_to_string (url, CAMEL_URL_HIDE_PARAMS);
 		if (url_str)
 			e_passwords_forget_password (NULL, url_str);
 
@@ -4108,11 +4108,9 @@ emae_commit (EConfig *ec,
 		    && emae->priv->source.provider
 		    && (emae->priv->source.provider->flags & CAMEL_PROVIDER_IS_STORAGE)) {
 			EMailBackend *backend;
-			EMailSession *session;
 
 			backend = em_account_editor_get_backend (emae);
-			session = e_mail_backend_get_session (backend);
-			e_mail_store_add_by_account (session, account);
+			e_mail_store_add_by_account (backend, account);
 		}
 	}
 

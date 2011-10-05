@@ -168,6 +168,25 @@
   	 </option>
  	 </input>
  	</part>
+
+   <part name="count-occurrences">
+      <_title>Occurs</_title>
+      <input type="optionlist" name="match-type">
+         <option value="less-than">
+            <_title>Less Than</_title>
+            <code>((or (= (occurrences-count?) (- 1)) (&lt; (occurrences-count?) ${count}))</code>
+         </option>
+         <option value="exactly">
+            <_title>Exactly</_title>
+            <code>((or (= (occurrences-count?) (- 1)) (= (occurrences-count?) ${count}))</code>
+         </option>
+         <option value="more-than">
+            <_title>More Than</_title>
+            <code>((or (= (occurrences-count?) (- 1)) (&gt; (occurrences-count?) ${count}))</code>
+         </option>
+      </input>
+      <input type="integer" name="count"/>
+   </part>
   </partset>
 
 <ruleset>

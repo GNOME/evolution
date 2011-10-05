@@ -8,8 +8,8 @@ libfilter_la_CPPFLAGS = 			\
 	-I $(top_srcdir)/e-util			\
 	-DEVOLUTION_UIDIR=\"$(uidir)\"		\
 	-DG_LOG_DOMAIN=\"filter\"		\
-	$(GNOME_PLATFORM_CFLAGS)		\
-	$(LIBFILTER_CFLAGS)
+	$(EVOLUTION_DATA_SERVER_CFLAGS)		\
+	$(GNOME_PLATFORM_CFLAGS)
 
 filterincludedir = $(privincludedir)/filter
 
@@ -57,7 +57,7 @@ libfilter_la_LDFLAGS = $(NO_UNDEFINED)
 
 libfilter_la_LIBADD = 				\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(LIBFILTER_LIBS)			\
+	$(EVOLUTION_DATA_SERVER_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)			\
 	$(REGEX_LIBS)
 

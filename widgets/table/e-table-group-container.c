@@ -1252,7 +1252,7 @@ e_table_group_container_print_page (EPrintable *ep,
                                     gboolean quantize,
                                     ETGCPrintContext *groupcontext)
 {
-	cairo_t *cr;
+	cairo_t *cr = NULL;
 	GtkPageSetup *setup;
 	gdouble yd;
 	gdouble page_height, page_margin;
@@ -1301,8 +1301,7 @@ e_table_group_container_print_page (EPrintable *ep,
 		child_height = e_printable_height (child_printable, context, width,yd, quantize);
 		if (child_height < 0)
 			child_height = -child_height;
-		if (yd < 2 * TEXT_AREA_HEIGHT + 20 + child_height )
-		{
+		if (cr && yd < 2 * TEXT_AREA_HEIGHT + 20 + child_height) {
 			cairo_show_page (cr);
 			cairo_translate (cr, -2 * TEXT_AREA_HEIGHT, -TEXT_AREA_HEIGHT);
 			break;

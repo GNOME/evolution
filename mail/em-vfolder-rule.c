@@ -32,6 +32,7 @@
 
 #include "em-vfolder-context.h"
 #include "em-vfolder-rule.h"
+#include "mail/e-mail-folder-utils.h"
 #include "mail/e-mail-store.h"
 #include "mail/em-utils.h"
 #include "mail/em-folder-tree.h"
@@ -532,62 +533,37 @@ select_source_with_changed (GtkWidget *widget,
 	data->vr->with = with;
 }
 
-/* attempt to make a 'nice' folder name out of the raw uri */
-static gchar *
-format_source (const gchar *uri)
-{
-	CamelURL *url;
-	GString *out;
-	gchar *res;
-
-	/* This should really probably base it on the account name? */
-	url = camel_url_new (uri, NULL);
-
-	/* bad uri */
-	if (url == NULL)
-		return g_strdup (uri);
-
-	out = g_string_new (url->protocol);
-	g_string_append_c (out, ':');
-	if (url->user && url->host) {
-		g_string_append_printf(out, "%s@%s", url->user, url->host);
-		if (url->port)
-			g_string_append_printf(out, ":%d", url->port);
-	}
-	if (url->fragment)
-		g_string_append (out, url->fragment);
-	else if (url->path)
-		g_string_append (out, url->path);
-
-	res = out->str;
-	g_string_free (out, FALSE);
-
-	return res;
-}
-
 static void
 vfr_folder_response (EMFolderSelector *selector,
                      gint button,
                      struct _source_data *data)
 {
+	EMailBackend *backend;
+	EMailSession *session;
 	const gchar *uri;
+
+	backend = em_folder_selector_get_backend (selector);
+	session = e_mail_backend_get_session (backend);
 
 	uri = em_folder_selector_get_selected_uri (selector);
 
 	if (button == GTK_RESPONSE_OK && uri != NULL) {
-		gchar *urinice;
 		GtkTreeSelection *selection;
 		GtkTreeIter iter;
+		gchar *markup;
 
 		g_queue_push_tail (&data->vr->sources, g_strdup (uri));
 
+		markup = e_mail_folder_uri_to_markup (
+			CAMEL_SESSION (session), uri, NULL);
+
 		gtk_list_store_append (data->model, &iter);
-		urinice = format_source (uri);
-		gtk_list_store_set (data->model, &iter, 0, urinice, 1, uri, -1);
-		g_free (urinice);
+		gtk_list_store_set (data->model, &iter, 0, markup, 1, uri, -1);
 		selection = gtk_tree_view_get_selection (data->list);
 		gtk_tree_selection_select_iter (selection, &iter);
 		data->current = uri;
+
+		g_free (markup);
 
 		set_sensitive (data);
 	}
@@ -610,7 +586,7 @@ source_add (GtkWidget *widget,
 
 	backend = em_vfolder_rule_get_backend (data->vr);
 
-	model = em_folder_tree_model_get_default (backend);
+	model = em_folder_tree_model_get_default ();
 
 	dialog = em_folder_selector_new (
 		parent, backend, model,
@@ -687,6 +663,8 @@ get_widget (EFilterRule *fr,
             ERuleContext *rc)
 {
 	EMVFolderRule *vr =(EMVFolderRule *) fr;
+	EMailBackend *backend;
+	EMailSession *session;
 	GtkWidget *widget, *frame;
 	struct _source_data *data;
 	GtkRadioButton *rb;
@@ -721,13 +699,19 @@ get_widget (EFilterRule *fr,
 	object = gtk_builder_get_object (builder, "source_model");
 	data->model = GTK_LIST_STORE (object);
 
+	backend = em_vfolder_context_get_backend (EM_VFOLDER_CONTEXT (rc));
+	session = e_mail_backend_get_session (backend);
+
 	source = NULL;
 	while ((source = em_vfolder_rule_next_source (vr, source))) {
-		gchar *nice = format_source (source);
+		gchar *markup;
+
+		markup = e_mail_folder_uri_to_markup (
+			CAMEL_SESSION (session), source, NULL);
 
 		gtk_list_store_append (data->model, &iter);
-		gtk_list_store_set (data->model, &iter, 0, nice, 1, source, -1);
-		g_free (nice);
+		gtk_list_store_set (data->model, &iter, 0, markup, 1, source, -1);
+		g_free (markup);
 	}
 
 	g_signal_connect (data->list, "cursor-changed", G_CALLBACK(select_source), data);

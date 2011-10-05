@@ -44,8 +44,10 @@
 #include <canberra-gtk.h>
 #endif
 
-#include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-flag.h>
+#include <libedataserver/e-proxy.h>
+#include <libebackend/e-extensible.h>
+#include <libedataserverui/e-passwords.h>
 
 #include "e-util/e-util.h"
 #include "e-util/e-account-utils.h"
@@ -73,7 +75,6 @@
 	((obj), E_TYPE_MAIL_SESSION, EMailSessionPrivate))
 
 static guint session_check_junk_notify_id;
-static guint session_gconf_proxy_id;
 
 typedef struct _AsyncContext AsyncContext;
 
@@ -82,6 +83,7 @@ struct _EMailSessionPrivate {
 
 	FILE *filter_logfile;
 	GHashTable *junk_filters;
+	EProxy *proxy;
 };
 
 struct _AsyncContext {
@@ -398,10 +400,17 @@ static guint preparing_flush = 0;
 static gboolean
 forward_to_flush_outbox_cb (EMailSession *session)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+
 	g_return_val_if_fail (preparing_flush != 0, FALSE);
 
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (shell_backend), FALSE);
+
 	preparing_flush = 0;
-	mail_send (session);
+	mail_send (E_MAIL_BACKEND (shell_backend));
 
 	return FALSE;
 }
@@ -433,73 +442,6 @@ ms_forward_to_cb (CamelFolder *folder,
 	g_object_unref (client);
 }
 
-/* Support for SOCKS proxy ***************************************************/
-
-static GSettings *proxy_settings = NULL, *proxy_socks_settings = NULL;
-
-static void
-set_socks_proxy_from_gsettings (CamelSession *session)
-{
-	gchar *mode, *host;
-	gint port;
-
-	g_return_if_fail (proxy_settings != NULL);
-	g_return_if_fail (proxy_socks_settings != NULL);
-
-	mode = g_settings_get_string (proxy_settings, "mode");
-	if (g_strcmp0 (mode, "manual") == 0) {
-		host = g_settings_get_string (proxy_socks_settings, "host");
-		port = g_settings_get_int (proxy_socks_settings, "port");
-		camel_session_set_socks_proxy (session, host, port);
-		g_free (host);
-	}
-	g_free (mode);
-}
-
-static void
-proxy_gsettings_changed_cb (GSettings *settings,
-			    const gchar *key,
-			    CamelSession *session)
-{
-	set_socks_proxy_from_gsettings (session);
-}
-
-static void
-set_socks_proxy_gsettings_watch (CamelSession *session)
-{
-	g_return_if_fail (proxy_settings != NULL);
-	g_return_if_fail (proxy_socks_settings != NULL);
-
-	g_signal_connect (
-		proxy_settings, "changed::mode",
-		G_CALLBACK (proxy_gsettings_changed_cb), session);
-
-	g_signal_connect (
-		proxy_socks_settings, "changed",
-		G_CALLBACK (proxy_gsettings_changed_cb), session);
-}
-
-static void
-init_socks_proxy (CamelSession *session)
-{
-	g_return_if_fail (CAMEL_IS_SESSION (session));
-
-	if (!proxy_settings) {
-		proxy_settings = g_settings_new ("org.gnome.system.proxy");
-		proxy_socks_settings = g_settings_get_child (proxy_settings, "socks");
-		g_object_weak_ref (G_OBJECT (proxy_settings), (GWeakNotify) g_nullify_pointer, &proxy_settings);
-		g_object_weak_ref (G_OBJECT (proxy_socks_settings), (GWeakNotify) g_nullify_pointer, &proxy_socks_settings);
-	} else {
-		g_object_ref (proxy_settings);
-		g_object_ref (proxy_socks_settings);
-	}
-
-	set_socks_proxy_gsettings_watch (session);
-	set_socks_proxy_from_gsettings (session);
-}
-
-/*****************************************************************************/
-
 static void
 async_context_free (AsyncContext *context)
 {
@@ -521,7 +463,7 @@ mail_session_make_key (CamelService *service,
 	if (service != NULL)
 		key = camel_url_to_string (
 			camel_service_get_camel_url (service),
-			CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+			CAMEL_URL_HIDE_PARAMS);
 	else
 		key = g_strdup (item);
 
@@ -677,17 +619,13 @@ mail_session_finalize (GObject *object)
 	priv = E_MAIL_SESSION_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->junk_filters);
+	g_object_unref (priv->proxy);
 
 	client = gconf_client_get_default ();
 
 	if (session_check_junk_notify_id != 0) {
 		gconf_client_notify_remove (client, session_check_junk_notify_id);
 		session_check_junk_notify_id = 0;
-	}
-
-	if (session_gconf_proxy_id != 0) {
-		gconf_client_notify_remove (client, session_gconf_proxy_id);
-		session_gconf_proxy_id = 0;
 	}
 
 	g_object_unref (client);
@@ -1134,6 +1072,42 @@ mail_session_forward_to (CamelSession *session,
 }
 
 static void
+mail_session_get_socks_proxy (CamelSession *session,
+			      const gchar *for_host,
+			      gchar **host_ret,
+			      gint *port_ret)
+{
+	EMailSession *mail_session;
+	gchar *uri;
+
+	g_return_if_fail (session != NULL);
+	g_return_if_fail (for_host != NULL);
+	g_return_if_fail (host_ret != NULL);
+	g_return_if_fail (port_ret != NULL);
+
+	mail_session = E_MAIL_SESSION (session);
+	g_return_if_fail (mail_session != NULL);
+	g_return_if_fail (mail_session->priv != NULL);
+
+	*host_ret = NULL;
+	*port_ret = 0;
+
+	uri = g_strconcat ("socks://", for_host, NULL);
+
+	if (e_proxy_require_proxy_for_uri (mail_session->priv->proxy, uri)) {
+		SoupURI *suri;
+
+		suri = e_proxy_peek_uri_for (mail_session->priv->proxy, uri);
+		if (suri) {
+			*host_ret = g_strdup (suri->host);
+			*port_ret = suri->port;
+		}
+	}
+
+	g_free (uri);
+}
+
+static void
 e_mail_session_class_init (EMailSessionClass *class)
 {
 	GObjectClass *object_class;
@@ -1157,6 +1131,7 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->get_filter_driver = mail_session_get_filter_driver;
 	session_class->lookup_addressbook = mail_session_lookup_addressbook;
 	session_class->forward_to = mail_session_forward_to;
+	session_class->get_socks_proxy = mail_session_get_socks_proxy;
 
 	g_object_class_install_property (
 		object_class,
@@ -1193,6 +1168,7 @@ e_mail_session_init (EMailSession *session)
 	session->priv->folder_cache = mail_folder_cache_new ();
 	session->priv->junk_filters = g_hash_table_new (
 		(GHashFunc) g_str_hash, (GEqualFunc) g_str_equal);
+	session->priv->proxy = e_proxy_new ();
 
 	/* Initialize the EAccount setup. */
 	e_account_writable (NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD);
@@ -1212,7 +1188,7 @@ e_mail_session_init (EMailSession *session)
 
 	mail_config_reload_junk_headers (session);
 
-	init_socks_proxy (CAMEL_SESSION (session));
+	e_proxy_setup_proxy (session->priv->proxy);
 
 	g_object_unref (client);
 }

@@ -941,7 +941,8 @@ e_account_tree_view_get_selected_type (EAccountTreeView *tree_view)
  * Since: 3.4
  **/
 void
-e_account_tree_view_set_selected_type (EAccountTreeView *tree_view, EAccountTreeViewSelectedType select)
+e_account_tree_view_set_selected_type (EAccountTreeView *tree_view,
+                                       EAccountTreeViewSelectedType select)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -994,7 +995,8 @@ e_account_tree_view_set_selected_type (EAccountTreeView *tree_view, EAccountTree
 }
 
 static guint
-account_tree_view_get_slist_index (const GSList *account_uids, const gchar *uid)
+account_tree_view_get_slist_index (const GSList *account_uids,
+                                   const gchar *uid)
 {
 	guint res = 0;
 
@@ -1021,7 +1023,8 @@ account_tree_view_get_slist_index (const GSList *account_uids, const gchar *uid)
  * Since: 3.4
  **/
 void
-e_account_tree_view_set_sort_order (EAccountTreeView *tree_view, const GSList *account_uids)
+e_account_tree_view_set_sort_order (EAccountTreeView *tree_view,
+                                    const GSList *account_uids)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -1064,7 +1067,9 @@ e_account_tree_view_set_sort_order (EAccountTreeView *tree_view, const GSList *a
 }
 
 static gint
-eval_order_by_sort_hash_cb (gconstpointer a, gconstpointer b, gpointer user_data)
+eval_order_by_sort_hash_cb (gconstpointer a,
+                            gconstpointer b,
+                            gpointer user_data)
 {
 	guint asortorder = GPOINTER_TO_UINT (g_hash_table_lookup (user_data, a));
 	guint bsortorder = GPOINTER_TO_UINT (g_hash_table_lookup (user_data, b));
@@ -1173,7 +1178,8 @@ e_account_tree_view_sort_changed (EAccountTreeView *tree_view)
 }
 
 static void
-account_tree_view_swap_sort_order (EAccountTreeView *tree_view, gint direction)
+account_tree_view_swap_sort_order (EAccountTreeView *tree_view,
+                                   gint direction)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -1239,7 +1245,8 @@ e_account_tree_view_move_down (EAccountTreeView *tree_view)
 }
 
 void
-e_account_tree_view_set_sort_alpha (EAccountTreeView *tree_view, gboolean sort_alpha)
+e_account_tree_view_set_sort_alpha (EAccountTreeView *tree_view,
+                                    gboolean sort_alpha)
 {
 	g_return_if_fail (tree_view != NULL);
 	g_return_if_fail (E_IS_ACCOUNT_TREE_VIEW (tree_view));
@@ -1265,7 +1272,8 @@ e_account_tree_view_get_sort_alpha (EAccountTreeView *tree_view)
 }
 
 void
-e_account_tree_view_set_express_mode (EAccountTreeView *tree_view, gboolean express_mode)
+e_account_tree_view_set_express_mode (EAccountTreeView *tree_view,
+                                      gboolean express_mode)
 {
 	g_return_if_fail (tree_view != NULL);
 	g_return_if_fail (E_IS_ACCOUNT_TREE_VIEW (tree_view));
@@ -1291,7 +1299,9 @@ e_account_tree_view_get_express_mode (EAccountTreeView *tree_view)
 }
 
 static void
-update_special_enable_state (EAccountTreeView *tree_view, const gchar *display_name, gboolean enabled)
+update_special_enable_state (EAccountTreeView *tree_view,
+                             const gchar *display_name,
+                             gboolean enabled)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -1332,7 +1342,8 @@ update_special_enable_state (EAccountTreeView *tree_view, const gchar *display_n
 }
 
 void
-e_account_tree_view_set_enable_local_folders (EAccountTreeView *tree_view, gboolean enabled)
+e_account_tree_view_set_enable_local_folders (EAccountTreeView *tree_view,
+                                              gboolean enabled)
 {
 	g_return_if_fail (tree_view != NULL);
 	g_return_if_fail (E_IS_ACCOUNT_TREE_VIEW (tree_view));
@@ -1359,7 +1370,8 @@ e_account_tree_view_get_enable_local_folders (EAccountTreeView *tree_view)
 }
 
 void
-e_account_tree_view_set_enable_search_folders (EAccountTreeView *tree_view, gboolean enabled)
+e_account_tree_view_set_enable_search_folders (EAccountTreeView *tree_view,
+                                               gboolean enabled)
 {
 	g_return_if_fail (tree_view != NULL);
 	g_return_if_fail (E_IS_ACCOUNT_TREE_VIEW (tree_view));

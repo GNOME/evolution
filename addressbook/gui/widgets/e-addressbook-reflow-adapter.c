@@ -625,7 +625,6 @@ e_addressbook_reflow_adapter_new (EAddressbookModel *model)
 	return E_REFLOW_MODEL (et);
 }
 
-
 EContact *
 e_addressbook_reflow_adapter_get_contact (EAddressbookReflowAdapter *adapter,
                                           gint index)

@@ -77,7 +77,6 @@ struct _ETreeMemoryPrivate {
 	gpointer         destroy_user_data;
 };
 
-
 /* ETreeMemoryPath functions */
 
 static inline void
@@ -169,8 +168,6 @@ e_tree_path_unlink (ETreeMemoryPath *path)
 	path->prev_sibling = NULL;
 }
 
-
-
 /**
  * e_tree_memory_freeze:
  * @etmm: the ETreeModel to freeze.
@@ -212,7 +209,6 @@ e_tree_memory_thaw (ETreeMemory *etmm)
 	}
 }
 
-
 /* virtual methods */
 
 static void
@@ -363,7 +359,6 @@ etmm_node_request_collapse (ETreeModel *etm,
 		parent_class->node_request_collapse (etm, node);
 }
 
-
 static void
 e_tree_memory_class_init (ETreeMemoryClass *class)
 {

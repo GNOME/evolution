@@ -171,7 +171,7 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 	}
 
 	e_mail_store_foreach (
-		session, (GFunc) mail_store_prepare_for_offline_cb, activity);
+		backend, (GFunc) mail_store_prepare_for_offline_cb, activity);
 }
 
 /* Helper for mail_backend_prepare_for_online_cb() */
@@ -197,7 +197,7 @@ mail_backend_prepare_for_online_cb (EShell *shell,
 	camel_session_set_online (CAMEL_SESSION (session), TRUE);
 
 	e_mail_store_foreach (
-		session, (GFunc) mail_store_prepare_for_online_cb, activity);
+		backend, (GFunc) mail_store_prepare_for_online_cb, activity);
 }
 
 /* Helper for mail_backend_prepare_for_quit_cb() */
@@ -298,13 +298,13 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 
 	if (delete_junk)
 		e_mail_store_foreach (
-			session, (GFunc) mail_backend_delete_junk, backend);
+			backend, (GFunc) mail_backend_delete_junk, backend);
 
 	sync_data.activity = activity;
 	sync_data.empty_trash = empty_trash;
 
 	e_mail_store_foreach (
-		session, (GFunc) mail_backend_final_sync, &sync_data);
+		backend, (GFunc) mail_backend_final_sync, &sync_data);
 
 	/* Now we poll until all activities are actually cancelled or finished.
 	 * Reffing the activity delays quitting; the reference count
@@ -572,14 +572,15 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	folder_type = (flags & CAMEL_FOLDER_TYPE_MASK);
 	target->is_inbox = (folder_type == CAMEL_FOLDER_TYPE_INBOX);
 
-	model = em_folder_tree_model_get_default (mail_backend);
+	model = em_folder_tree_model_get_default ();
 	target->display_name = em_folder_tree_model_get_folder_name (
 		model, store, folder_name);
 
 	if (target->new > 0)
 		e_shell_event (e_shell_backend_get_shell (E_SHELL_BACKEND (mail_backend)), "mail-icon", (gpointer) "mail-unread");
 
-	/** @Event: folder.changed
+	/**
+	 * @Event: folder.changed
 	 * @Title: Folder changed
 	 * @Target: EMEventTargetFolder
 	 *
@@ -773,8 +774,12 @@ mail_backend_constructed (GObject *object)
 	e_account_combo_box_set_session (CAMEL_SESSION (priv->session));
 
 	/* FIXME EMailBackend should own the default EMFolderTreeModel. */
-	folder_tree_model = em_folder_tree_model_get_default (E_MAIL_BACKEND (shell_backend));
-	em_folder_tree_model_set_session (folder_tree_model, priv->session);
+	folder_tree_model = em_folder_tree_model_get_default ();
+
+	/* FIXME This is creating a circular reference.  Perhaps the
+	 *       should only hold a weak pointer to EMailBackend? */
+	em_folder_tree_model_set_backend (
+		folder_tree_model, E_MAIL_BACKEND (object));
 
 	g_signal_connect (
 		shell, "prepare-for-offline",

@@ -55,7 +55,7 @@ static gint opt_file_size = 0;
 static gchar **opt_remaining = NULL;
 
 static GOptionEntry entries[] = {
-	{ "output", '\0', G_OPTION_FLAG_FILENAME,
+	{ "output", '\0', 0,
 	  G_OPTION_ARG_STRING, &opt_output_file,
 	  N_("Specify the output file instead of standard output"),
 	  N_("OUTPUTFILE") },

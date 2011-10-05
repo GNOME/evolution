@@ -119,8 +119,6 @@ static void free_path (ETreeSortedPath *path);
 static void generate_children (ETreeSorted *ets, ETreeSortedPath *path);
 static void regenerate_children (ETreeSorted *ets, ETreeSortedPath *path);
 
-
-
 /* idle callbacks */
 
 static gboolean
@@ -161,8 +159,6 @@ ets_insert_idle (ETreeSorted *ets)
 	ets->priv->insert_idle_id = 0;
 	return FALSE;
 }
-
-
 
 /* Helper functions */
 
@@ -596,8 +592,6 @@ schedule_resort (ETreeSorted *ets,
 		ets->priv->nested_resort_idle = TRUE;
 	}
 }
-
-
 
 /* virtual methods */
 
@@ -1209,8 +1203,6 @@ ets_sort_info_changed (ETableSortInfo *sort_info,
 {
 	schedule_resort (ets, ets->priv->root, TRUE, TRUE);
 }
-
-
 
 /* Initialization and creation */
 

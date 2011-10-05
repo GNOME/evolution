@@ -25,9 +25,9 @@
 #define EM_COMPOSER_UTILS_H
 
 #include <em-format/em-format.h>
+#include <mail/e-mail-backend.h>
 #include <mail/e-mail-enums.h>
 #include <mail/e-mail-reader.h>
-#include <mail/e-mail-session.h>
 #include <composer/e-msg-composer.h>
 
 G_BEGIN_DECLS
@@ -54,14 +54,15 @@ EMsgComposer *	em_utils_forward_message	(EShell *shell,
 void		em_utils_forward_messages	(EMailReader *reader,
 						 CamelFolder *folder,
 						 GPtrArray *uids,
-						 EMailForwardStyle style);
+						 EMailForwardStyle style,
+						 GtkWidget *destroy_when_done);
 void		em_utils_redirect_message	(EShell *shell,
 						 CamelMimeMessage *message);
-void		em_utils_handle_receipt		(EMailSession *session,
+void		em_utils_handle_receipt		(EMailBackend *backend,
 						 CamelFolder *folder,
 						 const gchar *message_uid,
 						 CamelMimeMessage *message);
-void		em_utils_send_receipt		(EMailSession *session,
+void		em_utils_send_receipt		(EMailBackend *backend,
 						 CamelFolder *folder,
 						 CamelMimeMessage *message);
 gchar *		em_utils_construct_composer_text

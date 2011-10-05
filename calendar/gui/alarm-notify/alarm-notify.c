@@ -39,6 +39,8 @@
 
 #define APPLICATION_ID "org.gnome.EvolutionAlarmNotify"
 
+#define APPLICATION_ID "org.gnome.EvolutionAlarmNotify"
+
 struct _AlarmNotifyPrivate {
 	/* Mapping from EUri's to LoadedClient structures */
 	/* FIXME do we need per source type uri hashes? or perhaps we
@@ -55,7 +57,13 @@ typedef struct {
 	GList *removals;
 } ProcessRemovalsData;
 
-G_DEFINE_TYPE (AlarmNotify, alarm_notify, GTK_TYPE_APPLICATION)
+/* Forward Declarations */
+static void	alarm_notify_initable_init	(GInitableIface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	AlarmNotify, alarm_notify, GTK_TYPE_APPLICATION,
+	G_IMPLEMENT_INTERFACE (
+		G_TYPE_INITABLE, alarm_notify_initable_init))
 
 static void
 process_removal_in_hash (const gchar *uri,
@@ -264,6 +272,15 @@ alarm_notify_activate (GApplication *application)
 	 * if there are no handlers connected to this signal. */
 }
 
+static gboolean
+alarm_notify_initable (GInitable *initable,
+                       GCancellable *cancellable,
+                       GError **error)
+{
+	/* XXX Just return TRUE for now.  We'll have use for this soon. */
+	return TRUE;
+}
+
 static void
 alarm_notify_class_init (AlarmNotifyClass *class)
 {
@@ -278,6 +295,13 @@ alarm_notify_class_init (AlarmNotifyClass *class)
 	application_class = G_APPLICATION_CLASS (class);
 	application_class->startup = alarm_notify_startup;
 	application_class->activate = alarm_notify_activate;
+}
+
+static void
+alarm_notify_initable_init (GInitableIface *interface)
+{
+	/* XXX Awkward name since we're missing an 'E' prefix. */
+	interface->init = alarm_notify_initable;
 }
 
 static void
@@ -317,10 +341,11 @@ alarm_notify_get_selected_calendars (AlarmNotify *an)
  * Returns: a newly-created #AlarmNotify
  **/
 AlarmNotify *
-alarm_notify_new (void)
+alarm_notify_new (GCancellable *cancellable,
+                  GError **error)
 {
-	return g_object_new (
-		TYPE_ALARM_NOTIFY,
+	return g_initable_new (
+		TYPE_ALARM_NOTIFY, cancellable, error,
 		"application-id", APPLICATION_ID, NULL);
 }
 

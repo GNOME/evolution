@@ -22,8 +22,9 @@
 
 #include "e-mail-config-reader.h"
 
+#include <libebackend/e-extension.h>
+
 #include <shell/e-shell.h>
-#include <e-util/e-extension.h>
 #include <mail/e-mail-reader.h>
 
 static gpointer parent_class;

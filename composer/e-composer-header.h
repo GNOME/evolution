@@ -18,7 +18,7 @@
 #ifndef E_COMPOSER_HEADER_H
 #define E_COMPOSER_HEADER_H
 
-#include "e-composer-common.h"
+#include <composer/e-composer-common.h>
 
 /* Standard GObject macros */
 #define E_TYPE_COMPOSER_HEADER \

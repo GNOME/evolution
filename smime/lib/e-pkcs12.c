@@ -143,8 +143,6 @@ e_pkcs12_get_type (void)
 	return pkcs12_type;
 }
 
-
-
 EPKCS12 *
 e_pkcs12_new (void)
 {
@@ -205,9 +203,10 @@ prompt_for_password (gchar *title,
 {
 	gchar *passwd;
 
-	passwd = e_passwords_ask_password (title, NULL, "", prompt,
-					   E_PASSWORDS_REMEMBER_NEVER | E_PASSWORDS_SECRET, NULL,
-					   NULL);
+	passwd = e_passwords_ask_password (
+		title, NULL, "", prompt,
+		E_PASSWORDS_REMEMBER_NEVER | E_PASSWORDS_SECRET,
+		NULL, NULL);
 
 	if (passwd) {
 		gsize len = strlen (passwd);

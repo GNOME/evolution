@@ -32,12 +32,12 @@
 #include "e-shell.h"
 
 #include <glib/gi18n.h>
+#include <libebackend/e-module.h>
+#include <libebackend/e-extensible.h>
 #include <libedataserverui/e-passwords.h>
 
-#include "e-util/e-module.h"
-#include "e-util/e-extensible.h"
-#include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
+#include "e-util/e-util-private.h"
 #include "smclient/eggsmclient.h"
 #include "widgets/misc/e-preferences-window.h"
 
@@ -740,6 +740,12 @@ shell_dispose (GObject *object)
 	EAlert *alert;
 
 	priv = E_SHELL (object)->priv;
+
+	while ((alert = g_queue_pop_head (&priv->alerts)) != NULL) {
+		g_signal_handlers_disconnect_by_func (
+			alert, shell_alert_response_cb, object);
+		g_object_unref (alert);
+	}
 
 	while ((alert = g_queue_pop_head (&priv->alerts)) != NULL) {
 		g_signal_handlers_disconnect_by_func (

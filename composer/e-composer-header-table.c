@@ -21,7 +21,6 @@
 
 #include "e-composer-header-table.h"
 
-#include <string.h>
 #include <glib/gi18n-lib.h>
 #include <libedataserverui/e-name-selector.h>
 
@@ -81,10 +80,9 @@ g_value_set_destinations (GValue *value,
                           EDestination **destinations)
 {
 	GValueArray *value_array;
-	GValue element;
+	GValue element = G_VALUE_INIT;
 	gint ii;
 
-	memset (&element, 0, sizeof (GValue));
 	g_value_init (&element, E_TYPE_DESTINATION);
 
 	/* Preallocate some reasonable number. */
@@ -122,9 +120,8 @@ g_value_set_string_list (GValue *value,
                          GList *list)
 {
 	GValueArray *value_array;
-	GValue element;
+	GValue element = G_VALUE_INIT;
 
-	memset (&element, 0, sizeof (GValue));
 	g_value_init (&element, G_TYPE_STRING);
 
 	value_array = g_value_array_new (g_list_length (list));

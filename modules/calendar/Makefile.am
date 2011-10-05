@@ -7,9 +7,9 @@ libevolution_module_calendar_la_CPPFLAGS =		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
-	$(CAMEL_CFLAGS)					\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_CALENDAR_CFLAGS)
+	$(GTKHTML_CFLAGS)
 
 libevolution_module_calendar_la_SOURCES =		\
 	evolution-module-calendar.c			\
@@ -94,9 +94,9 @@ libevolution_module_calendar_la_LIBADD =		\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/widgets/table/libetable.la			\
-	$(CAMEL_LIBS)							\
-	$(EVOLUTION_CALENDAR_LIBS)					\
-	$(GNOME_PLATFORM_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)						\
+	$(GTKHTML_LIBS)
 
 libevolution_module_calendar_la_LDFLAGS =		\
 	-module -avoid-version $(NO_UNDEFINED)

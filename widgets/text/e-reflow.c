@@ -746,8 +746,6 @@ column_width_changed (EReflow *reflow)
 	g_signal_emit (reflow, signals[COLUMN_WIDTH_CHANGED], 0, reflow->column_width);
 }
 
-
-
 /* Virtual functions */
 static void
 e_reflow_set_property (GObject *object,
@@ -1400,7 +1398,7 @@ e_reflow_point (GnomeCanvasItem *item,
                 gint cx,
                 gint cy)
 {
-	GnomeCanvasItem *child;
+	GnomeCanvasItem *child = NULL;
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->point)
 		child = GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->point (item, x, y, cx, cy);

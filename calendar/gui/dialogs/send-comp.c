@@ -30,7 +30,6 @@
 #include "e-util/e-alert-dialog.h"
 #include "send-comp.h"
 
-
 
 static gboolean
 component_has_new_attendees (ECalComponent *comp)

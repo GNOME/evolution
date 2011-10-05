@@ -1111,7 +1111,7 @@ folder_bar_message (EAddressbookView *view,
 {
 	EShellView *shell_view;
 	EShellSidebar *shell_sidebar;
-	const gchar *name;
+	const gchar *display_name;
 
 	shell_view = e_addressbook_view_get_shell_view (view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
@@ -1119,8 +1119,8 @@ folder_bar_message (EAddressbookView *view,
 	if (view->priv->source == NULL)
 		return;
 
-	name = e_source_peek_name (view->priv->source);
-	e_shell_sidebar_set_primary_text (shell_sidebar, name);
+	display_name = e_source_peek_name (view->priv->source);
+	e_shell_sidebar_set_primary_text (shell_sidebar, display_name);
 	e_shell_sidebar_set_secondary_text (shell_sidebar, message);
 }
 
@@ -1622,7 +1622,8 @@ view_transfer_contacts (EAddressbookView *view,
 		contacts = e_addressbook_view_get_selected (view);
 
 		eab_transfer_contacts (
-			book_client, contacts, delete_from_source, alert_sink);
+			book_client, contacts,
+			delete_from_source, alert_sink);
 	}
 }
 

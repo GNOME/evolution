@@ -3901,7 +3901,10 @@ e_week_view_change_event_time (EWeekView *week_view,
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (week_view)));
 
 	e_cal_component_commit_sequence (comp);
-	e_calendar_view_modify_and_send (comp, client, mod, toplevel, TRUE);
+
+	e_calendar_view_modify_and_send (
+		E_CALENDAR_VIEW (week_view),
+		comp, client, mod, toplevel, TRUE);
 
 out:
 	g_object_unref (comp);
@@ -4112,7 +4115,10 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 			/* FIXME When sending here, what exactly should we send? */
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (week_view)));
-			e_calendar_view_modify_and_send (comp, client, mod, toplevel, FALSE);
+
+			e_calendar_view_modify_and_send (
+				E_CALENDAR_VIEW (week_view),
+				comp, client, mod, toplevel, FALSE);
 		}
 	}
 

@@ -149,7 +149,8 @@ ea_minicard_view_get_name (AtkObject *accessible)
 	gchar *string;
 	EMinicardView *card_view;
 	EBookClient *book_client = NULL;
-	const gchar *source_name;
+	ESource *source;
+	const gchar *display_name;
 
 	g_return_val_if_fail (EA_IS_MINICARD_VIEW (accessible), NULL);
 
@@ -163,13 +164,14 @@ ea_minicard_view_get_name (AtkObject *accessible)
 	card_view = E_MINICARD_VIEW (reflow);
 	g_object_get (card_view->adapter, "client", &book_client, NULL);
 	g_return_val_if_fail (E_IS_BOOK_CLIENT (book_client), NULL);
-	source_name = e_source_peek_name (e_client_get_source (E_CLIENT (book_client)));
-	if (!source_name)
-		source_name="";
+	source = e_client_get_source (E_CLIENT (book_client));
+	display_name = e_source_peek_name (source);
+	if (display_name == NULL)
+		display_name = "";
 
 	string = g_strdup_printf (ngettext ("current address book folder %s has %d card",
 				  "current address book folder %s has %d cards",
-				  reflow->count), source_name, reflow->count);
+				  reflow->count), display_name, reflow->count);
 
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, string);
 	g_free (string);
@@ -372,7 +374,9 @@ static void atk_action_interface_init (AtkActionIface *iface)
 	iface->get_name = atk_action_interface_get_name;
 }
 
-static gboolean atk_action_interface_do_action (AtkAction *action, gint i)
+static gboolean
+atk_action_interface_do_action (AtkAction *action,
+                                gint i)
 {
 	gboolean return_value = TRUE;
 	EMinicardView *card_view;
@@ -405,7 +409,8 @@ static gboolean atk_action_interface_do_action (AtkAction *action, gint i)
 	return return_value;
 }
 
-static gint atk_action_interface_get_n_action (AtkAction *iface)
+static gint
+atk_action_interface_get_n_action (AtkAction *iface)
 {
 	return G_N_ELEMENTS (action_name);
 }

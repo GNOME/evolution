@@ -65,7 +65,8 @@ struct _AlarmNotifyClass {
 };
 
 GType		alarm_notify_get_type		(void);
-AlarmNotify *	alarm_notify_new		(void);
+AlarmNotify *	alarm_notify_new		(GCancellable *cancellable,
+						 GError **error);
 void		alarm_notify_add_calendar	(AlarmNotify *an,
 						 ECalClientSourceType source_type,
 						 ESource *source,

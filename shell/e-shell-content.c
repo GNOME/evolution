@@ -32,12 +32,11 @@
 #include "e-shell-content.h"
 
 #include <glib/gi18n.h>
+#include <libebackend/e-extensible.h>
 
-#include "e-util/e-alert-dialog.h"
-#include "e-util/e-alert-sink.h"
-#include "e-util/e-extensible.h"
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"
+#include "e-util/e-alert-sink.h"
 #include "filter/e-rule-editor.h"
 #include "widgets/misc/e-action-combo-box.h"
 #include "widgets/misc/e-alert-bar.h"

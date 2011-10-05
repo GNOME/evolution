@@ -168,7 +168,10 @@ addressbook_set_value_at (ETableModel *etc,
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 
 	if (e_addressbook_model_get_editable (priv->model)) {
+		EBookClient *book_client;
 		EContact *contact;
+
+		book_client = e_addressbook_model_get_client (priv->model);
 
 		if (col >= COLS || row >= e_addressbook_model_contact_count (priv->model))
 			return;
@@ -191,7 +194,7 @@ addressbook_set_value_at (ETableModel *etc,
 
 		e_contact_set (contact, col, (gpointer) val);
 		eab_merging_book_modify_contact (
-			e_addressbook_model_get_client (priv->model),
+			book_client,
 			contact, contact_modified_cb, etc);
 
 		g_object_unref (contact);
@@ -218,6 +221,7 @@ addressbook_append_row (ETableModel *etm,
 {
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER (etm);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
+	EBookClient *book_client;
 	EContact *contact;
 	EBookClient *book_client;
 	gint col;

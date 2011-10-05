@@ -287,7 +287,6 @@ e_mail_reader_mark_as_read (EMailReader *reader,
                             const gchar *uid)
 {
 	EMailBackend *backend;
-	EMailSession *session;
 	EMFormatHTML *formatter;
 	CamelFolder *folder;
 	guint32 mask, set;
@@ -300,15 +299,13 @@ e_mail_reader_mark_as_read (EMailReader *reader,
 	backend = e_mail_reader_get_backend (reader);
 	formatter = e_mail_reader_get_formatter (reader);
 
-	session = e_mail_backend_get_session (backend);
-
 	flags = camel_folder_get_message_flags (folder, uid);
 
 	if (!(flags & CAMEL_MESSAGE_SEEN)) {
 		CamelMimeMessage *message;
 
 		message = EM_FORMAT (formatter)->message;
-		em_utils_handle_receipt (session, folder, uid, message);
+		em_utils_handle_receipt (backend, folder, uid, message);
 	}
 
 	mask = CAMEL_MESSAGE_SEEN;

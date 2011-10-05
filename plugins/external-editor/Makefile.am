@@ -1,6 +1,5 @@
 if OS_WIN32
 NO_UNDEFINED_REQUIRED_LIBS = \
-	$(EVOLUTION_MAIL_LIBS) \
 	$(GNOME_PLATFORM_LIBS) \
 	$(top_builddir)/e-util/libeutil.la \
 	$(top_builddir)/mail/libevolution-mail.la
@@ -28,10 +27,9 @@ liborg_gnome_external_editor_la_CPPFLAGS =		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/composer			\
 	-I$(top_srcdir)/widgets				\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(SHELL_CFLAGS)					\
-	$(EVOLUTION_MAIL_CFLAGS)			\
-	$(E_UTIL_CFLAGS)				
+	$(GTKHTML_CFLAGS)
 
 liborg_gnome_external_editor_la_SOURCES = 		\
 	external-editor.c
@@ -45,8 +43,9 @@ liborg_gnome_external_editor_la_LIBADD = 			\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la 		\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
 	$(top_builddir)/mail/libevolution-mail.la		\
-	$(EVOLUTION_MAIL_LIBS)					\
-	$(GNOME_PLATFORM_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)					\
+	$(GTKHTML_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)
 schema_in_files = apps-evolution-external-editor.schemas.in

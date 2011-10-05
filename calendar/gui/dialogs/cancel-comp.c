@@ -31,7 +31,6 @@
 #include "e-util/e-alert-dialog.h"
 #include "cancel-comp.h"
 
-
 
 /* is_past_event:
  *

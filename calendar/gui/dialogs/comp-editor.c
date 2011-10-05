@@ -36,6 +36,7 @@
 #include <glib/gstdio.h>
 #include <gio/gio.h>
 #include <gdk/gdkkeysyms.h>
+#include <libebackend/e-extensible.h>
 #include <e-util/e-util.h>
 #include <e-util/e-alert-sink.h>
 #include <e-util/e-dialog-utils.h>
@@ -3006,6 +3007,7 @@ attachment_loaded_cb (EAttachment *attachment,
 	GFileInfo *file_info;
 	const gchar *display_name;
 	const gchar *uid;
+	gchar *new_name;
 
 	/* Prior to 2.27.2, attachment files were named:
 	 *
@@ -3036,9 +3038,10 @@ attachment_loaded_cb (EAttachment *attachment,
 	uid = g_object_get_data (G_OBJECT (attachment), "uid");
 
 	if (g_str_has_prefix (display_name, uid)) {
-		g_file_info_set_display_name (
-			file_info, display_name + strlen (uid) + 1);
+		new_name = g_strdup (display_name + strlen (uid) + 1);
+		g_file_info_set_display_name (file_info, new_name);
 		g_object_notify (G_OBJECT (attachment), "file-info");
+		g_free (new_name);
 	}
 
 	e_attachment_load_handle_error (attachment, result, parent);
@@ -3238,6 +3241,7 @@ real_send_comp (CompEditor *editor,
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
 	priv = editor->priv;
+
 	flags = comp_editor_get_flags (editor);
 
 	if (priv->mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (priv->comp)) {

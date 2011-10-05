@@ -20,10 +20,11 @@
 #include <config.h>
 #endif
 
+#include <libebackend/e-extension.h>
+
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window-actions.h>
 #include <e-util/e-alert-sink.h>
-#include <e-util/e-extension.h>
 
 /* Standard GObject macros */
 #define E_TYPE_OFFLINE_ALERT \

@@ -35,7 +35,9 @@
 
 G_BEGIN_DECLS
 
-gboolean alarm_dialog_run (GtkWidget *parent, ECalClient *cal_client, ECalComponentAlarm *alarm);
+gboolean	alarm_dialog_run		(GtkWidget *parent,
+						 ECalClient *cal_client,
+						 ECalComponentAlarm *alarm);
 
 G_END_DECLS
 

@@ -120,11 +120,6 @@ GtkTreeSelection *
 void		em_folder_tree_model_set_selection
 					(EMFolderTreeModel *model,
 					 GtkTreeSelection *selection);
-EMailSession *	em_folder_tree_model_get_session
-					(EMFolderTreeModel *model);
-void		em_folder_tree_model_set_session
-					(EMFolderTreeModel *model,
-					 EMailSession *session);
 EMailBackend *	em_folder_tree_model_get_backend
 					(EMFolderTreeModel *model);
 void		em_folder_tree_model_set_backend

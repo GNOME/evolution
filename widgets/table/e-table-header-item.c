@@ -996,9 +996,7 @@ ethi_draw (GnomeCanvasItem *item,
 	gint x1, x2;
 	gint col;
 	GHashTable *arrows = g_hash_table_new (NULL, NULL);
-	GtkStyle *style;
-
-	style = gtk_widget_get_style (GTK_WIDGET (canvas));
+	GtkStyleContext *context;
 
 	if (ethi->sort_info) {
 		gint length;
@@ -1040,10 +1038,13 @@ ethi_draw (GnomeCanvasItem *item,
 	ethi->width = e_table_header_total_width (ethi->eth) + ethi->group_indent_width;
 	x1 = x2 = 0;
 	x2 += ethi->group_indent_width;
+
+	context = gtk_widget_get_style_context (GTK_WIDGET (canvas));
+
 	for (col = 0; col < cols; col++, x1 = x2) {
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
-		GtkStateType state;
 		gint col_width;
+		GtkRegionFlags flags = 0;
 
 		col_width = ecol->width;
 
@@ -1058,15 +1059,29 @@ ethi_draw (GnomeCanvasItem *item,
 		if (x2 <= x1)
 			continue;
 
-		state = gtk_widget_get_state (GTK_WIDGET (canvas));
+		if (((col + 1) % 2) == 0)
+			flags |= GTK_REGION_EVEN;
+		else
+			flags |= GTK_REGION_ODD;
+
+		if (col == 0)
+			flags |= GTK_REGION_FIRST;
+
+		if (col + 1 == cols)
+			flags |= GTK_REGION_LAST;
+
+		gtk_style_context_save (context);
+		gtk_style_context_add_region (
+			context, GTK_STYLE_REGION_COLUMN_HEADER, flags);
 
 		e_table_header_draw_button (
-			cr, ecol,
-			style, state, GTK_WIDGET (canvas),
+			cr, ecol, GTK_WIDGET (canvas),
 			x1 - x, -y, width, height,
 			x2 - x1, ethi->height,
 			(ETableColArrow) g_hash_table_lookup (
 			arrows, GINT_TO_POINTER (ecol->col_idx)));
+
+		gtk_style_context_restore (context);
 	}
 
 	g_hash_table_destroy (arrows);
@@ -1209,22 +1224,16 @@ ethi_start_drag (ETableHeaderItem *ethi,
 	ETableCol *ecol;
 	gint col_width;
 	cairo_surface_t *s;
-	GdkPixbuf *pixbuf;
 	cairo_t *cr;
 
 	gint group_indent = 0;
 	GHashTable *arrows = g_hash_table_new (NULL, NULL);
-	GtkStateType state;
-	GtkStyle *style;
 
 	GtkTargetEntry  ethi_drag_types[] = {
 		{ (gchar *) TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
 	};
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas);
-	state = gtk_widget_get_state (widget);
-	style = gtk_widget_get_style (widget);
-
 	ethi->drag_col = ethi_find_col_by_x (ethi, event->motion.x);
 
 	if (ethi->drag_col == -1)
@@ -1269,27 +1278,17 @@ ethi_start_drag (ETableHeaderItem *ethi,
 
 	ecol = e_table_header_get_column (ethi->eth, ethi->drag_col);
 	col_width = ecol->width;
-	s = cairo_image_surface_create (CAIRO_FORMAT_A1, col_width, ethi->height);
+	s = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, col_width, ethi->height);
 	cr = cairo_create (s);
-	pixbuf = gdk_pixbuf_get_from_surface (
-		s, 0, 0, col_width, ethi->height);
-
-	state = gtk_widget_get_state (widget);
 
 	e_table_header_draw_button (
 		cr, ecol,
-		style, state,
 		widget, 0, 0,
 		col_width, ethi->height,
 		col_width, ethi->height,
 		(ETableColArrow) g_hash_table_lookup (
 			arrows, GINT_TO_POINTER (ecol->col_idx)));
-	gtk_drag_set_icon_pixbuf (
-		context,
-		pixbuf,
-		col_width / 2,
-		ethi->height / 2);
-	g_object_unref (pixbuf);
+	gtk_drag_set_icon_surface (context, s);
 	cairo_surface_destroy (s);
 
 	ethi->maybe_drag = FALSE;

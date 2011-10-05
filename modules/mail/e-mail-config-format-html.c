@@ -22,9 +22,10 @@
 
 #include "e-mail-config-format-html.h"
 
+#include <libebackend/e-extension.h>
+
 #include <shell/e-shell.h>
 #include <e-util/e-util.h>
-#include <e-util/e-extension.h>
 #include <mail/em-format-html.h>
 
 static gpointer parent_class;

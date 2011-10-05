@@ -21,13 +21,11 @@
 #ifndef E_COMPOSER_FROM_HEADER_H
 #define E_COMPOSER_FROM_HEADER_H
 
-#include "e-composer-common.h"
-
 #include <libedataserver/e-account.h>
 #include <libedataserver/e-account-list.h>
 
 #include <misc/e-account-combo-box.h>
-#include "e-composer-header.h"
+#include <composer/e-composer-header.h>
 
 /* Standard GObject macros */
 #define E_TYPE_COMPOSER_FROM_HEADER \

@@ -17,8 +17,8 @@ libevolution_smime_la_CPPFLAGS =			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DPREFIX=\""$(prefix)"\"			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CERT_UI_CFLAGS)
 
 libevolution_smime_la_SOURCES = 	\
@@ -41,6 +41,7 @@ libevolution_smime_la_LIBADD =				\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/smime/lib/libessmime.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(CERT_UI_LIBS)
 

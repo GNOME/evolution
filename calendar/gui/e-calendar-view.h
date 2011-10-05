@@ -235,18 +235,21 @@ void		e_calendar_view_new_appointment_full
 						 gboolean meeting,
 						 gboolean no_past_date);
 void		e_calendar_view_new_appointment	(ECalendarView *cal_view);
-void		e_calendar_view_edit_appointment (ECalendarView *cal_view,
+void		e_calendar_view_edit_appointment
+						(ECalendarView *cal_view,
 						 ECalClient *client,
 						 icalcomponent *icalcomp,
 						 EEditEventMode mode);
 void		e_calendar_view_open_event	(ECalendarView *cal_view);
-void		e_calendar_view_modify_and_send	(ECalComponent *comp,
+void		e_calendar_view_modify_and_send	(ECalendarView *cal_view,
+						 ECalComponent *comp,
 						 ECalClient *client,
 						 CalObjModType mod,
 						 GtkWindow *toplevel,
 						 gboolean new);
 
-gboolean	e_calendar_view_get_tooltips	(const ECalendarViewEventData *data);
+gboolean	e_calendar_view_get_tooltips	(ECalendarView *cal_view,
+						 const ECalendarViewEventData *data);
 
 void		e_calendar_view_move_tip	(GtkWidget *widget,
 						 gint x,
@@ -256,9 +259,6 @@ const gchar *	e_calendar_view_get_icalcomponent_summary
 						(ECalClient *ecal,
 						 icalcomponent *icalcomp,
 						 gboolean *free_text);
-gchar *		e_calendar_view_get_attendees_status_info
-						(ECalComponent *comp,
-						 ECalClient *client);
 
 void		e_calendar_view_emit_user_created
 						(ECalendarView *cal_view);

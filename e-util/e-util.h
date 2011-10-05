@@ -69,9 +69,6 @@ GtkRadioAction *e_radio_action_get_current_action
 						(GtkRadioAction *radio_action);
 void		e_categories_add_change_hook	(GHookFunc func,
 						 gpointer object);
-void		e_type_traverse			(GType parent_type,
-						 ETypeFunc func,
-						 gpointer user_data);
 
 gchar *		e_str_without_underscores	(const gchar *string);
 gint		e_str_compare			(gconstpointer x,

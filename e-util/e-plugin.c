@@ -27,12 +27,12 @@
 
 #include <gconf/gconf-client.h>
 
+#include <libebackend/e-module.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-xml-utils.h>
 
 #include "e-plugin.h"
 #include "e-util-private.h"
-#include "e-util.h"
 
 /* plugin debug */
 #define pd(x)

@@ -31,8 +31,6 @@
 
 G_BEGIN_DECLS
 
-
-
 #define TYPE_CALENDAR_VIEW            (calendar_view_get_type ())
 #define CALENDAR_VIEW(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_CALENDAR_VIEW, CalendarView))
 #define CALENDAR_VIEW_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_CALENDAR_VIEW,	\
@@ -63,8 +61,6 @@ CalendarView *calendar_view_new (GnomeCalendarViewType view_type,
 				 const gchar *title);
 
 GnomeCalendarViewType calendar_view_get_view_type (CalendarView *cal_view);
-
-
 
 G_END_DECLS
 

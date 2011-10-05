@@ -31,15 +31,12 @@ eutilinclude_HEADERS = 				\
 	e-dialog-utils.h			\
 	e-dialog-widgets.h			\
 	e-event.h				\
-	e-extensible.h				\
-	e-extension.h				\
 	e-file-utils.h				\
 	e-html-utils.h				\
 	e-icon-factory.h			\
 	e-import.h				\
 	e-marshal.h				\
 	e-mktemp.h				\
-	e-module.h				\
 	e-poolv.h				\
 	e-print.h				\
 	e-plugin.h				\
@@ -88,8 +85,8 @@ libeutil_la_CPPFLAGS =							\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\"				\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
-	$(GNOME_PLATFORM_CFLAGS)					\
-	$(E_UTIL_CFLAGS)
+	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
+	$(GNOME_PLATFORM_CFLAGS)
 
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
@@ -106,15 +103,12 @@ libeutil_la_SOURCES =				\
 	e-dialog-utils.c			\
 	e-dialog-widgets.c			\
 	e-event.c				\
-	e-extensible.c				\
-	e-extension.c				\
 	e-file-utils.c				\
 	e-html-utils.c				\
 	e-icon-factory.c			\
 	e-import.c				\
 	e-marshal.c				\
 	e-mktemp.c				\
-	e-module.c				\
 	e-poolv.c				\
 	e-plugin.c				\
 	e-plugin-ui.c				\
@@ -139,10 +133,10 @@ libeutil_la_SOURCES =				\
 
 libeutil_la_LDFLAGS = $(NO_UNDEFINED)
 
-libeutil_la_LIBADD = 		\
-	$(ICONV_LIBS)		\
-	$(E_UTIL_LIBS)		\
-	$(GNOME_PLATFORM_LIBS)	\
+libeutil_la_LIBADD = 			\
+	$(ICONV_LIBS)			\
+	$(EVOLUTION_DATA_SERVER_LIBS)	\
+	$(GNOME_PLATFORM_LIBS)		\
 	$(INTLLIBS)
 
 error_DATA = e-system.error

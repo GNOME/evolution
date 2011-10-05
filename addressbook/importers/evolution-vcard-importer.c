@@ -42,9 +42,9 @@
 #include <util/eab-book-util.h>
 #include <libebook/e-destination.h>
 
-#include "e-util/e-import.h"
-#include "e-util/e-datetime-format.h"
-#include "misc/e-web-view-preview.h"
+#include <e-util/e-import.h>
+#include <e-util/e-datetime-format.h>
+#include <misc/e-web-view-preview.h>
 
 #include "evolution-addressbook-importers.h"
 
@@ -351,8 +351,7 @@ guess_vcard_encoding (const gchar *filename)
 		return VCARD_ENCODING_NONE;
 	}
 
-	fgets (line, 4096, handle);
-	if (line == NULL) {
+	if (fgets (line, 4096, handle) == NULL) {
 		fclose (handle);
 		g_print ("\n");
 		return VCARD_ENCODING_NONE;

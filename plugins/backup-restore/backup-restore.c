@@ -47,12 +47,14 @@
 #define localtime_r(timep, result)  (localtime (timep) ? memcpy ((result), localtime (timep), sizeof (*(result))) : 0)
 #endif
 
-gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
-						 EShellWindow *shell_window);
-
-GtkWidget * backup_restore_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
-void backup_restore_commit (EPlugin *ep, EMConfigTargetAccount *target);
-void backup_restore_abort (EPlugin *ep, EMConfigTargetAccount *target);
+gboolean	e_plugin_ui_init	(GtkUIManager *ui_manager,
+					 EShellWindow *shell_window);
+GtkWidget *	backup_restore_page	(EPlugin *ep,
+					 EConfigHookItemFactoryData *hook_data);
+void		backup_restore_commit	(EPlugin *ep,
+					 EMConfigTargetAccount *target);
+void		backup_restore_abort	(EPlugin *ep,
+					 EMConfigTargetAccount *target);
 
 typedef enum _br_flags {
 	BR_OK = 1 << 0,
@@ -73,9 +75,22 @@ backup (const gchar *filename,
         gboolean restart)
 {
 	if (restart)
-		execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--backup", "--restart", filename, (gchar *)NULL);
+		execl (
+			EVOLUTION_TOOLSDIR "/evolution-backup",
+			"evolution-backup",
+			"--gui",
+			"--backup",
+			"--restart",
+			filename,
+			NULL);
 	else
-		execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--backup", filename, (gchar *)NULL);
+		execl (
+			EVOLUTION_TOOLSDIR "/evolution-backup",
+			"evolution-backup",
+			"--gui",
+			"--backup",
+			filename,
+			NULL);
 }
 
 static void
@@ -83,9 +98,22 @@ restore (const gchar *filename,
          gboolean restart)
 {
 	if (restart)
-		execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--restore", "--restart", filename, (gchar *)NULL);
+		execl (
+			EVOLUTION_TOOLSDIR "/evolution-backup",
+			"evolution-backup",
+			"--gui",
+			"--restore",
+			"--restart",
+			filename,
+			NULL);
 	else
-		execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--restore", filename, (gchar *)NULL);
+		execl (
+			EVOLUTION_TOOLSDIR "/evolution-backup",
+			"evolution-backup",
+			"--gui",
+			"--restore",
+			filename,
+			NULL);
 }
 
 static gboolean
@@ -105,7 +133,9 @@ sanity_check (const gchar *filename)
 	g_free (toolfname);
 
 #ifdef HAVE_SYS_WAIT_H
-	g_message ("Sanity check result %d:%d %d", WIFEXITED (result), WEXITSTATUS (result), result);
+	g_message (
+		"Sanity check result %d:%d %d",
+		WIFEXITED (result), WEXITSTATUS (result), result);
 
 	return WIFEXITED (result) && (WEXITSTATUS (result) == 0);
 #else
@@ -137,7 +167,6 @@ dialog_prompt_user (GtkWindow *parent,
 	container = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
 
 	check = gtk_check_button_new_with_mnemonic (string);
-	/* We should hardcode this to true */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), TRUE);
 	gtk_box_pack_start (GTK_BOX (container), check, FALSE, FALSE, 0);
 	gtk_widget_show (check);
@@ -171,7 +200,9 @@ suggest_file_name (void)
 	t = time (NULL);
 	localtime_r (&t, &tm);
 
-	return g_strdup_printf ("evolution-backup-%04d%02d%02d.tar.gz", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+	return g_strdup_printf (
+		"evolution-backup-%04d%02d%02d.tar.gz",
+		tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
 }
 
 static void
@@ -232,7 +263,8 @@ action_settings_backup_cb (GtkAction *action,
 	} else {
 		e_alert_run_dialog_for_args (
 			GTK_WINDOW (shell_window),
-			"org.gnome.backup-restore:insufficient-permissions", NULL);
+			"org.gnome.backup-restore:insufficient-permissions",
+			NULL);
 	}
 
 	g_object_unref (file_info);
@@ -277,30 +309,42 @@ action_settings_restore_cb (GtkAction *action,
 
 static void
 check_toggled (GtkToggleButton *button,
-               GtkAssistant *assistant)
+               GObject *assistant)
 {
-	GtkWidget *box = g_object_get_data ((GObject *)button, "box");
-	gboolean state = gtk_toggle_button_get_active ((GtkToggleButton *) button);
+	EConfig *config;
+	GtkWidget *box;
+	gboolean active;
 
-	gtk_widget_set_sensitive (box, state);
+	active = gtk_toggle_button_get_active (button);
+	box = g_object_get_data (G_OBJECT (button), "box");
+	gtk_widget_set_sensitive (box, active);
 
-	g_object_set_data ((GObject *)assistant, "restore", GINT_TO_POINTER (state?1:0));
+	g_object_set_data (
+		assistant, "restore",
+		GINT_TO_POINTER (active ? 1 : 0));
 
-	e_config_target_changed ((EConfig *) g_object_get_data ((GObject *)assistant, "restore-config"), E_CONFIG_TARGET_CHANGED_STATE);
+	config = g_object_get_data (assistant, "restore-config");
+
+	e_config_target_changed (
+		config, E_CONFIG_TARGET_CHANGED_STATE);
 }
 
 static void
 file_changed (GtkFileChooser *chooser,
-              GtkAssistant *assistant)
+              GObject *assistant)
 {
+	EConfig *config;
 	gchar *file = NULL, *prevfile = NULL;
 
 	file = gtk_file_chooser_get_filename (chooser);
-	prevfile = g_object_get_data ((GObject *)assistant, "restore-file");
-	g_object_set_data ((GObject *)assistant, "restore-file", file);
+	prevfile = g_object_get_data (assistant, "restore-file");
+	g_object_set_data (assistant, "restore-file", file);
 	g_free (prevfile);
 
-	e_config_target_changed ((EConfig *) g_object_get_data ((GObject *)assistant, "restore-config"), E_CONFIG_TARGET_CHANGED_STATE);
+	config = g_object_get_data (assistant, "restore-config");
+
+	e_config_target_changed (
+		config, E_CONFIG_TARGET_CHANGED_STATE);
 }
 
 static gboolean
@@ -308,17 +352,18 @@ backup_restore_check (EConfig *ec,
                       const gchar *pageid,
                       gpointer data)
 {
-	GtkAssistant *assistant = data;
-	gint do_restore;
+	GObject *assistant = data;
+	gboolean do_restore;
 	gchar *file;
 
 	g_return_val_if_fail (data != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_ASSISTANT (data), FALSE);
 
-	do_restore = GPOINTER_TO_INT (g_object_get_data ((GObject *)assistant, "restore"));
-	file = g_object_get_data ((GObject *)assistant, "restore-file");
+	do_restore = (g_object_get_data (assistant, "restore") != NULL);
+	file = g_object_get_data (assistant, "restore-file");
 
-	e_config_set_page_is_finish (ec, "0.startup_page.10.backup_restore", do_restore);
+	e_config_set_page_is_finish (
+		ec, "0.startup_page.10.backup_restore", do_restore);
 
 	return !do_restore || file;
 }
@@ -328,60 +373,81 @@ backup_restore_page (EPlugin *ep,
                      EConfigHookItemFactoryData *hook_data)
 {
 	GtkWidget *page, *hbox, *label, *cbox, *button;
-	GtkAssistant *assistant = GTK_ASSISTANT (hook_data->parent);
+	GObject *assistant = G_OBJECT (hook_data->parent);
 
 	page = gtk_vbox_new (FALSE, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
 
 	hbox = gtk_hbox_new (FALSE, 6);
-	label = gtk_label_new (_("You can restore Evolution from your backup. It can restore all the Mails, Calendars, Tasks, Memos, Contacts. It also restores all your personal settings, mail filters etc."));
-	gtk_label_set_line_wrap ((GtkLabel *) label, TRUE);
-	gtk_label_set_single_line_mode ((GtkLabel *) label, FALSE);
-	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 6);
-	gtk_box_pack_start ((GtkBox *) page, hbox, FALSE, FALSE, 0);
+	label = gtk_label_new (
+		_("You can restore Evolution from your backup. It can restore "
+		  "all the Mails, Calendars, Tasks, Memos, Contacts. It also "
+		  "restores all your personal settings, mail filters etc."));
+	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+	gtk_label_set_single_line_mode (GTK_LABEL (label), FALSE);
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 6);
-	cbox = gtk_check_button_new_with_mnemonic (_("_Restore Evolution from the backup file"));
-	g_signal_connect (cbox, "toggled", G_CALLBACK (check_toggled), assistant);
-	gtk_box_pack_start ((GtkBox *) hbox, cbox, FALSE, FALSE, 6);
-	gtk_box_pack_start ((GtkBox *) page, hbox, FALSE, FALSE, 0);
+	cbox = gtk_check_button_new_with_mnemonic (
+		_("_Restore Evolution from the backup file"));
+	g_signal_connect (
+		cbox, "toggled",
+		G_CALLBACK (check_toggled), assistant);
+	gtk_box_pack_start (GTK_BOX (hbox), cbox, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 6);
 	g_object_set_data ((GObject *)cbox, "box", hbox);
-	label = gtk_label_new (_("Please select an Evolution Archive to restore:"));
-	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 12);
+	label = gtk_label_new (
+		_("Please select an Evolution Archive to restore:"));
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 12);
 
-	button = gtk_file_chooser_button_new (_("Choose a file to restore"), GTK_FILE_CHOOSER_ACTION_OPEN);
-	g_signal_connect (button, "selection-changed", G_CALLBACK (file_changed), assistant);
-	gtk_file_chooser_button_set_width_chars ((GtkFileChooserButton *) button, 20);
-	gtk_box_pack_start ((GtkBox *) hbox, button, FALSE, FALSE, 0);
-	gtk_box_pack_start ((GtkBox *) page, hbox, FALSE, FALSE, 0);
+	button = gtk_file_chooser_button_new (
+		_("Choose a file to restore"),
+		GTK_FILE_CHOOSER_ACTION_OPEN);
+	g_signal_connect (
+		button, "selection-changed",
+		G_CALLBACK (file_changed), assistant);
+	gtk_file_chooser_button_set_width_chars (
+		GTK_FILE_CHOOSER_BUTTON (button), 20);
+	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (page), hbox, FALSE, FALSE, 0);
 	gtk_widget_set_sensitive (hbox, FALSE);
 
-	gtk_assistant_append_page (assistant, page);
-	gtk_assistant_set_page_title (assistant, page, _("Restore from backup"));
+	gtk_assistant_append_page (GTK_ASSISTANT (assistant), page);
+	gtk_assistant_set_page_title (
+		GTK_ASSISTANT (assistant),
+		page, _("Restore from backup"));
 	gtk_widget_show_all (page);
 
-	g_object_set_data ((GObject *)assistant, "restore", GINT_TO_POINTER (FALSE));
-	g_object_set_data ((GObject *)assistant, "restore-config", hook_data->config);
+	g_object_set_data (assistant, "restore", GINT_TO_POINTER (FALSE));
+	g_object_set_data (assistant, "restore-config", hook_data->config);
 
-	e_config_add_page_check (hook_data->config, "0.startup_page.10.backup_restore", backup_restore_check, assistant);
+	e_config_add_page_check (
+		hook_data->config,
+		"0.startup_page.10.backup_restore",
+		backup_restore_check, assistant);
 
 	return GTK_WIDGET (page);
 }
+
 void
 backup_restore_commit (EPlugin *ep,
                        EMConfigTargetAccount *target)
 {
-	GtkWidget *assistant = target->target.config->widget;
-	gboolean state = GPOINTER_TO_INT (g_object_get_data ((GObject *)assistant, "restore")) ? TRUE : FALSE;
-	gchar *file = g_object_get_data ((GObject *)assistant, "restore-file");
+	GObject *assistant;
+	gchar *file;
 
-	if (state) {
-		if (!file || !sanity_check (file)) {
-			e_alert_run_dialog_for_args ((GtkWindow *) assistant,
-						     "org.gnome.backup-restore:invalid-backup",
-						     NULL);
+	assistant = G_OBJECT (target->target.config->widget);
+	file = g_object_get_data (assistant, "restore-file");
+
+	if (g_object_get_data (assistant, "restore") != NULL) {
+		if (file == NULL || !sanity_check (file)) {
+			e_alert_run_dialog_for_args (
+				GTK_WINDOW (assistant),
+				"org.gnome.backup-restore:invalid-backup",
+				NULL);
 		} else {
 			restore (file, TRUE);
 		}

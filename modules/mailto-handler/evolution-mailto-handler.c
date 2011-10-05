@@ -21,9 +21,9 @@
 #endif
 
 #include <glib/gi18n-lib.h>
+#include <libebackend/e-extension.h>
 
 #include <shell/e-shell.h>
-#include <e-util/e-extension.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAILTO_HANDLER \

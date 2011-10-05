@@ -30,15 +30,12 @@
 #include "calendar-view-factory.h"
 #include "calendar-view.h"
 
-
 
 /* Private part of the CalendarViewFactory structure */
 struct _CalendarViewFactoryPrivate {
 	/* Type of views created by this factory */
 	GnomeCalendarViewType view_type;
 };
-
-
 
 static void	calendar_view_factory_finalize	(GObject *object);
 static const gchar *
@@ -98,8 +95,6 @@ calendar_view_factory_finalize (GObject *object)
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (calendar_view_factory_parent_class)->finalize (object);
 }
-
-
 
 /* get_title method for the calendar view factory */
 static const gchar *
@@ -172,8 +167,6 @@ calendar_view_factory_new_view (GalViewFactory *factory,
 	cal_view = calendar_view_new (priv->view_type, name);
 	return GAL_VIEW (cal_view);
 }
-
-
 
 /**
  * calendar_view_factory_construct:

@@ -369,8 +369,10 @@ ecmc_set_value_at (ETableModel *etm,
 				}
 			}
 
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, send_comp ? send_comp : comp,
-					comp_data->client, NULL, NULL, NULL, strip_alarms, FALSE);
+			itip_send_comp (
+				E_CAL_COMPONENT_METHOD_REQUEST,
+				send_comp ? send_comp : comp, comp_data->client,
+				NULL, NULL, NULL, strip_alarms, FALSE);
 
 			if (send_comp)
 				g_object_unref (send_comp);

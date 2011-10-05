@@ -21,9 +21,10 @@
 #endif
 
 #include <glib/gstdio.h>
+#include <libebackend/e-extension.h>
+
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>
-#include <e-util/e-extension.h>
 #include <e-util/e-alert-dialog.h>
 #include <composer/e-msg-composer.h>
 

@@ -138,9 +138,9 @@ struct _GnomeCalendarPrivate {
 enum {
 	PROP_0,
 	PROP_DATE_NAVIGATOR,
-	PROP_VIEW,
 	PROP_MEMO_TABLE,
-	PROP_TASK_TABLE
+	PROP_TASK_TABLE,
+	PROP_VIEW
 };
 
 enum {
@@ -341,12 +341,6 @@ gnome_calendar_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
-		case PROP_VIEW:
-			gnome_calendar_set_view (
-				GNOME_CALENDAR (object),
-				g_value_get_int (value));
-			return;
-
 		case PROP_MEMO_TABLE:
 			gnome_calendar_set_memo_table (
 				GNOME_CALENDAR (object),
@@ -357,6 +351,12 @@ gnome_calendar_set_property (GObject *object,
 			gnome_calendar_set_task_table (
 				GNOME_CALENDAR (object),
 				g_value_get_object (value));
+			return;
+
+		case PROP_VIEW:
+			gnome_calendar_set_view (
+				GNOME_CALENDAR (object),
+				g_value_get_int (value));
 			return;
 	}
 
@@ -376,12 +376,6 @@ gnome_calendar_get_property (GObject *object,
 				GNOME_CALENDAR (object)));
 			return;
 
-		case PROP_VIEW:
-			g_value_set_int (
-				value, gnome_calendar_get_view (
-				GNOME_CALENDAR (object)));
-			return;
-
 		case PROP_MEMO_TABLE:
 			g_value_set_object (
 				value, gnome_calendar_get_memo_table (
@@ -391,6 +385,12 @@ gnome_calendar_get_property (GObject *object,
 		case PROP_TASK_TABLE:
 			g_value_set_object (
 				value, gnome_calendar_get_task_table (
+				GNOME_CALENDAR (object)));
+			return;
+
+		case PROP_VIEW:
+			g_value_set_int (
+				value, gnome_calendar_get_view (
 				GNOME_CALENDAR (object)));
 			return;
 	}
@@ -528,18 +528,6 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_VIEW,
-		g_param_spec_int (
-			"view",
-			"View",
-			NULL,
-			GNOME_CAL_DAY_VIEW,
-			GNOME_CAL_LIST_VIEW,
-			GNOME_CAL_DAY_VIEW,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_MEMO_TABLE,
 		g_param_spec_object (
 			"memo-table",
@@ -556,6 +544,18 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			"Task table",
 			NULL,
 			E_TYPE_TASK_TABLE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_VIEW,
+		g_param_spec_int (
+			"view",
+			"View",
+			NULL,
+			GNOME_CAL_DAY_VIEW,
+			GNOME_CAL_LIST_VIEW,
+			GNOME_CAL_DAY_VIEW,
 			G_PARAM_READWRITE));
 
 	signals[DATES_SHOWN_CHANGED] =

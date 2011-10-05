@@ -300,7 +300,7 @@ action_mail_copy_cb (GtkAction *action,
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
-	model = em_folder_tree_model_get_default (backend);
+	model = em_folder_tree_model_get_default ();
 
 	dialog = em_folder_selector_new (
 		window, backend, model,
@@ -479,8 +479,8 @@ action_mail_flag_for_followup_cb (GtkAction *action,
 	em_utils_flag_for_followup (reader, folder, uids);
 }
 
-static void
-check_close_browser_reader (EMailReader *reader)
+static gboolean
+get_close_browser_reader (EMailReader *reader)
 {
 	GConfClient *client;
 	const gchar *key;
@@ -489,7 +489,7 @@ check_close_browser_reader (EMailReader *reader)
 
 	/* only allow closing of a mail browser and nothing else */
 	if (!E_IS_MAIL_BROWSER (reader))
-		return;
+		return FALSE;
 
 	client = gconf_client_get_default ();
 
@@ -529,11 +529,16 @@ check_close_browser_reader (EMailReader *reader)
 	}
 
 	g_free (value);
-
-	if (close_it)
-		gtk_widget_destroy (GTK_WIDGET (reader));
-
 	g_object_unref (client);
+
+	return close_it;
+}
+
+static void
+check_close_browser_reader (EMailReader *reader)
+{
+	if (get_close_browser_reader (reader))
+		gtk_widget_destroy (GTK_WIDGET (reader));
 }
 
 static void
@@ -543,11 +548,13 @@ action_mail_forward_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
+	gboolean close_reader;
 
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
+	close_reader = get_close_browser_reader (reader);
 
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
@@ -556,11 +563,10 @@ action_mail_forward_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
-			e_mail_reader_get_forward_style (reader));
+			e_mail_reader_get_forward_style (reader),
+			close_reader ? GTK_WIDGET (reader) : NULL);
 
 	g_ptr_array_unref (uids);
-
-	check_close_browser_reader (reader);
 }
 
 static void
@@ -570,11 +576,13 @@ action_mail_forward_attached_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
+	gboolean close_reader;
 
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
+	close_reader = get_close_browser_reader (reader);
 
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
@@ -583,11 +591,10 @@ action_mail_forward_attached_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
-			E_MAIL_FORWARD_STYLE_ATTACHED);
+			E_MAIL_FORWARD_STYLE_ATTACHED,
+			close_reader ? GTK_WIDGET (reader) : NULL);
 
 	g_ptr_array_unref (uids);
-
-	check_close_browser_reader (reader);
 }
 
 static void
@@ -597,11 +604,13 @@ action_mail_forward_inline_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
+	gboolean close_reader;
 
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
+	close_reader = get_close_browser_reader (reader);
 
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
@@ -610,11 +619,10 @@ action_mail_forward_inline_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
-			E_MAIL_FORWARD_STYLE_INLINE);
+			E_MAIL_FORWARD_STYLE_INLINE,
+			close_reader ? GTK_WIDGET (reader) : NULL);
 
 	g_ptr_array_unref (uids);
-
-	check_close_browser_reader (reader);
 }
 
 static void
@@ -624,11 +632,16 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
+<<<<<<< HEAD
+=======
+	gboolean close_reader;
+>>>>>>> master
 
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
+	close_reader = get_close_browser_reader (reader);
 
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
@@ -637,11 +650,16 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	if (em_utils_ask_open_many (window, uids->len))
 		em_utils_forward_messages (
 			reader, folder, uids,
+<<<<<<< HEAD
 			E_MAIL_FORWARD_STYLE_QUOTED);
 
 	g_ptr_array_unref (uids);
+=======
+			E_MAIL_FORWARD_STYLE_QUOTED,
+			close_reader ? GTK_WIDGET (reader) : NULL);
+>>>>>>> master
 
-	check_close_browser_reader (reader);
+	g_ptr_array_unref (uids);
 }
 
 static void
@@ -732,7 +750,11 @@ action_mail_mark_unread_cb (GtkAction *action,
 
 	/* Notify the tree model that the user has marked messages as
 	 * unread so it doesn't mistake the event as new mail arriving. */
+<<<<<<< HEAD
 	model = em_folder_tree_model_get_default (e_mail_reader_get_backend (reader));
+=======
+	model = em_folder_tree_model_get_default ();
+>>>>>>> master
 	folder = e_mail_reader_get_folder (reader);
 	em_folder_tree_model_user_marked_unread (model, folder, n_marked);
 }
@@ -752,10 +774,17 @@ action_mail_message_edit_cb (GtkAction *action,
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
 	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
+<<<<<<< HEAD
 
 	replace = em_utils_folder_is_drafts (folder);
 	em_utils_edit_messages (reader, folder, uids, replace);
 
+=======
+
+	replace = em_utils_folder_is_drafts (folder);
+	em_utils_edit_messages (reader, folder, uids, replace);
+
+>>>>>>> master
 	g_ptr_array_unref (uids);
 }
 
@@ -806,7 +835,11 @@ action_mail_move_cb (GtkAction *action,
 	uids = e_mail_reader_get_selected_uids (reader);
 	window = e_mail_reader_get_window (reader);
 
+<<<<<<< HEAD
 	model = em_folder_tree_model_get_default (backend);
+=======
+	model = em_folder_tree_model_get_default ();
+>>>>>>> master
 
 	dialog = em_folder_selector_new (
 		window, backend, model,
@@ -1126,11 +1159,19 @@ action_mail_reply_all_check (CamelFolder *folder,
 	gint recip_count = 0;
 	EMailReplyType type = E_MAIL_REPLY_TO_ALL;
 	GError *error = NULL;
+<<<<<<< HEAD
 
 	alert_sink = e_activity_get_alert_sink (closure->activity);
 
 	message = camel_folder_get_message_finish (folder, result, &error);
 
+=======
+
+	alert_sink = e_activity_get_alert_sink (closure->activity);
+
+	message = camel_folder_get_message_finish (folder, result, &error);
+
+>>>>>>> master
 	if (e_activity_handle_cancellation (closure->activity, error)) {
 		g_warn_if_fail (message == NULL);
 		mail_reader_closure_free (closure);
@@ -1311,6 +1352,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (closure->activity);
+<<<<<<< HEAD
 
 	message = camel_folder_get_message_finish (folder, result, &error);
 
@@ -1320,6 +1362,17 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		g_error_free (error);
 		return;
 
+=======
+
+	message = camel_folder_get_message_finish (folder, result, &error);
+
+	if (e_activity_handle_cancellation (closure->activity, error)) {
+		g_warn_if_fail (message == NULL);
+		mail_reader_closure_free (closure);
+		g_error_free (error);
+		return;
+
+>>>>>>> master
 	} else if (error != NULL) {
 		g_warn_if_fail (message == NULL);
 		e_alert_submit (

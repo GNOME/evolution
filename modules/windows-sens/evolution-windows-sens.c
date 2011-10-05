@@ -32,6 +32,8 @@
 #include <eventsys.h>
 #else
 
+#include <libebackend/e-extension.h>
+
 /* Extract relevant typedefs from mingw-w64 headers */
 
 typedef struct IEnumEventObject IEnumEventObject;
@@ -195,7 +197,6 @@ struct ISensNetwork {
 #endif
 
 #include <shell/e-shell.h>
-#include <e-util/e-extension.h>
 
 /* 4E14FB9F-2E22-11D1-9964-00C04FBBB345 */
 DEFINE_GUID (IID_IEventSystem, 0x4E14FB9F, 0x2E22, 0x11D1, 0x99, 0x64, 0x00, 0xC0, 0x4F, 0xBB, 0xB3, 0x45);

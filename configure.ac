@@ -35,7 +35,7 @@ dnl Automake 1.11 - Silent Build Rules
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 dnl Required Packages
-m4_define([glib_minimum_version], [2.28])
+m4_define([glib_minimum_version], [2.30])
 m4_define([gtk_minimum_version], [3.0.2])
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gtkhtml_minimum_version], [4.1.2])
@@ -257,11 +257,14 @@ AC_SUBST(GNOME_PLATFORM_CFLAGS)
 AC_SUBST(GNOME_PLATFORM_LIBS)
 
 PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
-	[libebook-1.2 >= eds_minimum_version
+	[camel-1.2 >= eds_minimum_version
+	 libebook-1.2 >= eds_minimum_version
 	 libecal-1.2 >= eds_minimum_version
 	 libedataserver-1.2 >= eds_minimum_version
 	 libedataserverui-3.0 >= eds_minimum_version
 	 libebackend-1.2 >= eds_minimum_version])
+AC_SUBST(EVOLUTION_DATA_SERVER_CFLAGS)
+AC_SUBST(EVOLUTION_DATA_SERVER_LIBS)
 
 dnl ******************************
 dnl Canberra / Canberra-GTK Sound
@@ -686,7 +689,9 @@ dnl *************************
 dnl GTKHTML check
 dnl XXX Drop the version from the package name?
 dnl *************************
-PKG_CHECK_MODULES([GTKHTML], [libgtkhtml-4.0 >= gtkhtml_minimum_version])
+PKG_CHECK_MODULES([GTKHTML],
+	[libgtkhtml-4.0 >= gtkhtml_minimum_version
+	 gtkhtml-editor-4.0])
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
 
@@ -1195,17 +1200,6 @@ if test "x$enable_nm$enable_connman" = "xyesyes"; then
 fi
 AM_CONDITIONAL([ENABLE_CONNMAN], [test "$enable_connman" = yes])
 
-dnl ******************************
-dnl Camel Flags
-dnl ******************************
-EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-1.2, $MANUAL_NSS_CFLAGS, $MOXILLA_NSS_CFLAGS)
-AC_SUBST(CAMEL_CFLAGS)
-AC_SUBST(CAMEL_LIBS)
-
-EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, camel-provider-1.2 libedataserver-1.2)
-AC_SUBST(CAMEL_GROUPWISE_CFLAGS)
-AC_SUBST(CAMEL_GROUPWISE_LIBS)
-
 if test "x$mozilla_nss" != "x"; then
 	EVO_SET_COMPILE_FLAGS(MOZILLA_NSS, $mozilla_nss)
 	MOZILLA_L_DIR=`${PKG_CONFIG} --libs-only-L $mozilla_nss`
@@ -1225,63 +1219,10 @@ dnl (which are dragged in through libedataserverui), as both
 dnl gnutls and mozilla-nss have a header called "pkcs12.h" which is
 dnl included in smime/lib/e-pkcs12.c. It wants the Mozilla NSS one.
 dnl
-EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-3.0)
-CERT_UI_CFLAGS="$MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS $CERT_UI_CFLAGS"
-CERT_UI_LIBS="$MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS $CERT_UI_LIBS"
+CERT_UI_CFLAGS="$MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS"
+CERT_UI_LIBS="$MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS"
 AC_SUBST(CERT_UI_CFLAGS)
 AC_SUBST(CERT_UI_LIBS)
-
-dnl ************
-dnl E_UTIL Flags
-dnl ************
-EVO_SET_COMPILE_FLAGS(E_UTIL, libedataserverui-3.0 camel-provider-1.2 $mozilla_nspr, $MANUAL_NSPR_CFLAGS $MANUAL_NSPR_LIBS)
-AC_SUBST(E_UTIL_CFLAGS)
-AC_SUBST(E_UTIL_LIBS)
-
-E_UTIL_LIBS="$E_UTIL_LIBS $MATH_LIB"
-
-dnl **************
-dnl TZDIALOG Flags
-dnl **************
-EVO_SET_COMPILE_FLAGS(TZDIALOG, libecal-1.2 camel-1.2)
-AC_SUBST(TZDIALOG_CFLAGS)
-AC_SUBST(TZDIALOG_LIBS)
-
-dnl ***************
-dnl E_WIDGETS Flags
-dnl ***************
-EVO_SET_COMPILE_FLAGS(E_WIDGETS, libedataserverui-3.0 gtkhtml-editor-4.0)
-AC_SUBST(E_WIDGETS_CFLAGS)
-AC_SUBST(E_WIDGETS_LIBS)
-
-dnl ***************
-dnl IMPORTERS Flags
-dnl ***************
-EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-3.0 camel-provider-1.2 libebook-1.2)
-AC_SUBST(IMPORTERS_CFLAGS)
-AC_SUBST(IMPORTERS_LIBS)
-
-dnl ***************
-dnl LIBFILTER Flags
-dnl ***************
-EVO_SET_COMPILE_FLAGS(LIBFILTER, libedataserver-1.2 camel-1.2)
-AC_SUBST(LIBFILTER_CFLAGS)
-AC_SUBST(LIBFILTER_LIBS)
-
-dnl ***********
-dnl Shell Flags
-dnl ***********
-EVO_SET_COMPILE_FLAGS(SHELL, libgtkhtml-4.0 libedataserverui-3.0)
-AC_SUBST(SHELL_CFLAGS)
-AC_SUBST(SHELL_LIBS)
-
-dnl *****************
-dnl Addressbook Flags
-dnl *****************
-EVOLUTION_ADDRESSBOOK_DEPS="libgtkhtml-4.0 libebook-1.2 libedataserverui-3.0 camel-1.2 gtkhtml-editor-4.0"
-EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
-AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
-AC_SUBST(EVOLUTION_ADDRESSBOOK_LIBS)
 
 dnl ***************
 dnl Libnotify Flags
@@ -1305,11 +1246,11 @@ fi
 dnl **************
 dnl Calendar Flags
 dnl **************
-EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-gnome-2.4 >= libsoup_minimum_version)
+PKG_CHECK_MODULES([LIBSOUP], [libsoup-gnome-2.4 >= libsoup_minimum_version])
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(GDATA, libgdata >= 0.7.0)
+PKG_CHECK_MODULES([GDATA], [libgdata >= 0.7.0])
 AC_SUBST(GDATA_CFLAGS)
 AC_SUBST(GDATA_LIBS)
 
@@ -1317,16 +1258,12 @@ if `$PKG_CONFIG --atleast-version=0.9 libgdata`; then
 	AC_DEFINE(HAVE_LIBGDATA_0_9,1,[libgdata is 0.9 or higher])
 fi
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-4.0 libebook-1.2 libecal-1.2 libedataserverui-3.0 libebackend-1.2 $libnotify gtkhtml-editor-4.0)
-AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
-AC_SUBST(EVOLUTION_CALENDAR_LIBS)
-
 dnl ****************************
 dnl Check for ical_set_unknown_token_handling_setting function
 dnl ****************************
 AC_MSG_CHECKING([ical_set_unknown_token_handling_setting function])
-save_cflags=$CFLAGS; CFLAGS=$EVOLUTION_CALENDAR_CFLAGS
-save_libs=$LIBS; LIBS="$EVOLUTION_CALENDAR_LIBS"
+save_cflags=$CFLAGS; CFLAGS="$EVOLUTION_DATA_SERVER_CFLAGS"
+save_libs=$LIBS; LIBS="$EVOLUTION_DATA_SERVER_LIBS"
 AC_LINK_IFELSE([AC_LANG_PROGRAM(
 	[[#include <libical/ical.h>]],
 	[[ical_set_unknown_token_handling_setting (ICAL_DISCARD_TOKEN)]])],
@@ -1334,19 +1271,6 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM(
 CFLAGS=$save_cflags
 LIBS=$save_libs
 AC_MSG_RESULT([$ac_cv_have_iuth])
-
-dnl **********
-dnl Mail Flags
-dnl **********
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-1.2 libgtkhtml-4.0 gtkhtml-editor-4.0 $mozilla_nss libebook-1.2 libedataserverui-3.0)
-AC_SUBST(EVOLUTION_MAIL_CFLAGS)
-AC_SUBST(EVOLUTION_MAIL_LIBS)
-
-dnl ***************************
-dnl Evolution-Data-Server Flags
-dnl ***************************
-DATASERVER_EXEC_VERSION=`${PKG_CONFIG} --variable=execversion evolution-data-server-1.2`
-AC_SUBST(DATASERVER_EXEC_VERSION)
 
 dnl *****************
 dnl EggSMClient Flags

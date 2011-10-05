@@ -67,10 +67,10 @@ libevolution_calendar_la_CPPFLAGS =			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DPREFIX=\""$(prefix)"\"			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(LIBSOUP_CFLAGS)				\
-	$(EVOLUTION_CALENDAR_CFLAGS)			\
-	$(CAMEL_CFLAGS)
+	$(GTKHTML_CFLAGS)				\
+	$(LIBSOUP_CFLAGS)
 
 etspec_DATA =				\
 	e-calendar-table.etspec		\
@@ -213,10 +213,10 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/widgets/table/libetable.la			\
 	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/e-util/libeutil.la				\
-	$(CAMEL_LIBS)							\
-	$(LIBSOUP_LIBS)							\
-	$(EVOLUTION_CALENDAR_LIBS)					\
-	$(GNOME_PLATFORM_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)						\
+	$(GTKHTML_LIBS)							\
+	$(LIBSOUP_LIBS)
 
 libevolution_calendar_la_LDFLAGS = $(NO_UNDEFINED)
 

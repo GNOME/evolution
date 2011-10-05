@@ -30,11 +30,11 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
+#include <libebackend/e-extensible.h>
 #include <libedataserver/e-time-utils.h>
 #include <libedataserverui/e-client-utils.h>
 #include <e-util/e-util.h>
 #include <e-util/e-alert-dialog.h>
-#include <e-util/e-extensible.h>
 #include <e-util/e-selection.h>
 #include <e-util/e-datetime-format.h>
 #include <e-util/e-dialog-utils.h>
@@ -218,12 +218,15 @@ calendar_view_delete_event (ECalendarView *cal_view,
 		const gchar *uid;
 		gchar *rid = NULL;
 
-		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp, event->comp_data->client))
+		if ((itip_organizer_is_user (comp, event->comp_data->client) ||
+		     itip_sentby_is_user (comp, event->comp_data->client))
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 						event->comp_data->client,
 						comp, TRUE))
-			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
-					event->comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
+			itip_send_comp (
+				E_CAL_COMPONENT_METHOD_CANCEL,
+				comp, event->comp_data->client, NULL, NULL,
+				NULL, TRUE, FALSE);
 
 		e_cal_component_get_uid (comp, &uid);
 		if (!uid || !*uid) {
@@ -473,11 +476,14 @@ calendar_view_cut_clipboard (ESelectable *selectable)
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp, event->comp_data->client))
+		if ((itip_organizer_is_user (comp, event->comp_data->client) ||
+		     itip_sentby_is_user (comp, event->comp_data->client))
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 						event->comp_data->client, comp, TRUE))
-			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
-					event->comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
+			itip_send_comp (
+				E_CAL_COMPONENT_METHOD_CANCEL,
+				comp, event->comp_data->client, NULL, NULL,
+				NULL, TRUE, FALSE);
 
 		e_cal_component_get_uid (comp, &uid);
 		if (e_cal_component_is_instance (comp)) {
@@ -1058,11 +1064,16 @@ e_calendar_view_add_event (ECalendarView *cal_view,
 			g_free (uid);
 		}
 
-		if ((itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) &&
-		    send_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
-					   client, comp, TRUE, &strip_alarms, NULL)) {
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp,
-				client, NULL, NULL, NULL, strip_alarms, FALSE);
+		if ((itip_organizer_is_user (comp, client) ||
+		     itip_sentby_is_user (comp, client)) &&
+			send_component_dialog (
+				(GtkWindow *) gtk_widget_get_toplevel (
+					GTK_WIDGET (cal_view)),
+				client, comp, TRUE, &strip_alarms, NULL)) {
+			itip_send_comp (
+				E_CAL_COMPONENT_METHOD_REQUEST,
+				comp, client, NULL, NULL, NULL, strip_alarms,
+				FALSE);
 		}
 	} else {
 		g_message (G_STRLOC ": Could not create the object! %s", error ? error->message : "");
@@ -1339,7 +1350,8 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 
 		e_cal_component_free_datetime (&dt);
 
-		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp, event->comp_data->client))
+		if ((itip_organizer_is_user (comp, event->comp_data->client) ||
+		     itip_sentby_is_user (comp, event->comp_data->client))
 				&& cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 					event->comp_data->client,
 					comp, TRUE) && !e_cal_client_check_save_schedules (event->comp_data->client)) {
@@ -1354,7 +1366,11 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 
 				e_cal_component_free_datetime (&range.datetime);
 			}
-			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, event->comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
+
+			itip_send_comp (
+				E_CAL_COMPONENT_METHOD_CANCEL,
+				comp, event->comp_data->client, NULL, NULL,
+				NULL, TRUE, FALSE);
 		}
 
 		if (is_instance)
@@ -1437,8 +1453,14 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 
 	if (e_client_is_readonly (E_CLIENT (default_client))) {
 		GtkWidget *widget;
+		ESource *source;
 
-		widget = e_alert_dialog_new_for_args (parent, "calendar:prompt-read-only-cal", e_source_peek_name (e_client_get_source (E_CLIENT (default_client))), NULL);
+		source = e_client_get_source (E_CLIENT (default_client));
+
+		widget = e_alert_dialog_new_for_args (
+			parent, "calendar:prompt-read-only-cal",
+			e_source_peek_name (source),
+			NULL);
 
 		g_signal_connect ((GtkDialog *)widget, "response", G_CALLBACK (gtk_widget_destroy),
 				  widget);
@@ -1653,7 +1675,9 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 		ECalComponent *comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
 		flags |= COMP_EDITOR_MEETING;
-		if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client) || !e_cal_component_has_attendees (comp))
+		if (itip_organizer_is_user (comp, client) ||
+		    itip_sentby_is_user (comp, client) ||
+		    !e_cal_component_has_attendees (comp))
 			flags |= COMP_EDITOR_USER_ORG;
 		g_object_unref (comp);
 	}
@@ -1662,7 +1686,8 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 }
 
 void
-e_calendar_view_modify_and_send (ECalComponent *comp,
+e_calendar_view_modify_and_send (ECalendarView *cal_view,
+                                 ECalComponent *comp,
                                  ECalClient *client,
                                  CalObjModType mod,
                                  GtkWindow *toplevel,
@@ -1671,12 +1696,15 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 	gboolean only_new_attendees = FALSE;
 	GError *error = NULL;
 
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
 	e_cal_component_commit_sequence (comp);
 
 	if (e_cal_client_modify_object_sync (client, e_cal_component_get_icalcomponent (comp), mod, NULL, &error)) {
 		gboolean strip_alarms = TRUE;
 
-		if ((itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) &&
+		if ((itip_organizer_is_user (comp, client) ||
+		     itip_sentby_is_user (comp, client)) &&
 		    send_component_dialog (toplevel, client, comp, new, &strip_alarms, &only_new_attendees)) {
 			ECalComponent *send_comp = NULL;
 
@@ -1699,7 +1727,10 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 				}
 			}
 
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, send_comp ? send_comp : comp, client, NULL, NULL, NULL, strip_alarms, only_new_attendees);
+			itip_send_comp (
+				E_CAL_COMPONENT_METHOD_REQUEST,
+				send_comp ? send_comp : comp, client, NULL,
+				NULL, NULL, strip_alarms, only_new_attendees);
 
 			if (send_comp)
 				g_object_unref (send_comp);
@@ -1784,84 +1815,6 @@ e_calendar_view_move_tip (GtkWidget *widget,
 	gtk_widget_show (widget);
 }
 
-/**
- * Returns information about attendees in the component. If no attendees, then returns NULL.
- * The information is like "Status: Accepted: X   Declined: Y  ...".
- * Free returned pointer with g_free.
- **/
-gchar *
-e_calendar_view_get_attendees_status_info (ECalComponent *comp,
-                                           ECalClient *client)
-{
-	struct _values {
-		icalparameter_partstat status;
-		const gchar *caption;
-		gint count;
-	} values[] = {
-		{ ICAL_PARTSTAT_ACCEPTED,    N_("Accepted"),     0 },
-		{ ICAL_PARTSTAT_DECLINED,    N_("Declined"),     0 },
-		{ ICAL_PARTSTAT_TENTATIVE,   N_("Tentative"),    0 },
-		{ ICAL_PARTSTAT_DELEGATED,   N_("Delegated"),    0 },
-		{ ICAL_PARTSTAT_NEEDSACTION, N_("Needs action"), 0 },
-		{ ICAL_PARTSTAT_NONE,        N_("Other"),        0 },
-		{ ICAL_PARTSTAT_X,           NULL,              -1 }
-	};
-
-	GSList *attendees = NULL, *a;
-	gboolean have = FALSE;
-	gchar *res = NULL;
-	gint i;
-
-	if (!comp || !e_cal_component_has_attendees (comp) || !itip_organizer_is_user_ex (comp, client, TRUE))
-		return NULL;
-
-	e_cal_component_get_attendee_list (comp, &attendees);
-
-	for (a = attendees; a; a = a->next) {
-		ECalComponentAttendee *att = a->data;
-
-		if (att && att->cutype == ICAL_CUTYPE_INDIVIDUAL &&
-		    (att->role == ICAL_ROLE_CHAIR ||
-		     att->role == ICAL_ROLE_REQPARTICIPANT ||
-		     att->role == ICAL_ROLE_OPTPARTICIPANT)) {
-			have = TRUE;
-
-			for (i = 0; values[i].count != -1; i++) {
-				if (att->status == values[i].status || values[i].status == ICAL_PARTSTAT_NONE) {
-					values[i].count++;
-					break;
-				}
-			}
-		}
-	}
-
-	if (have) {
-		GString *str = g_string_new ("");
-
-		for (i = 0; values[i].count != -1; i++) {
-			if (values[i].count > 0) {
-				if (str->str && *str->str)
-					g_string_append (str, "   ");
-
-				g_string_append_printf (str, "%s: %d", _(values[i].caption), values[i].count);
-			}
-		}
-
-		g_string_prepend (str, ": ");
-
-		/* To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
-		 * Status: Accepted: X   Declined: Y   ... */
-		g_string_prepend (str, _("Status"));
-
-		res = g_string_free (str, FALSE);
-	}
-
-	if (attendees)
-		e_cal_component_free_attendee_list (attendees);
-
-	return res;
-}
-
 /*
  * It is expected to show the tooltips in this below format
  *
@@ -1873,7 +1826,8 @@ e_calendar_view_get_attendees_status_info (ECalComponent *comp,
  */
 
 gboolean
-e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
+e_calendar_view_get_tooltips (ECalendarView *cal_view,
+                              const ECalendarViewEventData *data)
 {
 	GtkWidget *label, *box, *hbox, *ebox, *frame;
 	const gchar *str;
@@ -1888,8 +1842,13 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	GdkWindow *window;
 	ECalComponent *newcomp = e_cal_component_new ();
 	icaltimezone *zone, *default_zone;
+	ECalModel *model;
 	ECalClient *client = NULL;
 	gboolean free_text = FALSE;
+
+	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), FALSE);
+
+	model = e_calendar_view_get_model (cal_view);
 
 	/* Delete any stray tooltip if left */
 	if (widget)
@@ -2023,7 +1982,8 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	g_free (tmp2);
 	g_free (tmp1);
 
-	tmp = e_calendar_view_get_attendees_status_info (newcomp, pevent->comp_data->client);
+	tmp = e_cal_model_get_attendees_status_info (
+		model, newcomp, pevent->comp_data->client);
 	if (tmp) {
 		hbox = gtk_hbox_new (FALSE, 0);
 		gtk_box_pack_start ((GtkBox *) hbox, gtk_label_new (tmp), FALSE, FALSE, 0);

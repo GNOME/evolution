@@ -50,11 +50,13 @@ DOC_PAGES = \
 	calendar-using-several-calendars.page \
 	calendar-weather.page \
 	calendar-webdav.page \
+	change-keyboard-shortcuts.page \
 	change-switcher-appearance.page \
 	contacts-add-automatically.page \
 	contacts-autocompletion.page \
 	contacts-google.page \
 	contacts-ldap.page \
+	contacts-libreoffice.page \
 	contacts-local.page \
 	contacts-organizing.page \
 	contacts-searching.page \
@@ -149,9 +151,6 @@ DOC_PAGES = \
 	mail-encryption.page \
 	mail-encryption-s-mime-manage.page \
 	mail-encryption-s-mime-signing-encrypting.page \
-	mail-error-failed-to-append-to-sent-folder.page \
-	mail-error-folder-mismatch.page \
-	mail-error-no-provider-available.page \
 	mail-filters-actions.page \
 	mail-filters-conditions.page \
 	mail-filters-not-working.page \
@@ -169,6 +168,7 @@ DOC_PAGES = \
 	mail-read-receipts.page \
 	mail-received-notification.page \
 	mail-receiving-options-evolution-exchange.page \
+	mail-receiving-options-exchange-ews.page \
 	mail-receiving-options-exchange-mapi.page \
 	mail-receiving-options-imap.page \
 	mail-receiving-options-imap-plus.page \

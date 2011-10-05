@@ -39,8 +39,8 @@
 #include <glib/gstdio.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include "e-util/e-marshal.h"
-#include "e-util/e-util.h"
+#include <e-util/e-marshal.h>
+#include <e-util/e-util.h>
 
 #include "mail-mt.h"
 #include "mail-folder-cache.h"

@@ -23,7 +23,7 @@
 
 #include <libedataserver/e-account.h>
 
-#include "e-composer-text-header.h"
+#include <composer/e-composer-text-header.h>
 
 /* Standard GObject macros */
 #define E_TYPE_COMPOSER_POST_HEADER \

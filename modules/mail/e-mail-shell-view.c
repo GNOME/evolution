@@ -868,7 +868,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	state = e_shell_sidebar_check_state (shell_sidebar);
 
-	model = em_folder_tree_model_get_default (e_mail_reader_get_backend (reader));
+	model = em_folder_tree_model_get_default ();
 
 	folder_allows_children =
 		(state & E_MAIL_SIDEBAR_FOLDER_ALLOWS_CHILDREN);

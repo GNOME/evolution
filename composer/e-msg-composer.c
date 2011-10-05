@@ -128,6 +128,8 @@ static void	handle_multipart_signed		(EMsgComposer *composer,
 
 static void	e_msg_composer_alert_sink_init	(EAlertSinkInterface *interface);
 
+gboolean 	check_blacklisted_file		(gchar *filename);
+
 G_DEFINE_TYPE_WITH_CODE (
 	EMsgComposer,
 	e_msg_composer,
@@ -522,6 +524,7 @@ build_message_headers (EMsgComposer *composer,
 	if (account != NULL) {
 		CamelMedium *medium;
 		CamelInternetAddress *addr;
+		const gchar *header_name;
 		const gchar *name = account->id->name;
 		const gchar *address = account->id->address;
 		gchar *transport_uid;
@@ -542,18 +545,18 @@ build_message_headers (EMsgComposer *composer,
 		g_object_unref (addr);
 
 		/* X-Evolution-Account */
-		camel_medium_set_header (
-			medium, "X-Evolution-Account", account->uid);
+		header_name = "X-Evolution-Account";
+		camel_medium_set_header (medium, header_name, account->uid);
 
 		/* X-Evolution-Fcc */
-		camel_medium_set_header (
-			medium, "X-Evolution-Fcc", account->sent_folder_uri);
+		header_name = "X-Evolution-Fcc";
+		camel_medium_set_header (medium, header_name, account->sent_folder_uri);
 
 		/* X-Evolution-Transport */
+		header_name = "X-Evolution-Transport";
 		transport_uid = g_strconcat (
 			account->uid, "-transport", NULL);
-		camel_medium_set_header (
-			medium, "X-Evolution-Transport", transport_uid);
+		camel_medium_set_header (medium, header_name, transport_uid);
 		g_free (transport_uid);
 	}
 
@@ -1102,7 +1105,8 @@ composer_build_message (EMsgComposer *composer,
 	/* Disposition-Notification-To */
 	if (flags & COMPOSER_FLAG_REQUEST_READ_RECEIPT) {
 		gchar *mdn_address = account->id->reply_to;
-		if (!mdn_address || !*mdn_address)
+
+		if (mdn_address == NULL || *mdn_address == '\0')
 			mdn_address = account->id->address;
 
 		camel_medium_add_header (
@@ -1501,7 +1505,8 @@ is_top_signature (EMsgComposer *composer)
 	shell = e_msg_composer_get_shell (composer);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	return e_shell_settings_get_boolean (shell_settings, "composer-top-signature");
+	return e_shell_settings_get_boolean (
+		shell_settings, "composer-top-signature");
 }
 
 static gboolean
@@ -4003,6 +4008,28 @@ merge_always_cc_and_bcc (EComposerHeaderTable *table,
 	e_destination_freev (addrv);
 }
 
+static const gchar *blacklisted_files [] = {".", "etc", ".."};
+
+gboolean check_blacklisted_file (gchar *filename)
+{
+	gboolean blacklisted = FALSE;
+	gint i,j,len;
+	gchar **filename_part;
+
+	filename_part = g_strsplit (filename, G_DIR_SEPARATOR_S, -1);
+	len = g_strv_length(filename_part);
+	for(i = 0; !blacklisted && i < G_N_ELEMENTS(blacklisted_files); i++)
+	{
+		for (j = 0; !blacklisted && j < len;j++)
+			if (g_str_has_prefix (filename_part[j], blacklisted_files[i]))
+				blacklisted = TRUE;
+	}
+
+	g_strfreev(filename_part);
+	
+	return blacklisted;
+}
+
 static void
 handle_mailto (EMsgComposer *composer,
                const gchar *mailto)
@@ -4094,8 +4121,14 @@ handle_mailto (EMsgComposer *composer,
 			} else if (!g_ascii_strcasecmp (header, "attach") ||
 				   !g_ascii_strcasecmp (header, "attachment")) {
 				EAttachment *attachment;
+				gboolean check = FALSE;
 
 				camel_url_decode (content);
+				check = check_blacklisted_file(content);
+				if(check)
+					e_alert_submit (
+		                        	E_ALERT_SINK (composer),
+                			        "mail:blacklisted-file", content, NULL);
 				if (g_ascii_strncasecmp (content, "file:", 5) == 0)
 					attachment = e_attachment_new_for_uri (content);
 				else

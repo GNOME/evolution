@@ -51,8 +51,8 @@ expand_content_files=
 GTKDOC_CFLAGS= \
 	-I$(top_builddir)						\
 	-I$(top_srcdir)							\
-	$(SHELL_CFLAGS)							\
-	$(EVOLUTION_DATA_SERVER_CFLAGS)
+	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
+	$(GTKHTML_CFLAGS)
 GTKDOC_LIBS=								\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/e-util/libeutil.la				\
@@ -61,8 +61,8 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/smclient/libeggdesktopfile.la			\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
-	$(SHELL_LIBS)							\
-	$(EVOLUTION_DATA_SERVER_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)					\
+	$(GTKHTML_LIBS)
 
 # This includes the standard gtk-doc make rules, copied by gtkdocize.
 include $(top_srcdir)/gtk-doc.make

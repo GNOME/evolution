@@ -28,14 +28,21 @@
 
 G_BEGIN_DECLS
 
-GSList *	eab_contact_list_from_string		(const gchar *str);
-gchar *		eab_contact_list_to_string		(const GSList *contacts);
+GSList *	eab_contact_list_from_string	(const gchar *str);
+gchar *		eab_contact_list_to_string	(const GSList *contacts);
 
-gboolean	eab_book_and_contact_list_from_string	(const gchar *str, EBookClient **book_client, GSList **contacts);
-gchar *		eab_book_and_contact_list_to_string	(EBookClient *book_client, const GSList *contacts);
-
-gint		e_utf8_casefold_collate_len		(const gchar *str1, const gchar *str2, gint len);
-gint		e_utf8_casefold_collate			(const gchar *str1, const gchar *str2);
+gboolean	eab_book_and_contact_list_from_string
+						(const gchar *str,
+						 EBookClient **book_client,
+						 GSList **contacts);
+gchar *		eab_book_and_contact_list_to_string
+						(EBookClient *book_client,
+						 const GSList *contacts);
+gint		e_utf8_casefold_collate_len	(const gchar *str1,
+						 const gchar *str2,
+						 gint len);
+gint		e_utf8_casefold_collate		(const gchar *str1,
+						 const gchar *str2);
 
 G_END_DECLS
 

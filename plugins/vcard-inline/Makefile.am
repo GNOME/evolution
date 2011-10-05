@@ -15,23 +15,23 @@ liborg_gnome_vcard_inline_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
-	$(EVOLUTION_MAIL_CFLAGS)
+	$(GTKHTML_CFLAGS)
 
 liborg_gnome_vcard_inline_la_SOURCES = vcard-inline.c
 
 liborg_gnome_vcard_inline_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
-liborg_gnome_vcard_inline_la_LIBADD =	\
-	$(top_builddir)/mail/libevolution-mail.la		\
-	$(top_builddir)/addressbook/util/libeabutil.la		\
-	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la		\
-	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la		\
-	$(top_builddir)/addressbook/printing/libecontactprint.la		\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
-	$(EVOLUTION_MAIL_LIBS)					\
-	$(GNOME_PLATFORM_LIBS)
+liborg_gnome_vcard_inline_la_LIBADD =					\
+	$(top_builddir)/mail/libevolution-mail.la			\
+	$(top_builddir)/addressbook/util/libeabutil.la			\
+	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la	\
+	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la	\
+	$(top_builddir)/addressbook/printing/libecontactprint.la	\
+	$(EVOLUTION_DATA_SERVER_LIBS)					\
+	$(GNOME_PLATFORM_LIBS)						\
+	$(GTKHTML_LIBS)
 
 EXTRA_DIST = org-gnome-vcard-inline.eplug.xml
 

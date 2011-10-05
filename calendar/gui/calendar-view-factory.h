@@ -31,8 +31,6 @@
 
 G_BEGIN_DECLS
 
-
-
 #define TYPE_CALENDAR_VIEW_FACTORY            (calendar_view_factory_get_type ())
 #define CALENDAR_VIEW_FACTORY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_CALENDAR_VIEW_FACTORY,  \
 					       CalendarViewFactory))
@@ -61,8 +59,6 @@ GalViewFactory *calendar_view_factory_construct (CalendarViewFactory *cal_view_f
 						      GnomeCalendarViewType view_type);
 
 GalViewFactory *calendar_view_factory_new (GnomeCalendarViewType view_type);
-
-
 
 G_END_DECLS
 

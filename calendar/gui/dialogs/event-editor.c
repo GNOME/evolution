@@ -730,8 +730,9 @@ event_editor_send_comp (CompEditor *editor,
 		gboolean result;
 
 		client = e_meeting_store_get_client (priv->model);
-		result = itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
-				client, NULL, NULL, NULL, strip_alarms, FALSE);
+		result = itip_send_comp (
+			E_CAL_COMPONENT_METHOD_CANCEL, comp,
+			client, NULL, NULL, NULL, strip_alarms, FALSE);
 		g_object_unref (comp);
 
 		if (!result)

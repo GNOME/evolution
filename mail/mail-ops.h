@@ -63,7 +63,7 @@ void mail_xfer_folder (const gchar *src_uri, const gchar *dest_uri, gboolean rem
 		       gpointer data);
 
 /* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
-void		mail_send_queue			(EMailSession *session,
+void		mail_send_queue			(EMailBackend *backend,
 						 CamelFolder *queue,
 						 CamelTransport *transport,
 						 const gchar *type,

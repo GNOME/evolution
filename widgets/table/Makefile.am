@@ -7,11 +7,10 @@ libetable_la_CPPFLAGS =				\
 	$(AM_CPPFLAGS)				\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
-	$(E_UTIL_CFLAGS)			\
-	$(E_WIDGETS_CFLAGS)			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)		\
 	$(GNOME_PLATFORM_CFLAGS)		\
-	-DEVOLUTION_UIDIR=\"$(uidir)\"	\
-        -DG_LOG_DOMAIN=\"e-table\"
+	-DEVOLUTION_UIDIR=\"$(uidir)\"		\
+	-DG_LOG_DOMAIN=\"e-table\"
 
 libetable_la_SOURCES = 				\
 	e-cell.c				\
@@ -173,10 +172,9 @@ libetable_la_LIBADD =						\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/widgets/text/libetext.la		\
 	$(top_builddir)/libgnomecanvas/libgnomecanvas.la	\
-	$(E_UTIL_LIBS)						\
-	$(E_WIDGETS_LIBS)					\
-	$(MATH_LIB)						\
-	$(GNOME_PLATFORM_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)					\
+	$(MATH_LIB)
 
 icons = 			\
 	arrow-down.xpm		\

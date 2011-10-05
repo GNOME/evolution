@@ -5,8 +5,8 @@ libevolution_module_bogofilter_la_CPPFLAGS =			\
 	-I$(top_srcdir)						\
 	-DG_LOG_DOMAIN=\"evolution-bogofilter\"			\
 	-DWELCOME_MESSAGE=\""$(privdatadir)/default/C/mail/local/Inbox"\" \
-	$(GNOME_PLATFORM_CFLAGS)				\
-	$(EVOLUTION_MAIL_CFLAGS)
+	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
+	$(GNOME_PLATFORM_CFLAGS)
 
 libevolution_module_bogofilter_la_SOURCES =			\
 	evolution-bogofilter.c
@@ -14,8 +14,8 @@ libevolution_module_bogofilter_la_SOURCES =			\
 libevolution_module_bogofilter_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/mail/libevolution-mail.la		\
-	$(GNOME_PLATFORM_LIBS)					\
-	$(EVOLUTION_MAIL_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)
 
 libevolution_module_bogofilter_la_LDFLAGS =			\
 	-module -avoid-version $(NO_UNDEFINED)
