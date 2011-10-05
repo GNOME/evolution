@@ -1,5 +1,5 @@
 <schemalist>
-  <schema gettext-domain="evolution" id="org.gnome.evolution.eplugin.bogo-junk" path="/apps/evolution/eplugin/bogo-junk/">
+  <schema gettext-domain="evolution" id="org.gnome.evolution.eplugin.bogo-junk" path="/org/gnome/evolution/eplugin/bogo-junk/">
     <key name="utf8-for-spam-filter" type="b">
       <default>true</default>
       <_summary>Convert mail messages to Unicode</_summary>

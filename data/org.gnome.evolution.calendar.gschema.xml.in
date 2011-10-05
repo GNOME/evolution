@@ -1,5 +1,5 @@
 <schemalist>
-  <schema gettext-domain="evolution" id="org.gnome.evolution.calendar" path="/apps/evolution/calendar/">
+  <schema gettext-domain="evolution" id="org.gnome.evolution.calendar" path="/org/gnome/evolution/calendar/">
   </schema>
   <key name="audio-dir" type="s">
     <default>''</default>

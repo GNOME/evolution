@@ -1,6 +1,5 @@
 <schemalist>
-  <schema gettext-domain="evolution" id="org.gnome.evolution" path="/apps/evolution/">
-    <child name="shell" schema="org.gnome.evolution.shell"/>
+  <schema gettext-domain="evolution" id="org.gnome.evolution" path="/org/gnome/evolution/">
     <key name="version" type="s">
       <default>''</default>
       <_summary>Configuration version</_summary>
@@ -11,8 +10,9 @@
       <_summary>Last upgraded configuration version</_summary>
       <_description>The last upgraded configuration version of Evolution, with major/minor/configuration level (for example "2.6.0").</_description>
     </key>
+    <child name="shell" schema="org.gnome.evolution.shell"/>
   </schema>
-  <schema gettext-domain="evolution" id="org.gnome.evolution.shell" path="/apps/evolution/shell/">
+  <schema gettext-domain="evolution" id="org.gnome.evolution.shell" path="/apps/org/gnome/evolution/shell/">
     <key name="skip-warning-dialog" type="b">
       <default>false</default>
       <_summary>Skip development warning dialog</_summary>

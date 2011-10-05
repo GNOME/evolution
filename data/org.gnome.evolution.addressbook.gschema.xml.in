@@ -1,5 +1,5 @@
 <schemalist>
-  <schema gettext-domain="evolution" id="org.gnome.evolution.addressbook" path="/apps/evolution/addressbook/">
+  <schema gettext-domain="evolution" id="org.gnome.evolution.addressbook" path="/org/gnome/evolution/addressbook/">
     <key name="completion-minimum-query-length" type="i">
       <default>3</default>
       <_summary>Autocomplete length</_summary>
