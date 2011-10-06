@@ -54,10 +54,8 @@ mail_store_create_folder_thread (GSimpleAsyncResult *simple,
 		CAMEL_STORE (object), context->full_name,
 		cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 }
 
 gboolean
@@ -191,10 +189,8 @@ mail_store_go_offline_thread (GSimpleAsyncResult *simple,
 	} else
 		em_utils_disconnect_service_sync (service, TRUE, cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 
 	camel_operation_pop_message (cancellable);
 }
@@ -270,10 +266,8 @@ mail_store_go_online_thread (GSimpleAsyncResult *simple,
 			CAMEL_OFFLINE_STORE (store),
 			TRUE, cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 
 	camel_operation_pop_message (cancellable);
 }
@@ -343,10 +337,8 @@ mail_store_prepare_for_offline_thread (GSimpleAsyncResult *simple,
 		camel_offline_store_prepare_for_offline_sync (
 			CAMEL_OFFLINE_STORE (store), cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 
 	camel_operation_pop_message (cancellable);
 }

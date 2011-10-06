@@ -966,15 +966,13 @@ composer_build_message_thread (GSimpleAsyncResult *simple,
 	}
 
 	if (!composer_build_message_pgp (context, cancellable, &error)) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
+		g_simple_async_result_take_error (simple, error);
 		return;
 	}
 
 #if defined (HAVE_NSS)
 	if (!composer_build_message_smime (context, cancellable, &error)) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
+		g_simple_async_result_take_error (simple, error);
 		return;
 	}
 #endif /* HAVE_NSS */
@@ -4594,8 +4592,7 @@ composer_get_message_ready (EMsgComposer *composer,
 
 	if (error != NULL) {
 		g_warn_if_fail (message == NULL);
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
+		g_simple_async_result_take_error (simple, error);
 	}
 
 	g_simple_async_result_complete (simple);

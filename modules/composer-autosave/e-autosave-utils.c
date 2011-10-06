@@ -137,9 +137,8 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 
 	if (error != NULL) {
 		g_warn_if_fail (contents == NULL);
-		g_simple_async_result_set_from_error (simple, error);
+		g_simple_async_result_take_error (simple, error);
 		g_simple_async_result_complete (simple);
-		g_error_free (error);
 		return;
 	}
 
@@ -154,10 +153,9 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 	g_free (contents);
 
 	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
+		g_simple_async_result_take_error (simple, error);
 		g_simple_async_result_complete (simple);
 		g_object_unref (message);
-		g_error_free (error);
 		return;
 	}
 
@@ -192,10 +190,8 @@ save_snapshot_splice_cb (GOutputStream *output_stream,
 
 	g_output_stream_splice_finish (output_stream, result, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 
 	g_simple_async_result_complete (simple);
 	g_object_unref (simple);
@@ -220,10 +216,9 @@ save_snapshot_get_message_cb (EMsgComposer *composer,
 
 	if (error != NULL) {
 		g_warn_if_fail (message == NULL);
-		g_simple_async_result_set_from_error (simple, error);
+		g_simple_async_result_take_error (simple, error);
 		g_simple_async_result_complete (simple);
 		g_object_unref (simple);
-		g_error_free (error);
 		return;
 	}
 
@@ -281,10 +276,9 @@ save_snapshot_replace_cb (GFile *snapshot_file,
 
 	if (error != NULL) {
 		g_warn_if_fail (output_stream == NULL);
-		g_simple_async_result_set_from_error (simple, error);
+		g_simple_async_result_take_error (simple, error);
 		g_simple_async_result_complete (simple);
 		g_object_unref (simple);
-		g_error_free (error);
 		return;
 	}
 
@@ -480,10 +474,9 @@ e_composer_save_snapshot (EMsgComposer *composer,
 
 	if (error != NULL) {
 		g_warn_if_fail (snapshot_file == NULL);
-		g_simple_async_result_set_from_error (simple, error);
+		g_simple_async_result_take_error (simple, error);
 		g_simple_async_result_complete (simple);
 		g_object_unref (simple);
-		g_error_free (error);
 		return;
 	}
 

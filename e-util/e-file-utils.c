@@ -93,8 +93,7 @@ file_replace_contents_cb (GFile *file,
 		context->new_etag = new_etag;
 	else {
 		g_warn_if_fail (new_etag == NULL);
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
+		g_simple_async_result_take_error (simple, error);
 	}
 
 	g_simple_async_result_complete (simple);

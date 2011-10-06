@@ -654,10 +654,8 @@ attachment_store_get_uris_save_cb (EAttachment *attachment,
 
 	if (error == NULL)
 		g_simple_async_result_set_op_res_gpointer (simple, uris, NULL);
-	else {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	else
+		g_simple_async_result_take_error (simple, error);
 
 	g_simple_async_result_complete (simple);
 
@@ -877,10 +875,8 @@ attachment_store_load_ready_cb (EAttachment *attachment,
 
 	if (error == NULL)
 		g_simple_async_result_set_op_res_gboolean (simple, TRUE);
-	else {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	else
+		g_simple_async_result_take_error (simple, error);
 
 	g_simple_async_result_complete (simple);
 
@@ -1158,21 +1154,19 @@ attachment_store_save_cb (EAttachment *attachment,
 		save_context->error = NULL;
 
 		simple = save_context->simple;
-		g_simple_async_result_set_from_error (simple, error);
+		g_simple_async_result_take_error (simple, error);
 		g_simple_async_result_complete (simple);
 
 		attachment_store_save_context_free (save_context);
-		g_error_free (error);
 		return;
 	}
 
 	if (error != NULL) {
 		simple = save_context->simple;
-		g_simple_async_result_set_from_error (simple, error);
+		g_simple_async_result_take_error (simple, error);
 		g_simple_async_result_complete (simple);
 
 		attachment_store_save_context_free (save_context);
-		g_error_free (error);
 		return;
 	}
 
