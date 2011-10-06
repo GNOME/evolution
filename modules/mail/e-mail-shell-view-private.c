@@ -983,11 +983,11 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	folder_name = camel_folder_get_display_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
 
-	num_deleted = folder->summary->deleted_count;
-	num_junked = folder->summary->junk_count;
-	num_junked_not_deleted = folder->summary->junk_not_deleted_count;
-	num_unread = folder->summary->unread_count;
-	num_visible = folder->summary->visible_count;
+	num_deleted = camel_folder_summary_get_deleted_count (folder->summary);
+	num_junked = camel_folder_summary_get_junk_count (folder->summary);
+	num_junked_not_deleted = camel_folder_summary_get_junk_not_deleted_count (folder->summary);
+	num_unread = camel_folder_summary_get_unread_count (folder->summary);
+	num_visible = camel_folder_summary_get_visible_count (folder->summary);
 
 	buffer = g_string_sized_new (256);
 	uids = e_mail_reader_get_selected_uids (reader);

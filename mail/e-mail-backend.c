@@ -349,7 +349,7 @@ mail_backend_quit_requested_cb (EShell *shell,
 	if (folder == NULL)
 		return;
 
-	if (folder->summary->visible_count == 0)
+	if (camel_folder_summary_get_visible_count (folder->summary) == 0)
 		return;
 
 	response = e_alert_run_dialog_for_args (

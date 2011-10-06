@@ -268,9 +268,9 @@ emfp_dialog_run (AsyncContext *context)
 	 * messages.  VISIBLE+DELETED gives the correct count that matches
 	 * the label below the Send & Receive button. */
 	name = camel_folder_get_display_name (context->folder);
-	context->total = context->folder->summary->visible_count;
-	context->unread = context->folder->summary->unread_count;
-	deleted = context->folder->summary->deleted_count;
+	context->total = camel_folder_summary_get_visible_count (context->folder->summary);
+	context->unread = camel_folder_summary_get_unread_count (context->folder->summary);
+	deleted = camel_folder_summary_get_deleted_count (context->folder->summary);
 
 	client = gconf_client_get_default ();
 	key = "/apps/evolution/mail/display/show_deleted";

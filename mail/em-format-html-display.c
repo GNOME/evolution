@@ -1137,7 +1137,7 @@ efhd_attachment_button (EMFormatHTML *efh,
 	if (emf->folder && emf->folder->summary && emf->uid) {
 		CamelMessageInfo *mi;
 
-		mi = camel_folder_summary_uid (emf->folder->summary, emf->uid);
+		mi = camel_folder_summary_get (emf->folder->summary, emf->uid);
 		if (mi) {
 			const CamelMessageContentInfo *ci;
 
