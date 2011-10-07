@@ -206,7 +206,7 @@ efhd_xpkcs7mime_viewcert_clicked (GtkWidget *button,
 #endif
 
 static void
-efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
+efhd_xpkcs7mime_add_cert_table (GtkWidget *grid,
                                 CamelDList *certlist,
                                 struct _smime_pobject *po)
 {
@@ -260,7 +260,7 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
 		info = info->next;
 	}
 
-	gtk_box_pack_start ((GtkBox *) vbox, (GtkWidget *) table, TRUE, TRUE, 6);
+	gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET (table));
 }
 
 static void
@@ -269,7 +269,7 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 {
 	struct _smime_pobject *po = (struct _smime_pobject *) pobject;
 	GtkBuilder *builder;
-	GtkWidget *vbox, *w;
+	GtkWidget *grid, *w;
 
 	if (po->widget)
 		/* FIXME: window raise? */
@@ -280,11 +280,11 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 
 	po->widget = e_builder_get_widget(builder, "message_security_dialog");
 
-	vbox = e_builder_get_widget(builder, "signature_vbox");
+	grid = e_builder_get_widget(builder, "signature_grid");
 	w = gtk_label_new (_(smime_sign_table[po->valid->sign.status].description));
 	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
-	gtk_box_pack_start ((GtkBox *) vbox, w, TRUE, TRUE, 6);
+	gtk_container_add (GTK_CONTAINER (grid), w);
 	if (po->valid->sign.description) {
 		GtkTextBuffer *buffer;
 
@@ -294,6 +294,7 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 				 "hscrollbar_policy", GTK_POLICY_AUTOMATIC,
 				 "vscrollbar_policy", GTK_POLICY_AUTOMATIC,
 				 "shadow_type", GTK_SHADOW_IN,
+				 "expand", TRUE,
 				 "child", g_object_new(gtk_text_view_get_type(),
 						       "buffer", buffer,
 						       "cursor_visible", FALSE,
@@ -304,19 +305,19 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 				 NULL);
 		g_object_unref (buffer);
 
-		gtk_box_pack_start ((GtkBox *) vbox, w, TRUE, TRUE, 6);
+		gtk_container_add (GTK_CONTAINER (grid), w);
 	}
 
 	if (!camel_dlist_empty (&po->valid->sign.signers))
-		efhd_xpkcs7mime_add_cert_table (vbox, &po->valid->sign.signers, po);
+		efhd_xpkcs7mime_add_cert_table (grid, &po->valid->sign.signers, po);
 
-	gtk_widget_show_all (vbox);
+	gtk_widget_show_all (grid);
 
-	vbox = e_builder_get_widget(builder, "encryption_vbox");
+	grid = e_builder_get_widget(builder, "encryption_grid");
 	w = gtk_label_new (_(smime_encrypt_table[po->valid->encrypt.status].description));
 	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
-	gtk_box_pack_start ((GtkBox *) vbox, w, TRUE, TRUE, 6);
+	gtk_container_add (GTK_CONTAINER (grid), w);
 	if (po->valid->encrypt.description) {
 		GtkTextBuffer *buffer;
 
@@ -326,6 +327,7 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 				 "hscrollbar_policy", GTK_POLICY_AUTOMATIC,
 				 "vscrollbar_policy", GTK_POLICY_AUTOMATIC,
 				 "shadow_type", GTK_SHADOW_IN,
+				 "expand", TRUE,
 				 "child", g_object_new(gtk_text_view_get_type(),
 						       "buffer", buffer,
 						       "cursor_visible", FALSE,
@@ -336,13 +338,13 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 				 NULL);
 		g_object_unref (buffer);
 
-		gtk_box_pack_start ((GtkBox *) vbox, w, TRUE, TRUE, 6);
+		gtk_container_add (GTK_CONTAINER (grid), w);
 	}
 
 	if (!camel_dlist_empty (&po->valid->encrypt.encrypters))
-		efhd_xpkcs7mime_add_cert_table (vbox, &po->valid->encrypt.encrypters, po);
+		efhd_xpkcs7mime_add_cert_table (grid, &po->valid->encrypt.encrypters, po);
 
-	gtk_widget_show_all (vbox);
+	gtk_widget_show_all (grid);
 
 	g_object_unref (builder);
 
