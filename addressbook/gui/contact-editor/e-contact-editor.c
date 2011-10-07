@@ -2301,17 +2301,35 @@ set_address_label (EContact *contact,
                    EContactAddress *address)
 {
 	gchar *address_label = NULL;
+	gboolean format_address;
+	GConfClient *client;
+	GConfValue *value;
 
 	if (!address) {
 		e_contact_set (contact, field, NULL);
 		return;
 	}
 
-	address_label = eab_format_address (contact,
-				(field == E_CONTACT_ADDRESS_LABEL_WORK) ? E_CONTACT_ADDRESS_WORK :
-									  E_CONTACT_ADDRESS_HOME);
 
-	if (!address_label) {
+	client = gconf_client_get_default ();
+	value = gconf_client_get (client,
+		"/apps/evolution/addressbook/display/address_formatting", NULL);
+	g_object_unref (client);
+
+	if (value) {
+		format_address = gconf_value_get_bool (value);
+		gconf_value_free (value);
+	} else {
+		format_address = TRUE;
+	}
+
+	if (format_address) {
+		address_label = eab_format_address (contact,
+					(field == E_CONTACT_ADDRESS_LABEL_WORK) ? E_CONTACT_ADDRESS_WORK :
+										  E_CONTACT_ADDRESS_HOME);
+	}
+
+	if (!format_address || !address_label) {
 		address_label = append_to_address_label (
 			address_label, address->street, TRUE);
 		address_label = append_to_address_label (
