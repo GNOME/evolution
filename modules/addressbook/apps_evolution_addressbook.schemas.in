@@ -139,17 +139,5 @@
       </locale>
     </schema>
 
-    <schema>
-      <key>/schemas/apps/evolution/addressbook/display/address_formatting</key>
-      <applyto>/apps/evolution/addressbook/display/address_formatting</applyto>
-      <owner>evolution-addressbook</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-        <short>Enable address formatting</short>
-        <long>Wheter addresses should be formatted according to standard in their destination country.</long>
-      </locale>
-    </schema>
-
   </schemalist>
 </gconfschemafile>
