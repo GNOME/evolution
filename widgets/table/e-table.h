@@ -170,6 +170,9 @@ struct _ETable {
 	gint header_width;
 
 	gchar *domain;
+
+	gboolean state_changed;
+	guint state_change_freeze;
 };
 
 struct _ETableClass {
@@ -385,6 +388,9 @@ void		e_table_invert_selection	(ETable *table);
 void		e_table_right_click_up		(ETable *table);
 
 void		e_table_commit_click_to_add	(ETable *table);
+
+void		e_table_freeze_state_change	(ETable *table);
+void		e_table_thaw_state_change	(ETable *table);
 
 G_END_DECLS
 
