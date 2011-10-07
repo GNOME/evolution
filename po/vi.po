@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
 "POT-Creation-Date: 2011-09-25 16:23+0000\n"
-"PO-Revision-Date: 2011-10-02 20:48+1100\n"
+"PO-Revision-Date: 2011-10-07 22:46+1100\n"
 "Last-Translator: Nguyễn Thái Ngọc Duy <pclouds@gmail.com>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -10163,6 +10163,8 @@ msgid ""
 "Describes whether message headers in paned view should be collapsed or "
 "expanded by default. \"0\" = expanded \"1\" = collapsed"
 msgstr ""
+"Mô tả dòng đầu thông điệp trong khung xem mặc định thu nhỏ hay bung ra. "
+"\"0\" là bung, \"1\" là thu nhỏ."
 
 #: ../mail/evolution-mail.schemas.in.h:45
 msgid ""
@@ -10262,6 +10264,8 @@ msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
 msgstr ""
+"Bật ảnh động trong thư HTML. Nhiều người dùng không thích ảnh động và chọn "
+"ảnh tĩnh thay thế."
 
 #: ../mail/evolution-mail.schemas.in.h:62
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -10291,7 +10295,7 @@ msgstr "Bật thư mục tìm kiếm vào lúc khởi chạy."
 msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
-msgstr ""
+msgstr "Bật thanh tìm kiếm bên để cho phép tìm tương tác với tên thư mục."
 
 #: ../mail/evolution-mail.schemas.in.h:69
 msgid ""
@@ -10878,19 +10882,19 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:166
 msgid "Show \"Bcc\" field when sending a mail message"
-msgstr ""
+msgstr "Hiện trường \"Bcc\" khi gửi thư"
 
 #: ../mail/evolution-mail.schemas.in.h:167
 msgid "Show \"Cc\" field when sending a mail message"
-msgstr ""
+msgstr "Hiện trường \"Cc\" khi gửi thư"
 
 #: ../mail/evolution-mail.schemas.in.h:168
 msgid "Show \"From\" field when posting to a newsgroup"
-msgstr ""
+msgstr "Hiện trường \"From\" (từ) khi gửi thư"
 
 #: ../mail/evolution-mail.schemas.in.h:169
 msgid "Show \"Reply To\" field when posting to a newsgroup"
-msgstr ""
+msgstr "Hiện trường \"Reply To\" (trả lời cho) khi gửi thư"
 
 #: ../mail/evolution-mail.schemas.in.h:170
 #| msgid "Also encrypt to sel_f when sending encrypted messages"
@@ -13879,11 +13883,11 @@ msgstr "Lỗi chạy Bogofilter (%s): "
 
 #: ../modules/bogofilter/evolution-bogofilter.c:164
 msgid "Failed to stream mail message content to Bogofilter: "
-msgstr ""
+msgstr "Lỗi truyền nội dung thư cho Bogofilter: "
 
 #: ../modules/bogofilter/evolution-bogofilter.c:213
 msgid "Bogofilter either crashed or failed to process a mail message"
-msgstr ""
+msgstr "Bogofilter hoặc đổ vỡ hoặc thất bại trong việc xử lý thư"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:312
 msgid "Bogofilter Options"
@@ -14248,7 +14252,7 @@ msgstr "Danh sách các múi giờ vừa dùng trong một ô Xem Ngày."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:32
 msgid "List of server URLs for free/busy publishing."
-msgstr "Danh sách các địa chỉ mạng máy chủ để xuất bản thông tin Rảnh/Bận."
+msgstr "Danh sách các địa chỉ mạng máy chủ để công bố thông tin Rảnh/Bận."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:33
 msgid "Marcus Bains Line"
@@ -16016,6 +16020,8 @@ msgid ""
 "Cannot find a corresponding account in the org.gnome.OnlineAccounts service "
 "from which to obtain an authentication token."
 msgstr ""
+"Không tìm thấy tài khoản tương ứng trong dịch vụ org.gnome.OnlineAccounts để "
+"lấy thẻ xác thực."
 
 #: ../modules/online-accounts/camel-sasl-xoauth.c:461
 #| msgid "Other"
@@ -16026,7 +16032,7 @@ msgstr "OAuth"
 msgid ""
 "This option will connect to the server by way of the GNOME Online Accounts "
 "service"
-msgstr ""
+msgstr "Tuỳ chọn này sẽ kết nối đến dịch vụ Tài khoản trực tuyến GNOME"
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:70
 msgid "Author(s)"
@@ -16078,7 +16084,7 @@ msgstr "Các hàm thử Bộ Nạp Phần Bổ Sung Python"
 #: ../modules/spamassassin/evolution-spamassassin.c:191
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
-msgstr ""
+msgstr "Lỗi chạy SpamAssassin (%s): "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:214
 #| msgid "Filter junk messages using SpamAssassin."
@@ -16093,11 +16099,11 @@ msgstr "Lỗi ghi '%s' vào SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:261
 msgid "Failed to read output from SpamAssassin: "
-msgstr ""
+msgstr "Lỗi đọc kết quả từ SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:316
 msgid "SpamAssassin either crashed or failed to process a mail message"
-msgstr ""
+msgstr "SpamAssassin hoặc đổ vỡ hoặc thất bại trong việc xử lý thư"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:835
 msgid "SpamAssassin Options"
@@ -16878,7 +16884,7 @@ msgstr "Nguồn mặc định"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
 msgid "Mark your preferred address book and calendar as default."
-msgstr ""
+msgstr "Đánh dấu sổ địa chỉ và lịch yêu thích làm mặc định."
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:1
 msgid "List of Custom Headers"
@@ -16980,12 +16986,12 @@ msgstr "Gửi dòng đầu tự chọn"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:1
 msgid "Automatically launch editor when key is pressed in the mail composer"
-msgstr ""
+msgstr "Tự động chạy trình biên soạn khi nhấn phím trong trình soạn thư"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 #: ../plugins/external-editor/external-editor.c:132
 msgid "Automatically launch when a new mail is edited"
-msgstr ""
+msgstr "Tự động chạy khi sửa thư mới"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:3
 msgid "Default External Editor"
@@ -17052,6 +17058,8 @@ msgid ""
 "The external editor is still running. The mail composer window cannot be "
 "closed as long as the editor is active."
 msgstr ""
+"Trình biên soạn ngoại vẫn đang chạy. Trình soạn thư không thể đóng khi trình "
+"biên soạn vẫn hoạt động."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:6
 msgid ""
@@ -17063,7 +17071,7 @@ msgstr ""
 
 #: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:1
 msgid "Insert Face picture by default"
-msgstr ""
+msgstr "Chèn ảnh chân dung mặc định"
 
 #: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:2
 msgid ""
@@ -18157,6 +18165,7 @@ msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
 msgstr ""
+"Lịch được chọn đã chứa sự kiện '%s' rồi. Bạn có muốn sửa sự kiện cũ không?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:606
 #, c-format
@@ -18164,6 +18173,8 @@ msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
 "old task?"
 msgstr ""
+"Danh sách tác vụ được chọn đã chứa tác vụ '%s' rồi. Bạn có muốn sửa tác vụ "
+"cũ không?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:609
 #, c-format
@@ -18171,6 +18182,8 @@ msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
 "old memo?"
 msgstr ""
+"Danh sách ghi nhớ được chọn đã chứa ghi nhớ '%s' rồi. Bạn có muốn sửa ghi "
+"nhớ cũ không?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:626
 #, c-format
@@ -18178,6 +18191,8 @@ msgid ""
 "You have selected %d mails to be converted to events. Do you really want to "
 "add them all?"
 msgstr ""
+"Bạn đã chọn %d thư để chuyển sang sự kiện. Bạn có thực sự muốn chuyển hết "
+"không?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:629
 #, c-format
@@ -18185,6 +18200,8 @@ msgid ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
 "add them all?"
 msgstr ""
+"Bạn đã chọn %d thư để chuyển sang tác vụ. Bạn có thực sự muốn chuyển hết "
+"không?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:632
 #, c-format
@@ -18192,6 +18209,8 @@ msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
 "add them all?"
 msgstr ""
+"Bạn đã chọn %d thư để chuyển sang ghi nhớ. Bạn có thực sự muốn chuyển hết "
+"không?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:651
 #| msgid "Do you wish to overwrite it?"
@@ -18205,7 +18224,7 @@ msgstr "[Không tóm tắt]"
 
 #: ../plugins/mail-to-task/mail-to-task.c:738
 msgid "Invalid object returned from a server"
-msgstr ""
+msgstr "Máy chủ trả về đối tượng không hợp lệ."
 
 #: ../plugins/mail-to-task/mail-to-task.c:788
 #, c-format
@@ -18492,7 +18511,7 @@ msgstr "Ưu tiên văn bản thô"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:4
 msgid "View mail messages as plain text, even if they contain HTML content."
-msgstr ""
+msgstr "Xem thư dạng văn bản thô thậm chí khi chứa HTML."
 
 #: ../plugins/prefer-plain/prefer-plain.c:251
 msgid "Show HTML if present"
@@ -18520,11 +18539,11 @@ msgstr "Luôn luôn chỉ hiện văn bản thô"
 msgid ""
 "Always show plain text part and make attachments from other parts, if "
 "requested."
-msgstr ""
+msgstr "Luôn hiện phần văn bản thô và coi phần khác là đính kèm nếu yêu cầu."
 
 #: ../plugins/prefer-plain/prefer-plain.c:313
 msgid "Show s_uppressed HTML parts as attachments"
-msgstr ""
+msgstr "Hiện _nội dung HTML dạng đính kèm"
 
 #: ../plugins/prefer-plain/prefer-plain.c:333
 msgid "HTML _Mode"
@@ -18575,7 +18594,7 @@ msgstr "Đang nhập dữ liệu Outlook"
 #: ../plugins/publish-calendar/publish-calendar.c:155
 #: ../plugins/publish-calendar/publish-calendar.c:157
 msgid "Calendar Publishing"
-msgstr "Xuất bản lịch"
+msgstr "Công bố lịch"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
 msgid "Locations"
@@ -18602,17 +18621,17 @@ msgstr "Không thể mở %s: lỗi lạ"
 #: ../plugins/publish-calendar/publish-calendar.c:238
 #, c-format
 msgid "There was an error while publishing to %s:"
-msgstr ""
+msgstr "Lỗi công bố đến %s:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:240
 #, c-format
 msgid "Publishing to %s finished successfully"
-msgstr ""
+msgstr "Hoàn tất tốt đẹp công bố đến %s"
 
 #: ../plugins/publish-calendar/publish-calendar.c:288
 #, c-format
 msgid "Mount of %s failed:"
-msgstr ""
+msgstr "Lỗi gắn kết %s:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:619
 #: ../plugins/publish-calendar/publish-calendar.ui.h:4
@@ -18628,11 +18647,11 @@ msgstr "Bạn có chắc muốn gỡ bỏ địa chỉ này không?"
 #. * ever happen, and if so, then something is really wrong.
 #: ../plugins/publish-calendar/publish-calendar.c:1099
 msgid "Could not create publish thread."
-msgstr ""
+msgstr "Không thể tạo nhánh công bố."
 
 #: ../plugins/publish-calendar/publish-calendar.c:1107
 msgid "_Publish Calendar Information"
-msgstr "_Xuất bản thông tin lịch"
+msgstr "_Công bố thông tin lịch"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Custom Location"
@@ -18660,11 +18679,11 @@ msgstr "FTP Công cộng"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:13
 msgid "Publishing Location"
-msgstr "Địa điểm Xuất bản"
+msgstr "Địa điểm công bố"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:14
 msgid "Publishing _Frequency:"
-msgstr "_Tần số Xuất bản:"
+msgstr "_Tần số công bố:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:15
 msgid "Secure FTP (SSH)"
@@ -18684,7 +18703,7 @@ msgstr "Nguồn"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:19
 msgid "Time _duration:"
-msgstr ""
+msgstr "_Khoảng thời gian:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:20
 msgid "WebDAV (HTTP)"
@@ -18708,7 +18727,7 @@ msgstr "_Mật khẩu:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:26
 msgid "_Publish as:"
-msgstr "_Xuất dạng:"
+msgstr "_Công bố dạng:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:27
 msgid "_Remember password"
@@ -18726,7 +18745,7 @@ msgstr "iCal"
 #: ../plugins/publish-calendar/publish-format-ical.c:92
 #, c-format
 msgid "Could not publish calendar: Calendar backend no longer exists"
-msgstr ""
+msgstr "Không thể công bố lịch: Backend lịch không còn tồn tại"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:518
 msgid "New Location"
@@ -18885,6 +18904,9 @@ msgid ""
 "$ORIG[from], $ORIG[to] or $ORIG[body], which will be replaced by values from "
 "an email you are replying to."
 msgstr ""
+"Phần mở rộng nháp dựa theo mẫu. Bạn có thể dùng những biến như $ORIG"
+"[subject], $ORIG[from], $ORIG[to] hoặc $ORIG[body], những biến này sẽ được "
+"thay thế bằng giá trị từ thư bạn định gửi trả lời."
 
 #: ../plugins/templates/templates.c:1094
 msgid "No Title"
@@ -18900,7 +18922,7 @@ msgstr "Lưu làm mẫu"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "Decode TNEF (winmail.dat) attachments from Microsoft Outlook."
-msgstr ""
+msgstr "Giải mã đính kèm TNEF (winmail.data) từ Microsoft Office."
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
 msgid "TNEF Decoder"
@@ -18908,11 +18930,11 @@ msgstr "Bộ giải mã đính kèm TNEF"
 
 #: ../plugins/vcard-inline/org-gnome-vcard-inline.eplug.xml.h:1
 msgid "Inline vCards"
-msgstr ""
+msgstr "vCard nhúng"
 
 #: ../plugins/vcard-inline/org-gnome-vcard-inline.eplug.xml.h:2
 msgid "Show vCards directly in mail messages."
-msgstr ""
+msgstr "Hiện vCard trực tiếp trong thư."
 
 #: ../plugins/vcard-inline/vcard-inline.c:207
 #: ../plugins/vcard-inline/vcard-inline.c:292
@@ -19676,6 +19698,9 @@ msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
 msgstr ""
+"Khởi động Evolution với thành phần xác định. Tuỳ chọn chấp nhận là "
+"'mail' (thư), 'calendar' (lịch), 'contacts' (sổ địa chỉ), 'tasks' (tác vụ) "
+"và 'memos' (ghi nhớ)"
 
 #: ../shell/main.c:312
 msgid "Apply the given geometry to the main window"
@@ -19711,7 +19736,7 @@ msgstr "Tắt ô cửa sổ xem thử của Thư, Liên lạc và Tác vụ."
 
 #: ../shell/main.c:334
 msgid "Import URIs or file names given as rest of arguments."
-msgstr ""
+msgstr "URI hoặc tên tập tin nhập làm phần còn lại của đối số."
 
 #: ../shell/main.c:336
 msgid "Request a running Evolution process to quit"
@@ -19839,17 +19864,17 @@ msgstr "Đang bắt đầu %s"
 #: ../smclient/eggdesktopfile.c:1102
 #, c-format
 msgid "Application does not accept documents on command line"
-msgstr ""
+msgstr "Ứng dụng không chấp nhận tài liệu từ dòng lệnh"
 
 #: ../smclient/eggdesktopfile.c:1170
 #, c-format
 msgid "Unrecognized launch option: %d"
-msgstr ""
+msgstr "Tham số phóng không nhận dạng được: %d"
 
 #: ../smclient/eggdesktopfile.c:1370
 #, c-format
 msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr ""
+msgstr "Không thể chuyển URI tài liệu cho mục desktop 'Type=Link'"
 
 #: ../smclient/eggdesktopfile.c:1391
 #, c-format
@@ -23964,7 +23989,7 @@ msgstr "Cách nhập"
 #~ msgstr "Thư cuộc họp sai"
 
 #~ msgid "<b>%s</b> has published task information."
-#~ msgstr "<b>%s</b> đã xuất bản tin tức tác vụ."
+#~ msgstr "<b>%s</b> đã công bố tin tức tác vụ."
 
 #~ msgid "Task Information"
 #~ msgstr "Tin tức tác vụ"
@@ -24006,7 +24031,7 @@ msgstr "Cách nhập"
 #~ msgstr "Thư tác vụ sai"
 
 #~ msgid "<b>%s</b> has published free/busy information."
-#~ msgstr "<b>%s</b> đã xuất bản tin tức Rảnh/Bận"
+#~ msgstr "<b>%s</b> đã công bố tin tức Rảnh/Bận"
 
 #~ msgid "Free/Busy Information"
 #~ msgstr "Tin tức bận/rảnh"
