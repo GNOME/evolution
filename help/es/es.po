@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-07 15:03+0000\n"
-"PO-Revision-Date: 2011-10-08 14:55+0200\n"
+"PO-Revision-Date: 2011-10-08 15:42+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1716,7 +1716,6 @@ msgstr ""
 "usar esta característica de GNOME par acualquier notificación de correo."
 
 #: C/minimize-to-system-tray.page:29(p)
-#, fuzzy
 #| msgid ""
 #| "In GNOME version 2 you may modify the notification area and set it up to "
 #| "become a system tray by using external software such as <link href="
@@ -3015,7 +3014,6 @@ msgid "Manually send and receive messages"
 msgstr "Enviar y recibir mensajes manualmente"
 
 #: C/mail-send-and-receive-manual.page:21(p)
-#, fuzzy
 #| msgid ""
 #| "To receive new messages from the mail server and to send messages you "
 #| "have written that are in the local Outbox, click the <gui style=\"button"
@@ -3031,7 +3029,7 @@ msgstr ""
 "Para recibir los mensajes nuevos del servidor y para enviar los mensajes que "
 "haya escrito en la Bandeja de salida local, pulse el botón <gui style="
 "\"button\">Enviar / Recibir</gui> en la barra de herramientas, pulse "
-"<key>F9</key>, o elija <guiseq><gui>Archivo</gui><gui>Enviar / Recibir</"
+"<key>F9</key>, o pulse <guiseq><gui>Archivo</gui><gui>Enviar / Recibir</"
 "gui></guiseq> en el menú principal."
 
 #: C/mail-send-and-receive-manual.page:22(p)
@@ -4358,7 +4356,6 @@ msgid "Switcher layout when a new message has arrived"
 msgstr "Distribución del selector cuando llega un correo nuevo"
 
 #: C/mail-received-notification.page:28(p)
-#, fuzzy
 #| msgid ""
 #| "In order to get also notified of new messages in the GNOME Notification "
 #| "area at the bottom of the screen, make sure that <guiseq><gui>Edit</"
@@ -6359,7 +6356,6 @@ msgstr ""
 "ver el correo."
 
 #: C/mail-displaying-character-encodings.page:25(p)
-#, fuzzy
 #| msgid ""
 #| "To constantly change this setting, go to <guiseq><gui>Edit</"
 #| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
@@ -6370,7 +6366,7 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
 "gui><gui>Message Display</gui><gui>Default character encoding</gui></guiseq>."
 msgstr ""
-"Para cambiar constantemente este ajuste vaya a <guiseq><gui>Editar</"
+"Para convertir este ajuste en predeterminado, vaya a <guiseq><gui>Editar</"
 "gui><gui>Preferencias</gui><gui>Opciones de correo</gui><gui>General</"
 "gui><gui>Mostrado de mensajes</gui><gui>Codificación de caracteres "
 "predeterminada</gui></guiseq>."
@@ -8588,11 +8584,10 @@ msgid "Access a Gmail POP Account via Evolution"
 msgstr "Acceder a una cuenta POP de GMail a través de Evolution"
 
 #: C/mail-access-gmail-pop-account.page:26(p)
-#, fuzzy
 #| msgid "Follow these steps to set up your GMail POP Account in Evolution:"
 msgid "Follow these steps to set up your Gmail POP Account in Evolution:"
 msgstr ""
-"Siga estos pasos para configurar su cuenta de correo POP de GMail en "
+"Siga estos pasos para configurar su cuenta de correo POP de Gmail en "
 "Evolution:"
 
 #: C/mail-access-gmail-pop-account.page:29(p)
@@ -8672,7 +8667,6 @@ msgstr ""
 "de correo IMAP</link>."
 
 #: C/mail-access-gmail-imap-account.page:28(p)
-#, fuzzy
 #| msgid ""
 #| "To access GMail via IMAP you must turn on IMAP in your Google account. "
 #| "See the <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -8682,9 +8676,9 @@ msgid ""
 "the <link href=\"https://mail.google.com/support/bin/answer.py?"
 "answer=77695\">Gmail Help</link> for more information."
 msgstr ""
-"Para acceder a GMail mediante IMAP debe activar IMAP en su cuenta de Google. "
+"Para acceder a Gmail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
-"answer=77695\">ayuda de GMail</link> para obtener más información."
+"answer=77695\">ayuda de Gmail</link> para obtener más información."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -9137,7 +9131,6 @@ msgid "Restore from backup"
 msgstr "Restaurar desde un respaldo"
 
 #: C/intro-first-run.page:32(p)
-#, fuzzy
 #| msgid ""
 #| "You will get asked whether to restore from a backup of a previous "
 #| "version. If you have such a backup, continue <link xref=\"backup-"
@@ -9147,7 +9140,7 @@ msgid ""
 "you have such a backup, continue <link xref=\"backup-restore#restore\">here</"
 "link>. Otherwise, go to the next page."
 msgstr ""
-"Se le preguntará si quiere estaurar un respaldo de una versión anterior. Si "
+"Se le preguntará si quiere restaurar un respaldo de una versión anterior. Si "
 "tiene tal respaldo, continúe <link xref=\"backup-restore#restore\">aquí</"
 "link>. De lo contrario, continúe con la siguiente página."
 
@@ -10304,7 +10297,6 @@ msgstr ""
 "share/applications/mimeapps.list</file>."
 
 #: C/default-browser.page:29(p)
-#, fuzzy
 #| msgid ""
 #| "This requires having the evolution-mapi package installed. <link action="
 #| "\"install:evolution-mapi\" href=\"http://ftp.gnome.org/pub/gnome/sources/"
@@ -10314,9 +10306,9 @@ msgid ""
 "shown, you need to install <link action=\"install:gvfs\" href=\"http://ftp."
 "gnome.org/pub/gnome/sources/gvfs/\">Install gvfs now.</link>."
 msgstr ""
-"Esto requiere tener instalado el paquete «evolution-mapi». <link action="
-"\"install:evolution-mapi\" href=\"http://ftp.gnome.org/pub/gnome/sources/"
-"evolution-mapi/\">Instalar evolution-mapi ahora.</link>"
+"Si se muestra el error «No se pudo abrir el enlace: no se soporta la "
+"operación», debe <link action=\"install:gvfs\" href=\"http://ftp.gnome.org/"
+"pub/gnome/sources/gvfs/\">instalar gvfs ahora</link>."
 
 #: C/data-storage.page:5(desc)
 msgid "Where does Evolution store my data on the harddisk?"
@@ -10664,7 +10656,6 @@ msgid "Adding a Contact"
 msgstr "Añadir un contacto"
 
 #: C/contacts-usage-add-contact.page:23(p)
-#, fuzzy
 #| msgid ""
 #| "Click <guiseq><gui>File</gui><gui>New</gui><gui>Contact</gui></guiseq>, "
 #| "or right-click in a blank space in the list of contacts and click \"New "
@@ -10676,9 +10667,9 @@ msgid ""
 "Contact...</gui>, or press <keyseq><key>Shift</key><key>Ctrl</key><key>C</"
 "key></keyseq>."
 msgstr ""
-"Pulse <guiseq><gui>Archivo</gui><gui>Nuevo</gui><gui>Contacto</gui></"
-"guiseq>, o pulse con el botón derecho en una zona vacía de la lista de "
-"contactos y elija \"Contacto nuevo...\", o pulse <keyseq><key>Mayús</"
+"Pulse <guiseq><gui>Archivo</gui><gui>Nuevo</gui><gui>Contacto</gui></guiseq> "
+"o pulse con el botón derecho en una zona vacía de la lista de contactos y "
+"elija <gui>Contacto nuevo...</gui> o pulse <keyseq><key>Mayús</"
 "key><key>Ctrl</key><key>C</key></keyseq>."
 
 #: C/contacts-usage-add-contact.page:25(p)
@@ -10821,6 +10812,9 @@ msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Exchange Database...</gui></guiseq> in the "
 "menu bar. This will bring up the <gui>Exchange databases</gui> dialog box."
 msgstr ""
+"En la barra de menú pulse <guiseq><gui>Editar</gui><gui>Intercambiar base de "
+"datos...</gui></guiseq>. Esto mostrará la caja de diálogo <gui>Intercambiar "
+"bases de datos</gui>."
 
 #: C/contacts-libreoffice.page:26(p)
 msgid ""
@@ -10828,6 +10822,9 @@ msgid ""
 "gui> is available as a source. Click on the small triangle to get the list "
 "of your Evolution address books."
 msgstr ""
+"En el panel derecho, bajo <gui>Bases de datos disponibles</gui>, "
+"<gui>EvolutionLocal</gui> está disponible como fuente. Pulse el pequeño "
+"triángulo para obtener la lista de sus libretas de direcciones de Evolution."
 
 #: C/contacts-libreoffice.page:27(p)
 #| msgid "Choose the file, and click <gui style=\"button\">Open</gui>."
@@ -10841,18 +10838,25 @@ msgid ""
 "In case it is not listed already, click <gui style=\"button\">Browse...</"
 "gui>. A file chooser dialog opens."
 msgstr ""
+"En caso de que no se liste pulse <gui style=\"button\">Examinar...</gui>. Se "
+"abrirá un diálogo de selección de archivos."
 
 #: C/contacts-libreoffice.page:29(p)
 msgid ""
 "As Evolution stores its data in a hidden directory, press <keyseq><key>Ctrl</"
 "key><key>L</key></keyseq> to get the location bar displayed."
 msgstr ""
+"Ya que Evolution almacena sus datos en un directorio oculto, pulse "
+"<keyseq><key>Ctrl</key><key>L</key></keyseq> para mostrar la barra de "
+"direcciones."
 
 #: C/contacts-libreoffice.page:30(p)
 msgid ""
 "Go to <code>/home/username/.local/share/evolution/addressbook/system/"
 "addressbook.db</code> and click <gui style=\"button\">Open</gui>."
 msgstr ""
+"Vaya a <code>/home/nomre_de_usuario/.local/share/evolution/addressbook/"
+"system/addressbook.db</code> y pulse <gui style=\"button\">Abrir</gui>."
 
 #: C/contacts-libreoffice.page:33(p)
 msgid ""
@@ -10861,6 +10865,10 @@ msgid ""
 "document via <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></"
 "guiseq>."
 msgstr ""
+"Esto hace que la libreta de direcciones de Evolution sea la fuente de datos "
+"predeterminada de LibreOffice. Ahora puede seleccionar un campo para "
+"insertar en un documento de libreoffice a través de <guiseq><gui>Insertar</"
+"gui><gui>Campos</gui><gui>Otro</gui></guiseq>."
 
 #: C/contacts-ldap.page:5(desc)
 msgid "Use shared address books on a local network."
@@ -11147,7 +11155,6 @@ msgid "Adding people automatically to my contacts"
 msgstr "Añadir personas automáticamente a mis contactos"
 
 #: C/contacts-add-automatically.page:27(p)
-#, fuzzy
 #| msgid ""
 #| "You can add people automatically to your contacts when you reply to "
 #| "received email. Enable the plugin <gui>Automatic Contacts</gui> by going "
@@ -11171,8 +11178,8 @@ msgstr ""
 "Puede añadir personas automáticamente a sus contactos al responder a correos "
 "recibidos. Actíve el complemento <gui>Contactos automáticos</gui> en "
 "<guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq>; pulse en "
-"«Contactos automáticos» para que se muestre como marcado. Después vaya a "
-"<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Contactos</"
+"<gui>Contactos automáticos</gui> para que se muestre como marcado. Después "
+"vaya a <guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Contactos</"
 "gui><gui>Contactos automáticos</gui></guiseq> y actíve la opción <gui>Crear "
 "entradas automáticamente en la libreta de direcciones al enviar correos</"
 "gui> y seleccione la libreta de direcciones a la que se añadirán los "
@@ -11246,7 +11253,7 @@ msgstr "Abra la aplicación <gui>dconf-editor</gui>."
 
 #: C/change-keyboard-shortcuts.page:22(p)
 msgid "Navigate to <code>/org/gnome/desktop/interface</code>."
-msgstr ""
+msgstr "Vaya a <code>/org/gnome/desktop/interface</code>."
 
 #: C/change-keyboard-shortcuts.page:23(p)
 #| msgid "Enable <gui>Attachment Reminder</gui>."
@@ -11258,6 +11265,8 @@ msgid ""
 "Hover your mouse cursor over the menu bar item for which you want to add or "
 "change the keyboard shortcut."
 msgstr ""
+"Pónga el cursor de su ratón se mueve sobre el elemento de la barra de menú "
+"para el que quiere añadir o cambiar la distribución de teclado."
 
 #: C/change-keyboard-shortcuts.page:26(p)
 msgid "Type the shortcut that you want on the keyboard."
@@ -11268,6 +11277,8 @@ msgid ""
 "Note that this setting is desktop-wide and that you can disable it again in "
 "<gui>dconf-editor</gui> after your changes."
 msgstr ""
+"Note que este ajuste es para todo el escritorio y que puede desactivarlo de "
+"nuevo en <gui>dconf-editor</gui> después de cambiarlo."
 
 #: C/calendar-webdav.page:5(desc)
 msgid "Using an online Webcal/WebDAV calendar."
@@ -12528,6 +12539,12 @@ msgid ""
 "<file>~/.bogofilter/</file>. If you use SpamAssassin you will need to back "
 "up <file>~/.spamassassin/</file>."
 msgstr ""
+"Note que su configuración de <link xref=\"mail-spam\">filtros de SPAM</link> "
+"no se incluyen en el archivo de respaldo, ya que estos ajustes no están "
+"controlados por Evolution y porque los desarrolladores de las herramientas "
+"de filtrado de SPAM pueden cambiar sus detalles de implementación. Si usa "
+"Bogofilter deberá respaltar <file>~/.bogofilter/</file>. Si usa SpamAssassin "
+"deberá respaldar <file>~/.spamassassin/</file>."
 
 #: C/backup-restore.page:36(title)
 msgid "Restoring"
