@@ -602,7 +602,8 @@ update_actions_cb (EShellView *shell_view,
 	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
 	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
 
-	visible = (scan_folder_tree_for_unread (folder_uri) > 0);
+	visible = em_folder_tree_get_selected (folder_tree, NULL, NULL)
+		  && scan_folder_tree_for_unread (folder_uri) > 0;
 	gtk_action_set_visible (action, visible);
 
 	g_object_unref (folder_tree);
