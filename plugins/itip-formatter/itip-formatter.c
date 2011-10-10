@@ -2315,51 +2315,44 @@ view_response_cb (GtkWidget *widget,
 		CamelFolderChangeInfo *changes = NULL;
 		const gchar *tag = NULL;
 		CamelMessageInfo *mi;
-		mi = camel_folder_summary_uid (pitip->folder->summary, pitip->uid);
+		mi = camel_folder_summary_get (pitip->folder->summary, pitip->uid);
 		if (mi) {
 			changes = camel_folder_change_info_new ();
 
 			if (itip_view_get_recur_check_state (ITIP_VIEW (pitip->view))) {
 				/* Recurring appointment and "apply-to-all" is selected */
-				camel_message_info_ref (mi);
 				tag = camel_message_info_user_tag (mi, "recurrence-key");
-				camel_message_info_free (mi);
 				if (tag) {
-					CamelStore *parent_store;
-					GList *list = NULL;
-					const gchar *full_name;
-					gint i = 0, count;
+					gint i;
+					GPtrArray *known_uids;
 
-					count = camel_folder_summary_count (pitip->folder->summary);
-					for (i = 0; i < count; i++) {
-						mi = camel_folder_summary_index (pitip->folder->summary, i);
-						if (!mi)
+					known_uids = camel_folder_summary_get_array (pitip->folder->summary);
+					for (i = 0; known_uids && i < known_uids->len; i++) {
+						const gchar *uid = g_ptr_array_index (known_uids, i);
+						CamelMessageInfo *mi2;
+
+						mi2 = camel_folder_summary_get (pitip->folder->summary, uid);
+						if (!mi2)
 							continue;
-						camel_message_info_ref (mi);
-						if ( camel_message_info_user_tag (mi, "recurrence-key") && g_str_equal (camel_message_info_user_tag (mi, "recurrence-key"), tag)) {
-							camel_folder_summary_remove_uid_fast (pitip->folder->summary, (gchar *)(mi->uid));
-							camel_folder_change_info_remove_uid (changes, (gchar *) mi->uid);
-							list = g_list_prepend (list, (gpointer) mi->uid);
 
-							/* step back once to have the right index */
-							count--;
-							i--;
+						if (camel_message_info_user_tag (mi2, "recurrence-key") &&
+						    g_str_equal (camel_message_info_user_tag (mi2, "recurrence-key"), tag)) {
+							camel_folder_summary_remove_uid (pitip->folder->summary, mi2->uid);
+							camel_folder_change_info_remove_uid (changes, mi2->uid);
 						}
-						camel_message_info_free (mi);
-					}
 
-					full_name = camel_folder_get_full_name (pitip->folder);
-					parent_store = camel_folder_get_parent_store (pitip->folder);
-					camel_db_delete_uids (parent_store->cdb_w, full_name, list, NULL);
-					g_list_free (list);
+						camel_message_info_free (mi2);
+					}
 				}
 			} else {
 				/* Either not a recurring appointment or "apply-to-all" is not selected. So just delete this instance alone */
 				camel_folder_summary_remove_uid (pitip->folder->summary, pitip->uid);
 				camel_folder_change_info_remove_uid (changes, pitip->uid);
 			}
+
 			camel_folder_changed (pitip->folder, changes);
 			camel_folder_change_info_free (changes);
+			camel_message_info_free (mi);
 		}
 	}
 

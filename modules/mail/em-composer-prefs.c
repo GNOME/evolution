@@ -547,11 +547,11 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
-	/* The mail shell backend responds to the "window-created" signal
+	/* The mail shell backend responds to the "window-added" signal
 	 * that this triggers and configures it with composer preferences. */
 	g_signal_connect_swapped (
 		widget, "editor-created",
-		G_CALLBACK (e_shell_watch_window), shell);
+		G_CALLBACK (gtk_application_add_window), shell);
 
 	/* Express mode does not honor this setting. */
 	if (!e_shell_get_express_mode (shell))

@@ -578,41 +578,13 @@ Please select a follow up action from the "Flag" menu.</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox170">
+                  <object class="GtkGrid" id="signature_grid">
                     <property name="visible">True</property>
+                    <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                     <child>
-                      <object class="GtkLabel" id="label465">
-                        <property name="visible">True</property>
-                        <property name="xpad">12</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkTable" id="table10">
-                        <property name="visible">True</property>
-                        <property name="column_spacing">6</property>
-                        <property name="row_spacing">2</property>
-                        <child>
-                          <object class="GtkVBox" id="signature_vbox">
-                            <property name="visible">True</property>
-                            <child>
-                              <placeholder/>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="position">1</property>
-                      </packing>
+                      <placeholder/>
                     </child>
                   </object>
-                  <packing>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
               </object>
               <packing>
@@ -641,41 +613,13 @@ Please select a follow up action from the "Flag" menu.</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox171">
+                  <object class="GtkGrid" id="encryption_grid">
                     <property name="visible">True</property>
+                    <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                     <child>
-                      <object class="GtkLabel" id="label478">
-                        <property name="visible">True</property>
-                        <property name="xpad">12</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkTable" id="table11">
-                        <property name="visible">True</property>
-                        <property name="column_spacing">6</property>
-                        <property name="row_spacing">2</property>
-                        <child>
-                          <object class="GtkVBox" id="encryption_vbox">
-                            <property name="visible">True</property>
-                            <child>
-                              <placeholder/>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="position">1</property>
-                      </packing>
+                      <placeholder/>
                     </child>
                   </object>
-                  <packing>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
               </object>
               <packing>

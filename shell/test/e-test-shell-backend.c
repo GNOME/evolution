@@ -97,8 +97,8 @@ test_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 }
 
 static void
-test_shell_backend_window_created_cb (EShellBackend *shell_backend,
-                                      GtkWindow *window)
+test_shell_backend_window_added_cb (EShellBackend *shell_backend,
+                                    GtkWindow *window)
 {
 	const gchar *backend_name;
 
@@ -119,7 +119,7 @@ test_shell_backend_window_created_cb (EShellBackend *shell_backend,
 }
 
 static void
-test_shell_backend_window_destroyed_cb (EShellBackend *shell_backend)
+test_shell_backend_window_removed_cb (EShellBackend *shell_backend)
 {
 	g_debug ("%s", G_STRFUNC);
 }
@@ -139,13 +139,13 @@ test_shell_backend_constructed (GObject *object)
 		shell_backend);
 
 	g_signal_connect_swapped (
-		shell, "window-created",
-		G_CALLBACK (test_shell_backend_window_created_cb),
+		shell, "window-added",
+		G_CALLBACK (test_shell_backend_window_added_cb),
 		shell_backend);
 
 	g_signal_connect_swapped (
-		shell, "window-destroyed",
-		G_CALLBACK (test_shell_backend_window_destroyed_cb),
+		shell, "window-removed",
+		G_CALLBACK (test_shell_backend_window_removed_cb),
 		shell_backend);
 
 	/* Chain up to parent's constructed() method. */

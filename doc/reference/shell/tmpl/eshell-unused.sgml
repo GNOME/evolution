@@ -311,6 +311,21 @@ e-shell-window.sgml
 @eshell: the object which received the signal.
 @arg1: 
 
+<!-- ##### SIGNAL EShell::window-created ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL EShell::window-destroyed ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+
 <!-- ##### ARG EShellSearchbar:label-visible ##### -->
 <para>
 
@@ -500,7 +515,32 @@ e-shell-window.sgml
 @store: 
 @Returns: 
 
+<!-- ##### FUNCTION e_attachment_store_get_current_folder_uri ##### -->
+<para>
+
+</para>
+
+@store: 
+@Returns: 
+
+<!-- ##### FUNCTION e_attachment_store_run_file_chooser_dialog ##### -->
+<para>
+
+</para>
+
+@store: 
+@dialog: 
+@Returns: 
+
 <!-- ##### FUNCTION e_attachment_store_set_current_folder ##### -->
+<para>
+
+</para>
+
+@store: 
+@current_folder: 
+
+<!-- ##### FUNCTION e_attachment_store_set_current_folder_uri ##### -->
 <para>
 
 </para>
@@ -708,6 +748,14 @@ e-shell-window.sgml
 </para>
 
 @shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_get_watched_windows ##### -->
+<para>
+
+</para>
+
+@shell: 
 @Returns: 
 
 <!-- ##### FUNCTION e_shell_searchbar_get_label_visible ##### -->

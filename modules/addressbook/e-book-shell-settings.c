@@ -35,4 +35,8 @@ e_book_shell_backend_init_settings (EShell *shell)
 	e_shell_settings_install_property_for_key (
 		"book-primary-selection",
 		"/apps/evolution/addressbook/display/primary_addressbook");
+
+	e_shell_settings_install_property_for_key (
+		"enable-address-formatting",
+		"/apps/evolution/addressbook/display/address_formatting");
 }

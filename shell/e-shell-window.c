@@ -125,17 +125,20 @@ static void
 shell_window_update_close_action_cb (EShellWindow *shell_window)
 {
 	EShell *shell;
-	GList *watched_windows;
+	GtkApplication *application;
+	GList *list;
 	gint n_shell_windows = 0;
 
 	shell = e_shell_window_get_shell (shell_window);
-	watched_windows = e_shell_get_watched_windows (shell);
+
+	application = GTK_APPLICATION (shell);
+	list = gtk_application_get_windows (application);
 
 	/* Count the shell windows. */
-	while (watched_windows != NULL) {
-		if (E_IS_SHELL_WINDOW (watched_windows->data))
+	while (list != NULL) {
+		if (E_IS_SHELL_WINDOW (list->data))
 			n_shell_windows++;
-		watched_windows = g_list_next (watched_windows);
+		list = g_list_next (list);
 	}
 
 	/* Disable Close Window if there's only one shell window.
@@ -171,14 +174,14 @@ shell_window_set_shell (EShellWindow *shell_window,
 	array = shell_window->priv->signal_handler_ids;
 
 	handler_id = g_signal_connect_swapped (
-		shell, "window-created",
+		shell, "window-added",
 		G_CALLBACK (shell_window_update_close_action_cb),
 		shell_window);
 
 	g_array_append_val (array, handler_id);
 
 	handler_id = g_signal_connect_swapped (
-		shell, "window-destroyed",
+		shell, "window-removed",
 		G_CALLBACK (shell_window_update_close_action_cb),
 		shell_window);
 
@@ -1510,9 +1513,9 @@ e_shell_window_set_toolbar_visible (EShellWindow *shell_window,
  * Registers a list of #GtkAction<!-- -->s to appear in
  * @shell_window<!-- -->'s "New" menu and toolbar button.  This
  * function should be called from an #EShell<!-- -->'s
- * #EShell::window-created signal handler.  The #EShellBackend calling
- * this function should pass its own name for the @backend_name argument
- * (i.e. the <structfield>name</structfield> field from its own
+ * #GtkApplication::window-added signal handler.  The #EShellBackend
+ * calling this function should pass its own name for the @backend_name
+ * argument (i.e. the <structfield>name</structfield> field from its own
  * #EShellBackendInfo).
  *
  * The registered #GtkAction<!-- -->s should be for creating individual
@@ -1597,9 +1600,9 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
  * Registers a list of #GtkAction<!-- -->s to appear in
  * @shell_window<!-- -->'s "New" menu and toolbar button.  This
  * function should be called from an #EShell<!-- -->'s
- * #EShell::window-created signal handler.  The #EShellBackend calling
- * this function should pass its own name for the @backend_name argument
- * (i.e. the <structfield>name</structfield> field from its own
+ * #GtkApplication::window-added signal handler.  The #EShellBackend
+ * calling this function should pass its own name for the @backend_name
+ * argument (i.e. the <structfield>name</structfield> field from its own
  * #EShellBackendInfo).
  *
  * The registered #GtkAction<!-- -->s should be for creating item

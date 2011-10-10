@@ -475,7 +475,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	e_plugin_ui_register_manager (ui_manager, id, shell_window);
 	e_plugin_ui_enable_manager (ui_manager, id);
 
-	e_shell_watch_window (shell, window);
+	gtk_application_add_window (GTK_APPLICATION (shell), window);
 }
 
 void

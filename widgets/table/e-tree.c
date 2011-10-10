@@ -197,6 +197,9 @@ struct _ETreePrivate {
 	ETreeDragSourceSite *site;
 
 	GList *expanded_list;
+
+	gboolean state_changed;
+	guint state_change_freeze;
 };
 
 static guint et_signals[LAST_SIGNAL] = { 0, };
@@ -299,7 +302,10 @@ current_search_col (ETree *et)
 static void
 e_tree_state_change (ETree *et)
 {
-	g_signal_emit (G_OBJECT (et), et_signals[STATE_CHANGE], 0);
+	if (et->priv->state_change_freeze)
+		et->priv->state_changed = TRUE;
+	else
+		g_signal_emit (G_OBJECT (et), et_signals[STATE_CHANGE], 0);
 }
 
 static void
@@ -629,6 +635,9 @@ e_tree_init (ETree *e_tree)
 		G_CALLBACK (et_search_accept), e_tree);
 
 	e_tree->priv->always_search = g_getenv ("GAL_ALWAYS_SEARCH") ? TRUE : FALSE;
+
+	e_tree->priv->state_changed = FALSE;
+	e_tree->priv->state_change_freeze = 0;
 }
 
 /* Grab_focus handler for the ETree */
@@ -3786,4 +3795,29 @@ e_tree_set_info_message (ETree *tree,
 		}
 	} else
 		gnome_canvas_item_set (tree->priv->info_text, "text", info_message, NULL);
+}
+
+void
+e_tree_freeze_state_change (ETree *tree)
+{
+	g_return_if_fail (tree != NULL);
+
+	tree->priv->state_change_freeze++;
+	if (tree->priv->state_change_freeze == 1)
+		tree->priv->state_changed = FALSE;
+
+	g_return_if_fail (tree->priv->state_change_freeze != 0);
+}
+
+void
+e_tree_thaw_state_change (ETree *tree)
+{
+	g_return_if_fail (tree != NULL);
+	g_return_if_fail (tree->priv->state_change_freeze != 0);
+
+	tree->priv->state_change_freeze--;
+	if (tree->priv->state_change_freeze == 0 && tree->priv->state_changed) {
+		tree->priv->state_changed = FALSE;
+		e_tree_state_change (tree);
+	}
 }

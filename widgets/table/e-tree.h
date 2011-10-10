@@ -362,6 +362,9 @@ GnomeCanvasItem *
 void		e_tree_set_info_message		(ETree *tree,
 						 const gchar *info_message);
 
+void		e_tree_freeze_state_change	(ETree *table);
+void		e_tree_thaw_state_change	(ETree *table);
+
 G_END_DECLS
 
 #endif /* _E_TREE_H_ */

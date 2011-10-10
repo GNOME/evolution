@@ -308,11 +308,13 @@ notify_default_action_cb (NotifyNotification *notification,
 	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
 	EMFolderTree *folder_tree;
+	GtkApplication *application;
 	GtkAction *action;
 	GList *list;
 
 	shell = e_shell_get_default ();
-	list = e_shell_get_watched_windows (shell);
+	application = GTK_APPLICATION (shell);
+	list = gtk_application_get_windows (application);
 
 	/* Find the first EShellWindow in the list. */
 	while (list != NULL && !E_IS_SHELL_WINDOW (list->data))

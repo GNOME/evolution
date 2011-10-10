@@ -70,6 +70,11 @@ void		e_attachment_paned_set_active_view
 gboolean	e_attachment_paned_get_expanded	(EAttachmentPaned *paned);
 void		e_attachment_paned_set_expanded	(EAttachmentPaned *paned,
 						 gboolean expanded);
+gboolean	e_attachment_paned_get_resize_toplevel
+						(EAttachmentPaned *paned);
+void		e_attachment_paned_set_resize_toplevel
+						(EAttachmentPaned *paned,
+						 gboolean resize_toplevel);
 void		e_attachment_paned_drag_data_received
 						(EAttachmentPaned *paned,
 						 GdkDragContext *context,

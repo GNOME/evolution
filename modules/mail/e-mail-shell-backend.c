@@ -303,10 +303,11 @@ mail_shell_backend_window_weak_notify_cb (EShell *shell,
 }
 
 static void
-mail_shell_backend_window_created_cb (EShell *shell,
-                                      GtkWindow *window,
-                                      EShellBackend *shell_backend)
+mail_shell_backend_window_added_cb (GtkApplication *application,
+                                    GtkWindow *window,
+                                    EShellBackend *shell_backend)
 {
+	EShell *shell = E_SHELL (application);
 	const gchar *backend_name;
 
 	/* This applies to both the composer and signature editor. */
@@ -397,8 +398,8 @@ mail_shell_backend_constructed (GObject *object)
 		shell_backend);
 
 	g_signal_connect (
-		shell, "window-created",
-		G_CALLBACK (mail_shell_backend_window_created_cb),
+		shell, "window-added",
+		G_CALLBACK (mail_shell_backend_window_added_cb),
 		shell_backend);
 
 	e_mail_shell_settings_init (shell_backend);

@@ -287,7 +287,7 @@ update_1folder (MailFolderCache *self,
 				if ((deleted = camel_folder_get_deleted_message_count (folder)) > 0)
 					unread -= deleted;
 
-				junked = folder->summary->junk_count;
+				junked = camel_folder_summary_get_junk_count (folder->summary);
 				if (junked > 0)
 					unread -= junked;
 			}

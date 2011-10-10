@@ -149,9 +149,9 @@ composer_registry_notify_cb (EComposerRegistry *registry,
 }
 
 static void
-composer_registry_window_created_cb (EShell *shell,
-                                     GtkWindow *window,
-                                     EComposerRegistry *registry)
+composer_registry_window_added_cb (GtkApplication *application,
+                                   GtkWindow *window,
+                                   EComposerRegistry *registry)
 {
 	/* Offer to restore any orphaned auto-save files from the
 	 * previous session once the first EShellWindow is mapped. */
@@ -201,8 +201,8 @@ composer_registry_constructed (GObject *object)
 
 	/* Listen for new watched windows. */
 	g_signal_connect (
-		extensible, "window-created",
-		G_CALLBACK (composer_registry_window_created_cb),
+		extensible, "window-added",
+		G_CALLBACK (composer_registry_window_added_cb),
 		object);
 }
 

@@ -194,6 +194,18 @@ acc_get_general_page (EConfig *ec,
 		DTFormatKindDateTime, _("_Table column:"));
 	gtk_widget_show (widget);
 
+	itembox = add_section (vbox, _("Address formatting"), FALSE);
+
+	widget = gtk_check_button_new_with_label (
+		_("_Format address according to standard of its destination country"));
+	g_object_bind_property (
+		shell_settings, "enable-address-formatting",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+	gtk_box_pack_start (GTK_BOX (itembox), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
 	itembox = add_section (vbox, _("Autocompletion"), TRUE);
 
 	widget = gtk_check_button_new_with_mnemonic (

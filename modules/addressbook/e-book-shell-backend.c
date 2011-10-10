@@ -440,8 +440,8 @@ book_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 }
 
 static void
-book_shell_backend_window_created_cb (EShellBackend *shell_backend,
-                                      GtkWindow *window)
+book_shell_backend_window_added_cb (EShellBackend *shell_backend,
+                                    GtkWindow *window)
 {
 	const gchar *backend_name;
 
@@ -525,8 +525,8 @@ book_shell_backend_constructed (GObject *object)
 		shell_backend);
 
 	g_signal_connect_swapped (
-		shell, "window-created",
-		G_CALLBACK (book_shell_backend_window_created_cb),
+		shell, "window-added",
+		G_CALLBACK (book_shell_backend_window_added_cb),
 		shell_backend);
 
 	e_book_shell_backend_init_settings (shell);

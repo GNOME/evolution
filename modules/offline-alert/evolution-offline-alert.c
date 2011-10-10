@@ -97,10 +97,11 @@ offline_alert_network_available_cb (EShell *shell,
 }
 
 static void
-offline_alert_window_created_cb (EShell *shell,
-                                 GtkWindow *window,
-                                 EOfflineAlert *extension)
+offline_alert_window_added_cb (GtkApplication *application,
+                               GtkWindow *window,
+                               EOfflineAlert *extension)
 {
+	EShell *shell = E_SHELL (application);
 	GtkAction *action;
 
 	if (!E_IS_SHELL_WINDOW (window))
@@ -118,7 +119,7 @@ offline_alert_window_created_cb (EShell *shell,
 		G_CALLBACK (offline_alert_network_available_cb), extension);
 
 	g_signal_handlers_disconnect_by_func (
-		shell, offline_alert_window_created_cb, extension);
+		shell, offline_alert_window_added_cb, extension);
 
 	if (e_shell_get_online (shell))
 		return;
@@ -175,8 +176,8 @@ offline_alert_constructed (GObject *object)
 
 	/* Watch for the first EShellWindow. */
 	g_signal_connect (
-		shell, "window-created",
-		G_CALLBACK (offline_alert_window_created_cb), extension);
+		shell, "window-added",
+		G_CALLBACK (offline_alert_window_added_cb), extension);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_offline_alert_parent_class)->constructed (object);

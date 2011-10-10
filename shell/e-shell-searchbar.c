@@ -36,7 +36,6 @@
 
 #include "e-util/e-util.h"
 #include "widgets/misc/e-action-combo-box.h"
-#include "widgets/misc/e-hinted-entry.h"
 
 #include "e-shell-window-actions.h"
 
@@ -979,7 +978,7 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 
 	label = GTK_LABEL (widget);
 
-	widget = e_hinted_entry_new ();
+	widget = gtk_entry_new ();
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
 	searchbar->priv->search_entry = widget;
@@ -1168,26 +1167,26 @@ e_shell_searchbar_set_filter_visible (EShellSearchbar *searchbar,
 const gchar *
 e_shell_searchbar_get_search_hint (EShellSearchbar *searchbar)
 {
-	EHintedEntry *entry;
+	GtkEntry *entry;
 
 	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), NULL);
 
-	entry = E_HINTED_ENTRY (searchbar->priv->search_entry);
+	entry = GTK_ENTRY (searchbar->priv->search_entry);
 
-	return e_hinted_entry_get_hint (entry);
+	return gtk_entry_get_placeholder_text (entry);
 }
 
 void
 e_shell_searchbar_set_search_hint (EShellSearchbar *searchbar,
                                    const gchar *search_hint)
 {
-	EHintedEntry *entry;
+	GtkEntry *entry;
 
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
-	entry = E_HINTED_ENTRY (searchbar->priv->search_entry);
+	entry = GTK_ENTRY (searchbar->priv->search_entry);
 
-	e_hinted_entry_set_hint (entry, search_hint);
+	gtk_entry_set_placeholder_text (entry, search_hint);
 
 	g_object_notify (G_OBJECT (searchbar), "search-hint");
 }
@@ -1233,26 +1232,31 @@ e_shell_searchbar_set_search_option (EShellSearchbar *searchbar,
 const gchar *
 e_shell_searchbar_get_search_text (EShellSearchbar *searchbar)
 {
-	EHintedEntry *entry;
+	GtkEntry *entry;
 
 	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), NULL);
 
-	entry = E_HINTED_ENTRY (searchbar->priv->search_entry);
+	entry = GTK_ENTRY (searchbar->priv->search_entry);
 
-	return e_hinted_entry_get_text (entry);
+	return gtk_entry_get_text (entry);
 }
 
 void
 e_shell_searchbar_set_search_text (EShellSearchbar *searchbar,
                                    const gchar *search_text)
 {
-	EHintedEntry *entry;
+	GtkEntry *entry;
 
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
-	entry = E_HINTED_ENTRY (searchbar->priv->search_entry);
+	entry = GTK_ENTRY (searchbar->priv->search_entry);
 
-	e_hinted_entry_set_text (entry, search_text);
+	/* XXX Really wish gtk_entry_set_text()
+	 *     would just learn to accept NULL. */
+	if (search_text == NULL)
+		search_text = "";
+
+	gtk_entry_set_text (entry, search_text);
 
 	shell_searchbar_update_search_widgets (searchbar);
 

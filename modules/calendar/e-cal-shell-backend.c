@@ -699,8 +699,8 @@ exit:
 }
 
 static void
-cal_shell_backend_window_created_cb (EShellBackend *shell_backend,
-                                     GtkWindow *window)
+cal_shell_backend_window_added_cb (EShellBackend *shell_backend,
+                                   GtkWindow *window)
 {
 	const gchar *backend_name;
 
@@ -770,8 +770,8 @@ cal_shell_backend_constructed (GObject *object)
 		shell_backend);
 
 	g_signal_connect_swapped (
-		shell, "window-created",
-		G_CALLBACK (cal_shell_backend_window_created_cb),
+		shell, "window-added",
+		G_CALLBACK (cal_shell_backend_window_added_cb),
 		shell_backend);
 
 	cal_shell_backend_init_importers ();
@@ -953,18 +953,21 @@ e_cal_shell_backend_open_date_range (ECalShellBackend *cal_shell_backend,
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
 	GtkWidget *shell_window = NULL;
+	GtkApplication *application;
 	ECalendar *navigator;
-	GList *watched_windows;
+	GList *list;
 
 	g_return_if_fail (E_IS_CAL_SHELL_BACKEND (cal_shell_backend));
 
 	shell_backend = E_SHELL_BACKEND (cal_shell_backend);
 	shell = e_shell_backend_get_shell (shell_backend);
-	watched_windows = e_shell_get_watched_windows (shell);
+
+	application = GTK_APPLICATION (shell);
+	list = gtk_application_get_windows (application);
 
 	/* Try to find an EShellWindow already in calendar view. */
-	while (watched_windows != NULL) {
-		GtkWidget *window = GTK_WIDGET (watched_windows->data);
+	while (list != NULL) {
+		GtkWidget *window = GTK_WIDGET (list->data);
 
 		if (E_IS_SHELL_WINDOW (window)) {
 			const gchar *active_view;
@@ -978,7 +981,7 @@ e_cal_shell_backend_open_date_range (ECalShellBackend *cal_shell_backend,
 			}
 		}
 
-		watched_windows = g_list_next (watched_windows);
+		list = g_list_next (list);
 	}
 
 	/* Otherwise create a new EShellWindow in calendar view. */

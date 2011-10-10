@@ -203,7 +203,10 @@ et_disconnect_model (ETable *et)
 static void
 e_table_state_change (ETable *et)
 {
-	g_signal_emit (G_OBJECT (et), et_signals[STATE_CHANGE], 0);
+	if (et->state_change_freeze)
+		et->state_changed = TRUE;
+	else
+		g_signal_emit (G_OBJECT (et), et_signals[STATE_CHANGE], 0);
 }
 
 #define CHECK_HORIZONTAL(et) \
@@ -605,6 +608,9 @@ e_table_init (ETable *e_table)
 	e_table->current_search_col     = NULL;
 
 	e_table->header_width           = 0;
+
+	e_table->state_changed		= FALSE;
+	e_table->state_change_freeze	= 0;
 }
 
 /* Grab_focus handler for the ETable */
@@ -3708,4 +3714,29 @@ e_table_class_init (ETableClass *class)
 		object_class, PROP_VSCROLL_POLICY, "vscroll-policy");
 
 	gal_a11y_e_table_init ();
+}
+
+void
+e_table_freeze_state_change (ETable *table)
+{
+	g_return_if_fail (table != NULL);
+
+	table->state_change_freeze++;
+	if (table->state_change_freeze == 1)
+		table->state_changed = FALSE;
+
+	g_return_if_fail (table->state_change_freeze != 0);
+}
+
+void
+e_table_thaw_state_change (ETable *table)
+{
+	g_return_if_fail (table != NULL);
+	g_return_if_fail (table->state_change_freeze != 0);
+
+	table->state_change_freeze--;
+	if (table->state_change_freeze == 0 && table->state_changed) {
+		table->state_changed = FALSE;
+		e_table_state_change (table);
+	}
 }

@@ -53,7 +53,8 @@ struct _EAttachmentPanedPrivate {
 	GtkWidget *content_area;
 
 	gint active_view;
-	guint expanded : 1;
+	gboolean expanded;
+	gboolean resize_toplevel;
 };
 
 enum {
@@ -61,7 +62,8 @@ enum {
 	PROP_ACTIVE_VIEW,
 	PROP_DRAGGING,
 	PROP_EDITABLE,
-	PROP_EXPANDED
+	PROP_EXPANDED,
+	PROP_RESIZE_TOPLEVEL
 };
 
 /* Forward Declarations */
@@ -87,6 +89,9 @@ attachment_paned_notify_cb (EAttachmentPaned *paned,
                             GParamSpec *pspec,
                             GtkExpander *expander)
 {
+	GtkAllocation toplevel_allocation;
+	GtkWidget *toplevel;
+	GtkWidget *child;
 	GtkLabel *label;
 	const gchar *text;
 
@@ -99,6 +104,47 @@ attachment_paned_notify_cb (EAttachmentPaned *paned,
 		text = _("Show Attachment _Bar");
 
 	gtk_label_set_text_with_mnemonic (label, text);
+
+	/* Resize the top-level window if required conditions are met.
+	 * This is based on gtk_expander_resize_toplevel(), but adapted
+	 * to the fact our GtkExpander has no direct child widget. */
+
+	if (!e_attachment_paned_get_resize_toplevel (paned))
+		return;
+
+	if (!gtk_widget_get_realized (GTK_WIDGET (paned)))
+		return;
+
+	child = gtk_paned_get_child2 (GTK_PANED (paned));
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (paned));
+
+	if (toplevel == NULL)
+		return;
+
+	if (!gtk_widget_get_realized (GTK_WIDGET (toplevel)))
+		return;
+
+	gtk_widget_get_allocation (toplevel, &toplevel_allocation);
+
+	if (gtk_expander_get_expanded (expander)) {
+		GtkRequisition child_requisition;
+
+		gtk_widget_get_preferred_size (
+			child, &child_requisition, NULL);
+
+		toplevel_allocation.height += child_requisition.height;
+	} else {
+		GtkAllocation child_allocation;
+
+		gtk_widget_get_allocation (child, &child_allocation);
+
+		toplevel_allocation.height -= child_allocation.height;
+	}
+
+	gtk_window_resize (
+		GTK_WINDOW (toplevel),
+		toplevel_allocation.width,
+		toplevel_allocation.height);
 }
 
 static void
@@ -177,6 +223,12 @@ attachment_paned_set_property (GObject *object,
 				E_ATTACHMENT_PANED (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_RESIZE_TOPLEVEL:
+			e_attachment_paned_set_resize_toplevel (
+				E_ATTACHMENT_PANED (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -191,25 +243,36 @@ attachment_paned_get_property (GObject *object,
 	switch (property_id) {
 		case PROP_ACTIVE_VIEW:
 			g_value_set_int (
-				value, e_attachment_paned_get_active_view (
+				value,
+				e_attachment_paned_get_active_view (
 				E_ATTACHMENT_PANED (object)));
 			return;
 
 		case PROP_DRAGGING:
 			g_value_set_boolean (
-				value, e_attachment_view_get_dragging (
+				value,
+				e_attachment_view_get_dragging (
 				E_ATTACHMENT_VIEW (object)));
 			return;
 
 		case PROP_EDITABLE:
 			g_value_set_boolean (
-				value, e_attachment_view_get_editable (
+				value,
+				e_attachment_view_get_editable (
 				E_ATTACHMENT_VIEW (object)));
 			return;
 
 		case PROP_EXPANDED:
 			g_value_set_boolean (
-				value, e_attachment_paned_get_expanded (
+				value,
+				e_attachment_paned_get_expanded (
+				E_ATTACHMENT_PANED (object)));
+			return;
+
+		case PROP_RESIZE_TOPLEVEL:
+			g_value_set_boolean (
+				value,
+				e_attachment_paned_get_resize_toplevel (
 				E_ATTACHMENT_PANED (object)));
 			return;
 	}
@@ -494,7 +557,14 @@ e_attachment_paned_class_init (EAttachmentPanedClass *class)
 			NUM_VIEWS,
 			0,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_override_property (
+		object_class, PROP_DRAGGING, "dragging");
+
+	g_object_class_override_property (
+		object_class, PROP_EDITABLE, "editable");
 
 	g_object_class_install_property (
 		object_class,
@@ -505,13 +575,20 @@ e_attachment_paned_class_init (EAttachmentPanedClass *class)
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
-	g_object_class_override_property (
-		object_class, PROP_DRAGGING, "dragging");
-
-	g_object_class_override_property (
-		object_class, PROP_EDITABLE, "editable");
+	g_object_class_install_property (
+		object_class,
+		PROP_RESIZE_TOPLEVEL,
+		g_param_spec_boolean (
+			"resize-toplevel",
+			"Resize-Toplevel",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -766,6 +843,25 @@ e_attachment_paned_set_expanded (EAttachmentPaned *paned,
 	paned->priv->expanded = expanded;
 
 	g_object_notify (G_OBJECT (paned), "expanded");
+}
+
+gboolean
+e_attachment_paned_get_resize_toplevel (EAttachmentPaned *paned)
+{
+	g_return_val_if_fail (E_IS_ATTACHMENT_PANED (paned), FALSE);
+
+	return paned->priv->resize_toplevel;
+}
+
+void
+e_attachment_paned_set_resize_toplevel (EAttachmentPaned *paned,
+                                        gboolean resize_toplevel)
+{
+	g_return_if_fail (E_IS_ATTACHMENT_PANED (paned));
+
+	paned->priv->resize_toplevel = resize_toplevel;
+
+	g_object_notify (G_OBJECT (paned), "resize-toplevel");
 }
 
 void

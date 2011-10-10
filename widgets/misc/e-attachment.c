@@ -1517,9 +1517,8 @@ attachment_load_check_for_error (LoadContext *load_context,
 		return FALSE;
 
 	simple = load_context->simple;
-	g_simple_async_result_set_from_error (simple, error);
+	g_simple_async_result_take_error (simple, error);
 	g_simple_async_result_complete (simple);
-	g_error_free (error);
 
 	attachment_load_context_free (load_context);
 
@@ -2021,9 +2020,8 @@ attachment_open_check_for_error (OpenContext *open_context,
 		return FALSE;
 
 	simple = open_context->simple;
-	g_simple_async_result_set_from_error (simple, error);
+	g_simple_async_result_take_error (simple, error);
 	g_simple_async_result_complete (simple);
-	g_error_free (error);
 
 	attachment_open_context_free (open_context);
 
@@ -2064,10 +2062,8 @@ attachment_open_file (GFile *file,
 
 	g_simple_async_result_set_op_res_gboolean (simple, success);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 
 	g_simple_async_result_complete (simple);
 	attachment_open_context_free (open_context);
@@ -2324,9 +2320,8 @@ attachment_save_check_for_error (SaveContext *save_context,
 		return FALSE;
 
 	simple = save_context->simple;
-	g_simple_async_result_set_from_error (simple, error);
+	g_simple_async_result_take_error (simple, error);
 	g_simple_async_result_complete (simple);
-	g_error_free (error);
 
 	attachment_save_context_free (save_context);
 

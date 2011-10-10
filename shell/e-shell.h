@@ -106,9 +106,6 @@ struct _EShellClass {
 						 EActivity *activity);
 	void		(*quit_requested)	(EShell *shell,
 						 EShellQuitReason reason);
-	void		(*window_created)	(EShell *shell,
-						 GtkWindow *window);
-	void		(*window_destroyed)	(EShell *shell);
 };
 
 GType		e_shell_get_type		(void);
@@ -130,9 +127,6 @@ guint		e_shell_handle_uris		(EShell *shell,
 						 gboolean do_import);
 void		e_shell_submit_alert		(EShell *shell,
 						 EAlert *alert);
-void		e_shell_watch_window		(EShell *shell,
-						 GtkWindow *window);
-GList *		e_shell_get_watched_windows	(EShell *shell);
 GtkWindow *     e_shell_get_active_window	(EShell *shell);
 gboolean	e_shell_get_meego_mode		(EShell *shell);
 gboolean	e_shell_get_express_mode	(EShell *shell);

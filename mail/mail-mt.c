@@ -200,6 +200,7 @@ mail_msg_check_error (gpointer msg)
 	EShellView *shell_view;
 	EShellWindow *shell_window = NULL;
 	EShellContent *shell_content;
+	GtkApplication *application;
 	MailMsg *m = msg;
 	gchar *what;
 	GList *list, *iter;
@@ -226,9 +227,10 @@ mail_msg_check_error (gpointer msg)
 		return;
 
 	shell = e_shell_get_default ();
+	application = GTK_APPLICATION (shell);
+	list = gtk_application_get_windows (application);
 
 	/* Find the most recently used EShellWindow. */
-	list =  e_shell_get_watched_windows (shell);
 	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
 		if (E_IS_SHELL_WINDOW (iter->data)) {
 			shell_window = E_SHELL_WINDOW (iter->data);

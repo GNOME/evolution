@@ -38,7 +38,6 @@ widgetsinclude_HEADERS =			\
 	e-contact-marker.h			\
 	e-dateedit.h				\
 	e-focus-tracker.h			\
-	e-hinted-entry.h			\
 	e-image-chooser.h			\
 	e-import-assistant.h			\
 	e-map.h					\
@@ -123,7 +122,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-contact-marker.c			\
 	e-dateedit.c				\
 	e-focus-tracker.c			\
-	e-hinted-entry.c			\
 	e-image-chooser.c			\
 	e-import-assistant.c			\
 	e-map.c					\

@@ -2113,17 +2113,14 @@ comp_editor_init (CompEditor *editor)
 		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
 
 	widget = e_attachment_paned_new ();
+	e_attachment_paned_set_resize_toplevel (
+		E_ATTACHMENT_PANED (widget), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->attachment_view = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	if (express_mode) {
-		e_attachment_paned_set_expanded (
-			E_ATTACHMENT_PANED (widget), TRUE);
-		e_attachment_paned_set_expanded (
-			E_ATTACHMENT_PANED (widget), FALSE);
-
 		widget = e_attachment_paned_get_view_combo (
 			E_ATTACHMENT_PANED (widget));
 		gtk_widget_hide (widget);
@@ -2196,7 +2193,8 @@ comp_editor_init (CompEditor *editor)
 
 	comp_editor_bind_settings (editor);
 
-	e_shell_watch_window (shell, GTK_WINDOW (editor));
+	gtk_application_add_window (
+		GTK_APPLICATION (shell), GTK_WINDOW (editor));
 	e_shell_adapt_window_size (shell, GTK_WINDOW (editor));
 }
 

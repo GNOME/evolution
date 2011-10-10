@@ -1192,6 +1192,11 @@ ethi_end_resize (ETableHeaderItem *ethi)
 	ethi->resize_col = -1;
 	ethi->resize_guide = GINT_TO_POINTER (0);
 
+	if (ethi->table)
+		e_table_thaw_state_change (ethi->table);
+	else if (ethi->tree)
+		e_tree_thaw_state_change (ethi->tree);
+
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ethi));
 }
 
@@ -1903,6 +1908,11 @@ ethi_event (GnomeCanvasItem *item,
 			ethi->resize_col = col;
 			ethi->resize_start_pos = start - ecol->width;
 			ethi->resize_min_width = ecol->min_width;
+
+			if (ethi->table)
+				e_table_freeze_state_change (ethi->table);
+			else if (ethi->tree)
+				e_tree_freeze_state_change (ethi->tree);
 		} else {
 			if (e->button.button == 1) {
 				ethi->click_x = e->button.x;

@@ -966,15 +966,13 @@ composer_build_message_thread (GSimpleAsyncResult *simple,
 	}
 
 	if (!composer_build_message_pgp (context, cancellable, &error)) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
+		g_simple_async_result_take_error (simple, error);
 		return;
 	}
 
 #if defined (HAVE_NSS)
 	if (!composer_build_message_smime (context, cancellable, &error)) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
+		g_simple_async_result_take_error (simple, error);
 		return;
 	}
 #endif /* HAVE_NSS */
@@ -1902,6 +1900,8 @@ static gboolean
 msg_composer_delete_event_cb (EMsgComposer *composer)
 {
 	EShell *shell;
+	GtkApplication *application;
+	GList *windows;
 
 	shell = e_msg_composer_get_shell (composer);
 
@@ -1910,7 +1910,10 @@ msg_composer_delete_event_cb (EMsgComposer *composer)
 	if (!gtk_action_group_get_sensitive (composer->priv->async_actions))
 		return TRUE;
 
-	if (g_list_length (e_shell_get_watched_windows (shell)) == 1) {
+	application = GTK_APPLICATION (shell);
+	windows = gtk_application_get_windows (application);
+
+	if (g_list_length (windows) == 1) {
 		/* This is the last watched window, use the quit
 		 * mechanism to have a draft saved properly */
 		e_shell_quit (shell, E_SHELL_QUIT_ACTION);
@@ -2092,8 +2095,10 @@ msg_composer_constructed (GObject *object)
 		object, "delete-event",
 		G_CALLBACK (msg_composer_delete_event_cb), NULL);
 
-	e_shell_adapt_window_size (shell, GTK_WINDOW (composer));
-	e_shell_watch_window (shell, GTK_WINDOW (object));
+	e_shell_adapt_window_size (shell, GTK_WINDOW (object));
+
+	gtk_application_add_window (
+		GTK_APPLICATION (shell), GTK_WINDOW (object));
 
 	g_signal_connect (
 		shell, "quit-requested",
@@ -2106,12 +2111,6 @@ msg_composer_constructed (GObject *object)
 	/* Restore Persistent State */
 
 	array = composer->priv->gconf_bridge_binding_ids;
-
-	binding_id = gconf_bridge_bind_property (
-		gconf_bridge_get (),
-		COMPOSER_GCONF_CURRENT_FOLDER_KEY,
-		G_OBJECT (composer), "current-folder");
-	g_array_append_val (array, binding_id);
 
 	binding_id = gconf_bridge_bind_window (
 		gconf_bridge_get (),
@@ -4593,8 +4592,7 @@ composer_get_message_ready (EMsgComposer *composer,
 
 	if (error != NULL) {
 		g_warn_if_fail (message == NULL);
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
+		g_simple_async_result_take_error (simple, error);
 	}
 
 	g_simple_async_result_complete (simple);
