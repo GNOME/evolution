@@ -384,7 +384,8 @@ add_source_list_with_check (GtkWidget *frame,
                             const gchar *caption,
                             EClientSourceType source_type,
                             GCallback toggle_callback,
-                            EImportTarget *target)
+                            EImportTarget *target,
+			    gboolean active)
 {
 	GtkWidget *check, *hbox;
 	ESourceList *source_list = NULL;
@@ -397,7 +398,7 @@ add_source_list_with_check (GtkWidget *frame,
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 
 	check = gtk_check_button_new_with_mnemonic (caption);
-	gtk_toggle_button_set_active ((GtkToggleButton *) check, FALSE);
+	gtk_toggle_button_set_active ((GtkToggleButton *) check, active);
 	g_signal_connect (check, "toggled", toggle_callback, target);
 	gtk_box_pack_start ((GtkBox *) hbox, check, FALSE, FALSE, 0);
 
@@ -427,6 +428,93 @@ add_source_list_with_check (GtkWidget *frame,
 	}
 }
 
+static void
+pst_import_check_items (EImportTarget *target)
+{
+	gboolean has_mail = FALSE, has_addr = FALSE, has_appt = FALSE, has_task = FALSE, has_journal = FALSE;
+	gchar *filename;
+	pst_file pst;
+	pst_item *item = NULL, *subitem;
+	pst_desc_tree *d_ptr, *topitem;
+
+	filename = g_filename_from_uri (((EImportTargetURI *) target)->uri_src, NULL, NULL);
+
+	if (pst_init (&pst, filename) < 0) {
+		goto end;
+	}
+
+	if ((item = pst_parse_item (&pst, pst.d_head, NULL)) == NULL) {
+		goto end;
+	}
+
+	if ((topitem = pst_getTopOfFolders (&pst, item)) == NULL) {
+		goto end;
+	}
+
+	d_ptr = topitem->child;
+
+	/* Walk through folder tree */
+	while (d_ptr != NULL && (!has_mail || !has_addr || !has_appt || !has_task || !has_journal)) {
+		subitem = pst_parse_item (&pst, d_ptr, NULL);
+
+		if (subitem != NULL &&
+		    subitem->message_store == NULL &&
+		    subitem->folder == NULL) {
+			switch (subitem->type) {
+			case PST_TYPE_CONTACT:
+				if (subitem->contact)
+					has_addr = TRUE;
+				break;
+			case PST_TYPE_APPOINTMENT:
+				if (subitem->appointment)
+					has_appt = TRUE;
+				break;
+			case PST_TYPE_TASK:
+				if (subitem->appointment)
+					has_task = TRUE;
+				break;
+			case PST_TYPE_JOURNAL:
+				if (subitem->appointment)
+					has_journal = TRUE;
+				break;
+			case PST_TYPE_NOTE:
+			case PST_TYPE_SCHEDULE:
+			case PST_TYPE_REPORT:
+				if (subitem->email)
+					has_mail = TRUE;
+				break;
+			}
+		}
+
+		pst_freeItem (subitem);
+
+		if (d_ptr->child != NULL) {
+			d_ptr = d_ptr->child;
+		} else if (d_ptr->next != NULL) {
+			d_ptr = d_ptr->next;
+		} else {
+			while (d_ptr != topitem && d_ptr->next == NULL) {
+				d_ptr = d_ptr->parent;
+			}
+
+			if (d_ptr == topitem)
+				break;
+
+			d_ptr = d_ptr->next;
+		}
+	}
+
+	pst_freeItem (item);
+
+ end:
+	g_free (filename);
+	g_datalist_set_data (&target->data, "pst-do-mail", GINT_TO_POINTER (has_mail));
+	g_datalist_set_data (&target->data, "pst-do-addr", GINT_TO_POINTER (has_addr));
+	g_datalist_set_data (&target->data, "pst-do-appt", GINT_TO_POINTER (has_appt));
+	g_datalist_set_data (&target->data, "pst-do-task", GINT_TO_POINTER (has_task));
+	g_datalist_set_data (&target->data, "pst-do-journal", GINT_TO_POINTER (has_journal));
+}
+
 GtkWidget *
 org_credativ_evolution_readpst_getwidget (EImport *ei,
                                           EImportTarget *target,
@@ -437,18 +525,14 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
 	GtkWidget *hbox, *framebox, *w, *check;
 	gchar *foldername;
 
-	g_datalist_set_data (&target->data, "pst-do-mail", GINT_TO_POINTER (TRUE));
-	g_datalist_set_data (&target->data, "pst-do-addr", GINT_TO_POINTER (FALSE));
-	g_datalist_set_data (&target->data, "pst-do-appt", GINT_TO_POINTER (FALSE));
-	g_datalist_set_data (&target->data, "pst-do-task", GINT_TO_POINTER (FALSE));
-	g_datalist_set_data (&target->data, "pst-do-journal", GINT_TO_POINTER (FALSE));
+	pst_import_check_items (target);
 
 	framebox = gtk_vbox_new (FALSE, 2);
 
 	/* Mail */
 	hbox = gtk_hbox_new (FALSE, 0);
 	check = gtk_check_button_new_with_mnemonic (_("_Mail"));
-	gtk_toggle_button_set_active ((GtkToggleButton *) check, TRUE);
+	gtk_toggle_button_set_active ((GtkToggleButton *) check, GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-mail")));
 	g_signal_connect (check, "toggled", G_CALLBACK (checkbox_mail_toggle_cb), target);
 	gtk_box_pack_start ((GtkBox *) hbox, check, FALSE, FALSE, 0);
 
@@ -472,10 +556,14 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
 
 	gtk_box_pack_start ((GtkBox *) framebox, hbox, FALSE, FALSE, 0);
 
-	add_source_list_with_check (framebox, _("_Address Book"), E_CLIENT_SOURCE_TYPE_CONTACTS, G_CALLBACK (checkbox_addr_toggle_cb), target);
-	add_source_list_with_check (framebox, _("A_ppointments"), E_CLIENT_SOURCE_TYPE_EVENTS, G_CALLBACK (checkbox_appt_toggle_cb), target);
-	add_source_list_with_check (framebox, _("_Tasks"), E_CLIENT_SOURCE_TYPE_TASKS, G_CALLBACK (checkbox_task_toggle_cb), target);
-	add_source_list_with_check (framebox, _("_Journal entries"), E_CLIENT_SOURCE_TYPE_MEMOS, G_CALLBACK (checkbox_journal_toggle_cb), target);
+	add_source_list_with_check (framebox, _("_Address Book"), E_CLIENT_SOURCE_TYPE_CONTACTS, G_CALLBACK (checkbox_addr_toggle_cb), target,
+		GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-addr")));
+	add_source_list_with_check (framebox, _("A_ppointments"), E_CLIENT_SOURCE_TYPE_EVENTS, G_CALLBACK (checkbox_appt_toggle_cb), target,
+		GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-appt")));
+	add_source_list_with_check (framebox, _("_Tasks"), E_CLIENT_SOURCE_TYPE_TASKS, G_CALLBACK (checkbox_task_toggle_cb), target,
+		GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-task")));
+	add_source_list_with_check (framebox, _("_Journal entries"), E_CLIENT_SOURCE_TYPE_MEMOS, G_CALLBACK (checkbox_journal_toggle_cb), target,
+		GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-journal")));
 
 	gtk_widget_show_all (framebox);
 
@@ -1824,6 +1912,7 @@ static void
 pst_process_component (PstImporter *m,
                        pst_item *item,
                        const gchar *comp_type,
+		       ECalComponentVType vtype,
                        ECalClient *cal)
 {
 	ECalComponent *ec;
@@ -1833,7 +1922,7 @@ pst_process_component (PstImporter *m,
 	g_return_if_fail (item->appointment != NULL);
 
 	ec = e_cal_component_new ();
-	e_cal_component_set_new_vtype (ec, E_CAL_COMPONENT_EVENT);
+	e_cal_component_set_new_vtype (ec, vtype);
 
 	fill_calcomponent (m, item, ec, comp_type);
 	set_cal_attachments (cal, ec, m, item->attach);
@@ -1853,21 +1942,21 @@ static void
 pst_process_appointment (PstImporter *m,
                          pst_item *item)
 {
-	pst_process_component (m, item, "appointment", m->calendar);
+	pst_process_component (m, item, "appointment", E_CAL_COMPONENT_EVENT, m->calendar);
 }
 
 static void
 pst_process_task (PstImporter *m,
                   pst_item *item)
 {
-	pst_process_component (m, item, "task", m->tasks);
+	pst_process_component (m, item, "task", E_CAL_COMPONENT_TODO, m->tasks);
 }
 
 static void
 pst_process_journal (PstImporter *m,
                      pst_item *item)
 {
-	pst_process_component (m, item, "journal", m->journal);
+	pst_process_component (m, item, "journal", E_CAL_COMPONENT_JOURNAL, m->journal);
 }
 
 /* Print an error message - maybe later bring up an error dialog? */
