@@ -103,7 +103,6 @@ struct _GnomeCalendarPrivate {
 	 * was selected in the date navigator to show the view. */
 	ECalendarView    *views[GNOME_CAL_LAST_VIEW];
 	GnomeCalendarViewType current_view_type;
-	GList *notifications;
 
 	gboolean range_selected;
 
@@ -1507,11 +1506,6 @@ gnome_calendar_do_dispose (GObject *object)
 			priv->views[ii] = NULL;
 		}
 	}
-
-	for (l = priv->notifications; l; l = l->next)
-		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
-	g_list_free (priv->notifications);
-	priv->notifications = NULL;
 
 	free_dn_queries (gcal);
 

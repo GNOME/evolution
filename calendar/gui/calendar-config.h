@@ -28,9 +28,9 @@
 #ifndef _CALENDAR_CONFIG_H_
 #define _CALENDAR_CONFIG_H_
 
+#include <gio/gio.h>
 #include <gdk/gdk.h>
 #include <libecal/e-cal-client.h>
-#include <gconf/gconf-client.h>
 #include <e-util/e-util-enums.h>
 
 /* These are used to get/set the working days in the week. The bit-flags are
@@ -47,7 +47,11 @@ typedef enum
 	CAL_SATURDAY	= 1 << 6
 } CalWeekdays;
 
-void calendar_config_remove_notification (guint id);
+typedef void (* CalendarConfigChangedFunc) (GSettings *settings,
+					    const gchar *key,
+					    gpointer user_data);
+
+void calendar_config_remove_notification (CalendarConfigChangedFunc func, gpointer data);
 
 /*
  * Calendar Settings.
@@ -79,10 +83,11 @@ void    calendar_config_free_day_second_zones (GSList *zones);
 void    calendar_config_set_day_second_zone (const gchar *location);
 gchar *  calendar_config_get_day_second_zone (void);
 void    calendar_config_select_day_second_zone (void);
-guint   calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func, gpointer data);
+
+void   calendar_config_add_notification_day_second_zone (CalendarConfigChangedFunc func, gpointer data);
 
 /* Scroll in a month view by a week, not by a month */
 gboolean calendar_config_get_month_scroll_by_week (void);
-guint calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc func, gpointer data);
+void     calendar_config_add_notification_month_scroll_by_week (CalendarConfigChangedFunc func, gpointer data);
 
 #endif /* _CALENDAR_CONFIG_H_ */

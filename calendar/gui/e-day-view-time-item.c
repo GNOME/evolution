@@ -65,7 +65,6 @@ struct _EDayViewTimeItemPrivate {
 	gboolean dragging_selection;
 
 	/* The second timezone if shown, or else NULL. */
-	guint second_zone_changed_id;
 	icaltimezone *second_zone;
 };
 
@@ -109,9 +108,8 @@ static gint	e_day_view_time_item_convert_position_to_row
 						(EDayViewTimeItem *time_item,
 						 gint y);
 
-static void	edvti_second_zone_changed_cb	(GConfClient *client,
-						 guint cnxn_id,
-						 GConfEntry *entry,
+static void	edvti_second_zone_changed_cb	(GSettings *settings,
+						 const gchar *key,
 						 gpointer user_data);
 
 enum {
@@ -178,9 +176,7 @@ day_view_time_item_finalize (GObject *object)
 
 	time_item = E_DAY_VIEW_TIME_ITEM (object);
 
-	if (time_item->priv->second_zone_changed_id)
-		calendar_config_remove_notification (time_item->priv->second_zone_changed_id);
-	time_item->priv->second_zone_changed_id = 0;
+	calendar_config_remove_notification ((CalendarConfigChangedFunc) edvti_second_zone_changed_cb, time_item);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -238,9 +234,9 @@ day_view_time_item_init (EDayViewTimeItem *time_item)
 		g_free (last);
 	}
 
-	time_item->priv->second_zone_changed_id =
-		calendar_config_add_notification_day_second_zone (
-		edvti_second_zone_changed_cb, time_item);
+	calendar_config_add_notification_day_second_zone (
+		(CalendarConfigChangedFunc) edvti_second_zone_changed_cb,
+		time_item);
 }
 
 GType
@@ -732,9 +728,8 @@ e_day_view_time_item_event (GnomeCanvasItem *item,
 }
 
 static void
-edvti_second_zone_changed_cb (GConfClient *client,
-                              guint cnxn_id,
-                              GConfEntry *entry,
+edvti_second_zone_changed_cb (GSettings *settings,
+			      const gchar *key,
                               gpointer user_data)
 {
 	EDayViewTimeItem *time_item = user_data;

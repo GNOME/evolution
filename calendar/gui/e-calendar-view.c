@@ -1571,7 +1571,7 @@ e_calendar_view_new_appointment_full (ECalendarView *cal_view,
 		gint time_div = e_calendar_view_get_time_divisions (cal_view);
 		gint hours, mins;
 
-		if (!time_div) /* Possible if your gconf values aren't so nice */
+		if (!time_div) /* Possible if your settings values aren't so nice */
 			time_div = 30;
 
 		if (time_day_begin (now) == time_day_begin (dtstart)) {

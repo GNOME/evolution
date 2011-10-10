@@ -61,11 +61,12 @@ calendar_config_init (void)
 }
 
 void
-calendar_config_remove_notification (guint id)
+calendar_config_remove_notification (CalendarConfigChangedFunc func,
+				     gpointer data)
 {
 	calendar_config_init ();
 
-	gconf_client_notify_remove (config, id);
+	g_signal_handlers_disconnect_by_func (G_OBJECT (config), G_CALLBACK (func), data);
 }
 
 /* Returns TRUE if the locale has 'am' and 'pm' strings defined, in which
@@ -155,17 +156,14 @@ calendar_config_get_month_scroll_by_week (void)
 	return g_settings_get_boolean (config, "month-scroll-by-week");
 }
 
-guint
-calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc func,
+void
+calendar_config_add_notification_month_scroll_by_week (CalendarConfigChangedFunc func,
                                                        gpointer data)
 {
-	guint id;
-
 	calendar_config_init ();
 
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_MONTH_SCROLL_BY_WEEK, func, data, NULL, NULL);
-
-	return id;
+	g_signal_connect (G_OBJECT (config), "changed::month-scroll-by-week",
+			  G_CALLBACK (func), data);
 }
 
 /***************************************/
@@ -371,7 +369,7 @@ calendar_config_set_day_second_zone (const gchar *location)
 		for (i = 0, l = lst; i < max_zones && l != NULL; i++, l = l->next)
 			g_ptr_array_add (array, l->data);
 
-		g_settings_set_strv (config, "day-second-zones", array->pdata);
+		g_settings_set_strv (config, "day-second-zones", (const gchar * const *) array->pdata);
 
 		calendar_config_free_day_second_zones (lst);
 		g_ptr_array_free (array, FALSE);
@@ -426,15 +424,12 @@ calendar_config_select_day_second_zone (void)
 	g_object_unref (tzdlg);
 }
 
-guint
-calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func,
+void
+calendar_config_add_notification_day_second_zone (CalendarConfigChangedFunc func,
                                                   gpointer data)
 {
-	guint id;
-
 	calendar_config_init ();
 
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_SECOND_ZONE, func, data, NULL, NULL);
-
-	return id;
+	g_signal_connect (G_OBJECT (config), "changed::day-second-zone",
+			  G_CALLBACK (func), data);
 }
