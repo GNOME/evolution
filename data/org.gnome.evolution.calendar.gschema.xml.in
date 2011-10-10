@@ -70,6 +70,11 @@
       <_summary>Hide task value</_summary>
       <_description>Number of units for determining when to hide tasks</_description>
     </key>
+    <key name="hpane-position" type="i">
+      <default>400</default>
+      <_summary>Horizontal pane position</_summary>
+      <_description>Position of the horizontal pane, between the date navigator calendar and the task list when not in the month view, in pixels</_description>
+    </key>
     <key name="last-notification-time" type="i">
       <default>1</default>
       <_summary>Last reminder time</_summary>
@@ -89,6 +94,11 @@
       <default>400</default>
       <_summary>Memo preview pane position (vertical)</_summary>
       <_description>Position of the memo preview pane when oriented vertically</_description>
+    </key>
+    <key name="month-hpane-position" type="i">
+      <default>32000</default>
+      <_summary>Month view horizontal pane position</_summary>
+      <_description>Position of the horizontal pane, between the view and the date navigator calendar and task list in the month view, in pixels</_description>
     </key>
     <key name="month-scroll-by-week" type="b">
       <default>true</default>
@@ -129,6 +139,11 @@
       <default>true</default>
       <_summary>Show the task preview pane</_summary>
       <_description>If "true", show the task preview pane in the main window</_description>
+    </key>
+    <key name="tag-vpane-position" type="i">
+      <default>0</default>
+      <_summary>Vertical position for the tag pane</_summary>
+      <_description>Vertical position for the tag pane</_description>
     </key>
     <key name="task-hpane-position" type="i">
       <default>200</default>

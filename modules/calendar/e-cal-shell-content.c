@@ -28,7 +28,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include "e-util/gconf-bridge.h"
 #include "widgets/menus/gal-view-etable.h"
 #include "widgets/misc/e-paned.h"
 #include "widgets/misc/e-selectable.h"
@@ -54,7 +53,7 @@ struct _ECalShellContentPrivate {
 
 	GalViewInstance *view_instance;
 
-	guint paned_binding_id;
+	gboolean paned_bound;
 };
 
 enum {
@@ -111,32 +110,32 @@ cal_shell_content_notify_view_id_cb (ECalShellContent *cal_shell_content)
 {
 	EShellContent *shell_content;
 	EShellView *shell_view;
-	GConfBridge *bridge;
+	GSettings *settings;
 	GtkWidget *paned;
-	guint binding_id;
+	gboolean bound;
 	const gchar *key;
 	const gchar *view_id;
 
-	bridge = gconf_bridge_get ();
+	settings = g_settings_new ("org.gnome.evolution.calendar");
 	paned = cal_shell_content->priv->hpaned;
-	binding_id = cal_shell_content->priv->paned_binding_id;
+	bound = cal_shell_content->priv->paned_bound;
 
 	shell_content = E_SHELL_CONTENT (cal_shell_content);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	view_id = e_shell_view_get_view_id (shell_view);
 
-	if (binding_id > 0)
-		gconf_bridge_unbind (bridge, binding_id);
-
 	if (view_id != NULL && strcmp (view_id, "Month_View") == 0)
-		key = "/apps/evolution/calendar/display/month_hpane_position";
+		key = "month-hpane-position";
 	else
-		key = "/apps/evolution/calendar/display/hpane_position";
+		key = "hpane-position";
 
-	binding_id = gconf_bridge_bind_property_delayed (
-		bridge, key, G_OBJECT (paned), "hposition");
+	if (bound)
+		g_settings_unbind (settings, key);
 
-	cal_shell_content->priv->paned_binding_id = binding_id;
+	g_settings_bind (settings, key, G_OBJECT (paned), "hposition", G_SETTINGS_BIND_DEFAULT);
+	cal_shell_content->priv->paned_bound = TRUE;
+
+	g_object_unref (settings);
 }
 
 static gchar *
@@ -332,7 +331,7 @@ cal_shell_content_constructed (GObject *object)
 	EShellView *foreign_view;
 	GnomeCalendar *calendar;
 	GalViewInstance *view_instance;
-	GConfBridge *bridge;
+	GSettings *settings;
 	GtkWidget *container;
 	GtkWidget *widget;
 	const gchar *key;
@@ -521,11 +520,12 @@ cal_shell_content_constructed (GObject *object)
 			G_CALLBACK (cal_shell_content_notify_view_id_cb),
 			object);
 
-		bridge = gconf_bridge_get ();
+		settings = g_settings_new ("org.gnome.evolution.calendar");
 
 		object = G_OBJECT (priv->vpaned);
-		key = "/apps/evolution/calendar/display/tag_vpane_position";
-		gconf_bridge_bind_property_delayed (bridge, key, object, "proportion");
+		g_settings_bind (settings, "tag-vpane-position", object, "proportion", G_SETTINGS_BIND_DEFAULT);
+
+		g_object_unref (settings);
 	}
 
 	if (memo_model)
