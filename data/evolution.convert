@@ -66,6 +66,10 @@ use-24hour-format = /apps/evolution/calendar/display/use_24hour_format
 use-system-timezone = /apps/evolution/calendar/display/use_system_timezone
 working-days = /apps/evolution/calendar/display/working_days
 
+[org.gnome.evolution.importer]
+gnome-calendar-done-calendar = /apps/evolution/importer/gnome-calendar/calendar
+gnome-calendar-done-tasks = /apps/evolution/importer/gnome-calendar/tasks
+
 [org.gnome.evolution.mail]
 check-if-default-mailer = /apps/evolution/mail/prompts/checkdefault
 composer-charset = /apps/evolution/mail/composer/charset

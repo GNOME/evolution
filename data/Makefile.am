@@ -14,6 +14,7 @@ gsettings_SCHEMAS =							\
 	org.gnome.evolution.gschema.xml					\
 	org.gnome.evolution.addressbook.gschema.xml			\
 	org.gnome.evolution.calendar.gschema.xml			\
+	org.gnome.evolution.importer.gschema.xml			\
 	org.gnome.evolution.mail.gschema.xml				\
 	org.gnome.evolution.shell.gschema.xml.in			\
 	org.gnome.evolution.eplugin.attachment-reminder.gschema.xml	\

@@ -1023,13 +1023,13 @@ gnome_calendar_getwidget (EImport *ei,
                           EImportImporter *im)
 {
 	GtkWidget *hbox, *w;
-	GConfClient *gconf;
+	GSettings *settings;
 	gboolean done_cal, done_tasks;
 
-	gconf = gconf_client_get_default ();
-	done_cal = gconf_client_get_bool (gconf, "/apps/evolution/importer/gnome-calendar/calendar", NULL);
-	done_tasks = gconf_client_get_bool (gconf, "/apps/evolution/importer/gnome-calendar/tasks", NULL);
-	g_object_unref (gconf);
+	settings = g_settings_new ("org.gnome.evolution.importer");
+	done_cal = g_settings_get_boolean (settings, "gnome-calendar-done-calendar");
+	done_tasks = g_settings_get_boolean (settings, "gnome-calendar-done-tasks");
+	g_object_unref (settings);
 
 	g_datalist_set_data(&target->data, "gnomecal-do-cal", GINT_TO_POINTER(!done_cal));
 	g_datalist_set_data(&target->data, "gnomecal-do-tasks", GINT_TO_POINTER(!done_tasks));
