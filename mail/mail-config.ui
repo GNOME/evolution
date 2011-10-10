@@ -600,6 +600,7 @@ for display purposes only. </property>
                         <property name="xalign">1</property>
                         <property name="label" translatable="yes">_Reply style:</property>
                         <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">comboboxReplyStyle</property>
                       </object>
                       <packing>
                         <property name="x_options">GTK_FILL</property>
@@ -613,6 +614,7 @@ for display purposes only. </property>
                         <property name="xalign">1</property>
                         <property name="label" translatable="yes">_Forward style:</property>
                         <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">comboboxForwardStyle</property>
                       </object>
                       <packing>
                         <property name="top_attach">1</property>
