@@ -196,7 +196,7 @@ acc_get_general_page (EConfig *ec,
 
 	itembox = add_section (vbox, _("Address formatting"), FALSE);
 
-	widget = gtk_check_button_new_with_label (
+	widget = gtk_check_button_new_with_mnemonic (
 		_("_Format address according to standard of its destination country"));
 	g_object_bind_property (
 		shell_settings, "enable-address-formatting",
