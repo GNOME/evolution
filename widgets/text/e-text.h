@@ -128,6 +128,7 @@ struct _EText {
 	gint height;			/* Rendered text height in pixels */
 
 	guint32 rgba;			/* RGBA color for text */
+	gboolean rgba_set;		/* whether RGBA is set */
 
 	gchar *ellipsis;                 /* The ellipsis characters.  NULL = "...". */
 	gdouble ellipsis_width;          /* The width of the ellipsis. */

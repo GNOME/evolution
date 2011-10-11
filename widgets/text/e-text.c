@@ -773,6 +773,7 @@ e_text_set_property (GObject *object,
 			      (color.green & 0xff00) << 8 |
 			      (color.blue & 0xff00) |
 			      0xff);
+		text->rgba_set = TRUE;
 		text->needs_redraw = 1;
 		needs_update = 1;
 		break;
@@ -787,6 +788,7 @@ e_text_set_property (GObject *object,
 			      (color.green & 0xff00) << 8 |
 			      (color.blue & 0xff00) |
 			      0xff);
+		text->rgba_set = TRUE;
 		text->needs_redraw = 1;
 		needs_update = 1;
 		break;
@@ -796,6 +798,7 @@ e_text_set_property (GObject *object,
 		color.red = ((text->rgba >> 24) & 0xff) * 0x101;
 		color.green = ((text->rgba >> 16) & 0xff) * 0x101;
 		color.blue = ((text->rgba >> 8) & 0xff) * 0x101;
+		text->rgba_set = TRUE;
 		text->needs_redraw = 1;
 		needs_update = 1;
 		break;
@@ -1308,7 +1311,7 @@ e_text_draw (GnomeCanvasItem *item,
 
 	cairo_save (cr);
 
-	if (text->draw_background || text->draw_button) {
+	if (text->draw_background || text->draw_button || !text->rgba_set) {
 		gdk_cairo_set_source_color (cr, &style->fg[state]);
 	} else {
 		cairo_set_source_rgba (cr,
@@ -3500,6 +3503,7 @@ e_text_init (EText *text)
 	text->im_context_signals_registered = FALSE;
 
 	text->handle_popup            = FALSE;
+	text->rgba_set		      = FALSE;
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (text), e_text_reflow);
 }
