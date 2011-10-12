@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-10-07 14:28+0000\n"
-"PO-Revision-Date: 2011-10-08 14:47+0200\n"
+"POT-Creation-Date: 2011-10-12 13:44+0000\n"
+"PO-Revision-Date: 2011-10-12 17:24+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -284,7 +284,7 @@ msgstr "_Usar tal cual es"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:715
-#: ../calendar/gui/e-calendar-view.c:2064
+#: ../calendar/gui/e-calendar-view.c:2068
 msgid "Anniversary"
 msgstr "Aniversario"
 
@@ -295,7 +295,7 @@ msgstr "Aniversario"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:714
-#: ../calendar/gui/e-calendar-view.c:2063 ../capplet/anjal-settings-main.c:79
+#: ../calendar/gui/e-calendar-view.c:2067 ../capplet/anjal-settings-main.c:79
 #: ../shell/main.c:138
 msgid "Birthday"
 msgstr "Cumpleaños"
@@ -705,7 +705,7 @@ msgid "_Suffix:"
 msgstr "_Sufijo:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:746
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:762
 msgid "Contact List Editor"
 msgstr "Editor de listas de contactos"
 
@@ -731,7 +731,7 @@ msgid "_Type an email address or drag a contact into the list below:"
 msgstr ""
 "_Teclee una dirección de correo o arrastre un contacto a la lista inferior:"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:869
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:885
 msgid "Contact List Members"
 msgstr "Miembros de la lista de contactos"
 
@@ -739,15 +739,15 @@ msgstr "Miembros de la lista de contactos"
 msgid "_Members"
 msgstr "_Miembros"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1514
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1516
 msgid "Error adding list"
 msgstr "Error al añadir la lista"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1529
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1531
 msgid "Error modifying list"
 msgstr "Error al modificar la lista"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1544
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1546
 msgid "Error removing list"
 msgstr "Error al eliminar la lista"
 
@@ -4055,7 +4055,7 @@ msgstr "Actualizando objetos"
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:1908 ../calendar/gui/e-memo-table.c:539
+#: ../calendar/gui/e-calendar-view.c:1912 ../calendar/gui/e-memo-table.c:539
 #: ../calendar/gui/e-task-table.c:771
 #, c-format
 msgid "Organizer: %s <%s>"
@@ -4064,20 +4064,20 @@ msgstr "Organizador: %s <%s>"
 #. With SunOne accouts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
-#: ../calendar/gui/e-calendar-view.c:1912 ../calendar/gui/e-memo-table.c:544
+#: ../calendar/gui/e-calendar-view.c:1916 ../calendar/gui/e-memo-table.c:544
 #: ../calendar/gui/e-task-table.c:775
 #, c-format
 msgid "Organizer: %s"
 msgstr "Organizador: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:1928 ../calendar/gui/print.c:3344
+#: ../calendar/gui/e-calendar-view.c:1932 ../calendar/gui/print.c:3344
 #, c-format
 msgid "Location: %s"
 msgstr "Lugar: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:1959
+#: ../calendar/gui/e-calendar-view.c:1963
 #, c-format
 msgid "Time: %s %s"
 msgstr "Hora: %s %s"
@@ -11394,13 +11394,13 @@ msgstr "Carpeta de _destino:"
 
 #: ../mail/importers/evolution-mbox-importer.c:145
 #: ../plugins/dbx-import/dbx-importer.c:260
-#: ../plugins/pst-import/pst-importer.c:462
+#: ../plugins/pst-import/pst-importer.c:546
 msgid "Select folder"
 msgstr "Seleccionar carpeta"
 
 #: ../mail/importers/evolution-mbox-importer.c:146
 #: ../plugins/dbx-import/dbx-importer.c:261
-#: ../plugins/pst-import/pst-importer.c:463
+#: ../plugins/pst-import/pst-importer.c:547
 msgid "Select folder to import into"
 msgstr "Seleccione la carpeta en la que importar"
 
@@ -11430,7 +11430,7 @@ msgstr "Importando buzón de correo"
 #. Destination folder, was set in our widget
 #: ../mail/importers/mail-importer.c:153
 #: ../plugins/dbx-import/dbx-importer.c:610
-#: ../plugins/pst-import/pst-importer.c:663
+#: ../plugins/pst-import/pst-importer.c:751
 #, c-format
 msgid "Importing '%s'"
 msgstr "Importando «%s»"
@@ -13468,7 +13468,6 @@ msgid "EFolderList XML for the list of completion URIs."
 msgstr "XML EFolderList para la lista de URI de completado."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:7
-#| msgid "Calendar information"
 msgid "Enable address formatting"
 msgstr "Activar formateado de direcciones"
 
@@ -13571,7 +13570,6 @@ msgid "_Table column:"
 msgstr "Columna de _tabla:"
 
 #: ../modules/addressbook/autocompletion-config.c:197
-#| msgid "Free/Busy information"
 msgid "Address formatting"
 msgstr "Formateado de direcciones"
 
@@ -18537,7 +18535,7 @@ msgstr "En la carpeta actual y _subcarpetas"
 msgid "In Current _Folder Only"
 msgstr "Sólo en la carpeta _actual"
 
-#: ../plugins/mark-all-read/mark-all-read.c:575
+#: ../plugins/mark-all-read/mark-all-read.c:569
 msgid "Mark Me_ssages as Read"
 msgstr "Marcar los mensajes como _leídos"
 
@@ -18614,31 +18612,31 @@ msgstr "Importador PST de Outlook"
 msgid "Outlook personal folders (.pst)"
 msgstr "Carpetas personales de Outlook (.pst)"
 
-#: ../plugins/pst-import/pst-importer.c:452
+#: ../plugins/pst-import/pst-importer.c:536
 msgid "_Mail"
 msgstr "Co_rreo"
 
-#: ../plugins/pst-import/pst-importer.c:471
+#: ../plugins/pst-import/pst-importer.c:555
 msgid "Destination folder:"
 msgstr "Carpeta de destino:"
 
-#: ../plugins/pst-import/pst-importer.c:478
+#: ../plugins/pst-import/pst-importer.c:562
 msgid "_Address Book"
 msgstr "Libreta de _direcciones"
 
-#: ../plugins/pst-import/pst-importer.c:482
+#: ../plugins/pst-import/pst-importer.c:567
 msgid "A_ppointments"
 msgstr "Ci_tas"
 
-#: ../plugins/pst-import/pst-importer.c:486 ../views/tasks/galview.xml.h:3
+#: ../plugins/pst-import/pst-importer.c:572 ../views/tasks/galview.xml.h:3
 msgid "_Tasks"
 msgstr "_Tareas"
 
-#: ../plugins/pst-import/pst-importer.c:490
+#: ../plugins/pst-import/pst-importer.c:577
 msgid "_Journal entries"
 msgstr "Entradas del dia_rio"
 
-#: ../plugins/pst-import/pst-importer.c:600
+#: ../plugins/pst-import/pst-importer.c:688
 msgid "Importing Outlook data"
 msgstr "_Importando datos de Outlook"
 
@@ -19654,6 +19652,12 @@ msgstr "Cambiar la configuración de página para la impresora actual"
 #, c-format
 msgid "Switch to %s"
 msgstr "Cambiar a %s"
+
+#: ../shell/e-shell-window-actions.c:2314
+#, c-format
+#| msgid "Select A File"
+msgid "Select view: %s"
+msgstr "Seleccionar vista: %s"
 
 #: ../shell/e-shell-window-actions.c:2414
 msgid "Execute these search parameters"
@@ -21572,11 +21576,11 @@ msgstr "pulsar"
 msgid "sort"
 msgstr "ordenar"
 
-#: ../widgets/text/e-text.c:2325
+#: ../widgets/text/e-text.c:2328
 msgid "Select All"
 msgstr "Seleccionar todo"
 
-#: ../widgets/text/e-text.c:2337
+#: ../widgets/text/e-text.c:2340
 msgid "Input Methods"
 msgstr "Métodos de entrada"
 
