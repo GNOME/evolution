@@ -2311,7 +2311,7 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 
 		action_name = g_strdup_printf (
 			"gal-view-%s-%d", view_name, ii);
-		tooltip = g_strdup_printf ("Select view: %s", item->title);
+		tooltip = g_strdup_printf (_("Select view: %s"), item->title);
 
 		radio_action = gtk_radio_action_new (
 			action_name, item->title, tooltip, NULL, ii);
