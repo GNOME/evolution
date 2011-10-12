@@ -739,6 +739,10 @@ shell_migrate_get_version (EShell *shell,
 	const gchar *key;
 	gchar *string;
 
+	*major = 0;
+	*minor = 0;
+	*micro = 0;
+
 	key = GCONF_VERSION_KEY;
 	client = e_shell_get_gconf_client (shell);
 	string = gconf_client_get_string (client, key, NULL);
@@ -747,12 +751,6 @@ shell_migrate_get_version (EShell *shell,
 		/* Since 1.4.0 we've kept the version key in GConf. */
 		sscanf (string, "%d.%d.%d", major, minor, micro);
 		g_free (string);
-
-	} else {
-		/* Otherwise, assume it's a new installation. */
-		*major = 0;
-		*minor = 0;
-		*micro = 0;
 	}
 }
 
