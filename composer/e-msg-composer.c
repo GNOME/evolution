@@ -2110,13 +2110,14 @@ msg_composer_constructed (GObject *object)
 
 	/* Restore Persistent State */
 
-	array = composer->priv->gconf_bridge_binding_ids;
+	/* FIXME: need to bind this to GSettings */
+	/* array = composer->priv->gconf_bridge_binding_ids; */
 
-	binding_id = gconf_bridge_bind_window (
-		gconf_bridge_get (),
-		COMPOSER_GCONF_WINDOW_PREFIX,
-		GTK_WINDOW (composer), TRUE, FALSE);
-	g_array_append_val (array, binding_id);
+	/* binding_id = gconf_bridge_bind_window ( */
+	/* 	gconf_bridge_get (), */
+	/* 	COMPOSER_GCONF_WINDOW_PREFIX, */
+	/* 	GTK_WINDOW (composer), TRUE, FALSE); */
+	/* g_array_append_val (array, binding_id); */
 
 	/* Honor User Preferences */
 
@@ -5032,21 +5033,19 @@ e_msg_composer_get_attachment_view (EMsgComposer *composer)
 GList *
 e_load_spell_languages (void)
 {
-	GConfClient *client;
+	GSettings *settings;
 	GList *spell_languages = NULL;
-	GSList *list;
-	const gchar *key;
-	GError *error = NULL;
+	gchar **strv;
+	gint i;
 
-	/* Ask GConf for a list of spell check language codes. */
-	client = gconf_client_get_default ();
-	key = COMPOSER_GCONF_SPELL_LANGUAGES_KEY;
-	list = gconf_client_get_list (client, key, GCONF_VALUE_STRING, &error);
-	g_object_unref (client);
+	/* Ask GSettings for a list of spell check language codes. */
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	strv = g_settings_get_strv (settings, "composer-spell-languages");
+	g_object_unref (settings);
 
 	/* Convert the codes to spell language structs. */
-	while (list != NULL) {
-		gchar *language_code = list->data;
+	for (i = 0; strv[i] != NULL; i++) {
+		gchar *language_code = strv[i];
 		const GtkhtmlSpellLanguage *language;
 
 		language = gtkhtml_spell_language_lookup (language_code);
@@ -5054,13 +5053,12 @@ e_load_spell_languages (void)
 			spell_languages = g_list_prepend (
 				spell_languages, (gpointer) language);
 
-		list = g_slist_delete_link (list, list);
 		g_free (language_code);
 	}
 
 	spell_languages = g_list_reverse (spell_languages);
 
-	/* Pick a default spell language if GConf came back empty. */
+	/* Pick a default spell language if it came back empty. */
 	if (spell_languages == NULL) {
 		const GtkhtmlSpellLanguage *language;
 
@@ -5069,17 +5067,7 @@ e_load_spell_languages (void)
 		if (language) {
 			spell_languages = g_list_prepend (
 				spell_languages, (gpointer) language);
-
-		/* Don't overwrite the stored spell check language
-		 * codes if there was a problem retrieving them. */
-			if (error == NULL)
-				e_save_spell_languages (spell_languages);
 		}
-	}
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
 	}
 
 	return spell_languages;
@@ -5088,35 +5076,28 @@ e_load_spell_languages (void)
 void
 e_save_spell_languages (GList *spell_languages)
 {
-	GConfClient *client;
-	GSList *list = NULL;
-	const gchar *key;
-	GError *error = NULL;
+	GSettings *settings;
+	GPtrArray *lang_array;
 
 	/* Build a list of spell check language codes. */
+	lang_array = g_ptr_array_new ();
 	while (spell_languages != NULL) {
 		const GtkhtmlSpellLanguage *language;
 		const gchar *language_code;
 
 		language = spell_languages->data;
 		language_code = gtkhtml_spell_language_get_code (language);
-		list = g_slist_prepend (list, (gpointer) language_code);
+		g_ptr_array_add (lang_array, language_code);
 
 		spell_languages = g_list_next (spell_languages);
 	}
 
-	list = g_slist_reverse (list);
+	g_ptr_array_add (lang_array, NULL);
 
-	/* Save the language codes to GConf. */
-	client = gconf_client_get_default ();
-	key = COMPOSER_GCONF_SPELL_LANGUAGES_KEY;
-	gconf_client_set_list (client, key, GCONF_VALUE_STRING, list, &error);
-	g_object_unref (client);
+	/* Save the language codes to GSettings. */
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	g_settings_set_strv (settings, "composer-spell-languages", (const char * const *) lang_array->pdata);
+	g_object_unref (settings);
 
-	g_slist_free (list);
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	g_ptr_array_free (lang_array, TRUE);
 }

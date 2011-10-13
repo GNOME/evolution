@@ -30,9 +30,6 @@
 #include <glib/gstdio.h>
 #include <glib/gi18n-lib.h>
 
-#include <gconf/gconf.h>
-#include <gconf/gconf-client.h>
-
 #include <libebackend/e-extensible.h>
 
 #include "e-composer-actions.h"
@@ -45,7 +42,6 @@
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-selection.h"
 #include "e-util/e-util.h"
-#include "e-util/gconf-bridge.h"
 #include "widgets/misc/e-activity-bar.h"
 #include "widgets/misc/e-alert-bar.h"
 #include "widgets/misc/e-attachment.h"
@@ -71,8 +67,6 @@
 /* Composer configuration keys */
 #define COMPOSER_GCONF_PREFIX \
 	MAIL_GCONF_PREFIX "/composer"
-#define COMPOSER_GCONF_CHARSET_KEY \
-	COMPOSER_GCONF_PREFIX "/charset"
 #define COMPOSER_GCONF_INLINE_SPELLING_KEY \
 	COMPOSER_GCONF_PREFIX "/inline_spelling"
 #define COMPOSER_GCONF_MAGIC_LINKS_KEY \
@@ -85,8 +79,6 @@
 	COMPOSER_GCONF_PREFIX "/top_signature"
 #define COMPOSER_GCONF_SEND_HTML_KEY \
 	COMPOSER_GCONF_PREFIX "/send_html"
-#define COMPOSER_GCONF_SPELL_LANGUAGES_KEY \
-	COMPOSER_GCONF_PREFIX "/spell_languages"
 #define COMPOSER_GCONF_WINDOW_PREFIX \
 	COMPOSER_GCONF_PREFIX "/window"
 
@@ -121,7 +113,6 @@ struct _EMsgComposerPrivate {
 
 	GPtrArray *extra_hdr_names;
 	GPtrArray *extra_hdr_values;
-	GArray *gconf_bridge_binding_ids;
 
 	GtkWidget *focused_entry;
 

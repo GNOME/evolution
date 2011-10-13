@@ -216,9 +216,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->extra_hdr_names = g_ptr_array_new ();
 	priv->extra_hdr_values = g_ptr_array_new ();
 
-	priv->gconf_bridge_binding_ids = g_array_new (
-		FALSE, FALSE, sizeof (guint));
-
 	priv->inline_images = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
@@ -499,24 +496,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 void
 e_composer_private_dispose (EMsgComposer *composer)
 {
-	if (composer->priv->gconf_bridge_binding_ids) {
-		GConfBridge *bridge;
-		GArray *array;
-		guint binding_id;
-
-		bridge = gconf_bridge_get ();
-		array = composer->priv->gconf_bridge_binding_ids;
-
-		while (array->len > 0) {
-			binding_id = g_array_index (array, guint, 0);
-			gconf_bridge_unbind (bridge, binding_id);
-			g_array_remove_index_fast (array, 0);
-		}
-
-		g_array_free (composer->priv->gconf_bridge_binding_ids, TRUE);
-		composer->priv->gconf_bridge_binding_ids = NULL;
-	}
-
 	if (composer->priv->shell != NULL) {
 		g_object_remove_weak_pointer (
 			G_OBJECT (composer->priv->shell),
@@ -631,36 +610,26 @@ e_composer_find_data_file (const gchar *basename)
 gchar *
 e_composer_get_default_charset (void)
 {
-	GConfClient *client;
+	GSettings *settings;
 	gchar *charset;
-	GError *error = NULL;
 
-	client = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	charset = gconf_client_get_string (
-		client, COMPOSER_GCONF_CHARSET_KEY, &error);
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_clear_error (&error);
-	}
+	charset = g_settings_get_string (settings, "composer-charset");
 
 	/* See what charset the mailer is using.
-	 * XXX We should not have to know where this lives in GConf.
+	 * XXX We should not have to know where this lives in GSettings.
 	 *     Need a mail_config_get_default_charset() that does this. */
 	if (!charset || charset[0] == '\0') {
 		g_free (charset);
-		charset = gconf_client_get_string (
-			client, MAIL_GCONF_CHARSET_KEY, NULL);
+		charset = g_settings_get_string (settings, "charset");
 		if (charset != NULL && *charset == '\0') {
 			g_free (charset);
 			charset = NULL;
-		} else if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_clear_error (&error);
 		}
 	}
 
-	g_object_unref (client);
+	g_object_unref (settings);
 
 	if (charset == NULL)
 		charset = g_strdup (camel_iconv_locale_charset ());
