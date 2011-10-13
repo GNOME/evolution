@@ -52,8 +52,6 @@
 #endif
 #endif
 
-#include <gconf/gconf-client.h>
-
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -88,9 +86,6 @@
 #endif
 
 #define APPLICATION_ID "org.gnome.Evolution"
-
-#define SKIP_WARNING_DIALOG_KEY \
-	"/apps/evolution/shell/skip_warning_dialog"
 
 /* STABLE_VERSION is only defined for development versions. */
 #ifdef STABLE_VERSION
@@ -350,31 +345,28 @@ static EShell *
 create_default_shell (void)
 {
 	EShell *shell;
-	GConfClient *client;
+	GSettings *settings;
 	GApplicationFlags flags;
-	const gchar *key;
 	gboolean online = TRUE;
 	gboolean is_meego = FALSE;
 	gboolean small_screen = FALSE;
 	GError *error = NULL;
 
-	client = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.shell");
 
 	/* Requesting online or offline mode from the command-line
 	 * should be persistent, just like selecting it in the UI. */
 
-	key = "/apps/evolution/shell/start_offline";
-
 	if (start_online || force_online) {
 		online = TRUE;
-		gconf_client_set_bool (client, key, FALSE, &error);
+		g_settings_set_boolean (settings, "start-offline", FALSE);
 	} else if (start_offline) {
 		online = FALSE;
-		gconf_client_set_bool (client, key, TRUE, &error);
+		g_settings_set_boolean (settings, "start-offline", TRUE);
 	} else {
 		gboolean value;
 
-		value = gconf_client_get_bool (client, key, &error);
+		value = g_settings_get_boolean (settings, "start-offline");
 		if (error == NULL)
 			online = !value;
 	}
@@ -386,10 +378,8 @@ create_default_shell (void)
 
 	/* Determine whether to run Evolution in "express" mode. */
 
-	key = "/apps/evolution/shell/express_mode";
-
 	if (!express_mode)
-		express_mode = gconf_client_get_bool (client, key, &error);
+		express_mode = g_settings_get_boolean (settings, "express-mode");
 
 	if (express_mode)
 		e_shell_detect_meego (&is_meego, &small_screen);
@@ -421,7 +411,7 @@ create_default_shell (void)
 	if (force_online)
 		e_shell_lock_network_available (shell);
 
-	g_object_unref (client);
+	g_object_unref (settings);
 
 	return shell;
 }
@@ -431,7 +421,7 @@ main (gint argc,
       gchar **argv)
 {
 	EShell *shell;
-	GConfClient *client;
+	GSettings *settings;
 #ifdef DEVELOPMENT
 	gboolean skip_warning_dialog;
 #endif
@@ -591,22 +581,21 @@ main (gint argc,
 	if (force_shutdown)
 		shell_force_shutdown ();
 
-	client = gconf_client_get_default ();
-
 	if (disable_preview) {
 		const gchar *key;
 
-		key = "/apps/evolution/mail/display/safe_list";
-		gconf_client_set_bool (client, key, TRUE, NULL);
+		settings = g_settings_new ("org.gnome.evolution.mail");
+		g_settings_set_boolean (settings, "safe-list", TRUE);
+		g_object_unref (settings);
 
-		key = "/apps/evolution/addressbook/display/show_preview";
-		gconf_client_set_bool (client, key, FALSE, NULL);
+		settings = g_settings_new ("org.gnome.evolution.addressbook");
+		g_settings_set_boolean (settings, "show-preview", FALSE);
+		g_object_unref (settings);
 
-		key = "/apps/evolution/calendar/display/show_memo_preview";
-		gconf_client_set_bool (client, key, FALSE, NULL);
-
-		key = "/apps/evolution/calendar/display/show_task_preview";
-		gconf_client_set_bool (client, key, FALSE, NULL);
+		settings = g_settings_new ("org.gnome.evolution.calendar");
+		g_settings_set_boolean (settings, "show-memo-preview", FALSE);
+		g_settings_set_boolean (settings, "show-task-preview", FALSE);
+		g_object_unref (settings);
 	}
 
 #ifdef G_OS_UNIX
@@ -638,16 +627,16 @@ main (gint argc,
 	gtk_accel_map_load (e_get_accels_filename ());
 
 #ifdef DEVELOPMENT
-	skip_warning_dialog = gconf_client_get_bool (
-		client, SKIP_WARNING_DIALOG_KEY, NULL);
+	settings = g_settings_new ("org.gnome.evolution.shell");
+	skip_warning_dialog = g_settings_get_boolean (
+		settings, "skip-warning-dialog");
 
 	if (!skip_warning_dialog && !getenv ("EVOLVE_ME_HARDER"))
-		gconf_client_set_bool (
-			client, SKIP_WARNING_DIALOG_KEY,
-			show_development_warning (), NULL);
-#endif
+		g_settings_set_boolean (
+			settings, "skip-warning-dialog");
 
-	g_object_unref (client);
+	g_object_unref (settings);
+#endif
 
 	shell = create_default_shell ();
 

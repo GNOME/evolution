@@ -1430,18 +1430,13 @@ e_shell_create_shell_window (EShell *shell,
 	/* EShellWindow initializes its active view from a GConf key,
 	 * so set the key ahead of time to control the intial view. */
 	if (view_name != NULL) {
-		GConfClient *client;
+		GSettings *settings;
 		const gchar *key;
-		GError *error = NULL;
 
-		client = e_shell_get_gconf_client (shell);
-		key = "/apps/evolution/shell/view_defaults/component_id";
-		gconf_client_set_string (client, key, view_name, &error);
+		settings = g_settings_new ("org.gnome.evolution.shell");
+		g_settings_set_string (settings, "default-component-id", view_name);
 
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-		}
+		g_object_unref (settings);
 	}
 
 	shell_window = e_shell_window_new (
