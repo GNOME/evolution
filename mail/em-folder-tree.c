@@ -612,6 +612,7 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 	gchar *old_name = NULL;
 	gchar *old_full_name = NULL;
 	gchar *new_full_name = NULL;
+	gchar *folder_uri;
 	gchar **strv;
 	gpointer parent;
 	guint index;
@@ -681,7 +682,11 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 		goto exit;
 	}
 
-exit:
+	folder_uri = e_mail_folder_uri_build (store, new_full_name);
+	em_folder_tree_set_selected (folder_tree, folder_uri, FALSE);
+	g_free (folder_uri);
+
+ exit:
 
 	g_free (old_name);
 	g_free (old_full_name);
@@ -2004,9 +2009,11 @@ struct _DragDataReceivedAsync {
 	/* Only selection->data and selection->length are valid */
 	GtkSelectionData *selection;
 
+	EMFolderTree *folder_tree;
 	EMailSession *session;
 	CamelStore *store;
 	gchar *full_name;
+	gchar *dest_folder_uri;
 	guint32 action;
 	guint info;
 
@@ -2021,6 +2028,7 @@ folder_tree_drop_folder (struct _DragDataReceivedAsync *m)
 	CamelFolder *folder;
 	CamelStore *parent_store;
 	GCancellable *cancellable;
+	const gchar *folder_name;
 	const gchar *full_name;
 	const guchar *data;
 
@@ -2042,6 +2050,22 @@ folder_tree_drop_folder (struct _DragDataReceivedAsync *m)
 	em_folder_utils_copy_folders (
 		parent_store, full_name, m->store,
 		m->full_name ? m->full_name : "", m->move);
+
+	folder_name = strrchr (full_name, '/');
+	if (folder_name)
+		folder_name++;
+	else
+		folder_name = full_name;
+
+	if (m->full_name) {
+		gchar *dest_root_name;
+
+		dest_root_name = g_strconcat (m->full_name, "/", folder_name, NULL);
+		m->dest_folder_uri = e_mail_folder_uri_build (m->store, dest_root_name);
+		g_free (dest_root_name);
+	} else {
+		m->dest_folder_uri = e_mail_folder_uri_build (m->store, folder_name);
+	}
 
 	g_object_unref (folder);
 }
@@ -2127,10 +2151,20 @@ folder_tree_drop_async__exec (struct _DragDataReceivedAsync *m,
 static void
 folder_tree_drop_async__free (struct _DragDataReceivedAsync *m)
 {
+	if (m->move && m->dest_folder_uri) {
+		GList *selected_list;
+
+		selected_list = g_list_append (NULL, m->dest_folder_uri);
+		em_folder_tree_set_selected_list (m->folder_tree, selected_list, FALSE);
+		g_list_free (selected_list);
+	}
+
+	g_object_unref (m->folder_tree);
 	g_object_unref (m->session);
 	g_object_unref (m->context);
 	g_object_unref (m->store);
 	g_free (m->full_name);
+	g_free (m->dest_folder_uri);
 	gtk_selection_data_free (m->selection);
 }
 
@@ -2213,10 +2247,12 @@ tree_drag_data_received (GtkWidget *widget,
 	}
 
 	m = mail_msg_new (&folder_tree_drop_async_info);
+	m->folder_tree = g_object_ref (folder_tree);
 	m->session = g_object_ref (session);
 	m->context = g_object_ref (context);
 	m->store = g_object_ref (store);
 	m->full_name = full_name;
+	m->dest_folder_uri = NULL;
 	m->action = gdk_drag_context_get_selected_action (context);
 	m->info = info;
 
