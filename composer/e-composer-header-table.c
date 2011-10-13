@@ -25,7 +25,6 @@
 #include <libedataserverui/e-name-selector.h>
 
 #include <shell/e-shell.h>
-#include <e-util/gconf-bridge.h>
 #include <misc/e-signature-combo-box.h>
 
 #include "e-msg-composer.h"
@@ -63,7 +62,6 @@ enum {
 
 struct _EComposerHeaderTablePrivate {
 	EComposerHeader *headers[E_COMPOSER_NUM_HEADERS];
-	guint gconf_bindings[E_COMPOSER_NUM_HEADERS];
 	GtkWidget *signature_label;
 	GtkWidget *signature_combo_box;
 	ENameSelector *name_selector;
@@ -305,35 +303,30 @@ from_header_should_be_visible (EComposerHeaderTable *table)
 static void
 composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 {
-	GConfBridge *bridge;
+	GSettings *settings;
 	gint ii;
 
-	bridge = gconf_bridge_get ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	for (ii = 0; ii < E_COMPOSER_NUM_HEADERS; ii++) {
 		EComposerHeader *header;
 		const gchar *key;
-		guint binding_id;
 		gboolean sensitive;
 		gboolean visible;
 
-		binding_id = table->priv->gconf_bindings[ii];
 		header = e_composer_header_table_get_header (table, ii);
-
-		if (binding_id > 0)
-			gconf_bridge_unbind (bridge, binding_id);
 
 		switch (ii) {
 			case E_COMPOSER_HEADER_BCC:
-				key = COMPOSER_GCONF_PREFIX "/show_mail_bcc";
+				key = "composer-show-bcc";
 				break;
 
 			case E_COMPOSER_HEADER_CC:
-				key = COMPOSER_GCONF_PREFIX "/show_mail_cc";
+				key = "composer-show-cc";
 				break;
 
 			case E_COMPOSER_HEADER_REPLY_TO:
-				key = COMPOSER_GCONF_PREFIX "/show_mail_reply_to";
+				key = "composer-show-reply-to";
 				break;
 
 			default:
@@ -365,42 +358,36 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 		e_composer_header_set_sensitive (header, sensitive);
 		e_composer_header_set_visible (header, visible);
 
-		if (key != NULL)
-			binding_id = gconf_bridge_bind_property (
-				bridge, key, G_OBJECT (header), "visible");
-		else
-			binding_id = 0;
-
-		table->priv->gconf_bindings[ii] = binding_id;
+		if (key != NULL) {
+			g_settings_unbind (settings, key);
+			g_settings_bind (settings, key, G_OBJECT (header), "visible", G_SETTINGS_BIND_DEFAULT);
+		}
 	}
+
+	g_object_unref (settings);
 }
 
 static void
 composer_header_table_setup_post_headers (EComposerHeaderTable *table)
 {
-	GConfBridge *bridge;
+	GSettings *settings;
 	gint ii;
 
-	bridge = gconf_bridge_get ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	for (ii = 0; ii < E_COMPOSER_NUM_HEADERS; ii++) {
 		EComposerHeader *header;
 		const gchar *key;
-		guint binding_id;
 
-		binding_id = table->priv->gconf_bindings[ii];
 		header = e_composer_header_table_get_header (table, ii);
-
-		if (binding_id > 0)
-			gconf_bridge_unbind (bridge, binding_id);
 
 		switch (ii) {
 			case E_COMPOSER_HEADER_FROM:
-				key = COMPOSER_GCONF_PREFIX "/show_post_from";
+				key = "composer-show-post-from";
 				break;
 
 			case E_COMPOSER_HEADER_REPLY_TO:
-				key = COMPOSER_GCONF_PREFIX "/show_post_reply_to";
+				key = "composer-show-post-reply-to";
 				break;
 
 			default:
@@ -423,14 +410,13 @@ composer_header_table_setup_post_headers (EComposerHeaderTable *table)
 				break;
 		}
 
-		if (key != NULL)
-			binding_id = gconf_bridge_bind_property (
-				bridge, key, G_OBJECT (header), "visible");
-		else
-			binding_id = 0;
-
-		table->priv->gconf_bindings[ii] = binding_id;
+		if (key != NULL) {
+			g_settings_unbind (settings, key);
+			g_settings_bind (settings, key, G_OBJECT (header), "visible", G_SETTINGS_BIND_DEFAULT);
+		}
 	}
+
+	g_object_unref (settings);
 }
 
 static void

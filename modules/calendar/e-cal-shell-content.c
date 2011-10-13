@@ -52,8 +52,6 @@ struct _ECalShellContentPrivate {
 	GtkWidget *memo_table;
 
 	GalViewInstance *view_instance;
-
-	gboolean paned_bound;
 };
 
 enum {
@@ -112,13 +110,11 @@ cal_shell_content_notify_view_id_cb (ECalShellContent *cal_shell_content)
 	EShellView *shell_view;
 	GSettings *settings;
 	GtkWidget *paned;
-	gboolean bound;
 	const gchar *key;
 	const gchar *view_id;
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");
 	paned = cal_shell_content->priv->hpaned;
-	bound = cal_shell_content->priv->paned_bound;
 
 	shell_content = E_SHELL_CONTENT (cal_shell_content);
 	shell_view = e_shell_content_get_shell_view (shell_content);
@@ -129,11 +125,9 @@ cal_shell_content_notify_view_id_cb (ECalShellContent *cal_shell_content)
 	else
 		key = "hpane-position";
 
-	if (bound)
-		g_settings_unbind (settings, key);
+	g_settings_unbind (settings, key);
 
 	g_settings_bind (settings, key, G_OBJECT (paned), "hposition", G_SETTINGS_BIND_DEFAULT);
-	cal_shell_content->priv->paned_bound = TRUE;
 
 	g_object_unref (settings);
 }
