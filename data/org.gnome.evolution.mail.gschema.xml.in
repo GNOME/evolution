@@ -5,7 +5,7 @@
       <_summary>Check whether Evolution is the default mailer</_summary>
       <_description>Every time Evolution starts, check whether or not it is the default mailer.</_description>
     </key>
-    <key name="composer-charser" type="s">
+    <key name="composer-charset" type="s">
       <default>''</default>
       <_summary>Default charset in which to compose messages</_summary>
       <_description>Default charset in which to compose messages.</_description>
