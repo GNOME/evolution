@@ -680,9 +680,10 @@ e_memo_shell_backend_set_selected_memo_lists (EMemoShellBackend *memo_shell_back
 
 	for (l = selected_memo_lists; l != NULL; l = l->next)
 		g_ptr_array_add (array, l->data);
+	g_ptr_array_add (array, NULL);
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");
-	g_settings_set_strv (settings, "selected-memos", array->pdata);
+	g_settings_set_strv (settings, "selected-memos", (const gchar *const *) array->pdata);
 	g_object_unref (settings);
 
 	g_ptr_array_free (array, FALSE);

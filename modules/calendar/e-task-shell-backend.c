@@ -684,9 +684,10 @@ e_task_shell_backend_set_selected_task_lists (ETaskShellBackend *task_shell_back
 
 	for (l = selected_task_lists; l != NULL; l = l->next)
 		g_ptr_array_add (array, l->data);
+	g_ptr_array_add (array, NULL);
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");
-        g_settings_set_strv (settings, "selected-tasks", array->pdata);
+	g_settings_set_strv (settings, "selected-tasks", (const gchar *const *) array->pdata);
 	g_object_unref (settings);
 
         g_ptr_array_free (array, FALSE);

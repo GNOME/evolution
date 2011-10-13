@@ -935,9 +935,10 @@ e_cal_shell_backend_set_selected_calendars (ECalShellBackend *cal_shell_backend,
 
 	for (l = selected_calendars; l != NULL; l = l->next)
 		g_ptr_array_add (array, l->data);
+	g_ptr_array_add (array, NULL);
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");
-	g_settings_set_strv (settings, "selected-calendars", array->pdata);
+	g_settings_set_strv (settings, "selected-calendars", (const gchar *const *) array->pdata);
 	g_object_unref (settings);
 
 	g_ptr_array_free (array, FALSE);
