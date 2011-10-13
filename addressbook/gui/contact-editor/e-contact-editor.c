@@ -2302,26 +2302,16 @@ set_address_label (EContact *contact,
 {
 	gchar *address_label = NULL;
 	gboolean format_address;
-	GConfClient *client;
-	GConfValue *value;
+	GSettings *settings;
 
 	if (!address) {
 		e_contact_set (contact, field, NULL);
 		return;
 	}
 
-
-	client = gconf_client_get_default ();
-	value = gconf_client_get (client,
-		"/apps/evolution/addressbook/display/address_formatting", NULL);
-	g_object_unref (client);
-
-	if (value) {
-		format_address = gconf_value_get_bool (value);
-		gconf_value_free (value);
-	} else {
-		format_address = TRUE;
-	}
+	settings = g_settings_new ("org.gnome.evolution.addressbook");
+	format_address = g_settings_get_boolean (settings, "address-formatting");
+	g_object_unref (settings);
 
 	if (format_address) {
 		address_label = eab_format_address (contact,
