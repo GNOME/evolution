@@ -33,7 +33,6 @@
 #include <stdio.h>
 
 #include <gtkhtml/gtkhtml.h>
-#include <gconf/gconf-client.h>
 #include <libecal/e-cal-client.h>
 #include <libecal/e-cal-component.h>
 #include <libedataserver/e-account.h>
