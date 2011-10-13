@@ -341,18 +341,18 @@ config_data_save_blessed_program (const gchar *program)
 {
 	gchar **list;
 	gint i;
-	GArray *array = g_array_new (TRUE, FALSE, sizeof (gchar *));
+	GPtrArray *array = g_ptr_array_new ();
 
 	list = g_settings_get_strv (calendar_settings, "notify-programs");
 	for (i = 0; i < g_strv_length (list); i++)
-		g_array_append_val (array, list[i]);
+		g_ptr_array_add (array, list[i]);
 
-	g_array_append_val (array, program);
-	g_array_append_val (array, NULL);
-	g_settings_set_strv (calendar_settings, "notify-programs", (const gchar *const *) array->data);
+	g_ptr_array_add (array, program);
+	g_ptr_array_add (array, NULL);
+	g_settings_set_strv (calendar_settings, "notify-programs", (const gchar *const *) array->pdata);
 
 	g_strfreev (list);
-	g_array_free (array, TRUE);
+	g_ptr_array_free (array, TRUE);
 }
 
 /**
