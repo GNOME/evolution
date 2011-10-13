@@ -368,6 +368,7 @@ calendar_config_set_day_second_zone (const gchar *location)
 		array = g_ptr_array_new ();
 		for (i = 0, l = lst; i < max_zones && l != NULL; i++, l = l->next)
 			g_ptr_array_add (array, l->data);
+		g_ptr_array_add (array, NULL);
 
 		g_settings_set_strv (config, "day-second-zones", (const gchar * const *) array->pdata);
 

@@ -348,6 +348,7 @@ config_data_save_blessed_program (const gchar *program)
 		g_array_append_val (array, list[i]);
 
 	g_array_append_val (array, program);
+	g_array_append_val (array, NULL);
 	g_settings_set_strv (calendar_settings, "notify-programs", (const gchar *const *) array->data);
 
 	g_strfreev (list);
