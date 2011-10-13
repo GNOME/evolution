@@ -582,8 +582,6 @@ main (gint argc,
 		shell_force_shutdown ();
 
 	if (disable_preview) {
-		const gchar *key;
-
 		settings = g_settings_new ("org.gnome.evolution.mail");
 		g_settings_set_boolean (settings, "safe-list", TRUE);
 		g_object_unref (settings);
@@ -633,7 +631,8 @@ main (gint argc,
 
 	if (!skip_warning_dialog && !getenv ("EVOLVE_ME_HARDER"))
 		g_settings_set_boolean (
-			settings, "skip-warning-dialog");
+			settings, "skip-warning-dialog",
+			show_development_warning ());
 
 	g_object_unref (settings);
 #endif

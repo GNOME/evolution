@@ -30,12 +30,10 @@ shell_window_save_switcher_style_cb (GtkRadioAction *action,
                                      GtkRadioAction *current,
                                      EShellWindow *shell_window)
 {
-	EShell *shell;
 	GSettings *settings;
 	GtkToolbarStyle style;
 	const gchar *string;
 
-	shell = e_shell_window_get_shell (shell_window);
 	settings = g_settings_new ("org.gnome.evolution.shell");
 
 	style = gtk_radio_action_get_current_value (action);
@@ -66,13 +64,11 @@ shell_window_save_switcher_style_cb (GtkRadioAction *action,
 static void
 shell_window_init_switcher_style (EShellWindow *shell_window)
 {
-	EShell *shell;
 	GtkAction *action;
 	GSettings *settings;
 	GtkToolbarStyle style;
 	gchar *string;
 
-	shell = e_shell_window_get_shell (shell_window);
 	settings = g_settings_new ("org.gnome.evolution.shell");
 
 	action = ACTION (SWITCHER_STYLE_ICONS);
@@ -256,7 +252,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = shell_window->priv;
 	EShell *shell;
-	GSettings *settings;
 	GtkAction *action;
 	GtkAccelGroup *accel_group;
 	GtkUIManager *ui_manager;

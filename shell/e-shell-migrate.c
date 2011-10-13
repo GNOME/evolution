@@ -900,6 +900,7 @@ e_shell_migrate_attempt (EShell *shell)
 {
 	ESEvent *ese;
 	GSettings *settings;
+	GConfClient *client;
 	const gchar *key;
 	gint major, minor, micro;
 	gint last_major, last_minor, last_micro;
@@ -935,10 +936,12 @@ e_shell_migrate_attempt (EShell *shell)
 
 	/* The 2.32.x (except of 2.32.2) lefts duplicate On This Computer/Personal sources,
 	 * thus clean the mess up */
+	client = gconf_client_get_default ();
 	merge_duplicate_local_sources (client, "/apps/evolution/addressbook/sources");
 	merge_duplicate_local_sources (client, "/apps/evolution/calendar/sources");
 	merge_duplicate_local_sources (client, "/apps/evolution/tasks/sources");
 	merge_duplicate_local_sources (client, "/apps/evolution/memos/sources");
+	g_object_unref (client);
 
 	/* Record a successful migration. */
 	string = g_strdup_printf (
@@ -949,7 +952,7 @@ e_shell_migrate_attempt (EShell *shell)
 	migrated = TRUE;
 
 	/* Try to retrieve the last migrated version from GSettings. */
-	string = g_settings_get_string (client, "last-upgraded-version");
+	string = g_settings_get_string (settings, "last-upgraded-version");
 	if (migrated || string == NULL || sscanf (string, "%d.%d.%d",
 		&last_major, &last_minor, &last_micro) != 3) {
 		last_major = major;
@@ -960,7 +963,7 @@ e_shell_migrate_attempt (EShell *shell)
 
 	string = g_strdup_printf (
 		"%d.%d.%d", last_major, last_minor, last_micro);
-	g_settings_set_string (client, "last-upgraded-version", string);
+	g_settings_set_string (settings, "last-upgraded-version", string);
 	g_free (string);
 
 	g_object_unref (settings);
