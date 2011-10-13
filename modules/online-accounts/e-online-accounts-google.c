@@ -249,6 +249,8 @@ online_accounts_google_sync_mail (GoaObject *goa_object,
 		g_object_unref (account);
 	}
 
+	e_account_list_save (account_list);
+
 	g_object_unref (goa_account);
 	g_object_unref (goa_mail);
 }
@@ -327,6 +329,7 @@ online_accounts_google_sync_calendar (GoaObject *goa_object,
 	}
 
 	g_object_unref (source_group);
+	g_object_unref (source_list);
 	g_object_unref (goa_account);
 }
 
@@ -387,6 +390,7 @@ online_accounts_google_sync_contacts (GoaObject *goa_object,
 	}
 
 	g_object_unref (source_group);
+	g_object_unref (source_list);
 	g_object_unref (goa_account);
 }
 
