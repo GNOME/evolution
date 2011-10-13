@@ -25,7 +25,7 @@
 #include <config.h>
 #endif
 
-#include "e-signature-list.h"
+#include "libemail-utils/e-signature-list.h"
 
 #include <string.h>
 

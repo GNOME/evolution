@@ -66,8 +66,8 @@
 
 #include <mail/e-mail-backend.h>
 #include <mail/em-folder-selection-button.h>
-#include <mail/mail-mt.h>
-#include <mail/mail-tools.h>
+#include <libemail-utils/mail-mt.h>
+#include <libemail-engine/mail-tools.h>
 #include <mail/em-utils.h>
 
 #define d(x)
@@ -603,7 +603,7 @@ dbx_import_file (DbxImporter *m)
 	/* Destination folder, was set in our widget */
 	m->parent_uri = g_strdup (((EImportTargetURI *) m->target)->uri_dest);
 
-	cancellable = e_activity_get_cancellable (m->base.activity);
+	cancellable = m->base.cancellable;
 
 	/* XXX Dig up the EMailSession from the default EShell.
 	 *     Since the EImport framework doesn't allow for user

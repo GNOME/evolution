@@ -46,7 +46,7 @@
 #include "task-page.h"
 
 #include "e-util/e-util.h"
-#include "e-util/e-account-utils.h"
+#include "libemail-utils/e-account-utils.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-util-private.h"
 

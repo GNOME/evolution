@@ -31,7 +31,7 @@
 #include <e-util/e-alert-sink.h>
 #include <shell/e-shell-view.h>
 
-#include "mail-mt.h"
+#include "libemail-utils/mail-mt.h"
 
 /*#define MALLOC_CHECK*/
 #define d(x)

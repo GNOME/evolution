@@ -28,7 +28,7 @@
 #include <glib/gi18n.h>
 #include <e-util/e-util.h>
 
-#include "e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-folder-utils.h"
 #include "em-folder-tree.h"
 #include "em-folder-selector.h"
 #include "em-utils.h"

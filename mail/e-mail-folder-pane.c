@@ -41,7 +41,8 @@
 #include "mail/em-format-html-display.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-utils.h"
-#include "mail/mail-tools.h"
+#include "libemail-engine/mail-tools.h"
+#include "libemail-engine/e-mail-utils.h"
 #include "mail/message-list.h"
 
 #define E_MAIL_FOLDER_PANE_GET_PRIVATE(obj) \

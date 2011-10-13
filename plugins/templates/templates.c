@@ -32,12 +32,12 @@
 
 #include <e-util/e-config.h>
 
-#include <mail/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-folder-utils.h>
 #include <mail/e-mail-reader.h>
-#include <mail/e-mail-session.h>
+#include <libemail-engine/e-mail-session.h>
 #include <mail/em-composer-utils.h>
 #include <mail/em-utils.h>
-#include <mail/mail-ops.h>
+#include <libemail-engine/mail-ops.h>
 #include <mail/message-list.h>
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-plugin.h>

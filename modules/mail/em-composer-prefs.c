@@ -30,7 +30,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include "e-util/e-signature-utils.h"
+#include "libemail-utils/e-signature-utils.h"
 
 #include "em-composer-prefs.h"
 #include "composer/e-msg-composer.h"

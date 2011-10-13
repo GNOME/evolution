@@ -33,9 +33,9 @@
 #include "em-config.h"
 
 #include "e-mail-backend.h"
-#include "e-mail-folder-utils.h"
-#include "mail-ops.h"
-#include "mail-mt.h"
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/mail-ops.h"
+#include "libemail-utils/mail-mt.h"
 #include "mail-vfolder.h"
 
 typedef struct _AsyncContext AsyncContext;

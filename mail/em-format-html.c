@@ -61,8 +61,9 @@
 #include "em-format-html.h"
 #include "em-html-stream.h"
 #include "em-utils.h"
-#include "mail-config.h"
-#include "mail-mt.h"
+#include "libemail-engine/mail-config.h"
+#include "libemail-utils/mail-mt.h"
+#include "libemail-engine/e-mail-utils.h"
 
 #define EM_FORMAT_HTML_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

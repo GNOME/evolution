@@ -35,16 +35,16 @@
 #include <glib/gi18n.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include "e-util/e-account-utils.h"
+#include "libemail-utils/e-account-utils.h"
 
 #include "em-filter-rule.h"
 #include "em-utils.h"
-#include "mail-mt.h"
-#include "mail-ops.h"
-#include "mail-tools.h"
+#include "libemail-utils/mail-mt.h"
+#include "libemail-engine/mail-ops.h"
+#include "libemail-engine/mail-tools.h"
 
-#include "e-mail-session.h"
-#include "e-mail-session-utils.h"
+#include "libemail-engine/e-mail-session.h"
+#include "libemail-engine/e-mail-session-utils.h"
 
 #define w(x)
 #define d(x)

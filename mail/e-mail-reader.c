@@ -32,7 +32,7 @@
 #include <X11/XF86keysym.h>
 #endif
 
-#include "e-util/e-account-utils.h"
+#include "libemail-utils/e-account-utils.h"
 #include "e-util/e-charset.h"
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"
@@ -52,8 +52,9 @@
 #include "mail/em-folder-tree.h"
 #include "mail/em-utils.h"
 #include "mail/mail-autofilter.h"
-#include "mail/mail-ops.h"
-#include "mail/mail-mt.h"
+#include "libemail-engine/mail-ops.h"
+#include "libemail-engine/e-mail-utils.h"
+#include "libemail-utils/mail-mt.h"
 #include "mail/mail-vfolder.h"
 #include "mail/message-list.h"
 

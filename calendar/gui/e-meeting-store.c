@@ -35,7 +35,7 @@
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-proxy.h>
 #include <libedataserverui/e-passwords.h>
-#include <e-util/e-account-utils.h>
+#include <libemail-utils/e-account-utils.h>
 #include <e-util/e-util-enumtypes.h>
 #include "itip-utils.h"
 #include "e-meeting-utils.h"

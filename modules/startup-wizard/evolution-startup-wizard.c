@@ -24,7 +24,7 @@
 #include <libebackend/e-extension.h>
 
 #include <shell/e-shell.h>
-#include <e-util/e-account-utils.h>
+#include <libemail-utils/e-account-utils.h>
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-import.h>
 

@@ -39,18 +39,18 @@
 #include <glib/gstdio.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include <e-util/e-marshal.h>
+#include <libemail-utils/e-marshal.h>
 #include <e-util/e-util.h>
 
-#include "mail-mt.h"
-#include "mail-folder-cache.h"
-#include "mail-ops.h"
-#include "mail-tools.h"
+#include "libemail-utils/mail-mt.h"
+#include "libemail-engine/mail-folder-cache.h"
+#include "libemail-engine/mail-ops.h"
+#include "libemail-engine/mail-tools.h"
 
 #include "em-utils.h"
-#include "e-mail-folder-utils.h"
-#include "e-mail-session.h"
-#include "e-mail-store-utils.h"
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-session.h"
+#include "libemail-engine/e-mail-store-utils.h"
 
 #define w(x)
 #define d(x)

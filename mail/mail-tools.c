@@ -37,10 +37,10 @@
 
 #include <glib/gi18n.h>
 
-#include "e-mail-session.h"
+#include "libemail-engine/e-mail-session.h"
 #include "em-utils.h"
-#include "mail-folder-cache.h"
-#include "mail-tools.h"
+#include "libemail-engine/mail-folder-cache.h"
+#include "libemail-engine/mail-tools.h"
 
 /* **************************************** */
 

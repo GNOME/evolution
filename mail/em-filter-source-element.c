@@ -32,7 +32,7 @@
 #include <gtk/gtk.h>
 #include <camel/camel.h>
 
-#include <e-util/e-account-utils.h>
+#include <libemail-utils/e-account-utils.h>
 #include <filter/e-filter-part.h>
 
 #define EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE(obj) \

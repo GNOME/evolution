@@ -22,7 +22,7 @@
 #ifndef E_SIGNATURE_PREVIEW_H
 #define E_SIGNATURE_PREVIEW_H
 
-#include <e-util/e-signature.h>
+#include <libemail-utils/e-signature.h>
 #include <misc/e-web-view.h>
 
 /* Standard GObject macros */

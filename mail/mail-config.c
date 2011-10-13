@@ -32,12 +32,12 @@
 #include <libedataserver/e-data-server-util.h>
 
 #include <e-util/e-util.h>
-#include "e-util/e-account-utils.h"
-#include "e-util/e-signature-utils.h"
+#include "libemail-utils/e-account-utils.h"
+#include "libemail-utils/e-signature-utils.h"
 
-#include "e-mail-folder-utils.h"
-#include "mail-config.h"
-#include "mail-tools.h"
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/mail-config.h"
+#include "libemail-engine/mail-tools.h"
 
 typedef struct {
 	GSList *labels;

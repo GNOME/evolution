@@ -39,13 +39,14 @@
 
 #include "mail/e-mail-backend.h"
 #include "mail/e-mail-browser.h"
-#include "mail/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-utils.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-format-html-print.h"
 #include "mail/em-utils.h"
 #include "mail/mail-autofilter.h"
-#include "mail/mail-ops.h"
-#include "mail/mail-tools.h"
+#include "libemail-engine/mail-ops.h"
+#include "libemail-engine/mail-tools.h"
 #include "mail/mail-vfolder.h"
 #include "mail/message-list.h"
 

@@ -36,11 +36,11 @@
 #include <mail/em-config.h>
 #include <mail/em-format-html.h>
 #include <mail/em-utils.h>
-#include <mail/mail-folder-cache.h>
-#include <mail/mail-tools.h>
-#include <mail/mail-mt.h>
+#include <libemail-engine/mail-folder-cache.h>
+#include <libemail-engine/mail-tools.h>
+#include <libemail-utils/mail-mt.h>
 #include <libedataserver/e-account-list.h>
-#include <e-util/e-account-utils.h>
+#include <libemail-utils/e-account-utils.h>
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-mktemp.h>
 #include <calendar/gui/itip-utils.h>

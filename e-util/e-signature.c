@@ -33,7 +33,7 @@
 #include <libedataserver/e-uid.h>
 #include <libedataserver/e-data-server-util.h>
 
-#include "e-signature.h"
+#include "libemail-utils/e-signature.h"
 
 struct _ESignaturePrivate {
 	gchar *filename;

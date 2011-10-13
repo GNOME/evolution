@@ -31,6 +31,8 @@ libevolution_mail_la_CPPFLAGS =				\
 	$(CANBERRA_CFLAGS)				\
 	$(CLUTTER_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
+	$(EMAIL_UTILS_CFLAGS)				\
+	$(EMAIL_ENGINE_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
@@ -145,8 +147,6 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-paned-view.c				\
 	e-mail-reader-utils.c				\
 	e-mail-reader.c					\
-	e-mail-session-utils.c				\
-	e-mail-session.c				\
 	e-mail-sidebar.c				\
 	e-mail-store-utils.c				\
 	e-mail-tag-editor.c				\
@@ -180,12 +180,8 @@ libevolution_mail_la_SOURCES =				\
 	em-vfolder-rule.c				\
 	mail-autofilter.c				\
 	mail-config.c					\
-	mail-folder-cache.c				\
 	mail-guess-servers.c				\
-	mail-mt.c					\
-	mail-ops.c					\
 	mail-send-recv.c				\
-	mail-tools.c					\
 	mail-vfolder.c					\
 	message-list.c
 
@@ -216,6 +212,8 @@ libevolution_mail_la_LIBADD =				\
 	$(top_builddir)/filter/libfilter.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
+	$(EMAIL_UTILS_LIBS)				\
+	$(EMAIL_ENGINE_LIBS)				\
 	$(CERT_UI_LIBS)					\
 	$(CANBERRA_LIBS)				\
 	$(CLUTTER_LIBS)					\

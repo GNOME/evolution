@@ -48,7 +48,7 @@
 #include <libedataserverui/e-passwords.h>
 
 #include "e-util/e-util.h"
-#include "e-util/e-account-utils.h"
+#include "libemail-utils/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
@@ -58,18 +58,19 @@
 #include "shell/e-shell-window.h"
 
 #include "e-mail-account-store.h"
-#include "e-mail-folder-utils.h"
-#include "e-mail-junk-filter.h"
-#include "e-mail-session.h"
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-junk-filter.h"
+#include "libemail-engine/e-mail-local.h"
+#include "libemail-engine/e-mail-session.h"
 #include "em-composer-utils.h"
 #include "em-filter-context.h"
 #include "em-filter-rule.h"
 #include "em-utils.h"
-#include "mail-config.h"
-#include "mail-mt.h"
-#include "mail-ops.h"
+#include "libemail-engine/mail-config.h"
+#include "libemail-utils/mail-mt.h"
+#include "libemail-engine/mail-ops.h"
 #include "mail-send-recv.h"
-#include "mail-tools.h"
+#include "libemail-engine/mail-tools.h"
 
 #define E_MAIL_SESSION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

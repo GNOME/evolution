@@ -28,7 +28,7 @@
 #include <glib/gi18n.h>
 #include "mail/em-utils.h"
 #include "mail/mail-send-recv.h"
-#include "mail/mail-ops.h"
+#include "libemail-engine/mail-ops.h"
 #include "mail/em-folder-tree.h"
 
 struct  _AnjalMailViewPrivate {

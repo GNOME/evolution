@@ -21,7 +21,7 @@
 
 /* High-level operations with Evolution-specific policies. */
 
-#include <mail/e-mail-session.h>
+#include <libemail-engine/e-mail-session.h>
 
 #define E_MAIL_ERROR (e_mail_error_quark ())
 

@@ -23,8 +23,8 @@
 #include <libebook/e-destination.h>
 
 #include <shell/e-shell.h>
-#include <e-util/e-signature.h>
-#include <e-util/e-signature-list.h>
+#include <libemail-utils/e-signature.h>
+#include <libemail-utils/e-signature-list.h>
 #include <composer/e-composer-header.h>
 
 /* Standard GObject macros */

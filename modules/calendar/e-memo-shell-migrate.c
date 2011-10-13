@@ -32,7 +32,7 @@
 #include <libedataserver/e-source-group.h>
 #include <libedataserver/e-source-list.h>
 
-#include "e-util/e-account-utils.h"
+#include "libemail-utils/e-account-utils.h"
 #include "calendar/gui/calendar-config-keys.h"
 #include "shell/e-shell.h"
 

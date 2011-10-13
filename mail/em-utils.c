@@ -50,9 +50,10 @@
 
 #include <gio/gio.h>
 
-#include "mail-mt.h"
-#include "mail-ops.h"
-#include "mail-tools.h"
+#include "libemail-utils/mail-mt.h"
+#include "libemail-engine/mail-ops.h"
+#include "libemail-engine/e-mail-utils.h"
+#include "libemail-engine/mail-tools.h"
 #include "e-mail-tag-editor.h"
 
 #include <libedataserver/e-data-server-util.h>
@@ -61,7 +62,7 @@
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-mktemp.h"
-#include "e-util/e-account-utils.h"
+#include "libemail-utils/e-account-utils.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-alert-dialog.h"
 #include "shell/e-shell.h"
@@ -71,8 +72,8 @@
 #include "em-composer-utils.h"
 #include "em-format-quote.h"
 #include "em-format-html-print.h"
-#include "e-mail-folder-utils.h"
-#include "e-mail-session.h"
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-session.h"
 
 /* XXX This is a dirty hack on a dirty hack.  We really need
  *     to rework or get rid of the functions that use this. */
@@ -1975,23 +1976,7 @@ emu_remove_from_mail_cache (const GSList *addresses)
 }
 
 void
-emu_remove_from_mail_cache_1 (const gchar *address)
-{
-	GSList *l;
-
-	g_return_if_fail (address != NULL);
-
-	l = g_slist_append (NULL, (gpointer) address);
-
-	emu_remove_from_mail_cache (l);
-
-	g_slist_free (l);
-}
-
-/* frees all data created by call of em_utils_in_addressbook() or
- * em_utils_contact_photo() */
-void
-emu_free_mail_cache (void)
+emu_free_mail_account_sort_order_cache (void)
 {
 	G_LOCK (contact_cache);
 
@@ -2024,6 +2009,7 @@ emu_free_mail_cache (void)
 	photos_cache = NULL;
 
 	G_UNLOCK (photos_cache);
+	free_account_sort_order_cache ();
 }
 
 void

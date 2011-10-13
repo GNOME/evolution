@@ -33,7 +33,7 @@
 #include <libedataserver/e-sexp.h>
 #include <libedataserverui/e-client-utils.h>
 
-#include "e-util/e-account-utils.h"
+#include "libemail-utils/e-account-utils.h"
 #include "e-util/e-selection.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-file-utils.h"

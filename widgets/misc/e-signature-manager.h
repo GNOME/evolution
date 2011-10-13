@@ -23,7 +23,7 @@
 #define E_SIGNATURE_MANAGER_H
 
 #include <gtk/gtk.h>
-#include <e-util/e-signature-list.h>
+#include <libemail-utils/e-signature-list.h>
 #include <misc/e-signature-editor.h>
 #include <misc/e-signature-tree-view.h>
 

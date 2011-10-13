@@ -29,23 +29,32 @@
 #include <camel/camel-search-private.h>  /* for camel_search_word */
 
 #include "e-util/e-util.h"
-#include "e-util/e-account-utils.h"
+#include "libemail-utils/e-account-utils.h"
 #include "e-util/e-ui-manager.h"
 #include "filter/e-filter-part.h"
 #include "widgets/misc/e-web-view.h"
 #include "widgets/misc/e-popup-action.h"
 #include "widgets/menus/gal-view-instance.h"
 
-#include "e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-folder-utils.h"
 #include "e-mail-label-action.h"
 #include "e-mail-label-dialog.h"
 #include "e-mail-label-list-store.h"
+<<<<<<< HEAD
+=======
+#include "libemail-engine/e-mail-local.h"
+>>>>>>> Port Evolution to EDS's new mail library.
 #include "e-mail-reader.h"
 #include "e-mail-reader-utils.h"
-#include "e-mail-session.h"
-#include "e-mail-session-utils.h"
+#include "libemail-engine/e-mail-session.h"
+#include "libemail-engine/e-mail-session-utils.h"
 #include "e-mail-sidebar.h"
+<<<<<<< HEAD
 #include "e-mail-store-utils.h"
+=======
+#include "libemail-engine/e-mail-store.h"
+#include "libemail-engine/e-mail-store-utils.h"
+>>>>>>> Port Evolution to EDS's new mail library.
 #include "em-composer-utils.h"
 #include "em-folder-properties.h"
 #include "em-folder-selector.h"
@@ -54,10 +63,10 @@
 #include "em-subscription-editor.h"
 #include "em-utils.h"
 #include "mail-autofilter.h"
-#include "mail-folder-cache.h"
-#include "mail-ops.h"
+#include "libemail-engine/mail-folder-cache.h"
+#include "libemail-engine/mail-ops.h"
 #include "mail-send-recv.h"
-#include "mail-tools.h"
+#include "libemail-engine/mail-tools.h"
 #include "mail-vfolder.h"
 #include "message-list.h"
 

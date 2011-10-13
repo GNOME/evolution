@@ -17,14 +17,14 @@
 
 /**
  * SECTION: e-account-utils
- * @include: e-util/e-account-utils.h
+ * @include: libemail-utils/e-account-utils.h
  **/
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include "e-account-utils.h"
+#include "libemail-utils/e-account-utils.h"
 
 #include <string.h>
 #include <gconf/gconf-client.h>

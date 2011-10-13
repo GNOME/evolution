@@ -36,7 +36,7 @@
 #include "widgets/misc/e-search-bar.h"
 
 #include "em-utils.h"
-#include "mail-ops.h"
+#include "libemail-engine/mail-ops.h"
 #include "message-list.h"
 
 #include "e-mail-paned-view.h"

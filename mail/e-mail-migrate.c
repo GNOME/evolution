@@ -53,17 +53,17 @@
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-xml-utils.h>
 
-#include "e-util/e-account-utils.h"
+#include "libemail-utils/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-plugin.h"
-#include "e-util/e-signature-utils.h"
+#include "libemail-utils/e-signature-utils.h"
 
 #include "shell/e-shell.h"
 #include "shell/e-shell-migrate.h"
 
 #include "e-mail-backend.h"
-#include "e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-folder-utils.h"
 #include "em-utils.h"
 
 #define d(x) x
@@ -679,6 +679,7 @@ create_mbox_account (EShellBackend *shell_backend,
 	mail_backend = E_MAIL_BACKEND (shell_backend);
 	mail_session = e_mail_backend_get_session (mail_backend);
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	msession = e_mail_backend_get_session (mail_backend);
 
 	account = e_account_new ();
 	account->enabled = TRUE;

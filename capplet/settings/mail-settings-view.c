@@ -28,7 +28,7 @@
 #include "mail-settings-view.h"
 #include <libedataserver/e-account-list.h>
 #include "mail-view.h"
-#include <e-util/e-account-utils.h>
+#include <libemail-utils/e-account-utils.h>
 
 struct _MailSettingsViewPrivate {
 	GtkWidget *tab_str;

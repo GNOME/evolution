@@ -31,7 +31,7 @@
 #include "mail/em-folder-tree.h"
 #include "e-mail-notebook-view.h"
 #include "e-mail-folder-pane.h"
-#include "e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-folder-utils.h"
 #include "e-mail-message-pane.h"
 
 #include <shell/e-shell-window-actions.h>

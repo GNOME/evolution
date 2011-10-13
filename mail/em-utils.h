@@ -30,8 +30,9 @@
 #include <libedataserver/e-account.h>
 
 #include <mail/e-mail-reader.h>
-#include <mail/e-mail-session.h>
+#include <libemail-engine/e-mail-session.h>
 #include <mail/em-folder-tree.h>
+#include <libemail-engine/e-mail-utils.h>
 
 G_BEGIN_DECLS
 
@@ -42,7 +43,6 @@ gboolean em_utils_ask_open_many (GtkWindow *parent, gint how_many);
 gboolean em_utils_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, ...);
 
 GPtrArray *em_utils_uids_copy (GPtrArray *uids);
-void em_utils_uids_free (GPtrArray *uids);
 
 void		em_utils_edit_filters		(EMailSession *session,
 						 EAlertSink *alert_sink,
@@ -64,11 +64,6 @@ void em_utils_selection_get_uidlist (GtkSelectionData *data, EMailSession *sessi
 void em_utils_selection_set_urilist (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
 void em_utils_selection_get_urilist (GtkSelectionData *data, CamelFolder *folder);
 
-gboolean	em_utils_folder_is_drafts	(CamelFolder *folder);
-gboolean	em_utils_folder_is_templates	(CamelFolder *folder);
-gboolean	em_utils_folder_is_sent		(CamelFolder *folder);
-gboolean	em_utils_folder_is_outbox	(CamelFolder *folder);
-
 EProxy *	em_utils_get_proxy		(void);
 
 /* FIXME: should this have an override charset? */
@@ -76,10 +71,6 @@ gchar *em_utils_message_to_html (CamelMimeMessage *msg, const gchar *credits, gu
 
 void		em_utils_empty_trash		(GtkWidget *parent,
 						 EMailSession *session);
-
-/* is this address in the addressbook?  caches results */
-gboolean em_utils_in_addressbook (CamelInternetAddress *addr, gboolean local_only);
-CamelMimePart *em_utils_contact_photo (CamelInternetAddress *addr, gboolean local);
 
 /* clears flag 'get_password_canceled' at every known accounts, so if needed, get_password will show dialog */
 void em_utils_clear_get_password_canceled_accounts_flag (void);
@@ -96,6 +87,7 @@ EAccount *	em_utils_guess_account_with_recipients
 void emu_remove_from_mail_cache (const GSList *addresses);
 void emu_remove_from_mail_cache_1 (const gchar *address);
 void emu_free_mail_cache (void);
+void emu_free_mail_account_sort_order_cache (void);
 
 void emu_restore_folder_tree_state (EMFolderTree *folder_tree);
 

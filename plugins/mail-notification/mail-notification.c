@@ -36,7 +36,7 @@
 #include <time.h>
 
 #include <e-util/e-config.h>
-#include <mail/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-folder-utils.h>
 #include <mail/em-utils.h>
 #include <mail/em-event.h>
 #include <mail/em-folder-tree.h>

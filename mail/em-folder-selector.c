@@ -29,7 +29,7 @@
 #include <glib/gi18n.h>
 #include <e-util/e-util.h>
 
-#include "e-mail-session.h"
+#include "libemail-engine/e-mail-session.h"
 #include "em-folder-tree.h"
 #include "em-folder-selector.h"
 #include "em-folder-utils.h"

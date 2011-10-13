@@ -26,7 +26,7 @@
 #include "e-contact-map.h"
 #include "e-contact-marker.h"
 
-#include <e-util/e-marshal.h>
+#include <libemail-utils/e-marshal.h>
 
 #include <champlain/champlain.h>
 #include <champlain-gtk/champlain-gtk.h>

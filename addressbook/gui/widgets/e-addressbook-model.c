@@ -27,7 +27,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include "e-addressbook-model.h"
-#include <e-util/e-marshal.h>
+#include <libemail-utils/e-marshal.h>
 #include <e-util/e-util.h>
 #include "eab-gui-util.h"
 

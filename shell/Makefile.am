@@ -60,6 +60,7 @@ libeshell_la_CPPFLAGS =						\
 	-DG_LOG_DOMAIN=\"evolution-shell\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
+	$(EMAIL_UTILS_CFLAGS)					\
 	$(EGG_SMCLIENT_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
 	$(CLUTTER_CFLAGS)
@@ -96,6 +97,7 @@ libeshell_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
+	$(EMAIL_UTILS_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(EGG_SMCLIENT_LIBS)				\
 	$(CLUTTER_LIBS)
@@ -132,7 +134,8 @@ evolution_CPPFLAGS =						\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)					\
-	$(CLUTTER_CFLAGS)
+	$(CLUTTER_CFLAGS)					\
+	$(EMAIL_UTILS_CFLAGS)					
 
 evolution_SOURCES =				\
 	main.c
@@ -146,6 +149,7 @@ evolution_LDADD =							\
 	$(top_builddir)/filter/libfilter.la				\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
+	$(EMAIL_UTILS_LIBS)						\
 	$(CLUTTER_LIBS)							\
 	$(EVOLUTIONICON)
 

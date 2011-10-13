@@ -32,19 +32,21 @@
 #include "libedataserver/e-account-list.h"
 
 #include "shell/e-shell.h"
-#include "e-util/e-account-utils.h"
+
+#include "libemail-utils/e-account-utils.h"
 #include "e-util/e-util.h"
 
-#include "e-mail-folder-utils.h"
-#include "e-mail-session.h"
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-utils.h"
+#include "libemail-engine/e-mail-session.h"
 #include "em-event.h"
 #include "em-filter-rule.h"
 #include "em-utils.h"
-#include "mail-folder-cache.h"
-#include "mail-mt.h"
-#include "mail-ops.h"
+#include "libemail-engine/mail-folder-cache.h"
+#include "libemail-utils/mail-mt.h"
+#include "libemail-engine/mail-ops.h"
 #include "mail-send-recv.h"
-#include "mail-tools.h"
+#include "libemail-engine/mail-tools.h"
 
 #define d(x)
 

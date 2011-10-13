@@ -60,10 +60,11 @@
 
 #include "e-mail-label-list-store.h"
 #include "em-utils.h"
-#include "mail-config.h"
-#include "mail-mt.h"
-#include "mail-ops.h"
-#include "mail-tools.h"
+#include "libemail-engine/mail-config.h"
+#include "libemail-utils/mail-mt.h"
+#include "libemail-engine/mail-ops.h"
+#include "libemail-engine/mail-tools.h"
+#include "libemail-engine/e-mail-utils.h"
 #include "message-list.h"
 
 #if HAVE_CLUTTER
@@ -4764,7 +4765,7 @@ regen_list_done (struct _regen_list_msg *m)
 	GCancellable *cancellable;
 	gboolean searching;
 
-	cancellable = e_activity_get_cancellable (m->base.activity);
+	cancellable = m->base.cancellable;
 
 	if (m->ml->priv->destroyed)
 		return;

@@ -55,8 +55,8 @@
 
 #include <mail/e-mail-backend.h>
 #include <mail/em-folder-selection-button.h>
-#include <mail/mail-mt.h>
-#include <mail/mail-tools.h>
+#include <libemail-utils/mail-mt.h>
+#include <libemail-engine/mail-tools.h>
 #include <mail/em-utils.h>
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>

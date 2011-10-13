@@ -9,7 +9,6 @@ glib_enum_define=E
 glib_enum_prefix=e
 
 ENUM_GENERATED = e-util-enumtypes.h e-util-enumtypes.c
-MARSHAL_GENERATED = e-marshal.c e-marshal.h
 
 if OS_WIN32
 PLATFORM_SOURCES = e-win32-reloc.c e-win32-defaults.c e-win32-defaults.h
@@ -18,7 +17,6 @@ endif
 privsolib_LTLIBRARIES = libeutil.la
 
 eutilinclude_HEADERS = 				\
-	e-account-utils.h			\
 	e-activity.h				\
 	e-alert.h				\
 	e-alert-dialog.h			\
@@ -35,7 +33,6 @@ eutilinclude_HEADERS = 				\
 	e-html-utils.h				\
 	e-icon-factory.h			\
 	e-import.h				\
-	e-marshal.h				\
 	e-mktemp.h				\
 	e-poolv.h				\
 	e-print.h				\
@@ -43,9 +40,6 @@ eutilinclude_HEADERS = 				\
 	e-plugin-ui.h				\
 	e-plugin-util.h				\
 	e-selection.h				\
-	e-signature.h				\
-	e-signature-list.h			\
-	e-signature-utils.h			\
 	e-sorter.h				\
 	e-sorter-array.h			\
 	e-text-event-processor-emacs-like.h	\
@@ -85,11 +79,11 @@ libeutil_la_CPPFLAGS =							\
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\"				\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)					\
+	$(EMAIL_UTILS_CFLAGS)		
 
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
-	e-account-utils.c			\
 	e-activity.c				\
 	e-alert.c				\
 	e-alert-dialog.c			\
@@ -106,7 +100,6 @@ libeutil_la_SOURCES =				\
 	e-html-utils.c				\
 	e-icon-factory.c			\
 	e-import.c				\
-	e-marshal.c				\
 	e-mktemp.c				\
 	e-poolv.c				\
 	e-plugin.c				\
@@ -114,9 +107,6 @@ libeutil_la_SOURCES =				\
 	e-plugin-util.c				\
 	e-print.c				\
 	e-selection.c				\
-	e-signature.c				\
-	e-signature-list.c			\
-	e-signature-utils.c			\
 	e-sorter.c				\
 	e-sorter-array.c			\
 	e-text-event-processor-emacs-like.c	\
@@ -134,6 +124,7 @@ libeutil_la_LDFLAGS = $(NO_UNDEFINED)
 libeutil_la_LIBADD = 			\
 	$(ICONV_LIBS)			\
 	$(EVOLUTION_DATA_SERVER_LIBS)	\
+	$(EMAIL_UTILS_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)		\
 	$(INTLLIBS)
 
@@ -142,10 +133,9 @@ errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
 EXTRA_DIST =				\
-	e-system.error.xml		\
-	e-marshal.list
+	e-system.error.xml		
 
-BUILT_SOURCES = $(ENUM_GENERATED) $(MARSHAL_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(ENUM_GENERATED) $(error_DATA)
 CLEANFILES    = $(BUILT_SOURCES)
 
 dist-hook:

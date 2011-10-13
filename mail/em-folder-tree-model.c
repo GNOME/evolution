@@ -37,20 +37,21 @@
 #include <glib/gi18n.h>
 
 #include "e-util/e-util.h"
-#include "e-util/e-account-utils.h"
+#include "libemail-utils/e-account-utils.h"
 
-#include "mail-tools.h"
-#include "mail-mt.h"
-#include "mail-ops.h"
+#include "libemail-engine/mail-tools.h"
+#include "libemail-utils/mail-mt.h"
+#include "libemail-engine/mail-ops.h"
 
 /* sigh, these 2 only needed for outbox total count checking - a mess */
-#include "mail-folder-cache.h"
+#include "libemail-engine/mail-folder-cache.h"
 
 #include "em-utils.h"
 #include "em-folder-utils.h"
 #include "em-event.h"
 
-#include "e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-utils.h"
 #include "shell/e-shell.h"
 
 #define EM_FOLDER_TREE_MODEL_GET_PRIVATE(obj) \

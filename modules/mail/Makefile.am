@@ -5,6 +5,8 @@ libevolution_module_mail_la_CPPFLAGS =					\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/mail						\
 	-I$(top_srcdir)/widgets						\
+	$(EMAIL_UTILS_CFLAGS)						\
+	$(EMAIL_ENGINE_CFLAGS)						\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
 	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
@@ -68,7 +70,9 @@ libevolution_module_mail_la_LIBADD =					\
 	$(top_builddir)/capplet/settings/libevolution-mail-settings.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(GTKHTML_LIBS)
+	$(GTKHTML_LIBS)							\
+	$(EMAIL_UTILS_LIBS)						\
+	$(EMAIL_ENGINE_LIBS)						
 
 libevolution_module_mail_la_LDFLAGS =					\
 	-avoid-version -module $(NO_UNDEFINED)

@@ -31,7 +31,7 @@
 #include <gtk/gtk.h>
 
 #include <e-util/e-util.h>
-#include <e-util/e-account-utils.h>
+#include <libemail-utils/e-account-utils.h>
 
 #include <glib/gi18n.h>
 

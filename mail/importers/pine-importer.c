@@ -43,7 +43,7 @@
 
 #include "mail-importer.h"
 
-#include "mail/mail-mt.h"
+#include "libemail-utils/mail-mt.h"
 #include "mail/e-mail-backend.h"
 #include "e-util/e-import.h"
 #include "shell/e-shell.h"

@@ -28,7 +28,7 @@
 #include <libedataserver/e-time-utils.h>
 #include <gtk/gtk.h>
 #include <libical/ical.h>
-#include <e-util/e-account-utils.h>
+#include <libemail-utils/e-account-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-util.h>

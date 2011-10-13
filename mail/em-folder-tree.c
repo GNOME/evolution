@@ -48,9 +48,9 @@
 
 #include "em-vfolder-rule.h"
 
-#include "mail-mt.h"
-#include "mail-ops.h"
-#include "mail-tools.h"
+#include "libemail-utils/mail-mt.h"
+#include "libemail-engine/mail-ops.h"
+#include "libemail-engine/mail-tools.h"
 #include "mail-send-recv.h"
 #include "mail-vfolder.h"
 
@@ -61,8 +61,8 @@
 #include "em-folder-properties.h"
 #include "em-event.h"
 
-#include "e-mail-folder-utils.h"
-#include "e-mail-session.h"
+#include "libemail-engine/e-mail-folder-utils.h"
+#include "libemail-engine/e-mail-session.h"
 
 #define d(x)
 
@@ -2036,7 +2036,7 @@ folder_tree_drop_folder (struct _DragDataReceivedAsync *m)
 
 	d(printf(" * Drop folder '%s' onto '%s'\n", data, m->full_name));
 
-	cancellable = e_activity_get_cancellable (m->base.activity);
+	cancellable = m->base.cancellable;
 
 	folder = e_mail_session_uri_to_folder_sync (
 		m->session, (gchar *) data, 0,

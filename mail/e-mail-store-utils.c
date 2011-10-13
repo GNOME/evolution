@@ -22,7 +22,7 @@
 
 #include "em-utils.h"
 
-#include "e-mail-store-utils.h"
+#include "libemail-engine/e-mail-store-utils.h"
 
 #include <glib/gi18n-lib.h>
 

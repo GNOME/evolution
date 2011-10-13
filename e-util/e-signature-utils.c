@@ -21,7 +21,7 @@
 #include <config.h>
 #endif
 
-#include "e-signature-utils.h"
+#include "libemail-utils/e-signature-utils.h"
 
 #include <errno.h>
 #include <camel/camel.h>

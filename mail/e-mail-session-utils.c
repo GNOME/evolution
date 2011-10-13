@@ -20,15 +20,15 @@
 #include <config.h>
 #endif
 
-#include "e-mail-session-utils.h"
+#include "libemail-engine/e-mail-session-utils.h"
 
 #include "em-utils.h"
 
 #include <glib/gi18n-lib.h>
 
-#include <mail/mail-tools.h>
-#include <mail/e-mail-folder-utils.h>
-#include <e-util/e-account-utils.h>
+#include <libemail-engine/mail-tools.h>
+#include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-utils/e-account-utils.h>
 #include <filter/e-filter-rule.h>
 
 /* X-Mailer header value */

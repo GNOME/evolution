@@ -38,7 +38,7 @@
 #include "itip-utils.h"
 #include "misc.h"
 #include "e-util/e-util.h"
-#include "e-util/e-account-utils.h"
+#include "libemail-utils/e-account-utils.h"
 #include "e-util/e-util-enumtypes.h"
 
 struct _ECalModelComponentPrivate {

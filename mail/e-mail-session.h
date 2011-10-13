@@ -30,7 +30,7 @@
 #include <mail/e-mail-enums.h>
 #include <mail/e-mail-account-store.h>
 #include <mail/e-mail-label-list-store.h>
-#include <mail/mail-folder-cache.h>
+#include <libemail-engine/mail-folder-cache.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SESSION \

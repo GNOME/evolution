@@ -30,7 +30,7 @@
 
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-alert-sink.h>
-#include <e-util/e-signature-utils.h>
+#include <libemail-utils/e-signature-utils.h>
 #include <misc/e-web-view.h>
 
 enum {
