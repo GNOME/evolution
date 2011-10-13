@@ -434,9 +434,7 @@ retrieve_list_clicked (GtkButton *button,
                        GtkComboBox *combo)
 {
 	ESource *source;
-	#ifdef HAVE_LIBGDATA_0_9
 	GDataClientLoginAuthorizer *authorizer;
-	#endif
 	GDataCalendarService *service;
 	GDataFeed *feed;
 	gchar *user, *password, *tmp;
@@ -467,14 +465,9 @@ retrieve_list_clicked (GtkButton *button,
 		return;
 	}
 
-	#ifdef HAVE_LIBGDATA_0_9
 	authorizer = gdata_client_login_authorizer_new ("evolution-client-0.1.0", GDATA_TYPE_CALENDAR_SERVICE);
 	service = gdata_calendar_service_new (GDATA_AUTHORIZER (authorizer));
 	if (!gdata_client_login_authorizer_authenticate (authorizer, user, password, NULL, &error)) {
-	#else
-	service = gdata_calendar_service_new ("evolution-client-0.1.0");
-	if (!gdata_service_authenticate (GDATA_SERVICE (service), user, password, NULL, &error)) {
-	#endif
 		/* Error! */
 		claim_error (parent, error->message);
 		g_error_free (error);
@@ -584,9 +577,7 @@ retrieve_list_clicked (GtkButton *button,
 	}
 
 	g_object_unref (service);
-	#ifdef HAVE_LIBGDATA_0_9
 	g_object_unref (authorizer);
-	#endif
 	g_free (user);
 }
 

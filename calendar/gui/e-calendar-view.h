@@ -248,8 +248,7 @@ void		e_calendar_view_modify_and_send	(ECalendarView *cal_view,
 						 GtkWindow *toplevel,
 						 gboolean new);
 
-gboolean	e_calendar_view_get_tooltips	(ECalendarView *cal_view,
-						 const ECalendarViewEventData *data);
+gboolean	e_calendar_view_get_tooltips	(const ECalendarViewEventData *data);
 
 void		e_calendar_view_move_tip	(GtkWidget *widget,
 						 gint x,

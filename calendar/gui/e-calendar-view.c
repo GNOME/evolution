@@ -1826,8 +1826,7 @@ e_calendar_view_move_tip (GtkWidget *widget,
  */
 
 gboolean
-e_calendar_view_get_tooltips (ECalendarView *cal_view,
-                              const ECalendarViewEventData *data)
+e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 {
 	GtkWidget *label, *box, *hbox, *ebox, *frame;
 	const gchar *str;
@@ -1838,7 +1837,7 @@ e_calendar_view_get_tooltips (ECalendarView *cal_view,
 	time_t t_start, t_end;
 	ECalendarViewEvent *pevent;
 	GtkStyle *style = gtk_widget_get_default_style ();
-	GtkWidget *widget = (GtkWidget *) g_object_get_data (G_OBJECT (data->cal_view), "tooltip-window");
+	GtkWidget *widget;
 	GdkWindow *window;
 	ECalComponent *newcomp = e_cal_component_new ();
 	icaltimezone *zone, *default_zone;
@@ -1846,12 +1845,17 @@ e_calendar_view_get_tooltips (ECalendarView *cal_view,
 	ECalClient *client = NULL;
 	gboolean free_text = FALSE;
 
-	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), FALSE);
+	/* This function is a timeout callback. */
 
-	model = e_calendar_view_get_model (cal_view);
+	g_return_val_if_fail (data != NULL, FALSE);
+	g_return_val_if_fail (E_IS_CALENDAR_VIEW (data->cal_view), FALSE);
+
+	model = e_calendar_view_get_model (data->cal_view);
 
 	/* Delete any stray tooltip if left */
-	if (widget)
+	widget = g_object_get_data (
+		G_OBJECT (data->cal_view), "tooltip-window");
+	if (GTK_IS_WIDGET (widget))
 		gtk_widget_destroy (widget);
 
 	default_zone = e_calendar_view_get_timezone  (data->cal_view);

@@ -43,6 +43,7 @@ m4_define([gnome_desktop_minimum_version], [2.91.3])
 m4_define([gnome_icon_theme_minimum_version], [2.30.2.1])
 m4_define([gsettings_desktop_schemas_minimum_version], [2.91.92])
 m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
+m4_define([libgdata_minimum_version], [0.10])
 m4_define([libsoup_minimum_version], [2.31.2])
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
@@ -1250,13 +1251,9 @@ PKG_CHECK_MODULES([LIBSOUP], [libsoup-gnome-2.4 >= libsoup_minimum_version])
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-PKG_CHECK_MODULES([GDATA], [libgdata >= 0.7.0])
+PKG_CHECK_MODULES([GDATA], [libgdata >= libgdata_minimum_version])
 AC_SUBST(GDATA_CFLAGS)
 AC_SUBST(GDATA_LIBS)
-
-if `$PKG_CONFIG --atleast-version=0.9 libgdata`; then
-	AC_DEFINE(HAVE_LIBGDATA_0_9,1,[libgdata is 0.9 or higher])
-fi
 
 dnl ****************************
 dnl Check for ical_set_unknown_token_handling_setting function

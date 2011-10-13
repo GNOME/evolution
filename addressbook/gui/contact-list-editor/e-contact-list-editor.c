@@ -266,21 +266,37 @@ contact_list_editor_add_email (EContactListEditor *editor,
 {
 	CamelInternetAddress *addr;
 	EContactListEditorPrivate *priv = editor->priv;
-	EDestination *dest = e_destination_new ();
+	EDestination *dest = NULL;
+	gint addr_length;
 
 	addr = camel_internet_address_new ();
-	if (camel_address_unformat (CAMEL_ADDRESS (addr), email) == 1) {
+	addr_length = camel_address_unformat (CAMEL_ADDRESS (addr), email);
+	if (addr_length >= 1) {
 		const gchar *name, *mail;
-		camel_internet_address_get (addr, 0, &name, &mail);
-		e_destination_set_email (dest, mail);
-		e_destination_set_name (dest, name);
+		gint ii;
+
+		for (ii = 0; ii < addr_length; ii++) {
+			camel_internet_address_get (addr, ii, &name, &mail);
+
+			if (name || mail) {
+				dest = e_destination_new ();
+				if (mail)
+					e_destination_set_email (dest, mail);
+				if (name)
+					e_destination_set_name (dest, name);
+
+				priv->changed = contact_list_editor_add_destination (WIDGET (DIALOG), dest)
+						|| priv->changed;
+			}
+		}
 	} else {
+		dest = e_destination_new ();
 		e_destination_set_email (dest, email);
+
+		priv->changed = contact_list_editor_add_destination (WIDGET (DIALOG), dest)
+				|| priv->changed;
 	}
 	g_object_unref (addr);
-
-	priv->changed = contact_list_editor_add_destination (
-		WIDGET (DIALOG), dest) || priv->changed;
 
 	contact_list_editor_update (editor);
 }
@@ -1229,22 +1245,6 @@ setup_custom_widgets (EContactListEditor *editor)
 
 /***************************** GObject Callbacks *****************************/
 
-static GObject *
-contact_list_editor_constructor (GType type,
-                                 guint n_construct_properties,
-                                 GObjectConstructParam *construct_properties)
-{
-	GObject *object;
-
-	/* Chain up to parent's constructor() method. */
-	object = G_OBJECT_CLASS (parent_class)->constructor (
-		type, n_construct_properties, construct_properties);
-
-	contact_list_editor_update (E_CONTACT_LIST_EDITOR (object));
-
-	return object;
-}
-
 static void
 contact_list_editor_set_property (GObject *object,
                                   guint property_id,
@@ -1413,6 +1413,8 @@ contact_list_editor_constructed (GObject *object)
 	setup_custom_widgets (editor);
 
 	e_name_selector_load_books (editor->priv->name_selector);
+
+	contact_list_editor_update (E_CONTACT_LIST_EDITOR (object));
 }
 
 /**************************** EABEditor Callbacks ****************************/
@@ -1562,7 +1564,6 @@ contact_list_editor_class_init (EContactListEditorClass *class)
 	g_type_class_add_private (class, sizeof (EContactListEditorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructor = contact_list_editor_constructor;
 	object_class->set_property = contact_list_editor_set_property;
 	object_class->get_property = contact_list_editor_get_property;
 	object_class->dispose = contact_list_editor_dispose;

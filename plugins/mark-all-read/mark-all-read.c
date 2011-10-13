@@ -277,10 +277,8 @@ scan_folder_tree_for_unread_helper (GtkTreeModel *model,
 
 		folder_has_unread =
 			!is_store && !is_draft &&
-			(folder_flags & CAMEL_FOLDER_VTRASH) == 0 &&
 			((folder_flags & CAMEL_FOLDER_VIRTUAL) == 0 ||
-				((folder_flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_TRASH &&
-				 (folder_flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_JUNK)) &&
+				(folder_flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_TRASH) &&
 			unread > 0 && unread != ~((guint) 0);
 
 		if (folder_has_unread) {
@@ -384,6 +382,8 @@ mar_got_folder (CamelStore *store,
 	CamelFolder *folder;
 	gchar *folder_name;
 	GError *error = NULL;
+	GPtrArray *uids;
+	gint ii;
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
 	cancellable = e_activity_get_cancellable (context->activity);
@@ -408,26 +408,20 @@ mar_got_folder (CamelStore *store,
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	/* Skip virtual trash/junk folders. */
-	if (!CAMEL_IS_VTRASH_FOLDER (folder)) {
-		GPtrArray *uids;
-		gint ii;
 
-		camel_folder_freeze (folder);
+	camel_folder_freeze (folder);
 
-		uids = camel_folder_get_uids (folder);
+	uids = camel_folder_get_uids (folder);
 
-		for (ii = 0; ii < uids->len; ii++)
-			camel_folder_set_message_flags (
-				folder, uids->pdata[ii],
-				CAMEL_MESSAGE_SEEN,
-				CAMEL_MESSAGE_SEEN);
+	for (ii = 0; ii < uids->len; ii++)
+		camel_folder_set_message_flags (
+			folder, uids->pdata[ii],
+			CAMEL_MESSAGE_SEEN,
+			CAMEL_MESSAGE_SEEN);
 
-		camel_folder_free_uids (folder, uids);
+	camel_folder_free_uids (folder, uids);
 
-		camel_folder_thaw (folder);
-	}
-
+	camel_folder_thaw (folder);
 	g_object_unref (folder);
 
 	/* If the folder name queue is empty, we're done. */
@@ -602,7 +596,8 @@ update_actions_cb (EShellView *shell_view,
 	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
 	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
 
-	visible = (scan_folder_tree_for_unread (folder_uri) > 0);
+	visible = em_folder_tree_get_selected (folder_tree, NULL, NULL)
+		  && scan_folder_tree_for_unread (folder_uri) > 0;
 	gtk_action_set_visible (action, visible);
 
 	g_object_unref (folder_tree);
