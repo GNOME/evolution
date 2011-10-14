@@ -29,15 +29,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-24 13:04+0000\n"
-"PO-Revision-Date: 2011-09-24 23:11+0100\n"
+"POT-Creation-Date: 2011-10-13 12:49+0000\n"
+"PO-Revision-Date: 2011-10-14 21:17+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@freenet.de>\n"
-"Language-Team: Deutsch <gnome-de@gnome.org>\n"
+"Language-Team: Deutsch <>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Lokalize 0.3\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
@@ -46,6 +46,8 @@ msgstr ""
 msgid ""
 "Using and managing categories for appointments, contacts, memos and tasks."
 msgstr ""
+"Kategorien für Termine, Kontakte, Notizen und Aufgaben verwenden und "
+"verwalten."
 
 #: C/using-categories.page:13(name) C/tasks-webdav.page:11(name)
 #: C/tasks-using-several-tasklists.page:11(name) C/tasks-usage.page:11(name)
@@ -599,7 +601,6 @@ msgid "Using Categories"
 msgstr "Kategorien verwenden"
 
 #: C/using-categories.page:27(p)
-#, fuzzy
 msgid ""
 "Another way to group contacts, appointments, tasks and memos (summarized by "
 "the term \"objects\" in the following text) is to mark them as belonging to "
@@ -608,12 +609,12 @@ msgid ""
 "the \"Business\" category because he works with you and the \"Friends\" "
 "category because he is a friend."
 msgstr ""
-"Eine andere Art Kontakte zu gruppieren ist es, diese als verschiedenen "
-"Kategorien zugehörig zu markieren. Sie können einem Kontakt mehrere oder gar "
-"keine Kategorien zuweisen. Sie können einen Kontakt zum Beispiel in die "
-"<guilabel>Geschäftlich</guilabel>-Kategorie einordnen, da er mit Ihnen "
-"arbeitet, und in die <guilabel>Persönlich</guilabel>-Kategorie da er ein "
-"Freund ist."
+"Eine andere Methode, wie Sie Kontakte, Termine, Aufgaben und Notizen (im "
+"Folgenden unter dem Begriff »Objekte« zusammengefasst) ordnen können, besteht "
+"darin, ihnen verschiedene Kategorien zuzuweisen. Sie können einem Objekt "
+"mehrere oder gar keine Kategorien zuordnen. Sie können zum Beispiel in Ihrem "
+"Adressbuch einen Freund in der Kategorie »Geschäftlich« einordnen, da er mit "
+"Ihnen arbeitet, und in die Kategorie »Freunde«, da er ein Freund ist."
 
 #: C/using-categories.page:29(p)
 msgid ""
@@ -621,10 +622,13 @@ msgid ""
 "corresponding category in the quick <link xref=\"searching-items\">search</"
 "link> bar."
 msgstr ""
+"Um nur die Objekte einer bestimmten Kategorie anzuzeigen, wählen Sie die "
+"entsprechende Kategorie in der Leiste für die schnelle <link xref=\"searching-"
+"items\">Suche</link>."
 
 #: C/using-categories.page:32(title)
 msgid "Setting categories for an object"
-msgstr ""
+msgstr "Einem Objekt Kategorien zuweisen"
 
 #: C/using-categories.page:34(p)
 msgid "To mark an object as belonging to a category,"
@@ -641,6 +645,9 @@ msgid ""
 "Click <gui style=\"button\">Categories...</gui>. (If this button is not "
 "available, select <guiseq><gui>View</gui><gui>Categories</gui></guiseq>.)"
 msgstr ""
+"Klicken Sie auf <gui style=\"button\">Kategorien …</gui> (Wenn dieser Knopf "
+"nicht vorhanden ist, wählen Sie <guiseq><gui>Ansicht</gui><gui>Kategorien</"
+"gui></guiseq>.)"
 
 #: C/using-categories.page:38(p)
 msgid ""
@@ -660,13 +667,16 @@ msgid ""
 "own categories either directly via <guiseq><gui>Edit</gui><gui>Available "
 "Categories</gui></guiseq>, or indirectly when editing an object:"
 msgstr ""
+"Wenn die vorgegebene Kategorienliste Ihren Bedürfnisse nicht entspricht, "
+"können Sie Ihre eigenen Kategorien hinzufügen, entweder direkt über "
+"<guiseq><gui>Bearbeiten</gui><gui>Verfügbare Kategorien</gui></guiseq> oder "
+"indirekt, wenn Sie ein Objekt bearbeiten:"
 
 #: C/using-categories.page:48(p)
-#, fuzzy
 msgid "Double-click any object to bring up th corresponding editor."
 msgstr ""
-"Klicken Sie doppelt auf den Kontakt, damit das Kontakt-Editor-Fenster "
-"geöffnet wird."
+"Klicken Sie doppelt auf ein beliebiges Objekt, um den entsprechenden Editor "
+"zu öffnen."
 
 #: C/using-categories.page:50(p)
 msgid "Enter the new category in the entry box at the top."
@@ -689,56 +699,57 @@ msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Klicken Sie auf <gui style=\"button\">OK</gui>."
 
 #: C/using-categories.page:52(p)
-#, fuzzy
 msgid ""
 "You can now see the category in the <gui>Categories</gui> text field in the "
 "editor."
 msgstr ""
-"Sie können sehen, dass der Kategoriename im Textfeld rechts neben dem "
-"»Kategorien«-Knopf im Kontakt-Editor erscheint."
+"Sie können nun die Kategorie im Textfeld <gui>Kategorien</gui> im Editor "
+"sehen."
 
 #: C/using-categories.page:56(p)
-#, fuzzy
 msgid ""
 "In the <gui>Categories Editor</gui> you can edit or set the color and icon "
 "for each category available by clicking <gui style=\"button\">Edit</gui> at "
 "the bottom of the <gui>Categories</gui> window. Press <gui style=\"button"
 "\">Delete</gui> to delete categories from the list."
 msgstr ""
-"Sie können in der Kategorienliste jeder Kategorie eine Farbe und ein kleines "
-"Symbol zuweisen, indem Sie auf »Bearbeiten« unten im Kategorien-Fenster "
-"klicken. Klicken Sie auf »Löschen«, wenn Sie Kategorien aus der Liste "
-"entfernen möchten."
+"Im <gui>Kategorie-Editor</gui> können Sie für jede Kategorie die Farbe und "
+"das Symbol bearbeiten oder zuweisen, indem Sie auf <gui style=\"button"
+"\">Bearbeiten</gui> unten im <gui>Kategorien</gui>-Fenster klicken. Klicken "
+"Sie auf <gui style=\"button\">Löschen</gui>, wenn Sie Kategorien aus der "
+"Liste entfernen möchten."
 
 #: C/tasks-webdav.page:5(desc)
 msgid "Using an online WebDAV task list or memo list."
-msgstr ""
+msgstr "Eine Online-WebDAV-Aufgaben- oder -Notizenliste verwenden."
 
 #: C/tasks-webdav.page:20(title)
 msgid "Using a WebDAV task or memo list"
-msgstr ""
+msgstr "Eine WebDAV-Aufgaben- oder -Notizenliste verwenden"
 
 #: C/tasks-webdav.page:22(p)
 msgid "Lists of this type are read-only."
-msgstr ""
+msgstr "Listen dieser Art können nur gelesen werden."
 
 #: C/tasks-webdav.page:24(p) C/tasks-caldav.page:22(p)
 msgid ""
 "To add such a task list or memo list to Evolution, perform the following "
 "steps:"
-msgstr ""
+msgstr "So fügen Sie eine Aufgaben- oder Notizenliste zu Evolution hinzu:"
 
 #: C/tasks-webdav.page:26(p) C/tasks-local.page:24(p) C/tasks-caldav.page:24(p)
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Task List</gui></guiseq> or "
 "<guiseq><gui>File</gui><gui>New</gui><gui>Memo List</gui></guiseq>."
 msgstr ""
+"Klicken Sie <guiseq><gui>Datei</gui><gui>Neu</gui><gui>Aufgabenliste</gui></"
+"guiseq> oder <guiseq><gui>Datei</gui><gui>Neu</gui><gui>Notizliste</gui></"
+"guiseq>."
 
 #: C/tasks-webdav.page:27(p) C/tasks-caldav.page:25(p)
 #: C/calendar-webdav.page:27(p)
-#, fuzzy
 msgid "Select the type <gui>On the Web</gui>."
-msgstr "gpg <placeholder-1/>"
+msgstr "Wählen Sie die Art <gui>Im Web</gui>."
 
 #: C/tasks-webdav.page:28(p) C/tasks-local.page:26(p) C/tasks-caldav.page:26(p)
 #: C/contacts-using-contact-lists.page:33(p) C/contacts-local.page:26(p)
@@ -747,14 +758,14 @@ msgstr "gpg <placeholder-1/>"
 #: C/calendar-local.page:26(p) C/calendar-google.page:30(p)
 #: C/calendar-caldav.page:29(p)
 msgid "Enter a name that you prefer."
-msgstr ""
+msgstr "Geben Sie den gewünschten Namen ein."
 
 #: C/tasks-webdav.page:29(p) C/tasks-local.page:27(p) C/tasks-caldav.page:27(p)
 #: C/calendar-webdav.page:29(p) C/calendar-weather.page:29(p)
 #: C/calendar-local.page:27(p) C/calendar-google.page:31(p)
 #: C/calendar-caldav.page:30(p)
 msgid "Optionally choose a color that you prefer."
-msgstr ""
+msgstr "Wählen Sie optional die gewünschte Farbe."
 
 #: C/tasks-webdav.page:30(p) C/tasks-caldav.page:28(p)
 #: C/contacts-google.page:28(p) C/calendar-webdav.page:30(p)
@@ -763,11 +774,11 @@ msgstr ""
 msgid ""
 "Choose if you want to be able to view the content also when being offline."
 msgstr ""
+"Wählen Sie, ob Sie den Inhalt auch sehen können wollen, wenn Sie offline sind."
 
 #: C/tasks-webdav.page:31(p) C/tasks-caldav.page:29(p)
-#, fuzzy
 msgid "Enter the address of the list in the <gui>URL</gui> field."
-msgstr "Geben Sie den Namen des neuen Ordners in das Ordnername-Feld ein."
+msgstr "Geben Sie die Adresse der Liste im <gui>URL</gui>-Feld ein."
 
 #: C/tasks-webdav.page:32(p) C/tasks-caldav.page:30(p)
 #: C/mail-sending-options-smtp.page:39(p) C/contacts-google.page:30(p)
@@ -775,6 +786,8 @@ msgstr "Geben Sie den Namen des neuen Ordners in das Ordnername-Feld ein."
 #: C/calendar-caldav.page:33(p)
 msgid "Choose <gui>Use secure connection</gui> if you want to connect securely."
 msgstr ""
+"Wählen Sie <gui>Sichere Verbindung verwenden</gui>, wenn Sie sich sicher "
+"verbinden wollen."
 
 #: C/tasks-webdav.page:33(p) C/mail-sending-options-smtp.page:36(p)
 #: C/calendar-webdav.page:33(p)
@@ -790,20 +803,19 @@ msgid "Click <gui style=\"button\">Apply</gui>."
 msgstr "Klicken Sie auf <gui style=\"button\">Anwenden</gui>."
 
 #: C/tasks-webdav.page:37(p)
-#, fuzzy
 msgid "The list will be added in Evolution."
-msgstr "Wetterkalender zu Evolution hinzufügen."
+msgstr "Die Liste wird zu Evolution hinzugefügt."
 
 #: C/tasks-using-several-tasklists.page:5(desc)
 msgid "Adding and using more than one task list or memo list."
 msgstr ""
+"Aufgaben- und Notizenlisten hinzufügen und mehr als eine Liste verwenden."
 
 #: C/tasks-using-several-tasklists.page:20(title)
 msgid "Using several task lists or memo lists"
-msgstr ""
+msgstr "Mehrere Aufgaben- oder Notizenlisten verwenden"
 
 #: C/tasks-using-several-tasklists.page:22(p)
-#, fuzzy
 msgid ""
 "You can have multiple task or memo lists and choose which of your lists get "
 "displayed. For example, you might have tasks for work, tasks for home, and "
@@ -811,60 +823,61 @@ msgid ""
 "lists, and you can select or deselect any of the boxes next to them to show "
 "and hide the corresponding tasks or memos in your view."
 msgstr ""
-"In Evolution können Sie mehrere Kalender benutzen und diese gleichzeitig "
-"darstellen lassen. So können Sie zum Beispiel einen Kalender für Ihre "
-"Arbeitstermine, einen Kalender für Ihre privaten Termine, und einen für Ihre "
-"Lieblingssportmannschaft haben. In der Seitenleiste werden diese Kalender "
-"aufgelistet, und Sie können durch das Aus- und Abwählen der Ankreuzfelder "
-"neben den Namen entscheiden, welche Einträge in Ihrer Kalenderansicht "
-"angezeigt werden sollen. Indem Sie verschiedene Auswahlen von Termine "
-"anzeigen lassen, können Sie Terminkonflikte und zu viel Durcheinander in der "
-"Kalenderansicht vermeiden."
+"Sie können mehrere Aufgaben- oder Notizenlisten verwenden und auswählen, "
+"welche Ihrer Listen angezeigt werden. So können Sie zum Beispiel Aufgaben für "
+"die Arbeit, für zu Hause und für den Gesangverein, in dem Sie Mitglied sind, "
+"haben. In der Seitenleiste werden diese Listen aufgelistet, und Sie können "
+"durch das Aus- und Abwählen der Ankreuzfelder neben den Namen entscheiden, ob "
+"die entsprechenden Aufgaben und Notizen in Ihrer Ansicht angezeigt oder "
+"verborgen werden."
 
 #: C/tasks-using-several-tasklists.page:24(p)
-#, fuzzy
 msgid "Tasks and memos from each task or memo list appear as different colors."
-msgstr "Die Termine jeden Kalenders erscheinen in einer anderen Farbe."
+msgstr ""
+"Die Aufgaben und Notizen jeder Aufgaben- oder Notizenliste erscheinen in "
+"einer anderen Farbe."
 
 #: C/tasks-using-several-tasklists.page:26(p)
 msgid ""
 "You can also use lists that are not on your computer, such as on the internet."
 msgstr ""
+"Sie können auch Listen verwenden, die nicht auf Ihrem Rechner sind, etwa "
+"solche im Internet."
 
 #: C/tasks-usage.page:5(desc)
 msgid "On adding, editing, and deleting tasks."
-msgstr ""
+msgstr "Über das Hinzufügen, Bearbeiten und Löschen von Aufgaben."
 
 #: C/tasks-usage.page:20(title)
 msgid "Add, Edit, and Delete Tasks"
 msgstr "Aufgaben hinzufügen, bearbeiten und löschen"
 
 #: C/tasks-usage-edit-task.page:5(desc)
-#, fuzzy
 msgid "Editing a task in your task list."
-msgstr "Diese Aufgabe wurde in keiner Aufgabenliste gefunden"
+msgstr "Eine Aufgabe in Ihrer Aufgabenliste bearbeiten."
 
 #: C/tasks-usage-edit-task.page:20(title)
 msgid "Editing a Task"
 msgstr "Eine Aufgabe bearbeiten"
 
 #: C/tasks-usage-edit-task.page:22(p)
-#, fuzzy
 msgid "If you want to change a task that already exists in your task lists,"
 msgstr ""
-"Wenn Sie Kontaktinformationen eines bereits bestehenden Kontakts ändern "
-"möchten,"
+"Wenn Sie eine Aufgabe ändern möchten, die bereits in Ihren Aufgabenlisten "
+"vorhanden ist,"
 
 #: C/tasks-usage-edit-task.page:25(p)
 msgid ""
 "Double-click on the task that you want to edit in the list of tasks, or right-"
 "click on the task and click <key>Open Task</key>."
 msgstr ""
+"Klicken Sie in der Aufgabenliste doppelt auf die zu bearbeitende Aufgabe oder "
+"klicken Sie mit der rechten Maustaste auf die Aufgabe und wählen Sie "
+"<key>Aufgabe öffnen</key>."
 
 #: C/tasks-usage-edit-task.page:26(p)
-#, fuzzy
 msgid "Edit the task information."
-msgstr "Geben Sie die Informationen ein."
+msgstr "Geben Sie die Informationen zur Aufgabe ein."
 
 #: C/tasks-usage-edit-task.page:27(p) C/tasks-usage-add-task.page:29(p)
 #: C/memos-usage-edit-memo.page:27(p) C/memos-usage-add-memo.page:29(p)
@@ -874,6 +887,8 @@ msgid ""
 "Click the <gui style=\"button\">Save</gui> button, or <guiseq><gui>File</"
 "gui><gui>Save</gui></guiseq>."
 msgstr ""
+"Klicken Sie auf den <gui style=\"button\">Speichern</gui>-Knopf oder "
+"<guiseq><gui>Datei</gui><gui>Speichern</gui></guiseq>."
 
 #: C/tasks-usage-delete-task.page:5(desc)
 msgid "Deleting a task from your task list."
@@ -904,16 +919,17 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Task</gui></guiseq>, or press "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>."
 msgstr ""
+"Klicken Sie <guiseq><gui>Datei</gui><gui>Neu</gui><gui>Aufgabe</gui></guiseq> "
+"oder drücken Sie <keyseq><key>Umschalttaste</key><key>Strg</key><key>T</key></"
+"keyseq>."
 
 #: C/tasks-usage-add-task.page:27(p)
-#, fuzzy
 msgid "Select a task list in the <gui>List</gui> dropdown list."
-msgstr "Wählen Sie einen Kalender in der Kalender-Auswahlliste."
+msgstr "Wählen Sie eine Aufgabe in der <gui>Liste</gui>-Auswahlliste."
 
 #: C/tasks-usage-add-task.page:28(p)
-#, fuzzy
 msgid "Enter the task information."
-msgstr "Geben Sie die Informationen ein."
+msgstr "Geben Sie die Informationen zur Aufgabe ein."
 
 #: C/tasks-usage-add-task.page:32(p)
 msgid ""
@@ -937,7 +953,6 @@ msgid "Evolution can be used to assign a task to multiple people."
 msgstr "Evolution kann Aufgaben mehreren Personen zuweisen."
 
 #: C/tasks-usage-add-task.page:40(p)
-#, fuzzy
 msgid ""
 "When you assign a task, you can specify the attendees in several categories, "
 "such as \"chair\" or \"required\". When you save the task, each attendee is "
@@ -945,10 +960,9 @@ msgid ""
 "respond."
 msgstr ""
 "Wenn Sie eine Aufgabe zuweisen, so können Sie die Teilnehmer in mehrere "
-"Kategorien einordnen, wie zum Beispiel als <quote>Vorsitzender</quote> oder "
-"<quote>Benötigter Teilnehmer</quote>. Wenn Sie eine Aufgabe speichern wird "
-"jedem Teilnehmer eine E-Mail mit Informationen zur Aufgabe und der "
-"Möglichkeit zur Antwort geschickt."
+"Kategorien einordnen, wie zum Beispiel als »Vorsitzender« oder »Benötigter "
+"Teilnehmer«. Wenn Sie eine Aufgabe speichern, wird jedem Teilnehmer eine E-"
+"Mail mit Informationen zur Aufgabe und der Möglichkeit zur Antwort geschickt."
 
 #: C/tasks-usage-add-task.page:41(p)
 msgid ""
@@ -961,6 +975,8 @@ msgid ""
 "To create an Assigned Task, click <guiseq><gui>File</gui><gui>New</"
 "gui><gui>Assigned Task</gui></guiseq>."
 msgstr ""
+"Um eine zugewiesene Aufgabe zu erstellen, klicken Sie auf <guiseq><gui>Datei</"
+"gui><gui>Neu</gui><gui>Zugewiesene Aufgabe</gui></guiseq>."
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -1004,9 +1020,8 @@ msgstr ""
 
 #: C/tasks-searching.page:32(p) C/memos-searching.page:32(p)
 #: C/calendar-searching.page:32(p)
-#, fuzzy
 msgid "Searching by summary:"
-msgstr "Suchen nach Nachrichten"
+msgstr "Nach Zusammenfassung suchen:"
 
 #: C/tasks-searching.page:34(p) C/memos-searching.page:34(p)
 #: C/contacts-searching.page:34(p) C/calendar-searching.page:34(p)
@@ -1041,15 +1056,13 @@ msgstr "Evolution zeigt die Suchergebnisse an."
 
 #: C/tasks-searching.page:39(p) C/memos-searching.page:39(p)
 #: C/contacts-searching.page:39(p) C/calendar-searching.page:39(p)
-#, fuzzy
 msgid "Searching by category:"
-msgstr "Beliebige Kategorie:"
+msgstr "Nach Kategorie suchen:"
 
 #: C/tasks-searching.page:41(p) C/memos-searching.page:41(p)
 #: C/contacts-searching.page:41(p) C/calendar-searching.page:41(p)
-#, fuzzy
 msgid "Click the <gui>Show</gui> drop-down list."
-msgstr "Klicken Sie neben »Anzeigen« auf die Auswahlliste."
+msgstr "Klicken Sie auf die Auswahlliste <gui>Anzeigen</gui>."
 
 #: C/tasks-searching.page:42(p) C/memos-searching.page:42(p)
 #: C/contacts-searching.page:42(p) C/calendar-searching.page:42(p)
@@ -1087,13 +1100,12 @@ msgstr ""
 #: C/tasks-searching.page:53(p) C/memos-searching.page:53(p)
 #: C/mail-searching.page:49(p) C/contacts-searching.page:53(p)
 #: C/calendar-searching.page:53(p)
-#, fuzzy
 msgid ""
 "Select the condition from the dropdown list, and then type a search entry in "
 "the field."
 msgstr ""
-"Wählen Sie die Suchkriterien aus und geben Sie danach einen Suchbegriff in "
-"das Feld ein."
+"Wählen Sie die Bedingung in der Auswahlliste aus und geben Sie danach einen "
+"Suchbegriff in das Feld ein."
 
 #: C/tasks-searching.page:54(p) C/memos-searching.page:54(p)
 #: C/mail-searching.page:50(p) C/contacts-searching.page:54(p)
@@ -1167,13 +1179,12 @@ msgstr ""
 #: C/tasks-searching.page:74(p) C/memos-searching.page:74(p)
 #: C/mail-searching.page:70(p) C/contacts-searching.page:74(p)
 #: C/calendar-searching.page:74(p)
-#, fuzzy
 msgid ""
 "Click the <gui style=\"button\">Edit</gui> button to open the <gui>Edit Rule</"
 "gui> window."
 msgstr ""
-"Klicken Sie auf den Bearbeiten-Knopf. Das »Regel bearbeiten«-Fenster öffnet "
-"sich."
+"Klicken Sie auf den <gui style=\"button\">Bearbeiten</gui>-Knopf, um das "
+"<gui>Regel bearbeiten</gui>-Fenster zu öffnen."
 
 #: C/tasks-searching.page:75(p) C/memos-searching.page:75(p)
 #: C/mail-searching.page:71(p) C/contacts-searching.page:75(p)
@@ -1190,19 +1201,19 @@ msgstr "Klicken Sie auf <gui>OK</gui>."
 
 #: C/tasks-organizing.page:5(desc)
 msgid "On task and memo lists, searching, and categories."
-msgstr ""
+msgstr "Über Aufgaben- und Notizlisten, Suchvorgänge und Kategorien."
 
 #: C/tasks-organizing.page:21(title)
 msgid "Sorting and organizing tasks and memos"
-msgstr ""
+msgstr "Aufgaben und Notizen sortieren und organisieren"
 
 #: C/tasks-local.page:5(desc)
 msgid "Adding another local task or memo list."
-msgstr ""
+msgstr "Eine weitere lokale Aufgaben- oder Notizliste hinzufügen."
 
 #: C/tasks-local.page:20(title)
 msgid "Adding another local task or memo list"
-msgstr ""
+msgstr "Eine weitere lokale Aufgaben- oder Notizliste hinzufügen"
 
 #: C/tasks-local.page:22(p)
 msgid ""
@@ -1220,12 +1231,11 @@ msgstr ""
 
 #: C/tasks-display-settings.page:5(desc)
 msgid "Options for displaying task completion and due dates."
-msgstr ""
+msgstr "Optionen für die Anzeige für Aufgabenabschlüsse und Fälligkeitsdaten."
 
 #: C/tasks-display-settings.page:23(title)
-#, fuzzy
 msgid "Displaying of tasks"
-msgstr "Anzeige gesendeter Objekte"
+msgstr "Aufgaben anzeigen"
 
 #. TODO:POST-3-2: Just listing the partially busted UI options (also see calendar-layout-appointment-display) here is very poor and not task-oriented, but that's it for the time being. Better ideas welcome.
 #: C/tasks-display-settings.page:27(p)
@@ -1269,11 +1279,11 @@ msgstr ""
 
 #: C/tasks-caldav.page:5(desc)
 msgid "Using an online CalDAV task list or memo list."
-msgstr ""
+msgstr "Eine CalDAV-Aufgaben- oder -Notizliste hinzufügen"
 
 #: C/tasks-caldav.page:20(title)
 msgid "Using a CalDAV task or memo list"
-msgstr ""
+msgstr "Eine CalDAV-Aufgaben- oder -Notizliste hinzufügen"
 
 #: C/tasks-caldav.page:31(p) C/calendar-caldav.page:34(p)
 msgid "Enter your username and your email address."
@@ -1281,15 +1291,15 @@ msgstr "Bitte geben Sie Ihren Benutzernamen und Ihre E-Mail-Adresse ein."
 
 #: C/sync-with-other-devices.page:5(desc)
 msgid "Synchronize Evolution data with handheld devices and mobile phones."
-msgstr ""
+msgstr "Die Evolution-Daten mit Handheld-Geräten und Mobiltelefonen abgleichen."
 
 #: C/sync-with-other-devices.page:23(title)
 msgid "Synchronize <em>Evolution</em> with other devices"
-msgstr ""
+msgstr "<em>Evolution</em> mit anderen Geräten abgleichen"
 
 #: C/sync-with-other-devices.page:25(p)
 msgid "There are currently no \"recommended instructions\" for users."
-msgstr ""
+msgstr "Derzeit gibt es keine »empfohlenen Anweisungen« für Benutzer."
 
 #: C/sync-with-other-devices.page:27(p)
 msgid ""
@@ -1298,6 +1308,10 @@ msgid ""
 "support <link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/SyncML"
 "\">SyncML</link>."
 msgstr ""
+"Viele Distributionen stellen die Anwendung <link href=\"http://syncevolution."
+"org/\">SyncEvolution</link> bereit, welches in Kombination mit Geräten, die "
+"<link href=\"https://secure.wikimedia.org/wikipedia/en/wiki/SyncML\">SyncML</"
+"link> unterstützen, verwendet werden kann."
 
 #: C/sync-with-other-devices.page:29(p)
 msgid ""
@@ -1429,13 +1443,13 @@ msgid ""
 msgstr "Neue Daten werden vom Rechner auf das tragbare Gerät kopiert."
 
 #: C/sync-with-other-devices.page:50(p)
-#, fuzzy
 msgid ""
 "Select the behavior you want for each conduit you choose to use. If you're "
 "not sure, use <gui>Synchronize</gui>."
 msgstr ""
 "Wählen Sie das gewünschte Verhalten für jedes Conduit, welches Sie benutzen "
-"wollen. Falls Sie sich nicht sicher sind, so benutzen Sie »Abgleichen«."
+"wollen. Falls Sie sich nicht sicher sind, so benutzen Sie <gui>Abgleichen</"
+"gui>."
 
 #: C/sync-with-other-devices.page:54(title)
 msgid "Synchronizing Information"
@@ -1450,14 +1464,13 @@ msgstr ""
 "Evolution abzugleichen:"
 
 #: C/sync-with-other-devices.page:57(p)
-#, fuzzy
 msgid ""
 "If you want to back up your information before synchronizing, make a copy of "
 "the <file>.local/share/evolution</file> directory inside your home directory."
 msgstr ""
-"Falls Sie eine Sicherheitskopie Ihrer Evolution-Daten machen möchten, bevor "
-"Sie abgleichen, so kopieren Sie den <command>.evolution</command>-Ordner in "
-"Ihrem persönlichen Ordner."
+"Falls Sie vor dem Abgleich eine Sicherheitskopie Ihrer Evolution-Daten machen "
+"möchten, bevor Sie abgleichen, so kopieren Sie die Datei <command>.local/"
+"share/evolution</command>-Ordner in Ihrem persönlichen Ordner."
 
 #: C/sync-with-other-devices.page:58(p)
 msgid ""
@@ -1481,27 +1494,24 @@ msgstr ""
 "Rechner ab, und aktivieren Sie dann wieder den Passwortschutz."
 
 #: C/sync-with-other-devices.page:61(p)
-#, fuzzy
 msgid "Now your Palm OS device will synchronize data with Evolution."
 msgstr "Nun sollte Ihr Palm-OS-Gerät Daten mit Evolution abgleichen."
 
 #: C/searching-items.page:5(desc)
 msgid "Searching content and data within <em>Evolution</em>."
-msgstr ""
+msgstr "Nach Daten und Inhalten in <em>Evolution</em> suchen."
 
 #: C/searching-items.page:18(title)
-#, fuzzy
 msgid "Searching items"
-msgstr "Suchen"
+msgstr "Nach Objekten suchen"
 
 #: C/problems-reporting-bugs.page:5(desc)
-#, fuzzy
 msgid "How to report mistakes in the application."
-msgstr "Daten aus anderen Programmen importieren"
+msgstr "Über Fehler in der Anwendung berichten."
 
 #: C/problems-reporting-bugs.page:21(title)
 msgid "How to report bugs"
-msgstr ""
+msgstr "Melden von Fehlern"
 
 #: C/problems-reporting-bugs.page:23(p)
 msgid ""
@@ -1540,7 +1550,7 @@ msgstr ""
 
 #: C/problems-getting-help.page:22(title)
 msgid "How to get help"
-msgstr ""
+msgstr "Hilfe erhalten"
 
 #: C/problems-getting-help.page:24(p)
 msgid ""
@@ -1589,9 +1599,8 @@ msgid "Sorting and organizing"
 msgstr ""
 
 #: C/minimize-to-system-tray.page:5(desc)
-#, fuzzy
 msgid "On minimizing Evolution to the notification area."
-msgstr "Blinkendes Symbol im Benachrichtigungsfeld:"
+msgstr "Über das Minimieren von Evolution in das Benachrichtigungsfeld."
 
 #: C/minimize-to-system-tray.page:11(name)
 #: C/mail-two-trash-folders.page:11(name) C/mail-spam-settings.page:16(name)
@@ -1636,9 +1645,8 @@ msgid "loonycookie@gmail.com"
 msgstr "loonycookie@gmail.com"
 
 #: C/minimize-to-system-tray.page:25(title)
-#, fuzzy
 msgid "Minimizing Evolution to the system tray"
-msgstr "LDAP-Server benutzen"
+msgstr "Evolution in das Benachrichtigungsfeld minimieren"
 
 #: C/minimize-to-system-tray.page:27(p)
 msgid ""
@@ -1660,7 +1668,7 @@ msgstr ""
 
 #: C/memos-usage.page:5(desc)
 msgid "On adding, editing, and deleting memos."
-msgstr ""
+msgstr "Über Hinzufügen, Bearbeiten und Löschen von Notizen."
 
 #: C/memos-usage.page:20(title)
 msgid "Add, Edit and Delete Memos"
@@ -1712,6 +1720,11 @@ msgid ""
 "select <gui>Delete</gui>, or click on the memo and click <gui>Delete</gui> in "
 "the tool bar, or click <guiseq><gui>Edit</gui><gui>Delete Memo</gui></guiseq>."
 msgstr ""
+"Wenn Sie eine Notiz auf Ihrer Notizliste löschen wollen, klicken Sie mit der "
+"rechten Maustaste auf die Notiz und wählen Sie <gui>Löschen</gui> oder "
+"klicken Sie auf die Notiz und klicken Sie in der Werkzeugliste auf "
+"<gui>Löschen</gui> oder klicken Sie <guiseq><gui>Bearbeiten</gui><gui>Notiz "
+"löschen</gui></guiseq>."
 
 #: C/memos-usage-add-memo.page:5(desc)
 msgid "Adding a memo to your memo list."
@@ -1726,6 +1739,9 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Memo</gui></guiseq>, or press "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>."
 msgstr ""
+"Klicken Sie <guiseq><gui>Datei</gui><gui>Neu</gui><gui>Notiz</gui></guiseq> "
+"oder drücken Sie <keyseq><key>Umschalttaste</key><key>Strg</key><key>O</key></"
+"keyseq>."
 
 #: C/memos-usage-add-memo.page:27(p)
 #, fuzzy
@@ -1780,6 +1796,9 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Shared Memo</gui></guiseq>, "
 "or press <keyseq><key>Shift</key><key>Ctrl</key><key>H</key></keyseq>."
 msgstr ""
+"Klicken Sie <guiseq><gui>Datei</gui><gui>Neu</gui><gui>Gemeinsame Notiz</"
+"gui></guiseq> oder drücken Sie <keyseq><key>Umschalttaste</key><key>Strg</"
+"key><key>H</key></keyseq>."
 
 #: C/memos-usage-add-memo.page:44(p)
 msgid ""
@@ -1834,7 +1853,7 @@ msgstr ""
 
 #: C/mail-wrong-fonts-in-3-0.page:5(desc)
 msgid "A known problem that is fixed in newer versions."
-msgstr ""
+msgstr "Ein bekanntes Problem, das in neueren Versionen beseitigt ist."
 
 #: C/mail-wrong-fonts-in-3-0.page:21(title)
 #, fuzzy
@@ -1872,7 +1891,6 @@ msgid "Working Offline"
 msgstr "Offline arbeiten"
 
 #: C/mail-working-offline.page:25(p)
-#, fuzzy
 msgid ""
 "Offline mode helps you communicate with remote mail storage systems like "
 "GroupWise, IMAP or Exchange, in situations where you are not connected to the "
@@ -1880,12 +1898,12 @@ msgid ""
 "allow you to compose messages, storing them in your Outbox to be sent the "
 "next time you connect."
 msgstr ""
-"Der Offline-Modus hilft Ihnen, mit entfernten Mail-Systemen wie <trademark "
-"class=\"registered\">GroupWise</trademark>, IMAP oder Exchange ohne "
-"durchgehende Verbindung zum Netzwerk zu arbeiten. Evolution hält eine lokale "
-"Kopie von einem oder mehreren Ordner vorrätig, damit Sie Nachrichten "
-"schreiben und im Ausgangsordner speichern können, so dass diese bei der "
-"nächsten Verbindung mit einem Netzwerk verschickt werden können."
+"Der Offline-Modus hilft Ihnen, mit entfernten Mail-Systemen wie GroupWise, "
+"IMAP oder Exchange ohne durchgehende Verbindung zum Netzwerk zu arbeiten. "
+"Evolution hält eine lokale Kopie von einem oder mehreren Ordner vorrätig, "
+"damit Sie Nachrichten schreiben und im Ausgangsordner speichern können, so "
+"dass diese bei der nächsten Verbindung mit einem Netzwerk verschickt werden "
+"können."
 
 #: C/mail-working-offline.page:27(p)
 msgid ""
@@ -1905,7 +1923,6 @@ msgid "Marking folders for offline usage"
 msgstr "Ordner für die Offline-Nutzung markieren"
 
 #: C/mail-working-offline.page:31(p)
-#, fuzzy
 msgid "To mark a mail folder for offline use,"
 msgstr "Um einen Ordner für die Offline-Nutzung zu markieren,"
 
@@ -1925,7 +1942,6 @@ msgid "Syncing messages for offline usage"
 msgstr "Nachrichten für Offline-Benutzung herunterladen"
 
 #: C/mail-working-offline.page:40(p)
-#, fuzzy
 msgid ""
 "Your connection status is shown by the small icon in the lower left corner of "
 "the Evolution main window. When you are online, it displays two connected "
@@ -1934,9 +1950,12 @@ msgid ""
 "whether you want to go offline immediately or synchronize folders locally "
 "before you go offline."
 msgstr ""
-"Der Verbindungsstatus wird als kleinen Symbol in der linken unteren Ecke des "
+"Der Verbindungsstatus wird als kleines Symbol in der linken unteren Ecke des "
 "Evolution-Hauptfensters gezeigt. Wenn Sie online sind, werden zwei verbundene "
-"Kabel angezeigt. Wenn Sie offline gehen, werden die beiden Kabel getrennt."
+"Kabel angezeigt. Wenn Sie durch Anklicken des Symbols oder mittels "
+"<guiseq><gui>Datei</gui><gui>Offline arbeiten</gui></guiseq> offline gehen, "
+"werden die beiden Kabel getrennt. Sie werden gefragt, ob Sie unverzüglich "
+"offline gehen wollen oder vorher lokale Ordber abgeglichen werden sollen."
 
 #: C/mail-working-offline.page:41(p)
 #, fuzzy
@@ -2007,11 +2026,12 @@ msgstr ""
 "Monitore mit breitem Bildschirm (zum Beispiel 16:9 oder Widescreen-Format) an."
 
 #: C/mail-vertical-view.page:26(p)
-#, fuzzy
 msgid ""
 "To switch to vertical view, click <guiseq><gui>View</gui><gui>Preview</"
 "gui><gui>Vertical View</gui></guiseq>."
-msgstr "Wählen Sie Ansicht &gt; Vorschau &gt; Vertikale Ansicht."
+msgstr ""
+"Um in die vertikale Ansicht zu wechseln, wählen Sie <guiseq><gui>Ansicht</"
+"gui><gui>Vorschau</gui><gui>Vertikale Ansicht</gui></guiseq>."
 
 #: C/mail-vertical-view.page:28(p)
 msgid ""
@@ -2076,7 +2096,7 @@ msgstr ""
 
 #: C/mail-two-trash-folders.page:20(title)
 msgid "Two Trash folders shown for the same account"
-msgstr ""
+msgstr "Für ein Konto werden zwei Müllordner angezeigt"
 
 #: C/mail-two-trash-folders.page:22(p)
 msgid ""
@@ -2135,7 +2155,7 @@ msgstr "So aktivieren Sie die Plugins:"
 
 #: C/mail-spam-settings.page:36(p)
 msgid "Click <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
-msgstr ""
+msgstr "Klicken Sie <guiseq><gui>Bearbeiten</gui><gui>Plugins</gui></guiseq>."
 
 #: C/mail-spam-settings.page:37(p)
 #, fuzzy
@@ -2174,6 +2194,9 @@ msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Preferences</gui></guiseq> or press "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>."
 msgstr ""
+"Klicken Sie <guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui></guiseq> "
+"oder drücken Sie <keyseq><key>Umschalttaste</key><key>Strg</key><key>S</key></"
+"keyseq>."
 
 #: C/mail-spam-settings.page:48(p)
 msgid "Select <gui>Mail Preferences</gui>."
@@ -2205,9 +2228,8 @@ msgstr ""
 "_Nachrichten nicht als Unerwünscht markieren, wenn Absender im Adressbuch"
 
 #: C/mail-spam-settings.page:55(p)
-#, fuzzy
 msgid "The default junk filter."
-msgstr "Vorgabe-Plugin für die Unerwünscht-Erkennung"
+msgstr "Der vorgegebene Unerwünscht-Filter."
 
 #: C/mail-spam-settings.page:56(p)
 msgid ""
@@ -2224,9 +2246,8 @@ msgid "Junk and Spam Mail Handling"
 msgstr "Handhaben unerwünschter Nachrichten"
 
 #: C/mail-spam.page:23(title)
-#, fuzzy
 msgid "Novell Groupwise specific differences"
-msgstr "Novell GroupWise-Empfangsoptionen"
+msgstr "Spezielle Unterschiede für Novell GroupWise"
 
 #: C/mail-spam-marking.page:5(desc)
 msgid "How to mark unwanted junk and spam mail."
@@ -2328,6 +2349,10 @@ msgid ""
 "the message and press <keyseq><key>Shift</key><key>Ctrl</key><key>J</key></"
 "keyseq>."
 msgstr ""
+"Klicken Sie mit der rechten Maustaste auf die Nachricht, klicken Sie dann "
+"<gui>Als nicht unerwünscht markieren</gui> oder wählen Sie die Nachricht und "
+"drücken Sie <keyseq><key>Umschalttaste</key><key>Strg</key><key>J</key></"
+"keyseq>."
 
 #: C/mail-spam-groupwise-unmark-message.page:30(p)
 msgid ""
@@ -2346,36 +2371,36 @@ msgstr ""
 msgid "Removing an Email Address from Your Junk List"
 msgstr "Eine E-Mail von Ihrer Unerwünscht-Liste entfernen"
 
+# GUI-Element nicht gefunden -gk
+# Ist in der aktuellen de.po nur noch in den ungenutzten Strings am Ende -mb
 #: C/mail-spam-groupwise-remove-from-list.page:26(p)
-#, fuzzy
 msgid "Right-click a message, then click <gui>Junk Mail Settings</gui>."
 msgstr ""
 "Klicken Sie mit der rechten Maustaste auf eine Nachricht und wählen Sie "
-"»Einstellungen zu unerwünschten Nachrichten«."
+"<gui>Einstellungen zu unerwünschten Nachrichten</gui>."
 
 #: C/mail-spam-groupwise-remove-from-list.page:27(p)
-#, fuzzy
 msgid "Select the email address to remove, then click <gui>Remove</gui>."
 msgstr ""
 "Wählen Sie die zu entfernende E-Mail-Adresse aus und klicken Sie auf "
-"Entfernen."
+"<gui>Entfernen</gui>."
 
 #: C/mail-spam-groupwise-mark-message.page:5(desc)
 msgid "How to mark a message in Novell Groupwise as junk."
-msgstr ""
+msgstr "Eine Nachricht in Novell Groupwise als Unerwünscht markieren."
 
 #: C/mail-spam-groupwise-mark-message.page:23(title)
 msgid "Marking a Message As Junk Mail"
 msgstr "Eine Nachricht als Unerwünscht markieren"
 
 #: C/mail-spam-groupwise-mark-message.page:25(p)
-#, fuzzy
 msgid ""
 "Select the message to mark as junk, then click the <gui>Junk</gui> button or "
 "press <keyseq><key>Ctrl</key><key>J</key></keyseq>."
 msgstr ""
 "Wählen Sie die als Unerwünscht zu markierende E-Mail und klicken Sie dann auf "
-"den Unerwünscht-Knopf in der Werkzeugleiste oder drücken Sie Strg+J."
+"den <gui>Unerwünscht-Knopf</gui> in der Werkzeugleiste oder drücken Sie "
+"<keyseq><key>Strg</key><key>J</key></keyseq>."
 
 #: C/mail-spam-groupwise-mark-message.page:26(p)
 msgid ""
@@ -2387,7 +2412,7 @@ msgstr ""
 
 #: C/mail-spam-groupwise-manage-list.page:5(desc)
 msgid "How to manage your junk mail list in Novell Groupwise."
-msgstr ""
+msgstr "Verwaltung Ihrer Unerwünscht-Listen in Novell Groupwise."
 
 #: C/mail-spam-groupwise-manage-list.page:27(title)
 msgid "Enabling or Disabling Your Junk Mail List"
@@ -2395,14 +2420,13 @@ msgstr "Die Liste unerwünschter E-Mails ein- oder ausschalten"
 
 #: C/mail-spam-groupwise-manage-list.page:29(p)
 #: C/mail-spam-groupwise-add-to-list.page:29(p)
-#, fuzzy
 msgid ""
 "Right-click on a message and select the <gui>Junk Mail Settings</gui> option."
 msgstr ""
-"Klicken Sie mit der rechten Maustaste auf die Nachricht in der E-Mail-Liste."
+"Klicken Sie mit der rechten Maustaste auf eine Nachricht und wählen Sie die "
+"Option <gui>Einstellungen für unerwünschte Nachrichten</gui>."
 
 #: C/mail-spam-groupwise-manage-list.page:30(p)
-#, fuzzy
 msgid "Specify whether you wish to Enable or Disable junk mail handling."
 msgstr ""
 "Wählen Sie dies, um die Verarbeitung von unerwünschten Nachrichten zu "
@@ -2531,9 +2555,8 @@ msgid "Drag and drop the column header bars"
 msgstr ""
 
 #: C/mail-sorting-message-list.page:48(p)
-#, fuzzy
 msgid "Right-click on the header."
-msgstr "Klicken Sie mit rechts auf den Kalender."
+msgstr "Klicken Sie mit der rechten Maustaste auf die Kopfzeile."
 
 #: C/mail-sorting-message-list.page:49(p)
 msgid ""
@@ -2549,7 +2572,7 @@ msgstr ""
 
 #: C/mail-sorting-message-list.page:56(title)
 msgid "Using Other Sorting Options"
-msgstr ""
+msgstr "Weitere Sortieroptionen anwenden"
 
 #: C/mail-sorting-message-list.page:57(p)
 msgid ""
@@ -2805,9 +2828,8 @@ msgid "On receiving mail and sending written emails."
 msgstr ""
 
 #: C/mail-send-and-receive.page:20(title)
-#, fuzzy
 msgid "Sending and receiving mail"
-msgstr "Verschicken und Abrufen von E-Mails"
+msgstr "Verschicken und Abrufen von Nachrichten"
 
 #: C/mail-send-and-receive.page:22(p)
 msgid ""
@@ -2817,9 +2839,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-send-and-receive-manual.page:5(desc)
-#, fuzzy
 msgid "Force sending and receiving emails."
-msgstr "Verschicken und Abrufen von E-Mails"
+msgstr "Verschicken und Abrufen von E-Mails erzwingen."
 
 #: C/mail-send-and-receive-manual.page:20(title)
 msgid "Manually send and receive message"
@@ -2865,14 +2886,12 @@ msgid ""
 msgstr ""
 
 #: C/mail-searching.page:5(desc)
-#, fuzzy
 msgid "Searching messages."
-msgstr "Suchen nach Nachrichten"
+msgstr "Suchen nach Nachrichten."
 
 #: C/mail-searching.page:28(title)
-#, fuzzy
 msgid "Searching Mail"
-msgstr "E-Mail wird abgerufen"
+msgstr "Nach Nachrichten suchen"
 
 #: C/mail-searching.page:31(p)
 msgid ""
@@ -2880,18 +2899,17 @@ msgid ""
 msgstr ""
 
 #: C/mail-searching.page:33(p)
-#, fuzzy
 msgid ""
 "Click on the search icon <media type=\"image\" mime=\"image/png\" src="
 "\"figures/search-icon.png\"/> to expand the drop-down list."
 msgstr ""
-"Klicken Sie auf das Such-Symbol <inlinegraphic format=\"PNG\" fileref="
-"\"figures/stock_search.png\"/>, um den Suchtypen auszuwählen."
+"Klicken Sie auf das Such-Symbol <media type=\"image\" mime=\"image/png\" src="
+"\"figures/search-icon.png\"/>, um die Auswahlliste auszuklappen."
 
 #: C/mail-searching.page:35(p)
-#, fuzzy
 msgid "Select the scope from the drop-down list right to the text box."
-msgstr "Wählen Sie den gewünschten Suchtypen aus der Auswahlliste aus."
+msgstr ""
+"Wählen Sie den Bereich aus der Auswahlliste rechts neben dem Textfeld aus."
 
 #: C/mail-searching.page:39(p)
 msgid ""
@@ -2917,11 +2935,11 @@ msgstr "Erweiterte Suche:"
 
 #: C/mail-searching-attachment-type.page:5(desc)
 msgid "Unfortunately this is not possible."
-msgstr ""
+msgstr "Leider ist dies nicht möglich."
 
 #: C/mail-searching-attachment-type.page:21(title)
 msgid "Searching for emails with a specific attachment type"
-msgstr ""
+msgstr "Nach Nachrichten mit einem speziellen Anhangstyp suchen"
 
 #: C/mail-searching-attachment-type.page:23(p)
 msgid ""
@@ -3023,9 +3041,8 @@ msgid "Available conditions for setting up search folders."
 msgstr ""
 
 #: C/mail-search-folders-conditions.page:23(title)
-#, fuzzy
 msgid "Available Search folder conditions"
-msgstr "Suchordner aktivieren"
+msgstr "Verfügbare Bedingungen für Suchordner"
 
 #: C/mail-search-folders-conditions.page:26(p)
 #: C/mail-filters-conditions.page:26(p)
@@ -3355,9 +3372,8 @@ msgid "Click <gui style=\"button\">Add</gui>."
 msgstr ""
 
 #: C/mail-search-folders-add.page:28(p) C/mail-filters.page:38(p)
-#, fuzzy
 msgid "Enter a name in the <gui>Rule name</gui> field."
-msgstr "Geben Sie die Anzahl der anzuzeigenden Adressen in das Feld ein."
+msgstr "Geben Sie einen Namen in das Feld <gui>Regelname</gui> ein."
 
 #: C/mail-search-folders-add.page:29(p) C/mail-filters.page:39(p)
 msgid ""
@@ -3366,13 +3382,13 @@ msgid ""
 msgstr ""
 
 #: C/mail-search-folders-add.page:29(p)
-#, fuzzy
 msgid ""
 "For more information on the available conditions see <link xref=\"mail-search-"
 "folders-conditions\">Available Search Folder conditions</link>."
 msgstr ""
-"Für weitere Informationen zu Alarmen lesen Sie bitte <link linkend=\"bshly4v"
-"\">Erinnerungen</link>."
+"Für weitere Informationen zu den verfügbaren Bedingungen lesen Sie bitte "
+"<link xref=\"mail-search-folders-conditions\">Verfügbare Bedingungen für "
+"Suchordner</link>."
 
 #: C/mail-search-folders-add.page:30(p) C/mail-filters.page:40(p)
 msgid ""
@@ -3694,7 +3710,6 @@ msgid "Receiving options for standard Unix mbox spool file accounts."
 msgstr "Empfangsoptionen für Standard-Unix-mbox-Spool-Datei"
 
 #: C/mail-receiving-options-unix-mbox-spool-file.page:20(title)
-#, fuzzy
 msgid "Standard Unix mbox spool file receiving options"
 msgstr "Empfangsoptionen für Standard-Unix-mbox-Spool-Datei"
 
@@ -3715,9 +3730,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:5(desc)
-#, fuzzy
 msgid "Receiving options for standard Unix mbox spool directory accounts."
-msgstr "Standard-Unix-mbox-Spool-Ordner:"
+msgstr "Empfangsoptionen für Standard-Unix-mbox-Spool-Ordnerkonten."
 
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:20(title)
 msgid "Standard Unix mbox spool directory receiving options"
@@ -3816,7 +3830,6 @@ msgid "Receiving options for MH-format mail directories accounts."
 msgstr ""
 
 #: C/mail-receiving-options-mh-format-directories.page:20(title)
-#, fuzzy
 msgid "MH-format mail directories receiving options"
 msgstr "Empfangsoptionen für E-Mail-Ordner im MH-Format"
 
@@ -3825,7 +3838,6 @@ msgid "Receiving options for Maildir-format mail directories accounts."
 msgstr ""
 
 #: C/mail-receiving-options-maildir-format-directories.page:20(title)
-#, fuzzy
 msgid "Maildir-format mail directories receiving options"
 msgstr "Empfangsoptionen für E-Mail-Ordner im Maildir-Format"
 
@@ -3901,7 +3913,6 @@ msgid "Receiving options for Exchange MAPI accounts."
 msgstr "Ein neues Exchange-Konto erstellen"
 
 #: C/mail-receiving-options-exchange-mapi.page:20(title)
-#, fuzzy
 msgid "Exchange MAPI receiving options"
 msgstr "Exchange MAPI-Empfangsoptionen"
 
@@ -3923,20 +3934,16 @@ msgstr ""
 "Wählen Sie, ob Evolution nach neuen Nachrichten in allen Ordnern schauen soll."
 
 #: C/mail-receiving-options-evolution-exchange.page:5(desc)
-#, fuzzy
 msgid "Receiving options for Evolution Exchange accounts."
-msgstr ""
-"Ein bestehendes Konto als das Konto für Evolution Exchange konfigurieren"
+msgstr "Empfangsoptionen für Evolution Exchange-Konten."
 
 #: C/mail-receiving-options-evolution-exchange.page:23(title)
-#, fuzzy
 msgid "Evolution Exchange receiving options"
-msgstr "Microsoft Exchange-Empfangsoptionen"
+msgstr "Evolution Exchange-Empfangsoptionen"
 
 #: C/mail-receiving-options-evolution-exchange.page:31(p)
-#, fuzzy
 msgid "Enter your username for that server."
-msgstr "Tragen Sie Ihren Benutzernamen in das »Benutzername«-Feld ein."
+msgstr "Geben Sie Ihren Benutzernamen für den Server ein."
 
 #: C/mail-receiving-options-evolution-exchange.page:32(p)
 msgid "Enter the OWA URL for that server."
@@ -3956,13 +3963,12 @@ msgid ""
 msgstr ""
 
 #: C/mail-receiving-options-evolution-exchange.page:50(p)
-#, fuzzy
 msgid ""
 "Select if you want to limit the number of Global Address List (GAL) responses "
 "as this may increase speed. The GAL contains a list of all email addresses."
 msgstr ""
 "Wählen Sie, ob die Anzahl der Antworten von der Globalen Adressliste (GAL) "
-"begrenzt werden soll."
+"begrenzt werden soll. Die GAL enthält eine Liste aller E-Mail-Adressen."
 
 #: C/mail-receiving-options-evolution-exchange.page:51(p)
 msgid ""
@@ -3989,12 +3995,11 @@ msgstr ""
 
 #: C/mail-received-notification.page:5(desc)
 msgid "Options on notifications of newly received mail."
-msgstr ""
+msgstr "Optionen für Benachrichtigungen für neu eingegangene Nachrichten."
 
 #: C/mail-received-notification.page:20(title)
-#, fuzzy
 msgid "Getting notified of new mail"
-msgstr "Nach neuen E-Mails sehen"
+msgstr "Benachrichtigungen bei neuen E-Mails"
 
 #: C/mail-received-notification.page:22(p)
 msgid ""
@@ -4018,9 +4023,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-read-receipts.page:5(desc)
-#, fuzzy
 msgid "How to enable requesting read receipts."
-msgstr "Lesebestätigung immer anfordern"
+msgstr "Aktivieren von Lesebestätigungen."
 
 #: C/mail-read-receipts.page:33(title)
 msgid "Read receipts for emails"
@@ -4058,7 +4062,7 @@ msgstr ""
 
 #: C/mail-reading-keyboard-shortcuts.page:24(title)
 msgid "Using shortcut keys to read mail"
-msgstr ""
+msgstr "Tastenkürzel beim Lesen von Nachrichten verwenden"
 
 #: C/mail-reading-keyboard-shortcuts.page:27(title)
 msgid "Viewing an email"
@@ -4395,15 +4399,15 @@ msgid ""
 msgstr ""
 
 #: C/mail-imap-headers.page:29(p)
-#, fuzzy
 msgid ""
 "Evolution allows you for IMAP accounts to choose the headers that you want to "
 "download so that you can reduce the download time and filter or move your "
 "mail around the way you like it. The IMAP Mail header options are as follows:"
 msgstr ""
-"Evolution ermöglicht es Ihnen zu wählen, welche Kopfzeilen heruntergeladen "
-"werden sollen. Dadurch kann die Downloadzeit verringert werden. Die "
-"Möglichkeiten hierbei sind:"
+"Evolution ermöglicht es Ihnen, bei IMAP-Konten zu wählen, welche Kopfzeilen "
+"heruntergeladen werden sollen. Dadurch kann die Downloadzeit verringert "
+"werden, und Sie können Ihre Nachrichten nach Wunsch filtern und verschieben. "
+"Die Möglichkeiten hierbei sind:"
 
 #: C/mail-imap-headers.page:31(p)
 msgid "Fetch All Headers:"
@@ -4483,12 +4487,11 @@ msgstr "Wählen Sie das IMAP-Konto aus."
 
 #: C/mail-imap-headers.page:40(p)
 msgid "Click <gui>Edit</gui>."
-msgstr ""
+msgstr "Klicken Sie auf <gui>Bearbeiten</gui>."
 
 #: C/mail-imap-headers.page:41(p)
-#, fuzzy
 msgid "Click the <gui>IMAP Headers</gui> tab."
-msgstr "gpg <placeholder-1/>"
+msgstr "Klicken Sie auf den Reiter <gui>IMAP-Kopfzeilen</gui>."
 
 #: C/mail-imap-headers.page:42(p)
 msgid ""
@@ -4611,7 +4614,7 @@ msgstr ""
 
 #: C/mail-folders.page:5(desc)
 msgid "Use folders to organize your mail."
-msgstr ""
+msgstr "Ordner zum Organisieren Ihrer Nachrichten verwenden."
 
 #: C/mail-folders.page:28(title)
 msgid "Using Folders"
@@ -4897,7 +4900,7 @@ msgstr ""
 
 #: C/mail-filters-conditions.page:5(desc)
 msgid "Available conditions for setting up filtering."
-msgstr ""
+msgstr "Verfügbare Bedingungen zum Einrichten von Filtern."
 
 #: C/mail-filters-conditions.page:23(title)
 msgid "Available Filter conditions"
@@ -4944,7 +4947,7 @@ msgstr "Filtert gemäß den Ergebnissen des Unerwünscht (Spam)-Tests."
 
 #: C/mail-filters-actions.page:5(desc)
 msgid "Available actions for setting up filtering."
-msgstr ""
+msgstr "Verfügbare Bedingungen zum Einrichten von Filtern"
 
 #: C/mail-filters-actions.page:23(title)
 msgid "Available Filter actions"
@@ -5947,15 +5950,13 @@ msgid "Collapsible Message Headers"
 msgstr "Empfängerkopfzeilen verkleinern"
 
 #: C/mail-displaying-collapsible-headers.page:25(p)
-#, fuzzy
 msgid ""
 "Evolution compresses the To, Cc and Bcc headers of received mail and shows "
 "only five addresses in the message preview."
 msgstr ""
 "Evolution kann die An-, Kopie- und Blindkopie-Kopfzeilen erhaltener E-Mails "
 "verkleinern, indem nur eine bestimmte Anzahl von Adressen in der "
-"Nachrichtenvorschau angezeigt wird. Sie können die Anzahl der anzuzeigenden "
-"Adressen selbst bestimmen."
+"Nachrichtenvorschau angezeigt wird."
 
 #: C/mail-displaying-collapsible-headers.page:27(p)
 msgid ""
@@ -6074,7 +6075,6 @@ msgstr ""
 "&gt; Gelöschte Nachrichten verbergen deaktivieren."
 
 #: C/mail-delete-and-undelete.page:42(p)
-#, fuzzy
 msgid ""
 "If you have marked a message for deletion, undeleting it unmarks it, and the "
 "message is not shown anymore in the Trash folder."
@@ -6646,11 +6646,11 @@ msgstr "Nachrichtenvorlagen einrichten"
 #: C/mail-composer-custom-header-lines.page:31(p)
 #: C/mail-attachments-sending.page:46(p)
 msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
-msgstr ""
+msgstr "wählen Sie <guiseq><gui>Bearbeiten</gui><gui>Plugins</gui></guiseq>."
 
 #: C/mail-composer-message-templates.page:78(p)
 msgid "Click <gui>Templates</gui>."
-msgstr ""
+msgstr "Klicken Sie auf <gui>Vorlagen</gui>."
 
 #: C/mail-composer-message-templates.page:79(p)
 #: C/mail-composer-custom-header-lines.page:33(p)
@@ -6785,7 +6785,7 @@ msgstr ""
 
 #: C/mail-composer-mail-signatures-manage.page:5(desc)
 msgid "Add, change, edit or delete email signatures."
-msgstr ""
+msgstr "Nachrichtensignaturen hinzufügen, ändern, bearbeiten oder löschen."
 
 #: C/mail-composer-mail-signatures-manage.page:20(title)
 msgid "Managing signatures"
@@ -6824,15 +6824,14 @@ msgstr ""
 "der Menüleiste."
 
 #: C/mail-composer-html-text.page:26(p)
-#, fuzzy
 msgid ""
 "The icons in the tool bar are explained in tooltips which appear when you "
 "hold your mouse pointer over the buttons. The buttons fall into five "
 "categories:"
 msgstr ""
-"Die Symbole in der Werkzeugleiste werden in den <link linkend=\"tooltip"
-"\">Minihilfen</link> erklärt, diese erscheinen wenn sich der Mauszeiger über "
-"den Knöpfen befindet. Die Knöpfe fallen in fünf Kategorien:"
+"Die Symbole in der Werkzeugleiste werden in den Minihilfen erklärt, welche "
+"erscheinen, wenn sich der Mauszeiger über den Knöpfen befindet. Die Knöpfe "
+"fallen in fünf Kategorien:"
 
 #: C/mail-composer-html-text.page:29(title)
 msgid "Headers and Lists:"
@@ -7017,9 +7016,10 @@ msgid "Define the type of layout for the table."
 msgstr "Wählen Sie das Layout für die Tabelle."
 
 #: C/mail-composer-html-table.page:28(p)
-#, fuzzy
 msgid "Optionally: Select a background color or image for the table."
-msgstr "Wählen Sie einen Hintergrund für die Tabelle."
+msgstr ""
+"Optional: Wählen Sie eine Hintergrundfarbe oder ein Hintergrundbild für die "
+"Tabelle."
 
 #: C/mail-composer-html-rule.page:5(desc)
 #, fuzzy
@@ -7047,7 +7047,6 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-html-rule.page:26(p)
-#, fuzzy
 msgid "Select width, size, and alignment."
 msgstr "Wählen Sie die Breite, Größe und Ausrichtung."
 
@@ -7169,6 +7168,8 @@ msgstr ""
 msgid ""
 "Click <guiseq><gui>Insert</gui><gui>Image...</gui></guiseq> in the menubar."
 msgstr ""
+"Klicken Sie in der Menüleiste auf <guiseq><gui>Einfügen</gui><gui>Bild …</"
+"gui></guiseq>."
 
 #: C/mail-composer-html-image.page:26(p)
 #, fuzzy
@@ -7177,7 +7178,7 @@ msgstr "Wählen Sie das einzufügende Bild aus."
 
 #: C/mail-composer-html-image.page:27(p)
 msgid "Click <gui>Open</gui>."
-msgstr ""
+msgstr "Klicken Sie auf <gui>Öffnen</gui>."
 
 #: C/mail-composer-html-image.page:30(p)
 msgid ""
@@ -7186,9 +7187,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-forward.page:5(desc)
-#, fuzzy
 msgid "Forwarding a received email to somebody."
-msgstr "Die gewählte Nachricht an jemanden weiterleiten"
+msgstr "Eine empfangene Nachricht an jemanden weiterleiten."
 
 #: C/mail-composer-forward.page:23(title)
 msgid "Forwarding a message"
@@ -7217,9 +7217,8 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-forward.page:29(p)
-#, fuzzy
 msgid "To forward a message that you are reading:"
-msgstr "Um eine Nachricht die Sie lesen weiterzuleiten:"
+msgstr "So leiten Sie eine gelesene Nachricht an jemanden weiter:"
 
 #: C/mail-composer-forward.page:31(p)
 msgid ""
@@ -7232,14 +7231,12 @@ msgid ""
 msgstr ""
 
 #: C/mail-composer-forward.page:32(p)
-#, fuzzy
 msgid ""
 "Select a recipient for the message. The subject is already entered, although "
 "you can alter it if you want."
 msgstr ""
-"Wählen Sie einen Empfänger aus, genau so wie wenn Sie eine neue Nachricht "
-"schreiben würden. Die Betreffzeile ist bereits ausgefüllt, diese kann aber "
-"geändert werden."
+"Wählen Sie einen Empfänger für die Nachricht aus. Die Betreffzeile ist "
+"bereits ausgefüllt, diese kann aber geändert werden."
 
 #: C/mail-composer-forward.page:33(p)
 msgid "Add your comments on the message in the text field."
@@ -7262,9 +7259,8 @@ msgstr ""
 "keine Anhänge weiter."
 
 #: C/mail-composer-forward-as-attachment.page:5(desc)
-#, fuzzy
 msgid "How to forward a message with its attachments."
-msgstr "Nachrichten mit Anlagen"
+msgstr "Nachrichten mit Anlagen weiterleiten."
 
 #: C/mail-composer-forward-as-attachment.page:21(title)
 msgid "Forwarding a message with its attachments"
@@ -7305,9 +7301,8 @@ msgstr ""
 "Klicken Sie auf Hinzufügen, um benutzerdefinierte Kopfzeilen hinzuzufügen."
 
 #: C/mail-composer-custom-header-lines.page:29(p)
-#, fuzzy
 msgid "To set up the Custom Header plugin:"
-msgstr "Um das Plugin »Benutzerdefinierte Kopfzeilen« zu aktivieren:"
+msgstr "So aktivieren Sie das Plugin »Benutzerdefinierte Kopfzeilen«:"
 
 #: C/mail-composer-custom-header-lines.page:32(p)
 msgid "Enable <gui>Custom Header</gui>."
@@ -7329,9 +7324,8 @@ msgstr ""
 "müssen durch Kommata getrennt werden."
 
 #: C/mail-composer-custom-header-lines.page:39(title)
-#, fuzzy
 msgid "Inserting custom headers in a message"
-msgstr "Ausgehenden Nachrichten eine angepasste Kopfzeile hinzufügen."
+msgstr "Benutzerdefinierte Kopfzeilen in eine Nachricht einfügen"
 
 #: C/mail-composer-custom-header-lines.page:41(p)
 msgid ""
@@ -7439,7 +7433,7 @@ msgstr "philbull@gmail.com"
 
 #: C/mail-cannot-see.page:20(title)
 msgid "I cannot see some emails, where are they?"
-msgstr ""
+msgstr "Ich kann einige Nachrichten nicht sehen, wo sind sie geblieben?"
 
 #: C/mail-cannot-see.page:24(p)
 msgid ""
@@ -7584,12 +7578,16 @@ msgstr "Dateien beilegen"
 msgid "To attach a file to your email in the composer:"
 msgstr ""
 
+# Erste Variante kann ich nicht nachvollziehen, GK
 #: C/mail-attachments-sending.page:30(p)
 msgid ""
 "Click <gui>Add Attachment...</gui>, or click <guiseq><gui>Insert</"
 "gui><gui>Attachment</gui></guiseq>, or press <keyseq><key>Ctrl</key><key>M</"
 "key></keyseq>."
 msgstr ""
+"Klicken Sie auf <gui>Anlage hinzufügen …</gui> oder klicken Sie "
+"<guiseq><gui>Einfügen</gui><gui>Anlage</gui></guiseq> oder drücken Sie "
+"<keyseq><key>Strg</key><key>M</key></keyseq>."
 
 #: C/mail-attachments-sending.page:31(p)
 msgid "Select the file you want to attach."
@@ -7640,7 +7638,6 @@ msgid ""
 msgstr ""
 
 #: C/mail-attachments-sending.page:51(p)
-#, fuzzy
 msgid ""
 "Based on the keywords you have added, Evolution searches the text of every "
 "mail you are going to send. If it finds any of the keywords in your email and "
@@ -7798,9 +7795,8 @@ msgstr "Identität"
 #: C/mail-account-manage-local-delivery.page:30(p)
 #: C/mail-account-manage-imap-plus.page:30(p)
 #: C/mail-account-manage-imap.page:30(p) C/intro-first-run.page:26(p)
-#, fuzzy
 msgid "Here you define your name and your email address."
-msgstr "Bitte geben Sie Ihre E-Mail-Adresse ein."
+msgstr "Hier können Sie Ihren Namen und Ihre E-Mail-Adresse angeben."
 
 #: C/mail-account-manage-usenet-news.page:31(p)
 #: C/mail-account-manage-unix-mbox-spool-file.page:31(p)
@@ -7835,9 +7831,8 @@ msgstr ""
 #: C/mail-account-manage-local-delivery.page:35(title)
 #: C/mail-account-manage-imap-plus.page:35(title)
 #: C/mail-account-manage-imap.page:35(title)
-#, fuzzy
 msgid "Receiving Email and Receiving options"
-msgstr "E-Mail-Empfangsoptionen"
+msgstr "Nachrichten empfangen und Empfangsoptionen"
 
 #: C/mail-account-manage-usenet-news.page:39(title)
 #: C/mail-account-manage-unix-mbox-spool-file.page:39(title)
@@ -8016,7 +8011,7 @@ msgstr "Konteneinstellungen für E-Mail-Ordner im MH-Format"
 
 #: C/mail-account-management.page:5(desc)
 msgid "Adding, editing and managing mail accounts."
-msgstr ""
+msgstr "Hinzufügen, Bearbeiten und Verwalten von Nachrichtenkonten."
 
 #: C/mail-account-management.page:20(title)
 msgid "Account Management"
@@ -8237,7 +8232,7 @@ msgstr "Barbara M. Tobias"
 
 #: C/intro-main-window.page:29(title)
 msgid "The <em>Evolution</em> main window"
-msgstr ""
+msgstr "Das Hauptfenster von <em>Evolution</em>"
 
 #. This section fixes https://bugzilla.gnome.org/show_bug.cgi?id=657028
 #: C/intro-main-window.page:32(p)
@@ -8418,30 +8413,40 @@ msgid ""
 "<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> Menu "
 "bar"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> "
+"Menüleiste"
 
 #: C/intro-main-window.page:96(p) C/intro-main-window.page:142(p)
 msgid ""
 "<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> Tool "
 "bar"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
+"Werkzeugleiste"
 
 #: C/intro-main-window.page:99(p)
 msgid ""
 "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
 "Calendar list"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+"Kalenderliste"
 
 #: C/intro-main-window.page:100(p) C/intro-main-window.page:146(p)
 msgid ""
 "<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
 "Search bar"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
+"Suchleiste"
 
 #: C/intro-main-window.page:103(p)
 msgid ""
 "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
 "Appointment list"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
+"Terminliste"
 
 #: C/intro-main-window.page:104(p)
 msgid "Task list"
@@ -8467,11 +8472,12 @@ msgid ""
 "<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
 "Status bar"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
+"Statusleiste"
 
 #: C/intro-main-window.page:119(title)
-#, fuzzy
 msgid "Appointment List"
-msgstr "Kalenderansicht:"
+msgstr "Terminliste"
 
 #: C/intro-main-window.page:120(p)
 #, fuzzy
@@ -8522,18 +8528,24 @@ msgid ""
 "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
 "Address book list"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+"Adressbuchliste"
 
 #: C/intro-main-window.page:149(p)
 msgid ""
 "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
 "Contacts list"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
+"Kontaktliste"
 
 #: C/intro-main-window.page:153(p)
 msgid ""
 "<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
 "Contact preview"
 msgstr ""
+"<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
+"Kontaktvorschau"
 
 #: C/intro-main-window.page:159(p)
 msgid ""
@@ -9180,7 +9192,7 @@ msgstr ""
 
 #: C/import-apps-outlook.page:29(title)
 msgid "Prerequisites under Windows"
-msgstr ""
+msgstr "Voraussetzungen unter Windows"
 
 #: C/import-apps-outlook.page:30(p)
 msgid "First, while using Microsoft Windows, prepare your messages for import:"
@@ -9321,25 +9333,27 @@ msgstr ""
 
 #: C/google-services.page:5(desc)
 msgid "Using Google services."
-msgstr ""
+msgstr "Google-Dienste verwenden."
 
 #: C/google-services.page:18(title)
 msgid "Using Google services"
-msgstr ""
+msgstr "Google-Dienste verwenden"
 
 #: C/express-mode.page:5(desc)
 msgid "What to do when using a small screen or netbook."
-msgstr ""
+msgstr "Besonderheiten bei einem kleinen Bildschirm oder einem Netbook."
 
 #: C/express-mode.page:20(title)
 msgid "Some windows are too large for small screens."
-msgstr ""
+msgstr "Einige Fenster sind für kleine Bildschirme zu groß."
 
 #: C/express-mode.page:22(p)
 msgid ""
 "This is a known problem and hard to solve for a complex application with many "
 "settings such as Evolution."
 msgstr ""
+"Dies ist ein bekanntes Problem, welches für eine komplexe Anwendung wie "
+"Evolution mit zahlreichen Einstellungsmöglichkeiten schwierig zu lösen ist."
 
 #: C/express-mode.page:23(p)
 msgid ""
@@ -9356,15 +9370,15 @@ msgstr ""
 
 #: C/exporting-data.page:5(desc)
 msgid "How to export data from <em>Evolution</em>."
-msgstr ""
+msgstr "Daten aus <em>Evolution</em> exportieren."
 
 #: C/exporting-data.page:20(title)
 msgid "Exporting data from <em>Evolution</em>"
-msgstr ""
+msgstr "Daten aus <em>Evolution</em> exportieren"
 
 #: C/exporting-data-mail.page:5(desc)
 msgid "How to export mail data from <em>Evolution</em>."
-msgstr ""
+msgstr "Über den Export von Nachrichtendaten aus <em>Evolution</em>."
 
 #: C/exporting-data-mail.page:20(title)
 msgid "Exporting mail data"
@@ -9386,7 +9400,7 @@ msgstr ""
 
 #: C/exporting-data-contacts.page:5(desc)
 msgid "How to export contacts data from <em>Evolution</em>."
-msgstr ""
+msgstr "Über den Export von Kontaktdaten aus <em>Evolution</em>."
 
 #: C/exporting-data-contacts.page:23(title)
 msgid "Exporting contacts data"
@@ -9396,6 +9410,8 @@ msgstr "Kontaktdaten exportieren"
 msgid ""
 "Contacts files are stored in a database, but can be saved as a vCard file."
 msgstr ""
+"Kontaktdateien sind in einer Datenbank gespeichert, können aber als vCard-"
+"Datei gespeichert werden."
 
 #: C/exporting-data-contacts.page:26(p)
 msgid ""
@@ -9449,7 +9465,7 @@ msgstr ""
 
 #: C/exchange-connectors-overview.page:20(title)
 msgid "Choosing the right connector"
-msgstr ""
+msgstr "Die richtige Anbindung wählen"
 
 #: C/exchange-connectors-overview.page:22(p)
 msgid ""
@@ -9457,6 +9473,9 @@ msgid ""
 "to connect to it is required to make sure that an additional package is "
 "installed that provides this functionality."
 msgstr ""
+"Abhängig von der Version des Microsoft Exchange-Servers, zu dem Sie eine "
+"Verbindung herstellen wollen, müssen Sie sicher stellen, dass ein "
+"zusätzliches Paket installiert ist, welches diese Funktionalität bereitstellt."
 
 #: C/exchange-connectors-overview.page:24(p)
 msgid ""
@@ -9496,18 +9515,21 @@ msgid ""
 "Deleting emails and calendar entries to reduce the size of the files used by "
 "Evolution."
 msgstr ""
+"Nachrichten oder Kalendereinträge löschen, um die Größe der von Evolution "
+"verwendeten Dateien zu verringern."
 
 #: C/deleting-to-free-disk-space.page:20(title)
 msgid "Freeing disk space by deleting items"
-msgstr ""
+msgstr "Platz durch Löschen von Objekten freigeben"
 
 #: C/deleting-emails.page:5(desc)
 msgid "Deleting emails or attachments to reduce the size of the mailbox."
 msgstr ""
+"Nachrichten oder Anhänge löschen, um die Größe des Postfachs zu verringern."
 
 #: C/deleting-emails.page:25(title)
 msgid "Deleting emails or attachments permanently"
-msgstr ""
+msgstr "Nachrichten oder Anhänge dauerhaft löschen"
 
 #: C/deleting-emails.page:28(title)
 msgid "Emails"
@@ -9539,11 +9561,11 @@ msgstr ""
 
 #: C/deleting-appointments.page:5(desc)
 msgid "Deleting calendar entries to reduce the size of the mailbox."
-msgstr ""
+msgstr "Kalendereinträge löschen, um die Größe des Postfachs zu verringern."
 
 #: C/deleting-appointments.page:20(title)
 msgid "Deleting old appointments permanently"
-msgstr ""
+msgstr "Alte Termine dauerhaft löschen"
 
 #: C/deleting-appointments.page:22(p)
 msgid ""
@@ -9556,7 +9578,7 @@ msgstr ""
 
 #: C/default-browser.page:5(desc)
 msgid "How to define the default browser to open links with."
-msgstr ""
+msgstr "Den Standardbrowser zum Öffnen von Verweisen festlegen."
 
 #: C/default-browser.page:20(title)
 msgid "Setting the default browser"
@@ -9605,9 +9627,8 @@ msgid ""
 msgstr ""
 
 #: C/data-storage.page:30(title)
-#, fuzzy
 msgid "The user's data files"
-msgstr "Um die Dateien zu importieren:"
+msgstr "Die Dateien mit den Benutzerdaten"
 
 #: C/data-storage.page:31(p)
 msgid "$HOME/.local/share/evolution"
@@ -9744,7 +9765,7 @@ msgstr ""
 
 #: C/contacts-using-contact-lists.page:5(desc)
 msgid "Using contact lists for grouping contacts."
-msgstr ""
+msgstr "Kontaktlisten zum Gruppieren von Kontakten verwenden."
 
 #: C/contacts-using-contact-lists.page:23(title)
 msgid "Using Contact Lists"
@@ -9787,6 +9808,8 @@ msgstr "Eine Kontaktliste erstellen"
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Contact List</gui></guiseq>."
 msgstr ""
+"Klicken Sie auf <guiseq><gui>Datei</gui><gui>Neu</gui><gui>Kontaktliste</"
+"gui></guiseq>."
 
 #: C/contacts-using-contact-lists.page:34(p)
 #: C/contacts-usage-add-contact.page:24(p)
@@ -9811,7 +9834,6 @@ msgstr ""
 "sollen, wenn Sie eine Nachricht an die Kontaktliste senden."
 
 #: C/contacts-using-contact-lists.page:36(p)
-#, fuzzy
 msgid ""
 "Unless it is a very small list, it is recommended that you leave the "
 "addresses hidden. This is the same thing as using the “Bcc:” feature "
@@ -9820,9 +9842,9 @@ msgid ""
 msgstr ""
 "Falls es sich nicht um eine sehr kleine Liste handelt, wird empfohlen, die "
 "Adressen nicht anzeigen zu lassen. Hierbei handelt es sich um dieselbe "
-"Funktion wie die unter <link linkend=\"usage-mail-getnsend-send-to-types"
+"Funktion wie die unter <link xref=\"mail-composer-several-recipients"
 "\">Weitere Empfänger zu einer E-Mail hinzufügen</link> beschriebene "
-"<quote>Blindkopie</quote>-Funktion."
+"»Blindkopie«-Funktion."
 
 #: C/contacts-using-contact-lists.page:40(p)
 msgid "The contact list will be added to the chosen address book in Evolution."
@@ -10020,7 +10042,7 @@ msgstr "Die freigegebenen Adressbücher im Netzwerk verwenden."
 
 #: C/contacts-ldap.page:23(title)
 msgid "Adding LDAP access"
-msgstr ""
+msgstr "LDAP-Zugriff ermöglichen"
 
 #: C/contacts-ldap.page:25(p)
 msgid ""
@@ -10055,7 +10077,7 @@ msgstr ""
 
 #: C/contacts-ldap.page:37(p)
 msgid "In the <gui>Details</gui> tab you can define the following settings:"
-msgstr ""
+msgstr "Im Reiter <gui>Details</gui> können Sie Folgendes einstellen:"
 
 #: C/contacts-ldap.page:39(p)
 #, fuzzy
@@ -10097,24 +10119,27 @@ msgstr ""
 
 #: C/contacts-ldap.page:48(p)
 msgid "<code>ObjectClass=*</code>: Lists all the objects from the server."
-msgstr ""
+msgstr "<code>ObjectClass=*</code>: Listet alle Objekte des Servers auf."
 
 #: C/contacts-ldap.page:49(p)
 msgid "<code>ObjectClass=User</code>: Lists only the users."
-msgstr ""
+msgstr "<code>ObjectClass=User</code>: Listet nur die Benutzer auf."
 
 #: C/contacts-ldap.page:50(p)
-#, fuzzy
 msgid ""
 "<code>Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))</code>: "
 "Retrieves the User and Contact List objects."
-msgstr "Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))"
+msgstr ""
+"<code>Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))</code>: Holt die "
+"Benutzer- und Kontaktlistenobjekte."
 
 #: C/contacts-ldap.page:51(p)
 msgid ""
 "<code>(&amp;(mail=*)(ObjectClass=*))</code>: Lists the objects associated "
 "with the email addresses."
 msgstr ""
+"<code>(&amp;(mail=*)(ObjectClass=*))</code>: Listet den E-Mail-Adressen "
+"zugeordnete Objekte auf."
 
 #: C/contacts-ldap.page:54(p)
 #, fuzzy
@@ -10145,15 +10170,16 @@ msgstr ""
 "Administrator."
 
 #: C/contacts-ldap.page:65(title)
-#, fuzzy
 msgid "Differences to local address books"
-msgstr "Lokale Adressbuchordner auflisten"
+msgstr "unterschiede zu lokalen Adressbüchern"
 
 #: C/contacts-ldap.page:67(p)
 msgid ""
 "LDAP address books work like local address books on your computer, with the "
 "following exceptions:"
 msgstr ""
+"LDAP-Adressbücher verhalten sich wie lokale Adressbücher auf Ihrem Rechner, "
+"mit folgenden Ausnahmen:"
 
 #: C/contacts-ldap.page:69(p)
 msgid ""
@@ -10201,9 +10227,8 @@ msgstr ""
 "Systemadministrator, falls Sie andere Einstellungen benötigen."
 
 #: C/contacts-google.page:5(desc)
-#, fuzzy
 msgid "Use the online address book of your Google account."
-msgstr "Erzeugt ein lokales Adressbuch auf Ihrem Rechner."
+msgstr "Das Online-Adressbuch Ihres Google-Kontos nutzen."
 
 #: C/contacts-google.page:21(title)
 msgid "Using a Google addressbook"
@@ -10212,6 +10237,7 @@ msgstr "Ein Google-Adressbuch verwenden"
 #: C/contacts-google.page:23(p)
 msgid "To add such an address book to Evolution, perform the following steps:"
 msgstr ""
+"um ein solches Adressbuch in Evolution hinzuzufügen, gehen Sie wie folgt vor:"
 
 #: C/contacts-google.page:26(p) C/calendar-google.page:29(p)
 msgid "Select the type <gui>Google</gui>."
@@ -10663,9 +10689,8 @@ msgid ""
 msgstr ""
 
 #: C/calendar-recurrence.page:5(desc)
-#, fuzzy
 msgid "Repeating appointments."
-msgstr "Termine erstellen"
+msgstr "Wiederkehrende Termine."
 
 #: C/calendar-recurrence.page:23(title)
 msgid "Using Recurrence"
@@ -11060,7 +11085,7 @@ msgstr "Die Anordnung des Kalenders ändern"
 
 #: C/calendar-layout-general-formatting.page:5(desc)
 msgid "General formatting options for the calendar."
-msgstr ""
+msgstr "Allgemeine Formatierungsoptionen für den Kalender."
 
 #: C/calendar-layout-general-formatting.page:25(title)
 msgid "General formatting options"
@@ -11209,9 +11234,8 @@ msgstr ""
 "Seitenleiste an."
 
 #: C/calendar-layout-appointment-display.page:42(p)
-#, fuzzy
 msgid "Show recurring events in italic in bottom left calendar"
-msgstr "Wi_ederkehrende Ereignisse im Kalender unten links kursiv anzeigen"
+msgstr "Wiederkehrende Ereignisse im Kalender unten links kursiv anzeigen"
 
 #: C/calendar-layout-appointment-display.page:43(p)
 msgid "Scroll Month View by a week"
@@ -11228,9 +11252,8 @@ msgid ""
 msgstr ""
 
 #: C/calendar-google.page:5(desc)
-#, fuzzy
 msgid "Using the online calendar of your Google account."
-msgstr "Geben Sie den Benutzernamen für Ihr Google-Konto ein."
+msgstr "Den Online-Kalender Ihres Google-Kontos nutzen."
 
 #: C/calendar-google.page:24(title)
 msgid "Using a Google calendar"
@@ -11401,9 +11424,8 @@ msgid ""
 msgstr ""
 
 #: C/calendar-caldav.page:5(desc)
-#, fuzzy
 msgid "Using an online CalDAV calendar."
-msgstr "Nach einem CalDAV-Kalender suchen"
+msgstr "Einen Online-CalDAV-Kalender nutzen."
 
 #: C/calendar-caldav.page:23(title)
 msgid "Using a CalDAV calendar"
@@ -11492,12 +11514,16 @@ msgid ""
 "Choose a filename and the folder where you want to save the backup file, and "
 "click <gui style=\"button\">Save</gui>."
 msgstr ""
+"Wählen Sie einen Dateinamen und den Ordner, in dem Sie die Sicherungsdatei "
+"speichern wollen, und klicken Sie auf <gui style=\"button\">Speichern</gui>."
 
 #: C/backup-restore.page:30(p) C/backup-restore.page:39(p)
 msgid ""
 "You will get asked to close Evolution. Answer with <gui style=\"button\">Yes</"
 "gui>."
 msgstr ""
+"Sie werden darum gebeten, Evolution zu schließen. Antworten Sie mit <gui "
+"style=\"button\">Ja</gui>."
 
 #: C/backup-restore.page:35(title)
 msgid "Restoring"
@@ -11507,6 +11533,8 @@ msgstr "Wiederherstellung"
 msgid ""
 "Select <guiseq><gui>File</gui><gui>Restore Evolution Data...</gui></guiseq>."
 msgstr ""
+"Wählen Sie <guiseq><gui>Datei</gui><gui>Evolution-Daten wiederherstellen …</"
+"gui></guiseq>"
 
 #: C/backup-restore.page:38(p)
 msgid "Choose the file, and click <gui style=\"button\">Open</gui>."
