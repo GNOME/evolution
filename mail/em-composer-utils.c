@@ -159,7 +159,7 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer,
 	if (str->len)
 		res = em_utils_prompt_user (
 			GTK_WINDOW (composer),
-			"/apps/evolution/mail/prompts/unwanted_html",
+			"prompt-on-unwanted-html",
 			"mail:ask-send-html", str->str, NULL);
 	else
 		res = TRUE;
@@ -174,7 +174,7 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 {
 	return em_utils_prompt_user (
 		GTK_WINDOW (composer),
-		"/apps/evolution/mail/prompts/empty_subject",
+		"prompt-on-empty-subject",
 		"mail:ask-send-no-subject", NULL);
 }
 
@@ -190,7 +190,7 @@ ask_confirm_for_only_bcc (EMsgComposer *composer,
 
 	return em_utils_prompt_user (
 		GTK_WINDOW (composer),
-		"/apps/evolution/mail/prompts/only_bcc",
+		"prompt-on-only-bcc",
 		hidden_list_case ?
 		"mail:ask-send-only-bcc-contact" :
 		"mail:ask-send-only-bcc", NULL);
@@ -333,7 +333,7 @@ composer_presend_check_recipients (EMsgComposer *composer)
 	if (invalid_addrs) {
 		if (!em_utils_prompt_user (
 			GTK_WINDOW (composer),
-			"/apps/evolution/mail/prompts/send_invalid_recip",
+			"prompt-on-invalid-recip",
 			strstr (invalid_addrs->str, ", ") ?
 				"mail:ask-send-invalid-recip-multi" :
 				"mail:ask-send-invalid-recip-one",

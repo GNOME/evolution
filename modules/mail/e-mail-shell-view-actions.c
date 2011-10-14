@@ -372,7 +372,7 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 	cache = e_mail_session_get_folder_cache (session);
-	key = "/apps/evolution/mail/prompts/mark_all_read";
+	key = "prompt-on-mark-all-read";
 
 	if (mail_folder_cache_get_folder_has_children (cache, folder, NULL))
 		prompt = "mail:ask-mark-all-read-sub";

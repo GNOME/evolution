@@ -1,6 +1,6 @@
 <schemalist>
   <schema gettext-domain="evolution" id="org.gnome.evolution.mail" path="/org/gnome/evolution/mail/">
-    <key name="check-if-default-mailer" type="b">
+    <key name="prompt-check-if-default-mailer" type="b">
       <default>true</default>
       <_summary>Check whether Evolution is the default mailer</_summary>
       <_description>Every time Evolution starts, check whether or not it is the default mailer.</_description>
@@ -360,10 +360,20 @@
       <_summary>Prompt on empty subject</_summary>
       <_description>Prompt the user when he or she tries to send a message without a Subject.</_description>
     </key>
+    <key name="prompt-on-empty-trash" type="b">
+      <default>true</default>
+      <_summary>Prompt when emptying the trash</_summary>
+      <_description>Prompt the user when he or she tries to empty the trash.</_description>
+    </key>
     <key name="prompt-on-expunge" type="b">
       <default>true</default>
       <_summary>Prompt when user expunges</_summary>
       <_description>Prompt the user when he or she tries to expunge a folder.</_description>
+    </key>
+    <key name="prompt-on-invalid-recip" type="b">
+      <default>true</default>
+      <_summary>Prompt before sending to recipients not entered as mail addresses</_summary>
+      <_description>It disables/enables the repeated prompts to warn that you are trying to send a message to recipients not entered as mail addresses</_description>
     </key>
     <key name="prompt-on-only-bcc" type="b">
       <default>true</default>

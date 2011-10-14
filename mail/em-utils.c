@@ -105,7 +105,7 @@ em_utils_ask_open_many (GtkWindow *parent,
 		"Are you sure you want to open %d messages at once?",
 		how_many), how_many);
 	proceed = em_utils_prompt_user (
-		parent, "/apps/evolution/mail/prompts/open_many",
+		parent, "prompt-on-open-many",
 		"mail:ask-open-many", string, NULL);
 	g_free (string);
 
@@ -115,7 +115,7 @@ em_utils_ask_open_many (GtkWindow *parent,
 /**
  * em_utils_prompt_user:
  * @parent: parent window
- * @promptkey: gconf key to check if we should prompt the user or not.
+ * @promptkey: settings key to check if we should prompt the user or not.
  * @tag: e_alert tag.
  *
  * Convenience function to query the user with a Yes/No dialog and a
@@ -136,13 +136,13 @@ em_utils_prompt_user (GtkWindow *parent,
 	GtkWidget *container;
 	va_list ap;
 	gint button;
-	GConfClient *client;
+	GSettings *settings;
 	EAlert *alert = NULL;
 
-	client = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	if (promptkey && !gconf_client_get_bool (client, promptkey, NULL)) {
-		g_object_unref (client);
+	if (promptkey && !g_settings_get_boolean (settings, promptkey)) {
+		g_object_unref (settings);
 		return TRUE;
 	}
 
@@ -165,14 +165,13 @@ em_utils_prompt_user (GtkWindow *parent,
 
 	button = gtk_dialog_run (GTK_DIALOG (dialog));
 	if (promptkey)
-		gconf_client_set_bool (
-			client, promptkey,
-			!gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (check)), NULL);
+		g_settings_set_boolean (settings, promptkey,
+					!gtk_toggle_button_get_active (
+						GTK_TOGGLE_BUTTON (check)));
 
 	gtk_widget_destroy (dialog);
 
-	g_object_unref (client);
+	g_object_unref (settings);
 
 	return button == GTK_RESPONSE_YES;
 }
@@ -1256,16 +1255,15 @@ em_utils_message_to_html (CamelMimeMessage *message,
 	((EMFormat *) emfq)->composer = TRUE;
 
 	if (!source) {
-		GConfClient *gconf;
+		GSettings *settings;
 		gchar *charset;
 
 		/* FIXME We should be getting this from the
 		 *       current view, not the global setting. */
-		gconf = gconf_client_get_default ();
-		charset = gconf_client_get_string (
-			gconf, "/apps/evolution/mail/display/charset", NULL);
+		settings = g_settings_new ("org.gnome.evolution.mail");
+		charset = g_settings_get_string (settings, "charset");
 		em_format_set_default_charset ((EMFormat *) emfq, charset);
-		g_object_unref (gconf);
+		g_object_unref (settings);
 		g_free (charset);
 	}
 
@@ -1306,7 +1304,7 @@ em_utils_expunge_folder (GtkWidget *parent,
 
 	if (!em_utils_prompt_user (
 		GTK_WINDOW (parent),
-		"/apps/evolution/mail/prompts/expunge",
+		"prompt-on-expunge",
 		"mail:ask-expunge", description, NULL))
 		return;
 
@@ -1330,7 +1328,7 @@ em_utils_empty_trash (GtkWidget *parent,
 	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 
 	if (!em_utils_prompt_user ((GtkWindow *) parent,
-		"/apps/evolution/mail/prompts/empty_trash",
+		"prompt-on-empty-trash",
 		"mail:ask-empty-trash", NULL))
 		return;
 

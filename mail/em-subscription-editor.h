@@ -65,8 +65,6 @@ EMailBackend *	em_subscription_editor_get_backend
 						(EMSubscriptionEditor *editor);
 CamelStore *	em_subscription_editor_get_store
 						(EMSubscriptionEditor *editor);
-CamelStore *	em_subscription_editor_get_store
-						(EMSubscriptionEditor *editor);
 
 G_END_DECLS
 
