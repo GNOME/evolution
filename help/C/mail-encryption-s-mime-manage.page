@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-encryption#s-mime"/>
 
-    <revision pkgversion="2.32.1" version="0.1" date="2011-01-05" status="draft"/>
+    <revision pkgversion="3.2.0" version="0.2" date="2011-10-13" status="draft"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -24,6 +24,9 @@
 
 <p>Certificates allow you to communicate with others securely over an encrypted connection, or sign a message confirming your identity to the contact. These settings only apply to S/MIME encryption.</p>
 <p>You can import, view, edit (except for your own certificates), and delete your certificates under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Certificates</gui></guiseq>.</p>
+
+<note style="tip"><p>If you get the error "Peer's certificate issuer has been marked as not trusted by the user. (-8172) - Cannot add SMIMEEncKeyPrefs attribute" after adding your mail certificate, go to <gui>Authorities</gui> and enable <gui>Trust this CA to identify email users</gui> for the certificate.</p></note>
+
 <p><gui>Your Certificates</gui> displays a list of certificates that you own. To add a signing certificate, click <gui style="button">Import</gui>, select the file to import, then click <gui style="button">Open</gui> and enter a password.</p>
 <p><gui>Contact Certificates</gui> displays a list of certificates that you have for contacts. These certificates allow you to decrypt messages as well verify signed messages.</p>
 <p><gui>Authorities</gui> displays a list of trusted certificate authorities who verify that your own certificate is valid.</p>

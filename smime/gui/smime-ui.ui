@@ -1188,7 +1188,7 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="ssl_trust_checkbutton">
-                <property name="label" translatable="yes">Trust this CA to identify websites.</property>
+                <property name="label" translatable="yes">Trust this CA to identify _websites.</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
@@ -1203,7 +1203,7 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="email_trust_checkbutton">
-                <property name="label" translatable="yes">Trust this CA to identify email users.</property>
+                <property name="label" translatable="yes">Trust this CA to identify _email users.</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
@@ -1218,7 +1218,7 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="objsign_trust_checkbutton">
-                <property name="label" translatable="yes">Trust this CA to identify software developers.</property>
+                <property name="label" translatable="yes">Trust this CA to identify _software developers.</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>

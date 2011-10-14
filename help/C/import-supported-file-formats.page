@@ -6,7 +6,7 @@
     
     <link type="guide" xref="import-data" />
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-31" status="final"/>
+    <revision pkgversion="3.0.2" version="0.3" date="2011-10-13" status="final"/>
     <credit type="author">
       <name>Andre Klapper</name>
       <email>ak-47@gmx.net</email>
@@ -78,8 +78,8 @@ Evolution/Mozilla/Outlook CSV/Tab (.csv, .tab):</p>
 <p>CSV (Comma-separated values) or Tabulator files saved by using Evolution, Microsoft Outlook and Mozilla.
 </p></item>
 <item><p>
-Personal Storage Table (.pst):</p>
-<p>A file format used to store local copies of messages, calendar events, and other items within Microsoft software such as Microsoft Exchange Client, Windows Messaging, and Microsoft Outlook.
+Outlook Personal Folders (.pst):</p>
+<p>A file format used to store local copies of messages, calendar events, and other items within Microsoft software such as Microsoft Exchange Client, Windows Messaging, and Microsoft Outlook. It is also called "Personal Storage Table".
 </p></item>
 </list>
 </section>
