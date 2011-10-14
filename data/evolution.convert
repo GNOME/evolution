@@ -214,5 +214,9 @@ notify-sound-beep = /apps/evolution/eplugin/mail-notification/sound-beep
 notify-sound-file = /apps/evolution/eplugin/mail-notification/sound-file
 notify-sound-use-theme = /apps/evolution/eplugin/mail-notification/sound-use-theme
 
+[org.gnome.evolution.eplugin.prefer-plain]
+mode = /apps/evolution/eplugin/prefer_plain/mode"
+show-suppressed = /apps/evolution/eplugin/prefer_plain/show_suppressed
+
 [org.gnome.evolution.eplugin.templates]
 template-placeholders = /apps/evolution/mail/template_placeholders

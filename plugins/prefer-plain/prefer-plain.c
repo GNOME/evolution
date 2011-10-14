@@ -26,7 +26,6 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
-#include <gconf/gconf-client.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -44,7 +43,7 @@ enum {
 	EPP_TEXT
 };
 
-static GConfClient *epp_gconf = NULL;
+static GSettings *epp_settings = NULL;
 static gint epp_mode = -1;
 static gboolean epp_show_suppressed = TRUE;
 
@@ -281,7 +280,7 @@ epp_mode_changed (GtkComboBox *dropdown,
 	if (epp_mode > 2)
 		epp_mode = 0;
 
-	gconf_client_set_string(epp_gconf, "/apps/evolution/eplugin/prefer_plain/mode", epp_options[epp_mode].key, NULL);
+	g_settings_set_string (epp_settings, "mode", epp_options[epp_mode].key);
 	update_info_label (info_label, epp_mode);
 }
 
@@ -292,7 +291,7 @@ epp_show_suppressed_toggled (GtkToggleButton *check,
 	g_return_if_fail (check != NULL);
 
 	epp_show_suppressed = gtk_toggle_button_get_active (check);
-	gconf_client_set_bool (epp_gconf, "/apps/evolution/eplugin/prefer_plain/show_suppressed", epp_show_suppressed, NULL);
+	g_settings_set_boolean (epp_settings, "show-suppressed", epp_show_suppressed);
 }
 
 GtkWidget *
@@ -363,14 +362,13 @@ e_plugin_lib_enable (EPlugin *ep,
 	gchar *key;
 	gint i;
 
-	if (epp_gconf || epp_mode != -1)
+	if (epp_settings || epp_mode != -1)
 		return 0;
 
 	if (enable) {
-		GConfValue *val;
 
-		epp_gconf = gconf_client_get_default ();
-		key = gconf_client_get_string(epp_gconf, "/apps/evolution/eplugin/prefer_plain/mode", NULL);
+		epp_settings = g_settings_new ("org.gnome.evolution.eplugin.prefer-plain");
+		key = g_settings_get_string (epp_settings, "mode");
 		if (key) {
 			for (i = 0; i < G_N_ELEMENTS (epp_options); i++) {
 				if (!strcmp (epp_options[i].key, key)) {
@@ -383,16 +381,11 @@ e_plugin_lib_enable (EPlugin *ep,
 			epp_mode = 0;
 		}
 
-		val = gconf_client_get (epp_gconf, "/apps/evolution/eplugin/prefer_plain/show_suppressed", NULL);
-		if (val) {
-			epp_show_suppressed = gconf_value_get_bool (val);
-			gconf_value_free (val);
-		} else
-			epp_show_suppressed = TRUE;
+		epp_show_suppressed = g_settings_get_boolean (epp_settings, "show-suppressed");
 	} else {
-		if (epp_gconf) {
-			g_object_unref (epp_gconf);
-			epp_gconf = NULL;
+		if (epp_settings) {
+			g_object_unref (epp_settings);
+			epp_settings = NULL;
 		}
 	}
 
