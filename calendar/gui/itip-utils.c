@@ -38,6 +38,8 @@
 
 #include <composer/e-msg-composer.h>
 
+#define d(x)
+
 static const gchar *itip_methods[] = {
 	"PUBLISH",
 	"REQUEST",
@@ -485,7 +487,15 @@ comp_to_list (ECalComponentItipMethod method,
 		for (l = attendees; l != NULL; l = l->next) {
 			ECalComponentAttendee *att = l->data;
 
-			if (att->cutype != ICAL_CUTYPE_INDIVIDUAL && att->cutype != ICAL_CUTYPE_GROUP)
+			/* 
+			   Bugfix: 688711 - Varadhan
+			   Resource is also considered as a "attendee". If the respective backend 
+			   is able to successfully book resources automagically, it will appear 
+			   in the users list and thereby won't get added to the list of destinations 
+			   to send the meeting invite, otherwise, as a safety measure, a meeting 
+			   invite will be sent to the resources as well. 
+			*/
+			if (att->cutype != ICAL_CUTYPE_INDIVIDUAL && att->cutype != ICAL_CUTYPE_GROUP && att->cutype != ICAL_CUTYPE_RESOURCE)
 				continue;
 			else if (users_has_attendee (users, att->value))
 				continue;
@@ -511,6 +521,9 @@ comp_to_list (ECalComponentItipMethod method,
 			e_destination_set_email (
 				destination, itip_strip_mailto (att->value));
 			g_ptr_array_add (array, destination);
+			d(printf ("itip-utils.c: comp_to_list: name: %s, email: %s\n", 
+				  e_destination_get_name (destination), 
+				  e_destination_get_email (destination)));
 		}
 		g_free (sender);
 		e_cal_component_free_attendee_list (attendees);
@@ -856,7 +869,9 @@ comp_server_send (ECalComponentItipMethod method,
 	GError *error = NULL;
 
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
+	d(printf ("itip-utils.c: comp_server_send: calling e_cal_send_objects... \n"));
 	if (!e_cal_send_objects (client, top_level, users, &returned_icalcomp, &error)) {
+	  d(printf ("itip-utils.c: return value from e_cal_send_objects is: %d", error->code));
 		/* FIXME Really need a book problem status code */
 		if (error->code != E_CALENDAR_STATUS_OK) {
 			if (error->code == E_CALENDAR_STATUS_OBJECT_ID_ALREADY_EXISTS) {
@@ -874,6 +889,8 @@ comp_server_send (ECalComponentItipMethod method,
 
 			retval = FALSE;
 		}
+	} else {
+	  d(printf ("itip-utils.c: e_cal_send_objects returned without errors\n"));
 	}
 
 	g_clear_error (&error);
@@ -1394,6 +1411,7 @@ itip_send_comp (ECalComponentItipMethod method,
 
 	/* Give the server a chance to manipulate the comp */
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
+	  d(printf ("itip-utils.c: itip_send_comp: calling comp_server_send... \n"));
 		if (!comp_server_send (method, send_comp, client, zones, &users))
 			goto cleanup;
 	}
