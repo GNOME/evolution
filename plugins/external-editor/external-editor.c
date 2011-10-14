@@ -43,14 +43,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <gconf/gconf-client.h>
-
 #define d(x)
-
-#define EDITOR_GCONF_KEY_COMMAND \
-	"/apps/evolution/eplugin/external-editor/editor-command"
-#define EDITOR_GCONF_KEY_IMMEDIATE \
-	"/apps/evolution/eplugin/external-editor/launch-on-key-press"
 
 gboolean	e_plugin_ui_init		(GtkUIManager *manager,
 						 EMsgComposer *composer);
@@ -82,29 +75,29 @@ void
 ee_editor_command_changed (GtkWidget *textbox)
 {
 	const gchar *editor;
-	GConfClient *gconf;
+	GSettings *settings;
 
 	editor = gtk_entry_get_text (GTK_ENTRY (textbox));
 	d(printf ("\n\aeditor is : [%s] \n\a", editor));
 
-	/* gconf access for every key-press. Sucky ? */
-	gconf = gconf_client_get_default ();
-	gconf_client_set_string (gconf, EDITOR_GCONF_KEY_COMMAND, editor, NULL);
-	g_object_unref (gconf);
+	/* GSettings access for every key-press. Sucky ? */
+	settings = g_settings_new ("org.gnome.evolution.eplugin.external-editor");
+	g_settings_set_string (settings, "command", editor);
+	g_object_unref (settings);
 }
 
 void
 ee_editor_immediate_launch_changed (GtkWidget *checkbox)
 {
 	gboolean immediately;
-	GConfClient *gconf;
+	GSettings *settings;
 
 	immediately = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
 	d(printf ("\n\aimmediate launch is : [%d] \n\a", immediately));
 
-	gconf = gconf_client_get_default ();
-	gconf_client_set_bool (gconf, EDITOR_GCONF_KEY_IMMEDIATE, immediately, NULL);
-	g_object_unref (gconf);
+	settings = g_settings_new ("org.gnome.evolution.eplugin.external-editor");
+	g_settings_set_boolean (settings, "launch-on-key-press", immediately);
+	g_object_unref (settings);
 }
 
 GtkWidget *
@@ -112,7 +105,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 {
 	GtkWidget *vbox, *textbox, *label, *help;
 	GtkWidget *checkbox;
-	GConfClient *gconf;
+	GSettings *settings;
 	gchar *editor;
 	gboolean checked;
 
@@ -120,9 +113,9 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	textbox = gtk_entry_new ();
 	label = gtk_label_new (_("Command to be executed to launch the editor: "));
 	help = gtk_label_new (_("For Emacs use \"xemacs\"\nFor VI use \"gvim -f\""));
-	gconf = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.eplugin.external-editor");
 
-	editor = gconf_client_get_string (gconf, EDITOR_GCONF_KEY_COMMAND, NULL);
+	editor = g_settings_get_string (settings, "command");
 	if (editor) {
 		gtk_entry_set_text (GTK_ENTRY (textbox), editor);
 		g_free (editor);
@@ -130,10 +123,10 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
 	checkbox = gtk_check_button_new_with_label (
 		_("Automatically launch when a new mail is edited"));
-	checked = gconf_client_get_bool (gconf, EDITOR_GCONF_KEY_IMMEDIATE, NULL);
+	checked = g_settings_get_boolean (settings, "launch-on-key-press");
 	if (checked)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbox), TRUE);
-	g_object_unref (gconf);
+	g_object_unref (settings);
 
 	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), textbox, FALSE, FALSE, 0);
@@ -261,7 +254,7 @@ async_external_editor (EMsgComposer *composer)
 {
 	gchar *filename = NULL;
 	gint status = 0;
-	GConfClient *gconf;
+	GSettings *settings;
 	gchar *editor_cmd_line = NULL, *editor_cmd = NULL, *content;
 	gint fd, position = -1, offset = -1;
 
@@ -289,9 +282,8 @@ async_external_editor (EMsgComposer *composer)
 		return;
 	}
 
-	gconf = gconf_client_get_default ();
-	editor_cmd = gconf_client_get_string (
-		gconf, EDITOR_GCONF_KEY_COMMAND, NULL);
+	settings = g_settings_new ("org.gnome.evolution.eplugin.external-editor");
+	editor_cmd = g_settings_get_string (settings, "command");
 	if (!editor_cmd) {
 		if (!(editor_cmd = g_strdup (g_getenv ("EDITOR"))) )
 			/* Make gedit the default external editor,
@@ -299,7 +291,7 @@ async_external_editor (EMsgComposer *composer)
 			 * and no $EDITOR is set. */
 			editor_cmd = g_strdup ("gedit");
 	}
-	g_object_unref (gconf);
+	g_object_unref (settings);
 
 	if (g_strrstr (editor_cmd, "vim") != NULL
 	    && gtk_html_get_cursor_pos (
@@ -410,7 +402,7 @@ key_press_cb (GtkWidget *widget,
               GdkEventKey *event,
               EMsgComposer *composer)
 {
-	GConfClient *gconf;
+	GSettings *settings;
 	gboolean immediately;
 
 	/* we don't want to start the editor on any modifier keys */
@@ -426,9 +418,9 @@ key_press_cb (GtkWidget *widget,
 		break;
 	}
 
-	gconf = gconf_client_get_default ();
-	immediately = gconf_client_get_bool (gconf, EDITOR_GCONF_KEY_IMMEDIATE, NULL);
-	g_object_unref (gconf);
+	settings = g_settings_new ("org.gnome.evolution.eplugin.external-editor");
+	immediately = g_settings_get_boolean (settings, "launch-on-key-press");
+	g_object_unref (settings);
 	if (!immediately)
 		return FALSE;
 
