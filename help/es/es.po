@@ -2,23 +2,23 @@
 # translation of evolution manual to spanish
 # 
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
 # Jorge González <jorgegonz@svn.gnome.org>, 2011., 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-07 15:03+0000\n"
-"PO-Revision-Date: 2011-10-08 15:42+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2011-10-13 16:47+0000\n"
+"PO-Revision-Date: 2011-10-14 12:19+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: C/using-categories.page:5(desc)
 msgid ""
@@ -1570,14 +1570,6 @@ msgstr ""
 "errores su distribución con GNOME</link> en su lugar."
 
 #: C/problems-reporting-bugs.page:25(p)
-#| msgid ""
-#| "When reporting bugs exact information is welcome as it makes it easier "
-#| "for others to reproduce and fix the issue. If possible please include "
-#| "information such as the Evolution version (under <guiseq><gui>Help</"
-#| "gui><gui>Contents</gui></guiseq>), your distribution, and exact steps to "
-#| "reproduce the problem, click by click. See the <link href=\"https://"
-#| "bugzilla.gnome.org/page.cgi?id=bug-writing.html\">Bug Writing Guidelines</"
-#| "link> for more information."
 msgid ""
 "When reporting bugs exact information is welcome as it makes it easier for "
 "others to reproduce and fix the issue. If possible please include "
@@ -1716,12 +1708,6 @@ msgstr ""
 "usar esta característica de GNOME par acualquier notificación de correo."
 
 #: C/minimize-to-system-tray.page:29(p)
-#| msgid ""
-#| "In GNOME version 2 you may modify the notification area and set it up to "
-#| "become a system tray by using external software such as <link href="
-#| "\"http://alltray.trausch.us/\"> Alltray</link> that might be available "
-#| "for installation in the software management tool of your distribution. "
-#| "This is no longer possible in GNOME 3."
 msgid ""
 "In GNOME version 2 you may modify the notification area and set it up to "
 "become a system tray by using external software such as <link href=\"http://"
@@ -3014,12 +3000,6 @@ msgid "Manually send and receive messages"
 msgstr "Enviar y recibir mensajes manualmente"
 
 #: C/mail-send-and-receive-manual.page:21(p)
-#| msgid ""
-#| "To receive new messages from the mail server and to send messages you "
-#| "have written that are in the local Outbox, click the <gui style=\"button"
-#| "\">Send / Receive</gui> button in the toolbar, or press <key>F9</key>, or "
-#| "choose <guiseq><gui>File</gui><gui>Send / Receive </gui></guiseq> from "
-#| "the main menu."
 msgid ""
 "To receive new messages from the mail server and to send messages you have "
 "written that are in the local Outbox, click the <gui style=\"button\">Send / "
@@ -3553,10 +3533,10 @@ msgstr ""
 "es.wikipedia.org/wiki/Expresi%C3%B3n_regular\">expresiones regulares</link>, "
 "saque provecho aquí de su poderío, esta opción le permite hacer búsquedas de "
 "patrones complejos de letras de manera que, por ejemplo, podría encontrar "
-"todas las palabras que empiezan o acaban con «m» y tienen entre seis y "
-"quince letras de longitud, o distinguir todos los mensajes que tengan "
-"duplicada una determinada cabecera. Para saber cómo usar las expresiones "
-"regulares examine la página del manual del comando «grep»."
+"todas las palabras que empiezan o acaban con «m» y tienen entre seis y quince "
+"letras de longitud, o distinguir todos los mensajes que tengan duplicada una "
+"determinada cabecera. Para saber cómo usar las expresiones regulares examine "
+"la página del manual del comando «grep»."
 
 #: C/mail-search-folders-conditions.page:87(p)
 msgid "Message Location:"
@@ -4214,12 +4194,10 @@ msgstr ""
 "nuevos en todas las carpetas."
 
 #: C/mail-receiving-options-exchange-ews.page:5(desc)
-#| msgid "Receiving options for Exchange MAPI accounts."
 msgid "Receiving options for Exchange Web Services accounts."
 msgstr "Opciones de recepción para cuentas Exchange Web Services."
 
 #: C/mail-receiving-options-exchange-ews.page:20(title)
-#| msgid "Exchange MAPI receiving options"
 msgid "Exchange Web Services receiving options"
 msgstr "Opciones de recepción Exchange Web Services"
 
@@ -4356,12 +4334,6 @@ msgid "Switcher layout when a new message has arrived"
 msgstr "Distribución del selector cuando llega un correo nuevo"
 
 #: C/mail-received-notification.page:28(p)
-#| msgid ""
-#| "In order to get also notified of new messages in the GNOME Notification "
-#| "area at the bottom of the screen, make sure that <guiseq><gui>Edit</"
-#| "gui><gui>Plugins</gui><gui>Mail Notification</gui></guiseq> is enabled "
-#| "and that you have set your preferred options in the <gui>Configuration</"
-#| "gui> tab."
 msgid ""
 "In order to also be notified of new messages in the GNOME Notification area "
 "at the bottom of the screen, make sure that <guiseq><gui>Edit</"
@@ -5652,7 +5624,20 @@ msgstr ""
 "sus certificados bajo <guiseq><gui>Editar</gui><gui>Preferencias</"
 "gui><gui>Certificados</gui></guiseq>."
 
-#: C/mail-encryption-s-mime-manage.page:27(p)
+#: C/mail-encryption-s-mime-manage.page:28(p)
+msgid ""
+"If you get the error \"Peer's certificate issuer has been marked as not "
+"trusted by the user. (-8172) - Cannot add SMIMEEncKeyPrefs attribute\" after "
+"adding your mail certificate, go to <gui>Authorities</gui> and enable "
+"<gui>Trust this CA to identify email users</gui> for the certificate."
+msgstr ""
+"Si obtiene el error «El emisor del certificado se ha marcado como no "
+"confiable por el usuario. (-8172): no se puede añadir el atributo "
+"SMIMEEncKeyPrefs» después de añadir su certificado de correo-e, vaya a "
+"<gui>Autoridades</gui> y active <gui>Confiar en esta AC para identificar a "
+"usuarios de correo-e</gui>."
+
+#: C/mail-encryption-s-mime-manage.page:30(p)
 msgid ""
 "<gui>Your Certificates</gui> displays a list of certificates that you own. "
 "To add a signing certificate, click <gui style=\"button\">Import</gui>, "
@@ -5664,7 +5649,7 @@ msgstr ""
 "seleccione el archivo que importar, después pulse <gui style=\"button"
 "\">Abrir</gui> e introduzca una contraseña."
 
-#: C/mail-encryption-s-mime-manage.page:28(p)
+#: C/mail-encryption-s-mime-manage.page:31(p)
 msgid ""
 "<gui>Contact Certificates</gui> displays a list of certificates that you "
 "have for contacts. These certificates allow you to decrypt messages as well "
@@ -5674,7 +5659,7 @@ msgstr ""
 "lista de los certificados que posee de sus contactos. Estos certificados le "
 "permiten descifrar mensajes así como verificar los mensajes firmados."
 
-#: C/mail-encryption-s-mime-manage.page:29(p)
+#: C/mail-encryption-s-mime-manage.page:32(p)
 msgid ""
 "<gui>Authorities</gui> displays a list of trusted certificate authorities "
 "who verify that your own certificate is valid."
@@ -6151,9 +6136,9 @@ msgid ""
 "Evolution's code repository to test."
 msgstr ""
 "Sólo para desarrolladores: en versiones futuras, Evolution usará WebKit en "
-"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href="
-"\"http://git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el "
-"repositorio de código de Evolution para pruebas."
+"lugar de gtkhtml para mostrar HTML. Hay una rama llamada «<link href=\"http://"
+"git.gnome.org/browse/evolution?h=webkit\">webkit</link>» en el repositorio "
+"de código de Evolution para pruebas."
 
 #: C/mail-displaying-no-css.page:27(p)
 msgid ""
@@ -6356,11 +6341,6 @@ msgstr ""
 "ver el correo."
 
 #: C/mail-displaying-character-encodings.page:25(p)
-#| msgid ""
-#| "To constantly change this setting, go to <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
-#| "gui><gui>Message Display</gui><gui>Default character encoding</gui></"
-#| "guiseq>."
 msgid ""
 "To make this the default setting, go to <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
@@ -8584,7 +8564,6 @@ msgid "Access a Gmail POP Account via Evolution"
 msgstr "Acceder a una cuenta POP de GMail a través de Evolution"
 
 #: C/mail-access-gmail-pop-account.page:26(p)
-#| msgid "Follow these steps to set up your GMail POP Account in Evolution:"
 msgid "Follow these steps to set up your Gmail POP Account in Evolution:"
 msgstr ""
 "Siga estos pasos para configurar su cuenta de correo POP de Gmail en "
@@ -8667,14 +8646,10 @@ msgstr ""
 "de correo IMAP</link>."
 
 #: C/mail-access-gmail-imap-account.page:28(p)
-#| msgid ""
-#| "To access GMail via IMAP you must turn on IMAP in your Google account. "
-#| "See the <link href=\"https://mail.google.com/support/bin/answer.py?"
-#| "answer=77695\">GMail Help</link> for more information."
 msgid ""
 "To access Gmail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?"
-"answer=77695\">Gmail Help</link> for more information."
+"the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695"
+"\">Gmail Help</link> for more information."
 msgstr ""
 "Para acceder a Gmail mediante IMAP debe activar IMAP en su cuenta de Google. "
 "Consulte la <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -9131,10 +9106,6 @@ msgid "Restore from backup"
 msgstr "Restaurar desde un respaldo"
 
 #: C/intro-first-run.page:32(p)
-#| msgid ""
-#| "You will get asked whether to restore from a backup of a previous "
-#| "version. If you have such a backup, continue <link xref=\"backup-"
-#| "restore#restore\">here</link>. Otherwise, go to the next page."
 msgid ""
 "You will be asked whether to restore from a backup of a previous version. If "
 "you have such a backup, continue <link xref=\"backup-restore#restore\">here</"
@@ -9686,18 +9657,25 @@ msgstr ""
 "Evolution, Microsoft Outlook y Mozilla."
 
 #: C/import-supported-file-formats.page:80(p)
-msgid "Personal Storage Table (.pst):"
-msgstr "Tabla de almacenamiento personal (.pst):"
+#| msgid "Outlook Express 5/6 Personal Folders (.dbx):"
+msgid "Outlook Personal Folders (.pst):"
+msgstr "Carpetas personales de Outlook (.pst):"
 
 #: C/import-supported-file-formats.page:82(p)
+#| msgid ""
+#| "A file format used to store local copies of messages, calendar events, "
+#| "and other items within Microsoft software such as Microsoft Exchange "
+#| "Client, Windows Messaging, and Microsoft Outlook."
 msgid ""
 "A file format used to store local copies of messages, calendar events, and "
 "other items within Microsoft software such as Microsoft Exchange Client, "
-"Windows Messaging, and Microsoft Outlook."
+"Windows Messaging, and Microsoft Outlook. It is also called \"Personal "
+"Storage Table\"."
 msgstr ""
 "Un formato de archivo usado para almacenar copias locales de mensajes, "
-"acontecimientos de calendario y otros elementos del software Microsoft "
-"Exchange Client, Windows Messaging y Microsoft Outlook."
+"eventos de calendario y otros elementos de software de Microsoft como "
+"Microsoft Exchange Client, Windows Messaging y Microsoft Outlook. También se "
+"llama «Tabla de almacenamiento personal»."
 
 #: C/import-single-files.page:5(desc)
 msgid "Importing single files."
@@ -10297,10 +10275,6 @@ msgstr ""
 "share/applications/mimeapps.list</file>."
 
 #: C/default-browser.page:29(p)
-#| msgid ""
-#| "This requires having the evolution-mapi package installed. <link action="
-#| "\"install:evolution-mapi\" href=\"http://ftp.gnome.org/pub/gnome/sources/"
-#| "evolution-mapi/\">Install evolution-mapi now.</link>"
 msgid ""
 "If the error message \"Could not open the link: Operation not supported\" is "
 "shown, you need to install <link action=\"install:gvfs\" href=\"http://ftp."
@@ -10319,8 +10293,6 @@ msgid "Data storage locations"
 msgstr "Ubicaciones de almacenamiento de datos"
 
 #: C/data-storage.page:23(p)
-#| msgid ""
-#| "This is only interesting for advanced users that want to debug problems."
 msgid "This is only interesting for advanced users who want to debug problems."
 msgstr ""
 "Esto sólo es interesante para usuarios avanzados que quieren depurar "
@@ -10656,11 +10628,6 @@ msgid "Adding a Contact"
 msgstr "Añadir un contacto"
 
 #: C/contacts-usage-add-contact.page:23(p)
-#| msgid ""
-#| "Click <guiseq><gui>File</gui><gui>New</gui><gui>Contact</gui></guiseq>, "
-#| "or right-click in a blank space in the list of contacts and click \"New "
-#| "Contact...\", or press <keyseq><key>Shift</key><key>Ctrl</key><key>C</"
-#| "key></keyseq>."
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Contact</gui></guiseq>, or "
 "right-click in a blank space in the list of contacts and click <gui>New "
@@ -10763,8 +10730,6 @@ msgid "Adding another local address book"
 msgstr "Añadir otra libreta de direcciones local"
 
 #: C/contacts-local.page:22(p)
-#| msgid ""
-#| "To add another local calendar to Evolution, perform the following steps:"
 msgid ""
 "To add another local address book to Evolution, perform the following steps:"
 msgstr ""
@@ -10805,9 +10770,6 @@ msgstr ""
 "LibreOffice."
 
 #: C/contacts-libreoffice.page:25(p)
-#| msgid ""
-#| "Click <guiseq><gui>Insert</gui><gui>Table...</gui></guiseq> in the "
-#| "menubar."
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Exchange Database...</gui></guiseq> in the "
 "menu bar. This will bring up the <gui>Exchange databases</gui> dialog box."
@@ -10827,7 +10789,6 @@ msgstr ""
 "triángulo para obtener la lista de sus libretas de direcciones de Evolution."
 
 #: C/contacts-libreoffice.page:27(p)
-#| msgid "Choose the file, and click <gui style=\"button\">Open</gui>."
 msgid "Choose an addressbook and click <gui style=\"button\">Define</gui>."
 msgstr ""
 "Seleccione una libreta de direcciones y pulse <gui style=\"button\">Definir</"
@@ -11155,16 +11116,6 @@ msgid "Adding people automatically to my contacts"
 msgstr "Añadir personas automáticamente a mis contactos"
 
 #: C/contacts-add-automatically.page:27(p)
-#| msgid ""
-#| "You can add people automatically to your contacts when you reply to "
-#| "received email. Enable the plugin <gui>Automatic Contacts</gui> by going "
-#| "to <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>; click on "
-#| "\"Automatic Contacts\" so that it shows a check mark. Then go to "
-#| "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</"
-#| "gui><gui>Automatic Contacts</gui></guiseq> and enable the <gui>Create "
-#| "address book entries when sending emails</gui> option and select an "
-#| "address book in the drop-down field below that will receive the new "
-#| "contacts."
 msgid ""
 "You can add people automatically to your contacts when you reply to received "
 "email. Enable the plugin <gui>Automatic Contacts</gui> by going to "
@@ -11256,7 +11207,6 @@ msgid "Navigate to <code>/org/gnome/desktop/interface</code>."
 msgstr "Vaya a <code>/org/gnome/desktop/interface</code>."
 
 #: C/change-keyboard-shortcuts.page:23(p)
-#| msgid "Enable <gui>Attachment Reminder</gui>."
 msgid "Enable <gui>can-change-accels</gui>."
 msgstr "Actíve <gui>can-change-accels</gui>."
 
@@ -12576,6 +12526,9 @@ msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2011\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
+
+#~ msgid "Personal Storage Table (.pst):"
+#~ msgstr "Tabla de almacenamiento personal (.pst):"
 
 #~ msgid "What to do when this error is shown."
 #~ msgstr "Qué hacer cuando se muestra este error."
