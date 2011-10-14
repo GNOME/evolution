@@ -9,8 +9,8 @@
 # Héctor García Álvarez <hector@scouts-es.org>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>,2003 (revisión).
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011.
 #
 #: ../shell/main.c:566
 msgid ""
@@ -18,14 +18,14 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-10-12 13:44+0000\n"
-"PO-Revision-Date: 2011-10-12 17:24+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2011-10-13 16:11+0000\n"
+"PO-Revision-Date: 2011-10-14 11:18+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #. For Translators: {0} is the name of the address book source
@@ -1236,7 +1236,7 @@ msgstr "Charla por vídeo"
 #: ../modules/calendar/e-cal-shell-view-actions.c:232
 #: ../modules/calendar/e-cal-shell-view-actions.c:261
 #: ../modules/calendar/e-cal-shell-view.c:523
-#: ../modules/online-accounts/e-online-accounts-google.c:294
+#: ../modules/online-accounts/e-online-accounts-google.c:296
 #: ../plugins/publish-calendar/publish-calendar.ui.h:1
 #: ../widgets/misc/e-send-options.c:528
 msgid "Calendar"
@@ -1500,7 +1500,7 @@ msgstr "No se pudo obtener la lista de libretas de direcciones: %s"
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:45
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:79
 #: ../calendar/gui/dialogs/memo-page.c:938 ../em-format/em-format.c:2324
-#: ../mail/em-folder-tree.c:678 ../mail/mail-ops.c:662
+#: ../mail/em-folder-tree.c:679 ../mail/mail-ops.c:662
 #: ../plugins/caldav/caldav-browse-server.c:220
 #: ../plugins/caldav/caldav-browse-server.c:1469 ../plugins/face/face.c:174
 #: ../smime/gui/certificate-manager.c:313
@@ -1585,8 +1585,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar from the side bar in the Calendar view."
 msgstr ""
-"«{0}» es un calendario de sólo lectura y no se puede modificar. Seleccione "
-"un calendario diferente de la barra lateral en la vista del calendario."
+"«{0}» es un calendario de sólo lectura y no se puede modificar. Seleccione un "
+"calendario diferente de la barra lateral en la vista del calendario."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:6
@@ -2640,21 +2640,21 @@ msgid "Close the current window"
 msgstr "Cerrar la ventana actual"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1127 ../mail/e-mail-browser.c:141
-#: ../shell/e-shell-window-actions.c:1455
+#: ../shell/e-shell-window-actions.c:1464
 #: ../widgets/misc/e-focus-tracker.c:117 ../widgets/misc/e-focus-tracker.c:555
 #: ../widgets/misc/e-web-view.c:459 ../widgets/misc/e-web-view.c:1306
 msgid "Copy the selection"
 msgstr "Copiar la selección"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1134 ../mail/e-mail-browser.c:148
-#: ../shell/e-shell-window-actions.c:1462
+#: ../shell/e-shell-window-actions.c:1471
 #: ../widgets/misc/e-focus-tracker.c:110 ../widgets/misc/e-focus-tracker.c:550
 #: ../widgets/misc/e-web-view.c:1300
 msgid "Cut the selection"
 msgstr "Cortar la selección"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1141
-#: ../shell/e-shell-window-actions.c:1469
+#: ../shell/e-shell-window-actions.c:1478
 #: ../widgets/misc/e-focus-tracker.c:131 ../widgets/misc/e-focus-tracker.c:565
 msgid "Delete the selection"
 msgstr "Eliminar la selección"
@@ -2664,7 +2664,7 @@ msgid "View help"
 msgstr "Ver la ayuda"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1155 ../mail/e-mail-browser.c:155
-#: ../shell/e-shell-window-actions.c:1497
+#: ../shell/e-shell-window-actions.c:1506
 #: ../widgets/misc/e-focus-tracker.c:124 ../widgets/misc/e-focus-tracker.c:560
 #: ../widgets/misc/e-web-view.c:1312
 msgid "Paste the clipboard"
@@ -2675,7 +2675,7 @@ msgid "Save current changes"
 msgstr "Guardar los cambios actuales"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1183 ../mail/e-mail-browser.c:162
-#: ../shell/e-shell-window-actions.c:1574
+#: ../shell/e-shell-window-actions.c:1583
 #: ../widgets/misc/e-focus-tracker.c:138 ../widgets/misc/e-focus-tracker.c:570
 msgid "Select all text"
 msgstr "Selecciona todo el texto"
@@ -2688,19 +2688,19 @@ msgstr "_Clasificación"
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:6 ../filter/filter.ui.h:10
 #: ../mail/e-mail-browser.c:176
 #: ../plugins/publish-calendar/publish-calendar.ui.h:23
-#: ../shell/e-shell-window-actions.c:1602
+#: ../shell/e-shell-window-actions.c:1611
 #: ../widgets/menus/gal-define-views.ui.h:5
 msgid "_Edit"
 msgstr "_Editar"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1204 ../mail/e-mail-browser.c:169
-#: ../shell/e-shell-window-actions.c:1609
+#: ../shell/e-shell-window-actions.c:1618
 #: ../widgets/misc/e-signature-editor.c:221
 msgid "_File"
 msgstr "_Archivo"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1211
-#: ../shell/e-shell-window-actions.c:1616
+#: ../shell/e-shell-window-actions.c:1625
 msgid "_Help"
 msgstr "Ay_uda"
 
@@ -2714,7 +2714,7 @@ msgid "_Options"
 msgstr "_Opciones"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1232 ../mail/e-mail-browser.c:183
-#: ../shell/e-shell-window-actions.c:1651 ../smime/gui/smime-ui.ui.h:46
+#: ../shell/e-shell-window-actions.c:1660 ../smime/gui/smime-ui.ui.h:46
 msgid "_View"
 msgstr "_Ver"
 
@@ -4284,7 +4284,7 @@ msgstr "Razón del fallo: %s"
 
 #: ../calendar/gui/e-meeting-store.c:1891
 #: ../plugins/caldav/caldav-browse-server.c:957
-#: ../plugins/google-account-setup/google-source.c:460
+#: ../plugins/google-account-setup/google-source.c:458
 #: ../plugins/publish-calendar/publish-calendar.c:337
 #: ../smime/gui/component.c:54
 msgid "Enter password"
@@ -6769,7 +6769,7 @@ msgstr "_Mensaje nuevo"
 msgid "Open New Message window"
 msgstr "Abrir la ventana de mensaje nuevo"
 
-#: ../composer/e-composer-actions.c:311 ../shell/e-shell-window-actions.c:1511
+#: ../composer/e-composer-actions.c:311 ../shell/e-shell-window-actions.c:1520
 msgid "Configure Evolution"
 msgstr "Configurar Evolution"
 
@@ -7192,8 +7192,8 @@ msgstr "CalDAV"
 
 #: ../capplet/settings/mail-account-view.c:361
 #: ../capplet/settings/mail-account-view.c:413
-#: ../modules/online-accounts/e-online-accounts-google.c:287
-#: ../modules/online-accounts/e-online-accounts-google.c:359
+#: ../modules/online-accounts/e-online-accounts-google.c:289
+#: ../modules/online-accounts/e-online-accounts-google.c:362
 #: ../plugins/google-account-setup/google-contacts-source.c:55
 #: ../plugins/google-account-setup/google-source.c:87
 msgid "Google"
@@ -8315,9 +8315,9 @@ msgstr "Vista de icono"
 msgid "List View"
 msgstr "Vista de lista"
 
-#: ../mail/e-mail-browser.c:134 ../shell/e-shell-window-actions.c:1427
-#: ../shell/e-shell-window-actions.c:1434
-#: ../shell/e-shell-window-actions.c:1441
+#: ../mail/e-mail-browser.c:134 ../shell/e-shell-window-actions.c:1436
+#: ../shell/e-shell-window-actions.c:1443
+#: ../shell/e-shell-window-actions.c:1450
 msgid "Close this window"
 msgstr "Cierra esta ventana"
 
@@ -9104,8 +9104,8 @@ msgstr "Obteniendo mensaje «%s»"
 #. * other user means other calendars subscribed
 #: ../mail/e-mail-reader.c:3255 ../mail/mail-config.ui.h:32
 #: ../plugins/google-account-setup/google-source.c:316
-#: ../plugins/google-account-setup/google-source.c:565
-#: ../plugins/google-account-setup/google-source.c:704
+#: ../plugins/google-account-setup/google-source.c:558
+#: ../plugins/google-account-setup/google-source.c:695
 #: ../widgets/misc/e-account-tree-view.c:414
 msgid "Default"
 msgstr "Predeterminado"
@@ -9614,41 +9614,41 @@ msgstr "C_rear"
 msgid "Folder _name:"
 msgstr "_Nombre de la carpeta:"
 
-#: ../mail/em-folder-tree.c:647
+#: ../mail/em-folder-tree.c:648
 msgid "Folder names cannot contain '/'"
 msgstr "Los nombres de carpetas no pueden contener el carácter «/»"
 
-#: ../mail/em-folder-tree.c:768
+#: ../mail/em-folder-tree.c:773
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../mail/em-folder-tree.c:1590
+#: ../mail/em-folder-tree.c:1595
 msgid "Mail Folder Tree"
 msgstr "Árbol de carpetas de correo"
 
-#: ../mail/em-folder-tree.c:2067 ../mail/em-folder-utils.c:115
+#: ../mail/em-folder-tree.c:2091 ../mail/em-folder-utils.c:115
 #, c-format
 msgid "Moving folder %s"
 msgstr "Moviendo la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2070 ../mail/em-folder-utils.c:117
+#: ../mail/em-folder-tree.c:2094 ../mail/em-folder-utils.c:117
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copiando la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2077 ../mail/message-list.c:2303
+#: ../mail/em-folder-tree.c:2101 ../mail/message-list.c:2303
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Moviendo los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2081 ../mail/message-list.c:2305
+#: ../mail/em-folder-tree.c:2105 ../mail/message-list.c:2305
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2100
+#: ../mail/em-folder-tree.c:2124
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "No se puede dejar el(los) mensaje(s) en el almacén de nivel superior"
@@ -10212,8 +10212,7 @@ msgid ""
 "expanded by default. \"0\" = expanded \"1\" = collapsed"
 msgstr ""
 "Describe si las cabeceras del mensajes en la vista con paneles se deben "
-"contraer o expandir de manera predeterminada. «0» = expandidas «1» = "
-"contraídas"
+"contraer o expandir de manera predeterminada. «0» = expandidas «1» = contraídas"
 
 #: ../mail/evolution-mail.schemas.in.h:44
 msgid ""
@@ -10261,8 +10260,8 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
-"Determina si se debe usar la misma tipografía para las líneas «De» y "
-"«Asunto» en la columna «Mensajes» de la vista vertical."
+"Determina si se debe usar la misma tipografía para las líneas «De» y «Asunto» "
+"en la columna «Mensajes» de la vista vertical."
 
 #: ../mail/evolution-mail.schemas.in.h:50
 msgid "Directory for saving mail component files."
@@ -10448,8 +10447,8 @@ msgid ""
 "Initial height of the \"Filter Editor\" window. The value updates as the "
 "user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Editor de filtros». El valor se actualiza "
-"según el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Editor de filtros». El valor se actualiza según "
+"el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:85
 msgid ""
@@ -10472,8 +10471,8 @@ msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Enviar y recibir correo». El valor se "
-"actualiza según el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Enviar y recibir correo». El valor se actualiza "
+"según el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:88
 msgid ""
@@ -10494,11 +10493,11 @@ msgid ""
 "particular value is not used by Evolution since the \"Folder Subscriptions\" "
 "window cannot be maximized. This key exists only as an implementation detail."
 msgstr ""
-"Estado inicial maximizado de la ventana «Suscripciones de carpetas». El "
-"valor se actualiza cuando el usuario maximiza o reduce la ventana. Nota: "
-"Evolution no usa este valor en particular ya que la ventana «Suscripciones "
-"de carpetas» no se puede maximizar. Esta clave existe sólo como un detalle "
-"de implementación."
+"Estado inicial maximizado de la ventana «Suscripciones de carpetas». El valor "
+"se actualiza cuando el usuario maximiza o reduce la ventana. Nota: Evolution "
+"no usa este valor en particular ya que la ventana «Suscripciones de carpetas» "
+"no se puede maximizar. Esta clave existe sólo como un detalle de "
+"implementación."
 
 #: ../mail/evolution-mail.schemas.in.h:90
 msgid ""
@@ -10784,9 +10783,9 @@ msgid ""
 "Possible values are: never - to never close browser window always - to "
 "always close browser window ask - (or any other value) will ask user"
 msgstr ""
-"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana "
-"del examinador; «always» (siempre) para cerrar siempre la ventana del "
-"examinador; «ask» (preguntar) o cualquier otro valor, preguntarán al usuario"
+"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana del "
+"examinador; «always» (siempre) para cerrar siempre la ventana del examinador; "
+"«ask» (preguntar) o cualquier otro valor, preguntarán al usuario"
 
 #: ../mail/evolution-mail.schemas.in.h:138
 msgid "Prompt before sending to recipients not entered as mail addresses"
@@ -10968,8 +10967,8 @@ msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
-"Mostrar el campo «Cco» al enviar un mensaje de correo. Esto se controla "
-"desde el menú Ver cuando se elige una cuenta de correo."
+"Mostrar el campo «Cco» al enviar un mensaje de correo. Esto se controla desde "
+"el menú Ver cuando se elige una cuenta de correo."
 
 #: ../mail/evolution-mail.schemas.in.h:180
 msgid ""
@@ -11036,8 +11035,8 @@ msgid ""
 "it will do that. It works by comparing the Reply-To: header with a List-"
 "Post: header, if there is one."
 msgstr ""
-"Algunas listas de correo establecen una cabecera «Responder a:» para forzar "
-"a los usuarios a responder a la lista, incluso cuando los usuarios piden que "
+"Algunas listas de correo establecen una cabecera «Responder a:» para forzar a "
+"los usuarios a responder a la lista, incluso cuando los usuarios piden que "
 "Evolution envíe una respuesta privada. Establecer esta opción a cierta "
 "intentará ignorar tales cabeceras «Responder a:», de tal forma que Evolution "
 "haga lo que se le pide. Si usa la acción de respuesta privada, responderá de "
@@ -11148,8 +11147,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
-"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
-"«2» para mensajes de depuración."
+"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. «2» "
+"para mensajes de depuración."
 
 #: ../mail/evolution-mail.schemas.in.h:205
 msgid ""
@@ -11177,9 +11176,9 @@ msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr ""
-"Esta clave es de una sola lectura y después de leerla se establece a "
-"«false». Esto deselecciona el correo en la lista y elimina la vista previa "
-"para esa carpeta."
+"Esta clave es de una sola lectura y después de leerla se establece a «false». "
+"Esto deselecciona el correo en la lista y elimina la vista previa para esa "
+"carpeta."
 
 #: ../mail/evolution-mail.schemas.in.h:208
 msgid ""
@@ -11312,9 +11311,9 @@ msgid ""
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
 "Indica si se debe comprobar si hay mensajes nuevos en todas las cuentas "
-"activas independientemente del conteo en la opción «Comprobar si hay "
-"mensajes nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se "
-"usa junto con la opción «send_recv_on_start»."
+"activas independientemente del conteo en la opción «Comprobar si hay mensajes "
+"nuevos cada X minutos» al iniciar Evolution. Esta opción sólo se usa junto "
+"con la opción «send_recv_on_start»."
 
 #: ../mail/evolution-mail.schemas.in.h:227
 msgid ""
@@ -12457,8 +12456,8 @@ msgid ""
 "A read receipt notification has been requested for \"{1}\". Send the receipt "
 "notification to {0}?"
 msgstr ""
-"Se ha solicitado una notificación de recepción para «{1}». ¿Quiere enviar "
-"una notificación de recepción a {0}?"
+"Se ha solicitado una notificación de recepción para «{1}». ¿Quiere enviar una "
+"notificación de recepción a {0}?"
 
 #: ../mail/mail.error.xml.h:10
 msgid ""
@@ -13626,7 +13625,7 @@ msgstr "Crea una libreta de direcciones nueva"
 #: ../modules/addressbook/e-book-shell-view.c:405
 #: ../modules/calendar/e-cal-shell-backend.c:115
 #: ../modules/calendar/e-cal-shell-migrate.c:63
-#: ../modules/online-accounts/e-online-accounts-google.c:366
+#: ../modules/online-accounts/e-online-accounts-google.c:369
 msgid "Contacts"
 msgstr "Contactos"
 
@@ -14573,8 +14572,7 @@ msgstr ""
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:67
 msgid "Show Role field in the event/task/meeting editor"
-msgstr ""
-"Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
+msgstr "Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:68
 msgid "Show appointment end times in week and month views"
@@ -14664,8 +14662,8 @@ msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view."
 msgstr ""
-"El UID de la nota seleccionada (o «primaria») en la barra lateral de la "
-"vista de «Notas»."
+"El UID de la nota seleccionada (o «primaria») en la barra lateral de la vista "
+"de «Notas»."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:85
 msgid ""
@@ -14702,8 +14700,8 @@ msgid ""
 msgstr ""
 "El estilo de la distribución determina dónde ubicar el panel de vista previa "
 "en relación con la lista de notas. «0» (vista clásica) ubica el panel de "
-"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el "
-"panel de vista previa junto a la lista de notas."
+"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el panel "
+"de vista previa junto a la lista de notas."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:90
 msgid ""
@@ -14725,8 +14723,8 @@ msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
 msgstr ""
-"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
-"«2» para mensajes de depuración."
+"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. «2» "
+"para mensajes de depuración."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:93
 msgid "Time divisions"
@@ -14749,8 +14747,8 @@ msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\"."
 msgstr ""
-"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», "
-"«hours» o «days»."
+"Unidades para el recordatorio de cumpleaños o aniversarios, «minutes», «hours» "
+"o «days»."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:98
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
@@ -14879,8 +14877,8 @@ msgstr ""
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:121
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr ""
-"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/"
-"tareas/reuniones"
+"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/tareas/"
+"reuniones"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:122
 msgid "Whether to show week numbers in various places in the Calendar."
@@ -16611,8 +16609,10 @@ msgid "Are you sure you want to close Evolution?"
 msgstr "¿Seguro que quiere cerrar Evolution?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
+#| msgid ""
+#| "Are you sure you want to restore Evolution from the selected back up file?"
 msgid ""
-"Are you sure you want to restore Evolution from the selected back up file?"
+"Are you sure you want to restore Evolution from the selected backup file?"
 msgstr ""
 "¿Está seguro de que quiere restaurar Evolution desde el archivo de respaldo "
 "seleccionado?"
@@ -16630,12 +16630,14 @@ msgid "Insufficient Permissions"
 msgstr "Permisos insuficientes"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
-msgid "Invalid Evolution back up file"
+#| msgid "Invalid Evolution back up file"
+msgid "Invalid Evolution backup file"
 msgstr "Archivo de respaldo de Evolution no válido"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
-msgid "Please select a valid back up file to restore."
-msgstr "Seleccione un archivo de respaldo válido para restaurar."
+#| msgid "Please select a valid back up file to restore."
+msgid "Please select a valid backup file to restore."
+msgstr "Seleccione un archivo de respaldo válido que restaurar."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid "The selected folder is not writable."
@@ -16650,16 +16652,21 @@ msgstr ""
 "de que guarda todo dato sin guardar antes de proceder."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:10
+#| msgid ""
+#| "To restore your data and settings, you must first close Evolution. Please "
+#| "make sure that you save any unsaved data before proceeding. This will "
+#| "delete all your current Evolution data and settings and restore them from "
+#| "your back up."
 msgid ""
 "To restore your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding. This will delete "
-"all your current Evolution data and settings and restore them from your back "
-"up."
+"all your current Evolution data and settings and restore them from your "
+"backup."
 msgstr ""
-"Para restaurar sus datos y ajustes, primero debe cerrar Evolution. Asegúrese "
-"de que guarda todos sus datos sin guardar antes de proceder. Esto eliminará "
-"todos sus datos y configuración actual de Evolution y los restaurará de su "
-"respaldo."
+"Para restaurar sus datos y su configuración, primero debe cerrar Evolution. "
+"Asegúrese de que guarda todos los datos que no haya guardado antes de "
+"proceder. Esto eliminará todos sus datos y configuración actual de Evolution "
+"y los restaurará desde su respaldo."
 
 #: ../plugins/bbdb/bbdb.c:686 ../plugins/bbdb/bbdb.c:695
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
@@ -16832,7 +16839,7 @@ msgstr "Usar _conexión segura"
 
 #: ../plugins/caldav/caldav-source.c:249
 #: ../plugins/google-account-setup/google-contacts-source.c:337
-#: ../plugins/google-account-setup/google-source.c:669
+#: ../plugins/google-account-setup/google-source.c:660
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:269
 msgid "User_name:"
 msgstr "_Usuario:"
@@ -16846,7 +16853,7 @@ msgstr "_Examinar el servidor para un calendario"
 #: ../plugins/calendar-http/calendar-http.c:129
 #: ../plugins/calendar-weather/calendar-weather.c:421
 #: ../plugins/google-account-setup/google-contacts-source.c:377
-#: ../plugins/google-account-setup/google-source.c:675
+#: ../plugins/google-account-setup/google-source.c:666
 msgid "Re_fresh:"
 msgstr "A_ctualizar:"
 
@@ -17256,14 +17263,14 @@ msgstr ""
 msgid "Server"
 msgstr "Servidor"
 
-#: ../plugins/google-account-setup/google-source.c:459
+#: ../plugins/google-account-setup/google-source.c:457
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr ""
 "Introduzca la contraseña para que el usuario %s acceda a la lista de "
 "calendarios suscritos."
 
-#: ../plugins/google-account-setup/google-source.c:576
+#: ../plugins/google-account-setup/google-source.c:569
 #, c-format
 msgid ""
 "Cannot read data from Google server.\n"
@@ -17272,17 +17279,17 @@ msgstr ""
 "No se pueden leer los datos del servidor de Google.\n"
 "%s"
 
-#: ../plugins/google-account-setup/google-source.c:576
+#: ../plugins/google-account-setup/google-source.c:569
 #: ../plugins/mail-to-task/mail-to-task.c:820
 #: ../plugins/mail-to-task/mail-to-task.c:1084
 msgid "Unknown error."
 msgstr "Error desconocido."
 
-#: ../plugins/google-account-setup/google-source.c:679
+#: ../plugins/google-account-setup/google-source.c:670
 msgid "Cal_endar:"
 msgstr "Cal_endario:"
 
-#: ../plugins/google-account-setup/google-source.c:714
+#: ../plugins/google-account-setup/google-source.c:705
 msgid "Retrieve _List"
 msgstr "Obtener _lista"
 
@@ -17769,8 +17776,8 @@ msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr ""
-"%s desea recibir la última información de la siguiente reunión a través de "
-"%s:"
+"%s desea recibir la última información de la siguiente reunión a través de %"
+"s:"
 
 #: ../plugins/itip-formatter/itip-view.c:402
 #, c-format
@@ -18230,8 +18237,8 @@ msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
 msgstr ""
-"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere "
-"editar el acontecimiento antiguo?"
+"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere editar "
+"el acontecimiento antiguo?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:613
 #, c-format
@@ -19391,275 +19398,274 @@ msgstr ""
 msgid "Evolution Website"
 msgstr "Página web de Evolution"
 
-#: ../shell/e-shell-window-actions.c:902
+#: ../shell/e-shell-window-actions.c:911
 msgid "Categories Editor"
 msgstr "Editor de categorías"
 
-#: ../shell/e-shell-window-actions.c:1237
+#: ../shell/e-shell-window-actions.c:1246
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy no está instalado."
 
-#: ../shell/e-shell-window-actions.c:1239
+#: ../shell/e-shell-window-actions.c:1248
 msgid "Bug Buddy could not be run."
 msgstr "No se pudo ejecutar Bug Buddy."
 
-#: ../shell/e-shell-window-actions.c:1420
+#: ../shell/e-shell-window-actions.c:1429
 msgid "Show information about Evolution"
 msgstr "Mostrar información acerca de Evolution"
 
-#: ../shell/e-shell-window-actions.c:1425
-#: ../shell/e-shell-window-actions.c:1439
+#: ../shell/e-shell-window-actions.c:1434
+#: ../shell/e-shell-window-actions.c:1448
 msgid "_Close Window"
 msgstr "_Cerrar ventana"
 
-#: ../shell/e-shell-window-actions.c:1446
+#: ../shell/e-shell-window-actions.c:1455
 msgid "_Contents"
 msgstr "Índ_ice"
 
-#: ../shell/e-shell-window-actions.c:1448
+#: ../shell/e-shell-window-actions.c:1457
 msgid "Open the Evolution User Guide"
 msgstr "Abrir la Guía de usuario de Evolution"
 
-#: ../shell/e-shell-window-actions.c:1474
+#: ../shell/e-shell-window-actions.c:1483
 msgid "_Forget Passwords"
 msgstr "_Olvidar contraseñas"
 
-#: ../shell/e-shell-window-actions.c:1476
+#: ../shell/e-shell-window-actions.c:1485
 msgid "Forget all remembered passwords"
 msgstr "Olvidar todas las contraseñas recordadas"
 
-#: ../shell/e-shell-window-actions.c:1481
+#: ../shell/e-shell-window-actions.c:1490
 msgid "I_mport..."
 msgstr "I_mportar…"
 
-#: ../shell/e-shell-window-actions.c:1483
+#: ../shell/e-shell-window-actions.c:1492
 msgid "Import data from other programs"
 msgstr "Importa datos de otros programas"
 
-#: ../shell/e-shell-window-actions.c:1488
+#: ../shell/e-shell-window-actions.c:1497
 msgid "New _Window"
 msgstr "_Ventana nueva"
 
-#: ../shell/e-shell-window-actions.c:1490
+#: ../shell/e-shell-window-actions.c:1499
 msgid "Create a new window displaying this view"
 msgstr "Crear una ventana nueva mostrando esta vista"
 
-#: ../shell/e-shell-window-actions.c:1502
+#: ../shell/e-shell-window-actions.c:1511
 msgid "Available Cate_gories"
 msgstr "Categorías _disponibles:"
 
-#: ../shell/e-shell-window-actions.c:1504
+#: ../shell/e-shell-window-actions.c:1513
 msgid "Manage available categories"
 msgstr "Gestionar las categorías disponibles"
 
-#: ../shell/e-shell-window-actions.c:1516
+#: ../shell/e-shell-window-actions.c:1525
 msgid "_Quick Reference"
 msgstr "_Referencia rápida"
 
-#: ../shell/e-shell-window-actions.c:1518
+#: ../shell/e-shell-window-actions.c:1527
 msgid "Show Evolution's shortcut keys"
 msgstr "Mostrar los atajos de teclas de Evolution"
 
-#: ../shell/e-shell-window-actions.c:1525
+#: ../shell/e-shell-window-actions.c:1534
 msgid "Exit the program"
 msgstr "Sale del programa"
 
-#: ../shell/e-shell-window-actions.c:1530
+#: ../shell/e-shell-window-actions.c:1539
 msgid "_Advanced Search..."
 msgstr "Búsqueda _avanzada…"
 
-#: ../shell/e-shell-window-actions.c:1532
+#: ../shell/e-shell-window-actions.c:1541
 msgid "Construct a more advanced search"
 msgstr "Construir una búsqueda más avanzada"
 
-#: ../shell/e-shell-window-actions.c:1539
+#: ../shell/e-shell-window-actions.c:1548
 msgid "Clear the current search parameters"
 msgstr "Limpiar los parámetros de búsqueda actuales"
 
-#: ../shell/e-shell-window-actions.c:1544
+#: ../shell/e-shell-window-actions.c:1553
 msgid "_Edit Saved Searches..."
 msgstr "_Editar búsquedas guardadas…"
 
-#: ../shell/e-shell-window-actions.c:1546
+#: ../shell/e-shell-window-actions.c:1555
 msgid "Manage your saved searches"
 msgstr "Gestionar sus búsquedas guardadas"
 
-#: ../shell/e-shell-window-actions.c:1553
+#: ../shell/e-shell-window-actions.c:1562
 msgid "Click here to change the search type"
 msgstr "Pulse aquí para cambiar el tipo de búsqueda"
 
 # En conflicto con _Buscar del menu principal
-#: ../shell/e-shell-window-actions.c:1558
+#: ../shell/e-shell-window-actions.c:1567
 msgid "_Find Now"
 msgstr "B_uscar ahora"
 
 #. Block the default Ctrl+F.
-#: ../shell/e-shell-window-actions.c:1560
+#: ../shell/e-shell-window-actions.c:1569
 msgid "Execute the current search parameters"
 msgstr "Ejecutar los parámetros de búsqueda actuales"
 
-#: ../shell/e-shell-window-actions.c:1565
+#: ../shell/e-shell-window-actions.c:1574
 msgid "_Save Search..."
 msgstr "_Guardar búsqueda…"
 
-#: ../shell/e-shell-window-actions.c:1567
+#: ../shell/e-shell-window-actions.c:1576
 msgid "Save the current search parameters"
 msgstr "Guardar los parámetros de búsqueda actuales"
 
-#: ../shell/e-shell-window-actions.c:1579
+#: ../shell/e-shell-window-actions.c:1588
 msgid "Submit _Bug Report..."
 msgstr "Enviar informe de _fallo…"
 
-#: ../shell/e-shell-window-actions.c:1581
+#: ../shell/e-shell-window-actions.c:1590
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Envía un informe de fallos usando Bug Buddy"
 
-#: ../shell/e-shell-window-actions.c:1586
+#: ../shell/e-shell-window-actions.c:1595
 msgid "_Work Offline"
 msgstr "_Trabajar desconectado"
 
-#: ../shell/e-shell-window-actions.c:1588
+#: ../shell/e-shell-window-actions.c:1597
 msgid "Put Evolution into offline mode"
 msgstr "Poner Evolution en modo desconectado"
 
-#: ../shell/e-shell-window-actions.c:1593
+#: ../shell/e-shell-window-actions.c:1602
 msgid "_Work Online"
 msgstr "_Trabajar conectado"
 
-#: ../shell/e-shell-window-actions.c:1595
+#: ../shell/e-shell-window-actions.c:1604
 msgid "Put Evolution into online mode"
 msgstr "Poner Evolution en modo conectado"
 
-#: ../shell/e-shell-window-actions.c:1623
+#: ../shell/e-shell-window-actions.c:1632
 msgid "Lay_out"
 msgstr "_Distribución"
 
-#: ../shell/e-shell-window-actions.c:1630
+#: ../shell/e-shell-window-actions.c:1639
 msgid "_New"
 msgstr "_Nuevo"
 
-#: ../shell/e-shell-window-actions.c:1637
+#: ../shell/e-shell-window-actions.c:1646
 msgid "_Search"
 msgstr "_Buscar"
 
-#: ../shell/e-shell-window-actions.c:1644
+#: ../shell/e-shell-window-actions.c:1653
 msgid "_Switcher Appearance"
 msgstr "Apariencia del _selector"
 
-#: ../shell/e-shell-window-actions.c:1658
+#: ../shell/e-shell-window-actions.c:1667
 msgid "_Window"
 msgstr "_Ventana"
 
-#: ../shell/e-shell-window-actions.c:1687
+#: ../shell/e-shell-window-actions.c:1696
 msgid "Show Side _Bar"
 msgstr "Mostrar barra _lateral"
 
-#: ../shell/e-shell-window-actions.c:1689
+#: ../shell/e-shell-window-actions.c:1698
 msgid "Show the side bar"
 msgstr "Mostrar la barra lateral"
 
-#: ../shell/e-shell-window-actions.c:1695
+#: ../shell/e-shell-window-actions.c:1704
 msgid "Show _Buttons"
 msgstr "Mostrar _botones"
 
-#: ../shell/e-shell-window-actions.c:1697
+#: ../shell/e-shell-window-actions.c:1706
 msgid "Show the switcher buttons"
 msgstr "Mostrar los botones del selector"
 
-#: ../shell/e-shell-window-actions.c:1703
+#: ../shell/e-shell-window-actions.c:1712
 msgid "Show _Status Bar"
 msgstr "Mostrar barra de _estado"
 
-#: ../shell/e-shell-window-actions.c:1705
+#: ../shell/e-shell-window-actions.c:1714
 msgid "Show the status bar"
 msgstr "Mostrar la barra de estado"
 
-#: ../shell/e-shell-window-actions.c:1711
+#: ../shell/e-shell-window-actions.c:1720
 msgid "Show _Tool Bar"
 msgstr "Mostrar barra de _herramientas"
 
-#: ../shell/e-shell-window-actions.c:1713
+#: ../shell/e-shell-window-actions.c:1722
 msgid "Show the tool bar"
 msgstr "Mostrar la barra de herramientas"
 
-#: ../shell/e-shell-window-actions.c:1735
+#: ../shell/e-shell-window-actions.c:1744
 msgid "_Icons Only"
 msgstr "Sólo _iconos"
 
-#: ../shell/e-shell-window-actions.c:1737
+#: ../shell/e-shell-window-actions.c:1746
 msgid "Display window buttons with icons only"
 msgstr "Mostrar los botones de la ventana sólo con iconos"
 
-#: ../shell/e-shell-window-actions.c:1742
+#: ../shell/e-shell-window-actions.c:1751
 msgid "_Text Only"
 msgstr "Sólo _texto"
 
-#: ../shell/e-shell-window-actions.c:1744
+#: ../shell/e-shell-window-actions.c:1753
 msgid "Display window buttons with text only"
 msgstr "Mostrar los botones de la ventana sólo con texto"
 
-#: ../shell/e-shell-window-actions.c:1749
+#: ../shell/e-shell-window-actions.c:1758
 msgid "Icons _and Text"
 msgstr "Iconos _y texto"
 
-#: ../shell/e-shell-window-actions.c:1751
+#: ../shell/e-shell-window-actions.c:1760
 msgid "Display window buttons with icons and text"
 msgstr "Mostrar los botones de la ventana con iconos y texto"
 
-#: ../shell/e-shell-window-actions.c:1756
+#: ../shell/e-shell-window-actions.c:1765
 msgid "Tool_bar Style"
 msgstr "Estilo de la _barra de herramientas"
 
-#: ../shell/e-shell-window-actions.c:1758
+#: ../shell/e-shell-window-actions.c:1767
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Mostrar los botones de la ventana usando la configuración de la barra de "
 "herramientas del escritorio"
 
-#: ../shell/e-shell-window-actions.c:1766
+#: ../shell/e-shell-window-actions.c:1775
 msgid "Define Views..."
 msgstr "Definir vistas…"
 
-#: ../shell/e-shell-window-actions.c:1768
+#: ../shell/e-shell-window-actions.c:1777
 msgid "Create or edit views"
 msgstr "Crear o editar vistas"
 
-#: ../shell/e-shell-window-actions.c:1773
+#: ../shell/e-shell-window-actions.c:1782
 msgid "Save Custom View..."
 msgstr "Guardar vista personalizada…"
 
-#: ../shell/e-shell-window-actions.c:1775
+#: ../shell/e-shell-window-actions.c:1784
 msgid "Save current custom view"
 msgstr "Guardar la vista actual personalizada"
 
-#: ../shell/e-shell-window-actions.c:1782
+#: ../shell/e-shell-window-actions.c:1791
 msgid "C_urrent View"
 msgstr "Vista act_ual"
 
-#: ../shell/e-shell-window-actions.c:1792
+#: ../shell/e-shell-window-actions.c:1801
 msgid "Custom View"
 msgstr "Vista personalizada"
 
-#: ../shell/e-shell-window-actions.c:1794
+#: ../shell/e-shell-window-actions.c:1803
 msgid "Current view is a customized view"
 msgstr "La vista actual es una vista personalizada"
 
-#: ../shell/e-shell-window-actions.c:1804
+#: ../shell/e-shell-window-actions.c:1813
 msgid "Change the page settings for your current printer"
 msgstr "Cambiar la configuración de página para la impresora actual"
 
-#: ../shell/e-shell-window-actions.c:2194
+#: ../shell/e-shell-window-actions.c:2203
 #, c-format
 msgid "Switch to %s"
 msgstr "Cambiar a %s"
 
-#: ../shell/e-shell-window-actions.c:2314
+#: ../shell/e-shell-window-actions.c:2323
 #, c-format
-#| msgid "Select A File"
 msgid "Select view: %s"
 msgstr "Seleccionar vista: %s"
 
-#: ../shell/e-shell-window-actions.c:2414
+#: ../shell/e-shell-window-actions.c:2423
 msgid "Execute these search parameters"
 msgstr "Ejecutar estos parámetros de búsqueda"
 
@@ -20220,16 +20226,19 @@ msgid "Trust the authenticity of this certificate"
 msgstr "Confiar en la autenticidad de este certificado"
 
 #: ../smime/gui/smime-ui.ui.h:35
-msgid "Trust this CA to identify email users."
-msgstr "Confiar en esta AC para identificar a usuarios de correo-e."
+#| msgid "Trust this CA to identify email users."
+msgid "Trust this CA to identify _email users."
+msgstr "Confiar en esta AC para identificar a usuarios de _correo-e."
 
 #: ../smime/gui/smime-ui.ui.h:36
-msgid "Trust this CA to identify software developers."
-msgstr "Confiar en esta AC para identificar a desarrolladores de software."
+#| msgid "Trust this CA to identify software developers."
+msgid "Trust this CA to identify _software developers."
+msgstr "Confiar en esta AC para identificar a desarrolladores de _software."
 
 #: ../smime/gui/smime-ui.ui.h:37
-msgid "Trust this CA to identify websites."
-msgstr "Confiar en esta AC para identificar sitios web."
+#| msgid "Trust this CA to identify websites."
+msgid "Trust this CA to identify _websites."
+msgstr "Confiar en esta AC para identificar sitios _web."
 
 #: ../smime/gui/smime-ui.ui.h:38
 msgid "Validity"
@@ -22255,8 +22264,8 @@ msgstr "Métodos de entrada"
 #~ "Folder '%s' contains %d duplicate messages. Are you sure you want to "
 #~ "delete them?"
 #~ msgstr ""
-#~ "La carpeta «%s» contiene %d correos duplicados. ¿Está seguro de que "
-#~ "quiere eliminarlos?"
+#~ "La carpeta «%s» contiene %d correos duplicados. ¿Está seguro de que quiere "
+#~ "eliminarlos?"
 
 #~ msgid ""
 #~ "Error on %s: %s\n"
@@ -22283,8 +22292,8 @@ msgstr "Métodos de entrada"
 
 #~ msgid "Count of default recurrence for a new event. -1 means forever."
 #~ msgstr ""
-#~ "Conteo de las repeticiones predeterminadas para un acontecimiento nuevo. "
-#~ "-1 significa para siempre."
+#~ "Conteo de las repeticiones predeterminadas para un acontecimiento nuevo. -"
+#~ "1 significa para siempre."
 
 #~ msgid "Default recurrence count"
 #~ msgstr "Conteo de repeticiones predeterminado"
@@ -23632,8 +23641,7 @@ msgstr "Métodos de entrada"
 
 #~ msgid "The content widget appears in a shell window's right pane"
 #~ msgstr ""
-#~ "El widget de contenido aparece en un panel derecho de la ventana de "
-#~ "«shell»"
+#~ "El widget de contenido aparece en un panel derecho de la ventana de «shell»"
 
 #~ msgid "Shell Sidebar Widget"
 #~ msgstr "Widget de barra lateral de «shell»"
@@ -24620,8 +24628,8 @@ msgstr "Métodos de entrada"
 #~ "This is the full name of your LDAP server. For example, \"ldap.mycompany."
 #~ "com\"."
 #~ msgstr ""
-#~ "Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap."
-#~ "miempresa.com»."
+#~ "Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap.miempresa."
+#~ "com»."
 
 #~ msgid ""
 #~ "This is the maximum number of entries to download. Setting this number to "
