@@ -43,7 +43,6 @@
 #include <string.h>
 #include <stdarg.h>
 
-#include <gconf/gconf-client.h>
 #include <libedataserverui/e-passwords.h>
 
 #include "shell/e-shell.h"
