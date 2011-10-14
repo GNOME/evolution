@@ -34,8 +34,6 @@
 #include "e-util/e-account-utils.h"
 #include "e-util/e-signature-utils.h"
 
-#include <gconf/gconf-client.h>
-
 #include "e-mail-local.h"
 #include "e-mail-folder-utils.h"
 #include "mail-config.h"
@@ -56,41 +54,38 @@ typedef struct {
 extern gint camel_header_param_encode_filenames_in_rfc_2047;
 
 static MailConfig *config = NULL;
+static GSettings *mail_settings = NULL;
 
 static void
-gconf_outlook_filenames_changed (GConfClient *client,
-                                 guint cnxn_id,
-                                 GConfEntry *entry,
-                                 gpointer user_data)
+settings_outlook_filenames_changed (GSettings *settings,
+				    const gchar *key,
+				    gpointer user_data)
 {
-	const gchar *key;
-
-	g_return_if_fail (client != NULL);
-
-	key = "/apps/evolution/mail/composer/outlook_filenames";
-
 	/* pass option to the camel */
-	if (gconf_client_get_bool (client, key, NULL))
+	if (g_settings_get_boolean (settings, key))
 		camel_header_param_encode_filenames_in_rfc_2047 = 1;
 	else
 		camel_header_param_encode_filenames_in_rfc_2047 = 0;
 }
 
 static void
-gconf_jh_headers_changed (GConfClient *client,
-                          guint cnxn_id,
-                          GConfEntry *entry,
-                          EMailSession *session)
+settings_jh_headers_changed (GSettings *settings,
+			     const gchar *key,
+			     EMailSession *session)
 {
 	GSList *node;
 	GPtrArray *name, *value;
+	gchar **strv;
+	gint i;
 
 	g_slist_foreach (config->jh_header, (GFunc) g_free, NULL);
 	g_slist_free (config->jh_header);
+	config->jh_header = NULL;
 
-	config->jh_header = gconf_client_get_list (
-		client, "/apps/evolution/mail/junk/custom_header",
-		GCONF_VALUE_STRING, NULL);
+	strv = g_settings_get_strv (settings, "junk-custom-header");
+	for (i = 0; strv[i] != NULL; i++)
+		config->jh_header = g_slist_append (config->jh_header, g_strdup (strv[i]));
+	g_strfreev (strv);
 
 	node = config->jh_header;
 	name = g_ptr_array_new ();
@@ -114,55 +109,38 @@ gconf_jh_headers_changed (GConfClient *client,
 }
 
 static void
-gconf_jh_check_changed (GConfClient *client,
-                        guint cnxn_id,
-                        GConfEntry *entry,
-                        EMailSession *session)
+settings_jh_check_changed (GSettings *settings,
+			   const gchar *key,
+			   EMailSession *session)
 {
-	config->jh_check = gconf_client_get_bool (
-		client, "/apps/evolution/mail/junk/check_custom_header", NULL);
+	config->jh_check = g_settings_get_boolean (settings, "junk-check-custom-header");
 	if (!config->jh_check) {
 		camel_session_set_junk_headers (
 			CAMEL_SESSION (session), NULL, NULL, 0);
 	} else {
-		gconf_jh_headers_changed (client, 0, NULL, session);
+		settings_jh_headers_changed (settings, NULL, session);
 	}
 }
 
 static void
-gconf_bool_value_changed (GConfClient *client,
-                          guint cnxn_id,
-                          GConfEntry *entry,
-                          gboolean *save_location)
+settings_bool_value_changed (GSettings *settings,
+			     const gchar *key,
+			     gboolean *save_location)
 {
-	GError *error = NULL;
-
-	*save_location = gconf_client_get_bool (client, entry->key, &error);
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	*save_location = g_settings_get_boolean (settings, key);
 }
 
 static void
-gconf_int_value_changed (GConfClient *client,
-                         guint cnxn_id,
-                         GConfEntry *entry,
-                         gint *save_location)
+settings_int_value_changed (GSettings *settings,
+			    const gchar *key,
+			    gint *save_location)
 {
-	GError *error = NULL;
-
-	*save_location = gconf_client_get_int (client, entry->key, &error);
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	*save_location = g_settings_get_int (settings, key);
 }
 
 void
 mail_config_write (void)
 {
-	GConfClient *client;
 	EAccountList *account_list;
 	ESignatureList *signature_list;
 
@@ -175,9 +153,7 @@ mail_config_write (void)
 	e_account_list_save (account_list);
 	e_signature_list_save (signature_list);
 
-	client = gconf_client_get_default ();
-	gconf_client_suggest_sync (client, NULL);
-	g_object_unref (client);
+	g_settings_sync ();
 }
 
 gint
@@ -193,23 +169,15 @@ mail_config_get_address_count (void)
 gint
 mail_config_get_sync_timeout (void)
 {
-	GConfClient *client;
 	gint res = 60;
-	GError *error = NULL;
 
-	client = gconf_client_get_default ();
-
-	res = gconf_client_get_int (
-		client, "/apps/evolution/mail/sync_interval", &error);
+	res = g_settings_get_int (mail_settings, "sync-interval");
 
 	/* do not allow recheck sooner than every 30 seconds */
-	if (error || res == 0)
+	if (res == 0)
 		res = 60;
 	else if (res < 30)
 		res = 30;
-
-	if (error)
-		g_error_free (error);
 
 	return res;
 }
@@ -249,11 +217,7 @@ mail_config_reload_junk_headers (EMailSession *session)
 	if (config == NULL)
 		mail_config_init (session);
 	else {
-		GConfClient *client;
-
-		client = gconf_client_get_default ();
-		gconf_jh_check_changed (client, 0, NULL, session);
-		g_object_unref (client);
+		settings_jh_check_changed (mail_settings, NULL, session);
 	}
 }
 
@@ -277,10 +241,6 @@ mail_config_get_lookup_book_local_only (void)
 void
 mail_config_init (EMailSession *session)
 {
-	GConfClient *client;
-	GConfClientNotifyFunc func;
-	const gchar *key;
-
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	if (config)
@@ -288,80 +248,40 @@ mail_config_init (EMailSession *session)
 
 	config = g_new0 (MailConfig, 1);
 
-	client = gconf_client_get_default ();
-
-	gconf_client_add_dir (
-		client, "/apps/evolution/mail/prompts",
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	mail_settings = g_settings_new ("org.gnome.evolution.mail");
 
 	/* Composer Configuration */
 
-	gconf_client_add_dir (
-		client, "/apps/evolution/mail/composer",
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-
-	key = "/apps/evolution/mail/composer/outlook_filenames";
-	func = (GConfClientNotifyFunc) gconf_outlook_filenames_changed;
-	gconf_outlook_filenames_changed (client, 0, NULL, NULL);
-	gconf_client_notify_add (client, key, func, NULL, NULL, NULL);
+	settings_outlook_filenames_changed (mail_settings, NULL, NULL);
+	g_signal_connect (mail_settings, "changed::composer-outlook-filenames",
+			  G_CALLBACK (settings_outlook_filenames_changed), NULL);
 
 	/* Display Configuration */
 
-	gconf_client_add_dir (
-		client, "/apps/evolution/mail/display",
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	g_signal_connect (mail_settings, "changed::address-compress",
+			  G_CALLBACK (settings_bool_value_changed), &config->address_compress);
+	config->address_compress = g_settings_get_boolean (mail_settings, "address-compress");
 
-	key = "/apps/evolution/mail/display/address_compress";
-	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
-	gconf_client_notify_add (
-		client, key, func,
-		&config->address_compress, NULL, NULL);
-	config->address_compress = gconf_client_get_bool (client, key, NULL);
-
-	key = "/apps/evolution/mail/display/address_count";
-	func = (GConfClientNotifyFunc) gconf_int_value_changed;
-	gconf_client_notify_add (
-		client, key, func,
-		&config->address_count, NULL, NULL);
-	config->address_count = gconf_client_get_int (client, key, NULL);
-
-	/* Font Configuration */
-
-	gconf_client_add_dir (
-		client, "/apps/evolution/mail/display/fonts",
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	g_signal_connect (mail_settings, "changed::address-count",
+			  G_CALLBACK (settings_int_value_changed), &config->address_count);
+	config->address_count = g_settings_get_int (mail_settings, "address-count");
 
 	/* Junk Configuration */
 
-	gconf_client_add_dir (
-		client, "/apps/evolution/mail/junk",
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	g_signal_connect (mail_settings, "changed::junk-check-custom-header",
+			  G_CALLBACK (settings_jh_check_changed), session);
+	config->jh_check = g_settings_get_boolean (mail_settings, "junk-check-custom-header");
 
-	key = "/apps/evolution/mail/junk/check_custom_header";
-	func = (GConfClientNotifyFunc) gconf_jh_check_changed;
-	gconf_client_notify_add (client, key, func, session, NULL, NULL);
-	config->jh_check = gconf_client_get_bool (client, key, NULL);
+	g_signal_connect (mail_settings, "changed::junk-custom-header",
+			  G_CALLBACK (settings_jh_headers_changed), session);
 
-	key = "/apps/evolution/mail/junk/custom_header";
-	func = (GConfClientNotifyFunc) gconf_jh_headers_changed;
-	gconf_client_notify_add (client, key, func, session, NULL, NULL);
+	g_signal_connect (mail_settings, "changed::junk-lookup-addressbook",
+			  G_CALLBACK (settings_bool_value_changed), &config->book_lookup);
+	config->book_lookup = g_settings_get_boolean (mail_settings, "junk-lookup-addressbook");
 
-	key = "/apps/evolution/mail/junk/lookup_addressbook";
-	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
-	gconf_client_notify_add (
-		client, key, func,
-		&config->book_lookup, NULL, NULL);
-	config->book_lookup = gconf_client_get_bool (client, key, NULL);
+	g_signal_connect (mail_settings, "changed::junk-lookup-addressbook-local-only",
+			  G_CALLBACK (settings_bool_value_changed), &config->book_lookup_local_only);
+	config->book_lookup_local_only = g_settings_get_boolean (mail_settings, "junk-lookup-addressbook-local-only");
 
-	key = "/apps/evolution/mail/junk/lookup_addressbook_local_only";
-	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
-	gconf_client_notify_add (
-		client, key, func,
-		&config->book_lookup_local_only, NULL, NULL);
-	config->book_lookup_local_only =
-		gconf_client_get_bool (client, key, NULL);
-
-	gconf_jh_check_changed (client, 0, NULL, session);
-
-	g_object_unref (client);
+	settings_jh_check_changed (mail_settings, NULL, session);
 }
