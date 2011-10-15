@@ -1117,19 +1117,10 @@ mail_session_authenticate_sync (CamelSession *session,
 	url = camel_service_get_camel_url (service);
 	provider = camel_service_get_provider (service);
 
-	/* If a SASL mechanism was given and we can't find
-	 * a CamelServiceAuthType for it, fail immediately. */
-	if (mechanism != NULL) {
+	/* APOP is one case where a non-SASL mechanism name is passed, so
+	 * don't bail if the CamelServiceAuthType struct comes back NULL. */
+	if (mechanism != NULL)
 		authtype = camel_sasl_authtype (mechanism);
-		if (authtype == NULL) {
-			g_set_error (
-				error, CAMEL_SERVICE_ERROR,
-				CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE,
-				_("No support for %s authentication"),
-				mechanism);
-			return FALSE;
-		}
-	}
 
 	/* If the SASL mechanism does not involve a user
 	 * password, then it gets one shot to authenticate. */
