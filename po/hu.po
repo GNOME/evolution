@@ -15,16 +15,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-12 11:31+0200\n"
-"PO-Revision-Date: 2011-09-12 11:30+0200\n"
+"POT-Creation-Date: 2011-10-17 00:35+0200\n"
+"PO-Revision-Date: 2011-10-15 02:02+0200\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
-"Language-Team: Magyar <gnome-hu-list at gnome dot org>\n"
+"Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:2
@@ -2576,7 +2576,7 @@ msgstr "Értekezlet – %s"
 #: ../calendar/gui/dialogs/comp-editor.c:756
 #, c-format
 msgid "Assigned Task - %s"
-msgstr "Hozzárendelt feladat – %s"
+msgstr "Kiosztott feladat – %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:758
 #, c-format
@@ -15331,11 +15331,11 @@ msgstr "_Feladat"
 #: ../modules/calendar/e-task-shell-backend.c:304
 msgctxt "New"
 msgid "Assigne_d Task"
-msgstr "Hozzáren_delt feladat"
+msgstr "Ki_osztott feladat"
 
 #: ../modules/calendar/e-task-shell-backend.c:306
 msgid "Create a new assigned task"
-msgstr "Új hozzárendelt feladat létrehozása"
+msgstr "Új kiosztott feladat létrehozása"
 
 #: ../modules/calendar/e-task-shell-backend.c:314
 msgctxt "New"
