@@ -1,3 +1,60 @@
+Evolution 3.2.1 2011-10-17
+--------------------------
+
+Bug Fixes:
+	Bug 576478 - [Windows] Redirect Help->Contents to a web page
+	             (Milan Crha)
+	Bug 655625 - Crash in atk_state_set_contains_state (Milan Crha)
+	Bug 658066 - Security dialog is too big (Dan Vrátil)
+	Bug 658835 - Color Scheme off in calendar (Milan Crha)
+	Bug 659440 - Doesn't mark messages as replied when sending offline
+	             (Milan Crha)
+	Bug 659486 - EAlert default response is ignored by EAlertDialog
+	             (Matthew Barnes)
+	Bug 659517 - Calendar reminds of old events following upgrade
+	             (Milan Crha)
+	Bug 659558 - Missing set mnemonic widgets (Milan Crha)
+	Bug 659568 - One day delay in calendar view (Milan Crha)
+	Bug 659726 - Search Folders contain ambiguous reference to accounts
+	             (Matthew Barnes)
+	Bug 659828 - Selecting a message with a sound attached loses focus
+	             (Milan Crha)
+	Bug 659874 - Address Cards Render extra Phone Number (Milan Crha)
+	Bug 659876 - Make automatic contact address formatting optional
+	             (Dan Vrátil)
+	Bug 659932 - 'Use system time zone' in not honored immediately
+	             (Milan Crha)
+	Bug 660224 - Assertion failure when forwarding message (Milan Crha)
+	Bug 660721 - Online Account services not always activating (Milan Crha)
+	Bug 660782 - [pst-import] Missing tasks after import (Milan Crha)
+	Bug 660799 - Bad GOptionEntry in evolution-addressbook-export
+	             (Matthew Barnes)
+	Bug 660829 - Allow 'Mark as read' in right click menu on spam folder
+	             (Milan Crha)
+	Bug 660850 - Missing set mnemonic widgets in composer preferences
+	             (Milan Crha)
+	Bug 660861 - Avoid mark-all-read on a non-folder selection (Milan Crha)
+	Bug 661434 - Unfriendly search result (Milan Crha)
+	Bug 661542 - Weird "Cannot upgrade from version 0.xxxx" on first use
+	             (Vincent Untz)
+
+Translations:
+	Nilamdyuti Goswami (as)
+	Gil Forcada (ca)
+	Carles Ferrando (ca@valencia)
+	Jiri Eischmann (cs)
+	Mario Blättermann (de)
+	Jorge González (es)
+	Daniel Mustieles (es)
+	Inaki Larranaga Murgoitio (eu)
+	Seán de Búrca (ga)
+	Shankar Prasad (kn)
+	Rudolfs Mazurs (lv)
+	Manoj Kumar Giri (or)
+	krishnababu k (te)
+	Nguyễn Thái Ngọc Duy (vi)
+
+
 Evolution 3.2.0 2011-09-26
 --------------------------
 
