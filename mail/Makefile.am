@@ -198,6 +198,8 @@ SMIME_LIBS =						\
 endif
 
 libevolution_mail_la_LIBADD =				\
+	$(top_builddir)/libemail-utils/libemail-utils.la		\
+	$(top_builddir)/libemail-engine/libemail-engine.la		\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/composer/libcomposer.la		\

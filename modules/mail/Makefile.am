@@ -53,6 +53,8 @@ libevolution_module_mail_la_SOURCES =					\
 	em-network-prefs.h
 
 libevolution_module_mail_la_LIBADD =					\
+	$(top_builddir)/libemail-utils/libemail-utils.la		\
+	$(top_builddir)/libemail-engine/libemail-engine.la		\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/em-format/libemformat.la			\
 	$(top_builddir)/filter/libfilter.la				\

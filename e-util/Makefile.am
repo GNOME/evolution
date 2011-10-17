@@ -122,6 +122,7 @@ libeutil_la_SOURCES =				\
 libeutil_la_LDFLAGS = $(NO_UNDEFINED)
 
 libeutil_la_LIBADD = 			\
+	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(ICONV_LIBS)			\
 	$(EVOLUTION_DATA_SERVER_LIBS)	\
 	$(EMAIL_UTILS_LIBS)		\

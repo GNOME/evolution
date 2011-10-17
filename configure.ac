@@ -1225,14 +1225,14 @@ AC_SUBST(CERT_UI_LIBS)
 dnl ************
 dnl EMAILS_UTILS Flags
 dnl ************
-EVO_SET_COMPILE_FLAGS(EMAIL_UTILS, libemail-utils)
+EVO_SET_COMPILE_FLAGS(EMAIL_UTILS, camel-1.2  libedataserver-1.2)
 AC_SUBST(EMAIL_UTILS_CFLAGS)
 AC_SUBST(EMAIL_UTILS_LIBS)
 
 dnl ************
 dnl EMAIL_ENGINE Flags
 dnl ************
-EVO_SET_COMPILE_FLAGS(EMAIL_ENGINE, libemail-engine)
+EVO_SET_COMPILE_FLAGS(EMAIL_ENGINE, camel-1.2  libedataserverui-3.0 libebackend-1.2 libedataserver-1.2)
 AC_SUBST(EMAIL_ENGINE_CFLAGS)
 AC_SUBST(EMAIL_ENGINE_LIBS)
 
@@ -1632,6 +1632,10 @@ help/quickref/pl/Makefile
 help/quickref/pt/Makefile
 help/quickref/sv/Makefile
 help/quickref/sq/Makefile
+libemail-utils/Makefile
+libemail-utils/libemail-utils.pc
+libemail-engine/Makefile
+libemail-engine/libemail-engine.pc
 libgnomecanvas/Makefile
 shell/Makefile
 shell/evolution-nognome

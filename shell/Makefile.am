@@ -60,7 +60,6 @@ libeshell_la_CPPFLAGS =						\
 	-DG_LOG_DOMAIN=\"evolution-shell\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(EMAIL_UTILS_CFLAGS)					\
 	$(EGG_SMCLIENT_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
 	$(CLUTTER_CFLAGS)
@@ -91,13 +90,13 @@ libeshell_la_SOURCES =				\
 libeshell_la_LDFLAGS = $(NO_UNDEFINED)
 
 libeshell_la_LIBADD =					\
+	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/smclient/libeggsmclient.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
-	$(EMAIL_UTILS_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(EGG_SMCLIENT_LIBS)				\
 	$(CLUTTER_LIBS)
@@ -145,11 +144,11 @@ evolution_LDADD =							\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
+	$(top_builddir)/libemail-utils/libemail-utils.la		\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/filter/libfilter.la				\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(EMAIL_UTILS_LIBS)						\
 	$(CLUTTER_LIBS)							\
 	$(EVOLUTIONICON)
 
