@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-15 16:03+0200\n"
-"PO-Revision-Date: 2011-10-15 16:22+0200\n"
+"POT-Creation-Date: 2011-10-18 00:21+0200\n"
+"PO-Revision-Date: 2011-10-18 00:21+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <gnome-l10n-gl@gnome.org>\n"
 "Language: gl\n"
@@ -9261,6 +9261,16 @@ msgstr ""
 #, c-format
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr "Non se atopou ningunha conta que usar, o reencamiñamento cancelouse."
+
+#: ../mail/e-mail-session.c:1134
+#, c-format
+msgid "%s authentication failed"
+msgstr "A autenticación %s fallou"
+
+#: ../mail/e-mail-session.c:1201
+#, c-format
+msgid "No password was provided"
+msgstr "Non se forneceu ningún contrasinal"
 
 #: ../mail/e-mail-session-utils.c:415
 #, c-format
