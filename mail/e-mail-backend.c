@@ -55,6 +55,7 @@
 #include "libemail-engine/mail-ops.h"
 #include "mail/mail-vfolder.h"
 #include "mail/mail-send-recv.h"
+#include "mail/e-mail-ui-session.h"
 
 #define E_MAIL_BACKEND_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -899,7 +900,7 @@ mail_backend_constructed (GObject *object)
 
 	camel_provider_init ();
 
-	priv->session = e_mail_session_new ();
+	priv->session = e_mail_ui_session_new ();
 	g_signal_connect (priv->session, "flush-outbox", G_CALLBACK(mail_send), priv->session);	
 
 	g_object_bind_property (

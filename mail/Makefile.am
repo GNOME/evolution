@@ -72,8 +72,7 @@ mailinclude_HEADERS =					\
 	e-mail-paned-view.h				\
 	e-mail-reader-utils.h				\
 	e-mail-reader.h					\
-	e-mail-session-utils.h				\
-	e-mail-session.h				\
+	e-mail-ui-session.h				\
 	e-mail-sidebar.h				\
 	e-mail-store-utils.h				\
 	e-mail-tag-editor.h				\
@@ -147,6 +146,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-paned-view.c				\
 	e-mail-reader-utils.c				\
 	e-mail-reader.c					\
+	e-mail-ui-session.c				\
 	e-mail-sidebar.c				\
 	e-mail-store-utils.c				\
 	e-mail-tag-editor.c				\
