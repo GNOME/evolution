@@ -106,7 +106,8 @@ eab_contact_list_from_string (const gchar *str)
 
 			q += 9;
 			temp = q;
-			temp += strspn (temp, "\r\n\t ");
+			if (*temp)
+				temp += strspn (temp, "\r\n\t ");
 
 			if (*temp == '\0' || !g_ascii_strncasecmp (temp, "BEGIN:VCARD", 11))
 				break;  /* Found the outer END:VCARD */
