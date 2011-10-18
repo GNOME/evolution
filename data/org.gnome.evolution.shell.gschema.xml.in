@@ -31,12 +31,12 @@
       <_description>Flag that enables a much simplified user interface.</_description>
     </key>
     <key name="window-y" type="i">
-      <default></default>
+      <default>0</default>
       <_summary>Default window Y coordinate</_summary>
       <_description>The default Y coordinate for the main window.</_description>
     </key>
     <key name="window-x" type="i">
-      <default></default>
+      <default>0</default>
       <_summary>Default window X coordinate</_summary>
       <_description>The default X coordinate for the main window.</_description>
     </key>
@@ -61,7 +61,7 @@
       <_description>Whether the window buttons should be visible.</_description>
     </key>
     <key name="buttons-style" type="s">
-      <default>toolbar</default>
+      <default>'toolbar'</default>
       <_summary>Window button style</_summary>
       <_description>The style of the window buttons.  Can be "text", "icons", "both", "toolbar".  If "toolbar" is set, the style of the buttons is determined by the GNOME toolbar setting.</_description>
     </key>
@@ -76,12 +76,12 @@
       <_description>Whether the sidebar should be visible.</_description>
     </key>
     <key name="statusbar-visible" type="b">
-      <default>TRUE</default>
+      <default>true</default>
       <_summary>Statusbar is visible</_summary>
       <_description>Whether the status bar should be visible.</_description>
     </key>
     <key name="default-component-id" type="s">
-      <default>mail</default>
+      <default>'mail'</default>
       <_summary>ID or alias of the component to be shown by default at start-up.</_summary>
       <_description>ID or alias of the component to be shown by default at start-up.</_description>
     </key>
