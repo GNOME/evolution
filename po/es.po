@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-10-13 16:11+0000\n"
-"PO-Revision-Date: 2011-10-14 11:18+0200\n"
+"POT-Creation-Date: 2011-10-18 11:09+0000\n"
+"PO-Revision-Date: 2011-10-18 16:08+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4649,32 +4649,32 @@ msgstr "vista de calendario para una o más semanas"
 msgid "Purging"
 msgstr "Compactando"
 
-#: ../calendar/gui/itip-utils.c:511 ../calendar/gui/itip-utils.c:566
-#: ../calendar/gui/itip-utils.c:669
+#: ../calendar/gui/itip-utils.c:513 ../calendar/gui/itip-utils.c:568
+#: ../calendar/gui/itip-utils.c:681
 msgid "An organizer must be set."
 msgstr "Debe especificar un organizador."
 
-#: ../calendar/gui/itip-utils.c:558
+#: ../calendar/gui/itip-utils.c:560
 msgid "At least one attendee is necessary"
 msgstr "Es necesario por lo menos un participante"
 
-#: ../calendar/gui/itip-utils.c:755 ../calendar/gui/itip-utils.c:916
+#: ../calendar/gui/itip-utils.c:767 ../calendar/gui/itip-utils.c:928
 msgid "Event information"
 msgstr "Información del acontecimiento"
 
-#: ../calendar/gui/itip-utils.c:758 ../calendar/gui/itip-utils.c:919
+#: ../calendar/gui/itip-utils.c:770 ../calendar/gui/itip-utils.c:931
 msgid "Task information"
 msgstr "Información de la tarea"
 
-#: ../calendar/gui/itip-utils.c:761 ../calendar/gui/itip-utils.c:922
+#: ../calendar/gui/itip-utils.c:773 ../calendar/gui/itip-utils.c:934
 msgid "Memo information"
 msgstr "Información de la nota"
 
-#: ../calendar/gui/itip-utils.c:764 ../calendar/gui/itip-utils.c:940
+#: ../calendar/gui/itip-utils.c:776 ../calendar/gui/itip-utils.c:952
 msgid "Free/Busy information"
 msgstr "Información de disponibilidad"
 
-#: ../calendar/gui/itip-utils.c:767
+#: ../calendar/gui/itip-utils.c:779
 msgid "Calendar information"
 msgstr "Información de calendario"
 
@@ -4682,7 +4682,7 @@ msgstr "Información de calendario"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Accepted: Meeting Name".
-#: ../calendar/gui/itip-utils.c:804
+#: ../calendar/gui/itip-utils.c:816
 msgctxt "Meeting"
 msgid "Accepted"
 msgstr "Aceptado"
@@ -4691,7 +4691,7 @@ msgstr "Aceptado"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Tentatively Accepted: Meeting Name".
-#: ../calendar/gui/itip-utils.c:811
+#: ../calendar/gui/itip-utils.c:823
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
 msgstr "Aceptado provisionalmente"
@@ -4703,7 +4703,7 @@ msgstr "Aceptado provisionalmente"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Declined: Meeting Name".
-#: ../calendar/gui/itip-utils.c:818 ../calendar/gui/itip-utils.c:866
+#: ../calendar/gui/itip-utils.c:830 ../calendar/gui/itip-utils.c:878
 msgctxt "Meeting"
 msgid "Declined"
 msgstr "Rehusado"
@@ -4712,7 +4712,7 @@ msgstr "Rehusado"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
-#: ../calendar/gui/itip-utils.c:825
+#: ../calendar/gui/itip-utils.c:837
 msgctxt "Meeting"
 msgid "Delegated"
 msgstr "Delegado"
@@ -4720,7 +4720,7 @@ msgstr "Delegado"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Updated: Meeting Name".
-#: ../calendar/gui/itip-utils.c:838
+#: ../calendar/gui/itip-utils.c:850
 msgctxt "Meeting"
 msgid "Updated"
 msgstr "Actualizado"
@@ -4728,7 +4728,7 @@ msgstr "Actualizado"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Cancel: Meeting Name".
-#: ../calendar/gui/itip-utils.c:845
+#: ../calendar/gui/itip-utils.c:857
 msgctxt "Meeting"
 msgid "Cancel"
 msgstr "Cancelar"
@@ -4736,7 +4736,7 @@ msgstr "Cancelar"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
-#: ../calendar/gui/itip-utils.c:852
+#: ../calendar/gui/itip-utils.c:864
 msgctxt "Meeting"
 msgid "Refresh"
 msgstr "Actualizar"
@@ -4744,31 +4744,31 @@ msgstr "Actualizar"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Counter-proposal: Meeting Name".
-#: ../calendar/gui/itip-utils.c:859
+#: ../calendar/gui/itip-utils.c:871
 msgctxt "Meeting"
 msgid "Counter-proposal"
 msgstr "Contra-propuesta"
 
-#: ../calendar/gui/itip-utils.c:937
+#: ../calendar/gui/itip-utils.c:949
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Información de disponibilidad (de %s a %s)"
 
-#: ../calendar/gui/itip-utils.c:945
+#: ../calendar/gui/itip-utils.c:957
 msgid "iCalendar information"
 msgstr "Información de iCalendar"
 
-#: ../calendar/gui/itip-utils.c:970
+#: ../calendar/gui/itip-utils.c:984
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr ""
 "No se pudo reservar un recurso, el nuevo acontecimiento coincide con algún "
 "otro."
 
-#: ../calendar/gui/itip-utils.c:974
+#: ../calendar/gui/itip-utils.c:988
 msgid "Unable to book a resource, error: "
 msgstr "No se pudo reservar un recurso, error: "
 
-#: ../calendar/gui/itip-utils.c:1137
+#: ../calendar/gui/itip-utils.c:1153
 msgid "You must be an attendee of the event."
 msgstr "Debe ser un participante en el acontecimiento."
 
@@ -9227,6 +9227,18 @@ msgid "No account found to use, forward of the message has been cancelled."
 msgstr ""
 "No se encontró ninguna cuenta que usar, se canceló el reenvío del mensaje."
 
+#: ../mail/e-mail-session.c:1134
+#, fuzzy, c-format
+#| msgid "Authentication Failed"
+msgid "%s authentication failed"
+msgstr "Falló en la autenticación"
+
+#: ../mail/e-mail-session.c:1201
+#, c-format
+#| msgid "Your password has expired."
+msgid "No password was provided"
+msgstr "No se ha proporcionado ninguna contraseña"
+
 #: ../mail/e-mail-session-utils.c:415
 #, c-format
 msgid "Cannot get transport for account '%s'"
@@ -9927,61 +9939,88 @@ msgstr "Página %d de %d"
 msgid "No HTML stream available"
 msgstr "No hay un flujo HTML disponible"
 
-#: ../mail/em-subscription-editor.c:1165
-msgid "Folder Subscriptions"
-msgstr "Suscripciones de carpetas"
-
-#: ../mail/em-subscription-editor.c:1204
-msgid "_Account:"
-msgstr "_Cuenta:"
-
-#: ../mail/em-subscription-editor.c:1219
-msgid "Clear Search"
-msgstr "Limpiar búsqueda"
-
-#: ../mail/em-subscription-editor.c:1237
-msgid "Sho_w items that contain:"
-msgstr "Sólo _mostrar elementos que contengan:"
-
-#: ../mail/em-subscription-editor.c:1276
-msgid "Subscribe to the selected folder"
-msgstr "Suscribirse a la carpeta seleccionada"
-
-#: ../mail/em-subscription-editor.c:1277
-msgid "Su_bscribe"
+#: ../mail/em-subscription-editor.c:832
+#| msgid "Su_bscribe"
+msgid "_Subscribe"
 msgstr "_Suscribirse"
 
-#: ../mail/em-subscription-editor.c:1288
-#: ../modules/mail/e-mail-shell-view-actions.c:1212
-msgid "Unsubscribe from the selected folder"
-msgstr "Desuscribirse de la carpeta seleccionada"
+#: ../mail/em-subscription-editor.c:839
+#, fuzzy
+#| msgid "_Subscribe to List"
+msgid "Su_bscribe to shown"
+msgstr "_Suscribirse a la lista"
 
-#: ../mail/em-subscription-editor.c:1289
+#: ../mail/em-subscription-editor.c:846
+#| msgid "Subscribe to my _alarms"
+msgid "Subscribe to _all"
+msgstr "Suscribirse a _todo"
+
+#: ../mail/em-subscription-editor.c:933 ../mail/em-subscription-editor.c:1772
 #: ../modules/mail/e-mail-shell-view-actions.c:1210
 msgid "_Unsubscribe"
 msgstr "Des_uscribir"
 
-#: ../mail/em-subscription-editor.c:1300
+#: ../mail/em-subscription-editor.c:940
+#, fuzzy
+#| msgid "_Unsubscribe from List"
+msgid "Unsu_bscribe from hidden"
+msgstr "_Desuscribirse de la lista"
+
+#: ../mail/em-subscription-editor.c:947
+#| msgid "Unsubscribe from \"%s\""
+msgid "Unsubscribe from _all"
+msgstr "Desuscribirse de todo"
+
+#: ../mail/em-subscription-editor.c:1618
+msgid "Folder Subscriptions"
+msgstr "Suscripciones de carpetas"
+
+#: ../mail/em-subscription-editor.c:1657
+msgid "_Account:"
+msgstr "_Cuenta:"
+
+#: ../mail/em-subscription-editor.c:1672
+msgid "Clear Search"
+msgstr "Limpiar búsqueda"
+
+#: ../mail/em-subscription-editor.c:1690
+msgid "Sho_w items that contain:"
+msgstr "Sólo _mostrar elementos que contengan:"
+
+#: ../mail/em-subscription-editor.c:1735
+msgid "Subscribe to the selected folder"
+msgstr "Suscribirse a la carpeta seleccionada"
+
+#: ../mail/em-subscription-editor.c:1736
+msgid "Su_bscribe"
+msgstr "_Suscribirse"
+
+#: ../mail/em-subscription-editor.c:1771
+#: ../modules/mail/e-mail-shell-view-actions.c:1212
+msgid "Unsubscribe from the selected folder"
+msgstr "Desuscribirse de la carpeta seleccionada"
+
+#: ../mail/em-subscription-editor.c:1801
 msgid "Collapse all folders"
 msgstr "Contraer todas las carpetas"
 
-#: ../mail/em-subscription-editor.c:1301
+#: ../mail/em-subscription-editor.c:1802
 msgid "C_ollapse All"
 msgstr "Contraer t_odas"
 
-#: ../mail/em-subscription-editor.c:1311
+#: ../mail/em-subscription-editor.c:1812
 msgid "Expand all folders"
 msgstr "Expandir todas las carpetas"
 
-#: ../mail/em-subscription-editor.c:1312
+#: ../mail/em-subscription-editor.c:1813
 msgid "E_xpand All"
 msgstr "E_xpandir todas"
 
-#: ../mail/em-subscription-editor.c:1322
+#: ../mail/em-subscription-editor.c:1823
 msgid "Refresh the folder list"
 msgstr "Actualizar la lista de carpetas"
 
-#: ../mail/em-subscription-editor.c:1334
+#: ../mail/em-subscription-editor.c:1835
 msgid "Stop the current operation"
 msgstr "Detener la operación de correo"
 
@@ -16609,8 +16648,6 @@ msgid "Are you sure you want to close Evolution?"
 msgstr "¿Seguro que quiere cerrar Evolution?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#| msgid ""
-#| "Are you sure you want to restore Evolution from the selected back up file?"
 msgid ""
 "Are you sure you want to restore Evolution from the selected backup file?"
 msgstr ""
@@ -16630,12 +16667,10 @@ msgid "Insufficient Permissions"
 msgstr "Permisos insuficientes"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
-#| msgid "Invalid Evolution back up file"
 msgid "Invalid Evolution backup file"
 msgstr "Archivo de respaldo de Evolution no válido"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
-#| msgid "Please select a valid back up file to restore."
 msgid "Please select a valid backup file to restore."
 msgstr "Seleccione un archivo de respaldo válido que restaurar."
 
@@ -16652,11 +16687,6 @@ msgstr ""
 "de que guarda todo dato sin guardar antes de proceder."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:10
-#| msgid ""
-#| "To restore your data and settings, you must first close Evolution. Please "
-#| "make sure that you save any unsaved data before proceeding. This will "
-#| "delete all your current Evolution data and settings and restore them from "
-#| "your back up."
 msgid ""
 "To restore your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding. This will delete "
@@ -20226,17 +20256,14 @@ msgid "Trust the authenticity of this certificate"
 msgstr "Confiar en la autenticidad de este certificado"
 
 #: ../smime/gui/smime-ui.ui.h:35
-#| msgid "Trust this CA to identify email users."
 msgid "Trust this CA to identify _email users."
 msgstr "Confiar en esta AC para identificar a usuarios de _correo-e."
 
 #: ../smime/gui/smime-ui.ui.h:36
-#| msgid "Trust this CA to identify software developers."
 msgid "Trust this CA to identify _software developers."
 msgstr "Confiar en esta AC para identificar a desarrolladores de _software."
 
 #: ../smime/gui/smime-ui.ui.h:37
-#| msgid "Trust this CA to identify websites."
 msgid "Trust this CA to identify _websites."
 msgstr "Confiar en esta AC para identificar sitios _web."
 
@@ -22113,9 +22140,6 @@ msgstr "Métodos de entrada"
 #~ msgid "Read items marked _private"
 #~ msgstr "Leer elementos marcados como _privados"
 
-#~ msgid "Subscribe to my _alarms"
-#~ msgstr "Suscribirse a _mis alertas"
-
 #~ msgid "Subscribe to my _notifications"
 #~ msgstr "Suscribirse a _mis notificaciones"
 
@@ -22909,9 +22933,6 @@ msgstr "Métodos de entrada"
 
 #~ msgid "Could not cancel"
 #~ msgstr "No es posible cancelar"
-
-#~ msgid "Authentication Failed"
-#~ msgstr "Falló en la autenticación"
 
 #~ msgid "Authentication Required"
 #~ msgstr "Autenticación requerida"
@@ -25529,9 +25550,6 @@ msgstr "Métodos de entrada"
 #~ msgid "Unsubscribe Folder..."
 #~ msgstr "Desuscribirse de la carpeta…"
 
-#~ msgid "Unsubscribe from \"%s\""
-#~ msgstr "Desuscribirse de «%s»"
-
 #~ msgid ""
 #~ "<b>Currently, your status is \"Out of the Office\". </b>\n"
 #~ "\n"
@@ -25944,9 +25962,6 @@ msgstr "Métodos de entrada"
 #~ msgstr ""
 #~ "Su uso actual es: {0} Kib. No podrá enviar correo hasta que haga algo de "
 #~ "espacio borrando algunos mensajes."
-
-#~ msgid "Your password has expired."
-#~ msgstr "Su contraseña ha caducado."
 
 #~ msgid "{0} cannot be added to an access control list"
 #~ msgstr "{0} no puede añadirse a la lista de control de acceso"
