@@ -2066,23 +2066,31 @@ e_calendar_view_get_icalcomponent_summary (ECalClient *client,
 
 	if (icalcomp_contains_category (icalcomp, _("Birthday")) ||
 	    icalcomp_contains_category (icalcomp, _("Anniversary"))) {
-		struct icaltimetype dtstart, dtnow;
-		icalcomponent *item_icalcomp = NULL;
+		icalproperty *xprop;
 
-		if (e_cal_client_get_object_sync (client,
-				      icalcomponent_get_uid (icalcomp),
-				      icalcomponent_get_relcalid (icalcomp),
-				      &item_icalcomp,
-				      NULL, NULL)) {
-			dtstart = icalcomponent_get_dtstart (item_icalcomp);
-			dtnow = icalcomponent_get_dtstart (icalcomp);
+		for (xprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
+		     xprop;
+		     xprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY)) {
+			const gchar *xname = icalproperty_get_x_name (xprop);
 
-			if (dtnow.year - dtstart.year > 0) {
-				summary = g_strdup_printf ("%s (%d)", summary ? summary : "", dtnow.year - dtstart.year);
-				*free_text = summary != NULL;
+			if (xname && g_ascii_strcasecmp (xname, "X-EVOLUTION-SINCE-YEAR") == 0) {
+				struct icaltimetype dtnow;
+				gint since_year;
+				gchar *str;
+
+				str = icalproperty_get_value_as_string_r (xprop);
+				since_year = str ? atoi (str) : 0;
+				g_free (str);
+
+				dtnow = icalcomponent_get_dtstart (icalcomp);
+
+				if (since_year > 0 && dtnow.year - since_year > 0) {
+					summary = g_strdup_printf ("%s (%d)", summary ? summary : "", dtnow.year - since_year);
+					*free_text = summary != NULL;
+				}
+
+				break;
 			}
-
-			icalcomponent_free (item_icalcomp);
 		}
 	}
 
