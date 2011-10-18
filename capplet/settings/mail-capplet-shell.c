@@ -30,7 +30,6 @@
 #include <gtk/gtkx.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <gconf/gconf-client.h>
 #include "mail-capplet-shell.h"
 #include "mail-view.h"
 #include <gdk/gdkkeysyms.h>

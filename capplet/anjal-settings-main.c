@@ -38,7 +38,6 @@
 #include <libedataserverui/e-passwords.h>
 #include <mail/mail-mt.h>
 #include "settings/mail-capplet-shell.h"
-#include <gconf/gconf-client.h>
 #include <libedataserver/e-categories.h>
 
 #ifdef G_OS_WIN32

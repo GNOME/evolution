@@ -5060,7 +5060,7 @@ e_load_spell_languages (void)
 
 	spell_languages = g_list_reverse (spell_languages);
 
-	/* Pick a default spell language if GConf came back empty. */
+	/* Pick a default spell language if it came back empty. */
 	if (spell_languages == NULL) {
 		const GtkhtmlSpellLanguage *language;
 
