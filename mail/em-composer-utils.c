@@ -453,23 +453,21 @@ composer_presend_check_unwanted_html (EMsgComposer *composer)
 {
 	EDestination **recipients;
 	EComposerHeaderTable *table;
-	GConfClient *client;
+	GSettings *settings;
 	gboolean check_passed = TRUE;
 	gboolean html_mode;
 	gboolean send_html;
 	gboolean confirm_html;
 	gint ii;
 
-	client = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	table = e_msg_composer_get_header_table (composer);
 	recipients = e_composer_header_table_get_destinations (table);
 	html_mode = gtkhtml_editor_get_html_mode (GTKHTML_EDITOR (composer));
 
-	send_html = gconf_client_get_bool (
-		client, "/apps/evolution/mail/composer/send_html", NULL);
-	confirm_html = gconf_client_get_bool (
-		client, "/apps/evolution/mail/prompts/unwanted_html", NULL);
+	send_html = g_settings_get_boolean (settings, "composer-send-html");
+	confirm_html = g_settings_get_boolean (settings, "prompt-on-unwanted-html");
 
 	/* Only show this warning if our default is to send html.  If it
 	 * isn't, we've manually switched into html mode in the composer
@@ -493,7 +491,7 @@ composer_presend_check_unwanted_html (EMsgComposer *composer)
 	if (recipients != NULL)
 		e_destination_freev (recipients);
 
-	g_object_unref (client);
+	g_object_unref (settings);
 
 	return check_passed;
 }
@@ -1189,11 +1187,11 @@ typedef enum {
 } QuotingTextEnum;
 
 static struct {
-	const gchar * gconf_key;
+	const gchar * conf_key;
 	const gchar * message;
 } conf_messages[] = {
 	[QUOTING_ATTRIBUTION] =
-		{ "/apps/evolution/mail/composer/message_attribution",
+		{ "composer-message-attribution",
 		/* Note to translators: this is the attribution string used
 		 * when quoting messages.  Each ${Variable} gets replaced
 		 * with a value.  To see a full list of available variables,
@@ -1203,12 +1201,12 @@ static struct {
 		},
 
 	[QUOTING_FORWARD] =
-		{ "/apps/evolution/mail/composer/message_forward",
+		{ "composer-message-forward",
 		  N_("-------- Forwarded Message --------")
 		},
 
 	[QUOTING_ORIGINAL] =
-		{ "/apps/evolution/mail/composer/message_original",
+		{ "composer-message-original",
 		  N_("-----Original Message-----")
 		}
 };
@@ -1216,12 +1214,12 @@ static struct {
 static gchar *
 quoting_text (QuotingTextEnum type)
 {
-	GConfClient *client;
+	GSettings *settings;
 	gchar *text;
 
-	client = gconf_client_get_default ();
-	text = gconf_client_get_string (client, conf_messages[type].gconf_key, NULL);
-	g_object_unref (client);
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	text = g_settings_get_string (settings, conf_messages[type].conf_key);
+	g_object_unref (settings);
 
 	if (text && *text)
 		return text;
@@ -2340,14 +2338,12 @@ get_reply_to (CamelMimeMessage *message)
 
 	reply_to = camel_mime_message_get_reply_to (message);
 	if (reply_to) {
-		GConfClient *client;
-		const gchar *key;
+		GSettings *settings;
 		gboolean ignore_list_reply_to;
 
-		client = gconf_client_get_default ();
-		key = "/apps/evolution/mail/composer/ignore_list_reply_to";
-		ignore_list_reply_to = gconf_client_get_bool (client, key, NULL);
-		g_object_unref (client);
+		settings = g_settings_new ("org.gnome.evolution.mail");
+		ignore_list_reply_to = g_settings_get_boolean (settings, "composer-ignore-list-reply-to");
+		g_object_unref (settings);
 
 		if (ignore_list_reply_to && em_utils_is_munged_list_message (message))
 			reply_to = NULL;
@@ -2784,15 +2780,14 @@ composer_set_body (EMsgComposer *composer,
 {
 	gchar *text, *credits, *original;
 	CamelMimePart *part;
-	GConfClient *client;
+	GSettings *settings;
 	gboolean start_bottom, has_body_text = FALSE;
 	guint32 validity_found = 0;
 	const gchar *key;
 
-	client = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	key = "/apps/evolution/mail/composer/reply_start_bottom";
-	start_bottom = gconf_client_get_bool (client, key, NULL);
+	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
 
 	switch (style) {
 	case E_MAIL_REPLY_STYLE_DO_NOT_QUOTE:
@@ -2843,8 +2838,7 @@ composer_set_body (EMsgComposer *composer,
 		gtkhtml_editor_run_command (editor, "block-selection");
 		gtkhtml_editor_run_command (editor, "cursor-bod");
 
-		key = "/apps/evolution/mail/composer/top_signature";
-		top_signature = gconf_client_get_bool (client, key, NULL);
+		top_signature = g_settings_get_boolean (settings, "composer-top-signature");
 
 		move_cursor_to_end = top_signature ||
 			!gtkhtml_editor_search_by_data (
@@ -2857,7 +2851,7 @@ composer_set_body (EMsgComposer *composer,
 		gtkhtml_editor_run_command (editor, "unblock-selection");
 	}
 
-	g_object_unref (client);
+	g_object_unref (settings);
 }
 
 gchar *

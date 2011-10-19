@@ -25,6 +25,21 @@
       <_summary>Automatic emoticon recognition</_summary>
       <_description>Recognize emoticons in text and replace them with images.</_description>
     </key>
+    <key name="composer-message-attribution" type="s">
+      <default>''</default>
+      <_summary>Attribute message</_summary>
+      <_description>The text that is inserted when replying to a message, attributing the message to the original author</_description>
+    </key>
+    <key name="composer-message-forward" type="s">
+      <default>''</default>
+      <_summary>Forward message</_summary>
+      <_description>The text that is inserted when forwarding a message, saying that the forwarded message follows</_description>
+    </key>
+    <key name="composer-message-original" type="s">
+      <default>''</default>
+      <_summary>Original message</_summary>
+      <_description>The text that is inserted when replying to a message (top posting), saying that the original message follows</_description>
+    </key>
     <key name="composer-group-reply-to-list" type="b">
       <default>false</default>
       <_summary>Group Reply replies to list</_summary>

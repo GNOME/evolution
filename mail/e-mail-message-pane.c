@@ -28,8 +28,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include "e-util/gconf-bridge.h"
-
 #include "mail/e-mail-reader.h"
 
 struct _EMailMessagePanePrivate {
