@@ -1,4 +1,4 @@
-# Norwegian translation of evolution (bokmål dialect).
+# Norwegian bokmål translation of evolution.
 # Copyright (C) 1998-2004, 2005 Free Software Foundation, Inc.
 #
 # Kjartan Maraas <kmaraas@gnome.org>, 1998-2011.
@@ -7,10 +7,10 @@
 #: ../shell/main.c:566
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 3.1.x\n"
+"Project-Id-Version: evolution 3.3.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-13 15:34+0200\n"
-"PO-Revision-Date: 2011-10-13 15:40+0200\n"
+"POT-Creation-Date: 2011-10-19 22:29+0200\n"
+"PO-Revision-Date: 2011-10-19 22:31+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -276,7 +276,7 @@ msgstr "Bryllupsdag"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:714
-#: ../calendar/gui/e-calendar-view.c:2067 ../capplet/anjal-settings-main.c:79
+#: ../calendar/gui/e-calendar-view.c:2067 ../capplet/anjal-settings-main.c:78
 #: ../shell/main.c:138
 msgid "Birthday"
 msgstr "Fødselsdag"
@@ -1256,7 +1256,7 @@ msgstr "Nettdagbok"
 #. Create the default Person memo list
 #. Create the default Person task list
 #: ../addressbook/gui/widgets/eab-contact-display.c:718
-#: ../capplet/settings/mail-capplet-shell.c:385
+#: ../capplet/settings/mail-capplet-shell.c:384
 #: ../modules/addressbook/e-book-shell-backend.c:120
 #: ../modules/addressbook/e-book-shell-migrate.c:144
 #: ../modules/calendar/e-cal-shell-backend.c:138
@@ -1549,7 +1549,8 @@ msgstr "Uhåndtert feil"
 #: ../calendar/calendar.error.xml.h:2
 msgid ""
 "'{0}' does not support assigned tasks, please select a different task list."
-msgstr "«{0}» støtter ikke tildelte oppgaver. Vennligst velg en annen oppgaveliste."
+msgstr ""
+"«{0}» støtter ikke tildelte oppgaver. Vennligst velg en annen oppgaveliste."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
@@ -3685,7 +3686,9 @@ msgstr "Oppgaven kan ikke redigeres i sin helhet fordi du ikke er organisator"
 msgid ""
 "Task cannot be edited, because the selected task list does not support "
 "assigned tasks"
-msgstr "Oppgaven kan ikke redigeres fordi valgt oppgaveliste ikke støtter tildelte oppgaver"
+msgstr ""
+"Oppgaven kan ikke redigeres fordi valgt oppgaveliste ikke støtter tildelte "
+"oppgaver"
 
 #: ../calendar/gui/dialogs/task-page.c:347
 #: ../calendar/gui/dialogs/task-page.ui.h:4
@@ -4607,32 +4610,32 @@ msgstr "kalendervisning for en eller flere uker"
 msgid "Purging"
 msgstr "Tømmer"
 
-#: ../calendar/gui/itip-utils.c:511 ../calendar/gui/itip-utils.c:566
-#: ../calendar/gui/itip-utils.c:669
+#: ../calendar/gui/itip-utils.c:513 ../calendar/gui/itip-utils.c:568
+#: ../calendar/gui/itip-utils.c:681
 msgid "An organizer must be set."
 msgstr "En organisator må oppgis."
 
-#: ../calendar/gui/itip-utils.c:558
+#: ../calendar/gui/itip-utils.c:560
 msgid "At least one attendee is necessary"
 msgstr "Minst en deltaker kreves"
 
-#: ../calendar/gui/itip-utils.c:755 ../calendar/gui/itip-utils.c:916
+#: ../calendar/gui/itip-utils.c:767 ../calendar/gui/itip-utils.c:928
 msgid "Event information"
 msgstr "Hendelsesinformasjon"
 
-#: ../calendar/gui/itip-utils.c:758 ../calendar/gui/itip-utils.c:919
+#: ../calendar/gui/itip-utils.c:770 ../calendar/gui/itip-utils.c:931
 msgid "Task information"
 msgstr "Oppgaveinformasjon"
 
-#: ../calendar/gui/itip-utils.c:761 ../calendar/gui/itip-utils.c:922
+#: ../calendar/gui/itip-utils.c:773 ../calendar/gui/itip-utils.c:934
 msgid "Memo information"
 msgstr "Informasjon om notat"
 
-#: ../calendar/gui/itip-utils.c:764 ../calendar/gui/itip-utils.c:940
+#: ../calendar/gui/itip-utils.c:776 ../calendar/gui/itip-utils.c:952
 msgid "Free/Busy information"
 msgstr "Ledig/opptatt-informasjon"
 
-#: ../calendar/gui/itip-utils.c:767
+#: ../calendar/gui/itip-utils.c:779
 msgid "Calendar information"
 msgstr "Kalenderinformasjon"
 
@@ -4640,7 +4643,7 @@ msgstr "Kalenderinformasjon"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Accepted: Meeting Name".
-#: ../calendar/gui/itip-utils.c:804
+#: ../calendar/gui/itip-utils.c:816
 msgctxt "Meeting"
 msgid "Accepted"
 msgstr "Godtatt"
@@ -4649,7 +4652,7 @@ msgstr "Godtatt"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Tentatively Accepted: Meeting Name".
-#: ../calendar/gui/itip-utils.c:811
+#: ../calendar/gui/itip-utils.c:823
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
 msgstr "Akseptert tentativt"
@@ -4661,7 +4664,7 @@ msgstr "Akseptert tentativt"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Declined: Meeting Name".
-#: ../calendar/gui/itip-utils.c:818 ../calendar/gui/itip-utils.c:866
+#: ../calendar/gui/itip-utils.c:830 ../calendar/gui/itip-utils.c:878
 msgctxt "Meeting"
 msgid "Declined"
 msgstr "Avslått"
@@ -4670,7 +4673,7 @@ msgstr "Avslått"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
-#: ../calendar/gui/itip-utils.c:825
+#: ../calendar/gui/itip-utils.c:837
 msgctxt "Meeting"
 msgid "Delegated"
 msgstr "Delegert"
@@ -4678,7 +4681,7 @@ msgstr "Delegert"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Updated: Meeting Name".
-#: ../calendar/gui/itip-utils.c:838
+#: ../calendar/gui/itip-utils.c:850
 msgctxt "Meeting"
 msgid "Updated"
 msgstr "Oppdatert"
@@ -4686,7 +4689,7 @@ msgstr "Oppdatert"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Cancel: Meeting Name".
-#: ../calendar/gui/itip-utils.c:845
+#: ../calendar/gui/itip-utils.c:857
 msgctxt "Meeting"
 msgid "Cancel"
 msgstr "Avbryt"
@@ -4694,7 +4697,7 @@ msgstr "Avbryt"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
-#: ../calendar/gui/itip-utils.c:852
+#: ../calendar/gui/itip-utils.c:864
 msgctxt "Meeting"
 msgid "Refresh"
 msgstr "Oppdater"
@@ -4702,30 +4705,30 @@ msgstr "Oppdater"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Counter-proposal: Meeting Name".
-#: ../calendar/gui/itip-utils.c:859
+#: ../calendar/gui/itip-utils.c:871
 msgctxt "Meeting"
 msgid "Counter-proposal"
 msgstr "Motforslag"
 
-#: ../calendar/gui/itip-utils.c:937
+#: ../calendar/gui/itip-utils.c:949
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Ledig/opptatt-informasjon (%s til %s)"
 
-#: ../calendar/gui/itip-utils.c:945
+#: ../calendar/gui/itip-utils.c:957
 msgid "iCalendar information"
 msgstr "iCalendar-informasjon"
 
-#: ../calendar/gui/itip-utils.c:970
+#: ../calendar/gui/itip-utils.c:984
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr ""
 "Klarer ikke å booke en ressurs. Den nye hendelsen er i konflikt med en annen."
 
-#: ../calendar/gui/itip-utils.c:974
+#: ../calendar/gui/itip-utils.c:988
 msgid "Unable to book a resource, error: "
 msgstr "Kan ikke booke en ressurs. Feil: "
 
-#: ../calendar/gui/itip-utils.c:1137
+#: ../calendar/gui/itip-utils.c:1153
 msgid "You must be an attendee of the event."
 msgstr "Du må være en deltager i hendelsen."
 
@@ -7119,11 +7122,11 @@ msgid "_Try Again"
 msgstr "_Prøv igjen"
 
 #. TRANSLATORS: don't translate the terms in brackets
-#: ../capplet/anjal-settings-main.c:154
+#: ../capplet/anjal-settings-main.c:153
 msgid "ID of the socket to embed in"
 msgstr "ID for pluggen vi skal koble til"
 
-#: ../capplet/anjal-settings-main.c:155
+#: ../capplet/anjal-settings-main.c:154
 msgid "socket"
 msgstr "plugg"
 
@@ -7370,12 +7373,12 @@ msgstr "Lukk fane"
 msgid "Account Wizard"
 msgstr "Kontoveiviser"
 
-#: ../capplet/settings/mail-capplet-shell.c:215
+#: ../capplet/settings/mail-capplet-shell.c:214
 msgid "Evolution account assistant"
 msgstr "Evolution kontoassistent"
 
 #. create the local source group
-#: ../capplet/settings/mail-capplet-shell.c:377 ../mail/e-mail-local.c:81
+#: ../capplet/settings/mail-capplet-shell.c:376 ../mail/e-mail-local.c:81
 #: ../mail/e-mail-migrate.c:748 ../mail/em-folder-tree-model.c:167
 #: ../modules/addressbook/e-book-shell-backend.c:100
 #: ../modules/addressbook/e-book-shell-migrate.c:136
@@ -9175,6 +9178,16 @@ msgstr "Ingen måladresse oppgitt. Videresending av meldingen ble avbrutt."
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr "Fant ingen konto å bruke. Videresending av meldingen ble avbrutt."
 
+#: ../mail/e-mail-session.c:1134
+#, c-format
+msgid "%s authentication failed"
+msgstr "%s autentisering feilet"
+
+#: ../mail/e-mail-session.c:1201
+#, c-format
+msgid "No password was provided"
+msgstr "Passord ikke oppgitt"
+
 #: ../mail/e-mail-session-utils.c:415
 #, c-format
 msgid "Cannot get transport for account '%s'"
@@ -9874,61 +9887,81 @@ msgstr "Side %d av %d"
 msgid "No HTML stream available"
 msgstr "Ingen HTML-strøm tilgjengelig."
 
-#: ../mail/em-subscription-editor.c:1165
-msgid "Folder Subscriptions"
-msgstr "Abonnement på mapper"
-
-#: ../mail/em-subscription-editor.c:1204
-msgid "_Account:"
-msgstr "K_onto:"
-
-#: ../mail/em-subscription-editor.c:1219
-msgid "Clear Search"
-msgstr "Tøm søk"
-
-#: ../mail/em-subscription-editor.c:1237
-msgid "Sho_w items that contain:"
-msgstr "_Vis oppføringer som inneholder:"
-
-#: ../mail/em-subscription-editor.c:1276
-msgid "Subscribe to the selected folder"
-msgstr "Abonner på valgt mappe"
-
-#: ../mail/em-subscription-editor.c:1277
-msgid "Su_bscribe"
+#: ../mail/em-subscription-editor.c:832
+msgid "_Subscribe"
 msgstr "A_bonner"
 
-#: ../mail/em-subscription-editor.c:1288
-#: ../modules/mail/e-mail-shell-view-actions.c:1212
-msgid "Unsubscribe from the selected folder"
-msgstr "Fjern abonnement på valgt mappe"
+#: ../mail/em-subscription-editor.c:839
+msgid "Su_bscribe to shown"
+msgstr "_Abonner på innhold i visning"
 
-#: ../mail/em-subscription-editor.c:1289
+#: ../mail/em-subscription-editor.c:846
+msgid "Subscribe to _all"
+msgstr "Abonner på _alle"
+
+#: ../mail/em-subscription-editor.c:933 ../mail/em-subscription-editor.c:1772
 #: ../modules/mail/e-mail-shell-view-actions.c:1210
 msgid "_Unsubscribe"
 msgstr "_Fjern abonnement"
 
-#: ../mail/em-subscription-editor.c:1300
+#: ../mail/em-subscription-editor.c:940
+msgid "Unsu_bscribe from hidden"
+msgstr "_Fjern abonnement fra skjulte"
+
+#: ../mail/em-subscription-editor.c:947
+msgid "Unsubscribe from _all"
+msgstr "Fjern abonnement på _alle"
+
+#: ../mail/em-subscription-editor.c:1618
+msgid "Folder Subscriptions"
+msgstr "Abonnement på mapper"
+
+#: ../mail/em-subscription-editor.c:1657
+msgid "_Account:"
+msgstr "K_onto:"
+
+#: ../mail/em-subscription-editor.c:1672
+msgid "Clear Search"
+msgstr "Tøm søk"
+
+#: ../mail/em-subscription-editor.c:1690
+msgid "Sho_w items that contain:"
+msgstr "_Vis oppføringer som inneholder:"
+
+#: ../mail/em-subscription-editor.c:1735
+msgid "Subscribe to the selected folder"
+msgstr "Abonner på valgt mappe"
+
+#: ../mail/em-subscription-editor.c:1736
+msgid "Su_bscribe"
+msgstr "A_bonner"
+
+#: ../mail/em-subscription-editor.c:1771
+#: ../modules/mail/e-mail-shell-view-actions.c:1212
+msgid "Unsubscribe from the selected folder"
+msgstr "Fjern abonnement på valgt mappe"
+
+#: ../mail/em-subscription-editor.c:1801
 msgid "Collapse all folders"
 msgstr "Slå sammen alle mapper"
 
-#: ../mail/em-subscription-editor.c:1301
+#: ../mail/em-subscription-editor.c:1802
 msgid "C_ollapse All"
 msgstr "Slå sammen _alle"
 
-#: ../mail/em-subscription-editor.c:1311
+#: ../mail/em-subscription-editor.c:1812
 msgid "Expand all folders"
 msgstr "Utvid alle mapper"
 
-#: ../mail/em-subscription-editor.c:1312
+#: ../mail/em-subscription-editor.c:1813
 msgid "E_xpand All"
 msgstr "Ut_vid alle"
 
-#: ../mail/em-subscription-editor.c:1322
+#: ../mail/em-subscription-editor.c:1823
 msgid "Refresh the folder list"
 msgstr "Oppdater mappelisten"
 
-#: ../mail/em-subscription-editor.c:1334
+#: ../mail/em-subscription-editor.c:1835
 msgid "Stop the current operation"
 msgstr "Stopp aktiv operasjon"
 
@@ -12759,7 +12792,9 @@ msgstr ""
 msgid ""
 "The attachment named {0} is a hidden file and may contain sensitive data. "
 "Please review it before sending."
-msgstr "Vedleg med navn {0} er en skjult fil og kan inneholde sensitive data. Vennlist se gjennom den før du sender meldingen."
+msgstr ""
+"Vedleg med navn {0} er en skjult fil og kan inneholde sensitive data. "
+"Vennlist se gjennom den før du sender meldingen."
 
 #: ../mail/mail.error.xml.h:119
 msgid ""
@@ -13307,7 +13342,9 @@ msgstr "Vis forhåndsvisningsområdet"
 msgid ""
 "The UID of the selected (or \"primary\") address book in the sidebar of the "
 "\"Contacts\" view."
-msgstr "UID for valgt (eller «primær») adressebok i sidelinjen av «Kontakter»-visningen."
+msgstr ""
+"UID for valgt (eller «primær») adressebok i sidelinjen av «Kontakter»-"
+"visningen."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:15
 msgid ""
@@ -16959,8 +16996,8 @@ msgstr ""
 "%s"
 
 #: ../plugins/google-account-setup/google-source.c:569
-#: ../plugins/mail-to-task/mail-to-task.c:820
-#: ../plugins/mail-to-task/mail-to-task.c:1084
+#: ../plugins/mail-to-task/mail-to-task.c:819
+#: ../plugins/mail-to-task/mail-to-task.c:1083
 msgid "Unknown error."
 msgstr "Ukjent feil."
 
@@ -17894,12 +17931,12 @@ msgid "Notifies you when new mail messages arrive."
 msgstr "Varsler når nye meldinger ankommer."
 
 #. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
-#: ../plugins/mail-to-task/mail-to-task.c:239
+#: ../plugins/mail-to-task/mail-to-task.c:238
 #, c-format
 msgid "Created from a mail by %s"
 msgstr "Opprettet av en e-post fra %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:610
+#: ../plugins/mail-to-task/mail-to-task.c:609
 #, c-format
 msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
@@ -17908,7 +17945,7 @@ msgstr ""
 "Valgt kalender inneholder hendelsen «%s» allerede. Vil du redigere den gamle "
 "hendelsen?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:613
+#: ../plugins/mail-to-task/mail-to-task.c:612
 #, c-format
 msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
@@ -17917,7 +17954,7 @@ msgstr ""
 "Valgt oppgaveliste inneholder oppgave «%s» allerede. Vil du redigere den "
 "gamle oppgaven?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:616
+#: ../plugins/mail-to-task/mail-to-task.c:615
 #, c-format
 msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
@@ -17926,7 +17963,7 @@ msgstr ""
 "Valgt notatliste inneholder notatet «%s» allerede. Vil du redigere det gamle "
 "notatet?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:633
+#: ../plugins/mail-to-task/mail-to-task.c:632
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to events. Do you really want to "
@@ -17935,7 +17972,7 @@ msgstr ""
 "Du har valgt %d meldinger som skal konverteres til hendelser. Vil du "
 "virkelig legge dem til?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:636
+#: ../plugins/mail-to-task/mail-to-task.c:635
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
@@ -17944,7 +17981,7 @@ msgstr ""
 "Du har valgt %d meldinger som skal konverteres til oppgaver. Vil du virkelig "
 "legge dem til?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:639
+#: ../plugins/mail-to-task/mail-to-task.c:638
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
@@ -17953,29 +17990,29 @@ msgstr ""
 "Du har valgt %d meldinger som skal konverteres til notater. Vil du virkelig "
 "legge dem til?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:658
+#: ../plugins/mail-to-task/mail-to-task.c:657
 msgid "Do you wish to continue converting remaining mails?"
 msgstr "Vil du fortsette med konvertering av gjenstående meldinger?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:733
+#: ../plugins/mail-to-task/mail-to-task.c:732
 msgid "[No Summary]"
 msgstr "[Ingen sammendrag]"
 
-#: ../plugins/mail-to-task/mail-to-task.c:745
+#: ../plugins/mail-to-task/mail-to-task.c:744
 msgid "Invalid object returned from a server"
 msgstr "Ugyldig objekt returnert fra en tjener"
 
-#: ../plugins/mail-to-task/mail-to-task.c:795
+#: ../plugins/mail-to-task/mail-to-task.c:794
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "En feil oppsto under prosessering: %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:820
+#: ../plugins/mail-to-task/mail-to-task.c:819
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Kan ikke åpne kalender. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:827
+#: ../plugins/mail-to-task/mail-to-task.c:826
 msgid ""
 "Selected source is read only, thus cannot create event there. Select other "
 "source, please."
@@ -17983,7 +18020,7 @@ msgstr ""
 "Valgt kilde er skrivebeskyttet og hendelser kan ikke opprettes der. Velg en "
 "annen kilde."
 
-#: ../plugins/mail-to-task/mail-to-task.c:830
+#: ../plugins/mail-to-task/mail-to-task.c:829
 msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
@@ -17991,7 +18028,7 @@ msgstr ""
 "Valgt kilde er skrivebeskyttet og oppgaver kan ikke opprettes der. Velg en "
 "annen kilde."
 
-#: ../plugins/mail-to-task/mail-to-task.c:833
+#: ../plugins/mail-to-task/mail-to-task.c:832
 msgid ""
 "Selected source is read only, thus cannot create memo there. Select other "
 "source, please."
@@ -17999,44 +18036,44 @@ msgstr ""
 "Valgt kilde er skrivebeskyttet og notater kan ikke opprettes der. Velg en "
 "annen kilde."
 
-#: ../plugins/mail-to-task/mail-to-task.c:1084
+#: ../plugins/mail-to-task/mail-to-task.c:1083
 #, c-format
 msgid "Cannot get source list. %s"
 msgstr "Fant ikke kildeliste %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1147
+#: ../plugins/mail-to-task/mail-to-task.c:1146
 msgid "No writable calendar is available."
 msgstr "Ingen skrivbar kalender tilgjengelig."
 
-#: ../plugins/mail-to-task/mail-to-task.c:1239
+#: ../plugins/mail-to-task/mail-to-task.c:1238
 msgid "Create an _Event"
 msgstr "Lag en h_endelse"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1241
+#: ../plugins/mail-to-task/mail-to-task.c:1240
 msgid "Create a new event from the selected message"
 msgstr " Lag en ny hendelse fra den valgte meldingen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1246
+#: ../plugins/mail-to-task/mail-to-task.c:1245
 msgid "Create a Mem_o"
 msgstr "Lag et n_otat"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1248
+#: ../plugins/mail-to-task/mail-to-task.c:1247
 msgid "Create a new memo from the selected message"
 msgstr "Lag et nytt notat fra den valgte meldingen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1253
+#: ../plugins/mail-to-task/mail-to-task.c:1252
 msgid "Create a _Task"
 msgstr "Lag en o_ppgave"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1255
+#: ../plugins/mail-to-task/mail-to-task.c:1254
 msgid "Create a new task from the selected message"
 msgstr "Lag en ny oppgave fra den valgte meldingen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1263
+#: ../plugins/mail-to-task/mail-to-task.c:1262
 msgid "Create a _Meeting"
 msgstr "Lag et _møte"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1265
+#: ../plugins/mail-to-task/mail-to-task.c:1264
 msgid "Create a new meeting from the selected message"
 msgstr "Lag et nytt møte fra den valgte meldingen"
 
@@ -18458,8 +18495,8 @@ msgstr "Br_ukernavn:"
 msgid "iCal"
 msgstr "iCal"
 
-#: ../plugins/publish-calendar/publish-format-fb.c:95
-#: ../plugins/publish-calendar/publish-format-ical.c:92
+#: ../plugins/publish-calendar/publish-format-fb.c:94
+#: ../plugins/publish-calendar/publish-format-ical.c:91
 #, c-format
 msgid "Could not publish calendar: Calendar backend no longer exists"
 msgstr "Kunne ikke publisere kalender: Kalendermotor eksisterer ikke lenger"
@@ -19860,16 +19897,16 @@ msgid "Trust the authenticity of this certificate"
 msgstr "Stol på at dette sertifikatet er autentisk"
 
 #: ../smime/gui/smime-ui.ui.h:35
-msgid "Trust this CA to identify email users."
-msgstr "Stol på denne CAen for å identifisere e-postbrukere."
+msgid "Trust this CA to identify _email users."
+msgstr "Stol på denne sertifikatautoriteten for å identifisere _e-postbrukere."
 
 #: ../smime/gui/smime-ui.ui.h:36
-msgid "Trust this CA to identify software developers."
-msgstr "Stol på denne CAen for å identifisere programvareutviklere."
+msgid "Trust this CA to identify _software developers."
+msgstr "Stol på denne sertifikatautoriteten for å identifisere _programvareutviklere."
 
 #: ../smime/gui/smime-ui.ui.h:37
-msgid "Trust this CA to identify websites."
-msgstr "Stol på denne CAen for identifisering av nettsteder."
+msgid "Trust this CA to identify _websites."
+msgstr "Stol på denne sertifikatautoriteten for identifisering av _nettsteder."
 
 #: ../smime/gui/smime-ui.ui.h:38
 msgid "Validity"
