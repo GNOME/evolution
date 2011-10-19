@@ -29,8 +29,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <gconf/gconf-client.h>
-
 #include "em-folder-properties.h"
 #include "em-config.h"
 
@@ -254,7 +252,7 @@ emfp_dialog_run (AsyncContext *context)
 	CamelStore *local_store;
 	CamelStore *parent_store;
 	gboolean hide_deleted;
-	GConfClient *client;
+	GSettings *settings;
 	const gchar *name;
 	const gchar *key;
 
@@ -272,10 +270,9 @@ emfp_dialog_run (AsyncContext *context)
 	context->unread = camel_folder_summary_get_unread_count (context->folder->summary);
 	deleted = camel_folder_summary_get_deleted_count (context->folder->summary);
 
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/mail/display/show_deleted";
-	hide_deleted = !gconf_client_get_bool (client, key, NULL);
-	g_object_unref (client);
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	hide_deleted = !g_settings_get_boolean (settings, "show-deleted");
+	g_object_unref (settings);
 
 	/*
 	 * Do the calculation only for those accounts that support VTRASHes

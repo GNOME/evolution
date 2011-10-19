@@ -36,8 +36,6 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <gconf/gconf-client.h>
-
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-poolv.h"
 #include "e-util/e-util-private.h"
@@ -1961,18 +1959,21 @@ filter_date (time_t date)
 static ECell * create_composite_cell (gint col)
 {
 	ECell *cell_vbox, *cell_hbox, *cell_sub, *cell_date, *cell_from, *cell_tree, *cell_attach;
-	GConfClient *client;
+	GSettings *settings;
 	gchar *fixed_name = NULL;
 	gboolean show_email;
 	gint alt_col = (col == COL_FROM) ? COL_SENDER : COL_RECIPIENTS;
 	gboolean same_font = FALSE;
 
-	client = gconf_client_get_default ();
-	show_email = gconf_client_get_bool (client, "/apps/evolution/mail/display/show_email", NULL);
-	same_font = gconf_client_get_bool (client, "/apps/evolution/mail/display/vertical_view_fonts", NULL);
-	if (!same_font)
-		fixed_name = gconf_client_get_string (client, "/desktop/gnome/interface/monospace_font_name", NULL);
-	g_object_unref (client);
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	show_email = g_settings_get_boolean (settings, "show-email");
+	same_font = g_settings_get_boolean (settings, "vertical-view-fonts");
+	g_object_unref (settings);
+	if (!same_font) {
+		settings = g_settings_new ("org.gnome.desktop.interface");
+		fixed_name = g_settings_get_string (settings, "monospace-font-name");
+		g_object_unref (settings);
+	}
 
 	cell_vbox = e_cell_vbox_new ();
 
@@ -2830,34 +2831,13 @@ message_list_selectable_init (ESelectableInterface *interface)
 	interface->select_all = message_list_selectable_select_all;
 }
 
-static gboolean
-read_boolean_with_default (GConfClient *gconf,
-                           const gchar *key,
-                           gboolean def_value)
-{
-	GConfValue *value;
-	gboolean res;
-
-	g_return_val_if_fail (gconf != NULL, def_value);
-	g_return_val_if_fail (key != NULL, def_value);
-
-	value = gconf_client_get (gconf, key, NULL);
-	if (!value)
-		return def_value;
-
-	res = gconf_value_get_bool (value);
-	gconf_value_free (value);
-
-	return res;
-}
-
 static void
 message_list_construct (MessageList *message_list)
 {
 	AtkObject *a11y;
 	gboolean constructed;
 	gchar *etspecfile;
-	GConfClient *client;
+	GSettings *settings;
 
 	message_list->model =
 		e_tree_memory_callbacks_new (ml_tree_icon_at,
@@ -2883,15 +2863,13 @@ message_list_construct (MessageList *message_list)
 
 					     message_list);
 
-	client = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 	e_tree_memory_set_expanded_default (
 		E_TREE_MEMORY (message_list->model),
-		read_boolean_with_default (
-			client, "/apps/evolution/mail/display/thread_expand", TRUE));
+		g_settings_get_boolean (settings, "thread-expand"));
 	message_list->priv->thread_latest =
-		read_boolean_with_default (
-		client, "/apps/evolution/mail/display/thread_latest", TRUE);
-	g_object_unref (client);
+		g_settings_get_boolean (settings, "thread-latest"));
+	g_object_unref (settings);
 
 	/*
 	 * The etree
@@ -3902,7 +3880,7 @@ message_list_set_folder (MessageList *message_list,
 {
 	ETreeModel *etm = message_list->model;
 	gboolean hide_deleted;
-	GConfClient *client;
+	GSettings *settings;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
@@ -3991,9 +3969,9 @@ message_list_set_folder (MessageList *message_list,
 			folder, "changed",
 			G_CALLBACK (folder_changed), message_list);
 
-		client = gconf_client_get_default ();
-		hide_deleted = !gconf_client_get_bool (client, "/apps/evolution/mail/display/show_deleted", NULL);
-		g_object_unref (client);
+		settings = g_settings_new ("org.gnome.evolution.mail");
+		hide_deleted = !g_settings_get_boolean (settings, "show-deleted");
+		g_object_unref (settings);
 
 		message_list->hidedeleted =
 			hide_deleted && non_trash_folder;
@@ -5035,7 +5013,7 @@ mail_regen_list (MessageList *ml,
                  gboolean scroll_to_cursor)
 {
 	struct _regen_list_msg *m;
-	GConfClient *client;
+	GSettings *settings;
 	const gchar *key;
 	gboolean thread_subject;
 
@@ -5053,10 +5031,9 @@ mail_regen_list (MessageList *ml,
 
 	mail_regen_cancel (ml);
 
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/mail/display/thread_subject";
-	thread_subject = gconf_client_get_bool (client, key, NULL);
-	g_object_unref (client);
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	thread_subject = g_settings_get_boolean (settings, "thread-subject");
+	g_object_unref (settings);
 
 #ifndef BROKEN_ETREE
 	/* this can sometimes crash,so ... */
