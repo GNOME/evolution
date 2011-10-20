@@ -463,7 +463,7 @@ zone_display_name_with_offset (icaltimezone *zone)
 	if (icaltimezone_get_builtin_timezone (display_name))
 		display_name = _(display_name);
 
-	return g_strdup_printf("%s (%s)\n", display_name, buffer);;
+	return g_strdup_printf("%s (%s)", display_name, buffer);
 }
 
 static const gchar *
