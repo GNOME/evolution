@@ -46,6 +46,7 @@
 #include "mail/e-mail-display.h"
 #include "mail/e-mail-enumtypes.h"
 #include "mail/e-mail-reader-utils.h"
+#include "mail/e-mail-view.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-event.h"
 #include "mail/em-folder-selector.h"
@@ -2497,6 +2498,58 @@ mail_reader_message_read_cb (EMailReaderClosure *closure)
 	return FALSE;
 }
 
+static gboolean
+schedule_timeout_mark_seen (EMailReader *reader)
+{
+	EShell *shell;
+	EMailBackend *backend;
+	EShellBackend *shell_backend;
+	EShellSettings *shell_settings;
+	MessageList *message_list;
+	gboolean schedule_timeout;
+	gint timeout_interval;
+	const gchar *message_uid;
+
+	backend = e_mail_reader_get_backend (reader);
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	shell_backend = E_SHELL_BACKEND (backend);
+	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	message_uid = message_list->cursor_uid;
+	if (!message_uid)
+		return FALSE;
+
+	schedule_timeout =
+		(message_uid != NULL) &&
+		e_shell_settings_get_boolean (
+			shell_settings, "mail-mark-seen");
+	timeout_interval =
+		e_shell_settings_get_int (
+		shell_settings, "mail-mark-seen-timeout");
+
+	if (message_list->seen_id > 0) {
+		g_source_remove (message_list->seen_id);
+		message_list->seen_id = 0;
+	}
+
+	if (schedule_timeout) {
+		EMailReaderClosure *timeout_closure;
+
+		timeout_closure = g_slice_new0 (EMailReaderClosure);
+		timeout_closure->reader = g_object_ref (reader);
+		timeout_closure->message_uid = g_strdup (message_uid);
+
+		MESSAGE_LIST (message_list)->seen_id = g_timeout_add_full (
+			G_PRIORITY_DEFAULT, timeout_interval,
+			(GSourceFunc) mail_reader_message_read_cb,
+			timeout_closure, (GDestroyNotify)
+			mail_reader_closure_free);
+	}
+
+	return schedule_timeout;
+}
+
 static void
 mail_reader_message_loaded_cb (CamelFolder *folder,
                                GAsyncResult *result,
@@ -2509,14 +2562,11 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	GtkWidget *message_list;
 	EMailBackend *backend;
 	EShellBackend *shell_backend;
-	EShellSettings *shell_settings;
 	EShell *shell;
 	EWebView *web_view;
 	EMEvent *event;
 	EMEventTargetMessage *target;
 	const gchar *message_uid;
-	gboolean schedule_timeout;
-	gint timeout_interval;
 	GError *error = NULL;
 
 	reader = closure->reader;
@@ -2553,7 +2603,6 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	web_view = em_format_html_get_web_view (formatter);
 
@@ -2578,34 +2627,16 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	/* Reset the shell view icon. */
 	e_shell_event (shell, "mail-icon", (gpointer) "evolution-mail");
 
-	/* Determine whether to mark the message as read. */
-	schedule_timeout =
-		(message != NULL) &&
-		e_shell_settings_get_boolean (
-			shell_settings, "mail-mark-seen") &&
-		!priv->restoring_message_selection;
-	timeout_interval =
-		e_shell_settings_get_int (
-		shell_settings, "mail-mark-seen-timeout");
-
 	if (MESSAGE_LIST (message_list)->seen_id > 0) {
 		g_source_remove (MESSAGE_LIST (message_list)->seen_id);
 		MESSAGE_LIST (message_list)->seen_id = 0;
 	}
 
-	if (schedule_timeout) {
-		EMailReaderClosure *timeout_closure;
-
-		timeout_closure = g_slice_new0 (EMailReaderClosure);
-		timeout_closure->reader = g_object_ref (reader);
-		timeout_closure->message_uid = g_strdup (message_uid);
-
-		MESSAGE_LIST (message_list)->seen_id = g_timeout_add_full (
-			G_PRIORITY_DEFAULT, timeout_interval,
-			(GSourceFunc) mail_reader_message_read_cb,
-			timeout_closure, (GDestroyNotify)
-			mail_reader_closure_free);
-
+	/* Determine whether to mark the message as read. */
+	if (message != NULL &&
+	    !priv->restoring_message_selection &&
+	    schedule_timeout_mark_seen (reader)) {
+		g_clear_error (&error);
 	} else if (error != NULL) {
 		e_alert_submit (
 			E_ALERT_SINK (web_view),
@@ -2745,6 +2776,22 @@ mail_reader_message_selected_cb (EMailReader *reader,
 			mail_reader_message_selected_timeout_cb, reader);
 
 	e_mail_reader_changed (reader);
+}
+
+static void
+mail_reader_message_cursor_change_cb (EMailReader *reader)
+{
+	MessageList *message_list;
+
+	g_return_if_fail (reader != NULL);
+
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	g_return_if_fail (message_list != NULL);
+
+	if (!message_list->seen_id &&
+	    E_IS_MAIL_VIEW (reader) &&
+	    e_mail_view_get_preview_visible (E_MAIL_VIEW (reader)))
+		schedule_timeout_mark_seen (reader);
 }
 
 static void
@@ -3626,6 +3673,10 @@ connect_signals:
 	g_signal_connect_swapped (
 		message_list, "message-selected",
 		G_CALLBACK (mail_reader_message_selected_cb), reader);
+
+	g_signal_connect_swapped (
+		message_list, "cursor-change",
+		G_CALLBACK (mail_reader_message_cursor_change_cb), reader);
 
 	g_signal_connect_swapped (
 		message_list, "message-list-built",
