@@ -1042,6 +1042,7 @@ list_store_binding_sync_store_to_pref (ListStoreBinding *binding)
 
 		tmp_value = gconf_value_new (GCONF_VALUE_STRING);
 		gconf_value_set_string (tmp_value, string);
+		g_free (string);
 
 		list = g_slist_append (list, tmp_value);
 

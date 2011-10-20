@@ -115,6 +115,8 @@ signature_tree_view_refresh_cb (ESignatureList *signature_list,
 		gtk_tree_path_free (path);
 	}
 
+	g_list_free (list);
+
 skip:
 	/* Restore the previously selected signature. */
 	signature = e_signature_tree_view_get_selected (tree_view);
