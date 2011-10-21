@@ -352,21 +352,30 @@ sasl_xoauth_challenge_sync (CamelSasl *sasl,
 	GoaAccount *goa_account;
 	GByteArray *parameters = NULL;
 	CamelService *service;
+	EAccount *account;
 	CamelURL *url;
 	const gchar *account_id;
+	const gchar *uid;
 	gchar *xoauth_param = NULL;
 	gboolean success;
 
 	service = camel_sasl_get_service (sasl);
-	url = camel_service_get_camel_url (service);
-	account_id = camel_url_get_param (url, GOA_KEY);
-	g_return_val_if_fail (account_id != NULL, NULL);
+	uid = camel_service_get_uid (service);
+	account = e_get_account_by_uid (uid);
+	g_return_val_if_fail (account != NULL, NULL);
 
 	goa_client = goa_client_new_sync (cancellable, error);
 	if (goa_client == NULL)
 		return NULL;
 
+	url = camel_url_new (account->store->url, error);
+	if (url == NULL)
+		return NULL;
+
+	account_id = camel_url_get_param (url, GOA_KEY);
 	goa_object = sasl_xoauth_get_account_by_id (goa_client, account_id);
+	camel_url_free (url);
+
 	if (goa_object == NULL) {
 		g_set_error_literal (
 			error, CAMEL_SERVICE_ERROR,

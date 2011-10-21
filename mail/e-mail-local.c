@@ -53,9 +53,9 @@ void
 e_mail_local_init (EMailSession *session,
                    const gchar *data_dir)
 {
+	CamelSettings *settings;
 	CamelService *service;
-	CamelURL *url;
-	gchar *temp;
+	gchar *path;
 	gint ii;
 	GError *error = NULL;
 
@@ -67,18 +67,18 @@ e_mail_local_init (EMailSession *session,
 
 	mail_local_initialized = TRUE;
 
-	url = camel_url_new ("maildir:", NULL);
-	temp = g_build_filename (data_dir, "local", NULL);
-	camel_url_set_path (url, temp);
-	g_free (temp);
-
-	temp = camel_url_to_string (url, 0);
 	service = camel_session_add_service (
-		CAMEL_SESSION (session), "local", temp,
+		CAMEL_SESSION (session),
+		"local", "maildir",
 		CAMEL_PROVIDER_STORE, &error);
-	g_free (temp);
 
 	camel_service_set_display_name (service, _("On This Computer"));
+
+	settings = camel_service_get_settings (service);
+
+	path = g_build_filename (data_dir, "local", NULL);
+	g_object_set (settings, "path", path, NULL);
+	g_free (path);
 
 	/* Shouldn't need to worry about other mail applications
 	 * altering files in our local mail store. */
@@ -114,8 +114,6 @@ e_mail_local_init (EMailSession *session,
 		}
 	}
 
-	camel_url_free (url);
-
 	local_store = g_object_ref (service);
 
 	return;
@@ -126,7 +124,6 @@ fail:
 		error->message);
 
 	g_error_free (error);
-	camel_url_free (url);
 }
 
 CamelFolder *

@@ -311,7 +311,9 @@ e_mail_store_add_by_account (EMailBackend *backend,
 	CamelService *service = NULL;
 	CamelProvider *provider;
 	CamelURL *url;
-	gboolean skip = FALSE, transport_only;
+	gboolean transport_only;
+	gboolean service_is_local_delivery;
+	gboolean service_belongs_in_tree_model;
 	GError *error = NULL;
 
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
@@ -320,46 +322,84 @@ e_mail_store_add_by_account (EMailBackend *backend,
 	session = e_mail_backend_get_session (backend);
 
 	/* check whether it's transport-only accounts */
-	transport_only = !account->source || !account->source->url || !*account->source->url;
+	transport_only =
+		(account->source == NULL) ||
+		(account->source->url == NULL) ||
+		(*account->source->url == '\0');
 	if (transport_only)
 		goto handle_transport;
 
 	/* Load the service, but don't connect.  Check its provider,
 	 * and if this belongs in the folder tree model, add it. */
 
-	provider = camel_provider_get (account->source->url, &error);
+	url = camel_url_new (account->source->url, NULL);
+	if (url != NULL) {
+		service_is_local_delivery =
+			em_utils_is_local_delivery_mbox_file (url);
+		provider = camel_provider_get (url->protocol, NULL);
+		camel_url_free (url);
+	} else {
+		service_is_local_delivery = FALSE;
+		provider = NULL;
+	}
+
 	if (provider == NULL) {
-	/* In case we do not have a provider here, we handle
-	 * the special case of having multiple mail identities
-	 * eg. a dummy account having just SMTP server defined */
+		/* In case we do not have a provider here, we handle
+		 * the special case of having multiple mail identities
+		 * eg. a dummy account having just SMTP server defined */
 		goto handle_transport;
 	}
 
 	service = camel_session_add_service (
 		CAMEL_SESSION (session),
-		account->uid, account->source->url,
+		account->uid, provider->protocol,
 		CAMEL_PROVIDER_STORE, &error);
+
+	if (!CAMEL_IS_STORE (service))
+		goto fail;
 
 	camel_service_set_display_name (service, account->name);
 
+	service_belongs_in_tree_model =
+		(provider->flags & CAMEL_PROVIDER_IS_STORAGE) &&
+		!service_is_local_delivery;
+
+	if (service_belongs_in_tree_model && store_table != NULL)
+		e_mail_store_add (backend, CAMEL_STORE (service));
+
 handle_transport:
 
+	/* While we're at it, add the account's transport (if it has one)
+	 * to the CamelSession.  The transport's UID is a kludge for now.
+	 * We take the EAccount's UID and tack on "-transport". */
+
 	if (account->transport) {
-		/* While we're at it, add the account's transport to the
-		 * CamelSession.  The transport's UID is a kludge for now.
-		 * We take the EAccount's UID and tack on "-transport". */
-		gchar *transport_uid;
 		GError *transport_error = NULL;
 
-		transport_uid = g_strconcat (
-			account->uid, "-transport", NULL);
+		url = camel_url_new (
+			account->transport->url,
+			&transport_error);
 
-		camel_session_add_service (
-			CAMEL_SESSION (session),
-			transport_uid, account->transport->url,
-			CAMEL_PROVIDER_TRANSPORT, &transport_error);
+		if (url != NULL) {
+			provider = camel_provider_get (
+				url->protocol, &transport_error);
+			camel_url_free (url);
+		} else
+			provider = NULL;
 
-		g_free (transport_uid);
+		if (provider != NULL) {
+			gchar *transport_uid;
+
+			transport_uid = g_strconcat (
+				account->uid, "-transport", NULL);
+
+			camel_session_add_service (
+				CAMEL_SESSION (session),
+				transport_uid, provider->protocol,
+				CAMEL_PROVIDER_TRANSPORT, &transport_error);
+
+			g_free (transport_uid);
+		}
 
 		if (transport_error) {
 			g_warning (
@@ -371,20 +411,6 @@ handle_transport:
 
 	if (transport_only)
 		return NULL;
-
-	if (!CAMEL_IS_STORE (service))
-		goto fail;
-
-	/* Do not add local-delivery files,
-	 * but make them ready for later use. */
-	url = camel_url_new (account->source->url, NULL);
-	if (url != NULL) {
-		skip = em_utils_is_local_delivery_mbox_file (url);
-		camel_url_free (url);
-	}
-
-	if (!skip && (provider->flags & CAMEL_PROVIDER_IS_STORAGE) != 0 && store_table != NULL)
-		e_mail_store_add (backend, CAMEL_STORE (service));
 
 	return CAMEL_STORE (service);
 

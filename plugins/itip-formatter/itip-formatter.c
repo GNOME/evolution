@@ -1036,8 +1036,9 @@ find_server (struct _itip_puri *pitip,
 
 	parent_store = camel_folder_get_parent_store (pitip->folder);
 
-	url = camel_service_get_camel_url (CAMEL_SERVICE (parent_store));
+	url = camel_service_new_camel_url (CAMEL_SERVICE (parent_store));
 	uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+	camel_url_free (url);
 
 	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 
