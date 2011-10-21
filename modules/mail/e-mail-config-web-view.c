@@ -20,6 +20,9 @@
 #include <config.h>
 #endif
 
+#include <stdio.h>
+#include <string.h>
+
 #include "e-mail-config-web-view.h"
 
 #include <shell/e-shell.h>
@@ -40,6 +43,24 @@ struct _EMailConfigWebViewClass {
 };
 
 static gpointer parent_class;
+
+/* replaces content of color string */
+static void
+fix_color_string (gchar *color_string)
+{
+	GdkColor color;
+
+	if (!color_string || strlen (color_string) < 13)
+		return;
+
+	if (!gdk_color_parse (color_string, &color))
+		return;
+
+	sprintf (color_string, "#%02x%02x%02x",
+		(gint) color.red * 256 / 65536,
+		(gint) color.green * 256 / 65536,
+		(gint) color.blue * 256 / 65536);
+}
 
 static void
 mail_config_web_view_load_style (EMailConfigWebView *extension)
@@ -77,13 +98,16 @@ mail_config_web_view_load_style (EMailConfigWebView *extension)
 
 	buffer = g_string_new ("EWebView {\n");
 
+	fix_color_string (citation_color);
+	fix_color_string (spell_color);
+
 	if (custom_fonts && variable_font != NULL)
 		g_string_append_printf (
 			buffer, "  font: %s;\n", variable_font);
 
 	if (custom_fonts && monospace_font != NULL)
 		g_string_append_printf (
-			buffer, "  -GtkHTML-fixed-font-name: %s;\n",
+			buffer, "  -GtkHTML-fixed-font-name: '%s';\n",
 			monospace_font);
 
 	if (mark_citations && citation_color != NULL)
@@ -93,7 +117,7 @@ mail_config_web_view_load_style (EMailConfigWebView *extension)
 
 	if (spell_color != NULL)
 		g_string_append_printf (
-			buffer, "  -GtkHTML-spell-error-color: %s\n",
+			buffer, "  -GtkHTML-spell-error-color: %s;\n",
 			spell_color);
 
 	g_string_append (buffer, "}\n");
@@ -112,6 +136,9 @@ mail_config_web_view_load_style (EMailConfigWebView *extension)
 	g_free (variable_font);
 	g_free (citation_color);
 	g_free (spell_color);
+
+	gtk_style_context_invalidate (
+		gtk_widget_get_style_context (GTK_WIDGET (e_extension_get_extensible (E_EXTENSION (extension)))));
 }
 
 static void
@@ -142,12 +169,12 @@ mail_config_web_view_realize (GtkWidget *widget,
 		widget, "magic-smileys",
 		G_BINDING_SYNC_CREATE);
 
-	mail_config_web_view_load_style (extension);
-
 	gtk_style_context_add_provider (
 		gtk_widget_get_style_context (widget),
 		GTK_STYLE_PROVIDER (extension->css_provider),
 		GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+	mail_config_web_view_load_style (extension);
 
 	/* Reload the style sheet when certain settings change. */
 
