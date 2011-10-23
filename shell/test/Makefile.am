@@ -9,6 +9,7 @@ libevolution_module_test_la_CPPFLAGS =		\
 	-I$(top_srcdir)/widgets/misc		\
 	-I$(top_builddir)/shell			\
 	-DG_LOG_DOMAIN=\"evolution-test\"	\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)		\
 	$(GNOME_PLATFORM_CFLAGS)
 
 libevolution_module_test_la_SOURCES =		\
@@ -20,6 +21,8 @@ libevolution_module_test_la_SOURCES =		\
 
 libevolution_module_test_la_LIBADD =		\
 	$(top_builddir)/shell/libeshell.la	\
+	$(top_builddir)/e-util/libeutil.la	\
+	$(EVOLUTION_DATA_SERVER_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)
 
 libevolution_module_test_la_LDFLAGS =		\
