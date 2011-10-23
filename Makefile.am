@@ -153,6 +153,7 @@ DISTCHECK_CONFIGURE_FLAGS =		\
 	--disable-scrollkeeper		\
 	--enable-test-component		\
 	--disable-image-inline		\
+	--disable-pst-import		\
 	--disable-weather		\
 	--with-help
 
