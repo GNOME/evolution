@@ -1,3 +1,117 @@
+Evolution 3.3.1 2011-10-24
+--------------------------
+
+Bug Fixes:
+	* Bug 235665 - Heavy hard disk access when resizing columns in views
+	               (Milan Crha)
+	* Bug 351025 - Make the order of the mail accounts configurable
+	               (Milan Crha)
+	* Bug 451377 - Timezone map resizes on mouseover (Milan Crha)
+	* Bug 455271 - A moved/renamed mail folder loses focus (Milan Crha)
+	* Bug 527614 - Valgrind shows a nice amount of lost memory (Milan Crha)
+	* Bug 576478 - [Windows] Redirect Help->Contents to a web page
+	               (Milan Crha)
+	* Bug 601898 - SOCKS proxy does not work with mailer (Milan Crha)
+	* Bug 616981 - Mail marking as read is hard (Milan Crha)
+	* Bug 632619 - Recurring events can clutter month view (Milan Crha)
+	* Bug 637673 - Make phone fields one row and auto-expand when needed
+	               (Milan Crha)
+	* Bug 655252 - Need to escape the comp_uid part of a path (Milan Crha)
+	* Bug 655625 - Crash in atk_state_set_contains_state (Milan Crha)
+	* Bug 656378 - Attachment name corruption (Punit Jain)
+	* Bug 656473 - Store server folder cache in user's cache directory
+	               (Milan Crha)
+	* Bug 657170 - Disallow creating assigned tasks when not supported
+	               (Milan Crha)
+	* Bug 657374 - mailto: attachment parameter can lead to accidental
+	               data exfiltration (Vibha Yadav)
+	* Bug 658066 - Security dialog is too big (Dan Vrátil)
+	* Bug 658835 - Color Scheme off in calendar (Milan Crha)
+	* Bug 659440 - Doesn't mark messages as replied when sending offline
+	               (Milan Crha)
+	* Bug 659486 - EAlert default response is ignored by EAlertDialog
+	               (Matthew Barnes)
+	* Bug 659517 - Calendar reminds of old events following upgrade
+	               (Milan Crha)
+	* Bug 659555 - Add custom icons in a folder Subscription dialog
+	               (Milan Crha)
+	* Bug 659558 - Missing set mnemonic widgets (Milan Crha)
+	* Bug 659568 - One day delay in calendar view (Milan Crha)
+	* Bug 659726 - Search Folders contain ambiguous reference to accounts
+	               (Matthew Barnes)
+	* Bug 659828 - Selecting a message with a sound attached loses focus
+	               (Milan Crha)
+	* Bug 659874 - Address Cards Render extra Phone Number (Milan Crha)
+	* Bug 659876 - Make automatic contact address formatting optional
+	               (Dan Vrátil)
+	* Bug 659932 - 'Use system time zone' in not honored immediately
+	               (Milan Crha)
+	* Bug 660224 - Assertion failure when forwarding message (Milan Crha)
+	* Bug 660530 - Improve folder Subscription interface (Milan Crha)
+	* Bug 660584 - Fix crash when removing user certificate (Dan Vrátil)
+	* Bug 660721 - Online Account services not always activating
+	               (Milan Crha)
+	* Bug 660738 - Font changes ignored since 3.2 (Milan Crha)
+	* Bug 660782 - [pst-import] Missing tasks after import (Milan Crha)
+	* Bug 660799 - Bad GOptionEntry in evolution-addressbook-export
+	               (Matthew Barnes)
+	* Bug 660829 - Allow 'Mark as read' in right click menu on spam folder
+	               (Milan Crha)
+	* Bug 660850 - Missing set mnemonic widgets in composer preferences
+	               (Milan Crha)
+	* Bug 660861 - Avoid mark-all-read on a non-folder selection
+	               (Milan Crha)
+	* Bug 660878 - Account configuration options are not auto-filled
+	               (Dan Vrátil)
+	* Bug 661399 - Crash when hovering over calendar entry (Matthew Barnes)
+	* Bug 661404 - Adding multiple e-mails to contact list is too hard
+	               (Milan Crha)
+	* Bug 661409 - Contact display drops address lines (Dan Vrátil)
+	* Bug 661434 - Unfriendly search result (Milan Crha)
+	* Bug 661534 - "Current View" tooltip untranslated (Matthew Barnes)
+	* Bug 661542 - Weird "Cannot upgrade from version 0.xxxx" on first use
+	               (Vincent Untz)
+	* Bug 661549 - Avoid fetching from backend when calculating summary
+	               (Milan Crha)
+	* Bug 661650 - "Certificate Authority Trust" strings miss mnemonics
+	               (Matthew Barnes)
+
+Other Changes:
+	* User documentation improvements. (Andre Klapper)
+	* The EExtension framework is now in libebackend. (Matthew Barnes)
+	* Require GLib 2.30. (Matthew Barnes)
+	* ETableHeader: Rework the header button drawing code for GTK+ 3
+	  (Cosimo Cecchi)
+	* Increase dependency on gtk+ to 3.2.0 (Milan Crha)
+	* GtkApplication has some new EShell-like features. (Matthew Barnes)
+	* EAttachmentPaned: Add "resize-toplevel" property. (Matthew Barnes)
+	* Remove EHintedEntry. (Matthew Barnes)
+	* Let GtkFileChooser track its own last-used-folder. (Matthew Barnes)
+	* Require libgdata >= 0.10. (Matthew Barnes)
+	* Fix invalid read on vCard drop (Milan Crha)
+
+Translations:
+	Gil Forcada (ca)
+	Carles Ferrando (ca@valencia)
+	Marek Černocký (cs)
+	Jiri Eischmann (cs)
+	Mario Blättermann (de)
+	Daniel Mustieles (es)
+	Jorge González (es)
+	Daniel Mustieles (es)
+	Inaki Larranaga Murgoitio (eu)
+	Seán de Búrca (ga)
+	Fran Dieguez (gl)
+	Gabor Kelemen (hu)
+	Shankar Prasad (kn)
+	Algimantas Margevičius (lt)
+	Kjartan Maraas (nb)
+	Manoj Kumar Giri (or)
+	Matej Urbančič (sl)
+	Nguyễn Thái Ngọc Duy (vi)
+	Chao-Hsiung Liao (zh_HK, zh_TW)
+
+
 Evolution 3.2.0 2011-09-26
 --------------------------
 

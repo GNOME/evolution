@@ -134,6 +134,7 @@ gal_view_etable_clone (GalView *view)
 	new = g_object_new (GAL_TYPE_VIEW_ETABLE, NULL);
 	new->spec  = gve->spec;
 	new->title = g_strdup (gve->title);
+	g_object_unref (new->state);
 	new->state = e_table_state_duplicate (gve->state);
 
 	g_object_ref (new->spec);

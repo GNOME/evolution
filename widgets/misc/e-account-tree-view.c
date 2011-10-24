@@ -301,6 +301,9 @@ account_tree_view_refresh_timeout_cb (gpointer ptree_view)
 		COLUMN_NAME, _("Search Folders"),
 		COLUMN_PROTOCOL, NULL,
 		-1);
+
+	g_list_free (list);
+
  skip:
 	/* Restore the previously selected account. */
 	selected = e_account_tree_view_get_selected_type (tree_view);

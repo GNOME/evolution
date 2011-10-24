@@ -544,7 +544,6 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
                                 const gchar *msg_subject,
                                 EMailBackend *mail_backend)
 {
-	CamelFolder *folder = NULL;
 	EMEvent *event = em_event_peek ();
 	EMEventTargetFolder *target;
 	EMFolderTreeModel *model;
@@ -554,11 +553,15 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 
 	folder_uri = e_mail_folder_uri_build (store, folder_name);
 
-	if (mail_folder_cache_get_folder_from_uri (
-			folder_cache, folder_uri, &folder))
-		if (folder && !mail_folder_cache_get_folder_info_flags (
-				folder_cache, folder, &flags))
-			g_return_if_reached ();
+	if (folder_uri) {
+		CamelFolder *folder = NULL;
+
+		if (mail_folder_cache_get_folder_from_uri (folder_cache, folder_uri, &folder))
+			if (folder && !mail_folder_cache_get_folder_info_flags (folder_cache, folder, &flags))
+				g_return_if_reached ();
+		if (folder)
+			g_object_unref (folder);
+	}
 
 	g_free (folder_uri);
 
