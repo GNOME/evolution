@@ -343,7 +343,9 @@ main (gint argc,
       gchar **argv)
 {
 	EmailProvider *provider;
+	#if !GLIB_CHECK_VERSION(2,31,0)
 	g_thread_init (NULL);
+	#endif
 	g_type_init ();
 
 	provider = g_new0 (EmailProvider, 1);
