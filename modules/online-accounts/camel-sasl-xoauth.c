@@ -16,9 +16,14 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <e-util/e-account-utils.h>
+
 #include "camel-sasl-xoauth.h"
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #define GOA_API_IS_SUBJECT_TO_CHANGE
@@ -368,7 +373,7 @@ sasl_xoauth_challenge_sync (CamelSasl *sasl,
 	if (goa_client == NULL)
 		return NULL;
 
-	url = camel_url_new (account->store->url, error);
+	url = camel_url_new (account->source->url, error);
 	if (url == NULL)
 		return NULL;
 
