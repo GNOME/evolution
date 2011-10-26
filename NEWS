@@ -1,3 +1,9 @@
+Evolution 3.3.1.1 2011-10-26
+----------------------------
+
+* Work around libgthread shenanigans in GLib 2.31.
+
+
 Evolution 3.3.1 2011-10-24
 --------------------------
 
