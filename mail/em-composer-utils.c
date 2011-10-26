@@ -69,9 +69,6 @@
 #define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
 #endif
 
-#define GCONF_KEY_TEMPLATE_PLACEHOLDERS \
-	"/apps/evolution/mail/template_placeholders"
-
 typedef struct _AsyncContext AsyncContext;
 typedef struct _ForwardData ForwardData;
 
@@ -1261,15 +1258,19 @@ em_utils_edit_message (EShell *shell,
 	/* Template specific code follows. */
 	if (folder_is_templates) {
 		CamelDataWrapper *content;
-		GConfClient *gconf;
+		GSettings *settings;
+		gchar **strv;
+		gint i;
 		GSList *clue_list = NULL;
 
-		gconf = gconf_client_get_default ();
-		/* Get the list from gconf */
-		clue_list = gconf_client_get_list (
-			gconf, GCONF_KEY_TEMPLATE_PLACEHOLDERS,
-			GCONF_VALUE_STRING, NULL );
-		g_object_unref (gconf);
+		settings = g_settings_new ("org.gnome.evolution.eplugin.templates");
+
+		/* Get the list from GSettings */
+		strv = g_settings_get_strv (settings, "template-placeholders");
+		for (i = 0; strv[i] != NULL; i++)
+			clue_list = g_slist_append (clue_list, g_strdup (strv[i]));
+		g_object_unref (settings);
+		g_strfreev (strv);
 
 		content = camel_medium_get_content (CAMEL_MEDIUM (message));
 		traverse_parts (clue_list, message, content);
