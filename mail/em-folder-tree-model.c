@@ -1218,7 +1218,6 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 
 	service = CAMEL_SERVICE (store);
 	provider = camel_service_get_provider (service);
-	service_url = camel_service_get_camel_url (service);
 	display_name = camel_service_get_display_name (service);
 	account_uid = camel_service_get_uid (service);
 
@@ -1230,14 +1229,17 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	if ((provider->flags & CAMEL_PROVIDER_IS_STORAGE) == 0)
 		return;
 
-	if (em_utils_is_local_delivery_mbox_file (service_url))
+	service_url = camel_service_new_camel_url (service);
+	if (em_utils_is_local_delivery_mbox_file (service_url)) {
+		camel_url_free (service_url);
 		return;
+	}
+	uri = camel_url_to_string (service_url, CAMEL_URL_HIDE_ALL);
+	camel_url_free (service_url);
 
 	si = em_folder_tree_model_lookup_store_info (model, store);
 	if (si != NULL)
 		em_folder_tree_model_remove_store (model, store);
-
-	uri = camel_url_to_string (service_url, CAMEL_URL_HIDE_ALL);
 
 	mail_backend = em_folder_tree_model_get_backend (model);
 

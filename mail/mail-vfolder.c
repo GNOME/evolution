@@ -1089,9 +1089,8 @@ vfolder_load_storage (EMailBackend *backend)
 
 	CamelService *service;
 	const gchar *key;
-	const gchar *data_dir;
 	const gchar *config_dir;
-	gchar *user, *storeuri;
+	gchar *user;
 	EFilterRule *rule;
 	MailFolderCache *folder_cache;
 	EMailSession *session;
@@ -1112,15 +1111,13 @@ vfolder_load_storage (EMailBackend *backend)
 
 	G_UNLOCK (vfolder_hash);
 
-	data_dir = mail_session_get_data_dir ();
 	config_dir = mail_session_get_config_dir ();
 	session = e_mail_backend_get_session (backend);
 
 	/* first, create the vfolder store, and set it up */
-	storeuri = g_strdup_printf("vfolder:%s/vfolder", data_dir);
 	service = camel_session_add_service (
 		CAMEL_SESSION (session), "vfolder",
-		storeuri, CAMEL_PROVIDER_STORE, NULL);
+		"vfolder", CAMEL_PROVIDER_STORE, NULL);
 	if (service != NULL) {
 		camel_service_set_display_name (service, _("Search Folders"));
 		em_utils_connect_service_sync (service, NULL, NULL);
@@ -1173,8 +1170,6 @@ vfolder_load_storage (EMailBackend *backend)
 			d(printf("invalid rule (%p) encountered: rule->name is NULL\n", rule));
 		}
 	}
-
-	g_free (storeuri);
 
 	/* reenable the feature if required */
 	settings = g_settings_new ("org.gnome.evolution.mail");

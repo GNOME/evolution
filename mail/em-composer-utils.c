@@ -2212,12 +2212,14 @@ reply_get_composer (EShell *shell,
 			parent_store = camel_folder_get_parent_store (folder);
 
 			service = CAMEL_SERVICE (parent_store);
-			url = camel_service_get_camel_url (service);
+			url = camel_service_new_camel_url (service);
 
 			store_url = camel_url_to_string (
 				url, CAMEL_URL_HIDE_ALL);
 			if (store_url[strlen (store_url) - 1] == '/')
 				store_url[strlen (store_url) - 1] = '\0';
+
+			camel_url_free (url);
 		}
 
 		post = camel_address_encode ((CamelAddress *) postto);

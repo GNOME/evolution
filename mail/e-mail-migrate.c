@@ -288,7 +288,7 @@ cp (const gchar *src,
 
 		total += nwritten;
 		if (show_progress)
-			em_migrate_set_progress (((double) total) / ((double) st.st_size));
+			em_migrate_set_progress (((gdouble) total) / ((gdouble) st.st_size));
 	} while (total < st.st_size);
 
 	if (fsync (writefd) == -1)
@@ -610,7 +610,7 @@ migrate_folders (CamelStore *store,
 		info = g_slice_new0 (MigrateStateInfo);
 		info->label_name = g_strdup_printf (
 			"%s/%s", acc, fi->full_name);
-		info->progress = (double) (*nth_folder) / total_folders;
+		info->progress = (gdouble) (*nth_folder) / total_folders;
 
 		g_idle_add_full (
 			G_PRIORITY_LOW, (GSourceFunc)
@@ -655,23 +655,23 @@ static CamelStore *
 setup_local_store (EShellBackend *shell_backend,
                    EMMigrateSession *session)
 {
-	CamelURL *url;
+	CamelSettings *settings;
+	CamelService *service;
 	const gchar *data_dir;
-	gchar *tmp;
-	CamelStore *store;
+	gchar *path;
 
-	url = camel_url_new("mbox:", NULL);
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
-	tmp = g_build_filename (data_dir, "local", NULL);
-	camel_url_set_path (url, tmp);
-	g_free (tmp);
-	tmp = camel_url_to_string (url, 0);
-	store = (CamelStore *) camel_session_add_service (
-		CAMEL_SESSION (session), "local", tmp,
+	service = camel_session_add_service (
+		CAMEL_SESSION (session), "local", "mbox",
 		CAMEL_PROVIDER_STORE, NULL);
-	g_free (tmp);
 
-	return store;
+	settings = camel_service_get_settings (service);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
+
+	path = g_build_filename (data_dir, "local", NULL);
+	g_object_set (settings, "path", path, NULL);
+	g_free (path);
+
+	return CAMEL_STORE (service);
 }
 
 #ifndef G_OS_WIN32
@@ -704,9 +704,10 @@ migrate_to_db (EShellBackend *shell_backend)
 	EIterator *iter;
 	gint i = 0, len;
 	CamelStore *store = NULL;
+	CamelSettings *settings;
 	CamelFolderInfo *info;
-	CamelURL *url;
 	const gchar *data_dir;
+	const gchar *path;
 
 	if (!(accounts = e_get_account_list ()))
 		return;
@@ -728,9 +729,11 @@ migrate_to_db (EShellBackend *shell_backend)
 		  "folders has been moved to SQLite since Evolution 2.24.\n\nPlease be "
 		  "patient while Evolution migrates your folders..."));
 
-	em_migrate_set_progress ( (double) i / (len + 1));
+	em_migrate_set_progress ((gdouble) i / (len + 1));
 	store = setup_local_store (shell_backend, session);
-	url = camel_service_get_camel_url (CAMEL_SERVICE (store));
+
+	settings = camel_service_get_settings (CAMEL_SERVICE (store));
+	path = camel_local_settings_get_path (CAMEL_LOCAL_SETTINGS (settings));
 
 	info = camel_store_get_folder_info_sync (
 		store, NULL,
@@ -741,7 +744,7 @@ migrate_to_db (EShellBackend *shell_backend)
 	if (info) {
 		struct migrate_folders_to_db_structure migrate_dbs;
 
-		if (g_str_has_suffix (url->path, ".evolution/mail/local"))
+		if (path != NULL && g_str_has_suffix (path, ".evolution/mail/local"))
 			migrate_dbs.is_local_store = TRUE;
 		else
 			migrate_dbs.is_local_store = FALSE;
@@ -757,14 +760,14 @@ migrate_to_db (EShellBackend *shell_backend)
 			g_main_context_iteration (NULL, TRUE);
 	}
 	i++;
-	em_migrate_set_progress ( (double) i / (len + 1));
+	em_migrate_set_progress ((gdouble) i / (len + 1));
 
 	while (e_iterator_is_valid (iter)) {
 		EAccount *account = (EAccount *) e_iterator_get (iter);
 		EAccountService *service;
 
 		service = account->source;
-		em_migrate_set_progress ( (double) i / (len + 1));
+		em_migrate_set_progress ((gdouble) i / (len + 1));
 		if (account->enabled
 		    && service->url != NULL && service->url[0]
 		    && strncmp (service->url, "mbox:", 5) != 0) {
@@ -944,36 +947,31 @@ migrate_mbox_to_maildir (EShellBackend *shell_backend,
 {
 	CamelService *mbox_service, *maildir_service;
 	CamelStore *mbox_store, *maildir_store;
-	CamelURL *url;
+	CamelSettings *settings;
 	const gchar *data_dir;
-	gchar *temp;
+	gchar *path;
 	struct MigrateStore ms;
 
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
-	url = camel_url_new ("mbox:", NULL);
-	temp = g_build_filename (data_dir, "local_mbox", NULL);
-	camel_url_set_path (url, temp);
-	g_free (temp);
 
-	temp = camel_url_to_string (url, 0);
 	mbox_service = camel_session_add_service (
-		CAMEL_SESSION (session), "local_mbox", temp,
+		CAMEL_SESSION (session), "local_mbox", "mbox",
 		CAMEL_PROVIDER_STORE, NULL);
-	g_free (temp);
-	camel_url_free (url);
 
-	url = camel_url_new ("maildir:", NULL);
-	temp = g_build_filename (data_dir, "local", NULL);
-	g_mkdir (temp, 0700);
-	camel_url_set_path (url, temp);
-	g_free (temp);
+	settings = camel_service_get_settings (mbox_service);
+	path = g_build_filename (data_dir, "local_mbox", NULL);
+	g_object_set (settings, "path", path, NULL);
+	g_free (path);
 
-	temp = camel_url_to_string (url, 0);
 	maildir_service = camel_session_add_service (
-		CAMEL_SESSION (session), "local", temp,
+		CAMEL_SESSION (session), "local", "maildir",
 		CAMEL_PROVIDER_STORE, NULL);
-	g_free (temp);
-	camel_url_free (url);
+
+	settings = camel_service_get_settings (maildir_service);
+	path = g_build_filename (data_dir, "local", NULL);
+	g_object_set (settings, "path", path, NULL);
+	g_mkdir (path, 0700);
+	g_free (path);
 
 	mbox_store = CAMEL_STORE (mbox_service);
 	maildir_store = CAMEL_STORE (maildir_service);

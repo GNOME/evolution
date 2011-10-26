@@ -2097,18 +2097,18 @@ emae_check_authtype (GtkWidget *w,
 	url_string = (gchar *) e_account_get_string (
 		account, emae_service_info[service->type].account_uri_key);
 	url = camel_url_new (url_string, NULL);
-	if (service->settings)
-		camel_settings_save_to_url (service->settings, url);
-	url_string = camel_url_to_string (url, 0);
-	camel_url_free (url);
 
 	/* to test on actual data, not on previously used */
 	camel_service = camel_session_add_service (
 		CAMEL_SESSION (session), uid,
-		url_string, service->type, &error);
+		url->protocol, service->type, &error);
 
-	g_free (uid);
+	camel_url_free (url);
 	g_free (url_string);
+	g_free (uid);
+
+	if (camel_service != NULL && service->settings != NULL)
+		camel_service_set_settings (camel_service, service->settings);
 
 	if (editor != NULL)
 		parent = gtk_widget_get_toplevel (editor);

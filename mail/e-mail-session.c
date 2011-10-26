@@ -455,11 +455,13 @@ mail_session_make_key (CamelService *service,
 {
 	gchar *key;
 
-	if (service != NULL)
-		key = camel_url_to_string (
-			camel_service_get_camel_url (service),
-			CAMEL_URL_HIDE_PARAMS);
-	else
+	if (service != NULL) {
+		CamelURL *url;
+
+		url = camel_service_new_camel_url (service);
+		key = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+		camel_url_free (url);
+	} else
 		key = g_strdup (item);
 
 	return key;
@@ -694,7 +696,7 @@ mail_session_constructed (GObject *object)
 static CamelService *
 mail_session_add_service (CamelSession *session,
                           const gchar *uid,
-                          const gchar *url_string,
+                          const gchar *protocol,
                           CamelProviderType type,
                           GError **error)
 {
@@ -702,18 +704,51 @@ mail_session_add_service (CamelSession *session,
 
 	/* Chain up to parents add_service() method. */
 	service = CAMEL_SESSION_CLASS (e_mail_session_parent_class)->
-		add_service (session, uid, url_string, type, error);
+		add_service (session, uid, protocol, type, error);
 
 	/* Initialize the CamelSettings object from CamelURL parameters.
 	 * This is temporary; soon we'll read settings from key files. */
 
 	if (CAMEL_IS_SERVICE (service)) {
-		CamelSettings *settings;
-		CamelURL *url;
+		EAccount *account;
+		CamelURL *url = NULL;
 
-		settings = camel_service_get_settings (service);
-		url = camel_service_get_camel_url (service);
-		camel_settings_load_from_url (settings, url);
+		account = e_get_account_by_uid (uid);
+		if (account != NULL) {
+			const gchar *url_string = NULL;
+
+			switch (type) {
+				case CAMEL_PROVIDER_STORE:
+					url_string = account->source->url;
+					break;
+				case CAMEL_PROVIDER_TRANSPORT:
+					url_string = account->transport->url;
+					break;
+				default:
+					break;
+			}
+
+			if (url_string != NULL) {
+				url = camel_url_new (url_string, error);
+				if (url == NULL) {
+					g_object_unref (service);
+					service = NULL;
+				}
+			}
+		}
+
+		if (url != NULL) {
+			CamelSettings *settings;
+
+			settings = camel_service_get_settings (service);
+			camel_settings_load_from_url (settings, url);
+			camel_url_free (url);
+
+			/* Migrate files for this service from its old
+			 * URL-based directory to a UID-based directory
+			 * if necessary. */
+			camel_service_migrate_files (service);
+		}
 	}
 
 	return service;
@@ -1080,7 +1115,7 @@ mail_session_authenticate_sync (CamelSession *session,
 	CamelServiceAuthType *authtype = NULL;
 	CamelAuthenticationResult result;
 	CamelProvider *provider;
-	CamelURL *url;
+	CamelSettings *settings;
 	const gchar *password;
 	guint32 password_flags;
 	GError *local_error = NULL;
@@ -1088,8 +1123,8 @@ mail_session_authenticate_sync (CamelSession *session,
 	/* Do not chain up.  Camel's default method is only an example for
 	 * subclasses to follow.  Instead we mimic most of its logic here. */
 
-	url = camel_service_get_camel_url (service);
 	provider = camel_service_get_provider (service);
+	settings = camel_service_get_settings (service);
 
 	/* APOP is one case where a non-SASL mechanism name is passed, so
 	 * don't bail if the CamelServiceAuthType struct comes back NULL. */
@@ -1148,11 +1183,18 @@ retry:
 	password = camel_service_get_password (service);
 
 	if (password == NULL) {
+		CamelNetworkSettings *network_settings;
+		const gchar *host;
+		const gchar *user;
 		gchar *prompt;
 		gchar *new_passwd;
 
+		network_settings = CAMEL_NETWORK_SETTINGS (settings);
+		host = camel_network_settings_get_host (network_settings);
+		user = camel_network_settings_get_user (network_settings);
+
 		prompt = camel_session_build_password_prompt (
-			provider->name, url->user, url->host);
+			provider->name, user, host);
 
 		new_passwd = camel_session_get_password (
 			session, service, prompt, "password",
