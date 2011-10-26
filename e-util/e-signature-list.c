@@ -264,7 +264,6 @@ free_func (gpointer data,
 
 /**
  * e_signature_list_new:
- * @gconf: a #GConfClient
  *
  * Reads the list of signaturess from @gconf and listens for changes.
  * Will emit #signature_added, #signature_changed, and #signature_removed
@@ -278,14 +277,14 @@ free_func (gpointer data,
  * Return value: the list of signatures
  **/
 ESignatureList *
-e_signature_list_new (GConfClient *gconf)
+e_signature_list_new (void)
 {
 	ESignatureList *signature_list;
 
 	g_return_val_if_fail (GCONF_IS_CLIENT (gconf), NULL);
 
 	signature_list = g_object_new (E_TYPE_SIGNATURE_LIST, NULL);
-	e_signature_list_construct (signature_list, gconf);
+	e_signature_list_construct (signature_list, gconf_client_get_default ());
 
 	return signature_list;
 }

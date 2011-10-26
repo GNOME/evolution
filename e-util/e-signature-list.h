@@ -27,8 +27,6 @@
 #include <libedataserver/e-list.h>
 #include <e-util/e-signature.h>
 
-#include <gconf/gconf-client.h>
-
 /* Standard GObject macros */
 #define E_TYPE_SIGNATURE_LIST \
 	(e_signature_list_get_type ())
@@ -72,7 +70,7 @@ struct _ESignatureListClass {
 };
 
 GType		e_signature_list_get_type	(void);
-ESignatureList *e_signature_list_new		(GConfClient *client);
+ESignatureList *e_signature_list_new		(void);
 void		e_signature_list_construct	(ESignatureList *signature_list,
 						 GConfClient *client);
 void		e_signature_list_save		(ESignatureList *signature_list);
