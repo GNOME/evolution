@@ -167,9 +167,6 @@ main (gint argc,
 	if (!gtk_init_with_args (&argc, &argv, NULL, entries, NULL, &error))
 		g_error ("%s", error->message);
 
-	if (!g_thread_get_initialized ())
-		g_thread_init (NULL);
-
 	e_passwords_init ();
 	categories_icon_theme_hack ();
 

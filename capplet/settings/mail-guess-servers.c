@@ -343,7 +343,7 @@ main (gint argc,
       gchar **argv)
 {
 	EmailProvider *provider;
-	g_thread_init (NULL);
+
 	g_type_init ();
 
 	provider = g_new0 (EmailProvider, 1);
