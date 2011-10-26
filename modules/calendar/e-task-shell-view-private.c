@@ -506,8 +506,6 @@ e_task_shell_view_delete_completed (ETaskShellView *task_shell_view)
 					G_STRFUNC, error->message);
 				g_clear_error (&error);
 			}
-
-			icalcomponent_free (component);
 		}
 
 		e_cal_client_free_icalcomp_slist (objects);
