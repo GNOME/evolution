@@ -24,6 +24,7 @@ addressbook/gui/widgets/e-addressbook-view.c
 addressbook/gui/widgets/e-addressbook-view.etspec
 addressbook/gui/widgets/ea-minicard.c
 addressbook/gui/widgets/ea-minicard-view.c
+addressbook/gui/widgets/e-book-source-config.c
 addressbook/gui/widgets/e-minicard.c
 addressbook/gui/widgets/e-minicard-label.c
 addressbook/gui/widgets/e-minicard-view.c
@@ -48,7 +49,6 @@ calendar/gui/dialogs/alarm-dialog.c
 [type: gettext/glade]calendar/gui/dialogs/alarm-dialog.ui
 calendar/gui/dialogs/alarm-list-dialog.c
 [type: gettext/glade]calendar/gui/dialogs/alarm-list-dialog.ui
-calendar/gui/dialogs/calendar-setup.c
 calendar/gui/dialogs/cancel-comp.c
 calendar/gui/dialogs/changed-comp.c
 calendar/gui/dialogs/comp-editor.c
@@ -96,6 +96,7 @@ calendar/gui/e-cal-list-view.etspec
 calendar/gui/e-cal-model.c
 calendar/gui/e-cal-model-calendar.c
 calendar/gui/e-cal-model-tasks.c
+calendar/gui/e-cal-source-config.c
 calendar/gui/e-cell-date-edit-text.c
 calendar/gui/e-day-view.c
 calendar/gui/e-day-view-time-item.c
@@ -163,7 +164,6 @@ e-util/e-datetime-format.c
 e-util/e-dialog-utils.c
 e-util/e-file-utils.c
 e-util/e-plugin.c
-e-util/e-plugin-util.c
 e-util/e-print.c
 e-util/e-system.error.xml
 e-util/e-util.c
@@ -178,6 +178,7 @@ filter/e-rule-editor.c
 filter/filter.error.xml
 [type: gettext/glade]filter/filter.ui
 libemail-engine/camel-null-store.c
+libemail-engine/e-mail-authenticator.c
 libemail-engine/e-mail-folder-utils.c
 libemail-engine/e-mail-session.c
 libemail-engine/e-mail-session-utils.c
@@ -187,15 +188,29 @@ libemail-engine/mail-folder-cache.c
 libemail-engine/mail-ops.c
 libemail-engine/mail-tools.c
 libemail-engine/mail-vfolder.c
-libemail-utils/e-signature.c
 libemail-utils/mail-mt.c
 libevolution-utils/e-alert-dialog.c
-mail/em-account-editor.c
 mail/e-mail-account-manager.c
 mail/e-mail-account-tree-view.c
 mail/e-mail-attachment-bar.c
+mail/e-mail-autoconfig.c
 mail/e-mail-backend.c
 mail/e-mail-browser.c
+mail/e-mail-config-assistant.c
+mail/e-mail-config-auth-check.c
+mail/e-mail-config-confirm-page.c
+mail/e-mail-config-defaults-page.c
+mail/e-mail-config-identity-page.c
+mail/e-mail-config-lookup-page.c
+mail/e-mail-config-page.c
+mail/e-mail-config-provider-page.c
+mail/e-mail-config-receiving-page.c
+mail/e-mail-config-security-page.c
+mail/e-mail-config-sending-page.c
+mail/e-mail-config-service-page.c
+mail/e-mail-config-summary-page.c
+mail/e-mail-config-welcome-page.c
+mail/e-mail-config-window.c
 mail/e-mail-display.c
 mail/e-mail-junk-options.c
 mail/e-mail-label-dialog.c
@@ -242,7 +257,6 @@ mail/mail-vfolder-ui.c
 mail/message-list.c
 mail/message-list.etspec
 mail/searchtypes.xml
-modules/addressbook/addressbook-config.c
 modules/addressbook/apps_evolution_addressbook.schemas.in
 modules/addressbook/autocompletion-config.c
 modules/addressbook/eab-composer-util.c
@@ -253,8 +267,27 @@ modules/addressbook/e-book-shell-sidebar.c
 modules/addressbook/e-book-shell-view-actions.c
 modules/addressbook/e-book-shell-view.c
 [type: gettext/glade]modules/addressbook/ldap-config.ui
+modules/backup-restore/e-mail-config-restore-page.c
+modules/backup-restore/e-mail-config-restore-ready-page.c
+modules/backup-restore/evolution-backup-restore.c
+modules/backup-restore/evolution-backup-tool.c
+modules/backup-restore/org-gnome-backup-restore.error.xml
 modules/bogofilter/evolution-bogofilter.c
 modules/bogofilter/evolution-bogofilter.schemas.in
+modules/book-config-google/evolution-book-config-google.c
+modules/book-config-ldap/evolution-book-config-ldap.c
+modules/book-config-webdav/evolution-book-config-webdav.c
+modules/cal-config-caldav/e-caldav-chooser-dialog.c
+modules/cal-config-caldav/e-caldav-chooser.c
+modules/cal-config-caldav/evolution-cal-config-caldav.c
+modules/cal-config-contacts/evolution-cal-config-contacts.c
+modules/cal-config-google/e-google-chooser-button.c
+modules/cal-config-google/e-google-chooser-dialog.c
+modules/cal-config-google/e-google-chooser.c
+modules/cal-config-google/evolution-cal-config-google.c
+modules/cal-config-local/evolution-cal-config-local.c
+modules/cal-config-weather/evolution-cal-config-weather.c
+modules/cal-config-webcal/evolution-cal-config-webcal.c
 modules/calendar/apps_evolution_calendar.schemas.in
 modules/calendar/e-cal-attachment-handler.c
 modules/calendar/e-calendar-preferences.c
@@ -282,6 +315,7 @@ modules/calendar/e-task-shell-sidebar.c
 modules/calendar/e-task-shell-view-actions.c
 modules/calendar/e-task-shell-view.c
 modules/calendar/e-task-shell-view-private.c
+modules/imap-features/e-mail-config-imap-headers-page.c
 modules/mail/em-account-prefs.c
 modules/mail/e-mail-attachment-handler.c
 modules/mail/e-mail-shell-backend.c
@@ -291,18 +325,25 @@ modules/mail/e-mail-shell-view.c
 modules/mail/e-mail-shell-view-private.c
 modules/mail/em-composer-prefs.c
 modules/mail/em-mailer-prefs.c
+modules/mail-config/e-mail-config-google-summary.c
+modules/mail-config/e-mail-config-local-accounts.c
+modules/mail-config/e-mail-config-remote-accounts.c
+modules/mail-config/e-mail-config-smtp-backend.c
+modules/mail-config/e-mail-config-yahoo-summary.c
 modules/mailto-handler/apps-evolution-mail-prompts-checkdefault.schemas.in
 modules/mailto-handler/evolution-mailto-handler.c
 modules/mdn/evolution-mdn.c
 modules/mdn/evolution-mdn.error.xml
 modules/offline-alert/evolution-offline-alert.error.xml
 modules/online-accounts/camel-sasl-xoauth.c
-modules/online-accounts/e-online-accounts-google.c
 modules/plugin-manager/evolution-plugin-manager.c
 modules/plugin-python/example/org-gnome-hello-python.eplug.xml
 modules/plugin-python/example/org-gnome-hello-python-ui.xml
 modules/spamassassin/evolution-spamassassin.c
 modules/spamassassin/evolution-spamassassin.schemas.in
+modules/startup-wizard/e-mail-config-import-page.c
+modules/startup-wizard/e-mail-config-import-progress-page.c
+modules/startup-wizard/e-startup-assistant.c
 modules/startup-wizard/evolution-startup-wizard.c
 modules/web-inspector/evolution-web-inspector.c
 plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in
@@ -310,25 +351,10 @@ plugins/attachment-reminder/attachment-reminder.c
 plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml
 plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml
 plugins/audio-inline/org-gnome-audio-inline.eplug.xml
-plugins/backup-restore/backup.c
-plugins/backup-restore/backup-restore.c
-plugins/backup-restore/org-gnome-backup-restore.eplug.xml
-plugins/backup-restore/org-gnome-backup-restore.error.xml
 plugins/bbdb/bbdb.c
 plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml
-plugins/caldav/caldav-browse-server.c
-plugins/caldav/caldav-source.c
-plugins/caldav/org-gnome-evolution-caldav.eplug.xml
-plugins/calendar-file/calendar-file.c
-plugins/calendar-file/org-gnome-calendar-file.eplug.xml
-plugins/calendar-http/calendar-http.c
-plugins/calendar-http/org-gnome-calendar-http.eplug.xml
-plugins/calendar-weather/calendar-weather.c
-plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml
 plugins/dbx-import/dbx-importer.c
 plugins/dbx-import/org-gnome-dbx-import.eplug.xml
-plugins/default-source/default-source.c
-plugins/default-source/org-gnome-default-source.eplug.xml
 plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in
 plugins/email-custom-header/email-custom-header.c
 plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml
@@ -341,13 +367,7 @@ plugins/face/apps_evolution_eplugin_face.schemas.in
 plugins/face/face.c
 plugins/face/org-gnome-face.eplug.xml
 plugins/face/org-gnome-face.error.xml
-plugins/google-account-setup/google-contacts-source.c
-plugins/google-account-setup/google-source.c
-plugins/google-account-setup/org-gnome-evolution-google.eplug.xml
 plugins/image-inline/org-gnome-image-inline.eplug.xml
-plugins/imap-features/imap-headers.c
-[type: gettext/glade]plugins/imap-features/imap-headers.ui
-plugins/imap-features/org-gnome-imap-features.eplug.xml
 plugins/itip-formatter/itip-formatter.c
 plugins/itip-formatter/itip-view.c
 plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml
@@ -383,8 +403,6 @@ plugins/templates/templates.c
 plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml
 plugins/vcard-inline/org-gnome-vcard-inline.eplug.xml
 plugins/vcard-inline/vcard-inline.c
-plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml
-plugins/webdav-account-setup/webdav-contacts-source.c
 shell/apps_evolution_shell.schemas.in
 shell/e-shell-backend.c
 shell/e-shell.c
@@ -453,6 +471,11 @@ widgets/misc/e-dateedit.c
 widgets/misc/e-focus-tracker.c
 widgets/misc/e-image-chooser.c
 widgets/misc/e-import-assistant.c
+widgets/misc/e-interval-chooser.c
+widgets/misc/e-mail-signature-combo-box.c
+widgets/misc/e-mail-signature-editor.c
+widgets/misc/e-mail-signature-manager.c
+widgets/misc/e-mail-signature-script-dialog.c
 widgets/misc/e-map.c
 widgets/misc/e-online-button.c
 widgets/misc/e-paned.c
@@ -463,10 +486,7 @@ widgets/misc/e-selection-model-array.c
 widgets/misc/e-selection-model.c
 widgets/misc/e-send-options.c
 [type: gettext/glade]widgets/misc/e-send-options.ui
-widgets/misc/e-signature-combo-box.c
-widgets/misc/e-signature-editor.c
-widgets/misc/e-signature-manager.c
-widgets/misc/e-signature-script-dialog.c
+widgets/misc/e-source-config.c
 widgets/misc/e-spell-entry.c
 widgets/misc/e-url-entry.c
 widgets/misc/e-web-view.c
