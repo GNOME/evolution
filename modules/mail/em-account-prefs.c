@@ -98,6 +98,7 @@ account_prefs_enable_account_cb (EAccountTreeView *tree_view,
                                  EMAccountPrefs *prefs)
 {
 	EAccount *account;
+	EMailSession *session;
 
 	account = e_account_tree_view_get_selected (tree_view);
 	if (!account) {
@@ -107,7 +108,8 @@ account_prefs_enable_account_cb (EAccountTreeView *tree_view,
 
 	g_return_if_fail (account != NULL);
 
-	e_mail_store_add_by_account (prefs->priv->backend, account);
+	session = e_mail_backend_get_session (prefs->priv->backend);
+	e_mail_store_add_by_account (session, account);
 }
 
 static void
@@ -116,6 +118,7 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view,
 {
 	EAccountList *account_list;
 	EAccount *account;
+	EMailSession *session;
 	gpointer parent;
 	gint response;
 
@@ -127,11 +130,13 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view,
 
 	g_return_if_fail (account != NULL);
 
+	session = e_mail_backend_get_session (prefs->priv->backend);
+
 	account_list = e_account_tree_view_get_account_list (tree_view);
 	g_return_if_fail (account_list != NULL);
 
 	if (!e_account_list_account_has_proxies (account_list, account)) {
-		e_mail_store_remove_by_account (prefs->priv->backend, account);
+		e_mail_store_remove_by_account (session, account);
 		return;
 	}
 
@@ -148,7 +153,7 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view,
 
 	e_account_list_remove_account_proxies (account_list, account);
 
-	e_mail_store_remove_by_account (prefs->priv->backend, account);
+	e_mail_store_remove_by_account (session, account);
 }
 
 static void
@@ -321,11 +326,13 @@ account_prefs_delete_account (EAccountManager *manager)
 	EAccountTreeView *tree_view;
 	EAccountList *account_list;
 	EAccount *account;
+	EMailSession *session;
 	gboolean has_proxies;
 	gpointer parent;
 	gint response;
 
 	priv = EM_ACCOUNT_PREFS (manager)->priv;
+	session = e_mail_backend_get_session (priv->backend);
 
 	account_list = e_account_manager_get_account_list (manager);
 	tree_view = e_account_manager_get_tree_view (manager);
@@ -354,7 +361,7 @@ account_prefs_delete_account (EAccountManager *manager)
 
 	/* Remove the account from the folder tree. */
 	if (account->enabled)
-		e_mail_store_remove_by_account (priv->backend, account);
+		e_mail_store_remove_by_account (session, account);
 
 	/* Remove all the proxies the account has created. */
 	if (has_proxies)

@@ -182,20 +182,17 @@ special_mail_store_is_enabled (CamelStore *store)
 }
 
 static void
-mail_store_add (EMailBackend *backend,
+mail_store_add (EMailSession *session,
                 CamelStore *store,
                 AddStoreCallback callback)
 {
-	EMailSession *session;
 	EMFolderTreeModel *default_model;
 	MailFolderCache *folder_cache;
 	StoreInfo *store_info;
 
 	g_return_if_fail (store_table != NULL);
-	g_return_if_fail (store != NULL);
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
-	session = e_mail_backend_get_session (backend);
 	default_model = em_folder_tree_model_get_default ();
 	folder_cache = e_mail_session_get_folder_cache (session);
 
@@ -230,15 +227,12 @@ mail_store_add_local_done_cb (MailFolderCache *folder_cache,
 }
 
 static void
-mail_store_load_accounts (EMailBackend *backend,
+mail_store_load_accounts (EMailSession *session,
                           const gchar *data_dir)
 {
 	CamelStore *local_store;
-	EMailSession *session;
 	EAccountList *account_list;
 	EIterator *iter;
-
-	session = e_mail_backend_get_session (backend);
 
 	/* Add the local store. */
 
@@ -246,7 +240,7 @@ mail_store_load_accounts (EMailBackend *backend,
 	local_store = e_mail_local_get_store ();
 
 	mail_store_add (
-		backend, local_store, (AddStoreCallback)
+		session, local_store, (AddStoreCallback)
 		mail_store_add_local_done_cb);
 
 	/* Add mail accounts.. */
@@ -262,19 +256,19 @@ mail_store_load_accounts (EMailBackend *backend,
 		if (!account->enabled)
 			continue;
 
-		e_mail_store_add_by_account (backend, account);
+		e_mail_store_add_by_account (session, account);
 	}
 
 	g_object_unref (iter);
 }
 
 void
-e_mail_store_init (EMailBackend *backend,
+e_mail_store_init (EMailSession *session,
                    const gchar *data_dir)
 {
 	static gboolean initialized = FALSE;
 
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	/* This function is idempotent because mail
 	 * migration code may need to call it early. */
@@ -288,26 +282,25 @@ e_mail_store_init (EMailBackend *backend,
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) store_table_free);
 
-	mail_store_load_accounts (backend, data_dir);
+	mail_store_load_accounts (session, data_dir);
 
 	initialized = TRUE;
 }
 
 void
-e_mail_store_add (EMailBackend *backend,
+e_mail_store_add (EMailSession *session,
                   CamelStore *store)
 {
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
-	mail_store_add (backend, store, NULL);
+	mail_store_add (session, store, NULL);
 }
 
 CamelStore *
-e_mail_store_add_by_account (EMailBackend *backend,
+e_mail_store_add_by_account (EMailSession *session,
                              EAccount *account)
 {
-	EMailSession *session;
 	CamelService *service = NULL;
 	CamelProvider *provider;
 	CamelURL *url;
@@ -316,10 +309,8 @@ e_mail_store_add_by_account (EMailBackend *backend,
 	gboolean service_belongs_in_tree_model;
 	GError *error = NULL;
 
-	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 	g_return_val_if_fail (E_IS_ACCOUNT (account), NULL);
-
-	session = e_mail_backend_get_session (backend);
 
 	/* check whether it's transport-only accounts */
 	transport_only =
@@ -365,7 +356,7 @@ e_mail_store_add_by_account (EMailBackend *backend,
 		!service_is_local_delivery;
 
 	if (service_belongs_in_tree_model && store_table != NULL)
-		e_mail_store_add (backend, CAMEL_STORE (service));
+		e_mail_store_add (session, CAMEL_STORE (service));
 
 handle_transport:
 
@@ -426,18 +417,15 @@ fail:
 }
 
 void
-e_mail_store_remove (EMailBackend *backend,
+e_mail_store_remove (EMailSession *session,
                      CamelStore *store)
 {
-	EMailSession *session;
 	MailFolderCache *folder_cache;
 	EMFolderTreeModel *default_model;
 
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (store_table != NULL);
-
-	session = e_mail_backend_get_session (backend);
 
 	/* Because the store table holds a reference to each store used
 	 * as a key in it, none of them will ever be gc'ed, meaning any
@@ -463,19 +451,17 @@ e_mail_store_remove (EMailBackend *backend,
 }
 
 void
-e_mail_store_remove_by_account (EMailBackend *backend,
+e_mail_store_remove_by_account (EMailSession *session,
                                 EAccount *account)
 {
-	EMailSession *session;
 	CamelService *service;
 	CamelProvider *provider;
 	const gchar *uid;
 
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (E_IS_ACCOUNT (account));
 
 	uid = account->uid;
-	session = e_mail_backend_get_session (backend);
 
 	service = camel_session_get_service (CAMEL_SESSION (session), uid);
 	g_return_if_fail (CAMEL_IS_STORE (service));
@@ -486,24 +472,21 @@ e_mail_store_remove_by_account (EMailBackend *backend,
 	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE) || store_table == NULL)
 		return;
 
-	e_mail_store_remove (backend, CAMEL_STORE (service));
+	e_mail_store_remove (session, CAMEL_STORE (service));
 }
 
 void
-e_mail_store_foreach (EMailBackend *backend,
+e_mail_store_foreach (EMailSession *session,
                       GFunc func,
                       gpointer user_data)
 {
-	EMailSession *session;
 	GList *list, *link;
 
 	/* XXX This is a silly convenience function.
 	 *     Could probably just get rid of it. */
 
-	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (func != NULL);
-
-	session = e_mail_backend_get_session (backend);
 
 	list = camel_session_list_services (CAMEL_SESSION (session));
 

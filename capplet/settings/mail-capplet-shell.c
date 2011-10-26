@@ -278,7 +278,7 @@ mail_capplet_shell_construct (MailCappletShell *shell,
 	mail_config_init (session);
 	mail_msg_init ();
 	custom_dir = g_build_filename (e_get_user_data_dir (), "mail", NULL);
-	e_mail_store_init (shell->priv->backend, custom_dir);
+	e_mail_store_init (session, custom_dir);
 	g_free (custom_dir);
 
 	if (just_druid) {

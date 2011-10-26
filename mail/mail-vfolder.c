@@ -1158,7 +1158,7 @@ vfolder_load_storage (EMailBackend *backend)
 		G_CALLBACK (context_rule_removed), context);
 
 	/* load store to mail component */
-	e_mail_store_add (backend, vfolder_store);
+	e_mail_store_add (session, vfolder_store);
 
 	/* and setup the rules we have */
 	rule = NULL;

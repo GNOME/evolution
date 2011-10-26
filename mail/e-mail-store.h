@@ -23,22 +23,22 @@
 #define E_MAIL_STORE_H
 
 #include <camel/camel.h>
-#include <mail/e-mail-backend.h>
+#include <mail/e-mail-session.h>
 #include <libedataserver/e-account.h>
 
 G_BEGIN_DECLS
 
-void		e_mail_store_init		(EMailBackend *backend,
+void		e_mail_store_init		(EMailSession *session,
 						 const gchar *data_dir);
-void		e_mail_store_add		(EMailBackend *backend,
+void		e_mail_store_add		(EMailSession *session,
 						 CamelStore *store);
-CamelStore *	e_mail_store_add_by_account	(EMailBackend *backend,
+CamelStore *	e_mail_store_add_by_account	(EMailSession *session,
 						 EAccount *account);
-void		e_mail_store_remove		(EMailBackend *backend,
+void		e_mail_store_remove		(EMailSession *session,
 						 CamelStore *store);
-void		e_mail_store_remove_by_account	(EMailBackend *backend,
+void		e_mail_store_remove_by_account	(EMailSession *session,
 						 EAccount *account);
-void		e_mail_store_foreach		(EMailBackend *backend,
+void		e_mail_store_foreach		(EMailSession *session,
 						 GFunc func,
 						 gpointer user_data);
 

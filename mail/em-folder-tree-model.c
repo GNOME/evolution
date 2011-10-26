@@ -288,10 +288,12 @@ account_added_cb (EAccountList *accounts,
                   EMFolderTreeModel *model)
 {
 	EMailBackend *backend;
+	EMailSession *session;
 
 	backend = em_folder_tree_model_get_backend (model);
+	session = e_mail_backend_get_session (backend);
 
-	e_mail_store_add_by_account (backend, account);
+	e_mail_store_add_by_account (session, account);
 }
 
 static void
