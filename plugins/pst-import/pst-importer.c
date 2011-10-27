@@ -549,10 +549,12 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
 	g_signal_connect (w, "selected", G_CALLBACK (folder_selected), target);
 	gtk_box_pack_end ((GtkBox *) hbox, w, FALSE, FALSE, 0);
 	g_signal_connect (check, "toggled", G_CALLBACK (widget_sanitizer_cb), w);
+	widget_sanitizer_cb (GTK_TOGGLE_BUTTON (check), w);
 
 	w = gtk_label_new (_("Destination folder:"));
 	gtk_box_pack_end ((GtkBox *) hbox, w, FALSE, TRUE, 6);
 	g_signal_connect (check, "toggled", G_CALLBACK (widget_sanitizer_cb), w);
+	widget_sanitizer_cb (GTK_TOGGLE_BUTTON (check), w);
 
 	gtk_box_pack_start ((GtkBox *) framebox, hbox, FALSE, FALSE, 0);
 
@@ -1098,6 +1100,61 @@ attachment_to_part (PstImporter *m,
 }
 
 static void
+dequote_string (gchar *str)
+{
+	if (str[0] == '\'' || str[0] == '\"') {
+		gint len = strlen (str);
+
+		if (len > 1 && (str[len - 1] == '\'' || str[len - 1] == '\"')) {
+			str[0] = ' ';
+			str[len - 1] = ' ';
+			g_strstrip (str);
+		}
+	}
+}
+
+static gboolean
+lookup_address (pst_item *item, const gchar *str, gboolean is_unique, CamelAddress *addr)
+{
+	gboolean res = FALSE;
+	gchar *address;
+
+	if (!item || !str || !*str || !addr)
+		return FALSE;
+
+	address = g_strdup (str);
+	dequote_string (address);
+
+	if (item->contact && item->file_as.str &&
+	    (is_unique || g_str_equal (item->file_as.str, str)) &&
+	    item->contact->address1.str &&
+	    item->contact->address1_transport.str &&
+	    g_ascii_strcasecmp (item->contact->address1_transport.str, "SMTP") == 0 &&
+	    !g_str_equal (address, item->contact->address1.str)) {
+		gchar *tmp = address;
+
+		address = g_strconcat ("\"", address, "\" <", item->contact->address1.str, ">", NULL);
+
+		g_free (tmp);
+	}
+
+	res = camel_address_decode (addr, address) > 0;
+
+	g_free (address);
+
+	return res;
+}
+
+static const gchar *
+strip_smtp (const gchar *str)
+{
+	if (str && g_ascii_strncasecmp (str, "SMTP:", 5) == 0)
+		return str + 5;
+
+	return str;
+}
+
+static void
 pst_process_email (PstImporter *m,
                    pst_item *item)
 {
@@ -1186,11 +1243,11 @@ pst_process_email (PstImporter *m,
 	addr = camel_internet_address_new ();
 
 	if (item->email->outlook_sender_name.str != NULL && item->email->outlook_sender.str != NULL) {
-		camel_internet_address_add (addr, item->email->outlook_sender_name.str, item->email->outlook_sender.str);
+		camel_internet_address_add (addr, item->email->outlook_sender_name.str, strip_smtp (item->email->outlook_sender.str));
 	} else if (item->email->outlook_sender_name.str != NULL) {
-		camel_address_decode (CAMEL_ADDRESS (addr), item->email->outlook_sender_name.str);
+		camel_address_decode (CAMEL_ADDRESS (addr), strip_smtp (item->email->outlook_sender_name.str));
 	} else if (item->email->outlook_sender.str != NULL) {
-		camel_address_decode (CAMEL_ADDRESS (addr), item->email->outlook_sender.str);
+		camel_address_decode (CAMEL_ADDRESS (addr), strip_smtp (item->email->outlook_sender.str));
 	} else {
 		/* Evo prints a warning if no from is set, so supply an empty address */
 		camel_internet_address_add (addr, "", "");
@@ -1222,7 +1279,7 @@ pst_process_email (PstImporter *m,
 		if (item->email->sentto_address.str != NULL) {
 			addr = camel_internet_address_new ();
 
-			if (camel_address_decode (CAMEL_ADDRESS (addr), item->email->sentto_address.str) > 0)
+			if (lookup_address (item, item->email->sentto_address.str, item->email->cc_address.str == NULL, CAMEL_ADDRESS (addr)))
 				camel_mime_message_set_recipients (msg, "To", addr);
 
 			g_object_unref (addr);
@@ -1231,7 +1288,7 @@ pst_process_email (PstImporter *m,
 		if (item->email->cc_address.str != NULL) {
 			addr = camel_internet_address_new ();
 
-			if (camel_address_decode (CAMEL_ADDRESS (addr), item->email->cc_address.str) > 0)
+			if (lookup_address (item, item->email->cc_address.str, item->email->sentto_address.str == NULL, CAMEL_ADDRESS (addr)))
 				camel_mime_message_set_recipients (msg, "CC", addr);
 
 			g_object_unref (addr);
