@@ -482,10 +482,6 @@ main (gint argc,
 	textdomain (GETTEXT_PACKAGE);
 
 	g_type_init ();
-	#if !GLIB_CHECK_VERSION(2,31,0)
-	if (!g_thread_get_initialized ())
-		g_thread_init (NULL);
-	#endif
 
 	/* do not require Gtk+ for --force-shutdown */
 	if (argc == 2 && argv[1] && g_str_equal (argv[1], "--force-shutdown")) {

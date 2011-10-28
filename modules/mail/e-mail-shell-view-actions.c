@@ -85,6 +85,7 @@ action_mail_account_disable_cb (GtkAction *action,
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EMailBackend *backend;
+	EMailSession *session;
 	EMFolderTree *folder_tree;
 	CamelService *service;
 	CamelStore *store;
@@ -98,6 +99,7 @@ action_mail_account_disable_cb (GtkAction *action,
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	store = em_folder_tree_get_selected_store (folder_tree);
@@ -115,7 +117,7 @@ action_mail_account_disable_cb (GtkAction *action,
 
 	account->enabled = !account->enabled;
 	e_account_list_change (account_list, account);
-	e_mail_store_remove_by_account (backend, account);
+	e_mail_store_remove_by_account (session, account);
 
 	if (account->parent_uid != NULL)
 		e_account_list_remove (account_list, account);
@@ -225,15 +227,17 @@ action_mail_download_cb (GtkAction *action,
 	EMailView *mail_view;
 	EMailReader *reader;
 	EMailBackend *backend;
+	EMailSession *session;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	reader = E_MAIL_READER (mail_view);
 	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
 
 	e_mail_store_foreach (
-		backend, (GFunc) action_mail_download_foreach_cb, reader);
+		session, (GFunc) action_mail_download_foreach_cb, reader);
 }
 
 static void

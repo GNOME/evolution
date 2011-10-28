@@ -1785,15 +1785,17 @@ em_folder_tree_new_with_model (EMailBackend *backend,
                                EAlertSink *alert_sink,
                                EMFolderTreeModel *model)
 {
+	EMailSession *session;
 	const gchar *data_dir;
 
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 	g_return_val_if_fail (E_IS_ALERT_SINK (alert_sink), NULL);
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
 
+	session = e_mail_backend_get_session (backend);
 	data_dir = e_shell_backend_get_data_dir (E_SHELL_BACKEND (backend));
 
-	e_mail_store_init (backend, data_dir);
+	e_mail_store_init (session, data_dir);
 
 	return g_object_new (
 		EM_TYPE_FOLDER_TREE,

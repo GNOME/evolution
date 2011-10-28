@@ -701,6 +701,7 @@ migrate_to_db (EShellBackend *shell_backend)
 	EMMigrateSession *session;
 	EAccountList *accounts;
 	EMailBackend *mail_backend;
+	EMailSession *mail_session;
 	EIterator *iter;
 	gint i = 0, len;
 	CamelStore *store = NULL;
@@ -713,10 +714,11 @@ migrate_to_db (EShellBackend *shell_backend)
 		return;
 
 	mail_backend = E_MAIL_BACKEND (shell_backend);
+	mail_session = e_mail_backend_get_session (mail_backend);
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
 
 	/* Initialize the mail stores early so we can add a new one. */
-	e_mail_store_init (mail_backend, data_dir);
+	e_mail_store_init (mail_session, data_dir);
 
 	iter = e_list_get_iterator ((EList *) accounts);
 	len = e_list_length ((EList *) accounts);
@@ -773,7 +775,7 @@ migrate_to_db (EShellBackend *shell_backend)
 		    && strncmp (service->url, "mbox:", 5) != 0) {
 
 			store = e_mail_store_add_by_account (
-				mail_backend, account);
+				mail_session, account);
 
 			info = camel_store_get_folder_info_sync (
 				store, NULL,
@@ -1016,6 +1018,7 @@ create_mbox_account (EShellBackend *shell_backend,
                      EMMigrateSession *session)
 {
 	EMailBackend *mail_backend;
+	EMailSession *mail_session;
 	CamelStore *store;
 	CamelURL *url;
 	EAccountList *accounts;
@@ -1024,10 +1027,11 @@ create_mbox_account (EShellBackend *shell_backend,
 	gchar *name, *id, *temp, *uri, *folder_uri;
 
 	mail_backend = E_MAIL_BACKEND (shell_backend);
+	mail_session = e_mail_backend_get_session (mail_backend);
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
 
 	/* Initialize the mail stores early so we can add a new one. */
-	e_mail_store_init (mail_backend, data_dir);
+	e_mail_store_init (mail_session, data_dir);
 
 	account = e_account_new ();
 	account->enabled = TRUE;
@@ -1061,7 +1065,7 @@ create_mbox_account (EShellBackend *shell_backend,
 	}
 
 	e_account_list_add (accounts, account);
-	store = e_mail_store_add_by_account (mail_backend, account);
+	store = e_mail_store_add_by_account (mail_session, account);
 
 	folder_uri = e_mail_folder_uri_build (store, "Sent");
 	e_account_set_string (

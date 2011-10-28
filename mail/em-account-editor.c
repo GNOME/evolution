@@ -4108,9 +4108,11 @@ emae_commit (EConfig *ec,
 		    && emae->priv->source.provider
 		    && (emae->priv->source.provider->flags & CAMEL_PROVIDER_IS_STORAGE)) {
 			EMailBackend *backend;
+			EMailSession *session;
 
 			backend = em_account_editor_get_backend (emae);
-			e_mail_store_add_by_account (backend, account);
+			session = e_mail_backend_get_session (backend);
+			e_mail_store_add_by_account (session, account);
 		}
 	}
 

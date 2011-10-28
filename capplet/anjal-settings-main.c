@@ -167,11 +167,6 @@ main (gint argc,
 	if (!gtk_init_with_args (&argc, &argv, NULL, entries, NULL, &error))
 		g_error ("%s", error->message);
 
-	#if !GLIB_CHECK_VERSION(2,31,0)
-	if (!g_thread_get_initialized ())
-		g_thread_init (NULL);
-	#endif
-
 	e_passwords_init ();
 	categories_icon_theme_hack ();
 
