@@ -507,8 +507,7 @@ startup_wizard_new_assistant (EStartupWizard *extension)
 		GTK_LABEL (widget),
 		_("Welcome to Evolution. The next few screens will "
 		  "allow Evolution to connect to your email accounts, "
-		  "and to import files from other applications. \n\n"
-		  "Please click the \"Forward\" button to continue. "));
+		  "and to import files from other applications."));
 
 	/* Finalize the EMAccountEditor along with the GtkAssistant. */
 	g_object_set_data_full (
