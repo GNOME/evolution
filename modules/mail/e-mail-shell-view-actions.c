@@ -1631,7 +1631,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	EMailView *mail_view;
 	GtkActionGroup *action_group;
 	GtkAction *action;
-	GConfBridge *bridge;
+	GSettings *settings;
 	GObject *object;
 	const gchar *key;
 
@@ -1689,17 +1689,17 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	g_object_set (ACTION (MAIL_SEND_RECEIVE), "is-important", TRUE, NULL);
 
-	/* Bind GObject properties for GConf keys. */
+	/* Bind GObject properties for GSettings keys. */
 
-	bridge = gconf_bridge_get ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	object = G_OBJECT (ACTION (MAIL_SHOW_DELETED));
-	key = "/apps/evolution/mail/display/show_deleted";
-	gconf_bridge_bind_property (bridge, key, object, "active");
+	g_settings_bind (settings, "show-deleted", object, "active", G_SETTINGS_BIND_DEFAULT);
 
 	object = G_OBJECT (ACTION (MAIL_VIEW_VERTICAL));
-	key = "/apps/evolution/mail/display/layout";
-	gconf_bridge_bind_property (bridge, key, object, "current-value");
+	g_settings_bind (settings, "layout", object, "current-value", G_SETTINGS_BIND_DEFAULT);
+
+	g_object_unref (settings);
 
 	/* Fine tuning. */
 

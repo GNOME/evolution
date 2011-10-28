@@ -29,7 +29,6 @@
 #include <libedataserver/e-data-server-util.h>
 
 #include "e-util/e-util-private.h"
-#include "e-util/gconf-bridge.h"
 #include "widgets/menus/gal-view-etable.h"
 #include "widgets/menus/gal-view-instance.h"
 #include "widgets/misc/e-paned.h"

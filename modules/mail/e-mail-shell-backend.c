@@ -481,7 +481,7 @@ mail_shell_backend_delete_junk_policy_decision (EMailBackend *backend)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
-	GConfClient *client;
+	GSettings *settings;
 	const gchar *key;
 	gboolean delete_junk;
 	gint empty_date;
@@ -491,7 +491,7 @@ mail_shell_backend_delete_junk_policy_decision (EMailBackend *backend)
 
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	client = e_shell_get_gconf_client (shell);
+	settings = g_settings_new ("org.gnome.evolution.mail");
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	now = time (NULL) / 60 / 60 / 24;
@@ -504,31 +504,17 @@ mail_shell_backend_delete_junk_policy_decision (EMailBackend *backend)
 	empty_date = empty_days = 0;
 
 	if (delete_junk) {
-		key = "/apps/evolution/mail/junk/empty_on_exit_days";
-		empty_days = gconf_client_get_int (client, key, &error);
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-			return FALSE;
-		}
-	}
-
-	if (delete_junk) {
-		key = "/apps/evolution/mail/junk/empty_date";
-		empty_date = gconf_client_get_int (client, key, &error);
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-			return FALSE;
-		}
+		empty_days = g_settings_get_int (settings, "junk-empty-on-exit-days");
+		empty_date = g_settings_get_int (settings, "junk-empty-date");
 	}
 
 	delete_junk &= (empty_days == 0) || (empty_date + empty_days <= now);
 
 	if (delete_junk) {
-		key = "/apps/evolution/mail/junk/empty_date";
-		gconf_client_set_int (client, key, now, NULL);
+		g_settings_set_int (settings, "junk-empty-date", now);
 	}
+
+	g_object_unref (settings);
 
 	return delete_junk;
 }
@@ -538,7 +524,7 @@ mail_shell_backend_empty_trash_policy_decision (EMailBackend *backend)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
-	GConfClient *client;
+	GSettings *settings;
 	const gchar *key;
 	gboolean empty_trash;
 	gint empty_date;
@@ -548,7 +534,7 @@ mail_shell_backend_empty_trash_policy_decision (EMailBackend *backend)
 
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	client = e_shell_get_gconf_client (shell);
+	settings = g_settings_new ("org.gnome.evolution.mail");
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	now = time (NULL) / 60 / 60 / 24;
@@ -561,31 +547,17 @@ mail_shell_backend_empty_trash_policy_decision (EMailBackend *backend)
 	empty_date = empty_days = 0;
 
 	if (empty_trash) {
-		key = "/apps/evolution/mail/trash/empty_on_exit_days";
-		empty_days = gconf_client_get_int (client, key, &error);
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-			return FALSE;
-		}
-	}
-
-	if (empty_trash) {
-		key = "/apps/evolution/mail/trash/empty_date";
-		empty_date = gconf_client_get_int (client, key, &error);
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-			return FALSE;
-		}
+		empty_days = g_settings_get_int (settings, "trash-empty-on-exit-days");
+		empty_date = g_settings_get_int (settings, "trash-empty-date");
 	}
 
 	empty_trash &= (empty_days == 0) || (empty_date + empty_days <= now);
 
 	if (empty_trash) {
-		key = "/apps/evolution/mail/trash/empty_date";
-		gconf_client_set_int (client, key, now, NULL);
+		g_settings_set_int (settings, "trash-empty-date", now);
 	}
+
+	g_object_unref (settings);
 
 	return empty_trash;
 }
