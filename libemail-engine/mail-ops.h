@@ -97,6 +97,11 @@ void mail_execute_shell_command (CamelFilterDriver *driver, gint argc, gchar **a
 
 gint mail_disconnect_store (CamelStore *store);
 
+void mail_operate_on_folder			(CamelFolder *folder, 
+		       	    			gboolean (*do_op) (CamelFolder *folder, gpointer data, GError **error),
+		            			void (*done) (gboolean ret, gpointer data, GError *error), 
+		            			gpointer data);
+
 G_END_DECLS
 
 #endif /* MAIL_OPS_H */
