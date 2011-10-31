@@ -88,16 +88,23 @@ mail_tool_do_movemail (CamelStore *store,
                        GError **error)
 {
 #ifndef G_OS_WIN32
+	CamelService *service;
+	CamelProvider *provider;
+	CamelSettings *settings;
+	const gchar *src_path;
 	gchar *dest_path;
 	struct stat sb;
-	CamelURL *url;
 	gboolean success;
 
 	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
 
-	url = camel_service_get_camel_url (CAMEL_SERVICE (store));
+	service = CAMEL_SERVICE (store);
+	provider = camel_service_get_provider (service);
+	settings = camel_service_get_settings (service);
 
-	if (strcmp (url->protocol, "mbox") != 0) {
+	g_return_val_if_fail (provider != NULL, NULL);
+
+	if (g_strcmp0 (provider->protocol, "mbox") != 0) {
 		/* This is really only an internal error anyway */
 		g_set_error (
 			error, CAMEL_SERVICE_ERROR,
@@ -107,13 +114,16 @@ mail_tool_do_movemail (CamelStore *store,
 		return NULL;
 	}
 
+	src_path = camel_local_settings_get_path (
+		CAMEL_LOCAL_SETTINGS (settings));
+
 	/* Set up our destination. */
 	dest_path = mail_tool_get_local_movemail_path (store, error);
 	if (dest_path == NULL)
 		return NULL;
 
-	/* Movemail from source (source_url) to dest_path */
-	success = camel_movemail (url->path, dest_path, error) != -1;
+	/* Movemail from source to dest_path */
+	success = camel_movemail (src_path, dest_path, error) != -1;
 
 	if (g_stat (dest_path, &sb) < 0 || sb.st_size == 0) {
 		g_unlink (dest_path); /* Clean up the movemail.foo file. */

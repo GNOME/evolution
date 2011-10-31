@@ -211,8 +211,8 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	struct _filter_mail_msg *fm = (struct _filter_mail_msg *) m;
 	CamelFolder *folder = NULL;
 	CamelURL *url;
+	gboolean is_local_delivery;
 	const gchar *uid;
-	gboolean is_local_delivery = FALSE;
 	gint i;
 
 	fm->destination = e_mail_local_get_folder (
@@ -221,8 +221,9 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 		goto fail;
 	g_object_ref (fm->destination);
 
-	url = camel_service_get_camel_url (CAMEL_SERVICE (m->store));
+	url = camel_service_new_camel_url (CAMEL_SERVICE (m->store));
 	is_local_delivery = em_utils_is_local_delivery_mbox_file (url);
+
 	if (is_local_delivery) {
 		gchar *path;
 		gchar *url_string;
@@ -252,6 +253,8 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 			e_mail_session_get_inbox_sync (
 				fm->session, uid, cancellable, error);
 	}
+
+	camel_url_free (url);
 
 	if (folder != NULL) {
 		/* This handles 'keep on server' stuff, if we have any new
@@ -551,9 +554,10 @@ mail_send_message (struct _send_queue_msg *m,
 		gchar *url_string;
 		gchar *escaped;
 
-		url = camel_service_get_camel_url (CAMEL_SERVICE (transport));
+		url = camel_service_new_camel_url (CAMEL_SERVICE (transport));
 		url_string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 		escaped = escape_percent_sign (url_string);
+		camel_url_free (url);
 
 		/* Let the dialog know the right account it is using. */
 		report_status (m, CAMEL_FILTER_STATUS_ACTION, 0, escaped);
@@ -1192,8 +1196,9 @@ sync_store_desc (struct _sync_store_msg *m)
 	CamelURL *url;
 	gchar *uri, *res;
 
-	url = camel_service_get_camel_url (CAMEL_SERVICE (m->store));
+	url = camel_service_new_camel_url (CAMEL_SERVICE (m->store));
 	uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+	camel_url_free (url);
 
 	res = g_strdup_printf (m->expunge
 			      ?_("Expunging and storing account '%s'")
