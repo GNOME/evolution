@@ -84,10 +84,8 @@ mail_folder_append_message_thread (GSimpleAsyncResult *simple,
 		context->info, &context->message_uid,
 		cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 }
 
 gboolean
@@ -199,10 +197,8 @@ mail_folder_build_attachment_thread (GSimpleAsyncResult *simple,
 		CAMEL_FOLDER (object), context->ptr_array,
 		&context->fwd_subject, cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 }
 
 CamelMimePart *
@@ -359,10 +355,8 @@ mail_folder_find_duplicate_messages_thread (GSimpleAsyncResult *simple,
 		CAMEL_FOLDER (object), context->ptr_array,
 		cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 }
 
 GHashTable *
@@ -559,10 +553,8 @@ mail_folder_get_multiple_messages_thread (GSimpleAsyncResult *simple,
 		CAMEL_FOLDER (object), context->ptr_array,
 		cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 }
 
 GHashTable *
@@ -685,10 +677,8 @@ mail_folder_remove_thread (GSimpleAsyncResult *simple,
 	e_mail_folder_remove_sync (
 		CAMEL_FOLDER (object), cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 }
 
 static gboolean
@@ -912,10 +902,8 @@ mail_folder_remove_attachments_thread (GSimpleAsyncResult *simple,
 		CAMEL_FOLDER (object), context->ptr_array,
 		cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 }
 
 /* Helper for e_mail_folder_remove_attachments_sync() */
@@ -1128,10 +1116,8 @@ mail_folder_save_messages_thread (GSimpleAsyncResult *simple,
 		CAMEL_FOLDER (object), context->ptr_array,
 		context->destination, cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 }
 
 /* Helper for e_mail_folder_save_messages_sync() */

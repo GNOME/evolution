@@ -133,10 +133,8 @@ mail_session_handle_draft_headers_thread (GSimpleAsyncResult *simple,
 	e_mail_session_handle_draft_headers_sync (
 		session, context->message, cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 }
 
 gboolean
@@ -251,10 +249,8 @@ mail_session_handle_source_headers_thread (GSimpleAsyncResult *simple,
 	e_mail_session_handle_source_headers_sync (
 		session, context->message, cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 }
 
 gboolean
@@ -428,8 +424,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 
 			/* XXX This API does not allow for cancellation. */
 			if (!em_utils_connect_service_sync (service, cancellable, &error)) {
-				g_simple_async_result_set_from_error (simple, error);
-				g_error_free (error);
+				g_simple_async_result_take_error (simple, error);
 				return;
 			}
 		}
@@ -450,8 +445,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 				cancellable, error ? NULL : &error);
 
 		if (error != NULL) {
-			g_simple_async_result_set_from_error (simple, error);
-			g_error_free (error);
+			g_simple_async_result_take_error (simple, error);
 			return;
 		}
 	}
@@ -468,8 +462,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 
 		if (error != NULL) {
 			g_warn_if_fail (folder == NULL);
-			g_simple_async_result_set_from_error (simple, error);
-			g_error_free (error);
+			g_simple_async_result_take_error (simple, error);
 			return;
 		}
 
@@ -482,8 +475,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 		g_object_unref (folder);
 
 		if (error != NULL) {
-			g_simple_async_result_set_from_error (simple, error);
-			g_error_free (error);
+			g_simple_async_result_take_error (simple, error);
 			return;
 		}
 	}
@@ -617,8 +609,7 @@ exit:
 
 	/* If we were cancelled, disregard any other errors. */
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
+		g_simple_async_result_take_error (simple, error);
 
 	/* Stuff the accumulated error messages in a GError. */
 	} else if (error_messages->len > 0) {
@@ -845,10 +836,8 @@ mail_session_unsubscribe_folder_thread (GSimpleAsyncResult *simple,
 	e_mail_session_unsubscribe_folder_sync (
 		session, context->folder_uri, cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 }
 
 gboolean

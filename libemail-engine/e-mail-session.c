@@ -1174,10 +1174,8 @@ mail_session_get_inbox_thread (GSimpleAsyncResult *simple,
 	context->folder = e_mail_session_get_inbox_sync (
 		session, context->uid, cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 }
 
 CamelFolder *
@@ -1273,10 +1271,8 @@ mail_session_get_trash_thread (GSimpleAsyncResult *simple,
 	context->folder = e_mail_session_get_trash_sync (
 		session, context->uid, cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 }
 
 CamelFolder *
@@ -1373,10 +1369,8 @@ mail_session_uri_to_folder_thread (GSimpleAsyncResult *simple,
 		session, context->uri, context->flags,
 		cancellable, &error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_simple_async_result_take_error (simple, error);
 }
 
 CamelFolder *
