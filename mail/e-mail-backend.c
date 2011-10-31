@@ -850,11 +850,13 @@ mail_mt_alert_error (const char *what, const char *message)
 	EShellWindow *shell_window = NULL;
 	EShellContent *shell_content;
 	GList *list, *iter;
-	
+	GtkApplication *application;
+
 	shell = e_shell_get_default ();
+	application = GTK_APPLICATION (shell);
+	list = gtk_application_get_windows (application);
 
 	/* Find the most recently used EShellWindow. */
-	list =  e_shell_get_watched_windows (shell);
 	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
 		if (E_IS_SHELL_WINDOW (iter->data)) {
 			shell_window = E_SHELL_WINDOW (iter->data);
