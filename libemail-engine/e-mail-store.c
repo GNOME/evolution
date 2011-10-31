@@ -368,7 +368,8 @@ handle_transport:
 		camel_url_free (url);
 	}
 
-	if (!skip && (provider->flags & CAMEL_PROVIDER_IS_STORAGE))
+	if (!skip && (provider->flags & CAMEL_PROVIDER_IS_STORAGE) != 0 && store_table != NULL)
+		
 		e_mail_store_add (session, CAMEL_STORE (service));
 
 	return CAMEL_STORE (service);
@@ -433,7 +434,7 @@ e_mail_store_remove_by_account (EMailSession *session,
 	provider = camel_service_get_provider (service);
 	g_return_if_fail (provider != NULL);
 
-	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
+	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE) || store_table == NULL)
 		return;
 
 	e_mail_store_remove (session, CAMEL_STORE (service));
