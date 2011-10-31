@@ -203,6 +203,9 @@ gconf_signatures_changed (GConfClient *client,
 		g_free (uid);
 	}
 
+	g_slist_foreach (list, (GFunc) g_free, NULL);
+	g_slist_free (list);
+
 	if (!have_autogen) {
 		new_sigs = add_autogen (signature_list, new_sigs);
 		resave = TRUE;
