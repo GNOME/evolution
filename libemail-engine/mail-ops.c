@@ -211,7 +211,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	struct _filter_mail_msg *fm = (struct _filter_mail_msg *) m;
 	CamelFolder *folder = NULL;
 	CamelURL *url;
-	gboolean is_local_delivery;
+	gboolean is_local_delivery = FALSE;
 	const gchar *uid;
 	gint i;
 

@@ -97,7 +97,6 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view,
 	EMailSession *session;
 	EAccountList *account_list;
 	EAccount *account;
-	EMailSession *session;
 	gpointer parent;
 	gint response;
 

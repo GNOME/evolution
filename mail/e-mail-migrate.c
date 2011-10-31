@@ -679,7 +679,6 @@ create_mbox_account (EShellBackend *shell_backend,
 	mail_backend = E_MAIL_BACKEND (shell_backend);
 	mail_session = e_mail_backend_get_session (mail_backend);
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
-	msession = e_mail_backend_get_session (mail_backend);
 
 	account = e_account_new ();
 	account->enabled = TRUE;

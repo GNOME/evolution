@@ -350,7 +350,7 @@ e_mail_store_add_by_account (EMailSession *session,
 		!service_is_local_delivery;
 
 	if (service_belongs_in_tree_model && store_table != NULL)
-		e_mail_store_add (backend, CAMEL_STORE (service));
+		e_mail_store_add (session, CAMEL_STORE (service));
 
 handle_transport:
 
