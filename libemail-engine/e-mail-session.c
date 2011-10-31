@@ -969,6 +969,134 @@ mail_session_get_socks_proxy (CamelSession *session,
 	g_free (uri);
 }
 
+static gboolean
+mail_session_authenticate_sync (CamelSession *session,
+                                CamelService *service,
+                                const gchar *mechanism,
+                                GCancellable *cancellable,
+                                GError **error)
+{
+	CamelServiceAuthType *authtype = NULL;
+	CamelAuthenticationResult result;
+	CamelProvider *provider;
+	CamelURL *url;
+	const gchar *password;
+	guint32 password_flags;
+	GError *local_error = NULL;
+
+	/* Do not chain up.  Camel's default method is only an example for
+	 * subclasses to follow.  Instead we mimic most of its logic here. */
+
+	url = camel_service_get_camel_url (service);
+	provider = camel_service_get_provider (service);
+
+	/* If a SASL mechanism was given and we can't find
+	 * a CamelServiceAuthType for it, fail immediately. */
+	if (mechanism != NULL) {
+		authtype = camel_sasl_authtype (mechanism);
+		if (authtype == NULL) {
+			g_set_error (
+				error, CAMEL_SERVICE_ERROR,
+				CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE,
+				_("No support for %s authentication"),
+				mechanism);
+			return FALSE;
+		}
+	}
+
+	/* If the SASL mechanism does not involve a user
+	 * password, then it gets one shot to authenticate. */
+	if (authtype != NULL && !authtype->need_password) {
+		result = camel_service_authenticate_sync (
+			service, mechanism, cancellable, error);
+		if (result == CAMEL_AUTHENTICATION_REJECTED)
+			g_set_error (
+				error, CAMEL_SERVICE_ERROR,
+				CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE,
+				_("%s authentication failed"), mechanism);
+		return (result == CAMEL_AUTHENTICATION_ACCEPTED);
+	}
+
+	/* Some SASL mechanisms can attempt to authenticate without a
+	 * user password being provided (e.g. single-sign-on credentials),
+	 * but can fall back to a user password.  Handle that case next. */
+	if (mechanism != NULL) {
+		CamelProvider *provider;
+		CamelSasl *sasl;
+		const gchar *service_name;
+		gboolean success = FALSE;
+
+		provider = camel_service_get_provider (service);
+		service_name = provider->protocol;
+
+		/* XXX Would be nice if camel_sasl_try_empty_password_sync()
+		 *     returned CamelAuthenticationResult so it's easier to
+		 *     detect errors. */
+		sasl = camel_sasl_new (service_name, mechanism, service);
+		if (sasl != NULL) {
+			success = camel_sasl_try_empty_password_sync (
+				sasl, cancellable, &local_error);
+			g_object_unref (sasl);
+		}
+
+		if (success)
+			return TRUE;
+	}
+
+	/* Abort authentication if we got cancelled.
+	 * Otherwise clear any errors and press on. */
+	if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		return FALSE;
+
+	g_clear_error (&local_error);
+
+	password_flags = CAMEL_SESSION_PASSWORD_SECRET;
+
+retry:
+	password = camel_service_get_password (service);
+
+	if (password == NULL) {
+		gchar *prompt;
+		gchar *new_passwd;
+
+		prompt = camel_session_build_password_prompt (
+			provider->name, url->user, url->host);
+
+		new_passwd = camel_session_get_password (
+			session, service, prompt, "password",
+			password_flags, &local_error);
+		camel_service_set_password (service, new_passwd);
+		password = camel_service_get_password (service);
+		g_free (new_passwd);
+
+		g_free (prompt);
+
+		if (local_error != NULL) {
+			g_propagate_error (error, local_error);
+			return FALSE;
+		}
+
+		if (password == NULL) {
+			g_set_error (
+				error, CAMEL_SERVICE_ERROR,
+				CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE,
+				_("No password was provided"));
+			return FALSE;
+		}
+	}
+
+	result = camel_service_authenticate_sync (
+		service, mechanism, cancellable, error);
+
+	if (result == CAMEL_AUTHENTICATION_REJECTED) {
+		password_flags |= CAMEL_SESSION_PASSWORD_REPROMPT;
+		camel_service_set_password (service, NULL);
+		goto retry;
+	}
+
+	return (result == CAMEL_AUTHENTICATION_ACCEPTED);
+}
+
 static void
 e_mail_session_class_init (EMailSessionClass *class)
 {
@@ -994,6 +1122,7 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->lookup_addressbook = mail_session_lookup_addressbook;
 	session_class->forward_to = mail_session_forward_to;
 	session_class->get_socks_proxy = mail_session_get_socks_proxy;
+	session_class->authenticate_sync = mail_session_authenticate_sync;
 
 	g_object_class_install_property (
 		object_class,
