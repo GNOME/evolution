@@ -427,6 +427,8 @@ render_title_block (GString *buffer,
 	/* Only handle inlined photos for now */
 	if (photo && photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
 		g_string_append (buffer, "<img border=\"1\" src=\"internal-contact-photo:\">");
+	} else if (photo && photo->type == E_CONTACT_PHOTO_TYPE_URI && photo->data.uri && *photo->data.uri) {
+		g_string_append_printf (buffer, "<img border=\"1\" src=\"%s\">", photo->data.uri);
 	}
 	if (photo)
 		e_contact_photo_free (photo);
@@ -929,7 +931,22 @@ eab_contact_display_render_compact (EABContactDisplay *display,
 			 * image here.  we don't scale the pixbuf
 			 * itself, just insert width/height tags in
 			 * the html */
-			gdk_pixbuf_loader_write (loader, photo->data.inlined.data, photo->data.inlined.length, NULL);
+			if (photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
+				gdk_pixbuf_loader_write (loader, photo->data.inlined.data, photo->data.inlined.length, NULL);
+			} else if (photo->type == E_CONTACT_PHOTO_TYPE_URI && photo->data.uri &&
+				   g_ascii_strncasecmp (photo->data.uri, "file://", 7) == 0) {
+				gchar *filename, *contents = NULL;
+				gsize length;
+
+				filename = g_filename_from_uri (photo->data.uri, NULL, NULL);
+				if (filename) {
+					if (g_file_get_contents (filename, &contents, &length, NULL)) {
+						gdk_pixbuf_loader_write (loader, (const guchar *) contents, length, NULL);
+						g_free (contents);
+					}
+					g_free (filename);
+				}
+			}
 			gdk_pixbuf_loader_close (loader, NULL);
 			pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 			if (pixbuf)
@@ -949,13 +966,20 @@ eab_contact_display_render_compact (EABContactDisplay *display,
 					calced_width *= ((gfloat) MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
 					calced_height *= ((gfloat) MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
 				}
+				g_object_unref (pixbuf);
 			}
 
-			g_object_unref (pixbuf);
-			g_string_append_printf (
-				buffer,
-				"<img width=\"%d\" height=\"%d\" src=\"internal-contact-photo:\">",
-				calced_width, calced_height);
+			if (photo->type == E_CONTACT_PHOTO_TYPE_URI && photo->data.uri && *photo->data.uri)
+				g_string_append_printf (
+					buffer,
+					"<img width=\"%d\" height=\"%d\" src=\"%s\">",
+					calced_width, calced_height, photo->data.uri);
+			else
+				g_string_append_printf (
+					buffer,
+					"<img width=\"%d\" height=\"%d\" src=\"internal-contact-photo:\">",
+					calced_width, calced_height);
+
 			e_contact_photo_free (photo);
 		}
 
@@ -1174,9 +1198,10 @@ contact_display_url_requested (GtkHTML *html,
 		if (photo == NULL)
 			photo = e_contact_get (contact, E_CONTACT_LOGO);
 
-		gtk_html_stream_write (
-			handle, (gchar *) photo->data.inlined.data,
-			photo->data.inlined.length);
+		if (photo->type == E_CONTACT_PHOTO_TYPE_INLINED)
+			gtk_html_stream_write (
+				handle, (gchar *) photo->data.inlined.data,
+				photo->data.inlined.length);
 
 		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
 

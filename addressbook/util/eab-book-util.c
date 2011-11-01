@@ -136,6 +136,7 @@ eab_contact_list_to_string (const GSList *contacts)
 		EContact *contact = l->data;
 		gchar *vcard_str;
 
+		e_contact_inline_local_photos (contact, NULL);
 		vcard_str = e_vcard_to_string (
 			E_VCARD (contact), EVC_FORMAT_VCARD_30);
 
