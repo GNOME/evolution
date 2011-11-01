@@ -245,11 +245,10 @@ action_contact_new_cb (GtkAction *action,
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
-	GConfClient *client;
+	GSettings *settings;
 	ESourceList *source_list;
 	ESource *source = NULL;
 	const gchar *action_name;
-	const gchar *key;
 	gchar *uid;
 
 	/* This callback is used for both contacts and contact lists. */
@@ -260,9 +259,9 @@ action_contact_new_cb (GtkAction *action,
 	g_object_get (shell_backend, "source-list", &source_list, NULL);
 	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
 
-	client = e_shell_get_gconf_client (shell);
-	key = "/apps/evolution/addressbook/display/primary_addressbook";
-	uid = gconf_client_get_string (client, key, NULL);
+	settings = g_settings_new ("org.gnome.evolution.addressbook");
+	uid = g_settings_get_string (settings, "primary-addressbook");
+	g_object_unref (settings);
 
 	if (uid != NULL) {
 		source = e_source_list_peek_source_by_uid (source_list, uid);

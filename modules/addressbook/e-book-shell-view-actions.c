@@ -1147,7 +1147,7 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	EPreviewPane *preview_pane;
 	EWebView *web_view;
 	GtkActionGroup *action_group;
-	GConfBridge *bridge;
+	GSettings *settings;
 	GtkAction *action;
 	GObject *object;
 	const gchar *key;
@@ -1206,21 +1206,20 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 		action_group, lockdown_save_to_disk_popup_entries,
 		G_N_ELEMENTS (lockdown_save_to_disk_popup_entries));
 
-	/* Bind GObject properties to GConf keys. */
+	/* Bind GObject properties to GSettings keys. */
 
-	bridge = gconf_bridge_get ();
+	settings = g_settings_new ("org.gnome.evolution.addressbook");
 
 	object = G_OBJECT (ACTION (CONTACT_PREVIEW));
-	key = "/apps/evolution/addressbook/display/show_preview";
-	gconf_bridge_bind_property (bridge, key, object, "active");
+	g_settings_bind (settings, "show-preview", object, "active", G_SETTINGS_BIND_DEFAULT);
 
 	object = G_OBJECT (ACTION (CONTACT_VIEW_VERTICAL));
-	key = "/apps/evolution/addressbook/display/layout";
-	gconf_bridge_bind_property (bridge, key, object, "current-value");
+	g_settings_bind (settings, "layout", object, "current-value", G_SETTINGS_BIND_DEFAULT);
 
 	object = G_OBJECT (ACTION (CONTACT_PREVIEW_SHOW_MAPS));
-	key = "/apps/evolution/addressbook/display/preview_show_maps";
-	gconf_bridge_bind_property (bridge, key, object, "active");
+	g_settings_bind (settings, "preview-show-maps", object, "active", G_SETTINGS_BIND_DEFAULT);
+
+	g_object_unref (settings);
 
 	/* Fine tuning. */
 
