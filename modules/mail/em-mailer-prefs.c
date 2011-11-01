@@ -33,8 +33,6 @@
 #include <gtkhtml/gtkhtml-properties.h>
 #include <libxml/tree.h>
 
-#include <gconf/gconf-client.h>
-
 #include "libedataserverui/e-cell-renderer-color.h"
 
 #include <e-util/e-util.h>
@@ -106,13 +104,7 @@ em_mailer_prefs_finalize (GObject *object)
 
 	g_object_unref (prefs->builder);
 
-	if (prefs->labels_change_notify_id) {
-		gconf_client_notify_remove (prefs->gconf, prefs->labels_change_notify_id);
-
-		prefs->labels_change_notify_id = 0;
-	}
-
-	g_object_unref (prefs->gconf);
+	g_object_unref (prefs->settings);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_mailer_prefs_parent_class)->finalize (object);
@@ -130,7 +122,7 @@ em_mailer_prefs_class_init (EMMailerPrefsClass *class)
 static void
 em_mailer_prefs_init (EMMailerPrefs *preferences)
 {
-	preferences->gconf = gconf_client_get_default ();
+	preferences->settings = g_settings_new ("org.gnome.evolution.mail");
 }
 
 enum {
@@ -142,13 +134,16 @@ static void
 jh_tree_refill (EMMailerPrefs *prefs)
 {
 	GtkListStore *store = prefs->junk_header_list_store;
-	GSList *l, *cjh = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
+	gchar **strv;
+	gint i;
+
+	strv = g_settings_get_strv (prefs->settings, "junk-custom-header");
 
 	gtk_list_store_clear (store);
 
-	for (l = cjh; l; l = l->next) {
+	for (i = 0; strv[i] != NULL; i++) {
 		GtkTreeIter iter;
-		gchar **tokens = g_strsplit (l->data, "=", 2);
+		gchar **tokens = g_strsplit (strv[i], "=", 2);
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (
@@ -159,8 +154,7 @@ jh_tree_refill (EMMailerPrefs *prefs)
 		g_strfreev (tokens);
 	}
 
-	g_slist_foreach (cjh, (GFunc) g_free, NULL);
-	g_slist_free (cjh);
+	g_strfreev (strv);
 }
 
 static void
@@ -191,7 +185,6 @@ jh_add_cb (GtkWidget *widget,
 	GtkBuilder *builder = gtk_builder_new ();
 	gchar *tok;
 	const gchar *name, *value;
-	GSList *list;
 
 	e_load_ui_builder_definition (builder, "mail-config.ui");
 	dialog = e_builder_get_widget (builder, "add-custom-junk-header");
@@ -205,16 +198,24 @@ jh_add_cb (GtkWidget *widget,
 		G_CALLBACK (jh_dialog_entry_changed_cb), builder);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+		gchar **strv;
+		GPtrArray *array;
+		gint i;
+
 		name = gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (builder, "junk-header-name")));
 		value = gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (builder, "junk-header-content")));
 
-		list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
+		strv = g_settings_get_strv (prefs->settings, "junk-custom-header");
+		array = g_ptr_array_new ();
+		for (i = 0; strv[i] != NULL; i++)
+			g_ptr_array_add (array, strv[i]);
 		tok = g_strdup_printf ("%s=%s", name, value);
-		list = g_slist_append (list, tok);
-		gconf_client_set_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, list, NULL);
+		g_ptr_array_add (array, tok);
+		g_ptr_array_add (array, NULL);
+		g_settings_set_strv (prefs->settings, "junk-custom-header", array->pdata);
 
-		g_slist_foreach (list, (GFunc) g_free, NULL);
-		g_slist_free (list);
+		g_ptr_array_free (array, TRUE);
+		g_strfreev (strv);
 	}
 
 	g_object_unref (builder);
@@ -237,38 +238,32 @@ jh_remove_cb (GtkWidget *widget,
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (prefs->junk_header_tree));
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gchar *name = NULL, *value = NULL;
-		GSList *prev = NULL, *node, *list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
+		gchar **strv;
+		GPtrArray *array = g_ptr_array_new ();
+		gint i;
+
+		strv = g_settings_get_strv (prefs->settings, "junk-custom-header");
 		gtk_tree_model_get (model, &iter, JH_LIST_COLUMN_NAME, &name, JH_LIST_COLUMN_VALUE, &value, -1);
-		node = list;
-		while (node) {
+		for (i = 0; strv[i] != NULL; i++) {
 			gchar *test;
 			gint len = strlen (name);
-			test = strncmp (node->data, name, len) == 0 ? (gchar *) node->data + len : NULL;
+			test = strncmp (strv[i], name, len) == 0 ? (gchar *) strv[i] + len : NULL;
 
 			if (test) {
 				test++;
 				if (strcmp (test, value) == 0)
-					break;
+					continue;
 			}
 
-			prev = node;
-			node = node->next;
+			g_ptr_array_add (array, strv[i]);
 		}
 
-		if (prev && !node) {
-			/* Not found. So what? */
-		} else if (prev && node) {
-			prev->next = node->next;
-			g_free (node->data);
-		} else if (!prev && node) {
-			list = list->next;
-			g_free (node->data);
-		}
+		g_ptr_array_add (array, NULL);
 
-		gconf_client_set_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, list, NULL);
+		g_settings_set_strv (prefs->settings, "junk-custom-header", array->pdata);
 
-		g_slist_foreach (list, (GFunc) g_free, NULL);
-		g_slist_free (list);
+		g_strfreev (strv);
+		g_ptr_array_free (array, TRUE);
 		g_free (name);
 		g_free (value);
 
@@ -494,7 +489,7 @@ toggle_button_toggled (GtkToggleButton *toggle,
 	const gchar *key;
 
 	key = g_object_get_data ((GObject *) toggle, "key");
-	gconf_client_set_bool (prefs->gconf, key, gtk_toggle_button_get_active (toggle), NULL);
+	g_settings_set_boolean (prefs->settings, key, gtk_toggle_button_get_active (toggle));
 }
 
 static void
@@ -531,7 +526,7 @@ toggle_button_init (EMMailerPrefs *prefs,
 {
 	gboolean bool;
 
-	bool = gconf_client_get_bool (prefs->gconf, key, NULL);
+	bool = g_settings_get_boolean (prefs->settings, key);
 	gtk_toggle_button_set_active (toggle, not ? !bool : bool);
 
 	if (toggled) {
@@ -539,7 +534,7 @@ toggle_button_init (EMMailerPrefs *prefs,
 		g_signal_connect (toggle, "toggled", toggled, prefs);
 	}
 
-	if (!gconf_client_key_is_writable (prefs->gconf, key, NULL))
+	if (!g_settings_is_writable (prefs->settings, key)
 		gtk_widget_set_sensitive ((GtkWidget *) toggle, FALSE);
 }
 
@@ -553,10 +548,10 @@ trash_days_changed (GtkComboBox *combo_box,
 	g_return_if_fail (index >= 0);
 	g_return_if_fail (index < G_N_ELEMENTS (empty_trash_frequency));
 
-	gconf_client_set_int (
-		prefs->gconf,
-		"/apps/evolution/mail/trash/empty_on_exit_days",
-		empty_trash_frequency[index].days, NULL);
+	g_settings_set_int (
+		prefs->settings,
+		"trash-empty-on-exit-days",
+		empty_trash_frequency[index].days);
 }
 
 static void
@@ -567,9 +562,9 @@ emmp_empty_trash_init (EMMailerPrefs *prefs,
 	GtkListStore *store;
 	GtkTreeIter iter;
 
-	days = gconf_client_get_int (
-		prefs->gconf,
-		"/apps/evolution/mail/trash/empty_on_exit_days", NULL);
+	days = g_settings_get_int (
+		prefs->settings,
+		"trash-empty-on-exit-days");
 
 	store = GTK_LIST_STORE (gtk_combo_box_get_model (combo_box));
 	gtk_list_store_clear (store);
@@ -601,10 +596,10 @@ junk_days_changed (GtkComboBox *combo_box,
 	g_return_if_fail (index >= 0);
 	g_return_if_fail (index < G_N_ELEMENTS (empty_trash_frequency));
 
-	gconf_client_set_int (
-		prefs->gconf,
-		"/apps/evolution/mail/junk/empty_on_exit_days",
-		empty_trash_frequency[index].days, NULL);
+	g_settings_set_int (
+		prefs->settings,
+		"junk-empty-on-exit-days",
+		empty_trash_frequency[index].days);
 }
 
 static void
@@ -615,9 +610,9 @@ emmp_empty_junk_init (EMMailerPrefs *prefs,
 	GtkListStore *store;
 	GtkTreeIter iter;
 
-	days = gconf_client_get_int (
-		prefs->gconf,
-		"/apps/evolution/mail/junk/empty_on_exit_days", NULL);
+	days = g_settings_get_int (
+		prefs->settings,
+		"junk-empty-on-exit-days");
 
 	store = GTK_LIST_STORE (gtk_combo_box_get_model (combo_box));
 	gtk_list_store_clear (store);
@@ -652,7 +647,7 @@ http_images_changed (GtkWidget *widget,
 	else
 		policy = E_MAIL_IMAGE_LOADING_POLICY_NEVER;
 
-	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/display/load_http_images", policy, NULL);
+	g_settings_set_int (prefs->settings, "load-http-images", policy);
 }
 
 static GtkWidget *
@@ -870,9 +865,9 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	/* HTML Mail tab */
 
 	/* Loading Images */
-	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/load_http_images", NULL);
+	locked = !g_settings_is_writable (prefs->settings, "load-http-images");
 
-	val = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/display/load_http_images", NULL);
+	val = g_settings_get_int (prefs->settings, "load-http-images");
 	prefs->images_never = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "radImagesNever"));
 	gtk_toggle_button_set_active (prefs->images_never, val == E_MAIL_IMAGE_LOADING_POLICY_NEVER);
 	if (locked)
