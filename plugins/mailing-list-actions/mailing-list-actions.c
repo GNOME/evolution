@@ -28,7 +28,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtk.h>
-#include <gconf/gconf-client.h>
 
 #include "composer/e-msg-composer.h"
 #include "mail/e-mail-browser.h"

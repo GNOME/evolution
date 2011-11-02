@@ -35,17 +35,17 @@
 
 #define d(x)
 
-#define SETTINGS_KEY "/apps/evolution/eplugin/face/insert_by_default"
+#define SETTINGS_KEY "insert-face-picture"
 
 static gboolean
 get_include_face_by_default (void)
 {
-	GConfClient *gconf = gconf_client_get_default ();
+	GSettings *settings = g_settings_new ("org.gnome.evolution.eplugin.face-picture");
 	gboolean res;
 
-	res = gconf_client_get_bool (gconf, SETTINGS_KEY, NULL);
+	res = g_settings_get_boolean (settings, SETTINGS_KEY);
 
-	g_object_unref (gconf);
+	g_object_unref (settings);
 
 	return res;
 }
@@ -53,11 +53,11 @@ get_include_face_by_default (void)
 static void
 set_include_face_by_default (gboolean value)
 {
-	GConfClient *gconf = gconf_client_get_default ();
+	GSettings *settings = g_settings_new ("org.gnome.evolution.eplugin.face-picture");
 
-	gconf_client_set_bool (gconf, SETTINGS_KEY, value, NULL);
+	g_settings_set_boolean (settings, SETTINGS_KEY, value);
 
-	g_object_unref (gconf);
+	g_object_unref (settings);
 }
 
 static gchar *
