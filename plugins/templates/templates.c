@@ -30,8 +30,6 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-#include <gconf/gconf-client.h>
-
 #include <e-util/e-config.h>
 
 #include <mail/e-mail-folder-utils.h>
@@ -49,7 +47,7 @@
 
 #include <composer/e-msg-composer.h>
 
-#define GCONF_KEY_TEMPLATE_PLACEHOLDERS "/apps/evolution/mail/template_placeholders"
+#define KEY_TEMPLATE_PLACEHOLDERS "template-placeholders"
 
 typedef struct _AsyncContext AsyncContext;
 
@@ -63,7 +61,7 @@ struct _AsyncContext {
 };
 
 typedef struct {
-	GConfClient *gconf;
+	GSettings   *settings;
 	GtkWidget   *treeview;
 	GtkWidget   *clue_add;
 	GtkWidget   *clue_edit;
@@ -149,7 +147,7 @@ destroy_ui_data (gpointer data)
 	if (!ui)
 		return;
 
-	g_object_unref (ui->gconf);
+	g_object_unref (ui->settings);
 	g_free (ui);
 }
 
@@ -157,13 +155,15 @@ static void
 commit_changes (UIData *ui)
 {
 	GtkTreeModel *model = NULL;
-	GSList *clue_list = NULL;
+	GVariantBuilder b;
 	GtkTreeIter iter;
 	gboolean valid;
+	GVariant *v;
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 
+	g_variant_builder_init (&b, G_VARIANT_TYPE ("as"));
 	while (valid) {
 		gchar *keyword, *value;
 		gchar *key;
@@ -175,15 +175,14 @@ commit_changes (UIData *ui)
 		if ((keyword) && (value) && (g_utf8_strlen (g_strstrip (keyword), -1) > 0)
 			&& (g_utf8_strlen (g_strstrip (value), -1) > 0)) {
 			key = g_strdup_printf("%s=%s", keyword, value);
-			clue_list = g_slist_append (clue_list, key);
+			g_variant_builder_add (&b, "s", key);
 		}
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 
-	gconf_client_set_list (ui->gconf, GCONF_KEY_TEMPLATE_PLACEHOLDERS, GCONF_VALUE_STRING, clue_list, NULL);
-
-	g_slist_foreach (clue_list, (GFunc) g_free, NULL);
-	g_slist_free (clue_list);
+	v = g_variant_builder_end (&b);
+	g_settings_set_value (ui->settings, CONF_KEY_TEMPLATE_PLACEHOLDERS, v);
+	g_variant_unref (v);
 }
 
 static void
@@ -396,9 +395,9 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	GtkCellRenderer *renderer_key, *renderer_value;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
-	GConfClient *gconf = gconf_client_get_default ();
 	GtkWidget *hbox;
-	GSList *clue_list = NULL, *list;
+        gchar **clue_list;
+	gint i;
 	GtkTreeModel *model;
 	GtkWidget *templates_configuration_box;
 	GtkWidget *clue_container;
@@ -450,7 +449,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_remove);
 	gtk_widget_set_can_default (clue_remove, TRUE);
 
-	ui->gconf = gconf_client_get_default ();
+	ui->settings = g_settings_new ("org.gnome.evolution.eplugin.templates");
 
 	ui->treeview = clue_treeview;
 
@@ -499,19 +498,18 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 		model, "row-changed",
 		G_CALLBACK (clue_check_isempty), ui);
 
-	/* Populate tree view with values from gconf */
-	clue_list = gconf_client_get_list ( gconf, GCONF_KEY_TEMPLATE_PLACEHOLDERS, GCONF_VALUE_STRING, NULL );
+	/* Populate tree view with values from GSettings */
+	clue_list = g_settings_get_strv (ui->settings, CONF_KEY_TEMPLATE_PLACEHOLDERS);
 
-	for (list = clue_list; list; list = g_slist_next (list)) {
-		gchar **temp = g_strsplit (list->data, "=", 2);
+	for (i = 0; clue_list[i] != NULL; i++) {
+		gchar **temp = g_strsplit (clue_list[i], "=", 2);
 		gtk_list_store_append (ui->store, &iter);
 		gtk_list_store_set (ui->store, &iter, CLUE_KEYWORD_COLUMN, temp[0], CLUE_VALUE_COLUMN, temp[1], -1);
 		g_strfreev (temp);
 	}
 
 	if (clue_list) {
-		g_slist_foreach (clue_list, (GFunc) g_free, NULL);
-		g_slist_free (clue_list);
+		g_strfreev (clue_list);
 	}
 
 	/* Add the list here */
