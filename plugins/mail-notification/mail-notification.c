@@ -27,7 +27,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <gconf/gconf-client.h>
 #include <gio/gio.h>
 
 #ifdef HAVE_CANBERRA
@@ -37,7 +36,6 @@
 #include <time.h>
 
 #include <e-util/e-config.h>
-#include <e-util/gconf-bridge.h>
 #include <mail/e-mail-folder-utils.h>
 #include <mail/em-utils.h>
 #include <mail/em-event.h>
@@ -48,11 +46,10 @@
 #include <libnotify/notify.h>
 #endif
 
-#define GCONF_KEY_ROOT			"/apps/evolution/eplugin/mail-notification/"
-#define GCONF_KEY_NOTIFY_ONLY_INBOX	GCONF_KEY_ROOT "notify-only-inbox"
-#define GCONF_KEY_ENABLED_STATUS	GCONF_KEY_ROOT "status-enabled"
-#define GCONF_KEY_STATUS_NOTIFICATION	GCONF_KEY_ROOT "status-notification"
-#define GCONF_KEY_ENABLED_SOUND		GCONF_KEY_ROOT "sound-enabled"
+#define CONF_KEY_NOTIFY_ONLY_INBOX	"notify-only-inbox"
+#define CONF_KEY_ENABLED_STATUS	        "notify-status-enabled"
+#define CONF_KEY_STATUS_NOTIFICATION	"notify-status-notification"
+#define CONF_KEY_ENABLED_SOUND		"notify-sound-enabled"
 
 static gboolean enabled = FALSE;
 static GtkWidget *get_cfg_widget (void);
@@ -72,7 +69,7 @@ static GStaticMutex mlock = G_STATIC_MUTEX_INIT;
  * d) GtkWidget *get_config_widget_...(void)
  *    to obtain config widget for the particular part
  *
- * It also should have its own gconf key for enabled state. In each particular
+ * It also should have its own GSettings key for enabled state. In each particular
  * function it should do its work as expected. enable_... will be called always
  * when disabling plugin, but only when enabling/disabling part itself.
  **/
@@ -82,22 +79,17 @@ static GStaticMutex mlock = G_STATIC_MUTEX_INIT;
 /* -------------------------------------------------------------------  */
 
 static gboolean
-is_part_enabled (const gchar *gconf_key)
+is_part_enabled (const gchar *key)
 {
 	/* the part is enabled by default */
 	gboolean res = TRUE;
-	GConfClient *client;
-	GConfValue  *is_key;
+	GSettings *settings;
 
-	client = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.eplugin.mail-notification");
 
-	is_key = gconf_client_get (client, gconf_key, NULL);
-	if (is_key) {
-		res = gconf_client_get_bool (client, gconf_key, NULL);
-		gconf_value_free (is_key);
-	}
+	res = g_settings_get_boolean (settings, key);
 
-	g_object_unref (client);
+	g_object_unref (settings);
 
 	return res;
 }
@@ -503,10 +495,10 @@ read_notify_status (EMEventTargetMessage *t)
 /* min no. seconds between newmail notifications */
 #define NOTIFY_THROTTLE 30
 
-#define GCONF_KEY_SOUND_BEEP		GCONF_KEY_ROOT "sound-beep"
-#define GCONF_KEY_SOUND_FILE		GCONF_KEY_ROOT "sound-file"
-#define GCONF_KEY_SOUND_PLAY_FILE	GCONF_KEY_ROOT "sound-play-file"
-#define GCONF_KEY_SOUND_USE_THEME       GCONF_KEY_ROOT "sound-use-theme"
+#define CONF_KEY_SOUND_BEEP		"notify-sound-beep"
+#define CONF_KEY_SOUND_FILE		"notify-sound-file"
+#define CONF_KEY_SOUND_PLAY_FILE	"notify-sound-play-file"
+#define CONF_KEY_SOUND_USE_THEME        "notify-sound-use-theme"
 
 #ifdef HAVE_CANBERRA
 static ca_context *mailnotification = NULL;
@@ -544,16 +536,14 @@ sound_file_set_cb (GtkFileChooser *file_chooser,
                    gpointer data)
 {
 	gchar *file;
-	GConfClient *client;
+	GSettings *settings;
 
-	client = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.eplugin.mail-notification");
 	file = gtk_file_chooser_get_filename (file_chooser);
 
-	gconf_client_set_string (
-		client, GCONF_KEY_SOUND_FILE,
-		(file != NULL) ? file : "", NULL);
+	g_settings_set_string (settings, CONF_KEY_SOUND_FILE, (file != NULL) ? file : "");
 
-	g_object_unref (client);
+	g_object_unref (settings);
 	g_free (file);
 }
 
@@ -585,20 +575,20 @@ static gboolean
 sound_notify_idle_cb (gpointer user_data)
 {
 	gchar *file;
-	GConfClient *client;
+	GSettings *settings;
 	struct _SoundNotifyData *data = (struct _SoundNotifyData *) user_data;
 
 	g_return_val_if_fail (data != NULL, FALSE);
 
-	client = gconf_client_get_default ();
-	file = gconf_client_get_string (client, GCONF_KEY_SOUND_FILE, NULL);
+	settings = g_settings_new ("org.gnome.evolution.eplugin.mail-notification");
+	file = g_settings_get_string (settings, CONF_KEY_SOUND_FILE);
 
 	do_play_sound (
-		is_part_enabled (GCONF_KEY_SOUND_BEEP),
-		is_part_enabled (GCONF_KEY_SOUND_USE_THEME),
+		is_part_enabled (CONF_KEY_SOUND_BEEP),
+		is_part_enabled (CONF_KEY_SOUND_USE_THEME),
 		file);
 
-	g_object_unref (client);
+	g_object_unref (settings);
 	g_free (file);
 
 	time (&data->last_notify);
@@ -656,13 +646,10 @@ get_config_widget_sound (void)
 	GtkWidget *master;
 	GtkWidget *widget;
 	gchar *file;
-	GConfBridge *bridge;
-	GConfClient *client;
+	GSettings *settings;
 	GSList *group = NULL;
 	struct _SoundConfigureWidgets *scw;
 	const gchar *text;
-
-	bridge = gconf_bridge_get ();
 
 	scw = g_malloc0 (sizeof (struct _SoundConfigureWidgets));
 
@@ -676,9 +663,9 @@ get_config_widget_sound (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	gconf_bridge_bind_property (
-		bridge, GCONF_KEY_ENABLED_SOUND,
-		G_OBJECT (widget), "active");
+	settings = g_settings_new ("org.gnome.evolution.eplugin.mail-notification");
+
+	g_settings_bind (settings, CONF_KEY_ENABLED_SOUND, G_OBJECT (widget), "active", G_SETTINGS_BIND_DEFAULT);
 
 	master = widget;
 	scw->enable = GTK_TOGGLE_BUTTON (widget);
@@ -706,9 +693,7 @@ get_config_widget_sound (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	gconf_bridge_bind_property (
-		bridge, GCONF_KEY_SOUND_BEEP,
-		G_OBJECT (widget), "active");
+	g_settings_bind (settings, CONF_KEY_SOUND_BEEP, G_OBJECT (widget), "active", G_SETTINGS_BIND_DEFAULT);
 
 	scw->beep = GTK_TOGGLE_BUTTON (widget);
 
@@ -719,9 +704,7 @@ get_config_widget_sound (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	gconf_bridge_bind_property (
-		bridge, GCONF_KEY_SOUND_USE_THEME,
-		G_OBJECT (widget), "active");
+	g_settings_bind (settings, CONF_KEY_SOUND_USE_THEME, G_OBJECT (widget), "active", G_SETTINGS_BIND_DEFAULT);
 
 	scw->use_theme = GTK_TOGGLE_BUTTON (widget);
 
@@ -738,9 +721,7 @@ get_config_widget_sound (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	gconf_bridge_bind_property (
-		bridge, GCONF_KEY_SOUND_PLAY_FILE,
-		G_OBJECT (widget), "active");
+	g_settings_bind (settings, CONF_KEY_SOUND_PLAY_FILE, G_OBJECT (widget), "active", G_SETTINGS_BIND_DEFAULT);
 
 	text = _("Select sound file");
 	widget = gtk_file_chooser_button_new (
@@ -761,13 +742,12 @@ get_config_widget_sound (void)
 		widget, "clicked",
 		G_CALLBACK (sound_play_cb), scw);
 
-	client = gconf_client_get_default ();
-	file = gconf_client_get_string (client, GCONF_KEY_SOUND_FILE, NULL);
+	file = g_settings_get_string (settings, CONF_KEY_SOUND_FILE);
 
 	if (file && *file)
 		gtk_file_chooser_set_filename (scw->filechooser, file);
 
-	g_object_unref (client);
+	g_object_unref (settings);
 	g_free (file);
 
 	g_signal_connect (
@@ -789,10 +769,10 @@ get_cfg_widget (void)
 {
 	GtkWidget *container;
 	GtkWidget *widget;
-	GConfBridge *bridge;
+	GSettings *settings;
 	const gchar *text;
 
-	bridge = gconf_bridge_get ();
+	settings = g_settings_new ("org.gnome.evolution.eplugin.mail-notification");
 
 	widget = gtk_vbox_new (FALSE, 12);
 	gtk_widget_show (widget);
@@ -804,9 +784,7 @@ get_cfg_widget (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	gconf_bridge_bind_property (
-		bridge, GCONF_KEY_NOTIFY_ONLY_INBOX,
-		G_OBJECT (widget), "active");
+	g_settings_bind (settings, CONF_KEY_NOTIFY_ONLY_INBOX, G_OBJECT (widget), "active", G_SETTINGS_BIND_DEFAULT);
 
 #ifdef HAVE_LIBNOTIFY
 	text = _("Show _notification when a new message arrives");
@@ -814,13 +792,13 @@ get_cfg_widget (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	gconf_bridge_bind_property (
-		bridge, GCONF_KEY_ENABLED_STATUS,
-		G_OBJECT (widget), "active");
+	g_settings_bind (settings, CONF_KEY_ENABLED_STATUS, G_OBJECT (widget), "active", G_SETTINGS_BIND_DEFAULT);
 #endif
 
 	widget = get_config_widget_sound ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+
+	g_object_unref (settings);
 
 	return container;
 }
@@ -838,7 +816,7 @@ org_gnome_mail_new_notify (EPlugin *ep,
 	g_return_if_fail (t != NULL);
 
 	if (!enabled || !t->new || (!t->is_inbox &&
-		is_part_enabled (GCONF_KEY_NOTIFY_ONLY_INBOX)))
+		is_part_enabled (CONF_KEY_NOTIFY_ONLY_INBOX)))
 		return;
 
 	g_static_mutex_lock (&mlock);
@@ -846,11 +824,11 @@ org_gnome_mail_new_notify (EPlugin *ep,
 	new_notify_dbus (t);
 
 #ifdef HAVE_LIBNOTIFY
-	if (is_part_enabled (GCONF_KEY_ENABLED_STATUS))
+	if (is_part_enabled (CONF_KEY_ENABLED_STATUS))
 		new_notify_status (t);
 #endif
 
-	if (is_part_enabled (GCONF_KEY_ENABLED_SOUND))
+	if (is_part_enabled (CONF_KEY_ENABLED_SOUND))
 		new_notify_sound (t);
 
 	g_static_mutex_unlock (&mlock);
@@ -870,11 +848,11 @@ org_gnome_mail_read_notify (EPlugin *ep,
 	read_notify_dbus (t);
 
 #ifdef HAVE_LIBNOTIFY
-	if (is_part_enabled (GCONF_KEY_ENABLED_STATUS))
+	if (is_part_enabled (CONF_KEY_ENABLED_STATUS))
 		read_notify_status (t);
 #endif
 
-	if (is_part_enabled (GCONF_KEY_ENABLED_SOUND))
+	if (is_part_enabled (CONF_KEY_ENABLED_SOUND))
 		read_notify_sound (t);
 
 	g_static_mutex_unlock (&mlock);
@@ -887,7 +865,7 @@ e_plugin_lib_enable (EPlugin *ep,
 	if (enable) {
 		enable_dbus (enable);
 
-		if (is_part_enabled (GCONF_KEY_ENABLED_SOUND))
+		if (is_part_enabled (CONF_KEY_ENABLED_SOUND))
 			enable_sound (enable);
 
 		enabled = TRUE;

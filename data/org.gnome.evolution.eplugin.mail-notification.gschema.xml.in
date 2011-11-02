@@ -35,6 +35,11 @@
       <_summary>Sound file name to be played.</_summary>
       <_description>Sound file to be played when new messages arrive, if not in beep mode.</_description>
     </key>
+    <key name="notify-sound-play-file" type="b">
+      <default>false</default>
+      <_summary>FIXME</_summary>
+      <_description>FIXME</_description>
+    </key>
     <key name="notify-sound-use-theme" type="b">
       <default>false</default>
       <_summary>Use sound theme</_summary>
