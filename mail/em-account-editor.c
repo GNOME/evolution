@@ -2161,12 +2161,10 @@ emae_setup_service (EMAccountEditor *emae,
 	EAccount *account;
 	struct _service_info *info = &emae_service_info[service->type];
 	CamelURL *url = emae_account_url (emae, info->account_uri_key);
-	const gchar *uri;
 
 	account = em_account_editor_get_modified_account (emae);
-	uri = e_account_get_string (account, info->account_uri_key);
 
-	service->provider = uri ? camel_provider_get (uri, NULL) : NULL;
+	service->provider = url && url->protocol ? camel_provider_get (url->protocol, NULL) : NULL;
 
 	/* Extract all widgets we need from the builder file. */
 
@@ -4071,9 +4069,21 @@ emae_commit (EConfig *ec,
 
 	url = camel_url_new (modified_account->source->url, NULL);
 	if (url != NULL) {
-		if (emae->priv->source.settings != NULL)
+		if (emae->priv->source.settings != NULL) {
+			gchar *host = g_strdup (url->host);
+			gchar *path = g_strdup (url->path);
+			gint port = url->port;
+
 			camel_settings_save_to_url (
 				emae->priv->source.settings, url);
+
+			camel_url_set_host (url, host);
+			camel_url_set_path (url, path);
+			camel_url_set_port (url, port);
+
+			g_free (host);
+			g_free (path);
+		}
 		g_free (modified_account->source->url);
 		modified_account->source->url = camel_url_to_string (url, 0);
 		camel_url_free (url);
@@ -4081,9 +4091,20 @@ emae_commit (EConfig *ec,
 
 	url = camel_url_new (modified_account->transport->url, NULL);
 	if (url != NULL) {
-		if (emae->priv->transport.settings != NULL)
+		if (emae->priv->transport.settings != NULL) {
+			gchar *host = g_strdup (url->host);
+			gchar *path = g_strdup (url->path);
+			gint port = url->port;
+
 			camel_settings_save_to_url (
 				emae->priv->transport.settings, url);
+			camel_url_set_host (url, host);
+			camel_url_set_path (url, path);
+			camel_url_set_port (url, port);
+
+			g_free (host);
+			g_free (path);
+		}
 		g_free (modified_account->transport->url);
 		modified_account->transport->url = camel_url_to_string (url, 0);
 		camel_url_free (url);

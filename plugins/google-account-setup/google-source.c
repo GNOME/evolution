@@ -467,6 +467,7 @@ retrieve_list_clicked (GtkButton *button,
 
 	authorizer = gdata_client_login_authorizer_new ("evolution-client-0.1.0", GDATA_TYPE_CALENDAR_SERVICE);
 	service = gdata_calendar_service_new (GDATA_AUTHORIZER (authorizer));
+	update_proxy_settings (GDATA_SERVICE (service), URL_GET_SUBSCRIBED_CALENDARS);
 	if (!gdata_client_login_authorizer_authenticate (authorizer, user, password, NULL, &error)) {
 		/* Error! */
 		claim_error (parent, error->message);
@@ -481,7 +482,6 @@ retrieve_list_clicked (GtkButton *button,
 	memset (password, 0, strlen (password));
 	g_free (password);
 
-	update_proxy_settings (GDATA_SERVICE (service), URL_GET_SUBSCRIBED_CALENDARS);
 	feed = gdata_calendar_service_query_all_calendars (service, NULL, NULL, NULL, NULL, &error);
 
 	if (feed) {

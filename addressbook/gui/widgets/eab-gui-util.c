@@ -495,6 +495,7 @@ do_copy (gpointer data,
 	contact = data;
 
 	book_client = process->destination;
+	e_contact_inline_local_photos (contact, NULL);
 
 	process->count++;
 	eab_merging_book_add_contact (
