@@ -5267,7 +5267,7 @@ For example: "Work" or "Personal"</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">6</property>
                     <child>
-                      <object class="GtkComboBox" id="source_auth_dropdown">
+                      <object class="EAuthComboBox" id="source_auth_dropdown" type-func="e_auth_combo_box_get_type">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -5798,7 +5798,7 @@ For example: "Work" or "Personal"</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">6</property>
                         <child>
-                          <object class="GtkComboBox" id="transport_auth_dropdown">
+                          <object class="EAuthComboBox" id="transport_auth_dropdown" type-func="e_auth_combo_box_get_type">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                           </object>

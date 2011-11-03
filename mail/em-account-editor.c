@@ -54,6 +54,7 @@
 #include "e-util/e-signature-list.h"
 #include "e-util/e-signature-utils.h"
 #include "e-util/e-util-private.h"
+#include "widgets/misc/e-auth-combo-box.h"
 #include "widgets/misc/e-signature-editor.h"
 #include "widgets/misc/e-port-entry.h"
 
@@ -140,16 +141,14 @@ typedef struct _EMAccountEditorService {
 	GtkToggleButton *remember;
 	GtkButton *check_supported;
 	GtkToggleButton *needs_auth;
+	gboolean requires_auth;
 
 	GCancellable *checking;
 	GtkWidget *check_dialog;
 
-	GList *auth_types;	/* if "Check supported" */
 	CamelProvider *provider;
 	CamelProviderType type;
 	CamelSettings *settings;
-
-	gint auth_changed_id;
 } EMAccountEditorService;
 
 struct _EMAccountEditorPrivate {
@@ -227,10 +226,13 @@ enum {
 	PROP_0,
 	PROP_BACKEND,
 	PROP_MODIFIED_ACCOUNT,
-	PROP_ORIGINAL_ACCOUNT
+	PROP_ORIGINAL_ACCOUNT,
+	PROP_STORE_PROVIDER,
+	PROP_STORE_REQUIRES_AUTH,
+	PROP_TRANSPORT_PROVIDER,
+	PROP_TRANSPORT_REQUIRES_AUTH
 };
 
-static void emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service);
 static void em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, const gchar *id);
 static void emae_account_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *emae);
 static ServerData * emae_check_servers (const gchar *email);
@@ -290,6 +292,48 @@ emae_set_backend (EMAccountEditor *emae,
 	emae->priv->backend = g_object_ref (backend);
 }
 
+static CamelProvider *
+emae_get_store_provider (EMAccountEditor *emae)
+{
+	return emae->priv->source.provider;
+}
+
+static gboolean
+emae_get_store_requires_auth (EMAccountEditor *emae)
+{
+	return emae->priv->source.requires_auth;
+}
+
+static void
+emae_set_store_requires_auth (EMAccountEditor *emae,
+                              gboolean requires_auth)
+{
+	emae->priv->source.requires_auth = requires_auth;
+
+	g_object_notify (G_OBJECT (emae), "store-requires-auth");
+}
+
+static CamelProvider *
+emae_get_transport_provider (EMAccountEditor *emae)
+{
+	return emae->priv->transport.provider;
+}
+
+static gboolean
+emae_get_transport_requires_auth (EMAccountEditor *emae)
+{
+	return emae->priv->transport.requires_auth;
+}
+
+static void
+emae_set_transport_requires_auth (EMAccountEditor *emae,
+                                  gboolean requires_auth)
+{
+	emae->priv->transport.requires_auth = requires_auth;
+
+	g_object_notify (G_OBJECT (emae), "transport-requires-auth");
+}
+
 static void
 emae_set_property (GObject *object,
                    guint property_id,
@@ -307,6 +351,18 @@ emae_set_property (GObject *object,
 			emae_set_original_account (
 				EM_ACCOUNT_EDITOR (object),
 				g_value_get_object (value));
+			return;
+
+		case PROP_STORE_REQUIRES_AUTH:
+			emae_set_store_requires_auth (
+				EM_ACCOUNT_EDITOR (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_TRANSPORT_REQUIRES_AUTH:
+			emae_set_transport_requires_auth (
+				EM_ACCOUNT_EDITOR (object),
+				g_value_get_boolean (value));
 			return;
 	}
 
@@ -338,6 +394,34 @@ emae_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				em_account_editor_get_original_account (
+				EM_ACCOUNT_EDITOR (object)));
+			return;
+
+		case PROP_STORE_PROVIDER:
+			g_value_set_pointer (
+				value,
+				emae_get_store_provider (
+				EM_ACCOUNT_EDITOR (object)));
+			return;
+
+		case PROP_STORE_REQUIRES_AUTH:
+			g_value_set_boolean (
+				value,
+				emae_get_store_requires_auth (
+				EM_ACCOUNT_EDITOR (object)));
+			return;
+
+		case PROP_TRANSPORT_PROVIDER:
+			g_value_set_pointer (
+				value,
+				emae_get_transport_provider (
+				EM_ACCOUNT_EDITOR (object)));
+			return;
+
+		case PROP_TRANSPORT_REQUIRES_AUTH:
+			g_value_set_boolean (
+				value,
+				emae_get_transport_requires_auth (
 				EM_ACCOUNT_EDITOR (object)));
 			return;
 	}
@@ -396,9 +480,6 @@ emae_finalize (GObject *object)
 		g_signal_handler_disconnect (signatures, priv->sig_changed_id);
 	}
 
-	g_list_free (priv->source.auth_types);
-	g_list_free (priv->transport.auth_types);
-
 	g_list_free (priv->providers);
 
 	/* Chain up to parent's finalize() method. */
@@ -428,7 +509,8 @@ emae_class_init (GObjectClass *class)
 			NULL,
 			E_TYPE_MAIL_BACKEND,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -438,7 +520,8 @@ emae_class_init (GObjectClass *class)
 			"Modified Account",
 			NULL,
 			E_TYPE_ACCOUNT,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -449,7 +532,52 @@ emae_class_init (GObjectClass *class)
 			NULL,
 			E_TYPE_ACCOUNT,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_STORE_PROVIDER,
+		g_param_spec_pointer (
+			"store-provider",
+			"Store Provider",
+			"CamelProvider for storage service",
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_STORE_REQUIRES_AUTH,
+		g_param_spec_boolean (
+			"store-requires-auth",
+			"Store Requires Auth",
+			"Storage service requires authentication",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TRANSPORT_PROVIDER,
+		g_param_spec_pointer (
+			"transport-provider",
+			"Transport Provider",
+			"CamelProvider for transport service",
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TRANSPORT_REQUIRES_AUTH,
+		g_param_spec_boolean (
+			"transport-requires-auth",
+			"Transport Requires Auth",
+			"Transport service requires authentication",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -1453,11 +1581,6 @@ emae_service_url_changed (EMAccountEditorService *service,
                           void (*setval)(CamelURL *, const gchar *),
                           GtkWidget *entry)
 {
-	GtkComboBox *dropdown;
-	gint id;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	CamelServiceAuthType *authtype;
 	gchar *text;
 
 	CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
@@ -1472,21 +1595,6 @@ emae_service_url_changed (EMAccountEditorService *service,
 	g_strstrip (text);
 
 	setval (url, (text && text[0]) ? text : NULL);
-
-	if (text && text[0] && setval == camel_url_set_user) {
-		dropdown = service->authtype;
-		if (dropdown) {
-			id = gtk_combo_box_get_active (dropdown);
-			if (id != -1) {
-				model = gtk_combo_box_get_model (dropdown);
-					if (gtk_tree_model_iter_nth_child (model, &iter, NULL, id)) {
-						gtk_tree_model_get (model, &iter, 1, &authtype, -1);
-						if (authtype)
-							camel_url_set_authmech (url, authtype->authproto);
-					}
-			}
-		}
-	}
 
 	emae_uri_changed (service, url);
 	camel_url_free (url);
@@ -1682,22 +1790,6 @@ emae_service_provider_changed (EMAccountEditorService *service)
 			gtk_widget_grab_focus (dwidget);
 
 		if (CAMEL_PROVIDER_ALLOWS (service->provider, CAMEL_URL_PART_AUTH)) {
-			GList *ll;
-
-			/* try to keep the authmech from the current url, or clear it */
-			if (url->authmech) {
-				if (service->provider->authtypes) {
-					for (ll = service->provider->authtypes; ll; ll = g_list_next (ll))
-						if (!strcmp (url->authmech, ((CamelServiceAuthType *) ll->data)->authproto))
-							break;
-					if (ll == NULL)
-						camel_url_set_authmech (url, NULL);
-				} else {
-					camel_url_set_authmech (url, NULL);
-				}
-			}
-
-			emae_refresh_authtype (service->emae, service);
 			if (service->needs_auth && !CAMEL_PROVIDER_NEEDS (service->provider, CAMEL_URL_PART_AUTH))
 				gtk_widget_show ((GtkWidget *) service->needs_auth);
 		} else {
@@ -1755,8 +1847,20 @@ emae_provider_changed (GtkComboBox *dropdown,
 
 	gtk_tree_model_get (model, &iter, 1, &service->provider, -1);
 
-	g_list_free (service->auth_types);
-	service->auth_types = NULL;
+	switch (service->type) {
+		case CAMEL_PROVIDER_STORE:
+			g_object_notify (
+				G_OBJECT (service->emae),
+				"store-provider");
+			break;
+		case CAMEL_PROVIDER_TRANSPORT:
+			g_object_notify (
+				G_OBJECT (service->emae),
+				"transport-provider");
+			break;
+		default:
+			g_warn_if_reached ();
+	}
 
 	emae_service_provider_changed (service);
 
@@ -1866,132 +1970,25 @@ emae_refresh_providers (EMAccountEditor *emae,
 }
 
 static void
-emae_authtype_changed (GtkComboBox *dropdown,
+emae_authtype_changed (GtkComboBox *combo_box,
                        EMAccountEditorService *service)
 {
-	EAccount *account;
-	gint id = gtk_combo_box_get_active (dropdown);
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	CamelURL *url;
+	CamelServiceAuthType *authtype = NULL;
+	const gchar *mechanism;
 	gboolean sensitive = FALSE;
 
-	if (id == -1)
-		return;
+	mechanism = gtk_combo_box_get_active_id (combo_box);
 
-	account = em_account_editor_get_modified_account (service->emae);
-
-	url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
-	model = gtk_combo_box_get_model (dropdown);
-	if (gtk_tree_model_iter_nth_child (model, &iter, NULL, id)) {
-		CamelServiceAuthType *authtype;
-
-		gtk_tree_model_get (model, &iter, 1, &authtype, -1);
-		if (authtype)
-			camel_url_set_authmech (url, authtype->authproto);
-		else
-			camel_url_set_authmech (url, NULL);
-		emae_uri_changed (service, url);
-
-		sensitive =
-			authtype != NULL &&
-			authtype->need_password &&
-			e_account_writable (account,
-			emae_service_info[service->type].save_passwd_key);
+	if (mechanism != NULL) {
+		authtype = camel_sasl_authtype (mechanism);
+		g_warn_if_fail (authtype != NULL);
 	}
-	camel_url_free (url);
 
-	gtk_widget_set_sensitive ((GtkWidget *) service->remember, sensitive);
-}
-
-static void
-emae_needs_auth (GtkToggleButton *toggle,
-                 EMAccountEditorService *service)
-{
-	gint need = gtk_toggle_button_get_active (toggle);
-
-	gtk_widget_set_sensitive (service->auth_frame, need);
-
-	if (need)
-		emae_authtype_changed (service->authtype, service);
-	else {
-		CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
-
-		camel_url_set_authmech (url, NULL);
-		emae_uri_changed (service, url);
-		camel_url_free (url);
-	}
+	sensitive = (authtype != NULL) && (authtype->need_password);
+	gtk_widget_set_sensitive (GTK_WIDGET (service->remember), sensitive);
 }
 
 static void emae_check_authtype (GtkWidget *w, EMAccountEditorService *service);
-
-static void
-emae_refresh_authtype (EMAccountEditor *emae,
-                       EMAccountEditorService *service)
-{
-	EAccount *account;
-	GtkListStore *store;
-	GtkTreeIter iter;
-	GtkComboBox *dropdown;
-	gint active = 0;
-	gint i;
-	struct _service_info *info = &emae_service_info[service->type];
-	const gchar *uri;
-	GList *l, *ll;
-	CamelURL *url = NULL;
-
-	account = em_account_editor_get_modified_account (emae);
-	uri = e_account_get_string (account, info->account_uri_key);
-
-	dropdown = service->authtype;
-	gtk_widget_show ((GtkWidget *) dropdown);
-
-	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN);
-
-	if (uri)
-		url = camel_url_new (uri, NULL);
-
-	if (service->provider) {
-		for (i = 0, l = service->provider->authtypes; l; l = l->next, i++) {
-			CamelServiceAuthType *authtype = l->data;
-			gint avail;
-
-			/* if we have some already shown */
-			if (service->auth_types) {
-				for (ll = service->auth_types; ll; ll = g_list_next (ll))
-					if (!strcmp (authtype->authproto, ((CamelServiceAuthType *) ll->data)->authproto))
-						break;
-				avail = ll != NULL;
-			} else {
-				avail = TRUE;
-			}
-
-			gtk_list_store_append (store, &iter);
-			gtk_list_store_set (store, &iter, 0, authtype->name, 1, authtype, 2, !avail, -1);
-
-			if (url && url->authmech && !strcmp (url->authmech, authtype->authproto))
-				active = i;
-		}
-	}
-
-	gtk_combo_box_set_model (dropdown, (GtkTreeModel *) store);
-	gtk_combo_box_set_active (dropdown, -1);
-
-	if (service->auth_changed_id == 0) {
-		GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
-
-		gtk_cell_layout_pack_start ((GtkCellLayout *) dropdown, cell, TRUE);
-		gtk_cell_layout_set_attributes ((GtkCellLayout *)dropdown, cell, "text", 0, "strikethrough", 2, NULL);
-
-		service->auth_changed_id = g_signal_connect (dropdown, "changed", G_CALLBACK(emae_authtype_changed), service);
-		g_signal_connect (service->check_supported, "clicked", G_CALLBACK(emae_check_authtype), service);
-	}
-
-	gtk_combo_box_set_active (dropdown, active);
-
-	if (url)
-		camel_url_free (url);
-}
 
 static void
 emae_check_authtype_done (CamelService *camel_service,
@@ -2001,20 +1998,20 @@ emae_check_authtype_done (CamelService *camel_service,
 	EMailBackend *backend;
 	EMailSession *session;
 	GtkWidget *editor;
-	GList *auth_types;
+	GList *available_authtypes;
 	GError *error = NULL;
 
-	auth_types = camel_service_query_auth_types_finish (
+	available_authtypes = camel_service_query_auth_types_finish (
 		camel_service, result, &error);
 
 	editor = E_CONFIG (service->emae->config)->window;
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_warn_if_fail (auth_types == NULL);
+		g_warn_if_fail (available_authtypes == NULL);
 		g_error_free (error);
 
 	} else if (error != NULL) {
-		g_warn_if_fail (auth_types == NULL);
+		g_warn_if_fail (available_authtypes == NULL);
 		e_alert_run_dialog_for_args (
 			GTK_WINDOW (service->check_dialog),
 			"mail:checking-service-error",
@@ -2022,9 +2019,10 @@ emae_check_authtype_done (CamelService *camel_service,
 		g_error_free (error);
 
 	} else {
-		g_list_free (service->auth_types);
-		service->auth_types = auth_types;
-		emae_refresh_authtype (service->emae, service);
+		e_auth_combo_box_update_available (
+			E_AUTH_COMBO_BOX (service->authtype),
+			available_authtypes);
+		g_list_free (available_authtypes);
 	}
 
 	gtk_widget_destroy (service->check_dialog);
@@ -2141,10 +2139,18 @@ emae_setup_service (EMAccountEditor *emae,
 	EAccount *account;
 	struct _service_info *info = &emae_service_info[service->type];
 	CamelURL *url = emae_account_url (emae, info->account_uri_key);
+	CamelNetworkSettings *network_settings = NULL;
+	const gchar *auth_mechanism = NULL;
 
 	account = em_account_editor_get_modified_account (emae);
 
 	service->provider = url && url->protocol ? camel_provider_get (url->protocol, NULL) : NULL;
+
+	if (CAMEL_IS_NETWORK_SETTINGS (service->settings)) {
+		network_settings = CAMEL_NETWORK_SETTINGS (service->settings);
+		auth_mechanism = camel_network_settings_get_auth_mechanism (
+			network_settings);
+	}
 
 	/* Extract all widgets we need from the builder file. */
 
@@ -2175,12 +2181,11 @@ emae_setup_service (EMAccountEditor *emae,
 
 	service->remember = emae_account_toggle (emae, info->remember_password, info->save_passwd_key, builder);
 
-	if (info->needs_auth)
+	if (info->needs_auth) {
 		service->needs_auth = (GtkToggleButton *) e_builder_get_widget (builder, info->needs_auth);
-	else
+	} else {
 		service->needs_auth = NULL;
-
-	service->auth_changed_id = 0;
+	}
 
 	g_signal_connect (service->hostname, "changed", G_CALLBACK (emae_hostname_changed), service);
 	g_signal_connect (service->port, "changed", G_CALLBACK (emae_port_changed), service);
@@ -2189,6 +2194,79 @@ emae_setup_service (EMAccountEditor *emae,
 		g_signal_connect (GTK_FILE_CHOOSER (service->pathentry), "selection-changed", G_CALLBACK (emae_path_changed), service);
 
 	g_signal_connect (service->use_ssl, "changed", G_CALLBACK(emae_ssl_changed), service);
+
+	g_signal_connect (
+		service->authtype, "changed",
+		G_CALLBACK (emae_authtype_changed), service);
+
+	g_signal_connect (
+		service->check_supported, "clicked",
+		G_CALLBACK (emae_check_authtype), service);
+
+	switch (service->type) {
+		case CAMEL_PROVIDER_STORE:
+			g_object_bind_property (
+				emae, "store-provider",
+				service->authtype, "provider",
+				G_BINDING_SYNC_CREATE);
+
+			if (network_settings != NULL)
+				g_object_bind_property (
+					network_settings, "auth-mechanism",
+					service->authtype, "active-id",
+					G_BINDING_BIDIRECTIONAL |
+					G_BINDING_SYNC_CREATE);
+
+			if (service->needs_auth != NULL) {
+				g_object_bind_property (
+					emae, "store-requires-auth",
+					service->needs_auth, "active",
+					G_BINDING_BIDIRECTIONAL |
+					G_BINDING_SYNC_CREATE);
+				g_object_bind_property (
+					emae, "store-requires-auth",
+					service->auth_frame, "sensitive",
+					G_BINDING_SYNC_CREATE);
+			}
+
+			emae_set_store_requires_auth (
+				emae, auth_mechanism != NULL);
+
+			break;
+
+		case CAMEL_PROVIDER_TRANSPORT:
+			g_object_bind_property (
+				emae, "transport-provider",
+				service->authtype, "provider",
+				G_BINDING_SYNC_CREATE);
+
+			if (network_settings != NULL)
+				g_object_bind_property (
+					network_settings, "auth-mechanism",
+					service->authtype, "active-id",
+					G_BINDING_BIDIRECTIONAL |
+					G_BINDING_SYNC_CREATE);
+
+			if (service->needs_auth != NULL) {
+				g_object_bind_property (
+					emae, "transport-requires-auth",
+					service->needs_auth, "active",
+					G_BINDING_BIDIRECTIONAL |
+					G_BINDING_SYNC_CREATE);
+				g_object_bind_property (
+					emae, "transport-requires-auth",
+					service->auth_frame, "sensitive",
+					G_BINDING_SYNC_CREATE);
+			}
+
+			emae_set_transport_requires_auth (
+				emae, auth_mechanism != NULL);
+
+			break;
+
+		default:
+			g_warn_if_reached ();
+	}
 
 	/* configure ui for current settings */
 	if (url->host) {
@@ -2218,21 +2296,14 @@ emae_setup_service (EMAccountEditor *emae,
 
 	/* old authtype will be destroyed when we exit */
 	emae_refresh_providers (emae, service);
-	emae_refresh_authtype (emae, service);
 
-	if (service->port && service->provider->port_entries)
+	if (service->provider && service->provider->port_entries)
 		e_port_entry_set_camel_entries (service->port, service->provider->port_entries);
 
 	/* Set the port after SSL is set, because it would overwrite the
 	 * port value (through emae_ssl_changed signal) */
 	if (url->port && service->provider->port_entries) {
 		e_port_entry_set_port (service->port, url->port);
-	}
-
-	if (service->needs_auth != NULL) {
-		gtk_toggle_button_set_active (service->needs_auth, url->authmech != NULL);
-		g_signal_connect (service->needs_auth, "toggled", G_CALLBACK(emae_needs_auth), service);
-		emae_needs_auth (service->needs_auth, service);
 	}
 
 	if (!e_account_writable (account, info->account_uri_key))
@@ -3739,30 +3810,6 @@ emae_check_servers (const gchar *email)
 	return NULL;
 }
 
-static void
-emae_check_set_authtype (GtkComboBox *dropdown,
-                         const gchar *auth)
-{
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gint id;
-	gint children;
-
-	model = gtk_combo_box_get_model (dropdown);
-	children = gtk_tree_model_iter_n_children (model, NULL);
-	for (id = 0; id < children; id++)  {
-		CamelServiceAuthType *authtype;
-
-		gtk_tree_model_iter_nth_child (model, &iter, NULL, id);
-		gtk_tree_model_get (model, &iter, 1, &authtype, -1);
-		if (g_ascii_strcasecmp (authtype->authproto, auth) == 0)
-			break;
-	}
-
-	if (id < children)
-		gtk_combo_box_set_active (dropdown, id);
-}
-
 static gboolean
 emae_check_complete (EConfig *ec,
                      const gchar *pageid,
@@ -3845,7 +3892,9 @@ emae_check_complete (EConfig *ec,
 					uri = camel_url_to_string (url, 0);
 					e_account_set_string (account, E_ACCOUNT_SOURCE_URL, uri);
 					if (sdata != NULL && sdata->recv_auth && *sdata->recv_auth)
-						emae_check_set_authtype (emae->priv->source.authtype, sdata->recv_auth);
+						gtk_combo_box_set_active_id (
+							emae->priv->source.authtype,
+							sdata->recv_auth);
 
 					camel_url_free (url);
 				} else
@@ -3897,7 +3946,9 @@ emae_check_complete (EConfig *ec,
 					camel_url_free (url);
 					gtk_toggle_button_set_active (emae->priv->transport.needs_auth, TRUE);
 					if (sdata->send_auth && *sdata->send_auth)
-						emae_check_set_authtype (emae->priv->transport.authtype, sdata->send_auth);
+						gtk_combo_box_set_active_id (
+							emae->priv->transport.authtype,
+							sdata->send_auth);
 					else
 						emae_authtype_changed (emae->priv->transport.authtype, &emae->priv->transport);
 					uri = (gchar *) e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
@@ -4040,12 +4091,32 @@ emae_commit (EConfig *ec,
 	EAccount *account;
 	EAccount *modified_account;
 	EAccount *original_account;
+	CamelSettings *settings;
 	CamelURL *url;
-
-	/* the mail-config*acconts* api needs a lot of work */
+	gboolean requires_auth;
 
 	modified_account = em_account_editor_get_modified_account (emae);
 	original_account = em_account_editor_get_original_account (emae);
+
+	/*** Do some last minute tweaking. ***/
+
+	settings = emae->priv->source.settings;
+	requires_auth = emae_get_store_requires_auth (emae);
+
+	/* Override the selected authentication mechanism name if
+	 * authentication is not required for the storage service. */
+	if (CAMEL_IS_NETWORK_SETTINGS (settings) && !requires_auth)
+		g_object_set (settings, "auth-mechanism", NULL, NULL);
+
+	settings = emae->priv->transport.settings;
+	requires_auth = emae_get_transport_requires_auth (emae);
+
+	/* Override the selected authentication mechanism name if
+	 * authentication is not required for the transport service. */
+	if (CAMEL_IS_NETWORK_SETTINGS (settings) && !requires_auth)
+		g_object_set (settings, "auth-mechanism", NULL, NULL);
+
+	/*** Dump each service's CamelSettings to a URL string. ***/
 
 	url = camel_url_new (modified_account->source->url, NULL);
 	if (url != NULL) {
