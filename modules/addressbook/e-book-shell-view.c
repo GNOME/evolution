@@ -247,9 +247,6 @@ book_shell_view_execute_search (EShellView *shell_view)
 		view, filter_id, search_id, search_text, advanced_search);
 	g_free (query);
 	g_free (search_text);
-
-	e_book_shell_content_set_preview_contact (book_shell_content, NULL);
-	priv->preview_index = -1;
 }
 
 static void
