@@ -184,6 +184,25 @@ contacts_removed (EBookShellView *book_shell_view,
 }
 
 static void
+model_query_changed_cb (EBookShellView *book_shell_view,
+			GParamSpec *param,
+			EAddressbookModel *model)
+{
+	EBookShellContent *book_shell_content;
+	EAddressbookView *current_view;
+
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	current_view = e_book_shell_content_get_current_view (book_shell_content);
+
+	if (!current_view || e_addressbook_view_get_model (current_view) != model)
+		return;
+
+	/* clear the contact preview when model's query changed */
+	e_book_shell_content_set_preview_contact (book_shell_content, NULL);
+	book_shell_view->priv->preview_index = -1;
+}
+
+static void
 book_shell_view_loaded_cb (GObject *source_object,
                            GAsyncResult *result,
                            gpointer user_data)
@@ -329,6 +348,11 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 		g_signal_connect_object (
 			model, "contacts-removed",
 			G_CALLBACK (contacts_removed),
+			book_shell_view, G_CONNECT_SWAPPED);
+
+		g_signal_connect_object (
+			model, "notify::query",
+			G_CALLBACK (model_query_changed_cb),
 			book_shell_view, G_CONNECT_SWAPPED);
 	}
 
