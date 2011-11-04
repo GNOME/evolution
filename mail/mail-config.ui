@@ -4897,7 +4897,7 @@ For example: "Work" or "Personal"</property>
           </packing>
         </child>
         <child>
-          <object class="GtkComboBox" id="source_type_dropdown">
+          <object class="GtkComboBoxText" id="source_type_dropdown">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
           </object>
@@ -5378,7 +5378,7 @@ For example: "Work" or "Personal"</property>
           </packing>
         </child>
         <child>
-          <object class="GtkComboBox" id="transport_type_dropdown">
+          <object class="GtkComboBoxText" id="transport_type_dropdown">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
           </object>

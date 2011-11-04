@@ -78,18 +78,17 @@ void
 imap_headers_commit (EPlugin *efp,
                      EConfigHookItemFactoryData *data)
 {
-	EMConfigTargetAccount *target_account;
+	EMConfigTargetSettings *target;
 	CamelFetchHeadersType fetch_headers;
-	CamelSettings *settings;
-	EAccount *modified_account;
 	gboolean use_imap = g_getenv ("USE_IMAP") != NULL;
+	const gchar *protocol;
 
-	target_account = (EMConfigTargetAccount *) data->config->target;
-	modified_account = target_account->modified_account;
-	settings = target_account->settings;
+	target = (EMConfigTargetSettings *) data->config->target;
+	protocol = target->storage_protocol;
 
-	if (g_str_has_prefix (modified_account->source->url, "imap://") ||
-			(use_imap && g_str_has_prefix (modified_account->source->url, "groupwise://"))) {
+	if (g_strcmp0 (protocol, "imap") == 0 ||
+	    (use_imap && g_strcmp0 (protocol, "groupwise") == 0)) {
+
 		GtkTreeModel *model;
 		GtkTreeIter iter;
 		gint n_children;
@@ -123,7 +122,7 @@ imap_headers_commit (EPlugin *efp,
 			fetch_headers = CAMEL_FETCH_HEADERS_BASIC_AND_MAILING_LIST;
 
 		g_object_set (
-			settings,
+			target->storage_settings,
 			"fetch-headers", fetch_headers,
 			"fetch-headers-extra", strv, NULL);
 
@@ -249,9 +248,7 @@ GtkWidget *
 org_gnome_imap_headers (EPlugin *epl,
                         EConfigHookItemFactoryData *data)
 {
-	EMConfigTargetAccount *target_account;
-	CamelSettings *settings;
-	EAccount *account;
+	EMConfigTargetSettings *target;
 	GtkWidget *vbox;
 	GtkBuilder *builder;
 	GtkWidget *button;
@@ -262,19 +259,20 @@ org_gnome_imap_headers (EPlugin *epl,
 	CamelFetchHeadersType fetch_headers = 0;
 	gchar **extra_headers = NULL;
 	gboolean use_imap = g_getenv ("USE_IMAP") != NULL;
+	const gchar *protocol;
 	guint ii, length = 0;
 
 	ui = g_new0 (EPImapFeaturesData, 1);
 
-	target_account = (EMConfigTargetAccount *) data->config->target;
-	account = target_account->modified_account;
-	settings = target_account->settings;
+	target = (EMConfigTargetSettings *) data->config->target;
+	protocol = target->storage_protocol;
 
-	if (!g_str_has_prefix (account->source->url, "imap://") && !(use_imap && g_str_has_prefix (account->source->url, "groupwise://")))
+	if (g_strcmp0 (protocol, "imap") != 0 &&
+	    !(use_imap && g_strcmp0 (protocol, "groupwise") == 0))
 		return NULL;
 
 	g_object_get (
-		settings,
+		target->storage_settings,
 		"fetch-headers", &fetch_headers,
 		"fetch-headers-extra", &extra_headers, NULL);
 

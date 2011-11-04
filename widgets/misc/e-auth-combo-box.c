@@ -79,10 +79,11 @@ auth_combo_box_rebuild_model (EAuthComboBox *combo_box)
 	}
 
 	/* Try selecting the previous mechanism. */
-	gtk_combo_box_set_active_id (gtk_combo_box, active_id);
+	if (active_id != NULL)
+		gtk_combo_box_set_active_id (gtk_combo_box, active_id);
 
 	/* Or else fall back to the first mechanism. */
-	if (gtk_combo_box_get_active_id (gtk_combo_box) == NULL)
+	if (gtk_combo_box_get_active (gtk_combo_box) == -1)
 		gtk_combo_box_set_active (gtk_combo_box, 0);
 }
 

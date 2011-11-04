@@ -8,7 +8,7 @@
 
 		<hook class="org.gnome.evolution.mail.config:1.0">
 			<group id="org.gnome.evolution.mail.config.accountEditor" 
-				target="account" commit = "imap_headers_commit" abort="imap_headers_abort">
+				target="settings" commit = "imap_headers_commit" abort="imap_headers_abort">
 				<item type="page" path="70.IMAP Headers" label="IMAP Headers" factory="org_gnome_imap_headers"/>
 			</group>
 		</hook>

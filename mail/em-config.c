@@ -40,31 +40,6 @@
 
 G_DEFINE_TYPE (EMConfig, em_config, E_TYPE_CONFIG)
 
-struct _EMConfigPrivate {
-	gint account_changed_id;
-};
-
-static void
-emp_account_changed (EAccount *ea,
-                     gint id,
-                     EMConfig *emc)
-{
-	e_config_target_changed ((EConfig *) emc, E_CONFIG_TARGET_CHANGED_STATE);
-}
-
-static void
-em_config_finalize (GObject *object)
-{
-	/* Note we can't be unreffed if a target exists, so the target
-	 * will need to be freed first which will clean up any
-	 * listeners */
-
-	g_free (((EMConfig *) object)->priv);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (em_config_parent_class)->finalize (object);
-}
-
 static void
 em_config_set_target (EConfig *ep,
                       EConfigTarget *t)
@@ -80,16 +55,16 @@ em_config_set_target (EConfig *ep,
 		case EM_CONFIG_TARGET_PREFS: {
 			/*EMConfigTargetPrefs *s = (EMConfigTargetPrefs *)t;*/
 			break; }
-		case EM_CONFIG_TARGET_ACCOUNT: {
-			EMConfigTargetAccount *s = (EMConfigTargetAccount *) t;
-			EMConfig *config = (EMConfig *) ep;
+		case EM_CONFIG_TARGET_SETTINGS: {
+			EMConfigTargetSettings *s = (EMConfigTargetSettings *) t;
 
-			config->priv->account_changed_id = g_signal_connect (
-				s->modified_account, "changed",
-				G_CALLBACK (emp_account_changed), ep);
-
-			em_config_target_new_account_update_settings (
-				ep, s, s->settings);
+			em_config_target_update_settings (
+				ep, s,
+				s->email_address,
+				s->storage_protocol,
+				s->storage_settings,
+				s->transport_protocol,
+				s->transport_settings);
 			break; }
 		}
 	}
@@ -105,18 +80,11 @@ em_config_target_free (EConfig *ep,
 			break;
 		case EM_CONFIG_TARGET_PREFS:
 			break;
-		case EM_CONFIG_TARGET_ACCOUNT: {
-			EMConfigTargetAccount *s = (EMConfigTargetAccount *) t;
-			EMConfig *config = (EMConfig *) ep;
+		case EM_CONFIG_TARGET_SETTINGS: {
+			EMConfigTargetSettings *s = (EMConfigTargetSettings *) t;
 
-			if (config->priv->account_changed_id > 0) {
-				g_signal_handler_disconnect (
-					s->modified_account,
-					config->priv->account_changed_id);
-				config->priv->account_changed_id = 0;
-			}
-
-			em_config_target_new_account_update_settings (ep, s, NULL);
+			em_config_target_update_settings (
+				ep, s, NULL, NULL, NULL, NULL, NULL);
 			break; }
 		}
 	}
@@ -133,15 +101,14 @@ em_config_target_free (EConfig *ep,
 		if (s->gconf)
 			g_object_unref (s->gconf);
 		break; }
-	case EM_CONFIG_TARGET_ACCOUNT: {
-		EMConfigTargetAccount *s = (EMConfigTargetAccount *) t;
+	case EM_CONFIG_TARGET_SETTINGS: {
+		EMConfigTargetSettings *s = (EMConfigTargetSettings *) t;
 
-		if (s->original_account != NULL)
-			g_object_unref (s->original_account);
-		if (s->modified_account != NULL)
-			g_object_unref (s->modified_account);
-		if (s->settings != NULL)
-			g_object_unref (s->settings);
+		g_free (s->email_address);
+		if (s->storage_settings != NULL)
+			g_object_unref (s->storage_settings);
+		if (s->transport_settings != NULL)
+			g_object_unref (s->transport_settings);
 		break; }
 	}
 
@@ -152,11 +119,8 @@ em_config_target_free (EConfig *ep,
 static void
 em_config_class_init (EMConfigClass *class)
 {
-	GObjectClass *object_class;
 	EConfigClass *config_class;
 
-	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = em_config_finalize;
 
 	config_class = E_CONFIG_CLASS (class);
 	config_class->set_target = em_config_set_target;
@@ -166,7 +130,6 @@ em_config_class_init (EMConfigClass *class)
 static void
 em_config_init (EMConfig *emp)
 {
-	emp->priv = g_malloc0 (sizeof (*emp->priv));
 }
 
 EMConfig *
@@ -212,56 +175,78 @@ em_config_target_new_prefs (EMConfig *emp,
 	return t;
 }
 
-EMConfigTargetAccount *
-em_config_target_new_account (EMConfig *emp,
-                              EAccount *original_account,
-                              EAccount *modified_account,
-                              CamelSettings *settings)
+EMConfigTargetSettings *
+em_config_target_new_settings (EMConfig *emp,
+                               const gchar *email_address,
+                               const gchar *storage_protocol,
+                               CamelSettings *storage_settings,
+                               const gchar *transport_protocol,
+                               CamelSettings *transport_settings)
 {
-	EMConfigTargetAccount *t;
+	EMConfigTargetSettings *target;
 
-	t = e_config_target_new (
-		&emp->config, EM_CONFIG_TARGET_ACCOUNT, sizeof (*t));
+	target = e_config_target_new (
+		&emp->config, EM_CONFIG_TARGET_SETTINGS, sizeof (*target));
 
-	if (original_account != NULL)
-		t->original_account = g_object_ref (original_account);
-	else
-		t->original_account = NULL;
+	if (storage_protocol != NULL)
+		storage_protocol = g_intern_string (storage_protocol);
 
-	if (modified_account != NULL)
-		t->modified_account = g_object_ref (modified_account);
-	else
-		t->modified_account = NULL;
+	if (storage_settings != NULL)
+		g_object_ref (storage_settings);
 
-	if (settings != NULL)
-		t->settings = g_object_ref (settings);
-	else
-		t->settings = NULL;
+	if (transport_protocol != NULL)
+		transport_protocol = g_intern_string (transport_protocol);
 
-	return t;
+	if (transport_settings != NULL)
+		g_object_ref (transport_settings);
+
+	target->email_address = g_strdup (email_address);
+
+	target->storage_protocol = storage_protocol;
+	target->storage_settings = storage_settings;
+
+	target->transport_protocol = transport_protocol;
+	target->transport_settings = transport_settings;
+
+	return target;
 }
 
 void
-em_config_target_new_account_update_settings (EConfig *ep,
-                                              EMConfigTargetAccount *target,
-                                              CamelSettings *settings)
+em_config_target_update_settings (EConfig *ep,
+                                  EMConfigTargetSettings *target,
+                                  const gchar *email_address,
+                                  const gchar *storage_protocol,
+                                  CamelSettings *storage_settings,
+                                  const gchar *transport_protocol,
+                                  CamelSettings *transport_settings)
 {
 	g_return_if_fail (ep != NULL);
 	g_return_if_fail (target != NULL);
 
-	if (settings)
-		g_object_ref (settings);
+	if (storage_protocol != NULL)
+		storage_protocol = g_intern_string (storage_protocol);
 
-	if (target->settings != NULL) {
-		g_signal_handlers_disconnect_by_func (
-			target->settings, emp_account_changed, ep);
-		g_object_unref (target->settings);
-	}
+	if (storage_settings != NULL)
+		g_object_ref (storage_settings);
 
-	target->settings = settings;
+	if (transport_protocol != NULL)
+		transport_protocol = g_intern_string (transport_protocol);
 
-	if (target->settings != NULL)
-		g_signal_connect (
-			target->settings, "notify",
-			G_CALLBACK (emp_account_changed), ep);
+	if (transport_settings != NULL)
+		g_object_ref (transport_settings);
+
+	if (target->storage_settings != NULL)
+		g_object_unref (target->storage_settings);
+
+	if (target->transport_settings != NULL)
+		g_object_unref (target->transport_settings);
+
+	g_free (target->email_address);
+	target->email_address = g_strdup (email_address);
+
+	target->storage_protocol = storage_protocol;
+	target->storage_settings = storage_settings;
+
+	target->transport_protocol = transport_protocol;
+	target->transport_settings = transport_settings;
 }

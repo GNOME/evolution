@@ -11,19 +11,20 @@
  *	Dan Vratil <dvratil@redhat.com>
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-port-entry.h"
 
+#include <config.h>
+#include <errno.h>
 #include <stddef.h>
 #include <string.h>
 
+#define E_PORT_ENTRY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_PORT_ENTRY, EPortEntryPrivate))
+
 struct _EPortEntryPrivate {
-	guint port;
-	gboolean is_valid;
 	CamelNetworkSecurityMethod method;
+	CamelProviderPortEntry *entries;
 };
 
 enum {
@@ -44,89 +45,98 @@ G_DEFINE_TYPE (
 	e_port_entry,
 	GTK_TYPE_COMBO_BOX)
 
-static void
-port_entry_set_is_valid (EPortEntry *port_entry,
-                         gboolean is_valid)
+static GtkEntry *
+port_entry_get_entry (EPortEntry *port_entry)
 {
-	g_return_if_fail (E_IS_PORT_ENTRY (port_entry));
-
-	port_entry->priv->is_valid = is_valid;
-
-	g_object_notify (G_OBJECT (port_entry), "is-valid");
+	return GTK_ENTRY (gtk_bin_get_child (GTK_BIN (port_entry)));
 }
 
-/**
- * Returns number of port currently selected in the widget, no matter
- * what value is in the PORT property
- */
-static gint
-port_entry_get_model_active_port (EPortEntry *port_entry)
+static gboolean
+port_entry_get_numeric_port (EPortEntry *port_entry,
+                             gint *out_port)
 {
-	const gchar *port;
+	GtkEntry *entry;
+	const gchar *port_string;
+	gboolean valid;
+	gint port;
 
-	port = gtk_combo_box_get_active_id (GTK_COMBO_BOX (port_entry));
+	entry = port_entry_get_entry (port_entry);
 
-	if (!port) {
-		GtkWidget *entry = gtk_bin_get_child (GTK_BIN (port_entry));
-		port = gtk_entry_get_text (GTK_ENTRY (entry));
-	}
+	port_string = gtk_entry_get_text (entry);
+	g_return_val_if_fail (port_string != NULL, FALSE);
 
-	return atoi (port);
+	errno = 0;
+	port = strtol (port_string, NULL, 10);
+	valid = (errno == 0) && (port == CLAMP (port, 1, G_MAXUINT16));
+
+	if (valid && out_port != NULL)
+		*out_port = port;
+
+	return valid;
 }
 
 static void
-port_entry_port_changed (EPortEntry *port_entry)
+port_entry_text_changed (GtkEditable *editable,
+                         EPortEntry *port_entry)
 {
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	const gchar *port;
-	const gchar *tooltip;
+	GObject *object = G_OBJECT (port_entry);
+	const gchar *desc = NULL;
+	gint port = 0;
+	gint ii = 0;
 
-	g_return_if_fail (E_IS_PORT_ENTRY (port_entry));
+	g_object_freeze_notify (object);
 
-	model = gtk_combo_box_get_model (GTK_COMBO_BOX (port_entry));
-	g_return_if_fail (model);
+	port_entry_get_numeric_port (port_entry, &port);
 
-	if (!gtk_combo_box_get_active_iter (GTK_COMBO_BOX (port_entry), &iter)) {
-		GtkWidget *entry = gtk_bin_get_child (GTK_BIN (port_entry));
-		port = gtk_entry_get_text (GTK_ENTRY (entry));
-
-		/* Try if user just haven't happened to enter a default port */
-		gtk_combo_box_set_active_id (GTK_COMBO_BOX (port_entry), port);
-	} else {
-		gtk_tree_model_get (model, &iter, PORT_NUM_COLUMN, &port, -1);
-	}
-
-	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (port_entry), &iter)) {
-		gtk_tree_model_get (model, &iter, PORT_DESC_COLUMN, &tooltip, -1);
-		gtk_widget_set_tooltip_text (GTK_WIDGET (port_entry), tooltip);
-	} else {
-		gtk_widget_set_has_tooltip (GTK_WIDGET (port_entry), FALSE);
-	}
-
-	if (port == NULL || *port == '\0') {
-		port_entry->priv->port = 0;
-		port_entry_set_is_valid (port_entry, FALSE);
-	} else {
-		port_entry->priv->port = atoi (port);
-		if ((port_entry->priv->port <= 0) ||
-		    (port_entry->priv->port > G_MAXUINT16)) {
-			port_entry->priv->port = 0;
-			port_entry_set_is_valid (port_entry, FALSE);
-		} else {
-			port_entry_set_is_valid (port_entry, TRUE);
+	if (port_entry->priv->entries != NULL) {
+		while (port_entry->priv->entries[ii].port > 0) {
+			if (port == port_entry->priv->entries[ii].port) {
+				desc = port_entry->priv->entries[ii].desc;
+				break;
+			}
+			ii++;
 		}
 	}
 
-	g_object_notify (G_OBJECT (port_entry), "port");
+	if (desc != NULL)
+		gtk_widget_set_tooltip_text (GTK_WIDGET (port_entry), desc);
+	else
+		gtk_widget_set_has_tooltip (GTK_WIDGET (port_entry), FALSE);
+
+	g_object_notify (object, "port");
+	g_object_notify (object, "is-valid");
+
+	g_object_thaw_notify (object);
 }
 
 static void
 port_entry_method_changed (EPortEntry *port_entry)
 {
 	CamelNetworkSecurityMethod method;
+	gboolean standard_port = FALSE;
+	gboolean valid;
+	gint port = 0;
+	gint ii = 0;
 
 	method = e_port_entry_get_security_method (port_entry);
+	valid = port_entry_get_numeric_port (port_entry, &port);
+
+	/* Only change the port number if it's currently on a standard
+	 * port (i.e. listed in a CamelProviderPortEntry).  Otherwise,
+	 * leave custom port numbers alone. */
+
+	if (valid && port_entry->priv->entries != NULL) {
+		while (port_entry->priv->entries[ii].port > 0) {
+			if (port == port_entry->priv->entries[ii].port) {
+				standard_port = TRUE;
+				break;
+			}
+			ii++;
+		}
+	}
+
+	if (valid && !standard_port)
+		return;
 
 	switch (method) {
 		case CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT:
@@ -145,12 +155,6 @@ port_entry_set_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_IS_VALID:
-			port_entry_set_is_valid (
-				E_PORT_ENTRY (object),
-				g_value_get_boolean (value));
-			return;
-
 		case PROP_PORT:
 			e_port_entry_set_port (
 				E_PORT_ENTRY (object),
@@ -197,6 +201,21 @@ port_entry_get_property (GObject *object,
 }
 
 static void
+port_entry_constructed (GObject *object)
+{
+	GtkEntry *entry;
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_port_entry_parent_class)->constructed (object);
+
+	entry = port_entry_get_entry (E_PORT_ENTRY (object));
+
+	g_signal_connect_after (
+		entry, "changed",
+		G_CALLBACK (port_entry_text_changed), object);
+}
+
+static void
 port_entry_get_preferred_width (GtkWidget *widget,
                                 gint *minimum_size,
                                 gint *natural_size)
@@ -204,7 +223,7 @@ port_entry_get_preferred_width (GtkWidget *widget,
 	PangoContext *context;
 	PangoFontMetrics *metrics;
 	PangoFontDescription *font_desc;
-	GtkStyleContext	*style_context;
+	GtkStyleContext *style_context;
 	GtkStateFlags state;
 	gint digit_width;
 	gint parent_entry_width_min;
@@ -257,6 +276,7 @@ e_port_entry_class_init (EPortEntryClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = port_entry_set_property;
 	object_class->get_property = port_entry_get_property;
+	object_class->constructed = port_entry_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->get_preferred_width = port_entry_get_preferred_width;
@@ -304,10 +324,7 @@ e_port_entry_init (EPortEntry *port_entry)
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
 
-	port_entry->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		port_entry, E_TYPE_PORT_ENTRY, EPortEntryPrivate);
-	port_entry->priv->port = 0;
-	port_entry->priv->is_valid = FALSE;
+	port_entry->priv = E_PORT_ENTRY_GET_PRIVATE (port_entry);
 
 	store = gtk_list_store_new (
 		3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN);
@@ -335,11 +352,6 @@ e_port_entry_init (EPortEntry *port_entry)
 		GTK_CELL_LAYOUT (port_entry),
 		renderer, "text", PORT_DESC_COLUMN);
 
-	/* Update the port property when port is changed */
-	g_signal_connect (
-		port_entry, "changed",
-		G_CALLBACK (port_entry_port_changed), NULL);
-
 	g_signal_connect (
 		port_entry, "notify::security-method",
 		G_CALLBACK (port_entry_method_changed), NULL);
@@ -356,21 +368,30 @@ void
 e_port_entry_set_camel_entries (EPortEntry *port_entry,
                                 CamelProviderPortEntry *entries)
 {
+	GtkComboBox *combo_box;
 	GtkTreeIter iter;
 	GtkTreeModel *model;
 	GtkListStore *store;
+	gint port = 0;
 	gint i = 0;
 
 	g_return_if_fail (E_IS_PORT_ENTRY (port_entry));
 	g_return_if_fail (entries);
 
-	model = gtk_combo_box_get_model (GTK_COMBO_BOX (port_entry));
-	store = GTK_LIST_STORE (model);
+	port_entry->priv->entries = entries;
 
+	combo_box = GTK_COMBO_BOX (port_entry);
+	model = gtk_combo_box_get_model (combo_box);
+
+	store = GTK_LIST_STORE (model);
 	gtk_list_store_clear (store);
 
 	while (entries[i].port > 0) {
 		gchar *port_string;
+
+		/* Grab the first port number. */
+		if (port == 0)
+			port = entries[i].port;
 
 		port_string = g_strdup_printf ("%i", entries[i].port);
 
@@ -386,49 +407,34 @@ e_port_entry_set_camel_entries (EPortEntry *port_entry,
 		g_free (port_string);
 	}
 
-	/* Activate the first port */
-	if (i > 0)
-		e_port_entry_set_port (port_entry, entries[0].port);
+	e_port_entry_set_port (port_entry, port);
 }
 
 gint
 e_port_entry_get_port (EPortEntry *port_entry)
 {
+	gint port = 0;
+
 	g_return_val_if_fail (E_IS_PORT_ENTRY (port_entry), 0);
 
-	return port_entry->priv->port;
+	port_entry_get_numeric_port (port_entry, &port);
+
+	return port;
 }
 
 void
 e_port_entry_set_port (EPortEntry *port_entry,
                        gint port)
 {
+	GtkEntry *entry;
+	gchar *port_string;
+
 	g_return_if_fail (E_IS_PORT_ENTRY (port_entry));
 
-	port_entry->priv->port = port;
-	if ((port <= 0) || (port > G_MAXUINT16))
-		port_entry_set_is_valid (port_entry, FALSE);
-	else {
-		gchar *port_string;
-
-		port_string = g_strdup_printf ("%i", port);
-
-		gtk_combo_box_set_active_id (
-			GTK_COMBO_BOX (port_entry), port_string);
-
-		if (port_entry_get_model_active_port (port_entry) != port) {
-			GtkWidget *entry;
-
-			entry = gtk_bin_get_child (GTK_BIN (port_entry));
-			gtk_entry_set_text (GTK_ENTRY (entry), port_string);
-		}
-
-		port_entry_set_is_valid (port_entry, TRUE);
-
-		g_free (port_string);
-	}
-
-	g_object_notify (G_OBJECT (port_entry), "port");
+	entry = port_entry_get_entry (port_entry);
+	port_string = g_strdup_printf ("%i", port);
+	gtk_entry_set_text (entry, port_string);
+	g_free (port_string);
 }
 
 gboolean
@@ -436,7 +442,7 @@ e_port_entry_is_valid (EPortEntry *port_entry)
 {
 	g_return_val_if_fail (E_IS_PORT_ENTRY (port_entry), FALSE);
 
-	return port_entry->priv->is_valid;
+	return port_entry_get_numeric_port (port_entry, NULL);
 }
 
 CamelNetworkSecurityMethod
