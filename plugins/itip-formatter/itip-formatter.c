@@ -27,7 +27,6 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <gconf/gconf-client.h>
 #include <libecal/e-cal-client.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserverui/e-source-selector.h>
@@ -51,7 +50,7 @@
 #include <misc/e-attachment.h>
 
 #define CLASSID "itip://"
-#define GCONF_KEY_DELETE "/apps/evolution/itip/delete_processed"
+#define CONF_KEY_DELETE "delete-processed"
 
 #define d(x)
 
@@ -2888,7 +2887,7 @@ void
 format_itip (EPlugin *ep,
              EMFormatHookTarget *target)
 {
-	GConfClient *gconf;
+	GSettings *settings;
 	gchar *classid;
 	struct _itip_puri *puri;
 	CamelDataWrapper *content;
@@ -2907,8 +2906,8 @@ format_itip (EPlugin *ep,
 
 	em_format_html_add_pobject ((EMFormatHTML *) target->format, sizeof (EMFormatHTMLPObject), classid, target->part, format_itip_object);
 
-	gconf = gconf_client_get_default ();
-	puri->delete_message = gconf_client_get_bool (gconf, GCONF_KEY_DELETE, NULL);
+	settings = g_settings_new ("org.gnome.evolution.eplugin.itip");
+	puri->delete_message = g_settings_get_boolean (settings, CONF_KEY_DELETE);
 	puri->has_organizer = FALSE;
 	puri->no_reply_wanted = FALSE;
 	puri->folder = ((EMFormat *) target->format)->folder;
@@ -2918,7 +2917,7 @@ format_itip (EPlugin *ep,
 	puri->cancellable = g_cancellable_new ();
 	puri->puri.free = puri_free;
 
-	g_object_unref (gconf);
+	g_object_unref (settings);
 
 	/* This is non-gui thread. Download the part for using in the main thread */
 	content = camel_medium_get_content ((CamelMedium *) target->part);
@@ -2952,7 +2951,7 @@ delete_toggled_cb (GtkWidget *widget,
 {
 	EMConfigTargetPrefs *target = data;
 
-	gconf_client_set_bool (target->gconf, GCONF_KEY_DELETE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)), NULL);
+	g_settings_set_boolean (target->settings, CONF_KEY_DELETE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
 }
 
 static void
@@ -3053,7 +3052,7 @@ itip_formatter_page_factory (EPlugin *ep,
 	/* Delete message after acting */
 	/* FIXME Need a schema for this */
 	check = gtk_check_button_new_with_mnemonic (_("_Delete message after acting"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), gconf_client_get_bool (target->gconf, GCONF_KEY_DELETE, NULL));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), g_settings_get_boolean (target->settings, CONF_KEY_DELETE));
 	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (delete_toggled_cb), target);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
 

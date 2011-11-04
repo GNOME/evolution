@@ -22,6 +22,7 @@ gsettings_SCHEMAS =							\
 	org.gnome.evolution.eplugin.email-custom-header.gschema.xml	\
 	org.gnome.evolution.eplugin.external-editor.gschema.xml		\
 	org.gnome.evolution.eplugin.face-picture.gschema.xml		\
+	org.gnome.evolution.eplugin.itip.gschema.xml			\
 	org.gnome.evolution.eplugin.mail-notification.gschema.xml	\
 	org.gnome.evolution.eplugin.prefer-plain.gschema.xml.in		\
 	org.gnome.evolution.eplugin.templates.gschema.xml

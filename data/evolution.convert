@@ -215,6 +215,9 @@ launch-on-key-press = /apps/evolution/eplugin/external-editor/launch-on-key-pres
 [org.gnome.evolution.eplugin.face-picture]
 insert-face-picture = /apps/evolution/eplugin/face/insert_by_default
 
+[org.gnome.evolution.eplugin.itip]
+delete-processed = /apps/evolution/itip/delete_processed
+
 [org.gnome.evolution.eplugin.mail-notification]
 notify-dbus-enabled = /apps/evolution/eplugin/mail-notification/dbus-enabled
 notify-only-inbox = /apps/evolution/eplugin/mail-notification/notify-only-inbox

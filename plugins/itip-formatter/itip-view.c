@@ -26,7 +26,6 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <gconf/gconf-client.h>
 #include <libedataserver/e-time-utils.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-source-combo-box.h>
