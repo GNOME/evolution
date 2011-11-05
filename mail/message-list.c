@@ -4999,20 +4999,16 @@ mail_regen_cancel (MessageList *ml)
 {
 	/* cancel any outstanding regeneration requests, not we don't clear, they clear themselves */
 	if (ml->regen) {
-		GList *l;
+		GList *link;
 
 		g_mutex_lock (ml->regen_lock);
 
-		l = ml->regen;
-		while (l) {
-			MailMsg *mm = l->data;
+		for (link = ml->regen; link != NULL; link = link->next) {
+			MailMsg *mm = link->data;
 			GCancellable *cancellable;
 
 			cancellable = e_activity_get_cancellable (mm->activity);
-			if (CAMEL_IS_OPERATION (cancellable))
-				camel_operation_cancel (
-					CAMEL_OPERATION (cancellable));
-			l = l->next;
+			g_cancellable_cancel (cancellable);
 		}
 
 		g_mutex_unlock (ml->regen_lock);

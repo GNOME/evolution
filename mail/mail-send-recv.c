@@ -191,7 +191,7 @@ receive_cancel (GtkButton *button,
                 struct _send_info *info)
 {
 	if (info->state == SEND_ACTIVE) {
-		camel_operation_cancel (CAMEL_OPERATION (info->cancellable));
+		g_cancellable_cancel (info->cancellable);
 		if (info->status_label)
 			gtk_label_set_text (
 				GTK_LABEL (info->status_label),
