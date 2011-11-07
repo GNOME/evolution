@@ -188,7 +188,7 @@ dnl ********************************************
 dnl User / Developer Documentation
 dnl ********************************************
 GNOME_DOC_INIT
-GTK_DOC_CHECK(1.9)
+GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
 
 dnl ******************************
 dnl Win32
