@@ -59,6 +59,7 @@
 #include <libxml/tree.h>
 
 #include <libedataserver/e-categories.h>
+#include <libedataserver/e-gdbus-templates.h>
 #include <libedataserverui/e-passwords.h>
 
 #include "e-shell.h"
@@ -523,6 +524,8 @@ main (gint argc,
 #ifdef HAVE_ICAL_UNKNOWN_TOKEN_HANDLING
 	ical_set_unknown_token_handling_setting (ICAL_DISCARD_TOKEN);
 #endif
+
+	e_gdbus_templates_init_main_thread ();
 
 #ifdef G_OS_WIN32
 	path = g_build_path (";", _e_get_bindir (), g_getenv ("PATH"), NULL);
