@@ -40,12 +40,12 @@ typedef struct _EMConfigPrivate EMConfigPrivate;
 enum _em_config_target_t {
 	EM_CONFIG_TARGET_FOLDER,
 	EM_CONFIG_TARGET_PREFS,
-	EM_CONFIG_TARGET_ACCOUNT
+	EM_CONFIG_TARGET_SETTINGS
 };
 
 typedef struct _EMConfigTargetFolder EMConfigTargetFolder;
 typedef struct _EMConfigTargetPrefs EMConfigTargetPrefs;
-typedef struct _EMConfigTargetAccount EMConfigTargetAccount;
+typedef struct _EMConfigTargetSettings EMConfigTargetSettings;
 
 struct _EMConfigTargetFolder {
 	EConfigTarget target;
@@ -60,12 +60,16 @@ struct _EMConfigTargetPrefs {
 	GConfClient *gconf;
 };
 
-struct _EMConfigTargetAccount {
+struct _EMConfigTargetSettings {
 	EConfigTarget target;
 
-	EAccount *original_account;
-	EAccount *modified_account;
-	CamelSettings *settings;
+	gchar *email_address;
+
+	const gchar *storage_protocol;
+	CamelSettings *storage_settings;
+
+	const gchar *transport_protocol;
+	CamelSettings *transport_settings;
 };
 
 typedef struct _EConfigItem EMConfigItem;
@@ -88,15 +92,21 @@ EMConfigTargetFolder *
 EMConfigTargetPrefs *
 		em_config_target_new_prefs	(EMConfig *emp,
 						 GConfClient *gconf);
-EMConfigTargetAccount *
-		em_config_target_new_account	(EMConfig *emp,
-						 EAccount *original_account,
-						 EAccount *modified_account,
-						 CamelSettings *settings);
-void		em_config_target_new_account_update_settings
+EMConfigTargetSettings *
+		em_config_target_new_settings	(EMConfig *emp,
+						 const gchar *email_address,
+						 const gchar *storage_protocol,
+						 CamelSettings *storage_settings,
+						 const gchar *transport_protocol,
+						 CamelSettings *transport_settings);
+void		em_config_target_update_settings
 						(EConfig *ep,
-						 EMConfigTargetAccount *target,
-						 CamelSettings *settings);
+						 EMConfigTargetSettings *target,
+						 const gchar *email_address,
+						 const gchar *storage_protocol,
+						 CamelSettings *storage_settings,
+						 const gchar *transport_protocol,
+						 CamelSettings *transport_settings);
 
 G_END_DECLS
 

@@ -1614,7 +1614,7 @@ emfh_gethttp (struct _EMFormatHTMLJob *job,
 		costream = camel_data_cache_add (emfh_http_cache, EMFH_HTTP_CACHE_PATH, job->u.uri, NULL);
 
 	do {
-		if (camel_operation_cancel_check (CAMEL_OPERATION (cancellable))) {
+		if (g_cancellable_is_cancelled (cancellable)) {
 			n = -1;
 			break;
 		}

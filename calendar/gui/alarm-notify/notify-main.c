@@ -30,6 +30,8 @@
 #include <stdlib.h>
 #include <glib/gi18n.h>
 
+#include <libedataserver/e-gdbus-templates.h>
+
 #include "alarm-notify.h"
 
 #ifdef G_OS_WIN32
@@ -81,6 +83,8 @@ main (gint argc,
 	textdomain (GETTEXT_PACKAGE);
 
 	gtk_init (&argc, &argv);
+
+	e_gdbus_templates_init_main_thread ();
 
 #ifdef G_OS_WIN32
 	path = g_build_path (";", _e_get_bindir (), g_getenv ("PATH"), NULL);

@@ -283,7 +283,7 @@ mail_msg_cancel (guint msgid)
 	g_mutex_unlock (mail_msg_lock);
 
 	if (cancellable != NULL) {
-		camel_operation_cancel (CAMEL_OPERATION (cancellable));
+		g_cancellable_cancel (cancellable);
 		g_object_unref (cancellable);
 	}
 }
@@ -340,7 +340,7 @@ mail_cancel_hook_remove (GHook *hook)
 void
 mail_cancel_all (void)
 {
-	camel_operation_cancel (NULL);
+	camel_operation_cancel_all ();
 
 	g_mutex_lock (mail_msg_lock);
 

@@ -52,9 +52,9 @@ gboolean	e_plugin_ui_init	(GtkUIManager *ui_manager,
 GtkWidget *	backup_restore_page	(EPlugin *ep,
 					 EConfigHookItemFactoryData *hook_data);
 void		backup_restore_commit	(EPlugin *ep,
-					 EMConfigTargetAccount *target);
+					 EMConfigTargetSettings *target);
 void		backup_restore_abort	(EPlugin *ep,
-					 EMConfigTargetAccount *target);
+					 EMConfigTargetSettings *target);
 
 typedef enum _br_flags {
 	BR_OK = 1 << 0,
@@ -434,7 +434,7 @@ backup_restore_page (EPlugin *ep,
 
 void
 backup_restore_commit (EPlugin *ep,
-                       EMConfigTargetAccount *target)
+                       EMConfigTargetSettings *target)
 {
 	GObject *assistant;
 	gchar *file;
@@ -456,7 +456,7 @@ backup_restore_commit (EPlugin *ep,
 
 void
 backup_restore_abort (EPlugin *ep,
-                      EMConfigTargetAccount *target)
+                      EMConfigTargetSettings *target)
 {
 	/* Nothing really */
 }

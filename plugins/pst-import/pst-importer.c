@@ -798,7 +798,6 @@ static void
 pst_import_folders (PstImporter *m,
                     pst_desc_tree *topitem)
 {
-	CamelOperation *co = CAMEL_OPERATION (m->cancellable);
 	GHashTable *node_to_folderuri; /* pointers of hierarchy nodes, to them associated folder uris */
 	pst_desc_tree *d_ptr;
 
@@ -809,7 +808,7 @@ pst_import_folders (PstImporter *m,
 		g_hash_table_insert (node_to_folderuri, topitem, g_strdup (m->folder_uri));
 
 	/* Walk through folder tree */
-	while (d_ptr != NULL && (camel_operation_cancel_check (co) == FALSE)) {
+	while (d_ptr != NULL && (g_cancellable_is_cancelled (m->cancellable) == FALSE)) {
 		gchar *previous_folder = NULL;
 
 		m->position++;
