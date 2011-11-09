@@ -281,8 +281,6 @@ e_signature_list_new (void)
 {
 	ESignatureList *signature_list;
 
-	g_return_val_if_fail (GCONF_IS_CLIENT (gconf), NULL);
-
 	signature_list = g_object_new (E_TYPE_SIGNATURE_LIST, NULL);
 	e_signature_list_construct (signature_list, gconf_client_get_default ());
 

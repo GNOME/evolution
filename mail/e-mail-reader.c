@@ -1192,7 +1192,7 @@ action_mail_reply_all_check (CamelFolder *folder,
 			GSettings *settings;
 
 			settings = g_settings_new ("org.gnome.evolution.mail");
-			g_settings_set_boolean (settings, "prompt-on-reply-many-recips");
+			g_settings_set_boolean (settings, "prompt-on-reply-many-recips", FALSE);
 			g_object_unref (settings);
 		}
 
@@ -1308,7 +1308,6 @@ action_mail_reply_sender_check (CamelFolder *folder,
 	CamelMimeMessage *message;
 	EMailReplyType type = E_MAIL_REPLY_TO_SENDER;
 	GSettings *settings;
-	const gchar *key;
 	gboolean ask_ignore_list_reply_to;
 	gboolean ask_list_reply_to;
 	gboolean munged_list_message;
@@ -1418,7 +1417,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		active = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (check_again));
 		if (active) {
-			g_settings_set_boolean (settings, "prompt-on-list-reply-to");
+			g_settings_set_boolean (settings, "prompt-on-list-reply-to", FALSE);
 		}
 
 		active = gtk_toggle_button_get_active (
@@ -1460,7 +1459,6 @@ action_mail_reply_sender_cb (GtkAction *action,
 	gboolean ask_list_reply_to;
 	gboolean ask_private_list_reply;
 	gboolean ask;
-	const gchar *key;
 	guint32 state;
 
 	state = e_mail_reader_check_state (reader);
@@ -3426,7 +3424,6 @@ e_mail_reader_init (EMailReader *reader,
 	EWebView *web_view;
 	GtkActionGroup *action_group;
 	GtkWidget *message_list;
-	GSettings *settings;
 	GtkAction *action;
 	gboolean sensitive;
 	const gchar *action_name;

@@ -2868,7 +2868,7 @@ message_list_construct (MessageList *message_list)
 		E_TREE_MEMORY (message_list->model),
 		g_settings_get_boolean (settings, "thread-expand"));
 	message_list->priv->thread_latest =
-		g_settings_get_boolean (settings, "thread-latest"));
+		g_settings_get_boolean (settings, "thread-latest");
 	g_object_unref (settings);
 
 	/*

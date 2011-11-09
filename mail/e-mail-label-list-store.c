@@ -179,8 +179,8 @@ labels_model_changed_cb (GtkTreeModel *model,
 			 gpointer user_data)
 {
 	EMailLabelListStore *store;
-	GtkTreeIter iter;
 	GPtrArray *array;
+	GtkTreeIter tmp_iter;
 	gboolean res;
 
 	store = E_MAIL_LABEL_LIST_STORE (user_data);
@@ -190,15 +190,15 @@ labels_model_changed_cb (GtkTreeModel *model,
 
 	/* Build list to store in GSettings */
 	array = g_ptr_array_new ();
-	res = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &iter);
+	res = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &tmp_iter);
 	while (res) {
 		gchar *string;
 
-		gtk_tree_model_get (GTK_TREE_MODEL (store), &iter,
+		gtk_tree_model_get (GTK_TREE_MODEL (store), &tmp_iter,
 				    0, &string, -1);
 		g_ptr_array_add (array, string);
 
-		res = gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &iter);
+		res = gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &tmp_iter);
 	}
 
 	g_ptr_array_add (array, NULL);

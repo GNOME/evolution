@@ -24,6 +24,7 @@
 #ifndef E_SIGNATURE_LIST_H
 #define E_SIGNATURE_LIST_H
 
+#include <gconf/gconf-client.h>
 #include <libedataserver/e-list.h>
 #include <e-util/e-signature.h>
 
