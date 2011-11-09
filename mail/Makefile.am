@@ -1,4 +1,4 @@
-SUBDIRS = . default importers
+SUBDIRS = . default importers mail-autoconfig
 
 privsolib_LTLIBRARIES = libevolution-mail.la
 
@@ -105,6 +105,7 @@ mailinclude_HEADERS =					\
 	mail-autofilter.h				\
 	mail-config.h					\
 	mail-folder-cache.h				\
+	mail-guess-servers.h				\
 	mail-mt.h					\
 	mail-ops.h					\
 	mail-send-recv.h				\
@@ -178,6 +179,7 @@ libevolution_mail_la_SOURCES =				\
 	mail-autofilter.c				\
 	mail-config.c					\
 	mail-folder-cache.c				\
+	mail-guess-servers.c				\
 	mail-mt.c					\
 	mail-ops.c					\
 	mail-send-recv.c				\

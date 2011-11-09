@@ -70,6 +70,7 @@
 #include "em-utils.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
+#include "mail-guess-servers.h"
 
 #if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 #include "smime/gui/e-cert-selector.h"
@@ -81,24 +82,6 @@
 #define INDENT_MARGIN 24
 
 #define d(x)
-
-static ServerData mail_servers[] = {
-	{ "gmail", "imap.gmail.com", "smtp.gmail.com", "imap",
-	  CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT },
-	{ "googlemail", "imap.gmail.com", "smtp.gmail.com", "imap",
-	  CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT },
-	{ "yahoo", "pop3.yahoo.com", "smtp.yahoo.com", "pop",
-	  CAMEL_NETWORK_SECURITY_METHOD_NONE },
-	{ "aol", "imap.aol.com", "smtp.aol.com", "imap",
-	  CAMEL_NETWORK_SECURITY_METHOD_NONE },
-	{ "msn", "pop3.email.msn.com", "smtp.email.msn.com", "pop",
-	  CAMEL_NETWORK_SECURITY_METHOD_NONE, "@", "@"},
-	{ "hotmail", "pop3.live.com", "smtp.live.com", "pop",
-	  CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT, "@", "@"},
-	{ "live.com", "pop3.live.com", "smtp.live.com", "pop",
-	  CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT, "@", "@"},
-
-};
 
 /* econfig item for the extra config hings */
 struct _receive_options_item {
@@ -4302,17 +4285,84 @@ emae_service_complete (EMAccountEditor *emae,
 static ServerData *
 emae_check_servers (const gchar *email)
 {
-	gint len = G_N_ELEMENTS (mail_servers), i;
-	gchar *server = strchr (email, '@');
+	ServerData *sdata = g_new0 (ServerData, 1);
+	EmailProvider *provider = g_new0 (EmailProvider, 1);
+	gchar *dupe = g_strdup (email);
+	gchar *tmp;
 
-	server++;
+	/* FIXME: Find a way to free the provider once given to account settings. */
+	provider->email = (gchar *) email;
+	tmp = strchr (email, '@');
+	tmp++;
+	provider->domain = tmp;
+	tmp = strchr (dupe, '@');
+	*tmp = 0;
+	provider->username = (gchar *) g_quark_to_string (g_quark_from_string (dupe));
+	g_free (dupe);
 
-	for (i = 0; i < len; i++) {
-		if (strstr (server, mail_servers[i].key) != NULL)
-			return &mail_servers[i];
+	if (!mail_guess_servers (provider)) {
+		g_free (provider);
+		g_free (sdata);
+		return NULL;
+	}
+	/*printf("Recv: %s\n%s(%s), %s by %s \n Send: %s\n%s(%s), %s by %s\n via %s to %s\n",
+	  provider->recv_type, provider->recv_hostname, provider->recv_port, provider->recv_username, provider->recv_auth,
+	  provider->send_type, provider->send_hostname, provider->send_port, provider->send_username, provider->send_auth,
+	  provider->recv_socket_type, provider->send_socket_type); */
+
+	sdata->recv = provider->recv_hostname;
+	sdata->recv_port = provider->recv_port;
+	sdata->send = provider->send_hostname;
+	sdata->send_port = provider->send_port;
+	if (strcmp (provider->recv_type, "pop3") == 0)
+		sdata->proto = g_strdup ("pop");
+	else if (strcmp (provider->recv_type, "imap") == 0)
+		sdata->proto = g_strdup ("imapx");
+	else
+		sdata->proto = provider->recv_type;
+	if (provider->recv_socket_type) {
+		CamelNetworkSecurityMethod method;
+
+		if (g_ascii_strcasecmp (provider->recv_socket_type, "SSL") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+		else if (g_ascii_strcasecmp (provider->recv_socket_type, "secure") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+		else if (g_ascii_strcasecmp (provider->recv_socket_type, "STARTTLS") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT;
+		else if (g_ascii_strcasecmp (provider->recv_socket_type, "TLS") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT;
+		else
+			method = CAMEL_NETWORK_SECURITY_METHOD_NONE;
+
+		sdata->security_method = method;
+		sdata->recv_security_method = method;
 	}
 
-	return NULL;
+	if (provider->send_socket_type) {
+		CamelNetworkSecurityMethod method;
+
+		if (g_ascii_strcasecmp (provider->send_socket_type, "SSL") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+		else if (g_ascii_strcasecmp (provider->send_socket_type, "secure") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+		else if (g_ascii_strcasecmp (provider->send_socket_type, "STARTTLS") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT;
+		else if (g_ascii_strcasecmp (provider->send_socket_type, "TLS") == 0)
+			method = CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT;
+		else
+			method = CAMEL_NETWORK_SECURITY_METHOD_NONE;
+
+		sdata->send_security_method = method;
+	}
+
+	sdata->send_auth = provider->send_auth;
+	sdata->recv_auth = provider->recv_auth;
+	sdata->send_user = provider->send_username;
+	sdata->recv_user = provider->recv_username;
+
+	g_free (provider);
+
+	return sdata;
 }
 
 static gboolean
