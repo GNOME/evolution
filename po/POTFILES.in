@@ -129,7 +129,6 @@ composer/e-msg-composer.c
 composer/mail-composer.error.xml
 capplet/anjal-settings-main.c
 capplet/settings/mail-view.c
-capplet/settings/mail-guess-servers.c
 capplet/settings/mail-account-view.c
 capplet/settings/mail-capplet-shell.c
 capplet/settings/anjal-mail-view.c
