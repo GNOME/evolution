@@ -1431,7 +1431,7 @@ e_config_page_next (EConfig *ec,
 }
 
 /**
- * e_config_page_next:
+ * e_config_page_prev:
  * @ec: an #EConfig
  * @pageid: The path of the page item.
  *
