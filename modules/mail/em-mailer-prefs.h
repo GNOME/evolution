@@ -55,6 +55,7 @@ struct _EMMailerPrefs {
 	GtkVBox parent_object;
 
 	GtkBuilder *builder;
+	GConfClient *gconf;
 	GSettings *settings;
 
 	/* General tab */

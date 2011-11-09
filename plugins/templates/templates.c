@@ -47,7 +47,7 @@
 
 #include <composer/e-msg-composer.h>
 
-#define KEY_TEMPLATE_PLACEHOLDERS "template-placeholders"
+#define CONF_KEY_TEMPLATE_PLACEHOLDERS "template-placeholders"
 
 typedef struct _AsyncContext AsyncContext;
 

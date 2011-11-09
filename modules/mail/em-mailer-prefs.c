@@ -212,7 +212,7 @@ jh_add_cb (GtkWidget *widget,
 		tok = g_strdup_printf ("%s=%s", name, value);
 		g_ptr_array_add (array, tok);
 		g_ptr_array_add (array, NULL);
-		g_settings_set_strv (prefs->settings, "junk-custom-header", array->pdata);
+		g_settings_set_strv (prefs->settings, "junk-custom-header", (const gchar * const*) array->pdata);
 
 		g_ptr_array_free (array, TRUE);
 		g_strfreev (strv);
@@ -260,7 +260,7 @@ jh_remove_cb (GtkWidget *widget,
 
 		g_ptr_array_add (array, NULL);
 
-		g_settings_set_strv (prefs->settings, "junk-custom-header", array->pdata);
+		g_settings_set_strv (prefs->settings, "junk-custom-header", (const gchar * const*) array->pdata);
 
 		g_strfreev (strv);
 		g_ptr_array_free (array, TRUE);
@@ -534,8 +534,8 @@ toggle_button_init (EMMailerPrefs *prefs,
 		g_signal_connect (toggle, "toggled", toggled, prefs);
 	}
 
-	if (!g_settings_is_writable (prefs->settings, key)
-		gtk_widget_set_sensitive ((GtkWidget *) toggle, FALSE);
+	if (!g_settings_is_writable (prefs->settings, key))
+		gtk_widget_set_sensitive (GTK_WIDGET (toggle), FALSE);
 }
 
 static void

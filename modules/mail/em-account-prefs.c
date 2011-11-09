@@ -117,7 +117,6 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view,
                                   EMAccountPrefs *prefs)
 {
 	EAccountList *account_list;
-	EMailSession *session;
 	EAccount *account;
 	EMailSession *session;
 	gpointer parent;
@@ -326,7 +325,6 @@ account_prefs_delete_account (EAccountManager *manager)
 	EMAccountPrefsPrivate *priv;
 	EAccountTreeView *tree_view;
 	EAccountList *account_list;
-	EMailSession *session;
 	EAccount *account;
 	EMailSession *session;
 	gboolean has_proxies;

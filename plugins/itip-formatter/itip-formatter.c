@@ -2949,9 +2949,12 @@ static void
 delete_toggled_cb (GtkWidget *widget,
                    gpointer data)
 {
+	GSettings *settings;
 	EMConfigTargetPrefs *target = data;
 
-	g_settings_set_boolean (target->settings, CONF_KEY_DELETE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
+	settings = g_settings_new ("org.gnome.evolution.eplugin.itip");
+	g_settings_set_boolean (settings, CONF_KEY_DELETE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
+	g_object_unref (settings);
 }
 
 static void
@@ -3022,6 +3025,7 @@ itip_formatter_page_factory (EPlugin *ep,
 	GtkWidget *scrolledwin;
 	ESourceList *source_list;
 	gchar *str;
+	GSettings *settings;
 
 	/* Create a new notebook page */
 	page = gtk_vbox_new (FALSE, 0);
@@ -3050,11 +3054,14 @@ itip_formatter_page_factory (EPlugin *ep,
 	gtk_box_pack_start (GTK_BOX (hbox), inner_vbox, FALSE, FALSE, 0);
 
 	/* Delete message after acting */
-	/* FIXME Need a schema for this */
+	settings = g_settings_new ("org.gnome.evolution.eplugin.itip");
+
 	check = gtk_check_button_new_with_mnemonic (_("_Delete message after acting"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), g_settings_get_boolean (target->settings, CONF_KEY_DELETE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), g_settings_get_boolean (settings, CONF_KEY_DELETE));
 	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (delete_toggled_cb), target);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
+
+	g_object_unref (settings);
 
 	/* "Conflict searching" */
 	frame = gtk_vbox_new (FALSE, 6);

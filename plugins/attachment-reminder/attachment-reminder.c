@@ -220,7 +220,7 @@ commit_changes (UIData *ui)
 {
 	GtkTreeModel *model = NULL;
 	GVariantBuilder b;
-	GVariant v;
+	GVariant *v;
 	GtkTreeIter iter;
 	gboolean valid;
 
