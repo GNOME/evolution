@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<clientConfig>
+    <emailProvider id="t-online.de">
+      <domain>t-online.de</domain>
+
+      <displayName>T-Online email Paket</displayName>
+      <displayShortName>T-Online</displayShortName>
+
+      <incomingServer type="pop3">
+         <hostname>popmail.t-online.de</hostname>
+         <port>110</port>
+         <socketType>plain</socketType>
+         <username>%EMAILADDRESS%</username>
+         <authentication>secure</authentication>
+      </incomingServer>
+
+      <outgoingServer type="smtp">
+         <hostname>smtpmail.t-online.de</hostname>
+         <port>25</port>
+         <socketType>plain</socketType>
+         <username>%EMAILADDRESS%</username>
+         <authentication>plain</authentication>
+         <addThisServer>true</addThisServer>
+         <useGlobalPreferredServer>false</useGlobalPreferredServer>
+      </outgoingServer>
+
+      <!--<enableURL url="http://service.t-online.de/c/12/72/65/02/12726502.html">You need to enable POP access</enableURL>-->
+      <!--<enableURL url="http://hilfe.telekom.de/hsp/cms/content/HSP/de/3378/theme-45858870/theme-45858718/theme-45858716/theme-45858715/faq-45855229">Richten Sie Ihre Email-Adresse ein</enableURL>-->
+
+    </emailProvider>
+</clientConfig>

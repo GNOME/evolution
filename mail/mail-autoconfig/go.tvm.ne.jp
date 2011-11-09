@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clientConfig>
+  <emailProvider id="go.tvm.ne.jp">
+    <domain>go.tvm.ne.jp</domain>
+    <displayName>テレビ松本ケーブルインターネットサービス</displayName>
+    <displayShortName>TVM-Net</displayShortName>
+    <incomingServer type="pop3">
+      <hostname>go.tvm.ne.jp</hostname>
+      <port>110</port>
+      <socketType>plain</socketType>
+      <username>%EMAILLOCALPART%</username>
+      <authentication>plain</authentication>
+    </incomingServer>
+    <outgoingServer type="smtp">
+      <hostname>go.tvm.ne.jp</hostname>
+      <port>25</port>
+      <socketType>plain</socketType>
+      <username>%EMAILLOCALPART%</username>
+      <authentication>plain</authentication>
+      <addThisServer>true</addThisServer>
+      <useGlobalPreferredServer>false</useGlobalPreferredServer>
+    </outgoingServer>
+  </emailProvider>
+</clientConfig>

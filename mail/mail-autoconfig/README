@@ -1,0 +1,22 @@
+The files in this directory are used by Evolution's control center
+capplet to automatically configure email accounts.  This so that you
+can tell it, "My mail is example@gmail.com" and it will automatically
+figure out that it must use imap.googlemail.com and smtp.googlemail.com.
+
+These files are copied from
+http://live.mozillamessaging.com/autoconfig/
+
+We should update these files periodically, maybe.
+
+  Federico Mena Quintero
+  March 2010
+
+We duplicate these files (with various modifications) inside the
+'api-web' module in git.
+
+The come from:
+  http://svn.mozilla.org/mozillamessaging.com/sites/autoconfig.mozillamessaging.com/trunk/
+
+and should be re-synched with the Mozilla guys as often as possible.
+The best thing to ping is: ispdb@googlegroups.com or for a
+personal contact on the Mozilla side: Blake Winton bwinton mozillamessaging com

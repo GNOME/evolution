@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clientConfig>
+  <emailProvider id="janis.or.jp">
+    <domain>janis.or.jp</domain>
+    <domain>azm.janis.or.jp</domain>
+    <domain>ckm.janis.or.jp</domain>
+    <domain>dhk.janis.or.jp</domain>
+    <domain>dia.janis.or.jp</domain>
+    <domain>grn.janis.or.jp</domain>
+    <domain>ina.janis.or.jp</domain>
+    <domain>kis.janis.or.jp</domain>
+    <domain>mhl.janis.or.jp</domain>
+    <domain>mid.janis.or.jp</domain>
+    <domain>mis.janis.or.jp</domain>
+    <domain>miy.janis.or.jp</domain>
+    <domain>ngn.janis.or.jp</domain>
+    <domain>nkn.janis.or.jp</domain>
+    <domain>osk.janis.or.jp</domain>
+    <domain>sas.janis.or.jp</domain>
+    <domain>sko.janis.or.jp</domain>
+    <domain>swk.janis.or.jp</domain>
+    <domain>tgk.janis.or.jp</domain>
+    <domain>tyt.janis.or.jp</domain>
+    <domain>ued.janis.or.jp</domain>
+    <domain>ytg.janis.or.jp</domain>
+    <displayName>JANIS</displayName>
+    <displayShortName>JANIS</displayShortName>
+    <incomingServer type="pop3">
+      <hostname>mail.%EMAILDOMAIN%</hostname>
+      <port>110</port>
+      <socketType>plain</socketType>
+      <username>%EMAILLOCALPART%</username>
+      <authentication>plain</authentication>
+    </incomingServer>
+    <outgoingServer type="smtp">
+      <hostname>smtp.%EMAILDOMAIN%</hostname>
+      <port>25</port>
+      <socketType>plain</socketType>
+      <authentication>none</authentication>
+      <addThisServer>true</addThisServer>
+      <useGlobalPreferredServer>false</useGlobalPreferredServer>
+    </outgoingServer>
+  </emailProvider>
+</clientConfig>

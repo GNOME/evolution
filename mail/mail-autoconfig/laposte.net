@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<clientConfig>
+    <emailProvider id="laposte.net">
+      <domain>laposte.net</domain>
+
+      <displayName>LaPoste.net</displayName>
+      <displayShortName>LaPoste</displayShortName>
+
+      <incomingServer type="imap">
+         <hostname>imap.laposte.net</hostname>
+         <port>143</port>
+         <socketType>plain</socketType>
+         <username>%EMAILLOCALPART%</username>
+         <authentication>plain</authentication>
+      </incomingServer>
+
+      <outgoingServer type="smtp">
+         <hostname>smtp.laposte.net</hostname>
+         <port>25</port>
+         <socketType>plain</socketType>
+         <username>%EMAILLOCALPART%</username>
+         <authentication>plain</authentication>
+         <addThisServer>true</addThisServer>
+         <useGlobalPreferredServer>false</useGlobalPreferredServer>
+      </outgoingServer>
+
+    </emailProvider>
+</clientConfig>

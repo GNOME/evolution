@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clientConfig>
+  <emailProvider id="po.dcn.ne.jp">
+    <domain>po.dcn.ne.jp</domain>
+    <displayName>DCNインターネットサービス</displayName>
+    <displayShortName>DCN</displayShortName>
+    <incomingServer type="pop3">
+      <hostname>po.dcn.ne.jp</hostname>
+      <port>110</port>
+      <socketType>plain</socketType>
+      <username>%EMAILLOCALPART%</username>
+      <authentication>plain</authentication>
+    </incomingServer>
+    <outgoingServer type="smtp">
+      <hostname>po.dcn.ne.jp</hostname>
+      <port>25</port>
+      <socketType>plain</socketType>
+      <authentication>none</authentication>
+      <addThisServer>true</addThisServer>
+      <useGlobalPreferredServer>false</useGlobalPreferredServer>
+    </outgoingServer>
+  </emailProvider>
+</clientConfig>

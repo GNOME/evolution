@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clientConfig>
+  <emailProvider id="pal.kijimadaira.jp">
+    <domain>pal.kijimadaira.jp</domain>
+    <displayName>木島平村FTTH</displayName>
+    <displayShortName>木島平村FTTH</displayShortName>
+    <incomingServer type="pop3">
+      <hostname>mail.pal.kijimadaira.jp</hostname>
+      <port>110</port>
+      <socketType>plain</socketType>
+      <username>%EMAILLOCALPART%</username>
+      <authentication>plain</authentication>
+    </incomingServer>
+    <outgoingServer type="smtp">
+      <hostname>smtp.pal.kijimadaira.jp</hostname>
+      <port>25</port>
+      <socketType>plain</socketType>
+      <authentication>none</authentication>
+      <addThisServer>true</addThisServer>
+      <useGlobalPreferredServer>false</useGlobalPreferredServer>
+    </outgoingServer>
+  </emailProvider>
+</clientConfig>

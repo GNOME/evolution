@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<clientConfig>
+    <emailProvider id="verizon.net">
+      <domain>verizon.net</domain>
+
+      <displayName>Verizon Online</displayName>
+      <displayShortName>Verizon</displayShortName>
+
+      <incomingServer type="pop3">
+         <hostname>incoming.verizon.com</hostname>
+         <port>110</port>
+         <socketType>plain</socketType>
+         <username>%EMAILLOCALPART%</username>
+         <authentication>plain</authentication>
+      </incomingServer>
+
+      <outgoingServer type="smtp">
+         <hostname>outgoing.verizon.net</hostname>
+         <port>587</port>
+         <socketType>plain</socketType>
+         <username>%EMAILLOCALPART%</username>
+         <authentication>plain</authentication>
+         <addThisServer>true</addThisServer>
+         <useGlobalPreferredServer>false</useGlobalPreferredServer>
+      </outgoingServer>
+
+    </emailProvider>
+</clientConfig>

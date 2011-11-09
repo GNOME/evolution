@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<clientConfig>
+    <emailProvider id="ml.murakami.ne.jp">
+      <domain>ml.murakami.ne.jp</domain>
+
+      <displayName>インターネットいわふね</displayName>
+      <displayShortName>IWAFUNE</displayShortName>
+
+      <incomingServer type="pop3">
+        <hostname>ml.murakami.ne.jp</hostname>
+        <port>110</port>
+        <socketType>plain</socketType>
+        <username>%EMAILLOCALPART%</username>
+        <authentication>plain</authentication>
+      </incomingServer>
+
+      <outgoingServer type="smtp">
+        <hostname>ml.murakami.ne.jp</hostname>
+        <port>25</port>
+        <socketType>plain</socketType>
+        <username>%EMAILLOCALPART%</username>
+        <authentication>plain</authentication>
+        <addThisServer>true</addThisServer>
+        <useGlobalPreferredServer>false</useGlobalPreferredServer>
+      </outgoingServer>
+
+    </emailProvider>
+</clientConfig>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<clientConfig>
+    <emailProvider id="googlemail.com">
+      <domain>gmail.com</domain>
+      <domain>googlemail.com</domain>
+
+      <displayName>Google Mail</displayName>
+      <displayShortName>GMail</displayShortName>
+
+      <incomingServer type="pop3">
+         <hostname>pop.googlemail.com</hostname>
+         <port>995</port>
+         <socketType>SSL</socketType>
+         <username>%EMAILLOCALPART%</username>
+         <authentication>plain</authentication>
+         <pop3>
+            <leaveMessagesOnServer>true</leaveMessagesOnServer>
+         </pop3>
+      </incomingServer>
+
+      <outgoingServer type="smtp">
+         <hostname>smtp.googlemail.com</hostname>
+         <port>465</port>
+         <socketType>SSL</socketType>
+         <username>%EMAILLOCALPART%</username>
+         <authentication>plain</authentication>
+         <addThisServer>true</addThisServer>
+         <useGlobalPreferredServer>false</useGlobalPreferredServer>
+      </outgoingServer>
+
+      <enableURL url="https://mail.google.com/mail/?ui=2&amp;shva=1#settings/fwdandpop">You need to enable POP access</enableURL>
+
+    </emailProvider>
+</clientConfig>
