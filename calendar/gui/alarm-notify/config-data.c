@@ -189,13 +189,6 @@ config_data_replace_string_list (const gchar *key,
 	}
 }
 
-GConfClient *
-config_data_get_conf_client (void)
-{
-	ensure_inited ();
-	return conf_client;
-}
-
 icaltimezone *
 config_data_get_timezone (void)
 {
