@@ -235,7 +235,6 @@ enum {
 
 static void em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, const gchar *id);
 static void emae_account_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *emae);
-static ServerData * emae_check_servers (const gchar *email);
 
 static gpointer parent_class;
 
@@ -1122,7 +1121,6 @@ emae_init (EMAccountEditor *emae)
 		emae, EM_TYPE_ACCOUNT_EDITOR, EMAccountEditorPrivate);
 
 	emae->priv->selected_server = NULL;
-	emae->emae_check_servers = emae_check_servers;
 	emae->priv->source.emae = emae;
 	emae->priv->transport.emae = emae;
 	emae->priv->widgets = g_hash_table_new (g_str_hash, g_str_equal);
@@ -4416,7 +4414,7 @@ emae_check_complete (EConfig *ec,
 				user[at - tmp] = 0;
 				at++;
 
-				sdata = emae->priv->selected_server = emae->emae_check_servers (tmp);
+				sdata = emae->priv->selected_server = emae_check_servers (tmp);
 				if (new_account && (url = emae_account_url (emae, E_ACCOUNT_SOURCE_URL))) {
 					const gchar *use_user = user;
 					gchar *uri;
