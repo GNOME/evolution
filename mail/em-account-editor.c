@@ -4406,7 +4406,6 @@ emae_check_complete (EConfig *ec,
 			if (!emae->priv->receive_set) {
 				ServerData *sdata;
 				gchar *user, *at;
-				gchar *uri = g_strdup (e_account_get_string (account, E_ACCOUNT_SOURCE_URL));
 				CamelURL *url;
 
 				emae->priv->receive_set = 1;
@@ -4418,8 +4417,10 @@ emae_check_complete (EConfig *ec,
 				at++;
 
 				sdata = emae->priv->selected_server = emae->emae_check_servers (tmp);
-				if (new_account && uri && (url = camel_url_new (uri, NULL)) != NULL) {
+				if (new_account && (url = emae_account_url (emae, E_ACCOUNT_SOURCE_URL))) {
 					const gchar *use_user = user;
+					gchar *uri;
+
 					refresh = TRUE;
 					if (sdata && sdata->recv_user && *sdata->recv_user)
 						use_user = g_str_equal (sdata->recv_user, "@") ? tmp : sdata->recv_user;
@@ -4434,6 +4435,7 @@ emae_check_complete (EConfig *ec,
 						g_object_set (emae->priv->source.settings, "security-method", method, NULL);
 
 						camel_url_set_protocol (url, sdata->proto);
+						emae->priv->source.protocol = sdata->proto;
 						camel_url_set_host (url, sdata->recv);
 						if (sdata->recv_port && *sdata->recv_port)
 							camel_url_set_port (url, atoi (sdata->recv_port));
@@ -4442,7 +4444,6 @@ emae_check_complete (EConfig *ec,
 					} else {
 						camel_url_set_host (url, "");
 					}
-					g_free (uri);
 					uri = camel_url_to_string (url, 0);
 					e_account_set_string (account, E_ACCOUNT_SOURCE_URL, uri);
 					if (sdata != NULL && sdata->recv_auth && *sdata->recv_auth)
@@ -4451,16 +4452,15 @@ emae_check_complete (EConfig *ec,
 							sdata->recv_auth);
 
 					camel_url_free (url);
+					g_free (uri);
 				} else
 					gtk_entry_set_text (emae->priv->source.username, user);
-				g_free (uri);
 
 			}
 		} else if (!strcmp (pageid, "30.send")) {
 			if (!emae->priv->send_set) {
 				CamelURL *url;
 				gchar *at, *user;
-				gchar *uri = (gchar *) e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
 				ServerData *sdata;
 
 				emae->priv->send_set = 1;
@@ -4472,9 +4472,10 @@ emae_check_complete (EConfig *ec,
 				at++;
 
 				sdata = emae->priv->selected_server;
-				if (sdata != NULL && uri && (url = camel_url_new (uri, NULL)) != NULL) {
+				if (sdata != NULL && (url = emae_account_url(emae, E_ACCOUNT_TRANSPORT_URL))) {
 					CamelNetworkSecurityMethod method;
 					const gchar *use_user = user;
+					gchar *uri;
 
 					refresh = TRUE;
 
@@ -4504,7 +4505,6 @@ emae_check_complete (EConfig *ec,
 							sdata->send_auth);
 					else
 						emae_authtype_changed (emae->priv->transport.authtype, &emae->priv->transport);
-					uri = (gchar *) e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
 				} else
 					gtk_entry_set_text (emae->priv->transport.username, user);
 			}
