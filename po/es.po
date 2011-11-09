@@ -12,14 +12,14 @@
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
 #
-#: ../shell/main.c:564
+#: ../shell/main.c:567
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-10-28 16:23+0000\n"
-"PO-Revision-Date: 2011-10-30 15:19+0100\n"
+"POT-Creation-Date: 2011-11-09 14:26+0000\n"
+"PO-Revision-Date: 2011-11-09 19:54+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -283,7 +283,7 @@ msgid "_Use as it is"
 msgstr "_Usar tal cual es"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
-#: ../addressbook/gui/widgets/eab-contact-display.c:715
+#: ../addressbook/gui/widgets/eab-contact-display.c:717
 #: ../calendar/gui/e-calendar-view.c:2068
 msgid "Anniversary"
 msgstr "Aniversario"
@@ -294,9 +294,9 @@ msgstr "Aniversario"
 #. * which, so long as it has an icon.  We're just interested in
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
-#: ../addressbook/gui/widgets/eab-contact-display.c:714
+#: ../addressbook/gui/widgets/eab-contact-display.c:716
 #: ../calendar/gui/e-calendar-view.c:2067 ../capplet/anjal-settings-main.c:78
-#: ../shell/main.c:138
+#: ../shell/main.c:139
 msgid "Birthday"
 msgstr "Cumpleaños"
 
@@ -330,9 +330,9 @@ msgstr "Editor de contactos"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:9
 #: ../addressbook/gui/merging/eab-contact-merging.c:390
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
-#: ../addressbook/gui/widgets/eab-contact-display.c:633
-#: ../addressbook/gui/widgets/eab-contact-display.c:641
-#: ../addressbook/gui/widgets/eab-contact-display.c:1019
+#: ../addressbook/gui/widgets/eab-contact-display.c:635
+#: ../addressbook/gui/widgets/eab-contact-display.c:643
+#: ../addressbook/gui/widgets/eab-contact-display.c:1043
 #: ../smime/lib/e-cert.c:833
 msgid "Email"
 msgstr "Correo-e"
@@ -348,7 +348,7 @@ msgstr "_Nombre completo…"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:198
 #: ../addressbook/gui/widgets/eab-contact-display.c:78
-#: ../addressbook/gui/widgets/eab-contact-display.c:1323
+#: ../addressbook/gui/widgets/eab-contact-display.c:1348
 #: ../widgets/misc/e-contact-map.c:295
 msgid "Home"
 msgstr "Domicilio"
@@ -417,8 +417,8 @@ msgstr "Direcciones web"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:27
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:197
 #: ../addressbook/gui/widgets/eab-contact-display.c:77
-#: ../addressbook/gui/widgets/eab-contact-display.c:694
-#: ../addressbook/gui/widgets/eab-contact-display.c:1320
+#: ../addressbook/gui/widgets/eab-contact-display.c:696
+#: ../addressbook/gui/widgets/eab-contact-display.c:1345
 #: ../widgets/misc/e-contact-map.c:303
 msgid "Work"
 msgstr "Trabajo"
@@ -525,42 +525,42 @@ msgid "_Zip/Postal Code:"
 msgstr "_Código postal:"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:178
-#: ../addressbook/gui/widgets/eab-contact-display.c:655
+#: ../addressbook/gui/widgets/eab-contact-display.c:657
 msgid "AIM"
 msgstr "AIM"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:179
-#: ../addressbook/gui/widgets/eab-contact-display.c:658
+#: ../addressbook/gui/widgets/eab-contact-display.c:660
 msgid "Jabber"
 msgstr "Jabber"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:180
-#: ../addressbook/gui/widgets/eab-contact-display.c:660
+#: ../addressbook/gui/widgets/eab-contact-display.c:662
 msgid "Yahoo"
 msgstr "Yahoo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:181
-#: ../addressbook/gui/widgets/eab-contact-display.c:661
+#: ../addressbook/gui/widgets/eab-contact-display.c:663
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:182
-#: ../addressbook/gui/widgets/eab-contact-display.c:659
+#: ../addressbook/gui/widgets/eab-contact-display.c:661
 msgid "MSN"
 msgstr "MSN"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:183
-#: ../addressbook/gui/widgets/eab-contact-display.c:657
+#: ../addressbook/gui/widgets/eab-contact-display.c:659
 msgid "ICQ"
 msgstr "ICQ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:184
-#: ../addressbook/gui/widgets/eab-contact-display.c:656
+#: ../addressbook/gui/widgets/eab-contact-display.c:658
 msgid "GroupWise"
 msgstr "GroupWise"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:185
-#: ../addressbook/gui/widgets/eab-contact-display.c:662
+#: ../addressbook/gui/widgets/eab-contact-display.c:664
 msgid "Skype"
 msgstr "Skype"
 
@@ -913,7 +913,7 @@ msgid "Display _All Contacts"
 msgstr "Mostrar t_odos los contactos"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
-#: ../addressbook/gui/widgets/eab-contact-display.c:685
+#: ../addressbook/gui/widgets/eab-contact-display.c:687
 msgid "Assistant"
 msgstr "Secretario"
 
@@ -950,7 +950,7 @@ msgid "Categories"
 msgstr "Categorías"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
-#: ../addressbook/gui/widgets/eab-contact-display.c:680
+#: ../addressbook/gui/widgets/eab-contact-display.c:682
 msgid "Company"
 msgstr "Empresa"
 
@@ -999,22 +999,22 @@ msgid "Journal"
 msgstr "Diario"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
-#: ../addressbook/gui/widgets/eab-contact-display.c:684
+#: ../addressbook/gui/widgets/eab-contact-display.c:686
 msgid "Manager"
 msgstr "Jefe"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
-#: ../addressbook/gui/widgets/eab-contact-display.c:712
+#: ../addressbook/gui/widgets/eab-contact-display.c:714
 msgid "Mobile Phone"
 msgstr "Teléfono móvil"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
-#: ../addressbook/gui/widgets/eab-contact-display.c:648
+#: ../addressbook/gui/widgets/eab-contact-display.c:650
 msgid "Nickname"
 msgstr "Apodo"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
-#: ../addressbook/gui/widgets/eab-contact-display.c:739
+#: ../addressbook/gui/widgets/eab-contact-display.c:741
 msgid "Note"
 msgstr "Nota"
 
@@ -1049,7 +1049,7 @@ msgid "Role"
 msgstr "Papel"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:34
-#: ../addressbook/gui/widgets/eab-contact-display.c:716
+#: ../addressbook/gui/widgets/eab-contact-display.c:718
 msgid "Spouse"
 msgstr "Cónyuge"
 
@@ -1210,28 +1210,28 @@ msgstr "Enviar un correo a esta dirección"
 msgid "Open map"
 msgstr "Abrir mapa"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:528
-#: ../addressbook/gui/widgets/eab-contact-display.c:556
+#: ../addressbook/gui/widgets/eab-contact-display.c:530
+#: ../addressbook/gui/widgets/eab-contact-display.c:558
 msgid "List Members:"
 msgstr "Listar miembros:"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:681
+#: ../addressbook/gui/widgets/eab-contact-display.c:683
 msgid "Department"
 msgstr "Departamento"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:682
+#: ../addressbook/gui/widgets/eab-contact-display.c:684
 msgid "Profession"
 msgstr "Profesión"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:683
+#: ../addressbook/gui/widgets/eab-contact-display.c:685
 msgid "Position"
 msgstr "Posición"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:686
+#: ../addressbook/gui/widgets/eab-contact-display.c:688
 msgid "Video Chat"
 msgstr "Charla por vídeo"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:687
+#: ../addressbook/gui/widgets/eab-contact-display.c:689
 #: ../calendar/gui/dialogs/calendar-setup.c:449
 #: ../modules/calendar/e-cal-shell-view-actions.c:232
 #: ../modules/calendar/e-cal-shell-view-actions.c:261
@@ -1242,32 +1242,32 @@ msgstr "Charla por vídeo"
 msgid "Calendar"
 msgstr "Calendario"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:688
+#: ../addressbook/gui/widgets/eab-contact-display.c:690
 #: ../calendar/gui/dialogs/event-editor.c:123
 #: ../calendar/gui/dialogs/event-editor.c:350
 #: ../plugins/publish-calendar/publish-calendar.ui.h:6
 msgid "Free/Busy"
 msgstr "Disponibilidad"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:689
-#: ../addressbook/gui/widgets/eab-contact-display.c:711
+#: ../addressbook/gui/widgets/eab-contact-display.c:691
+#: ../addressbook/gui/widgets/eab-contact-display.c:713
 msgid "Phone"
 msgstr "Teléfono"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:690
+#: ../addressbook/gui/widgets/eab-contact-display.c:692
 msgid "Fax"
 msgstr "Fax"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:691
-#: ../addressbook/gui/widgets/eab-contact-display.c:713
+#: ../addressbook/gui/widgets/eab-contact-display.c:693
+#: ../addressbook/gui/widgets/eab-contact-display.c:715
 msgid "Address"
 msgstr "Dirección"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:708
+#: ../addressbook/gui/widgets/eab-contact-display.c:710
 msgid "Home Page"
 msgstr "Página personal"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:709
+#: ../addressbook/gui/widgets/eab-contact-display.c:711
 msgid "Web Log"
 msgstr "Diario web"
 
@@ -1275,7 +1275,7 @@ msgstr "Diario web"
 #. Create the default Person calendar
 #. Create the default Person memo list
 #. Create the default Person task list
-#: ../addressbook/gui/widgets/eab-contact-display.c:718
+#: ../addressbook/gui/widgets/eab-contact-display.c:720
 #: ../capplet/settings/mail-capplet-shell.c:384
 #: ../modules/addressbook/e-book-shell-backend.c:120
 #: ../modules/addressbook/e-book-shell-migrate.c:144
@@ -1288,23 +1288,23 @@ msgstr "Diario web"
 msgid "Personal"
 msgstr "Privado"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:986
+#: ../addressbook/gui/widgets/eab-contact-display.c:1010
 msgid "List Members"
 msgstr "Listar miembros"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:1004
+#: ../addressbook/gui/widgets/eab-contact-display.c:1028
 msgid "Job Title"
 msgstr "Puesto"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:1041
+#: ../addressbook/gui/widgets/eab-contact-display.c:1065
 msgid "Home page"
 msgstr "Página personal"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:1050
+#: ../addressbook/gui/widgets/eab-contact-display.c:1074
 msgid "Blog"
 msgstr "Diario web"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:1248
+#: ../addressbook/gui/widgets/eab-contact-display.c:1273
 #: ../widgets/misc/e-web-view.c:980
 #, c-format
 msgid "Click to mail %s"
@@ -1410,19 +1410,19 @@ msgstr "Seleccione la libreta de direcciones"
 msgid "list"
 msgstr "lista"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:559
+#: ../addressbook/gui/widgets/eab-gui-util.c:560
 msgid "Move contact to"
 msgstr "Mover contacto a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:561
+#: ../addressbook/gui/widgets/eab-gui-util.c:562
 msgid "Copy contact to"
 msgstr "Copiar contacto a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:564
+#: ../addressbook/gui/widgets/eab-gui-util.c:565
 msgid "Move contacts to"
 msgstr "Mover contactos a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:566
+#: ../addressbook/gui/widgets/eab-gui-util.c:567
 msgid "Copy contacts to"
 msgstr "Copiar contactos a"
 
@@ -2462,7 +2462,7 @@ msgid "_Type:"
 msgstr "_Tipo:"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:248 ../mail/mail-config.ui.h:156
-#: ../modules/addressbook/ldap-config.ui.h:26
+#: ../modules/addressbook/ldap-config.ui.h:28
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
 #: ../widgets/misc/e-signature-script-dialog.c:284
 msgid "_Name:"
@@ -7289,7 +7289,7 @@ msgstr ""
 "obtener su correo."
 
 #: ../capplet/settings/mail-account-view.c:630
-#: ../mail/em-account-editor.c:2290 ../mail/em-account-editor.c:2426
+#: ../mail/em-account-editor.c:2810 ../mail/em-account-editor.c:2946
 msgid "Identity"
 msgstr "Identidad"
 
@@ -7341,7 +7341,7 @@ msgid "Back - Receiving options"
 msgstr "Atrás - Opciones de recepción"
 
 #: ../capplet/settings/mail-account-view.c:635
-#: ../mail/em-account-editor.c:3378
+#: ../mail/em-account-editor.c:3909
 msgid "Defaults"
 msgstr "Predeterminados"
 
@@ -8167,42 +8167,41 @@ msgid "years"
 msgstr "años"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:863 ../widgets/misc/e-signature-combo-box.c:75
+#: ../mail/em-account-editor.c:1552 ../widgets/misc/e-signature-combo-box.c:75
 msgctxt "mail-signature"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../mail/em-account-editor.c:946
+#: ../mail/em-account-editor.c:1634
 msgid "Never"
 msgstr "Nunca"
 
-#: ../mail/em-account-editor.c:947
+#: ../mail/em-account-editor.c:1635
 msgid "Always"
 msgstr "Siempre"
 
-#: ../mail/em-account-editor.c:948
+#: ../mail/em-account-editor.c:1636
 msgid "Ask for each message"
 msgstr "Preguntar por cada mensaje"
 
-#. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1832 ../widgets/misc/e-account-tree-view.c:265
+#: ../mail/em-account-editor.c:2366 ../widgets/misc/e-account-tree-view.c:265
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../mail/em-account-editor.c:2233
-msgid "Fil_e:"
-msgstr "_Archivo:"
-
-#: ../mail/em-account-editor.c:2233 ../mail/mail-config.ui.h:158
+#: ../mail/em-account-editor.c:2767 ../mail/mail-config.ui.h:158
 msgid "_Path:"
 msgstr "R_uta:"
 
-#: ../mail/em-account-editor.c:2287
+#: ../mail/em-account-editor.c:2770
+msgid "Fil_e:"
+msgstr "_Archivo:"
+
+#: ../mail/em-account-editor.c:2807
 msgid "Mail Configuration"
 msgstr "Configuración del correo"
 
-#: ../mail/em-account-editor.c:2288
+#: ../mail/em-account-editor.c:2808
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -8212,7 +8211,7 @@ msgstr ""
 "\n"
 "Para comenzar, pulse «Continuar»."
 
-#: ../mail/em-account-editor.c:2291
+#: ../mail/em-account-editor.c:2811
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -8222,19 +8221,19 @@ msgstr ""
 "hace falta que los rellene, a menos que quiera incluir esta información en "
 "el correo-e que envíe."
 
-#: ../mail/em-account-editor.c:2293 ../mail/em-account-editor.c:2485
+#: ../mail/em-account-editor.c:2813 ../mail/em-account-editor.c:3005
 msgid "Receiving Email"
 msgstr "Recepción de correo"
 
-#: ../mail/em-account-editor.c:2294
+#: ../mail/em-account-editor.c:2814
 msgid "Please configure the following account settings."
 msgstr "Configure las siguientes opciones de la cuenta."
 
-#: ../mail/em-account-editor.c:2296 ../mail/em-account-editor.c:3082
+#: ../mail/em-account-editor.c:2816 ../mail/em-account-editor.c:3615
 msgid "Sending Email"
 msgstr "Envío de correo"
 
-#: ../mail/em-account-editor.c:2297
+#: ../mail/em-account-editor.c:2817
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -8243,11 +8242,11 @@ msgstr ""
 "seguro, pregúntele a su administrador de sistemas o a su Proveedor de "
 "Servicios de Internet."
 
-#: ../mail/em-account-editor.c:2299 ../mail/mail-config.ui.h:1
+#: ../mail/em-account-editor.c:2819 ../mail/mail-config.ui.h:1
 msgid "Account Information"
 msgstr "Información de la cuenta"
 
-#: ../mail/em-account-editor.c:2300
+#: ../mail/em-account-editor.c:2820
 msgid ""
 "Please enter a descriptive name for this account below.\n"
 "This name will be used for display purposes only."
@@ -8255,11 +8254,11 @@ msgstr ""
 "Introduzca un nombre descriptivo para esta cuenta en el espacio de abajo.\n"
 "Este nombre se usará sólo para mostrarlo."
 
-#: ../mail/em-account-editor.c:2304
+#: ../mail/em-account-editor.c:2824
 msgid "Done"
 msgstr "Hecho"
 
-#: ../mail/em-account-editor.c:2305
+#: ../mail/em-account-editor.c:2825
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -8273,25 +8272,25 @@ msgstr ""
 "\n"
 "Pulse «Aplicar» para guardar su configuración."
 
-#: ../mail/em-account-editor.c:2844
+#: ../mail/em-account-editor.c:3370
 msgid "Check for _new messages every"
 msgstr "Comprobar si hay mensajes _nuevos cada"
 
-#: ../mail/em-account-editor.c:2852
+#: ../mail/em-account-editor.c:3378
 msgid "minu_tes"
 msgstr "minuto_s"
 
-#: ../mail/em-account-editor.c:3521 ../mail/mail-config.ui.h:102
+#: ../mail/em-account-editor.c:4051 ../mail/mail-config.ui.h:102
 msgid "Security"
 msgstr "Seguridad"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3576 ../mail/em-account-editor.c:3659
+#: ../mail/em-account-editor.c:4106 ../mail/em-account-editor.c:4189
 msgid "Receiving Options"
 msgstr "Opciones de recepción"
 
-#: ../mail/em-account-editor.c:3577 ../mail/em-account-editor.c:3660
+#: ../mail/em-account-editor.c:4107 ../mail/em-account-editor.c:4190
 msgid "Checking for New Messages"
 msgstr "Comprobando si hay mensajes nuevos"
 
@@ -12013,7 +12012,7 @@ msgstr "Comenzar a _escribir en la parte final al responder"
 msgid "Start up"
 msgstr "Inicio"
 
-#: ../mail/mail-config.ui.h:131 ../modules/addressbook/ldap-config.ui.h:20
+#: ../mail/mail-config.ui.h:131 ../modules/addressbook/ldap-config.ui.h:21
 msgid "TLS encryption"
 msgstr "Cifrado TLS"
 
@@ -12124,7 +12123,7 @@ msgstr "Configuración _manual del proxy:"
 msgid "_Never load images from the Internet"
 msgstr "_Nunca cargar imágenes desde Internet"
 
-#: ../mail/mail-config.ui.h:159 ../modules/addressbook/ldap-config.ui.h:27
+#: ../mail/mail-config.ui.h:159 ../modules/addressbook/ldap-config.ui.h:29
 msgid "_Port:"
 msgstr "_Puerto:"
 
@@ -12144,7 +12143,7 @@ msgstr "_Script:"
 msgid "_Secure HTTP Proxy:"
 msgstr "Proxy HTTP _seguro:"
 
-#: ../mail/mail-config.ui.h:165 ../modules/addressbook/ldap-config.ui.h:29
+#: ../mail/mail-config.ui.h:165
 #: ../plugins/publish-calendar/publish-calendar.ui.h:28
 msgid "_Server:"
 msgstr "_Servidor:"
@@ -12162,7 +12161,7 @@ msgstr "_Mostrar la foto del remitente en la vista previa del mensaje"
 msgid "_Trash Folder:"
 msgstr "Carpeta de p_apelera:"
 
-#: ../mail/mail-config.ui.h:170 ../modules/addressbook/ldap-config.ui.h:31
+#: ../mail/mail-config.ui.h:170
 msgid "_Use secure connection:"
 msgstr "Usar _conexión segura:"
 
@@ -12349,17 +12348,17 @@ msgstr "Almacenando cuenta «%s»"
 msgid "Refreshing folder '%s'"
 msgstr "Actualizando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1464
+#: ../mail/mail-ops.c:1483
 #, c-format
 msgid "Expunging folder '%s'"
 msgstr "Compactando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1549
+#: ../mail/mail-ops.c:1568
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Vaciando papelera en «%s»"
 
-#: ../mail/mail-ops.c:1651
+#: ../mail/mail-ops.c:1670
 #, c-format
 msgid "Disconnecting %s"
 msgstr "Desconectando de «%s»"
@@ -13302,7 +13301,7 @@ msgid "Follow-up"
 msgstr "Seguimiento"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4675 ../mail/message-list.c:5098
+#: ../mail/message-list.c:4675 ../mail/message-list.c:5094
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
@@ -13652,7 +13651,7 @@ msgstr "Crea una libreta de direcciones nueva"
 
 #. Create the contacts group
 #: ../modules/addressbook/e-book-shell-backend.c:338
-#: ../modules/addressbook/e-book-shell-view.c:405
+#: ../modules/addressbook/e-book-shell-view.c:402
 #: ../modules/calendar/e-cal-shell-backend.c:115
 #: ../modules/calendar/e-cal-shell-migrate.c:63
 #: ../modules/online-accounts/e-online-accounts-google.c:369
@@ -13911,23 +13910,23 @@ msgstr "G_uardar como vCard…"
 msgid "Save selected contacts as a vCard"
 msgstr "Guardar los contactos seleccionados como VCard"
 
-#: ../modules/addressbook/e-book-shell-view.c:349
+#: ../modules/addressbook/e-book-shell-view.c:346
 msgid "_Forward Contacts"
 msgstr "_Reenviar contactos"
 
-#: ../modules/addressbook/e-book-shell-view.c:351
+#: ../modules/addressbook/e-book-shell-view.c:348
 msgid "_Forward Contact"
 msgstr "_Reenviar contacto"
 
-#: ../modules/addressbook/e-book-shell-view.c:382
+#: ../modules/addressbook/e-book-shell-view.c:379
 msgid "_Send Message to Contacts"
 msgstr "_Enviar un correo a los contactos"
 
-#: ../modules/addressbook/e-book-shell-view.c:384
+#: ../modules/addressbook/e-book-shell-view.c:381
 msgid "_Send Message to List"
 msgstr "_Enviar un correo a la lista"
 
-#: ../modules/addressbook/e-book-shell-view.c:386
+#: ../modules/addressbook/e-book-shell-view.c:383
 msgid "_Send Message to Contact"
 msgstr "_Enviar un correo al contacto"
 
@@ -13980,16 +13979,17 @@ msgid "One"
 msgstr "Uno"
 
 #: ../modules/addressbook/ldap-config.ui.h:13
+#| msgid "Search _filter:"
+msgid "S_earch filter:"
+msgstr "_Filtro de búsqueda:"
+
+#: ../modules/addressbook/ldap-config.ui.h:14
 msgid "Search Filter"
 msgstr "Filtro de búsqueda"
 
-#: ../modules/addressbook/ldap-config.ui.h:14
+#: ../modules/addressbook/ldap-config.ui.h:15
 msgid "Search _base:"
 msgstr "_Base de búsqueda:"
-
-#: ../modules/addressbook/ldap-config.ui.h:15
-msgid "Search _filter:"
-msgstr "_Filtro de búsqueda:"
 
 #: ../modules/addressbook/ldap-config.ui.h:16
 msgid ""
@@ -14000,40 +14000,50 @@ msgstr ""
 "modifica, la búsqueda predeterminada se realizará sobre la clase de objetos "
 "de tipo «person»."
 
+#: ../modules/addressbook/ldap-config.ui.h:17
+#| msgid "_Server:"
+msgid "Ser_ver:"
+msgstr "_Servidor:"
+
 #. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
-#: ../modules/addressbook/ldap-config.ui.h:18
+#: ../modules/addressbook/ldap-config.ui.h:19
 msgid "Sub"
 msgstr "Sub"
 
-#: ../modules/addressbook/ldap-config.ui.h:19
+#: ../modules/addressbook/ldap-config.ui.h:20
 msgid "Supported Search Bases"
 msgstr "Bases de búsqueda soportadas"
 
-#: ../modules/addressbook/ldap-config.ui.h:21
+#: ../modules/addressbook/ldap-config.ui.h:22
+#| msgid "_Use secure connection:"
+msgid "Use secure _connection:"
+msgstr "Usar _conexión segura:"
+
+#: ../modules/addressbook/ldap-config.ui.h:23
 msgid "Using distinguished name (DN)"
 msgstr "Usando Nombre distintivo (DN)"
 
-#: ../modules/addressbook/ldap-config.ui.h:22
+#: ../modules/addressbook/ldap-config.ui.h:24
 msgid "Using email address"
 msgstr "Usando dirección de correo-e"
 
-#: ../modules/addressbook/ldap-config.ui.h:23
+#: ../modules/addressbook/ldap-config.ui.h:25
 msgid "_Download limit:"
 msgstr "Límite de _descarga:"
 
-#: ../modules/addressbook/ldap-config.ui.h:24
+#: ../modules/addressbook/ldap-config.ui.h:26
 msgid "_Find Possible Search Bases"
 msgstr "_Buscar bases de búsqueda posibles"
 
-#: ../modules/addressbook/ldap-config.ui.h:25
+#: ../modules/addressbook/ldap-config.ui.h:27
 msgid "_Login method:"
 msgstr "Método de _inicio de sesión:"
 
-#: ../modules/addressbook/ldap-config.ui.h:28
+#: ../modules/addressbook/ldap-config.ui.h:30
 msgid "_Search scope:"
 msgstr "Á_mbito de búsqueda:"
 
-#: ../modules/addressbook/ldap-config.ui.h:30
+#: ../modules/addressbook/ldap-config.ui.h:31
 msgid "_Timeout:"
 msgstr "_Tiempo de expiración:"
 
@@ -16384,12 +16394,6 @@ msgid "Welcome"
 msgstr "Bienvenido"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:508
-#| msgid ""
-#| "Welcome to Evolution. The next few screens will allow Evolution to "
-#| "connect to your email accounts, and to import files from other "
-#| "applications. \n"
-#| "\n"
-#| "Please click the \"Forward\" button to continue. "
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications."
@@ -17333,12 +17337,12 @@ msgstr "Imagen en línea"
 msgid "View image attachments directly in mail messages."
 msgstr "Ver los adjuntos directamente en los mensajes de correo."
 
-#: ../plugins/imap-features/imap-headers.c:337
+#: ../plugins/imap-features/imap-headers.c:335
 #: ../plugins/imap-features/imap-headers.ui.h:2
 msgid "Custom Headers"
 msgstr "Cabeceras personalizadas"
 
-#: ../plugins/imap-features/imap-headers.c:349
+#: ../plugins/imap-features/imap-headers.c:347
 #: ../plugins/imap-features/imap-headers.ui.h:5
 msgid "IMAP Headers"
 msgstr "Cabeceras IMAP"
@@ -19203,7 +19207,7 @@ msgstr "La barra lateral es visible"
 msgid "Skip development warning dialog"
 msgstr "Saltar el diálogo de advertencia de desarrollo"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:33 ../shell/main.c:310
+#: ../shell/apps_evolution_shell.schemas.in.h:33 ../shell/main.c:311
 msgid "Start in offline mode"
 msgstr "Iniciar en modo desconectado"
 
@@ -19716,7 +19720,7 @@ msgid "Preparing to quit..."
 msgstr "Preparándose para salir…"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:193
+#: ../shell/main.c:194
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -19752,7 +19756,7 @@ msgstr ""
 "Esperamos que disfrute del resultado de nuestro duro trabajo y \n"
 "esperamos su contribución.\n"
 
-#: ../shell/main.c:217
+#: ../shell/main.c:218
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -19760,13 +19764,13 @@ msgstr ""
 "Gracias\n"
 "El equipo de Evolution\n"
 
-#: ../shell/main.c:224
+#: ../shell/main.c:225
 msgid "Do not tell me again"
 msgstr "No preguntarme más veces"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../shell/main.c:304
+#: ../shell/main.c:305
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
@@ -19774,51 +19778,51 @@ msgstr ""
 "Iniciar Evolution mostrando el componente especificado. Las opciones "
 "disponibles son «mail», «calendar», «contacts», «tasks» y «memos»."
 
-#: ../shell/main.c:308
+#: ../shell/main.c:309
 msgid "Apply the given geometry to the main window"
 msgstr "Aplicar la geometría proporcionada a la ventana principal"
 
-#: ../shell/main.c:312
+#: ../shell/main.c:313
 msgid "Start in online mode"
 msgstr "Iniciar en modo conectado"
 
-#: ../shell/main.c:314
+#: ../shell/main.c:315
 msgid "Ignore network availability"
 msgstr "Ignorar la disponibilidad de la red"
 
-#: ../shell/main.c:316
+#: ../shell/main.c:317
 msgid "Start in \"express\" mode"
 msgstr "Iniciar en modo «exprés»"
 
-#: ../shell/main.c:319
+#: ../shell/main.c:320
 msgid "Forcibly shut down Evolution"
 msgstr "Forzar el cierre de Evolution"
 
-#: ../shell/main.c:322
+#: ../shell/main.c:323
 msgid "Send the debugging output of all components to a file."
 msgstr "Envía la salida de depuración de todos los componentes a un archivo."
 
-#: ../shell/main.c:324
+#: ../shell/main.c:325
 msgid "Disable loading of any plugins."
 msgstr "Desactivar la carga de cualquier complemento."
 
-#: ../shell/main.c:326
+#: ../shell/main.c:327
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Desactivar la vista previa del correo, contactos y tareas."
 
-#: ../shell/main.c:330
+#: ../shell/main.c:331
 msgid "Import URIs or file names given as rest of arguments."
 msgstr "Importar URI o nombres de archivos proporcionados como argumentos."
 
-#: ../shell/main.c:332
+#: ../shell/main.c:333
 msgid "Request a running Evolution process to quit"
 msgstr "Solicitar que el proceso de ejecución de Evolution finalice"
 
-#: ../shell/main.c:506 ../shell/main.c:514
+#: ../shell/main.c:507 ../shell/main.c:515
 msgid "- The Evolution PIM and Email Client"
 msgstr "El cliente de correo-e y GIP Evolution"
 
-#: ../shell/main.c:577
+#: ../shell/main.c:580
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19827,7 +19831,7 @@ msgstr ""
 "%s: --online y --offline no se pueden usar a la vez.\n"
 "  Ejecute «%s --help» para obtener más información\n"
 
-#: ../shell/main.c:583
+#: ../shell/main.c:586
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
