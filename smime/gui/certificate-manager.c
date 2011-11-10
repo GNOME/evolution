@@ -473,6 +473,7 @@ select_certificate (CertPage *cp,
 
 	fcd.cp = cp;
 	fcd.cert = cert;
+	fcd.path = NULL;
 
 	gtk_tree_model_foreach (model, find_cert_cb, &fcd);
 
