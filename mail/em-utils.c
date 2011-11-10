@@ -219,33 +219,6 @@ em_utils_uids_free (GPtrArray *uids)
 	g_ptr_array_free (uids, TRUE);
 }
 
-/**
- * em_utils_check_user_can_send_mail:
- *
- * Returns %TRUE if the user has an account configured (to send mail)
- * or %FALSE otherwise.
- **/
-gboolean
-em_utils_check_user_can_send_mail (void)
-{
-	EAccountList *account_list;
-	EAccount *account;
-
-	account_list = e_get_account_list ();
-
-	if (e_list_length (E_LIST (account_list)) == 0)
-		return FALSE;
-
-	if (!(account = e_get_default_account ()))
-		return FALSE;
-
-	/* Check for a transport */
-	if (!account->transport->url)
-		return FALSE;
-
-	return TRUE;
-}
-
 /* Editing Filters/Search Folders... */
 
 static GtkWidget *filter_editor = NULL;

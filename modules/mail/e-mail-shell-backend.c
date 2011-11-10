@@ -160,9 +160,6 @@ action_mail_message_new_cb (GtkAction *action,
 
 	shell = e_shell_window_get_shell (shell_window);
 
-	if (!em_utils_check_user_can_send_mail ())
-		return;
-
 	/* Take care not to unnecessarily load the mail shell view. */
 	view_name = e_shell_window_get_active_view (shell_window);
 	if (g_strcmp0 (view_name, BACKEND_NAME) != 0)
@@ -268,9 +265,7 @@ mail_shell_backend_handle_uri_cb (EShell *shell,
 	gboolean handled = FALSE;
 
 	if (g_str_has_prefix (uri, "mailto:")) {
-		if (em_utils_check_user_can_send_mail ())
-			em_utils_compose_new_message_with_mailto (
-				shell, uri, NULL);
+		em_utils_compose_new_message_with_mailto (shell, uri, NULL);
 		handled = TRUE;
 	}
 
