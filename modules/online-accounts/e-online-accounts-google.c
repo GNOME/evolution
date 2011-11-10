@@ -314,6 +314,7 @@ online_accounts_google_sync_calendar (GoaObject *goa_object,
 	uri_string = g_strdup_printf (
 		"caldav://%s@www.google.com/calendar/dav/%s/events",
 		encoded, string);
+	e_source_set_relative_uri (source, uri_string);
 	e_source_set_absolute_uri (source, uri_string);
 	g_free (uri_string);
 	g_free (encoded);
