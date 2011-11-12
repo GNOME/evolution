@@ -990,7 +990,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_PROPERTIES);
-	sensitive = !folder_is_store;
+	sensitive = !folder_is_store && uri != NULL;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_REFRESH);
