@@ -2214,10 +2214,12 @@ emae_service_provider_changed (EMAccountEditorService *service)
 {
 	EConfig *config;
 	EMConfigTargetSettings *target;
-	CamelProvider *provider;
+	CamelProvider *provider = NULL;
 	const gchar *description;
 
-	provider = camel_provider_get (service->protocol, NULL);
+	/* Protocol is NULL when server type is 'None'. */
+	if (service->protocol != NULL)
+		provider = camel_provider_get (service->protocol, NULL);
 
 	description = (provider != NULL) ? provider->description : "";
 	gtk_label_set_text (service->description, description);
@@ -2566,7 +2568,7 @@ emae_setup_service (EMAccountEditor *emae,
                     GtkBuilder *builder)
 {
 	struct _service_info *info = &emae_service_info[service->type];
-	CamelProvider *provider;
+	CamelProvider *provider = NULL;
 	CamelURL *url;
 
 	/* GtkComboBox internalizes ID strings, which for the provider
@@ -2576,7 +2578,9 @@ emae_setup_service (EMAccountEditor *emae,
 		service->protocol = g_intern_string (url->protocol);
 	camel_url_free (url);
 
-	provider = camel_provider_get (service->protocol, NULL);
+	/* Protocol is NULL when server type is 'None'. */
+	if (service->protocol != NULL)
+		provider = camel_provider_get (service->protocol, NULL);
 
 	/* Extract all widgets we need from the builder file. */
 
@@ -3589,7 +3593,7 @@ emae_send_page (EConfig *ec,
 	GtkWidget *w;
 	GtkBuilder *builder;
 
-	provider = emae_get_store_provider (emae);
+	provider = emae_get_transport_provider (emae);
 
 	if (provider == NULL)
 		return NULL;
@@ -4269,7 +4273,7 @@ static gboolean
 emae_service_complete (EMAccountEditor *emae,
                        EMAccountEditorService *service)
 {
-	CamelProvider *provider;
+	CamelProvider *provider = NULL;
 	const gchar *host = NULL;
 	const gchar *path = NULL;
 	const gchar *user = NULL;
@@ -4282,7 +4286,9 @@ emae_service_complete (EMAccountEditor *emae,
 	gboolean need_port;
 	gboolean need_user;
 
-	provider = camel_provider_get (service->protocol, NULL);
+	/* Protocol is NULL when server type is 'None'. */
+	if (service->protocol != NULL)
+		provider = camel_provider_get (service->protocol, NULL);
 
 	if (provider == NULL)
 		return TRUE;
