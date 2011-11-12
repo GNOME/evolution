@@ -73,6 +73,9 @@ struct _EShellViewPrivate {
 
 	guint update_actions_blocked;
 	gboolean update_actions_called;
+
+	GtkWidget *preferences_window;
+	gulong preferences_hide_id;
 };
 
 enum {
@@ -547,6 +550,15 @@ shell_view_dispose (GObject *object)
 		priv->search_rule = NULL;
 	}
 
+	if (priv->preferences_window != NULL) {
+		g_signal_handler_disconnect (
+			priv->preferences_window,
+			priv->preferences_hide_id);
+		g_object_unref (priv->preferences_window);
+		priv->preferences_window = NULL;
+		priv->preferences_hide_id = 0;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -570,12 +582,17 @@ shell_view_finalize (GObject *object)
 static void
 shell_view_constructed (GObject *object)
 {
-	EShellViewClass *shell_view_class;
+	EShell *shell;
 	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EShellViewClass *shell_view_class;
 	GtkWidget *widget;
 
 	shell_view = E_SHELL_VIEW (object);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	shell_view_load_state (shell_view);
 
@@ -603,6 +620,13 @@ shell_view_constructed (GObject *object)
 	/* Size group should be safe to unreference now. */
 	g_object_unref (shell_view->priv->size_group);
 	shell_view->priv->size_group = NULL;
+
+	/* Update actions whenever the Preferences window is closed. */
+	widget = e_shell_get_preferences_window (shell);
+	shell_view->priv->preferences_window = g_object_ref (widget);
+	shell_view->priv->preferences_hide_id = g_signal_connect_swapped (
+		shell_view->priv->preferences_window, "hide",
+		G_CALLBACK (e_shell_view_update_actions), shell_view);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
