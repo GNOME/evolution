@@ -198,14 +198,41 @@ struct _EMAccountEditorPrivate {
 	GtkButton *smime_encrypt_key_select;
 	GtkButton *smime_encrypt_key_clear;
 
+	/* Review */
+	GtkLabel *review_name;
+	GtkLabel *review_email;
+	GtkLabel *send_name;
+	GtkLabel *send_stype;
+	GtkLabel *send_saddress;
+	GtkLabel *send_encryption;
+	GtkLabel *receive_name;
+	GtkLabel *receive_stype;
+	GtkLabel *receive_saddress;
+	GtkLabel *receive_encryption;
+	GtkWidget *review_box;
+
+	/* google and yahoo specific data*/
+	gboolean is_gmail;
+	gboolean is_yahoo;
+
+	GtkWidget *calendar;
+	GtkWidget *gcontacts;
+	GtkWidget *info_label;
+
+	GtkWidget *account_label;
+	GtkWidget *gmail_link;
+	GtkWidget *yahoo_cal_box;
+	GtkWidget *yahoo_cal_entry;
+
 	/* for e-config callbacks, each page sets up its widgets, then they are dealed out by the get_widget callback in order*/
 	GHashTable *widgets;
 
 	/* for assistant page preparation */
 	guint identity_set : 1;
 	guint receive_set : 1;
+	guint receive_opt_set : 1;
 	guint send_set : 1;
-	guint management_set : 1;
+	guint review_set : 1;
 
 	ServerData *selected_server;
 };
@@ -1128,6 +1155,9 @@ emae_init (EMAccountEditor *emae)
 	/* Pick default storage and transport protocols. */
 	emae->priv->source.protocol = "imapx";
 	emae->priv->transport.protocol = "smtp";
+
+	emae->priv->is_gmail = FALSE;
+	emae->priv->is_yahoo = FALSE;
 }
 
 GType
@@ -2358,7 +2388,7 @@ emae_refresh_providers (EMAccountEditor *emae,
 		if (!(mail_or_news_domain
 		      && provider->object_types[service->type]
 		      && (service->type != CAMEL_PROVIDER_STORE ||
-		         (provider->flags & CAMEL_PROVIDER_IS_SOURCE) != 0))
+			 (provider->flags & CAMEL_PROVIDER_IS_SOURCE) != 0))
 		    /* hardcode not showing providers who's transport is done in the store */
 		    || (service->type == CAMEL_PROVIDER_TRANSPORT
 			&& CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)))
@@ -2796,9 +2826,9 @@ emae_create_basic_assistant_page (EMAccountEditor *emae,
 	} else if (g_ascii_strcasecmp (page_id, "transport_page") == 0) {
 		title = _("Sending Email");
 		label = _("Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider.");
-	} else if (g_ascii_strcasecmp (page_id, "management_page") == 0) {
-		title = _("Account Information");
-		label = _("Please enter a descriptive name for this account below.\nThis name will be used for display purposes only.");
+	} else if (g_ascii_strcasecmp (page_id, "review_page") == 0) {
+		title = _("Review Account");
+		label = _("Time to check things over before we try and connect to the server and fetch your mail.");
 	} else if (g_ascii_strcasecmp (page_id, "finish_page") == 0) {
 		page_type = GTK_ASSISTANT_PAGE_CONFIRM;
 		fill_space = TRUE;
@@ -4106,7 +4136,7 @@ static EMConfigItem emae_editor_items[] = {
 static gboolean emae_editor_items_translated = FALSE;
 
 static GtkWidget *
-emae_management_page (EConfig *ec,
+emae_review_page (EConfig *ec,
                       EConfigItem *item,
                       GtkWidget *parent,
                       GtkWidget *old,
@@ -4116,16 +4146,35 @@ emae_management_page (EConfig *ec,
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *priv = emae->priv;
 	GtkWidget *w;
+	GtkBuilder *builder;
 
-	w = priv->management_frame;
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "mail-config.ui");
+
+	priv->review_name = (GtkLabel*) e_builder_get_widget (builder, "personal-name-entry");
+	priv->review_email = (GtkLabel*) e_builder_get_widget (builder, "personal-email-entry");
+	priv->receive_stype = (GtkLabel*) e_builder_get_widget (builder, "receive_server_type");
+	priv->send_stype = (GtkLabel*) e_builder_get_widget (builder, "send_server_type");
+	priv->receive_saddress = (GtkLabel*) e_builder_get_widget (builder, "receive_server_address");
+	priv->send_saddress = (GtkLabel*) e_builder_get_widget (builder, "send_server_address");
+	priv->receive_name = (GtkLabel*) e_builder_get_widget (builder, "receive_username");
+	priv->send_name = (GtkLabel*) e_builder_get_widget (builder, "send_username");
+	priv->receive_encryption = (GtkLabel*) e_builder_get_widget (builder, "receive_encryption");
+	priv->send_encryption = (GtkLabel*) e_builder_get_widget (builder, "send_encryption");
+
+	w = e_builder_get_widget (builder, item->label);
+	priv->review_box = gtk_vbox_new (FALSE, 2);
+	gtk_widget_show (priv->review_box);
 	if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT) {
 		GtkWidget *page;
 
 		page = emae_create_basic_assistant_page (
 			emae, GTK_ASSISTANT (parent),
-			"management_page", position);
+			"review_page", position);
 
-		gtk_widget_reparent (w, page);
+		gtk_box_pack_start (GTK_BOX (page), w, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (page), priv->review_box, FALSE, FALSE, 0);
+		gtk_widget_reparent (priv->management_frame, page);
 
 		w = page;
 	}
@@ -4181,7 +4230,7 @@ static EMConfigItem emae_assistant_items[] = {
 	{ E_CONFIG_SECTION_TABLE, (gchar *) "40.defaults/00.folders", (gchar *) "special-folders-table", emae_widget_glade },
 	{ E_CONFIG_SECTION_TABLE, (gchar *) "40.defaults/10.composing", (gchar *) "composing-messages-table", emae_widget_glade },
 
-	{ E_CONFIG_PAGE, (gchar *) "40.management", (gchar *) "management_frame", emae_management_page },
+	{ E_CONFIG_PAGE, (gchar *) "50.review", (gchar *) "vboxReviewBorder", emae_review_page },
 
 	{ E_CONFIG_PAGE_FINISH, (gchar *) "999.end", (gchar *) "finish_page", emae_widget_assistant_page },
 	{ 0 },
@@ -4363,6 +4412,15 @@ emae_check_servers (const gchar *email)
 	return sdata;
 }
 
+static void
+emae_destroy_widget (GtkWidget *widget)
+{
+	if (widget && GTK_IS_WIDGET (widget)) {
+		gtk_widget_destroy (widget);
+		widget = NULL;
+	}
+}
+
 static gboolean
 emae_check_complete (EConfig *ec,
                      const gchar *pageid,
@@ -4422,10 +4480,13 @@ emae_check_complete (EConfig *ec,
 					refresh = TRUE;
 					if (sdata && sdata->recv_user && *sdata->recv_user)
 						use_user = g_str_equal (sdata->recv_user, "@") ? tmp : sdata->recv_user;
+
+					camel_url_set_user (url, use_user);
 					gtk_entry_set_text (emae->priv->source.username, use_user);
 
 					if (sdata != NULL) {
 						CamelNetworkSecurityMethod method;
+
 						if (sdata->recv_security_method != CAMEL_NETWORK_SECURITY_METHOD_NONE)
 							method = sdata->recv_security_method;
 						else
@@ -4437,6 +4498,12 @@ emae_check_complete (EConfig *ec,
 						camel_url_set_host (url, sdata->recv);
 						if (sdata->recv_port && *sdata->recv_port)
 							camel_url_set_port (url, atoi (sdata->recv_port));
+
+						e_account_set_bool (account, E_ACCOUNT_SOURCE_AUTO_CHECK, TRUE);
+						e_account_set_bool (account, E_ACCOUNT_SOURCE_SAVE_PASSWD, TRUE);
+						if (g_strcmp0 (url->protocol, "pop") == 0)
+							e_account_set_bool (account, E_ACCOUNT_SOURCE_KEEP_ON_SERVER, TRUE);
+
 						gtk_entry_set_text (emae->priv->source.hostname, sdata->recv);
 						gtk_entry_set_text (emae->priv->transport.hostname, sdata->send);
 					} else {
@@ -4470,7 +4537,7 @@ emae_check_complete (EConfig *ec,
 				at++;
 
 				sdata = emae->priv->selected_server;
-				if (sdata != NULL && (url = emae_account_url(emae, E_ACCOUNT_TRANSPORT_URL))) {
+				if (sdata != NULL && (url = emae_account_url (emae, E_ACCOUNT_TRANSPORT_URL))) {
 					CamelNetworkSecurityMethod method;
 					const gchar *use_user = user;
 					gchar *uri;
@@ -4490,10 +4557,13 @@ emae_check_complete (EConfig *ec,
 
 					if (sdata->send_user && *sdata->send_user)
 						use_user = g_str_equal (sdata->send_user, "@") ? tmp : sdata->send_user;
+
+					camel_url_set_user (url, use_user);
 					gtk_entry_set_text (emae->priv->transport.username, use_user);
 
 					uri = camel_url_to_string (url, 0);
 					e_account_set_string (account, E_ACCOUNT_TRANSPORT_URL, uri);
+					e_account_set_bool (account, E_ACCOUNT_TRANSPORT_SAVE_PASSWD, TRUE);
 					g_free (uri);
 					camel_url_free (url);
 					gtk_toggle_button_set_active (emae->priv->transport.needs_auth, TRUE);
@@ -4508,21 +4578,27 @@ emae_check_complete (EConfig *ec,
 			}
 
 		} else if (!strcmp (pageid, "20.receive_options")) {
-			CamelProvider *provider;
+			if (!emae->priv->receive_opt_set) {
+				CamelProvider *provider;
 
-			provider = emae_get_store_provider (emae);
+				provider = emae_get_store_provider (emae);
 
-			if (provider != NULL
-			    && emae->priv->extra_provider != provider) {
-				emae->priv->extra_provider = provider;
-				emae_auto_detect (emae);
+				if (provider != NULL
+				&& emae->priv->extra_provider != provider) {
+					emae->priv->extra_provider = provider;
+					emae_auto_detect (emae);
+				}
+
+				emae->priv->receive_opt_set = 1;
 			}
-		} else if (!strcmp (pageid, "40.management")) {
-			if (!emae->priv->management_set) {
+		} else if (!strcmp (pageid, "50.review")) {
+			if (!emae->priv->review_set) {
 				gchar *template;
 				guint i = 0, len;
+				gchar *uri, *enc, *buff, *cal_name;
+				CamelURL *url;
+				CamelNetworkSecurityMethod method;
 
-				emae->priv->management_set = 1;
 				tmp = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
 				len = strlen (tmp);
 				template = g_alloca (len + 14);
@@ -4531,6 +4607,122 @@ emae_check_complete (EConfig *ec,
 					sprintf (template + len, " (%d)", i++);
 
 				gtk_entry_set_text (emae->priv->identity_entries[0], template);
+
+				gtk_label_set_text (emae->priv->review_name, e_account_get_string (account, E_ACCOUNT_ID_NAME));
+				gtk_label_set_text (emae->priv->review_email, e_account_get_string (account, E_ACCOUNT_ID_ADDRESS));
+				uri = (gchar * ) e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
+				if (uri  && (url = camel_url_new (uri, NULL))) {
+					gtk_label_set_text (emae->priv->receive_stype, url->protocol);
+					gtk_label_set_text (emae->priv->receive_saddress, url->host);
+					gtk_label_set_text (emae->priv->receive_name, url->user);
+					g_object_get (emae->priv->source.settings, "security-method", &method, NULL);
+					if (method == CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT)
+						enc = g_strdup (_("Always(SSL)"));
+					else if (method == CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT)
+						enc = g_strdup (_("When possible(TLS)"));
+					else
+						enc = g_strdup (_("Never"));
+
+					gtk_label_set_text (emae->priv->receive_encryption, enc);
+					g_free (enc);
+				}
+				uri = (gchar * ) e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
+				if (uri  && (url = camel_url_new (uri, NULL))) {
+					gtk_label_set_text (emae->priv->send_stype, url->protocol);
+					gtk_label_set_text (emae->priv->send_saddress, url->host);
+					gtk_label_set_text (emae->priv->send_name, url->user);
+					g_object_get (emae->priv->transport.settings, "security-method", &method, NULL);
+					if (method == CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT)
+						enc = g_strdup (_("Always(SSL)"));
+					else if (method == CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT)
+						enc = g_strdup (_("When possible(TLS)"));
+					else
+						enc = g_strdup (_("Never"));
+
+					gtk_label_set_text (emae->priv->send_encryption, enc);
+					g_free (enc);
+				}
+
+				if (g_strrstr (account->source->url, "gmail") || g_strrstr (account->source->url, "googlemail")) {
+					emae->priv->is_gmail = TRUE;
+
+					emae_destroy_widget (emae->priv->gcontacts);
+					emae_destroy_widget (emae->priv->calendar);
+					emae_destroy_widget (emae->priv->account_label);
+					emae_destroy_widget (emae->priv->gmail_link);
+
+					emae->priv->gcontacts = gtk_check_button_new_with_mnemonic (_("Setup Google con_tacts with Evolution"));
+					emae->priv->calendar = gtk_check_button_new_with_mnemonic (_("Setup Google ca_lendar with Evolution"));
+
+					gtk_toggle_button_set_active ((GtkToggleButton *) emae->priv->gcontacts, TRUE);
+					gtk_toggle_button_set_active ((GtkToggleButton *) emae->priv->calendar, TRUE);
+
+					gtk_widget_show (emae->priv->gcontacts);
+					gtk_widget_show (emae->priv->calendar);
+
+					emae->priv->account_label = gtk_label_new (NULL);
+					buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Google account settings:"));
+					gtk_label_set_markup ((GtkLabel *) emae->priv->account_label, buff);
+					g_free (buff);
+					gtk_widget_show (emae->priv->account_label);
+
+					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->account_label, FALSE, FALSE, 0);
+					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->gcontacts, FALSE, FALSE, 0);
+					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->calendar, FALSE, FALSE, 0);
+
+					emae->priv->gmail_link = gtk_link_button_new_with_label ("https://mail.google.com/mail/?ui=2&amp;shva=1#settings/fwdandpop", _("You may need to enable IMAP access."));
+					gtk_widget_show (emae->priv->gmail_link);
+					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->gmail_link, FALSE, FALSE, 0);
+
+				}  else if ((g_strrstr(account->source->url, "yahoo.") || g_strrstr(account->source->url, "ymail.")
+						|| g_strrstr(account->source->url, "rocketmail."))) {
+
+					emae->priv->is_yahoo = TRUE;
+
+					emae_destroy_widget (emae->priv->calendar);
+					emae_destroy_widget (emae->priv->info_label);
+					emae_destroy_widget (emae->priv->yahoo_cal_entry);
+					emae_destroy_widget (emae->priv->account_label);
+					emae_destroy_widget (emae->priv->yahoo_cal_box);
+
+					emae->priv->calendar = gtk_check_button_new_with_mnemonic (_("Setup _Yahoo calendar with Evolution"));
+
+					gtk_toggle_button_set_active ((GtkToggleButton *) emae->priv->calendar, TRUE);
+
+					emae->priv->info_label = gtk_label_new (_("Yahoo calendars are named as firstname_lastname. We have tried to form the calendar name. So please confirm and re-enter the calendar name if it is not correct."));
+					gtk_label_set_line_wrap ((GtkLabel *) emae->priv->info_label, TRUE);
+					gtk_label_set_line_wrap_mode ((GtkLabel *) emae->priv->info_label, PANGO_WRAP_WORD);
+					gtk_label_set_selectable ((GtkLabel *) emae->priv->info_label, TRUE);
+
+					gtk_widget_show (emae->priv->calendar);
+					gtk_widget_show (emae->priv->info_label);
+
+					emae->priv->account_label = gtk_label_new (NULL);
+					buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Yahoo account settings:"));
+					gtk_label_set_markup ((GtkLabel *) emae->priv->account_label, buff);
+					g_free (buff);
+					gtk_widget_show (emae->priv->account_label);
+
+#define PACK_IN_BOX_AND_TEXT(txt,box,child,num) { GtkWidget *txtlbl = gtk_label_new_with_mnemonic (txt); gtk_label_set_mnemonic_widget ((GtkLabel*)txtlbl, child); box = gtk_hbox_new (FALSE, 12); gtk_box_pack_start ((GtkBox *)box, txtlbl, FALSE, FALSE, num); gtk_box_pack_start ((GtkBox *)box, child, FALSE, FALSE, num); gtk_widget_show_all (box);}
+
+					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->account_label, FALSE, FALSE, 0);
+					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->calendar, FALSE, FALSE, 0);
+
+					emae->priv->yahoo_cal_entry = gtk_entry_new ();
+					gtk_widget_show (emae->priv->yahoo_cal_entry);
+					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->info_label, FALSE, FALSE, 0);
+					PACK_IN_BOX_AND_TEXT(_("Yahoo Calen_dar name:"), emae->priv->yahoo_cal_box, emae->priv->yahoo_cal_entry, 0);
+					gtk_box_pack_start ((GtkBox *) emae->priv->review_box, emae->priv->yahoo_cal_box, FALSE, FALSE, 0);
+					cal_name = g_strdup (e_account_get_string (account, E_ACCOUNT_ID_NAME));
+					cal_name = g_strdelimit(cal_name, " ", '_');
+					gtk_entry_set_text ((GtkEntry *) emae->priv->yahoo_cal_entry, cal_name);
+					g_free (cal_name);
+#undef PACK_IN_BOX_AND_TEXT
+				} else {
+					emae->priv->is_gmail = FALSE;
+					emae->priv->is_yahoo = FALSE;
+				}
+
 			}
 		}
 	}
@@ -4579,13 +4771,13 @@ emae_check_complete (EConfig *ec,
 		}
 	}
 
-	if (ok && (pageid == NULL || !strcmp (pageid, "40.management"))) {
+	if (ok && (pageid == NULL || !strcmp (pageid, "50.review"))) {
 		ok = (tmp = e_account_get_string (account, E_ACCOUNT_NAME))
 			&& tmp[0]
 			&& ((ea = e_get_account_by_name (tmp)) == NULL
 			    || ea == original_account);
 		if (!ok) {
-			d (printf ("management page incomplete\n"));
+			d (printf ("review page incomplete\n"));
 		}
 	}
 
@@ -4638,6 +4830,211 @@ forget_password_if_needed (EAccount *original_account,
 	}
 }
 
+#define CALENDAR_CALDAV_URI "caldav://%s@www.google.com/calendar/dav/%s/events"
+#define GMAIL_CALENDAR_LOCATION "://www.google.com/calendar/feeds/"
+#define CALENDAR_DEFAULT_PATH "/private/full"
+#define SELECTED_CALENDARS "/apps/evolution/calendar/display/selected_calendars"
+#define YAHOO_CALENDAR_LOCATION "%s@caldav.calendar.yahoo.com/dav/%s/Calendar/%s"
+
+static gchar *
+sanitize_user_mail (const gchar *user)
+{
+	if (!user)
+		return NULL;
+
+	if (strstr (user, "%40") != NULL) {
+		return g_strdup (user);
+	} else if (!is_email (user)) {
+		return g_strconcat (user, "%40gmail.com", NULL);
+	} else {
+		gchar *tmp = g_malloc0 (sizeof (gchar) * (1 + strlen (user) + 2));
+		gchar *at = strchr (user, '@');
+
+		strncpy (tmp, user, at - user);
+		strcat (tmp, "%40");
+		strcat (tmp, at + 1);
+
+		return tmp;
+	}
+}
+
+static void
+setup_google_addressbook (EMAccountEditor *emae)
+{
+	GConfClient *gconf;
+	ESourceList *slist;
+	ESourceGroup *sgrp;
+	GSList *sources;
+	gboolean source_already_exists = FALSE;
+	CamelURL *url;
+	gchar * username;
+
+	gconf = gconf_client_get_default ();
+	slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/addressbook/sources" );
+	sgrp = e_source_list_ensure_group (slist, _("Google"), "google://", TRUE);
+	url = emae_account_url (emae, E_ACCOUNT_SOURCE_URL);
+	username = g_strdup (url->user);
+
+	sources = e_source_group_peek_sources (sgrp);
+	for (; sources; sources = sources->next) {
+		ESource *existing = (ESource *) sources->data;
+		if (!g_strcmp0 (e_source_peek_relative_uri (existing), username)) {
+			source_already_exists = TRUE;
+			break;
+		}
+	}
+
+	if (!source_already_exists) {
+		ESource *abook;
+
+		/* FIXME: Not sure if we should localize 'Contacts' */
+		abook = e_source_new ("Contacts", "");
+		e_source_set_property (abook, "default", "true");
+		e_source_set_property (abook, "offline_sync", "1");
+		e_source_set_property (abook, "auth", "plain/password");
+		e_source_set_property (abook, "use-ssl", "true");
+		e_source_set_property (abook, "remember_password", "true");
+		e_source_set_property (abook, "refresh-interval", "86400");
+		e_source_set_property (abook, "completion", "true");
+		e_source_set_property (abook, "username", username);
+
+		e_source_group_add_source (sgrp, abook, -1);
+		e_source_set_relative_uri (abook, username);
+		e_source_list_sync (slist, NULL);
+
+		g_object_unref (abook);
+	}
+
+	g_free (username);
+	g_object_unref (slist);
+	g_object_unref (sgrp);
+	g_object_unref (gconf);
+}
+
+static void
+setup_google_calendar (EMAccountEditor *emae)
+{
+	GConfClient *gconf;
+	ESourceList *slist;
+	ESourceGroup *sgrp;
+	ESource *calendar;
+	gchar *sanitize_uname, *username;
+	gchar *abs_uri, *rel_uri;
+	GSList *ids, *temp;
+	CamelURL *url;
+
+	gconf = gconf_client_get_default ();
+	slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
+	sgrp = e_source_list_ensure_group (slist, _("Google"), "google://", TRUE);
+	url = emae_account_url (emae, E_ACCOUNT_SOURCE_URL);
+	username = g_strdup (url->user);
+
+	/* FIXME: Not sure if we should localize 'Calendar' */
+	calendar = e_source_new ("Calendar", "");
+	e_source_set_property (calendar, "ssl", "1");
+	e_source_set_property (calendar, "refresh", "30");
+	e_source_set_property (calendar, "auth", "1");
+	e_source_set_property (calendar, "offline_sync", "1");
+	e_source_set_property (calendar, "username", username);
+	e_source_set_property (calendar, "setup-username", username);
+	e_source_set_property (calendar, "default", "true");
+	e_source_set_property (calendar, "alarm", "true");
+	e_source_set_readonly (calendar, FALSE);
+
+	e_source_group_add_source (sgrp, calendar, -1);
+
+	sanitize_uname = sanitize_user_mail (username);
+
+	abs_uri = g_strdup_printf (CALENDAR_CALDAV_URI, sanitize_uname, username);
+	e_source_set_absolute_uri (calendar, abs_uri);
+
+	rel_uri = g_strconcat ("https", GMAIL_CALENDAR_LOCATION, sanitize_uname, CALENDAR_DEFAULT_PATH, NULL);
+	e_source_set_relative_uri (calendar, rel_uri);
+
+	e_source_list_sync (slist, NULL);
+
+	ids = gconf_client_get_list (gconf, SELECTED_CALENDARS, GCONF_VALUE_STRING, NULL);
+	ids = g_slist_append (ids, g_strdup (e_source_peek_uid (calendar)));
+	gconf_client_set_list (gconf,  SELECTED_CALENDARS, GCONF_VALUE_STRING, ids, NULL);
+	temp = ids;
+
+	for (; temp != NULL; temp = g_slist_next (temp))
+		g_free (temp->data);
+
+	g_free (username);
+	g_slist_free (ids);
+	g_free (abs_uri);
+	g_free (rel_uri);
+	g_free (sanitize_uname);
+	g_object_unref (slist);
+	g_object_unref (sgrp);
+	g_object_unref (calendar);
+	g_object_unref (gconf);
+}
+
+static void
+setup_yahoo_calendar (EMAccountEditor *emae)
+{
+	GConfClient *gconf;
+	ESourceList *slist;
+	ESourceGroup *sgrp;
+	ESource *calendar;
+	gchar *sanitize_uname;
+	gchar *abs_uri, *rel_uri;
+	GSList *ids, *temp;
+	const gchar *email;
+
+	gconf = gconf_client_get_default ();
+	email = e_account_get_string (em_account_editor_get_modified_account (emae), E_ACCOUNT_ID_ADDRESS);
+	slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
+	sgrp = e_source_list_peek_group_by_base_uri (slist, "caldav://");
+	if (!sgrp) {
+		sgrp = e_source_list_ensure_group (slist, _("CalDAV"), "caldav://", TRUE);
+	}
+
+	printf("Setting up Yahoo Calendar: list:%p CalDAVGrp: %p\n", slist, sgrp);
+
+	/* FIXME: Not sure if we should localize 'Calendar' */
+	calendar = e_source_new ("Yahoo", "");
+	e_source_set_property (calendar, "ssl", "1");
+	e_source_set_property (calendar, "refresh", "30");
+	e_source_set_property (calendar, "refresh-type", "0");
+	e_source_set_property (calendar, "auth", "1");
+	e_source_set_property (calendar, "offline_sync", "1");
+	e_source_set_property (calendar, "username", email);
+	e_source_set_property (calendar, "default", "true");
+	e_source_set_property (calendar, "alarm", "true");
+
+	e_source_set_readonly (calendar, FALSE);
+
+	sanitize_uname = sanitize_user_mail (email);
+
+	abs_uri = g_strdup_printf ("caldav://%s@caldav.calendar.yahoo.com/dav/%s/Calendar/%s/",
+			sanitize_uname, email,  gtk_entry_get_text ((GtkEntry *) emae->priv->yahoo_cal_entry));
+	rel_uri = g_strdup_printf (YAHOO_CALENDAR_LOCATION, sanitize_uname, email, gtk_entry_get_text ((GtkEntry *) emae->priv->yahoo_cal_entry));
+	e_source_set_relative_uri (calendar, rel_uri);
+
+	e_source_group_add_source (sgrp, calendar, -1);
+	e_source_list_sync (slist, NULL);
+
+	ids = gconf_client_get_list (gconf, SELECTED_CALENDARS, GCONF_VALUE_STRING, NULL);
+	ids = g_slist_append (ids, g_strdup (e_source_peek_uid (calendar)));
+	gconf_client_set_list (gconf,  SELECTED_CALENDARS, GCONF_VALUE_STRING, ids, NULL);
+	temp = ids;
+
+	for (; temp != NULL; temp = g_slist_next (temp))
+		g_free (temp->data);
+
+	g_slist_free (ids);
+	g_free (abs_uri);
+	g_free (rel_uri);
+	g_free (sanitize_uname);
+	g_object_unref (slist);
+	g_object_unref (sgrp);
+	g_object_unref (calendar);
+	g_object_unref (gconf);
+}
+
 static void
 emae_commit (EConfig *ec,
              EMAccountEditor *emae)
@@ -4653,6 +5050,17 @@ emae_commit (EConfig *ec,
 
 	modified_account = em_account_editor_get_modified_account (emae);
 	original_account = em_account_editor_get_original_account (emae);
+
+	/* check for google and yahoo specific settings */
+	if (!original_account && emae->priv->is_gmail) {
+		if (gtk_toggle_button_get_active ((GtkToggleButton *) emae->priv->gcontacts))
+			setup_google_addressbook (emae);
+		if (gtk_toggle_button_get_active ((GtkToggleButton *) emae->priv->calendar))
+			setup_google_calendar (emae);
+	} else if (!original_account && emae->priv->is_gmail) {
+		if (gtk_toggle_button_get_active ((GtkToggleButton *) emae->priv->calendar))
+			setup_yahoo_calendar (emae);
+	}
 
 	/* Do some last minute tweaking. */
 
