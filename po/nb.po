@@ -16076,7 +16076,7 @@ msgstr "Velkommen"
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications."
-msgstr "Velkommen til Evolution. De neste skjermene lar deg konfigurere Evolution til å koble til dine e-post kontoer, og importere filer fra andre programmer. \n"
+msgstr "Velkommen til Evolution. De neste skjermene lar deg konfigurere Evolution til å koble til dine e-post kontoer, og importere filer fra andre programmer."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:612
 msgid "Loading accounts..."
