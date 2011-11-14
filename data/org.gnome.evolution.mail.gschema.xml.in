@@ -10,6 +10,11 @@
       <_summary>Default charset in which to compose messages</_summary>
       <_description>Default charset in which to compose messages.</_description>
     </key>
+    <key name="composer-gallery-path" type="s">
+      <default>''</default>
+      <_summary>Path where picture gallery should search for its content</_summary>
+      <_description>This value can be an empty string, which means it'll use the system Picture folder, usually set to ~/Pictures. This folder will be also used when the set path is not pointing to the existent folder</_description>
+    </key>
     <key name="composer-inline-spelling" type="b">
       <default>true</default>
       <_summary>Spell check inline</_summary>
@@ -235,6 +240,11 @@
       <_summary>Show deleted messages in the message-list</_summary>
       <_description>Show deleted messages (with a strike-through) in the message-list.</_description>
     </key>
+    <key name="enable-local" type="b">
+      <default>true</default>
+      <_summary>Enable local folders</_summary>
+      <_description>Whether to show local folders (On This Computer) in a folder tree</_description>
+    </key>
     <key name="enable-vfolders" type="b">
       <default>true</default>
       <_summary>Enable search folders</_summary>
@@ -249,6 +259,11 @@
       <default>144</default>
       <_summary>Height of the message-list pane</_summary>
       <_description>Height of the message-list pane.</_description>
+    </key>
+    <key name="paned-view-headers-state" type="i">
+      <default>0</default>
+      <_summary>State of message headers in paned view</_summary>
+      <_description>Describes whether message headers in paned view should be collapsed or expanded by default. "0" = expanded and "1" = collapsed</_description>
     </key>
     <key name="hpaned-size" type="i">
       <default>450</default>
@@ -324,6 +339,11 @@
       <default>false</default>
       <_summary>Mail browser maximized</_summary>
       <_description>Default maximized state of the mail browser window.</_description>
+    </key>
+    <key name="sort-accounts-alpha" type="b">
+      <default>true</default>
+      <_summary>Sort accounts alphabetically in a folder tree</_summary>
+      <_description>Tells how to sort accounts in a folder tree used in a Mail view. When set to true accounts are sorted alphabetically, with an exception of On This Computer and Search folders, otherwise accounts are sorted based on an order given by a user</_description>
     </key>
     <key name="subscription-editor-height" type="i">
       <default>400</default>
@@ -579,6 +599,16 @@
       <default>false</default>
       <_summary>"Send and Receive Mail" window maximize state</_summary>
       <_description>Initial maximize state of the "Send and Receive Mail" window. The value updates when the user maximizes or unmaximizes the window.  Note, this particular value is not used by Evolution since the "Send and Receive Mail" window cannot be maximized. This key exists only as an implementation detail.</_description>
+    </key>
+    <key name="send-recv-on-start" type="b">
+      <default>true</default>
+      <_summary>Check for new messages on start</_summary>
+      <_description>Whether check for new messages when Evolution is started. This includes also sending messages from Outbox.</_description>
+    </key>
+    <key name="send-recv-all-on-start" type="b">
+      <default>false</default>
+      <_summary>Check for new messages in all active accounts</_summary>
+      <_description>Whether check for new messages in all active accounts regardless of the account "Check for new messages every X minutes" option when Evolution is started. This option is used only together with 'send_recv_on_start' option.</_description>
     </key>
     <key name="send-recv-width" type="i">
       <default>600</default>

@@ -241,7 +241,8 @@ mailto_handler_constructed (GObject *object)
 
 	e_shell_settings_install_property_for_key (
 		"mailto-handler-check",
-		"/apps/evolution/mail/prompts/checkdefault");
+		"org.gnome.evolution.mail",
+		"prompt-check-if-default-mailer");
 
 	g_signal_connect_swapped (
 		shell, "event::ready-to-start",

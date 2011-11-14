@@ -1197,7 +1197,8 @@ e_shell_init (EShell *shell)
 
 	e_shell_settings_install_property_for_key (
 		"start-offline",
-		"/apps/evolution/shell/start_offline");
+		"org.gnome.evolution.shell"
+		"start-offline");
 
 	/*** Session Management ***/
 

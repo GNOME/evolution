@@ -31,8 +31,6 @@
 
 #include "e-shell-settings.h"
 
-#include "e-util/gconf-bridge.h"
-
 struct _EShellSettingsPrivate {
 	GArray *value_array;
 	guint debug	: 1;
@@ -44,130 +42,93 @@ static gpointer parent_class;
 
 static GParamSpec *
 shell_settings_pspec_for_key (const gchar *property_name,
-                              const gchar *gconf_key)
+			      const gchar *schema,
+                              const gchar *key)
 {
-	GConfClient *client;
-	GConfEntry *entry;
-	GConfSchema *schema;
-	GConfValue *default_value;
-	GConfValueType value_type;
+	GSettings *settings;
+	GVariant *v;
+	GVariantType *value_type;
 	GParamSpec *pspec;
 	const gchar *bad_type;
-	const gchar *schema_name;
 	GError *error = NULL;
 
-	client = gconf_client_get_default ();
+	client = g_settings_new (schema);
 
-	entry = gconf_client_get_entry (client, gconf_key, NULL, TRUE, &error);
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-		return NULL;
-	}
+	v = g_settings_get_value (settings, key);
+	value_type = g_variant_get_type (v);
 
-	schema_name = gconf_entry_get_schema_name (entry);
-	g_return_val_if_fail (schema_name != NULL, NULL);
-
-	schema = gconf_client_get_schema (client, schema_name, &error);
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		gconf_entry_unref (entry);
-		g_error_free (error);
-		return NULL;
-	}
-
-	value_type = gconf_schema_get_type (schema);
-	default_value = gconf_schema_get_default_value (schema);
-
-	/* If the schema does not specify a default value, make one up. */
-	if (default_value == NULL) {
-		default_value = gconf_value_new (value_type);
-
-		/* XXX This should NOT be necessary, but the GConfValue
-		 *     documentation claims it is.  Bother. */
-		switch (value_type) {
-			case GCONF_VALUE_STRING:
-				gconf_value_set_string (default_value, "");
-				break;
-
-			case GCONF_VALUE_INT:
-				gconf_value_set_int (default_value, 0);
-				break;
-
-			case GCONF_VALUE_FLOAT:
-				gconf_value_set_float (default_value, 0.0);
-				break;
-
-			case GCONF_VALUE_BOOL:
-				gconf_value_set_bool (default_value, FALSE);
-				break;
-
-			default:
-				/* We'll fail in the next switch statement. */
-				break;
-		}
+	if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_STRING)) {
+		pspec = g_param_spec_string (
+			property_name, NULL, NULL,
+			g_variant_get_string (v),
+			G_PARAM_READWRITE);
+	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_BYTE)) {
+		pspec = g_param_spec_int (
+			property_name, NULL, NULL,
+			G_MININT, G_MAXINT,
+			g_variant_get_byte (v),
+			G_PARAM_READWRITE);
+	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_INT16)) {
+		pspec = g_param_spec_int (
+			property_name, NULL, NULL,
+			G_MININT, G_MAXINT,
+			g_variant_get_int16 (v),
+			G_PARAM_READWRITE);
+	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_UINT16)) {
+		pspec = g_param_spec_int (
+			property_name, NULL, NULL,
+			G_MININT, G_MAXINT,
+			g_variant_get_uint16 (v),
+			G_PARAM_READWRITE);
+	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_INT32)) {
+		pspec = g_param_spec_int (
+			property_name, NULL, NULL,
+			G_MININT, G_MAXINT,
+			g_variant_get_int32 (v),
+			G_PARAM_READWRITE);
+	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_UINT32)) {
+		pspec = g_param_spec_int (
+			property_name, NULL, NULL,
+			G_MININT, G_MAXINT,
+			g_variant_get_uint32 (v),
+			G_PARAM_READWRITE);
+	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_INT64)) {
+		pspec = g_param_spec_int (
+			property_name, NULL, NULL,
+			G_MININT, G_MAXINT,
+			g_variant_get_int64 (v),
+			G_PARAM_READWRITE);
+	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_UINT64)) {
+		pspec = g_param_spec_int (
+			property_name, NULL, NULL,
+			G_MININT, G_MAXINT,
+			g_variant_get_uint64 (v),
+			G_PARAM_READWRITE);
+	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_DOUBLE)) {
+		pspec = g_param_spec_double (
+			property_name, NULL, NULL,
+			-G_MAXDOUBLE, G_MAXDOUBLE,
+			g_variant_get_double (v),
+			G_PARAM_READWRITE);
+	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_BOOLEAN)) {
+		pspec = g_param_spec_boolean (
+			property_name, NULL, NULL,
+			g_variant_get_boolean (v),
+			G_PARAM_READWRITE);
 	} else {
-		default_value = gconf_value_copy (default_value);
+		bad_type = g_variant_get_type_string (v);
+		goto fail;
 	}
 
-	switch (value_type) {
-		case GCONF_VALUE_STRING:
-			pspec = g_param_spec_string (
-				property_name, NULL, NULL,
-				gconf_value_get_string (default_value),
-				G_PARAM_READWRITE);
-			break;
-
-		case GCONF_VALUE_INT:
-			pspec = g_param_spec_int (
-				property_name, NULL, NULL,
-				G_MININT, G_MAXINT,
-				gconf_value_get_int (default_value),
-				G_PARAM_READWRITE);
-			break;
-
-		case GCONF_VALUE_FLOAT:
-			pspec = g_param_spec_double (
-				property_name, NULL, NULL,
-				-G_MAXDOUBLE, G_MAXDOUBLE,
-				gconf_value_get_float (default_value),
-				G_PARAM_READWRITE);
-			break;
-
-		case GCONF_VALUE_BOOL:
-			pspec = g_param_spec_boolean (
-				property_name, NULL, NULL,
-				gconf_value_get_bool (default_value),
-				G_PARAM_READWRITE);
-			break;
-
-		case GCONF_VALUE_SCHEMA:
-			bad_type = "schema";
-			goto fail;
-
-		case GCONF_VALUE_LIST:
-			bad_type = "list";
-			goto fail;
-
-		case GCONF_VALUE_PAIR:
-			bad_type = "pair";
-			goto fail;
-
-		default:
-			bad_type = "invalid";
-			goto fail;
-	}
-
-	gconf_value_free (default_value);
-	gconf_schema_free (schema);
-	gconf_entry_unref (entry);
+	g_variant_unref (v);
+	g_object_unref (settings);
 
 	return pspec;
 
 fail:
 	g_error (
 		"Unable to create EShellSettings property for "
-		"GConf key '%s' of type '%s'", gconf_key, bad_type);
+		"GSettings key '%s' of type '%s'", key, bad_type);
 	g_assert_not_reached ();
 }
 
@@ -277,7 +238,7 @@ shell_settings_init (EShellSettings *shell_settings,
 		g_object_notify (G_OBJECT (shell_settings), pspec->name);
 
 		/* FIXME Need to bind those properties that have
-		 *       associated GConf keys. */
+		 *       associated GSettings keys. */
 	}
 	g_free (pspecs);
 
@@ -366,32 +327,38 @@ e_shell_settings_install_property (GParamSpec *pspec)
 /**
  * e_shell_settings_install_property_for_key:
  * @property_name: the name of the property to install
- * @gconf_key: the GConf key to bind the property to
+ * @schema: the GSettings schema to use for @key
+ * @key: the GSettings key to bind the property to
  *
  * Installs a new #EShellSettings class property by examining the
- * GConf schema for @gconf_key to determine the appropriate type and
+ * GSettings schema for @key to determine the appropriate type and
  * default value.  This is usually done during initialization of an
  * #EShellBackend of other dynamically loaded entity.
  *
  * After the class property is installed, all #EShellSettings instances
- * are bound to @gconf_key, causing @property_name and @gconf_key to have
+ * are bound to @key, causing @property_name and @key to have
  * the same value at all times.
  **/
 void
 e_shell_settings_install_property_for_key (const gchar *property_name,
-                                           const gchar *gconf_key)
+					   const gchar *schema,
+                                           const gchar *key)
 {
 	GParamSpec *pspec;
 	GList *iter, *next;
+	GSettings *settings;
 
 	g_return_if_fail (property_name != NULL);
-	g_return_if_fail (gconf_key != NULL);
+	g_return_if_fail (schema != NULL);
+	g_return_if_fail (key != NULL);
 
-	pspec = shell_settings_pspec_for_key (property_name, gconf_key);
+	pspec = shell_settings_pspec_for_key (property_name, schema, key);
 	if (!pspec)
 		return;
 
 	e_shell_settings_install_property (pspec);
+
+	settings = g_settings_new (schema);
 
 	for (iter = instances; iter != NULL; iter = iter->next)
 		g_object_freeze_notify (iter->data);
@@ -401,15 +368,15 @@ e_shell_settings_install_property_for_key (const gchar *property_name,
 
 		shell_settings = E_SHELL_SETTINGS (iter->data);
 
-		gconf_bridge_bind_property (
-			gconf_bridge_get (), gconf_key,
-			G_OBJECT (shell_settings), property_name);
+		g_settings_bind (settings, key, G_OBJECT (shell_settings), property_name, G_SETTINGS_BIND_DEFAULT);
 	}
 
 	for (iter = instances; iter != NULL; iter = next) {
 		next = iter->next;
 		g_object_thaw_notify (iter->data);
 	}
+
+	g_object_unref (settings);
 }
 
 /**
@@ -463,7 +430,7 @@ e_shell_settings_get_boolean (EShellSettings *shell_settings,
  * @v_boolean: boolean value to be set
  *
  * Sets the contents of an #EShellSettings property of type #G_TYPE_BOOLEAN
- * to @v_boolean.  If @property_name is bound to a GConf key, the GConf key
+ * to @v_boolean.  If @property_name is bound to a GSettings key, the GSettings key
  * will also be set to @v_boolean.
  **/
 void
@@ -521,7 +488,7 @@ e_shell_settings_get_int (EShellSettings *shell_settings,
  * @v_int: integer value to be set
  *
  * Sets the contents of an #EShellSettings property of type #G_TYPE_INT
- * to @v_int.  If @property_name is bound to a GConf key, the GConf key
+ * to @v_int.  If @property_name is bound to a GSettings key, the GSettings key
  * will also be set to @v_int.
  **/
 void
@@ -579,7 +546,7 @@ e_shell_settings_get_string (EShellSettings *shell_settings,
  * @v_string: string to be set
  *
  * Sets the contents of an #EShellSettings property of type #G_TYPE_STRING
- * to @v_string.  If @property_name is bound to a GConf key, the GConf key
+ * to @v_string.  If @property_name is bound to a GSettings key, the GSettings key
  * will also be set to @v_string.
  **/
 void
