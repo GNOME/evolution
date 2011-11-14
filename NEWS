@@ -1,3 +1,48 @@
+Evolution 3.2.2 2011-11-14
+--------------------------
+
+Bug Fixes:
+	Bug 659736 - GOA Google calendar prevents settings change (Milan Crha)
+	Bug 663748 - Unable to reconfigure GOA GMail account (Milan Crha)
+	Bug 662589 - 'Retrieve List' for new Google calendar does not use proxy (Milan Crha)
+	Bug 660782 - [pst-import] Missing 'To' on message replies (Milan Crha)
+	Bug 662742 - Double free when expunging completed tasks (Milan Crha)
+	Bug 660738 - Font changes ignored since 3.2 (Milan Crha)
+	Bug 616981 - Mail marking as read is hard (Milan Crha)
+	Bug 661409 - Contact display drops address lines (Dan Vrátil)
+	Bug 661549 - Avoid fetching from backend when calculating summary (Milan Crha)
+	Bug 688711  - (bnc) unable to book resource (Veerapuram Varadhan)
+	Bug 576478 - [Windows] Redirect Help->Contents to a web page (Milan Crha)
+	Bug 660721 - Online Account services not always activating (Milan Crha)
+	Bug 661542 - Weird "Cannot upgrade from version 0.xxxx" on first use (Vincent Untz)
+	Bug 661434 - Unfriendly search result (Milan Crha)
+	Bug 660829 - Allow 'Mark as read' in right click menu on spam folder (Milan Crha)
+	Bug 660861 - Avoid mark-all-read on a non-folder selection (Milan Crha)
+	Bug 660850 - Missing set mnemonic widgets in composer preferences (Milan Crha)
+	Bug 660782 - [pst-import] Missing tasks after import (Milan Crha)
+	Bug 659876 - Make automatic contact address formatting optional (Dan Vrátil)
+	Bug 658066 - Security dialog is too big (Dan Vrátil)
+	Bug 660799 - Bad GOptionEntry in evolution-addressbook-export (Matthew Barnes)
+	Bug 659486 - EAlert default response is ignored by EAlertDialog (Matthew Barnes)
+	Bug 659517 - Calendar reminds of old events following upgrade (Milan Crha)
+	Bug 659726 - Search Folders contain ambiguous reference to accounts (Matthew Barnes)
+	Bug 659874 - Address Cards Render extra Phone Number (Milan Crha)
+
+Miscellaneous Fixes:
+	Do not crash on CA certificate import (in select_certificate()) (Milan Crha)
+	Crash on personal certificate removal (Milan Crha)
+	Fix invalid read on vCard drop (Milan Crha)
+	po/vi: import from Damned Lies (Nguyễn Thái Ngọc Duy)
+
+Translations:
+	Jorge González (es)
+	Mario Blättermann (de)
+	krishnababu k (ug)
+	Daniel Mustieles (es)
+	Gabor Kelemen (hu)
+	Rudolfs Mazurs (lv)
+
+
 Evolution 3.2.1 2011-10-17
 --------------------------
 
