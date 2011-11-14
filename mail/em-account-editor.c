@@ -2093,13 +2093,6 @@ emae_setup_settings (EMAccountEditorService *service)
 	settings_type = class->settings_type;
 	g_type_class_unref (class);
 
-	/* If we already have a CamelSettings instance
-	 * of the appropriate type, leave it alone. */
-	if (service->settings != NULL) {
-		if (G_OBJECT_TYPE (service->settings) == settings_type)
-			return;
-	}
-
 	url = emae_account_url (
 		service->emae,
 		emae_service_info[service->type].account_uri_key);
@@ -5133,7 +5126,7 @@ emae_commit (EConfig *ec,
 	} else {
 		CamelProvider *provider;
 
-		d (printf ("Adding new account '%s'\n", e_account_get_string (account, E_ACCOUNT_NAME)));
+		d (printf ("Adding new account '%s'\n", e_account_get_string (modified_account, E_ACCOUNT_NAME)));
 		e_account_list_add (accounts, modified_account);
 		account = modified_account;
 
