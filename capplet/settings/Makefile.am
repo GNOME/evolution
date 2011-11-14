@@ -1,5 +1,3 @@
-SUBDIRS = mail-autoconfig
-
 privsolib_LTLIBRARIES = libevolution-mail-settings.la
 
 libevolution_mail_settings_la_CPPFLAGS =		\
@@ -48,9 +46,7 @@ libevolution_mail_settings_la_SOURCES = \
 	mail-capplet-shell.c \
 	mail-capplet-shell.h \
 	anjal-mail-view.h \
-	anjal-mail-view.c \
-	mail-guess-servers.c \
-	mail-guess-servers.h
+	anjal-mail-view.c
 
 libevolution_mail_settings_la_LIBADD = 				\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\

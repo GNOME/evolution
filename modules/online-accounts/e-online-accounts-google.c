@@ -139,15 +139,21 @@ online_accounts_google_sync_mail (GoaObject *goa_object,
 	const gchar *string;
 	gboolean new_account = FALSE;
 
+	account_list = e_get_account_list ();
+	account = e_get_account_by_uid (evo_id);
+
+	if (account) {
+		/* the account is already configured,
+		   do not change user's changes */
+		return;
+	}
+
 	/* XXX There's nothing particularly GMail-specific about this.
 	 *     Maybe break this off into a more generic IMAP/SMTP sync
 	 *     function and then apply any GMail-specific tweaks. */
 
 	goa_mail = goa_object_get_mail (goa_object);
 	goa_account = goa_object_get_account (goa_object);
-
-	account_list = e_get_account_list ();
-	account = e_get_account_by_uid (evo_id);
 
 	if (account == NULL) {
 		account = g_object_new (E_TYPE_ACCOUNT, NULL);
@@ -308,6 +314,7 @@ online_accounts_google_sync_calendar (GoaObject *goa_object,
 	uri_string = g_strdup_printf (
 		"caldav://%s@www.google.com/calendar/dav/%s/events",
 		encoded, string);
+	e_source_set_relative_uri (source, uri_string);
 	e_source_set_absolute_uri (source, uri_string);
 	g_free (uri_string);
 	g_free (encoded);

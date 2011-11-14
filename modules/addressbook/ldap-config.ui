@@ -247,7 +247,7 @@
       <object class="GtkLabel" id="label556">
         <property name="visible">True</property>
         <property name="xalign">0</property>
-        <property name="label" translatable="yes">_Server:</property>
+        <property name="label" translatable="yes">Ser_ver:</property>
         <property name="use_underline">True</property>
         <property name="mnemonic_widget">server-name-entry</property>
       </object>
@@ -263,7 +263,7 @@
         <child>
           <object class="GtkLabel" id="label555">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">_Use secure connection:</property>
+            <property name="label" translatable="yes">Use secure _connection:</property>
             <property name="use_underline">True</property>
             <property name="mnemonic_widget">ssl-combobox</property>
           </object>
@@ -504,7 +504,7 @@
       <object class="GtkLabel" id="label581">
         <property name="visible">True</property>
         <property name="xalign">0</property>
-        <property name="label" translatable="yes">Search _filter:</property>
+        <property name="label" translatable="yes">S_earch filter:</property>
         <property name="use_underline">True</property>
         <property name="mnemonic_widget">search-filter-entry</property>
       </object>

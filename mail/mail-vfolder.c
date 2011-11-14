@@ -346,64 +346,6 @@ mv_find_folder (GQueue *queue,
 	return link;
 }
 
-static gint
-uri_is_ignore (EMailBackend *backend,
-               const gchar *uri)
-{
-	EMailSession *session;
-	CamelSession *camel_session;
-	EAccountList *accounts;
-	EAccount *account;
-	EIterator *iter;
-	const gchar *local_drafts_uri;
-	const gchar *local_outbox_uri;
-	const gchar *local_sent_uri;
-	gint found = FALSE;
-
-	local_drafts_uri =
-		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
-	local_outbox_uri =
-		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_OUTBOX);
-	local_sent_uri =
-		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
-
-	session = e_mail_backend_get_session (backend);
-	camel_session = CAMEL_SESSION (session);
-
-	if (e_mail_folder_uri_equal (camel_session, local_outbox_uri, uri))
-		return TRUE;
-
-	if (e_mail_folder_uri_equal (camel_session, local_sent_uri, uri))
-		return TRUE;
-
-	if (e_mail_folder_uri_equal (camel_session, local_drafts_uri, uri))
-		return TRUE;
-
-	accounts = e_get_account_list ();
-	iter = e_list_get_iterator (E_LIST (accounts));
-
-	while (!found && e_iterator_is_valid (iter)) {
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iter);
-
-		if (!found && account->sent_folder_uri != NULL)
-			found = e_mail_folder_uri_equal (
-				camel_session, uri,
-				account->sent_folder_uri);
-
-		if (!found && account->drafts_folder_uri != NULL)
-			found = e_mail_folder_uri_equal (
-				camel_session, uri,
-				account->drafts_folder_uri);
-
-		e_iterator_next (iter);
-	}
-
-	g_object_unref (iter);
-
-	return found;
-}
-
 /* so special we never use it */
 static gint
 folder_is_spethal (CamelStore *store,
@@ -455,7 +397,7 @@ mail_vfolder_add_folder (EMailBackend *backend,
 	GList *folders = NULL, *link;
 	GQueue *queue;
 	gint remote;
-	gint is_ignore;
+	gint is_ignore = FALSE;
 	gchar *uri;
 
 	session = e_mail_backend_get_session (backend);
@@ -470,8 +412,6 @@ mail_vfolder_add_folder (EMailBackend *backend,
 	g_return_if_fail (mail_in_main_thread ());
 
 	uri = e_mail_folder_uri_build (store, folder_name);
-
-	is_ignore = uri_is_ignore (backend, uri);
 
 	G_LOCK (vfolder);
 

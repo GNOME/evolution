@@ -138,11 +138,11 @@ config_finalize (GObject *object)
 	while (link != NULL) {
 		struct _widget_node *node = link->data;
 
-		/* disconnect the gtk_widget_destroyed function from the widget */
+		/* disconnect the ec_widget_destroyed function from the widget */
 		if (node->widget)
 			g_signal_handlers_disconnect_matched (
 				node->widget, G_SIGNAL_MATCH_DATA,
-				0, 0, NULL, NULL, &node->widget);
+				0, 0, NULL, NULL, node);
 
 		g_free (node);
 
@@ -560,6 +560,16 @@ ec_assistant_forward (gint current_page,
 }
 
 static void
+ec_widget_destroyed (GtkWidget *widget,
+                     struct _widget_node *node)
+{
+	/* Use our own function instead of gtk_widget_destroyed()
+	 * so it's easier to trap EConfig widgets in a debugger. */
+
+	node->widget = NULL;
+}
+
+static void
 ec_rebuild (EConfig *emp)
 {
 	EConfigPrivate *p = emp->priv;
@@ -829,6 +839,7 @@ ec_rebuild (EConfig *emp)
 					} else {
 						gtk_assistant_prepend_page (GTK_ASSISTANT (assistant), page);
 					}
+
 					gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), page, item->type == E_CONFIG_PAGE ? GTK_ASSISTANT_PAGE_CONTENT : GTK_ASSISTANT_PAGE_PROGRESS);
 					gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), page, translated_label);
 					gtk_widget_show_all (page);
@@ -860,7 +871,9 @@ ec_rebuild (EConfig *emp)
 			sectionnode = NULL;
 			wn->widget = page;
 			if (page)
-				g_signal_connect (page, "destroy", G_CALLBACK(gtk_widget_destroyed), &wn->widget);
+				g_signal_connect (
+					page, "destroy",
+					G_CALLBACK (ec_widget_destroyed), wn);
 			break;
 		case E_CONFIG_SECTION:
 		case E_CONFIG_SECTION_TABLE:
@@ -962,7 +975,9 @@ ec_rebuild (EConfig *emp)
 			sectionno++;
 			wn->widget = section;
 			if (section)
-				g_signal_connect (section, "destroy", G_CALLBACK(gtk_widget_destroyed), &wn->widget);
+				g_signal_connect (
+					section, "destroy",
+					G_CALLBACK (ec_widget_destroyed), wn);
 			sectionnode = wn;
 			break;
 		case E_CONFIG_ITEM:
@@ -1001,7 +1016,9 @@ ec_rebuild (EConfig *emp)
 
 			wn->widget = w;
 			if (w) {
-				g_signal_connect (w, "destroy", G_CALLBACK(gtk_widget_destroyed), &wn->widget);
+				g_signal_connect (
+					w, "destroy",
+					G_CALLBACK (ec_widget_destroyed), wn);
 				itemno++;
 
 				if (gtk_widget_get_visible (w))
@@ -1431,7 +1448,7 @@ e_config_page_next (EConfig *ec,
 }
 
 /**
- * e_config_page_next:
+ * e_config_page_prev:
  * @ec: an #EConfig
  * @pageid: The path of the page item.
  *

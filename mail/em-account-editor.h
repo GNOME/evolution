@@ -88,7 +88,6 @@ struct _EMAccountEditor {
 	GtkWidget **pages; /* Pages for Anjal's page type editor */
 
 	guint do_signature:1;	/* allow editing signature */
-	ServerData * (*emae_check_servers) (const gchar *email);
 };
 
 struct _EMAccountEditorClass {

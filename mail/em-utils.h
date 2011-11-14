@@ -42,8 +42,6 @@ gboolean em_utils_prompt_user (GtkWindow *parent, const gchar *promptkey, const 
 GPtrArray *em_utils_uids_copy (GPtrArray *uids);
 void em_utils_uids_free (GPtrArray *uids);
 
-gboolean em_utils_check_user_can_send_mail (void);
-
 void em_utils_edit_filters (GtkWidget *parent, EMailBackend *backend);
 void em_filename_make_safe (gchar *string);
 void em_utils_edit_vfolders (GtkWidget *parent);

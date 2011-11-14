@@ -1670,6 +1670,7 @@ mail/default/sr@latin/Makefile
 mail/default/sv/Makefile
 mail/default/zh_CN/Makefile
 mail/importers/Makefile
+mail/mail-autoconfig/Makefile
 maint/Makefile
 modules/Makefile
 modules/addressbook/Makefile
@@ -1727,7 +1728,6 @@ smime/gui/Makefile
 sounds/Makefile
 capplet/Makefile
 capplet/settings/Makefile
-capplet/settings/mail-autoconfig/Makefile
 evolution-zip
 evolution-calendar.pc
 evolution-mail.pc

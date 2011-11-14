@@ -123,6 +123,8 @@ action_mail_account_disable_cb (GtkAction *action,
 		e_account_list_remove (account_list, account);
 
 	e_account_list_save (account_list);
+
+	e_shell_view_update_actions (shell_view);
 }
 
 static void

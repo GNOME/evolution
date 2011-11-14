@@ -12,14 +12,14 @@
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
 #
-#: ../shell/main.c:564
+#: ../shell/main.c:567
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-10-28 16:23+0000\n"
-"PO-Revision-Date: 2011-10-30 15:19+0100\n"
+"POT-Creation-Date: 2011-11-12 16:04+0000\n"
+"PO-Revision-Date: 2011-11-12 20:12+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -283,7 +283,7 @@ msgid "_Use as it is"
 msgstr "_Usar tal cual es"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
-#: ../addressbook/gui/widgets/eab-contact-display.c:715
+#: ../addressbook/gui/widgets/eab-contact-display.c:717
 #: ../calendar/gui/e-calendar-view.c:2068
 msgid "Anniversary"
 msgstr "Aniversario"
@@ -294,9 +294,9 @@ msgstr "Aniversario"
 #. * which, so long as it has an icon.  We're just interested in
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
-#: ../addressbook/gui/widgets/eab-contact-display.c:714
+#: ../addressbook/gui/widgets/eab-contact-display.c:716
 #: ../calendar/gui/e-calendar-view.c:2067 ../capplet/anjal-settings-main.c:78
-#: ../shell/main.c:138
+#: ../shell/main.c:139
 msgid "Birthday"
 msgstr "Cumpleaños"
 
@@ -330,9 +330,9 @@ msgstr "Editor de contactos"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:9
 #: ../addressbook/gui/merging/eab-contact-merging.c:390
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
-#: ../addressbook/gui/widgets/eab-contact-display.c:633
-#: ../addressbook/gui/widgets/eab-contact-display.c:641
-#: ../addressbook/gui/widgets/eab-contact-display.c:1019
+#: ../addressbook/gui/widgets/eab-contact-display.c:635
+#: ../addressbook/gui/widgets/eab-contact-display.c:643
+#: ../addressbook/gui/widgets/eab-contact-display.c:1043
 #: ../smime/lib/e-cert.c:833
 msgid "Email"
 msgstr "Correo-e"
@@ -348,7 +348,7 @@ msgstr "_Nombre completo…"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:198
 #: ../addressbook/gui/widgets/eab-contact-display.c:78
-#: ../addressbook/gui/widgets/eab-contact-display.c:1323
+#: ../addressbook/gui/widgets/eab-contact-display.c:1348
 #: ../widgets/misc/e-contact-map.c:295
 msgid "Home"
 msgstr "Domicilio"
@@ -417,8 +417,8 @@ msgstr "Direcciones web"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:27
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:197
 #: ../addressbook/gui/widgets/eab-contact-display.c:77
-#: ../addressbook/gui/widgets/eab-contact-display.c:694
-#: ../addressbook/gui/widgets/eab-contact-display.c:1320
+#: ../addressbook/gui/widgets/eab-contact-display.c:696
+#: ../addressbook/gui/widgets/eab-contact-display.c:1345
 #: ../widgets/misc/e-contact-map.c:303
 msgid "Work"
 msgstr "Trabajo"
@@ -525,42 +525,42 @@ msgid "_Zip/Postal Code:"
 msgstr "_Código postal:"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:178
-#: ../addressbook/gui/widgets/eab-contact-display.c:655
+#: ../addressbook/gui/widgets/eab-contact-display.c:657
 msgid "AIM"
 msgstr "AIM"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:179
-#: ../addressbook/gui/widgets/eab-contact-display.c:658
+#: ../addressbook/gui/widgets/eab-contact-display.c:660
 msgid "Jabber"
 msgstr "Jabber"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:180
-#: ../addressbook/gui/widgets/eab-contact-display.c:660
+#: ../addressbook/gui/widgets/eab-contact-display.c:662
 msgid "Yahoo"
 msgstr "Yahoo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:181
-#: ../addressbook/gui/widgets/eab-contact-display.c:661
+#: ../addressbook/gui/widgets/eab-contact-display.c:663
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:182
-#: ../addressbook/gui/widgets/eab-contact-display.c:659
+#: ../addressbook/gui/widgets/eab-contact-display.c:661
 msgid "MSN"
 msgstr "MSN"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:183
-#: ../addressbook/gui/widgets/eab-contact-display.c:657
+#: ../addressbook/gui/widgets/eab-contact-display.c:659
 msgid "ICQ"
 msgstr "ICQ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:184
-#: ../addressbook/gui/widgets/eab-contact-display.c:656
+#: ../addressbook/gui/widgets/eab-contact-display.c:658
 msgid "GroupWise"
 msgstr "GroupWise"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:185
-#: ../addressbook/gui/widgets/eab-contact-display.c:662
+#: ../addressbook/gui/widgets/eab-contact-display.c:664
 msgid "Skype"
 msgstr "Skype"
 
@@ -722,7 +722,7 @@ msgid "_List name:"
 msgstr "_Nombre de la lista:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
-#: ../mail/mail-config.ui.h:164
+#: ../mail/mail-config.ui.h:174
 msgid "_Select..."
 msgstr "_Seleccionar…"
 
@@ -913,7 +913,7 @@ msgid "Display _All Contacts"
 msgstr "Mostrar t_odos los contactos"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
-#: ../addressbook/gui/widgets/eab-contact-display.c:685
+#: ../addressbook/gui/widgets/eab-contact-display.c:687
 msgid "Assistant"
 msgstr "Secretario"
 
@@ -950,7 +950,7 @@ msgid "Categories"
 msgstr "Categorías"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
-#: ../addressbook/gui/widgets/eab-contact-display.c:680
+#: ../addressbook/gui/widgets/eab-contact-display.c:682
 msgid "Company"
 msgstr "Empresa"
 
@@ -999,22 +999,22 @@ msgid "Journal"
 msgstr "Diario"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
-#: ../addressbook/gui/widgets/eab-contact-display.c:684
+#: ../addressbook/gui/widgets/eab-contact-display.c:686
 msgid "Manager"
 msgstr "Jefe"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
-#: ../addressbook/gui/widgets/eab-contact-display.c:712
+#: ../addressbook/gui/widgets/eab-contact-display.c:714
 msgid "Mobile Phone"
 msgstr "Teléfono móvil"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
-#: ../addressbook/gui/widgets/eab-contact-display.c:648
+#: ../addressbook/gui/widgets/eab-contact-display.c:650
 msgid "Nickname"
 msgstr "Apodo"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:26
-#: ../addressbook/gui/widgets/eab-contact-display.c:739
+#: ../addressbook/gui/widgets/eab-contact-display.c:741
 msgid "Note"
 msgstr "Nota"
 
@@ -1049,7 +1049,7 @@ msgid "Role"
 msgstr "Papel"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:34
-#: ../addressbook/gui/widgets/eab-contact-display.c:716
+#: ../addressbook/gui/widgets/eab-contact-display.c:718
 msgid "Spouse"
 msgstr "Cónyuge"
 
@@ -1210,64 +1210,64 @@ msgstr "Enviar un correo a esta dirección"
 msgid "Open map"
 msgstr "Abrir mapa"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:528
-#: ../addressbook/gui/widgets/eab-contact-display.c:556
+#: ../addressbook/gui/widgets/eab-contact-display.c:530
+#: ../addressbook/gui/widgets/eab-contact-display.c:558
 msgid "List Members:"
 msgstr "Listar miembros:"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:681
+#: ../addressbook/gui/widgets/eab-contact-display.c:683
 msgid "Department"
 msgstr "Departamento"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:682
+#: ../addressbook/gui/widgets/eab-contact-display.c:684
 msgid "Profession"
 msgstr "Profesión"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:683
+#: ../addressbook/gui/widgets/eab-contact-display.c:685
 msgid "Position"
 msgstr "Posición"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:686
+#: ../addressbook/gui/widgets/eab-contact-display.c:688
 msgid "Video Chat"
 msgstr "Charla por vídeo"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:687
+#: ../addressbook/gui/widgets/eab-contact-display.c:689
 #: ../calendar/gui/dialogs/calendar-setup.c:449
 #: ../modules/calendar/e-cal-shell-view-actions.c:232
 #: ../modules/calendar/e-cal-shell-view-actions.c:261
 #: ../modules/calendar/e-cal-shell-view.c:523
-#: ../modules/online-accounts/e-online-accounts-google.c:296
+#: ../modules/online-accounts/e-online-accounts-google.c:302
 #: ../plugins/publish-calendar/publish-calendar.ui.h:1
 #: ../widgets/misc/e-send-options.c:528
 msgid "Calendar"
 msgstr "Calendario"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:688
+#: ../addressbook/gui/widgets/eab-contact-display.c:690
 #: ../calendar/gui/dialogs/event-editor.c:123
 #: ../calendar/gui/dialogs/event-editor.c:350
 #: ../plugins/publish-calendar/publish-calendar.ui.h:6
 msgid "Free/Busy"
 msgstr "Disponibilidad"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:689
-#: ../addressbook/gui/widgets/eab-contact-display.c:711
+#: ../addressbook/gui/widgets/eab-contact-display.c:691
+#: ../addressbook/gui/widgets/eab-contact-display.c:713
 msgid "Phone"
 msgstr "Teléfono"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:690
+#: ../addressbook/gui/widgets/eab-contact-display.c:692
 msgid "Fax"
 msgstr "Fax"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:691
-#: ../addressbook/gui/widgets/eab-contact-display.c:713
+#: ../addressbook/gui/widgets/eab-contact-display.c:693
+#: ../addressbook/gui/widgets/eab-contact-display.c:715
 msgid "Address"
 msgstr "Dirección"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:708
+#: ../addressbook/gui/widgets/eab-contact-display.c:710
 msgid "Home Page"
 msgstr "Página personal"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:709
+#: ../addressbook/gui/widgets/eab-contact-display.c:711
 msgid "Web Log"
 msgstr "Diario web"
 
@@ -1275,7 +1275,7 @@ msgstr "Diario web"
 #. Create the default Person calendar
 #. Create the default Person memo list
 #. Create the default Person task list
-#: ../addressbook/gui/widgets/eab-contact-display.c:718
+#: ../addressbook/gui/widgets/eab-contact-display.c:720
 #: ../capplet/settings/mail-capplet-shell.c:384
 #: ../modules/addressbook/e-book-shell-backend.c:120
 #: ../modules/addressbook/e-book-shell-migrate.c:144
@@ -1288,23 +1288,23 @@ msgstr "Diario web"
 msgid "Personal"
 msgstr "Privado"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:986
+#: ../addressbook/gui/widgets/eab-contact-display.c:1010
 msgid "List Members"
 msgstr "Listar miembros"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:1004
+#: ../addressbook/gui/widgets/eab-contact-display.c:1028
 msgid "Job Title"
 msgstr "Puesto"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:1041
+#: ../addressbook/gui/widgets/eab-contact-display.c:1065
 msgid "Home page"
 msgstr "Página personal"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:1050
+#: ../addressbook/gui/widgets/eab-contact-display.c:1074
 msgid "Blog"
 msgstr "Diario web"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:1248
+#: ../addressbook/gui/widgets/eab-contact-display.c:1273
 #: ../widgets/misc/e-web-view.c:980
 #, c-format
 msgid "Click to mail %s"
@@ -1410,19 +1410,19 @@ msgstr "Seleccione la libreta de direcciones"
 msgid "list"
 msgstr "lista"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:559
+#: ../addressbook/gui/widgets/eab-gui-util.c:560
 msgid "Move contact to"
 msgstr "Mover contacto a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:561
+#: ../addressbook/gui/widgets/eab-gui-util.c:562
 msgid "Copy contact to"
 msgstr "Copiar contacto a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:564
+#: ../addressbook/gui/widgets/eab-gui-util.c:565
 msgid "Move contacts to"
 msgstr "Mover contactos a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:566
+#: ../addressbook/gui/widgets/eab-gui-util.c:567
 msgid "Copy contacts to"
 msgstr "Copiar contactos a"
 
@@ -2368,7 +2368,7 @@ msgstr "Sonido de recordatorio personalizado"
 msgid "Mes_sage:"
 msgstr "_Mensaje:"
 
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:5 ../mail/mail-config.ui.h:75
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:5 ../mail/mail-config.ui.h:79
 msgid "Options"
 msgstr "Opciones"
 
@@ -2461,8 +2461,8 @@ msgstr "Tipo:"
 msgid "_Type:"
 msgstr "_Tipo:"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:248 ../mail/mail-config.ui.h:156
-#: ../modules/addressbook/ldap-config.ui.h:26
+#: ../calendar/gui/dialogs/calendar-setup.c:248 ../mail/mail-config.ui.h:166
+#: ../modules/addressbook/ldap-config.ui.h:28
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
 #: ../widgets/misc/e-signature-script-dialog.c:284
 msgid "_Name:"
@@ -2496,7 +2496,7 @@ msgstr "Colo_r:"
 #: ../calendar/gui/dialogs/calendar-setup.c:448
 #: ../calendar/gui/dialogs/calendar-setup.c:460
 #: ../calendar/gui/dialogs/calendar-setup.c:471
-#: ../mail/em-folder-properties.c:235 ../mail/mail-config.ui.h:52
+#: ../mail/em-folder-properties.c:235 ../mail/mail-config.ui.h:55
 #: ../modules/addressbook/addressbook-config.c:1077
 #: ../modules/addressbook/autocompletion-config.c:240
 #: ../modules/calendar/e-calendar-preferences.ui.h:17
@@ -3503,7 +3503,7 @@ msgstr "Cada"
 msgid "Exceptions"
 msgstr "Excepciones"
 
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:3 ../mail/mail-config.ui.h:82
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:3 ../mail/mail-config.ui.h:87
 msgid "Preview"
 msgstr "Vista previa"
 
@@ -7168,82 +7168,83 @@ msgstr "El ID del socket en el que empotrarse"
 msgid "socket"
 msgstr "socket"
 
-#: ../capplet/settings/mail-account-view.c:77
+#: ../capplet/settings/mail-account-view.c:76
 msgid "Please enter your full name."
 msgstr "Introduzca su nombre completo."
 
-#: ../capplet/settings/mail-account-view.c:78
+#: ../capplet/settings/mail-account-view.c:77
 msgid "Please enter your email address."
 msgstr "Introduzca su dirección de correo-e."
 
-#: ../capplet/settings/mail-account-view.c:79
+#: ../capplet/settings/mail-account-view.c:78
 msgid "The email address you have entered is invalid."
 msgstr "La dirección de correo-e que ha introducido no es válida."
 
-#: ../capplet/settings/mail-account-view.c:80
+#: ../capplet/settings/mail-account-view.c:79
 msgid "Please enter your password."
 msgstr "Introduzca su contraseña."
 
-#: ../capplet/settings/mail-account-view.c:259
-#: ../plugins/caldav/caldav-source.c:67
+#: ../capplet/settings/mail-account-view.c:258
+#: ../mail/em-account-editor.c:4992 ../plugins/caldav/caldav-source.c:67
 msgid "CalDAV"
 msgstr "CalDAV"
 
-#: ../capplet/settings/mail-account-view.c:361
-#: ../capplet/settings/mail-account-view.c:413
-#: ../modules/online-accounts/e-online-accounts-google.c:289
-#: ../modules/online-accounts/e-online-accounts-google.c:362
+#: ../capplet/settings/mail-account-view.c:360
+#: ../capplet/settings/mail-account-view.c:412
+#: ../mail/em-account-editor.c:4874 ../mail/em-account-editor.c:4928
+#: ../modules/online-accounts/e-online-accounts-google.c:295
+#: ../modules/online-accounts/e-online-accounts-google.c:369
 #: ../plugins/google-account-setup/google-contacts-source.c:55
 #: ../plugins/google-account-setup/google-source.c:87
 msgid "Google"
 msgstr "Google"
 
-#: ../capplet/settings/mail-account-view.c:480
+#: ../capplet/settings/mail-account-view.c:479
 msgid "Personal details:"
 msgstr "Detalles personales:"
 
-#: ../capplet/settings/mail-account-view.c:487
+#: ../capplet/settings/mail-account-view.c:486 ../mail/mail-config.ui.h:74
 msgid "Name:"
 msgstr "Nombre:"
 
-#: ../capplet/settings/mail-account-view.c:496
+#: ../capplet/settings/mail-account-view.c:495 ../mail/mail-config.ui.h:45
 msgid "Email address:"
 msgstr "Dirección de correo-e:"
 
-#: ../capplet/settings/mail-account-view.c:506
+#: ../capplet/settings/mail-account-view.c:505 ../mail/mail-config.ui.h:38
 msgid "Details:"
 msgstr "Detalles:"
 
-#: ../capplet/settings/mail-account-view.c:514
+#: ../capplet/settings/mail-account-view.c:513 ../mail/mail-config.ui.h:92
 msgid "Receiving"
 msgstr "Recepción de correo"
 
-#: ../capplet/settings/mail-account-view.c:521
+#: ../capplet/settings/mail-account-view.c:520 ../mail/mail-config.ui.h:128
 msgid "Server type:"
 msgstr "Tipo de servidor:"
 
-#: ../capplet/settings/mail-account-view.c:530
+#: ../capplet/settings/mail-account-view.c:529 ../mail/mail-config.ui.h:127
 msgid "Server address:"
 msgstr "Dirección del servidor:"
 
-#: ../capplet/settings/mail-account-view.c:539
+#: ../capplet/settings/mail-account-view.c:538 ../mail/mail-config.ui.h:152
 msgid "Username:"
 msgstr "Nombre de usuario:"
 
-#: ../capplet/settings/mail-account-view.c:548
+#: ../capplet/settings/mail-account-view.c:547
 msgid "Use encryption:"
 msgstr "Usar cifrado:"
 
-#: ../capplet/settings/mail-account-view.c:553
-#: ../capplet/settings/mail-account-view.c:588
+#: ../capplet/settings/mail-account-view.c:552
+#: ../capplet/settings/mail-account-view.c:587
 msgid "never"
 msgstr "nunca"
 
-#: ../capplet/settings/mail-account-view.c:565
+#: ../capplet/settings/mail-account-view.c:564 ../mail/mail-config.ui.h:112
 msgid "Sending"
 msgstr "Opciones de envío"
 
-#: ../capplet/settings/mail-account-view.c:607
+#: ../capplet/settings/mail-account-view.c:606
 msgid ""
 "To use the email application you'll need to setup an account. Put your email "
 "address and password in below and we'll try and work out all the settings. "
@@ -7254,7 +7255,7 @@ msgstr ""
 "averiguar los ajustes. Si no se puede hacer automáticamente necesitará "
 "también los detalles del servidor."
 
-#: ../capplet/settings/mail-account-view.c:609
+#: ../capplet/settings/mail-account-view.c:608
 msgid ""
 "Sorry, we can't work out the settings to get your mail automatically. Please "
 "enter them below. We've tried to make a start with the details you just "
@@ -7264,11 +7265,11 @@ msgstr ""
 "Intrdúzcalos debajo. Se ha intentado hacer una aproximación inicial con los "
 "detallas que ha introducido pero puede que tenga que cambiarlos."
 
-#: ../capplet/settings/mail-account-view.c:611
+#: ../capplet/settings/mail-account-view.c:610
 msgid "You can specify more options to configure the account."
 msgstr "Puede especificar más opciones para configurar la cuenta."
 
-#: ../capplet/settings/mail-account-view.c:613
+#: ../capplet/settings/mail-account-view.c:612
 msgid ""
 "Now we need your settings for sending mail. We've tried to make some guesses "
 "but you should check them over to make sure."
@@ -7276,11 +7277,12 @@ msgstr ""
 "Ahora se necesitan sus ajustes para el envío de correo. Se intentaron hacer "
 "algunas averiguaciones pero debería comprobarlas para asegurarse."
 
-#: ../capplet/settings/mail-account-view.c:614
+#: ../capplet/settings/mail-account-view.c:613
 msgid "You can specify your default settings for your account."
 msgstr "Puede especificar sus ajustes predeterminados para su cuenta."
 
-#: ../capplet/settings/mail-account-view.c:615
+#: ../capplet/settings/mail-account-view.c:614
+#: ../mail/em-account-editor.c:2831
 msgid ""
 "Time to check things over before we try and connect to the server and fetch "
 "your mail."
@@ -7288,100 +7290,103 @@ msgstr ""
 "Hora de comprobar los ajustes antes de intentar conectar con el servidor y "
 "obtener su correo."
 
-#: ../capplet/settings/mail-account-view.c:630
-#: ../mail/em-account-editor.c:2290 ../mail/em-account-editor.c:2426
+#: ../capplet/settings/mail-account-view.c:629
+#: ../mail/em-account-editor.c:2821 ../mail/em-account-editor.c:2957
 msgid "Identity"
 msgstr "Identidad"
 
-#: ../capplet/settings/mail-account-view.c:630
+#: ../capplet/settings/mail-account-view.c:629
 msgid "Next - Receiving mail"
 msgstr "Siguiente - Recepción de correo"
 
-#: ../capplet/settings/mail-account-view.c:631
+#: ../capplet/settings/mail-account-view.c:630
 msgid "Receiving mail"
 msgstr "Recepción de correo"
 
+#: ../capplet/settings/mail-account-view.c:630
 #: ../capplet/settings/mail-account-view.c:631
-#: ../capplet/settings/mail-account-view.c:632
 msgid "Next - Sending mail"
 msgstr "Siguiente - Envío de correo"
 
-#: ../capplet/settings/mail-account-view.c:631
+#: ../capplet/settings/mail-account-view.c:630
 msgid "Back - Identity"
 msgstr "Atrás - Identidad"
 
-#: ../capplet/settings/mail-account-view.c:631
+#: ../capplet/settings/mail-account-view.c:630
 msgid "Next - Receiving options"
 msgstr "Siguiente - Opciones de recepción"
 
-#: ../capplet/settings/mail-account-view.c:632
+#: ../capplet/settings/mail-account-view.c:631
 msgid "Receiving options"
 msgstr "Opciones de recepción"
 
-#: ../capplet/settings/mail-account-view.c:632
-#: ../capplet/settings/mail-account-view.c:634
+#: ../capplet/settings/mail-account-view.c:631
+#: ../capplet/settings/mail-account-view.c:633
 msgid "Back - Receiving mail"
 msgstr "Siguiente - Recepción de correo"
 
-#: ../capplet/settings/mail-account-view.c:634
+#: ../capplet/settings/mail-account-view.c:633
 msgid "Sending mail"
 msgstr "Envío de correo"
 
+#: ../capplet/settings/mail-account-view.c:633
 #: ../capplet/settings/mail-account-view.c:634
-#: ../capplet/settings/mail-account-view.c:635
 msgid "Next - Review account"
 msgstr "Siguiente - Revisar la cuenta"
 
-#: ../capplet/settings/mail-account-view.c:634
+#: ../capplet/settings/mail-account-view.c:633
 msgid "Next - Defaults"
 msgstr "Siguiente - Predeterminados"
 
-#: ../capplet/settings/mail-account-view.c:634
+#: ../capplet/settings/mail-account-view.c:633
 msgid "Back - Receiving options"
 msgstr "Atrás - Opciones de recepción"
 
-#: ../capplet/settings/mail-account-view.c:635
-#: ../mail/em-account-editor.c:3378
+#: ../capplet/settings/mail-account-view.c:634
+#: ../mail/em-account-editor.c:3920
 msgid "Defaults"
 msgstr "Predeterminados"
 
-#: ../capplet/settings/mail-account-view.c:635
+#: ../capplet/settings/mail-account-view.c:634
 msgid "Back - Sending mail"
 msgstr "Atrás - Envío de correo"
 
-#: ../capplet/settings/mail-account-view.c:637
+#: ../capplet/settings/mail-account-view.c:636
 msgid "Review account"
 msgstr "Revisar la cuenta"
 
-#: ../capplet/settings/mail-account-view.c:637
+#: ../capplet/settings/mail-account-view.c:636
 msgid "Finish"
 msgstr "Finalizar"
 
-#: ../capplet/settings/mail-account-view.c:637
+#: ../capplet/settings/mail-account-view.c:636
 msgid "Back - Sending"
 msgstr "Atras - Envío"
 
-#: ../capplet/settings/mail-account-view.c:760
+#: ../capplet/settings/mail-account-view.c:759
 msgid "Setup Google contacts with Evolution"
 msgstr "Configurar los contactos de Google con Evolution"
 
-#: ../capplet/settings/mail-account-view.c:761
+#: ../capplet/settings/mail-account-view.c:760
 msgid "Setup Google calendar with Evolution"
 msgstr "Configurar el calendario de Google con Evolution"
 
-#: ../capplet/settings/mail-account-view.c:766
+#: ../capplet/settings/mail-account-view.c:765
+#: ../mail/em-account-editor.c:4673
 msgid "You may need to enable IMAP access."
 msgstr "Puede que deba activar el acceso IMAP."
 
-#: ../capplet/settings/mail-account-view.c:774
+#: ../capplet/settings/mail-account-view.c:773
+#: ../mail/em-account-editor.c:4664
 msgid "Google account settings:"
 msgstr "Configuración de la cuenta de Google:"
 
-#: ../capplet/settings/mail-account-view.c:800
+#: ../capplet/settings/mail-account-view.c:799
 msgid "Setup Yahoo calendar with Evolution"
 msgstr "Configurar el calendario de Yahoo con Evolution"
 
-#: ../capplet/settings/mail-account-view.c:804
+#: ../capplet/settings/mail-account-view.c:803
+#: ../mail/em-account-editor.c:4692
 msgid ""
 "Yahoo calendars are named as firstname_lastname. We have tried to form the "
 "calendar name. So please confirm and re-enter the calendar name if it is not "
@@ -7391,24 +7396,25 @@ msgstr ""
 "el nombre del calendario. Confirme y vuelva a introducir el nombre del "
 "calendario si no es correcto."
 
-#: ../capplet/settings/mail-account-view.c:813
+#: ../capplet/settings/mail-account-view.c:812
+#: ../mail/em-account-editor.c:4701
 msgid "Yahoo account settings:"
 msgstr "Configuración de la cuenta de Yahoo:"
 
-#: ../capplet/settings/mail-account-view.c:827
+#: ../capplet/settings/mail-account-view.c:826
 msgid "Yahoo Calendar name:"
 msgstr "Nombre del calendario de Yahoo:"
 
-#: ../capplet/settings/mail-account-view.c:1098
+#: ../capplet/settings/mail-account-view.c:1013
 msgid "Password:"
 msgstr "Contraseña:"
 
-#: ../capplet/settings/mail-account-view.c:1150
+#: ../capplet/settings/mail-account-view.c:1065
 #: ../capplet/settings/mail-settings-view.c:254
 msgid "Close Tab"
 msgstr "Cerrar pestaña"
 
-#: ../capplet/settings/mail-account-view.c:1160
+#: ../capplet/settings/mail-account-view.c:1075
 msgid "Account Wizard"
 msgstr "Asistente de cuentas"
 
@@ -7418,7 +7424,7 @@ msgstr "Asistente de cuentas de Evolution"
 
 #. create the local source group
 #: ../capplet/settings/mail-capplet-shell.c:376 ../mail/e-mail-local.c:75
-#: ../mail/e-mail-migrate.c:753 ../mail/em-folder-tree-model.c:167
+#: ../mail/em-folder-tree-model.c:167
 #: ../modules/addressbook/e-book-shell-backend.c:100
 #: ../modules/addressbook/e-book-shell-migrate.c:136
 #: ../modules/calendar/e-cal-shell-backend.c:113
@@ -8037,11 +8043,11 @@ msgid "A_dd Condition"
 msgstr "Añadir a_cción"
 
 #: ../filter/e-filter-rule.c:1135 ../filter/filter.ui.h:2
-#: ../mail/em-utils.c:323
+#: ../mail/em-utils.c:296
 msgid "Incoming"
 msgstr "Entrante"
 
-#: ../filter/e-filter-rule.c:1135 ../mail/em-utils.c:324
+#: ../filter/e-filter-rule.c:1135 ../mail/em-utils.c:297
 msgid "Outgoing"
 msgstr "Saliente"
 
@@ -8167,42 +8173,42 @@ msgid "years"
 msgstr "años"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:863 ../widgets/misc/e-signature-combo-box.c:75
+#: ../mail/em-account-editor.c:1563 ../widgets/misc/e-signature-combo-box.c:75
 msgctxt "mail-signature"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../mail/em-account-editor.c:946
+#: ../mail/em-account-editor.c:1645 ../mail/em-account-editor.c:4624
+#: ../mail/em-account-editor.c:4640
 msgid "Never"
 msgstr "Nunca"
 
-#: ../mail/em-account-editor.c:947
+#: ../mail/em-account-editor.c:1646
 msgid "Always"
 msgstr "Siempre"
 
-#: ../mail/em-account-editor.c:948
+#: ../mail/em-account-editor.c:1647
 msgid "Ask for each message"
 msgstr "Preguntar por cada mensaje"
 
-#. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1832 ../widgets/misc/e-account-tree-view.c:265
+#: ../mail/em-account-editor.c:2377 ../widgets/misc/e-account-tree-view.c:265
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../mail/em-account-editor.c:2233
-msgid "Fil_e:"
-msgstr "_Archivo:"
-
-#: ../mail/em-account-editor.c:2233 ../mail/mail-config.ui.h:158
+#: ../mail/em-account-editor.c:2778 ../mail/mail-config.ui.h:168
 msgid "_Path:"
 msgstr "R_uta:"
 
-#: ../mail/em-account-editor.c:2287
+#: ../mail/em-account-editor.c:2781
+msgid "Fil_e:"
+msgstr "_Archivo:"
+
+#: ../mail/em-account-editor.c:2818
 msgid "Mail Configuration"
 msgstr "Configuración del correo"
 
-#: ../mail/em-account-editor.c:2288
+#: ../mail/em-account-editor.c:2819
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -8212,7 +8218,7 @@ msgstr ""
 "\n"
 "Para comenzar, pulse «Continuar»."
 
-#: ../mail/em-account-editor.c:2291
+#: ../mail/em-account-editor.c:2822
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -8222,19 +8228,19 @@ msgstr ""
 "hace falta que los rellene, a menos que quiera incluir esta información en "
 "el correo-e que envíe."
 
-#: ../mail/em-account-editor.c:2293 ../mail/em-account-editor.c:2485
+#: ../mail/em-account-editor.c:2824 ../mail/em-account-editor.c:3016
 msgid "Receiving Email"
 msgstr "Recepción de correo"
 
-#: ../mail/em-account-editor.c:2294
+#: ../mail/em-account-editor.c:2825
 msgid "Please configure the following account settings."
 msgstr "Configure las siguientes opciones de la cuenta."
 
-#: ../mail/em-account-editor.c:2296 ../mail/em-account-editor.c:3082
+#: ../mail/em-account-editor.c:2827 ../mail/em-account-editor.c:3626
 msgid "Sending Email"
 msgstr "Envío de correo"
 
-#: ../mail/em-account-editor.c:2297
+#: ../mail/em-account-editor.c:2828
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -8243,23 +8249,16 @@ msgstr ""
 "seguro, pregúntele a su administrador de sistemas o a su Proveedor de "
 "Servicios de Internet."
 
-#: ../mail/em-account-editor.c:2299 ../mail/mail-config.ui.h:1
-msgid "Account Information"
-msgstr "Información de la cuenta"
+#: ../mail/em-account-editor.c:2830
+#| msgid "Review account"
+msgid "Review Account"
+msgstr "Revisar cuenta"
 
-#: ../mail/em-account-editor.c:2300
-msgid ""
-"Please enter a descriptive name for this account below.\n"
-"This name will be used for display purposes only."
-msgstr ""
-"Introduzca un nombre descriptivo para esta cuenta en el espacio de abajo.\n"
-"Este nombre se usará sólo para mostrarlo."
-
-#: ../mail/em-account-editor.c:2304
+#: ../mail/em-account-editor.c:2835
 msgid "Done"
 msgstr "Hecho"
 
-#: ../mail/em-account-editor.c:2305
+#: ../mail/em-account-editor.c:2836
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -8273,27 +8272,57 @@ msgstr ""
 "\n"
 "Pulse «Aplicar» para guardar su configuración."
 
-#: ../mail/em-account-editor.c:2844
+#: ../mail/em-account-editor.c:3381
 msgid "Check for _new messages every"
 msgstr "Comprobar si hay mensajes _nuevos cada"
 
-#: ../mail/em-account-editor.c:2852
+#: ../mail/em-account-editor.c:3389
 msgid "minu_tes"
 msgstr "minuto_s"
 
-#: ../mail/em-account-editor.c:3521 ../mail/mail-config.ui.h:102
+#: ../mail/em-account-editor.c:4062 ../mail/mail-config.ui.h:108
 msgid "Security"
 msgstr "Seguridad"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3576 ../mail/em-account-editor.c:3659
+#: ../mail/em-account-editor.c:4117 ../mail/em-account-editor.c:4219
 msgid "Receiving Options"
 msgstr "Opciones de recepción"
 
-#: ../mail/em-account-editor.c:3577 ../mail/em-account-editor.c:3660
+#: ../mail/em-account-editor.c:4118 ../mail/em-account-editor.c:4220
 msgid "Checking for New Messages"
 msgstr "Comprobando si hay mensajes nuevos"
+
+#: ../mail/em-account-editor.c:4620 ../mail/em-account-editor.c:4636
+#| msgid "Always"
+msgid "Always(SSL)"
+msgstr "Siempre (SSL)"
+
+#: ../mail/em-account-editor.c:4622 ../mail/em-account-editor.c:4638
+#| msgid "Whenever Possible"
+msgid "When possible(TLS)"
+msgstr "Cuando sea posible (TLS)"
+
+#: ../mail/em-account-editor.c:4654
+#| msgid "Setup Google contacts with Evolution"
+msgid "Setup Google con_tacts with Evolution"
+msgstr "Configurar los con_tactos de Google con Evolution"
+
+#: ../mail/em-account-editor.c:4655
+#| msgid "Setup Google calendar with Evolution"
+msgid "Setup Google ca_lendar with Evolution"
+msgstr "Configurar el ca_lendario de Google con Evolution"
+
+#: ../mail/em-account-editor.c:4688
+#| msgid "Setup Yahoo calendar with Evolution"
+msgid "Setup _Yahoo calendar with Evolution"
+msgstr "Configurar el calendario de _Yahoo con Evolution"
+
+#: ../mail/em-account-editor.c:4714
+#| msgid "Yahoo Calendar name:"
+msgid "Yahoo Calen_dar name:"
+msgstr "Nombre del calen_dario de Yahoo:"
 
 #: ../mail/e-mail-attachment-bar.c:90 ../mail/e-mail-attachment-bar.c:95
 #: ../mail/em-format-html-display.c:1418 ../mail/mail-config.ui.h:14
@@ -8491,36 +8520,7 @@ msgstr "Correo enviado"
 msgid "Templates"
 msgstr "Plantillas"
 
-#: ../mail/e-mail-migrate.c:134
-msgid "Migrating..."
-msgstr "Migrando…"
-
-#: ../mail/e-mail-migrate.c:169
-msgid "Migration"
-msgstr "Migración"
-
-#: ../mail/e-mail-migrate.c:210
-#, c-format
-msgid "Migrating '%s':"
-msgstr "Migrando «%s»:"
-
-#: ../mail/e-mail-migrate.c:729
-msgid "Migrating Folders"
-msgstr "Migrando carpetas"
-
-#: ../mail/e-mail-migrate.c:730
-msgid ""
-"The summary format of the Evolution mailbox folders has been moved to SQLite "
-"since Evolution 2.24.\n"
-"\n"
-"Please be patient while Evolution migrates your folders..."
-msgstr ""
-"El formato de resúmenes de las carpetas del buzón de Evolution se ha movido "
-"a sqlite desde Evolution 2.24.\n"
-"\n"
-"Tenga paciencia mientras Evolution migra sus carpetas…"
-
-#: ../mail/e-mail-migrate.c:1525
+#: ../mail/e-mail-migrate.c:1177
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "No se pueden crear las carpetas de correo local en: «%s»: %s"
@@ -9447,7 +9447,7 @@ msgstr "no está configurado"
 msgid "is set"
 msgstr "está configurado"
 
-#: ../mail/em-filter-i18n.h:41 ../mail/mail-config.ui.h:63
+#: ../mail/em-filter-i18n.h:41 ../mail/mail-config.ui.h:66
 msgid "Junk"
 msgstr "SPAM"
 
@@ -9662,8 +9662,8 @@ msgstr "Copiando los mensajes a la carpeta %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "No se puede dejar el(los) mensaje(s) en el almacén de nivel superior"
 
-#: ../mail/em-folder-tree-model.c:168 ../mail/mail-vfolder.c:1122
-#: ../mail/mail-vfolder.c:1234 ../widgets/misc/e-account-tree-view.c:100
+#: ../mail/em-folder-tree-model.c:168 ../mail/mail-vfolder.c:1062
+#: ../mail/mail-vfolder.c:1174 ../widgets/misc/e-account-tree-view.c:100
 #: ../widgets/misc/e-account-tree-view.c:301
 #: ../widgets/misc/e-account-tree-view.c:927
 #: ../widgets/misc/e-account-tree-view.c:986
@@ -10030,11 +10030,11 @@ msgstr[1] "¿Está seguro de que quiere abrir %d mensajes a la vez?"
 msgid "_Do not show this message again"
 msgstr "_No mostrar otra vez este mensaje."
 
-#: ../mail/em-utils.c:335
+#: ../mail/em-utils.c:308
 msgid "Message Filters"
 msgstr "Filtros de mensajes"
 
-#: ../mail/em-utils.c:920
+#: ../mail/em-utils.c:893
 #, c-format
 msgid "Messages from %s"
 msgstr "Mensajes de %s"
@@ -10409,7 +10409,7 @@ msgstr ""
 msgid "Enable/disable caret mode"
 msgstr "Activar/desactivar modo cursor"
 
-#: ../mail/evolution-mail.schemas.in.h:73 ../mail/mail-config.ui.h:45
+#: ../mail/evolution-mail.schemas.in.h:73 ../mail/mail-config.ui.h:47
 msgid "Encode file names in an Outlook/GMail way"
 msgstr "Codificar nombres de archivo de la forma Outlook/GMail"
 
@@ -11532,6 +11532,10 @@ msgstr[1] ""
 "«%s» debiado a la carpeta eliminada\n"
 "«%s»."
 
+#: ../mail/mail-config.ui.h:1
+msgid "Account Information"
+msgstr "Información de la cuenta"
+
 #: ../mail/mail-config.ui.h:2
 msgid "Add Ne_w Signature..."
 msgstr "Añadir firma _nueva…"
@@ -11671,357 +11675,367 @@ msgstr "Eliminar correo-e"
 msgid "Delete junk messages on e_xit"
 msgstr "Eliminar los mensajes SPAM al _salir"
 
-#: ../mail/mail-config.ui.h:38
+#: ../mail/mail-config.ui.h:39
 msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Firmar digitalmente los mensajes s_alientes (por omisión)"
 
-#: ../mail/mail-config.ui.h:39
+#: ../mail/mail-config.ui.h:40
 msgid "Displayed Message Headers"
 msgstr "Cabeceras mostradas del mensaje"
 
-#: ../mail/mail-config.ui.h:40
+#: ../mail/mail-config.ui.h:41
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
 "_No marcar los mensajes como basura si el remitente está en mi libreta de "
 "direcciones"
 
-#: ../mail/mail-config.ui.h:41
+#: ../mail/mail-config.ui.h:42
 msgid "Do not quote"
 msgstr "No entrecomillar"
 
-#: ../mail/mail-config.ui.h:42
+#: ../mail/mail-config.ui.h:43
 msgid "Drafts _Folder:"
 msgstr "Carpeta de _borradores:"
 
-#: ../mail/mail-config.ui.h:43
+#: ../mail/mail-config.ui.h:44
 msgid "Email _Address:"
 msgstr "Dir_ección de correo-e:"
 
-#: ../mail/mail-config.ui.h:44
+#: ../mail/mail-config.ui.h:46
 msgid "Empty trash folders on e_xit"
 msgstr "Vaciar _papelera al salir"
 
-#: ../mail/mail-config.ui.h:46
+#: ../mail/mail-config.ui.h:48
 msgid "Encry_ption certificate:"
 msgstr "Certificado de ci_frado:"
 
-#: ../mail/mail-config.ui.h:47
+#: ../mail/mail-config.ui.h:49
 msgid "Encrypt out_going messages (by default)"
 msgstr "Cifrar mensajes _salientes (por omisión)"
 
-#: ../mail/mail-config.ui.h:48
+#: ../mail/mail-config.ui.h:50
+#| msgid "Encryption"
+msgid "Encryption:"
+msgstr "Cifrado:"
+
+#: ../mail/mail-config.ui.h:51
 msgid "F_all back to threading messages by subject"
 msgstr "Agrupar los mensajes por _asunto"
 
-#: ../mail/mail-config.ui.h:49
+#: ../mail/mail-config.ui.h:52
 msgid "Fix_ed Width Font:"
 msgstr "Tipografía de anchura _fija:"
 
-#: ../mail/mail-config.ui.h:50
+#: ../mail/mail-config.ui.h:53
 msgid "Format messages in _HTML"
 msgstr "Dar formato _HTML a los mensajes"
 
-#: ../mail/mail-config.ui.h:51
+#: ../mail/mail-config.ui.h:54
 msgid "Full Nam_e:"
 msgstr "Nombre co_mpleto:"
 
-#: ../mail/mail-config.ui.h:53
+#: ../mail/mail-config.ui.h:56
 msgid "Group Reply goes only to mailing list, if possible"
 msgstr "Responder al grupo sólo envía a la lista de correo, si es posible"
 
-#: ../mail/mail-config.ui.h:54
+#: ../mail/mail-config.ui.h:57
 msgid "HTML Messages"
 msgstr "Mensajes HTML"
 
-#: ../mail/mail-config.ui.h:55
+#: ../mail/mail-config.ui.h:58
 msgid "H_TTP Proxy:"
 msgstr "Proxy H_TTP:"
 
-#: ../mail/mail-config.ui.h:56
+#: ../mail/mail-config.ui.h:59
 msgid "Header content"
 msgstr "Contenido de la cabecera"
 
-#: ../mail/mail-config.ui.h:57
+#: ../mail/mail-config.ui.h:60
 msgid "Header name"
 msgstr "Nombre de la cabecera"
 
-#: ../mail/mail-config.ui.h:58
+#: ../mail/mail-config.ui.h:61
 msgid "Headers"
 msgstr "Cabeceras"
 
 # Esta cadena debe permanecer así
-#: ../mail/mail-config.ui.h:59
+#: ../mail/mail-config.ui.h:62
 msgid "Highlight _quotations with"
 msgstr "Resaltar texto _citado con este color:"
 
-#: ../mail/mail-config.ui.h:60
+#: ../mail/mail-config.ui.h:63
 msgid "Ignore Reply-To: for mailing lists"
 msgstr "Ignorar «Responder a:» para listas de correo"
 
-#: ../mail/mail-config.ui.h:61
+#: ../mail/mail-config.ui.h:64
 msgid "Inline"
 msgstr "En línea"
 
-#: ../mail/mail-config.ui.h:62
+#: ../mail/mail-config.ui.h:65
 msgid "Inline (Outlook style)"
 msgstr "En línea (estilo Outlook)"
 
-#: ../mail/mail-config.ui.h:64 ../mail/message-list.etspec.h:8
+#: ../mail/mail-config.ui.h:67 ../mail/message-list.etspec.h:8
 msgid "Labels"
 msgstr "Etiquetas"
 
-#: ../mail/mail-config.ui.h:65
+#: ../mail/mail-config.ui.h:68
 msgid "Languages Table"
 msgstr "Tabla de idiomas"
 
-#: ../mail/mail-config.ui.h:66
+#: ../mail/mail-config.ui.h:69
 msgid "Loading Images"
 msgstr "Cargando imágenes"
 
-#: ../mail/mail-config.ui.h:67
+#: ../mail/mail-config.ui.h:70
 msgid "Mail Headers Table"
 msgstr "Tabla de cabeceras de correo"
 
-#: ../mail/mail-config.ui.h:68
+#: ../mail/mail-config.ui.h:71
 msgid "Mailbox location"
 msgstr "Dirección del buzón"
 
-#: ../mail/mail-config.ui.h:69
+#: ../mail/mail-config.ui.h:72
 msgid "Message Display"
 msgstr "Mostrado de mensajes"
 
-#: ../mail/mail-config.ui.h:70
+#: ../mail/mail-config.ui.h:73
 msgid "Message Receipts"
 msgstr "Destinatarios del mensaje"
 
-#: ../mail/mail-config.ui.h:71
+#: ../mail/mail-config.ui.h:75
 msgid "No _Proxy for:"
 msgstr "Sin _proxy para:"
 
-#: ../mail/mail-config.ui.h:72 ../modules/addressbook/ldap-config.ui.h:9
+#: ../mail/mail-config.ui.h:76 ../modules/addressbook/ldap-config.ui.h:9
 msgid "No encryption"
 msgstr "Sin cifrado"
 
-#: ../mail/mail-config.ui.h:73
+#: ../mail/mail-config.ui.h:77
 msgid "Option is ignored if a match for custom junk headers is found."
 msgstr ""
 "Esta opción se omitirá si se encuentra alguna coincidencia para una cabecera "
 "de SPAM personalizada."
 
-#: ../mail/mail-config.ui.h:74
+#: ../mail/mail-config.ui.h:78
 #: ../plugins/publish-calendar/publish-calendar.ui.h:10
 msgid "Optional Information"
 msgstr "Información opcional"
 
-#: ../mail/mail-config.ui.h:76
+#: ../mail/mail-config.ui.h:80
 msgid "Or_ganization:"
 msgstr "Organi_zación:"
 
-#: ../mail/mail-config.ui.h:77
+#: ../mail/mail-config.ui.h:81
 msgid "PGP/GPG _Key ID:"
 msgstr "ID de c_lave GPG/PGP:"
 
-#: ../mail/mail-config.ui.h:78
+#: ../mail/mail-config.ui.h:82
 msgid "Pass_word:"
 msgstr "_Contraseña:"
 
-#: ../mail/mail-config.ui.h:79
+#: ../mail/mail-config.ui.h:83
+#| msgid "Personal details:"
+msgid "Personal Details:"
+msgstr "Detalles personales:"
+
+#: ../mail/mail-config.ui.h:84
 #: ../modules/calendar/e-calendar-preferences.ui.h:21
 msgid "Pick a color"
 msgstr "Elija un color"
 
-#: ../mail/mail-config.ui.h:80
+#: ../mail/mail-config.ui.h:85
 msgid "Port:"
 msgstr "Puerto:"
 
-#: ../mail/mail-config.ui.h:81
+#: ../mail/mail-config.ui.h:86
 msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "Pretty Good Privacy (PGP/GPG)"
 
-#: ../mail/mail-config.ui.h:83
+#: ../mail/mail-config.ui.h:88
 msgid "Proxy Settings"
 msgstr "Ajustes del proxy"
 
-#: ../mail/mail-config.ui.h:84
+#: ../mail/mail-config.ui.h:89
 msgid "Quoted"
 msgstr "Citado"
 
-#: ../mail/mail-config.ui.h:85
+#: ../mail/mail-config.ui.h:90
 msgid "Re_member password"
 msgstr "_Recordar contraseña"
 
-#: ../mail/mail-config.ui.h:86
+#: ../mail/mail-config.ui.h:91
 msgid "Re_ply-To:"
 msgstr "Res_ponder a:"
 
-#: ../mail/mail-config.ui.h:87
+#: ../mail/mail-config.ui.h:93
 msgid "Remember _password"
 msgstr "Recordar contrase_ña"
 
-#: ../mail/mail-config.ui.h:88
+#: ../mail/mail-config.ui.h:94
 msgid "Replies and Forwards"
 msgstr "Respuestas y reenvíos"
 
-#: ../mail/mail-config.ui.h:89
+#: ../mail/mail-config.ui.h:95
 msgid "Required Information"
 msgstr "Información requerida"
 
-#: ../mail/mail-config.ui.h:90
+#: ../mail/mail-config.ui.h:96
 msgid "SHA1"
 msgstr "SHA1"
 
-#: ../mail/mail-config.ui.h:91
+#: ../mail/mail-config.ui.h:97
 msgid "SHA256"
 msgstr "SHA256"
 
-#: ../mail/mail-config.ui.h:92
+#: ../mail/mail-config.ui.h:98
 msgid "SHA384"
 msgstr "SHA384"
 
-#: ../mail/mail-config.ui.h:93
+#: ../mail/mail-config.ui.h:99
 msgid "SHA512"
 msgstr "SHA512"
 
-#: ../mail/mail-config.ui.h:94
+#: ../mail/mail-config.ui.h:100
 msgid "SOC_KS Proxy:"
 msgstr "Proxy SOC_KS:"
 
-#: ../mail/mail-config.ui.h:95 ../modules/addressbook/ldap-config.ui.h:12
+#: ../mail/mail-config.ui.h:101 ../modules/addressbook/ldap-config.ui.h:12
 msgid "SSL encryption"
 msgstr "Cifrado SSL"
 
-#: ../mail/mail-config.ui.h:96
+#: ../mail/mail-config.ui.h:102
 msgid "SSL is not supported in this build of Evolution"
 msgstr "Esta compilación de Evolution no soporta SSL"
 
-#: ../mail/mail-config.ui.h:97
+#: ../mail/mail-config.ui.h:103
 msgid "S_earch for sender photograph only in local address books"
 msgstr "Bu_scar la foto del remitente sólo en libretas de direcciones locales"
 
-#: ../mail/mail-config.ui.h:98
+#: ../mail/mail-config.ui.h:104
 msgid "S_elect..."
 msgstr "S_eleccionar…"
 
-#: ../mail/mail-config.ui.h:99
+#: ../mail/mail-config.ui.h:105
 msgid "S_end message receipts:"
 msgstr "_Enviar confirmaciones de mensajes:"
 
-#: ../mail/mail-config.ui.h:100
+#: ../mail/mail-config.ui.h:106
 msgid "S_tandard Font:"
 msgstr "Tipografía _estándar:"
 
-#: ../mail/mail-config.ui.h:101
+#: ../mail/mail-config.ui.h:107
 msgid "Secure MIME (S/MIME)"
 msgstr "MIME seguro (S/MIME)"
 
-#: ../mail/mail-config.ui.h:103
+#: ../mail/mail-config.ui.h:109
 msgid "Select HTML fixed width font"
 msgstr "Selecciona letra de anchura fija para HTML"
 
-#: ../mail/mail-config.ui.h:104
+#: ../mail/mail-config.ui.h:110
 msgid "Select HTML variable width font"
 msgstr "Selecciona letra de anchura variable en HTML"
 
-#: ../mail/mail-config.ui.h:105
+#: ../mail/mail-config.ui.h:111
 msgid "Sender Photograph"
 msgstr "Foto del remitente"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:107
+#: ../mail/mail-config.ui.h:114
 msgid "Sending a _private reply to a mailing list message"
 msgstr "Enviando una respuesta priva_da a una lista de correo"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:109
+#: ../mail/mail-config.ui.h:116
 msgid "Sending a message with _recipients not entered as mail addresses"
 msgstr ""
 "Enviando un mensaje con destinata_rios no introducidos como direcciones de "
 "correo"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:111
+#: ../mail/mail-config.ui.h:118
 msgid "Sending a message with an _empty subject line"
 msgstr "Enviando un correo con una línea de asunto _vacía"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:113
+#: ../mail/mail-config.ui.h:120
 msgid "Sending a message with only _Bcc recipients defined"
 msgstr "Enviando la respuesta sólo a los destinatarios definidos en _Cco"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:115
+#: ../mail/mail-config.ui.h:122
 msgid "Sending a reply to a large _number of recipients"
 msgstr "Enviando la respuesta a un gran _número de destinatarios"
 
-#: ../mail/mail-config.ui.h:116
+#: ../mail/mail-config.ui.h:123
 msgid "Sent _Messages Folder:"
 msgstr "Carpeta de _mensajes enviados:"
 
-#: ../mail/mail-config.ui.h:117
+#: ../mail/mail-config.ui.h:124
 msgid "Ser_ver requires authentication"
 msgstr "El ser_vidor requiere autenticación"
 
-#: ../mail/mail-config.ui.h:118
+#: ../mail/mail-config.ui.h:125
 msgid "Server Configuration"
 msgstr "Configuración del servidor"
 
-#: ../mail/mail-config.ui.h:119
+#: ../mail/mail-config.ui.h:126
 msgid "Server _Type:"
 msgstr "_Tipo de servidor:"
 
-#: ../mail/mail-config.ui.h:120
+#: ../mail/mail-config.ui.h:129
 msgid "Set custom junk header"
 msgstr "Establecer cabecera de SPAM personalizada"
 
-#: ../mail/mail-config.ui.h:121
+#: ../mail/mail-config.ui.h:130
 msgid "Si_gning algorithm:"
 msgstr "Algoritmo de _firma:"
 
-#: ../mail/mail-config.ui.h:122
+#: ../mail/mail-config.ui.h:131
 msgid "Sig_natures"
 msgstr "_Firmas"
 
-#: ../mail/mail-config.ui.h:123
+#: ../mail/mail-config.ui.h:132
 msgid "Sig_ning certificate:"
 msgstr "Certificado de _firma:"
 
-#: ../mail/mail-config.ui.h:124
+#: ../mail/mail-config.ui.h:133
 msgid "Signat_ure:"
 msgstr "_Firma:"
 
-#: ../mail/mail-config.ui.h:125
+#: ../mail/mail-config.ui.h:134
 msgid "Signatures"
 msgstr "Firmas"
 
-#: ../mail/mail-config.ui.h:126
+#: ../mail/mail-config.ui.h:135
 msgid "Signing _algorithm:"
 msgstr "_Algoritmo de firma:"
 
-#: ../mail/mail-config.ui.h:127
+#: ../mail/mail-config.ui.h:136
 msgid "Special Folders"
 msgstr "Carpetas especiales"
 
-#: ../mail/mail-config.ui.h:128
+#: ../mail/mail-config.ui.h:137
 msgid "Spell Checking"
 msgstr "Ortografía"
 
-#: ../mail/mail-config.ui.h:129
+#: ../mail/mail-config.ui.h:138
 msgid "Start _typing at the bottom on replying"
 msgstr "Comenzar a _escribir en la parte final al responder"
 
-#: ../mail/mail-config.ui.h:130
+#: ../mail/mail-config.ui.h:139
 msgid "Start up"
 msgstr "Inicio"
 
-#: ../mail/mail-config.ui.h:131 ../modules/addressbook/ldap-config.ui.h:20
+#: ../mail/mail-config.ui.h:140 ../modules/addressbook/ldap-config.ui.h:21
 msgid "TLS encryption"
 msgstr "Cifrado TLS"
 
-#: ../mail/mail-config.ui.h:132
+#: ../mail/mail-config.ui.h:141
 msgid "T_ype:"
 msgstr "T_ipo:"
 
-#: ../mail/mail-config.ui.h:133
+#: ../mail/mail-config.ui.h:142
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
@@ -12029,7 +12043,7 @@ msgstr ""
 "La lista de idiomas de aquí refleja únicamente los idiomas para los cuáles "
 "hay instalado un diccionario."
 
-#: ../mail/mail-config.ui.h:134
+#: ../mail/mail-config.ui.h:143
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -12039,7 +12053,7 @@ msgstr ""
 "El nombre que especifique se usará únicamente \n"
 "para mostrarlo por pantalla. "
 
-#: ../mail/mail-config.ui.h:137
+#: ../mail/mail-config.ui.h:146
 msgid ""
 "To help avoid email accidents and embarrassments, ask for confirmation "
 "before taking the following checkmarked actions:"
@@ -12047,7 +12061,7 @@ msgstr ""
 "Para evitar accidentes y situaciones embarazosas con el correo-e, pedir "
 "confirmación antes de realizar las siguientes acciones marcadas:"
 
-#: ../mail/mail-config.ui.h:138
+#: ../mail/mail-config.ui.h:147
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -12055,141 +12069,151 @@ msgstr ""
 "Teclee el nombre por el que quiere identificar a esta cuenta.\n"
 "Por ejemplo: «Trabajo» o «Personal»"
 
-#: ../mail/mail-config.ui.h:140
+#: ../mail/mail-config.ui.h:149
 msgid "Us_ername:"
 msgstr "_Usuario:"
 
-#: ../mail/mail-config.ui.h:141
+#: ../mail/mail-config.ui.h:150
 msgid "Use Authe_ntication"
 msgstr "Usar aute_nticación"
 
-#: ../mail/mail-config.ui.h:142
+#: ../mail/mail-config.ui.h:151
 msgid "User _Name:"
 msgstr "_Nombre de usuario:"
 
-#: ../mail/mail-config.ui.h:143
+#: ../mail/mail-config.ui.h:153
 msgid "_Add Signature"
 msgstr "_Añadir firma"
 
-#: ../mail/mail-config.ui.h:144
+#: ../mail/mail-config.ui.h:154
 msgid "_Always load images from the Internet"
 msgstr "_Siempre cargar las imágenes desde Internet"
 
-#: ../mail/mail-config.ui.h:145
+#: ../mail/mail-config.ui.h:155
 msgid "_Authentication Type"
 msgstr "Tipo de _autenticación"
 
-#: ../mail/mail-config.ui.h:146
+#: ../mail/mail-config.ui.h:156
 msgid "_Direct connection to the Internet"
 msgstr "Conexión _directa a Internet"
 
-#: ../mail/mail-config.ui.h:147
+#: ../mail/mail-config.ui.h:157
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr ""
 "No _firmar las solicitudes de reunión (para compatibilidad con Outlook)"
 
-#: ../mail/mail-config.ui.h:148
+#: ../mail/mail-config.ui.h:158
 msgid "_Forward style:"
 msgstr "_Estilo de reenvío:"
 
-#: ../mail/mail-config.ui.h:149
+#: ../mail/mail-config.ui.h:159
 msgid "_Junk Folder:"
 msgstr "Carpeta de _SPAM:"
 
-#: ../mail/mail-config.ui.h:150
+#: ../mail/mail-config.ui.h:160
 msgid "_Keep signature above the original message on replying"
 msgstr "_Mantener la firma por encima del mensaje original al responder"
 
-#: ../mail/mail-config.ui.h:151
+#: ../mail/mail-config.ui.h:161
 msgid "_Languages"
 msgstr "_Idiomas"
 
-#: ../mail/mail-config.ui.h:152
+#: ../mail/mail-config.ui.h:162
 msgid "_Load images only in messages from contacts"
 msgstr "Cargar i_mágenes en los mensajes de mis contactos"
 
-#: ../mail/mail-config.ui.h:153
+#: ../mail/mail-config.ui.h:163
 msgid "_Lookup in local address book only"
 msgstr "_Buscar sólo en la libreta de direcciones local"
 
-#: ../mail/mail-config.ui.h:154
+#: ../mail/mail-config.ui.h:164
 msgid "_Make this my default account"
 msgstr "_Hacer que ésta sea mi cuenta predeterminada"
 
-#: ../mail/mail-config.ui.h:155
+#: ../mail/mail-config.ui.h:165
 msgid "_Manual proxy configuration:"
 msgstr "Configuración _manual del proxy:"
 
-#: ../mail/mail-config.ui.h:157
+#: ../mail/mail-config.ui.h:167
 msgid "_Never load images from the Internet"
 msgstr "_Nunca cargar imágenes desde Internet"
 
-#: ../mail/mail-config.ui.h:159 ../modules/addressbook/ldap-config.ui.h:27
+#: ../mail/mail-config.ui.h:169 ../modules/addressbook/ldap-config.ui.h:29
 msgid "_Port:"
 msgstr "_Puerto:"
 
-#: ../mail/mail-config.ui.h:160
+#: ../mail/mail-config.ui.h:170
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr "_Preguntar al enviar mensajes en HTML a contactos que no los quieren"
 
-#: ../mail/mail-config.ui.h:161
+#: ../mail/mail-config.ui.h:171
 msgid "_Reply style:"
 msgstr "Estilo de _respuesta:"
 
-#: ../mail/mail-config.ui.h:162
+#: ../mail/mail-config.ui.h:172
 msgid "_Script:"
 msgstr "_Script:"
 
-#: ../mail/mail-config.ui.h:163
+#: ../mail/mail-config.ui.h:173
 msgid "_Secure HTTP Proxy:"
 msgstr "Proxy HTTP _seguro:"
 
-#: ../mail/mail-config.ui.h:165 ../modules/addressbook/ldap-config.ui.h:29
+#: ../mail/mail-config.ui.h:175
 #: ../plugins/publish-calendar/publish-calendar.ui.h:28
 msgid "_Server:"
 msgstr "_Servidor:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../mail/mail-config.ui.h:167
+#: ../mail/mail-config.ui.h:177
 msgid "_Show animated images"
 msgstr "_Mostrar las imágenes animadas"
 
-#: ../mail/mail-config.ui.h:168
+#: ../mail/mail-config.ui.h:178
 msgid "_Show the photograph of sender in the message preview"
 msgstr "_Mostrar la foto del remitente en la vista previa del mensaje"
 
-#: ../mail/mail-config.ui.h:169
+#: ../mail/mail-config.ui.h:179
 msgid "_Trash Folder:"
 msgstr "Carpeta de p_apelera:"
 
-#: ../mail/mail-config.ui.h:170 ../modules/addressbook/ldap-config.ui.h:31
+#: ../mail/mail-config.ui.h:180
 msgid "_Use secure connection:"
 msgstr "Usar _conexión segura:"
 
-#: ../mail/mail-config.ui.h:171
+#: ../mail/mail-config.ui.h:181
 msgid "_Use system defaults"
 msgstr "_Usar los valores predeterminados del sistema"
 
-#: ../mail/mail-config.ui.h:172
+#: ../mail/mail-config.ui.h:182
 msgid "_Use the same fonts as other applications"
 msgstr "_Usar las mismas tipografías que en otras aplicaciones"
 
-#: ../mail/mail-config.ui.h:173 ../smime/gui/smime-ui.ui.h:48
+#: ../mail/mail-config.ui.h:183 ../smime/gui/smime-ui.ui.h:48
 msgid "a"
 msgstr "am"
 
-#: ../mail/mail-config.ui.h:174 ../smime/gui/smime-ui.ui.h:49
+#: ../mail/mail-config.ui.h:184 ../smime/gui/smime-ui.ui.h:49
 msgid "b"
 msgstr "por"
 
 # Esta traducción debe mantenerse así
-#: ../mail/mail-config.ui.h:175
+#: ../mail/mail-config.ui.h:185
 msgid "color"
 msgstr "color"
 
-#: ../mail/mail-config.ui.h:176
+#: ../mail/mail-config.ui.h:186
 msgid "description"
 msgstr "descripción"
+
+#: ../mail/mail-config.ui.h:187
+#| msgid "Label"
+msgid "label"
+msgstr "etiqueta"
+
+#: ../mail/mail-config.ui.h:188
+#| msgid "None"
+msgid "none"
+msgstr "ninguna"
 
 #: ../mail/mail-dialogs.ui.h:1
 msgid "All active remote folders"
@@ -12349,17 +12373,17 @@ msgstr "Almacenando cuenta «%s»"
 msgid "Refreshing folder '%s'"
 msgstr "Actualizando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1464
+#: ../mail/mail-ops.c:1483
 #, c-format
 msgid "Expunging folder '%s'"
 msgstr "Compactando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1549
+#: ../mail/mail-ops.c:1568
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Vaciando papelera en «%s»"
 
-#: ../mail/mail-ops.c:1651
+#: ../mail/mail-ops.c:1670
 #, c-format
 msgid "Disconnecting %s"
 msgstr "Desconectando de «%s»"
@@ -12423,7 +12447,7 @@ msgstr "Actualizando carpetas de búsqueda para «%s»: %s"
 #. * removed folder. For more than one search folder is
 #. * each of them on a separate line, with four spaces
 #. * in front of its name, without quotes.
-#: ../mail/mail-vfolder.c:678
+#: ../mail/mail-vfolder.c:618
 #, c-format
 msgid ""
 "The Search Folder \"%s\" has been modified to account for the deleted "
@@ -12441,11 +12465,11 @@ msgstr[1] ""
 "«%s» se han modificado para dar cuenta de la carpeta eliminada\n"
 "«%s»."
 
-#: ../mail/mail-vfolder.c:1309
+#: ../mail/mail-vfolder.c:1249
 msgid "Edit Search Folder"
 msgstr "Editar carpeta de búsqueda"
 
-#: ../mail/mail-vfolder.c:1418
+#: ../mail/mail-vfolder.c:1358
 msgid "New Search Folder"
 msgstr "Carpeta de búsqueda nueva"
 
@@ -13302,7 +13326,7 @@ msgid "Follow-up"
 msgstr "Seguimiento"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4675 ../mail/message-list.c:5098
+#: ../mail/message-list.c:4675 ../mail/message-list.c:5094
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
@@ -13652,10 +13676,10 @@ msgstr "Crea una libreta de direcciones nueva"
 
 #. Create the contacts group
 #: ../modules/addressbook/e-book-shell-backend.c:338
-#: ../modules/addressbook/e-book-shell-view.c:405
+#: ../modules/addressbook/e-book-shell-view.c:402
 #: ../modules/calendar/e-cal-shell-backend.c:115
 #: ../modules/calendar/e-cal-shell-migrate.c:63
-#: ../modules/online-accounts/e-online-accounts-google.c:369
+#: ../modules/online-accounts/e-online-accounts-google.c:376
 msgid "Contacts"
 msgstr "Contactos"
 
@@ -13911,23 +13935,23 @@ msgstr "G_uardar como vCard…"
 msgid "Save selected contacts as a vCard"
 msgstr "Guardar los contactos seleccionados como VCard"
 
-#: ../modules/addressbook/e-book-shell-view.c:349
+#: ../modules/addressbook/e-book-shell-view.c:346
 msgid "_Forward Contacts"
 msgstr "_Reenviar contactos"
 
-#: ../modules/addressbook/e-book-shell-view.c:351
+#: ../modules/addressbook/e-book-shell-view.c:348
 msgid "_Forward Contact"
 msgstr "_Reenviar contacto"
 
-#: ../modules/addressbook/e-book-shell-view.c:382
+#: ../modules/addressbook/e-book-shell-view.c:379
 msgid "_Send Message to Contacts"
 msgstr "_Enviar un correo a los contactos"
 
-#: ../modules/addressbook/e-book-shell-view.c:384
+#: ../modules/addressbook/e-book-shell-view.c:381
 msgid "_Send Message to List"
 msgstr "_Enviar un correo a la lista"
 
-#: ../modules/addressbook/e-book-shell-view.c:386
+#: ../modules/addressbook/e-book-shell-view.c:383
 msgid "_Send Message to Contact"
 msgstr "_Enviar un correo al contacto"
 
@@ -13980,16 +14004,16 @@ msgid "One"
 msgstr "Uno"
 
 #: ../modules/addressbook/ldap-config.ui.h:13
+msgid "S_earch filter:"
+msgstr "_Filtro de búsqueda:"
+
+#: ../modules/addressbook/ldap-config.ui.h:14
 msgid "Search Filter"
 msgstr "Filtro de búsqueda"
 
-#: ../modules/addressbook/ldap-config.ui.h:14
+#: ../modules/addressbook/ldap-config.ui.h:15
 msgid "Search _base:"
 msgstr "_Base de búsqueda:"
-
-#: ../modules/addressbook/ldap-config.ui.h:15
-msgid "Search _filter:"
-msgstr "_Filtro de búsqueda:"
 
 #: ../modules/addressbook/ldap-config.ui.h:16
 msgid ""
@@ -14000,40 +14024,48 @@ msgstr ""
 "modifica, la búsqueda predeterminada se realizará sobre la clase de objetos "
 "de tipo «person»."
 
+#: ../modules/addressbook/ldap-config.ui.h:17
+msgid "Ser_ver:"
+msgstr "_Servidor:"
+
 #. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
-#: ../modules/addressbook/ldap-config.ui.h:18
+#: ../modules/addressbook/ldap-config.ui.h:19
 msgid "Sub"
 msgstr "Sub"
 
-#: ../modules/addressbook/ldap-config.ui.h:19
+#: ../modules/addressbook/ldap-config.ui.h:20
 msgid "Supported Search Bases"
 msgstr "Bases de búsqueda soportadas"
 
-#: ../modules/addressbook/ldap-config.ui.h:21
+#: ../modules/addressbook/ldap-config.ui.h:22
+msgid "Use secure _connection:"
+msgstr "Usar _conexión segura:"
+
+#: ../modules/addressbook/ldap-config.ui.h:23
 msgid "Using distinguished name (DN)"
 msgstr "Usando Nombre distintivo (DN)"
 
-#: ../modules/addressbook/ldap-config.ui.h:22
+#: ../modules/addressbook/ldap-config.ui.h:24
 msgid "Using email address"
 msgstr "Usando dirección de correo-e"
 
-#: ../modules/addressbook/ldap-config.ui.h:23
+#: ../modules/addressbook/ldap-config.ui.h:25
 msgid "_Download limit:"
 msgstr "Límite de _descarga:"
 
-#: ../modules/addressbook/ldap-config.ui.h:24
+#: ../modules/addressbook/ldap-config.ui.h:26
 msgid "_Find Possible Search Bases"
 msgstr "_Buscar bases de búsqueda posibles"
 
-#: ../modules/addressbook/ldap-config.ui.h:25
+#: ../modules/addressbook/ldap-config.ui.h:27
 msgid "_Login method:"
 msgstr "Método de _inicio de sesión:"
 
-#: ../modules/addressbook/ldap-config.ui.h:28
+#: ../modules/addressbook/ldap-config.ui.h:30
 msgid "_Search scope:"
 msgstr "Á_mbito de búsqueda:"
 
-#: ../modules/addressbook/ldap-config.ui.h:30
+#: ../modules/addressbook/ldap-config.ui.h:31
 msgid "_Timeout:"
 msgstr "_Tiempo de expiración:"
 
@@ -15744,37 +15776,37 @@ msgstr "Editor de cuentas"
 msgid "%d attached messages"
 msgstr "%d mensajes adjuntos"
 
-#: ../modules/mail/e-mail-shell-backend.c:195
+#: ../modules/mail/e-mail-shell-backend.c:192
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "_Mensaje de correo"
 
-#: ../modules/mail/e-mail-shell-backend.c:197
+#: ../modules/mail/e-mail-shell-backend.c:194
 msgid "Compose a new mail message"
 msgstr "Redacta un mensaje de correo nuevo"
 
-#: ../modules/mail/e-mail-shell-backend.c:205
+#: ../modules/mail/e-mail-shell-backend.c:202
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "_Carpeta de correo"
 
-#: ../modules/mail/e-mail-shell-backend.c:207
+#: ../modules/mail/e-mail-shell-backend.c:204
 msgid "Create a new mail folder"
 msgstr "Crea una carpeta de correo nueva"
 
-#: ../modules/mail/e-mail-shell-backend.c:414
+#: ../modules/mail/e-mail-shell-backend.c:409
 msgid "Mail Accounts"
 msgstr "Cuentas de correo"
 
-#: ../modules/mail/e-mail-shell-backend.c:422
+#: ../modules/mail/e-mail-shell-backend.c:417
 msgid "Mail Preferences"
 msgstr "Opciones de correo"
 
-#: ../modules/mail/e-mail-shell-backend.c:430
+#: ../modules/mail/e-mail-shell-backend.c:425
 msgid "Composer Preferences"
 msgstr "Preferencias del editor"
 
-#: ../modules/mail/e-mail-shell-backend.c:438
+#: ../modules/mail/e-mail-shell-backend.c:433
 msgid "Network Preferences"
 msgstr "Preferencias de red"
 
@@ -16384,12 +16416,6 @@ msgid "Welcome"
 msgstr "Bienvenido"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:508
-#| msgid ""
-#| "Welcome to Evolution. The next few screens will allow Evolution to "
-#| "connect to your email accounts, and to import files from other "
-#| "applications. \n"
-#| "\n"
-#| "Please click the \"Forward\" button to continue. "
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications."
@@ -17333,12 +17359,12 @@ msgstr "Imagen en línea"
 msgid "View image attachments directly in mail messages."
 msgstr "Ver los adjuntos directamente en los mensajes de correo."
 
-#: ../plugins/imap-features/imap-headers.c:337
+#: ../plugins/imap-features/imap-headers.c:335
 #: ../plugins/imap-features/imap-headers.ui.h:2
 msgid "Custom Headers"
 msgstr "Cabeceras personalizadas"
 
-#: ../plugins/imap-features/imap-headers.c:349
+#: ../plugins/imap-features/imap-headers.c:347
 #: ../plugins/imap-features/imap-headers.ui.h:5
 msgid "IMAP Headers"
 msgstr "Cabeceras IMAP"
@@ -19203,7 +19229,7 @@ msgstr "La barra lateral es visible"
 msgid "Skip development warning dialog"
 msgstr "Saltar el diálogo de advertencia de desarrollo"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:33 ../shell/main.c:310
+#: ../shell/apps_evolution_shell.schemas.in.h:33 ../shell/main.c:311
 msgid "Start in offline mode"
 msgstr "Iniciar en modo desconectado"
 
@@ -19716,7 +19742,7 @@ msgid "Preparing to quit..."
 msgstr "Preparándose para salir…"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:193
+#: ../shell/main.c:194
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -19752,7 +19778,7 @@ msgstr ""
 "Esperamos que disfrute del resultado de nuestro duro trabajo y \n"
 "esperamos su contribución.\n"
 
-#: ../shell/main.c:217
+#: ../shell/main.c:218
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -19760,13 +19786,13 @@ msgstr ""
 "Gracias\n"
 "El equipo de Evolution\n"
 
-#: ../shell/main.c:224
+#: ../shell/main.c:225
 msgid "Do not tell me again"
 msgstr "No preguntarme más veces"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../shell/main.c:304
+#: ../shell/main.c:305
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
@@ -19774,51 +19800,51 @@ msgstr ""
 "Iniciar Evolution mostrando el componente especificado. Las opciones "
 "disponibles son «mail», «calendar», «contacts», «tasks» y «memos»."
 
-#: ../shell/main.c:308
+#: ../shell/main.c:309
 msgid "Apply the given geometry to the main window"
 msgstr "Aplicar la geometría proporcionada a la ventana principal"
 
-#: ../shell/main.c:312
+#: ../shell/main.c:313
 msgid "Start in online mode"
 msgstr "Iniciar en modo conectado"
 
-#: ../shell/main.c:314
+#: ../shell/main.c:315
 msgid "Ignore network availability"
 msgstr "Ignorar la disponibilidad de la red"
 
-#: ../shell/main.c:316
+#: ../shell/main.c:317
 msgid "Start in \"express\" mode"
 msgstr "Iniciar en modo «exprés»"
 
-#: ../shell/main.c:319
+#: ../shell/main.c:320
 msgid "Forcibly shut down Evolution"
 msgstr "Forzar el cierre de Evolution"
 
-#: ../shell/main.c:322
+#: ../shell/main.c:323
 msgid "Send the debugging output of all components to a file."
 msgstr "Envía la salida de depuración de todos los componentes a un archivo."
 
-#: ../shell/main.c:324
+#: ../shell/main.c:325
 msgid "Disable loading of any plugins."
 msgstr "Desactivar la carga de cualquier complemento."
 
-#: ../shell/main.c:326
+#: ../shell/main.c:327
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Desactivar la vista previa del correo, contactos y tareas."
 
-#: ../shell/main.c:330
+#: ../shell/main.c:331
 msgid "Import URIs or file names given as rest of arguments."
 msgstr "Importar URI o nombres de archivos proporcionados como argumentos."
 
-#: ../shell/main.c:332
+#: ../shell/main.c:333
 msgid "Request a running Evolution process to quit"
 msgstr "Solicitar que el proceso de ejecución de Evolution finalice"
 
-#: ../shell/main.c:506 ../shell/main.c:514
+#: ../shell/main.c:507 ../shell/main.c:515
 msgid "- The Evolution PIM and Email Client"
 msgstr "El cliente de correo-e y GIP Evolution"
 
-#: ../shell/main.c:577
+#: ../shell/main.c:580
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19827,7 +19853,7 @@ msgstr ""
 "%s: --online y --offline no se pueden usar a la vez.\n"
 "  Ejecute «%s --help» para obtener más información\n"
 
-#: ../shell/main.c:583
+#: ../shell/main.c:586
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -21613,6 +21639,37 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2340
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid ""
+#~ "Please enter a descriptive name for this account below.\n"
+#~ "This name will be used for display purposes only."
+#~ msgstr ""
+#~ "Introduzca un nombre descriptivo para esta cuenta en el espacio de "
+#~ "abajo.\n"
+#~ "Este nombre se usará sólo para mostrarlo."
+
+#~ msgid "Migrating..."
+#~ msgstr "Migrando…"
+
+#~ msgid "Migration"
+#~ msgstr "Migración"
+
+#~ msgid "Migrating '%s':"
+#~ msgstr "Migrando «%s»:"
+
+#~ msgid "Migrating Folders"
+#~ msgstr "Migrando carpetas"
+
+#~ msgid ""
+#~ "The summary format of the Evolution mailbox folders has been moved to "
+#~ "SQLite since Evolution 2.24.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your folders..."
+#~ msgstr ""
+#~ "El formato de resúmenes de las carpetas del buzón de Evolution se ha "
+#~ "movido a sqlite desde Evolution 2.24.\n"
+#~ "\n"
+#~ "Tenga paciencia mientras Evolution migra sus carpetas…"
 
 #~ msgid "Composer load/attach directory"
 #~ msgstr "Carpeta de carga/adjuntos del editor"
@@ -27662,9 +27719,6 @@ msgstr "Métodos de entrada"
 
 #~ msgid "Find Possible Search Bases"
 #~ msgstr "Buscar bases de búsqueda posibles"
-
-#~ msgid "Whenever Possible"
-#~ msgstr "Cuando sea posible"
 
 #~ msgid "_Add Address Book"
 #~ msgstr "_Añadir libreta de direcciones"
