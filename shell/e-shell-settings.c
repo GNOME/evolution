@@ -47,70 +47,68 @@ shell_settings_pspec_for_key (const gchar *property_name,
 {
 	GSettings *settings;
 	GVariant *v;
-	GVariantType *value_type;
 	GParamSpec *pspec;
 	const gchar *bad_type;
 	GError *error = NULL;
 
-	client = g_settings_new (schema);
+	settings = g_settings_new (schema);
 
 	v = g_settings_get_value (settings, key);
-	value_type = g_variant_get_type (v);
 
-	if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_STRING)) {
+	if (g_variant_is_of_type (v, G_VARIANT_TYPE_STRING)) {
 		pspec = g_param_spec_string (
 			property_name, NULL, NULL,
-			g_variant_get_string (v),
+			g_variant_get_string (v, NULL),
 			G_PARAM_READWRITE);
-	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_BYTE)) {
+	} else if (g_variant_is_of_type (v, G_VARIANT_TYPE_BYTE)) {
 		pspec = g_param_spec_int (
 			property_name, NULL, NULL,
 			G_MININT, G_MAXINT,
 			g_variant_get_byte (v),
 			G_PARAM_READWRITE);
-	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_INT16)) {
+	} else if (g_variant_is_of_type (v, G_VARIANT_TYPE_INT16)) {
 		pspec = g_param_spec_int (
 			property_name, NULL, NULL,
 			G_MININT, G_MAXINT,
 			g_variant_get_int16 (v),
 			G_PARAM_READWRITE);
-	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_UINT16)) {
+	} else if (g_variant_is_of_type (v, G_VARIANT_TYPE_UINT16)) {
 		pspec = g_param_spec_int (
 			property_name, NULL, NULL,
 			G_MININT, G_MAXINT,
 			g_variant_get_uint16 (v),
 			G_PARAM_READWRITE);
-	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_INT32)) {
+	} else if (g_variant_is_of_type (v, G_VARIANT_TYPE_INT32)) {
 		pspec = g_param_spec_int (
 			property_name, NULL, NULL,
 			G_MININT, G_MAXINT,
 			g_variant_get_int32 (v),
 			G_PARAM_READWRITE);
-	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_UINT32)) {
+	} else if (g_variant_is_of_type (v, G_VARIANT_TYPE_UINT32)) {
 		pspec = g_param_spec_int (
 			property_name, NULL, NULL,
 			G_MININT, G_MAXINT,
 			g_variant_get_uint32 (v),
 			G_PARAM_READWRITE);
-	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_INT64)) {
+	} else if (g_variant_is_of_type (v, G_VARIANT_TYPE_INT64)) {
 		pspec = g_param_spec_int (
 			property_name, NULL, NULL,
 			G_MININT, G_MAXINT,
 			g_variant_get_int64 (v),
 			G_PARAM_READWRITE);
-	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_UINT64)) {
+	} else if (g_variant_is_of_type (v, G_VARIANT_TYPE_UINT64)) {
 		pspec = g_param_spec_int (
 			property_name, NULL, NULL,
 			G_MININT, G_MAXINT,
 			g_variant_get_uint64 (v),
 			G_PARAM_READWRITE);
-	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_DOUBLE)) {
+	} else if (g_variant_is_of_type (v, G_VARIANT_TYPE_DOUBLE)) {
 		pspec = g_param_spec_double (
 			property_name, NULL, NULL,
 			-G_MAXDOUBLE, G_MAXDOUBLE,
 			g_variant_get_double (v),
 			G_PARAM_READWRITE);
-	} else if (g_variant_is_of_type (value_type, G_VARIANT_TYPE_BOOLEAN)) {
+	} else if (g_variant_is_of_type (v, G_VARIANT_TYPE_BOOLEAN)) {
 		pspec = g_param_spec_boolean (
 			property_name, NULL, NULL,
 			g_variant_get_boolean (v),
