@@ -39,6 +39,7 @@ void e_datetime_format_add_setup_widget (GtkWidget *table, gint row, const gchar
 
 gchar *e_datetime_format_format (const gchar *component, const gchar *part, DTFormatKind kind, time_t value);
 gchar *e_datetime_format_format_tm (const gchar *component, const gchar *part, DTFormatKind kind, struct tm *tm_time);
+gboolean e_datetime_format_includes_day_name (const gchar *component, const gchar *part, DTFormatKind kind);
 
 G_END_DECLS
 
