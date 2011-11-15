@@ -125,10 +125,10 @@ struct _user_message_msg {
 
 	CamelSessionAlertType type;
 	gchar *prompt;
+	GSList *button_captions;
 	EFlag *done;
 
-	guint allow_cancel : 1;
-	guint result : 1;
+	gint result;
 	guint ismain : 1;
 };
 
@@ -163,8 +163,8 @@ user_message_response (GtkDialog *dialog,
                        struct _user_message_msg *m)
 {
 	/* if !allow_cancel, then we've already replied */
-	if (m->allow_cancel) {
-		m->result = button == GTK_RESPONSE_OK;
+	if (m->button_captions) {
+		m->result = button;
 		e_flag_set (m->done);
 	}
 
@@ -178,6 +178,8 @@ user_message_exec (struct _user_message_msg *m,
 {
 	GtkWindow *parent;
 	const gchar *error_type;
+	gint index;
+	GSList *iter;
 
 	if (!m->ismain && user_message_dialog != NULL) {
 		g_queue_push_tail (&user_message_queue, mail_msg_ref (m));
@@ -186,19 +188,13 @@ user_message_exec (struct _user_message_msg *m,
 
 	switch (m->type) {
 		case CAMEL_SESSION_ALERT_INFO:
-			error_type = m->allow_cancel ?
-				"mail:session-message-info-cancel" :
-				"mail:session-message-info";
+			error_type = "mail:session-message-info";
 			break;
 		case CAMEL_SESSION_ALERT_WARNING:
-			error_type = m->allow_cancel ?
-				"mail:session-message-warning-cancel" :
-				"mail:session-message-warning";
+			error_type = "mail:session-message-warning";
 			break;
 		case CAMEL_SESSION_ALERT_ERROR:
-			error_type = m->allow_cancel ?
-				"mail:session-message-error-cancel" :
-				"mail:session-message-error";
+			error_type = "mail:session-message-error";
 			break;
 		default:
 			error_type = NULL;
@@ -210,6 +206,25 @@ user_message_exec (struct _user_message_msg *m,
 	user_message_dialog = e_alert_dialog_new_for_args (
 		parent, error_type, m->prompt, NULL);
 	g_object_set (user_message_dialog, "resizable", TRUE, NULL);
+
+	if (m->button_captions) {
+		GtkWidget *action_area;
+		GList *children, *child;
+
+		/* remove all default buttons and keep only those requested */
+		action_area = gtk_dialog_get_action_area (GTK_DIALOG (user_message_dialog));
+
+		children = gtk_container_get_children (GTK_CONTAINER (action_area));
+		for (child = children; child != NULL; child = child->next) {
+			gtk_container_remove (GTK_CONTAINER (action_area), child->data);
+		}
+
+		g_list_free (children);
+	}
+
+	for (index = 0, iter = m->button_captions; iter; index++, iter = iter->next) {
+		gtk_dialog_add_button (GTK_DIALOG (user_message_dialog), iter->data, index);
+	}
 
 	/* XXX This is a case where we need to be able to construct
 	 *     custom EAlerts without a predefined XML definition. */
@@ -231,6 +246,7 @@ static void
 user_message_free (struct _user_message_msg *m)
 {
 	g_free (m->prompt);
+	g_slist_free_full (m->button_captions, g_free);
 	e_flag_free (m->done);
 }
 
@@ -915,24 +931,28 @@ mail_session_forget_password (CamelSession *session,
 	return TRUE;
 }
 
-static gboolean
+static gint
 mail_session_alert_user (CamelSession *session,
                          CamelSessionAlertType type,
                          const gchar *prompt,
-                         gboolean cancel)
+                         GSList *button_captions)
 {
 	struct _user_message_msg *m;
 	GCancellable *cancellable;
-	gboolean result = TRUE;
+	gint result = -1;
+	GSList *iter;
 
 	m = mail_msg_new (&user_message_info);
 	m->ismain = mail_in_main_thread ();
 	m->type = type;
 	m->prompt = g_strdup (prompt);
 	m->done = e_flag_new ();
-	m->allow_cancel = cancel;
+	m->button_captions = g_slist_copy (button_captions);
 
-	if (cancel)
+	for (iter = m->button_captions; iter; iter = iter->next)
+		iter->data = g_strdup (iter->data);
+
+	if (g_slist_length (button_captions) > 1)
 		mail_msg_ref (m);
 
 	cancellable = e_activity_get_cancellable (m->base.activity);
@@ -942,7 +962,7 @@ mail_session_alert_user (CamelSession *session,
 	else
 		mail_msg_main_loop_push (m);
 
-	if (cancel) {
+	if (g_slist_length (button_captions) > 1) {
 		e_flag_wait (m->done);
 		result = m->result;
 		mail_msg_unref (m);
