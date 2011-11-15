@@ -27,8 +27,6 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 
-#include <libedataserver/e-sexp.h>
-
 #include "e-filter-int.h"
 
 G_DEFINE_TYPE (

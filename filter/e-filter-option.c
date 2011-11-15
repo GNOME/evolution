@@ -31,8 +31,6 @@
 #include <glib/gi18n.h>
 #include <gmodule.h>
 
-#include <libedataserver/e-sexp.h>
-
 #include "e-filter-option.h"
 #include "e-filter-part.h"
 
@@ -409,7 +407,7 @@ filter_option_format_sexp (EFilterElement *element,
 	EFilterOption *option = E_FILTER_OPTION (element);
 
 	if (option->current)
-		e_sexp_encode_string (out, option->current->value);
+		camel_sexp_encode_string (out, option->current->value);
 }
 
 static void

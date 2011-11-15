@@ -36,7 +36,6 @@
 #include "mail/em-utils.h"
 #include "shell/e-shell.h"
 #include "filter/e-filter-part.h"
-#include "libedataserver/e-sexp.h"
 #include "e-util/e-alert.h"
 
 #define EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE(obj) \
@@ -264,7 +263,7 @@ filter_folder_element_format_sexp (EFilterElement *fe,
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *) fe;
 
-	e_sexp_encode_string (out, ff->priv->uri);
+	camel_sexp_encode_string (out, ff->priv->uri);
 }
 
 static void

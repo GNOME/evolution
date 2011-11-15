@@ -26,7 +26,6 @@
 #endif
 
 #include <gtk/gtk.h>
-#include <libedataserver/e-sexp.h>
 
 #include "e-filter-color.h"
 
@@ -127,7 +126,7 @@ filter_color_format_sexp (EFilterElement *element,
 
 	g_snprintf (spec, sizeof (spec), "#%04x%04x%04x",
 		fc->color.red, fc->color.green, fc->color.blue);
-	e_sexp_encode_string (out, spec);
+	camel_sexp_encode_string (out, spec);
 }
 
 static void

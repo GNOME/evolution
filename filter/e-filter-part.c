@@ -501,7 +501,7 @@ e_filter_part_expand_code (EFilterPart *part,
 #if 0
 		} else if ((val = g_hash_table_lookup (part->globals, name))) {
 			g_string_append_printf (out, "%.*s", newstart-start, start);
-			e_sexp_encode_string (out, val);
+			camel_sexp_encode_string (out, val);
 #endif
 		} else {
 			g_string_append_printf (out, "%.*s", (gint)(end-start+1), start);
