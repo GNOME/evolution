@@ -3586,13 +3586,10 @@ emae_send_page (EConfig *ec,
 	GtkWidget *w;
 	GtkBuilder *builder;
 
-	provider = emae_get_transport_provider (emae);
-
-	if (provider == NULL)
-		return NULL;
+	provider = emae_get_store_provider (emae);
 
 	/* no transport options page at all for these types of providers */
-	if (CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
+	if (provider && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
 		memset (&priv->transport.frame, 0, ((gchar *) &priv->transport.check_dialog) - ((gchar *) &priv->transport.frame));
 		return NULL;
 	}
@@ -4760,13 +4757,18 @@ emae_check_complete (EConfig *ec,
 	}
 
 	if (ok && (pageid == NULL || !strcmp (pageid, "30.send"))) {
-		if (emae->type != EMAE_NOTEBOOK && refresh) {
-			emae_refresh_providers (emae, &emae->priv->transport);
-			emae_provider_changed (emae->priv->transport.providers, &emae->priv->transport);
-		}
-		ok = emae_service_complete (emae, &emae->priv->transport);
-		if (!ok) {
-			d (printf ("send page incomplete\n"));
+		CamelProvider *provider;
+
+		provider = emae_get_store_provider (emae);
+		if (!provider || !CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
+			if (emae->type != EMAE_NOTEBOOK && refresh) {
+				emae_refresh_providers (emae, &emae->priv->transport);
+				emae_provider_changed (emae->priv->transport.providers, &emae->priv->transport);
+			}
+			ok = emae_service_complete (emae, &emae->priv->transport);
+			if (!ok) {
+				d (printf ("send page incomplete\n"));
+			}
 		}
 	}
 
