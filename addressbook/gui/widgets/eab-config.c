@@ -70,8 +70,8 @@ ecp_target_free (EConfig *ec,
 	case EAB_CONFIG_TARGET_PREFS: {
 		EABConfigTargetPrefs *s = (EABConfigTargetPrefs *) t;
 
-		if (s->gconf)
-			g_object_unref (s->gconf);
+		if (s->settings)
+			g_object_unref (s->settings);
 		break; }
 	}
 
@@ -163,15 +163,15 @@ eab_config_target_new_source (EABConfig *ecp,
 
 EABConfigTargetPrefs *
 eab_config_target_new_prefs (EABConfig *ecp,
-                             GConfClient *gconf)
+                             GSettings *settings)
 {
 	EABConfigTargetPrefs *t = e_config_target_new (
 		&ecp->config, EAB_CONFIG_TARGET_PREFS, sizeof (*t));
 
-	if (gconf)
-		t->gconf = g_object_ref (gconf);
+	if (settings)
+		t->settings = g_object_ref (settings);
 	else
-		t->gconf = NULL;
+		t->settings = NULL;
 
 	return t;
 }
