@@ -235,6 +235,15 @@ vfolder-editor-width = /apps/evolution/mail/vfolder_editor_width
 [org.gnome.evolution.eplugin.attachment-reminder]
 attachment-reminder-clues = /apps/evolution/mail/attachment_reminder_clues
 
+[org.gnome.evolution.eplugin.autocontacts]
+addressbook-source = /apps/evolution/autocontacts/addressbook_source
+auto-sync-gaim = /apps/evolution/autocontacts/auto_sync_gaim
+enable = /apps/evolution/autocontacts/enable_autocontacts
+gaim-addressbook-source = /apps/evolution/autocontacts/gaim_addressbook_source
+gaim-check-interval = /apps/evolution/autocontacts/gaim_check_interval
+gaim-last-sync-md5 = /apps/evolution/autocontacts/gaim_last_sync_md5
+gaim-last-sync-time = /apps/evolution/autocontacts/gaim_last_sync_time
+
 [org.gnome.evolution.eplugin.bogo-junk]
 utf8-for-spam-filter = /apps/evolution/mail/junk/bogofilter/unicode
 
