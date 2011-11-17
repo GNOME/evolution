@@ -4833,7 +4833,7 @@ forget_password_if_needed (EAccount *original_account,
 #define CALENDAR_CALDAV_URI "caldav://%s@www.google.com/calendar/dav/%s/events"
 #define GMAIL_CALENDAR_LOCATION "://www.google.com/calendar/feeds/"
 #define CALENDAR_DEFAULT_PATH "/private/full"
-#define SELECTED_CALENDARS "/apps/evolution/calendar/display/selected_calendars"
+#define SELECTED_CALENDARS "selected-calendars"
 #define YAHOO_CALENDAR_LOCATION "%s@caldav.calendar.yahoo.com/dav/%s/Calendar/%s"
 
 static gchar *
@@ -4920,8 +4920,11 @@ setup_google_calendar (EMAccountEditor *emae)
 	ESource *calendar;
 	gchar *sanitize_uname, *username;
 	gchar *abs_uri, *rel_uri;
-	GSList *ids, *temp;
+	gchar **ids;
+	gint i;
+	GPtrArray *array;
 	CamelURL *url;
+	GSettings *settings;
 
 	gconf = gconf_client_get_default ();
 	slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
@@ -4953,16 +4956,19 @@ setup_google_calendar (EMAccountEditor *emae)
 
 	e_source_list_sync (slist, NULL);
 
-	ids = gconf_client_get_list (gconf, SELECTED_CALENDARS, GCONF_VALUE_STRING, NULL);
-	ids = g_slist_append (ids, g_strdup (e_source_peek_uid (calendar)));
-	gconf_client_set_list (gconf,  SELECTED_CALENDARS, GCONF_VALUE_STRING, ids, NULL);
-	temp = ids;
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+	ids = g_settings_get_strv (settings, SELECTED_CALENDARS);
+	array = g_ptr_array_new ();
+	for (i = 0; ids[i] != NULL; i++)
+		g_ptr_array_add (array, ids[i]);
+	g_ptr_array_add (array, e_source_peek_uid (calendar));
+	g_ptr_array_add (array, NULL);
+	g_settings_set_strv (settings, SELECTED_CALENDARS, array->pdata);
 
-	for (; temp != NULL; temp = g_slist_next (temp))
-		g_free (temp->data);
-
+	g_strfreev (ids);
+	g_ptr_array_free (array, TRUE);
+	g_object_unref (settings);
 	g_free (username);
-	g_slist_free (ids);
 	g_free (abs_uri);
 	g_free (rel_uri);
 	g_free (sanitize_uname);
@@ -4981,8 +4987,11 @@ setup_yahoo_calendar (EMAccountEditor *emae)
 	ESource *calendar;
 	gchar *sanitize_uname;
 	gchar *abs_uri, *rel_uri;
-	GSList *ids, *temp;
 	const gchar *email;
+	GSettings *settings;
+	gchar **ids;
+	gint i;
+	GPtrArray *array;
 
 	gconf = gconf_client_get_default ();
 	email = e_account_get_string (em_account_editor_get_modified_account (emae), E_ACCOUNT_ID_ADDRESS);
@@ -5017,15 +5026,18 @@ setup_yahoo_calendar (EMAccountEditor *emae)
 	e_source_group_add_source (sgrp, calendar, -1);
 	e_source_list_sync (slist, NULL);
 
-	ids = gconf_client_get_list (gconf, SELECTED_CALENDARS, GCONF_VALUE_STRING, NULL);
-	ids = g_slist_append (ids, g_strdup (e_source_peek_uid (calendar)));
-	gconf_client_set_list (gconf,  SELECTED_CALENDARS, GCONF_VALUE_STRING, ids, NULL);
-	temp = ids;
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+	ids = g_settings_get_strv (settings, SELECTED_CALENDARS);
+	array = g_ptr_array_new ();
+	for (i = 0; ids[i] != NULL; i++)
+		g_ptr_array_add (array, ids[i]);
+	g_ptr_array_add (array, e_source_peek_uid (calendar));
+	g_ptr_array_add (array, NULL);
+	g_settings_set_strv (settings, SELECTED_CALENDARS, array->pdata);
 
-	for (; temp != NULL; temp = g_slist_next (temp))
-		g_free (temp->data);
-
-	g_slist_free (ids);
+	g_strfreev (ids);
+	g_ptr_array_free (array, TRUE);
+	g_object_unref (settings);
 	g_free (abs_uri);
 	g_free (rel_uri);
 	g_free (sanitize_uname);
