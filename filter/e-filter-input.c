@@ -32,8 +32,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <libedataserver/e-sexp.h>
-
 #include "e-util/e-alert.h"
 
 #include "e-filter-input.h"
@@ -243,7 +241,7 @@ filter_input_format_sexp (EFilterElement *element,
 	GList *link;
 
 	for (link = input->values; link != NULL; link = g_list_next (link))
-		e_sexp_encode_string (out, link->data);
+		camel_sexp_encode_string (out, link->data);
 }
 
 static void

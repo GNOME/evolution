@@ -41,6 +41,7 @@
 #include "misc/e-dateedit.h"
 
 #include "e-util/e-util.h"
+#include "e-util/e-datetime-format.h"
 
 #include "e-meeting-utils.h"
 #include "e-meeting-list-view.h"
@@ -2327,10 +2328,11 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	GDate date;
 	gint max_date_width, longest_weekday_width, longest_month_width, width;
 	gint day, longest_weekday, month, longest_month;
-	gchar buffer[128];
+	gchar buffer[128], *str;
 	const gchar *name;
 	PangoContext *pango_context;
 	PangoLayout *layout;
+	struct tm tm_time;
 
 	/* Set up Pango prerequisites */
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (mts));
@@ -2368,28 +2370,6 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 		}
 	}
 
-	/* See if we can use the full date. We want to use a date with a
-	 * month day > 20 and also the longest weekday. We use a
-	 * pre-calculated array of days for each month and add on the
-	 * weekday (which is 1 (Mon) to 7 (Sun). */
-	g_date_set_dmy (&date, days[longest_month - 1] + longest_weekday,
-			longest_month, 2000);
-	/* This is a strftime() format string %A = full weekday name,
-	 * %B = full month name, %d = month day, %Y = full year. */
-	g_date_strftime (buffer, sizeof (buffer), _("%A, %B %d, %Y"), &date);
-
-#if 0
-	g_print ("longest_month: %i longest_weekday: %i date: %s\n",
-		 longest_month, longest_weekday, buffer);
-#endif
-
-	pango_layout_set_text (layout, buffer, -1);
-	pango_layout_get_pixel_size (layout, &width, NULL);
-	if (width < max_date_width) {
-		mts->date_format = E_MEETING_TIME_SELECTOR_DATE_FULL;
-		return;
-	}
-
 	/* Now try it with abbreviated weekday names. */
 	longest_weekday_width = 0;
 	longest_weekday = G_DATE_MONDAY;
@@ -2405,16 +2385,28 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 
 	g_date_set_dmy (&date, days[longest_month - 1] + longest_weekday,
 			longest_month, 2000);
-	/* This is a strftime() format string %a = abbreviated weekday name,
-	 * %m = month number, %d = month day, %Y = full year. */
-	g_date_strftime (buffer, sizeof (buffer), _("%a %m/%d/%Y"), &date);
+
+	g_date_to_struct_tm (&date, &tm_time);
+	str = e_datetime_format_format_tm ("calendar", "table",  DTFormatKindDate, &tm_time);
+
+	g_return_if_fail (str != NULL);
+
+	if (!e_datetime_format_includes_day_name ("calendar", "table",  DTFormatKindDate)) {
+		gchar *tmp;
+
+		g_date_strftime (buffer, sizeof (buffer), "%a", &date);
+
+		tmp = str;
+		str = g_strconcat (buffer, " ", str, NULL);
+		g_free (tmp);
+	}
 
 #if 0
 	g_print ("longest_month: %i longest_weekday: %i date: %s\n",
-		 longest_month, longest_weekday, buffer);
+		 longest_month, longest_weekday, str);
 #endif
 
-	pango_layout_set_text (layout, buffer, -1);
+	pango_layout_set_text (layout, str, -1);
 	pango_layout_get_pixel_size (layout, &width, NULL);
 	if (width < max_date_width)
 		mts->date_format = E_MEETING_TIME_SELECTOR_DATE_ABBREVIATED_DAY;
@@ -2422,6 +2414,7 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 		mts->date_format = E_MEETING_TIME_SELECTOR_DATE_SHORT;
 
 	g_object_unref (layout);
+	g_free (str);
 }
 
 /* Turn off the background of the canvas windows. This reduces flicker

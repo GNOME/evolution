@@ -456,6 +456,13 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
+	widget = e_builder_get_widget (prefs->builder, "chkSignReplyIfSigned");
+	g_object_bind_property (
+		shell_settings, "composer-sign-reply-if-signed",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
 	widget = e_builder_get_widget (prefs->builder, "chkTopSignature");
 	g_object_bind_property (
 		shell_settings, "composer-top-signature",

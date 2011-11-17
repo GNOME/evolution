@@ -77,6 +77,21 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/composer/sign_reply_if_signed</key>
+      <applyto>/apps/evolution/mail/composer/sign_reply_if_signed</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Digitally sign messages when original message signed (PGP or S/MIME)</short>
+         <long>
+           Automatically enable PGP or S/MIME signatures when replying
+	   to a message which is also PGP or S/MIME signed.
+	 </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/composer/reply_start_bottom</key>
       <applyto>/apps/evolution/mail/composer/reply_start_bottom</applyto>
       <owner>evolution-mail</owner>

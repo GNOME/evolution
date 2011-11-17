@@ -31,8 +31,6 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <libedataserver/e-sexp.h>
-
 #include "e-util/e-alert.h"
 
 #include "e-filter-file.h"
@@ -203,7 +201,7 @@ filter_file_format_sexp (EFilterElement *element,
 {
 	EFilterFile *file = E_FILTER_FILE (element);
 
-	e_sexp_encode_string (out, file->path);
+	camel_sexp_encode_string (out, file->path);
 }
 
 static void

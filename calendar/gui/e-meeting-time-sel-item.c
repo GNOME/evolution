@@ -29,6 +29,9 @@
 
 #include <time.h>
 #include <glib/gi18n.h>
+
+#include "e-util/e-datetime-format.h"
+
 #include "calendar-config.h"
 #include "e-meeting-time-sel-item.h"
 #include "e-meeting-time-sel.h"
@@ -389,9 +392,10 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 {
 	EMeetingTimeSelector *mts;
 	gint y, grid_x;
-	gchar buffer[128], *format;
+	gchar *str;
 	gint hour, hour_x, hour_y;
 	PangoLayout *layout;
+	struct tm tm_time;
 
 	cairo_save (cr);
 
@@ -437,29 +441,31 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 	cairo_rel_line_to (cr, 0, height);
 	cairo_stroke (cr);
 
+	g_date_to_struct_tm (date, &tm_time);
+	str = e_datetime_format_format_tm ("calendar", "table",  DTFormatKindDate, &tm_time);
+
+	g_return_if_fail (str != NULL);
+
 	/* Draw the date. Set a clipping rectangle so we don't draw over the
 	 * next day. */
-	if (mts->date_format == E_MEETING_TIME_SELECTOR_DATE_FULL)
-		/* This is a strftime() format string %A = full weekday name,
-		 * %B = full month name, %d = month day, %Y = full year. */
-		format = _("%A, %B %d, %Y");
-	else if (mts->date_format == E_MEETING_TIME_SELECTOR_DATE_ABBREVIATED_DAY)
-		/* This is a strftime() format string %a = abbreviated weekday
-		 * name, %m = month number, %d = month day, %Y = full year. */
-		format = _("%a %m/%d/%Y");
-	else
-		/* This is a strftime() format string %m = month number,
-		 * %d = month day, %Y = full year. */
-		format = _("%m/%d/%Y");
+	if (mts->date_format == E_MEETING_TIME_SELECTOR_DATE_ABBREVIATED_DAY
+	    && !e_datetime_format_includes_day_name ("calendar", "table",  DTFormatKindDate)) {
+		gchar buffer[128];
+		gchar *tmp;
 
-	g_date_strftime (buffer, sizeof (buffer), format, date);
+		g_date_strftime (buffer, sizeof (buffer), "%a", date);
+
+		tmp = str;
+		str = g_strconcat (buffer, " ", str, NULL);
+		g_free (tmp);
+	}
 
 	cairo_save (cr);
 
 	cairo_rectangle (cr, x, -scroll_y, mts->day_width - 2, mts->row_height - 2);
 	cairo_clip (cr);
 
-	pango_layout_set_text (layout, buffer, -1);
+	pango_layout_set_text (layout, str, -1);
 	cairo_move_to (cr, x + 2, 4 - scroll_y);
 	pango_cairo_show_layout (cr, layout);
 
@@ -484,6 +490,7 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 
 	g_object_unref (layout);
 	cairo_restore (cr);
+	g_free (str);
 }
 
 /* This paints the colored bars representing busy periods for the combined

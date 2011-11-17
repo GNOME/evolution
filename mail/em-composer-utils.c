@@ -1412,17 +1412,23 @@ emu_update_composers_security (EMsgComposer *composer,
                                guint32 validity_found)
 {
 	GtkToggleAction *action;
+	EShell *shell;
+	EShellSettings *shell_settings;
 
 	g_return_if_fail (composer != NULL);
 
+	shell = e_msg_composer_get_shell (composer);
+	shell_settings = e_shell_get_shell_settings (shell);
+
 	/* Pre-set only for encrypted messages, not for signed */
-	/*if (validity_found & EM_FORMAT_VALIDITY_FOUND_SIGNED) {
+	if ((validity_found & EM_FORMAT_VALIDITY_FOUND_SIGNED) != 0
+	    && e_shell_settings_get_boolean (shell_settings, "composer-sign-reply-if-signed")) {
 		if (validity_found & EM_FORMAT_VALIDITY_FOUND_SMIME)
 			action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer));
 		else
 			action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer));
 		gtk_toggle_action_set_active (action, TRUE);
-	}*/
+	}
 
 	if (validity_found & EM_FORMAT_VALIDITY_FOUND_ENCRYPTED) {
 		if (validity_found & EM_FORMAT_VALIDITY_FOUND_SMIME)

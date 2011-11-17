@@ -324,6 +324,10 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"composer-group-reply-to-list");
 
 	e_shell_settings_install_property_for_key (
+		"composer-sign-reply-if-signed",
+		"/apps/evolution/mail/composer/sign_reply_if_signed");
+
+	e_shell_settings_install_property_for_key (
 		"composer-prompt-only-bcc",
 		MAIL_SCHEMA,
 		"prompt-on-only-bcc");

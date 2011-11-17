@@ -2092,13 +2092,6 @@ emae_setup_settings (EMAccountEditorService *service)
 	settings_type = class->settings_type;
 	g_type_class_unref (class);
 
-	/* If we already have a CamelSettings instance
-	 * of the appropriate type, leave it alone. */
-	if (service->settings != NULL) {
-		if (G_OBJECT_TYPE (service->settings) == settings_type)
-			return;
-	}
-
 	url = emae_account_url (
 		service->emae,
 		emae_service_info[service->type].account_uri_key);
@@ -2830,8 +2823,8 @@ emae_create_basic_assistant_page (EMAccountEditor *emae,
 		title = _("Sending Email");
 		label = _("Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider.");
 	} else if (g_ascii_strcasecmp (page_id, "review_page") == 0) {
-		title = _("Review Account");
-		label = _("Time to check things over before we try and connect to the server and fetch your mail.");
+		title = _("Account Summary");
+		label = _("This is a summary of the settings which will be used to access your mail.");
 	} else if (g_ascii_strcasecmp (page_id, "finish_page") == 0) {
 		page_type = GTK_ASSISTANT_PAGE_CONFIRM;
 		fill_space = TRUE;
@@ -3592,13 +3585,10 @@ emae_send_page (EConfig *ec,
 	GtkWidget *w;
 	GtkBuilder *builder;
 
-	provider = emae_get_transport_provider (emae);
-
-	if (provider == NULL)
-		return NULL;
+	provider = emae_get_store_provider (emae);
 
 	/* no transport options page at all for these types of providers */
-	if (CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
+	if (provider && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
 		memset (&priv->transport.frame, 0, ((gchar *) &priv->transport.check_dialog) - ((gchar *) &priv->transport.frame));
 		return NULL;
 	}
@@ -4622,9 +4612,9 @@ emae_check_complete (EConfig *ec,
 					gtk_label_set_text (emae->priv->receive_name, url->user);
 					g_object_get (emae->priv->source.settings, "security-method", &method, NULL);
 					if (method == CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT)
-						enc = g_strdup (_("Always(SSL)"));
+						enc = g_strdup (_("Always (SSL)"));
 					else if (method == CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT)
-						enc = g_strdup (_("When possible(TLS)"));
+						enc = g_strdup (_("When possible (TLS)"));
 					else
 						enc = g_strdup (_("Never"));
 
@@ -4638,9 +4628,9 @@ emae_check_complete (EConfig *ec,
 					gtk_label_set_text (emae->priv->send_name, url->user);
 					g_object_get (emae->priv->transport.settings, "security-method", &method, NULL);
 					if (method == CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT)
-						enc = g_strdup (_("Always(SSL)"));
+						enc = g_strdup (_("Always (SSL)"));
 					else if (method == CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT)
-						enc = g_strdup (_("When possible(TLS)"));
+						enc = g_strdup (_("When possible (TLS)"));
 					else
 						enc = g_strdup (_("Never"));
 
@@ -4766,13 +4756,18 @@ emae_check_complete (EConfig *ec,
 	}
 
 	if (ok && (pageid == NULL || !strcmp (pageid, "30.send"))) {
-		if (emae->type != EMAE_NOTEBOOK && refresh) {
-			emae_refresh_providers (emae, &emae->priv->transport);
-			emae_provider_changed (emae->priv->transport.providers, &emae->priv->transport);
-		}
-		ok = emae_service_complete (emae, &emae->priv->transport);
-		if (!ok) {
-			d (printf ("send page incomplete\n"));
+		CamelProvider *provider;
+
+		provider = emae_get_store_provider (emae);
+		if (!provider || !CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
+			if (emae->type != EMAE_NOTEBOOK && refresh) {
+				emae_refresh_providers (emae, &emae->priv->transport);
+				emae_provider_changed (emae->priv->transport.providers, &emae->priv->transport);
+			}
+			ok = emae_service_complete (emae, &emae->priv->transport);
+			if (!ok) {
+				d (printf ("send page incomplete\n"));
+			}
 		}
 	}
 
@@ -5132,7 +5127,7 @@ emae_commit (EConfig *ec,
 	} else {
 		CamelProvider *provider;
 
-		d (printf ("Adding new account '%s'\n", e_account_get_string (account, E_ACCOUNT_NAME)));
+		d (printf ("Adding new account '%s'\n", e_account_get_string (modified_account, E_ACCOUNT_NAME)));
 		e_account_list_add (accounts, modified_account);
 		account = modified_account;
 

@@ -662,3 +662,25 @@ e_datetime_format_format_tm (const gchar *component,
 
 	return res;
 }
+
+gboolean
+e_datetime_format_includes_day_name (const gchar *component, const gchar *part, DTFormatKind kind)
+{
+	gchar *key;
+	const gchar *fmt;
+	gboolean res;
+
+	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (*component != 0, FALSE);
+
+	key = gen_key (component, part, kind);
+	g_return_val_if_fail (key != NULL, FALSE);
+
+	fmt = get_format_internal (key, kind);
+
+	res = fmt && (strstr (fmt, "%a") != NULL || strstr (fmt, "%A") != NULL);
+
+	g_free (key);
+
+	return res;
+}

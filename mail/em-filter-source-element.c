@@ -32,8 +32,6 @@
 #include <gtk/gtk.h>
 #include <camel/camel.h>
 
-#include <libedataserver/e-sexp.h>
-
 #include <e-util/e-account-utils.h>
 #include <filter/e-filter-part.h>
 
@@ -402,7 +400,7 @@ filter_source_element_format_sexp (EFilterElement *fe,
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *) fe;
 
-	e_sexp_encode_string (out, fs->priv->active_id);
+	camel_sexp_encode_string (out, fs->priv->active_id);
 }
 
 static void

@@ -68,13 +68,13 @@
 G_BEGIN_DECLS
 
 /* This is used to specify the format used when displaying the dates.
- * The full format is like 'Sunday, September 12, 1999'. The abbreviated format
- * is like 'Sun 12/9/99'. The short format is like '12/9/99'. The actual
- * format used is determined in e_meeting_time_selector_style_set (), once we
- * know the font being used. */
+ * The abbreviated format is like 'Sun 12/9/99'.
+ * The short format is like '12/9/99'.
+ * The actual format used is determined in e_meeting_time_selector_style_set (),
+ * once we know the font being used.
+ */
 typedef enum
 {
-	E_MEETING_TIME_SELECTOR_DATE_FULL,
 	E_MEETING_TIME_SELECTOR_DATE_ABBREVIATED_DAY,
 	E_MEETING_TIME_SELECTOR_DATE_SHORT
 } EMeetingTimeSelectorDateFormat;

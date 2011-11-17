@@ -137,23 +137,13 @@ void		e_util_set_source_combo_box_list
 						(GtkWidget *source_combo_box,
 						 const gchar *source_gconf_path);
 
-/* Useful GBinding transformation functions */
+/* Useful GBinding transform functions */
 gboolean	e_binding_transform_color_to_string
 						(GBinding *binding,
 						 const GValue *source_value,
 						 GValue *target_value,
 						 gpointer not_used);
 gboolean	e_binding_transform_string_to_color
-						(GBinding *binding,
-						 const GValue *source_value,
-						 GValue *target_value,
-						 gpointer not_used);
-gboolean	e_binding_transform_enum_value_to_nick
-						(GBinding *binding,
-						 const GValue *source_value,
-						 GValue *target_value,
-						 gpointer not_used);
-gboolean	e_binding_transform_enum_nick_to_value
 						(GBinding *binding,
 						 const GValue *source_value,
 						 GValue *target_value,

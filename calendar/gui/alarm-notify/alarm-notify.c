@@ -49,6 +49,9 @@ struct _AlarmNotifyPrivate {
         ESourceList *source_lists[E_CAL_CLIENT_SOURCE_TYPE_LAST];
 	ESourceList *selected_calendars;
         GMutex *mutex;
+
+	GSList *offline_sources;
+	guint offline_timeout_id;
 };
 
 typedef struct {
@@ -100,6 +103,21 @@ process_removal_in_hash (const gchar *uri,
 	prd->removals = g_list_prepend (prd->removals, (gpointer) uri);
 }
 
+static gint
+find_slist_source_uri_cb (gconstpointer a, gconstpointer b)
+{
+	ESource *asource = (ESource *) a;
+	const gchar *buri = b;
+	gchar *auri;
+	gint res;
+
+	auri = e_source_get_uri (asource);
+	res = g_strcmp0 (auri, buri);
+	g_free (auri);
+
+	return res;
+}
+
 static void
 alarm_notify_list_changed_cb (ESourceList *source_list,
                               AlarmNotify *an)
@@ -139,9 +157,10 @@ alarm_notify_list_changed_cb (ESourceList *source_list,
 				continue;
 
 			uri = e_source_get_uri (source);
-			if (!g_hash_table_lookup (an->priv->uri_client_hash[source_type], uri)) {
+			if (!g_hash_table_lookup (an->priv->uri_client_hash[source_type], uri) &&
+			    !g_slist_find_custom (an->priv->offline_sources, uri, find_slist_source_uri_cb)) {
 				debug (("Adding Calendar %s", uri));
-				alarm_notify_add_calendar (an, source_type, source, FALSE);
+				alarm_notify_add_calendar (an, source_type, source);
 			}
 			g_free (uri);
 		}
@@ -194,7 +213,7 @@ alarm_notify_load_calendars (AlarmNotify *an,
 
 			uri = e_source_get_uri (source);
 			debug (("Loading Calendar %s", uri));
-			alarm_notify_add_calendar (an, source_type, source, FALSE);
+			alarm_notify_add_calendar (an, source_type, source);
 			g_free (uri);
 
 		}
@@ -221,6 +240,12 @@ alarm_notify_finalize (GObject *object)
 	gint ii;
 
 	priv = ALARM_NOTIFY (object)->priv;
+
+	if (priv->offline_timeout_id)
+		g_source_remove (priv->offline_timeout_id);
+	priv->offline_timeout_id = 0;
+	g_slist_free_full (priv->offline_sources, g_object_unref);
+	priv->offline_sources = NULL;
 
 	for (ii = 0; ii < E_CAL_CLIENT_SOURCE_TYPE_LAST; ii++) {
 		g_hash_table_foreach (
@@ -349,6 +374,32 @@ alarm_notify_new (GCancellable *cancellable,
 		"application-id", APPLICATION_ID, NULL);
 }
 
+static gboolean
+try_open_offline_timeout_cb (gpointer user_data)
+{
+	AlarmNotify *an = ALARM_NOTIFY (user_data);
+	GSList *sources, *iter;
+
+	g_return_val_if_fail (an != NULL, FALSE);
+	g_return_val_if_fail (an->priv != NULL, FALSE);
+
+	sources = an->priv->offline_sources;
+	an->priv->offline_sources = NULL;
+	an->priv->offline_timeout_id = 0;
+
+	for (iter = sources; iter; iter = iter->next) {
+		ESource *source = iter->data;
+
+		alarm_notify_add_calendar (an,
+			GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (source), "source-type")),
+			source);
+	}
+
+	g_slist_free_full (sources, g_object_unref);
+
+	return FALSE;
+}
+
 static void
 client_opened_cb (GObject *source_object,
                   GAsyncResult *result,
@@ -360,11 +411,22 @@ client_opened_cb (GObject *source_object,
 	ECalClient *cal_client;
 	ECalClientSourceType source_type;
 	const gchar *uri;
+	GError *error = NULL;
 
-	e_client_utils_open_new_finish (source, result, &client, NULL);
+	e_client_utils_open_new_finish (source, result, &client, &error);
 
-	if (client == NULL)
+	if (client == NULL) {
+		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_REPOSITORY_OFFLINE)) {
+			if (an->priv->offline_timeout_id)
+				g_source_remove (an->priv->offline_timeout_id);
+			an->priv->offline_sources = g_slist_append (an->priv->offline_sources, g_object_ref (source));
+			an->priv->offline_timeout_id = g_timeout_add_seconds (5 * 60, try_open_offline_timeout_cb, an);
+		}
+
+		g_clear_error (&error);
+
 		return;
+	}
 
 	cal_client = E_CAL_CLIENT (client);
 	source_type = e_cal_client_get_source_type (cal_client);
@@ -385,8 +447,6 @@ client_opened_cb (GObject *source_object,
  * alarm_notify_add_calendar:
  * @an: An alarm notification service.
  * @uri: URI of the calendar to load.
- * @load_afterwards: Whether this calendar should be loaded in the future
- * when the alarm daemon starts up.
  *
  * Tells the alarm notification service to load a calendar and start monitoring
  * its alarms.  It can optionally be made to save the URI of this calendar so
@@ -395,8 +455,7 @@ client_opened_cb (GObject *source_object,
 void
 alarm_notify_add_calendar (AlarmNotify *an,
                            ECalClientSourceType source_type,
-                           ESource *source,
-                           gboolean load_afterwards)
+                           ESource *source)
 {
 	AlarmNotifyPrivate *priv;
 	EClientSourceType client_source_type;
@@ -459,6 +518,8 @@ alarm_notify_add_calendar (AlarmNotify *an,
 			client_source_type = E_CLIENT_SOURCE_TYPE_LAST;
 	}
 
+	g_object_set_data (G_OBJECT (source), "source-type", GUINT_TO_POINTER (source_type));
+
 	e_client_utils_open_new (
 		source, client_source_type, TRUE, NULL,
 		e_client_utils_authenticate_handler, NULL,
@@ -476,6 +537,7 @@ alarm_notify_remove_calendar (AlarmNotify *an,
 {
 	AlarmNotifyPrivate *priv;
 	ECalClient *cal_client;
+	GSList *in_offline;
 
 	priv = an->priv;
 
@@ -485,5 +547,18 @@ alarm_notify_remove_calendar (AlarmNotify *an,
 		debug (("Removing Client %p", cal_client));
 		alarm_queue_remove_client (cal_client, FALSE);
 		g_hash_table_remove (priv->uri_client_hash[source_type], str_uri);
+	}
+
+	in_offline = g_slist_find_custom (priv->offline_sources, str_uri, find_slist_source_uri_cb);
+	if (in_offline) {
+		ESource *source = in_offline->data;
+
+		priv->offline_sources = g_slist_remove (priv->offline_sources, source);
+		if (!priv->offline_sources && priv->offline_timeout_id) {
+			g_source_remove (priv->offline_timeout_id);
+			priv->offline_timeout_id = 0;
+		}
+
+		g_object_unref (source);
 	}
 }
