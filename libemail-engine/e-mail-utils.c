@@ -335,7 +335,7 @@ try_open_book_client (EBookClient *book_client,
 		E_CLIENT (book_client), only_if_exists,
 		cancellable, try_open_book_client_cb, &data);
 
-	while (canceled = camel_operation_cancel_check (NULL),
+	while (canceled = g_cancellable_is_cancelled (cancellable),
 			!canceled && !e_flag_is_set (flag)) {
 		GTimeVal wait;
 
@@ -566,8 +566,6 @@ search_address_in_addressbooks (const gchar *address,
 		}
 
 		mail_cancel_hook_remove (hook_stop);
-
-		stop = stop || camel_operation_cancel_check (NULL);
 
 		if (stop && !cached_book && book_client) {
 			g_object_unref (book_client);
