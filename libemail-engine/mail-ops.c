@@ -1400,7 +1400,26 @@ expunge_pop3_stores (CamelFolder *expunging,
 		    account->source && account->source->url &&
 		    g_str_has_prefix (account->source->url, "pop://")) {
 			CamelFolder *folder;
-			gboolean any_found = FALSE;
+			CamelService *service;
+			CamelSettings *settings;
+			gboolean any_found = FALSE, delete_expunged = FALSE, keep_on_server = FALSE;
+
+			service = camel_session_get_service (CAMEL_SESSION (session), account->uid);
+			if (!CAMEL_IS_STORE (service))
+				continue;
+
+			settings = camel_service_get_settings (service);
+			if (!settings)
+				continue;
+
+			g_object_get (
+				settings,
+				"delete-expunged", &delete_expunged,
+				"keep-on-server", &keep_on_server,
+				NULL);
+
+			if (!keep_on_server || !delete_expunged)
+				continue;
 
 			folder = e_mail_session_get_inbox_sync (
 				session, account->uid, cancellable, error);
