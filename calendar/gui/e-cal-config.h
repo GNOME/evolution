@@ -80,7 +80,7 @@ struct _ECalConfigTargetSource {
 struct _ECalConfigTargetPrefs {
 	EConfigTarget target;
 
-	struct _GConfClient *gconf;
+	GSettings *settings;
 };
 
 typedef struct _EConfigItem ECalConfigItem;
