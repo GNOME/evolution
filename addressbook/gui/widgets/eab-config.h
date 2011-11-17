@@ -74,7 +74,7 @@ GType eab_config_get_type (void);
 EABConfig *eab_config_new (gint type, const gchar *menuid);
 
 EABConfigTargetSource *eab_config_target_new_source (EABConfig *ecp, ESource *source);
-EABConfigTargetPrefs *eab_config_target_new_prefs (EABConfig *ecp, GConfClient *gconf);
+EABConfigTargetPrefs *eab_config_target_new_prefs (EABConfig *ecp, GSettings *settings);
 
 G_END_DECLS
 
