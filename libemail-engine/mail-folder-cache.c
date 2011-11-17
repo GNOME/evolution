@@ -1147,7 +1147,7 @@ mail_folder_cache_note_store (MailFolderCache *self,
 
 	g_mutex_lock (self->priv->stores_mutex);
 
-	printf("Loading: %s\n", camel_service_get_display_name ((CamelService *) store));
+	printf("Loading: %s %s\n", camel_service_get_display_name ((CamelService *) store), camel_service_get_uid ((CamelService *) store));
 	si = g_hash_table_lookup (self->priv->stores, store);
 	if (si == NULL) {
 		si = g_malloc0 (sizeof (*si));

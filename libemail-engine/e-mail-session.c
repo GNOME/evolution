@@ -1554,8 +1554,10 @@ e_mail_session_uri_to_folder_sync (EMailSession *session,
 		CAMEL_SESSION (session), folder_uri,
 		&store, &folder_name, error);
 
-	if (!success)
+	if (!success) {
+		printf("Unable to parse\n");
 		return NULL;
+	}
 
 	folder = camel_store_get_folder_sync (
 		store, folder_name, flags, cancellable, error);
