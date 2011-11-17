@@ -123,10 +123,10 @@ struct _user_message_msg {
 
 	CamelSessionAlertType type;
 	gchar *prompt;
+	GSList *button_captions;	
 	EFlag *done;
 
-	guint allow_cancel : 1;
-	guint result : 1;
+	gint result;
 	guint ismain : 1;
 };
 
@@ -154,7 +154,7 @@ static void
 user_message_response (struct _user_message_msg *m)
 {
 	/* if !allow_cancel, then we've already replied */
-	if (m->allow_cancel) {
+	if (m->button_captions) {
 		m->result = TRUE; //If Accepted
 		e_flag_set (m->done);
 	}
@@ -176,19 +176,13 @@ user_message_exec (struct _user_message_msg *m,
 
 	switch (m->type) {
 		case CAMEL_SESSION_ALERT_INFO:
-			error_type = m->allow_cancel ?
-				"mail:session-message-info-cancel" :
-				"mail:session-message-info";
+			error_type = "mail:session-message-info";
 			break;
 		case CAMEL_SESSION_ALERT_WARNING:
-			error_type = m->allow_cancel ?
-				"mail:session-message-warning-cancel" :
-				"mail:session-message-warning";
+			error_type = "mail:session-message-warning";
 			break;
 		case CAMEL_SESSION_ALERT_ERROR:
-			error_type = m->allow_cancel ?
-				"mail:session-message-error-cancel" :
-				"mail:session-message-error";
+			error_type = "mail:session-message-error";
 			break;
 		default:
 			error_type = NULL;
@@ -208,6 +202,7 @@ static void
 user_message_free (struct _user_message_msg *m)
 {
 	g_free (m->prompt);
+	g_slist_free_full (m->button_captions, g_free);
 	e_flag_free (m->done);
 }
 
@@ -788,24 +783,28 @@ mail_session_forget_password (CamelSession *session,
 	return TRUE;
 }
 
-static gboolean
+static int
 mail_session_alert_user (CamelSession *session,
                          CamelSessionAlertType type,
                          const gchar *prompt,
-                         gboolean cancel)
+                         GSList *button_captions)
 {
 	struct _user_message_msg *m;
 	GCancellable *cancellable;
-	gboolean result = TRUE;
+	gint result = -1;
+	GSList *iter;
 
 	m = mail_msg_new (&user_message_info);
 	m->ismain = mail_in_main_thread ();
 	m->type = type;
 	m->prompt = g_strdup (prompt);
 	m->done = e_flag_new ();
-	m->allow_cancel = cancel;
+	m->button_captions = g_slist_copy (button_captions);
 
-	if (cancel)
+	for (iter = m->button_captions; iter; iter = iter->next)
+		iter->data = g_strdup (iter->data);
+
+	if (g_slist_length (button_captions) > 1)
 		mail_msg_ref (m);
 
 	cancellable = m->base.cancellable;
@@ -815,7 +814,7 @@ mail_session_alert_user (CamelSession *session,
 	else
 		mail_msg_main_loop_push (m);
 
-	if (cancel) {
+	if (g_slist_length (button_captions) > 1) {
 		e_flag_wait (m->done);
 		result = m->result;
 		mail_msg_unref (m);
