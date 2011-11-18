@@ -30,7 +30,6 @@
 
 #include "e-util/e-util.h"
 #include "e-util/e-mktemp.h"
-#include "e-util/gconf-bridge.h"
 
 struct _EAttachmentStorePrivate {
 	GHashTable *attachment_index;
