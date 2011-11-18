@@ -160,6 +160,7 @@ mail_label_list_store_finalize (GObject *object)
 	priv = E_MAIL_LABEL_LIST_STORE (object)->priv;
 
 	g_hash_table_destroy (priv->tag_index);
+
 	if (priv->mail_settings != NULL) {
 		g_object_unref (priv->mail_settings);
 		priv->mail_settings = NULL;
@@ -250,19 +251,24 @@ mail_label_list_store_constructed (GObject *object)
 
 	/* Connect to GSettings' change notifications */
 	store->priv->mail_settings = g_settings_new ("org.gnome.evolution.mail");
-	g_signal_connect (store->priv->mail_settings, "changed::labels",
-			  G_CALLBACK (labels_settings_changed_cb), store);
+	g_signal_connect (
+		store->priv->mail_settings, "changed::labels",
+		G_CALLBACK (labels_settings_changed_cb), store);
 	labels_settings_changed_cb (store->priv->mail_settings, "labels", store);
 
 	/* Connect to ListStore change notifications */
-	g_signal_connect (store, "row-inserted",
-			  G_CALLBACK (labels_model_changed_cb), store);
-	g_signal_connect (store, "row-changed",
-			  G_CALLBACK (labels_model_changed_cb), store);
-	g_signal_connect (store, "row-deleted",
-			  G_CALLBACK (labels_model_changed_cb), store);
-	g_signal_connect (store, "rows-reordered",
-			  G_CALLBACK (labels_model_changed_cb), store);
+	g_signal_connect (
+		store, "row-inserted",
+		G_CALLBACK (labels_model_changed_cb), store);
+	g_signal_connect (
+		store, "row-changed",
+		G_CALLBACK (labels_model_changed_cb), store);
+	g_signal_connect (
+		store, "row-deleted",
+		G_CALLBACK (labels_model_changed_cb), store);
+	g_signal_connect (
+		store, "rows-reordered",
+		G_CALLBACK (labels_model_changed_cb), store);
 
 	mail_label_list_store_ensure_defaults (store);
 

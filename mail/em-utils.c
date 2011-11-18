@@ -165,9 +165,10 @@ em_utils_prompt_user (GtkWindow *parent,
 
 	button = gtk_dialog_run (GTK_DIALOG (dialog));
 	if (promptkey)
-		g_settings_set_boolean (settings, promptkey,
-					!gtk_toggle_button_get_active (
-						GTK_TOGGLE_BUTTON (check)));
+		g_settings_set_boolean (
+			settings, promptkey,
+			!gtk_toggle_button_get_active (
+				GTK_TOGGLE_BUTTON (check)));
 
 	gtk_widget_destroy (dialog);
 

@@ -280,9 +280,13 @@ ESignatureList *
 e_signature_list_new (void)
 {
 	ESignatureList *signature_list;
+	GConfClient *client;
 
 	signature_list = g_object_new (E_TYPE_SIGNATURE_LIST, NULL);
-	e_signature_list_construct (signature_list, gconf_client_get_default ());
+
+	client = gconf_client_get_default ();
+	e_signature_list_construct (signature_list, client);
+	g_object_unref (client);
 
 	return signature_list;
 }

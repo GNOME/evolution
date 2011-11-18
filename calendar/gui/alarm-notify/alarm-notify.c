@@ -37,7 +37,9 @@
 #include "alarm-queue.h"
 #include "config-data.h"
 
-#define APPLICATION_ID "org.gnome.EvolutionAlarmNotify"
+#define ALARM_NOTIFY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_ALARM_NOTIFY, AlarmNotifyPrivate))
 
 #define APPLICATION_ID "org.gnome.EvolutionAlarmNotify"
 
@@ -239,7 +241,7 @@ alarm_notify_finalize (GObject *object)
 	AlarmNotifyPrivate *priv;
 	gint ii;
 
-	priv = ALARM_NOTIFY (object)->priv;
+	priv = ALARM_NOTIFY_GET_PRIVATE (object);
 
 	if (priv->offline_timeout_id)
 		g_source_remove (priv->offline_timeout_id);
@@ -334,8 +336,7 @@ alarm_notify_init (AlarmNotify *an)
 {
 	gint ii;
 
-	an->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		an, TYPE_ALARM_NOTIFY, AlarmNotifyPrivate);
+	an->priv = ALARM_NOTIFY_GET_PRIVATE (an);
 	an->priv->mutex = g_mutex_new ();
 	an->priv->selected_calendars = config_data_get_calendars (
 		"/apps/evolution/calendar/sources");

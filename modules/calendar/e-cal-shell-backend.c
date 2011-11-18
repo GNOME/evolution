@@ -902,9 +902,9 @@ GSList *
 e_cal_shell_backend_get_selected_calendars (ECalShellBackend *cal_shell_backend)
 {
 	GSettings *settings;
-	char **strv;
-	gint i;
 	GSList *selected_calendars = NULL;
+	char **strv;
+	gint ii;
 
 	g_return_val_if_fail (
 		E_IS_CAL_SHELL_BACKEND (cal_shell_backend), NULL);
@@ -914,8 +914,8 @@ e_cal_shell_backend_get_selected_calendars (ECalShellBackend *cal_shell_backend)
 	g_object_unref (settings);
 
 	if (strv != NULL) {
-		for (i = 0; strv[i] != NULL; i++)
-			selected_calendars = g_slist_append (selected_calendars, g_strdup (strv[i]));
+		for (ii = 0; strv[ii] != NULL; ii++)
+			selected_calendars = g_slist_append (selected_calendars, g_strdup (strv[ii]));
 
 		g_strfreev (strv);
 	}
@@ -928,13 +928,13 @@ e_cal_shell_backend_set_selected_calendars (ECalShellBackend *cal_shell_backend,
                                             GSList *selected_calendars)
 {
 	GSettings *settings;
-	GSList *l;
+	GSList *link;
 	GPtrArray *array = g_ptr_array_new ();
 
 	g_return_if_fail (E_IS_CAL_SHELL_BACKEND (cal_shell_backend));
 
-	for (l = selected_calendars; l != NULL; l = l->next)
-		g_ptr_array_add (array, l->data);
+	for (link = selected_calendars; link != NULL; link = link->next)
+		g_ptr_array_add (array, link->data);
 	g_ptr_array_add (array, NULL);
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");

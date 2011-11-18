@@ -365,7 +365,9 @@ e_shell_settings_install_property_for_key (const gchar *property_name,
 
 		shell_settings = E_SHELL_SETTINGS (iter->data);
 
-		g_settings_bind (settings, key, G_OBJECT (shell_settings), property_name, G_SETTINGS_BIND_DEFAULT);
+		g_settings_bind (
+			settings, key, G_OBJECT (shell_settings),
+			property_name, G_SETTINGS_BIND_DEFAULT);
 	}
 
 	for (iter = instances; iter != NULL; iter = next) {

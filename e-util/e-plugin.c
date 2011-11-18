@@ -107,7 +107,7 @@ ep_set_enabled (const gchar *id,
                 gint state)
 {
 	GSettings *settings;
-	GSList *l;
+	GSList *link;
 	GPtrArray *array;
 
 	/* Bail out if no change to state, when expressed as a boolean: */
@@ -128,8 +128,8 @@ ep_set_enabled (const gchar *id,
 
 	settings = g_settings_new ("org.gnome.evolution");
 	array = g_ptr_array_new ();
-	for (l = ep_disabled; l != NULL; l = l->next)
-		g_ptr_array_add (array, l->data);
+	for (link = ep_disabled; link != NULL; link = link->next)
+		g_ptr_array_add (array, link->data);
 	g_ptr_array_add (array, NULL);
 	g_settings_set_strv (
 		settings, "disabled-eplugins",

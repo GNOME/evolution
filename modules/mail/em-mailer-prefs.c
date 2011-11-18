@@ -135,15 +135,15 @@ jh_tree_refill (EMMailerPrefs *prefs)
 {
 	GtkListStore *store = prefs->junk_header_list_store;
 	gchar **strv;
-	gint i;
+	gint ii;
 
 	strv = g_settings_get_strv (prefs->settings, "junk-custom-header");
 
 	gtk_list_store_clear (store);
 
-	for (i = 0; strv[i] != NULL; i++) {
+	for (ii = 0; strv[ii] != NULL; ii++) {
 		GtkTreeIter iter;
-		gchar **tokens = g_strsplit (strv[i], "=", 2);
+		gchar **tokens = g_strsplit (strv[ii], "=", 2);
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (
@@ -200,15 +200,15 @@ jh_add_cb (GtkWidget *widget,
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		gchar **strv;
 		GPtrArray *array;
-		gint i;
+		gint ii;
 
 		name = gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (builder, "junk-header-name")));
 		value = gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (builder, "junk-header-content")));
 
 		strv = g_settings_get_strv (prefs->settings, "junk-custom-header");
 		array = g_ptr_array_new ();
-		for (i = 0; strv[i] != NULL; i++)
-			g_ptr_array_add (array, strv[i]);
+		for (ii = 0; strv[ii] != NULL; ii++)
+			g_ptr_array_add (array, strv[ii]);
 		tok = g_strdup_printf ("%s=%s", name, value);
 		g_ptr_array_add (array, tok);
 		g_ptr_array_add (array, NULL);
@@ -237,17 +237,17 @@ jh_remove_cb (GtkWidget *widget,
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (prefs->junk_header_tree));
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		GPtrArray *array = g_ptr_array_new ();
 		gchar *name = NULL, *value = NULL;
 		gchar **strv;
-		GPtrArray *array = g_ptr_array_new ();
-		gint i;
+		gint ii;
 
 		strv = g_settings_get_strv (prefs->settings, "junk-custom-header");
 		gtk_tree_model_get (model, &iter, JH_LIST_COLUMN_NAME, &name, JH_LIST_COLUMN_VALUE, &value, -1);
-		for (i = 0; strv[i] != NULL; i++) {
+		for (ii = 0; strv[ii] != NULL; ii++) {
 			gchar *test;
 			gint len = strlen (name);
-			test = strncmp (strv[i], name, len) == 0 ? (gchar *) strv[i] + len : NULL;
+			test = strncmp (strv[ii], name, len) == 0 ? (gchar *) strv[ii] + len : NULL;
 
 			if (test) {
 				test++;
@@ -255,7 +255,7 @@ jh_remove_cb (GtkWidget *widget,
 					continue;
 			}
 
-			g_ptr_array_add (array, strv[i]);
+			g_ptr_array_add (array, strv[ii]);
 		}
 
 		g_ptr_array_add (array, NULL);

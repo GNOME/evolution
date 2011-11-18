@@ -833,6 +833,7 @@ eab_contact_locate_match_full (EBookClient *book_client,
 		return;
 
 	source = e_source_list_peek_default_source (info->source_list);
+
 	e_client_utils_open_new (
 		source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
 		e_client_utils_authenticate_handler, NULL,

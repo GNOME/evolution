@@ -1321,7 +1321,9 @@ e_mail_session_init (EMailSession *session)
 	camel_session_set_check_junk (
 		CAMEL_SESSION (session), g_settings_get_boolean (
 		settings, "junk-check-incoming"));
-	g_signal_connect (settings, "changed", G_CALLBACK (mail_session_check_junk_notify), session);
+	g_signal_connect (
+		settings, "changed",
+		G_CALLBACK (mail_session_check_junk_notify), session);
 
 	mail_config_reload_junk_headers (session);
 

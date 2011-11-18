@@ -5034,7 +5034,7 @@ e_load_spell_languages (void)
 	GSettings *settings;
 	GList *spell_languages = NULL;
 	gchar **strv;
-	gint i;
+	gint ii;
 
 	/* Ask GSettings for a list of spell check language codes. */
 	settings = g_settings_new ("org.gnome.evolution.mail");
@@ -5042,8 +5042,8 @@ e_load_spell_languages (void)
 	g_object_unref (settings);
 
 	/* Convert the codes to spell language structs. */
-	for (i = 0; strv[i] != NULL; i++) {
-		gchar *language_code = strv[i];
+	for (ii = 0; strv[ii] != NULL; ii++) {
+		gchar *language_code = strv[ii];
 		const GtkhtmlSpellLanguage *language;
 
 		language = gtkhtml_spell_language_lookup (language_code);
@@ -5094,7 +5094,7 @@ e_save_spell_languages (GList *spell_languages)
 
 	/* Save the language codes to GSettings. */
 	settings = g_settings_new ("org.gnome.evolution.mail");
-	g_settings_set_strv (settings, "composer-spell-languages", (const char * const *) lang_array->pdata);
+	g_settings_set_strv (settings, "composer-spell-languages", (const gchar * const *) lang_array->pdata);
 	g_object_unref (settings);
 
 	g_ptr_array_free (lang_array, TRUE);

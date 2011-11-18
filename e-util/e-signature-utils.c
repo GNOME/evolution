@@ -38,9 +38,8 @@ static ESignatureList *global_signature_list;
 ESignatureList *
 e_get_signature_list (void)
 {
-	if (G_UNLIKELY (global_signature_list == NULL)) {
+	if (G_UNLIKELY (global_signature_list == NULL))
 		global_signature_list = e_signature_list_new ();
-	}
 
 	g_return_val_if_fail (global_signature_list != NULL, NULL);
 

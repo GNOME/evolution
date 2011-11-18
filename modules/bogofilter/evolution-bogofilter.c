@@ -507,7 +507,10 @@ e_bogofilter_init (EBogofilter *extension)
 	GSettings *settings;
 
 	settings = g_settings_new ("org.gnome.evolution.eplugin.bogo-junk");
-	g_settings_bind (settings, "utf8-for-spam-filter", G_OBJECT (extension), "convert-to-unicode", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "utf8-for-spam-filter",
+		G_OBJECT (extension), "convert-to-unicode",
+		G_SETTINGS_BIND_DEFAULT);
 	g_object_unref (settings);
 }
 
