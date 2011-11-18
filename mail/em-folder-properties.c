@@ -254,7 +254,6 @@ emfp_dialog_run (AsyncContext *context)
 	gboolean hide_deleted;
 	GSettings *settings;
 	const gchar *name;
-	const gchar *key;
 
 	shell_view = context->shell_view;
 	shell_window = e_shell_view_get_shell_window (shell_view);

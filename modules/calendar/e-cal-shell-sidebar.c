@@ -526,7 +526,6 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	GtkTreeModel *model;
 	GSList *list, *iter;
 	GObject *object;
-	const gchar *key;
 
 	priv = E_CAL_SHELL_SIDEBAR (shell_sidebar)->priv;
 

@@ -328,7 +328,6 @@ cal_shell_content_constructed (GObject *object)
 	GSettings *settings;
 	GtkWidget *container;
 	GtkWidget *widget;
-	const gchar *key;
 	gchar *markup;
 	gint ii;
 

@@ -2950,10 +2950,11 @@ delete_toggled_cb (GtkWidget *widget,
                    gpointer data)
 {
 	GSettings *settings;
-	EMConfigTargetPrefs *target = data;
+	gboolean active;
 
 	settings = g_settings_new ("org.gnome.evolution.eplugin.itip");
-	g_settings_set_boolean (settings, CONF_KEY_DELETE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
+	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
+	g_settings_set_boolean (settings, CONF_KEY_DELETE, active);
 	g_object_unref (settings);
 }
 

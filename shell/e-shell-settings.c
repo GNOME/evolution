@@ -49,7 +49,6 @@ shell_settings_pspec_for_key (const gchar *property_name,
 	GVariant *v;
 	GParamSpec *pspec;
 	const gchar *bad_type;
-	GError *error = NULL;
 
 	settings = g_settings_new (schema);
 

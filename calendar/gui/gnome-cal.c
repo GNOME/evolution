@@ -1480,7 +1480,6 @@ gnome_calendar_init (GnomeCalendar *gcal)
 static void
 gnome_calendar_do_dispose (GObject *object)
 {
-	GList *l;
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
 	gint ii;

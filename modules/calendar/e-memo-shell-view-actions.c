@@ -866,7 +866,6 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	GSettings *memo_settings;
 	GtkAction *action;
 	GObject *object;
-	const gchar *key;
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);

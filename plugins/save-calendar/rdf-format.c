@@ -54,8 +54,6 @@ static void	add_string_to_rdf		(xmlNodePtr node,
 #define CALENDAR_CONFIG_PREFIX "/apps/evolution/calendar"
 #define CALENDAR_CONFIG_TIMEZONE CALENDAR_CONFIG_PREFIX "/display/timezone"
 
-static GConfClient *config = NULL;
-
 static gchar *
 calendar_config_get_timezone (void)
 {

@@ -5010,7 +5010,6 @@ mail_regen_list (MessageList *ml,
 {
 	struct _regen_list_msg *m;
 	GSettings *settings;
-	const gchar *key;
 	gboolean thread_subject;
 
 	/* report empty search as NULL, not as one/two-space string */

@@ -202,7 +202,9 @@ labels_model_changed_cb (GtkTreeModel *model,
 	}
 
 	g_ptr_array_add (array, NULL);
-	g_settings_set_strv (store->priv->mail_settings, "labels", array->pdata);
+	g_settings_set_strv (
+		store->priv->mail_settings, "labels",
+		(const gchar * const *) array->pdata);
 
 	g_ptr_array_free (array, TRUE);
 	g_signal_handlers_unblock_by_func (store->priv->mail_settings, labels_settings_changed_cb, store);

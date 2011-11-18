@@ -3427,7 +3427,6 @@ e_mail_reader_init (EMailReader *reader,
 	GtkAction *action;
 	gboolean sensitive;
 	const gchar *action_name;
-	const gchar *key;
 
 #ifndef G_OS_WIN32
 	GSettings *settings;

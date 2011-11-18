@@ -131,8 +131,9 @@ ep_set_enabled (const gchar *id,
 	for (l = ep_disabled; l != NULL; l = l->next)
 		g_ptr_array_add (array, l->data);
 	g_ptr_array_add (array, NULL);
-	g_settings_set_strv (settings, "disabled-eplugins", array->pdata);
-
+	g_settings_set_strv (
+		settings, "disabled-eplugins",
+		(const gchar * const *) array->pdata);
 	g_ptr_array_free (array, TRUE);
 	g_object_unref (settings);
 }

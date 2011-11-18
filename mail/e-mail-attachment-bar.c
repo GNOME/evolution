@@ -256,7 +256,6 @@ mail_attachment_bar_constructed (GObject *object)
 {
 	EMailAttachmentBarPrivate *priv;
 	GSettings *settings;
-	const gchar *key;
 
 	priv = E_MAIL_ATTACHMENT_BAR (object)->priv;
 

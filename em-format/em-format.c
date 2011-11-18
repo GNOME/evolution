@@ -1363,7 +1363,6 @@ em_format_format_text (EMFormat *emf,
 	const gchar *charset = NULL;
 	CamelMimeFilterWindows *windows = NULL;
 	CamelStream *mem_stream = NULL;
-	const gchar *key;
 	gsize size;
 	gsize max;
 	GSettings *settings;
@@ -1413,7 +1412,6 @@ em_format_format_text (EMFormat *emf,
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 	if (g_settings_get_boolean (settings, "force-message-limit")) {
-		key = "/apps/evolution/mail/display/message_text_part_limit";
 		max = g_settings_get_int (settings, "message-text-part-limit");
 		if (max == 0)
 			max = -1;

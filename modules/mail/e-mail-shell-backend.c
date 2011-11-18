@@ -477,12 +477,10 @@ mail_shell_backend_delete_junk_policy_decision (EMailBackend *backend)
 	EShell *shell;
 	EShellSettings *shell_settings;
 	GSettings *settings;
-	const gchar *key;
 	gboolean delete_junk;
 	gint empty_date;
 	gint empty_days;
 	gint now;
-	GError *error = NULL;
 
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
@@ -520,12 +518,10 @@ mail_shell_backend_empty_trash_policy_decision (EMailBackend *backend)
 	EShell *shell;
 	EShellSettings *shell_settings;
 	GSettings *settings;
-	const gchar *key;
 	gboolean empty_trash;
 	gint empty_date;
 	gint empty_days;
 	gint now;
-	GError *error = NULL;
 
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 

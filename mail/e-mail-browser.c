@@ -559,7 +559,6 @@ mail_browser_constructed (GObject *object)
 	GtkWidget *widget;
 	EWebView *web_view;
 	const gchar *domain;
-	const gchar *key;
 	const gchar *id;
 	guint merge_id;
 

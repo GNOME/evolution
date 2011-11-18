@@ -1150,7 +1150,6 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	GSettings *settings;
 	GtkAction *action;
 	GObject *object;
-	const gchar *key;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);

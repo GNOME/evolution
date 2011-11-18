@@ -2792,7 +2792,6 @@ composer_set_body (EMsgComposer *composer,
 	GSettings *settings;
 	gboolean start_bottom, has_body_text = FALSE;
 	guint32 validity_found = 0;
-	const gchar *key;
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
@@ -2839,7 +2838,6 @@ composer_set_body (EMsgComposer *composer,
 		GtkhtmlEditor *editor = GTKHTML_EDITOR (composer);
 		gboolean move_cursor_to_end;
 		gboolean top_signature;
-		const gchar *key;
 
 		/* If we are placing signature on top, then move cursor to the end,
 		 * otherwise try to find the signature place and place cursor just

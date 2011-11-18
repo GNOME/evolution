@@ -901,7 +901,6 @@ e_shell_migrate_attempt (EShell *shell)
 	ESEvent *ese;
 	GSettings *settings;
 	GConfClient *client;
-	const gchar *key;
 	gint major, minor, micro;
 	gint last_major, last_minor, last_micro;
 	gint curr_major, curr_minor, curr_micro;

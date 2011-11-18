@@ -70,8 +70,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SESSION, EMailSessionPrivate))
 
-static guint session_check_junk_notify_id;
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _EMailSessionPrivate {

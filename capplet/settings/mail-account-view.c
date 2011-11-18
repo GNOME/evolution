@@ -250,7 +250,7 @@ add_selected_calendar (const gchar *uid)
 	array = g_ptr_array_new ();
 	for (i = 0; ids[i] != NULL; i++)
 		g_ptr_array_add (array, ids[i]);
-	g_ptr_array_add (array, uid);
+	g_ptr_array_add (array, (gpointer) uid);
 	g_ptr_array_add (array, NULL);
 
 	g_settings_set_strv (settings, "selected-calendars", (const gchar* const *) array->pdata);
@@ -369,7 +369,6 @@ setup_google_accounts (MailAccountView *mav)
 		ESourceGroup *sgrp;
 		ESource *calendar;
 		gchar *sanitize_uname, *abs_uri, *rel_uri;
-		GSList *ids, *temp;
 
 		slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
 		sgrp = e_source_list_ensure_group (slist, _("Google"), "google://", TRUE);

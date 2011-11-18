@@ -1432,11 +1432,10 @@ e_shell_create_shell_window (EShell *shell,
 	 * so set the key ahead of time to control the intial view. */
 	if (view_name != NULL) {
 		GSettings *settings;
-		const gchar *key;
 
 		settings = g_settings_new ("org.gnome.evolution.shell");
-		g_settings_set_string (settings, "default-component-id", view_name);
-
+		g_settings_set_string (
+			settings, "default-component-id", view_name);
 		g_object_unref (settings);
 	}
 

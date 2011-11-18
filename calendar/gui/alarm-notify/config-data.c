@@ -340,7 +340,7 @@ config_data_save_blessed_program (const gchar *program)
 	for (i = 0; i < g_strv_length (list); i++)
 		g_ptr_array_add (array, list[i]);
 
-	g_ptr_array_add (array, program);
+	g_ptr_array_add (array, (gpointer) program);
 	g_ptr_array_add (array, NULL);
 	g_settings_set_strv (calendar_settings, "notify-programs", (const gchar *const *) array->pdata);
 

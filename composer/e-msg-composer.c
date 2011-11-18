@@ -2065,10 +2065,8 @@ msg_composer_constructed (GObject *object)
 	EWebView *web_view;
 	GtkUIManager *ui_manager;
 	GtkToggleAction *action;
-	GArray *array;
 	const gchar *id;
 	gboolean active;
-	guint binding_id;
 
 	editor = GTKHTML_EDITOR (object);
 	composer = E_MSG_COMPOSER (object);
@@ -5087,7 +5085,7 @@ e_save_spell_languages (GList *spell_languages)
 
 		language = spell_languages->data;
 		language_code = gtkhtml_spell_language_get_code (language);
-		g_ptr_array_add (lang_array, language_code);
+		g_ptr_array_add (lang_array, (gpointer) language_code);
 
 		spell_languages = g_list_next (spell_languages);
 	}
