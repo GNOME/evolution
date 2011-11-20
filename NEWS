@@ -1,3 +1,64 @@
+Evolution 3.3.2 2011-11-21
+--------------------------
+
+Bug Fixes:
+	Bug 440316 - Improve SSL Certificate check bad signature dialog
+	             (Milan Crha)
+	Bug 565483 - "All folders" does not search all folders (Milan Crha)
+	Bug 627952 - 'Local delivery' mbox's aren't read properly (Milan Crha)
+	Bug 636214 - Fetch configuration details from server (Punit Jain)
+	Bug 659557 - Duplicate mnemonic in ldap address book creation dialog
+	             (Vibha Yadav)
+	Bug 659736 - GOA Google calendar prevents settings change (Milan Crha)
+	Bug 659945 - "New" button in toolbar for new mail message not working
+	             (Milan Crha)
+	Bug 660782 - [pst-import] Missing 'To' on message replies (Milan Crha)
+	Bug 660878 - Configuration options are not autofilled (Punit Jain)
+	Bug 661126 - Meeting Free/busy dialog dates don't follow locale
+	             (Milan Crha)
+	Bug 662589 - 'Retrieve List' for new Google calendar does not use proxy
+	             (Milan Crha)
+	Bug 662742 - Double free when expunging completed tasks (Milan Crha)
+	Bug 662914 - Reply to gnupg signed mails should be signed (Milan Crha)
+	Bug 662929 - POP3 prevents expunge of local Inbox in offline
+	             (Milan Crha)
+	Bug 663286 - Changing view clears Contact preview (Milan Crha)
+	Bug 663372 - Actions not updated after disabling account
+	             (Matthew Barnes)
+	Bug 663376 - Folder->Properties enabled when no folder selected
+	             (Matthew Barnes)
+	Bug 663746 - Can't finish new account configuration for POP
+	             (Milan Crha)
+	Bug 663748 - Unable to reconfigure GOA GMail account (Milan Crha)
+	Bug 663836 - emae_send_page() gets wrong CamelProvider (Matthew Barnes)
+	Bug 664001 - Account setup asks to configure SMTP when not needed
+	             (Milan Crha)
+	Bug 664016 - [evolution-alarm-notify] Try to reconnect offline
+	             calendars (Milan Crha)
+
+Other Changes:
+	* Remove g_thread_init() calls. (Matthew Barnes)
+	* Teach Evolution about Photo/Logo EContact fields stored as URIs
+	  (Tristan Van Berkom)
+	* Add EAuthComboBox widget. (Matthew Barnes)
+	* EMAccountEditor: Start using CamelNetworkSettings. (Matthew Barnes)
+	* Call e_gdbus_templates_init_main_thread() in main() (Milan Crha)
+	* Kill gtk-doc tmpl files. (Matthew Barnes)
+	* Removing a redundant virtual function (Punit Jain)
+	* Remove SQLite mail summary migration. (Matthew Barnes)
+	* EMAccountEditor: Add a review page. (Punit Jain)
+	* Preset 'width-chars' for account type description labels (Milan Crha)
+	* Use CamelSExp instead of ESExp in filter, mail. (Matthew Barnes)
+
+Translations:
+	Mario Blättermann (de)
+	Daniel Mustieles (es)
+	Jorge González (es)
+	Fran Diéguez (gl)
+	Algimantas Margevičius (lt)
+	Kjartan Maraas (nb)
+
+
 Evolution 3.3.1 2011-10-24
 --------------------------
 
