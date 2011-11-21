@@ -106,12 +106,15 @@ struct _EMailReaderInterface {
 	void		(*set_folder)		(EMailReader *reader,
 						 CamelFolder *folder);
 	void		(*set_message)		(EMailReader *reader,
-						 const gchar *uid);
+						 const gchar *message_uid);
 	guint		(*open_selected_mail)	(EMailReader *reader);
 	gboolean	(*enable_show_folder)	(EMailReader *reader);
 
 	/* Signals */
 	void		(*folder_loaded)	(EMailReader *reader);
+	void		(*message_seen)		(EMailReader *reader,
+						 const gchar *message_uid,
+						 CamelMimeMessage *message);
 	void		(*show_search_bar)	(EMailReader *reader);
 	void		(*update_actions)	(EMailReader *reader,
 						 guint32 state);
@@ -145,7 +148,7 @@ CamelFolder *	e_mail_reader_get_folder	(EMailReader *reader);
 void		e_mail_reader_set_folder	(EMailReader *reader,
 						 CamelFolder *folder);
 void		e_mail_reader_set_message	(EMailReader *reader,
-						 const gchar *uid);
+						 const gchar *message_uid);
 EMailForwardStyle
 		e_mail_reader_get_forward_style	(EMailReader *reader);
 void		e_mail_reader_set_forward_style	(EMailReader *reader,
