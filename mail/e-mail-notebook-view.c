@@ -75,7 +75,9 @@ static void e_mail_notebook_view_reader_init (EMailReaderInterface *interface);
 G_DEFINE_TYPE_WITH_CODE (
 	EMailNotebookView, e_mail_notebook_view, E_TYPE_MAIL_VIEW,
 	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_READER, e_mail_notebook_view_reader_init))
+		E_TYPE_MAIL_READER, e_mail_notebook_view_reader_init)
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 #if HAVE_CLUTTER
 static void
@@ -623,6 +625,8 @@ mail_notebook_view_constructed (GObject *object)
 	g_signal_connect (
 		priv->book, "switch-page",
 		G_CALLBACK (mnv_page_changed), object);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_notebook_view_parent_class)->constructed (object);

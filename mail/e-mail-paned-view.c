@@ -86,7 +86,9 @@ static void e_mail_paned_view_reader_init (EMailReaderInterface *interface);
 G_DEFINE_TYPE_WITH_CODE (
 	EMailPanedView, e_mail_paned_view, E_TYPE_MAIL_VIEW,
 	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_READER, e_mail_paned_view_reader_init))
+		E_TYPE_MAIL_READER, e_mail_paned_view_reader_init)
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 static void
 mail_paned_view_save_boolean (EMailView *view,
@@ -626,11 +628,13 @@ mail_paned_view_constructed (GObject *object)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* Make headers collapsable and store state of headers in config file */
-	em_format_html_set_headers_collapsable (EM_FORMAT_HTML (priv->formatter), TRUE);
-	g_object_bind_property (shell_settings, "paned-view-headers-state",
-				EM_FORMAT_HTML (priv->formatter), "headers-state",
-				G_BINDING_BIDIRECTIONAL |
-				G_BINDING_SYNC_CREATE);
+	em_format_html_set_headers_collapsable (
+		EM_FORMAT_HTML (priv->formatter), TRUE);
+	g_object_bind_property (
+		shell_settings, "paned-view-headers-state",
+		priv->formatter, "headers-state",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	web_view = em_format_html_get_web_view (
 		EM_FORMAT_HTML (priv->formatter));
@@ -717,6 +721,8 @@ mail_paned_view_constructed (GObject *object)
 	/* Do this after creating the message list.  Our
 	 * set_preview_visible() method relies on it. */
 	e_mail_view_set_preview_visible (view, TRUE);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_paned_view_parent_class)->constructed (object);
