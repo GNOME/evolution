@@ -1064,7 +1064,6 @@ mail_to_event (ECalClientSourceType source_type,
 	CamelFolder *folder;
 	GPtrArray *uids;
 	ESourceList *source_list = NULL;
-	gboolean done = FALSE;
 	GSList *groups, *p;
 	ESource *source = NULL, *default_source = NULL;
 	GError *error = NULL;
@@ -1097,7 +1096,7 @@ mail_to_event (ECalClientSourceType source_type,
 
 	/* Find 'Default' source. When no source is default, ask user to pick one */
 	groups = e_source_list_peek_groups (source_list);
-	for (p = groups; p != NULL && !done; p = p->next) {
+	for (p = groups; p != NULL; p = p->next) {
 		ESourceGroup *group = E_SOURCE_GROUP (p->data);
 		GSList *sources, *q;
 
@@ -1107,8 +1106,6 @@ mail_to_event (ECalClientSourceType source_type,
 
 			if (s && e_source_get_property (s, "default") && !e_source_get_readonly (s)) {
 				default_source = s;
-				done = TRUE;
-				break;
 			}
 
 			if (s && !e_source_get_readonly (s)) {
@@ -1118,7 +1115,7 @@ mail_to_event (ECalClientSourceType source_type,
 		}
 	}
 
-	if (!default_source && writable_sources > 1) {
+	if (writable_sources > 1) {
 		GtkWidget *dialog;
 
 		/* ask the user which tasks list to save to */
@@ -1134,7 +1131,7 @@ mail_to_event (ECalClientSourceType source_type,
 		gtk_widget_destroy (dialog);
 	} else if (!source && default_source) {
 		source = default_source;
-	} else {
+	} else if (!source) {
 		e_notice (NULL, GTK_MESSAGE_ERROR, _("No writable calendar is available."));
 
 		g_object_unref (source_list);
