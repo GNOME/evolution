@@ -259,7 +259,7 @@ do_save_calendar_rdf (FormatHandler *handler,
 		xmlNewChild (fnode, NULL, (const guchar *)"version", (const guchar *)"2.0");
 
 		for (iter = objects; iter; iter = iter->next) {
-			ECalComponent *comp = objects->data;
+			ECalComponent *comp = iter->data;
 			const gchar *temp_constchar;
 			gchar *tmp_str = NULL;
 			GSList *temp_list;
