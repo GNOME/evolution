@@ -1678,6 +1678,7 @@ modules/mail/Makefile
 modules/composer-autosave/Makefile
 modules/connman/Makefile
 modules/mailto-handler/Makefile
+modules/mdn/Makefile
 modules/network-manager/Makefile
 modules/online-accounts/Makefile
 modules/offline-alert/Makefile

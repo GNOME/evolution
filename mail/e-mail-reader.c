@@ -2626,7 +2626,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 	EMailReaderPrivate *priv;
 	EMFormatHTML *formatter;
 	GtkWidget *message_list;
-	EWebView *web_view;
+	EPreviewPane *preview_pane;
 	CamelFolder *folder;
 	const gchar *cursor_uid;
 	const gchar *format_uid;
@@ -2637,29 +2637,31 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 
 	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
+	preview_pane = e_mail_reader_get_preview_pane (reader);
 
 	cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
 	format_uid = EM_FORMAT (formatter)->uid;
 
-	web_view = em_format_html_get_web_view (formatter);
+	e_preview_pane_clear_alerts (preview_pane);
 
 	if (MESSAGE_LIST (message_list)->last_sel_single) {
-		GtkWidget *widget;
-		gboolean web_view_visible;
+		gboolean preview_visible;
 		gboolean selected_uid_changed;
 
 		/* Decide whether to download the full message now. */
 
-		widget = GTK_WIDGET (web_view);
-
-		web_view_visible = gtk_widget_get_mapped (widget);
+		preview_visible =
+			gtk_widget_get_mapped (GTK_WIDGET (preview_pane));
 		selected_uid_changed = g_strcmp0 (cursor_uid, format_uid);
 
-		if (web_view_visible && selected_uid_changed) {
+		if (preview_visible && selected_uid_changed) {
 			EMailReaderClosure *closure;
 			GCancellable *cancellable;
 			EActivity *activity;
+			EWebView *web_view;
 			gchar *string;
+
+			web_view = e_preview_pane_get_web_view (preview_pane);
 
 			string = g_strdup_printf (
 				_("Retrieving message '%s'"), cursor_uid);
@@ -2945,28 +2947,13 @@ mail_reader_message_seen (EMailReader *reader,
                           const gchar *message_uid,
                           CamelMimeMessage *message)
 {
-	EMailBackend *backend;
-	EMFormatHTML *formatter;
 	CamelFolder *folder;
 	guint32 mask, set;
-	guint32 flags;
-
-	folder = e_mail_reader_get_folder (reader);
-	backend = e_mail_reader_get_backend (reader);
-	formatter = e_mail_reader_get_formatter (reader);
-
-	flags = camel_folder_get_message_flags (folder, uid);
-
-	if ((flags & CAMEL_MESSAGE_SEEN) == 0) {
-		CamelMimeMessage *message;
-
-		message = EM_FORMAT (formatter)->message;
-		em_utils_handle_receipt (backend, folder, uid, message);
-	}
 
 	mask = CAMEL_MESSAGE_SEEN;
 	set  = CAMEL_MESSAGE_SEEN;
 
+	folder = e_mail_reader_get_folder (reader);
 	camel_folder_set_message_flags (folder, message_uid, mask, set);
 }
 

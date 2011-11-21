@@ -272,6 +272,8 @@ modules/mail/em-composer-prefs.c
 modules/mail/em-mailer-prefs.c
 modules/mailto-handler/apps-evolution-mail-prompts-checkdefault.schemas.in
 modules/mailto-handler/evolution-mailto-handler.c
+modules/mdn/evolution-mdn.c
+modules/mdn/evolution-mdn.error.xml
 modules/offline-alert/evolution-offline-alert.error.xml
 modules/online-accounts/camel-sasl-xoauth.c
 modules/online-accounts/e-online-accounts-google.c
