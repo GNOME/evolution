@@ -64,7 +64,7 @@ struct _EMailBrowserPrivate {
 	GtkWidget *main_toolbar;
 	GtkWidget *message_list;
 	GtkWidget *alert_bar;
-	GtkWidget *search_bar;
+	GtkWidget *preview_pane;
 	GtkWidget *statusbar;
 
 	guint show_deleted : 1;
@@ -529,9 +529,9 @@ mail_browser_dispose (GObject *object)
 		priv->alert_bar = NULL;
 	}
 
-	if (priv->search_bar != NULL) {
-		g_object_unref (priv->search_bar);
-		priv->search_bar = NULL;
+	if (priv->preview_pane != NULL) {
+		g_object_unref (priv->preview_pane);
+		priv->preview_pane = NULL;
 	}
 
 	if (priv->statusbar != NULL) {
@@ -705,10 +705,10 @@ mail_browser_constructed (GObject *object)
 
 	widget = e_preview_pane_new (web_view);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	browser->priv->preview_pane = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	search_bar = e_preview_pane_get_search_bar (E_PREVIEW_PANE (widget));
-	browser->priv->search_bar = g_object_ref (search_bar);
 
 	g_signal_connect_swapped (
 		search_bar, "changed",
@@ -854,6 +854,16 @@ mail_browser_get_popup_menu (EMailReader *reader)
 	return GTK_MENU (widget);
 }
 
+static EPreviewPane *
+mail_browser_get_preview_pane (EMailReader *reader)
+{
+	EMailBrowser *browser;
+
+	browser = E_MAIL_BROWSER (reader);
+
+	return E_PREVIEW_PANE (browser->priv->preview_pane);
+}
+
 static GtkWindow *
 mail_browser_get_window (EMailReader *reader)
 {
@@ -886,16 +896,6 @@ mail_browser_set_message (EMailReader *reader,
 			camel_message_info_subject (info));
 		camel_folder_free_message_info (folder, info);
 	}
-}
-
-static void
-mail_browser_show_search_bar (EMailReader *reader)
-{
-	EMailBrowser *browser;
-
-	browser = E_MAIL_BROWSER (reader);
-
-	gtk_widget_show (browser->priv->search_bar);
 }
 
 static void
@@ -982,9 +982,9 @@ e_mail_browser_reader_init (EMailReaderInterface *interface)
 	interface->get_hide_deleted = mail_browser_get_hide_deleted;
 	interface->get_message_list = mail_browser_get_message_list;
 	interface->get_popup_menu = mail_browser_get_popup_menu;
+	interface->get_preview_pane = mail_browser_get_preview_pane;
 	interface->get_window = mail_browser_get_window;
 	interface->set_message = mail_browser_set_message;
-	interface->show_search_bar = mail_browser_show_search_bar;
 }
 
 static void

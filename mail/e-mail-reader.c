@@ -2961,6 +2961,15 @@ mail_reader_message_seen (EMailReader *reader,
 }
 
 static void
+mail_reader_show_search_bar (EMailReader *reader)
+{
+	EPreviewPane *preview_pane;
+
+	preview_pane = e_mail_reader_get_preview_pane (reader);
+	e_preview_pane_show_search_bar (preview_pane);
+}
+
+static void
 mail_reader_update_actions (EMailReader *reader,
                             guint32 state)
 {
@@ -3395,6 +3404,7 @@ e_mail_reader_default_init (EMailReaderInterface *interface)
 	interface->folder_loaded = mail_reader_folder_loaded;
 	interface->message_loaded = mail_reader_message_loaded;
 	interface->message_seen = mail_reader_message_seen;
+	interface->show_search_bar = mail_reader_show_search_bar;
 	interface->update_actions = mail_reader_update_actions;
 
 	g_object_interface_install_property (
@@ -4120,6 +4130,19 @@ e_mail_reader_get_popup_menu (EMailReader *reader)
 	g_return_val_if_fail (interface->get_popup_menu != NULL, NULL);
 
 	return interface->get_popup_menu (reader);
+}
+
+EPreviewPane *
+e_mail_reader_get_preview_pane (EMailReader *reader)
+{
+	EMailReaderInterface *interface;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
+
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (interface->get_preview_pane != NULL, NULL);
+
+	return interface->get_preview_pane (reader);
 }
 
 GPtrArray *

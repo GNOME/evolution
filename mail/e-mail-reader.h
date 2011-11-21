@@ -32,6 +32,7 @@
 #include <e-util/e-alert-sink.h>
 #include <mail/e-mail-backend.h>
 #include <mail/em-format-html.h>
+#include <misc/e-preview-pane.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_READER \
@@ -99,6 +100,7 @@ struct _EMailReaderInterface {
 	gboolean	(*get_hide_deleted)	(EMailReader *reader);
 	GtkWidget *	(*get_message_list)	(EMailReader *reader);
 	GtkMenu *	(*get_popup_menu)	(EMailReader *reader);
+	EPreviewPane *	(*get_preview_pane)	(EMailReader *reader);
 	GPtrArray *	(*get_selected_uids)	(EMailReader *reader);
 	GtkWindow *	(*get_window)		(EMailReader *reader);
 
@@ -145,6 +147,7 @@ GtkWidget *	e_mail_reader_get_message_list	(EMailReader *reader);
 guint		e_mail_reader_open_selected_mail
 						(EMailReader *reader);
 GtkMenu *	e_mail_reader_get_popup_menu	(EMailReader *reader);
+EPreviewPane *	e_mail_reader_get_preview_pane	(EMailReader *reader);
 GPtrArray *	e_mail_reader_get_selected_uids	(EMailReader *reader);
 GtkWindow *	e_mail_reader_get_window	(EMailReader *reader);
 CamelFolder *	e_mail_reader_get_folder	(EMailReader *reader);

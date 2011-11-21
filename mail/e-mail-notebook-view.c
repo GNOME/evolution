@@ -968,6 +968,23 @@ mail_notebook_view_get_popup_menu (EMailReader *reader)
 	return e_mail_reader_get_popup_menu (reader);
 }
 
+static EPreviewPane *
+mail_notebook_view_get_preview_pane (EMailReader *reader)
+{
+	EMailNotebookView *notebook_view;
+	EMailView *current_view;
+
+	notebook_view = E_MAIL_NOTEBOOK_VIEW (reader);
+	current_view = notebook_view->priv->current_view;
+
+	if (current_view == NULL)
+		return NULL;
+
+	reader = E_MAIL_READER (current_view);
+
+	return e_mail_reader_get_preview_pane (reader);
+}
+
 static GtkWindow *
 mail_notebook_view_get_window (EMailReader *reader)
 {
@@ -1351,23 +1368,6 @@ mail_notebook_view_set_folder (EMailReader *reader,
 	}
 }
 
-static void
-mail_notebook_view_show_search_bar (EMailReader *reader)
-{
-	EMailNotebookView *notebook_view;
-	EMailView *current_view;
-
-	notebook_view = E_MAIL_NOTEBOOK_VIEW (reader);
-	current_view = notebook_view->priv->current_view;
-
-	if (current_view == NULL)
-		return;
-
-	reader = E_MAIL_READER (current_view);
-
-	e_mail_reader_show_search_bar (reader);
-}
-
 static gboolean
 mail_notebook_view_enable_show_folder (EMailReader *reader)
 {
@@ -1455,9 +1455,9 @@ e_mail_notebook_view_reader_init (EMailReaderInterface *interface)
 	interface->get_hide_deleted = mail_notebook_view_get_hide_deleted;
 	interface->get_message_list = mail_notebook_view_get_message_list;
 	interface->get_popup_menu = mail_notebook_view_get_popup_menu;
+	interface->get_preview_pane = mail_notebook_view_get_preview_pane;
 	interface->get_window = mail_notebook_view_get_window;
 	interface->set_folder = mail_notebook_view_set_folder;
-	interface->show_search_bar = mail_notebook_view_show_search_bar;
 	interface->open_selected_mail = mail_notebook_view_open_selected_mail;
 	interface->enable_show_folder = mail_notebook_view_enable_show_folder;
 }
