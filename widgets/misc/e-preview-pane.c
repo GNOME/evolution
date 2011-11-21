@@ -27,7 +27,13 @@
 
 #include <gdk/gdkkeysyms.h>
 
+#include <e-util/e-alert-sink.h>
+#include <e-util/e-alert-dialog.h>
+
+#include "e-alert-bar.h"
+
 struct _EPreviewPanePrivate {
+	GtkWidget *alert_bar;
 	GtkWidget *web_view;
 	GtkWidget *search_bar;
 };
@@ -45,10 +51,17 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
+/* Forward Declarations */
+static void	e_preview_pane_alert_sink_init
+					(EAlertSinkInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
 	EPreviewPane,
 	e_preview_pane,
-	GTK_TYPE_VBOX)
+	GTK_TYPE_VBOX,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_ALERT_SINK,
+		e_preview_pane_alert_sink_init))
 
 static void
 preview_pane_set_web_view (EPreviewPane *preview_pane,
@@ -107,6 +120,11 @@ preview_pane_dispose (GObject *object)
 
 	priv = E_PREVIEW_PANE (object)->priv;
 
+	if (priv->alert_bar != NULL) {
+		g_object_unref (priv->alert_bar);
+		priv->alert_bar = NULL;
+	}
+
 	if (priv->search_bar != NULL) {
 		g_object_unref (priv->search_bar);
 		priv->search_bar = NULL;
@@ -128,6 +146,11 @@ preview_pane_constructed (GObject *object)
 	GtkWidget *widget;
 
 	priv = E_PREVIEW_PANE (object)->priv;
+
+	widget = e_alert_bar_new ();
+	gtk_box_pack_start (GTK_BOX (object), widget, FALSE, FALSE, 0);
+	priv->alert_bar = g_object_ref (widget);
+	/* EAlertBar controls its own visibility. */
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
@@ -157,6 +180,35 @@ preview_pane_show_search_bar (EPreviewPane *preview_pane)
 
 	if (!gtk_widget_get_visible (search_bar))
 		gtk_widget_show (search_bar);
+}
+
+static void
+preview_pane_submit_alert (EAlertSink *alert_sink,
+                           EAlert *alert)
+{
+	EPreviewPane *preview_pane;
+	EAlertBar *alert_bar;
+	GtkWidget *dialog;
+	GtkWindow *parent;
+
+	preview_pane = E_PREVIEW_PANE (alert_sink);
+	alert_bar = E_ALERT_BAR (preview_pane->priv->alert_bar);
+
+	switch (e_alert_get_message_type (alert)) {
+		case GTK_MESSAGE_INFO:
+		case GTK_MESSAGE_WARNING:
+		case GTK_MESSAGE_QUESTION:
+		case GTK_MESSAGE_ERROR:
+			e_alert_bar_add_alert (alert_bar, alert);
+			break;
+
+		default:
+			parent = GTK_WINDOW (alert_sink);
+			dialog = e_alert_dialog_new (parent, alert);
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+			break;
+	}
 }
 
 static void
@@ -213,6 +265,12 @@ e_preview_pane_class_init (EPreviewPaneClass *class)
 }
 
 static void
+e_preview_pane_alert_sink_init (EAlertSinkInterface *interface)
+{
+	interface->submit_alert = preview_pane_submit_alert;
+}
+
+static void
 e_preview_pane_init (EPreviewPane *preview_pane)
 {
 	preview_pane->priv = G_TYPE_INSTANCE_GET_PRIVATE (
@@ -245,6 +303,14 @@ e_preview_pane_get_search_bar (EPreviewPane *preview_pane)
 	g_return_val_if_fail (E_IS_PREVIEW_PANE (preview_pane), NULL);
 
 	return E_SEARCH_BAR (preview_pane->priv->search_bar);
+}
+
+void
+e_preview_pane_clear_alerts (EPreviewPane *preview_pane)
+{
+	g_return_if_fail (E_IS_PREVIEW_PANE (preview_pane));
+
+	e_alert_bar_clear (E_ALERT_BAR (preview_pane->priv->alert_bar));
 }
 
 void

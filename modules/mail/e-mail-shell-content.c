@@ -281,20 +281,6 @@ mail_shell_content_get_action_group (EMailReader *reader,
 	return e_shell_window_get_action_group (shell_window, group_name);
 }
 
-static EAlertSink *
-mail_shell_content_get_alert_sink (EMailReader *reader)
-{
-	EMailShellContent *mail_shell_content;
-
-	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
-
-	/* Forward this to our internal EMailView, which
-	 * also implements the EMailReader interface. */
-	reader = E_MAIL_READER (mail_shell_content->priv->mail_view);
-
-	return e_mail_reader_get_alert_sink (reader);
-}
-
 static EMailBackend *
 mail_shell_content_get_backend (EMailReader *reader)
 {
@@ -476,7 +462,6 @@ static void
 mail_shell_content_reader_init (EMailReaderInterface *interface)
 {
 	interface->get_action_group = mail_shell_content_get_action_group;
-	interface->get_alert_sink = mail_shell_content_get_alert_sink;
 	interface->get_backend = mail_shell_content_get_backend;
 	interface->get_formatter = mail_shell_content_get_formatter;
 	interface->get_hide_deleted = mail_shell_content_get_hide_deleted;

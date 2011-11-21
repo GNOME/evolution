@@ -2766,6 +2766,16 @@ mail_reader_emit_folder_loaded (EMailReader *reader)
 	g_signal_emit (reader, signals[FOLDER_LOADED], 0);
 }
 
+static EAlertSink *
+mail_reader_get_alert_sink (EMailReader *reader)
+{
+	EPreviewPane *preview_pane;
+
+	preview_pane = e_mail_reader_get_preview_pane (reader);
+
+	return E_ALERT_SINK (preview_pane);
+}
+
 static GPtrArray *
 mail_reader_get_selected_uids (EMailReader *reader)
 {
@@ -3395,6 +3405,7 @@ e_mail_reader_default_init (EMailReaderInterface *interface)
 {
 	quark_private = g_quark_from_static_string ("e-mail-reader-private");
 
+	interface->get_alert_sink = mail_reader_get_alert_sink;
 	interface->get_selected_uids = mail_reader_get_selected_uids;
 	interface->get_folder = mail_reader_get_folder;
 	interface->enable_show_folder = mail_reader_get_enable_show_folder;
