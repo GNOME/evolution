@@ -27,6 +27,10 @@
 
 #include <glib/gi18n.h>
 
+#define E_MAIL_LABEL_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_LABEL_DIALOG, EMailLabelDialogPrivate))
+
 struct _EMailLabelDialogPrivate {
 	GtkWidget *entry;
 	GtkWidget *colorsel;
@@ -38,7 +42,7 @@ enum {
 	PROP_LABEL_NAME
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (EMailLabelDialog, e_mail_label_dialog, GTK_TYPE_DIALOG)
 
 static void
 mail_label_dialog_entry_changed_cb (EMailLabelDialog *dialog)
@@ -106,7 +110,7 @@ mail_label_dialog_dispose (GObject *object)
 {
 	EMailLabelDialogPrivate *priv;
 
-	priv = E_MAIL_LABEL_DIALOG (object)->priv;
+	priv = E_MAIL_LABEL_DIALOG_GET_PRIVATE (object);
 
 	if (priv->entry != NULL) {
 		g_object_unref (priv->entry);
@@ -119,7 +123,7 @@ mail_label_dialog_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_mail_label_dialog_parent_class)->dispose (object);
 }
 
 static void
@@ -140,15 +144,14 @@ mail_label_dialog_constructed (GObject *object)
 	gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_mail_label_dialog_parent_class)->constructed (object);
 }
 
 static void
-mail_label_dialog_class_init (EMailLabelDialogClass *class)
+e_mail_label_dialog_class_init (EMailLabelDialogClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailLabelDialogPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -179,14 +182,13 @@ mail_label_dialog_class_init (EMailLabelDialogClass *class)
 }
 
 static void
-mail_label_dialog_init (EMailLabelDialog *dialog)
+e_mail_label_dialog_init (EMailLabelDialog *dialog)
 {
 	GtkWidget *content_area;
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dialog, E_TYPE_MAIL_LABEL_DIALOG, EMailLabelDialogPrivate);
+	dialog->priv = E_MAIL_LABEL_DIALOG_GET_PRIVATE (dialog);
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
@@ -232,32 +234,6 @@ mail_label_dialog_init (EMailLabelDialog *dialog)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	dialog->priv->colorsel = g_object_ref (widget);
 	gtk_widget_show (widget);
-}
-
-GType
-e_mail_label_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMailLabelDialogClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_label_dialog_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailLabelDialog),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) mail_label_dialog_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_DIALOG, "EMailLabelDialog", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

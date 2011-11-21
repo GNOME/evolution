@@ -25,11 +25,15 @@
 
 #include "e-mail-label-action.h"
 
+#define E_MAIL_LABEL_ACTION_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_LABEL_ACTION, EMailLabelActionPrivate))
+
 struct _EMailLabelActionPrivate {
 	gint placeholder;
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (EMailLabelAction, e_mail_label_action, GTK_TYPE_TOGGLE_ACTION)
 
 static void
 mail_label_action_menu_item_realize_cb (GtkWidget *menu_item)
@@ -92,11 +96,10 @@ mail_label_action_create_menu_item (GtkAction *action)
 }
 
 static void
-mail_label_action_class_init (EMailLabelActionClass *class)
+e_mail_label_action_class_init (EMailLabelActionClass *class)
 {
 	GtkActionClass *action_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailLabelActionPrivate));
 
 	action_class = GTK_ACTION_CLASS (class);
@@ -104,37 +107,9 @@ mail_label_action_class_init (EMailLabelActionClass *class)
 }
 
 static void
-mail_label_action_init (EMailLabelAction *action)
+e_mail_label_action_init (EMailLabelAction *action)
 {
-	action->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		action, E_TYPE_MAIL_LABEL_ACTION, EMailLabelActionPrivate);
-}
-
-GType
-e_mail_label_action_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMailLabelActionClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_label_action_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailLabelAction),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) mail_label_action_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_TOGGLE_ACTION,
-			"EMailLabelAction", &type_info, 0);
-	}
-
-	return type;
+	action->priv = E_MAIL_LABEL_ACTION_GET_PRIVATE (action);
 }
 
 EMailLabelAction *

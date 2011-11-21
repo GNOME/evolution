@@ -27,6 +27,25 @@
 #include "e-util/e-event.h"
 #include "composer/e-msg-composer.h"
 
+/* Standard GObject macros */
+#define EM_TYPE_EVENT \
+	(em_event_get_type ())
+#define EM_EVENT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_EVENT, EMEvent))
+#define EM_EVENT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_EVENT, EMEventClass))
+#define EM_IS_EVENT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_EVENT))
+#define EM_IS_EVENT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_EVENT))
+#define EM_EVENT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_EVENT, EMEventClass))
+
 G_BEGIN_DECLS
 
 typedef struct _EMEvent EMEvent;

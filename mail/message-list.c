@@ -97,6 +97,10 @@
 #define d(x)
 #define t(x)
 
+#define MESSAGE_LIST_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), MESSAGE_LIST_TYPE, MessageListPrivate))
+
 struct _MLSelection {
 	GPtrArray *uids;
 	CamelFolder *folder;
@@ -135,7 +139,17 @@ enum {
 	PROP_PASTE_TARGET_LIST
 };
 
-static gpointer parent_class;
+/* Forward Declarations */
+static void	message_list_selectable_init
+					(ESelectableInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	MessageList,
+	message_list,
+	E_TYPE_TREE,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_SELECTABLE,
+		message_list_selectable_init))
 
 static struct {
 	const gchar *target;
@@ -2547,8 +2561,7 @@ message_list_init (MessageList *message_list)
 	GtkTargetList *target_list;
 	GdkAtom matom;
 
-	message_list->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		message_list, MESSAGE_LIST_TYPE, MessageListPrivate);
+	message_list->priv = MESSAGE_LIST_GET_PRIVATE (message_list);
 
 #if HAVE_CLUTTER
 	message_list->priv->timeline = NULL;
@@ -2706,7 +2719,7 @@ message_list_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (message_list_parent_class)->dispose (object);
 }
 
 static void
@@ -2735,7 +2748,7 @@ message_list_finalize (GObject *object)
 	clear_selection (message_list, &priv->clipboard);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (message_list_parent_class)->finalize (object);
 }
 
 static void
@@ -2768,7 +2781,6 @@ message_list_class_init (MessageListClass *class)
 	for (i = 0; i < G_N_ELEMENTS (ml_drag_info); i++)
 		ml_drag_info[i].atom = gdk_atom_intern (ml_drag_info[i].target, FALSE);
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (MessageListPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -2955,41 +2967,6 @@ message_list_construct (MessageList *message_list)
 		e_tree_get_table_adapter (E_TREE (message_list)),
 		"sorting_changed",
 		G_CALLBACK (ml_tree_sorting_changed), message_list);
-}
-
-GType
-message_list_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (MessageListClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) message_list_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (MessageList),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) message_list_init,
-			NULL   /* value_table */
-		};
-
-		static const GInterfaceInfo selectable_info = {
-			(GInterfaceInitFunc) message_list_selectable_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_TREE, "MessageList", &type_info, 0);
-
-		g_type_add_interface_static (
-			type, E_TYPE_SELECTABLE, &selectable_info);
-	}
-
-	return type;
 }
 
 /**

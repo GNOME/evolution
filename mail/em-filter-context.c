@@ -36,6 +36,10 @@
 /* For poking into filter-folder guts */
 #include "em-filter-folder-element.h"
 
+#define EM_FILTER_CONTEXT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FILTER_CONTEXT, EMFilterContextPrivate))
+
 struct _EMFilterContextPrivate {
 	EMailBackend *backend;
 	GList *actions;
@@ -101,7 +105,7 @@ filter_context_dispose (GObject *object)
 {
 	EMFilterContextPrivate *priv;
 
-	priv = EM_FILTER_CONTEXT (object)->priv;
+	priv = EM_FILTER_CONTEXT_GET_PRIVATE (object);
 
 	if (priv->backend != NULL) {
 		g_object_unref (priv->backend);
@@ -229,7 +233,7 @@ filter_context_new_element (ERuleContext *context,
 {
 	EMFilterContextPrivate *priv;
 
-	priv = EM_FILTER_CONTEXT (context)->priv;
+	priv = EM_FILTER_CONTEXT_GET_PRIVATE (context);
 
 	if (strcmp (type, "folder") == 0)
 		return em_filter_folder_element_new (priv->backend);
@@ -280,8 +284,7 @@ em_filter_context_class_init (EMFilterContextClass *class)
 static void
 em_filter_context_init (EMFilterContext *context)
 {
-	context->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		context, EM_TYPE_FILTER_CONTEXT, EMFilterContextPrivate);
+	context->priv = EM_FILTER_CONTEXT_GET_PRIVATE (context);
 
 	e_rule_context_add_part_set (
 		E_RULE_CONTEXT (context),

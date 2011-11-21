@@ -32,6 +32,10 @@
 #include "mail/em-composer-utils.h"
 #include "mail/em-utils.h"
 
+#define E_MAIL_DISPLAY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_DISPLAY, EMailDisplayPrivate))
+
 struct _EMailDisplayPrivate {
 	EMFormatHTML *formatter;
 };
@@ -40,8 +44,6 @@ enum {
 	PROP_0,
 	PROP_FORMATTER
 };
-
-static gpointer parent_class;
 
 static const gchar *ui =
 "<ui>"
@@ -98,6 +100,8 @@ static GtkActionEntry mailto_entries[] = {
 	  NULL,
 	  NULL }
 };
+
+G_DEFINE_TYPE (EMailDisplay, e_mail_display, E_TYPE_WEB_VIEW)
 
 static void
 mail_display_update_formatter_colors (EMailDisplay *display)
@@ -179,7 +183,7 @@ mail_display_dispose (GObject *object)
 {
 	EMailDisplayPrivate *priv;
 
-	priv = E_MAIL_DISPLAY (object)->priv;
+	priv = E_MAIL_DISPLAY_GET_PRIVATE (object);
 
 	if (priv->formatter) {
 		g_object_unref (priv->formatter);
@@ -187,14 +191,14 @@ mail_display_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_mail_display_parent_class)->dispose (object);
 }
 
 static void
 mail_display_realize (GtkWidget *widget)
 {
 	/* Chain up to parent's realize() method. */
-	GTK_WIDGET_CLASS (parent_class)->realize (widget);
+	GTK_WIDGET_CLASS (e_mail_display_parent_class)->realize (widget);
 
 	mail_display_update_formatter_colors (E_MAIL_DISPLAY (widget));
 }
@@ -205,10 +209,11 @@ mail_display_style_set (GtkWidget *widget,
 {
 	EMailDisplayPrivate *priv;
 
-	priv = E_MAIL_DISPLAY (widget)->priv;
+	priv = E_MAIL_DISPLAY_GET_PRIVATE (widget);
 
 	/* Chain up to parent's style_set() method. */
-	GTK_WIDGET_CLASS (parent_class)->style_set (widget, previous_style);
+	GTK_WIDGET_CLASS (e_mail_display_parent_class)->
+		style_set (widget, previous_style);
 
 	mail_display_update_formatter_colors (E_MAIL_DISPLAY (widget));
 	em_format_queue_redraw (EM_FORMAT (priv->formatter));
@@ -220,14 +225,15 @@ mail_display_load_string (EWebView *web_view,
 {
 	EMailDisplayPrivate *priv;
 
-	priv = E_MAIL_DISPLAY (web_view)->priv;
+	priv = E_MAIL_DISPLAY_GET_PRIVATE (web_view);
 	g_return_if_fail (priv->formatter != NULL);
 
 	if (em_format_busy (EM_FORMAT (priv->formatter)))
 		return;
 
 	/* Chain up to parent's load_string() method. */
-	E_WEB_VIEW_CLASS (parent_class)->load_string (web_view, string);
+	E_WEB_VIEW_CLASS (e_mail_display_parent_class)->
+		load_string (web_view, string);
 }
 
 static void
@@ -253,7 +259,7 @@ mail_display_process_mailto (EWebView *web_view,
 		CamelFolder *folder = NULL;
 		EShell *shell;
 
-		priv = E_MAIL_DISPLAY (web_view)->priv;
+		priv = E_MAIL_DISPLAY_GET_PRIVATE (web_view);
 		g_return_val_if_fail (priv->formatter != NULL, FALSE);
 
 		format = EM_FORMAT (priv->formatter);
@@ -277,7 +283,7 @@ mail_display_link_clicked (GtkHTML *html,
 {
 	EMailDisplayPrivate *priv;
 
-	priv = E_MAIL_DISPLAY (html)->priv;
+	priv = E_MAIL_DISPLAY_GET_PRIVATE (html);
 	g_return_if_fail (priv->formatter != NULL);
 
 	if (g_str_has_prefix (uri, "##")) {
@@ -331,19 +337,19 @@ mail_display_link_clicked (GtkHTML *html,
 
 	else {
 		/* Chain up to parent's link_clicked() method. */
-		GTK_HTML_CLASS (parent_class)->link_clicked (html, uri);
+		GTK_HTML_CLASS (e_mail_display_parent_class)->
+			link_clicked (html, uri);
 	}
 }
 
 static void
-mail_display_class_init (EMailDisplayClass *class)
+e_mail_display_class_init (EMailDisplayClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	EWebViewClass *web_view_class;
 	GtkHTMLClass *html_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailDisplayPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -375,7 +381,7 @@ mail_display_class_init (EMailDisplayClass *class)
 }
 
 static void
-mail_display_init (EMailDisplay *display)
+e_mail_display_init (EMailDisplay *display)
 {
 	EWebView *web_view;
 	GtkUIManager *ui_manager;
@@ -384,8 +390,7 @@ mail_display_init (EMailDisplay *display)
 
 	web_view = E_WEB_VIEW (display);
 
-	display->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		display, E_TYPE_MAIL_DISPLAY, EMailDisplayPrivate);
+	display->priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
 
 	/* EWebView's action groups are added during its instance
 	 * initialization function (like what we're in now), so it
@@ -405,32 +410,6 @@ mail_display_init (EMailDisplay *display)
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 	if (error != NULL)
 		g_error ("%s", error->message);
-}
-
-GType
-e_mail_display_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMailDisplayClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_display_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailDisplay),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) mail_display_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_WEB_VIEW, "EMailDisplay", &type_info, 0);
-	}
-
-	return type;
 }
 
 EMFormatHTML *

@@ -35,6 +35,10 @@
 
 #include "em-filter-folder-element.h"
 
+#define EM_VFOLDER_CONTEXT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_VFOLDER_CONTEXT, EMVFolderContextPrivate))
+
 struct _EMVFolderContextPrivate {
 	EMailBackend *backend;
 };
@@ -99,7 +103,7 @@ vfolder_context_dispose (GObject *object)
 {
 	EMVFolderContextPrivate *priv;
 
-	priv = EM_VFOLDER_CONTEXT (object)->priv;
+	priv = EM_VFOLDER_CONTEXT_GET_PRIVATE (object);
 
 	if (priv->backend != NULL) {
 		g_object_unref (priv->backend);
@@ -116,7 +120,7 @@ vfolder_context_new_element (ERuleContext *context,
 {
 	EMVFolderContextPrivate *priv;
 
-	priv = EM_VFOLDER_CONTEXT (context)->priv;
+	priv = EM_VFOLDER_CONTEXT_GET_PRIVATE (context);
 
 	if (strcmp (type, "system-flag") == 0)
 		return e_filter_option_new ();
@@ -166,8 +170,7 @@ em_vfolder_context_class_init (EMVFolderContextClass *class)
 static void
 em_vfolder_context_init (EMVFolderContext *context)
 {
-	context->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		context, EM_TYPE_VFOLDER_CONTEXT, EMVFolderContextPrivate);
+	context->priv = EM_VFOLDER_CONTEXT_GET_PRIVATE (context);
 
 	e_rule_context_add_part_set (
 		E_RULE_CONTEXT (context), "partset", E_TYPE_FILTER_PART,

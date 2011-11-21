@@ -98,7 +98,7 @@ EMEvent *
 em_event_peek (void)
 {
 	if (em_event == NULL) {
-		em_event = g_object_new (em_event_get_type (), NULL);
+		em_event = g_object_new (EM_TYPE_EVENT, NULL);
 		e_event_construct (
 			&em_event->popup,
 			"org.gnome.evolution.mail.events");

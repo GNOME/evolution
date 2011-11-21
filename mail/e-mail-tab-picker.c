@@ -22,6 +22,10 @@
 
 #include "e-mail-tab-picker.h"
 
+#define E_MAIL_TAB_PICKER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_TAB_PICKER, EMailTabPickerPrivate))
+
 static void mx_droppable_iface_init (MxDroppableIface *iface);
 static gint e_mail_tab_picker_find_tab_cb (gconstpointer a, gconstpointer b);
 
@@ -277,8 +281,9 @@ e_mail_tab_picker_paint (ClutterActor *actor)
 {
 	GList *t;
 	gfloat width, height, offset;
+	EMailTabPickerPrivate *priv;
 
-	EMailTabPickerPrivate *priv = E_MAIL_TAB_PICKER (actor)->priv;
+	priv = E_MAIL_TAB_PICKER_GET_PRIVATE (actor);
 
 	CLUTTER_ACTOR_CLASS (e_mail_tab_picker_parent_class)->paint (actor);
 
@@ -346,7 +351,9 @@ static void
 e_mail_tab_picker_pick (ClutterActor *actor,
                         const ClutterColor *color)
 {
-	EMailTabPickerPrivate *priv = E_MAIL_TAB_PICKER (actor)->priv;
+	EMailTabPickerPrivate *priv;
+
+	priv = E_MAIL_TAB_PICKER_GET_PRIVATE (actor);
 
 	/* Chain up to paint background */
 	CLUTTER_ACTOR_CLASS (e_mail_tab_picker_parent_class)->pick (actor, color);
@@ -363,8 +370,9 @@ e_mail_tab_picker_get_preferred_width (ClutterActor *actor,
 {
 	GList *t;
 	MxPadding padding;
+	EMailTabPickerPrivate *priv;
 
-	EMailTabPickerPrivate *priv = E_MAIL_TAB_PICKER (actor)->priv;
+	priv = E_MAIL_TAB_PICKER_GET_PRIVATE (actor);
 
 	clutter_actor_get_preferred_width (
 		CLUTTER_ACTOR (priv->chooser_button),
@@ -740,7 +748,9 @@ static void
 e_mail_tab_picker_map (ClutterActor *actor)
 {
 	GList *t;
-	EMailTabPickerPrivate *priv = E_MAIL_TAB_PICKER (actor)->priv;
+	EMailTabPickerPrivate *priv;
+
+	priv = E_MAIL_TAB_PICKER_GET_PRIVATE (actor);
 
 	CLUTTER_ACTOR_CLASS (e_mail_tab_picker_parent_class)->map (actor);
 
@@ -758,7 +768,9 @@ static void
 e_mail_tab_picker_unmap (ClutterActor *actor)
 {
 	GList *t;
-	EMailTabPickerPrivate *priv = E_MAIL_TAB_PICKER (actor)->priv;
+	EMailTabPickerPrivate *priv;
+
+	priv = E_MAIL_TAB_PICKER_GET_PRIVATE (actor);
 
 	CLUTTER_ACTOR_CLASS (e_mail_tab_picker_parent_class)->unmap (actor);
 
@@ -817,7 +829,7 @@ e_mail_tab_picker_class_init (EMailTabPickerClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
-		E_MAIL_TYPE_TAB);
+		E_TYPE_MAIL_TAB);
 
 	signals[CHOOSER_CLICKED] = g_signal_new (
 		"chooser-clicked",
@@ -831,9 +843,9 @@ e_mail_tab_picker_class_init (EMailTabPickerClass *class)
 
 static void
 e_mail_tab_picker_chooser_clicked_cb (ClutterActor *button,
-                                      EMailTabPicker *self)
+                                      EMailTabPicker *picker)
 {
-	g_signal_emit (self, signals[CHOOSER_CLICKED], 0);
+	g_signal_emit (picker, signals[CHOOSER_CLICKED], 0);
 }
 
 static gboolean
@@ -841,8 +853,8 @@ e_mail_tab_picker_scroll_event_cb (ClutterActor *actor,
                                    ClutterScrollEvent *event,
                                    gpointer user_data)
 {
-	EMailTabPicker *self = E_MAIL_TAB_PICKER (actor);
-	EMailTabPickerPrivate *priv = self->priv;
+	EMailTabPicker *picker = E_MAIL_TAB_PICKER (actor);
+	EMailTabPickerPrivate *priv = picker->priv;
 
 	priv->keep_current_visible = FALSE;
 
@@ -850,13 +862,13 @@ e_mail_tab_picker_scroll_event_cb (ClutterActor *actor,
 		case CLUTTER_SCROLL_UP :
 		case CLUTTER_SCROLL_LEFT :
 			e_mail_tab_picker_scroll_to (
-				self, priv->scroll_end - 200, 150);
+				picker, priv->scroll_end - 200, 150);
 			break;
 
 		case CLUTTER_SCROLL_DOWN :
 		case CLUTTER_SCROLL_RIGHT :
 			e_mail_tab_picker_scroll_to (
-				self, priv->scroll_end + 200, 150);
+				picker, priv->scroll_end + 200, 150);
 			break;
 	}
 
@@ -879,45 +891,48 @@ e_mail_tab_picker_scroll_value_cb (MxAdjustment *adjustment,
 }
 
 static void
-e_mail_tab_picker_init (EMailTabPicker *self)
+e_mail_tab_picker_init (EMailTabPicker *picker)
 {
-	EMailTabPickerPrivate *priv;
+	picker->priv = E_MAIL_TAB_PICKER_GET_PRIVATE (picker);
 
-	priv = self->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		self, E_MAIL_TYPE_TAB_PICKER, EMailTabPickerPrivate);
+	clutter_actor_set_reactive (CLUTTER_ACTOR (picker), TRUE);
 
-	clutter_actor_set_reactive (CLUTTER_ACTOR (self), TRUE);
-
-	priv->chooser_button = mx_button_new ();
+	picker->priv->chooser_button = mx_button_new ();
 	clutter_actor_set_name (
-		CLUTTER_ACTOR (priv->chooser_button), "chooser-button");
+		CLUTTER_ACTOR (picker->priv->chooser_button),
+		"chooser-button");
 	clutter_actor_set_parent (
-		CLUTTER_ACTOR (priv->chooser_button), CLUTTER_ACTOR (self));
+		CLUTTER_ACTOR (picker->priv->chooser_button),
+		CLUTTER_ACTOR (picker));
 
-	priv->close_button = mx_button_new ();
+	picker->priv->close_button = mx_button_new ();
 	clutter_actor_set_name (
-		CLUTTER_ACTOR (priv->close_button), "chooser-close-button");
+		CLUTTER_ACTOR (picker->priv->close_button),
+		"chooser-close-button");
 	clutter_actor_set_parent (
-		CLUTTER_ACTOR (priv->close_button), CLUTTER_ACTOR (self));
-	clutter_actor_hide (CLUTTER_ACTOR (priv->close_button));
+		CLUTTER_ACTOR (picker->priv->close_button),
+		CLUTTER_ACTOR (picker));
+	clutter_actor_hide (CLUTTER_ACTOR (picker->priv->close_button));
 
-	priv->scroll_adjustment =
+	picker->priv->scroll_adjustment =
 		mx_adjustment_new_with_values (0, 0, 0, 100, 200, 200);
-	priv->scroll_bar =
-		mx_scroll_bar_new_with_adjustment (priv->scroll_adjustment);
-	g_object_unref (priv->scroll_adjustment);
+	picker->priv->scroll_bar =
+		mx_scroll_bar_new_with_adjustment (
+		picker->priv->scroll_adjustment);
+	g_object_unref (picker->priv->scroll_adjustment);
 	clutter_actor_set_parent (
-		CLUTTER_ACTOR (priv->scroll_bar), CLUTTER_ACTOR (self));
-	clutter_actor_hide (CLUTTER_ACTOR (priv->scroll_bar));
+		CLUTTER_ACTOR (picker->priv->scroll_bar),
+		CLUTTER_ACTOR (picker));
+	clutter_actor_hide (CLUTTER_ACTOR (picker->priv->scroll_bar));
 
 	g_signal_connect (
-		priv->chooser_button, "clicked",
-		G_CALLBACK (e_mail_tab_picker_chooser_clicked_cb), self);
+		picker->priv->chooser_button, "clicked",
+		G_CALLBACK (e_mail_tab_picker_chooser_clicked_cb), picker);
 	g_signal_connect (
-		priv->close_button, "clicked",
-		G_CALLBACK (e_mail_tab_picker_chooser_clicked_cb), self);
+		picker->priv->close_button, "clicked",
+		G_CALLBACK (e_mail_tab_picker_chooser_clicked_cb), picker);
 	g_signal_connect (
-		self, "scroll-event",
+		picker, "scroll-event",
 		G_CALLBACK (e_mail_tab_picker_scroll_event_cb), NULL);
 }
 
@@ -933,9 +948,9 @@ e_mail_tab_picker_find_tab_cb (gconstpointer a,
 
 static void
 e_mail_tab_picker_tab_clicked_cb (EMailTab *tab,
-                                  EMailTabPicker *self)
+                                  EMailTabPicker *picker)
 {
-	EMailTabPickerPrivate *priv = self->priv;
+	EMailTabPickerPrivate *priv = picker->priv;
 	EMailTab *old_tab;
 	GList *new_tab_link;
 
@@ -953,7 +968,7 @@ e_mail_tab_picker_tab_clicked_cb (EMailTab *tab,
 	if (tab == old_tab) {
 		e_mail_tab_set_active (tab, TRUE);
 		if (priv->preview_mode)
-			g_signal_emit (self, signals[TAB_ACTIVATED], 0, tab);
+			g_signal_emit (picker, signals[TAB_ACTIVATED], 0, tab);
 		return;
 	}
 
@@ -962,13 +977,13 @@ e_mail_tab_picker_tab_clicked_cb (EMailTab *tab,
 
 	/* Set new tab */
 	priv->current_tab = g_list_position (priv->tabs, new_tab_link);
-	g_signal_emit (self, signals[TAB_ACTIVATED], 0, tab);
+	g_signal_emit (picker, signals[TAB_ACTIVATED], 0, tab);
 }
 
 ClutterActor *
 e_mail_tab_picker_new (void)
 {
-	return g_object_new (E_MAIL_TYPE_TAB_PICKER, NULL);
+	return g_object_new (E_TYPE_MAIL_TAB_PICKER, NULL);
 }
 
 static void

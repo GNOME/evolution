@@ -45,6 +45,10 @@
 #include "mail/em-format-html-display.h"
 #include "mail/message-list.h"
 
+#define E_MAIL_BROWSER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_BROWSER, EMailBrowserPrivate))
+
 #define MAIL_BROWSER_GCONF_PREFIX "/apps/evolution/mail/mail_browser"
 
 #define ACTION_GROUP_STANDARD		"action-group-standard"
@@ -482,7 +486,7 @@ mail_browser_dispose (GObject *object)
 {
 	EMailBrowserPrivate *priv;
 
-	priv = E_MAIL_BROWSER (object)->priv;
+	priv = E_MAIL_BROWSER_GET_PRIVATE (object);
 
 	if (priv->backend != NULL) {
 		g_object_unref (priv->backend);
@@ -542,7 +546,7 @@ mail_browser_dispose (GObject *object)
 static void
 mail_browser_constructed (GObject *object)
 {
-	EMailBrowserPrivate *priv;
+	EMailBrowser *browser;
 	EMFormatHTML *formatter;
 	EMailReader *reader;
 	EMailBackend *backend;
@@ -566,7 +570,7 @@ mail_browser_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 
-	priv = E_MAIL_BROWSER (object)->priv;
+	browser = E_MAIL_BROWSER (object);
 
 	reader = E_MAIL_READER (object);
 	backend = e_mail_reader_get_backend (reader);
@@ -577,7 +581,7 @@ mail_browser_constructed (GObject *object)
 	ui_manager = e_ui_manager_new ();
 	e_shell_configure_ui_manager (shell, E_UI_MANAGER (ui_manager));
 
-	priv->ui_manager = ui_manager;
+	browser->priv->ui_manager = ui_manager;
 	domain = GETTEXT_PACKAGE;
 
 	gtk_application_add_window (
@@ -589,15 +593,15 @@ mail_browser_constructed (GObject *object)
 	/* The message list is a widget, but it is not shown in the browser.
 	 * Unfortunately, the widget is inseparable from its model, and the
 	 * model is all we need. */
-	priv->message_list = message_list_new (backend);
-	g_object_ref_sink (priv->message_list);
+	browser->priv->message_list = message_list_new (backend);
+	g_object_ref_sink (browser->priv->message_list);
 
 	g_signal_connect_swapped (
-		priv->message_list, "message-selected",
+		browser->priv->message_list, "message-selected",
 		G_CALLBACK (mail_browser_message_selected_cb), object);
 
 	g_signal_connect_swapped (
-		priv->message_list, "message-list-built",
+		browser->priv->message_list, "message-list-built",
 		G_CALLBACK (mail_browser_message_list_built_cb), object);
 
 	g_signal_connect_swapped (
@@ -662,7 +666,7 @@ mail_browser_constructed (GObject *object)
 	e_focus_tracker_set_paste_clipboard_action (focus_tracker, action);
 	action = e_mail_reader_get_action (reader, "select-all");
 	e_focus_tracker_set_select_all_action (focus_tracker, action);
-	priv->focus_tracker = focus_tracker;
+	browser->priv->focus_tracker = focus_tracker;
 
 	/* Construct window widgets. */
 
@@ -675,17 +679,17 @@ mail_browser_constructed (GObject *object)
 	/* Create the status bar before connecting proxy widgets. */
 	widget = gtk_statusbar_new ();
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->statusbar = g_object_ref (widget);
+	browser->priv->statusbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_ui_manager_get_widget (ui_manager, "/main-menu");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->main_menu = g_object_ref (widget);
+	browser->priv->main_menu = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_ui_manager_get_widget (ui_manager, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->main_toolbar = g_object_ref (widget);
+	browser->priv->main_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	gtk_style_context_add_class (
@@ -694,7 +698,7 @@ mail_browser_constructed (GObject *object)
 
 	widget = e_alert_bar_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->alert_bar = g_object_ref (widget);
+	browser->priv->alert_bar = g_object_ref (widget);
 	/* EAlertBar controls its own visibility. */
 
 	gtk_widget_show (GTK_WIDGET (web_view));
@@ -704,11 +708,12 @@ mail_browser_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	search_bar = e_preview_pane_get_search_bar (E_PREVIEW_PANE (widget));
-	priv->search_bar = g_object_ref (search_bar);
+	browser->priv->search_bar = g_object_ref (search_bar);
 
 	g_signal_connect_swapped (
 		search_bar, "changed",
-		G_CALLBACK (em_format_queue_redraw), priv->formatter);
+		G_CALLBACK (em_format_queue_redraw),
+		browser->priv->formatter);
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -745,18 +750,18 @@ static void
 mail_browser_submit_alert (EAlertSink *alert_sink,
                            EAlert *alert)
 {
-	EMailBrowserPrivate *priv;
+	EMailBrowser *browser;
 	EAlertBar *alert_bar;
 	GtkWidget *dialog;
 	GtkWindow *parent;
 
-	priv = E_MAIL_BROWSER (alert_sink)->priv;
+	browser = E_MAIL_BROWSER (alert_sink);
+	alert_bar = E_ALERT_BAR (browser->priv->alert_bar);
 
 	switch (e_alert_get_message_type (alert)) {
 		case GTK_MESSAGE_INFO:
 		case GTK_MESSAGE_WARNING:
 		case GTK_MESSAGE_ERROR:
-			alert_bar = E_ALERT_BAR (priv->alert_bar);
 			e_alert_bar_add_alert (alert_bar, alert);
 			break;
 
@@ -798,11 +803,11 @@ mail_browser_get_alert_sink (EMailReader *reader)
 static EMailBackend *
 mail_browser_get_backend (EMailReader *reader)
 {
-	EMailBrowserPrivate *priv;
+	EMailBrowser *browser;
 
-	priv = E_MAIL_BROWSER (reader)->priv;
+	browser = E_MAIL_BROWSER (reader);
 
-	return priv->backend;
+	return browser->priv->backend;
 }
 
 static gboolean
@@ -818,21 +823,21 @@ mail_browser_get_hide_deleted (EMailReader *reader)
 static EMFormatHTML *
 mail_browser_get_formatter (EMailReader *reader)
 {
-	EMailBrowserPrivate *priv;
+	EMailBrowser *browser;
 
-	priv = E_MAIL_BROWSER (reader)->priv;
+	browser = E_MAIL_BROWSER (reader);
 
-	return EM_FORMAT_HTML (priv->formatter);
+	return EM_FORMAT_HTML (browser->priv->formatter);
 }
 
 static GtkWidget *
 mail_browser_get_message_list (EMailReader *reader)
 {
-	EMailBrowserPrivate *priv;
+	EMailBrowser *browser;
 
-	priv = E_MAIL_BROWSER (reader)->priv;
+	browser = E_MAIL_BROWSER (reader);
 
-	return priv->message_list;
+	return browser->priv->message_list;
 }
 
 static GtkMenu *
@@ -886,11 +891,11 @@ mail_browser_set_message (EMailReader *reader,
 static void
 mail_browser_show_search_bar (EMailReader *reader)
 {
-	EMailBrowserPrivate *priv;
+	EMailBrowser *browser;
 
-	priv = E_MAIL_BROWSER (reader)->priv;
+	browser = E_MAIL_BROWSER (reader);
 
-	gtk_widget_show (priv->search_bar);
+	gtk_widget_show (browser->priv->search_bar);
 }
 
 static void
@@ -988,9 +993,7 @@ e_mail_browser_init (EMailBrowser *browser)
 	GConfBridge *bridge;
 	const gchar *prefix;
 
-	browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		browser, E_TYPE_MAIL_BROWSER, EMailBrowserPrivate);
-
+	browser->priv = E_MAIL_BROWSER_GET_PRIVATE (browser);
 	browser->priv->formatter = em_format_html_display_new ();
 
 	bridge = gconf_bridge_get ();

@@ -75,6 +75,10 @@
 #include "smime/gui/e-cert-selector.h"
 #endif
 
+#define EM_ACCOUNT_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_ACCOUNT_EDITOR, EMAccountEditorPrivate))
+
 /* Option widgets whose sensitivity depends on another widget, such
  * as a checkbox being active, are indented to the right slightly for
  * better visual clarity.  This specifies how far to the right. */
@@ -262,7 +266,7 @@ enum {
 static void em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, const gchar *id);
 static void emae_account_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *emae);
 
-static gpointer parent_class;
+G_DEFINE_TYPE (EMAccountEditor, em_account_editor, G_TYPE_OBJECT)
 
 static void
 emae_config_target_changed_cb (EMAccountEditor *emae)
@@ -843,7 +847,7 @@ emae_dispose (GObject *object)
 {
 	EMAccountEditorPrivate *priv;
 
-	priv = EM_ACCOUNT_EDITOR (object)->priv;
+	priv = EM_ACCOUNT_EDITOR_GET_PRIVATE (object);
 
 	if (priv->backend != NULL) {
 		g_object_unref (priv->backend);
@@ -880,7 +884,7 @@ emae_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (em_account_editor_parent_class)->dispose (object);
 }
 
 static void
@@ -901,15 +905,14 @@ emae_finalize (GObject *object)
 	g_list_free (priv->providers);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (em_account_editor_parent_class)->finalize (object);
 }
 
 static void
-emae_class_init (GObjectClass *class)
+em_account_editor_class_init (EMAccountEditorClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMAccountEditorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -1141,10 +1144,9 @@ emae_class_init (GObjectClass *class)
 }
 
 static void
-emae_init (EMAccountEditor *emae)
+em_account_editor_init (EMAccountEditor *emae)
 {
-	emae->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		emae, EM_TYPE_ACCOUNT_EDITOR, EMAccountEditorPrivate);
+	emae->priv = EM_ACCOUNT_EDITOR_GET_PRIVATE (emae);
 
 	emae->priv->selected_server = NULL;
 	emae->priv->source.emae = emae;
@@ -1157,32 +1159,6 @@ emae_init (EMAccountEditor *emae)
 
 	emae->priv->is_gmail = FALSE;
 	emae->priv->is_yahoo = FALSE;
-}
-
-GType
-em_account_editor_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMAccountEditorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) emae_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMAccountEditor),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) emae_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EMAccountEditor", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

@@ -46,17 +46,13 @@ libevolution_mail_la_CPPFLAGS =				\
 
 mailinclude_HEADERS =					\
 	e-mail.h					\
-	e-mail-view.h					\
-	e-mail-folder-pane.h				\
-	e-mail-message-pane.h				\
-	e-mail-paned-view.h				\
-	e-mail-notebook-view.h				\
 	e-mail-attachment-bar.h				\
 	e-mail-backend.h				\
 	e-mail-browser.h				\
 	e-mail-display.h				\
 	e-mail-enums.h					\
 	e-mail-enumtypes.h				\
+	e-mail-folder-pane.h				\
 	e-mail-folder-utils.h				\
 	e-mail-junk-filter.h				\
 	e-mail-junk-options.h				\
@@ -66,15 +62,19 @@ mailinclude_HEADERS =					\
 	e-mail-label-manager.h				\
 	e-mail-label-tree-view.h			\
 	e-mail-local.h					\
+	e-mail-message-pane.h				\
 	e-mail-migrate.h				\
-	e-mail-reader.h					\
+	e-mail-notebook-view.h				\
+	e-mail-paned-view.h				\
 	e-mail-reader-utils.h				\
-	e-mail-session.h				\
+	e-mail-reader.h					\
 	e-mail-session-utils.h				\
+	e-mail-session.h				\
 	e-mail-sidebar.h				\
-	e-mail-store.h					\
 	e-mail-store-utils.h				\
+	e-mail-store.h					\
 	e-mail-tag-editor.h				\
+	e-mail-view.h					\
 	em-account-editor.h				\
 	em-composer-utils.h				\
 	em-config.h					\
@@ -85,15 +85,15 @@ mailinclude_HEADERS =					\
 	em-filter-rule.h				\
 	em-filter-source-element.h			\
 	em-folder-properties.h				\
-	em-folder-selector.h				\
 	em-folder-selection-button.h			\
-	em-folder-tree.h				\
+	em-folder-selector.h				\
 	em-folder-tree-model.h				\
+	em-folder-tree.h				\
 	em-folder-utils.h				\
 	em-format-hook.h				\
-	em-format-html.h				\
 	em-format-html-display.h			\
 	em-format-html-print.h				\
+	em-format-html.h				\
 	em-html-stream.h				\
 	em-search-context.h				\
 	em-subscription-editor.h			\
@@ -121,16 +121,12 @@ mailinclude_HEADERS +=					\
 endif
 
 libevolution_mail_la_SOURCES =				\
-	e-mail-view.c					\
-	e-mail-folder-pane.c				\
-	e-mail-message-pane.c				\
-	e-mail-paned-view.c				\
-	e-mail-notebook-view.c				\
 	e-mail-attachment-bar.c				\
 	e-mail-backend.c				\
 	e-mail-browser.c				\
 	e-mail-display.c				\
 	e-mail-enumtypes.c				\
+	e-mail-folder-pane.c				\
 	e-mail-folder-utils.c				\
 	e-mail-junk-filter.c				\
 	e-mail-junk-options.c				\
@@ -140,15 +136,19 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-label-manager.c				\
 	e-mail-label-tree-view.c			\
 	e-mail-local.c					\
+	e-mail-message-pane.c				\
 	e-mail-migrate.c				\
-	e-mail-reader.c					\
+	e-mail-notebook-view.c				\
+	e-mail-paned-view.c				\
 	e-mail-reader-utils.c				\
-	e-mail-session.c				\
+	e-mail-reader.c					\
 	e-mail-session-utils.c				\
+	e-mail-session.c				\
 	e-mail-sidebar.c				\
-	e-mail-store.c					\
 	e-mail-store-utils.c				\
+	e-mail-store.c					\
 	e-mail-tag-editor.c				\
+	e-mail-view.c					\
 	em-account-editor.c				\
 	em-composer-utils.c				\
 	em-config.c					\
@@ -159,15 +159,15 @@ libevolution_mail_la_SOURCES =				\
 	em-filter-rule.c				\
 	em-filter-source-element.c			\
 	em-folder-properties.c				\
-	em-folder-selector.c				\
 	em-folder-selection-button.c			\
-	em-folder-tree.c				\
+	em-folder-selector.c				\
 	em-folder-tree-model.c				\
+	em-folder-tree.c				\
 	em-folder-utils.c				\
 	em-format-hook.c				\
-	em-format-html.c				\
 	em-format-html-display.c			\
 	em-format-html-print.c				\
+	em-format-html.c				\
 	em-html-stream.c				\
 	em-search-context.c				\
 	em-subscription-editor.c			\

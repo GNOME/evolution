@@ -29,6 +29,10 @@
 #include "e-mail-label-dialog.h"
 #include "e-mail-label-tree-view.h"
 
+#define E_MAIL_LABEL_MANAGER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_LABEL_MANAGER, EMailLabelManagerPrivate))
+
 struct _EMailLabelManagerPrivate {
 	GtkWidget *tree_view;
 	GtkWidget *add_button;
@@ -48,8 +52,9 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (EMailLabelManager, e_mail_label_manager, GTK_TYPE_TABLE)
 
 static void
 mail_label_manager_selection_changed_cb (EMailLabelManager *manager,
@@ -121,7 +126,7 @@ mail_label_manager_dispose (GObject *object)
 {
 	EMailLabelManagerPrivate *priv;
 
-	priv = E_MAIL_LABEL_MANAGER (object)->priv;
+	priv = E_MAIL_LABEL_MANAGER_GET_PRIVATE (object);
 
 	if (priv->tree_view != NULL) {
 		g_object_unref (priv->tree_view);
@@ -144,7 +149,7 @@ mail_label_manager_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_mail_label_manager_parent_class)->dispose (object);
 }
 
 static void
@@ -248,11 +253,10 @@ mail_label_manager_remove_label (EMailLabelManager *manager)
 }
 
 static void
-mail_label_manager_class_init (EMailLabelManagerClass *class)
+e_mail_label_manager_class_init (EMailLabelManagerClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailLabelManagerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -303,14 +307,13 @@ mail_label_manager_class_init (EMailLabelManagerClass *class)
 }
 
 static void
-mail_label_manager_init (EMailLabelManager *manager)
+e_mail_label_manager_init (EMailLabelManager *manager)
 {
 	GtkTreeSelection *selection;
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	manager->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		manager, E_TYPE_MAIL_LABEL_MANAGER, EMailLabelManagerPrivate);
+	manager->priv = E_MAIL_LABEL_MANAGER_GET_PRIVATE (manager);
 
 	gtk_table_resize (GTK_TABLE (manager), 2, 2);
 	gtk_table_set_col_spacings (GTK_TABLE (manager), 6);
@@ -392,32 +395,6 @@ mail_label_manager_init (EMailLabelManager *manager)
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (e_mail_label_manager_remove_label), manager);
-}
-
-GType
-e_mail_label_manager_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMailLabelManagerClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_label_manager_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailLabelManager),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) mail_label_manager_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_TABLE, "EMailLabelManager", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

@@ -262,7 +262,7 @@ folder_selection_button_clicked (GtkButton *button)
 	GtkTreeSelection *selection;
 	gpointer parent;
 
-	priv = EM_FOLDER_SELECTION_BUTTON (button)->priv;
+	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (button);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;

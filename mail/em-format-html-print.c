@@ -35,7 +35,10 @@
 #include "em-format-html-print.h"
 #include <e-util/e-print.h>
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (
+	EMFormatHTMLPrint,
+	em_format_html_print,
+	EM_TYPE_FORMAT_HTML)
 
 static void
 efhp_finalize (GObject *object)
@@ -47,7 +50,7 @@ efhp_finalize (GObject *object)
 		g_object_unref (efhp->source);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (em_format_html_print_parent_class)->finalize (object);
 }
 
 static gboolean
@@ -61,12 +64,10 @@ efhp_is_inline (EMFormat *emf,
 }
 
 static void
-efhp_class_init (EMFormatHTMLPrintClass *class)
+em_format_html_print_class_init (EMFormatHTMLPrintClass *class)
 {
 	GObjectClass *object_class;
 	EMFormatClass *format_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = efhp_finalize;
@@ -76,9 +77,8 @@ efhp_class_init (EMFormatHTMLPrintClass *class)
 }
 
 static void
-efhp_init (GObject *o)
+em_format_html_print_init (EMFormatHTMLPrint *efhp)
 {
-	EMFormatHTMLPrint *efhp = (EMFormatHTMLPrint *) o;
 	EWebView *web_view;
 
 	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (efhp));
@@ -90,32 +90,6 @@ efhp_init (GObject *o)
 	gtk_widget_realize (GTK_WIDGET (web_view));
 	efhp->parent.show_icon = FALSE;
 	((EMFormat *) efhp)->print = TRUE;
-}
-
-GType
-em_format_html_print_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMFormatHTMLPrintClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) efhp_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMFormatHTMLPrint),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) efhp_init
-		};
-
-		type = g_type_register_static (
-			EM_TYPE_FORMAT_HTML, "EMFormatHTMLPrint",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 EMFormatHTMLPrint *

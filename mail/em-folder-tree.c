@@ -437,7 +437,7 @@ folder_tree_select_func (GtkTreeSelection *selection,
 
 	tree_view = gtk_tree_selection_get_tree_view (selection);
 
-	priv = EM_FOLDER_TREE (tree_view)->priv;
+	priv = EM_FOLDER_TREE_GET_PRIVATE (tree_view);
 
 	if (selected)
 		return TRUE;

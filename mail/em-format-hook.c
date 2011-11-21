@@ -31,7 +31,7 @@
 
 #include <glib/gi18n.h>
 
-/* class name -> klass map for EMFormat and subclasses */
+/* class name -> class map for EMFormat and subclasses */
 static GHashTable *emfh_types;
 
 /* ********************************************************************** */
@@ -48,7 +48,6 @@ static GHashTable *emfh_types;
  * </hook>
  */
 
-static gpointer emfh_parent_class;
 #define emfh ((EMFormatHook *)eph)
 
 #define d(x)
@@ -58,6 +57,8 @@ static const EPluginHookTargetKey emfh_flag_map[] = {
 	{ "inline_disposition", EM_FORMAT_HANDLER_INLINE_DISPOSITION },
 	{ NULL }
 };
+
+G_DEFINE_TYPE (EMFormatHook, em_format_hook, E_TYPE_PLUGIN_HOOK)
 
 static void
 emfh_format_format (EMFormat *md,
@@ -171,7 +172,7 @@ emfh_construct (EPluginHook *eph,
 
 	d(printf("loading format hook\n"));
 
-	if (((EPluginHookClass *) emfh_parent_class)->construct (eph, ep, root) == -1)
+	if (((EPluginHookClass *) em_format_hook_parent_class)->construct (eph, ep, root) == -1)
 		return -1;
 
 	node = root->children;
@@ -181,10 +182,10 @@ emfh_construct (EPluginHook *eph,
 
 			group = emfh_construct_group (eph, node);
 			if (group) {
-				EMFormatClass *klass;
+				EMFormatClass *class;
 
 				if (emfh_types
-				    && (klass = g_hash_table_lookup (emfh_types, group->id))) {
+				    && (class = g_hash_table_lookup (emfh_types, group->id))) {
 					GSList *l = group->items;
 
 					for (; l; l = g_slist_next (l)) {
@@ -194,7 +195,7 @@ emfh_construct (EPluginHook *eph,
 						 * if we leave as is, then we can enable the
 						 * plugin after startup and it will start
 						 * working automagically */
-						em_format_class_add_handler (klass, &item->handler);
+						em_format_class_add_handler (class, &item->handler);
 					}
 				}
 				/* We don't actually need to keep this
@@ -217,7 +218,7 @@ emfh_enable (EPluginHook *eph,
              gint state)
 {
 	GSList *g, *l;
-	EMFormatClass *klass;
+	EMFormatClass *class;
 
 	g = emfh->groups;
 	if (emfh_types == NULL)
@@ -226,75 +227,60 @@ emfh_enable (EPluginHook *eph,
 	for (; g; g = g_slist_next (g)) {
 		struct _EMFormatHookGroup *group = g->data;
 
-		klass = g_hash_table_lookup (emfh_types, group->id);
+		class = g_hash_table_lookup (emfh_types, group->id);
 		for (l = group->items; l; l = g_slist_next (l)) {
 			EMFormatHookItem *item = l->data;
 
 			if (state)
-				em_format_class_add_handler (klass, &item->handler);
+				em_format_class_add_handler (class, &item->handler);
 			else
-				em_format_class_remove_handler (klass, &item->handler);
+				em_format_class_remove_handler (class, &item->handler);
 		}
 	}
 }
 
 static void
-emfh_finalize (GObject *o)
+format_hook_finalize (GObject *object)
 {
-	EPluginHook *eph = (EPluginHook *) o;
+	EPluginHook *eph = (EPluginHook *) object;
 
 	g_slist_foreach (emfh->groups, (GFunc) emfh_free_group, NULL);
 	g_slist_free (emfh->groups);
 
-	((GObjectClass *) emfh_parent_class)->finalize (o);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (em_format_hook_parent_class)->finalize (object);
 }
 
 static void
-emfh_class_init (EPluginHookClass *klass)
+em_format_hook_class_init (EMFormatHookClass *class)
 {
-	((GObjectClass *) klass)->finalize = emfh_finalize;
-	klass->construct = emfh_construct;
-	klass->enable = emfh_enable;
-	klass->id = "org.gnome.evolution.mail.format:1.0";
+	GObjectClass *object_class;
+	EPluginHookClass *hook_class;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = format_hook_finalize;
+
+	hook_class = E_PLUGIN_HOOK_CLASS (class);
+	hook_class->construct = emfh_construct;
+	hook_class->enable = emfh_enable;
+	hook_class->id = "org.gnome.evolution.mail.format:1.0";
 }
 
-GType
-em_format_hook_get_type (void)
+static void
+em_format_hook_init (EMFormatHook *hook)
 {
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (EMFormatHookClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) emfh_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMFormatHook),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		emfh_parent_class = g_type_class_ref (E_TYPE_PLUGIN_HOOK);
-		type = g_type_register_static (
-			E_TYPE_PLUGIN_HOOK, "EMFormatHook", &info, 0);
-	}
-
-	return type;
 }
 
 void
 em_format_hook_register_type (GType type)
 {
-	EMFormatClass *klass;
+	EMFormatClass *class;
 
 	if (emfh_types == NULL)
 		emfh_types = g_hash_table_new (g_str_hash, g_str_equal);
 
 	d(printf("registering formatter type '%s'\n", g_type_name(type)));
 
-	klass = g_type_class_ref (type);
-	g_hash_table_insert (emfh_types, (gpointer) g_type_name (type), klass);
+	class = g_type_class_ref (type);
+	g_hash_table_insert (emfh_types, (gpointer) g_type_name (type), class);
 }

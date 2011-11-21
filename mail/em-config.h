@@ -29,6 +29,25 @@
 
 #include "e-util/e-config.h"
 
+/* Standard GObject macros */
+#define EM_TYPE_CONFIG \
+	(em_config_get_type ())
+#define EM_CONFIG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_CONFIG, EMConfig))
+#define EM_CONFIG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_CONFIG, EMConfigClass))
+#define EM_IS_CONFIG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_CONFIG))
+#define EM_IS_CONFIG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_CONFIG, EMConfigClass))
+#define EM_CONFIG_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_CONFIG, EMConfigClass))
+
 G_BEGIN_DECLS
 
 typedef struct _EMConfig EMConfig;

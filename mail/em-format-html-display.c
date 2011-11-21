@@ -66,6 +66,10 @@
 #include "widgets/misc/e-attachment-button.h"
 #include "widgets/misc/e-attachment-view.h"
 
+#define EM_FORMAT_HTML_DISPLAY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayPrivate))
+
 #define d(x)
 
 struct _EMFormatHTMLDisplayPrivate {
@@ -156,7 +160,10 @@ static void	efhd_message_prefix		(EMFormat *emf,
 
 static void efhd_builtin_init (EMFormatHTMLDisplayClass *efhc);
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EMFormatHTMLDisplay,
+	em_format_html_display,
+	EM_TYPE_FORMAT_HTML)
 
 static void
 efhd_xpkcs7mime_free (EMFormatHTMLPObject *o)
@@ -439,7 +446,7 @@ efhd_format_clone (EMFormat *emf,
 		EM_FORMAT_HTML (emf)->header_wrap_flags = 0;
 
 	/* Chain up to parent's format_clone() method. */
-	EM_FORMAT_CLASS (parent_class)->
+	EM_FORMAT_CLASS (em_format_html_display_parent_class)->
 		format_clone (emf, folder, uid, msg, src, cancellable);
 }
 
@@ -835,17 +842,17 @@ efhd_finalize (GObject *object)
 	}
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (em_format_html_display_parent_class)->
+		finalize (object);
 }
 
 static void
-efhd_class_init (EMFormatHTMLDisplayClass *class)
+em_format_html_display_class_init (EMFormatHTMLDisplayClass *class)
 {
 	GObjectClass *object_class;
 	EMFormatClass *format_class;
 	EMFormatHTMLClass *format_html_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMFormatHTMLDisplayPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -864,7 +871,7 @@ efhd_class_init (EMFormatHTMLDisplayClass *class)
 }
 
 static void
-efhd_init (EMFormatHTMLDisplay *efhd)
+em_format_html_display_init (EMFormatHTMLDisplay *efhd)
 {
 	EWebView *web_view;
 	GtkActionGroup *image_actions;
@@ -873,9 +880,9 @@ efhd_init (EMFormatHTMLDisplay *efhd)
 
 	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (efhd));
 
-	efhd->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		efhd, EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayPrivate);
-	efhd->priv->attachment_views = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	efhd->priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efhd);
+	efhd->priv->attachment_views = g_hash_table_new_full (
+		g_str_hash, g_str_equal, g_free, NULL);
 	efhd->priv->attachment_expanded = FALSE;
 
 	e_mail_display_set_formatter (
@@ -904,33 +911,6 @@ efhd_init (EMFormatHTMLDisplay *efhd)
 	g_signal_connect (
 		web_view, "update-actions",
 		G_CALLBACK (efhd_web_view_update_actions_cb), efhd);
-}
-
-GType
-em_format_html_display_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMFormatHTMLDisplayClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) efhd_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMFormatHTMLDisplay),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) efhd_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			EM_TYPE_FORMAT_HTML, "EMFormatHTMLDisplay",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 EMFormatHTMLDisplay *
@@ -1253,7 +1233,7 @@ efhd_bar_resize (EMFormatHTML *efh,
 	GtkWidget *widget;
 	gint width;
 
-	priv = EM_FORMAT_HTML_DISPLAY (efh)->priv;
+	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efh);
 
 	web_view = em_format_html_get_web_view (efh);
 
@@ -1281,7 +1261,7 @@ efhd_add_bar (EMFormatHTML *efh,
 	g_return_val_if_fail (pobject != NULL && pobject->classid != NULL, FALSE);
 	g_return_val_if_fail (g_str_has_prefix (pobject->classid, "attachment-bar:"), FALSE);
 
-	priv = EM_FORMAT_HTML_DISPLAY (efh)->priv;
+	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efh);
 
 	widget = e_mail_attachment_bar_new ();
 	gtk_container_add (GTK_CONTAINER (eb), widget);

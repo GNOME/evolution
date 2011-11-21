@@ -40,83 +40,42 @@ static gint filter_eq (EFilterRule *fr, EFilterRule *cm);
 static xmlNodePtr xml_encode (EFilterRule *fr);
 static gint xml_decode (EFilterRule *fr, xmlNodePtr, ERuleContext *rc);
 static void rule_copy (EFilterRule *dest, EFilterRule *src);
-/*static void build_code(EFilterRule *, GString *out);*/
 static GtkWidget *get_widget (EFilterRule *fr, ERuleContext *rc);
 
-static void em_filter_rule_class_init (EMFilterRuleClass *klass);
-static void em_filter_rule_init (EMFilterRule *ff);
-static void em_filter_rule_finalize (GObject *obj);
+G_DEFINE_TYPE (EMFilterRule, em_filter_rule, E_TYPE_FILTER_RULE)
 
-static EFilterRuleClass *parent_class = NULL;
-
-GType
-em_filter_rule_get_type (void)
+static void
+em_filter_rule_finalize (GObject *object)
 {
-	static GType type = 0;
+	EMFilterRule *ff =(EMFilterRule *) object;
 
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (EMFilterRuleClass),
-			NULL, /* base_class_init */
-			NULL, /* base_class_finalize */
-			(GClassInitFunc) em_filter_rule_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
-			sizeof (EMFilterRule),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) em_filter_rule_init,
-		};
+	g_list_free_full (ff->actions, (GDestroyNotify) g_object_unref);
 
-		type = g_type_register_static(E_TYPE_FILTER_RULE, "EMFilterRule", &info, 0);
-	}
-
-	return type;
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (em_filter_rule_parent_class)->finalize (object);
 }
 
 static void
-em_filter_rule_class_init (EMFilterRuleClass *klass)
+em_filter_rule_class_init (EMFilterRuleClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	EFilterRuleClass *fr_class =(EFilterRuleClass *) klass;
+	GObjectClass *object_class;
+	EFilterRuleClass *filter_rule_class;
 
-	parent_class = g_type_class_ref (E_TYPE_FILTER_RULE);
-
+	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = em_filter_rule_finalize;
 
-	/* override methods */
-	fr_class->validate = validate;
-	fr_class->eq = filter_eq;
-	fr_class->xml_encode = xml_encode;
-	fr_class->xml_decode = xml_decode;
-	/*fr_class->build_code = build_code;*/
-	fr_class->copy = rule_copy;
-	fr_class->get_widget = get_widget;
+	filter_rule_class = E_FILTER_RULE_CLASS (class);
+	filter_rule_class->validate = validate;
+	filter_rule_class->eq = filter_eq;
+	filter_rule_class->xml_encode = xml_encode;
+	filter_rule_class->xml_decode = xml_decode;
+	filter_rule_class->copy = rule_copy;
+	filter_rule_class->get_widget = get_widget;
 }
 
 static void
 em_filter_rule_init (EMFilterRule *ff)
 {
-	;
-}
-
-static void
-unref_list (GList *l)
-{
-	while (l) {
-		g_object_unref (l->data);
-		l = l->next;
-	}
-}
-
-static void
-em_filter_rule_finalize (GObject *obj)
-{
-	EMFilterRule *ff =(EMFilterRule *) obj;
-
-	unref_list (ff->actions);
-	g_list_free (ff->actions);
-
-	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -184,7 +143,8 @@ validate (EFilterRule *fr,
 	GList *parts;
 	gint valid;
 
-	valid = E_FILTER_RULE_CLASS (parent_class)->validate (fr, alert);
+	valid = E_FILTER_RULE_CLASS (em_filter_rule_parent_class)->
+		validate (fr, alert);
 
 	/* validate rule actions */
 	parts = ff->actions;
@@ -217,8 +177,10 @@ static gint
 filter_eq (EFilterRule *fr,
            EFilterRule *cm)
 {
-	return E_FILTER_RULE_CLASS (parent_class)->eq (fr, cm)
-		&& list_eq (((EMFilterRule *) fr)->actions,((EMFilterRule *) cm)->actions);
+	return E_FILTER_RULE_CLASS (em_filter_rule_parent_class)->eq (fr, cm)
+		&& list_eq (
+			((EMFilterRule *) fr)->actions,
+			((EMFilterRule *) cm)->actions);
 }
 
 static xmlNodePtr
@@ -228,7 +190,8 @@ xml_encode (EFilterRule *fr)
 	xmlNodePtr node, set, work;
 	GList *l;
 
-	node = E_FILTER_RULE_CLASS (parent_class)->xml_encode (fr);
+	node = E_FILTER_RULE_CLASS (em_filter_rule_parent_class)->
+		xml_encode (fr);
 	g_return_val_if_fail (node != NULL, NULL);
 	set = xmlNewNode(NULL, (const guchar *)"actionset");
 	xmlAddChild (node, set);
@@ -281,7 +244,8 @@ xml_decode (EFilterRule *fr,
 	xmlNodePtr work;
 	gint result;
 
-	result = E_FILTER_RULE_CLASS (parent_class)->xml_decode (fr, node, rc);
+	result = E_FILTER_RULE_CLASS (em_filter_rule_parent_class)->
+		xml_decode (fr, node, rc);
 	if (result != 0)
 		return result;
 
@@ -321,13 +285,8 @@ rule_copy (EFilterRule *dest,
 		node = node->next;
 	}
 
-	E_FILTER_RULE_CLASS (parent_class)->copy (dest, src);
+	E_FILTER_RULE_CLASS (em_filter_rule_parent_class)->copy (dest, src);
 }
-
-/*static void build_code(EFilterRule *fr, GString *out)
-{
-	return FILTER_RULE_CLASS (parent_class)->build_code (fr, out);
-}*/
 
 struct _part_data {
 	EFilterRule *fr;
@@ -555,7 +514,8 @@ get_widget (EFilterRule *fr,
 	gint rows, i = 0;
 	gchar *msg;
 
-	widget = E_FILTER_RULE_CLASS (parent_class)->get_widget (fr, rc);
+	widget = E_FILTER_RULE_CLASS (em_filter_rule_parent_class)->
+		get_widget (fr, rc);
 
 	/* and now for the action area */
 	msg = g_strdup_printf("<b>%s</b>", _("Then"));
