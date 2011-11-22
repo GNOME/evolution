@@ -1,0 +1,29 @@
+<schemalist>
+  <schema gettext-domain="evolution" id="org.gnome.evolution.spamassassin" path="/org/gnome/evolution/spamassassin/">
+    <key name="local-only" type="b">
+      <default>true</default>
+      <_summary>Use only local spam tests.</_summary>
+      <_description>Use only the local spam tests (no DNS).</_description>
+    </key>
+    <key name="socket-path" type="s">
+      <default>''</default>
+      <_summary>Socket path for SpamAssassin</_summary>
+      <_description>Socket path for SpamAssassin</_description>
+    </key>
+    <key name="use-daemon" type="b">
+      <default>true</default>
+      <_summary>Use SpamAssassin daemon and client</_summary>
+      <_description>Use SpamAssassin daemon and client (spamc/spamd).</_description>
+    </key>
+    <key name="spamc-binary" type="s">
+      <default>'spamc'</default>
+      <_summary>SpamAssassin client binary</_summary>
+      <_description>SpamAssassin client binary</_description>
+    </key>
+    <key name="spamd-binary" type="s">
+      <default>'spamd'</default>
+      <_summary>SpamAssassin daemon binary</_summary>
+      <_description>SpamAssassin daemon binary</_description>
+    </key>
+  </schema>
+</schemalist>

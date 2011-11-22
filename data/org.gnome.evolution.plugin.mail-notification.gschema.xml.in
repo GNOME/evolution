@@ -1,5 +1,5 @@
 <schemalist>
-  <schema gettext-domain="evolution" id="org.gnome.evolution.eplugin.mail-notification" path="/org/gnome/evolution/eplugin/mail-notification/">
+  <schema gettext-domain="evolution" id="org.gnome.evolution.plugin.mail-notification" path="/org/gnome/evolution/plugin/mail-notification/">
     <key name="notify-only-inbox" type="b">
       <default>true</default>
       <_summary>Notify new messages for Inbox only.</_summary>

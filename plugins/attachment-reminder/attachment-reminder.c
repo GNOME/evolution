@@ -151,7 +151,7 @@ check_for_attachment_clues (gchar *msg)
 	gboolean ret_val = FALSE;
 	guint msg_length;
 
-	settings = g_settings_new ("org.gnome.evolution.eplugin.attachment-reminder");
+	settings = g_settings_new ("org.gnome.evolution.plugin.attachment-reminder");
 
 	/* Get the list from GSettings */
 	clue_list = g_settings_get_strv (settings, CONF_KEY_ATTACH_REMINDER_CLUES);
@@ -452,7 +452,7 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_remove);
 	gtk_widget_set_can_default (clue_remove, TRUE);
 
-	ui->settings = g_settings_new ("org.gnome.evolution.eplugin.attachment-reminder");
+	ui->settings = g_settings_new ("org.gnome.evolution.plugin.attachment-reminder");
 
 	ui->treeview = clue_treeview;
 

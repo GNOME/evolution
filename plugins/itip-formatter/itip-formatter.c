@@ -2906,7 +2906,7 @@ format_itip (EPlugin *ep,
 
 	em_format_html_add_pobject ((EMFormatHTML *) target->format, sizeof (EMFormatHTMLPObject), classid, target->part, format_itip_object);
 
-	settings = g_settings_new ("org.gnome.evolution.eplugin.itip");
+	settings = g_settings_new ("org.gnome.evolution.plugin.itip");
 	puri->delete_message = g_settings_get_boolean (settings, CONF_KEY_DELETE);
 	puri->has_organizer = FALSE;
 	puri->no_reply_wanted = FALSE;
@@ -2952,7 +2952,7 @@ delete_toggled_cb (GtkWidget *widget,
 	GSettings *settings;
 	gboolean active;
 
-	settings = g_settings_new ("org.gnome.evolution.eplugin.itip");
+	settings = g_settings_new ("org.gnome.evolution.plugin.itip");
 	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 	g_settings_set_boolean (settings, CONF_KEY_DELETE, active);
 	g_object_unref (settings);
@@ -3055,7 +3055,7 @@ itip_formatter_page_factory (EPlugin *ep,
 	gtk_box_pack_start (GTK_BOX (hbox), inner_vbox, FALSE, FALSE, 0);
 
 	/* Delete message after acting */
-	settings = g_settings_new ("org.gnome.evolution.eplugin.itip");
+	settings = g_settings_new ("org.gnome.evolution.plugin.itip");
 
 	check = gtk_check_button_new_with_mnemonic (_("_Delete message after acting"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), g_settings_get_boolean (settings, CONF_KEY_DELETE));

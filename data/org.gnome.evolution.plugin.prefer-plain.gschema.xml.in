@@ -1,5 +1,5 @@
 <schemalist>
-  <schema gettext-domain="evolution" id="org.gnome.evolution.eplugin.prefer-plain" path="/org/gnome/evolution/eplugin/prefer-plain/">
+  <schema gettext-domain="evolution" id="org.gnome.evolution.plugin.prefer-plain" path="/org/gnome/evolution/plugin/prefer-plain/">
     <key name="mode" type="s">
       <default>'normal'</default>
       <_summary>Mode to use when displaying mails</_summary>

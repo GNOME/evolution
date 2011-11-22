@@ -22,7 +22,7 @@
 #define __BBDB_H__
 
 /* Where to store the config values */
-#define CONF_SCHEMA                     "org.gnome.evolution.eplugin.autocontacts" 
+#define CONF_SCHEMA                     "org.gnome.evolution.plugin.autocontacts" 
 #define CONF_KEY_ENABLE		        "enable"
 #define CONF_KEY_ENABLE_GAIM		"auto-sync-gaim"
 #define CONF_KEY_WHICH_ADDRESSBOOK	"addressbook-source"

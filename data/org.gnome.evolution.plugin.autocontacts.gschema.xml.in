@@ -1,5 +1,5 @@
 <schemalist>
-  <schema gettext-domain="evolution" id="org.gnome.evolution.eplugin.autocontacts" path="/org/gnome/evolution/eplugin/autocontacts/">
+  <schema gettext-domain="evolution" id="org.gnome.evolution.plugin.autocontacts" path="/org/gnome/evolution/plugin/autocontacts/">
     <key name="addressbook-source" type="s">
       <default>''</default>
       <_summary>Address book source</_summary>

@@ -1263,7 +1263,7 @@ em_utils_edit_message (EShell *shell,
 		gint i;
 		GSList *clue_list = NULL;
 
-		settings = g_settings_new ("org.gnome.evolution.eplugin.templates");
+		settings = g_settings_new ("org.gnome.evolution.plugin.templates");
 
 		/* Get the list from GSettings */
 		strv = g_settings_get_strv (settings, "template-placeholders");

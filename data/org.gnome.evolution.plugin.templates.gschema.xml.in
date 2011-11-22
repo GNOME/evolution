@@ -1,5 +1,5 @@
 <schemalist>
-  <schema gettext-domain="evolution" id="org.gnome.evolution.eplugin.templates" path="/org/gnome/evolution/eplugin/templates/">
+  <schema gettext-domain="evolution" id="org.gnome.evolution.plugin.templates" path="/org/gnome/evolution/plugin/templates/">
     <key name="template-placeholders" type="as">
       <default>['myphone=012345','myplace=Abcd','myname=Alice']</default>
       <_summary>List of keyword/value pairs for the Templates plugin to substitute in a message body.</_summary>

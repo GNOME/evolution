@@ -1,5 +1,5 @@
 <schemalist>
-  <schema gettext-domain="evolution" id="org.gnome.evolution.eplugin.face-picture" path="/org/gnome/evolution/eplugin/face-picture/">
+  <schema gettext-domain="evolution" id="org.gnome.evolution.plugin.face-picture" path="/org/gnome/evolution/plugin/face-picture/">
     <key name="insert-face-picture" type="b">
       <default>false</default>
       <_summary>Insert Face picture by default</_summary>

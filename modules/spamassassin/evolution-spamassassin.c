@@ -1153,13 +1153,28 @@ e_spam_assassin_init (ESpamAssassin *extension)
 	 *     need to be properties anymore.  GConfBridge is
 	 *     just easier to deal with than GConfClient. */
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = g_settings_new ("org.gnome.evolution.spamassassin");
 
-	g_settings_bind (settings, "junk-sa-local-only", G_OBJECT (extension), "local-only", G_SETTINGS_BIND_DEFAULT);
-	g_settings_bind (settings, "junk-sa-spamc-binary", G_OBJECT (extension), "spamc-binary", G_SETTINGS_BIND_DEFAULT);
-	g_settings_bind (settings, "junk-sa-spamd-binary", G_OBJECT (extension), "spamd-binary", G_SETTINGS_BIND_DEFAULT);
-	g_settings_bind (settings, "junk-sa-socket-path", G_OBJECT (extension), "socket-path", G_SETTINGS_BIND_DEFAULT);
-	g_settings_bind (settings, "junk-sa-use-daemon", G_OBJECT (extension), "use-daemon", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "local-only",
+		G_OBJECT (extension), "local-only",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "spamc-binary",
+		G_OBJECT (extension), "spamc-binary",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "spamd-binary",
+		G_OBJECT (extension), "spamd-binary",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "socket-path",
+		G_OBJECT (extension), "socket-path",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "use-daemon",
+		G_OBJECT (extension), "use-daemon",
+		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);
 

@@ -17,16 +17,17 @@ gsettings_SCHEMAS =							\
 	org.gnome.evolution.importer.gschema.xml			\
 	org.gnome.evolution.mail.gschema.xml				\
 	org.gnome.evolution.shell.gschema.xml				\
-	org.gnome.evolution.eplugin.attachment-reminder.gschema.xml	\
-	org.gnome.evolution.eplugin.autocontacts.gschema.xml		\
-	org.gnome.evolution.eplugin.bogo-junk.gschema.xml		\
-	org.gnome.evolution.eplugin.email-custom-header.gschema.xml	\
-	org.gnome.evolution.eplugin.external-editor.gschema.xml		\
-	org.gnome.evolution.eplugin.face-picture.gschema.xml		\
-	org.gnome.evolution.eplugin.itip.gschema.xml			\
-	org.gnome.evolution.eplugin.mail-notification.gschema.xml	\
-	org.gnome.evolution.eplugin.prefer-plain.gschema.xml		\
-	org.gnome.evolution.eplugin.templates.gschema.xml
+	org.gnome.evolution.bogofilter.gschema.xml			\
+	org.gnome.evolution.spamassassin.gschema.xml			\
+	org.gnome.evolution.plugin.attachment-reminder.gschema.xml	\
+	org.gnome.evolution.plugin.autocontacts.gschema.xml		\
+	org.gnome.evolution.plugin.email-custom-header.gschema.xml	\
+	org.gnome.evolution.plugin.external-editor.gschema.xml		\
+	org.gnome.evolution.plugin.face-picture.gschema.xml		\
+	org.gnome.evolution.plugin.itip.gschema.xml			\
+	org.gnome.evolution.plugin.mail-notification.gschema.xml	\
+	org.gnome.evolution.plugin.prefer-plain.gschema.xml		\
+	org.gnome.evolution.plugin.templates.gschema.xml
 
 @INTLTOOL_XML_NOMERGE_RULE@
 
