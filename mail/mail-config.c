@@ -252,7 +252,8 @@ mail_config_init (EMailSession *session)
 
 	/* Composer Configuration */
 
-	settings_outlook_filenames_changed (mail_settings, NULL, NULL);
+	settings_outlook_filenames_changed (
+		mail_settings, "composer-outlook-filenames", NULL);
 	g_signal_connect (
 		mail_settings, "changed::composer-outlook-filenames",
 		G_CALLBACK (settings_outlook_filenames_changed), NULL);

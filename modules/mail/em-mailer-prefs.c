@@ -103,7 +103,7 @@ em_mailer_prefs_finalize (GObject *object)
 	EMMailerPrefs *prefs = (EMMailerPrefs *) object;
 
 	g_object_unref (prefs->builder);
-
+	g_object_unref (prefs->gconf);
 	g_object_unref (prefs->settings);
 
 	/* Chain up to parent's finalize() method. */
@@ -123,6 +123,9 @@ static void
 em_mailer_prefs_init (EMMailerPrefs *preferences)
 {
 	preferences->settings = g_settings_new ("org.gnome.evolution.mail");
+
+	/* XXX Still need this for a little while longer. */
+	preferences->gconf = gconf_client_get_default ();
 }
 
 enum {
@@ -1084,20 +1087,23 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	prefs->junk_header_remove = (GtkButton *)e_builder_get_widget (prefs->builder, "junk_header_remove");
 	prefs->junk_book_lookup = (GtkToggleButton *)e_builder_get_widget (prefs->builder, "lookup_book");
 	prefs->junk_lookup_local_only = (GtkToggleButton *)e_builder_get_widget (prefs->builder, "junk_lookup_local_only");
-	toggle_button_init (prefs, prefs->junk_book_lookup, FALSE,
-			    "/apps/evolution/mail/junk/lookup_addressbook",
-			    G_CALLBACK (junk_book_lookup_button_toggled));
+	toggle_button_init (
+		prefs, prefs->junk_book_lookup,
+		FALSE, "junk-lookup-addressbook",
+		G_CALLBACK (junk_book_lookup_button_toggled));
 
-	toggle_button_init (prefs, prefs->junk_lookup_local_only, FALSE,
-			    "/apps/evolution/mail/junk/lookup_addressbook_local_only",
-			    G_CALLBACK (toggle_button_toggled));
+	toggle_button_init (
+		prefs, prefs->junk_lookup_local_only,
+		FALSE, "junk-lookup-addressbook-local-only",
+		G_CALLBACK (toggle_button_toggled));
 
 	junk_book_lookup_button_toggled (prefs->junk_book_lookup, prefs);
 
 	prefs->junk_header_list_store = init_junk_tree ((GtkWidget *) prefs->junk_header_tree, prefs);
-	toggle_button_init (prefs, prefs->junk_header_check, FALSE,
-			    "/apps/evolution/mail/junk/check_custom_header",
-			    G_CALLBACK (custom_junk_button_toggled));
+	toggle_button_init (
+		prefs, prefs->junk_header_check,
+		FALSE, "junk-check-custom-header",
+		G_CALLBACK (custom_junk_button_toggled));
 
 	custom_junk_button_toggled (prefs->junk_header_check, prefs);
 	jh_tree_refill (prefs);

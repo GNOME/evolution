@@ -1158,7 +1158,7 @@ e_spam_assassin_init (ESpamAssassin *extension)
 	g_settings_bind (settings, "junk-sa-local-only", G_OBJECT (extension), "local-only", G_SETTINGS_BIND_DEFAULT);
 	g_settings_bind (settings, "junk-sa-spamc-binary", G_OBJECT (extension), "spamc-binary", G_SETTINGS_BIND_DEFAULT);
 	g_settings_bind (settings, "junk-sa-spamd-binary", G_OBJECT (extension), "spamd-binary", G_SETTINGS_BIND_DEFAULT);
-	g_settings_bind (settings, "junk-sa-socjet-path", G_OBJECT (extension), "socket-path", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (settings, "junk-sa-socket-path", G_OBJECT (extension), "socket-path", G_SETTINGS_BIND_DEFAULT);
 	g_settings_bind (settings, "junk-sa-use-daemon", G_OBJECT (extension), "use-daemon", G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);

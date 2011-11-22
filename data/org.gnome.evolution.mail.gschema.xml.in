@@ -100,6 +100,11 @@
       <_summary>Show "Reply To" field when posting to a newsgroup</_summary>
       <_description>Show the "Reply To" field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</_description>
     </key>
+    <key name="composer-sign-reply-if-signed" type="b">
+      <default>false</default>
+      <_summary>Digitally sign replies when the original message is signed</_summary>
+      <_description>Automatically enable PGP or S/MIME signatures when replying to a message which is also PGP or S/MIME signed.</_description>
+    </key>
     <key name="composer-outlook-filenames" type="b">
       <default>false</default>
       <_summary>Encode file names in an Outlook/GMail way</_summary>
