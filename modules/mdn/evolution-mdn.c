@@ -48,6 +48,16 @@ struct _MdnContext {
 	gchar *notify_to;
 };
 
+typedef enum {
+	MDN_ACTION_MODE_MANUAL,
+	MDN_ACTION_MODE_AUTOMATIC
+} MdnActionMode;
+
+typedef enum {
+	MDN_SENDING_MODE_MANUAL,
+	MDN_SENDING_MODE_AUTOMATIC
+} MdnSendingMode;
+
 /* Module Entry Points */
 void e_module_load (GTypeModule *type_module);
 void e_module_unload (GTypeModule *type_module);
@@ -60,7 +70,9 @@ G_DEFINE_DYNAMIC_TYPE (EMdn, e_mdn, E_TYPE_EXTENSION)
 static void
 mdn_context_free (MdnContext *context)
 {
-	camel_folder_free_message_info (context->folder, context->info);
+	if (context->info != NULL)
+		camel_folder_free_message_info (
+			context->folder, context->info);
 
 	g_object_unref (context->account);
 	g_object_unref (context->reader);
@@ -104,6 +116,43 @@ mdn_get_notify_to (CamelMimeMessage *message)
 	return g_strdup (address);
 }
 
+static gchar *
+mdn_get_disposition (MdnActionMode action_mode,
+                     MdnSendingMode sending_mode)
+{
+	GString *string;
+
+	string = g_string_sized_new (64);
+
+	switch (action_mode) {
+		case MDN_ACTION_MODE_MANUAL:
+			g_string_append (string, "manual-action");
+			break;
+		case MDN_ACTION_MODE_AUTOMATIC:
+			g_string_append (string, "automatic-action");
+			break;
+		default:
+			g_warn_if_reached ();
+	}
+
+	g_string_append_c (string, '/');
+
+	switch (sending_mode) {
+		case MDN_SENDING_MODE_MANUAL:
+			g_string_append (string, "MDN-sent-manually");
+			break;
+		case MDN_SENDING_MODE_AUTOMATIC:
+			g_string_append (string, "MDN-sent-automatically");
+			break;
+		default:
+			g_warn_if_reached ();
+	}
+
+	g_string_append (string, ";displayed");
+
+	return g_string_free (string, FALSE);
+}
+
 static void
 mdn_receipt_done (CamelFolder *folder,
                   GAsyncResult *result,
@@ -122,7 +171,9 @@ mdn_notify_sender (EAccount *account,
                    CamelFolder *folder,
                    CamelMimeMessage *message,
                    CamelMessageInfo *info,
-                   const gchar *notify_to)
+                   const gchar *notify_to,
+                   MdnActionMode action_mode,
+                   MdnSendingMode sending_mode)
 {
 	/* See RFC 3798 for a description of message receipts. */
 
@@ -142,10 +193,13 @@ mdn_notify_sender (EAccount *account,
 	const gchar *message_subject;
 	gchar *fake_msgid;
 	gchar *hostname;
-	gchar *self_address, *receipt_subject;
-	gchar *ua, *recipient;
+	gchar *self_address;
+	gchar *receipt_subject;
 	gchar *transport_uid;
+	gchar *disposition;
+	gchar *recipient;
 	gchar *content;
+	gchar *ua;
 
 	backend = e_mail_reader_get_backend (reader);
 
@@ -224,6 +278,7 @@ mdn_notify_sender (EAccount *account,
 		"%s; %s", hostname, "Evolution "
 		VERSION SUB_VERSION " " VERSION_COMMENT);
 	recipient = g_strdup_printf ("rfc822; %s", self_address);
+	disposition = mdn_get_disposition (action_mode, sending_mode);
 
 	type = camel_content_type_new ("message", "disposition-notification");
 	camel_data_wrapper_set_mime_type_field (receipt_data, type);
@@ -233,8 +288,8 @@ mdn_notify_sender (EAccount *account,
 		"Reporting-UA: %s\n"
 		"Final-Recipient: %s\n"
 		"Original-Message-ID: %s\n"
-		"Disposition: manual-action/MDN-sent-manually; displayed\n",
-		ua, recipient, message_id);
+		"Disposition: %s\n",
+		ua, recipient, message_id, disposition);
 	stream = camel_stream_mem_new ();
 	camel_stream_write_string (stream, content, NULL, NULL);
 	camel_data_wrapper_construct_from_stream_sync (
@@ -245,6 +300,7 @@ mdn_notify_sender (EAccount *account,
 	g_free (ua);
 	g_free (recipient);
 	g_free (fake_msgid);
+	g_free (disposition);
 
 	part = camel_mime_part_new ();
 	camel_medium_set_content (CAMEL_MEDIUM (part), receipt_data);
@@ -262,7 +318,7 @@ mdn_notify_sender (EAccount *account,
 
 	receipt_subject = g_strdup_printf (
 		/* Translators: %s is the subject of the email message. */
-		_("Delivery Notification for: \"%s\""), message_subject);
+		_("Delivery Notification for \"%s\""), message_subject);
 	camel_mime_message_set_subject (receipt, receipt_subject);
 	g_free (receipt_subject);
 
@@ -296,6 +352,11 @@ mdn_notify_sender (EAccount *account,
 		"X-Evolution-Fcc",
 		account->sent_folder_uri);
 
+	/* RFC 3834, Section 5 describes this header. */
+	camel_medium_set_header (
+		CAMEL_MEDIUM (receipt),
+		"Auto-Submitted", "auto-replied");
+
 	g_free (transport_uid);
 
 	/* Send the receipt. */
@@ -323,7 +384,13 @@ mdn_notify_action_cb (GtkAction *action,
 		context->folder,
 		context->message,
 		context->info,
-		context->notify_to);
+		context->notify_to,
+		MDN_ACTION_MODE_MANUAL,
+		MDN_SENDING_MODE_MANUAL);
+
+	/* Make sure the newly-added user flag gets saved. */
+	camel_folder_free_message_info (context->folder, context->info);
+	context->info = NULL;
 }
 
 static void
@@ -369,7 +436,7 @@ mdn_message_loaded_cb (EMailReader *reader,
 		context->reader = g_object_ref (reader);
 		context->folder = g_object_ref (folder);
 		context->message = g_object_ref (message);
-		context->info = camel_message_info_clone (info);
+		context->info = camel_message_info_ref (info);
 
 		context->notify_to = notify_to;
 		notify_to = NULL;
@@ -435,7 +502,9 @@ mdn_message_seen_cb (EMailReader *reader,
 	if (account->receipt_policy == E_ACCOUNT_RECEIPT_ALWAYS)
 		mdn_notify_sender (
 			account, reader, folder,
-			message, info, notify_to);
+			message, info, notify_to,
+			MDN_ACTION_MODE_AUTOMATIC,
+			MDN_SENDING_MODE_AUTOMATIC);
 
 exit:
 	camel_folder_free_message_info (folder, info);
