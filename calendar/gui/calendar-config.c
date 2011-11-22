@@ -62,7 +62,7 @@ calendar_config_init (void)
 
 void
 calendar_config_remove_notification (CalendarConfigChangedFunc func,
-				     gpointer data)
+                                     gpointer data)
 {
 	calendar_config_init ();
 

@@ -1073,10 +1073,6 @@ e_spam_assassin_class_init (ESpamAssassinClass *class)
 	junk_filter_class->available = spam_assassin_available;
 	junk_filter_class->new_config_widget = spam_assassin_new_config_widget;
 
-	/* XXX Argh, the boolean sense of the GSettings key is inverted from
-	 *     that of the checkbox widget.  The checkbox wording is more
-	 *     natural, but GConfBridge doesn't support transform functions
-	 *     so the property has to match the sense of the GConf key. */
 	g_object_class_install_property (
 		object_class,
 		PROP_LOCAL_ONLY,

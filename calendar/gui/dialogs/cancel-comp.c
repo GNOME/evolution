@@ -31,7 +31,6 @@
 #include "e-util/e-alert-dialog.h"
 #include "cancel-comp.h"
 
-
 /* is_past_event:
  *
  * returns TRUE if @comp is in the past, FALSE otherwise.

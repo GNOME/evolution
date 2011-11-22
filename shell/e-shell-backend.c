@@ -41,6 +41,10 @@
 #include "e-shell.h"
 #include "e-shell-view.h"
 
+#define E_SHELL_BACKEND_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SHELL_BACKEND, EShellBackendPrivate))
+
 struct _EShellBackendPrivate {
 
 	/* We keep a reference to corresponding EShellView subclass
@@ -171,7 +175,7 @@ shell_backend_dispose (GObject *object)
 {
 	EShellBackendPrivate *priv;
 
-	priv = E_SHELL_BACKEND (object)->priv;
+	priv = E_SHELL_BACKEND_GET_PRIVATE (object);
 
 	if (priv->shell_view_class != NULL) {
 		g_type_class_unref (priv->shell_view_class);
@@ -187,7 +191,7 @@ shell_backend_finalize (GObject *object)
 {
 	EShellBackendPrivate *priv;
 
-	priv = E_SHELL_BACKEND (object)->priv;
+	priv = E_SHELL_BACKEND_GET_PRIVATE (object);
 
 	g_warn_if_fail (g_queue_is_empty (priv->activities));
 	g_queue_free (priv->activities);
@@ -294,8 +298,7 @@ e_shell_backend_class_init (EShellBackendClass *class)
 static void
 e_shell_backend_init (EShellBackend *shell_backend)
 {
-	shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		shell_backend, E_TYPE_SHELL_BACKEND, EShellBackendPrivate);
+	shell_backend->priv = E_SHELL_BACKEND_GET_PRIVATE (shell_backend);
 	shell_backend->priv->activities = g_queue_new ();
 }
 

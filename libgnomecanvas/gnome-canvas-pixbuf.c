@@ -67,7 +67,6 @@ static void gnome_canvas_pixbuf_bounds (GnomeCanvasItem *item,
 
 G_DEFINE_TYPE (GnomeCanvasPixbuf, gnome_canvas_pixbuf, GNOME_TYPE_CANVAS_ITEM)
 
-
 /* Class initialization function for the pixbuf canvas item */
 static void
 gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)

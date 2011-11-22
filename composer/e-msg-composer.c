@@ -128,8 +128,6 @@ static void	handle_multipart_signed		(EMsgComposer *composer,
 
 static void	e_msg_composer_alert_sink_init	(EAlertSinkInterface *interface);
 
-gboolean 	check_blacklisted_file		(gchar *filename);
-
 G_DEFINE_TYPE_WITH_CODE (
 	EMsgComposer,
 	e_msg_composer,
@@ -4006,25 +4004,24 @@ merge_always_cc_and_bcc (EComposerHeaderTable *table,
 	e_destination_freev (addrv);
 }
 
-static const gchar *blacklisted_files [] = {".", "etc", ".."};
+static const gchar *blacklisted_files [] = { ".", "etc", ".." };
 
-gboolean check_blacklisted_file (gchar *filename)
+static gboolean
+check_blacklisted_file (gchar *filename)
 {
 	gboolean blacklisted = FALSE;
-	gint i,j,len;
+	guint ii, jj, length;
 	gchar **filename_part;
 
 	filename_part = g_strsplit (filename, G_DIR_SEPARATOR_S, -1);
-	len = g_strv_length(filename_part);
-	for(i = 0; !blacklisted && i < G_N_ELEMENTS(blacklisted_files); i++)
-	{
-		for (j = 0; !blacklisted && j < len;j++)
-			if (g_str_has_prefix (filename_part[j], blacklisted_files[i]))
+	length = g_strv_length (filename_part);
+	for (ii = 0; !blacklisted && ii < G_N_ELEMENTS (blacklisted_files); ii++) {
+		for (jj = 0; !blacklisted && jj < length; jj++)
+			if (g_str_has_prefix (filename_part[jj], blacklisted_files[ii]))
 				blacklisted = TRUE;
 	}
+	g_strfreev (filename_part);
 
-	g_strfreev(filename_part);
-	
 	return blacklisted;
 }
 
@@ -4119,14 +4116,13 @@ handle_mailto (EMsgComposer *composer,
 			} else if (!g_ascii_strcasecmp (header, "attach") ||
 				   !g_ascii_strcasecmp (header, "attachment")) {
 				EAttachment *attachment;
-				gboolean check = FALSE;
 
 				camel_url_decode (content);
-				check = check_blacklisted_file(content);
-				if(check)
+				if (check_blacklisted_file (content))
 					e_alert_submit (
-		                        	E_ALERT_SINK (composer),
-                			        "mail:blacklisted-file", content, NULL);
+						E_ALERT_SINK (composer),
+                				"mail:blacklisted-file",
+						content, NULL);
 				if (g_ascii_strncasecmp (content, "file:", 5) == 0)
 					attachment = e_attachment_new_for_uri (content);
 				else

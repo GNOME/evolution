@@ -30,7 +30,6 @@
 #include "calendar-view-factory.h"
 #include "calendar-view.h"
 
-
 /* Private part of the CalendarViewFactory structure */
 struct _CalendarViewFactoryPrivate {
 	/* Type of views created by this factory */

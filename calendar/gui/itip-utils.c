@@ -577,11 +577,11 @@ comp_to_list (ECalComponentItipMethod method,
 			ECalComponentAttendee *att = l->data;
 
 			/* Bugfix: 688711 - Varadhan
-			   Resource is also considered as a "attendee". If the respective backend
-			   is able to successfully book resources automagically, it will appear
-			   in the users list and thereby won't get added to the list of destinations
-			   to send the meeting invite, otherwise, as a safety measure, a meeting
-			   invite will be sent to the resources as well. */
+			 * Resource is also considered as a "attendee". If the respective backend
+			 * is able to successfully book resources automagically, it will appear
+			 * in the users list and thereby won't get added to the list of destinations
+			 * to send the meeting invite, otherwise, as a safety measure, a meeting
+			 * invite will be sent to the resources as well. */
 			if (att->cutype != ICAL_CUTYPE_INDIVIDUAL &&
 			    att->cutype != ICAL_CUTYPE_GROUP &&
 			    att->cutype != ICAL_CUTYPE_RESOURCE)

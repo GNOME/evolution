@@ -1394,7 +1394,7 @@ e_binding_transform_color_to_string (GBinding *binding,
 		g_value_set_string (target_value, "");
 	} else {
 		/* encode color manually, because css styles expect colors in #rrggbb,
-		   not in #rrrrggggbbbb, which is a result of gdk_color_to_string()
+		 * not in #rrrrggggbbbb, which is a result of gdk_color_to_string()
 		*/
 		string = g_strdup_printf ("#%02x%02x%02x",
 			(gint) color->red * 256 / 65536,

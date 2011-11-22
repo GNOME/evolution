@@ -36,6 +36,10 @@
 #include <e-shell-view.h>
 #include <misc/e-activity-proxy.h>
 
+#define E_SHELL_TASKBAR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SHELL_TASKBAR, EShellTaskbarPrivate))
+
 struct _EShellTaskbarPrivate {
 
 	gpointer shell_view;  /* weak pointer */
@@ -204,7 +208,7 @@ shell_taskbar_dispose (GObject *object)
 {
 	EShellTaskbarPrivate *priv;
 
-	priv = E_SHELL_TASKBAR (object)->priv;
+	priv = E_SHELL_TASKBAR_GET_PRIVATE (object);
 
 	g_hash_table_foreach_remove (
 		priv->proxy_table, (GHRFunc)
@@ -243,7 +247,7 @@ shell_taskbar_finalize (GObject *object)
 {
 	EShellTaskbarPrivate *priv;
 
-	priv = E_SHELL_TASKBAR (object)->priv;
+	priv = E_SHELL_TASKBAR_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->proxy_table);
 
@@ -371,8 +375,7 @@ e_shell_taskbar_init (EShellTaskbar *shell_taskbar)
 {
 	GtkWidget *widget;
 
-	shell_taskbar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		shell_taskbar, E_TYPE_SHELL_TASKBAR, EShellTaskbarPrivate);
+	shell_taskbar->priv = E_SHELL_TASKBAR_GET_PRIVATE (shell_taskbar);
 	shell_taskbar->priv->proxy_table = g_hash_table_new (NULL, NULL);
 
 	gtk_box_set_spacing (GTK_BOX (shell_taskbar), 12);

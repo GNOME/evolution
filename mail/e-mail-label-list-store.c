@@ -167,6 +167,23 @@ mail_label_list_store_get_stock_id (EMailLabelListStore *store,
 }
 
 static void
+mail_label_list_store_dispose (GObject *object)
+{
+	EMailLabelListStorePrivate *priv;
+
+	priv = E_MAIL_LABEL_LIST_STORE_GET_PRIVATE (object);
+
+	if (priv->mail_settings != NULL) {
+		g_object_unref (priv->mail_settings);
+		priv->mail_settings = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_label_list_store_parent_class)->
+		dispose (object);
+}
+
+static void
 mail_label_list_store_finalize (GObject *object)
 {
 	EMailLabelListStorePrivate *priv;
@@ -175,24 +192,18 @@ mail_label_list_store_finalize (GObject *object)
 
 	g_hash_table_destroy (priv->tag_index);
 
-	if (priv->mail_settings != NULL) {
-		g_object_unref (priv->mail_settings);
-		priv->mail_settings = NULL;
-	}
-
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_label_list_store_parent_class)->
 		finalize (object);
 }
 
-
 static void labels_settings_changed_cb (GSettings *settings, const gchar *key, gpointer user_data);
 
 static void
 labels_model_changed_cb (GtkTreeModel *model,
-			 GtkTreePath *path,
-			 GtkTreeIter *iter,
-			 gpointer user_data)
+                         GtkTreePath *path,
+                         GtkTreeIter *iter,
+                         gpointer user_data)
 {
 	EMailLabelListStore *store;
 	GPtrArray *array;
@@ -228,8 +239,8 @@ labels_model_changed_cb (GtkTreeModel *model,
 
 static void
 labels_settings_changed_cb (GSettings *settings,
-			    const gchar *key,
-			    gpointer user_data)
+                            const gchar *key,
+                            gpointer user_data)
 {
 	EMailLabelListStore *store;
 	gchar **strv;
@@ -326,6 +337,7 @@ e_mail_label_list_store_class_init (EMailLabelListStoreClass *class)
 	g_type_class_add_private (class, sizeof (EMailLabelListStorePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = mail_label_list_store_dispose;
 	object_class->finalize = mail_label_list_store_finalize;
 	object_class->constructed = mail_label_list_store_constructed;
 

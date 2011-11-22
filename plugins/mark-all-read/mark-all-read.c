@@ -408,7 +408,6 @@ mar_got_folder (CamelStore *store,
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-
 	camel_folder_freeze (folder);
 
 	uids = camel_folder_get_uids (folder);

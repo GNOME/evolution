@@ -3786,8 +3786,12 @@ emae_defaults_page (EConfig *ec,
 		priv->trash_folder_button, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	pspec = !settings ? NULL : g_object_class_find_property (
-		G_OBJECT_GET_CLASS (settings), "use-real-trash-path");
+	if (settings != NULL)
+		pspec = g_object_class_find_property (
+			G_OBJECT_GET_CLASS (settings),
+			"use-real-trash-path");
+	else
+		pspec = NULL;
 
 	if (pspec != NULL)
 		g_object_bind_property (
@@ -3796,12 +3800,20 @@ emae_defaults_page (EConfig *ec,
 			G_BINDING_BIDIRECTIONAL |
 			G_BINDING_SYNC_CREATE);
 
-	pspec = !settings ? NULL : g_object_class_find_property (
-		G_OBJECT_GET_CLASS (settings), "real-trash-path");
+	if (settings != NULL)
+		pspec = g_object_class_find_property (
+			G_OBJECT_GET_CLASS (settings),
+			"real-trash-path");
+	else
+		pspec = NULL;
 
 	if (pspec != NULL) {
-		set_real_folder_path (priv->trash_folder_button, settings, "real-trash-path", account);
-		g_signal_connect (priv->trash_folder_button, "notify::folder-uri", G_CALLBACK (update_real_folder_cb), emae);
+		set_real_folder_path (
+			priv->trash_folder_button,
+			settings, "real-trash-path", account);
+		g_signal_connect (
+			priv->trash_folder_button, "notify::folder-uri",
+			G_CALLBACK (update_real_folder_cb), emae);
 	}
 
 	flags = CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER;
@@ -3832,8 +3844,12 @@ emae_defaults_page (EConfig *ec,
 		priv->junk_folder_button, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	pspec = !settings ? NULL : g_object_class_find_property (
-		G_OBJECT_GET_CLASS (settings), "use-real-junk-path");
+	if (settings != NULL)
+		pspec = g_object_class_find_property (
+			G_OBJECT_GET_CLASS (settings),
+			"use-real-junk-path");
+	else
+		pspec = NULL;
 
 	if (pspec != NULL)
 		g_object_bind_property (
@@ -3842,12 +3858,20 @@ emae_defaults_page (EConfig *ec,
 			G_BINDING_BIDIRECTIONAL |
 			G_BINDING_SYNC_CREATE);
 
-	pspec = !settings ? NULL : g_object_class_find_property (
-		G_OBJECT_GET_CLASS (settings), "real-junk-path");
+	if (settings != NULL)
+		pspec = g_object_class_find_property (
+			G_OBJECT_GET_CLASS (settings),
+			"real-junk-path");
+	else
+		pspec = NULL;
 
 	if (pspec != NULL) {
-		set_real_folder_path (priv->junk_folder_button, settings, "real-junk-path", account);
-		g_signal_connect (priv->junk_folder_button, "notify::folder-uri", G_CALLBACK (update_real_folder_cb), emae);
+		set_real_folder_path (
+			priv->junk_folder_button,
+			settings, "real-junk-path", account);
+		g_signal_connect (
+			priv->junk_folder_button, "notify::folder-uri",
+			G_CALLBACK (update_real_folder_cb), emae);
 	}
 
 	flags = CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER;
@@ -3861,7 +3885,9 @@ emae_defaults_page (EConfig *ec,
 
 	/* Special Folders "Reset Defaults" button */
 	priv->restore_folders_button = (GtkButton *)e_builder_get_widget (builder, "default_folders_button");
-	g_signal_connect (priv->restore_folders_button, "clicked", G_CALLBACK (default_folders_clicked), emae);
+	g_signal_connect (
+		priv->restore_folders_button, "clicked",
+		G_CALLBACK (default_folders_clicked), emae);
 
 	/* Always Cc/Bcc */
 	emae_account_toggle (emae, "always_cc", E_ACCOUNT_CC_ALWAYS, builder);
@@ -3869,12 +3895,13 @@ emae_defaults_page (EConfig *ec,
 	emae_account_toggle (emae, "always_bcc", E_ACCOUNT_BCC_ALWAYS, builder);
 	emae_account_entry (emae, "bcc_addrs", E_ACCOUNT_BCC_ADDRS, builder);
 
-	gtk_widget_set_sensitive ( (GtkWidget *) priv->sent_folder_button,
-				  (provider ? !(provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER): TRUE)
-				);
+	gtk_widget_set_sensitive (
+		GTK_WIDGET (priv->sent_folder_button),
+		(provider ? !(provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER) : TRUE));
 
-	gtk_widget_set_sensitive ((GtkWidget *) priv->restore_folders_button,
-				  (provider  && !(provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)));
+	gtk_widget_set_sensitive (
+		GTK_WIDGET (priv->restore_folders_button),
+		(provider && !(provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)));
 
 	/* Receipt policy */
 	emae_setup_receipt_policy (emae, builder);

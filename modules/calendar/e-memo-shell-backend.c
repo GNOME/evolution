@@ -647,7 +647,7 @@ e_memo_shell_backend_get_selected_memo_lists (EMemoShellBackend *memo_shell_back
 {
 	GSettings *settings;
 	GSList *selected_memo_lists = NULL;
-	char **strv;
+	gchar **strv;
 	gint ii;
 
 	g_return_val_if_fail (
@@ -656,7 +656,6 @@ e_memo_shell_backend_get_selected_memo_lists (EMemoShellBackend *memo_shell_back
 	settings = g_settings_new ("org.gnome.evolution.calendar");
 	strv = g_settings_get_strv (settings, "selected-memos");
 	g_object_unref (settings);
-
 
 	if (strv != NULL) {
 		for (ii = 0; strv[ii] != NULL; ii++)

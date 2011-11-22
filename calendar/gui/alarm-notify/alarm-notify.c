@@ -106,7 +106,8 @@ process_removal_in_hash (const gchar *uri,
 }
 
 static gint
-find_slist_source_uri_cb (gconstpointer a, gconstpointer b)
+find_slist_source_uri_cb (gconstpointer a,
+                          gconstpointer b)
 {
 	ESource *asource = (ESource *) a;
 	const gchar *buri = b;

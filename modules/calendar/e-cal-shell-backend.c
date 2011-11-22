@@ -903,7 +903,7 @@ e_cal_shell_backend_get_selected_calendars (ECalShellBackend *cal_shell_backend)
 {
 	GSettings *settings;
 	GSList *selected_calendars = NULL;
-	char **strv;
+	gchar **strv;
 	gint ii;
 
 	g_return_val_if_fail (

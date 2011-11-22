@@ -39,6 +39,10 @@
 
 #include "e-shell-window-actions.h"
 
+#define E_SHELL_SEARCHBAR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SHELL_SEARCHBAR, EShellSearchbarPrivate))
+
 #define SEARCH_OPTION_ADVANCED		(-1)
 
 /* Default "state key file" group: [Search Bar] */
@@ -629,7 +633,7 @@ shell_searchbar_dispose (GObject *object)
 {
 	EShellSearchbarPrivate *priv;
 
-	priv = E_SHELL_SEARCHBAR (object)->priv;
+	priv = E_SHELL_SEARCHBAR_GET_PRIVATE (object);
 
 	if (priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
@@ -911,8 +915,7 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	GtkLabel *label;
 	GtkWidget *widget;
 
-	searchbar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		searchbar, E_TYPE_SHELL_SEARCHBAR, EShellSearchbarPrivate);
+	searchbar->priv = E_SHELL_SEARCHBAR_GET_PRIVATE (searchbar);
 
 	gtk_box_set_spacing (GTK_BOX (searchbar), 24);
 

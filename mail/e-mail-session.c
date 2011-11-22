@@ -483,7 +483,7 @@ mail_session_make_key (CamelService *service,
 
 static void
 mail_session_check_junk_notify (GSettings *settings,
-				const gchar *key,
+                                const gchar *key,
                                 CamelSession *session)
 {
 	if (strcmp (key, "junk-check-incoming") == 0)
@@ -1089,9 +1089,9 @@ mail_session_forward_to (CamelSession *session,
 
 static void
 mail_session_get_socks_proxy (CamelSession *session,
-			      const gchar *for_host,
-			      gchar **host_ret,
-			      gint *port_ret)
+                              const gchar *for_host,
+                              gchar **host_ret,
+                              gint *port_ret)
 {
 	EMailSession *mail_session;
 	gchar *uri;

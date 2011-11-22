@@ -652,7 +652,7 @@ e_task_shell_backend_get_selected_task_lists (ETaskShellBackend *task_shell_back
 {
 	GSettings *settings;
 	GSList *selected_task_lists = NULL;
-	char **strv;
+	gchar **strv;
 	gint ii;
 
 	g_return_val_if_fail (
@@ -690,5 +690,5 @@ e_task_shell_backend_set_selected_task_lists (ETaskShellBackend *task_shell_back
 	g_settings_set_strv (settings, "selected-tasks", (const gchar *const *) array->pdata);
 	g_object_unref (settings);
 
-        g_ptr_array_free (array, FALSE);
+	g_ptr_array_free (array, FALSE);
 }

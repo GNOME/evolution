@@ -46,7 +46,6 @@
 #include "gnome-canvas-util.h"
 #include "gnome-canvas-i18n.h"
 
-
 /* Object argument IDs */
 enum {
 	PROP_0,

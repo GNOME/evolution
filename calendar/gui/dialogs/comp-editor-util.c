@@ -37,7 +37,6 @@
 #include <shell/e-shell.h>
 #include "comp-editor-util.h"
 
-
 /**
  * comp_editor_dates:
  * @dates: A structure to be filled out with dates of a component

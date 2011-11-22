@@ -396,7 +396,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 	GtkWidget *hbox;
-        gchar **clue_list;
+	gchar **clue_list;
 	gint i;
 	GtkTreeModel *model;
 	GtkWidget *templates_configuration_box;

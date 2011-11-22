@@ -185,8 +185,8 @@ contacts_removed (EBookShellView *book_shell_view,
 
 static void
 model_query_changed_cb (EBookShellView *book_shell_view,
-			GParamSpec *param,
-			EAddressbookModel *model)
+                        GParamSpec *param,
+                        EAddressbookModel *model)
 {
 	EBookShellContent *book_shell_content;
 	EAddressbookView *current_view;

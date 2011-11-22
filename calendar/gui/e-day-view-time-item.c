@@ -729,7 +729,7 @@ e_day_view_time_item_event (GnomeCanvasItem *item,
 
 static void
 edvti_second_zone_changed_cb (GSettings *settings,
-			      const gchar *key,
+                              const gchar *key,
                               gpointer user_data)
 {
 	EDayViewTimeItem *time_item = user_data;

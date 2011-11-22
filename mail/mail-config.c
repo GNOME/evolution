@@ -58,8 +58,8 @@ static GSettings *mail_settings = NULL;
 
 static void
 settings_outlook_filenames_changed (GSettings *settings,
-				    const gchar *key,
-				    gpointer user_data)
+                                    const gchar *key,
+                                    gpointer user_data)
 {
 	/* pass option to the camel */
 	if (g_settings_get_boolean (settings, key))
@@ -70,8 +70,8 @@ settings_outlook_filenames_changed (GSettings *settings,
 
 static void
 settings_jh_headers_changed (GSettings *settings,
-			     const gchar *key,
-			     EMailSession *session)
+                             const gchar *key,
+                             EMailSession *session)
 {
 	GSList *node;
 	GPtrArray *name, *value;
@@ -110,8 +110,8 @@ settings_jh_headers_changed (GSettings *settings,
 
 static void
 settings_jh_check_changed (GSettings *settings,
-			   const gchar *key,
-			   EMailSession *session)
+                           const gchar *key,
+                           EMailSession *session)
 {
 	config->jh_check = g_settings_get_boolean (settings, "junk-check-custom-header");
 	if (!config->jh_check) {
@@ -124,16 +124,16 @@ settings_jh_check_changed (GSettings *settings,
 
 static void
 settings_bool_value_changed (GSettings *settings,
-			     const gchar *key,
-			     gboolean *save_location)
+                             const gchar *key,
+                             gboolean *save_location)
 {
 	*save_location = g_settings_get_boolean (settings, key);
 }
 
 static void
 settings_int_value_changed (GSettings *settings,
-			    const gchar *key,
-			    gint *save_location)
+                            const gchar *key,
+                            gint *save_location)
 {
 	*save_location = g_settings_get_int (settings, key);
 }

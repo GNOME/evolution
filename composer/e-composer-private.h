@@ -58,30 +58,6 @@
 #include <X11/XF86keysym.h>
 #endif
 
-/* Mail configuration keys */
-#define MAIL_GCONF_PREFIX \
-	"/apps/evolution/mail"
-#define MAIL_GCONF_CHARSET_KEY \
-	MAIL_GCONF_PREFIX "/format/charset"
-
-/* Composer configuration keys */
-#define COMPOSER_GCONF_PREFIX \
-	MAIL_GCONF_PREFIX "/composer"
-#define COMPOSER_GCONF_INLINE_SPELLING_KEY \
-	COMPOSER_GCONF_PREFIX "/inline_spelling"
-#define COMPOSER_GCONF_MAGIC_LINKS_KEY \
-	COMPOSER_GCONF_PREFIX "/magic_links"
-#define COMPOSER_GCONF_MAGIC_SMILEYS_KEY \
-	COMPOSER_GCONF_PREFIX "/magic_smileys"
-#define COMPOSER_GCONF_REQUEST_RECEIPT_KEY \
-	COMPOSER_GCONF_PREFIX "/request_receipt"
-#define COMPOSER_GCONF_TOP_SIGNATURE_KEY \
-	COMPOSER_GCONF_PREFIX "/top_signature"
-#define COMPOSER_GCONF_SEND_HTML_KEY \
-	COMPOSER_GCONF_PREFIX "/send_html"
-#define COMPOSER_GCONF_WINDOW_PREFIX \
-	COMPOSER_GCONF_PREFIX "/window"
-
 /* Shorthand, requires a variable named "composer". */
 #define ACTION(name)	(E_COMPOSER_ACTION_##name (composer))
 
