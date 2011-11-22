@@ -21,12 +21,15 @@
 #include <glib/gi18n-lib.h>
 
 #include <libebackend/e-extension.h>
+#include <libedataserver/e-source-mail-account.h>
+#include <libedataserver/e-source-mail-identity.h>
+#include <libedataserver/e-source-mail-submission.h>
+#include <libedataserver/e-source-mdn.h>
 
 #include <libevolution-utils/e-alert-dialog.h>
 
-#include <libemail-utils/e-account-utils.h>
-
 #include <libemail-engine/e-mail-folder-utils.h>
+#include <libemail-engine/e-mail-session.h>
 
 #include <mail/em-utils.h>
 #include <mail/e-mail-reader.h>
@@ -55,7 +58,7 @@ struct _EMdnClass {
 typedef struct _MdnContext MdnContext;
 
 struct _MdnContext {
-	EAccount *account;
+	ESource *source;
 	EMailReader *reader;
 	CamelFolder *folder;
 	CamelMessageInfo *info;
@@ -89,7 +92,7 @@ mdn_context_free (MdnContext *context)
 		camel_folder_free_message_info (
 			context->folder, context->info);
 
-	g_object_unref (context->account);
+	g_object_unref (context->source);
 	g_object_unref (context->reader);
 	g_object_unref (context->folder);
 	g_object_unref (context->message);
@@ -200,7 +203,7 @@ mdn_receipt_done (CamelFolder *folder,
 }
 
 static void
-mdn_notify_sender (EAccount *account,
+mdn_notify_sender (ESource *source,
                    EMailReader *reader,
                    CamelFolder *folder,
                    CamelMimeMessage *message,
@@ -223,14 +226,20 @@ mdn_notify_sender (EAccount *account,
 	CamelMessageInfo *receipt_info;
 	EMailBackend *backend;
 	EMailSession *session;
+	ESourceRegistry *registry;
+	ESourceExtension *extension;
+	ESource *identity_source;
 	const gchar *message_id;
 	const gchar *message_date;
 	const gchar *message_subject;
+	const gchar *extension_name;
+	const gchar *identity_uid;
+	const gchar *transport_uid;
+	const gchar *self_address;
+	const gchar *sent_folder_uri;
 	gchar *fake_msgid;
 	gchar *hostname;
-	gchar *self_address;
 	gchar *receipt_subject;
-	gchar *transport_uid;
 	gchar *disposition;
 	gchar *recipient;
 	gchar *content;
@@ -238,14 +247,12 @@ mdn_notify_sender (EAccount *account,
 
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
+	registry = e_mail_session_get_registry (session);
 
 	/* Tag the message immediately even though we haven't actually sent
 	 * the read receipt yet.  Not a big deal if we fail to send it, and
 	 * we don't want to keep badgering the user about it. */
 	camel_message_info_set_user_flag (info, MDN_USER_FLAG, TRUE);
-
-	receipt = camel_mime_message_new ();
-	body = camel_multipart_new ();
 
 	medium = CAMEL_MEDIUM (message);
 	message_id = camel_medium_get_header (medium, "Message-ID");
@@ -260,15 +267,39 @@ mdn_notify_sender (EAccount *account,
 
 	/* Collect information for the receipt. */
 
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	extension = e_source_get_extension (source, extension_name);
+
+	identity_uid = e_source_mail_account_get_identity_uid (
+		E_SOURCE_MAIL_ACCOUNT (extension));
+	g_return_if_fail (identity_uid != NULL);
+	identity_source = e_source_registry_ref_source (
+		registry, identity_uid);
+	g_return_if_fail (identity_source != NULL);
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	extension = e_source_get_extension (identity_source, extension_name);
+
+	self_address = e_source_mail_identity_get_address (
+		E_SOURCE_MAIL_IDENTITY (extension));
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
+	extension = e_source_get_extension (identity_source, extension_name);
+
+	sent_folder_uri = e_source_mail_submission_get_sent_folder (
+		E_SOURCE_MAIL_SUBMISSION (extension));
+
+	transport_uid = e_source_mail_submission_get_transport_uid (
+		E_SOURCE_MAIL_SUBMISSION (extension));
+
 	/* We use camel_header_msgid_generate() to get a canonical
 	 * hostname, then skip the part leading to '@' */
 	fake_msgid = camel_header_msgid_generate ();
 	hostname = strchr (fake_msgid, '@');
 	hostname++;
 
-	self_address = account->id->address;
-
 	/* Create toplevel container. */
+	body = camel_multipart_new ();
 	camel_data_wrapper_set_mime_type (
 		CAMEL_DATA_WRAPPER (body),
 		"multipart/report;"
@@ -348,6 +379,7 @@ mdn_notify_sender (EAccount *account,
 
 	/* Finish creating the message. */
 
+	receipt = camel_mime_message_new ();
 	camel_medium_set_content (
 		CAMEL_MEDIUM (receipt), CAMEL_DATA_WRAPPER (body));
 	g_object_unref (body);
@@ -369,16 +401,13 @@ mdn_notify_sender (EAccount *account,
 		receipt, CAMEL_RECIPIENT_TYPE_TO, address);
 	g_object_unref (address);
 
-	transport_uid = g_strconcat (
-		account->uid, "-transport", NULL);
-
 	camel_medium_set_header (
 		CAMEL_MEDIUM (receipt),
 		"Return-Path", "<>");
 	camel_medium_set_header (
 		CAMEL_MEDIUM (receipt),
-		"X-Evolution-Account",
-		account->uid);
+		"X-Evolution-Identity",
+		identity_uid);
 	camel_medium_set_header (
 		CAMEL_MEDIUM (receipt),
 		"X-Evolution-Transport",
@@ -386,14 +415,12 @@ mdn_notify_sender (EAccount *account,
 	camel_medium_set_header (
 		CAMEL_MEDIUM (receipt),
 		"X-Evolution-Fcc",
-		account->sent_folder_uri);
+		sent_folder_uri);
 
 	/* RFC 3834, Section 5 describes this header. */
 	camel_medium_set_header (
 		CAMEL_MEDIUM (receipt),
 		"Auto-Submitted", "auto-replied");
-
-	g_free (transport_uid);
 
 	/* Send the receipt. */
 	receipt_info = camel_message_info_new (NULL);
@@ -410,6 +437,8 @@ mdn_notify_sender (EAccount *account,
 		g_object_ref (session));
 
 	camel_message_info_free (receipt_info);
+
+	g_object_unref (identity_source);
 }
 
 static void
@@ -417,7 +446,7 @@ mdn_notify_action_cb (GtkAction *action,
                       MdnContext *context)
 {
 	mdn_notify_sender (
-		context->account,
+		context->source,
 		context->reader,
 		context->folder,
 		context->message,
@@ -452,10 +481,20 @@ mdn_message_loaded_cb (EMailReader *reader,
                        EMdn *mdn)
 {
 	EAlert *alert;
-	EAccount *account;
+	ESource *source;
+	ESourceMDN *extension;
+	ESourceRegistry *registry;
+	EMailBackend *backend;
+	EMailSession *session;
 	CamelFolder *folder;
 	CamelMessageInfo *info;
+	EMdnResponsePolicy response_policy;
+	const gchar *extension_name;
 	gchar *notify_to = NULL;
+
+	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
+	registry = e_mail_session_get_registry (session);
 
 	folder = e_mail_reader_get_folder (reader);
 
@@ -476,17 +515,23 @@ mdn_message_loaded_cb (EMailReader *reader,
 	if (notify_to == NULL)
 		goto exit;
 
-	account = em_utils_guess_account_with_recipients (message, folder);
-	if (account == NULL)
+	/* This returns a new ESource reference. */
+	source = em_utils_guess_mail_account_with_recipients (
+		registry, message, folder);
+	if (source == NULL)
 		goto exit;
 
-	if (account->receipt_policy == E_ACCOUNT_RECEIPT_ASK) {
+	extension_name = E_SOURCE_EXTENSION_MDN;
+	extension = e_source_get_extension (source, extension_name);
+	response_policy = e_source_mdn_get_response_policy (extension);
+
+	if (response_policy == E_MDN_RESPONSE_POLICY_ASK) {
 		MdnContext *context;
 		GtkAction *action;
 		gchar *tooltip;
 
 		context = g_slice_new0 (MdnContext);
-		context->account = g_object_ref (account);
+		context->source = g_object_ref (source);
 		context->reader = g_object_ref (reader);
 		context->folder = g_object_ref (folder);
 		context->message = g_object_ref (message);
@@ -520,6 +565,8 @@ mdn_message_loaded_cb (EMailReader *reader,
 		g_free (tooltip);
 	}
 
+	g_object_unref (source);
+
 exit:
 	camel_folder_free_message_info (folder, info);
 	g_free (notify_to);
@@ -530,10 +577,20 @@ mdn_message_seen_cb (EMailReader *reader,
                      const gchar *message_uid,
                      CamelMimeMessage *message)
 {
-	EAccount *account;
+	ESource *source;
+	ESourceMDN *extension;
+	ESourceRegistry *registry;
+	EMailBackend *backend;
+	EMailSession *session;
 	CamelFolder *folder;
 	CamelMessageInfo *info;
+	EMdnResponsePolicy response_policy;
+	const gchar *extension_name;
 	gchar *notify_to = NULL;
+
+	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
+	registry = e_mail_session_get_registry (session);
 
 	folder = e_mail_reader_get_folder (reader);
 
@@ -548,16 +605,24 @@ mdn_message_seen_cb (EMailReader *reader,
 	if (notify_to == NULL)
 		goto exit;
 
-	account = em_utils_guess_account_with_recipients (message, folder);
-	if (account == NULL)
+	/* This returns a new ESource reference. */
+	source = em_utils_guess_mail_account_with_recipients (
+		registry, message, folder);
+	if (source == NULL)
 		goto exit;
 
-	if (account->receipt_policy == E_ACCOUNT_RECEIPT_ALWAYS)
+	extension_name = E_SOURCE_EXTENSION_MDN;
+	extension = e_source_get_extension (source, extension_name);
+	response_policy = e_source_mdn_get_response_policy (extension);
+
+	if (response_policy == E_MDN_RESPONSE_POLICY_ALWAYS)
 		mdn_notify_sender (
-			account, reader, folder,
+			source, reader, folder,
 			message, info, notify_to,
 			MDN_ACTION_MODE_AUTOMATIC,
 			MDN_SENDING_MODE_AUTOMATIC);
+
+	g_object_unref (source);
 
 exit:
 	camel_folder_free_message_info (folder, info);
