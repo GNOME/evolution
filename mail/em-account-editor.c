@@ -4937,9 +4937,11 @@ setup_google_calendar (EMAccountEditor *emae)
 	array = g_ptr_array_new ();
 	for (i = 0; ids[i] != NULL; i++)
 		g_ptr_array_add (array, ids[i]);
-	g_ptr_array_add (array, e_source_peek_uid (calendar));
+	g_ptr_array_add (array, (gpointer) e_source_peek_uid (calendar));
 	g_ptr_array_add (array, NULL);
-	g_settings_set_strv (settings, SELECTED_CALENDARS, array->pdata);
+	g_settings_set_strv (
+		settings, SELECTED_CALENDARS,
+		(const gchar * const *) array->pdata);
 
 	g_strfreev (ids);
 	g_ptr_array_free (array, TRUE);
@@ -5007,9 +5009,11 @@ setup_yahoo_calendar (EMAccountEditor *emae)
 	array = g_ptr_array_new ();
 	for (i = 0; ids[i] != NULL; i++)
 		g_ptr_array_add (array, ids[i]);
-	g_ptr_array_add (array, e_source_peek_uid (calendar));
+	g_ptr_array_add (array, (gpointer) e_source_peek_uid (calendar));
 	g_ptr_array_add (array, NULL);
-	g_settings_set_strv (settings, SELECTED_CALENDARS, array->pdata);
+	g_settings_set_strv (
+		settings, SELECTED_CALENDARS,
+		(const gchar * const *) array->pdata);
 
 	g_strfreev (ids);
 	g_ptr_array_free (array, TRUE);

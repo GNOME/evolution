@@ -1635,7 +1635,6 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	GtkAction *action;
 	GSettings *settings;
 	GObject *object;
-	const gchar *key;
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
