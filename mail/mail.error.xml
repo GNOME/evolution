@@ -396,13 +396,6 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <_secondary xml:space="preserve">Please check your account settings and try again.</_secondary>
   </error>
 
-  <error id="ask-receipt" type="question" default="GTK_RESPONSE_NO">
-    <_primary>Read receipt requested.</_primary>
-    <_secondary xml:space="preserve">A read receipt notification has been requested for "{1}". Send the receipt notification to {0}?</_secondary>
-    <button _label="Do _Not Send" response="GTK_RESPONSE_NO"/>
-    <button _label="_Send Receipt" response="GTK_RESPONSE_YES"/>
-  </error>
-
   <error id="ask-quick-offline" type="question" default="GTK_RESPONSE_NO">
     <_primary>Synchronize folders locally for offline usage?</_primary>
     <_secondary xml:space="preserve">Do you want to locally synchronize the folders that are marked for offline usage?</_secondary>

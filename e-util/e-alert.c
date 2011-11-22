@@ -909,18 +909,6 @@ e_alert_peek_actions (EAlert *alert)
 {
 	g_return_val_if_fail (E_IS_ALERT (alert), NULL);
 
-	/* Make sure we have at least one action.  Do this on-demand
-	 * in case the XML definition did not specify any actions but
-	 * other actions were added via e_alert_add_action(). */
-	if (g_queue_is_empty (&alert->priv->actions)) {
-		GtkAction *action;
-
-		action = gtk_action_new (
-			"alert-response-0", _("_Dismiss"), NULL, NULL);
-		e_alert_add_action (alert, action, GTK_RESPONSE_CLOSE);
-		g_object_unref (action);
-	}
-
 	return g_queue_peek_head_link (&alert->priv->actions);
 }
 

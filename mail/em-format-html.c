@@ -64,6 +64,10 @@
 #include "mail-config.h"
 #include "mail-mt.h"
 
+#define EM_FORMAT_HTML_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FORMAT_HTML, EMFormatHTMLPrivate))
+
 #define d(x)
 
 #define EFM_MESSAGE_START_ANAME "evolution#message#start"
@@ -811,7 +815,7 @@ efh_busy (EMFormat *emf)
 {
 	EMFormatHTMLPrivate *priv;
 
-	priv = EM_FORMAT_HTML (emf)->priv;
+	priv = EM_FORMAT_HTML_GET_PRIVATE (emf);
 
 	return (priv->format_id != -1);
 }
@@ -1009,8 +1013,7 @@ efh_init (EMFormatHTML *efh,
 	EWebView *web_view;
 	GdkColor *color;
 
-	efh->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		efh, EM_TYPE_FORMAT_HTML, EMFormatHTMLPrivate);
+	efh->priv = EM_FORMAT_HTML_GET_PRIVATE (efh);
 
 	g_queue_init (&efh->pending_object_list);
 	g_queue_init (&efh->priv->pending_jobs);

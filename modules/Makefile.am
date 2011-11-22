@@ -29,6 +29,7 @@ SUBDIRS = \
 	mail \
 	composer-autosave \
 	mailto-handler \
+	mdn \
 	offline-alert \
 	plugin-lib \
 	plugin-manager \

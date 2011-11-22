@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<error-list domain="mdn">
+  <error id="notify-sender" type="question">
+    <_primary>Sender wants to be notified when you have read this message.</_primary>
+  </error>
+  <error id="sender-notified" type="info">
+    <_primary>Sender has been notified that you have read this message.</_primary>
+  </error>
+</error-list>

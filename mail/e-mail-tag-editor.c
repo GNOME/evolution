@@ -33,6 +33,10 @@
 #include "e-util/e-util.h"
 #include "widgets/misc/e-dateedit.h"
 
+#define E_MAIL_TAG_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_TAG_EDITOR, EMailTagEditorPrivate))
+
 #define DEFAULT_FLAG 2  /* "Follow-Up" */
 
 struct _EMailTagEditorPrivate {
@@ -60,7 +64,7 @@ enum {
 	COLUMN_SUBJECT
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (EMailTagEditor, e_mail_tag_editor, GTK_TYPE_DIALOG)
 
 static void
 mail_tag_editor_clear_clicked_cb (EMailTagEditor *editor)
@@ -138,7 +142,7 @@ mail_tag_editor_realize (GtkWidget *widget)
 	GtkWidget *content_area;
 
 	/* Chain up to parent's realize() method. */
-	GTK_WIDGET_CLASS (parent_class)->realize (widget);
+	GTK_WIDGET_CLASS (e_mail_tag_editor_parent_class)->realize (widget);
 
 	/* XXX Override GTK's brain-dead border width defaults. */
 
@@ -219,12 +223,11 @@ mail_tag_editor_set_tag_list (EMailTagEditor *editor,
 }
 
 static void
-mail_tag_editor_class_init (EMailTagEditorClass *class)
+e_mail_tag_editor_class_init (EMailTagEditorClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailTagEditorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -271,7 +274,7 @@ mail_tag_editor_class_init (EMailTagEditorClass *class)
 }
 
 static void
-mail_tag_editor_init (EMailTagEditor *editor)
+e_mail_tag_editor_init (EMailTagEditor *editor)
 {
 	GtkBuilder *builder;
 	GtkDialog *dialog;
@@ -281,8 +284,7 @@ mail_tag_editor_init (EMailTagEditor *editor)
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
 
-	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		editor, E_TYPE_MAIL_TAG_EDITOR, EMailTagEditorPrivate);
+	editor->priv = E_MAIL_TAG_EDITOR_GET_PRIVATE (editor);
 
 	dialog = GTK_DIALOG (editor);
 	window = GTK_WINDOW (editor);
@@ -358,32 +360,6 @@ mail_tag_editor_init (EMailTagEditor *editor)
 		G_CALLBACK (mail_tag_editor_clear_clicked_cb), editor);
 
 	g_object_unref (builder);
-}
-
-GType
-e_mail_tag_editor_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMailTagEditorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_tag_editor_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailTagEditor),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) mail_tag_editor_init,
-			NULL   /* valute_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_DIALOG, "EMailTagEditor", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

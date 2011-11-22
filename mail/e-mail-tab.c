@@ -25,6 +25,10 @@
 #include <gtk/gtk.h>
 #include "e-mail-tab.h"
 
+#define E_MAIL_TAB_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_TAB, EMailTabPrivate))
+
 #define E_MAIL_PIXBOUND(u) ((gfloat)((gint)(u)))
 
 static void mx_draggable_iface_init (MxDraggableIface *iface);
@@ -115,13 +119,13 @@ e_mail_tab_drag_begin (MxDraggable *draggable,
                        gint event_button,
                        ClutterModifierType modifiers)
 {
-	gfloat x, y;
-
-	EMailTabPrivate *priv = E_MAIL_TAB (draggable)->priv;
+	EMailTabPrivate *priv;
 	ClutterActor *self = CLUTTER_ACTOR (draggable);
 	ClutterActor *actor = mx_draggable_get_drag_actor (draggable);
 	ClutterActor *stage = clutter_actor_get_stage (self);
+	gfloat x, y;
 
+	priv = E_MAIL_TAB_GET_PRIVATE (draggable);
 	priv->in_drag = TRUE;
 
 	clutter_actor_get_transformed_position (self, &x, &y);
@@ -489,8 +493,10 @@ e_mail_tab_get_preferred_width (ClutterActor *actor,
                                 gfloat *min_width_p,
                                 gfloat *natural_width_p)
 {
+	EMailTabPrivate *priv;
 	MxPadding padding;
-	EMailTabPrivate *priv = E_MAIL_TAB (actor)->priv;
+
+	priv = E_MAIL_TAB_GET_PRIVATE (actor);
 
 	/* Get padding */
 	mx_widget_get_padding (MX_WIDGET (actor), &padding);
@@ -658,6 +664,7 @@ e_mail_tab_allocate (ClutterActor *actor,
                      const ClutterActorBox *box,
                      ClutterAllocationFlags flags)
 {
+	EMailTabPrivate *priv;
 	MxPadding padding;
 	ClutterActorBox child_box;
 	gfloat icon_width, icon_height;
@@ -665,7 +672,7 @@ e_mail_tab_allocate (ClutterActor *actor,
 	gfloat close_width, close_height;
 	gfloat preview_width, preview_height;
 
-	EMailTabPrivate *priv = E_MAIL_TAB (actor)->priv;
+	priv = E_MAIL_TAB_GET_PRIVATE (actor);
 
 	/* Chain up to store box */
 	CLUTTER_ACTOR_CLASS (e_mail_tab_parent_class)->allocate (actor, box, flags);
@@ -815,7 +822,9 @@ e_mail_tab_allocate (ClutterActor *actor,
 static void
 e_mail_tab_paint (ClutterActor *actor)
 {
-	EMailTabPrivate *priv = E_MAIL_TAB (actor)->priv;
+	EMailTabPrivate *priv;
+
+	priv = E_MAIL_TAB_GET_PRIVATE (actor);
 
 	/* Chain up to paint background */
 	CLUTTER_ACTOR_CLASS (e_mail_tab_parent_class)->paint (actor);
@@ -848,7 +857,9 @@ e_mail_tab_pick (ClutterActor *actor,
 static void
 e_mail_tab_map (ClutterActor *actor)
 {
-	EMailTabPrivate *priv = E_MAIL_TAB (actor)->priv;
+	EMailTabPrivate *priv;
+
+	priv = E_MAIL_TAB_GET_PRIVATE (actor);
 
 	CLUTTER_ACTOR_CLASS (e_mail_tab_parent_class)->map (actor);
 
@@ -866,7 +877,9 @@ e_mail_tab_map (ClutterActor *actor)
 static void
 e_mail_tab_unmap (ClutterActor *actor)
 {
-	EMailTabPrivate *priv = E_MAIL_TAB (actor)->priv;
+	EMailTabPrivate *priv;
+
+	priv = E_MAIL_TAB_GET_PRIVATE (actor);
 
 	CLUTTER_ACTOR_CLASS (e_mail_tab_parent_class)->unmap (actor);
 
@@ -885,7 +898,9 @@ static gboolean
 e_mail_tab_button_press_event (ClutterActor *actor,
                                ClutterButtonEvent *event)
 {
-	EMailTabPrivate *priv = E_MAIL_TAB (actor)->priv;
+	EMailTabPrivate *priv;
+
+	priv = E_MAIL_TAB_GET_PRIVATE (actor);
 
 	if (event->button == 1) {
 		mx_stylable_set_style_pseudo_class (
@@ -956,7 +971,9 @@ static gboolean
 e_mail_tab_enter_event (ClutterActor *actor,
                         ClutterCrossingEvent *event)
 {
-	EMailTabPrivate *priv = E_MAIL_TAB (actor)->priv;
+	EMailTabPrivate *priv;
+
+	priv = E_MAIL_TAB_GET_PRIVATE (actor);
 
 	if (event->source != actor)
 		return FALSE;
@@ -977,7 +994,9 @@ static gboolean
 e_mail_tab_leave_event (ClutterActor *actor,
                         ClutterCrossingEvent *event)
 {
-	EMailTabPrivate *priv = E_MAIL_TAB (actor)->priv;
+	EMailTabPrivate *priv;
+
+	priv = E_MAIL_TAB_GET_PRIVATE (actor);
 
 	if ((event->source != actor) ||
 		(event->related == (ClutterActor *) priv->close_button))
@@ -1216,7 +1235,9 @@ e_mail_tab_anim_completed_cb (ClutterAnimation *animation,
 static void
 e_mail_tab_style_changed_cb (MxWidget *widget)
 {
-	EMailTabPrivate *priv = E_MAIL_TAB (widget)->priv;
+	EMailTabPrivate *priv;
+
+	priv = E_MAIL_TAB_GET_PRIVATE (widget);
 
 	/* Don't transition on hover */
 	if (g_strcmp0 (mx_stylable_get_style_pseudo_class (
@@ -1284,61 +1305,59 @@ e_mail_tab_dnd_notify_cb (GObject *settings,
 }
 
 static void
-e_mail_tab_init (EMailTab *self)
+e_mail_tab_init (EMailTab *tab)
 {
 	ClutterActor *text;
 	GtkSettings *settings;
-	EMailTabPrivate *priv;
 
-	priv = self->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-	self, E_MAIL_TYPE_TAB, EMailTabPrivate);
+	tab->priv = E_MAIL_TAB_GET_PRIVATE (tab);
 
-	priv->width = -1;
-	priv->anim_length = 200;
-	priv->spacing = 6.0;
-	priv->can_close = TRUE;
+	tab->priv->width = -1;
+	tab->priv->anim_length = 200;
+	tab->priv->spacing = 6.0;
+	tab->priv->can_close = TRUE;
 
-	priv->label = mx_label_new ();
-	g_object_set (priv->label, "clip-to-allocation", TRUE, NULL);
-	text = mx_label_get_clutter_text (MX_LABEL (priv->label));
+	tab->priv->label = mx_label_new ();
+	g_object_set (tab->priv->label, "clip-to-allocation", TRUE, NULL);
+	text = mx_label_get_clutter_text (MX_LABEL (tab->priv->label));
 	clutter_text_set_ellipsize (CLUTTER_TEXT (text), PANGO_ELLIPSIZE_END);
 	clutter_actor_set_parent (
-		CLUTTER_ACTOR (priv->label), CLUTTER_ACTOR (self));
+		CLUTTER_ACTOR (tab->priv->label), CLUTTER_ACTOR (tab));
 
-	priv->close_button = mx_button_new ();
+	tab->priv->close_button = mx_button_new ();
 	clutter_actor_set_name (
-		CLUTTER_ACTOR (priv->close_button), "tab-close-button");
+		CLUTTER_ACTOR (tab->priv->close_button), "tab-close-button");
 	clutter_actor_set_parent (
-		CLUTTER_ACTOR (priv->close_button), CLUTTER_ACTOR (self));
+		CLUTTER_ACTOR (tab->priv->close_button), CLUTTER_ACTOR (tab));
 
 	g_signal_connect (
-		priv->close_button, "clicked",
-		G_CALLBACK (e_mail_tab_close_clicked_cb), self);
+		tab->priv->close_button, "clicked",
+		G_CALLBACK (e_mail_tab_close_clicked_cb), tab);
 
 	/* Connect up styling signals */
 	g_signal_connect (
-		self, "style-changed",
+		tab, "style-changed",
 		G_CALLBACK (e_mail_tab_style_changed_cb), NULL);
 	g_signal_connect (
-		self, "stylable-changed",
+		tab, "stylable-changed",
 		G_CALLBACK (e_mail_tab_stylable_changed_cb), NULL);
 
-	clutter_actor_set_reactive (CLUTTER_ACTOR (self), TRUE);
+	clutter_actor_set_reactive (CLUTTER_ACTOR (tab), TRUE);
 
 	settings = gtk_settings_get_default ();
-	priv->drag_threshold_handler = g_signal_connect (
+	tab->priv->drag_threshold_handler = g_signal_connect (
 		settings, "notify::gtk-dnd-drag-threshold",
-		G_CALLBACK (e_mail_tab_dnd_notify_cb), self);
+		G_CALLBACK (e_mail_tab_dnd_notify_cb), tab);
 	g_object_get (
 		G_OBJECT (settings),
-		"gtk-dnd-drag-threshold", &priv->drag_threshold,
+		"gtk-dnd-drag-threshold", &tab->priv->drag_threshold,
 		NULL);
 }
 
 ClutterActor *
 e_mail_tab_new (void)
 {
-	return g_object_new (E_MAIL_TYPE_TAB, NULL);
+	return g_object_new (E_TYPE_MAIL_TAB, NULL);
 }
 
 ClutterActor *
@@ -1347,7 +1366,7 @@ e_mail_tab_new_full (const gchar *text,
                      gint width)
 {
 	return g_object_new (
-		E_MAIL_TYPE_TAB,
+		E_TYPE_MAIL_TAB,
 		"text", text,
 		"icon", icon,
 		"tab-width", width,

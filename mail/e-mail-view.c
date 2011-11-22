@@ -28,6 +28,10 @@
 
 #include <glib/gi18n-lib.h>
 
+#define E_MAIL_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_VIEW, EMailViewPrivate))
+
 struct _EMailViewPrivate {
 	EShellView *shell_view;
 	GtkOrientation orientation;
@@ -154,7 +158,7 @@ mail_view_dispose (GObject *object)
 {
 	EMailViewPrivate *priv;
 
-	priv = E_MAIL_VIEW (object)->priv;
+	priv = E_MAIL_VIEW_GET_PRIVATE (object);
 
 	if (priv->shell_view != NULL) {
 		g_object_unref (priv->shell_view);
@@ -319,8 +323,7 @@ e_mail_view_class_init (EMailViewClass *class)
 static void
 e_mail_view_init (EMailView *view)
 {
-	view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		view, E_TYPE_MAIL_VIEW, EMailViewPrivate);
+	view->priv = E_MAIL_VIEW_GET_PRIVATE (view);
 }
 
 EShellView *

@@ -138,7 +138,7 @@ em_config_new (gint type,
 {
 	EMConfig *emp;
 
-	emp = g_object_new (em_config_get_type (), NULL);
+	emp = g_object_new (EM_TYPE_CONFIG, NULL);
 	e_config_construct (&emp->config, type, menuid);
 
 	return emp;

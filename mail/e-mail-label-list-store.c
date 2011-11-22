@@ -28,6 +28,10 @@
 #include <glib/gi18n.h>
 #include <camel/camel.h>
 
+#define E_MAIL_LABEL_LIST_STORE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_LABEL_LIST_STORE, EMailLabelListStorePrivate))
+
 struct _EMailLabelListStorePrivate {
 	GHashTable *tag_index;
 	GSettings *mail_settings;
@@ -45,7 +49,17 @@ static struct {
 	{ N_("_Later"),     "#75507B", "$Labellater" }		/* purple */
 };
 
-static gpointer parent_class;
+/* Forward Declarations */
+static void	e_mail_label_list_store_interface_init
+						(GtkTreeModelIface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	EMailLabelListStore,
+	e_mail_label_list_store,
+	GTK_TYPE_LIST_STORE,
+	G_IMPLEMENT_INTERFACE (
+		GTK_TYPE_TREE_MODEL,
+		e_mail_label_list_store_interface_init))
 
 static gchar *
 mail_label_list_store_tag_from_name (const gchar *label_name)
@@ -157,7 +171,7 @@ mail_label_list_store_finalize (GObject *object)
 {
 	EMailLabelListStorePrivate *priv;
 
-	priv = E_MAIL_LABEL_LIST_STORE (object)->priv;
+	priv = E_MAIL_LABEL_LIST_STORE_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->tag_index);
 
@@ -167,7 +181,8 @@ mail_label_list_store_finalize (GObject *object)
 	}
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_mail_label_list_store_parent_class)->
+		finalize (object);
 }
 
 
@@ -273,7 +288,8 @@ mail_label_list_store_constructed (GObject *object)
 	mail_label_list_store_ensure_defaults (store);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_mail_label_list_store_parent_class)->
+		constructed (object);
 }
 
 static void
@@ -303,11 +319,10 @@ mail_label_list_store_row_inserted (GtkTreeModel *model,
 }
 
 static void
-mail_label_list_store_class_init (EMailLabelListStoreClass *class)
+e_mail_label_list_store_class_init (EMailLabelListStoreClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailLabelListStorePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -319,7 +334,13 @@ mail_label_list_store_class_init (EMailLabelListStoreClass *class)
 }
 
 static void
-mail_label_list_store_init (EMailLabelListStore *store)
+e_mail_label_list_store_interface_init (GtkTreeModelIface *interface)
+{
+	interface->row_inserted = mail_label_list_store_row_inserted;
+}
+
+static void
+e_mail_label_list_store_init (EMailLabelListStore *store)
 {
 	GHashTable *tag_index;
 	GType type = G_TYPE_STRING;
@@ -329,9 +350,7 @@ mail_label_list_store_init (EMailLabelListStore *store)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	store->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		store, E_TYPE_MAIL_LABEL_LIST_STORE,
-		EMailLabelListStorePrivate);
+	store->priv = E_MAIL_LABEL_LIST_STORE_GET_PRIVATE (store);
 	store->priv->tag_index = tag_index;
 
 	/* XXX While it may seem awkward to cram the label name and color
@@ -342,48 +361,6 @@ mail_label_list_store_init (EMailLabelListStore *store)
 	 *     doesn't belong in GSettings in the first place.  A key file
 	 *     under $(user_data_dir)/mail would work better. */
 	gtk_list_store_set_column_types (GTK_LIST_STORE (store), 1, &type);
-}
-
-static void
-mail_label_list_store_iface_init (GtkTreeModelIface *iface)
-{
-	iface->row_inserted = mail_label_list_store_row_inserted;
-}
-
-GType
-e_mail_label_list_store_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMailLabelListStoreClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_label_list_store_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailLabelListStore),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) mail_label_list_store_init,
-			NULL   /* vaule_table */
-		};
-
-		static const GInterfaceInfo iface_info = {
-			(GInterfaceInitFunc) mail_label_list_store_iface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_LIST_STORE, "EMailLabelListStore",
-			&type_info, 0);
-
-		g_type_add_interface_static (
-			type, GTK_TYPE_TREE_MODEL, &iface_info);
-	}
-
-	return type;
 }
 
 EMailLabelListStore *

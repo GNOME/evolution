@@ -58,13 +58,6 @@ void		em_utils_forward_messages	(EMailReader *reader,
 						 GtkWidget *destroy_when_done);
 void		em_utils_redirect_message	(EShell *shell,
 						 CamelMimeMessage *message);
-void		em_utils_handle_receipt		(EMailBackend *backend,
-						 CamelFolder *folder,
-						 const gchar *message_uid,
-						 CamelMimeMessage *message);
-void		em_utils_send_receipt		(EMailBackend *backend,
-						 CamelFolder *folder,
-						 CamelMimeMessage *message);
 gchar *		em_utils_construct_composer_text
 						(CamelMimeMessage *message,
 						 EMFormat *source_formatter);

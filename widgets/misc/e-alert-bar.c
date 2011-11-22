@@ -16,13 +16,14 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-alert-bar.h"
 
+#include <config.h>
 #include <glib/gi18n-lib.h>
+
+#define E_ALERT_BAR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ALERT_BAR, EAlertBarPrivate))
 
 /* GTK_ICON_SIZE_DIALOG is a tad too big. */
 #define ICON_SIZE GTK_ICON_SIZE_DND
@@ -43,19 +44,30 @@ G_DEFINE_TYPE (
 	GTK_TYPE_INFO_BAR)
 
 static void
+alert_bar_response_close (EAlert *alert)
+{
+	e_alert_response (alert, GTK_RESPONSE_CLOSE);
+}
+
+static void
 alert_bar_show_alert (EAlertBar *alert_bar)
 {
 	GtkImage *image;
-	GtkLabel *label;
 	GtkInfoBar *info_bar;
 	GtkWidget *action_area;
+	GtkWidget *widget;
 	EAlert *alert;
 	GList *actions;
 	GList *children;
 	GtkMessageType message_type;
+	const gchar *primary_text;
+	const gchar *secondary_text;
 	const gchar *stock_id;
-	const gchar *text;
+	gboolean have_primary_text;
+	gboolean have_secondary_text;
+	gboolean visible;
 	gint response_id;
+	gchar *markup;
 
 	info_bar = GTK_INFO_BAR (alert_bar);
 	action_area = gtk_info_bar_get_action_area (info_bar);
@@ -71,29 +83,58 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 		children = g_list_delete_link (children, children);
 	}
 
-	/* Add new buttons. */
+	/* Add alert-specific buttons. */
 	actions = e_alert_peek_actions (alert);
 	while (actions != NULL) {
-		GtkWidget *button;
-
 		/* These actions are already wired to trigger an
 		 * EAlert::response signal when activated, which
 		 * will in turn call gtk_info_bar_response(), so
 		 * we can add buttons directly to the action
 		 * area without knowning their response IDs. */
 
-		button = gtk_button_new ();
+		widget = gtk_button_new ();
 
 		gtk_activatable_set_related_action (
-			GTK_ACTIVATABLE (button),
+			GTK_ACTIVATABLE (widget),
 			GTK_ACTION (actions->data));
 
 		gtk_box_pack_end (
-			GTK_BOX (action_area),
-			button, FALSE, FALSE, 0);
+			GTK_BOX (action_area), widget, FALSE, FALSE, 0);
 
 		actions = g_list_next (actions);
 	}
+
+	/* Add a dismiss button. */
+	widget = gtk_button_new ();
+	gtk_button_set_image (
+		GTK_BUTTON (widget),
+		gtk_image_new_from_stock (
+		GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU));
+	gtk_button_set_relief (
+		GTK_BUTTON (widget), GTK_RELIEF_NONE);
+	gtk_widget_set_tooltip_text (
+		widget, _("Close this message"));
+	gtk_box_pack_end (
+		GTK_BOX (action_area), widget, FALSE, FALSE, 0);
+	gtk_button_box_set_child_non_homogeneous (
+		GTK_BUTTON_BOX (action_area), widget, TRUE);
+	gtk_widget_show (widget);
+
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (alert_bar_response_close), alert);
+
+	primary_text = e_alert_get_primary_text (alert);
+	secondary_text = e_alert_get_secondary_text (alert);
+
+	if (primary_text == NULL)
+		primary_text = "";
+
+	if (secondary_text == NULL)
+		secondary_text = "";
+
+	have_primary_text = (*primary_text != '\0');
+	have_secondary_text = (*secondary_text != '\0');
 
 	response_id = e_alert_get_default_response (alert);
 	gtk_info_bar_set_default_response (info_bar, response_id);
@@ -101,17 +142,34 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	message_type = e_alert_get_message_type (alert);
 	gtk_info_bar_set_message_type (info_bar, message_type);
 
-	text = e_alert_get_primary_text (alert);
-	label = GTK_LABEL (alert_bar->priv->primary_label);
-	gtk_label_set_text (label, text);
+	widget = alert_bar->priv->primary_label;
+	if (have_primary_text && have_secondary_text)
+		markup = g_markup_printf_escaped (
+			"<b>%s</b>", primary_text);
+	else
+		markup = g_markup_escape_text (primary_text, -1);
+	gtk_label_set_markup (GTK_LABEL (widget), markup);
+	gtk_widget_set_visible (widget, have_primary_text);
+	g_free (markup);
 
-	text = e_alert_get_secondary_text (alert);
-	label = GTK_LABEL (alert_bar->priv->secondary_label);
-	gtk_label_set_text (label, text);
+	widget = alert_bar->priv->secondary_label;
+	if (have_primary_text && have_secondary_text)
+		markup = g_markup_printf_escaped (
+			"<small>%s</small>", secondary_text);
+	else
+		markup = g_markup_escape_text (secondary_text, -1);
+	gtk_label_set_markup (GTK_LABEL (widget), markup);
+	gtk_widget_set_visible (widget, have_secondary_text);
+	g_free (markup);
 
 	stock_id = e_alert_get_stock_id (alert);
 	image = GTK_IMAGE (alert_bar->priv->image);
 	gtk_image_set_from_stock (image, stock_id, ICON_SIZE);
+
+	/* Avoid showing an image for one-line alerts,
+	 * which are usually questions or informational. */
+	visible = have_primary_text && have_secondary_text;
+	gtk_widget_set_visible (alert_bar->priv->image, visible);
 
 	gtk_widget_show (GTK_WIDGET (alert_bar));
 
@@ -130,7 +188,6 @@ alert_bar_response_cb (EAlert *alert,
 {
 	GQueue *queue;
 	EAlert *head;
-	GList *link;
 	gboolean was_head;
 
 	queue = &alert_bar->priv->alerts;
@@ -140,12 +197,8 @@ alert_bar_response_cb (EAlert *alert,
 	g_signal_handlers_disconnect_by_func (
 		alert, alert_bar_response_cb, alert_bar);
 
-	/* XXX Would be easier if g_queue_remove() returned a boolean. */
-	link = g_queue_find (queue, alert);
-	if (link != NULL) {
-		g_queue_delete_link (queue, link);
+	if (g_queue_remove (queue, alert))
 		g_object_unref (alert);
-	}
 
 	if (g_queue_is_empty (queue))
 		gtk_widget_hide (GTK_WIDGET (alert_bar));
@@ -161,7 +214,7 @@ alert_bar_dispose (GObject *object)
 {
 	EAlertBarPrivate *priv;
 
-	priv = E_ALERT_BAR (object)->priv;
+	priv = E_ALERT_BAR_GET_PRIVATE (object);
 
 	while (!g_queue_is_empty (&priv->alerts)) {
 		EAlert *alert = g_queue_pop_head (&priv->alerts);
@@ -172,6 +225,64 @@ alert_bar_dispose (GObject *object)
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_alert_bar_parent_class)->dispose (object);
+}
+
+static void
+alert_bar_constructed (GObject *object)
+{
+	EAlertBarPrivate *priv;
+	GtkInfoBar *info_bar;
+	GtkWidget *action_area;
+	GtkWidget *content_area;
+	GtkWidget *container;
+	GtkWidget *widget;
+
+	priv = E_ALERT_BAR_GET_PRIVATE (object);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_alert_bar_parent_class)->constructed (object);
+
+	g_queue_init (&priv->alerts);
+
+	info_bar = GTK_INFO_BAR (object);
+	action_area = gtk_info_bar_get_action_area (info_bar);
+	content_area = gtk_info_bar_get_content_area (info_bar);
+
+	gtk_orientable_set_orientation (
+		GTK_ORIENTABLE (action_area), GTK_ORIENTATION_HORIZONTAL);
+	gtk_widget_set_valign (action_area, GTK_ALIGN_START);
+
+	container = content_area;
+
+	widget = gtk_image_new ();
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.5, 0.0);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	priv->image = widget;
+	gtk_widget_show (widget);
+
+	widget = gtk_vbox_new (FALSE, 12);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_label_new (NULL);
+	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	priv->primary_label = widget;
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new (NULL);
+	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	priv->secondary_label = widget;
+	gtk_widget_show (widget);
+
+	container = action_area;
 }
 
 static GtkSizeRequestMode
@@ -192,6 +303,7 @@ e_alert_bar_class_init (EAlertBarClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = alert_bar_dispose;
+	object_class->constructed = alert_bar_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->get_request_mode = alert_bar_get_request_mode;
@@ -200,65 +312,27 @@ e_alert_bar_class_init (EAlertBarClass *class)
 static void
 e_alert_bar_init (EAlertBar *alert_bar)
 {
-	GtkWidget *container;
-	GtkWidget *widget;
-	PangoAttribute *attr;
-	PangoAttrList *attr_list;
-
-	alert_bar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		alert_bar, E_TYPE_ALERT_BAR, EAlertBarPrivate);
-
-	g_queue_init (&alert_bar->priv->alerts);
-
-	container = gtk_info_bar_get_content_area (GTK_INFO_BAR (alert_bar));
-
-	widget = gtk_image_new ();
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.5, 0.0);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	alert_bar->priv->image = widget;
-	gtk_widget_show (widget);
-
-	widget = gtk_vbox_new (FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	attr_list = pango_attr_list_new ();
-	attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
-	pango_attr_list_insert (attr_list, attr);
-
-	widget = gtk_label_new (NULL);
-	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
-	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
-	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	alert_bar->priv->primary_label = widget;
-	gtk_widget_show (widget);
-
-	pango_attr_list_unref (attr_list);
-
-	attr_list = pango_attr_list_new ();
-	attr = pango_attr_scale_new  (PANGO_SCALE_SMALL);
-	pango_attr_list_insert (attr_list, attr);
-
-	widget = gtk_label_new (NULL);
-	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
-	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
-	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	alert_bar->priv->secondary_label = widget;
-	gtk_widget_show (widget);
-
-	pango_attr_list_unref (attr_list);
+	alert_bar->priv = E_ALERT_BAR_GET_PRIVATE (alert_bar);
 }
 
 GtkWidget *
 e_alert_bar_new (void)
 {
 	return g_object_new (E_TYPE_ALERT_BAR, NULL);
+}
+
+void
+e_alert_bar_clear (EAlertBar *alert_bar)
+{
+	GQueue *queue;
+	EAlert *alert;
+
+	g_return_if_fail (E_IS_ALERT_BAR (alert_bar));
+
+	queue = &alert_bar->priv->alerts;
+
+	while ((alert = g_queue_pop_head (queue)) != NULL)
+		alert_bar_response_close (alert);
 }
 
 typedef struct {

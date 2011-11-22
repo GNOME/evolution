@@ -414,7 +414,7 @@ do_save_calendar_csv (FormatHandler *handler,
 		}
 
 		for (iter = objects; iter; iter = iter->next) {
-			ECalComponent *comp = objects->data;
+			ECalComponent *comp = iter->data;
 			gchar *delimiter_temp = NULL;
 			const gchar *temp_constchar;
 			GSList *temp_list;

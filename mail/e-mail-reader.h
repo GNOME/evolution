@@ -32,6 +32,7 @@
 #include <e-util/e-alert-sink.h>
 #include <mail/e-mail-backend.h>
 #include <mail/em-format-html.h>
+#include <misc/e-preview-pane.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_READER \
@@ -99,6 +100,7 @@ struct _EMailReaderInterface {
 	gboolean	(*get_hide_deleted)	(EMailReader *reader);
 	GtkWidget *	(*get_message_list)	(EMailReader *reader);
 	GtkMenu *	(*get_popup_menu)	(EMailReader *reader);
+	EPreviewPane *	(*get_preview_pane)	(EMailReader *reader);
 	GPtrArray *	(*get_selected_uids)	(EMailReader *reader);
 	GtkWindow *	(*get_window)		(EMailReader *reader);
 
@@ -106,12 +108,18 @@ struct _EMailReaderInterface {
 	void		(*set_folder)		(EMailReader *reader,
 						 CamelFolder *folder);
 	void		(*set_message)		(EMailReader *reader,
-						 const gchar *uid);
+						 const gchar *message_uid);
 	guint		(*open_selected_mail)	(EMailReader *reader);
 	gboolean	(*enable_show_folder)	(EMailReader *reader);
 
 	/* Signals */
 	void		(*folder_loaded)	(EMailReader *reader);
+	void		(*message_loaded)	(EMailReader *reader,
+						 const gchar *message_uid,
+						 CamelMimeMessage *message);
+	void		(*message_seen)		(EMailReader *reader,
+						 const gchar *message_uid,
+						 CamelMimeMessage *message);
 	void		(*show_search_bar)	(EMailReader *reader);
 	void		(*update_actions)	(EMailReader *reader,
 						 guint32 state);
@@ -139,13 +147,14 @@ GtkWidget *	e_mail_reader_get_message_list	(EMailReader *reader);
 guint		e_mail_reader_open_selected_mail
 						(EMailReader *reader);
 GtkMenu *	e_mail_reader_get_popup_menu	(EMailReader *reader);
+EPreviewPane *	e_mail_reader_get_preview_pane	(EMailReader *reader);
 GPtrArray *	e_mail_reader_get_selected_uids	(EMailReader *reader);
 GtkWindow *	e_mail_reader_get_window	(EMailReader *reader);
 CamelFolder *	e_mail_reader_get_folder	(EMailReader *reader);
 void		e_mail_reader_set_folder	(EMailReader *reader,
 						 CamelFolder *folder);
 void		e_mail_reader_set_message	(EMailReader *reader,
-						 const gchar *uid);
+						 const gchar *message_uid);
 EMailForwardStyle
 		e_mail_reader_get_forward_style	(EMailReader *reader);
 void		e_mail_reader_set_forward_style	(EMailReader *reader,

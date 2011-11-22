@@ -35,7 +35,7 @@
 #include "em-filter-editor.h"
 #include "em-filter-rule.h"
 
-static gpointer parent_class;
+G_DEFINE_TYPE (EMFilterEditor, em_filter_editor, E_TYPE_RULE_EDITOR)
 
 static EFilterRule *
 filter_editor_create_rule (ERuleEditor *rule_editor)
@@ -56,18 +56,16 @@ filter_editor_create_rule (ERuleEditor *rule_editor)
 }
 
 static void
-filter_editor_class_init (EMFilterEditorClass *class)
+em_filter_editor_class_init (EMFilterEditorClass *class)
 {
 	ERuleEditorClass *rule_editor_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	rule_editor_class = E_RULE_EDITOR_CLASS (class);
 	rule_editor_class->create_rule = filter_editor_create_rule;
 }
 
 static void
-filter_editor_init (EMFilterEditor *filter_editor)
+em_filter_editor_init (EMFilterEditor *filter_editor)
 {
 	GConfBridge *bridge;
 	const gchar *key_prefix;
@@ -77,32 +75,6 @@ filter_editor_init (EMFilterEditor *filter_editor)
 
 	gconf_bridge_bind_window_size (
 		bridge, key_prefix, GTK_WINDOW (filter_editor));
-}
-
-GType
-em_filter_editor_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMFilterEditorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) filter_editor_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMFilterEditor),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) filter_editor_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_RULE_EDITOR, "EMFilterEditor", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

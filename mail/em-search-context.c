@@ -33,7 +33,7 @@
 #include "filter/e-filter-option.h"
 #include "filter/e-filter-int.h"
 
-static gpointer parent_class;
+G_DEFINE_TYPE (EMSearchContext, em_search_context, E_TYPE_RULE_CONTEXT)
 
 static EFilterElement *
 search_context_new_element (ERuleContext *context,
@@ -46,53 +46,29 @@ search_context_new_element (ERuleContext *context,
 		return (EFilterElement *) e_filter_int_new_type ("score", -3, 3);
 
 	/* Chain up to parent's new_element() method. */
-	return E_RULE_CONTEXT_CLASS (parent_class)->new_element (context, type);
+	return E_RULE_CONTEXT_CLASS (em_search_context_parent_class)->
+		new_element (context, type);
 }
 
 static void
-search_context_class_init (EMSearchContextClass *class)
+em_search_context_class_init (EMSearchContextClass *class)
 {
 	ERuleContextClass *rule_context_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	rule_context_class = E_RULE_CONTEXT_CLASS (class);
 	rule_context_class->new_element = search_context_new_element;
 }
 
 static void
-search_context_init (EMSearchContext *vc)
+em_search_context_init (EMSearchContext *vc)
 {
 	ERuleContext *rule_context;
 
 	rule_context = E_RULE_CONTEXT (vc);
-	rule_context->flags = E_RULE_CONTEXT_THREADING | E_RULE_CONTEXT_GROUPING;
-}
 
-GType
-em_search_context_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMSearchContextClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) search_context_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMSearchContext),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) search_context_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_RULE_CONTEXT, "EMSearchContext", &type_info, 0);
-	}
-
-	return type;
+	rule_context->flags =
+		E_RULE_CONTEXT_THREADING |
+		E_RULE_CONTEXT_GROUPING;
 }
 
 ERuleContext *

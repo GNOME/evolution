@@ -16,95 +16,90 @@
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef _E_MAIL_TAB_PICKER_H
-#define _E_MAIL_TAB_PICKER_H
+#ifndef E_MAIL_TAB_PICKER_H
+#define E_MAIL_TAB_PICKER_H
 
 #include <clutter/clutter.h>
 #include <mx/mx.h>
 #include "e-mail-tab.h"
 
+/* Standard GObject macros */
+#define E_TYPE_MAIL_TAB_PICKER \
+	(e_mail_tab_picker_get_type ())
+#define E_MAIL_TAB_PICKER(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MAIL_TAB_PICKER, EMailTabPicker))
+#define E_MAIL_TAB_PICKER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MAIL_TAB_PICKER, EMailTabPickerClass))
+#define E_MAIL_IS_TAB_PICKER(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MAIL_TAB_PICKER))
+#define E_MAIL_IS_TAB_PICKER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_MAIL_TAB_PICKER))
+#define E_MAIL_TAB_PICKER_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MAIL_TAB_PICKER, EMailTabPickerClass))
+
 G_BEGIN_DECLS
 
-#define E_MAIL_TYPE_TAB_PICKER e_mail_tab_picker_get_type()
-
-#define E_MAIL_TAB_PICKER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-  E_MAIL_TYPE_TAB_PICKER, EMailTabPicker))
-
-#define E_MAIL_TAB_PICKER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-  E_MAIL_TYPE_TAB_PICKER, EMailTabPickerClass))
-
-#define E_MAIL_IS_TAB_PICKER(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-  E_MAIL_TYPE_TAB_PICKER))
-
-#define E_MAIL_IS_TAB_PICKER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-  E_MAIL_TYPE_TAB_PICKER))
-
-#define E_MAIL_TAB_PICKER_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-  E_MAIL_TYPE_TAB_PICKER, EMailTabPickerClass))
-
+typedef struct _EMailTabPicker EMailTabPicker;
+typedef struct _EMailTabPickerClass EMailTabPickerClass;
 typedef struct _EMailTabPickerPrivate EMailTabPickerPrivate;
 
-typedef struct {
-  MxWidget parent;
+struct _EMailTabPicker {
+	MxWidget parent;
+	EMailTabPickerPrivate *priv;
+};
 
-  EMailTabPickerPrivate *priv;
-} EMailTabPicker;
+struct _EMailTabPickerClass {
+	MxWidgetClass parent_class;
 
-typedef struct {
-  MxWidgetClass parent_class;
+	void		(*tab_activated)	(EMailTabPicker *picker,
+						 EMailTab *tab);
+	void		(*chooser_clicked)	(EMailTabPicker *picker);
+};
 
-  void (* tab_activated)   (EMailTabPicker *picker, EMailTab *tab);
-  void (* chooser_clicked) (EMailTabPicker *picker);
-} EMailTabPickerClass;
-
-GType e_mail_tab_picker_get_type (void);
-
-ClutterActor *e_mail_tab_picker_new (void);
-
-void e_mail_tab_picker_add_tab (EMailTabPicker *picker, EMailTab *tab, gint position);
-
-void e_mail_tab_picker_remove_tab (EMailTabPicker *picker, EMailTab *tab);
-
-GList *e_mail_tab_picker_get_tabs (EMailTabPicker *picker);
-
-gint e_mail_tab_picker_get_n_tabs (EMailTabPicker *picker);
-
-EMailTab *e_mail_tab_picker_get_tab (EMailTabPicker *picker, gint tab);
-
-gint e_mail_tab_picker_get_tab_no (EMailTabPicker *picker, EMailTab *tab);
-
-gint e_mail_tab_picker_get_current_tab (EMailTabPicker *picker);
-
-void e_mail_tab_picker_set_current_tab (EMailTabPicker *picker, gint tab);
-
-void e_mail_tab_picker_reorder (EMailTabPicker *picker,
-                             gint          old_position,
-                             gint          new_position);
-
-void e_mail_tab_picker_set_tab_width (EMailTabPicker *picker,
-                                   gint          width);
-
-gint e_mail_tab_picker_get_tab_width (EMailTabPicker *picker);
-
-void
-e_mail_tab_picker_get_preferred_height (EMailTabPicker *tab_picker,
-                                     gfloat        for_width,
-                                     gfloat       *min_height_p,
-                                     gfloat       *natural_height_p,
-                                     gboolean      with_previews);
-
-void e_mail_tab_picker_set_preview_mode (EMailTabPicker *picker, gboolean preview);
-
-gboolean e_mail_tab_picker_get_preview_mode (EMailTabPicker *picker);
-
-void e_mail_tab_picker_enable_drop (EMailTabPicker *picker, gboolean enable);
+GType		e_mail_tab_picker_get_type	(void) G_GNUC_CONST;
+ClutterActor *	e_mail_tab_picker_new		(void);
+void		e_mail_tab_picker_add_tab	(EMailTabPicker *picker,
+						 EMailTab *tab,
+						 gint position);
+void		e_mail_tab_picker_remove_tab	(EMailTabPicker *picker,
+						 EMailTab *tab);
+GList *		e_mail_tab_picker_get_tabs	(EMailTabPicker *picker);
+gint		e_mail_tab_picker_get_n_tabs	(EMailTabPicker *picker);
+EMailTab *	e_mail_tab_picker_get_tab	(EMailTabPicker *picker,
+						 gint tab);
+gint		e_mail_tab_picker_get_tab_no	(EMailTabPicker *picker,
+						 EMailTab *tab);
+gint		e_mail_tab_picker_get_current_tab
+						(EMailTabPicker *picker);
+void		e_mail_tab_picker_set_current_tab
+						(EMailTabPicker *picker,
+						 gint tab);
+void		e_mail_tab_picker_reorder	(EMailTabPicker *picker,
+						 gint old_position,
+						 gint new_position);
+void		e_mail_tab_picker_set_tab_width	(EMailTabPicker *picker,
+						 gint width);
+gint		e_mail_tab_picker_get_tab_width	(EMailTabPicker *picker);
+void		e_mail_tab_picker_get_preferred_height
+						(EMailTabPicker *tab_picker,
+						 gfloat for_width,
+						 gfloat *min_height_p,
+						 gfloat *natural_height_p,
+						 gboolean with_previews);
+void		e_mail_tab_picker_set_preview_mode
+						(EMailTabPicker *picker,
+						 gboolean preview);
+gboolean	e_mail_tab_picker_get_preview_mode
+						(EMailTabPicker *picker);
+void		e_mail_tab_picker_enable_drop	(EMailTabPicker *picker,
+						 gboolean enable);
 
 G_END_DECLS
 
-#endif /* _E_MAIL_TAB_PICKER_H */
+#endif /* E_MAIL_TAB_PICKER_H */
 

@@ -67,6 +67,7 @@ GType		e_preview_pane_get_type		(void);
 GtkWidget *	e_preview_pane_new		(EWebView *web_view);
 EWebView *	e_preview_pane_get_web_view	(EPreviewPane *preview_pane);
 ESearchBar *	e_preview_pane_get_search_bar	(EPreviewPane *preview_pane);
+void		e_preview_pane_clear_alerts	(EPreviewPane *preview_pane);
 void		e_preview_pane_show_search_bar	(EPreviewPane *preview_pane);
 
 G_END_DECLS
