@@ -102,6 +102,7 @@ struct _EMailReaderPrivate {
 enum {
 	CHANGED,
 	FOLDER_LOADED,
+	MESSAGE_LOADED,
 	MESSAGE_SEEN,
 	SHOW_SEARCH_BAR,
 	UPDATE_ACTIONS,
@@ -2573,14 +2574,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	EMailReader *reader;
 	EMailReaderPrivate *priv;
 	CamelMimeMessage *message = NULL;
-	EMFormatHTML *formatter;
 	GtkWidget *message_list;
-	EMailBackend *backend;
-	EShellBackend *shell_backend;
-	EShell *shell;
-	EWebView *web_view;
-	EMEvent *event;
-	EMEventTargetMessage *target;
 	const gchar *message_uid;
 	GError *error = NULL;
 
@@ -2606,8 +2600,6 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 		goto exit;
 	}
 
-	backend = e_mail_reader_get_backend (reader);
-	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	if (!message_list) {
@@ -2616,49 +2608,8 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 		goto exit;
 	}
 
-	shell_backend = E_SHELL_BACKEND (backend);
-	shell = e_shell_backend_get_shell (shell_backend);
-
-	web_view = em_format_html_get_web_view (formatter);
-
-	/** @Event: message.reading
-	 * @Title: Viewing a message
-	 * @Target: EMEventTargetMessage
-	 *
-	 * message.reading is emitted whenever a user views a message.
-	 */
-	event = em_event_peek ();
-	target = em_event_target_new_message (
-		event, folder, message, message_uid, 0, NULL);
-	e_event_emit (
-		(EEvent *) event, "message.reading",
-		(EEventTarget *) target);
-
-	/* FIXME Need to pass a GCancellable. */
-	em_format_format (
-		EM_FORMAT (formatter), folder,
-		message_uid, message, NULL);
-
-	/* Reset the shell view icon. */
-	e_shell_event (shell, "mail-icon", (gpointer) "evolution-mail");
-
-	if (MESSAGE_LIST (message_list)->seen_id > 0) {
-		g_source_remove (MESSAGE_LIST (message_list)->seen_id);
-		MESSAGE_LIST (message_list)->seen_id = 0;
-	}
-
-	/* Determine whether to mark the message as read. */
-	if (message != NULL &&
-	    !priv->restoring_message_selection &&
-	    schedule_timeout_mark_seen (reader)) {
-		g_clear_error (&error);
-	} else if (error != NULL) {
-		e_alert_submit (
-			E_ALERT_SINK (web_view),
-			"mail:no-retrieve-message",
-			error->message, NULL);
-		g_error_free (error);
-	}
+	g_signal_emit (
+		reader, signals[MESSAGE_LOADED], 0, message_uid, message);
 
 exit:
 	priv->restoring_message_selection = FALSE;
@@ -2906,6 +2857,77 @@ mail_reader_folder_loaded (EMailReader *reader)
 
 	state = e_mail_reader_check_state (reader);
 	e_mail_reader_update_actions (reader, state);
+}
+
+static void
+mail_reader_message_loaded (EMailReader *reader,
+                            const gchar *message_uid,
+                            CamelMimeMessage *message)
+{
+	EMailReaderPrivate *priv;
+	EMFormatHTML *formatter;
+	GtkWidget *message_list;
+	EMailBackend *backend;
+	CamelFolder *folder;
+	EWebView *web_view;
+	EPreviewPane *preview_pane;
+	EShellBackend *shell_backend;
+	EShell *shell;
+	EMEvent *event;
+	EMEventTargetMessage *target;
+	GError *error = NULL;
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	folder = e_mail_reader_get_folder (reader);
+	backend = e_mail_reader_get_backend (reader);
+	formatter = e_mail_reader_get_formatter (reader);
+	message_list = e_mail_reader_get_message_list (reader);
+	preview_pane = e_mail_reader_get_preview_pane (reader);
+
+	shell_backend = E_SHELL_BACKEND (backend);
+	shell = e_shell_backend_get_shell (shell_backend);
+
+	web_view = e_preview_pane_get_web_view (preview_pane);
+
+	/** @Event: message.reading
+	 * @Title: Viewing a message
+	 * @Target: EMEventTargetMessage
+	 *
+	 * message.reading is emitted whenever a user views a message.
+	 */
+	event = em_event_peek ();
+	target = em_event_target_new_message (
+		event, folder, message, message_uid, 0, NULL);
+	e_event_emit (
+		(EEvent *) event, "message.reading",
+		(EEventTarget *) target);
+
+	/* FIXME Need to pass a GCancellable. */
+	em_format_format (
+		EM_FORMAT (formatter), folder,
+		message_uid, message, NULL);
+
+	/* Reset the shell view icon. */
+	e_shell_event (shell, "mail-icon", (gpointer) "evolution-mail");
+
+	if (MESSAGE_LIST (message_list)->seen_id > 0) {
+		g_source_remove (MESSAGE_LIST (message_list)->seen_id);
+		MESSAGE_LIST (message_list)->seen_id = 0;
+	}
+
+	/* Determine whether to mark the message as read. */
+	if (message != NULL &&
+	    !priv->restoring_message_selection &&
+	    schedule_timeout_mark_seen (reader)) {
+		g_clear_error (&error);
+	} else if (error != NULL) {
+		e_alert_submit (
+			E_ALERT_SINK (web_view),
+			"mail:no-retrieve-message",
+			error->message, NULL);
+		g_error_free (error);
+	}
 }
 
 static void
@@ -3371,6 +3393,7 @@ e_mail_reader_default_init (EMailReaderInterface *interface)
 	interface->set_message = mail_reader_set_message;
 	interface->open_selected_mail = e_mail_reader_open_selected;
 	interface->folder_loaded = mail_reader_folder_loaded;
+	interface->message_loaded = mail_reader_message_loaded;
 	interface->message_seen = mail_reader_message_seen;
 	interface->update_actions = mail_reader_update_actions;
 
@@ -3419,6 +3442,17 @@ e_mail_reader_default_init (EMailReaderInterface *interface)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+
+	signals[MESSAGE_LOADED] = g_signal_new (
+		"message-loaded",
+		G_OBJECT_CLASS_TYPE (interface),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMailReaderInterface, message_loaded),
+		NULL, NULL,
+		e_marshal_VOID__STRING_OBJECT,
+		G_TYPE_NONE, 2,
+		G_TYPE_STRING,
+		CAMEL_TYPE_MIME_MESSAGE);
 
 	signals[MESSAGE_SEEN] = g_signal_new (
 		"message-seen",

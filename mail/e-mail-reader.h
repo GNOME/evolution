@@ -112,6 +112,9 @@ struct _EMailReaderInterface {
 
 	/* Signals */
 	void		(*folder_loaded)	(EMailReader *reader);
+	void		(*message_loaded)	(EMailReader *reader,
+						 const gchar *message_uid,
+						 CamelMimeMessage *message);
 	void		(*message_seen)		(EMailReader *reader,
 						 const gchar *message_uid,
 						 CamelMimeMessage *message);
