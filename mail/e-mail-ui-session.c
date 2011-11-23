@@ -38,7 +38,6 @@
 
 #include <gtk/gtk.h>
 
-#include <gconf/gconf-client.h>
 
 #ifdef HAVE_CANBERRA
 #include <canberra-gtk.h>
@@ -53,7 +52,6 @@
 #include "libemail-utils/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
-#include "libemail-utils/gconf-bridge.h"
 
 #include "libemail-engine/e-mail-folder-utils.h"
 #include "libemail-engine/e-mail-junk-filter.h"
@@ -289,7 +287,7 @@ main_get_filter_driver (CamelSession *session,
 	EFilterRule *rule = NULL;
 	const gchar *config_dir;
 	gchar *user, *system;
-	GConfClient *client;
+	GSettings *settings;
 	ERuleContext *fc;
 	EMailUISessionPrivate *priv;
 
@@ -299,7 +297,7 @@ main_get_filter_driver (CamelSession *session,
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (shell_backend), NULL);
 
-	client = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	config_dir = mail_session_get_config_dir ();
 	user = g_build_filename (config_dir, "filters.xml", NULL);
@@ -313,12 +311,11 @@ main_get_filter_driver (CamelSession *session,
 	driver = camel_filter_driver_new (session);
 	camel_filter_driver_set_folder_func (driver, get_folder, session);
 
-	if (gconf_client_get_bool (client, "/apps/evolution/mail/filters/log", NULL)) {
+	if (g_settings_get_boolean (settings, "filters-log-actions")) {
 		if (priv->filter_logfile == NULL) {
 			gchar *filename;
 
-			filename = gconf_client_get_string (
-				client, "/apps/evolution/mail/filters/logfile", NULL);
+			filename = g_settings_get_string (settings, "filters-log-file");
 			if (filename) {
 				priv->filter_logfile = g_fopen (filename, "a+");
 				g_free (filename);
@@ -375,7 +372,7 @@ main_get_filter_driver (CamelSession *session,
 
 	g_object_unref (fc);
 
-	g_object_unref (client);
+	g_object_unref (settings);
 
 	return driver;
 }

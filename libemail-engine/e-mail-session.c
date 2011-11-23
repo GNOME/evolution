@@ -38,8 +38,6 @@
 
 #include <gtk/gtk.h>
 
-#include <gconf/gconf-client.h>
-
 #ifdef HAVE_CANBERRA
 #include <canberra-gtk.h>
 #endif
@@ -66,8 +64,6 @@
 #define E_MAIL_SESSION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SESSION, EMailSessionPrivate))
-
-static guint session_check_junk_notify_id;
 
 typedef struct _AsyncContext AsyncContext;
 
@@ -236,20 +232,19 @@ main_get_filter_driver (CamelSession *session,
                         GError **error)
 {
 	CamelFilterDriver *driver;
-	GConfClient *client;
 	EMailSession *ms = (EMailSession *)session;
+	GSettings *settings;
 
-	client = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	driver = camel_filter_driver_new (session);
 	camel_filter_driver_set_folder_func (driver, get_folder, session);
 
-	if (gconf_client_get_bool (client, "/apps/evolution/mail/filters/log", NULL)) {
+	if (g_settings_get_boolean (settings, "filters-log-actions")) {
 		if (ms->priv->filter_logfile == NULL) {
 			gchar *filename;
 
-			filename = gconf_client_get_string (
-				client, "/apps/evolution/mail/filters/logfile", NULL);
+			filename = g_settings_get_string (settings, "filters-log-file");
 			if (filename) {
 				ms->priv->filter_logfile = g_fopen (filename, "a+");
 				g_free (filename);
@@ -260,7 +255,7 @@ main_get_filter_driver (CamelSession *session,
 			camel_filter_driver_set_logfile (driver, ms->priv->filter_logfile);
 	}
 
-	g_object_unref (client);
+	g_object_unref (settings);
 
 	return driver;
 }
@@ -287,17 +282,17 @@ ms_forward_to_cb (CamelFolder *folder,
                   GAsyncResult *result,
                   EMailSession *session)
 {
-	GConfClient *client;
+	GSettings *settings;
 
 	/* FIXME Poor error handling. */
 	if (!e_mail_folder_append_message_finish (folder, result, NULL, NULL))
 		return;
 
-	client = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	/* do not call mail send immediately, just pile them all in the outbox */
-	if (preparing_flush || gconf_client_get_bool (
-		client, "/apps/evolution/mail/filters/flush-outbox", NULL)) {
+	if (preparing_flush || g_settings_get_boolean (
+		settings, "flush-outbox")) {
 		if (preparing_flush)
 			g_source_remove (preparing_flush);
 
@@ -306,7 +301,7 @@ ms_forward_to_cb (CamelFolder *folder,
 			forward_to_flush_outbox_cb, session);
 	}
 
-	g_object_unref (client);
+	g_object_unref (settings);
 }
 
 static void
@@ -340,24 +335,13 @@ mail_session_make_key (CamelService *service,
 }
 
 static void
-mail_session_check_junk_notify (GConfClient *gconf,
-                                guint id,
-                                GConfEntry *entry,
+mail_session_check_junk_notify (GSettings *settings,
+                                const gchar *key,
                                 CamelSession *session)
 {
-	gchar *key;
-
-	g_return_if_fail (gconf_entry_get_key (entry) != NULL);
-	g_return_if_fail (gconf_entry_get_value (entry) != NULL);
-
-	key = strrchr (gconf_entry_get_key (entry), '/');
-	if (key) {
-		key++;
-		if (strcmp (key, "check_incoming") == 0)
-			camel_session_set_check_junk (
-				session, gconf_value_get_bool (
-				gconf_entry_get_value (entry)));
-	}
+	if (strcmp (key, "junk-check-incoming") == 0)
+		camel_session_set_check_junk (
+			session, g_settings_get_boolean (settings, key));
 }
 
 static const gchar *
@@ -385,7 +369,7 @@ mail_session_get_junk_filter_name (EMailSession *session)
 			"unknown to Evolution of type %s",
 			G_OBJECT_TYPE_NAME (junk_filter));
 
-	return "";  /* GConfBridge doesn't like NULL strings */
+	return "";
 }
 
 static void
@@ -412,7 +396,7 @@ mail_session_set_junk_filter_name (EMailSession *session,
 		} else {
 			g_warning (
 				"Unrecognized junk filter name "
-				"'%s' in GConf", junk_filter_name);
+				"'%s' in GSettings", junk_filter_name);
 		}
 	}
 
@@ -483,21 +467,11 @@ static void
 mail_session_finalize (GObject *object)
 {
 	EMailSessionPrivate *priv;
-	GConfClient *client;
 
 	priv = E_MAIL_SESSION_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->junk_filters);
 	g_object_unref (priv->proxy);
-
-	client = gconf_client_get_default ();
-
-	if (session_check_junk_notify_id != 0) {
-		gconf_client_notify_remove (client, session_check_junk_notify_id);
-		session_check_junk_notify_id = 0;
-	}
-
-	g_object_unref (client);
 
 	g_free (mail_data_dir);
 	g_free (mail_config_dir);
@@ -525,6 +499,7 @@ mail_session_constructed (GObject *object)
 	EExtensible *extensible;
 	GType extension_type;
 	GList *list, *iter;
+	GSettings *settings;
 
 	priv = E_MAIL_SESSION_GET_PRIVATE (object);
 
@@ -578,13 +553,11 @@ mail_session_constructed (GObject *object)
 
 	g_list_free (list);
 
-	/* Bind the "/apps/evolution/mail/junk/default_plugin"
-	 * GConf key to our "junk-filter-name" property. */
+	/* Bind the "junk-default-plugin" GSettings key to our "junk-filter-name" property. */
 
-	gconf_bridge_bind_property (
-		gconf_bridge_get (),
-		"/apps/evolution/mail/junk/default_plugin",
-		object, "junk-filter-name");
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	g_settings_bind (settings, "junk-default-plugin", object, "junk-filter-name", G_SETTINGS_BIND_DEFAULT);
+	g_object_unref (settings);
 }
 
 static CamelService *
@@ -969,9 +942,9 @@ mail_session_forward_to (CamelSession *session,
 
 static void
 mail_session_get_socks_proxy (CamelSession *session,
-			      const gchar *for_host,
-			      gchar **host_ret,
-			      gint *port_ret)
+                              const gchar *for_host,
+                              gchar **host_ret,
+                              gint *port_ret)
 {
 	EMailSession *mail_session;
 	gchar *uri;
@@ -1237,7 +1210,7 @@ e_mail_session_class_init (EMailSessionClass *class)
 static void
 e_mail_session_init (EMailSession *session)
 {
-	GConfClient *client;
+	GSettings *settings;
 
 	session->priv = E_MAIL_SESSION_GET_PRIVATE (session);
 	session->priv->folder_cache = mail_folder_cache_new ();
@@ -1248,24 +1221,20 @@ e_mail_session_init (EMailSession *session)
 	/* Initialize the EAccount setup. */
 	e_account_writable (NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD);
 
-	client = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	gconf_client_add_dir (
-		client, "/apps/evolution/mail/junk",
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	camel_session_set_check_junk (
-		CAMEL_SESSION (session), gconf_client_get_bool (
-		client, "/apps/evolution/mail/junk/check_incoming", NULL));
-	session_check_junk_notify_id = gconf_client_notify_add (
-		client, "/apps/evolution/mail/junk",
-		(GConfClientNotifyFunc) mail_session_check_junk_notify,
-		session, NULL, NULL);
+		CAMEL_SESSION (session), g_settings_get_boolean (
+		settings, "junk-check-incoming"));
+	g_signal_connect (
+		settings, "changed",
+		G_CALLBACK (mail_session_check_junk_notify), session);
 
 	mail_config_reload_junk_headers (session);
 
 	e_proxy_setup_proxy (session->priv->proxy);
 
-	g_object_unref (client);
+	g_object_unref (settings);
 }
 
 EMailSession *
