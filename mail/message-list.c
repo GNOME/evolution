@@ -4957,7 +4957,7 @@ mail_regen_cancel (MessageList *ml)
 			MailMsg *mm = link->data;
 			GCancellable *cancellable;
 
-			cancellable = e_activity_get_cancellable (mm->activity);
+			cancellable = mm->cancellable;
 			g_cancellable_cancel (cancellable);
 		}
 
