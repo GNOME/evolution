@@ -28,10 +28,8 @@
 
 #include <libical/ical.h>
 #include <libecal/e-cal-client.h>
-#include <gconf/gconf-client.h>
 #include <libedataserver/e-source-list.h>
 
-GConfClient *	config_data_get_conf_client	(void);
 icaltimezone *	config_data_get_timezone	(void);
 gboolean	config_data_get_24_hour_format	(void);
 gboolean	config_data_get_notify_with_tray

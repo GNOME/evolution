@@ -1,0 +1,619 @@
+<schemalist>
+  <schema gettext-domain="evolution" id="org.gnome.evolution.mail" path="/org/gnome/evolution/mail/">
+    <key name="prompt-check-if-default-mailer" type="b">
+      <default>true</default>
+      <_summary>Check whether Evolution is the default mailer</_summary>
+      <_description>Every time Evolution starts, check whether or not it is the default mailer.</_description>
+    </key>
+    <key name="composer-charset" type="s">
+      <default>''</default>
+      <_summary>Default charset in which to compose messages</_summary>
+      <_description>Default charset in which to compose messages.</_description>
+    </key>
+    <key name="composer-gallery-path" type="s">
+      <default>''</default>
+      <_summary>Path where picture gallery should search for its content</_summary>
+      <_description>This value can be an empty string, which means it'll use the system Picture folder, usually set to ~/Pictures. This folder will be also used when the set path is not pointing to the existent folder</_description>
+    </key>
+    <key name="composer-inline-spelling" type="b">
+      <default>true</default>
+      <_summary>Spell check inline</_summary>
+      <_description>Draw spelling error indicators on words as you type.</_description>
+    </key>
+    <key name="composer-magic-links" type="b">
+      <default>true</default>
+      <_summary>Automatic link recognition</_summary>
+      <_description>Recognize links in text and replace them.</_description>
+    </key>
+    <key name="composer-magic-smileys" type="b">
+      <default>false</default>
+      <_summary>Automatic emoticon recognition</_summary>
+      <_description>Recognize emoticons in text and replace them with images.</_description>
+    </key>
+    <key name="composer-message-attribution" type="s">
+      <default>''</default>
+      <_summary>Attribute message</_summary>
+      <_description>The text that is inserted when replying to a message, attributing the message to the original author</_description>
+    </key>
+    <key name="composer-message-forward" type="s">
+      <default>''</default>
+      <_summary>Forward message</_summary>
+      <_description>The text that is inserted when forwarding a message, saying that the forwarded message follows</_description>
+    </key>
+    <key name="composer-message-original" type="s">
+      <default>''</default>
+      <_summary>Original message</_summary>
+      <_description>The text that is inserted when replying to a message (top posting), saying that the original message follows</_description>
+    </key>
+    <key name="composer-group-reply-to-list" type="b">
+      <default>false</default>
+      <_summary>Group Reply replies to list</_summary>
+      <_description>Instead of the normal "Reply to All" behaviour, this option will make the 'Group Reply' toolbar button try to reply only to the mailing list through which you happened to receive the copy of the message to which you're replying.</_description>
+    </key>
+    <key name="composer-reply-start-bottom" type="b">
+      <default>false</default>
+      <_summary>Put the cursor at the bottom of replies</_summary>
+      <_description>Users get all up in arms over where the cursor should go when replying to a message. This determines whether the cursor is placed at the top of the message or the bottom.</_description>
+    </key>
+    <key name="composer-request-receipt" type="b">
+      <default>false</default>
+      <_summary>Always request read receipt</_summary>
+      <_description>Whether a read receipt request gets added to every message by default.</_description>
+    </key>
+    <key name="composer-send-html" type="b">
+      <default>false</default>
+      <_summary>Send HTML mail by default</_summary>
+      <_description>Send HTML mail by default.</_description>
+    </key>
+    <key name="composer-spell-color" type="s">
+      <default>'#FFFF00000000'</default>
+      <_summary>Spell checking color</_summary>
+      <_description>Underline color for misspelled words when using inline spelling.</_description>
+    </key>
+    <key name="composer-spell-languages" type="as">
+      <default>[]</default>
+      <_summary>Spell checking languages</_summary>
+      <_description>List of dictionary language codes used for spell checking.</_description>
+    </key>
+    <key name="composer-show-bcc" type="b">
+      <default>false</default>
+      <_summary>Show "Bcc" field when sending a mail message</_summary>
+      <_description>Show the "Bcc" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
+    </key>
+    <key name="composer-show-cc" type="b">
+      <default>true</default>
+      <_summary>Show "Cc" field when sending a mail message</_summary>
+      <_description>Show the "Cc" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
+    </key>
+    <key name="composer-show-reply-to" type="b">
+      <default>false</default>
+      <_summary>Show "Reply To" field when sending a mail message</_summary>
+      <_description>Show the "Reply To" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
+    </key>
+    <key name="composer-show-post-from" type="b">
+      <default>true</default>
+      <_summary>Show "From" field when posting to a newsgroup</_summary>
+      <_description>Show the "From" field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</_description>
+    </key>
+    <key name="composer-show-post-reply-to" type="b">
+      <default>false</default>
+      <_summary>Show "Reply To" field when posting to a newsgroup</_summary>
+      <_description>Show the "Reply To" field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</_description>
+    </key>
+    <key name="composer-sign-reply-if-signed" type="b">
+      <default>false</default>
+      <_summary>Digitally sign replies when the original message is signed</_summary>
+      <_description>Automatically enable PGP or S/MIME signatures when replying to a message which is also PGP or S/MIME signed.</_description>
+    </key>
+    <key name="composer-outlook-filenames" type="b">
+      <default>false</default>
+      <_summary>Encode file names in an Outlook/GMail way</_summary>
+      <_description>Encode file names in the mail headers same as Outlook or GMail do, to let them display correctly file names with UTF-8 letters sent by Evolution, because they do not follow the RFC 2231, but use the incorrect RFC 2047 standard.</_description>
+    </key>
+    <key name="composer-top-signature" type="b">
+      <default>false</default>
+      <_summary>Put personalized signatures at the top of replies</_summary>
+      <_description>Users get all up in arms over where their signature should go when replying to a message. This determines whether the signature is placed at the top of the message or the bottom.</_description>
+    </key>
+    <key name="composer-no-signature-delim" type="b">
+      <default>false</default>
+      <_summary>Do not add signature delimiter</_summary>
+      <_description>Set to TRUE in case you do not want to add signature delimiter before your signature when composing a mail.</_description>
+    </key>
+    <key name="composer-width" type="i">
+      <default>600</default>
+      <_summary>Composer Window default width</_summary>
+      <_description>Default width of the Composer Window.</_description>
+    </key>
+    <key name="composer-height" type="i">
+      <default>500</default>
+      <_summary>Composer Window default height</_summary>
+      <_description>Default height of the Composer Window.</_description>
+    </key>
+    <key name="composer-ignore-list-reply-to" type="b">
+      <default>false</default>
+      <_summary>Ignore list Reply-To:</_summary>
+      <_description>Some mailing lists set a Reply-To: header to trick users into sending replies to the list, even when they ask Evolution to make a private reply. Setting this option to TRUE will attempt to ignore such Reply-To: headers, so that Evolution will do as you ask it. If you use the private reply action, it will reply privately, while if you use the 'Reply to List' action it will do that. It works by comparing the Reply-To: header with a List-Post: header, if there is one.</_description>
+    </key>
+    <key name="show-animated-images" type="b">
+      <default>false</default>
+      <_summary>Show image animations</_summary>
+      <_description>Enable animated images in HTML mail. Many users find animated images annoying and prefer to see a static image instead.</_description>
+    </key>
+    <key name="side-bar-search" type="b">
+      <default>true</default>
+      <_summary>Enable or disable type ahead search feature</_summary>
+      <_description>Enable the side bar search feature to allow interactive searching of folder names.</_description>
+    </key>
+    <key name="no-folder-dots" type="b">
+      <default>false</default>
+      <_summary>Disable or enable ellipsizing of folder names in side bar</_summary>
+      <_description>Whether disable ellipsizing feature of folder names in side bar.</_description>
+    </key>
+    <key name="magic-spacebar" type="b">
+      <default>true</default>
+      <_summary>Enable or disable magic space bar</_summary>
+      <_description>Enable this to use Space bar key to scroll in message preview, message list and folders.</_description>
+    </key>
+    <key name="global-view-setting" type="b">
+      <default>false</default>
+      <_summary>Enable to use a similar message list view settings for all folders</_summary>
+      <_description>Enable to use a similar message list view settings for all folders.</_description>
+    </key>
+    <key name="mark-citations" type="b">
+      <default>true</default>
+      <_summary>Mark citations in the message "Preview"</_summary>
+      <_description>Mark citations in the message "Preview".</_description>
+    </key>
+    <key name="citation-colour" type="s">
+      <default>'#737373'</default>
+      <_summary>Citation highlight color</_summary>
+      <_description>Citation highlight color.</_description>
+    </key>
+    <key name="caret-mode" type="b">
+      <default>false</default>
+      <_summary>Enable/disable caret mode</_summary>
+      <_description>Enable caret mode, so that you can see a cursor when reading mail.</_description>
+    </key>
+    <key name="charset" type="s">
+      <default>''</default>
+      <_summary>Default charset in which to display messages</_summary>
+      <_description>Default charset in which to display messages.</_description>
+    </key>
+    <key name="load-http-images" type="i">
+      <default>0</default>
+      <_summary>Load images for HTML messages over HTTP</_summary>
+      <_description>
+	Load images for HTML messages over HTTP(S). Possible values are:
+        "0" - Never load images off the net.
+        "1" - Load images in messages from contacts.
+        "2" - Always load images off the net.
+      </_description>
+    </key>
+    <key name="animate-images" type="b">
+      <default>true</default>
+      <_summary>Show Animations</_summary>
+      <_description>Show animated images as animations.</_description>
+    </key>
+    <key name="show-all-headers" type="b">
+      <default>false</default>
+      <_summary>Show all message headers</_summary>
+      <_description>Show all the headers when viewing a messages.</_description>
+    </key>
+    <key name="headers" type="as">
+      <default>[]</default>
+      <_summary>List of custom headers and whether they are enabled.</_summary>
+      <_description>This key should contain a list of XML structures specifying custom headers, and whether they are to be displayed. The format of the XML structure is &lt;header enabled&gt; - set enabled if the header is to be displayed in the mail view.</_description>
+    </key>
+    <key name="show-sender-photo" type="b">
+      <default>false</default>
+      <_summary>Show photo of the sender</_summary>
+      <_description>Show the photo of the sender in the message reading pane.</_description>
+    </key>
+    <key name="photo-local" type="b">
+      <default>true</default>
+      <_summary>Search for the sender photo in local address books </_summary>
+      <_description>This option would help in improving the speed of fetching.</_description>
+    </key>
+    <key name="mime-types" type="as">
+      <default>[]</default>
+      <_summary>List of MIME types to check for Bonobo component viewers</_summary>
+      <_description>If there isn't a builtin viewer for a particular MIME type inside Evolution, any MIME types appearing in this list which map to a Bonobo component viewer in GNOME's MIME type database may be used for displaying content.</_description>
+    </key>
+    <key name="mark-seen" type="b">
+      <default>true</default>
+      <_summary>Mark as Seen after specified timeout</_summary>
+      <_description>Mark as Seen after specified timeout.</_description>
+    </key>
+    <key name="mark-seen-timeout" type="i">
+      <default>1500</default>
+      <_summary>Timeout for marking message as seen</_summary>
+      <_description>Timeout for marking message as seen.</_description>
+    </key>
+    <key name="show-email" type="b">
+      <default>false</default>
+      <_summary>Sender email-address column in the message list</_summary>
+      <_description>Show the email-address of the sender in a separate column in the message list.</_description>
+    </key>
+    <key name="vertical-view-fonts" type="b">
+      <default>false</default>
+      <_summary>Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view</_summary>
+      <_description>Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view.</_description>
+    </key>
+    <key name="show-deleted" type="b">
+      <default>false</default>
+      <_summary>Show deleted messages in the message-list</_summary>
+      <_description>Show deleted messages (with a strike-through) in the message-list.</_description>
+    </key>
+    <key name="enable-local" type="b">
+      <default>true</default>
+      <_summary>Enable local folders</_summary>
+      <_description>Whether to show local folders (On This Computer) in a folder tree</_description>
+    </key>
+    <key name="enable-vfolders" type="b">
+      <default>true</default>
+      <_summary>Enable search folders</_summary>
+      <_description>Enable search folders on startup.</_description>
+    </key>
+    <key name="safe-list" type="b">
+      <default>false</default>
+      <_summary>Hides the per-folder preview and removes the selection</_summary>
+      <_description>This key is read only once and reset to "false" after read. This unselects the mail in the list and removes the preview for that folder.</_description>
+    </key>
+    <key name="paned-size" type="i">
+      <default>144</default>
+      <_summary>Height of the message-list pane</_summary>
+      <_description>Height of the message-list pane.</_description>
+    </key>
+    <key name="paned-view-headers-state" type="i">
+      <default>0</default>
+      <_summary>State of message headers in paned view</_summary>
+      <_description>Describes whether message headers in paned view should be collapsed or expanded by default. "0" = expanded and "1" = collapsed</_description>
+    </key>
+    <key name="hpaned-size" type="i">
+      <default>450</default>
+      <_summary>Width of the message-list pane</_summary>
+      <_description>Width of the message-list pane.</_description>
+    </key>
+    <key name="layout" type="i">
+      <default>0</default>
+      <_summary>Layout style</_summary>
+      <_description>The layout style determines where to place the preview pane in relation to the message list.  "0" (Classic View) places the preview pane below the message list.  "1" (Vertical View) places the preview pane next to the message list.</_description>
+    </key>
+    <key name="variable-width-font" type="s">
+      <default>'Sans 12'</default>
+      <_summary>Variable width font</_summary>
+      <_description>The variable width font for mail display.</_description>
+    </key>
+    <key name="monospace-font" type="s">
+      <default>'Monospace 12'</default>
+      <_summary>Terminal font</_summary>
+      <_description>The terminal font for mail display.</_description>
+    </key>
+    <key name="use-custom-font" type="b">
+      <default>false</default>
+      <_summary>Use custom fonts</_summary>
+      <_description>Use custom fonts for displaying mail.</_description>
+    </key>
+    <key name="address-compress" type="b">
+      <default>true</default>
+      <_summary>Compress display of addresses in TO/CC/BCC</_summary>
+      <_description>Compress display of addresses in TO/CC/BCC to the number specified in address_count.</_description>
+    </key>
+    <key name="force-message-limit" type="b">
+      <default>true</default>
+      <_summary>Display only message texts not exceeding certain size</_summary>
+      <_description>Enable to display only message texts not exceeding size defined in 'message_text_part_limit' key.</_description>
+    </key>
+    <key name="message-text-part-limit" type="i">
+      <default>4096</default>
+      <_summary>Message text limit for display</_summary>
+      <_description>This decides the max size of the message text that will be displayed under Evolution, specified in terms of KB. The default is 4096 (4MB). This value is used only when 'force_message_limit' key is activated.</_description>
+    </key>
+    <key name="address-count" type="i">
+      <default>5</default>
+      <_summary>Number of addresses to display in TO/CC/BCC</_summary>
+      <_description>This sets the number of addresses to show in default message list view, beyond which a '...' is shown.</_description>
+    </key>
+    <key name="thread-subject" type="b">
+      <default>false</default>
+      <_summary>Thread the message-list based on Subject</_summary>
+      <_description>Whether or not to fall back on threading by subjects when the messages do not contain In-Reply-To or References headers.</_description>
+    </key>
+    <key name="thread-expand" type="b">
+      <default>true</default>
+      <_summary>Default value for thread expand state</_summary>
+      <_description>This setting specifies whether the threads should be in expanded or collapsed state by default. Evolution requires a restart.</_description>
+    </key>
+    <key name="thread-latest" type="b">
+      <default>true</default>
+      <_summary>Whether sort threads based on latest message in that thread</_summary>
+      <_description>This setting specifies whether the threads should be sorted based on latest message in each thread, rather than by message's date. Evolution requires a restart.</_description>
+    </key>
+    <key name="mail-browser-width" type="i">
+      <default>600</default>
+      <_summary>Mail browser width</_summary>
+      <_description>Default width of the mail browser window.</_description>
+    </key>
+    <key name="mail-browser-height" type="i">
+      <default>400</default>
+      <_summary>Mail browser height</_summary>
+      <_description>Default height of the mail browser window.</_description>
+    </key>
+    <key name="mail-browser-maximized" type="b">
+      <default>false</default>
+      <_summary>Mail browser maximized</_summary>
+      <_description>Default maximized state of the mail browser window.</_description>
+    </key>
+    <key name="sort-accounts-alpha" type="b">
+      <default>true</default>
+      <_summary>Sort accounts alphabetically in a folder tree</_summary>
+      <_description>Tells how to sort accounts in a folder tree used in a Mail view. When set to true accounts are sorted alphabetically, with an exception of On This Computer and Search folders, otherwise accounts are sorted based on an order given by a user</_description>
+    </key>
+    <key name="subscription-editor-height" type="i">
+      <default>400</default>
+      <_summary>"Folder Subscriptions" window height</_summary>
+      <_description>Initial height of the "Folder Subscriptions" window. The value updates as the user resizes the window vertically.</_description>
+    </key>
+    <key name="subscription-editor-maximized" type="b">
+      <default>false</default>
+      <_summary>"Folder Subscriptions" window maximize state</_summary>
+      <_description>Initial maximize state of the "Folder Subscriptions" window. The value updates when the user maximizes or unmaximizes the window. Note, this particular value is not used by Evolution since the "Folder Subscriptions" window cannot be maximized. This key exists only as an implementation detail.</_description>
+    </key>
+    <key name="subscription-editor-width" type="i">
+      <default>600</default>
+      <_summary>"Folder Subscriptions" window width</_summary>
+      <_description>Initial width of the "Folder Subscriptions" window. The value updates as the user resizes the window horizontally.</_description>
+    </key>
+    <key name="filters-log-actions" type="b">
+      <default>false</default>
+      <_summary>Log filter actions</_summary>
+      <_description>Log filter actions to the specified log file.</_description>
+    </key>
+    <key name="filters-log-file" type="s">
+      <default>''</default>
+      <_summary>Logfile to log filter actions</_summary>
+      <_description>Logfile to log filter actions.</_description>
+    </key>
+    <key name="flush-outbox" type="b">
+      <default>false</default>
+      <_summary>Flush Outbox after filtering</_summary>
+      <_description>Whether to flush Outbox after filtering is done. Outbox flush will happen only when there was used any 'Forward to' filter action and approximately one minute after the last action invocation.</_description>
+    </key>
+    <key name="forward-style" type="i">
+      <default>0</default>
+      <_summary>Default forward style</_summary>
+      <_description></_description>
+    </key>
+    <key name="reply-style" type="i">
+      <default>0</default>
+      <_summary>Default forward style</_summary>
+      <_description></_description>
+    </key>
+    <key name="message-display-style" type="i">
+      <default>0</default>
+      <_summary>Message-display style ("normal", "full headers", "source")</_summary>
+      <_description></_description>
+    </key>
+    <key name="prompt-on-empty-subject" type="b">
+      <default>true</default>
+      <_summary>Prompt on empty subject</_summary>
+      <_description>Prompt the user when he or she tries to send a message without a Subject.</_description>
+    </key>
+    <key name="prompt-on-empty-trash" type="b">
+      <default>true</default>
+      <_summary>Prompt when emptying the trash</_summary>
+      <_description>Prompt the user when he or she tries to empty the trash.</_description>
+    </key>
+    <key name="prompt-on-expunge" type="b">
+      <default>true</default>
+      <_summary>Prompt when user expunges</_summary>
+      <_description>Prompt the user when he or she tries to expunge a folder.</_description>
+    </key>
+    <key name="prompt-on-invalid-recip" type="b">
+      <default>true</default>
+      <_summary>Prompt before sending to recipients not entered as mail addresses</_summary>
+      <_description>It disables/enables the repeated prompts to warn that you are trying to send a message to recipients not entered as mail addresses</_description>
+    </key>
+    <key name="prompt-on-only-bcc" type="b">
+      <default>true</default>
+      <_summary>Prompt when user only fills Bcc</_summary>
+      <_description>Prompt when user tries to send a message with no To or Cc recipients.</_description>
+    </key>
+    <key name="prompt-on-unwanted-html" type="b">
+      <default>true</default>
+      <_summary>Prompt when user tries to send unwanted HTML</_summary>
+      <_description>Prompt when user tries to send HTML mail to recipients that may not want to receive HTML mail.</_description>
+    </key>
+    <key name="prompt-on-open-many" type="b">
+      <default>true</default>
+      <_summary>Prompt when user tries to open 10 or more messages at once</_summary>
+      <_description>If a user tries to open 10 or more messages at one time, ask the user if they really want to do it.</_description>
+    </key>
+    <key name="prompt-on-mark-all-read" type="b">
+      <default>true</default>
+      <_summary>Prompt while marking multiple messages</_summary>
+      <_description>Enable or disable the prompt whilst marking multiple messages.</_description>
+    </key>
+    <key name="prompt-on-delete-in-vfolder" type="b">
+      <default>false</default>
+      <_summary>Prompt when deleting messages in search folder</_summary>
+      <_description>It disables/enables the repeated prompts to warn that deleting messages from a search folder permanently deletes the message, not simply removing it from the search results.</_description>
+    </key>
+    <key name="prompt-on-private-list-reply" type="b">
+      <default>true</default>
+      <_summary>Prompt when replying privately to list messages</_summary>
+      <_description>It disables/enables the repeated prompts to warn that you are sending a private reply to a message which arrived via a mailing list.</_description>
+    </key>
+    <key name="prompt-on-list-reply-to" type="b">
+      <default>true</default>
+      <_summary>Prompt when mailing list hijacks private replies</_summary>
+      <_description>It disables/enables the repeated prompts to warn that you are trying sending a private reply to a message which arrived via a mailing list, but the list sets a Reply-To: header which redirects your reply back to the list</_description>
+    </key>
+    <key name="prompt-on-reply-many-recips" type="b">
+      <default>true</default>
+      <_summary>Prompt when replying to many recipients</_summary>
+      <_description>It disables/enables the repeated prompts to warn that you are sending a reply to many people.</_description>
+    </key>
+    <key name="prompt-on-reply-close-browser" type="s">
+      <default>'ask'</default>
+      <_summary>Asks whether to close the message window when the user forwards or replies to the message shown in the window</_summary>
+      <_description>Possible values are: 'never' - to never close browser window, 'always' - to always close browser window or 'ask' - (or any other value) will ask user.</_description>
+    </key>
+    <key name="trash-empty-on-exit" type="b">
+      <default>false</default>
+      <_summary>Empty Trash folders on exit</_summary>
+      <_description>Empty all Trash folders when exiting Evolution.</_description>
+    </key>
+    <key name="trash-empty-on-exit-days" type="i">
+      <default>0</default>
+      <_summary>Minimum days between emptying the trash on exit</_summary>
+      <_description>Minimum time between emptying the trash on exit, in days.</_description>
+    </key>
+    <key name="trash-empty-date" type="i">
+      <default>0</default>
+      <_summary>Last time Empty Trash was run</_summary>
+      <_description>The last time Empty Trash was run, in days since January 1st, 1970 (Epoch).</_description>
+    </key>
+    <key name="error-timeout" type="i">
+      <default>60</default>
+      <_summary>Amount of time in seconds the error should be shown on the status bar.</_summary>
+      <_description>Amount of time in seconds the error should be shown on the status bar.</_description>
+    </key>
+    <key name="error-level" type="i">
+      <default>0</default>
+      <_summary>Level beyond which the message should be logged.</_summary>
+      <_description>This can have three possible values. "0" for errors. "1" for warnings. "2" for debug messages.</_description>
+    </key>
+    <key name="show-real-date" type="b">
+      <default>true</default>
+      <_summary>Show original "Date" header value.</_summary>
+      <_description>Show the original "Date" header (with a local time only if the time zone differs). Otherwise always show "Date" header value in a user preferred format and local time zone.</_description>
+    </key>
+    <key name="labels" type="as">
+      <default>['I_mportant:#EF2929','_Work:#F57900','_Personal:#4E9A06','_To Do:#3465A4','_Later:#75507B']</default>
+      <_summary>List of Labels and their associated colors</_summary>
+      <_description>List of labels known to the mail component of Evolution. The list contains strings containing name:color where color uses the HTML hex encoding.</_description>
+    </key>
+    <key name="junk-check-incoming" type="b">
+      <default>true</default>
+      <_summary>Check incoming mail being junk</_summary>
+      <_description>Run junk test on incoming mail.</_description>
+    </key>
+    <key name="junk-empty-on-exit" type="b">
+      <default>false</default>
+      <_summary>Empty Junk folders on exit</_summary>
+      <_description>Empty all Junk folders when exiting Evolution.</_description>
+    </key>
+    <key name="junk-empty-on-exit-days" type="i">
+      <default>0</default>
+      <_summary>Minimum days between emptying the junk on exit</_summary>
+      <_description>Minimum time between emptying the junk on exit, in days.</_description>
+    </key>
+    <key name="junk-empty-date" type="i">
+      <default>0</default>
+      <_summary>Last time Empty Junk was run</_summary>
+      <_description>The last time Empty Junk was run, in days since January 1st, 1970 (Epoch).</_description>
+    </key>
+    <key name="junk-default-plugin" type="s">
+      <default>'Bogofilter'</default>
+      <_summary>The default plugin for Junk hook</_summary>
+      <_description>This is the default junk plugin, even though there are multiple plugins enabled. If the default listed plugin is disabled, then it won't fall back to the other available plugins.</_description>
+    </key>
+    <key name="junk-lookup-addressbook" type="b">
+      <default>false</default>
+      <_summary>Determines whether to lookup in address book for sender email</_summary>
+      <_description>Determines whether to lookup the sender email in address book. If found, it shouldn't be a spam. It looks up in the books marked for autocompletion. It can be slow, if remote address books (like LDAP) are marked for autocompletion.</_description>
+    </key>
+    <key name="junk-lookup-addressbook-local-only" type="b">
+      <default>false</default>
+      <_summary>Determines whether to look up addresses for junk filtering in local address book only</_summary>
+      <_description>This option is related to the key lookup_addressbook and is used to determine whether to look up addresses in local address book only to exclude mail sent by known contacts from junk filtering.</_description>
+    </key>
+    <key name="junk-check-custom-header" type="b">
+      <default>true</default>
+      <_summary>Determines whether to use custom headers to check for junk</_summary>
+      <_description>Determines whether to use custom headers to check for junk. If this option is enabled and the headers are mentioned, it will be improve the junk checking speed.</_description>
+    </key>
+    <key name="junk-custom-header" type="as">
+      <default>['X-Spam-Flag=YES','X-Spam-Level=*****']</default>
+      <_summary>Custom headers to use while checking for junk.</_summary>
+      <_description>Custom headers to use while checking for junk. The list elements are string in the format "headername=value".</_description>
+    </key>
+    <key name="default-account" type="s">
+      <default>''</default>
+      <_summary>UID string of the default account.</_summary>
+      <_description>UID string of the default account.</_description>
+    </key>
+    <key name="save-dir" type="s">
+      <default>''</default>
+      <_summary>Save directory</_summary>
+      <_description>Directory for saving mail component files.</_description>
+    </key>
+    <key name="composer-current-folder" type="s">
+      <default>''</default>
+      <_summary>Composer load/attach directory</_summary>
+      <_description>Directory for loading/attaching files to composer.</_description>
+    </key>
+    <key name="filter-editor-height" type="i">
+      <default>650</default>
+      <_summary>"Filter Editor" window height</_summary>
+      <_description>Initial height of the "Filter Editor" window. The value updates as the user resizes the window vertically.</_description>
+    </key>
+    <key name="filter-editor-maximized" type="b">
+      <default>false</default>
+      <_summary>"Filter Editor" window maximize state</_summary>
+      <_description>Initial maximize state of the "Filter Editor" window. The value updates when the user maximizes or unmaximizes the window. Note, this particular value is not used by Evolution since the "Filter Editor" window cannot be maximized. This key exists only as an implementation detail.</_description>
+    </key>
+    <key name="filter-editor-width" type="i">
+      <default>400</default>
+      <_summary>"Filter Editor" window width</_summary>
+      <_description>Initial width of the "Filter Editor" window. The value updates as the user resizes the window horizontally.</_description>
+    </key>
+    <key name="send-recv-height" type="i">
+      <default>200</default>
+      <_summary>"Send and Receive Mail" window height</_summary>
+      <_description>Initial height of the "Send and Receive Mail" window. The value updates as the user resizes the window vertically.</_description>
+    </key>
+    <key name="send-recv-maximized" type="b">
+      <default>false</default>
+      <_summary>"Send and Receive Mail" window maximize state</_summary>
+      <_description>Initial maximize state of the "Send and Receive Mail" window. The value updates when the user maximizes or unmaximizes the window.  Note, this particular value is not used by Evolution since the "Send and Receive Mail" window cannot be maximized. This key exists only as an implementation detail.</_description>
+    </key>
+    <key name="send-recv-on-start" type="b">
+      <default>true</default>
+      <_summary>Check for new messages on start</_summary>
+      <_description>Whether check for new messages when Evolution is started. This includes also sending messages from Outbox.</_description>
+    </key>
+    <key name="send-recv-all-on-start" type="b">
+      <default>false</default>
+      <_summary>Check for new messages in all active accounts</_summary>
+      <_description>Whether check for new messages in all active accounts regardless of the account "Check for new messages every X minutes" option when Evolution is started. This option is used only together with 'send_recv_on_start' option.</_description>
+    </key>
+    <key name="send-recv-width" type="i">
+      <default>600</default>
+      <_summary>"Send and Receive Mail" window width</_summary>
+      <_description>Initial width of the "Send and Receive Mail" window. The value updates as the user resizes the window horizontally.</_description>
+    </key>
+    <key name="vfolder-editor-height" type="i">
+      <default>650</default>
+      <_summary>"Search Folder Editor" window height</_summary>
+      <_description>Initial height of the "Search Folder Editor" window. The value updates as the user resizes the window vertically.</_description>
+    </key>
+    <key name="vfolder-editor-maximized" type="b">
+      <default>false</default>
+      <_summary>"Search Folder Editor" window maximize state</_summary>
+      <_description>Initial maximize state of the "Search Folder Editor" window. The value updates when the user maximizes or unmaximizes the window.  Note, this particular value is not used by Evolution since the "Search Folder Editor" window cannot be maximized. This key exists only as an implementation detail.</_description>
+    </key>
+    <key name="vfolder-editor-width" type="i">
+      <default>400</default>
+      <_summary>"Search Folder Editor" window width</_summary>
+      <_description>Initial width of the "Search Folder Editor" window. The value updates as the user resizes the window horizontally.</_description>
+    </key>
+    <key name="sync-interval" type="i">
+      <default>600</default>
+      <_summary>Server synchronization interval</_summary>
+      <_description>Controls how frequently local changes are synchronized with the remote mail server. The interval must be at least 30 seconds.</_description>
+    </key>
+  </schema>
+</schemalist>

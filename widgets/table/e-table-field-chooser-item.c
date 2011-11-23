@@ -520,6 +520,8 @@ etfci_draw (GnomeCanvasItem *item,
 					    width, height,
 					    etfci->width, y2 - y1,
 					    E_TABLE_COL_ARROW_NONE);
+
+		cairo_restore (cr);
 	}
 }
 
@@ -594,6 +596,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci,
 					 etfci->width, button_height);
 	cr = cairo_create (cs);
 
+	cr = cairo_create (cs);
 	e_table_header_draw_button (
 		cr, ecol,
 		widget, 0, 0,

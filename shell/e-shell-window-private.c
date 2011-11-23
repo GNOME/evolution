@@ -30,18 +30,13 @@ shell_window_save_switcher_style_cb (GtkRadioAction *action,
                                      GtkRadioAction *current,
                                      EShellWindow *shell_window)
 {
-	EShell *shell;
-	GConfClient *client;
+	GSettings *settings;
 	GtkToolbarStyle style;
-	const gchar *key;
 	const gchar *string;
-	GError *error = NULL;
 
-	shell = e_shell_window_get_shell (shell_window);
-	client = e_shell_get_gconf_client (shell);
+	settings = g_settings_new ("org.gnome.evolution.shell");
 
 	style = gtk_radio_action_get_current_value (action);
-	key = "/apps/evolution/shell/view_defaults/buttons_style";
 
 	switch (style) {
 		case GTK_TOOLBAR_ICONS:
@@ -62,32 +57,23 @@ shell_window_save_switcher_style_cb (GtkRadioAction *action,
 			break;
 	}
 
-	if (!gconf_client_set_string (client, key, string, &error)) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	g_settings_set_string (settings, "buttons-style", string);
+	g_object_unref (settings);
 }
 
 static void
 shell_window_init_switcher_style (EShellWindow *shell_window)
 {
-	EShell *shell;
 	GtkAction *action;
-	GConfClient *client;
+	GSettings *settings;
 	GtkToolbarStyle style;
-	const gchar *key;
 	gchar *string;
-	GError *error = NULL;
 
-	/* XXX GConfBridge doesn't let you convert between numeric properties
-	 *     and string keys, so we have to create the binding manually. */
-
-	shell = e_shell_window_get_shell (shell_window);
-	client = e_shell_get_gconf_client (shell);
+	settings = g_settings_new ("org.gnome.evolution.shell");
 
 	action = ACTION (SWITCHER_STYLE_ICONS);
-	key = "/apps/evolution/shell/view_defaults/buttons_style";
-	string = gconf_client_get_string (client, key, &error);
+	string = g_settings_get_string (settings, "buttons-style");
+	g_object_unref (settings);
 
 	if (string != NULL) {
 		if (strcmp (string, "icons") == 0)
@@ -266,7 +252,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = shell_window->priv;
 	EShell *shell;
-	GConfBridge *bridge;
 	GtkAction *action;
 	GtkAccelGroup *accel_group;
 	GtkUIManager *ui_manager;
@@ -421,37 +406,31 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		action, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	/* Bind GObject properties to GConf keys. */
+	/* Bind GObject properties to GSettings keys. */
 
-	bridge = gconf_bridge_get ();
+	settings = g_settings_new ("org.gnome.evolution.shell");
 
 	object = G_OBJECT (shell_window);
-	key = "/apps/evolution/shell/view_defaults/component_id";
-	gconf_bridge_bind_property (bridge, key, object, "active-view");
+	g_settings_bind (settings, "default-component-id", object, "active-view", G_SETTINGS_BIND_DEFAULT);
 
 	object = G_OBJECT (priv->content_pane);
-	key = "/apps/evolution/shell/view_defaults/folder_bar/width";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
+	g_settings_bind (settings, "folder-bar-width", object, "position", G_SETTINGS_BIND_DEFAULT);
 
 	object = G_OBJECT (shell_window);
-	key = "/apps/evolution/shell/view_defaults/sidebar_visible";
-	gconf_bridge_bind_property (bridge, key, object, "sidebar-visible");
+	g_settings_bind (settings, "sidebar-visible", object, "sidebar-visible", G_SETTINGS_BIND_DEFAULT);
 
 	object = G_OBJECT (shell_window);
-	key = "/apps/evolution/shell/view_defaults/statusbar_visible";
-	gconf_bridge_bind_property (bridge, key, object, "taskbar-visible");
+	g_settings_bind (settings, "statusbar-visible", object, "taskbar-visible", G_SETTINGS_BIND_DEFAULT);
 
 	if (e_shell_get_express_mode (shell)) {
 		e_shell_window_set_switcher_visible (shell_window, FALSE);
 	} else {
 		object = G_OBJECT (shell_window);
-		key = "/apps/evolution/shell/view_defaults/buttons_visible";
-		gconf_bridge_bind_property (bridge, key, object, "switcher-visible");
+		g_settings_bind (settings, "buttons-visible", object, "switcher-visible", G_SETTINGS_BIND_DEFAULT);
 	}
 
 	object = G_OBJECT (shell_window);
-	key = "/apps/evolution/shell/view_defaults/toolbar_visible";
-	gconf_bridge_bind_property (bridge, key, object, "toolbar-visible");
+	g_settings_bind (settings, "toolbar-visible", object, "toolbar-visible", G_SETTINGS_BIND_DEFAULT);
 
 	/* Configure the initial size and position of the window by way
 	 * of either a user-supplied geometry string or the last recorded
@@ -465,8 +444,9 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		g_free (priv->geometry);
 		priv->geometry = NULL;
 	} else {
+		/* FIXME: how to bind this */
 		key = "/apps/evolution/shell/view_defaults/window";
-		gconf_bridge_bind_window (bridge, key, window, TRUE, TRUE);
+		gconf_bridge_bind_window (gconf_bridge_get (), key, window, TRUE, TRUE);
 	}
 
 	shell_window_init_switcher_style (shell_window);
@@ -476,6 +456,8 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	e_plugin_ui_enable_manager (ui_manager, id);
 
 	gtk_application_add_window (GTK_APPLICATION (shell), window);
+
+	g_object_unref (settings);
 }
 
 void

@@ -374,10 +374,9 @@ subscription_editor_subscribe_folder_done (CamelSubscribable *subscribable,
 	gtk_widget_grab_focus (GTK_WIDGET (tree_view));
 }
 
-
 static void
 subscription_editor_subscribe_many (EMSubscriptionEditor *editor,
-				    GSList *async_datas)
+                                    GSList *async_datas)
 {
 	AsyncData *async_data;
 	AsyncContext *context;
@@ -499,10 +498,9 @@ subscription_editor_unsubscribe_folder_done (CamelSubscribable *subscribable,
 	gtk_widget_grab_focus (GTK_WIDGET (tree_view));
 }
 
-
 static void
 subscription_editor_unsubscribe_many (EMSubscriptionEditor *editor,
-				      GSList *async_datas)
+                                      GSList *async_datas)
 {
 	AsyncData *async_data;
 	AsyncContext *context;
@@ -552,9 +550,9 @@ subscription_editor_unsubscribe_many (EMSubscriptionEditor *editor,
 
 static GtkWidget *
 subscription_editor_create_menu_item (const gchar *label,
-				      gboolean sensitive,
-				      GCallback activate_cb,
-				      EMSubscriptionEditor *editor)
+                                      gboolean sensitive,
+                                      GCallback activate_cb,
+                                      EMSubscriptionEditor *editor)
 {
 	GtkWidget *item;
 
@@ -570,10 +568,10 @@ subscription_editor_create_menu_item (const gchar *label,
 
 static void
 position_below_widget_cb (GtkMenu *menu,
-			  gint *x,
-			  gint *y,
-			  gboolean *push_in,
-			  gpointer under_widget)
+                          gint *x,
+                          gint *y,
+                          gboolean *push_in,
+                          gpointer under_widget)
 {
 	GtkRequisition menu_requisition;
 	GtkTextDirection direction;
@@ -611,9 +609,9 @@ position_below_widget_cb (GtkMenu *menu,
 
 static AsyncData *
 subscription_editor_async_data_from_iter (GtkTreeView *tree_view,
-					  GtkTreeModel *model,
-					  GtkTreeIter *iter,
-					  gboolean *is_expanded)
+                                          GtkTreeModel *model,
+                                          GtkTreeIter *iter,
+                                          gboolean *is_expanded)
 {
 	AsyncData *data;
 	CamelFolderInfo *folder_info = NULL;
@@ -650,7 +648,8 @@ typedef enum {
 } EPickMode;
 
 static gboolean
-can_pick_folder_info (CamelFolderInfo *fi, EPickMode mode)
+can_pick_folder_info (CamelFolderInfo *fi,
+                      EPickMode mode)
 {
 	if (!FOLDER_CAN_SELECT (fi))
 		return FALSE;
@@ -670,9 +669,9 @@ struct PickAllData {
 
 static gboolean
 pick_all_cb (GtkTreeModel *model,
-	     GtkTreePath *path,
-	     GtkTreeIter *iter,
-	     gpointer user_data)
+             GtkTreePath *path,
+             GtkTreeIter *iter,
+             gpointer user_data)
 {
 	struct PickAllData *data = user_data;
 	AsyncData *async_data;
@@ -696,13 +695,13 @@ pick_all_cb (GtkTreeModel *model,
 }
 
 /* skip_folder_infos contains CamelFolderInfo-s to skip;
-   these should come from the tree view; can be NULL
-   to include everything.
+ * these should come from the tree view; can be NULL
+ * to include everything.
 */
 static GSList *
 subscription_editor_pick_all (EMSubscriptionEditor *editor,
-			      EPickMode mode,
-			      GHashTable *skip_folder_infos)
+                              EPickMode mode,
+                              GHashTable *skip_folder_infos)
 {
 	GtkTreeView *tree_view;
 	GtkTreeModel *tree_model;
@@ -723,7 +722,7 @@ subscription_editor_pick_all (EMSubscriptionEditor *editor,
 
 static GSList *
 subscription_editor_pick_shown (EMSubscriptionEditor *editor,
-				EPickMode mode)
+                                EPickMode mode)
 {
 	GtkTreeView *tree_view;
 	GtkTreeModel *tree_model;

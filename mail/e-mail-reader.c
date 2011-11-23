@@ -36,7 +36,6 @@
 #include "e-util/e-charset.h"
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"
-#include "e-util/gconf-bridge.h"
 #include "shell/e-shell-utils.h"
 #include "widgets/misc/e-popup-action.h"
 #include "widgets/misc/e-menu-tool-action.h"
@@ -485,7 +484,7 @@ action_mail_flag_for_followup_cb (GtkAction *action,
 static gboolean
 get_close_browser_reader (EMailReader *reader)
 {
-	GConfClient *client;
+	GSettings *settings;
 	const gchar *key;
 	gchar *value;
 	gboolean close_it = FALSE;
@@ -494,10 +493,10 @@ get_close_browser_reader (EMailReader *reader)
 	if (!E_IS_MAIL_BROWSER (reader))
 		return FALSE;
 
-	client = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	key = "/apps/evolution/mail/prompts/reply_close_browser";
-	value = gconf_client_get_string (client, key, NULL);
+	key = "prompt-on-reply-close-browser";
+	value = g_settings_get_string (settings, key);
 
 	if (value && g_str_equal (value, "always")) {
 		close_it = TRUE;
@@ -526,13 +525,13 @@ get_close_browser_reader (EMailReader *reader)
 		close_it = response == GTK_RESPONSE_YES || response == GTK_RESPONSE_OK;
 
 		if (response == GTK_RESPONSE_OK)
-			gconf_client_set_string (client, key, "always", NULL);
+			g_settings_set_string (settings, key, "always");
 		else if (response == GTK_RESPONSE_CANCEL)
-			gconf_client_set_string (client, key, "never", NULL);
+			g_settings_set_string (settings, key, "never");
 	}
 
 	g_free (value);
-	g_object_unref (client);
+	g_object_unref (settings);
 
 	return close_it;
 }
@@ -1192,13 +1191,11 @@ action_mail_reply_all_check (CamelFolder *folder,
 		response = gtk_dialog_run (GTK_DIALOG (dialog));
 
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check))) {
-			GConfClient *client;
-			const gchar *key;
+			GSettings *settings;
 
-			client = gconf_client_get_default ();
-			key = "/apps/evolution/mail/prompts/reply_many_recips";
-			gconf_client_set_bool (client, key, FALSE, NULL);
-			g_object_unref (client);
+			settings = g_settings_new ("org.gnome.evolution.mail");
+			g_settings_set_boolean (settings, "prompt-on-reply-many-recips", FALSE);
+			g_object_unref (settings);
 		}
 
 		gtk_widget_destroy (dialog);
@@ -1228,17 +1225,17 @@ static void
 action_mail_reply_all_cb (GtkAction *action,
                           EMailReader *reader)
 {
-	GConfClient *client;
+	GSettings *settings;
 	const gchar *key;
 	guint32 state;
 	gboolean ask;
 
 	state = e_mail_reader_check_state (reader);
 
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/mail/prompts/reply_many_recips";
-	ask = gconf_client_get_bool (client, key, NULL);
-	g_object_unref (client);
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	key = "prompt-on-reply-many-recips";
+	ask = g_settings_get_boolean (settings, key);
+	g_object_unref (settings);
 
 	if (ask && !(state & E_MAIL_READER_SELECTION_IS_MAILING_LIST)) {
 		EActivity *activity;
@@ -1278,17 +1275,15 @@ static void
 action_mail_reply_group_cb (GtkAction *action,
                             EMailReader *reader)
 {
-	GConfClient *client;
+	GSettings *settings;
 	gboolean reply_list;
-	const gchar *key;
 	guint32 state;
 
 	state = e_mail_reader_check_state (reader);
 
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/mail/composer/group_reply_to_list";
-	reply_list = gconf_client_get_bool (client, key, NULL);
-	g_object_unref (client);
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	reply_list = g_settings_get_boolean (settings, "composer-group-reply-to-list");
+	g_object_unref (settings);
 
 	if (reply_list && (state & E_MAIL_READER_SELECTION_IS_MAILING_LIST)) {
 		e_mail_reader_reply_to_message (
@@ -1314,8 +1309,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 	EAlertSink *alert_sink;
 	CamelMimeMessage *message;
 	EMailReplyType type = E_MAIL_REPLY_TO_SENDER;
-	GConfClient *client;
-	const gchar *key;
+	GSettings *settings;
 	gboolean ask_ignore_list_reply_to;
 	gboolean ask_list_reply_to;
 	gboolean munged_list_message;
@@ -1344,13 +1338,10 @@ action_mail_reply_sender_check (CamelFolder *folder,
 
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	client = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	key = "/apps/evolution/mail/composer/ignore_list_reply_to";
-	ask_ignore_list_reply_to = gconf_client_get_bool (client, key, NULL);
-
-	key = "/apps/evolution/mail/prompts/list_reply_to";
-	ask_list_reply_to = gconf_client_get_bool (client, key, NULL);
+	ask_ignore_list_reply_to = g_settings_get_boolean (settings, "composer-ignore-list-reply-to");
+	ask_list_reply_to = g_settings_get_boolean (settings, "prompt-on-list-reply-to");
 
 	munged_list_message = em_utils_is_munged_list_message (message);
 
@@ -1382,8 +1373,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		active = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (check));
 		if (active) {
-			key = "/apps/evolution/mail/prompts/private_list_reply";
-			gconf_client_set_bool (client, key, FALSE, NULL);
+			g_settings_set_boolean (settings, "prompt-on-private-list-reply", FALSE);
 		}
 
 		gtk_widget_destroy (dialog);
@@ -1429,14 +1419,12 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		active = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (check_again));
 		if (active) {
-			key = "/apps/evolution/mail/prompts/list_reply_to";
-			gconf_client_set_bool (client, key, FALSE, NULL);
+			g_settings_set_boolean (settings, "prompt-on-list-reply-to", FALSE);
 		}
 
-		key = "/apps/evolution/mail/composer/ignore_list_reply_to";
 		active = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (check_always_ignore));
-		gconf_client_set_bool (client, key, active, NULL);
+		g_settings_set_boolean (settings, "composer-ignore-list-reply-to", active);
 
 		gtk_widget_destroy (dialog);
 
@@ -1459,7 +1447,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 	check_close_browser_reader (closure->reader);
 
 exit:
-	g_object_unref (client);
+	g_object_unref (settings);
 	g_object_unref (message);
 
 	mail_reader_closure_free (closure);
@@ -1469,21 +1457,18 @@ static void
 action_mail_reply_sender_cb (GtkAction *action,
                              EMailReader *reader)
 {
-	GConfClient *client;
+	GSettings *settings;
 	gboolean ask_list_reply_to;
 	gboolean ask_private_list_reply;
 	gboolean ask;
-	const gchar *key;
 	guint32 state;
 
 	state = e_mail_reader_check_state (reader);
 
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/mail/prompts/list_reply_to";
-	ask_list_reply_to = gconf_client_get_bool (client, key, NULL);
-	key = "/apps/evolution/mail/prompts/private_list_reply";
-	ask_private_list_reply = gconf_client_get_bool (client, key, NULL);
-	g_object_unref (client);
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	ask_list_reply_to = g_settings_get_boolean (settings, "prompt-on-list-reply-to");
+	ask_private_list_reply = g_settings_get_boolean (settings, "prompt-on-private-list-reply");
+	g_object_unref (settings);
 
 	ask = (ask_private_list_reply || ask_list_reply_to);
 
@@ -3539,11 +3524,9 @@ e_mail_reader_init (EMailReader *reader,
 	EWebView *web_view;
 	GtkActionGroup *action_group;
 	GtkWidget *message_list;
-	GConfBridge *bridge;
 	GtkAction *action;
 	gboolean sensitive;
 	const gchar *action_name;
-	const gchar *key;
 
 #ifndef G_OS_WIN32
 	GSettings *settings;
@@ -3624,19 +3607,19 @@ e_mail_reader_init (EMailReader *reader,
 		action_group, mail_reader_search_folder_entries,
 		G_N_ELEMENTS (mail_reader_search_folder_entries), reader);
 
-	/* Bind GObject properties to GConf keys. */
+	/* Bind GObject properties to GSettings keys. */
 
-	bridge = gconf_bridge_get ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	action_name = "mail-caret-mode";
-	key = "/apps/evolution/mail/display/caret_mode";
 	action = e_mail_reader_get_action (reader, action_name);
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
+	g_settings_bind (settings, "caret-mode", G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
 
 	action_name = "mail-show-all-headers";
-	key = "/apps/evolution/mail/display/show_all_headers";
 	action = e_mail_reader_get_action (reader, action_name);
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
+	g_settings_bind (settings, "show-all-headers", G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
+
+	g_object_unref (settings);
 
 	/* Fine tuning. */
 

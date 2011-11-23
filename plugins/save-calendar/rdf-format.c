@@ -54,18 +54,14 @@ static void	add_string_to_rdf		(xmlNodePtr node,
 #define CALENDAR_CONFIG_PREFIX "/apps/evolution/calendar"
 #define CALENDAR_CONFIG_TIMEZONE CALENDAR_CONFIG_PREFIX "/display/timezone"
 
-static GConfClient *config = NULL;
-
 static gchar *
 calendar_config_get_timezone (void)
 {
-
+	GSettings *settings;
 	gchar *retval = NULL;
 
-	if (!config)
-		config = gconf_client_get_default ();
-
-	retval = gconf_client_get_string (config, CALENDAR_CONFIG_TIMEZONE, NULL);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+	retval = g_settings_get_string (settings, "timezone");
 	if (!retval)
 		retval = g_strdup ("UTC");
 

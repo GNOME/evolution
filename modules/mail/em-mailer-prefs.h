@@ -24,7 +24,6 @@
 #define EM_MAILER_PREFS_H
 
 #include <gtk/gtk.h>
-#include <gconf/gconf-client.h>
 #include <shell/e-shell.h>
 #include <widgets/misc/e-preferences-window.h>
 
@@ -57,6 +56,7 @@ struct _EMMailerPrefs {
 
 	GtkBuilder *builder;
 	GConfClient *gconf;
+	GSettings *settings;
 
 	/* General tab */
 
@@ -81,7 +81,6 @@ struct _EMMailerPrefs {
 	GtkWidget *label_remove;
 	GtkWidget *label_tree;
 	GtkListStore *label_list_store;
-	guint labels_change_notify_id; /* mail_config's notify id */
 
 	/* Headers tab */
 	GtkButton *add_header;

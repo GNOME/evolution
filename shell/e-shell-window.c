@@ -958,8 +958,7 @@ e_shell_window_alert_sink_init (EAlertSinkInterface *interface)
 static void
 e_shell_window_init (EShellWindow *shell_window)
 {
-	shell_window->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		shell_window, E_TYPE_SHELL_WINDOW, EShellWindowPrivate);
+	shell_window->priv = E_SHELL_WINDOW_GET_PRIVATE (shell_window);
 
 	e_shell_window_private_init (shell_window);
 }

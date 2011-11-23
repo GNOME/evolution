@@ -1,0 +1,54 @@
+<schemalist>
+  <schema gettext-domain="evolution" id="org.gnome.evolution.addressbook" path="/org/gnome/evolution/addressbook/">
+    <key name="address-formatting" type="b">
+      <default>false</default>
+      <_summary>Enable address formatting</_summary>
+      <_description>Whether addresses should be formatted according to standard in their destination country</_description>
+    </key>
+    <key name="completion-minimum-query-length" type="i">
+      <default>3</default>
+      <_summary>Autocomplete length</_summary>
+      <_description>The number of characters that must be typed before Evolution will attempt to autocomplete.</_description>
+    </key>
+    <key name="completion-show-address" type="b">
+      <default>false</default>
+      <_summary>Show autocompleted name with an address</_summary>
+      <_description>Whether force showing the mail address with the name of the autocompleted contact in the entry.</_description>
+    </key>
+    <key name="select-names-last-used-uri" type="s">
+      <default>''</default>
+      <_summary>URI for the folder last used in the select names dialog</_summary>
+      <_description>URI for the folder last used in the select names dialog.</_description>
+    </key>
+    <key name="layout" type="i">
+      <default>0</default>
+      <_summary>Contact layout style</_summary>
+      <_description>The layout style determines where to place the preview pane in relation to the contact list.  "0" (Classic View) places the preview pane below the contact list.  "1" (Vertical View) places the preview pane next to the contact list.</_description>
+    </key>
+    <key name="hpane-position" type="i">
+      <default>200</default>
+      <_summary>Contact preview pane position (horizontal)</_summary>
+      <_description>Position of the contact preview pane when oriented horizontally.</_description>
+    </key>
+    <key name="vpane-position" type="i">
+      <default>400</default>
+      <_summary>Contact preview pane position (vertical)</_summary>
+      <_description>Position of the contact preview pane when oriented vertically.</_description>
+    </key>
+    <key name="preview-show-maps" type="b">
+      <default>false</default>
+      <_summary>Show maps</_summary>
+      <_description>Whether to show maps in preview pane</_description>
+    </key>
+    <key name="primary-addressbook" type="s">
+      <default>''</default>
+      <_summary>Primary address book</_summary>
+      <_description>The UID of the selected (or "primary") address book in the sidebar of the "Contacts" view</_description>
+    </key>
+    <key name="show-preview" type="b">
+      <default>true</default>
+      <_summary>Show preview pane</_summary>
+      <_description>Whether to show the preview pane.</_description>
+    </key>
+  </schema>
+</schemalist>

@@ -184,3 +184,5 @@ autoconfigdir = $(privdatadir)/mail-autoconfig
 EXTRA_DIST =			\
 	$(autoconfig_DATA)	\
 	README
+
+-include $(top_srcdir)/git.mk

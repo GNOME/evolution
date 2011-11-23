@@ -25,7 +25,6 @@
 
 #include <shell/e-shell.h>
 #include <e-util/e-mktemp.h>
-#include <e-util/gconf-bridge.h>
 #include <mail/e-mail-junk-filter.h>
 
 /* Standard GObject macros */
@@ -1074,10 +1073,6 @@ e_spam_assassin_class_init (ESpamAssassinClass *class)
 	junk_filter_class->available = spam_assassin_available;
 	junk_filter_class->new_config_widget = spam_assassin_new_config_widget;
 
-	/* XXX Argh, the boolean sense of the GConf key is inverted from
-	 *     that of the checkbox widget.  The checkbox wording is more
-	 *     natural, but GConfBridge doesn't support transform functions
-	 *     so the property has to match the sense of the GConf key. */
 	g_object_class_install_property (
 		object_class,
 		PROP_LOCAL_ONLY,
@@ -1146,36 +1141,38 @@ e_spam_assassin_interface_init (CamelJunkFilterInterface *interface)
 static void
 e_spam_assassin_init (ESpamAssassin *extension)
 {
+	GSettings *settings;
+
 	extension->socket_path_mutex = g_mutex_new ();
 
 	/* XXX Once we move to GSettings these probably don't
 	 *     need to be properties anymore.  GConfBridge is
 	 *     just easier to deal with than GConfClient. */
 
-	gconf_bridge_bind_property (
-		gconf_bridge_get (),
-		"/apps/evolution/mail/junk/sa/local_only",
-		G_OBJECT (extension), "local-only");
+	settings = g_settings_new ("org.gnome.evolution.spamassassin");
 
-	gconf_bridge_bind_property (
-		gconf_bridge_get (),
-		"/apps/evolution/mail/junk/sa/spamc_binary",
-		G_OBJECT (extension), "spamc-binary");
+	g_settings_bind (
+		settings, "local-only",
+		G_OBJECT (extension), "local-only",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "spamc-binary",
+		G_OBJECT (extension), "spamc-binary",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "spamd-binary",
+		G_OBJECT (extension), "spamd-binary",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "socket-path",
+		G_OBJECT (extension), "socket-path",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "use-daemon",
+		G_OBJECT (extension), "use-daemon",
+		G_SETTINGS_BIND_DEFAULT);
 
-	gconf_bridge_bind_property (
-		gconf_bridge_get (),
-		"/apps/evolution/mail/junk/sa/spamd_binary",
-		G_OBJECT (extension), "spamd-binary");
-
-	gconf_bridge_bind_property (
-		gconf_bridge_get (),
-		"/apps/evolution/mail/junk/sa/socket_path",
-		G_OBJECT (extension), "socket-path");
-
-	gconf_bridge_bind_property (
-		gconf_bridge_get (),
-		"/apps/evolution/mail/junk/sa/use_daemon",
-		G_OBJECT (extension), "use-daemon");
+	g_object_unref (settings);
 
 	if (extension->spamc_binary == NULL)
 		extension->spamc_binary = g_strdup (SPAMC_BINARY);

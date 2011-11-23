@@ -36,7 +36,6 @@
 #include "alarm.h"
 #include "config-data.h"
 
-
 /* Our glib timeout */
 static guint timeout_id;
 

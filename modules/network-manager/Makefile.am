@@ -6,6 +6,7 @@ libevolution_module_network_manager_la_CPPFLAGS =		\
 	-DG_LOG_DOMAIN=\"evolution-network-manager\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
+	$(SHELL_CFLAGS)						\
 	$(NM_CFLAGS)
 
 libevolution_module_network_manager_la_SOURCES =		\

@@ -29,7 +29,6 @@
 #include <libxml/xmlmemory.h>
 
 #include <glib/gi18n-lib.h>
-#include <gconf/gconf-client.h>
 
 #include <libedataserver/e-uid.h>
 #include <libedataserver/e-data-server-util.h>

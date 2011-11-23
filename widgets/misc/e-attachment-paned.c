@@ -27,8 +27,6 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/gconf-bridge.h"
-
 #include "e-attachment-view.h"
 #include "e-attachment-store.h"
 #include "e-attachment-icon-view.h"
@@ -346,12 +344,11 @@ static void
 attachment_paned_constructed (GObject *object)
 {
 	EAttachmentPanedPrivate *priv;
-	GConfBridge *bridge;
-	const gchar *key;
+	GSettings *settings;
 
 	priv = E_ATTACHMENT_PANED (object)->priv;
 
-	bridge = gconf_bridge_get ();
+	settings = g_settings_new ("org.gnome.evolution.shell");
 
 	/* Set up property-to-property bindings. */
 
@@ -409,10 +406,9 @@ attachment_paned_constructed (GObject *object)
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	/* Set up property-to-GConf bindings. */
-
-	key = "/apps/evolution/shell/attachment_view";
-	gconf_bridge_bind_property (bridge, key, object, "active-view");
+	/* Set up property-to-GSettings bindings. */
+	g_settings_bind (settings, "attachment-view", object, "active-view", G_SETTINGS_BIND_DEFAULT);
+	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_attachment_paned_parent_class)->constructed (object);

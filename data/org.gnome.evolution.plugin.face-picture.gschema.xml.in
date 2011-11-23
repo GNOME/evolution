@@ -1,0 +1,9 @@
+<schemalist>
+  <schema gettext-domain="evolution" id="org.gnome.evolution.plugin.face-picture" path="/org/gnome/evolution/plugin/face-picture/">
+    <key name="insert-face-picture" type="b">
+      <default>false</default>
+      <_summary>Insert Face picture by default</_summary>
+      <_description>Whether insert Face picture to outgoing messages by default. The picture should be set before checking this, otherwise nothing happens.</_description>
+    </key>
+  </schema>
+</schemalist>

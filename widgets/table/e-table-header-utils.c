@@ -187,6 +187,7 @@ e_table_header_draw_button (cairo_t *cr,
 			inner_width -= arrow_width + HEADER_PADDING;
 		break;
 	default:
+		cairo_restore (cr);
 		g_return_if_reached ();
 	}
 
@@ -263,6 +264,7 @@ e_table_header_draw_button (cairo_t *cr,
 	}
 
 	default:
+		cairo_restore (cr);
 		g_return_if_reached ();
 	}
 

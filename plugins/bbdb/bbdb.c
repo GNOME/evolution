@@ -110,29 +110,15 @@ find_esource_by_uri (ESourceList *source_list,
 static gint
 get_check_interval (void)
 {
-	GConfClient *gconf;
-	GConfValue *value;
+	GSettings *settings;
 	gint res = BBDB_BLIST_DEFAULT_CHECK_INTERVAL;
 
-	gconf = gconf_client_get_default ();
-	value = gconf_client_get (gconf, GCONF_KEY_GAIM_CHECK_INTERVAL, NULL);
+	settings = g_settings_new (CONF_SCHEMA);
+	res = g_settings_get_int (settings, CONF_KEY_GAIM_CHECK_INTERVAL);
 
-	if (value) {
-		if (value->type == GCONF_VALUE_INT) {
-			gint interval = gconf_value_get_int (value);
+	g_object_unref (settings);
 
-			if (interval > 0)
-				res = interval * 60;
-			else
-				res = interval;
-		}
-
-		gconf_value_free (value);
-	}
-
-	g_object_unref (gconf);
-
-	return res;
+	return res * 60;
 }
 
 gint
@@ -310,12 +296,12 @@ bbdb_handle_send (EPlugin *ep,
                   EMEventTargetComposer *target)
 {
 	EComposerHeaderTable *table;
-	GConfClient *gconf;
+	GSettings *settings;
 	gboolean enable;
 
-	gconf = gconf_client_get_default ();
-	enable = gconf_client_get_bool (gconf, GCONF_KEY_ENABLE, NULL);
-	g_object_unref (gconf);
+	settings = g_settings_new (CONF_SCHEMA);
+	enable = g_settings_get_boolean (settings, CONF_KEY_ENABLE);
+	g_object_unref (settings);
 
 	if (!enable)
 		return;
@@ -423,28 +409,29 @@ bbdb_do_it (EBookClient *client,
 EBookClient *
 bbdb_create_book_client (gint type)
 {
-	GConfClient *gconf;
+	GSettings    *settings;
 	gchar        *uri;
 	EBookClient  *client = NULL;
 
 	GError      *error = NULL;
 	gboolean     enable = TRUE;
-	gconf = gconf_client_get_default ();
+
+	settings = g_settings_new (CONF_SCHEMA);
 
 	/* Check to see if we're supposed to be running */
 	if (type == AUTOMATIC_CONTACTS_ADDRESSBOOK)
-		enable = gconf_client_get_bool (gconf, GCONF_KEY_ENABLE, NULL);
+		enable = g_settings_get_boolean (settings, CONF_KEY_ENABLE);
 	if (!enable) {
-		g_object_unref (G_OBJECT (gconf));
+		g_object_unref (G_OBJECT (settings));
 		return NULL;
 	}
 
 	/* Open the appropriate addresbook. */
 	if (type == GAIM_ADDRESSBOOK)
-		uri = gconf_client_get_string (gconf, GCONF_KEY_WHICH_ADDRESSBOOK_GAIM, NULL);
+		uri = g_settings_get_string (settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM);
 	else
-		uri = gconf_client_get_string (gconf, GCONF_KEY_WHICH_ADDRESSBOOK, NULL);
-	g_object_unref (G_OBJECT (gconf));
+		uri = g_settings_get_string (settings, CONF_KEY_WHICH_ADDRESSBOOK);
+	g_object_unref (G_OBJECT (settings));
 
 	if (uri == NULL)
 		client = e_book_client_new_system (&error);
@@ -486,13 +473,13 @@ bbdb_open_book_client (EBookClient *client)
 gboolean
 bbdb_check_gaim_enabled (void)
 {
-	GConfClient *gconf;
-	gboolean     gaim_enabled;
+	GSettings *settings;
+	gboolean   gaim_enabled;
 
-	gconf = gconf_client_get_default ();
-	gaim_enabled = gconf_client_get_bool (gconf, GCONF_KEY_ENABLE_GAIM, NULL);
+	settings = g_settings_new (CONF_SCHEMA);
+	gaim_enabled = g_settings_get_boolean (settings, CONF_KEY_ENABLE_GAIM);
 
-	g_object_unref (G_OBJECT (gconf));
+	g_object_unref (G_OBJECT (settings));
 
 	return gaim_enabled;
 }
@@ -518,36 +505,30 @@ enable_toggled_cb (GtkWidget *widget,
 	gboolean active;
 	ESource *selected_source;
 	gchar *addressbook;
+	GSettings *settings = g_settings_new (CONF_SCHEMA);
 
 	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 
-	/* Save the new setting to gconf */
-	gconf_client_set_bool (stuff->target->gconf, GCONF_KEY_ENABLE, active, NULL);
+	/* Save the new setting to GSettings */
+	g_settings_set_boolean (settings, CONF_KEY_ENABLE, active);
 
 	gtk_widget_set_sensitive (stuff->combo_box, active);
 
-	addressbook = gconf_client_get_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK, NULL);
+	addressbook = g_settings_get_string (settings, CONF_KEY_WHICH_ADDRESSBOOK);
 
 	if (active && !addressbook) {
 		const gchar *uri = NULL;
-		GError *error = NULL;
 
 		selected_source = e_source_combo_box_get_active (
 			E_SOURCE_COMBO_BOX (stuff->combo_box));
 		if (selected_source != NULL)
 			uri = e_source_get_uri (selected_source);
 
-		gconf_client_set_string (
-			stuff->target->gconf,
-			GCONF_KEY_WHICH_ADDRESSBOOK,
-			uri ? uri : "", &error);
-
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-		}
+		g_settings_set_string (settings, CONF_KEY_WHICH_ADDRESSBOOK, uri ? uri : "");
 	}
+
 	g_free (addressbook);
+	g_object_unref (settings);
 }
 
 static void
@@ -558,21 +539,23 @@ enable_gaim_toggled_cb (GtkWidget *widget,
 	gboolean active;
 	ESource *selected_source;
 	gchar *addressbook_gaim;
+	GSettings *settings = g_settings_new (CONF_SCHEMA);
 
 	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 
-	/* Save the new setting to gconf */
-	gconf_client_set_bool (stuff->target->gconf, GCONF_KEY_ENABLE_GAIM, active, NULL);
+	/* Save the new setting to GSettings */
+	g_settings_set_boolean (settings, CONF_KEY_ENABLE_GAIM, active);
 
-	addressbook_gaim = gconf_client_get_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK_GAIM, NULL);
+	addressbook_gaim = g_settings_get_string (settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM);
 	gtk_widget_set_sensitive (stuff->gaim_combo_box, active);
 	if (active && !addressbook_gaim) {
 		selected_source = e_source_combo_box_get_active (
 			E_SOURCE_COMBO_BOX (stuff->gaim_combo_box));
-		gconf_client_set_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK_GAIM, e_source_get_uri (selected_source), NULL);
+		g_settings_set_string (settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM, e_source_get_uri (selected_source));
 	}
 
 	g_free (addressbook_gaim);
+	g_object_unref (settings);
 }
 
 static void
@@ -586,19 +569,16 @@ source_changed_cb (ESourceComboBox *source_combo_box,
                    struct bbdb_stuff *stuff)
 {
 	ESource *source;
-	GError *error = NULL;
+	GSettings *settings = g_settings_new (CONF_SCHEMA);
 
 	source = e_source_combo_box_get_active (source_combo_box);
 
-	gconf_client_set_string (
-		stuff->target->gconf,
-		GCONF_KEY_WHICH_ADDRESSBOOK,
-		source ? e_source_get_uri (source) : "", &error);
+	g_settings_set_string (
+		settings,
+		CONF_KEY_WHICH_ADDRESSBOOK,
+		source ? e_source_get_uri (source) : "");
 
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	g_object_unref (settings);
 }
 
 static void
@@ -606,19 +586,16 @@ gaim_source_changed_cb (ESourceComboBox *source_combo_box,
                         struct bbdb_stuff *stuff)
 {
 	ESource *source;
-	GError *error = NULL;
+	GSettings *settings = g_settings_new (CONF_SCHEMA);
 
 	source = e_source_combo_box_get_active (source_combo_box);
 
-	gconf_client_set_string (
-		stuff->target->gconf,
-		GCONF_KEY_WHICH_ADDRESSBOOK_GAIM,
-		source ? e_source_get_uri (source) : "", &error);
+	g_settings_set_string (
+		settings,
+		CONF_KEY_WHICH_ADDRESSBOOK_GAIM,
+		source ? e_source_get_uri (source) : "");
 
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	g_object_unref (settings);
 }
 
 static GtkWidget *
@@ -628,17 +605,18 @@ create_addressbook_combo_box (struct bbdb_stuff *stuff,
 	GtkWidget   *combo_box;
 	ESourceList *source_list;
 	ESource     *selected_source;
-	gchar        *selected_source_uri;
+	gchar       *selected_source_uri;
+	GConfClient *gconf;
+	GSettings *settings = g_settings_new (CONF_SCHEMA);
 
-	GConfClient *gconf = stuff->target->gconf;
-
+	gconf = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (gconf, "/apps/evolution/addressbook/sources");
 	combo_box = e_source_combo_box_new (source_list);
 
 	if (type == GAIM_ADDRESSBOOK)
-		selected_source_uri = gconf_client_get_string (gconf, GCONF_KEY_WHICH_ADDRESSBOOK_GAIM, NULL);
+		selected_source_uri = g_settings_get_string (settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM);
 	else
-		selected_source_uri = gconf_client_get_string (gconf, GCONF_KEY_WHICH_ADDRESSBOOK, NULL);
+		selected_source_uri = g_settings_get_string (settings, CONF_KEY_WHICH_ADDRESSBOOK);
 	selected_source = find_esource_by_uri (
 		source_list, selected_source_uri);
 	g_free (selected_source_uri);
@@ -650,6 +628,8 @@ create_addressbook_combo_box (struct bbdb_stuff *stuff,
 	gtk_widget_show (combo_box);
 
 	stuff->source_list = source_list;
+
+	g_object_unref (settings);
 
 	return combo_box;
 }
@@ -675,6 +655,7 @@ bbdb_page_factory (EPlugin *ep,
 	GtkWidget *gaim_label;
 	GtkWidget *button;
 	gchar *str;
+	GSettings *settings = g_settings_new (CONF_SCHEMA);
 
 	/* A structure to pass some stuff around */
 	stuff = g_new0 (struct bbdb_stuff, 1);
@@ -708,7 +689,7 @@ bbdb_page_factory (EPlugin *ep,
 
 	/* Enable BBDB checkbox */
 	check = gtk_check_button_new_with_mnemonic (_("Create _address book entries when sending mails"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), gconf_client_get_bool (target->gconf, GCONF_KEY_ENABLE, NULL));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), g_settings_get_boolean (settings, CONF_KEY_ENABLE));
 	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (enable_toggled_cb), stuff);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
 	stuff->check = check;
@@ -719,7 +700,7 @@ bbdb_page_factory (EPlugin *ep,
 	/* Source selection combo box */
 	combo_box = create_addressbook_combo_box (stuff, AUTOMATIC_CONTACTS_ADDRESSBOOK);
 	g_signal_connect (combo_box, "changed", G_CALLBACK (source_changed_cb), stuff);
-	gtk_widget_set_sensitive (combo_box, gconf_client_get_bool (target->gconf, GCONF_KEY_ENABLE, NULL));
+	gtk_widget_set_sensitive (combo_box, g_settings_get_boolean (settings, CONF_KEY_ENABLE));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), combo_box, FALSE, FALSE, 0);
 	stuff->combo_box = combo_box;
 
@@ -744,7 +725,7 @@ bbdb_page_factory (EPlugin *ep,
 
 	/* Enable Gaim Checkbox */
 	check_gaim = gtk_check_button_new_with_mnemonic (_("_Synchronize contact info and images from Pidgin buddy list"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_gaim), gconf_client_get_bool (target->gconf, GCONF_KEY_ENABLE_GAIM, NULL));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_gaim), g_settings_get_boolean (settings, CONF_KEY_ENABLE_GAIM));
 	g_signal_connect (GTK_TOGGLE_BUTTON (check_gaim), "toggled", G_CALLBACK (enable_gaim_toggled_cb), stuff);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check_gaim, FALSE, FALSE, 0);
 	stuff->check_gaim = check_gaim;
@@ -755,7 +736,7 @@ bbdb_page_factory (EPlugin *ep,
 	/* Gaim Source Selection Combo Box */
 	gaim_combo_box = create_addressbook_combo_box (stuff, GAIM_ADDRESSBOOK);
 	g_signal_connect (gaim_combo_box, "changed", G_CALLBACK (gaim_source_changed_cb), stuff);
-	gtk_widget_set_sensitive (gaim_combo_box, gconf_client_get_bool (target->gconf, GCONF_KEY_ENABLE_GAIM, NULL));
+	gtk_widget_set_sensitive (gaim_combo_box, g_settings_get_boolean (settings, CONF_KEY_ENABLE_GAIM));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), gaim_combo_box, FALSE, FALSE, 0);
 	stuff->gaim_combo_box = gaim_combo_box;
 
@@ -768,6 +749,8 @@ bbdb_page_factory (EPlugin *ep,
 	g_signal_connect (page, "destroy", G_CALLBACK (cleanup_cb), stuff);
 
 	gtk_widget_show_all (page);
+
+	g_object_unref (settings);
 
 	return page;
 }

@@ -321,9 +321,13 @@ set_organizer (ECalComponent *comp,
 	gchar *res;
 
 	if (folder) {
-		CamelStore *store = camel_folder_get_parent_store (folder);
+		CamelStore *store;
+		const gchar *uid;
 
-		account = e_get_account_by_uid (camel_service_get_uid (CAMEL_SERVICE (store)));
+		store = camel_folder_get_parent_store (folder);
+		uid = camel_service_get_uid (CAMEL_SERVICE (store));
+
+		account = e_get_account_by_uid (uid);
 	}
 
 	if (!account)

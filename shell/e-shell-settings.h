@@ -69,7 +69,8 @@ void		e_shell_settings_install_property
 						(GParamSpec *pspec);
 void		e_shell_settings_install_property_for_key
 						(const gchar *property_name,
-						 const gchar *gconf_key);
+						 const gchar *schema,
+						 const gchar *key);
 void		e_shell_settings_enable_debug	(EShellSettings *shell_settings);
 
 /* Getters and setters for common EShellSettings property types.

@@ -237,6 +237,29 @@ sanitize_user_mail (const gchar *user)
 }
 
 static void
+add_selected_calendar (const gchar *uid)
+{
+	gchar **ids;
+	gint i;
+	GPtrArray *array;
+	GSettings *settings;
+
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+	ids = g_settings_get_strv (settings, "selected-calendars");
+
+	array = g_ptr_array_new ();
+	for (i = 0; ids[i] != NULL; i++)
+		g_ptr_array_add (array, ids[i]);
+	g_ptr_array_add (array, (gpointer) uid);
+	g_ptr_array_add (array, NULL);
+
+	g_settings_set_strv (settings, "selected-calendars", (const gchar* const *) array->pdata);
+
+	g_ptr_array_free (array, TRUE);
+	g_object_unref (settings);
+}
+
+static void
 setup_yahoo_account (MailAccountView *mav)
 {
 	GConfClient *gconf = gconf_client_get_default ();
@@ -249,7 +272,6 @@ setup_yahoo_account (MailAccountView *mav)
 		ESourceGroup *sgrp;
 		ESource *calendar;
 		gchar *sanitize_uname, *abs_uri, *rel_uri;
-		GSList *ids, *temp;
 		const gchar *email = e_account_get_string (em_account_editor_get_modified_account (mav->edit), E_ACCOUNT_ID_ADDRESS);
 
 		slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
@@ -285,14 +307,7 @@ setup_yahoo_account (MailAccountView *mav)
 		e_source_group_add_source (sgrp, calendar, -1);
 		e_source_list_sync (slist, NULL);
 
-		ids = gconf_client_get_list (gconf, SELECTED_CALENDARS, GCONF_VALUE_STRING, NULL);
-		ids = g_slist_append (ids, g_strdup (e_source_peek_uid (calendar)));
-		gconf_client_set_list (gconf,  SELECTED_CALENDARS, GCONF_VALUE_STRING, ids, NULL);
-		temp = ids;
-
-		for (; temp != NULL; temp = g_slist_next (temp))
-			g_free (temp->data);
-		g_slist_free (ids);
+		add_selected_calendar (e_source_peek_uid (calendar));
 
 		g_free (abs_uri);
 		g_free (rel_uri);
@@ -354,7 +369,6 @@ setup_google_accounts (MailAccountView *mav)
 		ESourceGroup *sgrp;
 		ESource *calendar;
 		gchar *sanitize_uname, *abs_uri, *rel_uri;
-		GSList *ids, *temp;
 
 		slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
 		sgrp = e_source_list_ensure_group (slist, _("Google"), "google://", TRUE);
@@ -384,14 +398,7 @@ setup_google_accounts (MailAccountView *mav)
 
 		e_source_list_sync (slist, NULL);
 
-		ids = gconf_client_get_list (gconf, SELECTED_CALENDARS, GCONF_VALUE_STRING, NULL);
-		ids = g_slist_append (ids, g_strdup (e_source_peek_uid (calendar)));
-		gconf_client_set_list (gconf,  SELECTED_CALENDARS, GCONF_VALUE_STRING, ids, NULL);
-		temp = ids;
-
-		for (; temp != NULL; temp = g_slist_next (temp))
-			g_free (temp->data);
-		g_slist_free (ids);
+		add_selected_calendar (e_source_peek_uid (calendar));
 
 		g_free (abs_uri);
 		g_free (rel_uri);

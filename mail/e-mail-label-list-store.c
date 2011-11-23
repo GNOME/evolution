@@ -27,7 +27,6 @@
 
 #include <glib/gi18n.h>
 #include <camel/camel.h>
-#include "e-util/gconf-bridge.h"
 
 #define E_MAIL_LABEL_LIST_STORE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -35,6 +34,7 @@
 
 struct _EMailLabelListStorePrivate {
 	GHashTable *tag_index;
+	GSettings *mail_settings;
 };
 
 static struct {
@@ -167,6 +167,23 @@ mail_label_list_store_get_stock_id (EMailLabelListStore *store,
 }
 
 static void
+mail_label_list_store_dispose (GObject *object)
+{
+	EMailLabelListStorePrivate *priv;
+
+	priv = E_MAIL_LABEL_LIST_STORE_GET_PRIVATE (object);
+
+	if (priv->mail_settings != NULL) {
+		g_object_unref (priv->mail_settings);
+		priv->mail_settings = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_label_list_store_parent_class)->
+		dispose (object);
+}
+
+static void
 mail_label_list_store_finalize (GObject *object)
 {
 	EMailLabelListStorePrivate *priv;
@@ -180,19 +197,104 @@ mail_label_list_store_finalize (GObject *object)
 		finalize (object);
 }
 
+static void labels_settings_changed_cb (GSettings *settings, const gchar *key, gpointer user_data);
+
+static void
+labels_model_changed_cb (GtkTreeModel *model,
+                         GtkTreePath *path,
+                         GtkTreeIter *iter,
+                         gpointer user_data)
+{
+	EMailLabelListStore *store;
+	GPtrArray *array;
+	GtkTreeIter tmp_iter;
+	gboolean res;
+
+	store = E_MAIL_LABEL_LIST_STORE (user_data);
+
+	/* Make sure we don't enter an infinite synchronizing loop */
+	g_signal_handlers_block_by_func (store->priv->mail_settings, labels_settings_changed_cb, store);
+
+	/* Build list to store in GSettings */
+	array = g_ptr_array_new ();
+	res = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &tmp_iter);
+	while (res) {
+		gchar *string;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (store), &tmp_iter,
+				    0, &string, -1);
+		g_ptr_array_add (array, string);
+
+		res = gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &tmp_iter);
+	}
+
+	g_ptr_array_add (array, NULL);
+	g_settings_set_strv (
+		store->priv->mail_settings, "labels",
+		(const gchar * const *) array->pdata);
+
+	g_ptr_array_free (array, TRUE);
+	g_signal_handlers_unblock_by_func (store->priv->mail_settings, labels_settings_changed_cb, store);
+}
+
+static void
+labels_settings_changed_cb (GSettings *settings,
+                            const gchar *key,
+                            gpointer user_data)
+{
+	EMailLabelListStore *store;
+	gchar **strv;
+	gint i;
+
+	store = E_MAIL_LABEL_LIST_STORE (user_data);
+
+	/* Make sure we don't enter an infinite synchronizing loop */
+	g_signal_handlers_block_by_func (store, labels_model_changed_cb, store);
+
+	gtk_list_store_clear (GTK_LIST_STORE (store));
+
+	strv = g_settings_get_strv (store->priv->mail_settings, "labels");
+	for (i = 0; strv[i] != NULL; i++) {
+		GtkTreeIter iter;
+
+		gtk_list_store_insert_with_values (GTK_LIST_STORE (store),
+						   &iter, -1,
+						   0, strv[i],
+						   -1);
+	}
+
+	g_strfreev (strv);
+
+	g_signal_handlers_unblock_by_func (store, labels_model_changed_cb, store);
+}
+
 static void
 mail_label_list_store_constructed (GObject *object)
 {
 	EMailLabelListStore *store;
-	GConfBridge *bridge;
-	const gchar *key;
 
 	store = E_MAIL_LABEL_LIST_STORE (object);
 
-	bridge = gconf_bridge_get ();
-	key = "/apps/evolution/mail/labels";
-	gconf_bridge_bind_string_list_store (
-		bridge, key, GTK_LIST_STORE (store));
+	/* Connect to GSettings' change notifications */
+	store->priv->mail_settings = g_settings_new ("org.gnome.evolution.mail");
+	g_signal_connect (
+		store->priv->mail_settings, "changed::labels",
+		G_CALLBACK (labels_settings_changed_cb), store);
+	labels_settings_changed_cb (store->priv->mail_settings, "labels", store);
+
+	/* Connect to ListStore change notifications */
+	g_signal_connect (
+		store, "row-inserted",
+		G_CALLBACK (labels_model_changed_cb), store);
+	g_signal_connect (
+		store, "row-changed",
+		G_CALLBACK (labels_model_changed_cb), store);
+	g_signal_connect (
+		store, "row-deleted",
+		G_CALLBACK (labels_model_changed_cb), store);
+	g_signal_connect (
+		store, "rows-reordered",
+		G_CALLBACK (labels_model_changed_cb), store);
 
 	mail_label_list_store_ensure_defaults (store);
 
@@ -235,6 +337,7 @@ e_mail_label_list_store_class_init (EMailLabelListStoreClass *class)
 	g_type_class_add_private (class, sizeof (EMailLabelListStorePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = mail_label_list_store_dispose;
 	object_class->finalize = mail_label_list_store_finalize;
 	object_class->constructed = mail_label_list_store_constructed;
 
@@ -264,10 +367,10 @@ e_mail_label_list_store_init (EMailLabelListStore *store)
 
 	/* XXX While it may seem awkward to cram the label name and color
 	 *     into a single string column, we do it for the benefit of
-	 *     letting GConfBridge keep the model in sync with GConf.
+	 *     letting GSettings keep the model in sync.
 	 *
 	 * XXX There's a valid argument to be made that this information
-	 *     doesn't belong in GConf in the first place.  A key file
+	 *     doesn't belong in GSettings in the first place.  A key file
 	 *     under $(user_data_dir)/mail would work better. */
 	gtk_list_store_set_column_types (GTK_LIST_STORE (store), 1, &type);
 }
@@ -381,7 +484,7 @@ e_mail_label_list_store_get_tag (EMailLabelListStore *store,
 	strv = g_strsplit_set (encoded, ":|", 3);
 
 	/* XXX I guess for historical reasons the default label tags have
-	 *     a "$Label" prefix, but the default list in GConf doesn't
+	 *     a "$Label" prefix, but the default list in GSettings doesn't
 	 *     include tags.  That's why the <tag> part is optional.
 	 *     So if we're missing the <tag> part, look it up in the
 	 *     hard-coded default list above.
@@ -408,7 +511,7 @@ e_mail_label_list_store_get_tag (EMailLabelListStore *store,
 		}
 	}
 
-	/* XXX Still no luck?  The label list in GConf must be screwed up.
+	/* XXX Still no luck?  The label list in GSettings must be screwed up.
 	 *     We must not return NULL because the tag is used as a key in
 	 *     the index hash table, so generate a tag from the name. */
 	if (result == NULL)

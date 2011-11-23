@@ -1035,7 +1035,7 @@ vfolder_load_storage (EMailBackend *backend)
 	MailFolderCache *folder_cache;
 	EMailSession *session;
 	gchar *xmlfile;
-	GConfClient *client;
+	GSettings *settings;
 
 	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 
@@ -1112,11 +1112,11 @@ vfolder_load_storage (EMailBackend *backend)
 	}
 
 	/* reenable the feature if required */
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/mail/display/enable_vfolders";
-	if (!gconf_client_get_bool (client, key, NULL))
-		gconf_client_set_bool (client, key, TRUE, NULL);
-	g_object_unref (client);
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	key = "enable-vfolders";
+	if (!g_settings_get_boolean (settings, key))
+		g_settings_set_boolean (settings, key, TRUE);
+	g_object_unref (settings);
 
 	folder_cache = e_mail_session_get_folder_cache (session);
 

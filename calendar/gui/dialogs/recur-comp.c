@@ -29,7 +29,6 @@
 #include <glib/gi18n.h>
 #include "recur-comp.h"
 
-
 gboolean
 recur_component_dialog (ECalClient *client,
                         ECalComponent *comp,

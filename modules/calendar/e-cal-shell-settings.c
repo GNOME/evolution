@@ -25,11 +25,12 @@
 
 #include "e-cal-shell-settings.h"
 
-#include <gconf/gconf-client.h>
 #include <libecal/e-cal-util.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-util-enumtypes.h>
+
+#define CALENDAR_SCHEMA "org.gnome.evolution.calendar"
 
 static gboolean
 transform_string_to_icaltimezone (GBinding *binding,
@@ -524,149 +525,184 @@ e_cal_shell_backend_init_settings (EShell *shell)
 
 	e_shell_settings_install_property_for_key (
 		"cal-ba-reminder-interval",
-		"/apps/evolution/calendar/other/ba_reminder_interval");
+		CALENDAR_SCHEMA,
+		"ba-reminder-interval");
 
 	e_shell_settings_install_property_for_key (
 		"cal-ba-reminder-units-string",
-		"/apps/evolution/calendar/other/ba_reminder_units");
+		CALENDAR_SCHEMA,
+		"ba-reminder-units");
 
 	e_shell_settings_install_property_for_key (
 		"cal-compress-weekend",
-		"/apps/evolution/calendar/display/compress_weekend");
+		CALENDAR_SCHEMA,
+		"compress-weekend");
 
 	e_shell_settings_install_property_for_key (
 		"cal-confirm-delete",
-		"/apps/evolution/calendar/prompts/confirm_delete");
+		CALENDAR_SCHEMA,
+		"confirm-delete");
 
 	e_shell_settings_install_property_for_key (
 		"cal-confirm-purge",
-		"/apps/evolution/calendar/prompts/confirm_purge");
+		CALENDAR_SCHEMA,
+		"confirm-purge");
 
 	e_shell_settings_install_property_for_key (
 		"cal-default-reminder-interval",
-		"/apps/evolution/calendar/other/default_reminder_interval");
+		CALENDAR_SCHEMA,
+		"default-reminder-interval");
 
 	/* Do not bind to this.
 	 * Use "cal-default-reminder-units" instead. */
 	e_shell_settings_install_property_for_key (
 		"cal-default-reminder-units-string",
-		"/apps/evolution/calendar/other/default_reminder_units");
+		CALENDAR_SCHEMA,
+		"default-reminder-units");
 
 	e_shell_settings_install_property_for_key (
 		"cal-free-busy-template",
-		"/apps/evolution/calendar/publish/template");
+		CALENDAR_SCHEMA,
+		"publish-template");
 
 	e_shell_settings_install_property_for_key (
 		"cal-hide-completed-tasks",
-		"/apps/evolution/calendar/tasks/hide_completed");
+		CALENDAR_SCHEMA,
+		"hide-completed-tasks");
 
 	/* Do not bind to this.
 	 * Use "cal-hide-completed-tasks-units" instead. */
 	e_shell_settings_install_property_for_key (
 		"cal-hide-completed-tasks-units-string",
-		"/apps/evolution/calendar/tasks/hide_completed_units");
+		CALENDAR_SCHEMA,
+		"hide-completed-tasks-units");
 
 	e_shell_settings_install_property_for_key (
 		"cal-hide-completed-tasks-value",
-		"/apps/evolution/calendar/tasks/hide_completed_value");
+		CALENDAR_SCHEMA,
+		"hide-completed-tasks-value");
 
 	e_shell_settings_install_property_for_key (
 		"cal-marcus-bains-day-view-color",
-		"/apps/evolution/calendar/display/marcus_bains_color_dayview");
+		CALENDAR_SCHEMA,
+		"marcus-bains-color-dayview");
 
 	e_shell_settings_install_property_for_key (
 		"cal-marcus-bains-time-bar-color",
-		"/apps/evolution/calendar/display/marcus_bains_color_timebar");
+		CALENDAR_SCHEMA,
+		"marcus-bains-color-timebar");
 
 	e_shell_settings_install_property_for_key (
 		"cal-marcus-bains-show-line",
-		"/apps/evolution/calendar/display/marcus_bains_line");
+		CALENDAR_SCHEMA,
+		"marcus-bains-line");
 
 	e_shell_settings_install_property_for_key (
 		"cal-month-scroll-by-week",
-		"/apps/evolution/calendar/display/month_scroll_by_week");
+		CALENDAR_SCHEMA,
+		"month-scroll-by-week");
 
 	e_shell_settings_install_property_for_key (
 		"cal-primary-calendar",
-		"/apps/evolution/calendar/display/primary_calendar");
+		CALENDAR_SCHEMA,
+		"primary-calendar");
 
 	e_shell_settings_install_property_for_key (
 		"cal-primary-memo-list",
-		"/apps/evolution/calendar/memos/primary_memos");
+		CALENDAR_SCHEMA,
+		"primary-memos");
 
 	e_shell_settings_install_property_for_key (
 		"cal-primary-task-list",
-		"/apps/evolution/calendar/tasks/primary_tasks");
+		CALENDAR_SCHEMA,
+		"primary-tasks");
 
 	e_shell_settings_install_property_for_key (
 		"cal-recur-events-italic",
-		"/apps/evolution/calendar/display/recur_events_italic");
+		CALENDAR_SCHEMA,
+		"recur-events-italic");
 
 	e_shell_settings_install_property_for_key (
 		"cal-show-event-end-times",
-		"/apps/evolution/calendar/display/show_event_end");
+		CALENDAR_SCHEMA,
+		"show-event-end");
 
 	e_shell_settings_install_property_for_key (
 		"cal-show-week-numbers",
-		"/apps/evolution/calendar/display/show_week_numbers");
+		CALENDAR_SCHEMA,
+		"show-week-numbers");
 
 	e_shell_settings_install_property_for_key (
 		"cal-tasks-color-due-today",
-		"/apps/evolution/calendar/tasks/colors/due_today");
+		CALENDAR_SCHEMA,
+		"task-due-today-color");
 
 	e_shell_settings_install_property_for_key (
 		"cal-tasks-color-overdue",
-		"/apps/evolution/calendar/tasks/colors/overdue");
+		CALENDAR_SCHEMA,
+		"task-overdue-color");
 
 	e_shell_settings_install_property_for_key (
 		"cal-time-divisions",
-		"/apps/evolution/calendar/display/time_divisions");
+		CALENDAR_SCHEMA,
+		"time-divisions");
 
 	/* Do not bind to this.  Use "cal-timezone" instead. */
 	e_shell_settings_install_property_for_key (
 		"cal-timezone-string",
-		"/apps/evolution/calendar/display/timezone");
+		CALENDAR_SCHEMA,
+		"timezone");
 
 	e_shell_settings_install_property_for_key (
 		"cal-use-24-hour-format",
-		"/apps/evolution/calendar/display/use_24hour_format");
+		CALENDAR_SCHEMA,
+		"use-24hour-format");
 
 	e_shell_settings_install_property_for_key (
 		"cal-use-ba-reminder",
-		"/apps/evolution/calendar/other/use_ba_reminder");
+		CALENDAR_SCHEMA,
+		"use-ba-reminder");
 
 	e_shell_settings_install_property_for_key (
 		"cal-use-default-reminder",
-		"/apps/evolution/calendar/other/use_default_reminder");
+		CALENDAR_SCHEMA,
+		"use-default-reminder");
 
 	e_shell_settings_install_property_for_key (
 		"cal-use-system-timezone",
-		"/apps/evolution/calendar/display/use_system_timezone");
+		CALENDAR_SCHEMA,
+		"use-system-timezone");
 
 	/* Do not bind to this.  Use "cal-week-start-day" instead. */
 	e_shell_settings_install_property_for_key (
 		"cal-week-start-day-gconf",
-		"/apps/evolution/calendar/display/week_start_day");
+		CALENDAR_SCHEMA,
+		"week-start-day");
 
 	e_shell_settings_install_property_for_key (
 		"cal-work-day-end-hour",
-		"/apps/evolution/calendar/display/day_end_hour");
+		CALENDAR_SCHEMA,
+		"day-end-hour");
 
 	e_shell_settings_install_property_for_key (
 		"cal-work-day-end-minute",
-		"/apps/evolution/calendar/display/day_end_minute");
+		CALENDAR_SCHEMA,
+		"day-end-minute");
 
 	e_shell_settings_install_property_for_key (
 		"cal-work-day-start-hour",
-		"/apps/evolution/calendar/display/day_start_hour");
+		CALENDAR_SCHEMA,
+		"day-start-hour");
 
 	e_shell_settings_install_property_for_key (
 		"cal-work-day-start-minute",
-		"/apps/evolution/calendar/display/day_start_minute");
+		CALENDAR_SCHEMA,
+		"day-start-minute");
 
 	e_shell_settings_install_property_for_key (
 		"cal-working-days-bitset",
-		"/apps/evolution/calendar/display/working_days");
+		CALENDAR_SCHEMA,
+		"working-days");
 
 	/* These properties use transform functions to convert
 	 * GConf values to forms more useful to Evolution.  We

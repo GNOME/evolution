@@ -705,6 +705,12 @@ shell_dispose (GObject *object)
 		g_object_unref (alert);
 	}
 
+	while ((alert = g_queue_pop_head (&priv->alerts)) != NULL) {
+		g_signal_handlers_disconnect_by_func (
+			alert, shell_alert_response_cb, object);
+		g_object_unref (alert);
+	}
+
 	if (priv->startup_view != NULL) {
 		g_free (priv->startup_view);
 		priv->startup_view = NULL;
@@ -1194,7 +1200,8 @@ e_shell_init (EShell *shell)
 
 	e_shell_settings_install_property_for_key (
 		"start-offline",
-		"/apps/evolution/shell/start_offline");
+		"org.gnome.evolution.shell",
+		"start-offline");
 
 	/*** Session Management ***/
 
@@ -1427,18 +1434,12 @@ e_shell_create_shell_window (EShell *shell,
 	/* EShellWindow initializes its active view from a GConf key,
 	 * so set the key ahead of time to control the intial view. */
 	if (view_name != NULL) {
-		GConfClient *client;
-		const gchar *key;
-		GError *error = NULL;
+		GSettings *settings;
 
-		client = e_shell_get_gconf_client (shell);
-		key = "/apps/evolution/shell/view_defaults/component_id";
-		gconf_client_set_string (client, key, view_name, &error);
-
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-		}
+		settings = g_settings_new ("org.gnome.evolution.shell");
+		g_settings_set_string (
+			settings, "default-component-id", view_name);
+		g_object_unref (settings);
 	}
 
 	shell_window = e_shell_window_new (

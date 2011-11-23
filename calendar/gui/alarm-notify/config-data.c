@@ -30,14 +30,11 @@
 #include <libedataserver/e-source-list.h>
 #include "config-data.h"
 
-#define KEY_LAST_NOTIFICATION_TIME \
-	"/apps/evolution/calendar/notify/last_notification_time"
-#define KEY_PROGRAMS "/apps/evolution/calendar/notify/programs"
-
 /* Whether we have initied ourselves by reading
  * the data from the configuration engine. */
 static gboolean inited = FALSE;
 static GConfClient *conf_client = NULL;
+static GSettings *calendar_settings = NULL;
 static ESourceList *calendar_source_list = NULL, *tasks_source_list = NULL;
 
 /* Copied from ../calendar-config.c; returns whether the locale has 'am' and
@@ -69,6 +66,9 @@ do_cleanup (void)
 	g_object_unref (conf_client);
 	conf_client = NULL;
 
+	g_object_unref (calendar_settings);
+	calendar_settings = FALSE;
+
 	inited = FALSE;
 }
 
@@ -87,6 +87,8 @@ ensure_inited (void)
 		return;
 	}
 
+	calendar_settings = g_settings_new ("org.gnome.evolution.calendar");
+
 	g_atexit ((GVoidFunc) do_cleanup);
 
 	/* load the sources for calendars and tasks */
@@ -104,8 +106,10 @@ config_data_get_calendars (const gchar *key)
 	gboolean state;
 	GSList *gconf_list;
 
-	if (!inited)
+	if (!inited) {
 		conf_client = gconf_client_get_default ();
+		calendar_settings = g_settings_new ("org.gnome.evolution.calendar");
+	}
 
 	gconf_list = gconf_client_get_list (conf_client,
 					    key,
@@ -119,15 +123,11 @@ config_data_get_calendars (const gchar *key)
 		return cal_sources;
 	}
 
-	state = gconf_client_get_bool (conf_client,
-				      "/apps/evolution/calendar/notify/notify_with_tray",
-				      NULL);
+	state = g_settings_get_boolean (calendar_settings, "notify-with-tray");
 	if (!state) /* Should be old client */ {
 		GSList *source;
-		gconf_client_set_bool (conf_client,
-				      "/apps/evolution/calendar/notify/notify_with_tray",
-				      TRUE,
-				      NULL);
+
+		g_settings_set_boolean (calendar_settings, "notify-with-tray", TRUE);
 		source = gconf_client_get_list (conf_client,
 						"/apps/evolution/calendar/sources",
 						GCONF_VALUE_STRING,
@@ -189,28 +189,18 @@ config_data_replace_string_list (const gchar *key,
 	}
 }
 
-GConfClient *
-config_data_get_conf_client (void)
-{
-	ensure_inited ();
-	return conf_client;
-}
-
 icaltimezone *
 config_data_get_timezone (void)
 {
 	gchar *location;
-	const gchar *key;
 	icaltimezone *local_timezone;
 
 	ensure_inited ();
 
-	key = "/apps/evolution/calendar/display/use_system_timezone";
-	if (gconf_client_get_bool (conf_client, key, NULL))
+	if (g_settings_get_boolean (calendar_settings, "use-system-timezone"))
 		location = e_cal_util_get_system_timezone_location ();
 	else {
-		key = "/apps/evolution/calendar/display/timezone";
-		location = gconf_client_get_string (conf_client, key, NULL);
+		location = g_settings_get_string (calendar_settings, "timezone");
 	}
 
 	if (location && location[0])
@@ -229,10 +219,7 @@ config_data_get_24_hour_format (void)
 	ensure_inited ();
 
 	if (locale_supports_12_hour_format ()) {
-		const gchar *key;
-
-		key = "/apps/evolution/calendar/display/use_24hour_format";
-		return gconf_client_get_bool (conf_client, key, NULL);
+		return g_settings_get_boolean (calendar_settings, "use-24hour-format");
 	}
 
 	return TRUE;
@@ -243,9 +230,7 @@ config_data_get_notify_with_tray (void)
 {
 	ensure_inited ();
 
-	return gconf_client_get_bool (conf_client,
-				      "/apps/evolution/calendar/notify/notify_with_tray",
-				      NULL);
+	return g_settings_get_boolean (calendar_settings, "notify-with-tray");
 }
 
 /**
@@ -260,7 +245,6 @@ void
 config_data_set_last_notification_time (ECalClient *cal,
                                         time_t t)
 {
-	GConfClient *client;
 	time_t current_t, now = time (NULL);
 
 	g_return_if_fail (t != -1);
@@ -291,14 +275,11 @@ config_data_set_last_notification_time (ECalClient *cal,
 		}
 	}
 
-	if (!(client = config_data_get_conf_client ()))
-		return;
-
 	/* we only store the new notification time if it is bigger
 	 * than the already stored one */
-	current_t = gconf_client_get_int (client, KEY_LAST_NOTIFICATION_TIME, NULL);
+	current_t = g_settings_get_int (calendar_settings, "last-notification-time");
 	if (t > current_t || current_t > now)
-		gconf_client_set_int (client, KEY_LAST_NOTIFICATION_TIME, t, NULL);
+		g_settings_set_int (calendar_settings, "last-notification-time", t);
 }
 
 /**
@@ -311,8 +292,7 @@ config_data_set_last_notification_time (ECalClient *cal,
 time_t
 config_data_get_last_notification_time (ECalClient *cal)
 {
-	GConfValue *value;
-	GConfClient *client;
+	time_t value, now;
 
 	if (cal) {
 		ESource *source = e_client_get_source (E_CLIENT (cal));
@@ -326,33 +306,21 @@ config_data_get_last_notification_time (ECalClient *cal)
 
 			if (last_notified && *last_notified &&
 				g_time_val_from_iso8601 (last_notified, &tmval)) {
-				time_t now = time (NULL), val = (time_t) tmval.tv_sec;
+				time_t now = time (NULL), value = (time_t) tmval.tv_sec;
 
-				if (val > now)
-					val = now;
-				return val;
+				if (value > now)
+					value = now;
+				return value;
 			}
 		}
 	}
 
-	if (!(client = config_data_get_conf_client ()))
-		return -1;
+	value = g_settings_get_int (calendar_settings, "last-notification-time");
+	now = time (NULL);
+	if (value > now)
+		value = now;
 
-	value = gconf_client_get_without_default (
-		client, KEY_LAST_NOTIFICATION_TIME, NULL);
-	if (value) {
-		time_t val, now;
-
-		val = (time_t) gconf_value_get_int (value);
-		now = time (NULL);
-
-		if (val > now)
-			val = now;
-
-		return val;
-	}
-
-	return -1;
+	return value;
 }
 
 /**
@@ -364,17 +332,20 @@ config_data_get_last_notification_time (ECalClient *cal)
 void
 config_data_save_blessed_program (const gchar *program)
 {
-	GConfClient *client;
-	GSList *l;
+	gchar **list;
+	gint i;
+	GPtrArray *array = g_ptr_array_new ();
 
-	if (!(client = config_data_get_conf_client ()))
-		return;
+	list = g_settings_get_strv (calendar_settings, "notify-programs");
+	for (i = 0; i < g_strv_length (list); i++)
+		g_ptr_array_add (array, list[i]);
 
-	l = gconf_client_get_list (client, KEY_PROGRAMS, GCONF_VALUE_STRING, NULL);
-	l = g_slist_append (l, g_strdup (program));
-	gconf_client_set_list (client, KEY_PROGRAMS, GCONF_VALUE_STRING, l, NULL);
-	g_slist_foreach (l, (GFunc) g_free, NULL);
-	g_slist_free (l);
+	g_ptr_array_add (array, (gpointer) program);
+	g_ptr_array_add (array, NULL);
+	g_settings_set_strv (calendar_settings, "notify-programs", (const gchar *const *) array->pdata);
+
+	g_strfreev (list);
+	g_ptr_array_free (array, TRUE);
 }
 
 /**
@@ -388,22 +359,21 @@ config_data_save_blessed_program (const gchar *program)
 gboolean
 config_data_is_blessed_program (const gchar *program)
 {
-	GConfClient *client;
-	GSList *l, *n;
+	gchar **list;
+	gint i = 0;
 	gboolean found = FALSE;
 
-	if (!(client = config_data_get_conf_client ()))
+	list = g_settings_get_strv (calendar_settings, "notify-programs");
+	if (!list)
 		return FALSE;
 
-	l = gconf_client_get_list (client, KEY_PROGRAMS, GCONF_VALUE_STRING, NULL);
-	while (l) {
-		n = l->next;
+	while (list[i] != NULL) {
 		if (!found)
-			found = strcmp ((gchar *) l->data, program) == 0;
-		g_free (l->data);
-		g_slist_free_1 (l);
-		l = n;
+			found = strcmp ((gchar *) list[i], program) == 0;
+		i++;
 	}
+
+	g_strfreev (list);
 
 	return found;
 }

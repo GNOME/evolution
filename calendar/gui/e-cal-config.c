@@ -70,8 +70,8 @@ ecp_target_free (EConfig *ec,
 		break; }
 	case EC_CONFIG_TARGET_PREFS: {
 		ECalConfigTargetPrefs *s = (ECalConfigTargetPrefs *) t;
-		if (s->gconf)
-			g_object_unref (s->gconf);
+		if (s->settings)
+			g_object_unref (s->settings);
 		break; }
 	}
 
@@ -172,7 +172,7 @@ e_cal_config_target_new_prefs (ECalConfig *ecp)
 	t = e_config_target_new (
 		&ecp->config, EC_CONFIG_TARGET_PREFS, sizeof (*t));
 
-	t->gconf = gconf_client_get_default ();
+	t->settings = g_settings_new ("org.gnome.evolution.calendar");
 
 	return t;
 }

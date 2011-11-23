@@ -1,0 +1,19 @@
+<schemalist>
+  <schema gettext-domain="evolution" id="org.gnome.evolution" path="/org/gnome/evolution/">
+    <key name="version" type="s">
+      <default>''</default>
+      <_summary>Configuration version</_summary>
+      <_description>The configuration version of Evolution, with major/minor/configuration level (for example "2.6.0").</_description>
+    </key>
+    <key name="last-upgraded-version" type="s">
+      <default>''</default>
+      <_summary>Last upgraded configuration version</_summary>
+      <_description>The last upgraded configuration version of Evolution, with major/minor/configuration level (for example "2.6.0").</_description>
+    </key>
+    <key name="disabled-eplugins" type="as">
+      <default>[]</default>
+      <_summary>List of disabled plugins</_summary>
+      <_description>The list of disabled plugins in Evolution</_description>
+    </key>
+  </schema>
+</schemalist>

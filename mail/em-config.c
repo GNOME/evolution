@@ -121,7 +121,6 @@ em_config_class_init (EMConfigClass *class)
 {
 	EConfigClass *config_class;
 
-
 	config_class = E_CONFIG_CLASS (class);
 	config_class->set_target = em_config_set_target;
 	config_class->target_free = em_config_target_free;

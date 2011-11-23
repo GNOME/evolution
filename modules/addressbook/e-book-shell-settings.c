@@ -25,18 +25,23 @@
 
 #include "e-book-shell-settings.h"
 
+#define ADDRESSBOOK_SCHEMA "org.gnome.evolution.addressbook"
+
 void
 e_book_shell_backend_init_settings (EShell *shell)
 {
 	e_shell_settings_install_property_for_key (
 		"book-completion-show-address",
-		"/apps/evolution/addressbook/completion/show_address");
+		ADDRESSBOOK_SCHEMA,
+		"completion-show-address");
 
 	e_shell_settings_install_property_for_key (
 		"book-primary-selection",
-		"/apps/evolution/addressbook/display/primary_addressbook");
+		ADDRESSBOOK_SCHEMA,
+		"primary-addressbook");
 
 	e_shell_settings_install_property_for_key (
 		"enable-address-formatting",
-		"/apps/evolution/addressbook/display/address_formatting");
+		ADDRESSBOOK_SCHEMA,
+		"address-formatting");
 }

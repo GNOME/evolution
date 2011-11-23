@@ -31,6 +31,7 @@
 
 #include <time.h>
 #include <string.h>
+#include <gio/gio.h>
 #include <e-util/e-util.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
@@ -40,7 +41,7 @@
 #include "calendar-config-keys.h"
 #include "calendar-config.h"
 
-static GConfClient *config = NULL;
+static GSettings *config = NULL;
 
 static void
 do_cleanup (void)
@@ -55,18 +56,17 @@ calendar_config_init (void)
 	if (config)
 		return;
 
-	config = gconf_client_get_default ();
+	config = g_settings_new ("org.gnome.evolution.calendar");
 	g_atexit ((GVoidFunc) do_cleanup);
-
-	gconf_client_add_dir (config, CALENDAR_CONFIG_PREFIX, GCONF_CLIENT_PRELOAD_RECURSIVE, NULL);
 }
 
 void
-calendar_config_remove_notification (guint id)
+calendar_config_remove_notification (CalendarConfigChangedFunc func,
+                                     gpointer data)
 {
 	calendar_config_init ();
 
-	gconf_client_notify_remove (config, id);
+	g_signal_handlers_disconnect_by_func (G_OBJECT (config), G_CALLBACK (func), data);
 }
 
 /* Returns TRUE if the locale has 'am' and 'pm' strings defined, in which
@@ -92,7 +92,7 @@ calendar_config_get_timezone_stored (void)
 {
 	calendar_config_init ();
 
-	return gconf_client_get_string (config, CALENDAR_CONFIG_TIMEZONE, NULL);
+	return g_settings_get_string (config, "timezone");
 }
 
 static gchar *
@@ -142,7 +142,7 @@ calendar_config_get_24_hour_format (void)
 	 * default. If the locale doesn't have 'am' and 'pm' strings we have
 	 * to use 24-hour format, or strftime ()/strptime () won't work. */
 	if (calendar_config_locale_supports_12_hour_format ())
-		return gconf_client_get_bool (config, CALENDAR_CONFIG_24HOUR, NULL);
+		return g_settings_get_boolean (config, "use-24hour-format");
 
 	return TRUE;
 }
@@ -153,20 +153,17 @@ calendar_config_get_month_scroll_by_week (void)
 {
 	calendar_config_init ();
 
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_MONTH_SCROLL_BY_WEEK, NULL);
+	return g_settings_get_boolean (config, "month-scroll-by-week");
 }
 
-guint
-calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc func,
+void
+calendar_config_add_notification_month_scroll_by_week (CalendarConfigChangedFunc func,
                                                        gpointer data)
 {
-	guint id;
-
 	calendar_config_init ();
 
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_MONTH_SCROLL_BY_WEEK, func, data, NULL, NULL);
-
-	return id;
+	g_signal_connect (G_OBJECT (config), "changed::month-scroll-by-week",
+			  G_CALLBACK (func), data);
 }
 
 /***************************************/
@@ -177,7 +174,7 @@ calendar_config_get_working_days (void)
 {
 	calendar_config_init ();
 
-	return gconf_client_get_int (config, CALENDAR_CONFIG_WORKING_DAYS, NULL);
+	return g_settings_get_int (config, "working-days");
 }
 
 /* Settings to hide completed tasks. */
@@ -186,7 +183,7 @@ calendar_config_get_hide_completed_tasks (void)
 {
 	calendar_config_init ();
 
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED, NULL);
+	return g_settings_get_boolean (config, "hide-completed-tasks");
 }
 
 static EDurationType
@@ -197,7 +194,7 @@ calendar_config_get_hide_completed_tasks_units (void)
 
 	calendar_config_init ();
 
-	units = gconf_client_get_string (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_UNITS, NULL);
+	units = g_settings_get_string (config, "hide-completed-tasks-units");
 
 	if (units && !strcmp (units, "minutes"))
 		cu = E_DURATION_MINUTES;
@@ -229,7 +226,7 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 		gint value;
 
 		units = calendar_config_get_hide_completed_tasks_units ();
-		value = gconf_client_get_int (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_VALUE, NULL);
+		value = g_settings_get_int (config, "hide-completed-tasks-value");
 
 		if (value == 0) {
 			/* If the value is 0, we want to hide completed tasks
@@ -284,7 +281,7 @@ calendar_config_set_dir_path (const gchar *path)
 {
 	calendar_config_init ();
 
-	gconf_client_set_string (config, CALENDAR_CONFIG_SAVE_DIR, path, NULL);
+	g_settings_set_string (config, "audio-dir", path);
 }
 
 gchar *
@@ -294,7 +291,7 @@ calendar_config_get_dir_path (void)
 
 	calendar_config_init ();
 
-	path = gconf_client_get_string (config, CALENDAR_CONFIG_SAVE_DIR, NULL);
+	path = g_settings_get_string (config, "audio-dir");
 
 	return path;
 }
@@ -304,11 +301,19 @@ calendar_config_get_dir_path (void)
 GSList *
 calendar_config_get_day_second_zones (void)
 {
-	GSList *res;
+	GSList *res = NULL;
+	gchar **strv;
+	gint i;
 
 	calendar_config_init ();
 
-	res = gconf_client_get_list (config, CALENDAR_CONFIG_DAY_SECOND_ZONES_LIST, GCONF_VALUE_STRING, NULL);
+	strv = g_settings_get_strv (config, "day-second-zones");
+	for (i = 0; i < g_strv_length (strv); i++) {
+		if (strv[i] != NULL)
+			res = g_slist_append (res, g_strdup (strv[i]));
+	}
+
+	g_strfreev (strv);
 
 	return res;
 }
@@ -331,16 +336,12 @@ calendar_config_set_day_second_zone (const gchar *location)
 
 	if (location && *location) {
 		GSList *lst, *l;
-		GError *error = NULL;
 		gint max_zones;
+		GPtrArray *array;
+		gint i;
 
 		/* configurable max number of timezones to remember */
-		max_zones = gconf_client_get_int (config, CALENDAR_CONFIG_DAY_SECOND_ZONES_MAX, &error);
-
-		if (error) {
-			g_error_free (error);
-			max_zones = -1;
-		}
+		max_zones = g_settings_get_int (config, "day-second-zones-max");
 
 		if (max_zones <= 0)
 			max_zones = 5;
@@ -364,18 +365,18 @@ calendar_config_set_day_second_zone (const gchar *location)
 			lst = g_slist_prepend (lst, g_strdup (location));
 		}
 
-		while (g_slist_length (lst) > max_zones) {
-			l = g_slist_last (lst);
-			g_free (l->data);
-			lst = g_slist_delete_link (lst, l);
-		}
+		array = g_ptr_array_new ();
+		for (i = 0, l = lst; i < max_zones && l != NULL; i++, l = l->next)
+			g_ptr_array_add (array, l->data);
+		g_ptr_array_add (array, NULL);
 
-		gconf_client_set_list (config, CALENDAR_CONFIG_DAY_SECOND_ZONES_LIST, GCONF_VALUE_STRING, lst, NULL);
+		g_settings_set_strv (config, "day-second-zones", (const gchar * const *) array->pdata);
 
 		calendar_config_free_day_second_zones (lst);
+		g_ptr_array_free (array, FALSE);
 	}
 
-	gconf_client_set_string (config, CALENDAR_CONFIG_DAY_SECOND_ZONE, location ? location : "", NULL);
+	g_settings_set_string (config, "day-second-zone", location ? location : "");
 }
 
 /* location of the second time zone user has selected. Free with g_free. */
@@ -384,7 +385,7 @@ calendar_config_get_day_second_zone (void)
 {
 	calendar_config_init ();
 
-	return gconf_client_get_string (config, CALENDAR_CONFIG_DAY_SECOND_ZONE, NULL);
+	return g_settings_get_string (config, "day-second-zone");
 }
 
 void
@@ -424,15 +425,12 @@ calendar_config_select_day_second_zone (void)
 	g_object_unref (tzdlg);
 }
 
-guint
-calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func,
+void
+calendar_config_add_notification_day_second_zone (CalendarConfigChangedFunc func,
                                                   gpointer data)
 {
-	guint id;
-
 	calendar_config_init ();
 
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_SECOND_ZONE, func, data, NULL, NULL);
-
-	return id;
+	g_signal_connect (G_OBJECT (config), "changed::day-second-zone",
+			  G_CALLBACK (func), data);
 }

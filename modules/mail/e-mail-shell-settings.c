@@ -32,6 +32,8 @@
 
 #include <shell/e-shell.h>
 
+#define MAIL_SCHEMA "org.gnome.evolution.mail"
+
 static gboolean
 transform_no_folder_dots_to_ellipsize (GBinding *binding,
                                        const GValue *source_value,
@@ -95,243 +97,301 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 
 	e_shell_settings_install_property_for_key (
 		"mail-address-compress",
-		"/apps/evolution/mail/display/address_compress");
+		MAIL_SCHEMA,
+		"address-compress");
 
 	e_shell_settings_install_property_for_key (
 		"mail-address-count",
-		"/apps/evolution/mail/display/address_count");
+		MAIL_SCHEMA,
+		"address-count");
 
 	e_shell_settings_install_property_for_key (
 		"mail-charset",
-		"/apps/evolution/mail/display/charset");
+		MAIL_SCHEMA,
+		"charset");
 
 	e_shell_settings_install_property_for_key (
 		"mail-check-for-junk",
-		"/apps/evolution/mail/junk/check_incoming");
+		MAIL_SCHEMA,
+		"junk-check-incoming");
 
 	e_shell_settings_install_property_for_key (
 		"mail-check-on-start",
-		"/apps/evolution/mail/send_recv_on_start");
+		MAIL_SCHEMA,
+		"send-recv-on-start");
 
 	e_shell_settings_install_property_for_key (
 		"mail-check-all-on-start",
-		"/apps/evolution/mail/send_recv_all_on_start");
+		MAIL_SCHEMA,
+		"send-recv-all-on-start");
 
 	e_shell_settings_install_property_for_key (
 		"mail-citation-color",
-		"/apps/evolution/mail/display/citation_colour");
+		MAIL_SCHEMA,
+		"citation-colour");
 
 	e_shell_settings_install_property_for_key (
 		"mail-confirm-expunge",
-		"/apps/evolution/mail/prompts/expunge");
+		MAIL_SCHEMA,
+		"prompt-on-expunge");
 
 	e_shell_settings_install_property_for_key (
 		"mail-confirm-unwanted-html",
-		"/apps/evolution/mail/prompts/unwanted_html");
+		MAIL_SCHEMA,
+		"prompt-on-unwanted-html");
 
 	e_shell_settings_install_property_for_key (
 		"mail-empty-junk-on-exit",
-		"/apps/evolution/mail/junk/empty_on_exit");
+		MAIL_SCHEMA,
+		"junk-empty-on-exit");
 
 	e_shell_settings_install_property_for_key (
 		"mail-empty-trash-on-exit",
-		"/apps/evolution/mail/trash/empty_on_exit");
+		MAIL_SCHEMA,
+		"trash-empty-on-exit");
 
 	e_shell_settings_install_property_for_key (
 		"mail-enable-search-folders",
-		"/apps/evolution/mail/display/enable_vfolders");
+		MAIL_SCHEMA,
+		"enable-vfolders");
 
 	e_shell_settings_install_property_for_key (
 		"mail-enable-local-folders",
-		"/apps/evolution/mail/display/enable_local");
+		MAIL_SCHEMA,
+		"enable-local");
 
 	e_shell_settings_install_property_for_key (
 		"mail-font-monospace",
-		"/apps/evolution/mail/display/fonts/monospace");
+		MAIL_SCHEMA,
+		"monospace-font");
 
 	e_shell_settings_install_property_for_key (
 		"mail-font-variable",
-		"/apps/evolution/mail/display/fonts/variable");
+		MAIL_SCHEMA,
+		"variable-width-font");
 
 	e_shell_settings_install_property_for_key (
 		"mail-force-message-limit",
-		"/apps/evolution/mail/display/force_message_limit");
+		MAIL_SCHEMA,
+		"force-message-limit");
 
 	/* This value corresponds to the EMailForwardStyle enum. */
 	e_shell_settings_install_property_for_key (
 		"mail-forward-style",
-		"/apps/evolution/mail/format/forward_style");
+		MAIL_SCHEMA,
+		"forward-style");
 
 	/* This value corresponds to MailConfigHTTPMode enum. */
 	e_shell_settings_install_property_for_key (
 		"mail-image-loading-policy",
-		"/apps/evolution/mail/display/load_http_images");
+		MAIL_SCHEMA,
+		"load-http-images");
 
 	e_shell_settings_install_property_for_key (
 		"mail-magic-spacebar",
-		"/apps/evolution/mail/display/magic_spacebar");
+		MAIL_SCHEMA,
+		"magic-spacebar");
 
 	e_shell_settings_install_property_for_key (
 		"mail-global-view-setting",
-		"/apps/evolution/mail/display/global_view_setting");
+		MAIL_SCHEMA,
+		"global-view-setting");
 
 	e_shell_settings_install_property_for_key (
 		"mail-mark-citations",
-		"/apps/evolution/mail/display/mark_citations");
+		MAIL_SCHEMA,
+		"mark-citations");
 
 	e_shell_settings_install_property_for_key (
 		"mail-mark-seen",
-		"/apps/evolution/mail/display/mark_seen");
+		MAIL_SCHEMA,
+		"mark-seen");
 
 	e_shell_settings_install_property_for_key (
 		"mail-mark-seen-timeout",
-		"/apps/evolution/mail/display/mark_seen_timeout");
+		MAIL_SCHEMA,
+		"mark-seen-timeout");
 
 	e_shell_settings_install_property_for_key (
 		"mail-message-text-part-limit",
-		"/apps/evolution/mail/display/message_text_part_limit");
+		MAIL_SCHEMA,
+		"message-text-part-limit");
 
 	/* Do not bind to this.  Use "mail-sidebar-ellipsize" instead. */
 	e_shell_settings_install_property_for_key (
 		"mail-no-folder-dots",
-		"/apps/evolution/mail/display/no_folder_dots");
+		MAIL_SCHEMA,
+		"no-folder-dots");
 
 	e_shell_settings_install_property_for_key (
 		"mail-only-local-photos",
-		"/apps/evolution/mail/display/photo_local");
+		MAIL_SCHEMA,
+		"photo-local");
 
 	e_shell_settings_install_property_for_key (
 		"mail-show-real-date",
-		"/apps/evolution/mail/display/show_real_date");
+		MAIL_SCHEMA,
+		"show-real-date");
 
 	e_shell_settings_install_property_for_key (
 		"mail-sort-accounts-alpha",
-		"/apps/evolution/mail/display/sort_accounts_alpha");
+		MAIL_SCHEMA,
+		"sort-accounts-alpha");
 
 	e_shell_settings_install_property_for_key (
 		"mail-prompt-delete-in-vfolder",
-		"/apps/evolution/mail/prompts/delete_in_vfolder");
+		MAIL_SCHEMA,
+		"prompt-on-delete-in-vfolder");
 
 	/* This value corresponds to the EMailReplyStyle enum,
 	 * but the ordering of the combo box items in preferences
 	 * has changed.  We use transformation functions there. */
 	e_shell_settings_install_property_for_key (
 		"mail-reply-style",
-		"/apps/evolution/mail/format/reply_style");
+		MAIL_SCHEMA,
+		"reply-style");
 
 	e_shell_settings_install_property_for_key (
 		"mail-safe-list",
-		"/apps/evolution/mail/display/safe_list");
+		MAIL_SCHEMA,
+		"safe-list");
 
 	e_shell_settings_install_property_for_key (
 		"mail-show-animated-images",
-		"/apps/evolution/mail/display/animated_images");
+		MAIL_SCHEMA,
+		"show-animated-images");
 
 	e_shell_settings_install_property_for_key (
 		"mail-show-sender-photo",
-		"/apps/evolution/mail/display/sender_photo");
+		MAIL_SCHEMA,
+		"show-sender-photo");
 
 	e_shell_settings_install_property_for_key (
 		"mail-sidebar-search",
-		"/apps/evolution/mail/display/side_bar_search");
+		MAIL_SCHEMA,
+		"side-bar-search");
 
 	e_shell_settings_install_property_for_key (
 		"mail-thread-by-subject",
-		"/apps/evolution/mail/display/thread_subject");
+		MAIL_SCHEMA,
+		"thread-subject");
 
 	e_shell_settings_install_property_for_key (
 		"mail-use-custom-fonts",
-		"/apps/evolution/mail/display/fonts/use_custom");
+		MAIL_SCHEMA,
+		"use-custom-font");
 
 	/*** Composer Preferences ***/
 
 	e_shell_settings_install_property_for_key (
 		"composer-charset",
-		"/apps/evolution/mail/composer/charset");
+		MAIL_SCHEMA,
+		"composer-charset");
 
 	e_shell_settings_install_property_for_key (
 		"composer-format-html",
-		"/apps/evolution/mail/composer/send_html");
+		MAIL_SCHEMA,
+		"composer-send-html");
 
 	e_shell_settings_install_property_for_key (
 		"composer-inline-spelling",
-		"/apps/evolution/mail/composer/inline_spelling");
+		MAIL_SCHEMA,
+		"composer-inline-spelling");
 
 	e_shell_settings_install_property_for_key (
 		"composer-magic-links",
-		"/apps/evolution/mail/composer/magic_links");
+		MAIL_SCHEMA,
+		"composer-magic-links");
 
 	e_shell_settings_install_property_for_key (
 		"composer-magic-smileys",
-		"/apps/evolution/mail/composer/magic_smileys");
+		MAIL_SCHEMA,
+		"composer-magic-smileys");
 
 	e_shell_settings_install_property_for_key (
 		"composer-outlook-filenames",
-		"/apps/evolution/mail/composer/outlook_filenames");
+		MAIL_SCHEMA,
+		"composer-outlook-filenames");
 
 	e_shell_settings_install_property_for_key (
 		"composer-ignore-list-reply-to",
-		"/apps/evolution/mail/composer/ignore_list_reply_to");
+		MAIL_SCHEMA,
+		"composer-ignore-list-reply-to");
 
 	e_shell_settings_install_property_for_key (
 		"composer-group-reply-to-list",
-		"/apps/evolution/mail/composer/group_reply_to_list");
+		MAIL_SCHEMA,
+		"composer-group-reply-to-list");
 
 	e_shell_settings_install_property_for_key (
 		"composer-sign-reply-if-signed",
-		"/apps/evolution/mail/composer/sign_reply_if_signed");
+		MAIL_SCHEMA,
+		"composer-sign-reply-if-signed");
 
 	e_shell_settings_install_property_for_key (
 		"composer-prompt-only-bcc",
-		"/apps/evolution/mail/prompts/only_bcc");
+		MAIL_SCHEMA,
+		"prompt-on-only-bcc");
 
 	e_shell_settings_install_property_for_key (
 		"composer-prompt-private-list-reply",
-		"/apps/evolution/mail/prompts/private_list_reply");
+		MAIL_SCHEMA,
+		"prompt-on-private-list-reply");
 
 	e_shell_settings_install_property_for_key (
 		"composer-prompt-reply-many-recips",
-		"/apps/evolution/mail/prompts/reply_many_recips");
+		MAIL_SCHEMA,
+		"prompt-on-reply-many-recips");
 
 	e_shell_settings_install_property_for_key (
 		"composer-prompt-list-reply-to",
-		"/apps/evolution/mail/prompts/list_reply_to");
+		MAIL_SCHEMA,
+		"prompt-on-list-reply-to");
 
 	e_shell_settings_install_property_for_key (
 		"composer-prompt-empty-subject",
-		"/apps/evolution/mail/prompts/empty_subject");
+		MAIL_SCHEMA,
+		"prompt-on-empty-subject");
 
 	e_shell_settings_install_property_for_key (
 		"composer-prompt-send-invalid-recip",
-		"/apps/evolution/mail/prompts/send_invalid_recip");
+		MAIL_SCHEMA,
+		"prompt-on-invalid-recip");
 
 	e_shell_settings_install_property_for_key (
 		"composer-reply-start-bottom",
-		"/apps/evolution/mail/composer/reply_start_bottom");
+		MAIL_SCHEMA,
+		"composer-reply-start-bottom");
 
 	e_shell_settings_install_property_for_key (
 		"composer-request-receipt",
-		"/apps/evolution/mail/composer/request_receipt");
+		MAIL_SCHEMA,
+		"composer-request-receipt");
 
 	e_shell_settings_install_property_for_key (
 		"composer-spell-color",
-		"/apps/evolution/mail/composer/spell_color");
+		MAIL_SCHEMA,
+		"composer-spell-color");
 
 	e_shell_settings_install_property_for_key (
 		"composer-top-signature",
-		"/apps/evolution/mail/composer/top_signature");
+		MAIL_SCHEMA,
+		"composer-top-signature");
 
 	e_shell_settings_install_property_for_key (
 		"composer-no-signature-delim",
-		"/apps/evolution/mail/composer/no_signature_delim");
+		MAIL_SCHEMA,
+		"composer-no-signature-delim");
 
 	e_shell_settings_install_property_for_key (
 		"composer-gallery-path",
-		"/apps/evolution/mail/composer/gallery_path");
+		MAIL_SCHEMA,
+		"composer-gallery-path");
 
 	e_shell_settings_install_property_for_key (
 		"paned-view-headers-state",
-		"/apps/evolution/mail/display/paned_view_headers_state");
+		MAIL_SCHEMA,
+		"paned-view-headers-state");
 
 	/* These properties use transform functions to convert
 	 * GConf values to forms more useful to Evolution.  We

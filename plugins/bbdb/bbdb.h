@@ -22,14 +22,14 @@
 #define __BBDB_H__
 
 /* Where to store the config values */
-#define GCONF_ROOT_PATH			  "/apps/evolution/autocontacts"
-#define GCONF_KEY_ENABLE		  GCONF_ROOT_PATH "/enable_autocontacts"
-#define GCONF_KEY_ENABLE_GAIM		  GCONF_ROOT_PATH "/auto_sync_gaim"
-#define GCONF_KEY_WHICH_ADDRESSBOOK	  GCONF_ROOT_PATH "/addressbook_source"
-#define GCONF_KEY_WHICH_ADDRESSBOOK_GAIM  GCONF_ROOT_PATH "/gaim_addressbook_source"
-#define GCONF_KEY_GAIM_LAST_SYNC_TIME	  GCONF_ROOT_PATH "/gaim_last_sync_time"
-#define GCONF_KEY_GAIM_LAST_SYNC_MD5	  GCONF_ROOT_PATH "/gaim_last_sync_md5"
-#define GCONF_KEY_GAIM_CHECK_INTERVAL	  GCONF_ROOT_PATH "/gaim_check_interval"
+#define CONF_SCHEMA                     "org.gnome.evolution.plugin.autocontacts" 
+#define CONF_KEY_ENABLE		        "enable"
+#define CONF_KEY_ENABLE_GAIM		"auto-sync-gaim"
+#define CONF_KEY_WHICH_ADDRESSBOOK	"addressbook-source"
+#define CONF_KEY_WHICH_ADDRESSBOOK_GAIM "gaim-addressbook-source"
+#define CONF_KEY_GAIM_LAST_SYNC_TIME	"gaim-last-sync-time"
+#define CONF_KEY_GAIM_LAST_SYNC_MD5	"gaim-last-sync-md5"
+#define CONF_KEY_GAIM_CHECK_INTERVAL	"gaim-check-interval"
 
 /* How often to poll the buddy list for changes (every two minutes is default) */
 #define BBDB_BLIST_DEFAULT_CHECK_INTERVAL (2 * 60)

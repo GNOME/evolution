@@ -29,7 +29,6 @@
 #include <time.h>
 #include <glib.h>
 
-
 typedef void (* AlarmFunction) (gpointer alarm_id, time_t trigger, gpointer data);
 typedef void (* AlarmDestroyNotify) (gpointer alarm_id, gpointer data);
 

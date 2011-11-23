@@ -112,12 +112,12 @@ get_md5_as_string (const gchar *filename)
 void
 bbdb_sync_buddy_list_check (void)
 {
-	GConfClient *gconf;
 	struct stat statbuf;
 	time_t last_sync_time;
 	gchar *md5;
 	gchar *blist_path;
 	gchar *last_sync_str;
+	GSettings *settings = g_settings_new (CONF_SCHEMA);
 
 	blist_path = get_buddy_filename ();
 	if (stat (blist_path, &statbuf) < 0) {
@@ -125,11 +125,8 @@ bbdb_sync_buddy_list_check (void)
 		return;
 	}
 
-	gconf = gconf_client_get_default ();
-
 	/* Reprocess the buddy list if it's been updated. */
-	last_sync_str = gconf_client_get_string (
-		gconf, GCONF_KEY_GAIM_LAST_SYNC_TIME, NULL);
+	last_sync_str = g_settings_get_string (settings, CONF_KEY_GAIM_LAST_SYNC_TIME);
 	if (last_sync_str == NULL || !strcmp ((const gchar *)last_sync_str, ""))
 		last_sync_time = (time_t) 0;
 	else
@@ -138,15 +135,15 @@ bbdb_sync_buddy_list_check (void)
 	g_free (last_sync_str);
 
 	if (statbuf.st_mtime <= last_sync_time) {
-		g_object_unref (G_OBJECT (gconf));
+		g_object_unref (G_OBJECT (settings));
 		g_free (blist_path);
 		return;
 	}
 
-	last_sync_str = gconf_client_get_string (
-		gconf, GCONF_KEY_GAIM_LAST_SYNC_MD5, NULL);
+	last_sync_str = g_settings_get_string (
+		settings, CONF_KEY_GAIM_LAST_SYNC_MD5);
 
-	g_object_unref (gconf);
+	g_object_unref (settings);
 
 	md5 = get_md5_as_string (blist_path);
 
@@ -164,7 +161,7 @@ bbdb_sync_buddy_list_check (void)
 static gboolean
 store_last_sync_idle_cb (gpointer data)
 {
-	GConfClient *gconf;
+	GSettings *settings;
 	gchar *md5;
 	gchar *blist_path = get_buddy_filename ();
 	time_t last_sync;
@@ -175,13 +172,13 @@ store_last_sync_idle_cb (gpointer data)
 
 	md5 = get_md5_as_string (blist_path);
 
-	gconf = gconf_client_get_default ();
-	gconf_client_set_string (
-		gconf, GCONF_KEY_GAIM_LAST_SYNC_TIME, last_sync_time, NULL);
-	gconf_client_set_string (
-		gconf, GCONF_KEY_GAIM_LAST_SYNC_MD5, md5, NULL);
+	settings = g_settings_new (CONF_SCHEMA);
+	g_settings_set_string (
+		settings, CONF_KEY_GAIM_LAST_SYNC_TIME, last_sync_time);
+	g_settings_set_string (
+		settings, CONF_KEY_GAIM_LAST_SYNC_MD5, md5);
 
-	g_object_unref (G_OBJECT (gconf));
+	g_object_unref (G_OBJECT (settings));
 
 	g_free (last_sync_time);
 	g_free (blist_path);

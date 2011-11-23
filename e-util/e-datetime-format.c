@@ -664,7 +664,9 @@ e_datetime_format_format_tm (const gchar *component,
 }
 
 gboolean
-e_datetime_format_includes_day_name (const gchar *component, const gchar *part, DTFormatKind kind)
+e_datetime_format_includes_day_name (const gchar *component,
+                                     const gchar *part,
+                                     DTFormatKind kind)
 {
 	gchar *key;
 	const gchar *fmt;

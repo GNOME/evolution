@@ -28,7 +28,6 @@
 #include <glib/gi18n.h>
 
 #include "e-util/e-selection.h"
-#include "e-util/gconf-bridge.h"
 #include "shell/e-shell-utils.h"
 #include "widgets/misc/e-paned.h"
 #include "widgets/misc/e-preview-pane.h"
@@ -82,23 +81,18 @@ book_shell_content_restore_state_cb (EShellWindow *shell_window,
                                      EShellContent *shell_content)
 {
 	EBookShellContentPrivate *priv;
-	GConfBridge *bridge;
-	GObject *object;
-	const gchar *key;
+	GSettings *settings;
 
 	priv = E_BOOK_SHELL_CONTENT (shell_content)->priv;
 
-	/* Bind GObject properties to GConf keys. */
+	/* Bind GObject properties to GSettings keys. */
 
-	bridge = gconf_bridge_get ();
+	settings = g_settings_new ("org.gnome.evolution.addressbook");
 
-	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/addressbook/display/hpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "hposition");
+	g_settings_bind (settings, "hpane-position", priv->paned, "hposition", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (settings, "vpane-position", priv->paned, "vposition", G_SETTINGS_BIND_DEFAULT);
 
-	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/addressbook/display/vpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
+	g_object_unref (settings);
 }
 
 static GtkOrientation

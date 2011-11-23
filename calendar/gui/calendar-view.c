@@ -28,7 +28,6 @@
 
 #include "calendar-view.h"
 
-
 /* Private part of the CalendarView structure */
 struct _CalendarViewPrivate {
 	/* Type of the view */

@@ -638,6 +638,22 @@ week_view_cursor_key_right (EWeekView *week_view)
 }
 
 static void
+month_scrol_by_week_changed_cb (GSettings *settings,
+                                const gchar *key,
+                                gpointer user_data)
+{
+	EWeekView *week_view = user_data;
+
+	g_return_if_fail (week_view != NULL);
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	if (week_view->multi_week_view && week_view->month_scroll_by_week != calendar_config_get_month_scroll_by_week ()) {
+		week_view->multi_week_view = FALSE;
+		e_week_view_set_multi_week_view	(week_view, TRUE);
+	}
+}
+
+static void
 e_week_view_class_init (EWeekViewClass *class)
 {
 	GObjectClass *object_class;
@@ -895,10 +911,7 @@ e_week_view_dispose (GObject *object)
 		week_view->resize_width_cursor = NULL;
 	}
 
-	if (week_view->scroll_by_week_notif_id) {
-		calendar_config_remove_notification (week_view->scroll_by_week_notif_id);
-		week_view->scroll_by_week_notif_id = 0;
-	}
+	calendar_config_remove_notification (month_scrol_by_week_changed_cb, week_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_week_view_parent_class)->dispose (object);
@@ -1875,23 +1888,6 @@ e_week_view_recalc_day_starts (EWeekView *week_view,
 	}
 }
 
-static void
-month_scrol_by_week_changed_cb (GConfClient *client,
-                                guint cnxn_id,
-                                GConfEntry *entry,
-                                gpointer user_data)
-{
-	EWeekView *week_view = user_data;
-
-	g_return_if_fail (week_view != NULL);
-	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-
-	if (week_view->multi_week_view && week_view->month_scroll_by_week != calendar_config_get_month_scroll_by_week ()) {
-		week_view->multi_week_view = FALSE;
-		e_week_view_set_multi_week_view	(week_view, TRUE);
-	}
-}
-
 gboolean
 e_week_view_get_multi_week_view (EWeekView *week_view)
 {
@@ -1919,8 +1915,7 @@ e_week_view_set_multi_week_view (EWeekView *week_view,
 		gtk_widget_show (week_view->titles_canvas);
 		week_view->month_scroll_by_week = calendar_config_get_month_scroll_by_week ();
 
-		if (!week_view->scroll_by_week_notif_id)
-			week_view->scroll_by_week_notif_id = calendar_config_add_notification_month_scroll_by_week (month_scrol_by_week_changed_cb, week_view);
+		calendar_config_add_notification_month_scroll_by_week (month_scrol_by_week_changed_cb, week_view);
 
 		if (week_view->month_scroll_by_week) {
 			page_increment = 1;
@@ -1934,7 +1929,7 @@ e_week_view_set_multi_week_view (EWeekView *week_view,
 		page_increment = page_size = 1;
 
 		if (week_view->scroll_by_week_notif_id) {
-			calendar_config_remove_notification (week_view->scroll_by_week_notif_id);
+			calendar_config_remove_notification (month_scrol_by_week_changed_cb, week_view);
 			week_view->scroll_by_week_notif_id = 0;
 		}
 	}

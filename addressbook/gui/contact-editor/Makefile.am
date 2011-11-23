@@ -34,6 +34,7 @@ libecontacteditor_la_LIBADD =						\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la	\
 	$(top_builddir)/addressbook/printing/libecontactprint.la	\
 	$(top_builddir)/widgets/menus/libmenus.la			\
+	$(EVOLUTION_ADDRESSBOOK_LIBS)					\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)
 

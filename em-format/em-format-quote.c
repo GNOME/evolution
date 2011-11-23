@@ -28,7 +28,6 @@
 #include <string.h>
 
 #include <glib/gi18n.h>
-#include <gconf/gconf-client.h>
 
 #include "em-inline-filter.h"
 #include "em-stripsig-filter.h"
@@ -88,7 +87,7 @@ emfq_format_clone (EMFormat *emf,
 {
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
 	const EMFormatHandler *handle;
-	GConfClient *gconf;
+	GSettings *settings;
 
 	/* Chain up to parent's format_clone() method. */
 	EM_FORMAT_CLASS (parent_class)->format_clone (
@@ -98,12 +97,12 @@ emfq_format_clone (EMFormat *emf,
 		G_SEEKABLE (emfq->priv->stream),
 		0, G_SEEK_SET, NULL, NULL);
 
-	gconf = gconf_client_get_default ();
-	if (gconf_client_get_bool (
-		gconf, "/apps/evolution/mail/composer/top_signature", NULL))
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	if (g_settings_get_boolean (
+		settings, "composer-top-signature"))
 		camel_stream_write_string (
 			emfq->priv->stream, "<br>\n", cancellable, NULL);
-	g_object_unref (gconf);
+	g_object_unref (settings);
 	handle = em_format_find_handler(emf, "x-evolution/message/prefix");
 	if (handle)
 		handle->handler (

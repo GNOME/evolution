@@ -24,7 +24,6 @@
 #ifndef __EAB_CONFIG_H__
 #define __EAB_CONFIG_H__
 
-#include <gconf/gconf-client.h>
 #include <libedataserver/e-source.h>
 #include "e-util/e-config.h"
 
@@ -65,8 +64,8 @@ typedef struct _EABConfigTargetPrefs EABConfigTargetPrefs;
 struct _EABConfigTargetPrefs {
 	EConfigTarget target;
 
-	/* preferences are global from gconf */
-	GConfClient *gconf;
+	/* preferences are global from GSettings */
+	GSettings *settings;
 };
 
 typedef struct _EConfigItem EABConfigItem;
@@ -75,7 +74,7 @@ GType eab_config_get_type (void);
 EABConfig *eab_config_new (gint type, const gchar *menuid);
 
 EABConfigTargetSource *eab_config_target_new_source (EABConfig *ecp, ESource *source);
-EABConfigTargetPrefs *eab_config_target_new_prefs (EABConfig *ecp, GConfClient *gconf);
+EABConfigTargetPrefs *eab_config_target_new_prefs (EABConfig *ecp, GSettings *settings);
 
 G_END_DECLS
 

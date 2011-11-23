@@ -153,25 +153,23 @@ create_system_thumbnail (EAttachment *attachment,
 static gchar *
 attachment_get_default_charset (void)
 {
-	GConfClient *client;
-	const gchar *key;
+	GSettings *settings;
 	gchar *charset;
 
 	/* XXX This doesn't really belong here. */
 
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/mail/composer/charset";
-	charset = gconf_client_get_string (client, key, NULL);
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	charset = g_settings_get_string (settings, "composer-charset");
 	if (charset == NULL || *charset == '\0') {
 		g_free (charset);
-		key = "/apps/evolution/mail/format/charset";
-		charset = gconf_client_get_string (client, key, NULL);
+		/* FIXME: this was "/apps/evolution/mail/format/charset", not sure it relates to "charset" */
+		charset = g_settings_get_string (settings, "charset");
 		if (charset == NULL || *charset == '\0') {
 			g_free (charset);
 			charset = NULL;
 		}
 	}
-	g_object_unref (client);
+	g_object_unref (settings);
 
 	if (charset == NULL)
 		charset = g_strdup (camel_iconv_locale_charset ());

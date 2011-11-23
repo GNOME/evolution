@@ -39,7 +39,6 @@
 #include "shell/e-shell-window.h"
 #include "shell/e-shell-view.h"
 
-
 /**
  * cal_comp_util_add_exdate:
  * @comp: A calendar component object.

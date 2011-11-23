@@ -385,7 +385,7 @@ add_source_list_with_check (GtkWidget *frame,
                             EClientSourceType source_type,
                             GCallback toggle_callback,
                             EImportTarget *target,
-			    gboolean active)
+                            gboolean active)
 {
 	GtkWidget *check, *hbox;
 	ESourceList *source_list = NULL;
@@ -1128,7 +1128,10 @@ dequote_string (gchar *str)
 }
 
 static gboolean
-lookup_address (pst_item *item, const gchar *str, gboolean is_unique, CamelAddress *addr)
+lookup_address (pst_item *item,
+                const gchar *str,
+                gboolean is_unique,
+                CamelAddress *addr)
 {
 	gboolean res = FALSE;
 	gchar *address;
@@ -1983,7 +1986,7 @@ static void
 pst_process_component (PstImporter *m,
                        pst_item *item,
                        const gchar *comp_type,
-		       ECalComponentVType vtype,
+                       ECalComponentVType vtype,
                        ECalClient *cal)
 {
 	ECalComponent *ec;

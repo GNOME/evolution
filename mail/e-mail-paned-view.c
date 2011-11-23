@@ -30,7 +30,6 @@
 #include <libedataserver/e-data-server-util.h>
 
 #include "e-util/e-util-private.h"
-#include "e-util/gconf-bridge.h"
 #include "widgets/menus/gal-view-etable.h"
 #include "widgets/menus/gal-view-instance.h"
 #include "widgets/misc/e-paned.h"
@@ -219,21 +218,23 @@ mail_paned_view_restore_state_cb (EShellWindow *shell_window,
                                   EShellView *shell_view,
                                   EMailPanedView *view)
 {
-	GConfBridge *bridge;
+	EMailPanedViewPrivate *priv;
+	GSettings *settings;
 	GObject *object;
-	const gchar *key;
 
-	/* Bind GObject properties to GConf keys. */
+	priv = E_MAIL_PANED_VIEW (view)->priv;
 
-	bridge = gconf_bridge_get ();
+	/* Bind GObject properties to GSettings keys. */
 
-	object = G_OBJECT (view->priv->paned);
-	key = "/apps/evolution/mail/display/hpaned_size";
-	gconf_bridge_bind_property (bridge, key, object, "hposition");
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	object = G_OBJECT (view->priv->paned);
-	key = "/apps/evolution/mail/display/paned_size";
-	gconf_bridge_bind_property (bridge, key, object, "vposition");
+	object = G_OBJECT (priv->paned);
+	g_settings_bind (settings, "hpaned-size", object, "hposition", G_SETTINGS_BIND_DEFAULT);
+
+	object = G_OBJECT (priv->paned);
+	g_settings_bind (settings, "paned-size", object, "vposition", G_SETTINGS_BIND_DEFAULT);
+
+	g_object_unref (settings);
 }
 
 static void

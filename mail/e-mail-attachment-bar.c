@@ -27,8 +27,6 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/gconf-bridge.h"
-
 #include "e-attachment-store.h"
 #include "e-attachment-icon-view.h"
 #include "e-attachment-tree-view.h"
@@ -272,12 +270,9 @@ static void
 mail_attachment_bar_constructed (GObject *object)
 {
 	EMailAttachmentBarPrivate *priv;
-	GConfBridge *bridge;
-	const gchar *key;
+	GSettings *settings;
 
 	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (object);
-
-	bridge = gconf_bridge_get ();
 
 	/* Set up property-to-property bindings. */
 
@@ -329,10 +324,10 @@ mail_attachment_bar_constructed (GObject *object)
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	/* Set up property-to-GConf bindings. */
-
-	key = "/apps/evolution/shell/attachment_view";
-	gconf_bridge_bind_property (bridge, key, object, "active-view");
+	/* Set up property-to-GSettings bindings. */
+	settings = g_settings_new ("org.gnome.evolution.shell");
+	g_settings_bind (settings, "attachment-view", object, "active-view", G_SETTINGS_BIND_DEFAULT);
+	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_attachment_bar_parent_class)->constructed (object);

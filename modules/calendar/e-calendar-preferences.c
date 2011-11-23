@@ -329,13 +329,13 @@ static void
 notify_with_tray_toggled (GtkToggleButton *toggle,
                           ECalendarPreferences *prefs)
 {
-	GConfClient *gconf;
+	GSettings *settings;
 
 	g_return_if_fail (toggle != NULL);
 
-	gconf = gconf_client_get_default ();
-	gconf_client_set_bool (gconf, "/apps/evolution/calendar/notify/notify_with_tray", gtk_toggle_button_get_active (toggle), NULL);
-	g_object_unref (gconf);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+	g_settings_set_boolean (settings, "notify-with-tray", gtk_toggle_button_get_active (toggle));
+	g_object_unref (settings);
 }
 
 static void
@@ -454,7 +454,7 @@ initialize_selection (ESourceSelector *selector,
 static void
 show_alarms_config (ECalendarPreferences *prefs)
 {
-	GConfClient *gconf;
+	GSettings *settings;
 
 	if (e_cal_client_get_sources (&prefs->alarms_list, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL)) {
 		prefs->alarm_list_widget = e_source_selector_new (prefs->alarms_list);
@@ -464,9 +464,9 @@ show_alarms_config (ECalendarPreferences *prefs)
 		initialize_selection (E_SOURCE_SELECTOR (prefs->alarm_list_widget), prefs->alarms_list);
 	}
 
-	gconf = gconf_client_get_default ();
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->notify_with_tray), gconf_client_get_bool (gconf, "/apps/evolution/calendar/notify/notify_with_tray", NULL));
-	g_object_unref (gconf);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->notify_with_tray), g_settings_get_boolean (settings, "notify-with-tray"));
+	g_object_unref (settings);
 }
 
 /* Shows the current config settings in the dialog. */

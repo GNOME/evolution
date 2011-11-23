@@ -1,0 +1,9 @@
+<schemalist>
+  <schema gettext-domain="evolution" id="org.gnome.evolution.plugin.itip" path="/org/gnome/evolution/plugin/itip/">
+     <key name="delete-processed" type="b">
+      <default>false</default>
+      <_summary>Delete processed</_summary>
+      <_description>Whether to delete processed iTip objects</_description>
+    </key>
+  </schema>
+</schemalist>

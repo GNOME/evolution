@@ -650,18 +650,24 @@ e_task_shell_backend_get_source_list (ETaskShellBackend *task_shell_backend)
 GSList *
 e_task_shell_backend_get_selected_task_lists (ETaskShellBackend *task_shell_backend)
 {
-	GConfClient *client;
-	GSList *selected_task_lists;
-	const gchar *key;
+	GSettings *settings;
+	GSList *selected_task_lists = NULL;
+	gchar **strv;
+	gint ii;
 
 	g_return_val_if_fail (
 		E_IS_TASK_SHELL_BACKEND (task_shell_backend), NULL);
 
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/calendar/tasks/selected_tasks";
-	selected_task_lists = gconf_client_get_list (
-		client, key, GCONF_VALUE_STRING, NULL);
-	g_object_unref (client);
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+	strv = g_settings_get_strv (settings, "selected-tasks");
+	g_object_unref (G_OBJECT (settings));
+
+	if (strv != NULL) {
+		for (ii = 0; strv[ii] != NULL; ii++)
+			selected_task_lists = g_slist_append (selected_task_lists, g_strdup (strv[ii]));
+
+		g_strfreev (strv);
+	}
 
 	return selected_task_lists;
 }
@@ -670,14 +676,19 @@ void
 e_task_shell_backend_set_selected_task_lists (ETaskShellBackend *task_shell_backend,
                                               GSList *selected_task_lists)
 {
-	GConfClient *client;
-	const gchar *key;
+	GSettings *settings;
+	GSList *link;
+	GPtrArray *array = g_ptr_array_new ();
 
 	g_return_if_fail (E_IS_TASK_SHELL_BACKEND (task_shell_backend));
 
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/calendar/tasks/selected_tasks";
-	gconf_client_set_list (
-		client, key, GCONF_VALUE_STRING, selected_task_lists, NULL);
-	g_object_unref (client);
+	for (link = selected_task_lists; link != NULL; link = link->next)
+		g_ptr_array_add (array, link->data);
+	g_ptr_array_add (array, NULL);
+
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+	g_settings_set_strv (settings, "selected-tasks", (const gchar *const *) array->pdata);
+	g_object_unref (settings);
+
+	g_ptr_array_free (array, FALSE);
 }

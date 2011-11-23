@@ -28,8 +28,6 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-#include <gconf/gconf-client.h>
-
 #include <e-util/e-util.h>
 #include <e-util/e-config.h>
 #include <mail/em-config.h>
@@ -45,11 +43,11 @@
 #include "widgets/misc/e-attachment-view.h"
 #include "widgets/misc/e-attachment-store.h"
 
-#define GCONF_KEY_ATTACH_REMINDER_CLUES "/apps/evolution/mail/attachment_reminder_clues"
+#define CONF_KEY_ATTACH_REMINDER_CLUES "attachment-reminder-clues"
 #define SIGNATURE "-- "
 
 typedef struct {
-	GConfClient *gconf;
+	GSettings   *settings;
 	GtkWidget   *treeview;
 	GtkWidget   *clue_add;
 	GtkWidget   *clue_edit;
@@ -147,21 +145,22 @@ static gboolean
 check_for_attachment_clues (gchar *msg)
 {
 	/* TODO : Add more strings. RegEx ??? */
-	GConfClient *gconf;
-	GSList *clue_list = NULL, *list;
+	GSettings *settings;
+	gchar **clue_list;
+	gint i;
 	gboolean ret_val = FALSE;
 	guint msg_length;
 
-	gconf = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.plugin.attachment-reminder");
 
-	/* Get the list from gconf */
-	clue_list = gconf_client_get_list ( gconf, GCONF_KEY_ATTACH_REMINDER_CLUES, GCONF_VALUE_STRING, NULL );
+	/* Get the list from GSettings */
+	clue_list = g_settings_get_strv (settings, CONF_KEY_ATTACH_REMINDER_CLUES);
 
-	g_object_unref (gconf);
+	g_object_unref (settings);
 
 	msg_length = strlen (msg);
-	for (list = clue_list; list && !ret_val; list = g_slist_next (list)) {
-		gchar *needle = g_utf8_strdown (list->data, -1);
+	for (i = 0; clue_list[i] != NULL; i++) {
+		gchar *needle = g_utf8_strdown (clue_list[i], -1);
 		if (g_strstr_len (msg, msg_length, needle)) {
 			ret_val = TRUE;
 		}
@@ -169,8 +168,7 @@ check_for_attachment_clues (gchar *msg)
 	}
 
 	if (clue_list) {
-		g_slist_foreach (clue_list, (GFunc) g_free, NULL);
-		g_slist_free (clue_list);
+		g_strfreev (clue_list);
 	}
 
 	return ret_val;
@@ -221,13 +219,15 @@ static void
 commit_changes (UIData *ui)
 {
 	GtkTreeModel *model = NULL;
-	GSList *clue_list = NULL;
+	GVariantBuilder b;
+	GVariant *v;
 	GtkTreeIter iter;
 	gboolean valid;
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 
+	g_variant_builder_init (&b, G_VARIANT_TYPE ("as"));
 	while (valid) {
 		gchar *keyword;
 
@@ -236,14 +236,14 @@ commit_changes (UIData *ui)
 
 		/* Check if the keyword is not empty */
 		if ((keyword) && (g_utf8_strlen (g_strstrip (keyword), -1) > 0))
-			clue_list = g_slist_append (clue_list, keyword);
+			g_variant_builder_add (&b, "s", keyword);
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 
-	gconf_client_set_list (ui->gconf, GCONF_KEY_ATTACH_REMINDER_CLUES, GCONF_VALUE_STRING, clue_list, NULL);
+	v = g_variant_builder_end (&b);
+	g_settings_set_value (ui->settings, CONF_KEY_ATTACH_REMINDER_CLUES, v);
 
-	g_slist_foreach (clue_list, (GFunc) g_free, NULL);
-	g_slist_free (clue_list);
+	g_variant_unref (v);
 }
 
 static void
@@ -388,7 +388,7 @@ destroy_ui_data (gpointer data)
 	if (!ui)
 		return;
 
-	g_object_unref (ui->gconf);
+	g_object_unref (ui->settings);
 	g_free (ui);
 }
 
@@ -398,9 +398,9 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 	GtkCellRenderer *renderer;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
-	GConfClient *gconf = gconf_client_get_default ();
 	GtkWidget *hbox;
-	GSList *clue_list = NULL, *list;
+	gchar **clue_list;
+	gint i;
 
 	GtkWidget *reminder_configuration_box;
 	GtkWidget *clue_container;
@@ -452,7 +452,7 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_remove);
 	gtk_widget_set_can_default (clue_remove, TRUE);
 
-	ui->gconf = gconf_client_get_default ();
+	ui->settings = g_settings_new ("org.gnome.evolution.plugin.attachment-reminder");
 
 	ui->treeview = clue_treeview;
 
@@ -495,17 +495,16 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 		G_CALLBACK (clue_edit_clicked), ui);
 	gtk_widget_set_sensitive (ui->clue_edit, FALSE);
 
-	/* Populate tree view with values from gconf */
-	clue_list = gconf_client_get_list ( gconf, GCONF_KEY_ATTACH_REMINDER_CLUES, GCONF_VALUE_STRING, NULL );
+	/* Populate tree view with values from GSettings */
+	clue_list = g_settings_get_strv (ui->settings, CONF_KEY_ATTACH_REMINDER_CLUES);
 
-	for (list = clue_list; list; list = g_slist_next (list)) {
+	for (i = 0; clue_list[i] != NULL; i++) {
 		gtk_list_store_append (ui->store, &iter);
-		gtk_list_store_set (ui->store, &iter, CLUE_KEYWORD_COLUMN, list->data, -1);
+		gtk_list_store_set (ui->store, &iter, CLUE_KEYWORD_COLUMN, clue_list[i], -1);
 	}
 
 	if (clue_list) {
-		g_slist_foreach (clue_list, (GFunc) g_free, NULL);
-		g_slist_free (clue_list);
+		g_strfreev (clue_list);
 	}
 
 	/* Add the list here */

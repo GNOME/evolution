@@ -266,7 +266,7 @@ autocompletion_config_new (EPreferencesWindow *window)
 	EShell *shell;
 	EABConfig *eab;
 	EABConfigTargetPrefs *target;
-	GConfClient *gconf;
+	GSettings *settings;
 
 	shell = e_preferences_window_get_shell (window);
 
@@ -291,14 +291,14 @@ autocompletion_config_new (EPreferencesWindow *window)
 		l = g_slist_prepend (l, &acc_items[ii]);
 	e_config_add_items ((EConfig *) eab, l, acc_free, shell);
 
-	gconf = gconf_client_get_default ();
+	settings = g_settings_new ("org.gnome.evolution.addressbook");
 
-	target = eab_config_target_new_prefs (eab, gconf);
+	target = eab_config_target_new_prefs (eab, settings);
 	e_config_set_target ((EConfig *) eab, (EConfigTarget *) target);
 	toplevel = e_config_create_widget ((EConfig *) eab);
 	gtk_box_pack_start (GTK_BOX (vbox), toplevel, TRUE, TRUE, 0);
 
-	g_object_unref (gconf);
+	g_object_unref (settings);
 
 	return vbox;
 }

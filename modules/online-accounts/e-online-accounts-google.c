@@ -144,7 +144,7 @@ online_accounts_google_sync_mail (GoaObject *goa_object,
 
 	if (account) {
 		/* the account is already configured,
-		   do not change user's changes */
+		 * do not change user's changes */
 		return;
 	}
 

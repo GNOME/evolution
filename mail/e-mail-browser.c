@@ -542,7 +542,7 @@ mail_browser_constructed (GObject *object)
 	EShell *shell;
 	EFocusTracker *focus_tracker;
 	ESearchBar *search_bar;
-	GConfBridge *bridge;
+	GSettings *settings;
 	GtkAccelGroup *accel_group;
 	GtkActionGroup *action_group;
 	GtkAction *action;
@@ -551,7 +551,6 @@ mail_browser_constructed (GObject *object)
 	GtkWidget *widget;
 	EWebView *web_view;
 	const gchar *domain;
-	const gchar *key;
 	const gchar *id;
 	guint merge_id;
 
@@ -698,13 +697,13 @@ mail_browser_constructed (GObject *object)
 		G_CALLBACK (em_format_queue_redraw),
 		browser->priv->formatter);
 
-	/* Bind GObject properties to GConf keys. */
+	/* Bind GObject properties to GSettings keys. */
 
-	bridge = gconf_bridge_get ();
+	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	object = G_OBJECT (reader);
-	key = "/apps/evolution/mail/display/show_deleted";
-	gconf_bridge_bind_property (bridge, key, object, "show-deleted");
+	g_settings_bind (settings, "show-deleted", object, "show-deleted", G_SETTINGS_BIND_DEFAULT);
+	g_object_unref (settings);
 
 	id = "org.gnome.evolution.mail.browser";
 	e_plugin_ui_register_manager (ui_manager, id, object);

@@ -1,0 +1,9 @@
+<schemalist>
+  <schema gettext-domain="evolution" id="org.gnome.evolution.bogofilter" path="/org/gnome/evolution/bogofilter/">
+    <key name="utf8-for-spam-filter" type="b">
+      <default>true</default>
+      <_summary>Convert mail messages to Unicode</_summary>
+      <_description>Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from different character sets.</_description>
+    </key>
+  </schema>
+</schemalist>

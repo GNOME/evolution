@@ -23,7 +23,6 @@
 
 #include <camel/camel.h>
 
-#include <e-util/gconf-bridge.h>
 #include <mail/e-mail-junk-filter.h>
 
 /* Standard GObject macros */
@@ -505,10 +504,14 @@ e_bogofilter_interface_init (CamelJunkFilterInterface *interface)
 static void
 e_bogofilter_init (EBogofilter *extension)
 {
-	gconf_bridge_bind_property (
-		gconf_bridge_get (),
-		"/apps/evolution/mail/junk/bogofilter/unicode",
-		G_OBJECT (extension), "convert-to-unicode");
+	GSettings *settings;
+
+	settings = g_settings_new ("org.gnome.evolution.bogofilter");
+	g_settings_bind (
+		settings, "utf8-for-spam-filter",
+		G_OBJECT (extension), "convert-to-unicode",
+		G_SETTINGS_BIND_DEFAULT);
+	g_object_unref (settings);
 }
 
 G_MODULE_EXPORT void

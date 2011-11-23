@@ -38,9 +38,6 @@
 
 #include "es-event.h"
 
-#define GCONF_VERSION_KEY	"/apps/evolution/version"
-#define GCONF_LAST_VERSION_KEY	"/apps/evolution/last_version"
-
 /******************** Begin XDG Base Directory Migration ********************/
 /* These are the known EShellBackend names as of Evolution 3.0 */
 static const gchar *shell_backend_names[] =
@@ -735,23 +732,23 @@ shell_migrate_get_version (EShell *shell,
                            gint *minor,
                            gint *micro)
 {
-	GConfClient *client;
-	const gchar *key;
+	GSettings *settings;
 	gchar *string;
 
 	*major = 0;
 	*minor = 0;
 	*micro = 0;
 
-	key = GCONF_VERSION_KEY;
-	client = e_shell_get_gconf_client (shell);
-	string = gconf_client_get_string (client, key, NULL);
+	settings = g_settings_new ("org.gnome.evolution");
+	string = g_settings_get_string (settings, "version");
 
 	if (string != NULL) {
 		/* Since 1.4.0 we've kept the version key in GConf. */
 		sscanf (string, "%d.%d.%d", major, minor, micro);
 		g_free (string);
 	}
+
+	g_object_unref (settings);
 }
 
 static void
@@ -902,8 +899,8 @@ gboolean
 e_shell_migrate_attempt (EShell *shell)
 {
 	ESEvent *ese;
+	GSettings *settings;
 	GConfClient *client;
-	const gchar *key;
 	gint major, minor, micro;
 	gint last_major, last_minor, last_micro;
 	gint curr_major, curr_minor, curr_micro;
@@ -912,7 +909,7 @@ e_shell_migrate_attempt (EShell *shell)
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
-	client = e_shell_get_gconf_client (shell);
+	settings = g_settings_new ("org.gnome.evolution");
 
 	if (sscanf (BASE_VERSION, "%d.%d", &curr_major, &curr_minor) != 2) {
 		g_warning ("Could not parse BASE_VERSION (%s)", BASE_VERSION);
@@ -938,22 +935,23 @@ e_shell_migrate_attempt (EShell *shell)
 
 	/* The 2.32.x (except of 2.32.2) lefts duplicate On This Computer/Personal sources,
 	 * thus clean the mess up */
+	client = gconf_client_get_default ();
 	merge_duplicate_local_sources (client, "/apps/evolution/addressbook/sources");
 	merge_duplicate_local_sources (client, "/apps/evolution/calendar/sources");
 	merge_duplicate_local_sources (client, "/apps/evolution/tasks/sources");
 	merge_duplicate_local_sources (client, "/apps/evolution/memos/sources");
+	g_object_unref (client);
 
 	/* Record a successful migration. */
 	string = g_strdup_printf (
 		"%d.%d.%d", curr_major, curr_minor, curr_micro);
-	gconf_client_set_string (client, GCONF_VERSION_KEY, string, NULL);
+	g_settings_set_string (settings, "version", string);
 	g_free (string);
 
 	migrated = TRUE;
-	key = GCONF_LAST_VERSION_KEY;
 
-	/* Try to retrieve the last migrated version from GConf. */
-	string = gconf_client_get_string (client, key, NULL);
+	/* Try to retrieve the last migrated version from GSettings. */
+	string = g_settings_get_string (settings, "last-upgraded-version");
 	if (migrated || string == NULL || sscanf (string, "%d.%d.%d",
 		&last_major, &last_minor, &last_micro) != 3) {
 		last_major = major;
@@ -964,8 +962,10 @@ e_shell_migrate_attempt (EShell *shell)
 
 	string = g_strdup_printf (
 		"%d.%d.%d", last_major, last_minor, last_micro);
-	gconf_client_set_string (client, key, string, NULL);
+	g_settings_set_string (settings, "last-upgraded-version", string);
 	g_free (string);
+
+	g_object_unref (settings);
 
 	/** @Event: Shell attempted upgrade
 	 * @Id: upgrade.done

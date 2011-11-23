@@ -25,8 +25,6 @@
 
 #include <glib/gi18n.h>
 
-#include <gconf/gconf-client.h>
-
 #include <libebackend/e-module.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-xml-utils.h>
@@ -73,7 +71,7 @@ static GHashTable *ep_types;
 static GSList *ep_path;
 /* global table of plugins by plugin.id */
 static GHashTable *ep_plugins;
-/* the list of disabled plugins from gconf */
+/* the list of disabled plugins from GSettings */
 static GSList *ep_disabled;
 
 /* All classes which implement EPluginHooks, by class.id */
@@ -108,7 +106,9 @@ static void
 ep_set_enabled (const gchar *id,
                 gint state)
 {
-	GConfClient *client;
+	GSettings *settings;
+	GSList *link;
+	GPtrArray *array;
 
 	/* Bail out if no change to state, when expressed as a boolean: */
 	if ((state == 0) == (ep_check_enabled (id) == 0))
@@ -126,11 +126,16 @@ ep_set_enabled (const gchar *id,
 	} else
 		ep_disabled = g_slist_prepend (ep_disabled, g_strdup (id));
 
-	client = gconf_client_get_default ();
-	gconf_client_set_list (
-		client, "/apps/evolution/eplugin/disabled",
-		GCONF_VALUE_STRING, ep_disabled, NULL);
-	g_object_unref (client);
+	settings = g_settings_new ("org.gnome.evolution");
+	array = g_ptr_array_new ();
+	for (link = ep_disabled; link != NULL; link = link->next)
+		g_ptr_array_add (array, link->data);
+	g_ptr_array_add (array, NULL);
+	g_settings_set_strv (
+		settings, "disabled-eplugins",
+		(const gchar * const *) array->pdata);
+	g_ptr_array_free (array, TRUE);
+	g_object_unref (settings);
 }
 
 static gint
@@ -523,8 +528,9 @@ plugin_hook_load_subclass (GType type,
 gint
 e_plugin_load_plugins (void)
 {
-	GConfClient *client;
+	GSettings *settings;
 	GSList *l;
+	gchar **strv;
 	gint i;
 
 	if (eph_types != NULL)
@@ -544,11 +550,12 @@ e_plugin_load_plugins (void)
 		E_TYPE_PLUGIN_HOOK, (ETypeFunc)
 		plugin_hook_load_subclass, eph_types);
 
-	client = gconf_client_get_default ();
-	ep_disabled = gconf_client_get_list (
-		client, "/apps/evolution/eplugin/disabled",
-		GCONF_VALUE_STRING, NULL);
-	g_object_unref (client);
+	settings = g_settings_new ("org.gnome.evolution");
+	strv = g_settings_get_strv (settings, "disabled-eplugins");
+	for (i = 0, ep_disabled = NULL; strv[i] != NULL; i++)
+		ep_disabled = g_slist_append (ep_disabled, g_strdup (strv[i]));
+	g_strfreev (strv);
+	g_object_unref (settings);
 
 	for (i = 0; i < 3; i++) {
 		for (l = ep_path; l; l = g_slist_next (l)) {

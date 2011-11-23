@@ -128,8 +128,6 @@ static void	handle_multipart_signed		(EMsgComposer *composer,
 
 static void	e_msg_composer_alert_sink_init	(EAlertSinkInterface *interface);
 
-gboolean 	check_blacklisted_file		(gchar *filename);
-
 G_DEFINE_TYPE_WITH_CODE (
 	EMsgComposer,
 	e_msg_composer,
@@ -2065,10 +2063,8 @@ msg_composer_constructed (GObject *object)
 	EWebView *web_view;
 	GtkUIManager *ui_manager;
 	GtkToggleAction *action;
-	GArray *array;
 	const gchar *id;
 	gboolean active;
-	guint binding_id;
 
 	editor = GTKHTML_EDITOR (object);
 	composer = E_MSG_COMPOSER (object);
@@ -2110,13 +2106,14 @@ msg_composer_constructed (GObject *object)
 
 	/* Restore Persistent State */
 
-	array = composer->priv->gconf_bridge_binding_ids;
+	/* FIXME: need to bind this to GSettings */
+	/* array = composer->priv->gconf_bridge_binding_ids; */
 
-	binding_id = gconf_bridge_bind_window (
-		gconf_bridge_get (),
-		COMPOSER_GCONF_WINDOW_PREFIX,
-		GTK_WINDOW (composer), TRUE, FALSE);
-	g_array_append_val (array, binding_id);
+	/* binding_id = gconf_bridge_bind_window ( */
+	/* 	gconf_bridge_get (), */
+	/* 	COMPOSER_GCONF_WINDOW_PREFIX, */
+	/* 	GTK_WINDOW (composer), TRUE, FALSE); */
+	/* g_array_append_val (array, binding_id); */
 
 	/* Honor User Preferences */
 
@@ -4007,25 +4004,24 @@ merge_always_cc_and_bcc (EComposerHeaderTable *table,
 	e_destination_freev (addrv);
 }
 
-static const gchar *blacklisted_files [] = {".", "etc", ".."};
+static const gchar *blacklisted_files [] = { ".", "etc", ".." };
 
-gboolean check_blacklisted_file (gchar *filename)
+static gboolean
+check_blacklisted_file (gchar *filename)
 {
 	gboolean blacklisted = FALSE;
-	gint i,j,len;
+	guint ii, jj, length;
 	gchar **filename_part;
 
 	filename_part = g_strsplit (filename, G_DIR_SEPARATOR_S, -1);
-	len = g_strv_length(filename_part);
-	for(i = 0; !blacklisted && i < G_N_ELEMENTS(blacklisted_files); i++)
-	{
-		for (j = 0; !blacklisted && j < len;j++)
-			if (g_str_has_prefix (filename_part[j], blacklisted_files[i]))
+	length = g_strv_length (filename_part);
+	for (ii = 0; !blacklisted && ii < G_N_ELEMENTS (blacklisted_files); ii++) {
+		for (jj = 0; !blacklisted && jj < length; jj++)
+			if (g_str_has_prefix (filename_part[jj], blacklisted_files[ii]))
 				blacklisted = TRUE;
 	}
+	g_strfreev (filename_part);
 
-	g_strfreev(filename_part);
-	
 	return blacklisted;
 }
 
@@ -4120,14 +4116,13 @@ handle_mailto (EMsgComposer *composer,
 			} else if (!g_ascii_strcasecmp (header, "attach") ||
 				   !g_ascii_strcasecmp (header, "attachment")) {
 				EAttachment *attachment;
-				gboolean check = FALSE;
 
 				camel_url_decode (content);
-				check = check_blacklisted_file(content);
-				if(check)
+				if (check_blacklisted_file (content))
 					e_alert_submit (
-		                        	E_ALERT_SINK (composer),
-                			        "mail:blacklisted-file", content, NULL);
+						E_ALERT_SINK (composer),
+                				"mail:blacklisted-file",
+						content, NULL);
 				if (g_ascii_strncasecmp (content, "file:", 5) == 0)
 					attachment = e_attachment_new_for_uri (content);
 				else
@@ -5032,21 +5027,19 @@ e_msg_composer_get_attachment_view (EMsgComposer *composer)
 GList *
 e_load_spell_languages (void)
 {
-	GConfClient *client;
+	GSettings *settings;
 	GList *spell_languages = NULL;
-	GSList *list;
-	const gchar *key;
-	GError *error = NULL;
+	gchar **strv;
+	gint ii;
 
-	/* Ask GConf for a list of spell check language codes. */
-	client = gconf_client_get_default ();
-	key = COMPOSER_GCONF_SPELL_LANGUAGES_KEY;
-	list = gconf_client_get_list (client, key, GCONF_VALUE_STRING, &error);
-	g_object_unref (client);
+	/* Ask GSettings for a list of spell check language codes. */
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	strv = g_settings_get_strv (settings, "composer-spell-languages");
+	g_object_unref (settings);
 
 	/* Convert the codes to spell language structs. */
-	while (list != NULL) {
-		gchar *language_code = list->data;
+	for (ii = 0; strv[ii] != NULL; ii++) {
+		gchar *language_code = strv[ii];
 		const GtkhtmlSpellLanguage *language;
 
 		language = gtkhtml_spell_language_lookup (language_code);
@@ -5054,7 +5047,6 @@ e_load_spell_languages (void)
 			spell_languages = g_list_prepend (
 				spell_languages, (gpointer) language);
 
-		list = g_slist_delete_link (list, list);
 		g_free (language_code);
 	}
 
@@ -5069,17 +5061,7 @@ e_load_spell_languages (void)
 		if (language) {
 			spell_languages = g_list_prepend (
 				spell_languages, (gpointer) language);
-
-		/* Don't overwrite the stored spell check language
-		 * codes if there was a problem retrieving them. */
-			if (error == NULL)
-				e_save_spell_languages (spell_languages);
 		}
-	}
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
 	}
 
 	return spell_languages;
@@ -5088,35 +5070,28 @@ e_load_spell_languages (void)
 void
 e_save_spell_languages (GList *spell_languages)
 {
-	GConfClient *client;
-	GSList *list = NULL;
-	const gchar *key;
-	GError *error = NULL;
+	GSettings *settings;
+	GPtrArray *lang_array;
 
 	/* Build a list of spell check language codes. */
+	lang_array = g_ptr_array_new ();
 	while (spell_languages != NULL) {
 		const GtkhtmlSpellLanguage *language;
 		const gchar *language_code;
 
 		language = spell_languages->data;
 		language_code = gtkhtml_spell_language_get_code (language);
-		list = g_slist_prepend (list, (gpointer) language_code);
+		g_ptr_array_add (lang_array, (gpointer) language_code);
 
 		spell_languages = g_list_next (spell_languages);
 	}
 
-	list = g_slist_reverse (list);
+	g_ptr_array_add (lang_array, NULL);
 
-	/* Save the language codes to GConf. */
-	client = gconf_client_get_default ();
-	key = COMPOSER_GCONF_SPELL_LANGUAGES_KEY;
-	gconf_client_set_list (client, key, GCONF_VALUE_STRING, list, &error);
-	g_object_unref (client);
+	/* Save the language codes to GSettings. */
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	g_settings_set_strv (settings, "composer-spell-languages", (const gchar * const *) lang_array->pdata);
+	g_object_unref (settings);
 
-	g_slist_free (list);
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	g_ptr_array_free (lang_array, TRUE);
 }
