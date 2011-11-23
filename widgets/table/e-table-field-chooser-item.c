@@ -596,7 +596,6 @@ etfci_start_drag (ETableFieldChooserItem *etfci,
 					 etfci->width, button_height);
 	cr = cairo_create (cs);
 
-	cr = cairo_create (cs);
 	e_table_header_draw_button (
 		cr, ecol,
 		widget, 0, 0,
