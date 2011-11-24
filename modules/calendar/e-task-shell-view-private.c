@@ -46,13 +46,16 @@ task_shell_view_model_row_appended_cb (ETaskShellView *task_shell_view,
 	e_task_shell_sidebar_add_source (task_shell_sidebar, source);
 }
 
-static void
-task_shell_view_process_completed_tasks (ETaskShellView *task_shell_view)
+static gboolean
+task_shell_view_process_completed_tasks (gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
 	ETaskTable *task_table;
 	GList *clients;
+
+	task_shell_view->priv->update_completed_timeout = 0;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
@@ -67,6 +70,18 @@ task_shell_view_process_completed_tasks (ETaskShellView *task_shell_view)
 	e_shell_view_execute_search (E_SHELL_VIEW (task_shell_view));
 
 	g_list_free (clients);
+
+	return FALSE;
+}
+
+static void
+task_shell_view_schedule_process_completed_tasks (ETaskShellView *task_shell_view)
+{
+	if (task_shell_view->priv->update_completed_timeout)
+		g_source_remove (task_shell_view->priv->update_completed_timeout);
+
+	task_shell_view->priv->update_completed_timeout =
+		g_timeout_add_seconds (1, task_shell_view_process_completed_tasks, task_shell_view);
 }
 
 static void
@@ -345,15 +360,15 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	/* Hide Completed Tasks (enable/units/value) */
 	g_signal_connect_object (
 		shell_settings, "notify::cal-hide-completed-tasks",
-		G_CALLBACK (task_shell_view_process_completed_tasks),
+		G_CALLBACK (task_shell_view_schedule_process_completed_tasks),
 		task_shell_view, G_CONNECT_SWAPPED);
 	g_signal_connect_object (
 		shell_settings, "notify::cal-hide-completed-tasks-units",
-		G_CALLBACK (task_shell_view_process_completed_tasks),
+		G_CALLBACK (task_shell_view_schedule_process_completed_tasks),
 		task_shell_view, G_CONNECT_SWAPPED);
 	g_signal_connect_object (
 		shell_settings, "notify::cal-hide-completed-tasks-value",
-		G_CALLBACK (task_shell_view_process_completed_tasks),
+		G_CALLBACK (task_shell_view_schedule_process_completed_tasks),
 		task_shell_view, G_CONNECT_SWAPPED);
 
 	e_task_shell_view_actions_init (task_shell_view);
@@ -391,6 +406,11 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 	if (priv->update_timeout > 0) {
 		g_source_remove (priv->update_timeout);
 		priv->update_timeout = 0;
+	}
+
+	if (priv->update_completed_timeout > 0) {
+		g_source_remove (priv->update_completed_timeout);
+		priv->update_completed_timeout = 0;
 	}
 }
 

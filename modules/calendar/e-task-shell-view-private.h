@@ -100,6 +100,7 @@ struct _ETaskShellViewPrivate {
 
 	EActivity *activity;
 	guint update_timeout;
+	guint update_completed_timeout;
 
 	guint confirm_purge : 1;
 };

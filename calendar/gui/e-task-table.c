@@ -66,6 +66,7 @@
 struct _ETaskTablePrivate {
 	gpointer shell_view;  /* weak pointer */
 	ECalModel *model;
+	GCancellable *completed_cancellable; /* when processing completed tasks */
 
 	GtkTargetList *copy_target_list;
 	GtkTargetList *paste_target_list;
@@ -382,6 +383,12 @@ task_table_dispose (GObject *object)
 	ETaskTablePrivate *priv;
 
 	priv = E_TASK_TABLE (object)->priv;
+
+	if (priv->completed_cancellable) {
+		g_cancellable_cancel (priv->completed_cancellable);
+		g_object_unref (priv->completed_cancellable);
+		priv->completed_cancellable = NULL;
+	}
 
 	if (priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
@@ -1474,6 +1481,8 @@ task_table_init (ETaskTable *task_table)
 	task_table->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		task_table, E_TYPE_TASK_TABLE, ETaskTablePrivate);
 
+	task_table->priv->completed_cancellable = NULL;
+
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_calendar_targets (target_list, 0);
 	task_table->priv->copy_target_list = target_list;
@@ -1634,61 +1643,78 @@ e_task_table_get_paste_target_list (ETaskTable *task_table)
 }
 
 static void
-hide_completed_rows (ECalModel *model,
-                     GList *clients_list,
-                     gchar *hide_sexp,
-                     GPtrArray *comp_objects)
+task_table_get_object_list_async (GList *clients_list,
+				  const gchar *sexp,
+				  GCancellable *cancellable,
+				  GAsyncReadyCallback callback,
+				  gpointer callback_data)
 {
 	GList *l;
-	GSList *m, *objects;
-	ECalClient *client;
-	gint pos;
-	gboolean changed = FALSE;
 
 	for (l = clients_list; l != NULL; l = l->next) {
-		GError *error = NULL;
+		ECalClient *client = l->data;
 
-		client = l->data;
-
-		e_cal_client_get_object_list_sync (
-			client, hide_sexp, &objects, NULL, &error);
-
-		if (error != NULL) {
-			g_warning (
-				"%s: Could not get the objects: %s",
-				G_STRFUNC, error->message);
-			g_error_free (error);
-			continue;
-		}
-
-		for (m = objects; m; m = m->next) {
-			ECalModelComponent *comp_data;
-			ECalComponentId *id;
-			ECalComponent *comp = e_cal_component_new ();
-
-			e_cal_component_set_icalcomponent (
-				comp, icalcomponent_new_clone (m->data));
-			id = e_cal_component_get_id (comp);
-
-			comp_data = e_cal_model_get_component_for_uid (model, id);
-			if (comp_data != NULL) {
-				e_table_model_pre_change (E_TABLE_MODEL (model));
-				pos = get_position_in_array (
-					comp_objects, comp_data);
-				e_table_model_row_deleted (
-					E_TABLE_MODEL (model), pos);
-				changed = TRUE;
-
-				if (g_ptr_array_remove (comp_objects, comp_data))
-					g_object_unref (comp_data);
-			}
-			e_cal_component_free_id (id);
-			g_object_unref (comp);
-		}
-
-		g_slist_foreach (objects, (GFunc) icalcomponent_free, NULL);
-		g_slist_free (objects);
+		e_cal_client_get_object_list (
+			client, sexp, cancellable,
+			callback, callback_data);
 	}
+}
+
+static void
+hide_completed_rows_ready (GObject *source_object,
+			   GAsyncResult *result,
+			   gpointer user_data)
+{
+	ECalModel *model = user_data;
+	GSList *m, *objects;
+	gboolean changed = FALSE;
+	gint pos;
+	GPtrArray *comp_objects;
+	GError *error = NULL;
+
+	if (!e_cal_client_get_object_list_finish (E_CAL_CLIENT (source_object), result, &objects, &error)) {
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
+		    !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+			ESource *source = e_client_get_source (E_CLIENT (source_object));
+
+			g_debug ("%s: Could not get the objects from '%s': %s",
+				G_STRFUNC,
+				source ? e_source_peek_name (source) : "???",
+				error ? error->message : "Uknown error");
+		}
+		g_clear_error (&error);
+		return;
+	}
+
+	comp_objects = e_cal_model_get_object_array (model);
+	g_return_if_fail (comp_objects != NULL);
+
+	for (m = objects; m; m = m->next) {
+		ECalModelComponent *comp_data;
+		ECalComponentId *id;
+		ECalComponent *comp = e_cal_component_new ();
+
+		e_cal_component_set_icalcomponent (
+			comp, icalcomponent_new_clone (m->data));
+		id = e_cal_component_get_id (comp);
+
+		comp_data = e_cal_model_get_component_for_uid (model, id);
+		if (comp_data != NULL) {
+			e_table_model_pre_change (E_TABLE_MODEL (model));
+			pos = get_position_in_array (
+				comp_objects, comp_data);
+			e_table_model_row_deleted (
+				E_TABLE_MODEL (model), pos);
+			changed = TRUE;
+
+			if (g_ptr_array_remove (comp_objects, comp_data))
+				g_object_unref (comp_data);
+		}
+		e_cal_component_free_id (id);
+		g_object_unref (comp);
+	}
+
+	e_cal_client_free_icalcomp_slist (objects);
 
 	if (changed) {
 		/* To notify about changes, because in call of
@@ -1698,68 +1724,71 @@ hide_completed_rows (ECalModel *model,
 }
 
 static void
-show_completed_rows (ECalModel *model,
-                     GList *clients_list,
-                     gchar *show_sexp,
-                     GPtrArray *comp_objects)
+show_completed_rows_ready (GObject *source_object,
+			   GAsyncResult *result,
+			   gpointer user_data)
 {
-	GList *l;
-	GSList *m, *objects;
 	ECalClient *client;
+	ECalModel *model = user_data;
+	GSList *m, *objects;
+	GPtrArray *comp_objects;
+	GError *error = NULL;
 
-	for (l = clients_list; l != NULL; l = l->next) {
-		GError *error = NULL;
+	if (!e_cal_client_get_object_list_finish (E_CAL_CLIENT (source_object), result, &objects, &error)) {
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
+		    !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED)) {
+			ESource *source = e_client_get_source (E_CLIENT (source_object));
 
-		client = l->data;
-
-		e_cal_client_get_object_list_sync (
-			client, show_sexp, &objects, NULL, &error);
-
-		if (error != NULL) {
-			g_warning (
-				"%s: Could not get the objects: %s",
-				G_STRFUNC, error->message);
-			g_error_free (error);
-			continue;
+			g_debug ("%s: Could not get the objects from '%s': %s",
+				G_STRFUNC,
+				source ? e_source_peek_name (source) : "???",
+				error ? error->message : "Uknown error");
 		}
-
-		for (m = objects; m; m = m->next) {
-			ECalModelComponent *comp_data;
-			ECalComponentId *id;
-			ECalComponent *comp = e_cal_component_new ();
-
-			e_cal_component_set_icalcomponent (
-				comp, icalcomponent_new_clone (m->data));
-			id = e_cal_component_get_id (comp);
-
-			if (!(e_cal_model_get_component_for_uid (model, id))) {
-				e_table_model_pre_change (E_TABLE_MODEL (model));
-				comp_data = g_object_new (
-					E_TYPE_CAL_MODEL_COMPONENT, NULL);
-				comp_data->client = g_object_ref (client);
-				comp_data->icalcomp =
-					icalcomponent_new_clone (m->data);
-				e_cal_model_set_instance_times (
-					comp_data,
-					e_cal_model_get_timezone (model));
-				comp_data->dtstart = NULL;
-				comp_data->dtend = NULL;
-				comp_data->due = NULL;
-				comp_data->completed = NULL;
-				comp_data->color = NULL;
-
-				g_ptr_array_add (comp_objects, comp_data);
-				e_table_model_row_inserted (
-					E_TABLE_MODEL (model),
-					comp_objects->len - 1);
-			}
-			e_cal_component_free_id (id);
-			g_object_unref (comp);
-		}
-
-		g_slist_foreach (objects, (GFunc) icalcomponent_free, NULL);
-		g_slist_free (objects);
+		g_clear_error (&error);
+		return;
 	}
+
+	client = E_CAL_CLIENT (source_object);
+	g_return_if_fail (client != NULL);
+
+	comp_objects = e_cal_model_get_object_array (model);
+	g_return_if_fail (comp_objects != NULL);
+
+	for (m = objects; m; m = m->next) {
+		ECalModelComponent *comp_data;
+		ECalComponentId *id;
+		ECalComponent *comp = e_cal_component_new ();
+
+		e_cal_component_set_icalcomponent (
+			comp, icalcomponent_new_clone (m->data));
+		id = e_cal_component_get_id (comp);
+
+		if (!(e_cal_model_get_component_for_uid (model, id))) {
+			e_table_model_pre_change (E_TABLE_MODEL (model));
+			comp_data = g_object_new (
+				E_TYPE_CAL_MODEL_COMPONENT, NULL);
+			comp_data->client = g_object_ref (client);
+			comp_data->icalcomp =
+				icalcomponent_new_clone (m->data);
+			e_cal_model_set_instance_times (
+				comp_data,
+				e_cal_model_get_timezone (model));
+			comp_data->dtstart = NULL;
+			comp_data->dtend = NULL;
+			comp_data->due = NULL;
+			comp_data->completed = NULL;
+			comp_data->color = NULL;
+
+			g_ptr_array_add (comp_objects, comp_data);
+			e_table_model_row_inserted (
+				E_TABLE_MODEL (model),
+				comp_objects->len - 1);
+		}
+		e_cal_component_free_id (id);
+		g_object_unref (comp);
+	}
+
+	e_cal_client_free_icalcomp_slist (objects);
 }
 
 /* Returns the current time, for the ECellDateEdit items.
@@ -1806,18 +1835,18 @@ e_task_table_process_completed_tasks (ETaskTable *task_table,
                                       gboolean config_changed)
 {
 	ECalModel *model;
-	static GMutex *mutex = NULL;
+	GCancellable *cancellable;
 	gchar *hide_sexp, *show_sexp;
-	GPtrArray *comp_objects = NULL;
 
-	if (!mutex)
-		mutex = g_mutex_new ();
+	if (task_table->priv->completed_cancellable) {
+		g_cancellable_cancel (task_table->priv->completed_cancellable);
+		g_object_unref (task_table->priv->completed_cancellable);
+	}
 
-	g_mutex_lock (mutex);
+	task_table->priv->completed_cancellable = g_cancellable_new ();
+	cancellable = task_table->priv->completed_cancellable;
 
 	model = e_task_table_get_model (task_table);
-	comp_objects = e_cal_model_get_object_array (model);
-
 	hide_sexp = calendar_config_get_hide_completed_tasks_sexp (TRUE);
 	show_sexp = calendar_config_get_hide_completed_tasks_sexp (FALSE);
 
@@ -1827,15 +1856,16 @@ e_task_table_process_completed_tasks (ETaskTable *task_table,
 
 	/* Delete rows from model*/
 	if (hide_sexp) {
-		hide_completed_rows (model, clients_list, hide_sexp, comp_objects);
+		task_table_get_object_list_async (clients_list, hide_sexp, cancellable,
+			hide_completed_rows_ready, model);
 	}
 
 	/* Insert rows into model */
 	if (config_changed) {
-		show_completed_rows (model, clients_list, show_sexp, comp_objects);
+		task_table_get_object_list_async (clients_list, show_sexp, cancellable,
+			show_completed_rows_ready, model);
 	}
 
 	g_free (hide_sexp);
 	g_free (show_sexp);
-	g_mutex_unlock (mutex);
 }

@@ -3752,7 +3752,9 @@ e_cal_model_generate_instances_sync (ECalModel *model,
 GPtrArray *
 e_cal_model_get_object_array (ECalModel *model)
 {
+	g_return_val_if_fail (model != NULL, NULL);
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+	g_return_val_if_fail (model->priv != NULL, NULL);
 
 	return model->priv->objects;
 }
