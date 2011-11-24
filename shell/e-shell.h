@@ -119,7 +119,6 @@ EShellBackend *	e_shell_get_backend_by_name	(EShell *shell,
 EShellBackend *	e_shell_get_backend_by_scheme	(EShell *shell,
 						 const gchar *scheme);
 EShellSettings *e_shell_get_shell_settings	(EShell *shell);
-GConfClient *	e_shell_get_gconf_client	(EShell *shell);
 GtkWidget *	e_shell_create_shell_window	(EShell *shell,
 						 const gchar *view_name);
 guint		e_shell_handle_uris		(EShell *shell,

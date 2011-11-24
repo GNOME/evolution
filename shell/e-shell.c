@@ -53,7 +53,6 @@
 struct _EShellPrivate {
 	GQueue alerts;
 	EShellSettings *settings;
-	GConfClient *gconf_client;
 	GActionGroup *action_group;
 	GtkWidget *preferences_window;
 
@@ -721,11 +720,6 @@ shell_dispose (GObject *object)
 		priv->settings = NULL;
 	}
 
-	if (priv->gconf_client != NULL) {
-		g_object_unref (priv->gconf_client);
-		priv->gconf_client = NULL;
-	}
-
 	if (priv->action_group != NULL) {
 		g_object_unref (priv->action_group);
 		priv->action_group = NULL;
@@ -1174,7 +1168,6 @@ e_shell_init (EShell *shell)
 	g_queue_init (&shell->priv->alerts);
 
 	shell->priv->settings = g_object_new (E_TYPE_SHELL_SETTINGS, NULL);
-	shell->priv->gconf_client = gconf_client_get_default ();
 	shell->priv->preferences_window = e_preferences_window_new (shell);
 	shell->priv->backends_by_name = backends_by_name;
 	shell->priv->backends_by_scheme = backends_by_scheme;
@@ -1387,23 +1380,6 @@ e_shell_get_shell_settings (EShell *shell)
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return shell->priv->settings;
-}
-
-/**
- * e_shell_get_gconf_client:
- * @shell: an #EShell
- *
- * Returns the default #GConfClient.  This function is purely for
- * convenience.  The @shell owns the reference so you don't have to.
- *
- * Returns: the default #GConfClient
- **/
-GConfClient *
-e_shell_get_gconf_client (EShell *shell)
-{
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-
-	return shell->priv->gconf_client;
 }
 
 /**
