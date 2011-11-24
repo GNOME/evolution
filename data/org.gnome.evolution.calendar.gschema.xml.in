@@ -245,7 +245,7 @@
       <_summary>Show week numbers in Day View, Work Week View, and Date Navigator</_summary>
       <_description>Whether to show week numbers in various places in the Calendar</_description>
     </key>
-    <key name="tag-vpane-position" type="i">
+    <key name="tag-vpane-position" type="d">
       <default>0</default>
       <_summary>Vertical position for the tag pane</_summary>
       <_description>Vertical position for the tag pane</_description>
