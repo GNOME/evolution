@@ -33,6 +33,8 @@
 
 #include <glib/gi18n-lib.h>
 
+#include <libedataserver/e-data-server-util.h>
+
 #include "widgets/misc/e-import-assistant.h"
 
 /**
@@ -199,8 +201,14 @@ e_shell_run_save_dialog (EShell *shell,
 		gtk_file_chooser_set_current_folder_uri (file_chooser, uri);
 	g_free (uri);
 
-	if (suggestion != NULL)
-		gtk_file_chooser_set_current_name (file_chooser, suggestion);
+	if (suggestion != NULL) {
+		gchar *current_name;
+
+		current_name = g_strdup (suggestion);
+		e_filename_make_safe (current_name);
+		gtk_file_chooser_set_current_name (file_chooser, current_name);
+		g_free (current_name);
+	}
 
 	if (filters != NULL) {
 		gchar **flts = g_strsplit (filters, ";", -1);
