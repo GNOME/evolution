@@ -1009,6 +1009,13 @@ find_cal_opened_cb (GObject *source_object,
 
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
 
+	/* Do not process read-only calendars */
+	if (e_client_is_readonly (client)) {
+		g_object_unref (client);
+		decrease_find_data (fd);
+		return;
+	}
+
 	cal_client = E_CAL_CLIENT (client);
 	source_type = e_cal_client_get_source_type (cal_client);
 
