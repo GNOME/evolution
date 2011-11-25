@@ -726,7 +726,7 @@ decrease_find_data (FormatItipFindData *fd)
  *               * invitiations (REQUEST), but not replies (REPLY).
 		 * Replies only make sense for events with an organizer.
 		 */
-		if (pitip->current_client && !e_cal_client_check_save_schedules (pitip->current_client) &&
+		if ((!pitip->current_client || !e_cal_client_check_save_schedules (pitip->current_client)) &&
 		    (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) &&
 		    pitip->has_organizer) {
 			rsvp_enabled = TRUE;
@@ -1376,7 +1376,8 @@ finish_message_delete_with_rsvp (struct _itip_puri *pitip,
 		icalcomponent *ical_comp;
 		icalproperty *prop;
 		icalvalue *value;
-		const gchar *attendee, *comment;
+		const gchar *attendee;
+		gchar *comment;
 		GSList *l, *list = NULL;
 		gboolean found;
 
@@ -1435,6 +1436,8 @@ finish_message_delete_with_rsvp (struct _itip_puri *pitip,
 			comments.next = NULL;
 
 			e_cal_component_set_comment_list (comp, &comments);
+
+			g_free (comment);
 		}
 
 		e_cal_component_rescan (comp);

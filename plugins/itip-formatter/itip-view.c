@@ -107,7 +107,7 @@ struct _ItipViewPrivate {
 	GtkWidget *rsvp_box;
 	GtkWidget *rsvp_check;
 	GtkWidget *rsvp_comment_header;
-	GtkWidget *rsvp_comment_entry;
+	GtkWidget *rsvp_comment_text;
 	gboolean rsvp_show;
 
 	GtkWidget *recur_box;
@@ -964,7 +964,7 @@ rsvp_toggled_cb (GtkWidget *widget,
 	rsvp = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->rsvp_check));
 
 	gtk_widget_set_sensitive (priv->rsvp_comment_header, rsvp);
-	gtk_widget_set_sensitive (priv->rsvp_comment_entry, rsvp);
+	gtk_widget_set_sensitive (priv->rsvp_comment_text, rsvp);
 }
 
 static void
@@ -998,6 +998,7 @@ itip_view_init (ItipView *view)
 {
 	ItipViewPrivate *priv;
 	GtkWidget *icon, *vbox, *hbox, *separator, *table, *label;
+	GtkWidget *scrolled_window;
 
 	priv = g_new0 (ItipViewPrivate, 1);
 	view->priv = priv;
@@ -1145,14 +1146,22 @@ itip_view_init (ItipView *view)
 
 	priv->rsvp_comment_header = gtk_label_new (_("Comment:"));
 	gtk_label_set_selectable (GTK_LABEL (priv->rsvp_comment_header), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (priv->rsvp_comment_header), 0.0, 0.0);
 	gtk_widget_set_sensitive (priv->rsvp_comment_header, FALSE);
 	gtk_widget_show (priv->rsvp_comment_header);
 	gtk_box_pack_start (GTK_BOX (hbox), priv->rsvp_comment_header, FALSE, FALSE, 0);
 
-	priv->rsvp_comment_entry = gtk_entry_new ();
-	gtk_widget_set_sensitive (priv->rsvp_comment_entry, FALSE);
-	gtk_widget_show (priv->rsvp_comment_entry);
-	gtk_box_pack_start (GTK_BOX (hbox), priv->rsvp_comment_entry, FALSE, TRUE, 0);
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_min_content_height (GTK_SCROLLED_WINDOW (scrolled_window), 120);
+	gtk_widget_show (scrolled_window);
+	gtk_box_pack_start (GTK_BOX (hbox), scrolled_window, TRUE, TRUE, 0);
+
+	priv->rsvp_comment_text = gtk_text_view_new ();
+	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (priv->rsvp_comment_text), GTK_WRAP_WORD_CHAR);
+	gtk_widget_set_sensitive (priv->rsvp_comment_text, FALSE);
+	gtk_widget_show (priv->rsvp_comment_text);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), priv->rsvp_comment_text);
 
 	/* RSVP area */
 	priv->update_box = gtk_vbox_new (FALSE, 12);
@@ -2036,7 +2045,7 @@ itip_view_set_rsvp (ItipView *view,
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->rsvp_check), rsvp);
 
 	gtk_widget_set_sensitive (priv->rsvp_comment_header, rsvp);
-	gtk_widget_set_sensitive (priv->rsvp_comment_entry, rsvp);
+	gtk_widget_set_sensitive (priv->rsvp_comment_text, rsvp);
 }
 
 gboolean
@@ -2142,26 +2151,33 @@ itip_view_set_rsvp_comment (ItipView *view,
                             const gchar *comment)
 {
 	ItipViewPrivate *priv;
+	GtkTextBuffer *text_buffer;
 
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
 	priv = view->priv;
 
-	gtk_entry_set_text (GTK_ENTRY (priv->rsvp_comment_entry), comment);
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->rsvp_comment_text));
+	gtk_text_buffer_set_text (text_buffer, comment, -1);
 }
 
-const gchar *
+gchar *
 itip_view_get_rsvp_comment (ItipView *view)
 {
 	ItipViewPrivate *priv;
+	GtkTextBuffer *text_buffer;
+	GtkTextIter start, end;
 
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
 
 	priv = view->priv;
 
-	return gtk_entry_get_text (GTK_ENTRY (priv->rsvp_comment_entry));
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->rsvp_comment_text));
+	gtk_text_buffer_get_bounds (text_buffer, &start, &end);
+
+	return gtk_text_buffer_get_text (text_buffer, &start, &end, FALSE);
 }
 
 void
