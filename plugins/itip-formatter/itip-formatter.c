@@ -739,39 +739,44 @@ decrease_find_data (FormatItipFindData *fd)
 		if ((pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST)
 		    && !pitip->current_client) {
 			/* Reuse already declared one or rename? */
-			EShell *shell;
-			EShellSettings *shell_settings;
 			ESource *source = NULL;
-			gchar *uid;
-
-			/* FIXME Find a better way to obtain the shell. */
-			shell = e_shell_get_default ();
-			shell_settings = e_shell_get_shell_settings (shell);
-
-			switch (pitip->type) {
-			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-				uid = e_shell_settings_get_string (
-					shell_settings, "cal-primary-calendar");
-				break;
-			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-				uid = e_shell_settings_get_string (
-					shell_settings, "cal-primary-task-list");
-				break;
-			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-				uid = e_shell_settings_get_string (
-					shell_settings, "cal-primary-memo-list");
-				break;
-			default:
-				uid = NULL;
-				g_assert_not_reached ();
-			}
-
-			if (uid) {
-				source = e_source_list_peek_source_by_uid (pitip->source_lists[pitip->type], uid);
-				g_free (uid);
-			}
 
 			/* Try to create a default if there isn't one */
+			source = e_source_list_peek_default_source (pitip->source_lists[pitip->type]);
+
+			if (!source) {
+				EShell *shell;
+				EShellSettings *shell_settings;
+				gchar *uid;
+
+				/* FIXME Find a better way to obtain the shell. */
+				shell = e_shell_get_default ();
+				shell_settings = e_shell_get_shell_settings (shell);
+
+				switch (pitip->type) {
+				case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+					uid = e_shell_settings_get_string (
+						shell_settings, "cal-primary-calendar");
+					break;
+				case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+					uid = e_shell_settings_get_string (
+						shell_settings, "cal-primary-task-list");
+					break;
+				case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+					uid = e_shell_settings_get_string (
+						shell_settings, "cal-primary-memo-list");
+					break;
+				default:
+					uid = NULL;
+					g_assert_not_reached ();
+				}
+
+				if (uid) {
+					source = e_source_list_peek_source_by_uid (pitip->source_lists[pitip->type], uid);
+					g_free (uid);
+				}
+			}
+
 			if (!source)
 				source = e_source_list_peek_source_any (pitip->source_lists[pitip->type]);
 
