@@ -2192,6 +2192,11 @@ itip_view_set_buttons_sensitive (ItipView *view,
 	priv->buttons_sensitive = sensitive;
 
 	gtk_widget_set_sensitive (priv->button_box, priv->buttons_sensitive);
+	gtk_widget_set_sensitive (priv->update_box, priv->buttons_sensitive);
+	gtk_widget_set_sensitive (priv->recur_box, priv->buttons_sensitive);
+	gtk_widget_set_sensitive (priv->options_box, priv->buttons_sensitive);
+	gtk_widget_set_sensitive (priv->selector_box, priv->buttons_sensitive);
+	gtk_widget_set_sensitive (priv->rsvp_box, priv->buttons_sensitive);
 }
 
 gboolean
