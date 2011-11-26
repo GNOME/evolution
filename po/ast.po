@@ -21883,9 +21883,6 @@ msgstr "Métodos d'entrada"
 #~ msgid "Failed to open client '%s': %s"
 #~ msgstr "Fallu al abrir el cliente «%s»: %s"
 
-#~ msgid "days"
-#~ msgstr "díes"
-
 #, c-format
 #~ msgid "You have %d reminder"
 #~ msgid_plural "You have %d reminders"
