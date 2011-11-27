@@ -56,8 +56,7 @@ eutilinclude_HEADERS = 				\
 	e-util-enums.h				\
 	e-util-enumtypes.h			\
 	e-unicode.h				\
-	e-xml-utils.h				\
-	gconf-bridge.h
+	e-xml-utils.h
 
 libeutil_la_CPPFLAGS =							\
 	$(AM_CPPFLAGS)							\
@@ -128,7 +127,6 @@ libeutil_la_SOURCES =				\
 	e-util-enumtypes.c			\
 	e-util-private.h			\
 	e-xml-utils.c				\
-	gconf-bridge.c				\
 	$(PLATFORM_SOURCES)
 
 libeutil_la_LDFLAGS = $(NO_UNDEFINED)

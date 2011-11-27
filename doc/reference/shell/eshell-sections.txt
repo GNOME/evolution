@@ -1136,23 +1136,6 @@ e_xml_get_translated_string_prop_by_name
 </SECTION>
 
 <SECTION>
-<FILE>gconf-bridge</FILE>
-<TITLE>GConf Bridge</TITLE>
-GConfBridge
-gconf_bridge_install_default_error_handler
-gconf_bridge_get
-gconf_bridge_get_client
-gconf_bridge_bind_property_full
-gconf_bridge_bind_property
-gconf_bridge_bind_property_delayed
-gconf_bridge_bind_window
-gconf_bridge_bind_window_size
-gconf_bridge_bind_window_pos
-gconf_bridge_bind_string_list_store
-gconf_bridge_unbind
-</SECTION>
-
-<SECTION>
 <FILE>shell-actions</FILE>
 <TITLE>Shell Actions</TITLE>
 E_SHELL_WINDOW_ACTION_ABOUT

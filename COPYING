@@ -14,7 +14,6 @@ LGPLv2 only
         plugins/webdav-account-setup/webdav-contacts-source.c
 
 LGPLv2+
-        e-util/gconf-bridge.[ch]
         widgets/misc/e-icon-entry.[ch]
         widgets/text/e-text.[ch]
         widgets/table/e-cell-tree.[ch]
