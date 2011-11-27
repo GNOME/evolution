@@ -16,4 +16,28 @@
       <_description>The list of disabled plugins in Evolution</_description>
     </key>
   </schema>
+
+  <!-- Relocatable schema for persistent window size and position. -->
+  <schema gettext-domain="evolution" id="org.gnome.evolution.window">
+    <key name="x" type="i">
+      <default>0</default>
+      <_summary>The window's X coordinate</_summary>
+    </key>
+    <key name="y" type="i">
+      <default>0</default>
+      <_summary>The window's Y coordinate</_summary>
+    </key>
+    <key name="width" type="i">
+      <default>0</default>
+      <_summary>The window's width in pixels</_summary>
+    </key>
+    <key name="height" type="i">
+      <default>0</default>
+      <_summary>The window's height in pixels</_summary>
+    </key>
+    <key name="maximized" type="b">
+      <default>false</default>
+      <_summary>Whether the window is maximized</_summary>
+    </key>
+  </schema>
 </schemalist>
