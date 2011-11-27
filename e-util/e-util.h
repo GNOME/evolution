@@ -46,11 +46,19 @@ typedef enum {
 	E_FOCUS_END
 } EFocus;
 
+typedef enum {
+	E_RESTORE_WINDOW_SIZE     = 1 << 0,
+	E_RESTORE_WINDOW_POSITION = 1 << 1
+} ERestoreWindowFlags;
+
 const gchar *	e_get_accels_filename		(void);
 void		e_show_uri			(GtkWindow *parent,
 						 const gchar *uri);
 void		e_display_help			(GtkWindow *parent,
 						 const gchar *link_id);
+void		e_restore_window		(GtkWindow *window,
+						 const gchar *settings_path,
+						 ERestoreWindowFlags flags);
 GtkAction *	e_lookup_action			(GtkUIManager *ui_manager,
 						 const gchar *action_name);
 GtkActionGroup *e_lookup_action_group		(GtkUIManager *ui_manager,

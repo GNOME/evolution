@@ -60,6 +60,137 @@
 #include "e-util.h"
 #include "e-util-private.h"
 
+typedef struct _WindowData WindowData;
+
+struct _WindowData {
+	GtkWindow *window;
+	GSettings *settings;
+	ERestoreWindowFlags flags;
+	gint premax_width;
+	gint premax_height;
+	guint timeout_id;
+};
+
+static void
+window_data_free (WindowData *data)
+{
+	if (data->window != NULL)
+		g_object_unref (data->window);
+
+	if (data->settings != NULL)
+		g_object_unref (data->settings);
+
+	if (data->timeout_id > 0)
+		g_source_remove (data->timeout_id);
+
+	g_slice_free (WindowData, data);
+}
+
+static gboolean
+window_update_settings (WindowData *data)
+{
+	GSettings *settings = data->settings;
+
+	if (data->flags & E_RESTORE_WINDOW_SIZE) {
+		GdkWindowState state;
+		GdkWindow *window;
+		gboolean maximized;
+
+		window = gtk_widget_get_window (GTK_WIDGET (data->window));
+		state = gdk_window_get_state (window);
+		maximized = ((state & GDK_WINDOW_STATE_MAXIMIZED) != 0);
+
+		g_settings_set_boolean (settings, "maximized", maximized);
+
+		if (!maximized) {
+			gint width, height;
+
+			gtk_window_get_size (data->window, &width, &height);
+
+			g_settings_set_int (settings, "width", width);
+			g_settings_set_int (settings, "height", height);
+		}
+	}
+
+	if (data->flags & E_RESTORE_WINDOW_POSITION) {
+		gint x, y;
+
+		gtk_window_get_position (data->window, &x, &y);
+
+		g_settings_set_int (settings, "x", x);
+		g_settings_set_int (settings, "y", y);
+	}
+
+	data->timeout_id = 0;
+
+	return FALSE;
+}
+
+static gboolean
+window_configure_event_cb (GtkWindow *window,
+                           GdkEventConfigure *event,
+                           WindowData *data)
+{
+	if (data->timeout_id > 0)
+		g_source_remove (data->timeout_id);
+
+	data->timeout_id = gdk_threads_add_timeout_seconds (
+		1, (GSourceFunc) window_update_settings, data);
+
+	return FALSE;
+}
+
+static gboolean
+window_state_event_cb (GtkWindow *window,
+                       GdkEventWindowState *event,
+                       WindowData *data)
+{
+	gboolean window_was_unmaximized;
+
+	if (data->timeout_id > 0)
+		g_source_remove (data->timeout_id);
+
+	window_was_unmaximized =
+		((event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED) != 0) &&
+		((event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED) == 0);
+
+	if (window_was_unmaximized) {
+		gint width, height;
+
+		width = data->premax_width;
+		data->premax_width = 0;
+
+		height = data->premax_height;
+		data->premax_height = 0;
+
+		/* This only applies when the window is initially restored
+		 * as maximized and is then unmaximized.  GTK+ handles the
+		 * unmaximized window size thereafter. */
+		if (width > 0 && height > 0)
+			gtk_window_resize (window, width, height);
+	}
+
+	window_update_settings (data);
+
+	return FALSE;
+}
+
+static gboolean
+window_unmap_cb (GtkWindow *window,
+                 WindowData *data)
+{
+	if (data->timeout_id > 0)
+		g_source_remove (data->timeout_id);
+
+	/* It's too late to record the window position.
+	 * gtk_window_get_position() will report (0, 0). */
+	data->flags &= ~E_RESTORE_WINDOW_POSITION;
+
+	window_update_settings (data);
+
+	return FALSE;
+}
+
 /**
  * e_get_accels_filename:
  *
@@ -173,6 +304,100 @@ e_display_help (GtkWindow *parent,
 
 exit:
 	g_string_free (uri, TRUE);
+}
+
+/**
+ * e_restore_window:
+ * @window: a #GtkWindow
+ * @settings_path: a #GSettings path
+ * @flags: flags indicating which window features to restore
+ *
+ * This function can restore one of or both a window's size and position
+ * using #GSettings keys at @settings_path which conform to the relocatable
+ * schema "org.gnome.evolution.window".
+ *
+ * If #E_RESTORE_WINDOW_SIZE is present in @flags, restore @window's
+ * previously recorded size and maximize state.
+ *
+ * If #E_RESTORE_WINDOW_POSITION is present in @flags, move @window to
+ * the previously recorded screen coordinates.
+ *
+ * The respective #GSettings values will be updated when the window is
+ * resized and/or moved.
+ **/
+void
+e_restore_window (GtkWindow *window,
+                  const gchar *settings_path,
+                  ERestoreWindowFlags flags)
+{
+	WindowData *data;
+	GSettings *settings;
+	const gchar *schema;
+
+	g_return_if_fail (GTK_IS_WINDOW (window));
+	g_return_if_fail (settings_path != NULL);
+
+	schema = "org.gnome.evolution.window";
+	settings = g_settings_new_with_path (schema, settings_path);
+
+	data = g_slice_new0 (WindowData);
+	data->window = g_object_ref (window);
+	data->settings = g_object_ref (settings);
+	data->flags = flags;
+
+	if (flags & E_RESTORE_WINDOW_SIZE) {
+		gint width, height;
+
+		width = g_settings_get_int (settings, "width");
+		height = g_settings_get_int (settings, "height");
+
+		if (width > 0 && height > 0)
+			gtk_window_resize (window, width, height);
+
+		if (g_settings_get_boolean (settings, "maximized")) {
+			GdkScreen *screen;
+
+			screen = gtk_window_get_screen (window);
+			gtk_window_get_size (window, &width, &height);
+
+			data->premax_width = width;
+			data->premax_height = height;
+
+			width = gdk_screen_get_width (screen);
+			height = gdk_screen_get_height (screen);
+
+			gtk_window_resize (window, width, height);
+			gtk_window_maximize (window);
+		}
+	}
+
+	if (flags & E_RESTORE_WINDOW_POSITION) {
+		gint x, y;
+
+		x = g_settings_get_int (settings, "x");
+		y = g_settings_get_int (settings, "y");
+
+		gtk_window_move (window, x, y);
+	}
+
+	g_object_set_data_full (
+		G_OBJECT (window),
+		"e-util-window-data", data,
+		(GDestroyNotify) window_data_free);
+
+	g_signal_connect (
+		window, "configure-event",
+		G_CALLBACK (window_configure_event_cb), data);
+
+	g_signal_connect (
+		window, "window-state-event",
+		G_CALLBACK (window_state_event_cb), data);
+
+	g_signal_connect (
+		window, "unmap",
+		G_CALLBACK (window_unmap_cb), data);
+
+	g_object_unref (settings);
 }
 
 /**
