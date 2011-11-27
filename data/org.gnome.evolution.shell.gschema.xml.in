@@ -30,31 +30,6 @@
       <_summary>Enable express mode</_summary>
       <_description>Flag that enables a much simplified user interface.</_description>
     </key>
-    <key name="window-y" type="i">
-      <default>0</default>
-      <_summary>Default window Y coordinate</_summary>
-      <_description>The default Y coordinate for the main window.</_description>
-    </key>
-    <key name="window-x" type="i">
-      <default>0</default>
-      <_summary>Default window X coordinate</_summary>
-      <_description>The default X coordinate for the main window.</_description>
-    </key>
-    <key name="window-width" type="i">
-      <default>640</default>
-      <_summary>Default window width</_summary>
-      <_description>The default width for the main window, in pixels.</_description>
-    </key>
-    <key name="window-height" type="i">
-      <default>480</default>
-      <_summary>Default window height</_summary>
-      <_description>The default height for the main window, in pixels.</_description>
-    </key>
-    <key name="window-maximized" type="b">
-      <default>true</default>
-      <_summary>Default window state</_summary>
-      <_description>Whether or not the window should be maximized.</_description>
-    </key>
     <key name="buttons-visible" type="b">
       <default>true</default>
       <_summary>Window buttons are visible</_summary>
@@ -90,5 +65,6 @@
       <_summary>Default sidebar width</_summary>
       <_description>The default width for the sidebar, in pixels.</_description>
     </key>
+    <child name="window" schema="org.gnome.evolution.window"/>
   </schema>
 </schemalist>

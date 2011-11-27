@@ -35,7 +35,6 @@
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-alert-sink.h>
 #include <e-util/e-plugin-ui.h>
-#include <e-util/gconf-bridge.h>
 #include <widgets/misc/e-alert-bar.h>
 #include <widgets/misc/e-import-assistant.h>
 #include <widgets/misc/e-menu-tool-button.h>

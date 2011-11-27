@@ -30,7 +30,6 @@
 
 #include "e-util/e-util.h"
 #include "e-util/e-plugin-ui.h"
-#include "e-util/gconf-bridge.h"
 #include "shell/e-shell.h"
 #include "shell/e-shell-utils.h"
 #include "shell/e-shell-settings.h"
@@ -931,17 +930,16 @@ e_mail_browser_reader_init (EMailReaderInterface *interface)
 static void
 e_mail_browser_init (EMailBrowser *browser)
 {
-	GConfBridge *bridge;
-	const gchar *prefix;
-
 	browser->priv = E_MAIL_BROWSER_GET_PRIVATE (browser);
 	browser->priv->formatter = em_format_html_display_new ();
 
-	bridge = gconf_bridge_get ();
-	prefix = "/apps/evolution/mail/mail_browser";
-	gconf_bridge_bind_window_size (bridge, prefix, GTK_WINDOW (browser));
-
 	gtk_window_set_title (GTK_WINDOW (browser), _("Evolution"));
+	gtk_window_set_default_size (GTK_WINDOW (browser), 600, 400);
+
+	e_restore_window (
+		GTK_WINDOW (browser),
+		"/org/gnome/evolution/mail/browser-window/",
+		E_RESTORE_WINDOW_SIZE);
 }
 
 GtkWidget *

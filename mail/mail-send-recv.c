@@ -33,7 +33,7 @@
 
 #include "shell/e-shell.h"
 #include "e-util/e-account-utils.h"
-#include "e-util/gconf-bridge.h"
+#include "e-util/e-util.h"
 
 #include "e-mail-folder-utils.h"
 #include "e-mail-local.h"
@@ -452,12 +452,16 @@ build_dialog (GtkWindow *parent,
 
 	send_recv_dialog = gtk_dialog_new_with_buttons (
 		_("Send & Receive Mail"), parent, 0, NULL);
-	gd = GTK_DIALOG (send_recv_dialog);
-	gtk_window_set_modal ((GtkWindow *) gd, FALSE);
 
-	gconf_bridge_bind_window_size (
-		gconf_bridge_get (), GCONF_KEY_PREFIX,
-		GTK_WINDOW (send_recv_dialog));
+	gd = GTK_DIALOG (send_recv_dialog);
+	gtk_window_set_modal (GTK_WINDOW (send_recv_dialog), FALSE);
+	gtk_window_set_icon_name (GTK_WINDOW (gd), "mail-send-receive");
+	gtk_window_set_default_size (GTK_WINDOW (gd), 600, 200);
+
+	e_restore_window (
+		GTK_WINDOW (gd),
+		"/org/gnome/evolution/mail/send-recv-window/",
+		E_RESTORE_WINDOW_SIZE);
 
 	gtk_widget_ensure_style ((GtkWidget *) gd);
 
@@ -474,8 +478,6 @@ build_dialog (GtkWindow *parent,
 			GTK_STOCK_CANCEL, GTK_ICON_SIZE_BUTTON));
 	gtk_widget_show (cancel_button);
 	gtk_dialog_add_action_widget (gd, cancel_button, GTK_RESPONSE_CANCEL);
-
-	gtk_window_set_icon_name (GTK_WINDOW (gd), "mail-send-receive");
 
 	num_sources = 0;
 

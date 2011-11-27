@@ -261,7 +261,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	GtkWindow *window;
 	GObject *object;
 	guint merge_id;
-	const gchar *key;
 	const gchar *id;
 
 #ifndef G_OS_WIN32
@@ -444,9 +443,10 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		g_free (priv->geometry);
 		priv->geometry = NULL;
 	} else {
-		/* FIXME: how to bind this */
-		key = "/apps/evolution/shell/view_defaults/window";
-		gconf_bridge_bind_window (gconf_bridge_get (), key, window, TRUE, TRUE);
+		gtk_window_set_default_size (window, 640, 480);
+		e_restore_window (
+			window, "/org/gnome/evolution/shell/window/",
+			E_RESTORE_WINDOW_SIZE | E_RESTORE_WINDOW_POSITION);
 	}
 
 	shell_window_init_switcher_style (shell_window);

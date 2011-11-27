@@ -31,7 +31,6 @@
 #include <fcntl.h>
 
 #include "e-util/e-signature-utils.h"
-#include "e-util/gconf-bridge.h"
 
 #include "em-composer-prefs.h"
 #include "composer/e-msg-composer.h"

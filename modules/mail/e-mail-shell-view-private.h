@@ -29,7 +29,6 @@
 #include <camel/camel-search-private.h>  /* for camel_search_word */
 
 #include "e-util/e-util.h"
-#include "e-util/gconf-bridge.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/e-ui-manager.h"
 #include "filter/e-filter-part.h"

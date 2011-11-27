@@ -2086,6 +2086,7 @@ msg_composer_constructed (GObject *object)
 
 	gtk_window_set_title (GTK_WINDOW (composer), _("Compose Message"));
 	gtk_window_set_icon_name (GTK_WINDOW (composer), "mail-message-new");
+	gtk_window_set_default_size (GTK_WINDOW (composer), 600, 500);
 
 	g_signal_connect (
 		object, "delete-event",
@@ -2106,14 +2107,10 @@ msg_composer_constructed (GObject *object)
 
 	/* Restore Persistent State */
 
-	/* FIXME: need to bind this to GSettings */
-	/* array = composer->priv->gconf_bridge_binding_ids; */
-
-	/* binding_id = gconf_bridge_bind_window ( */
-	/* 	gconf_bridge_get (), */
-	/* 	COMPOSER_GCONF_WINDOW_PREFIX, */
-	/* 	GTK_WINDOW (composer), TRUE, FALSE); */
-	/* g_array_append_val (array, binding_id); */
+	e_restore_window (
+		GTK_WINDOW (composer),
+		"/org/gnome/evolution/mail/composer-window/",
+		E_RESTORE_WINDOW_SIZE);
 
 	/* Honor User Preferences */
 

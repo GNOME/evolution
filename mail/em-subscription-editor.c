@@ -32,7 +32,6 @@
 #include <e-util/e-util.h>
 #include <e-util/e-account-utils.h>
 #include <e-util/e-util-private.h>
-#include <e-util/gconf-bridge.h>
 
 #include "em-folder-utils.h"
 
@@ -1615,11 +1614,12 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 
 	gtk_container_set_border_width (GTK_CONTAINER (editor), 5);
 	gtk_window_set_title (GTK_WINDOW (editor), _("Folder Subscriptions"));
+	gtk_window_set_default_size (GTK_WINDOW (editor), 600, 400);
 
-	gconf_bridge_bind_window_size (
-		gconf_bridge_get (),
-		"/apps/evolution/mail/subscription_editor",
-		GTK_WINDOW (editor));
+	e_restore_window (
+		GTK_WINDOW (editor),
+		"/org/gnome/evolution/mail/subscription-window/",
+		E_RESTORE_WINDOW_SIZE);
 
 	gtk_dialog_add_button (
 		GTK_DIALOG (editor),

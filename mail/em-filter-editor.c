@@ -30,7 +30,6 @@
 
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
-#include "e-util/gconf-bridge.h"
 
 #include "em-filter-editor.h"
 #include "em-filter-rule.h"
@@ -67,14 +66,12 @@ em_filter_editor_class_init (EMFilterEditorClass *class)
 static void
 em_filter_editor_init (EMFilterEditor *filter_editor)
 {
-	GConfBridge *bridge;
-	const gchar *key_prefix;
+	gtk_window_set_default_size (GTK_WINDOW (filter_editor), 400, 650);
 
-	bridge = gconf_bridge_get ();
-	key_prefix = "/apps/evolution/mail/filter_editor";
-
-	gconf_bridge_bind_window_size (
-		bridge, key_prefix, GTK_WINDOW (filter_editor));
+	e_restore_window (
+		GTK_WINDOW (filter_editor),
+		"/org/gnome/evolution/mail/filter-window/",
+		E_RESTORE_WINDOW_SIZE);
 }
 
 /**

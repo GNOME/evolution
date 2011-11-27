@@ -32,7 +32,6 @@
 
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
-#include "e-util/gconf-bridge.h"
 
 #include "em-vfolder-editor.h"
 #include "em-vfolder-rule.h"
@@ -73,14 +72,12 @@ em_vfolder_editor_class_init (EMVFolderEditorClass *class)
 static void
 em_vfolder_editor_init (EMVFolderEditor *vfolder_editor)
 {
-	GConfBridge *bridge;
-	const gchar *key_prefix;
+	gtk_window_set_default_size (GTK_WINDOW (vfolder_editor), 400, 650);
 
-	bridge = gconf_bridge_get ();
-	key_prefix = "/apps/evolution/mail/vfolder_editor";
-
-	gconf_bridge_bind_window_size (
-		bridge, key_prefix, GTK_WINDOW (vfolder_editor));
+	e_restore_window (
+		GTK_WINDOW (vfolder_editor),
+		"/org/gnome/evolution/mail/vfolder-window",
+		E_RESTORE_WINDOW_SIZE);
 }
 
 /**

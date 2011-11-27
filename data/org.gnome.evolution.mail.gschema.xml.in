@@ -120,16 +120,6 @@
       <_summary>Do not add signature delimiter</_summary>
       <_description>Set to TRUE in case you do not want to add signature delimiter before your signature when composing a mail.</_description>
     </key>
-    <key name="composer-width" type="i">
-      <default>600</default>
-      <_summary>Composer Window default width</_summary>
-      <_description>Default width of the Composer Window.</_description>
-    </key>
-    <key name="composer-height" type="i">
-      <default>500</default>
-      <_summary>Composer Window default height</_summary>
-      <_description>Default height of the Composer Window.</_description>
-    </key>
     <key name="composer-ignore-list-reply-to" type="b">
       <default>false</default>
       <_summary>Ignore list Reply-To:</_summary>
@@ -330,40 +320,10 @@
       <_summary>Whether sort threads based on latest message in that thread</_summary>
       <_description>This setting specifies whether the threads should be sorted based on latest message in each thread, rather than by message's date. Evolution requires a restart.</_description>
     </key>
-    <key name="mail-browser-width" type="i">
-      <default>600</default>
-      <_summary>Mail browser width</_summary>
-      <_description>Default width of the mail browser window.</_description>
-    </key>
-    <key name="mail-browser-height" type="i">
-      <default>400</default>
-      <_summary>Mail browser height</_summary>
-      <_description>Default height of the mail browser window.</_description>
-    </key>
-    <key name="mail-browser-maximized" type="b">
-      <default>false</default>
-      <_summary>Mail browser maximized</_summary>
-      <_description>Default maximized state of the mail browser window.</_description>
-    </key>
     <key name="sort-accounts-alpha" type="b">
       <default>true</default>
       <_summary>Sort accounts alphabetically in a folder tree</_summary>
       <_description>Tells how to sort accounts in a folder tree used in a Mail view. When set to true accounts are sorted alphabetically, with an exception of On This Computer and Search folders, otherwise accounts are sorted based on an order given by a user</_description>
-    </key>
-    <key name="subscription-editor-height" type="i">
-      <default>400</default>
-      <_summary>"Folder Subscriptions" window height</_summary>
-      <_description>Initial height of the "Folder Subscriptions" window. The value updates as the user resizes the window vertically.</_description>
-    </key>
-    <key name="subscription-editor-maximized" type="b">
-      <default>false</default>
-      <_summary>"Folder Subscriptions" window maximize state</_summary>
-      <_description>Initial maximize state of the "Folder Subscriptions" window. The value updates when the user maximizes or unmaximizes the window. Note, this particular value is not used by Evolution since the "Folder Subscriptions" window cannot be maximized. This key exists only as an implementation detail.</_description>
-    </key>
-    <key name="subscription-editor-width" type="i">
-      <default>600</default>
-      <_summary>"Folder Subscriptions" window width</_summary>
-      <_description>Initial width of the "Folder Subscriptions" window. The value updates as the user resizes the window horizontally.</_description>
     </key>
     <key name="filters-log-actions" type="b">
       <default>false</default>
@@ -555,31 +515,6 @@
       <_summary>Composer load/attach directory</_summary>
       <_description>Directory for loading/attaching files to composer.</_description>
     </key>
-    <key name="filter-editor-height" type="i">
-      <default>650</default>
-      <_summary>"Filter Editor" window height</_summary>
-      <_description>Initial height of the "Filter Editor" window. The value updates as the user resizes the window vertically.</_description>
-    </key>
-    <key name="filter-editor-maximized" type="b">
-      <default>false</default>
-      <_summary>"Filter Editor" window maximize state</_summary>
-      <_description>Initial maximize state of the "Filter Editor" window. The value updates when the user maximizes or unmaximizes the window. Note, this particular value is not used by Evolution since the "Filter Editor" window cannot be maximized. This key exists only as an implementation detail.</_description>
-    </key>
-    <key name="filter-editor-width" type="i">
-      <default>400</default>
-      <_summary>"Filter Editor" window width</_summary>
-      <_description>Initial width of the "Filter Editor" window. The value updates as the user resizes the window horizontally.</_description>
-    </key>
-    <key name="send-recv-height" type="i">
-      <default>200</default>
-      <_summary>"Send and Receive Mail" window height</_summary>
-      <_description>Initial height of the "Send and Receive Mail" window. The value updates as the user resizes the window vertically.</_description>
-    </key>
-    <key name="send-recv-maximized" type="b">
-      <default>false</default>
-      <_summary>"Send and Receive Mail" window maximize state</_summary>
-      <_description>Initial maximize state of the "Send and Receive Mail" window. The value updates when the user maximizes or unmaximizes the window.  Note, this particular value is not used by Evolution since the "Send and Receive Mail" window cannot be maximized. This key exists only as an implementation detail.</_description>
-    </key>
     <key name="send-recv-on-start" type="b">
       <default>true</default>
       <_summary>Check for new messages on start</_summary>
@@ -590,30 +525,16 @@
       <_summary>Check for new messages in all active accounts</_summary>
       <_description>Whether check for new messages in all active accounts regardless of the account "Check for new messages every X minutes" option when Evolution is started. This option is used only together with 'send_recv_on_start' option.</_description>
     </key>
-    <key name="send-recv-width" type="i">
-      <default>600</default>
-      <_summary>"Send and Receive Mail" window width</_summary>
-      <_description>Initial width of the "Send and Receive Mail" window. The value updates as the user resizes the window horizontally.</_description>
-    </key>
-    <key name="vfolder-editor-height" type="i">
-      <default>650</default>
-      <_summary>"Search Folder Editor" window height</_summary>
-      <_description>Initial height of the "Search Folder Editor" window. The value updates as the user resizes the window vertically.</_description>
-    </key>
-    <key name="vfolder-editor-maximized" type="b">
-      <default>false</default>
-      <_summary>"Search Folder Editor" window maximize state</_summary>
-      <_description>Initial maximize state of the "Search Folder Editor" window. The value updates when the user maximizes or unmaximizes the window.  Note, this particular value is not used by Evolution since the "Search Folder Editor" window cannot be maximized. This key exists only as an implementation detail.</_description>
-    </key>
-    <key name="vfolder-editor-width" type="i">
-      <default>400</default>
-      <_summary>"Search Folder Editor" window width</_summary>
-      <_description>Initial width of the "Search Folder Editor" window. The value updates as the user resizes the window horizontally.</_description>
-    </key>
     <key name="sync-interval" type="i">
       <default>600</default>
       <_summary>Server synchronization interval</_summary>
       <_description>Controls how frequently local changes are synchronized with the remote mail server. The interval must be at least 30 seconds.</_description>
     </key>
+    <child name="browser-window" schema="org.gnome.evolution.window"/>
+    <child name="composer-window" schema="org.gnome.evolution.window"/>
+    <child name="filter-window" schema="org.gnome.evolution.window"/>
+    <child name="send-recv-window" schema="org.gnome.evolution.window"/>
+    <child name="subscription-window" schema="org.gnome.evolution.window"/>
+    <child name="vfolder-window" schema="org.gnome.evolution.window"/>
   </schema>
 </schemalist>
