@@ -155,7 +155,7 @@
       <_summary>Mark citations in the message "Preview"</_summary>
       <_description>Mark citations in the message "Preview".</_description>
     </key>
-    <key name="citation-colour" type="s">
+    <key name="citation-color" type="s">
       <default>'#737373'</default>
       <_summary>Citation highlight color</_summary>
       <_description>Citation highlight color.</_description>

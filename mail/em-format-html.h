@@ -193,7 +193,7 @@ struct _EMFormatHTMLPObject {
  * @text_colour:
  * @frame_colour:
  * @content_colour:
- * @citation_colour:
+ * @citation_color:
  * @load_http:2:
  * @load_http_now:1:
  * @mark_citations:1:

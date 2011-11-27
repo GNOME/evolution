@@ -128,7 +128,7 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 	e_shell_settings_install_property_for_key (
 		"mail-citation-color",
 		MAIL_SCHEMA,
-		"citation-colour");
+		"citation-color");
 
 	e_shell_settings_install_property_for_key (
 		"mail-confirm-expunge",
