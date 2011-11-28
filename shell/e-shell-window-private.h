@@ -27,7 +27,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <gconf/gconf-client.h>
 #include <libebackend/e-extensible.h>
 
 #include <e-util/e-util.h>

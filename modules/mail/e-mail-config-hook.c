@@ -34,7 +34,6 @@ static const EConfigHookTargetMask no_masks[] = {
 
 static const EConfigHookTargetMap targets[] = {
 	{ "folder", EM_CONFIG_TARGET_FOLDER, no_masks },
-	{ "prefs", EM_CONFIG_TARGET_PREFS, no_masks },
 	{ "settings", EM_CONFIG_TARGET_SETTINGS, no_masks },
 	{ NULL }
 };

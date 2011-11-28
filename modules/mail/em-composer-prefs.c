@@ -328,7 +328,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	GtkCellRenderer *renderer;
 	GConfClient *client;
 	EMConfig *ec;
-	EMConfigTargetPrefs *target;
 	GSList *l;
 	gint i;
 
@@ -346,7 +345,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	 * @Id: org.gnome.evolution.mail.composerPrefs
 	 * @Type: E_CONFIG_BOOK
 	 * @Class: org.gnome.evolution.mail.config:1.0
-	 * @Target: EMConfigTargetPrefs
 	 *
 	 * The mail composer preferences settings page.
 	 */
@@ -589,8 +587,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	/* get our toplevel widget */
 	client = gconf_client_get_default ();
-	target = em_config_target_new_prefs (ec, client);
-	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 	toplevel = e_config_create_widget ((EConfig *) ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 	g_object_unref (client);

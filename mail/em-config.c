@@ -52,9 +52,6 @@ em_config_set_target (EConfig *ep,
 		case EM_CONFIG_TARGET_FOLDER: {
 			/*EMConfigTargetFolder *s = (EMConfigTargetFolder *)t;*/
 			break; }
-		case EM_CONFIG_TARGET_PREFS: {
-			/*EMConfigTargetPrefs *s = (EMConfigTargetPrefs *)t;*/
-			break; }
 		case EM_CONFIG_TARGET_SETTINGS: {
 			EMConfigTargetSettings *s = (EMConfigTargetSettings *) t;
 
@@ -78,8 +75,6 @@ em_config_target_free (EConfig *ep,
 		switch (t->type) {
 		case EM_CONFIG_TARGET_FOLDER:
 			break;
-		case EM_CONFIG_TARGET_PREFS:
-			break;
 		case EM_CONFIG_TARGET_SETTINGS: {
 			EMConfigTargetSettings *s = (EMConfigTargetSettings *) t;
 
@@ -94,12 +89,6 @@ em_config_target_free (EConfig *ep,
 		EMConfigTargetFolder *s = (EMConfigTargetFolder *) t;
 
 		g_object_unref (s->folder);
-		break; }
-	case EM_CONFIG_TARGET_PREFS: {
-		EMConfigTargetPrefs *s = (EMConfigTargetPrefs *) t;
-
-		if (s->gconf)
-			g_object_unref (s->gconf);
 		break; }
 	case EM_CONFIG_TARGET_SETTINGS: {
 		EMConfigTargetSettings *s = (EMConfigTargetSettings *) t;
@@ -153,23 +142,6 @@ em_config_target_new_folder (EMConfig *emp,
 		&emp->config, EM_CONFIG_TARGET_FOLDER, sizeof (*t));
 
 	t->folder = g_object_ref (folder);
-
-	return t;
-}
-
-EMConfigTargetPrefs *
-em_config_target_new_prefs (EMConfig *emp,
-                            GConfClient *gconf)
-{
-	EMConfigTargetPrefs *t;
-
-	t = e_config_target_new (
-		&emp->config, EM_CONFIG_TARGET_PREFS, sizeof (*t));
-
-	if (GCONF_IS_CLIENT (gconf))
-		t->gconf = g_object_ref (gconf);
-	else
-		t->gconf = NULL;
 
 	return t;
 }

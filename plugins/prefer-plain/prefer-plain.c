@@ -298,7 +298,6 @@ GtkWidget *
 org_gnome_prefer_plain_config_mode (EPlugin *epl,
                                     struct _EConfigHookItemFactoryData *data)
 {
-	/*EMConfigTargetPrefs *ep = (EMConfigTargetPrefs *)data->target;*/
 	GtkComboBox *dropdown;
 	GtkCellRenderer *cell;
 	GtkListStore *store;

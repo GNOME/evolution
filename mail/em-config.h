@@ -24,7 +24,6 @@
 #define EM_CONFIG_H
 
 #include <camel/camel.h>
-#include <gconf/gconf-client.h>
 #include <libedataserver/e-account.h>
 
 #include "e-util/e-config.h"
@@ -58,25 +57,16 @@ typedef struct _EMConfigPrivate EMConfigPrivate;
 /* Types of popup tagets */
 enum _em_config_target_t {
 	EM_CONFIG_TARGET_FOLDER,
-	EM_CONFIG_TARGET_PREFS,
 	EM_CONFIG_TARGET_SETTINGS
 };
 
 typedef struct _EMConfigTargetFolder EMConfigTargetFolder;
-typedef struct _EMConfigTargetPrefs EMConfigTargetPrefs;
 typedef struct _EMConfigTargetSettings EMConfigTargetSettings;
 
 struct _EMConfigTargetFolder {
 	EConfigTarget target;
 
 	CamelFolder *folder;
-};
-
-struct _EMConfigTargetPrefs {
-	EConfigTarget target;
-
-	/* preferences are global from gconf */
-	GConfClient *gconf;
 };
 
 struct _EMConfigTargetSettings {
@@ -108,9 +98,6 @@ EMConfig *	em_config_new			(gint type,
 EMConfigTargetFolder *
 		em_config_target_new_folder	(EMConfig *emp,
 						 CamelFolder *folder);
-EMConfigTargetPrefs *
-		em_config_target_new_prefs	(EMConfig *emp,
-						 GConfClient *gconf);
 EMConfigTargetSettings *
 		em_config_target_new_settings	(EMConfig *emp,
 						 const gchar *email_address,

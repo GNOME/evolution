@@ -24,6 +24,8 @@
 #define EM_MAILER_PREFS_H
 
 #include <gtk/gtk.h>
+#include <gconf/gconf-client.h>
+
 #include <shell/e-shell.h>
 #include <widgets/misc/e-preferences-window.h>
 

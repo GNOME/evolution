@@ -22,8 +22,6 @@
 #ifndef E_SHELL_H
 #define E_SHELL_H
 
-#include <gconf/gconf-client.h>
-
 #include <e-util/e-activity.h>
 #include <e-util/e-alert.h>
 

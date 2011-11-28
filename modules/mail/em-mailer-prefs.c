@@ -712,7 +712,6 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	gboolean locked;
 	gint val, i;
 	EMConfig *ec;
-	EMConfigTargetPrefs *target;
 	GSList *l;
 
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -729,7 +728,6 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	 * @Id: org.gnome.evolution.mail.prefs
 	 * @Type: E_CONFIG_BOOK
 	 * @Class: org.gnome.evolution.mail.config:1.0
-	 * @Target: EMConfigTargetPrefs
 	 *
 	 * The main mail preferences page.
 	 */
@@ -1115,8 +1113,6 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_CALLBACK (jh_remove_cb), prefs);
 
 	/* get our toplevel widget */
-	target = em_config_target_new_prefs (ec, prefs->gconf);
-	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 	toplevel = e_config_create_widget ((EConfig *) ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 }

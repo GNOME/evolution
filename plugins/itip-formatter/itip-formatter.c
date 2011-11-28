@@ -3130,8 +3130,7 @@ format_itip (EPlugin *ep,
 }
 
 static void
-delete_toggled_cb (GtkWidget *widget,
-                   gpointer data)
+delete_toggled_cb (GtkWidget *widget)
 {
 	GSettings *settings;
 	gboolean active;
@@ -3196,7 +3195,6 @@ GtkWidget *
 itip_formatter_page_factory (EPlugin *ep,
                              EConfigHookItemFactoryData *hook_data)
 {
-	EMConfigTargetPrefs *target = (EMConfigTargetPrefs *) hook_data->config->target;
 	GtkWidget *page;
 	GtkWidget *tab_label;
 	GtkWidget *frame;
@@ -3243,7 +3241,7 @@ itip_formatter_page_factory (EPlugin *ep,
 
 	check = gtk_check_button_new_with_mnemonic (_("_Delete message after acting"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), g_settings_get_boolean (settings, CONF_KEY_DELETE));
-	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (delete_toggled_cb), target);
+	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (delete_toggled_cb), NULL);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
 
 	g_object_unref (settings);
