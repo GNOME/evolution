@@ -396,7 +396,7 @@ startup_wizard_progress_page (EConfig *config,
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (
-		_("Import cancelled. Click \"Forward\" to continue."));
+		_("Import cancelled."));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -414,7 +414,7 @@ startup_wizard_progress_page (EConfig *config,
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (
-		_("Import complete. Click \"Forward\" to continue."));
+		_("Import complete."));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
