@@ -168,7 +168,6 @@ e-util/e-print.c
 e-util/e-signature.c
 e-util/e-system.error.xml
 e-util/e-util.c
-e-util/gconf-bridge.c
 filter/e-filter-datespec.c
 filter/e-filter-file.c
 filter/e-filter-input.c
