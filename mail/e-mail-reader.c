@@ -2471,7 +2471,6 @@ mail_reader_message_seen_cb (EMailReaderClosure *closure)
 	EMailReader *reader;
 	GtkWidget *message_list;
 	EMFormatHTML *formatter;
-	CamelMimeMessage *message;
 	const gchar *current_uid;
 	const gchar *message_uid;
 	gboolean uid_is_current = TRUE;
@@ -2488,13 +2487,16 @@ mail_reader_message_seen_cb (EMailReaderClosure *closure)
 	current_uid = MESSAGE_LIST (message_list)->cursor_uid;
 	uid_is_current &= (g_strcmp0 (current_uid, message_uid) == 0);
 
-	message = EM_FORMAT (formatter)->message;
-	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), FALSE);
+	if (uid_is_current) {
+		CamelMimeMessage *message;
 
-	if (uid_is_current)
+		message = EM_FORMAT (formatter)->message;
+		g_return_val_if_fail (message != NULL, FALSE);
+
 		g_signal_emit (
 			reader, signals[MESSAGE_SEEN], 0,
 			message_uid, message);
+	}
 
 	return FALSE;
 }
