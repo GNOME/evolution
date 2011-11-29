@@ -33,9 +33,6 @@
 #include "em-utils.h"
 #include "em-composer-utils.h"
 
-#include <gconf/gconf.h>
-#include <gconf/gconf-client.h>
-
 #include <e-util/e-util.h>
 
 G_DEFINE_TYPE (EMConfig, em_config, E_TYPE_CONFIG)
@@ -51,6 +48,9 @@ em_config_set_target (EConfig *ep,
 		switch (t->type) {
 		case EM_CONFIG_TARGET_FOLDER: {
 			/*EMConfigTargetFolder *s = (EMConfigTargetFolder *)t;*/
+			break; }
+		case EM_CONFIG_TARGET_PREFS: {
+			/*EMConfigTargetPrefs *s = (EMConfigTargetPrefs *)t;*/
 			break; }
 		case EM_CONFIG_TARGET_SETTINGS: {
 			EMConfigTargetSettings *s = (EMConfigTargetSettings *) t;
@@ -75,6 +75,8 @@ em_config_target_free (EConfig *ep,
 		switch (t->type) {
 		case EM_CONFIG_TARGET_FOLDER:
 			break;
+		case EM_CONFIG_TARGET_PREFS:
+			break;
 		case EM_CONFIG_TARGET_SETTINGS: {
 			EMConfigTargetSettings *s = (EMConfigTargetSettings *) t;
 
@@ -89,6 +91,9 @@ em_config_target_free (EConfig *ep,
 		EMConfigTargetFolder *s = (EMConfigTargetFolder *) t;
 
 		g_object_unref (s->folder);
+		break; }
+	case EM_CONFIG_TARGET_PREFS: {
+		/* EMConfigTargetPrefs *s = (EMConfigTargetPrefs *) t; */
 		break; }
 	case EM_CONFIG_TARGET_SETTINGS: {
 		EMConfigTargetSettings *s = (EMConfigTargetSettings *) t;
@@ -142,6 +147,17 @@ em_config_target_new_folder (EMConfig *emp,
 		&emp->config, EM_CONFIG_TARGET_FOLDER, sizeof (*t));
 
 	t->folder = g_object_ref (folder);
+
+	return t;
+}
+
+EMConfigTargetPrefs *
+em_config_target_new_prefs (EMConfig *emp)
+{
+	EMConfigTargetPrefs *t;
+
+	t = e_config_target_new (
+		&emp->config, EM_CONFIG_TARGET_PREFS, sizeof (*t));
 
 	return t;
 }

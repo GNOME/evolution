@@ -318,6 +318,7 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	GSList *l, *ignore;
 	gchar *buf;
 	EMConfig *ec;
+	EMConfigTargetPrefs *target;
 	gboolean locked;
 	gint i, val, port;
 
@@ -335,6 +336,7 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	 * @Id: org.gnome.evolution.mail.networkPrefs
 	 * @Type: E_CONFIG_BOOK
 	 * @Class: org.gnome.evolution.mail.config:1.0
+	 * @Target: EMConfigTargetPrefs
 	 *
 	 * The network preferences settings page.
 	 */
@@ -520,6 +522,8 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	}
 
 	/* get our toplevel widget */
+	target = em_config_target_new_prefs (ec);
+	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 	toplevel = e_config_create_widget ((EConfig *) ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 }

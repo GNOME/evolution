@@ -1134,7 +1134,6 @@ e_config_create_widget (EConfig *emp)
 	GPtrArray *items = g_ptr_array_new ();
 	GList *link;
 	GSList *l;
-	/*char *domain = NULL;*/
 	gint i;
 
 	g_return_val_if_fail (emp->target != NULL, NULL);
