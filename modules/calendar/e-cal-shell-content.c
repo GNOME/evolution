@@ -125,7 +125,7 @@ cal_shell_content_notify_view_id_cb (ECalShellContent *cal_shell_content)
 	else
 		key = "hpane-position";
 
-	g_settings_unbind (settings, key);
+	g_settings_unbind (paned, "hposition");
 
 	g_settings_bind (settings, key, G_OBJECT (paned), "hposition", G_SETTINGS_BIND_DEFAULT);
 

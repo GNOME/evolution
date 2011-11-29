@@ -334,6 +334,9 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 				break;
 		}
 
+		if (key != NULL)
+			g_settings_unbind (header, "visible");
+
 		switch (ii) {
 			case E_COMPOSER_HEADER_FROM:
 				sensitive = TRUE;
@@ -358,10 +361,8 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 		e_composer_header_set_sensitive (header, sensitive);
 		e_composer_header_set_visible (header, visible);
 
-		if (key != NULL) {
-			g_settings_unbind (settings, key);
+		if (key != NULL)
 			g_settings_bind (settings, key, G_OBJECT (header), "visible", G_SETTINGS_BIND_DEFAULT);
-		}
 	}
 
 	g_object_unref (settings);
@@ -395,6 +396,9 @@ composer_header_table_setup_post_headers (EComposerHeaderTable *table)
 				break;
 		}
 
+		if (key != NULL)
+			g_settings_unbind (header, "visible");
+
 		switch (ii) {
 			case E_COMPOSER_HEADER_FROM:
 			case E_COMPOSER_HEADER_POST_TO:
@@ -410,10 +414,8 @@ composer_header_table_setup_post_headers (EComposerHeaderTable *table)
 				break;
 		}
 
-		if (key != NULL) {
-			g_settings_unbind (settings, key);
+		if (key != NULL)
 			g_settings_bind (settings, key, G_OBJECT (header), "visible", G_SETTINGS_BIND_DEFAULT);
-		}
 	}
 
 	g_object_unref (settings);
