@@ -214,7 +214,6 @@ import_contacts (void)
 	}
 
 	if (!e_client_open_sync (E_CLIENT (book_client), TRUE, NULL, &error)) {
-		g_object_unref (primary);
 		g_object_unref (source_list);
 		fclose (fp);
 
@@ -225,7 +224,6 @@ import_contacts (void)
 			g_error_free (error);
 		return;
 	}
-	g_object_unref (primary);
 	g_object_unref (source_list);
 
 	line = g_string_new("");
