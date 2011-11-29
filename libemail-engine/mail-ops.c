@@ -1705,64 +1705,69 @@ mail_disconnect_store (CamelStore *store)
 /* Multi Operation holder */
 
 
-struct _multi_op_folder_msg {
+struct _multi_op_object_msg {
 	MailMsg base;
 
-	CamelFolder *folder;
+	GObject *object;
 	gboolean ret;
-	gboolean (*do_op) (CamelFolder *folder, gpointer data, GError **error);	
+	gboolean (*do_op) (GObject *object, gpointer data, GError **error);	
 	void (*done) (gboolean success, gpointer data, GError *error);
 	gpointer data;
 };
 
 static gchar *
-multi_op_folder_desc (struct _multi_op_folder_msg *m)
+multi_op_object_desc (struct _multi_op_object_msg *m)
 {
 	gchar *res;
 
-	res = g_strdup_printf(_("Operating on Folder '%s'"), camel_folder_get_full_name (m->folder));
+	if (CAMEL_IS_SERVICE(m->object))
+		res = g_strdup_printf(_("Operating on store '%p'"), camel_service_get_name ((CamelService *)m->object, TRUE));
+	else if (CAMEL_IS_FOLDER (m->object))
+		res = g_strdup_printf(_("Operating on folder '%p'"), camel_folder_get_full_name((CamelFolder *)m->object));
+	else
+		res = g_strdup_printf(_("Operating on object '%p'"), m->object);
 
 	return res;
 }
 
 static void
-multi_op_folder_exec (struct _multi_op_folder_msg *m)
+multi_op_object_exec (struct _multi_op_object_msg *m)
 {
-	m->ret = m->do_op (m->folder, m->data, &m->base.error);
+	m->ret = m->do_op (m->object, m->data, &m->base.error);
 }
 
 static void
-multi_op_folder_done (struct _multi_op_folder_msg *m)
+multi_op_object_done (struct _multi_op_object_msg *m)
 {
 	if (m->done)
 		m->done(m->ret, m->data, m->base.error);
 }
 
 static void
-multi_op_folder_free (struct _multi_op_folder_msg *m)
+multi_op_object_free (struct _multi_op_object_msg *m)
 {
-	g_object_unref (m->folder);
+	g_object_unref (m->object);
 }
 
-static MailMsgInfo multi_op_folder = {
-	sizeof (struct _multi_op_folder_msg),
-	(MailMsgDescFunc) multi_op_folder_desc,
-	(MailMsgExecFunc) multi_op_folder_exec,
-	(MailMsgDoneFunc) multi_op_folder_done,
-	(MailMsgFreeFunc) multi_op_folder_free
+static MailMsgInfo multi_op_object = {
+	sizeof (struct _multi_op_object_msg),
+	(MailMsgDescFunc) multi_op_object_desc,
+	(MailMsgExecFunc) multi_op_object_exec,
+	(MailMsgDoneFunc) multi_op_object_done,
+	(MailMsgFreeFunc) multi_op_object_free
 };
 
 void
-mail_operate_on_folder(CamelFolder *folder, 
-		       gboolean (*do_op) (CamelFolder *folder, gpointer data, GError **error),
+mail_operate_on_object(GObject *object, 
+		       gboolean (*do_op) (GObject *object, gpointer data, GError **error),
 		       void (*done) (gboolean ret, gpointer data, GError *error), 
 		       gpointer data)
 {
-	struct _multi_op_folder_msg *m;
+	struct _multi_op_object_msg *m;
 
-	m = mail_msg_new(&multi_op_folder);
-	m->folder= folder;
-	g_object_ref (folder);
+	m = mail_msg_new(&multi_op_object);
+	m->object= object;
+	g_object_ref (object);
 	m->data = data;
 	m->do_op = do_op;
 	m->done = done;
