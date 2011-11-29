@@ -488,7 +488,16 @@ extern void e_marshal_VOID__STRING_INT_INT (GClosure     *closure,
                                             gpointer      marshal_data);
 #define e_marshal_NONE__STRING_INT_INT	e_marshal_VOID__STRING_INT_INT
 
-/* NONE:STRING,POINTER,POINTER (e-marshal.list:57) */
+/* NONE:STRING,OBJECT (e-marshal.list:57) */
+extern void e_marshal_VOID__STRING_OBJECT (GClosure     *closure,
+                                           GValue       *return_value,
+                                           guint         n_param_values,
+                                           const GValue *param_values,
+                                           gpointer      invocation_hint,
+                                           gpointer      marshal_data);
+#define e_marshal_NONE__STRING_OBJECT	e_marshal_VOID__STRING_OBJECT
+
+/* NONE:STRING,POINTER,POINTER (e-marshal.list:58) */
 extern void e_marshal_VOID__STRING_POINTER_POINTER (GClosure     *closure,
                                                     GValue       *return_value,
                                                     guint         n_param_values,
@@ -497,7 +506,7 @@ extern void e_marshal_VOID__STRING_POINTER_POINTER (GClosure     *closure,
                                                     gpointer      marshal_data);
 #define e_marshal_NONE__STRING_POINTER_POINTER	e_marshal_VOID__STRING_POINTER_POINTER
 
-/* NONE:STRING,STRING (e-marshal.list:58) */
+/* NONE:STRING,STRING (e-marshal.list:59) */
 extern void e_marshal_VOID__STRING_STRING (GClosure     *closure,
                                            GValue       *return_value,
                                            guint         n_param_values,
@@ -506,7 +515,7 @@ extern void e_marshal_VOID__STRING_STRING (GClosure     *closure,
                                            gpointer      marshal_data);
 #define e_marshal_NONE__STRING_STRING	e_marshal_VOID__STRING_STRING
 
-/* NONE:UINT,STRING (e-marshal.list:59) */
+/* NONE:UINT,STRING (e-marshal.list:60) */
 extern void e_marshal_VOID__UINT_STRING (GClosure     *closure,
                                          GValue       *return_value,
                                          guint         n_param_values,
@@ -515,7 +524,7 @@ extern void e_marshal_VOID__UINT_STRING (GClosure     *closure,
                                          gpointer      marshal_data);
 #define e_marshal_NONE__UINT_STRING	e_marshal_VOID__UINT_STRING
 
-/* STRING:NONE (e-marshal.list:60) */
+/* STRING:NONE (e-marshal.list:61) */
 extern void e_marshal_STRING__VOID (GClosure     *closure,
                                     GValue       *return_value,
                                     guint         n_param_values,
