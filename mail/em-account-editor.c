@@ -3890,12 +3890,12 @@ emae_check_complete (EConfig *ec,
 				user[at - tmp] = 0;
 				at++;
 
+				refresh = TRUE;
+
 				sdata = emae->priv->selected_server;
 				if (sdata != NULL && uri && (url = camel_url_new (uri, NULL)) != NULL) {
 					CamelNetworkSecurityMethod method;
 					const gchar *use_user = user;
-
-					refresh = TRUE;
 
 					if (sdata->send_security_method != CAMEL_NETWORK_SECURITY_METHOD_NONE)
 						method = sdata->send_security_method;
