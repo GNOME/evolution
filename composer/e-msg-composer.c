@@ -4003,6 +4003,35 @@ merge_always_cc_and_bcc (EComposerHeaderTable *table,
 	e_destination_freev (addrv);
 }
 
+static const gchar *blacklist[] = { ".", "etc", ".." };
+
+static gboolean
+file_is_blacklisted (const gchar *filename)
+{
+	gboolean blacklisted = FALSE;
+	guint ii, jj, n_parts;
+	gchar **parts;
+
+	parts = g_strsplit (filename, G_DIR_SEPARATOR_S, -1);
+	n_parts = g_strv_length (parts);
+
+	for (ii = 0; ii < G_N_ELEMENTS (blacklist); ii++) {
+		for (jj = 0; jj < n_parts; jj++) {
+			if (g_str_has_prefix (parts[jj], blacklist[ii])) {
+				blacklisted = TRUE;
+				break;
+			}
+		}
+	}
+
+	g_strfreev (parts);
+
+	if (blacklisted)
+		g_message ("Skipping suspicious attachment: %s", filename);
+
+	return blacklisted;
+}
+
 static void
 handle_mailto (EMsgComposer *composer,
                const gchar *mailto)
@@ -4096,6 +4125,8 @@ handle_mailto (EMsgComposer *composer,
 				EAttachment *attachment;
 
 				camel_url_decode (content);
+				if (file_is_blacklisted (content))
+					goto next;
 				if (g_ascii_strncasecmp (content, "file:", 5) == 0)
 					attachment = e_attachment_new_for_uri (content);
 				else
@@ -4115,6 +4146,7 @@ handle_mailto (EMsgComposer *composer,
 				e_msg_composer_add_header (composer, header, content);
 			}
 
+next:
 			g_free (content);
 
 			p += clen;
