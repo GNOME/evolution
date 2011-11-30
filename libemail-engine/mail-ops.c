@@ -1759,6 +1759,7 @@ static MailMsgInfo multi_op_object = {
 
 void
 mail_operate_on_object(GObject *object, 
+		       GCancellable *cancellable,
 		       gboolean (*do_op) (GObject *object, gpointer data, GError **error),
 		       void (*done) (gboolean ret, gpointer data, GError *error), 
 		       gpointer data)
@@ -1771,7 +1772,8 @@ mail_operate_on_object(GObject *object,
 	m->data = data;
 	m->do_op = do_op;
 	m->done = done;
-
+	if (G_IS_CANCELLABLE (cancellable))
+		m->base.cancellable = cancellable;
 	mail_msg_unordered_push (m);
 }
 
