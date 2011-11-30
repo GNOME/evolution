@@ -4001,23 +4001,28 @@ merge_always_cc_and_bcc (EComposerHeaderTable *table,
 	e_destination_freev (addrv);
 }
 
-static const gchar *blacklisted_files [] = { ".", "etc", ".." };
+static const gchar *blacklist[] = { ".", "etc", ".." };
 
 static gboolean
-check_blacklisted_file (gchar *filename)
+file_is_blacklisted (gchar *filename)
 {
 	gboolean blacklisted = FALSE;
-	guint ii, jj, length;
-	gchar **filename_part;
+	guint ii, jj, n_parts;
+	gchar **parts;
 
-	filename_part = g_strsplit (filename, G_DIR_SEPARATOR_S, -1);
-	length = g_strv_length (filename_part);
-	for (ii = 0; !blacklisted && ii < G_N_ELEMENTS (blacklisted_files); ii++) {
-		for (jj = 0; !blacklisted && jj < length; jj++)
-			if (g_str_has_prefix (filename_part[jj], blacklisted_files[ii]))
+	parts = g_strsplit (filename, G_DIR_SEPARATOR_S, -1);
+	n_parts = g_strv_length (parts);
+
+	for (ii = 0; ii < G_N_ELEMENTS (blacklist); ii++) {
+		for (jj = 0; jj < n_parts; jj++) {
+			if (g_str_has_prefix (parts[jj], blacklist[ii])) {
 				blacklisted = TRUE;
+				break;
+			}
+		}
 	}
-	g_strfreev (filename_part);
+
+	g_strfreev (parts);
 
 	return blacklisted;
 }
@@ -4115,7 +4120,7 @@ handle_mailto (EMsgComposer *composer,
 				EAttachment *attachment;
 
 				camel_url_decode (content);
-				if (check_blacklisted_file (content))
+				if (file_is_blacklisted (content))
 					e_alert_submit (
 						E_ALERT_SINK (composer),
                 				"mail:blacklisted-file",
