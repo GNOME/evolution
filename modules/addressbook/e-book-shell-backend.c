@@ -127,9 +127,11 @@ book_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		e_source_group_add_source (on_this_computer, source, -1);
 		e_source_set_property (source, "completion", "true");
 		g_object_unref (source);
+		e_source_list_sync (priv->source_list, NULL);		
 	} else {
 		/* Force the source name to the current locale. */
 		e_source_set_name (personal, name);
+		e_source_list_sync (priv->source_list, NULL);		
 	}
 
 	g_object_unref (on_this_computer);
