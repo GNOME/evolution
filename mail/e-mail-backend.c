@@ -843,7 +843,7 @@ mail_mt_cancel_activity (GCancellable *cancellable)
 }
 
 static void    
-mail_mt_alert_error (const char *what, const char *message)
+mail_mt_alert_error (GCancellable *cancellable, const char *what, const char *message)
 {
 	EShell *shell;
 	EShellView *shell_view;

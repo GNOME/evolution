@@ -242,10 +242,10 @@ mail_msg_check_error (gpointer msg)
 		char *what;
 
 		if (m->info->desc && (what = m->info->desc (m))) {
-			alert_error (what, m->error->message);
+			alert_error (m->cancellable, what, m->error->message);
 			g_free (what);
 		} else
-			alert_error (NULL, m->error->message);
+			alert_error (m->cancellable, NULL, m->error->message);
 	}
 }	
 
