@@ -1174,7 +1174,6 @@ e_config_create_widget (EConfig *emp)
 		gtk_notebook_set_current_page ((GtkNotebook *) emp->widget, 0);
 	else {
 		gtk_window_set_position (GTK_WINDOW (emp->widget), GTK_WIN_POS_CENTER);
-		gtk_widget_show (emp->widget);
 	}
 
 	return emp->widget;
