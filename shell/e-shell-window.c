@@ -81,9 +81,10 @@ shell_window_menubar_update_new_menu (EShellWindow *shell_window)
 	gtk_widget_show (widget);
 }
 
-static void shell_window_backend_prefer_item_changed_cb (EShellBackend *backend,
-							 GParamSpec *pspec,
-							 EShellWindow *shell_window);
+static void	shell_window_backend_prefer_item_changed_cb
+						(EShellBackend *backend,
+						 GParamSpec *pspec,
+						 EShellWindow *shell_window);
 
 static void
 shell_window_toolbar_update_new_menu (EShellWindow *shell_window,
@@ -106,19 +107,25 @@ shell_window_toolbar_update_new_menu (EShellWindow *shell_window,
 
 		shell_backend = e_shell_view_get_shell_backend (shell_view);
 
-		g_signal_handlers_disconnect_by_func (shell_backend,
-			shell_window_backend_prefer_item_changed_cb, shell_window);
-		g_signal_connect (shell_backend, "notify::prefer-new-item",
-			G_CALLBACK (shell_window_backend_prefer_item_changed_cb), shell_window);
+		g_signal_handlers_disconnect_by_func (
+			shell_backend,
+			shell_window_backend_prefer_item_changed_cb,
+			shell_window);
 
-		shell_window_backend_prefer_item_changed_cb (shell_backend, NULL, shell_window);
+		g_signal_connect (
+			shell_backend, "notify::prefer-new-item",
+			G_CALLBACK (shell_window_backend_prefer_item_changed_cb),
+			shell_window);
+
+		shell_window_backend_prefer_item_changed_cb (
+			shell_backend, NULL, shell_window);
 	}
 }
 
 static void
 shell_window_backend_prefer_item_changed_cb (EShellBackend *backend,
-					     GParamSpec *pspec,
-					     EShellWindow *shell_window)
+                                             GParamSpec *pspec,
+                                             EShellWindow *shell_window)
 {
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
@@ -1560,7 +1567,7 @@ e_shell_window_set_toolbar_visible (EShellWindow *shell_window,
  **/
 void
 e_shell_window_set_toolbar_new_prefer_item (EShellWindow *shell_window,
-					    const gchar *prefer_item)
+                                            const gchar *prefer_item)
 {
 	GtkWidget *toolbar;
 	GtkToolItem *item;

@@ -32,6 +32,10 @@
 #include "e-attachment-store.h"
 #include "e-attachment-view.h"
 
+#define E_ATTACHMENT_ICON_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ATTACHMENT_ICON_VIEW, EAttachmentIconViewPrivate))
+
 struct _EAttachmentIconViewPrivate {
 	EAttachmentViewPrivate view_priv;
 };
@@ -348,7 +352,7 @@ attachment_icon_view_get_private (EAttachmentView *view)
 {
 	EAttachmentIconViewPrivate *priv;
 
-	priv = E_ATTACHMENT_ICON_VIEW (view)->priv;
+	priv = E_ATTACHMENT_ICON_VIEW_GET_PRIVATE (view);
 
 	return &priv->view_priv;
 }
@@ -531,9 +535,7 @@ e_attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 static void
 e_attachment_icon_view_init (EAttachmentIconView *icon_view)
 {
-	icon_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		icon_view, E_TYPE_ATTACHMENT_ICON_VIEW,
-		EAttachmentIconViewPrivate);
+	icon_view->priv = E_ATTACHMENT_ICON_VIEW_GET_PRIVATE (icon_view);
 
 	e_attachment_view_init (E_ATTACHMENT_VIEW (icon_view));
 

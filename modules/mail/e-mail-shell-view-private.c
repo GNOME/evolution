@@ -1516,7 +1516,7 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
-	priv = mail_shell_view->priv;
+	priv = E_MAIL_SHELL_VIEW_GET_PRIVATE (mail_shell_view);
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);

@@ -356,9 +356,12 @@ reset_layout_attrs (EText *text)
 
 		for (i = 0; i < object_count; i++) {
 			gint start_pos, end_pos;
-			PangoAttribute *attr = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
+			PangoAttribute *attr;
 
-			e_text_model_get_nth_object_bounds (text->model, i, &start_pos, &end_pos);
+			attr = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
+
+			e_text_model_get_nth_object_bounds (
+				text->model, i, &start_pos, &end_pos);
 
 			attr->start_index = g_utf8_offset_to_pointer (
 				text->text, start_pos) - text->text;
@@ -642,17 +645,13 @@ e_text_set_property (GObject *object,
 		text->model = E_TEXT_MODEL (g_value_get_object (value));
 		g_object_ref (text->model);
 
-		text->model_changed_signal_id =
-			g_signal_connect (text->model,
-					  "changed",
-					  G_CALLBACK (e_text_text_model_changed),
-					  text);
+		text->model_changed_signal_id = g_signal_connect (
+			text->model, "changed",
+			G_CALLBACK (e_text_text_model_changed), text);
 
-		text->model_repos_signal_id =
-			g_signal_connect (text->model,
-					  "reposition",
-					  G_CALLBACK (e_text_text_model_reposition),
-					  text);
+		text->model_repos_signal_id = g_signal_connect (
+			text->model, "reposition",
+			G_CALLBACK (e_text_text_model_reposition), text);
 
 		text->text = e_text_model_get_text (text->model);
 		g_signal_emit (text, e_text_signals[E_TEXT_CHANGED], 0);
@@ -670,11 +669,11 @@ e_text_set_property (GObject *object,
 		}
 		text->tep = E_TEXT_EVENT_PROCESSOR (g_value_get_object (value));
 		g_object_ref (text->tep);
-		text->tep_command_id =
-			g_signal_connect (text->tep,
-					 "command",
-					 G_CALLBACK (e_text_command),
-					 text);
+
+		text->tep_command_id = g_signal_connect (
+			text->tep, "command",
+			G_CALLBACK (e_text_command), text);
+
 		if (!text->allow_newlines)
 			g_object_set (text->tep,
 				      "allow_newlines", FALSE,
@@ -1194,11 +1193,10 @@ _get_tep (EText *text)
 {
 	if (!text->tep) {
 		text->tep = e_text_event_processor_emacs_like_new ();
-		text->tep_command_id =
-			g_signal_connect (text->tep,
-					 "command",
-					 G_CALLBACK (e_text_command),
-					 text);
+
+		text->tep_command_id = g_signal_connect (
+			text->tep, "command",
+			G_CALLBACK (e_text_command), text);
 	}
 }
 
@@ -1397,13 +1395,15 @@ e_text_draw (GnomeCanvasItem *item,
 			thisheight = allocation.height - border_width * 2;
 
 			if (gtk_widget_has_default (widget) &&
-			    relief == GTK_RELIEF_NORMAL)
-				{
-					gtk_paint_box (style, cr,
-						       GTK_STATE_NORMAL, GTK_SHADOW_IN,
-						       widget, "buttondefault",
-						       thisx + xoff, thisy + yoff, thiswidth, thisheight);
-				}
+			    relief == GTK_RELIEF_NORMAL) {
+					gtk_paint_box (
+						style, cr,
+						GTK_STATE_NORMAL,
+						GTK_SHADOW_IN,
+						widget, "buttondefault",
+						thisx + xoff, thisy + yoff,
+						thiswidth, thisheight);
+			}
 
 			if (gtk_widget_get_can_default (widget)) {
 				thisx += style->xthickness;
@@ -1429,10 +1429,11 @@ e_text_draw (GnomeCanvasItem *item,
 			if ((relief != GTK_RELIEF_NONE) ||
 			    ((state != GTK_STATE_NORMAL) &&
 			     (state != GTK_STATE_INSENSITIVE)))
-			gtk_paint_box (style, cr, state,
-				       shadow_type, widget, "button",
-				       thisx + xoff, thisy + yoff,
-				       thiswidth, thisheight);
+				gtk_paint_box (
+					style, cr, state,
+					shadow_type, widget, "button",
+					thisx + xoff, thisy + yoff,
+					thiswidth, thisheight);
 
 			if (gtk_widget_has_focus (widget)) {
 				thisx -= 1;
@@ -1440,10 +1441,11 @@ e_text_draw (GnomeCanvasItem *item,
 				thiswidth += 2;
 				thisheight += 2;
 
-				gtk_paint_focus (style, cr, state,
-						 widget, "button",
-						 thisx + xoff, thisy + yoff,
-						 thiswidth - 1, thisheight - 1);
+				gtk_paint_focus (
+					style, cr, state,
+					widget, "button",
+					thisx + xoff, thisy + yoff,
+					thiswidth - 1, thisheight - 1);
 			}
 		}
 	}
@@ -1472,10 +1474,10 @@ e_text_draw (GnomeCanvasItem *item,
 	cairo_save (cr);
 
 	if (text->clip) {
-		cairo_rectangle (cr,
-				 xpos, ypos,
-				 text->clip_cwidth - text->xofs,
-				 text->clip_cheight - text->yofs);
+		cairo_rectangle (
+			cr, xpos, ypos,
+			text->clip_cwidth - text->xofs,
+			text->clip_cheight - text->yofs);
 		cairo_clip (cr);
 	}
 
@@ -1843,14 +1845,18 @@ e_text_event (GnomeCanvasItem *item,
 			if (focus_event->in) {
 				if (text->im_context) {
 					if (!text->im_context_signals_registered) {
-						g_signal_connect (text->im_context, "commit",
-								  G_CALLBACK (e_text_commit_cb), text);
-						g_signal_connect (text->im_context, "preedit_changed",
-								  G_CALLBACK (e_text_preedit_changed_cb), text);
-						g_signal_connect (text->im_context, "retrieve_surrounding",
-								  G_CALLBACK (e_text_retrieve_surrounding_cb), text);
-						g_signal_connect (text->im_context, "delete_surrounding",
-								  G_CALLBACK (e_text_delete_surrounding_cb), text);
+						g_signal_connect (
+							text->im_context, "commit",
+							G_CALLBACK (e_text_commit_cb), text);
+						g_signal_connect (
+							text->im_context, "preedit_changed",
+							G_CALLBACK (e_text_preedit_changed_cb), text);
+						g_signal_connect (
+							text->im_context, "retrieve_surrounding",
+							G_CALLBACK (e_text_retrieve_surrounding_cb), text);
+						g_signal_connect (
+							text->im_context, "delete_surrounding",
+							G_CALLBACK (e_text_delete_surrounding_cb), text);
 						text->im_context_signals_registered = TRUE;
 					}
 					gtk_im_context_focus_in (text->im_context);
@@ -1927,7 +1933,8 @@ e_text_event (GnomeCanvasItem *item,
 			e_tep_event.key.state = key.state;
 			e_tep_event.key.keyval = key.keyval;
 
-			/* This is probably ugly hack, but we have to handle UTF-8 input somehow */
+			/* This is probably ugly hack, but we
+			 * have to handle UTF-8 input somehow. */
 #if 0
 			e_tep_event.key.length = key.length;
 			e_tep_event.key.string = key.string;
@@ -2206,11 +2213,11 @@ e_text_update_primary_selection (EText *text)
 		GDK_SELECTION_PRIMARY);
 
 	if (text->selection_start != text->selection_end) {
-		if (!gtk_clipboard_set_with_owner (clipboard, targets, G_N_ELEMENTS (targets),
-						   primary_get_cb, primary_clear_cb, G_OBJECT (text)))
+		if (!gtk_clipboard_set_with_owner (
+			clipboard, targets, G_N_ELEMENTS (targets),
+			primary_get_cb, primary_clear_cb, G_OBJECT (text)))
 			primary_clear_cb (clipboard, text);
-	}
-	else {
+	} else {
 		if (gtk_clipboard_get_owner (clipboard) == G_OBJECT (text))
 			gtk_clipboard_clear (clipboard);
 	}
@@ -2301,8 +2308,9 @@ popup_targets_received (GtkClipboard *clipboard,
 	menuitem = gtk_image_menu_item_new_from_stock (GTK_STOCK_CUT, NULL);
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
-	g_signal_connect_swapped (menuitem, "activate",
-				  G_CALLBACK (e_text_cut_clipboard), text);
+	g_signal_connect_swapped (
+		menuitem, "activate",
+		G_CALLBACK (e_text_cut_clipboard), text);
 	gtk_widget_set_sensitive (
 		menuitem, text->editable &&
 		(text->selection_start != text->selection_end));
@@ -2311,16 +2319,18 @@ popup_targets_received (GtkClipboard *clipboard,
 	menuitem = gtk_image_menu_item_new_from_stock (GTK_STOCK_COPY, NULL);
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
-	g_signal_connect_swapped (menuitem, "activate",
-				  G_CALLBACK (e_text_copy_clipboard), text);
+	g_signal_connect_swapped (
+		menuitem, "activate",
+		G_CALLBACK (e_text_copy_clipboard), text);
 	gtk_widget_set_sensitive (menuitem, text->selection_start != text->selection_end);
 
 	/* paste menu item */
 	menuitem = gtk_image_menu_item_new_from_stock (GTK_STOCK_PASTE, NULL);
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
-	g_signal_connect_swapped (menuitem, "activate",
-				  G_CALLBACK (e_text_paste_clipboard), text);
+	g_signal_connect_swapped (
+		menuitem, "activate",
+		G_CALLBACK (e_text_paste_clipboard), text);
 	gtk_widget_set_sensitive (
 		menuitem, text->editable &&
 		gtk_selection_data_targets_include_text (data));
@@ -2328,8 +2338,9 @@ popup_targets_received (GtkClipboard *clipboard,
 	menuitem = gtk_menu_item_new_with_label (_("Select All"));
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
-	g_signal_connect_swapped (menuitem, "activate",
-				  G_CALLBACK (e_text_select_all), text);
+	g_signal_connect_swapped (
+		menuitem, "activate",
+		G_CALLBACK (e_text_select_all), text);
 	gtk_widget_set_sensitive (menuitem, strlen (text->text) > 0);
 
 	menuitem = gtk_separator_menu_item_new ();
@@ -2451,7 +2462,9 @@ find_offset_into_line (EText *text,
 			if (*p == '\n') {
 				if (start_of_line)
 					*start_of_line = p+1;
-				return offset_into_text - g_utf8_pointer_to_offset (text->text, p + 1);
+				return offset_into_text -
+					g_utf8_pointer_to_offset (
+					text->text, p + 1);
 			}
 			p = g_utf8_find_prev_char (text->text, p);
 		}
@@ -2689,7 +2702,10 @@ _get_position (EText *text,
 		break;
 	}
 	case E_TEP_BACKWARD_LINE: {
-		gint offset_into_line = find_offset_into_line (text, text->selection_end, &p);
+		gint offset_into_line;
+
+		offset_into_line = find_offset_into_line (
+			text, text->selection_end, &p);
 
 		if (offset_into_line == -1)
 			return text->selection_end;
@@ -3131,13 +3147,13 @@ e_text_command (ETextEventProcessor *tep,
 
 /* Class initialization function for the text item */
 static void
-e_text_class_init (ETextClass *klass)
+e_text_class_init (ETextClass *class)
 {
 	GObjectClass *gobject_class;
 	GnomeCanvasItemClass *item_class;
 
-	gobject_class = (GObjectClass *) klass;
-	item_class = (GnomeCanvasItemClass *) klass;
+	gobject_class = (GObjectClass *) class;
+	item_class = (GnomeCanvasItemClass *) class;
 
 	gobject_class->dispose = e_text_dispose;
 	gobject_class->set_property = e_text_set_property;
@@ -3151,8 +3167,8 @@ e_text_class_init (ETextClass *klass)
 	item_class->bounds = e_text_bounds;
 	item_class->event = e_text_event;
 
-	klass->changed = NULL;
-	klass->activate = NULL;
+	class->changed = NULL;
+	class->activate = NULL;
 
 	e_text_signals[E_TEXT_CHANGED] =
 		g_signal_new ("changed",
@@ -3432,16 +3448,13 @@ e_text_init (EText *text)
 
 	text->revert                  = NULL;
 
-	text->model_changed_signal_id =
-		g_signal_connect (text->model,
-				  "changed",
-				  G_CALLBACK (e_text_text_model_changed),
-				  text);
-	text->model_repos_signal_id   =
-		g_signal_connect (text->model,
-				  "reposition",
-				  G_CALLBACK (e_text_text_model_reposition),
-				  text);
+	text->model_changed_signal_id = g_signal_connect (
+		text->model, "changed",
+		G_CALLBACK (e_text_text_model_changed), text);
+
+	text->model_repos_signal_id = g_signal_connect (
+		text->model, "reposition",
+		G_CALLBACK (e_text_text_model_reposition), text);
 
 	text->justification           = GTK_JUSTIFY_LEFT;
 	text->clip_width              = -1.0;

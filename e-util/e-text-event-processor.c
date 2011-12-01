@@ -57,11 +57,11 @@ G_DEFINE_TYPE (
 	G_TYPE_OBJECT)
 
 static void
-e_text_event_processor_class_init (ETextEventProcessorClass *klass)
+e_text_event_processor_class_init (ETextEventProcessorClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = (GObjectClass *) klass;
+	object_class = (GObjectClass *) class;
 
 	object_class->set_property = e_text_event_processor_set_property;
 	object_class->get_property = e_text_event_processor_get_property;
@@ -83,8 +83,8 @@ e_text_event_processor_class_init (ETextEventProcessorClass *klass)
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	klass->event = NULL;
-	klass->command = NULL;
+	class->event = NULL;
+	class->command = NULL;
 
 }
 

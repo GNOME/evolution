@@ -60,6 +60,10 @@
 #include <e-util/e-icon-factory.h>
 #include "misc.h"
 
+#define E_MEMO_TABLE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MEMO_TABLE, EMemoTablePrivate))
+
 struct _EMemoTablePrivate {
 	gpointer shell_view;  /* weak pointer */
 	ECalModel *model;
@@ -91,6 +95,18 @@ static const gchar *icon_names[] = {
 	"stock_notes",
 	"stock_insert-note"
 };
+
+/* Forward Declarations */
+static void	e_memo_table_selectable_init
+					(ESelectableInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	EMemoTable,
+	e_memo_table,
+	E_TYPE_TABLE,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_SELECTABLE,
+		e_memo_table_selectable_init))
 
 static void
 memo_table_emit_open_component (EMemoTable *memo_table,
@@ -294,7 +310,7 @@ memo_table_dispose (GObject *object)
 {
 	EMemoTablePrivate *priv;
 
-	priv = E_MEMO_TABLE (object)->priv;
+	priv = E_MEMO_TABLE_GET_PRIVATE (object);
 
 	if (priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
@@ -1059,7 +1075,7 @@ memo_table_select_all (ESelectable *selectable)
 }
 
 static void
-memo_table_class_init (EMemoTableClass *class)
+e_memo_table_class_init (EMemoTableClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
@@ -1148,12 +1164,11 @@ memo_table_class_init (EMemoTableClass *class)
 }
 
 static void
-memo_table_init (EMemoTable *memo_table)
+e_memo_table_init (EMemoTable *memo_table)
 {
 	GtkTargetList *target_list;
 
-	memo_table->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		memo_table, E_TYPE_MEMO_TABLE, EMemoTablePrivate);
+	memo_table->priv = E_MEMO_TABLE_GET_PRIVATE (memo_table);
 
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_calendar_targets (target_list, 0);
@@ -1165,7 +1180,7 @@ memo_table_init (EMemoTable *memo_table)
 }
 
 static void
-memo_table_selectable_init (ESelectableInterface *interface)
+e_memo_table_selectable_init (ESelectableInterface *interface)
 {
 	interface->update_actions = memo_table_update_actions;
 	interface->cut_clipboard = memo_table_cut_clipboard;
@@ -1173,41 +1188,6 @@ memo_table_selectable_init (ESelectableInterface *interface)
 	interface->paste_clipboard = memo_table_paste_clipboard;
 	interface->delete_selection = memo_table_delete_selection;
 	interface->select_all = memo_table_select_all;
-}
-
-GType
-e_memo_table_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMemoTableClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) memo_table_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMemoTable),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) memo_table_init,
-			NULL   /* value_table */
-		};
-
-		static const GInterfaceInfo selectable_info = {
-			(GInterfaceInitFunc) memo_table_selectable_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_TABLE, "EMemoTable", &type_info, 0);
-
-		g_type_add_interface_static (
-			type, E_TYPE_SELECTABLE, &selectable_info);
-	}
-
-	return type;
 }
 
 /**

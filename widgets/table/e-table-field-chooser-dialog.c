@@ -32,12 +32,6 @@
 
 #include "e-table-field-chooser-dialog.h"
 
-static void e_table_field_chooser_dialog_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
-static void e_table_field_chooser_dialog_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
-static void e_table_field_chooser_dialog_dispose (GObject *object);
-static void e_table_field_chooser_dialog_response (GtkDialog *dialog, gint id);
-
-/* The arguments we take */
 enum {
 	PROP_0,
 	PROP_DND_CODE,
@@ -45,105 +39,10 @@ enum {
 	PROP_HEADER
 };
 
-G_DEFINE_TYPE (ETableFieldChooserDialog, e_table_field_chooser_dialog, GTK_TYPE_DIALOG)
-
-static void
-e_table_field_chooser_dialog_class_init (ETableFieldChooserDialogClass *class)
-{
-	GObjectClass *object_class;
-	GtkDialogClass *dialog_class;
-
-	object_class = (GObjectClass *) class;
-	dialog_class = GTK_DIALOG_CLASS (class);
-
-	object_class->dispose      = e_table_field_chooser_dialog_dispose;
-	object_class->set_property = e_table_field_chooser_dialog_set_property;
-	object_class->get_property = e_table_field_chooser_dialog_get_property;
-
-	dialog_class->response = e_table_field_chooser_dialog_response;
-
-	g_object_class_install_property (object_class, PROP_DND_CODE,
-					 g_param_spec_string ("dnd_code",
-							      "DnD code",
-							      NULL,
-							      NULL,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_FULL_HEADER,
-					 g_param_spec_object ("full_header",
-							      "Full Header",
-							      NULL,
-							      E_TYPE_TABLE_HEADER,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_HEADER,
-					 g_param_spec_object ("header",
-							      "Header",
-							      NULL,
-							      E_TYPE_TABLE_HEADER,
-							      G_PARAM_READWRITE));
-}
-
-static void
-e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_chooser_dialog)
-{
-	GtkDialog *dialog;
-	GtkWidget *content_area;
-	GtkWidget *widget;
-
-	dialog = GTK_DIALOG (e_table_field_chooser_dialog);
-
-	e_table_field_chooser_dialog->etfc = NULL;
-	e_table_field_chooser_dialog->dnd_code = g_strdup("");
-	e_table_field_chooser_dialog->full_header = NULL;
-	e_table_field_chooser_dialog->header = NULL;
-
-	gtk_dialog_add_button (dialog, GTK_STOCK_CLOSE, GTK_RESPONSE_OK);
-
-	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
-
-	widget = e_table_field_chooser_new ();
-	e_table_field_chooser_dialog->etfc = E_TABLE_FIELD_CHOOSER (widget);
-
-	g_object_set (widget,
-		     "dnd_code", e_table_field_chooser_dialog->dnd_code,
-		     "full_header", e_table_field_chooser_dialog->full_header,
-		     "header", e_table_field_chooser_dialog->header,
-		     NULL);
-
-	content_area = gtk_dialog_get_content_area (dialog);
-	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
-
-	gtk_widget_show (GTK_WIDGET (widget));
-
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Add a Column"));
-}
-
-GtkWidget *
-e_table_field_chooser_dialog_new (void)
-{
-	return g_object_new (E_TYPE_TABLE_FIELD_CHOOSER_DIALOG, NULL);
-}
-
-static void
-e_table_field_chooser_dialog_dispose (GObject *object)
-{
-	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG (object);
-
-	if (etfcd->dnd_code)
-		g_free (etfcd->dnd_code);
-	etfcd->dnd_code = NULL;
-
-	if (etfcd->full_header)
-		g_object_unref (etfcd->full_header);
-	etfcd->full_header = NULL;
-
-	if (etfcd->header)
-		g_object_unref (etfcd->header);
-	etfcd->header = NULL;
-
-	G_OBJECT_CLASS (e_table_field_chooser_dialog_parent_class)->dispose (object);
-}
+G_DEFINE_TYPE (
+	ETableFieldChooserDialog,
+	e_table_field_chooser_dialog,
+	GTK_TYPE_DIALOG)
 
 static void
 e_table_field_chooser_dialog_set_property (GObject *object,
@@ -218,9 +117,116 @@ e_table_field_chooser_dialog_get_property (GObject *object,
 }
 
 static void
+e_table_field_chooser_dialog_dispose (GObject *object)
+{
+	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG (object);
+
+	if (etfcd->dnd_code)
+		g_free (etfcd->dnd_code);
+	etfcd->dnd_code = NULL;
+
+	if (etfcd->full_header)
+		g_object_unref (etfcd->full_header);
+	etfcd->full_header = NULL;
+
+	if (etfcd->header)
+		g_object_unref (etfcd->header);
+	etfcd->header = NULL;
+
+	G_OBJECT_CLASS (e_table_field_chooser_dialog_parent_class)->dispose (object);
+}
+
+static void
 e_table_field_chooser_dialog_response (GtkDialog *dialog,
                                        gint id)
 {
 	if (id == GTK_RESPONSE_OK)
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 }
+
+static void
+e_table_field_chooser_dialog_class_init (ETableFieldChooserDialogClass *class)
+{
+	GObjectClass *object_class;
+	GtkDialogClass *dialog_class;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = e_table_field_chooser_dialog_set_property;
+	object_class->get_property = e_table_field_chooser_dialog_get_property;
+	object_class->dispose = e_table_field_chooser_dialog_dispose;
+
+	dialog_class = GTK_DIALOG_CLASS (class);
+	dialog_class->response = e_table_field_chooser_dialog_response;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DND_CODE,
+		g_param_spec_string (
+			"dnd_code",
+			"DnD code",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FULL_HEADER,
+		g_param_spec_object (
+			"full_header",
+			"Full Header",
+			NULL,
+			E_TYPE_TABLE_HEADER,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_HEADER,
+		g_param_spec_object (
+			"header",
+			"Header",
+			NULL,
+			E_TYPE_TABLE_HEADER,
+			G_PARAM_READWRITE));
+}
+
+static void
+e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_chooser_dialog)
+{
+	GtkDialog *dialog;
+	GtkWidget *content_area;
+	GtkWidget *widget;
+
+	dialog = GTK_DIALOG (e_table_field_chooser_dialog);
+
+	e_table_field_chooser_dialog->etfc = NULL;
+	e_table_field_chooser_dialog->dnd_code = g_strdup("");
+	e_table_field_chooser_dialog->full_header = NULL;
+	e_table_field_chooser_dialog->header = NULL;
+
+	gtk_dialog_add_button (dialog, GTK_STOCK_CLOSE, GTK_RESPONSE_OK);
+
+	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
+
+	widget = e_table_field_chooser_new ();
+	e_table_field_chooser_dialog->etfc = E_TABLE_FIELD_CHOOSER (widget);
+
+	g_object_set (widget,
+		     "dnd_code", e_table_field_chooser_dialog->dnd_code,
+		     "full_header", e_table_field_chooser_dialog->full_header,
+		     "header", e_table_field_chooser_dialog->header,
+		     NULL);
+
+	content_area = gtk_dialog_get_content_area (dialog);
+	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
+
+	gtk_widget_show (GTK_WIDGET (widget));
+
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Add a Column"));
+}
+
+GtkWidget *
+e_table_field_chooser_dialog_new (void)
+{
+	return g_object_new (E_TYPE_TABLE_FIELD_CHOOSER_DIALOG, NULL);
+}
+

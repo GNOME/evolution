@@ -1024,21 +1024,23 @@ et_real_initialize (AtkObject *obj,
 	etext = E_TEXT (data);
 
 	/* Set up signal callbacks */
-	g_signal_connect (etext->model, "reposition",
+	g_signal_connect (
+		etext->model, "reposition",
 		G_CALLBACK (_et_reposition_cb), obj);
 
 	if (etext->tep)
-		g_signal_connect_after (etext->tep, "command",
+		g_signal_connect_after (
+			etext->tep, "command",
 			(GCallback) _et_command_cb, obj);
 
 	obj->role = ATK_ROLE_TEXT;
 }
 
 static void
-et_class_init (GalA11yETextClass *klass)
+et_class_init (GalA11yETextClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	AtkObjectClass *atk_class = ATK_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	AtkObjectClass *atk_class = ATK_OBJECT_CLASS (class);
 
 	quark_accessible_object =
 		g_quark_from_static_string ("gtk-accessible-object");

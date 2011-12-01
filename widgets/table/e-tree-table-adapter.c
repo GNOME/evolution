@@ -39,6 +39,10 @@
 #include "e-table-sorting-utils.h"
 #include "e-tree-table-adapter.h"
 
+#define E_TREE_TABLE_ADAPTER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TREE_TABLE_ADAPTER, ETreeTableAdapterPrivate))
+
 /* workaround for avoiding API breakage */
 #define etta_get_type e_tree_table_adapter_get_type
 G_DEFINE_TYPE (ETreeTableAdapter, etta, E_TYPE_TABLE_MODEL)
@@ -535,7 +539,7 @@ etta_finalize (GObject *object)
 {
 	ETreeTableAdapterPrivate *priv;
 
-	priv = E_TREE_TABLE_ADAPTER (object)->priv;
+	priv = E_TREE_TABLE_ADAPTER_GET_PRIVATE (object);
 
 	if (priv->resort_idle_id) {
 		g_source_remove (priv->resort_idle_id);
@@ -560,7 +564,7 @@ etta_dispose (GObject *object)
 {
 	ETreeTableAdapterPrivate *priv;
 
-	priv = E_TREE_TABLE_ADAPTER (object)->priv;
+	priv = E_TREE_TABLE_ADAPTER_GET_PRIVATE (object);
 
 	if (priv->sort_info) {
 		g_signal_handler_disconnect (
@@ -787,8 +791,7 @@ etta_class_init (ETreeTableAdapterClass *class)
 static void
 etta_init (ETreeTableAdapter *etta)
 {
-	etta->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		etta, E_TYPE_TREE_TABLE_ADAPTER, ETreeTableAdapterPrivate);
+	etta->priv = E_TREE_TABLE_ADAPTER_GET_PRIVATE (etta);
 
 	etta->priv->root_visible = TRUE;
 	etta->priv->remap_needed = TRUE;

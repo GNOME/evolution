@@ -103,7 +103,7 @@ create_default_shell (void)
 	if (!socket_id)
 		gtk_widget_show (main_window);
 
-	return e_shell_get_default();
+	return e_shell_get_default ();
 }
 
 gint

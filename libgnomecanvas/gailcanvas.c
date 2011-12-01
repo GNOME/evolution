@@ -176,26 +176,24 @@ static void
 gail_canvas_real_initialize (AtkObject *obj,
                              gpointer data)
 {
-  GnomeCanvas *canvas;
-  GtkAdjustment *adj;
+	GnomeCanvas *canvas;
+	GtkAdjustment *adj;
 
-  parent_atk_object_class->initialize (obj, data);
+	parent_atk_object_class->initialize (obj, data);
 
-  canvas = GNOME_CANVAS (data);
+	canvas = GNOME_CANVAS (data);
 
-  adj = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (canvas));
-  g_signal_connect (adj,
-                    "value_changed",
-		    G_CALLBACK (adjustment_changed),
-		    canvas);
+	adj = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (canvas));
+	g_signal_connect (
+		adj, "value_changed",
+		G_CALLBACK (adjustment_changed), canvas);
 
-  adj = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (canvas));
-  g_signal_connect (adj,
-                    "value_changed",
-		    G_CALLBACK (adjustment_changed),
-		    canvas);
+	adj = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (canvas));
+	g_signal_connect (
+		adj, "value_changed",
+		G_CALLBACK (adjustment_changed), canvas);
 
-  obj->role =  ATK_ROLE_LAYERED_PANE;
+	obj->role =  ATK_ROLE_LAYERED_PANE;
 }
 
 static gint

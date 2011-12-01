@@ -702,8 +702,11 @@ mail_browser_constructed (GObject *object)
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	object = G_OBJECT (reader);
-	g_settings_bind (settings, "show-deleted", object, "show-deleted", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "show-deleted",
+		reader, "show-deleted",
+		G_SETTINGS_BIND_DEFAULT);
+
 	g_object_unref (settings);
 
 	id = "org.gnome.evolution.mail.browser";

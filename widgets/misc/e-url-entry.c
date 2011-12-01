@@ -29,12 +29,14 @@
 #include "e-url-entry.h"
 #include "e-util/e-util.h"
 
+#define E_URL_ENTRY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_URL_ENTRY, EUrlEntryPrivate))
+
 struct _EUrlEntryPrivate {
 	GtkWidget *entry;
 	GtkWidget *button;
 };
-
-static void finalize (GObject *object);
 
 static void button_clicked_cb (GtkWidget *widget, gpointer data);
 static void entry_changed_cb (GtkEditable *editable, gpointer data);
@@ -49,11 +51,9 @@ G_DEFINE_TYPE (
 static void
 e_url_entry_class_init (EUrlEntryClass *class)
 {
-	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = finalize;
+	g_type_class_add_private (class, sizeof (EUrlEntryPrivate));
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->mnemonic_activate = mnemonic_activate;
@@ -62,46 +62,33 @@ e_url_entry_class_init (EUrlEntryClass *class)
 static void
 e_url_entry_init (EUrlEntry *url_entry)
 {
-	EUrlEntryPrivate *priv;
 	GtkWidget *pixmap;
 
-	priv = g_new0 (EUrlEntryPrivate, 1);
-	url_entry->priv = priv;
+	url_entry->priv = E_URL_ENTRY_GET_PRIVATE (url_entry);
 
-	priv->entry = gtk_entry_new ();
-	gtk_box_pack_start (GTK_BOX (url_entry), priv->entry, TRUE, TRUE, 0);
-	priv->button = gtk_button_new ();
-	gtk_widget_set_sensitive (priv->button, FALSE);
-	gtk_box_pack_start (GTK_BOX (url_entry), priv->button, FALSE, FALSE, 0);
+	url_entry->priv->entry = gtk_entry_new ();
+	gtk_box_pack_start (
+		GTK_BOX (url_entry), url_entry->priv->entry, TRUE, TRUE, 0);
+	url_entry->priv->button = gtk_button_new ();
+	gtk_widget_set_sensitive (url_entry->priv->button, FALSE);
+	gtk_box_pack_start (
+		GTK_BOX (url_entry), url_entry->priv->button, FALSE, FALSE, 0);
 	atk_object_set_name (
-		gtk_widget_get_accessible (priv->button),
+		gtk_widget_get_accessible (url_entry->priv->button),
 		_("Click here to go to URL"));
 	pixmap = gtk_image_new_from_icon_name ("go-jump", GTK_ICON_SIZE_BUTTON);
-	gtk_container_add (GTK_CONTAINER (priv->button), pixmap);
+	gtk_container_add (GTK_CONTAINER (url_entry->priv->button), pixmap);
 	gtk_widget_show (pixmap);
 
-	gtk_widget_show (priv->button);
-	gtk_widget_show (priv->entry);
+	gtk_widget_show (url_entry->priv->button);
+	gtk_widget_show (url_entry->priv->entry);
 
-	g_signal_connect (priv->button, "clicked",
-			  G_CALLBACK (button_clicked_cb), url_entry);
-	g_signal_connect (priv->entry, "changed",
-			  G_CALLBACK (entry_changed_cb), url_entry);
-}
-
-static void
-finalize (GObject *object)
-{
-	EUrlEntry *url_entry;
-
-	url_entry = E_URL_ENTRY (object);
-	if (url_entry->priv) {
-		g_free (url_entry->priv);
-		url_entry->priv = NULL;
-	}
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_url_entry_parent_class)->finalize (object);
+	g_signal_connect (
+		url_entry->priv->button, "clicked",
+		G_CALLBACK (button_clicked_cb), url_entry);
+	g_signal_connect (
+		url_entry->priv->entry, "changed",
+		G_CALLBACK (entry_changed_cb), url_entry);
 }
 
 /* GtkWidget::mnemonic_activate() handler for the EUrlEntry */

@@ -32,9 +32,6 @@
 #include "e-util/e-util.h"
 #include "e-minicard-view-widget.h"
 
-static void	e_minicard_view_widget_init	(EMinicardViewWidget *widget);
-static void	e_minicard_view_widget_class_init
-						 (EMinicardViewWidgetClass *class);
 static void	e_minicard_view_widget_set_property
 						(GObject *object,
 						 guint property_id,
@@ -80,30 +77,10 @@ enum {
 
 static guint signals[LAST_SIGNAL] = {0, };
 
-GType
-e_minicard_view_widget_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info =  {
-			sizeof (EMinicardViewWidgetClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_minicard_view_widget_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (EMinicardViewWidget),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_minicard_view_widget_init,
-		};
-
-		type = g_type_register_static (
-			E_TYPE_CANVAS, "EMinicardViewWidget", &info, 0);
-	}
-
-	return type;
-}
+G_DEFINE_TYPE (
+	EMinicardViewWidget,
+	e_minicard_view_widget,
+	E_TYPE_CANVAS)
 
 static void
 e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)

@@ -319,13 +319,16 @@ ea_week_view_ref_child (AtkObject *accessible,
 				/* Not use atk_gobject_accessible_for_object for event
 				 * text_item we need to do special thing here
 				 */
-				atk_object = ea_calendar_helpers_get_accessible_for (span->text_item);
+				atk_object =
+					ea_calendar_helpers_get_accessible_for (
+					span->text_item);
 			}
 			else {
 				gint index;
 
 				index = (current_day != -1) ? current_day : 0;
-				atk_object = ea_calendar_helpers_get_accessible_for (
+				atk_object =
+					ea_calendar_helpers_get_accessible_for (
 					week_view->jump_buttons[index]);
 			}
 			g_object_ref (atk_object);

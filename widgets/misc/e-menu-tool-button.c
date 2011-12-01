@@ -25,14 +25,17 @@
 
 #include "e-menu-tool-button.h"
 
+#define E_MENU_TOOL_BUTTON_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MENU_TOOL_BUTTON, EMenuToolButtonPrivate))
+
+struct _EMenuToolButtonPrivate {
+	gchar *prefer_item;
+};
+
 enum {
 	PROP_0,
 	PROP_PREFER_ITEM
-};
-
-struct _EMenuToolButtonPrivate
-{
-	gchar *prefer_item;
 };
 
 G_DEFINE_TYPE (
@@ -73,8 +76,9 @@ menu_tool_button_get_prefer_menu_item (GtkMenuToolButton *menu_tool_button)
 	if (children == NULL)
 		return NULL;
 
-	prefer_item = e_menu_tool_button_get_prefer_item (E_MENU_TOOL_BUTTON (menu_tool_button));
-	if (prefer_item && *prefer_item) {
+	prefer_item = e_menu_tool_button_get_prefer_item (
+		E_MENU_TOOL_BUTTON (menu_tool_button));
+	if (prefer_item != NULL && *prefer_item != '\0') {
 		GtkAction *action;
 		GList *iter;
 
@@ -84,7 +88,8 @@ menu_tool_button_get_prefer_menu_item (GtkMenuToolButton *menu_tool_button)
 			if (!item)
 				continue;
 
-			action = gtk_activatable_get_related_action (GTK_ACTIVATABLE (item));
+			action = gtk_activatable_get_related_action (
+				GTK_ACTIVATABLE (item));
 			if (action && g_strcmp0 (gtk_action_get_name (action), prefer_item) == 0)
 				break;
 			else if (!action && g_strcmp0 (gtk_widget_get_name (GTK_WIDGET (item)), prefer_item) == 0)
@@ -227,8 +232,7 @@ e_menu_tool_button_class_init (EMenuToolButtonClass *class)
 static void
 e_menu_tool_button_init (EMenuToolButton *button)
 {
-	button->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		button, E_TYPE_MENU_TOOL_BUTTON, EMenuToolButtonPrivate);
+	button->priv = E_MENU_TOOL_BUTTON_GET_PRIVATE (button);
 
 	button->priv->prefer_item = NULL;
 
@@ -245,7 +249,7 @@ e_menu_tool_button_new (const gchar *label)
 
 void
 e_menu_tool_button_set_prefer_item (EMenuToolButton *button,
-				    const gchar *prefer_item)
+                                    const gchar *prefer_item)
 {
 	g_return_if_fail (button != NULL);
 	g_return_if_fail (E_IS_MENU_TOOL_BUTTON (button));

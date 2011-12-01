@@ -31,6 +31,10 @@
 
 #define SWITCH_PAGE_INTERVAL 250
 
+#define E_PREFERENCES_WINDOW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_PREFERENCES_WINDOW, EPreferencesWindowPrivate))
+
 struct _EPreferencesWindowPrivate {
 	gboolean   setup;
 	gpointer   shell;
@@ -138,19 +142,25 @@ preferences_window_help_clicked_cb (EPreferencesWindow *window)
 	g_return_if_fail (window != NULL);
 
 	model = GTK_TREE_MODEL (window->priv->filter);
-	list = gtk_icon_view_get_selected_items (GTK_ICON_VIEW (window->priv->icon_view));
+	list = gtk_icon_view_get_selected_items (
+		GTK_ICON_VIEW (window->priv->icon_view));
+
 	if (list != NULL) {
 		gtk_tree_model_get_iter (model, &iter, list->data);
 		gtk_tree_model_get (model, &iter, COLUMN_HELP, &help, -1);
+
 	} else if (gtk_tree_model_get_iter_first (model, &iter)) {
 		gint page_index, current_index;
 
-		current_index = gtk_notebook_get_current_page (GTK_NOTEBOOK (window->priv->notebook));
+		current_index = gtk_notebook_get_current_page (
+			GTK_NOTEBOOK (window->priv->notebook));
 		do {
-			gtk_tree_model_get (model, &iter, COLUMN_PAGE, &page_index, -1);
+			gtk_tree_model_get (
+				model, &iter, COLUMN_PAGE, &page_index, -1);
 
 			if (page_index == current_index) {
-				gtk_tree_model_get (model, &iter, COLUMN_HELP, &help, -1);
+				gtk_tree_model_get (
+					model, &iter, COLUMN_HELP, &help, -1);
 				break;
 			}
 		} while (gtk_tree_model_iter_next (model, &iter));
@@ -194,7 +204,7 @@ preferences_window_dispose (GObject *object)
 {
 	EPreferencesWindowPrivate *priv;
 
-	priv = E_PREFERENCES_WINDOW (object)->priv;
+	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (object);
 
 	if (priv->icon_view != NULL) {
 		g_object_unref (priv->icon_view);
@@ -222,7 +232,7 @@ preferences_window_finalize (GObject *object)
 {
 	EPreferencesWindowPrivate *priv;
 
-	priv = E_PREFERENCES_WINDOW (object)->priv;
+	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->index);
 
@@ -237,7 +247,7 @@ preferences_window_show (GtkWidget *widget)
 	GtkIconView *icon_view;
 	GtkTreePath *path;
 
-	priv = E_PREFERENCES_WINDOW (widget)->priv;
+	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (widget);
 	if (!priv->setup)
 		g_warning ("Preferences window has not been setup correctly");
 
@@ -287,8 +297,7 @@ e_preferences_window_init (EPreferencesWindow *window)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	window->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		window, E_TYPE_PREFERENCES_WINDOW, EPreferencesWindowPrivate);
+	window->priv = E_PREFERENCES_WINDOW_GET_PRIVATE (window);
 	window->priv->index = index;
 	window->priv->filter_view = NULL;
 
@@ -419,7 +428,7 @@ e_preferences_window_add_page (EPreferencesWindow *window,
                                const gchar *page_name,
                                const gchar *icon_name,
                                const gchar *caption,
-			       const gchar *help_target,
+                               const gchar *help_target,
                                EPreferencesWindowCreatePageFn create_fn,
                                gint sort_order)
 {
@@ -546,7 +555,7 @@ e_preferences_window_setup (EPreferencesWindow *window)
 
 	g_return_if_fail (E_IS_PREFERENCES_WINDOW (window));
 
-	priv = window->priv;
+	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (window);
 	notebook = GTK_NOTEBOOK (priv->notebook);
 	num = gtk_notebook_get_n_pages (notebook);
 

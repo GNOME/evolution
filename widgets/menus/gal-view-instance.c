@@ -144,9 +144,9 @@ connect_view (GalViewInstance *instance,
 
 	instance->current_title = g_strdup (gal_view_get_title (view));
 	instance->current_type = g_strdup (gal_view_get_type_code (view));
-	instance->view_changed_id =
-		g_signal_connect (instance->current_view, "changed",
-				 G_CALLBACK (view_changed), instance);
+	instance->view_changed_id = g_signal_connect (
+		instance->current_view, "changed",
+		G_CALLBACK (view_changed), instance);
 
 	gal_view_instance_display_view (instance, instance->current_view);
 }
@@ -178,9 +178,9 @@ gal_view_instance_dispose (GObject *object)
 }
 
 static void
-gal_view_instance_class_init (GalViewInstanceClass *klass)
+gal_view_instance_class_init (GalViewInstanceClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = gal_view_instance_dispose;
 
@@ -211,8 +211,8 @@ gal_view_instance_class_init (GalViewInstanceClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	klass->display_view = NULL;
-	klass->changed      = NULL;
+	class->display_view = NULL;
+	class->changed      = NULL;
 }
 
 static void
@@ -345,9 +345,9 @@ gal_view_instance_construct (GalViewInstance *instance,
 	instance->collection = collection;
 	if (collection)
 		g_object_ref (collection);
-	instance->collection_changed_id =
-		g_signal_connect (collection, "changed",
-				  G_CALLBACK (collection_changed), instance);
+	instance->collection_changed_id = g_signal_connect (
+		collection, "changed",
+		G_CALLBACK (collection_changed), instance);
 
 	if (instance_id)
 		instance->instance_id = g_strdup (instance_id);
@@ -448,8 +448,9 @@ gal_view_instance_save_as (GalViewInstance *instance)
 	g_return_if_fail (instance != NULL);
 
 	dialog = gal_view_instance_save_as_dialog_new (instance);
-	g_signal_connect (dialog, "response",
-			 G_CALLBACK (dialog_response), instance);
+	g_signal_connect (
+		dialog, "response",
+		G_CALLBACK (dialog_response), instance);
 	gtk_widget_show (dialog);
 }
 

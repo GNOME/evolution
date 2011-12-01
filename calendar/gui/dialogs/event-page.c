@@ -68,6 +68,10 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), TYPE_EVENT_PAGE, EventPagePrivate))
 
+#define EVENT_PAGE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_EVENT_PAGE, EventPagePrivate))
+
 enum {
 	ALARM_NONE,
 	ALARM_15_MINUTES,
@@ -3195,8 +3199,9 @@ init_widgets (EventPage *epage)
 	gtk_widget_hide (priv->info_hbox);
 
 	/* Summary */
-	g_signal_connect ((priv->summary), "changed",
-			    G_CALLBACK (summary_changed_cb), epage);
+	g_signal_connect (
+		priv->summary, "changed",
+		G_CALLBACK (summary_changed_cb), epage);
 
 	/* Description */
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description));
@@ -3206,18 +3211,23 @@ init_widgets (EventPage *epage)
 	e_buffer_tagger_connect (GTK_TEXT_VIEW (priv->description));
 
 	/* Start and end times */
-	g_signal_connect (priv->start_time, "changed",
-			    G_CALLBACK (start_date_changed_cb), epage);
-	g_signal_connect (priv->end_time, "changed",
-			    G_CALLBACK (end_date_changed_cb), epage);
+	g_signal_connect (
+		priv->start_time, "changed",
+		G_CALLBACK (start_date_changed_cb), epage);
+	g_signal_connect (
+		priv->end_time, "changed",
+		G_CALLBACK (end_date_changed_cb), epage);
 
 	/* Categories */
-	g_signal_connect ((priv->categories_btn), "clicked",
-			    G_CALLBACK (categories_clicked_cb), epage);
+	g_signal_connect (
+		priv->categories_btn, "clicked",
+		G_CALLBACK (categories_clicked_cb), epage);
 
 	/* Source selector */
-	g_signal_connect ((priv->source_selector), "changed",
-			    G_CALLBACK (source_changed_cb), epage);
+	g_signal_connect (
+		priv->source_selector, "changed",
+		G_CALLBACK (source_changed_cb), epage);
+
 	/* Alarms */
 	priv->alarm_list_store = e_alarm_list_new ();
 	g_signal_connect_swapped (
@@ -3231,8 +3241,9 @@ init_widgets (EventPage *epage)
 		G_CALLBACK (comp_editor_page_changed), epage);
 
 	/* Timezone changed */
-	g_signal_connect ((priv->start_timezone), "changed",
-			    G_CALLBACK (start_timezone_changed_cb), epage);
+	g_signal_connect (
+		priv->start_timezone, "changed",
+		G_CALLBACK (start_timezone_changed_cb), epage);
 
 	e_meeting_list_view_column_set_visible (
 		priv->list_view, E_MEETING_STORE_ATTENDEE_COL, TRUE);
@@ -3301,7 +3312,9 @@ init_widgets (EventPage *epage)
 	gtk_window_set_modal (GTK_WINDOW (priv->alarm_dialog), TRUE);
 
 	/* Meeting List View */
-	g_signal_connect (priv->list_view, "attendee_added", G_CALLBACK (attendee_added_cb), epage);
+	g_signal_connect (
+		priv->list_view, "attendee_added",
+		G_CALLBACK (attendee_added_cb), epage);
 
 	gtk_widget_show (GTK_WIDGET (priv->list_view));
 
@@ -3319,13 +3332,19 @@ init_widgets (EventPage *epage)
 	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->end_time_combo), 1);
 	gtk_widget_hide (priv->time_hour);
 	gtk_widget_show (priv->end_time);
-	g_signal_connect (priv->end_time_combo, "changed", G_CALLBACK (time_sel_changed), epage);
+	g_signal_connect (
+		priv->end_time_combo, "changed",
+		G_CALLBACK (time_sel_changed), epage);
 	update_end_time_combo ( epage);
 
 	/* Hour and Minute selector */
 	gtk_spin_button_set_range ( (GtkSpinButton *) priv->hour_selector, 0, G_MAXINT);
-	g_signal_connect (priv->hour_selector, "value-changed", G_CALLBACK (hour_sel_changed), epage);
-	g_signal_connect (priv->minute_selector, "value-changed", G_CALLBACK (minute_sel_changed), epage);
+	g_signal_connect (
+		priv->hour_selector, "value-changed",
+		G_CALLBACK (hour_sel_changed), epage);
+	g_signal_connect (
+		priv->minute_selector, "value-changed",
+		G_CALLBACK (minute_sel_changed), epage);
 
 	/* Add the user defined time if necessary */
 	priv->alarm_units =

@@ -1148,10 +1148,22 @@ ect_enter_edit (ECellView *ecell_view,
 	if (edit->im_context) {
 		gtk_im_context_reset (edit->im_context);
 		if (!edit->im_context_signals_registered) {
-			g_signal_connect (edit->im_context, "preedit_changed", G_CALLBACK (e_cell_text_preedit_changed_cb), text_view);
-			g_signal_connect (edit->im_context, "commit", G_CALLBACK (e_cell_text_commit_cb), text_view);
-			g_signal_connect (edit->im_context, "retrieve_surrounding", G_CALLBACK (e_cell_text_retrieve_surrounding_cb), text_view);
-			g_signal_connect (edit->im_context, "delete_surrounding", G_CALLBACK (e_cell_text_delete_surrounding_cb), text_view);
+			g_signal_connect (
+				edit->im_context, "preedit_changed",
+				G_CALLBACK (e_cell_text_preedit_changed_cb),
+				text_view);
+			g_signal_connect (
+				edit->im_context, "commit",
+				G_CALLBACK (e_cell_text_commit_cb),
+				text_view);
+			g_signal_connect (
+				edit->im_context, "retrieve_surrounding",
+				G_CALLBACK (e_cell_text_retrieve_surrounding_cb),
+				text_view);
+			g_signal_connect (
+				edit->im_context, "delete_surrounding",
+				G_CALLBACK (e_cell_text_delete_surrounding_cb),
+				text_view);
 
 			edit->im_context_signals_registered = TRUE;
 		}
@@ -2519,10 +2531,9 @@ _get_tep (CellEdit *edit)
 {
 	if (!edit->tep) {
 		edit->tep = e_text_event_processor_emacs_like_new ();
-		g_signal_connect (edit->tep,
-				  "command",
-				  G_CALLBACK (e_cell_text_view_command),
-				  (gpointer) edit);
+		g_signal_connect (
+			edit->tep, "command",
+			G_CALLBACK (e_cell_text_view_command), edit);
 	}
 }
 

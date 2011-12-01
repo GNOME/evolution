@@ -2575,9 +2575,15 @@ message_list_init (MessageList *message_list)
 	gtk_selection_add_target (p->invisible, GDK_SELECTION_CLIPBOARD, matom, 0);
 	gtk_selection_add_target (p->invisible, GDK_SELECTION_CLIPBOARD, GDK_SELECTION_TYPE_STRING, 2);
 
-	g_signal_connect (p->invisible, "selection_get", G_CALLBACK(ml_selection_get), message_list);
-	g_signal_connect (p->invisible, "selection_clear_event", G_CALLBACK(ml_selection_clear_event), message_list);
-	g_signal_connect (p->invisible, "selection_received", G_CALLBACK(ml_selection_received), message_list);
+	g_signal_connect (
+		p->invisible, "selection_get",
+		G_CALLBACK (ml_selection_get), message_list);
+	g_signal_connect (
+		p->invisible, "selection_clear_event",
+		G_CALLBACK (ml_selection_clear_event), message_list);
+	g_signal_connect (
+		p->invisible, "selection_received",
+		G_CALLBACK (ml_selection_received), message_list);
 
 	/* FIXME This is currently unused. */
 	target_list = gtk_target_list_new (NULL, 0);

@@ -58,12 +58,14 @@ struct _filter_mail_msg {
 	MailMsg base;
 
 	EMailSession *session;
-	CamelFolder *source_folder; /* where they come from */
-	GPtrArray *source_uids;	/* uids to copy, or NULL == copy all */
-	CamelUIDCache *cache;  /* UID cache if we are to cache the uids, NULL otherwise */
+	CamelFolder *source_folder;	/* where they come from */
+	GPtrArray *source_uids;		/* uids to copy, or NULL == copy all */
+	CamelUIDCache *cache;		/* UID cache if we are to cache
+					 * the uids, NULL otherwise */
 	CamelFilterDriver *driver;
-	gint delete;		/* delete messages after filtering them? */
-	CamelFolder *destination; /* default destination for any messages, NULL for none */
+	gint delete;			/* delete messages after filtering? */
+	CamelFolder *destination;	/* default destination for any
+					 * messages, NULL for none */
 };
 
 /* since fetching also filters, we subclass the data here */
@@ -73,7 +75,7 @@ struct _fetch_mail_msg {
 	CamelStore *store;
 	GCancellable *cancellable;	/* we have our own cancellation
 					 * struct, the other should be empty */
-	gint keep;		/* keep on server? */
+	gint keep;			/* keep on server? */
 
 	void (*done)(gpointer data);
 	gpointer data;
@@ -190,8 +192,10 @@ mail_filter_folder (EMailSession *session,
 
 	if (!notify) {
 		/* FIXME: have a #define NOTIFY_FILTER_NAME macro? */
-		/* the filter name has to stay in sync with mail-session::get_filter_driver */
-		camel_filter_driver_remove_rule_by_name (m->driver, "new-mail-notification");
+		/* the filter name has to stay in sync
+		 * with mail-session::get_filter_driver */
+		camel_filter_driver_remove_rule_by_name (
+			m->driver, "new-mail-notification");
 	}
 
 	mail_msg_unordered_push (m);
@@ -678,13 +682,16 @@ mail_send_message (struct _send_queue_msg *m,
 			}
 
 			if (local_error != NULL) {
-				if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+				if (g_error_matches (
+					local_error, G_IO_ERROR,
+					G_IO_ERROR_CANCELLED))
 					goto exit;
 
 				if (err->len)
 					g_string_append(err, "\n\n");
 				g_string_append_printf (
-					err, _("Failed to append to local 'Sent' folder: %s"),
+					err, _("Failed to append to "
+					"local 'Sent' folder: %s"),
 					local_error->message);
 			}
 		}
@@ -695,7 +702,9 @@ mail_send_message (struct _send_queue_msg *m,
 		e_mail_session_handle_draft_headers_sync (
 			m->session, message, cancellable, &local_error);
 		if (local_error != NULL) {
-			g_warning ("%s: Failed to handle draft headers: %s", G_STRFUNC, local_error->message);
+			g_warning (
+				"%s: Failed to handle draft headers: %s",
+				G_STRFUNC, local_error->message);
 			g_clear_error (&local_error);
 		}
 
@@ -705,7 +714,9 @@ mail_send_message (struct _send_queue_msg *m,
 		e_mail_session_handle_source_headers_sync (
 			m->session, message, cancellable, &local_error);
 		if (local_error != NULL) {
-			g_warning ("%s: Failed to handle source headers: %s", G_STRFUNC, local_error->message);
+			g_warning (
+				"%s: Failed to handle source headers: %s",
+				G_STRFUNC, local_error->message);
 			g_clear_error (&local_error);
 		}
 	}
@@ -866,7 +877,9 @@ send_queue_exec (struct _send_queue_msg *m,
 	if (j > 0)
 		report_status (
 			m, CAMEL_FILTER_STATUS_END, 100,
-			/* Translators: The string is distinguished by total count of messages to be send. Failed messages is always more than zero. */
+			/* Translators: The string is distinguished by total
+			 * count of messages to be sent.  Failed messages is
+			 * always more than zero. */
 			ngettext ("Failed to send a message",
 				  "Failed to send %d of %d messages",
 				  send_uids->len),
@@ -1436,7 +1449,8 @@ expunge_pop3_stores (CamelFolder *expunging,
 			}
 
 			if (any_found)
-				success = camel_folder_synchronize_sync (folder, TRUE, cancellable, error);
+				success = camel_folder_synchronize_sync (
+					folder, TRUE, cancellable, error);
 
 			g_object_unref (folder);
 

@@ -51,6 +51,10 @@
 #include "e-util/e-util-private.h"
 #include "widgets/misc/e-preferences-window.h"
 
+#define E_CERT_MANAGER_CONFIG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CERT_MANAGER_CONFIG, ECertManagerConfigPrivate))
+
 G_DEFINE_TYPE (ECertManagerConfig, e_cert_manager_config, GTK_TYPE_BOX);
 
 enum {
@@ -406,7 +410,8 @@ treeview_add_column (CertPage *cp,
 	gtk_tree_view_append_column (cp->treeview, column);
 
 	header = gtk_tree_view_column_get_button (column);
-	g_signal_connect (header, "button-release-event",
+	g_signal_connect (
+		header, "button-release-event",
 		G_CALLBACK (treeview_header_clicked), cp->popup_menu);
 
 	/* The first column should not be concealable so there's no point in displaying
@@ -419,9 +424,11 @@ treeview_add_column (CertPage *cp,
 		gettext (cp->columns[column_index].column_title));
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), cp->columns[column_index].visible);
 	gtk_menu_attach (cp->popup_menu, item, 0, 1, column_index - 1, column_index);
-	g_signal_connect (item, "toggled",
+	g_signal_connect (
+		item, "toggled",
 		G_CALLBACK (header_popup_item_toggled), column);
-	g_signal_connect (column, "notify::visible",
+	g_signal_connect (
+		column, "notify::visible",
 		G_CALLBACK (treeview_column_visibility_changed), item);
 }
 
@@ -504,8 +511,9 @@ view_cert (GtkWidget *button,
 
 		if (cert) {
 			GtkWidget *dialog = certificate_viewer_show (cert);
-			g_signal_connect (dialog, "response",
-					  G_CALLBACK (gtk_widget_destroy), NULL);
+			g_signal_connect (
+				dialog, "response",
+				G_CALLBACK (gtk_widget_destroy), NULL);
 			gtk_widget_show (dialog);
 		}
 	}
@@ -816,23 +824,28 @@ initialize_ui (CertPage *cp)
 		treeview_add_column (cp, i);
 
 	selection = gtk_tree_view_get_selection (cp->treeview);
-	g_signal_connect (selection, "changed",
+	g_signal_connect (
+		selection, "changed",
 		G_CALLBACK (treeview_selection_changed), cp);
 
 	if (cp->import_button)
-		g_signal_connect (cp->import_button, "clicked",
+		g_signal_connect (
+			cp->import_button, "clicked",
 			G_CALLBACK (import_cert), cp);
 
 	if (cp->edit_button)
-		g_signal_connect (cp->edit_button, "clicked",
+		g_signal_connect (
+			cp->edit_button, "clicked",
 			G_CALLBACK (edit_cert), cp);
 
 	if (cp->delete_button)
-		g_signal_connect (cp->delete_button, "clicked",
+		g_signal_connect (
+			cp->delete_button, "clicked",
 			G_CALLBACK (delete_cert), cp);
 
 	if (cp->view_button)
-		g_signal_connect (cp->view_button, "clicked",
+		g_signal_connect (
+			cp->view_button, "clicked",
 			G_CALLBACK (view_cert), cp);
 }
 
@@ -930,7 +943,8 @@ cert_manager_config_set_property (GObject *object,
 			ecmc->priv->pref_window = g_value_get_object (value);
 			/* When the preferences window is "closed" (= hidden), save
 			 * state of all treeviews. */
-			g_signal_connect_swapped (ecmc->priv->pref_window, "hide",
+			g_signal_connect_swapped (
+				ecmc->priv->pref_window, "hide",
 				G_CALLBACK (cert_manager_config_window_hide), ecmc);
 			return;
 	}
@@ -967,8 +981,7 @@ e_cert_manager_config_init (ECertManagerConfig *ecmc)
 	GtkWidget *parent, *widget;
 	CertPage *cp;
 
-	priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		ecmc, E_TYPE_CERT_MANAGER_CONFIG, ECertManagerConfigPrivate);
+	priv = E_CERT_MANAGER_CONFIG_GET_PRIVATE (ecmc);
 	ecmc->priv = priv;
 
 	/* We need to peek the db here to make sure it (and NSS) are fully initialized. */

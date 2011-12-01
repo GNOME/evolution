@@ -301,9 +301,11 @@ etfci_drop_table_header (ETableFieldChooserItem *etfci)
 
 	header = G_OBJECT (etfci->header);
 	if (etfci->table_header_structure_change_id)
-		g_signal_handler_disconnect (header, etfci->table_header_structure_change_id);
+		g_signal_handler_disconnect (
+			header, etfci->table_header_structure_change_id);
 	if (etfci->table_header_dimension_change_id)
-		g_signal_handler_disconnect (header, etfci->table_header_dimension_change_id);
+		g_signal_handler_disconnect (
+			header, etfci->table_header_dimension_change_id);
 	etfci->table_header_structure_change_id = 0;
 	etfci->table_header_dimension_change_id = 0;
 

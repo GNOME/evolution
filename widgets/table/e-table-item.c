@@ -1760,7 +1760,9 @@ eti_realize (GnomeCanvasItem *item)
 
 	eti->rows = e_table_model_row_count (eti->table_model);
 
-	g_signal_connect (GTK_LAYOUT(item->canvas), "scroll_event", G_CALLBACK (eti_tree_unfreeze), eti);
+	g_signal_connect (
+		item->canvas, "scroll_event",
+		G_CALLBACK (eti_tree_unfreeze), eti);
 
 	if (eti->cell_views == NULL)
 		eti_attach_cell_views (eti);
@@ -3780,29 +3782,25 @@ e_table_item_get_printable (ETableItem *item)
 	g_object_ref (item);
 	itemcontext->rows_printed = 0;
 
-	g_signal_connect (printable,
-			  "print_page",
-			  G_CALLBACK (e_table_item_print_page),
-			  itemcontext);
-	g_signal_connect (printable,
-			  "data_left",
-			  G_CALLBACK (e_table_item_data_left),
-			  itemcontext);
-	g_signal_connect (printable,
-			  "reset",
-			  G_CALLBACK (e_table_item_reset),
-			  itemcontext);
-	g_signal_connect (printable,
-			  "height",
-			  G_CALLBACK (e_table_item_height),
-			  itemcontext);
-	g_signal_connect (printable,
-			  "will_fit",
-			  G_CALLBACK (e_table_item_will_fit),
-			  itemcontext);
-	g_object_weak_ref (G_OBJECT (printable),
-			   e_table_item_printable_destroy,
-			   itemcontext);
+	g_signal_connect (
+		printable, "print_page",
+		G_CALLBACK (e_table_item_print_page), itemcontext);
+	g_signal_connect (
+		printable, "data_left",
+		G_CALLBACK (e_table_item_data_left), itemcontext);
+	g_signal_connect (
+		printable, "reset",
+		G_CALLBACK (e_table_item_reset), itemcontext);
+	g_signal_connect (
+		printable, "height",
+		G_CALLBACK (e_table_item_height), itemcontext);
+	g_signal_connect (
+		printable, "will_fit",
+		G_CALLBACK (e_table_item_will_fit), itemcontext);
+
+	g_object_weak_ref (
+		G_OBJECT (printable),
+		e_table_item_printable_destroy, itemcontext);
 
 	return printable;
 }

@@ -32,6 +32,10 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_LABEL_LIST_STORE, EMailLabelListStorePrivate))
 
+#define E_MAIL_LABEL_LIST_STORE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_LABEL_LIST_STORE, EMailLabelListStorePrivate))
+
 struct _EMailLabelListStorePrivate {
 	GHashTable *tag_index;
 	GSettings *mail_settings;
@@ -52,6 +56,9 @@ static struct {
 /* Forward Declarations */
 static void	e_mail_label_list_store_interface_init
 						(GtkTreeModelIface *interface);
+static void	labels_settings_changed_cb	(GSettings *settings,
+						 const gchar *key,
+						 gpointer user_data);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailLabelListStore,
@@ -197,8 +204,6 @@ mail_label_list_store_finalize (GObject *object)
 		finalize (object);
 }
 
-static void labels_settings_changed_cb (GSettings *settings, const gchar *key, gpointer user_data);
-
 static void
 labels_model_changed_cb (GtkTreeModel *model,
                          GtkTreePath *path,
@@ -208,33 +213,45 @@ labels_model_changed_cb (GtkTreeModel *model,
 	EMailLabelListStore *store;
 	GPtrArray *array;
 	GtkTreeIter tmp_iter;
-	gboolean res;
+	gboolean iter_set;
 
 	store = E_MAIL_LABEL_LIST_STORE (user_data);
 
 	/* Make sure we don't enter an infinite synchronizing loop */
-	g_signal_handlers_block_by_func (store->priv->mail_settings, labels_settings_changed_cb, store);
+	g_signal_handlers_block_by_func (
+		store->priv->mail_settings,
+		labels_settings_changed_cb, store);
 
 	/* Build list to store in GSettings */
+
 	array = g_ptr_array_new ();
-	res = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &tmp_iter);
-	while (res) {
+
+	iter_set = gtk_tree_model_get_iter_first (
+		GTK_TREE_MODEL (store), &tmp_iter);
+
+	while (iter_set) {
 		gchar *string;
 
-		gtk_tree_model_get (GTK_TREE_MODEL (store), &tmp_iter,
-				    0, &string, -1);
+		gtk_tree_model_get (
+			GTK_TREE_MODEL (store), &tmp_iter,
+			0, &string, -1);
 		g_ptr_array_add (array, string);
 
-		res = gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &tmp_iter);
+		iter_set = gtk_tree_model_iter_next (
+			GTK_TREE_MODEL (store), &tmp_iter);
 	}
 
 	g_ptr_array_add (array, NULL);
+
 	g_settings_set_strv (
 		store->priv->mail_settings, "labels",
 		(const gchar * const *) array->pdata);
 
 	g_ptr_array_free (array, TRUE);
-	g_signal_handlers_unblock_by_func (store->priv->mail_settings, labels_settings_changed_cb, store);
+
+	g_signal_handlers_unblock_by_func (
+		store->priv->mail_settings,
+		labels_settings_changed_cb, store);
 }
 
 static void
@@ -249,23 +266,24 @@ labels_settings_changed_cb (GSettings *settings,
 	store = E_MAIL_LABEL_LIST_STORE (user_data);
 
 	/* Make sure we don't enter an infinite synchronizing loop */
-	g_signal_handlers_block_by_func (store, labels_model_changed_cb, store);
+	g_signal_handlers_block_by_func (
+		store, labels_model_changed_cb, store);
 
 	gtk_list_store_clear (GTK_LIST_STORE (store));
 
 	strv = g_settings_get_strv (store->priv->mail_settings, "labels");
+
 	for (i = 0; strv[i] != NULL; i++) {
 		GtkTreeIter iter;
 
-		gtk_list_store_insert_with_values (GTK_LIST_STORE (store),
-						   &iter, -1,
-						   0, strv[i],
-						   -1);
+		gtk_list_store_insert_with_values (
+			GTK_LIST_STORE (store), &iter, -1, 0, strv[i], -1);
 	}
 
 	g_strfreev (strv);
 
-	g_signal_handlers_unblock_by_func (store, labels_model_changed_cb, store);
+	g_signal_handlers_unblock_by_func (
+		store, labels_model_changed_cb, store);
 }
 
 static void
@@ -280,7 +298,8 @@ mail_label_list_store_constructed (GObject *object)
 	g_signal_connect (
 		store->priv->mail_settings, "changed::labels",
 		G_CALLBACK (labels_settings_changed_cb), store);
-	labels_settings_changed_cb (store->priv->mail_settings, "labels", store);
+	labels_settings_changed_cb (
+		store->priv->mail_settings, "labels", store);
 
 	/* Connect to ListStore change notifications */
 	g_signal_connect (

@@ -94,8 +94,6 @@ enum {
 	PROP_TEXT_HEIGHT
 };
 
-static void gnome_canvas_text_class_init (GnomeCanvasTextClass *class);
-static void gnome_canvas_text_init (GnomeCanvasText *text);
 static void gnome_canvas_text_dispose (GnomeCanvasItem *object);
 static void gnome_canvas_text_set_property (GObject            *object,
 					    guint               param_id,
@@ -133,40 +131,10 @@ static void add_attr (PangoAttrList  *attr_list,
 
 static GnomeCanvasItemClass *parent_class;
 
-/**
- * gnome_canvas_text_get_type:
- * @void:
- *
- * Registers the &GnomeCanvasText class if necessary, and returns the type ID
- * associated to it.
- *
- * Return value: The type ID of the &GnomeCanvasText class.
- **/
-GType
-gnome_canvas_text_get_type (void)
-{
-	static GType text_type;
-
-	if (!text_type) {
-		const GTypeInfo object_info = {
-			sizeof (GnomeCanvasTextClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gnome_canvas_text_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,			/* class_data */
-			sizeof (GnomeCanvasText),
-			0,			/* n_preallocs */
-			(GInstanceInitFunc) gnome_canvas_text_init,
-			NULL			/* value_table */
-		};
-
-		text_type = g_type_register_static (GNOME_TYPE_CANVAS_ITEM, "GnomeCanvasText",
-						    &object_info, 0);
-	}
-
-	return text_type;
-}
+G_DEFINE_TYPE (
+	GnomeCanvasText,
+	gnome_canvas_text,
+	GNOME_TYPE_CANVAS_ITEM)
 
 /* Class initialization function for the text item */
 static void

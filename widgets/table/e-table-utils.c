@@ -182,9 +182,13 @@ e_table_util_calculate_current_search_col (ETableHeader *header,
 	gint i;
 	gint count;
 	ETableCol *col = NULL;
+
 	count = e_table_sort_info_grouping_get_count (sort_info);
+
 	for (i = 0; i < count; i++) {
-		ETableSortColumn column = e_table_sort_info_grouping_get_nth (sort_info, i);
+		ETableSortColumn column;
+
+		column = e_table_sort_info_grouping_get_nth (sort_info, i);
 
 		col = e_table_header_get_column (full_header, column.column);
 
@@ -197,7 +201,9 @@ e_table_util_calculate_current_search_col (ETableHeader *header,
 	if (col == NULL) {
 		count = e_table_sort_info_sorting_get_count (sort_info);
 		for (i = 0; i < count; i++) {
-			ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, i);
+			ETableSortColumn column;
+
+			column = e_table_sort_info_sorting_get_nth (sort_info, i);
 
 			col = e_table_header_get_column (full_header, column.column);
 

@@ -927,8 +927,9 @@ setup_select_names (Dialog *dialog)
 		G_CALLBACK (addressbook_clicked_cb), dialog);
 
 	name_selector_dialog = e_name_selector_peek_dialog (dialog->name_selector);
-	g_signal_connect (name_selector_dialog, "response",
-			  G_CALLBACK (addressbook_response_cb), dialog);
+	g_signal_connect (
+		name_selector_dialog, "response",
+		G_CALLBACK (addressbook_response_cb), dialog);
 
 	return TRUE;
 }
@@ -1208,8 +1209,9 @@ init_widgets (Dialog *dialog)
 		text_buffer, "changed",
 		G_CALLBACK (malarm_description_changed_cb), dialog);
 
-	g_signal_connect (dialog->malarm_addresses, "changed",
-			  G_CALLBACK (malarm_addresses_changed_cb), dialog);
+	g_signal_connect (
+		dialog->malarm_addresses, "changed",
+		G_CALLBACK (malarm_addresses_changed_cb), dialog);
 }
 
 gboolean

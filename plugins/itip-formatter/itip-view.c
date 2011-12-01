@@ -42,6 +42,10 @@
 
 #define MEETING_ICON "stock_new-meeting"
 
+#define ITIP_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), ITIP_TYPE_VIEW, ItipViewPrivate))
+
 G_DEFINE_TYPE (ItipView, itip_view, GTK_TYPE_HBOX)
 
 typedef struct  {
@@ -892,49 +896,46 @@ set_buttons (ItipView *view)
 }
 
 static void
-itip_view_dispose (GObject *object)
+itip_view_finalize (GObject *object)
 {
-	ItipView *view = ITIP_VIEW (object);
-	ItipViewPrivate *priv = view->priv;
+	ItipViewPrivate *priv;
 
-	if (priv) {
-		g_free (priv->organizer);
-		g_free (priv->organizer_sentby);
-		g_free (priv->delegator);
-		g_free (priv->attendee);
-		g_free (priv->attendee_sentby);
-		g_free (priv->proxy);
-		g_free (priv->summary);
-		g_free (priv->location);
-		g_free (priv->status);
-		g_free (priv->comment);
-		g_free (priv->start_tm);
-		g_free (priv->end_tm);
-		g_free (priv->description);
+	priv = ITIP_VIEW_GET_PRIVATE (object);
 
-		itip_view_clear_upper_info_items (view);
-		itip_view_clear_lower_info_items (view);
+	g_free (priv->organizer);
+	g_free (priv->organizer_sentby);
+	g_free (priv->delegator);
+	g_free (priv->attendee);
+	g_free (priv->attendee_sentby);
+	g_free (priv->proxy);
+	g_free (priv->summary);
+	g_free (priv->location);
+	g_free (priv->status);
+	g_free (priv->comment);
+	g_free (priv->start_tm);
+	g_free (priv->end_tm);
+	g_free (priv->description);
 
-		g_free (priv);
-		view->priv = NULL;
-	}
+	itip_view_clear_upper_info_items (ITIP_VIEW (object));
+	itip_view_clear_lower_info_items (ITIP_VIEW (object));
 
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (itip_view_parent_class)->dispose (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (itip_view_parent_class)->finalize (object);
 }
 
 static void
-itip_view_class_init (ItipViewClass *klass)
+itip_view_class_init (ItipViewClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+	g_type_class_add_private (class, sizeof (ItipViewPrivate));
 
-	object_class->dispose = itip_view_dispose;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = itip_view_finalize;
 
 	signals[SOURCE_SELECTED] =
 		g_signal_new ("source_selected",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ItipViewClass, source_selected),
 			      NULL, NULL,
@@ -943,7 +944,7 @@ itip_view_class_init (ItipViewClass *klass)
 
 	signals[RESPONSE] =
 		g_signal_new ("response",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ItipViewClass, response),
 			      NULL, NULL,
@@ -996,14 +997,12 @@ alarm_check_toggled_cb (GtkWidget *check1,
 static void
 itip_view_init (ItipView *view)
 {
-	ItipViewPrivate *priv;
 	GtkWidget *icon, *vbox, *hbox, *separator, *table, *label;
 	GtkWidget *scrolled_window;
 
-	priv = g_new0 (ItipViewPrivate, 1);
-	view->priv = priv;
+	view->priv = ITIP_VIEW_GET_PRIVATE (view);
 
-	priv->mode = ITIP_VIEW_MODE_NONE;
+	view->priv->mode = ITIP_VIEW_MODE_NONE;
 
 	gtk_box_set_spacing (GTK_BOX (view), 12);
 
@@ -1022,11 +1021,11 @@ itip_view_init (ItipView *view)
 
 	/* The first section listing the sender */
 	/* FIXME What to do if the send and organizer do not match */
-	priv->sender_label = gtk_label_new (NULL);
-	gtk_label_set_selectable (GTK_LABEL (priv->sender_label), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (priv->sender_label), 0, 0.5);
-	gtk_widget_show (priv->sender_label);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->sender_label, FALSE, FALSE, 0);
+	view->priv->sender_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (view->priv->sender_label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (view->priv->sender_label), 0, 0.5);
+	gtk_widget_show (view->priv->sender_label);
+	gtk_box_pack_start (GTK_BOX (vbox), view->priv->sender_label, FALSE, FALSE, 0);
 
 	separator = gtk_hseparator_new ();
 	gtk_widget_show (separator);
@@ -1040,116 +1039,118 @@ itip_view_init (ItipView *view)
 	gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);
 
 	/* Summary */
-	priv->summary_label = gtk_label_new (NULL);
-	gtk_label_set_selectable (GTK_LABEL (priv->summary_label), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (priv->summary_label), 0, 0.5);
-	gtk_label_set_line_wrap_mode (GTK_LABEL (priv->summary_label), PANGO_WRAP_WORD);
-	gtk_label_set_line_wrap (GTK_LABEL (priv->summary_label), TRUE);
-	gtk_widget_show (priv->summary_label);
-	gtk_table_attach (GTK_TABLE (table), priv->summary_label, 0, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	view->priv->summary_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (view->priv->summary_label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (view->priv->summary_label), 0, 0.5);
+	gtk_label_set_line_wrap_mode (GTK_LABEL (view->priv->summary_label), PANGO_WRAP_WORD);
+	gtk_label_set_line_wrap (GTK_LABEL (view->priv->summary_label), TRUE);
+	gtk_widget_show (view->priv->summary_label);
+	gtk_table_attach (GTK_TABLE (table), view->priv->summary_label, 0, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* Location */
-	priv->location_header = gtk_label_new (_("Location:"));
-	priv->location_label = gtk_label_new (NULL);
-	gtk_label_set_selectable (GTK_LABEL (priv->location_header), TRUE);
-	gtk_label_set_selectable (GTK_LABEL (priv->location_label), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (priv->location_header), 0, 0.5);
-	gtk_misc_set_alignment (GTK_MISC (priv->location_label), 0, 0.5);
-	gtk_table_attach (GTK_TABLE (table), priv->location_header, 0, 1, 1, 2, GTK_FILL, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->location_label, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	view->priv->location_header = gtk_label_new (_("Location:"));
+	view->priv->location_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (view->priv->location_header), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (view->priv->location_label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (view->priv->location_header), 0, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (view->priv->location_label), 0, 0.5);
+	gtk_table_attach (GTK_TABLE (table), view->priv->location_header, 0, 1, 1, 2, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), view->priv->location_label, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* Start time */
-	priv->start_header = gtk_label_new (_("Start time:"));
-	priv->start_label = gtk_label_new (NULL);
-	gtk_label_set_selectable (GTK_LABEL (priv->start_header), TRUE);
-	gtk_label_set_selectable (GTK_LABEL (priv->start_label), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (priv->start_header), 0, 0.5);
-	gtk_misc_set_alignment (GTK_MISC (priv->start_label), 0, 0.5);
-	gtk_widget_show (priv->start_header);
-	gtk_table_attach (GTK_TABLE (table), priv->start_header, 0, 1, 2, 3, GTK_FILL, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->start_label, 1, 2, 2, 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	view->priv->start_header = gtk_label_new (_("Start time:"));
+	view->priv->start_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (view->priv->start_header), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (view->priv->start_label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (view->priv->start_header), 0, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (view->priv->start_label), 0, 0.5);
+	gtk_widget_show (view->priv->start_header);
+	gtk_table_attach (GTK_TABLE (table), view->priv->start_header, 0, 1, 2, 3, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), view->priv->start_label, 1, 2, 2, 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* End time */
-	priv->end_header = gtk_label_new (_("End time:"));
-	priv->end_label = gtk_label_new (NULL);
-	gtk_label_set_selectable (GTK_LABEL (priv->end_header), TRUE);
-	gtk_label_set_selectable (GTK_LABEL (priv->end_label), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (priv->end_header), 0, 0.5);
-	gtk_misc_set_alignment (GTK_MISC (priv->end_label), 0, 0.5);
-	gtk_table_attach (GTK_TABLE (table), priv->end_header, 0, 1, 3, 4, GTK_FILL, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->end_label, 1, 2, 3, 4, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	view->priv->end_header = gtk_label_new (_("End time:"));
+	view->priv->end_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (view->priv->end_header), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (view->priv->end_label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (view->priv->end_header), 0, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (view->priv->end_label), 0, 0.5);
+	gtk_table_attach (GTK_TABLE (table), view->priv->end_header, 0, 1, 3, 4, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), view->priv->end_label, 1, 2, 3, 4, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* Status */
-	priv->status_header = gtk_label_new (_("Status:"));
-	priv->status_label = gtk_label_new (NULL);
-	gtk_label_set_selectable (GTK_LABEL (priv->status_header), TRUE);
-	gtk_label_set_selectable (GTK_LABEL (priv->status_label), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (priv->status_header), 0, 0.5);
-	gtk_misc_set_alignment (GTK_MISC (priv->status_label), 0, 0.5);
-	gtk_table_attach (GTK_TABLE (table), priv->status_header, 0, 1, 4, 5, GTK_FILL, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->status_label, 1, 2, 4, 5, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	view->priv->status_header = gtk_label_new (_("Status:"));
+	view->priv->status_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (view->priv->status_header), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (view->priv->status_label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (view->priv->status_header), 0, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (view->priv->status_label), 0, 0.5);
+	gtk_table_attach (GTK_TABLE (table), view->priv->status_header, 0, 1, 4, 5, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), view->priv->status_label, 1, 2, 4, 5, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* Comment */
-	priv->comment_header = gtk_label_new (_("Comment:"));
-	priv->comment_label = gtk_label_new (NULL);
-	gtk_label_set_selectable (GTK_LABEL (priv->comment_header), TRUE);
-	gtk_label_set_selectable (GTK_LABEL (priv->comment_label), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (priv->comment_header), 0, 0.5);
-	gtk_misc_set_alignment (GTK_MISC (priv->comment_label), 0, 0.5);
-	gtk_table_attach (GTK_TABLE (table), priv->comment_header, 0, 1, 5, 6, GTK_FILL, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->comment_label, 1, 2, 5, 6, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	view->priv->comment_header = gtk_label_new (_("Comment:"));
+	view->priv->comment_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (view->priv->comment_header), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (view->priv->comment_label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (view->priv->comment_header), 0, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (view->priv->comment_label), 0, 0.5);
+	gtk_table_attach (GTK_TABLE (table), view->priv->comment_header, 0, 1, 5, 6, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), view->priv->comment_label, 1, 2, 5, 6, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* Upper Info items */
-	priv->upper_info_box = gtk_vbox_new (FALSE, 12);
-	gtk_widget_show (priv->upper_info_box);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->upper_info_box, FALSE, FALSE, 0);
+	view->priv->upper_info_box = gtk_vbox_new (FALSE, 12);
+	gtk_widget_show (view->priv->upper_info_box);
+	gtk_box_pack_start (GTK_BOX (vbox), view->priv->upper_info_box, FALSE, FALSE, 0);
 
 	/* Description */
-	priv->description_label = gtk_label_new (NULL);
-	gtk_label_set_selectable (GTK_LABEL (priv->description_label), TRUE);
-	gtk_label_set_line_wrap (GTK_LABEL (priv->description_label), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (priv->description_label), 0, 0.5);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->description_label, FALSE, FALSE, 0);
+	view->priv->description_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (view->priv->description_label), TRUE);
+	gtk_label_set_line_wrap (GTK_LABEL (view->priv->description_label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (view->priv->description_label), 0, 0.5);
+	gtk_box_pack_start (GTK_BOX (vbox), view->priv->description_label, FALSE, FALSE, 0);
 
 	separator = gtk_hseparator_new ();
 	gtk_widget_show (separator);
 	gtk_box_pack_start (GTK_BOX (vbox), separator, FALSE, FALSE, 0);
 
 	/* Lower Info items */
-	priv->lower_info_box = gtk_vbox_new (FALSE, 12);
-	gtk_widget_show (priv->lower_info_box);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->lower_info_box, FALSE, FALSE, 0);
+	view->priv->lower_info_box = gtk_vbox_new (FALSE, 12);
+	gtk_widget_show (view->priv->lower_info_box);
+	gtk_box_pack_start (GTK_BOX (vbox), view->priv->lower_info_box, FALSE, FALSE, 0);
 
 	/* Selector area */
-	priv->selector_box = gtk_hbox_new (FALSE, 12);
-	gtk_widget_show (priv->selector_box);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->selector_box, FALSE, FALSE, 0);
+	view->priv->selector_box = gtk_hbox_new (FALSE, 12);
+	gtk_widget_show (view->priv->selector_box);
+	gtk_box_pack_start (GTK_BOX (vbox), view->priv->selector_box, FALSE, FALSE, 0);
 
 	/* RSVP area */
-	priv->rsvp_box = gtk_vbox_new (FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->rsvp_box, FALSE, FALSE, 0);
+	view->priv->rsvp_box = gtk_vbox_new (FALSE, 12);
+	gtk_box_pack_start (GTK_BOX (vbox), view->priv->rsvp_box, FALSE, FALSE, 0);
 
-	priv->rsvp_check = gtk_check_button_new_with_mnemonic (_("Send _reply to sender"));
-	gtk_widget_show (priv->rsvp_check);
-	gtk_box_pack_start (GTK_BOX (priv->rsvp_box), priv->rsvp_check, FALSE, FALSE, 0);
+	view->priv->rsvp_check = gtk_check_button_new_with_mnemonic (_("Send _reply to sender"));
+	gtk_widget_show (view->priv->rsvp_check);
+	gtk_box_pack_start (GTK_BOX (view->priv->rsvp_box), view->priv->rsvp_check, FALSE, FALSE, 0);
 
-	g_signal_connect (priv->rsvp_check, "toggled", G_CALLBACK (rsvp_toggled_cb), view);
+	g_signal_connect (
+		view->priv->rsvp_check, "toggled",
+		G_CALLBACK (rsvp_toggled_cb), view);
 
 	hbox = gtk_hbox_new (FALSE, 12);
 	gtk_widget_show (hbox);
-	gtk_box_pack_start (GTK_BOX (priv->rsvp_box), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (view->priv->rsvp_box), hbox, FALSE, FALSE, 0);
 
 	label = gtk_label_new (NULL);
 	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-	priv->rsvp_comment_header = gtk_label_new (_("Comment:"));
-	gtk_label_set_selectable (GTK_LABEL (priv->rsvp_comment_header), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (priv->rsvp_comment_header), 0.0, 0.0);
-	gtk_widget_set_sensitive (priv->rsvp_comment_header, FALSE);
-	gtk_widget_show (priv->rsvp_comment_header);
-	gtk_box_pack_start (GTK_BOX (hbox), priv->rsvp_comment_header, FALSE, FALSE, 0);
+	view->priv->rsvp_comment_header = gtk_label_new (_("Comment:"));
+	gtk_label_set_selectable (GTK_LABEL (view->priv->rsvp_comment_header), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (view->priv->rsvp_comment_header), 0.0, 0.0);
+	gtk_widget_set_sensitive (view->priv->rsvp_comment_header, FALSE);
+	gtk_widget_show (view->priv->rsvp_comment_header);
+	gtk_box_pack_start (GTK_BOX (hbox), view->priv->rsvp_comment_header, FALSE, FALSE, 0);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -1157,57 +1158,65 @@ itip_view_init (ItipView *view)
 	gtk_widget_show (scrolled_window);
 	gtk_box_pack_start (GTK_BOX (hbox), scrolled_window, TRUE, TRUE, 0);
 
-	priv->rsvp_comment_text = gtk_text_view_new ();
-	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (priv->rsvp_comment_text), GTK_WRAP_WORD_CHAR);
-	gtk_widget_set_sensitive (priv->rsvp_comment_text, FALSE);
-	gtk_widget_show (priv->rsvp_comment_text);
-	gtk_container_add (GTK_CONTAINER (scrolled_window), priv->rsvp_comment_text);
+	view->priv->rsvp_comment_text = gtk_text_view_new ();
+	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view->priv->rsvp_comment_text), GTK_WRAP_WORD_CHAR);
+	gtk_widget_set_sensitive (view->priv->rsvp_comment_text, FALSE);
+	gtk_widget_show (view->priv->rsvp_comment_text);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), view->priv->rsvp_comment_text);
 
 	/* RSVP area */
-	priv->update_box = gtk_vbox_new (FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->update_box, FALSE, FALSE, 0);
+	view->priv->update_box = gtk_vbox_new (FALSE, 12);
+	gtk_box_pack_start (GTK_BOX (vbox), view->priv->update_box, FALSE, FALSE, 0);
 
-	priv->update_check = gtk_check_button_new_with_mnemonic (_("Send _updates to attendees"));
-	gtk_widget_show (priv->update_check);
-	gtk_box_pack_start (GTK_BOX (priv->update_box), priv->update_check, FALSE, FALSE, 0);
+	view->priv->update_check = gtk_check_button_new_with_mnemonic (_("Send _updates to attendees"));
+	gtk_widget_show (view->priv->update_check);
+	gtk_box_pack_start (GTK_BOX (view->priv->update_box), view->priv->update_check, FALSE, FALSE, 0);
 
 	/* The recurrence check button */
-	priv->recur_box = gtk_vbox_new (FALSE, 12);
-	gtk_widget_show (priv->recur_box);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->recur_box, FALSE, FALSE, 0);
+	view->priv->recur_box = gtk_vbox_new (FALSE, 12);
+	gtk_widget_show (view->priv->recur_box);
+	gtk_box_pack_start (GTK_BOX (vbox), view->priv->recur_box, FALSE, FALSE, 0);
 
-	priv->recur_check = gtk_check_button_new_with_mnemonic (_("_Apply to all instances"));
-	gtk_box_pack_start (GTK_BOX (priv->recur_box), priv->recur_check, FALSE, FALSE, 0);
+	view->priv->recur_check = gtk_check_button_new_with_mnemonic (_("_Apply to all instances"));
+	gtk_box_pack_start (GTK_BOX (view->priv->recur_box), view->priv->recur_check, FALSE, FALSE, 0);
 
-	g_signal_connect (priv->recur_check, "toggled", G_CALLBACK (recur_toggled_cb), view);
+	g_signal_connect (
+		view->priv->recur_check, "toggled",
+		G_CALLBACK (recur_toggled_cb), view);
 
-	priv->options_box = gtk_vbox_new (FALSE, 2);
-	gtk_widget_show (priv->options_box);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->options_box, FALSE, FALSE, 0);
+	view->priv->options_box = gtk_vbox_new (FALSE, 2);
+	gtk_widget_show (view->priv->options_box);
+	gtk_box_pack_start (GTK_BOX (vbox), view->priv->options_box, FALSE, FALSE, 0);
 
-	priv->free_time_check = gtk_check_button_new_with_mnemonic (_("Show time as _free"));
-	gtk_box_pack_start (GTK_BOX (priv->options_box), priv->free_time_check, FALSE, FALSE, 0);
+	view->priv->free_time_check = gtk_check_button_new_with_mnemonic (_("Show time as _free"));
+	gtk_box_pack_start (GTK_BOX (view->priv->options_box), view->priv->free_time_check, FALSE, FALSE, 0);
 
-	priv->keep_alarm_check = gtk_check_button_new_with_mnemonic (_("_Preserve my reminder"));
+	view->priv->keep_alarm_check = gtk_check_button_new_with_mnemonic (_("_Preserve my reminder"));
 	/* default value is to keep user's alarms */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view->priv->keep_alarm_check), TRUE);
-	gtk_box_pack_start (GTK_BOX (priv->options_box), priv->keep_alarm_check, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (view->priv->options_box), view->priv->keep_alarm_check, FALSE, FALSE, 0);
 
 	/* To Translators: This is a check box to inherit a reminder. */
-	priv->inherit_alarm_check = gtk_check_button_new_with_mnemonic (_("_Inherit reminder"));
-	gtk_box_pack_start (GTK_BOX (priv->options_box), priv->inherit_alarm_check, FALSE, FALSE, 0);
+	view->priv->inherit_alarm_check = gtk_check_button_new_with_mnemonic (_("_Inherit reminder"));
+	gtk_box_pack_start (GTK_BOX (view->priv->options_box), view->priv->inherit_alarm_check, FALSE, FALSE, 0);
 
-	g_signal_connect (priv->keep_alarm_check, "toggled", G_CALLBACK (alarm_check_toggled_cb), priv->inherit_alarm_check);
-	g_signal_connect (priv->inherit_alarm_check, "toggled", G_CALLBACK (alarm_check_toggled_cb), priv->keep_alarm_check);
+	g_signal_connect (
+		view->priv->keep_alarm_check, "toggled",
+		G_CALLBACK (alarm_check_toggled_cb),
+		view->priv->inherit_alarm_check);
+	g_signal_connect (
+		view->priv->inherit_alarm_check, "toggled",
+		G_CALLBACK (alarm_check_toggled_cb),
+		view->priv->keep_alarm_check);
 
 	/* The buttons for actions */
-	priv->button_box = gtk_hbutton_box_new ();
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (priv->button_box), GTK_BUTTONBOX_START);
-	gtk_box_set_spacing (GTK_BOX (priv->button_box), 12);
-	gtk_widget_show (priv->button_box);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->button_box, FALSE, FALSE, 0);
+	view->priv->button_box = gtk_hbutton_box_new ();
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (view->priv->button_box), GTK_BUTTONBOX_START);
+	gtk_box_set_spacing (GTK_BOX (view->priv->button_box), 12);
+	gtk_widget_show (view->priv->button_box);
+	gtk_box_pack_start (GTK_BOX (vbox), view->priv->button_box, FALSE, FALSE, 0);
 
-	priv->buttons_sensitive = TRUE;
+	view->priv->buttons_sensitive = TRUE;
 }
 
 GtkWidget *

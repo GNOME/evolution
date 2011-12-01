@@ -337,11 +337,21 @@ org_gnome_imap_headers (EPlugin *epl,
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->add_header), FALSE);
 	epif_tv_selection_changed (selection, GTK_WIDGET (ui->remove_header));
 
-	g_signal_connect (ui->add_header, "clicked", G_CALLBACK (epif_add_header), ui);
-	g_signal_connect (ui->remove_header, "clicked", G_CALLBACK (epif_remove_header_clicked), ui);
-	g_signal_connect (ui->entry_header, "changed", G_CALLBACK (epif_entry_changed), ui);
-	g_signal_connect (ui->entry_header, "activate", G_CALLBACK (epif_add_header), ui);
-	g_signal_connect (selection, "changed", G_CALLBACK (epif_tv_selection_changed), ui->remove_header);
+	g_signal_connect (
+		ui->add_header, "clicked",
+		G_CALLBACK (epif_add_header), ui);
+	g_signal_connect (
+		ui->remove_header, "clicked",
+		G_CALLBACK (epif_remove_header_clicked), ui);
+	g_signal_connect (
+		ui->entry_header, "changed",
+		G_CALLBACK (epif_entry_changed), ui);
+	g_signal_connect (
+		ui->entry_header, "activate",
+		G_CALLBACK (epif_add_header), ui);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (epif_tv_selection_changed), ui->remove_header);
 
 	gtk_notebook_append_page ((GtkNotebook *)(data->parent), vbox, gtk_label_new(_("IMAP Headers")));
 	gtk_container_child_set (GTK_CONTAINER (data->parent), vbox, "tab-fill", FALSE, "tab-expand", FALSE, NULL);

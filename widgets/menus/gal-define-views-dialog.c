@@ -61,11 +61,11 @@ typedef struct {
 G_DEFINE_TYPE (GalDefineViewsDialog, gal_define_views_dialog, GTK_TYPE_DIALOG)
 
 static void
-gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
+gal_define_views_dialog_class_init (GalDefineViewsDialogClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = (GObjectClass *) klass;
+	object_class = (GObjectClass *) class;
 
 	object_class->set_property = gal_define_views_dialog_set_property;
 	object_class->get_property = gal_define_views_dialog_get_property;
@@ -130,8 +130,9 @@ gdvd_button_new_callback (GtkWidget *widget,
 {
 	GtkWidget *view_new_dialog = gal_view_new_dialog_new (dialog->collection);
 	gtk_window_set_transient_for (GTK_WINDOW (view_new_dialog), GTK_WINDOW (dialog));
-	g_signal_connect (view_new_dialog, "response",
-			 G_CALLBACK (gdvd_button_new_dialog_callback), dialog);
+	g_signal_connect (
+		view_new_dialog, "response",
+		G_CALLBACK (gdvd_button_new_dialog_callback), dialog);
 	gtk_widget_show (view_new_dialog);
 }
 
@@ -280,10 +281,14 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	gdvd_connect_signal (dialog, "button-new",    "clicked", G_CALLBACK (gdvd_button_new_callback));
 	gdvd_connect_signal (dialog, "button-modify", "clicked", G_CALLBACK (gdvd_button_modify_callback));
 	gdvd_connect_signal (dialog, "button-delete", "clicked", G_CALLBACK (gdvd_button_delete_callback));
-	g_signal_connect (dialog, "response", G_CALLBACK (dialog_response), NULL);
+	g_signal_connect (
+		dialog, "response",
+		G_CALLBACK (dialog_response), NULL);
 
 	selection = gtk_tree_view_get_selection (dialog->treeview);
-	g_signal_connect (selection, "changed", G_CALLBACK (gdvd_selection_changed_callback), dialog);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (gdvd_selection_changed_callback), dialog);
 	gdvd_selection_changed_callback (selection, dialog);
 
 	gtk_widget_show (GTK_WIDGET (dialog));

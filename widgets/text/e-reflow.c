@@ -645,23 +645,28 @@ connect_model (EReflow *reflow,
 	if (model == NULL)
 		return;
 
-	reflow->model = model;
-	g_object_ref (reflow->model);
-	reflow->model_changed_id =
-		g_signal_connect (reflow->model, "model_changed",
-				  G_CALLBACK (model_changed), reflow);
-	reflow->comparison_changed_id =
-		g_signal_connect (reflow->model, "comparison_changed",
-				  G_CALLBACK (comparison_changed), reflow);
-	reflow->model_items_inserted_id =
-		g_signal_connect (reflow->model, "model_items_inserted",
-				  G_CALLBACK (items_inserted), reflow);
-	reflow->model_item_removed_id =
-		g_signal_connect (reflow->model, "model_item_removed",
-				  G_CALLBACK (item_removed), reflow);
-	reflow->model_item_changed_id =
-		g_signal_connect (reflow->model, "model_item_changed",
-				  G_CALLBACK (item_changed), reflow);
+	reflow->model = g_object_ref (model);
+
+	reflow->model_changed_id = g_signal_connect (
+		reflow->model, "model_changed",
+		G_CALLBACK (model_changed), reflow);
+
+	reflow->comparison_changed_id = g_signal_connect (
+		reflow->model, "comparison_changed",
+		G_CALLBACK (comparison_changed), reflow);
+
+	reflow->model_items_inserted_id = g_signal_connect (
+		reflow->model, "model_items_inserted",
+		G_CALLBACK (items_inserted), reflow);
+
+	reflow->model_item_removed_id = g_signal_connect (
+		reflow->model, "model_item_removed",
+		G_CALLBACK (item_removed), reflow);
+
+	reflow->model_item_changed_id = g_signal_connect (
+		reflow->model, "model_item_changed",
+		G_CALLBACK (item_changed), reflow);
+
 	model_changed (model, reflow);
 }
 
@@ -700,14 +705,15 @@ connect_adjustment (EReflow *reflow,
 	if (adjustment == NULL)
 		return;
 
-	reflow->adjustment = adjustment;
-	reflow->adjustment_changed_id =
-		g_signal_connect (adjustment, "changed",
-				  G_CALLBACK (adjustment_changed), reflow);
-	reflow->adjustment_value_changed_id =
-		g_signal_connect (adjustment, "value_changed",
-				  G_CALLBACK (adjustment_changed), reflow);
-	g_object_ref (adjustment);
+	reflow->adjustment = g_object_ref (adjustment);
+
+	reflow->adjustment_changed_id = g_signal_connect (
+		adjustment, "changed",
+		G_CALLBACK (adjustment_changed), reflow);
+
+	reflow->adjustment_value_changed_id = g_signal_connect (
+		adjustment, "value_changed",
+		G_CALLBACK (adjustment_changed), reflow);
 }
 
 #if 0
@@ -723,10 +729,9 @@ set_scroll_adjustments (GtkLayout *layout,
 static void
 connect_set_adjustment (EReflow *reflow)
 {
-	reflow->set_scroll_adjustments_id =
-		g_signal_connect (GNOME_CANVAS_ITEM (reflow)->canvas,
-				  "set_scroll_adjustments",
-				  G_CALLBACK (set_scroll_adjustments), reflow);
+	reflow->set_scroll_adjustments_id = g_signal_connect (
+		GNOME_CANVAS_ITEM (reflow)->canvas, "set_scroll_adjustments",
+		G_CALLBACK (set_scroll_adjustments), reflow);
 }
 #endif
 
@@ -1519,13 +1524,13 @@ e_reflow_selection_event_real (EReflow *reflow,
 }
 
 static void
-e_reflow_class_init (EReflowClass *klass)
+e_reflow_class_init (EReflowClass *class)
 {
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = (GObjectClass *) klass;
-	item_class = (GnomeCanvasItemClass *) klass;
+	object_class = (GObjectClass *) class;
+	item_class = (GnomeCanvasItemClass *) class;
 
 	object_class->set_property  = e_reflow_set_property;
 	object_class->get_property  = e_reflow_get_property;
@@ -1539,8 +1544,8 @@ e_reflow_class_init (EReflowClass *klass)
 	item_class->update     = e_reflow_update;
 	item_class->point      = e_reflow_point;
 
-	klass->selection_event = e_reflow_selection_event_real;
-	klass->column_width_changed = NULL;
+	class->selection_event = e_reflow_selection_event_real;
+	class->column_width_changed = NULL;
 
 	g_object_class_install_property (object_class, PROP_MINIMUM_WIDTH,
 					 g_param_spec_double ("minimum_width",
@@ -1574,7 +1579,7 @@ e_reflow_class_init (EReflowClass *klass)
 					 g_param_spec_object ("model",
 							      "Reflow model",
 							      "Reflow model",
-							      E_REFLOW_MODEL_TYPE,
+							      E_TYPE_REFLOW_MODEL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_COLUMN_WIDTH,
@@ -1651,15 +1656,17 @@ e_reflow_init (EReflow *reflow)
 		      "sorter", reflow->sorter,
 		      NULL);
 
-	reflow->selection_changed_id =
-		g_signal_connect (reflow->selection, "selection_changed",
-				 G_CALLBACK (selection_changed), reflow);
-	reflow->selection_row_changed_id =
-		g_signal_connect (reflow->selection, "selection_row_changed",
-				 G_CALLBACK (selection_row_changed), reflow);
-	reflow->cursor_changed_id =
-		g_signal_connect (reflow->selection, "cursor_changed",
-				 G_CALLBACK (cursor_changed), reflow);
+	reflow->selection_changed_id = g_signal_connect (
+		reflow->selection, "selection_changed",
+		G_CALLBACK (selection_changed), reflow);
+
+	reflow->selection_row_changed_id = g_signal_connect (
+		reflow->selection, "selection_row_changed",
+		G_CALLBACK (selection_row_changed), reflow);
+
+	reflow->cursor_changed_id = g_signal_connect (
+		reflow->selection, "cursor_changed",
+		G_CALLBACK (cursor_changed), reflow);
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (reflow), e_reflow_reflow);
 }

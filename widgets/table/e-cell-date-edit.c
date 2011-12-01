@@ -299,43 +299,42 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	now_button = gtk_button_new_with_label (_("Now"));
 	gtk_container_add (GTK_CONTAINER (bbox), now_button);
 	gtk_widget_show (now_button);
-	g_signal_connect ((now_button), "clicked",
-			    G_CALLBACK (e_cell_date_edit_on_now_clicked),
-			    ecde);
+	g_signal_connect (
+		now_button, "clicked",
+		G_CALLBACK (e_cell_date_edit_on_now_clicked), ecde);
 	ecde->now_button = now_button;
 
 	today_button = gtk_button_new_with_label (_("Today"));
 	gtk_container_add (GTK_CONTAINER (bbox), today_button);
 	gtk_widget_show (today_button);
-	g_signal_connect ((today_button), "clicked",
-			    G_CALLBACK (e_cell_date_edit_on_today_clicked),
-			    ecde);
+	g_signal_connect (
+		today_button, "clicked",
+		G_CALLBACK (e_cell_date_edit_on_today_clicked), ecde);
 	ecde->today_button = today_button;
 
-	/* Translators: "None" as a label of a button to unset date in a date table cell */
+	/* Translators: "None" as a label of a button to unset date in a
+	 * date table cell. */
 	none_button = gtk_button_new_with_label (C_("table-date", "None"));
 	gtk_container_add (GTK_CONTAINER (bbox), none_button);
 	gtk_widget_show (none_button);
-	g_signal_connect ((none_button), "clicked",
-			    G_CALLBACK (e_cell_date_edit_on_none_clicked),
-			    ecde);
+	g_signal_connect (
+		none_button, "clicked",
+		G_CALLBACK (e_cell_date_edit_on_none_clicked), ecde);
 	ecde->none_button = none_button;
 
 	ok_button = gtk_button_new_with_label (_("OK"));
 	gtk_container_add (GTK_CONTAINER (bbox), ok_button);
 	gtk_widget_show (ok_button);
-	g_signal_connect ((ok_button), "clicked",
-			    G_CALLBACK (e_cell_date_edit_on_ok_clicked),
-			    ecde);
+	g_signal_connect (
+		ok_button, "clicked",
+		G_CALLBACK (e_cell_date_edit_on_ok_clicked), ecde);
 
-	g_signal_connect ((ecde->popup_window),
-			    "key_press_event",
-			    G_CALLBACK (e_cell_date_edit_key_press),
-			    ecde);
-	g_signal_connect ((ecde->popup_window),
-			    "button_press_event",
-			    G_CALLBACK (e_cell_date_edit_button_press),
-			    ecde);
+	g_signal_connect (
+		ecde->popup_window, "key_press_event",
+		G_CALLBACK (e_cell_date_edit_key_press), ecde);
+	g_signal_connect (
+		ecde->popup_window, "button_press_event",
+		G_CALLBACK (e_cell_date_edit_button_press), ecde);
 }
 
 /**
@@ -504,7 +503,7 @@ e_cell_date_edit_set_popup_values (ECellDateEdit *ecde)
 	ECellPopup *ecp = E_CELL_POPUP (ecde);
 	ECellText *ecell_text = E_CELL_TEXT (ecp->child);
 	ECellView *ecv = (ECellView *) ecp->popup_cell_view;
-	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
+	ETableItem *eti;
 	ETableCol *ecol;
 	gchar *cell_text;
 	ETimeParseStatus status;
@@ -514,9 +513,12 @@ e_cell_date_edit_set_popup_values (ECellDateEdit *ecde)
 	gchar buffer[64];
 	gboolean is_date = TRUE;
 
+	eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
-	cell_text = e_cell_text_get_text (ecell_text, ecv->e_table_model,
-					  ecol->col_idx, ecp->popup_row);
+
+	cell_text = e_cell_text_get_text (
+		ecell_text, ecv->e_table_model,
+		ecol->col_idx, ecp->popup_row);
 
 	/* Try to parse just a date first. If the value is only a date, we
 	 * use a DATE value. */
@@ -640,8 +642,8 @@ e_cell_date_edit_get_popup_pos (ECellDateEdit *ecde,
                                 gint *width)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecde);
-	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
-	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
+	ETableItem *eti;
+	GtkWidget *canvas;
 	GtkRequisition popup_requisition;
 	GtkAdjustment *adjustment;
 	GtkScrollable *scrollable;
@@ -649,6 +651,9 @@ e_cell_date_edit_get_popup_pos (ECellDateEdit *ecde,
 	gint avail_height, screen_width, column_width, row_height;
 	gdouble x1, y1, wx, wy;
 	gint value;
+
+	eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
+	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
 
 	window = gtk_widget_get_window (canvas);
 	gdk_window_get_origin (window, x, y);

@@ -162,8 +162,12 @@ e_table_header_draw_button (cairo_t *cr,
 
 	/* Inside area */
 
-	inner_width = button_width - (padding.left + padding.right + 2 * HEADER_PADDING);
-	inner_height = button_height - (padding.top + padding.bottom + 2 * HEADER_PADDING);
+	inner_width =
+		button_width -
+		(padding.left + padding.right + 2 * HEADER_PADDING);
+	inner_height =
+		button_height -
+		(padding.top + padding.bottom + 2 * HEADER_PADDING);
 
 	if (inner_width < 1 || inner_height < 1) {
 		return; /* nothing fits */

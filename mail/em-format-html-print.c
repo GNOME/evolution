@@ -231,7 +231,10 @@ em_format_html_print_message (EMFormatHTMLPrint *efhp,
 			folder, message_uid, message,
 			(EMFormat *) efhp->source, NULL);
 	} else {
-		em_format_html_clone_sync (folder, message_uid, message, (EMFormatHTML *) efhp, (EMFormat *) efhp->source);
+		em_format_html_clone_sync (
+			folder, message_uid, message,
+			(EMFormatHTML *) efhp,
+			(EMFormat *) efhp->source);
 		emfhp_complete (efhp);
 	}
 }

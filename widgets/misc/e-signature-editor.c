@@ -33,6 +33,10 @@
 #include <libemail-utils/e-signature-utils.h>
 #include <misc/e-web-view.h>
 
+#define E_SIGNATURE_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SIGNATURE_EDITOR, ESignatureEditorPrivate))
+
 enum {
 	PROP_0,
 	PROP_FOCUS_TRACKER,
@@ -283,7 +287,7 @@ signature_editor_dispose (GObject *object)
 {
 	ESignatureEditorPrivate *priv;
 
-	priv = E_SIGNATURE_EDITOR (object)->priv;
+	priv = E_SIGNATURE_EDITOR_GET_PRIVATE (object);
 
 	if (priv->action_group != NULL) {
 		g_object_unref (priv->action_group);
@@ -314,7 +318,7 @@ signature_editor_finalize (GObject *object)
 {
 	ESignatureEditorPrivate *priv;
 
-	priv = E_SIGNATURE_EDITOR (object)->priv;
+	priv = E_SIGNATURE_EDITOR_GET_PRIVATE (object);
 
 	g_free (priv->original_name);
 
@@ -400,8 +404,7 @@ e_signature_editor_init (ESignatureEditor *editor)
 	GtkWidget *vbox;
 	GError *error = NULL;
 
-	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		editor, E_TYPE_SIGNATURE_EDITOR, ESignatureEditorPrivate);
+	editor->priv = E_SIGNATURE_EDITOR_GET_PRIVATE (editor);
 	vbox = GTKHTML_EDITOR (editor)->vbox;
 
 	gtkhtml_editor = GTKHTML_EDITOR (editor);

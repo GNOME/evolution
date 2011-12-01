@@ -34,6 +34,10 @@
 
 #include <glib/gi18n.h>
 
+#define E_CONFIG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CONFIG, EConfigPrivate))
+
 #define d(x)
 
 typedef GtkWidget *
@@ -226,8 +230,7 @@ e_config_class_init (EConfigClass *class)
 static void
 e_config_init (EConfig *config)
 {
-	config->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		config, E_TYPE_CONFIG, EConfigPrivate);
+	config->priv = E_CONFIG_GET_PRIVATE (config);
 }
 
 /**
@@ -1167,7 +1170,9 @@ e_config_create_widget (EConfig *emp)
 	ec_rebuild (emp);
 
 	/* auto-unref it */
-	g_signal_connect (emp->widget, "destroy", G_CALLBACK(ec_widget_destroy), emp);
+	g_signal_connect (
+		emp->widget, "destroy",
+		G_CALLBACK (ec_widget_destroy), emp);
 
 	/* FIXME: for some reason ec_rebuild puts the widget on page 1, this is just to override that */
 	if (emp->type == E_CONFIG_BOOK)

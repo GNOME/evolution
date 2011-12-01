@@ -37,6 +37,10 @@
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
+#define E_CERT_SELECTOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CERT_SELECTOR, ECertSelectorPrivate))
+
 struct _ECertSelectorPrivate {
 	CERTCertList *certlist;
 
@@ -209,7 +213,9 @@ e_cert_selector_new (gint type,
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox), active);
 
-	g_signal_connect (p->combobox, "changed", G_CALLBACK(ecs_cert_changed), ecs);
+	g_signal_connect (
+		p->combobox, "changed",
+		G_CALLBACK (ecs_cert_changed), ecs);
 
 	g_object_unref (builder);
 
@@ -221,38 +227,50 @@ e_cert_selector_new (gint type,
 static void
 e_cert_selector_init (ECertSelector *ecs)
 {
-	gtk_dialog_add_buttons ((GtkDialog *) ecs,
-			       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			       GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+	gtk_dialog_add_buttons (
+		GTK_DIALOG (ecs),
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 
-	ecs->priv = g_malloc0 (sizeof (*ecs->priv));
+	ecs->priv = E_CERT_SELECTOR_GET_PRIVATE (ecs);
 }
 
 static void
-e_cert_selector_finalize (GObject *o)
+e_cert_selector_finalize (GObject *object)
 {
-	ECertSelector *ecs = (ECertSelector *) o;
+	ECertSelectorPrivate *priv;
 
-	if (ecs->priv->certlist)
-		CERT_DestroyCertList (ecs->priv->certlist);
+	priv = E_CERT_SELECTOR_GET_PRIVATE (object);
 
-	g_free (ecs->priv);
+	if (priv->certlist)
+		CERT_DestroyCertList (priv->certlist);
 
-	((GObjectClass *) e_cert_selector_parent_class)->finalize (o);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_cert_selector_parent_class)->finalize (object);
 }
 
 static void
-e_cert_selector_class_init (ECertSelectorClass *klass)
+e_cert_selector_class_init (ECertSelectorClass *class)
 {
-	((GObjectClass *) klass)->finalize = e_cert_selector_finalize;
-	((GtkDialogClass *) klass)->response = e_cert_selector_response;
+	GObjectClass *object_class;
+	GtkDialogClass *dialog_class;
 
-	ecs_signals[ECS_SELECTED] =
-		g_signal_new("selected",
-			     G_OBJECT_CLASS_TYPE (klass),
-			     G_SIGNAL_RUN_LAST,
-			     G_STRUCT_OFFSET (ECertSelectorClass, selected),
-			     NULL, NULL,
-			     g_cclosure_marshal_VOID__POINTER,
-			     G_TYPE_NONE, 1, G_TYPE_POINTER);
+	g_type_class_add_private (class, sizeof (ECertSelectorPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = e_cert_selector_finalize;
+
+	dialog_class = GTK_DIALOG_CLASS (class);
+	dialog_class->response = e_cert_selector_response;
+
+	ecs_signals[ECS_SELECTED] = g_signal_new (
+		"selected",
+		G_OBJECT_CLASS_TYPE (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECertSelectorClass, selected),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 }
+

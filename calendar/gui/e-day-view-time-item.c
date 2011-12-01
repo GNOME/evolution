@@ -54,6 +54,10 @@
 #define E_DVTMI_LARGE_HOUR_Y_PAD	1
 #define E_DVTMI_SMALL_FONT_Y_PAD	1
 
+#define E_DAY_VIEW_TIME_ITEM_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_DAY_VIEW_TIME_ITEM, EDayViewTimeItemPrivate))
+
 struct _EDayViewTimeItemPrivate {
 	/* The parent EDayView widget. */
 	EDayView *day_view;
@@ -117,7 +121,10 @@ enum {
 	PROP_DAY_VIEW
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EDayViewTimeItem,
+	e_day_view_time_item,
+	GNOME_TYPE_CANVAS_ITEM)
 
 static void
 day_view_time_item_set_property (GObject *object,
@@ -158,7 +165,7 @@ day_view_time_item_dispose (GObject *object)
 {
 	EDayViewTimeItemPrivate *priv;
 
-	priv = E_DAY_VIEW_TIME_ITEM (object)->priv;
+	priv = E_DAY_VIEW_TIME_ITEM_GET_PRIVATE (object);
 
 	if (priv->day_view != NULL) {
 		g_object_unref (priv->day_view);
@@ -166,7 +173,7 @@ day_view_time_item_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_day_view_time_item_parent_class)->dispose (object);
 }
 
 static void
@@ -176,19 +183,20 @@ day_view_time_item_finalize (GObject *object)
 
 	time_item = E_DAY_VIEW_TIME_ITEM (object);
 
-	calendar_config_remove_notification ((CalendarConfigChangedFunc) edvti_second_zone_changed_cb, time_item);
+	calendar_config_remove_notification (
+		(CalendarConfigChangedFunc)
+		edvti_second_zone_changed_cb, time_item);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_day_view_time_item_parent_class)->finalize (object);
 }
 
 static void
-day_view_time_item_class_init (EDayViewTimeItemClass *class)
+e_day_view_time_item_class_init (EDayViewTimeItemClass *class)
 {
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EDayViewTimeItemPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -215,15 +223,11 @@ day_view_time_item_class_init (EDayViewTimeItemClass *class)
 }
 
 static void
-day_view_time_item_init (EDayViewTimeItem *time_item)
+e_day_view_time_item_init (EDayViewTimeItem *time_item)
 {
 	gchar *last;
 
-	time_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		time_item, E_TYPE_DAY_VIEW_TIME_ITEM, EDayViewTimeItemPrivate);
-
-	time_item->priv->dragging_selection = FALSE;
-	time_item->priv->second_zone = NULL;
+	time_item->priv = E_DAY_VIEW_TIME_ITEM_GET_PRIVATE (time_item);
 
 	last = calendar_config_get_day_second_zone ();
 
@@ -239,40 +243,13 @@ day_view_time_item_init (EDayViewTimeItem *time_item)
 		time_item);
 }
 
-GType
-e_day_view_time_item_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EDayViewTimeItemClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) day_view_time_item_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EDayViewTimeItem),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) day_view_time_item_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GNOME_TYPE_CANVAS_ITEM, "EDayViewTimeItem",
-			&type_info, 0);
-	}
-
-	return type;
-}
-
 static void
 e_day_view_time_item_update (GnomeCanvasItem *item,
                              const cairo_matrix_t *i2c,
                              gint flags)
 {
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->update)
-		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->update) (item, i2c, flags);
+	if (GNOME_CANVAS_ITEM_CLASS (e_day_view_time_item_parent_class)->update)
+		(* GNOME_CANVAS_ITEM_CLASS (e_day_view_time_item_parent_class)->update) (item, i2c, flags);
 
 	/* The item covers the entire canvas area. */
 	item->x1 = 0;
@@ -327,16 +304,19 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 	small_font_desc = style->font_desc;
 
 	context = gtk_widget_get_pango_context (GTK_WIDGET (day_view));
-	large_font_metrics = pango_context_get_metrics (context, day_view->large_font_desc,
-							pango_context_get_language (context));
-	small_font_metrics = pango_context_get_metrics (context, small_font_desc,
-							pango_context_get_language (context));
+	large_font_metrics = pango_context_get_metrics (
+		context, day_view->large_font_desc,
+		pango_context_get_language (context));
+	small_font_metrics = pango_context_get_metrics (
+		context, small_font_desc,
+		pango_context_get_language (context));
 
 	fg = style->fg[GTK_STATE_NORMAL];
 	dark = style->dark[GTK_STATE_NORMAL];
 
 	/* The start and end of the long horizontal line between hours. */
-	long_line_x1 = (use_zone ? 0 : E_DVTMI_TIME_GRID_X_PAD) - x + x_offset;
+	long_line_x1 =
+		(use_zone ? 0 : E_DVTMI_TIME_GRID_X_PAD) - x + x_offset;
 	long_line_x2 =
 		time_item->priv->column_width -
 		E_DVTMI_TIME_GRID_X_PAD - x -
@@ -575,8 +555,10 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 					gdk_cairo_set_source_color (cr, &fg);
 				layout = pango_cairo_create_layout (cr);
 				pango_layout_set_text (layout, buffer, -1);
-				pango_layout_set_font_description (layout, day_view->large_font_desc);
-				pango_layout_get_pixel_size (layout, &hour_width, NULL);
+				pango_layout_set_font_description (
+					layout, day_view->large_font_desc);
+				pango_layout_get_pixel_size (
+					layout, &hour_width, NULL);
 				cairo_translate (
 					cr, large_hour_x2 - hour_width,
 					row_y + large_hour_y_offset);
@@ -620,8 +602,10 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 					gdk_cairo_set_source_color (cr, &fg);
 				layout = pango_cairo_create_layout (cr);
 				pango_layout_set_text (layout, buffer, -1);
-				pango_layout_set_font_description (layout, day_view->small_font_desc);
-				pango_layout_get_pixel_size (layout, &minute_width, NULL);
+				pango_layout_set_font_description (
+					layout, day_view->small_font_desc);
+				pango_layout_get_pixel_size (
+					layout, &minute_width, NULL);
 				cairo_translate (
 					cr, minute_x2 - minute_width,
 					row_y + small_font_y_offset);
@@ -796,11 +780,14 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 		G_CALLBACK (gtk_widget_destroy), NULL);
 
 	for (i = 0; i < G_N_ELEMENTS (divisions); i++) {
-		g_snprintf (buffer, sizeof (buffer),
-		/* TO TRANSLATORS: %02i is the number of minutes; this is a context menu entry
-		 * to change the length of the time division in the calendar day view, e.g.
-		 * a day is displayed in 24 "60 minute divisions" or 48 "30 minute divisions"
-		 */
+		g_snprintf (
+			buffer, sizeof (buffer),
+			/* Translators: %02i is the number of minutes;
+			 * this is a context menu entry to change the
+			 * length of the time division in the calendar
+			 * day view, e.g. a day is displayed in
+			 * 24 "60 minute divisions" or
+			 * 48 "30 minute divisions". */
 			    _("%02i minute divisions"), divisions[i]);
 		item = gtk_radio_menu_item_new_with_label (group, buffer);
 		group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
@@ -808,13 +795,17 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 		if (current_divisions == divisions[i])
-			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
+			gtk_check_menu_item_set_active (
+				GTK_CHECK_MENU_ITEM (item), TRUE);
 
-		g_object_set_data (G_OBJECT (item), "divisions",
-				   GINT_TO_POINTER (divisions[i]));
+		g_object_set_data (
+			G_OBJECT (item), "divisions",
+			GINT_TO_POINTER (divisions[i]));
 
-		g_signal_connect (item, "toggled",
-				  G_CALLBACK (e_day_view_time_item_on_set_divisions), time_item);
+		g_signal_connect (
+			item, "toggled",
+			G_CALLBACK (e_day_view_time_item_on_set_divisions),
+			time_item);
 	}
 
 	item = gtk_separator_menu_item_new ();
@@ -844,7 +835,9 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 	if (!time_item->priv->second_zone)
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
 	gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
-	g_signal_connect (item, "toggled", G_CALLBACK (edvti_on_set_zone), time_item);
+	g_signal_connect (
+		item, "toggled",
+		G_CALLBACK (edvti_on_set_zone), time_item);
 
 	recent_zones = calendar_config_get_day_second_zones ();
 	for (s = recent_zones; s != NULL; s = s->next) {
@@ -872,7 +865,9 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 	gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
 
 	item = gtk_menu_item_new_with_label (_("Select..."));
-	g_signal_connect (item, "activate", G_CALLBACK (edvti_on_select_zone), time_item);
+	g_signal_connect (
+		item, "activate",
+		G_CALLBACK (edvti_on_select_zone), time_item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
 
 	gtk_widget_show_all (submenu);

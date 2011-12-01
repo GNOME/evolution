@@ -32,21 +32,15 @@
 #include "e-util.h"
 
 static gint	e_text_event_processor_emacs_like_event
-						(ETextEventProcessor *tep,
-						 ETextEventProcessorEvent *event);
+					(ETextEventProcessor *tep,
+					 ETextEventProcessorEvent *event);
 
 G_DEFINE_TYPE (
 	ETextEventProcessorEmacsLike,
 	e_text_event_processor_emacs_like,
 	E_TEXT_EVENT_PROCESSOR_TYPE)
 
-/* The arguments we take */
-enum {
-	ARG_0
-};
-
-static const ETextEventProcessorCommand control_keys[26] =
-{
+static const ETextEventProcessorCommand control_keys[26] = {
 	{ E_TEP_START_OF_LINE,      E_TEP_MOVE, 0, "" }, /* a */
 	{ E_TEP_BACKWARD_CHARACTER, E_TEP_MOVE, 0, "" }, /* b */
 	{ E_TEP_SELECTION,          E_TEP_COPY, 0, "" }, /* c */
@@ -75,8 +69,7 @@ static const ETextEventProcessorCommand control_keys[26] =
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" }           /* z */
 };
 
-static const ETextEventProcessorCommand alt_keys[26] =
-{
+static const ETextEventProcessorCommand alt_keys[26] = {
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* a */
 	{ E_TEP_BACKWARD_WORD,      E_TEP_MOVE, 0, "" }, /* b */
 	{ E_TEP_SELECTION, E_TEP_CAPS, E_TEP_CAPS_TITLE, "" },/* c */
@@ -107,11 +100,11 @@ static const ETextEventProcessorCommand alt_keys[26] =
 };
 
 static void
-e_text_event_processor_emacs_like_class_init (ETextEventProcessorEmacsLikeClass *klass)
+e_text_event_processor_emacs_like_class_init (ETextEventProcessorEmacsLikeClass *class)
 {
   ETextEventProcessorClass *processor_class;
 
-  processor_class = (ETextEventProcessorClass *) klass;
+  processor_class = (ETextEventProcessorClass *) class;
 
   processor_class->event = e_text_event_processor_emacs_like_event;
 }
@@ -128,12 +121,13 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 	ETextEventProcessorCommand command;
 	ETextEventProcessorEmacsLike *tep_el = E_TEXT_EVENT_PROCESSOR_EMACS_LIKE (tep);
 	command.action = E_TEP_NOP;
+
 	/* Warning from the Intel compiler here:
 	 * e-text-event-processor-emacs-like.c(136): warning #589:
 	 *   transfer of control bypasses initialization of:
- *       *   variable "key" (declared at line 194)
- *       *  switch (event->type) {
- *       *  ^
+	 *   variable "key" (declared at line 194)
+	 *  switch (event->type) {
+	 *  ^
 	 */
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
@@ -151,6 +145,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 			tep_el->mouse_down = event->button.button == 1;
 		}
 		break;
+
 	case GDK_2BUTTON_PRESS:
 		if (event->button.button == 1) {
 			command.action = E_TEP_SELECT;
@@ -158,6 +153,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 			command.time = event->button.time;
 		}
 		break;
+
 	case GDK_3BUTTON_PRESS:
 		if (event->button.button == 1) {
 			command.action = E_TEP_SELECT;
@@ -165,6 +161,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 			command.time = event->button.time;
 		}
 		break;
+
 	case GDK_BUTTON_RELEASE:
 		if (event->button.button == 1) {
 			command.action = E_TEP_UNGRAB;
@@ -183,6 +180,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 			command.time = event->button.time;
 		}
 		break;
+
 	case GDK_MOTION_NOTIFY:
 		if (tep_el->mouse_down) {
 			command.action = E_TEP_SELECT;
@@ -191,16 +189,20 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 			command.value = event->motion.position;
 		}
 		break;
+
 	case GDK_KEY_PRESS:
 		{
 			ETextEventProcessorEventKey key = event->key;
+
 			command.time = event->key.time;
+
 			if (key.state & GDK_SHIFT_MASK)
 				command.action = E_TEP_SELECT;
 			else if (key.state & GDK_MOD1_MASK)
 				command.action = E_TEP_NOP;
 			else
 				command.action = E_TEP_MOVE;
+
 			switch (key.keyval) {
 			case GDK_KEY_Home:
 			case GDK_KEY_KP_Home:
@@ -209,6 +211,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 				else
 					command.position = E_TEP_START_OF_LINE;
 				break;
+
 			case GDK_KEY_End:
 			case GDK_KEY_KP_End:
 				if (key.state & GDK_CONTROL_MASK)
@@ -216,17 +219,27 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 				else
 					command.position = E_TEP_END_OF_LINE;
 				break;
+
 			case GDK_KEY_Page_Up:
-			case GDK_KEY_KP_Page_Up: command.position = E_TEP_BACKWARD_PAGE; break;
+			case GDK_KEY_KP_Page_Up:
+				command.position = E_TEP_BACKWARD_PAGE;
+				break;
 
 			case GDK_KEY_Page_Down:
-			case GDK_KEY_KP_Page_Down: command.position = E_TEP_FORWARD_PAGE; break;
-				/* CUA has Ctrl-Up/Ctrl-Down as paragraph up down */
+			case GDK_KEY_KP_Page_Down:
+				command.position = E_TEP_FORWARD_PAGE;
+				break;
+
+			/* CUA has Ctrl-Up/Ctrl-Down as paragraph up down */
 			case GDK_KEY_Up:
-			case GDK_KEY_KP_Up:        command.position = E_TEP_BACKWARD_LINE; break;
+			case GDK_KEY_KP_Up:
+				command.position = E_TEP_BACKWARD_LINE;
+				break;
 
 			case GDK_KEY_Down:
-			case GDK_KEY_KP_Down:      command.position = E_TEP_FORWARD_LINE; break;
+			case GDK_KEY_KP_Down:
+				command.position = E_TEP_FORWARD_LINE;
+				break;
 
 			case GDK_KEY_Left:
 			case GDK_KEY_KP_Left:
@@ -235,6 +248,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 				else
 					command.position = E_TEP_BACKWARD_CHARACTER;
 				break;
+
 			case GDK_KEY_Right:
 			case GDK_KEY_KP_Right:
 				if (key.state & GDK_CONTROL_MASK)
@@ -250,10 +264,12 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 				else
 					command.position = E_TEP_BACKWARD_CHARACTER;
 				break;
+
 			case GDK_KEY_Clear:
 				command.action = E_TEP_DELETE;
 				command.position = E_TEP_END_OF_LINE;
 				break;
+
 			case GDK_KEY_Insert:
 			case GDK_KEY_KP_Insert:
 				if (key.state & GDK_SHIFT_MASK) {
@@ -266,22 +282,27 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 				/* gtk_toggle_insert(text) -- IMPLEMENT -- FIXME */
 				}
 				break;
+
 			case GDK_KEY_F16:
 				command.action = E_TEP_COPY;
 				command.position = E_TEP_SELECTION;
 				break;
+
 			case GDK_KEY_F18:
 				command.action = E_TEP_PASTE;
 				command.position = E_TEP_SELECTION;
 				break;
+
 			case GDK_KEY_F20:
 				command.action = E_TEP_COPY;
 				command.position = E_TEP_SELECTION;
-				g_signal_emit_by_name (tep, "command", &command);
+				g_signal_emit_by_name (
+					tep, "command", &command);
 
 				command.action = E_TEP_DELETE;
 				command.position = E_TEP_SELECTION;
 				break;
+
 			case GDK_KEY_Delete:
 			case GDK_KEY_KP_Delete:
 				if (key.state & GDK_CONTROL_MASK) {
@@ -290,7 +311,8 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 				} else if (key.state & GDK_SHIFT_MASK) {
 					command.action = E_TEP_COPY;
 					command.position = E_TEP_SELECTION;
-					g_signal_emit_by_name (tep, "command", &command);
+					g_signal_emit_by_name (
+						tep, "command", &command);
 
 					command.action = E_TEP_DELETE;
 					command.position = E_TEP_SELECTION;
@@ -299,6 +321,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 					command.position = E_TEP_FORWARD_CHARACTER;
 				}
 				break;
+
 			case GDK_KEY_Tab:
 			case GDK_KEY_KP_Tab:
 			case GDK_KEY_ISO_Left_Tab:
@@ -307,6 +330,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 				command.action = E_TEP_NOP;
 				command.position = E_TEP_SELECTION;
 				break;
+
 			case GDK_KEY_Return:
 			case GDK_KEY_KP_Enter:
 				if (tep->allow_newlines) {
@@ -329,6 +353,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 					}
 				}
 				break;
+
 			case GDK_KEY_Escape:
 				/* Don't insert literally */
 				command.action = E_TEP_NOP;
@@ -341,96 +366,112 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 				command.value = 1;
 				command.string = " ";
 				break;
+
 			case GDK_KEY_KP_Equal:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = "=";
 				break;
+
 			case GDK_KEY_KP_Multiply:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = "*";
 				break;
+
 			case GDK_KEY_KP_Add:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = "+";
 				break;
+
 			case GDK_KEY_KP_Subtract:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = "-";
 				break;
+
 			case GDK_KEY_KP_Decimal:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = ".";
 				break;
+
 			case GDK_KEY_KP_Divide:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = "/";
 				break;
+
 			case GDK_KEY_KP_0:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = "0";
 				break;
+
 			case GDK_KEY_KP_1:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = "1";
 				break;
+
 			case GDK_KEY_KP_2:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = "2";
 				break;
+
 			case GDK_KEY_KP_3:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = "3";
 				break;
+
 			case GDK_KEY_KP_4:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = "4";
 				break;
+
 			case GDK_KEY_KP_5:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = "5";
 				break;
+
 			case GDK_KEY_KP_6:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = "6";
 				break;
+
 			case GDK_KEY_KP_7:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = "7";
 				break;
+
 			case GDK_KEY_KP_8:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
 				command.value = 1;
 				command.string = "8";
 				break;
+
 			case GDK_KEY_KP_9:
 				command.action = E_TEP_INSERT;
 				command.position = E_TEP_SELECTION;
@@ -439,7 +480,8 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 				break;
 
 			default:
-				if ((key.state & GDK_CONTROL_MASK) && !(key.state & GDK_MOD1_MASK)) {
+				if ((key.state & GDK_CONTROL_MASK) &&
+				   !(key.state & GDK_MOD1_MASK)) {
 					if ((key.keyval >= 'A') && (key.keyval <= 'Z'))
 						key.keyval -= 'A' - 'a';
 
@@ -465,6 +507,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 					}
 
 					break;
+
 				} else if ((key.state & GDK_MOD1_MASK) &&
 					  !(key.state & GDK_CONTROL_MASK)) {
 					if ((key.keyval >= 'A') && (key.keyval <= 'Z'))
@@ -480,7 +523,8 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 				} else if (!(key.state & GDK_MOD1_MASK) &&
 					!(key.state & GDK_CONTROL_MASK) &&
 					key.length > 0) {
-					if (key.keyval >= GDK_KEY_KP_0 && key.keyval <= GDK_KEY_KP_9) {
+					if (key.keyval >= GDK_KEY_KP_0 &&
+					    key.keyval <= GDK_KEY_KP_9) {
 						key.keyval = '0';
 						key.string = "0";
 					}
@@ -494,20 +538,22 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 				}
 			}
 			break;
+
 		case GDK_KEY_RELEASE:
 			command.time = event->key.time;
 			command.action = E_TEP_NOP;
 			break;
+
 		default:
 			command.action = E_TEP_NOP;
 			break;
 		}
 	}
+
 	if (command.action != E_TEP_NOP) {
 		g_signal_emit_by_name (tep, "command", &command);
 		return 1;
-	}
-	else
+	} else
 		return 0;
 }
 

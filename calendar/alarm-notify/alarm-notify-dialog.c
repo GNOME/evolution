@@ -355,10 +355,18 @@ notified_alarms_dialog_new (void)
 	gtk_image_set_from_icon_name (
 		GTK_IMAGE (image), "stock_alarm", GTK_ICON_SIZE_DIALOG);
 
-	g_signal_connect (an->edit_btn, "clicked", G_CALLBACK (edit_pressed_cb), an);
-	g_signal_connect (an->print_btn, "clicked", G_CALLBACK (print_pressed_cb), an);
-	g_signal_connect (an->snooze_btn, "clicked", G_CALLBACK (snooze_pressed_cb), an);
-	g_signal_connect (an->dismiss_btn, "clicked", G_CALLBACK (dismiss_pressed_cb), an);
+	g_signal_connect (
+		an->edit_btn, "clicked",
+		G_CALLBACK (edit_pressed_cb), an);
+	g_signal_connect (
+		an->print_btn, "clicked",
+		G_CALLBACK (print_pressed_cb), an);
+	g_signal_connect (
+		an->snooze_btn, "clicked",
+		G_CALLBACK (snooze_pressed_cb), an);
+	g_signal_connect (
+		an->dismiss_btn, "clicked",
+		G_CALLBACK (dismiss_pressed_cb), an);
 	g_signal_connect (
 		an->dialog, "response",
 		G_CALLBACK (dialog_response_cb), an);

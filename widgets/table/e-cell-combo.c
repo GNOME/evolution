@@ -259,34 +259,44 @@ e_cell_combo_do_popup (ECellPopup *ecp,
                        gint view_col)
 {
 	ECellCombo *ecc = E_CELL_COMBO (ecp);
+	GtkTreeSelection *selection;
+	GdkWindow *window;
 	guint32 time;
 	gint error_code;
-	GtkTreeSelection *selection;
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ecc->popup_tree_view));
+	selection = gtk_tree_view_get_selection (
+		GTK_TREE_VIEW (ecc->popup_tree_view));
 
-	g_signal_handlers_block_by_func (selection, e_cell_combo_selection_changed, ecc);
+	g_signal_handlers_block_by_func (
+		selection, e_cell_combo_selection_changed, ecc);
+
 	e_cell_combo_show_popup (ecc, row, view_col);
 	e_cell_combo_select_matching_item (ecc);
-	g_signal_handlers_unblock_by_func (selection, e_cell_combo_selection_changed, ecc);
 
-	if (event->type == GDK_BUTTON_PRESS) {
+	g_signal_handlers_unblock_by_func (
+		selection, e_cell_combo_selection_changed, ecc);
+
+	if (event->type == GDK_BUTTON_PRESS)
 		time = event->button.time;
-	} else {
+	else
 		time = event->key.time;
-	}
 
-	error_code = gdk_pointer_grab (gtk_widget_get_window (ecc->popup_tree_view), TRUE,
-				       GDK_ENTER_NOTIFY_MASK |
-				       GDK_BUTTON_PRESS_MASK |
-				       GDK_BUTTON_RELEASE_MASK |
-				       GDK_POINTER_MOTION_HINT_MASK |
-				       GDK_BUTTON1_MOTION_MASK,
-				       NULL, NULL, time);
+	window = gtk_widget_get_window (ecc->popup_tree_view);
+
+	error_code = gdk_pointer_grab (
+		window, TRUE,
+		GDK_ENTER_NOTIFY_MASK |
+		GDK_BUTTON_PRESS_MASK |
+		GDK_BUTTON_RELEASE_MASK |
+		GDK_POINTER_MOTION_HINT_MASK |
+		GDK_BUTTON1_MOTION_MASK,
+		NULL, NULL, time);
+
 	if (error_code != 0)
 		g_warning ("Failed to get pointer grab (%i)", error_code);
+
 	gtk_grab_add (ecc->popup_window);
-	gdk_keyboard_grab (gtk_widget_get_window (ecc->popup_tree_view), TRUE, time);
+	gdk_keyboard_grab (window, TRUE, time);
 
 	return TRUE;
 }
@@ -297,7 +307,7 @@ e_cell_combo_select_matching_item (ECellCombo *ecc)
 	ECellPopup *ecp = E_CELL_POPUP (ecc);
 	ECellView *ecv = (ECellView *) ecp->popup_cell_view;
 	ECellText *ecell_text = E_CELL_TEXT (ecp->child);
-	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
+	ETableItem *eti;
 	ETableCol *ecol;
 	gboolean found = FALSE;
 	gchar *cell_text;
@@ -305,6 +315,8 @@ e_cell_combo_select_matching_item (ECellCombo *ecc)
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 	GtkTreeModel *model;
+
+	eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
 
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
 	cell_text = e_cell_text_get_text (ecell_text, ecv->e_table_model,
@@ -390,8 +402,8 @@ e_cell_combo_get_popup_pos (ECellCombo *ecc,
                             gint *width)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecc);
-	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
-	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
+	ETableItem *eti;
+	GtkWidget *canvas;
 	GtkWidget *widget;
 	GtkWidget *popwin_child;
 	GtkWidget *popup_child;
@@ -407,6 +419,9 @@ e_cell_combo_get_popup_pos (ECellCombo *ecc,
 	gint column_width, row_height, scrollbar_width;
 	gdouble x1, y1;
 	gdouble wx, wy;
+
+	eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
+	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
 
 	/* This code is practically copied from GtkCombo. */
 	popup  = GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window);
@@ -503,7 +518,7 @@ e_cell_combo_get_popup_pos (ECellCombo *ecc,
 	if (show_hscroll)
 		work_height +=
 			requisition.height +
-			GTK_SCROLLED_WINDOW_CLASS (G_OBJECT_GET_CLASS (popup))->scrollbar_spacing;
+			GTK_SCROLLED_WINDOW_GET_CLASS (popup)->scrollbar_spacing;
 
 	/* Check if it fits in the available height. */
 	if (work_height + list_requisition.height > avail_height) {

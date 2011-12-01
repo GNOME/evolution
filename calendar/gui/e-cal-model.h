@@ -310,10 +310,12 @@ void		e_cal_model_update_comp_time	(ECalModel *model,
 						 ECalModelComponent *comp_data,
 						 gconstpointer time_value,
 						 icalproperty_kind kind,
-						 void (*set_func)(icalproperty *prop, struct icaltimetype v),
-						 icalproperty * (*new_func)(struct icaltimetype v));
+						 void (*set_func) (icalproperty *prop,
+								   struct icaltimetype v),
+						 icalproperty * (*new_func) (struct icaltimetype v));
 
-void		e_cal_model_update_status_message (ECalModel *model,
+void		e_cal_model_update_status_message
+						(ECalModel *model,
 						 const gchar *message,
 						 gdouble percent);
 

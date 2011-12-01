@@ -202,18 +202,18 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 					   "dnd_code", etfc->dnd_code,
 					   NULL );
 
-	g_signal_connect ( etfc->canvas, "reflow",
-			  G_CALLBACK ( resize ),
-			  etfc);
+	g_signal_connect (
+		etfc->canvas, "reflow",
+		G_CALLBACK (resize), etfc);
 
-	gnome_canvas_set_scroll_region ( GNOME_CANVAS ( etfc->canvas ),
-					 0, 0,
-					 100, 100 );
+	gnome_canvas_set_scroll_region (
+		GNOME_CANVAS (etfc->canvas),
+		0, 0, 100, 100 );
 
 	/* Connect the signals */
-	g_signal_connect (etfc->canvas, "size_allocate",
-			  G_CALLBACK (allocate_callback),
-			  etfc);
+	g_signal_connect (
+		etfc->canvas, "size_allocate",
+		G_CALLBACK (allocate_callback), etfc);
 
 	gtk_widget_show_all (widget);
 }

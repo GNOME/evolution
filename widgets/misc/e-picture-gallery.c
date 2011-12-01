@@ -27,6 +27,10 @@
 
 #include "e-picture-gallery.h"
 
+#define E_PICTURE_GALLERY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_PICTURE_GALLERY, EPictureGalleryPrivate))
+
 struct _EPictureGalleryPrivate {
 	gboolean initialized;
 	gchar *path;
@@ -262,7 +266,10 @@ picture_gallery_start_loading_cb (EPictureGallery *gallery)
 		g_object_unref (file);
 
 		if (gallery->priv->monitor)
-			g_signal_connect (gallery->priv->monitor, "changed", G_CALLBACK (picture_gallery_dir_changed_cb), gallery);
+			g_signal_connect (
+				gallery->priv->monitor, "changed",
+				G_CALLBACK (picture_gallery_dir_changed_cb),
+				gallery);
 	}
 
 	g_object_unref (icon_view);
@@ -414,8 +421,7 @@ e_picture_gallery_class_init (EPictureGalleryClass *class)
 static void
 e_picture_gallery_init (EPictureGallery *gallery)
 {
-	gallery->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		gallery, E_TYPE_PICTURE_GALLERY, EPictureGalleryPrivate);
+	gallery->priv = E_PICTURE_GALLERY_GET_PRIVATE (gallery);
 	gallery->priv->initialized = FALSE;
 	gallery->priv->monitor = NULL;
 	picture_gallery_set_path (gallery, NULL);

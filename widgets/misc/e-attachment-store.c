@@ -31,6 +31,10 @@
 #include "e-util/e-util.h"
 #include "e-util/e-mktemp.h"
 
+#define E_ATTACHMENT_STORE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ATTACHMENT_STORE, EAttachmentStorePrivate))
+
 struct _EAttachmentStorePrivate {
 	GHashTable *attachment_index;
 
@@ -95,7 +99,7 @@ attachment_store_finalize (GObject *object)
 {
 	EAttachmentStorePrivate *priv;
 
-	priv = E_ATTACHMENT_STORE (object)->priv;
+	priv = E_ATTACHMENT_STORE_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->attachment_index);
 
@@ -164,8 +168,7 @@ e_attachment_store_init (EAttachmentStore *store)
 		(GDestroyNotify) g_object_unref,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	store->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		store, E_TYPE_ATTACHMENT_STORE, EAttachmentStorePrivate);
+	store->priv = E_ATTACHMENT_STORE_GET_PRIVATE (store);
 	store->priv->attachment_index = attachment_index;
 
 	types[column++] = E_TYPE_ATTACHMENT;	/* COLUMN_ATTACHMENT */

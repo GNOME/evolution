@@ -452,13 +452,15 @@ search_address_in_addressbooks (const gchar *address,
 			const gchar *completion = e_source_get_property (source, "completion");
 
 			if (completion && g_ascii_strcasecmp (completion, "true") == 0) {
-				addr_sources = g_slist_prepend (addr_sources, g_object_ref (source));
+				addr_sources = g_slist_prepend (
+					addr_sources, g_object_ref (source));
 			}
 		}
 	}
 
 	cancellable = g_cancellable_new ();
-	hook_cancellable = mail_cancel_hook_add (emu_addr_cancel_cancellable, cancellable);
+	hook_cancellable = mail_cancel_hook_add (
+		emu_addr_cancel_cancellable, cancellable);
 
 	for (s = addr_sources; !stop && !found && s; s = g_slist_next (s)) {
 		ESource *source = s->data;
@@ -536,10 +538,15 @@ search_address_in_addressbooks (const gchar *address,
 			cached_book = TRUE;
 		}
 
-		if (book_client && !stop && e_book_client_get_contacts_sync (book_client, query, &contacts, cancellable, &err)) {
+		if (book_client && !stop &&
+		    e_book_client_get_contacts_sync (
+		    book_client, query, &contacts, cancellable, &err)) {
 			if (contacts != NULL) {
 				if (!found_any) {
-					g_hash_table_insert (contact_cache, g_strdup (lowercase_addr), book_client);
+					g_hash_table_insert (
+						contact_cache,
+						g_strdup (lowercase_addr),
+						book_client);
 				}
 				found_any = TRUE;
 
@@ -565,7 +572,9 @@ search_address_in_addressbooks (const gchar *address,
 			if (err && !stop) {
 				gchar *source_uid = g_strdup (uid);
 
-				g_hash_table_insert (emu_broken_books_hash, source_uid, source_uid);
+				g_hash_table_insert (
+					emu_broken_books_hash,
+					source_uid, source_uid);
 
 				g_warning (
 					"%s: Can't get contacts from '%s': %s",

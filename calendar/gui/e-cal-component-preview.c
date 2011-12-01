@@ -38,6 +38,15 @@
 #include <e-util/e-util.h>
 #include <e-util/e-categories-config.h>
 
+#define E_CAL_COMPONENT_PREVIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreviewPrivate))
+
+G_DEFINE_TYPE (
+	ECalComponentPreview,
+	e_cal_component_preview,
+	E_TYPE_WEB_VIEW)
+
 struct _ECalComponentPreviewPrivate {
 	/* information about currently showing component in a preview;
 	 * if it didn't change then the preview is not updated */
@@ -46,8 +55,6 @@ struct _ECalComponentPreviewPrivate {
 	struct icaltimetype comp_last_modified;
 	gint comp_sequence;
 };
-
-static gpointer parent_class;
 
 static void
 clear_comp_info (ECalComponentPreview *preview)
@@ -388,15 +395,14 @@ cal_component_preview_finalize (GObject *object)
 	clear_comp_info (E_CAL_COMPONENT_PREVIEW (object));
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_cal_component_preview_parent_class)->finalize (object);
 }
 
 static void
-cal_component_preview_class_init (ECalComponentPreviewClass *class)
+e_cal_component_preview_class_init (ECalComponentPreviewClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalComponentPreviewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -404,38 +410,9 @@ cal_component_preview_class_init (ECalComponentPreviewClass *class)
 }
 
 static void
-cal_component_preview_init (ECalComponentPreview *preview)
+e_cal_component_preview_init (ECalComponentPreview *preview)
 {
-	preview->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		preview, E_TYPE_CAL_COMPONENT_PREVIEW,
-		ECalComponentPreviewPrivate);
-}
-
-GType
-e_cal_component_preview_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ECalComponentPreviewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) cal_component_preview_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ECalComponentPreview),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) cal_component_preview_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_WEB_VIEW, "ECalComponentPreview",
-			&type_info, 0);
-	}
-
-	return type;
+	preview->priv = E_CAL_COMPONENT_PREVIEW_GET_PRIVATE (preview);
 }
 
 GtkWidget *

@@ -35,12 +35,6 @@
 
 #define d(x) (x)
 
-struct _ECalModelMemosPrivate {
-	gint dummy;
-};
-
-static void e_cal_model_memos_finalize (GObject *object);
-
 static gint ecmm_column_count (ETableModel *etm);
 static gpointer ecmm_value_at (ETableModel *etm, gint col, gint row);
 static void ecmm_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value);
@@ -57,13 +51,10 @@ static void ecmm_fill_component_from_model (ECalModel *model, ECalModelComponent
 G_DEFINE_TYPE (ECalModelMemos, e_cal_model_memos, E_TYPE_CAL_MODEL)
 
 static void
-e_cal_model_memos_class_init (ECalModelMemosClass *klass)
+e_cal_model_memos_class_init (ECalModelMemosClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	ETableModelClass *etm_class = E_TABLE_MODEL_CLASS (klass);
-	ECalModelClass *model_class = E_CAL_MODEL_CLASS (klass);
-
-	object_class->finalize = e_cal_model_memos_finalize;
+	ETableModelClass *etm_class = E_TABLE_MODEL_CLASS (class);
+	ECalModelClass *model_class = E_CAL_MODEL_CLASS (class);
 
 	etm_class->column_count = ecmm_column_count;
 	etm_class->value_at = ecmm_value_at;
@@ -81,30 +72,7 @@ e_cal_model_memos_class_init (ECalModelMemosClass *klass)
 static void
 e_cal_model_memos_init (ECalModelMemos *model)
 {
-	ECalModelMemosPrivate *priv;
-
-	priv = g_new0 (ECalModelMemosPrivate, 1);
-	model->priv = priv;
-
 	e_cal_model_set_component_kind (E_CAL_MODEL (model), ICAL_VJOURNAL_COMPONENT);
-}
-
-static void
-e_cal_model_memos_finalize (GObject *object)
-{
-	ECalModelMemosPrivate *priv;
-	ECalModelMemos *model = (ECalModelMemos *) object;
-
-	g_return_if_fail (E_IS_CAL_MODEL_MEMOS (model));
-
-	priv = model->priv;
-	if (priv) {
-		g_free (priv);
-		model->priv = NULL;
-	}
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_cal_model_memos_parent_class)->finalize (object);
 }
 
 /* ETableModel methods */

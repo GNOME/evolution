@@ -27,6 +27,10 @@
 
 #include <glib/gi18n-lib.h>
 
+#define E_SIGNATURE_COMBO_BOX_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SIGNATURE_COMBO_BOX, ESignatureComboBoxPrivate))
+
 enum {
 	COLUMN_STRING,
 	COLUMN_SIGNATURE
@@ -158,7 +162,7 @@ signature_combo_box_dispose (GObject *object)
 {
 	ESignatureComboBoxPrivate *priv;
 
-	priv = E_SIGNATURE_COMBO_BOX (object)->priv;
+	priv = E_SIGNATURE_COMBO_BOX_GET_PRIVATE (object);
 
 	if (priv->signature_list != NULL) {
 		g_signal_handlers_disconnect_by_func (
@@ -179,7 +183,7 @@ signature_combo_box_finalize (GObject *object)
 {
 	ESignatureComboBoxPrivate *priv;
 
-	priv = E_SIGNATURE_COMBO_BOX (object)->priv;
+	priv = E_SIGNATURE_COMBO_BOX_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->index);
 
@@ -219,9 +223,7 @@ e_signature_combo_box_init (ESignatureComboBox *combo_box)
 		(GDestroyNotify) g_object_unref,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	combo_box->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		combo_box, E_TYPE_SIGNATURE_COMBO_BOX,
-		ESignatureComboBoxPrivate);
+	combo_box->priv = E_SIGNATURE_COMBO_BOX_GET_PRIVATE (combo_box);
 	combo_box->priv->index = index;
 }
 
@@ -250,7 +252,7 @@ e_signature_combo_box_set_signature_list (ESignatureComboBox *combo_box,
 	if (signature_list != NULL)
 		g_return_if_fail (E_IS_SIGNATURE_LIST (signature_list));
 
-	priv = combo_box->priv;
+	priv = E_SIGNATURE_COMBO_BOX_GET_PRIVATE (combo_box);
 
 	if (priv->signature_list != NULL) {
 		g_signal_handlers_disconnect_by_func (

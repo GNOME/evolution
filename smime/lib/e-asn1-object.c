@@ -47,6 +47,10 @@
 
 #include "secasn1.h"
 
+#define E_ASN1_OBJECT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ASN1_OBJECT, EASN1ObjectPrivate))
+
 struct _EASN1ObjectPrivate {
 	PRUint32 tag;
 	PRUint32 type;
@@ -61,72 +65,41 @@ struct _EASN1ObjectPrivate {
 	guint data_len;
 };
 
-#define PARENT_TYPE G_TYPE_OBJECT
-static GObjectClass *parent_class;
+G_DEFINE_TYPE (EASN1Object, e_asn1_object, G_TYPE_OBJECT)
 
 static void
-e_asn1_object_dispose (GObject *object)
+e_asn1_object_finalize (GObject *object)
 {
-	EASN1Object *obj = E_ASN1_OBJECT (object);
-	if (obj->priv) {
+	EASN1ObjectPrivate *priv;
 
-		if (obj->priv->display_name)
-			g_free (obj->priv->display_name);
+	priv = E_ASN1_OBJECT_GET_PRIVATE (object);
 
-		if (obj->priv->value)
-			g_free (obj->priv->value);
+	g_free (priv->display_name);
+	g_free (priv->value);
 
-		g_list_foreach (obj->priv->children, (GFunc) g_object_unref, NULL);
-		g_list_free (obj->priv->children);
+	g_list_free_full (priv->children, (GDestroyNotify) g_object_unref);
 
-		g_free (obj->priv);
-		obj->priv = NULL;
-	}
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_asn1_object_parent_class)->finalize (object);
 }
 
 static void
-e_asn1_object_class_init (EASN1ObjectClass *klass)
+e_asn1_object_class_init (EASN1ObjectClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+	g_type_class_add_private (class, sizeof (EASN1ObjectPrivate));
 
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
-	object_class->dispose = e_asn1_object_dispose;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = e_asn1_object_finalize;
 }
 
 static void
 e_asn1_object_init (EASN1Object *asn1)
 {
-	asn1->priv = g_new0 (EASN1ObjectPrivate, 1);
+	asn1->priv = E_ASN1_OBJECT_GET_PRIVATE (asn1);
 
 	asn1->priv->valid_container = TRUE;
-}
-
-GType
-e_asn1_object_get_type (void)
-{
-	static GType asn1_object_type = 0;
-
-	if (!asn1_object_type) {
-		static const GTypeInfo asn1_object_info =  {
-			sizeof (EASN1ObjectClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_asn1_object_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (EASN1Object),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_asn1_object_init,
-		};
-
-		asn1_object_type = g_type_register_static (
-			PARENT_TYPE, "EASN1Object", &asn1_object_info, 0);
-	}
-
-	return asn1_object_type;
 }
 
 /* This function is used to interpret an integer that

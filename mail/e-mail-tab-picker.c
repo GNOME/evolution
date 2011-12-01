@@ -36,6 +36,9 @@ G_DEFINE_TYPE_WITH_CODE (
 	G_IMPLEMENT_INTERFACE (
 		MX_TYPE_DROPPABLE, mx_droppable_iface_init))
 
+#define TAB_PICKER_PRIVATE(o) \
+  (G_TYPE_INSTANCE_GET_PRIVATE ((o), E_MAIL_TYPE_TAB_PICKER, EMailTabPickerPrivate))
+
 enum
 {
 	PROP_0,

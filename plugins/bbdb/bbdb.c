@@ -457,7 +457,9 @@ bbdb_open_book_client (EBookClient *client)
 	if (!client)
 		return FALSE;
 
-	g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+	g_signal_connect (
+		client, "authenticate",
+		G_CALLBACK (e_client_utils_authenticate_handler), NULL);
 	if (!e_client_open_sync (E_CLIENT (client), FALSE, NULL, &error)) {
 		g_warning ("bbdb: failed to open addressbook: %s", error ? error->message : "Unknown error");
 		if (error)
@@ -689,7 +691,9 @@ bbdb_page_factory (EPlugin *ep,
 	/* Enable BBDB checkbox */
 	check = gtk_check_button_new_with_mnemonic (_("Create _address book entries when sending mails"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), g_settings_get_boolean (settings, CONF_KEY_ENABLE));
-	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (enable_toggled_cb), stuff);
+	g_signal_connect (
+		check, "toggled",
+		G_CALLBACK (enable_toggled_cb), stuff);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
 	stuff->check = check;
 
@@ -698,7 +702,9 @@ bbdb_page_factory (EPlugin *ep,
 
 	/* Source selection combo box */
 	combo_box = create_addressbook_combo_box (stuff, AUTOMATIC_CONTACTS_ADDRESSBOOK);
-	g_signal_connect (combo_box, "changed", G_CALLBACK (source_changed_cb), stuff);
+	g_signal_connect (
+		combo_box, "changed",
+		G_CALLBACK (source_changed_cb), stuff);
 	gtk_widget_set_sensitive (combo_box, g_settings_get_boolean (settings, CONF_KEY_ENABLE));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), combo_box, FALSE, FALSE, 0);
 	stuff->combo_box = combo_box;
@@ -725,7 +731,9 @@ bbdb_page_factory (EPlugin *ep,
 	/* Enable Gaim Checkbox */
 	check_gaim = gtk_check_button_new_with_mnemonic (_("_Synchronize contact info and images from Pidgin buddy list"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_gaim), g_settings_get_boolean (settings, CONF_KEY_ENABLE_GAIM));
-	g_signal_connect (GTK_TOGGLE_BUTTON (check_gaim), "toggled", G_CALLBACK (enable_gaim_toggled_cb), stuff);
+	g_signal_connect (
+		check_gaim, "toggled",
+		G_CALLBACK (enable_gaim_toggled_cb), stuff);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check_gaim, FALSE, FALSE, 0);
 	stuff->check_gaim = check_gaim;
 
@@ -734,18 +742,24 @@ bbdb_page_factory (EPlugin *ep,
 
 	/* Gaim Source Selection Combo Box */
 	gaim_combo_box = create_addressbook_combo_box (stuff, GAIM_ADDRESSBOOK);
-	g_signal_connect (gaim_combo_box, "changed", G_CALLBACK (gaim_source_changed_cb), stuff);
+	g_signal_connect (
+		gaim_combo_box, "changed",
+		G_CALLBACK (gaim_source_changed_cb), stuff);
 	gtk_widget_set_sensitive (gaim_combo_box, g_settings_get_boolean (settings, CONF_KEY_ENABLE_GAIM));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), gaim_combo_box, FALSE, FALSE, 0);
 	stuff->gaim_combo_box = gaim_combo_box;
 
 	/* Synchronize now button. */
 	button = gtk_button_new_with_mnemonic (_("Synchronize with _buddy list now"));
-	g_signal_connect (GTK_BUTTON (button), "clicked", G_CALLBACK (synchronize_button_clicked_cb), stuff);
+	g_signal_connect (
+		button, "clicked",
+		G_CALLBACK (synchronize_button_clicked_cb), stuff);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), button, FALSE, FALSE, 0);
 
 	/* Clean up */
-	g_signal_connect (page, "destroy", G_CALLBACK (cleanup_cb), stuff);
+	g_signal_connect (
+		page, "destroy",
+		G_CALLBACK (cleanup_cb), stuff);
 
 	gtk_widget_show_all (page);
 

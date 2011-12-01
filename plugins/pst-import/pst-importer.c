@@ -542,7 +542,9 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
 	hbox = gtk_hbox_new (FALSE, 0);
 	check = gtk_check_button_new_with_mnemonic (_("_Mail"));
 	gtk_toggle_button_set_active ((GtkToggleButton *) check, GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-mail")));
-	g_signal_connect (check, "toggled", G_CALLBACK (checkbox_mail_toggle_cb), target);
+	g_signal_connect (
+		check, "toggled",
+		G_CALLBACK (checkbox_mail_toggle_cb), target);
 	gtk_box_pack_start ((GtkBox *) hbox, check, FALSE, FALSE, 0);
 
 	shell = e_shell_get_default ();
@@ -557,14 +559,20 @@ org_credativ_evolution_readpst_getwidget (EImport *ei,
 	foldername = get_suggested_foldername ((EImportTargetURI *) target);
 	((EImportTargetURI *) target)->uri_dest = g_strdup (foldername);
 	em_folder_selection_button_set_folder_uri ((EMFolderSelectionButton *) w, foldername);
-	g_signal_connect (w, "selected", G_CALLBACK (folder_selected), target);
+	g_signal_connect (
+		w, "selected",
+		G_CALLBACK (folder_selected), target);
 	gtk_box_pack_end ((GtkBox *) hbox, w, FALSE, FALSE, 0);
-	g_signal_connect (check, "toggled", G_CALLBACK (widget_sanitizer_cb), w);
+	g_signal_connect (
+		check, "toggled",
+		G_CALLBACK (widget_sanitizer_cb), w);
 	widget_sanitizer_cb (GTK_TOGGLE_BUTTON (check), w);
 
 	w = gtk_label_new (_("Destination folder:"));
 	gtk_box_pack_end ((GtkBox *) hbox, w, FALSE, TRUE, 6);
-	g_signal_connect (check, "toggled", G_CALLBACK (widget_sanitizer_cb), w);
+	g_signal_connect (
+		check, "toggled",
+		G_CALLBACK (widget_sanitizer_cb), w);
 	widget_sanitizer_cb (GTK_TOGGLE_BUTTON (check), w);
 
 	gtk_box_pack_start ((GtkBox *) framebox, hbox, FALSE, FALSE, 0);

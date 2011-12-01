@@ -31,30 +31,7 @@
 #include "libemail-engine/mail-ops.h"
 #include "mail/em-folder-tree.h"
 
-struct  _AnjalMailViewPrivate {
-
-	gboolean started;
-};
-
 G_DEFINE_TYPE (AnjalMailView, anjal_mail_view, GTK_TYPE_NOTEBOOK)
-
-static void
-anjal_mail_view_init (AnjalMailView *shell)
-{
-	shell->priv = g_new0 (AnjalMailViewPrivate, 1);
-	shell->priv->started = TRUE;
-}
-
-static void
-anjal_mail_view_finalize (GObject *object)
-{
-	AnjalMailView *shell = (AnjalMailView *) object;
-	AnjalMailViewPrivate *priv = shell->priv;
-
-	g_free (priv);
-
-	G_OBJECT_CLASS (anjal_mail_view_parent_class)->finalize (object);
-}
 
 static void
 view_set_folder_uri (AnjalMailView *mail_view,
@@ -87,16 +64,17 @@ view_init_search (AnjalMailView *mail_view,
 }
 
 static void
-anjal_mail_view_class_init (AnjalMailViewClass *klass)
+anjal_mail_view_class_init (AnjalMailViewClass *class)
 {
-	GObjectClass * object_class = G_OBJECT_CLASS (klass);
-
-	anjal_mail_view_parent_class = g_type_class_peek_parent (klass);
-	object_class->finalize = anjal_mail_view_finalize;
-	klass->set_folder_uri = view_set_folder_uri;
-	klass->set_folder_tree_widget = view_set_folder_tree_widget;
-	klass->set_folder_tree = view_set_folder_tree;
-	klass->set_search = view_set_search;
-	klass->init_search = view_init_search;
+	class->set_folder_uri = view_set_folder_uri;
+	class->set_folder_tree_widget = view_set_folder_tree_widget;
+	class->set_folder_tree = view_set_folder_tree;
+	class->set_search = view_set_search;
+	class->init_search = view_init_search;
 };
+
+static void
+anjal_mail_view_init (AnjalMailView *shell)
+{
+}
 

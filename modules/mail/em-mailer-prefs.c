@@ -194,10 +194,12 @@ jh_add_cb (GtkWidget *widget,
 	jh_dialog_entry_changed_cb (NULL, builder);
 
 	entry = e_builder_get_widget (builder, "junk-header-name");
-	g_signal_connect (entry, "changed",
+	g_signal_connect (
+		entry, "changed",
 		G_CALLBACK (jh_dialog_entry_changed_cb), builder);
 	entry = e_builder_get_widget (builder, "junk-header-content");
-	g_signal_connect (entry, "changed",
+	g_signal_connect (
+		entry, "changed",
 		G_CALLBACK (jh_dialog_entry_changed_cb), builder);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
@@ -534,7 +536,8 @@ toggle_button_init (EMMailerPrefs *prefs,
 
 	if (toggled) {
 		g_object_set_data ((GObject *) toggle, "key", (gpointer) key);
-		g_signal_connect (toggle, "toggled", toggled, prefs);
+		g_signal_connect (
+			toggle, "toggled", toggled, prefs);
 	}
 
 	if (!g_settings_is_writable (prefs->settings, key))
@@ -886,9 +889,15 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_always, FALSE);
 
-	g_signal_connect (prefs->images_never, "toggled", G_CALLBACK (http_images_changed), prefs);
-	g_signal_connect (prefs->images_sometimes, "toggled", G_CALLBACK (http_images_changed), prefs);
-	g_signal_connect (prefs->images_always, "toggled", G_CALLBACK (http_images_changed), prefs);
+	g_signal_connect (
+		prefs->images_never, "toggled",
+		G_CALLBACK (http_images_changed), prefs);
+	g_signal_connect (
+		prefs->images_sometimes, "toggled",
+		G_CALLBACK (http_images_changed), prefs);
+	g_signal_connect (
+		prefs->images_always, "toggled",
+		G_CALLBACK (http_images_changed), prefs);
 
 	widget = e_builder_get_widget (prefs->builder, "chkShowAnimatedImages");
 	g_object_bind_property (
@@ -951,18 +960,30 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->header_list, !locked);
 
 	selection = gtk_tree_view_get_selection (prefs->header_list);
-	g_signal_connect (selection, "changed", G_CALLBACK (emmp_header_list_row_selected), prefs);
-	g_signal_connect (prefs->entry_header, "changed", G_CALLBACK (emmp_header_entry_changed), prefs);
-	g_signal_connect (prefs->entry_header, "activate", G_CALLBACK (emmp_header_add_header), prefs);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (emmp_header_list_row_selected), prefs);
+	g_signal_connect (
+		prefs->entry_header, "changed",
+		G_CALLBACK (emmp_header_entry_changed), prefs);
+	g_signal_connect (
+		prefs->entry_header,
+		"activate", G_CALLBACK (emmp_header_add_header), prefs);
 	/* initialise the tree with appropriate headings */
 	prefs->header_list_store = gtk_list_store_newv (HEADER_LIST_N_COLUMNS, col_types);
-	g_signal_connect (prefs->add_header, "clicked", G_CALLBACK (emmp_header_add_header), prefs);
-	g_signal_connect (prefs->remove_header, "clicked", G_CALLBACK (emmp_header_remove_header), prefs);
+	g_signal_connect (
+		prefs->add_header, "clicked",
+		G_CALLBACK (emmp_header_add_header), prefs);
+	g_signal_connect (
+		prefs->remove_header, "clicked",
+		G_CALLBACK (emmp_header_remove_header), prefs);
 	gtk_tree_view_set_model (prefs->header_list, GTK_TREE_MODEL (prefs->header_list_store));
 
 	renderer = gtk_cell_renderer_toggle_new ();
 	g_object_set (renderer, "activatable", TRUE, NULL);
-	g_signal_connect (renderer, "toggled", G_CALLBACK (emmp_header_list_enabled_toggled), prefs);
+	g_signal_connect (
+		renderer, "toggled",
+		G_CALLBACK (emmp_header_list_enabled_toggled), prefs);
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (prefs->header_list), -1,
 						     "Enabled", renderer,
 						     "active", HEADER_LIST_ENABLED_COLUMN,

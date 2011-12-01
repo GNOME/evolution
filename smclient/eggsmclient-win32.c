@@ -60,9 +60,9 @@
 
 #define EGG_TYPE_SM_CLIENT_WIN32            (egg_sm_client_win32_get_type ())
 #define EGG_SM_CLIENT_WIN32(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EGG_TYPE_SM_CLIENT_WIN32, EggSMClientWin32))
-#define EGG_SM_CLIENT_WIN32_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), EGG_TYPE_SM_CLIENT_WIN32, EggSMClientWin32Class))
+#define EGG_SM_CLIENT_WIN32_CLASS(cls)    (G_TYPE_CHECK_CLASS_CAST ((cls), EGG_TYPE_SM_CLIENT_WIN32, EggSMClientWin32Class))
 #define EGG_IS_SM_CLIENT_WIN32(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EGG_TYPE_SM_CLIENT_WIN32))
-#define EGG_IS_SM_CLIENT_WIN32_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EGG_TYPE_SM_CLIENT_WIN32))
+#define EGG_IS_SM_CLIENT_WIN32_CLASS(cls) (G_TYPE_CHECK_CLASS_TYPE ((cls), EGG_TYPE_SM_CLIENT_WIN32))
 #define EGG_SM_CLIENT_WIN32_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), EGG_TYPE_SM_CLIENT_WIN32, EggSMClientWin32Class))
 
 typedef struct _EggSMClientWin32        EggSMClientWin32;
@@ -105,9 +105,9 @@ egg_sm_client_win32_init (EggSMClientWin32 *win32)
 }
 
 static void
-egg_sm_client_win32_class_init (EggSMClientWin32Class *klass)
+egg_sm_client_win32_class_init (EggSMClientWin32Class *class)
 {
-  EggSMClientClass *sm_client_class = EGG_SM_CLIENT_CLASS (klass);
+  EggSMClientClass *sm_client_class = EGG_SM_CLIENT_CLASS (class);
 
   sm_client_class->startup             = sm_client_win32_startup;
   sm_client_class->will_quit           = sm_client_win32_will_quit;

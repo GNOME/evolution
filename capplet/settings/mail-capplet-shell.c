@@ -114,15 +114,15 @@ ms_ctrl_q_pressed (MailCappletShell *shell)
 }
 
 static void
-mail_capplet_shell_class_init (MailCappletShellClass *klass)
+mail_capplet_shell_class_init (MailCappletShellClass *class)
 {
-	GObjectClass * object_class = G_OBJECT_CLASS (klass);
+	GObjectClass * object_class = G_OBJECT_CLASS (class);
 	GtkBindingSet *binding_set;
 
-	mail_capplet_shell_parent_class = g_type_class_peek_parent (klass);
+	mail_capplet_shell_parent_class = g_type_class_peek_parent (class);
 	object_class->finalize = mail_capplet_shell_finalize;
-	klass->ctrl_w_pressed = ms_ctrl_w_pressed;
-	klass->ctrl_q_pressed = ms_ctrl_q_pressed;
+	class->ctrl_w_pressed = ms_ctrl_w_pressed;
+	class->ctrl_q_pressed = ms_ctrl_q_pressed;
 
 	mail_capplet_shell_signals[CTRL_W_PRESSED] =
 		g_signal_new ("ctrl_w_pressed",
@@ -142,7 +142,7 @@ mail_capplet_shell_class_init (MailCappletShellClass *klass)
 				g_cclosure_marshal_VOID__VOID,
 				G_TYPE_NONE, 0);
 
-	binding_set = gtk_binding_set_by_class (klass);
+	binding_set = gtk_binding_set_by_class (class);
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_W, GDK_CONTROL_MASK, "ctrl_w_pressed", 0);
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_w, GDK_CONTROL_MASK, "ctrl_w_pressed", 0);
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Q, GDK_CONTROL_MASK, "ctrl_q_pressed", 0);
@@ -175,7 +175,7 @@ mail_capplet_shell_quit (MailCappletShell *shell)
 	MailCappletShellPrivate *priv = shell->priv;
 
 	if (!priv->main_loop)
- 		gtk_widget_hide ((GtkWidget *)shell);	
+		gtk_widget_hide ((GtkWidget *) shell);
 }
 
 static void
@@ -184,7 +184,7 @@ ms_delete_event (MailCappletShell *shell,
                  gpointer data G_GNUC_UNUSED)
 {
 	mail_capplet_shell_quit (shell);
-	gtk_main_quit();
+	gtk_main_quit ();
 }
 
 static void
@@ -211,7 +211,9 @@ mail_capplet_shell_construct (MailCappletShell *shell,
 	gtk_window_set_icon_name ((GtkWindow *)shell, "evolution");
 	gtk_window_set_title ((GtkWindow *)shell, _("Evolution account assistant"));
 	ms_init_style (style);
-	g_signal_connect ((GObject *)shell, "delete-event", G_CALLBACK (ms_delete_event), NULL);
+	g_signal_connect (
+		shell, "delete-event",
+		G_CALLBACK (ms_delete_event), NULL);
 	gtk_window_set_type_hint ((GtkWindow *) shell, GDK_WINDOW_TYPE_HINT_NORMAL);
 	if (g_getenv("ANJAL_NO_MAX") == NULL && FALSE) {
 		 GdkScreen *scr = gtk_widget_get_screen ((GtkWidget *) shell);
@@ -231,7 +233,9 @@ mail_capplet_shell_construct (MailCappletShell *shell,
 		GtkWidget *plug = gtk_plug_new (socket_id);
 
 		gtk_container_add ((GtkContainer *) plug, priv->box);
-		g_signal_connect (plug, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+		g_signal_connect (
+			plug, "destroy",
+			G_CALLBACK (gtk_main_quit), NULL);
 		gtk_widget_show (plug);
 		gtk_widget_hide ((GtkWidget *) shell);
 
@@ -281,7 +285,9 @@ mail_capplet_shell_construct (MailCappletShell *shell,
 
 		gtk_notebook_set_show_tabs ((GtkNotebook *) shell->view, FALSE);
 		mc = mail_view_add_page ((MailView *) shell->view, MAIL_VIEW_ACCOUNT, NULL);
-		g_signal_connect (mc, "view-close", G_CALLBACK(ms_show_post_druid), shell);
+		g_signal_connect (
+			mc, "view-close",
+			G_CALLBACK (ms_show_post_druid), shell);
 		setup_abooks ();
 	} else
 		shell->priv->settings_view = mail_view_add_page ((MailView *) shell->view, MAIL_VIEW_SETTINGS, NULL);

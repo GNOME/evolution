@@ -311,7 +311,9 @@ org_gnome_prefer_plain_config_mode (EPlugin *epl,
 	check = gtk_check_button_new_with_mnemonic (_("Show s_uppressed HTML parts as attachments"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), epp_show_suppressed);
 	gtk_widget_show (check);
-	g_signal_connect (check, "toggled", G_CALLBACK (epp_show_suppressed_toggled), NULL);
+	g_signal_connect (
+		check, "toggled",
+		G_CALLBACK (epp_show_suppressed_toggled), NULL);
 
 	dropdown = (GtkComboBox *) gtk_combo_box_new ();
 	cell = gtk_cell_renderer_text_new ();
@@ -339,7 +341,9 @@ org_gnome_prefer_plain_config_mode (EPlugin *epl,
 	gtk_widget_show (info);
 	update_info_label (info, epp_mode);
 
-	g_signal_connect (dropdown, "changed", G_CALLBACK(epp_mode_changed), info);
+	g_signal_connect (
+		dropdown, "changed",
+		G_CALLBACK (epp_mode_changed), info);
 
 	g_object_get (data->parent, "n-rows", &i, NULL);
 	gtk_table_attach ((GtkTable *) data->parent, check, 0, 2, i, i + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);

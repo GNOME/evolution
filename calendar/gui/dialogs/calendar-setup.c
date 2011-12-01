@@ -206,7 +206,9 @@ eccp_get_source_type (EConfig *ec,
 		gtk_cell_layout_set_attributes ((GtkCellLayout *) type, cell, "text", 0, NULL);
 		gtk_combo_box_set_model ((GtkComboBox *) type, (GtkTreeModel *) store);
 		gtk_combo_box_set_active ((GtkComboBox *) type, active);
-		g_signal_connect (type, "changed", G_CALLBACK (eccp_type_changed), sdialog);
+		g_signal_connect (
+			type, "changed",
+			G_CALLBACK (eccp_type_changed), sdialog);
 		gtk_widget_show (type);
 		gtk_table_attach (GTK_TABLE (parent), type, 1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (label), type);
@@ -318,7 +320,9 @@ eccp_general_offline (EConfig *ec,
 			offline_setting = gtk_check_button_new_with_mnemonic (_("Cop_y memo list contents locally for offline operation"));
 
 		gtk_widget_show (offline_setting);
-		g_signal_connect (offline_setting, "toggled", G_CALLBACK (offline_status_changed_cb), sdialog);
+		g_signal_connect (
+			offline_setting, "toggled",
+			G_CALLBACK (offline_status_changed_cb), sdialog);
 		gtk_table_attach (GTK_TABLE (parent), offline_setting, 1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	}
@@ -365,7 +369,9 @@ eccp_notify_reminders (EConfig *ec,
 
 	gtk_widget_show (reminder_setting);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (reminder_setting), alarm && g_str_equal (alarm, "true"));
-	g_signal_connect (reminder_setting, "toggled", G_CALLBACK (alarm_status_changed_cb), sdialog);
+	g_signal_connect (
+		reminder_setting, "toggled",
+		G_CALLBACK (alarm_status_changed_cb), sdialog);
 	gtk_table_attach (GTK_TABLE (parent), reminder_setting, 1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	return reminder_setting;

@@ -25,6 +25,10 @@
 
 #include "e-signature-tree-view.h"
 
+#define E_SIGNATURE_TREE_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SIGNATURE_TREE_VIEW, ESignatureTreeViewPrivate))
+
 enum {
 	COLUMN_STRING,
 	COLUMN_SIGNATURE
@@ -217,7 +221,7 @@ signature_tree_view_dispose (GObject *object)
 {
 	ESignatureTreeViewPrivate *priv;
 
-	priv = E_SIGNATURE_TREE_VIEW (object)->priv;
+	priv = E_SIGNATURE_TREE_VIEW_GET_PRIVATE (object);
 
 	if (priv->signature_list != NULL) {
 		g_signal_handlers_disconnect_by_func (
@@ -238,7 +242,7 @@ signature_tree_view_finalize (GObject *object)
 {
 	ESignatureTreeViewPrivate *priv;
 
-	priv = E_SIGNATURE_TREE_VIEW (object)->priv;
+	priv = E_SIGNATURE_TREE_VIEW_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->index);
 
@@ -302,9 +306,7 @@ e_signature_tree_view_init (ESignatureTreeView *tree_view)
 		(GDestroyNotify) g_object_unref,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	tree_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		tree_view, E_TYPE_SIGNATURE_TREE_VIEW,
-		ESignatureTreeViewPrivate);
+	tree_view->priv = E_SIGNATURE_TREE_VIEW_GET_PRIVATE (tree_view);
 	tree_view->priv->index = index;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
@@ -340,7 +342,7 @@ e_signature_tree_view_set_signature_list (ESignatureTreeView *tree_view,
 	if (signature_list != NULL)
 		g_return_if_fail (E_IS_SIGNATURE_LIST (signature_list));
 
-	priv = tree_view->priv;
+	priv = E_SIGNATURE_TREE_VIEW_GET_PRIVATE (tree_view);
 
 	if (priv->signature_list != NULL) {
 		g_signal_handlers_disconnect_by_func (

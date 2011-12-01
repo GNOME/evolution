@@ -392,6 +392,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 {
 	AsyncContext *context;
 	CamelFolder *local_sent_folder;
+	CamelServiceConnectionStatus status;
 	GString *error_messages;
 	gboolean copy_to_sent = TRUE;
 	guint ii;
@@ -417,11 +418,15 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 			return;
 		}
 
-		if (camel_service_get_connection_status (service) != CAMEL_SERVICE_CONNECTED) {
+		status = camel_service_get_connection_status (service);
+		if (status != CAMEL_SERVICE_CONNECTED) {
 			did_connect = TRUE;
 
 			/* XXX This API does not allow for cancellation. */
-			if (!em_utils_connect_service_sync (service, cancellable, &error)) {
+			em_utils_connect_service_sync (
+				service, cancellable, &error);
+
+			if (error != NULL) {
 				g_simple_async_result_take_error (simple, error);
 				return;
 			}

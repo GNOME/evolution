@@ -64,16 +64,16 @@ G_DEFINE_TYPE (
 	GNOME_TYPE_CANVAS_GROUP)
 
 static void
-e_canvas_vbox_class_init (ECanvasVboxClass *klass)
+e_canvas_vbox_class_init (ECanvasVboxClass *class)
 {
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = (GObjectClass *) klass;
-	item_class = (GnomeCanvasItemClass *) klass;
+	object_class = (GObjectClass *) class;
+	item_class = (GnomeCanvasItemClass *) class;
 
-	klass->add_item       = e_canvas_vbox_real_add_item;
-	klass->add_item_start = e_canvas_vbox_real_add_item_start;
+	class->add_item       = e_canvas_vbox_real_add_item;
+	class->add_item_start = e_canvas_vbox_real_add_item_start;
 
 	object_class->set_property = e_canvas_vbox_set_property;
 	object_class->get_property = e_canvas_vbox_get_property;

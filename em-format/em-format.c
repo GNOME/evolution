@@ -36,6 +36,10 @@
 #include "shell/e-shell.h"
 #include "shell/e-shell-settings.h"
 
+#define EM_FORMAT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FORMAT, EMFormatPrivate))
+
 #define d(x)
 
 typedef struct _EMFormatCache EMFormatCache;
@@ -360,8 +364,7 @@ emf_init (EMFormat *emf)
 	EShell *shell;
 	EShellSettings *shell_settings;
 
-	emf->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		emf, EM_TYPE_FORMAT, EMFormatPrivate);
+	emf->priv = EM_FORMAT_GET_PRIVATE (emf);
 
 	emf->inline_table = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
@@ -1464,19 +1467,24 @@ em_format_describe_part (CamelMimePart *part,
 
 	stext = g_string_new("");
 	content_type = g_content_type_from_mime_type (mime_type);
-	desc = g_content_type_get_description (content_type ? content_type : mime_type);
+	desc = g_content_type_get_description (
+		content_type != NULL ? content_type : mime_type);
 	g_free (content_type);
-	g_string_append_printf (stext, _("%s attachment"), desc ? desc : mime_type);
+	g_string_append_printf (
+		stext, _("%s attachment"), desc ? desc : mime_type);
 	g_free (desc);
 
 	filename = camel_mime_part_get_filename (part);
 	description = camel_mime_part_get_description (part);
 
 	if (!filename || !*filename) {
-		CamelDataWrapper *content = camel_medium_get_content (CAMEL_MEDIUM (part));
+		CamelDataWrapper *content;
 
-		if (content && CAMEL_IS_MIME_MESSAGE (content))
-			filename = camel_mime_message_get_subject (CAMEL_MIME_MESSAGE (content));
+		content = camel_medium_get_content (CAMEL_MEDIUM (part));
+
+		if (CAMEL_IS_MIME_MESSAGE (content))
+			filename = camel_mime_message_get_subject (
+				CAMEL_MIME_MESSAGE (content));
 	}
 
 	if (filename != NULL && *filename != '\0') {
@@ -1780,7 +1788,7 @@ emf_multipart_encrypted (EMFormat *emf,
 	/* Currently we only handle RFC2015-style PGP encryption. */
 	protocol = camel_content_type_param (
 		((CamelDataWrapper *)mpe)->mime_type, "protocol");
-	if (!protocol || g_ascii_strcasecmp (protocol, "application/pgp-encrypted") != 0) {
+	if (protocol == NULL || g_ascii_strcasecmp (protocol, "application/pgp-encrypted") != 0) {
 		em_format_format_error (
 			emf, stream, _("Unsupported encryption "
 			"type for multipart/encrypted"));
@@ -2009,13 +2017,13 @@ emf_multipart_signed (EMFormat *emf,
 	/* FIXME: duplicated in em-format-html-display.c */
 	if (mps->protocol) {
 #ifdef ENABLE_SMIME
-		if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0
-		    || g_ascii_strcasecmp("application/pkcs7-signature", mps->protocol) == 0) {
+		if (g_ascii_strcasecmp ("application/x-pkcs7-signature", mps->protocol) == 0
+		    || g_ascii_strcasecmp ("application/pkcs7-signature", mps->protocol) == 0) {
 			cipher = camel_smime_context_new (emf->session);
 			emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_SMIME;
 		} else
 #endif
-			if (g_ascii_strcasecmp("application/pgp-signature", mps->protocol) == 0) {
+			if (g_ascii_strcasecmp ("application/pgp-signature", mps->protocol) == 0) {
 				cipher = camel_gpg_context_new (emf->session);
 				emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_PGP;
 			}
@@ -2271,7 +2279,8 @@ emf_inlinepgp_signed (EMFormat *emf,
 
 	opart = camel_mime_part_new ();
 	camel_medium_set_content ((CamelMedium *) opart, dw);
-	camel_data_wrapper_set_mime_type_field ((CamelDataWrapper *) opart, dw->mime_type);
+	camel_data_wrapper_set_mime_type_field (
+		(CamelDataWrapper *) opart, dw->mime_type);
 
 	add_validity_found (emf, valid);
 	/* Pass it off to the real formatter */
@@ -2333,7 +2342,8 @@ emf_inlinepgp_encrypted (EMFormat *emf,
 	mime_type = camel_data_wrapper_get_mime_type (dw);
 
 	/* this ensures to show the 'opart' as inlined, if possible */
-	if (mime_type && g_ascii_strcasecmp (mime_type, "application/octet-stream") == 0) {
+	if (mime_type != NULL && g_ascii_strcasecmp (
+			mime_type, "application/octet-stream") == 0) {
 		const gchar *snoop = em_format_snoop_type (opart);
 
 		if (snoop)
@@ -2440,8 +2450,6 @@ em_format_snoop_type (CamelMimePart *part)
 
 		g_object_unref (stream);
 	}
-
-	d(printf("snooped part, magic_type '%s' name_type '%s'\n", magic_type, name_type));
 
 	/* If gvfs doesn't recognize the data by magic, but it
 	 * contains English words, it will call it text/plain. If the

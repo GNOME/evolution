@@ -565,7 +565,7 @@ startup_wizard_run (EStartupWizard *extension)
 	gtk_main ();
 
 	if (e_list_length (E_LIST (account_list)) <= 0)
-		exit(0);
+		exit (0);
 
 }
 

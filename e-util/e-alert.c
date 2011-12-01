@@ -44,6 +44,10 @@
 
 #define d(x)
 
+#define E_ALERT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ALERT, EAlertPrivate))
+
 typedef struct _EAlertButton EAlertButton;
 
 struct _e_alert {
@@ -196,19 +200,23 @@ e_alert_load (const gchar *path)
 		table->alerts = g_hash_table_new (g_str_hash, g_str_equal);
 		g_hash_table_insert (alert_table, (gpointer) table->domain, table);
 
-		tmp2 = (gchar *)xmlGetProp(root, (const guchar *)"translation-domain");
+		tmp2 = (gchar *) xmlGetProp (
+			root, (const guchar *) "translation-domain");
 		if (tmp2) {
 			table->translation_domain = g_strdup (tmp2);
 			xmlFree (tmp2);
 
-			tmp2 = (gchar *)xmlGetProp(root, (const guchar *)"translation-localedir");
+			tmp2 = (gchar *) xmlGetProp (
+				root, (const guchar *) "translation-localedir");
 			if (tmp2) {
 				bindtextdomain (table->translation_domain, tmp2);
 				xmlFree (tmp2);
 			}
 		}
 	} else
-		g_warning("Error file '%s', domain '%s' already used, merging", path, tmp);
+		g_warning (
+			"Error file '%s', domain '%s' "
+			"already used, merging", path, tmp);
 	xmlFree (tmp);
 
 	for (error = root->children; error; error = error->next) {
@@ -537,7 +545,7 @@ alert_finalize (GObject *object)
 {
 	EAlertPrivate *priv;
 
-	priv = E_ALERT (object)->priv;
+	priv = E_ALERT_GET_PRIVATE (object);
 
 	g_free (priv->tag);
 	g_free (priv->primary_text);
@@ -683,8 +691,7 @@ e_alert_class_init (EAlertClass *class)
 static void
 e_alert_init (EAlert *alert)
 {
-	alert->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		alert, E_TYPE_ALERT, EAlertPrivate);
+	alert->priv = E_ALERT_GET_PRIVATE (alert);
 
 	g_queue_init (&alert->priv->actions);
 }

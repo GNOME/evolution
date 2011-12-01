@@ -58,23 +58,22 @@ ea_jump_button_get_type (void)
 	if (!type) {
 		static GTypeInfo tinfo = {
 			sizeof (EaJumpButtonClass),
-			(GBaseInitFunc) NULL, /* base init */
-			(GBaseFinalizeFunc) NULL, /* base finalize */
-			(GClassInitFunc) ea_jump_button_class_init, /* class init */
-			(GClassFinalizeFunc) NULL, /* class finalize */
-			NULL, /* class data */
-			sizeof (EaJumpButton), /* instance size */
-			0, /* nb preallocs */
-			(GInstanceInitFunc) NULL, /* instance init */
-			NULL /* value table */
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) ea_jump_button_class_init,
+			(GClassFinalizeFunc) NULL,
+			/* class_data */ NULL,
+			sizeof (EaJumpButton),
+			/* n_preallocs */ 0,
+			(GInstanceInitFunc) NULL,
+			/* value_table */ NULL
 		};
 
-		static const GInterfaceInfo atk_action_info =
-			{
-				(GInterfaceInitFunc) atk_action_interface_init,
-				(GInterfaceFinalizeFunc) NULL,
-				NULL
-			};
+		static const GInterfaceInfo atk_action_info = {
+			(GInterfaceInitFunc) atk_action_interface_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL
+		};
 
 		/*
 		 * Figure out the size of the class and instance
@@ -82,20 +81,22 @@ ea_jump_button_get_type (void)
 		 * GNOME_TYPE_CANVAS_ITEM, in this case)
 		 */
 
-		factory = atk_registry_get_factory (atk_get_default_registry (),
-						    GNOME_TYPE_CANVAS_ITEM);
-		derived_atk_type = atk_object_factory_get_accessible_type (factory);
+		factory = atk_registry_get_factory (
+			atk_get_default_registry (), GNOME_TYPE_CANVAS_ITEM);
+		derived_atk_type =
+			atk_object_factory_get_accessible_type (factory);
 		g_type_query (derived_atk_type, &query);
 
 		tinfo.class_size = query.class_size;
 		tinfo.instance_size = query.instance_size;
 
-		/* we inherit the component and other interfaces from GNOME_TYPE_CANVAS_ITEM */
-		type = g_type_register_static (derived_atk_type,
-					       "EaJumpButton", &tinfo, 0);
+		/* we inherit the component and other
+		 * interfaces from GNOME_TYPE_CANVAS_ITEM */
+		type = g_type_register_static (
+			derived_atk_type, "EaJumpButton", &tinfo, 0);
 
-		g_type_add_interface_static (type, ATK_TYPE_ACTION,
-					     &atk_action_info);
+		g_type_add_interface_static (
+			type, ATK_TYPE_ACTION, &atk_action_info);
 	}
 
 	return type;

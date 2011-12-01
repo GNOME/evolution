@@ -30,6 +30,10 @@
 #include <eab-book-util.h>
 #include <eab-contact-merging.h>
 
+#define E_ADDRESSBOOK_SELECTOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ADDRESSBOOK_SELECTOR, EAddressbookSelectorPrivate))
+
 typedef struct _MergeContext MergeContext;
 
 struct _EAddressbookSelectorPrivate {
@@ -59,6 +63,11 @@ static GtkTargetEntry drag_types[] = {
 };
 
 static gpointer parent_class;
+
+G_DEFINE_TYPE (
+	EAddressbookSelector,
+	e_addressbook_selector,
+	E_TYPE_SOURCE_SELECTOR)
 
 static void
 merge_context_next (MergeContext *merge_context)
@@ -233,7 +242,7 @@ addressbook_selector_dispose (GObject *object)
 {
 	EAddressbookSelectorPrivate *priv;
 
-	priv = E_ADDRESSBOOK_SELECTOR (object)->priv;
+	priv = E_ADDRESSBOOK_SELECTOR_GET_PRIVATE (object);
 
 	if (priv->current_view != NULL) {
 		g_object_unref (priv->current_view);
@@ -313,7 +322,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	const gchar *string;
 	gboolean remove_from_source;
 
-	priv = E_ADDRESSBOOK_SELECTOR (selector)->priv;
+	priv = E_ADDRESSBOOK_SELECTOR_GET_PRIVATE (selector);
 	g_return_val_if_fail (priv->current_view != NULL, FALSE);
 
 	string = (const gchar *) gtk_selection_data_get_data (selection_data);
@@ -345,7 +354,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 }
 
 static void
-addressbook_selector_class_init (EAddressbookSelectorClass *class)
+e_addressbook_selector_class_init (EAddressbookSelectorClass *class)
 {
 	GObjectClass *object_class;
 	ESourceSelectorClass *selector_class;
@@ -374,11 +383,9 @@ addressbook_selector_class_init (EAddressbookSelectorClass *class)
 }
 
 static void
-addressbook_selector_init (EAddressbookSelector *selector)
+e_addressbook_selector_init (EAddressbookSelector *selector)
 {
-	selector->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		selector, E_TYPE_ADDRESSBOOK_SELECTOR,
-		EAddressbookSelectorPrivate);
+	selector->priv = E_ADDRESSBOOK_SELECTOR_GET_PRIVATE (selector);
 
 	gtk_drag_dest_set (
 		GTK_WIDGET (selector), GTK_DEST_DEFAULT_ALL,
@@ -386,33 +393,6 @@ addressbook_selector_init (EAddressbookSelector *selector)
 		GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
 	e_drag_dest_add_directory_targets (GTK_WIDGET (selector));
-}
-
-GType
-e_addressbook_selector_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EAddressbookSelectorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) addressbook_selector_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAddressbookSelector),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) addressbook_selector_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_SOURCE_SELECTOR, "EAddressbookSelector",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

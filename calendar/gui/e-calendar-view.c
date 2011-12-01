@@ -61,6 +61,10 @@
 #include "print.h"
 #include "misc.h"
 
+#define E_CALENDAR_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CALENDAR_VIEW, ECalendarViewPrivate))
+
 struct _ECalendarViewPrivate {
 	/* The GnomeCalendar we are associated to */
 	GnomeCalendar *calendar;
@@ -321,7 +325,7 @@ calendar_view_dispose (GObject *object)
 {
 	ECalendarViewPrivate *priv;
 
-	priv = E_CALENDAR_VIEW (object)->priv;
+	priv = E_CALENDAR_VIEW_GET_PRIVATE (object);
 
 	if (priv->model != NULL) {
 		g_signal_handlers_disconnect_matched (
@@ -350,7 +354,7 @@ calendar_view_finalize (GObject *object)
 {
 	ECalendarViewPrivate *priv;
 
-	priv = E_CALENDAR_VIEW (object)->priv;
+	priv = E_CALENDAR_VIEW_GET_PRIVATE (object);
 
 	g_free (priv->default_category);
 
@@ -916,8 +920,7 @@ e_calendar_view_init (ECalendarView *calendar_view)
 {
 	GtkTargetList *target_list;
 
-	calendar_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		calendar_view, E_TYPE_CALENDAR_VIEW, ECalendarViewPrivate);
+	calendar_view->priv = E_CALENDAR_VIEW_GET_PRIVATE (calendar_view);
 
 	/* Set this early to avoid a divide-by-zero during init. */
 	calendar_view->priv->time_divisions = 30;
@@ -1462,8 +1465,9 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 			e_source_peek_name (source),
 			NULL);
 
-		g_signal_connect ((GtkDialog *)widget, "response", G_CALLBACK (gtk_widget_destroy),
-				  widget);
+		g_signal_connect (
+			widget, "response",
+			G_CALLBACK (gtk_widget_destroy), widget);
 		gtk_widget_show (widget);
 		return;
 	}
@@ -1632,7 +1636,9 @@ e_calendar_view_open_event_with_flags (ECalendarView *cal_view,
 	if (!ce) {
 		ce = event_editor_new (client, shell, flags);
 
-		g_signal_connect (ce, "object_created", G_CALLBACK (object_created_cb), cal_view);
+		g_signal_connect (
+			ce, "object_created",
+			G_CALLBACK (object_created_cb), cal_view);
 
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
@@ -2013,7 +2019,9 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 
 	window = gtk_widget_get_window (pevent->tooltip);
 	gdk_keyboard_grab (window, FALSE, GDK_CURRENT_TIME);
-	g_signal_connect (pevent->tooltip, "key-press-event", G_CALLBACK (tooltip_grab), data->cal_view);
+	g_signal_connect (
+		pevent->tooltip, "key-press-event",
+		G_CALLBACK (tooltip_grab), data->cal_view);
 	pevent->timeout = -1;
 
 	g_object_set_data (G_OBJECT (data->cal_view), "tooltip-window", pevent->tooltip);

@@ -31,6 +31,10 @@
 
 #include "e-util.h"
 
+#define E_ALERT_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ALERT_DIALOG, EAlertDialogPrivate))
+
 struct _EAlertDialogPrivate {
 	GtkWidget *content_area;  /* not referenced */
 	EAlert *alert;
@@ -95,7 +99,7 @@ alert_dialog_dispose (GObject *object)
 {
 	EAlertDialogPrivate *priv;
 
-	priv = E_ALERT_DIALOG (object)->priv;
+	priv = E_ALERT_DIALOG_GET_PRIVATE (object);
 
 	if (priv->alert) {
 		g_signal_handlers_disconnect_matched (
@@ -292,8 +296,7 @@ e_alert_dialog_class_init (EAlertDialogClass *class)
 static void
 e_alert_dialog_init (EAlertDialog *dialog)
 {
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dialog, E_TYPE_ALERT_DIALOG, EAlertDialogPrivate);
+	dialog->priv = E_ALERT_DIALOG_GET_PRIVATE (dialog);
 }
 
 GtkWidget *

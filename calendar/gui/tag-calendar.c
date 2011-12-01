@@ -49,7 +49,7 @@ struct calendar_tag_closure {
  * the calendar has no dates shown.  */
 static gboolean
 prepare_tag (ECalendar *ecal,
-             struct calendar_tag_closure *c,
+             struct calendar_tag_closure *closure,
              icaltimezone *zone,
              gboolean clear_first)
 {
@@ -77,15 +77,17 @@ prepare_tag (ECalendar *ecal,
 
 	icaltime_adjust (&end_tt, 1, 0, 0, 0);
 
-	c->calitem = ecal->calitem;
+	closure->calitem = ecal->calitem;
 
-	if (zone)
-		c->zone = zone;
+	if (zone != NULL)
+		closure->zone = zone;
 	else
-		c->zone = calendar_config_get_icaltimezone ();
+		closure->zone = calendar_config_get_icaltimezone ();
 
-	c->start_time = icaltime_as_timet_with_zone (start_tt, c->zone);
-	c->end_time = icaltime_as_timet_with_zone (end_tt, c->zone);
+	closure->start_time =
+		icaltime_as_timet_with_zone (start_tt, closure->zone);
+	closure->end_time =
+		icaltime_as_timet_with_zone (end_tt, closure->zone);
 
 	return TRUE;
 }
@@ -96,9 +98,8 @@ static gboolean
 tag_calendar_cb (ECalComponent *comp,
                  time_t istart,
                  time_t iend,
-                 gpointer data)
+                 struct calendar_tag_closure *closure)
 {
-	struct calendar_tag_closure *c = data;
 	struct icaltimetype start_tt, end_tt;
 	ECalComponentTransparency transparency;
 	guint8 style = 0;
@@ -107,21 +108,21 @@ tag_calendar_cb (ECalComponent *comp,
 	 * transparent. */
 	e_cal_component_get_transparency (comp, &transparency);
 	if (transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT) {
-		if (c->skip_transparent_events)
+		if (closure->skip_transparent_events)
 			return TRUE;
 
 		style = E_CALENDAR_ITEM_MARK_ITALIC;
-	} else if (c->recur_events_italic && e_cal_component_is_instance (comp)) {
+	} else if (closure->recur_events_italic && e_cal_component_is_instance (comp)) {
 		style = E_CALENDAR_ITEM_MARK_ITALIC;
 	} else {
 		style = E_CALENDAR_ITEM_MARK_BOLD;
 	}
 
-	start_tt = icaltime_from_timet_with_zone (istart, FALSE, c->zone);
-	end_tt = icaltime_from_timet_with_zone (iend - 1, FALSE, c->zone);
+	start_tt = icaltime_from_timet_with_zone (istart, FALSE, closure->zone);
+	end_tt = icaltime_from_timet_with_zone (iend - 1, FALSE, closure->zone);
 
 	e_calendar_item_mark_days (
-		c->calitem,
+		closure->calitem,
 		start_tt.year, start_tt.month - 1, start_tt.day,
 		end_tt.year, end_tt.month - 1, end_tt.day,
 		style, TRUE);
@@ -138,7 +139,8 @@ get_recur_events_italic (void)
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	return e_shell_settings_get_boolean (shell_settings, "cal-recur-events-italic");
+	return e_shell_settings_get_boolean (
+		shell_settings, "cal-recur-events-italic");
 }
 
 /**
@@ -155,7 +157,7 @@ tag_calendar_by_client (ECalendar *ecal,
                         ECalClient *client,
                         GCancellable *cancellable)
 {
-	struct calendar_tag_closure *c;
+	struct calendar_tag_closure *closure;
 
 	g_return_if_fail (E_IS_CALENDAR (ecal));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
@@ -167,18 +169,20 @@ tag_calendar_by_client (ECalendar *ecal,
 	if (!e_client_is_opened (E_CLIENT (client)))
 		return;
 
-	c = g_new0 (struct calendar_tag_closure, 1);
+	closure = g_new0 (struct calendar_tag_closure, 1);
 
-	if (!prepare_tag (ecal, c, NULL, TRUE)) {
-		g_free (c);
+	if (!prepare_tag (ecal, closure, NULL, TRUE)) {
+		g_free (closure);
 		return;
 	}
 
-	c->skip_transparent_events = TRUE;
-	c->recur_events_italic = get_recur_events_italic ();
+	closure->skip_transparent_events = TRUE;
+	closure->recur_events_italic = get_recur_events_italic ();
 
 	e_cal_client_generate_instances (
-		client, c->start_time, c->end_time, cancellable, tag_calendar_cb, c, g_free);
+		client, closure->start_time, closure->end_time, cancellable,
+		(ECalRecurInstanceFn) tag_calendar_cb,
+		closure, (GDestroyNotify) g_free);
 }
 
 /* Resolves TZIDs for the recurrence generator, for when the comp is not on
@@ -186,14 +190,9 @@ tag_calendar_by_client (ECalendar *ecal,
  * be added to the server yet. */
 static icaltimezone *
 resolve_tzid_cb (const gchar *tzid,
-                 gpointer data)
+                 ECalClient *client)
 {
-	ECalClient *client;
 	icaltimezone *zone = NULL;
-
-	g_return_val_if_fail (E_IS_CAL_CLIENT (data), NULL);
-
-	client = E_CAL_CLIENT (data);
 
 	/* Try to find the builtin timezone first. */
 	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
@@ -240,7 +239,7 @@ tag_calendar_by_comp (ECalendar *ecal,
                       gboolean can_recur_events_italic,
                       GCancellable *cancellable)
 {
-	struct calendar_tag_closure c;
+	struct calendar_tag_closure closure;
 
 	g_return_if_fail (E_IS_CALENDAR (ecal));
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
@@ -249,23 +248,30 @@ tag_calendar_by_comp (ECalendar *ecal,
 	if (!gtk_widget_get_visible (GTK_WIDGET (ecal)))
 		return;
 
-	if (!prepare_tag (ecal, &c, display_zone, clear_first))
+	if (!prepare_tag (ecal, &closure, display_zone, clear_first))
 		return;
 
-	c.skip_transparent_events = FALSE;
-	c.recur_events_italic = can_recur_events_italic && get_recur_events_italic ();
+	closure.skip_transparent_events = FALSE;
+	closure.recur_events_italic =
+		can_recur_events_italic && get_recur_events_italic ();
 
 	if (comp_is_on_server) {
-		struct calendar_tag_closure *closure = g_new0 (struct calendar_tag_closure, 1);
+		struct calendar_tag_closure *alloced_closure;
 
-		*closure = c;
+		alloced_closure = g_new0 (struct calendar_tag_closure, 1);
+
+		*alloced_closure = closure;
 
 		e_cal_client_generate_instances_for_object (
 			client, e_cal_component_get_icalcomponent (comp),
-			c.start_time, c.end_time, cancellable, tag_calendar_cb, closure, g_free);
+			closure.start_time, closure.end_time, cancellable,
+			(ECalRecurInstanceFn) tag_calendar_cb,
+			alloced_closure, (GDestroyNotify) g_free);
 	} else
 		e_cal_recur_generate_instances (
-			comp, c.start_time, c.end_time,
-			tag_calendar_cb, &c, resolve_tzid_cb,
-			client, c.zone);
+			comp, closure.start_time, closure.end_time,
+			(ECalRecurInstanceFn) tag_calendar_cb,
+			&closure,
+			(ECalRecurResolveTimezoneFn) resolve_tzid_cb,
+			client, closure.zone);
 }

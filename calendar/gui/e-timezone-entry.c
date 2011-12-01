@@ -36,6 +36,10 @@
 #include <glib/gi18n.h>
 #include "e-timezone-entry.h"
 
+#define E_TIMEZONE_ENTRY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TIMEZONE_ENTRY, ETimezoneEntryPrivate))
+
 struct _ETimezoneEntryPrivate {
 	/* The current timezone, set in e_timezone_entry_set_timezone()
 	 * or from the timezone dialog. Note that we don't copy it or
@@ -216,7 +220,7 @@ timezone_entry_mnemonic_activate (GtkWidget *widget,
 {
 	ETimezoneEntryPrivate *priv;
 
-	priv = E_TIMEZONE_ENTRY (widget)->priv;
+	priv = E_TIMEZONE_ENTRY_GET_PRIVATE (widget);
 
 	if (gtk_widget_get_can_focus (widget)) {
 		if (priv->button != NULL)
@@ -232,7 +236,7 @@ timezone_entry_focus (GtkWidget *widget,
 {
 	ETimezoneEntryPrivate *priv;
 
-	priv = E_TIMEZONE_ENTRY (widget)->priv;
+	priv = E_TIMEZONE_ENTRY_GET_PRIVATE (widget);
 
 	if (direction == GTK_DIR_TAB_FORWARD) {
 		if (gtk_widget_has_focus (priv->entry))
@@ -301,8 +305,7 @@ e_timezone_entry_init (ETimezoneEntry *timezone_entry)
 	AtkObject *a11y;
 	GtkWidget *widget;
 
-	timezone_entry->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		timezone_entry, E_TYPE_TIMEZONE_ENTRY, ETimezoneEntryPrivate);
+	timezone_entry->priv = E_TIMEZONE_ENTRY_GET_PRIVATE (timezone_entry);
 
 	gtk_widget_set_can_focus (GTK_WIDGET (timezone_entry), TRUE);
 

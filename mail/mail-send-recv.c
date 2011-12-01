@@ -772,7 +772,9 @@ build_dialog (GtkWindow *parent,
 	if (parent != NULL)
 		gtk_widget_show (GTK_WIDGET (gd));
 
-	g_signal_connect (gd, "response", G_CALLBACK (dialog_response), data);
+	g_signal_connect (
+		gd, "response",
+		G_CALLBACK (dialog_response), data);
 
 	g_object_weak_ref ((GObject *) gd, (GWeakNotify) dialog_destroy_cb, data);
 

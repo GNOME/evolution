@@ -115,7 +115,7 @@ action_mail_account_disable_cb (GtkAction *action,
 
 static void
 action_mail_account_properties_cb (GtkAction *action,
-				   EMailShellView *mail_shell_view)
+                                   EMailShellView *mail_shell_view)
 {
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellView *shell_view;

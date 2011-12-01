@@ -133,4 +133,3 @@ e_dialog_combo_box_get (GtkWidget *widget,
 
 	return i;
 }
-

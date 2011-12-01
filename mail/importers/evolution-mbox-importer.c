@@ -152,7 +152,9 @@ mbox_getwidget (EImport *ei,
 		EM_FOLDER_SELECTION_BUTTON (w), select_uri);
 	folder_selected (
 		EM_FOLDER_SELECTION_BUTTON (w), (EImportTargetURI *) target);
-	g_signal_connect (w, "selected", G_CALLBACK(folder_selected), target);
+	g_signal_connect (
+		w, "selected",
+		G_CALLBACK (folder_selected), target);
 	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, TRUE, 6);
 
 	w = gtk_vbox_new (FALSE, 0);

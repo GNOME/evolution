@@ -32,6 +32,10 @@
 #include "ea-calendar.h"
 #include "calendar-config.h"
 
+#define E_WEEK_VIEW_MAIN_ITEM_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_WEEK_VIEW_MAIN_ITEM, EWeekViewMainItemPrivate))
+
 struct _EWeekViewMainItemPrivate {
 	EWeekView *week_view;
 };
@@ -41,7 +45,10 @@ enum {
 	PROP_WEEK_VIEW
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EWeekViewMainItem,
+	e_week_view_main_item,
+	GNOME_TYPE_CANVAS_ITEM)
 
 static gint
 gdate_to_cal_weekdays (GDateWeekday wd)
@@ -337,7 +344,7 @@ week_view_main_item_dispose (GObject *object)
 {
 	EWeekViewMainItemPrivate *priv;
 
-	priv = E_WEEK_VIEW_MAIN_ITEM (object)->priv;
+	priv = E_WEEK_VIEW_MAIN_ITEM_GET_PRIVATE (object);
 
 	if (priv->week_view != NULL) {
 		g_object_unref (priv->week_view);
@@ -345,7 +352,7 @@ week_view_main_item_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_week_view_main_item_parent_class)->dispose (object);
 }
 
 static void
@@ -356,7 +363,8 @@ week_view_main_item_update (GnomeCanvasItem *item,
 	GnomeCanvasItemClass *canvas_item_class;
 
 	/* Chain up to parent's update() method. */
-	canvas_item_class = GNOME_CANVAS_ITEM_CLASS (parent_class);
+	canvas_item_class =
+		GNOME_CANVAS_ITEM_CLASS (e_week_view_main_item_parent_class);
 	canvas_item_class->update (item, i2c, flags);
 
 	/* The item covers the entire canvas area. */
@@ -417,12 +425,11 @@ week_view_main_item_point (GnomeCanvasItem *item,
 }
 
 static void
-week_view_main_item_class_init (EWeekViewMainItemClass *class)
+e_week_view_main_item_class_init (EWeekViewMainItemClass *class)
 {
 	GObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EWeekViewMainItemPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -450,38 +457,9 @@ week_view_main_item_class_init (EWeekViewMainItemClass *class)
 }
 
 static void
-week_view_main_item_init (EWeekViewMainItem *main_item)
+e_week_view_main_item_init (EWeekViewMainItem *main_item)
 {
-	main_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		main_item, E_TYPE_WEEK_VIEW_MAIN_ITEM,
-		EWeekViewMainItemPrivate);
-}
-
-GType
-e_week_view_main_item_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EWeekViewMainItemClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) week_view_main_item_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EWeekViewMainItem),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) week_view_main_item_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GNOME_TYPE_CANVAS_ITEM, "EWeekViewMainItem",
-			&type_info, 0);
-	}
-
-	return type;
+	main_item->priv = E_WEEK_VIEW_MAIN_ITEM_GET_PRIVATE (main_item);
 }
 
 EWeekView *

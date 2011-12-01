@@ -267,7 +267,11 @@ scan_folder_tree_for_unread_helper (GtkTreeModel *model,
 		gboolean folder_has_unread;
 		gboolean is_draft = FALSE;
 		gboolean is_store = FALSE;
-		guint unread = 0, folder_flags = 0;
+		gboolean is_trash;
+		gboolean is_virtual;
+		guint unread = 0;
+		guint folder_flags = 0;
+		guint folder_type;
 
 		gtk_tree_model_get (
 			model, iter,
@@ -276,10 +280,13 @@ scan_folder_tree_for_unread_helper (GtkTreeModel *model,
 			COL_BOOL_IS_STORE, &is_store,
 			COL_BOOL_IS_DRAFT, &is_draft, -1);
 
+		folder_type = (folder_flags & CAMEL_FOLDER_TYPE_MASK);
+		is_virtual = ((folder_flags & CAMEL_FOLDER_VIRTUAL) != 0);
+		is_trash = (folder_type == CAMEL_FOLDER_TYPE_TRASH);
+
 		folder_has_unread =
 			!is_store && !is_draft &&
-			((folder_flags & CAMEL_FOLDER_VIRTUAL) == 0 ||
-				(folder_flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_TRASH) &&
+			(!is_virtual || !is_trash) &&
 			unread > 0 && unread != ~((guint) 0);
 
 		if (folder_has_unread) {

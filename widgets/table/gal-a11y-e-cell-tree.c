@@ -246,10 +246,9 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 				   model_col,
 				   view_col,
 				   row);
-	a11y->model_row_changed_id =
-		g_signal_connect (item->table_model, "model_row_changed",
-				  G_CALLBACK (ectr_model_row_changed_cb),
-				  subcell_a11y);
+	a11y->model_row_changed_id = g_signal_connect (
+		item->table_model, "model_row_changed",
+		G_CALLBACK (ectr_model_row_changed_cb), subcell_a11y);
 
 	if (subcell_a11y && subcell_view)
 	{

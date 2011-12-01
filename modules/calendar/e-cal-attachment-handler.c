@@ -32,6 +32,10 @@
 #include <libedataserverui/e-source-selector.h>
 #include <libedataserverui/e-client-utils.h>
 
+#define E_CAL_ATTACHMENT_HANDLER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_ATTACHMENT_HANDLER, ECalAttachmentHandlerPrivate))
+
 typedef struct _ImportContext ImportContext;
 
 struct _ECalAttachmentHandlerPrivate {
@@ -533,9 +537,7 @@ cal_attachment_handler_class_init (ECalAttachmentHandlerClass *class)
 static void
 cal_attachment_handler_init (ECalAttachmentHandler *handler)
 {
-	handler->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		handler, E_TYPE_CAL_ATTACHMENT_HANDLER,
-		ECalAttachmentHandlerPrivate);
+	handler->priv = E_CAL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 }
 
 GType

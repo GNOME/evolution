@@ -416,7 +416,9 @@ query_for_supported_bases (GtkWidget *button,
 	supported_bases_table = e_builder_get_widget (builder, "supported-bases-table");
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (supported_bases_table));
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (supported_bases_table));
-	g_signal_connect (selection, "changed", G_CALLBACK (search_base_selection_model_changed), dialog);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (search_base_selection_model_changed), dialog);
 	search_base_selection_model_changed (selection, dialog);
 
 	if (do_ldap_root_dse_query (sdialog, GTK_LIST_STORE (model), sdialog->source)) {
@@ -546,7 +548,9 @@ eabc_general_type (EConfig *ec,
 	gtk_combo_box_set_model (dropdown, (GtkTreeModel *) store);
 	gtk_combo_box_set_active (dropdown, -1);
 	gtk_combo_box_set_active (dropdown, row);
-	g_signal_connect (dropdown, "changed", G_CALLBACK(eabc_type_changed), sdialog);
+	g_signal_connect (
+		dropdown, "changed",
+		G_CALLBACK (eabc_type_changed), sdialog);
 	gtk_widget_show ((GtkWidget *) dropdown);
 	gtk_box_pack_start ((GtkBox *) w, (GtkWidget *) dropdown, TRUE, TRUE, 0);
 	gtk_label_set_mnemonic_widget ((GtkLabel *) label, (GtkWidget *) dropdown);
@@ -600,7 +604,9 @@ eabc_general_name (EConfig *ec,
 	gtk_box_pack_start ((GtkBox *) parent, w, FALSE, FALSE, 0);
 
 	sdialog->display_name = e_builder_get_widget (builder, "account-editor-display-name-entry");
-	g_signal_connect (sdialog->display_name, "changed", G_CALLBACK(name_changed_cb), sdialog);
+	g_signal_connect (
+		sdialog->display_name, "changed",
+		G_CALLBACK (name_changed_cb), sdialog);
 	gtk_entry_set_text ((GtkEntry *) sdialog->display_name, e_source_peek_name (sdialog->source));
 
 	/* Hardcoded: groupwise can't edit the name (or anything else) */
@@ -652,7 +658,9 @@ eabc_general_use_in_cal (EConfig *ec,
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (use_in_cal_setting), (use_in_cal && g_str_equal (use_in_cal, "1")) || (!use_in_cal && base_uri && g_str_has_prefix (base_uri, "local:")));
 
-	g_signal_connect (use_in_cal_setting, "toggled", G_CALLBACK (use_in_cal_changed_cb), sdialog);
+	g_signal_connect (
+		use_in_cal_setting, "toggled",
+		G_CALLBACK (use_in_cal_changed_cb), sdialog);
 
 	return use_in_cal_setting;
 }
@@ -685,7 +693,9 @@ eabc_general_offline (EConfig *ec,
 		offline_setting = gtk_check_button_new_with_mnemonic (_("Copy _book content locally for offline operation"));
 		gtk_widget_show (offline_setting);
 		gtk_container_add (GTK_CONTAINER (parent), offline_setting);
-		g_signal_connect (offline_setting, "toggled", G_CALLBACK (offline_status_changed_cb), sdialog);
+		g_signal_connect (
+			offline_setting, "toggled",
+			G_CALLBACK (offline_status_changed_cb), sdialog);
 
 	}
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (offline_setting), (offline_sync && g_str_equal (offline_sync, "1"))  ? TRUE : FALSE);
@@ -793,14 +803,19 @@ eabc_general_host (EConfig *ec,
 
 	sdialog->host = e_builder_get_widget (builder, "server-name-entry");
 	gtk_entry_set_text((GtkEntry *)sdialog->host, lud && lud->lud_host ? lud->lud_host : "");
-	g_signal_connect (sdialog->host, "changed", G_CALLBACK (host_changed_cb), sdialog);
+	g_signal_connect (
+		sdialog->host, "changed",
+		G_CALLBACK (host_changed_cb), sdialog);
 
 	sdialog->port_comboentry = e_builder_get_widget (builder, "port-comboentry");
 	gtk_widget_set_has_tooltip (sdialog->port_comboentry, TRUE);
 	gtk_widget_set_tooltip_text (sdialog->port_comboentry, _("This is the port on the LDAP server that Evolution will try to connect to. A list of standard ports has been provided. Ask your system administrator what port you should specify."));
 	sprintf(port, "%u", lud && lud->lud_port? lud->lud_port : LDAP_PORT);
 	gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (sdialog->port_comboentry))), port);
-	g_signal_connect (gtk_bin_get_child (GTK_BIN (sdialog->port_comboentry)), "changed", G_CALLBACK (port_entry_changed_cb), sdialog);
+	g_signal_connect (
+		gtk_bin_get_child (
+		GTK_BIN (sdialog->port_comboentry)), "changed",
+		G_CALLBACK (port_entry_changed_cb), sdialog);
 
 	if (lud)
 		ldap_free_urldesc (lud);
@@ -812,7 +827,9 @@ eabc_general_host (EConfig *ec,
 	gtk_combo_box_set_active (GTK_COMBO_BOX (sdialog->ssl_combobox), sdialog->ssl);
 	gtk_widget_set_tooltip_text (sdialog->ssl_combobox, ldap_get_ssl_tooltip (sdialog->ssl));
 	gtk_widget_set_sensitive (sdialog->ssl_combobox, strcmp (port, LDAPS_PORT_STRING) != 0);
-	g_signal_connect (sdialog->ssl_combobox, "changed", G_CALLBACK (ssl_combobox_changed_cb), sdialog);
+	g_signal_connect (
+		sdialog->ssl_combobox, "changed",
+		G_CALLBACK (ssl_combobox_changed_cb), sdialog);
 
 	g_object_unref (builder);
 
@@ -882,7 +899,9 @@ eabc_general_auth (EConfig *ec,
 	tmp = e_source_get_property(sdialog->source, "auth");
 	sdialog->auth = tmp ? ldap_parse_auth (tmp) : ADDRESSBOOK_LDAP_AUTH_NONE;
 	gtk_combo_box_set_active (GTK_COMBO_BOX (sdialog->auth_combobox), sdialog->auth);
-	g_signal_connect (sdialog->auth_combobox, "changed", G_CALLBACK(auth_combobox_changed_cb), sdialog);
+	g_signal_connect (
+		sdialog->auth_combobox, "changed",
+		G_CALLBACK (auth_combobox_changed_cb), sdialog);
 
 	sdialog->auth_principal = e_builder_get_widget (builder, "auth-entry");
 	switch (sdialog->auth) {
@@ -898,7 +917,9 @@ eabc_general_auth (EConfig *ec,
 		break;
 	}
 	gtk_entry_set_text((GtkEntry *)sdialog->auth_principal, tmp?tmp:"");
-	g_signal_connect (sdialog->auth_principal, "changed", G_CALLBACK (auth_entry_changed_cb), sdialog);
+	g_signal_connect (
+		sdialog->auth_principal, "changed",
+		G_CALLBACK (auth_entry_changed_cb), sdialog);
 
 	g_object_unref (builder);
 
@@ -957,7 +978,9 @@ eabc_details_search (EConfig *ec,
 
 	sdialog->rootdn = e_builder_get_widget (builder, "rootdn-entry");
 	gtk_entry_set_text((GtkEntry *)sdialog->rootdn, lud && lud->lud_dn ? lud->lud_dn : "");
-	g_signal_connect (sdialog->rootdn, "changed", G_CALLBACK (rootdn_changed_cb), sdialog);
+	g_signal_connect (
+		sdialog->rootdn, "changed",
+		G_CALLBACK (rootdn_changed_cb), sdialog);
 
 	sdialog->scope_combobox = e_builder_get_widget (builder, "scope-combobox");
 	gtk_widget_set_has_tooltip (sdialog->scope_combobox, TRUE);
@@ -977,14 +1000,19 @@ eabc_details_search (EConfig *ec,
 		}
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (sdialog->scope_combobox), sdialog->scope);
-	g_signal_connect (sdialog->scope_combobox, "changed", G_CALLBACK(scope_combobox_changed_cb), sdialog);
+	g_signal_connect (
+		sdialog->scope_combobox, "changed",
+		G_CALLBACK (scope_combobox_changed_cb), sdialog);
 
 	sdialog->search_filter =  e_builder_get_widget (builder, "search-filter-entry");
 	gtk_entry_set_text((GtkEntry *)sdialog->search_filter, lud && lud->lud_filter ? lud->lud_filter : "");
-	g_signal_connect (sdialog->search_filter, "changed",  G_CALLBACK (search_filter_changed_cb), sdialog);
+	g_signal_connect (
+		sdialog->search_filter, "changed",
+		G_CALLBACK (search_filter_changed_cb), sdialog);
 
-	g_signal_connect (e_builder_get_widget(builder, "rootdn-button"), "clicked",
-			  G_CALLBACK (query_for_supported_bases), sdialog);
+	g_signal_connect (
+		e_builder_get_widget (builder, "rootdn-button"), "clicked",
+		G_CALLBACK (query_for_supported_bases), sdialog);
 
 	if (lud)
 		ldap_free_urldesc (lud);
@@ -1065,11 +1093,15 @@ eabc_details_limit (EConfig *ec,
 	sdialog->limit_spinbutton = e_builder_get_widget (builder, "download-limit-spinbutton");
 	tmp = e_source_get_property(sdialog->source, "limit");
 	gtk_spin_button_set_value ((GtkSpinButton *) sdialog->limit_spinbutton, tmp ? g_strtod (tmp, NULL) : 100.0);
-	g_signal_connect (sdialog->limit_spinbutton, "value_changed", G_CALLBACK (limit_changed_cb), sdialog);
+	g_signal_connect (
+		sdialog->limit_spinbutton, "value_changed",
+		G_CALLBACK (limit_changed_cb), sdialog);
 
 	sdialog->canbrowsecheck = e_builder_get_widget (builder, "canbrowsecheck");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sdialog->canbrowsecheck), e_source_get_property (sdialog->source, "can-browse") && strcmp (e_source_get_property (sdialog->source, "can-browse"), "1") == 0);
-	g_signal_connect (sdialog->canbrowsecheck, "toggled", G_CALLBACK (canbrowse_toggled_cb), sdialog->source);
+	g_signal_connect (
+		sdialog->canbrowsecheck, "toggled",
+		G_CALLBACK (canbrowse_toggled_cb), sdialog->source);
 
 	g_object_unref (builder);
 
@@ -1288,7 +1320,9 @@ addressbook_config_edit_source (GtkWidget *parent,
 	xml = e_source_to_standalone_xml (sdialog->source);
 	printf("but working standalone xml: %s\n", xml);
 	g_free (xml);
-	g_signal_connect (sdialog->source, "changed", source_changed, sdialog);
+	g_signal_connect (
+		sdialog->source, "changed",
+		source_changed, sdialog);
 #endif
 
 	sdialog->config = ec = eab_config_new(E_CONFIG_BOOK, "com.novell.evolution.addressbook.config.accountEditor");

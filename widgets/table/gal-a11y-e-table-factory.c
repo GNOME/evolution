@@ -93,7 +93,8 @@ gal_a11y_e_table_factory_get_type (void)
 			NULL /* value_table */
 		};
 
-		type = g_type_register_static (PARENT_TYPE, "GalA11yETableFactory", &info, 0);
+		type = g_type_register_static (
+			PARENT_TYPE, "GalA11yETableFactory", &info, 0);
 	}
 
 	return type;

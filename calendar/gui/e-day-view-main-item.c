@@ -40,6 +40,10 @@
 #include "e-calendar-view.h"
 #include "comp-util.h"
 
+#define E_DAY_VIEW_MAIN_ITEM_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_DAY_VIEW_MAIN_ITEM, EDayViewMainItemPrivate))
+
 struct _EDayViewMainItemPrivate {
 	EDayView *day_view;
 };
@@ -49,7 +53,10 @@ enum {
 	PROP_DAY_VIEW
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EDayViewMainItem,
+	e_day_view_main_item,
+	GNOME_TYPE_CANVAS_ITEM)
 
 static gboolean
 can_draw_in_region (cairo_region_t *draw_region,
@@ -927,7 +934,7 @@ day_view_main_item_dispose (GObject *object)
 {
 	EDayViewMainItemPrivate *priv;
 
-	priv = E_DAY_VIEW_MAIN_ITEM (object)->priv;
+	priv = E_DAY_VIEW_MAIN_ITEM_GET_PRIVATE (object);
 
 	if (priv->day_view != NULL) {
 		g_object_unref (priv->day_view);
@@ -935,7 +942,7 @@ day_view_main_item_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_day_view_main_item_parent_class)->dispose (object);
 }
 
 static void
@@ -946,7 +953,8 @@ day_view_main_item_update (GnomeCanvasItem *item,
 	GnomeCanvasItemClass *canvas_item_class;
 
 	/* Chain up to parent's update() method. */
-	canvas_item_class = GNOME_CANVAS_ITEM_CLASS (parent_class);
+	canvas_item_class =
+		GNOME_CANVAS_ITEM_CLASS (e_day_view_main_item_parent_class);
 	canvas_item_class->update (item, i2c, flags);
 
 	/* The item covers the entire canvas area. */
@@ -1218,12 +1226,11 @@ day_view_main_item_point (GnomeCanvasItem *item,
 }
 
 static void
-day_view_main_item_class_init (EDayViewMainItemClass *class)
+e_day_view_main_item_class_init (EDayViewMainItemClass *class)
 {
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EDayViewMainItemPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -1251,37 +1258,9 @@ day_view_main_item_class_init (EDayViewMainItemClass *class)
 }
 
 static void
-day_view_main_item_init (EDayViewMainItem *main_item)
+e_day_view_main_item_init (EDayViewMainItem *main_item)
 {
-	main_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		main_item, E_TYPE_DAY_VIEW_MAIN_ITEM, EDayViewMainItemPrivate);
-}
-
-GType
-e_day_view_main_item_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EDayViewMainItemClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) day_view_main_item_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EDayViewMainItem),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) day_view_main_item_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GNOME_TYPE_CANVAS_ITEM, "EDayViewMainItem",
-			&type_info, 0);
-	}
-
-	return type;
+	main_item->priv = E_DAY_VIEW_MAIN_ITEM_GET_PRIVATE (main_item);
 }
 
 EDayView *

@@ -283,10 +283,10 @@ e_sorter_array_new (ECreateCmpCacheFunc create_cmp_cache,
 }
 
 static void
-e_sorter_array_class_init (ESorterArrayClass *klass)
+e_sorter_array_class_init (ESorterArrayClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	ESorterClass *sorter_class = E_SORTER_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	ESorterClass *sorter_class = E_SORTER_CLASS (class);
 
 	object_class->finalize = esa_finalize;
 

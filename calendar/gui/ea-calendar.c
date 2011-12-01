@@ -204,9 +204,6 @@ ea_calendar_focus_watcher (GSignalInvocationHint *ihint,
 			else
 				/* focus out */
 				ea_event = NULL;
-#ifdef ACC_DEBUG
-			printf ("EvoAcc: focus notify on week main item %p\n", (gpointer)object);
-#endif
 			atk_focus_tracker_notify (ea_event);
 		}
 	}

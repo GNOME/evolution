@@ -27,11 +27,15 @@
 
 #include <libecal/e-cal-time-util.h>
 
+#define E_MONTH_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MONTH_VIEW, EMonthViewPrivate))
+
 struct _EMonthViewPrivate {
 	gint placeholder;
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (EMonthView, e_month_view, E_TYPE_WEEK_VIEW)
 
 static void
 month_view_cursor_key_up (EWeekView *week_view)
@@ -158,11 +162,10 @@ month_view_cursor_key_right (EWeekView *week_view)
 }
 
 static void
-month_view_class_init (EMonthViewClass *class)
+e_month_view_class_init (EMonthViewClass *class)
 {
 	EWeekViewClass *week_view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMonthViewPrivate));
 
 	week_view_class = E_WEEK_VIEW_CLASS (class);
@@ -173,36 +176,9 @@ month_view_class_init (EMonthViewClass *class)
 }
 
 static void
-month_view_init (EMonthView *month_view)
+e_month_view_init (EMonthView *month_view)
 {
-	month_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		month_view, E_TYPE_MONTH_VIEW, EMonthViewPrivate);
-}
-
-GType
-e_month_view_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EMonthViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) month_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMonthView),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) month_view_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_WEEK_VIEW, "EMonthView", &type_info, 0);
-	}
-
-	return type;
+	month_view->priv = E_MONTH_VIEW_GET_PRIVATE (month_view);
 }
 
 ECalendarView *

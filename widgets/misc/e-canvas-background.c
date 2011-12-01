@@ -40,6 +40,10 @@
 
 #include "e-canvas-background.h"
 
+#define E_CANVAS_BACKGROUND_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_CANVAS_BACKGROUND_TYPE, ECanvasBackgroundPrivate))
+
 /* workaround for avoiding API broken */
 #define ecb_get_type e_canvas_background_get_type
 G_DEFINE_TYPE (
@@ -100,20 +104,6 @@ ecb_update (GnomeCanvasItem *item,
 	    item->x2 != x2 || item->y2 != y2)
 		gnome_canvas_request_redraw (
 			item->canvas, item->x1, item->y1, item->x2, item->y2);
-}
-
-static void
-ecb_dispose (GObject *object)
-{
-	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (object);
-
-	if (ecb->priv) {
-		g_free (ecb->priv);
-		ecb->priv = NULL;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (ecb_parent_class)->dispose (object);
 }
 
 static void
@@ -184,7 +174,7 @@ ecb_get_property (GObject *object,
 static void
 ecb_init (ECanvasBackground *ecb)
 {
-	ecb->priv               = g_new (ECanvasBackgroundPrivate, 1);
+	ecb->priv = E_CANVAS_BACKGROUND_GET_PRIVATE (ecb);
 }
 
 static void
@@ -233,7 +223,8 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (ecb_class);
 	GObjectClass *object_class = G_OBJECT_CLASS (ecb_class);
 
-	object_class->dispose       = ecb_dispose;
+	g_type_class_add_private (ecb_class, sizeof (ECanvasBackgroundPrivate));
+
 	object_class->set_property  = ecb_set_property;
 	object_class->get_property  = ecb_get_property;
 

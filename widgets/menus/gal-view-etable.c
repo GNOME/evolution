@@ -86,8 +86,9 @@ gal_view_etable_edit (GalView *view,
 				    etable_view->state,
 				    parent);
 
-	g_signal_connect (config, "changed",
-			 G_CALLBACK (config_changed), view);
+	g_signal_connect (
+		config, "changed",
+		G_CALLBACK (config_changed), view);
 }
 
 static void
@@ -165,10 +166,10 @@ gal_view_etable_dispose (GObject *object)
 }
 
 static void
-gal_view_etable_class_init (GalViewEtableClass *klass)
+gal_view_etable_class_init (GalViewEtableClass *class)
 {
-	GalViewClass *gal_view_class  = GAL_VIEW_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GalViewClass *gal_view_class  = GAL_VIEW_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	gal_view_class->edit          = gal_view_etable_edit;
 	gal_view_class->load          = gal_view_etable_load;
@@ -297,9 +298,9 @@ gal_view_etable_attach_table (GalViewEtable *view,
 
 	e_table_set_state_object (view->table, view->state);
 	g_object_ref (view->table);
-	view->table_state_changed_id =
-		g_signal_connect (view->table, "state_change",
-				 G_CALLBACK (table_state_changed), view);
+	view->table_state_changed_id = g_signal_connect (
+		view->table, "state_change",
+		G_CALLBACK (table_state_changed), view);
 }
 
 void
@@ -315,9 +316,9 @@ gal_view_etable_attach_tree (GalViewEtable *view,
 
 	e_tree_set_state_object (view->tree, view->state);
 	g_object_ref (view->tree);
-	view->tree_state_changed_id =
-		g_signal_connect (view->tree, "state_change",
-				 G_CALLBACK (tree_state_changed), view);
+	view->tree_state_changed_id = g_signal_connect (
+		view->tree, "state_change",
+		G_CALLBACK (tree_state_changed), view);
 }
 
 void

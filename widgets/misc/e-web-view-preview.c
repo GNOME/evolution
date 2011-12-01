@@ -28,6 +28,10 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
+#define E_WEB_VIEW_PREVIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_WEB_VIEW_PREVIEW, EWebViewPreviewPrivate))
+
 struct _EWebViewPreviewPrivate {
 	gboolean escape_values;
 	GString *updating_content; /* is NULL when not between begin_update/end_update */
@@ -96,7 +100,7 @@ web_view_preview_dispose (GObject *object)
 {
 	EWebViewPreviewPrivate *priv;
 
-	priv = E_WEB_VIEW_PREVIEW (object)->priv;
+	priv = E_WEB_VIEW_PREVIEW_GET_PRIVATE (object);
 
 	if (priv->updating_content != NULL) {
 		g_string_free (priv->updating_content, TRUE);
@@ -172,8 +176,7 @@ e_web_view_preview_init (EWebViewPreview *preview)
 {
 	GtkWidget *tree_view_sw, *web_view_sw;
 
-	preview->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		preview, E_TYPE_WEB_VIEW_PREVIEW, EWebViewPreviewPrivate);
+	preview->priv = E_WEB_VIEW_PREVIEW_GET_PRIVATE (preview);
 	preview->priv->escape_values = TRUE;
 
 	tree_view_sw = in_scrolled_window (gtk_tree_view_new ());

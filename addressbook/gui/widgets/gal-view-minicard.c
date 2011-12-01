@@ -35,6 +35,11 @@
 
 static gpointer parent_class;
 
+G_DEFINE_TYPE (
+	GalViewMinicard,
+	gal_view_minicard,
+	GAL_TYPE_VIEW)
+
 static void
 view_minicard_column_width_changed (EAddressbookView *address_view,
                                     gdouble width)
@@ -181,32 +186,6 @@ gal_view_minicard_init (GalViewMinicard *gvm)
 
 	gvm->emvw = NULL;
 	gvm->emvw_column_width_changed_id = 0;
-}
-
-GType
-gal_view_minicard_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (GalViewMinicardClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gal_view_minicard_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (GalViewMinicard),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) gal_view_minicard_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GAL_TYPE_VIEW, "GalViewMinicard", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

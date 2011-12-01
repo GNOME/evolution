@@ -62,10 +62,12 @@ url_changed (GtkEntry *entry,
 	if (uri->scheme && strncmp (uri->scheme, "https", sizeof ("https") - 1) == 0) {
 		gpointer secure_checkbox;
 
-		secure_checkbox = g_object_get_data (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))),
-						     "secure_checkbox");
+		secure_checkbox = g_object_get_data (
+			G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))),
+			"secure_checkbox");
 
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (secure_checkbox), TRUE);
+		gtk_toggle_button_set_active (
+			GTK_TOGGLE_BUTTON (secure_checkbox), TRUE);
 	}
 
 	soup_uri_set_user (uri, e_source_get_property (source, "username"));
@@ -126,7 +128,8 @@ e_calendar_http_refresh (EPlugin *epl,
 		return NULL;
 	}
 
-	return e_plugin_util_add_refresh (data->parent, _("Re_fresh:"), t->source, "refresh");
+	return e_plugin_util_add_refresh (
+		data->parent, _("Re_fresh:"), t->source, "refresh");
 }
 
 GtkWidget *
@@ -142,10 +145,14 @@ e_calendar_http_secure (EPlugin *epl,
 		return NULL;
 	}
 
-	secure_setting = e_plugin_util_add_check (data->parent, _("Use _secure connection"), t->source, "use_ssl", "1", "0");
+	secure_setting = e_plugin_util_add_check (
+		data->parent, _("Use _secure connection"),
+		t->source, "use_ssl", "1", "0");
 
 	/* Store pointer to secure checkbox so we can retrieve it in url_changed() */
-	g_object_set_data (G_OBJECT (data->parent), "secure_checkbox", (gpointer)secure_setting);
+	g_object_set_data (
+		G_OBJECT (data->parent), "secure_checkbox",
+		(gpointer) secure_setting);
 
 	return secure_setting;
 }

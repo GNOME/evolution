@@ -39,6 +39,10 @@
 
 #include <text/e-text.h>
 
+#define E_WEEK_VIEW_EVENT_ITEM_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_WEEK_VIEW_EVENT_ITEM, EWeekViewEventItemPrivate))
+
 struct _EWeekViewEventItemPrivate {
 	/* The event index in the EWeekView events array. */
 	gint event_num;
@@ -53,7 +57,10 @@ enum {
 	PROP_SPAN_NUM
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EWeekViewEventItem,
+	e_week_view_event_item,
+	GNOME_TYPE_CANVAS_ITEM)
 
 static gboolean
 can_draw_in_region (cairo_region_t *draw_region,
@@ -424,7 +431,8 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 		num_icons++;
 	}
 
-	if (e_cal_component_has_recurrences (comp) || e_cal_component_is_instance (comp)) {
+	if (e_cal_component_has_recurrences (comp) ||
+	    e_cal_component_is_instance (comp)) {
 		draw_recurrence_icon = TRUE;
 		num_icons++;
 	}
@@ -654,7 +662,8 @@ week_view_event_item_update (GnomeCanvasItem *item,
 	week_view = E_WEEK_VIEW (parent);
 
 	/* Chain up to parent's update() method. */
-	canvas_item_class = GNOME_CANVAS_ITEM_CLASS (parent_class);
+	canvas_item_class =
+		GNOME_CANVAS_ITEM_CLASS (e_week_view_event_item_parent_class);
 	canvas_item_class->update (item, i2c, flags);
 
 	item->x1 = 0;
@@ -1118,12 +1127,11 @@ week_view_event_item_event (GnomeCanvasItem *item,
 }
 
 static void
-week_view_event_item_class_init (EWeekViewEventItemClass *class)
+e_week_view_event_item_class_init (EWeekViewEventItemClass *class)
 {
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EWeekViewEventItemPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -1162,41 +1170,12 @@ week_view_event_item_class_init (EWeekViewEventItemClass *class)
 }
 
 static void
-week_view_event_item_init (EWeekViewEventItem *event_item)
+e_week_view_event_item_init (EWeekViewEventItem *event_item)
 {
-	event_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		event_item, E_TYPE_WEEK_VIEW_EVENT_ITEM,
-		EWeekViewEventItemPrivate);
+	event_item->priv = E_WEEK_VIEW_EVENT_ITEM_GET_PRIVATE (event_item);
 
 	event_item->priv->event_num = -1;
 	event_item->priv->span_num = -1;
-}
-
-GType
-e_week_view_event_item_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EWeekViewEventItemClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) week_view_event_item_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EWeekViewEventItem),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) week_view_event_item_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GNOME_TYPE_CANVAS_ITEM, "EWeekViewEventItem",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 gint

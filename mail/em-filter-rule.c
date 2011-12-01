@@ -372,7 +372,9 @@ get_rule_part_widget (EMFilterContext *f,
 	}
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), current);
-	g_signal_connect (combobox, "changed", G_CALLBACK (part_combobox_changed), data);
+	g_signal_connect (
+		combobox, "changed",
+		G_CALLBACK (part_combobox_changed), data);
 	gtk_widget_show (combobox);
 
 	gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, FALSE, 0);
@@ -433,7 +435,9 @@ attach_rule (GtkWidget *rule,
 	remove = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
 	g_object_set_data((GObject *)remove, "rule", rule);
 	/*gtk_button_set_relief(GTK_BUTTON(remove), GTK_RELIEF_NONE);*/
-	g_signal_connect (remove, "clicked", G_CALLBACK(less_parts), data);
+	g_signal_connect (
+		remove, "clicked",
+		G_CALLBACK (less_parts), data);
 	gtk_table_attach (GTK_TABLE (data->parts), remove, 1, 2, row, row + 1,
 			  0, 0, 0, 0);
 	gtk_widget_show (remove);
@@ -488,7 +492,9 @@ more_parts (GtkWidget *button,
 		if (w) {
 			GtkAdjustment *adjustment;
 
-			adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (w));
+			adjustment = gtk_scrolled_window_get_vadjustment (
+				GTK_SCROLLED_WINDOW (w));
+
 			if (adjustment) {
 				gdouble upper;
 
@@ -553,7 +559,9 @@ get_widget (EFilterRule *fr,
 	gtk_button_set_image (
 		GTK_BUTTON (add), gtk_image_new_from_stock (
 		GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
-	g_signal_connect (add, "clicked", G_CALLBACK(more_parts), data);
+	g_signal_connect (
+		add, "clicked",
+		G_CALLBACK (more_parts), data);
 	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 0);
 
 	gtk_box_pack_start (GTK_BOX (inframe), hbox, FALSE, FALSE, 3);

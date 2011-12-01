@@ -32,7 +32,10 @@
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
 
-static GtkDialogClass *parent_class = NULL;
+G_DEFINE_TYPE (
+	UrlEditorDialog,
+	url_editor_dialog,
+	GTK_TYPE_DIALOG)
 
 static void
 create_uri (UrlEditorDialog *dialog)
@@ -540,45 +543,21 @@ url_editor_dialog_dispose (GObject *obj)
 		dialog->builder = NULL;
 	}
 
-	((GObjectClass *)(parent_class))->dispose (obj);
+	G_OBJECT_CLASS (url_editor_dialog_parent_class)->dispose (obj);
 }
 
 static void
-url_editor_dialog_class_init (UrlEditorDialogClass *klass)
+url_editor_dialog_class_init (UrlEditorDialogClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = (GObjectClass *) klass;
-	parent_class = g_type_class_ref (GTK_TYPE_DIALOG);
-
+	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = url_editor_dialog_dispose;
 }
 
 static void
 url_editor_dialog_init (UrlEditorDialog *dialog)
 {
-}
-
-GType
-url_editor_dialog_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static GTypeInfo info = {
-			sizeof (UrlEditorDialogClass),
-			NULL, NULL,
-			(GClassInitFunc) url_editor_dialog_class_init,
-			NULL, NULL,
-			sizeof (UrlEditorDialog),
-			0,
-			(GInstanceInitFunc) url_editor_dialog_init,
-		};
-
-		type = g_type_register_static (GTK_TYPE_DIALOG, "UrlEditorDialog", &info, 0);
-	}
-
-	return type;
 }
 
 gboolean

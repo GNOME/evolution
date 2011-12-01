@@ -1394,7 +1394,7 @@ is_top_signature (EMsgComposer *composer)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
-	EMsgComposerPrivate *priv = composer->priv;
+	EMsgComposerPrivate *priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 
 	g_return_val_if_fail (priv != NULL, FALSE);
 
@@ -2540,11 +2540,8 @@ e_msg_composer_alert_sink_init (EAlertSinkInterface *interface)
 static void
 e_msg_composer_init (EMsgComposer *composer)
 {
-	composer->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		composer, E_TYPE_MSG_COMPOSER, EMsgComposerPrivate);
+	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 }
-
-/* Callbacks.  */
 
 /**
  * e_msg_composer_new:
@@ -3082,7 +3079,7 @@ e_msg_composer_new_with_message (EShell *shell,
 	}
 
 	composer = e_msg_composer_new (shell);
-	priv = composer->priv;
+	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 	table = e_msg_composer_get_header_table (composer);
 
 	if (postto) {

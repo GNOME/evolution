@@ -35,6 +35,10 @@
 
 #include "e-signature.h"
 
+#define E_SIGNATURE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SIGNATURE, ESignaturePrivate))
+
 struct _ESignaturePrivate {
 	gchar *filename;
 	gchar *name;
@@ -318,8 +322,7 @@ e_signature_class_init (ESignatureClass *class)
 static void
 e_signature_init (ESignature *signature)
 {
-	signature->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		signature, E_TYPE_SIGNATURE, ESignaturePrivate);
+	signature->priv = E_SIGNATURE_GET_PRIVATE (signature);
 }
 
 /**

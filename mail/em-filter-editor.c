@@ -154,7 +154,9 @@ em_filter_editor_construct (EMFilterEditor *fe,
 	}
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 0);
-	g_signal_connect (combobox, "changed", G_CALLBACK (select_source), fe);
+	g_signal_connect (
+		combobox, "changed",
+		G_CALLBACK (select_source), fe);
 	g_object_set_data_full (G_OBJECT (combobox), "sources", sources, free_sources);
 	gtk_widget_show (combobox);
 

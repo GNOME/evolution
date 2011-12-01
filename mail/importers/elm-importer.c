@@ -225,9 +225,11 @@ elm_import_done (struct _elm_import_msg *m)
 
 	if (m->base.error == NULL) {
 		GConfClient *gconf;
+		const gchar *key;
 
 		gconf = gconf_client_get_default ();
-		gconf_client_set_bool(gconf, "/apps/evolution/importer/elm/mail", TRUE, NULL);
+		key = "/apps/evolution/importer/elm/mail";
+		gconf_client_set_bool (gconf, key, TRUE, NULL);
 		g_object_unref (gconf);
 	}
 
@@ -350,7 +352,9 @@ elm_getwidget (EImport *ei,
 
 	w = gtk_check_button_new_with_label(_("Mail"));
 	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_mail);
-	g_signal_connect (w, "toggled", G_CALLBACK(checkbox_toggle_cb), target);
+	g_signal_connect (
+		w, "toggled",
+		G_CALLBACK (checkbox_toggle_cb), target);
 
 	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 0);
 	gtk_widget_show_all (box);

@@ -94,9 +94,10 @@ e_popup_menu_create_with_domain (EPopupMenu *menu_list,
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 			if (menu_list[i].fn)
-				g_signal_connect (item, "activate",
-						  G_CALLBACK (menu_list[i].fn),
-						  default_closure);
+				g_signal_connect (
+					item, "activate",
+					G_CALLBACK (menu_list[i].fn),
+					default_closure);
 
 			if (menu_list[i].disable_mask & disable_mask)
 				gtk_widget_set_sensitive (item, FALSE);

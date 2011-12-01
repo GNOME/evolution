@@ -32,6 +32,10 @@
 
 #include "e-alert-bar.h"
 
+#define E_PREVIEW_PANE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_PREVIEW_PANE, EPreviewPanePrivate))
+
 struct _EPreviewPanePrivate {
 	GtkWidget *alert_bar;
 	GtkWidget *web_view;
@@ -118,7 +122,7 @@ preview_pane_dispose (GObject *object)
 {
 	EPreviewPanePrivate *priv;
 
-	priv = E_PREVIEW_PANE (object)->priv;
+	priv = E_PREVIEW_PANE_GET_PRIVATE (object);
 
 	if (priv->alert_bar != NULL) {
 		g_object_unref (priv->alert_bar);
@@ -145,7 +149,7 @@ preview_pane_constructed (GObject *object)
 	EPreviewPanePrivate *priv;
 	GtkWidget *widget;
 
-	priv = E_PREVIEW_PANE (object)->priv;
+	priv = E_PREVIEW_PANE_GET_PRIVATE (object);
 
 	widget = e_alert_bar_new ();
 	gtk_box_pack_start (GTK_BOX (object), widget, FALSE, FALSE, 0);
@@ -273,8 +277,7 @@ e_preview_pane_alert_sink_init (EAlertSinkInterface *interface)
 static void
 e_preview_pane_init (EPreviewPane *preview_pane)
 {
-	preview_pane->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		preview_pane, E_TYPE_PREVIEW_PANE, EPreviewPanePrivate);
+	preview_pane->priv = E_PREVIEW_PANE_GET_PRIVATE (preview_pane);
 
 	gtk_box_set_spacing (GTK_BOX (preview_pane), 1);
 }

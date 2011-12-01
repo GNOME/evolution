@@ -613,7 +613,9 @@ e_datetime_format_add_setup_widget (GtkWidget *table,
 	g_object_set_data (G_OBJECT (combo), "format-kind", GINT_TO_POINTER (kind));
 	g_object_set_data_full (G_OBJECT (combo), "format-key", key, g_free);
 	g_object_set_data_full (G_OBJECT (combo), "setup-key-file", setup_keyfile, unref_setup_keyfile);
-	g_signal_connect (combo, "changed", G_CALLBACK (format_combo_changed_cb), NULL);
+	g_signal_connect (
+		combo, "changed",
+		G_CALLBACK (format_combo_changed_cb), NULL);
 
 	update_preview_widget (combo);
 

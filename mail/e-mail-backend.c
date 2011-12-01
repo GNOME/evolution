@@ -61,6 +61,10 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_BACKEND, EMailBackendPrivate))
 
+#define E_MAIL_BACKEND_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_BACKEND, EMailBackendPrivate))
+
 #define QUIT_POLL_INTERVAL 1  /* seconds */
 
 struct _EMailBackendPrivate {
@@ -589,13 +593,16 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 
 	folder_uri = e_mail_folder_uri_build (store, folder_name);
 
-	if (folder_uri) {
+	if (folder_uri != NULL) {
 		CamelFolder *folder = NULL;
 
-		if (mail_folder_cache_get_folder_from_uri (folder_cache, folder_uri, &folder))
-			if (folder && !mail_folder_cache_get_folder_info_flags (folder_cache, folder, &flags))
+		if (mail_folder_cache_get_folder_from_uri (
+				folder_cache, folder_uri, &folder))
+			if (folder != NULL &&
+				!mail_folder_cache_get_folder_info_flags (
+				folder_cache, folder, &flags))
 				g_return_if_reached ();
-		if (folder)
+		if (folder != NULL)
 			g_object_unref (folder);
 	}
 
@@ -612,8 +619,14 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	target->display_name = em_folder_tree_model_get_folder_name (
 		model, store, folder_name);
 
-	if (target->new > 0)
-		e_shell_event (e_shell_backend_get_shell (E_SHELL_BACKEND (mail_backend)), "mail-icon", (gpointer) "mail-unread");
+	if (target->new > 0) {
+		EShell *shell;
+		EShellBackend *shell_backend;
+
+		shell_backend = E_SHELL_BACKEND (mail_backend);
+		shell = e_shell_backend_get_shell (shell_backend);
+		e_shell_event (shell, "mail-icon", (gpointer) "mail-unread");
+	}
 
 	/**
 	 * @Event: folder.changed

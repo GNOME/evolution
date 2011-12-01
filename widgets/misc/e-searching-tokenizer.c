@@ -37,6 +37,10 @@
 
 #define d(x)
 
+#define E_SEARCHING_TOKENIZER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SEARCHING_TOKENIZER, ESearchingTokenizerPrivate))
+
 enum {
 	MATCH_SIGNAL,
 	LAST_SIGNAL
@@ -969,7 +973,7 @@ searching_tokenizer_finalize (GObject *object)
 {
 	ESearchingTokenizerPrivate *priv;
 
-	priv = E_SEARCHING_TOKENIZER (object)->priv;
+	priv = E_SEARCHING_TOKENIZER_GET_PRIVATE (object);
 
 	search_info_free (priv->primary);
 	search_info_free (priv->secondary);
@@ -987,7 +991,7 @@ searching_tokenizer_begin (HTMLTokenizer *tokenizer,
 {
 	ESearchingTokenizerPrivate *priv;
 
-	priv = E_SEARCHING_TOKENIZER (tokenizer)->priv;
+	priv = E_SEARCHING_TOKENIZER_GET_PRIVATE (tokenizer);
 
 	/* reset search */
 	if (priv->engine != NULL) {
@@ -1011,7 +1015,7 @@ searching_tokenizer_peek_token (HTMLTokenizer *tokenizer)
 {
 	ESearchingTokenizerPrivate *priv;
 
-	priv = E_SEARCHING_TOKENIZER (tokenizer)->priv;
+	priv = E_SEARCHING_TOKENIZER_GET_PRIVATE (tokenizer);
 
 	if (priv->engine != NULL)
 		return searcher_peek_token (priv->engine);
@@ -1028,7 +1032,7 @@ searching_tokenizer_next_token (HTMLTokenizer *tokenizer)
 	gint oldmatched;
 	gchar *token;
 
-	priv = E_SEARCHING_TOKENIZER (tokenizer)->priv;
+	priv = E_SEARCHING_TOKENIZER_GET_PRIVATE (tokenizer);
 
 	/* If no search is active, just use the default method. */
 	if (priv->engine == NULL)
@@ -1054,7 +1058,7 @@ searching_tokenizer_has_more (HTMLTokenizer *tokenizer)
 {
 	ESearchingTokenizerPrivate *priv;
 
-	priv = E_SEARCHING_TOKENIZER (tokenizer)->priv;
+	priv = E_SEARCHING_TOKENIZER_GET_PRIVATE (tokenizer);
 
 	return (priv->engine != NULL && searcher_pending (priv->engine)) ||
 		HTML_TOKENIZER_CLASS (e_searching_tokenizer_parent_class)->
@@ -1112,9 +1116,7 @@ e_searching_tokenizer_class_init (ESearchingTokenizerClass *class)
 static void
 e_searching_tokenizer_init (ESearchingTokenizer *tokenizer)
 {
-	tokenizer->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		tokenizer, E_TYPE_SEARCHING_TOKENIZER,
-		ESearchingTokenizerPrivate);
+	tokenizer->priv = E_SEARCHING_TOKENIZER_GET_PRIVATE (tokenizer);
 
 	tokenizer->priv->primary = search_info_new ();
 	search_info_set_flags (

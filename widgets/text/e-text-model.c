@@ -36,6 +36,10 @@
 #include "e-text-model.h"
 #include "e-text-model-repos.h"
 
+#define E_TEXT_MODEL_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TEXT_MODEL, ETextModelPrivate))
+
 enum {
 	E_TEXT_MODEL_CHANGED,
 	E_TEXT_MODEL_REPOSITION,
@@ -44,13 +48,11 @@ enum {
 	E_TEXT_MODEL_LAST_SIGNAL
 };
 
-static guint e_text_model_signals[E_TEXT_MODEL_LAST_SIGNAL] = { 0 };
+static guint signals[E_TEXT_MODEL_LAST_SIGNAL] = { 0 };
 
 struct _ETextModelPrivate {
 	GString *text;
 };
-
-static void	e_text_model_dispose		(GObject *object);
 
 static gint	e_text_model_real_validate_position
 						(ETextModel *, gint pos);
@@ -73,15 +75,30 @@ static void	e_text_model_real_delete	(ETextModel *model,
 
 G_DEFINE_TYPE (ETextModel, e_text_model, G_TYPE_OBJECT)
 
-/* Class initialization function for the text item */
 static void
-e_text_model_class_init (ETextModelClass *klass)
+e_text_model_finalize (GObject *object)
+{
+	ETextModelPrivate *priv;
+
+	priv = E_TEXT_MODEL_GET_PRIVATE (object);
+
+	g_string_free (priv->text, TRUE);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_text_model_parent_class)->finalize (object);
+}
+
+static void
+e_text_model_class_init (ETextModelClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = (GObjectClass *) klass;
+	g_type_class_add_private (class, sizeof (ETextModelPrivate));
 
-	e_text_model_signals[E_TEXT_MODEL_CHANGED] =
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = e_text_model_finalize;
+
+	signals[E_TEXT_MODEL_CHANGED] =
 		g_signal_new ("changed",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -90,7 +107,7 @@ e_text_model_class_init (ETextModelClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	e_text_model_signals[E_TEXT_MODEL_REPOSITION] =
+	signals[E_TEXT_MODEL_REPOSITION] =
 		g_signal_new ("reposition",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -100,7 +117,7 @@ e_text_model_class_init (ETextModelClass *klass)
 			      G_TYPE_NONE, 2,
 			      G_TYPE_POINTER, G_TYPE_POINTER);
 
-	e_text_model_signals[E_TEXT_MODEL_OBJECT_ACTIVATED] =
+	signals[E_TEXT_MODEL_OBJECT_ACTIVATED] =
 		g_signal_new ("object_activated",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -110,7 +127,7 @@ e_text_model_class_init (ETextModelClass *klass)
 			      G_TYPE_NONE, 1,
 			      G_TYPE_INT);
 
-	e_text_model_signals[E_TEXT_MODEL_CANCEL_COMPLETION] =
+	signals[E_TEXT_MODEL_CANCEL_COMPLETION] =
 		g_signal_new ("cancel_completion",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -120,54 +137,30 @@ e_text_model_class_init (ETextModelClass *klass)
 			      G_TYPE_NONE, 0);
 
 	/* No default signal handlers. */
-	klass->changed          = NULL;
-	klass->reposition       = NULL;
-	klass->object_activated = NULL;
+	class->changed          = NULL;
+	class->reposition       = NULL;
+	class->object_activated = NULL;
 
-	klass->validate_pos  = e_text_model_real_validate_position;
+	class->validate_pos  = e_text_model_real_validate_position;
 
-	klass->get_text      = e_text_model_real_get_text;
-	klass->get_text_len  = e_text_model_real_get_text_length;
-	klass->set_text      = e_text_model_real_set_text;
-	klass->insert        = e_text_model_real_insert;
-	klass->insert_length = e_text_model_real_insert_length;
-	klass->delete        = e_text_model_real_delete;
+	class->get_text      = e_text_model_real_get_text;
+	class->get_text_len  = e_text_model_real_get_text_length;
+	class->set_text      = e_text_model_real_set_text;
+	class->insert        = e_text_model_real_insert;
+	class->insert_length = e_text_model_real_insert_length;
+	class->delete        = e_text_model_real_delete;
 
 	/* We explicitly don't define default handlers for these. */
-	klass->objectify        = NULL;
-	klass->obj_count        = NULL;
-	klass->get_nth_obj      = NULL;
-
-	object_class->dispose = e_text_model_dispose;
+	class->objectify        = NULL;
+	class->obj_count        = NULL;
+	class->get_nth_obj      = NULL;
 }
 
-/* Object initialization function for the text item */
 static void
 e_text_model_init (ETextModel *model)
 {
-	model->priv = g_new0 (struct _ETextModelPrivate, 1);
+	model->priv = E_TEXT_MODEL_GET_PRIVATE (model);
 	model->priv->text = g_string_new ("");
-}
-
-/* Dispose handler for the text item */
-static void
-e_text_model_dispose (GObject *object)
-{
-	ETextModel *model;
-
-	g_return_if_fail (E_IS_TEXT_MODEL (object));
-
-	model = E_TEXT_MODEL (object);
-
-	if (model->priv) {
-		g_string_free (model->priv->text, TRUE);
-
-		g_free (model->priv);
-		model->priv = NULL;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_text_model_parent_class)->dispose (object);
 }
 
 static gint
@@ -305,18 +298,21 @@ e_text_model_real_delete (ETextModel *model,
 void
 e_text_model_changed (ETextModel *model)
 {
+	ETextModelClass *class;
+
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
+
+	class = E_TEXT_MODEL_GET_CLASS (model);
 
 	/*
 	  Objectify before emitting any signal.
 	  While this method could, in theory, do pretty much anything, it is meant
 	  for scanning objects and converting substrings into embedded objects.
 	*/
-	if (E_TEXT_MODEL_GET_CLASS (model)->objectify)
-		E_TEXT_MODEL_GET_CLASS (model)->objectify (model);
+	if (class->objectify != NULL)
+		class->objectify (model);
 
-	g_signal_emit (model,
-		       e_text_model_signals[E_TEXT_MODEL_CHANGED], 0);
+	g_signal_emit (model, signals[E_TEXT_MODEL_CHANGED], 0);
 }
 
 void
@@ -324,7 +320,7 @@ e_text_model_cancel_completion (ETextModel *model)
 {
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 
-	g_signal_emit (model, e_text_model_signals[E_TEXT_MODEL_CANCEL_COMPLETION], 0);
+	g_signal_emit (model, signals[E_TEXT_MODEL_CANCEL_COMPLETION], 0);
 }
 
 void
@@ -335,19 +331,22 @@ e_text_model_reposition (ETextModel *model,
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 	g_return_if_fail (fn != NULL);
 
-	g_signal_emit (model,
-		       e_text_model_signals[E_TEXT_MODEL_REPOSITION], 0,
-		       fn, repos_data);
+	g_signal_emit (
+		model, signals[E_TEXT_MODEL_REPOSITION], 0, fn, repos_data);
 }
 
 gint
 e_text_model_validate_position (ETextModel *model,
                                 gint pos)
 {
+	ETextModelClass *class;
+
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), 0);
 
-	if (E_TEXT_MODEL_GET_CLASS (model)->validate_pos)
-		pos = E_TEXT_MODEL_GET_CLASS (model)->validate_pos (model, pos);
+	class = E_TEXT_MODEL_GET_CLASS (model);
+
+	if (class->validate_pos != NULL)
+		pos = class->validate_pos (model, pos);
 
 	return pos;
 }
@@ -355,22 +354,30 @@ e_text_model_validate_position (ETextModel *model,
 const gchar *
 e_text_model_get_text (ETextModel *model)
 {
+	ETextModelClass *class;
+
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), NULL);
 
-	if (E_TEXT_MODEL_GET_CLASS (model)->get_text)
-		return E_TEXT_MODEL_GET_CLASS (model)->get_text (model);
+	class = E_TEXT_MODEL_GET_CLASS (model);
 
-	return "";
+	if (class->get_text == NULL)
+		return "";
+
+	return class->get_text (model);
 }
 
 gint
 e_text_model_get_text_length (ETextModel *model)
 {
+	ETextModelClass *class;
+
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), 0);
 
-	if (E_TEXT_MODEL_GET_CLASS (model)->get_text_len (model)) {
+	class = E_TEXT_MODEL_GET_CLASS (model);
 
-		gint len = E_TEXT_MODEL_GET_CLASS (model)->get_text_len (model);
+	if (class->get_text_len (model)) {
+
+		gint len = class->get_text_len (model);
 
 #ifdef PARANOID_DEBUGGING
 		const gchar *str = e_text_model_get_text (model);
@@ -392,10 +399,14 @@ void
 e_text_model_set_text (ETextModel *model,
                        const gchar *text)
 {
+	ETextModelClass *class;
+
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 
-	if (E_TEXT_MODEL_GET_CLASS (model)->set_text)
-		E_TEXT_MODEL_GET_CLASS (model)->set_text (model, text);
+	class = E_TEXT_MODEL_GET_CLASS (model);
+
+	if (class->set_text != NULL)
+		class->set_text (model, text);
 }
 
 void
@@ -403,13 +414,17 @@ e_text_model_insert (ETextModel *model,
                      gint position,
                      const gchar *text)
 {
+	ETextModelClass *class;
+
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 
 	if (text == NULL)
 		return;
 
-	if (E_TEXT_MODEL_GET_CLASS (model)->insert)
-		E_TEXT_MODEL_GET_CLASS (model)->insert (model, position, text);
+	class = E_TEXT_MODEL_GET_CLASS (model);
+
+	if (class->insert != NULL)
+		class->insert (model, position, text);
 }
 
 void
@@ -418,14 +433,18 @@ e_text_model_insert_length (ETextModel *model,
                             const gchar *text,
                             gint length)
 {
+	ETextModelClass *class;
+
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 	g_return_if_fail (length >= 0);
 
 	if (text == NULL || length == 0)
 		return;
 
-	if (E_TEXT_MODEL_GET_CLASS (model)->insert_length)
-		E_TEXT_MODEL_GET_CLASS (model)->insert_length (model, position, text, length);
+	class = E_TEXT_MODEL_GET_CLASS (model);
+
+	if (class->insert_length != NULL)
+		class->insert_length (model, position, text, length);
 }
 
 void
@@ -457,6 +476,7 @@ e_text_model_delete (ETextModel *model,
                      gint position,
                      gint length)
 {
+	ETextModelClass *class;
 	gint txt_len;
 
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
@@ -469,19 +489,25 @@ e_text_model_delete (ETextModel *model,
 	if (length <= 0)
 		return;
 
-	if (E_TEXT_MODEL_GET_CLASS (model)->delete)
-		E_TEXT_MODEL_GET_CLASS (model)->delete (model, position, length);
+	class = E_TEXT_MODEL_GET_CLASS (model);
+
+	if (class->delete != NULL)
+		class->delete (model, position, length);
 }
 
 gint
 e_text_model_object_count (ETextModel *model)
 {
+	ETextModelClass *class;
+
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), 0);
 
-	if (E_TEXT_MODEL_GET_CLASS (model)->obj_count)
-		return E_TEXT_MODEL_GET_CLASS (model)->obj_count (model);
+	class = E_TEXT_MODEL_GET_CLASS (model);
 
-	return 0;
+	if (class->obj_count == NULL)
+		return 0;
+
+	return class->obj_count (model);
 }
 
 const gchar *
@@ -489,15 +515,19 @@ e_text_model_get_nth_object (ETextModel *model,
                              gint n,
                              gint *len)
 {
+	ETextModelClass *class;
+
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), NULL);
 
 	if (n < 0 || n >= e_text_model_object_count (model))
 		return NULL;
 
-	if (E_TEXT_MODEL_GET_CLASS (model)->get_nth_obj)
-		return E_TEXT_MODEL_GET_CLASS (model)->get_nth_obj (model, n, len);
+	class = E_TEXT_MODEL_GET_CLASS (model);
 
-	return NULL;
+	if (class->get_nth_obj == NULL)
+		return NULL;
+
+	return class->get_nth_obj (model, n, len);
 }
 
 gchar *
@@ -547,15 +577,18 @@ gint
 e_text_model_get_object_at_offset (ETextModel *model,
                                    gint offset)
 {
+	ETextModelClass *class;
+
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), -1);
 
 	if (offset < 0 || offset >= e_text_model_get_text_length (model))
 		return -1;
 
-	/* If an optimized version has been provided, we use it. */
-	if (E_TEXT_MODEL_GET_CLASS (model)->obj_at_offset) {
+	class = E_TEXT_MODEL_GET_CLASS (model);
 
-		return E_TEXT_MODEL_GET_CLASS (model)->obj_at_offset (model, offset);
+	/* If an optimized version has been provided, we use it. */
+	if (class->obj_at_offset != NULL) {
+		return class->obj_at_offset (model, offset);
 
 	} else {
 		/* If not, we fake it.*/
@@ -595,7 +628,7 @@ e_text_model_activate_nth_object (ETextModel *model,
 	g_return_if_fail (n >= 0);
 	g_return_if_fail (n < e_text_model_object_count (model));
 
-	g_signal_emit (model, e_text_model_signals[E_TEXT_MODEL_OBJECT_ACTIVATED], 0, n);
+	g_signal_emit (model, signals[E_TEXT_MODEL_OBJECT_ACTIVATED], 0, n);
 }
 
 ETextModel *

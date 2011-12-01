@@ -1197,13 +1197,15 @@ config_button_down (GtkWidget *widget,
 	if (columns == NULL)
 		return;
 
-	new_shown = g_new (int, config->temp_state->col_count);
-	new_expansions = g_new (double, config->temp_state->col_count);
+	new_shown = g_new (gint, config->temp_state->col_count);
+	new_expansions = g_new (gdouble, config->temp_state->col_count);
 
 	column = columns;
 
-	next_col = config->temp_state->columns[config->temp_state->col_count - 1];
-	next_expansion = config->temp_state->expansions[config->temp_state->col_count - 1];
+	next_col =
+		config->temp_state->columns[config->temp_state->col_count - 1];
+	next_expansion =
+		config->temp_state->expansions[config->temp_state->col_count - 1];
 
 	for (i = config->temp_state->col_count - 1; i > 0; i--) {
 		if (column && (GPOINTER_TO_INT (column->data) == i - 1)) {
@@ -1352,8 +1354,9 @@ setup_gui (ETableConfig *config)
 	g_object_weak_ref (G_OBJECT (config->dialog_toplevel),
 			   dialog_destroyed, config);
 
-	g_signal_connect (config->dialog_toplevel, "response",
-			  G_CALLBACK (dialog_response), config);
+	g_signal_connect (
+		config->dialog_toplevel, "response",
+		G_CALLBACK (dialog_response), config);
 
 	g_object_unref (builder);
 }

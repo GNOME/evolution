@@ -513,7 +513,7 @@ e_shell_backend_is_busy (EShellBackend *shell_backend)
  **/
 void
 e_shell_backend_set_prefer_new_item (EShellBackend *shell_backend,
-				     const gchar *prefer_new_item)
+                                     const gchar *prefer_new_item)
 {
 	g_return_if_fail (shell_backend != NULL);
 	g_return_if_fail (E_IS_SHELL_BACKEND (shell_backend));

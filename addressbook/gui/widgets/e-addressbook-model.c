@@ -31,6 +31,10 @@
 #include <e-util/e-util.h>
 #include "eab-gui-util.h"
 
+#define E_ADDRESSBOOK_MODEL_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModelPrivate))
+
 struct _EAddressbookModelPrivate {
 	EBookClient *book_client;
 	gchar *query_str;
@@ -79,6 +83,8 @@ enum {
 
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (EAddressbookModel, e_addressbook_model, G_TYPE_OBJECT)
 
 static void
 free_data (EAddressbookModel *model)
@@ -546,7 +552,7 @@ addressbook_model_finalize (GObject *object)
 {
 	EAddressbookModelPrivate *priv;
 
-	priv = E_ADDRESSBOOK_MODEL (object)->priv;
+	priv = E_ADDRESSBOOK_MODEL_GET_PRIVATE (object);
 
 	g_ptr_array_free (priv->contacts, TRUE);
 
@@ -555,7 +561,7 @@ addressbook_model_finalize (GObject *object)
 }
 
 static void
-addressbook_model_class_init (EAddressbookModelClass *class)
+e_addressbook_model_class_init (EAddressbookModelClass *class)
 {
 	GObjectClass *object_class;
 
@@ -705,39 +711,11 @@ addressbook_model_class_init (EAddressbookModelClass *class)
 }
 
 static void
-addressbook_model_init (EAddressbookModel *model)
+e_addressbook_model_init (EAddressbookModel *model)
 {
-	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		model, E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModelPrivate);
-
+	model->priv = E_ADDRESSBOOK_MODEL_GET_PRIVATE (model);
 	model->priv->contacts = g_ptr_array_new ();
 	model->priv->first_get_view = TRUE;
-}
-
-GType
-e_addressbook_model_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info =  {
-			sizeof (EAddressbookModelClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) addressbook_model_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAddressbookModel),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) addressbook_model_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EAddressbookModel", &type_info, 0);
-	}
-
-	return type;
 }
 
 EAddressbookModel *

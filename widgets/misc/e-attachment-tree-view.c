@@ -32,6 +32,10 @@
 #include "e-attachment-store.h"
 #include "e-attachment-view.h"
 
+#define E_ATTACHMENT_TREE_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ATTACHMENT_TREE_VIEW, EAttachmentTreeViewPrivate))
+
 struct _EAttachmentTreeViewPrivate {
 	EAttachmentViewPrivate view_priv;
 };
@@ -305,7 +309,7 @@ attachment_tree_view_get_private (EAttachmentView *view)
 {
 	EAttachmentTreeViewPrivate *priv;
 
-	priv = E_ATTACHMENT_TREE_VIEW (view)->priv;
+	priv = E_ATTACHMENT_TREE_VIEW_GET_PRIVATE (view);
 
 	return &priv->view_priv;
 }
@@ -508,9 +512,7 @@ e_attachment_tree_view_init (EAttachmentTreeView *tree_view)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 
-	tree_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		tree_view, E_TYPE_ATTACHMENT_TREE_VIEW,
-		EAttachmentTreeViewPrivate);
+	tree_view->priv = E_ATTACHMENT_TREE_VIEW_GET_PRIVATE (tree_view);
 
 	e_attachment_view_init (E_ATTACHMENT_VIEW (tree_view));
 

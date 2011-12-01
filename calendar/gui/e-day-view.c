@@ -1045,27 +1045,37 @@ e_day_view_init (EDayView *day_view)
 			  1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
 	gtk_widget_show_all (w);
 
-	g_signal_connect_after (day_view->top_canvas, "button_press_event",
-				G_CALLBACK (e_day_view_on_top_canvas_button_press), day_view);
-	g_signal_connect (day_view->top_canvas, "button_release_event",
-			  G_CALLBACK (e_day_view_on_top_canvas_button_release), day_view);
-	g_signal_connect (day_view->top_canvas, "scroll_event",
-			  G_CALLBACK (e_day_view_on_top_canvas_scroll), day_view);
-	g_signal_connect (day_view->top_canvas, "motion_notify_event",
-			  G_CALLBACK (e_day_view_on_top_canvas_motion), day_view);
-	g_signal_connect (day_view->top_canvas, "drag_motion",
-			  G_CALLBACK (e_day_view_on_top_canvas_drag_motion), day_view);
-	g_signal_connect (day_view->top_canvas, "drag_leave",
-			  G_CALLBACK (e_day_view_on_top_canvas_drag_leave), day_view);
+	g_signal_connect_after (
+		day_view->top_canvas, "button_press_event",
+		G_CALLBACK (e_day_view_on_top_canvas_button_press), day_view);
+	g_signal_connect (
+		day_view->top_canvas, "button_release_event",
+		G_CALLBACK (e_day_view_on_top_canvas_button_release), day_view);
+	g_signal_connect (
+		day_view->top_canvas, "scroll_event",
+		G_CALLBACK (e_day_view_on_top_canvas_scroll), day_view);
+	g_signal_connect (
+		day_view->top_canvas, "motion_notify_event",
+		G_CALLBACK (e_day_view_on_top_canvas_motion), day_view);
+	g_signal_connect (
+		day_view->top_canvas, "drag_motion",
+		G_CALLBACK (e_day_view_on_top_canvas_drag_motion), day_view);
+	g_signal_connect (
+		day_view->top_canvas, "drag_leave",
+		G_CALLBACK (e_day_view_on_top_canvas_drag_leave), day_view);
 
-	g_signal_connect (day_view->top_canvas, "drag_begin",
-			  G_CALLBACK (e_day_view_on_drag_begin), day_view);
-	g_signal_connect (day_view->top_canvas, "drag_end",
-			  G_CALLBACK (e_day_view_on_drag_end), day_view);
-	g_signal_connect (day_view->top_canvas, "drag_data_get",
-			  G_CALLBACK (e_day_view_on_drag_data_get), day_view);
-	g_signal_connect (day_view->top_canvas, "drag_data_received",
-			  G_CALLBACK (e_day_view_on_top_canvas_drag_data_received), day_view);
+	g_signal_connect (
+		day_view->top_canvas, "drag_begin",
+		G_CALLBACK (e_day_view_on_drag_begin), day_view);
+	g_signal_connect (
+		day_view->top_canvas, "drag_end",
+		G_CALLBACK (e_day_view_on_drag_end), day_view);
+	g_signal_connect (
+		day_view->top_canvas, "drag_data_get",
+		G_CALLBACK (e_day_view_on_drag_data_get), day_view);
+	g_signal_connect (
+		day_view->top_canvas, "drag_data_received",
+		G_CALLBACK (e_day_view_on_top_canvas_drag_data_received), day_view);
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_dates_canvas)->root);
 
@@ -1113,42 +1123,42 @@ e_day_view_init (EDayView *day_view)
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (day_view->main_canvas);
-	g_signal_connect (day_view->main_canvas, "realize",
-			  G_CALLBACK (e_day_view_on_canvas_realized), day_view);
+	g_signal_connect (
+		day_view->main_canvas, "realize",
+		G_CALLBACK (e_day_view_on_canvas_realized), day_view);
 
-	g_signal_connect (day_view->main_canvas,
-			  "button_press_event",
-			  G_CALLBACK (e_day_view_on_main_canvas_button_press),
-			  day_view);
-	g_signal_connect (day_view->main_canvas,
-			  "button_release_event",
-			  G_CALLBACK (e_day_view_on_main_canvas_button_release),
-			  day_view);
-	g_signal_connect (day_view->main_canvas,
-			  "scroll_event",
-			  G_CALLBACK (e_day_view_on_main_canvas_scroll),
-			  day_view);
-	g_signal_connect (day_view->main_canvas,
-			  "motion_notify_event",
-			  G_CALLBACK (e_day_view_on_main_canvas_motion),
-			  day_view);
-	g_signal_connect (day_view->main_canvas,
-			  "drag_motion",
-			  G_CALLBACK (e_day_view_on_main_canvas_drag_motion),
-			  day_view);
-	g_signal_connect (day_view->main_canvas,
-			  "drag_leave",
-			  G_CALLBACK (e_day_view_on_main_canvas_drag_leave),
-			  day_view);
+	g_signal_connect (
+		day_view->main_canvas, "button_press_event",
+		G_CALLBACK (e_day_view_on_main_canvas_button_press), day_view);
+	g_signal_connect (
+		day_view->main_canvas, "button_release_event",
+		G_CALLBACK (e_day_view_on_main_canvas_button_release),
+		day_view);
+	g_signal_connect (
+		day_view->main_canvas, "scroll_event",
+		G_CALLBACK (e_day_view_on_main_canvas_scroll), day_view);
+	g_signal_connect (
+		day_view->main_canvas, "motion_notify_event",
+		G_CALLBACK (e_day_view_on_main_canvas_motion), day_view);
+	g_signal_connect (
+		day_view->main_canvas, "drag_motion",
+		G_CALLBACK (e_day_view_on_main_canvas_drag_motion), day_view);
+	g_signal_connect (
+		day_view->main_canvas, "drag_leave",
+		G_CALLBACK (e_day_view_on_main_canvas_drag_leave), day_view);
 
-	g_signal_connect (day_view->main_canvas, "drag_begin",
-			  G_CALLBACK (e_day_view_on_drag_begin), day_view);
-	g_signal_connect (day_view->main_canvas, "drag_end",
-			  G_CALLBACK (e_day_view_on_drag_end), day_view);
-	g_signal_connect (day_view->main_canvas, "drag_data_get",
-			  G_CALLBACK (e_day_view_on_drag_data_get), day_view);
-	g_signal_connect (day_view->main_canvas, "drag_data_received",
-			  G_CALLBACK (e_day_view_on_main_canvas_drag_data_received), day_view);
+	g_signal_connect (
+		day_view->main_canvas, "drag_begin",
+		G_CALLBACK (e_day_view_on_drag_begin), day_view);
+	g_signal_connect (
+		day_view->main_canvas, "drag_end",
+		G_CALLBACK (e_day_view_on_drag_end), day_view);
+	g_signal_connect (
+		day_view->main_canvas, "drag_data_get",
+		G_CALLBACK (e_day_view_on_drag_data_get), day_view);
+	g_signal_connect (
+		day_view->main_canvas, "drag_data_received",
+		G_CALLBACK (e_day_view_on_main_canvas_drag_data_received), day_view);
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root);
 
@@ -1195,8 +1205,9 @@ e_day_view_init (EDayView *day_view)
 			  0, 1, 1, 2,
 			  GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (day_view->time_canvas);
-	g_signal_connect_after (day_view->time_canvas, "scroll_event",
-				G_CALLBACK (e_day_view_on_time_canvas_scroll), day_view);
+	g_signal_connect_after (
+		day_view->time_canvas, "scroll_event",
+		G_CALLBACK (e_day_view_on_time_canvas_scroll), day_view);
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->time_canvas)->root);
 
@@ -4806,8 +4817,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 					       NULL);
 		g_object_set_data (G_OBJECT (event->canvas_item), "event-num", GINT_TO_POINTER (event_num));
 		g_object_set_data (G_OBJECT (event->canvas_item), "event-day", GINT_TO_POINTER (E_DAY_VIEW_LONG_EVENT));
-		g_signal_connect (event->canvas_item, "event",
-				  G_CALLBACK (e_day_view_on_text_item_event), day_view);
+		g_signal_connect (
+			event->canvas_item, "event",
+			G_CALLBACK (e_day_view_on_text_item_event), day_view);
 		g_signal_emit_by_name (G_OBJECT (day_view),
 				       "event_added", event);
 
@@ -4992,8 +5004,9 @@ e_day_view_reshape_day_event (EDayView *day_view,
 						       NULL);
 			g_object_set_data (G_OBJECT (event->canvas_item), "event-num", GINT_TO_POINTER (event_num));
 			g_object_set_data (G_OBJECT (event->canvas_item), "event-day", GINT_TO_POINTER (day));
-			g_signal_connect (event->canvas_item, "event",
-					  G_CALLBACK (e_day_view_on_text_item_event), day_view);
+			g_signal_connect (
+				event->canvas_item, "event",
+				G_CALLBACK (e_day_view_on_text_item_event), day_view);
 			g_signal_emit_by_name (G_OBJECT (day_view),
 					       "event_added", event);
 

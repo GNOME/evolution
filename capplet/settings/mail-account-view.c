@@ -103,11 +103,11 @@ mail_account_view_finalize (GObject *object)
 }
 
 static void
-mail_account_view_class_init (MailAccountViewClass *klass)
+mail_account_view_class_init (MailAccountViewClass *class)
 {
-	GObjectClass * object_class = G_OBJECT_CLASS (klass);
+	GObjectClass * object_class = G_OBJECT_CLASS (class);
 
-	mail_account_view_parent_class = g_type_class_peek_parent (klass);
+	mail_account_view_parent_class = g_type_class_peek_parent (class);
 	object_class->finalize = mail_account_view_finalize;
 
 	signals[VIEW_CLOSE] =
@@ -481,9 +481,8 @@ create_review (MailAccountView *view)
 	gchar *user = NULL;
 	CamelNetworkSecurityMethod method;
 	EMConfigTargetSettings *target;
-		
 
-	target = (EMConfigTargetSettings *) ((EConfig *)view->edit->config)->target;
+	target = (EMConfigTargetSettings *) ((EConfig *) view->edit->config)->target;
 	g_object_get (view->edit, "store-settings", &source_settings, NULL);
 	g_object_get (view->edit, "transport-settings", &transport_settings, NULL);
 
@@ -596,7 +595,7 @@ create_review (MailAccountView *view)
 		"host", &host, "user", &user,
 		"security-method", &method, NULL);
 	protocol = target->transport_protocol;
-	
+
 	switch (method) {
 		case CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT:
 			encryption = _("Always (SSL)");
@@ -608,7 +607,7 @@ create_review (MailAccountView *view)
 			encryption = _("Never");
 			break;
 	}
-	
+
 	label = gtk_label_new (NULL);
 	buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Sending"));
 	gtk_label_set_markup ((GtkLabel *) label, buff);
@@ -689,7 +688,7 @@ struct _page_text {
 static gboolean
 mav_check_same_source_transport (MailAccountView *mav)
 {
-	EAccount *account = em_account_editor_get_modified_account(mav->edit);
+	EAccount *account = em_account_editor_get_modified_account (mav->edit);
 	const gchar *uri;
 	gchar *current = NULL;
 	gboolean ret = FALSE;
@@ -700,8 +699,8 @@ mav_check_same_source_transport (MailAccountView *mav)
 		gint len;
 
 		if (colon) {
-			len = colon-uri;
-			current = g_alloca (len+1);
+			len = colon - uri;
+			current = g_alloca (len + 1);
 			memcpy (current, uri, len);
 			current[len] = 0;
 		}
@@ -709,9 +708,9 @@ mav_check_same_source_transport (MailAccountView *mav)
 
 	if (current) {
 		GList *l;
-		for (l=mav->priv->providers; l; l=l->next) {
+		for (l = mav->priv->providers; l; l = l->next) {
 			CamelProvider *provider = l->data;
-			
+
 			if (strcmp (provider->protocol, current) == 0 &&
 				CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
 				ret = TRUE;
@@ -794,7 +793,7 @@ mav_next_pressed (GtkButton *button,
 	if (mav->current_page == MAV_RECV_OPT_PAGE && mav->original == NULL)
 		mav->current_page++; /* Skip recv options in new account creation. */
 	if (mav->current_page == MAV_SEND_PAGE && mav_check_same_source_transport (mav)) {
-		mav->current_page++; /* Skip send page if the provider does both source and transport*/
+		mav->current_page++; /* Skip send page if the provider does both source and transport */
 	}
 	if (mav->current_page == MAV_DEFAULTS_PAGE && mav->original == NULL)
 		mav->current_page++; /* Skip defaults in new account creation. */
@@ -805,10 +804,10 @@ mav_next_pressed (GtkButton *button,
 		EAccount *account = em_account_editor_get_modified_account (mav->edit);
 		CamelNetworkSettings *settings = NULL;
 		const gchar *host = NULL;
-		
+
 		g_object_get (mav->edit, "store-settings", &settings, NULL);
 		host = camel_network_settings_get_host (settings);
-		
+
 		if (page->main)
 			gtk_widget_destroy (page->main);
 
@@ -958,8 +957,8 @@ mav_prev_pressed (GtkButton *button,
 	if (mav->current_page == MAV_DEFAULTS_PAGE && mav->original == NULL)
 		mav->current_page--; /* Skip defaults in new account creation. */
 	if (mav->current_page == MAV_SEND_PAGE && mav_check_same_source_transport (mav)) {
-		mav->current_page--; /* Skip send page if the provider does both source and transport*/
-	}	
+		mav->current_page--; /* Skip send page if the provider does both source and transport */
+	}
 	if (mav->current_page == MAV_RECV_OPT_PAGE && mav->original == NULL)
 		mav->current_page--; /* Skip recv options in new account creation. */
 	gtk_widget_show (mav->pages[mav->current_page]->box);
@@ -1032,7 +1031,9 @@ mav_construct_page (MailAccountView *view,
 		page->prev = gtk_button_new ();
 		gtk_container_add ((GtkContainer *) page->prev, box);
 		gtk_widget_show_all (page->prev);
-		g_signal_connect (page->prev, "clicked", G_CALLBACK(mav_prev_pressed), view);
+		g_signal_connect (
+			page->prev, "clicked",
+			G_CALLBACK (mav_prev_pressed), view);
 	}
 
 	if ((view->original && mail_account_pages[type].next_edit) || mail_account_pages[type].next) {
@@ -1047,7 +1048,9 @@ mav_construct_page (MailAccountView *view,
 		gtk_widget_set_can_default (page->next, TRUE);
 		gtk_container_add ((GtkContainer *) page->next, box);
 		gtk_widget_show_all (page->next);
-		g_signal_connect (page->next, "clicked", G_CALLBACK(mav_next_pressed), view);
+		g_signal_connect (
+			page->next, "clicked",
+			G_CALLBACK (mav_next_pressed), view);
 	}
 
 	box = gtk_hbox_new (FALSE, 0);
@@ -1117,7 +1120,9 @@ mail_account_view_construct (MailAccountView *view,
 			pwd = gtk_entry_new ();
 			gtk_entry_set_visibility ((GtkEntry *) pwd, FALSE);
 /*			gtk_entry_set_activates_default ((GtkEntry *)pwd, TRUE); */
-			g_signal_connect (pwd, "activate", G_CALLBACK (next_page), view);
+			g_signal_connect (
+				pwd, "activate",
+				G_CALLBACK (next_page), view);
 			gtk_widget_show (label);
 			gtk_widget_show (pwd);
 			gtk_table_attach ((GtkTable *) table, label, 0, 1, 2, 3, GTK_FILL, 0, 0, 0);
@@ -1166,7 +1171,9 @@ mail_account_view_get_tab_widget (MailAccountView *mcv)
 	gtk_button_set_relief ((GtkButton *) tool, GTK_RELIEF_NONE);
 	gtk_button_set_focus_on_click ((GtkButton *) tool, FALSE);
 	gtk_widget_set_tooltip_text (tool, _("Close Tab"));
-	g_signal_connect (tool, "clicked", G_CALLBACK(mav_close), mcv);
+	g_signal_connect (
+		tool, "clicked",
+		G_CALLBACK (mav_close), mcv);
 
 	box = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start ((GtkBox *) box, img, FALSE, FALSE, 0);

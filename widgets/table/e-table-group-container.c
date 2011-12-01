@@ -481,20 +481,27 @@ create_child_node (ETableGroupContainer *etgc,
 			      "minimum_width", etgc->minimum_width - GROUP_INDENT,
 			      NULL);
 
-	g_signal_connect (child, "cursor_change",
-			  G_CALLBACK (child_cursor_change), etgc);
-	g_signal_connect (child, "cursor_activated",
-			  G_CALLBACK (child_cursor_activated), etgc);
-	g_signal_connect (child, "double_click",
-			  G_CALLBACK (child_double_click), etgc);
-	g_signal_connect (child, "right_click",
-			  G_CALLBACK (child_right_click), etgc);
-	g_signal_connect (child, "click",
-			  G_CALLBACK (child_click), etgc);
-	g_signal_connect (child, "key_press",
-			  G_CALLBACK (child_key_press), etgc);
-	g_signal_connect (child, "start_drag",
-			  G_CALLBACK (child_start_drag), etgc);
+	g_signal_connect (
+		child, "cursor_change",
+		G_CALLBACK (child_cursor_change), etgc);
+	g_signal_connect (
+		child, "cursor_activated",
+		G_CALLBACK (child_cursor_activated), etgc);
+	g_signal_connect (
+		child, "double_click",
+		G_CALLBACK (child_double_click), etgc);
+	g_signal_connect (
+		child, "right_click",
+		G_CALLBACK (child_right_click), etgc);
+	g_signal_connect (
+		child, "click",
+		G_CALLBACK (child_click), etgc);
+	g_signal_connect (
+		child, "key_press",
+		G_CALLBACK (child_key_press), etgc);
+	g_signal_connect (
+		child, "start_drag",
+		G_CALLBACK (child_start_drag), etgc);
 	child_node->child = child;
 	child_node->key = e_table_model_duplicate_value (etg->model, etgc->ecol->col_idx, val);
 	child_node->string = e_table_model_value_to_string (etg->model, etgc->ecol->col_idx, val);
@@ -1560,29 +1567,30 @@ etgc_get_printable (ETableGroup *etg)
 	groupcontext->child = etgc->children;
 	groupcontext->child_printable = NULL;
 
-	g_signal_connect (printable,
-			  "print_page",
-			  G_CALLBACK (e_table_group_container_print_page),
-			  groupcontext);
-	g_signal_connect (printable,
-			  "data_left",
-			  G_CALLBACK (e_table_group_container_data_left),
-			  groupcontext);
-	g_signal_connect (printable,
-			  "reset",
-			  G_CALLBACK (e_table_group_container_reset),
-			  groupcontext);
-	g_signal_connect (printable,
-			  "height",
-			  G_CALLBACK (e_table_group_container_height),
-			  groupcontext);
-	g_signal_connect (printable,
-			  "will_fit",
-			  G_CALLBACK (e_table_group_container_will_fit),
-			  groupcontext);
-	g_object_weak_ref (G_OBJECT (printable),
-			   e_table_group_container_printable_destroy,
-			   groupcontext);
+	g_signal_connect (
+		printable, "print_page",
+		G_CALLBACK (e_table_group_container_print_page),
+		groupcontext);
+	g_signal_connect (
+		printable, "data_left",
+		G_CALLBACK (e_table_group_container_data_left),
+		groupcontext);
+	g_signal_connect (
+		printable, "reset",
+		G_CALLBACK (e_table_group_container_reset),
+		groupcontext);
+	g_signal_connect (
+		printable, "height",
+		G_CALLBACK (e_table_group_container_height),
+		groupcontext);
+	g_signal_connect (
+		printable, "will_fit",
+		G_CALLBACK (e_table_group_container_will_fit),
+		groupcontext);
+	g_object_weak_ref (
+		G_OBJECT (printable),
+		e_table_group_container_printable_destroy,
+		groupcontext);
 
 	return printable;
 }

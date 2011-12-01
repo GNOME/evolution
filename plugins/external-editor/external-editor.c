@@ -270,8 +270,9 @@ async_external_editor (EMsgComposer *composer)
 		content = gtkhtml_editor_get_text_plain (GTKHTML_EDITOR (composer), &length);
 		g_file_set_contents (filename, content, length, NULL);
 	} else {
-		struct run_error_dialog_data *data = g_new0 (struct run_error_dialog_data, 1);
+		struct run_error_dialog_data *data;
 
+		data = g_new0 (struct run_error_dialog_data, 1);
 		data->composer = composer;
 		data->text = "org.gnome.evolution.plugins.external-editor:no-temp-file";
 
@@ -324,10 +325,11 @@ async_external_editor (EMsgComposer *composer)
 	editor_cmd_line = g_strconcat (editor_cmd, " ", filename, NULL);
 
 	if (!g_spawn_command_line_sync (editor_cmd_line, NULL, NULL, &status, NULL)) {
-		struct run_error_dialog_data *data = g_new0 (struct run_error_dialog_data, 1);
+		struct run_error_dialog_data *data;
 
 		g_warning ("Unable to launch %s: ", editor_cmd_line);
 
+		data = g_new0 (struct run_error_dialog_data, 1);
 		data->composer = composer;
 		data->text = "org.gnome.evolution.plugins.external-editor:editor-not-launchable";
 

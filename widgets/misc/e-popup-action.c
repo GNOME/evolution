@@ -27,6 +27,10 @@
 
 #include <glib/gi18n.h>
 
+#define E_POPUP_ACTION_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_POPUP_ACTION, EPopupActionPrivate))
+
 enum {
 	PROP_0,
 	PROP_RELATED_ACTION,
@@ -197,7 +201,7 @@ popup_action_dispose (GObject *object)
 {
 	EPopupActionPrivate *priv;
 
-	priv = E_POPUP_ACTION (object)->priv;
+	priv = E_POPUP_ACTION_GET_PRIVATE (object);
 
 	if (priv->related_action != NULL) {
 		g_signal_handler_disconnect (
@@ -334,8 +338,7 @@ e_popup_action_class_init (EPopupActionClass *class)
 static void
 e_popup_action_init (EPopupAction *popup_action)
 {
-	popup_action->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		popup_action, E_TYPE_POPUP_ACTION, EPopupActionPrivate);
+	popup_action->priv = E_POPUP_ACTION_GET_PRIVATE (popup_action);
 	popup_action->priv->use_action_appearance = TRUE;
 
 	/* Remain invisible until we have a related action. */

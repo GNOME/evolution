@@ -108,7 +108,9 @@ ca_trust_dialog_show (ECert *cert,
 	gtk_label_set_text ((GtkLabel *) w, txt);
 	g_free (txt);
 
-	g_signal_connect (ctd_data->dialog, "response", G_CALLBACK (catd_response), ctd_data);
+	g_signal_connect (
+		ctd_data->dialog, "response",
+		G_CALLBACK (catd_response), ctd_data);
 
 	g_object_set_data_full (G_OBJECT (ctd_data->dialog), "CATrustDialogData", ctd_data, free_data);
 

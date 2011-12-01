@@ -335,8 +335,10 @@ task_editor_init (TaskEditor *te)
 		GTK_DIALOG (te->priv->task_details_window));
 	gtk_container_add (
 		GTK_CONTAINER (content_area),
-		comp_editor_page_get_widget ((CompEditorPage *) te->priv->task_details_page));
-	gtk_widget_show_all (gtk_bin_get_child (GTK_BIN (te->priv->task_details_window)));
+		comp_editor_page_get_widget (
+		(CompEditorPage *) te->priv->task_details_page));
+	gtk_widget_show_all (
+		gtk_bin_get_child (GTK_BIN (te->priv->task_details_window)));
 	comp_editor_append_page (
 		editor, COMP_EDITOR_PAGE (te->priv->task_details_page), NULL, FALSE);
 
@@ -430,13 +432,15 @@ task_editor_edit_comp (CompEditor *editor,
 			ia = e_meeting_store_find_self (priv->model, &row);
 
 			if (ia != NULL)
-				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
+				e_meeting_attendee_set_edit_level (
+					ia, E_MEETING_ATTENDEE_EDIT_STATUS);
 		} else if (e_cal_client_check_organizer_must_attend (client)) {
 			EMeetingAttendee *ia;
 
 			ia = e_meeting_store_find_attendee (priv->model, organizer.value, &row);
 			if (ia != NULL)
-				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
+				e_meeting_attendee_set_edit_level (
+					ia, E_MEETING_ATTENDEE_EDIT_NONE);
 		}
 
 		comp_editor_set_group_item (editor, TRUE);

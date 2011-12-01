@@ -1454,31 +1454,40 @@ static void
 emu_update_composers_security (EMsgComposer *composer,
                                guint32 validity_found)
 {
-	GtkToggleAction *action;
 	EShell *shell;
 	EShellSettings *shell_settings;
+	GtkAction *action;
+	gboolean sign_by_default;
 
 	g_return_if_fail (composer != NULL);
 
 	shell = e_msg_composer_get_shell (composer);
 	shell_settings = e_shell_get_shell_settings (shell);
 
+	sign_by_default =
+		(validity_found & EM_FORMAT_VALIDITY_FOUND_SIGNED) != 0 &&
+		e_shell_settings_get_boolean (
+		shell_settings, "composer-sign-reply-if-signed");
+
 	/* Pre-set only for encrypted messages, not for signed */
-	if ((validity_found & EM_FORMAT_VALIDITY_FOUND_SIGNED) != 0
-	    && e_shell_settings_get_boolean (shell_settings, "composer-sign-reply-if-signed")) {
+	if (sign_by_default) {
 		if (validity_found & EM_FORMAT_VALIDITY_FOUND_SMIME)
-			action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer));
+			action = E_COMPOSER_ACTION_SMIME_SIGN (composer);
 		else
-			action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer));
-		gtk_toggle_action_set_active (action, TRUE);
+			action = E_COMPOSER_ACTION_PGP_SIGN (composer);
+
+		gtk_toggle_action_set_active (
+			GTK_TOGGLE_ACTION (action), TRUE);
 	}
 
 	if (validity_found & EM_FORMAT_VALIDITY_FOUND_ENCRYPTED) {
 		if (validity_found & EM_FORMAT_VALIDITY_FOUND_SMIME)
-			action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer));
+			action = E_COMPOSER_ACTION_SMIME_ENCRYPT (composer);
 		else
-			action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_ENCRYPT (composer));
-		gtk_toggle_action_set_active (action, TRUE);
+			action = E_COMPOSER_ACTION_PGP_ENCRYPT (composer);
+
+		gtk_toggle_action_set_active (
+			GTK_TOGGLE_ACTION (action), TRUE);
 	}
 }
 
@@ -1775,7 +1784,8 @@ forward_got_messages_cb (CamelFolder *folder,
  * @folder: folder containing messages to forward
  * @uids: uids of messages to forward
  * @style: the forward style to use
- * @destroy_when_done: a #GtkWidget to destroy with gtk_widget_destroy() when done; can be NULL
+ * @destroy_when_done: a #GtkWidget to destroy with gtk_widget_destroy()
+ * when done; can be NULL
  *
  * Forwards a group of messages in the given style.
  *
@@ -2130,7 +2140,8 @@ get_reply_to (CamelMimeMessage *message)
 		gboolean ignore_list_reply_to;
 
 		settings = g_settings_new ("org.gnome.evolution.mail");
-		ignore_list_reply_to = g_settings_get_boolean (settings, "composer-ignore-list-reply-to");
+		ignore_list_reply_to = g_settings_get_boolean (
+			settings, "composer-ignore-list-reply-to");
 		g_object_unref (settings);
 
 		if (ignore_list_reply_to && em_utils_is_munged_list_message (message))

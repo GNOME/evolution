@@ -25,6 +25,10 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ALERT_BAR, EAlertBarPrivate))
 
+#define E_ALERT_BAR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ALERT_BAR, EAlertBarPrivate))
+
 /* GTK_ICON_SIZE_DIALOG is a tad too big. */
 #define ICON_SIZE GTK_ICON_SIZE_DND
 

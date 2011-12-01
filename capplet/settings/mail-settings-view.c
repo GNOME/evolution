@@ -69,11 +69,11 @@ mail_settings_view_finalize (GObject *object)
 }
 
 static void
-mail_settings_view_class_init (MailSettingsViewClass *klass)
+mail_settings_view_class_init (MailSettingsViewClass *class)
 {
-	GObjectClass * object_class = G_OBJECT_CLASS (klass);
+	GObjectClass * object_class = G_OBJECT_CLASS (class);
 
-	mail_settings_view_parent_class = g_type_class_peek_parent (klass);
+	mail_settings_view_parent_class = g_type_class_peek_parent (class);
 	object_class->finalize = mail_settings_view_finalize;
 
 	signals[VIEW_CLOSE] =
@@ -160,7 +160,9 @@ build_account_button (MailSettingsView *acview,
 	gtk_widget_show (tbox);
 	gtk_container_add ((GtkContainer *) label, tbox);
 	g_object_set_data ((GObject *)label, "account", account);
-	g_signal_connect (label, "clicked", G_CALLBACK(msv_edit_account), acview);
+	g_signal_connect (
+		label, "clicked",
+		G_CALLBACK (msv_edit_account), acview);
 	gtk_box_pack_start ((GtkBox *) box1, label, FALSE, FALSE, 0);
 	gtk_widget_show (label);
 
@@ -169,7 +171,9 @@ build_account_button (MailSettingsView *acview,
 		gtk_box_pack_start ((GtkBox *) box1, tlabel, FALSE, FALSE, 12);
 		gtk_widget_show (tlabel);
 		g_object_set_data ((GObject *)tlabel, "account", account);
-		g_signal_connect (tlabel, "clicked", G_CALLBACK(msv_delete_account), acview);
+		g_signal_connect (
+			tlabel, "clicked",
+			G_CALLBACK (msv_delete_account), acview);
 	}
 
 	PACK_BOX (box1,24);
@@ -214,7 +218,9 @@ mail_settings_view_construct (MailSettingsView *acview)
 	gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *) acview->priv->scroll, acview->priv->box);
 
 	acview->priv->accounts = e_get_account_list ();
-	g_signal_connect (acview->priv->accounts, "account-added", G_CALLBACK(msv_account_added), acview);
+	g_signal_connect (
+		acview->priv->accounts, "account-added",
+		G_CALLBACK (msv_account_added), acview);
 	msv_regen_view (acview);
 	gtk_widget_show ((GtkWidget *) acview);
 
@@ -254,7 +260,9 @@ mail_settings_view_get_tab_widget (MailSettingsView *mcv)
 	gtk_button_set_relief ((GtkButton *) tool, GTK_RELIEF_NONE);
 	gtk_button_set_focus_on_click ((GtkButton *) tool, FALSE);
 	gtk_widget_set_tooltip_text (tool, _("Close Tab"));
-	g_signal_connect (tool, "clicked", G_CALLBACK(msv_close), mcv);
+	g_signal_connect (
+		tool, "clicked",
+		G_CALLBACK (msv_close), mcv);
 
 	box = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start ((GtkBox *) box, img, FALSE, FALSE, 0);

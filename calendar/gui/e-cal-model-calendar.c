@@ -35,11 +35,6 @@
 #include "dialogs/recur-comp.h"
 #include "dialogs/send-comp.h"
 
-struct _ECalModelCalendarPrivate {
-	guint reserved;
-};
-
-static void e_cal_model_calendar_finalize (GObject *object);
 static gint ecmc_column_count (ETableModel *etm);
 static gpointer ecmc_value_at (ETableModel *etm, gint col, gint row);
 static void ecmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value);
@@ -56,13 +51,10 @@ static void ecmc_fill_component_from_model (ECalModel *model, ECalModelComponent
 G_DEFINE_TYPE (ECalModelCalendar, e_cal_model_calendar, E_TYPE_CAL_MODEL)
 
 static void
-e_cal_model_calendar_class_init (ECalModelCalendarClass *klass)
+e_cal_model_calendar_class_init (ECalModelCalendarClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	ETableModelClass *etm_class = E_TABLE_MODEL_CLASS (klass);
-	ECalModelClass *model_class = E_CAL_MODEL_CLASS (klass);
-
-	object_class->finalize = e_cal_model_calendar_finalize;
+	ETableModelClass *etm_class = E_TABLE_MODEL_CLASS (class);
+	ECalModelClass *model_class = E_CAL_MODEL_CLASS (class);
 
 	etm_class->column_count = ecmc_column_count;
 	etm_class->value_at = ecmc_value_at;
@@ -80,30 +72,7 @@ e_cal_model_calendar_class_init (ECalModelCalendarClass *klass)
 static void
 e_cal_model_calendar_init (ECalModelCalendar *model)
 {
-	ECalModelCalendarPrivate *priv;
-
-	priv = g_new0 (ECalModelCalendarPrivate, 1);
-	model->priv = priv;
-
 	e_cal_model_set_component_kind (E_CAL_MODEL (model), ICAL_VEVENT_COMPONENT);
-}
-
-static void
-e_cal_model_calendar_finalize (GObject *object)
-{
-	ECalModelCalendarPrivate *priv;
-	ECalModelCalendar *model = (ECalModelCalendar *) object;
-
-	g_return_if_fail (E_IS_CAL_MODEL_CALENDAR (model));
-
-	priv = model->priv;
-	if (priv) {
-		g_free (priv);
-		model->priv = NULL;
-	}
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_cal_model_calendar_parent_class)->finalize (object);
 }
 
 /* ETableModel methods */

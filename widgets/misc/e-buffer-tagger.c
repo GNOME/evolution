@@ -565,17 +565,33 @@ e_buffer_tagger_connect (GtkTextView *textview)
 
 	set_state (buffer, E_BUFFER_TAGGER_STATE_NONE);
 
-	g_signal_connect (buffer, "insert-text", G_CALLBACK (buffer_insert_text), NULL);
-	g_signal_connect (buffer, "delete-range", G_CALLBACK (buffer_delete_range), NULL);
-	g_signal_connect (buffer, "notify::cursor-position", G_CALLBACK (buffer_cursor_position), NULL);
+	g_signal_connect (
+		buffer, "insert-text",
+		G_CALLBACK (buffer_insert_text), NULL);
+	g_signal_connect (
+		buffer, "delete-range",
+		G_CALLBACK (buffer_delete_range), NULL);
+	g_signal_connect (
+		buffer, "notify::cursor-position",
+		G_CALLBACK (buffer_cursor_position), NULL);
 
 	gtk_widget_set_has_tooltip (GTK_WIDGET (textview), TRUE);
 
-	g_signal_connect (textview, "query-tooltip", G_CALLBACK (textview_query_tooltip), NULL);
-	g_signal_connect (textview, "key-press-event", G_CALLBACK (textview_key_press_event), NULL);
-	g_signal_connect (textview, "event-after", G_CALLBACK (textview_event_after), NULL);
-	g_signal_connect (textview, "motion-notify-event", G_CALLBACK (textview_motion_notify_event), NULL);
-	g_signal_connect (textview, "visibility-notify-event", G_CALLBACK (textview_visibility_notify_event), NULL);
+	g_signal_connect (
+		textview, "query-tooltip",
+		G_CALLBACK (textview_query_tooltip), NULL);
+	g_signal_connect (
+		textview, "key-press-event",
+		G_CALLBACK (textview_key_press_event), NULL);
+	g_signal_connect (
+		textview, "event-after",
+		G_CALLBACK (textview_event_after), NULL);
+	g_signal_connect (
+		textview, "motion-notify-event",
+		G_CALLBACK (textview_motion_notify_event), NULL);
+	g_signal_connect (
+		textview, "visibility-notify-event",
+		G_CALLBACK (textview_visibility_notify_event), NULL);
 }
 
 void

@@ -39,6 +39,10 @@
 
 #include "e-tree-memory.h"
 
+#define E_TREE_MEMORY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TREE_MEMORY, ETreeMemoryPrivate))
+
 G_DEFINE_TYPE (ETreeMemory, e_tree_memory, E_TYPE_TREE_MODEL)
 
 enum {
@@ -216,7 +220,7 @@ etmm_dispose (GObject *object)
 {
 	ETreeMemoryPrivate *priv;
 
-	priv = E_TREE_MEMORY (object)->priv;
+	priv = E_TREE_MEMORY_GET_PRIVATE (object);
 
 	if (priv->root)
 		e_tree_memory_node_remove (
@@ -401,8 +405,7 @@ e_tree_memory_class_init (ETreeMemoryClass *class)
 static void
 e_tree_memory_init (ETreeMemory *etmm)
 {
-	etmm->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		etmm, E_TYPE_TREE_MEMORY, ETreeMemoryPrivate);
+	etmm->priv = E_TREE_MEMORY_GET_PRIVATE (etmm);
 }
 
 /**

@@ -58,6 +58,10 @@
 
 #define d(x)
 
+#define E_TREE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TREE, ETreePrivate))
+
 enum {
 	CURSOR_CHANGE,
 	CURSOR_ACTIVATED,
@@ -396,7 +400,7 @@ et_dispose (GObject *object)
 {
 	ETreePrivate *priv;
 
-	priv = E_TREE (object)->priv;
+	priv = E_TREE_GET_PRIVATE (object);
 
 	if (priv->search != NULL) {
 		g_signal_handler_disconnect (
@@ -602,8 +606,7 @@ e_tree_init (ETree *e_tree)
 
 	gtk_table_set_homogeneous (GTK_TABLE (e_tree), FALSE);
 
-	e_tree->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		e_tree, E_TYPE_TREE, ETreePrivate);
+	e_tree->priv = E_TREE_GET_PRIVATE (e_tree);
 
 	e_tree->priv->alternating_row_colors = 1;
 	e_tree->priv->horizontal_draw_grid = 1;
@@ -669,7 +672,8 @@ et_focus (GtkWidget *container,
 		return FALSE;
 	}
 
-	return gtk_widget_child_focus (GTK_WIDGET (e_tree->priv->table_canvas), direction);
+	return gtk_widget_child_focus (
+		GTK_WIDGET (e_tree->priv->table_canvas), direction);
 }
 
 static void
@@ -681,17 +685,19 @@ set_header_canvas_width (ETree *e_tree)
 		e_tree->priv->header_canvas && e_tree->priv->table_canvas))
 		return;
 
-	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_tree->priv->table_canvas),
-					NULL, NULL, &width, NULL);
-	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_tree->priv->header_canvas),
-					NULL, NULL, &oldwidth, &oldheight);
+	gnome_canvas_get_scroll_region (
+		GNOME_CANVAS (e_tree->priv->table_canvas),
+		NULL, NULL, &width, NULL);
+	gnome_canvas_get_scroll_region (
+		GNOME_CANVAS (e_tree->priv->header_canvas),
+		NULL, NULL, &oldwidth, &oldheight);
 
 	if (oldwidth != width ||
 	    oldheight != E_TABLE_HEADER_ITEM (e_tree->priv->header_item)->height - 1)
 		gnome_canvas_set_scroll_region (
-						GNOME_CANVAS (e_tree->priv->header_canvas),
-						0, 0, width, /*  COLUMN_HEADER_HEIGHT - 1 */
-						E_TABLE_HEADER_ITEM (e_tree->priv->header_item)->height - 1);
+			GNOME_CANVAS (e_tree->priv->header_canvas),
+			0, 0, width, /*  COLUMN_HEADER_HEIGHT - 1 */
+			E_TABLE_HEADER_ITEM (e_tree->priv->header_item)->height - 1);
 
 }
 
@@ -966,7 +972,8 @@ item_key_press (ETableItem *eti,
 		e_tree_get_cell_at (et, 30, y, &row_local, &col_local);
 
 		if (row_local == -1)
-			row_local = e_table_model_row_count (E_TABLE_MODEL (et->priv->etta)) - 1;
+			row_local = e_table_model_row_count (
+				E_TABLE_MODEL (et->priv->etta)) - 1;
 
 		row_local = e_tree_view_to_model_row (et, row_local);
 		col_local = e_selection_model_cursor_col (
@@ -984,7 +991,8 @@ item_key_press (ETableItem *eti,
 		e_tree_get_cell_at (et, 30, y, &row_local, &col_local);
 
 		if (row_local == -1)
-			row_local = e_table_model_row_count (E_TABLE_MODEL (et->priv->etta)) - 1;
+			row_local = e_table_model_row_count (
+				E_TABLE_MODEL (et->priv->etta)) - 1;
 
 		row_local = e_tree_view_to_model_row (et, row_local);
 		col_local = e_selection_model_cursor_col (
@@ -1005,9 +1013,11 @@ item_key_press (ETableItem *eti,
 			GDK_MOD1_MASK)) != GDK_SHIFT_MASK)
 			break;
 		if (row != -1) {
-			path = e_tree_table_adapter_node_at_row (et->priv->etta, row);
+			path = e_tree_table_adapter_node_at_row (
+				et->priv->etta, row);
 			if (path)
-				e_tree_table_adapter_node_set_expanded (et->priv->etta, path, TRUE);
+				e_tree_table_adapter_node_set_expanded (
+					et->priv->etta, path, TRUE);
 		}
 		return_val = 1;
 		break;
@@ -1021,9 +1031,11 @@ item_key_press (ETableItem *eti,
 			GDK_MOD1_MASK)) != GDK_SHIFT_MASK)
 			break;
 		if (row != -1) {
-			path = e_tree_table_adapter_node_at_row (et->priv->etta, row);
+			path = e_tree_table_adapter_node_at_row (
+				et->priv->etta, row);
 			if (path)
-				e_tree_table_adapter_node_set_expanded (et->priv->etta, path, FALSE);
+				e_tree_table_adapter_node_set_expanded (
+					et->priv->etta, path, FALSE);
 		}
 		return_val = 1;
 		break;
@@ -1102,20 +1114,27 @@ et_build_item (ETree *et)
 		"uniform_row_height", et->priv->uniform_row_height,
 		NULL);
 
-	g_signal_connect (et->priv->item, "cursor_change",
-			  G_CALLBACK (item_cursor_change), et);
-	g_signal_connect (et->priv->item, "cursor_activated",
-			  G_CALLBACK (item_cursor_activated), et);
-	g_signal_connect (et->priv->item, "double_click",
-			  G_CALLBACK (item_double_click), et);
-	g_signal_connect (et->priv->item, "right_click",
-			  G_CALLBACK (item_right_click), et);
-	g_signal_connect (et->priv->item, "click",
-			  G_CALLBACK (item_click), et);
-	g_signal_connect (et->priv->item, "key_press",
-			  G_CALLBACK (item_key_press), et);
-	g_signal_connect (et->priv->item, "start_drag",
-			  G_CALLBACK (item_start_drag), et);
+	g_signal_connect (
+		et->priv->item, "cursor_change",
+		G_CALLBACK (item_cursor_change), et);
+	g_signal_connect (
+		et->priv->item, "cursor_activated",
+		G_CALLBACK (item_cursor_activated), et);
+	g_signal_connect (
+		et->priv->item, "double_click",
+		G_CALLBACK (item_double_click), et);
+	g_signal_connect (
+		et->priv->item, "right_click",
+		G_CALLBACK (item_right_click), et);
+	g_signal_connect (
+		et->priv->item, "click",
+		G_CALLBACK (item_click), et);
+	g_signal_connect (
+		et->priv->item, "key_press",
+		G_CALLBACK (item_key_press), et);
+	g_signal_connect (
+		et->priv->item, "start_drag",
+		G_CALLBACK (item_start_drag), et);
 }
 
 static void
@@ -1241,8 +1260,9 @@ e_tree_setup_table (ETree *e_tree)
 		e_tree, "drag_data_received",
 		G_CALLBACK (et_drag_data_received), e_tree);
 
-	g_signal_connect (e_tree->priv->table_canvas, "reflow",
-			  G_CALLBACK (tree_canvas_reflow), e_tree);
+	g_signal_connect (
+		e_tree->priv->table_canvas, "reflow",
+		G_CALLBACK (tree_canvas_reflow), e_tree);
 
 	widget = GTK_WIDGET (e_tree->priv->table_canvas);
 	style = gtk_widget_get_style (widget);
@@ -1601,10 +1621,12 @@ et_real_construct (ETree *e_tree,
 		      "cursor_mode", specification->cursor_mode,
 		      NULL);
 
-	g_signal_connect (e_tree->priv->selection, "selection_changed",
-			 G_CALLBACK (et_selection_model_selection_changed), e_tree);
-	g_signal_connect (e_tree->priv->selection, "selection_row_changed",
-			 G_CALLBACK (et_selection_model_selection_row_changed), e_tree);
+	g_signal_connect (
+		e_tree->priv->selection, "selection_changed",
+		G_CALLBACK (et_selection_model_selection_changed), e_tree);
+	g_signal_connect (
+		e_tree->priv->selection, "selection_row_changed",
+		G_CALLBACK (et_selection_model_selection_row_changed), e_tree);
 
 	if (!specification->no_headers) {
 		e_tree_setup_header (e_tree);
@@ -1623,17 +1645,22 @@ et_real_construct (ETree *e_tree,
 		/*
 		 * The header
 		 */
-		gtk_table_attach (GTK_TABLE (e_tree), GTK_WIDGET (e_tree->priv->header_canvas),
-				  0, 1, 0 + row, 1 + row,
-				  GTK_FILL | GTK_EXPAND,
-				  GTK_FILL, 0, 0);
+		gtk_table_attach (
+			GTK_TABLE (e_tree),
+			GTK_WIDGET (e_tree->priv->header_canvas),
+			0, 1, 0 + row, 1 + row,
+			GTK_FILL | GTK_EXPAND,
+			GTK_FILL, 0, 0);
 		row++;
 	}
-	gtk_table_attach (GTK_TABLE (e_tree), GTK_WIDGET (e_tree->priv->table_canvas),
-			  0, 1, 0 + row, 1 + row,
-			  GTK_FILL | GTK_EXPAND,
-			  GTK_FILL | GTK_EXPAND,
-			  0, 0);
+
+	gtk_table_attach (
+		GTK_TABLE (e_tree),
+		GTK_WIDGET (e_tree->priv->table_canvas),
+		0, 1, 0 + row, 1 + row,
+		GTK_FILL | GTK_EXPAND,
+		GTK_FILL | GTK_EXPAND,
+		0, 0);
 
 	g_object_unref (ete);
 
@@ -2001,12 +2028,15 @@ et_get_property (GObject *object,
 	case PROP_ETTA:
 		g_value_set_object (value, etree->priv->etta);
 		break;
+
 	case PROP_UNIFORM_ROW_HEIGHT:
 		g_value_set_boolean (value, etree->priv->uniform_row_height);
 		break;
+
 	case PROP_ALWAYS_SEARCH:
 		g_value_set_boolean (value, etree->priv->always_search);
 		break;
+
 	case PROP_HADJUSTMENT:
 		if (etree->priv->table_canvas)
 			g_object_get_property (
@@ -2015,6 +2045,7 @@ et_get_property (GObject *object,
 		else
 			g_value_set_object (value, NULL);
 		break;
+
 	case PROP_VADJUSTMENT:
 		if (etree->priv->table_canvas)
 			g_object_get_property (
@@ -2023,6 +2054,7 @@ et_get_property (GObject *object,
 		else
 			g_value_set_object (value, NULL);
 		break;
+
 	case PROP_HSCROLL_POLICY:
 		if (etree->priv->table_canvas)
 			g_object_get_property (
@@ -2031,6 +2063,7 @@ et_get_property (GObject *object,
 		else
 			g_value_set_enum (value, 0);
 		break;
+
 	case PROP_VSCROLL_POLICY:
 		if (etree->priv->table_canvas)
 			g_object_get_property (
@@ -2039,6 +2072,7 @@ et_get_property (GObject *object,
 		else
 			g_value_set_enum (value, 0);
 		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -2062,45 +2096,55 @@ et_set_property (GObject *object,
 	case PROP_LENGTH_THRESHOLD:
 		etree->priv->length_threshold = g_value_get_int (value);
 		if (etree->priv->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etree->priv->item),
-					       "length_threshold", etree->priv->length_threshold,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etree->priv->item),
+				"length_threshold",
+				etree->priv->length_threshold,
+				NULL);
 		}
 		break;
 
 	case PROP_HORIZONTAL_DRAW_GRID:
 		etree->priv->horizontal_draw_grid = g_value_get_boolean (value);
 		if (etree->priv->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etree->priv->item),
-					       "horizontal_draw_grid", etree->priv->horizontal_draw_grid,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etree->priv->item),
+				"horizontal_draw_grid",
+				etree->priv->horizontal_draw_grid,
+				NULL);
 		}
 		break;
 
 	case PROP_VERTICAL_DRAW_GRID:
 		etree->priv->vertical_draw_grid = g_value_get_boolean (value);
 		if (etree->priv->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etree->priv->item),
-					       "vertical_draw_grid", etree->priv->vertical_draw_grid,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etree->priv->item),
+				"vertical_draw_grid",
+				etree->priv->vertical_draw_grid,
+				NULL);
 		}
 		break;
 
 	case PROP_DRAW_FOCUS:
 		etree->priv->draw_focus = g_value_get_boolean (value);
 		if (etree->priv->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etree->priv->item),
-					       "drawfocus", etree->priv->draw_focus,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etree->priv->item),
+				"drawfocus",
+				etree->priv->draw_focus,
+				NULL);
 		}
 		break;
 
 	case PROP_UNIFORM_ROW_HEIGHT:
 		etree->priv->uniform_row_height = g_value_get_boolean (value);
 		if (etree->priv->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etree->priv->item),
-					       "uniform_row_height", etree->priv->uniform_row_height,
-					       NULL);
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (etree->priv->item),
+				"uniform_row_height",
+				etree->priv->uniform_row_height,
+				NULL);
 		}
 		break;
 
@@ -2117,18 +2161,21 @@ et_set_property (GObject *object,
 				G_OBJECT (etree->priv->table_canvas),
 				"hadjustment", value);
 		break;
+
 	case PROP_VADJUSTMENT:
 		if (etree->priv->table_canvas)
 			g_object_set_property (
 				G_OBJECT (etree->priv->table_canvas),
 				"vadjustment", value);
 		break;
+
 	case PROP_HSCROLL_POLICY:
 		if (etree->priv->table_canvas)
 			g_object_set_property (
 				G_OBJECT (etree->priv->table_canvas),
 				"hscroll-policy", value);
 		break;
+
 	case PROP_VSCROLL_POLICY:
 		if (etree->priv->table_canvas)
 			g_object_set_property (

@@ -695,7 +695,9 @@ plugin_google (EPlugin *epl,
 		e_source_get_property (source, "googlename") ? e_source_get_property (source, "googlename") : _("Default"),
 		e_source_get_property (source, "googlename") ? e_source_peek_relative_uri (source) : NULL);
 
-	g_signal_connect (combo, "changed", G_CALLBACK (cal_combo_changed), source);
+	g_signal_connect (
+		combo, "changed",
+		G_CALLBACK (cal_combo_changed), source);
 
 	g_object_set_data (G_OBJECT (user), "CalendarCombo", combo);
 
@@ -703,8 +705,12 @@ plugin_google (EPlugin *epl,
 
 	gtk_box_pack_start (GTK_BOX (hbox), combo, TRUE, TRUE, 0);
 	label = gtk_button_new_with_mnemonic (_("Retrieve _List"));
-	g_signal_connect (label, "clicked", G_CALLBACK (retrieve_list_clicked), combo);
-	g_signal_connect (user, "changed", G_CALLBACK (retrieve_list_sensitize), label);
+	g_signal_connect (
+		label, "clicked",
+		G_CALLBACK (retrieve_list_clicked), combo);
+	g_signal_connect (
+		user, "changed",
+		G_CALLBACK (retrieve_list_sensitize), label);
 	g_object_set_data (G_OBJECT (label), "ESource", source);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	gtk_widget_set_sensitive (label, username && *username);

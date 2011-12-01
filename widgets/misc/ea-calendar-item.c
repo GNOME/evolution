@@ -38,7 +38,7 @@
 #define EA_CALENDAR_COLUMN_NUM E_CALENDAR_COLS_PER_MONTH
 
 /* EaCalendarItem */
-static void ea_calendar_item_class_init (EaCalendarItemClass *klass);
+static void ea_calendar_item_class_init (EaCalendarItemClass *class);
 static void ea_calendar_item_finalize (GObject *object);
 
 static const gchar * ea_calendar_item_get_name (AtkObject *accessible);
@@ -240,12 +240,12 @@ ea_calendar_item_new (GObject *obj)
 		n_ea_calendar_item_created);
 #endif
 	/* connect signal handlers */
-	g_signal_connect (obj, "selection_preview_changed",
-			  G_CALLBACK (selection_preview_change_cb),
-			  atk_object);
-	g_signal_connect (obj, "date_range_changed",
-			  G_CALLBACK (date_range_changed_cb),
-			  atk_object);
+	g_signal_connect (
+		obj, "selection_preview_changed",
+		G_CALLBACK (selection_preview_change_cb), atk_object);
+	g_signal_connect (
+		obj, "date_range_changed",
+		G_CALLBACK (date_range_changed_cb), atk_object);
 
 	return atk_object;
 }

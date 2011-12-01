@@ -283,7 +283,8 @@ ea_day_view_ref_child (AtkObject *accessible,
 			/* Not use atk_gobject_accessible_for_object here,
 			 * we need to do special thing here
 			 */
-			atk_object = ea_calendar_helpers_get_accessible_for (event->canvas_item);
+			atk_object = ea_calendar_helpers_get_accessible_for (
+				event->canvas_item);
 			g_object_ref (atk_object);
 		}
 	}

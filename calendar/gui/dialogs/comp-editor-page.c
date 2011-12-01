@@ -31,6 +31,10 @@
 #include "comp-editor.h"
 #include "comp-editor-page.h"
 
+#define COMP_EDITOR_PAGE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_COMP_EDITOR_PAGE, CompEditorPagePrivate))
+
 struct _CompEditorPagePrivate {
 	CompEditor *editor;  /* not referenced */
 	gboolean updating;
@@ -50,6 +54,8 @@ enum {
 static gpointer parent_class;
 static guint comp_editor_page_signals[LAST_SIGNAL];
 
+G_DEFINE_TYPE (CompEditorPage, comp_editor_page, G_TYPE_OBJECT)
+
 static void
 comp_editor_page_set_property (GObject *object,
                                guint property_id,
@@ -58,7 +64,7 @@ comp_editor_page_set_property (GObject *object,
 {
 	CompEditorPagePrivate *priv;
 
-	priv = COMP_EDITOR_PAGE (object)->priv;
+	priv = COMP_EDITOR_PAGE_GET_PRIVATE (object);
 
 	switch (property_id) {
 		case PROP_EDITOR:
@@ -163,36 +169,7 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 static void
 comp_editor_page_init (CompEditorPage *page)
 {
-	page->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		page, TYPE_COMP_EDITOR_PAGE, CompEditorPagePrivate);
-
-	page->accel_group = NULL;
-}
-
-GType
-comp_editor_page_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (CompEditorPageClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) comp_editor_page_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (CompEditorPage),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) comp_editor_page_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "CompEditorPage", &type_info, 0);
-	}
-
-	return type;
+	page->priv = COMP_EDITOR_PAGE_GET_PRIVATE (page);
 }
 
 /**

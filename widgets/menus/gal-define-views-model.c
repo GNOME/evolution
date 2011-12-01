@@ -131,11 +131,13 @@ gdvm_value_at (ETableModel *etc,
                gint row)
 {
 	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL (etc);
+	GalView *view;
 	const gchar *value;
 
-	value = gal_view_get_title (gal_view_collection_get_view (views->collection, row));
+	view = gal_view_collection_get_view (views->collection, row);
+	value = gal_view_get_title (view);
 
-	return (gpointer)(value ? value : "");
+	return (gpointer) ((value != NULL) ? value : "");
 }
 
 /* This function sets the value at a particular point in our ETableModel. */
@@ -234,10 +236,10 @@ gal_define_views_model_append (GalDefineViewsModel *model,
 }
 
 static void
-gal_define_views_model_class_init (GalDefineViewsModelClass *klass)
+gal_define_views_model_class_init (GalDefineViewsModelClass *class)
 {
-	ETableModelClass *model_class = E_TABLE_MODEL_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	ETableModelClass *model_class = E_TABLE_MODEL_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose        = gdvm_dispose;
 	object_class->set_property   = gal_define_views_model_set_property;

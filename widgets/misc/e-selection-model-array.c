@@ -588,13 +588,13 @@ e_selection_model_array_init (ESelectionModelArray *esma)
 }
 
 static void
-e_selection_model_array_class_init (ESelectionModelArrayClass *klass)
+e_selection_model_array_class_init (ESelectionModelArrayClass *class)
 {
 	GObjectClass *object_class;
 	ESelectionModelClass *esm_class;
 
-	object_class = G_OBJECT_CLASS (klass);
-	esm_class = E_SELECTION_MODEL_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
+	esm_class = E_SELECTION_MODEL_CLASS (class);
 
 	object_class->dispose = esma_dispose;
 	object_class->get_property = esma_get_property;
@@ -618,7 +618,7 @@ e_selection_model_array_class_init (ESelectionModelArrayClass *klass)
 	esm_class->move_selection_end = esma_move_selection_end;
 	esm_class->set_selection_end  = esma_set_selection_end;
 
-	klass->get_row_count          = NULL;
+	class->get_row_count          = NULL;
 
 	g_object_class_install_property (object_class, PROP_CURSOR_ROW,
 					 g_param_spec_int ("cursor_row",

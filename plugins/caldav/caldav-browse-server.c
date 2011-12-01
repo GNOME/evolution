@@ -1374,9 +1374,13 @@ init_dialog (GtkDialog *dialog,
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (tree), -1, _("href"), renderer, "text", COL_STRING_HREF, "sensitive", COL_BOOL_SENSITIVE, NULL);*/
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree));
-	g_signal_connect (selection, "changed", G_CALLBACK (tree_selection_changed_cb), *new_url_entry);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (tree_selection_changed_cb), *new_url_entry);
 
-	g_signal_connect (tree, "row-expanded", G_CALLBACK (tree_row_expanded_cb), dialog);
+	g_signal_connect (
+		tree, "row-expanded",
+		G_CALLBACK (tree_row_expanded_cb), dialog);
 
 	info_box = gtk_hbox_new (FALSE, 2);
 
@@ -1429,7 +1433,9 @@ init_dialog (GtkDialog *dialog,
 	g_object_set (session, SOUP_SESSION_PROXY_URI, soup_uri, NULL);
 	g_object_unref (proxy);
 
-	g_signal_connect (session, "authenticate", G_CALLBACK (soup_authenticate), dialog);
+	g_signal_connect (
+		session, "authenticate",
+		G_CALLBACK (soup_authenticate), dialog);
 
 	switch (source_type) {
 	default:
@@ -1498,7 +1504,9 @@ init_dialog (GtkDialog *dialog,
 		xmlFreeDoc (doc);
 	}
 
-	g_signal_connect (dialog, "response", G_CALLBACK (dialog_response_cb), dialog);
+	g_signal_connect (
+		dialog, "response",
+		G_CALLBACK (dialog_response_cb), dialog);
 
 	url_entry_changed (GTK_ENTRY (*new_url_entry), G_OBJECT (dialog));
 }

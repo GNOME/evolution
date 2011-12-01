@@ -46,6 +46,10 @@
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
 
+#define RECURRENCE_PAGE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_RECURRENCE_PAGE, RecurrencePagePrivate))
+
 enum month_num_options {
 	MONTH_NUM_FIRST,
 	MONTH_NUM_SECOND,
@@ -297,7 +301,7 @@ recurrence_page_dispose (GObject *object)
 {
 	RecurrencePagePrivate *priv;
 
-	priv = RECURRENCE_PAGE (object)->priv;
+	priv = RECURRENCE_PAGE_GET_PRIVATE (object);
 
 	if (priv->main != NULL) {
 		g_object_unref (priv->main);
@@ -339,7 +343,7 @@ recurrence_page_finalize (GObject *object)
 {
 	RecurrencePagePrivate *priv;
 
-	priv = RECURRENCE_PAGE (object)->priv;
+	priv = RECURRENCE_PAGE_GET_PRIVATE (object);
 
 	g_signal_handlers_disconnect_matched (
 		E_CALENDAR (priv->preview_calendar)->calitem,
@@ -383,8 +387,7 @@ recurrence_page_class_init (RecurrencePageClass *class)
 static void
 recurrence_page_init (RecurrencePage *rpage)
 {
-	rpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		rpage, TYPE_RECURRENCE_PAGE, RecurrencePagePrivate);
+	rpage->priv = RECURRENCE_PAGE_GET_PRIVATE (rpage);
 
 	rpage->priv->cancellable = g_cancellable_new ();
 }
@@ -395,7 +398,7 @@ recurrence_page_get_widget (CompEditorPage *page)
 {
 	RecurrencePagePrivate *priv;
 
-	priv = RECURRENCE_PAGE (page)->priv;
+	priv = RECURRENCE_PAGE_GET_PRIVATE (page);
 
 	return priv->main;
 }
@@ -406,7 +409,7 @@ recurrence_page_focus_main_widget (CompEditorPage *page)
 {
 	RecurrencePagePrivate *priv;
 
-	priv = RECURRENCE_PAGE (page)->priv;
+	priv = RECURRENCE_PAGE_GET_PRIVATE (page);
 
 	gtk_widget_grab_focus (priv->recurs);
 }
@@ -1343,8 +1346,12 @@ make_monthly_special (RecurrencePage *rpage)
 		adj, "value-changed",
 		G_CALLBACK (comp_editor_page_changed), rpage);
 
-	g_signal_connect (priv->month_num_combo, "changed", G_CALLBACK (month_num_combo_changed_cb), rpage);
-	g_signal_connect (priv->month_day_combo, "changed", G_CALLBACK (month_day_combo_changed_cb), rpage);
+	g_signal_connect (
+		priv->month_num_combo, "changed",
+		G_CALLBACK (month_num_combo_changed_cb), rpage);
+	g_signal_connect (
+		priv->month_day_combo, "changed",
+		G_CALLBACK (month_day_combo_changed_cb), rpage);
 }
 
 /* Changes the recurrence-special widget to match the interval units.
@@ -2363,9 +2370,9 @@ init_widgets (RecurrencePage *rpage)
 	priv->preview_calendar = e_calendar_new ();
 	ecal = E_CALENDAR (priv->preview_calendar);
 
-	g_signal_connect ((ecal->calitem), "date_range_changed",
-			    G_CALLBACK (preview_date_range_changed_cb),
-			    rpage);
+	g_signal_connect (
+		ecal->calitem, "date_range_changed",
+		G_CALLBACK (preview_date_range_changed_cb), rpage);
 	e_calendar_item_set_max_days_sel (ecal->calitem, 0);
 	gtk_container_add (GTK_CONTAINER (priv->preview_bin),
 			   priv->preview_calendar);
@@ -2379,7 +2386,9 @@ init_widgets (RecurrencePage *rpage)
 
 	/* Recurrence types */
 
-	g_signal_connect (priv->recurs, "toggled", G_CALLBACK (type_toggled_cb), rpage);
+	g_signal_connect (
+		priv->recurs, "toggled",
+		G_CALLBACK (type_toggled_cb), rpage);
 
 	/* Recurrence interval */
 
@@ -2408,12 +2417,15 @@ init_widgets (RecurrencePage *rpage)
 
 	/* Exception buttons */
 
-	g_signal_connect ((priv->exception_add), "clicked",
-			    G_CALLBACK (exception_add_cb), rpage);
-	g_signal_connect ((priv->exception_modify), "clicked",
-			    G_CALLBACK (exception_modify_cb), rpage);
-	g_signal_connect ((priv->exception_delete), "clicked",
-			    G_CALLBACK (exception_delete_cb), rpage);
+	g_signal_connect (
+		priv->exception_add, "clicked",
+		G_CALLBACK (exception_add_cb), rpage);
+	g_signal_connect (
+		priv->exception_modify, "clicked",
+		G_CALLBACK (exception_modify_cb), rpage);
+	g_signal_connect (
+		priv->exception_delete, "clicked",
+		G_CALLBACK (exception_delete_cb), rpage);
 
 	gtk_widget_set_sensitive (priv->exception_modify, FALSE);
 	gtk_widget_set_sensitive (priv->exception_delete, FALSE);
@@ -2438,8 +2450,10 @@ init_widgets (RecurrencePage *rpage)
 	gtk_tree_view_column_add_attribute (column, cell_renderer, "text", E_DATE_TIME_LIST_COLUMN_DESCRIPTION);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (priv->exception_list), column);
 
-	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list)), "changed",
-			  G_CALLBACK (exception_selection_changed_cb), rpage);
+	g_signal_connect (
+		gtk_tree_view_get_selection (
+		GTK_TREE_VIEW (priv->exception_list)), "changed",
+		G_CALLBACK (exception_selection_changed_cb), rpage);
 }
 
 /**

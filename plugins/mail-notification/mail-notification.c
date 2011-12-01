@@ -665,7 +665,9 @@ get_config_widget_sound (void)
 
 	settings = g_settings_new ("org.gnome.evolution.plugin.mail-notification");
 
-	g_settings_bind (settings, CONF_KEY_ENABLED_SOUND, G_OBJECT (widget), "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, CONF_KEY_ENABLED_SOUND,
+		widget, "active", G_SETTINGS_BIND_DEFAULT);
 
 	master = widget;
 	scw->enable = GTK_TOGGLE_BUTTON (widget);
@@ -693,7 +695,9 @@ get_config_widget_sound (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_settings_bind (settings, CONF_KEY_SOUND_BEEP, G_OBJECT (widget), "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, CONF_KEY_SOUND_BEEP,
+		widget, "active", G_SETTINGS_BIND_DEFAULT);
 
 	scw->beep = GTK_TOGGLE_BUTTON (widget);
 
@@ -704,7 +708,9 @@ get_config_widget_sound (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_settings_bind (settings, CONF_KEY_SOUND_USE_THEME, G_OBJECT (widget), "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, CONF_KEY_SOUND_USE_THEME,
+		widget, "active", G_SETTINGS_BIND_DEFAULT);
 
 	scw->use_theme = GTK_TOGGLE_BUTTON (widget);
 
@@ -721,7 +727,9 @@ get_config_widget_sound (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_settings_bind (settings, CONF_KEY_SOUND_PLAY_FILE, G_OBJECT (widget), "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, CONF_KEY_SOUND_PLAY_FILE,
+		widget, "active", G_SETTINGS_BIND_DEFAULT);
 
 	text = _("Select sound file");
 	widget = gtk_file_chooser_button_new (
@@ -784,7 +792,9 @@ get_cfg_widget (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_settings_bind (settings, CONF_KEY_NOTIFY_ONLY_INBOX, G_OBJECT (widget), "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, CONF_KEY_NOTIFY_ONLY_INBOX,
+		widget, "active", G_SETTINGS_BIND_DEFAULT);
 
 #ifdef HAVE_LIBNOTIFY
 	text = _("Show _notification when a new message arrives");
@@ -792,7 +802,9 @@ get_cfg_widget (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_settings_bind (settings, CONF_KEY_ENABLED_STATUS, G_OBJECT (widget), "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, CONF_KEY_ENABLED_STATUS,
+		widget, "active", G_SETTINGS_BIND_DEFAULT);
 #endif
 
 	widget = get_config_widget_sound ();

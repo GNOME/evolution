@@ -230,7 +230,8 @@ user_message_exec (struct _user_message_msg *m,
 
 			list = gtk_application_get_windows (GTK_APPLICATION (shell));
 
-			/* ...then iterate through all opened windows and pick one which has it */
+			/* ...then iterate through all opened
+			 * windows and pick one which has it */
 			for (iter = list; iter != NULL && !shell_content; iter = g_list_next (iter)) {
 				if (E_IS_SHELL_WINDOW (iter->data)) {
 					shell_window = iter->data;
@@ -241,11 +242,13 @@ user_message_exec (struct _user_message_msg *m,
 			}
 		}
 
-		/* when no shell-content found, which might not happen, but just in case,
-		 * process the information alert like usual, through an EAlertDialog machinery
-		*/
+		/* When no shell-content found, which might not happen,
+		 * but just in case, process the information alert like
+		 * usual, through an EAlertDialog machinery. */
 		if (shell_content) {
-			e_alert_submit (E_ALERT_SINK (shell_content), error_type, m->prompt, NULL);
+			e_alert_submit (
+				E_ALERT_SINK (shell_content),
+				error_type, m->prompt, NULL);
 			return;
 		} else if (!m->ismain && user_message_dialog != NULL) {
 			g_queue_push_tail (&user_message_queue, mail_msg_ref (m));

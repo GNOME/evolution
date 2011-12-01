@@ -246,12 +246,12 @@ gail_canvas_item_add_focus_handler (AtkComponent *component,
 			       (gpointer) handler, NULL);
   if (!ret)
     {
-      return g_signal_connect_closure_by_id (component,
-					     signal_id, 0,
-					     g_cclosure_new (
-					     G_CALLBACK (handler), NULL,
-					     (GClosureNotify) NULL),
-					     FALSE);
+      return g_signal_connect_closure_by_id (
+		component, signal_id, 0,
+		g_cclosure_new (
+			G_CALLBACK (handler), NULL,
+			(GClosureNotify) NULL),
+			FALSE);
     }
   else
     {

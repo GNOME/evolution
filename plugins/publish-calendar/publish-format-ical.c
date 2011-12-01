@@ -92,7 +92,9 @@ write_calendar (const gchar *uid,
 		return FALSE;
 	}
 
-	g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+	g_signal_connect (
+		client, "authenticate",
+		G_CALLBACK (e_client_utils_authenticate_handler), NULL);
 
 	if (!e_client_open_sync (E_CLIENT (client), TRUE, NULL, error)) {
 		g_object_unref (client);

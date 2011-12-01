@@ -20,40 +20,40 @@
  *
  */
 
-#ifndef __E_REFLOW_H__
-#define __E_REFLOW_H__
+#ifndef E_REFLOW_H
+#define E_REFLOW_H
 
 #include <libgnomecanvas/libgnomecanvas.h>
 #include <text/e-reflow-model.h>
 #include <misc/e-selection-model.h>
 #include <e-util/e-sorter-array.h>
 
+/* Standard GObject macros */
+#define E_TYPE_REFLOW \
+	(e_reflow_get_type ())
+#define E_REFLOW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_REFLOW, EReflow))
+#define E_REFLOW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_REFLOW, EReflowClass))
+#define E_IS_REFLOW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_REFLOW))
+#define E_IS_REFLOW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_REFLOW))
+#define E_REFLOW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_REFLOW, EReflowClass))
+
 G_BEGIN_DECLS
 
-/* EReflow - A canvas item container.
- *
- * The following arguments are available:
- *
- * name		type		read/write	description
- * --------------------------------------------------------------------------------
- * minimum_width gdouble         RW              minimum width of the reflow.  width >= minimum_width
- * width        gdouble          R               width of the reflow
- * height       gdouble          RW              height of the reflow
- */
+typedef struct _EReflow EReflow;
+typedef struct _EReflowClass EReflowClass;
+typedef struct _EReflowPrivate EReflowPrivate;
 
-#define E_REFLOW_TYPE			(e_reflow_get_type ())
-#define E_REFLOW(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_REFLOW_TYPE, EReflow))
-#define E_REFLOW_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_REFLOW_TYPE, EReflowClass))
-#define E_IS_REFLOW(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_REFLOW_TYPE))
-#define E_IS_REFLOW_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_REFLOW_TYPE))
-
-typedef struct EReflowPriv    EReflowPriv;
-
-typedef struct _EReflow       EReflow;
-typedef struct _EReflowClass  EReflowClass;
-
-struct _EReflow
-{
+struct _EReflow {
 	GnomeCanvasGroup parent;
 
 	/* item specific fields */
@@ -137,4 +137,4 @@ GType    e_reflow_get_type       (void);
 
 G_END_DECLS
 
-#endif /* __E_REFLOW_H__ */
+#endif /* E_REFLOW_H */

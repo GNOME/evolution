@@ -662,10 +662,9 @@ e_action_group_add_actions_localized (GtkActionGroup *action_group,
                                       guint n_entries,
                                       gpointer user_data)
 {
-	gint ii;
-	GtkAction *action;
-	GList *actions, *iter;
 	GtkActionGroup *tmp_group;
+	GList *list, *iter;
+	gint ii;
 
 	g_return_if_fail (action_group != NULL);
 	g_return_if_fail (entries != NULL);
@@ -677,19 +676,22 @@ e_action_group_add_actions_localized (GtkActionGroup *action_group,
 	gtk_action_group_set_translation_domain (tmp_group, translation_domain);
 	gtk_action_group_add_actions (tmp_group, entries, n_entries, user_data);
 
-	actions = gtk_action_group_list_actions (tmp_group);
-	for (iter = actions; iter != NULL; iter = iter->next) {
-		action = iter->data;
-
-		if (!action)
-			continue;
+	list = gtk_action_group_list_actions (tmp_group);
+	for (iter = list; iter != NULL; iter = iter->next) {
+		GtkAction *action = GTK_ACTION (iter->data);
+		const gchar *action_name;
 
 		g_object_ref (action);
 
+		action_name = gtk_action_get_name (action);
+
 		for (ii = 0; ii < n_entries; ii++) {
-			if (g_strcmp0 (entries[ii].name, gtk_action_get_name (action)) == 0) {
-				gtk_action_group_remove_action (tmp_group, action);
-				gtk_action_group_add_action_with_accel (action_group, action, entries[ii].accelerator);
+			if (g_strcmp0 (entries[ii].name, action_name) == 0) {
+				gtk_action_group_remove_action (
+					tmp_group, action);
+				gtk_action_group_add_action_with_accel (
+					action_group, action,
+					entries[ii].accelerator);
 				break;
 			}
 		}
@@ -697,7 +699,7 @@ e_action_group_add_actions_localized (GtkActionGroup *action_group,
 		g_object_unref (action);
 	}
 
-	g_list_free (actions);
+	g_list_free (list);
 	g_object_unref (tmp_group);
 }
 

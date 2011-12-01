@@ -1140,10 +1140,12 @@ on_dialog_objs_removed_async (struct _query_msg *msg)
 		if (!id)
 			continue;
 
-		if (g_strcmp0 (id->uid, our_id->uid) == 0&& g_strcmp0 (id->rid, our_id->rid) == 0) {
+		if (g_strcmp0 (id->uid, our_id->uid) == 0 &&
+		    g_strcmp0 (id->rid, our_id->rid) == 0) {
 			tray_data->cqa = NULL;
 			tray_data->alarm_id = NULL;
-			tray_icons_list = g_list_remove (tray_icons_list, tray_data);
+			tray_icons_list = g_list_remove (
+				tray_icons_list, tray_data);
 			tray_data = NULL;
 		}
 
@@ -2073,16 +2075,18 @@ free_client_alarms_cb (gpointer key,
 		if (ca->cal_client) {
 			debug (("Disconnecting Client"));
 
-			g_signal_handlers_disconnect_matched (ca->cal_client, G_SIGNAL_MATCH_DATA,
-							      0, 0, NULL, NULL, ca);
+			g_signal_handlers_disconnect_matched (
+				ca->cal_client, G_SIGNAL_MATCH_DATA,
+				0, 0, NULL, NULL, ca);
 			g_object_unref (ca->cal_client);
 		}
 
 		if (ca->view) {
 			debug (("Disconnecting Query"));
 
-			g_signal_handlers_disconnect_matched (ca->view, G_SIGNAL_MATCH_DATA,
-							      0, 0, NULL, NULL, ca);
+			g_signal_handlers_disconnect_matched (
+				ca->view, G_SIGNAL_MATCH_DATA,
+				0, 0, NULL, NULL, ca);
 			g_object_unref (ca->view);
 		}
 

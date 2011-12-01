@@ -63,6 +63,10 @@
 #include <e-util/e-icon-factory.h>
 #include "misc.h"
 
+#define E_TASK_TABLE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TASK_TABLE, ETaskTablePrivate))
+
 struct _ETaskTablePrivate {
 	gpointer shell_view;  /* weak pointer */
 	ECalModel *model;
@@ -99,6 +103,18 @@ static const gchar *icon_names[] = {
 	"stock_task-assigned",
 	"stock_task-assigned-to"
 };
+
+/* Forward Declarations */
+static void	e_task_table_selectable_init
+					(ESelectableInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	ETaskTable,
+	e_task_table,
+	E_TYPE_TABLE,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_SELECTABLE,
+		e_task_table_selectable_init))
 
 static void
 task_table_emit_open_component (ETaskTable *task_table,
@@ -414,7 +430,7 @@ task_table_dispose (GObject *object)
 {
 	ETaskTablePrivate *priv;
 
-	priv = E_TASK_TABLE (object)->priv;
+	priv = E_TASK_TABLE_GET_PRIVATE (object);
 
 	if (priv->completed_cancellable) {
 		g_cancellable_cancel (priv->completed_cancellable);
@@ -1418,7 +1434,7 @@ task_table_select_all (ESelectable *selectable)
 }
 
 static void
-task_table_class_init (ETaskTableClass *class)
+e_task_table_class_init (ETaskTableClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
@@ -1507,12 +1523,11 @@ task_table_class_init (ETaskTableClass *class)
 }
 
 static void
-task_table_init (ETaskTable *task_table)
+e_task_table_init (ETaskTable *task_table)
 {
 	GtkTargetList *target_list;
 
-	task_table->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		task_table, E_TYPE_TASK_TABLE, ETaskTablePrivate);
+	task_table->priv = E_TASK_TABLE_GET_PRIVATE (task_table);
 
 	task_table->priv->completed_cancellable = NULL;
 
@@ -1526,7 +1541,7 @@ task_table_init (ETaskTable *task_table)
 }
 
 static void
-task_table_selectable_init (ESelectableInterface *interface)
+e_task_table_selectable_init (ESelectableInterface *interface)
 {
 	interface->update_actions = task_table_update_actions;
 	interface->cut_clipboard = task_table_cut_clipboard;
@@ -1534,41 +1549,6 @@ task_table_selectable_init (ESelectableInterface *interface)
 	interface->paste_clipboard = task_table_paste_clipboard;
 	interface->delete_selection = task_table_delete_selection;
 	interface->select_all = task_table_select_all;
-}
-
-GType
-e_task_table_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ETaskTableClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) task_table_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ETaskTable),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) task_table_init,
-			NULL   /* value_table */
-		};
-
-		static const GInterfaceInfo selectable_info = {
-			(GInterfaceInitFunc) task_table_selectable_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_TABLE, "ETaskTable", &type_info, 0);
-
-		g_type_add_interface_static (
-			type, E_TYPE_SELECTABLE, &selectable_info);
-	}
-
-	return type;
 }
 
 /**

@@ -1925,8 +1925,9 @@ init_widgets (TaskPage *tpage)
 	gtk_widget_hide (priv->info_hbox);
 
 	/* Summary */
-	g_signal_connect ((priv->summary), "changed",
-			    G_CALLBACK (summary_changed_cb), tpage);
+	g_signal_connect (
+		priv->summary, "changed",
+		G_CALLBACK (summary_changed_cb), tpage);
 
 	/* Description */
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description));
@@ -1936,20 +1937,27 @@ init_widgets (TaskPage *tpage)
 	e_buffer_tagger_connect (GTK_TEXT_VIEW (priv->description));
 
 	/* Dates */
-	g_signal_connect ((priv->start_date), "changed",
-			    G_CALLBACK (date_changed_cb), tpage);
-	g_signal_connect ((priv->due_date), "changed",
-			    G_CALLBACK (date_changed_cb), tpage);
+	g_signal_connect (
+		priv->start_date, "changed",
+		G_CALLBACK (date_changed_cb), tpage);
+	g_signal_connect (
+		priv->due_date, "changed",
+		G_CALLBACK (date_changed_cb), tpage);
 
 	/* time zone changed */
-	g_signal_connect (priv->timezone, "changed", G_CALLBACK(timezone_changed_cb), tpage);
+	g_signal_connect (
+		priv->timezone, "changed",
+		G_CALLBACK (timezone_changed_cb), tpage);
 
 	/* Categories button */
-	g_signal_connect ((priv->categories_btn), "clicked",
-			    G_CALLBACK (categories_clicked_cb), tpage);
+	g_signal_connect (
+		priv->categories_btn, "clicked",
+		G_CALLBACK (categories_clicked_cb), tpage);
 
 	/* Source selector */
-	g_signal_connect (priv->source_selector, "changed", G_CALLBACK (source_changed_cb), tpage);
+	g_signal_connect (
+		priv->source_selector, "changed",
+		G_CALLBACK (source_changed_cb), tpage);
 
 	/* Connect the default signal handler to use to make sure the "changed"
 	 * field gets set whenever a field is changed. */
@@ -1988,19 +1996,29 @@ init_widgets (TaskPage *tpage)
 		G_CALLBACK (list_key_press), tpage);
 
 	/* Add attendee button */
-	g_signal_connect (priv->add, "clicked", G_CALLBACK (add_clicked_cb), tpage);
+	g_signal_connect (
+		priv->add, "clicked",
+		G_CALLBACK (add_clicked_cb), tpage);
 
 	/* Edit attendee button */
-	g_signal_connect (priv->edit, "clicked", G_CALLBACK (edit_clicked_cb), tpage);
+	g_signal_connect (
+		priv->edit, "clicked",
+		G_CALLBACK (edit_clicked_cb), tpage);
 
 	/* Remove attendee button */
-	g_signal_connect (priv->remove, "clicked", G_CALLBACK (remove_clicked_cb), tpage);
+	g_signal_connect (
+		priv->remove, "clicked",
+		G_CALLBACK (remove_clicked_cb), tpage);
 
 	/* Contacts button */
-	g_signal_connect (priv->invite, "clicked", G_CALLBACK (invite_cb), tpage);
+	g_signal_connect (
+		priv->invite, "clicked",
+		G_CALLBACK (invite_cb), tpage);
 
 	/* Meeting List View */
-	g_signal_connect (priv->list_view, "attendee_added", G_CALLBACK (attendee_added_cb), tpage);
+	g_signal_connect (
+		priv->list_view, "attendee_added",
+		G_CALLBACK (attendee_added_cb), tpage);
 
 	/* Set the default timezone, so the timezone entry may be hidden. */
 	zone = comp_editor_get_timezone (editor);

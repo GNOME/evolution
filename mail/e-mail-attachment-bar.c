@@ -326,7 +326,10 @@ mail_attachment_bar_constructed (GObject *object)
 
 	/* Set up property-to-GSettings bindings. */
 	settings = g_settings_new ("org.gnome.evolution.shell");
-	g_settings_bind (settings, "attachment-view", object, "active-view", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "attachment-view",
+		object, "active-view",
+		G_SETTINGS_BIND_DEFAULT);
 	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */

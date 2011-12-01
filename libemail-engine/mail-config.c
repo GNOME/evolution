@@ -261,20 +261,25 @@ mail_config_init (EMailSession *session)
 
 	g_signal_connect (
 		mail_settings, "changed::address-compress",
-		G_CALLBACK (settings_bool_value_changed), &config->address_compress);
-	config->address_compress = g_settings_get_boolean (mail_settings, "address-compress");
+		G_CALLBACK (settings_bool_value_changed),
+		&config->address_compress);
+	config->address_compress = g_settings_get_boolean (
+		mail_settings, "address-compress");
 
 	g_signal_connect (
 		mail_settings, "changed::address-count",
-		G_CALLBACK (settings_int_value_changed), &config->address_count);
-	config->address_count = g_settings_get_int (mail_settings, "address-count");
+		G_CALLBACK (settings_int_value_changed),
+		&config->address_count);
+	config->address_count = g_settings_get_int (
+		mail_settings, "address-count");
 
 	/* Junk Configuration */
 
 	g_signal_connect (
 		mail_settings, "changed::junk-check-custom-header",
 		G_CALLBACK (settings_jh_check_changed), session);
-	config->jh_check = g_settings_get_boolean (mail_settings, "junk-check-custom-header");
+	config->jh_check = g_settings_get_boolean (
+		mail_settings, "junk-check-custom-header");
 
 	g_signal_connect (
 		mail_settings, "changed::junk-custom-header",
@@ -283,12 +288,15 @@ mail_config_init (EMailSession *session)
 	g_signal_connect (
 		mail_settings, "changed::junk-lookup-addressbook",
 		G_CALLBACK (settings_bool_value_changed), &config->book_lookup);
-	config->book_lookup = g_settings_get_boolean (mail_settings, "junk-lookup-addressbook");
+	config->book_lookup = g_settings_get_boolean (
+		mail_settings, "junk-lookup-addressbook");
 
 	g_signal_connect (
 		mail_settings, "changed::junk-lookup-addressbook-local-only",
-		G_CALLBACK (settings_bool_value_changed), &config->book_lookup_local_only);
-	config->book_lookup_local_only = g_settings_get_boolean (mail_settings, "junk-lookup-addressbook-local-only");
+		G_CALLBACK (settings_bool_value_changed),
+		&config->book_lookup_local_only);
+	config->book_lookup_local_only = g_settings_get_boolean (
+		mail_settings, "junk-lookup-addressbook-local-only");
 
 	settings_jh_check_changed (mail_settings, NULL, session);
 }

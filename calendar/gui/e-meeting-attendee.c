@@ -28,6 +28,10 @@
 #include <gtk/gtk.h>
 #include "e-meeting-attendee.h"
 
+#define E_MEETING_ATTENDEE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MEETING_ATTENDEE, EMeetingAttendeePrivate))
+
 struct _EMeetingAttendeePrivate {
 	gchar *address;
 	gchar *member;
@@ -72,25 +76,6 @@ static void e_meeting_attendee_finalize	(GObject *obj);
 
 G_DEFINE_TYPE (EMeetingAttendee, e_meeting_attendee, G_TYPE_OBJECT)
 
-static void
-e_meeting_attendee_class_init (EMeetingAttendeeClass *klass)
-{
-	GObjectClass *object_class;
-
-	object_class = G_OBJECT_CLASS (klass);
-
-	signals[CHANGED] =
-		g_signal_new ("changed",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EMeetingAttendeeClass, changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-
-	object_class->finalize = e_meeting_attendee_finalize;
-}
-
 static gchar *
 string_test (gchar *string)
 {
@@ -113,58 +98,11 @@ notify_changed (EMeetingAttendee *ia)
 }
 
 static void
-e_meeting_attendee_init (EMeetingAttendee *ia)
+e_meeting_attendee_finalize (GObject *object)
 {
 	EMeetingAttendeePrivate *priv;
 
-	priv = g_new0 (EMeetingAttendeePrivate, 1);
-
-	ia->priv = priv;
-
-	priv->address = string_test (NULL);
-	priv->member = string_test (NULL);
-
-	priv->cutype = ICAL_CUTYPE_NONE;
-	priv->role = ICAL_ROLE_NONE;
-
-	priv->rsvp = FALSE;
-
-	priv->delto = string_test (NULL);
-	priv->delfrom = string_test (NULL);
-
-	priv->status = ICAL_PARTSTAT_NONE;
-
-	priv->sentby = string_test (NULL);
-	priv->cn = string_test (NULL);
-	priv->language = string_test (NULL);
-
-	priv->edit_level = E_MEETING_ATTENDEE_EDIT_FULL;
-	priv->has_calendar_info = FALSE;
-
-	priv->busy_periods = g_array_new (FALSE, FALSE, sizeof (EMeetingFreeBusyPeriod));
-	priv->busy_periods_sorted = FALSE;
-
-	g_date_clear (&priv->busy_periods_start.date, 1);
-	priv->busy_periods_start.hour = 0;
-	priv->busy_periods_start.minute = 0;
-
-	g_date_clear (&priv->busy_periods_end.date, 1);
-	priv->busy_periods_end.hour = 0;
-	priv->busy_periods_end.minute = 0;
-
-	priv->start_busy_range_set = FALSE;
-	priv->end_busy_range_set = FALSE;
-
-	priv->longest_period_in_days = 0;
-}
-
-static void
-e_meeting_attendee_finalize (GObject *obj)
-{
-	EMeetingAttendee *ia = E_MEETING_ATTENDEE (obj);
-	EMeetingAttendeePrivate *priv;
-
-	priv = ia->priv;
+	priv = E_MEETING_ATTENDEE_GET_PRIVATE (object);
 
 	g_free (priv->address);
 	g_free (priv->member);
@@ -179,10 +117,70 @@ e_meeting_attendee_finalize (GObject *obj)
 
 	g_array_free (priv->busy_periods, TRUE);
 
-	g_free (priv);
-
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_meeting_attendee_parent_class)->finalize (obj);
+	G_OBJECT_CLASS (e_meeting_attendee_parent_class)->finalize (object);
+}
+
+static void
+e_meeting_attendee_class_init (EMeetingAttendeeClass *class)
+{
+	GObjectClass *object_class;
+
+	g_type_class_add_private (class, sizeof (EMeetingAttendeePrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = e_meeting_attendee_finalize;
+
+	signals[CHANGED] = g_signal_new (
+		"changed",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EMeetingAttendeeClass, changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+}
+
+static void
+e_meeting_attendee_init (EMeetingAttendee *ia)
+{
+	ia->priv = E_MEETING_ATTENDEE_GET_PRIVATE (ia);
+
+	ia->priv->address = string_test (NULL);
+	ia->priv->member = string_test (NULL);
+
+	ia->priv->cutype = ICAL_CUTYPE_NONE;
+	ia->priv->role = ICAL_ROLE_NONE;
+
+	ia->priv->rsvp = FALSE;
+
+	ia->priv->delto = string_test (NULL);
+	ia->priv->delfrom = string_test (NULL);
+
+	ia->priv->status = ICAL_PARTSTAT_NONE;
+
+	ia->priv->sentby = string_test (NULL);
+	ia->priv->cn = string_test (NULL);
+	ia->priv->language = string_test (NULL);
+
+	ia->priv->edit_level = E_MEETING_ATTENDEE_EDIT_FULL;
+	ia->priv->has_calendar_info = FALSE;
+
+	ia->priv->busy_periods = g_array_new (FALSE, FALSE, sizeof (EMeetingFreeBusyPeriod));
+	ia->priv->busy_periods_sorted = FALSE;
+
+	g_date_clear (&ia->priv->busy_periods_start.date, 1);
+	ia->priv->busy_periods_start.hour = 0;
+	ia->priv->busy_periods_start.minute = 0;
+
+	g_date_clear (&ia->priv->busy_periods_end.date, 1);
+	ia->priv->busy_periods_end.hour = 0;
+	ia->priv->busy_periods_end.minute = 0;
+
+	ia->priv->start_busy_range_set = FALSE;
+	ia->priv->end_busy_range_set = FALSE;
+
+	ia->priv->longest_period_in_days = 0;
 }
 
 GObject *
@@ -899,7 +897,13 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 			priv->busy_periods_end.hour = period.end.hour;
 			priv->busy_periods_end.minute = period.end.minute;
 		} else {
-			switch (g_date_compare (&period.end.date, &priv->busy_periods_end.date)) {
+			gint compare;
+
+			compare = g_date_compare (
+				&period.end.date,
+				&priv->busy_periods_end.date);
+
+			switch (compare) {
 			case 0:
 				if (period.end.hour > priv->busy_periods_end.hour
 				    || (period.end.hour == priv->busy_periods_end.hour

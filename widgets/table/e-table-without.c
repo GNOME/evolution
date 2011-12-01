@@ -32,6 +32,10 @@
 
 #include "e-table-without.h"
 
+#define E_TABLE_WITHOUT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TABLE_WITHOUT, ETableWithoutPrivate))
+
 /* workaround for avoiding API breakage */
 #define etw_get_type e_table_without_get_type
 G_DEFINE_TYPE (ETableWithout, etw, E_TYPE_TABLE_SUBSET)
@@ -145,7 +149,7 @@ etw_dispose (GObject *object)
 {
 	ETableWithoutPrivate *priv;
 
-	priv = E_TABLE_WITHOUT (object)->priv;
+	priv = E_TABLE_WITHOUT_GET_PRIVATE (object);
 
 	if (priv->hash != NULL) {
 		g_hash_table_foreach (priv->hash, delete_hash_element, object);
@@ -258,8 +262,7 @@ etw_class_init (ETableWithoutClass *class)
 static void
 etw_init (ETableWithout *etw)
 {
-	etw->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		etw, E_TYPE_TABLE_WITHOUT, ETableWithoutPrivate);
+	etw->priv = E_TABLE_WITHOUT_GET_PRIVATE (etw);
 }
 
 ETableModel *
@@ -285,7 +288,8 @@ e_table_without_construct (ETableWithout *etw,
 	etw->priv->free_duplicated_key_func = free_duplicated_key_func;
 	etw->priv->closure                  = closure;
 
-	etw->priv->hash = g_hash_table_new (etw->priv->hash_func, etw->priv->compare_func);
+	etw->priv->hash = g_hash_table_new (
+		etw->priv->hash_func, etw->priv->compare_func);
 
 	return E_TABLE_MODEL (etw);
 }
@@ -394,7 +398,8 @@ e_table_without_show_all (ETableWithout *etw)
 		g_hash_table_destroy (etw->priv->hash);
 		etw->priv->hash = NULL;
 	}
-	etw->priv->hash = g_hash_table_new (etw->priv->hash_func, etw->priv->compare_func);
+	etw->priv->hash = g_hash_table_new (
+		etw->priv->hash_func, etw->priv->compare_func);
 
 	row_count = e_table_model_row_count (E_TABLE_MODEL (etss->source));
 	g_free (etss->map_table);

@@ -29,8 +29,8 @@
 
 #include "e-table-model.h"
 
-#define ETM_CLASS(e) (E_TABLE_MODEL_GET_CLASS (e))
-#define ETM_FROZEN(e) (GPOINTER_TO_INT (g_object_get_data (G_OBJECT(e), "frozen")) != 0)
+#define ETM_FROZEN(e) \
+	(GPOINTER_TO_INT (g_object_get_data (G_OBJECT(e), "frozen")) != 0)
 
 #define d(x)
 
@@ -50,7 +50,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint e_table_model_signals[LAST_SIGNAL] = { 0, };
+static guint signals[LAST_SIGNAL] = { 0, };
 
 /**
  * e_table_model_column_count:
@@ -61,10 +61,14 @@ static guint e_table_model_signals[LAST_SIGNAL] = { 0, };
 gint
 e_table_model_column_count (ETableModel *e_table_model)
 {
-	g_return_val_if_fail (e_table_model != NULL, 0);
+	ETableModelClass *class;
+
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), 0);
 
-	return ETM_CLASS (e_table_model)->column_count (e_table_model);
+	class = E_TABLE_MODEL_GET_CLASS (e_table_model);
+	g_return_val_if_fail (class->column_count != NULL, 0);
+
+	return class->column_count (e_table_model);
 }
 
 /**
@@ -76,10 +80,14 @@ e_table_model_column_count (ETableModel *e_table_model)
 gint
 e_table_model_row_count (ETableModel *e_table_model)
 {
-	g_return_val_if_fail (e_table_model != NULL, 0);
+	ETableModelClass *class;
+
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), 0);
 
-	return ETM_CLASS (e_table_model)->row_count (e_table_model);
+	class = E_TABLE_MODEL_GET_CLASS (e_table_model);
+	g_return_val_if_fail (class->row_count != NULL, 0);
+
+	return class->row_count (e_table_model);
 }
 
 /**
@@ -94,11 +102,14 @@ e_table_model_append_row (ETableModel *e_table_model,
                           ETableModel *source,
                           gint row)
 {
-	g_return_if_fail (e_table_model != NULL);
+	ETableModelClass *class;
+
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
-	if (ETM_CLASS (e_table_model)->append_row)
-		ETM_CLASS (e_table_model)->append_row (e_table_model, source, row);
+	class = E_TABLE_MODEL_GET_CLASS (e_table_model);
+
+	if (class->append_row != NULL)
+		class->append_row (e_table_model, source, row);
 }
 
 /**
@@ -125,10 +136,14 @@ e_table_model_value_at (ETableModel *e_table_model,
                         gint col,
                         gint row)
 {
-	g_return_val_if_fail (e_table_model != NULL, NULL);
+	ETableModelClass *class;
+
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
 
-	return ETM_CLASS (e_table_model)->value_at (e_table_model, col, row);
+	class = E_TABLE_MODEL_GET_CLASS (e_table_model);
+	g_return_val_if_fail (class->value_at != NULL, NULL);
+
+	return class->value_at (e_table_model, col, row);
 }
 
 /**
@@ -152,10 +167,14 @@ e_table_model_set_value_at (ETableModel *e_table_model,
                             gint row,
                             gconstpointer value)
 {
-	g_return_if_fail (e_table_model != NULL);
+	ETableModelClass *class;
+
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
-	ETM_CLASS (e_table_model)->set_value_at (e_table_model, col, row, value);
+	class = E_TABLE_MODEL_GET_CLASS (e_table_model);
+	g_return_if_fail (class->set_value_at != NULL);
+
+	class->set_value_at (e_table_model, col, row, value);
 }
 
 /**
@@ -172,10 +191,14 @@ e_table_model_is_cell_editable (ETableModel *e_table_model,
                                 gint col,
                                 gint row)
 {
-	g_return_val_if_fail (e_table_model != NULL, FALSE);
+	ETableModelClass *class;
+
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), FALSE);
 
-	return ETM_CLASS (e_table_model)->is_cell_editable (e_table_model, col, row);
+	class = E_TABLE_MODEL_GET_CLASS (e_table_model);
+	g_return_val_if_fail (class->is_cell_editable != NULL, FALSE);
+
+	return class->is_cell_editable (e_table_model, col, row);
 }
 
 gpointer
@@ -183,13 +206,16 @@ e_table_model_duplicate_value (ETableModel *e_table_model,
                                gint col,
                                gconstpointer value)
 {
-	g_return_val_if_fail (e_table_model != NULL, NULL);
+	ETableModelClass *class;
+
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
 
-	if (ETM_CLASS (e_table_model)->duplicate_value)
-		return ETM_CLASS (e_table_model)->duplicate_value (e_table_model, col, value);
-	else
+	class = E_TABLE_MODEL_GET_CLASS (e_table_model);
+
+	if (class->duplicate_value == NULL)
 		return NULL;
+
+	return class->duplicate_value (e_table_model, col, value);
 }
 
 void
@@ -197,61 +223,76 @@ e_table_model_free_value (ETableModel *e_table_model,
                           gint col,
                           gpointer value)
 {
-	g_return_if_fail (e_table_model != NULL);
+	ETableModelClass *class;
+
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
-	if (ETM_CLASS (e_table_model)->free_value)
-		ETM_CLASS (e_table_model)->free_value (e_table_model, col, value);
+	class = E_TABLE_MODEL_GET_CLASS (e_table_model);
+
+	if (class->free_value != NULL)
+		class->free_value (e_table_model, col, value);
 }
 
 gboolean
 e_table_model_has_save_id (ETableModel *e_table_model)
 {
-	g_return_val_if_fail (e_table_model != NULL, FALSE);
+	ETableModelClass *class;
+
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), FALSE);
 
-	if (ETM_CLASS (e_table_model)->has_save_id)
-		return ETM_CLASS (e_table_model)->has_save_id (e_table_model);
-	else
+	class = E_TABLE_MODEL_GET_CLASS (e_table_model);
+
+	if (class->has_save_id == NULL)
 		return FALSE;
+
+	return class->has_save_id (e_table_model);
 }
 
 gchar *
 e_table_model_get_save_id (ETableModel *e_table_model,
                            gint row)
 {
-	g_return_val_if_fail (e_table_model != NULL, NULL);
+	ETableModelClass *class;
+
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
 
-	if (ETM_CLASS (e_table_model)->get_save_id)
-		return ETM_CLASS (e_table_model)->get_save_id (e_table_model, row);
-	else
+	class = E_TABLE_MODEL_GET_CLASS (e_table_model);
+
+	if (class->get_save_id == NULL)
 		return NULL;
+
+	return class->get_save_id (e_table_model, row);
 }
 
 gboolean
 e_table_model_has_change_pending (ETableModel *e_table_model)
 {
-	g_return_val_if_fail (e_table_model != NULL, FALSE);
+	ETableModelClass *class;
+
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), FALSE);
 
-	if (ETM_CLASS (e_table_model)->has_change_pending)
-		return ETM_CLASS (e_table_model)->has_change_pending (e_table_model);
-	else
+	class = E_TABLE_MODEL_GET_CLASS (e_table_model);
+
+	if (class->has_change_pending == NULL)
 		return FALSE;
+
+	return class->has_change_pending (e_table_model);
 }
 
 gpointer
 e_table_model_initialize_value (ETableModel *e_table_model,
                                 gint col)
 {
-	g_return_val_if_fail (e_table_model != NULL, NULL);
+	ETableModelClass *class;
+
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
 
-	if (ETM_CLASS (e_table_model)->initialize_value)
-		return ETM_CLASS (e_table_model)->initialize_value (e_table_model, col);
-	else
+	class = E_TABLE_MODEL_GET_CLASS (e_table_model);
+
+	if (class->initialize_value == NULL)
 		return NULL;
+
+	return class->initialize_value (e_table_model, col);
 }
 
 gboolean
@@ -259,13 +300,16 @@ e_table_model_value_is_empty (ETableModel *e_table_model,
                               gint col,
                               gconstpointer value)
 {
-	g_return_val_if_fail (e_table_model != NULL, FALSE);
+	ETableModelClass *class;
+
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), FALSE);
 
-	if (ETM_CLASS (e_table_model)->value_is_empty)
-		return ETM_CLASS (e_table_model)->value_is_empty (e_table_model, col, value);
-	else
+	class = E_TABLE_MODEL_GET_CLASS (e_table_model);
+
+	if (class->value_is_empty == NULL)
 		return FALSE;
+
+	return class->value_is_empty (e_table_model, col, value);
 }
 
 gchar *
@@ -273,13 +317,16 @@ e_table_model_value_to_string (ETableModel *e_table_model,
                                gint col,
                                gconstpointer value)
 {
-	g_return_val_if_fail (e_table_model != NULL, NULL);
+	ETableModelClass *class;
+
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
 
-	if (ETM_CLASS (e_table_model)->value_to_string)
-		return ETM_CLASS (e_table_model)->value_to_string (e_table_model, col, value);
-	else
-		return g_strdup("");
+	class = E_TABLE_MODEL_GET_CLASS (e_table_model);
+
+	if (class->value_to_string == NULL)
+		return g_strdup ("");
+
+	return class->value_to_string (e_table_model, col, value);
 }
 
 static void
@@ -287,68 +334,75 @@ e_table_model_class_init (ETableModelClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	e_table_model_signals[MODEL_NO_CHANGE] =
-		g_signal_new ("model_no_change",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableModelClass, model_no_change),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[MODEL_NO_CHANGE] = g_signal_new (
+		"model_no_change",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableModelClass, model_no_change),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	e_table_model_signals[MODEL_CHANGED] =
-		g_signal_new ("model_changed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableModelClass, model_changed),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[MODEL_CHANGED] = g_signal_new (
+		"model_changed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableModelClass, model_changed),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	e_table_model_signals[MODEL_PRE_CHANGE] =
-		g_signal_new ("model_pre_change",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableModelClass, model_pre_change),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[MODEL_PRE_CHANGE] = g_signal_new (
+		"model_pre_change",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableModelClass, model_pre_change),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	e_table_model_signals[MODEL_ROW_CHANGED] =
-		g_signal_new ("model_row_changed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableModelClass, model_row_changed),
-			      (GSignalAccumulator) NULL, NULL,
-			      g_cclosure_marshal_VOID__INT,
-			      G_TYPE_NONE, 1, G_TYPE_INT);
+	signals[MODEL_ROW_CHANGED] = g_signal_new (
+		"model_row_changed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableModelClass, model_row_changed),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE, 1,
+		G_TYPE_INT);
 
-	e_table_model_signals[MODEL_CELL_CHANGED] =
-		g_signal_new ("model_cell_changed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableModelClass, model_cell_changed),
-			      (GSignalAccumulator) NULL, NULL,
-			      e_marshal_VOID__INT_INT,
-			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
+	signals[MODEL_CELL_CHANGED] = g_signal_new (
+		"model_cell_changed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableModelClass, model_cell_changed),
+		(GSignalAccumulator) NULL, NULL,
+		e_marshal_VOID__INT_INT,
+		G_TYPE_NONE, 2,
+		G_TYPE_INT,
+		G_TYPE_INT);
 
-	e_table_model_signals[MODEL_ROWS_INSERTED] =
-		g_signal_new ("model_rows_inserted",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableModelClass, model_rows_inserted),
-			      (GSignalAccumulator) NULL, NULL,
-			      e_marshal_VOID__INT_INT,
-			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
+	signals[MODEL_ROWS_INSERTED] = g_signal_new (
+		"model_rows_inserted",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableModelClass, model_rows_inserted),
+		(GSignalAccumulator) NULL, NULL,
+		e_marshal_VOID__INT_INT,
+		G_TYPE_NONE, 2,
+		G_TYPE_INT,
+		G_TYPE_INT);
 
-	e_table_model_signals[MODEL_ROWS_DELETED] =
-		g_signal_new ("model_rows_deleted",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableModelClass, model_rows_deleted),
-			      (GSignalAccumulator) NULL, NULL,
-			      e_marshal_VOID__INT_INT,
-			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
+	signals[MODEL_ROWS_DELETED] = g_signal_new (
+		"model_rows_deleted",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ETableModelClass, model_rows_deleted),
+		(GSignalAccumulator) NULL, NULL,
+		e_marshal_VOID__INT_INT,
+		G_TYPE_NONE, 2,
+		G_TYPE_INT,
+		G_TYPE_INT);
 
 	class->column_count        = NULL;
 	class->row_count           = NULL;
@@ -396,17 +450,15 @@ print_tabs (void)
 void
 e_table_model_pre_change (ETableModel *e_table_model)
 {
-	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
 	if (ETM_FROZEN (e_table_model))
 		return;
 
 	d (print_tabs ());
-	d(g_print("Emitting pre_change on model 0x%p, a %s.\n", e_table_model, g_type_name (G_OBJECT(e_table_model)->class->type)));
 	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
-		       e_table_model_signals[MODEL_PRE_CHANGE], 0);
+		       signals[MODEL_PRE_CHANGE], 0);
 	d (depth--);
 }
 
@@ -426,17 +478,15 @@ e_table_model_pre_change (ETableModel *e_table_model)
 void
 e_table_model_no_change (ETableModel *e_table_model)
 {
-	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
 	if (ETM_FROZEN (e_table_model))
 		return;
 
 	d (print_tabs ());
-	d(g_print("Emitting model_no_change on model 0x%p, a %s.\n", e_table_model, g_type_name (G_OBJECT(e_table_model)->class->type)));
 	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
-		       e_table_model_signals[MODEL_NO_CHANGE], 0);
+		       signals[MODEL_NO_CHANGE], 0);
 	d (depth--);
 }
 
@@ -456,17 +506,15 @@ e_table_model_no_change (ETableModel *e_table_model)
 void
 e_table_model_changed (ETableModel *e_table_model)
 {
-	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
 	if (ETM_FROZEN (e_table_model))
 		return;
 
 	d (print_tabs ());
-	d(g_print("Emitting model_changed on model 0x%p, a %s.\n", e_table_model, g_type_name (G_OBJECT(e_table_model)->class->type)));
 	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
-		       e_table_model_signals[MODEL_CHANGED], 0);
+		       signals[MODEL_CHANGED], 0);
 	d (depth--);
 }
 
@@ -484,17 +532,15 @@ void
 e_table_model_row_changed (ETableModel *e_table_model,
                            gint row)
 {
-	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
 	if (ETM_FROZEN (e_table_model))
 		return;
 
 	d (print_tabs ());
-	d(g_print("Emitting row_changed on model 0x%p, a %s, row %d.\n", e_table_model, g_type_name (G_OBJECT(e_table_model)->class->type), row));
 	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
-		       e_table_model_signals[MODEL_ROW_CHANGED], 0, row);
+		       signals[MODEL_ROW_CHANGED], 0, row);
 	d (depth--);
 }
 
@@ -514,17 +560,15 @@ e_table_model_cell_changed (ETableModel *e_table_model,
                             gint col,
                             gint row)
 {
-	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
 	if (ETM_FROZEN (e_table_model))
 		return;
 
 	d (print_tabs ());
-	d(g_print("Emitting cell_changed on model 0x%p, a %s, row %d, col %d.\n", e_table_model, g_type_name (G_OBJECT(e_table_model)->class->type), row, col));
 	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
-		       e_table_model_signals[MODEL_CELL_CHANGED], 0, col, row);
+		       signals[MODEL_CELL_CHANGED], 0, col, row);
 	d (depth--);
 }
 
@@ -544,17 +588,15 @@ e_table_model_rows_inserted (ETableModel *e_table_model,
                              gint row,
                              gint count)
 {
-	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
 	if (ETM_FROZEN (e_table_model))
 		return;
 
 	d (print_tabs ());
-	d(g_print("Emitting row_inserted on model 0x%p, a %s, row %d.\n", e_table_model, g_type_name (G_OBJECT(e_table_model)->class->type), row));
 	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
-		       e_table_model_signals[MODEL_ROWS_INSERTED], 0, row, count);
+		       signals[MODEL_ROWS_INSERTED], 0, row, count);
 	d (depth--);
 }
 
@@ -590,17 +632,15 @@ e_table_model_rows_deleted (ETableModel *e_table_model,
                             gint row,
                             gint count)
 {
-	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
 	if (ETM_FROZEN (e_table_model))
 		return;
 
 	d (print_tabs ());
-	d(g_print("Emitting row_deleted on model 0x%p, a %s, row %d.\n", e_table_model, g_type_name (G_OBJECT(e_table_model)->class->type), row));
 	d (depth++);
-	g_signal_emit (G_OBJECT (e_table_model),
-		       e_table_model_signals[MODEL_ROWS_DELETED], 0, row, count);
+	g_signal_emit (
+		e_table_model, signals[MODEL_ROWS_DELETED], 0, row, count);
 	d (depth--);
 }
 
@@ -624,13 +664,23 @@ void
 e_table_model_freeze (ETableModel *e_table_model)
 {
 	e_table_model_pre_change (e_table_model);
-	g_object_set_data (G_OBJECT (e_table_model), "frozen", GINT_TO_POINTER (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (e_table_model), "frozen")) + 1));
+
+	/* FIXME This expression is awesome! */
+	g_object_set_data (
+		G_OBJECT (e_table_model), "frozen",
+		GINT_TO_POINTER (GPOINTER_TO_INT (
+		g_object_get_data (G_OBJECT (e_table_model), "frozen")) + 1));
 }
 
 void
 e_table_model_thaw (ETableModel *e_table_model)
 {
-	g_object_set_data (G_OBJECT (e_table_model), "frozen", GINT_TO_POINTER (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (e_table_model), "frozen")) - 1));
+	/* FIXME This expression is awesome! */
+	g_object_set_data (
+		G_OBJECT (e_table_model), "frozen",
+		GINT_TO_POINTER (GPOINTER_TO_INT (
+		g_object_get_data (G_OBJECT (e_table_model), "frozen")) - 1));
+
 	e_table_model_changed (e_table_model);
 }
 

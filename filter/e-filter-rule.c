@@ -35,6 +35,10 @@
 #include "e-filter-rule.h"
 #include "e-rule-context.h"
 
+#define E_FILTER_RULE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_FILTER_RULE, EFilterRulePrivate))
+
 typedef struct _FilterPartData FilterPartData;
 typedef struct _FilterRuleData FilterRuleData;
 
@@ -161,7 +165,9 @@ get_rule_part_widget (ERuleContext *context,
 	}
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), current);
-	g_signal_connect (combobox, "changed", G_CALLBACK (part_combobox_changed), data);
+	g_signal_connect (
+		combobox, "changed",
+		G_CALLBACK (part_combobox_changed), data);
 	gtk_widget_show (combobox);
 
 	gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, FALSE, 0);
@@ -213,7 +219,9 @@ attach_rule (GtkWidget *rule,
 
 	remove = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
 	g_object_set_data ((GObject *) remove, "rule", rule);
-	g_signal_connect (remove, "clicked", G_CALLBACK (less_parts), data);
+	g_signal_connect (
+		remove, "clicked",
+		G_CALLBACK (less_parts), data);
 	gtk_table_attach (GTK_TABLE (data->parts), remove, 1, 2, row, row + 1,
 			  0, 0, 0, 0);
 
@@ -252,7 +260,9 @@ more_parts (GtkWidget *button,
 		l = g_list_last (data->rule->parts);
 		part = l->data;
 		if (!e_filter_part_validate (part, &alert)) {
-			e_alert_run_dialog (GTK_WINDOW (gtk_widget_get_toplevel (button)), alert);
+			GtkWidget *toplevel;
+			toplevel = gtk_widget_get_toplevel (button);
+			e_alert_run_dialog (GTK_WINDOW (toplevel), alert);
 			return;
 		}
 	}
@@ -283,7 +293,8 @@ more_parts (GtkWidget *button,
 		if (w) {
 			GtkAdjustment *adjustment;
 
-			adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (w));
+			adjustment = gtk_scrolled_window_get_vadjustment (
+				GTK_SCROLLED_WINDOW (w));
 			if (adjustment) {
 				gdouble upper;
 
@@ -693,7 +704,9 @@ filter_rule_get_widget (EFilterRule *rule,
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), name, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-	g_signal_connect (name, "changed", G_CALLBACK (name_changed), rule);
+	g_signal_connect (
+		name, "changed",
+		G_CALLBACK (name_changed), rule);
 	gtk_widget_show (label);
 	gtk_widget_show (hbox);
 
@@ -796,7 +809,9 @@ filter_rule_get_widget (EFilterRule *rule,
 	gtk_button_set_image (
 		GTK_BUTTON (add), gtk_image_new_from_stock (
 		GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
-	g_signal_connect (add, "clicked", G_CALLBACK (more_parts), data);
+	g_signal_connect (
+		add, "clicked",
+		G_CALLBACK (more_parts), data);
 	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
@@ -825,7 +840,9 @@ filter_rule_get_widget (EFilterRule *rule,
 	vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 1.0, 1.0, 1.0, 1.0));
 	scrolledwindow = gtk_scrolled_window_new (hadj, vadj);
 
-	g_signal_connect (hadj, "notify::upper", G_CALLBACK (ensure_scrolled_width_cb), scrolledwindow);
+	g_signal_connect (
+		hadj, "notify::upper",
+		G_CALLBACK (ensure_scrolled_width_cb), scrolledwindow);
 
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (scrolledwindow),
@@ -875,8 +892,7 @@ e_filter_rule_class_init (EFilterRuleClass *class)
 static void
 e_filter_rule_init (EFilterRule *rule)
 {
-	rule->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		rule, E_TYPE_FILTER_RULE, EFilterRulePrivate);
+	rule->priv = E_FILTER_RULE_GET_PRIVATE (rule);
 	rule->enabled = TRUE;
 }
 

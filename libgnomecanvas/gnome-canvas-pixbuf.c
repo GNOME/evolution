@@ -30,6 +30,10 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "gnome-canvas-pixbuf.h"
 
+#define GNOME_CANVAS_PIXBUF_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), GNOME_TYPE_CANVAS_PIXBUF, GnomeCanvasPixbufPrivate))
+
 /* Private part of the GnomeCanvasPixbuf structure */
 struct _GnomeCanvasPixbufPrivate {
 	/* Our gdk-pixbuf */
@@ -100,8 +104,7 @@ gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
 static void
 gnome_canvas_pixbuf_init (GnomeCanvasPixbuf *gcp)
 {
-	gcp->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		gcp, GNOME_TYPE_CANVAS_PIXBUF, GnomeCanvasPixbufPrivate);
+	gcp->priv = GNOME_CANVAS_PIXBUF_GET_PRIVATE (gcp);
 }
 
 /* Dispose handler for the pixbuf canvas item */

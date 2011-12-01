@@ -123,14 +123,17 @@ gal_a11y_e_table_column_header_do_action (AtkAction *action,
 	switch (i) {
 		case 0:
 			a11y = GAL_A11Y_E_TABLE_COLUMN_HEADER (action);
-			col = E_TABLE_COL (etch_a11y_get_gobject (ATK_GOBJECT_ACCESSIBLE (a11y)));
+			col = E_TABLE_COL (etch_a11y_get_gobject (
+				ATK_GOBJECT_ACCESSIBLE (a11y)));
 			item = GET_PRIVATE (a11y)->item;
 			widget = gtk_widget_get_parent (GTK_WIDGET (item->parent.canvas));
 			if (E_IS_TREE (widget)) {
-				ethi = E_TABLE_HEADER_ITEM (e_tree_get_header_item (E_TREE (widget)));
+				ethi = E_TABLE_HEADER_ITEM (
+					e_tree_get_header_item (E_TREE (widget)));
 			}
 			else if (E_IS_TABLE (widget))
-				ethi = E_TABLE_HEADER_ITEM (E_TABLE (widget)->header_item);
+				ethi = E_TABLE_HEADER_ITEM (
+					E_TABLE (widget)->header_item);
 			else
 				break;
 			ethi_change_sort_state (ethi, col);

@@ -43,6 +43,10 @@
 #include "e-table-extras.h"
 #include "e-table-sorting-utils.h"
 
+#define E_TABLE_EXTRAS_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TABLE_EXTRAS, ETableExtrasPrivate))
+
 struct _ETableExtrasPrivate {
 	GHashTable *cells;
 	GHashTable *compares;
@@ -59,7 +63,7 @@ ete_finalize (GObject *object)
 {
 	ETableExtrasPrivate *priv;
 
-	priv = E_TABLE_EXTRAS (object)->priv;
+	priv = E_TABLE_EXTRAS_GET_PRIVATE (object);
 
 	if (priv->cells) {
 		g_hash_table_destroy (priv->cells);
@@ -237,8 +241,7 @@ ete_init (ETableExtras *extras)
 {
 	ECell *cell, *sub_cell;
 
-	extras->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		extras, E_TYPE_TABLE_EXTRAS, ETableExtrasPrivate);
+	extras->priv = E_TABLE_EXTRAS_GET_PRIVATE (extras);
 
 	extras->priv->cells = g_hash_table_new_full (
 		g_str_hash, g_str_equal,

@@ -26,18 +26,7 @@
 
 #include "e-cal-event.h"
 
-static GObjectClass *ece_parent;
-
-static void
-ece_init (GObject *o)
-{
-}
-
-static void
-ece_finalize (GObject *o)
-{
-	((GObjectClass *) ece_parent)->finalize (o);
-}
+G_DEFINE_TYPE (ECalEvent, e_cal_event, E_TYPE_EVENT)
 
 static void
 ece_target_free (EEvent *ev,
@@ -53,36 +42,21 @@ ece_target_free (EEvent *ev,
 		break; }
 	}
 
-	((EEventClass *) ece_parent)->target_free (ev, t);
+	E_EVENT_CLASS (e_cal_event_parent_class)->target_free (ev, t);
 }
 
 static void
-ece_class_init (GObjectClass *klass)
+e_cal_event_class_init (ECalEventClass *class)
 {
-	klass->finalize = ece_finalize;
-	((EEventClass *) klass)->target_free = ece_target_free;
+	EEventClass *event_class;
+
+	event_class = E_EVENT_CLASS (class);
+	event_class->target_free = ece_target_free;
 }
 
-GType
-e_cal_event_get_type (void)
+static void
+e_cal_event_init (ECalEvent *event)
 {
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (ECalEventClass),
-			NULL, NULL,
-			(GClassInitFunc) ece_class_init,
-			NULL, NULL,
-			sizeof (ECalEvent), 0,
-			(GInstanceInitFunc) ece_init
-		};
-		ece_parent = g_type_class_ref (e_event_get_type ());
-		type = g_type_register_static (
-			e_event_get_type (), "ECalEvent", &info, 0);
-	}
-
-	return type;
 }
 
 ECalEvent *

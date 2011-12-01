@@ -770,11 +770,13 @@ e_mail_tab_allocate (ClutterActor *actor,
 	/* Allocate for label */
 	if ((priv->preview_height_progress <= TAB_S1_ANIM) || (!priv->preview)) {
 		if (priv->icon)
-			child_box.x1 = E_MAIL_PIXBOUND (padding.left + icon_width + priv->spacing);
+			child_box.x1 = E_MAIL_PIXBOUND (
+				padding.left + icon_width + priv->spacing);
 		else
 			child_box.x1 = E_MAIL_PIXBOUND (padding.left);
 		child_box.x2 = (box->x2 - box->x1 - padding.right);
-		child_box.y1 = E_MAIL_PIXBOUND ((box->y2 - box->y1) / 2 - label_height / 2);
+		child_box.y1 = E_MAIL_PIXBOUND (
+			(box->y2 - box->y1) / 2 - label_height / 2);
 		child_box.y2 = child_box.y1 + label_height;
 
 		/* If close button is visible, don't overlap it */
@@ -1879,12 +1881,6 @@ e_mail_tab_alert_cb (EMailTab *tab)
 	if (priv->alert_count < 4)
 		return TRUE;
 
-	/* This call isn't needed, it should be in the correct state as long as
-	 * the above check always checks for < (an even number)
-	 */
-	/*if (!priv->preview_mode)
-		clutter_actor_set_name (CLUTTER_ACTOR (tab),
-														priv->private ? "private-tab" : NULL);*/
 	priv->alert_source = 0;
 
 	return FALSE;

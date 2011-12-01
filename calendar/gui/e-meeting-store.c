@@ -49,6 +49,10 @@
 #define ROW_VALID(store, row) \
 	(row >= 0 && row < store->priv->attendees->len)
 
+#define E_MEETING_STORE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MEETING_STORE, EMeetingStorePrivate))
+
 struct _EMeetingStorePrivate {
 	GPtrArray *attendees;
 	gint stamp;
@@ -739,7 +743,7 @@ meeting_store_finalize (GObject *object)
 	EMeetingStorePrivate *priv;
 	gint i;
 
-	priv = E_MEETING_STORE (object)->priv;
+	priv = E_MEETING_STORE_GET_PRIVATE (object);
 
 	for (i = 0; i < priv->attendees->len; i++)
 		g_object_unref (g_ptr_array_index (priv->attendees, i));
@@ -846,8 +850,7 @@ e_meeting_store_class_init (EMeetingStoreClass *class)
 static void
 e_meeting_store_init (EMeetingStore *store)
 {
-	store->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		store, E_TYPE_MEETING_STORE, EMeetingStorePrivate);
+	store->priv = E_MEETING_STORE_GET_PRIVATE (store);
 
 	store->priv->attendees = g_ptr_array_new ();
 	store->priv->refresh_queue = g_ptr_array_new ();
@@ -1028,7 +1031,9 @@ e_meeting_store_add_attendee (EMeetingStore *store,
 	g_object_ref (attendee);
 	g_ptr_array_add (store->priv->attendees, attendee);
 
-	g_signal_connect (attendee, "changed", G_CALLBACK (attendee_changed_cb), store);
+	g_signal_connect (
+		attendee, "changed",
+		G_CALLBACK (attendee_changed_cb), store);
 
 	path = gtk_tree_path_new ();
 	gtk_tree_path_append_index (path, store->priv->attendees->len - 1);
@@ -1797,16 +1802,18 @@ async_read (GObject *source_object,
 
 	read = g_input_stream_read_finish (istream, result, &error);
 
-	if (error || read < 0) {
-		g_warning ("Read finish failed: %s", error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
+	if (error != NULL) {
+		g_warning (
+			"Read finish failed: %s", error->message);
+		g_error_free (error);
 
 		g_input_stream_close (istream, NULL, NULL);
 		g_object_unref (istream);
 		process_free_busy (qdata, qdata->string->str);
 		return;
 	}
+
+	g_return_if_fail (read >= 0);
 
 	if (read == 0) {
 		g_input_stream_close (istream, NULL, NULL);

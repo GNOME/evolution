@@ -31,6 +31,10 @@
 #include "e-util/e-util.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 
+#define EAB_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EAB_TYPE_EDITOR, EABEditorPrivate))
+
 struct _EABEditorPrivate {
 	EShell *shell;
 };
@@ -51,6 +55,8 @@ enum {
 static GSList *all_editors;
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_ABSTRACT_TYPE (EABEditor, eab_editor, G_TYPE_OBJECT)
 
 static void
 eab_editor_quit_requested_cb (EShell *shell,
@@ -123,7 +129,7 @@ eab_editor_dispose (GObject *object)
 {
 	EABEditorPrivate *priv;
 
-	priv = EAB_EDITOR (object)->priv;
+	priv = EAB_EDITOR_GET_PRIVATE (object);
 
 	if (priv->shell != NULL) {
 		g_signal_handlers_disconnect_matched (
@@ -214,37 +220,9 @@ eab_editor_class_init (EABEditorClass *class)
 static void
 eab_editor_init (EABEditor *editor)
 {
-	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		editor, EAB_TYPE_EDITOR, EABEditorPrivate);
+	editor->priv = EAB_EDITOR_GET_PRIVATE (editor);
 
 	all_editors = g_slist_prepend (all_editors, editor);
-}
-
-GType
-eab_editor_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info =  {
-			sizeof (EABEditorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) eab_editor_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EABEditor),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) eab_editor_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EABEditor", &type_info,
-			G_TYPE_FLAG_ABSTRACT);
-	}
-
-	return type;
 }
 
 EShell *

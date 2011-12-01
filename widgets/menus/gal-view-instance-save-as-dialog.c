@@ -218,11 +218,11 @@ gal_view_instance_save_as_dialog_dispose (GObject *object)
 
 /* Init functions */
 static void
-gal_view_instance_save_as_dialog_class_init (GalViewInstanceSaveAsDialogClass *klass)
+gal_view_instance_save_as_dialog_class_init (GalViewInstanceSaveAsDialogClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = (GObjectClass *) klass;
+	object_class = (GObjectClass *) class;
 
 	object_class->set_property = gal_view_instance_save_as_dialog_set_property;
 	object_class->get_property = gal_view_instance_save_as_dialog_get_property;
@@ -273,9 +273,15 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 	gtk_tree_view_set_reorderable (GTK_TREE_VIEW (dialog->treeview), FALSE);
 	gtk_tree_view_set_headers_visible (dialog->treeview, FALSE);
 
-	g_signal_connect (dialog->radiobutton_replace, "toggled", G_CALLBACK (gvisad_radio_toggled), dialog);
-	g_signal_connect (dialog->radiobutton_create,  "toggled", G_CALLBACK (gvisad_radio_toggled), dialog);
-	g_signal_connect (dialog->entry_create,        "changed", G_CALLBACK (gvisad_entry_changed), dialog);
+	g_signal_connect (
+		dialog->radiobutton_replace, "toggled",
+		G_CALLBACK (gvisad_radio_toggled), dialog);
+	g_signal_connect (
+		dialog->radiobutton_create, "toggled",
+		G_CALLBACK (gvisad_radio_toggled), dialog);
+	g_signal_connect (
+		dialog->entry_create, "changed",
+		G_CALLBACK (gvisad_entry_changed), dialog);
 
 	gvisad_setup_radio_buttons (dialog);
 	gvisad_setup_validate_button (dialog);

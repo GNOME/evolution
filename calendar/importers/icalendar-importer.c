@@ -317,7 +317,9 @@ ivcal_getwidget (EImport *ei,
 		primary = e_source_list_peek_source_any (source_list);
 		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (selector), primary);
 
-		g_signal_connect (selector, "primary_selection_changed", G_CALLBACK (primary_selection_changed_cb), target);
+		g_signal_connect (
+			selector, "primary_selection_changed",
+			G_CALLBACK (primary_selection_changed_cb), target);
 
 		rb = gtk_radio_button_new_with_label (group, _(import_type_strings[i]));
 		gtk_box_pack_start (GTK_BOX (hbox), rb, FALSE, FALSE, 6);
@@ -1038,12 +1040,16 @@ gnome_calendar_getwidget (EImport *ei,
 
 	w = gtk_check_button_new_with_label (_("Calendar Events"));
 	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_cal);
-	g_signal_connect (w, "toggled", G_CALLBACK (calendar_toggle_cb), target);
+	g_signal_connect (
+		w, "toggled",
+		G_CALLBACK (calendar_toggle_cb), target);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 
 	w = gtk_check_button_new_with_label (_("Tasks"));
 	gtk_toggle_button_set_active ((GtkToggleButton *) w, !done_tasks);
-	g_signal_connect (w, "toggled", G_CALLBACK (tasks_toggle_cb), target);
+	g_signal_connect (
+		w, "toggled",
+		G_CALLBACK (tasks_toggle_cb), target);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (hbox);
@@ -1511,7 +1517,9 @@ ical_get_preview (icalcomponent *icalcomp)
 
 	selection = gtk_tree_view_get_selection (tree_view);
 	gtk_tree_selection_select_iter (selection, &iter);
-	g_signal_connect (selection, "changed", G_CALLBACK (preview_selection_changed_cb), preview);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (preview_selection_changed_cb), preview);
 
 	preview_selection_changed_cb (selection, E_WEB_VIEW_PREVIEW (preview));
 

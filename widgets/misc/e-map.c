@@ -36,6 +36,10 @@
 
 #include "e-map.h"
 
+#define E_MAP_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAP, EMapPrivate))
+
 #define E_MAP_TWEEN_TIMEOUT_MSECS 25
 #define E_MAP_TWEEN_DURATION_MSECS 150
 
@@ -563,9 +567,6 @@ e_map_finalize (GObject *object)
 	/* gone in unrealize */
 	g_assert (map->priv->map_render_surface == NULL);
 
-	g_free (map->priv);
-	map->priv = NULL;
-
 	G_OBJECT_CLASS (e_map_parent_class)->finalize (object);
 }
 
@@ -807,10 +808,12 @@ e_map_class_init (EMapClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
+	g_type_class_add_private (class, sizeof (EMapPrivate));
+
 	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = e_map_finalize;
 	object_class->set_property = e_map_set_property;
 	object_class->get_property = e_map_get_property;
+	object_class->finalize = e_map_finalize;
 
 	/* Scrollable interface properties */
 	g_object_class_override_property (
@@ -846,7 +849,7 @@ e_map_init (EMap *map)
 
 	widget = GTK_WIDGET (map);
 
-	map->priv = g_new0 (EMapPrivate, 1);
+	map->priv = E_MAP_GET_PRIVATE (map);
 
 	load_map_background (map, map_file_name);
 	g_free (map_file_name);
@@ -1244,10 +1247,12 @@ update_render_surface (EMap *map,
 
 	/* Scale the original map into the rendering pixbuf */
 
-	if (width > 1 && height > 1)
-	{
+	if (width > 1 && height > 1) {
 		cairo_t *cr = cairo_create (map->priv->map_render_surface);
-		cairo_scale (cr, (gdouble) width / orig_width, (gdouble) height / orig_height);
+		cairo_scale (
+			cr,
+			(gdouble) width / orig_width,
+			(gdouble) height / orig_height);
 		gdk_cairo_set_source_pixbuf (cr, map->priv->map_pixbuf, 0, 0);
 		cairo_paint (cr);
 		cairo_destroy (cr);
@@ -1260,8 +1265,7 @@ update_render_surface (EMap *map,
 	if (render_overlays) {
 		/* Add points */
 
-		for (i = 0; i < map->priv->points->len; i++)
-		{
+		for (i = 0; i < map->priv->points->len; i++) {
 			point = g_ptr_array_index (map->priv->points, i);
 			update_render_point (map, point);
 		}

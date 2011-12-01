@@ -32,13 +32,32 @@
 
 #include "e-table-subset.h"
 
-static void etss_proxy_model_pre_change_real (ETableSubset *etss, ETableModel *etm);
-static void etss_proxy_model_no_change_real (ETableSubset *etss, ETableModel *etm);
-static void etss_proxy_model_changed_real (ETableSubset *etss, ETableModel *etm);
-static void etss_proxy_model_row_changed_real (ETableSubset *etss, ETableModel *etm, gint row);
-static void etss_proxy_model_cell_changed_real (ETableSubset *etss, ETableModel *etm, gint col, gint row);
-static void etss_proxy_model_rows_inserted_real (ETableSubset *etss, ETableModel *etm, gint row, gint count);
-static void etss_proxy_model_rows_deleted_real (ETableSubset *etss, ETableModel *etm, gint row, gint count);
+static void	etss_proxy_model_pre_change_real
+						(ETableSubset *etss,
+						 ETableModel *etm);
+static void	etss_proxy_model_no_change_real	(ETableSubset *etss,
+						 ETableModel *etm);
+static void	etss_proxy_model_changed_real	(ETableSubset *etss,
+						 ETableModel *etm);
+static void	etss_proxy_model_row_changed_real
+						(ETableSubset *etss,
+						 ETableModel *etm,
+						 gint row);
+static void	etss_proxy_model_cell_changed_real
+						(ETableSubset *etss,
+						 ETableModel *etm,
+						 gint col,
+						 gint row);
+static void	etss_proxy_model_rows_inserted_real
+						(ETableSubset *etss,
+						 ETableModel *etm,
+						 gint row,
+						 gint count);
+static void	etss_proxy_model_rows_deleted_real
+						(ETableSubset *etss,
+						 ETableModel *etm,
+						 gint row,
+						 gint count);
 
 #define d(x)
 

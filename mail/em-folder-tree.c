@@ -73,6 +73,10 @@
 
 typedef struct _AsyncContext AsyncContext;
 
+#define EM_FOLDER_TREE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FOLDER_TREE, EMFolderTreePrivate))
+
 struct _selected_uri {
 	gchar *key;		/* store:path or account/path */
 	gchar *uri;
@@ -2682,11 +2686,13 @@ tree_drag_motion (GtkWidget *widget,
 		if (priv->autoexpand_id != 0) {
 			GtkTreePath *autoexpand_path;
 
-			autoexpand_path = gtk_tree_row_reference_get_path (priv->autoexpand_row);
+			autoexpand_path = gtk_tree_row_reference_get_path (
+				priv->autoexpand_row);
 			if (gtk_tree_path_compare (autoexpand_path, path) != 0) {
 				/* row changed, restart timer */
 				gtk_tree_row_reference_free (priv->autoexpand_row);
-				priv->autoexpand_row = gtk_tree_row_reference_new (model, path);
+				priv->autoexpand_row =
+					gtk_tree_row_reference_new (model, path);
 				g_source_remove (priv->autoexpand_id);
 				priv->autoexpand_id = g_timeout_add (
 					600, (GSourceFunc)
@@ -2698,7 +2704,8 @@ tree_drag_motion (GtkWidget *widget,
 			priv->autoexpand_id = g_timeout_add (
 				600, (GSourceFunc)
 				tree_autoexpand, folder_tree);
-			priv->autoexpand_row = gtk_tree_row_reference_new (model, path);
+			priv->autoexpand_row =
+				gtk_tree_row_reference_new (model, path);
 		}
 	} else if (priv->autoexpand_id != 0) {
 		gtk_tree_row_reference_free (priv->autoexpand_row);
@@ -2718,7 +2725,8 @@ tree_drag_motion (GtkWidget *widget,
 			case DND_DROP_TYPE_UID_LIST:
 			case DND_DROP_TYPE_FOLDER:
 				chosen_action = suggested_action;
-				if (chosen_action == GDK_ACTION_COPY && (actions & GDK_ACTION_MOVE))
+				if (chosen_action == GDK_ACTION_COPY &&
+				   (actions & GDK_ACTION_MOVE))
 					chosen_action = GDK_ACTION_MOVE;
 				gtk_tree_view_set_drag_dest_row (
 					tree_view, path,

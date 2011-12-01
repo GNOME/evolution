@@ -382,17 +382,23 @@ plugin_google_contacts (EPlugin *epl,
 	gtk_box_pack_start (GTK_BOX (hbox), interval_sb, FALSE, FALSE, 0);
 
 	interval_combo = gtk_combo_box_text_new ();
-	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (interval_combo), _("minutes"));
-	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (interval_combo), _("hours"));
-	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (interval_combo), _("days"));
-	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (interval_combo), _("weeks"));
+	gtk_combo_box_text_append_text (
+		GTK_COMBO_BOX_TEXT (interval_combo), _("minutes"));
+	gtk_combo_box_text_append_text (
+		GTK_COMBO_BOX_TEXT (interval_combo), _("hours"));
+	gtk_combo_box_text_append_text (
+		GTK_COMBO_BOX_TEXT (interval_combo), _("days"));
+	gtk_combo_box_text_append_text (
+		GTK_COMBO_BOX_TEXT (interval_combo), _("weeks"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (interval_combo), type);
 	gtk_box_pack_start (GTK_BOX (hbox), interval_combo, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (vbox2);
 
-	g_object_set_data (G_OBJECT (interval_sb), "interval-combo", interval_combo);
-	g_object_set_data (G_OBJECT (interval_combo), "interval-sb", interval_sb);
+	g_object_set_data (
+		G_OBJECT (interval_sb), "interval-combo", interval_combo);
+	g_object_set_data (
+		G_OBJECT (interval_combo), "interval-sb", interval_sb);
 
 	ui = g_malloc0 (sizeof (struct ui_data));
 	ui->widget = vbox2;

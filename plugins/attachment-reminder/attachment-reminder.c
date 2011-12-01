@@ -60,11 +60,16 @@ enum {
 	CLUE_N_COLUMNS
 };
 
-gint e_plugin_lib_enable (EPlugin *ep, gint enable);
-GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *plugin);
-
-void org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t);
-GtkWidget * org_gnome_attachment_reminder_config_option (EPlugin *plugin, struct _EConfigHookItemFactoryData *data);
+gint		e_plugin_lib_enable	(EPlugin *ep,
+					 gint enable);
+GtkWidget *	e_plugin_lib_get_configure_widget
+					(EPlugin *plugin);
+void		org_gnome_evolution_attachment_reminder
+					(EPlugin *ep,
+					 EMEventTargetComposer *t);
+GtkWidget *	org_gnome_attachment_reminder_config_option
+					(EPlugin *plugin,
+					 EConfigHookItemFactoryData *data);
 
 static gboolean ask_for_missing_attachment (EPlugin *ep, GtkWindow *widget);
 static gboolean check_for_attachment_clues (gchar *msg);
@@ -99,9 +104,14 @@ org_gnome_evolution_attachment_reminder (EPlugin *ep,
 	g_byte_array_free (raw_msg_barray, TRUE);
 
 	/* Set presend_check_status for the composer*/
-	if (check_for_attachment_clues (filtered_str) && !check_for_attachment (t->composer))
+	if (check_for_attachment_clues (filtered_str) &&
+	    !check_for_attachment (t->composer)) {
 		if (!ask_for_missing_attachment (ep, (GtkWindow *) t->composer))
-			g_object_set_data ((GObject *) t->composer, "presend_check_status", GINT_TO_POINTER(1));
+			g_object_set_data (
+				G_OBJECT (t->composer),
+				"presend_check_status",
+				GINT_TO_POINTER (1));
+	}
 
 	g_free (filtered_str);
 }
@@ -355,11 +365,14 @@ clue_edit_clicked (GtkButton *button,
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 
-	focus_col = gtk_tree_view_get_column (GTK_TREE_VIEW (ui->treeview), CLUE_KEYWORD_COLUMN);
+	focus_col = gtk_tree_view_get_column (
+		GTK_TREE_VIEW (ui->treeview), CLUE_KEYWORD_COLUMN);
 	path = gtk_tree_model_get_path (model, &iter);
 
 	if (path) {
-		gtk_tree_view_set_cursor (GTK_TREE_VIEW (ui->treeview), path, focus_col, TRUE);
+		gtk_tree_view_set_cursor (
+			GTK_TREE_VIEW (ui->treeview),
+			path, focus_col, TRUE);
 		gtk_tree_path_free (path);
 	}
 }
@@ -419,12 +432,16 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 
 	clue_container = gtk_hbox_new (FALSE, 6);
 	gtk_widget_show (clue_container);
-	gtk_box_pack_start (GTK_BOX (reminder_configuration_box), clue_container, TRUE, TRUE, 0);
+	gtk_box_pack_start (
+		GTK_BOX (reminder_configuration_box),
+		clue_container, TRUE, TRUE, 0);
 
 	scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
 	gtk_widget_show (scrolledwindow1);
 	gtk_box_pack_start (GTK_BOX (clue_container), scrolledwindow1, TRUE, TRUE, 0);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (scrolledwindow1),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	clue_treeview = gtk_tree_view_new ();
 	gtk_widget_show (clue_treeview);
@@ -458,11 +475,14 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 
 	ui->store = gtk_list_store_new (CLUE_N_COLUMNS, G_TYPE_STRING);
 
-	gtk_tree_view_set_model (GTK_TREE_VIEW (ui->treeview), GTK_TREE_MODEL (ui->store));
+	gtk_tree_view_set_model (
+		GTK_TREE_VIEW (ui->treeview),
+		GTK_TREE_MODEL (ui->store));
 
 	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Keywords"),
-			renderer, "text", CLUE_KEYWORD_COLUMN, NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (ui->treeview), -1, _("Keywords"),
+		renderer, "text", CLUE_KEYWORD_COLUMN, NULL);
 	g_object_set (renderer, "editable", TRUE, NULL);
 	g_signal_connect (
 		renderer, "edited",

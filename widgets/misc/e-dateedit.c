@@ -43,6 +43,10 @@
 #include <e-util/e-util.h>
 #include "e-calendar.h"
 
+#define E_DATE_EDIT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_DATE_EDIT, EDateEditPrivate))
+
 struct _EDateEditPrivate {
 	GtkWidget *date_entry;
 	GtkWidget *date_button;
@@ -451,8 +455,7 @@ e_date_edit_class_init (EDateEditClass *class)
 static void
 e_date_edit_init (EDateEdit *dedit)
 {
-	dedit->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dedit, E_TYPE_DATE_EDIT, EDateEditPrivate);
+	dedit->priv = E_DATE_EDIT_GET_PRIVATE (dedit);
 
 	dedit->priv->show_date = TRUE;
 	dedit->priv->show_time = TRUE;
@@ -524,20 +527,20 @@ create_children (EDateEdit *dedit)
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_entry, FALSE, TRUE, 0);
 	gtk_widget_set_size_request (priv->date_entry, 100, -1);
 
-	g_signal_connect (priv->date_entry, "key_press_event",
-			  G_CALLBACK (on_date_entry_key_press),
-			  dedit);
-	g_signal_connect (priv->date_entry, "key_release_event",
-			  G_CALLBACK (on_date_entry_key_release),
-			  dedit);
-	g_signal_connect_after (priv->date_entry,
-				"focus_out_event",
-				G_CALLBACK (on_date_entry_focus_out),
-				dedit);
+	g_signal_connect (
+		priv->date_entry, "key_press_event",
+		G_CALLBACK (on_date_entry_key_press), dedit);
+	g_signal_connect (
+		priv->date_entry, "key_release_event",
+		G_CALLBACK (on_date_entry_key_release), dedit);
+	g_signal_connect_after (
+		priv->date_entry, "focus_out_event",
+		G_CALLBACK (on_date_entry_focus_out), dedit);
 
 	priv->date_button = gtk_button_new ();
-	g_signal_connect (priv->date_button, "clicked",
-			  G_CALLBACK (on_date_button_clicked), dedit);
+	g_signal_connect (
+		priv->date_button, "clicked",
+		G_CALLBACK (on_date_button_clicked), dedit);
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_button,
 			    FALSE, FALSE, 0);
 	a11y = gtk_widget_get_accessible (priv->date_button);
@@ -620,15 +623,15 @@ create_children (EDateEdit *dedit)
 	gtk_widget_set_events (priv->cal_popup,
 			       gtk_widget_get_events (priv->cal_popup)
 			       | GDK_KEY_PRESS_MASK);
-	g_signal_connect (priv->cal_popup, "delete_event",
-			  G_CALLBACK (on_date_popup_delete_event),
-			  dedit);
-	g_signal_connect (priv->cal_popup, "key_press_event",
-			  G_CALLBACK (on_date_popup_key_press),
-			  dedit);
-	g_signal_connect (priv->cal_popup, "button_press_event",
-			  G_CALLBACK (on_date_popup_button_press),
-			  dedit);
+	g_signal_connect (
+		priv->cal_popup, "delete_event",
+		G_CALLBACK (on_date_popup_delete_event), dedit);
+	g_signal_connect (
+		priv->cal_popup, "key_press_event",
+		G_CALLBACK (on_date_popup_key_press), dedit);
+	g_signal_connect (
+		priv->cal_popup, "button_press_event",
+		G_CALLBACK (on_date_popup_button_press), dedit);
 	gtk_window_set_resizable (GTK_WINDOW (priv->cal_popup), TRUE);
 
 	frame = gtk_frame_new (NULL);
@@ -647,9 +650,9 @@ create_children (EDateEdit *dedit)
 			       "move_selection_when_moving", FALSE,
 			       NULL);
 
-	g_signal_connect (calendar->calitem,
-			  "selection_changed",
-			  G_CALLBACK (on_date_popup_date_selected), dedit);
+	g_signal_connect (
+		calendar->calitem, "selection_changed",
+		G_CALLBACK (on_date_popup_date_selected), dedit);
 
 	gtk_box_pack_start (GTK_BOX (vbox), priv->calendar, FALSE, FALSE, 0);
 	gtk_widget_show (priv->calendar);
@@ -663,21 +666,24 @@ create_children (EDateEdit *dedit)
 	priv->now_button = gtk_button_new_with_mnemonic (_("No_w"));
 	gtk_container_add (GTK_CONTAINER (bbox), priv->now_button);
 	gtk_widget_show (priv->now_button);
-	g_signal_connect (priv->now_button, "clicked",
-			  G_CALLBACK (on_date_popup_now_button_clicked), dedit);
+	g_signal_connect (
+		priv->now_button, "clicked",
+		G_CALLBACK (on_date_popup_now_button_clicked), dedit);
 
 	priv->today_button = gtk_button_new_with_mnemonic (_("_Today"));
 	gtk_container_add (GTK_CONTAINER (bbox), priv->today_button);
 	gtk_widget_show (priv->today_button);
-	g_signal_connect (priv->today_button, "clicked",
-			  G_CALLBACK (on_date_popup_today_button_clicked), dedit);
+	g_signal_connect (
+		priv->today_button, "clicked",
+		G_CALLBACK (on_date_popup_today_button_clicked), dedit);
 
 	/* Note that we don't show this here, since by default a 'None' date
 	 * is not permitted. */
 	priv->none_button = gtk_button_new_with_mnemonic (_("_None"));
 	gtk_container_add (GTK_CONTAINER (bbox), priv->none_button);
-	g_signal_connect (priv->none_button, "clicked",
-			  G_CALLBACK (on_date_popup_none_button_clicked), dedit);
+	g_signal_connect (
+		priv->none_button, "clicked",
+		G_CALLBACK (on_date_popup_none_button_clicked), dedit);
 	g_object_bind_property (
 		dedit, "allow-no-date-set",
 		priv->none_button, "visible",

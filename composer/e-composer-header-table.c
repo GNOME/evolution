@@ -34,6 +34,10 @@
 #include "e-composer-post-header.h"
 #include "e-composer-text-header.h"
 
+#define E_COMPOSER_HEADER_TABLE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_COMPOSER_HEADER_TABLE, EComposerHeaderTablePrivate))
+
 #define HEADER_TOOLTIP_TO \
 	_("Enter the recipients of the message")
 #define HEADER_TOOLTIP_CC \

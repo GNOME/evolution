@@ -1356,8 +1356,10 @@ action_mail_reply_sender_check (CamelFolder *folder,
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	ask_ignore_list_reply_to = g_settings_get_boolean (settings, "composer-ignore-list-reply-to");
-	ask_list_reply_to = g_settings_get_boolean (settings, "prompt-on-list-reply-to");
+	ask_ignore_list_reply_to = g_settings_get_boolean (
+		settings, "composer-ignore-list-reply-to");
+	ask_list_reply_to = g_settings_get_boolean (
+		settings, "prompt-on-list-reply-to");
 
 	munged_list_message = em_utils_is_munged_list_message (message);
 
@@ -1389,7 +1391,8 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		active = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (check));
 		if (active) {
-			g_settings_set_boolean (settings, "prompt-on-private-list-reply", FALSE);
+			g_settings_set_boolean (
+				settings, "prompt-on-private-list-reply", FALSE);
 		}
 
 		gtk_widget_destroy (dialog);
@@ -1435,12 +1438,14 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		active = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (check_again));
 		if (active) {
-			g_settings_set_boolean (settings, "prompt-on-list-reply-to", FALSE);
+			g_settings_set_boolean (
+				settings, "prompt-on-list-reply-to", FALSE);
 		}
 
 		active = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (check_always_ignore));
-		g_settings_set_boolean (settings, "composer-ignore-list-reply-to", active);
+		g_settings_set_boolean (
+			settings, "composer-ignore-list-reply-to", active);
 
 		gtk_widget_destroy (dialog);
 
@@ -1482,8 +1487,10 @@ action_mail_reply_sender_cb (GtkAction *action,
 	state = e_mail_reader_check_state (reader);
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
-	ask_list_reply_to = g_settings_get_boolean (settings, "prompt-on-list-reply-to");
-	ask_private_list_reply = g_settings_get_boolean (settings, "prompt-on-private-list-reply");
+	ask_list_reply_to = g_settings_get_boolean (
+		settings, "prompt-on-list-reply-to");
+	ask_private_list_reply = g_settings_get_boolean (
+		settings, "prompt-on-private-list-reply");
 	g_object_unref (settings);
 
 	ask = (ask_private_list_reply || ask_list_reply_to);
@@ -3670,11 +3677,15 @@ e_mail_reader_init (EMailReader *reader,
 
 	action_name = "mail-caret-mode";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_settings_bind (settings, "caret-mode", G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "caret-mode",
+		action, "active", G_SETTINGS_BIND_DEFAULT);
 
 	action_name = "mail-show-all-headers";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_settings_bind (settings, "show-all-headers", G_OBJECT (action), "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "show-all-headers",
+		action, "active", G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);
 

@@ -21,8 +21,8 @@
  *
  */
 
-#ifndef __E_CAL_CONFIG_H__
-#define __E_CAL_CONFIG_H__
+#ifndef E_CAL_CONFIG_H
+#define E_CAL_CONFIG_H
 
 #include <libecal/e-cal-client.h>
 #include "e-util/e-config.h"

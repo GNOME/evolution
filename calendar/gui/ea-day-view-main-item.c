@@ -272,9 +272,10 @@ ea_day_view_main_item_new (GObject *obj)
 	/* listen for date changes of calendar */
 	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view));
 	if (gcal)
-		g_signal_connect (gcal, "dates_shown_changed",
-				  G_CALLBACK (ea_day_view_main_item_dates_change_cb),
-				  accessible);
+		g_signal_connect (
+			gcal, "dates_shown_changed",
+			G_CALLBACK (ea_day_view_main_item_dates_change_cb),
+			accessible);
 
 	return accessible;
 }

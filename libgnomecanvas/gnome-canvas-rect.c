@@ -32,6 +32,10 @@
 
 #include "gnome-canvas-rect.h"
 
+#define GNOME_CANVAS_RECT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), GNOME_TYPE_CANVAS_RECT, GnomeCanvasRectPrivate))
+
 struct _GnomeCanvasRectPrivate {
 	cairo_path_t *path;             /* Our bezier path representation */
 
@@ -704,8 +708,7 @@ gnome_canvas_rect_class_init (GnomeCanvasRectClass *class)
 static void
 gnome_canvas_rect_init (GnomeCanvasRect *rect)
 {
-	rect->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		rect, GNOME_TYPE_CANVAS_RECT, GnomeCanvasRectPrivate);
+	rect->priv = GNOME_CANVAS_RECT_GET_PRIVATE (rect);
 
 	rect->priv->scale = 1.0;
 

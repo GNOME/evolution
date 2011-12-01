@@ -117,15 +117,15 @@ smime_component_init (void)
 		return;
 
 	init_done = TRUE;
-	g_signal_connect (e_cert_db_peek (),
-			  "pk11_passwd",
-			  G_CALLBACK (smime_pk11_passwd), NULL);
+	g_signal_connect (
+		e_cert_db_peek (), "pk11_passwd",
+		G_CALLBACK (smime_pk11_passwd), NULL);
 
-	g_signal_connect (e_cert_db_peek (),
-			  "pk11_change_passwd",
-			  G_CALLBACK (smime_pk11_change_passwd), NULL);
+	g_signal_connect (
+		e_cert_db_peek (), "pk11_change_passwd",
+		G_CALLBACK (smime_pk11_change_passwd), NULL);
 
-	g_signal_connect (e_cert_db_peek (),
-			  "confirm_ca_cert_import",
-			  G_CALLBACK (smime_confirm_ca_cert_import), NULL);
+	g_signal_connect (
+		e_cert_db_peek (), "confirm_ca_cert_import",
+		G_CALLBACK (smime_confirm_ca_cert_import), NULL);
 }

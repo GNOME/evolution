@@ -43,6 +43,10 @@
 #include <gtkhtml/gtkhtml-stream.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 
+#define EAB_CONTACT_DISPLAY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EAB_TYPE_CONTACT_DISPLAY, EABContactDisplayPrivate))
+
 #define TEXT_IS_RIGHT_TO_LEFT \
 	(gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 
@@ -111,6 +115,11 @@ static const gchar *ui =
 
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	EABContactDisplay,
+	eab_contact_display,
+	E_TYPE_WEB_VIEW)
 
 static void
 contact_display_emit_send_message (EABContactDisplay *display,
@@ -1163,7 +1172,7 @@ contact_display_dispose (GObject *object)
 {
 	EABContactDisplayPrivate *priv;
 
-	priv = EAB_CONTACT_DISPLAY (object)->priv;
+	priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (object);
 
 	if (priv->contact != NULL) {
 		g_object_unref (priv->contact);
@@ -1355,15 +1364,20 @@ contact_display_object_requested (GtkHTML *html,
 		GtkWidget *map = e_contact_map_new ();
 		gtk_container_add (GTK_CONTAINER (eb), map);
 		gtk_widget_set_size_request (map, 250, 250);
-		g_signal_connect (E_CONTACT_MAP (map), "contact-added",
+		g_signal_connect (
+			E_CONTACT_MAP (map), "contact-added",
 			G_CALLBACK (e_contact_map_zoom_on_marker), NULL);
-		g_signal_connect_swapped (E_CONTACT_MAP (map), "contact-added",
+		g_signal_connect_swapped (
+			E_CONTACT_MAP (map), "contact-added",
 			G_CALLBACK (gtk_widget_show_all), map);
-		g_signal_connect (GTK_CHAMPLAIN_EMBED (map), "scroll-event",
+		g_signal_connect (
+			GTK_CHAMPLAIN_EMBED (map), "scroll-event",
 			G_CALLBACK (handle_map_scroll_event), NULL);
 
-				/* No need to display photo in contact preview ------------------v */
-		e_contact_map_add_marker (E_CONTACT_MAP (map), full_name, contact_uid, address, NULL);
+		/* No need to display photo in contact preview. */
+		e_contact_map_add_marker (
+			E_CONTACT_MAP (map), full_name,
+			contact_uid, address, NULL);
 	}
 
 	g_free (full_name);
@@ -1489,8 +1503,7 @@ eab_contact_display_init (EABContactDisplay *display)
 	const gchar *domain = GETTEXT_PACKAGE;
 	GError *error = NULL;
 
-	display->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		display, EAB_TYPE_CONTACT_DISPLAY, EABContactDisplayPrivate);
+	display->priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (display);
 	display->priv->mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
 	display->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
 	display->priv->show_maps = FALSE;
@@ -1501,8 +1514,9 @@ eab_contact_display_init (EABContactDisplay *display)
 	ui_manager = e_web_view_get_ui_manager (web_view);
 
 #ifdef WITH_CONTACT_MAPS
-	g_signal_connect (web_view, "object-requested",
-	G_CALLBACK (contact_display_object_requested), display);
+	g_signal_connect (
+		web_view, "object-requested",
+		G_CALLBACK (contact_display_object_requested), display);
 #endif
 
 	action_group = gtk_action_group_new ("internal-mailto");
@@ -1520,32 +1534,6 @@ eab_contact_display_init (EABContactDisplay *display)
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 	if (error != NULL)
 		g_error ("%s", error->message);
-}
-
-GType
-eab_contact_display_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info =  {
-			sizeof (EABContactDisplayClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) eab_contact_display_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EABContactDisplay),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) eab_contact_display_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_WEB_VIEW, "EABContactDisplay", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

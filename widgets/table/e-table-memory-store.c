@@ -30,6 +30,10 @@
 
 #include "e-table-memory-store.h"
 
+#define E_TABLE_MEMORY_STORE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TABLE_MEMORY_STORE, ETableMemoryStorePrivate))
+
 #define STORE_LOCATOR(etms, col, row) (*((etms)->priv->store + (row) * (etms)->priv->col_count + (col)))
 
 struct _ETableMemoryStorePrivate {
@@ -250,7 +254,7 @@ etms_finalize (GObject *object)
 {
 	ETableMemoryStorePrivate *priv;
 
-	priv = E_TABLE_MEMORY_STORE (object)->priv;
+	priv = E_TABLE_MEMORY_STORE_GET_PRIVATE (object);
 
 	e_table_memory_store_clear (E_TABLE_MEMORY_STORE (object));
 
@@ -264,8 +268,7 @@ etms_finalize (GObject *object)
 static void
 e_table_memory_store_init (ETableMemoryStore *etms)
 {
-	etms->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		etms, E_TYPE_TABLE_MEMORY_STORE, ETableMemoryStorePrivate);
+	etms->priv = E_TABLE_MEMORY_STORE_GET_PRIVATE (etms);
 }
 
 static void

@@ -73,6 +73,8 @@ mail_config_web_view_load_style (EMailConfigWebView *extension)
 	gchar *variable_font;
 	gboolean custom_fonts;
 	gboolean mark_citations;
+	EExtensible *extensible;
+	GtkStyleContext *style_context;
 	GError *error = NULL;
 
 	/* Some of our mail and composer preferences are passed down to
@@ -138,8 +140,9 @@ mail_config_web_view_load_style (EMailConfigWebView *extension)
 	g_free (citation_color);
 	g_free (spell_color);
 
-	gtk_style_context_invalidate (
-		gtk_widget_get_style_context (GTK_WIDGET (e_extension_get_extensible (E_EXTENSION (extension)))));
+	extensible = e_extension_get_extensible (E_EXTENSION (extension));
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (extensible));
+	gtk_style_context_invalidate (style_context);
 }
 
 static void

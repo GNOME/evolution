@@ -181,12 +181,19 @@ eab_load_error_dialog (GtkWidget *parent,
 	}
 
 	if (alert_sink) {
-		e_alert_submit (alert_sink, "addressbook:load-error", label_string, NULL);
+		e_alert_submit (
+			alert_sink, "addressbook:load-error",
+			label_string, NULL);
 	} else {
 		GtkWidget *dialog;
 
-		dialog  = e_alert_dialog_new_for_args ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);
-		g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
+		dialog  = e_alert_dialog_new_for_args (
+			(GtkWindow *) parent,
+			"addressbook:load-error",
+			label_string, NULL);
+		g_signal_connect (
+			dialog, "response",
+			G_CALLBACK (gtk_widget_destroy), NULL);
 		gtk_widget_show (dialog);
 	}
 

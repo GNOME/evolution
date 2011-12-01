@@ -274,7 +274,9 @@ fill_in_details (CertificateViewerData *cvm_data,
 						     "text", 0, NULL);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cvm_data->hierarchy_tree));
-	g_signal_connect (selection, "changed", G_CALLBACK (hierarchy_selection_changed), cvm_data);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (hierarchy_selection_changed), cvm_data);
 
 	/* hook up all the fields tree foo */
 	cvm_data->fields_tree = e_builder_get_widget (cvm_data->builder, "cert-fields-treeview");
@@ -284,7 +286,9 @@ fill_in_details (CertificateViewerData *cvm_data,
 						     "text", 0, NULL);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cvm_data->fields_tree));
-	g_signal_connect (selection, "changed", G_CALLBACK (fields_selection_changed), cvm_data);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (fields_selection_changed), cvm_data);
 
 	/* hook up all the field display foo */
 	cvm_data->field_text = e_builder_get_widget (cvm_data->builder, "cert-field-value-textview");

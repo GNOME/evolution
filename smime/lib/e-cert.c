@@ -47,13 +47,19 @@
 
 #include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>
-#include <e-util/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
+
+/* for e_utf8_strftime, what about e_time_format_time? */
+#include <e-util/e-util.h>
 
 #include "e-cert.h"
 #include "e-cert-trust.h"
 #include "pk11func.h"
 #include "certdb.h"
 #include "hasht.h"
+
+#define E_CERT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CERT, ECertPrivate))
 
 struct _ECertPrivate {
 	CERTCertificate *cert;
@@ -86,112 +92,80 @@ struct _ECertPrivate {
 	gboolean delete;
 };
 
-#define PARENT_TYPE G_TYPE_OBJECT
-static GObjectClass *parent_class;
+G_DEFINE_TYPE (ECert, e_cert, G_TYPE_OBJECT)
 
 static void
-e_cert_dispose (GObject *object)
+e_cert_finalize (GObject *object)
 {
-	ECert *ec = E_CERT (object);
+	ECertPrivate *priv;
 
-	if (!ec->priv)
-		return;
+	priv = E_CERT_GET_PRIVATE (object);
 
-	if (ec->priv->org_name)
-		PORT_Free (ec->priv->org_name);
-	if (ec->priv->org_unit_name)
-		PORT_Free (ec->priv->org_unit_name);
-	if (ec->priv->cn)
-		PORT_Free (ec->priv->cn);
+	if (priv->org_name)
+		PORT_Free (priv->org_name);
+	if (priv->org_unit_name)
+		PORT_Free (priv->org_unit_name);
+	if (priv->cn)
+		PORT_Free (priv->cn);
 
-	if (ec->priv->issuer_org_name)
-		PORT_Free (ec->priv->issuer_org_name);
-	if (ec->priv->issuer_org_unit_name)
-		PORT_Free (ec->priv->issuer_org_unit_name);
-	if (ec->priv->issuer_cn)
-		PORT_Free (ec->priv->issuer_cn);
+	if (priv->issuer_org_name)
+		PORT_Free (priv->issuer_org_name);
+	if (priv->issuer_org_unit_name)
+		PORT_Free (priv->issuer_org_unit_name);
+	if (priv->issuer_cn)
+		PORT_Free (priv->issuer_cn);
 
-	if (ec->priv->issued_on_string)
-		PORT_Free (ec->priv->issued_on_string);
-	if (ec->priv->expires_on_string)
-		PORT_Free (ec->priv->expires_on_string);
-	if (ec->priv->serial_number)
-		PORT_Free (ec->priv->serial_number);
+	if (priv->issued_on_string)
+		PORT_Free (priv->issued_on_string);
+	if (priv->expires_on_string)
+		PORT_Free (priv->expires_on_string);
+	if (priv->serial_number)
+		PORT_Free (priv->serial_number);
 
-	g_free (ec->priv->usage_string);
+	g_free (priv->usage_string);
 
-	if (ec->priv->sha1_fingerprint)
-		PORT_Free (ec->priv->sha1_fingerprint);
-	if (ec->priv->md5_fingerprint)
-		PORT_Free (ec->priv->md5_fingerprint);
+	if (priv->sha1_fingerprint)
+		PORT_Free (priv->sha1_fingerprint);
+	if (priv->md5_fingerprint)
+		PORT_Free (priv->md5_fingerprint);
 
-	if (ec->priv->asn1)
-		g_object_unref (ec->priv->asn1);
+	if (priv->asn1)
+		g_object_unref (priv->asn1);
 
-	if (ec->priv->delete) {
+	if (priv->delete) {
 		printf ("attempting to delete cert marked for deletion\n");
-		if (e_cert_get_cert_type (ec) == E_CERT_USER) {
-			PK11_DeleteTokenCertAndKey (ec->priv->cert, NULL);
-		} else if (!PK11_IsReadOnly (ec->priv->cert->slot)) {
+		if (e_cert_get_cert_type (E_CERT (object)) == E_CERT_USER) {
+			PK11_DeleteTokenCertAndKey (priv->cert, NULL);
+		} else if (!PK11_IsReadOnly (priv->cert->slot)) {
 			/* If the list of built-ins does contain a non-removable
 			 * copy of this certificate, our call will not remove
 			 * the certificate permanently, but rather remove all trust. */
-			SEC_DeletePermCertificate (ec->priv->cert);
+			SEC_DeletePermCertificate (priv->cert);
 		}
 	}
 
-	if (ec->priv->cert) {
-		CERT_DestroyCertificate (ec->priv->cert);
-		ec->priv->cert = NULL;
-	}
+	if (priv->cert)
+		CERT_DestroyCertificate (priv->cert);
 
-	g_free (ec->priv);
-	ec->priv = NULL;
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_cert_parent_class)->finalize (object);
 }
 
 static void
-e_cert_class_init (ECertClass *klass)
+e_cert_class_init (ECertClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+	g_type_class_add_private (class, sizeof (ECertPrivate));
 
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
-	object_class->dispose = e_cert_dispose;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = e_cert_finalize;
 }
 
 static void
 e_cert_init (ECert *ec)
 {
-	ec->priv = g_new0 (ECertPrivate, 1);
-}
-
-GType
-e_cert_get_type (void)
-{
-	static GType cert_type = 0;
-
-	if (!cert_type) {
-		static const GTypeInfo cert_info =  {
-			sizeof (ECertClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_cert_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (ECert),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_cert_init,
-		};
-
-		cert_type = g_type_register_static (PARENT_TYPE, "ECert", &cert_info, 0);
-	}
-
-	return cert_type;
+	ec->priv = E_CERT_GET_PRIVATE (ec);
 }
 
 static void
@@ -216,7 +190,9 @@ e_cert_populate (ECert *cert)
 		struct tm exploded_tm;
 		gchar buf[32];
 
-		PR_ExplodeTime (cert->priv->issued_on, PR_LocalTimeParameters, &explodedTime);
+		PR_ExplodeTime (
+			cert->priv->issued_on,
+			PR_LocalTimeParameters, &explodedTime);
 		exploded_tm.tm_sec = explodedTime.tm_sec;
 		exploded_tm.tm_min = explodedTime.tm_min;
 		exploded_tm.tm_hour = explodedTime.tm_hour;
@@ -226,7 +202,9 @@ e_cert_populate (ECert *cert)
 		e_utf8_strftime (buf, sizeof(buf), _("%d/%m/%Y"), &exploded_tm);
 		cert->priv->issued_on_string = g_strdup (buf);
 
-		PR_ExplodeTime (cert->priv->expires_on, PR_LocalTimeParameters, &explodedTime);
+		PR_ExplodeTime (
+			cert->priv->expires_on,
+			PR_LocalTimeParameters, &explodedTime);
 		exploded_tm.tm_sec = explodedTime.tm_sec;
 		exploded_tm.tm_min = explodedTime.tm_min;
 		exploded_tm.tm_hour = explodedTime.tm_hour;
@@ -1036,7 +1014,8 @@ process_name (CERTName *name,
 				return FALSE;
 			}
 
-			avavalue = g_string_new_len ((gchar *) decodeItem->data, decodeItem->len);
+			avavalue = g_string_new_len (
+				(gchar *) decodeItem->data, decodeItem->len);
 
 			SECITEM_FreeItem (decodeItem, PR_TRUE);
 
@@ -1271,7 +1250,8 @@ e_cert_mark_for_deletion (ECert *cert)
 	if (PK11_NeedLogin (cert->priv->cert->slot)
 	    && !PK11_NeedUserInit (cert->priv->cert->slot)
 	    && !PK11_IsInternal (cert->priv->cert->slot)) {
-		if (SECSuccess != PK11_Authenticate (cert->priv->cert->slot, PR_TRUE, NULL)) {
+		if (PK11_Authenticate (
+			cert->priv->cert->slot, PR_TRUE, NULL) != SECSuccess) {
 			return FALSE;
 		}
 	}

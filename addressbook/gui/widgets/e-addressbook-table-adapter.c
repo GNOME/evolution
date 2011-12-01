@@ -36,6 +36,10 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
+#define E_ADDRESSBOOK_TABLE_ADAPTER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ADDRESSBOOK_TABLE_ADAPTER, EAddressbookTableAdapterPrivate))
+
 struct _EAddressbookTableAdapterPrivate {
 	EAddressbookModel *model;
 
@@ -44,10 +48,12 @@ struct _EAddressbookTableAdapterPrivate {
 	GHashTable *emails;
 };
 
-#define PARENT_TYPE e_table_model_get_type()
-static ETableModelClass *parent_class;
-
 #define COLS (E_CONTACT_FIELD_LAST)
+
+G_DEFINE_TYPE (
+	EAddressbookTableAdapter,
+	e_addressbook_table_adapter,
+	E_TYPE_TABLE_MODEL)
 
 static void
 unlink_model (EAddressbookTableAdapter *adapter)
@@ -70,22 +76,18 @@ unlink_model (EAddressbookTableAdapter *adapter)
 }
 
 static void
-addressbook_dispose (GObject *object)
+addressbook_finalize (GObject *object)
 {
-	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER (object);
+	EAddressbookTableAdapter *adapter;
 
-	if (adapter->priv) {
-		unlink_model (adapter);
+	adapter = E_ADDRESSBOOK_TABLE_ADAPTER (object);
 
-		g_hash_table_remove_all (adapter->priv->emails);
-		g_hash_table_destroy (adapter->priv->emails);
+	unlink_model (adapter);
 
-		g_free (adapter->priv);
-		adapter->priv = NULL;
-	}
+	g_hash_table_destroy (adapter->priv->emails);
 
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_addressbook_table_adapter_parent_class)->finalize (object);
 }
 
 /* This function returns the number of columns in our ETableModel. */
@@ -99,7 +101,7 @@ addressbook_col_count (ETableModel *etc)
 static gint
 addressbook_row_count (ETableModel *etc)
 {
-	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER (etc);
+	EAddressbookTableAdapter *adapter = E_ADDRESSBOOK_TABLE_ADAPTER (etc);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 
 	return e_addressbook_model_contact_count (priv->model);
@@ -111,7 +113,7 @@ addressbook_value_at (ETableModel *etc,
                       gint col,
                       gint row)
 {
-	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER (etc);
+	EAddressbookTableAdapter *adapter = E_ADDRESSBOOK_TABLE_ADAPTER (etc);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 	EContact *contact;
 	const gchar *value;
@@ -164,7 +166,7 @@ addressbook_set_value_at (ETableModel *etc,
                           gint row,
                           gconstpointer val)
 {
-	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER (etc);
+	EAddressbookTableAdapter *adapter = E_ADDRESSBOOK_TABLE_ADAPTER (etc);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 
 	if (e_addressbook_model_get_editable (priv->model)) {
@@ -219,7 +221,7 @@ addressbook_append_row (ETableModel *etm,
                         ETableModel *source,
                         gint row)
 {
-	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER (etm);
+	EAddressbookTableAdapter *adapter = E_ADDRESSBOOK_TABLE_ADAPTER (etm);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 	EBookClient *book_client;
 	EContact *contact;
@@ -280,14 +282,18 @@ addressbook_value_to_string (ETableModel *etc,
 }
 
 static void
-eab_table_adapter_class_init (GObjectClass *object_class)
+e_addressbook_table_adapter_class_init (EAddressbookTableAdapterClass *class)
 {
-	ETableModelClass *model_class = (ETableModelClass *) object_class;
+	GObjectClass *object_class;
+	ETableModelClass *model_class;
 
-	parent_class = g_type_class_peek_parent (object_class);
+	g_type_class_add_private (
+		class, sizeof (EAddressbookTableAdapterPrivate));
 
-	object_class->dispose = addressbook_dispose;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = addressbook_finalize;
 
+	model_class = E_TABLE_MODEL_CLASS (class);
 	model_class->column_count = addressbook_col_count;
 	model_class->row_count = addressbook_row_count;
 	model_class->value_at = addressbook_value_at;
@@ -302,17 +308,9 @@ eab_table_adapter_class_init (GObjectClass *object_class)
 }
 
 static void
-eab_table_adapter_init (GObject *object)
+e_addressbook_table_adapter_init (EAddressbookTableAdapter *adapter)
 {
-	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER (object);
-	EAddressbookTableAdapterPrivate *priv;
-
-	priv = adapter->priv = g_new0 (EAddressbookTableAdapterPrivate, 1);
-
-	priv->create_contact_id = 0;
-	priv->remove_contact_id = 0;
-	priv->modify_contact_id = 0;
-	priv->model_changed_id = 0;
+	adapter->priv = E_ADDRESSBOOK_TABLE_ADAPTER_GET_PRIVATE (adapter);
 }
 
 static void
@@ -368,34 +366,9 @@ model_changed (EAddressbookModel *model,
 	e_table_model_changed (E_TABLE_MODEL (adapter));
 }
 
-GType
-eab_table_adapter_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info =  {
-			sizeof (EAddressbookTableAdapterClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) eab_table_adapter_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (EAddressbookTableAdapter),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) eab_table_adapter_init,
-		};
-
-		type = g_type_register_static (
-			PARENT_TYPE, "EAddressbookTableAdapter", &info, 0);
-	}
-
-	return type;
-}
-
 void
-eab_table_adapter_construct (EAddressbookTableAdapter *adapter,
-                             EAddressbookModel *model)
+e_addressbook_table_adapter_construct (EAddressbookTableAdapter *adapter,
+                                       EAddressbookModel *model)
 {
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 
@@ -425,13 +398,13 @@ eab_table_adapter_construct (EAddressbookTableAdapter *adapter,
 }
 
 ETableModel *
-eab_table_adapter_new (EAddressbookModel *model)
+e_addressbook_table_adapter_new (EAddressbookModel *model)
 {
 	EAddressbookTableAdapter *et;
 
-	et = g_object_new (E_TYPE_AB_TABLE_ADAPTER, NULL);
+	et = g_object_new (E_TYPE_ADDRESSBOOK_TABLE_ADAPTER, NULL);
 
-	eab_table_adapter_construct (et, model);
+	e_addressbook_table_adapter_construct (et, model);
 
 	return E_TABLE_MODEL (et);
 }

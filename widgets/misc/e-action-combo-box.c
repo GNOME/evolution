@@ -26,6 +26,10 @@
 
 #include <glib/gi18n.h>
 
+#define E_ACTION_COMBO_BOX_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ACTION_COMBO_BOX, EActionComboBoxPrivate))
+
 enum {
 	COLUMN_ACTION,
 	COLUMN_SORT
@@ -319,7 +323,7 @@ action_combo_box_get_property (GObject *object,
 static void
 action_combo_box_dispose (GObject *object)
 {
-	EActionComboBoxPrivate *priv = E_ACTION_COMBO_BOX (object)->priv;
+	EActionComboBoxPrivate *priv = E_ACTION_COMBO_BOX_GET_PRIVATE (object);
 
 	if (priv->action != NULL) {
 		g_object_unref (priv->action);
@@ -340,7 +344,7 @@ action_combo_box_dispose (GObject *object)
 static void
 action_combo_box_finalize (GObject *object)
 {
-	EActionComboBoxPrivate *priv = E_ACTION_COMBO_BOX (object)->priv;
+	EActionComboBoxPrivate *priv = E_ACTION_COMBO_BOX_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->index);
 
@@ -431,8 +435,7 @@ e_action_combo_box_class_init (EActionComboBoxClass *class)
 static void
 e_action_combo_box_init (EActionComboBox *combo_box)
 {
-	combo_box->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		combo_box, E_TYPE_ACTION_COMBO_BOX, EActionComboBoxPrivate);
+	combo_box->priv = E_ACTION_COMBO_BOX_GET_PRIVATE (combo_box);
 
 	combo_box->priv->index = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,

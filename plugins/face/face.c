@@ -305,7 +305,9 @@ choose_new_face (void)
 
 	preview = gtk_image_new ();
 	gtk_file_chooser_set_preview_widget (GTK_FILE_CHOOSER (filesel), preview);
-	g_signal_connect (filesel, "update-preview", G_CALLBACK (update_preview_cb), preview);
+	g_signal_connect (
+		filesel, "update-preview",
+		G_CALLBACK (update_preview_cb), preview);
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
 		gchar *image_filename, *file_contents = NULL;
@@ -358,7 +360,9 @@ get_cfg_widget (void)
 
 	check = gtk_check_button_new_with_mnemonic (_("_Insert Face picture by default"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), get_include_face_by_default ());
-	g_signal_connect (check, "toggled", G_CALLBACK (toggled_check_include_by_default_cb), NULL);
+	g_signal_connect (
+		check, "toggled",
+		G_CALLBACK (toggled_check_include_by_default_cb), NULL);
 
 	gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
 
@@ -368,7 +372,9 @@ get_cfg_widget (void)
 		g_object_unref (face);
 
 	butt = gtk_button_new_with_mnemonic (_("Load new _Face picture"));
-	g_signal_connect (butt, "clicked", G_CALLBACK (click_load_face_cb), img);
+	g_signal_connect (
+		butt, "clicked",
+		G_CALLBACK (click_load_face_cb), img);
 
 	gtk_box_pack_start (GTK_BOX (vbox), butt, FALSE, FALSE, 0);
 

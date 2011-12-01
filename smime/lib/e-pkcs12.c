@@ -63,13 +63,6 @@
 #include "pk11func.h"
 #include "secerr.h"
 
-struct _EPKCS12Private {
-	gint mumble;
-};
-
-#define PARENT_TYPE G_TYPE_OBJECT
-static GObjectClass *parent_class;
-
 /* static callback functions for the NSS PKCS#12 library */
 static SECItem * PR_CALLBACK nickname_collision (SECItem *, PRBool *, gpointer );
 
@@ -84,71 +77,22 @@ static gboolean handle_error (gint myerr);
 #define PKCS12_BACKUP_FAILED       6
 #define PKCS12_NSS_ERROR           7
 
-static void
-e_pkcs12_dispose (GObject *object)
-{
-	EPKCS12 *pk = E_PKCS12 (object);
-
-	if (!pk->priv)
-		return;
-
-	/* XXX free instance private foo */
-
-	g_free (pk->priv);
-	pk->priv = NULL;
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
-}
+G_DEFINE_TYPE (EPKCS12, e_pkcs12, G_TYPE_OBJECT)
 
 static void
-e_pkcs12_class_init (EPKCS12Class *klass)
+e_pkcs12_class_init (EPKCS12Class *class)
 {
-	GObjectClass *object_class;
-
-	object_class = G_OBJECT_CLASS (klass);
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
-	object_class->dispose = e_pkcs12_dispose;
 }
 
 static void
 e_pkcs12_init (EPKCS12 *ec)
 {
-	ec->priv = g_new0 (EPKCS12Private, 1);
-}
-
-GType
-e_pkcs12_get_type (void)
-{
-	static GType pkcs12_type = 0;
-
-	if (!pkcs12_type) {
-		static const GTypeInfo pkcs12_info =  {
-			sizeof (EPKCS12Class),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_pkcs12_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (EPKCS12),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_pkcs12_init,
-		};
-
-		pkcs12_type = g_type_register_static (PARENT_TYPE, "EPKCS12", &pkcs12_info, 0);
-	}
-
-	return pkcs12_type;
 }
 
 EPKCS12 *
 e_pkcs12_new (void)
 {
-	EPKCS12 *pk = E_PKCS12 (g_object_new (E_TYPE_PKCS12, NULL));
-
-	return pk;
+	return g_object_new (E_TYPE_PKCS12, NULL);
 }
 
 static gboolean

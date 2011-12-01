@@ -54,6 +54,10 @@
 #define E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_1_RGBA 0xff60e0ff
 #define E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_2_RGBA 0x000000ff
 
+#define E_TIMEZONE_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TIMEZONE_DIALOG, ETimezoneDialogPrivate))
+
 struct _ETimezoneDialogPrivate {
 	/* The selected timezone. May be NULL for a 'local time' (i.e. when
 	 * the displayed name is ""). */
@@ -78,7 +82,6 @@ struct _ETimezoneDialogPrivate {
 };
 
 static void e_timezone_dialog_dispose		(GObject	*object);
-static void e_timezone_dialog_finalize		(GObject	*object);
 
 static gboolean get_widgets			(ETimezoneDialog *etd);
 static gboolean on_map_timeout			(gpointer	 data);
@@ -118,37 +121,26 @@ e_timezone_dialog_class_init (ETimezoneDialogClass *class)
 {
 	GObjectClass *object_class;
 
+	g_type_class_add_private (class, sizeof (ETimezoneDialogPrivate));
+
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose  = e_timezone_dialog_dispose;
-	object_class->finalize = e_timezone_dialog_finalize;
 }
 
 /* Object initialization function for the event editor */
 static void
 e_timezone_dialog_init (ETimezoneDialog *etd)
 {
-	ETimezoneDialogPrivate *priv;
-
-	priv = g_new0 (ETimezoneDialogPrivate, 1);
-	etd->priv = priv;
-
-	priv->point_selected = NULL;
-	priv->point_hover = NULL;
-	priv->timeout_id = 0;
+	etd->priv = E_TIMEZONE_DIALOG_GET_PRIVATE (etd);
 }
 
 /* Dispose handler for the event editor */
 static void
 e_timezone_dialog_dispose (GObject *object)
 {
-	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
 
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (E_IS_TIMEZONE_DIALOG (object));
-
-	etd = E_TIMEZONE_DIALOG (object);
-	priv = etd->priv;
+	priv = E_TIMEZONE_DIALOG_GET_PRIVATE (object);
 
 	/* Destroy the actual dialog. */
 	if (priv->app != NULL) {
@@ -166,25 +158,8 @@ e_timezone_dialog_dispose (GObject *object)
 		priv->builder = NULL;
 	}
 
-	(* G_OBJECT_CLASS (e_timezone_dialog_parent_class)->dispose) (object);
-}
-
-/* Finalize handler for the event editor */
-static void
-e_timezone_dialog_finalize (GObject *object)
-{
-	ETimezoneDialog *etd;
-	ETimezoneDialogPrivate *priv;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (E_IS_TIMEZONE_DIALOG (object));
-
-	etd = E_TIMEZONE_DIALOG (object);
-	priv = etd->priv;
-
-	g_free (priv);
-
-	(* G_OBJECT_CLASS (e_timezone_dialog_parent_class)->finalize) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_timezone_dialog_parent_class)->dispose (object);
 }
 
 static void
@@ -414,33 +389,39 @@ static void
 format_utc_offset (gint utc_offset,
                    gchar *buffer)
 {
-  const gchar *sign = "+";
-  gint hours, minutes, seconds;
+	const gchar *sign = "+";
+	gint hours, minutes, seconds;
 
-  if (utc_offset < 0) {
-    utc_offset = -utc_offset;
-    sign = "-";
-  }
+	if (utc_offset < 0) {
+		utc_offset = -utc_offset;
+		sign = "-";
+	}
 
-  hours = utc_offset / 3600;
-  minutes = (utc_offset % 3600) / 60;
-  seconds = utc_offset % 60;
+	hours = utc_offset / 3600;
+	minutes = (utc_offset % 3600) / 60;
+	seconds = utc_offset % 60;
 
-  /* Sanity check. Standard timezone offsets shouldn't be much more than 12
-     hours, and daylight saving shouldn't change it by more than a few hours.
-     (The maximum offset is 15 hours 56 minutes at present.) */
-  if (hours < 0 || hours >= 24 || minutes < 0 || minutes >= 60
-      || seconds < 0 || seconds >= 60) {
-    fprintf (stderr, "Warning: Strange timezone offset: H:%i M:%i S:%i\n",
-	     hours, minutes, seconds);
-  }
+	/* Sanity check. Standard timezone offsets shouldn't be much more
+	 * than 12 hours, and daylight saving shouldn't change it by more
+	 * than a few hours.  (The maximum offset is 15 hours 56 minutes
+	 * at present.) */
+	if (hours < 0 || hours >= 24 || minutes < 0 || minutes >= 60
+	    || seconds < 0 || seconds >= 60) {
+		fprintf (
+			stderr, "Warning: Strange timezone offset: "
+			"H:%i M:%i S:%i\n", hours, minutes, seconds);
+	}
 
-  if (hours == 0 && minutes == 0 && seconds == 0)
-	  strcpy (buffer, _("UTC"));
-  else if (seconds == 0)
-	  sprintf (buffer, "%s %s%02i:%02i", _("UTC"), sign, hours, minutes);
-  else
-	  sprintf (buffer, "%s %s%02i:%02i:%02i", _("UTC"), sign, hours, minutes, seconds);
+	if (hours == 0 && minutes == 0 && seconds == 0)
+		strcpy (buffer, _("UTC"));
+	else if (seconds == 0)
+		sprintf (
+			buffer, "%s %s%02i:%02i",
+			_("UTC"), sign, hours, minutes);
+	else
+		sprintf (
+			buffer, "%s %s%02i:%02i:%02i",
+			_("UTC"), sign, hours, minutes, seconds);
 }
 
 static gchar *

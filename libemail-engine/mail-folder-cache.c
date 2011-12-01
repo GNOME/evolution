@@ -370,7 +370,8 @@ update_1folder (MailFolderCache *cache,
 			if (folder_is_drafts || folder_is_outbox) {
 				guint32 junked = 0;
 
-				if ((deleted = camel_folder_get_deleted_message_count (folder)) > 0)
+				deleted = camel_folder_get_deleted_message_count (folder);
+				if (deleted > 0)
 					unread -= deleted;
 
 				junked = camel_folder_summary_get_junk_count (folder->summary);
@@ -659,8 +660,6 @@ rename_folders (MailFolderCache *cache,
 	const gchar *config_dir;
 
 	up = g_malloc0 (sizeof (*up));
-
-	d(printf("oldbase '%s' newbase '%s' new '%s'\n", oldbase, newbase, fi->full_name));
 
 	/* Form what was the old name, and try and look it up */
 	old = g_strdup_printf("%s%s", oldbase, fi->full_name + strlen(newbase));
@@ -967,7 +966,13 @@ store_has_folder_hierarchy (CamelStore *store)
 	provider = camel_service_get_provider (CAMEL_SERVICE (store));
 	g_return_val_if_fail (provider != NULL, FALSE);
 
-	return (provider->flags & (CAMEL_PROVIDER_IS_STORAGE | CAMEL_PROVIDER_IS_EXTERNAL)) != 0;
+	if (provider->flags & CAMEL_PROVIDER_IS_STORAGE)
+		return TRUE;
+
+	if (provider->flags & CAMEL_PROVIDER_IS_EXTERNAL)
+		return TRUE;
+
+	return FALSE;
 }
 
 static void

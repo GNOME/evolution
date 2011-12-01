@@ -27,6 +27,10 @@
 
 #include <glib/gi18n.h>
 
+#define E_SIGNATURE_SCRIPT_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SIGNATURE_SCRIPT_DIALOG, ESignatureScriptDialogPrivate))
+
 struct _ESignatureScriptDialogPrivate {
 	GtkWidget *entry;
 	GtkWidget *file_chooser;
@@ -144,7 +148,7 @@ signature_script_dialog_dispose (GObject *object)
 {
 	ESignatureScriptDialogPrivate *priv;
 
-	priv = E_SIGNATURE_SCRIPT_DIALOG (object)->priv;
+	priv = E_SIGNATURE_SCRIPT_DIALOG_GET_PRIVATE (object);
 
 	if (priv->entry != NULL) {
 		g_object_unref (priv->entry);
@@ -230,9 +234,7 @@ e_signature_script_dialog_init (ESignatureScriptDialog *dialog)
 	GtkWidget *widget;
 	gchar *markup;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		dialog, E_TYPE_SIGNATURE_SCRIPT_DIALOG,
-		ESignatureScriptDialogPrivate);
+	dialog->priv = E_SIGNATURE_SCRIPT_DIALOG_GET_PRIVATE (dialog);
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 

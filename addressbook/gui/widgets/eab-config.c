@@ -26,17 +26,22 @@
 
 #include "eab-config.h"
 
+#define EAB_CONFIG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EAB_TYPE_CONFIG, EABConfigPrivate))
+
 static GObjectClass *ecp_parent_class;
 
 struct _EABConfigPrivate {
 	guint source_changed_id;
 };
 
+G_DEFINE_TYPE (EABConfig, eab_config, E_TYPE_CONFIG)
+
 static void
-ecp_init (EABConfig *cfg)
+eab_config_init (EABConfig *cfg)
 {
-	cfg->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		cfg, EAB_TYPE_CONFIG, EABConfigPrivate);
+	cfg->priv = EAB_CONFIG_GET_PRIVATE (cfg);
 }
 
 static void
@@ -89,7 +94,7 @@ static void
 ecp_set_target (EConfig *ec,
                 EConfigTarget *t)
 {
-	struct _EABConfigPrivate *p = EAB_CONFIG (ec)->priv;
+	struct _EABConfigPrivate *p = EAB_CONFIG_GET_PRIVATE (ec);
 
 	((EConfigClass *) ecp_parent_class)->set_target (ec, t);
 
@@ -109,34 +114,15 @@ ecp_set_target (EConfig *ec,
 }
 
 static void
-ecp_class_init (GObjectClass *klass)
+eab_config_class_init (EABConfigClass *class)
 {
-	((EConfigClass *) klass)->set_target = ecp_set_target;
-	((EConfigClass *) klass)->target_free = ecp_target_free;
+	EConfigClass *config_class;
 
-	g_type_class_add_private (klass, sizeof (struct _EABConfigPrivate));
-}
+	g_type_class_add_private (class, sizeof (struct _EABConfigPrivate));
 
-GType
-eab_config_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (EABConfigClass),
-			NULL, NULL,
-			(GClassInitFunc) ecp_class_init,
-			NULL, NULL,
-			sizeof (EABConfig), 0,
-			(GInstanceInitFunc) ecp_init
-		};
-
-		ecp_parent_class = g_type_class_ref (e_config_get_type ());
-		type = g_type_register_static (e_config_get_type (), "EABConfig", &info, 0);
-	}
-
-	return type;
+	config_class = E_CONFIG_CLASS (class);
+	config_class->set_target = ecp_set_target;
+	config_class->target_free = ecp_target_free;
 }
 
 EABConfig *

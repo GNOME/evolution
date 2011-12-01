@@ -633,7 +633,7 @@ get_question_edit_old (ECalClientSourceType source_type)
 
 static const gchar *
 get_question_add_all_mails (ECalClientSourceType source_type,
-			    gint count)
+                            gint count)
 {
 	const gchar *ask = NULL;
 
@@ -790,10 +790,12 @@ do_manage_comp_idle (struct _manage_comp *mc)
 			/* Force editor's title change */
 			comp_editor_title_changed (GTK_WIDGET (editor), NULL, mc);
 
-			g_signal_connect (editor, "notify::title",
-					G_CALLBACK (comp_editor_title_changed), mc);
-			g_signal_connect (editor, "comp_closed",
-					G_CALLBACK (comp_editor_closed), mc);
+			g_signal_connect (
+				editor, "notify::title",
+				G_CALLBACK (comp_editor_title_changed), mc);
+			g_signal_connect (
+				editor, "comp_closed",
+				G_CALLBACK (comp_editor_closed), mc);
 
 			gtk_window_present (GTK_WINDOW (editor));
 
@@ -1191,7 +1193,9 @@ mail_to_event (ECalClientSourceType source_type,
 			return;
 		}
 
-		g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+		g_signal_connect (
+			client, "authenticate",
+			G_CALLBACK (e_client_utils_authenticate_handler), NULL);
 
 		/* Fill the elements in AsynData */
 		data = g_new0 (AsyncData, 1);

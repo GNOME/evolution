@@ -778,7 +778,9 @@ change_sent_and_drafts_local_folders (EShellBackend *shell_backend)
 
 	camel_url_free (url);
 
-	tmp_uri = g_strconcat ("mbox:", g_get_home_dir (), "/.evolution/mail/local", NULL);
+	tmp_uri = g_strconcat (
+		"mbox:", g_get_home_dir (),
+		"/.evolution/mail/local", NULL);
 	url = camel_url_new (tmp_uri, NULL);
 	g_free (tmp_uri);
 
@@ -801,7 +803,8 @@ change_sent_and_drafts_local_folders (EShellBackend *shell_backend)
 			continue;
 
 		uri = e_account_get_string (account, E_ACCOUNT_DRAFTS_FOLDER_URI);
-		if (g_strcmp0 (uri, drafts_uri) == 0 || g_strcmp0 (uri, old_drafts_uri) == 0) {
+		if (g_strcmp0 (uri, drafts_uri) == 0 ||
+		    g_strcmp0 (uri, old_drafts_uri) == 0) {
 			changed = TRUE;
 			e_account_set_string (
 				account, E_ACCOUNT_DRAFTS_FOLDER_URI,
@@ -1167,7 +1170,7 @@ em_ensure_proxy_ignore_hosts_being_list (void)
 
 static void
 em_rename_view_in_folder (gpointer data,
-			  gpointer user_data)
+                          gpointer user_data)
 {
 	const gchar *filename = data;
 	const gchar *views_dir = user_data;
@@ -1188,6 +1191,7 @@ em_rename_view_in_folder (gpointer data,
 	if (folderpos < dotpos && g_str_equal (dotpos, ".xml")) {
 		GChecksum *checksum;
 		gchar *oldname, *newname, *newfile;
+		const gchar *md5_string;
 
 		*dotpos = 0;
 
@@ -1196,7 +1200,8 @@ em_rename_view_in_folder (gpointer data,
 		g_checksum_update (checksum, (const guchar *) folderpos, -1);
 
 		*folderpos = 0;
-		newfile = g_strconcat (filename, g_checksum_get_string (checksum), ".xml", NULL);
+		md5_string = g_checksum_get_string (checksum);
+		newfile = g_strconcat (filename, md5_string, ".xml", NULL);
 		*folderpos = 'f';
 		*dotpos = '.';
 

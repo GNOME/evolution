@@ -161,7 +161,9 @@ update_publish_notification (GtkMessageType msg_type,
 			notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);
 			g_timeout_add (500, show_notify_cb, NULL);
 
-			g_signal_connect (notify, "closed", G_CALLBACK (remove_notification), NULL);
+			g_signal_connect (
+				notify, "closed",
+				G_CALLBACK (remove_notification), NULL);
 		}
 	}
 #endif
@@ -426,8 +428,12 @@ mount_first (EPublishUri *uri,
 	ms->mount_op = g_mount_operation_new ();
 	ms->can_report_success = can_report_success;
 
-	g_signal_connect (ms->mount_op, "ask-password", G_CALLBACK (ask_password), ms);
-	g_signal_connect (ms->mount_op, "ask-question", G_CALLBACK (ask_question), ms);
+	g_signal_connect (
+		ms->mount_op, "ask-password",
+		G_CALLBACK (ask_password), ms);
+	g_signal_connect (
+		ms->mount_op, "ask-question",
+		G_CALLBACK (ask_question), ms);
 
 	g_file_mount_enclosing_volume (file, G_MOUNT_MOUNT_NONE, ms->mount_op, NULL, mount_ready_cb, ms);
 }
@@ -969,7 +975,9 @@ e_plugin_lib_enable (EPlugin *ep,
 		g_signal_handlers_disconnect_by_func (shell, G_CALLBACK (online_state_changed), NULL);
 		if (enable) {
 			online = e_shell_get_online (shell);
-			g_signal_connect (shell, "notify::online", G_CALLBACK (online_state_changed), NULL);
+			g_signal_connect (
+				shell, "notify::online",
+				G_CALLBACK (online_state_changed), NULL);
 		}
 	}
 

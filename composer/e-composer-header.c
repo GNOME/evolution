@@ -47,6 +47,10 @@ struct _EComposerHeaderPrivate {
 	guint visible   : 1;
 };
 
+#define E_COMPOSER_HEADER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_COMPOSER_HEADER, EComposerHeaderPrivate))
+
 enum {
 	PROP_0,
 	PROP_BUTTON,

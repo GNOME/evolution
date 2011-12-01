@@ -351,7 +351,9 @@ emfq_format_address (GString *out,
 				mailto = camel_url_encode (a->v.addr, "?=&()");
 			}
 			addr = camel_text_to_html (a->v.addr, flags, 0);
-			g_string_append_printf (out, "<a href=\"mailto:%s\">%s</a>", mailto, addr);
+			g_string_append_printf (
+				out, "<a href=\"mailto:%s\">%s</a>",
+				mailto, addr);
 			g_free (mailto);
 			g_free (addr);
 

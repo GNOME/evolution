@@ -1089,8 +1089,9 @@ mail_netbook_view_open_mail (EMailView *view,
 	page = e_mail_tab_picker_get_tab_no (priv->tab_picker, tab);
 	e_mail_tab_picker_set_current_tab (priv->tab_picker, page);
 
-	g_signal_connect (tab , "closed",
-			  G_CALLBACK (mnv_tab_closed), nview);
+	g_signal_connect (
+		tab , "closed",
+		G_CALLBACK (mnv_tab_closed), nview);
 
 	g_object_ref (tab);
 	timeline = clutter_timeline_new (150);
@@ -1323,14 +1324,19 @@ mail_notebook_view_set_folder (EMailReader *reader,
 #endif
 		} else {
 			priv->inited = TRUE;
-			gtk_notebook_set_tab_label (priv->book, (GtkWidget *) priv->current_view,
-						create_tab_label (E_MAIL_NOTEBOOK_VIEW (reader),
-								  priv->current_view,
-								  camel_folder_get_full_name (folder)));
+			gtk_notebook_set_tab_label (
+				priv->book,
+				GTK_WIDGET (priv->current_view),
+				create_tab_label (
+					E_MAIL_NOTEBOOK_VIEW (reader),
+					priv->current_view,
+					camel_folder_get_full_name (folder)));
 
 #if HAVE_CLUTTER
-			tab = e_mail_tab_picker_get_tab (priv->tab_picker,
-						e_mail_tab_picker_get_current_tab (priv->tab_picker));
+			tab = e_mail_tab_picker_get_tab (
+				priv->tab_picker,
+				e_mail_tab_picker_get_current_tab (
+				priv->tab_picker));
 			g_object_set_data ((GObject *)tab, "page", priv->current_view);
 			g_object_set_data ((GObject *)priv->current_view, "page", tab);
 			g_object_set_data ((GObject *)priv->current_view, "tab", tab);
@@ -1345,8 +1351,9 @@ mail_notebook_view_set_folder (EMailReader *reader,
 
 #if HAVE_CLUTTER
 		list = e_mail_reader_get_message_list (E_MAIL_READER (priv->current_view));
-		g_signal_connect (tab , "closed",
-				   G_CALLBACK (mnv_tab_closed), reader);
+		g_signal_connect (
+			tab , "closed",
+			G_CALLBACK (mnv_tab_closed), reader);
 		g_object_set_data ((GObject *)priv->current_view, "stage", priv->stage);
 		g_object_set_data ((GObject *)list, "stage", priv->stage);
 		g_object_set_data ((GObject *)list, "actor", priv->actor);
@@ -1567,14 +1574,18 @@ e_mail_notebook_view_new (EShellView *shell_view)
 	widget = g_object_new (
 		E_TYPE_MAIL_NOTEBOOK_VIEW,
 		"shell-view", shell_view, NULL);
-	g_signal_connect (widget, "show-folder",
-			G_CALLBACK (emnv_show_folder), widget);
-	g_signal_connect (widget, "show-next-tab",
-			G_CALLBACK (emnv_show_nexttab), widget);
-	g_signal_connect (widget, "show-previous-tab",
-			G_CALLBACK (emnv_show_prevtab), widget);
-	g_signal_connect (widget, "close-tab",
-			G_CALLBACK (emnv_close_tab), widget);
+	g_signal_connect (
+		widget, "show-folder",
+		G_CALLBACK (emnv_show_folder), widget);
+	g_signal_connect (
+		widget, "show-next-tab",
+		G_CALLBACK (emnv_show_nexttab), widget);
+	g_signal_connect (
+		widget, "show-previous-tab",
+		G_CALLBACK (emnv_show_prevtab), widget);
+	g_signal_connect (
+		widget, "close-tab",
+		G_CALLBACK (emnv_close_tab), widget);
 
 	return widget;
 }

@@ -29,6 +29,10 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtkhtml/gtkhtml-search.h>
 
+#define E_SEARCH_BAR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SEARCH_BAR, ESearchBarPrivate))
+
 struct _ESearchBarPrivate {
 	EWebView *web_view;
 	GtkWidget *entry;
@@ -316,7 +320,7 @@ search_bar_dispose (GObject *object)
 {
 	ESearchBarPrivate *priv;
 
-	priv = E_SEARCH_BAR (object)->priv;
+	priv = E_SEARCH_BAR_GET_PRIVATE (object);
 
 	if (priv->web_view != NULL) {
 		g_object_unref (priv->web_view);
@@ -362,7 +366,7 @@ search_bar_finalize (GObject *object)
 {
 	ESearchBarPrivate *priv;
 
-	priv = E_SEARCH_BAR (object)->priv;
+	priv = E_SEARCH_BAR_GET_PRIVATE (object);
 
 	g_free (priv->active_search);
 
@@ -375,7 +379,7 @@ search_bar_constructed (GObject *object)
 {
 	ESearchBarPrivate *priv;
 
-	priv = E_SEARCH_BAR (object)->priv;
+	priv = E_SEARCH_BAR_GET_PRIVATE (object);
 
 	g_object_bind_property (
 		object, "case-sensitive",
@@ -537,8 +541,7 @@ e_search_bar_init (ESearchBar *search_bar)
 	GtkWidget *widget;
 	GtkWidget *container;
 
-	search_bar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		search_bar, E_TYPE_SEARCH_BAR, ESearchBarPrivate);
+	search_bar->priv = E_SEARCH_BAR_GET_PRIVATE (search_bar);
 	search_bar->priv->tokenizer = e_searching_tokenizer_new ();
 
 	g_signal_connect_swapped (

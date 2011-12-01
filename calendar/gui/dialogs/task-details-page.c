@@ -41,6 +41,10 @@
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
 
+#define TASK_DETAILS_PAGE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_TASK_DETAILS_PAGE, TaskDetailsPagePrivate))
+
 struct _TaskDetailsPagePrivate {
 	GtkBuilder *builder;
 
@@ -172,7 +176,7 @@ task_details_page_dispose (GObject *object)
 {
 	TaskDetailsPagePrivate *priv;
 
-	priv = TASK_DETAILS_PAGE (object)->priv;
+	priv = TASK_DETAILS_PAGE_GET_PRIVATE (object);
 
 	if (priv->main != NULL) {
 		g_object_unref (priv->main);
@@ -436,8 +440,7 @@ task_details_page_class_init (TaskDetailsPageClass *class)
 static void
 task_details_page_init (TaskDetailsPage *tdpage)
 {
-	tdpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		tdpage, TYPE_TASK_DETAILS_PAGE, TaskDetailsPagePrivate);
+	tdpage->priv = TASK_DETAILS_PAGE_GET_PRIVATE (tdpage);
 }
 
 /* Gets the widgets from the XML file and returns if they are all available. */

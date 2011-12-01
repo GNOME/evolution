@@ -69,18 +69,21 @@ main (gint argc,
 	gtk_window_set_resizable (GTK_WINDOW (window), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (window), 8);
 
-	g_signal_connect (window, "delete_event",
-			  G_CALLBACK (delete_event_cb), NULL);
+	g_signal_connect (
+		window, "delete_event",
+		G_CALLBACK (delete_event_cb), NULL);
 
 	cal = e_calendar_new ();
 	e_calendar_set_minimum_size (E_CALENDAR (cal), 1, 1);
 	calitem = E_CALENDAR (cal)->calitem;
 	gtk_widget_show (cal);
 
-	g_signal_connect (calitem, "date_range_changed",
-			  G_CALLBACK (on_date_range_changed), NULL);
-	g_signal_connect (calitem, "selection_changed",
-			  G_CALLBACK (on_selection_changed), NULL);
+	g_signal_connect (
+		calitem, "date_range_changed",
+		G_CALLBACK (on_date_range_changed), NULL);
+	g_signal_connect (
+		calitem, "selection_changed",
+		G_CALLBACK (on_selection_changed), NULL);
 
 	gtk_drag_dest_set (cal,
 			   GTK_DEST_DEFAULT_ALL,

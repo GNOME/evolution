@@ -45,6 +45,10 @@
 #include "e-memo-shell-migrate.h"
 #include "e-memo-shell-view.h"
 
+#define E_MEMO_SHELL_BACKEND_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MEMO_SHELL_BACKEND, EMemoShellBackendPrivate))
+
 #define WEB_BASE_URI		"webcal://"
 #define PERSONAL_RELATIVE_URI	"system"
 

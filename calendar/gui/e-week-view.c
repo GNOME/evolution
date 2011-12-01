@@ -813,14 +813,18 @@ e_week_view_init (EWeekView *week_view)
 				       "EWeekViewMainItem::week_view", week_view,
 				       NULL);
 
-	g_signal_connect_after (week_view->main_canvas, "button_press_event",
-				G_CALLBACK (e_week_view_on_button_press), week_view);
-	g_signal_connect (week_view->main_canvas, "button_release_event",
-			  G_CALLBACK (e_week_view_on_button_release), week_view);
-	g_signal_connect (week_view->main_canvas, "scroll_event",
-			  G_CALLBACK (e_week_view_on_scroll), week_view);
-	g_signal_connect (week_view->main_canvas, "motion_notify_event",
-			  G_CALLBACK (e_week_view_on_motion), week_view);
+	g_signal_connect_after (
+		week_view->main_canvas, "button_press_event",
+		G_CALLBACK (e_week_view_on_button_press), week_view);
+	g_signal_connect (
+		week_view->main_canvas, "button_release_event",
+		G_CALLBACK (e_week_view_on_button_release), week_view);
+	g_signal_connect (
+		week_view->main_canvas, "scroll_event",
+		G_CALLBACK (e_week_view_on_scroll), week_view);
+	g_signal_connect (
+		week_view->main_canvas, "motion_notify_event",
+		G_CALLBACK (e_week_view_on_motion), week_view);
 
 	/* Create the buttons to jump to each days. */
 	pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **) jump_xpm);
@@ -832,8 +836,9 @@ e_week_view_init (EWeekView *week_view)
 			 "GnomeCanvasPixbuf::pixbuf", pixbuf,
 			 NULL);
 
-		g_signal_connect (week_view->jump_buttons[i], "event",
-				  G_CALLBACK (e_week_view_on_jump_button_event), week_view);
+		g_signal_connect (
+			week_view->jump_buttons[i], "event",
+			G_CALLBACK (e_week_view_on_jump_button_event), week_view);
 	}
 	week_view->focused_jump_button = E_WEEK_VIEW_JUMP_BUTTON_NO_FOCUS;
 
@@ -3147,9 +3152,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	}
 
 	g_object_set_data ((GObject *)span->background_item, "event-num", GINT_TO_POINTER (event_num));
-	g_signal_connect (span->background_item, "event",
-			  G_CALLBACK (tooltip_event_cb),
-			  week_view);
+	g_signal_connect (
+		span->background_item, "event",
+		G_CALLBACK (tooltip_event_cb), week_view);
 
 	gnome_canvas_item_set (span->background_item,
 			       "event_num", event_num,
@@ -3188,9 +3193,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 			set_text_as_bold (event, span);
 		}
 		g_object_set_data (G_OBJECT (span->text_item), "event-num", GINT_TO_POINTER (event_num));
-		g_signal_connect (span->text_item, "event",
-				  G_CALLBACK (e_week_view_on_text_item_event),
-				  week_view);
+		g_signal_connect (
+			span->text_item, "event",
+			G_CALLBACK (e_week_view_on_text_item_event), week_view);
 		g_signal_emit_by_name (G_OBJECT (week_view),
 				       "event_added", event);
 

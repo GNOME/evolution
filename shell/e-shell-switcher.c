@@ -38,6 +38,10 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_SWITCHER, EShellSwitcherPrivate))
 
+#define E_SHELL_SWITCHER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SHELL_SWITCHER, EShellSwitcherPrivate))
+
 #define H_PADDING 6
 #define V_PADDING 6
 

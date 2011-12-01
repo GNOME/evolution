@@ -80,12 +80,16 @@ gnome_canvas_update_bbox (GnomeCanvasItem *item,
                           gint x2,
                           gint y2)
 {
-	gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
+	gnome_canvas_request_redraw (
+		item->canvas, item->x1, item->y1, item->x2, item->y2);
+
 	item->x1 = x1;
 	item->y1 = y1;
 	item->x2 = x2;
 	item->y2 = y2;
-	gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
+
+	gnome_canvas_request_redraw (
+		item->canvas, item->x1, item->y1, item->x2, item->y2);
 }
 
 /**

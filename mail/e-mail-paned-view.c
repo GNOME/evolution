@@ -222,7 +222,6 @@ mail_paned_view_restore_state_cb (EShellWindow *shell_window,
 {
 	EMailPanedViewPrivate *priv;
 	GSettings *settings;
-	GObject *object;
 
 	priv = E_MAIL_PANED_VIEW (view)->priv;
 
@@ -230,11 +229,15 @@ mail_paned_view_restore_state_cb (EShellWindow *shell_window,
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	object = G_OBJECT (priv->paned);
-	g_settings_bind (settings, "hpaned-size", object, "hposition", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "hpaned-size",
+		priv->paned, "hposition",
+		G_SETTINGS_BIND_DEFAULT);
 
-	object = G_OBJECT (priv->paned);
-	g_settings_bind (settings, "paned-size", object, "vposition", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "paned-size",
+		priv->paned, "vposition",
+		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);
 }

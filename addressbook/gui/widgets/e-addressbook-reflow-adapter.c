@@ -31,6 +31,10 @@
 #include <e-util/e-util.h>
 #include "addressbook/printing/e-contact-print.h"
 
+#define E_ADDRESSBOOK_REFLOW_ADAPTER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER, EAddressbookReflowAdapterPrivate))
+
 struct _EAddressbookReflowAdapterPrivate {
 	EAddressbookModel *model;
 
@@ -39,9 +43,6 @@ struct _EAddressbookReflowAdapterPrivate {
 	gint create_contact_id, remove_contact_id, modify_contact_id, model_changed_id;
 	gint search_started_id, search_result_id;
 };
-
-#define PARENT_TYPE e_reflow_model_get_type()
-static EReflowModel *parent_class;
 
 #define d(x)
 
@@ -60,6 +61,11 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = {0, };
+
+G_DEFINE_TYPE (
+	EAddressbookReflowAdapter,
+	e_addressbook_reflow_adapter,
+	E_TYPE_REFLOW_MODEL)
 
 static void
 unlink_model (EAddressbookReflowAdapter *adapter)
@@ -307,22 +313,19 @@ addressbook_incarnate (EReflowModel *erm,
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 	GnomeCanvasItem *item;
 
-	item = gnome_canvas_item_new (parent,
-				     e_minicard_get_type (),
-				     "contact", e_addressbook_model_contact_at (priv->model, i),
-				     "editable", e_addressbook_model_get_editable (priv->model),
-				     NULL);
+	item = gnome_canvas_item_new (
+		parent, e_minicard_get_type (),
+		"contact", e_addressbook_model_contact_at (priv->model, i),
+		"editable", e_addressbook_model_get_editable (priv->model),
+		NULL);
 
-#if 0
-	g_signal_connect (item, "selected",
-			  G_CALLBACK (card_selected), 0, emvm);
-#endif
+	g_signal_connect (
+		item, "drag_begin",
+		G_CALLBACK (adapter_drag_begin), adapter);
 
-	g_signal_connect (item, "drag_begin",
-			  G_CALLBACK (adapter_drag_begin), adapter);
-
-	g_signal_connect (item, "open-contact",
-			  G_CALLBACK (adapter_open_contact), adapter);
+	g_signal_connect (
+		item, "open-contact",
+		G_CALLBACK (adapter_open_contact), adapter);
 
 	return item;
 }
@@ -470,15 +473,27 @@ addressbook_get_property (GObject *object,
 }
 
 static void
-e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
+e_addressbook_reflow_adapter_class_init (EAddressbookReflowAdapterClass *class)
 {
-	EReflowModelClass *model_class = (EReflowModelClass *) object_class;
+	GObjectClass *object_class;
+	EReflowModelClass *reflow_model_class;
 
-	parent_class = g_type_class_peek_parent (object_class);
+	g_type_class_add_private (
+		class, sizeof (EAddressbookReflowAdapterPrivate));
 
+	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = addressbook_set_property;
 	object_class->get_property = addressbook_get_property;
 	object_class->dispose = addressbook_dispose;
+
+	reflow_model_class = E_REFLOW_MODEL_CLASS (class);
+	reflow_model_class->set_width = addressbook_set_width;
+	reflow_model_class->count = addressbook_count;
+	reflow_model_class->height = addressbook_height;
+	reflow_model_class->create_cmp_cache = addressbook_create_cmp_cache;
+	reflow_model_class->compare = addressbook_compare;
+	reflow_model_class->incarnate = addressbook_incarnate;
+	reflow_model_class->reincarnate = addressbook_reincarnate;
 
 	g_object_class_install_property (object_class, PROP_CLIENT,
 					 g_param_spec_object ("client",
@@ -526,56 +541,12 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1,
 			      E_TYPE_CONTACT);
-
-	model_class->set_width = addressbook_set_width;
-	model_class->count = addressbook_count;
-	model_class->height = addressbook_height;
-	model_class->create_cmp_cache = addressbook_create_cmp_cache;
-	model_class->compare = addressbook_compare;
-	model_class->incarnate = addressbook_incarnate;
-	model_class->reincarnate = addressbook_reincarnate;
 }
 
 static void
-e_addressbook_reflow_adapter_init (GObject *object)
+e_addressbook_reflow_adapter_init (EAddressbookReflowAdapter *adapter)
 {
-	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (object);
-	EAddressbookReflowAdapterPrivate *priv;
-
-	priv = adapter->priv = g_new0 (EAddressbookReflowAdapterPrivate, 1);
-
-	priv->loading = FALSE;
-	priv->create_contact_id = 0;
-	priv->remove_contact_id = 0;
-	priv->modify_contact_id = 0;
-	priv->model_changed_id = 0;
-	priv->search_started_id = 0;
-	priv->search_result_id = 0;
-}
-
-GType
-e_addressbook_reflow_adapter_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info =  {
-			sizeof (EAddressbookReflowAdapterClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_addressbook_reflow_adapter_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (EAddressbookReflowAdapter),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_addressbook_reflow_adapter_init,
-		};
-
-		type = g_type_register_static (
-			PARENT_TYPE, "EAddressbookReflowAdapter", &info, 0);
-	}
-
-	return type;
+	adapter->priv = E_ADDRESSBOOK_REFLOW_ADAPTER_GET_PRIVATE (adapter);
 }
 
 void
@@ -584,33 +555,31 @@ e_addressbook_reflow_adapter_construct (EAddressbookReflowAdapter *adapter,
 {
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
-	priv->model = model;
-	g_object_ref (priv->model);
+	priv->model = g_object_ref (model);
 
-	priv->create_contact_id = g_signal_connect (priv->model,
-						"contact_added",
-						G_CALLBACK (create_contact),
-						adapter);
-	priv->remove_contact_id = g_signal_connect (priv->model,
-						"contacts_removed",
-						G_CALLBACK (remove_contacts),
-						adapter);
-	priv->modify_contact_id = g_signal_connect (priv->model,
-						"contact_changed",
-						G_CALLBACK (modify_contact),
-						adapter);
-	priv->model_changed_id = g_signal_connect (priv->model,
-						  "model_changed",
-						  G_CALLBACK (model_changed),
-						  adapter);
-	priv->search_started_id = g_signal_connect (priv->model,
-						   "search_started",
-						   G_CALLBACK (search_started),
-						   adapter);
-	priv->search_result_id = g_signal_connect (priv->model,
-						  "search_result",
-						  G_CALLBACK (search_result),
-						  adapter);
+	priv->create_contact_id = g_signal_connect (
+		priv->model, "contact_added",
+		G_CALLBACK (create_contact), adapter);
+
+	priv->remove_contact_id = g_signal_connect (
+		priv->model, "contacts_removed",
+		G_CALLBACK (remove_contacts), adapter);
+
+	priv->modify_contact_id = g_signal_connect (
+		priv->model, "contact_changed",
+		G_CALLBACK (modify_contact), adapter);
+
+	priv->model_changed_id = g_signal_connect (
+		priv->model, "model_changed",
+		G_CALLBACK (model_changed), adapter);
+
+	priv->search_started_id = g_signal_connect (
+		priv->model, "search_started",
+		G_CALLBACK (search_started), adapter);
+
+	priv->search_result_id = g_signal_connect (
+		priv->model, "search_result",
+		G_CALLBACK (search_result), adapter);
 }
 
 EReflowModel *

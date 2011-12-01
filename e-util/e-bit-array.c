@@ -401,11 +401,11 @@ e_bit_array_init (EBitArray *eba)
 }
 
 static void
-e_bit_array_class_init (EBitArrayClass *klass)
+e_bit_array_class_init (EBitArrayClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = eba_dispose;
 }

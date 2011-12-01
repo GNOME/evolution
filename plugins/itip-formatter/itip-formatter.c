@@ -790,7 +790,9 @@ decrease_find_data (FormatItipFindData *fd)
 				source = e_source_list_peek_source_any (pitip->source_lists[pitip->type]);
 
 			itip_view_set_source_list (ITIP_VIEW (pitip->view), pitip->source_lists[pitip->type]);
-			g_signal_connect (pitip->view, "source_selected", G_CALLBACK (source_selected_cb), pitip);
+			g_signal_connect (
+				pitip->view, "source_selected",
+				G_CALLBACK (source_selected_cb), pitip);
 
 			if (source) {
 				itip_view_set_source (ITIP_VIEW (pitip->view), source);
@@ -2344,7 +2346,9 @@ extract_itip_data (struct _itip_puri *pitip,
 		gtk_widget_show_all (hbox);
 		gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 
-		g_signal_connect (save, "clicked", G_CALLBACK (save_vcalendar_cb), pitip);
+		g_signal_connect (
+			save, "clicked",
+			G_CALLBACK (save_vcalendar_cb), pitip);
 		return FALSE;
 	} if (pitip->total > 0) {
 		pitip->current = 1;
@@ -3002,7 +3006,9 @@ format_itip_object (EMFormatHTML *efh,
 	}
 
 	if (response_enabled) {
-		g_signal_connect (info->view, "response", G_CALLBACK (view_response_cb), info);
+		g_signal_connect (
+			info->view, "response",
+			G_CALLBACK (view_response_cb), info);
 
 		itip_view_set_show_free_time_check (ITIP_VIEW (info->view), info->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS && (info->method == ICAL_METHOD_PUBLISH || info->method ==  ICAL_METHOD_REQUEST));
 
@@ -3250,7 +3256,9 @@ itip_formatter_page_factory (EPlugin *ep,
 
 	check = gtk_check_button_new_with_mnemonic (_("_Delete message after acting"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), g_settings_get_boolean (settings, CONF_KEY_DELETE));
-	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (delete_toggled_cb), NULL);
+	g_signal_connect (
+		check, "toggled",
+		G_CALLBACK (delete_toggled_cb), NULL);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
 
 	g_object_unref (settings);
@@ -3298,7 +3306,9 @@ itip_formatter_page_factory (EPlugin *ep,
 
 	initialize_selection (E_SOURCE_SELECTOR (ess), source_list);
 
-	g_signal_connect (ess, "selection_changed", G_CALLBACK (source_selection_changed), source_list);
+	g_signal_connect (
+		ess, "selection_changed",
+		G_CALLBACK (source_selection_changed), source_list);
 	g_object_weak_ref (G_OBJECT (page), (GWeakNotify) g_object_unref, source_list);
 
 	gtk_widget_show_all (page);

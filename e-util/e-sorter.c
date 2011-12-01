@@ -46,13 +46,13 @@ static void es_get_sorted_to_model_array (ESorter *es, gint **array, gint *count
 static gboolean es_needs_sorting (ESorter *es);
 
 static void
-e_sorter_class_init (ESorterClass *klass)
+e_sorter_class_init (ESorterClass *class)
 {
-	klass->model_to_sorted           = es_model_to_sorted;
-	klass->sorted_to_model           = es_sorted_to_model;
-	klass->get_model_to_sorted_array = es_get_model_to_sorted_array;
-	klass->get_sorted_to_model_array = es_get_sorted_to_model_array;
-	klass->needs_sorting             = es_needs_sorting;
+	class->model_to_sorted           = es_model_to_sorted;
+	class->sorted_to_model           = es_sorted_to_model;
+	class->get_model_to_sorted_array = es_get_model_to_sorted_array;
+	class->get_sorted_to_model_array = es_get_sorted_to_model_array;
+	class->needs_sorting             = es_needs_sorting;
 }
 
 static void

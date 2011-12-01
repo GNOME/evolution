@@ -37,6 +37,10 @@
 
 #include "e-rule-editor.h"
 
+#define E_RULE_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_RULE_EDITOR, ERuleEditorPrivate))
+
 static gint enable_undo = 0;
 
 enum {
@@ -276,10 +280,14 @@ rule_add (GtkWidget *widget,
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (editor->dialog));
 	gtk_box_pack_start (GTK_BOX (content_area), rules, TRUE, TRUE, 3);
 
-	g_signal_connect (editor->dialog, "response", G_CALLBACK (add_editor_response), editor);
+	g_signal_connect (
+		editor->dialog, "response",
+		G_CALLBACK (add_editor_response), editor);
 	g_object_weak_ref ((GObject *) editor->dialog, (GWeakNotify) editor_destroy, editor);
 
-	g_signal_connect (editor->edit, "changed", G_CALLBACK (dialog_rule_changed), editor->dialog);
+	g_signal_connect (
+		editor->edit, "changed",
+		G_CALLBACK (dialog_rule_changed), editor->dialog);
 	dialog_rule_changed (editor->edit, editor->dialog);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (editor), FALSE);
@@ -365,10 +373,14 @@ rule_edit (GtkWidget *widget,
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (editor->dialog));
 	gtk_box_pack_start (GTK_BOX (content_area), rules, TRUE, TRUE, 3);
 
-	g_signal_connect (editor->dialog, "response", G_CALLBACK (edit_editor_response), editor);
+	g_signal_connect (
+		editor->dialog, "response",
+		G_CALLBACK (edit_editor_response), editor);
 	g_object_weak_ref ((GObject *) editor->dialog, (GWeakNotify) editor_destroy, editor);
 
-	g_signal_connect (editor->edit, "changed", G_CALLBACK (dialog_rule_changed), editor->dialog);
+	g_signal_connect (
+		editor->edit, "changed",
+		G_CALLBACK (dialog_rule_changed), editor->dialog);
 	dialog_rule_changed (editor->edit, editor->dialog);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (editor), FALSE);
@@ -667,8 +679,7 @@ e_rule_editor_class_init (ERuleEditorClass *class)
 static void
 e_rule_editor_init (ERuleEditor *editor)
 {
-	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		editor, E_TYPE_RULE_EDITOR, ERuleEditorPrivate);
+	editor->priv = E_RULE_EDITOR_GET_PRIVATE (editor);
 }
 
 /**

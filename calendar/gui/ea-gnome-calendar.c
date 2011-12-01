@@ -131,9 +131,9 @@ ea_gnome_calendar_new (GtkWidget *widget)
 
 	/* listen on view type change
 	 */
-	g_signal_connect (widget, "dates_shown_changed",
-			  G_CALLBACK (ea_gcal_dates_change_cb),
-			  accessible);
+	g_signal_connect (
+		widget, "dates_shown_changed",
+		G_CALLBACK (ea_gcal_dates_change_cb), accessible);
 
 #ifdef ACC_DEBUG
 	printf ("EvoAcc: ea-gnome-calendar created: %p\n", (gpointer)accessible);

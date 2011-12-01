@@ -134,10 +134,12 @@ ets_set_property (GObject *object,
 
 		ets->sort_info = E_TABLE_SORT_INFO (g_value_get_object (value));
 		g_object_ref (ets->sort_info);
-		ets->sort_info_changed_id = g_signal_connect (ets->sort_info, "sort_info_changed",
-							      G_CALLBACK (ets_sort_info_changed), ets);
-		ets->group_info_changed_id = g_signal_connect (ets->sort_info, "group_info_changed",
-							       G_CALLBACK (ets_sort_info_changed), ets);
+		ets->sort_info_changed_id = g_signal_connect (
+			ets->sort_info, "sort_info_changed",
+			G_CALLBACK (ets_sort_info_changed), ets);
+		ets->group_info_changed_id = g_signal_connect (
+			ets->sort_info, "group_info_changed",
+			G_CALLBACK (ets_sort_info_changed), ets);
 
 		ets_clean (ets);
 		break;
@@ -216,20 +218,33 @@ e_table_sorter_new (ETableModel *source,
 	ets->source = source;
 	g_object_ref (ets->source);
 
-	ets->table_model_changed_id = g_signal_connect (source, "model_changed",
-							G_CALLBACK (ets_model_changed), ets);
-	ets->table_model_row_changed_id = g_signal_connect (source, "model_row_changed",
-							G_CALLBACK (ets_model_row_changed), ets);
-	ets->table_model_cell_changed_id = g_signal_connect (source, "model_cell_changed",
-							G_CALLBACK (ets_model_cell_changed), ets);
-	ets->table_model_rows_inserted_id = g_signal_connect (source, "model_rows_inserted",
-							G_CALLBACK (ets_model_rows_inserted), ets);
-	ets->table_model_rows_deleted_id = g_signal_connect (source, "model_rows_deleted",
-							G_CALLBACK (ets_model_rows_deleted), ets);
-	ets->sort_info_changed_id = g_signal_connect (sort_info, "sort_info_changed",
-							G_CALLBACK (ets_sort_info_changed), ets);
-	ets->group_info_changed_id = g_signal_connect (sort_info, "group_info_changed",
-							G_CALLBACK (ets_sort_info_changed), ets);
+	ets->table_model_changed_id = g_signal_connect (
+		source, "model_changed",
+		G_CALLBACK (ets_model_changed), ets);
+
+	ets->table_model_row_changed_id = g_signal_connect (
+		source, "model_row_changed",
+		G_CALLBACK (ets_model_row_changed), ets);
+
+	ets->table_model_cell_changed_id = g_signal_connect (
+		source, "model_cell_changed",
+		G_CALLBACK (ets_model_cell_changed), ets);
+
+	ets->table_model_rows_inserted_id = g_signal_connect (
+		source, "model_rows_inserted",
+		G_CALLBACK (ets_model_rows_inserted), ets);
+
+	ets->table_model_rows_deleted_id = g_signal_connect (
+		source, "model_rows_deleted",
+		G_CALLBACK (ets_model_rows_deleted), ets);
+
+	ets->sort_info_changed_id = g_signal_connect (
+		sort_info, "sort_info_changed",
+		G_CALLBACK (ets_sort_info_changed), ets);
+
+	ets->group_info_changed_id = g_signal_connect (
+		sort_info, "group_info_changed",
+		G_CALLBACK (ets_sort_info_changed), ets);
 
 	return ets;
 }

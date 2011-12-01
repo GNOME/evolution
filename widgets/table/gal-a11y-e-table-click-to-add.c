@@ -335,11 +335,13 @@ gal_a11y_e_table_click_to_add_new (GObject *widget)
 	priv->rect = etcta->rect;
 	priv->row = etcta->row;
 
-	g_signal_connect_after (G_OBJECT(widget), "event",
-				G_CALLBACK (etcta_event), a11y);
+	g_signal_connect_after (
+		widget, "event",
+		G_CALLBACK (etcta_event), a11y);
 
-	g_signal_connect (etcta->selection, "cursor_changed",
-			G_CALLBACK (etcta_selection_cursor_changed), a11y);
+	g_signal_connect (
+		etcta->selection, "cursor_changed",
+		G_CALLBACK (etcta_selection_cursor_changed), a11y);
 
 	return ATK_OBJECT (a11y);
 }
@@ -348,9 +350,9 @@ void
 gal_a11y_e_table_click_to_add_init (void)
 {
 	if (atk_get_root ())
-		atk_registry_set_factory_type (atk_get_default_registry (),
-					E_TYPE_TABLE_CLICK_TO_ADD,
-					gal_a11y_e_table_click_to_add_factory_get_type ());
-
+		atk_registry_set_factory_type (
+			atk_get_default_registry (),
+			E_TYPE_TABLE_CLICK_TO_ADD,
+			gal_a11y_e_table_click_to_add_factory_get_type ());
 }
 

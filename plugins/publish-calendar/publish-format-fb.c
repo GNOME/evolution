@@ -95,7 +95,9 @@ write_calendar (const gchar *uid,
 		return FALSE;
 	}
 
-	g_signal_connect (client, "authenticate", G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+	g_signal_connect (
+		client, "authenticate",
+		G_CALLBACK (e_client_utils_authenticate_handler), NULL);
 
 	if (!e_client_open_sync (E_CLIENT (client), TRUE, NULL, error)) {
 		g_object_unref (client);
@@ -109,7 +111,9 @@ write_calendar (const gchar *uid,
 
 	top_level = e_cal_util_new_top_level ();
 
-	g_signal_connect (client, "free-busy-data", G_CALLBACK (free_busy_data_cb), &objects);
+	g_signal_connect (
+		client, "free-busy-data",
+		G_CALLBACK (free_busy_data_cb), &objects);
 
 	if (e_cal_client_get_free_busy_sync (client, start, end, users, NULL, error)) {
 		gchar *ical_string;

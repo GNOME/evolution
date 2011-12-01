@@ -49,6 +49,14 @@ struct _ECalModelComponentPrivate {
 	GString *categories_str;
 };
 
+#define E_CAL_MODEL_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_MODEL, ECalModelPrivate))
+
+#define E_CAL_MODEL_COMPONENT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_MODEL_COMPONENT, ECalModelComponentPrivate))
+
 typedef struct {
 	ECalClient *client;
 	ECalClientView *view;
@@ -181,6 +189,11 @@ static guint signals[LAST_SIGNAL];
 G_DEFINE_TYPE_WITH_CODE (
 	ECalModel, e_cal_model, E_TYPE_TABLE_MODEL,
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
+
+G_DEFINE_TYPE (
+	ECalModelComponent,
+	e_cal_model_component,
+	G_TYPE_OBJECT)
 
 static void
 cal_model_set_property (GObject *object,
@@ -387,7 +400,7 @@ cal_model_dispose (GObject *object)
 {
 	ECalModelPrivate *priv;
 
-	priv = E_CAL_MODEL (object)->priv;
+	priv = E_CAL_MODEL_GET_PRIVATE (object);
 
 	if (priv->loading_clients) {
 		g_cancellable_cancel (priv->loading_clients);
@@ -431,7 +444,7 @@ cal_model_finalize (GObject *object)
 	ECalModelPrivate *priv;
 	gint ii;
 
-	priv = E_CAL_MODEL (object)->priv;
+	priv = E_CAL_MODEL_GET_PRIVATE (object);
 
 	g_free (priv->search_sexp);
 	g_free (priv->full_sexp);
@@ -703,8 +716,7 @@ e_cal_model_class_init (ECalModelClass *class)
 static void
 e_cal_model_init (ECalModel *model)
 {
-	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		model, E_TYPE_CAL_MODEL, ECalModelPrivate);
+	model->priv = E_CAL_MODEL_GET_PRIVATE (model);
 
 	/* match none by default */
 	model->priv->start = -1;
@@ -2732,11 +2744,21 @@ get_view_cb (GObject *source_object,
 	} else {
 		gvd->client_data->view = view;
 
-		g_signal_connect (gvd->client_data->view, "objects-added", G_CALLBACK (client_view_objects_added_cb), gvd->model);
-		g_signal_connect (gvd->client_data->view, "objects-modified", G_CALLBACK (client_view_objects_modified_cb), gvd->model);
-		g_signal_connect (gvd->client_data->view, "objects-removed", G_CALLBACK (client_view_objects_removed_cb), gvd->model);
-		g_signal_connect (gvd->client_data->view, "progress", G_CALLBACK (client_view_progress_cb), gvd->model);
-		g_signal_connect (gvd->client_data->view, "complete", G_CALLBACK (client_view_complete_cb), gvd->model);
+		g_signal_connect (
+			gvd->client_data->view, "objects-added",
+			G_CALLBACK (client_view_objects_added_cb), gvd->model);
+		g_signal_connect (
+			gvd->client_data->view, "objects-modified",
+			G_CALLBACK (client_view_objects_modified_cb), gvd->model);
+		g_signal_connect (
+			gvd->client_data->view, "objects-removed",
+			G_CALLBACK (client_view_objects_removed_cb), gvd->model);
+		g_signal_connect (
+			gvd->client_data->view, "progress",
+			G_CALLBACK (client_view_progress_cb), gvd->model);
+		g_signal_connect (
+			gvd->client_data->view, "complete",
+			G_CALLBACK (client_view_complete_cb), gvd->model);
 
 		e_cal_client_view_start (gvd->client_data->view, &error);
 
@@ -3713,43 +3735,10 @@ e_cal_model_component_finalize (GObject *object)
 	G_OBJECT_CLASS (component_parent_class)->finalize (object);
 }
 
-/* Object initialization function for the calendar component object */
 static void
 e_cal_model_component_init (ECalModelComponent *comp)
 {
-	comp->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		comp, E_TYPE_CAL_MODEL_COMPONENT, ECalModelComponentPrivate);
-
-	comp->dtstart = NULL;
-	comp->dtend = NULL;
-	comp->due = NULL;
-	comp->completed = NULL;
-	comp->created = NULL;
-	comp->lastmodified = NULL;
-	comp->color = NULL;
-	comp->priv->categories_str = NULL;
-}
-
-GType
-e_cal_model_component_get_type (void)
-{
-	static GType e_cal_model_component_type = 0;
-
-	if (!e_cal_model_component_type) {
-		static GTypeInfo info = {
-			sizeof (ECalModelComponentClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) e_cal_model_component_class_init,
-			NULL, NULL,
-			sizeof (ECalModelComponent),
-			0,
-			(GInstanceInitFunc) e_cal_model_component_init
-		};
-		e_cal_model_component_type = g_type_register_static (G_TYPE_OBJECT, "ECalModelComponent", &info, 0);
-	}
-
-	return e_cal_model_component_type;
+	comp->priv = E_CAL_MODEL_COMPONENT_GET_PRIVATE (comp);
 }
 
 /**

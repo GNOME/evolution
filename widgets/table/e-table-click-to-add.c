@@ -387,8 +387,9 @@ finish_editing (ETableClickToAdd *etcta)
 						   "cursor_mode", E_CURSOR_SPREADSHEET,
 						   NULL);
 
-		g_signal_connect (etcta->row, "key_press",
-				 G_CALLBACK (item_key_press), etcta);
+		g_signal_connect (
+			etcta->row, "key_press",
+			G_CALLBACK (item_key_press), etcta);
 
 		set_initial_selection (etcta);
 	}
@@ -436,8 +437,9 @@ etcta_event (GnomeCanvasItem *item,
 							   "cursor_mode", E_CURSOR_SPREADSHEET,
 							   NULL);
 
-			g_signal_connect (etcta->row, "key_press",
-					 G_CALLBACK (item_key_press), etcta);
+			g_signal_connect (
+				etcta->row, "key_press",
+				G_CALLBACK (item_key_press), etcta);
 
 			e_canvas_item_grab_focus (GNOME_CANVAS_ITEM (etcta->row), TRUE);
 
@@ -596,8 +598,9 @@ etcta_init (ETableClickToAdd *etcta)
 	etcta->height = 6;
 
 	etcta->selection = e_table_selection_model_new ();
-	g_signal_connect (etcta->selection, "cursor_changed",
-			 G_CALLBACK (etcta_cursor_change), etcta);
+	g_signal_connect (
+		etcta->selection, "cursor_changed",
+		G_CALLBACK (etcta_cursor_change), etcta);
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (etcta), etcta_reflow);
 

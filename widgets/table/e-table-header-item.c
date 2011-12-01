@@ -121,9 +121,11 @@ ethi_dispose (GObject *object)
 
 	if (ethi->sort_info) {
 		if (ethi->sort_info_changed_id)
-			g_signal_handler_disconnect (ethi->sort_info, ethi->sort_info_changed_id);
+			g_signal_handler_disconnect (
+				ethi->sort_info, ethi->sort_info_changed_id);
 		if (ethi->group_info_changed_id)
-			g_signal_handler_disconnect (ethi->sort_info, ethi->group_info_changed_id);
+			g_signal_handler_disconnect (
+				ethi->sort_info, ethi->group_info_changed_id);
 		g_object_unref (ethi->sort_info);
 		ethi->sort_info = NULL;
 	}
@@ -205,22 +207,18 @@ ethi_update (GnomeCanvasItem *item,
 	if (item->x1 != x1 ||
 	    item->y1 != y1 ||
 	    item->x2 != x2 ||
-	    item->y2 != y2)
-		{
-			gnome_canvas_request_redraw (
-				item->canvas,
-				item->x1, item->y1,
-				item->x2, item->y2);
-			item->x1 = x1;
-			item->y1 = y1;
-			item->x2 = x2;
-			item->y2 = y2;
-/* FIXME: Group Child bounds !? (FOO BAA) */
-#if 0
-			gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
-#endif
-		}
-	gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
+	    item->y2 != y2) {
+		gnome_canvas_request_redraw (
+			item->canvas,
+			item->x1, item->y1,
+			item->x2, item->y2);
+		item->x1 = x1;
+		item->y1 = y1;
+		item->x2 = x2;
+		item->y2 = y2;
+	}
+	gnome_canvas_request_redraw (
+		item->canvas, item->x1, item->y1, item->x2, item->y2);
 }
 
 static void
@@ -835,9 +833,15 @@ ethi_drag_data_received (GtkWidget *canvas,
 			if (!found) {
 				count = e_table_header_count (ethi->full_header);
 				for (i = 0; i < count; i++) {
-					ETableCol *ecol = e_table_header_get_column (ethi->full_header, i);
+					ETableCol *ecol;
+
+					ecol  = e_table_header_get_column (
+						ethi->full_header, i);
+
 					if (ecol->col_idx == column) {
-						e_table_header_add_column (ethi->eth, ecol, drop_col);
+						e_table_header_add_column (
+							ethi->eth, ecol,
+							drop_col);
 						break;
 					}
 				}
@@ -893,7 +897,10 @@ ethi_drag_drop (GtkWidget *canvas,
 			gchar *target = g_strdup_printf (
 				"%s-%s", TARGET_ETABLE_COL_TYPE, ethi->dnd_code);
 			d(g_print ("ethi -  %s\n", target));
-			gtk_drag_get_data (canvas, context, gdk_atom_intern (target, FALSE), time);
+			gtk_drag_get_data (
+				canvas, context,
+				gdk_atom_intern (target, FALSE),
+				time);
 			g_free (target);
 		}
 	}
@@ -941,20 +948,26 @@ ethi_realize (GnomeCanvasItem *item)
 	g_free ((gpointer) ethi_drop_types[0].target);
 
 	/* Drop signals */
-	ethi->drag_motion_id = g_signal_connect (item->canvas, "drag_motion",
-						 G_CALLBACK (ethi_drag_motion), ethi);
-	ethi->drag_leave_id = g_signal_connect (item->canvas, "drag_leave",
-						G_CALLBACK (ethi_drag_leave), ethi);
-	ethi->drag_drop_id = g_signal_connect (item->canvas, "drag_drop",
-					       G_CALLBACK (ethi_drag_drop), ethi);
-	ethi->drag_data_received_id = g_signal_connect (item->canvas, "drag_data_received",
-							G_CALLBACK (ethi_drag_data_received), ethi);
+	ethi->drag_motion_id = g_signal_connect (
+		item->canvas, "drag_motion",
+		G_CALLBACK (ethi_drag_motion), ethi);
+	ethi->drag_leave_id = g_signal_connect (
+		item->canvas, "drag_leave",
+		G_CALLBACK (ethi_drag_leave), ethi);
+	ethi->drag_drop_id = g_signal_connect (
+		item->canvas, "drag_drop",
+		G_CALLBACK (ethi_drag_drop), ethi);
+	ethi->drag_data_received_id = g_signal_connect (
+		item->canvas, "drag_data_received",
+		G_CALLBACK (ethi_drag_data_received), ethi);
 
 	/* Drag signals */
-	ethi->drag_end_id = g_signal_connect (item->canvas, "drag_end",
-					      G_CALLBACK (ethi_drag_end), ethi);
-	ethi->drag_data_get_id = g_signal_connect (item->canvas, "drag_data_get",
-						   G_CALLBACK (ethi_drag_data_get), ethi);
+	ethi->drag_end_id = g_signal_connect (
+		item->canvas, "drag_end",
+		G_CALLBACK (ethi_drag_end), ethi);
+	ethi->drag_data_get_id = g_signal_connect (
+		item->canvas, "drag_data_get",
+		G_CALLBACK (ethi_drag_data_get), ethi);
 
 }
 
@@ -1699,7 +1712,9 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 	if (sort_col == -1)
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
 	gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-	g_signal_connect (menu_item, "activate", G_CALLBACK (popup_custom), info);
+	g_signal_connect (
+		menu_item, "activate",
+		G_CALLBACK (popup_custom), info);
 
 	/* Show a seperator */
 	menu_item = gtk_separator_menu_item_new ();
@@ -1729,15 +1744,22 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 		gtk_menu_shell_prepend (GTK_MENU_SHELL (sub_menu), menu_item);
 
 		if (ncol == sort_col)
-			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-		gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-		g_object_set_data (G_OBJECT (menu_item), "col-number", GINT_TO_POINTER (ncol));
-		g_signal_connect (menu_item, "activate", G_CALLBACK (sort_by_id), ethi);
+			gtk_check_menu_item_set_active (
+				GTK_CHECK_MENU_ITEM (menu_item), TRUE);
+		gtk_check_menu_item_set_draw_as_radio (
+			GTK_CHECK_MENU_ITEM (menu_item), TRUE);
+		g_object_set_data (
+			G_OBJECT (menu_item), "col-number",
+			GINT_TO_POINTER (ncol));
+		g_signal_connect (
+			menu_item, "activate",
+			G_CALLBACK (sort_by_id), ethi);
 	}
 
 	g_object_ref_sink (popup);
-	g_signal_connect (popup, "selection-done",
-			  G_CALLBACK (free_popup_info), info);
+	g_signal_connect (
+		popup, "selection-done",
+		G_CALLBACK (free_popup_info), info);
 
 	gtk_menu_popup (
 		GTK_MENU (popup),
@@ -1806,15 +1828,18 @@ ethi_change_sort_state (ETableHeaderItem *ethi,
 					for (j = i + 1; j < length; j++)
 						e_table_sort_info_sorting_set_nth (
 							ethi->sort_info, j - 1,
-							e_table_sort_info_sorting_get_nth (ethi->sort_info, j));
+							e_table_sort_info_sorting_get_nth (
+								ethi->sort_info, j));
 
-					e_table_sort_info_sorting_truncate (ethi->sort_info, length - 1);
+					e_table_sort_info_sorting_truncate (
+						ethi->sort_info, length - 1);
 					length--;
 					i--;
 				} else {
 					ascending = !ascending;
 					column.ascending = ascending;
-					e_table_sort_info_sorting_set_nth (ethi->sort_info, i, column);
+					e_table_sort_info_sorting_set_nth (
+						ethi->sort_info, i, column);
 				}
 				found = TRUE;
 				if (model_col != -1)
@@ -1891,7 +1916,8 @@ ethi_event (GnomeCanvasItem *item,
 
 		convert (canvas, e->button.x, e->button.y, &x, &y);
 
-		if (is_pointer_on_division (ethi, x, &start, &col) && e->button.button == 1) {
+		if (is_pointer_on_division (ethi, x, &start, &col) &&
+		    e->button.button == 1) {
 			ETableCol *ecol;
 
 				/*
@@ -1991,8 +2017,9 @@ ethi_event (GnomeCanvasItem *item,
 					ethi->sort_info)) ? 0 : 16) +
 				128, info, GETTEXT_PACKAGE);
 			g_object_ref_sink (popup);
-			g_signal_connect (popup, "selection-done",
-					  G_CALLBACK (free_popup_info), info);
+			g_signal_connect (
+				popup, "selection-done",
+				G_CALLBACK (free_popup_info), info);
 			gtk_menu_popup (
 				GTK_MENU (popup),
 				NULL, NULL, NULL, NULL,

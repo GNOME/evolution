@@ -26,20 +26,35 @@
 
 #include <libgnomecanvas/libgnomecanvas.h>
 
+/* Standard GObject macros */
+#define E_TYPE_REFLOW_MODEL \
+	(e_reflow_model_get_type ())
+#define E_REFLOW_MODEL(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_REFLOW_MODEL, EReflowModel))
+#define E_REFLOW_MODEL_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_REFLOW_MODEL, EReflowModelClass))
+#define E_IS_REFLOW_MODEL(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_REFLOW_MODEL))
+#define E_IS_REFLOW_MODEL_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_REFLOW_MODEL))
+#define E_REFLOW_MODEL_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_REFLOW_MODEL, EReflowModelClass))
+
 G_BEGIN_DECLS
 
-#define E_REFLOW_MODEL_TYPE        (e_reflow_model_get_type ())
-#define E_REFLOW_MODEL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_REFLOW_MODEL_TYPE, EReflowModel))
-#define E_REFLOW_MODEL_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_REFLOW_MODEL_TYPE, EReflowModelClass))
-#define E_IS_REFLOW_MODEL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_REFLOW_MODEL_TYPE))
-#define E_IS_REFLOW_MODEL_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_REFLOW_MODEL_TYPE))
-#define E_REFLOW_MODEL_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), E_REFLOW_MODEL_TYPE, EReflowModelClass))
+typedef struct _EReflowModel EReflowModel;
+typedef struct _EReflowModelClass EReflowModelClass;
 
-typedef struct {
-	GObject   base;
-} EReflowModel;
+struct _EReflowModel {
+	GObject parent;
+};
 
-typedef struct {
+struct _EReflowModelClass {
 	GObjectClass parent_class;
 
 	/*
@@ -69,7 +84,7 @@ typedef struct {
 	void        (*model_items_inserted) (EReflowModel *etm, gint position, gint count);
 	void        (*model_item_removed)  (EReflowModel *etm, gint position);
 	void        (*model_item_changed)  (EReflowModel *etm, gint n);
-} EReflowModelClass;
+};
 
 GType            e_reflow_model_get_type        (void);
 

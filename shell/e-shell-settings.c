@@ -35,6 +35,10 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_SETTINGS, EShellSettingsPrivate))
 
+#define E_SHELL_SETTINGS_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SHELL_SETTINGS, EShellSettingsPrivate))
+
 struct _EShellSettingsPrivate {
 	GArray *value_array;
 	guint debug	: 1;

@@ -41,8 +41,6 @@
 #include <libebook/e-destination.h>
 #include "ea-addressbook.h"
 
-static void e_minicard_init		(EMinicard		 *card);
-static void e_minicard_class_init	(EMinicardClass	 *class);
 static void e_minicard_set_property  (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
 static void e_minicard_get_property  (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
 static void e_minicard_dispose (GObject *object);
@@ -104,29 +102,7 @@ common_location[] =
 
 static guint signals[LAST_SIGNAL] = {0, };
 
-GType
-e_minicard_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info =  {
-			sizeof (EMinicardClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_minicard_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (EMinicard),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_minicard_init,
-		};
-
-		type = g_type_register_static (gnome_canvas_group_get_type (), "EMinicard", &info, 0);
-	}
-
-	return type;
-}
+G_DEFINE_TYPE (EMinicard, e_minicard, GNOME_TYPE_CANVAS_GROUP)
 
 static void
 e_minicard_class_init (EMinicardClass *class)

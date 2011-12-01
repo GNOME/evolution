@@ -36,6 +36,10 @@
 #include "e-dateedit.h"
 #include "e-send-options.h"
 
+#define E_SEND_OPTIONS_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SEND_OPTIONS_DIALOG, ESendOptionsDialogPrivate))
+
 struct _ESendOptionsDialogPrivate {
 	GtkBuilder *builder;
 
@@ -404,16 +408,30 @@ init_widgets (ESendOptionsDialog *sod)
 
 	priv = sod->priv;
 
-	g_signal_connect (priv->expiration, "toggled", G_CALLBACK (expiration_toggled_cb), sod);
-	g_signal_connect (priv->reply_request, "toggled", G_CALLBACK (reply_request_toggled_cb), sod);
-	g_signal_connect (priv->delay_delivery, "toggled", G_CALLBACK (delay_delivery_toggled_cb), sod);
-	g_signal_connect (priv->create_sent, "toggled", G_CALLBACK (sent_item_toggled_cb), sod);
+	g_signal_connect (
+		priv->expiration, "toggled",
+		G_CALLBACK (expiration_toggled_cb), sod);
+	g_signal_connect (
+		priv->reply_request, "toggled",
+		G_CALLBACK (reply_request_toggled_cb), sod);
+	g_signal_connect (
+		priv->delay_delivery, "toggled",
+		G_CALLBACK (delay_delivery_toggled_cb), sod);
+	g_signal_connect (
+		priv->create_sent, "toggled",
+		G_CALLBACK (sent_item_toggled_cb), sod);
 
-	g_signal_connect (GTK_DIALOG (priv->main), "response", G_CALLBACK(e_send_options_cb), sod);
-	g_signal_connect (priv->delay_until, "changed", G_CALLBACK (delay_until_date_changed_cb), sod);
+	g_signal_connect (
+		priv->main, "response",
+		G_CALLBACK (e_send_options_cb), sod);
+	g_signal_connect (
+		priv->delay_until, "changed",
+		G_CALLBACK (delay_until_date_changed_cb), sod);
 
 	if (priv->global)
-		g_signal_connect (priv->notebook, "switch-page", G_CALLBACK (page_changed_cb), sod);
+		g_signal_connect (
+			priv->notebook, "switch-page",
+			G_CALLBACK (page_changed_cb), sod);
 
 }
 
@@ -571,7 +589,7 @@ e_send_options_dialog_new (void)
 {
 	ESendOptionsDialog *sod;
 
-	sod = g_object_new (E_TYPE_SENDOPTIONS_DIALOG, NULL);
+	sod = g_object_new (E_TYPE_SEND_OPTIONS_DIALOG, NULL);
 
 	return sod;
 }
@@ -580,7 +598,7 @@ void
 e_send_options_set_need_general_options (ESendOptionsDialog *sod,
                                          gboolean needed)
 {
-	g_return_if_fail (E_IS_SENDOPTIONS_DIALOG (sod));
+	g_return_if_fail (E_IS_SEND_OPTIONS_DIALOG (sod));
 
 	sod->priv->gopts_needed = needed;
 }
@@ -588,7 +606,7 @@ e_send_options_set_need_general_options (ESendOptionsDialog *sod,
 gboolean
 e_send_options_get_need_general_options (ESendOptionsDialog *sod)
 {
-	g_return_val_if_fail (E_IS_SENDOPTIONS_DIALOG (sod), FALSE);
+	g_return_val_if_fail (E_IS_SEND_OPTIONS_DIALOG (sod), FALSE);
 
 	return sod->priv->gopts_needed;
 }
@@ -597,7 +615,7 @@ gboolean
 e_send_options_set_global (ESendOptionsDialog *sod,
                            gboolean set)
 {
-	g_return_val_if_fail (E_IS_SENDOPTIONS_DIALOG (sod), FALSE);
+	g_return_val_if_fail (E_IS_SEND_OPTIONS_DIALOG (sod), FALSE);
 
 	sod->priv->global = set;
 
@@ -641,7 +659,7 @@ e_send_options_dialog_run (ESendOptionsDialog *sod,
 	ESendOptionsDialogPrivate *priv;
 	GtkWidget *toplevel;
 
-	g_return_val_if_fail (sod != NULL || E_IS_SENDOPTIONS_DIALOG (sod), FALSE);
+	g_return_val_if_fail (sod != NULL || E_IS_SEND_OPTIONS_DIALOG (sod), FALSE);
 
 	priv = sod->priv;
 
@@ -683,59 +701,30 @@ e_send_options_dialog_run (ESendOptionsDialog *sod,
 static void
 e_send_options_dialog_finalize (GObject *object)
 {
-	ESendOptionsDialog *sod = (ESendOptionsDialog *) object;
-	ESendOptionsDialogPrivate *priv;
+	ESendOptionsDialog *sod;
 
-	g_return_if_fail (E_IS_SENDOPTIONS_DIALOG (sod));
-	priv = sod->priv;
+	sod = E_SEND_OPTIONS_DIALOG (object);
 
-	g_free (priv->help_section);
+	g_free (sod->priv->help_section);
 
-	if (sod->data->gopts) {
-		g_free (sod->data->gopts);
-		sod->data->gopts = NULL;
-	}
+	g_free (sod->data->gopts);
 
-	if (!priv->global && sod->data->sopts) {
+	if (!sod->priv->global)
 		g_free (sod->data->sopts);
-		sod->data->sopts = NULL;
-	}
 
-	if (sod->data->mopts) {
-		g_free (sod->data->mopts);
-		sod->data->mopts = NULL;
-	}
-
-	if (sod->data->copts) {
-		g_free (sod->data->copts);
-		sod->data->copts = NULL;
-	}
-
-	if (sod->data->topts) {
-		g_free (sod->data->topts);
-		sod->data->topts = NULL;
-	}
-
-	if (sod->data) {
-		g_free (sod->data);
-		sod->data = NULL;
-	}
-
-	if (sod->priv) {
-		g_free (sod->priv);
-		sod->priv = NULL;
-	}
+	g_free (sod->data->mopts);
+	g_free (sod->data->copts);
+	g_free (sod->data->topts);
+	g_free (sod->data);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_send_options_dialog_parent_class)->finalize (object);
-
 }
 
 /* Object initialization function for the task page */
 static void
 e_send_options_dialog_init (ESendOptionsDialog *sod)
 {
-	ESendOptionsDialogPrivate *priv;
 	ESendOptionsData *new;
 
 	new = g_new0 (ESendOptionsData, 1);
@@ -744,45 +733,14 @@ e_send_options_dialog_init (ESendOptionsDialog *sod)
 	new->mopts = g_new0 (ESendOptionsStatusTracking, 1);
 	new->copts = g_new0 (ESendOptionsStatusTracking, 1);
 	new->topts = g_new0 (ESendOptionsStatusTracking, 1);
-	priv = g_new0 (ESendOptionsDialogPrivate, 1);
 
-	sod->priv = priv;
+	sod->priv = E_SEND_OPTIONS_DIALOG_GET_PRIVATE (sod);
+
 	sod->data = new;
 	sod->data->initialized = FALSE;
 	sod->data->gopts->security = 0;
 
-	priv->gopts_needed = TRUE;
-	priv->builder = NULL;
-
-	priv->main = NULL;
-	priv->notebook = NULL;
-	priv->priority = NULL;
-	priv->status = NULL;
-	priv->security = NULL;
-	priv->reply_request = NULL;
-	priv->reply_convenient = NULL;
-	priv->within_days = NULL;
-	priv->delay_delivery = NULL;
-	priv->delay_until = NULL;
-	priv->expiration = NULL;
-	priv->expire_after = NULL;
-	priv->create_sent = NULL;
-	priv->delivered =NULL;
-	priv->delivered_opened = NULL;
-	priv->global = FALSE;
-	priv->all_info = NULL;
-	priv->when_opened = NULL;
-	priv->when_declined = NULL;
-	priv->when_accepted = NULL;
-	priv->when_completed = NULL;
-	priv->security_label = NULL;
-	priv->priority_label = NULL;
-	priv->opened_label = NULL;
-	priv->gopts_label = NULL;
-	priv-> declined_label = NULL;
-	priv->accepted_label = NULL;
-	priv->completed_label = NULL;
-
+	sod->priv->gopts_needed = TRUE;
 }
 
 /* Class initialization function for the Send Options */
@@ -791,16 +749,19 @@ e_send_options_dialog_class_init (ESendOptionsDialogClass *class)
 {
 	GObjectClass *object_class;
 
+	g_type_class_add_private (class, sizeof (ESendOptionsDialogPrivate));
+
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_send_options_dialog_finalize;
 
-	signals[SOD_RESPONSE] = g_signal_new ("sod_response",
-			G_TYPE_FROM_CLASS (class),
-			G_SIGNAL_RUN_FIRST,
-			G_STRUCT_OFFSET (ESendOptionsDialogClass, sod_response),
-			NULL, NULL,
-			g_cclosure_marshal_VOID__INT,
-			G_TYPE_NONE, 1,
-			G_TYPE_INT);
+	signals[SOD_RESPONSE] = g_signal_new (
+		"sod_response",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (ESendOptionsDialogClass, sod_response),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE, 1,
+		G_TYPE_INT);
 
 }

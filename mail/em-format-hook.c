@@ -172,7 +172,8 @@ emfh_construct (EPluginHook *eph,
 
 	d(printf("loading format hook\n"));
 
-	if (((EPluginHookClass *) em_format_hook_parent_class)->construct (eph, ep, root) == -1)
+	if (((EPluginHookClass *) em_format_hook_parent_class)->
+		construct (eph, ep, root) == -1)
 		return -1;
 
 	node = root->children;

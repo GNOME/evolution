@@ -22,25 +22,33 @@
  *
  */
 
-#ifndef __EMAIL_CUSTOM_HEADEROPTIONS_DIALOG_H__
-#define __EMAIL_CUSTOM_HEADEROPTIONS_DIALOG_H__
+#ifndef EMAIL_CUSTOM_HEADEROPTIONS_DIALOG_H
+#define EMAIL_CUSTOM_HEADEROPTIONS_DIALOG_H
 
 #include <gtk/gtk.h>
 
-#define EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG       (epech_dialog_get_type ())
-#define EMAIL_CUSTOM_HEADEROPTIONS_DIALOG(obj)       (G_TYPE_CHECK_INSTANCE_CAST ((obj), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG, CustomHeaderOptionsDialog))
-#define EMAIL_CUSTOM_HEADEROPTIONS_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG, CustomHeaderOptionsDialogClass))
-#define EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG(obj)    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG))
-#define EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG))
+#define EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG \
+	(custom_header_options_dialog_get_type ())
+#define EMAIL_CUSTOM_HEADEROPTIONS_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG, CustomHeaderOptionsDialog))
+#define EMAIL_CUSTOM_HEADEROPTIONS_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG, CustomHeaderOptionsDialogClass))
+#define EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG))
+#define EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG))
 
 typedef struct _CustomHeaderOptionsDialog		CustomHeaderOptionsDialog;
 typedef struct _CustomHeaderOptionsDialogClass		CustomHeaderOptionsDialogClass;
-typedef struct _EmailCustomHeaderOptionsDialogPrivate	EmailCustomHeaderOptionsDialogPrivate;
+typedef struct _CustomHeaderOptionsDialogPrivate	CustomHeaderOptionsDialogPrivate;
 
 struct _CustomHeaderOptionsDialog {
-	GObject object;
-	/* Private data */
-	EmailCustomHeaderOptionsDialogPrivate *priv;
+	GObject parent;
+	CustomHeaderOptionsDialogPrivate *priv;
 };
 
 typedef struct {
@@ -55,7 +63,7 @@ typedef struct {
 } CustomSubHeader;
 
 typedef struct {
-        GtkWidget *header_value_combo_box;
+	GtkWidget *header_value_combo_box;
 } HeaderValueComboBox;
 
 struct _CustomHeaderOptionsDialogClass {
@@ -75,9 +83,7 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = {0};
-static GObjectClass *parent_class = NULL;
 
-GType  epech_dialog_get_type     (void);
 CustomHeaderOptionsDialog *epech_dialog_new (void);
 static gboolean epech_dialog_run (CustomHeaderOptionsDialog *mch, GtkWidget *parent);
 static void epech_get_header_list (CustomHeaderOptionsDialog *mch);

@@ -462,13 +462,17 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Keywords"),
 			renderer_key, "text", CLUE_KEYWORD_COLUMN, NULL);
 	g_object_set (renderer_key, "editable", TRUE, NULL);
-	g_signal_connect (renderer_key, "edited", (GCallback) key_cell_edited_callback, ui);
+	g_signal_connect (
+		renderer_key, "edited",
+		(GCallback) key_cell_edited_callback, ui);
 
 	renderer_value = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Values"),
 			renderer_value, "text", CLUE_VALUE_COLUMN, NULL);
 	g_object_set (renderer_value, "editable", TRUE, NULL);
-	g_signal_connect (renderer_value, "edited", (GCallback) value_cell_edited_callback, ui);
+	g_signal_connect (
+		renderer_value, "edited",
+		(GCallback) value_cell_edited_callback, ui);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);

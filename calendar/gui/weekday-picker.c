@@ -36,6 +36,10 @@
 
 #define PADDING 2
 
+#define WEEKDAY_PICKER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_WEEKDAY_PICKER, WeekdayPickerPrivate))
+
 /* Private part of the WeekdayPicker structure */
 struct _WeekdayPickerPrivate {
 	/* Selected days; see weekday_picker_set_days() */
@@ -181,25 +185,6 @@ configure_items (WeekdayPicker *wp)
 	}
 
 	colorize_items (wp);
-}
-
-static void
-weekday_picker_dispose (GObject *object)
-{
-	WeekdayPicker *wp;
-	WeekdayPickerPrivate *priv;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_WEEKDAY_PICKER (object));
-
-	wp = WEEKDAY_PICKER (object);
-	priv = wp->priv;
-
-	g_free (priv);
-	wp->priv = NULL;
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (weekday_picker_parent_class)->dispose (object);
 }
 
 static void
@@ -351,11 +336,9 @@ weekday_picker_focus (GtkWidget *widget,
 static void
 weekday_picker_class_init (WeekdayPickerClass *class)
 {
-	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = weekday_picker_dispose;
+	g_type_class_add_private (class, sizeof (WeekdayPickerPrivate));
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = weekday_picker_realize;
@@ -369,7 +352,7 @@ weekday_picker_class_init (WeekdayPickerClass *class)
 
 	wp_signals[CHANGED] = g_signal_new (
 		"changed",
-		G_TYPE_FROM_CLASS (object_class),
+		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (WeekdayPickerClass, changed),
 		NULL, NULL,
@@ -487,26 +470,26 @@ create_items (WeekdayPicker *wp)
 		priv->boxes[i] = gnome_canvas_item_new (parent,
 							GNOME_TYPE_CANVAS_RECT,
 							NULL);
-		g_signal_connect (priv->boxes[i], "event", G_CALLBACK (day_event_cb), wp);
+		g_signal_connect (
+			priv->boxes[i], "event",
+			G_CALLBACK (day_event_cb), wp);
 
 		priv->labels[i] = gnome_canvas_item_new (parent,
 							 GNOME_TYPE_CANVAS_TEXT,
 							 NULL);
-		g_signal_connect (priv->labels[i], "event", G_CALLBACK (day_event_cb), wp);
+		g_signal_connect (
+			priv->labels[i], "event",
+			G_CALLBACK (day_event_cb), wp);
 	}
 }
 
 static void
 weekday_picker_init (WeekdayPicker *wp)
 {
-	WeekdayPickerPrivate *priv;
-
-	priv = g_new0 (WeekdayPickerPrivate, 1);
-
-	wp->priv = priv;
+	wp->priv = WEEKDAY_PICKER_GET_PRIVATE (wp);
 
 	create_items (wp);
-	priv->focus_day = -1;
+	wp->priv->focus_day = -1;
 }
 
 /**
@@ -535,14 +518,9 @@ void
 weekday_picker_set_days (WeekdayPicker *wp,
                          guint8 day_mask)
 {
-	WeekdayPickerPrivate *priv;
-
-	g_return_if_fail (wp != NULL);
 	g_return_if_fail (IS_WEEKDAY_PICKER (wp));
 
-	priv = wp->priv;
-
-	priv->day_mask = day_mask;
+	wp->priv->day_mask = day_mask;
 	colorize_items (wp);
 
 	g_signal_emit (G_OBJECT (wp), wp_signals[CHANGED], 0);
@@ -560,13 +538,9 @@ weekday_picker_set_days (WeekdayPicker *wp,
 guint8
 weekday_picker_get_days (WeekdayPicker *wp)
 {
-	WeekdayPickerPrivate *priv;
-
-	g_return_val_if_fail (wp != NULL, 0);
 	g_return_val_if_fail (IS_WEEKDAY_PICKER (wp), 0);
 
-	priv = wp->priv;
-	return priv->day_mask;
+	return wp->priv->day_mask;
 }
 
 /**
@@ -582,13 +556,9 @@ void
 weekday_picker_set_blocked_days (WeekdayPicker *wp,
                                  guint8 blocked_day_mask)
 {
-	WeekdayPickerPrivate *priv;
-
-	g_return_if_fail (wp != NULL);
 	g_return_if_fail (IS_WEEKDAY_PICKER (wp));
 
-	priv = wp->priv;
-	priv->blocked_day_mask = blocked_day_mask;
+	wp->priv->blocked_day_mask = blocked_day_mask;
 }
 
 /**
@@ -604,13 +574,9 @@ weekday_picker_set_blocked_days (WeekdayPicker *wp,
 guint
 weekday_picker_get_blocked_days (WeekdayPicker *wp)
 {
-	WeekdayPickerPrivate *priv;
-
-	g_return_val_if_fail (wp != NULL, 0);
 	g_return_val_if_fail (IS_WEEKDAY_PICKER (wp), 0);
 
-	priv = wp->priv;
-	return priv->blocked_day_mask;
+	return wp->priv->blocked_day_mask;
 }
 
 /**
@@ -625,14 +591,10 @@ void
 weekday_picker_set_week_start_day (WeekdayPicker *wp,
                                    gint week_start_day)
 {
-	WeekdayPickerPrivate *priv;
-
-	g_return_if_fail (wp != NULL);
 	g_return_if_fail (IS_WEEKDAY_PICKER (wp));
 	g_return_if_fail (week_start_day >= 0 && week_start_day < 7);
 
-	priv = wp->priv;
-	priv->week_start_day = week_start_day;
+	wp->priv->week_start_day = week_start_day;
 
 	configure_items (wp);
 }
@@ -649,12 +611,8 @@ weekday_picker_set_week_start_day (WeekdayPicker *wp,
 gint
 weekday_picker_get_week_start_day (WeekdayPicker *wp)
 {
-	WeekdayPickerPrivate *priv;
-
-	g_return_val_if_fail (wp != NULL, -1);
 	g_return_val_if_fail (IS_WEEKDAY_PICKER (wp), -1);
 
-	priv = wp->priv;
-	return priv->week_start_day;
+	return wp->priv->week_start_day;
 }
 

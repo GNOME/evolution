@@ -30,13 +30,15 @@
 #include "calendar-view-factory.h"
 #include "calendar-view.h"
 
-/* Private part of the CalendarViewFactory structure */
+#define CALENDAR_VIEW_FACTORY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_CALENDAR_VIEW_FACTORY, CalendarViewFactoryPrivate))
+
 struct _CalendarViewFactoryPrivate {
 	/* Type of views created by this factory */
 	GnomeCalendarViewType view_type;
 };
 
-static void	calendar_view_factory_finalize	(GObject *object);
 static const gchar *
 		calendar_view_factory_get_title	(GalViewFactory *factory);
 static const gchar *
@@ -46,53 +48,29 @@ static GalView *
 		calendar_view_factory_new_view	(GalViewFactory *factory,
 						 const gchar *name);
 
-G_DEFINE_TYPE (CalendarViewFactory, calendar_view_factory, GAL_TYPE_VIEW_FACTORY)
+G_DEFINE_TYPE (
+	CalendarViewFactory,
+	calendar_view_factory,
+	GAL_TYPE_VIEW_FACTORY)
 
-/* Class initialization function for the calendar view factory */
 static void
 calendar_view_factory_class_init (CalendarViewFactoryClass *class)
 {
 	GalViewFactoryClass *gal_view_factory_class;
-	GObjectClass *gobject_class;
 
-	gal_view_factory_class = (GalViewFactoryClass *) class;
-	gobject_class = (GObjectClass *) class;
+	g_type_class_add_private (class, sizeof (CalendarViewFactoryPrivate));
 
+	gal_view_factory_class = GAL_VIEW_FACTORY_CLASS (class);
 	gal_view_factory_class->get_title = calendar_view_factory_get_title;
 	gal_view_factory_class->get_type_code = calendar_view_factory_get_type_code;
 	gal_view_factory_class->new_view = calendar_view_factory_new_view;
-
-	gobject_class->finalize = calendar_view_factory_finalize;
 }
 
-/* Object initialization class for the calendar view factory */
 static void
 calendar_view_factory_init (CalendarViewFactory *cal_view_factory)
 {
-	CalendarViewFactoryPrivate *priv;
-
-	priv = g_new0 (CalendarViewFactoryPrivate, 1);
-	cal_view_factory->priv = priv;
-}
-
-/* Finalize method for the calendar view factory */
-static void
-calendar_view_factory_finalize (GObject *object)
-{
-	CalendarViewFactory *cal_view_factory;
-	CalendarViewFactoryPrivate *priv;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_CALENDAR_VIEW_FACTORY (object));
-
-	cal_view_factory = CALENDAR_VIEW_FACTORY (object);
-	priv = cal_view_factory->priv;
-
-	g_free (priv);
-	cal_view_factory->priv = NULL;
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (calendar_view_factory_parent_class)->finalize (object);
+	cal_view_factory->priv =
+		CALENDAR_VIEW_FACTORY_GET_PRIVATE (cal_view_factory);
 }
 
 /* get_title method for the calendar view factory */

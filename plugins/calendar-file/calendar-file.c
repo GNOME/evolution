@@ -50,7 +50,9 @@ location_changed (GtkFileChooserButton *widget,
 	g_return_if_fail (source != NULL);
 
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (widget));
-	e_source_set_property (source, "custom-file", (filename && *filename) ? filename : NULL);
+	e_source_set_property (
+		source, "custom-file",
+		(filename && *filename) ? filename : NULL);
 	g_free (filename);
 }
 
@@ -154,7 +156,8 @@ e_calendar_file_customs (EPlugin *epl,
 	gtk_misc_set_alignment (GTK_MISC (w1), 0.0, 0.5);
 	gtk_box_pack_start ((GtkBox *) box2, w1, FALSE, TRUE, 2);
 
-	w2 = gtk_file_chooser_button_new (_("Choose calendar file"), GTK_FILE_CHOOSER_ACTION_OPEN);
+	w2 = gtk_file_chooser_button_new (
+		_("Choose calendar file"), GTK_FILE_CHOOSER_ACTION_OPEN);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (w2), TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w1), w2);
 	gtk_box_pack_start ((GtkBox *) box2, w2, TRUE, TRUE, 2);
@@ -213,7 +216,10 @@ e_calendar_file_customs (EPlugin *epl,
 	gtk_box_pack_start ((GtkBox *) box2, w2, FALSE, TRUE, 2);
 
 	value = e_source_get_property (source, "refresh-type");
-	gtk_combo_box_set_active ((GtkComboBox *) w2, (value && *value && !value[1] && value[0] >= '0' && value[0] <= '2') ? value[0] - '0' : 0);
+	gtk_combo_box_set_active (
+		(GtkComboBox *) w2,
+		(value && *value && !value[1] && value[0] >= '0' &&
+		 value[0] <= '2') ? value[0] - '0' : 0);
 
 	w1 = w2;
 	w2 = e_plugin_util_add_refresh (NULL, NULL, source, "refresh");
@@ -225,7 +231,9 @@ e_calendar_file_customs (EPlugin *epl,
 		w1, "changed",
 		G_CALLBACK (refresh_type_changed), source);
 
-	w2 = e_plugin_util_add_check (NULL, _("Force read _only"), source, "custom-file-readonly", "1", NULL);
+	w2 = e_plugin_util_add_check (
+		NULL, _("Force read _only"), source,
+		"custom-file-readonly", "1", NULL);
 	gtk_box_pack_start ((GtkBox *) box1, w2, TRUE, TRUE, 2);
 
 	gtk_widget_show_all (mainbox);

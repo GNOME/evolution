@@ -64,6 +64,10 @@
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-ui-manager.h"
 
+#define COMP_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_COMP_EDITOR, CompEditorPrivate))
+
 #define d(x)
 
 /* Private part of the CompEditor structure */
@@ -1522,7 +1526,7 @@ comp_editor_dispose (GObject *object)
 {
 	CompEditorPrivate *priv;
 
-	priv = COMP_EDITOR (object)->priv;
+	priv = COMP_EDITOR_GET_PRIVATE (object);
 
 	if (priv->shell != NULL) {
 		g_object_remove_weak_pointer (
@@ -1602,7 +1606,7 @@ comp_editor_finalize (GObject *object)
 {
 	CompEditorPrivate *priv;
 
-	priv = COMP_EDITOR (object)->priv;
+	priv = COMP_EDITOR_GET_PRIVATE (object);
 
 	g_object_unref (priv->calendar_settings);
 	g_free (priv->summary);
@@ -1700,7 +1704,7 @@ comp_editor_drag_motion (GtkWidget *widget,
 	CompEditorPrivate *priv;
 	EAttachmentView *view;
 
-	priv = COMP_EDITOR (widget)->priv;
+	priv = COMP_EDITOR_GET_PRIVATE (widget);
 	view = E_ATTACHMENT_VIEW (priv->attachment_view);
 
 	return e_attachment_view_drag_motion (view, context, x, y, time);
@@ -1718,7 +1722,7 @@ comp_editor_drag_data_received (GtkWidget *widget,
 	CompEditorPrivate *priv;
 	EAttachmentView *view;
 
-	priv = COMP_EDITOR (widget)->priv;
+	priv = COMP_EDITOR_GET_PRIVATE (widget);
 	view = E_ATTACHMENT_VIEW (priv->attachment_view);
 
 	/* Forward the data to the attachment view.  Note that calling
@@ -1936,8 +1940,7 @@ comp_editor_init (CompEditor *editor)
 	express_mode = e_shell_get_express_mode (shell);
 	meego_mode = e_shell_get_meego_mode (shell);
 
-	editor->priv = priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		editor, TYPE_COMP_EDITOR, CompEditorPrivate);
+	editor->priv = priv = COMP_EDITOR_GET_PRIVATE (editor);
 
 	g_object_weak_ref (
 		G_OBJECT (editor), (GWeakNotify)

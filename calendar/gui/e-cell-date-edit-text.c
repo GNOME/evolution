@@ -38,6 +38,10 @@
 
 #include "e-cell-date-edit-text.h"
 
+#define E_CELL_DATE_EDIT_TEXT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CELL_DATE_EDIT_TEXT, ECellDateEditTextPrivate))
+
 struct _ECellDateEditTextPrivate {
 
 	/* The timezone to display the date in. */
@@ -53,7 +57,10 @@ enum {
 	PROP_USE_24_HOUR_FORMAT
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	ECellDateEditText,
+	e_cell_date_edit_text,
+	E_TYPE_CELL_TEXT)
 
 static void
 cell_date_edit_text_set_property (GObject *object,
@@ -226,12 +233,11 @@ cell_date_edit_text_set_value (ECellText *cell,
 }
 
 static void
-cell_date_edit_text_class_init (ECellDateEditTextClass *class)
+e_cell_date_edit_text_class_init (ECellDateEditTextClass *class)
 {
 	GObjectClass *object_class;
 	ECellTextClass *cell_text_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECellDateEditTextPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -264,39 +270,12 @@ cell_date_edit_text_class_init (ECellDateEditTextClass *class)
 }
 
 static void
-cell_date_edit_text_init (ECellDateEditText *ecd)
+e_cell_date_edit_text_init (ECellDateEditText *ecd)
 {
-	ecd->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		ecd, E_TYPE_CELL_DATE_EDIT_TEXT, ECellDateEditTextPrivate);
+	ecd->priv = E_CELL_DATE_EDIT_TEXT_GET_PRIVATE (ecd);
 
 	ecd->priv->timezone = icaltimezone_get_utc_timezone ();
 	ecd->priv->use_24_hour_format = TRUE;
-}
-
-GType
-e_cell_date_edit_text_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (ECellDateEditTextClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) cell_date_edit_text_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ECellDateEditText),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) cell_date_edit_text_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_CELL_TEXT, "ECellDateEditText", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

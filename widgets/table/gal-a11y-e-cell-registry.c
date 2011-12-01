@@ -93,7 +93,8 @@ gal_a11y_e_cell_registry_get_type (void)
 			NULL /* value_cell */
 		};
 
-		type = g_type_register_static (PARENT_TYPE, "GalA11yECellRegistry", &info, 0);
+		type = g_type_register_static (
+			PARENT_TYPE, "GalA11yECellRegistry", &info, 0);
 	}
 
 	return type;
@@ -130,10 +131,10 @@ gal_a11y_e_cell_registry_get_object (GalA11yECellRegistry *registry,
 		type = g_type_parent (type);
 	}
 
-	if (func)
-		return func (item, cell_view, parent, model_col, view_col, row);
-	else
-		return gal_a11y_e_cell_new (item, cell_view, parent, model_col, view_col, row);
+	if (func == NULL)
+		func = gal_a11y_e_cell_new;
+
+	return func (item, cell_view, parent, model_col, view_col, row);
 }
 
 void

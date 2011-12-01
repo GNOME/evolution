@@ -65,8 +65,9 @@ main (gint argc,
 	gtk_window_set_resizable (GTK_WINDOW (window), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (window), 8);
 
-	g_signal_connect (window, "delete_event",
-			  G_CALLBACK (delete_event_cb), window);
+	g_signal_connect (
+		window, "delete_event",
+		G_CALLBACK (delete_event_cb), window);
 
 	table = gtk_table_new (3, 3, FALSE);
 	gtk_table_set_row_spacings (GTK_TABLE (table), 4);
@@ -82,21 +83,25 @@ main (gint argc,
 	gtk_widget_show (GTK_WIDGET (dedit));
 
 #if 0
-	g_signal_connect (dedit, "date_changed",
-			  G_CALLBACK (on_date_changed), (gpointer) "1");
-	g_signal_connect (dedit, "time_changed",
-			  G_CALLBACK (on_time_changed), (gpointer) "1");
+	g_signal_connect (
+		dedit, "date_changed",
+		G_CALLBACK (on_date_changed), (gpointer) "1");
+	g_signal_connect (
+		dedit, "time_changed",
+		G_CALLBACK (on_time_changed), (gpointer) "1");
 #else
-	g_signal_connect (dedit, "changed",
-			    G_CALLBACK (on_changed), (gpointer) "1");
+	g_signal_connect (
+		dedit, "changed",
+		G_CALLBACK (on_changed), (gpointer) "1");
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");
 	gtk_table_attach (GTK_TABLE (table), button,
 			  1, 2, 0, 1, 0, 0, 0, 0);
 	gtk_widget_show (button);
-	g_signal_connect ((button), "clicked",
-			    G_CALLBACK (on_get_date_clicked), dedit);
+	g_signal_connect (
+		button, "clicked",
+		G_CALLBACK (on_get_date_clicked), dedit);
 
 	/* EDateEdit 2. */
 	dedit = E_DATE_EDIT (e_date_edit_new ());
@@ -110,21 +115,25 @@ main (gint argc,
 	e_date_edit_set_show_time (dedit, FALSE);
 
 #if 0
-	g_signal_connect (dedit, "date_changed",
-			  G_CALLBACK (on_date_changed), (gpointer) "2");
-	g_signal_connect (dedit, "time_changed",
-			  G_CALLBACK (on_time_changed), (gpointer) "2");
+	g_signal_connect (
+		dedit, "date_changed",
+		G_CALLBACK (on_date_changed), (gpointer) "2");
+	g_signal_connect (
+		dedit, "time_changed",
+		G_CALLBACK (on_time_changed), (gpointer) "2");
 #else
-	g_signal_connect (dedit, "changed",
-			  G_CALLBACK (on_changed), (gpointer) "2");
+	g_signal_connect (
+		dedit, "changed",
+		G_CALLBACK (on_changed), (gpointer) "2");
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");
 	gtk_table_attach (GTK_TABLE (table), button,
 			  1, 2, 1, 2, 0, 0, 0, 0);
 	gtk_widget_show (button);
-	g_signal_connect (button, "clicked",
-			  G_CALLBACK (on_get_date_clicked), dedit);
+	g_signal_connect (
+		button, "clicked",
+		G_CALLBACK (on_get_date_clicked), dedit);
 
 	/* EDateEdit 3. */
 	dedit = E_DATE_EDIT (e_date_edit_new ());
@@ -138,28 +147,33 @@ main (gint argc,
 	e_date_edit_set_allow_no_date_set (dedit, TRUE);
 
 #if 0
-	g_signal_connect (dedit, "date_changed",
-			  G_CALLBACK (on_date_changed), (gpointer) "3");
-	g_signal_connect (dedit, "time_changed",
-			  G_CALLBACK (on_time_changed), (gpointer) "3");
+	g_signal_connect (
+		dedit, "date_changed",
+		G_CALLBACK (on_date_changed), (gpointer) "3");
+	g_signal_connect (
+		dedit, "time_changed",
+		G_CALLBACK (on_time_changed), (gpointer) "3");
 #else
-	g_signal_connect (dedit, "changed",
-			  G_CALLBACK (on_changed), (gpointer) "3");
+	g_signal_connect (
+		dedit, "changed",
+		G_CALLBACK (on_changed), (gpointer) "3");
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");
 	gtk_table_attach (GTK_TABLE (table), button,
 			  1, 2, 2, 3, 0, 0, 0, 0);
 	gtk_widget_show (button);
-	g_signal_connect (button, "clicked",
-			  G_CALLBACK (on_get_date_clicked), dedit);
+	g_signal_connect (
+		button, "clicked",
+		G_CALLBACK (on_get_date_clicked), dedit);
 
 	button = gtk_button_new_with_label ("Toggle 24-hour");
 	gtk_table_attach (GTK_TABLE (table), button,
 			  2, 3, 2, 3, 0, 0, 0, 0);
 	gtk_widget_show (button);
-	g_signal_connect (button, "clicked",
-			  G_CALLBACK (on_toggle_24_hour_clicked), dedit);
+	g_signal_connect (
+		button, "clicked",
+		G_CALLBACK (on_toggle_24_hour_clicked), dedit);
 
 	gtk_widget_show (window);
 

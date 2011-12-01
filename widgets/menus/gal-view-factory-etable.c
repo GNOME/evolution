@@ -31,6 +31,10 @@
 #include "gal-view-etable.h"
 #include "gal-view-factory-etable.h"
 
+#define GAL_VIEW_FACTORY_ETABLE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), GAL_TYPE_VIEW_FACTORY_ETABLE, GalViewFactoryEtablePrivate))
+
 struct _GalViewFactoryEtablePrivate {
 	ETableSpecification *specification;
 };
@@ -94,7 +98,7 @@ view_factory_etable_dispose (GObject *object)
 {
 	GalViewFactoryEtablePrivate *priv;
 
-	priv = GAL_VIEW_FACTORY_ETABLE (object)->priv;
+	priv = GAL_VIEW_FACTORY_ETABLE_GET_PRIVATE (object);
 
 	if (priv->specification != NULL) {
 		g_object_unref (priv->specification);
@@ -123,7 +127,7 @@ view_factory_etable_new_view (GalViewFactory *factory,
 {
 	GalViewFactoryEtablePrivate *priv;
 
-	priv = GAL_VIEW_FACTORY_ETABLE (factory)->priv;
+	priv = GAL_VIEW_FACTORY_ETABLE_GET_PRIVATE (factory);
 
 	return gal_view_etable_new (priv->specification, name);
 }
@@ -161,9 +165,7 @@ gal_view_factory_etable_class_init (GalViewFactoryEtableClass *class)
 static void
 gal_view_factory_etable_init (GalViewFactoryEtable *factory)
 {
-	factory->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		factory, GAL_TYPE_VIEW_FACTORY_ETABLE,
-		GalViewFactoryEtablePrivate);
+	factory->priv = GAL_VIEW_FACTORY_ETABLE_GET_PRIVATE (factory);
 }
 
 /**

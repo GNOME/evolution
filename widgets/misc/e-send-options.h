@@ -21,17 +21,17 @@
  *
  */
 
-#ifndef __E_SENDOPTIONS_DIALOG_H__
-#define __E_SENDOPTIONS_DIALOG_H__
+#ifndef __E_SEND_OPTIONS_DIALOG_H__
+#define __E_SEND_OPTIONS_DIALOG_H__
 
 #include <gtk/gtk.h>
 #include <time.h>
 
-#define E_TYPE_SENDOPTIONS_DIALOG       (e_send_options_dialog_get_type ())
-#define E_SENDOPTIONS_DIALOG(obj)       (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SENDOPTIONS_DIALOG, ESendOptionsDialog))
-#define E_SENDOPTIONS_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SENDOPTIONS_DIALOG, ESendOptionsDialogClass))
-#define E_IS_SENDOPTIONS_DIALOG(obj)    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SENDOPTIONS_DIALOG))
-#define E_IS_SENDOPTIONS_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_SENDOPTIONS_DIALOG))
+#define E_TYPE_SEND_OPTIONS_DIALOG       (e_send_options_dialog_get_type ())
+#define E_SEND_OPTIONS_DIALOG(obj)       (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SEND_OPTIONS_DIALOG, ESendOptionsDialog))
+#define E_SEND_OPTIONS_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SEND_OPTIONS_DIALOG, ESendOptionsDialogClass))
+#define E_IS_SEND_OPTIONS_DIALOG(obj)    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SEND_OPTIONS_DIALOG))
+#define E_IS_SEND_OPTIONS_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_SEND_OPTIONS_DIALOG))
 
 typedef struct _ESendOptionsDialog		ESendOptionsDialog;
 typedef struct _ESendOptionsDialogClass		ESendOptionsDialogClass;

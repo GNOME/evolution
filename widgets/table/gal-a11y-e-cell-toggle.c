@@ -179,10 +179,9 @@ gal_a11y_e_cell_toggle_new (ETableItem *item,
 				    NULL,              /* action keybinding */
 				    toggle_cell_action);
 
-	toggle_cell->model_id = g_signal_connect (item->table_model,
-						  "model_cell_changed",
-						  (GCallback) model_change_cb,
-						  a11y);
+	toggle_cell->model_id = g_signal_connect (
+		item->table_model, "model_cell_changed",
+		(GCallback) model_change_cb, a11y);
 
 	value = GPOINTER_TO_INT (
 			e_table_model_value_at (cell->cell_view->e_table_model,

@@ -53,6 +53,10 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), EM_TYPE_ACCOUNT_PREFS, EMAccountPrefsPrivate))
 
+#define EM_ACCOUNT_PREFS_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_ACCOUNT_PREFS, EMAccountPrefsPrivate))
+
 struct _EMAccountPrefsPrivate {
 	EMailBackend *backend;
 };
@@ -173,7 +177,8 @@ account_prefs_add_account (EMailAccountManager *manager)
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	e_mail_shell_backend_new_account (E_MAIL_SHELL_BACKEND (priv->backend), parent);
+	e_mail_shell_backend_new_account (
+		E_MAIL_SHELL_BACKEND (priv->backend), parent);
 }
 
 static void
@@ -188,7 +193,8 @@ account_prefs_edit_account (EMailAccountManager *manager,
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	e_mail_shell_backend_edit_account (E_MAIL_SHELL_BACKEND (priv->backend), parent, account);
+	e_mail_shell_backend_edit_account (
+		E_MAIL_SHELL_BACKEND (priv->backend), parent, account);
 }
 
 static void

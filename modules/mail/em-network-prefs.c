@@ -90,7 +90,9 @@ toggle_button_init (EMNetworkPrefs *prefs,
 	gtk_toggle_button_set_active (toggle, bval);
 
 	SET_KEY_NAME (toggle, key);
-	g_signal_connect (toggle, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
+	g_signal_connect (
+		toggle, "toggled",
+		G_CALLBACK (toggle_button_toggled), prefs);
 
 	if (!g_settings_is_writable (prefs->proxy_settings, key))
 		gtk_widget_set_sensitive ((GtkWidget *) toggle, FALSE);
@@ -368,7 +370,9 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	gtk_toggle_button_set_active (prefs->auto_proxy, val == NETWORK_PROXY_AUTOCONFIG);
 
 	SET_KEY_NAME (prefs->auto_proxy_url, "autoconfig-url");
-	g_signal_connect (prefs->auto_proxy_url, "changed", G_CALLBACK(widget_entry_changed_cb), prefs->proxy_settings);
+	g_signal_connect (
+		prefs->auto_proxy_url, "changed",
+		G_CALLBACK (widget_entry_changed_cb), prefs->proxy_settings);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->auto_proxy, FALSE);
 #endif
@@ -399,49 +403,66 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 
 	/* Manual proxy options */
 	SET_KEY_NAME (prefs->http_host, "http-host");
-	g_signal_connect (prefs->http_host, "changed",
-			  G_CALLBACK (widget_entry_changed_cb),
-			  prefs->proxy_settings);
+	g_signal_connect (
+		prefs->http_host, "changed",
+		G_CALLBACK (widget_entry_changed_cb),
+		prefs->proxy_settings);
 	SET_KEY_NAME (prefs->https_host, "secure-host");
-	g_signal_connect (prefs->https_host, "changed",
-			  G_CALLBACK (widget_entry_changed_cb),
-			  prefs->proxy_settings);
+	g_signal_connect (
+		prefs->https_host, "changed",
+		G_CALLBACK (widget_entry_changed_cb),
+		prefs->proxy_settings);
 	SET_KEY_NAME (prefs->ignore_hosts, "ignore-hosts");
-	g_signal_connect (prefs->ignore_hosts, "changed",
-			  G_CALLBACK (ignore_hosts_entry_changed_cb),
-			  prefs->proxy_settings);
+	g_signal_connect (
+		prefs->ignore_hosts, "changed",
+		G_CALLBACK (ignore_hosts_entry_changed_cb),
+		prefs->proxy_settings);
 	SET_KEY_NAME (prefs->http_port, "http-port");
-	g_signal_connect (prefs->http_port, "value_changed",
-			  G_CALLBACK (widget_entry_changed_cb),
-			  prefs->proxy_settings);
+	g_signal_connect (
+		prefs->http_port, "value_changed",
+		G_CALLBACK (widget_entry_changed_cb),
+		prefs->proxy_settings);
 	SET_KEY_NAME (prefs->https_port, "secure-port");
-	g_signal_connect (prefs->https_port, "value_changed",
-			  G_CALLBACK (widget_entry_changed_cb),
-			  prefs->proxy_settings);
+	g_signal_connect (
+		prefs->https_port, "value_changed",
+		G_CALLBACK (widget_entry_changed_cb),
+		prefs->proxy_settings);
 	SET_KEY_NAME (prefs->socks_host, "socks-host");
-	g_signal_connect (prefs->socks_host, "changed",
-			  G_CALLBACK (widget_entry_changed_cb),
-			  prefs->proxy_settings);
+	g_signal_connect (
+		prefs->socks_host, "changed",
+		G_CALLBACK (widget_entry_changed_cb),
+		prefs->proxy_settings);
 	SET_KEY_NAME (prefs->socks_port, "socks-port");
-	g_signal_connect (prefs->socks_port, "value_changed",
-			  G_CALLBACK (widget_entry_changed_cb),
-			  prefs->proxy_settings);
+	g_signal_connect (
+		prefs->socks_port, "value_changed",
+		G_CALLBACK (widget_entry_changed_cb),
+		prefs->proxy_settings);
 	SET_KEY_NAME (prefs->auth_user, "authentication-user");
-	g_signal_connect (prefs->auth_user, "changed",
-			  G_CALLBACK (widget_entry_changed_cb),
-			  prefs->proxy_settings);
+	g_signal_connect (
+		prefs->auth_user, "changed",
+		G_CALLBACK (widget_entry_changed_cb),
+		prefs->proxy_settings);
 	SET_KEY_NAME (prefs->auth_pwd, "authentication-password");
-	g_signal_connect (prefs->auth_pwd, "changed",
-			  G_CALLBACK (widget_entry_changed_cb),
-			  prefs->proxy_settings);
+	g_signal_connect (
+		prefs->auth_pwd, "changed",
+		G_CALLBACK (widget_entry_changed_cb),
+		prefs->proxy_settings);
 
 	gtk_toggle_button_set_active (prefs->manual_proxy, val == NETWORK_PROXY_MANUAL);
-	g_signal_connect (prefs->sys_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
-	g_signal_connect (prefs->no_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
+	g_signal_connect (
+		prefs->sys_proxy, "toggled",
+		G_CALLBACK (notify_proxy_type_changed), prefs);
+	g_signal_connect (
+		prefs->no_proxy, "toggled",
+		G_CALLBACK (notify_proxy_type_changed), prefs);
 #if 0
-	g_signal_connect (prefs->auto_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
+	g_signal_connect (
+		prefs->auto_proxy, "toggled",
+		G_CALLBACK (notify_proxy_type_changed), prefs);
 #endif
-	g_signal_connect (prefs->manual_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
+	g_signal_connect (
+		prefs->manual_proxy, "toggled",
+		G_CALLBACK (notify_proxy_type_changed), prefs);
 
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->manual_proxy, FALSE);

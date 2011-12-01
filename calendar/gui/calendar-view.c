@@ -28,7 +28,10 @@
 
 #include "calendar-view.h"
 
-/* Private part of the CalendarView structure */
+#define CALENDAR_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_CALENDAR_VIEW, CalendarViewPrivate))
+
 struct _CalendarViewPrivate {
 	/* Type of the view */
 	GnomeCalendarViewType view_type;
@@ -55,6 +58,8 @@ calendar_view_class_init (CalendarViewClass *class)
 	GalViewClass *gal_view_class;
 	GObjectClass *object_class;
 
+	g_type_class_add_private (class, sizeof (CalendarViewPrivate));
+
 	gal_view_class = (GalViewClass *) class;
 	object_class = (GObjectClass *) class;
 
@@ -73,34 +78,18 @@ calendar_view_class_init (CalendarViewClass *class)
 static void
 calendar_view_init (CalendarView *cal_view)
 {
-	CalendarViewPrivate *priv;
-
-	priv = g_new0 (CalendarViewPrivate, 1);
-	cal_view->priv = priv;
-
-	priv->title = NULL;
+	cal_view->priv = CALENDAR_VIEW_GET_PRIVATE (cal_view);
 }
 
 /* Destroy method for the calendar view */
 static void
 calendar_view_finalize (GObject *object)
 {
-	CalendarView *cal_view;
 	CalendarViewPrivate *priv;
 
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_CALENDAR_VIEW (object));
+	priv = CALENDAR_VIEW_GET_PRIVATE (object);
 
-	cal_view = CALENDAR_VIEW (object);
-	priv = cal_view->priv;
-
-	if (priv->title) {
-		g_free (priv->title);
-		priv->title = NULL;
-	}
-
-	g_free (priv);
-	cal_view->priv = NULL;
+	g_free (priv->title);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (calendar_view_parent_class)->finalize (object);

@@ -39,6 +39,10 @@
 #include "e-cell-toggle.h"
 #include "e-table-item.h"
 
+#define E_CELL_TOGGLE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CELL_TOGGLE, ECellTogglePrivate))
+
 struct _ECellTogglePrivate {
 	gchar **icon_names;
 	guint n_icon_names;
@@ -97,7 +101,7 @@ cell_toggle_dispose (GObject *object)
 {
 	ECellTogglePrivate *priv;
 
-	priv = E_CELL_TOGGLE (object)->priv;
+	priv = E_CELL_TOGGLE_GET_PRIVATE (object);
 
 	if (priv->empty != NULL) {
 		g_object_unref (priv->empty);
@@ -117,7 +121,7 @@ cell_toggle_finalize (GObject *object)
 	ECellTogglePrivate *priv;
 	guint ii;
 
-	priv = E_CELL_TOGGLE (object)->priv;
+	priv = E_CELL_TOGGLE_GET_PRIVATE (object);
 
 	/* The array is not NULL-terminated,
 	 * so g_strfreev() will not work. */
@@ -184,7 +188,7 @@ cell_toggle_draw (ECellView *ecell_view,
 	const gint value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
-	priv = E_CELL_TOGGLE (ecell_view->ecell)->priv;
+	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
 
 	if (value < 0 || value >= priv->pixbufs->len)
 		return;
@@ -216,7 +220,7 @@ etog_set_value (ECellToggleView *toggle_view,
 {
 	ECellTogglePrivate *priv;
 
-	priv = E_CELL_TOGGLE (toggle_view->cell_view.ecell)->priv;
+	priv = E_CELL_TOGGLE_GET_PRIVATE (toggle_view->cell_view.ecell);
 
 	if (value >= priv->pixbufs->len)
 		value = 0;
@@ -268,7 +272,7 @@ cell_toggle_height (ECellView *ecell_view,
 {
 	ECellTogglePrivate *priv;
 
-	priv = E_CELL_TOGGLE (ecell_view->ecell)->priv;
+	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
 
 	return priv->height;
 }
@@ -290,7 +294,7 @@ cell_toggle_print (ECellView *ecell_view,
 
 	cairo_t *cr;
 
-	priv = E_CELL_TOGGLE (ecell_view->ecell)->priv;
+	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
 
 	if (value >= priv->pixbufs->len)
 		return;
@@ -323,7 +327,7 @@ cell_toggle_print_height (ECellView *ecell_view,
 {
 	ECellTogglePrivate *priv;
 
-	priv = E_CELL_TOGGLE (ecell_view->ecell)->priv;
+	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
 
 	return priv->height;
 }
@@ -338,7 +342,7 @@ cell_toggle_max_width (ECellView *ecell_view,
 	gint number_of_rows;
 	gint row;
 
-	priv = E_CELL_TOGGLE (ecell_view->ecell)->priv;
+	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
 
 	number_of_rows = e_table_model_row_count (ecell_view->e_table_model);
 	for (row = 0; row < number_of_rows; row++) {
@@ -385,8 +389,7 @@ e_cell_toggle_class_init (ECellToggleClass *class)
 static void
 e_cell_toggle_init (ECellToggle *cell_toggle)
 {
-	cell_toggle->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		cell_toggle, E_TYPE_CELL_TOGGLE, ECellTogglePrivate);
+	cell_toggle->priv = E_CELL_TOGGLE_GET_PRIVATE (cell_toggle);
 
 	cell_toggle->priv->empty =
 		gdk_pixbuf_new_from_xpm_data (empty_xpm);

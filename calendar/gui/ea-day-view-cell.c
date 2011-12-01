@@ -93,7 +93,7 @@ e_day_view_cell_new (EDayView *day_view,
 
 /* EaDayViewCell */
 
-static void ea_day_view_cell_class_init (EaDayViewCellClass *klass);
+static void ea_day_view_cell_class_init (EaDayViewCellClass *class);
 
 static const gchar * ea_day_view_cell_get_name (AtkObject *accessible);
 static const gchar * ea_day_view_cell_get_description (AtkObject *accessible);

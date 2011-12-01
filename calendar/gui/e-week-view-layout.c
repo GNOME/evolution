@@ -377,10 +377,13 @@ e_week_view_layout_get_day_position (gint day,
 				if (arr[i - m] > 1) {
 					any = TRUE;
 
-					if (wd > 6) { /* too many rows, make last shorter */
+					/* too many rows, make last shorter */
+					if (wd > 6) {
 						arr[i - m] --;
 						wd--;
-					} else if (wd < 6) { /* free rows left, enlarge those bigger */
+
+					/* free rows left, enlarge those bigger */
+					} else if (wd < 6) {
 						arr[i - m] ++;
 						wd++;
 					}

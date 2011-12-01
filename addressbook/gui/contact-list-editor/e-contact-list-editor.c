@@ -53,9 +53,13 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorPrivate))
 
+#define E_CONTACT_LIST_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorPrivate))
+
 #define CONTACT_LIST_EDITOR_WIDGET(editor, name) \
 	(e_builder_get_widget \
-	(E_CONTACT_LIST_EDITOR (editor)->priv->builder, name))
+	(E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor)->builder, name))
 
 /* More macros, less typos. */
 #define CONTACT_LIST_EDITOR_WIDGET_ADD_BUTTON(editor) \
@@ -65,7 +69,7 @@
 #define CONTACT_LIST_EDITOR_WIDGET_DIALOG(editor) \
 	CONTACT_LIST_EDITOR_WIDGET ((editor), "dialog")
 #define CONTACT_LIST_EDITOR_WIDGET_EMAIL_ENTRY(editor) \
-	editor->priv->email_entry
+	E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor)->email_entry
 #define CONTACT_LIST_EDITOR_WIDGET_LIST_NAME_ENTRY(editor) \
 	CONTACT_LIST_EDITOR_WIDGET ((editor), "list-name-entry")
 #define CONTACT_LIST_EDITOR_WIDGET_MEMBERS_VBOX(editor) \
@@ -136,6 +140,8 @@ struct _EContactListEditorPrivate {
 };
 
 static gpointer parent_class;
+
+G_DEFINE_TYPE (EContactListEditor, e_contact_list_editor, EAB_TYPE_EDITOR)
 
 static EContactListEditor *
 contact_list_editor_extract (GtkWidget *widget)
@@ -1174,7 +1180,7 @@ setup_custom_widgets (EContactListEditor *editor)
 
 	g_return_if_fail (editor != NULL);
 
-	priv = editor->priv;
+	priv = E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor);
 
 	combo_box = WIDGET (SOURCE_MENU);
 	if (!e_book_client_get_sources (&source_list, &error))
@@ -1378,7 +1384,8 @@ contact_list_editor_constructed (GObject *object)
 
 	selection = gtk_tree_view_get_selection (view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
-	g_signal_connect (selection, "changed",
+	g_signal_connect (
+		selection, "changed",
 		G_CALLBACK (contact_list_editor_selection_changed_cb), editor);
 
 	gtk_tree_view_enable_model_drag_dest (view, NULL, 0, GDK_ACTION_LINK);
@@ -1492,7 +1499,7 @@ contact_list_editor_is_valid (EABEditor *editor)
 static gboolean
 contact_list_editor_is_changed (EABEditor *editor)
 {
-	return E_CONTACT_LIST_EDITOR (editor)->priv->changed;
+	return E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor)->changed;
 }
 
 static GtkWindow *
@@ -1555,7 +1562,7 @@ contact_list_editor_closed (EABEditor *editor)
 /****************************** GType Callbacks ******************************/
 
 static void
-contact_list_editor_class_init (EContactListEditorClass *class)
+e_contact_list_editor_class_init (EContactListEditorClass *class)
 {
 	GObjectClass *object_class;
 	EABEditorClass *editor_class;
@@ -1624,29 +1631,12 @@ contact_list_editor_class_init (EContactListEditorClass *class)
 }
 
 static void
-contact_list_editor_init (EContactListEditor *editor)
+e_contact_list_editor_init (EContactListEditor *editor)
 {
 	editor->priv = E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor);
 }
 
 /***************************** Public Interface ******************************/
-
-GType
-e_contact_list_editor_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0))
-		type = g_type_register_static_simple (
-			EAB_TYPE_EDITOR,
-			"EContactListEditor",
-			sizeof (EContactListEditorClass),
-			(GClassInitFunc) contact_list_editor_class_init,
-			sizeof (EContactListEditor),
-			(GInstanceInitFunc) contact_list_editor_init, 0);
-
-	return type;
-}
 
 EABEditor *
 e_contact_list_editor_new (EShell *shell,

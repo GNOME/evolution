@@ -47,6 +47,10 @@
 #define localtime_r(tp,tmp) memcpy(tmp,localtime(tp),sizeof(struct tm))
 #endif
 
+#define E_FILTER_DATESPEC_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_FILTER_DATESPEC, EFilterDatespecPrivate))
+
 #define d(x)
 
 typedef struct {
@@ -168,7 +172,7 @@ set_button (EFilterDatespec *fds)
 static void
 get_values (EFilterDatespec *fds)
 {
-	EFilterDatespecPrivate *p = fds->priv;
+	EFilterDatespecPrivate *p = E_FILTER_DATESPEC_GET_PRIVATE (fds);
 
 	switch (fds->priv->type) {
 	case FDST_SPECIFIED: {
@@ -203,7 +207,7 @@ set_values (EFilterDatespec *fds)
 {
 	gint note_type;
 
-	EFilterDatespecPrivate *p = fds->priv;
+	EFilterDatespecPrivate *p = E_FILTER_DATESPEC_GET_PRIVATE (fds);
 
 	p->type = fds->type == FDST_UNKNOWN ? FDST_NOW : fds->type;
 
@@ -270,7 +274,7 @@ static void
 button_clicked (GtkButton *button,
                 EFilterDatespec *fds)
 {
-	EFilterDatespecPrivate *p = fds->priv;
+	EFilterDatespecPrivate *p = E_FILTER_DATESPEC_GET_PRIVATE (fds);
 	GtkWidget *content_area;
 	GtkWidget *toplevel;
 	GtkDialog *dialog;
@@ -298,9 +302,15 @@ button_clicked (GtkButton *button,
 
 	set_values (fds);
 
-	g_signal_connect (p->combobox_type, "changed", G_CALLBACK (set_combobox_type), fds);
-	g_signal_connect (p->combobox_relative, "changed", G_CALLBACK (set_combobox_relative), fds);
-	g_signal_connect (p->combobox_past_future, "changed", G_CALLBACK (set_combobox_past_future), fds);
+	g_signal_connect (
+		p->combobox_type, "changed",
+		G_CALLBACK (set_combobox_type), fds);
+	g_signal_connect (
+		p->combobox_relative, "changed",
+		G_CALLBACK (set_combobox_relative), fds);
+	g_signal_connect (
+		p->combobox_past_future, "changed",
+		G_CALLBACK (set_combobox_past_future), fds);
 
 	content_area = gtk_dialog_get_content_area (dialog);
 	gtk_box_pack_start (GTK_BOX (content_area), toplevel, TRUE, TRUE, 3);
@@ -411,7 +421,9 @@ filter_datespec_get_widget (EFilterElement *element)
 
 	button = gtk_button_new ();
 	gtk_container_add (GTK_CONTAINER (button), fds->priv->label_button);
-	g_signal_connect (button, "clicked", G_CALLBACK (button_clicked), fds);
+	g_signal_connect (
+		button, "clicked",
+		G_CALLBACK (button_clicked), fds);
 
 	gtk_widget_show (button);
 	gtk_widget_show (fds->priv->label_button);
@@ -483,8 +495,7 @@ e_filter_datespec_class_init (EFilterDatespecClass *class)
 static void
 e_filter_datespec_init (EFilterDatespec *datespec)
 {
-	datespec->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		datespec, E_TYPE_FILTER_DATESPEC, EFilterDatespecPrivate);
+	datespec->priv = E_FILTER_DATESPEC_GET_PRIVATE (datespec);
 	datespec->type = FDST_UNKNOWN;
 }
 

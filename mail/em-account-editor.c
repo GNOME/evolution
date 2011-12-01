@@ -88,6 +88,10 @@
  * better visual clarity.  This specifies how far to the right. */
 #define INDENT_MARGIN 24
 
+#define EM_ACCOUNT_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_ACCOUNT_EDITOR, EMAccountEditorPrivate))
+
 #define d(x)
 
 /* econfig item for the extra config hings */
@@ -1658,9 +1662,15 @@ emae_setup_signatures (EMAccountEditor *emae,
 	signatures = e_get_signature_list ();
 
 	if (p->sig_added_id == 0) {
-		p->sig_added_id = g_signal_connect (signatures, "signature-added", G_CALLBACK(emae_signature_added), emae);
-		p->sig_removed_id = g_signal_connect (signatures, "signature-removed", G_CALLBACK(emae_signature_removed), emae);
-		p->sig_changed_id = g_signal_connect (signatures, "signature-changed", G_CALLBACK(emae_signature_changed), emae);
+		p->sig_added_id = g_signal_connect (
+			signatures, "signature-added",
+			G_CALLBACK (emae_signature_added), emae);
+		p->sig_removed_id = g_signal_connect (
+			signatures, "signature-removed",
+			G_CALLBACK (emae_signature_removed), emae);
+		p->sig_changed_id = g_signal_connect (
+			signatures, "signature-changed",
+			G_CALLBACK (emae_signature_changed), emae);
 	}
 
 	/* we need to count the 'none' entry before using the index */
@@ -1691,10 +1701,14 @@ emae_setup_signatures (EMAccountEditor *emae,
 	gtk_combo_box_set_model (dropdown, (GtkTreeModel *) store);
 	gtk_combo_box_set_active (dropdown, active);
 
-	g_signal_connect (dropdown, "changed", G_CALLBACK(emae_signaturetype_changed), emae);
+	g_signal_connect (
+		dropdown, "changed",
+		G_CALLBACK (emae_signaturetype_changed), emae);
 
 	button = e_builder_get_widget (builder, "sigAddNew");
-	g_signal_connect (button, "clicked", G_CALLBACK(emae_signature_new), emae);
+	g_signal_connect (
+		button, "clicked",
+		G_CALLBACK (emae_signature_new), emae);
 
 	return (GtkWidget *) dropdown;
 }
@@ -1765,7 +1779,9 @@ emae_setup_receipt_policy (EMAccountEditor *emae,
 
 	gtk_combo_box_set_active (dropdown, active);
 
-	g_signal_connect (dropdown, "changed", G_CALLBACK(emae_receipt_policy_changed), emae);
+	g_signal_connect (
+		dropdown, "changed",
+		G_CALLBACK (emae_receipt_policy_changed), emae);
 
 	return (GtkWidget *) dropdown;
 }
@@ -1805,7 +1821,9 @@ emae_account_entry (EMAccountEditor *emae,
 	if (text)
 		gtk_entry_set_text (entry, text);
 	g_object_set_data ((GObject *)entry, "account-item", GINT_TO_POINTER(item));
-	g_signal_connect (entry, "changed", G_CALLBACK(emae_account_entry_changed), emae);
+	g_signal_connect (
+		entry, "changed",
+		G_CALLBACK (emae_account_entry_changed), emae);
 
 	return entry;
 }
@@ -1943,7 +1961,9 @@ emae_account_folder (EMAccountEditor *emae,
 
 	g_object_set_data ((GObject *)folder, "account-item", GINT_TO_POINTER(item));
 	g_object_set_data ((GObject *)folder, "folder-default", GINT_TO_POINTER(deffolder));
-	g_signal_connect (folder, "selected", G_CALLBACK(emae_account_folder_changed), emae);
+	g_signal_connect (
+		folder, "selected",
+		G_CALLBACK (emae_account_folder_changed), emae);
 	gtk_widget_show ((GtkWidget *) folder);
 
 	return folder;
@@ -1999,7 +2019,9 @@ smime_sign_key_select (GtkWidget *button,
 	w = e_cert_selector_new (E_CERT_SELECTOR_SIGNER, gtk_entry_get_text (priv->smime_sign_key));
 	gtk_window_set_modal ((GtkWindow *) w, TRUE);
 	gtk_window_set_transient_for ((GtkWindow *) w, (GtkWindow *) gtk_widget_get_toplevel (button));
-	g_signal_connect (w, "selected", G_CALLBACK(smime_sign_key_selected), emae);
+	g_signal_connect (
+		w, "selected",
+		G_CALLBACK (smime_sign_key_selected), emae);
 	gtk_widget_show (w);
 }
 
@@ -2038,7 +2060,9 @@ smime_encrypt_key_select (GtkWidget *button,
 	w = e_cert_selector_new (E_CERT_SELECTOR_RECIPIENT, gtk_entry_get_text (priv->smime_encrypt_key));
 	gtk_window_set_modal ((GtkWindow *) w, TRUE);
 	gtk_window_set_transient_for ((GtkWindow *) w, (GtkWindow *) gtk_widget_get_toplevel (button));
-	g_signal_connect (w, "selected", G_CALLBACK(smime_encrypt_key_selected), emae);
+	g_signal_connect (
+		w, "selected",
+		G_CALLBACK (smime_encrypt_key_selected), emae);
 	gtk_widget_show (w);
 }
 
@@ -3109,15 +3133,15 @@ emae_receive_page (EConfig *ec,
 		GtkWidget *vbox, *child;
 
 		child = (GtkWidget *)g_object_get_data ((GObject *)emae->pages[1], "old-child");
-		if (child) 
-			gtk_container_remove ((GtkContainer *)emae->pages[1], child);
+		if (child)
+			gtk_container_remove ((GtkContainer *) emae->pages[1], child);
 
 		vbox = gtk_vbox_new (FALSE, 12);
 		gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
 		gtk_widget_show (vbox);
-		gtk_box_pack_start ((GtkBox *)vbox, w, TRUE, TRUE, 0);
+		gtk_box_pack_start ((GtkBox *) vbox, w, TRUE, TRUE, 0);
 		g_object_set_data ((GObject *)emae->pages[1], "old-child", vbox);
-		gtk_box_pack_start ((GtkBox *)emae->pages[1], vbox, TRUE, TRUE, 0);
+		gtk_box_pack_start ((GtkBox *) emae->pages[1], vbox, TRUE, TRUE, 0);
 
 		w = page;
 	} else if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT) {
@@ -3155,8 +3179,8 @@ emae_receive_page (EConfig *ec,
 
 static void
 emae_set_option_dependency (EMAccountEditorService *service,
-			    CamelProviderConfEntry *conf,
-			    GtkWidget *widget)
+                            CamelProviderConfEntry *conf,
+                            GtkWidget *widget)
 {
 	if (conf->depname != NULL) {
 		const gchar *depname = conf->depname;
@@ -3727,18 +3751,18 @@ emae_send_page (EConfig *ec,
 		GtkWidget *vbox, *child;
 
 		child = (GtkWidget *)g_object_get_data ((GObject *)emae->pages[3], "old-child");
-		if (child) 
-			gtk_container_remove ((GtkContainer *)emae->pages[3], child);
+		if (child)
+			gtk_container_remove ((GtkContainer *) emae->pages[3], child);
 
 		vbox = gtk_vbox_new (FALSE, 12);
 		gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
 		gtk_widget_show (vbox);
-		gtk_box_pack_start ((GtkBox *)vbox, w, TRUE, TRUE, 0);
+		gtk_box_pack_start ((GtkBox *) vbox, w, TRUE, TRUE, 0);
 		g_object_set_data ((GObject *)emae->pages[3], "old-child", vbox);
 
-		gtk_box_pack_start ((GtkBox *)emae->pages[3], vbox, TRUE, TRUE, 0);
+		gtk_box_pack_start ((GtkBox *) emae->pages[3], vbox, TRUE, TRUE, 0);
 
-		w = page;		
+		w = page;
 	} else if (((EConfig *) priv->config)->type == E_CONFIG_ASSISTANT) {
 		GtkWidget *page;
 
@@ -4148,7 +4172,9 @@ emae_account_hash_algo_combo (EMAccountEditor *emae,
 	gtk_combo_box_set_active (combobox, index);
 
 	g_object_set_data (G_OBJECT (combobox), "account-item", GINT_TO_POINTER (item));
-	g_signal_connect (combobox, "changed", G_CALLBACK (emae_account_hash_algo_combo_changed_cb), emae);
+	g_signal_connect (
+		combobox, "changed",
+		G_CALLBACK (emae_account_hash_algo_combo_changed_cb), emae);
 
 	return combobox;
 }
@@ -4187,8 +4213,12 @@ emae_security_page (EConfig *ec,
 	priv->smime_sign_key = emae_account_entry (emae, "smime_sign_key", E_ACCOUNT_SMIME_SIGN_KEY, builder);
 	priv->smime_sign_key_select = (GtkButton *)e_builder_get_widget (builder, "smime_sign_key_select");
 	priv->smime_sign_key_clear = (GtkButton *)e_builder_get_widget (builder, "smime_sign_key_clear");
-	g_signal_connect (priv->smime_sign_key_select, "clicked", G_CALLBACK(smime_sign_key_select), emae);
-	g_signal_connect (priv->smime_sign_key_clear, "clicked", G_CALLBACK(smime_sign_key_clear), emae);
+	g_signal_connect (
+		priv->smime_sign_key_select, "clicked",
+		G_CALLBACK (smime_sign_key_select), emae);
+	g_signal_connect (
+		priv->smime_sign_key_clear, "clicked",
+		G_CALLBACK (smime_sign_key_clear), emae);
 
 	emae_account_hash_algo_combo (emae, "smime_hash_algo", E_ACCOUNT_SMIME_HASH_ALGORITHM, builder);
 	priv->smime_sign_default = emae_account_toggle (emae, "smime_sign_default", E_ACCOUNT_SMIME_SIGN_DEFAULT, builder);
@@ -4196,8 +4226,12 @@ emae_security_page (EConfig *ec,
 	priv->smime_encrypt_key = emae_account_entry (emae, "smime_encrypt_key", E_ACCOUNT_SMIME_ENCRYPT_KEY, builder);
 	priv->smime_encrypt_key_select = (GtkButton *)e_builder_get_widget (builder, "smime_encrypt_key_select");
 	priv->smime_encrypt_key_clear = (GtkButton *)e_builder_get_widget (builder, "smime_encrypt_key_clear");
-	g_signal_connect (priv->smime_encrypt_key_select, "clicked", G_CALLBACK(smime_encrypt_key_select), emae);
-	g_signal_connect (priv->smime_encrypt_key_clear, "clicked", G_CALLBACK(smime_encrypt_key_clear), emae);
+	g_signal_connect (
+		priv->smime_encrypt_key_select, "clicked",
+		G_CALLBACK (smime_encrypt_key_select), emae);
+	g_signal_connect (
+		priv->smime_encrypt_key_clear, "clicked",
+		G_CALLBACK (smime_encrypt_key_clear), emae);
 
 	priv->smime_encrypt_default = emae_account_toggle (emae, "smime_encrypt_default", E_ACCOUNT_SMIME_ENCRYPT_DEFAULT, builder);
 	priv->smime_encrypt_to_self = emae_account_toggle (emae, "smime_encrypt_to_self", E_ACCOUNT_SMIME_ENCRYPT_TO_SELF, builder);

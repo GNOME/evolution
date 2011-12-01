@@ -38,6 +38,10 @@
 #include "gnome-canvas-rich-text.h"
 #include "gnome-canvas-i18n.h"
 
+#define GNOME_CANVAS_RICH_TEXT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), GNOME_TYPE_CANVAS_RICH_TEXT, GnomeCanvasRichTextPrivate))
+
 struct _GnomeCanvasRichTextPrivate {
 	GtkTextLayout *layout;
 	GtkTextBuffer *buffer;
@@ -109,11 +113,8 @@ enum {
 	LAST_SIGNAL
 };
 
-static GnomeCanvasItemClass *parent_class;
 static guint signals[LAST_SIGNAL] = { 0 };
 
-static void gnome_canvas_rich_text_class_init (GnomeCanvasRichTextClass *klass);
-static void gnome_canvas_rich_text_init (GnomeCanvasRichText *text);
 static void gnome_canvas_rich_text_set_property (GObject *object, guint property_id,
 						const GValue *value, GParamSpec *pspec);
 static void gnome_canvas_rich_text_get_property (GObject *object, guint property_id,
@@ -151,58 +152,21 @@ static gint blink_cb (gpointer data);
 #define CURSOR_ON_TIME 800
 #define CURSOR_OFF_TIME 400
 
-GType
-gnome_canvas_rich_text_get_type (void)
-{
-	static GType rich_text_type;
-
-	if (!rich_text_type) {
-		const GTypeInfo object_info = {
-			sizeof (GnomeCanvasRichTextClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gnome_canvas_rich_text_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,			/* class_data */
-			sizeof (GnomeCanvasRichText),
-			0,			/* n_preallocs */
-			(GInstanceInitFunc) gnome_canvas_rich_text_init,
-			NULL			/* value_table */
-		};
-
-		rich_text_type = g_type_register_static (
-			GNOME_TYPE_CANVAS_ITEM, "GnomeCanvasRichText",
-			&object_info, 0);
-	}
-
-	return rich_text_type;
-}
+G_DEFINE_TYPE (
+	GnomeCanvasRichText,
+	gnome_canvas_rich_text,
+	GNOME_TYPE_CANVAS_ITEM)
 
 static void
-gnome_canvas_rich_text_finalize (GObject *object)
+gnome_canvas_rich_text_class_init (GnomeCanvasRichTextClass *class)
 {
-	GnomeCanvasRichText *text;
+	GObjectClass *gobject_class = G_OBJECT_CLASS (class);
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
 
-	text = GNOME_CANVAS_RICH_TEXT (object);
-
-	g_free (text->_priv);
-	text->_priv = NULL;
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-static void
-gnome_canvas_rich_text_class_init (GnomeCanvasRichTextClass *klass)
-{
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
-
-	parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (class, sizeof (GnomeCanvasRichTextPrivate));
 
 	gobject_class->set_property = gnome_canvas_rich_text_set_property;
 	gobject_class->get_property = gnome_canvas_rich_text_get_property;
-	gobject_class->finalize = gnome_canvas_rich_text_finalize;
 
 	g_object_class_install_property (
 		gobject_class,
@@ -389,7 +353,7 @@ gnome_canvas_rich_text_class_init (GnomeCanvasRichTextClass *klass)
 static void
 gnome_canvas_rich_text_init (GnomeCanvasRichText *text)
 {
-	text->_priv = g_new0 (GnomeCanvasRichTextPrivate, 1);
+	text->_priv = GNOME_CANVAS_RICH_TEXT_GET_PRIVATE (text);
 
 	/* Try to set some sane defaults */
 	text->_priv->cursor_visible = TRUE;
@@ -650,7 +614,7 @@ gnome_canvas_rich_text_realize (GnomeCanvasItem *item)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT (item);
 
-	(* GNOME_CANVAS_ITEM_CLASS (parent_class)->realize)(item);
+	(* GNOME_CANVAS_ITEM_CLASS (gnome_canvas_rich_text_parent_class)->realize)(item);
 
 	gnome_canvas_rich_text_ensure_layout (text);
 } /* gnome_canvas_rich_text_realize */
@@ -662,7 +626,7 @@ gnome_canvas_rich_text_unrealize (GnomeCanvasItem *item)
 
 	gnome_canvas_rich_text_destroy_layout (text);
 
-	(* GNOME_CANVAS_ITEM_CLASS (parent_class)->unrealize)(item);
+	(* GNOME_CANVAS_ITEM_CLASS (gnome_canvas_rich_text_parent_class)->unrealize)(item);
 } /* gnome_canvas_rich_text_unrealize */
 
 static void
@@ -2009,8 +1973,8 @@ gnome_canvas_rich_text_update (GnomeCanvasItem *item,
 	gdouble x1, y1, x2, y2;
 	GtkTextIter start;
 
-	(* GNOME_CANVAS_ITEM_CLASS (parent_class)->update)(
-		item, matrix, flags);
+	(* GNOME_CANVAS_ITEM_CLASS (gnome_canvas_rich_text_parent_class)->
+		update)(item, matrix, flags);
 
 	get_bounds (text, &x1, &y1, &x2, &y2);
 

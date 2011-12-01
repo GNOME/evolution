@@ -59,6 +59,10 @@
 
 #define d(x)
 
+#define EM_FOLDER_TREE_MODEL_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModelPrivate))
+
 struct _EMFolderTreeModelPrivate {
 	/* This is set by EMailShellSidebar.  It allows new EMFolderTree
 	 * instances to initialize their selection and expanded states to
@@ -573,7 +577,8 @@ em_folder_tree_model_set_session (EMFolderTreeModel *model,
 		MailFolderCache *folder_cache;
 
 		folder_cache = e_mail_session_get_folder_cache (session);
-		account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
+		account_store = e_mail_ui_session_get_account_store (
+			E_MAIL_UI_SESSION (session));
 
 		/* Keep our own reference since we connect to its signals. */
 		g_warn_if_fail (model->priv->account_store == NULL);

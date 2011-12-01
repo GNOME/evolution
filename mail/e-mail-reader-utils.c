@@ -855,7 +855,9 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 			if (curl && curl->path && *curl->path) {
 				address = camel_internet_address_new ();
-				if (camel_address_decode (CAMEL_ADDRESS (address), curl->path) < 0) {
+				if (camel_address_decode (
+						CAMEL_ADDRESS (address),
+						curl->path) < 0) {
 					g_object_unref (address);
 					address = NULL;
 				}

@@ -190,9 +190,9 @@ gal_view_collection_dispose (GObject *object)
 }
 
 static void
-gal_view_collection_class_init (GalViewCollectionClass *klass)
+gal_view_collection_class_init (GalViewCollectionClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = gal_view_collection_dispose;
 
@@ -214,8 +214,8 @@ gal_view_collection_class_init (GalViewCollectionClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	klass->display_view = NULL;
-	klass->changed      = NULL;
+	class->display_view = NULL;
+	class->changed      = NULL;
 }
 
 static void
@@ -376,9 +376,9 @@ load_single_file (GalViewCollection *collection,
 		item->view = gal_view_collection_real_load_view_from_file (collection, item->type, item->title, dir, fullpath);
 		g_free (fullpath);
 		if (item->view) {
-			item->view_changed_id =
-				g_signal_connect (item->view, "changed",
-						 G_CALLBACK (view_changed), item);
+			item->view_changed_id = g_signal_connect (
+				item->view, "changed",
+				G_CALLBACK (view_changed), item);
 		}
 	}
 	return item;
@@ -654,9 +654,9 @@ gal_view_collection_append (GalViewCollection *collection,
 	item->collection = collection;
 	g_object_ref (view);
 
-	item->view_changed_id =
-		g_signal_connect (item->view, "changed",
-				 G_CALLBACK (view_changed), item);
+	item->view_changed_id = g_signal_connect (
+		item->view, "changed",
+		G_CALLBACK (view_changed), item);
 
 	collection->view_data = g_renew (GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
 	collection->view_data[collection->view_count] = item;
@@ -714,9 +714,9 @@ gal_view_collection_copy_view (GalViewCollection *collection,
 	item->view = gal_view_clone (view);
 	item->collection = collection;
 
-	item->view_changed_id =
-		g_signal_connect (item->view, "changed",
-				 G_CALLBACK (view_changed), item);
+	item->view_changed_id = g_signal_connect (
+		item->view, "changed",
+		G_CALLBACK (view_changed), item);
 
 	collection->view_data = g_renew (GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
 	collection->view_data[collection->view_count] = item;
@@ -757,9 +757,9 @@ gal_view_collection_append_with_title (GalViewCollection *collection,
 	item->collection = collection;
 	g_object_ref (view);
 
-	item->view_changed_id =
-		g_signal_connect (item->view, "changed",
-				 G_CALLBACK (view_changed), item);
+	item->view_changed_id = g_signal_connect (
+		item->view, "changed",
+		G_CALLBACK (view_changed), item);
 
 	collection->view_data = g_renew (GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
 	collection->view_data[collection->view_count] = item;
@@ -798,9 +798,9 @@ gal_view_collection_set_nth_view (GalViewCollection *collection,
 	item->changed = TRUE;
 	item->type = g_strdup (gal_view_get_type_code (view));
 
-	item->view_changed_id =
-		g_signal_connect (item->view, "changed",
-				 G_CALLBACK (view_changed), item);
+	item->view_changed_id = g_signal_connect (
+		item->view, "changed",
+		G_CALLBACK (view_changed), item);
 
 	gal_view_collection_changed (collection);
 	return item->id;

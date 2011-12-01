@@ -40,6 +40,10 @@
 #include <libebook/e-destination.h>
 #include "e-select-names-renderer.h"
 
+#define E_MEETING_LIST_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MEETING_LIST_VIEW, EMeetingListViewPrivate))
+
 struct _EMeetingListViewPrivate {
 	EMeetingStore *store;
 
@@ -75,10 +79,11 @@ static icalparameter_role roles[] = {ICAL_ROLE_CHAIR,
 G_DEFINE_TYPE (EMeetingListView, e_meeting_list_view, GTK_TYPE_TREE_VIEW)
 
 static void
-e_meeting_list_view_finalize (GObject *obj)
+e_meeting_list_view_finalize (GObject *object)
 {
-	EMeetingListView *view = E_MEETING_LIST_VIEW (obj);
-	EMeetingListViewPrivate *priv = view->priv;
+	EMeetingListViewPrivate *priv;
+
+	priv = E_MEETING_LIST_VIEW_GET_PRIVATE (object);
 
 	if (priv->name_selector) {
 		e_name_selector_cancel_loading (priv->name_selector);
@@ -91,30 +96,29 @@ e_meeting_list_view_finalize (GObject *obj)
 		priv->renderers = NULL;
 	}
 
-	g_free (priv);
-
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_meeting_list_view_parent_class)->finalize (obj);
+	G_OBJECT_CLASS (e_meeting_list_view_parent_class)->finalize (object);
 }
 
 static void
-e_meeting_list_view_class_init (EMeetingListViewClass *klass)
+e_meeting_list_view_class_init (EMeetingListViewClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+	g_type_class_add_private (class, sizeof (EMeetingListViewPrivate));
 
+	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_meeting_list_view_finalize;
 
-	e_meeting_list_view_signals[ATTENDEE_ADDED] =
-		g_signal_new ("attendee_added",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMeetingListViewClass, attendee_added),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_POINTER);
+	e_meeting_list_view_signals[ATTENDEE_ADDED] = g_signal_new (
+		"attendee_added",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMeetingListViewClass, attendee_added),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 }
 
 static void
@@ -141,28 +145,29 @@ meeting_list_view_realize_cb (EMeetingListView *view)
 static void
 e_meeting_list_view_init (EMeetingListView *view)
 {
-	EMeetingListViewPrivate *priv;
 	ENameSelectorDialog *name_selector_dialog;
 	gint i;
 
-	priv = g_new0 (EMeetingListViewPrivate, 1);
+	view->priv = E_MEETING_LIST_VIEW_GET_PRIVATE (view);
 
-	view->priv = priv;
+	view->priv->renderers = g_hash_table_new (g_direct_hash, g_int_equal);
 
-	priv->renderers = g_hash_table_new (g_direct_hash, g_int_equal);
-
-	priv->name_selector = e_name_selector_new ();
+	view->priv->name_selector = e_name_selector_new ();
 
 	for (i = 0; sections[i]; i++)
-		add_section (priv->name_selector, sections[i]);
+		add_section (view->priv->name_selector, sections[i]);
 
-	name_selector_dialog = e_name_selector_peek_dialog (view->priv->name_selector);
+	name_selector_dialog =
+		e_name_selector_peek_dialog (view->priv->name_selector);
 	gtk_window_set_title (GTK_WINDOW (name_selector_dialog), _("Attendees"));
-	g_signal_connect (name_selector_dialog, "response",
-			  G_CALLBACK (name_selector_dialog_close_cb), view);
+	g_signal_connect (
+		name_selector_dialog, "response",
+		G_CALLBACK (name_selector_dialog_close_cb), view);
 
 	/* postpone name_selector loading, do that only when really needed */
-	g_signal_connect (view, "realize", G_CALLBACK (meeting_list_view_realize_cb), NULL);
+	g_signal_connect (
+		view, "realize",
+		G_CALLBACK (meeting_list_view_realize_cb), NULL);
 }
 
 static GList *
@@ -553,7 +558,9 @@ editing_started_cb (GtkCellRenderer *renderer,
                     gchar *path,
                     gpointer user_data)
 {
-		g_signal_connect (editable, "updated", G_CALLBACK(ense_update), NULL);
+	g_signal_connect (
+		editable, "updated",
+		G_CALLBACK (ense_update), NULL);
 }
 
 static GtkCellRenderer *
@@ -617,9 +624,15 @@ build_table (EMeetingListView *lview)
 	gtk_tree_view_column_set_expand (col, TRUE);
 	g_object_set (col, "min-width", 50, NULL);
 	g_object_set_data (G_OBJECT (col), "mtg-store-col", GINT_TO_POINTER (E_MEETING_STORE_ATTENDEE_COL));
-	g_signal_connect (renderer, "cell_edited", G_CALLBACK (attendee_edited_cb), view);
-	g_signal_connect (renderer, "editing-canceled", G_CALLBACK (attendee_editing_canceled_cb), view);
-	g_signal_connect (renderer, "editing-started", G_CALLBACK (editing_started_cb), view);
+	g_signal_connect (
+		renderer, "cell_edited",
+		G_CALLBACK (attendee_edited_cb), view);
+	g_signal_connect (
+		renderer, "editing-canceled",
+		G_CALLBACK (attendee_editing_canceled_cb), view);
+	g_signal_connect (
+		renderer, "editing-started",
+		G_CALLBACK (editing_started_cb), view);
 
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_ATTENDEE_COL), renderer);
 
@@ -631,7 +644,9 @@ build_table (EMeetingListView *lview)
 	gtk_tree_view_column_set_resizable (col, TRUE);
 	gtk_tree_view_column_set_reorderable (col, TRUE);
 	g_object_set_data (G_OBJECT (col), "mtg-store-col", GINT_TO_POINTER (E_MEETING_STORE_TYPE_COL));
-	g_signal_connect (renderer, "edited", G_CALLBACK (type_edited_cb), view);
+	g_signal_connect (
+		renderer, "edited",
+		G_CALLBACK (type_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_TYPE_COL), renderer);
 
 	renderer = create_combo_cell_renderer (get_role_strings ());
@@ -642,7 +657,9 @@ build_table (EMeetingListView *lview)
 	gtk_tree_view_column_set_resizable (col, TRUE);
 	gtk_tree_view_column_set_reorderable (col, TRUE);
 	g_object_set_data (G_OBJECT (col), "mtg-store-col", GINT_TO_POINTER (E_MEETING_STORE_ROLE_COL));
-	g_signal_connect (renderer, "edited", G_CALLBACK (role_edited_cb), view);
+	g_signal_connect (
+		renderer, "edited",
+		G_CALLBACK (role_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_ROLE_COL), renderer);
 
 	renderer = create_combo_cell_renderer (get_rsvp_strings ());
@@ -654,7 +671,9 @@ build_table (EMeetingListView *lview)
 	gtk_tree_view_column_set_resizable (col, TRUE);
 	gtk_tree_view_column_set_reorderable (col, TRUE);
 	g_object_set_data (G_OBJECT (col), "mtg-store-col", GINT_TO_POINTER (E_MEETING_STORE_RSVP_COL));
-	g_signal_connect (renderer, "edited", G_CALLBACK (rsvp_edited_cb), view);
+	g_signal_connect (
+		renderer, "edited",
+		G_CALLBACK (rsvp_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_RSVP_COL), renderer);
 
 	renderer = create_combo_cell_renderer (get_status_strings ());
@@ -665,7 +684,9 @@ build_table (EMeetingListView *lview)
 	gtk_tree_view_column_set_resizable (col, TRUE);
 	gtk_tree_view_column_set_reorderable (col, TRUE);
 	g_object_set_data (G_OBJECT (col), "mtg-store-col", GINT_TO_POINTER (E_MEETING_STORE_STATUS_COL));
-	g_signal_connect (renderer, "edited", G_CALLBACK (status_edited_cb), view);
+	g_signal_connect (
+		renderer, "edited",
+		G_CALLBACK (status_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_STATUS_COL), renderer);
 
 	priv->renderers = edit_table;
@@ -776,7 +797,10 @@ e_meeting_list_view_new (EMeetingStore *store)
 	}
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (view));
-	g_signal_connect (selection, "changed", G_CALLBACK (row_activated_cb), view);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (row_activated_cb), view);
+
 	return view;
 }
 

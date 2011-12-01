@@ -49,8 +49,6 @@ enum {
 	PROP_SIZE_PIXELS
 };
 
-static void gnome_canvas_widget_class_init (GnomeCanvasWidgetClass *class);
-static void gnome_canvas_widget_init       (GnomeCanvasWidget      *witem);
 static void gnome_canvas_widget_dispose    (GnomeCanvasItem      *object);
 static void gnome_canvas_widget_get_property (GObject            *object,
 					      guint               param_id,
@@ -84,32 +82,10 @@ static void	gnome_canvas_widget_draw	(GnomeCanvasItem *item,
 
 static GnomeCanvasItemClass *parent_class;
 
-GType
-gnome_canvas_widget_get_type (void)
-{
-	static GType widget_type;
-
-	if (!widget_type) {
-		const GTypeInfo object_info = {
-			sizeof (GnomeCanvasWidgetClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gnome_canvas_widget_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,			/* class_data */
-			sizeof (GnomeCanvasWidget),
-			0,			/* n_preallocs */
-			(GInstanceInitFunc) gnome_canvas_widget_init,
-			NULL			/* value_table */
-		};
-
-		widget_type = g_type_register_static (
-			GNOME_TYPE_CANVAS_ITEM,
-			"GnomeCanvasWidget", &object_info, 0);
-	}
-
-	return widget_type;
-}
+G_DEFINE_TYPE (
+	GnomeCanvasWidget,
+	gnome_canvas_widget,
+	GNOME_TYPE_CANVAS_ITEM)
 
 static void
 gnome_canvas_widget_class_init (GnomeCanvasWidgetClass *class)

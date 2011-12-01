@@ -48,7 +48,6 @@ static void e_minicard_view_drag_data_get (GtkWidget *widget,
 					  EMinicardView *view);
 
 static EReflowClass *parent_class = NULL;
-#define PARENT_TYPE (E_REFLOW_TYPE)
 
 /* The arguments we take */
 enum {
@@ -78,6 +77,8 @@ static GtkTargetEntry drag_types[] = {
 	{ (gchar *) SOURCE_VCARD_LIST_TYPE, 0, DND_TARGET_TYPE_SOURCE_VCARD_LIST },
 	{ (gchar *) VCARD_LIST_TYPE, 0, DND_TARGET_TYPE_VCARD_LIST }
 };
+
+G_DEFINE_TYPE (EMinicardView, e_minicard_view, E_TYPE_REFLOW)
 
 static void
 e_minicard_view_drag_data_get (GtkWidget *widget,
@@ -229,8 +230,9 @@ adapter_changed (EMinicardView *view)
 {
 	set_empty_message (view);
 
-	g_signal_connect (view->adapter, "drag_begin",
-			  G_CALLBACK (e_minicard_view_drag_begin), view);
+	g_signal_connect (
+		view->adapter, "drag_begin",
+		G_CALLBACK (e_minicard_view_drag_begin), view);
 }
 
 static void
@@ -275,12 +277,12 @@ e_minicard_view_set_property (GObject *object,
 				      "model", &model,
 				      NULL);
 			if (model) {
-				view->writable_status_id =
-					g_signal_connect (model, "writable_status",
-							  G_CALLBACK (writable_status_change), view);
-				view->stop_state_id =
-					g_signal_connect (model, "stop_state_changed",
-							  G_CALLBACK (stop_state_changed), view);
+				view->writable_status_id = g_signal_connect (
+					model, "writable_status",
+					G_CALLBACK (writable_status_change), view);
+				view->stop_state_id = g_signal_connect (
+					model, "stop_state_changed",
+					G_CALLBACK (stop_state_changed), view);
 			}
 
 		}
@@ -466,17 +468,17 @@ e_minicard_view_selection_event (EReflow *reflow,
 }
 
 static void
-e_minicard_view_class_init (EMinicardViewClass *klass)
+e_minicard_view_class_init (EMinicardViewClass *class)
 {
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 	EReflowClass *reflow_class;
 
-	object_class = G_OBJECT_CLASS (klass);
-	item_class = (GnomeCanvasItemClass *) klass;
-	reflow_class = (EReflowClass *) klass;
+	object_class = G_OBJECT_CLASS (class);
+	item_class = (GnomeCanvasItemClass *) class;
+	reflow_class = (EReflowClass *) class;
 
-	parent_class = g_type_class_peek_parent (klass);
+	parent_class = g_type_class_peek_parent (class);
 
 	object_class->set_property    = e_minicard_view_set_property;
 	object_class->get_property    = e_minicard_view_get_property;
@@ -554,31 +556,6 @@ e_minicard_view_init (EMinicardView *view)
 	view->stop_state_id = 0;
 
 	set_empty_message (view);
-}
-
-GType
-e_minicard_view_get_type (void)
-{
-	static GType reflow_type = 0;
-
-	if (!reflow_type) {
-		static const GTypeInfo reflow_info =  {
-			sizeof (EMinicardViewClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_minicard_view_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (EMinicardView),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_minicard_view_init,
-		};
-
-		reflow_type = g_type_register_static (
-			PARENT_TYPE, "EMinicardView", &reflow_info, 0);
-	}
-
-	return reflow_type;
 }
 
 void

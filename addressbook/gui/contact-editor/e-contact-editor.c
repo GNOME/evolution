@@ -73,8 +73,6 @@ enum {
 	NUM_IM_COLUMNS
 };
 
-static void	e_contact_editor_init		(EContactEditor *editor);
-static void	e_contact_editor_class_init	(EContactEditorClass *klass);
 static void	e_contact_editor_set_property	(GObject *object,
 						 guint property_id,
 						 const GValue *value,
@@ -205,6 +203,8 @@ static const gint email_default[] = { 0, 1, 2, 2 };
 #define STRING_IS_EMPTY(x)      (!(x) || !(*(x)))
 #define STRING_MAKE_NON_NULL(x) ((x) ? (x) : "")
 
+G_DEFINE_TYPE (EContactEditor, e_contact_editor, EAB_TYPE_EDITOR)
+
 static void
 e_contact_editor_contact_added (EABEditor *editor,
                                 const GError *error,
@@ -256,37 +256,11 @@ e_contact_editor_closed (EABEditor *editor)
 	g_object_unref (editor);
 }
 
-GType
-e_contact_editor_get_type (void)
-{
-	static GType contact_editor_type = 0;
-
-	if (!contact_editor_type) {
-		static const GTypeInfo contact_editor_info =  {
-			sizeof (EContactEditorClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_contact_editor_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (EContactEditor),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_contact_editor_init,
-		};
-
-		contact_editor_type = g_type_register_static (
-			EAB_TYPE_EDITOR, "EContactEditor",
-			&contact_editor_info, 0);
-	}
-
-	return contact_editor_type;
-}
-
 static void
-e_contact_editor_class_init (EContactEditorClass *klass)
+e_contact_editor_class_init (EContactEditorClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	EABEditorClass *editor_class = EAB_EDITOR_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	EABEditorClass *editor_class = EAB_EDITOR_CLASS (class);
 
 	parent_class = g_type_class_ref (EAB_TYPE_EDITOR);
 
@@ -3286,8 +3260,9 @@ categories_clicked (GtkWidget *button,
 		return;
 	}
 
-	g_signal_connect (dialog, "response",
-			G_CALLBACK (categories_response), editor);
+	g_signal_connect (
+		dialog, "response",
+		G_CALLBACK (categories_response), editor);
 
 	/* Close the category dialog if the editor is closed*/
 	g_signal_connect_swapped (

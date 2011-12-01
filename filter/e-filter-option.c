@@ -334,7 +334,9 @@ filter_option_get_widget (EFilterElement *element)
 			if (op->is_dynamic) {
 				break;
 			} else {
-				e_filter_option_add (option, op->value, op->title, op->code, FALSE);
+				e_filter_option_add (
+					option, op->value,
+					op->title, op->code, FALSE);
 			}
 		}
 
@@ -343,7 +345,9 @@ filter_option_get_widget (EFilterElement *element)
 			op = i->data;
 
 			if (op) {
-				e_filter_option_add (option, op->value, op->title, op->code, TRUE);
+				e_filter_option_add (
+					option, op->value,
+					op->title, op->code, TRUE);
 				free_option (op);
 			}
 		}
@@ -355,7 +359,9 @@ filter_option_get_widget (EFilterElement *element)
 			op = l->data;
 
 			if (!op->is_dynamic)
-				e_filter_option_add (option, op->value, op->title, op->code, FALSE);
+				e_filter_option_add (
+					option, op->value,
+					op->title, op->code, FALSE);
 		}
 
 		if (old_cur)

@@ -165,7 +165,8 @@ map_contact_added_cb (EContactMap *map,
 	gtk_list_store_set (priv->completion_model, &iter,
 		0, name, -1);
 
-	g_signal_connect (E_CONTACT_MARKER (marker), "double-clicked",
+	g_signal_connect (
+		marker, "double-clicked",
 		G_CALLBACK (marker_doubleclick_cb), user_data);
 
 	priv->tasks_cnt--;
@@ -342,8 +343,7 @@ e_contact_map_window_init (EContactMapWindow *window)
 	ChamplainView *view;
 	GHashTable *hash_table;
 
-	priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		window, E_TYPE_CONTACT_MAP_WINDOW, EContactMapWindowPrivate);
+	priv = E_CONTACT_MAP_WINDOW_GET_PRIVATE (window);
 	window->priv = priv;
 
 	priv->tasks_cnt = 0;
@@ -361,15 +361,20 @@ e_contact_map_window_init (EContactMapWindow *window)
 	view = e_contact_map_get_view (E_CONTACT_MAP (map));
 	champlain_view_set_zoom_level (view, 2);
 	priv->map = E_CONTACT_MAP (map);
-	g_signal_connect (view, "notify::zoom-level",
+	g_signal_connect (
+		view, "notify::zoom-level",
 		G_CALLBACK (zoom_level_changed_cb), window);
-	g_signal_connect (map, "contact-added",
+	g_signal_connect (
+		map, "contact-added",
 		G_CALLBACK (map_contact_added_cb), window);
-	g_signal_connect (map, "contact-removed",
+	g_signal_connect (
+		map, "contact-removed",
 		G_CALLBACK (map_contact_removed_cb), window);
-	g_signal_connect (map, "geocoding-started",
+	g_signal_connect (
+		map, "geocoding-started",
 		G_CALLBACK (map_contact_geocoding_started_cb), window);
-	g_signal_connect (map, "geocoding-failed",
+	g_signal_connect (
+		map, "geocoding-failed",
 		G_CALLBACK (map_contact_geocoding_failed_cb), window);
 
 	/* HBox container */
@@ -383,14 +388,16 @@ e_contact_map_window_init (EContactMapWindow *window)
 
 	/* Zoom-in button */
 	button = gtk_button_new_from_stock (GTK_STOCK_ZOOM_IN);
-	g_signal_connect (button, "clicked",
+	g_signal_connect (
+		button, "clicked",
 		G_CALLBACK (contact_map_window_zoom_in_cb), window);
 	priv->zoom_in_btn = button;
 	gtk_container_add (GTK_CONTAINER (hbox), button);
 
 	/* Zoom-out button */
 	button = gtk_button_new_from_stock (GTK_STOCK_ZOOM_OUT);
-	g_signal_connect (button, "clicked",
+	g_signal_connect (
+		button, "clicked",
 		G_CALLBACK (contact_map_window_zoom_out_cb), window);
 	priv->zoom_out_btn = button;
 	gtk_container_add (GTK_CONTAINER (hbox), button);
@@ -404,20 +411,23 @@ e_contact_map_window_init (EContactMapWindow *window)
 	gtk_entry_completion_set_model (
 		entry_completion, GTK_TREE_MODEL (completion_model));
 	gtk_entry_completion_set_text_column (entry_completion, 0);
-	g_signal_connect (entry_completion, "match-selected",
+	g_signal_connect (
+		entry_completion, "match-selected",
 		G_CALLBACK (entry_completion_match_selected_cb), window);
 
 	/* Search entry */
 	entry = gtk_entry_new ();
 	gtk_entry_set_completion (GTK_ENTRY (entry), entry_completion);
-	g_signal_connect (entry, "key-press-event",
+	g_signal_connect (
+		entry, "key-press-event",
 		G_CALLBACK (contact_map_window_entry_key_pressed_cb), window);
 	window->priv->search_entry = entry;
 	gtk_container_add (GTK_CONTAINER (hbox), entry);
 
 	/* Search button */
 	button = gtk_button_new_from_stock (GTK_STOCK_FIND);
-	g_signal_connect (button, "clicked",
+	g_signal_connect (
+		button, "clicked",
 		G_CALLBACK (contact_map_window_find_contact_cb), window);
 	gtk_container_add (GTK_CONTAINER (hbox), button);
 

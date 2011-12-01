@@ -54,6 +54,10 @@
 #include "e-filter-rule.h"
 #include "e-rule-context.h"
 
+#define E_RULE_CONTEXT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_RULE_CONTEXT, ERuleContextPrivate))
+
 struct _ERuleContextPrivate {
 	gint frozen;
 };
@@ -543,8 +547,7 @@ e_rule_context_class_init (ERuleContextClass *class)
 static void
 e_rule_context_init (ERuleContext *context)
 {
-	context->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		context, E_TYPE_RULE_CONTEXT, ERuleContextPrivate);
+	context->priv = E_RULE_CONTEXT_GET_PRIVATE (context);
 
 	context->part_set_map = g_hash_table_new (g_str_hash, g_str_equal);
 	context->rule_set_map = g_hash_table_new (g_str_hash, g_str_equal);
@@ -813,7 +816,9 @@ e_rule_context_add_rule_gui (ERuleContext *context,
 	if (path)
 		g_object_set_data_full ((GObject *) dialog, "path", g_strdup (path), g_free);
 
-	g_signal_connect (dialog, "response", G_CALLBACK (new_rule_response), context);
+	g_signal_connect (
+		dialog, "response",
+		G_CALLBACK (new_rule_response), context);
 
 	g_object_ref (context);
 

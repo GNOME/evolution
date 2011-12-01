@@ -127,48 +127,16 @@ enum {
 	ITEM_LAST_SIGNAL
 };
 
-static void gnome_canvas_item_class_init     (GnomeCanvasItemClass *class);
-static void gnome_canvas_item_init           (GnomeCanvasItem      *item);
 static gint  emit_event                       (GnomeCanvas *canvas, GdkEvent *event);
 
 static guint item_signals[ITEM_LAST_SIGNAL];
 
 static GObjectClass *item_parent_class;
 
-/**
- * gnome_canvas_item_get_type:
- *
- * Registers the &GnomeCanvasItem class if necessary, and returns the type ID
- * associated to it.
- *
- * Return value:  The type ID of the &GnomeCanvasItem class.
- **/
-GType
-gnome_canvas_item_get_type (void)
-{
-	static GType canvas_item_type;
-
-	if (!canvas_item_type) {
-		const GTypeInfo object_info = {
-			sizeof (GnomeCanvasItemClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gnome_canvas_item_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,			/* class_data */
-			sizeof (GnomeCanvasItem),
-			0,			/* n_preallocs */
-			(GInstanceInitFunc) gnome_canvas_item_init,
-			NULL			/* value_table */
-		};
-
-		canvas_item_type = g_type_register_static (
-			G_TYPE_INITIALLY_UNOWNED,
-			"GnomeCanvasItem", &object_info, 0);
-	}
-
-	return canvas_item_type;
-}
+G_DEFINE_TYPE (
+	GnomeCanvasItem,
+	gnome_canvas_item,
+	G_TYPE_INITIALLY_UNOWNED)
 
 /* Object initialization function for GnomeCanvasItem */
 static void
@@ -1153,7 +1121,8 @@ gnome_canvas_item_get_bounds (GnomeCanvasItem *item,
 	/* Get the item's bounds in its coordinate system */
 
 	if (GNOME_CANVAS_ITEM_GET_CLASS (item)->bounds)
-		(* GNOME_CANVAS_ITEM_GET_CLASS (item)->bounds) (item, &tx1, &ty1, &tx2, &ty2);
+		GNOME_CANVAS_ITEM_GET_CLASS (item)->bounds (
+			item, &tx1, &ty1, &tx2, &ty2);
 
 	/* Make the bounds relative to the item's parent coordinate system */
 	gnome_canvas_matrix_transform_rect (&item->matrix, &tx1, &ty1, &tx2, &ty2);
@@ -1206,8 +1175,6 @@ enum {
 	GROUP_PROP_Y
 };
 
-static void gnome_canvas_group_class_init  (GnomeCanvasGroupClass *class);
-static void gnome_canvas_group_init        (GnomeCanvasGroup      *group);
 static void gnome_canvas_group_set_property (GObject               *object,
 					    guint                  property_id,
 					    const GValue          *value,
@@ -1239,40 +1206,10 @@ static void   gnome_canvas_group_bounds      (GnomeCanvasItem *item,
 
 static GnomeCanvasItemClass *group_parent_class;
 
-/**
- * gnome_canvas_group_get_type:
- *
- * Registers the &GnomeCanvasGroup class if necessary, and returns the type ID
- * associated to it.
- *
- * Return value:  The type ID of the &GnomeCanvasGroup class.
- **/
-GType
-gnome_canvas_group_get_type (void)
-{
-	static GType canvas_group_type;
-
-	if (!canvas_group_type) {
-		const GTypeInfo object_info = {
-			sizeof (GnomeCanvasGroupClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gnome_canvas_group_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,			/* class_data */
-			sizeof (GnomeCanvasGroup),
-			0,			/* n_preallocs */
-			(GInstanceInitFunc) gnome_canvas_group_init,
-			NULL			/* value_table */
-		};
-
-		canvas_group_type = g_type_register_static (
-			GNOME_TYPE_CANVAS_ITEM, "GnomeCanvasGroup",
-			&object_info, 0);
-	}
-
-	return canvas_group_type;
-}
+G_DEFINE_TYPE (
+	GnomeCanvasGroup,
+	gnome_canvas_group,
+	GNOME_TYPE_CANVAS_ITEM)
 
 /* Class initialization function for GnomeCanvasGroupClass */
 static void
@@ -1717,8 +1654,6 @@ enum {
 	LAST_SIGNAL
 };
 
-static void gnome_canvas_class_init          (GnomeCanvasClass *class);
-static void gnome_canvas_init                (GnomeCanvas      *canvas);
 static void gnome_canvas_dispose             (GObject          *object);
 static void gnome_canvas_map                 (GtkWidget        *widget);
 static void gnome_canvas_unmap               (GtkWidget        *widget);
@@ -1756,6 +1691,11 @@ enum {
         PROP_0,
 	PROP_FOCUSED_ITEM,
 };
+
+G_DEFINE_TYPE (
+	GnomeCanvas,
+	gnome_canvas,
+	GTK_TYPE_LAYOUT)
 
 static void
 gnome_canvas_paint_rect (GnomeCanvas *canvas,
@@ -1822,40 +1762,6 @@ gnome_canvas_paint_rect (GnomeCanvas *canvas,
 	}
 }
 
-/**
- * gnome_canvas_get_type:
- *
- * Registers the &GnomeCanvas class if necessary, and returns the type ID
- * associated to it.
- *
- * Return value:  The type ID of the &GnomeCanvas class.
- **/
-GType
-gnome_canvas_get_type (void)
-{
-	static GType canvas_type;
-
-	if (!canvas_type) {
-		const GTypeInfo object_info = {
-			sizeof (GnomeCanvasClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gnome_canvas_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,			/* class_data */
-			sizeof (GnomeCanvas),
-			0,			/* n_preallocs */
-			(GInstanceInitFunc) gnome_canvas_init,
-			NULL			/* value_table */
-		};
-
-		canvas_type = g_type_register_static (GTK_TYPE_LAYOUT, "GnomeCanvas",
-						      &object_info, 0);
-	}
-
-	return canvas_type;
-}
-
 static void
 gnome_canvas_get_property (GObject *object,
                            guint property_id,
@@ -1890,15 +1796,15 @@ gnome_canvas_set_property (GObject *object,
 
 /* Class initialization function for GnomeCanvasClass */
 static void
-gnome_canvas_class_init (GnomeCanvasClass *klass)
+gnome_canvas_class_init (GnomeCanvasClass *class)
 {
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = (GObjectClass *) klass;
-	widget_class  = (GtkWidgetClass *) klass;
+	object_class = (GObjectClass *) class;
+	widget_class  = (GtkWidgetClass *) class;
 
-	canvas_parent_class = g_type_class_peek_parent (klass);
+	canvas_parent_class = g_type_class_peek_parent (class);
 
 	object_class->set_property = gnome_canvas_set_property;
 	object_class->get_property = gnome_canvas_get_property;
@@ -1920,8 +1826,8 @@ gnome_canvas_class_init (GnomeCanvasClass *klass)
 	widget_class->focus_in_event = gnome_canvas_focus_in;
 	widget_class->focus_out_event = gnome_canvas_focus_out;
 
-	klass->draw_background = gnome_canvas_draw_background;
-	klass->request_update = gnome_canvas_request_update_real;
+	class->draw_background = gnome_canvas_draw_background;
+	class->request_update = gnome_canvas_request_update_real;
 
 	g_object_class_install_property (object_class, PROP_FOCUSED_ITEM,
 					 g_param_spec_object ("focused_item", NULL, NULL,
@@ -2264,7 +2170,8 @@ gnome_canvas_size_allocate (GtkWidget *widget,
 	g_return_if_fail (allocation != NULL);
 
 	if (GTK_WIDGET_CLASS (canvas_parent_class)->size_allocate)
-		(* GTK_WIDGET_CLASS (canvas_parent_class)->size_allocate) (widget, allocation);
+		GTK_WIDGET_CLASS (canvas_parent_class)->size_allocate (
+			widget, allocation);
 
 	scrollable = GTK_SCROLLABLE (widget);
 	hadjustment = gtk_scrollable_get_hadjustment (scrollable);
@@ -2993,7 +2900,7 @@ gnome_canvas_set_scroll_region (GnomeCanvas *canvas,
 	canvas->need_repick = TRUE;
 #if 0
 	/* todo: should be requesting update */
-	(* GNOME_CANVAS_ITEM_CLASS (canvas->root->object.klass)->update) (
+	(* GNOME_CANVAS_ITEM_CLASS (canvas->root->object.class)->update) (
 		canvas->root, NULL, NULL, 0);
 #endif
 }

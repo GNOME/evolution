@@ -174,9 +174,9 @@ ea_cal_view_real_initialize (AtkObject *accessible,
 	gcal = e_calendar_view_get_calendar (cal_view);
 
 	if (gcal)
-		g_signal_connect (gcal, "dates_shown_changed",
-				  G_CALLBACK (ea_cal_view_dates_change_cb),
-				  accessible);
+		g_signal_connect (
+			gcal, "dates_shown_changed",
+			G_CALLBACK (ea_cal_view_dates_change_cb), accessible);
 }
 
 static AtkObject *
@@ -222,7 +222,9 @@ ea_cal_view_event_changed_cb (ECalendarView *cal_view,
 		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 				       week_view_event->spans_index);
 		if (span && span->text_item)
-			event_atk_obj = ea_calendar_helpers_get_accessible_for (span->text_item);
+			event_atk_obj =
+				ea_calendar_helpers_get_accessible_for (
+				span->text_item);
 	}
 	if (event_atk_obj) {
 #ifdef ACC_DEBUG
@@ -258,10 +260,13 @@ ea_cal_view_event_added_cb (ECalendarView *cal_view,
 		EWeekViewEvent *week_view_event = (EWeekViewEvent *) event;
 		EWeekView *week_view = E_WEEK_VIEW (cal_view);
 		/* get the first span of the event */
-		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
-				       week_view_event->spans_index);
+		span = &g_array_index (
+			week_view->spans, EWeekViewEventSpan,
+			week_view_event->spans_index);
 		if (span && span->text_item)
-			event_atk_obj = ea_calendar_helpers_get_accessible_for (span->text_item);
+			event_atk_obj =
+				ea_calendar_helpers_get_accessible_for (
+				span->text_item);
 
 	}
 	if (event_atk_obj) {

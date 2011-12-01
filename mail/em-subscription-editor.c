@@ -36,6 +36,10 @@
 
 #include "em-folder-utils.h"
 
+#define EM_SUBSCRIPTION_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_SUBSCRIPTION_EDITOR, EMSubscriptionEditorPrivate))
+
 #define FOLDER_CAN_SELECT(folder_info) \
 	((folder_info) != NULL && \
 	((folder_info)->flags & CAMEL_FOLDER_NOSELECT) == 0)
@@ -230,7 +234,8 @@ subscription_editor_populate (EMSubscriptionEditor *editor,
 
 		if (folder_info->child != NULL)
 			subscription_editor_populate (
-				editor, folder_info->child, &iter, expand_paths);
+				editor, folder_info->child,
+				&iter, expand_paths);
 
 		folder_info = folder_info->next;
 	}
@@ -345,7 +350,9 @@ subscription_editor_subscribe_folder_done (CamelSubscribable *subscribable,
 	if (error == NULL)
 		tree_row_data->folder_info->flags |= CAMEL_FOLDER_SUBSCRIBED;
 	else {
-		e_notice (GTK_WINDOW (context->editor), GTK_MESSAGE_ERROR, "%s", error->message);
+		e_notice (
+			GTK_WINDOW (context->editor),
+			GTK_MESSAGE_ERROR, "%s", error->message);
 		g_error_free (error);
 		tree_row_data_free (tree_row_data);
 		goto exit;
@@ -473,7 +480,9 @@ subscription_editor_unsubscribe_folder_done (CamelSubscribable *subscribable,
 	if (error == NULL)
 		tree_row_data->folder_info->flags &= ~CAMEL_FOLDER_SUBSCRIBED;
 	else {
-		e_notice (GTK_WINDOW (context->editor), GTK_MESSAGE_ERROR, "%s", error->message);
+		e_notice (
+			GTK_WINDOW (context->editor),
+			GTK_MESSAGE_ERROR, "%s", error->message);
 		g_error_free (error);
 		tree_row_data_free (tree_row_data);
 		goto exit;
@@ -583,7 +592,8 @@ subscription_editor_create_menu_item (const gchar *label,
 
 	gtk_widget_show (item);
 
-	g_signal_connect_swapped (item, "activate", activate_cb, editor);
+	g_signal_connect_swapped (
+		item, "activate", activate_cb, editor);
 
 	return item;
 }
@@ -605,7 +615,8 @@ position_below_widget_cb (GtkMenu *menu,
 	gint monitor_num;
 
 	widget = under_widget;
-	gtk_widget_get_preferred_size (GTK_WIDGET (menu), &menu_requisition, NULL);
+	gtk_widget_get_preferred_size (
+		GTK_WIDGET (menu), &menu_requisition, NULL);
 
 	window = gtk_widget_get_parent_window (widget);
 	screen = gtk_widget_get_screen (GTK_WIDGET (menu));
@@ -701,7 +712,9 @@ pick_all_cb (GtkTreeModel *model,
 
 	if (can_pick_folder_info (tree_row_data->folder_info, data->mode) &&
 	    (data->skip_folder_infos == NULL ||
-	    !g_hash_table_lookup_extended (data->skip_folder_infos, tree_row_data->folder_info, NULL, NULL))) {
+	    !g_hash_table_lookup_extended (
+		data->skip_folder_infos,
+		tree_row_data->folder_info, NULL, NULL))) {
 		g_queue_push_tail (data->out_tree_rows, tree_row_data);
 	} else
 		tree_row_data_free (tree_row_data);
@@ -765,7 +778,8 @@ subscription_editor_pick_shown (EMSubscriptionEditor *editor,
 				tree_row_data_free (tree_row_data);
 		}
 
-		if (is_expanded && gtk_tree_model_iter_children (tree_model, &iter2, &iter)) {
+		if (is_expanded && gtk_tree_model_iter_children (
+		    tree_model, &iter2, &iter)) {
 			iter = iter2;
 			found = TRUE;
 		} else {
@@ -774,9 +788,11 @@ subscription_editor_pick_shown (EMSubscriptionEditor *editor,
 				iter = iter2;
 				found = TRUE;
 			} else {
-				while (found = gtk_tree_model_iter_parent (tree_model, &iter2, &iter), found) {
+				while (found = gtk_tree_model_iter_parent (
+				       tree_model, &iter2, &iter), found) {
 					iter = iter2;
-					if (gtk_tree_model_iter_next (tree_model, &iter2)) {
+					if (gtk_tree_model_iter_next (
+					    tree_model, &iter2)) {
 						iter = iter2;
 						break;
 					}

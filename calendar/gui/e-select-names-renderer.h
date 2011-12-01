@@ -21,44 +21,54 @@
  *
  */
 
-#ifndef __E_SELECT_NAMES_RENDERER_H__
-#define __E_SELECT_NAMES_RENDERER_H__
+#ifndef E_SELECT_NAMES_RENDERER_H
+#define E_SELECT_NAMES_RENDERER_H
 
 #include <gtk/gtk.h>
 
+/* Standard GObject macros */
+#define E_TYPE_SELECT_NAMES_RENDERER \
+	(e_select_names_renderer_get_type ())
+#define E_SELECT_NAMES_RENDERER(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SELECT_NAMES_RENDERER, ESelectNamesRenderer))
+#define E_SELECT_NAMES_RENDERER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SELECT_NAMES_RENDERER, ESelectNamesRendererClass))
+#define E_IS_SELECT_NAMES_RENDERER(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SELECT_NAMES_RENDERER))
+#define E_IS_SELECT_NAMES_RENDERER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_SELECT_NAMES_RENDERER))
+#define E_SELECT_NAMES_RENDERER_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SELECT_NAMES_RENDERER, ESelectNamesRendererClass))
+
 G_BEGIN_DECLS
 
-#define E_TYPE_SELECT_NAMES_RENDERER	   (e_select_names_renderer_get_type ())
-#define E_SELECT_NAMES_RENDERER(o)	   (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_SELECT_NAMES_RENDERER, ESelectNamesRenderer))
-#define E_SELECT_NAMES_RENDERER_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST ((k), E_TYPE_SELECT_NAMES_RENDERER, ESelectNamesRendererClass))
-#define E_IS_SELECT_NAMES_RENDERER(o)	   (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TYPE_SELECT_NAMES_RENDERER))
-#define E_IS_SELECT_NAMES_RENDERER_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((o), E_TYPE_SELECT_NAMES_RENDERER))
-#define E_SELECT_NAMES_RENDERER_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), E_TYPE_SELECT_NAMES_RENDERER, ESelectNamesRendererClass))
-
-typedef struct _ESelectNamesRenderer      ESelectNamesRenderer;
+typedef struct _ESelectNamesRenderer ESelectNamesRenderer;
 typedef struct _ESelectNamesRendererClass ESelectNamesRendererClass;
-typedef struct _ESelectNamesRendererPriv  ESelectNamesRendererPriv;
+typedef struct _ESelectNamesRendererPrivate ESelectNamesRendererPrivate;
 
-struct _ESelectNamesRenderer
-{
-	GtkCellRendererText  parent;
-
-	ESelectNamesRendererPriv *priv;
+struct _ESelectNamesRenderer {
+	GtkCellRendererText parent;
+	ESelectNamesRendererPrivate *priv;
 };
 
-struct _ESelectNamesRendererClass
-{
+struct _ESelectNamesRendererClass {
 	GtkCellRendererTextClass parent_class;
 
-	void (* cell_edited) (ESelectNamesRenderer *renderer,
-			      const gchar *path,
-			      GList *addresses,
-			      GList *names);
+	void		(*cell_edited)		(ESelectNamesRenderer *renderer,
+						 const gchar *path,
+						 GList *addresses,
+						 GList *names);
 };
 
-GType            e_select_names_renderer_get_type (void);
-GtkCellRenderer *e_select_names_renderer_new      (void);
+GType		e_select_names_renderer_get_type	(void) G_GNUC_CONST;
+GtkCellRenderer *
+		e_select_names_renderer_new		(void);
 
 G_END_DECLS
 
-#endif /* __E_SELECT_NAMES_RENDERER_H__ */
+#endif /* E_SELECT_NAMES_RENDERER_H */

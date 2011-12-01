@@ -35,8 +35,6 @@
 #include <misc/e-canvas-utils.h>
 #include <gdk/gdkkeysyms.h>
 
-static void e_minicard_label_init		(EMinicardLabel		 *card);
-static void e_minicard_label_class_init	(EMinicardLabelClass	 *klass);
 static void e_minicard_label_set_property  (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
 static void e_minicard_label_get_property  (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
 static gboolean e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event);
@@ -71,42 +69,23 @@ enum {
 
 static guint e_minicard_label_signals[LAST_SIGNAL] = {0, };
 
-GType
-e_minicard_label_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info =  {
-			sizeof (EMinicardLabelClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_minicard_label_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (EMinicardLabel),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_minicard_label_init,
-		};
-
-		type = g_type_register_static (gnome_canvas_group_get_type (), "EMinicardLabel", &info, 0);
-	}
-
-	return type;
-}
+G_DEFINE_TYPE (
+	EMinicardLabel,
+	e_minicard_label,
+	GNOME_TYPE_CANVAS_GROUP)
 
 static void
-e_minicard_label_class_init (EMinicardLabelClass *klass)
+e_minicard_label_class_init (EMinicardLabelClass *class)
 {
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = G_OBJECT_CLASS (klass);
-	item_class = (GnomeCanvasItemClass *) klass;
+	object_class = G_OBJECT_CLASS (class);
+	item_class = (GnomeCanvasItemClass *) class;
 
-	klass->style_set = e_minicard_label_style_set;
+	class->style_set = e_minicard_label_style_set;
 
-	parent_class = g_type_class_peek_parent (klass);
+	parent_class = g_type_class_peek_parent (class);
 
 	object_class->set_property = e_minicard_label_set_property;
 	object_class->get_property = e_minicard_label_get_property;

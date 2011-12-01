@@ -162,8 +162,9 @@ calendar_config_add_notification_month_scroll_by_week (CalendarConfigChangedFunc
 {
 	calendar_config_init ();
 
-	g_signal_connect (G_OBJECT (config), "changed::month-scroll-by-week",
-			  G_CALLBACK (func), data);
+	g_signal_connect (
+		config, "changed::month-scroll-by-week",
+		G_CALLBACK (func), data);
 }
 
 /***************************************/
@@ -266,9 +267,13 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 			 * the query sub-expression. */
 			isodate = isodate_from_time_t (t);
 			if (!get_completed)
-				sexp = g_strdup_printf ("(not (completed-before? (make-time \"%s\")))", isodate);
+				sexp = g_strdup_printf (
+					"(not (completed-before? "
+					"(make-time \"%s\")))", isodate);
 			else
-				sexp = g_strdup_printf ("(completed-before? (make-time \"%s\"))", isodate);
+				sexp = g_strdup_printf (
+					"(completed-before? "
+					"(make-time \"%s\"))", isodate);
 			g_free (isodate);
 		}
 	}
@@ -296,8 +301,8 @@ calendar_config_get_dir_path (void)
 	return path;
 }
 
-/* contains list of strings, locations, recently used as the second timezone in a day view.
- * Free with calendar_config_free_day_second_zones. */
+/* contains list of strings, locations, recently used as the second timezone
+ * in a day view.  Free with calendar_config_free_day_second_zones. */
 GSList *
 calendar_config_get_day_second_zones (void)
 {
@@ -328,7 +333,8 @@ calendar_config_free_day_second_zones (GSList *zones)
 	}
 }
 
-/* keeps max 'day_second_zones_max' zones, if 'location' is already in a list, then it'll became first there */
+/* keeps max 'day_second_zones_max' zones, if 'location'
+ * is already in a list, then it'll became first there */
 void
 calendar_config_set_day_second_zone (const gchar *location)
 {
@@ -370,13 +376,17 @@ calendar_config_set_day_second_zone (const gchar *location)
 			g_ptr_array_add (array, l->data);
 		g_ptr_array_add (array, NULL);
 
-		g_settings_set_strv (config, "day-second-zones", (const gchar * const *) array->pdata);
+		g_settings_set_strv (
+			config, "day-second-zones",
+			(const gchar * const *) array->pdata);
 
 		calendar_config_free_day_second_zones (lst);
 		g_ptr_array_free (array, FALSE);
 	}
 
-	g_settings_set_string (config, "day-second-zone", location ? location : "");
+	g_settings_set_string (
+		config, "day-second-zone",
+		(location != NULL) ? location : "");
 }
 
 /* location of the second time zone user has selected. Free with g_free. */
@@ -431,8 +441,9 @@ calendar_config_add_notification_day_second_zone (CalendarConfigChangedFunc func
 {
 	calendar_config_init ();
 
-	g_signal_connect (G_OBJECT (config), "changed::day-second-zone",
-			  G_CALLBACK (func), data);
+	g_signal_connect (
+		config, "changed::day-second-zone",
+		G_CALLBACK (func), data);
 }
 
 gboolean
@@ -446,7 +457,8 @@ calendar_config_get_prefer_meeting (void)
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	prefer_new_item = e_shell_settings_get_string (shell_settings, "cal-prefer-new-item");
+	prefer_new_item = e_shell_settings_get_string (
+		shell_settings, "cal-prefer-new-item");
 	prefer_meeting = g_strcmp0 (prefer_new_item, "event-meeting-new") == 0;
 
 	g_free (prefer_new_item);

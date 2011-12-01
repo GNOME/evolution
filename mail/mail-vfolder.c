@@ -719,7 +719,8 @@ rule_changed (EFilterRule *rule,
 		CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
-	/* if the folder has changed name, then add it, then remove the old manually */
+	/* If the folder has changed name, then
+	 * add it, then remove the old manually. */
 	if (strcmp (full_name, rule->name) != 0) {
 		gchar *oldname;
 
@@ -727,15 +728,18 @@ rule_changed (EFilterRule *rule,
 		gpointer oldfolder;
 
 		G_LOCK (vfolder);
-		d(printf("Changing folder name in hash table to '%s'\n", rule->name));
-		if (g_hash_table_lookup_extended (vfolder_hash, full_name, &key, &oldfolder)) {
+		if (g_hash_table_lookup_extended (
+				vfolder_hash, full_name, &key, &oldfolder)) {
 			g_hash_table_remove (vfolder_hash, key);
 			g_free (key);
-			g_hash_table_insert (vfolder_hash, g_strdup (rule->name), folder);
+			g_hash_table_insert (
+				vfolder_hash, g_strdup (rule->name), folder);
 			G_UNLOCK (vfolder);
 		} else {
 			G_UNLOCK (vfolder);
-			g_warning("couldn't find a vfolder rule in our table? %s", full_name);
+			g_warning (
+				"couldn't find a vfolder rule "
+				"in our table? %s", full_name);
 		}
 
 		oldname = g_strdup (full_name);
@@ -822,7 +826,9 @@ context_rule_added (ERuleContext *ctx,
 	folder = camel_store_get_folder_sync (
 		CAMEL_STORE (service), rule->name, 0, NULL, NULL);
 	if (folder) {
-		g_signal_connect (rule, "changed", G_CALLBACK(rule_changed), folder);
+		g_signal_connect (
+			rule, "changed",
+			G_CALLBACK (rule_changed), folder);
 
 		G_LOCK (vfolder);
 		g_hash_table_insert (vfolder_hash, g_strdup (rule->name), folder);
@@ -943,7 +949,9 @@ store_folder_renamed_cb (CamelStore *store,
 			rule, G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, rule_changed, folder);
 		e_filter_rule_set_name (rule, info->full_name);
-		g_signal_connect (rule, "changed", G_CALLBACK(rule_changed), folder);
+		g_signal_connect (
+			rule, "changed",
+			G_CALLBACK (rule_changed), folder);
 
 		config_dir = mail_session_get_config_dir ();
 		user = g_build_filename (config_dir, "vfolders.xml", NULL);
@@ -1126,10 +1134,15 @@ vfolder_edit_response_cb (GtkWidget *dialog,
                           gpointer user_data)
 {
 	if (response_id == GTK_RESPONSE_OK) {
-		EFilterRule *rule = g_object_get_data (G_OBJECT (dialog), "vfolder-rule");
-		EFilterRule *newrule = g_object_get_data (G_OBJECT (dialog), "vfolder-newrule");
+		GObject *object;
+		EFilterRule *rule;
+		EFilterRule *newrule;
 		const gchar *config_dir;
 		gchar *user;
+
+		object = G_OBJECT (dialog);
+		rule = g_object_get_data (object, "vfolder-rule");
+		newrule = g_object_get_data (object, "vfolder-newrule");
 
 		e_filter_rule_copy (rule, newrule);
 		config_dir = mail_session_get_config_dir ();
@@ -1198,10 +1211,16 @@ vfolder_edit_rule (EMailSession *session,
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
-	g_object_set_data_full (G_OBJECT (dialog), "vfolder-rule", rule, g_object_unref);
-	g_object_set_data_full (G_OBJECT (dialog), "vfolder-newrule", newrule, g_object_unref);
+	g_object_set_data_full (
+		G_OBJECT (dialog), "vfolder-rule",
+		rule, (GDestroyNotify) g_object_unref);
+	g_object_set_data_full (
+		G_OBJECT (dialog), "vfolder-newrule",
+		newrule, (GDestroyNotify) g_object_unref);
 
-	g_signal_connect (dialog, "response", G_CALLBACK (vfolder_edit_response_cb), NULL);
+	g_signal_connect (
+		dialog, "response",
+		G_CALLBACK (vfolder_edit_response_cb), NULL);
 
 	gtk_widget_show (dialog);
 }
@@ -1300,10 +1319,16 @@ vfolder_gui_add_rule (EMVFolderRule *rule)
 	gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
 	gtk_box_pack_start (GTK_BOX (container), w, TRUE, TRUE, 0);
 	gtk_widget_show ((GtkWidget *) gd);
-	g_object_set_data_full(G_OBJECT(gd), "rule", rule, (GDestroyNotify)g_object_unref);
-	g_signal_connect (rule, "changed", G_CALLBACK (new_rule_changed_cb), gd);
+	g_object_set_data_full (
+		G_OBJECT (gd), "rule", rule,
+		(GDestroyNotify) g_object_unref);
+	g_signal_connect (
+		rule, "changed",
+		G_CALLBACK (new_rule_changed_cb), gd);
 	new_rule_changed_cb ((EFilterRule *) rule, gd);
-	g_signal_connect (gd, "response", G_CALLBACK(new_rule_clicked), NULL);
+	g_signal_connect (
+		gd, "response",
+		G_CALLBACK (new_rule_clicked), NULL);
 	gtk_widget_show ((GtkWidget *) gd);
 }
 

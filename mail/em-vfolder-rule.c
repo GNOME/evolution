@@ -48,6 +48,10 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), EM_TYPE_VFOLDER_RULE, EMVFolderRulePrivate))
 
+#define EM_VFOLDER_RULE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_VFOLDER_RULE, EMVFolderRulePrivate))
+
 struct _EMVFolderRulePrivate {
 	EMailSession *session;
 };
@@ -627,23 +631,28 @@ source_remove (GtkWidget *widget,
 		gtk_tree_path_append_index (path, index);
 
 		if (gtk_tree_selection_path_is_selected (selection, path)) {
-			gtk_tree_model_get_iter (GTK_TREE_MODEL (data->model), &iter, path);
+			gtk_tree_model_get_iter (
+				GTK_TREE_MODEL (data->model), &iter, path);
 
 			em_vfolder_rule_remove_source (data->vr, source);
 			gtk_list_store_remove (data->model, &iter);
 			gtk_tree_path_free (path);
 
 			/* now select the next rule */
-			n = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (data->model), NULL);
+			n = gtk_tree_model_iter_n_children (
+				GTK_TREE_MODEL (data->model), NULL);
 			index = index >= n ? n - 1 : index;
 
 			if (index >= 0) {
 				path = gtk_tree_path_new ();
 				gtk_tree_path_append_index (path, index);
-				gtk_tree_model_get_iter (GTK_TREE_MODEL (data->model), &iter, path);
+				gtk_tree_model_get_iter (
+					GTK_TREE_MODEL (data->model),
+					&iter, path);
 				gtk_tree_path_free (path);
 
-				gtk_tree_selection_select_iter (selection, &iter);
+				gtk_tree_selection_select_iter (
+					selection, &iter);
 				gtk_tree_model_get (
 					GTK_TREE_MODEL (data->model), &iter,
 					0, &data->current, -1);
@@ -693,7 +702,9 @@ get_widget (EFilterRule *fr,
 	for (i = 0; i < BUTTON_LAST; i++) {
 		data->buttons[i] =(GtkButton *)
 			e_builder_get_widget (builder, edit_buttons[i].name);
-		g_signal_connect (data->buttons[i], "clicked", edit_buttons[i].func, data);
+		g_signal_connect (
+			data->buttons[i], "clicked",
+			edit_buttons[i].func, data);
 	}
 
 	object = gtk_builder_get_object (builder, "source_list");
@@ -715,7 +726,9 @@ get_widget (EFilterRule *fr,
 		g_free (markup);
 	}
 
-	g_signal_connect (data->list, "cursor-changed", G_CALLBACK(select_source), data);
+	g_signal_connect (
+		data->list, "cursor-changed",
+		G_CALLBACK (select_source), data);
 
 	rb = (GtkRadioButton *)e_builder_get_widget (builder, "local_rb");
 	g_signal_connect (

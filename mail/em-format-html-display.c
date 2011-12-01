@@ -72,6 +72,10 @@
 
 #define d(x)
 
+#define EM_FORMAT_HTML_DISPLAY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayPrivate))
+
 struct _EMFormatHTMLDisplayPrivate {
 	GHashTable *attachment_views;  /* weak reference; message_part_id->EAttachmentView */
 	gboolean attachment_expanded;
@@ -200,7 +204,9 @@ efhd_xpkcs7mime_viewcert_clicked (GtkWidget *button,
 
 		/* oddly enough certificate_viewer_show doesn't ... */
 		gtk_widget_show (w);
-		g_signal_connect (w, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+		g_signal_connect (
+			w, "response",
+			G_CALLBACK (gtk_widget_destroy), NULL);
 
 		if (w && po->widget)
 			gtk_window_set_transient_for ((GtkWindow *) w, (GtkWindow *) po->widget);
@@ -253,7 +259,9 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *grid,
 			w = gtk_button_new_with_mnemonic(_("_View Certificate"));
 			gtk_table_attach (table, w, 1, 2, n, n + 1, 0, 0, 3, 3);
 			g_object_set_data((GObject *)w, "e-cert-info", info);
-			g_signal_connect (w, "clicked", G_CALLBACK(efhd_xpkcs7mime_viewcert_clicked), po);
+			g_signal_connect (
+				w, "clicked",
+				G_CALLBACK (efhd_xpkcs7mime_viewcert_clicked), po);
 
 			if (info->cert_data)
 				ec = e_cert_new (CERT_DupCertificate (info->cert_data));
@@ -358,7 +366,10 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 
 	g_object_unref (builder);
 
-	g_signal_connect (po->widget, "response", G_CALLBACK(efhd_xpkcs7mime_info_response), po);
+	g_signal_connect (
+		po->widget, "response",
+		G_CALLBACK (efhd_xpkcs7mime_info_response), po);
+
 	gtk_widget_show (po->widget);
 }
 
@@ -1420,7 +1431,9 @@ efhd_attachment_optional (EMFormatHTML *efh,
 	web_view = em_format_html_get_web_view (efh);
 	gtk_widget_get_allocation (GTK_WIDGET (web_view), &allocation);
 	gtk_widget_set_size_request (scroll, allocation.width - 48, 250);
-	g_signal_connect (scroll, "size_allocate", G_CALLBACK(efhd_resize), efh);
+	g_signal_connect (
+		scroll, "size_allocate",
+		G_CALLBACK (efhd_resize), efh);
 	gtk_widget_show (scroll);
 
 	if (!info->shown)

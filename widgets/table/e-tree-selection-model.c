@@ -31,6 +31,10 @@
 
 #include "e-tree-selection-model.h"
 
+#define E_TREE_SELECTION_MODEL_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TREE_SELECTION_MODEL, ETreeSelectionModelPrivate))
+
 G_DEFINE_TYPE (
 	ETreeSelectionModel, e_tree_selection_model, E_TYPE_SELECTION_MODEL)
 
@@ -66,7 +70,8 @@ static gint
 get_cursor_row (ETreeSelectionModel *etsm)
 {
 	if (etsm->priv->cursor_path)
-		return e_tree_table_adapter_row_of_node (etsm->priv->etta, etsm->priv->cursor_path);
+		return e_tree_table_adapter_row_of_node (
+			etsm->priv->etta, etsm->priv->cursor_path);
 
 	return -1;
 }
@@ -137,7 +142,8 @@ restore_cursor (ETreeSelectionModel *etsm,
 	etsm->priv->cursor_path = NULL;
 
 	if (etsm->priv->cursor_save_id) {
-		etsm->priv->cursor_path = e_tree_model_get_node_by_id (etm, etsm->priv->cursor_save_id);
+		etsm->priv->cursor_path = e_tree_model_get_node_by_id (
+			etm, etsm->priv->cursor_save_id);
 		if (etsm->priv->cursor_path != NULL && etsm->priv->cursor_col == -1)
 			etsm->priv->cursor_col = 0;
 
@@ -148,10 +154,14 @@ restore_cursor (ETreeSelectionModel *etsm,
 
 	if (etsm->priv->cursor_path) {
 		gint cursor_row = get_cursor_row (etsm);
-		e_selection_model_cursor_changed (E_SELECTION_MODEL (etsm), cursor_row, etsm->priv->cursor_col);
+		e_selection_model_cursor_changed (
+			E_SELECTION_MODEL (etsm),
+			cursor_row, etsm->priv->cursor_col);
 	} else {
-		e_selection_model_cursor_changed (E_SELECTION_MODEL (etsm), -1, -1);
-		e_selection_model_cursor_activated (E_SELECTION_MODEL (etsm), -1, -1);
+		e_selection_model_cursor_changed (
+			E_SELECTION_MODEL (etsm), -1, -1);
+		e_selection_model_cursor_activated (
+			E_SELECTION_MODEL (etsm), -1, -1);
 
 	}
 
@@ -165,8 +175,11 @@ etsm_pre_change (ETreeModel *etm,
 	g_free (etsm->priv->cursor_save_id);
 	etsm->priv->cursor_save_id = NULL;
 
-	if (e_tree_model_has_get_node_by_id (etm) && e_tree_model_has_save_id (etm) && etsm->priv->cursor_path) {
-		etsm->priv->cursor_save_id = e_tree_model_get_save_id (etm, etsm->priv->cursor_path);
+	if (e_tree_model_has_get_node_by_id (etm) &&
+	    e_tree_model_has_save_id (etm) &&
+	    etsm->priv->cursor_path) {
+		etsm->priv->cursor_save_id = e_tree_model_get_save_id (
+			etm, etsm->priv->cursor_path);
 	}
 }
 
@@ -241,22 +254,38 @@ add_model (ETreeSelectionModel *etsm,
 		return;
 
 	g_object_ref (priv->model);
-	priv->tree_model_pre_change_id      = g_signal_connect_after (G_OBJECT (priv->model), "pre_change",
-									G_CALLBACK (etsm_pre_change), etsm);
-	priv->tree_model_no_change_id      = g_signal_connect_after (G_OBJECT (priv->model), "no_change",
-									G_CALLBACK (etsm_no_change), etsm);
-	priv->tree_model_node_changed_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_changed",
-									G_CALLBACK (etsm_node_changed), etsm);
-	priv->tree_model_node_data_changed_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_data_changed",
-									G_CALLBACK (etsm_node_data_changed), etsm);
-	priv->tree_model_node_col_changed_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_col_changed",
-									G_CALLBACK (etsm_node_col_changed), etsm);
-	priv->tree_model_node_inserted_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_inserted",
-									G_CALLBACK (etsm_node_inserted), etsm);
-	priv->tree_model_node_removed_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_removed",
-									G_CALLBACK (etsm_node_removed), etsm);
-	priv->tree_model_node_deleted_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_deleted",
-									G_CALLBACK (etsm_node_deleted), etsm);
+
+	priv->tree_model_pre_change_id = g_signal_connect_after (
+		priv->model, "pre_change",
+		G_CALLBACK (etsm_pre_change), etsm);
+
+	priv->tree_model_no_change_id = g_signal_connect_after (
+		priv->model, "no_change",
+		G_CALLBACK (etsm_no_change), etsm);
+
+	priv->tree_model_node_changed_id = g_signal_connect_after (
+		priv->model, "node_changed",
+		G_CALLBACK (etsm_node_changed), etsm);
+
+	priv->tree_model_node_data_changed_id = g_signal_connect_after (
+		priv->model, "node_data_changed",
+		G_CALLBACK (etsm_node_data_changed), etsm);
+
+	priv->tree_model_node_col_changed_id = g_signal_connect_after (
+		priv->model, "node_col_changed",
+		G_CALLBACK (etsm_node_col_changed), etsm);
+
+	priv->tree_model_node_inserted_id = g_signal_connect_after (
+		priv->model, "node_inserted",
+		G_CALLBACK (etsm_node_inserted), etsm);
+
+	priv->tree_model_node_removed_id = g_signal_connect_after (
+		priv->model, "node_removed",
+		G_CALLBACK (etsm_node_removed), etsm);
+
+	priv->tree_model_node_deleted_id = g_signal_connect_after (
+		priv->model, "node_deleted",
+		G_CALLBACK (etsm_node_deleted), etsm);
 }
 
 static void
@@ -267,22 +296,22 @@ drop_model (ETreeSelectionModel *etsm)
 	if (!priv->model)
 		return;
 
-	g_signal_handler_disconnect (G_OBJECT (priv->model),
-				     priv->tree_model_pre_change_id);
-	g_signal_handler_disconnect (G_OBJECT (priv->model),
-				     priv->tree_model_no_change_id);
-	g_signal_handler_disconnect (G_OBJECT (priv->model),
-				     priv->tree_model_node_changed_id);
-	g_signal_handler_disconnect (G_OBJECT (priv->model),
-				     priv->tree_model_node_data_changed_id);
-	g_signal_handler_disconnect (G_OBJECT (priv->model),
-				     priv->tree_model_node_col_changed_id);
-	g_signal_handler_disconnect (G_OBJECT (priv->model),
-				     priv->tree_model_node_inserted_id);
-	g_signal_handler_disconnect (G_OBJECT (priv->model),
-				     priv->tree_model_node_removed_id);
-	g_signal_handler_disconnect (G_OBJECT (priv->model),
-				     priv->tree_model_node_deleted_id);
+	g_signal_handler_disconnect (
+		priv->model, priv->tree_model_pre_change_id);
+	g_signal_handler_disconnect (
+		priv->model, priv->tree_model_no_change_id);
+	g_signal_handler_disconnect (
+		priv->model, priv->tree_model_node_changed_id);
+	g_signal_handler_disconnect (
+		priv->model, priv->tree_model_node_data_changed_id);
+	g_signal_handler_disconnect (
+		priv->model, priv->tree_model_node_col_changed_id);
+	g_signal_handler_disconnect (
+		priv->model, priv->tree_model_node_inserted_id);
+	g_signal_handler_disconnect (
+		priv->model, priv->tree_model_node_removed_id);
+	g_signal_handler_disconnect (
+		priv->model, priv->tree_model_node_deleted_id);
 
 	g_object_unref (priv->model);
 	priv->model = NULL;
@@ -313,7 +342,7 @@ etsm_finalize (GObject *object)
 {
 	ETreeSelectionModelPrivate *priv;
 
-	priv = E_TREE_SELECTION_MODEL (object)->priv;
+	priv = E_TREE_SELECTION_MODEL_GET_PRIVATE (object);
 
 	clear_selection (E_TREE_SELECTION_MODEL (object));
 	g_hash_table_destroy (priv->paths);
@@ -360,11 +389,15 @@ etsm_set_property (GObject *object,
 
 	switch (property_id) {
 	case PROP_CURSOR_ROW:
-		e_selection_model_do_something (esm, g_value_get_int (value), etsm->priv->cursor_col, 0);
+		e_selection_model_do_something (
+			esm, g_value_get_int (value),
+			etsm->priv->cursor_col, 0);
 		break;
 
 	case PROP_CURSOR_COL:
-		e_selection_model_do_something (esm, get_cursor_row (etsm), g_value_get_int (value), 0);
+		e_selection_model_do_something (
+			esm, get_cursor_row (etsm),
+			g_value_get_int (value), 0);
 		break;
 
 	case PROP_MODEL:
@@ -373,7 +406,8 @@ etsm_set_property (GObject *object,
 		break;
 
 	case PROP_ETTA:
-		etsm->priv->etta = E_TREE_TABLE_ADAPTER (g_value_get_object (value));
+		etsm->priv->etta =
+			E_TREE_TABLE_ADAPTER (g_value_get_object (value));
 		break;
 	}
 }
@@ -404,7 +438,9 @@ etsm_is_row_selected (ESelectionModel *selection,
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 	ETreePath path;
 
-	g_return_val_if_fail (row < e_table_model_row_count (E_TABLE_MODEL (etsm->priv->etta)), FALSE);
+	g_return_val_if_fail (
+		row < e_table_model_row_count (
+		E_TABLE_MODEL (etsm->priv->etta)), FALSE);
 	g_return_val_if_fail (row >= 0, FALSE);
 	g_return_val_if_fail (etsm != NULL, FALSE);
 
@@ -425,7 +461,8 @@ etsm_row_foreach_cb (gpointer key,
 {
 	ETreePath path = key;
 	ModelAndCallback *mac = user_data;
-	gint row = e_tree_table_adapter_row_of_node (mac->etsm->priv->etta, path);
+	gint row = e_tree_table_adapter_row_of_node (
+		mac->etsm->priv->etta, path);
 	if (row >= 0)
 		mac->callback (row, mac->closure);
 }
@@ -516,10 +553,14 @@ etsm_select_all (ESelectionModel *selection)
 	select_range (etsm, 0, etsm_row_count (selection) - 1);
 
 	if (etsm->priv->cursor_path == NULL)
-		etsm->priv->cursor_path = e_tree_table_adapter_node_at_row (etsm->priv->etta, 0);
+		etsm->priv->cursor_path = e_tree_table_adapter_node_at_row (
+			etsm->priv->etta, 0);
 
 	e_selection_model_selection_changed (E_SELECTION_MODEL (etsm));
-	e_selection_model_cursor_changed (E_SELECTION_MODEL (etsm), get_cursor_row (etsm), etsm->priv->cursor_col);
+
+	e_selection_model_cursor_changed (
+		E_SELECTION_MODEL (etsm),
+		get_cursor_row (etsm), etsm->priv->cursor_col);
 }
 
 /**
@@ -537,7 +578,9 @@ etsm_invert_selection (ESelectionModel *selection)
 	gint i;
 
 	for (i = 0; i < count; i++) {
-		ETreePath path = e_tree_table_adapter_node_at_row (etsm->priv->etta, i);
+		ETreePath path;
+
+		path = e_tree_table_adapter_node_at_row (etsm->priv->etta, i);
 		if (!path)
 			continue;
 		if (g_hash_table_lookup (etsm->priv->paths, path))
@@ -561,7 +604,9 @@ etsm_change_one_row (ESelectionModel *selection,
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
 	ETreePath path;
 
-	g_return_if_fail (row < e_table_model_row_count (E_TABLE_MODEL (etsm->priv->etta)));
+	g_return_if_fail (
+		row < e_table_model_row_count (
+		E_TABLE_MODEL (etsm->priv->etta)));
 	g_return_if_fail (row >= 0);
 	g_return_if_fail (selection != NULL);
 
@@ -588,7 +633,9 @@ etsm_change_cursor (ESelectionModel *selection,
 	if (row == -1) {
 		etsm->priv->cursor_path = NULL;
 	} else {
-		etsm->priv->cursor_path = e_tree_table_adapter_node_at_row (etsm->priv->etta, row);
+		etsm->priv->cursor_path =
+			e_tree_table_adapter_node_at_row (
+			etsm->priv->etta, row);
 	}
 	etsm->priv->cursor_col = col;
 }
@@ -621,9 +668,10 @@ etsm_select_single_row (ESelectionModel *selection,
                         gint row)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
-	ETreePath path = e_tree_table_adapter_node_at_row (etsm->priv->etta, row);
+	ETreePath path;
 	gint rows[5], *rowp = NULL, size;
 
+	path = e_tree_table_adapter_node_at_row (etsm->priv->etta, row);
 	g_return_if_fail (path != NULL);
 
 	/* we really only care about the size=1 case (cursor changed),
@@ -643,9 +691,11 @@ etsm_select_single_row (ESelectionModel *selection,
 			gint *p = rows;
 
 			while (p < rowp)
-				e_selection_model_selection_row_changed ((ESelectionModel *) etsm, *p++);
+				e_selection_model_selection_row_changed (
+					(ESelectionModel *) etsm, *p++);
 		}
-		e_selection_model_selection_row_changed ((ESelectionModel *) etsm, row);
+		e_selection_model_selection_row_changed (
+			(ESelectionModel *) etsm, row);
 	}
 }
 
@@ -654,8 +704,9 @@ etsm_toggle_single_row (ESelectionModel *selection,
                         gint row)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
-	ETreePath path = e_tree_table_adapter_node_at_row (etsm->priv->etta, row);
+	ETreePath path;
 
+	path = e_tree_table_adapter_node_at_row (etsm->priv->etta, row);
 	g_return_if_fail (path);
 
 	if (g_hash_table_lookup (etsm->priv->paths, path))
@@ -672,12 +723,14 @@ static void
 etsm_real_move_selection_end (ETreeSelectionModel *etsm,
                               gint row)
 {
-	ETreePath end_path = e_tree_table_adapter_node_at_row (etsm->priv->etta, row);
+	ETreePath end_path;
 	gint start;
 
+	end_path = e_tree_table_adapter_node_at_row (etsm->priv->etta, row);
 	g_return_if_fail (end_path);
 
-	start = e_tree_table_adapter_row_of_node (etsm->priv->etta, etsm->priv->start_path);
+	start = e_tree_table_adapter_row_of_node (
+		etsm->priv->etta, etsm->priv->start_path);
 	clear_selection (etsm);
 	select_range (etsm, start, row);
 }
@@ -782,8 +835,10 @@ e_tree_selection_model_change_cursor (ETreeSelectionModel *etsm,
 
 	E_SELECTION_MODEL (etsm)->old_selection = -1;
 
-	e_selection_model_cursor_changed (E_SELECTION_MODEL (etsm), row, etsm->priv->cursor_col);
-	e_selection_model_cursor_activated (E_SELECTION_MODEL (etsm), row, etsm->priv->cursor_col);
+	e_selection_model_cursor_changed (
+		E_SELECTION_MODEL (etsm), row, etsm->priv->cursor_col);
+	e_selection_model_cursor_activated (
+		E_SELECTION_MODEL (etsm), row, etsm->priv->cursor_col);
 }
 
 ETreePath
@@ -795,8 +850,7 @@ e_tree_selection_model_get_cursor (ETreeSelectionModel *etsm)
 static void
 e_tree_selection_model_init (ETreeSelectionModel *etsm)
 {
-	etsm->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		etsm, E_TYPE_TREE_SELECTION_MODEL, ETreeSelectionModelPrivate);
+	etsm->priv = E_TREE_SELECTION_MODEL_GET_PRIVATE (etsm);
 
 	etsm->priv->paths = g_hash_table_new (NULL, NULL);
 	etsm->priv->cursor_col = -1;
@@ -835,33 +889,45 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *class)
 	esm_class->move_selection_end = etsm_move_selection_end;
 	esm_class->set_selection_end = etsm_set_selection_end;
 
-	g_object_class_install_property (object_class, PROP_CURSOR_ROW,
-					 g_param_spec_int ("cursor_row",
-							   "Cursor Row",
-							   NULL,
-							   0, G_MAXINT, 0,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_CURSOR_ROW,
+		g_param_spec_int (
+			"cursor_row",
+			"Cursor Row",
+			NULL,
+			0, G_MAXINT, 0,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_CURSOR_COL,
-					 g_param_spec_int ("cursor_col",
-							   "Cursor Column",
-							   NULL,
-							   0, G_MAXINT, 0,
-							   G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_CURSOR_COL,
+		g_param_spec_int (
+			"cursor_col",
+			"Cursor Column",
+			NULL,
+			0, G_MAXINT, 0,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_MODEL,
-					 g_param_spec_object ("model",
-							      "Model",
-							      NULL,
-							      E_TYPE_TREE_MODEL,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_MODEL,
+		g_param_spec_object (
+			"model",
+			"Model",
+			NULL,
+			E_TYPE_TREE_MODEL,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_ETTA,
-					 g_param_spec_object ("etta",
-							      "ETTA",
-							      NULL,
-							      E_TYPE_TREE_TABLE_ADAPTER,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_ETTA,
+		g_param_spec_object (
+			"etta",
+			"ETTA",
+			NULL,
+			E_TYPE_TREE_TABLE_ADAPTER,
+			G_PARAM_READWRITE));
 
 }
 

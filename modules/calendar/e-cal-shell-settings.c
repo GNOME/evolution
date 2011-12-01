@@ -82,7 +82,8 @@ transform_icaltimezone_to_string (GBinding *binding,
 		shell_settings, "cal-use-system-timezone");
 
 	if (use_system_timezone) {
-		location_str = e_shell_settings_get_string (shell_settings, "cal-timezone-string");
+		location_str = e_shell_settings_get_string (
+			shell_settings, "cal-timezone-string");
 		location = location_str;
 	} else {
 		timezone = g_value_get_pointer (source_value);

@@ -153,15 +153,20 @@ alarm_notify_list_changed_cb (ESourceList *source_list,
 		for (q = sources; q != NULL; q = q->next) {
 			ESource *source = E_SOURCE (q->data);
 			gchar *uri;
-			const gchar *alarm = e_source_get_property (source, "alarm");
+			const gchar *alarm;
+
+			alarm = e_source_get_property (source, "alarm");
 
 			if (alarm && (!g_ascii_strcasecmp (alarm, "false") ||
 			    !g_ascii_strcasecmp (alarm, "never")))
 				continue;
 
 			uri = e_source_get_uri (source);
-			if (!g_hash_table_lookup (an->priv->uri_client_hash[source_type], uri) &&
-			    !g_slist_find_custom (an->priv->offline_sources, uri, find_slist_source_uri_cb)) {
+			if (!g_hash_table_lookup (
+				an->priv->uri_client_hash[source_type], uri) &&
+			    !g_slist_find_custom (
+				an->priv->offline_sources, uri,
+				find_slist_source_uri_cb)) {
 				debug (("Adding Calendar %s", uri));
 				alarm_notify_add_calendar (an, source_type, source);
 			}
@@ -209,9 +214,13 @@ alarm_notify_load_calendars (AlarmNotify *an,
 		for (q = sources; q != NULL; q = q->next) {
 			ESource *source = E_SOURCE (q->data);
 			gchar *uri;
-			const gchar *alarm = e_source_get_property (source, "alarm");
+			const gchar *alarm;
 
-			if (alarm && (!g_ascii_strcasecmp (alarm, "false") || !g_ascii_strcasecmp (alarm, "never")))
+			alarm = e_source_get_property (source, "alarm");
+
+			if (alarm && (
+				!g_ascii_strcasecmp (alarm, "false") ||
+				!g_ascii_strcasecmp (alarm, "never")))
 				continue;
 
 			uri = e_source_get_uri (source);
@@ -421,8 +430,12 @@ client_opened_cb (GObject *source_object,
 		if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_REPOSITORY_OFFLINE)) {
 			if (an->priv->offline_timeout_id)
 				g_source_remove (an->priv->offline_timeout_id);
-			an->priv->offline_sources = g_slist_append (an->priv->offline_sources, g_object_ref (source));
-			an->priv->offline_timeout_id = g_timeout_add_seconds (5 * 60, try_open_offline_timeout_cb, an);
+			an->priv->offline_sources = g_slist_append (
+				an->priv->offline_sources,
+				g_object_ref (source));
+			an->priv->offline_timeout_id =
+				g_timeout_add_seconds (
+				5 * 60, try_open_offline_timeout_cb, an);
 		}
 
 		g_clear_error (&error);
@@ -520,7 +533,9 @@ alarm_notify_add_calendar (AlarmNotify *an,
 			client_source_type = E_CLIENT_SOURCE_TYPE_LAST;
 	}
 
-	g_object_set_data (G_OBJECT (source), "source-type", GUINT_TO_POINTER (source_type));
+	g_object_set_data (
+		G_OBJECT (source), "source-type",
+		GUINT_TO_POINTER (source_type));
 
 	e_client_utils_open_new (
 		source, client_source_type, TRUE, NULL,
@@ -551,7 +566,8 @@ alarm_notify_remove_calendar (AlarmNotify *an,
 		g_hash_table_remove (priv->uri_client_hash[source_type], str_uri);
 	}
 
-	in_offline = g_slist_find_custom (priv->offline_sources, str_uri, find_slist_source_uri_cb);
+	in_offline = g_slist_find_custom (
+		priv->offline_sources, str_uri, find_slist_source_uri_cb);
 	if (in_offline) {
 		ESource *source = in_offline->data;
 

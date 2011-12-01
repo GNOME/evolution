@@ -933,8 +933,8 @@ e_shell_migrate_attempt (EShell *shell)
 	if (!shell_migrate_attempt (shell, major, minor, micro))
 		_exit (EXIT_SUCCESS);
 
-	/* The 2.32.x (except of 2.32.2) lefts duplicate On This Computer/Personal sources,
-	 * thus clean the mess up */
+	/* The 2.32.x (except of 2.32.2) lefts duplicate
+	 * On This Computer/Personal sources, thus clean the mess up */
 	client = gconf_client_get_default ();
 	merge_duplicate_local_sources (client, "/apps/evolution/addressbook/sources");
 	merge_duplicate_local_sources (client, "/apps/evolution/calendar/sources");

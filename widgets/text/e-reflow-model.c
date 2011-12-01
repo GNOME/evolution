@@ -44,7 +44,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint e_reflow_model_signals[LAST_SIGNAL] = { 0, };
+static guint signals[LAST_SIGNAL] = { 0, };
 
 /**
  * e_reflow_model_set_width:
@@ -55,10 +55,14 @@ void
 e_reflow_model_set_width (EReflowModel *e_reflow_model,
                           gint width)
 {
-	g_return_if_fail (e_reflow_model != NULL);
+	EReflowModelClass *class;
+
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
 
-	E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->set_width (e_reflow_model, width);
+	class = E_REFLOW_MODEL_GET_CLASS (e_reflow_model);
+	g_return_if_fail (class->set_width != NULL);
+
+	class->set_width (e_reflow_model, width);
 }
 
 /**
@@ -70,10 +74,14 @@ e_reflow_model_set_width (EReflowModel *e_reflow_model,
 gint
 e_reflow_model_count (EReflowModel *e_reflow_model)
 {
-	g_return_val_if_fail (e_reflow_model != NULL, 0);
+	EReflowModelClass *class;
+
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (e_reflow_model), 0);
 
-	return E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->count (e_reflow_model);
+	class = E_REFLOW_MODEL_GET_CLASS (e_reflow_model);
+	g_return_val_if_fail (class->count != NULL, 0);
+
+	return class->count (e_reflow_model);
 }
 
 /**
@@ -89,10 +97,14 @@ e_reflow_model_height (EReflowModel *e_reflow_model,
                        gint n,
                        GnomeCanvasGroup *parent)
 {
-	g_return_val_if_fail (e_reflow_model != NULL, 0);
+	EReflowModelClass *class;
+
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (e_reflow_model), 0);
 
-	return E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->height (e_reflow_model, n, parent);
+	class = E_REFLOW_MODEL_GET_CLASS (e_reflow_model);
+	g_return_val_if_fail (class->height != NULL, 0);
+
+	return class->height (e_reflow_model, n, parent);
 }
 
 /**
@@ -110,10 +122,14 @@ e_reflow_model_incarnate (EReflowModel *e_reflow_model,
                           gint n,
                           GnomeCanvasGroup *parent)
 {
-	g_return_val_if_fail (e_reflow_model != NULL, NULL);
+	EReflowModelClass *class;
+
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (e_reflow_model), NULL);
 
-	return E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->incarnate (e_reflow_model, n, parent);
+	class = E_REFLOW_MODEL_GET_CLASS (e_reflow_model);
+	g_return_val_if_fail (class->incarnate != NULL, NULL);
+
+	return class->incarnate (e_reflow_model, n, parent);
 }
 
 /**
@@ -129,13 +145,16 @@ e_reflow_model_incarnate (EReflowModel *e_reflow_model,
 GHashTable *
 e_reflow_model_create_cmp_cache (EReflowModel *e_reflow_model)
 {
-	g_return_val_if_fail (e_reflow_model != NULL, NULL);
+	EReflowModelClass *class;
+
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (e_reflow_model), NULL);
 
-	if (!E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->create_cmp_cache)
+	class = E_REFLOW_MODEL_GET_CLASS (e_reflow_model);
+
+	if (class->create_cmp_cache == NULL)
 		return NULL;
 
-	return E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->create_cmp_cache (e_reflow_model);
+	return class->create_cmp_cache (e_reflow_model);
 }
 
 /**
@@ -158,12 +177,14 @@ e_reflow_model_compare (EReflowModel *e_reflow_model,
                         gint n2,
                         GHashTable *cmp_cache)
 {
-#if 0
-	g_return_val_if_fail (e_reflow_model != NULL, 0);
-	g_return_val_if_fail (E_IS_REFLOW_MODEL (e_reflow_model), 0);
-#endif
+	EReflowModelClass *class;
 
-	return E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->compare (e_reflow_model, n1, n2, cmp_cache);
+	g_return_val_if_fail (E_IS_REFLOW_MODEL (e_reflow_model), 0);
+
+	class = E_REFLOW_MODEL_GET_CLASS (e_reflow_model);
+	g_return_val_if_fail (class->compare != NULL, 0);
+
+	return class->compare (e_reflow_model, n1, n2, cmp_cache);
 }
 
 /**
@@ -179,73 +200,77 @@ e_reflow_model_reincarnate (EReflowModel *e_reflow_model,
                             gint n,
                             GnomeCanvasItem *item)
 {
-	g_return_if_fail (e_reflow_model != NULL);
+	EReflowModelClass *class;
+
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
 
-	E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->reincarnate (e_reflow_model, n, item);
+	class = E_REFLOW_MODEL_GET_CLASS (e_reflow_model);
+	g_return_if_fail (class->reincarnate != NULL);
+
+	class->reincarnate (e_reflow_model, n, item);
 }
 
 static void
-e_reflow_model_class_init (EReflowModelClass *klass)
+e_reflow_model_class_init (EReflowModelClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	e_reflow_model_signals[MODEL_CHANGED] =
-		g_signal_new ("model_changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EReflowModelClass, model_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	class->set_width            = NULL;
+	class->count                = NULL;
+	class->height               = NULL;
+	class->incarnate            = NULL;
+	class->reincarnate          = NULL;
 
-	e_reflow_model_signals[COMPARISON_CHANGED] =
-		g_signal_new ("comparison_changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EReflowModelClass, comparison_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	class->model_changed        = NULL;
+	class->comparison_changed   = NULL;
+	class->model_items_inserted = NULL;
+	class->model_item_removed   = NULL;
+	class->model_item_changed   = NULL;
 
-	e_reflow_model_signals[MODEL_ITEMS_INSERTED] =
-		g_signal_new ("model_items_inserted",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EReflowModelClass, model_items_inserted),
-			      NULL, NULL,
-			      e_marshal_NONE__INT_INT,
-			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
+	signals[MODEL_CHANGED] = g_signal_new (
+		"model_changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EReflowModelClass, model_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	e_reflow_model_signals[MODEL_ITEM_CHANGED] =
-		g_signal_new ("model_item_changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EReflowModelClass, model_item_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__INT,
-			      G_TYPE_NONE, 1, G_TYPE_INT);
+	signals[COMPARISON_CHANGED] = g_signal_new (
+		"comparison_changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EReflowModelClass, comparison_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	e_reflow_model_signals[MODEL_ITEM_REMOVED] =
-		g_signal_new ("model_item_removed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EReflowModelClass, model_item_removed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__INT,
-			      G_TYPE_NONE, 1, G_TYPE_INT);
+	signals[MODEL_ITEMS_INSERTED] = g_signal_new (
+		"model_items_inserted",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EReflowModelClass, model_items_inserted),
+		NULL, NULL,
+		e_marshal_NONE__INT_INT,
+		G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
-	klass->set_width            = NULL;
-	klass->count                = NULL;
-	klass->height               = NULL;
-	klass->incarnate            = NULL;
-	klass->reincarnate          = NULL;
+	signals[MODEL_ITEM_CHANGED] = g_signal_new (
+		"model_item_changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EReflowModelClass, model_item_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE, 1, G_TYPE_INT);
 
-	klass->model_changed        = NULL;
-	klass->comparison_changed   = NULL;
-	klass->model_items_inserted = NULL;
-	klass->model_item_removed   = NULL;
-	klass->model_item_changed   = NULL;
+	signals[MODEL_ITEM_REMOVED] = g_signal_new (
+		"model_item_removed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EReflowModelClass, model_item_removed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE, 1, G_TYPE_INT);
 }
 
 static void
@@ -285,8 +310,7 @@ e_reflow_model_changed (EReflowModel *e_reflow_model)
 	d (print_tabs ());
 	d(g_print("Emitting model_changed on model 0x%p.\n", e_reflow_model));
 	d (depth++);
-	g_signal_emit (e_reflow_model,
-		       e_reflow_model_signals[MODEL_CHANGED], 0);
+	g_signal_emit (e_reflow_model, signals[MODEL_CHANGED], 0);
 	d (depth--);
 }
 
@@ -306,10 +330,11 @@ e_reflow_model_comparison_changed (EReflowModel *e_reflow_model)
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
 
 	d (print_tabs ());
-	d(g_print("Emitting comparison_changed on model 0x%p.\n", e_reflow_model));
+	d (g_print (
+		"Emitting comparison_changed on model 0x%p.\n",
+		e_reflow_model));
 	d (depth++);
-	g_signal_emit (e_reflow_model,
-		       e_reflow_model_signals[COMPARISON_CHANGED], 0);
+	g_signal_emit (e_reflow_model, signals[COMPARISON_CHANGED], 0);
 	d (depth--);
 }
 
@@ -319,7 +344,8 @@ e_reflow_model_comparison_changed (EReflowModel *e_reflow_model)
  * @position: The position the items were insert in.
  * @count: The number of items inserted.
  *
- * Use this function to notify any views of the reflow model that a number of items have been inserted.
+ * Use this function to notify any views of the reflow model that a number
+ * of items have been inserted.
  **/
 void
 e_reflow_model_items_inserted (EReflowModel *e_reflow_model,
@@ -330,11 +356,11 @@ e_reflow_model_items_inserted (EReflowModel *e_reflow_model,
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
 
 	d (print_tabs ());
-	d(g_print("Emitting items_inserted on model 0x%p, position=%d, count=%d.\n", e_reflow_model, position, count));
 	d (depth++);
-	g_signal_emit (e_reflow_model,
-		       e_reflow_model_signals[MODEL_ITEMS_INSERTED], 0,
-		       position, count);
+	g_signal_emit (
+		e_reflow_model,
+		signals[MODEL_ITEMS_INSERTED], 0,
+		position, count);
 	d (depth--);
 }
 
@@ -354,11 +380,8 @@ e_reflow_model_item_removed (EReflowModel *e_reflow_model,
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
 
 	d (print_tabs ());
-	d(g_print("Emitting item_removed on model 0x%p, n=%d.\n", e_reflow_model, n));
 	d (depth++);
-	g_signal_emit (e_reflow_model,
-		       e_reflow_model_signals[MODEL_ITEM_REMOVED], 0,
-		       n);
+	g_signal_emit (e_reflow_model, signals[MODEL_ITEM_REMOVED], 0, n);
 	d (depth--);
 }
 
@@ -383,8 +406,6 @@ e_reflow_model_item_changed (EReflowModel *e_reflow_model,
 	d (print_tabs ());
 	d(g_print("Emitting item_changed on model 0x%p, n=%d.\n", e_reflow_model, n));
 	d (depth++);
-	g_signal_emit (e_reflow_model,
-		       e_reflow_model_signals[MODEL_ITEM_CHANGED], 0,
-		       n);
+	g_signal_emit (e_reflow_model, signals[MODEL_ITEM_CHANGED], 0, n);
 	d (depth--);
 }

@@ -546,8 +546,7 @@ e_contact_marker_init (EContactMarker *marker)
 {
 	EContactMarkerPrivate *priv;
 
-	priv =  G_TYPE_INSTANCE_GET_PRIVATE (
-			marker, E_TYPE_CONTACT_MARKER, EContactMarkerPrivate);
+	priv = E_CONTACT_MARKER_GET_PRIVATE (marker);
 
 	marker->priv = priv;
 	priv->contact_uid = NULL;
@@ -565,9 +564,11 @@ e_contact_marker_init (EContactMarker *marker)
 	priv->total_width = 0;
 	priv->total_height = 0;
 
-	g_signal_connect (marker, "notify::selected",
+	g_signal_connect (
+		marker, "notify::selected",
 		G_CALLBACK (notify_selected), NULL);
-	g_signal_connect (CLUTTER_ACTOR (marker), "button-release-event",
+	g_signal_connect (
+		marker, "button-release-event",
 		G_CALLBACK (contact_marker_clicked_cb), NULL);
 }
 

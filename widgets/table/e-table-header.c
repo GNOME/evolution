@@ -902,7 +902,8 @@ eth_calc_widths (ETableHeader *eth)
 		widths[i] = eth->columns[i]->min_width + eth->width_extras;
 	}
 	if (eth->sort_info)
-		extra -= e_table_sort_info_grouping_get_count (eth->sort_info) * GROUP_INDENT;
+		extra -= e_table_sort_info_grouping_get_count (eth->sort_info)
+			* GROUP_INDENT;
 	if (expansion != 0 && extra > 0) {
 		for (i = 0; i < last_resizable; i++) {
 			next_position +=

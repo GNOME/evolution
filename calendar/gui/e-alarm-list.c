@@ -40,8 +40,6 @@
 
 static GType column_types[E_ALARM_LIST_NUM_COLUMNS];
 
-static void         e_alarm_list_init            (EAlarmList         *file_list);
-static void         e_alarm_list_class_init      (EAlarmListClass    *class);
 static void         e_alarm_list_tree_model_init (GtkTreeModelIface  *iface);
 static GtkTreeModelFlags e_alarm_list_get_flags       (GtkTreeModel       *tree_model);
 static gint         e_alarm_list_get_n_columns   (GtkTreeModel       *tree_model);
@@ -73,50 +71,18 @@ static gboolean     e_alarm_list_iter_parent     (GtkTreeModel       *tree_model
 						  GtkTreeIter        *iter,
 						  GtkTreeIter        *child);
 
-static GObjectClass *parent_class = NULL;
-
-GType
-e_alarm_list_get_type (void)
-{
-	static GType alarm_list_type = 0;
-
-	if (!alarm_list_type) {
-		static const GTypeInfo alarm_list_info =
-		{
-			sizeof (EAlarmListClass),
-			NULL,		/* base_init */
-			NULL,		/* base_finalize */
-			(GClassInitFunc) e_alarm_list_class_init,
-			NULL,		/* class_finalize */
-			NULL,		/* class_data */
-			sizeof (EAlarmList),
-			0,
-			(GInstanceInitFunc) e_alarm_list_init,
-		};
-
-		static const GInterfaceInfo tree_model_info =
-		{
-			(GInterfaceInitFunc) e_alarm_list_tree_model_init,
-			NULL,
-			NULL
-		};
-
-		column_types[E_ALARM_LIST_COLUMN_DESCRIPTION] = G_TYPE_STRING;
-
-		alarm_list_type = g_type_register_static (G_TYPE_OBJECT, "EAlarmList",
-							  &alarm_list_info, 0);
-		g_type_add_interface_static (alarm_list_type,
-					     GTK_TYPE_TREE_MODEL,
-					     &tree_model_info);
-	}
-
-	return alarm_list_type;
-}
+G_DEFINE_TYPE_WITH_CODE (
+	EAlarmList,
+	e_alarm_list,
+	G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (
+		GTK_TYPE_TREE_MODEL,
+		e_alarm_list_tree_model_init))
 
 static void
 e_alarm_list_class_init (EAlarmListClass *class)
 {
-	parent_class = g_type_class_peek_parent (class);
+	column_types[E_ALARM_LIST_COLUMN_DESCRIPTION] = G_TYPE_STRING;
 }
 
 static void

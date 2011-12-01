@@ -450,7 +450,9 @@ build_quick_add_dialog (QuickAdd *qa)
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_container_set_border_width (GTK_CONTAINER (container), 0);
 
-	g_signal_connect (dialog, "response", G_CALLBACK (clicked_cb), qa);
+	g_signal_connect (
+		dialog, "response",
+		G_CALLBACK (clicked_cb), qa);
 
 	qa->dialog = dialog;
 
@@ -607,7 +609,9 @@ e_contact_quick_add_free_form (const gchar *text,
 
 		/* walk backwards to whitespace or a < or a quote... */
 		while (last_at >= text && !bad_char
-		       && !(isspace ((gint) *last_at) || *last_at == '<' || *last_at == '"')) {
+		       && !(isspace ((gint) *last_at) ||
+			  *last_at == '<' ||
+			  *last_at == '"')) {
 			/* Check for some stuff that can't appear in a legal e-mail address. */
 			if (*last_at == '['
 			    || *last_at == ']'

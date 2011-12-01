@@ -267,9 +267,11 @@ config_data_set_last_notification_time (ECalClient *cal,
 				as_text = g_time_val_to_iso8601 (&tmval);
 
 				if (as_text) {
-					e_source_set_property (source, "last-notified", as_text);
+					e_source_set_property (
+						source, "last-notified", as_text);
 					g_free (as_text);
-					/* pass through, thus the global last notification time is also changed */
+					/* pass through, thus the global last
+					 * notification time is also changed */
 				}
 			}
 		}
@@ -342,7 +344,10 @@ config_data_save_blessed_program (const gchar *program)
 
 	g_ptr_array_add (array, (gpointer) program);
 	g_ptr_array_add (array, NULL);
-	g_settings_set_strv (calendar_settings, "notify-programs", (const gchar *const *) array->pdata);
+
+	g_settings_set_strv (
+		calendar_settings, "notify-programs",
+		(const gchar *const *) array->pdata);
 
 	g_strfreev (list);
 	g_ptr_array_free (array, TRUE);

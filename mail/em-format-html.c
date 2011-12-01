@@ -73,6 +73,10 @@
 
 #define d(x)
 
+#define EM_FORMAT_HTML_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FORMAT_HTML, EMFormatHTMLPrivate))
+
 #define EFM_MESSAGE_START_ANAME "evolution#message#start"
 #define EFH_MESSAGE_START "<A name=\"" EFM_MESSAGE_START_ANAME "\"></A>"
 
@@ -3177,10 +3181,11 @@ efh_format_headers (EMFormatHTML *efh,
 					!photo_name && !g_ascii_strcasecmp (header->name, "From"))
 					photo_name = header->value;
 
-				if (!mailer_shown && mailer && (!g_ascii_strcasecmp (header->name, "X-Mailer") ||
-								!g_ascii_strcasecmp (header->name, "User-Agent") ||
-								!g_ascii_strcasecmp (header->name, "X-Newsreader") ||
-								!g_ascii_strcasecmp (header->name, "X-MimeOLE"))) {
+				if (!mailer_shown && mailer && (
+				    !g_ascii_strcasecmp (header->name, "X-Mailer") ||
+				    !g_ascii_strcasecmp (header->name, "User-Agent") ||
+				    !g_ascii_strcasecmp (header->name, "X-Newsreader") ||
+				    !g_ascii_strcasecmp (header->name, "X-MimeOLE"))) {
 					struct _camel_header_raw xmailer, *use_header = NULL;
 
 					if (!g_ascii_strcasecmp (header->name, "X-MimeOLE")) {
@@ -3213,8 +3218,11 @@ efh_format_headers (EMFormatHTML *efh,
 					while (*cp == ' ')
 						cp++;
 
-					face_header_value = g_base64_decode (cp, &face_header_len);
-					face_header_value = g_realloc (face_header_value, face_header_len + 1);
+					face_header_value = g_base64_decode (
+						cp, &face_header_len);
+					face_header_value = g_realloc (
+						face_header_value,
+						face_header_len + 1);
 					face_header_value[face_header_len] = 0;
 					face_decoded = TRUE;
 				/* Showing an encoded "Face" header makes little sense */

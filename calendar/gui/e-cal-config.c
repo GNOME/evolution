@@ -27,24 +27,23 @@
 #include <gtk/gtk.h>
 #include "e-cal-config.h"
 
+#define E_CAL_CONFIG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_CONFIG, ECalConfigPrivate))
+
 static GObjectClass *ecp_parent_class;
 
 struct _ECalConfigPrivate {
 	guint source_changed_id;
 };
 
-static void
-ecp_init (ECalConfig *cfg)
-{
-	cfg->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		cfg, E_TYPE_CAL_CONFIG, ECalConfigPrivate);
-}
+G_DEFINE_TYPE (ECalConfig, e_cal_config, E_TYPE_CONFIG)
 
 static void
 ecp_target_free (EConfig *ec,
                  EConfigTarget *t)
 {
-	struct _ECalConfigPrivate *p = E_CAL_CONFIG (ec)->priv;
+	ECalConfigPrivate *p = E_CAL_CONFIG (ec)->priv;
 
 	if (ec->target == t) {
 		switch (t->type) {
@@ -89,7 +88,7 @@ static void
 ecp_set_target (EConfig *ec,
                 EConfigTarget *t)
 {
-	struct _ECalConfigPrivate *p = E_CAL_CONFIG (ec)->priv;
+	ECalConfigPrivate *p = E_CAL_CONFIG_GET_PRIVATE (ec);
 
 	((EConfigClass *) ecp_parent_class)->set_target (ec, t);
 
@@ -110,35 +109,21 @@ ecp_set_target (EConfig *ec,
 }
 
 static void
-ecp_class_init (GObjectClass *klass)
+e_cal_config_class_init (ECalConfigClass *class)
 {
-	((EConfigClass *) klass)->set_target = ecp_set_target;
-	((EConfigClass *) klass)->target_free = ecp_target_free;
+	EConfigClass *config_class;
 
-	g_type_class_add_private (klass, sizeof (struct _ECalConfigPrivate));
+	g_type_class_add_private (class, sizeof (ECalConfigPrivate));
+
+	config_class = E_CONFIG_CLASS (class);
+	config_class->set_target = ecp_set_target;
+	config_class->target_free = ecp_target_free;
 }
 
-GType
-e_cal_config_get_type (void)
+static void
+e_cal_config_init (ECalConfig *cfg)
 {
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (ECalConfigClass),
-			NULL, NULL,
-			(GClassInitFunc) ecp_class_init,
-			NULL, NULL,
-			sizeof (ECalConfig), 0,
-			(GInstanceInitFunc) ecp_init
-		};
-
-		ecp_parent_class = g_type_class_ref (e_config_get_type ());
-		type = g_type_register_static (
-			e_config_get_type (), "ECalConfig", &info, 0);
-	}
-
-	return type;
+	cfg->priv = E_CAL_CONFIG_GET_PRIVATE (cfg);
 }
 
 ECalConfig *

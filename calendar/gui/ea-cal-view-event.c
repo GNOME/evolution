@@ -210,7 +210,8 @@ ea_cal_view_event_new (GObject *obj)
 						  EWeekViewEvent,
 						  event_num);
 
-		if (!is_array_index_in_bounds (week_view->spans, week_view_event->spans_index))
+		if (!is_array_index_in_bounds (
+			week_view->spans, week_view_event->spans_index))
 			return NULL;
 
 		/* get the first span */

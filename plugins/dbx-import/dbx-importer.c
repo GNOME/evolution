@@ -271,7 +271,9 @@ org_gnome_evolution_readdbx_getwidget (EImport *ei,
 		EM_FOLDER_SELECTION_BUTTON (w), select_uri);
 	folder_selected (
 		EM_FOLDER_SELECTION_BUTTON (w), (EImportTargetURI *) target);
-	g_signal_connect (w, "selected", G_CALLBACK(folder_selected), target);
+	g_signal_connect (
+		w, "selected",
+		G_CALLBACK (folder_selected), target);
 	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, TRUE, 6);
 
 	w = gtk_vbox_new (FALSE, 0);
@@ -488,7 +490,6 @@ dbx_read_mail_body (DbxImporter *m,
 			buflen = hdr.blocksize;
 			buffer = g_malloc (buflen);
 		}
-		d(printf("Reading %d bytes from %lx\n", hdr.blocksize, offset + sizeof(hdr)));
 		if (dbx_pread (m->dbx_fd, buffer, hdr.blocksize,
 			offset + sizeof (hdr)) != hdr.blocksize) {
 			g_set_error (
@@ -552,7 +553,11 @@ dbx_read_email (DbxImporter *m,
 
 	for (i = 0; i < hdr.count; i++) {
 		guchar type = buffer[i *4];
-		gint val = buffer[i *4 + 1] + (buffer[i *4 + 2] << 8) + (buffer[i *4 + 3] << 16);
+		gint val;
+
+		val = buffer[i *4 + 1] +
+			(buffer[i *4 + 2] << 8) +
+			(buffer[i *4 + 3] << 16);
 
 		switch (type) {
 		case 0x01:

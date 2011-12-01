@@ -203,7 +203,9 @@ replace_in_file (const gchar *filename,
 		filenamestr = replace_variables (filename);
 
 		if (!filenamestr) {
-			g_warning ("%s: Replace variables in '%s' failed!", G_STRFUNC, filename);
+			g_warning (
+				"%s: Replace variables in '%s' failed!",
+				G_STRFUNC, filename);
 			return;
 		}
 
@@ -215,18 +217,24 @@ replace_in_file (const gchar *filename,
 
 		if (str) {
 			if (!g_file_set_contents (filename, str->str, -1, &error) && error) {
-				g_warning ("%s: cannot write file content, error: %s", G_STRFUNC, error->message);
+				g_warning (
+					"%s: cannot write file content, "
+					"error: %s", G_STRFUNC, error->message);
 				g_error_free (error);
 			}
 
 			g_string_free (str, TRUE);
 		} else {
-			g_warning ("%s: Replace of '%s' to '%s' failed!", G_STRFUNC, find, replace);
+			g_warning (
+				"%s: Replace of '%s' to '%s' failed!",
+				G_STRFUNC, find, replace);
 		}
 
 		g_free (content);
 	} else if (error) {
-		g_warning ("%s: Cannot read file content, error: %s", G_STRFUNC, error->message);
+		g_warning (
+			"%s: Cannot read file content, error: %s",
+			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
 
@@ -460,7 +468,9 @@ restore (const gchar *filename,
 		g_string_free (dir_fn, TRUE);
 
 		if (!data_dir || !config_dir) {
-			g_warning ("Failed to get old data_dir (%p)/config_dir (%p)", data_dir, config_dir);
+			g_warning (
+				"Failed to get old data_dir (%p)/"
+				"config_dir (%p)", data_dir, config_dir);
 			g_free (data_dir);
 			g_free (config_dir);
 			goto end;
@@ -586,12 +596,16 @@ check (const gchar *filename,
 		return FALSE;
 	}
 
-	command = g_strdup_printf ("tar ztf %s | grep -e \"%s$\"", quotedfname, EVOLUTION_DIR_FILE);
+	command = g_strdup_printf (
+		"tar ztf %s | grep -e \"%s$\"",
+		quotedfname, EVOLUTION_DIR_FILE);
 	result = system (command);
 	g_free (command);
 
 	if (result) {
-		command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/$\"", quotedfname);
+		command = g_strdup_printf (
+			"tar ztf %s | grep -e \"^\\.evolution/$\"",
+			quotedfname);
 		result = system (command);
 		g_free (command);
 		is_new = FALSE;
@@ -610,7 +624,9 @@ check (const gchar *filename,
 		return TRUE;
 	}
 
-	command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/%s$\"", quotedfname, GCONF_DUMP_FILE);
+	command = g_strdup_printf (
+		"tar ztf %s | grep -e \"^\\.evolution/%s$\"",
+		quotedfname, GCONF_DUMP_FILE);
 	result = system (command);
 	g_free (command);
 	g_free (quotedfname);
@@ -661,18 +677,21 @@ dlg_response (GtkWidget *dlg,
               gint response,
               GCancellable *cancellable)
 {
-	/* We will cancel only backup/restore operations and not the check operation */
+	/* We will cancel only backup/restore
+	 * operations and not the check operation. */
 	g_cancellable_cancel (cancellable);
 
-	/* If the response is not of delete_event then destroy the event */
+	/* If the response is not of delete_event then destroy the event. */
 	if (response != GTK_RESPONSE_NONE)
 		gtk_widget_destroy (dlg);
 
-	/* We will kill just the tar operation. Rest of the them will be just a second of microseconds.*/
+	/* We will kill just the tar operation. Rest of
+	 * them will be just a second of microseconds.*/
 	run_cmd ("pkill tar");
 
 	if (bk_file && backup_op && response == GTK_RESPONSE_REJECT) {
-		/* backup was canceled, delete the backup file as it is not needed now */
+		/* Backup was canceled, delete the
+		 * backup file as it is not needed now. */
 		gchar *cmd, *filename;
 
 		g_message ("Back up canceled, removing partial back up file.");
@@ -747,13 +766,11 @@ main (gint argc,
 			if (backup_op) {
 				title = _("Evolution Back Up");
 				oper = _("Backing up to the folder %s");
-				d(g_message ("Backing up to the folder %s", (gchar *) opt_remaining[ii]));
 				bk_file = g_strdup ((gchar *) opt_remaining[ii]);
 				file = bk_file;
 			} else if (restore_op) {
 				title = _("Evolution Restore");
 				oper = _("Restoring from the folder %s");
-				d(g_message ("Restoring from the folder %s", (gchar *) opt_remaining[ii]));
 				res_file = g_strdup ((gchar *) opt_remaining[ii]);
 				file = res_file;
 			} else if (check_op) {

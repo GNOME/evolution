@@ -30,6 +30,10 @@
 #include "e-util/e-charset.h"
 #include "e-util/e-util.h"
 
+#define E_CHARSET_COMBO_BOX_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CHARSET_COMBO_BOX, ECharsetComboBoxPrivate))
+
 #define DEFAULT_CHARSET "UTF-8"
 #define OTHER_VALUE G_MAXINT
 
@@ -221,7 +225,7 @@ charset_combo_box_dispose (GObject *object)
 {
 	ECharsetComboBoxPrivate *priv;
 
-	priv = E_CHARSET_COMBO_BOX (object)->priv;
+	priv = E_CHARSET_COMBO_BOX_GET_PRIVATE (object);
 
 	if (priv->action_group != NULL) {
 		g_object_unref (priv->action_group);
@@ -244,7 +248,7 @@ charset_combo_box_finalize (GObject *object)
 {
 	ECharsetComboBoxPrivate *priv;
 
-	priv = E_CHARSET_COMBO_BOX (object)->priv;
+	priv = E_CHARSET_COMBO_BOX_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->charset_index);
 
@@ -257,7 +261,7 @@ charset_combo_box_changed (GtkComboBox *combo_box)
 {
 	ECharsetComboBoxPrivate *priv;
 
-	priv = E_CHARSET_COMBO_BOX (combo_box)->priv;
+	priv = E_CHARSET_COMBO_BOX_GET_PRIVATE (combo_box);
 
 	/* Chain up to parent's changed() method. */
 	GTK_COMBO_BOX_CLASS (e_charset_combo_box_parent_class)->
@@ -312,8 +316,7 @@ e_charset_combo_box_init (ECharsetComboBox *combo_box)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 
-	combo_box->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		combo_box, E_TYPE_CHARSET_COMBO_BOX, ECharsetComboBoxPrivate);
+	combo_box->priv = E_CHARSET_COMBO_BOX_GET_PRIVATE (combo_box);
 	combo_box->priv->action_group = action_group;
 	combo_box->priv->charset_index = charset_index;
 

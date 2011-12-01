@@ -36,6 +36,10 @@
 #include "e-calendar-view.h"
 #include "e-day-view-top-item.h"
 
+#define E_DAY_VIEW_TOP_ITEM_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_DAY_VIEW_TOP_ITEM, EDayViewTopItemPrivate))
+
 struct _EDayViewTopItemPrivate {
 	/* The parent EDayView widget. */
 	EDayView *day_view;
@@ -50,7 +54,10 @@ enum {
 	PROP_SHOW_DATES
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EDayViewTopItem,
+	e_day_view_top_item,
+	GNOME_TYPE_CANVAS_ITEM)
 
 /* This draws a little triangle to indicate that an event extends past
  * the days visible on screen. */
@@ -518,7 +525,7 @@ day_view_top_item_dispose (GObject *object)
 {
 	EDayViewTopItemPrivate *priv;
 
-	priv = E_DAY_VIEW_TOP_ITEM (object)->priv;
+	priv = E_DAY_VIEW_TOP_ITEM_GET_PRIVATE (object);
 
 	if (priv->day_view != NULL) {
 		g_object_unref (priv->day_view);
@@ -526,7 +533,7 @@ day_view_top_item_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_day_view_top_item_parent_class)->dispose (object);
 }
 
 static void
@@ -537,7 +544,8 @@ day_view_top_item_update (GnomeCanvasItem *item,
 	GnomeCanvasItemClass *canvas_item_class;
 
 	/* Chain up to parent's update() method. */
-	canvas_item_class = GNOME_CANVAS_ITEM_CLASS (parent_class);
+	canvas_item_class =
+		GNOME_CANVAS_ITEM_CLASS (e_day_view_top_item_parent_class);
 	canvas_item_class->update (item, i2c, flags);
 
 	/* The item covers the entire canvas area. */
@@ -657,16 +665,19 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	}
 
 	if (show_dates) {
-		/* Draw the date. Set a clipping rectangle so we don't draw over the
-		 * next day. */
+		/* Draw the date. Set a clipping rectangle
+		 * so we don't draw over the next day. */
 		for (day = 0; day < day_view->days_shown; day++) {
-			e_day_view_top_item_get_day_label (day_view, day, buffer, sizeof (buffer));
+			e_day_view_top_item_get_day_label (
+				day_view, day, buffer, sizeof (buffer));
 			clip_rect.x = day_view->day_offsets[day] - x;
 			clip_rect.y = 2 - y;
 			if (day_view->days_shown == 1) {
 				gtk_widget_get_allocation (
 					day_view->top_canvas, &allocation);
-				clip_rect.width = allocation.width - day_view->day_offsets[day];
+				clip_rect.width =
+					allocation.width -
+					day_view->day_offsets[day];
 			} else
 				clip_rect.width = day_view->day_widths[day];
 			clip_rect.height = item_height - 2;
@@ -676,11 +687,14 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 			gdk_cairo_rectangle (cr, &clip_rect);
 			cairo_clip (cr);
 
-			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
+			layout = gtk_widget_create_pango_layout (
+				GTK_WIDGET (day_view), buffer);
 			pango_layout_get_pixel_size (layout, &date_width, NULL);
-			date_x = day_view->day_offsets[day] + (clip_rect.width - date_width) / 2;
+			date_x = day_view->day_offsets[day] +
+				(clip_rect.width - date_width) / 2;
 
-			gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
+			gdk_cairo_set_source_color (
+				cr, &style->fg[GTK_STATE_NORMAL]);
 			cairo_move_to (cr, date_x - x, 3 - y);
 			pango_cairo_show_layout (cr, layout);
 
@@ -742,12 +756,11 @@ day_view_top_item_point (GnomeCanvasItem *item,
 }
 
 static void
-day_view_top_item_class_init (EDayViewTopItemClass *class)
+e_day_view_top_item_class_init (EDayViewTopItemClass *class)
 {
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EDayViewTopItemPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -782,37 +795,9 @@ day_view_top_item_class_init (EDayViewTopItemClass *class)
 }
 
 static void
-day_view_top_item_init (EDayViewTopItem *top_item)
+e_day_view_top_item_init (EDayViewTopItem *top_item)
 {
-	top_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		top_item, E_TYPE_DAY_VIEW_TOP_ITEM, EDayViewTopItemPrivate);
-}
-
-GType
-e_day_view_top_item_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EDayViewTopItemClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) day_view_top_item_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EDayViewTopItem),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) day_view_top_item_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GNOME_TYPE_CANVAS_ITEM, "EDayViewTopItem",
-			&type_info, 0);
-	}
-
-	return type;
+	top_item->priv = E_DAY_VIEW_TOP_ITEM_GET_PRIVATE (top_item);
 }
 
 void

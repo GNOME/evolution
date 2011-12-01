@@ -228,7 +228,9 @@ prompt_retract_dialog (ECalComponent *comp,
 	gtk_label_set_mnemonic_widget ((GtkLabel *) label, entry);
 	gtk_container_add (GTK_CONTAINER (frame), sw);
 
-	g_signal_connect ((GtkToggleButton *)cb, "toggled", G_CALLBACK (cb_toggled_cb), entry);
+	g_signal_connect (
+		cb, "toggled",
+		G_CALLBACK (cb_toggled_cb), entry);
 
 	gtk_widget_show_all ((GtkWidget *) dialog);
 

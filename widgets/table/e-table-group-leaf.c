@@ -297,35 +297,33 @@ etgl_realize (GnomeCanvasItem *item)
 		"uniform_row_height", etgl->uniform_row_height,
 		NULL));
 
-	etgl->etgl_cursor_change_id    = g_signal_connect (etgl->item,
-							   "cursor_change",
-							   G_CALLBACK (etgl_cursor_change),
-							   etgl);
-	etgl->etgl_cursor_activated_id = g_signal_connect (etgl->item,
-							   "cursor_activated",
-							   G_CALLBACK (etgl_cursor_activated),
-							   etgl);
-	etgl->etgl_double_click_id     = g_signal_connect (etgl->item,
-							   "double_click",
-							   G_CALLBACK (etgl_double_click),
-							   etgl);
+	etgl->etgl_cursor_change_id = g_signal_connect (
+		etgl->item, "cursor_change",
+		G_CALLBACK (etgl_cursor_change), etgl);
 
-	etgl->etgl_right_click_id      = g_signal_connect (etgl->item,
-							   "right_click",
-							   G_CALLBACK (etgl_right_click),
-							   etgl);
-	etgl->etgl_click_id            = g_signal_connect (etgl->item,
-							   "click",
-							   G_CALLBACK (etgl_click),
-							   etgl);
-	etgl->etgl_key_press_id        = g_signal_connect (etgl->item,
-							   "key_press",
-							   G_CALLBACK (etgl_key_press),
-							   etgl);
-	etgl->etgl_start_drag_id       = g_signal_connect (etgl->item,
-							   "start_drag",
-							   G_CALLBACK (etgl_start_drag),
-							   etgl);
+	etgl->etgl_cursor_activated_id = g_signal_connect (
+		etgl->item, "cursor_activated",
+		G_CALLBACK (etgl_cursor_activated), etgl);
+
+	etgl->etgl_double_click_id = g_signal_connect (
+		etgl->item, "double_click",
+		G_CALLBACK (etgl_double_click), etgl);
+
+	etgl->etgl_right_click_id = g_signal_connect (
+		etgl->item, "right_click",
+		G_CALLBACK (etgl_right_click), etgl);
+
+	etgl->etgl_click_id = g_signal_connect (
+		etgl->item, "click",
+		G_CALLBACK (etgl_click), etgl);
+
+	etgl->etgl_key_press_id = g_signal_connect (
+		etgl->item, "key_press",
+		G_CALLBACK (etgl_key_press), etgl);
+
+	etgl->etgl_start_drag_id = g_signal_connect (
+		etgl->item, "start_drag",
+		G_CALLBACK (etgl_start_drag), etgl);
 
 	e_canvas_item_request_reflow (item);
 }
@@ -647,89 +645,127 @@ etgl_class_init (ETableGroupLeafClass *class)
 	e_group_class->get_mouse_over = etgl_get_mouse_over;
 	e_group_class->get_cell_geometry = etgl_get_cell_geometry;
 
-	g_object_class_install_property (object_class, PROP_TABLE_ALTERNATING_ROW_COLORS,
-					 g_param_spec_boolean ("alternating_row_colors",
-							       "Alternating Row Colors",
-							       "Alternating Row Colors",
-							       FALSE,
-							       G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_TABLE_ALTERNATING_ROW_COLORS,
+		g_param_spec_boolean (
+			"alternating_row_colors",
+			"Alternating Row Colors",
+			"Alternating Row Colors",
+			FALSE,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_TABLE_HORIZONTAL_DRAW_GRID,
-					 g_param_spec_boolean ("horizontal_draw_grid",
-							       "Horizontal Draw Grid",
-							       "Horizontal Draw Grid",
-							       FALSE,
-							       G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_TABLE_HORIZONTAL_DRAW_GRID,
+		g_param_spec_boolean (
+			"horizontal_draw_grid",
+			"Horizontal Draw Grid",
+			"Horizontal Draw Grid",
+			FALSE,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_TABLE_VERTICAL_DRAW_GRID,
-					 g_param_spec_boolean ("vertical_draw_grid",
-							       "Vertical Draw Grid",
-							       "Vertical Draw Grid",
-							       FALSE,
-							       G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_TABLE_VERTICAL_DRAW_GRID,
+		g_param_spec_boolean (
+			"vertical_draw_grid",
+			"Vertical Draw Grid",
+			"Vertical Draw Grid",
+			FALSE,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_TABLE_DRAW_FOCUS,
-					 g_param_spec_boolean ("drawfocus",
-							       "Draw focus",
-							       "Draw focus",
-							       FALSE,
-							       G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_TABLE_DRAW_FOCUS,
+		g_param_spec_boolean (
+			"drawfocus",
+			"Draw focus",
+			"Draw focus",
+			FALSE,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_CURSOR_MODE,
-					 g_param_spec_int ("cursor_mode",
-							   "Cursor mode",
-							   "Cursor mode",
-							   E_CURSOR_LINE, E_CURSOR_SPREADSHEET, E_CURSOR_LINE,
-							   G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_CURSOR_MODE,
+		g_param_spec_int (
+			"cursor_mode",
+			"Cursor mode",
+			"Cursor mode",
+			E_CURSOR_LINE,
+			E_CURSOR_SPREADSHEET,
+			E_CURSOR_LINE,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_LENGTH_THRESHOLD,
-					 g_param_spec_int ("length_threshold",
-							   "Length Threshold",
-							   "Length Threshold",
-							   -1, G_MAXINT, 0,
-							   G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_LENGTH_THRESHOLD,
+		g_param_spec_int (
+			"length_threshold",
+			"Length Threshold",
+			"Length Threshold",
+			-1, G_MAXINT, 0,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_SELECTION_MODEL,
-					 g_param_spec_object ("selection_model",
-							      "Selection model",
-							      "Selection model",
-							      E_TYPE_SELECTION_MODEL,
-							      G_PARAM_WRITABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_SELECTION_MODEL,
+		g_param_spec_object (
+			"selection_model",
+			"Selection model",
+			"Selection model",
+			E_TYPE_SELECTION_MODEL,
+			G_PARAM_WRITABLE));
 
-	g_object_class_install_property (object_class, PROP_HEIGHT,
-					 g_param_spec_double ("height",
-							      "Height",
-							      "Height",
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READABLE));
+	g_object_class_install_property (
+		object_class,
+		PROP_HEIGHT,
+		g_param_spec_double (
+			"height",
+			"Height",
+			"Height",
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READABLE));
 
-	g_object_class_install_property (object_class, PROP_WIDTH,
-					 g_param_spec_double ("width",
-							      "Width",
-							      "Width",
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_WIDTH,
+		g_param_spec_double (
+			"width",
+			"Width",
+			"Width",
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_MINIMUM_WIDTH,
-					 g_param_spec_double ("minimum_width",
-							      "Minimum width",
-							      "Minimum Width",
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_MINIMUM_WIDTH,
+		g_param_spec_double (
+			"minimum_width",
+			"Minimum width",
+			"Minimum Width",
+			0.0, G_MAXDOUBLE, 0.0,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_FROZEN,
-					 g_param_spec_boolean ("frozen",
-							       "Frozen",
-							       "Frozen",
-							       FALSE,
-							       G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_FROZEN,
+		g_param_spec_boolean (
+			"frozen",
+			"Frozen",
+			"Frozen",
+			FALSE,
+			G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_UNIFORM_ROW_HEIGHT,
-					 g_param_spec_boolean ("uniform_row_height",
-							       "Uniform row height",
-							       "Uniform row height",
-							       FALSE,
-							       G_PARAM_READWRITE));
+	g_object_class_install_property (
+		object_class,
+		PROP_UNIFORM_ROW_HEIGHT,
+		g_param_spec_boolean (
+			"uniform_row_height",
+			"Uniform row height",
+			"Uniform row height",
+			FALSE,
+			G_PARAM_READWRITE));
 }
 
 static void

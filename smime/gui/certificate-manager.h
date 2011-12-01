@@ -47,8 +47,8 @@
 	((obj), E_TYPE_CERT_MANAGER_CONFIG, ECertManagerConfigClass))
 
 typedef struct _ECertManagerConfig ECertManagerConfig;
-typedef struct _ECertManagerConfigPrivate ECertManagerConfigPrivate;
 typedef struct _ECertManagerConfigClass ECertManagerConfigClass;
+typedef struct _ECertManagerConfigPrivate ECertManagerConfigPrivate;
 
 struct _ECertManagerConfig {
 	GtkBox parent;

@@ -233,7 +233,9 @@ day_second_zone_clicked (GtkWidget *widget,
 	if (!second_zone)
 		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	g_signal_connect (item, "toggled", G_CALLBACK (on_set_day_second_zone), prefs);
+	g_signal_connect (
+		item, "toggled",
+		G_CALLBACK (on_set_day_second_zone), prefs);
 
 	recent_zones = calendar_config_get_day_second_zones ();
 	for (s = recent_zones; s != NULL; s = s->next) {
@@ -248,7 +250,9 @@ day_second_zone_clicked (GtkWidget *widget,
 			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		g_object_set_data_full (G_OBJECT (item), "timezone", g_strdup (s->data), g_free);
-		g_signal_connect (item, "toggled", G_CALLBACK (on_set_day_second_zone), prefs);
+		g_signal_connect (
+			item, "toggled",
+			G_CALLBACK (on_set_day_second_zone), prefs);
 	}
 	calendar_config_free_day_second_zones (recent_zones);
 
@@ -256,7 +260,9 @@ day_second_zone_clicked (GtkWidget *widget,
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 	item = gtk_menu_item_new_with_label (_("Select..."));
-	g_signal_connect (item, "activate", G_CALLBACK (on_select_day_second_zone), prefs);
+	g_signal_connect (
+		item, "activate",
+		G_CALLBACK (on_select_day_second_zone), prefs);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 	gtk_widget_show_all (menu);

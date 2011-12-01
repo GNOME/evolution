@@ -30,7 +30,7 @@
 
 #include "e-printable.h"
 
-#define EP_CLASS(e) ((EPrintableClass *)((GObject *)e)->klass)
+#define EP_CLASS(e) ((EPrintableClass *)((GObject *)e)->class)
 
 G_DEFINE_TYPE (
 	EPrintable,
@@ -49,9 +49,9 @@ enum {
 static guint e_printable_signals[LAST_SIGNAL] = { 0, };
 
 static void
-e_printable_class_init (EPrintableClass *klass)
+e_printable_class_init (EPrintableClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	e_printable_signals[PRINT_PAGE] =
 		g_signal_new ("print_page",
@@ -101,11 +101,11 @@ e_printable_class_init (EPrintableClass *klass)
 			      G_TYPE_BOOLEAN, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
 			      G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
 
-	klass->print_page = NULL;
-	klass->data_left = NULL;
-	klass->reset = NULL;
-	klass->height = NULL;
-	klass->will_fit = NULL;
+	class->print_page = NULL;
+	class->data_left = NULL;
+	class->reset = NULL;
+	class->height = NULL;
+	class->will_fit = NULL;
 }
 
 static void

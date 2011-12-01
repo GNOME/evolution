@@ -361,9 +361,9 @@ mail_folder_find_duplicate_messages_thread (GSimpleAsyncResult *simple,
 
 static GHashTable *
 emfu_get_messages_hash_sync (CamelFolder *folder,
-			     GPtrArray *message_uids,
-			     GCancellable *cancellable,
-			     GError **error)
+                             GPtrArray *message_uids,
+                             GCancellable *cancellable,
+                             GError **error)
 {
 	GHashTable *hash_table;
 	CamelMimeMessage *message;
@@ -877,7 +877,9 @@ e_mail_folder_remove_sync (CamelFolder *folder,
 
 	if (cancellable) {
 		transparent_cancellable = g_cancellable_new ();
-		cbid = g_cancellable_connect (cancellable, G_CALLBACK (follow_cancel_cb), transparent_cancellable, NULL);
+		cbid = g_cancellable_connect (
+			cancellable, G_CALLBACK (follow_cancel_cb),
+			transparent_cancellable, NULL);
 	}
 
 	success = mail_folder_remove_recursive (

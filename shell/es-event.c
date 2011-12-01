@@ -30,39 +30,18 @@
 #include "es-event.h"
 #include "e-shell.h"
 
-static GObjectClass *eme_parent;
 static ESEvent *es_event;
 
+G_DEFINE_TYPE (ESEvent, es_event, E_TYPE_EVENT)
+
 static void
-eme_class_init (GObjectClass *class)
+es_event_class_init (ESEventClass *class)
 {
 }
 
 static void
-eme_init (GObject *o)
+es_event_init (ESEvent *event)
 {
-	/*ESEvent *eme = (ESEvent *)o; */
-}
-
-GType
-es_event_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo info = {
-			sizeof (ESEventClass),
-			NULL, NULL,
-			(GClassInitFunc) eme_class_init,
-			NULL, NULL,
-			sizeof (ESEvent), 0,
-			(GInstanceInitFunc) eme_init
-		};
-		eme_parent = g_type_class_ref (e_event_get_type ());
-		type = g_type_register_static(e_event_get_type(), "ESEvent", &info, 0);
-	}
-
-	return type;
 }
 
 /**
@@ -72,7 +51,8 @@ es_event_get_type (void)
  *
  * Return: the shell event handler
  **/
-ESEvent *es_event_peek (void)
+ESEvent *
+es_event_peek (void)
 {
 	if (es_event == NULL) {
 		es_event = g_object_new (es_event_get_type (), NULL);
@@ -106,8 +86,7 @@ es_event_target_new_upgrade (ESEvent *eme,
 
 /* ********************************************************************** */
 
-static gpointer emeh_parent_class;
-#define emeh ((ESEventHook *)eph)
+G_DEFINE_TYPE (ESEventHook, es_event_hook, E_TYPE_EVENT_HOOK)
 
 static const EEventHookTargetMap emeh_targets[] = {
 	{ "upgrade", ES_EVENT_TARGET_UPGRADE, NULL },
@@ -115,16 +94,10 @@ static const EEventHookTargetMap emeh_targets[] = {
 };
 
 static void
-emeh_finalize (GObject *o)
+es_event_hook_class_init (ESEventHookClass *class)
 {
-	/*EPluginHook *eph = (EPluginHook *)o;*/
-
-	((GObjectClass *) emeh_parent_class)->finalize (o);
-}
-
-static void
-emeh_class_init (EPluginHookClass *class)
-{
+	EPluginHookClass *plugin_hook_class;
+	EEventHookClass *event_hook_class;
 	gint i;
 
 	/** @HookClass: Shell Main Menu
@@ -134,35 +107,19 @@ emeh_class_init (EPluginHookClass *class)
 	 * A hook for events coming from the shell.
 	 **/
 
-	((GObjectClass *) class)->finalize = emeh_finalize;
-	((EPluginHookClass *)class)->id = "org.gnome.evolution.shell.events:1.0";
+	plugin_hook_class = E_PLUGIN_HOOK_CLASS (class);
+	plugin_hook_class->id = "org.gnome.evolution.shell.events:1.0";
 
 	for (i = 0; emeh_targets[i].type; i++)
 		e_event_hook_class_add_target_map (
 			(EEventHookClass *) class, &emeh_targets[i]);
 
-	((EEventHookClass *) class)->event = (EEvent *) es_event_peek ();
+	event_hook_class = E_EVENT_HOOK_CLASS (class);
+	event_hook_class->event = (EEvent *) es_event_peek ();
 }
 
-GType
-es_event_hook_get_type (void)
+static void
+es_event_hook_init (ESEventHook *hook)
 {
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (ESEventHookClass),
-			NULL, NULL,
-			(GClassInitFunc) emeh_class_init,
-			NULL, NULL,
-			sizeof (ESEventHook),
-			0, (GInstanceInitFunc) NULL
-		};
-
-		emeh_parent_class = g_type_class_ref (e_event_hook_get_type ());
-		type = g_type_register_static (
-			e_event_hook_get_type(), "ESEventHook", &info, 0);
-	}
-
-	return type;
 }
+

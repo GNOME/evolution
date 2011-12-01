@@ -61,6 +61,10 @@
 #include <ctype.h>
 #include <string.h>
 
+#define E_ADDRESSBOOK_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ADDRESSBOOK_VIEW, EAddressbookViewPrivate))
+
 #define d(x)
 
 static void	status_message			(EAddressbookView *view,
@@ -125,6 +129,18 @@ static GtkTargetEntry drag_types[] = {
 
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+/* Forward Declarations */
+static void	e_addressbook_view_selectable_init
+					(ESelectableInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	EAddressbookView,
+	e_addressbook_view,
+	GTK_TYPE_SCROLLED_WINDOW,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_SELECTABLE,
+		e_addressbook_view_selectable_init))
 
 static void
 addressbook_view_emit_open_contact (EAddressbookView *view,
@@ -289,7 +305,7 @@ addressbook_view_create_table_view (EAddressbookView *view,
 	GtkWidget *widget;
 	gchar *etspecfile;
 
-	adapter = eab_table_adapter_new (view->priv->model);
+	adapter = e_addressbook_table_adapter_new (view->priv->model);
 
 	extras = e_table_extras_new ();
 
@@ -494,7 +510,7 @@ addressbook_view_dispose (GObject *object)
 {
 	EAddressbookViewPrivate *priv;
 
-	priv = E_ADDRESSBOOK_VIEW (object)->priv;
+	priv = E_ADDRESSBOOK_VIEW_GET_PRIVATE (object);
 
 	if (priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
@@ -737,7 +753,7 @@ addressbook_view_select_all (ESelectable *selectable)
 }
 
 static void
-addressbook_view_class_init (EAddressbookViewClass *class)
+e_addressbook_view_class_init (EAddressbookViewClass *class)
 {
 	GObjectClass *object_class;
 
@@ -838,12 +854,11 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 }
 
 static void
-addressbook_view_init (EAddressbookView *view)
+e_addressbook_view_init (EAddressbookView *view)
 {
 	GtkTargetList *target_list;
 
-	view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		view, E_TYPE_ADDRESSBOOK_VIEW, EAddressbookViewPrivate);
+	view->priv = E_ADDRESSBOOK_VIEW_GET_PRIVATE (view);
 
 	view->priv->model = e_addressbook_model_new ();
 
@@ -863,7 +878,7 @@ addressbook_view_init (EAddressbookView *view)
 }
 
 static void
-addressbook_view_selectable_init (ESelectableInterface *interface)
+e_addressbook_view_selectable_init (ESelectableInterface *interface)
 {
 	interface->update_actions = addressbook_view_update_actions;
 	interface->cut_clipboard = addressbook_view_cut_clipboard;
@@ -871,42 +886,6 @@ addressbook_view_selectable_init (ESelectableInterface *interface)
 	interface->paste_clipboard = addressbook_view_paste_clipboard;
 	interface->delete_selection = addressbook_view_delete_selection;
 	interface->select_all = addressbook_view_select_all;
-}
-
-GType
-e_addressbook_view_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info =  {
-			sizeof (EAddressbookViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) addressbook_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAddressbookView),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) addressbook_view_init,
-			NULL   /* value_table */
-		};
-
-		static const GInterfaceInfo selectable_info = {
-			(GInterfaceInitFunc) addressbook_view_selectable_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_SCROLLED_WINDOW, "EAddressbookView",
-			&type_info, 0);
-
-		g_type_add_interface_static (
-			type, E_TYPE_SELECTABLE, &selectable_info);
-	}
-
-	return type;
 }
 
 GtkWidget *
@@ -933,8 +912,9 @@ e_addressbook_view_new (EShellView *shell_view,
 	g_signal_connect_swapped (
 		view->priv->model, "folder_bar_message",
 		G_CALLBACK (folder_bar_message), view);
-	g_signal_connect (view->priv->model, "stop_state_changed",
-			  G_CALLBACK (stop_state_changed), view);
+	g_signal_connect (
+		view->priv->model, "stop_state_changed",
+		G_CALLBACK (stop_state_changed), view);
 	g_signal_connect_swapped (
 		view->priv->model, "writable-status",
 		G_CALLBACK (command_state_change), view);

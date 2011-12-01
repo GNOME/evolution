@@ -33,8 +33,6 @@
 
 G_DEFINE_TYPE (ECell, e_cell, G_TYPE_OBJECT)
 
-#define ECVIEW_EC_CLASS(v) (E_CELL_GET_CLASS (v->ecell))
-
 static ECellView *
 ec_new_view (ECell *ecell,
              ETableModel *table_model,
@@ -210,7 +208,8 @@ e_cell_init (ECell *cell)
  * @view_col: the column in the view
  * @row: the row
  * @flags: flags about the current state
- * @actions: A second return value in case the cell wants to take some action (specifically grabbing & ungrabbing)
+ * @actions: a second return value in case the cell wants to take some action
+ *           (specifically grabbing & ungrabbing)
  *
  * Dispatches the event @event to the @ecell_view for.
  *
@@ -225,24 +224,31 @@ e_cell_event (ECellView *ecell_view,
               ECellFlags flags,
               ECellActions *actions)
 {
-	return ECVIEW_EC_CLASS (ecell_view)->event (
-		ecell_view, event, model_col, view_col, row, flags, actions);
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+
+	return class->event (
+		ecell_view, event, model_col,
+		view_col, row, flags, actions);
 }
 
 /**
  * e_cell_new_view:
  * @ecell: the Ecell that will create the new view
  * @table_model: the table model the ecell is bound to
- * @e_table_item_view: An ETableItem object (the CanvasItem that reprensents the view of the table)
+ * @e_table_item_view: an ETableItem object (the CanvasItem that
+ *                     reprensents the view of the table)
  *
  * ECell renderers new to be bound to a table_model and to the actual view
  * during their life time to actually render the data.  This method is invoked
  * by the ETableItem canvas item to instatiate a new view of the ECell.
  *
- * This is invoked when the ETableModel is attached to the ETableItem (a CanvasItem
- * that can render ETableModels in the screen).
+ * This is invoked when the ETableModel is attached to the ETableItem
+ * (a CanvasItem that can render ETableModels in the screen).
  *
- * Returns: a new ECellView for this @ecell on the @table_model displayed on the @e_table_item_view.
+ * Returns: a new ECellView for this @ecell on the @table_model displayed
+ * on the @e_table_item_view.
  */
 ECellView *
 e_cell_new_view (ECell *ecell,
@@ -264,7 +270,12 @@ e_cell_new_view (ECell *ecell,
 void
 e_cell_realize (ECellView *ecell_view)
 {
-	ECVIEW_EC_CLASS (ecell_view)->realize (ecell_view);
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+	g_return_if_fail (class->realize != NULL);
+
+	class->realize (ecell_view);
 }
 
 /**
@@ -276,7 +287,12 @@ e_cell_realize (ECellView *ecell_view)
 void
 e_cell_kill_view (ECellView *ecell_view)
 {
-	ECVIEW_EC_CLASS (ecell_view)->kill_view (ecell_view);
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+	g_return_if_fail (class->kill_view != NULL);
+
+	class->kill_view (ecell_view);
 }
 
 /**
@@ -290,7 +306,12 @@ e_cell_kill_view (ECellView *ecell_view)
 void
 e_cell_unrealize (ECellView *ecell_view)
 {
-	ECVIEW_EC_CLASS (ecell_view)->unrealize (ecell_view);
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+	g_return_if_fail (class->unrealize != NULL);
+
+	class->unrealize (ecell_view);
 }
 
 /**
@@ -324,13 +345,21 @@ e_cell_draw (ECellView *ecell_view,
              gint x2,
              gint y2)
 {
+	ECellClass *class;
+
 	g_return_if_fail (ecell_view != NULL);
 	g_return_if_fail (row >= 0);
 	g_return_if_fail (row < e_table_model_row_count (ecell_view->e_table_model));
 
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+	g_return_if_fail (class->draw != NULL);
+
 	cairo_save (cr);
 
-	ECVIEW_EC_CLASS (ecell_view)->draw (ecell_view, cr, model_col, view_col, row, flags, x1, y1, x2, y2);
+	class->draw (
+		ecell_view, cr,
+		model_col, view_col,
+		row, flags, x1, y1, x2, y2);
 
 	cairo_restore (cr);
 }
@@ -356,8 +385,15 @@ e_cell_print (ECellView *ecell_view,
               gdouble width,
               gdouble height)
 {
-	if (ECVIEW_EC_CLASS (ecell_view)->print)
-		ECVIEW_EC_CLASS (ecell_view)->print (ecell_view, context, model_col, view_col, row, width, height);
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+
+	if (class->print != NULL)
+		class->print (
+			ecell_view, context,
+			model_col, view_col,
+			row, width, height);
 }
 
 /**
@@ -373,11 +409,17 @@ e_cell_print_height (ECellView *ecell_view,
                      gint row,
                      gdouble width)
 {
-	if (ECVIEW_EC_CLASS (ecell_view)->print_height)
-		return ECVIEW_EC_CLASS (ecell_view)->print_height
-			(ecell_view, context, model_col, view_col, row, width);
-	else
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+
+	if (class->print_height == NULL)
 		return 0.0;
+
+	return class->print_height (
+		ecell_view, context,
+		model_col, view_col,
+		row, width);
 }
 
 /**
@@ -396,7 +438,12 @@ e_cell_height (ECellView *ecell_view,
                gint view_col,
                gint row)
 {
-	return ECVIEW_EC_CLASS (ecell_view)->height (ecell_view, model_col, view_col, row);
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+	g_return_val_if_fail (class->height != NULL, 0);
+
+	return class->height (ecell_view, model_col, view_col, row);
 }
 
 /**
@@ -415,7 +462,12 @@ e_cell_enter_edit (ECellView *ecell_view,
                    gint view_col,
                    gint row)
 {
-	return ECVIEW_EC_CLASS (ecell_view)->enter_edit (ecell_view, model_col, view_col, row);
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+	g_return_val_if_fail (class->enter_edit != NULL, NULL);
+
+	return class->enter_edit (ecell_view, model_col, view_col, row);
 }
 
 /**
@@ -436,7 +488,12 @@ e_cell_leave_edit (ECellView *ecell_view,
                    gint row,
                    gpointer edit_context)
 {
-	ECVIEW_EC_CLASS (ecell_view)->leave_edit (ecell_view, model_col, view_col, row, edit_context);
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+	g_return_if_fail (class->leave_edit != NULL);
+
+	class->leave_edit (ecell_view, model_col, view_col, row, edit_context);
 }
 
 /**
@@ -460,10 +517,15 @@ e_cell_save_state (ECellView *ecell_view,
                    gint row,
                    gpointer edit_context)
 {
-	if (ECVIEW_EC_CLASS (ecell_view)->save_state)
-		return ECVIEW_EC_CLASS (ecell_view)->save_state (ecell_view, model_col, view_col, row, edit_context);
-	else
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+
+	if (class->save_state == NULL)
 		return NULL;
+
+	return class->save_state (
+		ecell_view, model_col, view_col, row, edit_context);
 }
 
 /**
@@ -485,12 +547,18 @@ e_cell_load_state (ECellView *ecell_view,
                    gpointer edit_context,
                    gpointer save_state)
 {
-	if (ECVIEW_EC_CLASS (ecell_view)->load_state)
-		ECVIEW_EC_CLASS (ecell_view)->load_state (ecell_view, model_col, view_col, row, edit_context, save_state);
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+
+	if (class->load_state != NULL)
+		class->load_state (
+			ecell_view, model_col, view_col,
+			row, edit_context, save_state);
 }
 
 /**
- * e_cell_load_state:
+ * e_cell_free_state:
  * @ecell_view: the ECellView
  * @model_col: the column in the model
  * @view_col: the column in the view
@@ -507,8 +575,13 @@ e_cell_free_state (ECellView *ecell_view,
                    gint row,
                    gpointer save_state)
 {
-	if (ECVIEW_EC_CLASS (ecell_view)->free_state)
-		ECVIEW_EC_CLASS (ecell_view)->free_state (ecell_view, model_col, view_col, row, save_state);
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+
+	if (class->free_state != NULL)
+		class->free_state (
+			ecell_view, model_col, view_col, row, save_state);
 }
 
 /**
@@ -525,8 +598,12 @@ e_cell_max_width (ECellView *ecell_view,
                   gint model_col,
                   gint view_col)
 {
-	return ECVIEW_EC_CLASS (ecell_view)->max_width
-		(ecell_view, model_col, view_col);
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+	g_return_val_if_fail (class->max_width != NULL, 0);
+
+	return class->max_width (ecell_view, model_col, view_col);
 }
 
 /**
@@ -545,11 +622,14 @@ e_cell_max_width_by_row (ECellView *ecell_view,
                          gint view_col,
                          gint row)
 {
-	if (ECVIEW_EC_CLASS (ecell_view)->max_width_by_row)
-		return ECVIEW_EC_CLASS (ecell_view)->max_width_by_row
-			(ecell_view, model_col, view_col, row);
-	else
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+
+	if (class->max_width_by_row == NULL)
 		return e_cell_max_width (ecell_view, model_col, view_col);
+
+	return class->max_width_by_row (ecell_view, model_col, view_col, row);
 }
 
 /**
@@ -565,24 +645,36 @@ e_cell_max_width_by_row (ECellView *ecell_view,
 gboolean
 e_cell_max_width_by_row_implemented (ECellView *ecell_view)
 {
-	return (ECVIEW_EC_CLASS (ecell_view)->max_width_by_row != NULL);
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+
+	return (class->max_width_by_row != NULL);
 }
 
 gchar *
 e_cell_get_bg_color (ECellView *ecell_view,
                      gint row)
 {
-	if (ECVIEW_EC_CLASS (ecell_view)->get_bg_color)
-		return ECVIEW_EC_CLASS (ecell_view)->get_bg_color (ecell_view, row);
-	else
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+
+	if (class->get_bg_color == NULL)
 		return NULL;
+
+	return class->get_bg_color (ecell_view, row);
 }
 
 void
 e_cell_style_set (ECellView *ecell_view,
                   GtkStyle *previous_style)
 {
-	if (ECVIEW_EC_CLASS (ecell_view)->style_set)
-		ECVIEW_EC_CLASS (ecell_view)->style_set (ecell_view, previous_style);
+	ECellClass *class;
+
+	class = E_CELL_GET_CLASS (ecell_view->ecell);
+
+	if (class->style_set != NULL)
+		class->style_set (ecell_view, previous_style);
 }
 

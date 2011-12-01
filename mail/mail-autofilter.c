@@ -402,7 +402,8 @@ filter_gui_add_from_message (EMailSession *session,
 
 	e_filter_rule_set_source (rule, source);
 
-	e_rule_context_add_rule_gui ((ERuleContext *)fc, rule, _("Add Filter Rule"), user);
+	e_rule_context_add_rule_gui (
+		(ERuleContext *)fc, rule, _("Add Filter Rule"), user);
 	g_free (user);
 	g_object_unref (fc);
 }

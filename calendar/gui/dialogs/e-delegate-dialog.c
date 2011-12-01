@@ -34,6 +34,10 @@
 #include "e-util/e-util-private.h"
 #include "e-delegate-dialog.h"
 
+#define E_DELEGATE_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_DELEGATE_DIALOG, EDelegateDialogPrivate))
+
 struct _EDelegateDialogPrivate {
 	gchar *name;
 	gchar *address;
@@ -51,66 +55,48 @@ struct _EDelegateDialogPrivate {
 
 static const gchar *section_name = "Delegate To";
 
-static void e_delegate_dialog_finalize		(GObject	*object);
-
 static gboolean get_widgets			(EDelegateDialog *edd);
 static void addressbook_clicked_cb              (GtkWidget *widget, gpointer data);
 static void addressbook_response_cb             (GtkWidget *widget, gint response, gpointer data);
 
 G_DEFINE_TYPE (EDelegateDialog, e_delegate_dialog, G_TYPE_OBJECT)
 
-/* Class initialization function for the event editor */
-static void
-e_delegate_dialog_class_init (EDelegateDialogClass *class)
-{
-	GObjectClass *gobject_class;
-
-	gobject_class = (GObjectClass *) class;
-
-	gobject_class->finalize = e_delegate_dialog_finalize;
-}
-
-/* Object initialization function for the event editor */
-static void
-e_delegate_dialog_init (EDelegateDialog *edd)
-{
-	EDelegateDialogPrivate *priv;
-
-	priv = g_new0 (EDelegateDialogPrivate, 1);
-	edd->priv = priv;
-
-	priv->address = NULL;
-}
-
-/* Destroy handler for the event editor */
 static void
 e_delegate_dialog_finalize (GObject *object)
 {
-	EDelegateDialog *edd;
 	EDelegateDialogPrivate *priv;
 	GtkWidget *dialog;
 
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (E_IS_DELEGATE_DIALOG (object));
-
-	edd = E_DELEGATE_DIALOG (object);
-	priv = edd->priv;
+	priv = E_DELEGATE_DIALOG_GET_PRIVATE (object);
 
 	e_name_selector_cancel_loading (priv->name_selector);
 	g_object_unref (priv->name_selector);
 
 	/* Destroy the actual dialog. */
-	dialog = e_delegate_dialog_get_toplevel (edd);
+	dialog = e_delegate_dialog_get_toplevel (E_DELEGATE_DIALOG (object));
 	gtk_widget_destroy (dialog);
 
 	g_free (priv->address);
-	priv->address = NULL;
-
-	g_free (priv);
-	edd->priv = NULL;
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_delegate_dialog_parent_class)->finalize (object);
+}
+
+static void
+e_delegate_dialog_class_init (EDelegateDialogClass *class)
+{
+	GObjectClass *object_class;
+
+	g_type_class_add_private (class, sizeof (EDelegateDialogPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = e_delegate_dialog_finalize;
+}
+
+static void
+e_delegate_dialog_init (EDelegateDialog *edd)
+{
+	edd->priv = E_DELEGATE_DIALOG_GET_PRIVATE (edd);
 }
 
 EDelegateDialog *
@@ -158,11 +144,14 @@ e_delegate_dialog_construct (EDelegateDialog *edd,
 	e_destination_store_append_destination (destination_store, dest);
 	g_object_unref (dest);
 
-	g_signal_connect ((priv->addressbook), "clicked",
-			    G_CALLBACK (addressbook_clicked_cb), edd);
+	g_signal_connect (
+		priv->addressbook, "clicked",
+		G_CALLBACK (addressbook_clicked_cb), edd);
 
 	name_selector_dialog = e_name_selector_peek_dialog (priv->name_selector);
-	g_signal_connect (name_selector_dialog, "response", G_CALLBACK (addressbook_response_cb), edd);
+	g_signal_connect (
+		name_selector_dialog, "response",
+		G_CALLBACK (addressbook_response_cb), edd);
 
 	return edd;
 
@@ -242,7 +231,6 @@ e_delegate_dialog_get_delegate (EDelegateDialog *edd)
 	GList *destinations;
 	EDestination *destination;
 
-	g_return_val_if_fail (edd != NULL, NULL);
 	g_return_val_if_fail (E_IS_DELEGATE_DIALOG (edd), NULL);
 
 	priv = edd->priv;
@@ -273,7 +261,6 @@ e_delegate_dialog_get_delegate_name (EDelegateDialog *edd)
 	GList *destinations;
 	EDestination *destination;
 
-	g_return_val_if_fail (edd != NULL, NULL);
 	g_return_val_if_fail (E_IS_DELEGATE_DIALOG (edd), NULL);
 
 	priv = edd->priv;
@@ -298,13 +285,8 @@ e_delegate_dialog_get_delegate_name (EDelegateDialog *edd)
 GtkWidget *
 e_delegate_dialog_get_toplevel (EDelegateDialog *edd)
 {
-	EDelegateDialogPrivate *priv;
-
-	g_return_val_if_fail (edd != NULL, NULL);
 	g_return_val_if_fail (E_IS_DELEGATE_DIALOG (edd), NULL);
 
-	priv = edd->priv;
-
-	return priv->app;
+	return edd->priv->app;
 }
 

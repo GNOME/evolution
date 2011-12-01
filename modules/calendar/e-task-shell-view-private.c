@@ -47,9 +47,8 @@ task_shell_view_model_row_appended_cb (ETaskShellView *task_shell_view,
 }
 
 static gboolean
-task_shell_view_process_completed_tasks (gpointer user_data)
+task_shell_view_process_completed_tasks (ETaskShellView *task_shell_view)
 {
-	ETaskShellView *task_shell_view = user_data;
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
 	ETaskTable *task_table;
@@ -77,11 +76,18 @@ task_shell_view_process_completed_tasks (gpointer user_data)
 static void
 task_shell_view_schedule_process_completed_tasks (ETaskShellView *task_shell_view)
 {
-	if (task_shell_view->priv->update_completed_timeout)
-		g_source_remove (task_shell_view->priv->update_completed_timeout);
+	guint source_id;
 
-	task_shell_view->priv->update_completed_timeout =
-		g_timeout_add_seconds (1, task_shell_view_process_completed_tasks, task_shell_view);
+	source_id = task_shell_view->priv->update_completed_timeout;
+
+	if (source_id > 0)
+		g_source_remove (source_id);
+
+	source_id = g_timeout_add_seconds (
+		1, (GSourceFunc) task_shell_view_process_completed_tasks,
+		task_shell_view);
+
+	task_shell_view->priv->update_completed_timeout = source_id;
 }
 
 static void

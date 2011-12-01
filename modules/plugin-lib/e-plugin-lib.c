@@ -117,7 +117,9 @@ plugin_lib_invoke (EPlugin *plugin,
 	EPluginLibFunc func;
 
 	if (!plugin->enabled) {
-		g_warning ("trying to invoke '%s' on disabled plugin '%s'", name, plugin->id);
+		g_warning (
+			"Trying to invoke '%s' on disabled plugin '%s'",
+			name, plugin->id);
 		return NULL;
 	}
 

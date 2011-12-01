@@ -32,6 +32,10 @@
 
 #include <libemail-utils/e-signature-utils.h>
 
+#define E_SIGNATURE_PREVIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SIGNATURE_PREVIEW, ESignaturePreviewPrivate))
+
 enum {
 	PROP_0,
 	PROP_DISABLE_COMMAND_LINE,
@@ -108,7 +112,7 @@ signature_preview_dispose (GObject *object)
 {
 	ESignaturePreviewPrivate *priv;
 
-	priv = E_SIGNATURE_PREVIEW (object)->priv;
+	priv = E_SIGNATURE_PREVIEW_GET_PRIVATE (object);
 
 	if (priv->signature != NULL) {
 		g_object_unref (priv->signature);
@@ -239,8 +243,7 @@ e_signature_preview_class_init (ESignaturePreviewClass *class)
 static void
 e_signature_preview_init (ESignaturePreview *preview)
 {
-	preview->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		preview, E_TYPE_SIGNATURE_PREVIEW, ESignaturePreviewPrivate);
+	preview->priv = E_SIGNATURE_PREVIEW_GET_PRIVATE (preview);
 }
 
 GtkWidget *

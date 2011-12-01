@@ -47,6 +47,10 @@ enum {
 	LAST_SIGNAL
 };
 
+#define E_TABLE_SEARCH_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TABLE_SEARCH, ETableSearchPrivate))
+
 d (static gint depth = 0)
 
 static guint e_table_search_signals[LAST_SIGNAL] = { 0, };
@@ -110,7 +114,7 @@ e_table_search_finalize (GObject *object)
 {
 	ETableSearchPrivate *priv;
 
-	priv = E_TABLE_SEARCH (object)->priv;
+	priv = E_TABLE_SEARCH_GET_PRIVATE (object);
 
 	drop_timeout (E_TABLE_SEARCH (object));
 
@@ -155,8 +159,7 @@ e_table_search_class_init (ETableSearchClass *class)
 static void
 e_table_search_init (ETableSearch *ets)
 {
-	ets->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		ets, E_TYPE_TABLE_SEARCH, ETableSearchPrivate);
+	ets->priv = E_TABLE_SEARCH_GET_PRIVATE (ets);
 
 	ets->priv->search_string = g_strdup ("");
 }

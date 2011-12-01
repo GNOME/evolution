@@ -205,7 +205,7 @@ e_contact_map_class_init (EContactMapClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EContactMap));
+	g_type_class_add_private (class, sizeof (EContactMapPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = contact_map_finalize;
@@ -254,8 +254,7 @@ e_contact_map_init (EContactMap *map)
 	ChamplainMarkerLayer *layer;
 	ChamplainView *view;
 
-	map->priv =  G_TYPE_INSTANCE_GET_PRIVATE (
-		map, E_TYPE_CONTACT_MAP, EContactMapPrivate);
+	map->priv = E_CONTACT_MAP_GET_PRIVATE (map);
 
 	hash_table = g_hash_table_new_full (g_str_hash, g_str_equal,
 			(GDestroyNotify) g_free, NULL);

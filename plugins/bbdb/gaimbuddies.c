@@ -410,7 +410,9 @@ bbdb_merge_buddy_to_contact (EBookClient *client,
 			if (!g_file_get_contents (
 				b->icon, &contents,
 				&photo->data.inlined.length, &error)) {
-				g_warning ("bbdb: Could not read buddy icon: %s\n", error->message);
+				g_warning (
+					"bbdb: Could not read buddy icon: "
+					"%s\n", error->message);
 				g_error_free (error);
 				return dirty;
 			}

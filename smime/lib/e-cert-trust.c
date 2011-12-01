@@ -181,19 +181,33 @@ e_cert_trust_set_objsign_trust (CERTCertTrust *trust,
 {
 	trust->objectSigningFlags = 0;
 	if (peer || tPeer)
-		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_VALID_PEER);
+		e_cert_trust_add_trust (
+			&trust->objectSigningFlags,
+			CERTDB_VALID_PEER);
 	if (tPeer)
-		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_TRUSTED);
+		e_cert_trust_add_trust (
+			&trust->objectSigningFlags,
+			CERTDB_TRUSTED);
 	if (ca || tCA)
-		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_VALID_CA);
+		e_cert_trust_add_trust (
+			&trust->objectSigningFlags,
+			CERTDB_VALID_CA);
 	if (tClientCA)
-		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_TRUSTED_CLIENT_CA);
+		e_cert_trust_add_trust (
+			&trust->objectSigningFlags,
+			CERTDB_TRUSTED_CLIENT_CA);
 	if (tCA)
-		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_TRUSTED_CA);
+		e_cert_trust_add_trust (
+			&trust->objectSigningFlags,
+			CERTDB_TRUSTED_CA);
 	if (user)
-		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_USER);
+		e_cert_trust_add_trust (
+			&trust->objectSigningFlags,
+			CERTDB_USER);
 	if (warn)
-		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_SEND_WARN);
+		e_cert_trust_add_trust (
+			&trust->objectSigningFlags,
+			CERTDB_SEND_WARN);
 }
 
 void

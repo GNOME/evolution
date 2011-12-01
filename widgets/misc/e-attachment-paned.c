@@ -32,6 +32,10 @@
 #include "e-attachment-icon-view.h"
 #include "e-attachment-tree-view.h"
 
+#define E_ATTACHMENT_PANED_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ATTACHMENT_PANED, EAttachmentPanedPrivate))
+
 #define NUM_VIEWS 2
 
 /* Initial height of the lower pane. */
@@ -283,7 +287,7 @@ attachment_paned_dispose (GObject *object)
 {
 	EAttachmentPanedPrivate *priv;
 
-	priv = E_ATTACHMENT_PANED (object)->priv;
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (object);
 
 	if (priv->model != NULL) {
 		e_attachment_store_remove_all (E_ATTACHMENT_STORE (priv->model));
@@ -346,7 +350,7 @@ attachment_paned_constructed (GObject *object)
 	EAttachmentPanedPrivate *priv;
 	GSettings *settings;
 
-	priv = E_ATTACHMENT_PANED (object)->priv;
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (object);
 
 	settings = g_settings_new ("org.gnome.evolution.shell");
 
@@ -407,7 +411,11 @@ attachment_paned_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	/* Set up property-to-GSettings bindings. */
-	g_settings_bind (settings, "attachment-view", object, "active-view", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "attachment-view",
+		object, "active-view",
+		G_SETTINGS_BIND_DEFAULT);
+
 	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */
@@ -419,7 +427,7 @@ attachment_paned_get_private (EAttachmentView *view)
 {
 	EAttachmentPanedPrivate *priv;
 
-	priv = E_ATTACHMENT_PANED (view)->priv;
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	return e_attachment_view_get_private (view);
@@ -430,7 +438,7 @@ attachment_paned_get_store (EAttachmentView *view)
 {
 	EAttachmentPanedPrivate *priv;
 
-	priv = E_ATTACHMENT_PANED (view)->priv;
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	return e_attachment_view_get_store (view);
@@ -443,7 +451,7 @@ attachment_paned_get_path_at_pos (EAttachmentView *view,
 {
 	EAttachmentPanedPrivate *priv;
 
-	priv = E_ATTACHMENT_PANED (view)->priv;
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	return e_attachment_view_get_path_at_pos (view, x, y);
@@ -454,7 +462,7 @@ attachment_paned_get_selected_paths (EAttachmentView *view)
 {
 	EAttachmentPanedPrivate *priv;
 
-	priv = E_ATTACHMENT_PANED (view)->priv;
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	return e_attachment_view_get_selected_paths (view);
@@ -466,7 +474,7 @@ attachment_paned_path_is_selected (EAttachmentView *view,
 {
 	EAttachmentPanedPrivate *priv;
 
-	priv = E_ATTACHMENT_PANED (view)->priv;
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	return e_attachment_view_path_is_selected (view, path);
@@ -478,7 +486,7 @@ attachment_paned_select_path (EAttachmentView *view,
 {
 	EAttachmentPanedPrivate *priv;
 
-	priv = E_ATTACHMENT_PANED (view)->priv;
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	e_attachment_view_select_path (view, path);
@@ -490,7 +498,7 @@ attachment_paned_unselect_path (EAttachmentView *view,
 {
 	EAttachmentPanedPrivate *priv;
 
-	priv = E_ATTACHMENT_PANED (view)->priv;
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	e_attachment_view_unselect_path (view, path);
@@ -501,7 +509,7 @@ attachment_paned_select_all (EAttachmentView *view)
 {
 	EAttachmentPanedPrivate *priv;
 
-	priv = E_ATTACHMENT_PANED (view)->priv;
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	e_attachment_view_select_all (view);
@@ -512,7 +520,7 @@ attachment_paned_unselect_all (EAttachmentView *view)
 {
 	EAttachmentPanedPrivate *priv;
 
-	priv = E_ATTACHMENT_PANED (view)->priv;
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	e_attachment_view_unselect_all (view);
@@ -523,7 +531,7 @@ attachment_paned_update_actions (EAttachmentView *view)
 {
 	EAttachmentPanedPrivate *priv;
 
-	priv = E_ATTACHMENT_PANED (view)->priv;
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	e_attachment_view_update_actions (view);
@@ -596,8 +604,7 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 	GtkWidget *widget;
 	GtkAction *action;
 
-	paned->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		paned, E_TYPE_ATTACHMENT_PANED, EAttachmentPanedPrivate);
+	paned->priv = E_ATTACHMENT_PANED_GET_PRIVATE (paned);
 	paned->priv->model = e_attachment_store_new ();
 
 	/* Keep the expander label and combo box the same height. */

@@ -27,6 +27,10 @@
 
 #include "e-attachment-button.h"
 
+#define E_ATTACHMENT_BUTTON_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ATTACHMENT_BUTTON, EAttachmentButtonPrivate))
+
 struct _EAttachmentButtonPrivate {
 
 	EAttachmentView *view;
@@ -450,7 +454,7 @@ attachment_button_dispose (GObject *object)
 {
 	EAttachmentButtonPrivate *priv;
 
-	priv = E_ATTACHMENT_BUTTON (object)->priv;
+	priv = E_ATTACHMENT_BUTTON_GET_PRIVATE (object);
 
 	if (priv->view != NULL) {
 		g_object_unref (priv->view);
@@ -577,8 +581,7 @@ e_attachment_button_init (EAttachmentButton *button)
 	GtkWidget *widget;
 	gint n_targets;
 
-	button->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		button, E_TYPE_ATTACHMENT_BUTTON, EAttachmentButtonPrivate);
+	button->priv = E_ATTACHMENT_BUTTON_GET_PRIVATE (button);
 
 	/* Configure Widgets */
 

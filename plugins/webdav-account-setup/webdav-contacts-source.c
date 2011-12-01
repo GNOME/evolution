@@ -59,7 +59,8 @@ ensure_webdav_contacts_source_group (void)
 {
 	ESourceList  *source_list;
 
-	source_list = e_source_list_new_for_gconf_default("/apps/evolution/addressbook/sources");
+	source_list = e_source_list_new_for_gconf_default (
+		"/apps/evolution/addressbook/sources");
 
 	if (source_list == NULL) {
 		return;
@@ -75,7 +76,8 @@ remove_webdav_contacts_source_group (void)
 	ESourceList  *source_list;
 	ESourceGroup *group;
 
-	source_list = e_source_list_new_for_gconf_default("/apps/evolution/addressbook/sources");
+	source_list = e_source_list_new_for_gconf_default (
+		"/apps/evolution/addressbook/sources");
 
 	if (source_list == NULL) {
 		return;
@@ -157,7 +159,7 @@ static void
 set_source_from_ui (ui_data *data)
 {
 	ESource    *source        = data->source;
-	gboolean    avoid_ifmatch = gtk_toggle_button_get_active (data->avoid_ifmatch_toggle);
+	gboolean    avoid_ifmatch;
 	const gchar *url           = gtk_entry_get_text (data->url_entry);
 	SoupURI     *suri          = soup_uri_new (url);
 	gchar       *url_noprotocol;
@@ -166,6 +168,7 @@ set_source_from_ui (ui_data *data)
 	if (!suri)
 		return;
 
+	avoid_ifmatch = gtk_toggle_button_get_active (data->avoid_ifmatch_toggle);
 	e_source_set_property(source, "avoid_ifmatch", avoid_ifmatch ? "1" : "0");
 
 	/* put username into uri */
@@ -290,11 +293,21 @@ plugin_webdav_contacts (EPlugin *epl,
 
 	uidata->box = vbox2;
 	g_object_set_data_full(G_OBJECT(epl), "wwidget", uidata, destroy_ui_data);
-	g_signal_connect (uidata->box, "destroy", G_CALLBACK (gtk_widget_destroyed), &uidata->box);
+	g_signal_connect (
+		uidata->box, "destroy",
+		G_CALLBACK (gtk_widget_destroyed), &uidata->box);
 
-	g_signal_connect_swapped (G_OBJECT(uidata->username_entry), "changed", G_CALLBACK (set_source_from_ui), uidata);
-	g_signal_connect_swapped (G_OBJECT(uidata->url_entry), "changed", G_CALLBACK (set_source_from_ui), uidata);
-	g_signal_connect_swapped (G_OBJECT(uidata->avoid_ifmatch_toggle), "toggled", G_CALLBACK (set_source_from_ui), uidata);
+	g_signal_connect_swapped (
+		uidata->username_entry, "changed",
+		G_CALLBACK (set_source_from_ui), uidata);
+
+	g_signal_connect_swapped (
+		uidata->url_entry, "changed",
+		G_CALLBACK (set_source_from_ui), uidata);
+
+	g_signal_connect_swapped (
+		uidata->avoid_ifmatch_toggle, "toggled",
+		G_CALLBACK (set_source_from_ui), uidata);
 
 	return NULL;
 }

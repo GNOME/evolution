@@ -262,11 +262,15 @@ pick_current_item (GnomeCanvas *canvas,
 		/* these fields don't have the same offsets in both types of events */
 
 		if (canvas->pick_event.type == GDK_ENTER_NOTIFY) {
-			x = canvas->pick_event.crossing.x + canvas->scroll_x1 - canvas->zoom_xofs;
-			y = canvas->pick_event.crossing.y + canvas->scroll_y1 - canvas->zoom_yofs;
+			x = canvas->pick_event.crossing.x +
+				canvas->scroll_x1 - canvas->zoom_xofs;
+			y = canvas->pick_event.crossing.y +
+				canvas->scroll_y1 - canvas->zoom_yofs;
 		} else {
-			x = canvas->pick_event.motion.x + canvas->scroll_x1 - canvas->zoom_xofs;
-			y = canvas->pick_event.motion.y + canvas->scroll_y1 - canvas->zoom_yofs;
+			x = canvas->pick_event.motion.x +
+				canvas->scroll_x1 - canvas->zoom_xofs;
+			y = canvas->pick_event.motion.y +
+				canvas->scroll_y1 - canvas->zoom_yofs;
 		}
 
 		/* canvas pixel coords */

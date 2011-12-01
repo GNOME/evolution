@@ -405,7 +405,9 @@ mergeit (EContactMergingLookup *lookup)
 				data->field = use_field;
 				data->match = lookup->match;
 				e_contact_set (lookup->match, use_field, string);
-				g_signal_connect (dropdown, "changed", G_CALLBACK(dropdown_changed), data);
+				g_signal_connect (
+					dropdown, "changed",
+					G_CALLBACK (dropdown_changed), data);
 
 				hbox = gtk_hbox_new (FALSE, 0);
 				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) dropdown, FALSE, FALSE, 0);
@@ -451,7 +453,10 @@ mergeit (EContactMergingLookup *lookup)
 				if (field == E_CONTACT_NICKNAME || field == E_CONTACT_GIVEN_NAME)
 					gtk_widget_set_sensitive ((GtkWidget *) dropdown, FALSE);
 
-				g_signal_connect (dropdown, "changed", G_CALLBACK(dropdown_changed), data);
+				g_signal_connect (
+					dropdown, "changed",
+					G_CALLBACK (dropdown_changed), data);
+
 				hbox = gtk_hbox_new (FALSE, 0);
 				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) dropdown, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 1, 2, row, row + 1);
@@ -464,7 +469,9 @@ mergeit (EContactMergingLookup *lookup)
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), GTK_WIDGET (table));
 	gtk_box_pack_start (GTK_BOX (content_area), GTK_WIDGET (scrolled_window), TRUE, TRUE, 0);
 	gtk_widget_show (scrolled_window);
-	g_signal_connect (dialog, "map-event", G_CALLBACK (dialog_map), table);
+	g_signal_connect (
+		dialog, "map-event",
+		G_CALLBACK (dialog_map), table);
 	gtk_widget_show_all ((GtkWidget *) table);
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 

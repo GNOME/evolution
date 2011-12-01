@@ -70,6 +70,10 @@
 
 #define d(x)
 
+#define GNOME_CALENDAR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), GNOME_TYPE_CALENDAR, GnomeCalendarPrivate))
+
 /* Private part of the GnomeCalendar structure */
 struct _GnomeCalendarPrivate {
 	ECalModel *model;
@@ -500,6 +504,8 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 {
 	GObjectClass *object_class;
 	GtkBindingSet *binding_set;
+
+	g_type_class_add_private (class, sizeof (GnomeCalendarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = gnome_calendar_set_property;
@@ -1451,50 +1457,42 @@ setup_widgets (GnomeCalendar *gcal)
 static void
 gnome_calendar_init (GnomeCalendar *gcal)
 {
-	GnomeCalendarPrivate *priv;
+	gcal->priv = GNOME_CALENDAR_GET_PRIVATE (gcal);
 
-	priv = g_new0 (GnomeCalendarPrivate, 1);
-	gcal->priv = priv;
+	gcal->priv->todo_update_lock = g_mutex_new ();
+	gcal->priv->dn_query_lock = g_mutex_new ();
 
-	priv->todo_update_lock = g_mutex_new ();
-	priv->dn_query_lock = g_mutex_new ();
-
-	priv->current_view_type = GNOME_CAL_WORK_WEEK_VIEW;
-	priv->range_selected = FALSE;
-	priv->lview_select_daten_range = TRUE;
+	gcal->priv->current_view_type = GNOME_CAL_WORK_WEEK_VIEW;
+	gcal->priv->range_selected = FALSE;
+	gcal->priv->lview_select_daten_range = TRUE;
 
 	setup_widgets (gcal);
 
-	priv->dn_queries = NULL;
-	priv->sexp = g_strdup ("#t"); /* Match all */
-	priv->todo_sexp = g_strdup ("#t");
-	priv->memo_sexp = g_strdup ("#t");
+	gcal->priv->dn_queries = NULL;
+	gcal->priv->sexp = g_strdup ("#t"); /* Match all */
+	gcal->priv->todo_sexp = g_strdup ("#t");
+	gcal->priv->memo_sexp = g_strdup ("#t");
 
-	priv->visible_start = -1;
-	priv->visible_end = -1;
-	priv->updating = FALSE;
+	gcal->priv->visible_start = -1;
+	gcal->priv->visible_end = -1;
+	gcal->priv->updating = FALSE;
 
-	priv->cancellable = g_cancellable_new ();
+	gcal->priv->cancellable = g_cancellable_new ();
 }
 
 static void
 gnome_calendar_do_dispose (GObject *object)
 {
-	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
 	gint ii;
 
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (GNOME_IS_CALENDAR (object));
-
-	gcal = GNOME_CALENDAR (object);
-	priv = gcal->priv;
+	priv = GNOME_CALENDAR_GET_PRIVATE (object);
 
 	if (priv->model != NULL) {
 		g_signal_handlers_disconnect_by_func (
-			priv->model, view_progress_cb, gcal);
+			priv->model, view_progress_cb, object);
 		g_signal_handlers_disconnect_by_func (
-			priv->model, view_complete_cb, gcal);
+			priv->model, view_complete_cb, object);
 		g_object_unref (priv->model);
 		priv->model = NULL;
 	}
@@ -1506,7 +1504,7 @@ gnome_calendar_do_dispose (GObject *object)
 		}
 	}
 
-	free_dn_queries (gcal);
+	free_dn_queries (GNOME_CALENDAR (object));
 
 	if (priv->sexp) {
 		g_free (priv->sexp);
@@ -1529,21 +1527,21 @@ gnome_calendar_do_dispose (GObject *object)
 		priv->cancellable = NULL;
 	}
 
+	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (gnome_calendar_parent_class)->dispose (object);
 }
 
 static void
 gnome_calendar_finalize (GObject *object)
 {
-	GnomeCalendar *gcal = GNOME_CALENDAR (object);
-	GnomeCalendarPrivate *priv = gcal->priv;
+	GnomeCalendarPrivate *priv;
+
+	priv = GNOME_CALENDAR_GET_PRIVATE (object);
 
 	g_mutex_free (priv->todo_update_lock);
 	g_mutex_free (priv->dn_query_lock);
 
-	g_free (priv);
-	gcal->priv = NULL;
-
+	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (gnome_calendar_parent_class)->finalize (object);
 }
 

@@ -41,7 +41,9 @@ typedef void    (*MailMsgSubmitActivityFunc)	(GCancellable *cancellable);
 typedef void    (*MailMsgFreeActivityFunc)	(GCancellable *cancellable);
 typedef void    (*MailMsgCompleteActivityFunc)	(GCancellable *cancellable);
 typedef void    (*MailMsgCancelActivityFunc)	(GCancellable *cancellable);
-typedef void    (*MailMsgAlertErrorFunc)	(GCancellable *cancellable, const gchar *what, const gchar *message);
+typedef void    (*MailMsgAlertErrorFunc)	(GCancellable *cancellable,
+						 const gchar *what,
+						 const gchar *message);
 
 struct _MailMsg {
 	MailMsgInfo *info;

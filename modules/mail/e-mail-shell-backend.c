@@ -70,6 +70,10 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SHELL_BACKEND, EMailShellBackendPrivate))
 
+#define E_MAIL_SHELL_BACKEND_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_SHELL_BACKEND, EMailShellBackendPrivate))
+
 #define BACKEND_NAME "mail"
 
 struct _EMailShellBackendPrivate {
@@ -687,7 +691,7 @@ e_mail_shell_backend_type_register (GTypeModule *type_module)
 
 void
 e_mail_shell_backend_new_account (EMailShellBackend *mail_shell_backend,
-				  GtkWindow *parent)
+                                  GtkWindow *parent)
 {
 	EMailShellBackendPrivate *priv;
 
@@ -735,8 +739,8 @@ e_mail_shell_backend_new_account (EMailShellBackend *mail_shell_backend,
 
 void
 e_mail_shell_backend_edit_account (EMailShellBackend *mail_shell_backend,
-				   GtkWindow *parent,
-				   EAccount *account)
+                                   GtkWindow *parent,
+                                   EAccount *account)
 {
 	EMailShellBackendPrivate *priv;
 	EMAccountEditor *emae;

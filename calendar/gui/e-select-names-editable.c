@@ -31,80 +31,27 @@
 
 #include "e-select-names-editable.h"
 
-struct _ESelectNamesEditablePriv {
-	gint dummy;
-};
-
-static ENameSelectorEntryClass *parent_class;
+G_DEFINE_TYPE_WITH_CODE (
+	ESelectNamesEditable,
+	e_select_names_editable,
+	E_TYPE_NAME_SELECTOR_ENTRY,
+	G_IMPLEMENT_INTERFACE (
+		GTK_TYPE_CELL_EDITABLE, NULL))
 
 static void
-esne_cell_editable_init (GtkCellEditableIface *iface)
+e_select_names_editable_class_init (ESelectNamesEditableClass *class)
 {
 }
 
 static void
-esne_finalize (GObject *object)
+e_select_names_editable_init (ESelectNamesEditable *esne)
 {
-	ESelectNamesEditable *esne = (ESelectNamesEditable *) object;
-
-	g_free (esne->priv);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-static void
-esne_init (ESelectNamesEditable *esne)
-{
-	esne->priv = g_new0 (ESelectNamesEditablePriv, 1);
-}
-
-static void
-esne_class_init (GObjectClass *klass)
-{
-	klass->finalize = esne_finalize;
-
-	parent_class = E_NAME_SELECTOR_ENTRY_CLASS (g_type_class_peek_parent (klass));
-}
-
-GType
-e_select_names_editable_get_type (void)
-{
-	static GType esne_type = 0;
-
-	if (!esne_type) {
-		static const GTypeInfo esne_info = {
-			sizeof (ESelectNamesEditableClass),
-			NULL,		/* base_init */
-			NULL,		/* base_finalize */
-			(GClassInitFunc) esne_class_init,
-			NULL,		/* class_finalize */
-			NULL,		/* class_data */
-			sizeof (ESelectNamesEditable),
-			0,              /* n_preallocs */
-			(GInstanceInitFunc) esne_init,
-		};
-
-		static const GInterfaceInfo cell_editable_info = {
-			(GInterfaceInitFunc) esne_cell_editable_init,
-			NULL,
-			NULL
-		};
-
-		esne_type = g_type_register_static (E_TYPE_NAME_SELECTOR_ENTRY, "ESelectNamesEditable", &esne_info, 0);
-
-		g_type_add_interface_static (esne_type, GTK_TYPE_CELL_EDITABLE, &cell_editable_info);
-	}
-
-	return esne_type;
 }
 
 ESelectNamesEditable *
 e_select_names_editable_new (void)
 {
-	ESelectNamesEditable *esne = g_object_new (E_TYPE_SELECT_NAMES_EDITABLE, NULL);
-
-	return esne;
+	return g_object_new (E_TYPE_SELECT_NAMES_EDITABLE, NULL);
 }
 
 gchar *

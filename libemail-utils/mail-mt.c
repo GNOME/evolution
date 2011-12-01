@@ -51,14 +51,16 @@ static MailMsgCompleteActivityFunc complete_activity = NULL;
 static MailMsgAlertErrorFunc alert_error = NULL;
 static MailMsgCancelActivityFunc cancel_activity = NULL;
 
-void mail_msg_register_activities (MailMsgCreateActivityFunc acreate,
-				   MailMsgSubmitActivityFunc asubmit,
-				   MailMsgFreeActivityFunc freeact,
-				   MailMsgCompleteActivityFunc comp_act,
-				   MailMsgCancelActivityFunc cancel_act,
-				   MailMsgAlertErrorFunc ealert)
+void
+mail_msg_register_activities (MailMsgCreateActivityFunc acreate,
+                              MailMsgSubmitActivityFunc asubmit,
+                              MailMsgFreeActivityFunc freeact,
+                              MailMsgCompleteActivityFunc comp_act,
+                              MailMsgCancelActivityFunc cancel_act,
+                              MailMsgAlertErrorFunc ealert)
 {
-	/* This is a utter hack to keep EActivity out of EDS and still let Evolution do EActivity */
+	/* XXX This is an utter hack to keep EActivity out
+	 *     of EDS and still let Evolution do EActivity. */
 	create_activity = acreate;
 	submit_acitivity = asubmit;
 	free_activity = freeact;
@@ -232,8 +234,10 @@ mail_msg_check_error (gpointer msg)
 	/* XXX Hmm, no explanation of why this is needed.  It looks like
 	 *     a lame hack and will be removed at some point, if only to
 	 *     reintroduce whatever issue made this necessary so we can
-	 *     document it the source code this time. */
-	if (g_error_matches (m->error, CAMEL_FOLDER_ERROR, CAMEL_FOLDER_ERROR_INVALID_UID))
+	 *     document it in the source code this time. */
+	if (g_error_matches (
+		m->error, CAMEL_FOLDER_ERROR,
+		CAMEL_FOLDER_ERROR_INVALID_UID))
 		return;
 
 	/* FIXME: Submit an error on the dbus */

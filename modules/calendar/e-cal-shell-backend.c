@@ -379,7 +379,9 @@ action_event_new_cb (GtkAction *action,
 		view = gnome_calendar_get_calendar_view (gcal, view_type);
 
 		if (view) {
-			g_object_set (G_OBJECT (shell_backend), "prefer-new-item", action_name, NULL);
+			g_object_set (
+				G_OBJECT (shell_backend),
+				"prefer-new-item", action_name, NULL);
 
 			e_calendar_view_new_appointment_full (
 				view,

@@ -39,6 +39,10 @@
 #include "e-delegate-dialog.h"
 #include "schedule-page.h"
 
+#define SCHEDULE_PAGE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_SCHEDULE_PAGE, SchedulePagePrivate))
+
 /* Private part of the SchedulePage structure */
 struct _SchedulePagePrivate {
 	GtkBuilder *builder;
@@ -168,7 +172,7 @@ schedule_page_dispose (GObject *object)
 {
 	SchedulePagePrivate *priv;
 
-	priv = SCHEDULE_PAGE (object)->priv;
+	priv = SCHEDULE_PAGE_GET_PRIVATE (object);
 
 	if (priv->main != NULL) {
 		g_object_unref (priv->main);
@@ -283,8 +287,7 @@ schedule_page_class_init (SchedulePageClass *class)
 static void
 schedule_page_init (SchedulePage *spage)
 {
-	spage->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		spage, TYPE_SCHEDULE_PAGE, SchedulePagePrivate);
+	spage->priv = SCHEDULE_PAGE_GET_PRIVATE (spage);
 }
 
 /* Gets the widgets from the XML file and returns if they are all available. */
@@ -328,7 +331,9 @@ init_widgets (SchedulePage *spage)
 
 	priv = spage->priv;
 
-	g_signal_connect (priv->sel, "changed", G_CALLBACK (times_changed_cb), spage);
+	g_signal_connect (
+		priv->sel, "changed",
+		G_CALLBACK (times_changed_cb), spage);
 
 	return TRUE;
 }

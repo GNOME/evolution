@@ -29,6 +29,10 @@
 #include <e-util/e-util.h>
 #include "e-week-view-titles-item.h"
 
+#define E_WEEK_VIEW_TITLES_ITEM_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_WEEK_VIEW_TITLES_ITEM, EWeekViewTitlesItemPrivate))
+
 struct _EWeekViewTitlesItemPrivate {
 	EWeekView *week_view;
 };
@@ -38,7 +42,10 @@ enum {
 	PROP_WEEK_VIEW
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EWeekViewTitlesItem,
+	e_week_view_titles_item,
+	GNOME_TYPE_CANVAS_ITEM)
 
 static void
 week_view_titles_item_set_property (GObject *object,
@@ -80,7 +87,7 @@ week_view_titles_item_dispose (GObject *object)
 {
 	EWeekViewTitlesItemPrivate *priv;
 
-	priv = E_WEEK_VIEW_TITLES_ITEM (object)->priv;
+	priv = E_WEEK_VIEW_TITLES_ITEM_GET_PRIVATE (object);
 
 	if (priv->week_view != NULL) {
 		g_object_unref (priv->week_view);
@@ -88,7 +95,7 @@ week_view_titles_item_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_week_view_titles_item_parent_class)->dispose (object);
 }
 
 static void
@@ -99,7 +106,8 @@ week_view_titles_item_update (GnomeCanvasItem *item,
 	GnomeCanvasItemClass *canvas_item_class;
 
 	/* Chain up to parent's update() method. */
-	canvas_item_class = GNOME_CANVAS_ITEM_CLASS (parent_class);
+	canvas_item_class =
+		GNOME_CANVAS_ITEM_CLASS (e_week_view_titles_item_parent_class);
 	canvas_item_class->update (item, i2c, flags);
 
 	/* The item covers the entire canvas area. */
@@ -245,12 +253,11 @@ week_view_titles_item_point (GnomeCanvasItem *item,
 }
 
 static void
-week_view_titles_item_class_init (EWeekViewTitlesItemClass *class)
+e_week_view_titles_item_class_init (EWeekViewTitlesItemClass *class)
 {
 	GObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EWeekViewTitlesItemPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -275,38 +282,9 @@ week_view_titles_item_class_init (EWeekViewTitlesItemClass *class)
 }
 
 static void
-week_view_titles_item_init (EWeekViewTitlesItem *titles_item)
+e_week_view_titles_item_init (EWeekViewTitlesItem *titles_item)
 {
-	titles_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		titles_item, E_TYPE_WEEK_VIEW_TITLES_ITEM,
-		EWeekViewTitlesItemPrivate);
-}
-
-GType
-e_week_view_titles_item_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EWeekViewTitlesItemClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) week_view_titles_item_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EWeekViewTitlesItem),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) week_view_titles_item_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GNOME_TYPE_CANVAS_ITEM, "EWeekViewTitlesItem",
-			&type_info, 0);
-	}
-
-	return type;
+	titles_item->priv = E_WEEK_VIEW_TITLES_ITEM_GET_PRIVATE (titles_item);
 }
 
 EWeekView *

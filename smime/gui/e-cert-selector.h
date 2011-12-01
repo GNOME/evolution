@@ -26,24 +26,34 @@
 
 #include <gtk/gtk.h>
 
-#ifdef cplusplus
-extern "C" {
-#pragma }
-#endif /* cplusplus */
+/* Standard GObject macros */
+#define E_TYPE_CERT_SELECTOR \
+	(e_cert_selector_get_type ())
+#define E_CERT_SELECTOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CERT_SELECTOR, ECertSelector))
+#define E_CERT_SELECTOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CERT_SELECTOR, ECertSelectorClass))
+#define E_IS_CERT_SELECTOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CERT_SELECTOR))
+#define E_IS_CERT_SELECTOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CERT_SELECTOR))
+#define E_CERT_SELECTOR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CERT_SELECTOR, ECertSelectorClass))
 
-#define E_TYPE_CERT_SELECTOR			(e_cert_selector_get_type ())
-#define E_CERT_SELECTOR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CERT_SELECTOR, ECertSelector))
-#define E_CERT_SELECTOR_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_CERT_SELECTOR, ECertSelectorClass))
-#define E_IS_CERT_SELECTOR(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CERT_SELECTOR))
-#define E_IS_CERT_SELECTOR_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_CERT_SELECTOR))
+G_BEGIN_DECLS
 
-typedef struct _ECertSelector        ECertSelector;
-typedef struct _ECertSelectorClass   ECertSelectorClass;
+typedef struct _ECertSelector ECertSelector;
+typedef struct _ECertSelectorClass ECertSelectorClass;
+typedef struct _ECertSelectorPrivate ECertSelectorPrivate;
 
 struct _ECertSelector {
 	GtkDialog parent;
-
-	struct _ECertSelectorPrivate *priv;
+	ECertSelectorPrivate *priv;
 };
 
 struct _ECertSelectorClass {
@@ -60,8 +70,7 @@ enum _e_cert_selector_type {
 GType      e_cert_selector_get_type (void);
 GtkWidget *e_cert_selector_new      (gint type, const gchar *currentid);
 
-#ifdef cplusplus
-}
-#endif /* cplusplus */
+G_END_DECLS
 
 #endif /* E_CERT_SELECTOR_H */
+

@@ -88,12 +88,7 @@ enum {
 
 static guint e_cert_db_signals[LAST_SIGNAL];
 
-struct _ECertDBPrivate {
-	guint reserved;
-};
-
-#define PARENT_TYPE G_TYPE_OBJECT
-static GObjectClass *parent_class;
+G_DEFINE_TYPE (ECertDB, e_cert_db, G_TYPE_OBJECT)
 
 GQuark
 e_certdb_error_quark (void)
@@ -368,23 +363,6 @@ e_cert_db_get_certs_from_package (PRArenaPool *arena,
 	return collectArgs;
 }
 
-static void
-e_cert_db_dispose (GObject *object)
-{
-	ECertDB *ec = E_CERT_DB (object);
-
-	if (!ec->priv)
-		return;
-
-	/* XXX free instance specific data */
-
-	g_free (ec->priv);
-	ec->priv = NULL;
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
-}
-
 #ifdef notyet
 PRBool
 ucs2_ascii_conversion_fn (PRBool toUnicode,
@@ -541,15 +519,11 @@ install_loadable_roots (void)
 }
 
 static void
-e_cert_db_class_init (ECertDBClass *klass)
+e_cert_db_class_init (ECertDBClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS (klass);
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
-	object_class->dispose = e_cert_db_dispose;
+	object_class = G_OBJECT_CLASS (class);
 
 	initialize_nss ();
 	/* check to see if you have a rootcert module installed */
@@ -589,31 +563,6 @@ e_cert_db_class_init (ECertDBClass *klass)
 static void
 e_cert_db_init (ECertDB *ec)
 {
-	ec->priv = g_new0 (ECertDBPrivate, 1);
-}
-
-GType
-e_cert_db_get_type (void)
-{
-	static GType cert_type = 0;
-
-	if (!cert_type) {
-		static const GTypeInfo cert_info =  {
-			sizeof (ECertDBClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_cert_db_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (ECertDB),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_cert_db_init,
-		};
-
-		cert_type = g_type_register_static (PARENT_TYPE, "ECertDB", &cert_info, 0);
-	}
-
-	return cert_type;
 }
 
 GStaticMutex init_mutex = G_STATIC_MUTEX_INIT;
