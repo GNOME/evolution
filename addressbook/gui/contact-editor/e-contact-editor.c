@@ -3732,12 +3732,20 @@ e_contact_editor_is_valid (EABEditor *editor)
 	gboolean validation_error = FALSE;
 	GSList *iter;
 	GString *errmsg = g_string_new (_("The contact data is invalid:\n\n"));
+	time_t bday, now = time (NULL);
 
 	widget = e_builder_get_widget (ce->builder, "dateedit-birthday");
 	if (!(e_date_edit_date_is_valid (E_DATE_EDIT (widget)))) {
 		g_string_append_printf (
 			errmsg, _("'%s' has an invalid format"),
 			e_contact_pretty_name (E_CONTACT_BIRTH_DATE));
+		validation_error = TRUE;
+	}
+	/* If valid, see if the birthday is a future date */
+	bday = e_date_edit_get_time (E_DATE_EDIT (widget));
+	if (bday > now) {
+		g_string_append_printf (errmsg, _("'%s' cannot be a future date"),
+					e_contact_pretty_name (E_CONTACT_BIRTH_DATE));
 		validation_error = TRUE;
 	}
 
