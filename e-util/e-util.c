@@ -74,9 +74,6 @@ struct _WindowData {
 static void
 window_data_free (WindowData *data)
 {
-	if (data->window != NULL)
-		g_object_unref (data->window);
-
 	if (data->settings != NULL)
 		g_object_unref (data->settings);
 
@@ -341,7 +338,7 @@ e_restore_window (GtkWindow *window,
 	settings = g_settings_new_with_path (schema, settings_path);
 
 	data = g_slice_new0 (WindowData);
-	data->window = g_object_ref (window);
+	data->window = window;
 	data->settings = g_object_ref (settings);
 	data->flags = flags;
 
