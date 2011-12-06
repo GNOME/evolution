@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2011-12-03 11:02+0000\n"
-"PO-Revision-Date: 2011-12-04 19:56+0100\n"
+"POT-Creation-Date: 2011-12-04 19:01+0000\n"
+"PO-Revision-Date: 2011-12-06 20:35+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -144,7 +144,7 @@ msgstr "Omitir duplicados"
 
 #: ../addressbook/addressbook.error.xml.h:23
 msgid "Some addresses already exist in this contact list."
-msgstr "Añgunas direcciones ya existen en esta lista de contactos."
+msgstr "Algunas direcciones ya existen en esta lista de contactos."
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "Some features may not work properly with your current server"
@@ -202,19 +202,19 @@ msgstr "Este servidor no soporta el esquema de información LDAPv3."
 
 #: ../addressbook/addressbook.error.xml.h:33
 msgid "Unable to open address book"
-msgstr "No se pudo abrir la libreta de direcciones"
+msgstr "No se puede abrir la libreta de direcciones"
 
 #: ../addressbook/addressbook.error.xml.h:34
 msgid "Unable to perform search."
-msgstr "Es imposible efectuar la búsqueda."
+msgstr "No se puede efectuar la búsqueda."
 
 #: ../addressbook/addressbook.error.xml.h:35
 msgid "Unable to save {0}."
-msgstr "Es imposible guardar {0}."
+msgstr "No se puede guardar {0}."
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid "Would you like to save your changes?"
-msgstr "¿Desea guardar los cambios?"
+msgstr "¿Quiere guardar los cambios?"
 
 #: ../addressbook/addressbook.error.xml.h:37
 msgid ""
@@ -596,13 +596,13 @@ msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr ""
-"Los datos del contacto son inválidos:\n"
+"Los datos del contacto no son válidos:\n"
 "\n"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3740
 #, c-format
 msgid "'%s' has an invalid format"
-msgstr "«%s» tiene un formato inválido"
+msgstr "«%s» tiene un formato no válido"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3747
 #, c-format
@@ -612,7 +612,7 @@ msgstr "«%s» no puede ser una fecha en el futuro"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3755
 #, c-format
 msgid "%s'%s' has an invalid format"
-msgstr "%s«%s» tiene un formato inválido"
+msgstr "%s«%s» tiene un formato no válido"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3768
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3782
@@ -622,7 +622,7 @@ msgstr "%s«%s» está vacío"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3797
 msgid "Invalid contact."
-msgstr "Contacto inválido."
+msgstr "Contacto no válido."
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:438
 msgid "Contact Quick-Add"
@@ -2151,7 +2151,7 @@ msgstr "No preguntar otra vez sobre este programa."
 
 #: ../calendar/gui/alarm-notify/util.c:45
 msgid "invalid time"
-msgstr "hora inválida"
+msgstr "hora no válida"
 
 #. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:71 ../calendar/gui/e-alarm-list.c:405
@@ -3342,7 +3342,7 @@ msgstr "Esta cita tiene repeticiones que Evolution no puede editar."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:962
 msgid "Recurrence date is invalid"
-msgstr "La fecha de repetición es inválida"
+msgstr "La fecha de repetición no es válida"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1002
 msgid "End time of the recurrence was before event's start"
@@ -8171,7 +8171,6 @@ msgstr ""
 "Evolution"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
-#| msgid "Vertical Position"
 msgid "Vertical position for the tag pane"
 msgstr "Posición vertical del panel de etiquetas"
 
@@ -8181,34 +8180,25 @@ msgid "Week start"
 msgstr "Comienzo de la semana"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
-#| msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)"
 msgstr ""
 "El día en que empieza la semana, desde el domingo (0) hasta el sábado (6)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
-#| msgid "Whether or not to use the notification tray for display reminders."
 msgid "Whether or not to use the notification tray for display reminders"
 msgstr ""
 "Indica si se debe usar o no la bandeja de notificación para mostrar "
 "recordatorios"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
-#| msgid ""
-#| "Whether to ask for confirmation when deleting an appointment or task."
 msgid "Whether to ask for confirmation when deleting an appointment or task"
 msgstr "Indica si debe pedir confirmación al eliminar una cita o tarea"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
-#| msgid ""
-#| "Whether to ask for confirmation when expunging appointments and tasks."
 msgid "Whether to ask for confirmation when expunging appointments and tasks"
 msgstr "Indica si debe pedir confirmación al purgar citas y tareas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
-#| msgid ""
-#| "Whether to compress weekends in the month view, which puts Saturday and "
-#| "Sunday in the space of one weekday."
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday"
@@ -8217,17 +8207,12 @@ msgstr ""
 "al domingo en el mismo espacio que un día laborable"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
-#| msgid ""
-#| "Whether to display the end time of events in the week and month views."
 msgid "Whether to display the end time of events in the week and month views"
 msgstr ""
 "Indica si debe mostrar la hora de finalización de los acontecimientos en las "
 "vistas semanales y mensuales"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
-#| msgid ""
-#| "Whether to draw the Marcus Bains Line (line at current time) in the "
-#| "calendar."
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar"
 msgstr ""
@@ -8235,23 +8220,19 @@ msgstr ""
 "calendario"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
-#| msgid "Whether to hide completed tasks in the tasks view."
 msgid "Whether to hide completed tasks in the tasks view"
 msgstr "Indica si debe ocultar las tareas terminadas en la vista de tareas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
-#| msgid "Whether to scroll a Month View by a week, not by a month."
 msgid "Whether to scroll a Month View by a week, not by a month"
 msgstr "Indica si se debe desplazar la vista mensual una semana, no un mes"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
-#| msgid "Whether to set a default reminder for appointments."
 msgid "Whether to set a default reminder for appointments"
 msgstr ""
 "Indica si debe establecer un recordatorio predeterminado para las citas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
-#| msgid "Whether to set a reminder for birthdays and anniversaries."
 msgid "Whether to set a reminder for birthdays and anniversaries"
 msgstr ""
 "Indica si debe establecer un recordatorio para cumpleaños y aniversarios"
@@ -8285,8 +8266,6 @@ msgstr ""
 "tareas/reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
-#| msgid ""
-#| "Whether to show times in twenty four hour format instead of using am/pm."
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr ""
 "Indica si debe mostrar las horas en formato de veinticuatro horas en vez de "
@@ -8307,7 +8286,6 @@ msgstr ""
 "tareas/reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
-#| msgid "Whether to show week numbers in various places in the Calendar."
 msgid "Whether to show week numbers in various places in the Calendar"
 msgstr ""
 "Indica si debe mostrar los números de la semana en varias partes del "
@@ -8349,7 +8327,6 @@ msgid "Last upgraded configuration version"
 msgstr "Última versión de la configuración actualizada"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:3
-#| msgid "Enable and disable plugins"
 msgid "List of disabled plugins"
 msgstr "Lista de complementos desactivados"
 
@@ -8376,27 +8353,22 @@ msgid "The list of disabled plugins in Evolution"
 msgstr "La lista de complementos desactivados de Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:7
-#| msgid "Default window X coordinate"
 msgid "The window's X coordinate"
 msgstr "la coordenada X de la ventana"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:8
-#| msgid "Default window Y coordinate"
 msgid "The window's Y coordinate"
 msgstr "La coordenada Y de la ventana"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:9
-#| msgid "Default window height"
 msgid "The window's height in pixels"
 msgstr "La altura de la ventana en píxeles"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:10
-#| msgid "The window to which the shell view belongs"
 msgid "The window's width in pixels"
 msgstr "La anchura de la ventana en píxeles"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:11
-#| msgid "Whether or not the window should be maximized."
 msgid "Whether the window is maximized"
 msgstr "Indica si la ventana está maximizada"
 
@@ -8438,7 +8410,6 @@ msgstr ""
 "responde al mensaje mostrado en la ventana"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:4
-#| msgid "Attribute message."
 msgid "Attribute message"
 msgstr "Atribuir mensaje"
 
@@ -8563,9 +8534,6 @@ msgid "Default value for thread expand state"
 msgstr "Valor predeterminado para el estado de expansión de la conversación"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:26
-#| msgid ""
-#| "Describes whether message headers in paned view should be collapsed or "
-#| "expanded by default. \"0\" = expanded \"1\" = collapsed"
 msgid ""
 "Describes whether message headers in paned view should be collapsed or "
 "expanded by default. \"0\" = expanded and \"1\" = collapsed"
@@ -8621,9 +8589,6 @@ msgstr ""
 "la velocidad de comprobado de correo basura."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:32
-#| msgid ""
-#| "Determines whether to use the same fonts for both \"From\" and \"Subject"
-#| "\" lines in the \"Messages\" column in vertical view."
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view"
@@ -8641,7 +8606,6 @@ msgstr ""
 "«Asunto» en la columna «Mensajes» de la vista vertical."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:34
-#| msgid "Digitally sign messages when original message signed (PGP or S/MIME)"
 msgid "Digitally sign replies when the original message is signed"
 msgstr ""
 "Firmar las respuestas digitalmente cuando el mensaje original esté firmado"
@@ -8821,7 +8785,6 @@ msgid "Flush Outbox after filtering"
 msgstr "Limpiar la bandeja de salida después de filtrar"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
-#| msgid "Forward message."
 msgid "Forward message"
 msgstr "Reenviar mensaje"
 
@@ -9083,7 +9046,6 @@ msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Número de direcciones a mostrar en PARA/CC/CCO"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
-#| msgid "Original message."
 msgid "Original message"
 msgstr "Mensaje original"
 
@@ -9093,9 +9055,6 @@ msgid "Path where picture gallery should search for its content"
 msgstr "Ruta donde la galería de imágenes debería buscar su contenido"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
-#| msgid ""
-#| "Possible values are: never - to never close browser window always - to "
-#| "always close browser window ask - (or any other value) will ask user"
 msgid ""
 "Possible values are: 'never' - to never close browser window, 'always' - to "
 "always close browser window or 'ask' - (or any other value) will ask user."
@@ -9118,7 +9077,6 @@ msgid "Prompt on empty subject"
 msgstr "Preguntar si el asunto está en blanco"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
-#| msgid "Prompt the user when he or she tries to expunge a folder."
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "Preguntar al usuario cuando intente vaciar la papelera."
 
@@ -9139,7 +9097,6 @@ msgid "Prompt when deleting messages in search folder"
 msgstr "Preguntar al eliminar correos en carpetas de búsqueda"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
-#| msgid "Prompt when replying to many recipients"
 msgid "Prompt when emptying the trash"
 msgstr "Preguntar al vaciar la papelera"
 
@@ -9448,11 +9405,6 @@ msgid "State of message headers in paned view"
 msgstr "Estado de las cabeceras del mensaje en la vista con paneles"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
-#| msgid ""
-#| "Tells how to sort accounts in a folder tree used in a Mail view. When set "
-#| "to true accounts are sorted alphabetically, with an exception of On This "
-#| "Computer and Search folders, otherwise accounts are sorted based on an "
-#| "order given by a user."
 msgid ""
 "Tells how to sort accounts in a folder tree used in a Mail view. When set to "
 "true accounts are sorted alphabetically, with an exception of On This "
@@ -9509,9 +9461,6 @@ msgid "The terminal font for mail display."
 msgstr "La tipografía de terminal para mostrar el correo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
-#| msgid ""
-#| "The text that is inserted when forwarding a message, saying that the "
-#| "forwarded message follows."
 msgid ""
 "The text that is inserted when forwarding a message, saying that the "
 "forwarded message follows"
@@ -9520,9 +9469,6 @@ msgstr ""
 "el mensaje reenviado"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
-#| msgid ""
-#| "The text that is inserted when replying to a message (top posting), "
-#| "saying that the original message follows."
 msgid ""
 "The text that is inserted when replying to a message (top posting), saying "
 "that the original message follows"
@@ -9531,9 +9477,6 @@ msgstr ""
 "diciendo que el a continuación está el mensaje reenviado"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
-#| msgid ""
-#| "The text that is inserted when replying to a message, attributing the "
-#| "message to the original author."
 msgid ""
 "The text that is inserted when replying to a message, attributing the "
 "message to the original author"
@@ -9628,9 +9571,6 @@ msgstr ""
 "mensajes predeterminada, más allá de los cuales se muestra un «…»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
-#| msgid ""
-#| "This setting specifies whether the threads should be in expanded or "
-#| "collapsed state by default. Requires a restart to apply."
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -9651,10 +9591,6 @@ msgstr ""
 "Evolution necesita un reinicio."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
-#| msgid ""
-#| "This value can be an empty string, which means it'll use the system "
-#| "Picture folder, usually set to ~/Pictures. This folder will be also used "
-#| "when the set path is not pointing to the existent folder."
 msgid ""
 "This value can be an empty string, which means it'll use the system Picture "
 "folder, usually set to ~/Pictures. This folder will be also used when the "
@@ -9792,7 +9728,6 @@ msgstr ""
 "la última invocación a una acción."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
-#| msgid "Whether to show local folders (On This Computer) in a folder tree."
 msgid "Whether to show local folders (On This Computer) in a folder tree"
 msgstr ""
 "Indica si se deben mostrar las carpetas locales (En este equipo) en un árbol "
@@ -9863,11 +9798,11 @@ msgstr "Intervalo de comprobación para GAIM"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "GAIM last sync MD5"
-msgstr ""
+msgstr "MD5 de la última sincronización de Gaim"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
 msgid "GAIM last sync time"
-msgstr ""
+msgstr "Hora de la última sincronización de Gaim"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:11
 msgid "Whether GAIM contacts should be automaticall synced"
@@ -9898,7 +9833,6 @@ msgstr ""
 "los valores separados por «;»."
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:1
-#| msgid "Automatically launch editor when key is pressed in the mail composer"
 msgid "Automatically launch editor when key is pressed in the mail composer."
 msgstr ""
 "Lanzar el editor automáticamente al pulsar una tecla en el editor de correos."
@@ -9935,14 +9869,13 @@ msgstr ""
 "esto, de otra forma no sucederá nada."
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:1
-#, fuzzy
 #| msgid "_Delete Message"
 msgid "Delete processed"
-msgstr "_Eliminar el mensaje"
+msgstr "Eliminar procesados"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
 msgid "Whether to delete processed iTip objects"
-msgstr ""
+msgstr "indica si se deben eliminar los objetos iTip procesados"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
@@ -9959,7 +9892,6 @@ msgid "Enable icon in notification area."
 msgstr "Activar el icono en el área de notificación."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:4
-#| msgid "FILE"
 msgid "FIXME"
 msgstr "ARREGLAR"
 
@@ -10041,7 +9973,6 @@ msgstr ""
 "entrada."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:1
-#| msgid "Use custom fonts for displaying mail."
 msgid "Mode to use when displaying mails"
 msgstr "Modo que usar al mostrar correos"
 
@@ -10051,9 +9982,12 @@ msgid ""
 "best part to show, \"prefer_plain\" makes it use the text part, if present, "
 "and \"only_plain\" forces Evolution to only show plain text"
 msgstr ""
+"El modo usado para mostrar mensajes. «normal» hace que Evolution elija la "
+"mejor parte que mostrar, «prefer_plain» hace que se use la parte de texto, "
+"si existe, y «only_plain» fuerza a Evolution a mostrar sólo la parte de "
+"texto plano."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
-#| msgid "Whether to show the preview pane."
 msgid "Whether to show suppressed HTML output"
 msgstr "Indica si se muestra la salida HTML suprimida"
 
@@ -10110,8 +10044,6 @@ msgstr ""
 "icono, «1» es para Vista de lista."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
-#| msgid ""
-#| "List of paths for the folders to be synchronized to disk for offline usage"
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage."
 msgstr ""
@@ -10119,7 +10051,6 @@ msgstr ""
 "desconectado."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
-#| msgid "Opening folder '%s'"
 msgid "Offline folder paths"
 msgstr "Rutas a las carpetas desconectadas"
 
@@ -10210,18 +10141,15 @@ msgid "Window buttons are visible"
 msgstr "Los botones de la ventana son visibles"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
-#, fuzzy
 #| msgid "Failed to read output from SpamAssassin: "
 msgid "Socket path for SpamAssassin"
-msgstr "Falló al leer la salida de SpamAssassin: "
+msgstr "Ruta del zócalo para SpamAssassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:2
-#| msgid "SpamAssassin Options"
 msgid "SpamAssassin client binary"
 msgstr "Cliente de SpamAssasin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
-#| msgid "Use SpamAssassin daemon and client"
 msgid "SpamAssassin daemon binary"
 msgstr "Demonio de SpamAssassin"
 
@@ -14382,7 +14310,7 @@ msgstr "Ignorar"
 
 #: ../mail/mail.error.xml.h:83
 msgid "Invalid authentication"
-msgstr "Autenticación inválida"
+msgstr "Autenticación no válida"
 
 #: ../mail/mail.error.xml.h:84
 msgid "Mail Deletion Failed"
@@ -17696,12 +17624,10 @@ msgid "Importing Files"
 msgstr "Importando archivos"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:399
-#| msgid "I_mportance: "
 msgid "Import cancelled."
 msgstr "Importación cancelada."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:417
-#| msgid "Update complete\n"
 msgid "Import complete."
 msgstr "Importación completada."
 
@@ -18729,7 +18655,6 @@ msgstr "Enviado al calendario «%s» como cancelado"
 #: ../plugins/itip-formatter/itip-formatter.c:1570
 #: ../plugins/itip-formatter/itip-formatter.c:1963
 #: ../plugins/itip-formatter/itip-formatter.c:2054
-#| msgid "Opening the calendar. Please wait..."
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "Guardando cambios en el calendario. Espere…"
 
@@ -18760,15 +18685,14 @@ msgid "Attendee status updated"
 msgstr "Estado de asistencia actualizado"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1870
-#| msgid "Object is invalid and cannot be updated\n"
 msgid "The meeting is invalid and cannot be updated"
 msgstr "La cita no es válida y no se puede actualizar"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1936
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
-"El estado de asistencia no pudo actualizarse debido a que el estado es "
-"inválido"
+"El estado de asistencia no pudo actualizarse debido a que el estado no es "
+"válido"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1993
 #: ../plugins/itip-formatter/itip-formatter.c:2031
@@ -22010,11 +21934,11 @@ msgstr "Ninguna"
 
 #: ../widgets/misc/e-dateedit.c:1815
 msgid "Invalid Date Value"
-msgstr "Valor de fecha inválido"
+msgstr "Valor de fecha no válido"
 
 #: ../widgets/misc/e-dateedit.c:1859
 msgid "Invalid Time Value"
-msgstr "Valor de hora inválido"
+msgstr "Valor de hora no válido"
 
 #: ../widgets/misc/e-import-assistant.c:249
 msgid ""
