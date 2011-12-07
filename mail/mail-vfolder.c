@@ -1332,12 +1332,6 @@ new_rule_changed_cb (EFilterRule *rule,
 		dialog, GTK_RESPONSE_OK, rule->parts != NULL);
 }
 
-EFilterPart *
-vfolder_create_part (const gchar *name)
-{
-	return e_rule_context_create_part ((ERuleContext *) context, name);
-}
-
 /* clones a filter/search rule into a matching vfolder rule
  * (assuming the same system definitions) */
 EFilterRule *
