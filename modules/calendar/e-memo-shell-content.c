@@ -38,6 +38,10 @@
 #include "calendar/gui/e-cal-model-memos.h"
 #include "calendar/gui/e-memo-table.h"
 
+#define E_MEMO_SHELL_CONTENT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MEMO_SHELL_CONTENT, EMemoShellContentPrivate))
+
 #define E_MEMO_TABLE_DEFAULT_STATE \
 	"<?xml version=\"1.0\"?>" \
 	"<ETableState>" \
@@ -68,8 +72,13 @@ enum {
 	PROP_PREVIEW_VISIBLE
 };
 
-static gpointer parent_class;
-static GType memo_shell_content_type;
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (
+	EMemoShellContent,
+	e_memo_shell_content,
+	E_TYPE_SHELL_CONTENT,
+	0,
+	G_IMPLEMENT_INTERFACE_DYNAMIC (
+		GTK_TYPE_ORIENTABLE, NULL))
 
 static void
 memo_shell_content_display_view_cb (EMemoShellContent *memo_shell_content,
@@ -273,19 +282,22 @@ memo_shell_content_restore_state_cb (EShellWindow *shell_window,
 {
 	EMemoShellContentPrivate *priv;
 	GSettings *settings;
-	GObject *object;
 
-	priv = E_MEMO_SHELL_CONTENT (shell_content)->priv;
+	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (shell_content);
 
 	/* Bind GObject properties to settings keys. */
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");
 
-	object = G_OBJECT (priv->paned);
-	g_settings_bind (settings, "memo-hpane-position", object, "hposition", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "memo-hpane-position",
+		priv->paned, "hposition",
+		G_SETTINGS_BIND_DEFAULT);
 
-	object = G_OBJECT (priv->paned);
-	g_settings_bind (settings, "memo-vpane-position", object, "vposition", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "memo-vpane-position",
+		priv->paned, "vposition",
+		G_SETTINGS_BIND_DEFAULT);
 }
 
 static GtkOrientation
@@ -363,7 +375,7 @@ memo_shell_content_dispose (GObject *object)
 {
 	EMemoShellContentPrivate *priv;
 
-	priv = E_MEMO_SHELL_CONTENT (object)->priv;
+	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (object);
 
 	if (priv->paned != NULL) {
 		g_object_unref (priv->paned);
@@ -391,7 +403,7 @@ memo_shell_content_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_memo_shell_content_parent_class)->dispose (object);
 }
 
 static void
@@ -399,12 +411,12 @@ memo_shell_content_finalize (GObject *object)
 {
 	EMemoShellContentPrivate *priv;
 
-	priv = E_MEMO_SHELL_CONTENT (object)->priv;
+	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (object);
 
 	g_free (priv->current_uid);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_memo_shell_content_parent_class)->finalize (object);
 }
 
 static void
@@ -422,10 +434,10 @@ memo_shell_content_constructed (GObject *object)
 	GtkWidget *widget;
 	gint n_targets;
 
-	priv = E_MEMO_SHELL_CONTENT (object)->priv;
+	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_memo_shell_content_parent_class)->constructed (object);
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
@@ -597,18 +609,17 @@ memo_shell_content_focus_search_results (EShellContent *shell_content)
 {
 	EMemoShellContentPrivate *priv;
 
-	priv = E_MEMO_SHELL_CONTENT (shell_content)->priv;
+	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (shell_content);
 
 	gtk_widget_grab_focus (priv->memo_table);
 }
 
 static void
-memo_shell_content_class_init (EMemoShellContentClass *class)
+e_memo_shell_content_class_init (EMemoShellContentClass *class)
 {
 	GObjectClass *object_class;
 	EShellContentClass *shell_content_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMemoShellContentPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -649,50 +660,26 @@ memo_shell_content_class_init (EMemoShellContentClass *class)
 }
 
 static void
-memo_shell_content_init (EMemoShellContent *memo_shell_content)
+e_memo_shell_content_class_finalize (EMemoShellContentClass *class)
 {
-	memo_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		memo_shell_content, E_TYPE_MEMO_SHELL_CONTENT,
-		EMemoShellContentPrivate);
+}
+
+static void
+e_memo_shell_content_init (EMemoShellContent *memo_shell_content)
+{
+	memo_shell_content->priv =
+		E_MEMO_SHELL_CONTENT_GET_PRIVATE (memo_shell_content);
 
 	/* Postpone widget construction until we have a shell view. */
 }
 
-GType
-e_memo_shell_content_get_type (void)
-{
-	return memo_shell_content_type;
-}
-
 void
-e_memo_shell_content_register_type (GTypeModule *type_module)
+e_memo_shell_content_type_register (GTypeModule *type_module)
 {
-	static const GTypeInfo type_info = {
-		sizeof (EMemoShellContentClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) memo_shell_content_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (EMemoShellContent),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) memo_shell_content_init,
-		NULL   /* value_table */
-	};
-
-	static const GInterfaceInfo orientable_info = {
-		(GInterfaceInitFunc) NULL,
-		(GInterfaceFinalizeFunc) NULL,
-		NULL  /* interface_data */
-	};
-
-	memo_shell_content_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_CONTENT,
-		"EMemoShellContent", &type_info, 0);
-
-	g_type_module_add_interface (
-		type_module, memo_shell_content_type,
-		GTK_TYPE_ORIENTABLE, &orientable_info);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_memo_shell_content_register_type (type_module);
 }
 
 GtkWidget *

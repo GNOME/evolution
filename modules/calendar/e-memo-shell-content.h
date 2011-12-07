@@ -73,7 +73,7 @@ struct _EMemoShellContentClass {
 };
 
 GType		e_memo_shell_content_get_type	(void);
-void		e_memo_shell_content_register_type
+void		e_memo_shell_content_type_register
 					(GTypeModule *type_module);
 GtkWidget *	e_memo_shell_content_new
 					(EShellView *shell_view);

@@ -34,6 +34,10 @@
 #include "e-book-shell-backend.h"
 #include "e-addressbook-selector.h"
 
+#define E_BOOK_SHELL_SIDEBAR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_BOOK_SHELL_SIDEBAR, EBookShellSidebarPrivate))
+
 struct _EBookShellSidebarPrivate {
 	GtkWidget *selector;
 };
@@ -43,8 +47,10 @@ enum {
 	PROP_SELECTOR
 };
 
-static gpointer parent_class;
-static GType book_shell_sidebar_type;
+G_DEFINE_DYNAMIC_TYPE (
+	EBookShellSidebar,
+	e_book_shell_sidebar,
+	E_TYPE_SHELL_SIDEBAR)
 
 static void
 book_shell_sidebar_get_property (GObject *object,
@@ -68,7 +74,7 @@ book_shell_sidebar_dispose (GObject *object)
 {
 	EBookShellSidebarPrivate *priv;
 
-	priv = E_BOOK_SHELL_SIDEBAR (object)->priv;
+	priv = E_BOOK_SHELL_SIDEBAR_GET_PRIVATE (object);
 
 	if (priv->selector != NULL) {
 		g_object_unref (priv->selector);
@@ -76,7 +82,7 @@ book_shell_sidebar_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_book_shell_sidebar_parent_class)->dispose (object);
 }
 
 static void
@@ -92,10 +98,10 @@ book_shell_sidebar_constructed (GObject *object)
 	GtkContainer *container;
 	GtkWidget *widget;
 
-	priv = E_BOOK_SHELL_SIDEBAR (object)->priv;
+	priv = E_BOOK_SHELL_SIDEBAR_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_book_shell_sidebar_parent_class)->constructed (object);
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
@@ -174,12 +180,11 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 }
 
 static void
-book_shell_sidebar_class_init (EBookShellSidebarClass *class)
+e_book_shell_sidebar_class_init (EBookShellSidebarClass *class)
 {
 	GObjectClass *object_class;
 	EShellSidebarClass *shell_sidebar_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EBookShellSidebarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -202,40 +207,26 @@ book_shell_sidebar_class_init (EBookShellSidebarClass *class)
 }
 
 static void
-book_shell_sidebar_init (EBookShellSidebar *book_shell_sidebar)
+e_book_shell_sidebar_class_finalize (EBookShellSidebarClass *class)
 {
-	book_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		book_shell_sidebar, E_TYPE_BOOK_SHELL_SIDEBAR,
-		EBookShellSidebarPrivate);
+}
+
+static void
+e_book_shell_sidebar_init (EBookShellSidebar *book_shell_sidebar)
+{
+	book_shell_sidebar->priv =
+		E_BOOK_SHELL_SIDEBAR_GET_PRIVATE (book_shell_sidebar);
 
 	/* Postpone widget construction until we have a shell view. */
 }
 
-GType
-e_book_shell_sidebar_get_type (void)
-{
-	return book_shell_sidebar_type;
-}
-
 void
-e_book_shell_sidebar_register_type (GTypeModule *type_module)
+e_book_shell_sidebar_type_register (GTypeModule *type_module)
 {
-	static const GTypeInfo type_info = {
-		sizeof (EBookShellSidebarClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) book_shell_sidebar_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (EBookShellSidebar),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) book_shell_sidebar_init,
-		NULL   /* value_table */
-	};
-
-	book_shell_sidebar_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_SIDEBAR,
-		"EBookShellSidebar", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_book_shell_sidebar_register_type (type_module);
 }
 
 GtkWidget *

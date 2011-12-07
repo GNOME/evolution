@@ -47,6 +47,10 @@
 #include "e-task-shell-sidebar.h"
 #include "e-task-shell-view.h"
 
+#define E_TASK_SHELL_BACKEND_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TASK_SHELL_BACKEND, ETaskShellBackendPrivate))
+
 struct _ETaskShellBackendPrivate {
 	ESourceList *source_list;
 };
@@ -56,8 +60,10 @@ enum {
 	PROP_SOURCE_LIST
 };
 
-static gpointer parent_class;
-static GType task_shell_backend_type;
+G_DEFINE_DYNAMIC_TYPE (
+	ETaskShellBackend,
+	e_task_shell_backend,
+	E_TYPE_SHELL_BACKEND)
 
 static void
 task_shell_backend_ensure_sources (EShellBackend *shell_backend)
@@ -532,7 +538,7 @@ task_shell_backend_dispose (GObject *object)
 {
 	ETaskShellBackendPrivate *priv;
 
-	priv = E_TASK_SHELL_BACKEND (object)->priv;
+	priv = E_TASK_SHELL_BACKEND_GET_PRIVATE (object);
 
 	if (priv->source_list != NULL) {
 		g_object_unref (priv->source_list);
@@ -540,7 +546,7 @@ task_shell_backend_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_task_shell_backend_parent_class)->dispose (object);
 }
 
 static void
@@ -565,16 +571,15 @@ task_shell_backend_constructed (GObject *object)
 		shell_backend);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_task_shell_backend_parent_class)->constructed (object);
 }
 
 static void
-task_shell_backend_class_init (ETaskShellBackendClass *class)
+e_task_shell_backend_class_init (ETaskShellBackendClass *class)
 {
 	GObjectClass *object_class;
 	EShellBackendClass *shell_backend_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ETaskShellBackendPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -604,38 +609,24 @@ task_shell_backend_class_init (ETaskShellBackendClass *class)
 }
 
 static void
-task_shell_backend_init (ETaskShellBackend *task_shell_backend)
+e_task_shell_backend_class_finalize (ETaskShellBackendClass *class)
 {
-	task_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		task_shell_backend, E_TYPE_TASK_SHELL_BACKEND,
-		ETaskShellBackendPrivate);
 }
 
-GType
-e_task_shell_backend_get_type (void)
+static void
+e_task_shell_backend_init (ETaskShellBackend *task_shell_backend)
 {
-	return task_shell_backend_type;
+	task_shell_backend->priv =
+		E_TASK_SHELL_BACKEND_GET_PRIVATE (task_shell_backend);
 }
 
 void
-e_task_shell_backend_register_type (GTypeModule *type_module)
+e_task_shell_backend_type_register (GTypeModule *type_module)
 {
-	const GTypeInfo type_info = {
-		sizeof (ETaskShellBackendClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) task_shell_backend_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (ETaskShellBackend),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) task_shell_backend_init,
-		NULL   /* value_table */
-	};
-
-	task_shell_backend_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_BACKEND,
-		"ETaskShellBackend", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_task_shell_backend_register_type (type_module);
 }
 
 ESourceList *
@@ -664,7 +655,8 @@ e_task_shell_backend_get_selected_task_lists (ETaskShellBackend *task_shell_back
 
 	if (strv != NULL) {
 		for (ii = 0; strv[ii] != NULL; ii++)
-			selected_task_lists = g_slist_append (selected_task_lists, g_strdup (strv[ii]));
+			selected_task_lists = g_slist_append (
+				selected_task_lists, g_strdup (strv[ii]));
 
 		g_strfreev (strv);
 	}
@@ -687,7 +679,9 @@ e_task_shell_backend_set_selected_task_lists (ETaskShellBackend *task_shell_back
 	g_ptr_array_add (array, NULL);
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");
-	g_settings_set_strv (settings, "selected-tasks", (const gchar *const *) array->pdata);
+	g_settings_set_strv (
+		settings, "selected-tasks",
+		(const gchar *const *) array->pdata);
 	g_object_unref (settings);
 
 	g_ptr_array_free (array, FALSE);

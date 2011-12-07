@@ -249,7 +249,7 @@ cal_shell_view_popup_event_cb (EShellView *shell_view,
 	const gchar *widget_path;
 	gint n_selected;
 
-	priv = E_CAL_SHELL_VIEW (shell_view)->priv;
+	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	calendar = e_cal_shell_content_get_calendar (priv->cal_shell_content);
 
@@ -490,10 +490,10 @@ init_timezone_monitors (ECalShellView *view)
 		g_object_unref (file);
 
 		if (priv->monitors[i])
-			g_signal_connect_object (G_OBJECT (priv->monitors[i]),
-						 "changed",
-						 G_CALLBACK (system_timezone_monitor_changed),
-						 view, 0);
+			g_signal_connect_object (
+				priv->monitors[i], "changed",
+				G_CALLBACK (system_timezone_monitor_changed),
+				view, 0);
 	}
 }
 

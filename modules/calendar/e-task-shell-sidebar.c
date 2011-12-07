@@ -39,6 +39,10 @@
 #include "e-task-shell-backend.h"
 #include "e-task-shell-content.h"
 
+#define E_TASK_SHELL_SIDEBAR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TASK_SHELL_SIDEBAR, ETaskShellSidebarPrivate))
+
 struct _ETaskShellSidebarPrivate {
 	GtkWidget *selector;
 
@@ -71,9 +75,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
-static GType task_shell_sidebar_type;
+
+G_DEFINE_DYNAMIC_TYPE (
+	ETaskShellSidebar,
+	e_task_shell_sidebar,
+	E_TYPE_SHELL_SIDEBAR)
 
 static void
 task_shell_sidebar_emit_client_added (ETaskShellSidebar *task_shell_sidebar,
@@ -342,7 +349,7 @@ task_shell_sidebar_default_loaded_cb (GObject *source_object,
 	EClient *client = NULL;
 	GError *error = NULL;
 
-	priv = E_TASK_SHELL_SIDEBAR (shell_sidebar)->priv;
+	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -520,7 +527,7 @@ task_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	GtkTreeModel *model;
 	GSList *list, *iter;
 
-	priv = E_TASK_SHELL_SIDEBAR (shell_sidebar)->priv;
+	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -607,7 +614,7 @@ task_shell_sidebar_dispose (GObject *object)
 {
 	ETaskShellSidebarPrivate *priv;
 
-	priv = E_TASK_SHELL_SIDEBAR (object)->priv;
+	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (object);
 
 	if (priv->selector != NULL) {
 		g_object_unref (priv->selector);
@@ -634,7 +641,7 @@ task_shell_sidebar_dispose (GObject *object)
 	g_hash_table_remove_all (priv->client_table);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_task_shell_sidebar_parent_class)->dispose (object);
 }
 
 static void
@@ -642,12 +649,12 @@ task_shell_sidebar_finalize (GObject *object)
 {
 	ETaskShellSidebarPrivate *priv;
 
-	priv = E_TASK_SHELL_SIDEBAR (object)->priv;
+	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->client_table);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_task_shell_sidebar_parent_class)->finalize (object);
 }
 
 static void
@@ -663,10 +670,10 @@ task_shell_sidebar_constructed (GObject *object)
 	GtkWidget *widget;
 	AtkObject *a11y;
 
-	priv = E_TASK_SHELL_SIDEBAR (object)->priv;
+	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_task_shell_sidebar_parent_class)->constructed (object);
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
@@ -779,12 +786,11 @@ task_shell_sidebar_client_removed (ETaskShellSidebar *task_shell_sidebar,
 }
 
 static void
-task_shell_sidebar_class_init (ETaskShellSidebarClass *class)
+e_task_shell_sidebar_class_init (ETaskShellSidebarClass *class)
 {
 	GObjectClass *object_class;
 	EShellSidebarClass *shell_sidebar_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ETaskShellSidebarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -851,7 +857,12 @@ task_shell_sidebar_class_init (ETaskShellSidebarClass *class)
 }
 
 static void
-task_shell_sidebar_init (ETaskShellSidebar *task_shell_sidebar)
+e_task_shell_sidebar_class_finalize (ETaskShellSidebarClass *class)
+{
+}
+
+static void
+e_task_shell_sidebar_init (ETaskShellSidebar *task_shell_sidebar)
 {
 	GHashTable *client_table;
 
@@ -860,9 +871,8 @@ task_shell_sidebar_init (ETaskShellSidebar *task_shell_sidebar)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 
-	task_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		task_shell_sidebar, E_TYPE_TASK_SHELL_SIDEBAR,
-		ETaskShellSidebarPrivate);
+	task_shell_sidebar->priv =
+		E_TASK_SHELL_SIDEBAR_GET_PRIVATE (task_shell_sidebar);
 
 	task_shell_sidebar->priv->client_table = client_table;
 	task_shell_sidebar->priv->loading_clients = g_cancellable_new ();
@@ -870,31 +880,13 @@ task_shell_sidebar_init (ETaskShellSidebar *task_shell_sidebar)
 	/* Postpone widget construction until we have a shell view. */
 }
 
-GType
-e_task_shell_sidebar_get_type (void)
-{
-	return task_shell_sidebar_type;
-}
-
 void
-e_task_shell_sidebar_register_type (GTypeModule *type_module)
+e_task_shell_sidebar_type_register (GTypeModule *type_module)
 {
-	static const GTypeInfo type_info = {
-		sizeof (ETaskShellSidebarClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) task_shell_sidebar_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (ETaskShellSidebar),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) task_shell_sidebar_init,
-		NULL   /* value_table */
-	};
-
-	task_shell_sidebar_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_SIDEBAR,
-		"ETaskShellSidebar", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_task_shell_sidebar_register_type (type_module);
 }
 
 GtkWidget *

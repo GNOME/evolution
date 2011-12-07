@@ -56,6 +56,10 @@
 #include "smime/gui/certificate-manager.h"
 #endif
 
+#define E_BOOK_SHELL_BACKEND_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_BOOK_SHELL_BACKEND, EBookShellBackendPrivate))
+
 struct _EBookShellBackendPrivate {
 	ESourceList *source_list;
 };
@@ -65,8 +69,10 @@ enum {
 	PROP_SOURCE_LIST
 };
 
-static gpointer parent_class;
-static GType book_shell_backend_type;
+G_DEFINE_DYNAMIC_TYPE (
+	EBookShellBackend,
+	e_book_shell_backend,
+	E_TYPE_SHELL_BACKEND)
 
 static void
 book_shell_backend_ensure_sources (EShellBackend *shell_backend)
@@ -84,7 +90,7 @@ book_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	on_this_computer = NULL;
 	personal = NULL;
 
-	priv = E_BOOK_SHELL_BACKEND (shell_backend)->priv;
+	priv = E_BOOK_SHELL_BACKEND_GET_PRIVATE (shell_backend);
 
 	e_book_client_get_sources (&priv->source_list, &error);
 
@@ -483,7 +489,7 @@ book_shell_backend_dispose (GObject *object)
 {
 	EBookShellBackendPrivate *priv;
 
-	priv = E_BOOK_SHELL_BACKEND (object)->priv;
+	priv = E_BOOK_SHELL_BACKEND_GET_PRIVATE (object);
 
 	if (priv->source_list != NULL) {
 		g_object_unref (priv->source_list);
@@ -491,7 +497,7 @@ book_shell_backend_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_book_shell_backend_parent_class)->dispose (object);
 }
 
 static void
@@ -537,16 +543,15 @@ book_shell_backend_constructed (GObject *object)
 	g_idle_add ((GSourceFunc) book_shell_backend_init_preferences, shell);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_book_shell_backend_parent_class)->constructed (object);
 }
 
 static void
-book_shell_backend_class_init (EBookShellBackendClass *class)
+e_book_shell_backend_class_init (EBookShellBackendClass *class)
 {
 	GObjectClass *object_class;
 	EShellBackendClass *shell_backend_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EBookShellBackendPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -576,38 +581,24 @@ book_shell_backend_class_init (EBookShellBackendClass *class)
 }
 
 static void
-book_shell_backend_init (EBookShellBackend *book_shell_backend)
+e_book_shell_backend_class_finalize (EBookShellBackendClass *class)
 {
-	book_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		book_shell_backend, E_TYPE_BOOK_SHELL_BACKEND,
-		EBookShellBackendPrivate);
 }
 
-GType
-e_book_shell_backend_get_type (void)
+static void
+e_book_shell_backend_init (EBookShellBackend *book_shell_backend)
 {
-	return book_shell_backend_type;
+	book_shell_backend->priv =
+		E_BOOK_SHELL_BACKEND_GET_PRIVATE (book_shell_backend);
 }
 
 void
-e_book_shell_backend_register_type (GTypeModule *type_module)
+e_book_shell_backend_type_register (GTypeModule *type_module)
 {
-	const GTypeInfo type_info = {
-		sizeof (EBookShellBackendClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) book_shell_backend_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (EBookShellBackend),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) book_shell_backend_init,
-		NULL   /* value_table */
-	};
-
-	book_shell_backend_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_BACKEND,
-		"EBookShellBackend", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_book_shell_backend_register_type (type_module);
 }
 
 ESourceList *

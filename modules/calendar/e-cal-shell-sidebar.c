@@ -40,6 +40,10 @@
 #include "e-cal-shell-backend.h"
 #include "e-cal-shell-content.h"
 
+#define E_CAL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_SHELL_SIDEBAR, ECalShellSidebarPrivate))
+
 struct _ECalShellSidebarPrivate {
 	GtkWidget *paned;
 	GtkWidget *selector;
@@ -75,9 +79,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
-static GType cal_shell_sidebar_type;
+
+G_DEFINE_DYNAMIC_TYPE (
+	ECalShellSidebar,
+	e_cal_shell_sidebar,
+	E_TYPE_SHELL_SIDEBAR)
 
 static void
 cal_shell_sidebar_emit_client_added (ECalShellSidebar *cal_shell_sidebar,
@@ -347,7 +354,7 @@ cal_shell_sidebar_default_loaded_cb (GObject *source_object,
 	EClient *client = NULL;
 	GError *error = NULL;
 
-	priv = E_CAL_SHELL_SIDEBAR (shell_sidebar)->priv;
+	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -527,7 +534,7 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	GSList *list, *iter;
 	GObject *object;
 
-	priv = E_CAL_SHELL_SIDEBAR (shell_sidebar)->priv;
+	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -630,7 +637,7 @@ cal_shell_sidebar_dispose (GObject *object)
 {
 	ECalShellSidebarPrivate *priv;
 
-	priv = E_CAL_SHELL_SIDEBAR (object)->priv;
+	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (object);
 
 	if (priv->paned != NULL) {
 		g_object_unref (priv->paned);
@@ -667,7 +674,7 @@ cal_shell_sidebar_dispose (GObject *object)
 	g_hash_table_remove_all (priv->client_table);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_cal_shell_sidebar_parent_class)->dispose (object);
 }
 
 static void
@@ -675,12 +682,12 @@ cal_shell_sidebar_finalize (GObject *object)
 {
 	ECalShellSidebarPrivate *priv;
 
-	priv = E_CAL_SHELL_SIDEBAR (object)->priv;
+	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (object);
 
 	g_hash_table_destroy (priv->client_table);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_cal_shell_sidebar_parent_class)->finalize (object);
 }
 
 static void
@@ -712,10 +719,10 @@ cal_shell_sidebar_constructed (GObject *object)
 	GtkWidget *widget;
 	AtkObject *a11y;
 
-	priv = E_CAL_SHELL_SIDEBAR (object)->priv;
+	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_cal_shell_sidebar_parent_class)->constructed (object);
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
@@ -873,12 +880,11 @@ cal_shell_sidebar_client_removed (ECalShellSidebar *cal_shell_sidebar,
 }
 
 static void
-cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
+e_cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 {
 	GObjectClass *object_class;
 	EShellSidebarClass *shell_sidebar_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalShellSidebarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -954,7 +960,12 @@ cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 }
 
 static void
-cal_shell_sidebar_init (ECalShellSidebar *cal_shell_sidebar)
+e_cal_shell_sidebar_class_finalize (ECalShellSidebarClass *class)
+{
+}
+
+static void
+e_cal_shell_sidebar_init (ECalShellSidebar *cal_shell_sidebar)
 {
 	GHashTable *client_table;
 
@@ -963,9 +974,8 @@ cal_shell_sidebar_init (ECalShellSidebar *cal_shell_sidebar)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 
-	cal_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		cal_shell_sidebar, E_TYPE_CAL_SHELL_SIDEBAR,
-		ECalShellSidebarPrivate);
+	cal_shell_sidebar->priv =
+		E_CAL_SHELL_SIDEBAR_GET_PRIVATE (cal_shell_sidebar);
 
 	cal_shell_sidebar->priv->client_table = client_table;
 	cal_shell_sidebar->priv->loading_clients = g_cancellable_new ();
@@ -973,31 +983,13 @@ cal_shell_sidebar_init (ECalShellSidebar *cal_shell_sidebar)
 	/* Postpone widget construction until we have a shell view. */
 }
 
-GType
-e_cal_shell_sidebar_get_type (void)
-{
-	return cal_shell_sidebar_type;
-}
-
 void
-e_cal_shell_sidebar_register_type (GTypeModule *type_module)
+e_cal_shell_sidebar_type_register (GTypeModule *type_module)
 {
-	static const GTypeInfo type_info = {
-		sizeof (ECalShellSidebarClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) cal_shell_sidebar_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (ECalShellSidebar),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) cal_shell_sidebar_init,
-		NULL   /* value_table */
-	};
-
-	cal_shell_sidebar_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_SIDEBAR,
-		"ECalShellSidebar", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_cal_shell_sidebar_register_type (type_module);
 }
 
 GtkWidget *

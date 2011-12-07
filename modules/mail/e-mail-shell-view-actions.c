@@ -1634,7 +1634,6 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	GtkActionGroup *action_group;
 	GtkAction *action;
 	GSettings *settings;
-	GObject *object;
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
@@ -1694,11 +1693,15 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
-	object = G_OBJECT (ACTION (MAIL_SHOW_DELETED));
-	g_settings_bind (settings, "show-deleted", object, "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "show-deleted",
+		ACTION (MAIL_SHOW_DELETED), "active",
+		G_SETTINGS_BIND_DEFAULT);
 
-	object = G_OBJECT (ACTION (MAIL_VIEW_VERTICAL));
-	g_settings_bind (settings, "layout", object, "current-value", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "layout",
+		ACTION (MAIL_VIEW_VERTICAL), "current-value",
+		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);
 

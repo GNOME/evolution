@@ -69,23 +69,25 @@ struct _ETaskShellSidebarClass {
 	EShellSidebarClass parent_class;
 
 	/* Signals */
-	void	(*client_added)			(ETaskShellSidebar *task_shell_sidebar,
-						 ECalClient *client);
-	void	(*client_removed)		(ETaskShellSidebar *task_shell_sidebar,
-						 ECalClient *client);
-	void	(*status_message)		(ETaskShellSidebar *task_shell_sidebar,
-						 const gchar *status_message,
-						 gdouble percent);
+	void		(*client_added)	(ETaskShellSidebar *task_shell_sidebar,
+					 ECalClient *client);
+	void		(*client_removed)
+					(ETaskShellSidebar *task_shell_sidebar,
+					 ECalClient *client);
+	void		(*status_message)
+					(ETaskShellSidebar *task_shell_sidebar,
+					 const gchar *status_message,
+					 gdouble percent);
 };
 
 GType		e_task_shell_sidebar_get_type	(void);
-void		e_task_shell_sidebar_register_type
+void		e_task_shell_sidebar_type_register
 					(GTypeModule *type_module);
 GtkWidget *	e_task_shell_sidebar_new
 					(EShellView *shell_view);
 GList *		e_task_shell_sidebar_get_clients
 					(ETaskShellSidebar *task_shell_sidebar);
-ECalClient *		e_task_shell_sidebar_get_default_client
+ECalClient *	e_task_shell_sidebar_get_default_client
 					(ETaskShellSidebar *task_shell_sidebar);
 ESourceSelector *
 		e_task_shell_sidebar_get_selector

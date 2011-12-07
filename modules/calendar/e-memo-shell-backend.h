@@ -60,7 +60,7 @@ struct _EMemoShellBackendClass {
 };
 
 GType		e_memo_shell_backend_get_type	(void);
-void		e_memo_shell_backend_register_type
+void		e_memo_shell_backend_type_register
 					(GTypeModule *type_module);
 ESourceList *	e_memo_shell_backend_get_source_list
 					(EMemoShellBackend *memo_shell_backend);

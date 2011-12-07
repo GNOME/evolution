@@ -59,8 +59,8 @@ struct _EMailShellBackendClass {
 };
 
 GType		e_mail_shell_backend_get_type	(void);
-void		e_mail_shell_backend_register_type
-					(GTypeModule *type_module);
+void		e_mail_shell_backend_type_register
+						(GTypeModule *type_module);
 
 /* XXX Find a better place for this function. */
 GSList *	e_mail_labels_get_filter_options (void);

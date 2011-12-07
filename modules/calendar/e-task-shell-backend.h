@@ -60,7 +60,7 @@ struct _ETaskShellBackendClass {
 };
 
 GType		e_task_shell_backend_get_type	(void);
-void		e_task_shell_backend_register_type
+void		e_task_shell_backend_type_register
 					(GTypeModule *type_module);
 ESourceList *	e_task_shell_backend_get_source_list
 					(ETaskShellBackend *task_shell_backend);

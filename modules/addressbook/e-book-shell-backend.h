@@ -60,7 +60,7 @@ struct _EBookShellBackendClass {
 };
 
 GType		e_book_shell_backend_get_type	(void);
-void		e_book_shell_backend_register_type
+void		e_book_shell_backend_type_register
 					(GTypeModule *type_module);
 ESourceList *	e_book_shell_backend_get_source_list
 					(EBookShellBackend *book_shell_backend);

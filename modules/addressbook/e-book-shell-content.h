@@ -77,7 +77,7 @@ struct _EBookShellContentClass {
 };
 
 GType		e_book_shell_content_get_type	(void);
-void		e_book_shell_content_register_type
+void		e_book_shell_content_type_register
 					(GTypeModule *type_module);
 GtkWidget *	e_book_shell_content_new
 					(EShellView *shell_view);

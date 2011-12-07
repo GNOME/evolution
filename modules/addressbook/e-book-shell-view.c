@@ -145,7 +145,7 @@ book_shell_view_execute_search (EShellView *shell_view)
 	gchar *search_text = NULL;
 	EFilterRule *advanced_search = NULL;
 
-	priv = E_BOOK_SHELL_VIEW (shell_view)->priv;
+	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	if (priv->search_locked)
 		return;
@@ -415,9 +415,8 @@ static void
 book_shell_view_init (EBookShellView *book_shell_view,
                       EShellViewClass *shell_view_class)
 {
-	book_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		book_shell_view, E_TYPE_BOOK_SHELL_VIEW,
-		EBookShellViewPrivate);
+	book_shell_view->priv =
+		E_BOOK_SHELL_VIEW_GET_PRIVATE (book_shell_view);
 
 	e_book_shell_view_private_init (book_shell_view, shell_view_class);
 }

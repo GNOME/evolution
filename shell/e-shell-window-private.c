@@ -259,7 +259,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	GtkPaned *paned;
 	GtkWidget *widget;
 	GtkWindow *window;
-	GObject *object;
 	guint merge_id;
 	const gchar *id;
 
@@ -409,27 +408,39 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	settings = g_settings_new ("org.gnome.evolution.shell");
 
-	object = G_OBJECT (shell_window);
-	g_settings_bind (settings, "default-component-id", object, "active-view", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "default-component-id",
+		shell_window, "active-view",
+		G_SETTINGS_BIND_DEFAULT);
 
-	object = G_OBJECT (priv->content_pane);
-	g_settings_bind (settings, "folder-bar-width", object, "position", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "folder-bar-width",
+		priv->content_pane, "position",
+		G_SETTINGS_BIND_DEFAULT);
 
-	object = G_OBJECT (shell_window);
-	g_settings_bind (settings, "sidebar-visible", object, "sidebar-visible", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "sidebar-visible",
+		shell_window, "sidebar-visible",
+		G_SETTINGS_BIND_DEFAULT);
 
-	object = G_OBJECT (shell_window);
-	g_settings_bind (settings, "statusbar-visible", object, "taskbar-visible", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "statusbar-visible",
+		shell_window, "taskbar-visible",
+		G_SETTINGS_BIND_DEFAULT);
 
 	if (e_shell_get_express_mode (shell)) {
 		e_shell_window_set_switcher_visible (shell_window, FALSE);
 	} else {
-		object = G_OBJECT (shell_window);
-		g_settings_bind (settings, "buttons-visible", object, "switcher-visible", G_SETTINGS_BIND_DEFAULT);
+		g_settings_bind (
+			settings, "buttons-visible",
+			shell_window, "switcher-visible",
+			G_SETTINGS_BIND_DEFAULT);
 	}
 
-	object = G_OBJECT (shell_window);
-	g_settings_bind (settings, "toolbar-visible", object, "toolbar-visible", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "toolbar-visible",
+		shell_window, "toolbar-visible",
+		G_SETTINGS_BIND_DEFAULT);
 
 	/* Configure the initial size and position of the window by way
 	 * of either a user-supplied geometry string or the last recorded

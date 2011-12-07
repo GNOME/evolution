@@ -69,17 +69,19 @@ struct _EMemoShellSidebarClass {
 	EShellSidebarClass parent_class;
 
 	/* Signals */
-	void	(*client_added)			(EMemoShellSidebar *memo_shell_sidebar,
-						 ECalClient *client);
-	void	(*client_removed)		(EMemoShellSidebar *memo_shell_sidebar,
-						 ECalClient *client);
-	void	(*status_message)		(EMemoShellSidebar *memo_shell_sidebar,
-						 const gchar *status_message,
-						 gdouble percent);
+	void		(*client_added)	(EMemoShellSidebar *memo_shell_sidebar,
+					 ECalClient *client);
+	void		(*client_removed)
+					(EMemoShellSidebar *memo_shell_sidebar,
+					 ECalClient *client);
+	void		(*status_message)
+					(EMemoShellSidebar *memo_shell_sidebar,
+					 const gchar *status_message,
+					 gdouble percent);
 };
 
 GType		e_memo_shell_sidebar_get_type	(void);
-void		e_memo_shell_sidebar_register_type
+void		e_memo_shell_sidebar_type_register
 					(GTypeModule *type_module);
 GtkWidget *	e_memo_shell_sidebar_new
 					(EShellView *shell_view);

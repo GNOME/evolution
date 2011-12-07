@@ -25,10 +25,10 @@
 
 #include "e-book-config-hook.h"
 
+#include "e-book-shell-view.h"
 #include "e-book-shell-backend.h"
 #include "e-book-shell-content.h"
 #include "e-book-shell-sidebar.h"
-#include "e-book-shell-view.h"
 
 /* Module Entry Points */
 void e_module_load (GTypeModule *type_module);
@@ -41,10 +41,10 @@ e_module_load (GTypeModule *type_module)
 
 	e_book_config_hook_register_type (type_module);
 
-	e_book_shell_backend_register_type (type_module);
-	e_book_shell_content_register_type (type_module);
-	e_book_shell_sidebar_register_type (type_module);
 	e_book_shell_view_register_type (type_module);
+	e_book_shell_backend_type_register (type_module);
+	e_book_shell_content_type_register (type_module);
+	e_book_shell_sidebar_type_register (type_module);
 }
 
 G_MODULE_EXPORT void

@@ -29,6 +29,10 @@
 #include "mail/e-mail-sidebar.h"
 #include "mail/em-folder-utils.h"
 
+#define E_MAIL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_SHELL_SIDEBAR, EMailShellSidebarPrivate))
+
 struct _EMailShellSidebarPrivate {
 	GtkWidget *folder_tree;
 };
@@ -38,8 +42,10 @@ enum {
 	PROP_FOLDER_TREE
 };
 
-static gpointer parent_class;
-static GType mail_shell_sidebar_type;
+G_DEFINE_DYNAMIC_TYPE (
+	EMailShellSidebar,
+	e_mail_shell_sidebar,
+	E_TYPE_SHELL_SIDEBAR)
 
 static void
 mail_shell_sidebar_selection_changed_cb (EShellSidebar *shell_sidebar,
@@ -99,7 +105,7 @@ mail_shell_sidebar_dispose (GObject *object)
 {
 	EMailShellSidebarPrivate *priv;
 
-	priv = E_MAIL_SHELL_SIDEBAR (object)->priv;
+	priv = E_MAIL_SHELL_SIDEBAR_GET_PRIVATE (object);
 
 	if (priv->folder_tree != NULL) {
 		g_object_unref (priv->folder_tree);
@@ -107,7 +113,7 @@ mail_shell_sidebar_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_mail_shell_sidebar_parent_class)->dispose (object);
 }
 
 static void
@@ -126,7 +132,7 @@ mail_shell_sidebar_constructed (GObject *object)
 	GtkWidget *widget;
 
 	/* Chain up to parent's constructed method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_mail_shell_sidebar_parent_class)->constructed (object);
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
@@ -232,8 +238,8 @@ mail_shell_sidebar_get_preferred_height (GtkWidget *widget,
                                          gint *minimum_height,
                                          gint *natural_height)
 {
-	GTK_WIDGET_CLASS (parent_class)->get_preferred_height (
-		widget, minimum_height, natural_height);
+	GTK_WIDGET_CLASS (e_mail_shell_sidebar_parent_class)->
+		get_preferred_height (widget, minimum_height, natural_height);
 }
 
 static void
@@ -265,8 +271,8 @@ mail_shell_sidebar_get_preferred_width (GtkWidget *widget,
 
 	sidebar = E_MAIL_SHELL_SIDEBAR (widget);
 
-	GTK_WIDGET_CLASS (parent_class)->get_preferred_width (
-		widget, minimum_width, natural_width);
+	GTK_WIDGET_CLASS (e_mail_shell_sidebar_parent_class)->
+		get_preferred_width (widget, minimum_width, natural_width);
 
 	/* This string is a mockup only; it doesn't need to be translated */
 	layout = gtk_widget_create_pango_layout (
@@ -291,20 +297,19 @@ mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	EMailShellSidebarPrivate *priv;
 	EMailSidebar *sidebar;
 
-	priv = E_MAIL_SHELL_SIDEBAR (shell_sidebar)->priv;
+	priv = E_MAIL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 	sidebar = E_MAIL_SIDEBAR (priv->folder_tree);
 
 	return e_mail_sidebar_check_state (sidebar);
 }
 
 static void
-mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
+e_mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	EShellSidebarClass *shell_sidebar_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailShellSidebarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -331,40 +336,26 @@ mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 }
 
 static void
-mail_shell_sidebar_init (EMailShellSidebar *mail_shell_sidebar)
+e_mail_shell_sidebar_class_finalize (EMailShellSidebarClass *class)
 {
-	mail_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		mail_shell_sidebar, E_TYPE_MAIL_SHELL_SIDEBAR,
-		EMailShellSidebarPrivate);
+}
+
+static void
+e_mail_shell_sidebar_init (EMailShellSidebar *mail_shell_sidebar)
+{
+	mail_shell_sidebar->priv =
+		E_MAIL_SHELL_SIDEBAR_GET_PRIVATE (mail_shell_sidebar);
 
 	/* Postpone widget construction until we have a shell view. */
 }
 
-GType
-e_mail_shell_sidebar_get_type (void)
-{
-	return mail_shell_sidebar_type;
-}
-
 void
-e_mail_shell_sidebar_register_type (GTypeModule *type_module)
+e_mail_shell_sidebar_type_register (GTypeModule *type_module)
 {
-	static const GTypeInfo type_info = {
-		sizeof (EMailShellSidebarClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) mail_shell_sidebar_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (EMailShellSidebar),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) mail_shell_sidebar_init,
-		NULL   /* value_table */
-	};
-
-	mail_shell_sidebar_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_SIDEBAR,
-		"EMailShellSidebar", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_mail_shell_sidebar_register_type (type_module);
 }
 
 GtkWidget *

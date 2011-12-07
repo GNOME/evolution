@@ -278,9 +278,11 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 
 	editor = e_contact_editor_new (shell, book_client, contact, FALSE, TRUE);
 
-	g_signal_connect (editor, "contact-modified",
+	g_signal_connect (
+		editor, "contact-modified",
 		G_CALLBACK (contact_editor_contact_modified_cb), window);
-	g_signal_connect_swapped (editor, "editor-closed",
+	g_signal_connect_swapped (
+		editor, "editor-closed",
 		G_CALLBACK (g_object_unref), editor);
 
 	eab_editor_show (editor);
@@ -317,9 +319,11 @@ action_address_book_map_cb (GtkAction *action,
 	e_contact_map_window_load_addressbook (map_window, book_client);
 
 	/* Free the map_window automatically when it is closed */
-	g_signal_connect_swapped (GTK_WIDGET (map_window), "hide",
+	g_signal_connect_swapped (
+		map_window, "hide",
 		G_CALLBACK (gtk_widget_destroy), GTK_WIDGET (map_window));
-	g_signal_connect (map_window, "show-contact-editor",
+	g_signal_connect (
+		map_window, "show-contact-editor",
 		G_CALLBACK (map_window_show_contact_editor_cb), book_shell_view);
 
 	gtk_widget_show_all (GTK_WIDGET (map_window));
@@ -1149,7 +1153,6 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	GtkActionGroup *action_group;
 	GSettings *settings;
 	GtkAction *action;
-	GObject *object;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -1209,14 +1212,20 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 
 	settings = g_settings_new ("org.gnome.evolution.addressbook");
 
-	object = G_OBJECT (ACTION (CONTACT_PREVIEW));
-	g_settings_bind (settings, "show-preview", object, "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "show-preview",
+		ACTION (CONTACT_PREVIEW), "active",
+		G_SETTINGS_BIND_DEFAULT);
 
-	object = G_OBJECT (ACTION (CONTACT_VIEW_VERTICAL));
-	g_settings_bind (settings, "layout", object, "current-value", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "layout",
+		ACTION (CONTACT_VIEW_VERTICAL), "current-value",
+		G_SETTINGS_BIND_DEFAULT);
 
-	object = G_OBJECT (ACTION (CONTACT_PREVIEW_SHOW_MAPS));
-	g_settings_bind (settings, "preview-show-maps", object, "active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "preview-show-maps",
+		ACTION (CONTACT_PREVIEW_SHOW_MAPS), "active",
+		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);
 

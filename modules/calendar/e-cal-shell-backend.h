@@ -60,7 +60,7 @@ struct _ECalShellBackendClass {
 };
 
 GType		e_cal_shell_backend_get_type	(void);
-void		e_cal_shell_backend_register_type
+void		e_cal_shell_backend_type_register
 					(GTypeModule *type_module);
 ESourceList *	e_cal_shell_backend_get_source_list
 					(ECalShellBackend *cal_shell_backend);

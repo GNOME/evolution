@@ -28,10 +28,6 @@
 
 #include "e-test-shell-view.h"
 
-struct _ETestShellBackendPrivate {
-	gint placeholder;
-};
-
 static gpointer parent_class;
 static GType test_shell_backend_type;
 
@@ -159,7 +155,6 @@ test_shell_backend_class_init (ETestShellBackendClass *class)
 	EShellBackendClass *shell_backend_class;
 
 	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (ETestShellBackendPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = test_shell_backend_constructed;
@@ -178,9 +173,6 @@ test_shell_backend_class_init (ETestShellBackendClass *class)
 static void
 test_shell_backend_init (ETestShellBackend *test_shell_backend)
 {
-	test_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		test_shell_backend, E_TYPE_TEST_SHELL_BACKEND,
-		ETestShellBackendPrivate);
 }
 
 GType

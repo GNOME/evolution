@@ -647,10 +647,12 @@ e_shell_switcher_add_action (EShellSwitcher *switcher,
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (widget), TRUE);
 	gtk_widget_show (widget);
 
-	if ((button = tool_item_get_button (widget)) != NULL)
-		g_signal_connect (button, "button-release-event",
-				  G_CALLBACK (tool_item_button_cb),
-				  new_window_action);
+	button = tool_item_get_button (widget);
+	if (button != NULL)
+		g_signal_connect (
+			button, "button-release-event",
+			G_CALLBACK (tool_item_button_cb),
+			new_window_action);
 
 	switcher->priv->proxies = g_list_append (
 		switcher->priv->proxies, widget);

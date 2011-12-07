@@ -60,6 +60,10 @@
 #include "mail-vfolder.h"
 #include "importers/mail-importer.h"
 
+#define E_MAIL_SHELL_BACKEND_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_SHELL_BACKEND, EMailShellBackendPrivate))
+
 #define BACKEND_NAME "mail"
 
 struct _EMailShellBackendPrivate {
@@ -67,11 +71,13 @@ struct _EMailShellBackendPrivate {
 	guint mail_sync_source_id;
 };
 
-static gpointer parent_class;
-static GType mail_shell_backend_type;
-
 static void mbox_create_preview_cb (GObject *preview, GtkWidget **preview_widget);
 static void mbox_fill_preview_cb (GObject *preview, CamelMimeMessage *msg);
+
+G_DEFINE_DYNAMIC_TYPE (
+	EMailShellBackend,
+	e_mail_shell_backend,
+	E_TYPE_MAIL_BACKEND)
 
 static void
 mail_shell_backend_init_importers (void)
@@ -279,7 +285,7 @@ mail_shell_backend_prepare_for_quit_cb (EShell *shell,
 {
 	EMailShellBackendPrivate *priv;
 
-	priv = E_MAIL_SHELL_BACKEND (shell_backend)->priv;
+	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (shell_backend);
 
 	/* Prevent a sync from starting while trying to shutdown. */
 	if (priv->mail_sync_source_id > 0) {
@@ -370,7 +376,7 @@ mail_shell_backend_constructed (GObject *object)
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_mail_shell_backend_parent_class)->constructed (object);
 
 	/* Register format types for EMFormatHook. */
 	em_format_hook_register_type (em_format_get_type ());
@@ -446,7 +452,7 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	gboolean enable_search_folders;
 	const gchar *data_dir;
 
-	priv = E_MAIL_SHELL_BACKEND (shell_backend)->priv;
+	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (shell_backend);
 
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -554,13 +560,12 @@ mail_shell_backend_empty_trash_policy_decision (EMailBackend *backend)
 }
 
 static void
-mail_shell_backend_class_init (EMailShellBackendClass *class)
+e_mail_shell_backend_class_init (EMailShellBackendClass *class)
 {
 	GObjectClass *object_class;
 	EShellBackendClass *shell_backend_class;
 	EMailBackendClass *mail_backend_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailShellBackendPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -583,38 +588,24 @@ mail_shell_backend_class_init (EMailShellBackendClass *class)
 }
 
 static void
-mail_shell_backend_init (EMailShellBackend *mail_shell_backend)
+e_mail_shell_backend_class_finalize (EMailShellBackendClass *class)
 {
-	mail_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		mail_shell_backend, E_TYPE_MAIL_SHELL_BACKEND,
-		EMailShellBackendPrivate);
 }
 
-GType
-e_mail_shell_backend_get_type (void)
+static void
+e_mail_shell_backend_init (EMailShellBackend *mail_shell_backend)
 {
-	return mail_shell_backend_type;
+	mail_shell_backend->priv =
+		E_MAIL_SHELL_BACKEND_GET_PRIVATE (mail_shell_backend);
 }
 
 void
-e_mail_shell_backend_register_type (GTypeModule *type_module)
+e_mail_shell_backend_type_register (GTypeModule *type_module)
 {
-	const GTypeInfo type_info = {
-		sizeof (EMailShellBackendClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) mail_shell_backend_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (EMailShellBackend),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) mail_shell_backend_init,
-		NULL   /* value_table */
-	};
-
-	mail_shell_backend_type = g_type_module_register_type (
-		type_module, E_TYPE_MAIL_BACKEND,
-		"EMailShellBackend", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_mail_shell_backend_register_type (type_module);
 }
 
 /******************* Code below here belongs elsewhere. *******************/

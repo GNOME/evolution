@@ -68,7 +68,7 @@ struct _EBookShellSidebarClass {
 };
 
 GType		e_book_shell_sidebar_get_type	(void);
-void		e_book_shell_sidebar_register_type
+void		e_book_shell_sidebar_type_register
 					(GTypeModule *type_module);
 GtkWidget *	e_book_shell_sidebar_new
 					(EShellView *shell_view);

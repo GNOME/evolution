@@ -55,6 +55,10 @@
 
 #include "e-calendar-preferences.h"
 
+#define E_CAL_SHELL_BACKEND_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_SHELL_BACKEND, ECalShellBackendPrivate))
+
 struct _ECalShellBackendPrivate {
 	ESourceList *source_list;
 };
@@ -64,8 +68,10 @@ enum {
 	PROP_SOURCE_LIST
 };
 
-static gpointer parent_class;
-static GType cal_shell_backend_type;
+G_DEFINE_DYNAMIC_TYPE (
+	ECalShellBackend,
+	e_cal_shell_backend,
+	E_TYPE_SHELL_BACKEND)
 
 static void
 cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
@@ -741,7 +747,7 @@ cal_shell_backend_dispose (GObject *object)
 {
 	ECalShellBackendPrivate *priv;
 
-	priv = E_CAL_SHELL_BACKEND (object)->priv;
+	priv = E_CAL_SHELL_BACKEND_GET_PRIVATE (object);
 
 	if (priv->source_list != NULL) {
 		g_object_unref (priv->source_list);
@@ -749,7 +755,7 @@ cal_shell_backend_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_cal_shell_backend_parent_class)->dispose (object);
 }
 
 static void
@@ -790,16 +796,15 @@ cal_shell_backend_constructed (GObject *object)
 		600);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_cal_shell_backend_parent_class)->constructed (object);
 }
 
 static void
-cal_shell_backend_class_init (ECalShellBackendClass *class)
+e_cal_shell_backend_class_init (ECalShellBackendClass *class)
 {
 	GObjectClass *object_class;
 	EShellBackendClass *shell_backend_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalShellBackendPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -829,14 +834,18 @@ cal_shell_backend_class_init (ECalShellBackendClass *class)
 }
 
 static void
-cal_shell_backend_init (ECalShellBackend *cal_shell_backend)
+e_cal_shell_backend_class_finalize (ECalShellBackendClass *class)
+{
+}
+
+static void
+e_cal_shell_backend_init (ECalShellBackend *cal_shell_backend)
 {
 	icalarray *builtin_timezones;
 	gint ii;
 
-	cal_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		cal_shell_backend, E_TYPE_CAL_SHELL_BACKEND,
-		ECalShellBackendPrivate);
+	cal_shell_backend->priv =
+		E_CAL_SHELL_BACKEND_GET_PRIVATE (cal_shell_backend);
 
 	/* XXX Pre-load all built-in timezones in libical.
 	 *
@@ -862,31 +871,13 @@ cal_shell_backend_init (ECalShellBackend *cal_shell_backend)
 	}
 }
 
-GType
-e_cal_shell_backend_get_type (void)
-{
-	return cal_shell_backend_type;
-}
-
 void
-e_cal_shell_backend_register_type (GTypeModule *type_module)
+e_cal_shell_backend_type_register (GTypeModule *type_module)
 {
-	const GTypeInfo type_info = {
-		sizeof (ECalShellBackendClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) cal_shell_backend_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (ECalShellBackend),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) cal_shell_backend_init,
-		NULL   /* value_table */
-	};
-
-	cal_shell_backend_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_BACKEND,
-		"ECalShellBackend", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_cal_shell_backend_register_type (type_module);
 }
 
 ESourceList *
@@ -915,7 +906,8 @@ e_cal_shell_backend_get_selected_calendars (ECalShellBackend *cal_shell_backend)
 
 	if (strv != NULL) {
 		for (ii = 0; strv[ii] != NULL; ii++)
-			selected_calendars = g_slist_append (selected_calendars, g_strdup (strv[ii]));
+			selected_calendars = g_slist_append (
+				selected_calendars, g_strdup (strv[ii]));
 
 		g_strfreev (strv);
 	}
@@ -938,7 +930,9 @@ e_cal_shell_backend_set_selected_calendars (ECalShellBackend *cal_shell_backend,
 	g_ptr_array_add (array, NULL);
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");
-	g_settings_set_strv (settings, "selected-calendars", (const gchar *const *) array->pdata);
+	g_settings_set_strv (
+		settings, "selected-calendars",
+		(const gchar *const *) array->pdata);
 	g_object_unref (settings);
 
 	g_ptr_array_free (array, FALSE);

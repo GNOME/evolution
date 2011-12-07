@@ -42,6 +42,10 @@
 
 #include "e-cal-shell-view-private.h"
 
+#define E_CAL_SHELL_CONTENT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_SHELL_CONTENT, ECalShellContentPrivate))
+
 struct _ECalShellContentPrivate {
 	GtkWidget *hpaned;
 	GtkWidget *notebook;
@@ -69,8 +73,10 @@ typedef enum {
 	FOCUS_OTHER
 } FocusLocation;
 
-static gpointer parent_class;
-static GType cal_shell_content_type;
+G_DEFINE_DYNAMIC_TYPE (
+	ECalShellContent,
+	e_cal_shell_content,
+	E_TYPE_SHELL_CONTENT)
 
 static void
 cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
@@ -127,7 +133,10 @@ cal_shell_content_notify_view_id_cb (ECalShellContent *cal_shell_content)
 
 	g_settings_unbind (paned, "hposition");
 
-	g_settings_bind (settings, key, G_OBJECT (paned), "hposition", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, key,
+		paned, "hposition",
+		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);
 }
@@ -254,7 +263,7 @@ cal_shell_content_dispose (GObject *object)
 {
 	ECalShellContentPrivate *priv;
 
-	priv = E_CAL_SHELL_CONTENT (object)->priv;
+	priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (object);
 
 	if (priv->hpaned != NULL) {
 		g_object_unref (priv->hpaned);
@@ -292,7 +301,7 @@ cal_shell_content_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_cal_shell_content_parent_class)->dispose (object);
 }
 
 static time_t
@@ -331,10 +340,10 @@ cal_shell_content_constructed (GObject *object)
 	gchar *markup;
 	gint ii;
 
-	priv = E_CAL_SHELL_CONTENT (object)->priv;
+	priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_cal_shell_content_parent_class)->constructed (object);
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
@@ -515,8 +524,10 @@ cal_shell_content_constructed (GObject *object)
 
 		settings = g_settings_new ("org.gnome.evolution.calendar");
 
-		object = G_OBJECT (priv->vpaned);
-		g_settings_bind (settings, "tag-vpane-position", object, "proportion", G_SETTINGS_BIND_DEFAULT);
+		g_settings_bind (
+			settings, "tag-vpane-position",
+			priv->vpaned, "proportion",
+			G_SETTINGS_BIND_DEFAULT);
 
 		g_object_unref (settings);
 	}
@@ -538,11 +549,11 @@ cal_shell_content_map (GtkWidget *widget)
 	 *     callback in GnomeCalendar that requires the date navigator.
 	 *     Ordinarily we would do this at the end of constructed(), but
 	 *     that's too soon in this case.  (This feels kind of kludgy.) */
-	priv = E_CAL_SHELL_CONTENT (widget)->priv;
+	priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (widget);
 	gal_view_instance_load (priv->view_instance);
 
 	/* Chain up to parent's map() method. */
-	GTK_WIDGET_CLASS (parent_class)->map (widget);
+	GTK_WIDGET_CLASS (e_cal_shell_content_parent_class)->map (widget);
 }
 
 static void
@@ -562,13 +573,12 @@ cal_shell_content_focus_search_results (EShellContent *shell_content)
 }
 
 static void
-cal_shell_content_class_init (ECalShellContentClass *class)
+e_cal_shell_content_class_init (ECalShellContentClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	EShellContentClass *shell_content_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalShellContentPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -615,40 +625,26 @@ cal_shell_content_class_init (ECalShellContentClass *class)
 }
 
 static void
-cal_shell_content_init (ECalShellContent *cal_shell_content)
+e_cal_shell_content_class_finalize (ECalShellContentClass *class)
 {
-	cal_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		cal_shell_content, E_TYPE_CAL_SHELL_CONTENT,
-		ECalShellContentPrivate);
+}
+
+static void
+e_cal_shell_content_init (ECalShellContent *cal_shell_content)
+{
+	cal_shell_content->priv =
+		E_CAL_SHELL_CONTENT_GET_PRIVATE (cal_shell_content);
 
 	/* Postpone widget construction until we have a shell view. */
 }
 
-GType
-e_cal_shell_content_get_type (void)
-{
-	return cal_shell_content_type;
-}
-
 void
-e_cal_shell_content_register_type (GTypeModule *type_module)
+e_cal_shell_content_type_register (GTypeModule *type_module)
 {
-	static const GTypeInfo type_info = {
-		sizeof (ECalShellContentClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) cal_shell_content_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (ECalShellContent),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) cal_shell_content_init,
-		NULL   /* value_table */
-	};
-
-	cal_shell_content_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_CONTENT,
-		"ECalShellContent", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_cal_shell_content_register_type (type_module);
 }
 
 GtkWidget *

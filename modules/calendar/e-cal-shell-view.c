@@ -171,7 +171,9 @@ cal_shell_view_execute_search (EShellView *shell_view)
 			end = isodate_from_time_t (end_range);
 
 			temp = g_strdup_printf (
-				"(and %s (occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\"))",
+				"(and %s (occur-in-time-range? "
+				"(make-time \"%s\") "
+				"(make-time \"%s\") \"%s\"))",
 				query, start, end, default_tzloc);
 			g_free (query);
 			query = temp;
@@ -186,7 +188,9 @@ cal_shell_view_execute_search (EShellView *shell_view)
 			end = isodate_from_time_t (end_range);
 
 			temp = g_strdup_printf (
-				"(and %s (occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"%s\"))",
+				"(and %s (occur-in-time-range? "
+				"(make-time \"%s\") "
+				"(make-time \"%s\") \"%s\"))",
 				query, start, end, default_tzloc);
 			g_free (query);
 			query = temp;
@@ -195,7 +199,8 @@ cal_shell_view_execute_search (EShellView *shell_view)
 			break;
 
 		case CALENDAR_FILTER_OCCURS_LESS_THAN_5_TIMES:
-			temp = g_strdup_printf ("(and %s (< (occurrences-count?) 5))", query);
+			temp = g_strdup_printf (
+				"(and %s (< (occurrences-count?) 5))", query);
 			g_free (query);
 			query = temp;
 			break;
@@ -334,7 +339,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	/* Chain up to parent's update_actions() method. */
 	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
 
-	priv = E_CAL_SHELL_VIEW (shell_view)->priv;
+	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
@@ -543,8 +548,8 @@ static void
 cal_shell_view_init (ECalShellView *cal_shell_view,
                      EShellViewClass *shell_view_class)
 {
-	cal_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		cal_shell_view, E_TYPE_CAL_SHELL_VIEW, ECalShellViewPrivate);
+	cal_shell_view->priv =
+		E_CAL_SHELL_VIEW_GET_PRIVATE (cal_shell_view);
 
 	e_cal_shell_view_private_init (cal_shell_view, shell_view_class);
 }

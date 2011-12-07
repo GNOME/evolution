@@ -985,7 +985,8 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 
 	num_deleted = camel_folder_summary_get_deleted_count (folder->summary);
 	num_junked = camel_folder_summary_get_junk_count (folder->summary);
-	num_junked_not_deleted = camel_folder_summary_get_junk_not_deleted_count (folder->summary);
+	num_junked_not_deleted =
+		camel_folder_summary_get_junk_not_deleted_count (folder->summary);
 	num_unread = camel_folder_summary_get_unread_count (folder->summary);
 	num_visible = camel_folder_summary_get_visible_count (folder->summary);
 

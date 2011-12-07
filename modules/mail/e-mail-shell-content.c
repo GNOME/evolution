@@ -62,8 +62,18 @@ enum {
 	PROP_REPLY_STYLE
 };
 
-static gpointer parent_class;
-static GType mail_shell_content_type;
+/* Forward Declarations */
+static void	e_mail_shell_content_reader_init
+					(EMailReaderInterface *interface);
+
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (
+	EMailShellContent,
+	e_mail_shell_content,
+	E_TYPE_SHELL_CONTENT,
+	0,
+	G_IMPLEMENT_INTERFACE_DYNAMIC (
+		E_TYPE_MAIL_READER,
+		e_mail_shell_content_reader_init))
 
 static void
 reconnect_changed_event (EMailReader *child,
@@ -74,7 +84,7 @@ reconnect_changed_event (EMailReader *child,
 
 static void
 reconnect_folder_loaded_event (EMailReader *child,
-                               EMailReader *parent)
+               EMailReader *parent)
 {
 	g_signal_emit_by_name (parent, "folder-loaded");
 }
@@ -165,7 +175,7 @@ mail_shell_content_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_mail_shell_content_parent_class)->dispose (object);
 }
 
 static void
@@ -180,7 +190,7 @@ mail_shell_content_constructed (GObject *object)
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed () method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_mail_shell_content_parent_class)->constructed (object);
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
@@ -395,12 +405,11 @@ mail_shell_content_set_folder (EMailReader *reader,
 }
 
 static void
-mail_shell_content_class_init (EMailShellContentClass *class)
+e_mail_shell_content_class_init (EMailShellContentClass *class)
 {
 	GObjectClass *object_class;
 	EShellContentClass *shell_content_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailShellContentPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -444,22 +453,12 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 }
 
 static void
-mail_shell_content_init (EMailShellContent *mail_shell_content)
+e_mail_shell_content_class_finalize (EMailShellContentClass *class)
 {
-	mail_shell_content->priv =
-		E_MAIL_SHELL_CONTENT_GET_PRIVATE (mail_shell_content);
-
-	/* Postpone widget construction until we have a shell view. */
-}
-
-GType
-e_mail_shell_content_get_type (void)
-{
-	return mail_shell_content_type;
 }
 
 static void
-mail_shell_content_reader_init (EMailReaderInterface *interface)
+e_mail_shell_content_reader_init (EMailReaderInterface *interface)
 {
 	interface->get_action_group = mail_shell_content_get_action_group;
 	interface->get_backend = mail_shell_content_get_backend;
@@ -473,35 +472,22 @@ mail_shell_content_reader_init (EMailReaderInterface *interface)
 	interface->open_selected_mail = mail_shell_content_open_selected_mail;
 }
 
-void
-e_mail_shell_content_register_type (GTypeModule *type_module)
+static void
+e_mail_shell_content_init (EMailShellContent *mail_shell_content)
 {
-	static const GTypeInfo type_info = {
-		sizeof (EMailShellContentClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) mail_shell_content_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (EMailShellContent),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) mail_shell_content_init,
-		NULL   /* value_table */
-	};
+	mail_shell_content->priv =
+		E_MAIL_SHELL_CONTENT_GET_PRIVATE (mail_shell_content);
 
-	static const GInterfaceInfo reader_info = {
-		(GInterfaceInitFunc) mail_shell_content_reader_init,
-		(GInterfaceFinalizeFunc) NULL,
-		NULL  /* interface_data */
-	};
+	/* Postpone widget construction until we have a shell view. */
+}
 
-	mail_shell_content_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_CONTENT,
-		"EMailShellContent", &type_info, 0);
-
-	g_type_module_add_interface (
-		type_module, mail_shell_content_type,
-		E_TYPE_MAIL_READER, &reader_info);
+void
+e_mail_shell_content_type_register (GTypeModule *type_module)
+{
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_mail_shell_content_register_type (type_module);
 }
 
 GtkWidget *

@@ -702,10 +702,13 @@ action_contents_cb (GtkAction *action,
                     EShellWindow *shell_window)
 {
 #ifdef G_OS_WIN32
-	/* On Windows, link to online help instead. See https://bugzilla.gnome.org/show_bug.cgi?id=576478 */
+	/* On Windows, link to online help instead.
+	 * See https://bugzilla.gnome.org/show_bug.cgi?id=576478 */
 	gchar *online_help_url;
+
 	online_help_url = g_strconcat (
-		"http://library.gnome.org/users/evolution/", BASE_VERSION, NULL);
+		"http://library.gnome.org/users/evolution/",
+		BASE_VERSION, NULL);
 	e_show_uri (GTK_WINDOW (shell_window), online_help_url);
 	g_free (online_help_url);
 #else

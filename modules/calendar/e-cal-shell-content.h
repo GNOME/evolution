@@ -80,7 +80,7 @@ struct _ECalShellContentClass {
 };
 
 GType		e_cal_shell_content_get_type	(void);
-void		e_cal_shell_content_register_type
+void		e_cal_shell_content_type_register
 					(GTypeModule *type_module);
 GtkWidget *	e_cal_shell_content_new	(EShellView *shell_view);
 ECalModel *	e_cal_shell_content_get_model

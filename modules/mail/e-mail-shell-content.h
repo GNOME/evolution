@@ -63,7 +63,7 @@ struct _EMailShellContentClass {
 };
 
 GType		e_mail_shell_content_get_type	(void);
-void		e_mail_shell_content_register_type
+void		e_mail_shell_content_type_register
 					(GTypeModule *type_module);
 GtkWidget *	e_mail_shell_content_new
 					(EShellView *shell_view);

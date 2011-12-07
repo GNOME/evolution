@@ -70,16 +70,18 @@ struct _ECalShellSidebarClass {
 	EShellSidebarClass parent_class;
 
 	/* Signals */
-	void	(*client_added)			(ECalShellSidebar *cal_shell_sidebar,
-						 ECalClient *client);
-	void	(*client_removed)		(ECalShellSidebar *cal_shell_sidebar,
-						 ECalClient *client);
-	void	(*status_message)		(ECalShellSidebar *cal_shell_sidebar,
-						 const gchar *status_message);
+	void		(*client_added)	(ECalShellSidebar *cal_shell_sidebar,
+					 ECalClient *client);
+	void		(*client_removed)
+					(ECalShellSidebar *cal_shell_sidebar,
+					 ECalClient *client);
+	void		(*status_message)
+					(ECalShellSidebar *cal_shell_sidebar,
+					 const gchar *status_message);
 };
 
 GType		e_cal_shell_sidebar_get_type	(void);
-void		e_cal_shell_sidebar_register_type
+void		e_cal_shell_sidebar_type_register
 					(GTypeModule *type_module);
 GtkWidget *	e_cal_shell_sidebar_new	(EShellView *shell_view);
 GList *		e_cal_shell_sidebar_get_clients

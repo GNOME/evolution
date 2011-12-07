@@ -33,6 +33,10 @@
 #include "widgets/misc/e-preview-pane.h"
 #include "e-book-shell-view.h"
 
+#define E_BOOK_SHELL_CONTENT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_BOOK_SHELL_CONTENT, EBookShellContentPrivate))
+
 struct _EBookShellContentPrivate {
 	GtkWidget *paned;
 	GtkWidget *notebook;
@@ -53,8 +57,13 @@ enum {
 	PROP_PREVIEW_SHOW_MAPS
 };
 
-static gpointer parent_class;
-static GType book_shell_content_type;
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (
+	EBookShellContent,
+	e_book_shell_content,
+	E_TYPE_SHELL_CONTENT,
+	0,
+	G_IMPLEMENT_INTERFACE_DYNAMIC (
+		GTK_TYPE_ORIENTABLE, NULL))
 
 static void
 book_shell_content_send_message_cb (EBookShellContent *book_shell_content,
@@ -83,14 +92,21 @@ book_shell_content_restore_state_cb (EShellWindow *shell_window,
 	EBookShellContentPrivate *priv;
 	GSettings *settings;
 
-	priv = E_BOOK_SHELL_CONTENT (shell_content)->priv;
+	priv = E_BOOK_SHELL_CONTENT_GET_PRIVATE (shell_content);
 
 	/* Bind GObject properties to GSettings keys. */
 
 	settings = g_settings_new ("org.gnome.evolution.addressbook");
 
-	g_settings_bind (settings, "hpane-position", priv->paned, "hposition", G_SETTINGS_BIND_DEFAULT);
-	g_settings_bind (settings, "vpane-position", priv->paned, "vposition", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "hpane-position",
+		priv->paned, "hposition",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_settings_bind (
+		settings, "vpane-position",
+		priv->paned, "vposition",
+		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);
 }
@@ -202,7 +218,7 @@ book_shell_content_dispose (GObject *object)
 {
 	EBookShellContentPrivate *priv;
 
-	priv = E_BOOK_SHELL_CONTENT (object)->priv;
+	priv = E_BOOK_SHELL_CONTENT_GET_PRIVATE (object);
 
 	if (priv->paned != NULL) {
 		g_object_unref (priv->paned);
@@ -220,7 +236,7 @@ book_shell_content_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_book_shell_content_parent_class)->dispose (object);
 }
 
 static void
@@ -234,10 +250,10 @@ book_shell_content_constructed (GObject *object)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	priv = E_BOOK_SHELL_CONTENT (object)->priv;
+	priv = E_BOOK_SHELL_CONTENT_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_book_shell_content_parent_class)->constructed (object);
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
@@ -415,12 +431,11 @@ book_shell_content_focus_search_results (EShellContent *shell_content)
 }
 
 static void
-book_shell_content_class_init (EBookShellContentClass *class)
+e_book_shell_content_class_init (EBookShellContentClass *class)
 {
 	GObjectClass *object_class;
 	EShellContentClass *shell_content_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EBookShellContentPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -480,50 +495,26 @@ book_shell_content_class_init (EBookShellContentClass *class)
 }
 
 static void
-book_shell_content_init (EBookShellContent *book_shell_content)
+e_book_shell_content_class_finalize (EBookShellContentClass *class)
 {
-	book_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		book_shell_content, E_TYPE_BOOK_SHELL_CONTENT,
-		EBookShellContentPrivate);
+}
+
+static void
+e_book_shell_content_init (EBookShellContent *book_shell_content)
+{
+	book_shell_content->priv =
+		E_BOOK_SHELL_CONTENT_GET_PRIVATE (book_shell_content);
 
 	/* Postpone widget construction until we have a shell view. */
 }
 
-GType
-e_book_shell_content_get_type (void)
-{
-	return book_shell_content_type;
-}
-
 void
-e_book_shell_content_register_type (GTypeModule *type_module)
+e_book_shell_content_type_register (GTypeModule *type_module)
 {
-	static const GTypeInfo type_info = {
-		sizeof (EBookShellContentClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) book_shell_content_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (EBookShellContent),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) book_shell_content_init,
-		NULL   /* value_table */
-	};
-
-	static const GInterfaceInfo orientable_info = {
-		(GInterfaceInitFunc) NULL,
-		(GInterfaceFinalizeFunc) NULL,
-		NULL  /* interface_data */
-	};
-
-	book_shell_content_type = g_type_module_register_type (
-		type_module, E_TYPE_SHELL_CONTENT,
-		"EBookShellContent", &type_info, 0);
-
-	g_type_module_add_interface (
-		type_module, book_shell_content_type,
-		GTK_TYPE_ORIENTABLE, &orientable_info);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_book_shell_content_register_type (type_module);
 }
 
 GtkWidget *

@@ -61,7 +61,7 @@ struct _EMailShellSidebarClass {
 };
 
 GType		e_mail_shell_sidebar_get_type	(void);
-void		e_mail_shell_sidebar_register_type
+void		e_mail_shell_sidebar_type_register
 					(GTypeModule *type_module);
 GtkWidget *	e_mail_shell_sidebar_new
 					(EShellView *shell_view);
