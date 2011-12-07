@@ -31,7 +31,6 @@
 #include <shell/e-shell-view.h>
 
 void		vfolder_load_storage		(EMailBackend *backend);
-void		vfolder_revert			(void);
 void		vfolder_edit			(EShellView *shell_view);
 void		vfolder_edit_rule		(EMailBackend *backend,
 						 const gchar *folder_uri);

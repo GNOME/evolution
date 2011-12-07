@@ -1160,19 +1160,6 @@ vfolder_load_storage (EMailBackend *backend)
 }
 
 void
-vfolder_revert (void)
-{
-	const gchar *config_dir;
-	gchar *user;
-
-	d(printf("vfolder_revert\n"));
-	config_dir = mail_session_get_config_dir ();
-	user = g_build_filename (config_dir, "vfolders.xml", NULL);
-	e_rule_context_revert ((ERuleContext *) context, user);
-	g_free (user);
-}
-
-void
 vfolder_edit (EShellView *shell_view)
 {
 	EShellBackend *shell_backend;
