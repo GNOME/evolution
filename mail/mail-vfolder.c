@@ -52,10 +52,11 @@
 #include "e-mail-local.h"
 #include "e-mail-store.h"
 
+#define VFOLDER_SERVICE_UID "vfolder"
+
 #define d(x)  /* (printf("%s:%s: ",  G_STRLOC, G_STRFUNC), (x))*/
 
 static EMVFolderContext *context;	/* context remains open all time */
-CamelStore *vfolder_store; /* the 1 static vfolder store */
 
 /* lock for accessing shared resources (below) */
 G_LOCK_DEFINE_STATIC (vfolder);
@@ -778,6 +779,7 @@ rule_changed (EFilterRule *rule,
 {
 	EMailBackend *backend;
 	EMailSession *session;
+	CamelService *service;
 	GList *sources_uri = NULL, *sources_folder = NULL;
 	GString *query;
 	const gchar *full_name;
@@ -785,6 +787,10 @@ rule_changed (EFilterRule *rule,
 	full_name = camel_folder_get_full_name (folder);
 	backend = em_vfolder_rule_get_backend (EM_VFOLDER_RULE (rule));
 	session = e_mail_backend_get_session (backend);
+
+	service = camel_session_get_service (
+		CAMEL_SESSION (session), VFOLDER_SERVICE_UID);
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
 	/* if the folder has changed name, then add it, then remove the old manually */
 	if (strcmp (full_name, rule->name) != 0) {
@@ -808,7 +814,8 @@ rule_changed (EFilterRule *rule,
 		oldname = g_strdup (full_name);
 		/* FIXME Not passing a GCancellable or GError. */
 		camel_store_rename_folder_sync (
-			vfolder_store, oldname, rule->name, NULL, NULL);
+			CAMEL_STORE (service),
+			oldname, rule->name, NULL, NULL);
 		g_free (oldname);
 	}
 
@@ -848,14 +855,24 @@ static void
 context_rule_added (ERuleContext *ctx,
                     EFilterRule *rule)
 {
+	EMailBackend *backend;
+	EMailSession *session;
 	CamelFolder *folder;
+	CamelService *service;
 
 	d(printf("rule added: %s\n", rule->name));
+
+	backend = em_vfolder_rule_get_backend (EM_VFOLDER_RULE (rule));
+	session = e_mail_backend_get_session (backend);
+
+	service = camel_session_get_service (
+		CAMEL_SESSION (session), VFOLDER_SERVICE_UID);
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
 	/* this always runs quickly */
 	/* FIXME Not passing a GCancellable or GError. */
 	folder = camel_store_get_folder_sync (
-		vfolder_store, rule->name, 0, NULL, NULL);
+		CAMEL_STORE (service), rule->name, 0, NULL, NULL);
 	if (folder) {
 		g_signal_connect (rule, "changed", G_CALLBACK(rule_changed), folder);
 
@@ -871,9 +888,19 @@ static void
 context_rule_removed (ERuleContext *ctx,
                       EFilterRule *rule)
 {
+	EMailBackend *backend;
+	EMailSession *session;
+	CamelService *service;
 	gpointer key, folder = NULL;
 
 	d(printf("rule removed; %s\n", rule->name));
+
+	backend = em_vfolder_rule_get_backend (EM_VFOLDER_RULE (rule));
+	session = e_mail_backend_get_session (backend);
+
+	service = camel_session_get_service (
+		CAMEL_SESSION (session), VFOLDER_SERVICE_UID);
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
 	/* TODO: remove from folder info cache? */
 
@@ -886,7 +913,7 @@ context_rule_removed (ERuleContext *ctx,
 
 	/* FIXME Not passing a GCancellable  or GError. */
 	camel_store_delete_folder_sync (
-		vfolder_store, rule->name, NULL, NULL);
+		CAMEL_STORE (service), rule->name, NULL, NULL);
 	/* this must be unref'd after its deleted */
 	if (folder)
 		g_object_unref ((CamelFolder *) folder);
@@ -1068,8 +1095,6 @@ vfolder_load_storage (EMailBackend *backend)
 
 	g_return_if_fail (CAMEL_IS_STORE (service));
 
-	vfolder_store = CAMEL_STORE (service);
-
 	g_signal_connect (
 		service, "folder-deleted",
 		G_CALLBACK (store_folder_deleted_cb), backend);
@@ -1098,7 +1123,7 @@ vfolder_load_storage (EMailBackend *backend)
 		G_CALLBACK (context_rule_removed), context);
 
 	/* load store to mail component */
-	e_mail_store_add (session, vfolder_store);
+	e_mail_store_add (session, CAMEL_STORE (service));
 
 	/* and setup the rules we have */
 	rule = NULL;
@@ -1430,11 +1455,6 @@ mail_vfolder_shutdown (void)
 		g_hash_table_foreach (vfolder_hash, vfolder_foreach_cb, NULL);
 		g_hash_table_destroy (vfolder_hash);
 		vfolder_hash = NULL;
-	}
-
-	if (vfolder_store) {
-		g_object_unref (vfolder_store);
-		vfolder_store = NULL;
 	}
 
 	if (context) {
