@@ -180,8 +180,6 @@ static GdkAtom drop_atoms[NUM_DROP_TYPES];
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-extern CamelStore *vfolder_store;
-
 struct _folder_tree_selection_data {
 	GtkTreeModel *model;
 	GtkTreeIter *iter;
