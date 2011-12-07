@@ -153,7 +153,7 @@ memo_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		g_slist_foreach (selected, (GFunc) g_free, NULL);
 		g_slist_free (selected);
 		g_free (primary);
-	} else {
+	} else if (!e_source_get_property (personal, "name-changed")) {
 		/* Force the source name to the current locale. */
 		e_source_set_name (personal, name);
 	}

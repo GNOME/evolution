@@ -224,7 +224,21 @@ name_changed (GtkEntry *entry,
               ECalConfigTargetSource *t)
 {
 	ESource *source = t->source;
-	e_source_set_name (source, gtk_entry_get_text (GTK_ENTRY (entry)));
+	ESourceGroup *group;
+	gboolean is_birthdays = FALSE;
+	gboolean changed;
+	const gchar *name;
+
+	name = gtk_entry_get_text (GTK_ENTRY (entry));
+
+	changed = g_strcmp0 (name, e_source_peek_name (source)) != 0;
+	e_source_set_name (source, name);
+
+	group = e_source_peek_group (source);
+	is_birthdays = group && g_strcmp0 (e_source_group_peek_base_uri (group), "contacts://") == 0;
+
+	if (changed && (g_strcmp0 ("system", e_source_peek_relative_uri (source)) == 0 || is_birthdays))
+		e_source_set_property (source, "name-changed", "true");
 }
 
 static GtkWidget *

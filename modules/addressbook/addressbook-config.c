@@ -564,12 +564,17 @@ name_changed_cb (GtkWidget *w,
 {
 	const gchar *text;
 	gchar *stripped_name;
+	gboolean changed;
 
 	text = gtk_entry_get_text (GTK_ENTRY (sdialog->display_name));
 
 	stripped_name = g_strstrip (g_strdup (text));
+	changed = g_strcmp0 (stripped_name, e_source_peek_name (sdialog->source)) != 0;
 	e_source_set_name (sdialog->source, stripped_name);
 	g_free (stripped_name);
+
+	if (changed && g_strcmp0 ("system", e_source_peek_relative_uri (sdialog->source)) == 0)
+		e_source_set_property (sdialog->source, "name-changed", "true");
 }
 
 static GtkWidget *
