@@ -165,6 +165,7 @@ struct _EShellViewClass {
 	GtkWidget *	(*new_shell_content)	(EShellView *shell_view);
 	GtkWidget *	(*new_shell_sidebar)	(EShellView *shell_view);
 	GtkWidget *	(*new_shell_taskbar)	(EShellView *shell_view);
+	GtkWidget *	(*new_shell_searchbar)	(EShellView *shell_view);
 
 	/* Create, configure and pack a search bar widget. */
 	GtkWidget *	(*construct_searchbar)	(EShellView *shell_view);

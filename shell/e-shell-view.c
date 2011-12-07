@@ -645,6 +645,7 @@ shell_view_construct_searchbar (EShellView *shell_view)
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellSearchbar *shell_searchbar;
+	EShellViewClass *shell_view_class;
 	GtkToolItem *item;
 	GtkAction *action;
 	GtkWidget *main_toolbar;
@@ -654,7 +655,8 @@ shell_view_construct_searchbar (EShellView *shell_view)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
 
-	widget = e_shell_searchbar_new (shell_view);
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	widget = shell_view_class->new_shell_searchbar (shell_view);
 
 	/* In normal mode, we hand the searchbar off to EShellContent. */
 	if (!e_shell_get_express_mode (shell)) {
@@ -815,6 +817,7 @@ e_shell_view_class_init (EShellViewClass *class)
 	class->new_shell_content = e_shell_content_new;
 	class->new_shell_sidebar = e_shell_sidebar_new;
 	class->new_shell_taskbar = e_shell_taskbar_new;
+	class->new_shell_searchbar = e_shell_searchbar_new;
 
 	class->construct_searchbar = shell_view_construct_searchbar;
 	class->get_search_name = shell_view_get_search_name;
