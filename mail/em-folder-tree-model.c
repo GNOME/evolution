@@ -93,8 +93,6 @@ enum {
 	LAST_SIGNAL
 };
 
-extern CamelStore *vfolder_store;
-
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
@@ -129,6 +127,7 @@ folder_tree_model_sort (GtkTreeModel *model,
 	gchar *aname, *bname;
 	CamelStore *store;
 	gboolean is_store;
+	const gchar *store_uid = NULL;
 	guint32 aflags, bflags;
 	guint asortorder, bsortorder;
 	gint rv = -2;
@@ -152,6 +151,9 @@ folder_tree_model_sort (GtkTreeModel *model,
 		COL_UINT_FLAGS, &bflags,
 		COL_UINT_SORTORDER, &bsortorder,
 		-1);
+
+	if (CAMEL_IS_SERVICE (store))
+		store_uid = camel_service_get_uid (CAMEL_SERVICE (store));
 
 	if (is_store) {
 		EShell *shell;
@@ -202,7 +204,7 @@ folder_tree_model_sort (GtkTreeModel *model,
 			else
 				rv = 0;
 		}
-	} else if (store == vfolder_store) {
+	} else if (g_strcmp0 (store_uid, "vfolder") == 0) {
 		/* UNMATCHED is always last. */
 		if (aname && !strcmp (aname, _("UNMATCHED")))
 			rv = 1;
