@@ -281,6 +281,17 @@ handle_term_signal (gpointer data)
 }
 #endif
 
+G_GNUC_NORETURN static gboolean
+option_version_cb (const gchar *option_name,
+                   const gchar *option_value,
+                   gpointer data,
+                   GError **error)
+{
+	g_print ("%s\n", PACKAGE_STRING);
+
+	exit (0);
+}
+
 static GOptionEntry entries[] = {
 #ifdef G_OS_WIN32
 	{ "register-handlers", '\0', G_OPTION_FLAG_HIDDEN,
@@ -326,6 +337,8 @@ static GOptionEntry entries[] = {
 	  N_("Import URIs or file names given as rest of arguments."), NULL },
 	{ "quit", 'q', 0, G_OPTION_ARG_NONE, &quit,
 	  N_("Request a running Evolution process to quit"), NULL },
+	{ "version", 'v', G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_NO_ARG,
+	  G_OPTION_ARG_CALLBACK, option_version_cb, NULL, NULL },
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY,
 	  &remaining_args, NULL, NULL },
 	{ NULL }
