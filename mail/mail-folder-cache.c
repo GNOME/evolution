@@ -76,6 +76,9 @@ struct _MailFolderCachePrivate {
 	/* hack for people who LIKE to have unsent count */
 	gint count_sent;
 	gint count_trash;
+
+	GQueue local_folder_uris;
+	GQueue remote_folder_uris;
 };
 
 enum {
@@ -887,6 +890,22 @@ store_go_online_cb (CamelStore *store,
 	g_mutex_unlock (ud->cache->priv->stores_mutex);
 }
 
+static GList *
+find_folder_uri (GQueue *queue,
+                 CamelSession *session,
+                 const gchar *folder_uri)
+{
+	GList *head, *link;
+
+	head = g_queue_peek_head_link (queue);
+
+	for (link = head; link != NULL; link = g_list_next (link))
+		if (e_mail_folder_uri_equal (session, link->data, folder_uri))
+			break;
+
+	return link;
+}
+
 struct _find_info {
 	const gchar *folder_uri;
 	struct _folder_info *fi;
@@ -931,8 +950,164 @@ mail_folder_cache_finalize (GObject *object)
 		cache->priv->update_id = 0;
 	}
 
+	while (!g_queue_is_empty (&cache->priv->local_folder_uris))
+		g_free (g_queue_pop_head (&cache->priv->local_folder_uris));
+
+	while (!g_queue_is_empty (&cache->priv->remote_folder_uris))
+		g_free (g_queue_pop_head (&cache->priv->remote_folder_uris));
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (mail_folder_cache_parent_class)->finalize (object);
+}
+
+static void
+mail_folder_cache_folder_available (MailFolderCache *cache,
+                                    CamelStore *store,
+                                    const gchar *folder_name)
+{
+	CamelService *service;
+	CamelSession *session;
+	CamelProvider *provider;
+	GQueue *queue;
+	gchar *folder_uri;
+
+	/* Disregard virtual stores. */
+	if (CAMEL_IS_VEE_STORE (store))
+		return;
+
+	/* Disregard virtual Junk folders. */
+	if (store->flags & CAMEL_STORE_VJUNK)
+		if (g_strcmp0 (folder_name, CAMEL_VJUNK_NAME) == 0)
+			return;
+
+	/* Disregard virtual Trash folders. */
+	if (store->flags & CAMEL_STORE_VTRASH)
+		if (g_strcmp0 (folder_name, CAMEL_VTRASH_NAME) == 0)
+			return;
+
+	service = CAMEL_SERVICE (store);
+	session = camel_service_get_session (service);
+	provider = camel_service_get_provider (service);
+
+	/* Reuse the stores mutex just because it's handy. */
+	g_mutex_lock (cache->priv->stores_mutex);
+
+	folder_uri = e_mail_folder_uri_build (store, folder_name);
+
+	if (provider->flags & CAMEL_PROVIDER_IS_REMOTE)
+		queue = &cache->priv->remote_folder_uris;
+	else
+		queue = &cache->priv->local_folder_uris;
+
+	if (find_folder_uri (queue, session, folder_uri) == NULL)
+		g_queue_push_tail (queue, folder_uri);
+	else
+		g_free (folder_uri);
+
+	g_mutex_unlock (cache->priv->stores_mutex);
+}
+
+static void
+mail_folder_cache_folder_unavailable (MailFolderCache *cache,
+                                      CamelStore *store,
+                                      const gchar *folder_name)
+{
+	CamelService *service;
+	CamelSession *session;
+	CamelProvider *provider;
+	GQueue *queue;
+	GList *link;
+	gchar *folder_uri;
+
+	/* Disregard virtual stores. */
+	if (CAMEL_IS_VEE_STORE (store))
+		return;
+
+	/* Disregard virtual Junk folders. */
+	if (store->flags & CAMEL_STORE_VJUNK)
+		if (g_strcmp0 (folder_name, CAMEL_VJUNK_NAME) == 0)
+			return;
+
+	/* Disregard virtual Trash folders. */
+	if (store->flags & CAMEL_STORE_VTRASH)
+		if (g_strcmp0 (folder_name, CAMEL_VTRASH_NAME) == 0)
+			return;
+
+	service = CAMEL_SERVICE (store);
+	session = camel_service_get_session (service);
+	provider = camel_service_get_provider (service);
+
+	/* Reuse the stores mutex just because it's handy. */
+	g_mutex_lock (cache->priv->stores_mutex);
+
+	folder_uri = e_mail_folder_uri_build (store, folder_name);
+
+	if (provider->flags & CAMEL_PROVIDER_IS_REMOTE)
+		queue = &cache->priv->remote_folder_uris;
+	else
+		queue = &cache->priv->local_folder_uris;
+
+	link = find_folder_uri (queue, session, folder_uri);
+	if (link != NULL) {
+		g_free (link->data);
+		g_queue_delete_link (queue, link);
+	}
+
+	g_free (folder_uri);
+
+	g_mutex_unlock (cache->priv->stores_mutex);
+}
+
+static void
+mail_folder_cache_folder_deleted (MailFolderCache *cache,
+                                  CamelStore *store,
+                                  const gchar *folder_name)
+{
+	CamelService *service;
+	CamelSession *session;
+	GQueue *queue;
+	GList *link;
+	gchar *folder_uri;
+
+	/* Disregard virtual stores. */
+	if (CAMEL_IS_VEE_STORE (store))
+		return;
+
+	/* Disregard virtual Junk folders. */
+	if (store->flags & CAMEL_STORE_VJUNK)
+		if (g_strcmp0 (folder_name, CAMEL_VJUNK_NAME) == 0)
+			return;
+
+	/* Disregard virtual Trash folders. */
+	if (store->flags & CAMEL_STORE_VTRASH)
+		if (g_strcmp0 (folder_name, CAMEL_VTRASH_NAME) == 0)
+			return;
+
+	service = CAMEL_SERVICE (store);
+	session = camel_service_get_session (service);
+
+	/* Reuse the stores mutex just because it's handy. */
+	g_mutex_lock (cache->priv->stores_mutex);
+
+	folder_uri = e_mail_folder_uri_build (store, folder_name);
+
+	queue = &cache->priv->local_folder_uris;
+	link = find_folder_uri (queue, session, folder_uri);
+	if (link != NULL) {
+		g_free (link->data);
+		g_queue_delete_link (queue, link);
+	}
+
+	queue = &cache->priv->remote_folder_uris;
+	link = find_folder_uri (queue, session, folder_uri);
+	if (link != NULL) {
+		g_free (link->data);
+		g_queue_delete_link (queue, link);
+	}
+
+	g_free (folder_uri);
+
+	g_mutex_unlock (cache->priv->stores_mutex);
 }
 
 static void
@@ -944,6 +1119,10 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = mail_folder_cache_finalize;
+
+	class->folder_available = mail_folder_cache_folder_available;
+	class->folder_unavailable = mail_folder_cache_folder_unavailable;
+	class->folder_deleted = mail_folder_cache_folder_deleted;
 
 	/**
 	 * MailFolderCache::folder-available
@@ -1089,6 +1268,9 @@ mail_folder_cache_init (MailFolderCache *cache)
 	timeout = buf ? strtoul (buf, NULL, 10) : 600;
 	cache->priv->ping_id = g_timeout_add_seconds (
 		timeout, (GSourceFunc) ping_cb, cache);
+
+	g_queue_init (&cache->priv->local_folder_uris);
+	g_queue_init (&cache->priv->remote_folder_uris);
 }
 
 MailFolderCache *
@@ -1396,4 +1578,44 @@ mail_folder_cache_get_folder_has_children (MailFolderCache *cache,
 	g_free (folder_uri);
 
 	return fi.fi != NULL && fi.fi->has_children;
+}
+
+void
+mail_folder_cache_get_local_folder_uris (MailFolderCache *self,
+                                         GQueue *out_queue)
+{
+	GList *head, *link;
+
+	g_return_if_fail (MAIL_IS_FOLDER_CACHE (self));
+	g_return_if_fail (out_queue != NULL);
+
+	/* Reuse the stores mutex just because it's handy. */
+	g_mutex_lock (self->priv->stores_mutex);
+
+	head = g_queue_peek_head_link (&self->priv->local_folder_uris);
+
+	for (link = head; link != NULL; link = g_list_next (link))
+		g_queue_push_tail (out_queue, g_strdup (link->data));
+
+	g_mutex_unlock (self->priv->stores_mutex);
+}
+
+void
+mail_folder_cache_get_remote_folder_uris (MailFolderCache *self,
+                                          GQueue *out_queue)
+{
+	GList *head, *link;
+
+	g_return_if_fail (MAIL_IS_FOLDER_CACHE (self));
+	g_return_if_fail (out_queue != NULL);
+
+	/* Reuse the stores mutex just because it's handy. */
+	g_mutex_lock (self->priv->stores_mutex);
+
+	head = g_queue_peek_head_link (&self->priv->remote_folder_uris);
+
+	for (link = head; link != NULL; link = g_list_next (link))
+		g_queue_push_tail (out_queue, g_strdup (link->data));
+
+	g_mutex_unlock (self->priv->stores_mutex);
 }

@@ -46,9 +46,6 @@ void		vfolder_gui_add_from_address	(EMailSession *session,
 						 gint flags,
 						 CamelFolder *folder);
 
-GList *		mail_vfolder_get_sources_local	(void);
-GList *		mail_vfolder_get_sources_remote	(void);
-
 /* close up, clean up */
 void		mail_vfolder_shutdown		(void);
 

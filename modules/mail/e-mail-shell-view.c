@@ -224,6 +224,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	EActionComboBox *combo_box;
 	EMailBackend *backend;
 	EMailSession *session;
+	MailFolderCache *cache;
 	EMFolderTree *folder_tree;
 	GtkWidget *message_list;
 	EFilterRule *rule;
@@ -240,6 +241,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	GString *string;
 	GList *list, *iter;
 	GSList *search_strings = NULL;
+	GQueue queue = G_QUEUE_INIT;
 	const gchar *text;
 	gboolean valid;
 	gchar *query;
@@ -564,10 +566,14 @@ all_accounts:
 		CAMEL_STORE_VEE_FOLDER_AUTO);
 	priv->search_account_all = search_folder;
 
-	/* Add local folders. */
-	iter = mail_vfolder_get_sources_local ();
-	while (iter != NULL) {
-		const gchar *folder_uri = iter->data;
+	cache = e_mail_session_get_folder_cache (session);
+	mail_folder_cache_get_local_folder_uris (cache, &queue);
+	mail_folder_cache_get_remote_folder_uris (cache, &queue);
+
+	/* Add all available local and remote folders. */
+	while (!g_queue_is_empty (&queue)) {
+		gchar *folder_uri = g_queue_pop_head (&queue);
+
 		/* FIXME Not passing a GCancellable or GError here. */
 		folder = e_mail_session_uri_to_folder_sync (
 			E_MAIL_SESSION (session), folder_uri, 0, NULL, NULL);
@@ -577,23 +583,7 @@ all_accounts:
 		else
 			g_warning ("Could not open vfolder source: %s", folder_uri);
 
-		iter = g_list_next (iter);
-	}
-
-	/* Add remote folders. */
-	iter = mail_vfolder_get_sources_remote ();
-	while (iter != NULL) {
-		const gchar *folder_uri = iter->data;
-		/* FIXME Not passing a GCancellable or GError here. */
-		folder = e_mail_session_uri_to_folder_sync (
-			E_MAIL_SESSION (session), folder_uri, 0, NULL, NULL);
-
-		if (folder != NULL)
-			list = g_list_append (list, folder);
-		else
-			g_warning ("Could not open vfolder source: %s", folder_uri);
-
-		iter = g_list_next (iter);
+		g_free (folder_uri);
 	}
 
 	camel_vee_folder_set_expression (search_folder, query);
