@@ -204,7 +204,7 @@ mail_store_add (EMailSession *session,
 		em_folder_tree_model_add_store (default_model, store);
 
 	mail_folder_cache_note_store (
-		folder_cache, CAMEL_SESSION (session), store, NULL,
+		folder_cache, store, NULL,
 		mail_store_note_store_cb, store_info_ref (store_info));
 }
 

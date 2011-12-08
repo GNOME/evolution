@@ -1106,18 +1106,20 @@ mail_folder_cache_new (void)
  */
 void
 mail_folder_cache_note_store (MailFolderCache *cache,
-                              CamelSession *session,
                               CamelStore *store,
                               GCancellable *cancellable,
                               NoteDoneFunc done,
                               gpointer data)
 {
+	CamelSession *session;
 	struct _store_info *si;
 	struct _update_data *ud;
 	gint hook = 0;
 
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (mail_in_main_thread ());
+
+	session = camel_service_get_session (CAMEL_SERVICE (store));
 
 	g_mutex_lock (cache->priv->stores_mutex);
 

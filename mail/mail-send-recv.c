@@ -1089,9 +1089,7 @@ receive_update_got_store (CamelStore *store,
 
 	if (store) {
 		mail_folder_cache_note_store (
-			folder_cache,
-			CAMEL_SESSION (session),
-			store, info->cancellable,
+			folder_cache, store, info->cancellable,
 			receive_update_got_folderinfo, info);
 	} else {
 		receive_done (info);
