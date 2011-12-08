@@ -956,7 +956,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		"folder-available",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
-		0, /* struct offset */
+		G_STRUCT_OFFSET (MailFolderCacheClass, folder_available),
 		NULL, NULL, /* accumulator */
 		e_marshal_VOID__OBJECT_STRING,
 		G_TYPE_NONE, 2,
@@ -976,7 +976,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		"folder-unavailable",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
-		0, /* struct offset */
+		G_STRUCT_OFFSET (MailFolderCacheClass, folder_unavailable),
 		NULL, NULL, /* accumulator */
 		e_marshal_VOID__OBJECT_STRING,
 		G_TYPE_NONE, 2,
@@ -994,7 +994,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		"folder-deleted",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
-		0, /* struct offset */
+		G_STRUCT_OFFSET (MailFolderCacheClass, folder_deleted),
 		NULL, NULL, /* accumulator */
 		e_marshal_VOID__OBJECT_STRING,
 		G_TYPE_NONE, 2,
@@ -1013,7 +1013,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		"folder-renamed",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
-		0, /* struct offset */
+		G_STRUCT_OFFSET (MailFolderCacheClass, folder_renamed),
 		NULL, NULL, /* accumulator */
 		e_marshal_VOID__OBJECT_STRING_STRING,
 		G_TYPE_NONE, 3,
@@ -1024,25 +1024,27 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 	/**
 	 * MailFolderCache::folder-unread-updated
 	 * @store: the #CamelStore containing the folder
-	 * @name: the name of the folder
+	 * @folder_name: the name of the folder
 	 * @unread: the number of unread mails in the folder
 	 *
 	 * Emitted when a we receive an update to the unread count for a folder
 	 **/
-	signals[FOLDER_UNREAD_UPDATED] =
-		g_signal_new ("folder-unread-updated",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      0, /* struct offset */
-			      NULL, NULL, /* accumulator */
-			      e_marshal_VOID__OBJECT_STRING_INT,
-			      G_TYPE_NONE, 3,
-			      CAMEL_TYPE_OBJECT, G_TYPE_STRING, G_TYPE_INT);
+	signals[FOLDER_UNREAD_UPDATED] = g_signal_new (
+		"folder-unread-updated",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (MailFolderCacheClass, folder_unread_updated),
+		NULL, NULL, /* accumulator */
+		e_marshal_VOID__OBJECT_STRING_INT,
+		G_TYPE_NONE, 3,
+		CAMEL_TYPE_STORE,
+		G_TYPE_STRING,
+		G_TYPE_INT);
 
 	/**
 	 * MailFolderCache::folder-changed
 	 * @store: the #CamelStore containing the folder
-	 * @folder_fullname: the full name of the folder
+	 * @folder_name: the name of the folder
 	 * @new_messages: the number of new messages for the folder
 	 * @msg_uid: uid of the new message, or NULL
 	 * @msg_sender: sender of the new message, or NULL
@@ -1055,7 +1057,7 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 		"folder-changed",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
-		0, /* struct offset */
+		G_STRUCT_OFFSET (MailFolderCacheClass, folder_changed),
 		NULL, NULL, /* accumulator */
 		e_marshal_VOID__OBJECT_STRING_INT_STRING_STRING_STRING,
 		G_TYPE_NONE, 6,
